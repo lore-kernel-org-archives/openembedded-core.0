@@ -1,80 +1,117 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F3ADC47074
-	for <webhook@archiver.kernel.org>; Thu,  4 Jan 2024 18:21:10 +0000 (UTC)
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
- by mx.groups.io with SMTP id smtpd.web11.1165.1704392468792452781
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73335C47074
+	for <webhook@archiver.kernel.org>; Thu,  4 Jan 2024 18:22:50 +0000 (UTC)
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+ by mx.groups.io with SMTP id smtpd.web10.1294.1704392563442972938
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Jan 2024 10:21:09 -0800
+ Thu, 04 Jan 2024 10:22:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Z6vVtB4v;
- spf=pass (domain: gmail.com, ip: 209.85.167.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-50ea9e189ebso808084e87.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jan 2024 10:21:08 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ircsuXSp;
+ spf=pass (domain: gmail.com, ip: 209.85.210.50, mailfrom: raj.khem@gmail.com)
+Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-6dc53fc4b0dso447545a34.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jan 2024 10:22:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704392467; x=1704997267; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=nYnTnKhhPaxhzN9i4AItzdhvWy5mkC3570Cw0M3ITNM=;
-        b=Z6vVtB4vSkXUGzIp7J3zK0soy4o3/504JJ6Tsy4J1rvF8hbrzJb/16tJwuKa6hKtkO
-         KuHMoag7E5TMObUMYgJMJd+sNNCf3XniE8N1tAhwCwjlN5HNpQCoxsdXhghxgKJsTKBq
-         UEhgroa8KrevWhPaDUW8Jvg0rn8t+RcIENzczhEw9O80c3FZhchcGBlFhQKEhXVau3rr
-         cgN/hscHjFTRx6EGHyFt1xmpQ6gal23zZMRWNaDnkdCo/jdxvYGqtAwYEXtfovYVExSd
-         9FUItHmVaQ7Y5BE2qlQ7zVxRTlzpkvG2teWGBGCs9llsEXiTEVelgviiSQ9Hb0XWOce/
-         +dkg==
+        d=gmail.com; s=20230601; t=1704392563; x=1704997363; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oVDjstNq8fNW3fqHmIdyMYnkZG+bGlITDXaJKsxiXRQ=;
+        b=ircsuXSp/4SXOWjO2fFds2Ladn+5OV+DDFNWJNE6hlIxZQx1oT4KE9cNkTkCjDlvvt
+         uKNneYkSdAGuGI3H94M+mNzz9HxXX9kS8AHT2zGZdIlpg965Q3fzBZr5CYITh+JunGYY
+         lhouTOPFfzndG62YYW7Rs+wHbHR1DyHEGpEjdTL59XnTGJBuHGCeUmjcxtFeHxqKLim4
+         c9iMoGbdxYbPiXc0DHZVOEyUm3wbKeIOgmPxfxmEL1D6E8A2OSMR1rExsJ0nblmATOfJ
+         fMp6eaiV+vYyk89bQhxh7UCHJu9Pt61LjmJkatcylxzlC6wlFS/0nS0xeprUQ8+1OE4i
+         5J9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704392467; x=1704997267;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nYnTnKhhPaxhzN9i4AItzdhvWy5mkC3570Cw0M3ITNM=;
-        b=v71h4XmRAJy9j4NcLzerSLVpFaHJhoiOVvFy7m0vzvWwT026RwNYnlPtWhFFYE3hPm
-         cTqtCZkW2+zcCIvPzPfGBbZw2VfcNTzv3ZRup5Eyb90lfTRjoVVh92HPJOLr9xzIVWzX
-         koB6bLfp74ZchDMr3Zb0lZ2Z5XLbykJ7jpS+g39jcQtIP/TP0Izma6/dhUY7fZAbcl4G
-         IycBPe/CuBKo8jkNyXS+yGvDLq47fZLAP+XXhpm9gaFTFUH0V7BIIuyay05SxcNulLxg
-         /7buZXCKuyXfoC95+PcylW0dNfz2/ShGgHMFn3rheOk5uy+W58KI0P0BUmux3JCnQ3Et
-         /SPg==
-X-Gm-Message-State: AOJu0Yw/XlwXc9l2XvvZ+2opH6CexfgX246y70zLToXcg9fmemIJ/CIA
-	vqVPOYyapChTba+e3hl1rRPiZ7MaSwZ2tXHCjfg=
-X-Google-Smtp-Source: AGHT+IFgToDME1+jxp6ReLn8xZMATfbl73NmSCBhYINvJwXRn85ki6ngdayx/PlLQKfszkVDp82aPe4jX1rPXNRq6Bg=
-X-Received: by 2002:a05:6512:10d6:b0:50e:7e29:b0e9 with SMTP id
- k22-20020a05651210d600b0050e7e29b0e9mr708666lfg.73.1704392466779; Thu, 04 Jan
- 2024 10:21:06 -0800 (PST)
+        d=1e100.net; s=20230601; t=1704392563; x=1704997363;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=oVDjstNq8fNW3fqHmIdyMYnkZG+bGlITDXaJKsxiXRQ=;
+        b=h2J/DusUOu2ZrcyeLTNeYPAmLZNopp2hRNDObfhYzb6cVPjZfwgLcA7tPu8tycTiJn
+         JKEW2Sb80QYhCQXKABxXmTkHLDBDwwN0b2P4bpXf30CCpUtxTCXudhTn/dHcjYCcaEBW
+         Lk8HGdODpnEZhsdV2EigV5YrbL2XJa/7jn/6Mb3XDSOshRQW5zX5cULZfL1F9HPDr/iL
+         kEJPQGvf9UCLKHMu2lEf29xsPEIOFkrmolBD5i4cCQlXnmmkjtauD3QuqrS4S90evlmG
+         KBpjLD4vw2qHf4m0Ecl/5JVnjex89o5aSMwt3Rb7k0O62fpzUFmm4L8kOdUO3jjX1yGo
+         3+6Q==
+X-Gm-Message-State: AOJu0Yz+zPcA+bVzk5wIuSkfxsZcZHuTqYReq3LAv1z0naOESd0H5TvZ
+	P9qBEXvur5fMA70aTqlHLD/Lzw9+4pWo18ddGuchJUGlv50=
+X-Google-Smtp-Source: AGHT+IFL/8Ui+QJAEjXeVNqQABolPt9fhvcFKXvEQ0G7XYHQpX/Hin9RlT26do8Xh1u/T7HJwEX5HxMAxY8SM+LXryA=
+X-Received: by 2002:a05:6870:bf09:b0:1fb:75a:6d3c with SMTP id
+ qh9-20020a056870bf0900b001fb075a6d3cmr1123386oab.99.1704392562580; Thu, 04
+ Jan 2024 10:22:42 -0800 (PST)
 MIME-Version: 1.0
-References: <20240104123420.932-2-jermain.horsman@nedap.com>
- <20240104123420.932-3-jermain.horsman@nedap.com> <17A7372B437A2AE2.16812@lists.openembedded.org>
-In-Reply-To: <17A7372B437A2AE2.16812@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 4 Jan 2024 19:20:55 +0100
-Message-ID: <CANNYZj_t4AR01a=BHc6fTQYpe08rN2Vd7h7Okr+GOmBD6dd0ww@mail.gmail.com>
-Subject: Re: [OE-core] [RFC v2 1/2] bitbake-layers: Add ability to update the
- reference of repositories
-To: alex.kanavin@gmail.com
-Cc: jermain.horsman@nedap.com, openembedded-core@lists.openembedded.org
+References: <20240102060947.218414-1-Qi.Chen@windriver.com>
+In-Reply-To: <20240102060947.218414-1-Qi.Chen@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 4 Jan 2024 10:22:16 -0800
+Message-ID: <CAMKF1srdRBAzY=TWOK0+Q4Nx6FF2__fKCcnjGYQ7+=qjp9mBWg@mail.gmail.com>
+Subject: Re: [OE-core][PATCH 1/2] gawk: upgrade from 5.2.2 to 5.3.0
+To: Qi.Chen@windriver.com
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Jan 2024 18:21:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193334
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Jan 2024 18:22:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193335
 
-On Thu, 4 Jan 2024 at 19:07, Alexander Kanavin via
-lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
-wrote:
+I am seeing a ptest failure with this
 
-> --update requires that the json file already exists. But why should
-> it? It's entirely possible to write a new json, but update the
-> references from command line arguments just before writing the file
-> out. No?
+    Failed ptests:
+    {'gawk': ['cmdlinefsbacknl2']}
+
+I guess it was also seen in previously posted patch
+https://www.mail-archive.com/openembedded-core@lists.openembedded.org/msg18=
+6875.html
+
+On Mon, Jan 1, 2024 at 10:10=E2=80=AFPM Chen Qi via lists.openembedded.org
+<Qi.Chen=3Dwindriver.com@lists.openembedded.org> wrote:
 >
-> I also wonder if we can name these two options in a better way. Maybe
-> '--use-custom-reference repo', instead of --update?
-
-On further thought, if done this way, then --update could instead
-serve to update file that already exists, whereas the default would be
-to overwrite the file with a new one.
-
-Alex
+> From: Chen Qi <Qi.Chen@windriver.com>
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  meta/recipes-extended/gawk/{gawk_5.2.2.bb =3D> gawk_5.3.0.bb} | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-extended/gawk/{gawk_5.2.2.bb =3D> gawk_5.3.0.bb} (97=
+%)
+>
+> diff --git a/meta/recipes-extended/gawk/gawk_5.2.2.bb b/meta/recipes-exte=
+nded/gawk/gawk_5.3.0.bb
+> similarity index 97%
+> rename from meta/recipes-extended/gawk/gawk_5.2.2.bb
+> rename to meta/recipes-extended/gawk/gawk_5.3.0.bb
+> index 3c18b6911a..3d652da6e5 100644
+> --- a/meta/recipes-extended/gawk/gawk_5.2.2.bb
+> +++ b/meta/recipes-extended/gawk/gawk_5.3.0.bb
+> @@ -19,7 +19,7 @@ SRC_URI =3D "${GNU_MIRROR}/gawk/gawk-${PV}.tar.gz \
+>             file://run-ptest \
+>             "
+>
+> -SRC_URI[sha256sum] =3D "945aef7ccff101f20b22a10802bc005e994ab2b8ea3e724c=
+c1a197c62f41f650"
+> +SRC_URI[sha256sum] =3D "378f8864ec21cfceaa048f7e1869ac9b4597b449087caf1e=
+b55e440d30273336"
+>
+>  inherit autotools gettext texinfo update-alternatives
+>
+> --
+> 2.34.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#193205): https://lists.openembedded.org/g/openembedde=
+d-core/message/193205
+> Mute This Topic: https://lists.openembedded.org/mt/103477344/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
