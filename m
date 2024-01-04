@@ -1,100 +1,89 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <jermain.horsman@nedap.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C44FC47074
-	for <webhook@archiver.kernel.org>; Thu,  4 Jan 2024 10:15:21 +0000 (UTC)
-Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
- by mx.groups.io with SMTP id smtpd.web11.50877.1704363312561719960
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BA1FC47074
+	for <webhook@archiver.kernel.org>; Thu,  4 Jan 2024 10:29:01 +0000 (UTC)
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+ by mx.groups.io with SMTP id smtpd.web11.51015.1704364133749651476
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Jan 2024 02:15:14 -0800
+ Thu, 04 Jan 2024 02:28:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: lakka.kapsi.fi, ip: 91.232.154.25, mailfrom: mcfrisk@lakka.kapsi.fi)
-Received: from kapsi.fi ([2001:67c:1be8::11] helo=lakka.kapsi.fi)
-	by mail.kapsi.fi with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1rLKkm-008l04-0M;
-	Thu, 04 Jan 2024 12:15:08 +0200
-Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.94.2)
-	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1rLKkP-00ArF2-G1; Thu, 04 Jan 2024 12:14:45 +0200
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=UaMsG9Vo;
+ spf=pass (domain: gmail.com, ip: 209.85.160.175, mailfrom: jhatnedap@gmail.com)
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4283ec43d54so2259741cf.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jan 2024 02:28:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1704364133; x=1704968933; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=LdRCaFj2iPuY5xAXTXS+AUrwTymshBZFF8LPVHDhnDc=;
+        b=UaMsG9VoHgUb8W/Uda5ntSpHBxDRO4JUFkJ+L/IYn7PGwWkdowPZuqs3J+ygE05o3c
+         +wJM0uZ7UmViu3dTTikAPfHHlBi0bB+EMlDGYOMIYKPgpStrKFVwSoHBom4E+oG15G1m
+         Icx9OnHHA6ArkMJtRkpWaodqkxFHMQISulzL47J26TxSl83eW+QWQJcnl7ls8fhiZw0c
+         a3JxeE5WcnE+jJE+vAJlF13i3ZElK93AjLkq/7oUkqEMF3EANSaxHgtE8plJr1Nod/iz
+         TMWdvlpS2QmQaTncXE+7cQp/f+eUsnqb/nRjBuv+A4Vc5Njf0LKA2zTTk9z6TEGlzXxi
+         MyPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704364133; x=1704968933;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LdRCaFj2iPuY5xAXTXS+AUrwTymshBZFF8LPVHDhnDc=;
+        b=bs56LI5nTqoKeqz9xLaxnICyIccuMuic4dGML+UMT+SRETDkw+UUdBkSxFI71OKbem
+         ADnEXG5PybTsVU3SsEOnlri1gE3yVoFf7au4T8HNY6Rnb9MULNUBy4yhOFcgAOo2AhdS
+         PLlIKCYni8gnZpiHAwfLFXHGs/DkT7c9tbv7DJw6taEFgrK2DCggMgqJ6fPARBIRhk8u
+         DhzpyqDoiE7P/+2IRkYr9QXLmGK4irYYvVPbvUQiyBJura/npBBI+fy7HeBut+Fyrs2f
+         X2FbruJdUXz0g5KSWhKs1qQvMPbbXpSNdXyEiKdwbPNvy047VBh7v7JiO8p/l3gzMhcU
+         Ol6w==
+X-Gm-Message-State: AOJu0YwIg/TGkpF+gAJNq9E11RFYGeIAwtHJam0LSLWhVbtWz/lJN+UC
+	RVIuX4xy2kcdE4ce3e6PB3nu0cZxaGU=
+X-Google-Smtp-Source: AGHT+IErMeSjmSywBcAAh47MrKn3zC0wAkhVG/Vih3av29n/XtH36cb0Jc2vhJeIysxrMA9Hr8/CWg==
+X-Received: by 2002:ac8:7d92:0:b0:428:13d9:9217 with SMTP id c18-20020ac87d92000000b0042813d99217mr539981qtd.80.1704364132848;
+        Thu, 04 Jan 2024 02:28:52 -0800 (PST)
+Received: from NVC4181.nedap.local ([149.3.168.10])
+        by smtp.gmail.com with ESMTPSA id fa15-20020a05622a4ccf00b004280cad48basm5923316qtb.77.2024.01.04.02.28.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Jan 2024 02:28:52 -0800 (PST)
+From: jhatnedap@gmail.com
+X-Google-Original-From: jermain.horsman@nedap.com
 To: openembedded-core@lists.openembedded.org
-Cc: Mikko Rapeli <mikko.rapeli@linaro.org>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [PATCH v2] runqemu: match .rootfs. in addition to -image- for rootfs
-Date: Thu,  4 Jan 2024 12:14:37 +0200
-Message-Id: <20240104101437.2586980-1-mikko.rapeli@linaro.org>
-X-Mailer: git-send-email 2.30.2
+Cc: Jermain Horsman <jermain.horsman@nedap.com>
+Subject: [PATCH 1/2] lib/bblayers/makesetup.py: Remove unused imports
+Date: Thu,  4 Jan 2024 11:28:26 +0100
+Message-ID: <20240104102827.782-1-jermain.horsman@nedap.com>
+X-Mailer: git-send-email 2.42.0.windows.2
+Reply-To: jermain.horsman@nedap.com
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspam-Score: -1.4 (-)
-X-Rspam-Report: Action: no action
- Symbol: FROM_HAS_DN(0.00)
- Symbol: FROM_NEQ_ENVFROM(0.00)
- Symbol: RCVD_COUNT_TWO(0.00)
- Symbol: BAYES_HAM(-3.00)
- Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
- Symbol: RCVD_TLS_LAST(0.00)
- Symbol: DMARC_POLICY_SOFTFAIL(0.10)
- Symbol: MIME_GOOD(-0.10)
- Symbol: MID_CONTAINS_FROM(1.00)
- Symbol: NEURAL_HAM(0.00)
- Symbol: R_DKIM_NA(0.00)
- Symbol: R_SPF_ALLOW(-0.20)
- Symbol: ARC_NA(0.00)
- Symbol: ASN(0.00)
- Symbol: MIME_TRACE(0.00)
- Symbol: TO_DN_SOME(0.00)
- Symbol: FORGED_SENDER(0.30)
- Symbol: RCPT_COUNT_THREE(0.00)
- Symbol: R_MISSING_CHARSET(0.50)
- Message-ID: 20240104101437.2586980-1-mikko.rapeli@linaro.org
-X-SA-Exim-Connect-IP: 2001:67c:1be8::11
-X-SA-Exim-Mail-From: mcfrisk@lakka.kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 04 Jan 2024 10:15:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193313
+ <openembedded-core@lists.openembedded.org>; Thu, 04 Jan 2024 10:29:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193314
 
-Also change path.exists() and !path.isdir() to a single
-path.isfile() which should be equal.
+From: Jermain Horsman <jermain.horsman@nedap.com>
 
-Enables running tests against image recipes which are not called
-"bla-image" but plain "bla". Currently they fail with do_testimage/runqemu
-error:
-
-runqemu - ERROR - Unknown path arg /home/builder/src/base/build/tmp_qemuarm64/deploy/images/qemuarm64/img-qemuarm64.rootfs.wic
-
-Suggested-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+Signed-off-by: Jermain Horsman <jermain.horsman@nedap.com>
 ---
- scripts/runqemu | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/bblayers/makesetup.py | 2 --
+ 1 file changed, 2 deletions(-)
 
-v2: check for both -image- and .rootfs. in file names as suggested by
-    Richard Purdie <richard.purdie@linuxfoundation.org>, and using
-    isfile() instead of both exists() and !isdir()
-
-v1: https://lists.openembedded.org/g/openembedded-core/message/193280
-
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 18aeb7f5f0..9ed3ab17ac 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -373,7 +373,7 @@ class BaseConfig(object):
-              re.search('zImage', p) or re.search('vmlinux', p) or \
-              re.search('fitImage', p) or re.search('uImage', p):
-             self.kernel =  p
--        elif os.path.exists(p) and (not os.path.isdir(p)) and '-image-' in os.path.basename(p):
-+        elif os.path.isfile(p) and ('-image-' in os.path.basename(p) or '.rootfs.' in os.path.basename(p)):
-             self.rootfs = p
-             # Check filename against self.fstypes can handle <file>.cpio.gz,
-             # otherwise, its type would be "gz", which is incorrect.
+diff --git a/meta/lib/bblayers/makesetup.py b/meta/lib/bblayers/makesetup.py
+index 5fb6f1469e..4f27c565ee 100644
+--- a/meta/lib/bblayers/makesetup.py
++++ b/meta/lib/bblayers/makesetup.py
+@@ -6,9 +6,7 @@
+ 
+ import logging
+ import os
+-import stat
+ import sys
+-import shutil
+ 
+ import bb.utils
+ import bb.process
 -- 
-2.34.1
+2.42.0.windows.2
 
 
