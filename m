@@ -1,76 +1,82 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB19AC3DA6E
-	for <webhook@archiver.kernel.org>; Fri,  5 Jan 2024 11:43:05 +0000 (UTC)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
- by mx.groups.io with SMTP id smtpd.web10.21791.1704454980865447408
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9A66C3DA6E
+	for <webhook@archiver.kernel.org>; Fri,  5 Jan 2024 11:54:05 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web10.21906.1704455642160323774
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Jan 2024 03:43:01 -0800
+ Fri, 05 Jan 2024 03:54:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=fCfc1iJp;
- spf=pass (domain: gmail.com, ip: 209.85.208.169, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2cd1ca52f31so17204201fa.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jan 2024 03:43:00 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=R4g8MR0v;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-40e3ab65709so1501695e9.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jan 2024 03:54:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704454979; x=1705059779; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=TaZNp/mn+l3VrXT1wOmV1+PjUC+fCi02txI4oPYMXn8=;
-        b=fCfc1iJpniOx29tN8/mK+4ZLRgYuZP2tkaVEdP/vGmnmUd/V1BuJEat3s1sGJ5ZaXZ
-         14mpl8XYh35ThCQWE+LsC/+srTW5DemwUMptOb4LoZlzxdm7OnWrrjkpgzK3RMaOb1aE
-         0FGYjjHp3aj5mmKXHyq/9HuI7+DlyIM1sUMTcyP47wgYfeK+Xv6uxMp77vIK9qqIIvyo
-         LUzNi4i7TnM1zyFiWiNqFCYGu2HMbllfh4BTQ5HsSF0gHVC4meRHkj4UTpN50IeZ6s1X
-         U7sUPMUFpAAeRKGfBNc2AKlG7AIgB0nYFwo9hf/OpTnwsfS54Oh0vPNlseKBZ+YysKgl
-         q/fg==
+        d=linuxfoundation.org; s=google; t=1704455640; x=1705060440; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SHcyvnih5tiZZuLdFbmUEK4GK7nf952bF8QdUvlO2As=;
+        b=R4g8MR0vrQZmpx6dbaeZeSctg4ufgHpb0yHmryp81KRbnkntK4FULum9JODmNIMV/I
+         ef4prn3irQfRy+K0IkvmpdWYQbC0IA3S3eBH8eCxPQIcMMHA04YNNNkfbtYONuixyBQn
+         jhFsJtji56cRrQ+2Se9aoQBo2bLte1+NqZ/VE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704454979; x=1705059779;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TaZNp/mn+l3VrXT1wOmV1+PjUC+fCi02txI4oPYMXn8=;
-        b=FfvXiu5aIpMgvEWd7Rx7CDwuTZ3xpMkL527XfwlodtHd+9jThLh1ApkiRwBbhi/NXD
-         q+KR04cKTxOK5gAjoUYWUazpeYoXRP+gYXtW2xD6l308TEx/iMep/bpbZ3Bcq114Lz6C
-         lNgvkJHdfmFfhp7PNyW9Mud2p+OUIJGfU/9BvZtHfh8hy8urKfo8vjQW7QzeSu6hVAut
-         0fbTqe69XUnbqU9ie1FXPgXxcIjTXSfM5Tew8KhDJAoc5H2UMRQsaDNAR93RwPqLQ+QM
-         wOY1sZqjVg3xywID/XHRAN6ZuEexcuDzPPrSXpwaob8c2TF7a+0sWXl2IHdvfW/tSSsX
-         +wgQ==
-X-Gm-Message-State: AOJu0Yw40fmLoEGEfM6WSm7VYvYUpr4nbIcyHEKz6MYYB2Mj+L0rcjnI
-	JE+0Py+TnjXR1z/jGQBgBxagaEuM9/E3yuLBLbI=
-X-Google-Smtp-Source: AGHT+IEOTA20ynTN3pJf7r7V9rwIdWUEUfMXnc2awWABrb3uoU5rRLYQ7RTGwR8kq8w4gGqOwHjJkO53zmBn7KXDFng=
-X-Received: by 2002:a05:6512:238f:b0:50b:f3a0:861 with SMTP id
- c15-20020a056512238f00b0050bf3a00861mr1260524lfv.7.1704454978834; Fri, 05 Jan
- 2024 03:42:58 -0800 (PST)
+        d=1e100.net; s=20230601; t=1704455640; x=1705060440;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SHcyvnih5tiZZuLdFbmUEK4GK7nf952bF8QdUvlO2As=;
+        b=j0I8+dTX5PcGpd5JNES7l4fQYnegsXj8nDFNLDCxGVlgSXEvrhPG1KkbPUlwWyb49Q
+         OK3q8o4Y8MNXE6syNB5n6lRds4an+NIBFPtFtBz2ur/8jDUmnqN3PO3JGllvraJqMWsY
+         ffTbDQgKczQcTelwZzeJradrv3rrck0MyUi4uv2LLbujVAcR/gTyudMjSYo8iAV6jcw3
+         vCAv7nrbML/GKjJbpXtuGOzM+seZWZpeCPBtA9AlGWXf3JIkXkM0akE+gT/ftFFTx9KF
+         YCjoJfP/w8wJ2SW+FLaYSFzKUbxAA3zzmC/n/FXr/rHPPjLyBNvqy8gzUtZ/mlVAW0+R
+         suVA==
+X-Gm-Message-State: AOJu0YwBHCAO3u9x+3jooU86I+taEi6WEwNGIcfLfsXh+FEv85LWbldo
+	mzUi3Y/In+BmOvrwB8Til6s0Wv70mh4XNEQ1SU3OFJnFMzc=
+X-Google-Smtp-Source: AGHT+IF13T5kryYrJtJuS71tMIKneNMoDvubf/vOlKN4z55pfPMcJYvtYQddgZ60jH/1ck/r/KPuTQ==
+X-Received: by 2002:a05:600c:4445:b0:40d:7691:d056 with SMTP id v5-20020a05600c444500b0040d7691d056mr1278178wmn.38.1704455640230;
+        Fri, 05 Jan 2024 03:54:00 -0800 (PST)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:8000:8a34:98ad:54c2])
+        by smtp.gmail.com with ESMTPSA id l20-20020a05600c4f1400b0040d91930f93sm1349856wmq.11.2024.01.05.03.53.59
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Jan 2024 03:53:59 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] sstatesig: Add version information for find_sigingfo
+Date: Fri,  5 Jan 2024 11:53:59 +0000
+Message-Id: <20240105115359.2431120-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-References: <20231218084403.599015-1-alex@linutronix.de> <20231218084403.599015-3-alex@linutronix.de>
- <c35a799d9843214d220362c0a190129e2299b93e.camel@linuxfoundation.org>
-In-Reply-To: <c35a799d9843214d220362c0a190129e2299b93e.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 5 Jan 2024 12:42:47 +0100
-Message-ID: <CANNYZj-px=OXTm0x2D3sJVJxHx8c_wqMXwHeO0Ex1B-829bUpw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 3/7] sstatesig/find_siginfo: unify a disjointed API
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 Jan 2024 11:43:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193352
+ <openembedded-core@lists.openembedded.org>; Fri, 05 Jan 2024 11:54:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193353
 
-On Fri, 5 Jan 2024 at 12:22, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
+Since we're changing the return values of the function, add a version so
+bitbake can ensure it is using a compatible function.
 
-> I've a few ideas on how we might be able to detect potential problems,
-> I'll continue to try and work something out but I want to make it clear
-> there are some things it is hard to change :/.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/lib/oe/sstatesig.py | 1 +
+ 1 file changed, 1 insertion(+)
 
-There's the option of adding another function (find_siginfo_v2) and
-leaving this one as it was, this is how the kernel does things. They
-don't shy away from adding v3, v4 and so on either. But I thought less
-code is better than more code.
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index 6f124e4f59b..1b4380f21bc 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -422,6 +422,7 @@ def find_siginfo(pn, taskname, taskhashlist, d):
+     return hashfiles
+ 
+ bb.siggen.find_siginfo = find_siginfo
++bb.siggen.find_siginfo_version = 2
+ 
+ 
+ def sstate_get_manifest_filename(task, d):
+-- 
+2.39.2
 
-Alex
 
