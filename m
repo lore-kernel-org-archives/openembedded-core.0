@@ -1,73 +1,125 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF2FFC3DA6E
-	for <webhook@archiver.kernel.org>; Fri,  5 Jan 2024 11:18:15 +0000 (UTC)
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
- by mx.groups.io with SMTP id smtpd.web11.21408.1704453492827267800
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACBC4C3DA6E
+	for <webhook@archiver.kernel.org>; Fri,  5 Jan 2024 11:22:55 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web10.21565.1704453774533041652
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Jan 2024 03:18:13 -0800
+ Fri, 05 Jan 2024 03:22:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Kg5hEu+h;
- spf=pass (domain: gmail.com, ip: 209.85.167.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-50e7d6565b5so1622194e87.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jan 2024 03:18:12 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bADUXNKK;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-40d76923ec4so13786285e9.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jan 2024 03:22:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704453491; x=1705058291; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=x9HpyWzbJa2SY315PhwWyqXlk806sRreUMm5QCHK82I=;
-        b=Kg5hEu+hMBfMallAKFfS8y6rTJt6qrKFw8AaM2QJN57VIx58g3LKtOeOiCSdE5C2De
-         R7g9ZLw6YjIcTIeQSpC/GM4LGcZvQw1+4v9Mcz07InDoT/ghEAVxbd3fKya1MwZkcdhb
-         yYNmA+2n9WOoIjgj6Mjyjc6Wn0XD0E5077OrfnTyC4TA1TSPX5p70yfgsxpI9NbmFPR7
-         jF6niUhDFz/2ZOWwZF15NQ4FKFWEXsrLyKMYK6pHzW39mIcT2y6Z3jUbsUShPe5nZVFB
-         EFFN6XZ5lAXjhNKidl9rHZccpEUsLc1iY0xci6TwJFA9R9tdcwW7ngPKZDNs1lEZy7p7
-         U7MQ==
+        d=linuxfoundation.org; s=google; t=1704453773; x=1705058573; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=YLa2LRkgUqpL2vESK8ddq3tQtZLv4DRtu706aTRBbkY=;
+        b=bADUXNKK3gJhoOWCjdedfLa/31ayueDLMIpdj35vhajBHz0StHBzmIYpbW4r9lOXQb
+         1nTBHYLFOcuVkHEOxCbnGXTbdncIhPN6JelHLPILmxmqt1+2folZvWXkZItJFxCnGsTn
+         dnEkHK2VdI5TdGGRefAc1LtSwM271h2ZoXrws=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704453491; x=1705058291;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=x9HpyWzbJa2SY315PhwWyqXlk806sRreUMm5QCHK82I=;
-        b=ck/Fm2kgP7WH4sup8KufJ8dML2A5D3b/jz1H0rkK58S909PNyEIhJJWsBu5aT+rX6V
-         Oxl8TbnpF1HA5ytVxtwdkJAhdrGtAI4sktRW4piDiWlD8ASQF904avDsGMKlfXvSFWmk
-         4HXH5IWc68v2DMEzjh71qNi97m4bCJNDoswc5U86dzfeOVnb2gDFTUPOoSZDSMdl1g2A
-         bPiBWcXONTkTxJ0gVrL340u3vrgeMBY/HEEgn7LE3dGRlpYjG2R0jCBC94fMoWF3gXJ+
-         ofck9zZFQgpFD0aVIBt0UsAAIKRucw8poNoOYfFWs/nzHXa7mkKtBt52WkWVGWxs4MwZ
-         UkAw==
-X-Gm-Message-State: AOJu0YyvuZzYQJJfP3F7SXwEzYl7m9tLLOZmm8hVt8X+GTgL/h2VaDxy
-	32Gcy79zSaBrpLJRkc7A6YwKLvgvJAkCZ1e/rpA=
-X-Google-Smtp-Source: AGHT+IG64hDKavuSkyWdt5zDR3PUGRKwmcMUXUt4lVRL4f06R5ei/ZmelyhEigeMR8zSZ3dvdolhf0rUexA317XKw+M=
-X-Received: by 2002:a05:6512:2027:b0:50e:b206:50f6 with SMTP id
- s7-20020a056512202700b0050eb20650f6mr346704lfs.62.1704453490517; Fri, 05 Jan
- 2024 03:18:10 -0800 (PST)
-MIME-Version: 1.0
-References: <20240104123420.932-2-jermain.horsman@nedap.com>
- <20240104123420.932-3-jermain.horsman@nedap.com> <17A7372B437A2AE2.16812@lists.openembedded.org>
- <CANNYZj_t4AR01a=BHc6fTQYpe08rN2Vd7h7Okr+GOmBD6dd0ww@mail.gmail.com> <VI1PR10MB318284AEBA21614AB71C2EB9F7662@VI1PR10MB3182.EURPRD10.PROD.OUTLOOK.COM>
-In-Reply-To: <VI1PR10MB318284AEBA21614AB71C2EB9F7662@VI1PR10MB3182.EURPRD10.PROD.OUTLOOK.COM>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 5 Jan 2024 12:17:59 +0100
-Message-ID: <CANNYZj-Y4ek0-MOM1A2NkXJ0av48mhx_6puBV4YLG3r0_xr0cw@mail.gmail.com>
-Subject: Re: [OE-core] [RFC v2 1/2] bitbake-layers: Add ability to update the
- reference of repositories
-To: Jermain Horsman <jermain.horsman@nedap.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1704453773; x=1705058573;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YLa2LRkgUqpL2vESK8ddq3tQtZLv4DRtu706aTRBbkY=;
+        b=OvRZxOE0WUjFogRQTbqI490cq2EYiS0y6U82woB05+4Twus34mkdtaJIMPwpuMI8Tw
+         s1QED39/M9jGnsKm0W6bQGLd6u3yJ1MB46Ym9sHdou6Kf4Fo4Jozob2Xc2wpl24b5nUN
+         x5RUqaFHhpRPZe9erWSLv1cUy/V1tofOb676J5yEcX7mV4XPx43Eq0NwqY2ABBRozuzV
+         X9lRlFrxBkhKzFb22cUYuSfX/GaQ02x/39tVV4W9bKri1mnqWIiYmN2mXyl+hlRFdB47
+         CZqmE5z08cH72GUEb0y2qSx78l1raAAWqhNDz5qXmLrMi2mSJ9r8acwHsvB1DdU8aAbB
+         XLSg==
+X-Gm-Message-State: AOJu0YzX8EdmzegXQzDFA99GMQM6hCgVMr1slRIoFhTlLselMzBP/Hyv
+	u/c461XYaCBhxLhTi3aqqXU2+kruHvEPUw==
+X-Google-Smtp-Source: AGHT+IHji6eOxWCASiu4LZtKLbof0De0qtomdnWcDv5SdF0b+yhfFItGM6X9eFjRqahdEjWqUfjAyA==
+X-Received: by 2002:a05:600c:3b20:b0:40c:6e8:610a with SMTP id m32-20020a05600c3b2000b0040c06e8610amr1002779wms.56.1704453772925;
+        Fri, 05 Jan 2024 03:22:52 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:8000:8a34:98ad:54c2? ([2001:8b0:aba:5f3c:8000:8a34:98ad:54c2])
+        by smtp.gmail.com with ESMTPSA id l4-20020adfc784000000b003364aa5cc13sm1206291wrg.1.2024.01.05.03.22.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Jan 2024 03:22:52 -0800 (PST)
+Message-ID: <c35a799d9843214d220362c0a190129e2299b93e.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 3/7] sstatesig/find_siginfo: unify a
+ disjointed API
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Date: Fri, 05 Jan 2024 11:22:51 +0000
+In-Reply-To: <20231218084403.599015-3-alex@linutronix.de>
+References: <20231218084403.599015-1-alex@linutronix.de>
+	 <20231218084403.599015-3-alex@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 Jan 2024 11:18:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193350
+ <openembedded-core@lists.openembedded.org>; Fri, 05 Jan 2024 11:22:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193351
 
-On Fri, 5 Jan 2024 at 12:14, Jermain Horsman <jermain.horsman@nedap.com> wrote:
-> This leave the question of what to do if only the '--reference' option is used?
-> Do nothing or update/use a custom revision for all repos?
+On Mon, 2023-12-18 at 09:43 +0100, Alexander Kanavin wrote:
+> find_siginfo() returns two different data structures depending
+> on whether its third argument (list of hashes to find) is empty or
+> not:
+> - a dict of timestamps keyed by path
+> - a dict of paths keyed by hash
+>=20
+> This is not a good API design; it's much better to return
+> a dict of dicts that include both timestamp and path, keyed by
+> hash. Then the API consumer can decide how they want to use these
+> fields, particularly for additional diagnostics or informational
+> output.
+>=20
+> I also took the opportunity to add a binary field that
+> tells if the match came from sstate or local stamps dir, which
+> will help prioritize local stamps when looking up most
+> recent task signatures.
+>=20
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ---
+>  meta/lib/oe/buildhistory_analysis.py        |  2 +-
+>  meta/lib/oe/sstatesig.py                    | 31 +++++++++------------
+>  meta/lib/oeqa/selftest/cases/sstatetests.py | 10 +++----
+>  3 files changed, 19 insertions(+), 24 deletions(-)
 
-Updating all repos to the same reference is unlikely to work well with
-real world combinations of layer repositories. I would do nothing and
-print a message indicating so.
+I can see why you've done this. I had thought this might have been a
+compatibility issue but it wasn't, it was just bad design from the
+start (and I wasn't responsible for it for a change!).
 
-Alex
+It gives me a real headache for merging though since it requires OE-
+Core and bitbake to change in lockstep.
+
+There is a risk people might just update bitbake but not OE-Core and
+also vice versa, they update OE-Core but not bitbake. This can happen
+for all kinds of reasons, e.g. mixing a newer bitbake with an older
+release.
+
+The latter is easy to address with a bitbake version check bit the
+former is not really possible to detect with our current code as
+bitbake can't know OE-Core doesn't support what it needs.
+
+With other changes in the pipeline like inherit_defer and the fact
+there is a bug related to this on a stable branch, it makes it all the
+more likely people will try and mix/match different versions.
+
+I've a few ideas on how we might be able to detect potential problems,
+I'll continue to try and work something out but I want to make it clear
+there are some things it is hard to change :/.
+
+Cheers,
+
+Richard
+
+
+
+
+
+
 
