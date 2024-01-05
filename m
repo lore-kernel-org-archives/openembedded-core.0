@@ -1,90 +1,89 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E61A4C3DA6E
-	for <webhook@archiver.kernel.org>; Fri,  5 Jan 2024 12:02:45 +0000 (UTC)
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
- by mx.groups.io with SMTP id smtpd.web11.21962.1704456158215923030
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 512FFC3DA6E
+	for <webhook@archiver.kernel.org>; Fri,  5 Jan 2024 13:36:06 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web11.23379.1704461764004014883
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Jan 2024 04:02:38 -0800
+ Fri, 05 Jan 2024 05:36:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZxO54dzi;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.208.179, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2cd0f4f306fso17991341fa.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jan 2024 04:02:37 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=REzZIhQ8;
+ spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-40d5d898162so11835145e9.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jan 2024 05:36:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1704456156; x=1705060956; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=HeODbCxIWQVAczIZqYDk8r7J/xCTq2CThdj0c3jGnWM=;
-        b=ZxO54dziodca05/WdHgVDjDbaJXcUlcDj+XCpSQuAe2L2io1vtEKlIk8cwTwXBMV9/
-         HzaN8/M+zZtJ4gMwspOF+AnNkWA0h1B8/vto5/xrH5SvFS5fMn6FepcsdwRCiiUBjwdH
-         3nF39ofex0281K8o23hfNwTPcg1cIpLXSK1po=
+        d=gmail.com; s=20230601; t=1704461762; x=1705066562; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6IpR6aeMgBQeWUbp5k551TgU4mNXF/k63yLXtikTQFg=;
+        b=REzZIhQ8xP0ulqoILraarxrJNpbzfq0lPSV3m/4q63WHPFtrwLwE4VXhpA1Vhwtb5W
+         sxYUo27e7ExDE/aYi9HLsB4nN+ILguboXWss7Y4JQii+DLcD9ZAdKtOfR5I0w5mr+VCG
+         c+vJDYH0ewtLRMQjSF7S9o9a4J7SR1OMOvIVRjgfuKIw/TX9SvnKEFGBfeG86JwPxtmW
+         qNdmq2oBDf9FCE4qN63OqsTaA2/BICwWNOqq524iG1z90fwykDmCS5Tm6GETGYJd3fac
+         c4p5Fris0RQ9usQie7SLfbr5FhImT2QCOC+nCA0UcRaiXDOVOv9ZL/MiNxvO/te8DSac
+         Wm4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704456156; x=1705060956;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HeODbCxIWQVAczIZqYDk8r7J/xCTq2CThdj0c3jGnWM=;
-        b=qOHOboDaTnNrbZUudzZ4K7yfDcbEEjaFoMoYDkNXXyt8HmswqceWkFPgh5sf6DQiFM
-         vGbnEcGb4U5B7cQL0pN/+eIGP5xwYNBFHNF4inn5ATCPRR9o6bgtdqAZOfetHdAbvhc1
-         GcUlQBBtlGTggFvVu9AvyhKbDs1ieG4hzZSTMqbQJqn//r2snj2iN1I9cRLyZLU9Mg61
-         WDwrh85EL5IAF7r8DT1XIcsiGQC8VhKDJhwTTkdWieDryXFvfmmC7rojJg7DtTfc9lrN
-         ESB3itY4xtqRdXduYr39Nm3/D7+VlOvFf08WhjzKVIUGMxAERxkuKBdVsZlxVosc4gPF
-         w6WQ==
-X-Gm-Message-State: AOJu0YzwTN5XlNkucRBisXiqH6zMm92MEty66JdEUsk2vLeG+wBnrex6
-	2qsnPqbgfrEV4/8bQfSF8jjkjrIiZtOnHg==
-X-Google-Smtp-Source: AGHT+IHQT6TORs5Oua0NI7EL2xOyQlny3Kt06AMVmel3+xD5C6RHALkcnh8nq13Fjgv17Lpxrt4Rmw==
-X-Received: by 2002:a2e:9b55:0:b0:2cd:1ece:e266 with SMTP id o21-20020a2e9b55000000b002cd1ecee266mr912264ljj.36.1704456156234;
-        Fri, 05 Jan 2024 04:02:36 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:8000:8a34:98ad:54c2? ([2001:8b0:aba:5f3c:8000:8a34:98ad:54c2])
-        by smtp.gmail.com with ESMTPSA id d10-20020a05651c01ca00b002cd0ff0ada5sm289172ljn.94.2024.01.05.04.02.35
+        d=1e100.net; s=20230601; t=1704461762; x=1705066562;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6IpR6aeMgBQeWUbp5k551TgU4mNXF/k63yLXtikTQFg=;
+        b=CLDFQiwbJ5f37sHAR6kM9ocvSea6Ybp8XuuCy1FnjMawa7JhlJ51SzOX4qxT3N7MHS
+         0NT2DXy11Gh11M+dLn6JZ+XoaUfa4zPMVUdcWPmEUCTne9LnYWbIIgyA1wF9a1HNAgzd
+         qr4lBWN05sloHSOBbhFJaS5b/lI+qsEZNoRQzrbLK0GFJxSUfCvLsT4EbSbfxhtmJMQZ
+         KvoGEPA+0jOsm5rmC0ED179P8dIJY7lnZENj9yHvc9DYrr+SGFFPtdY73I0llOR0egou
+         iQIZQepnoQPGl7l269lJniJSM2kPZ2UtL4NPEIXJQYfA/vDM/MYlOpx77N1Zg2S859WV
+         irGA==
+X-Gm-Message-State: AOJu0Yze7wLVunJmuFTqnpExAvxRU58jNJIVMMVM/jNKaYI/hWXic9nE
+	1kInN28EwqMo+j6vm++4L4dhy+fEIhg=
+X-Google-Smtp-Source: AGHT+IGkWV2YjC7pBttMuaNebffbATI5LXKL8dj/T4A3qwgoJ7V9N+pKyq2fPq8WSE9riFPZhPvSPw==
+X-Received: by 2002:a05:600c:b58:b0:40d:87b7:2462 with SMTP id k24-20020a05600c0b5800b0040d87b72462mr1302339wmr.40.1704461762056;
+        Fri, 05 Jan 2024 05:36:02 -0800 (PST)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id w13-20020a5d608d000000b003372c080acasm1425187wrt.2.2024.01.05.05.36.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jan 2024 04:02:35 -0800 (PST)
-Message-ID: <8448a0253f31a705f7baf167519167d95c8b05bb.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 3/7] sstatesig/find_siginfo: unify a
- disjointed API
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, Alexander Kanavin
-	 <alex@linutronix.de>
-Date: Fri, 05 Jan 2024 12:02:34 +0000
-In-Reply-To: <CANNYZj-px=OXTm0x2D3sJVJxHx8c_wqMXwHeO0Ex1B-829bUpw@mail.gmail.com>
-References: <20231218084403.599015-1-alex@linutronix.de>
-	 <20231218084403.599015-3-alex@linutronix.de>
-	 <c35a799d9843214d220362c0a190129e2299b93e.camel@linuxfoundation.org>
-	 <CANNYZj-px=OXTm0x2D3sJVJxHx8c_wqMXwHeO0Ex1B-829bUpw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+        Fri, 05 Jan 2024 05:36:01 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 1/3] devtool/standard: correctly escape \
+Date: Fri,  5 Jan 2024 14:35:41 +0100
+Message-Id: <20240105133543.3017997-1-alex@linutronix.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 Jan 2024 12:02:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193354
+ <openembedded-core@lists.openembedded.org>; Fri, 05 Jan 2024 13:36:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193355
 
-On Fri, 2024-01-05 at 12:42 +0100, Alexander Kanavin wrote:
-> On Fri, 5 Jan 2024 at 12:22, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->=20
-> > I've a few ideas on how we might be able to detect potential problems,
-> > I'll continue to try and work something out but I want to make it clear
-> > there are some things it is hard to change :/.
->=20
-> There's the option of adding another function (find_siginfo_v2) and
-> leaving this one as it was, this is how the kernel does things. They
-> don't shy away from adding v3, v4 and so on either. But I thought less
-> code is better than more code.
+python 3.12 points out that:
 
-That is effectively what I just merged, except I did break
-compatibility by dropping the v1. We need to give the user good
-messages about how to fix their problem which is why a number is needed
-rather than just a function name.
+SyntaxWarning: invalid escape sequence '\*'
 
-Cheers,
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ scripts/lib/devtool/standard.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Richard
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index 559fd45676c..c20c0321a35 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -772,7 +772,7 @@ def get_staging_kver(srcdir):
+ def get_staging_kbranch(srcdir):
+     staging_kbranch = ""
+     if os.path.exists(srcdir) and os.listdir(srcdir):
+-        (branch, _) = bb.process.run('git branch | grep \* | cut -d \' \' -f2', cwd=srcdir)
++        (branch, _) = bb.process.run('git branch | grep \\* | cut -d \' \' -f2', cwd=srcdir)
+         staging_kbranch = "".join(branch.split('\n')[0])
+     return staging_kbranch
+ 
+-- 
+2.39.2
+
 
