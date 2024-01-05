@@ -1,139 +1,114 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9697DC4707B
-	for <webhook@archiver.kernel.org>; Fri,  5 Jan 2024 17:44:27 +0000 (UTC)
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
- by mx.groups.io with SMTP id smtpd.web10.29793.1704476659377801239
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3DDEC3DA6E
+	for <webhook@archiver.kernel.org>; Fri,  5 Jan 2024 18:17:47 +0000 (UTC)
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web11.30610.1704478659808520051
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Jan 2024 09:44:19 -0800
+ Fri, 05 Jan 2024 10:17:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Df4n2X/2;
- spf=pass (domain: gmail.com, ip: 209.85.167.176, mailfrom: raj.khem@gmail.com)
-Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-3bbd6e37af4so1275672b6e.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jan 2024 09:44:19 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=UiUFbxq8;
+ spf=pass (domain: gmail.com, ip: 209.85.210.173, mailfrom: ticotimo@gmail.com)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-6d99980b2e0so1349871b3a.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jan 2024 10:17:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704476658; x=1705081458; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Lq18IRpeX1bppogI3DVaBqfRJMGGmvdnV8+yVmZrfJU=;
-        b=Df4n2X/2E5aonn8Xik6j/FyTmq5DjdtFbFCay53cGPF2Cnn2igGAtPtPTJtJd7H4cq
-         X03LSBDqlaXjCi+TLh2+jurEbEZip03sExjbEZOpeBRVlQCpJHS0Ue9LmsO5MThsjkXI
-         B4Xa7M6CGkSfCJcRjw2gLxcQV4EUgiNO6Z2BK0S3kb0TZn0FhJMmtN7yLhZMtJ3Z2Odc
-         YKgzWT4IjpyF1gzaemsBV3rMvzUsdc+hsf+CqaXVR8IceKvagKuviu+No6Q5OLlrycUk
-         lIX4GXHmfqnNNhTJImezqbJHgdINkyZLROHFfNaNkVIPE7d5J+MjxOXAOrLUAATR0GK5
-         qdNg==
+        d=gmail.com; s=20230601; t=1704478659; x=1705083459; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KeE7Lac6P2wLS0apxNqfLy3CEmFpgGDjSPbK2HExIYQ=;
+        b=UiUFbxq8Eg3ziUKLDIe0VEXhDY92Oedn/XXf7NbbikHoF85kptX32GGR2hkxZbr+Fx
+         Dly7ouxNw2qAH9SV3oqVeW2zRphAXHvrX7fWE6Uy8j202PkLHLB0SbJAnJi78U0gMKus
+         sueUuEfjKB6MtTLXxdaMDBD9yWb2ACaGiMLpchKPGho+rquBaBqnWLYwKvWPBSZilqx8
+         /YmNCXBc8OpXGGfou+uVrl5eTVERWzYFxP7FIE7lGjsFB3M32PN4BUkq87n4Soa3tvMv
+         Kb67V/zl3qkd5H3mur30+3iIG4Rv04dPqk8DeMvDcFPpWj41wzjCC3CxnFpGdRj1pUmb
+         i/Pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704476658; x=1705081458;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Lq18IRpeX1bppogI3DVaBqfRJMGGmvdnV8+yVmZrfJU=;
-        b=RTtFKppVgTP1IhQ49hhJpp2CCbln4+57vflbm4vMn0pwMkEkIVlPiRCvpq1n0bJ4ki
-         8+wQNWk7sfJIDcaxDHHseaxD3H1Z3L3cJb3smNIV17MrBehII9m3IsJ7lXN/kfzvdn4G
-         htEu3arpntZx6RAmmPfVXasBdxpTTCSfzY40z9R2dk6v3JCojd7L8JZLNCnUvlMfWbid
-         NAAfiG62iSH+sGJfbf3kHd/IDVbH/LjFJ77ryp86B72GaSiTwW/mkw8p0jZ6Mr/pr84x
-         TdQvzuDxnrYodinfgGb8o9TNxV/OuudWdiYrrPvWmm1Mr3K6NEvScw8WTu40cgQ5308V
-         Zzag==
-X-Gm-Message-State: AOJu0Ywbbd45SXXr7X4W3vAi58fkPXE6dX4QMmlxTVRo61K3s+iUxtEV
-	OmoeLvKJSzACEs+2pZVHYKAoRzgCMXiuH1hElcuqvWZV8Ys=
-X-Google-Smtp-Source: AGHT+IHhUOTjElvPEtr+uivzJMa592ldvRLj613MYigENLoJbT04EyVS1WvzTSo5UoEiab3vXh5KRVEESpBZ5t5VHys=
-X-Received: by 2002:a05:6871:2b24:b0:204:1b7c:83e4 with SMTP id
- dr36-20020a0568712b2400b002041b7c83e4mr2335996oac.104.1704476658526; Fri, 05
- Jan 2024 09:44:18 -0800 (PST)
+        d=1e100.net; s=20230601; t=1704478659; x=1705083459;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KeE7Lac6P2wLS0apxNqfLy3CEmFpgGDjSPbK2HExIYQ=;
+        b=G5bfeX7jXoIEBm7vZ8t/M37uqrPpkhZsFikTS2Rrrrc2PbySkxq7i7AXvN9kUa9RJL
+         xE6PWIpeHfxV8X3SZX2AjWFa6D/1u5WnuvDWBHrDq8ZrYPhTTULeGgsELrClYMukR8nG
+         ENqU/nt/KZS08AG4efo39kDOy8XFuhQf12bxat+NF800h9TSKvrDtelsuYfcT7gzCFLi
+         /VTY9SlwzjVsHhUdzFH853SD5EoqzmsxpzyzNIxn40ogXbMWsYVK7XWrz4cH36xGHjvl
+         K9Y3g3C/8kZFh7K2KbCXOSarEEhuusLoGTYegXDsaE7J7qCXscgBh4F4zwrOZPMVWaZA
+         vi+A==
+X-Gm-Message-State: AOJu0YynhQX1yspgmRUx7z2R58xmGOL53SAetBtTp1UFvdgXbvVDMm6z
+	lLCFB7rENOiE0pfZ/lyY2Epu1v4YgYM=
+X-Google-Smtp-Source: AGHT+IE8Ouq4W+WayGNpRIov8PmowAmlUNmvHKiyMP3z1kvm37QWuUAfXdGYUFN4toH4S5yqBKaBRw==
+X-Received: by 2002:aa7:9846:0:b0:6d9:a1d0:180a with SMTP id n6-20020aa79846000000b006d9a1d0180amr2395258pfq.58.1704478658880;
+        Fri, 05 Jan 2024 10:17:38 -0800 (PST)
+Received: from chiron.hsd1.or.comcast.net ([2601:1c0:ca00:cea0:1ef8:e4e3:e071:1cf1])
+        by smtp.gmail.com with ESMTPSA id o128-20020a62cd86000000b006da3b35bef3sm1752318pfg.54.2024.01.05.10.17.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Jan 2024 10:17:38 -0800 (PST)
+From: Tim Orling <ticotimo@gmail.com>
+X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Tim Orling <tim.orling@konsulko.com>
+Subject: [PATCH 1/2] python3-attrs: upgrade 23.1.0 -> 23.2.0
+Date: Fri,  5 Jan 2024 10:14:53 -0800
+Message-Id: <20240105181452.1488396-1-tim.orling@konsulko.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20240104021052.754030-1-raj.khem@gmail.com> <20240105161633534ec064@mail.local>
-In-Reply-To: <20240105161633534ec064@mail.local>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 5 Jan 2024 09:43:52 -0800
-Message-ID: <CAMKF1spdTdLnXFi475OP1ZN6Pc=dAnf34SUZ-tBvMWKYq4L7Nw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] Revert "opkg-utils: upgrade 0.6.2 -> 0.6.3"
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 Jan 2024 17:44:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193376
+ <openembedded-core@lists.openembedded.org>; Fri, 05 Jan 2024 18:17:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193377
 
-On Fri, Jan 5, 2024 at 8:16=E2=80=AFAM Alexandre Belloni
-<alexandre.belloni@bootlin.com> wrote:
->
-> I believe this caused:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/4191/s=
-teps/12/logs/stdio
->
+https://www.attrs.org/en/stable/changelog.html
 
-Likely, so because this patch
-https://git.yoctoproject.org/opkg-utils/commit/?id=3D8d9953dd8d589e9b740307=
-976cbe474e0ce292a0
-to opkg fixes mtime to be consistent across runs and this seems likely
-to be the reason for
-the reproducibiliy failiure. I wish xattr/acl support and this piece
-were two separate patches perhaps we could then revert just the
-one affecting GID issue. I would say lets wait for above bugs progress
-and hold on to this patch until then.
+23.2.0 - 2023-12-31
 
-> On 03/01/2024 18:10:51-0800, Khem Raj wrote:
-> > This reverts commit a856192be5dd78c621478ed29871191c580686c4.
-> >
-> > It causes a regression in creating different GIDs in image and ipk as
-> > reported in [1]
-> >
-> > [1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15334
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> >  .../opkg-utils/{opkg-utils_0.6.3.bb =3D> opkg-utils_0.6.2.bb}     | 2 =
-+-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >  rename meta/recipes-devtools/opkg-utils/{opkg-utils_0.6.3.bb =3D> opkg=
--utils_0.6.2.bb} (97%)
-> >
-> > diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb b/met=
-a/recipes-devtools/opkg-utils/opkg-utils_0.6.2.bb
-> > similarity index 97%
-> > rename from meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb
-> > rename to meta/recipes-devtools/opkg-utils/opkg-utils_0.6.2.bb
-> > index b509227e1a6..eb88b9b734c 100644
-> > --- a/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb
-> > +++ b/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.2.bb
-> > @@ -10,7 +10,7 @@ PROVIDES +=3D "${@bb.utils.contains('PACKAGECONFIG', =
-'update-alternatives', 'virtu
-> >  SRC_URI =3D "git://git.yoctoproject.org/opkg-utils;protocol=3Dhttps;br=
-anch=3Dmaster \
-> >             file://0001-update-alternatives-correctly-match-priority.pa=
-tch \
-> >             "
-> > -SRCREV =3D "589880d01969eb9af1e66120e731d43193504718"
-> > +SRCREV =3D "67994e62dc598282830385da75ba9b1abbbda941"
-> >
-> >  S =3D "${WORKDIR}/git"
-> >
-> > --
-> > 2.43.0
-> >
->
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#193299): https://lists.openembedded.org/g/openembed=
-ded-core/message/193299
-> > Mute This Topic: https://lists.openembedded.org/mt/103515671/3617179
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-alexandre.belloni@bootlin.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
->
->
-> --
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+Changes
+* The type annotation for attrs.resolve_types() is now correct. #1141
+* Type stubs now use typing.dataclass_transform to decorate dataclass-like
+  decorators, instead of the non-standard __dataclass_transform__ special
+  form, which is only supported by Pyright. #1158
+* Fixed serialization of namedtuple fields using attrs.asdict/astuple() with
+  retain_collection_types=True. #1165
+* attrs.AttrsInstance is now a typing.Protocol in both type hints and code.
+  This allows you to subclass it along with another Protocol. #1172
+* If attrs detects that __attrs_pre_init__ accepts more than just self, it
+  will call it with the same arguments as __init__ was called. This allows
+  you to, for example, pass arguments to super().__init__(). #1187
+* Slotted classes now transform functools.cached_property decorated methods
+  to support equivalent semantics. #1200
+* Added class_body argument to attrs.make_class() to provide additional
+  attributes for newly created classes. It is, for example, now possible to
+  attach methods. #1203
+
+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+---
+Requires python3-hatch-fancy-pypi-readme upgrade beyond 23.1.0
+https://patchwork.yoctoproject.org/project/oe-core/patch/1704180223-8624-1-git-send-email-wangmy@fujitsu.com/
+
+ .../python/{python3-attrs_23.1.0.bb => python3-attrs_23.2.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-attrs_23.1.0.bb => python3-attrs_23.2.0.bb} (82%)
+
+diff --git a/meta/recipes-devtools/python/python3-attrs_23.1.0.bb b/meta/recipes-devtools/python/python3-attrs_23.2.0.bb
+similarity index 82%
+rename from meta/recipes-devtools/python/python3-attrs_23.1.0.bb
+rename to meta/recipes-devtools/python/python3-attrs_23.2.0.bb
+index 314053de081..e00e1520156 100644
+--- a/meta/recipes-devtools/python/python3-attrs_23.1.0.bb
++++ b/meta/recipes-devtools/python/python3-attrs_23.2.0.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.attrs.org/"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=5e55731824cf9205cfabeab9a0600887"
+ 
+-SRC_URI[sha256sum] = "6279836d581513a26f1bf235f9acd333bc9115683f14f7e8fae46c98fc50e015"
++SRC_URI[sha256sum] = "935dc3b529c262f6cf76e50877d35a4bd3c1de194fd41f47a2b7ae8f19971f30"
+ 
+ inherit pypi python_hatchling
+ 
+-- 
+2.34.1
+
 
