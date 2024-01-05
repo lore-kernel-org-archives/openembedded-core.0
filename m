@@ -1,115 +1,98 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60665C46CD2
-	for <webhook@archiver.kernel.org>; Fri,  5 Jan 2024 13:36:06 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web10.23435.1704461765011945834
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 664AFC46CD2
+	for <webhook@archiver.kernel.org>; Fri,  5 Jan 2024 13:52:06 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.23695.1704462725784303292
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Jan 2024 05:36:05 -0800
+ Fri, 05 Jan 2024 05:52:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=HjpBTyia;
- spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-40d76923ec4so14927425e9.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jan 2024 05:36:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704461763; x=1705066563; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zRjuIe2FhlhIwC/hX9SYu+ue0buOXHbxlJypSpaqc4Q=;
-        b=HjpBTyiaoFHFWLm7KweLKNsNROWFIIgS+jRODjZ3EMtaRqgdu99gDNlWDPdsbRhOWx
-         G42vxUI/wtN+2gM6hIW4W128slNGGygcAH0jBBV+Kj4tAB2ie0EFKeGsuz6NQBsMFzTV
-         5hlHHHQFWXfUDdqjsAp688aG1sb5owSzdJP3r3WaeF4ZTnWzvIg7A59EgDv5p3OpUxQU
-         zBEJJRE4FQY6py/E8Gv1IO7IZVQix0qiZm1nbHeqbkONnXPhceJIK/N0I/wf+vmf+i+X
-         NuP4HR5F2fveipKPtC7eh/ZRKJH+GK/X2Wx3KZmkxdVH4I0cbQd3IjzpIhPWJCBhi+KL
-         7EGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704461763; x=1705066563;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zRjuIe2FhlhIwC/hX9SYu+ue0buOXHbxlJypSpaqc4Q=;
-        b=sAJlfUaYthHHmI7mRUovneVeSXg85gUlaL7lxGmnJ8ug4bVqln76y0kqYOrIawbF0t
-         i0P83wO9wegzro7+IMT87lXB93aM+70PRkZow0RLs9KKxp1hTBrGg5kfPhyli/C6fKeE
-         6dbweqvAgqWWKANYYbYq8/55qovdZiMlLhONMO0cqy8UNaDqhwJQOxw/CqShLWxc2ty6
-         GL8EJdGDguMt+B0D4NfJXHaMGJ03hJEKbD5eoGwWf/JbUXsEvfaAzM5qqxecLeL8DxXb
-         k5IgarnTb/bDKl3Nxz3Rz6XTNZxUy/+eZj74eJPJA2uskrRP1q0rgCD9gF7FOpAIFWhq
-         g/ww==
-X-Gm-Message-State: AOJu0YxjQgbhhcc6EbyG+sESz/JEgNc/8yUr3N2sEYuBg8ME8g3UVXWo
-	oLiyCamhTuFyNe4AkwU9w1HTNLgDzO8=
-X-Google-Smtp-Source: AGHT+IHZeGrbtsrDJp6KPrXYXrQ7m6CfkfXpAVE3O7PC9/iQiMq3ilJp26iFXO7UNQ9ImBBZoQraAQ==
-X-Received: by 2002:a05:600c:ccc:b0:40e:51e:7295 with SMTP id fk12-20020a05600c0ccc00b0040e051e7295mr1150556wmb.82.1704461763251;
-        Fri, 05 Jan 2024 05:36:03 -0800 (PST)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id w13-20020a5d608d000000b003372c080acasm1425187wrt.2.2024.01.05.05.36.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jan 2024 05:36:02 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 3/3] python3-cython: update 0.29.36 -> 3.0.7
-Date: Fri,  5 Jan 2024 14:35:43 +0100
-Message-Id: <20240105133543.3017997-3-alex@linutronix.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240105133543.3017997-1-alex@linutronix.de>
-References: <20240105133543.3017997-1-alex@linutronix.de>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=DU1zIBSp;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Wp9Tmka5;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018cd9e52f41-5450c61b-cffb-4731-8a84-50070ea63cbf-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1704462725; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
+	bh=dr0teM+A9BOm31InslTbRdS3AVuKXQxK7srZBYSmyuY=;
+	b=DU1zIBSp7kBxAZ3BHCjqDXHpKjFZ69UgAsyWshTmCzn6X42y89eyYEUNPoMvBGqq
+	S+EGuGrlj/pZySzXsuBpuQ2JTmHxR40R+j56m3HblZ8seneusETZy+lnFIFGKkoBUnN
+	uwXrKHdlBV+dkdLNXyavnb3T91PfvP8vQy8MW/gM=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1704462725;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=dr0teM+A9BOm31InslTbRdS3AVuKXQxK7srZBYSmyuY=;
+	b=Wp9Tmka5DPhkRihJF8lHfqxY/fxp7A9P87xJoCOBfSHt7u5oFFYPnNUHfrLmSBO3
+	q++GophTuq1s5wCHzybGAv00/KU+PGWnfs8evPiUJcV4PzpZcR55k0g6Og0PZFP0B36
+	Iu3EdUYul6lc3KSz+66FBa5B75vGVIiSKQdq2U9E=
+From: patchtest@automation.yoctoproject.org
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 3/3] python3-cython: update 0.29.36 -> 3.0.7
+In-Reply-To: 20240105133543.3017997-3-alex@linutronix.de
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018cd9e52f41-5450c61b-cffb-4731-8a84-50070ea63cbf-000000@us-west-2.amazonses.com>
+Date: Fri, 5 Jan 2024 13:52:04 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.01.05-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 Jan 2024 13:36:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193357
+ <openembedded-core@lists.openembedded.org>; Fri, 05 Jan 2024 13:52:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193358
 
-pep517 build backends require cython 3.x when
-python is at 3.12, so we can't hold this update any
-longer. There are only a few things in meta-oe
-and meta that break anymore, and fixes for them
-are provided at the same time as this patch.
+--NextPart
+Content-Type: text/plain
 
-License-update: http -> https
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-devtools/python/python-cython.inc             | 7 +++++--
- .../{python3-cython_0.29.36.bb => python3-cython_3.0.7.bb} | 0
- 2 files changed, 5 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-cython_0.29.36.bb => python3-cython_3.0.7.bb} (100%)
+Testing patch /home/patchtest/share/mboxes/3-3-python3-cython-update-0.29.36---3.0.7.patch
 
-diff --git a/meta/recipes-devtools/python/python-cython.inc b/meta/recipes-devtools/python/python-cython.inc
-index 6aec6b012f1..bc1953c5045 100644
---- a/meta/recipes-devtools/python/python-cython.inc
-+++ b/meta/recipes-devtools/python/python-cython.inc
-@@ -5,11 +5,11 @@ It's designed to bridge the gap between the nice, high-level, easy-to-use world
- and the messy, low-level world of C."
- SECTION = "devel/python"
- LICENSE = "Apache-2.0"
--LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=e23fadd6ceef8c618fc1c65191d846fa"
-+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=61c3ee8961575861fa86c7e62bc9f69c"
- PYPI_PACKAGE = "Cython"
- BBCLASSEXTEND = "native nativesdk"
- 
--SRC_URI[sha256sum] = "41c0cfd2d754e383c9eeb95effc9aa4ab847d0c9747077ddd7c0dcb68c3bc01f"
-+SRC_URI[sha256sum] = "fb299acf3a578573c190c858d49e0cf9d75f4bc49c3f24c5a63804997ef09213"
- UPSTREAM_CHECK_REGEX = "Cython-(?P<pver>.*)\.tar"
- 
- inherit pypi
-@@ -39,4 +39,7 @@ do_install:append() {
- 	for PYTHSCRIPT in `grep -rIl '^#!.*python' ${D}`; do
- 		sed -i -e '1s|^#!.*|#!/usr/bin/env ${PYTHON_PN}|' $PYTHSCRIPT
- 	done
-+
-+        # remove build paths from generated sources
-+        sed -i -e 's|${WORKDIR}||' ${S}/Cython/*.c ${S}/Cython/Compiler/*.c ${S}/Cython/Plex/*.c
- }
-diff --git a/meta/recipes-devtools/python/python3-cython_0.29.36.bb b/meta/recipes-devtools/python/python3-cython_3.0.7.bb
-similarity index 100%
-rename from meta/recipes-devtools/python/python3-cython_0.29.36.bb
-rename to meta/recipes-devtools/python/python3-cython_3.0.7.bb
--- 
-2.39.2
+FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
 
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
