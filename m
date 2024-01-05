@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51AF7C3DA6E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B3BBC47077
 	for <webhook@archiver.kernel.org>; Fri,  5 Jan 2024 14:03:36 +0000 (UTC)
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
- by mx.groups.io with SMTP id smtpd.web11.23902.1704463407062240969
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+ by mx.groups.io with SMTP id smtpd.web10.23974.1704463408137013250
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Jan 2024 06:03:27 -0800
+ Fri, 05 Jan 2024 06:03:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=0x/aa1zC;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.179, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-6dac8955af0so956179b3a.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jan 2024 06:03:27 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=WkXdA+KA;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.177, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-6d9bec20980so1047103b3a.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jan 2024 06:03:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1704463405; x=1705068205; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1704463407; x=1705068207; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ciOVFYN4NTpoEnTDMR4neSUumR8U4dkfVFt7Vr8U6OY=;
-        b=0x/aa1zCqu1gBDNEtm8OYyBMAUuKz6zmqvH/uqkneKYUSgE7FPnqPDA+aoH1HTrfDT
-         6WbvfeMpRlBNwrC1kMkcEvt4J/zHFaszob6/l6ormXPQEdfpF3qF5ACZAFTOtpSuOzeg
-         FkAdL53yfl/gtifxZQiQ8xfVOnYL8vEbRSSEEfPiOrea/1z4nGLv02GFQxwDD7g6xkQx
-         Vpkmfrra2slrXUOb4+zVBGSorHtd1tGiUkE6Q+uvsB9cMqe4TSkAu9Mi8pjgdueC+7+W
-         JDUfyxcf77SaBFX161jpedYYBbdanXJT46/dR4++gXdNXRPPXp168+xd214ts/Nj5frn
-         +Fyw==
+        bh=RyFqBbnSUU+ogcAP6atDmRL4dkW4omDzlWpY7cBzWsc=;
+        b=WkXdA+KAFvKzzCa1ToFHAXQaP5Dwdt+3nrUlQ6QbZy1yULW/2nX/eH/nUKvqdJfDKR
+         6cOi/g15F7+dSdlV2BsFV+UT2KltGH4HMa7djzxQRKa3kSYqZ0qMqCKoStCu86cDnVsD
+         3fEvXCrFA6FIb/Ut9vyMVR628PDJ9e8VdFQQXF9rg9RxX024v5bBqW5E9pKaidGujso9
+         L9XBhwr+7frR9UhakW1T0ktnNuc+o6/FxtwIuTWX8cnFAlecJQ2tWSF+1feGfKZrA1Tb
+         /+21uGzg2D3I7BIhvPXVfan0aUV1sZMsVM/8O3tgqxGlYuxiRx+JIUmeNcyU4otehAw4
+         Mfhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704463405; x=1705068205;
+        d=1e100.net; s=20230601; t=1704463407; x=1705068207;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ciOVFYN4NTpoEnTDMR4neSUumR8U4dkfVFt7Vr8U6OY=;
-        b=MHk1WcqSBqC4RLdye/32MoaqClJG5T0pQMCU06s+7AGyd6/hp9ZlnClX0gP5Ng7K/v
-         dvocat7EmoqgoaWgBivIw55XU8QUcmjmias12d4fPF9za109BGIq2n0R1zNq/ilkf3Fi
-         Tx5cTYho3anbvsTyXdiqDFndtecAxqGR1OJsXxKA013jfP2B85QcDLwFot+RBqM3Ig6k
-         bWA2CIbJonOIFUJMgWULJKTHNIL0azn8cvi13O/ph93GW3KJSqwM+zkGTN0kBbNK4rk4
-         nfR27hYuszJPw8uCWS8S8HtX1rQ4XKCeca656ktXquSWrk2nkVzaxDOePlw5JfWt7rfu
-         2/qA==
-X-Gm-Message-State: AOJu0Yzhwny3MAUDiFd6Mw/FqRDGxBgixv5K83pFdP4LBT9PDbNErubM
-	XgIJmSCKbcsLfrDhX2b95Wc0B5MSNjX49P/50ToJJAcrmRfvHg==
-X-Google-Smtp-Source: AGHT+IFc4GNW/J8KGwSMRScqzvMmRBguou6eC4EMpcdgnIn83I2CTyI07LIQUqH4ie0zrJtqNjm30A==
-X-Received: by 2002:a05:6a00:3cc9:b0:6d9:b319:294e with SMTP id ln9-20020a056a003cc900b006d9b319294emr2085356pfb.44.1704463405455;
-        Fri, 05 Jan 2024 06:03:25 -0800 (PST)
+        bh=RyFqBbnSUU+ogcAP6atDmRL4dkW4omDzlWpY7cBzWsc=;
+        b=NmgS7mrY96UKiv/CvZ3OwVSnzMvCZUpWS4rPyLQRMwHvzpyenRlRNJebcT31tZh3KS
+         mHuRYMlQL1q7E4j8S/XtaBnkJXlusw6OOMMglO5frML30sQjd7U6nRgYYlidf3/GI6Vz
+         jgwXZUGceV+HUK+0KdhuaMgnQhijQ5oN2W3mZGz2JV97WYmrb1KVPyzvVbv7lO/1NvR7
+         RgOT8/fptNf+vjfRvvCwY+nF1SGJMmyQ9Qb1NxLLsEJrajR0/3su26an1rPXD1/ZGtxY
+         zXoFkEj4HMT7fqkF+30YFE03si3tDAwUPdK3zJluajaqRpvvr6LlR2RkMRqZ7T00HVnZ
+         8fqQ==
+X-Gm-Message-State: AOJu0Yx+2m8EWOaPzMlWVC2v3MK+Q9k9rnD3HRmTCAUvso6DHUXuIOM5
+	LTfF4ZaOMB4BlDIV0xBf2vPJTtk1V69R2Wlp/0PlfzaVveHc4A==
+X-Google-Smtp-Source: AGHT+IGlyfHCq05Y/qok6teymY1a1K2E8KhKNvLm1F89tATUFYTlXrFX1Cly/l9DTsOh0j7XQtd0GQ==
+X-Received: by 2002:a05:6a00:ccb:b0:6d9:bad6:52e6 with SMTP id b11-20020a056a000ccb00b006d9bad652e6mr2119200pfv.23.1704463407200;
+        Fri, 05 Jan 2024 06:03:27 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id y2-20020aa79e02000000b006d9bcf301ffsm1430097pfq.194.2024.01.05.06.03.24
+        by smtp.gmail.com with ESMTPSA id y2-20020aa79e02000000b006d9bcf301ffsm1430097pfq.194.2024.01.05.06.03.26
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jan 2024 06:03:25 -0800 (PST)
+        Fri, 05 Jan 2024 06:03:26 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 2/5] cve-update-nvd2-native: make number of fetch attemtps configurable
-Date: Fri,  5 Jan 2024 04:03:05 -1000
-Message-Id: <ee2a6ade703317d09f7df60ef7ce300d8f868f54.1704463208.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 3/5] cve-update-nvd2-native: faster requests with API keys
+Date: Fri,  5 Jan 2024 04:03:06 -1000
+Message-Id: <eb5ab00be33a503205401541e88c32ba9da1d75c.1704463208.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1704463208.git.steve@sakoman.com>
 References: <cover.1704463208.git.steve@sakoman.com>
@@ -61,72 +61,53 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 05 Jan 2024 14:03:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193362
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193363
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Dhairya Nagodra <dnagodra@cisco.com>
 
-Sometimes NVD servers are unstable and return too many errors.
+As per NVD, the public rate limit is 5 requests in 30s (6s delay).
+Using an API key increases the limit to 50 requests in 30s (0.6s delay).
+However, NVD still recommends sleeping for several seconds so that the
+other legitimate requests are serviced without denial or interruption.
+Keeping the default sleep at 6 seconds and 2 seconds with an API key.
 
-Last time we increased number of attempts from 3 to 5, but
-further increasing is not reasonable as in normal case
-too many retries is just abusive.
+For failures, the wait time is unchanged (6 seconds).
 
-Keep retries low as default and allow to increase as needed.
+Reference: https://nvd.nist.gov/developers/start-here#RateLimits
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Dhairya Nagodra <dnagodra@cisco.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 6b6fd8043d83b99000054ab6ad2c745d07c6bcc1)
+(cherry picked from commit 5c32e2941d1dc3d04a799a1b7cbd275c1ccc9e79)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/meta/cve-update-nvd2-native.bb | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ meta/recipes-core/meta/cve-update-nvd2-native.bb | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb b/meta/recipes-core/meta/cve-update-nvd2-native.bb
-index 64a96a46f0..dab0b69edc 100644
+index dab0b69edc..0a8b6a8a0a 100644
 --- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
 +++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
-@@ -26,6 +26,9 @@ NVDCVE_API_KEY ?= ""
- # Use a negative value to skip the update
- CVE_DB_UPDATE_INTERVAL ?= "86400"
- 
-+# Number of attmepts for each http query to nvd server before giving up
-+CVE_DB_UPDATE_ATTEMPTS ?= "5"
-+
- CVE_DB_TEMP_FILE ?= "${CVE_CHECK_DB_DIR}/temp_nvdcve_2.db"
- 
- CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/nvdcve_2.db"
-@@ -111,7 +114,7 @@ def cleanup_db_download(db_file, db_tmp_file):
-     if os.path.exists(db_tmp_file):
-         os.remove(db_tmp_file)
- 
--def nvd_request_next(url, api_key, args):
-+def nvd_request_next(url, attempts, api_key, args):
-     """
-     Request next part of the NVD dabase
-     """
-@@ -127,7 +130,7 @@ def nvd_request_next(url, api_key, args):
-         request.add_header("apiKey", api_key)
-     bb.note("Requesting %s" % request.full_url)
- 
--    for attempt in range(5):
-+    for attempt in range(attempts):
-         try:
-             r = urllib.request.urlopen(request)
- 
-@@ -183,10 +186,11 @@ def update_db_file(db_tmp_file, d, database_time):
-         index = 0
-         url = d.getVar("NVDCVE_URL")
+@@ -188,6 +188,11 @@ def update_db_file(db_tmp_file, d, database_time):
          api_key = d.getVar("NVDCVE_API_KEY") or None
-+        attempts = int(d.getVar("CVE_DB_UPDATE_ATTEMPTS"))
+         attempts = int(d.getVar("CVE_DB_UPDATE_ATTEMPTS"))
  
++        # Recommended by NVD
++        wait_time = 6
++        if api_key:
++            wait_time = 2
++
          while True:
              req_args['startIndex'] = index
--            raw_data = nvd_request_next(url, api_key, req_args)
-+            raw_data = nvd_request_next(url, attempts, api_key, req_args)
-             if raw_data is None:
-                 # We haven't managed to download data
-                 return False
+             raw_data = nvd_request_next(url, attempts, api_key, req_args)
+@@ -210,7 +215,7 @@ def update_db_file(db_tmp_file, d, database_time):
+                break
+ 
+             # Recommended by NVD
+-            time.sleep(6)
++            time.sleep(wait_time)
+ 
+         # Update success, set the date to cve_check file.
+         cve_f.write('CVE database update : %s\n\n' % datetime.date.today())
 -- 
 2.34.1
 
