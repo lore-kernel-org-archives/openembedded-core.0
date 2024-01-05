@@ -2,81 +2,89 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9A66C3DA6E
-	for <webhook@archiver.kernel.org>; Fri,  5 Jan 2024 11:54:05 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web10.21906.1704455642160323774
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E61A4C3DA6E
+	for <webhook@archiver.kernel.org>; Fri,  5 Jan 2024 12:02:45 +0000 (UTC)
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+ by mx.groups.io with SMTP id smtpd.web11.21962.1704456158215923030
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Jan 2024 03:54:02 -0800
+ Fri, 05 Jan 2024 04:02:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=R4g8MR0v;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-40e3ab65709so1501695e9.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jan 2024 03:54:01 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZxO54dzi;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.208.179, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2cd0f4f306fso17991341fa.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jan 2024 04:02:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1704455640; x=1705060440; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SHcyvnih5tiZZuLdFbmUEK4GK7nf952bF8QdUvlO2As=;
-        b=R4g8MR0vrQZmpx6dbaeZeSctg4ufgHpb0yHmryp81KRbnkntK4FULum9JODmNIMV/I
-         ef4prn3irQfRy+K0IkvmpdWYQbC0IA3S3eBH8eCxPQIcMMHA04YNNNkfbtYONuixyBQn
-         jhFsJtji56cRrQ+2Se9aoQBo2bLte1+NqZ/VE=
+        d=linuxfoundation.org; s=google; t=1704456156; x=1705060956; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=HeODbCxIWQVAczIZqYDk8r7J/xCTq2CThdj0c3jGnWM=;
+        b=ZxO54dziodca05/WdHgVDjDbaJXcUlcDj+XCpSQuAe2L2io1vtEKlIk8cwTwXBMV9/
+         HzaN8/M+zZtJ4gMwspOF+AnNkWA0h1B8/vto5/xrH5SvFS5fMn6FepcsdwRCiiUBjwdH
+         3nF39ofex0281K8o23hfNwTPcg1cIpLXSK1po=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704455640; x=1705060440;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SHcyvnih5tiZZuLdFbmUEK4GK7nf952bF8QdUvlO2As=;
-        b=j0I8+dTX5PcGpd5JNES7l4fQYnegsXj8nDFNLDCxGVlgSXEvrhPG1KkbPUlwWyb49Q
-         OK3q8o4Y8MNXE6syNB5n6lRds4an+NIBFPtFtBz2ur/8jDUmnqN3PO3JGllvraJqMWsY
-         ffTbDQgKczQcTelwZzeJradrv3rrck0MyUi4uv2LLbujVAcR/gTyudMjSYo8iAV6jcw3
-         vCAv7nrbML/GKjJbpXtuGOzM+seZWZpeCPBtA9AlGWXf3JIkXkM0akE+gT/ftFFTx9KF
-         YCjoJfP/w8wJ2SW+FLaYSFzKUbxAA3zzmC/n/FXr/rHPPjLyBNvqy8gzUtZ/mlVAW0+R
-         suVA==
-X-Gm-Message-State: AOJu0YwBHCAO3u9x+3jooU86I+taEi6WEwNGIcfLfsXh+FEv85LWbldo
-	mzUi3Y/In+BmOvrwB8Til6s0Wv70mh4XNEQ1SU3OFJnFMzc=
-X-Google-Smtp-Source: AGHT+IF13T5kryYrJtJuS71tMIKneNMoDvubf/vOlKN4z55pfPMcJYvtYQddgZ60jH/1ck/r/KPuTQ==
-X-Received: by 2002:a05:600c:4445:b0:40d:7691:d056 with SMTP id v5-20020a05600c444500b0040d7691d056mr1278178wmn.38.1704455640230;
-        Fri, 05 Jan 2024 03:54:00 -0800 (PST)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:8000:8a34:98ad:54c2])
-        by smtp.gmail.com with ESMTPSA id l20-20020a05600c4f1400b0040d91930f93sm1349856wmq.11.2024.01.05.03.53.59
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1704456156; x=1705060956;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HeODbCxIWQVAczIZqYDk8r7J/xCTq2CThdj0c3jGnWM=;
+        b=qOHOboDaTnNrbZUudzZ4K7yfDcbEEjaFoMoYDkNXXyt8HmswqceWkFPgh5sf6DQiFM
+         vGbnEcGb4U5B7cQL0pN/+eIGP5xwYNBFHNF4inn5ATCPRR9o6bgtdqAZOfetHdAbvhc1
+         GcUlQBBtlGTggFvVu9AvyhKbDs1ieG4hzZSTMqbQJqn//r2snj2iN1I9cRLyZLU9Mg61
+         WDwrh85EL5IAF7r8DT1XIcsiGQC8VhKDJhwTTkdWieDryXFvfmmC7rojJg7DtTfc9lrN
+         ESB3itY4xtqRdXduYr39Nm3/D7+VlOvFf08WhjzKVIUGMxAERxkuKBdVsZlxVosc4gPF
+         w6WQ==
+X-Gm-Message-State: AOJu0YzwTN5XlNkucRBisXiqH6zMm92MEty66JdEUsk2vLeG+wBnrex6
+	2qsnPqbgfrEV4/8bQfSF8jjkjrIiZtOnHg==
+X-Google-Smtp-Source: AGHT+IHQT6TORs5Oua0NI7EL2xOyQlny3Kt06AMVmel3+xD5C6RHALkcnh8nq13Fjgv17Lpxrt4Rmw==
+X-Received: by 2002:a2e:9b55:0:b0:2cd:1ece:e266 with SMTP id o21-20020a2e9b55000000b002cd1ecee266mr912264ljj.36.1704456156234;
+        Fri, 05 Jan 2024 04:02:36 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:8000:8a34:98ad:54c2? ([2001:8b0:aba:5f3c:8000:8a34:98ad:54c2])
+        by smtp.gmail.com with ESMTPSA id d10-20020a05651c01ca00b002cd0ff0ada5sm289172ljn.94.2024.01.05.04.02.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jan 2024 03:53:59 -0800 (PST)
+        Fri, 05 Jan 2024 04:02:35 -0800 (PST)
+Message-ID: <8448a0253f31a705f7baf167519167d95c8b05bb.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 3/7] sstatesig/find_siginfo: unify a
+ disjointed API
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] sstatesig: Add version information for find_sigingfo
-Date: Fri,  5 Jan 2024 11:53:59 +0000
-Message-Id: <20240105115359.2431120-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.39.2
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, Alexander Kanavin
+	 <alex@linutronix.de>
+Date: Fri, 05 Jan 2024 12:02:34 +0000
+In-Reply-To: <CANNYZj-px=OXTm0x2D3sJVJxHx8c_wqMXwHeO0Ex1B-829bUpw@mail.gmail.com>
+References: <20231218084403.599015-1-alex@linutronix.de>
+	 <20231218084403.599015-3-alex@linutronix.de>
+	 <c35a799d9843214d220362c0a190129e2299b93e.camel@linuxfoundation.org>
+	 <CANNYZj-px=OXTm0x2D3sJVJxHx8c_wqMXwHeO0Ex1B-829bUpw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 Jan 2024 11:54:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193353
+ <openembedded-core@lists.openembedded.org>; Fri, 05 Jan 2024 12:02:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193354
 
-Since we're changing the return values of the function, add a version so
-bitbake can ensure it is using a compatible function.
+On Fri, 2024-01-05 at 12:42 +0100, Alexander Kanavin wrote:
+> On Fri, 5 Jan 2024 at 12:22, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+>=20
+> > I've a few ideas on how we might be able to detect potential problems,
+> > I'll continue to try and work something out but I want to make it clear
+> > there are some things it is hard to change :/.
+>=20
+> There's the option of adding another function (find_siginfo_v2) and
+> leaving this one as it was, this is how the kernel does things. They
+> don't shy away from adding v3, v4 and so on either. But I thought less
+> code is better than more code.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/lib/oe/sstatesig.py | 1 +
- 1 file changed, 1 insertion(+)
+That is effectively what I just merged, except I did break
+compatibility by dropping the v1. We need to give the user good
+messages about how to fix their problem which is why a number is needed
+rather than just a function name.
 
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index 6f124e4f59b..1b4380f21bc 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -422,6 +422,7 @@ def find_siginfo(pn, taskname, taskhashlist, d):
-     return hashfiles
- 
- bb.siggen.find_siginfo = find_siginfo
-+bb.siggen.find_siginfo_version = 2
- 
- 
- def sstate_get_manifest_filename(task, d):
--- 
-2.39.2
+Cheers,
 
+Richard
 
