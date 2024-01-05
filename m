@@ -2,139 +2,267 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB58AC3DA6E
-	for <webhook@archiver.kernel.org>; Fri,  5 Jan 2024 18:20:07 +0000 (UTC)
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
- by mx.groups.io with SMTP id smtpd.web11.30668.1704478799767061481
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C97CC3DA6E
+	for <webhook@archiver.kernel.org>; Fri,  5 Jan 2024 22:23:39 +0000 (UTC)
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+ by mx.groups.io with SMTP id smtpd.web11.36868.1704493409010497617
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Jan 2024 10:19:59 -0800
+ Fri, 05 Jan 2024 14:23:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=OYX9PN2I;
- spf=pass (domain: gmail.com, ip: 209.85.210.171, mailfrom: ticotimo@gmail.com)
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-6da6b0eb2d4so1206344b3a.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jan 2024 10:19:59 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=mprL/ggo;
+ spf=pass (domain: gmail.com, ip: 209.85.128.173, mailfrom: ticotimo@gmail.com)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-5f69383e653so691007b3.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jan 2024 14:23:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704478799; x=1705083599; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IXPJGMyspm7KclCXSvfZrOm+2bt9GYzDXaXD4UuS83w=;
-        b=OYX9PN2IaKa8WDoFc2ZuYIIyKZl8zBCgfqSUtu4t0Yue5rUi2/7TH1Ab1H1GmM47vu
-         5juCoQV4h+LYDezrHnE470GSr/cD5cdkfmy7+Z/ldv7lQumTo++SAuUOmQHa8RKsuaox
-         ZvpMfWYmYOydsjTzJ+l2Uhvtv+44aXydbzKbMWsmrcVIcfGPOhVGvkarw3K/Zu9NzCWp
-         HtHnMQBO+4dIrzHBJl1yaaqVvP7Nw0WcN8CDSiuuUuhncBSR6jrWP+AExYVXywcafdYL
-         geiU+8Yowp9OgFfwUfKHwkRuNjxh+k94jCtSQRpIj+yQhrCfCqx3lIBNvPVjoESoHJF2
-         egzw==
+        d=gmail.com; s=20230601; t=1704493408; x=1705098208; darn=lists.openembedded.org;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wKk66fXryJw3NWXmoP056ZTTCT0Si/9iO6RbF9tKHwY=;
+        b=mprL/ggoG3kr2JnKUeUnKzYszYEAhMmmothgUwmBVn9sk/e8rA1TDqN0V9Gb+KoAz8
+         tfWgnVxsr42/xPIV/Gmo8lc+ARIFhH7Bq/X8yzubVq6I9kJqjVLvceRhhsSd2TPfjN2a
+         DF7Q1vSdeXvcRP44IVyrJzcq9RDTLyG3Pr6YZEikTJLLDFzRl0G8YD1PzZSnShEN7PnE
+         oiL220X3GOfLRutnR85/ZD7DHk4xgSV2tUcIJFkLsdo3HKlGh/R4H+J9EdMk3rDUFeA1
+         8yrX87O9NzDJxB8FlyTcWXsyrn72UmD2QahAx2mvZI+1AGkawFisY0Ypqvqu/67Bst+7
+         xCLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704478799; x=1705083599;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IXPJGMyspm7KclCXSvfZrOm+2bt9GYzDXaXD4UuS83w=;
-        b=kjmZx9YBbnzPG+Y9kpMZ80CqfiNxyvUBlliVA1mAyzZtrLEZEPkOu7CCNRrAPBOLW6
-         CScxmf58sDdnJ+lSTGHlMVwlGdfCjn/EX+STYCs4FzFIc+k3DM/Xmcg0L5rDT+ATU5qR
-         LiosyAzUduADP5J8jH/Z0T5+BbPyAlQYyoa+8vcxd6fGLBW0qbLHjdLHlxSMOEcqpoJm
-         XoNz+pwvUoZswzbUOTkVDomNCkzJx918iX0jWd0T83Y7YuhLE+Imd58xmTxI4w/EpED2
-         L/3Q+7IgAS6K2pc+/GT8VrJOahNNDV0DkvtlT8JmqJayNj6k7rzrBFS94CtzUfonm1lB
-         Gj2Q==
-X-Gm-Message-State: AOJu0Yz1Yp3vdOQbtxvSysjR2m9sArt3jvNf3RrprvkM/V2Hgh3j8SoS
-	oYK+8q8ZFDBXko4i/m/bFput/ti9zsA=
-X-Google-Smtp-Source: AGHT+IHME/cd5KtPbd1Jej5VmRXCs4m/g9H8lo2O+t50pRwhKZaUDWjEprM617pv/oc8KbuVDSzi9g==
-X-Received: by 2002:a05:6a00:22ce:b0:6da:2ee0:50bd with SMTP id f14-20020a056a0022ce00b006da2ee050bdmr2994639pfj.53.1704478798855;
-        Fri, 05 Jan 2024 10:19:58 -0800 (PST)
-Received: from chiron.hsd1.or.comcast.net ([2601:1c0:ca00:cea0:1ef8:e4e3:e071:1cf1])
-        by smtp.gmail.com with ESMTPSA id o128-20020a62cd86000000b006da3b35bef3sm1752318pfg.54.2024.01.05.10.19.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jan 2024 10:19:58 -0800 (PST)
-From: Tim Orling <ticotimo@gmail.com>
-X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH 2/2] python3-attrs: enable ptest
-Date: Fri,  5 Jan 2024 10:14:55 -0800
-Message-Id: <20240105181452.1488396-2-tim.orling@konsulko.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240105181452.1488396-1-tim.orling@konsulko.com>
-References: <20240105181452.1488396-1-tim.orling@konsulko.com>
+        d=1e100.net; s=20230601; t=1704493408; x=1705098208;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wKk66fXryJw3NWXmoP056ZTTCT0Si/9iO6RbF9tKHwY=;
+        b=qvPF7BOwz81er3qeZrjG/Ieu3dhmqZtwhw/tEV5s3k/ibJoNNEs7fbFhCGzKC9mpxb
+         GP8rZAhvQ4L2wnrmL2EgwRS+rqingVCGjU/OQvVQTGglX4l0qbDNy3R6srTA+bk8hvdt
+         Jh+U5+nxV7GG0n4+KR31UqyNgVvFsIkf+nvPLtrD9TApnYGe1aMOmNod15rJs5Ll4VsG
+         VL0BuYFYgnyo3IZViiRCqNbSR0i6rDjP7FfVFnLFvhvjVDcZaZwfviKGrK1EyxSzDddK
+         fRuFV9YYspa1gFUc4X8AxeStqpCkRV/BeP7hazXZEXXOE+/OkUXLrysXpVBSbU0YV/xf
+         asXw==
+X-Gm-Message-State: AOJu0YxOA1nx2PFBYYyuI3+osMvEaiVUaoIYOfFIEe7umCiLqnz1iVX3
+	wPimNH9mj+2MQqMK0OWsuVeFr/QvMTcAxqej57oaJTIyHfs=
+X-Google-Smtp-Source: AGHT+IELqSNZ3NXW+eDpvFiQP1NK3LcVhEGhWWgZVjazwqi1KJh2Mx4nRCBvSdRxmoub9M5jhQ9Phhq0ACuy4cX7x4M=
+X-Received: by 2002:a0d:e303:0:b0:5d7:1941:acd with SMTP id
+ m3-20020a0de303000000b005d719410acdmr146264ywe.104.1704493407786; Fri, 05 Jan
+ 2024 14:23:27 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <17A7864F7B027B8B.25044@lists.openembedded.org>
+In-Reply-To: <17A7864F7B027B8B.25044@lists.openembedded.org>
+From: Tim Orling <ticotimo@gmail.com>
+Date: Fri, 5 Jan 2024 14:23:16 -0800
+Message-ID: <CANx9H-C+kYRrikN5rCkj_hR96LNK1rbFa2Fk2hXhcN4A2ixjmw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] python3-attrs: upgrade 23.1.0 -> 23.2.0
+To: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000017dc4d060e3a4c45"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 Jan 2024 18:20:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193378
+ <openembedded-core@lists.openembedded.org>; Fri, 05 Jan 2024 22:23:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193379
 
-The conftest.py file is needed to define the "slots" and "frozen" fixtures
-for pytest
+--00000000000017dc4d060e3a4c45
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Tim Orling <tim.orling@konsulko.com>
----
+Ignore this one, since it has already been addressed by:
+https://patchwork.yoctoproject.org/project/oe-core/patch/1704271378-18012-1=
+-git-send-email-wangmy@fujitsu.com/
 
-All ptests passed on core-image-ptest-python3-attrs in about 19 seconds
-on qemux86-64
+But please take 2/2 for ptest.
 
- .../conf/distro/include/ptest-packagelists.inc |  1 +
- .../python/python3-attrs/run-ptest             |  3 +++
- .../python/python3-attrs_23.2.0.bb             | 18 +++++++++++++++++-
- 3 files changed, 21 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/python/python3-attrs/run-ptest
+On Fri, Jan 5, 2024 at 10:17=E2=80=AFAM Tim Orling via lists.openembedded.o=
+rg
+<ticotimo=3Dgmail.com@lists.openembedded.org> wrote:
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index 9057c12b091..ef6f471e7bd 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -57,6 +57,7 @@ PTESTS_FAST = "\
-     pango \
-     popt \
-     python3-atomicwrites \
-+    python3-attrs \
-     python3-bcrypt \
-     python3-calver \
-     python3-hypothesis \
-diff --git a/meta/recipes-devtools/python/python3-attrs/run-ptest b/meta/recipes-devtools/python/python3-attrs/run-ptest
-new file mode 100644
-index 00000000000..8d2017d39ce
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-attrs/run-ptest
-@@ -0,0 +1,3 @@
-+#!/bin/sh
-+
-+pytest --automake
-diff --git a/meta/recipes-devtools/python/python3-attrs_23.2.0.bb b/meta/recipes-devtools/python/python3-attrs_23.2.0.bb
-index e00e1520156..7b6a6bd94c9 100644
---- a/meta/recipes-devtools/python/python3-attrs_23.2.0.bb
-+++ b/meta/recipes-devtools/python/python3-attrs_23.2.0.bb
-@@ -5,7 +5,11 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=5e55731824cf9205cfabeab9a0600887"
- 
- SRC_URI[sha256sum] = "935dc3b529c262f6cf76e50877d35a4bd3c1de194fd41f47a2b7ae8f19971f30"
- 
--inherit pypi python_hatchling
-+inherit pypi ptest python_hatchling
-+
-+SRC_URI += " \
-+	file://run-ptest \
-+"
- 
- DEPENDS += " \
-     python3-hatch-vcs-native \
-@@ -18,4 +22,16 @@ RDEPENDS:${PN}+= " \
-     python3-crypt \
- "
- 
-+RDEPENDS:${PN}-ptest += " \
-+    ${PYTHON_PN}-hypothesis \
-+    ${PYTHON_PN}-pytest \
-+    ${PYTHON_PN}-unittest-automake-output \
-+"
-+
-+do_install_ptest() {
-+    install -d ${D}${PTEST_PATH}/tests
-+    cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
-+    install ${S}/conftest.py ${D}${PTEST_PATH}/
-+}
-+
- BBCLASSEXTEND = "native nativesdk"
--- 
-2.34.1
+> https://www.attrs.org/en/stable/changelog.html
+>
+> 23.2.0 - 2023-12-31
+>
+> Changes
+> * The type annotation for attrs.resolve_types() is now correct. #1141
+> * Type stubs now use typing.dataclass_transform to decorate dataclass-lik=
+e
+>   decorators, instead of the non-standard __dataclass_transform__ special
+>   form, which is only supported by Pyright. #1158
+> * Fixed serialization of namedtuple fields using attrs.asdict/astuple()
+> with
+>   retain_collection_types=3DTrue. #1165
+> * attrs.AttrsInstance is now a typing.Protocol in both type hints and cod=
+e.
+>   This allows you to subclass it along with another Protocol. #1172
+> * If attrs detects that __attrs_pre_init__ accepts more than just self, i=
+t
+>   will call it with the same arguments as __init__ was called. This allow=
+s
+>   you to, for example, pass arguments to super().__init__(). #1187
+> * Slotted classes now transform functools.cached_property decorated metho=
+ds
+>   to support equivalent semantics. #1200
+> * Added class_body argument to attrs.make_class() to provide additional
+>   attributes for newly created classes. It is, for example, now possible =
+to
+>   attach methods. #1203
+>
+> Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+> ---
+> Requires python3-hatch-fancy-pypi-readme upgrade beyond 23.1.0
+>
+> https://patchwork.yoctoproject.org/project/oe-core/patch/1704180223-8624-=
+1-git-send-email-wangmy@fujitsu.com/
+>
+>  .../python/{python3-attrs_23.1.0.bb =3D> python3-attrs_23.2.0.bb} | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-devtools/python/{python3-attrs_23.1.0.bb =3D>
+> python3-attrs_23.2.0.bb} (82%)
+>
+> diff --git a/meta/recipes-devtools/python/python3-attrs_23.1.0.bb
+> b/meta/recipes-devtools/python/python3-attrs_23.2.0.bb
+> similarity index 82%
+> rename from meta/recipes-devtools/python/python3-attrs_23.1.0.bb
+> rename to meta/recipes-devtools/python/python3-attrs_23.2.0.bb
+> index 314053de081..e00e1520156 100644
+> --- a/meta/recipes-devtools/python/python3-attrs_23.1.0.bb
+> +++ b/meta/recipes-devtools/python/python3-attrs_23.2.0.bb
+> @@ -3,7 +3,7 @@ HOMEPAGE =3D "http://www.attrs.org/"
+>  LICENSE =3D "MIT"
+>  LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D5e55731824cf9205cfabeab9a0600=
+887"
+>
+> -SRC_URI[sha256sum] =3D
+> "6279836d581513a26f1bf235f9acd333bc9115683f14f7e8fae46c98fc50e015"
+> +SRC_URI[sha256sum] =3D
+> "935dc3b529c262f6cf76e50877d35a4bd3c1de194fd41f47a2b7ae8f19971f30"
+>
+>  inherit pypi python_hatchling
+>
+> --
+> 2.34.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#193377):
+> https://lists.openembedded.org/g/openembedded-core/message/193377
+> Mute This Topic: https://lists.openembedded.org/mt/103548100/924729
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> ticotimo@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
+--00000000000017dc4d060e3a4c45
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Ignore this one, since it has already been addressed by:<b=
+r><a href=3D"https://patchwork.yoctoproject.org/project/oe-core/patch/17042=
+71378-18012-1-git-send-email-wangmy@fujitsu.com/">https://patchwork.yoctopr=
+oject.org/project/oe-core/patch/1704271378-18012-1-git-send-email-wangmy@fu=
+jitsu.com/</a><br><div><br></div><div>But please take 2/2 for ptest.</div><=
+/div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">O=
+n Fri, Jan 5, 2024 at 10:17=E2=80=AFAM Tim Orling via <a href=3D"http://lis=
+ts.openembedded.org">lists.openembedded.org</a> &lt;ticotimo=3D<a href=3D"m=
+ailto:gmail.com@lists.openembedded.org">gmail.com@lists.openembedded.org</a=
+>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><a =
+href=3D"https://www.attrs.org/en/stable/changelog.html" rel=3D"noreferrer" =
+target=3D"_blank">https://www.attrs.org/en/stable/changelog.html</a><br>
+<br>
+23.2.0 - 2023-12-31<br>
+<br>
+Changes<br>
+* The type annotation for attrs.resolve_types() is now correct. #1141<br>
+* Type stubs now use typing.dataclass_transform to decorate dataclass-like<=
+br>
+=C2=A0 decorators, instead of the non-standard __dataclass_transform__ spec=
+ial<br>
+=C2=A0 form, which is only supported by Pyright. #1158<br>
+* Fixed serialization of namedtuple fields using attrs.asdict/astuple() wit=
+h<br>
+=C2=A0 retain_collection_types=3DTrue. #1165<br>
+* attrs.AttrsInstance is now a typing.Protocol in both type hints and code.=
+<br>
+=C2=A0 This allows you to subclass it along with another Protocol. #1172<br=
+>
+* If attrs detects that __attrs_pre_init__ accepts more than just self, it<=
+br>
+=C2=A0 will call it with the same arguments as __init__ was called. This al=
+lows<br>
+=C2=A0 you to, for example, pass arguments to super().__init__(). #1187<br>
+* Slotted classes now transform functools.cached_property decorated methods=
+<br>
+=C2=A0 to support equivalent semantics. #1200<br>
+* Added class_body argument to attrs.make_class() to provide additional<br>
+=C2=A0 attributes for newly created classes. It is, for example, now possib=
+le to<br>
+=C2=A0 attach methods. #1203<br>
+<br>
+Signed-off-by: Tim Orling &lt;<a href=3D"mailto:tim.orling@konsulko.com" ta=
+rget=3D"_blank">tim.orling@konsulko.com</a>&gt;<br>
+---<br>
+Requires python3-hatch-fancy-pypi-readme upgrade beyond 23.1.0<br>
+<a href=3D"https://patchwork.yoctoproject.org/project/oe-core/patch/1704180=
+223-8624-1-git-send-email-wangmy@fujitsu.com/" rel=3D"noreferrer" target=3D=
+"_blank">https://patchwork.yoctoproject.org/project/oe-core/patch/170418022=
+3-8624-1-git-send-email-wangmy@fujitsu.com/</a><br>
+<br>
+=C2=A0.../python/{<a href=3D"http://python3-attrs_23.1.0.bb" rel=3D"norefer=
+rer" target=3D"_blank">python3-attrs_23.1.0.bb</a> =3D&gt; <a href=3D"http:=
+//python3-attrs_23.2.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-att=
+rs_23.2.0.bb</a>} | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+=C2=A0rename meta/recipes-devtools/python/{<a href=3D"http://python3-attrs_=
+23.1.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-attrs_23.1.0.bb</a>=
+ =3D&gt; <a href=3D"http://python3-attrs_23.2.0.bb" rel=3D"noreferrer" targ=
+et=3D"_blank">python3-attrs_23.2.0.bb</a>} (82%)<br>
+<br>
+diff --git a/meta/recipes-devtools/python/<a href=3D"http://python3-attrs_2=
+3.1.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-attrs_23.1.0.bb</a> =
+b/meta/recipes-devtools/python/<a href=3D"http://python3-attrs_23.2.0.bb" r=
+el=3D"noreferrer" target=3D"_blank">python3-attrs_23.2.0.bb</a><br>
+similarity index 82%<br>
+rename from meta/recipes-devtools/python/<a href=3D"http://python3-attrs_23=
+.1.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-attrs_23.1.0.bb</a><b=
+r>
+rename to meta/recipes-devtools/python/<a href=3D"http://python3-attrs_23.2=
+.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-attrs_23.2.0.bb</a><br>
+index 314053de081..e00e1520156 100644<br>
+--- a/meta/recipes-devtools/python/<a href=3D"http://python3-attrs_23.1.0.b=
+b" rel=3D"noreferrer" target=3D"_blank">python3-attrs_23.1.0.bb</a><br>
++++ b/meta/recipes-devtools/python/<a href=3D"http://python3-attrs_23.2.0.b=
+b" rel=3D"noreferrer" target=3D"_blank">python3-attrs_23.2.0.bb</a><br>
+@@ -3,7 +3,7 @@ HOMEPAGE =3D &quot;<a href=3D"http://www.attrs.org/" rel=3D=
+"noreferrer" target=3D"_blank">http://www.attrs.org/</a>&quot;<br>
+=C2=A0LICENSE =3D &quot;MIT&quot;<br>
+=C2=A0LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D5e55731824cf9205cfabe=
+ab9a0600887&quot;<br>
+<br>
+-SRC_URI[sha256sum] =3D &quot;6279836d581513a26f1bf235f9acd333bc9115683f14f=
+7e8fae46c98fc50e015&quot;<br>
++SRC_URI[sha256sum] =3D &quot;935dc3b529c262f6cf76e50877d35a4bd3c1de194fd41=
+f47a2b7ae8f19971f30&quot;<br>
+<br>
+=C2=A0inherit pypi python_hatchling<br>
+<br>
+-- <br>
+2.34.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#193377): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/193377" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/193377</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/103548100/924=
+729" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/103548100/924729</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:ticotimo@gmail.com" target=
+=3D"_blank">ticotimo@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
+
+--00000000000017dc4d060e3a4c45--
 
