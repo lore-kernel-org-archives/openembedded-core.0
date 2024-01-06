@@ -1,268 +1,381 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C97CC3DA6E
-	for <webhook@archiver.kernel.org>; Fri,  5 Jan 2024 22:23:39 +0000 (UTC)
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
- by mx.groups.io with SMTP id smtpd.web11.36868.1704493409010497617
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E67DC3DA6E
+	for <webhook@archiver.kernel.org>; Sat,  6 Jan 2024 02:21:10 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web10.41471.1704507667729007175
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Jan 2024 14:23:29 -0800
+ Fri, 05 Jan 2024 18:21:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=mprL/ggo;
- spf=pass (domain: gmail.com, ip: 209.85.128.173, mailfrom: ticotimo@gmail.com)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-5f69383e653so691007b3.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jan 2024 14:23:28 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=tXujlCsC;
+ spf=softfail (domain: sakoman.com, ip: 209.85.128.46, mailfrom: steve@sakoman.com)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-40d5336986cso2054085e9.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jan 2024 18:21:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704493408; x=1705098208; darn=lists.openembedded.org;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wKk66fXryJw3NWXmoP056ZTTCT0Si/9iO6RbF9tKHwY=;
-        b=mprL/ggoG3kr2JnKUeUnKzYszYEAhMmmothgUwmBVn9sk/e8rA1TDqN0V9Gb+KoAz8
-         tfWgnVxsr42/xPIV/Gmo8lc+ARIFhH7Bq/X8yzubVq6I9kJqjVLvceRhhsSd2TPfjN2a
-         DF7Q1vSdeXvcRP44IVyrJzcq9RDTLyG3Pr6YZEikTJLLDFzRl0G8YD1PzZSnShEN7PnE
-         oiL220X3GOfLRutnR85/ZD7DHk4xgSV2tUcIJFkLsdo3HKlGh/R4H+J9EdMk3rDUFeA1
-         8yrX87O9NzDJxB8FlyTcWXsyrn72UmD2QahAx2mvZI+1AGkawFisY0Ypqvqu/67Bst+7
-         xCLA==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1704507666; x=1705112466; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xmcPCNbUJRQ1KPPrTEKngsy2UwAaUaSBF2Zc5m/zRQI=;
+        b=tXujlCsCseWZ0N8oxEXzvrxXnkhsU1dNgycV7WNInexAXLwTu43hamEbha5zNznjJX
+         g+KKZ7sESAuXYD2RUoBBlzRnQ8slwAh1DRtSX8q0iDmZhigq/H+jGdsWl0SSUIwg4xa3
+         NFr0ZX98KGWi3u8xGZzzG0Lfr35w3rv99GkYTURKP3ZwzbXpSRHMQrPXfg13tzNVahHq
+         J5jXzfTrWMPgeME5C617hxAlHEbo/CFl17A0ZuGUdXWrZLEIKuenC1yvCsE2xwu3uYSU
+         Flh5lF/J0gaVQ0ixXcdh05nJbbH9IC+L155wKXGtrztAyvBNB1W0FwtkEN9je1Nl6Vpd
+         pA2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704493408; x=1705098208;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wKk66fXryJw3NWXmoP056ZTTCT0Si/9iO6RbF9tKHwY=;
-        b=qvPF7BOwz81er3qeZrjG/Ieu3dhmqZtwhw/tEV5s3k/ibJoNNEs7fbFhCGzKC9mpxb
-         GP8rZAhvQ4L2wnrmL2EgwRS+rqingVCGjU/OQvVQTGglX4l0qbDNy3R6srTA+bk8hvdt
-         Jh+U5+nxV7GG0n4+KR31UqyNgVvFsIkf+nvPLtrD9TApnYGe1aMOmNod15rJs5Ll4VsG
-         VL0BuYFYgnyo3IZViiRCqNbSR0i6rDjP7FfVFnLFvhvjVDcZaZwfviKGrK1EyxSzDddK
-         fRuFV9YYspa1gFUc4X8AxeStqpCkRV/BeP7hazXZEXXOE+/OkUXLrysXpVBSbU0YV/xf
-         asXw==
-X-Gm-Message-State: AOJu0YxOA1nx2PFBYYyuI3+osMvEaiVUaoIYOfFIEe7umCiLqnz1iVX3
-	wPimNH9mj+2MQqMK0OWsuVeFr/QvMTcAxqej57oaJTIyHfs=
-X-Google-Smtp-Source: AGHT+IELqSNZ3NXW+eDpvFiQP1NK3LcVhEGhWWgZVjazwqi1KJh2Mx4nRCBvSdRxmoub9M5jhQ9Phhq0ACuy4cX7x4M=
-X-Received: by 2002:a0d:e303:0:b0:5d7:1941:acd with SMTP id
- m3-20020a0de303000000b005d719410acdmr146264ywe.104.1704493407786; Fri, 05 Jan
- 2024 14:23:27 -0800 (PST)
+        d=1e100.net; s=20230601; t=1704507666; x=1705112466;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xmcPCNbUJRQ1KPPrTEKngsy2UwAaUaSBF2Zc5m/zRQI=;
+        b=nRjsLVzdt7S/f4OE3ymzQONKEVhiqDx8kROP+7wm5m6K9pOGgVHPdAEIbK/TZeUVbY
+         p7KCEa2crCK9SYZMSL8xaumSNeagepXs83CccSMg4Qe78jT3QCAz7gyKBg9FOus2B2fB
+         Xk/srtMnNCTmJN2DncAWjpGTnmDiwLriZ/38NTeJc8Ga+8w5m+xD+62kxLTkZ8z8MTr8
+         3JSguOpwEICY9I7h5/48FGUj6kn9rYaR0+RIhkOuTYINWLG9NAO9Ur/FvYh5PJJFUXlB
+         AxKiRd9ONkJlXrZ8IFVirBYSLYA5zGV2xy/REt3PUQRiHVeTHfRsi9xAz8uJlae+a0La
+         S8XA==
+X-Gm-Message-State: AOJu0YyfGGktOzPt6FIpI3EEihwuP/+o/2StTonTO8wTDSE3qgAeYC01
+	BpF6ms4D+HHaB1bgXv9+kV/S7Ho6WU8aXGi7G7KS/GEKWtlqng==
+X-Google-Smtp-Source: AGHT+IHYIjtdCwZUQD9h5ZShTSykPF4gq9LCJLHxYtOY6ks4SUBfre/hd6bJi9Lsk7YnsueJmSGS4c+ZRTYJbWnvatY=
+X-Received: by 2002:a7b:c3d7:0:b0:40c:6d5f:e88c with SMTP id
+ t23-20020a7bc3d7000000b0040c6d5fe88cmr154967wmj.185.1704507665732; Fri, 05
+ Jan 2024 18:21:05 -0800 (PST)
 MIME-Version: 1.0
-References: <17A7864F7B027B8B.25044@lists.openembedded.org>
-In-Reply-To: <17A7864F7B027B8B.25044@lists.openembedded.org>
-From: Tim Orling <ticotimo@gmail.com>
-Date: Fri, 5 Jan 2024 14:23:16 -0800
-Message-ID: <CANx9H-C+kYRrikN5rCkj_hR96LNK1rbFa2Fk2hXhcN4A2ixjmw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] python3-attrs: upgrade 23.1.0 -> 23.2.0
-To: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000017dc4d060e3a4c45"
+References: <3cd66d19-6e0c-4b1b-a990-723cd445698f@gmail.com>
+ <1be4aa623d61e40f52466e1cc3b65c4543b39b20.camel@linuxfoundation.org>
+ <25c15f7d-d1e8-427f-a1ab-6edb854daaa0@gmail.com> <CA+chaQdMrEWZkXfyX=cGDt9uD0JodDFK68cedzGVN2fMDRh+Qg@mail.gmail.com>
+ <29c6bdd6-72bf-48f6-9a8a-eb15c1225ba1@gmail.com> <06070e71-e3a7-4a14-ae3e-68397f1cc0ff@windriver.com>
+ <CA+chaQcPNEQZSkwD6P9f0Xbf3q7jTp5NAPL56yow7bPAjSBngw@mail.gmail.com>
+ <d11ce5f1-161b-4bd2-9bc5-2bd12d7659a9@windriver.com> <CANNYZj_L=rEwhgdWLchdzHYgdWMrkZ4rizCKvmF8hXotBcKgnw@mail.gmail.com>
+ <17A77F200F38338C.25044@lists.openembedded.org> <CA+chaQdtbiAfrL9+05Le2B-ZUTr5OAfG8oS75AtqP4o4kjWeyQ@mail.gmail.com>
+ <17A7822E21CAE9E6.25044@lists.openembedded.org>
+In-Reply-To: <17A7822E21CAE9E6.25044@lists.openembedded.org>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Fri, 5 Jan 2024 16:20:54 -1000
+Message-ID: <CAOSpxdZPgKbre9HHzYP7mJ9qPpQNzQkNqy_yGnAwRoBpmAbVvg@mail.gmail.com>
+Subject: Re: [OE-core] bitbake-server does not exit after build ends
+To: steve@sakoman.com
+Cc: Martin Jansa <martin.jansa@gmail.com>, Joshua Watt <jpewhacker@gmail.com>, 
+	Alexander Kanavin <alex.kanavin@gmail.com>, randy.macleod@windriver.com, zboszor@gmail.com, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 05 Jan 2024 22:23:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193379
+ <openembedded-core@lists.openembedded.org>; Sat, 06 Jan 2024 02:21:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193380
 
---00000000000017dc4d060e3a4c45
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Fri, Jan 5, 2024 at 7:02=E2=80=AFAM Steve Sakoman via
+lists.openembedded.org <steve=3Dsakoman.com@lists.openembedded.org>
+wrote:
+>
+> On Fri, Jan 5, 2024 at 6:54=E2=80=AFAM Martin Jansa <martin.jansa@gmail.c=
+om> wrote:
+> >
+> > On Fri, Jan 5, 2024 at 5:06=E2=80=AFPM Martin Jansa via lists.openembed=
+ded.org <martin.jansa=3Dgmail.com@lists.openembedded.org> wrote:
+> >>
+> >> FWIW: I see the processes running after bitbake exit only in kirkstone=
+ and only with
+> >> PRSERV_HOST =3D "localhost:0"
+> >> if I drop PRSERV_HOST then all 3 bitbake-server processes exist togeth=
+er with bitbake itself.
+> >>
+> >> luneos-kirkstone $ rm -f bitbake-cookerdaemon.log
+> >> luneos-kirkstone $ ps aux | grep luneos-kirkstone
+> >> martin   4184043  0.0  0.0   9124  2048 pts/4    S+   16:47   0:00 gre=
+p --colour=3Dauto luneos-kirkstone
+> >> luneos-kirkstone $ bitbake -k zlib-native
+> >> NOTE: Started PRServer with DBfile: /OE/build/luneos-kirkstone/cache/p=
+rserv.sqlite3, Address: 127.0.0.1:35811, PID: 4184924
+> >> Loading cache: 100% |#################################################=
+###########################################################################=
+###########################################################################=
+###| Time: 0:00:04
+> >> Loaded 4570 entries from dependency cache.
+> >> ...
+> >> Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 11 (100%=
+ match, 100% complete)
+> >> NOTE: Executing Tasks
+> >> NOTE: Tasks Summary: Attempted 92 tasks of which 92 didn't need to be =
+rerun and all succeeded.
+> >> NOTE: Writing buildhistory
+> >> NOTE: Writing buildhistory took: 15 seconds
+> >> luneos-kirkstone $ ps aux | grep luneos-kirkstone
+> >> martin     51324  0.0  0.0   9124  2048 pts/4    S+   16:54   0:00 gre=
+p --colour=3Dauto luneos-kirkstone
+> >> martin   4184584  8.9  0.4 668196 536892 ?       Sl   16:47   0:37 bit=
+bake-server /OE/build/luneos-kirkstone/bitbake/bin/bitbake-server decafbad =
+3 5 /OE/build/luneos-kirkstone/bitbake-cookerdaemon.log /OE/build/luneos-ki=
+rkstone/bitbake.lock /OE/build/luneos-kirkstone/bitbake.sock 0 None 0
+> >> martin   4184924  0.0  0.1 340280 196428 ?       S    16:47   0:00 bit=
+bake-server /OE/build/luneos-kirkstone/bitbake/bin/bitbake-server decafbad =
+3 5 /OE/build/luneos-kirkstone/bitbake-cookerdaemon.log /OE/build/luneos-ki=
+rkstone/bitbake.lock /OE/build/luneos-kirkstone/bitbake.sock 0 None 0
+> >> martin   4184927  0.0  0.1 340328 194440 ?       S    16:47   0:00 bit=
+bake-server /OE/build/luneos-kirkstone/bitbake/bin/bitbake-server decafbad =
+3 5 /OE/build/luneos-kirkstone/bitbake-cookerdaemon.log /OE/build/luneos-ki=
+rkstone/bitbake.lock /OE/build/luneos-kirkstone/bitbake.sock 0 None 0
+> >>
+> >> luneos-kirkstone $ cat bitbake-cookerdaemon.log
+> >> 4184584 16:47:38.367593 --- Starting bitbake server pid 4184584 at 202=
+4-01-05 16:47:38.367526 ---
+> >> 4184584 16:47:38.370315 Started bitbake server pid 4184584
+> >> 4184584 16:47:38.370831 Entering server connection loop
+> >> 4184584 16:47:38.372043 Accepting [<socket.socket fd=3D6, family=3D1, =
+type=3D1, proto=3D0, laddr=3Dbitbake.sock>] ([])
+> >> 4184584 16:47:38.376431 Processing Client
+> >> 4184584 16:47:38.376633 Connecting Client
+> >> 4184584 16:47:38.377632 Running command ['setFeatures', [2, 1]]
+> >> 4184584 16:47:38.379355 Command Completed
+> >> 4184584 16:47:38.379868 Running command ['updateConfig', {'halt': Fals=
+e, 'force': False, 'invalidate_stamp': None, 'dry_run': False, 'dump_signat=
+ures': [], 'extra_assume_provided': [], 'profile': False, 'prefile': [], 'p=
+ostfile': [], 'server_timeout': None, 'nosetscene': False, 'setsceneonly': =
+False, 'skipsetscene': False, 'runall': None, 'runonly': None, 'writeeventl=
+og': None, 'build_verbose_shell': False, 'build_verbose_stdout': False, 'de=
+fault_loglevel': 20, 'debug_domains': {}}, {'SHELL': '/bin/bash', 'BB_ENV_P=
+ASSTHROUGH_ADDITIONS': 'MACHINE DISTRO TCMODE TCLIBC http_proxy ftp_proxy h=
+ttps_proxy all_proxy ALL_PROXY no_proxy SSH_AGENT_PID SSH_AUTH_SOCK BB_SRCR=
+EV_POLICY SDKMACHINE BB_NUMBER_THREADS PARALLEL_MAKE GIT_PROXY_COMMAND GIT_=
+PROXY_IGNORE SOCKS5_PASSWD SOCKS5_USER WEBOS_DISTRO_BUILD_ID PSEUDO_DISABLE=
+D PSEUDO_BUILD', 'DISTRO': 'luneos', 'SSH_AUTH_SOCK': '/tmp/ssh-XXXXXX2ZxYB=
+o/agent.1893', 'SSH_AGENT_PID': '1894', 'PWD': '/OE/build/luneos-kirkstone'=
+, 'LOGNAME': 'martin', 'HOME': '/home/martin-gentoo', 'MACHINE': 'qemux86-6=
+4', 'USER': 'martin', 'PATH': '/OE/build/luneos-kirkstone/openembedded-core=
+/scripts:/OE/build/luneos-kirkstone/bitbake/bin:/home/martin-gentoo/bin:/us=
+r/local/sbin:/usr/local/bin:/usr/bin:/opt/bin:/usr/lib/llvm/17/bin:/opt/and=
+roid-sdk-update-manager/tools:/opt/android-sdk-update-manager/platform-tool=
+s:/etc/eselect/wine/bin:/usr/lib64/opencascade/bin:/var/lib/snapd/snap/bin'=
+, 'LC_ALL': 'en_US.UTF-8', 'SESSION_MANAGER': 'local/jama:@/tmp/.ICE-unix/1=
+838,unix/jama:/tmp/.ICE-unix/1838', 'WINDOWID': '35651587', 'COLORTERM': 't=
+ruecolor', 'CSF_MDTVTexturesDirectory': '/usr/share/opencascade/resources/T=
+extures', 'MACHINES': 'qemux86-64', 'XDG_CONFIG_DIRS': '/etc/xdg', 'LESS': =
+'-R -M --shift 5', 'XDG_SESSION_PATH': '/org/freedesktop/DisplayManager/Ses=
+sion1', 'XDG_MENU_PREFIX': 'xfce-', 'JDK_HOME': '/etc/java-config-2/current=
+-system-vm', 'CONFIG_PROTECT_MASK': '/etc/sandbox.d /etc/fonts/fonts.conf /=
+etc/gentoo-release /etc/dconf /etc/ca-certificates.conf /etc/revdep-rebuild=
+', 'TERMCAP': 'SC|screen.xterm-256color|VT 100/ANSI X3.64 virtual terminal:=
+DO=3D\\E[%dB:LE=3D\\E[%dD:RI=3D\\E[%dC:UP=3D\\E[%dA:bs:bt=3D\\E[Z:cd=3D\\E[=
+J:ce=3D\\E[K:cl=3D\\E[H\\E[J:cm=3D\\E[%i%d;%dH:ct=3D\\E[3g:do=3D^J:nd=3D\\E=
+[C:pt:rc=3D\\E8:rs=3D\\Ec:sc=3D\\E7:st=3D\\EH:up=3D\\EM:le=3D^H:bl=3D^G:cr=
+=3D^M:it#8:ho=3D\\E[H:nw=3D\\EE:ta=3D^I:is=3D\\E)0:li#64:co#238:am:xn:xv:LP=
+:sr=3D\\EM:al=3D\\E[L:AL=3D\\E[%dL:cs=3D\\E[%i%d;%dr:dl=3D\\E[M:DL=3D\\E[%d=
+M:dc=3D\\E[P:DC=3D\\E[%dP:im=3D\\E[4h:ei=3D\\E[4l:mi:IC=3D\\E[%d@:ks=3D\\E[=
+?1h\\E=3D:ke=3D\\E[?1l\\E>:vi=3D\\E[?25l:ve=3D\\E[34h\\E[?25h:vs=3D\\E[34l:=
+ti=3D\\E[?1049h:te=3D\\E[?1049l:us=3D\\E[4m:ue=3D\\E[24m:so=3D\\E[3m:se=3D\=
+\E[23m:mb=3D\\E[5m:md=3D\\E[1m:mh=3D\\E[2m:mr=3D\\E[7m:me=3D\\E[m:ms:Co#8:p=
+a#64:AF=3D\\E[3%dm:AB=3D\\E[4%dm:op=3D\\E[39;49m:AX:vb=3D\\Eg:G0:as=3D\\E(0=
+:ae=3D\\E(B:ac=3D\\140\\140aaffggjjkkllmmnnooppqqrrssttuuvvwwxxyyzz{{||}}~~=
+..--++,,hhII00:po=3D\\E[5i:pf=3D\\E[4i:Z0=3D\\E[?3h:Z1=3D\\E[?3l:Km=3D\\E[<=
+:k0=3D\\E[10~:k1=3D\\EOP:k2=3D\\EOQ:k3=3D\\EOR:k4=3D\\EOS:k5=3D\\E[15~:k6=
+=3D\\E[17~:k7=3D\\E[18~:k8=3D\\E[19~:k9=3D\\E[20~:k;=3D\\E[21~:F1=3D\\E[23~=
+:F2=3D\\E[24~:kB=3D\\E[Z:kh=3D\\E[1~:@1=3D\\E[1~:kH=3D\\E[4~:@7=3D\\E[4~:kN=
+=3D\\E[6~:kP=3D\\E[5~:kI=3D\\E[2~:kD=3D\\E[3~:ku=3D\\EOA:kd=3D\\EOB:kr=3D\\=
+EOC:kl=3D\\EOD:km:', 'JAVA_HOME': '/etc/java-config-2/current-system-vm', '=
+CSF_MIGRATION_TYPES': '/usr/share/opencascade/resources/StdResource/Migrati=
+onSheet.txt', 'WINDOW': '3', 'ANT_HOME': '/usr/share/ant', 'DESKTOP_SESSION=
+': 'xfce', 'CSF_STEPDefaults': '/usr/share/opencascade/resources/XSTEPResou=
+rce', 'EDITOR': 'vim', 'GTK_MODULES': 'canberra-gtk-module', 'XDG_SEAT': 's=
+eat0', 'CONFIG_PROTECT': '/var/bind /usr/share/gnupg/qualified.txt /usr/sha=
+re/easy-rsa /usr/share/config /usr/lib64/libreoffice/program/sofficerc', 'X=
+DG_SESSION_DESKTOP': 'XFCE', 'XDG_SESSION_TYPE': 'x11', 'PANEL_GDK_CORE_DEV=
+ICE_EVENTS': '0', 'MANPATH': '/etc/java-config-2/current-system-vm/man:/usr=
+/share/gcc-data/x86_64-pc-linux-gnu/13/man:/usr/share/binutils-data/x86_64-=
+pc-linux-gnu/2.41/man:/etc/java-config-2/current-system-vm/man/:/usr/local/=
+share/man:/usr/share/man:/usr/lib/rust/man:/usr/lib/llvm/17/share/man:/etc/=
+eselect/wine/share/man', 'XAUTHORITY': '/tmp/xauth_CEynPY', 'CSF_StandardLi=
+teDefaults': '/usr/share/opencascade/resources/StdResource', 'OPENCL_PROFIL=
+E': 'nvidia', 'MOTD_SHOWN': 'pam', 'GDM_LANG': 'C.UTF-8', 'LANG': 'en_US.UT=
+F-8', 'LS_COLORS': 'rs=3D0:di=3D01;34:ln=3D01;36:mh=3D00:pi=3D40;33:so=3D01=
+;35:do=3D01;35:bd=3D40;33;01:cd=3D40;33;01:or=3D01;05;37;41:mi=3D01;05;37;4=
+1:su=3D37;41:sg=3D30;43:ca=3D00:tw=3D30;42:ow=3D34;42:st=3D37;44:ex=3D01;32=
+:*.tar=3D01;31:*.tgz=3D01;31:*.arc=3D01;31:*.arj=3D01;31:*.taz=3D01;31:*.lh=
+a=3D01;31:*.lz4=3D01;31:*.lzh=3D01;31:*.lzma=3D01;31:*.tlz=3D01;31:*.txz=3D=
+01;31:*.tzo=3D01;31:*.t7z=3D01;31:*.zip=3D01;31:*.z=3D01;31:*.dz=3D01;31:*.=
+gz=3D01;31:*.lrz=3D01;31:*.lz=3D01;31:*.lzo=3D01;31:*.xz=3D01;31:*.zst=3D01=
+;31:*.tzst=3D01;31:*.bz2=3D01;31:*.bz=3D01;31:*.tbz=3D01;31:*.tbz2=3D01;31:=
+*.tz=3D01;31:*.deb=3D01;31:*.rpm=3D01;31:*.jar=3D01;31:*.war=3D01;31:*.ear=
+=3D01;31:*.sar=3D01;31:*.rar=3D01;31:*.alz=3D01;31:*.ace=3D01;31:*.zoo=3D01=
+;31:*.cpio=3D01;31:*.7z=3D01;31:*.rz=3D01;31:*.cab=3D01;31:*.wim=3D01;31:*.=
+swm=3D01;31:*.dwm=3D01;31:*.esd=3D01;31:*.avif=3D01;35:*.jpg=3D01;35:*.jpeg=
+=3D01;35:*.mjpg=3D01;35:*.mjpeg=3D01;35:*.gif=3D01;35:*.bmp=3D01;35:*.pbm=
+=3D01;35:*.pgm=3D01;35:*.ppm=3D01;35:*.tga=3D01;35:*.xbm=3D01;35:*.xpm=3D01=
+;35:*.tif=3D01;35:*.tiff=3D01;35:*.png=3D01;35:*.svg=3D01;35:*.svgz=3D01;35=
+:*.mng=3D01;35:*.pcx=3D01;35:*.mov=3D01;35:*.mpg=3D01;35:*.mpeg=3D01;35:*.m=
+2v=3D01;35:*.mkv=3D01;35:*.webm=3D01;35:*.webp=3D01;35:*.ogm=3D01;35:*.mp4=
+=3D01;35:*.m4v=3D01;35:*.mp4v=3D01;35:*.vob=3D01;35:*.qt=3D01;35:*.nuv=3D01=
+;35:*.wmv=3D01;35:*.asf=3D01;35:*.rm=3D01;35:*.rmvb=3D01;35:*.flc=3D01;35:*=
+.avi=3D01;35:*.fli=3D01;35:*.flv=3D01;35:*.gl=3D01;35:*.dl=3D01;35:*.xcf=3D=
+01;35:*.xwd=3D01;35:*.yuv=3D01;35:*.cgm=3D01;35:*.emf=3D01;35:*.ogv=3D01;35=
+:*.ogx=3D01;35:*.cfg=3D00;32:*.conf=3D00;32:*.diff=3D00;32:*.doc=3D00;32:*.=
+ini=3D00;32:*.log=3D00;32:*.patch=3D00;32:*.pdf=3D00;32:*.ps=3D00;32:*.tex=
+=3D00;32:*.txt=3D00;32:*.aac=3D00;36:*.au=3D00;36:*.flac=3D00;36:*.m4a=3D00=
+;36:*.mid=3D00;36:*.midi=3D00;36:*.mka=3D00;36:*.mp3=3D00;36:*.mpc=3D00;36:=
+*.ogg=3D00;36:*.ra=3D00;36:*.wav=3D00;36:*.oga=3D00;36:*.opus=3D00;36:*.spx=
+=3D00;36:*.xspf=3D00;36:*~=3D00;90:*#=3D00;90:*.bak=3D00;90:*.crdownload=3D=
+00;90:*.dpkg-dist=3D00;90:*.dpkg-new=3D00;90:*.dpkg-old=3D00;90:*.dpkg-tmp=
+=3D00;90:*.old=3D00;90:*.orig=3D00;90:*.part=3D00;90:*.rej=3D00;90:*.rpmnew=
+=3D00;90:*.rpmorig=3D00;90:*.rpmsave=3D00;90:*.swp=3D00;90:*.tmp=3D00;90:*.=
+ucf-dist=3D00;90:*.ucf-new=3D00;90:*.ucf-old=3D00;90:', 'XDG_CURRENT_DESKTO=
+P': 'XFCE', 'VTE_VERSION': '7402', 'CSF_GraphicShr': '/usr/lib64/opencascad=
+e/libTKOpenGl.so', 'OPENGL_PROFILE': 'xorg-x11', 'XDG_SEAT_PATH': '/org/fre=
+edesktop/DisplayManager/Seat0', 'QT_GRAPHICSSYSTEM': 'raster', 'XZ_OPT': '-=
+T0', 'CSF_ShadersDirectory': '/usr/share/opencascade/resources/Shaders', 'C=
+SF_XmlOcafResource': '/usr/share/opencascade/resources/XmlOcafResource', 'I=
+NFOPATH': '/usr/share/gcc-data/x86_64-pc-linux-gnu/13/info:/usr/share/binut=
+ils-data/x86_64-pc-linux-gnu/2.41/info:/usr/share/autoconf-2.72/info:/usr/s=
+hare/autoconf-2.13/info:/usr/share/automake-1.16.5/info:/usr/share/info', '=
+MOZ_GMP_PATH': '/usr/lib64/nsbrowser/plugins/gmp-gmpopenh264/system-install=
+ed', 'CSF_SHMessage': '/usr/share/opencascade/resources/SHMessage', 'JAVAC'=
+: '/etc/java-config-2/current-system-vm/bin/javac', 'XDG_SESSION_CLASS': 'u=
+ser', 'VBOX_SDK_PATH': '/usr/lib64/virtualbox/sdk', 'ANDROID_HOME': '/opt/a=
+ndroid-sdk-update-manager', 'TERM': 'screen.xterm-256color', 'VBOX_INSTALL_=
+PATH': '/usr/lib64/virtualbox', 'LESSOPEN': '|lesspipe %s', 'ANDROID_SWT': =
+'/usr/share/swt-3.7/lib', 'CSF_StandardDefaults': '/usr/share/opencascade/r=
+esources/StdResource', 'CSF_IGESDefaults': '/usr/share/opencascade/resource=
+s/XSTEPResource', 'MANPAGER': 'manpager', 'NPM_CONFIG_GLOBALCONFIG': '/etc/=
+npm/npmrc', 'DISPLAY': ':0.0', 'CSF_XCAFDefaults': '/usr/share/opencascade/=
+resources/StdResource', 'SHLVL': '2', 'PAGER': '/usr/bin/less', 'LEX': 'fle=
+x', 'XDG_VTNR': '2', 'CSF_PluginDefaults': '/usr/share/opencascade/resource=
+s/StdResource', 'XDG_SESSION_ID': '2', 'CASROOT': '/usr', 'XDG_RUNTIME_DIR'=
+: '/run/user/1026', 'GCC_SPECS': '', 'GSETTINGS_BACKEND': 'dconf', 'PS1': '=
+\\[\\033[01;32m\\]OE $MACHINE@$DISTRO\\[\\033[01;34m\\] \\w \\$\\[\\033[00m=
+\\] ', 'CSF_XSMessage': '/usr/share/opencascade/resources/XSMessage', 'XDG_=
+DATA_DIRS': '/usr/local/share:/usr/share:/etc/eselect/wine/share:/var/lib/s=
+napd/desktop', 'CSF_UnitsDefinition': '/usr/share/opencascade/resources/Uni=
+tsAPI/Units.dat', 'STY': '2067.x', 'VBOX_APP_HOME': '/usr/lib64/virtualbox'=
+, 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=3D/run/user/1026/bus', 'INITPWD': =
+'/OE/build/luneos-kirkstone', 'MAIL': '/var/mail/martin', 'OLDPWD': '/home/=
+martin-gentoo', '_': '/OE/build/luneos-kirkstone/bitbake/bin/bitbake'}, ['/=
+OE/build/luneos-kirkstone/bitbake/bin/bitbake', '-k', 'zlib-native']]
+> >> /OE/build/luneos-kirkstone/bitbake/lib/bb/codeparser.py:228: Deprecati=
+onWarning: ast.Str is deprecated and will be removed in Python 3.14; use as=
+t.Constant instead
+> >>   if isinstance(node.args[0], ast.Str):
+> >> /OE/build/luneos-kirkstone/bitbake/lib/bb/codeparser.py:229: Deprecati=
+onWarning: Attribute s is deprecated and will be removed in Python 3.14; us=
+e value instead
+> >>   varname =3D node.args[0].s
+> >> /OE/build/luneos-kirkstone/bitbake/lib/bb/codeparser.py:230: Deprecati=
+onWarning: ast.Str is deprecated and will be removed in Python 3.14; use as=
+t.Constant instead
+> >>   if name in self.containsfuncs and isinstance(node.args[1], ast.Str):
+> >> /OE/build/luneos-kirkstone/bitbake/lib/bb/codeparser.py:233: Deprecati=
+onWarning: Attribute s is deprecated and will be removed in Python 3.14; us=
+e value instead
+> >>   self.contains[varname].add(node.args[1].s)
+> >> /usr/lib/python3.12/multiprocessing/popen_fork.py:66: DeprecationWarni=
+ng: This process (pid=3D4184584) is multi-threaded, use of fork() may lead =
+to deadlocks in the child.
+> >>   self.pid =3D os.fork()
+> >> 4184584 16:47:45.108449 Command Completed
+> >> 4184584 16:47:45.112267 Running command ['getVariable', 'BBINCLUDELOGS=
+']
+> >> 4184584 16:47:45.113080 Command Completed
+> >> 4184584 16:47:45.113399 Running command ['getVariable', 'BBINCLUDELOGS=
+_LINES']
+> >> 4184584 16:47:45.113925 Command Completed
+> >> 4184584 16:47:45.114218 Running command ['getSetVariable', 'BB_CONSOLE=
+LOG']
+> >> 4184584 16:47:45.114956 Command Completed
+> >> 4184584 16:47:45.115441 Running command ['getSetVariable', 'BB_LOGCONF=
+IG']
+> >> 4184584 16:47:45.116590 Command Completed
+> >> 4184584 16:47:45.122232 Running command ['getUIHandlerNum']
+> >> 4184584 16:47:45.122805 Command Completed
+> >> 4184584 16:47:45.123194 Running command ['setEventMask', 1, 20, {'BitB=
+ake.SigGen.HashEquiv': 19, 'BitBake.RunQueue.HashEquiv': 19}, ['bb.runqueue=
+.runQueueExitWait', 'bb.event.LogExecTTY', 'logging.LogRecord', 'bb.build.T=
+askFailed', 'bb.build.TaskBase', 'bb.event.ParseStarted', 'bb.event.ParsePr=
+ogress', 'bb.event.ParseCompleted', 'bb.event.CacheLoadStarted', 'bb.event.=
+CacheLoadProgress', 'bb.event.CacheLoadCompleted', 'bb.command.CommandFaile=
+d', 'bb.command.CommandExit', 'bb.command.CommandCompleted', 'bb.cooker.Coo=
+kerExit', 'bb.event.MultipleProviders', 'bb.event.NoProvider', 'bb.runqueue=
+.sceneQueueTaskStarted', 'bb.runqueue.runQueueTaskStarted', 'bb.runqueue.ru=
+nQueueTaskFailed', 'bb.runqueue.sceneQueueTaskFailed', 'bb.event.BuildBase'=
+, 'bb.build.TaskStarted', 'bb.build.TaskSucceeded', 'bb.build.TaskFailedSil=
+ent', 'bb.build.TaskProgress', 'bb.event.ProcessStarted', 'bb.event.Process=
+Progress', 'bb.event.ProcessFinished']]
+> >> 4184584 16:47:45.123558 Command Completed
+> >> 4184584 16:47:45.123863 Running command ['getVariable', 'BB_DEFAULT_TA=
+SK']
+> >> 4184584 16:47:45.124228 Command Completed
+> >> 4184584 16:47:45.124528 Running command ['setConfig', 'cmd', 'build']
+> >> 4184584 16:47:45.124858 Command Completed
+> >> 4184584 16:47:45.125140 Running command ['buildTargets', ['zlib-native=
+'], 'build']
+> >> 4184584 16:47:45.125294 Command Completed
+> >> /OE/build/luneos-kirkstone/bitbake/lib/bb/codeparser.py:228: Deprecati=
+onWarning: ast.Str is deprecated and will be removed in Python 3.14; use as=
+t.Constant instead
+> >>   if isinstance(node.args[0], ast.Str):
+> >> /OE/build/luneos-kirkstone/bitbake/lib/bb/codeparser.py:229: Deprecati=
+onWarning: Attribute s is deprecated and will be removed in Python 3.14; us=
+e value instead
+> >>   varname =3D node.args[0].s
+> >> /OE/build/luneos-kirkstone/bitbake/lib/bb/codeparser.py:230: Deprecati=
+onWarning: ast.Str is deprecated and will be removed in Python 3.14; use as=
+t.Constant instead
+> >>   if name in self.containsfuncs and isinstance(node.args[1], ast.Str):
+> >> /OE/build/luneos-kirkstone/bitbake/lib/bb/codeparser.py:233: Deprecati=
+onWarning: Attribute s is deprecated and will be removed in Python 3.14; us=
+e value instead
+> >>   self.contains[varname].add(node.args[1].s)
+> >> /usr/lib/python3.12/asyncio/streams.py:413: ResourceWarning: unclosed =
+<StreamWriter transport=3D<_SelectorSocketTransport closing fd=3D18 read=3D=
+idle write=3D<idle, bufsize=3D0>> reader=3D<StreamReader transport=3D<_Sele=
+ctorSocketTransport closing fd=3D18 read=3Didle write=3D<idle, bufsize=3D0>=
+>>>
+> >>   warnings.warn(f"unclosed {self!r}", ResourceWarning)
+> >> /OE/build/luneos-kirkstone/bitbake/lib/bb/codeparser.py:228: Deprecati=
+onWarning: ast.Str is deprecated and will be removed in Python 3.14; use as=
+t.Constant instead
+> >>   if isinstance(node.args[0], ast.Str):
+> >> /OE/build/luneos-kirkstone/bitbake/lib/bb/codeparser.py:229: Deprecati=
+onWarning: Attribute s is deprecated and will be removed in Python 3.14; us=
+e value instead
+> >>   varname =3D node.args[0].s
+> >> 4184584 16:48:37.909973 Processing Client
+> >> 4184584 16:48:37.910125 Disconnecting Client
+> >> 4184584 16:48:37.910729 No timeout, exiting.
+> >> 4184584 16:48:38.011341 Exiting
+> >>
+> >> It is reproducible with nanbield as well and fixed in scarthgap, will =
+bisect it when time allows.
+> >
+> >
+> > bisect was simpler than expected as nanbield is still compatible with n=
+ewer bitbake and there weren't that many changes.
+> >
+> > nanbield as well as kirkstone can be fixed by cherry-picking:
+> > https://git.openembedded.org/bitbake/commit/?id=3Dd01d684a0 asyncrpc: A=
+dd context manager API
+> >
+> > + Joshua if he sees some risks in cherry-picking this to stable release=
+s.
+>
+> While we wait for Joshua to comment I'll do a little autobuilder
+> testing to see if anything blows up with this patch.
 
-Ignore this one, since it has already been addressed by:
-https://patchwork.yoctoproject.org/project/oe-core/patch/1704271378-18012-1=
--git-send-email-wangmy@fujitsu.com/
+FWIW, a-full autobuilder runs for both nanbield and kirkstone with
+this patch came back all green.
 
-But please take 2/2 for ptest.
+Steve
 
-On Fri, Jan 5, 2024 at 10:17=E2=80=AFAM Tim Orling via lists.openembedded.o=
-rg
-<ticotimo=3Dgmail.com@lists.openembedded.org> wrote:
-
-> https://www.attrs.org/en/stable/changelog.html
->
-> 23.2.0 - 2023-12-31
->
-> Changes
-> * The type annotation for attrs.resolve_types() is now correct. #1141
-> * Type stubs now use typing.dataclass_transform to decorate dataclass-lik=
-e
->   decorators, instead of the non-standard __dataclass_transform__ special
->   form, which is only supported by Pyright. #1158
-> * Fixed serialization of namedtuple fields using attrs.asdict/astuple()
-> with
->   retain_collection_types=3DTrue. #1165
-> * attrs.AttrsInstance is now a typing.Protocol in both type hints and cod=
-e.
->   This allows you to subclass it along with another Protocol. #1172
-> * If attrs detects that __attrs_pre_init__ accepts more than just self, i=
-t
->   will call it with the same arguments as __init__ was called. This allow=
-s
->   you to, for example, pass arguments to super().__init__(). #1187
-> * Slotted classes now transform functools.cached_property decorated metho=
-ds
->   to support equivalent semantics. #1200
-> * Added class_body argument to attrs.make_class() to provide additional
->   attributes for newly created classes. It is, for example, now possible =
-to
->   attach methods. #1203
->
-> Signed-off-by: Tim Orling <tim.orling@konsulko.com>
-> ---
-> Requires python3-hatch-fancy-pypi-readme upgrade beyond 23.1.0
->
-> https://patchwork.yoctoproject.org/project/oe-core/patch/1704180223-8624-=
-1-git-send-email-wangmy@fujitsu.com/
->
->  .../python/{python3-attrs_23.1.0.bb =3D> python3-attrs_23.2.0.bb} | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-devtools/python/{python3-attrs_23.1.0.bb =3D>
-> python3-attrs_23.2.0.bb} (82%)
->
-> diff --git a/meta/recipes-devtools/python/python3-attrs_23.1.0.bb
-> b/meta/recipes-devtools/python/python3-attrs_23.2.0.bb
-> similarity index 82%
-> rename from meta/recipes-devtools/python/python3-attrs_23.1.0.bb
-> rename to meta/recipes-devtools/python/python3-attrs_23.2.0.bb
-> index 314053de081..e00e1520156 100644
-> --- a/meta/recipes-devtools/python/python3-attrs_23.1.0.bb
-> +++ b/meta/recipes-devtools/python/python3-attrs_23.2.0.bb
-> @@ -3,7 +3,7 @@ HOMEPAGE =3D "http://www.attrs.org/"
->  LICENSE =3D "MIT"
->  LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D5e55731824cf9205cfabeab9a0600=
-887"
->
-> -SRC_URI[sha256sum] =3D
-> "6279836d581513a26f1bf235f9acd333bc9115683f14f7e8fae46c98fc50e015"
-> +SRC_URI[sha256sum] =3D
-> "935dc3b529c262f6cf76e50877d35a4bd3c1de194fd41f47a2b7ae8f19971f30"
->
->  inherit pypi python_hatchling
->
-> --
-> 2.34.1
->
->
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#193377):
-> https://lists.openembedded.org/g/openembedded-core/message/193377
-> Mute This Topic: https://lists.openembedded.org/mt/103548100/924729
+> View/Reply Online (#193373): https://lists.openembedded.org/g/openembedde=
+d-core/message/193373
+> Mute This Topic: https://lists.openembedded.org/mt/102826186/3620601
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> ticotimo@gmail.com]
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
->
-
---00000000000017dc4d060e3a4c45
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Ignore this one, since it has already been addressed by:<b=
-r><a href=3D"https://patchwork.yoctoproject.org/project/oe-core/patch/17042=
-71378-18012-1-git-send-email-wangmy@fujitsu.com/">https://patchwork.yoctopr=
-oject.org/project/oe-core/patch/1704271378-18012-1-git-send-email-wangmy@fu=
-jitsu.com/</a><br><div><br></div><div>But please take 2/2 for ptest.</div><=
-/div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">O=
-n Fri, Jan 5, 2024 at 10:17=E2=80=AFAM Tim Orling via <a href=3D"http://lis=
-ts.openembedded.org">lists.openembedded.org</a> &lt;ticotimo=3D<a href=3D"m=
-ailto:gmail.com@lists.openembedded.org">gmail.com@lists.openembedded.org</a=
->&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><a =
-href=3D"https://www.attrs.org/en/stable/changelog.html" rel=3D"noreferrer" =
-target=3D"_blank">https://www.attrs.org/en/stable/changelog.html</a><br>
-<br>
-23.2.0 - 2023-12-31<br>
-<br>
-Changes<br>
-* The type annotation for attrs.resolve_types() is now correct. #1141<br>
-* Type stubs now use typing.dataclass_transform to decorate dataclass-like<=
-br>
-=C2=A0 decorators, instead of the non-standard __dataclass_transform__ spec=
-ial<br>
-=C2=A0 form, which is only supported by Pyright. #1158<br>
-* Fixed serialization of namedtuple fields using attrs.asdict/astuple() wit=
-h<br>
-=C2=A0 retain_collection_types=3DTrue. #1165<br>
-* attrs.AttrsInstance is now a typing.Protocol in both type hints and code.=
-<br>
-=C2=A0 This allows you to subclass it along with another Protocol. #1172<br=
->
-* If attrs detects that __attrs_pre_init__ accepts more than just self, it<=
-br>
-=C2=A0 will call it with the same arguments as __init__ was called. This al=
-lows<br>
-=C2=A0 you to, for example, pass arguments to super().__init__(). #1187<br>
-* Slotted classes now transform functools.cached_property decorated methods=
-<br>
-=C2=A0 to support equivalent semantics. #1200<br>
-* Added class_body argument to attrs.make_class() to provide additional<br>
-=C2=A0 attributes for newly created classes. It is, for example, now possib=
-le to<br>
-=C2=A0 attach methods. #1203<br>
-<br>
-Signed-off-by: Tim Orling &lt;<a href=3D"mailto:tim.orling@konsulko.com" ta=
-rget=3D"_blank">tim.orling@konsulko.com</a>&gt;<br>
----<br>
-Requires python3-hatch-fancy-pypi-readme upgrade beyond 23.1.0<br>
-<a href=3D"https://patchwork.yoctoproject.org/project/oe-core/patch/1704180=
-223-8624-1-git-send-email-wangmy@fujitsu.com/" rel=3D"noreferrer" target=3D=
-"_blank">https://patchwork.yoctoproject.org/project/oe-core/patch/170418022=
-3-8624-1-git-send-email-wangmy@fujitsu.com/</a><br>
-<br>
-=C2=A0.../python/{<a href=3D"http://python3-attrs_23.1.0.bb" rel=3D"norefer=
-rer" target=3D"_blank">python3-attrs_23.1.0.bb</a> =3D&gt; <a href=3D"http:=
-//python3-attrs_23.2.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-att=
-rs_23.2.0.bb</a>} | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-=C2=A0rename meta/recipes-devtools/python/{<a href=3D"http://python3-attrs_=
-23.1.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-attrs_23.1.0.bb</a>=
- =3D&gt; <a href=3D"http://python3-attrs_23.2.0.bb" rel=3D"noreferrer" targ=
-et=3D"_blank">python3-attrs_23.2.0.bb</a>} (82%)<br>
-<br>
-diff --git a/meta/recipes-devtools/python/<a href=3D"http://python3-attrs_2=
-3.1.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-attrs_23.1.0.bb</a> =
-b/meta/recipes-devtools/python/<a href=3D"http://python3-attrs_23.2.0.bb" r=
-el=3D"noreferrer" target=3D"_blank">python3-attrs_23.2.0.bb</a><br>
-similarity index 82%<br>
-rename from meta/recipes-devtools/python/<a href=3D"http://python3-attrs_23=
-.1.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-attrs_23.1.0.bb</a><b=
-r>
-rename to meta/recipes-devtools/python/<a href=3D"http://python3-attrs_23.2=
-.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-attrs_23.2.0.bb</a><br>
-index 314053de081..e00e1520156 100644<br>
---- a/meta/recipes-devtools/python/<a href=3D"http://python3-attrs_23.1.0.b=
-b" rel=3D"noreferrer" target=3D"_blank">python3-attrs_23.1.0.bb</a><br>
-+++ b/meta/recipes-devtools/python/<a href=3D"http://python3-attrs_23.2.0.b=
-b" rel=3D"noreferrer" target=3D"_blank">python3-attrs_23.2.0.bb</a><br>
-@@ -3,7 +3,7 @@ HOMEPAGE =3D &quot;<a href=3D"http://www.attrs.org/" rel=3D=
-"noreferrer" target=3D"_blank">http://www.attrs.org/</a>&quot;<br>
-=C2=A0LICENSE =3D &quot;MIT&quot;<br>
-=C2=A0LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D5e55731824cf9205cfabe=
-ab9a0600887&quot;<br>
-<br>
--SRC_URI[sha256sum] =3D &quot;6279836d581513a26f1bf235f9acd333bc9115683f14f=
-7e8fae46c98fc50e015&quot;<br>
-+SRC_URI[sha256sum] =3D &quot;935dc3b529c262f6cf76e50877d35a4bd3c1de194fd41=
-f47a2b7ae8f19971f30&quot;<br>
-<br>
-=C2=A0inherit pypi python_hatchling<br>
-<br>
--- <br>
-2.34.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#193377): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/193377" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/193377</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/103548100/924=
-729" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/103548100/924729</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:ticotimo@gmail.com" target=
-=3D"_blank">ticotimo@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-
---00000000000017dc4d060e3a4c45--
 
