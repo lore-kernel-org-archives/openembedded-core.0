@@ -1,183 +1,71 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <festevam@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 992A7C47073
-	for <webhook@archiver.kernel.org>; Mon,  8 Jan 2024 17:26:08 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web11.3087.1704734765413833688
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0F6CC3DA6E
+	for <webhook@archiver.kernel.org>; Mon,  8 Jan 2024 18:01:28 +0000 (UTC)
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+ by mx.groups.io with SMTP id smtpd.web11.4152.1704736885743768437
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Jan 2024 09:26:05 -0800
+ Mon, 08 Jan 2024 10:01:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=iOax5+Qu;
- spf=pass (domain: gmail.com, ip: 209.85.221.45, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-33765009941so1715739f8f.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 08 Jan 2024 09:26:05 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=luTkoq5H;
+ spf=pass (domain: gmail.com, ip: 209.85.216.41, mailfrom: festevam@gmail.com)
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-28c5af37d3aso484142a91.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 08 Jan 2024 10:01:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704734764; x=1705339564; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=5+4kWVOVe8U+O+la0J77oDAsyIfSrN4dXJ4qEwUsM/s=;
-        b=iOax5+QuHjjljnaS6ABsJEmFWGOeILeGoxby7MkAPxihBZwxJFxVVauUs53eUR6Ijd
-         4gLcyrozCXfg6Ryq2YSkLmJzjApokFgh0NzabSmTypWrbZewQq+iJPAnJXlsh6dxQkED
-         cxgYPqPXRYXnUGSVR7CwwseXM6Ooms4svqCLgxZGxyPLhs8RSI4XSLiZVJ66ZvTtJRqO
-         E5sM19ky47tmSyKZcK0qkQYtyGpb4RtRX5rZi04UvhWnSJ1AxQeY6Uv1wTlwBH6Cllvw
-         r4PNPF3bF81lgqOilQ0VyEIQ1Mhb8rLmZtYIEf7qFg5iSUE0+CC0vIf6UVEiikk62ALS
-         jipA==
+        d=gmail.com; s=20230601; t=1704736885; x=1705341685; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tH1pxYMR/g8pmrEx+V610DwnEvhySbY97XIESq83Ei0=;
+        b=luTkoq5HrNNJDU2ENqwXmo/E5wWFqn2HZMEH162o0B6sAUSGsWCeNokIF1Uj+UODO1
+         sIKiJo6ILUrTUuxKF/BMr4BYnwy9jGYPsCAJgLcVmaPPo9UDUIY1yokWqkawEX5iaT2g
+         tn1AY8yJpKXsOyqV+H7uij1kuWP6B6u2hd0cKOAPGyuuYOvJGLAE010faOj6qAq0QWyg
+         UzCs79KJMMsr5mxlu79ItAiodLA9Ssrsb/u5Tq6YQ44B66OjliY0xHZlJR8UsAOGojsU
+         5X00Sv74NW1ISWbn4zi9LCNTgwTMiheBdy73JLvUeQaEO9yIhd+vEMUyqkvZye7zobsz
+         zkzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704734764; x=1705339564;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5+4kWVOVe8U+O+la0J77oDAsyIfSrN4dXJ4qEwUsM/s=;
-        b=jZk0BpIkjuWeHBthInMpvMxLGEPZg6hA9jjKHmUAOlq8RhwGtl47km3MWKLWjG1Zn7
-         uW/PrSQh4yTHuLGQywaB2vQjCKUTKw+i0laF0jbo4bFeq7HLIjs6PCKvBbPIvkEBM7tZ
-         p6GtxEO3jUimozIm78N1sh0inmX+BxLUqk9OXD2i8p553GnFHAuGlaoNCBC7CBDNoiLj
-         GhsV/gq1tIRlAUfc1gFm+tkNn5TCW+88CDnPj93KhrOFXVcvNonjzEnFkQfIkv0QLxxm
-         JF/P2izht0f49Xpt4Abr+W5G4awfmH4gFPgeAxGSuTxdpRaCfZHmf5ZQcyRdnvywoheV
-         UYkg==
-X-Gm-Message-State: AOJu0YzTxvEUMoP9URospNEDtRfTKgCrtiR73zRUDIH+h+H+Riqqym6m
-	8kZ+RT76MbbY/y/sOBlpPx+BIQ8J0EgHIeIsj0Q=
-X-Google-Smtp-Source: AGHT+IHujLoA2cIUHy/AZQ0qF2ZD54RA4Cr/hCTIs2w/jucVNo+3PM7YnlVYZTyKSC+0geaaCeEgMRCManlil1jP+VU=
-X-Received: by 2002:adf:f3cf:0:b0:336:654a:bff2 with SMTP id
- g15-20020adff3cf000000b00336654abff2mr2064669wrp.10.1704734763670; Mon, 08
- Jan 2024 09:26:03 -0800 (PST)
+        d=1e100.net; s=20230601; t=1704736885; x=1705341685;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tH1pxYMR/g8pmrEx+V610DwnEvhySbY97XIESq83Ei0=;
+        b=q4PVQOqR7QbMT6v+MMsXB3PihxDTC96yb82m/s2p/Td9CbZMIsGlKLpzFqf5Ty7SiQ
+         Qtris0XSX/YojYpf9x9rZE3SysigOTJlTkKGQmYO9mKcUDk2NTvWG9cQ9f7NIo4tlebR
+         9bkPNHYQ2gfGEp3hH9QHbeYfcsqnjKH7GkbIRlhNFcNJnVbTZ9cPg/AQBXBwCJ83kYMo
+         Wt5PLQtg63nCt/moOeIwgnKaAtFBLnof9xykveYJbYi+YY0+44JF0TaKpqFFFWgfkHRu
+         2Dtkz6fmBOJmK92VShIyuw++wivQ74Hza/WFw9/CjhnvpTEnDi3IqJj2QI2e+a3RtDUy
+         go5A==
+X-Gm-Message-State: AOJu0YzAzku/0Dsr7tT/rDJNZghONIdWN91IsqPSps1fvx22Zx30llwn
+	SZotXP6om1Srez3a0EXnrak+K6XhnUdlZgT9L1A=
+X-Google-Smtp-Source: AGHT+IHuKPblHdmS02qNTNUZfV776etbZtL9Fq51bU8C6j3/DBCrmM3Gri0yFrhswoc/IlO06SwIZEV3JnJEi39Y/K0=
+X-Received: by 2002:a17:90a:4962:b0:28c:5a9:de71 with SMTP id
+ c89-20020a17090a496200b0028c05a9de71mr6002772pjh.4.1704736884795; Mon, 08 Jan
+ 2024 10:01:24 -0800 (PST)
 MIME-Version: 1.0
 References: <20231226123810.495126-1-festevam@gmail.com> <CA+chaQfLcVr62n8xOCXJoc7TXM2Ut_qkMa_uM5OoscUQCyHnEQ@mail.gmail.com>
- <CAOMZO5Bn23X5T2t++H22VBYS9rF8SUinXFCQ7OXr5L7hG_J6xA@mail.gmail.com>
-In-Reply-To: <CAOMZO5Bn23X5T2t++H22VBYS9rF8SUinXFCQ7OXr5L7hG_J6xA@mail.gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Mon, 8 Jan 2024 18:25:50 +0100
-Message-ID: <CA+chaQeYKWdD0Kz82OpZB_cMeGHPRwKXfcOZBRd4_sSHkOUMKw@mail.gmail.com>
+ <CAOMZO5Bn23X5T2t++H22VBYS9rF8SUinXFCQ7OXr5L7hG_J6xA@mail.gmail.com> <CA+chaQeYKWdD0Kz82OpZB_cMeGHPRwKXfcOZBRd4_sSHkOUMKw@mail.gmail.com>
+In-Reply-To: <CA+chaQeYKWdD0Kz82OpZB_cMeGHPRwKXfcOZBRd4_sSHkOUMKw@mail.gmail.com>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Mon, 8 Jan 2024 15:01:13 -0300
+Message-ID: <CAOMZO5CPF1ne2QvUC-GuqJnm6hTObsU-6AEcLH7erm+LN9A3iQ@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH] kmscube: Upgrade to latest revision
-To: Fabio Estevam <festevam@gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
 Cc: openembedded-core@lists.openembedded.org, Fabio Estevam <festevam@denx.de>
-Content-Type: multipart/alternative; boundary="000000000000066258060e727e7f"
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 08 Jan 2024 17:26:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193428
+ <openembedded-core@lists.openembedded.org>; Mon, 08 Jan 2024 18:01:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193429
 
---000000000000066258060e727e7f
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Jan 8, 2024 at 6:02=E2=80=AFPM Fabio Estevam <festevam@gmail.com> w=
-rote:
-
-> Hi Martin,
->
-> On Mon, Jan 8, 2024 at 1:21=E2=80=AFPM Martin Jansa <martin.jansa@gmail.c=
-om>
+On Mon, Jan 8, 2024 at 2:26=E2=80=AFPM Martin Jansa <martin.jansa@gmail.com=
 > wrote:
-> >
-> > Hi,
-> >
-> > can you please set PV to something else than "git"? meson.build says
-> version : '0.0.1'
->
-> Yes, I can do that.
->
-> > The last commit from the new 3 is causing build failure on some setups
-> without GL/gl.h:
-> >
-> > kmscube/git/git $ git log --oneline
-> ea6c5d1eeefbfb0a1c27ab74a6e4621f1d9adf4c..96d63eb59e34c647cda1cbb489265f8=
-c536ae055
-> > 96d63eb kmscube: Add gears mode
-> > d93842d es: Update to prepare for gears mode
-> > b076d85 ci: enable MR pipelines
-> >
-> > Until "96d63eb kmscube: Add gears mode" it was using only EGL:
-> >
-> > kmscube/git/git $ git grep "gl\.h"
-> > common.h:#include <EGL/egl.h>
-> > cube-gears.c:#include <GL/gl.h>
-> > esUtil.h:#include <EGL/egl.h>
->
-> Does the change below fix (add virtual/libgl to DEPENDS) the problem?
->
-> --- a/meta/recipes-graphics/kmscube/kmscube_git.bb
-> +++ b/meta/recipes-graphics/kmscube/kmscube_git.bb
-> @@ -6,7 +6,7 @@ OpenGL or OpenGL ES."
->  HOMEPAGE =3D "https://cgit.freedesktop.org/mesa/kmscube/"
->  LICENSE =3D "MIT"
->  SECTION =3D "graphics"
-> -DEPENDS =3D "virtual/libgles3 virtual/libgles2 virtual/egl libdrm
-> virtual/libgbm"
-> +DEPENDS =3D "virtual/libgles3 virtual/libgles2 virtual/egl libdrm
-> virtual/libgbm virtual/libgl"
->
->  LIC_FILES_CHKSUM =3D
->
-> "file://kmscube.c;beginline=3D1;endline=3D23;md5=3D8b309d4ee67b7315ff7381=
-270dd631fb"
->
 
-On this platform it doesn't as GL/gl.h is not available, but it builds fine
-after replacing GL/gl.h with GLES3/gl3.h (for GL_DEPTH24_STENCIL8).
+> On this platform it doesn't as GL/gl.h is not available, but it builds fi=
+ne after replacing GL/gl.h with GLES3/gl3.h (for GL_DEPTH24_STENCIL8).
 
---000000000000066258060e727e7f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Mon, Jan 8, 2024 at 6:02=E2=80=AFPM Fa=
-bio Estevam &lt;<a href=3D"mailto:festevam@gmail.com">festevam@gmail.com</a=
->&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
-,204);padding-left:1ex">Hi Martin,<br>
-<br>
-On Mon, Jan 8, 2024 at 1:21=E2=80=AFPM Martin Jansa &lt;<a href=3D"mailto:m=
-artin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt; wro=
-te:<br>
-&gt;<br>
-&gt; Hi,<br>
-&gt;<br>
-&gt; can you please set PV to something else than &quot;git&quot;? meson.bu=
-ild says version : &#39;0.0.1&#39;<br>
-<br>
-Yes, I can do that.<br>
-<br>
-&gt; The last commit from the new 3 is causing build failure on some setups=
- without GL/gl.h:<br>
-&gt;<br>
-&gt; kmscube/git/git $ git log --oneline ea6c5d1eeefbfb0a1c27ab74a6e4621f1d=
-9adf4c..96d63eb59e34c647cda1cbb489265f8c536ae055<br>
-&gt; 96d63eb kmscube: Add gears mode<br>
-&gt; d93842d es: Update to prepare for gears mode<br>
-&gt; b076d85 ci: enable MR pipelines<br>
-&gt;<br>
-&gt; Until &quot;96d63eb kmscube: Add gears mode&quot; it was using only EG=
-L:<br>
-&gt;<br>
-&gt; kmscube/git/git $ git grep &quot;gl\.h&quot;<br>
-&gt; common.h:#include &lt;EGL/egl.h&gt;<br>
-&gt; cube-gears.c:#include &lt;GL/gl.h&gt;<br>
-&gt; esUtil.h:#include &lt;EGL/egl.h&gt;<br>
-<br>
-Does the change below fix (add virtual/libgl to DEPENDS) the problem?<br>
-<br>
---- a/meta/recipes-graphics/kmscube/<a href=3D"http://kmscube_git.bb" rel=
-=3D"noreferrer" target=3D"_blank">kmscube_git.bb</a><br>
-+++ b/meta/recipes-graphics/kmscube/<a href=3D"http://kmscube_git.bb" rel=
-=3D"noreferrer" target=3D"_blank">kmscube_git.bb</a><br>
-@@ -6,7 +6,7 @@ OpenGL or OpenGL ES.&quot;<br>
-=C2=A0HOMEPAGE =3D &quot;<a href=3D"https://cgit.freedesktop.org/mesa/kmscu=
-be/" rel=3D"noreferrer" target=3D"_blank">https://cgit.freedesktop.org/mesa=
-/kmscube/</a>&quot;<br>
-=C2=A0LICENSE =3D &quot;MIT&quot;<br>
-=C2=A0SECTION =3D &quot;graphics&quot;<br>
--DEPENDS =3D &quot;virtual/libgles3 virtual/libgles2 virtual/egl libdrm vir=
-tual/libgbm&quot;<br>
-+DEPENDS =3D &quot;virtual/libgles3 virtual/libgles2 virtual/egl libdrm<br>
-virtual/libgbm virtual/libgl&quot;<br>
-<br>
-=C2=A0LIC_FILES_CHKSUM =3D<br>
-&quot;file://kmscube.c;beginline=3D1;endline=3D23;md5=3D8b309d4ee67b7315ff7=
-381270dd631fb&quot;<br></blockquote><div><br></div><div>On this platform it=
- doesn&#39;t as GL/gl.h is not available, but it builds fine after replacin=
-g GL/gl.h with GLES3/gl3.h (for GL_DEPTH24_STENCIL8).</div></div></div>
-
---000000000000066258060e727e7f--
+Thanks for the suggestion. I will send a fix upstream.
 
