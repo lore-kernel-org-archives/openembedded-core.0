@@ -1,132 +1,121 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <david.zuhn@sonos.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 579EDC47077
-	for <webhook@archiver.kernel.org>; Mon,  8 Jan 2024 22:39:16 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web10.3332.1704753548480384018
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B1F2C47077
+	for <webhook@archiver.kernel.org>; Mon,  8 Jan 2024 22:49:16 +0000 (UTC)
+Received: from mx0b-0003c201.pphosted.com (mx0b-0003c201.pphosted.com [205.220.183.22])
+ by mx.groups.io with SMTP id smtpd.web11.3594.1704754150779567014
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Jan 2024 14:39:08 -0800
+ Mon, 08 Jan 2024 14:49:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CjGkOhfe;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-336dcebcdb9so2505976f8f.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 08 Jan 2024 14:39:08 -0800 (PST)
+ dkim=pass header.i=@sonos.com header.s=pps1 header.b=jCFr0X9V;
+ dkim=pass header.i=@sonos.com header.s=google header.b=N4XmZdbT;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: sonos.com, ip: 205.220.183.22, mailfrom: prvs=7737ed8f84=david.zuhn@sonos.com)
+Received: from pps.filterd (m0299973.ppops.net [127.0.0.1])
+	by mx0b-0003c201.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 408MKeAv016185
+	for <openembedded-core@lists.openembedded.org>; Mon, 8 Jan 2024 22:49:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sonos.com; h=
+	from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding; s=pps1; bh=LsCblodoL6MV
+	fJ+EX309XX+hR0nHZVHvhB8zx/v7D80=; b=jCFr0X9VkSYuz7jOIoojWslEUlnA
+	aXyKILj9NdVR+8vW9iazlew8/Q/WBnsLHI4o3dPAJHjjIbZHVQGhiShaabe0H+UQ
+	HIFaGxKjGMbDyGG+rfLMB3s21W1iyLP4OKp/2HLJlabmTpxC+8VclVqXif4MZHbU
+	9rfKXHRfmOPDZzs/iWAvOMUnkbMFyz4qbYxaz25mqiqZz8lcD1RzQeqYDsTVl6Rx
+	WWWcWFfUTPMCA3eySu82IrQ1tVClAFIZtaU4X0jOOruNqA/xlMOU1hGc9v9ndXXE
+	p54NHQNDEirV2CazAiJIP0vdZyPuhABbQDVeWGfH7vVojEeVVvb024DDDw==
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com [209.85.166.70])
+	by mx0b-0003c201.pphosted.com (PPS) with ESMTPS id 3vf17ujcpq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 08 Jan 2024 22:49:09 +0000 (GMT)
+Received: by mail-io1-f70.google.com with SMTP id ca18e2360f4ac-7ba8315d1cbso247591539f.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 08 Jan 2024 14:49:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1704753547; x=1705358347; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=1WKyWHDqkMQ4sgAQU5dU5NFt4R11WcL29ahRDFzygXo=;
-        b=CjGkOhfeUbIUJM+/rqbZOUtbM3XvVE4buUfbV1e3K4GHxbEqW5o3DGPC+D0Pz0IQti
-         uEEhE926uTr4mAjl0U32akQIn/EL6r2pccebl8OjaIQl+wYwH3S+zLMEm9RadEJy1981
-         vToUi5SjZN5pbZFWzSEoYwF+OLVWI/ZQ6U0cU=
+        d=sonos.com; s=google; t=1704754148; x=1705358948; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LsCblodoL6MVfJ+EX309XX+hR0nHZVHvhB8zx/v7D80=;
+        b=N4XmZdbT4/H1Hu/mBhjzV7gs9oMHksy0A9P2ZGuXAf9lvTpaEu8GbgrPG3+kgpbnWy
+         eJ5AB4hqnxN11T8CCW9PMnftDGbxfOXg30Aj1pTeYDMjr6cIYkObXksroWZSIdq4v56E
+         mPXaT+dGOMVMEFdNCF30usUWecYHPlQzKjy+UwkW5+F9a1zPFuIjk8l/+kwaNj+Pwtc4
+         9gARvuWMysHNsTuHwbJ51H1UdIkw6B+HADV52ZB+Y008qA/91cHHYGHkBjI+6baDVuVt
+         OncfO6dHCU0UyfRgsYdCsYGTh2TK4+Br7olW8s8zbaXZmf7HmGxcqOAzOLv6Y0AYDQba
+         DRyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704753547; x=1705358347;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1WKyWHDqkMQ4sgAQU5dU5NFt4R11WcL29ahRDFzygXo=;
-        b=uUW36CJFyhPltDBAu+2LEClb0wQTpMm74q65jt5ZKmFhrGWVx0KJi6uGzMkm+pMv0B
-         T/QwFr0SlLv9eNB/j52B12AQyyzLM9i57s9/rD5AYfhUI9enxSsouQVg+UUy2vTYtmrJ
-         Fjn0TqsiTg9BKPNoCZ/kKhNdKUPtr5nCrSowPLhEo/BdHxngwl736statBKWFCoJTC28
-         hpnSPNkF/XOHGhV9BjlLrRB+/MKDCLflnbKHfvOhYZ7TpFJE376bHrmSSDH+i78ncf6c
-         DVPneD3dshVZXMaQuS6xc4bh5pGER44rHe+txGzHTa3RTOUymR6DfT9y6uJ6nSKWDgnk
-         FCSQ==
-X-Gm-Message-State: AOJu0YwlpjOg46mJKqM1YLq1/BDF4TNopfF4Nvq9Ky0HpdyN8ma+Xc9S
-	rqmYXFmYv8A1GAzjNw3ZbP7xIe+gFZDWXuiT9n3CwfBKJTc=
-X-Google-Smtp-Source: AGHT+IGDcxB+5UZsgmGmHWkUIyVYt/hjNA0iaiY5IknRgT+zZ87puSQu9gY9f6TxP4zdRGESzYbVjw==
-X-Received: by 2002:a05:600c:68d7:b0:40e:4342:ae28 with SMTP id jd23-20020a05600c68d700b0040e4342ae28mr879020wmb.108.1704753546905;
-        Mon, 08 Jan 2024 14:39:06 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:494c:2c49:a717:e3aa? ([2001:8b0:aba:5f3c:494c:2c49:a717:e3aa])
-        by smtp.gmail.com with ESMTPSA id fl21-20020a05600c0b9500b0040e48e4bf8asm1218478wmb.10.2024.01.08.14.39.06
+        d=1e100.net; s=20230601; t=1704754148; x=1705358948;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LsCblodoL6MVfJ+EX309XX+hR0nHZVHvhB8zx/v7D80=;
+        b=jtu68t2anxN3dbGd/iAHPcBdO+4vdX20JsD6W4eNW8hzGWRlWcTfw8PDVX1/2WInhK
+         XdPlDUZmAG6yLqTNqQTf+8CVu5pHkSnQkj0TJqeeEGfCqSQQ3B+kiSaKC/5EQdggYoqV
+         0AsnlF9aPipeS+U2CrH0rcjQaPqwUFuBjiVmi+Xo/HgrxhOYMqwQuy+T8clF0kmhaS8I
+         4ISmio3ogRTHwFUHe/FeT1/+MrHzI7yRlm2RxFAi9LRN9N9wXXgssJCJmVhQwfEf+gqp
+         UytEIxrVinikyLihp8Rm+Jpg6UuFXOrGhjTOxRyP6NvUTHN/jrLhZn6Ea5KTnLKBOExd
+         klfQ==
+X-Gm-Message-State: AOJu0YypmV7ihOFS17bqmFj3+XXEAVl8USl3Ob5wujitTW8BAkhkL3zl
+	fgNPRM+8a10lenVmY5f6PJPufubPETwsjbWiTSn8RYND1WGOULD5iT2CgPN7yUCEAOBKMGz8r+S
+	uwvRJRrgxElXpZ37RX/OmL37+p7px0nxr+eunnZV4bJIns/7XMV9OISHV
+X-Received: by 2002:a6b:f003:0:b0:7bb:c68d:a09 with SMTP id w3-20020a6bf003000000b007bbc68d0a09mr5878812ioc.15.1704754148032;
+        Mon, 08 Jan 2024 14:49:08 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEHU4LMJHsWyFMWWEsOCbwaB4jfHtgEVzcx65DKAWBBuS6dyMCfvzXtpfm9/+idBrHHtq9lIg==
+X-Received: by 2002:a6b:f003:0:b0:7bb:c68d:a09 with SMTP id w3-20020a6bf003000000b007bbc68d0a09mr5878804ioc.15.1704754147769;
+        Mon, 08 Jan 2024 14:49:07 -0800 (PST)
+Received: from roebling.sonos.com (97-116-45-192.mpls.qwest.net. [97.116.45.192])
+        by smtp.gmail.com with ESMTPSA id i40-20020a056638402800b0046b6238d7b1sm248325jai.121.2024.01.08.14.49.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jan 2024 14:39:06 -0800 (PST)
-Message-ID: <62591061a843999d470506252d6044f50ac81228.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 4/4] classes/recipes: Switch to use
- inherit_defer
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Mon, 08 Jan 2024 22:39:05 +0000
-In-Reply-To: <A0382FB4-C99B-4558-8B8B-D5A3A248C862@arm.com>
-References: <20240103145902.2124110-1-richard.purdie@linuxfoundation.org>
-	 <20240103145902.2124110-4-richard.purdie@linuxfoundation.org>
-	 <A0382FB4-C99B-4558-8B8B-D5A3A248C862@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+        Mon, 08 Jan 2024 14:49:07 -0800 (PST)
+From: david d zuhn <david.zuhn@sonos.com>
+To: openembedded-core@lists.openembedded.org
+Cc: david d zuhn <david.zuhn@sonos.com>
+Subject: [PATCH 1/1] rng-tools: remove obsolete build time dependency on sysfsutils
+Date: Mon,  8 Jan 2024 16:49:03 -0600
+Message-Id: <20240108224903.4086308-2-david.zuhn@sonos.com>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20240108224903.4086308-1-david.zuhn@sonos.com>
+References: <20240108224903.4086308-1-david.zuhn@sonos.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: wis0QJsKBYdmhXFL7NltTWoeaR9fMFrM
+X-Proofpoint-GUID: wis0QJsKBYdmhXFL7NltTWoeaR9fMFrM
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-28_27,2023-11-27_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ lowpriorityscore=0 phishscore=0 mlxlogscore=668 spamscore=0 adultscore=0
+ malwarescore=0 mlxscore=0 bulkscore=0 suspectscore=0 clxscore=1015
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2401080185
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 08 Jan 2024 22:39:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193434
+ <openembedded-core@lists.openembedded.org>; Mon, 08 Jan 2024 22:49:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193436
 
-On Mon, 2024-01-08 at 17:14 +0000, Ross Burton wrote:
-> On 3 Jan 2024, at 14:59, Richard Purdie via lists.openembedded.org <richa=
-rd.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote:
-> > --- a/meta/classes-recipe/gnomebase.bbclass
-> > +++ b/meta/classes-recipe/gnomebase.bbclass
-> > @@ -28,7 +28,7 @@ FILES:${PN} +=3D "${datadir}/application-registry  \
-> > FILES:${PN}-doc +=3D "${datadir}/devhelp"
-> >=20
-> > GNOMEBASEBUILDCLASS ??=3D "meson"
-> > -inherit ${GNOMEBASEBUILDCLASS} pkgconfig
-> > +inherit_defer ${GNOMEBASEBUILDCLASS} pkgconfig
->=20
-> Feels like this should be split into inherit pkgconfig and inher_defer ${=
-GNOMEBASEBUILDCLASS}.
+This package used to use libsysfs, but has been modified to read
+the /sys file system directly.  This build dependency is no longer
+needed.
 
-I guess did it this way for ease in the patch, it won't really make
-much difference either way, particularly for pkgconfig given how simple
-that class is.
+Signed-off-by: david d zuhn <david.zuhn@sonos.com>
+---
+ meta/recipes-support/rng-tools/rng-tools_6.16.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->=20
-> > +inherit populate_sdk_base
-> > +IMGCLASSES +=3D "${@['', 'populate_sdk_ext']['linux' in d.getVar("SDK_=
-OS")]}"
->=20
-> Whilst you=E2=80=99re here change this to foo if bar else flob, this bool=
-ean subsetting idiom drives me insane.
-
-I don't really mixing up changes as it just makes review harder so
-whilst I don't mind changing that, I think it should be done
-separately.
-
-> > --- a/meta/recipes-graphics/xorg-driver/xorg-driver-common.inc
-> > +++ b/meta/recipes-graphics/xorg-driver/xorg-driver-common.inc
-> > @@ -14,7 +14,7 @@ SRC_URI =3D "${XORG_MIRROR}/individual/driver/${BPN}-=
-${PV}${XORG_DRIVER_COMPRESSOR
-> > FILES:${PN} +=3D " ${libdir}/xorg/modules/drivers/*.so"
-> >=20
-> > XORGBUILDCLASS ??=3D "autotools"
-> > -inherit ${XORGBUILDCLASS} pkgconfig features_check
-> > +inherit_defer ${XORGBUILDCLASS} pkgconfig features_check
->=20
-> As above.
->=20
-> > -inherit autotools texinfo binconfig-disabled pkgconfig ${PYTHON_INHERI=
-T} python3native multilib_header
-> > +inherit autotools texinfo binconfig-disabled pkgconfig multilib_header
-> > +inherit_defer ${PYTHON_INHERIT} python3native
->=20
-> Why is python3native defered?
-
-In the past there were some ordering issues around the python classes
-so I was just being careful not to cause more problems in the patchset
-than I was already trying to debug. It probably isn't necessary but at
-the time I wasn't 100% sure and there were bigger issues.
-
-I can make the above tweaks if they really bother you...
-
-Cheers,
-
-Richard
-
-
-
+diff --git a/meta/recipes-support/rng-tools/rng-tools_6.16.bb b/meta/recipes-support/rng-tools/rng-tools_6.16.bb
+index d23d6be34e..f0aa3ff93f 100644
+--- a/meta/recipes-support/rng-tools/rng-tools_6.16.bb
++++ b/meta/recipes-support/rng-tools/rng-tools_6.16.bb
+@@ -4,7 +4,7 @@ HOMEPAGE = "https://github.com/nhorman/rng-tools"
+ BUGTRACKER = "https://github.com/nhorman/rng-tools/issues"
+ LICENSE = "GPL-2.0-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+-DEPENDS = "sysfsutils openssl libcap"
++DEPENDS = "openssl libcap"
+ 
+ SRC_URI = "git://github.com/nhorman/rng-tools.git;branch=master;protocol=https \
+            file://init \
+-- 
+2.26.2
 
 
