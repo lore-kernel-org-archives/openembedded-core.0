@@ -1,71 +1,129 @@
-Return-Path: <festevam@gmail.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0F6CC3DA6E
-	for <webhook@archiver.kernel.org>; Mon,  8 Jan 2024 18:01:28 +0000 (UTC)
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
- by mx.groups.io with SMTP id smtpd.web11.4152.1704736885743768437
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38D76C3DA6E
+	for <webhook@archiver.kernel.org>; Mon,  8 Jan 2024 20:22:53 +0000 (UTC)
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
+ by mx.groups.io with SMTP id smtpd.web11.533.1704745371392101348
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Jan 2024 10:01:25 -0800
+ Mon, 08 Jan 2024 12:22:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=luTkoq5H;
- spf=pass (domain: gmail.com, ip: 209.85.216.41, mailfrom: festevam@gmail.com)
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-28c5af37d3aso484142a91.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 08 Jan 2024 10:01:25 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=bE66TPZ1;
+ spf=pass (domain: gmail.com, ip: 209.85.160.43, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-204df0830ccso2156134fac.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 08 Jan 2024 12:22:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704736885; x=1705341685; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tH1pxYMR/g8pmrEx+V610DwnEvhySbY97XIESq83Ei0=;
-        b=luTkoq5HrNNJDU2ENqwXmo/E5wWFqn2HZMEH162o0B6sAUSGsWCeNokIF1Uj+UODO1
-         sIKiJo6ILUrTUuxKF/BMr4BYnwy9jGYPsCAJgLcVmaPPo9UDUIY1yokWqkawEX5iaT2g
-         tn1AY8yJpKXsOyqV+H7uij1kuWP6B6u2hd0cKOAPGyuuYOvJGLAE010faOj6qAq0QWyg
-         UzCs79KJMMsr5mxlu79ItAiodLA9Ssrsb/u5Tq6YQ44B66OjliY0xHZlJR8UsAOGojsU
-         5X00Sv74NW1ISWbn4zi9LCNTgwTMiheBdy73JLvUeQaEO9yIhd+vEMUyqkvZye7zobsz
-         zkzQ==
+        d=gmail.com; s=20230601; t=1704745370; x=1705350170; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=aJLZNWLEu6aYoADVabe8MNzsoZm76v140sf/fv2Z7xs=;
+        b=bE66TPZ1JGFubvryRLRRXJuTxoXQ5XMkHMj+GIgrgPDy7TA3PvQMXYUNHRAeWKEZtm
+         BpLHTeVp0XUMdMn4x66d6/yF9Zn05cBAbrnUoPRP9Hxx8gTkccgd8QbgltbuA3AJE9P9
+         a+G9OTEjv1LI7nlhRXB6eEngho371UU9r0AQ9J4CFo0oVr9hL7r2acBHi3uIaNafrPUm
+         l8BYMHSs8FkL48bPRDHwUaCDVJyJfPGjZy0ZKo7lT8ViZsJsR1qA709Ax4l8LoeKdpLq
+         YvhVaxdPB5U3eldTqyZToQmdprvBWJ+IsOfkxvT8AVvn8fZ9GlYJVWqL1Qrf50Lo3mnT
+         w0gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704736885; x=1705341685;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tH1pxYMR/g8pmrEx+V610DwnEvhySbY97XIESq83Ei0=;
-        b=q4PVQOqR7QbMT6v+MMsXB3PihxDTC96yb82m/s2p/Td9CbZMIsGlKLpzFqf5Ty7SiQ
-         Qtris0XSX/YojYpf9x9rZE3SysigOTJlTkKGQmYO9mKcUDk2NTvWG9cQ9f7NIo4tlebR
-         9bkPNHYQ2gfGEp3hH9QHbeYfcsqnjKH7GkbIRlhNFcNJnVbTZ9cPg/AQBXBwCJ83kYMo
-         Wt5PLQtg63nCt/moOeIwgnKaAtFBLnof9xykveYJbYi+YY0+44JF0TaKpqFFFWgfkHRu
-         2Dtkz6fmBOJmK92VShIyuw++wivQ74Hza/WFw9/CjhnvpTEnDi3IqJj2QI2e+a3RtDUy
-         go5A==
-X-Gm-Message-State: AOJu0YzAzku/0Dsr7tT/rDJNZghONIdWN91IsqPSps1fvx22Zx30llwn
-	SZotXP6om1Srez3a0EXnrak+K6XhnUdlZgT9L1A=
-X-Google-Smtp-Source: AGHT+IHuKPblHdmS02qNTNUZfV776etbZtL9Fq51bU8C6j3/DBCrmM3Gri0yFrhswoc/IlO06SwIZEV3JnJEi39Y/K0=
-X-Received: by 2002:a17:90a:4962:b0:28c:5a9:de71 with SMTP id
- c89-20020a17090a496200b0028c05a9de71mr6002772pjh.4.1704736884795; Mon, 08 Jan
- 2024 10:01:24 -0800 (PST)
+        d=1e100.net; s=20230601; t=1704745370; x=1705350170;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=aJLZNWLEu6aYoADVabe8MNzsoZm76v140sf/fv2Z7xs=;
+        b=fUCwco70UFEPtyF1z70qSsJUUVfDSLUgjO005Znr/C4oZ+QeOO7NuRnBtvHUtBHTxP
+         ywMGm4QS3WJgmJAvuemsWTzW4WAQJb7Hgtso8BsaRn/zbY2WJuJr1U4/LW/jYsXmre86
+         A7m44SbY+ju382cC4dBiEfwjpFHoj8pveSWBy3uc33Tbs0BMvlvyWzCZLxjf8JZrY9Gl
+         NYItQUKmgKTk17HV4HY66ZCVQxDekQQdo6fXB7lXVAI84p4ZbaIKTgYdqQTay02ka8Mv
+         z7AtFS/N6atZI5RGuKEd5ndbIloFnO7Emrmaokq6liu6K7otm+0C3aSN5bBDrvkX+vyB
+         pWJw==
+X-Gm-Message-State: AOJu0Yy34e5hPwVOouzjA0G6U7hxvngAh+WxLqmwUFcRGLbeIYSh5k71
+	EpYLc21Fg3XPg8ELgughSa77SxrP9NQ=
+X-Google-Smtp-Source: AGHT+IG8nDaHvUGm7QcZdEJ4PDfnLq9qRn24NsIQGJDGbDzdQ5CDQ+sT+i9dHahS3134Ja8Y/EdQMA==
+X-Received: by 2002:a05:6871:a68f:b0:203:f0a4:b730 with SMTP id wh15-20020a056871a68f00b00203f0a4b730mr5998045oab.61.1704745370013;
+        Mon, 08 Jan 2024 12:22:50 -0800 (PST)
+Received: from localhost.localdomain ([2601:282:4300:19e0::24d0])
+        by smtp.gmail.com with ESMTPSA id lx6-20020a05687150c600b00205ff4f9ad1sm125068oac.53.2024.01.08.12.22.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Jan 2024 12:22:49 -0800 (PST)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH] syslinux: Allow mtools to be optional
+Date: Mon,  8 Jan 2024 13:22:47 -0700
+Message-Id: <20240108202247.767072-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20231226123810.495126-1-festevam@gmail.com> <CA+chaQfLcVr62n8xOCXJoc7TXM2Ut_qkMa_uM5OoscUQCyHnEQ@mail.gmail.com>
- <CAOMZO5Bn23X5T2t++H22VBYS9rF8SUinXFCQ7OXr5L7hG_J6xA@mail.gmail.com> <CA+chaQeYKWdD0Kz82OpZB_cMeGHPRwKXfcOZBRd4_sSHkOUMKw@mail.gmail.com>
-In-Reply-To: <CA+chaQeYKWdD0Kz82OpZB_cMeGHPRwKXfcOZBRd4_sSHkOUMKw@mail.gmail.com>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Mon, 8 Jan 2024 15:01:13 -0300
-Message-ID: <CAOMZO5CPF1ne2QvUC-GuqJnm6hTObsU-6AEcLH7erm+LN9A3iQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] kmscube: Upgrade to latest revision
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, Fabio Estevam <festevam@denx.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 08 Jan 2024 18:01:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193429
+ <openembedded-core@lists.openembedded.org>; Mon, 08 Jan 2024 20:22:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193430
 
-On Mon, Jan 8, 2024 at 2:26=E2=80=AFPM Martin Jansa <martin.jansa@gmail.com=
-> wrote:
+Adds a PACKAGECONFIG to syslinux to determine if the mtools version of
+the utilities is installed or not. The difference between the two
+versions is that the mtools version can be used by any user with write
+permission, while the non-mtools can only be used by root.
 
-> On this platform it doesn't as GL/gl.h is not available, but it builds fi=
-ne after replacing GL/gl.h with GLES3/gl3.h (for GL_DEPTH24_STENCIL8).
+The syslinux-nomtools package is removed, as it was empty and doesn't
+appear to be used anyway
 
-Thanks for the suggestion. I will send a fix upstream.
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ .../syslinux/syslinux_6.04-pre2.bb              | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
+
+diff --git a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb b/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
+index 1931bfb3c05..332655bdf98 100644
+--- a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
++++ b/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
+@@ -63,6 +63,10 @@ EXTRA_OEMAKE = " \
+ 	RANLIB="${RANLIB}" \
+ "
+ 
++# mtools allows non-root users to install syslinux
++PACKAGECONFIG ??= "mtools"
++PACKAGECONFIG[mtools] = ",,,"
++
+ #
+ # Tasks for native/nativesdk which just build the installer.
+ #
+@@ -77,10 +81,15 @@ do_compile() {
+ do_install() {
+ 	install -d ${D}${bindir}
+ 	install \
+-		${B}/bios/mtools/syslinux \
+ 		${B}/bios/extlinux/extlinux \
+ 		${B}/bios/utils/isohybrid \
+ 		${D}${bindir}
++
++	if ${@bb.utils.contains("PACKAGECONFIG", "mtools", "true", "false", d)}; then
++		install ${B}/bios/mtools/syslinux ${D}${bindir}
++	else
++		install ${B}/bios/linux/syslinux ${D}${bindir}
++	fi
+ }
+ 
+ #
+@@ -104,14 +113,12 @@ do_install:class-target() {
+ 	install -m 644 ${S}/bios/core/ldlinux.bss ${D}${datadir}/syslinux/
+ }
+ 
+-PACKAGES += "${PN}-nomtools ${PN}-extlinux ${PN}-mbr ${PN}-chain ${PN}-pxelinux ${PN}-isolinux ${PN}-misc"
++PACKAGES += "${PN}-extlinux ${PN}-mbr ${PN}-chain ${PN}-pxelinux ${PN}-isolinux ${PN}-misc"
+ 
+-RDEPENDS:${PN} += "mtools"
+-RDEPENDS:${PN}-nomtools += "libext2fs"
++RDEPENDS:${PN} += "${@bb.utils.contains("PACKAGECONFIG", "mtools", "mtools", "", d)}"
+ RDEPENDS:${PN}-misc += "perl"
+ 
+ FILES:${PN} = "${bindir}/syslinux"
+-FILES:${PN}-nomtools = "${bindir}/syslinux-nomtools"
+ FILES:${PN}-extlinux = "${sbindir}/extlinux"
+ FILES:${PN}-mbr = "${datadir}/${BPN}/mbr.bin"
+ FILES:${PN}-chain = "${datadir}/${BPN}/chain.c32"
+-- 
+2.34.1
+
 
