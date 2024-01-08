@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 967DEC4707B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A647CC47079
 	for <webhook@archiver.kernel.org>; Mon,  8 Jan 2024 11:12:34 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web11.4404.1704712353059535833
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web10.4387.1704712352937503273
  for <openembedded-core@lists.openembedded.org>;
  Mon, 08 Jan 2024 03:12:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=T4vGEmoS;
- spf=pass (domain: gmail.com, ip: 209.85.128.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-40e4a611182so1930455e9.3
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=izlf8WU2;
+ spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-40d858c56cbso22818905e9.2
         for <openembedded-core@lists.openembedded.org>; Mon, 08 Jan 2024 03:12:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1704712351; x=1705317151; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JjoIYlTpaYoxmJ9h9Nk0WD8GLByDF+tuP6U4+PNij8o=;
-        b=T4vGEmoSIQHXg2KcE6cQ45z9AZMBcpiKt1oYi0dpxuTIVXwvBvX4k7dh7+H3ZbRc+T
-         V/uR+Xk2pF/27jaG69gFG4k71KB3ZioWYXNAu1x9Z2dPdZIPWOGWHBs/wI/zNMtjyaGY
-         kDJ7nTrS4hSkjl/0kt0lABVJfc23KA0OqWMvglf5YQ25rWWrUNUtllBdR1mdYX4YlXKJ
-         3+tgHTrxOgYFmZX+VgLakcedNoGnflf9jZDt3HmboQdftI4c805rHbabx7Hn9y3gowPe
-         GoUrHRXEoZT0gL+7xbjVw+MVrgTej+iGETNmDpZGJq4DnZO+JE3llBU67nyn56PWbGyC
-         YgWw==
+        bh=5uvXm2+dG0dhMODNAfSELXcJBga1CjSMRE/i4Id5LXk=;
+        b=izlf8WU2kWU+nRHX1q5lQPoOb2maj915PuI3OngTq6BJkfQEKPdMesOTuoZqlyCdLu
+         H3CAxKocwMLXidlPPpru/eia43QQRXX4ctcKEiPtPidpem/adY7jvQ3+nyF7B7jxwGiE
+         03k4emwOOuPYpTTZ2AW91nEVnpPOasYHD3GL1ovwXYR7y7kNttixsZQQES9g4qrhGbUf
+         LnWmiYpbfYzZqrFbbri8h/LMC5HUwKU9ADPkq9PwKbkZqQBFzNRbwFrBdp7xhGbbSJA3
+         IBPY0pmkHY/c5IrWQwEc0NvVkJQEbvyHKLeaE9HKkeMK+/IvR5hUO9rOvVjG3ZUFdmfk
+         JLgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1704712351; x=1705317151;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=JjoIYlTpaYoxmJ9h9Nk0WD8GLByDF+tuP6U4+PNij8o=;
-        b=n5GL3sFfxupsh1jVKL3QcTFUMOEiAnp4gYPcz/pe1ERl3t1+21h9sqXXt37bk6QZOJ
-         /pSbIYrYDWi592yjjxrhIGi20pwfMyZu4mQP5HfCNVFbTq3oBCLGEfiX5H5pOhn6YENv
-         Bmhfuz+ccLD+yE9aq9bRtXC1rJa8Wxozm07uN5+gsaLaiueyi9W9IlKmrl3D4omr3tl6
-         iB/YafYwemQUKROhRE/pUErt7n99YbXjbGZNbgC+5g25I90ZzshLWytJG38rkfrMseEu
-         7tT9yGrx9V6QzvMObEjcTOBzzDmXSga/CQHkKFZ3jDnsEJIHGk2amcmG9szHvYEhzfUV
-         YN/w==
-X-Gm-Message-State: AOJu0Yzfsi1x16lj6mF8h92uLibpT8LnHi86J5KQ0rsLg2Z82GujSBo6
-	9lagc/dgP/mgHa4yhJcW2aHM++lqflM=
-X-Google-Smtp-Source: AGHT+IE1t8IG/vW1aLs/IfawYGvBBk1ywy+qjp9JBL6v204ar0op5M6uVtT/TwRBgRreGQDRu4Tz+w==
-X-Received: by 2002:a05:600c:ad7:b0:40d:5ceb:82fc with SMTP id c23-20020a05600c0ad700b0040d5ceb82fcmr1764053wmr.42.1704712351525;
+        bh=5uvXm2+dG0dhMODNAfSELXcJBga1CjSMRE/i4Id5LXk=;
+        b=fQeC5uJ++nY5PwsTY+oWEws4VU7Clx2ME2XNr2xzJW62J3eTI2QYtBBK8urN028BtL
+         fPLYW2fpZdHIjPZnzDoV7E20xisE07TJnJ7ZiW1obSQ2aT9Wic0U+c4XsKT/BHJyQiHH
+         e7ZObYwOoCgcEjCWhfjyzcTIKyptZDVekefmWaG+kuW4UXfrSPLxnz1ZEpABMEiCNnRd
+         YjkijQxhX2lkw/wv5N2HefZnyg7IhW0v7IEajPUTJdsGkBUCM/sv3Z0rb/PGpVG4vtJn
+         a8Ks9k2nVYbkLd1DXN4wq+Is7J8rLhQK+ceZeKLkB3rKGlTcelQXjywbBOYdzeE1Q4lH
+         lZ4g==
+X-Gm-Message-State: AOJu0Yw5joGu+qCHya/X31Ttwy7urN1E34qkmemHaCjOHo8bYe2bhUQo
+	h5X4rSgqbAwwcyi5bLhtuNRKSmpyP4U=
+X-Google-Smtp-Source: AGHT+IHhNeoW3jPDvf3Gq51uQdPbHdGV53dbCoUNVW1UhZ97+KWYBuBstD0oWvLBbOPy4yrU4+A69Q==
+X-Received: by 2002:a05:600c:c0a:b0:40e:4618:ee5b with SMTP id fm10-20020a05600c0c0a00b0040e4618ee5bmr895634wmb.157.1704712351048;
         Mon, 08 Jan 2024 03:12:31 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id s11-20020a05600c45cb00b0040e395cd20bsm10523886wmo.7.2024.01.08.03.12.31
+        by smtp.gmail.com with ESMTPSA id s11-20020a05600c45cb00b0040e395cd20bsm10523886wmo.7.2024.01.08.03.12.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jan 2024 03:12:31 -0800 (PST)
+        Mon, 08 Jan 2024 03:12:30 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 3/3] icon-naming-utils: take tarball from debian
-Date: Mon,  8 Jan 2024 12:12:27 +0100
-Message-Id: <20240108111227.3261354-3-alex@linutronix.de>
+Subject: [PATCH 2/3] libpcre2: fix upstream version check
+Date: Mon,  8 Jan 2024 12:12:26 +0100
+Message-Id: <20240108111227.3261354-2-alex@linutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240108111227.3261354-1-alex@linutronix.de>
 References: <20240108111227.3261354-1-alex@linutronix.de>
@@ -62,36 +62,26 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 08 Jan 2024 11:12:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193400
-
-Upstream website has disappeared; the tarball can still be downloaded
-but this is probably not for long.
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193399
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-sato/sato-icon-theme/icon-naming-utils_0.8.90.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-support/libpcre/libpcre2_10.42.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-sato/sato-icon-theme/icon-naming-utils_0.8.90.bb b/meta/recipes-sato/sato-icon-theme/icon-naming-utils_0.8.90.bb
-index 67cbd031002..5502b66905d 100644
---- a/meta/recipes-sato/sato-icon-theme/icon-naming-utils_0.8.90.bb
-+++ b/meta/recipes-sato/sato-icon-theme/icon-naming-utils_0.8.90.bb
-@@ -14,7 +14,7 @@ DEPENDS = "libxml-simple-perl-native"
+diff --git a/meta/recipes-support/libpcre/libpcre2_10.42.bb b/meta/recipes-support/libpcre/libpcre2_10.42.bb
+index cd65493c482..f471b3f90a3 100644
+--- a/meta/recipes-support/libpcre/libpcre2_10.42.bb
++++ b/meta/recipes-support/libpcre/libpcre2_10.42.bb
+@@ -13,7 +13,7 @@ LIC_FILES_CHKSUM = "file://LICENCE;md5=41bfb977e4933c506588724ce69bf5d2"
+ SRC_URI = "${GITHUB_BASE_URI}/download/pcre2-${PV}/pcre2-${PV}.tar.bz2"
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+ GITHUB_BASE_URI = "https://github.com/PhilipHazel/pcre2/releases"
+-UPSTREAM_CHECK_REGEX = "releases/tag/pcre2-(?P<pver>.+)"
++UPSTREAM_CHECK_REGEX = "releases/tag/pcre2-(?P<pver>\d+(\.\d+)+)$"
  
--SRC_URI = "http://tango.freedesktop.org/releases/icon-naming-utils-${PV}.tar.gz"
-+SRC_URI = "${DEBIAN_MIRROR}/main/i/icon-naming-utils/icon-naming-utils_${PV}.orig.tar.gz"
- SRC_URI[sha256sum] = "044ab2199ed8c6a55ce36fd4fcd8b8021a5e21f5bab028c0a7cdcf52a5902e1c"
+ SRC_URI[sha256sum] = "8d36cd8cb6ea2a4c2bb358ff6411b0c788633a2a45dabbf1aeb4b701d1b5e840"
  
- inherit autotools allarch perlnative
-@@ -26,4 +26,4 @@ do_configure:append() {
- 
- FILES:${PN} += "${datadir}/dtds"
- 
--BBCLASSEXTEND = "native"
-\ No newline at end of file
-+BBCLASSEXTEND = "native"
 -- 
 2.39.2
 
