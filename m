@@ -1,90 +1,103 @@
-Return-Path: <philip@balister.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CEB6CC3DA6E
-	for <webhook@archiver.kernel.org>; Mon,  8 Jan 2024 14:18:05 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web10.6858.1704721412846462287
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE11BC3DA6E
+	for <webhook@archiver.kernel.org>; Mon,  8 Jan 2024 14:27:35 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web11.7880.1704724053553752599
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Jan 2024 05:43:32 -0800
+ Mon, 08 Jan 2024 06:27:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ossystems-com-br.20230601.gappssmtp.com header.s=20230601 header.b=uPZIHSoC;
- spf=pass (domain: ossystems.com.br, ip: 209.85.214.178, mailfrom: rodrigo.duarte@ossystems.com.br)
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1d3e05abcaeso7552365ad.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 08 Jan 2024 05:43:32 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=PgOFsWd+;
+ spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-40e4b20a52bso1548185e9.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 08 Jan 2024 06:27:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ossystems-com-br.20230601.gappssmtp.com; s=20230601; t=1704721412; x=1705326212; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1704724052; x=1705328852; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=GkUaQeizrnxaOVDpmoAFLbQ1Jf3IcIF1iJYLJuIwvlI=;
-        b=uPZIHSoCuGbUTa3nh10Z/Vrx48nVvFNQl4ooTe5SI/om6rXAduGbMGk2Ijm9A5rZxE
-         xBx6x4fkZSC1FIQdayGFkx8hodE+YZg0PE3EzuylgDk+8RmFL1wWfVHcmRWG77jfokk3
-         XSOICV1TiTrfWofcD3/dANZlWHwFQSTKcopqwNNIFILIuC5CMM48xhw10RLLYWyIgp7W
-         YRLaXiQl5h/N5HdEYwVCT2ly/GLlpqx5TXmeBvW+eh5SKNWy90L3RnQimxIwTRiFkrff
-         5tSA/NMW93i5Gfehk3U9zh0T4iSf/gTdbJ5tRI9BqG/Cy8mueIcQ8S9Us6UU537tTkpr
-         birA==
+        bh=/JqHznKfeOxH8mTy7Mj3icpEvz+eWVQ009sx/DaJmao=;
+        b=PgOFsWd+KvWaISrJH8GHx2KhVsrfTwPwCJSVk36tXL2aArDNzHKpHLmPzKeKFqlJTP
+         /lKUXKl+auB+LQyqL/qaq9UxFfHRTe2baEBhQ38Pp1Nz+pSjrobFFD3hRPM3JTkNA7qc
+         MGBIMkbnUd0CK8y/7k2ADbVbA6VCuQB/wT8cbJv74kssmTQnzld27rIi2p60VQpJXHb5
+         t+3R9bbt7e/gl4wBABSuNtNDwlnK5EDSvab07Qz9KXUQ1K9M6EW41eiLvWZ3QBNUOtRF
+         vOwf8hD6BF3R8QKOmpRznssdIJE/qyVOOsUDt9acaHRoCk5EYyaxKoOrETAo+AKxf0Ea
+         NLYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704721412; x=1705326212;
+        d=1e100.net; s=20230601; t=1704724052; x=1705328852;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=GkUaQeizrnxaOVDpmoAFLbQ1Jf3IcIF1iJYLJuIwvlI=;
-        b=InYOOlz180v3A90ykcppJZ0JeUe6Z0qv0ysw+igbmgX8SD2vKvKknOochtJs7nuDK0
-         bn4Ca1YO6GLA8tuOT1FjMEu1bxK7MOSm1lBkIwTt5tilbef/pmgOGzDUllGM/wBIwilq
-         3kIV3znV0H9u9qM/VAQlGK+3FpZeLGEXJy489hrUWsrM0GTcAX1h5SvFqf2cJwHWG/6I
-         WENGOUR8iLzszOHnoObCEibN5YETREa96Oo9i2BC+nKrAmUxH/JCxN73GKAUX19/Ga0K
-         3aBjTPxElwjsqrgEzGQbRKJmYhnlECfLUmDlm2zev1aml9jPUdC1ETFjA9nfTkgBGJP7
-         ErzQ==
-X-Gm-Message-State: AOJu0YwiIM/TlGW/xYYh2wo2nVyCYQyaAUl8bb2uKKen1Cc8O50nmRoq
-	D0qOKvOHaHw1OZwmiQb1Ppf/PEAll9puaPQZ/cmDcnutGa4=
-X-Google-Smtp-Source: AGHT+IEtHBViUEuYSg8zm7nrm3x9nP6qWk1PcT3h8dVrvsk/R2Kj4vAwBoLBI9TWi350I2mthWWDDQ==
-X-Received: by 2002:a17:903:11c5:b0:1d5:36cf:a8a with SMTP id q5-20020a17090311c500b001d536cf0a8amr839517plh.39.1704721411473;
-        Mon, 08 Jan 2024 05:43:31 -0800 (PST)
-Received: from lenovo1.lab.ossystems (189-74-215-108.user3p.brasiltelecom.net.br. [189.74.215.108])
-        by smtp.gmail.com with ESMTPSA id jv5-20020a170903058500b001d4e765f605sm6281721plb.269.2024.01.08.05.43.30
+        bh=/JqHznKfeOxH8mTy7Mj3icpEvz+eWVQ009sx/DaJmao=;
+        b=UgjpYT5lysnhsHURKVcxdu4T+PhllOxKqBjHpKhWFDsXL8rG7EraPGE+CkeIjQ9fc8
+         Zvrn09PfWi6NEvlbFz/QpciuG97HSNSYhQ/6KnhA7G02bxMcFFTjRNtNznrtgdvLyHjU
+         ks+QO2t8bPemhiFIqRveL7SwuTy1mM5tvbK6kN0cdQSXKeqUxz31vi40eIbRrovijaub
+         NyiOpmJlo0dVnNp2U7D1pJYEuVZI+acyaTYMEaRXpK4kEt27iYRnAGf023armo75ct+h
+         fsMyr2KI2tgLebC52YWKAwTxEqUk3nYFVV54DVkdWe/5yDMeIZ5wMH8DOkOS1WVFmif9
+         LhIA==
+X-Gm-Message-State: AOJu0YwdFOBUYENOa0LfIGS19FThvUNr2u+YNQbRf1kSwB7UFxZmqWPk
+	8P5gVFTS+/s6g2anLAiIJOQqUjoQF1g=
+X-Google-Smtp-Source: AGHT+IGMeYgKMZHGmuXOyUEjZAYx44j6sXIELbLxo1Y4EWojSoziYK23ZnKL9ikz4oeFvPAtJqC/vA==
+X-Received: by 2002:a05:600c:5407:b0:40e:4358:cdda with SMTP id he7-20020a05600c540700b0040e4358cddamr1352521wmb.158.1704724051978;
+        Mon, 08 Jan 2024 06:27:31 -0800 (PST)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id j23-20020a05600c1c1700b0040d8ff79fd8sm12274wms.7.2024.01.08.06.27.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jan 2024 05:43:31 -0800 (PST)
-From: rodrigo.duarte@ossystems.com.br
+        Mon, 08 Jan 2024 06:27:31 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
-Cc: "Rodrigo M. Duarte" <rodrigo.duarte@ossystems.com.br>
-Subject: [PATCH] linux-firmware: Fix the linux-firmware-bcm4373 FILES variable
-Date: Mon,  8 Jan 2024 10:43:23 -0300
-Message-Id: <20240108134323.37022-1-rodrigo.duarte@ossystems.com.br>
-X-Mailer: git-send-email 2.30.2
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH] selftest/sstatetests: include fetcher diagnostics into CDN test failure message
+Date: Mon,  8 Jan 2024 15:27:26 +0100
+Message-Id: <20240108142726.2293394-1-alex@linutronix.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 08 Jan 2024 14:18:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193405
+ <openembedded-core@lists.openembedded.org>; Mon, 08 Jan 2024 14:27:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193406
 
-From: "Rodrigo M. Duarte" <rodrigo.duarte@ossystems.com.br>
+This will help finding out what kind of error the server actually returned,
+as sporadic CDN failures continue to occur.
 
-This commit includes the 'cyfmac4373-sdio.clm_blob' file in
-the list of files for the linux-firmware-bcm4373 package.
-Without this file, the linux-firmware package adds all
-firmware packages to the image.
+[YOCTO #15335]
 
-Signed-off-by: Rodrigo M. Duarte <rodrigo.duarte@ossystems.com.br>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-kernel/linux-firmware/linux-firmware_20231030.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/lib/oeqa/selftest/cases/sstatetests.py | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20231030.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20231030.bb
-index 6667f00612..b1f5247975 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20231030.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20231030.bb
-@@ -1071,6 +1071,7 @@ FILES:${PN}-bcm4373 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac4373-sdio.bi
-   ${nonarch_base_libdir}/firmware/brcm/brcmfmac4373.bin \
-   ${nonarch_base_libdir}/firmware/cypress/cyfmac4373-sdio.bin \
-   ${nonarch_base_libdir}/firmware/brcm/brcmfmac4373-sdio.clm_blob \
-+  ${nonarch_base_libdir}/firmware/cypress/cyfmac4373-sdio.clm_blob \
- "
+diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
+index 340f41162f0..6a6c2e5f11a 100644
+--- a/meta/lib/oeqa/selftest/cases/sstatetests.py
++++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
+@@ -905,6 +905,7 @@ class SStateMirrors(SStateBase):
+             self.fail("Did not find 'Sstate summary' line in bitbake output")
  
- LICENSE:${PN}-bcm-0bb4-0306 = "Firmware-cypress"
+         failed_urls = []
++        failed_urls_extrainfo = []
+         for l in output_l:
+             if "SState: Unsuccessful fetch test for" in l and check_cdn:
+                 missing_object = l.split()[6]
+@@ -918,8 +919,11 @@ class SStateMirrors(SStateBase):
+                 else:
+                     missing_objects -= 1
+ 
+-        self.assertEqual(len(failed_urls), missing_objects, "Amount of reported missing objects does not match failed URLs: {}\nFailed URLs:\n{}".format(missing_objects, "\n".join(failed_urls)))
+-        self.assertEqual(len(failed_urls), 0, "Missing objects in the cache:\n{}".format("\n".join(failed_urls)))
++            if "urlopen failed for" in l:
++                failed_urls_extrainfo.append(l)
++
++        self.assertEqual(len(failed_urls), missing_objects, "Amount of reported missing objects does not match failed URLs: {}\nFailed URLs:\n{}\nFetcher diagnostics:\n{}".format(missing_objects, "\n".join(failed_urls), "\n".join(failed_urls_extrainfo)))
++        self.assertEqual(len(failed_urls), 0, "Missing objects in the cache:\n{}\nFetcher diagnostics:\n{}".format("\n".join(failed_urls), "\n".join(failed_urls_extrainfo)))
+ 
+     def run_test(self, machine, targets, exceptions, check_cdn = True):
+         # sstate is checked for existence of these, but they never get written out to begin with
 -- 
-2.30.2
+2.39.2
 
 
