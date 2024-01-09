@@ -2,127 +2,85 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59A38C47079
-	for <webhook@archiver.kernel.org>; Tue,  9 Jan 2024 18:41:32 +0000 (UTC)
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
- by mx.groups.io with SMTP id smtpd.web11.25075.1704825683220122896
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 636E6C47079
+	for <webhook@archiver.kernel.org>; Tue,  9 Jan 2024 18:42:42 +0000 (UTC)
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+ by mx.groups.io with SMTP id smtpd.web10.25216.1704825754709931453
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Jan 2024 10:41:23 -0800
+ Tue, 09 Jan 2024 10:42:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=LQDTdT6f;
- spf=pass (domain: gmail.com, ip: 209.85.216.52, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-28c0565df34so1731160a91.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Jan 2024 10:41:23 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Kkejhe7u;
+ spf=pass (domain: gmail.com, ip: 209.85.210.50, mailfrom: raj.khem@gmail.com)
+Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-6dbb8698312so1115932a34.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Jan 2024 10:42:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704825682; x=1705430482; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TNWQWqPTSk1bRkWwiKoZV5wiuQ3aEmvlQfCkva5fe/E=;
-        b=LQDTdT6fOVr61gKz/z5qSeApV26AfsaDMrsj0e7uOlAD8FBfne6o0hcRkqkcljp0NE
-         VBHfeQBxZdnICocqESCjydhuSk639iVNbfC/GZqXT1oZBpKNScaySEJUOJ9xKn4SgUkc
-         /v5FdFSa3j2DoyDbdlyyTV5utYhhv4IYyOgMiDFiOjtSDn+jGCI8SBQWkYaCjusAfSLI
-         XoT5w34hjsRydg9WgAst5h7qWFJ/1Qrps+3FOJ3YAi4iHEWXw1d/7akDEtAOTF7m3BiO
-         eZdXK/aj2kphn1J08TiR+SmyU0YIo5qBFdulubV1XIgFudJhCaMwIA9SeF8pVecmMHQ1
-         zyjg==
+        d=gmail.com; s=20230601; t=1704825754; x=1705430554; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OsXmVDkPjPnkD2MwjXBMdWMZIAQHBe+jT3aK0jMND84=;
+        b=Kkejhe7u+NVAEfVOAe2kEU+dt4e0vctwDdrvb8/8Z8+J2Xtxs+eFCNLxgMLwhJeR4J
+         IXNi7bFK/LRelOLtS+flxqkJLoCt9voSFj780jQZibkC3FvxtTr/j8YUZvw3cihvTglH
+         6QUu21AWI05+soSCq/884ZgWLWvYe3a1LK7ee42eFEhn4afmTO8mcffD0KorNfE3m5fi
+         SkuJ6q/Mqbh59qcJwqRrs7BphYVfgopgWKZQIoDpRhKo//sng7+NliM5NCZRd2Z9Dizu
+         CNbvp6BjcbW/gQ69SNTWu4Llmqf1pD8QPVfetKKk7siuIO2250mduOGHw9cVRWe3Cag9
+         a/Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704825682; x=1705430482;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TNWQWqPTSk1bRkWwiKoZV5wiuQ3aEmvlQfCkva5fe/E=;
-        b=qOXCYPagn0ZEnT5tQZg1No0mmG/nMq5hF4nzVVealqfO0neJXIubFwQK439FBWYRHL
-         vvCSVIQ4PvlPA6lXOdexfyGMsgtpiik7iSQ7MQdYG9XTZtIAfBW9jqEvoeEboecgxg9S
-         BYT4BiFjT625w0CuhVyh2DPyVOMA2medDXigDzI5EcOO2Y4d5vrDGNHbXOLYk9BlgMHC
-         DFbvsvtj4ZQj+oTTZK+TfSc8ZLtJTLXmTx51Xh0ZFBEiZNFovj/maQWfZgk17K8Q31Lp
-         CwbreMA12k3ybmxqLo4FGRvQcyxFKsboMSznk7tFubjQdSjlASRBQXWmavgo6cx2bV8v
-         0ucg==
-X-Gm-Message-State: AOJu0Yzp72UH09CR71PS+UyTIEa2I5ZHUIoanCcghoECERuvdWs660Ux
-	hQYKQ17Vc0EGxsAk/CEBBvydAsuU+4HwsQ==
-X-Google-Smtp-Source: AGHT+IFyctSnae+QjbmceafilkJC8BosspMaB9CTlU9HeWGag5rtzs5kQuTlATqgDSeRm2HjrhSbjw==
-X-Received: by 2002:a17:90b:3101:b0:28a:fd40:1650 with SMTP id gc1-20020a17090b310100b0028afd401650mr2938669pjb.25.1704825682299;
-        Tue, 09 Jan 2024 10:41:22 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::8c5f])
-        by smtp.gmail.com with ESMTPSA id q9-20020a170902b10900b001d04c097d32sm2090335plr.270.2024.01.09.10.41.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jan 2024 10:41:21 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] opkg-utils: Backport fix to drop --numeric-owner parameter
-Date: Tue,  9 Jan 2024 10:40:05 -0800
-Message-ID: <20240109184005.1774148-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1704825754; x=1705430554;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OsXmVDkPjPnkD2MwjXBMdWMZIAQHBe+jT3aK0jMND84=;
+        b=DovvgIF+ataNhAAQ8tkOpYfxzeIS/3IjAXHyFNhb5k213ouuppyUVnMKWAGnzR9lsh
+         qy2kxsKDWm/CJyB43eQ+ZD9YebqEerx/dYK53xh22UG9aJa4fnwNZ85vgV7gNQNWvRMt
+         noGGjlSk9xllzsx+Dir5Mbx1JnW0BmhB/STwiXD6+JkCaJJ7dIRaWjGiLnmrpwRh6xRK
+         8zgNMcfM2fkHKYWyt1DZy3bDai36309Y3kteLAnN1ehoJdOKMKhgAxLJyf1GYCEs6Eqr
+         VrwwwOjDsuMjucsxXH5GwfjxP7AbAyNzJ/uB1fdEFZrjYOhdITdiLWvFHJ0aWg18ggw2
+         9rEw==
+X-Gm-Message-State: AOJu0YzCsiv+teSe0xyTb9ehv1/01N+IMuqVvKOIhC1d7Qj/g3kC9TJZ
+	CrioCul4jw+OYAqVx5ynX0JFJY2o2U05u3rGapQ=
+X-Google-Smtp-Source: AGHT+IEtP5On2i7H8i7CRMRR0jBPniC3zFyH4qFXY5zTUja97ptmOhTZbsu/782erO8Bxsb2WwI7RJqjeG4/QhnM9ds=
+X-Received: by 2002:a05:6870:898f:b0:204:4044:55c0 with SMTP id
+ f15-20020a056870898f00b00204404455c0mr3120079oaq.98.1704825753862; Tue, 09
+ Jan 2024 10:42:33 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240104021052.754030-1-raj.khem@gmail.com> <20240104021052.754030-2-raj.khem@gmail.com>
+ <B4F308F7-3C8A-4609-8F98-FB0B374428FA@arm.com>
+In-Reply-To: <B4F308F7-3C8A-4609-8F98-FB0B374428FA@arm.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 9 Jan 2024 10:42:07 -0800
+Message-ID: <CAMKF1sovMVfNm-n2kv32S==9yrrwLKgMcfO20AjNhxd6GKmMEQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] quilt,cpio: Create ptest user when ptest is
+ enabled in distro features
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Jan 2024 18:41:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193475
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Jan 2024 18:42:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193476
 
-It fixes the issue with different GIDs during ipk creation and image
-creation time
+lets drop this patch. The issue with chgrp seems to be gone, must have
+been transitory as I was narrowing down the opkg-utils bug.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...e-numeric-owner-parameter-overzealou.patch | 34 +++++++++++++++++++
- .../opkg-utils/opkg-utils_0.6.3.bb            |  1 +
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/0001-opkg-build-remove-numeric-owner-parameter-overzealou.patch
-
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/0001-opkg-build-remove-numeric-owner-parameter-overzealou.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/0001-opkg-build-remove-numeric-owner-parameter-overzealou.patch
-new file mode 100644
-index 00000000000..0cdeb9574a9
---- /dev/null
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils/0001-opkg-build-remove-numeric-owner-parameter-overzealou.patch
-@@ -0,0 +1,34 @@
-+From 19c2c6a14c8760c3595f5dc6cc89cde85fbdbac1 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Piotr=20=C5=81obacz?= <p.lobacz@welotec.com>
-+Date: Tue, 9 Jan 2024 09:20:55 +0100
-+Subject: [PATCH] opkg-build: remove `--numeric-owner` parameter overzealously
-+ added
-+
-+In some corner cases this parameter has been added overzealously.
-+All discussion on this topic can be read in here:
-+https://bugzilla.yoctoproject.org/show_bug.cgi?id=15334
-+
-+Upstream-Status: Backport [https://git.yoctoproject.org/opkg-utils/commit/?id=68a969f0e867ace0d94faf8ebe7c7bb67f59d386]
-+
-+Signed-off-by: Alex Stewart <alex.stewart@ni.com>
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ opkg-build | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/opkg-build b/opkg-build
-+index 6edd938..0582958 100755
-+--- a/opkg-build
-++++ b/opkg-build
-+@@ -337,7 +337,7 @@ export LANG=C
-+ export LC_ALL=C
-+ ( cd $pkg_dir/$CONTROL && find . -type f | sort > $tmp_dir/control_list )
-+ ( cd $pkg_dir && find . -path ./$CONTROL -prune -o -path . -o -print  | sort > $tmp_dir/file_list )
-+-( cd $pkg_dir && tar $attributesargs $ogargs $tsortargs --numeric-owner --no-recursion $mtime_args -c $tarformat -T $tmp_dir/file_list | $compressor $compressorargs > $tmp_dir/data.tar.$cext )
-++( cd $pkg_dir && tar $attributesargs $ogargs $tsortargs --no-recursion $mtime_args -c $tarformat -T $tmp_dir/file_list | $compressor $compressorargs > $tmp_dir/data.tar.$cext )
-+ ( cd $pkg_dir/$CONTROL && tar $ogargs $tsortargs --no-recursion $mtime_args -c $tarformat -T $tmp_dir/control_list | gzip $zipargs > $tmp_dir/control.tar.gz )
-+ rm $tmp_dir/file_list
-+ rm $tmp_dir/control_list
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb
-index b509227e1a6..e138bc24afd 100644
---- a/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb
-@@ -9,6 +9,7 @@ PROVIDES += "${@bb.utils.contains('PACKAGECONFIG', 'update-alternatives', 'virtu
- 
- SRC_URI = "git://git.yoctoproject.org/opkg-utils;protocol=https;branch=master \
-            file://0001-update-alternatives-correctly-match-priority.patch \
-+           file://0001-opkg-build-remove-numeric-owner-parameter-overzealou.patch \
-            "
- SRCREV = "589880d01969eb9af1e66120e731d43193504718"
- 
--- 
-2.43.0
-
+On Tue, Jan 9, 2024 at 8:05=E2=80=AFAM Ross Burton <Ross.Burton@arm.com> wr=
+ote:
+>
+> On 4 Jan 2024, at 02:10, Khem Raj via lists.openembedded.org <raj.khem=3D=
+gmail.com@lists.openembedded.org> wrote:
+> > -# The tests need to run as a non-root user, so pull in the ptest user
+> > -DEPENDS:append:class-target =3D "${@bb.utils.contains('PTEST_ENABLED',=
+ '1', ' ptest-runner', '', d)}"
+> > -PACKAGE_WRITE_DEPS +=3D "ptest-runner"
+> > +# The tests need to run as a non-root user
+> > +USERADD_PACKAGES =3D "${PN}-ptest"
+> > +USERADD_PARAM:${PN}-ptest =3D "--system --home /nonexistent --no-creat=
+e-home --user-group ptest=E2=80=9D
+>
+> The original lines were intended to pull in the ptest user that the ptest=
+-runner recipe creates.  Why is that not sufficient?
+>
+> Ross
 
