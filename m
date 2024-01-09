@@ -1,133 +1,94 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9183C46CD2
-	for <webhook@archiver.kernel.org>; Tue,  9 Jan 2024 13:57:40 +0000 (UTC)
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
- by mx.groups.io with SMTP id smtpd.web10.17261.1704808654495484680
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8034C47073
+	for <webhook@archiver.kernel.org>; Tue,  9 Jan 2024 14:10:20 +0000 (UTC)
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+ by mx.groups.io with SMTP id smtpd.web10.17620.1704809414989195191
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Jan 2024 05:57:34 -0800
+ Tue, 09 Jan 2024 06:10:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=IXj36zXE;
- spf=pass (domain: gmail.com, ip: 209.85.167.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-50ea98440a7so2862652e87.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Jan 2024 05:57:34 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MZhPzqz2;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.222.175, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-78313803243so272088685a.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Jan 2024 06:10:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704808653; x=1705413453; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=linuxfoundation.org; s=google; t=1704809414; x=1705414214; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8rU5n1oniv3gM62PQ1dLsazDrhzRjY2ehvVsytOl++w=;
-        b=IXj36zXE5OVCkGKCMYr0tZJC/bA3qDPCNCLESWfEqIh1qqCbzaJ4JN6sEStS9UvCKX
-         UP6MUp803iH1uxqTKm1HROLKs3AGjucD+BGSMxdLx0EdlPJ2g5kpEGZVbv5ebCtBTdpK
-         r3SUoqEegcjmuntxIJoYy5L6U6BtHT9ozTPOTmIQSdLVUvyVJIBhqFARVaMkPi5DKhyl
-         hLe2w1jVjZ4GvAdRpv5ny1hXmCp1RQiphfNKUryo3e8jZ9ALXFqgr9twdfoBQ8Da8LF+
-         X6fKibT7B0gPGYGiuPiQcOaxFLpmn52CWvvLqii7l9fthHpeH5WlncIxJS6/FfZmnYCl
-         5V4w==
+        bh=AA7iMYJlcjrGccRgtCKmSG5hnYhsidPhmHWD2LGmcsw=;
+        b=MZhPzqz2iDXBbqUR3DPTVtQuJJUPNPtTKquhEn5dFYcICYzvCGOu+dnjCzNfawRM70
+         7O4DWYvwYMDKT5AxhGfO0F22+KQF4p793VAN5Zyc8sqiSM74gGHGQD6Jee/aBac0bm9B
+         0UwHfMpirI71x5cy7psMMhg9pQxhzrD6pEa6w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704808653; x=1705413453;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8rU5n1oniv3gM62PQ1dLsazDrhzRjY2ehvVsytOl++w=;
-        b=TovBofim1rklcjP32aI/iDQcg7/GePHhjOl5EZ7lHwm3UrNvVvfFRXYm1cw9GflYBd
-         fgk/y7XBKpheAxFj1WSusCI3Q6P+7VF779Gn2rylGvMz0xzW4CNbzmGKZzUAuhciIX5u
-         ZZiC1+oIvL9iY/cMpClzXLqIyyxgmp2yYq/bcYXN9EcW/MLYte5W2YwQMPl1ngUpFZR+
-         0wtSYb0docyYDt29+O/bny4ZZK0QO0xRPvNXMitOOHE9pKGaLbotm/uS2A8HPBNIX/0u
-         W2U4A8EEgCq3B6vuA89CAxY2wzpSh1piBd+nfNLa562BdcD3uoLoQAllUk7gRW8Er0y4
-         cRow==
-X-Gm-Message-State: AOJu0Yw9t7pUT5luevlnOB35LD3cvP3DCViAtI3qD7dLv5Ox6x+ZDx1z
-	580iQDqSA8CGoFY97RaxJ/2wq9qXXP08hmiBCeI=
-X-Google-Smtp-Source: AGHT+IF863+ud5/sB8W6YQ7l5K5O6p56sUd0Ezm1knFSosjqYyzi00Jsh2HxpMKvFCVyNTVnhQCrqXXCsid0xwJy3tk=
-X-Received: by 2002:a05:6512:3e06:b0:50e:ccfa:56c1 with SMTP id
- i6-20020a0565123e0600b0050eccfa56c1mr488492lfv.57.1704808652420; Tue, 09 Jan
- 2024 05:57:32 -0800 (PST)
-MIME-Version: 1.0
-References: <17A8B0DD7AD4D31C.21327@lists.openembedded.org> <PLXZ6S.UNFZMOJ43CYT3@t-online.de>
-In-Reply-To: <PLXZ6S.UNFZMOJ43CYT3@t-online.de>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 9 Jan 2024 14:57:21 +0100
-Message-ID: <CANNYZj_pgGyNtYQ=Vn57Oi0RYoZfkzHo+nkH-8j5d145a6k4+Q@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1704809414; x=1705414214;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=AA7iMYJlcjrGccRgtCKmSG5hnYhsidPhmHWD2LGmcsw=;
+        b=l7Q/fDaETUJvkrIco7t5LM89ovD1qWSKGMlFuMucqFVlslKib+c4Zhq4DzjEJmNpUW
+         pFbNFTRsCI7KpBV/5IcdkR3FhtRMc26QfCeBl1sITEwlCNgvk8ZbcwBJ5crEOEtzWA3y
+         pjfKyj+Pgg6CH0Hn+U6n8zf+yMLf79DFepCGf0hhvsd9GRCP3Mb3PczdFYMgXpnEQNwh
+         1Dt/ofidYJQpn+tyryDUSG3/SD9NjrkKuDazw1B8Xmw5cthoqo6IAWKaQlbsuUfyqKCb
+         sV5A0s7CzdQpzPSslWPehPsUb1lzUCiGu0ULrHwsvRnzbSjwoYah2zdysryo7343Wmcf
+         GF7w==
+X-Gm-Message-State: AOJu0YzNU3phRtoRKZMH2Yaox1QCLZVbWF9Q/SubQ3fFfG9J9U0Os/h6
+	qh9kLwnOWQJWhbH8bn2SEcfAb6dJ21aAQA==
+X-Google-Smtp-Source: AGHT+IHzvgagI9UU7WfXC/JuJouXysfesh8jhBI/krF5Ht4VlYUykJC8L4NhJLdpw867yXFoE/FfSA==
+X-Received: by 2002:a05:620a:201a:b0:781:8c5f:9c75 with SMTP id c26-20020a05620a201a00b007818c5f9c75mr5680067qka.122.1704809414033;
+        Tue, 09 Jan 2024 06:10:14 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:494c:2c49:a717:e3aa? ([2001:8b0:aba:5f3c:494c:2c49:a717:e3aa])
+        by smtp.gmail.com with ESMTPSA id w7-20020ae9e507000000b007831a0f6e75sm813647qkf.96.2024.01.09.06.10.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Jan 2024 06:10:12 -0800 (PST)
+Message-ID: <ddc2301e942a551d895943886fd69da4038341a7.camel@linuxfoundation.org>
 Subject: Re: [RFC][oe-core][PATCH] webp: switch recipe to cmake buildsystem
-To: Markus Volk <f_l_k@t-online.de>
-Cc: openembedded-core@lists.openembedded.org
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Markus Volk <f_l_k@t-online.de>, openembedded-core@lists.openembedded.org
+Date: Tue, 09 Jan 2024 14:10:10 +0000
+In-Reply-To: <20240109132826.2445412-1-f_l_k@t-online.de>
+References: <20240109132826.2445412-1-f_l_k@t-online.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Jan 2024 13:57:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193458
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Jan 2024 14:10:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193459
 
-Whatever strong opinions one has about cmake, opinions about autotools
-are stronger still. It's not super controversial to say, we would
-rather switch away from it whenever possible, and so have many other
-upstream projects. Everyone but GNU, basically.
+On Tue, 2024-01-09 at 14:28 +0100, Markus Volk wrote:
+> Besides the improvements that cmake offers compared to autotools,
+> the advantage would be that cmake config files get created.
+> This is useful so that other projects can find webp using cmake.
+>=20
+> Remove EXTRA_OECONF settings because all of them are set like this
+> by default.
+>=20
+> CMakeLists.txt doesn't provide an option for selecting neon but from
+> what I have tested it gets selected properly.
+>=20
+> Downside is that there is no way to deactivate gif,jpeg,tiff,png or
+> opengl. The libraries are used whenever they are pulled into the sysroot.
 
-So I'm all for your patch, and loss of image format options shouln't
-matter, as I can't imagine why one would want to cherry-pick them.
+I don't really mind cmake or not but we do care a lot about
+determinism.=C2=A0
 
-Alex
+The trouble is things can end up in the sysroot via indirect
+dependencies so this change allows unintended changes to creep in (a
+dependency adds jpeg so the config of webp could change too). I'm
+therefore not happy about having "floating" dependencies this
+introduces.
 
-On Tue, 9 Jan 2024 at 14:32, Markus Volk <f_l_k@t-online.de> wrote:
->
-> Tested this to be working with just oe-core layers (poky and nodistro) wi=
-th glibc and musl for x86_64, aarch64 rpi and qemuarm.
-> Still this is quite invasive and one can have strong opinions about cmake=
-, so i marked it RFC
->
-> On Tue, Jan 9 2024 at 02:28:26 PM +01:00:00, Markus Volk <f_l_k@t-online.=
-de> wrote:
->
-> Besides the improvements that cmake offers compared to autotools, the adv=
-antage would be that cmake config files get created. This is useful so that=
- other projects can find webp using cmake. Remove EXTRA_OECONF settings bec=
-ause all of them are set like this by default. CMakeLists.txt doesn't provi=
-de an option for selecting neon but from what I have tested it gets selecte=
-d properly. Downside is that there is no way to deactivate gif,jpeg,tiff,pn=
-g or opengl. The libraries are used whenever they are pulled into the sysro=
-ot. Signed-off-by: Markus Volk <f_l_k@t-online.de> --- meta/recipes-multime=
-dia/webp/libwebp_1.3.2.bb | 35 +++++-------------- 1 file changed, 9 insert=
-ions(+), 26 deletions(-) diff --git a/meta/recipes-multimedia/webp/libwebp_=
-1.3.2.bb b/meta/recipes-multimedia/webp/libwebp_1.3.2.bb index 63b0fd9a6c..=
-c6a4b97884 100644 --- a/meta/recipes-multimedia/webp/libwebp_1.3.2.bb +++ b=
-/meta/recipes-multimedia/webp/libwebp_1.3.2.bb @@ -18,40 +18,23 @@ SRC_URI[=
-sha256sum] =3D "2a499607df669e40258e53d0ade8035ba4ec0175244869d1025d460562 =
-UPSTREAM_CHECK_URI =3D "http://downloads.webmproject.org/releases/webp/inde=
-x.html" -EXTRA_OECONF =3D " \ - --disable-wic \ - --enable-libwebpmux \ - -=
--enable-libwebpdemux \ - --enable-threading \ -" +EXTRA_OECMAKE =3D "-DBUIL=
-D_SHARED_LIBS=3DON" -# Do not trust configure to determine if neon is avail=
-able. -# -EXTRA_OECONF_ARM =3D " \ - ${@bb.utils.contains("TUNE_FEATURES","=
-neon","--enable-neon","--disable-neon",d)} \ -" -EXTRA_OECONF:append:arm =
-=3D " ${EXTRA_OECONF_ARM}" -EXTRA_OECONF:append:armeb =3D " ${EXTRA_OECONF_=
-ARM}" - -inherit autotools lib_package - -PACKAGECONFIG ??=3D "" - -# libwe=
-bpdecoder is a subset of libwebp, don't build it unless requested -PACKAGEC=
-ONFIG[decoder] =3D "--enable-libwebpdecoder,--disable-libwebpdecoder" +inhe=
-rit cmake lib_package +PACKAGECONFIG ?=3D "" # Apply for examples programs:=
- cwebp and dwebp -PACKAGECONFIG[gif] =3D "--enable-gif,--disable-gif,giflib=
-" -PACKAGECONFIG[jpeg] =3D "--enable-jpeg,--disable-jpeg,jpeg" -PACKAGECONF=
-IG[png] =3D "--enable-png,--disable-png,,libpng" -PACKAGECONFIG[tiff] =3D "=
---enable-tiff,--disable-tiff,tiff" - +PACKAGECONFIG[gif] =3D ",,giflib" +PA=
-CKAGECONFIG[jpeg] =3D ",,jpeg" +PACKAGECONFIG[png] =3D ",,libpng" +PACKAGEC=
-ONFIG[tiff] =3D ",,tiff" # Apply only for example program vwebp -PACKAGECON=
-FIG[gl] =3D "--enable-gl,--disable-gl,mesa-glut" +PACKAGECONFIG[opengl] =3D=
- ",,mesa-glut" PACKAGES =3D+ "${PN}-gif2webp" DESCRIPTION:${PN}-gif2webp =
-=3D "Simple tool to convert animated GIFs to WebP" FILES:${PN}-gif2webp =3D=
- "${bindir}/gif2webp" +FILES:${PN} +=3D "${datadir}" BBCLASSEXTEND +=3D "na=
-tive nativesdk"
-> --
-> 2.43.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#193457): https://lists.openembedded.org/g/openembedde=
-d-core/message/193457
-> Mute This Topic: https://lists.openembedded.org/mt/103619059/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Could we submit a patch upstream to avoid floating dependencies and
+allow things to be specific?
+
+Cheers,
+
+Richard
+
+
 
