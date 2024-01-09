@@ -1,173 +1,277 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8D10C46CD2
-	for <webhook@archiver.kernel.org>; Tue,  9 Jan 2024 16:33:51 +0000 (UTC)
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.57])
- by mx.groups.io with SMTP id smtpd.web11.21174.1704818028135585088
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C448EC46CD2
+	for <webhook@archiver.kernel.org>; Tue,  9 Jan 2024 16:38:51 +0000 (UTC)
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
+ by mx.groups.io with SMTP id smtpd.web10.21505.1704818324230948913
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Jan 2024 08:33:48 -0800
+ Tue, 09 Jan 2024 08:38:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=QzbhlY8J;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=QzbhlY8J;
- spf=pass (domain: arm.com, ip: 40.107.21.57, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
- b=GhnSYUBNx9I62UvLbcnHrzJTOpIvoiaNCTOD7Fpq7jF7pa/qjOhTXo2CquAzkDUePbEbj9ZU/K8SZ0Nrnf155OrvfSJvqpwvE26bylMRsA0nmaSgGdr6lJT0SSzH1xtGtsFsfECqv8WvBzAGU85zWKCOmUz3jndr2GM6jbhN9VFliY92MckcM+P80RO7ISNR9cMpjpWs7GgemTwHCJzzQascWnPVXyls3Qm+0V0eBCtV5X0fIKOM3anERFKQpLPGvmN5LJVH0KVCvghPyElqTsogTS3dsJihwM8EypFZknIAHLO6RCSDVkRNRxavBeSQgt73bXqTLLaPRBaQdHCRLw==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bkY5skp8aHIEXsZMJyt82nmKIDisHG9DdyvI2T8U4/s=;
- b=Xo3Y3PLmohXh3I3YalqrVZUJMAjcB4MD6Mza/cpAfWLkiUslghiW3W6BjndkpwHk8nvNU8KcWeRXPAhW4CWkMDQ2sKuQspxWuGJwixS+UtN3kFDRc3E6rb8Gh2436dEVor9NHe3LkI7UcQ0jA16u+n6bF22WDWmNJPv3X8JlKkLoOjUuliqDWwt7gjx2hYRO8zAQF8PTM0ciJK2GeV6NYwZbeu1PsImr+yfo35eqSXhAMmjrZ3Ks7Mdu/1lxvmT4XIno41mVTnfgljHoZQFsBcAXhAfVWNga0vV0wswTouZJB1Uv2J3Ym5uXS7Ept+9GVLG1I76Dua14W9jEE25Zag==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 63.35.35.123) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=armh.onmicrosoft.com; arc=pass (0
- oda=1 ltdi=1 spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bkY5skp8aHIEXsZMJyt82nmKIDisHG9DdyvI2T8U4/s=;
- b=QzbhlY8JdJ3RYcrJ87bS+6FB38DWuHNODhai40o/8uFC1YR4YN/3RB3uBp2vggLS/hniUPpxJe4C9WbOUfYejEzXMjIXMmRqm7eK2vZarXAjsNXPZ1ESEGsPys3KoZRuSxvBuJ44QmWhGXuFo/850IMLGrbQuZGxX5uZ4IrjJsM=
-Received: from DUZPR01CA0324.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:4ba::29) by DB9PR08MB9682.eurprd08.prod.outlook.com
- (2603:10a6:10:462::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7159.23; Tue, 9 Jan
- 2024 16:33:42 +0000
-Received: from DU6PEPF00009527.eurprd02.prod.outlook.com
- (2603:10a6:10:4ba:cafe::d5) by DUZPR01CA0324.outlook.office365.com
- (2603:10a6:10:4ba::29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7159.23 via Frontend
- Transport; Tue, 9 Jan 2024 16:33:42 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- DU6PEPF00009527.mail.protection.outlook.com (10.167.8.8) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7181.14 via Frontend Transport; Tue, 9 Jan 2024 16:33:42 +0000
-Received: ("Tessian outbound 9bee66383d2d:v239"); Tue, 09 Jan 2024 16:33:42 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 950d566fe1fba036
-X-CR-MTA-TID: 64aa7808
-Received: from 1544ba561c53.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 827D934C-34E5-48A4-AC72-FCFE369E5666.1;
-	Tue, 09 Jan 2024 16:33:35 +0000
-Received: from EUR02-VI1-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 1544ba561c53.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Tue, 09 Jan 2024 16:33:35 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dxzsVUfpI0XxDxns1kA/1kbDhJ2bepavapVIG8uOWFPxALIDY7/oBaJfa1n02W3aJkHUjuxmgFlsCfyG6LJGbEzwjV4oTk/aJXpBuJfa62IJ/0Mr+uWZP2eL2sH++uGc71AfNIofbyi7NnpRXl3rDdeLLAyeH1rDdMSOjYxP8+8aK871tUmEtRG3nXUkSn4/aIcaNlEMsyd6XXFZsw7BHj60lxM3+00toF0xVaoBlgg0L9gxQefpgKJQXPuPUNjRfMdIYGAc9xUZTOgBpzb6blVGoQN2ItJN7ibNmx+jbVkWbobP3O7Lin4lQUM1gnkhpdVNGp1JwmryyW1y7FBwGQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bkY5skp8aHIEXsZMJyt82nmKIDisHG9DdyvI2T8U4/s=;
- b=Du4gr4hBsgBGqyRvzmUGUf1Wp0oShC4JKjbfGCx8e96cLa84mulT1o8sX/58efpKv0O5X+ASgYZGTnxjghckfZqfEsUrrX8VTA9X5vxPLv3bawanZ3QvaR8ifyo9kTv2zxGLkhG6gZOAInVk26zkfsPNjrvPYpDtIWnE5sFn1+9Y+y8hXxA3pg/P9bBcyxD7GmxmrKzLYfqvJ6Pl9yNB0jUZWjT39KNDAiLrCi3jXHZYpr37h7hi6yflzoj4jncIqXO/yX7K6DC5+1eaewtm5qs4y5qfhHMANUWqpYkYGZsKnpzxgkb2PltPMuKj3mLW6IZpuT6xfr65rnaGaHmctg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bkY5skp8aHIEXsZMJyt82nmKIDisHG9DdyvI2T8U4/s=;
- b=QzbhlY8JdJ3RYcrJ87bS+6FB38DWuHNODhai40o/8uFC1YR4YN/3RB3uBp2vggLS/hniUPpxJe4C9WbOUfYejEzXMjIXMmRqm7eK2vZarXAjsNXPZ1ESEGsPys3KoZRuSxvBuJ44QmWhGXuFo/850IMLGrbQuZGxX5uZ4IrjJsM=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by PAXPR08MB7393.eurprd08.prod.outlook.com (2603:10a6:102:2bd::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7159.21; Tue, 9 Jan
- 2024 16:33:30 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::ef47:2c42:1ef6:fe5c]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::ef47:2c42:1ef6:fe5c%6]) with mapi id 15.20.7159.020; Tue, 9 Jan 2024
- 16:33:30 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: Khem Raj <raj.khem@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] glib-networking: Fix ptest failures with
- openssl backend
-Thread-Topic: [OE-core] [PATCH] glib-networking: Fix ptest failures with
- openssl backend
-Thread-Index: AQHaNQAFFl0k3Asme0io/Ko1wR+UW7DRvmQAgAAFPACAAAV8AA==
-Date: Tue, 9 Jan 2024 16:33:30 +0000
-Message-ID: <B452371D-F3B7-4E14-9CA8-4E934D05BAC3@arm.com>
-References: <20231222175452.3796386-1-raj.khem@gmail.com>
- <CFDEB1DE-ACAF-4175-8BF5-8FD59AFC2110@arm.com>
- <CAMKF1srWfX8ohAJZ0nAV9i7HjWkyb-hLUAn-wh1bbJ17_uyXFA@mail.gmail.com>
-In-Reply-To: 
- <CAMKF1srWfX8ohAJZ0nAV9i7HjWkyb-hLUAn-wh1bbJ17_uyXFA@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3774.300.61.1.2)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|PAXPR08MB7393:EE_|DU6PEPF00009527:EE_|DB9PR08MB9682:EE_
-X-MS-Office365-Filtering-Correlation-Id: 00a09fd5-0d97-4d8e-96c0-08dc1130be0a
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- 4Nugkuypnjsmd8DGWbpwAITO5VwzLW4SJJ+I/MDCh34NxziqgC3SjSWvBo7UlAO6Nmwobp0O6upToP+N6kY5UNvnKMQ7caUYEM/r1+4k7SJLoDKePOhfyzFzbEZqa7IcFF4xbfCC5fIM56NTAwmvj+1DmnweziqkE6X0bbZ1fdAZ2pYu/UAdSIzxiSTeZC2i5Virg29HofKLJ/igJoX5IIT50J5CwlnkiYFLmKQkhJSqH/g/wEaMsMs1Mz1/trItt6bIZDlLBMflznBa1Y/CcWjiYPGBHfa097rN0kDVqyaMIyx078Ew+G96lFd+iBkIxO4sRX9f5idDYfPvnmjwIIlMh5b/96QQJtA6YikQGaKiKL0tClF6hWznuhAGU2qIK0v+jySvCuOnurM4CkQidpwGIG7QseHmcNmqfE3MFhSbU4+ggtZV9Ds1itCdyi8CuvzAeRu2XnPwMlHgvg3Tq0dpTowmftJf1gFKkZzMftuIiEV3ZbgPF8/yOrkIezNRK5R/vVUQIVu4//VvToF0HwvtYFzw3YWg91aiCVJ4kJ8pGpU48UYa7K92IJHmC71gUZVVqoGT8wZ96hdMuoBERusx8usgcyKsp+d+buRg+uUokdQDc3aqlkm7FiKcv7IcTFcwhsR/zPJt1u5ZcYxJqQ==
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(376002)(396003)(366004)(39860400002)(346002)(230922051799003)(451199024)(1800799012)(186009)(64100799003)(4744005)(38100700002)(2906002)(6486002)(2616005)(91956017)(66476007)(76116006)(66556008)(64756008)(38070700009)(66446008)(66946007)(41300700001)(122000001)(33656002)(86362001)(4326008)(5660300002)(36756003)(26005)(6916009)(316002)(53546011)(6506007)(6512007)(71200400001)(83380400001)(478600001)(8936002)(8676002)(45980500001);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <2C95A7461507C14287CBEF27AB86E735@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=L/6ezlVD;
+ spf=pass (domain: gmail.com, ip: 209.85.160.46, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-2064cc6cc51so613187fac.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Jan 2024 08:38:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1704818323; x=1705423123; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=/yia8yD1atXSl6IgRENERXqEvuFJYD0o1zwRfxM/FrY=;
+        b=L/6ezlVD9/U9DvW749HK6CXIbr1DaARUh+3bWhF/F/L6UCmDDTVNCOcImEGJ0gxSlv
+         7X13DyXENFYV45pBd6fznYCSvL5pHDACTgAI5wGHVdBGyrrfOtr04RWveF2rC5m/8oXw
+         DzB8ns6tU/82odkfrm3rwVY3IVmF5riLkgA5lF9CkPMy81uktBGglk+y9/Kf2rnaX8Dp
+         4hrCyg39GEazGOOf6NijETMIg2jzvhEgV+RJZbnHeXObCrF0cTg8YRXI8PJrj99YqttB
+         +GjRi+TNPCZDF4o8FnX7vvAOTEF7hx6xqqXvbm41ecYRxF1hNYLYwot5bH4b3iqE5ACg
+         Mdlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704818323; x=1705423123;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/yia8yD1atXSl6IgRENERXqEvuFJYD0o1zwRfxM/FrY=;
+        b=F9fKaiM2r/LcYC3AbK7Xsb+0RCsvcTx15NEeRyr7tPtKQ1sleds02WRb0a/2i18xCD
+         Hcu8RlIH3hVid+PSh09WmrBZuqJ7eZxWbvKkt7WfwleOTGe33+hVuDjBYn7RUVo9unqt
+         UAlKTKhiLd3hK//VdF3zfVbhAQrOuFId0HcU1YROEXrTakXseRQwgpokKjMzVDnJX9iV
+         B943rWSevStMKPJOsbhrv4prdE9ZbxSvfqXp2JRjYYa/xUcob1iQBbxYptYDG4mJFIsi
+         BSA6BhJ/nbKnjv+pozc/5mvI6ZfpBQ/qxfqM0mzvoR3Co/PaVhEXOrrn2Euk9CRCFV8J
+         KBJA==
+X-Gm-Message-State: AOJu0Yw7682r6+4cidaro7qrWAgWBncpxBGzMl8P0cD+DJqzRuR9J286
+	eLcCfVryxhh+sQpD714TrVzn1U7xuvhaicyZoW4=
+X-Google-Smtp-Source: AGHT+IHCf+j8BYkA6hbHat6jj/C5BsOAD0FDzBJ6B+HDEm8EeTnyMAlU1aOjxIjxcSHvcLrZpi4q6I4Wx5XK1yy7Knw=
+X-Received: by 2002:a05:6870:4584:b0:203:ced3:12ee with SMTP id
+ y4-20020a056870458400b00203ced312eemr4735831oao.93.1704818322986; Tue, 09 Jan
+ 2024 08:38:42 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR08MB7393
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- DU6PEPF00009527.eurprd02.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	7ea86a28-8e35-43c3-0047-08dc1130b717
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	t/nws49sTSMlviApiWRVz7RZEhcNcNSJwPhOqDvy2tAO3596zY7l2qLntUi5Ri/JoeCPGQJKRJChb/lRO+3uiXOmu6zAyuydLWQTiBV2lGKbgxVP0XDCULas1cQaKS4KnBzZg0WFB2MacL+DDb7vquoVaj8uKaqkEMLuGCYT8JbU3Q83cnTi1fhOssYKAHNyWZug66RL7zgFOJA28y8LN5K9vwCzHBjivaK5WcUzghfB4O+Hq7ViEEynND59gS4bgvyvtpNyAxpJoJRLOKK/hp4Z8nLt8mpcEjrt2hfDtQTrzt/oPvduaaFbuCYcEwI3O787Yvp6bAtvbwV75jRF5+PyEpb8hbKHGtVolJV7+KE4c28y7BekTvSzWGxn1mE382dcorppAtT9XiEXklmBtzuj9ySn3NptGwCMSyr42pFm1RGwl4/AtmwBOvzBQmZqB0gLmLPaOQg62OFKShZe682AbUxP2LEZsicwA+j6s8pihMOYM6wvu8PADMk6wdclXUksiCXtcrqr0k0M3I7W9r5aD3Uqy+xgvtumf0eZboePzC7kfjs7im2hMJAQ7ttvIqXkARwyx51ScsbWNp/jYb/Xrty1RkYGIc3mVgiNaSjuKuSHqlCnh6mMQRniZxbg9YIwQtINIa8f7OPY1Du4yvGFzomMka4YiybPgzZ9Df2yE53V0U8qPmodY5Cm8fr3GS9Gh4wWYq9efIorGQRBylXUTiqizYDptf4A4sGCpOhKkrJiSUZAePeTo09osA5j
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230031)(4636009)(376002)(346002)(136003)(39860400002)(396003)(230922051799003)(451199024)(64100799003)(82310400011)(186009)(1800799012)(46966006)(36840700001)(40470700004)(83380400001)(26005)(53546011)(6506007)(6512007)(336012)(2616005)(36860700001)(82740400003)(47076005)(4326008)(8676002)(8936002)(6862004)(5660300002)(4744005)(2906002)(6486002)(478600001)(316002)(70586007)(41300700001)(70206006)(356005)(33656002)(81166007)(36756003)(86362001)(40480700001)(40460700003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jan 2024 16:33:42.4078
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 00a09fd5-0d97-4d8e-96c0-08dc1130be0a
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DU6PEPF00009527.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB9682
+References: <17A8B0DD7AD4D31C.21327@lists.openembedded.org> <PLXZ6S.UNFZMOJ43CYT3@t-online.de>
+In-Reply-To: <PLXZ6S.UNFZMOJ43CYT3@t-online.de>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 9 Jan 2024 08:38:32 -0800
+Message-ID: <CAMKF1soVHRa7Ksw5jtkedFQuJzM08tEzK-810p0RtGmKe_YRMQ@mail.gmail.com>
+Subject: Re: [RFC][oe-core][PATCH] webp: switch recipe to cmake buildsystem
+To: Markus Volk <f_l_k@t-online.de>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000008c5ab7060e85f287"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Jan 2024 16:33:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193469
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Jan 2024 16:38:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193470
 
-T24gOSBKYW4gMjAyNCwgYXQgMTY6MTMsIEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+IHdy
-b3RlOg0KPiANCj4gT24gVHVlLCBKYW4gOSwgMjAyNCBhdCA3OjU14oCvQU0gUm9zcyBCdXJ0b24g
-PFJvc3MuQnVydG9uQGFybS5jb20+IHdyb3RlOg0KPj4gDQo+PiBPbiAyMiBEZWMgMjAyMywgYXQg
-MTc6NTQsIEtoZW0gUmFqIHZpYSBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIDxyYWoua2hlbT1nbWFp
-bC5jb21AbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4gd3JvdGU6DQo+Pj4gK1NSQ19VUkkgKz0gImZp
-bGU6Ly9lYWdhaW4ucGF0Y2ggXA0KPj4+ICsgICAgICAgICAgICBmaWxlOi8vMDAwMS10ZXN0cy1E
-aXNhYmxlLXRlc3RfdW5jbGVhbl9jbG9zZV9ieV9zZXJ2ZXIucGF0Y2ggXA0KPj4gDQo+PiBBcyB0
-aGlzIG9ubHkgYWZmZWN0cyBidWlsZHMgd2l0aCBvcGVuc3NsLCBzaG91bGQgd2UgYXBwbHkgdGhl
-IHBhdGNoIGluIG9uIG9wZW5zc2wgYnVpbGRzPw0KPj4gDQo+IA0KPiBpcyBpdCBlbmFibGVkIHRv
-IHJ1biB3aGVuIHVzaW5nIG90aGVyIGJhY2tlbmRzID8NCg0KVGhhdCB0ZXN0IGRvZXNu4oCZdCBh
-cHBlYXIgdG8gYmUgZ3VhcmRlZCB0byBvbmx5IHJ1biBvbiBvcGVuc3NsLCBzbyBpdCBwYXNzZXMg
-d2l0aCBnbnV0bHMuDQoNCkZXSVcsIGl04oCZcyByZWNvbW1lbmRlZCB0byB1c2UgZ251dGxzIHVu
-bGVzcyB5b3UgaGF2ZSBpbmNyZWRpYmx5IGdvb2QgcmVhc29ucywgdGhlIG9wZW5zc2wgYmFja2Vu
-ZCBfaXNfIGJyb2tlbi4NCg0KUm9zcw==
+--0000000000008c5ab7060e85f287
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Is upstream also switching to use cmake as primary build system ?
+
+On Tue, Jan 9, 2024 at 5:32=E2=80=AFAM Markus Volk <f_l_k@t-online.de> wrot=
+e:
+
+> Tested this to be working with just oe-core layers (poky and nodistro)
+> with glibc and musl for x86_64, aarch64 rpi and qemuarm.
+> Still this is quite invasive and one can have strong opinions about cmake=
+,
+> so i marked it RFC
+>
+> On Tue, Jan 9 2024 at 02:28:26 PM +01:00:00, Markus Volk <
+> f_l_k@t-online.de> wrote:
+>
+> Besides the improvements that cmake offers compared to autotools, the
+> advantage would be that cmake config files get created. This is useful so
+> that other projects can find webp using cmake. Remove EXTRA_OECONF settin=
+gs
+> because all of them are set like this by default. CMakeLists.txt doesn't
+> provide an option for selecting neon but from what I have tested it gets
+> selected properly. Downside is that there is no way to deactivate
+> gif,jpeg,tiff,png or opengl. The libraries are used whenever they are
+> pulled into the sysroot. Signed-off-by: Markus Volk <f_l_k@t-online.de>
+> --- meta/recipes-multimedia/webp/libwebp_1.3.2.bb | 35
+> +++++-------------- 1 file changed, 9 insertions(+), 26 deletions(-) diff
+> --git a/meta/recipes-multimedia/webp/libwebp_1.3.2.bb
+> b/meta/recipes-multimedia/webp/libwebp_1.3.2.bb index
+> 63b0fd9a6c..c6a4b97884 100644 --- a/meta/recipes-multimedia/webp/
+> libwebp_1.3.2.bb +++ b/meta/recipes-multimedia/webp/libwebp_1.3.2.bb @@
+> -18,40 +18,23 @@ SRC_URI[sha256sum] =3D
+> "2a499607df669e40258e53d0ade8035ba4ec0175244869d1025d460562
+> UPSTREAM_CHECK_URI =3D "
+> http://downloads.webmproject.org/releases/webp/index.html" -EXTRA_OECONF
+> =3D " \ - --disable-wic \ - --enable-libwebpmux \ - --enable-libwebpdemux=
+ \ -
+> --enable-threading \ -" +EXTRA_OECMAKE =3D "-DBUILD_SHARED_LIBS=3DON" -# =
+Do not
+> trust configure to determine if neon is available. -# -EXTRA_OECONF_ARM =
+=3D "
+> \ - ${@bb.utils.contains("TUNE_FEATURES","neon","--enable-neon","--disabl=
+e-neon",d)}
+> \ -" -EXTRA_OECONF:append:arm =3D " ${EXTRA_OECONF_ARM}"
+> -EXTRA_OECONF:append:armeb =3D " ${EXTRA_OECONF_ARM}" - -inherit autotool=
+s
+> lib_package - -PACKAGECONFIG ??=3D "" - -# libwebpdecoder is a subset of
+> libwebp, don't build it unless requested -PACKAGECONFIG[decoder] =3D
+> "--enable-libwebpdecoder,--disable-libwebpdecoder" +inherit cmake
+> lib_package +PACKAGECONFIG ?=3D "" # Apply for examples programs: cwebp a=
+nd
+> dwebp -PACKAGECONFIG[gif] =3D "--enable-gif,--disable-gif,giflib"
+> -PACKAGECONFIG[jpeg] =3D "--enable-jpeg,--disable-jpeg,jpeg"
+> -PACKAGECONFIG[png] =3D "--enable-png,--disable-png,,libpng"
+> -PACKAGECONFIG[tiff] =3D "--enable-tiff,--disable-tiff,tiff" -
+> +PACKAGECONFIG[gif] =3D ",,giflib" +PACKAGECONFIG[jpeg] =3D ",,jpeg"
+> +PACKAGECONFIG[png] =3D ",,libpng" +PACKAGECONFIG[tiff] =3D ",,tiff" # Ap=
+ply
+> only for example program vwebp -PACKAGECONFIG[gl] =3D
+> "--enable-gl,--disable-gl,mesa-glut" +PACKAGECONFIG[opengl] =3D ",,mesa-g=
+lut"
+> PACKAGES =3D+ "${PN}-gif2webp" DESCRIPTION:${PN}-gif2webp =3D "Simple too=
+l to
+> convert animated GIFs to WebP" FILES:${PN}-gif2webp =3D "${bindir}/gif2we=
+bp"
+> +FILES:${PN} +=3D "${datadir}" BBCLASSEXTEND +=3D "native nativesdk"
+> --
+> 2.43.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#193457):
+> https://lists.openembedded.org/g/openembedded-core/message/193457
+> Mute This Topic: https://lists.openembedded.org/mt/103619059/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> raj.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--0000000000008c5ab7060e85f287
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Is upstream also switching to use cmake as primary build =
+system ?</div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
+"gmail_attr">On Tue, Jan 9, 2024 at 5:32=E2=80=AFAM Markus Volk &lt;<a href=
+=3D"mailto:f_l_k@t-online.de">f_l_k@t-online.de</a>&gt; wrote:<br></div><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #=
+ccc solid;padding-left:1ex"><div id=3D"m_-3774061781069978739geary-body" di=
+r=3D"auto"><div>Tested this to be working with just oe-core layers (poky an=
+d nodistro) with glibc and musl for x86_64, aarch64 rpi and qemuarm.</div><=
+div>Still this is quite invasive and one can have strong opinions about cma=
+ke, so i marked it RFC</div></div><div id=3D"m_-3774061781069978739geary-qu=
+ote" dir=3D"auto"><br>On Tue, Jan 9 2024 at 02:28:26 PM +01:00:00, Markus V=
+olk &lt;<a href=3D"mailto:f_l_k@t-online.de" target=3D"_blank">f_l_k@t-onli=
+ne.de</a>&gt; wrote:<br><blockquote type=3D"cite"><div style=3D"white-space=
+:break-spaces">Besides the improvements that cmake offers compared to autot=
+ools,
+the advantage would be that cmake config files get created.
+This is useful so that other projects can find webp using cmake.
+
+Remove EXTRA_OECONF settings because all of them are set like this
+by default.
+
+CMakeLists.txt doesn&#39;t provide an option for selecting neon but from
+what I have tested it gets selected properly.
+
+Downside is that there is no way to deactivate gif,jpeg,tiff,png or
+opengl. The libraries are used whenever they are pulled into the sysroot.
+
+Signed-off-by: Markus Volk &lt;<a href=3D"mailto:f_l_k@t-online.de" target=
+=3D"_blank">f_l_k@t-online.de</a>&gt;
+---
+ meta/recipes-multimedia/webp/<a href=3D"http://libwebp_1.3.2.bb" target=3D=
+"_blank">libwebp_1.3.2.bb</a> | 35 +++++--------------
+ 1 file changed, 9 insertions(+), 26 deletions(-)
+
+diff --git a/meta/recipes-multimedia/webp/<a href=3D"http://libwebp_1.3.2.b=
+b" target=3D"_blank">libwebp_1.3.2.bb</a> b/meta/recipes-multimedia/webp/<a=
+ href=3D"http://libwebp_1.3.2.bb" target=3D"_blank">libwebp_1.3.2.bb</a>
+index 63b0fd9a6c..c6a4b97884 100644
+--- a/meta/recipes-multimedia/webp/<a href=3D"http://libwebp_1.3.2.bb" targ=
+et=3D"_blank">libwebp_1.3.2.bb</a>
++++ b/meta/recipes-multimedia/webp/<a href=3D"http://libwebp_1.3.2.bb" targ=
+et=3D"_blank">libwebp_1.3.2.bb</a>
+@@ -18,40 +18,23 @@ SRC_URI[sha256sum] =3D &quot;2a499607df669e40258e53d0ad=
+e8035ba4ec0175244869d1025d460562
+=20
+ UPSTREAM_CHECK_URI =3D &quot;<a href=3D"http://downloads.webmproject.org/r=
+eleases/webp/index.html" target=3D"_blank">http://downloads.webmproject.org=
+/releases/webp/index.html</a>&quot;
+=20
+-EXTRA_OECONF =3D &quot; \
+-    --disable-wic \
+-    --enable-libwebpmux \
+-    --enable-libwebpdemux \
+-    --enable-threading \
+-&quot;
++EXTRA_OECMAKE =3D &quot;-DBUILD_SHARED_LIBS=3DON&quot;
+=20
+-# Do not trust configure to determine if neon is available.
+-#
+-EXTRA_OECONF_ARM =3D &quot; \
+-    <a href=3D"mailto:$%7B@bb.utils.contains" target=3D"_blank">${@bb.util=
+s.contains</a>(&quot;TUNE_FEATURES&quot;,&quot;neon&quot;,&quot;--enable-ne=
+on&quot;,&quot;--disable-neon&quot;,d)} \
+-&quot;
+-EXTRA_OECONF:append:arm =3D &quot; ${EXTRA_OECONF_ARM}&quot;
+-EXTRA_OECONF:append:armeb =3D &quot; ${EXTRA_OECONF_ARM}&quot;
+-
+-inherit autotools lib_package
+-
+-PACKAGECONFIG ??=3D &quot;&quot;
+-
+-# libwebpdecoder is a subset of libwebp, don&#39;t build it unless request=
+ed
+-PACKAGECONFIG[decoder] =3D &quot;--enable-libwebpdecoder,--disable-libwebp=
+decoder&quot;
++inherit cmake lib_package
+=20
++PACKAGECONFIG ?=3D &quot;&quot;
+ # Apply for examples programs: cwebp and dwebp
+-PACKAGECONFIG[gif] =3D &quot;--enable-gif,--disable-gif,giflib&quot;
+-PACKAGECONFIG[jpeg] =3D &quot;--enable-jpeg,--disable-jpeg,jpeg&quot;
+-PACKAGECONFIG[png] =3D &quot;--enable-png,--disable-png,,libpng&quot;
+-PACKAGECONFIG[tiff] =3D &quot;--enable-tiff,--disable-tiff,tiff&quot;
+-
++PACKAGECONFIG[gif] =3D &quot;,,giflib&quot;
++PACKAGECONFIG[jpeg] =3D &quot;,,jpeg&quot;
++PACKAGECONFIG[png] =3D &quot;,,libpng&quot;
++PACKAGECONFIG[tiff] =3D &quot;,,tiff&quot;
+ # Apply only for example program vwebp
+-PACKAGECONFIG[gl] =3D &quot;--enable-gl,--disable-gl,mesa-glut&quot;
++PACKAGECONFIG[opengl] =3D &quot;,,mesa-glut&quot;
+=20
+ PACKAGES =3D+ &quot;${PN}-gif2webp&quot;
+=20
+ DESCRIPTION:${PN}-gif2webp =3D &quot;Simple tool to convert animated GIFs =
+to WebP&quot;
+ FILES:${PN}-gif2webp =3D &quot;${bindir}/gif2webp&quot;
+=20
++FILES:${PN} +=3D &quot;${datadir}&quot;
+ BBCLASSEXTEND +=3D &quot;native nativesdk&quot;
+<div>--=20
+</div>2.43.0
+
+</div><div style=3D"white-space:break-spaces">
+
+
+</div></blockquote></div>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#193457): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/193457" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/193457</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/103619059/199=
+7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/103619059/1997914</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
+=3D"_blank">raj.khem@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--0000000000008c5ab7060e85f287--
 
