@@ -1,219 +1,101 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <throos@amazon.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E6A6C46CD2
-	for <webhook@archiver.kernel.org>; Tue,  9 Jan 2024 11:31:50 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web11.14506.1704799900670910939
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 630ECC46CD2
+	for <webhook@archiver.kernel.org>; Tue,  9 Jan 2024 12:12:30 +0000 (UTC)
+Received: from smtp-fw-52003.amazon.com (smtp-fw-52003.amazon.com [52.119.213.152])
+ by mx.groups.io with SMTP id smtpd.web11.15031.1704802344498087764
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Jan 2024 03:31:41 -0800
+ Tue, 09 Jan 2024 04:12:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=btJVLoZd;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-40e52ebd63dso269555e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Jan 2024 03:31:40 -0800 (PST)
+ dkim=pass header.i=@amazon.de header.s=amazon201209 header.b=MbB9lQUZ;
+ spf=pass (domain: amazon.de, ip: 52.119.213.152, mailfrom: prvs=73170cd5c=throos@amazon.de)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1704799899; x=1705404699; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=e4LLanetryquqgPr2yfiDjSoEbnJCLCjrvwYyFWV44k=;
-        b=btJVLoZd6OjtG7T7FPOlRdYeDyl1e7Jbfyx9uSBz+teuzJtriAWJuxhbtkqCGG6XAI
-         nj2SWzOuXWpLJD00T+C2uyzL82IRgOk2f9TgruRYJcp8sYUQs8g+v2PpZhEllzYBvxhc
-         Bp4fFyMIoke/ctRqqrH8du2o92IF5W4ExxsoU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704799899; x=1705404699;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=e4LLanetryquqgPr2yfiDjSoEbnJCLCjrvwYyFWV44k=;
-        b=bndVEpp5cLY3BNLotmmUzkjbZCBC7/hAtvTagkiNL1wUnIbK0mmW3AkK/B5h66zVEG
-         30oi8XNQ34vSPbw3Y0XpDPnsK1ukofWAPyGqY1Iieg4TFNpxetdNfkc6sZNkKU1JT9sb
-         kmKTF/ezGDzZNjBHqv3V7K6P1u0d0PwiCA/nZfRL6qqRU4LS+0rXzeePhsF/aGHI3XVW
-         sJtwCFqlkYIGV3NveGc7BtvwrMi96zwGwPHpYqBec+puCiXkf7/IWPWjXAOBEBgLwtf+
-         wMg87LNKxYIxwfm2dTVVFxlRCSRiW67OaK2UWTK4qJ1OHUp+Vl5qG/eEwn1izrdoqfMp
-         XYsw==
-X-Gm-Message-State: AOJu0Yy4apmYd+InT0QTWHr8PFNFQs20wPrWnKvp4DWyBUKweph0U9aU
-	ebJHvZOPdnpnZAKOm3v4SXmlI+Xz8rIi/A==
-X-Google-Smtp-Source: AGHT+IH04B+vgyi53s754ZEF4k4ByZKg3poUz/bfh1SCUTIletA2VTcS15eTWh0mh/wP7j8NsTe+Ug==
-X-Received: by 2002:a05:600c:a42:b0:40d:8f82:79bb with SMTP id c2-20020a05600c0a4200b0040d8f8279bbmr2855474wmq.182.1704799899012;
-        Tue, 09 Jan 2024 03:31:39 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:494c:2c49:a717:e3aa? ([2001:8b0:aba:5f3c:494c:2c49:a717:e3aa])
-        by smtp.gmail.com with ESMTPSA id n43-20020a05600c502b00b0040e4abebaf7sm3234946wmr.34.2024.01.09.03.31.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jan 2024 03:31:38 -0800 (PST)
-Message-ID: <5ca39e406457c11db233d9dfc570548f0643c2b0.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 4/4] classes/recipes: Switch to use
- inherit_defer
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Ross Burton <Ross.Burton@arm.com>, 
-	"openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Tue, 09 Jan 2024 11:31:37 +0000
-In-Reply-To: <CAMKF1sqz0-uE978BeQUsJ3RpGyh6a4LK3nbjBxhSHiuSZJw0fg@mail.gmail.com>
-References: <20240103145902.2124110-1-richard.purdie@linuxfoundation.org>
-	 <20240103145902.2124110-4-richard.purdie@linuxfoundation.org>
-	 <A0382FB4-C99B-4558-8B8B-D5A3A248C862@arm.com>
-	 <62591061a843999d470506252d6044f50ac81228.camel@linuxfoundation.org>
-	 <CAMKF1srS6EfRxA5ZSGAxZ7nLT9=wF2_DoP0EDNhbSWNyRwxhVg@mail.gmail.com>
-	 <CAMKF1sqz0-uE978BeQUsJ3RpGyh6a4LK3nbjBxhSHiuSZJw0fg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
+  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
+  t=1704802345; x=1736338345;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=iEnPgSkVf1nlwH0a0zxc0eNgaCN1NNOHKNX6B6WzP1o=;
+  b=MbB9lQUZbKOVqoJGx+I4+CJP1HlZEFoqCfpYvy3JLKHOXAx2U/E9WrhN
+   eawcZ78MkX/OneBySQJLkQ7YDqln1VNky0Zn419v+dtDliFGVik82Sn/d
+   +ttXae6hxgxMBtCBmSJ+rGvK7KUEVK4K6CQMpTGRvUctaJCs8Cexrc2Mg
+   4=;
+X-IronPort-AV: E=Sophos;i="6.04,182,1695686400"; 
+   d="scan'208";a="630131094"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO email-inbound-relay-iad-1e-m6i4x-7dc0ecf1.us-east-1.amazon.com) ([10.43.8.6])
+  by smtp-border-fw-52003.iad7.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2024 12:12:23 +0000
+Received: from smtpout.prod.us-east-1.prod.farcaster.email.amazon.dev (iad7-ws-svc-p70-lb3-vlan2.iad.amazon.com [10.32.235.34])
+	by email-inbound-relay-iad-1e-m6i4x-7dc0ecf1.us-east-1.amazon.com (Postfix) with ESMTPS id A0C4D8062B
+	for <openembedded-core@lists.openembedded.org>; Tue,  9 Jan 2024 12:12:22 +0000 (UTC)
+Received: from EX19MTAEUA001.ant.amazon.com [10.0.17.79:51669]
+ by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.3.99:2525] with esmtp (Farcaster)
+ id 1bca0af9-de65-4818-9f0e-d7f91492b645; Tue, 9 Jan 2024 12:12:21 +0000 (UTC)
+X-Farcaster-Flow-ID: 1bca0af9-de65-4818-9f0e-d7f91492b645
+Received: from EX19D016EUC001.ant.amazon.com (10.252.51.169) by
+ EX19MTAEUA001.ant.amazon.com (10.252.50.223) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Tue, 9 Jan 2024 12:12:21 +0000
+Received: from u182adcbddbfb55.ant.amazon.com (10.1.212.9) by
+ EX19D016EUC001.ant.amazon.com (10.252.51.169) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Tue, 9 Jan 2024 12:12:19 +0000
+From: <throos@amazon.de>
+To: <openembedded-core@lists.openembedded.org>
+CC: Thomas Roos <throos@amazon.de>
+Subject: [PATCH] abseil-cpp: readd use of -std=c++14
+Date: Tue, 9 Jan 2024 13:12:08 +0100
+Message-ID: <20240109121208.170594-1-throos@amazon.de>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+X-Originating-IP: [10.1.212.9]
+X-ClientProxiedBy: EX19D041UWB001.ant.amazon.com (10.13.139.132) To
+ EX19D016EUC001.ant.amazon.com (10.252.51.169)
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Jan 2024 11:31:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193453
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Jan 2024 12:12:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193454
 
-On Mon, 2024-01-08 at 19:53 -0800, Khem Raj wrote:
-> On Mon, Jan 8, 2024 at 7:49=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wrot=
-e:
-> >=20
-> > On Mon, Jan 8, 2024 at 2:39=E2=80=AFPM Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > >=20
-> > > On Mon, 2024-01-08 at 17:14 +0000, Ross Burton wrote:
-> > > > On 3 Jan 2024, at 14:59, Richard Purdie via lists.openembedded.org =
-<richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote:
-> > > > > --- a/meta/classes-recipe/gnomebase.bbclass
-> > > > > +++ b/meta/classes-recipe/gnomebase.bbclass
-> > > > > @@ -28,7 +28,7 @@ FILES:${PN} +=3D "${datadir}/application-regist=
-ry  \
-> > > > > FILES:${PN}-doc +=3D "${datadir}/devhelp"
-> > > > >=20
-> > > > > GNOMEBASEBUILDCLASS ??=3D "meson"
-> > > > > -inherit ${GNOMEBASEBUILDCLASS} pkgconfig
-> > > > > +inherit_defer ${GNOMEBASEBUILDCLASS} pkgconfig
-> > > >=20
-> > > > Feels like this should be split into inherit pkgconfig and inher_de=
-fer ${GNOMEBASEBUILDCLASS}.
-> > >=20
-> > > I guess did it this way for ease in the patch, it won't really make
-> > > much difference either way, particularly for pkgconfig given how simp=
-le
-> > > that class is.
-> > >=20
-> > > >=20
-> > > > > +inherit populate_sdk_base
-> > > > > +IMGCLASSES +=3D "${@['', 'populate_sdk_ext']['linux' in d.getVar=
-("SDK_OS")]}"
-> > > >=20
-> > > > Whilst you=E2=80=99re here change this to foo if bar else flob, thi=
-s boolean subsetting idiom drives me insane.
-> > >=20
-> > > I don't really mixing up changes as it just makes review harder so
-> > > whilst I don't mind changing that, I think it should be done
-> > > separately.
-> > >=20
-> > > > > --- a/meta/recipes-graphics/xorg-driver/xorg-driver-common.inc
-> > > > > +++ b/meta/recipes-graphics/xorg-driver/xorg-driver-common.inc
-> > > > > @@ -14,7 +14,7 @@ SRC_URI =3D "${XORG_MIRROR}/individual/driver/$=
-{BPN}-${PV}${XORG_DRIVER_COMPRESSOR
-> > > > > FILES:${PN} +=3D " ${libdir}/xorg/modules/drivers/*.so"
-> > > > >=20
-> > > > > XORGBUILDCLASS ??=3D "autotools"
-> > > > > -inherit ${XORGBUILDCLASS} pkgconfig features_check
-> > > > > +inherit_defer ${XORGBUILDCLASS} pkgconfig features_check
-> > > >=20
-> > > > As above.
-> > > >=20
-> > > > > -inherit autotools texinfo binconfig-disabled pkgconfig ${PYTHON_=
-INHERIT} python3native multilib_header
-> > > > > +inherit autotools texinfo binconfig-disabled pkgconfig multilib_=
-header
-> > > > > +inherit_defer ${PYTHON_INHERIT} python3native
-> > > >=20
-> > > > Why is python3native defered?
-> > >=20
-> > > In the past there were some ordering issues around the python classes
-> > > so I was just being careful not to cause more problems in the patchse=
-t
-> > > than I was already trying to debug. It probably isn't necessary but a=
-t
-> > > the time I wasn't 100% sure and there were bigger issues.
-> > >=20
-> > > I can make the above tweaks if they really bother you...
-> > >=20
-> >=20
-> > Look into evolution-data-server-native.bb from meta-gnome
-> > it inherits native and provides own default do_compile/do_install funct=
-ions
-> >=20
-> > it now needs to use
-> > inherit_defer native
-> >=20
-> > which parses but then the functions provided by the recipe are overridd=
-en
-> > by ones from autotools class perhaps because it is deferred too ?
-> >=20
->=20
-> To add a bit more
-> diff --git a/meta-gnome/recipes-gnome/evolution-data-server/evolution-dat=
-a-server-native.bb
-> b/meta-gnome/recipes-gnome/evolution-data-server/evolution-data-server-na=
-tive.bb
-> index 8f5c9ffb67..e163576c02 100644
-> --- a/meta-gnome/recipes-gnome/evolution-data-server/evolution-data-serve=
-r-native.bb
-> +++ b/meta-gnome/recipes-gnome/evolution-data-server/evolution-data-serve=
-r-native.bb
-> @@ -5,7 +5,7 @@ inherit_defer native
->  DEPENDS =3D "glib-2.0-native"
->=20
->  # build native helpers
-> -do_compile() {
-> +do_compile:class-native() {
->      cd ${S}/src/camel
->      sed -i 's:#include "evolution-data-server-config.h"::g' camel-gen-ta=
-bles.c
->      ${CC} -o ${B}/camel-gen-tables camel-gen-tables.c ${CFLAGS} ${LDFLAG=
-S}
-> @@ -17,7 +17,7 @@ do_compile() {
->      ${CC} -o ${B}/gen-western-table gen-western-table.c ${CFLAGS}
-> ${CFLAGS_glib} ${LDFLAGS} ${LDFLAGS_glib}
->  }
->=20
-> -do_install() {
-> +do_install:class-native() {
->      install -d ${D}${bindir}
->      install -m 755 ${B}/* ${D}${bindir}
->  }
->=20
-> works, but it seems wrong to do it like this
+From: Thomas Roos <throos@amazon.de>
 
-This is the unfortunate corner case this change triggers unfortunately.
+Protobuf is compiled with -std=c++14, so abseil-cpp must be as well.
+Details can be found here: protocolbuffers/protobuf#10768
 
-The gnomebase class has a conditional variable for whether to use
-autotools or meson. This means meson/autotools are put into
-inherit_defer since they depend on the value of GNOMEBASEBUILDCLASS.
+Signed-off-by: Thomas Roos <throos@amazon.de>
+---
+ meta-oe/recipes-devtools/abseil-cpp/abseil-cpp_git.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-This means autotools is deferred to after these variables are set and
-the values from the class override the originals. That said, autotools
-uses EXPORT_FUNCTIONS against do_compile this so it should not happen.
+diff --git a/meta-oe/recipes-devtools/abseil-cpp/abseil-cpp_git.bb b/meta-oe/recipes-devtools/abseil-cpp/abseil-cpp_git.bb
+index ee62d4b59..1a713e1c5 100644
+--- a/meta-oe/recipes-devtools/abseil-cpp/abseil-cpp_git.bb
++++ b/meta-oe/recipes-devtools/abseil-cpp/abseil-cpp_git.bb
+@@ -26,6 +26,7 @@ ASNEEDED:class-nativesdk = ""
+ inherit cmake
+ 
+ EXTRA_OECMAKE = "-DBUILD_SHARED_LIBS=ON \
++                 -DCMAKE_CXX_STANDARD=14 \
+                  -DBUILD_TESTING=OFF    \
+                  -DABSL_ENABLE_INSTALL=ON \
+                 "
+-- 
+2.34.1
 
-I did dive into what is actually going on and the issue is that
-do_compile is an EXPORT_FUNCTION from both base.bbclass and from
-autotools.bbclass.
 
-export functions overwrite their own versions, the issue looks to be
-that the setting from base.bbclass sets the magic flag to say it is
-special and the new value from the recipe doesn't clear the magic flag.
-That would be a separate bug. I think we can improve the
-export_functions logic to fix that.
 
-I do agree this kind of issue isn't optimal however I think some of the
-current behaviours are probably worse and if we can move core classes
-away from deferred inherits (e.g. let gnome recipes pick autotools or
-meson directly), these issues should be rare.
 
-Cheers,
+Amazon Web Services EMEA SARL
+38 avenue John F. Kennedy, L-1855 Luxembourg
+Sitz der Gesellschaft: L-1855 Luxemburg
+eingetragen im Luxemburgischen Handelsregister unter R.C.S. B186284
 
-Richard
-
+Amazon Web Services EMEA SARL, Niederlassung Deutschland
+Marcel-Breuer-Str. 12, D-80807 Muenchen
+Sitz der Zweigniederlassung: Muenchen
+eingetragen im Handelsregister des Amtsgerichts Muenchen unter HRB 242240, USt-ID DE317013094
 
 
 
