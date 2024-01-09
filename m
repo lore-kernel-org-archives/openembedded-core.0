@@ -2,81 +2,133 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D858C4707B
-	for <webhook@archiver.kernel.org>; Tue,  9 Jan 2024 19:21:42 +0000 (UTC)
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
- by mx.groups.io with SMTP id smtpd.web11.26280.1704828096962141625
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91426C4707B
+	for <webhook@archiver.kernel.org>; Tue,  9 Jan 2024 19:29:32 +0000 (UTC)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web11.26499.1704828566876365976
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Jan 2024 11:21:37 -0800
+ Tue, 09 Jan 2024 11:29:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=WBY+Ci94;
- spf=pass (domain: gmail.com, ip: 209.85.210.52, mailfrom: raj.khem@gmail.com)
-Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-6dbcebaf9a9so2121910a34.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Jan 2024 11:21:36 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=UmZIzwmt;
+ spf=pass (domain: gmail.com, ip: 209.85.214.170, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1d509222c11so11525735ad.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Jan 2024 11:29:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704828096; x=1705432896; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ry+yKJoFdP7PK+xxT4cL38VIlAO+yS03OxSzmxvb7F4=;
-        b=WBY+Ci94sW+tprjev4E7LBjVugVuQC4bHoWdJQKhS1ED/ox0r3JdB//gxTVQ4lOK/z
-         x+ACjkTSF2is9gRpmLfLc631RzLHmlRCbWEJHzR+oDWpkzWeBVpCS1nuQjfY5fpdZNIR
-         nPN6RBYEireFJB+/F8pD2QC1VNcNe4MdIe2UNgNBozri5RgXpETHVZirfWdXO4UTR/zt
-         exjB1fdpXwwr+MGYC1DMiWDFKUuk9h/Nv6yYJ/5KyC3h7qzWhmCfnK6K0IMyATB3eeST
-         taFC1ToSR+LmTCkeQHh93Arq/9xRYyU71Olw3HQtb0xA9rqBfbu/zpoiSEbARjwlvjfx
-         dJGA==
+        d=gmail.com; s=20230601; t=1704828566; x=1705433366; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kQJIkIBuHC+Y1WYEw00m1WcLxvQ4s6sLcR//uZQrVL4=;
+        b=UmZIzwmtKV3+nwplQOQn8QHpHk5YUSqdKWsFFrUtOola2nx/+S5zwDEI7D+Wc1r7OC
+         f3JaEthLxAiZ9PZsukhi+nxHiaWGi9Atabg87tqNgwSpS+DdDvapPcA0JsEHbPY4Tk7F
+         HZXEsgeP998Nyad0Ux9RbZ+QVslWCUSu1bvMPyfLNEITUHPrvb8+n8Z+6M09UAhf5BhP
+         RQas8a+LNxUaDNnGYlDYyS6g2weg0oem7Z6T0+Ya3H6w1sQGfLUiAm+38RWutXJoYyNO
+         VCvOwjjpnLYkv7749W55Ke1e+PA/Nblj8IqPEawA6IpcDhO9wKGMT9Mez+r03zaHMh7h
+         suPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704828096; x=1705432896;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ry+yKJoFdP7PK+xxT4cL38VIlAO+yS03OxSzmxvb7F4=;
-        b=mWEIg9YgNek79khGSeVGJnafAJljrnCR5impNI8BXuqXdDqbXnTEjQSeO8qgExzN0O
-         zqk4DAIfgqQ0HNfuAbqnzlD7YIoSpJ+yofHWLk7f65aFsg7i5/nqlzoWKP+lOD1ZBwue
-         WUF3uhelCUYPAnGdnAsKaxxV17ioR4nHfUz1RgkbJVX8dmjwlUz7eSxkww33bFVqwzsu
-         jSEvhYH7Q3akZsM+bqYcsZAM9VkNjdr/p0AiOiesU17a/SpXABTSSghpBjg9trFEVaR3
-         eNeUejnzz+g4HbK06M76avjIsHXxkJi3aHIMWVQMX4w1IsTV0tehruAotFIcUuIy1vMR
-         1GGA==
-X-Gm-Message-State: AOJu0YyOi6EC7rG7qWBH1Vkbl6BCRsovaph38V/C0drcN4X8vK5NAVM6
-	GapsVityOB9rP5Fp00GiGwIFVGytBwybxBn1/3M=
-X-Google-Smtp-Source: AGHT+IFdH5U0loGyMAYcmM8GI33lteqsNvGtZcjR7TR+WjW6yFcyQZ7QFsPXgjrGgncmQyNMn+GEls9FlsZy+foCC1Y=
-X-Received: by 2002:a05:6871:a001:b0:206:3ab:581a with SMTP id
- vp1-20020a056871a00100b0020603ab581amr6345772oab.112.1704828096197; Tue, 09
- Jan 2024 11:21:36 -0800 (PST)
-MIME-Version: 1.0
-References: <17A8B0DD7AD4D31C.21327@lists.openembedded.org>
- <PLXZ6S.UNFZMOJ43CYT3@t-online.de> <CAMKF1soVHRa7Ksw5jtkedFQuJzM08tEzK-810p0RtGmKe_YRMQ@mail.gmail.com>
- <X3D07S.A0X5NA8SN0Y53@t-online.de>
-In-Reply-To: <X3D07S.A0X5NA8SN0Y53@t-online.de>
+        d=1e100.net; s=20230601; t=1704828566; x=1705433366;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kQJIkIBuHC+Y1WYEw00m1WcLxvQ4s6sLcR//uZQrVL4=;
+        b=Nv3D7fAbMQPZZXffypISLZETX89dzThoLiTz+G5Dq2Fj2kTRHK1+Vrse8On+4f24Hp
+         BbYtVcUXppvf4xJE/HQVzLHVv+v7fCMqAeLdN3P4kpSUg+b81FA7BMbvUquQdrpHpBoB
+         toM89XFlfMpX97gNEDGf5zw73fbB/tt0KOONSN09Zf3PLFHCOt19y7/z2/fPO8oB2KPm
+         ESGFNqxqKJXekOwH2UFJpfZabc05bcCq38mLvWxd761G7rWnv9GDUSbkWb7Ovus1KgaL
+         yCIgeH3iIWTZefvYV29Fib+7F5kOKP8mKUru4WeERHSzRoe27nHvv/zHPO+NzmEgKf/c
+         6lVg==
+X-Gm-Message-State: AOJu0YyNDzZo4iXEIarXLd5uc3Sc8Cx23l869YGnhkZbojRxf64wXF1g
+	wAvNcd5/F4I0NCvSF1fQEBdVGVqy0VOH9w==
+X-Google-Smtp-Source: AGHT+IGfmJVE/iQXj8ahwoCdYzEObj7a2tRkLhjYDvRNvtlcX4Z8Ah6tPZFhtg8kruyLZSa73hR59Q==
+X-Received: by 2002:a17:902:6e17:b0:1d4:cf2b:2bf with SMTP id u23-20020a1709026e1700b001d4cf2b02bfmr2826169plk.4.1704828565889;
+        Tue, 09 Jan 2024 11:29:25 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::8c5f])
+        by smtp.gmail.com with ESMTPSA id e7-20020a170902b78700b001d4ea1b6a2csm2145181pls.32.2024.01.09.11.29.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Jan 2024 11:29:25 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 9 Jan 2024 11:21:10 -0800
-Message-ID: <CAMKF1sq33sL35xazmQAGG58LM7GwxpRM8TRzp8DWGX6wkkSzNg@mail.gmail.com>
-Subject: Re: [RFC][oe-core][PATCH] webp: switch recipe to cmake buildsystem
-To: Markus Volk <f_l_k@t-online.de>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH v3] glib-networking: Fix ptest failures with openssl backend
+Date: Tue,  9 Jan 2024 11:29:23 -0800
+Message-ID: <20240109192923.3183219-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Jan 2024 19:21:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193480
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Jan 2024 19:29:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193481
 
-On Tue, Jan 9, 2024 at 11:10=E2=80=AFAM Markus Volk <f_l_k@t-online.de> wro=
-te:
->
-> On Tue, Jan 9 2024 at 08:38:32 AM -08:00:00, Khem Raj <raj.khem@gmail.com=
-> wrote:
->
-> Is upstream also switching to use cmake as primary build system ?
->
->
-> If you are speaking of chromeOS, I bet they use cmake
->
-> I had a look at what linux distributions do. Archlinux and Fedora use the=
- cmake build system and also Debian provides the cmake config files in sid
-> https://packages.debian.org/sid/alpha/libwebp-dev/filelist
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+v2: Make the patch apply only when openssl backend is used
+v3: Move the backend check to source code of the test itself
 
-OK that should be good enough reason for us to see that we can use cmake to=
-o.
+ ...tion.c-Disable-unclean-close-by-serv.patch | 36 +++++++++++++++++++
+ .../glib-networking/glib-networking_2.78.0.bb |  5 +--
+ 2 files changed, 39 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-core/glib-networking/glib-networking/0001-tls-tests-connection.c-Disable-unclean-close-by-serv.patch
+
+diff --git a/meta/recipes-core/glib-networking/glib-networking/0001-tls-tests-connection.c-Disable-unclean-close-by-serv.patch b/meta/recipes-core/glib-networking/glib-networking/0001-tls-tests-connection.c-Disable-unclean-close-by-serv.patch
+new file mode 100644
+index 00000000000..be7fc586f40
+--- /dev/null
++++ b/meta/recipes-core/glib-networking/glib-networking/0001-tls-tests-connection.c-Disable-unclean-close-by-serv.patch
+@@ -0,0 +1,36 @@
++From fdcd8fbf23983d33327967f3e4249bba7c5a1b93 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Tue, 9 Jan 2024 11:15:21 -0800
++Subject: [PATCH] tls/tests/connection.c: Disable unclean-close-by-server with
++ openssl backend
++
++This test does not work when using openssl backend as reported here [1]
++
++Fixes
++
++not ok /tls/openssl/connection/unclean-close-by-server - GLib-Net:ERROR:../tls/tests/connection.c:2374:test_unclean_close_by_server: assertion failed (test->read_error == (g-tls-error-quark, 6)): Error reading data from TLS socket: error:00000005:lib(0)::reason(5) (g-tls-error-quark, 1) Bail out!
++stderr:
++**
++GLib-Net:ERROR:../tls/tests/connection.c:2374:test_unclean_close_by_server: assertion failed (test->read_error == (g-tls-error-quark, 6)): Error reading data from TLS socket: error:00000005:lib(0)::reason(5) (g-tls-error-quark, 1)
++
++[1] https://gitlab.gnome.org/GNOME/glib-networking/-/issues/219
++
++Upstream-Status: Inappropriate [ Disabled test as a workaround until fixed ]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ tls/tests/connection.c | 2 ++
++ 1 file changed, 2 insertions(+)
++
++--- a/tls/tests/connection.c
+++++ b/tls/tests/connection.c
++@@ -3466,8 +3466,10 @@ main (int   argc,
++               setup_connection, test_simultaneous_sync_rehandshake, teardown_connection);
++   g_test_add ("/tls/" BACKEND "/connection/close-immediately", TestConnection, NULL,
++               setup_connection, test_close_immediately, teardown_connection);
+++  #ifndef BACKEND_IS_OPENSSL
++   g_test_add ("/tls/" BACKEND "/connection/unclean-close-by-server", TestConnection, NULL,
++               setup_connection, test_unclean_close_by_server, teardown_connection);
+++  #endif
++   g_test_add ("/tls/" BACKEND "/connection/async-implicit-handshake", TestConnection, NULL,
++               setup_connection, test_async_implicit_handshake, teardown_connection);
++   g_test_add ("/tls/" BACKEND "/connection/output-stream-close", TestConnection, NULL,
+diff --git a/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb b/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb
+index 68f9a2ed783..3e83bb6ca3b 100644
+--- a/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb
++++ b/meta/recipes-core/glib-networking/glib-networking_2.78.0.bb
+@@ -30,8 +30,9 @@ PACKAGECONFIG[gnomeproxy] = "-Dgnome_proxy=enabled,-Dgnome_proxy=disabled,gsetti
+ inherit gnomebase gettext upstream-version-is-even gio-module-cache ptest-gnome
+ 
+ SRC_URI += "file://run-ptest"
+-SRC_URI += "file://eagain.patch"
+-
++SRC_URI += "file://eagain.patch \
++            file://0001-tls-tests-connection.c-Disable-unclean-close-by-serv.patch \
++            "
+ FILES:${PN} += "\
+                 ${libdir}/gio/modules/libgio*.so \
+                 ${datadir}/dbus-1/services/ \
+-- 
+2.43.0
+
 
