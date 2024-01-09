@@ -1,98 +1,125 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4B55C4706C
-	for <webhook@archiver.kernel.org>; Tue,  9 Jan 2024 19:49:02 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.27066.1704829734718055675
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4ADA1C4707B
+	for <webhook@archiver.kernel.org>; Tue,  9 Jan 2024 21:44:33 +0000 (UTC)
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+ by mx.groups.io with SMTP id smtpd.web10.29952.1704836670995671549
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Jan 2024 11:48:54 -0800
+ Tue, 09 Jan 2024 13:44:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=dNxOfm+n;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=N2ozwT4k;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018cefc54b82-aaef21ac-ce43-485e-8eb8-1508d2ce77ab-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1704829733; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=0uKYg2OILVF8qLipwbm9VvzhPnMcKWM7KVjrFGQObN8=;
-	b=dNxOfm+nfFZb4esBkEdEohmbJh6Y1efR1fzfW19qD5D2zNzcHTIEXZ2huPYOM1yx
-	P1rMjWHz3r0+9RE9fIFMTJJ8Z6g4vStFenMYeubvayHPAchBF+00CkTyf/WDh3UtZP4
-	zy+SOmbwicwUWVEn61mdjrof3uclSymuk7C0/ZrU=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1704829733;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=0uKYg2OILVF8qLipwbm9VvzhPnMcKWM7KVjrFGQObN8=;
-	b=N2ozwT4kqqdEMV1O2uC1qC1693Usj05yK7VDwKoj/AbgWN8TpkXU2TYGpf4Wx86c
-	9Z1CAVilhmaw+womA1r+3SWd6ifgUhjYP4cRglB8FijKzVF/5tn5N+1Tw3TT8MDpF4j
-	jIOzgge0ByEW8din/nDJA7tvEX+8K2MyBOfAvbzU=
-From: patchtest@automation.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH v3] glib-networking: Fix ptest failures with openssl backend
-In-Reply-To: 20240109192923.3183219-1-raj.khem@gmail.com
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018cefc54b82-aaef21ac-ce43-485e-8eb8-1508d2ce77ab-000000@us-west-2.amazonses.com>
-Date: Tue, 9 Jan 2024 19:48:53 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.01.09-54.240.27.45
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=X/C4PJCO;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.194, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id C7EB54000C;
+	Tue,  9 Jan 2024 21:44:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1704836669;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DMeP6pwMGBaEGYQLrFcA4O7UPPKUCWK0OBmyd5bEz9o=;
+	b=X/C4PJCOjtPif1KlWsNSkC4jjBco2zk5WZeOAC1+aNszrES1dOT7m9+ZNJrommcPw9F+N1
+	jm8QIcr9l2Q4obJaTA6GB3QuzMXKJh8ubsjDUEW7XPjsyYORDk296VXV1qzwEyxz2flsTw
+	jtGFDV6UKAi8e7EXLnhpMr2OWNK3dypdh8dckYikt932MsE8k9BBisqyl9BY0s0za/ARUs
+	gwEc9NXrJloGhqD6pJBGa2aNxG7t1aIWt8m3obeq4pe4kzE/OUInC/ATlWBAnP9/EPtvzc
+	xFZjrBNOy0C1ijJplSaZKTQtFp0L4IzDjy4j8FAnEl4P7hmbn3GGi30jlmpDLA==
+Date: Tue, 9 Jan 2024 22:44:28 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core][PATCH] package_rpm: proposal to use internal
+ dependency generator
+Message-ID: <20240109214428e0404a43@mail.local>
+References: <20240109075641.993044-1-xiangyu.chen@eng.windriver.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240109075641.993044-1-xiangyu.chen@eng.windriver.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Jan 2024 19:49:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193482
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Jan 2024 21:44:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193483
 
---NextPart
-Content-Type: text/plain
+Hello,
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
----
-Testing patch /home/patchtest/share/mboxes/v3-glib-networking-Fix-ptest-failures-with-openssl-backend.patch
-
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
-
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
+This causes failures on the autobuilders:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/8478/steps/11/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/37/builds/8432/steps/11/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/100/builds/5523/steps/12/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/6142/steps/11/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/5957/steps/12/logs/stdio
 
 
---NextPart--
+DNF version: 4.18.2
+cachedir: /home/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/beaglebone_yocto-poky-linux-gnueabi/core-image-ptest-valgrind/1.0/rootfs/var/cache/dnf
+Added oe-repo repo from /home/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/beaglebone_yocto-poky-linux-gnueabi/core-image-ptest-valgrind/1.0/oe-rootfs-repo
+User-Agent: falling back to 'libdnf': could not detect OS or basearch
+repo: using cache for: oe-repo
+oe-repo: using metadata from Tue 09 Jan 2024 09:11:27 AM UTC.
+Last metadata expiration check: 0:00:01 ago on Tue 09 Jan 2024 09:11:29 AM UTC.
+--> Starting dependency resolution
+--> Finished dependency resolution
+Error: 
+ Problem: conflicting requests
+  - nothing provides /bin/csh needed by valgrind-ptest-3.21.0-r0.cortexa8hf_neon from oe-repo
+  - nothing provides /this/is/a/bogus/interpreter/name needed by valgrind-ptest-3.21.0-r0.cortexa8hf_neon from oe-repo
+  - nothing provides /usr/local/bin/bash needed by valgrind-ptest-3.21.0-r0.cortexa8hf_neon from oe-repo
+  - nothing provides /usr/local/bin/ksh93 needed by valgrind-ptest-3.21.0-r0.cortexa8hf_neon from oe-repo
+(try to add '--skip-broken' to skip uninstallable packages)
+
+
+
+On 09/01/2024 15:56:41+0800, Xiangyu Chen wrote:
+> From: Xiangyu Chen <xiangyu.chen@windriver.com>
+> 
+> Currently we are using external dependency generator, the rpm upstream already
+> marked it as "Old Style Dependency Generators"[1], they also added a warning message
+> in rpm source code to inform that the external dependency generator is deprecated[2].
+> 
+> Since it is only kept for backwards compatibility and may get removed in a future
+> release of rpm, so here is a proposal to use internal dependency generator by default.
+> 
+> [1] https://rpm-software-management.github.io/rpm/manual/dependency_generators.html
+> [2] https://github.com/rpm-software-management/rpm/commit/cfcdd942
+> 
+> Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+> ---
+>  meta/classes-global/package_rpm.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/classes-global/package_rpm.bbclass b/meta/classes-global/package_rpm.bbclass
+> index 2fc18fe98c..05cecee7d7 100644
+> --- a/meta/classes-global/package_rpm.bbclass
+> +++ b/meta/classes-global/package_rpm.bbclass
+> @@ -681,7 +681,7 @@ python do_package_rpm () {
+>      cmd = cmd + " --define '_topdir " + workdir + "' --define '_rpmdir " + pkgwritedir + "'"
+>      cmd = cmd + " --define '_builddir " + d.getVar('B') + "'"
+>      cmd = cmd + " --define '_build_name_fmt %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm'"
+> -    cmd = cmd + " --define '_use_internal_dependency_generator 0'"
+> +    cmd = cmd + " --define '_use_internal_dependency_generator 1'"
+>      cmd = cmd + " --define '_binaries_in_noarch_packages_terminate_build 0'"
+>      cmd = cmd + " --define '_build_id_links none'"
+>      cmd = cmd + " --define '_source_payload %s'" % rpmbuild_compmode
+> -- 
+> 2.25.1
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#193444): https://lists.openembedded.org/g/openembedded-core/message/193444
+> Mute This Topic: https://lists.openembedded.org/mt/103616137/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
