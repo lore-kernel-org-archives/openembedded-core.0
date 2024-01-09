@@ -2,193 +2,149 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF468C46CD2
-	for <webhook@archiver.kernel.org>; Tue,  9 Jan 2024 03:54:17 +0000 (UTC)
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
- by mx.groups.io with SMTP id smtpd.web11.9580.1704772457333092991
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47E1FC46CD2
+	for <webhook@archiver.kernel.org>; Tue,  9 Jan 2024 04:51:48 +0000 (UTC)
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+ by mx.groups.io with SMTP id smtpd.web11.10276.1704775902228665650
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Jan 2024 19:54:17 -0800
+ Mon, 08 Jan 2024 20:51:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=jP133+3m;
- spf=pass (domain: gmail.com, ip: 209.85.160.49, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-20451ecbb80so1373616fac.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 08 Jan 2024 19:54:17 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=I1k5Zl5G;
+ spf=pass (domain: gmail.com, ip: 209.85.210.50, mailfrom: raj.khem@gmail.com)
+Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-6dc018228b4so1679818a34.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 08 Jan 2024 20:51:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704772456; x=1705377256; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1704775901; x=1705380701; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0AaKkrKX2VfkPFrdCZP8EDbH+3mfqfZtee9t95mi+xI=;
-        b=jP133+3mXnEPUpCPUEPoo6AVUowaEPSktzLFdRZobI1drVxf49KT+B5KOnzt15GHYY
-         blqJ/H7fa3wayJOsEJ8cCThEBCFUIagfLLHPfVY7AxApr5IP8T34k9LytPzPS/jHyxy+
-         ucKvuAom+ewHGyU50QX6gDUy8k541VxIM7X1XIPfJDz6d4YUbDA0Fppv72AYiS1q4tOm
-         glSv/LHJEFPXJvGerVNrqoKqFCwyZrFRNF7rQQ5TEQ8jNXelTvUS8TPZswCYDFPwpLcM
-         BKEIDvo/qgtVG8mJzq+W2QkNPPGtjA5AWbvgwNNENp2WlRuLJmSVKiP+Ii7X2mTRg0Va
-         52tg==
+        bh=mlJiJYsXUeh/W+6RCY3Q+RbNR9as8wuRF+JP3M8r/+Y=;
+        b=I1k5Zl5GIcb5DDygoYB30kJcQ/g6yzjG6KU7N+VsaUK64QebXp5OPSc8ev772ar8jI
+         Tk+Pgq94YYY0KbNyjaqa+qdyIYfmcF/8iupkDjSoDLB+eDMfQezj1+Ct+Nx4QDs9CIKj
+         m2KJn4rIGLebBcdhdTC9pY4mOswmsP3mkZ3D9kdfbVvX0IbR8zeaf5156gtJ5L8d7eZL
+         mdJxYN0Or0nLJLb8qMCwvcRpMwPFOxRBUd3WMStkGlNHhVLPPLe7SAYWgObec5tXEQrC
+         gImRh9YHDSDzX3SbApu5PRKRTCcnY3r2AbUpoLSlhHz1ohLrXsYYumc4JrhR3WjXzApB
+         JbcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704772456; x=1705377256;
+        d=1e100.net; s=20230601; t=1704775901; x=1705380701;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0AaKkrKX2VfkPFrdCZP8EDbH+3mfqfZtee9t95mi+xI=;
-        b=YalpepvnEbs2Vrd+cV3cC7IlL3YrvoJWP3dYG2mvK8LbsVO1IbYVTjC8+DfIP/kXR0
-         jCsW2bYpz07Cg1u7Toi74kGVrv4WbevwBL2OIL37udxRjFJLszRbD1Y8d98QBH+gG+we
-         mkR4BydrAmqtRGbEaMbuvxMKnAxYoCbrX7SzW9t4i+IKIOIwxaRb9sHF/HjnFlqb/UQc
-         m0yMy2r/pUFMIFkAVPHw61ERMIc/AC/1yg/r1fhFDrgbKefpZ2+z+qBVaFSNci0gsa08
-         MKXIiekFaAkrjbUlmGSNaNeRcUkdek8lK12vAImkDfbNUyHTHTQWg21agMHjhXZX2SiP
-         QkKQ==
-X-Gm-Message-State: AOJu0YwTSjNZqzfoASdw/hkqE+BXthbb8hZeAtID/25WVrPYoDn3nUrd
-	UXEKs+yOQy6nrC5wSmWh6Z80KYH6T7mVbAAQi8qRjw7uZ5w=
-X-Google-Smtp-Source: AGHT+IF5OcwVyTggbgM4aUgSMo/fOnjZ6WNTPMQax8kSWALvqXaGO1zBEF2lILqs+x9CVXCTed4tJ3iJBDojtDvtxVE=
-X-Received: by 2002:a05:6870:9c85:b0:204:1561:eb01 with SMTP id
- pq5-20020a0568709c8500b002041561eb01mr5302732oab.66.1704772455118; Mon, 08
- Jan 2024 19:54:15 -0800 (PST)
+        bh=mlJiJYsXUeh/W+6RCY3Q+RbNR9as8wuRF+JP3M8r/+Y=;
+        b=PYdZPw/UzEck41ts0DYfo+v+e9pW9Cz6RlD1KI+DTVkxFW4t88eO8819RcQTm9PNeG
+         t5DKGX7k/kTOvlhxjPjjESVaTOrDDmzslQPZv3dkVez4+MptbNuw+0GRlAWAWnUl82Nw
+         absXtWq8mOIMyy3wAnztUzeTPsb3L7Klfq8UOvUNSW/PNTUjlQtXHVlLN8yfrggV+Nfz
+         Z6Y9ZLsfQCpEnLYEKLKAr0CtkArEFTJkhUWTQfdj8wqSsEfponvlvzPjure17/4j29Cd
+         BwJUut5xWcuxfF3z6mRM52Rh2c3KNCWoRT3tSbG+Y8J8H5LNDvhG+hysqkue9MW/MxMW
+         5jpg==
+X-Gm-Message-State: AOJu0Yy1QL/DEm1C5wPDXmCQXUlhpWBb3eM7PBuGxbg/N0CqxDlzptrR
+	OczAObRW2v/0G0SgiKGp98G4L5Jgy3pullxusnY=
+X-Google-Smtp-Source: AGHT+IGzupliY/g+vqplrk6vQcZxB/gdTWtpJMvcy5gJEW2gGiWoSSSdwH4nVEXNewRxts41Fl8GUCw3SlCeUDglJVg=
+X-Received: by 2002:a05:6871:d08e:b0:1fb:15c3:2882 with SMTP id
+ mw14-20020a056871d08e00b001fb15c32882mr5429611oac.100.1704775901260; Mon, 08
+ Jan 2024 20:51:41 -0800 (PST)
 MIME-Version: 1.0
-References: <20240103145902.2124110-1-richard.purdie@linuxfoundation.org>
- <20240103145902.2124110-4-richard.purdie@linuxfoundation.org>
- <A0382FB4-C99B-4558-8B8B-D5A3A248C862@arm.com> <62591061a843999d470506252d6044f50ac81228.camel@linuxfoundation.org>
- <CAMKF1srS6EfRxA5ZSGAxZ7nLT9=wF2_DoP0EDNhbSWNyRwxhVg@mail.gmail.com>
-In-Reply-To: <CAMKF1srS6EfRxA5ZSGAxZ7nLT9=wF2_DoP0EDNhbSWNyRwxhVg@mail.gmail.com>
+References: <1704271378-18012-1-git-send-email-wangmy@fujitsu.com> <1704271378-18012-2-git-send-email-wangmy@fujitsu.com>
+In-Reply-To: <1704271378-18012-2-git-send-email-wangmy@fujitsu.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 8 Jan 2024 19:53:48 -0800
-Message-ID: <CAMKF1sqz0-uE978BeQUsJ3RpGyh6a4LK3nbjBxhSHiuSZJw0fg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 4/4] classes/recipes: Switch to use inherit_defer
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Ross Burton <Ross.Burton@arm.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Date: Mon, 8 Jan 2024 20:51:15 -0800
+Message-ID: <CAMKF1sq6=xXciGLcmdpYsNnzM8H5RK=7uzjNde5BKH5EVC1w3g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] python3-lxml: upgrade 4.9.4 -> 45.0.0
+To: wangmy <wangmy@fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 09 Jan 2024 03:54:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193441
+ <openembedded-core@lists.openembedded.org>; Tue, 09 Jan 2024 04:51:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193442
 
-On Mon, Jan 8, 2024 at 7:49=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wrote:
+subject line should say 5.0.0 instead of 45.0.0
+
+Secondly, be aware that this upgrade will need to disable
+incompatible-function-pointer-types warning as error
+when using clang. I have added a relevant fix to nonclangable conf
+file in meta-clang.
+
+On Wed, Jan 3, 2024 at 12:44=E2=80=AFAM wangmy <wangmy@fujitsu.com> wrote:
 >
-> On Mon, Jan 8, 2024 at 2:39=E2=80=AFPM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> >
-> > On Mon, 2024-01-08 at 17:14 +0000, Ross Burton wrote:
-> > > On 3 Jan 2024, at 14:59, Richard Purdie via lists.openembedded.org <r=
-ichard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote:
-> > > > --- a/meta/classes-recipe/gnomebase.bbclass
-> > > > +++ b/meta/classes-recipe/gnomebase.bbclass
-> > > > @@ -28,7 +28,7 @@ FILES:${PN} +=3D "${datadir}/application-registry=
-  \
-> > > > FILES:${PN}-doc +=3D "${datadir}/devhelp"
-> > > >
-> > > > GNOMEBASEBUILDCLASS ??=3D "meson"
-> > > > -inherit ${GNOMEBASEBUILDCLASS} pkgconfig
-> > > > +inherit_defer ${GNOMEBASEBUILDCLASS} pkgconfig
-> > >
-> > > Feels like this should be split into inherit pkgconfig and inher_defe=
-r ${GNOMEBASEBUILDCLASS}.
-> >
-> > I guess did it this way for ease in the patch, it won't really make
-> > much difference either way, particularly for pkgconfig given how simple
-> > that class is.
-> >
-> > >
-> > > > +inherit populate_sdk_base
-> > > > +IMGCLASSES +=3D "${@['', 'populate_sdk_ext']['linux' in d.getVar("=
-SDK_OS")]}"
-> > >
-> > > Whilst you=E2=80=99re here change this to foo if bar else flob, this =
-boolean subsetting idiom drives me insane.
-> >
-> > I don't really mixing up changes as it just makes review harder so
-> > whilst I don't mind changing that, I think it should be done
-> > separately.
-> >
-> > > > --- a/meta/recipes-graphics/xorg-driver/xorg-driver-common.inc
-> > > > +++ b/meta/recipes-graphics/xorg-driver/xorg-driver-common.inc
-> > > > @@ -14,7 +14,7 @@ SRC_URI =3D "${XORG_MIRROR}/individual/driver/${B=
-PN}-${PV}${XORG_DRIVER_COMPRESSOR
-> > > > FILES:${PN} +=3D " ${libdir}/xorg/modules/drivers/*.so"
-> > > >
-> > > > XORGBUILDCLASS ??=3D "autotools"
-> > > > -inherit ${XORGBUILDCLASS} pkgconfig features_check
-> > > > +inherit_defer ${XORGBUILDCLASS} pkgconfig features_check
-> > >
-> > > As above.
-> > >
-> > > > -inherit autotools texinfo binconfig-disabled pkgconfig ${PYTHON_IN=
-HERIT} python3native multilib_header
-> > > > +inherit autotools texinfo binconfig-disabled pkgconfig multilib_he=
-ader
-> > > > +inherit_defer ${PYTHON_INHERIT} python3native
-> > >
-> > > Why is python3native defered?
-> >
-> > In the past there were some ordering issues around the python classes
-> > so I was just being careful not to cause more problems in the patchset
-> > than I was already trying to debug. It probably isn't necessary but at
-> > the time I wasn't 100% sure and there were bigger issues.
-> >
-> > I can make the above tweaks if they really bother you...
-> >
+> From: Wang Mingyu <wangmy@fujitsu.com>
 >
-> Look into evolution-data-server-native.bb from meta-gnome
-> it inherits native and provides own default do_compile/do_install functio=
-ns
+> Changelog:
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> -LP#1976304: The "Element.addnext()" method previously inserted the new e=
+lement
+>  before existing tail text.  The tail text of both sibling elements now s=
+tays on
+>  the respective elements.
+> -LP#1980767, GH#379: "TreeBuilder.close()" could fail with a "TypeError" =
+after
+>  parsing incorrect input.
+> -"Element.itertext(with_tail=3DFalse)" returned the tail text of comments=
+ and
+>  processing instructions, despite the explicit option.
+> -GH#370: A crash with recent libxml2 2.11.x versions was resolved.
+> -A compile problem with recent libxml2 2.12.x versions was resolved.
+> -The internal exception handling in C callbacks was improved for Cython 3=
+.0.
+> -The exception declarations of "xmlInputReadCallback", "xmlInputCloseCall=
+back",
+> -"xmlOutputWriteCallback" and "xmlOutputCloseCallback" in "tree.pxd" were
+>  corrected to prevent running Python code or calling into the C-API with =
+a live
+>  exception set.
+> -GH#385: The long deprecated "unittest.makeSuite()" function is no longer=
+ used.
+> -LP#1522052: A file-system specific test is now optional and should no lo=
+nger fail
+>  on systems that don't support it.
+> -GH#392: Some tests were adapted for libxml2 2.13.
+> -Contains all fixes from lxml 4.9.4.
 >
-> it now needs to use
-> inherit_defer native
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> ---
+>  .../python/{python3-lxml_4.9.4.bb =3D> python3-lxml_5.0.0.bb}    | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>  rename meta/recipes-devtools/python/{python3-lxml_4.9.4.bb =3D> python3-=
+lxml_5.0.0.bb} (94%)
 >
-> which parses but then the functions provided by the recipe are overridden
-> by ones from autotools class perhaps because it is deferred too ?
+> diff --git a/meta/recipes-devtools/python/python3-lxml_4.9.4.bb b/meta/re=
+cipes-devtools/python/python3-lxml_5.0.0.bb
+> similarity index 94%
+> rename from meta/recipes-devtools/python/python3-lxml_4.9.4.bb
+> rename to meta/recipes-devtools/python/python3-lxml_5.0.0.bb
+> index ed8bce0735..e27405fd23 100644
+> --- a/meta/recipes-devtools/python/python3-lxml_4.9.4.bb
+> +++ b/meta/recipes-devtools/python/python3-lxml_5.0.0.bb
+> @@ -18,10 +18,11 @@ LIC_FILES_CHKSUM =3D "file://LICENSES.txt;md5=3De4c04=
+5ebad958ead4b48008f70838403 \
 >
-
-To add a bit more
-diff --git a/meta-gnome/recipes-gnome/evolution-data-server/evolution-data-=
-server-native.bb
-b/meta-gnome/recipes-gnome/evolution-data-server/evolution-data-server-nati=
-ve.bb
-index 8f5c9ffb67..e163576c02 100644
---- a/meta-gnome/recipes-gnome/evolution-data-server/evolution-data-server-=
-native.bb
-+++ b/meta-gnome/recipes-gnome/evolution-data-server/evolution-data-server-=
-native.bb
-@@ -5,7 +5,7 @@ inherit_defer native
- DEPENDS =3D "glib-2.0-native"
-
- # build native helpers
--do_compile() {
-+do_compile:class-native() {
-     cd ${S}/src/camel
-     sed -i 's:#include "evolution-data-server-config.h"::g' camel-gen-tabl=
-es.c
-     ${CC} -o ${B}/camel-gen-tables camel-gen-tables.c ${CFLAGS} ${LDFLAGS}
-@@ -17,7 +17,7 @@ do_compile() {
-     ${CC} -o ${B}/gen-western-table gen-western-table.c ${CFLAGS}
-${CFLAGS_glib} ${LDFLAGS} ${LDFLAGS_glib}
- }
-
--do_install() {
-+do_install:class-native() {
-     install -d ${D}${bindir}
-     install -m 755 ${B}/* ${D}${bindir}
- }
-
-works, but it seems wrong to do it like this
-
-> > Cheers,
-> >
-> > Richard
-> >
-> >
-> >
-> >
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#193434): https://lists.openembedded.org/g/openembed=
-ded-core/message/193434
-> > Mute This Topic: https://lists.openembedded.org/mt/103502916/1997914
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-raj.khem@gmail.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
+>  DEPENDS +=3D "libxml2 libxslt"
+>
+> -SRC_URI[sha256sum] =3D "b1541e50b78e15fa06a2670157a1962ef06591d4c998b998=
+047fff5e3236880e"
+> +SRC_URI[sha256sum] =3D "2219cbf790e701acf9a21a31ead75f983e73daf0eceb9da6=
+990212e4d20ebefe"
+>
+>  SRC_URI +=3D "${PYPI_SRC_URI}"
+>  inherit pkgconfig pypi setuptools3
+> +PYPI_PACKAGE_EXT =3D "zip"
+>
+>  # {standard input}: Assembler messages:
+>  # {standard input}:1488805: Error: branch out of range
+> --
+> 2.34.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#193276): https://lists.openembedded.org/g/openembedde=
+d-core/message/193276
+> Mute This Topic: https://lists.openembedded.org/mt/103498685/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
