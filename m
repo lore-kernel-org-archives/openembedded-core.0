@@ -2,57 +2,57 @@ Return-Path: <uvv.mail@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49DAAC4707B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CB9FC4725D
 	for <webhook@archiver.kernel.org>; Wed, 10 Jan 2024 11:54:58 +0000 (UTC)
 Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web10.9953.1704887688023631276
+ by mx.groups.io with SMTP id smtpd.web11.9920.1704887688869994588
  for <Openembedded-core@lists.openembedded.org>;
- Wed, 10 Jan 2024 03:54:48 -0800
+ Wed, 10 Jan 2024 03:54:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=lmv1OnI0;
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=QUx1xv5H;
  spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: uvv.mail@gmail.com)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-40d4f5d902dso42921485e9.2
-        for <Openembedded-core@lists.openembedded.org>; Wed, 10 Jan 2024 03:54:47 -0800 (PST)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-40d88fff7faso41892565e9.3
+        for <Openembedded-core@lists.openembedded.org>; Wed, 10 Jan 2024 03:54:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704887686; x=1705492486; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1704887687; x=1705492487; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=W8TACjfaP5Orlf3PVEjOTKt/7jhtJJert9otb48ELqY=;
-        b=lmv1OnI0DsA667J93jE+y9G5dawYc15ZdCb0QeX0/nKkaLT6GI1jXZCy0DkJsIkHX8
-         sRORB6PoZYMG5Uw7Cwu/68NaOVBeiV+tw0KJMGnsabKqLSvQWyzPdhAMlDE15L1MVs4h
-         B7alQhz5ioABCyzJJjjr63kjh5OgmXk+MH5Z0IEqCJjld5dwtOx1dPu9bC6lO+T0LjOb
-         iiLB1loA+cdt8FXyCeEODb8GyeRkrk2f91VCXlmQM8z53veJ4w5rHo+L9WmZtqHiFrVS
-         YcVZ2MF2bN4mEwUAeSj+3VBKFEvO93FxzAm+//LgywqzOhG9TmrGJhOub0MqaH/+d+3J
-         jSPA==
+        bh=3itfnlLN5evVjWWwpCRFRFpM5eFRIG6Ijin8ZetZsTQ=;
+        b=QUx1xv5HlixOxVtAVoryhV4Vg5VXDssOJRNXDNkSzxcW1wISx1HISglImIEPbde7OA
+         rrNCvofrZMbHVWCulDDP0svhsCP3MnW4rJZtkLejQf6hABdA6Ng5lJVRwgxQCq/AOtU7
+         j2OM2mT5FmToBAuYtxiWtW/xkbSBmOVIeIVBp+2vwCTmRfU1vB7cNGyrMmwK8e1pg7SY
+         hlsPSUq5pr1342gqbgc07xTQzWO/Nu9BtMmXfUPyvdx0GOUolZUSu73IUh+4DDjgHBLH
+         PWGjshUVRw2LK92yA9r8+6UsAKdSnDTx2lpR0itziRVUu2U8Vc4+qZbIC+/bOrNgidy4
+         CeBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704887686; x=1705492486;
+        d=1e100.net; s=20230601; t=1704887687; x=1705492487;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=W8TACjfaP5Orlf3PVEjOTKt/7jhtJJert9otb48ELqY=;
-        b=dOL8jtnMS0g8vXdN+/3ID6RDnnwVsAz85K5wW8cQfNqYFYjG4I+Pmx/w2A4mZbyvSN
-         BtuvDii8Uc/avLAsEJtdAc2mTN8Rpxv1yh8GRWt6dERw95pSJkbLB7/rwL4l8F/nB02b
-         SsaC2qKI5khEeGL6pM8s/3Y5rOuhEQ0kF0dUO6fG5/sqGsjpIimxRQoiNt58L8vd1YxA
-         U3+8rIEt5+IWBcqUYZ0bQYwGjjnrExX/5vrDBO1GKadfqN4l2zbwh4fdjedgd1bLGUwg
-         /IQIC5fcVeSNOXCFo8J9/Bj2t5QPHvbom4z/I88x/DPNZenGKhj2G+hkCtAg/c3PC/+B
-         xZeA==
-X-Gm-Message-State: AOJu0Ywrxmqt14ZS0aVw7tQKH5mCl6cyLGjbmfiFeW4CqB7ONjnyYm68
-	8JDcwHgwkfSj05aXysoIgqvKA4I4NKmjYg==
-X-Google-Smtp-Source: AGHT+IGrYSdqb8Yw3FOtL0jCAHCEL3eTJPSdXGWFYqfaYXV3rNky00Iyis2tHJxquAQe4Sf7pMCWUw==
-X-Received: by 2002:a05:600c:1ca6:b0:40e:5536:4594 with SMTP id k38-20020a05600c1ca600b0040e55364594mr460642wms.172.1704887686077;
+        bh=3itfnlLN5evVjWWwpCRFRFpM5eFRIG6Ijin8ZetZsTQ=;
+        b=sNhlAC9Q8Itm3IFjlpcS+VEZBNFBrB1+TsnWqLTHAWuGdPIP9M8qkB3/ehuYbwf8yj
+         CI6S0syzVcXAli8PgueFCN+tgWzZJ/TRFTuq7OTh0HgSKkvo7hDjADbEdiT8c+P76ifL
+         nx+9S6QAQvYzcNNIG6JlelHCC3Xv4melM3HS44HrWbw0RNMgSeAE/emJ/3MlXtZi6Tt8
+         5b9DTXI7OKW8RcTQub+2rz34dYlWNTaQI3ea2cLjiNxPdmF/GL5N518VFzHvVZkppZI/
+         jwro6qbb80TJ5khbiGhMBW2TgQEzxTDLysN/lLE8mYi2yEC5OvoYt4zRGNjt/7dNvyzX
+         yKVA==
+X-Gm-Message-State: AOJu0YyLr9tERrhdGupp+GTzuBBq8W9L21p4ddMB2RCojQ5ecZoAYqHf
+	O2JfjgAsBn9Xr+C8Cd0YRIZUmzvmZk+Vyw==
+X-Google-Smtp-Source: AGHT+IEzA0LCRndBtaFQhdXri9AFdse17We+C+ZmnavW4Wsfk/69itwFc/7EaxlITVWJ3w5z4EHEsQ==
+X-Received: by 2002:a05:600c:4513:b0:40e:3edb:c87 with SMTP id t19-20020a05600c451300b0040e3edb0c87mr236364wmo.186.1704887686906;
         Wed, 10 Jan 2024 03:54:46 -0800 (PST)
 Received: from slackware.local ([154.47.27.146])
-        by smtp.gmail.com with ESMTPSA id n13-20020a05600c500d00b0040e5a0515aesm44191wmr.14.2024.01.10.03.54.45
+        by smtp.gmail.com with ESMTPSA id n13-20020a05600c500d00b0040e5a0515aesm44191wmr.14.2024.01.10.03.54.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jan 2024 03:54:45 -0800 (PST)
+        Wed, 10 Jan 2024 03:54:46 -0800 (PST)
 From: Vyacheslav Yurkov <uvv.mail@gmail.com>
 To: Openembedded-core@lists.openembedded.org
 Cc: Lukas Funke <lukas.funke-oss@weidmueller.com>,
 	Vyacheslav Yurkov <uvv.mail@gmail.com>
-Subject: [PATCH 2/3] classes: go-vendor: Reference local modules
-Date: Wed, 10 Jan 2024 12:53:34 +0100
-Message-Id: <20240110115335.92914-2-uvv.mail@gmail.com>
+Subject: [PATCH 3/3] classes: go-vendor: Handle modules from the same repo
+Date: Wed, 10 Jan 2024 12:53:35 +0100
+Message-Id: <20240110115335.92914-3-uvv.mail@gmail.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20240110115335.92914-1-uvv.mail@gmail.com>
 References: <20240110115335.92914-1-uvv.mail@gmail.com>
@@ -62,60 +62,52 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 10 Jan 2024 11:54:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193494
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193495
 
-Create symlinks for local modules, which are usually not referenced in
-the SRC_URI, but still expected to be found in the vendor directory
-during the build.
+Take into account module version when populating vendor directory,
+because a module with the same URL but with a different version tag
+could be used as an indirect dependency.
 
 Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
 ---
- meta/classes/go-vendor.bbclass | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
+ meta/classes/go-vendor.bbclass | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
 diff --git a/meta/classes/go-vendor.bbclass b/meta/classes/go-vendor.bbclass
-index 2426bddfba..b965428dd1 100644
+index b965428dd1..48f4d1041c 100644
 --- a/meta/classes/go-vendor.bbclass
 +++ b/meta/classes/go-vendor.bbclass
-@@ -169,6 +169,7 @@ python do_go_vendor() {
-     fetched_paths.remove('.')
+@@ -103,18 +103,17 @@ python do_go_vendor() {
+         pathMajor = fetcher.ud[url].parm.get('go_pathmajor')
+         pathMajor = None if not pathMajor else pathMajor.strip('/')
  
-     vendored_paths = set()
-+    replaced_paths = dict()
-     with open(modules_txt_src) as f:
-         for line in f:
-             if not line.startswith("#"):
-@@ -182,6 +183,15 @@ python do_go_vendor() {
-                         vendored_paths.add(topdir)
+-        if not repo in modules:
+-            modules[repo] =   { "version": version,
++        if not (repo, version) in modules:
++            modules[(repo, version)] =   {
+                                 "repo_path": os.path.join(import_dir, p),
+                                 "module_path": module_path,
+                                 "subdir": subdir,
+                                 "pathMajor": pathMajor }
  
-                     topdir = os.path.dirname(topdir)
-+            else:
-+                replaced_module = line.split("=>")
-+                if len(replaced_module) > 1:
-+                    # This module has been replaced, use a local path
-+                    # we parse the line that has a pattern "# module-name [module-version] => local-path
-+                    actual_path = replaced_module[1].strip()
-+                    vendored_name = replaced_module[0].split()[1]
-+                    bb.debug(1, "added vendored name %s for actual path %s" % (vendored_name, actual_path))
-+                    replaced_paths[vendored_name] = actual_path
+-    for module_key in sorted(modules):
++    for module_key, module in modules.items():
  
-     for path in fetched_paths:
-         if path not in vendored_paths:
-@@ -189,7 +199,13 @@ python do_go_vendor() {
-             if os.path.exists(realpath):
-                 shutil.rmtree(realpath)
+         # only take the version which is explicitly listed
+         # as a dependency in the go.mod
+-        module = modules[module_key]
+         module_path = module['module_path']
+         rootdir = module['repo_path']
+         subdir = module['subdir']
+@@ -139,7 +138,7 @@ python do_go_vendor() {
+         dst = os.path.join(vendor_dir, module_path)
  
--    # Create a symlink the the actual directory
-+    for vendored_name, replaced_path in replaced_paths.items():
-+        symlink_target = os.path.join(source_dir, *['src', go_import, replaced_path])
-+        symlink_name = os.path.join(vendor_dir, vendored_name)
-+        bb.debug(1, "vendored name %s, symlink name %s" % (vendored_name, symlink_name))
-+        os.symlink(symlink_target, symlink_name)
-+
-+    # Create a symlink to the actual directory
-     os.symlink(vendor_dir, linkname)
- }
- 
+         bb.debug(1, "cp %s --> %s" % (src, dst))
+-        shutil.copytree(src, dst, symlinks=True, \
++        shutil.copytree(src, dst, symlinks=True, dirs_exist_ok=True, \
+             ignore=shutil.ignore_patterns(".git", \
+                                             "vendor", \
+                                             "*._test.go"))
 -- 
 2.35.1
 
