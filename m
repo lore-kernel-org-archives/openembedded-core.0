@@ -1,141 +1,88 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3B60C4707B
-	for <webhook@archiver.kernel.org>; Wed, 10 Jan 2024 13:03:38 +0000 (UTC)
-Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
- by mx.groups.io with SMTP id smtpd.web10.10983.1704891809967777822
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2C22C4707C
+	for <webhook@archiver.kernel.org>; Wed, 10 Jan 2024 13:07:38 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.10998.1704892056086302496
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Jan 2024 05:03:31 -0800
+ Wed, 10 Jan 2024 05:07:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: lakka.kapsi.fi, ip: 91.232.154.25, mailfrom: mcfrisk@lakka.kapsi.fi)
-Received: from kapsi.fi ([2001:67c:1be8::11] helo=lakka.kapsi.fi)
-	by mail.kapsi.fi with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1rNYEw-004w83-2K;
-	Wed, 10 Jan 2024 15:03:27 +0200
-Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.94.2)
-	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1rNYEw-00H7EF-Cf; Wed, 10 Jan 2024 15:03:26 +0200
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6F3DB2F4
+	for <openembedded-core@lists.openembedded.org>; Wed, 10 Jan 2024 05:08:21 -0800 (PST)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 64C733F64C
+	for <openembedded-core@lists.openembedded.org>; Wed, 10 Jan 2024 05:07:35 -0800 (PST)
+From: ross.burton@arm.com
 To: openembedded-core@lists.openembedded.org
-Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH] oeqa parselogs.py: load ignore files from sys.path
-Date: Wed, 10 Jan 2024 15:03:22 +0200
-Message-Id: <20240110130322.4078930-1-mikko.rapeli@linaro.org>
-X-Mailer: git-send-email 2.30.2
+Subject: [PATCH 7/9] gtk-doc: don't manually call gtkdocize
+Date: Wed, 10 Jan 2024 13:07:28 +0000
+Message-Id: <20240110130730.3698802-7-ross.burton@arm.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240110130730.3698802-1-ross.burton@arm.com>
+References: <20240110130730.3698802-1-ross.burton@arm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspam-Score: -1.4 (-)
-X-Rspam-Report: Action: no action
- Symbol: FROM_HAS_DN(0.00)
- Symbol: FROM_NEQ_ENVFROM(0.00)
- Symbol: RCVD_COUNT_TWO(0.00)
- Symbol: BAYES_HAM(-3.00)
- Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
- Symbol: RCVD_TLS_LAST(0.00)
- Symbol: DMARC_POLICY_SOFTFAIL(0.10)
- Symbol: MIME_GOOD(-0.10)
- Symbol: MID_CONTAINS_FROM(1.00)
- Symbol: RCPT_COUNT_TWO(0.00)
- Symbol: R_DKIM_NA(0.00)
- Symbol: NEURAL_HAM(0.00)
- Symbol: R_SPF_ALLOW(-0.20)
- Symbol: ARC_NA(0.00)
- Symbol: ASN(0.00)
- Symbol: MIME_TRACE(0.00)
- Symbol: TO_DN_SOME(0.00)
- Symbol: FORGED_SENDER(0.30)
- Symbol: R_MISSING_CHARSET(0.50)
- Message-ID: 20240110130322.4078930-1-mikko.rapeli@linaro.org
-X-SA-Exim-Connect-IP: 2001:67c:1be8::11
-X-SA-Exim-Mail-From: mcfrisk@lakka.kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Jan 2024 13:03:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193499
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Jan 2024 13:07:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193506
 
-python import.resources open_text() loads files from the module paths
-but this requires layers to set "addpylib ${LAYERDIR}/lib oeqa"
-which is not needed to find the plain .py test files to run the tests.
-Also an empty __init__.py file in a layer will break the resource file
-loading completely as only that path with __init__.py file will
-be used to search the resource files. Then open_text() is marked
-as deprecated from python 3.11 onwards
-https://docs.python.org/3/library/importlib.resources.html
+From: Ross Burton <ross.burton@arm.com>
 
-So replace open_text() by iterating over sys.path to find the ignore
-files. This works since paths like ${LAYERDIR}/lib/oeqa/runtime/cases are
-already in sys.path. Add debug prints for found and not found files
-while at it.
+The autoreconf call will now call gtkdocize if needed, so we don't need
+to run it manually here.
 
-Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+This obsoletes GTKDOC_DOCDIR.  If this is needed then the replacement is
+to ensure that the configure.ac has a call to GTK_DOC_CHECK which passes
+--docdir.
+
+For example, this is the change required for kmod:
+
+-GTK_DOC_CHECK([1.14],[--flavour no-tmpl-flat])
++GTK_DOC_CHECK([1.14],[--flavour no-tmpl-flat --docdir libkmod/docs])
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/lib/oeqa/runtime/cases/parselogs.py | 29 +++++++++++-------------
- 1 file changed, 13 insertions(+), 16 deletions(-)
+ meta/classes-recipe/gtk-doc.bbclass | 10 ----------
+ 1 file changed, 10 deletions(-)
 
-diff --git a/meta/lib/oeqa/runtime/cases/parselogs.py b/meta/lib/oeqa/runtime/cases/parselogs.py
-index 6966923c94..47583dbb5d 100644
---- a/meta/lib/oeqa/runtime/cases/parselogs.py
-+++ b/meta/lib/oeqa/runtime/cases/parselogs.py
-@@ -6,27 +6,19 @@
- 
- import collections
- import os
-+import pathlib
- import sys
- 
- from shutil import rmtree
- from oeqa.runtime.case import OERuntimeTestCase
- from oeqa.core.decorator.depends import OETestDepends
- 
--# importlib.resources.open_text in Python <3.10 doesn't search all directories
--# when a package is split across multiple directories. Until we can rely on
--# 3.10+, reimplement the searching logic.
--if sys.version_info < (3, 10):
--    def _open_text(package, resource):
--        import importlib, pathlib
--        module = importlib.import_module(package)
--        for path in module.__path__:
--            candidate = pathlib.Path(path) / resource
--            if candidate.exists():
--                return candidate.open(encoding='utf-8')
--        raise FileNotFoundError
--else:
--    from importlib.resources import open_text as _open_text
+diff --git a/meta/classes-recipe/gtk-doc.bbclass b/meta/classes-recipe/gt=
+k-doc.bbclass
+index c980c6bb52d..9d3911966bb 100644
+--- a/meta/classes-recipe/gtk-doc.bbclass
++++ b/meta/classes-recipe/gtk-doc.bbclass
+@@ -33,21 +33,11 @@ EXTRA_OEMESON:prepend =3D "-D${GTKDOC_MESON_OPTION}=3D=
+${@bb.utils.contains('GTKDOC_E
+ # needed for m4 macros.
+ DEPENDS:append =3D " gtk-doc-native"
+=20
+-# The documentation directory, where the infrastructure will be copied.
+-# gtkdocize has a default of "." so to handle out-of-tree builds set thi=
+s to $S.
+-GTKDOC_DOCDIR ?=3D "${S}"
 -
-+def open_syspath_text(resource):
-+    for path in sys.path:
-+        candidate = pathlib.Path(path) / resource
-+        if candidate.exists():
-+            return candidate.open(encoding='utf-8')
-+    raise FileNotFoundError
- 
- class ParseLogsTest(OERuntimeTestCase):
- 
-@@ -61,11 +53,16 @@ class ParseLogsTest(OERuntimeTestCase):
-         for candidate in ["common", cls.td.get("TARGET_ARCH")] + cls.td.get("MACHINEOVERRIDES").split(":"):
-             try:
-                 name = f"parselogs-ignores-{candidate}.txt"
--                for line in _open_text("oeqa.runtime.cases", name):
-+                print_once = True
-+                for line in open_syspath_text(name):
-+                    if print_once:
-+                        bb.debug(1, "parselogs: ignore file %s found" % (name))
-+                        print_once = False
-                     line = line.strip()
-                     if line and not line.startswith("#"):
-                         cls.ignore_errors.append(line.casefold())
-             except FileNotFoundError:
-+                bb.debug(1, "parselogs: ignore file %s not found" % (name))
-                 pass
- 
-     # Go through the log locations provided and if it's a folder
--- 
+ export STAGING_DIR_HOST
+=20
+ inherit python3native pkgconfig qemu
+ DEPENDS:append =3D "${@' qemu-native' if d.getVar('GTKDOC_ENABLED') =3D=3D=
+ 'True' else ''}"
+=20
+-do_configure:prepend () {
+-	# Need to use ||true as this is only needed if configure.ac both exists
+-	# and uses GTK_DOC_CHECK.
+-	gtkdocize --srcdir ${S} --docdir ${GTKDOC_DOCDIR} || true
+-}
+-
+ do_compile:prepend:class-target () {
+     if [ ${GTKDOC_ENABLED} =3D True ]; then
+         # Write out a qemu wrapper that will be given to gtkdoc-scangobj=
+ so that it
+--=20
 2.34.1
 
 
