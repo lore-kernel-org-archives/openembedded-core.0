@@ -2,56 +2,58 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 345BCC4707B
-	for <webhook@archiver.kernel.org>; Wed, 10 Jan 2024 16:38:10 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web10.16393.1704904686877436018
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BD9BC47073
+	for <webhook@archiver.kernel.org>; Wed, 10 Jan 2024 17:50:20 +0000 (UTC)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+ by mx.groups.io with SMTP id smtpd.web10.18496.1704909015091492239
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Jan 2024 08:38:07 -0800
+ Wed, 10 Jan 2024 09:50:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dyQlwI0q;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-40e4f692d06so12727755e9.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 10 Jan 2024 08:38:06 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Juk5TQG7;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.167.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-50e67e37661so5555335e87.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 Jan 2024 09:50:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1704904685; x=1705509485; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1704909013; x=1705513813; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RUF3FNtuGvgl3B07CpGRX9TgnUP/4XCu27geJfrE8SA=;
-        b=dyQlwI0qp8F8DUH/tmQjunlKJoks0gdJENt9N74xHSmsYyhZCQjJto5k6W3OokV3Gj
-         QQF4UFtZPO1gWTEGRMo5sDQdjJTA2t9IqeYUSApzrlg1TAOG7H34CwG9ChtdrQzfs+ot
-         WLjnUOSYAmObFOw4GP1pUwaRCNduh58mJzpm0=
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=He2hMekjgB/gyjRYreFy6UVh0AcnMjNUH67JlElplqY=;
+        b=Juk5TQG7LBUxBBAX4IAEpQgO191ApBBGEQcV3iNOSa71cO9GmlkMheybha8yODNk6l
+         7PV65KBydanpA5VqoidZphzCWpHnuwm9SZhelshWo4bSLVOlFWteQvac9KH2Cv8TTan9
+         vZLkAOWJu1SYLPv2jWretaroXoe9FlmwhqCEg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704904685; x=1705509485;
+        d=1e100.net; s=20230601; t=1704909013; x=1705513813;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=RUF3FNtuGvgl3B07CpGRX9TgnUP/4XCu27geJfrE8SA=;
-        b=orhYJCGnPDuIUR4j5S5Si4S/V8/ef4qZZlC/Ejlxn9GtSeAij+QjdAs7Eh2TR2RZhK
-         yiHlCSiIuLFgCdv0RNeQSncqNWQnq9wnHPk3uhqHNpx4cd4NaI9qb4Zs5l3l15yINO8R
-         9DboL9nlG1a4XO47MdVaB2UlpImODEmPaMM9umH5ycI6MVCaPLMLlVGPo5uDnaS48oMG
-         vvAqnCNu5VAPAm3cY/ag2yOlD/cqdA4s7QXgcFYyN2qKSwnkC3Vd9/JhFz3yLufwTXIU
-         5jKyTpR4/Wk3PoQa16HJFmShJhcSE7NWH8PPRD1sNBFkQ1W+yF+nbq5/ie1h3v5NpL90
-         YIUQ==
-X-Gm-Message-State: AOJu0YyUWPvcACshrW+SjTxRJQ4SLyK18wEPChx9RBYVEw8w8to6Qhwn
-	EEugiIym7W5pA9AYF3Ns/IqC8Zr6EMzB9ATVRg9eNyToPLs=
-X-Google-Smtp-Source: AGHT+IFhb1dry3elQnsepxdShCU8E27/zCU6iUPQ3z/rcSi/BkF20zBeoOcAn5IyxckOhFD35JokgQ==
-X-Received: by 2002:a05:600c:470e:b0:40e:4519:f450 with SMTP id v14-20020a05600c470e00b0040e4519f450mr198301wmo.46.1704904685173;
-        Wed, 10 Jan 2024 08:38:05 -0800 (PST)
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=He2hMekjgB/gyjRYreFy6UVh0AcnMjNUH67JlElplqY=;
+        b=GCJ3ye5lubaaaF8M/deZKEHTqr0fsVHu68+UWo+3M/mqhTsthEiWEmoDev7MmpMVSg
+         +HI3WY73ijDD48lIWL8pDjOqOkZJlIeyi+yHwr21hGuVnToXVY3dNFO6c5SycfWkonhb
+         svNKLiaLVxoNDQOSSpz9lmkIKnlaMX7JRYQcW+Mtyp8TLYFVkobOulcyiBbqDYr/7rW5
+         KmHtwuIQBFqQMwS2Jq0qq9/9kl1oOrnTgWVUrSMQvv2ucHIDfV+FAZPnimbzuz/ERYow
+         CMl8KDJbP/C25DWBvHAUBs5w/s0uvnGZ/plTMXZWIzPYZy4sjfNFnyjdMAdoA19/D+rk
+         mj/w==
+X-Gm-Message-State: AOJu0YzhcTZ2mpLP9t4D4pyB/JrZllO9xOOYUTxIcFLY8toKlrGmvgh1
+	XEZWtp6BguRH6v8Iqww8CpP8JZ1xHslwug==
+X-Google-Smtp-Source: AGHT+IEFZJU2srCYTIlOs9bJIcT5ZJHNaRXza1LMN0Wnst6ceI/+fozvuoNvPHPtt/d8YW9JwwOoWw==
+X-Received: by 2002:a19:ac06:0:b0:50e:7dcc:2999 with SMTP id g6-20020a19ac06000000b0050e7dcc2999mr655138lfc.61.1704909013162;
+        Wed, 10 Jan 2024 09:50:13 -0800 (PST)
 Received: from ?IPv6:2001:8b0:aba:5f3c:bd40:945a:4f08:4810? ([2001:8b0:aba:5f3c:bd40:945a:4f08:4810])
-        by smtp.gmail.com with ESMTPSA id g16-20020a05600c4ed000b0040d3db8186fsm2756540wmq.5.2024.01.10.08.38.04
+        by smtp.gmail.com with ESMTPSA id c15-20020adffb0f000000b003374d8306cesm5390899wrr.86.2024.01.10.09.50.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jan 2024 08:38:04 -0800 (PST)
-Message-ID: <cf4d74d6018223097d3e74ce3120d84422037bde.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH] package_rpm: proposal to use internal
- dependency generator
+        Wed, 10 Jan 2024 09:50:12 -0800 (PST)
+Message-ID: <88273782b8cce2458c155e9754afe0bc281fcb6b.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 2/2] shadow: link executables statically for
+ -native variant
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Xiangyu Chen <xiangyu.chen@eng.windriver.com>, 
+To: Alexander Kanavin <alex.kanavin@gmail.com>, 
 	openembedded-core@lists.openembedded.org
-Date: Wed, 10 Jan 2024 16:38:03 +0000
-In-Reply-To: <20240109075641.993044-1-xiangyu.chen@eng.windriver.com>
-References: <20240109075641.993044-1-xiangyu.chen@eng.windriver.com>
+Cc: Alexander Kanavin <alex@linutronix.de>
+Date: Wed, 10 Jan 2024 17:50:11 +0000
+In-Reply-To: <20240110120948.4140846-2-alex@linutronix.de>
+References: <20240110120948.4140846-1-alex@linutronix.de>
+	 <20240110120948.4140846-2-alex@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.48.1-0ubuntu1 
@@ -59,56 +61,81 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Jan 2024 16:38:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193516
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Jan 2024 17:50:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193517
 
-On Tue, 2024-01-09 at 15:56 +0800, Xiangyu Chen wrote:
-> From: Xiangyu Chen <xiangyu.chen@windriver.com>
+On Wed, 2024-01-10 at 13:09 +0100, Alexander Kanavin wrote:
+> shadow 4.14.x adds a number of libraries it dynamically links with
+> (md, bsd, attr). This causes troubles in setscene tasks where
+> shadow executables are used (such as useradd), as pulling in
+> the needed dynamic libraries needs unpleasant special-casing.
 >=20
-> Currently we are using external dependency generator, the rpm upstream al=
-ready
-> marked it as "Old Style Dependency Generators"[1], they also added a warn=
-ing message
-> in rpm source code to inform that the external dependency generator is de=
-precated[2].
->=20
-> Since it is only kept for backwards compatibility and may get removed in =
-a future
-> release of rpm, so here is a proposal to use internal dependency generato=
-r by default.
->=20
-> [1] https://rpm-software-management.github.io/rpm/manual/dependency_gener=
-ators.html
-> [2] https://github.com/rpm-software-management/rpm/commit/cfcdd942
->=20
-> Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 > ---
->  meta/classes-global/package_rpm.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  meta/conf/distro/include/no-static-libs.inc | 5 +++++
+>  meta/recipes-extended/shadow/shadow.inc     | 9 +++++++++
+>  2 files changed, 14 insertions(+)
 >=20
-> diff --git a/meta/classes-global/package_rpm.bbclass b/meta/classes-globa=
-l/package_rpm.bbclass
-> index 2fc18fe98c..05cecee7d7 100644
-> --- a/meta/classes-global/package_rpm.bbclass
-> +++ b/meta/classes-global/package_rpm.bbclass
-> @@ -681,7 +681,7 @@ python do_package_rpm () {
->      cmd =3D cmd + " --define '_topdir " + workdir + "' --define '_rpmdir=
- " + pkgwritedir + "'"
->      cmd =3D cmd + " --define '_builddir " + d.getVar('B') + "'"
->      cmd =3D cmd + " --define '_build_name_fmt %%{NAME}-%%{VERSION}-%%{RE=
-LEASE}.%%{ARCH}.rpm'"
-> -    cmd =3D cmd + " --define '_use_internal_dependency_generator 0'"
-> +    cmd =3D cmd + " --define '_use_internal_dependency_generator 1'"
->      cmd =3D cmd + " --define '_binaries_in_noarch_packages_terminate_bui=
-ld 0'"
->      cmd =3D cmd + " --define '_build_id_links none'"
->      cmd =3D cmd + " --define '_source_payload %s'" % rpmbuild_compmode
+> diff --git a/meta/conf/distro/include/no-static-libs.inc b/meta/conf/dist=
+ro/include/no-static-libs.inc
+> index 75359928a14..8898d53d756 100644
+> --- a/meta/conf/distro/include/no-static-libs.inc
+> +++ b/meta/conf/distro/include/no-static-libs.inc
+> @@ -21,6 +21,11 @@ DISABLE_STATIC:pn-libusb1-native =3D ""
+>  # needed by rust
+>  DISABLE_STATIC:pn-musl =3D ""
+> =20
+> +# needed by shadow-native to build static executables, particularly user=
+add
+> +DISABLE_STATIC:pn-attr-native =3D ""
+> +DISABLE_STATIC:pn-libbsd-native =3D ""
+> +DISABLE_STATIC:pn-libmd-native =3D ""
+> +
+>  EXTRA_OECONF:append =3D "${DISABLE_STATIC}"
+> =20
+>  EXTRA_OECMAKE:append:pn-libical =3D " -DSHARED_ONLY=3DTrue"
+> diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-exten=
+ded/shadow/shadow.inc
+> index c024746d4ff..67346aa5cb1 100644
+> --- a/meta/recipes-extended/shadow/shadow.inc
+> +++ b/meta/recipes-extended/shadow/shadow.inc
+> @@ -47,6 +47,15 @@ EXTRA_OECONF +=3D "--without-libcrack \
+> =20
+>  CFLAGS:append:libc-musl =3D " -DLIBBSD_OVERLAY"
+> =20
+> +# Force static linking of utilities so we can use from the sysroot/sstat=
+e for useradd
+> +# without worrying about the dependency libraries being available
+> +do_compile:prepend:class-native () {
+> +	sed -i -e 's#\(LIBS.*\)-lbsd#\1 ${STAGING_LIBDIR}/libbsd.a ${STAGING_LI=
+BDIR}/libmd.a#g' \
+> +	       -e 's#\(LIBBSD.*\)-lbsd#\1 ${STAGING_LIBDIR}/libbsd.a ${STAGING_=
+LIBDIR}/libmd.a#g' \
+> +	       -e 's#\(LIBATTR.*\)-lattr#\1 ${STAGING_LIBDIR}/libattr.a#g' \
+> +               ${B}/*/Makefile
+> +}
+> +
+>  NSCDOPT =3D ""
+>  NSCDOPT:class-native =3D "--without-nscd"
+>  NSCDOPT:class-nativesdk =3D "--without-nscd"
 
-This will not work since we have some significant use of the external
-dependency generation elsewhere in the codebase. I'd also not that
-message was from 2016, so probably not urgent at this point.
+Something isn't quite right:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/23/builds/8749
+https://autobuilder.yoctoproject.org/typhoon/#/builders/120/builds/3837
+https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/4219
+https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/6301/step=
+s/14/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/154/builds/1155/ste=
+ps/13/logs/stdio
+
+:(
+
+I'm going to stop that build.
 
 Cheers,
 
 Richard
+
+
 
