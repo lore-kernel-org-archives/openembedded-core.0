@@ -1,127 +1,110 @@
-Return-Path: <joe.slater@windriver.com>
+Return-Path: <alexander.sverdlin@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08BB4C4707B
-	for <webhook@archiver.kernel.org>; Wed, 10 Jan 2024 21:12:08 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.5532.1704921125880449282
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D5DCC47258
+	for <webhook@archiver.kernel.org>; Wed, 10 Jan 2024 21:20:28 +0000 (UTC)
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.web10.5738.1704921621240071301
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Jan 2024 13:12:06 -0800
+ Wed, 10 Jan 2024 13:20:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=lFRNVwXZ;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1739c17419=joe.slater@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40ABKmPT007253
-	for <openembedded-core@lists.openembedded.org>; Wed, 10 Jan 2024 21:12:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=1DDFi
-	Bun5tTLOdeTFYh4j2SCmmMQ/SGBwgyS5dlksPE=; b=lFRNVwXZDw/AmamuCFjDM
-	perMECNHNO6vnt7dduCHGQamnLGkPhlWjsOlM8gJK+lFrRfkLaqwbdSXPKu31mJ3
-	gGV3Pk4r65dzGl+6z6/I6anZHb7AIwI9f+2QiXt/zK1UYLDvbVrFU15c7ja7nMsx
-	2QpWUWx6PiDjZ+VRvPsZuxlImEohKfo5c8kdjV8bIcL6XlfLxt08TW6s0b1LzPuS
-	3rrhqtbETDl5nlIYXBl8H5Nt5uvKQlAkdIGy6/7e/EpfbeN0zWNo9EjPnJXq/WC0
-	qKklNy0zvSE4E8VdWSO9HKTMiyL72z2YDp0GGOWTcNr6JSiKKYzs5wY+bMFMhiCo
-	Q==
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3vewu5d2bm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 10 Jan 2024 21:12:04 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 10 Jan 2024 13:12:33 -0800
-Received: from ala-jslater-lx2.corp.ad.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Wed, 10 Jan 2024 13:12:33 -0800
-From: <joe.slater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <joe.slater@windriver.com>, <randy.macleod@windriver.com>
-Subject: [oe-core][PATCH 1/1] eudev: modify predictable network if name search
-Date: Wed, 10 Jan 2024 13:12:03 -0800
-Message-ID: <20240110211203.1471586-1-joe.slater@windriver.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=alexander.sverdlin@siemens.com header.s=fm1 header.b=VtlpZxoO;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-456497-202401102120071fe7caa4be2b7e0bbc-4fvrbx@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 202401102120071fe7caa4be2b7e0bbc
+        for <openembedded-core@lists.openembedded.org>;
+        Wed, 10 Jan 2024 22:20:12 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=alexander.sverdlin@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=eSIiSPei2BWRv9EiTKqZEr8b5Svdlj5nycjC9OUB0hc=;
+ b=VtlpZxoO31awMKH93e6Ee2NnD7s5+s2CRynYVukIs3j3hTTyqM4zMGHEVzE/+HmOSWcexU
+ VoZ1iy0Uq0o8Z3tvRH4hdUewxqBCzUtEBImLNQmeyAIRPz9SVsjo6shIETTfVRc5nx68spM7
+ z9mSnFwzDZLGZRQtrZ12E6/UQbO+o=;
+From: "A. Sverdlin" <alexander.sverdlin@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Sverdlin <alexander.sverdlin@siemens.com>
+Subject: [PATCH 2/2] linux-firmware: package PowerVR firmware
+Date: Wed, 10 Jan 2024 22:19:57 +0100
+Message-ID: <20240110212003.909270-2-alexander.sverdlin@siemens.com>
+In-Reply-To: <20240110212003.909270-1-alexander.sverdlin@siemens.com>
+References: <20240110212003.909270-1-alexander.sverdlin@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: r4Yop8KIScnduYKU_2zyevLtck1u2KTk
-X-Proofpoint-ORIG-GUID: r4Yop8KIScnduYKU_2zyevLtck1u2KTk
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=289
- priorityscore=1501 impostorscore=0 malwarescore=0 mlxscore=0 clxscore=1015
- lowpriorityscore=0 phishscore=0 suspectscore=0 spamscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2311290000
- definitions=main-2401100168
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-456497:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 10 Jan 2024 21:12:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193528
+ <openembedded-core@lists.openembedded.org>; Wed, 10 Jan 2024 21:20:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193529
 
-From: Joe Slater <joe.slater@windriver.com>
+From: Alexander Sverdlin <alexander.sverdlin@siemens.com>
 
-Consider a name based on mac address in addition to
-those based on slot or path.
+linux-firmware commit 9afbbf25689c
+("powervr: add firmware for Imagination Technologies AXE-1-16M GPU")
+has added the initial firmware for AXE-1-16M GPU.
 
-Note that as of this commit predictable naming is
-suppressed by eudev, but can be enabled by removing
-/etc/udev/rules.d/80-net-name-slot.rules from the
-root filesystem.
+New packages will be called linux-firmware-powervr{-license}.
 
-Signed-off-by: Joe Slater <joe.slater@windriver.com>
+Signed-off-by: Alexander Sverdlin <alexander.sverdlin@siemens.com>
 ---
- meta/recipes-core/udev/eudev/netifnames.patch | 17 +++++++++++++++++
- meta/recipes-core/udev/eudev_3.2.14.bb        |  2 ++
- 2 files changed, 19 insertions(+)
- create mode 100644 meta/recipes-core/udev/eudev/netifnames.patch
+ .../linux-firmware/linux-firmware_20231211.bb       | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/meta/recipes-core/udev/eudev/netifnames.patch b/meta/recipes-core/udev/eudev/netifnames.patch
-new file mode 100644
-index 0000000000..a45b80118f
---- /dev/null
-+++ b/meta/recipes-core/udev/eudev/netifnames.patch
-@@ -0,0 +1,17 @@
-+eudev: consider ID_NET_NAME_MAC as an interface name
-+
-+eudev might not create names based on slot or path.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Joe Slater <joe.slater@windriver.com>
-+
-+--- a/rules/80-net-name-slot.rules
-++++ b/rules/80-net-name-slot.rules
-+@@ -10,5 +10,6 @@ ENV{net.ifnames}=="0", GOTO="net_name_sl
-+ NAME=="", ENV{ID_NET_NAME_ONBOARD}!="", NAME="$env{ID_NET_NAME_ONBOARD}"
-+ NAME=="", ENV{ID_NET_NAME_SLOT}!="", NAME="$env{ID_NET_NAME_SLOT}"
-+ NAME=="", ENV{ID_NET_NAME_PATH}!="", NAME="$env{ID_NET_NAME_PATH}"
-++NAME=="", ENV{ID_NET_NAME_MAC}!="", NAME="$env{ID_NET_NAME_MAC}"
-+ 
-+ LABEL="net_name_slot_end"
-diff --git a/meta/recipes-core/udev/eudev_3.2.14.bb b/meta/recipes-core/udev/eudev_3.2.14.bb
-index d0758691bd..ddb3c3340f 100644
---- a/meta/recipes-core/udev/eudev_3.2.14.bb
-+++ b/meta/recipes-core/udev/eudev_3.2.14.bb
-@@ -10,6 +10,7 @@ DEPENDS = "gperf-native"
- PROVIDES = "udev"
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20231211.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20231211.bb
+index 0ed4d91f8ab..38b942c85d2 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20231211.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20231211.bb
+@@ -52,6 +52,7 @@ LICENSE = "\
+     & Firmware-OLPC \
+     & Firmware-ath9k-htc \
+     & Firmware-phanfw \
++    & Firmware-powervr \
+     & Firmware-qat \
+     & Firmware-qcom \
+     & Firmware-qcom-yamato \
+@@ -125,6 +126,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     file://LICENCE.OLPC;md5=5b917f9d8c061991be4f6f5f108719cd \
+                     file://LICENCE.open-ath9k-htc-firmware;md5=1b33c9f4d17bc4d457bdb23727046837 \
+                     file://LICENCE.phanfw;md5=954dcec0e051f9409812b561ea743bfa \
++                    file://LICENSE.powervr;md5=83045ed2a2cda15b4eaff682c98c9533 \
+                     file://LICENCE.qat_firmware;md5=72de83dfd9b87be7685ed099a39fbea4 \
+                     file://LICENSE.qcom;md5=164e3362a538eb11d3ac51e8e134294b \
+                     file://LICENSE.qcom_yamato;md5=d0de0eeccaf1843a850bf7a6777eec5c \
+@@ -202,6 +204,7 @@ NO_GENERIC_LICENSE[Firmware-nxp_mc_firmware] = "LICENSE.nxp_mc_firmware"
+ NO_GENERIC_LICENSE[Firmware-OLPC] = "LICENCE.OLPC"
+ NO_GENERIC_LICENSE[Firmware-ath9k-htc] = "LICENCE.open-ath9k-htc-firmware"
+ NO_GENERIC_LICENSE[Firmware-phanfw] = "LICENCE.phanfw"
++NO_GENERIC_LICENSE[Firmware-powervr] = "LICENSE.powervr"
+ NO_GENERIC_LICENSE[Firmware-qat] = "LICENCE.qat_firmware"
+ NO_GENERIC_LICENSE[Firmware-qcom] = "LICENSE.qcom"
+ NO_GENERIC_LICENSE[Firmware-qcom-yamato] = "LICENSE.qcom_yamato"
+@@ -361,6 +364,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
+              ${PN}-netronome-license ${PN}-netronome \
+              ${PN}-olpc-license ${PN}-olpc \
+              ${PN}-phanfw-license ${PN}-phanfw \
++             ${PN}-powervr-license ${PN}-powervr \
+              ${PN}-qat ${PN}-qat-license \
+              ${PN}-qcom-license ${PN}-qcom-yamato-license \
+              ${PN}-qcom-venus-1.8 ${PN}-qcom-venus-4.2 ${PN}-qcom-venus-5.2 ${PN}-qcom-venus-5.4 ${PN}-qcom-venus-6.0 \
+@@ -780,6 +784,15 @@ FILES:${PN}-phanfw-license = "${nonarch_base_libdir}/firmware/LICENCE.phanfw"
  
- SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz \
-+           file://netifnames.patch \
-            file://init \
-            file://local.rules \
-            "
-@@ -50,6 +51,7 @@ do_install:append() {
+ RDEPENDS:${PN}-phanfw += "${PN}-phanfw-license"
  
- 	# Use classic network interface naming scheme
- 	touch ${D}${sysconfdir}/udev/rules.d/80-net-name-slot.rules
++# For PowerVR
++LICENSE:${PN}-powervr = "Firmware-powervr"
++LICENSE:${PN}-powervr-license = "Firmware-powervr"
 +
- }
- 
- do_install:prepend:class-target () {
++FILES:${PN}-powervr = "${nonarch_base_libdir}/firmware/powervr"
++FILES:${PN}-powervr-license = "${nonarch_base_libdir}/firmware/LICENSE.powervr"
++
++RDEPENDS:${PN}-powervr += "${PN}-powervr-license"
++
+ # For qla2xxx
+ LICENSE:${PN}-qla2xxx = "Firmware-qla2xxx"
+ LICENSE:${PN}-qla2xxx-license = "Firmware-qla2xxx"
 -- 
-2.25.1
+2.43.0
 
 
