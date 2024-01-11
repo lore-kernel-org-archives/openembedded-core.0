@@ -1,80 +1,99 @@
-Return-Path: <simone.p.weiss@posteo.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87D98C47422
-	for <webhook@archiver.kernel.org>; Thu, 11 Jan 2024 15:21:31 +0000 (UTC)
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
- by mx.groups.io with SMTP id smtpd.web11.13792.1704986489839675750
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03A11C47077
+	for <webhook@archiver.kernel.org>; Thu, 11 Jan 2024 16:27:42 +0000 (UTC)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web10.15720.1704990461095952306
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Jan 2024 07:21:30 -0800
+ Thu, 11 Jan 2024 08:27:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@posteo.com header.s=2017 header.b=pVBLyWm5;
- spf=pass (domain: posteo.com, ip: 185.67.36.65, mailfrom: simone.p.weiss@posteo.com)
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id DD673240029
-	for <openembedded-core@lists.openembedded.org>; Thu, 11 Jan 2024 16:21:27 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.com; s=2017;
-	t=1704986487; bh=NpqvIB6eIf9f65lg5nn1hnS8GjCvthAldb2XD5/NkzI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:
-	 Content-Transfer-Encoding:From;
-	b=pVBLyWm5LdIhpX7MlqKKEptxiaSfLKuKLzkOhQw5iAkwJnCHTTG0eAAoUw3/B0Txi
-	 Mp7U2DFOS11wbANOuyuKcyfiDl7p0OMHiIRxUGEDQJ09UG/bLOj9Hphy563AvFOIcx
-	 4XhUM/kUqIfYrJT41jqyylY1x+qO901WZNH6+OpxbfwNLJGUxNgSCHyaK86FBxLQ/+
-	 Oyad8huB+vs5WVc46xwYbM9MbcN0R3HpQ2GMfHcreCqGkMniN8qDdFewW1x1/0kAKZ
-	 REolW3d3InL9MUn+On2B5UTbHy/QBaPO4qzYR7Z1EIqQliZB6uXi9+nIveyVj4Gjh+
-	 oq5H/phjQz1/A==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4T9pKg1Q5Zz9rxB;
-	Thu, 11 Jan 2024 16:21:26 +0100 (CET)
-From: simone.p.weiss@posteo.com
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=c4tdQk8Q;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1d4414ec9c7so28618865ad.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 Jan 2024 08:27:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1704990460; x=1705595260; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=k2QAvDM/oiC6y/CVgDOshdLdrZvd0rR2pXcTGpI2Rf4=;
+        b=c4tdQk8QHX0D2iJ/mbMrb+onXRAOEUHHuhUvE17YbWxmNVcimAd9BXMFeSB+jCkaZA
+         MUjxF7TgOEBGITGgGKbusYZZk6Hi8sY1X4YVzb5hHs23RxVzp1nATFqdgc2IyhJnYaam
+         j8fzFJOrLhx6uKSNW8xRSmUXuCOe+SY4QMI4X9pJG74oCkXNSL+orv0wtDDTB8sHwLaV
+         Lh0UnSzkTSQvUPrGMSg0/C3c1naFULMbKxsdw/X19o5JDx5Xim21wua8XFR2eml9IjD8
+         MSZ9Q/R5jyc1jCJThWv6mzl03AHiXEwcHqMOf9nJDl7tc6TUP+ELqtFFnmkvhjOB2Z/q
+         T0Qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704990460; x=1705595260;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=k2QAvDM/oiC6y/CVgDOshdLdrZvd0rR2pXcTGpI2Rf4=;
+        b=axNSu/K1QIR4v11GUyQIZ/grH1qVWZwJqtx08wE+kcALx/StzHsnt4yqfvYchQuZGu
+         fds/TI+QfBpZs1+hzUOUvs7chIaDXFx7QuQC669sxTdixHidvnNLmKd5zMfvi2r5zbsz
+         Z/eAQ3g+pyxBgRw36ElFuQeKtG0W3GYxboBjF5BpJ90yiIIRkhCU1vWNo7WzctFVdllw
+         llm7wALIs8GTDt0Vu/GTKjeuklnMAkm7yzXi+FAp93g5zVj8hTh9wc64TKlfkuJ+f0bX
+         BnSMkEOgplFFUoaWu+76p5xlRZd2MmnovCfxR9m7tWjQwMOzjuIh0ofaeqn0IZn7f9MR
+         gg7Q==
+X-Gm-Message-State: AOJu0YxjglI1mqS6dnd3lO14mSggKsmnHFQIZ2iXCxbOn1yN/N79/VTG
+	MI/6EVudPBxfqLfH2xGx/NWUqMONEq5hA982MJzIXVJYh1tYnw==
+X-Google-Smtp-Source: AGHT+IF1vdVP5+Y9kEnvpb5+k856M45bfGYvw4l4Z+CxsfIGTaGEXfWFlT8zufzfH/Bd0Y3/pCKQ2A==
+X-Received: by 2002:a17:903:32c3:b0:1d3:9287:a1a9 with SMTP id i3-20020a17090332c300b001d39287a1a9mr1518497plr.57.1704990460155;
+        Thu, 11 Jan 2024 08:27:40 -0800 (PST)
+Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
+        by smtp.gmail.com with ESMTPSA id a6-20020a170902ee8600b001d04d730687sm1347577pld.103.2024.01.11.08.27.39
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Jan 2024 08:27:39 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Simone=20Wei=C3=9F?= <simone.p.weiss@posteo.com>
-Subject: [PATCH] glibc: Set status for CVE-2023-5156 & CVE-2023-0687
-Date: Thu, 11 Jan 2024 15:20:56 +0000
-Message-Id: <20240111152056.613280-1-simone.p.weiss@posteo.com>
+Subject: [OE-core][nanbield 05/12] linux-firmware: Package iwlwifi .pnvm files
+Date: Thu, 11 Jan 2024 06:27:18 -1000
+Message-Id: <d4f7a9f4715ba2eda753ff6bac07f6905233c3d7.1704990330.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1704990330.git.steve@sakoman.com>
+References: <cover.1704990330.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Jan 2024 15:21:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193547
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Jan 2024 16:27:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193553
 
-From: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
+From: Jason Andryuk <jandryuk@gmail.com>
 
-Set `CVE_STATUS`for those CVEs, they have already been fixed with the lat=
-est
-pull for stable branch fixes done in rev
-e444d2bed0ea140a574414fcd5a689867e8ba312. Hence the issues are fixed
-already.
+The iwlwifi uses the .pnvm files for newer AX210+ cards, so package them
+into the iwlwifi-misc subpackage.
 
-Signed-off-by: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
+Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 056c4de1422ff06745c5669f871a1bb6f5390d01)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/glibc/glibc-version.inc | 2 ++
- 1 file changed, 2 insertions(+)
+ .../recipes-kernel/linux-firmware/linux-firmware_20231030.bb | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-cor=
-e/glibc/glibc-version.inc
-index ccf9d505c5..5f24a10826 100644
---- a/meta/recipes-core/glibc/glibc-version.inc
-+++ b/meta/recipes-core/glibc/glibc-version.inc
-@@ -10,4 +10,6 @@ UPSTREAM_CHECK_GITTAGREGEX =3D "(?P<pver>\d+\.\d+(\.(?!=
-90)\d+)*)"
- CVE_STATUS[CVE-2023-4527] =3D "fixed-version: Fixed in stable branch upd=
-ates"
- CVE_STATUS[CVE-2023-4911] =3D "fixed-version: Fixed in stable branch upd=
-ates"
- CVE_STATUS[CVE-2023-4806] =3D "fixed-version: Fixed in stable branch upd=
-ates"
-+CVE_STATUS[CVE-2023-5156] =3D "fixed-version: Fixed in stable branch upd=
-ates"
- CVE_STATUS[CVE-2023-4527] =3D "fixed-version: Fixed in stable branch upd=
-ates"
-+CVE_STATUS[CVE-2023-0687] =3D "fixed-version: Fixed in stable branch upd=
-ates"
---=20
-2.39.2
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20231030.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20231030.bb
+index c0394b9b3b..b849c086b6 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20231030.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20231030.bb
+@@ -1187,7 +1187,10 @@ FILES:${PN}-iwlwifi-7265d   = "${nonarch_base_libdir}/firmware/iwlwifi-7265D-*.u
+ FILES:${PN}-iwlwifi-8000c   = "${nonarch_base_libdir}/firmware/iwlwifi-8000C-*.ucode"
+ FILES:${PN}-iwlwifi-8265   = "${nonarch_base_libdir}/firmware/iwlwifi-8265-*.ucode"
+ FILES:${PN}-iwlwifi-9000   = "${nonarch_base_libdir}/firmware/iwlwifi-9000-*.ucode"
+-FILES:${PN}-iwlwifi-misc   = "${nonarch_base_libdir}/firmware/iwlwifi-*.ucode"
++FILES:${PN}-iwlwifi-misc   = " \
++    ${nonarch_base_libdir}/firmware/iwlwifi-*.ucode \
++    ${nonarch_base_libdir}/firmware/iwlwifi-*.pnvm \
++"
+ 
+ RDEPENDS:${PN}-iwlwifi-135-6     = "${PN}-iwlwifi-license"
+ RDEPENDS:${PN}-iwlwifi-3160-7    = "${PN}-iwlwifi-license"
+-- 
+2.34.1
 
 
