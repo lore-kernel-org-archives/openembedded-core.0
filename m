@@ -2,342 +2,164 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62AF5C47DA6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 710DCC47DA7
 	for <webhook@archiver.kernel.org>; Thu, 11 Jan 2024 16:27:42 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web11.15553.1704990456204515170
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web10.15719.1704990459679715481
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Jan 2024 08:27:36 -0800
+ Thu, 11 Jan 2024 08:27:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=lTaQQE0D;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1d3ea5cc137so46323795ad.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Jan 2024 08:27:36 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=T83HhNrF;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1d595de968bso3594195ad.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 Jan 2024 08:27:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1704990455; x=1705595255; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1704990458; x=1705595258; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Ig48DaP0oc4CAgvSBuMOYTTmvUaqwimaA+xyOkmlxsc=;
-        b=lTaQQE0D4BvnHA5f8q+JlAhsGMMeeUu+tGE4u4aYq66seAh1zRmKrwDk4NWsKvZcxZ
-         mHeme2ZIaupiV15aBIQBwg20rWta6dZrG8aEgGrYLtMnFVMuZNlJ3xxKQ1eLswvnDkZu
-         BAqqBSygexsSl+D57ENGRSf+sy6Qc+WBCXoRbsIvMKUiufXg58jMPuE3XFQHr+YMjylE
-         h7eD+pZfP5eRdQH3UlMttxGGcv/imxb6O/9jwY/Ma/vnfs4bhJrT7dF8W72CgeDPKP2T
-         dMaTi7sYxrJEFOQwPcdkznPZxiaIrdiRoQrBL6QVvId0lLTnMwl3CE5z5AIsJQGfxia6
-         ZS3A==
+        bh=sjF4uazWuwGsOs254pKoVPTcR+CUUqqGMFU07AV2Um8=;
+        b=T83HhNrFOIIvKIwG1Dtee25azQioGFAPoswC1qKjb3S26XNvPSfqD8ZfonjkH0AGFr
+         c8wun/CUdrfKgIIgLlBUs5mpIHutsj/aKV+OVFFZl78U2e7KQ2xAIkg5aTUwPzflz21l
+         AM52ofXiSfoinZwlGpMINqJc8KTf/06DtxmVjeetlQkeZQ6aUcXusAsYxG6gJDmqe42k
+         jDbgaZQ6ou+PuS6JSduQs+wmIiRY2S9FchZ7Cvms2h/wUc0uTVSbtdvQ1ZrLj9ydbomB
+         9t1cvE3AyjVzTIVFuOwLs3lt/fH2nK5MDtsoudUBtaB1ZLcl9ND4xWxM+Te+qQDCHT0d
+         ngcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704990455; x=1705595255;
+        d=1e100.net; s=20230601; t=1704990458; x=1705595258;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Ig48DaP0oc4CAgvSBuMOYTTmvUaqwimaA+xyOkmlxsc=;
-        b=AX3nl/umG2G4uDkzAxMvTf0lv9AD8GGNMPg/56vPjLkwbqHsAkg0rQ0NYT6ec6htvn
-         yd3ApQJDd6uqIDlJcKNkhfFZaCWqQkdC9ZMOpzlFLYm+gS/dKVTcOFMdVD4JoGId3sIt
-         EaxNScx6tQ5s9DH6TBZsK+aUdYZCK3wG2XIHzxnkzw67P+LzRziaFUlbZtqrVg7wYEi/
-         gKLp+KC6aux87yKRkkr+f0UuFnJKegO7OYEUXG1QtKlibs93fry4gh1eLLF6TUxMDA0V
-         A0FBn+nen7jJ9T9ETgIVYF7SjAXucgn6AhLvYu382GloDpSccl2lBFTrnsNnvgxKaZWj
-         56tQ==
-X-Gm-Message-State: AOJu0YwpoDrprAiJc8GOOt6ikA9GVTMZ4OJod1RzgkJan53AiKSuqWrD
-	WuK+7jf2Kn39/0SG/TlYR1NLsoyxQ6bJ8F97cPOKrNeUMudC3A==
-X-Google-Smtp-Source: AGHT+IEd0DsS2D83qscic8TajQNFlfYrm6iyyeoem0bCSZxFDozg6j+Hn72Xke6NFYWIbrFisUWYSA==
-X-Received: by 2002:a17:902:eb8e:b0:1d5:d00:c197 with SMTP id q14-20020a170902eb8e00b001d50d00c197mr1940560plg.19.1704990454815;
-        Thu, 11 Jan 2024 08:27:34 -0800 (PST)
+        bh=sjF4uazWuwGsOs254pKoVPTcR+CUUqqGMFU07AV2Um8=;
+        b=c0VFEpsOvD7nOmoEJMjMBAYatwpB3s3eEqHXPLcSSaIgPyoEeKm4ZFWWDYfswSWTQ1
+         LkmttBxp9Y8kZ4a6Uc3qKaewaAJmJa9TsBNQROTWUUbaBq3Y2zR2F6COIqLVVrQDphN3
+         x6BoFosdyA6fzuSIKsvt6QinT4+ZSBiy+X0C2QobO6gl9rZVoc/HN+gvZp1TDJQJxLLM
+         sVcjTfqymmogFUVDcdWRK3Vy3B9wmCRk7ZWBjxodk21Dh8GoO2sg5Yy2fRtFiNjInUp8
+         hMP1T5suj+D2LxKatruY/LkBFrodVlvrXDzV2BG4BSY2DKfRkUxMDx9PPstfvKO4cnXS
+         yLtw==
+X-Gm-Message-State: AOJu0YwcHGOuCWUcVFHjOIbkEQ4xEaqprbL8Y2fOaKtVf7T4IWgN9XXI
+	kj0Q7HSA0efiJgVGbHHqrSMDiSn6Qmw0PItg/L0wKw5TX6MWnQ==
+X-Google-Smtp-Source: AGHT+IF5Q1q54DfaVKfP/R4uP+0p2ae2elnnf9bPEmPm5ilsfo1nuCxcLu2IVcCwx1JZfzjodHj0zA==
+X-Received: by 2002:a17:903:41cb:b0:1d4:9225:a88f with SMTP id u11-20020a17090341cb00b001d49225a88fmr1487340ple.13.1704990458329;
+        Thu, 11 Jan 2024 08:27:38 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id a6-20020a170902ee8600b001d04d730687sm1347577pld.103.2024.01.11.08.27.33
+        by smtp.gmail.com with ESMTPSA id a6-20020a170902ee8600b001d04d730687sm1347577pld.103.2024.01.11.08.27.37
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jan 2024 08:27:34 -0800 (PST)
+        Thu, 11 Jan 2024 08:27:38 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][nanbield 02/12] tiff: Backport fixes for CVE-2023-6277
-Date: Thu, 11 Jan 2024 06:27:15 -1000
-Message-Id: <a2d0f36a89ba7414cb5aade202c0367097f6308b.1704990330.git.steve@sakoman.com>
+Subject: [OE-core][nanbield 04/12] go: update 1.20.11 -> 1.20.12
+Date: Thu, 11 Jan 2024 06:27:17 -1000
+Message-Id: <3e7981c7e575b0e16a7b7aba47993e9c58a719c5.1704990330.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1704990330.git.steve@sakoman.com>
 References: <cover.1704990330.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 11 Jan 2024 16:27:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193550
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193552
 
-From: Khem Raj <raj.khem@gmail.com>
+From: Jose Quaresma <quaresma.jose@gmail.com>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Upgrade to latest 1.20.x release [1]:
+
+$ git log --oneline go1.20.11..go1.20.12
+97c8ff8d53 (tag: go1.20.12, origin/release-branch.go1.20) [release-branch.go1.20] go1.20.12
+6446af942e [release-branch.go1.20] net/http: limit chunked data overhead
+77397ffcb2 [release-branch.go1.20] crypto/rand,runtime: revert "switch RtlGenRandom for ProcessPrng"
+d77307f855 [release-branch.go1.20] cmd/compile: fix findIndVar so it does not match disjointed loop headers
+1bd76576fe [release-branch.go1.20] crypto/rand,runtime: switch RtlGenRandom for ProcessPrng
+1b59b017db [release-branch.go1.20] path/filepath: consider \\?\c: as a volume on Windows
+46bc33819a [release-branch.go1.20] cmd/go/internal/vcs: error out if the requested repo does not support a secure protocol
+e1dc209be8 [release-branch.go1.20] cmd/go/internal/modfetch/codehost: set core.longpaths in Git repos on Windows
+
+[1] https://github.com/golang/go/compare/go1.20.11...go1.20.12
+
+Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit d115e17ad7775cf5bbfd402e98e61f362ac96efa)
+(cherry picked from commit 8515842b5c503b9a8840675d9cbcfe147d25c1d4)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...277-Apply-1-suggestion-s-to-1-file-s.patch |  27 +++
- ...ompare-data-size-of-some-tags-data-2.patch |  36 ++++
- ...-compare-data-size-of-some-tags-data.patch | 162 ++++++++++++++++++
- meta/recipes-multimedia/libtiff/tiff_4.6.0.bb |   3 +
- 4 files changed, 228 insertions(+)
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-Apply-1-suggestion-s-to-1-file-s.patch
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-At-image-reading-compare-data-size-of-some-tags-data-2.patch
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-At-image-reading-compare-data-size-of-some-tags-data.patch
+ meta/recipes-devtools/go/{go-1.20.11.inc => go-1.20.12.inc} | 2 +-
+ ...binary-native_1.20.11.bb => go-binary-native_1.20.12.bb} | 6 +++---
+ ...oss-canadian_1.20.11.bb => go-cross-canadian_1.20.12.bb} | 0
+ .../go/{go-cross_1.20.11.bb => go-cross_1.20.12.bb}         | 0
+ .../go/{go-crosssdk_1.20.11.bb => go-crosssdk_1.20.12.bb}   | 0
+ .../go/{go-native_1.20.11.bb => go-native_1.20.12.bb}       | 0
+ .../go/{go-runtime_1.20.11.bb => go-runtime_1.20.12.bb}     | 0
+ meta/recipes-devtools/go/{go_1.20.11.bb => go_1.20.12.bb}   | 0
+ 8 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/go/{go-1.20.11.inc => go-1.20.12.inc} (89%)
+ rename meta/recipes-devtools/go/{go-binary-native_1.20.11.bb => go-binary-native_1.20.12.bb} (78%)
+ rename meta/recipes-devtools/go/{go-cross-canadian_1.20.11.bb => go-cross-canadian_1.20.12.bb} (100%)
+ rename meta/recipes-devtools/go/{go-cross_1.20.11.bb => go-cross_1.20.12.bb} (100%)
+ rename meta/recipes-devtools/go/{go-crosssdk_1.20.11.bb => go-crosssdk_1.20.12.bb} (100%)
+ rename meta/recipes-devtools/go/{go-native_1.20.11.bb => go-native_1.20.12.bb} (100%)
+ rename meta/recipes-devtools/go/{go-runtime_1.20.11.bb => go-runtime_1.20.12.bb} (100%)
+ rename meta/recipes-devtools/go/{go_1.20.11.bb => go_1.20.12.bb} (100%)
 
-diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-Apply-1-suggestion-s-to-1-file-s.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-Apply-1-suggestion-s-to-1-file-s.patch
-new file mode 100644
-index 0000000000..5d15dff1d9
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-Apply-1-suggestion-s-to-1-file-s.patch
-@@ -0,0 +1,27 @@
-+From e1640519208121f916da1772a5efb6ca28971b86 Mon Sep 17 00:00:00 2001
-+From: Even Rouault <even.rouault@spatialys.com>
-+Date: Tue, 31 Oct 2023 15:04:37 +0000
-+Subject: [PATCH 3/3] Apply 1 suggestion(s) to 1 file(s)
-+
-+CVE: CVE-2023-6277
-+Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/merge_requests/545]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ libtiff/tif_dirread.c | 1 -
-+ 1 file changed, 1 deletion(-)
-+
-+diff --git a/libtiff/tif_dirread.c b/libtiff/tif_dirread.c
-+index fe8d6f8..58a4276 100644
-+--- a/libtiff/tif_dirread.c
-++++ b/libtiff/tif_dirread.c
-+@@ -5306,7 +5306,6 @@ static int EstimateStripByteCounts(TIFF *tif, TIFFDirEntry *dir,
-+     {
-+         uint64_t space;
-+         uint16_t n;
-+-        filesize = TIFFGetFileSize(tif);
-+         if (!(tif->tif_flags & TIFF_BIGTIFF))
-+             space = sizeof(TIFFHeaderClassic) + 2 + dircount * 12 + 4;
-+         else
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-At-image-reading-compare-data-size-of-some-tags-data-2.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-At-image-reading-compare-data-size-of-some-tags-data-2.patch
-new file mode 100644
-index 0000000000..9fc8182fef
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-At-image-reading-compare-data-size-of-some-tags-data-2.patch
-@@ -0,0 +1,36 @@
-+From f500facf7723f1cae725dd288b2daad15e45131c Mon Sep 17 00:00:00 2001
-+From: Su_Laus <sulau@freenet.de>
-+Date: Mon, 30 Oct 2023 21:21:57 +0100
-+Subject: [PATCH 2/3] At image reading, compare data size of some tags / data
-+ structures (StripByteCounts, StripOffsets, StripArray, TIFF directory) with
-+ file size to prevent provoked out-of-memory attacks.
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+See issue #614.
-+
-+Correct declaration of ‘filesize’ shadows a previous local.
-+
-+CVE: CVE-2023-6277
-+Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/merge_requests/545]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ libtiff/tif_dirread.c | 1 -
-+ 1 file changed, 1 deletion(-)
-+
-+diff --git a/libtiff/tif_dirread.c b/libtiff/tif_dirread.c
-+index c52d41f..fe8d6f8 100644
-+--- a/libtiff/tif_dirread.c
-++++ b/libtiff/tif_dirread.c
-+@@ -5305,7 +5305,6 @@ static int EstimateStripByteCounts(TIFF *tif, TIFFDirEntry *dir,
-+     if (td->td_compression != COMPRESSION_NONE)
-+     {
-+         uint64_t space;
-+-        uint64_t filesize;
-+         uint16_t n;
-+         filesize = TIFFGetFileSize(tif);
-+         if (!(tif->tif_flags & TIFF_BIGTIFF))
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-At-image-reading-compare-data-size-of-some-tags-data.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-At-image-reading-compare-data-size-of-some-tags-data.patch
-new file mode 100644
-index 0000000000..d5854a9059
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-6277-At-image-reading-compare-data-size-of-some-tags-data.patch
-@@ -0,0 +1,162 @@
-+From b33baa5d9c6aac8ce49b5180dd48e39697ab7a11 Mon Sep 17 00:00:00 2001
-+From: Su_Laus <sulau@freenet.de>
-+Date: Fri, 27 Oct 2023 22:11:10 +0200
-+Subject: [PATCH 1/3] At image reading, compare data size of some tags / data
-+ structures (StripByteCounts, StripOffsets, StripArray, TIFF directory) with
-+ file size to prevent provoked out-of-memory attacks.
-+
-+See issue #614.
-+
-+CVE: CVE-2023-6277
-+Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/merge_requests/545]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ libtiff/tif_dirread.c | 90 +++++++++++++++++++++++++++++++++++++++++++
-+ 1 file changed, 90 insertions(+)
-+
-+diff --git a/libtiff/tif_dirread.c b/libtiff/tif_dirread.c
-+index 2c49dc6..c52d41f 100644
-+--- a/libtiff/tif_dirread.c
-++++ b/libtiff/tif_dirread.c
-+@@ -1308,6 +1308,21 @@ TIFFReadDirEntryArrayWithLimit(TIFF *tif, TIFFDirEntry *direntry,
-+     datasize = (*count) * typesize;
-+     assert((tmsize_t)datasize > 0);
-+ 
-++    /* Before allocating a huge amount of memory for corrupted files, check if
-++     * size of requested memory is not greater than file size.
-++     */
-++    uint64_t filesize = TIFFGetFileSize(tif);
-++    if (datasize > filesize)
-++    {
-++        TIFFWarningExtR(tif, "ReadDirEntryArray",
-++                        "Requested memory size for tag %d (0x%x) %" PRIu32
-++                        " is greather than filesize %" PRIu64
-++                        ". Memory not allocated, tag not read",
-++                        direntry->tdir_tag, direntry->tdir_tag, datasize,
-++                        filesize);
-++        return (TIFFReadDirEntryErrAlloc);
-++    }
-++
-+     if (isMapped(tif) && datasize > (uint64_t)tif->tif_size)
-+         return TIFFReadDirEntryErrIo;
-+ 
-+@@ -5266,6 +5281,20 @@ static int EstimateStripByteCounts(TIFF *tif, TIFFDirEntry *dir,
-+     if (!_TIFFFillStrilesInternal(tif, 0))
-+         return -1;
-+ 
-++    /* Before allocating a huge amount of memory for corrupted files, check if
-++     * size of requested memory is not greater than file size. */
-++    uint64_t filesize = TIFFGetFileSize(tif);
-++    uint64_t allocsize = (uint64_t)td->td_nstrips * sizeof(uint64_t);
-++    if (allocsize > filesize)
-++    {
-++        TIFFWarningExtR(tif, module,
-++                        "Requested memory size for StripByteCounts of %" PRIu64
-++                        " is greather than filesize %" PRIu64
-++                        ". Memory not allocated",
-++                        allocsize, filesize);
-++        return -1;
-++    }
-++
-+     if (td->td_stripbytecount_p)
-+         _TIFFfreeExt(tif, td->td_stripbytecount_p);
-+     td->td_stripbytecount_p = (uint64_t *)_TIFFCheckMalloc(
-+@@ -5807,6 +5836,20 @@ static uint16_t TIFFFetchDirectory(TIFF *tif, uint64_t diroff,
-+             dircount16 = (uint16_t)dircount64;
-+             dirsize = 20;
-+         }
-++        /* Before allocating a huge amount of memory for corrupted files, check
-++         * if size of requested memory is not greater than file size. */
-++        uint64_t filesize = TIFFGetFileSize(tif);
-++        uint64_t allocsize = (uint64_t)dircount16 * dirsize;
-++        if (allocsize > filesize)
-++        {
-++            TIFFWarningExtR(
-++                tif, module,
-++                "Requested memory size for TIFF directory of %" PRIu64
-++                " is greather than filesize %" PRIu64
-++                ". Memory not allocated, TIFF directory not read",
-++                allocsize, filesize);
-++            return 0;
-++        }
-+         origdir = _TIFFCheckMalloc(tif, dircount16, dirsize,
-+                                    "to read TIFF directory");
-+         if (origdir == NULL)
-+@@ -5921,6 +5964,20 @@ static uint16_t TIFFFetchDirectory(TIFF *tif, uint64_t diroff,
-+                           "directories not supported");
-+             return 0;
-+         }
-++        /* Before allocating a huge amount of memory for corrupted files, check
-++         * if size of requested memory is not greater than file size. */
-++        uint64_t filesize = TIFFGetFileSize(tif);
-++        uint64_t allocsize = (uint64_t)dircount16 * dirsize;
-++        if (allocsize > filesize)
-++        {
-++            TIFFWarningExtR(
-++                tif, module,
-++                "Requested memory size for TIFF directory of %" PRIu64
-++                " is greather than filesize %" PRIu64
-++                ". Memory not allocated, TIFF directory not read",
-++                allocsize, filesize);
-++            return 0;
-++        }
-+         origdir = _TIFFCheckMalloc(tif, dircount16, dirsize,
-+                                    "to read TIFF directory");
-+         if (origdir == NULL)
-+@@ -5968,6 +6025,8 @@ static uint16_t TIFFFetchDirectory(TIFF *tif, uint64_t diroff,
-+             }
-+         }
-+     }
-++    /* No check against filesize needed here because "dir" should have same size
-++     * than "origdir" checked above. */
-+     dir = (TIFFDirEntry *)_TIFFCheckMalloc(
-+         tif, dircount16, sizeof(TIFFDirEntry), "to read TIFF directory");
-+     if (dir == 0)
-+@@ -7164,6 +7223,20 @@ static int TIFFFetchStripThing(TIFF *tif, TIFFDirEntry *dir, uint32_t nstrips,
-+             return (0);
-+         }
-+ 
-++        /* Before allocating a huge amount of memory for corrupted files, check
-++         * if size of requested memory is not greater than file size. */
-++        uint64_t filesize = TIFFGetFileSize(tif);
-++        uint64_t allocsize = (uint64_t)nstrips * sizeof(uint64_t);
-++        if (allocsize > filesize)
-++        {
-++            TIFFWarningExtR(tif, module,
-++                            "Requested memory size for StripArray of %" PRIu64
-++                            " is greather than filesize %" PRIu64
-++                            ". Memory not allocated",
-++                            allocsize, filesize);
-++            _TIFFfreeExt(tif, data);
-++            return (0);
-++        }
-+         resizeddata = (uint64_t *)_TIFFCheckMalloc(
-+             tif, nstrips, sizeof(uint64_t), "for strip array");
-+         if (resizeddata == 0)
-+@@ -7263,6 +7336,23 @@ static void allocChoppedUpStripArrays(TIFF *tif, uint32_t nstrips,
-+     }
-+     bytecount = last_offset + last_bytecount - offset;
-+ 
-++    /* Before allocating a huge amount of memory for corrupted files, check if
-++     * size of StripByteCount and StripOffset tags is not greater than
-++     * file size.
-++     */
-++    uint64_t allocsize = (uint64_t)nstrips * sizeof(uint64_t) * 2;
-++    uint64_t filesize = TIFFGetFileSize(tif);
-++    if (allocsize > filesize)
-++    {
-++        TIFFWarningExtR(tif, "allocChoppedUpStripArrays",
-++                        "Requested memory size for StripByteCount and "
-++                        "StripOffsets %" PRIu64
-++                        " is greather than filesize %" PRIu64
-++                        ". Memory not allocated",
-++                        allocsize, filesize);
-++        return;
-++    }
-++
-+     newcounts =
-+         (uint64_t *)_TIFFCheckMalloc(tif, nstrips, sizeof(uint64_t),
-+                                      "for chopped \"StripByteCounts\" array");
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.6.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.6.0.bb
-index 49984f1125..4c472f8ef6 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.6.0.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.6.0.bb
-@@ -9,6 +9,9 @@ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=a3e32d664d6db1386b4689c8121531c3"
- CVE_PRODUCT = "libtiff"
+diff --git a/meta/recipes-devtools/go/go-1.20.11.inc b/meta/recipes-devtools/go/go-1.20.12.inc
+similarity index 89%
+rename from meta/recipes-devtools/go/go-1.20.11.inc
+rename to meta/recipes-devtools/go/go-1.20.12.inc
+index 2f510b1791..9be56c6707 100644
+--- a/meta/recipes-devtools/go/go-1.20.11.inc
++++ b/meta/recipes-devtools/go/go-1.20.12.inc
+@@ -15,4 +15,4 @@ SRC_URI += "\
+     file://0008-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
+     file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch \
+ "
+-SRC_URI[main.sha256sum] = "d355c5ae3a8f7763c9ec9dc25153aae373958cbcb60dd09e91a8b56c7621b2fc"
++SRC_URI[main.sha256sum] = "c5bf934751d31c315c1d0bb5fb02296545fa6d08923566f7a5afec81f2ed27d6"
+diff --git a/meta/recipes-devtools/go/go-binary-native_1.20.11.bb b/meta/recipes-devtools/go/go-binary-native_1.20.12.bb
+similarity index 78%
+rename from meta/recipes-devtools/go/go-binary-native_1.20.11.bb
+rename to meta/recipes-devtools/go/go-binary-native_1.20.12.bb
+index bf91067971..e555412a19 100644
+--- a/meta/recipes-devtools/go/go-binary-native_1.20.11.bb
++++ b/meta/recipes-devtools/go/go-binary-native_1.20.12.bb
+@@ -9,9 +9,9 @@ PROVIDES = "go-native"
  
- SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
-+           file://CVE-2023-6277-At-image-reading-compare-data-size-of-some-tags-data.patch \
-+           file://CVE-2023-6277-At-image-reading-compare-data-size-of-some-tags-data-2.patch \
-+           file://CVE-2023-6277-Apply-1-suggestion-s-to-1-file-s.patch \
-            "
+ # Checksums available at https://go.dev/dl/
+ SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
+-SRC_URI[go_linux_amd64.sha256sum] = "ef79a11aa095a08772d2a69e4f152f897c4e96ee297b0dc20264b7dec2961abe"
+-SRC_URI[go_linux_arm64.sha256sum] = "7908a49c6ce9d48af9b5ba76ccaa0769da45d8b635259a01065b3739acef4ada"
+-SRC_URI[go_linux_ppc64le.sha256sum] = "e04676e1aeafe7c415176f330322d43a4be5ea6deb14aca49905bd1449dc7072"
++SRC_URI[go_linux_amd64.sha256sum] = "9c5d48c54dd8b0a3b2ef91b0f92a1190aa01f11d26e98033efa64c46a30bba7b"
++SRC_URI[go_linux_arm64.sha256sum] = "8afe8e3fb6972eaa2179ef0a71678c67f26509fab4f0f67c4b00f4cdfa92dc87"
++SRC_URI[go_linux_ppc64le.sha256sum] = "2ae0ec3736216dfbd7b01ff679842dc1bed365e53a024d522645bcffd01c7328"
  
- SRC_URI[sha256sum] = "88b3979e6d5c7e32b50d7ec72fb15af724f6ab2cbf7e10880c360a77e4b5d99a"
+ UPSTREAM_CHECK_URI = "https://golang.org/dl/"
+ UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
+diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.20.11.bb b/meta/recipes-devtools/go/go-cross-canadian_1.20.12.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross-canadian_1.20.11.bb
+rename to meta/recipes-devtools/go/go-cross-canadian_1.20.12.bb
+diff --git a/meta/recipes-devtools/go/go-cross_1.20.11.bb b/meta/recipes-devtools/go/go-cross_1.20.12.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross_1.20.11.bb
+rename to meta/recipes-devtools/go/go-cross_1.20.12.bb
+diff --git a/meta/recipes-devtools/go/go-crosssdk_1.20.11.bb b/meta/recipes-devtools/go/go-crosssdk_1.20.12.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-crosssdk_1.20.11.bb
+rename to meta/recipes-devtools/go/go-crosssdk_1.20.12.bb
+diff --git a/meta/recipes-devtools/go/go-native_1.20.11.bb b/meta/recipes-devtools/go/go-native_1.20.12.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-native_1.20.11.bb
+rename to meta/recipes-devtools/go/go-native_1.20.12.bb
+diff --git a/meta/recipes-devtools/go/go-runtime_1.20.11.bb b/meta/recipes-devtools/go/go-runtime_1.20.12.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-runtime_1.20.11.bb
+rename to meta/recipes-devtools/go/go-runtime_1.20.12.bb
+diff --git a/meta/recipes-devtools/go/go_1.20.11.bb b/meta/recipes-devtools/go/go_1.20.12.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go_1.20.11.bb
+rename to meta/recipes-devtools/go/go_1.20.12.bb
 -- 
 2.34.1
 
