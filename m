@@ -1,78 +1,102 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <festevam@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37888C47077
-	for <webhook@archiver.kernel.org>; Thu, 11 Jan 2024 18:14:53 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.18541.1704996885462685805
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9990AC47077
+	for <webhook@archiver.kernel.org>; Thu, 11 Jan 2024 19:27:16 +0000 (UTC)
+Received: from mail-il1-f177.google.com (mail-il1-f177.google.com [209.85.166.177])
+ by mx.groups.io with SMTP id smtpd.web11.1601.1705001231733001140
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Jan 2024 10:14:45 -0800
+ Thu, 11 Jan 2024 11:27:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4127F2F4
-	for <openembedded-core@lists.openembedded.org>; Thu, 11 Jan 2024 10:15:30 -0800 (PST)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 06C1B3F73F
-	for <openembedded-core@lists.openembedded.org>; Thu, 11 Jan 2024 10:14:43 -0800 (PST)
-From: ross.burton@arm.com
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Q/Jjtgtl;
+ spf=pass (domain: gmail.com, ip: 209.85.166.177, mailfrom: festevam@gmail.com)
+Received: by mail-il1-f177.google.com with SMTP id e9e14a558f8ab-36095e0601bso1270385ab.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 Jan 2024 11:27:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1705001230; x=1705606030; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9kPjxyiIZDF5tPtDUcgXpqhh7PQSP/2Crg6Rqa2ik3k=;
+        b=Q/Jjtgtl+JrQlx/R+rm4dfL+TMWiDALOu6D2B4pZZFM404kaA7Sk/tqaOgxOiJWHP/
+         +YIzlsjPyOriRD0mL6YKy2FiH2ZnXUf+7w82IxSKO85V3dvxw9UZXZ8XUJzGR3WUCXJl
+         7gu1Js7KdzRfc46SCdRJF8zRqMZ7Btwglpqr2aqG0Muc5ZbXe7qVxHfaPul9Yf3sV/x1
+         NUK7XNDWYUoc35rLd7qxWG+1bnAxxD2tVPoI5u4neDcuYS1RIk7XCXem1glQWyjHkvkr
+         38cA5UdhhLUGPv5nhqw8K2x4b4gKg0ROCqNwAXdzlTxiWDRb2/4TdTh0EKUR8i1QGqtY
+         5Y9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705001230; x=1705606030;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9kPjxyiIZDF5tPtDUcgXpqhh7PQSP/2Crg6Rqa2ik3k=;
+        b=l8KEb9E9/2dQ4x4gyZ4tvw2eaqdBzkOpFgA2NFS0dWRXtHT4SUhc2r78wAytNWcmJL
+         J2UaSexTI3loXbQbWWJJJ+kqbSNDwyjfJcO3UHJgWcRlB6nxMo0teOqwjN9OiULVLMoE
+         fgD2tmjOpRB+vUPydcfsNDBzAP+n8H6Br5sHD8+slIQF9785va+urMD5QPPV9mRrx4WG
+         xa92mMxxMC9KWXKpZfVGAWSLKIxg1UswF2TsvBHZ0xAayvow2ZARu83nzLgIi0k28mUO
+         hHZHdohAqOzk1Y+AT76xKz9whOiUVOB2m+qvwXz+zdYpZj5EVhGP5sVaW1Q8Dwt/Pmyw
+         5sLw==
+X-Gm-Message-State: AOJu0YyG7O6O4QsXhnJ9GJ6SgqYEa1WxdJyaLmQJZtwZgNN/oJace8iD
+	mDbqzphayavp0VPUexrv0Vkc6rUV3h8=
+X-Google-Smtp-Source: AGHT+IEDiLlb0VBJFyRqJTLx7mMxhsnGpGbj9yBbWG9K+Ng/dXu1KbsFrvGlrzb8Oj1lnJZAmnX8ug==
+X-Received: by 2002:a05:6e02:1b87:b0:360:702a:3f89 with SMTP id h7-20020a056e021b8700b00360702a3f89mr433121ili.0.1705001230485;
+        Thu, 11 Jan 2024 11:27:10 -0800 (PST)
+Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:8777:88e4:f2ed:1408])
+        by smtp.gmail.com with ESMTPSA id b29-20020a63715d000000b005bd2b3a03eesm1576816pgn.6.2024.01.11.11.27.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Jan 2024 11:27:09 -0800 (PST)
+From: Fabio Estevam <festevam@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] xmlcatalog: limit to native recipes only
-Date: Thu, 11 Jan 2024 18:14:42 +0000
-Message-Id: <20240111181442.250043-1-ross.burton@arm.com>
+Cc: Fabio Estevam <festevam@denx.de>
+Subject: [PATCH] mesa: Upgrade 23.3.2 -> 23.3.3
+Date: Thu, 11 Jan 2024 16:27:04 -0300
+Message-Id: <20240111192704.182107-1-festevam@gmail.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Jan 2024 18:14:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193561
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Jan 2024 19:27:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193562
 
-From: Ross Burton <ross.burton@arm.com>
+From: Fabio Estevam <festevam@denx.de>
 
-The sysroot postinst is explicitly native-only, so use more overrides to
-ensure that we don't try to run them outside of native recipes.
+Mesa 23.3.3 release notes:
 
-Also add a comment so this doesn't get forgotten again, and link to the
-related bug.
+https://lists.freedesktop.org/archives/mesa-announce/2024-January/000742.html
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Fabio Estevam <festevam@denx.de>
 ---
- meta/classes-recipe/xmlcatalog.bbclass | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ .../mesa/{mesa-gl_23.3.2.bb => mesa-gl_23.3.3.bb}               | 0
+ meta/recipes-graphics/mesa/mesa.inc                             | 2 +-
+ meta/recipes-graphics/mesa/{mesa_23.3.2.bb => mesa_23.3.3.bb}   | 0
+ 3 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/mesa/{mesa-gl_23.3.2.bb => mesa-gl_23.3.3.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_23.3.2.bb => mesa_23.3.3.bb} (100%)
 
-diff --git a/meta/classes-recipe/xmlcatalog.bbclass b/meta/classes-recipe=
-/xmlcatalog.bbclass
-index 5826d0a8b51..d3ef7ff43c2 100644
---- a/meta/classes-recipe/xmlcatalog.bbclass
-+++ b/meta/classes-recipe/xmlcatalog.bbclass
-@@ -4,13 +4,17 @@
- # SPDX-License-Identifier: MIT
- #
-=20
--DEPENDS =3D "libxml2-native"
-+# Note that this recipe only handles XML catalogues in the native sysroo=
-t, and doesn't
-+# yet support catalogue management in the target sysroot or on the targe=
-t itself.
-+# (https://bugzilla.yoctoproject.org/13271)
-=20
- # A whitespace-separated list of XML catalogs to be registered, for exam=
-ple
- # "${sysconfdir}/xml/docbook-xml.xml".
- XMLCATALOGS ?=3D ""
-=20
--SYSROOT_PREPROCESS_FUNCS:append =3D " xmlcatalog_sstate_postinst"
-+DEPENDS:append =3D " libxml2-native"
-+
-+SYSROOT_PREPROCESS_FUNCS:append:class-native =3D " xmlcatalog_sstate_pos=
-tinst"
-=20
- xmlcatalog_complete() {
- 	ROOTCATALOG=3D"${STAGING_ETCDIR_NATIVE}/xml/catalog"
---=20
-2.34.1
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_23.3.2.bb b/meta/recipes-graphics/mesa/mesa-gl_23.3.3.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-gl_23.3.2.bb
+rename to meta/recipes-graphics/mesa/mesa-gl_23.3.3.bb
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index ddbebccd9b..e063eb3507 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -20,7 +20,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0001-gallium-Fix-build-with-llvm-17.patch \
+ "
+ 
+-SRC_URI[sha256sum] = "3cfcb81fa16f89c56abe3855d2637d396ee4e03849b659000a6b8e5f57e69adc"
++SRC_URI[sha256sum] = "518307c0057fa3cee8b58df78be431d4df5aafa7edc60d09278b2d7a0a80f3b4"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+ 
+diff --git a/meta/recipes-graphics/mesa/mesa_23.3.2.bb b/meta/recipes-graphics/mesa/mesa_23.3.3.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa_23.3.2.bb
+rename to meta/recipes-graphics/mesa/mesa_23.3.3.bb
+-- 
+2.37.3
 
 
