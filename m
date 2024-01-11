@@ -1,140 +1,77 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C4E5C4707B
-	for <webhook@archiver.kernel.org>; Thu, 11 Jan 2024 10:10:40 +0000 (UTC)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
- by mx.groups.io with SMTP id smtpd.web10.8497.1704967836035424284
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D595C47077
+	for <webhook@archiver.kernel.org>; Thu, 11 Jan 2024 10:40:10 +0000 (UTC)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+ by mx.groups.io with SMTP id smtpd.web11.8822.1704969600070346271
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Jan 2024 02:10:36 -0800
+ Thu, 11 Jan 2024 02:40:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YlKnUo8w;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.208.169, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2cd33336b32so68009081fa.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Jan 2024 02:10:35 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=QfnkVDiL;
+ spf=pass (domain: gmail.com, ip: 209.85.208.171, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2cca8eb0509so61850021fa.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 Jan 2024 02:39:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1704967834; x=1705572634; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=e6Y6rpFdNhTfMDe6RTj+VW6Ygp/8jJH8l3pagSb06eg=;
-        b=YlKnUo8wfxukILZrFiFxlFCzfIUvRDOCYnDbmurti8DB2QrVSwoVn6MgRNC35l9CVO
-         az4HrnnnJHRZujAMxMKIHsIy/RRrBAbqgVkys+sOO8igDkBQloob/TzFpHIvgOYMw7yd
-         XcgstrwphUlM0MzmD4L10wymNctytg+x3ig2g=
+        d=gmail.com; s=20230601; t=1704969598; x=1705574398; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=rmzQjrya9wTM7Y873g5PI238pjRYP8eCwXP5JZu5UzI=;
+        b=QfnkVDiL2y/G2emWndSni8Teu2bl11ijDY9kNxGlHnuXCbR3TTUb0WdGwcwLyHGqxr
+         IEncH1z5oQMPEGrr0mVeZgnWBDO/aMLYKmM4XqKIfEBVuNypDb53ObT8wk6h4wZKJ9Th
+         0OyLukdUXhcQlcx/rVJWa9kiCO6fsM6V33r1oqwW5lHemkou24ZAkd+G8Jx+aXE2DkhL
+         ARco+nUjJorcttdY4NTmU/M0jJEdFqK9cnF9OaosjU2FhteUiQBzGDiWavsFW6ZYKGco
+         YbKkpxZFFU5fWnUqsVRgOyf+FnxGbktsdYN8vAYyyvdhdT6hJRphQlApOaoi5CIV1zgD
+         QKPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704967834; x=1705572634;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=e6Y6rpFdNhTfMDe6RTj+VW6Ygp/8jJH8l3pagSb06eg=;
-        b=miCawTzbSKlWV99SzacF/xPqrBvyMLJr/VdWjSDxr7dWyXhvAAjMiA1wB0Qi82RkD+
-         37luGGzE5GNRYCoq2dK2a0YuzpIzkuIKsGmxAEX4AoWkAVj2LFsRdhCYmapwjNtUE7ze
-         s3Eu8NeZIyQeLQIz45zF2+ChfKPIP1Vwv3wmkPQUtneEIfqFPTbu33rHrcQHyFe5snmN
-         LjSX13yPTD8bEfljgK5b+ZIFc6PJbqOueYmRnWSj1oYTcqQHEPO6Vej13AuMQ8k+9y2p
-         VhVADCaQt57i6bVdR41wxOGHG6DU2vvTYmZxHOWOJ5Y1YH5GxyLEIsqyklqjG6E3NO2R
-         jhIA==
-X-Gm-Message-State: AOJu0YzIIgY2rEqIo5d0IP7KKYlVZI3hTkvQHtAU/0Ev8x/PvwGWqUme
-	Y7sfzwZGlWtKWcFh6gA9YEfd09thQvmzXw==
-X-Google-Smtp-Source: AGHT+IEK1rYP0RIJJfcIzzdanvW0HOK8Q29277EmLeYr7CUEuGElEK0S8IQSrv0Gx8KISDMsMPMfhQ==
-X-Received: by 2002:a2e:3516:0:b0:2cc:ea5b:ba6b with SMTP id z22-20020a2e3516000000b002ccea5bba6bmr270859ljz.26.1704967833898;
-        Thu, 11 Jan 2024 02:10:33 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:4356:b19b:2f4b:a082? ([2001:8b0:aba:5f3c:4356:b19b:2f4b:a082])
-        by smtp.gmail.com with ESMTPSA id j27-20020adfb31b000000b00336e32338f3sm805840wrd.70.2024.01.11.02.10.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jan 2024 02:10:33 -0800 (PST)
-Message-ID: <2ef29e5b69f7e46c24be48828a650de28cbfd5ab.camel@linuxfoundation.org>
+        d=1e100.net; s=20230601; t=1704969598; x=1705574398;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rmzQjrya9wTM7Y873g5PI238pjRYP8eCwXP5JZu5UzI=;
+        b=cSQV9TP39Dm3UR29/hPDi4SCnkBNb3HPv8YX8QBEE3sJoamQuYGCIocwPU/GqWeh3a
+         VFY9XBwNrbSFVA8GGhtc/mCRUA+hXYw3fg6fDY/peTHfX3Dwuz50Vv39dtgqsXampe2k
+         lFmLxpqMPMaCPf32A3Cr5XJMevpOCKneqvfUmBWCbkZkVvAd87nsk8NST8ahKirz+dn+
+         btsZWasqIJhQO41FfNaCAOl56I/XFN8MmqUhXHOrTCXCI/b7GcsLk90t2xWjdhkLq5hu
+         73iAi2KbD1GVziDTDLdinQ+U+utJjnp2O5ZlGOeRWYRmyBa1gwSpVQ/KIwn8W/rx1yof
+         LySA==
+X-Gm-Message-State: AOJu0YzOMGkTPISDeVVU9t0OQ/SHlh93+aiBH/ej9J+3oV3S+08G6+aO
+	BOqBmFnfvqcFLeVGDeXgv4tw8fTAj8pulEMSdmM=
+X-Google-Smtp-Source: AGHT+IE7/KDdXCcdOFPGAE2cVbxyp9RlDzNINUITWj1wdUEN/Jm0hDanH7MOjmOMK8rov6L7jIG+bdUc19PcBvNptho=
+X-Received: by 2002:a2e:7d08:0:b0:2cd:1d5d:323b with SMTP id
+ y8-20020a2e7d08000000b002cd1d5d323bmr274040ljc.1.1704969597973; Thu, 11 Jan
+ 2024 02:39:57 -0800 (PST)
+MIME-Version: 1.0
+References: <20240110200329.2173442-1-alex@linutronix.de> <20240110200329.2173442-2-alex@linutronix.de>
+ <2ef29e5b69f7e46c24be48828a650de28cbfd5ab.camel@linuxfoundation.org>
+In-Reply-To: <2ef29e5b69f7e46c24be48828a650de28cbfd5ab.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 11 Jan 2024 11:39:46 +0100
+Message-ID: <CANNYZj8LHqO8yFXJ1R-c+xbWK5ge8CMd7bS=cPceW75r=70w2g@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH 2/2] shadow: link executables statically for
  -native variant
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Date: Thu, 11 Jan 2024 10:10:32 +0000
-In-Reply-To: <20240110200329.2173442-2-alex@linutronix.de>
-References: <20240110200329.2173442-1-alex@linutronix.de>
-	 <20240110200329.2173442-2-alex@linutronix.de>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org, 
+	Alexander Kanavin <alex@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.1-0ubuntu1 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Jan 2024 10:10:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193536
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Jan 2024 10:40:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193537
 
-On Wed, 2024-01-10 at 21:03 +0100, Alexander Kanavin wrote:
-> shadow 4.14.x adds a number of libraries it dynamically links with
-> (md, bsd, attr). This causes troubles in setscene tasks where
-> shadow executables are used (such as useradd), as pulling in
-> the needed dynamic libraries needs unpleasant special-casing.
->=20
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
->=20
-> ---
-> v2: patch only Makefiles that produce executables and libshadow.a
-> (that executables all statically link with), do not patch libsubid/Makefi=
-le,
-> as patching in .a linking can clash with producing dynamic libraries.
-> libsubid is used only in getsubids executable, which is not used in
-> setscene user management (or anywhere else from what I can see).
-> ---
->  meta/conf/distro/include/no-static-libs.inc | 5 +++++
->  meta/recipes-extended/shadow/shadow.inc     | 9 +++++++++
->  2 files changed, 14 insertions(+)
->=20
-> diff --git a/meta/conf/distro/include/no-static-libs.inc b/meta/conf/dist=
-ro/include/no-static-libs.inc
-> index 75359928a14..8898d53d756 100644
-> --- a/meta/conf/distro/include/no-static-libs.inc
-> +++ b/meta/conf/distro/include/no-static-libs.inc
-> @@ -21,6 +21,11 @@ DISABLE_STATIC:pn-libusb1-native =3D ""
->  # needed by rust
->  DISABLE_STATIC:pn-musl =3D ""
-> =20
-> +# needed by shadow-native to build static executables, particularly user=
-add
-> +DISABLE_STATIC:pn-attr-native =3D ""
-> +DISABLE_STATIC:pn-libbsd-native =3D ""
-> +DISABLE_STATIC:pn-libmd-native =3D ""
-> +
->  EXTRA_OECONF:append =3D "${DISABLE_STATIC}"
-> =20
->  EXTRA_OECMAKE:append:pn-libical =3D " -DSHARED_ONLY=3DTrue"
-> diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-exten=
-ded/shadow/shadow.inc
-> index c024746d4ff..e16d3f010d2 100644
-> --- a/meta/recipes-extended/shadow/shadow.inc
-> +++ b/meta/recipes-extended/shadow/shadow.inc
-> @@ -47,6 +47,15 @@ EXTRA_OECONF +=3D "--without-libcrack \
-> =20
->  CFLAGS:append:libc-musl =3D " -DLIBBSD_OVERLAY"
-> =20
-> +# Force static linking of utilities so we can use from the sysroot/sstat=
-e for useradd
-> +# without worrying about the dependency libraries being available
-> +do_compile:prepend:class-native () {
-> +	sed -i -e 's#\(LIBS.*\)-lbsd#\1 ${STAGING_LIBDIR}/libbsd.a ${STAGING_LI=
-BDIR}/libmd.a#g' \
-> +	       -e 's#\(LIBBSD.*\)-lbsd#\1 ${STAGING_LIBDIR}/libbsd.a ${STAGING_=
-LIBDIR}/libmd.a#g' \
-> +	       -e 's#\(LIBATTR.*\)-lattr#\1 ${STAGING_LIBDIR}/libattr.a#g' \
-> +               ${B}/lib/Makefile ${B}/src/Makefile
-> +}
-> +
->  NSCDOPT =3D ""
->  NSCDOPT:class-native =3D "--without-nscd"
->  NSCDOPT:class-nativesdk =3D "--without-nscd"
+On Thu, 11 Jan 2024 at 11:10, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 
-There is still something not right:
+> There is still something not right:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6440
+>
+> :(
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6440
+Yes, seems like each host distro's gcc has a different issue with what
+we're trying to do :( I'll dig into it.
 
-:(
-
-Cheers,
-
-Richard
-
+Alex
 
