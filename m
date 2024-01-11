@@ -1,311 +1,140 @@
-Return-Path: <jamin_lin@aspeedtech.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 295EDC4707B
-	for <webhook@archiver.kernel.org>; Thu, 11 Jan 2024 10:09:00 +0000 (UTC)
-Subject: create-spdx-2.2.bbclass issue 
-To: openembedded-core@lists.openembedded.org
-From: "Jamin Lin" <jamin_lin@aspeedtech.com>
-X-Originating-Location: Daan, Taipei City, TW (118.99.190.129)
-X-Originating-Platform: Windows Chrome 120
-User-Agent: GROUPS.IO Web Poster
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C4E5C4707B
+	for <webhook@archiver.kernel.org>; Thu, 11 Jan 2024 10:10:40 +0000 (UTC)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+ by mx.groups.io with SMTP id smtpd.web10.8497.1704967836035424284
+ for <openembedded-core@lists.openembedded.org>;
+ Thu, 11 Jan 2024 02:10:36 -0800
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YlKnUo8w;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.208.169, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2cd33336b32so68009081fa.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 Jan 2024 02:10:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1704967834; x=1705572634; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=e6Y6rpFdNhTfMDe6RTj+VW6Ygp/8jJH8l3pagSb06eg=;
+        b=YlKnUo8wfxukILZrFiFxlFCzfIUvRDOCYnDbmurti8DB2QrVSwoVn6MgRNC35l9CVO
+         az4HrnnnJHRZujAMxMKIHsIy/RRrBAbqgVkys+sOO8igDkBQloob/TzFpHIvgOYMw7yd
+         XcgstrwphUlM0MzmD4L10wymNctytg+x3ig2g=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704967834; x=1705572634;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=e6Y6rpFdNhTfMDe6RTj+VW6Ygp/8jJH8l3pagSb06eg=;
+        b=miCawTzbSKlWV99SzacF/xPqrBvyMLJr/VdWjSDxr7dWyXhvAAjMiA1wB0Qi82RkD+
+         37luGGzE5GNRYCoq2dK2a0YuzpIzkuIKsGmxAEX4AoWkAVj2LFsRdhCYmapwjNtUE7ze
+         s3Eu8NeZIyQeLQIz45zF2+ChfKPIP1Vwv3wmkPQUtneEIfqFPTbu33rHrcQHyFe5snmN
+         LjSX13yPTD8bEfljgK5b+ZIFc6PJbqOueYmRnWSj1oYTcqQHEPO6Vej13AuMQ8k+9y2p
+         VhVADCaQt57i6bVdR41wxOGHG6DU2vvTYmZxHOWOJ5Y1YH5GxyLEIsqyklqjG6E3NO2R
+         jhIA==
+X-Gm-Message-State: AOJu0YzIIgY2rEqIo5d0IP7KKYlVZI3hTkvQHtAU/0Ev8x/PvwGWqUme
+	Y7sfzwZGlWtKWcFh6gA9YEfd09thQvmzXw==
+X-Google-Smtp-Source: AGHT+IEK1rYP0RIJJfcIzzdanvW0HOK8Q29277EmLeYr7CUEuGElEK0S8IQSrv0Gx8KISDMsMPMfhQ==
+X-Received: by 2002:a2e:3516:0:b0:2cc:ea5b:ba6b with SMTP id z22-20020a2e3516000000b002ccea5bba6bmr270859ljz.26.1704967833898;
+        Thu, 11 Jan 2024 02:10:33 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:4356:b19b:2f4b:a082? ([2001:8b0:aba:5f3c:4356:b19b:2f4b:a082])
+        by smtp.gmail.com with ESMTPSA id j27-20020adfb31b000000b00336e32338f3sm805840wrd.70.2024.01.11.02.10.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Jan 2024 02:10:33 -0800 (PST)
+Message-ID: <2ef29e5b69f7e46c24be48828a650de28cbfd5ab.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 2/2] shadow: link executables statically for
+ -native variant
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Date: Thu, 11 Jan 2024 10:10:32 +0000
+In-Reply-To: <20240110200329.2173442-2-alex@linutronix.de>
+References: <20240110200329.2173442-1-alex@linutronix.de>
+	 <20240110200329.2173442-2-alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
 MIME-Version: 1.0
-Date: Thu, 11 Jan 2024 02:08:50 -0800
-Message-ID: <FBdb.1704967730905147297.gmcF@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="gaZ5EePCXb4a3swzGpis"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 11 Jan 2024 10:09:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193535
+ <openembedded-core@lists.openembedded.org>; Thu, 11 Jan 2024 10:10:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193536
 
---gaZ5EePCXb4a3swzGpis
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+On Wed, 2024-01-10 at 21:03 +0100, Alexander Kanavin wrote:
+> shadow 4.14.x adds a number of libraries it dynamically links with
+> (md, bsd, attr). This causes troubles in setscene tasks where
+> shadow executables are used (such as useradd), as pulling in
+> the needed dynamic libraries needs unpleasant special-casing.
+>=20
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+>=20
+> ---
+> v2: patch only Makefiles that produce executables and libshadow.a
+> (that executables all statically link with), do not patch libsubid/Makefi=
+le,
+> as patching in .a linking can clash with producing dynamic libraries.
+> libsubid is used only in getsubids executable, which is not used in
+> setscene user management (or anywhere else from what I can see).
+> ---
+>  meta/conf/distro/include/no-static-libs.inc | 5 +++++
+>  meta/recipes-extended/shadow/shadow.inc     | 9 +++++++++
+>  2 files changed, 14 insertions(+)
+>=20
+> diff --git a/meta/conf/distro/include/no-static-libs.inc b/meta/conf/dist=
+ro/include/no-static-libs.inc
+> index 75359928a14..8898d53d756 100644
+> --- a/meta/conf/distro/include/no-static-libs.inc
+> +++ b/meta/conf/distro/include/no-static-libs.inc
+> @@ -21,6 +21,11 @@ DISABLE_STATIC:pn-libusb1-native =3D ""
+>  # needed by rust
+>  DISABLE_STATIC:pn-musl =3D ""
+> =20
+> +# needed by shadow-native to build static executables, particularly user=
+add
+> +DISABLE_STATIC:pn-attr-native =3D ""
+> +DISABLE_STATIC:pn-libbsd-native =3D ""
+> +DISABLE_STATIC:pn-libmd-native =3D ""
+> +
+>  EXTRA_OECONF:append =3D "${DISABLE_STATIC}"
+> =20
+>  EXTRA_OECMAKE:append:pn-libical =3D " -DSHARED_ONLY=3DTrue"
+> diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-exten=
+ded/shadow/shadow.inc
+> index c024746d4ff..e16d3f010d2 100644
+> --- a/meta/recipes-extended/shadow/shadow.inc
+> +++ b/meta/recipes-extended/shadow/shadow.inc
+> @@ -47,6 +47,15 @@ EXTRA_OECONF +=3D "--without-libcrack \
+> =20
+>  CFLAGS:append:libc-musl =3D " -DLIBBSD_OVERLAY"
+> =20
+> +# Force static linking of utilities so we can use from the sysroot/sstat=
+e for useradd
+> +# without worrying about the dependency libraries being available
+> +do_compile:prepend:class-native () {
+> +	sed -i -e 's#\(LIBS.*\)-lbsd#\1 ${STAGING_LIBDIR}/libbsd.a ${STAGING_LI=
+BDIR}/libmd.a#g' \
+> +	       -e 's#\(LIBBSD.*\)-lbsd#\1 ${STAGING_LIBDIR}/libbsd.a ${STAGING_=
+LIBDIR}/libmd.a#g' \
+> +	       -e 's#\(LIBATTR.*\)-lattr#\1 ${STAGING_LIBDIR}/libattr.a#g' \
+> +               ${B}/lib/Makefile ${B}/src/Makefile
+> +}
+> +
+>  NSCDOPT =3D ""
+>  NSCDOPT:class-native =3D "--without-nscd"
+>  NSCDOPT:class-nativesdk =3D "--without-nscd"
 
-Hi all,
+There is still something not right:
 
-I encountered the issue about do_create_spdx task and my descriptions as fo=
-llowing.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6440
 
-1. I have two target machines whcih are ast2700-default and ast2700-emmc, r=
-espectively.
-2. I have an appliction package call phosphor-logging.
+:(
 
-I succesfully to build ast2700-emmc target machine and created spdx files f=
-rom tmp/deploy/spdx directory.
-Howerver, I changed machine name to ast2700-default to build the whole imag=
-e again. I noticed do_create_spdx failed and it trited to search file "ssta=
-te:base-files:ast2700_emmc-openbmc-linux:3.0.14:r0:ast2700_emmc" but I chan=
-ged my machine to "ast2700-default". It searched the wrong base-files and i=
-t caused this build error. Do you have any suggestion about how to fix it?
-Thanks-Jamin
+Cheers,
 
-[['base-files', 'False sstate:base-files:ast2700_emmc-openbmc-linux:3.0.14:=
-r0:ast2700_emmc:11: sstate:base-files::3.0.14:r0::11:']
+Richard
 
-fatal_error_here:
-https://github.com/openembedded/openembedded-core/blob/master/meta/classes/=
-create-spdx-2.2.bbclass#L1135
-Build Configuration:
-BB_VERSION=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D "2.6.0"
-BUILD_SYS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D "x86_64-linux"
-NATIVELSBSTRING=C2=A0 =C2=A0 =C2=A0 =3D "ubuntu-20.04"
-TARGET_SYS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D "aarch64-openbmc-lin=
-ux"
-MACHINE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D "ast2700-defaul=
-t"
-DISTRO=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D "openbmc-p=
-hosphor"
-DISTRO_VERSION=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D "nodistro.0"
-TUNE_FEATURES=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D "aarch64 armv8a crc cortexa35"
-TARGET_FPU=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D ""
-meta
-meta-poky
-meta-oe
-meta-networking
-meta-perl
-meta-python
-meta-phosphor
-meta-arm
-meta-arm-toolchain
-meta-security
-meta-aspeed-sdk
-meta-ast2700-sdk=C2=A0 =C2=A0 =C2=A0=3D "aspeed-dev:a56e2eb3f529ed117af0312=
-cef7fd257478ea59a"
-ERROR: phosphor-logging-1.0+git-r1 do_create_spdx: Cannot find any SPDX fil=
-e for recipe base-files, False sstate:base-files:ast2700_emmc-openbmc-linux=
-:3.0.14:r0:ast2700_emmc:11: sstate:base-files::3.0.14:r0::11:
-ERROR: Logfile of failure stored in: /home/jamin_lin/openbmc-ast2700/0111/b=
-uild-ast2700/tmp/work/cortexa35-openbmc-linux/phosphor-logging/1.0+git/temp=
-/log.do_create_spdx.2905089
-ERROR: Task (/home/jamin_lin/openbmc-ast2700/0111/openbmc/meta-phosphor/rec=
-ipes-phosphor/logging/phosphor-logging_git.bb:do_create_spdx) failed with e=
-xit code '1'
-
-Log:
-DEBUG: Executing python function extend_recipe_sysroot
-NOTE: Direct dependencies are ['/home/jamin_lin/openbmc-ast2700/0111/openbm=
-c/meta/recipes-devtools/quilt/quilt-native_0.67.bb:do_populate_sysroot', 'v=
-irtual:native:/home/jamin_lin/openbmc-ast2700/0111/openbmc/meta/recipes-dev=
-tools/patch/patch_2.7.6.bb:do_populate_sysroot']
-NOTE: Installed into sysroot: []
-NOTE: Skipping as already exists in sysroot: ['gettext-minimal-native', 'li=
-btool-native', 'quilt-native', 'texinfo-dummy-native', 'patch-native', 'att=
-r-native']
-DEBUG: Python function extend_recipe_sysroot finished
-DEBUG: Executing python function sstate_task_prefunc
-DEBUG: Python function sstate_task_prefunc finished
-DEBUG: Executing python function do_create_spdx
-DEBUG: Looking for patches that solves CVEs for phosphor-logging
-ERROR: Cannot find any SPDX file for recipe base-files, False sstate:base-f=
-iles:ast2700_emmc-openbmc-linux:3.0.14:r0:ast2700_emmc:11: sstate:base-file=
-s::3.0.14:r0::11:
-jamin debug0 ['x86_64', 'x86_64_ubuntu-20.04', 'x86_64_x86_64_linux', 'x86_=
-64_linux', 'x86_64_x86_64-nativesdk', 'allarch', 'cortexa35', 'aarch64', 'a=
-rmv8a', 'armv8a-crc', 'cortexa35', 'ast2700_default']
-jamin debug0 reverse ['ast2700_default', 'cortexa35', 'armv8a-crc', 'armv8a=
-', 'aarch64', 'cortexa35', 'allarch', 'x86_64_x86_64-nativesdk', 'x86_64_li=
-nux', 'x86_64_x86_64_linux', 'x86_64_ubuntu-20.04', 'x86_64']
-jamin debug1 [['base-files', 'False sstate:base-files:ast2700_emmc-openbmc-=
-linux:3.0.14:r0:ast2700_emmc:11: sstate:base-files::3.0.14:r0::11:'], ['bas=
-e-passwd', 'False sstate:base-passwd:cortexa35-openbmc-linux:3.6.2:r0:corte=
-xa35:11: sstate:base-passwd::3.6.2:r0::11:'], ['dbus', 'False sstate:dbus:c=
-ortexa35-openbmc-linux:1.14.10:r0:cortexa35:11: sstate:dbus::1.14.10:r0::11=
-:'], ['gcc-cross-aarch64', 'True sstate:gcc-cross-aarch64:x86_64-openbmc-li=
-nux:13.2.0:r0:x86_64:11: sstate:gcc-cross-aarch64::13.2.0:r0::11:'], ['gcc-=
-runtime', 'False sstate:gcc-runtime:cortexa35-openbmc-linux:13.2.0:r0:corte=
-xa35:11: sstate:gcc-runtime::13.2.0:r0::11:'], ['glibc', 'False sstate:glib=
-c:cortexa35-openbmc-linux:2.38+git:r0:cortexa35:11: sstate:glibc::2.38+git:=
-r0::11:'], ['libcereal', 'False sstate:libcereal:cortexa35-openbmc-linux:1.=
-3.2+git:r0:cortexa35:11: sstate:libcereal::1.3.2+git:r0::11:'], ['meson-nat=
-ive', 'True sstate:meson-native:x86_64-linux:1.3.0:r0:x86_64:11: sstate:mes=
-on-native::1.3.0:r0::11:'], ['ninja-native', 'True sstate:ninja-native:x86_=
-64-linux:1.11.1:r0:x86_64:11: sstate:ninja-native::1.11.1:r0::11:'], ['pack=
-agegroup-obmc-yaml-providers', 'False sstate:packagegroup-obmc-yaml-provide=
-rs:cortexa35-openbmc-linux:1.0:r1:cortexa35:11: sstate:packagegroup-obmc-ya=
-ml-providers::1.0:r1::11:'], ['phosphor-dbus-interfaces', 'False sstate:pho=
-sphor-dbus-interfaces:cortexa35-openbmc-linux:1.0+git:r1:cortexa35:11: ssta=
-te:phosphor-dbus-interfaces::1.0+git:r1::11:'], ['phosphor-logging-callouts=
--example-native', 'True sstate:phosphor-logging-callouts-example-native:x86=
-_64-linux:1.0:r1:x86_64:11: sstate:phosphor-logging-callouts-example-native=
-::1.0:r1::11:'], ['pkgconfig-native', 'True sstate:pkgconfig-native:x86_64-=
-linux:0.29.2+git:r0:x86_64:11: sstate:pkgconfig-native::0.29.2+git:r0::11:'=
-], ['python3-mako-native', 'True sstate:python3-mako-native:x86_64-linux:1.=
-3.0:r0:x86_64:11: sstate:python3-mako-native::1.3.0:r0::11:'], ['python3-na=
-tive', 'True sstate:python3-native:x86_64-linux:3.11.5:r0:x86_64:11: sstate=
-:python3-native::3.11.5:r0::11:'], ['python3-pyyaml-native', 'True sstate:p=
-ython3-pyyaml-native:x86_64-linux:6.0.1:r0:x86_64:11: sstate:python3-pyyaml=
--native::6.0.1:r0::11:'], ['python3-sdbus++-native', 'True sstate:python3-s=
-dbus++-native:x86_64-linux:1.0:r1:x86_64:11: sstate:python3-sdbus++-native:=
-:1.0:r1::11:'], ['qemu-native', 'True sstate:qemu-native:x86_64-linux:8.1.2=
-:r0:x86_64:11: sstate:qemu-native::8.1.2:r0::11:'], ['sdbusplus', 'False ss=
-tate:sdbusplus:cortexa35-openbmc-linux:git:r1:cortexa35:11: sstate:sdbusplu=
-s::git:r1::11:'], ['sdeventplus', 'False sstate:sdeventplus:cortexa35-openb=
-mc-linux:0.1+git:r1:cortexa35:11: sstate:sdeventplus::0.1+git:r1::11:'], ['=
-shadow', 'False sstate:shadow:cortexa35-openbmc-linux:4.13:r0:cortexa35:11:=
- sstate:shadow::4.13:r0::11:'], ['shadow-native', 'True sstate:shadow-nativ=
-e:x86_64-linux:4.13:r0:x86_64:11: sstate:shadow-native::4.13:r0::11:'], ['s=
-hadow-sysroot', 'False sstate:shadow-sysroot:cortexa35-openbmc-linux:4.6:r0=
-:cortexa35:11: sstate:shadow-sysroot::4.6:r0::11:'], ['systemd', 'False sst=
-ate:systemd:cortexa35-openbmc-linux:254.4:r0:cortexa35:11: sstate:systemd::=
-254.4:r0::11:'], ['systemd-systemctl-native', 'True sstate:systemd-systemct=
-l-native:x86_64-linux:1.0:r0:x86_64:11: sstate:systemd-systemctl-native::1.=
-0:r0::11:']]
-jamin debug2 /home/jamin_lin/openbmc-ast2700/0111/build-ast2700/tmp/deploy/=
-spdx
-jamin debug3 /home/jamin_lin/openbmc-ast2700/0111/build-ast2700/tmp/work/co=
-rtexa35-openbmc-linux/phosphor-logging/1.0+git/spdx/deps.json
-jamin 4 ['ast2700_default', 'cortexa35', 'armv8a-crc', 'armv8a', 'aarch64',=
- 'cortexa35', 'allarch', 'x86_64_x86_64-nativesdk', 'x86_64_linux', 'x86_64=
-_x86_64_linux', 'x86_64_ubuntu-20.04', 'x86_64']
-jamin 5 base-files
-jamin 6 False sstate:base-files:ast2700_emmc-openbmc-linux:3.0.14:r0:ast270=
-0_emmc:11: sstate:base-files::3.0.14:r0::11:
-jamin 7 None
-DEBUG: Python function do_create_spdx finished
-
---gaZ5EePCXb4a3swzGpis
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi all,&nbsp;<br /><br />I encountered the issue about do_create_spdx task =
-and my descriptions as following.<br /><br />1. I have two target machines =
-whcih are ast2700-default and ast2700-emmc, respectively.<br />2. I have an=
- appliction package call phosphor-logging.<br /><br />I succesfully to buil=
-d ast2700-emmc target machine and created spdx files from tmp/deploy/spdx d=
-irectory.<br />Howerver, I changed machine name to ast2700-default to build=
- the whole image again. I noticed do_create_spdx failed and it trited to se=
-arch file "sstate:base-files:ast2700_emmc-openbmc-linux:3.0.14:r0:ast2700_e=
-mmc" but I changed my machine to "ast2700-default". It searched the wrong b=
-ase-files and it caused this build error. Do you have any suggestion about =
-how to fix it?&nbsp;<br />Thanks-Jamin<br /><br />[['base-files', 'False ss=
-tate:base-files:ast2700_emmc-openbmc-linux:3.0.14:r0:ast2700_emmc:11: sstat=
-e:base-files::3.0.14:r0::11:']<br /><br />fatal_error_here:<br /><a href=3D=
-"https://github.com/openembedded/openembedded-core/blob/master/meta/classes=
-/create-spdx-2.2.bbclass#L1135" target=3D"_blank" rel=3D"noopener">https://=
-github.com/openembedded/openembedded-core/blob/master/meta/classes/create-s=
-pdx-2.2.bbclass#L1135</a>&nbsp;<br />
-<div>Build Configuration:</div>
-<div>BB_VERSION&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=3D "2.6.0"</div>
-<div>BUILD_SYS&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =3D "x86_64-linux"<=
-/div>
-<div>NATIVELSBSTRING&nbsp; &nbsp; &nbsp; =3D "ubuntu-20.04"</div>
-<div>TARGET_SYS&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=3D "aarch64-openbm=
-c-linux"</div>
-<div>MACHINE&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =3D "ast2700-d=
-efault"</div>
-<div>DISTRO&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=3D "open=
-bmc-phosphor"</div>
-<div>DISTRO_VERSION&nbsp; &nbsp; &nbsp; &nbsp;=3D "nodistro.0"</div>
-<div>TUNE_FEATURES&nbsp; &nbsp; &nbsp; &nbsp; =3D "aarch64 armv8a crc corte=
-xa35"</div>
-<div>TARGET_FPU&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=3D ""</div>
-<div>meta</div>
-<div>meta-poky</div>
-<div>meta-oe</div>
-<div>meta-networking</div>
-<div>meta-perl</div>
-<div>meta-python</div>
-<div>meta-phosphor</div>
-<div>meta-arm</div>
-<div>meta-arm-toolchain</div>
-<div>meta-security</div>
-<div>meta-aspeed-sdk</div>
-<div>meta-ast2700-sdk&nbsp; &nbsp; &nbsp;=3D "aspeed-dev:a56e2eb3f529ed117a=
-f0312cef7fd257478ea59a"</div>
-<div>ERROR: phosphor-logging-1.0+git-r1 do_create_spdx: Cannot find any SPD=
-X file for recipe base-files, False sstate:base-files:ast2700_emmc-openbmc-=
-linux:3.0.14:r0:ast2700_emmc:11: sstate:base-files::3.0.14:r0::11:</div>
-<div>ERROR: Logfile of failure stored in: /home/jamin_lin/openbmc-ast2700/0=
-111/build-ast2700/tmp/work/cortexa35-openbmc-linux/phosphor-logging/1.0+git=
-/temp/log.do_create_spdx.2905089</div>
-<div>ERROR: Task (/home/jamin_lin/openbmc-ast2700/0111/openbmc/meta-phospho=
-r/recipes-phosphor/logging/phosphor-logging_git.bb:do_create_spdx) failed w=
-ith exit code '1'</div>
-<div>&nbsp;</div>
-Log:<br />
-<div>DEBUG: Executing python function extend_recipe_sysroot</div>
-<div>NOTE: Direct dependencies are ['/home/jamin_lin/openbmc-ast2700/0111/o=
-penbmc/meta/recipes-devtools/quilt/quilt-native_0.67.bb:do_populate_sysroot=
-', 'virtual:native:/home/jamin_lin/openbmc-ast2700/0111/openbmc/meta/recipe=
-s-devtools/patch/patch_2.7.6.bb:do_populate_sysroot']</div>
-<div>NOTE: Installed into sysroot: []</div>
-<div>NOTE: Skipping as already exists in sysroot: ['gettext-minimal-native'=
-, 'libtool-native', 'quilt-native', 'texinfo-dummy-native', 'patch-native',=
- 'attr-native']</div>
-<div>DEBUG: Python function extend_recipe_sysroot finished</div>
-<div>DEBUG: Executing python function sstate_task_prefunc</div>
-<div>DEBUG: Python function sstate_task_prefunc finished</div>
-<div>DEBUG: Executing python function do_create_spdx</div>
-<div>DEBUG: Looking for patches that solves CVEs for phosphor-logging</div>
-<div>ERROR: Cannot find any SPDX file for recipe base-files, False sstate:b=
-ase-files:ast2700_emmc-openbmc-linux:3.0.14:r0:ast2700_emmc:11: sstate:base=
--files::3.0.14:r0::11:</div>
-<div>jamin debug0 ['x86_64', 'x86_64_ubuntu-20.04', 'x86_64_x86_64_linux', =
-'x86_64_linux', 'x86_64_x86_64-nativesdk', 'allarch', 'cortexa35', 'aarch64=
-', 'armv8a', 'armv8a-crc', 'cortexa35', 'ast2700_default']</div>
-<div>jamin debug0 reverse ['ast2700_default', 'cortexa35', 'armv8a-crc', 'a=
-rmv8a', 'aarch64', 'cortexa35', 'allarch', 'x86_64_x86_64-nativesdk', 'x86_=
-64_linux', 'x86_64_x86_64_linux', 'x86_64_ubuntu-20.04', 'x86_64']</div>
-<div>jamin debug1 [['base-files', 'False sstate:base-files:ast2700_emmc-ope=
-nbmc-linux:3.0.14:r0:ast2700_emmc:11: sstate:base-files::3.0.14:r0::11:'], =
-['base-passwd', 'False sstate:base-passwd:cortexa35-openbmc-linux:3.6.2:r0:=
-cortexa35:11: sstate:base-passwd::3.6.2:r0::11:'], ['dbus', 'False sstate:d=
-bus:cortexa35-openbmc-linux:1.14.10:r0:cortexa35:11: sstate:dbus::1.14.10:r=
-0::11:'], ['gcc-cross-aarch64', 'True sstate:gcc-cross-aarch64:x86_64-openb=
-mc-linux:13.2.0:r0:x86_64:11: sstate:gcc-cross-aarch64::13.2.0:r0::11:'], [=
-'gcc-runtime', 'False sstate:gcc-runtime:cortexa35-openbmc-linux:13.2.0:r0:=
-cortexa35:11: sstate:gcc-runtime::13.2.0:r0::11:'], ['glibc', 'False sstate=
-:glibc:cortexa35-openbmc-linux:2.38+git:r0:cortexa35:11: sstate:glibc::2.38=
-+git:r0::11:'], ['libcereal', 'False sstate:libcereal:cortexa35-openbmc-lin=
-ux:1.3.2+git:r0:cortexa35:11: sstate:libcereal::1.3.2+git:r0::11:'], ['meso=
-n-native', 'True sstate:meson-native:x86_64-linux:1.3.0:r0:x86_64:11: sstat=
-e:meson-native::1.3.0:r0::11:'], ['ninja-native', 'True sstate:ninja-native=
-:x86_64-linux:1.11.1:r0:x86_64:11: sstate:ninja-native::1.11.1:r0::11:'], [=
-'packagegroup-obmc-yaml-providers', 'False sstate:packagegroup-obmc-yaml-pr=
-oviders:cortexa35-openbmc-linux:1.0:r1:cortexa35:11: sstate:packagegroup-ob=
-mc-yaml-providers::1.0:r1::11:'], ['phosphor-dbus-interfaces', 'False sstat=
-e:phosphor-dbus-interfaces:cortexa35-openbmc-linux:1.0+git:r1:cortexa35:11:=
- sstate:phosphor-dbus-interfaces::1.0+git:r1::11:'], ['phosphor-logging-cal=
-louts-example-native', 'True sstate:phosphor-logging-callouts-example-nativ=
-e:x86_64-linux:1.0:r1:x86_64:11: sstate:phosphor-logging-callouts-example-n=
-ative::1.0:r1::11:'], ['pkgconfig-native', 'True sstate:pkgconfig-native:x8=
-6_64-linux:0.29.2+git:r0:x86_64:11: sstate:pkgconfig-native::0.29.2+git:r0:=
-:11:'], ['python3-mako-native', 'True sstate:python3-mako-native:x86_64-lin=
-ux:1.3.0:r0:x86_64:11: sstate:python3-mako-native::1.3.0:r0::11:'], ['pytho=
-n3-native', 'True sstate:python3-native:x86_64-linux:3.11.5:r0:x86_64:11: s=
-state:python3-native::3.11.5:r0::11:'], ['python3-pyyaml-native', 'True sst=
-ate:python3-pyyaml-native:x86_64-linux:6.0.1:r0:x86_64:11: sstate:python3-p=
-yyaml-native::6.0.1:r0::11:'], ['python3-sdbus++-native', 'True sstate:pyth=
-on3-sdbus++-native:x86_64-linux:1.0:r1:x86_64:11: sstate:python3-sdbus++-na=
-tive::1.0:r1::11:'], ['qemu-native', 'True sstate:qemu-native:x86_64-linux:=
-8.1.2:r0:x86_64:11: sstate:qemu-native::8.1.2:r0::11:'], ['sdbusplus', 'Fal=
-se sstate:sdbusplus:cortexa35-openbmc-linux:git:r1:cortexa35:11: sstate:sdb=
-usplus::git:r1::11:'], ['sdeventplus', 'False sstate:sdeventplus:cortexa35-=
-openbmc-linux:0.1+git:r1:cortexa35:11: sstate:sdeventplus::0.1+git:r1::11:'=
-], ['shadow', 'False sstate:shadow:cortexa35-openbmc-linux:4.13:r0:cortexa3=
-5:11: sstate:shadow::4.13:r0::11:'], ['shadow-native', 'True sstate:shadow-=
-native:x86_64-linux:4.13:r0:x86_64:11: sstate:shadow-native::4.13:r0::11:']=
-, ['shadow-sysroot', 'False sstate:shadow-sysroot:cortexa35-openbmc-linux:4=
-.6:r0:cortexa35:11: sstate:shadow-sysroot::4.6:r0::11:'], ['systemd', 'Fals=
-e sstate:systemd:cortexa35-openbmc-linux:254.4:r0:cortexa35:11: sstate:syst=
-emd::254.4:r0::11:'], ['systemd-systemctl-native', 'True sstate:systemd-sys=
-temctl-native:x86_64-linux:1.0:r0:x86_64:11: sstate:systemd-systemctl-nativ=
-e::1.0:r0::11:']]</div>
-<div>jamin debug2 /home/jamin_lin/openbmc-ast2700/0111/build-ast2700/tmp/de=
-ploy/spdx</div>
-<div>jamin debug3 /home/jamin_lin/openbmc-ast2700/0111/build-ast2700/tmp/wo=
-rk/cortexa35-openbmc-linux/phosphor-logging/1.0+git/spdx/deps.json</div>
-<div>jamin 4 ['ast2700_default', 'cortexa35', 'armv8a-crc', 'armv8a', 'aarc=
-h64', 'cortexa35', 'allarch', 'x86_64_x86_64-nativesdk', 'x86_64_linux', 'x=
-86_64_x86_64_linux', 'x86_64_ubuntu-20.04', 'x86_64']</div>
-<div>jamin 5 base-files</div>
-<div>jamin 6 False sstate:base-files:ast2700_emmc-openbmc-linux:3.0.14:r0:a=
-st2700_emmc:11: sstate:base-files::3.0.14:r0::11:</div>
-<div>jamin 7 None</div>
-<div>DEBUG: Python function do_create_spdx finished</div>
-
---gaZ5EePCXb4a3swzGpis--
 
