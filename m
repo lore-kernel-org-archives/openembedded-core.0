@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77CFCC47DA2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86C5CC47DA7
 	for <webhook@archiver.kernel.org>; Thu, 11 Jan 2024 16:27:52 +0000 (UTC)
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.web10.15736.1704990471934125528
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web10.15728.1704990466240857930
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Jan 2024 08:27:51 -0800
+ Thu, 11 Jan 2024 08:27:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=L6thd2gH;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.45, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-28c7e30c83fso3675187a91.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Jan 2024 08:27:51 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=dGKJnpyw;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1d3ec3db764so23189175ad.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 Jan 2024 08:27:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1704990471; x=1705595271; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1704990465; x=1705595265; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+ZWQ8mnsD11dkLSeSDcx+X9mwyryfFW9LAaI914Cs1M=;
-        b=L6thd2gHKrwCD0Nf/dVEvqQVt0nvuctBX9KZpNRiHPbS/cQMGNyOcRIkKBGNEKcMLx
-         q6E/JWwh47eXct5/5p/K+4rz17eZciA0L4FmE2dtFi70/BM4lky+z+7GlOTGmTefBUP8
-         kpMfIPZEG3siDejY/0pqds5sEBwQ/imOrHue9ozLxjq/QoDvaeJQESzx7NnJmI9D00J9
-         vYNBVqhiShZcfGOxnvow4/KDLaCpkeTME+Y88rDqoldravdlk3oHLQJqSb+wNMaeozLP
-         kAKaNDbdOQ1aOdhDxdbL6/KXxNi6y18xxKJ1O5/MAgLpTjIlnbUCF70LIbp0mi/qhSHk
-         +ydQ==
+        bh=8v55FYADvsIB3A0CbHO+gKIMlzcIdU0z9USy7SQaLiw=;
+        b=dGKJnpywhyn/mHwOn8YIceemDNOoNxG4g9hQ0Gga+K63w7EU30rC8fd97TB23a23A0
+         j4cQbUtAD4dwjorherdC8sGyHQDiO4KkmPvbDFehUGQjRG/noAp392WMneYvbZOOkeGt
+         kqsuHQq5opZD/fxKO9X16kopupmoOpKr0+g+i9hKuQvTbb9VophHG8hzXKUno+bMzKBt
+         JRGm46mBa4XP+w18WEyKjw+8dzeT8io1/p1n0uH1ZPagK81lV8WctuT8xI5Rd683tzZ/
+         ob2M0/eRrqLQntZ3vOQTfHsN5pCinweEiz78BEqvw8q5B25hKhwWmLkYrsnebkxzn4JM
+         k2gQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704990471; x=1705595271;
+        d=1e100.net; s=20230601; t=1704990465; x=1705595265;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+ZWQ8mnsD11dkLSeSDcx+X9mwyryfFW9LAaI914Cs1M=;
-        b=PSPR/fG5BgGKxU7uheT1+wYxTT53mJFoM6jVNBWFYHuQk856BBa/WJXQT3NsZe2TfO
-         9CoLJw84lIyMYsAEshrhnQ56aKgNpQPeudff+Qa+K2+tnZU3nV01zkdSkyvSShcFcl7m
-         YqgN3vE8Rwcb84Q8ySv4Q0V2ZupDEHI7VFTbKSttSzLooWIg5aHMxR8dxN0fMmw7NwSn
-         An5hI7bhG7gfpQj4LJOR0xnh68R9dj59QED4nUVzT9ojVtnBISxvxjkN7DApjV79Xm8Z
-         VSJ920PFxRSKQBebpHUiIhfgfXlA8EHgmpJhbF+QwZPIDylpjqMHuHXDHCB2MjxV6y3X
-         3mVg==
-X-Gm-Message-State: AOJu0YxJfsZLswj5N3EFUf1q3oFhEbM0HlN0OzPsXoCHOr7lO4OYkSDl
-	rVLHYTk3q+o9Y5soBBzjaIe61eduuf6tHfsn7d1xzz4P1olwyw==
-X-Google-Smtp-Source: AGHT+IFE8yY8daQcl4VPkobUkzu1NkEENkIbja0pgHn8bSCJh99DUM5rRzPU/ucvjaKI3xO/464FAg==
-X-Received: by 2002:a17:90a:fd0a:b0:28c:891a:48f8 with SMTP id cv10-20020a17090afd0a00b0028c891a48f8mr31908pjb.17.1704990471079;
-        Thu, 11 Jan 2024 08:27:51 -0800 (PST)
+        bh=8v55FYADvsIB3A0CbHO+gKIMlzcIdU0z9USy7SQaLiw=;
+        b=RLG7vcYOEWvwTpGX+jtBSjaBvgXIMNHFUR9l5wmdfX13Bo/YGJIFHGMs8L+vPa+fGJ
+         /KWhxOTG7zfaHPNMmaHBw6keVsrOsKCw6J4btIGTbv9bi62atsBigruGZMiZ7HvIZn1Z
+         IgFgm9vSAZTpDe5SKzbjmF/yZoOQMWCr2EOIsFD5JgUqERWKJNjE47YjJm/0z4IpQ0of
+         5xHqO1FdunrQYpwTb+IFPyiRPqcNxoQbv1w+vvTM/Gi8DcXg8540qwv7S4ApQbXnnEOx
+         73nWgEAFZ7AVTcGykLjDZRtEGc/2ncI7YzEISi9lqUKlUaEtMYDqnFNRmj3zNKP+z9a7
+         ClXw==
+X-Gm-Message-State: AOJu0Ywpo2V4LNd9hP/VZ4ml20i15IaNUMool5PBCAn3A5U84ERuQrWp
+	BuNBCCGbnCysEKKnpIjSQt/kqu3XiPQi6ef1cWLNPJbDbPZwAw==
+X-Google-Smtp-Source: AGHT+IEOW5jHltwJimywuPt8FEPAzXaG3bHrOZR8YhXlWsrwHGTwj2150sz/x0cI0jHUWo+LDCmPZw==
+X-Received: by 2002:a17:902:eb90:b0:1d4:19c6:dfff with SMTP id q16-20020a170902eb9000b001d419c6dfffmr1790766plg.20.1704990465380;
+        Thu, 11 Jan 2024 08:27:45 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id a6-20020a170902ee8600b001d04d730687sm1347577pld.103.2024.01.11.08.27.50
+        by smtp.gmail.com with ESMTPSA id a6-20020a170902ee8600b001d04d730687sm1347577pld.103.2024.01.11.08.27.44
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jan 2024 08:27:50 -0800 (PST)
+        Thu, 11 Jan 2024 08:27:45 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][nanbield 11/12] zstd: fix LICENSE statement
-Date: Thu, 11 Jan 2024 06:27:24 -1000
-Message-Id: <6c9a5fefeaa9225c193a0445bae869e6844bf34d.1704990330.git.steve@sakoman.com>
+Subject: [OE-core][nanbield 08/12] documentation.conf: fix do_menuconfig description
+Date: Thu, 11 Jan 2024 06:27:21 -1000
+Message-Id: <adf91e340d5d8121c87585fd7340f947b21396b1.1704990330.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1704990330.git.steve@sakoman.com>
 References: <cover.1704990330.git.steve@sakoman.com>
@@ -61,36 +61,39 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 11 Jan 2024 16:27:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193559
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193556
 
-From: Massimiliano Minella <massimiliano.minella@se.com>
+From: Joao Marcos Costa <joaomarcos.costa@bootlin.com>
 
-zstd is dual-licensed under BSD _OR_ GPLv2. License wording in the
-README for v1.5.5 is misleading, but license headers in the code clearly
-state that there is a choice between the two licenses.
+The current description is only pertinent to the kernel, even though
+do_menuconfig task is used by other projects, such as Busybox and
+U-Boot.
 
-Signed-off-by: Massimiliano Minella <massimiliano.minella@se.com>
+Replace "for the kernel" by an agnostic alternative (i.e., "in the
+compilation directory").
+
+Signed-off-by: Joao Marcos Costa <joaomarcos.costa@bootlin.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 40f85de590c188c9c3985e64a83efaf06b0b4fbc)
+(cherry picked from commit 52e053bce5e359995ebdaa21d6899f04ad2306a0)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-extended/zstd/zstd_1.5.5.bb | 2 +-
+ meta/conf/documentation.conf | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/zstd/zstd_1.5.5.bb b/meta/recipes-extended/zstd/zstd_1.5.5.bb
-index 5c5fb5e734..2d72af50a4 100644
---- a/meta/recipes-extended/zstd/zstd_1.5.5.bb
-+++ b/meta/recipes-extended/zstd/zstd_1.5.5.bb
-@@ -5,7 +5,7 @@ It's backed by a very fast entropy stage, provided by Huff0 and FSE library."
- HOMEPAGE = "http://www.zstd.net/"
- SECTION = "console/utils"
- 
--LICENSE = "BSD-3-Clause & GPL-2.0-only"
-+LICENSE = "BSD-3-Clause | GPL-2.0-only"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=0822a32f7acdbe013606746641746ee8 \
-                     file://COPYING;md5=39bba7d2cf0ba1036f2a6e2be52fe3f0 \
-                     "
+diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+index d03c497c0e..486c62b6e8 100644
+--- a/meta/conf/documentation.conf
++++ b/meta/conf/documentation.conf
+@@ -28,7 +28,7 @@ do_kernel_configcheck[doc] = "Validates the kernel configuration for a linux-yoc
+ do_kernel_configme[doc] = "Assembles the kernel configuration for a linux-yocto style kernel"
+ do_kernel_link_images[doc] = "Creates a symbolic link in arch/$arch/boot for vmlinux and vmlinuz kernel images"
+ do_listtasks[doc] = "Lists all defined tasks for a target"
+-do_menuconfig[doc] = "Runs 'make menuconfig' for the kernel"
++do_menuconfig[doc] = "Runs 'make menuconfig' in the compilation directory"
+ do_package[doc] = "Analyzes the content of the holding area and splits it into subsets based on available packages and files"
+ do_package_index[doc] = "Creates or updates the index in the Package Feed area"
+ do_package_qa[doc] = "Runs QA checks on packaged files"
 -- 
 2.34.1
 
