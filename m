@@ -2,56 +2,56 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 825C6C47422
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77CFCC47DA2
 	for <webhook@archiver.kernel.org>; Thu, 11 Jan 2024 16:27:52 +0000 (UTC)
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
- by mx.groups.io with SMTP id smtpd.web10.15727.1704990464517735232
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web10.15736.1704990471934125528
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Jan 2024 08:27:44 -0800
+ Thu, 11 Jan 2024 08:27:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=YDXJ8KgW;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1d3e84fded7so31235105ad.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Jan 2024 08:27:44 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=L6thd2gH;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.45, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-28c7e30c83fso3675187a91.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 Jan 2024 08:27:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1704990463; x=1705595263; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1704990471; x=1705595271; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=GRY9s2fX7OkMWU9xOlt/nkMoqWBpCtw6hvPWk4LPlIE=;
-        b=YDXJ8KgWtPAomT6F5DtN6eaWTEKHAiIp+GxlhsVYKPBJcVM5KWxWzkqT9x1ePJ3mCx
-         forbNzo9GI8yO9f25dmu1d8WYQDqC33ZY1IjX8VFEsvlTBxN1XXxhtLiKwDRroJFjAfd
-         DOscdD+Dxe3QZzfO0ykPIkHfFEIBwFGZXYNnUEI2Vlba07AWGncWJbowaQYKD5DNLGAg
-         WMkneWlrbptwIVLTWxA/yVwLdA+oBaZRJcdK4a8H/dsZjw8v5a7Zn/ZSnmf9X9rtLbbm
-         OQG53qUuKA0o6NC79Z7TN+PNpH7kH8Ne32ALng/yxppv4tWGWropJ+0+O0wQ9+06HIbG
-         JqHw==
+        bh=+ZWQ8mnsD11dkLSeSDcx+X9mwyryfFW9LAaI914Cs1M=;
+        b=L6thd2gHKrwCD0Nf/dVEvqQVt0nvuctBX9KZpNRiHPbS/cQMGNyOcRIkKBGNEKcMLx
+         q6E/JWwh47eXct5/5p/K+4rz17eZciA0L4FmE2dtFi70/BM4lky+z+7GlOTGmTefBUP8
+         kpMfIPZEG3siDejY/0pqds5sEBwQ/imOrHue9ozLxjq/QoDvaeJQESzx7NnJmI9D00J9
+         vYNBVqhiShZcfGOxnvow4/KDLaCpkeTME+Y88rDqoldravdlk3oHLQJqSb+wNMaeozLP
+         kAKaNDbdOQ1aOdhDxdbL6/KXxNi6y18xxKJ1O5/MAgLpTjIlnbUCF70LIbp0mi/qhSHk
+         +ydQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704990463; x=1705595263;
+        d=1e100.net; s=20230601; t=1704990471; x=1705595271;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GRY9s2fX7OkMWU9xOlt/nkMoqWBpCtw6hvPWk4LPlIE=;
-        b=J4jrebYNgZdpQ4iDZmI4N8C7V/eLNMnjPb/Jzv7dqugTiaUqCu6A750PnVjlCRZAYA
-         kP/bFKVpG35l4fgxe2TwQotgTclidPpu9STFrIdR7cHTUfczpaNF9yt8ey637hRka5tq
-         CEYWuzsJ9cd8zRKtzIcjCJsJtCdZ2sFIpk1orpg84PMJNS9O0/Wl0nrbfrWhNOVSK6ma
-         EL4I8bfkpo9iGCkzGJOCGLFKosaWuruAZcVRzizOGnydPkPJfyivOff9wOTo7Nq6ymte
-         pninWkiFawmxzkZyLI9936RomnVX2xBAUjg/UCBZzpQViM8EJGIgE2Ki3GQjMm+Z+pJS
-         ADxw==
-X-Gm-Message-State: AOJu0Ywf2O+cVwYyMMUCZfJDkARWs+FlKdHux7c/P4PLs102EhIAk7za
-	aq2b9EBYcpQdC09NdQSe2NUgzB+ZxMS2utiHI6t6G5ZjhIbKDw==
-X-Google-Smtp-Source: AGHT+IEK9o8BWcJg7yn115KSOity0/ceGhPQ1QC8tQe0Jxv2SxJjFg5JnESKiD+8repQk5AkdysQ0Q==
-X-Received: by 2002:a17:902:c642:b0:1d4:3872:30a2 with SMTP id s2-20020a170902c64200b001d4387230a2mr1123345pls.57.1704990463706;
-        Thu, 11 Jan 2024 08:27:43 -0800 (PST)
+        bh=+ZWQ8mnsD11dkLSeSDcx+X9mwyryfFW9LAaI914Cs1M=;
+        b=PSPR/fG5BgGKxU7uheT1+wYxTT53mJFoM6jVNBWFYHuQk856BBa/WJXQT3NsZe2TfO
+         9CoLJw84lIyMYsAEshrhnQ56aKgNpQPeudff+Qa+K2+tnZU3nV01zkdSkyvSShcFcl7m
+         YqgN3vE8Rwcb84Q8ySv4Q0V2ZupDEHI7VFTbKSttSzLooWIg5aHMxR8dxN0fMmw7NwSn
+         An5hI7bhG7gfpQj4LJOR0xnh68R9dj59QED4nUVzT9ojVtnBISxvxjkN7DApjV79Xm8Z
+         VSJ920PFxRSKQBebpHUiIhfgfXlA8EHgmpJhbF+QwZPIDylpjqMHuHXDHCB2MjxV6y3X
+         3mVg==
+X-Gm-Message-State: AOJu0YxJfsZLswj5N3EFUf1q3oFhEbM0HlN0OzPsXoCHOr7lO4OYkSDl
+	rVLHYTk3q+o9Y5soBBzjaIe61eduuf6tHfsn7d1xzz4P1olwyw==
+X-Google-Smtp-Source: AGHT+IFE8yY8daQcl4VPkobUkzu1NkEENkIbja0pgHn8bSCJh99DUM5rRzPU/ucvjaKI3xO/464FAg==
+X-Received: by 2002:a17:90a:fd0a:b0:28c:891a:48f8 with SMTP id cv10-20020a17090afd0a00b0028c891a48f8mr31908pjb.17.1704990471079;
+        Thu, 11 Jan 2024 08:27:51 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id a6-20020a170902ee8600b001d04d730687sm1347577pld.103.2024.01.11.08.27.42
+        by smtp.gmail.com with ESMTPSA id a6-20020a170902ee8600b001d04d730687sm1347577pld.103.2024.01.11.08.27.50
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jan 2024 08:27:43 -0800 (PST)
+        Thu, 11 Jan 2024 08:27:50 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][nanbield 07/12] linux-firmware: Create bnx2x subpackage
-Date: Thu, 11 Jan 2024 06:27:20 -1000
-Message-Id: <bb9eeafb13a69fe71919832b89a01ef8b561f7d7.1704990330.git.steve@sakoman.com>
+Subject: [OE-core][nanbield 11/12] zstd: fix LICENSE statement
+Date: Thu, 11 Jan 2024 06:27:24 -1000
+Message-Id: <6c9a5fefeaa9225c193a0445bae869e6844bf34d.1704990330.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1704990330.git.steve@sakoman.com>
 References: <cover.1704990330.git.steve@sakoman.com>
@@ -61,47 +61,36 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 11 Jan 2024 16:27:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193555
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193559
 
-From: Jason Andryuk <jandryuk@gmail.com>
+From: Massimiliano Minella <massimiliano.minella@se.com>
 
-bnx2x is another broadcom ethernet adapter with its own firmware.  Place
-it into its own subpackage.
+zstd is dual-licensed under BSD _OR_ GPLv2. License wording in the
+README for v1.5.5 is misleading, but license headers in the code clearly
+state that there is a choice between the two licenses.
 
-Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
+Signed-off-by: Massimiliano Minella <massimiliano.minella@se.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 414f71bb692da7ca1899b07ebb689edeb53f8e0d)
+(cherry picked from commit 40f85de590c188c9c3985e64a83efaf06b0b4fbc)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../linux-firmware/linux-firmware_20231030.bb              | 7 +++++++
- 1 file changed, 7 insertions(+)
+ meta/recipes-extended/zstd/zstd_1.5.5.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20231030.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20231030.bb
-index a1229e4827..6667f00612 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20231030.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20231030.bb
-@@ -341,6 +341,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-ice-enhanced-license ${PN}-ice-enhanced \
-              ${PN}-adsp-sst-license ${PN}-adsp-sst \
-              ${PN}-bnx2 \
-+             ${PN}-bnx2x \
-              ${PN}-liquidio \
-              ${PN}-nvidia-license \
-              ${PN}-nvidia-tegra-k1 ${PN}-nvidia-tegra \
-@@ -1104,6 +1105,12 @@ FILES:${PN}-whence-license = "${nonarch_base_libdir}/firmware/WHENCE"
- RDEPENDS:${PN}-bnx2 += "${PN}-whence-license"
- RPROVIDES:${PN}-bnx2 = "${PN}-bnx2-mips"
+diff --git a/meta/recipes-extended/zstd/zstd_1.5.5.bb b/meta/recipes-extended/zstd/zstd_1.5.5.bb
+index 5c5fb5e734..2d72af50a4 100644
+--- a/meta/recipes-extended/zstd/zstd_1.5.5.bb
++++ b/meta/recipes-extended/zstd/zstd_1.5.5.bb
+@@ -5,7 +5,7 @@ It's backed by a very fast entropy stage, provided by Huff0 and FSE library."
+ HOMEPAGE = "http://www.zstd.net/"
+ SECTION = "console/utils"
  
-+LICENSE:${PN}-bnx2x = "WHENCE"
-+
-+FILES:${PN}-bnx2x = "${nonarch_base_libdir}/firmware/bnx2x/bnx2x*.fw"
-+
-+RDEPENDS:${PN}-bnx2x += "${PN}-whence-license"
-+
- # For cirrus
- LICENSE:${PN}-cirrus = "Firmware-cirrus"
- LICENSE:${PN}-cirrus-license = "Firmware-cirrus"
+-LICENSE = "BSD-3-Clause & GPL-2.0-only"
++LICENSE = "BSD-3-Clause | GPL-2.0-only"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=0822a32f7acdbe013606746641746ee8 \
+                     file://COPYING;md5=39bba7d2cf0ba1036f2a6e2be52fe3f0 \
+                     "
 -- 
 2.34.1
 
