@@ -1,129 +1,139 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <ppjadhav456@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54705C4707C
-	for <webhook@archiver.kernel.org>; Fri, 12 Jan 2024 04:12:21 +0000 (UTC)
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
- by mx.groups.io with SMTP id smtpd.web11.492.1705032733909250148
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD9A1C4707C
+	for <webhook@archiver.kernel.org>; Fri, 12 Jan 2024 05:30:31 +0000 (UTC)
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+ by mx.groups.io with SMTP id smtpd.web10.1379.1705037423073420338
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Jan 2024 20:12:14 -0800
+ Thu, 11 Jan 2024 21:30:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=SVIWNDju;
- spf=pass (domain: mvista.com, ip: 209.85.215.182, mailfrom: hprajapati@mvista.com)
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-5bdbe2de25fso4650344a12.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Jan 2024 20:12:13 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=lbI1Hhl7;
+ spf=pass (domain: gmail.com, ip: 209.85.210.174, mailfrom: ppjadhav456@gmail.com)
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-6da202aa138so4618132b3a.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 11 Jan 2024 21:30:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1705032733; x=1705637533; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1705037422; x=1705642222; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cKsLCVh/NmGJAIlk7kfdLgdDZXmMhfoK1oZ3vw1AG6Q=;
-        b=SVIWNDju7B3OWMCnE16EAiYfuu0IRTcHqieeUKDqnYxI3h/0IB5K9OmbDTZs3+K6Ra
-         0MiiQt1pWVTWps+68xL3mMoHwNDPLklSMNHidQxt6h0Ci44IkH8idg8HOW9OXv1gYssL
-         jpliNR8QN7LRRNJy4czF3xQDM99oS8+dMt3No=
+        bh=9Q8bCstGvRZNK1zSL7TgOAlUi6dJkXp3MYMgTpsHyvY=;
+        b=lbI1Hhl75U7QaS49BQu1RlRnxV6nJqm5d2ja6dl5/c2OV4uMROpxOQimxaGbTxs25E
+         d9J8yP4sq1kikC0uefSs5UwEhFrw4I+EHApbt6+6IxJmKi0xKgoTVFvaKbTs/dPpW5YW
+         BuEb83xohtLCOxzNQZI1Shk7TLxb4YPku6QdnvT0lCTeeJqVUrlvQy2lJVAgrMwiMPS5
+         p5ScYww0oiMj9s3pB5i+QK6PilboVpPkF/+TwIfo4KInsHudzdPPFs+nQV1UkLhRKqj6
+         TmgDOplEHEgxnOObFyzXEC3TDSKt27NJYR9KZdGIqWW8ALr7Xm13uRDVDhRkLAJ8b7/f
+         kpZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705032733; x=1705637533;
+        d=1e100.net; s=20230601; t=1705037422; x=1705642222;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=cKsLCVh/NmGJAIlk7kfdLgdDZXmMhfoK1oZ3vw1AG6Q=;
-        b=nCn1JipuFUpVldgR2kk2oyrQ2Py4ufS9uSLJLF2RbVh+LX6/eZ8Ipk3+TD9oL1rPwp
-         +eZPlY/yjpoha5hsbuRWSOPUVMW3QEErkjgHmvXtl3HnkDHwcG1kKVdxeReyAPC15o5Z
-         L7mH9WziBp05DKp3SzqyS+Sgs3j2ns0cy/giuxQrDxO9OAc7lSXztFJUtVeM2O97+gfw
-         GC6mfkBPR6izdW4ugAVDjAjb8d7hs78MYsx2t18ZkfAeT+GMo4Kr1g01gsLLooUtKcjf
-         vk1FVK/UOhlvX6ldUtT7qdrKfKx2yvceZM12Hxv2KaJSsMpyDLGo7+Msk5FXjOIyywnr
-         26cg==
-X-Gm-Message-State: AOJu0YyC9nB3kSqvn/rU4KUW77o79tdXCypaK4qLvdThRXTwX0oJINgy
-	j00rR1EBuC0orPorm3atweTbXcwPa4EhxgRf2NqbzoPf36E=
-X-Google-Smtp-Source: AGHT+IEQFBFe0LXs18LXOkRsXDUCQEQfncmjNc/jFWmd8B58N77EsiS8whpE1QfIAYCWKEU8q7GD/Q==
-X-Received: by 2002:a05:6a20:f392:b0:199:7850:8d24 with SMTP id qr18-20020a056a20f39200b0019978508d24mr463202pzb.124.1705032733118;
-        Thu, 11 Jan 2024 20:12:13 -0800 (PST)
-Received: from MVIN00016.mvista.com ([27.121.101.109])
-        by smtp.gmail.com with ESMTPSA id in20-20020a17090b439400b0028d08a472a0sm2649904pjb.57.2024.01.11.20.12.11
+        bh=9Q8bCstGvRZNK1zSL7TgOAlUi6dJkXp3MYMgTpsHyvY=;
+        b=h/ZuvT6j2IfQZzE4dYb9OO+0AjbyQ74zIQ7rgCxEyYhtCadnsT74uQuKnstnB9oDy8
+         LomuHbObm3v9KjQs//eDtlOAjS+VeGCIKEdulrJAmdTOTRxszm563WrPTe7nGv6/KkyL
+         y4WV/g4Pig8b8mRXCeLX2fTwTvtI+qqpB79IUr8cvaRYd38flZHH4OETSIsvkkbZOd1P
+         GFfnqbQQ3FteMBx16IuPq3vt8SZbHQdjQwrYkVLeLHv+CR9G5U+6GXn8FrfL+FRru8Lz
+         WgHVDmEwnS472MSFOVl8CkIXjGZTFf8hal8+Plo/c5aDw6nJZCy7MK8NSJzP3Z9AAlW8
+         LzGg==
+X-Gm-Message-State: AOJu0YyzEUdK/7sOQYpZ7wY8Fhuy2qcVod7CnsMc4XUZCmhVRqi7u/3+
+	l5oeLA0tJW2326TcjFJF16mieSvZxWk=
+X-Google-Smtp-Source: AGHT+IGwFmHAQKeBzCNF/WbY3+sTTBJzASWO1wBfZfB7d/hoEJ/j2SAGW8v73ukNnF61B21XBISVNg==
+X-Received: by 2002:a05:6a00:cd3:b0:6d9:b173:4f9b with SMTP id b19-20020a056a000cd300b006d9b1734f9bmr637333pfv.38.1705037422254;
+        Thu, 11 Jan 2024 21:30:22 -0800 (PST)
+Received: from localhost.localdomain ([43.231.237.244])
+        by smtp.gmail.com with ESMTPSA id b188-20020a6334c5000000b005c6eb4bc75esm2212157pga.35.2024.01.11.21.30.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jan 2024 20:12:12 -0800 (PST)
-From: Hitendra Prajapati <hprajapati@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [dunfell][PATCH] systemd: fix CVE-2023-7008
-Date: Fri, 12 Jan 2024 09:42:06 +0530
-Message-Id: <20240112041206.4901-1-hprajapati@mvista.com>
+        Thu, 11 Jan 2024 21:30:21 -0800 (PST)
+From: Poonam Jadhav <ppjadhav456@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	poonam.jadhav@kpit.com
+Cc: akash.hadke@kpit.com
+Subject: [OE-core][kirkstone][PATCH] Revert "curl: Backport fix CVE-2023-32001"
+Date: Fri, 12 Jan 2024 11:00:14 +0530
+Message-Id: <20240112053014.21183-1-ppjadhav456@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 12 Jan 2024 04:12:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193569
+ <openembedded-core@lists.openembedded.org>; Fri, 12 Jan 2024 05:30:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193570
 
-Upstream-Status: Backport from https://github.com/systemd/systemd/commit/3b4cc1437b51fcc0b08da8cc3f5d1175eed25eb1
+From: Poonam Jadhav <poonam.jadhav@kpit.com>
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+This reverts commit 5eab65275dc9faa0b9a4371d5bcb6e95cfda61cd.
+
+CVE-2023-32001 has been marked "REJECT" in the NVD CVE List as
+there is no safe measure against it.
+These CVEs are stored in the NVD, but do not show up in search results.
+Link: https://nvd.nist.gov/vuln/detail/CVE-2023-32001
+
+Signed-off-by: Poonam Jadhav poonam.jadhav@kpit.com
 ---
- .../systemd/systemd/CVE-2023-7008.patch       | 40 +++++++++++++++++++
- meta/recipes-core/systemd/systemd_250.5.bb    |  1 +
- 2 files changed, 41 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/CVE-2023-7008.patch
+ .../curl/curl/CVE-2023-32001.patch            | 39 -------------------
+ meta/recipes-support/curl/curl_7.82.0.bb      |  1 -
+ 2 files changed, 40 deletions(-)
+ delete mode 100644 meta/recipes-support/curl/curl/CVE-2023-32001.patch
 
-diff --git a/meta/recipes-core/systemd/systemd/CVE-2023-7008.patch b/meta/recipes-core/systemd/systemd/CVE-2023-7008.patch
-new file mode 100644
-index 0000000000..e2296abc49
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/CVE-2023-7008.patch
-@@ -0,0 +1,40 @@
-+From 3b4cc1437b51fcc0b08da8cc3f5d1175eed25eb1 Mon Sep 17 00:00:00 2001
-+From: Michal Sekletar <msekleta@redhat.com>
-+Date: Wed, 20 Dec 2023 16:44:14 +0100
-+Subject: [PATCH] resolved: actually check authenticated flag of SOA
-+ transaction
-+
-+Fixes #25676
-+
-+Upstream-Status: Backport [https://github.com/systemd/systemd/commit/3b4cc1437b51fcc0b08da8cc3f5d1175eed25eb1]
-+CVE: CVE-2023-7008
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ src/resolve/resolved-dns-transaction.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/resolve/resolved-dns-transaction.c b/src/resolve/resolved-dns-transaction.c
-+index f937f9f7b5..7deb598400 100644
-+--- a/src/resolve/resolved-dns-transaction.c
-++++ b/src/resolve/resolved-dns-transaction.c
-+@@ -2761,7 +2761,7 @@ static int dns_transaction_requires_rrsig(DnsTransaction *t, DnsResourceRecord *
-+                         if (r == 0)
-+                                 continue;
-+ 
-+-                        return FLAGS_SET(t->answer_query_flags, SD_RESOLVED_AUTHENTICATED);
-++                        return FLAGS_SET(dt->answer_query_flags, SD_RESOLVED_AUTHENTICATED);
-+                 }
-+ 
-+                 return true;
-+@@ -2788,7 +2788,7 @@ static int dns_transaction_requires_rrsig(DnsTransaction *t, DnsResourceRecord *
-+                         /* We found the transaction that was supposed to find the SOA RR for us. It was
-+                          * successful, but found no RR for us. This means we are not at a zone cut. In this
-+                          * case, we require authentication if the SOA lookup was authenticated too. */
-+-                        return FLAGS_SET(t->answer_query_flags, SD_RESOLVED_AUTHENTICATED);
-++                        return FLAGS_SET(dt->answer_query_flags, SD_RESOLVED_AUTHENTICATED);
-+                 }
-+ 
-+                 return true;
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-core/systemd/systemd_250.5.bb b/meta/recipes-core/systemd/systemd_250.5.bb
-index c35557471a..889473ee1f 100644
---- a/meta/recipes-core/systemd/systemd_250.5.bb
-+++ b/meta/recipes-core/systemd/systemd_250.5.bb
-@@ -32,6 +32,7 @@ SRC_URI += "file://touchscreen.rules \
-            file://CVE-2022-4415-2.patch \
-            file://0001-network-remove-only-managed-configs-on-reconfigure-o.patch \
-            file://0001-nspawn-make-sure-host-root-can-write-to-the-uidmappe.patch \
-+           file://CVE-2023-7008.patch \
-            "
- 
- # patches needed by musl
+diff --git a/meta/recipes-support/curl/curl/CVE-2023-32001.patch b/meta/recipes-support/curl/curl/CVE-2023-32001.patch
+deleted file mode 100644
+index 7ea3073755..0000000000
+--- a/meta/recipes-support/curl/curl/CVE-2023-32001.patch
++++ /dev/null
+@@ -1,39 +0,0 @@
+-From 0c667188e0c6cda615a036b8a2b4125f2c404dde Mon Sep 17 00:00:00 2001
+-From: SaltyMilk <soufiane.elmelcaoui@gmail.com>
+-Date: Mon, 10 Jul 2023 21:43:28 +0200
+-Subject: [PATCH] fopen: optimize
+-
+-Closes #11419
+-
+-Upstream-Status: Backport [https://github.com/curl/curl/commit/0c667188e0c6cda615a036b8a2b4125f2c404dde]
+-CVE: CVE-2023-32001
+-Signed-off-by: Ashish Sharma <asharma@mvista.com>
+-
+-
+- lib/fopen.c | 12 ++++++------
+- 1 file changed, 6 insertions(+), 6 deletions(-)
+-
+-diff --git a/lib/fopen.c b/lib/fopen.c
+-index c9c9e3d6e73a2..b6e3cadddef65 100644
+---- a/lib/fopen.c
+-+++ b/lib/fopen.c
+-@@ -56,13 +56,13 @@ CURLcode Curl_fopen(struct Curl_easy *data, const char *filename,
+-   int fd = -1;
+-   *tempname = NULL;
+- 
+--  if(stat(filename, &sb) == -1 || !S_ISREG(sb.st_mode)) {
+--    /* a non-regular file, fallback to direct fopen() */
+--    *fh = fopen(filename, FOPEN_WRITETEXT);
+--    if(*fh)
+--      return CURLE_OK;
+-+  *fh = fopen(filename, FOPEN_WRITETEXT);
+-+  if(!*fh)
+-     goto fail;
+--  }
+-+  if(fstat(fileno(*fh), &sb) == -1 || !S_ISREG(sb.st_mode))
+-+    return CURLE_OK;
+-+  fclose(*fh);
+-+  *fh = NULL;
+- 
+-   result = Curl_rand_hex(data, randsuffix, sizeof(randsuffix));
+-   if(result)
+diff --git a/meta/recipes-support/curl/curl_7.82.0.bb b/meta/recipes-support/curl/curl_7.82.0.bb
+index a36d03f668..9e9ff00bf7 100644
+--- a/meta/recipes-support/curl/curl_7.82.0.bb
++++ b/meta/recipes-support/curl/curl_7.82.0.bb
+@@ -51,7 +51,6 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
+            file://CVE-2023-28321.patch \
+            file://CVE-2023-28322-1.patch \
+            file://CVE-2023-28322-2.patch \
+-           file://CVE-2023-32001.patch \
+            file://CVE-2023-38545.patch \
+            file://CVE-2023-38546.patch \
+            file://CVE-2023-46218.patch \
 -- 
 2.25.1
 
