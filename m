@@ -2,73 +2,85 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23BC8C4707C
-	for <webhook@archiver.kernel.org>; Fri, 12 Jan 2024 10:31:13 +0000 (UTC)
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
- by mx.groups.io with SMTP id smtpd.web10.4379.1705055469405507579
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C894C4706C
+	for <webhook@archiver.kernel.org>; Fri, 12 Jan 2024 10:42:13 +0000 (UTC)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+ by mx.groups.io with SMTP id smtpd.web11.4401.1705056129676771073
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Jan 2024 02:31:09 -0800
+ Fri, 12 Jan 2024 02:42:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=PoHLvLAS;
- spf=pass (domain: gmail.com, ip: 209.85.167.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-50e7b51b0ceso6098023e87.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jan 2024 02:31:09 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=bkKSb4m/;
+ spf=pass (domain: gmail.com, ip: 209.85.208.169, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2ccae380df2so68571841fa.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jan 2024 02:42:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705055467; x=1705660267; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1705056128; x=1705660928; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=3TOszjtAiv0Nebpaxf+HSPwpiNuBWgSoVVZuLop3Dy0=;
-        b=PoHLvLASy0CvX2u+/wBrd5SEBvnoHfVT9/Mx5eo2UVJoYKNGaTGClbkKfGmk4ijbuf
-         KmZB9Gkg77yyPFBhxfFHAMQSH84n0RbVJT1mXjcn8ETyT6t4g7zRIUduvXBu2/MmPFbT
-         Oz3xfIan8VhKZ9YuwRFUbrdCv/TA5HI4Og1bkwSE3mVtoVjstDeJT5leMnjzKQhl6tYj
-         az4aK+8yfLdmiEqwfDqqGleu4n9pmSmmMIvsn8wZSo1nlY0vT1cqnnDFAslxK5KYgmsY
-         ByuWjSw9vuAn1qZ/gpIFA9txt75LMJgNZzA67T2kHQVlFmFw81zlWAxHrdSTXOv38T1V
-         zwaQ==
+        bh=FvDWHUZL3n0zgTaFSY5NRFn8/5zEPo3JDu0kA1EYIYE=;
+        b=bkKSb4m/T9vngF26pZChN/d8iFlNHGp05mEmj2SeoKDaqNoimG3Mj1P4jw2jNs4D48
+         oRFdDnbAfLu5PbRUlI9YaVhxXlw3tQno/L3gZSZqL30ByLvVAIo1uU5bKkKOvo0YBYTz
+         DT+gtvU0UFOxnQyb+4hk/zd2PVMrpqiFUV4GlBTJwVQp+jDweBHwr0m0mkSJ+xBrps5M
+         FotpotDqtiBUTyagR5aV1St602Y8ht1EjB9T5JCCX9W2CuC6PUHmRXNMfA8hDCwgl6Wa
+         7slWPz8l0li6B6IAgyAsuxe0z6Y6wT95zCaYRy92yUHJYhua96Hftcxyg62t/j+3yHVf
+         CW4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705055467; x=1705660267;
+        d=1e100.net; s=20230601; t=1705056128; x=1705660928;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=3TOszjtAiv0Nebpaxf+HSPwpiNuBWgSoVVZuLop3Dy0=;
-        b=pca+A+V95ek1gv6dhFfOvEcugI1thdxdO8F0li1PkHgiPpFYda+pAMuCTwgcoFNdeM
-         HCdyJ/5W0yuqSmXJuleOhsVQ899qs8LmL1Oengoir7qinZ2wt43leA78XsiZMrN6X81F
-         BwZf+MkhMYmI5iGK39F6QHHySj4mmta6YDTFZ7JHMznyX5IrgtCA5HCAhA7zvXg0Hfzu
-         Zy2G3Z0NEIloUYNAKqGS/FZE+V3GeZv4VM5HsY2qPNC/Uu0xlFAXC/e88lgrj+F6T96G
-         fturST5w17afdmvIlUuWYf5e9CplNkDDZDR2MltkJ63ockweEUvQRAwiMmfxpVAoP3tX
-         6aKw==
-X-Gm-Message-State: AOJu0YwjArdSB1oUIYPTZ+HAd2JQoUp0CG1jlTkwk0AJVdtiDyTbEuFD
-	HOv4lTf9gkkrHbdPcoEBkFBIu/NF5TnOozIR88A=
-X-Google-Smtp-Source: AGHT+IHdHtv7tk1hhK12QQxAPH2e9b8B0Xgh0CUSBStQ0x58ceu6rlrbFYA8tqM/Z5fdRqO7ymVUIDFgc8KsegJ/QYg=
-X-Received: by 2002:a05:6512:474:b0:50e:73e8:8d05 with SMTP id
- x20-20020a056512047400b0050e73e88d05mr1357336lfd.30.1705055467401; Fri, 12
- Jan 2024 02:31:07 -0800 (PST)
+        bh=FvDWHUZL3n0zgTaFSY5NRFn8/5zEPo3JDu0kA1EYIYE=;
+        b=nVcR6sONIBG+PIeX54D6tfCECGXWdvcJbtqvebZAl0DWt9fntIwN118KaL3aZ/hlvM
+         ILMDiOpLKUFn+bfIIWcIQ9GqUYHEx16T27XYy5OF2L8qro26ER+fxDmAawWVTDCYQWJ1
+         nNM3f5IG6K8Kc6cvkuKgBnd1R3r7hDDAsx//safPORc+Dklnlk4G7ZkWBE2ljg0Ng7Mf
+         5VGspmo8gR0RDOEUyTDo1YUMhJKR2lw7X3K4KqyaDSwvVFUp/ZqEUBqKFdShyuA7ZnAo
+         VBpsnA4K4F3PfGREz0UKe9sy1rOEV/p+URCwQ5XeieRqnOI9bcq7tGdmyR1dRysdNEwy
+         6siQ==
+X-Gm-Message-State: AOJu0YwI1mNLZLNPJMSyW4fVnO7P9OQdX6kefow4RMEuKkYs92bLeVd7
+	FfDaaOJ9Q7q1vhaY/6h2mHxZvGBqSoqR73DUmFo=
+X-Google-Smtp-Source: AGHT+IGY0lOdKEqPZpbY0IE8wMW1erzY03CXKut995eWYofIK05Z0oXTI32W6l7gzVPaB3q2erPraLzZYcqbaR2cN0g=
+X-Received: by 2002:a2e:a36e:0:b0:2cd:8fe0:70ab with SMTP id
+ i14-20020a2ea36e000000b002cd8fe070abmr550360ljn.16.1705056127739; Fri, 12 Jan
+ 2024 02:42:07 -0800 (PST)
 MIME-Version: 1.0
-References: <20240109170941.3422308-1-f_l_k@t-online.de> <CANNYZj-tsx5S-PTikmO43sY-0-QEEiLnqs-1QAmTGpPFRfOabw@mail.gmail.com>
- <96e2b562-424b-473a-8610-a2d31f4cc64e@gmail.com> <17A992A29B3722DF.31870@lists.openembedded.org>
-In-Reply-To: <17A992A29B3722DF.31870@lists.openembedded.org>
+References: <20220606120126.3381438-1-alex@linutronix.de> <20220606120126.3381438-13-alex@linutronix.de>
+ <AS1PR10MB5697FF2BB1A0A5CA22E34C68FD6F2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+In-Reply-To: <AS1PR10MB5697FF2BB1A0A5CA22E34C68FD6F2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 12 Jan 2024 11:30:56 +0100
-Message-ID: <CANNYZj--dn9QJfbfKLsOtPphR-Yd0mfX8_d_PA4L8bnS37zudA@mail.gmail.com>
-Subject: Re: [RFC][oe-core][PATCHv2] webp: switch recipe to cmake buildsystem
-To: Markus Volk <mrksvolk@googlemail.com>
-Cc: Markus Volk <f_l_k@t-online.de>, openembedded-core@lists.openembedded.org
+Date: Fri, 12 Jan 2024 11:41:56 +0100
+Message-ID: <CANNYZj9pKPfOp+uHe2YGvfyx89YQYWW7tOLzZNLTPsSgmi8J-g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 13/21] alsa-utils-scripts: merge into alsa-utils
+To: "Marko, Peter" <Peter.Marko@siemens.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	"alex@linutronix.de" <alex@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 12 Jan 2024 10:31:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193576
+ <openembedded-core@lists.openembedded.org>; Fri, 12 Jan 2024 10:42:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193577
 
-On Fri, 12 Jan 2024 at 11:26, Alexander Kanavin via
-lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
-wrote:
-> > Aside from the fact that I can't send suggestions to upstream at google
-> > anyway, because I'm not willing to accept their requirement for a google
-> > account with a gmail address.
+On Fri, 12 Jan 2024 at 10:14, Marko, Peter <Peter.Marko@siemens.com> wrote:
+> I'm upgrading my layer from kirkstone to scarthgap and observed that my image failed due to gpl3 license.
+>
+> I want to conveniently install whole alsa-utils except for parts where license forbids me to do it.
+> After your path I would need to list all alsa-utils subpackages except the scripts.
+> And on top of that during every core layer update I'd have to check if there is not a new one.
+>
+> So from this point of view, your statement
+> "There is no reason to keep the recipe separate: bash dependency is not a problem until the alsa-utils-scripts package is explicitly installed into a target image."
+> Is not true, it's a problem for maintenance.
+>
+> Would something like this be accepted when I'd submit it?
+> This would return alsa-utils package installation to status before your commit, while still keeping alsa-utils single recipe.
 
-Also: this is not correct. Google account can be created with a
-non-google email address (there is that option when creating it), and
-if so it's not any different from a github or whatever account.
+Does a .bbappend with ALSA_UTILS_PKGS:remove = "alsa-utils-scripts"
+work for you?
+
+I would not want to exclude things that upstream installs from default
+choices in oe-core, if they logically belong to a set. GPLv3 is OSI
+approved, and Siemens not being able to ship it in a product is a
+special case.
 
 Alex
 
