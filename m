@@ -1,111 +1,99 @@
-Return-Path: <ecordonnier@snap.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8214FC4706C
-	for <webhook@archiver.kernel.org>; Fri, 12 Jan 2024 15:20:44 +0000 (UTC)
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
- by mx.groups.io with SMTP id smtpd.web11.9665.1705072838586204609
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77609C47258
+	for <webhook@archiver.kernel.org>; Fri, 12 Jan 2024 15:22:34 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.9735.1705072950140293481
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Jan 2024 07:20:38 -0800
+ Fri, 12 Jan 2024 07:22:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@snap.com header.s=google header.b=etQpp+oI;
- spf=pass (domain: snapchat.com, ip: 209.85.218.42, mailfrom: ecordonnier@snapchat.com)
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a2cfb0196bcso26925766b.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jan 2024 07:20:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=snap.com; s=google; t=1705072836; x=1705677636; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jhLXBSF3fQ0MSNGjo8gO697+TengczE1wDts9MYNFvU=;
-        b=etQpp+oI/EhtalMbYdVNfzmgc4YewTeXyM4K+oiAgM5Mc8t1gIjEPly7s27V+pJFq+
-         e954VawEbgeFqNu/QhwBeP4Ms6nbT2aEM/EfpWir/of8HxPl2Wdx0wPF0Qh5kVgqECrz
-         8gVUqvq1/HJu+p8JtfhOdRtsApbSJ+zOCmkf8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705072836; x=1705677636;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jhLXBSF3fQ0MSNGjo8gO697+TengczE1wDts9MYNFvU=;
-        b=Iz0RxJcfmKHWbyCDJz3SnO0CoIvbamAgBrgsi27yydkNNmuqvrKaOxBa7L9fOUuCRt
-         edE7P7AsGQCNJaom0l19mpLnYuWS4UbDNKOI2lLXC25056rXaZt7o+4oaPJ5ZUrX/mBd
-         C55s10s0TrlC+c+z08k9dw4DKaX9eoXWey9ylr6Sv+6OlOc0lvVgmn0Yux1cWQdVB117
-         epZWuMRHvEcv0m4UwqyOx8N/8rWEne5aetZBCZjD5mJ8RFXbxsjERrtgYziBlTNUAaZv
-         zjUwWcf9HKwDRbS8FLwLPsTnuZKfTaov71/elxRhTinwziDiEqgZrW9x/H+4xp9TW/zq
-         iA9Q==
-X-Gm-Message-State: AOJu0Yz3BMiGpVGzChtXF6SZPH+5MDxJC+TCaT/4Fr30d9uRVAY8+9dt
-	FydG/iyrwkymKyN8WaGo96tB/+AsW0bZCFdtzFYkteyS7N6FWsZS
-X-Google-Smtp-Source: AGHT+IGDAMh/f+BRV9ffkPxrq3Wi9DiNnBE/3O5zLSVRy4RfGL7woiw4qGEUX6vpfLEWUMwFvDNnug==
-X-Received: by 2002:a17:906:cc16:b0:a27:d13b:85aa with SMTP id ml22-20020a170906cc1600b00a27d13b85aamr689758ejb.148.1705072836124;
-        Fri, 12 Jan 2024 07:20:36 -0800 (PST)
-Received: from lj8k2dq3.sc-core.net ([213.249.125.50])
-        by smtp.gmail.com with ESMTPSA id x15-20020a170906298f00b00a27e4d34455sm1878397eje.183.2024.01.12.07.20.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jan 2024 07:20:35 -0800 (PST)
-From: ecordonnier@snap.com
-To: openembedded-core@lists.openembedded.org
-Cc: Etienne Cordonnier <ecordonnier@snap.com>,
-	Dominik Schnitzer <dominik@snap.com>
-Subject: [OE-core][PATCH v2] package.py: fix Darwin support
-Date: Fri, 12 Jan 2024 16:20:30 +0100
-Message-Id: <20240112152030.2564482-1-ecordonnier@snap.com>
-X-Mailer: git-send-email 2.36.1.vfs.0.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=RnYK7v5Y;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=lkOreWLW;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018cfe447819-36f335cb-0d87-4e6e-9264-c0cf2224f2e3-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1705072949; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
+	bh=7CUho02ldYwKz3pWRvZ6EN0+9dTfRGlnO4tIPMEGRzg=;
+	b=RnYK7v5YGhEZC10CNTzhnjW7+QPN4AS/RN/X6F+yuw3NX+Llb7XAVEK0erBPoLp5
+	9+4Yn4v5pxjpn9ULt4s+APABxzOOclrEcA1LCsOUhPIIlKii466N4eIiwDT8rsS9XCI
+	spBQjFiNzIS5FqbDtPe951t+u0k3SdGQmp6skmHw=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1705072949;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=7CUho02ldYwKz3pWRvZ6EN0+9dTfRGlnO4tIPMEGRzg=;
+	b=lkOreWLW552bR4MJgkVL3ILbIFvyEvziF09KQWgaDo+6XXjoYtrlWSvGDXCIbZlB
+	/TEfF1j/U4naw9UiJv2IeJL8jUegtG2AdTxUWQkqyoSgQmX0kamAscQmlNrOFAYTseY
+	E7wntfKDvS4stfGUCQYM1oZyU2JEW/NW8snKULP8=
+From: patchtest@automation.yoctoproject.org
+To: Ola x Nilsson <olani@axis.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 3/3] insane.bbclass: Python code cleanup in
+ check_32bit_symbols
+In-Reply-To: 20240112150303.3807006-3-olani@axis.com
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018cfe447819-36f335cb-0d87-4e6e-9264-c0cf2224f2e3-000000@us-west-2.amazonses.com>
+Date: Fri, 12 Jan 2024 15:22:29 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.01.12-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 12 Jan 2024 15:20:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193593
+ <openembedded-core@lists.openembedded.org>; Fri, 12 Jan 2024 15:22:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193594
 
-From: Etienne Cordonnier <ecordonnier@snap.com>
+--NextPart
+Content-Type: text/plain
 
-- 'subprocess.Popen([d.expand("${HOST_PREFIX}otool)' requires text-mode (a more
-  readable alias for the universal_newlines parameter), since otool produces
-  text and the code 'out.split("\n")' expects a string, not a bytes object.
-  otool is used on MacOS only, so this error isn't triggered on Linux.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-- use 'startswith("darwin")' in order to support all darwin versions and not
-  just specific versions (meta-darwin supports darwin21 at the moment).
-
-Signed-off-by: Dominik Schnitzer <dominik@snap.com>
-Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
 ---
- meta/lib/oe/package.py | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Testing patch /home/patchtest/share/mboxes/3-3-insane.bbclass-Python-code-cleanup-in-check_32bit_symbols.patch
 
-diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
-index 9a465eaa09..702d8403be 100644
---- a/meta/lib/oe/package.py
-+++ b/meta/lib/oe/package.py
-@@ -1615,7 +1615,7 @@ def process_shlibs(pkgfiles, d):
-                     sonames.add(prov)
-         if file.endswith('.dylib') or file.endswith('.so'):
-             rpath = []
--            p = subprocess.Popen([d.expand("${HOST_PREFIX}otool"), '-l', file], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-+            p = subprocess.Popen([d.expand("${HOST_PREFIX}otool"), '-l', file], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-             out, err = p.communicate()
-             # If returned successfully, process stdout for results
-             if p.returncode == 0:
-@@ -1624,7 +1624,7 @@ def process_shlibs(pkgfiles, d):
-                     if l.startswith('path '):
-                         rpath.append(l.split()[1])
- 
--        p = subprocess.Popen([d.expand("${HOST_PREFIX}otool"), '-L', file], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-+        p = subprocess.Popen([d.expand("${HOST_PREFIX}otool"), '-L', file], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-         out, err = p.communicate()
-         # If returned successfully, process stdout for results
-         if p.returncode == 0:
-@@ -1686,7 +1686,7 @@ def process_shlibs(pkgfiles, d):
-                 soname = None
-                 if cpath.islink(file):
-                     continue
--                if hostos == "darwin" or hostos == "darwin8":
-+                if hostos.startswith("darwin"):
-                     darwin_so(file, needed, sonames, renames, pkgver)
-                 elif hostos.startswith("mingw"):
-                     mingw_dll(file, needed, sonames, renames, pkgver)
--- 
-2.36.1.vfs.0.0
+FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_off_by_presence)
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
