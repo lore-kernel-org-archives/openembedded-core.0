@@ -2,86 +2,101 @@ Return-Path: <ecordonnier@snap.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19242C4706C
-	for <webhook@archiver.kernel.org>; Fri, 12 Jan 2024 13:52:44 +0000 (UTC)
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
- by mx.groups.io with SMTP id smtpd.web10.7345.1705067553949503356
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE13CC4706C
+	for <webhook@archiver.kernel.org>; Fri, 12 Jan 2024 13:53:13 +0000 (UTC)
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+ by mx.groups.io with SMTP id smtpd.web10.7366.1705067591075218702
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Jan 2024 05:52:34 -0800
+ Fri, 12 Jan 2024 05:53:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@snap.com header.s=google header.b=H7tU8Okv;
- spf=pass (domain: snapchat.com, ip: 209.85.218.49, mailfrom: ecordonnier@snapchat.com)
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a29058bb2ceso713747366b.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jan 2024 05:52:33 -0800 (PST)
+ dkim=pass header.i=@snap.com header.s=google header.b=QvwD17Ft;
+ spf=pass (domain: snapchat.com, ip: 209.85.208.51, mailfrom: ecordonnier@snapchat.com)
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-553ba2f0c8fso7301623a12.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jan 2024 05:53:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=snap.com; s=google; t=1705067552; x=1705672352; darn=lists.openembedded.org;
+        d=snap.com; s=google; t=1705067589; x=1705672389; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gTgaBzqtEHxh3lNRSRGCWOFuDkSh4EEzUKARGAgYSIM=;
-        b=H7tU8OkvI8eRDIaEAhO6YJiYZ66wZKY/hxg44RdgWtRv//+u2bOj8/JCFQAI1NeXhL
-         EDznrLHvVw2zDu3cMGQbeUzIj1wYfOnOi+HE/7PdSxM7Cdp20KuBmDwYnYuRgNhdlK9P
-         cAgw8k1VvN/3BZH2OQT8b5Gs4DfpKtHyXmr9E=
+        bh=a7ROV0aNcam74NCVED7fI74pZz7GKWGnbWdM5CSV5B8=;
+        b=QvwD17FtIZ6RgLu8ID1b8ckV3dtyX+lPYnGdU4kLiAzj/xGp1lfpnHx3YyPeCXRL+t
+         jkhEdKwHVz9hlH+h83HzpZrRDarEjYADLFJubtvWdw1nGJ0h6ZZGDPekqINQdGMRwBoY
+         P2lgJ0NH4lMz8LwYE3Z507BbseeZL4xaf+cL0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705067552; x=1705672352;
+        d=1e100.net; s=20230601; t=1705067589; x=1705672389;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=gTgaBzqtEHxh3lNRSRGCWOFuDkSh4EEzUKARGAgYSIM=;
-        b=KZZIyncAqc9GVepgG9Bcpcd112jU/XB5fEiNpoF+Y8pmUObVRp882XGl2GfKui1SbP
-         /ZsYep8PiL9OIixpL1pTJQJXPCfXucJKBQwK5h5yjG7fPTEyfmUmYpO+ZUVJrrICEbFh
-         ubHWyjtBNZwsg23XJoGLuLXpVZ1iIfWWNf4e0QJGwbdL83SXqC/LIpMbN11eZ4VjSngT
-         Ir0up2oFNE7bKA698asFkvkBh2icgUkIT+rfpuH3cmgJpfCc+u4zEJ2KfzimlLslPj+h
-         l6hujllXFFrTXZQC3DYT3bJiXm5W7rh0ZFAxhMb01tR4n4L1n/LMNEQJJVVdDzY1z2DU
-         ywIA==
-X-Gm-Message-State: AOJu0YxyQz2PZiMoh4iSku+cgtKuNy0Oa/wsN13Hnb/cwKW1VU2G6r/Z
-	6i34rs6OQTQhy6vZBOsMdSLp77Y3HgvC0CI6bRimvkpbtvvrT5t+
-X-Google-Smtp-Source: AGHT+IEz3lNC0JJPEdr9LfA3pb0DsOWxbOFaLJrl6BCL52H4i3L0tCq0x+6MjnmFSFllz/y7PFoIVQ==
-X-Received: by 2002:a17:906:600c:b0:a2c:8e99:5a6a with SMTP id o12-20020a170906600c00b00a2c8e995a6amr454063ejj.212.1705067551674;
-        Fri, 12 Jan 2024 05:52:31 -0800 (PST)
-Received: from lj8k2dq3.sc-core.net ([213.249.125.50])
-        by smtp.gmail.com with ESMTPSA id y11-20020a170906524b00b00a233515c39esm1820644ejm.67.2024.01.12.05.52.31
+        bh=a7ROV0aNcam74NCVED7fI74pZz7GKWGnbWdM5CSV5B8=;
+        b=RX5oI6u55bEWbC3QJlDXmRTD+2auK4bdVgLxYqYDtxJeux4fzVrN4kfr4N5fczNajy
+         qD3LJDF0Xv8LcAQWxamgxXehktJ7nlCx9d5bHWzU2hWvgOUKCJixr34IFw1ZNfe8iZUs
+         NKz+sICNnkBsfQQ6RXIf2hz6PpeTiG+A69WiEeMydSjdi9zIlDmcnaNCE3nUiP/gpJrE
+         40LpclEc2+HvTZat65Ep14U3aolY+ydzS6fMJQ1CFWNXGRGTDezVgA4nnYOCgO+D96st
+         fR6ij3qPIaEn6+0O5VZUSKZUlXk50A8eHk2Ca2i6qQA8VokZqu1CKhGj+TiPpLHY84km
+         1Cwg==
+X-Gm-Message-State: AOJu0YyTiMC85xvAKVUOi0tn+ghy/Sb97/mDxamfMKKR46gva3u5a+EX
+	BsLejrKWPlKuhv0EtIRugcYLvCrmvmImlw4MSKQ0iu1R6yotaVm+
+X-Google-Smtp-Source: AGHT+IG4VMybEODun3K0mX7MUNBGB4iP6E1CKy15w3S7LB3VXhCYkhBVv4Bxf8HnvomNkmO2cH/y1A==
+X-Received: by 2002:a05:6402:3127:b0:558:a8a2:9534 with SMTP id dd7-20020a056402312700b00558a8a29534mr335708edb.65.1705067588929;
+        Fri, 12 Jan 2024 05:53:08 -0800 (PST)
+Received: from lj8k2dq3.sc-core.net ([85.237.126.22])
+        by smtp.gmail.com with ESMTPSA id n14-20020a056402060e00b0055344b92fb6sm1813607edv.75.2024.01.12.05.53.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jan 2024 05:52:31 -0800 (PST)
+        Fri, 12 Jan 2024 05:53:08 -0800 (PST)
 From: ecordonnier@snap.com
 To: openembedded-core@lists.openembedded.org
 Cc: Etienne Cordonnier <ecordonnier@snap.com>,
 	Dominik Schnitzer <dominik@snap.com>
-Subject: [PATCH] cmake.bbclass: add Darwin support
-Date: Fri, 12 Jan 2024 14:52:12 +0100
-Message-Id: <20240112135212.1871270-1-ecordonnier@snap.com>
+Subject: [PATCH] package.py: fix Darwin support
+Date: Fri, 12 Jan 2024 14:52:52 +0100
+Message-Id: <20240112135252.1871340-1-ecordonnier@snap.com>
 X-Mailer: git-send-email 2.36.1.vfs.0.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 12 Jan 2024 13:52:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193580
+ <openembedded-core@lists.openembedded.org>; Fri, 12 Jan 2024 13:53:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193581
 
 From: Etienne Cordonnier <ecordonnier@snap.com>
-
-This was initially added by https://git.yoctoproject.org/meta-darwin/commit/?id=97a84e083d0c2812e44231d48fb478e9a9cfac79
-to the meta-darwin repository, however having it directory in openembedded-core will make the maintenance of meta-darwin easier.
 
 Signed-off-by: Dominik Schnitzer <dominik@snap.com>
 Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
 ---
- meta/classes-recipe/cmake.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/lib/oe/package.py | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes-recipe/cmake.bbclass b/meta/classes-recipe/cmake.bbclass
-index d978b88944..1e353f660f 100644
---- a/meta/classes-recipe/cmake.bbclass
-+++ b/meta/classes-recipe/cmake.bbclass
-@@ -72,6 +72,8 @@ OECMAKE_TARGET_COMPILE ?= "all"
- OECMAKE_TARGET_INSTALL ?= "install"
+diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+index 9a465eaa09..635efc9763 100644
+--- a/meta/lib/oe/package.py
++++ b/meta/lib/oe/package.py
+@@ -1615,7 +1615,7 @@ def process_shlibs(pkgfiles, d):
+                     sonames.add(prov)
+         if file.endswith('.dylib') or file.endswith('.so'):
+             rpath = []
+-            p = subprocess.Popen([d.expand("${HOST_PREFIX}otool"), '-l', file], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
++            p = subprocess.Popen([d.expand("${HOST_PREFIX}otool"), '-l', file], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+             out, err = p.communicate()
+             # If returned successfully, process stdout for results
+             if p.returncode == 0:
+@@ -1624,7 +1624,7 @@ def process_shlibs(pkgfiles, d):
+                     if l.startswith('path '):
+                         rpath.append(l.split()[1])
  
- def map_host_os_to_system_name(host_os):
-+    if host_os.startswith('darwin'):
-+        return 'Darwin'
-     if host_os.startswith('mingw'):
-         return 'Windows'
-     if host_os.startswith('linux'):
+-        p = subprocess.Popen([d.expand("${HOST_PREFIX}otool"), '-L', file], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
++        p = subprocess.Popen([d.expand("${HOST_PREFIX}otool"), '-L', file], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+         out, err = p.communicate()
+         # If returned successfully, process stdout for results
+         if p.returncode == 0:
+@@ -1686,7 +1686,7 @@ def process_shlibs(pkgfiles, d):
+                 soname = None
+                 if cpath.islink(file):
+                     continue
+-                if hostos == "darwin" or hostos == "darwin8":
++                if hostos.startswith("darwin"):
+                     darwin_so(file, needed, sonames, renames, pkgver)
+                 elif hostos.startswith("mingw"):
+                     mingw_dll(file, needed, sonames, renames, pkgver)
 -- 
 2.36.1.vfs.0.0
 
