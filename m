@@ -1,116 +1,98 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9C57C4706C
-	for <webhook@archiver.kernel.org>; Sat, 13 Jan 2024 18:55:12 +0000 (UTC)
-Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
- by mx.groups.io with SMTP id smtpd.web11.25163.1705172105639271560
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF69BC4707B
+	for <webhook@archiver.kernel.org>; Sat, 13 Jan 2024 19:03:12 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.25365.1705172587766430798
  for <openembedded-core@lists.openembedded.org>;
- Sat, 13 Jan 2024 10:55:06 -0800
+ Sat, 13 Jan 2024 11:03:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=GFyEqdtI;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-202401131855027b704a2917db1f4f60-x4wl0i@rts-flowmailer.siemens.com)
-Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 202401131855027b704a2917db1f4f60
-        for <openembedded-core@lists.openembedded.org>;
-        Sat, 13 Jan 2024 19:55:02 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=i4SrrjhUrMrVFUcAFnN1k4xaM+BbJA1fR1nh0bN4GCY=;
- b=GFyEqdtI1wMFZk7w5nduWBjxSFcfhwP7ehaOlS9RJ3ZwUkTOWyd5I3hBk4jBy/iji0rgUH
- pB8ydObA6YOoLjGMdPEKhBWK+ls9YU5/RPtCKXtFRnKH0TlXRlV1btfUCAimY7IIl2pwLiDt
- 1J04QhztCZRKUJBQeH5K40aXTnPi8=;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][kirkstone][PATCH] sqlite3: backport patch for CVE-2023-7104
-Date: Sat, 13 Jan 2024 19:54:12 +0100
-Message-Id: <20240113185412.1309346-1-peter.marko@siemens.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=AzGGjWME;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=K3l3KuKu;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018d0434d191-599d3138-808f-49d2-8a79-ed3aefd6fb77-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1705172587; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
+	bh=EM/p8V4zm1Nh8bTq0/29+N0CIzTQ4jvgLifk6WFoeAA=;
+	b=AzGGjWMEklV8mOLGPvmAa3HaxBreWNn/gozWZpQQeAGz8QyzM39J6Z4Tj/3Kx3Mh
+	yDvAxQk9nMcz6uyByQwUn6USF3xD7aTz1YWsB2xfW4plsykiHkv4/N+ek0Yy3bg8ebg
+	nJ3f3XOM6uxK7NVkqrH0eOHBI9QQaYtYm1lq+/lU=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1705172587;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=EM/p8V4zm1Nh8bTq0/29+N0CIzTQ4jvgLifk6WFoeAA=;
+	b=K3l3KuKuvovpe/k5swLQ65lNsn69JIszUVu3o5eISX9fXxmhsXgQ4L/zhKuicV16
+	X23jLEiDb4vRqTLFTQn26oayXLsErDjlPlHuSNFBy0bHvsQR1t+gNq0oZ4VHY+rOmiF
+	2ZtQ3hUFj/f+Y7CxMEfo0SImGa4wtYfutdKhh4yM=
+From: patchtest@automation.yoctoproject.org
+To: Peter Marko <peter.marko@siemens.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-core][kirkstone][PATCH] sqlite3: backport patch for CVE-2023-7104
+In-Reply-To: 20240113185412.1309346-1-peter.marko@siemens.com
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018d0434d191-599d3138-808f-49d2-8a79-ed3aefd6fb77-000000@us-west-2.amazonses.com>
+Date: Sat, 13 Jan 2024 19:03:06 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.01.13-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 13 Jan 2024 18:55:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193607
+ <openembedded-core@lists.openembedded.org>; Sat, 13 Jan 2024 19:03:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193608
 
-From: Peter Marko <peter.marko@siemens.com>
+--NextPart
+Content-Type: text/plain
 
-Backport https://sqlite.org/src/info/0e4e7a05c4204b47
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../sqlite/files/CVE-2023-7104.patch          | 44 +++++++++++++++++++
- meta/recipes-support/sqlite/sqlite3_3.38.5.bb |  1 +
- 2 files changed, 45 insertions(+)
- create mode 100644 meta/recipes-support/sqlite/files/CVE-2023-7104.patch
+Testing patch /home/patchtest/share/mboxes/kirkstone-sqlite3-backport-patch-for-CVE-2023-7104.patch
 
-diff --git a/meta/recipes-support/sqlite/files/CVE-2023-7104.patch b/meta/recipes-support/sqlite/files/CVE-2023-7104.patch
-new file mode 100644
-index 0000000000..25c6ba017c
---- /dev/null
-+++ b/meta/recipes-support/sqlite/files/CVE-2023-7104.patch
-@@ -0,0 +1,44 @@
-+From 09f1652f36c5c4e8a6a640ce887f9ea0f48a7958 Mon Sep 17 00:00:00 2001
-+From: dan <Dan Kennedy>
-+Date: Thu, 7 Sep 2023 13:53:09 +0000
-+Subject: [PATCH] Fix a buffer overread in the sessions extension that could
-+ occur when processing a corrupt changeset.
-+
-+Upstream-Status: Backport [https://sqlite.org/src/info/0e4e7a05c4204b47]
-+CVE: CVE-2022-46908
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ sqlite3.c | 18 +++++++++++-------
-+ 1 file changed, 11 insertions(+), 7 deletions(-)
-+
-+diff --git a/ext/session/sqlite3session.c b/ext/session/sqlite3session.c
-+index 9f862f2465..0491549231 100644
-+--- a/sqlite3.c
-++++ b/sqlite3.c
-+@@ -213482,15 +213482,19 @@ static int sessionReadRecord(
-+         }
-+       }
-+       if( eType==SQLITE_INTEGER || eType==SQLITE_FLOAT ){
-+-        sqlite3_int64 v = sessionGetI64(aVal);
-+-        if( eType==SQLITE_INTEGER ){
-+-          sqlite3VdbeMemSetInt64(apOut[i], v);
-++        if( (pIn->nData-pIn->iNext)<8 ){
-++          rc = SQLITE_CORRUPT_BKPT;
-+         }else{
-+-          double d;
-+-          memcpy(&d, &v, 8);
-+-          sqlite3VdbeMemSetDouble(apOut[i], d);
-++          sqlite3_int64 v = sessionGetI64(aVal);
-++          if( eType==SQLITE_INTEGER ){
-++            sqlite3VdbeMemSetInt64(apOut[i], v);
-++          }else{
-++            double d;
-++            memcpy(&d, &v, 8);
-++            sqlite3VdbeMemSetDouble(apOut[i], d);
-++          }
-++          pIn->iNext += 8;
-+         }
-+-        pIn->iNext += 8;
-+       }
-+     }
-+   }
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.38.5.bb b/meta/recipes-support/sqlite/sqlite3_3.38.5.bb
-index 55cc514412..cece207eae 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.38.5.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.38.5.bb
-@@ -7,6 +7,7 @@ SRC_URI = "http://www.sqlite.org/2022/sqlite-autoconf-${SQLITE_PV}.tar.gz \
-            file://0001-sqlite-Increased-the-size-of-loop-variables-in-the-printf-implementation.patch \
-            file://CVE-2022-46908.patch \
-            file://CVE-2023-36191.patch \
-+           file://CVE-2023-7104.patch \
- "
- SRC_URI[sha256sum] = "5af07de982ba658fd91a03170c945f99c971f6955bc79df3266544373e39869c"
- 
--- 
-2.30.2
+FAIL: test CVE check ignore: CVE_CHECK_IGNORE is deprecated and should be replaced by CVE_STATUS (test_metadata.TestMetadata.test_cve_check_ignore)
 
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
+PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
