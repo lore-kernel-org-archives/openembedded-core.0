@@ -1,102 +1,65 @@
-Return-Path: <festevam@gmail.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67A74C4706C
-	for <webhook@archiver.kernel.org>; Sat, 13 Jan 2024 17:28:52 +0000 (UTC)
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
- by mx.groups.io with SMTP id smtpd.web11.23257.1705166924243954233
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96B82C4707B
+	for <webhook@archiver.kernel.org>; Sat, 13 Jan 2024 18:07:52 +0000 (UTC)
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.web10.24443.1705169263541208835
  for <openembedded-core@lists.openembedded.org>;
- Sat, 13 Jan 2024 09:28:44 -0800
+ Sat, 13 Jan 2024 10:07:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=HHG+XUq2;
- spf=pass (domain: gmail.com, ip: 209.85.216.48, mailfrom: festevam@gmail.com)
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-28bae84fc2eso1448299a91.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 13 Jan 2024 09:28:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705166923; x=1705771723; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6nUNxaLqL32vbthQ4k2peGqO4DEEt+Cf8zxTQHSQDXU=;
-        b=HHG+XUq22FYIVxtqueoPjVvmBan0ErK5fJ/+15TUZAR2RLdQUs7TdeAEUBK3ec4sBA
-         pPa9KyypCFkLkYRDgbVDcO1YpaEcUBpQsjbWgmVaw3U2Y2iY6QXvY3DQkRmIAER9YkSx
-         GsSTAXS8CvzqK0SeqqeIEA5TaVHFKp4kVMfDLKTK+HtuBQ2LySzQvkYIJJgLFEE06eKc
-         gH3P47LdqT9bcvPo4b9ym2CMY64OeYsAsZsgFg9CqCyHZBWidkrD110KRZQ+vj52iDsG
-         XwF6pxl0SnGKyye0DzC1lD9buQqJ0wzw2b1TLgB0z7ItnE7EdU2txEECjwVe2TgPAUUM
-         rb0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705166923; x=1705771723;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6nUNxaLqL32vbthQ4k2peGqO4DEEt+Cf8zxTQHSQDXU=;
-        b=C5xwMebLcuv2pw4zKNZwzMzwb00jJp8RvdXPtTVG/Yqe0C9TCxgUcG4AleSBXyWU2L
-         nzkkxbP47AQDbXeO+P4Qmz8H7c97jdjGQ6AepvrSvUSrp3VVewfRgpMuacnYS/14PMXk
-         mbuMhLWy8dt1x6kNCNwbbKtQNgIOgAoR+xttXkWaIuZO42/zV7QscK/jB8XYITQYzx9P
-         aCXcSYeFE6EvEqSE8xo8cjoYMg+UgRetIQ5wgkSTzyjk6VvVXNlZImJ3TWUClG60D4+T
-         7fSHrTy3/jAqiLALXMOd4WEfzioOczAw6LqRVF2MgM85XhABAIyAcvMXUTIx5dVbd4nE
-         gjBA==
-X-Gm-Message-State: AOJu0YzxmY9KVAKY8m17073mVLsuIQ/BCJyq0kR3AQexp+78vjJgLtso
-	rtJZVvQmYYp7ch+73kNzjIFZUcJFeHo=
-X-Google-Smtp-Source: AGHT+IGFp57EiA6+9SEC1LtrvUL6j3avZmmQl78AAF9lIjAqWfClePmHdHwAEYibKmNyWs0Z7yEShg==
-X-Received: by 2002:a17:902:a50b:b0:1d5:bcc2:2bac with SMTP id s11-20020a170902a50b00b001d5bcc22bacmr1538182plq.1.1705166923199;
-        Sat, 13 Jan 2024 09:28:43 -0800 (PST)
-Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:8d8c:72a0:d6ed:5942])
-        by smtp.gmail.com with ESMTPSA id ix15-20020a170902f80f00b001d5947f5163sm4745586plb.59.2024.01.13.09.28.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Jan 2024 09:28:42 -0800 (PST)
-From: Fabio Estevam <festevam@gmail.com>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=jCIak47e;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-20240113180739b2beb4f6190d9152b2-tzhbgt@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20240113180739b2beb4f6190d9152b2
+        for <openembedded-core@lists.openembedded.org>;
+        Sat, 13 Jan 2024 19:07:39 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=f6pT0YWhj4zUpyQxLr1JjlQrH/K6O937mTgg8SyuBjY=;
+ b=jCIak47ejRhnTLnZdxOSlB+oHIDi1VmeJu2nH8pbz8ccquf49dsM4XYDN3xXaM49mJKjMC
+ MlJm75UDw84e5xyVWYAZHn4wi/Pte87/mAWg0YN60SJFaEWpTsUnz+CJKxI3h0iW4iC5VSH0
+ kNlRwLg/0hH2dGIm6t4mZ+PTUzcbI=;
+From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Fabio Estevam <festevam@denx.de>
-Subject: [PATCH] libdrm: Upgrade to 2.4.120
-Date: Sat, 13 Jan 2024 14:28:38 -0300
-Message-Id: <20240113172838.2396059-1-festevam@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][PATCH] zlib: ignore CVE-2023-6992
+Date: Sat, 13 Jan 2024 19:04:04 +0100
+Message-Id: <20240113180404.813379-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 13 Jan 2024 17:28:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193602
+ <openembedded-core@lists.openembedded.org>; Sat, 13 Jan 2024 18:07:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193603
 
-From: Fabio Estevam <festevam@denx.de>
+From: Peter Marko <peter.marko@siemens.com>
 
-Upgrade to 2.4.120 which has the following changes:
+This CVE is for iCPE cloudflare:zlib.
 
-Eric Engestrom (1):
-      radeon: fix missing stencil_tile_mode initialisation in the linear/fallback case
+Alternative to ignoring would be to limit CVE_PRODUCT, but
+historic CVEs already have two - gnu:zlib and zlib:zlib.
+So limiting it could miss future CVEs.
 
-Pierre-Eric Pelloux-Prayer (1):
-      amdgpu: fix use-after-free
-
-Simon Ser (2):
-      Sync headers with drm-next
-      build: bump version to 2.4.120
-
-Signed-off-by: Fabio Estevam <festevam@denx.de>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../drm/{libdrm_2.4.119.bb => libdrm_2.4.120.bb}                | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/drm/{libdrm_2.4.119.bb => libdrm_2.4.120.bb} (97%)
+ meta/recipes-core/zlib/zlib_1.3.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-graphics/drm/libdrm_2.4.119.bb b/meta/recipes-graphics/drm/libdrm_2.4.120.bb
-similarity index 97%
-rename from meta/recipes-graphics/drm/libdrm_2.4.119.bb
-rename to meta/recipes-graphics/drm/libdrm_2.4.120.bb
-index e89ba68164..18b3256843 100644
---- a/meta/recipes-graphics/drm/libdrm_2.4.119.bb
-+++ b/meta/recipes-graphics/drm/libdrm_2.4.120.bb
-@@ -13,7 +13,7 @@ DEPENDS = "libpthread-stubs"
- SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.xz \
-           "
+diff --git a/meta/recipes-core/zlib/zlib_1.3.bb b/meta/recipes-core/zlib/zlib_1.3.bb
+index 1ed18172fa..ede75f90bd 100644
+--- a/meta/recipes-core/zlib/zlib_1.3.bb
++++ b/meta/recipes-core/zlib/zlib_1.3.bb
+@@ -47,3 +47,4 @@ do_install_ptest() {
+ BBCLASSEXTEND = "native nativesdk"
  
--SRC_URI[sha256sum] = "0a49f12f09b5b6e68eaaaff3f02ca7cff9aa926939b212d343161d3e8ac56291"
-+SRC_URI[sha256sum] = "3bf55363f76c7250946441ab51d3a6cc0ae518055c0ff017324ab76cdefb327a"
- 
- inherit meson pkgconfig manpages
- 
+ CVE_STATUS[CVE-2023-45853] = "not-applicable-config: we don't build minizip"
++CVE_STATUS[CVE-2023-6992] = "cpe-incorrect: this CVE is for cloudflare zlib"
 -- 
-2.37.3
+2.30.2
 
 
