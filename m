@@ -1,151 +1,118 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4926CC4707B
-	for <webhook@archiver.kernel.org>; Sun, 14 Jan 2024 08:59:57 +0000 (UTC)
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
- by mx.groups.io with SMTP id smtpd.web10.36169.1705222793698134680
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D01D9C4707B
+	for <webhook@archiver.kernel.org>; Sun, 14 Jan 2024 11:18:57 +0000 (UTC)
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+ by mx.groups.io with SMTP id smtpd.web11.36803.1705231133221866574
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Jan 2024 00:59:54 -0800
+ Sun, 14 Jan 2024 03:18:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=kQQo8Phy;
- spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-50eabfac2b7so9042152e87.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 14 Jan 2024 00:59:53 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=fbgV81rq;
+ spf=softfail (domain: sakoman.com, ip: 209.85.219.49, mailfrom: steve@sakoman.com)
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-680d4584a81so61810536d6.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 14 Jan 2024 03:18:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705222791; x=1705827591; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Cs8tDAXln40dIeZjBJSFAFLSIS/4dyr46px62HHzUso=;
-        b=kQQo8PhySwFCn8AFcLmrGWCpAxWNO9Tkpy2/TiNv1cFAyr/KHzjjW0i85RLH+V9NP2
-         2VZhyFvkLUiq9+Etv3u315dzLfkoetodAEK0Nq46uf5gJ3izztXsHZBgQAsBTVbdGmPV
-         Kr9fP9K783QTxVByaeXjmMqRdzlx6frvV7qylFi4sP1HhotLVCnM07vt/UfC+CgxOXgk
-         URGG2TSqZq39T5F5i5LMqKK47UlRwziYRoOS46pnU1qzZcsYIJWYZZeB1/t5Ek/zwOnb
-         Zg402ZM1MAGpnr5q9yGMb92teUVdzgdDX9/ni/85yTbe76xB/Wwfl8L3D/f0/z5oAaZf
-         cf/Q==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1705231131; x=1705835931; darn=lists.openembedded.org;
+        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=f6GmGaTp/xlELGc5hlNAZKtvgRM0zfoi09nQgKGUye8=;
+        b=fbgV81rq/Rm8PDtPSALhN80d2FOyf5JhhgLljVhVN3s/OPonE53UZR4lOKHtS61vzO
+         rcYuJqpD5n1f2d17sWpKcikJf8IN/JWs9bZj2FrJYH5XxDjfYnG/ZHD95e6PnLmmSNlr
+         k0OHE39HCZ01Bhh4mo1cOlCtPd6ahcIu024S11SiYT9kj+pcnFZSneXlgZga1WrIcVvq
+         GkH+S6ETYnRil5UWqsSC/zLAaDbmQpKR0lynQHdq991AJrCuNKQJ0t3QzcKRBo0vjtL7
+         WKtsGd3tZavK+Ok2sw7ATfpXEK9MPkbMx5r1Jl5/Zo4SBbBOq5xXJxnLn1cXoyOG/ybm
+         8FAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705222791; x=1705827591;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Cs8tDAXln40dIeZjBJSFAFLSIS/4dyr46px62HHzUso=;
-        b=vOsGPh4NgpA1XCaITakAxBheRfmcsaaIGzXfAr/leBoTCMkaWoqALuUH1G9BI4qEsS
-         3RN4iMc+LUhemnpDq2KEWxeJS7RT2lshZdF1STEDipJxkdzirtKrYVAArK4cPp1BFD2J
-         aYtmN23AQtB794cfHU8z9RpidBF9/Y1ybRJ0uuPPfs79rhSlQ60kZlUS9RC7LwdO4jMt
-         uGdqdTjqNRJ0uNzfmWDWt248K+T+Hhl/Hq9Gbv2cN6FMcaahf0g5tQtO4rRZctyYWQC0
-         6+PRw3un9Cp5T4gsBbpa222mZ7725JwH9AUGbG2UGFT3hCY+SlP6txZsevNk9Pumgp3j
-         bU6g==
-X-Gm-Message-State: AOJu0YymL3I9SkLhOB3v4PYdHymZfilA5E5SMqmv1OWzdDHWhP6g7TTd
-	BX4lSGthMr7AEAPHxArLZFd249xuha1iZ3JEteo=
-X-Google-Smtp-Source: AGHT+IFpAdeCswreihIN5nlL88oZN09F4Ivk5LXdfo5mMjW//wUu2gdwDK9ir3Hdi9+AyXPxCF51PHhJO6tYFr6YNSY=
-X-Received: by 2002:a05:6512:2383:b0:50e:4316:4a1e with SMTP id
- c3-20020a056512238300b0050e43164a1emr2196861lfv.15.1705222790908; Sun, 14 Jan
- 2024 00:59:50 -0800 (PST)
-MIME-Version: 1.0
-References: <CAO5Uq5TfNcuKkYX2krym5uN5t+ThbQ29Y8gfhq9kmLwYyHXfjQ@mail.gmail.com>
- <26286.1704984874999023341@lists.openembedded.org>
-In-Reply-To: <26286.1704984874999023341@lists.openembedded.org>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Sun, 14 Jan 2024 08:59:39 +0000
-Message-ID: <CAO5Uq5QH_HdAJK-x83BVj_B99_Fhnmu57CoNTC0K7_hZB3B4yg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 4/4] rust: Upgrade 1.74.1 -> 1.75.0
-To: "Kokkonda, Sundeep" <sundeep.kokkonda@windriver.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000b70ce7060ee41e2e"
+        d=1e100.net; s=20230601; t=1705231131; x=1705835931;
+        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=f6GmGaTp/xlELGc5hlNAZKtvgRM0zfoi09nQgKGUye8=;
+        b=oKu8/IqwbVLjMTggqIFHR/0xRH84w+xDWkgVeTk1qV3NJsLQFVm/scd4n1n+etexCH
+         g1G9EZaoAAsmKgZDkVDsyIag9X70CjGggRigMvQ54ootQ9H0lKFQjluZIaEQhW6V49nw
+         YzPbUNveIsI0K+bOX7UFThk49efMhfOg1/eQ/76EIotFQaMOI0lEIdtmQbH2RuDVazUh
+         Ip4hd4j+VxzjD6+E2syjCt+/9bz3Av8bh5GPCP8C96m3X6JT5CQXm9SmYeS2psTIMgyy
+         aj1i8llfZRIJzP6L8gxdv6aB5xBOaVk9JJrooiCtgZxRG8dy82iexVJ6+U4VUbhqbEAO
+         fy5g==
+X-Gm-Message-State: AOJu0Yzm8TTgHKm7+0YL7+LOyY4C9lGjLEAGwc+PBqKhJZF1yvS1/x8q
+	3c9DAHuxeI/5mmZWOzn7Vz1HMR6GOQOWosBfRcUuzheSdyI=
+X-Google-Smtp-Source: AGHT+IHzPm50bnY7Qv6Kz4dcifd5ikOY6N9V36NiDE7AqG32yEdojg1bQN7OPQtbQDLQpT9kl/t4kA==
+X-Received: by 2002:ad4:5ecd:0:b0:680:cc7f:3d62 with SMTP id jm13-20020ad45ecd000000b00680cc7f3d62mr5252493qvb.35.1705231131438;
+        Sun, 14 Jan 2024 03:18:51 -0800 (PST)
+Received: from builder.sakoman.com ([71.19.246.55])
+        by smtp.gmail.com with ESMTPSA id h16-20020a0cf8d0000000b0067f70c0dcd9sm2461760qvo.64.2024.01.14.03.18.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 14 Jan 2024 03:18:51 -0800 (PST)
+Received: by builder.sakoman.com (Postfix, from userid 1001)
+	id DD0CE1069A2; Sun, 14 Jan 2024 01:18:49 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 14 Jan 2024 01:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+User-Agent: mail (GNU Mailutils 3.14)
+Date: Sun, 14 Jan 2024 01:18:49 -1000
+Message-Id: <20240114111849.DD0CE1069A2@builder.sakoman.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 14 Jan 2024 08:59:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193612
+ <openembedded-core@lists.openembedded.org>; Sun, 14 Jan 2024 11:18:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193613
 
---000000000000b70ce7060ee41e2e
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Branch: master
 
-On Thu, Jan 11, 2024 at 2:54=E2=80=AFPM Sundeep KOKKONDA via lists.openembe=
-dded.org
-<sundeep.kokkonda=3Dwindriver.com@lists.openembedded.org> wrote:
->
-> On Tue, Jan 2, 2024 at 02:54 PM, Alex Kiernan wrote:
->
-> Closing this off - for whatever reason the buildpaths check wasn't
-> getting run when I was testing stuff, so what I thought was a fix,
-> wasn't.
->
-> Hello Alex,
->
-> Are you working on fixing this issue?
->
+New this week: 4 CVEs
+CVE-2023-6270 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6270 *
+CVE-2023-6693 (CVSS3: 5.3 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6693 *
+CVE-2023-6992 (CVSS3: 5.5 MEDIUM): zlib:zlib-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6992 *
+CVE-2024-0193 (CVSS3: 6.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0193 *
 
-I'm not at the moment and I don't think I've anything useful as a direction
-at this point.
+Removed this week: 3 CVEs
+CVE-2023-0687 (CVSS3: 9.8 CRITICAL): glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0687 *
+CVE-2023-5156 (CVSS3: 7.5 HIGH): glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5156 *
+CVE-2023-6918 (CVSS3: 5.3 MEDIUM): libssh2:libssh2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6918 *
 
->
-> Thanks,
-> Sundeep K.
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#193545):
-https://lists.openembedded.org/g/openembedded-core/message/193545
-> Mute This Topic: https://lists.openembedded.org/mt/103433093/3618097
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-alex.kiernan@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Full list:  Found 41 unpatched CVEs
+CVE-2019-14899 (CVSS3: 7.4 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
+CVE-2021-3714 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
+CVE-2021-3864 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
+CVE-2022-0400 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
+CVE-2022-1247 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
+CVE-2022-3219 (CVSS3: 3.3 LOW): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3219 *
+CVE-2022-36402 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-36402 *
+CVE-2022-38096 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
+CVE-2022-4543 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
+CVE-2022-46456 (CVSS3: 6.1 MEDIUM): nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46456 *
+CVE-2023-1386 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1386 *
+CVE-2023-25584 (CVSS3: 7.1 HIGH): binutils:binutils-cross-testsuite:binutils-cross-x86_64:binutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-25584 *
+CVE-2023-3019 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3019 *
+CVE-2023-3397 (CVSS3: 6.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
+CVE-2023-3640 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
+CVE-2023-38559 (CVSS3: 5.5 MEDIUM): ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38559 *
+CVE-2023-4010 (CVSS3: 4.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
+CVE-2023-4039 (CVSS3: 4.8 MEDIUM): gcc:gcc-cross-x86_64:gcc-runtime:gcc-sanitizers:libgcc:libgcc-initial https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4039 *
+CVE-2023-42363 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42363 *
+CVE-2023-42364 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42364 *
+CVE-2023-42365 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42365 *
+CVE-2023-42366 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42366 *
+CVE-2023-46407 (CVSS3: 5.5 MEDIUM): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-46407 *
+CVE-2023-48795 (CVSS3: 5.9 MEDIUM): libssh2:libssh2-native:openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-48795 *
+CVE-2023-5088 (CVSS3: 7.0 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5088 *
+CVE-2023-51384 (CVSS3: 5.5 MEDIUM): openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51384 *
+CVE-2023-51385 (CVSS3: 6.5 MEDIUM): openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51385 *
+CVE-2023-51767 (CVSS3: 7.0 HIGH): openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51767 *
+CVE-2023-5574 (CVSS3: 7.0 HIGH): xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5574 *
+CVE-2023-6228 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6228 *
+CVE-2023-6238 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
+CVE-2023-6270 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6270 *
+CVE-2023-6377 (CVSS3: 7.8 HIGH): xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6377 *
+CVE-2023-6478 (CVSS3: 7.5 HIGH): xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6478 *
+CVE-2023-6606 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6606 *
+CVE-2023-6610 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6610 *
+CVE-2023-6679 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6679 *
+CVE-2023-6693 (CVSS3: 5.3 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6693 *
+CVE-2023-6992 (CVSS3: 5.5 MEDIUM): zlib:zlib-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6992 *
+CVE-2023-7042 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-7042 *
+CVE-2024-0193 (CVSS3: 6.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0193 *
 
---000000000000b70ce7060ee41e2e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><br>
-<br>
-On Thu, Jan 11, 2024 at 2:54=E2=80=AFPM Sundeep KOKKONDA via <a href=3D"htt=
-p://lists.openembedded.org" rel=3D"noreferrer noreferrer" target=3D"_blank"=
->lists.openembedded.org</a> &lt;sundeep.kokkonda=3D<a href=3D"mailto:windri=
-ver.com@lists.openembedded.org" target=3D"_blank" rel=3D"noreferrer">windri=
-ver.com@lists.openembedded.org</a>&gt; wrote:<br>
-&gt;<br>
-&gt; On Tue, Jan 2, 2024 at 02:54 PM, Alex Kiernan wrote:<br>
-&gt;<br>
-&gt; Closing this off - for whatever reason the buildpaths check wasn&#39;t=
-<br>
-&gt; getting run when I was testing stuff, so what I thought was a fix,<br>
-&gt; wasn&#39;t.<br>
-&gt;<br>
-&gt; Hello Alex,<br>
-&gt;<br>
-&gt; Are you working on fixing this issue?<br>
-&gt;<br>
-<br>
-I&#39;m not at the moment and I don&#39;t think I&#39;ve anything useful as=
- a direction at this point.<br>
-<br>
-&gt;<br>
-&gt; Thanks,<br>
-&gt; Sundeep K.<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; Links: You receive all messages sent to this group.<br>
-&gt; View/Reply Online (#193545): <a href=3D"https://lists.openembedded.org=
-/g/openembedded-core/message/193545" rel=3D"noreferrer noreferrer" target=
-=3D"_blank">https://lists.openembedded.org/g/openembedded-core/message/1935=
-45</a><br>
-&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/10343309=
-3/3618097" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.op=
-enembedded.org/mt/103433093/3618097</a><br>
-&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
-edded.org" target=3D"_blank" rel=3D"noreferrer">openembedded-core+owner@lis=
-ts.openembedded.org</a><br>
-&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
-core/unsub" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.o=
-penembedded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kiern=
-an@gmail.com" target=3D"_blank" rel=3D"noreferrer">alex.kiernan@gmail.com</=
-a>]<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt;<br>
-<br>
-<br></div>
-
---000000000000b70ce7060ee41e2e--
+For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
