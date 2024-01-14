@@ -1,110 +1,151 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <alex.kiernan@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 147B4C47077
-	for <webhook@archiver.kernel.org>; Sun, 14 Jan 2024 05:58:56 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web10.34927.1705211928057427377
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4926CC4707B
+	for <webhook@archiver.kernel.org>; Sun, 14 Jan 2024 08:59:57 +0000 (UTC)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+ by mx.groups.io with SMTP id smtpd.web10.36169.1705222793698134680
  for <openembedded-core@lists.openembedded.org>;
- Sat, 13 Jan 2024 21:58:48 -0800
+ Sun, 14 Jan 2024 00:59:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=G3D+GbzL;
- spf=pass (domain: gmail.com, ip: 209.85.214.179, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1d3e84fded7so42675115ad.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 13 Jan 2024 21:58:47 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=kQQo8Phy;
+ spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-50eabfac2b7so9042152e87.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 14 Jan 2024 00:59:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705211927; x=1705816727; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qF2vs2a4MByypt6NFd15AXrSVbBL83g5+mjyvvMFmkU=;
-        b=G3D+GbzLsC9lCwscUUR57PqjL+3N2MQZ/gOSBRkz69GSzB5hvL34LBuNK1XOvImUQd
-         nDYivWusCpNDLcIfHEoymZN7/aBEQQ1kJ3ryI9MPnCEXZwqN5yp5GIM/o8fJaYHJ2WiR
-         imcSatYe8l3Ux7PhMpXumCHRZOLrH3FsDFCtbxuFJEBu9+2NPkkryIL4qUqVGPWfwJSd
-         xRJSz+rUciu6bjcN/9enF4voWkuAH4oMFut5nDsZIdBBdgKtEgzbjpv7+/Yfc0YR3GzS
-         5IZiFcxCfiSx+Dj/Xwtv8YI4NHl09fjUe0QqXn/k7Wk/YD1/nuMiap38GGnRkIyuwpI2
-         ciDg==
+        d=gmail.com; s=20230601; t=1705222791; x=1705827591; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Cs8tDAXln40dIeZjBJSFAFLSIS/4dyr46px62HHzUso=;
+        b=kQQo8PhySwFCn8AFcLmrGWCpAxWNO9Tkpy2/TiNv1cFAyr/KHzjjW0i85RLH+V9NP2
+         2VZhyFvkLUiq9+Etv3u315dzLfkoetodAEK0Nq46uf5gJ3izztXsHZBgQAsBTVbdGmPV
+         Kr9fP9K783QTxVByaeXjmMqRdzlx6frvV7qylFi4sP1HhotLVCnM07vt/UfC+CgxOXgk
+         URGG2TSqZq39T5F5i5LMqKK47UlRwziYRoOS46pnU1qzZcsYIJWYZZeB1/t5Ek/zwOnb
+         Zg402ZM1MAGpnr5q9yGMb92teUVdzgdDX9/ni/85yTbe76xB/Wwfl8L3D/f0/z5oAaZf
+         cf/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705211927; x=1705816727;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1705222791; x=1705827591;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=qF2vs2a4MByypt6NFd15AXrSVbBL83g5+mjyvvMFmkU=;
-        b=w9lxycSEOtiLCYFCNQx+8XtHL8uiic1E+eEHgqT9PpbWOmMpTfHfR0Dpf+/m6+Gus1
-         z1NzYG8UiNzK0GzguOZkl/x0UBW/uIk8F6ZX3B+jZAGSUQR/SGg+OetNuLUZCjv3on0E
-         FldodHJgKrfOHkDMORvbpAMtilFvRI94sH/gu7FV8jUlbY6n0Q9oD7LTXb7Vdh+sdkbJ
-         xA+NAgIV/c6dLI3VmrY2M3gCl967wpIctNVKaFAyxpWTMpWQBrWlBGMa7816pWJIWXH+
-         kQsT29BRpSugH490TBMe9LqxG5Jydsv9DJfukPznzGByZznSL1PDEwcI6RBD+/PLbMb4
-         QUcA==
-X-Gm-Message-State: AOJu0YxvSVqgpW4Ddi5LnbTe5ybGPHnZaGpliwylhbAydFqHCuxqh3d4
-	H3Rv245AswhBBxt6bfI+lyYA81bcdhzWxA==
-X-Google-Smtp-Source: AGHT+IG6d7E/7pM9nI7uebLCSHB+5DHOAPxXH4UU2mqVBsar11tYHrvd/Crwi1SZX3QrXosMSaI7KQ==
-X-Received: by 2002:a17:902:f684:b0:1d4:ccfd:9cc9 with SMTP id l4-20020a170902f68400b001d4ccfd9cc9mr2350220plg.36.1705211927110;
-        Sat, 13 Jan 2024 21:58:47 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::3648])
-        by smtp.gmail.com with ESMTPSA id d19-20020a170903209300b001d0c151d325sm3497244plc.209.2024.01.13.21.58.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Jan 2024 21:58:46 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] rust: Use llvm-config from native llvm-rust on rust target builds
-Date: Sat, 13 Jan 2024 21:58:44 -0800
-Message-ID: <20240114055844.2301337-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=Cs8tDAXln40dIeZjBJSFAFLSIS/4dyr46px62HHzUso=;
+        b=vOsGPh4NgpA1XCaITakAxBheRfmcsaaIGzXfAr/leBoTCMkaWoqALuUH1G9BI4qEsS
+         3RN4iMc+LUhemnpDq2KEWxeJS7RT2lshZdF1STEDipJxkdzirtKrYVAArK4cPp1BFD2J
+         aYtmN23AQtB794cfHU8z9RpidBF9/Y1ybRJ0uuPPfs79rhSlQ60kZlUS9RC7LwdO4jMt
+         uGdqdTjqNRJ0uNzfmWDWt248K+T+Hhl/Hq9Gbv2cN6FMcaahf0g5tQtO4rRZctyYWQC0
+         6+PRw3un9Cp5T4gsBbpa222mZ7725JwH9AUGbG2UGFT3hCY+SlP6txZsevNk9Pumgp3j
+         bU6g==
+X-Gm-Message-State: AOJu0YymL3I9SkLhOB3v4PYdHymZfilA5E5SMqmv1OWzdDHWhP6g7TTd
+	BX4lSGthMr7AEAPHxArLZFd249xuha1iZ3JEteo=
+X-Google-Smtp-Source: AGHT+IFpAdeCswreihIN5nlL88oZN09F4Ivk5LXdfo5mMjW//wUu2gdwDK9ir3Hdi9+AyXPxCF51PHhJO6tYFr6YNSY=
+X-Received: by 2002:a05:6512:2383:b0:50e:4316:4a1e with SMTP id
+ c3-20020a056512238300b0050e43164a1emr2196861lfv.15.1705222790908; Sun, 14 Jan
+ 2024 00:59:50 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAO5Uq5TfNcuKkYX2krym5uN5t+ThbQ29Y8gfhq9kmLwYyHXfjQ@mail.gmail.com>
+ <26286.1704984874999023341@lists.openembedded.org>
+In-Reply-To: <26286.1704984874999023341@lists.openembedded.org>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Sun, 14 Jan 2024 08:59:39 +0000
+Message-ID: <CAO5Uq5QH_HdAJK-x83BVj_B99_Fhnmu57CoNTC0K7_hZB3B4yg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 4/4] rust: Upgrade 1.74.1 -> 1.75.0
+To: "Kokkonda, Sundeep" <sundeep.kokkonda@windriver.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000b70ce7060ee41e2e"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 14 Jan 2024 05:58:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193611
+ <openembedded-core@lists.openembedded.org>; Sun, 14 Jan 2024 08:59:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193612
 
-target rust recipe builds ( cross compile ) calls llvm-config from
-target sysroot which works ok as long as C++ runtime it needs is
-available on build host e.g. libstdc++ etc. which is commonly the
-case, however when using clang and llvm runtime this falters since
-it should be using libc++ from native sysroot and if this does not
-exist on build machine this fails to find libc++ shared object and
-llvm-config fails to run. This ensures that llvm-config version in
-use is correctly relocated and can use shared libraries from native
-sysroot correctly. Adding ORIGIN to sysroot will look for the .so in
-same dir as the binary and there is the libc++.so.1 copied in place
+--000000000000b70ce7060ee41e2e
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Fixes rust build with clang compiler.
+On Thu, Jan 11, 2024 at 2:54=E2=80=AFPM Sundeep KOKKONDA via lists.openembe=
+dded.org
+<sundeep.kokkonda=3Dwindriver.com@lists.openembedded.org> wrote:
+>
+> On Tue, Jan 2, 2024 at 02:54 PM, Alex Kiernan wrote:
+>
+> Closing this off - for whatever reason the buildpaths check wasn't
+> getting run when I was testing stuff, so what I thought was a fix,
+> wasn't.
+>
+> Hello Alex,
+>
+> Are you working on fixing this issue?
+>
 
-| /mnt/b/yoe/master/build/tmp/work/riscv64-yoe-linux/rust/1.74.1/recipe-sysroot/usr/lib/llvm-rust/bin/llvm-config: error while loading shared libraries: libc++.so.1: cannot open shared object file: No such file or director
-y
-| thread 'main' panicked at llvm.rs:551:19:
-| command did not execute successfully: "/mnt/b/yoe/master/build/tmp/work/riscv64-yoe-linux/rust/1.74.1/recipe-sysroot/usr/lib/llvm-rust/bin/llvm-config" "--version"
-| expected success, got: exit status: 127
+I'm not at the moment and I don't think I've anything useful as a direction
+at this point.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/rust/rust_1.74.1.bb | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+>
+> Thanks,
+> Sundeep K.
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#193545):
+https://lists.openembedded.org/g/openembedded-core/message/193545
+> Mute This Topic: https://lists.openembedded.org/mt/103433093/3618097
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+alex.kiernan@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
-diff --git a/meta/recipes-devtools/rust/rust_1.74.1.bb b/meta/recipes-devtools/rust/rust_1.74.1.bb
-index 30543ada7db..2dffe009827 100644
---- a/meta/recipes-devtools/rust/rust_1.74.1.bb
-+++ b/meta/recipes-devtools/rust/rust_1.74.1.bb
-@@ -198,9 +198,13 @@ rust_runx () {
-     # Copy the natively built llvm-config into the target so we can run it. Horrible,
-     # but works!
-     if [ ${RUST_ALTERNATE_EXE_PATH_NATIVE} != ${RUST_ALTERNATE_EXE_PATH} -a ! -f ${RUST_ALTERNATE_EXE_PATH} ]; then
--        mkdir -p `dirname ${RUST_ALTERNATE_EXE_PATH}`
-+        tgtdir=`dirname ${RUST_ALTERNATE_EXE_PATH}`
-+        mkdir -p ${tgtdir}
-         cp ${RUST_ALTERNATE_EXE_PATH_NATIVE} ${RUST_ALTERNATE_EXE_PATH}
--        chrpath -d ${RUST_ALTERNATE_EXE_PATH}
-+        if [ -e ${STAGING_LIBDIR_NATIVE}/libc++.so.1 ]; then
-+            cp ${STAGING_LIBDIR_NATIVE}/libc++.so.1 ${tgtdir}/
-+        fi
-+        chrpath -r \$ORIGIN ${RUST_ALTERNATE_EXE_PATH}
-     fi
- 
-     oe_cargo_fix_env
--- 
-2.43.0
+--000000000000b70ce7060ee41e2e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"auto"><br>
+<br>
+On Thu, Jan 11, 2024 at 2:54=E2=80=AFPM Sundeep KOKKONDA via <a href=3D"htt=
+p://lists.openembedded.org" rel=3D"noreferrer noreferrer" target=3D"_blank"=
+>lists.openembedded.org</a> &lt;sundeep.kokkonda=3D<a href=3D"mailto:windri=
+ver.com@lists.openembedded.org" target=3D"_blank" rel=3D"noreferrer">windri=
+ver.com@lists.openembedded.org</a>&gt; wrote:<br>
+&gt;<br>
+&gt; On Tue, Jan 2, 2024 at 02:54 PM, Alex Kiernan wrote:<br>
+&gt;<br>
+&gt; Closing this off - for whatever reason the buildpaths check wasn&#39;t=
+<br>
+&gt; getting run when I was testing stuff, so what I thought was a fix,<br>
+&gt; wasn&#39;t.<br>
+&gt;<br>
+&gt; Hello Alex,<br>
+&gt;<br>
+&gt; Are you working on fixing this issue?<br>
+&gt;<br>
+<br>
+I&#39;m not at the moment and I don&#39;t think I&#39;ve anything useful as=
+ a direction at this point.<br>
+<br>
+&gt;<br>
+&gt; Thanks,<br>
+&gt; Sundeep K.<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; Links: You receive all messages sent to this group.<br>
+&gt; View/Reply Online (#193545): <a href=3D"https://lists.openembedded.org=
+/g/openembedded-core/message/193545" rel=3D"noreferrer noreferrer" target=
+=3D"_blank">https://lists.openembedded.org/g/openembedded-core/message/1935=
+45</a><br>
+&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/10343309=
+3/3618097" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.op=
+enembedded.org/mt/103433093/3618097</a><br>
+&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
+edded.org" target=3D"_blank" rel=3D"noreferrer">openembedded-core+owner@lis=
+ts.openembedded.org</a><br>
+&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
+core/unsub" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.o=
+penembedded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kiern=
+an@gmail.com" target=3D"_blank" rel=3D"noreferrer">alex.kiernan@gmail.com</=
+a>]<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt;<br>
+<br>
+<br></div>
+
+--000000000000b70ce7060ee41e2e--
 
