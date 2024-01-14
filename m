@@ -2,57 +2,57 @@ Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D557C47DA9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BADFC47DAF
 	for <webhook@archiver.kernel.org>; Sun, 14 Jan 2024 22:14:51 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web11.51506.1705270483822562154
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web10.52021.1705270490474785856
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Jan 2024 14:14:44 -0800
+ Sun, 14 Jan 2024 14:14:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=QZ3F08DQ;
- spf=pass (domain: gmail.com, ip: 209.85.128.50, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-40e775695c6so3928895e9.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 14 Jan 2024 14:14:43 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=OBoq55A6;
+ spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-40e7c09f0fcso687585e9.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 14 Jan 2024 14:14:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705270482; x=1705875282; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1705270489; x=1705875289; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=v9nEmZRmXAXgJYwk+3uizUuvD61oxAZpP1cypbq4aKU=;
-        b=QZ3F08DQwLKZKwQqT+5V75dtenjEpWZ26spthuAJ0eDGs7MXDO4xv0hraZbI2wpE1/
-         wBHazNYfdBwm9R1GAsZHxvPaRTmpOvSYZXtx6ibPbmZBt2W9l+KwGzQXgMIpkVAM98J/
-         QbgAAZe9/TtRSyA1gEgMJeii6V3f7CYRrdU/IMAxIpBOfrRQqBolXsYpFbRpCtIeDyje
-         5hCql4hhlIJP1ycISkwiwh7TS+6p4121GKh59ze0IcOViUKh8trRBeqOmOK1izcKszlR
-         CEUt/QM/EgAROM06psteblxRG7HFk682EMUVW3rsrby8p7Y2gZMUe/Vxhym9A+B0AsaS
-         fJ+w==
+        bh=s8VEseN/IW3LjI0L9LLd+eKLJ2pFK4iV91KX/GdvnF0=;
+        b=OBoq55A6fjsv9m2JG1NfPH85ijkpKPXm4h8Jc8zy3Uq8w4rYa6ksoFpEfU5aeOPigu
+         27MgVnoXcuqpAG533vw8UnFymFJW8CeXaODbXR7yOnDY5POetes6jINu+MMsRaBAGF98
+         YcFDXdK0G04AmcjUw+9tynEOK7mMBCAutPnnxRomwSmZlvd560udu0PAL2QT5KwCyEmy
+         I4prNBvvNmmCkJA5LftkJueLuhh4a9efQb+LShRzevlgqFhf5EXywrbqWnVH+uBlTtbQ
+         Iee6SU48dvKE5lJZ9VMl4Qlk/DP7J+D+JpE66i97oDTvieWmA6QJgTJb1gsrunZgehLV
+         P4GA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705270482; x=1705875282;
+        d=1e100.net; s=20230601; t=1705270489; x=1705875289;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=v9nEmZRmXAXgJYwk+3uizUuvD61oxAZpP1cypbq4aKU=;
-        b=hHHH8qkSQGqIbqSzuXojmxQkcgejrzpxqVzWEqk/slTXWl3McJL6NlwJd5RtC/b2iW
-         2yCxGiil/bg91EMudPeycRSCLRNyuc78eP2mG6lfu6VeCCHAofQgcOZpTw40Le8zQrY0
-         dgGCAeaZ1Cqt3SaYe581+7FlXUXhyhCCLRr3yH64npemGZfhr+V1g5I9WIHFlrBeiuqm
-         lkSWp4aAqWcE824VztUgXb+Hq7O1AuPU+vlgj/BXTbWmilMmNwtKdSgTgdkldo5qncO8
-         qVhgwD9iatt9VEM4diKJacLzeMFqr4qjh5DDfjE13S10woOuHH+iAVVsgmsAzqHD4qea
-         VLmA==
-X-Gm-Message-State: AOJu0Yy6e6As3ckDH84SJ19PnBVZD77nvrxGaudxhv2njWD2BiGokPLD
-	tkPm1D4PVA2cjEN/DWnRQs7RNaO4QpA=
-X-Google-Smtp-Source: AGHT+IGXrWNyF9wLL+KVI4e/Hqznju4aGxV/xaIn5WS9ZQ+rV8RjzOvJ+B1VJhes9nZEe1MSQNVYYQ==
-X-Received: by 2002:a05:600c:3147:b0:40e:4338:79cc with SMTP id h7-20020a05600c314700b0040e433879ccmr2845770wmo.8.1705270481878;
-        Sun, 14 Jan 2024 14:14:41 -0800 (PST)
+        bh=s8VEseN/IW3LjI0L9LLd+eKLJ2pFK4iV91KX/GdvnF0=;
+        b=wUZT54yN8T7hw+WPxajnpBfbf4mnF1sRm0vooGIIS6sPOcZ+69Rhut/Qyj5YrKvGGT
+         8HyFL5BKMjYTeuhas224txA79vGOr6LnhZzrq5XejXokQGo1CEFKMiPuxciVbH0x1PT2
+         6MTmTN8VzSjzxujV2vPLVC/H2Nk29+aHfC3DsLpkl4646I0z1w26af7O/8sCQJ9yhdXL
+         5uD6VgqJlL3SNi6PAsMv5HavZ83aEviLF2MIoaCWHDWnkSOJCDVy73TtUIDj1mKY5KRP
+         f8CXPsiSJ2ImiLEjHEMNpXH2H2WDwjBCZyK6jxE7kUkJl0tV3EEvatj0/Pu0FMcFqH8w
+         XkgA==
+X-Gm-Message-State: AOJu0YwtyaLUjxzVNOfSJkKIBILHK/ij9iOebCGQRjlD03lmkjtnHvwX
+	4yHjGMlGEHCcvUMOwVjZdMGbNnJBUSU=
+X-Google-Smtp-Source: AGHT+IEFaOKgrShbgNU8iFjSj2NUUARZEOpSxeRpaa/MAP/fjovSYytuG6tJlNKmoDcZIg71ioerCw==
+X-Received: by 2002:a05:600c:81b:b0:40e:44a9:5664 with SMTP id k27-20020a05600c081b00b0040e44a95664mr2300412wmp.231.1705270488540;
+        Sun, 14 Jan 2024 14:14:48 -0800 (PST)
 Received: from wsadrian16.fritz.box ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id t21-20020a05600c451500b0040e3ac9f4c8sm17451943wmo.28.2024.01.14.14.14.40
+        by smtp.gmail.com with ESMTPSA id t21-20020a05600c451500b0040e3ac9f4c8sm17451943wmo.28.2024.01.14.14.14.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Jan 2024 14:14:41 -0800 (PST)
+        Sun, 14 Jan 2024 14:14:47 -0800 (PST)
 From: Adrian Freihofer <adrian.freihofer@gmail.com>
 X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v9 1/9] cmake.bbclass: use --install
-Date: Sun, 14 Jan 2024 23:14:13 +0100
-Message-ID: <20240114221437.1255866-2-adrian.freihofer@siemens.com>
+Subject: [PATCH v9 8/9] devtool: ide-sdk make deploy-target quicker
+Date: Sun, 14 Jan 2024 23:14:20 +0100
+Message-ID: <20240114221437.1255866-9-adrian.freihofer@siemens.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240114221437.1255866-1-adrian.freihofer@siemens.com>
 References: <20240114221437.1255866-1-adrian.freihofer@siemens.com>
@@ -62,59 +62,88 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 14 Jan 2024 22:14:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193619
-
-Since version 3.15 CMake provides a command-line signature to install an
-already-generated project binary tree. This may be used after building a
-project to run installation without using the generated build system or
-the native build tool.
-
-This is a small improvement, for regular bitbake calls. CMake does not
-check the dependencies again which is expected to be faster.
-
-The main motivation for this change is using CMake from an SDK context.
-With this change it is possible to initiate the compile step from an
-IDE and later on initiating the install step via bitbake which runs the
-install step on pseudo.
-
-This is also what the meson.bbclass already does with the --no-rebuild
-option.
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193626
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/classes-recipe/cmake.bbclass | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+ scripts/lib/devtool/ide_sdk.py | 43 ++++++++++++++++++++++++++++++----
+ 1 file changed, 38 insertions(+), 5 deletions(-)
 
-diff --git a/meta/classes-recipe/cmake.bbclass b/meta/classes-recipe/cmake.bbclass
-index d978b889440..ff96f61c0eb 100644
---- a/meta/classes-recipe/cmake.bbclass
-+++ b/meta/classes-recipe/cmake.bbclass
-@@ -222,12 +222,24 @@ cmake_runcmake_build() {
- 	eval ${DESTDIR:+DESTDIR=${DESTDIR} }${CMAKE_VERBOSE} cmake --build '${B}' "$@" -- ${EXTRA_OECMAKE_BUILD}
- }
+diff --git a/scripts/lib/devtool/ide_sdk.py b/scripts/lib/devtool/ide_sdk.py
+index 8c9ed3a2217..5eea039395c 100755
+--- a/scripts/lib/devtool/ide_sdk.py
++++ b/scripts/lib/devtool/ide_sdk.py
+@@ -13,6 +13,7 @@ import re
+ import shutil
+ import stat
+ import subprocess
++import sys
+ from argparse import RawTextHelpFormatter
+ from enum import Enum
  
-+# Install an already-generated project binary tree. Not checking the compile
-+# dependencies again is particularly important for SDK use cases.
-+cmake_runcmake_install() {
-+	bbnote ${DESTDIR:+DESTDIR=${DESTDIR} }${CMAKE_VERBOSE} cmake --install '${B}'
-+	eval ${DESTDIR:+DESTDIR=${DESTDIR} }${CMAKE_VERBOSE} cmake --install '${B}'
-+}
+@@ -20,7 +21,7 @@ import scriptutils
+ import bb
+ from devtool import exec_build_env_command, setup_tinfoil, check_workspace_recipe, DevtoolError, parse_recipe
+ from devtool.standard import get_real_srctree
+-from devtool.ide_plugins import BuildTool, get_devtool_deploy_opts
++from devtool.ide_plugins import BuildTool
+ 
+ 
+ logger = logging.getLogger('devtool')
+@@ -742,6 +743,39 @@ class RecipeModified:
+ 
+         return self.write_script(cmd_lines, 'delete_package_dirs')
+ 
++    def gen_deploy_target_script(self, args):
++        """Generate a script which does what devtool deploy-target does
 +
- cmake_do_compile()  {
- 	cmake_runcmake_build --target ${OECMAKE_TARGET_COMPILE}
- }
++        This script is much quicker than devtool target-deploy. Because it
++        does not need to start a bitbake server. All information from tinfoil
++        is hard-coded in the generated script.
++        """
++        cmd_lines = ['#!/usr/bin/env python3']
++        cmd_lines.append('import sys')
++        cmd_lines.append('devtool_sys_path = %s' % str(sys.path))
++        cmd_lines.append('devtool_sys_path.reverse()')
++        cmd_lines.append('for p in devtool_sys_path:')
++        cmd_lines.append('    if p not in sys.path:')
++        cmd_lines.append('        sys.path.insert(0, p)')
++        cmd_lines.append('from devtool.deploy import deploy_no_d')
++        args_filter = ['debug', 'dry_run', 'key', 'no_check_space', 'no_host_check',
++                       'no_preserve', 'port', 'show_status', 'ssh_exec', 'strip', 'target']
++        filtered_args_dict = {key: value for key, value in vars(
++            args).items() if key in args_filter}
++        cmd_lines.append('filtered_args_dict = %s' % str(filtered_args_dict))
++        cmd_lines.append('class Dict2Class(object):')
++        cmd_lines.append('    def __init__(self, my_dict):')
++        cmd_lines.append('        for key in my_dict:')
++        cmd_lines.append('            setattr(self, key, my_dict[key])')
++        cmd_lines.append('filtered_args = Dict2Class(filtered_args_dict)')
++        cmd_lines.append(
++            'setattr(filtered_args, "recipename", "%s")' % self.bpn)
++        cmd_lines.append('deploy_no_d("%s", "%s", "%s", "%s", "%s", "%s", %d, "%s", "%s", filtered_args)' %
++                         (self.d, self.workdir, self.path, self.strip_cmd,
++                          self.libdir, self.base_libdir, self.max_process,
++                          self.fakerootcmd, self.fakerootenv))
++        return self.write_script(cmd_lines, 'deploy_target')
++
+     def gen_install_deploy_script(self, args):
+         """Generate a script which does install and deploy"""
+         cmd_lines = ['#!/bin/sh -e']
+@@ -757,10 +791,9 @@ class RecipeModified:
+         # bitbake -c install
+         cmd_lines.append("bitbake %s -c install" % self.bpn)
  
- cmake_do_install() {
--	DESTDIR='${D}' cmake_runcmake_build --target ${OECMAKE_TARGET_INSTALL}
-+	if [ "${OECMAKE_TARGET_INSTALL}" = "install" ]; then
-+		DESTDIR='${D}' cmake_runcmake_install
-+	else
-+		# Legacy path which supports also custom install targets
-+		DESTDIR='${D}' cmake_runcmake_build --target ${OECMAKE_TARGET_INSTALL}
-+	fi
- }
+-        # devtool deploy-target
+-        deploy_opts = ' '.join(get_devtool_deploy_opts(args))
+-        cmd_lines.append("devtool deploy-target %s %s" %
+-                         (self.bpn, deploy_opts))
++        # Self contained devtool deploy-target
++        cmd_lines.append(self.gen_deploy_target_script(args))
++
+         return self.write_script(cmd_lines, 'install_and_deploy')
  
- EXPORT_FUNCTIONS do_configure do_compile do_install do_generate_toolchain_file
+     def write_script(self, cmd_lines, script_name):
 -- 
 2.43.0
 
