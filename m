@@ -1,259 +1,270 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 420A7C3DA79
-	for <webhook@archiver.kernel.org>; Mon, 15 Jan 2024 16:56:27 +0000 (UTC)
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
- by mx.groups.io with SMTP id smtpd.web11.86901.1705337778040330644
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E4EAC3DA79
+	for <webhook@archiver.kernel.org>; Mon, 15 Jan 2024 16:59:07 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+ by mx.groups.io with SMTP id smtpd.web10.87423.1705337942590961524
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jan 2024 08:56:18 -0800
+ Mon, 15 Jan 2024 08:59:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=mYep4h2D;
- spf=pass (domain: gmail.com, ip: 209.85.210.41, mailfrom: raj.khem@gmail.com)
-Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-6dddb927d02so4379600a34.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jan 2024 08:56:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705337777; x=1705942577; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=nV5rx9bPMrre2nbqV0UrBuOWggy5Y5GpfDD0NexUd0A=;
-        b=mYep4h2DkBnQOcdmW5xCypwB48HFxFQ4trMAQb/7V/9YF024tlnRpBEDnjSpn+zhZn
-         0+ESM2uwJ3D4b6c0GAtBRucRhLLU1boZzzSjfbA66ka88FrD8aOzcAuGsav3eVZzgJPO
-         sc55HcVG2yXB9FyFxIWZZ9xoMJ1AaX5rvQzlFwBIr3uDYtzawNwMls5xCtYd7zAILiGC
-         pwFLCM+qsjWdq4ejNwpvwDw2jnnqMHlkZ9v889doK/bsfcBNJvxX1jKVVsWePed5efJY
-         qM7xRbClDRo9GZHWuLIzV6d1w4HRlLM3qBzq0ppme3mNQbxK0AsN40kSnREJtsDurwfJ
-         du3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705337777; x=1705942577;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nV5rx9bPMrre2nbqV0UrBuOWggy5Y5GpfDD0NexUd0A=;
-        b=d+k9rXaSd79H0nQ74vAP2ALFs+d/LERuzrJzzm95G8X1TT24+B3ckoFwxpbSC0a1BQ
-         zR4gBX0cANLNqSfx9Zqiyq74CkQm/fk2l1FHsEfcMfiLYIQ0fB7EdYi3fxi2oVGqI1uo
-         LYgJPeQqub4S8ff/8clrZpkgOEn6xhq10Dfc2eblzzlZpE/C+sNX1TA94SC9372qwOQw
-         hg7TZMSHWsweR48MU7pb3MBLITYmNPBTFOjyf1B/rG4zDL4GkLdBtQm2sBW4eKRPPfxW
-         XulVQ3e0i4MgyUvk1cyX0GTpC/34Rei9X/T0mPShrcV0cXgSTx/+oLlmlQ+/PfFjIbhp
-         gMcw==
-X-Gm-Message-State: AOJu0YxR2YYY9uIhHhuti2TkasVvD/S//dkJ7wF52PdArpGezhXrg5h0
-	cqxVzbJiJmgCDtcu7NPEVqTzT1AP6G8BqaK7NKj8INCKfmQ=
-X-Google-Smtp-Source: AGHT+IEU2rEHwuqV88LO2hDejCAPC6HGGJTXAmEZEtKNQzZkd21yx52fdjXTlaNPB60u1QpCxlyPASCD/8S038h6Oek=
-X-Received: by 2002:a05:6870:1711:b0:203:c927:474d with SMTP id
- h17-20020a056870171100b00203c927474dmr9788061oae.75.1705337777253; Mon, 15
- Jan 2024 08:56:17 -0800 (PST)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=czTMfjqy;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 63550240004;
+	Mon, 15 Jan 2024 16:59:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1705337940;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XFvH8VshXYlaVRd5zl72Xkc3At76KeQ9APL9NJ/pdfQ=;
+	b=czTMfjqy+Yj0PwaawpDfznLrPb9r1HH4R7M6fBqAeGg1QYssbBoXN2PXEaiBggAtuxLMVY
+	eeg2W+PH/JKLzeHMzZFmi7HKDmjKw6sY3Xw062rHLK60Bn+UIXIrt2eENLWT3DnW+8QdAI
+	r7jaS6BTH7Y2J42eeZZbb2qF19JdMK42dTa/1uqePSRKmkdCEZY3d99jh15pSY+6dno/hl
+	Hh3Amr2X57L0gebVWdgsZjNbfHbHF+2mdQ1d/lacWftt32fXTkk01VCGnv+UJerDz05wi5
+	Or5vX7KWAZO3Fegp6BNRmIgLr1j9voHOXcj+DTG/ppbUOzOs7Nl04lxuKgLN5w==
+Date: Mon, 15 Jan 2024 17:58:59 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: randy.macleod@windriver.com
+Cc: openembedded-core@lists.openembedded.org, anuj.mittal@intel.com,
+	david.zuhn@sonos.com
+Subject: Re: [OE-core] [PATCH] rng-tools: move to meta-oe
+Message-ID: <20240115165859d332c9cb@mail.local>
+References: <20240110202501.1554379-1-Randy.MacLeod@windriver.com>
 MIME-Version: 1.0
-References: <20240114055844.2301337-1-raj.khem@gmail.com> <cd7e909003596bb4db2b3a946e2b846aad5e9de9.camel@linuxfoundation.org>
-In-Reply-To: <cd7e909003596bb4db2b3a946e2b846aad5e9de9.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 15 Jan 2024 08:56:06 -0800
-Message-ID: <CAMKF1sph2E72GXvpy43X9Ow+=PDk01F+465HRJ-Xa1ZxpFaQtw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] rust: Use llvm-config from native llvm-rust on
- rust target builds
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000006f72c3060efee408"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240110202501.1554379-1-Randy.MacLeod@windriver.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Jan 2024 16:56:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193690
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Jan 2024 16:59:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193691
 
---0000000000006f72c3060efee408
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This is breaking meta-agl-core until this gets into meta-oe:
 
-Hi
+https://autobuilder.yoctoproject.org/typhoon/#/builders/120/builds/3849/steps/14/logs/stdio
 
-On Mon, Jan 15, 2024 at 5:19=E2=80=AFAM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+On 10/01/2024 15:25:01-0500, Randy MacLeod via lists.openembedded.org wrote:
+> From: Randy MacLeod <Randy.MacLeod@windriver.com>
+> 
+> Nothing in oe-core depends on rng-tools anymore:
+>    e7e1bc43ca rng-tools: splitting the rng-tools systemd/sysvinit serivce as a package
+> so move it to meta-oe for people who still want to run rngd
+> as a service for some reason or for those who want to run rng-test.
+> 
+> Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+> ---
+>  meta/conf/distro/include/maintainers.inc      |  1 -
+>  .../rng-tools/rng-tools/default               |  1 -
+>  meta/recipes-support/rng-tools/rng-tools/init | 42 -----------
+>  .../rng-tools/rng-tools/rng-tools.service     | 32 ---------
+>  .../rng-tools/rng-tools_6.16.bb               | 69 -------------------
+>  5 files changed, 145 deletions(-)
+>  delete mode 100644 meta/recipes-support/rng-tools/rng-tools/default
+>  delete mode 100644 meta/recipes-support/rng-tools/rng-tools/init
+>  delete mode 100644 meta/recipes-support/rng-tools/rng-tools/rng-tools.service
+>  delete mode 100644 meta/recipes-support/rng-tools/rng-tools_6.16.bb
+> 
+> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+> index 8dc63b138e..31023021ac 100644
+> --- a/meta/conf/distro/include/maintainers.inc
+> +++ b/meta/conf/distro/include/maintainers.inc
+> @@ -739,7 +739,6 @@ RECIPE_MAINTAINER:pn-repo = "Unassigned <unassigned@yoctoproject.org>"
+>  RECIPE_MAINTAINER:pn-resolvconf = "Chen Qi <Qi.Chen@windriver.com>"
+>  RECIPE_MAINTAINER:pn-rgb = "Unassigned <unassigned@yoctoproject.org>"
+>  RECIPE_MAINTAINER:pn-rpcbind = "Hongxu Jia <hongxu.jia@windriver.com>"
+> -RECIPE_MAINTAINER:pn-rng-tools = "Anuj Mittal <anuj.mittal@intel.com>"
+>  RECIPE_MAINTAINER:pn-rpcsvc-proto = "Khem Raj <raj.khem@gmail.com>"
+>  RECIPE_MAINTAINER:pn-rpm = "Unassigned <unassigned@yoctoproject.org>"
+>  RECIPE_MAINTAINER:pn-rsync = "Yi Zhao <yi.zhao@windriver.com>"
+> diff --git a/meta/recipes-support/rng-tools/rng-tools/default b/meta/recipes-support/rng-tools/rng-tools/default
+> deleted file mode 100644
+> index b9f8e03635..0000000000
+> --- a/meta/recipes-support/rng-tools/rng-tools/default
+> +++ /dev/null
+> @@ -1 +0,0 @@
+> -EXTRA_ARGS="-r /dev/hwrng"
+> diff --git a/meta/recipes-support/rng-tools/rng-tools/init b/meta/recipes-support/rng-tools/rng-tools/init
+> deleted file mode 100644
+> index 13f0ecd37c..0000000000
+> --- a/meta/recipes-support/rng-tools/rng-tools/init
+> +++ /dev/null
+> @@ -1,42 +0,0 @@
+> -#!/bin/sh
+> -#
+> -# This is an init script for openembedded
+> -# Copy it to @SYSCONFDIR@/init.d/rng-tools and type
+> -# > update-rc.d rng-tools defaults 60
+> -#
+> -
+> -rngd=@SBINDIR@/rngd
+> -test -x "$rngd" || exit 1
+> -
+> -[ -r @SYSCONFDIR@/default/rng-tools ] && . "@SYSCONFDIR@/default/rng-tools"
+> -
+> -case "$1" in
+> -  start)
+> -    echo -n "Starting random number generator daemon"
+> -    start-stop-daemon -S -q -x $rngd -- $EXTRA_ARGS
+> -    echo "."
+> -    ;;
+> -  stop)
+> -    echo -n "Stopping random number generator daemon"
+> -    start-stop-daemon -K -q -n rngd
+> -    echo "."
+> -    ;;
+> -  reload|force-reload)
+> -    echo -n "Signalling rng daemon restart"
+> -    start-stop-daemon -K -q -s 1 -x $rngd
+> -    start-stop-daemon -K -q -s 1 -x $rngd
+> -    ;;
+> -  restart)
+> -    echo -n "Stopping random number generator daemon"
+> -    start-stop-daemon -K -q -n rngd
+> -    echo "."
+> -    echo -n "Starting random number generator daemon"
+> -    start-stop-daemon -S -q -x $rngd -- $EXTRA_ARGS
+> -    echo "."
+> -    ;;
+> -  *)
+> -    echo "Usage: @SYSCONFDIR@/init.d/rng-tools {start|stop|reload|restart|force-reload}"
+> -    exit 1
+> -esac
+> -
+> -exit 0
+> diff --git a/meta/recipes-support/rng-tools/rng-tools/rng-tools.service b/meta/recipes-support/rng-tools/rng-tools/rng-tools.service
+> deleted file mode 100644
+> index 5ae2fba215..0000000000
+> --- a/meta/recipes-support/rng-tools/rng-tools/rng-tools.service
+> +++ /dev/null
+> @@ -1,32 +0,0 @@
+> -[Unit]
+> -Description=Hardware RNG Entropy Gatherer Daemon
+> -DefaultDependencies=no
+> -Conflicts=shutdown.target
+> -Before=sysinit.target shutdown.target
+> -ConditionVirtualization=!container
+> -
+> -[Service]
+> -EnvironmentFile=-@SYSCONFDIR@/default/rng-tools
+> -ExecStart=@SBINDIR@/rngd -f $EXTRA_ARGS
+> -CapabilityBoundingSet=CAP_SYS_ADMIN
+> -IPAddressDeny=any
+> -LockPersonality=yes
+> -MemoryDenyWriteExecute=yes
+> -NoNewPrivileges=yes
+> -PrivateTmp=yes
+> -ProtectControlGroups=yes
+> -ProtectHome=yes
+> -ProtectHostname=yes
+> -ProtectKernelModules=yes
+> -ProtectKernelLogs=yes
+> -ProtectSystem=strict
+> -RestrictAddressFamilies=AF_UNIX
+> -RestrictNamespaces=yes
+> -RestrictRealtime=yes
+> -RestrictSUIDSGID=yes
+> -SystemCallArchitectures=native
+> -SystemCallErrorNumber=EPERM
+> -SystemCallFilter=@system-service
+> -
+> -[Install]
+> -WantedBy=sysinit.target
+> diff --git a/meta/recipes-support/rng-tools/rng-tools_6.16.bb b/meta/recipes-support/rng-tools/rng-tools_6.16.bb
+> deleted file mode 100644
+> index f0aa3ff93f..0000000000
+> --- a/meta/recipes-support/rng-tools/rng-tools_6.16.bb
+> +++ /dev/null
+> @@ -1,69 +0,0 @@
+> -SUMMARY = "Random number generator daemon"
+> -DESCRIPTION = "Check and feed random data from hardware device to kernel"
+> -HOMEPAGE = "https://github.com/nhorman/rng-tools"
+> -BUGTRACKER = "https://github.com/nhorman/rng-tools/issues"
+> -LICENSE = "GPL-2.0-only"
+> -LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+> -DEPENDS = "openssl libcap"
+> -
+> -SRC_URI = "git://github.com/nhorman/rng-tools.git;branch=master;protocol=https \
+> -           file://init \
+> -           file://default \
+> -           file://rng-tools.service \
+> -           "
+> -SRCREV = "e061c313b95890eb5fa0ada0cd6eec619dafdfe2"
+> -
+> -S = "${WORKDIR}/git"
+> -
+> -inherit autotools update-rc.d systemd pkgconfig
+> -
+> -EXTRA_OECONF = "--without-rtlsdr"
+> -
+> -PACKAGECONFIG ??= "libjitterentropy"
+> -PACKAGECONFIG:libc-musl = "libargp libjitterentropy"
+> -
+> -PACKAGECONFIG[libargp] = "--with-libargp,--without-libargp,argp-standalone,"
+> -PACKAGECONFIG[libjitterentropy] = "--enable-jitterentropy,--disable-jitterentropy,libjitterentropy"
+> -PACKAGECONFIG[libp11] = "--with-pkcs11,--without-pkcs11,libp11 openssl"
+> -PACKAGECONFIG[nistbeacon] = "--with-nistbeacon,--without-nistbeacon,curl libxml2"
+> -PACKAGECONFIG[qrypt] = "--with-qrypt,--without-qrypt,curl"
+> -
+> -INITSCRIPT_PACKAGES = "${PN}-service"
+> -INITSCRIPT_NAME:${PN}-service = "rng-tools"
+> -INITSCRIPT_PARAMS:${PN}-service = "start 03 2 3 4 5 . stop 30 0 6 1 ."
+> -
+> -SYSTEMD_PACKAGES = "${PN}-service"
+> -SYSTEMD_SERVICE:${PN}-service = "rng-tools.service"
+> -
+> -CFLAGS += " -DJENT_CONF_ENABLE_INTERNAL_TIMER "
+> -
+> -PACKAGES =+ "${PN}-service"
+> -
+> -FILES:${PN}-service += " \
+> -    ${sysconfdir}/init.d/rng-tools \
+> -    ${sysconfdir}/default/rng-tools \
+> -"
+> -
+> -# Refer autogen.sh in rng-tools
+> -do_configure:prepend() {
+> -    cp ${S}/README.md ${S}/README
+> -}
+> -
+> -do_install:append() {
+> -    install -Dm 0644 ${WORKDIR}/default ${D}${sysconfdir}/default/rng-tools
+> -    install -Dm 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/rng-tools
+> -    install -Dm 0644 ${WORKDIR}/rng-tools.service \
+> -                     ${D}${systemd_system_unitdir}/rng-tools.service
+> -    sed -i \
+> -        -e 's,@SYSCONFDIR@,${sysconfdir},g' \
+> -        -e 's,@SBINDIR@,${sbindir},g' \
+> -        ${D}${sysconfdir}/init.d/rng-tools \
+> -        ${D}${systemd_system_unitdir}/rng-tools.service
+> -
+> -    if [ "${@bb.utils.contains('PACKAGECONFIG', 'nistbeacon', 'yes', 'no', d)}" = "yes" ]; then
+> -        sed -i \
+> -            -e '/^IPAddressDeny=any/d' \
+> -            -e '/^RestrictAddressFamilies=/ s/$/ AF_INET AF_INET6/' \
+> -            ${D}${systemd_system_unitdir}/rng-tools.service
+> -    fi
+> -}
+> -- 
+> 2.34.1
+> 
 
-> On Sat, 2024-01-13 at 21:58 -0800, Khem Raj wrote:
-> > target rust recipe builds ( cross compile ) calls llvm-config from
-> > target sysroot which works ok as long as C++ runtime it needs is
-> > available on build host e.g. libstdc++ etc. which is commonly the
-> > case, however when using clang and llvm runtime this falters since
-> > it should be using libc++ from native sysroot and if this does not
-> > exist on build machine this fails to find libc++ shared object and
-> > llvm-config fails to run. This ensures that llvm-config version in
-> > use is correctly relocated and can use shared libraries from native
-> > sysroot correctly. Adding ORIGIN to sysroot will look for the .so in
-> > same dir as the binary and there is the libc++.so.1 copied in place
-> >
-> > Fixes rust build with clang compiler.
-> >
-> > >
-> /mnt/b/yoe/master/build/tmp/work/riscv64-yoe-linux/rust/1.74.1/recipe-sys=
-root/usr/lib/llvm-rust/bin/llvm-config:
-> error while loading shared libraries: libc++.so.1: cannot open shared
-> object file: No such file or director
-> > y
-> > > thread 'main' panicked at llvm.rs:551:19:
-> > > command did not execute successfully:
-> "/mnt/b/yoe/master/build/tmp/work/riscv64-yoe-linux/rust/1.74.1/recipe-sy=
-sroot/usr/lib/llvm-rust/bin/llvm-config"
-> "--version"
-> > > expected success, got: exit status: 127
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> >  meta/recipes-devtools/rust/rust_1.74.1.bb | 8 ++++++--
-> >  1 file changed, 6 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/meta/recipes-devtools/rust/rust_1.74.1.bb
-> b/meta/recipes-devtools/rust/rust_1.74.1.bb
-> > index 30543ada7db..2dffe009827 100644
-> > --- a/meta/recipes-devtools/rust/rust_1.74.1.bb
-> > +++ b/meta/recipes-devtools/rust/rust_1.74.1.bb
-> > @@ -198,9 +198,13 @@ rust_runx () {
-> >      # Copy the natively built llvm-config into the target so we can ru=
-n
-> it. Horrible,
-> >      # but works!
-> >      if [ ${RUST_ALTERNATE_EXE_PATH_NATIVE} !=3D
-> ${RUST_ALTERNATE_EXE_PATH} -a ! -f ${RUST_ALTERNATE_EXE_PATH} ]; then
-> > -        mkdir -p `dirname ${RUST_ALTERNATE_EXE_PATH}`
-> > +        tgtdir=3D`dirname ${RUST_ALTERNATE_EXE_PATH}`
-> > +        mkdir -p ${tgtdir}
-> >          cp ${RUST_ALTERNATE_EXE_PATH_NATIVE} ${RUST_ALTERNATE_EXE_PATH=
-}
-> > -        chrpath -d ${RUST_ALTERNATE_EXE_PATH}
-> > +        if [ -e ${STAGING_LIBDIR_NATIVE}/libc++.so.1 ]; then
-> > +            cp ${STAGING_LIBDIR_NATIVE}/libc++.so.1 ${tgtdir}/
-> > +        fi
-> > +        chrpath -r \$ORIGIN ${RUST_ALTERNATE_EXE_PATH}
-> >      fi
-> >
-> >      oe_cargo_fix_env
->
-> Copying a native library into the target sysroot goes beyond what I'm
-> comfortable with even for this horrible hack with llvm-config.
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#193523): https://lists.openembedded.org/g/openembedded-core/message/193523
+> Mute This Topic: https://lists.openembedded.org/mt/103649050/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
 
-It=E2=80=99s just supporting the original hack to work properly I don=E2=80=
-=99t think it=E2=80=99s
-any worse that the original hack
-
->
->
-> Since it seems to be finding it by RPATH, can you not just add an RPATH
-> to the native sysroot in the binary?
-
-
-It does not work and I don=E2=80=99t know why but seems rpath in llvm-confi=
-g
-affects what paths it spits out
-
->
-
-
->
-> Cheers,
->
-> Richard
->
-
---0000000000006f72c3060efee408
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div>Hi</div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"=
-gmail_attr">On Mon, Jan 15, 2024 at 5:19=E2=80=AFAM Richard Purdie &lt;<a h=
-ref=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfound=
-ation.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Sat, =
-2024-01-13 at 21:58 -0800, Khem Raj wrote:<br>
-&gt; target rust recipe builds ( cross compile ) calls llvm-config from<br>
-&gt; target sysroot which works ok as long as C++ runtime it needs is<br>
-&gt; available on build host e.g. libstdc++ etc. which is commonly the<br>
-&gt; case, however when using clang and llvm runtime this falters since<br>
-&gt; it should be using libc++ from native sysroot and if this does not<br>
-&gt; exist on build machine this fails to find libc++ shared object and<br>
-&gt; llvm-config fails to run. This ensures that llvm-config version in<br>
-&gt; use is correctly relocated and can use shared libraries from native<br=
->
-&gt; sysroot correctly. Adding ORIGIN to sysroot will look for the .so in<b=
-r>
-&gt; same dir as the binary and there is the libc++.so.1 copied in place<br=
->
-&gt; <br>
-&gt; Fixes rust build with clang compiler.<br>
-&gt; <br>
-&gt; &gt; /mnt/b/yoe/master/build/tmp/work/riscv64-yoe-linux/rust/1.74.1/re=
-cipe-sysroot/usr/lib/llvm-rust/bin/llvm-config: error while loading shared =
-libraries: libc++.so.1: cannot open shared object file: No such file or dir=
-ector<br>
-&gt; y<br>
-&gt; &gt; thread &#39;main&#39; panicked at llvm.rs:551:19:<br>
-&gt; &gt; command did not execute successfully: &quot;/mnt/b/yoe/master/bui=
-ld/tmp/work/riscv64-yoe-linux/rust/1.74.1/recipe-sysroot/usr/lib/llvm-rust/=
-bin/llvm-config&quot; &quot;--version&quot;<br>
-&gt; &gt; expected success, got: exit status: 127<br>
-&gt; <br>
-&gt; Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" targ=
-et=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/recipes-devtools/rust/<a href=3D"http://rust_1.74.1.bb" rel=
-=3D"noreferrer" target=3D"_blank">rust_1.74.1.bb</a> | 8 ++++++--<br>
-&gt;=C2=A0 1 file changed, 6 insertions(+), 2 deletions(-)<br>
-&gt; <br>
-&gt; diff --git a/meta/recipes-devtools/rust/<a href=3D"http://rust_1.74.1.=
-bb" rel=3D"noreferrer" target=3D"_blank">rust_1.74.1.bb</a> b/meta/recipes-=
-devtools/rust/<a href=3D"http://rust_1.74.1.bb" rel=3D"noreferrer" target=
-=3D"_blank">rust_1.74.1.bb</a><br>
-&gt; index 30543ada7db..2dffe009827 100644<br>
-&gt; --- a/meta/recipes-devtools/rust/<a href=3D"http://rust_1.74.1.bb" rel=
-=3D"noreferrer" target=3D"_blank">rust_1.74.1.bb</a><br>
-&gt; +++ b/meta/recipes-devtools/rust/<a href=3D"http://rust_1.74.1.bb" rel=
-=3D"noreferrer" target=3D"_blank">rust_1.74.1.bb</a><br>
-&gt; @@ -198,9 +198,13 @@ rust_runx () {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 # Copy the natively built llvm-config into the tar=
-get so we can run it. Horrible,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 # but works!<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 if [ ${RUST_ALTERNATE_EXE_PATH_NATIVE} !=3D ${RUST=
-_ALTERNATE_EXE_PATH} -a ! -f ${RUST_ALTERNATE_EXE_PATH} ]; then<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 mkdir -p `dirname ${RUST_ALTERNATE_EXE_PA=
-TH}`<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 tgtdir=3D`dirname ${RUST_ALTERNATE_EXE_PA=
-TH}`<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 mkdir -p ${tgtdir}<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cp ${RUST_ALTERNATE_EXE_PATH_NATIVE}=
- ${RUST_ALTERNATE_EXE_PATH}<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 chrpath -d ${RUST_ALTERNATE_EXE_PATH}<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ -e ${STAGING_LIBDIR_NATIVE}/libc++.s=
-o.1 ]; then<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cp ${STAGING_LIBDIR_NATIVE}=
-/libc++.so.1 ${tgtdir}/<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 chrpath -r \$ORIGIN ${RUST_ALTERNATE_EXE_=
-PATH}<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 fi<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 oe_cargo_fix_env<br>
-<br>
-Copying a native library into the target sysroot goes beyond what I&#39;m<b=
-r>
-comfortable with even for this horrible hack with llvm-config.</blockquote>=
-<div dir=3D"auto"><br></div><div dir=3D"auto">It=E2=80=99s just supporting =
-the original hack to work properly I don=E2=80=99t think it=E2=80=99s any w=
-orse that the original hack=C2=A0</div><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex" dir=
-=3D"auto"><br>
-<br>
-Since it seems to be finding it by RPATH, can you not just add an RPATH<br>
-to the native sysroot in the binary?</blockquote><div dir=3D"auto"><br></di=
-v><div dir=3D"auto">It does not work and I don=E2=80=99t know why but seems=
- rpath in llvm-config affects what paths it spits out=C2=A0</div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc sol=
-id;padding-left:1ex" dir=3D"auto"></blockquote><div dir=3D"auto"><br></div>=
-<div dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex" dir=3D"auto"><br=
->
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-</blockquote></div></div>
-
---0000000000006f72c3060efee408--
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
