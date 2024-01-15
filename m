@@ -2,82 +2,93 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 893B5C4707B
-	for <webhook@archiver.kernel.org>; Mon, 15 Jan 2024 14:08:16 +0000 (UTC)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
- by mx.groups.io with SMTP id smtpd.web11.80510.1705327688412351758
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B474BC3DA79
+	for <webhook@archiver.kernel.org>; Mon, 15 Jan 2024 14:12:36 +0000 (UTC)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+ by mx.groups.io with SMTP id smtpd.web10.81239.1705327955899431323
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jan 2024 06:08:08 -0800
+ Mon, 15 Jan 2024 06:12:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=RqcsCVQf;
- spf=pass (domain: gmail.com, ip: 209.85.167.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-50e67f70f34so9050872e87.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jan 2024 06:08:08 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=AtAa+k35;
+ spf=pass (domain: gmail.com, ip: 209.85.167.50, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-50e835800adso9571261e87.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jan 2024 06:12:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705327686; x=1705932486; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=io3RYMSnA2mZ/2TAxvPrJ8VHJ4ZruxxZXYnTxeiA+yw=;
-        b=RqcsCVQf1DDU42Nb0FD332VpiqC44UAOzk72+/4TmXqnKomuOX7kJi9bD+pNyAC4MS
-         m69KF0Ig4MoyAqDQHQk0JlLwWmn3P17T7DlQCh/rHiQw1oZWUo1/6dbA9DYT5QQPRqUu
-         UAQRAE2yXOQ9fo6xbe4C7iPqQFFnyh5595qVqaf4KowuhHa0poqM24GsSTFhFIF/gcu2
-         Kij0fyu/VzWV5KfO4iWdUZ+/b5zuh5MGyHHuAe8w63kTB8xqXLzcKB8ynO+B+hIghMxG
-         uGL1sT5hziCs7YvHDZ7iWjCzBSUPH8FXjVfVRiA9xYTuLtslSp7z4ULFpPcoYwf41cSd
-         mySw==
+        d=gmail.com; s=20230601; t=1705327954; x=1705932754; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=u684Y8EqT0Uqeb1YWFRBZgjHriN8EcDVDkAmyX4McSQ=;
+        b=AtAa+k35BqNuNtahLtKUSwKFjzdeBYLbAk9QaOf2vgOJpw0CQv5xLyUH0qvMWxTTdn
+         bAoCEzlByF4+aJUP8xLaULCz8MP/+u9yD/lbKIdYVHkY3w/MO4vv5TVmJFku3dFDonnC
+         hbouJ5hsAUgd5xE6qujOXewzaBn8FIFAkrnFlSybj5lIT7kqyuyOgk0Qw+GUz7O91aOD
+         wpTOcikThZ2W8RItKQ6+3Fqp/Fuacm5iGQJy9MofIhzhNBWjK8kFUGxTMSDf1NbXLG6W
+         csf+TBAPrFcR/ogy2ndPQTSEsYJV8SeTMqrSdO92jnCBeDSDrkLAjjC/Arg5XlWGyb93
+         TOoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705327686; x=1705932486;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=io3RYMSnA2mZ/2TAxvPrJ8VHJ4ZruxxZXYnTxeiA+yw=;
-        b=ZqlNF0U69KFbiqW0bwaUuPNdcNwyhtfOgLbR7cAhXy/RbggPEpNDAs7PRZrtvZalGJ
-         EEWnzGyIMa1nrxHfGWu8yAmK4CPceCS2mKgBh9p8/yA3OA5S83b7uD8IxFH0xpD4IDb9
-         j9qZ+I9bBBBLTTDkrJZKOr806zVqRVDkkS0wZGDt84FFYgZK+Juqkf53mkwdasQ/3QiC
-         NdtW7Aa/+nq+Dt5x5fEexnnKnwRKO6bu3kwNg1Z09QSB+EpUCJvmBH4+jwDE4TZsDzu7
-         fYYL5nnl5Gdu+bS0oCyN3iMFLdO1vFjA2pa7AsRMymwnvBhTmv73MYIcrHrc8te7IW/k
-         3VBg==
-X-Gm-Message-State: AOJu0Yz9CD/aQoktq8QvmA7PGoN/1aM0zXTOM4iBrAd0rwNl89KbYc+b
-	88o4GcOsmM7HydlyKm7j54I9jUby4p3IO6rBp93lYi/N
-X-Google-Smtp-Source: AGHT+IHBHQ/d5/E/GwTfOZcLkUd/GtwmTRD5VIvSD/o0CxTPUKGRBxlajTaZJ1pr6DkvkBYKkM1jf13YgxcZg1G9SxY=
-X-Received: by 2002:a05:6512:1104:b0:50e:568d:d527 with SMTP id
- l4-20020a056512110400b0050e568dd527mr2975748lfg.11.1705327686381; Mon, 15 Jan
- 2024 06:08:06 -0800 (PST)
+        d=1e100.net; s=20230601; t=1705327954; x=1705932754;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=u684Y8EqT0Uqeb1YWFRBZgjHriN8EcDVDkAmyX4McSQ=;
+        b=oVIXQfjlDGox4w3+En5ahbXt5iznCejYYiAI2VC5up5lDvt88Y//ML+KTxzrRX4dxu
+         w0/+y4euT9n3lpF5sR+lklJ7zIak5bW+QD7b+ZSblTMFscSCG011eix3RWnui5aQnoKG
+         qC7LYtS2T3Wco0Mvunlnr8qAyuZC2DGLR7jvasMFi/iY7SNZk0PzaFUY1hTa4YmTo8dA
+         +fk+tNZuXTYcUMfocdXdTS2gtGsGVTaXy+ScNbARCbASnQp16u1SKMj+a2qWq2m/42/S
+         TwO5ASyOtwI0+m7JxzIXc+/SgX0JPJDdu1EZrb2dAl0sgjseSjTsbXbAr17PjSJAEEdh
+         q15A==
+X-Gm-Message-State: AOJu0Yz13GTQtdAMeeS3AzJJmNGB6ZBdoEFVSobPkHE0kiNWb2Aut0Ug
+	uwcojkVHxtaoofs7dV9UzphsgF0eabDXHjWFMmHRN5Lq
+X-Google-Smtp-Source: AGHT+IF2QcAn9pkjf3iAXE/hrnO9rujKKskESdI9tA0ZhdhL2d6F6wl+rrhZb5KliQcJ5BKAJ9qECTa40ZOPyOZAYTI=
+X-Received: by 2002:a05:6512:b1e:b0:50e:4437:142b with SMTP id
+ w30-20020a0565120b1e00b0050e4437142bmr2047434lfu.38.1705327953870; Mon, 15
+ Jan 2024 06:12:33 -0800 (PST)
 MIME-Version: 1.0
-References: <20240109192923.3183219-1-raj.khem@gmail.com> <3B3DBDDB-9E17-431A-B3E8-DC8E072066FC@arm.com>
- <CANNYZj_oydN+0ODz_kCjus74uzF-wUhcZ1nfmYqrRo+BoupB4A@mail.gmail.com> <3642B18A-B5F2-40EF-B1A9-303923477117@arm.com>
-In-Reply-To: <3642B18A-B5F2-40EF-B1A9-303923477117@arm.com>
+References: <2ef89f525fd5ceaec574d025c515033c06fcaf6c.camel@iris-sensing.com>
+ <17AA7149AA53F0BC.13033@lists.openembedded.org> <CANNYZj9yuJemGmM3aLqL+LEaixSrqchgH3406fzreQbqzjwPaA@mail.gmail.com>
+ <CAHUKmYYnztYA5zJN7StJzLcBzW9gexFbD2PNhGD6rzc7BW0pmA@mail.gmail.com>
+ <8a632115c057bcecff50ef9404802670f072c4a6.camel@iris-sensing.com>
+ <CANNYZj8jPYgXuu8FzGOLD99Rxv7wxWdy3KCMtAN5YERhibrawA@mail.gmail.com>
+ <36bdc27c8ff2eb0fa91e5bd8b44556dfc270fb49.camel@iris-sensing.com> <17AA8A5B1D8D95A7.13033@lists.openembedded.org>
+In-Reply-To: <17AA8A5B1D8D95A7.13033@lists.openembedded.org>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 15 Jan 2024 15:07:55 +0100
-Message-ID: <CANNYZj_9sQir9xCHNuXRY3DxtG1jgNnk+kAeosQJiNJWMpj1qQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3] glib-networking: Fix ptest failures with
- openssl backend
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: "raj.khem@gmail.com" <raj.khem@gmail.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Date: Mon, 15 Jan 2024 15:12:22 +0100
+Message-ID: <CANNYZj-LNrV6kJiyGLej+jy=7W-eoxUX9DX5wqf_jV2oJ2R7Jw@mail.gmail.com>
+Subject: Re: [OE-core] Removing Github release SRC_URIs from oe-core recipes?
+To: Jasper Orschulko <jasper.orschulko@iris-sensing.com>
+Cc: "ecordonnier@snap.com" <ecordonnier@snap.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	Alberto Pianon <alberto@pianon.eu>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Jan 2024 14:08:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193681
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Jan 2024 14:12:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193682
 
-On Mon, 15 Jan 2024 at 15:04, Ross Burton <Ross.Burton@arm.com> wrote:
-> > This issue is reported upstream, and the link is in the patch. Yes,
-> > given sufficient time one can become an expert in intricacies of glib,
-> > openssl, and their interaction, and then develop a real fix all by
-> > themselves, but I think a more fair expectation is exactly what Khem
-> > is doing: report upstream, add a reasonable workaround, follow up
-> > upstream requests in the reported ticket.
+On Mon, 15 Jan 2024 at 15:05, Alexander Kanavin via
+lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
+wrote:
 >
-> This is a configuration that upstream doesn=E2=80=99t support and we don=
-=E2=80=99t enable by default, so I=E2=80=99m leaning towards Khem carries t=
-he patch alongside the bbappend to turn on the openssl backend in the first=
- place.
+> On Mon, 15 Jan 2024 at 15:03, Jasper Orschulko
+> <Jasper.Orschulko@iris-sensing.com> wrote:
+> >
+> > > Sadly it wouldn't. Auto-generated github archives are known to be
+> > > non-deterministic, and we even have a qa check to ensure no recipe is
+> > > using them. I didn't raise this point because my objections are on
+> > > the
+> > > principle of using release tarballs, not this technicality.
+> >
+> > Ah ok, that is interesting. Could you please elaborate on the non-
+> > deterministic nature of the github archives? This information could be
+> > vital for the Osselot project as well, as they currently use said
+> > archives as the data basis.
+>
+> https://lwn.net/Articles/921787/ covers the subject well, I think.
 
-With this I agree. I don't think oe-core should carry patches for
-configurations it doesn't test.
+Oh, and before I forget: Alberto (in cc) has recently done some work
+in bitbake to enable file-level source tracing, presumably for exact
+same purpose as you are, so I'd suggest you discuss what kind of
+approach he envisions (or maybe has implemented).
 
 Alex
 
