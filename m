@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C513BC54781
-	for <webhook@archiver.kernel.org>; Mon, 15 Jan 2024 17:34:01 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web10.88840.1705340029293973474
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59A92C54793
+	for <webhook@archiver.kernel.org>; Mon, 15 Jan 2024 17:34:02 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web11.88275.1705340028984120907
  for <openembedded-core@lists.openembedded.org>;
  Mon, 15 Jan 2024 09:33:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Pe6uRLa+;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=WcBB9/N/;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018d0e2fc719-687c1156-edf4-4f19-ac7a-15a552e8f7c6-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=dI1ZULb0;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=j/29Vlzn;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018d0e2fc43a-82652b77-5c40-4866-955a-96018508a749-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1705340028;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=4KeEBFRoResh9vBuBreyHa0Y+koYoj3rVg0LJLboztA=;
-	b=Pe6uRLa+0QHY3FKXuIdAepwSNwOTCBeOHF2dPJQ8lTX/Bj3IBeLzcxOlUmVIU+dP
-	w34U3IWLUQg8jcQ/4WI4F633R+2+aQp1tr5KF/3Lyuyv+O4HyhEucd/5TsYg2t0QchZ
-	msQ0Xrt4q1xokekU2rtMl8hGS0lLjgtBVXIgyy20=
+	bh=BTSGqQiUIYEfZ5THEpYvFdkdZYwPEzmq4FOZI/27pz8=;
+	b=dI1ZULb05bs3EuBEySSoToVDtrmUgJ1dqJho/ah1j4vX8heeoT9uyZx2+rUXcqSK
+	saPkEyZ0frxTOXbbmWyZJWSj4IC4fKEwOmcywMXXcPP42rQdteY+Ex5M/CNyiVrdtpF
+	AmoQaghAtB89MvZ5yjEXdst3hCgkjVcHykgxsNO0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1705340028;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=4KeEBFRoResh9vBuBreyHa0Y+koYoj3rVg0LJLboztA=;
-	b=WcBB9/N/5Qoju0ODQHS0VrZY0CcWgJ+PFzn4PHVZXLDl22NSs1V9kLKb7wCL79AC
-	fdNEQbiOyEQEg5YS1m052oRFW5dpnLyUG8kM3aL4QIep0rOUHyAC5ANvGPePj3y29Tf
-	c2OiL77ZN1hZ9QVI6QgjlU5/jGGoY0CSS4TH0YQA=
-Content-Type: multipart/mixed; boundary="===============6608957997856937026=="
+	bh=BTSGqQiUIYEfZ5THEpYvFdkdZYwPEzmq4FOZI/27pz8=;
+	b=j/29VlznjAf+qmD5ZrUijenxujqv2JzQbIDYaMNViR3jwET5IQGIw9E1ses+egCC
+	XG8OgK0kMQtJcBPyFhN1kTDfE59ysdkwiCH51UuY/dPYual3iGDR20s3HYG9FIRJC1V
+	Yi+hFN5lgYXFLkQj9ooeb6snASGTjWSPfnXRjak4=
+Content-Type: multipart/mixed; boundary="===============5304852735266218682=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Robert Yang <liezhi.yang@windriver.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] autoconf: upgrading to 2.72e FAILED
-Message-ID: <0101018d0e2fc719-687c1156-edf4-4f19-ac7a-15a552e8f7c6-000000@us-west-2.amazonses.com>
-Date: Mon, 15 Jan 2024 17:33:48 +0000
+Subject: [AUH] grub: upgrading to 2.12 FAILED
+Message-ID: <0101018d0e2fc43a-82652b77-5c40-4866-955a-96018508a749-000000@us-west-2.amazonses.com>
+Date: Mon, 15 Jan 2024 17:33:47 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.01.15-54.240.27.23
+X-SES-Outgoing: 2024.01.15-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Jan 2024 17:34:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193699
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Jan 2024 17:34:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193696
 
---===============6608957997856937026==
+--===============5304852735266218682==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,14 +51,14 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *autoconf* to *2.72e* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *grub* to *2.12* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade autoconf -V 2.72e
+Running 'devtool upgrade' for recipe grub failed.
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
-Loaded 1850 entries from dependency cache.
+Loaded 1851 entries from dependency cache.
 Removing 1 recipes from the x86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
@@ -69,274 +69,76 @@ NATIVELSBSTRING      = "universal"
 TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-c41f9d0eb006b99014a83e1bcb27696608082aa5"
+DISTRO_VERSION       = "4.3+snapshot-61182659c212db24e52cdbcdbb043c7b0de86094"
 TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:c41f9d0eb006b99014a83e1bcb27696608082aa5"
+workspace            = "tmp-auh-upgrades:61182659c212db24e52cdbcdbb043c7b0de86094"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 15 Local 9 Mirrors 0 Missed 6 Current 14 (60% match, 79% complete)
-Removing 4 stale sstate objects for arch x86_64...done.
+Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
+done.
 NOTE: Executing Tasks
-Log data follows:
-| DEBUG: Executing python function do_unpack
-| DEBUG: Executing python function base_do_unpack
-| NOTE: Unpacking /srv/autobuilder/autobuilder.yocto.io/current_sources/autoconf-2.72d.tar.gz to /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/autoconf/2.72d/devtooltmp-7xs6et3j/workdir/
-| DEBUG: Searching for program_prefix.patch in paths:
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/poky
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/poky
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/poky
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/x86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/x86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/x86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/
-| DEBUG: Using /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/program_prefix.patch for program_prefix.patch
-| NOTE: Unpacking /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/program_prefix.patch to /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/autoconf/2.72d/devtooltmp-7xs6et3j/workdir/
-| DEBUG: Searching for autoreconf-exclude.patch in paths:
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/poky
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/poky
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/poky
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/x86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/x86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/x86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/
-| DEBUG: Using /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/autoreconf-exclude.patch for autoreconf-exclude.patch
-| NOTE: Unpacking /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/autoreconf-exclude.patch to /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/autoconf/2.72d/devtooltmp-7xs6et3j/workdir/
-| DEBUG: Searching for remove-usr-local-lib-from-m4.patch in paths:
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/poky
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/poky
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/poky
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/x86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/x86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/x86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/
-| DEBUG: Using /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/remove-usr-local-lib-from-m4.patch for remove-usr-local-lib-from-m4.patch
-| NOTE: Unpacking /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/remove-usr-local-lib-from-m4.patch to /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/autoconf/2.72d/devtooltmp-7xs6et3j/workdir/
-| DEBUG: Searching for preferbash.patch in paths:
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/poky
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/poky
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/poky
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/x86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/x86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/x86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/
-| DEBUG: Using /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/preferbash.patch for preferbash.patch
-| NOTE: Unpacking /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/preferbash.patch to /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/autoconf/2.72d/devtooltmp-7xs6et3j/workdir/
-| DEBUG: Searching for autotest-automake-result-format.patch in paths:
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/poky
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/poky
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/poky
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/x86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/x86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/x86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/
-| DEBUG: Using /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/autotest-automake-result-format.patch for autotest-automake-result-format.patch
-| NOTE: Unpacking /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/autotest-automake-result-format.patch to /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/autoconf/2.72d/devtooltmp-7xs6et3j/workdir/
-| DEBUG: Searching for man-host-perl.patch in paths:
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/poky
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/poky
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/poky
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/x86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/x86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/x86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/
-| DEBUG: Using /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/man-host-perl.patch for man-host-perl.patch
-| NOTE: Unpacking /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/man-host-perl.patch to /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/autoconf/2.72d/devtooltmp-7xs6et3j/workdir/
-| DEBUG: Searching for no-man.patch in paths:
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/poky
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/poky
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/poky
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/x86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/x86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/x86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/
-| DEBUG: Using /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/no-man.patch for no-man.patch
-| NOTE: Unpacking /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/no-man.patch to /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/autoconf/2.72d/devtooltmp-7xs6et3j/workdir/
-| DEBUG: Python function base_do_unpack finished
-| DEBUG: Python function do_unpack finished
-| DEBUG: Executing python function create_source_date_epoch_stamp
-| DEBUG: Newest file found: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/autoconf/2.72d/devtooltmp-7xs6et3j/workdir/autoconf-2.72d/.git/HEAD
-| DEBUG: SOURCE_DATE_EPOCH: 1705298233
-| DEBUG: Python function create_source_date_epoch_stamp finished
-| DEBUG: Executing python function do_qa_unpack
-| DEBUG: Python function do_qa_unpack finished
-| DEBUG: Executing python function devtool_post_unpack
-| DEBUG: Python function devtool_post_unpack finished
-Log data follows:
-| DEBUG: Executing python function do_unpack
-| DEBUG: Executing python function base_do_unpack
-| NOTE: Unpacking /srv/autobuilder/autobuilder.yocto.io/current_sources/autoconf-2.72d.tar.gz to /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/autoconf/2.72d/devtooltmp-7xs6et3j/workdir/
-| DEBUG: Searching for program_prefix.patch in paths:
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/poky
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/poky
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/poky
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/qemux86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/qemux86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/qemux86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/qemuall
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/qemuall
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/qemuall
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/x86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/x86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/x86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/
-| DEBUG: Using /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/program_prefix.patch for program_prefix.patch
-| NOTE: Unpacking /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/program_prefix.patch to /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/autoconf/2.72d/devtooltmp-7xs6et3j/workdir/
-| DEBUG: Searching for autoreconf-exclude.patch in paths:
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/poky
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/poky
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/poky
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/qemux86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/qemux86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/qemux86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/qemuall
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/qemuall
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/qemuall
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/x86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/x86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/x86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/
-| DEBUG: Using /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/autoreconf-exclude.patch for autoreconf-exclude.patch
-| NOTE: Unpacking /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/autoreconf-exclude.patch to /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/autoconf/2.72d/devtooltmp-7xs6et3j/workdir/
-| DEBUG: Searching for remove-usr-local-lib-from-m4.patch in paths:
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/poky
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/poky
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/poky
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/qemux86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/qemux86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/qemux86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/qemuall
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/qemuall
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/qemuall
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/x86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/x86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/x86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/
-| DEBUG: Using /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/remove-usr-local-lib-from-m4.patch for remove-usr-local-lib-from-m4.patch
-| NOTE: Unpacking /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/remove-usr-local-lib-from-m4.patch to /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/autoconf/2.72d/devtooltmp-7xs6et3j/workdir/
-| DEBUG: Searching for preferbash.patch in paths:
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/poky
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/poky
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/poky
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/qemux86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/qemux86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/qemux86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/qemuall
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/qemuall
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/qemuall
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/x86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/x86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/x86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/
-| DEBUG: Using /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/preferbash.patch for preferbash.patch
-| NOTE: Unpacking /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/preferbash.patch to /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/autoconf/2.72d/devtooltmp-7xs6et3j/workdir/
-| DEBUG: Searching for autotest-automake-result-format.patch in paths:
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/poky
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/poky
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/poky
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/qemux86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/qemux86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/qemux86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/qemuall
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/qemuall
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/qemuall
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/x86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/x86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/x86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/
-| DEBUG: Using /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/autotest-automake-result-format.patch for autotest-automake-result-format.patch
-| NOTE: Unpacking /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/autotest-automake-result-format.patch to /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/autoconf/2.72d/devtooltmp-7xs6et3j/workdir/
-| DEBUG: Searching for man-host-perl.patch in paths:
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/poky
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/poky
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/poky
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/qemux86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/qemux86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/qemux86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/qemuall
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/qemuall
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/qemuall
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/x86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/x86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/x86-64
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf-2.72d/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/
-|     /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/files/
-| DEBUG: Using /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/man-host-perl.patch for man-host-perl.patch
-| NOTE: Unpacking /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf/man-host-perl.patch to /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/autoconf/2.72d/devtooltmp-7xs6et3j/workdir/
-| DEBUG: Python function base_do_unpack finished
-| DEBUG: Python function do_unpack finished
-| DEBUG: Executing python function create_source_date_epoch_stamp
-| DEBUG: Newest file found: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/autoconf/2.72d/devtooltmp-7xs6et3j/workdir/autoconf-2.72d/bin/autom4te.in
-| DEBUG: SOURCE_DATE_EPOCH: 1705298233
-| DEBUG: Python function create_source_date_epoch_stamp finished
-| DEBUG: Executing python function do_qa_unpack
-| DEBUG: Python function do_qa_unpack finished
-| DEBUG: Executing python function devtool_post_unpack
-| DEBUG: Python function devtool_post_unpack finished
-NOTE: Tasks Summary: Attempted 75 tasks of which 58 didn't need to be rerun and 2 failed.
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 3 seconds
-NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240115055704.txt
-You can send the errors to a reports server by running:
-  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240115055704.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+Loading cache...done.
+Loaded 1851 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 915 .bb files complete (913 cached, 2 parsed). 1851 targets, 38 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
 
+Build Configuration:
+BB_VERSION           = "2.7.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.3+snapshot-61182659c212db24e52cdbcdbb043c7b0de86094"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:61182659c212db24e52cdbcdbb043c7b0de86094"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   8% |###                                 | ETA:  0:00:03
+Adding changed files:  17% |######                              | ETA:  0:00:01
+Adding changed files:  25% |#########                           | ETA:  0:00:01
+Adding changed files:  34% |############                        | ETA:  0:00:00
+Adding changed files:  42% |###############                     | ETA:  0:00:00
+Adding changed files:  51% |##################                  | ETA:  0:00:00
+Adding changed files:  59% |#####################               | ETA:  0:00:00
+Adding changed files:  68% |########################            | ETA:  0:00:00
+Adding changed files:  77% |###########################         | ETA:  0:00:00
+Adding changed files:  85% |##############################      | ETA:  0:00:00
+Adding changed files:  94% |#################################   | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:01
 INFO: Extracting current version source...
-INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
-ERROR: ExecutionError('git tag -f devtool-base', 128, '', "fatal: Failed to resolve 'HEAD' as a valid ref.\n")
-ERROR: ExecutionError('git checkout -b devtool-orig', 128, '', "fatal: a branch named 'devtool-orig' already exists\n")
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/autoconf/2.72d/devtooltmp-7xs6et3j/temp/log.do_unpack.1440560
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/autoconf/2.72d/devtooltmp-7xs6et3j/temp/log.do_unpack.1440509
-ERROR: Extracting source for autoconf failed
+INFO: Extracting upgraded version source...
+INFO: Fetching https://ftp.gnu.org/gnu/grub/grub-2.12.tar.gz...
+INFO: Rebasing devtool onto 2c76f1da6e9c015dc89c4106c85aef5df111ce20
+WARNING: Command 'git rebase 2c76f1da6e9c015dc89c4106c85aef5df111ce20' failed:
+Auto-merging configure.ac
+CONFLICT (content): Merge conflict in configure.ac
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/workspace/sources/grub
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/workspace/recipes/grub/grub_2.12.bb
+
 
 
 Please review the attached files for further information and build/update failures.
@@ -344,5 +146,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============6608957997856937026==--
+--===============5304852735266218682==--
 
