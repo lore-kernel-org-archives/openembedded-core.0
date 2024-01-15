@@ -2,90 +2,257 @@ Return-Path: <jamin_lin@aspeedtech.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E70BEC3DA79
-	for <webhook@archiver.kernel.org>; Mon, 15 Jan 2024 06:53:43 +0000 (UTC)
-Received: from TWMBX03.aspeed.com (TWMBX03.aspeed.com [211.20.114.72])
- by mx.groups.io with SMTP id smtpd.web10.71316.1705301613367906832
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83E4CC3DA79
+	for <webhook@archiver.kernel.org>; Mon, 15 Jan 2024 07:54:24 +0000 (UTC)
+Received: from TWMBX02.aspeed.com (TWMBX02.aspeed.com [211.20.114.72])
+ by mx.groups.io with SMTP id smtpd.web11.72030.1705305261478423235
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Jan 2024 22:53:33 -0800
+ Sun, 14 Jan 2024 23:54:22 -0800
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: aspeedtech.com, ip: 211.20.114.72, mailfrom: jamin_lin@aspeedtech.com)
-Received: from TWMBX02.aspeed.com (192.168.0.24) by TWMBX03.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 15 Jan
- 2024 14:53:30 +0800
+Received: from TWMBX02.aspeed.com (192.168.0.24) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 15 Jan
+ 2024 15:54:18 +0800
 Received: from twmbx02.aspeed.com (192.168.10.10) by TWMBX02.aspeed.com
  (192.168.0.24) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 15 Jan 2024 14:53:30 +0800
+ Transport; Mon, 15 Jan 2024 15:54:18 +0800
 From: Jamin Lin <jamin_lin@aspeedtech.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH v1] u-boot-sign.bbclass: support to verify signed FIT image
-Date: Mon, 15 Jan 2024 14:53:28 +0800
-Message-ID: <20240115065328.2878707-1-jamin_lin@aspeedtech.com>
+Subject: [PATCH] uboot-sign: support to load optee-os and TFA images
+Date: Mon, 15 Jan 2024 15:54:16 +0800
+Message-ID: <20240115075416.393025-1-jamin_lin@aspeedtech.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
+Received-SPF: Fail (TWMBX02.aspeed.com: domain of jamin_lin@aspeedtech.com
+ does not designate 192.168.10.10 as permitted sender)
+ receiver=TWMBX02.aspeed.com; client-ip=192.168.10.10;
+ helo=twmbx02.aspeed.com;
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Jan 2024 06:53:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193635
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Jan 2024 07:54:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193636
 
-It does not verify the signed FIT image of kernel and uboot.
-To catch the unexpected errors as far as possible at the build time,
-add uboot-fit-check-sign tool which is provided by u-boot tools to
-verify the signed FIT image.
+Currently, u-boot FIT image only support to load u-boot image.
+To support optee-os and trusted-firmware-a, update ITS file generation
+scripts, so users are able to use u-boot FIT image to load
+u-boot, optee-os and treustred-firmware-a images
+
+Add a variable "UBOOT_FIT_ARM_TRUSTED_FIRMWARE_A" to
+enable trusted-firmware-a image and it is disable by default.
+
+Add a variable "UBOOT_FIT_OPTEE_OS" to enable optee-os image
+and it is disable by default.
+
+The ITS file creation loos like as following.
+1. Both optee-os and trusted-firmware-a are disabled.
+'''
+/dts-v1/;
+
+/ {
+    images {
+        uboot {
+
+        };
+        fdt {
+        };
+    };
+
+    configurations {
+        default =3D "conf";
+        conf {
+            loadables =3D "uboot";
+            fdt =3D "fdt";
+        };
+    };
+};
+'''
+
+2. Only enable optee-os
+'''
+/dts-v1/;
+
+/ {
+    images {
+        uboot {
+        };
+        fdt {
+        };
+        optee {
+        };
+    };
+
+    configurations {
+        default =3D "conf";
+        conf {
+            firmware =3D "optee";
+            loadables =3D "uboot";
+            fdt =3D "fdt";
+        };
+    };
+};
+'''
+
+3: Both optee-os and trusted-firmware-a are enabled
+'''
+/dts-v1/;
+
+/ {
+    images {
+        uboot {
+        };
+        fdt {
+        };
+        atf {
+        };
+        optee {
+        };
+    };
+
+    configurations {
+        default =3D "conf";
+        conf {
+            firmware =3D "atf";
+            loadables =3D "uboot", "optee";
+            fdt =3D "fdt";
+        };
+    };
+};
+'''
 
 Signed-off-by: Jamin Lin <jamin_lin@aspeedtech.com>
 ---
- meta/classes-recipe/uboot-config.bbclass |  3 +++
- meta/classes-recipe/uboot-sign.bbclass   | 10 ++++++++++
- 2 files changed, 13 insertions(+)
+ meta/classes-recipe/uboot-sign.bbclass | 91 +++++++++++++++++++++++++-
+ 1 file changed, 90 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes-recipe/uboot-config.bbclass b/meta/classes-recipe=
-/uboot-config.bbclass
-index 9be1d64d3e..0c579e8861 100644
---- a/meta/classes-recipe/uboot-config.bbclass
-+++ b/meta/classes-recipe/uboot-config.bbclass
-@@ -94,6 +94,9 @@ SPL_MKIMAGE_SIGN_ARGS ?=3D ""
- UBOOT_DTB ?=3D ""
- UBOOT_DTB_BINARY ??=3D ""
-=20
-+# uboot-fit_check_sign command
-+UBOOT_FIT_CHECK_SIGN ?=3D "uboot-fit_check_sign"
-+
- python () {
-     ubootmachine =3D d.getVar("UBOOT_MACHINE")
-     ubootconfigflags =3D d.getVarFlags('UBOOT_CONFIG')
 diff --git a/meta/classes-recipe/uboot-sign.bbclass b/meta/classes-recipe/u=
 boot-sign.bbclass
-index ad04c82378..741d2216b9 100644
+index ad04c82378..b874eb84db 100644
 --- a/meta/classes-recipe/uboot-sign.bbclass
 +++ b/meta/classes-recipe/uboot-sign.bbclass
-@@ -109,6 +109,10 @@ concat_dtb() {
- 			-K "${UBOOT_DTB_BINARY}" \
- 			-r ${B}/fitImage-linux \
- 			${UBOOT_MKIMAGE_SIGN_ARGS}
-+		# Verify the kernel image and u-boot dtb
-+		${UBOOT_FIT_CHECK_SIGN} \
-+			-k "${UBOOT_DTB_BINARY}" \
-+			-f ${B}/fitImage-linux
- 		cp ${UBOOT_DTB_BINARY} ${UBOOT_DTB_SIGNED}
- 	fi
+@@ -88,6 +88,18 @@ UBOOT_FIT_ADDRESS_CELLS ?=3D "1"
+ # This is only necessary for determining the signing configuration
+ KERNEL_PN =3D "${PREFERRED_PROVIDER_virtual/kernel}"
 =20
-@@ -313,6 +317,12 @@ EOF
- 			-K "${SPL_DIR}/${SPL_DTB_BINARY}" \
- 			-r ${UBOOT_FITIMAGE_BINARY} \
- 			${SPL_MKIMAGE_SIGN_ARGS}
-+		#
-+		# Verify the U-boot FIT image and SPL dtb
-+		#
-+		${UBOOT_FIT_CHECK_SIGN} \
-+			-k "${SPL_DIR}/${SPL_DTB_BINARY}" \
-+			-f ${UBOOT_FITIMAGE_BINARY}
- 	fi
++# Trusted Firmware-A (TF-A) provides a reference implementation of
++# secure world software for Armv7-A and Armv8-A,
++# including a Secure Monitor executing at Exception Level 3 (EL3)
++# ATF is used as the initial start code on ARMv8-A cores for all K3 platfo=
+rms
++UBOOT_FIT_ARM_TRUSTED_FIRMWARE_A ?=3D "0"
++UBOOT_FIT_ARM_TRUSTED_FIRMWARE_A_IMAGE ?=3D "bl31.bin"
++
++# OP-TEE is a Trusted Execution Environment (TEE) designed as
++# companion to a non-secure Linux kernel running on Arm
++UBOOT_FIT_OPTEE_OS ?=3D "0"
++UBOOT_FIT_OPTEE_OS_IMAGE ?=3D "tee-raw.bin"
++
+ python() {
+     # We need u-boot-tools-native if we're creating a U-Boot fitImage
+     sign =3D d.getVar('UBOOT_SIGN_ENABLE') =3D=3D '1'
+@@ -230,6 +242,20 @@ addtask uboot_generate_rsa_keys before do_uboot_assemb=
+le_fitimage after do_compi
+ # Create a ITS file for the U-boot FIT, for use when
+ # we want to sign it so that the SPL can verify it
+ uboot_fitimage_assemble() {
++	conf_loadables=3D"\"uboot\""
++	conf_firmware=3D""
++
++	if [ "${UBOOT_FIT_ARM_TRUSTED_FIRMWARE_A}" =3D "1" ]; then
++		conf_firmware=3D"\"atf\""
++		if [ "${UBOOT_FIT_OPTEE_OS}" =3D "1" ]; then
++			conf_loadables=3D"\"uboot\", \"optee\""
++		fi
++	else
++		if [ "${UBOOT_FIT_OPTEE_OS}" =3D "1" ]; then
++			conf_firmware=3D"\"optee\""
++		fi
++	fi
++
+ 	rm -f ${UBOOT_ITS} ${UBOOT_FITIMAGE_BINARY}
 =20
- 	cp ${SPL_DIR}/${SPL_DTB_BINARY} ${SPL_DIR}/${SPL_DTB_SIGNED}
+ 	# First we create the ITS script
+@@ -282,13 +308,76 @@ EOF
+=20
+ 	cat << EOF >> ${UBOOT_ITS}
+         };
++EOF
++	if [ "${UBOOT_FIT_ARM_TRUSTED_FIRMWARE_A}" =3D "1" ] ; then
++		cat << EOF >> ${UBOOT_ITS}
++        atf {
++            description =3D "ARM Trusted Firmware-A";
++            data =3D /incbin/("${UBOOT_FIT_ARM_TRUSTED_FIRMWARE_A_IMAGE}")=
+;
++            type =3D "firmware";
++            arch =3D "${UBOOT_ARCH}";
++            os =3D "arm-trusted-firmware";
++            load =3D <${UBOOT_FIT_ARM_TRUSTED_FIRMWARE_A_LOADADDRESS}>;
++            entry =3D <${UBOOT_FIT_ARM_TRUSTED_FIRMWARE_A_ENTRYPOINT}>;
++            compression =3D "none";
++EOF
++
++		if [ "${SPL_SIGN_ENABLE}" =3D "1" ] ; then
++			cat << EOF >> ${UBOOT_ITS}
++            signature {
++                algo =3D "${UBOOT_FIT_HASH_ALG},${UBOOT_FIT_SIGN_ALG}";
++                key-name-hint =3D "${SPL_SIGN_KEYNAME}";
++            };
++EOF
++		fi
++
++	cat << EOF >> ${UBOOT_ITS}
++        };
++EOF
++	fi
++
++	if [ "${UBOOT_FIT_OPTEE_OS}" =3D "1" ] ; then
++		cat << EOF >> ${UBOOT_ITS}
++        optee {
++            description =3D "OPTEE OS Image";
++            data =3D /incbin/("${UBOOT_FIT_OPTEE_OS_IMAGE}");
++            type =3D "tee";
++            arch =3D "${UBOOT_ARCH}";
++            os =3D "tee";
++            load =3D <${UBOOT_FIT_OPTEE_OS_LOADADDRESS}>;
++            entry =3D <${UBOOT_FIT_OPTEE_OS_ENTRYPOINT}>;
++            compression =3D "none";
++EOF
++
++		if [ "${SPL_SIGN_ENABLE}" =3D "1" ] ; then
++			cat << EOF >> ${UBOOT_ITS}
++            signature {
++                algo =3D "${UBOOT_FIT_HASH_ALG},${UBOOT_FIT_SIGN_ALG}";
++                key-name-hint =3D "${SPL_SIGN_KEYNAME}";
++            };
++EOF
++		fi
++
++	cat << EOF >> ${UBOOT_ITS}
++        };
++EOF
++	fi
++
++	cat << EOF >> ${UBOOT_ITS}
+     };
+=20
+     configurations {
+         default =3D "conf";
+         conf {
+             description =3D "Boot with signed U-Boot FIT";
+-            loadables =3D "uboot";
++EOF
++	if [ -n "${conf_firmware}" ]; then
++	cat << EOF >> ${UBOOT_ITS}
++            firmware =3D ${conf_firmware};
++EOF
++	fi
++	cat << EOF >> ${UBOOT_ITS}
++            loadables =3D ${conf_loadables};
+             fdt =3D "fdt";
+         };
+     };
 --=20
 2.25.1
 
