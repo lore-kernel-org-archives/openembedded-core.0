@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17057C48298
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D1CFC3DA79
 	for <webhook@archiver.kernel.org>; Mon, 15 Jan 2024 17:34:00 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.88861.1705340030487919556
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.88286.1705340030378926658
  for <openembedded-core@lists.openembedded.org>;
  Mon, 15 Jan 2024 09:33:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=RxSwlbrl;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=KvAO+jUg;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018d0e2fcac1-88dd0762-789c-42e8-8822-205ac08d2752-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=IkN3ordF;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=QJFE7VIy;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018d0e2fca7b-ddb23233-b111-4a23-9c71-e4a7425a5def-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1705340029;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=3ajVsabAQOIJl/SayxC9bxSG5SI+UmQ7TdXGPy6aB8U=;
-	b=RxSwlbrl1gkB2MbQ30nq+im5bMpJ9F1vtlBrnbEnmxW1HyqLvNaGTJYS6zYfe00J
-	j7ZQ7MoyaCFTtP9smsES3LdFKfWmmoJ5w4OElhKy0hP2UL/smVo3JBJecMtLo3wb0J8
-	1suAYcCm+4veDrXqMIIvZaR3u5Mhz5j+jGJbcWL4=
+	bh=I0Hq9Vg1mY+YCUG9N0SG89gmcteZGU/JfKIijvWqGkI=;
+	b=IkN3ordFRWvARwwsJDpVjCB1aiypXIuWJx41yPWcHZE+XuHHXtLeNWuZs+DDqtCC
+	DgKsU11hOGT1VqVCLi6RHd+BvRWhEDK3canfs8lcuk38K9eQ1rD9Kys2ykW+OpW5/64
+	iPerV3u9WNNLOfZvDCV8ROmzJkLJx/n09B4nrKwo=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1705340029;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=3ajVsabAQOIJl/SayxC9bxSG5SI+UmQ7TdXGPy6aB8U=;
-	b=KvAO+jUgRBBb2QgdrI8RrwtGYs061anZWGMkr9NXyUD458V9NKJfhB7pZJwKAo0j
-	PDMFuxQd7dSqG5kOrHz5tKoBlJZz53E+ANSVlp/NdR1+9yYjneI6MvrF+1P6HxsYbSr
-	AdnWvRS6LNHFYyFUcpNkObfjSK3R6SiyKZ3JEVx0=
-Content-Type: multipart/mixed; boundary="===============1525432912842476182=="
+	bh=I0Hq9Vg1mY+YCUG9N0SG89gmcteZGU/JfKIijvWqGkI=;
+	b=QJFE7VIySKIxt/O7nkUfMjg/X+PDTbSXzCxjDyFGd8cRwk+GALtVzSg5BIgIdYYW
+	lDS3+Wa/d/+BUPxM9U3Y/fNkO+EdJ1aSBhgvGts0l8877a0BJhMjUf8LxqrW4PBhkY2
+	bNIRdj2PKjXAEhXNRgoqutkiofmDuwQrOF9fB6C0=
+Content-Type: multipart/mixed; boundary="===============8462337666558953495=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-jinja2: upgrading to 3.1.3 SUCCEEDED
-Message-ID: <0101018d0e2fcac1-88dd0762-789c-42e8-8822-205ac08d2752-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-more-itertools: upgrading to 10.2.0 SUCCEEDED
+Message-ID: <0101018d0e2fca7b-ddb23233-b111-4a23-9c71-e4a7425a5def-000000@us-west-2.amazonses.com>
 Date: Mon, 15 Jan 2024 17:33:49 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.01.15-54.240.27.30
+X-SES-Outgoing: 2024.01.15-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 15 Jan 2024 17:34:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193748
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193744
 
---===============1525432912842476182==
+--===============8462337666558953495==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-jinja2* to *3.1.3* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-more-itertools* to *10.2.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-jinja2-upgrade-3.1.2-3.1.3.patch
+    - apply the patch: git am 0001-python3-more-itertools-upgrade-10.1.0-10.2.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,44 +72,76 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 20a23db759534340d45a3c78f98f19b4c9c4e95c Mon Sep 17 00:00:00 2001
+From 637f58a86b05dc0af39cd1e2b20c5846202931cb Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 15 Jan 2024 07:17:23 +0000
-Subject: [PATCH] python3-jinja2: upgrade 3.1.2 -> 3.1.3
+Date: Mon, 15 Jan 2024 07:31:04 +0000
+Subject: [PATCH] python3-more-itertools: upgrade 10.1.0 -> 10.2.0
 
 ---
- .../python/{python3-jinja2_3.1.2.bb => python3-jinja2_3.1.3.bb} | 2 +-
+ ...ore-itertools_10.1.0.bb => python3-more-itertools_10.2.0.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-jinja2_3.1.2.bb => python3-jinja2_3.1.3.bb} (92%)
+ rename meta/recipes-devtools/python/{python3-more-itertools_10.1.0.bb => python3-more-itertools_10.2.0.bb} (87%)
 
-diff --git a/meta/recipes-devtools/python/python3-jinja2_3.1.2.bb b/meta/recipes-devtools/python/python3-jinja2_3.1.3.bb
-similarity index 92%
-rename from meta/recipes-devtools/python/python3-jinja2_3.1.2.bb
-rename to meta/recipes-devtools/python/python3-jinja2_3.1.3.bb
-index fa6d930a9c..18057809c8 100644
---- a/meta/recipes-devtools/python/python3-jinja2_3.1.2.bb
-+++ b/meta/recipes-devtools/python/python3-jinja2_3.1.3.bb
-@@ -4,7 +4,7 @@ HOMEPAGE = "https://pypi.org/project/Jinja2/"
- LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=5dc88300786f1c214c1e9827a5229462"
+diff --git a/meta/recipes-devtools/python/python3-more-itertools_10.1.0.bb b/meta/recipes-devtools/python/python3-more-itertools_10.2.0.bb
+similarity index 87%
+rename from meta/recipes-devtools/python/python3-more-itertools_10.1.0.bb
+rename to meta/recipes-devtools/python/python3-more-itertools_10.2.0.bb
+index be2a73c369..fb28c35cbd 100644
+--- a/meta/recipes-devtools/python/python3-more-itertools_10.1.0.bb
++++ b/meta/recipes-devtools/python/python3-more-itertools_10.2.0.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/erikrose/more-itertools"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=3396ea30f9d21389d7857719816f83b5"
  
--SRC_URI[sha256sum] = "31351a702a408a9e7595a8fc6150fc3f43bb6bf7e319770cbc0db9df9437e852"
-+SRC_URI[sha256sum] = "ac8bd6544d4bb2c9792bf3a159e80bba8fda7f07e81bc3aed565432d5925ba90"
+-SRC_URI[sha256sum] = "626c369fa0eb37bac0291bce8259b332fd59ac792fa5497b59837309cd5b114a"
++SRC_URI[sha256sum] = "8fccb480c43d3e99a00087634c06dd02b0d50fbf088b380de5a41a015ec239e1"
  
- PYPI_PACKAGE = "Jinja2"
+ inherit pypi python_flit_core ptest
  
 -- 
 2.42.0
 
 
---===============1525432912842476182==
+--===============8462337666558953495==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-more-itertools-upgrade-10.1.0-10.2.0.patch"
+
+RnJvbSA2MzdmNThhODZiMDVkYzBhZjM5Y2QxZTJiMjBjNTg0NjIwMjkzMWNiIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMTUgSmFuIDIwMjQgMDc6MzE6MDQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLW1vcmUtaXRlcnRvb2xzOiB1cGdyYWRlIDEwLjEuMCAtPiAxMC4yLjAKCi0tLQogLi4u
+b3JlLWl0ZXJ0b29sc18xMC4xLjAuYmIgPT4gcHl0aG9uMy1tb3JlLWl0ZXJ0b29sc18xMC4yLjAu
+YmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0p
+CiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1tb3JlLWl0ZXJ0
+b29sc18xMC4xLjAuYmIgPT4gcHl0aG9uMy1tb3JlLWl0ZXJ0b29sc18xMC4yLjAuYmJ9ICg4NyUp
+CgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLW1vcmUt
+aXRlcnRvb2xzXzEwLjEuMC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
+My1tb3JlLWl0ZXJ0b29sc18xMC4yLjAuYmIKc2ltaWxhcml0eSBpbmRleCA4NyUKcmVuYW1lIGZy
+b20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLW1vcmUtaXRlcnRvb2xzXzEw
+LjEuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLW1v
+cmUtaXRlcnRvb2xzXzEwLjIuMC5iYgppbmRleCBiZTJhNzNjMzY5Li5mYjI4YzM1Y2JkIDEwMDY0
+NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtbW9yZS1pdGVydG9v
+bHNfMTAuMS4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1t
+b3JlLWl0ZXJ0b29sc18xMC4yLjAuYmIKQEAgLTMsNyArMyw3IEBAIEhPTUVQQUdFID0gImh0dHBz
+Oi8vZ2l0aHViLmNvbS9lcmlrcm9zZS9tb3JlLWl0ZXJ0b29scyIKIExJQ0VOU0UgPSAiTUlUIgog
+TElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9MzM5NmVhMzBmOWQyMTM4OWQ3
+ODU3NzE5ODE2ZjgzYjUiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI2MjZjMzY5ZmEwZWIzN2Jh
+YzAyOTFiY2U4MjU5YjMzMmZkNTlhYzc5MmZhNTQ5N2I1OTgzNzMwOWNkNWIxMTRhIgorU1JDX1VS
+SVtzaGEyNTZzdW1dID0gIjhmY2NiNDgwYzQzZDNlOTlhMDAwODc2MzRjMDZkZDAyYjBkNTBmYmYw
+ODhiMzgwZGU1YTQxYTAxNWVjMjM5ZTEiCiAKIGluaGVyaXQgcHlwaSBweXRob25fZmxpdF9jb3Jl
+IHB0ZXN0CiAKLS0gCjIuNDIuMAoK
+
+--===============8462337666558953495==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-64-poky-linux/python3-jinja2 (sysroot):
-  /usr/lib/python3.11/site-packages/Jinja2-3.1.2.dist-info moved to /usr/lib/python3.11/site-packages/Jinja2-3.1.3.dist-info
+Changes to packages/core2-64-poky-linux/python3-more-itertools (sysroot):
+  /usr/lib/python3.11/site-packages/more_itertools-10.1.0.dist-info moved to /usr/lib/python3.11/site-packages/more_itertools-10.2.0.dist-info
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1746,36 +1778,38 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
+Changes to packages/x86_64-linux/python3-more-itertools-native (sysroot):
+  /usr/lib/python3.11/site-packages/more_itertools-10.1.0.dist-info moved to /usr/lib/python3.11/site-packages/more_itertools-10.2.0.dist-info
 
---===============1525432912842476182==
+--===============8462337666558953495==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-jinja2: SRC_URI changed from "https://files.pythonhosted.org/packages/source/J/Jinja2/Jinja2-3.1.2.tar.gz;downloadfilename=Jinja2-3.1.2.tar.gz file://run-ptest" to "https://files.pythonhosted.org/packages/source/J/Jinja2/Jinja2-3.1.3.tar.gz;downloadfilename=Jinja2-3.1.3.tar.gz file://run-ptest"
-packages/core2-64-poky-linux/python3-jinja2: PV changed from "3.1.2" to "3.1.3"
-packages/core2-64-poky-linux/python3-jinja2: PKGV changed from 3.1.2 [default] to 3.1.3 [default]
-packages/core2-64-poky-linux/python3-jinja2/python3-jinja2-dbg: PV changed from "3.1.2" to "3.1.3"
-packages/core2-64-poky-linux/python3-jinja2/python3-jinja2-dbg: PKGV changed from 3.1.2 [default] to 3.1.3 [default]
-packages/core2-64-poky-linux/python3-jinja2/python3-jinja2-dev: PV changed from "3.1.2" to "3.1.3"
-packages/core2-64-poky-linux/python3-jinja2/python3-jinja2-dev: PKGV changed from 3.1.2 [default] to 3.1.3 [default]
-packages/core2-64-poky-linux/python3-jinja2/python3-jinja2-doc: PV changed from "3.1.2" to "3.1.3"
-packages/core2-64-poky-linux/python3-jinja2/python3-jinja2-doc: PKGV changed from 3.1.2 [default] to 3.1.3 [default]
-packages/core2-64-poky-linux/python3-jinja2/python3-jinja2-locale: PV changed from "3.1.2" to "3.1.3"
-packages/core2-64-poky-linux/python3-jinja2/python3-jinja2-locale: PKGV changed from 3.1.2 [default] to 3.1.3 [default]
-packages/core2-64-poky-linux/python3-jinja2/python3-jinja2-ptest: PV changed from "3.1.2" to "3.1.3"
-packages/core2-64-poky-linux/python3-jinja2/python3-jinja2-ptest: PKGV changed from 3.1.2 [default] to 3.1.3 [default]
-packages/core2-64-poky-linux/python3-jinja2/python3-jinja2-ptest: PKGSIZE changed from 263302 to 264473 (+0%)
-packages/core2-64-poky-linux/python3-jinja2/python3-jinja2-src: PV changed from "3.1.2" to "3.1.3"
-packages/core2-64-poky-linux/python3-jinja2/python3-jinja2-src: PKGV changed from 3.1.2 [default] to 3.1.3 [default]
-packages/core2-64-poky-linux/python3-jinja2/python3-jinja2-staticdev: PV changed from "3.1.2" to "3.1.3"
-packages/core2-64-poky-linux/python3-jinja2/python3-jinja2-staticdev: PKGV changed from 3.1.2 [default] to 3.1.3 [default]
-packages/core2-64-poky-linux/python3-jinja2/python3-jinja2: PV changed from "3.1.2" to "3.1.3"
-packages/core2-64-poky-linux/python3-jinja2/python3-jinja2: PKGV changed from 3.1.2 [default] to 3.1.3 [default]
-packages/core2-64-poky-linux/python3-jinja2/python3-jinja2: PKGSIZE changed from 1197979 to 1198851 (+0%)
-Changes to packages/core2-64-poky-linux/python3-jinja2 (sysroot):
-  /usr/lib/python3.11/site-packages/Jinja2-3.1.2.dist-info moved to /usr/lib/python3.11/site-packages/Jinja2-3.1.3.dist-info
+packages/core2-64-poky-linux/python3-more-itertools: PKGV changed from 10.1.0 [default] to 10.2.0 [default]
+packages/core2-64-poky-linux/python3-more-itertools: PV changed from "10.1.0" to "10.2.0"
+packages/core2-64-poky-linux/python3-more-itertools: SRC_URI changed from "https://files.pythonhosted.org/packages/source/m/more-itertools/more-itertools-10.1.0.tar.gz;downloadfilename=more-itertools-10.1.0.tar.gz file://run-ptest" to "https://files.pythonhosted.org/packages/source/m/more-itertools/more-itertools-10.2.0.tar.gz;downloadfilename=more-itertools-10.2.0.tar.gz file://run-ptest"
+packages/core2-64-poky-linux/python3-more-itertools/python3-more-itertools-dbg: PKGV changed from 10.1.0 [default] to 10.2.0 [default]
+packages/core2-64-poky-linux/python3-more-itertools/python3-more-itertools-dbg: PV changed from "10.1.0" to "10.2.0"
+packages/core2-64-poky-linux/python3-more-itertools/python3-more-itertools-dev: PKGV changed from 10.1.0 [default] to 10.2.0 [default]
+packages/core2-64-poky-linux/python3-more-itertools/python3-more-itertools-dev: PV changed from "10.1.0" to "10.2.0"
+packages/core2-64-poky-linux/python3-more-itertools/python3-more-itertools-doc: PKGV changed from 10.1.0 [default] to 10.2.0 [default]
+packages/core2-64-poky-linux/python3-more-itertools/python3-more-itertools-doc: PV changed from "10.1.0" to "10.2.0"
+packages/core2-64-poky-linux/python3-more-itertools/python3-more-itertools-locale: PKGV changed from 10.1.0 [default] to 10.2.0 [default]
+packages/core2-64-poky-linux/python3-more-itertools/python3-more-itertools-locale: PV changed from "10.1.0" to "10.2.0"
+packages/core2-64-poky-linux/python3-more-itertools/python3-more-itertools-ptest: PKGV changed from 10.1.0 [default] to 10.2.0 [default]
+packages/core2-64-poky-linux/python3-more-itertools/python3-more-itertools-ptest: PV changed from "10.1.0" to "10.2.0"
+packages/core2-64-poky-linux/python3-more-itertools/python3-more-itertools-ptest: PKGSIZE changed from 222224 to 232521 (+5%)
+packages/core2-64-poky-linux/python3-more-itertools/python3-more-itertools-src: PKGV changed from 10.1.0 [default] to 10.2.0 [default]
+packages/core2-64-poky-linux/python3-more-itertools/python3-more-itertools-src: PV changed from "10.1.0" to "10.2.0"
+packages/core2-64-poky-linux/python3-more-itertools/python3-more-itertools-staticdev: PKGV changed from 10.1.0 [default] to 10.2.0 [default]
+packages/core2-64-poky-linux/python3-more-itertools/python3-more-itertools-staticdev: PV changed from "10.1.0" to "10.2.0"
+packages/core2-64-poky-linux/python3-more-itertools/python3-more-itertools: PKGV changed from 10.1.0 [default] to 10.2.0 [default]
+packages/core2-64-poky-linux/python3-more-itertools/python3-more-itertools: PV changed from "10.1.0" to "10.2.0"
+packages/core2-64-poky-linux/python3-more-itertools/python3-more-itertools: PKGSIZE changed from 444527 to 454051 (+2%)
+Changes to packages/core2-64-poky-linux/python3-more-itertools (sysroot):
+  /usr/lib/python3.11/site-packages/more_itertools-10.1.0.dist-info moved to /usr/lib/python3.11/site-packages/more_itertools-10.2.0.dist-info
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3412,36 +3446,8 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
+Changes to packages/x86_64-linux/python3-more-itertools-native (sysroot):
+  /usr/lib/python3.11/site-packages/more_itertools-10.1.0.dist-info moved to /usr/lib/python3.11/site-packages/more_itertools-10.2.0.dist-info
 
---===============1525432912842476182==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-jinja2-upgrade-3.1.2-3.1.3.patch"
-
-RnJvbSAyMGEyM2RiNzU5NTM0MzQwZDQ1YTNjNzhmOThmMTliNGM5YzRlOTVjIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgSmFuIDIwMjQgMDc6MTc6MjMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWppbmphMjogdXBncmFkZSAzLjEuMiAtPiAzLjEuMwoKLS0tCiAuLi4vcHl0aG9uL3tw
-eXRob24zLWppbmphMl8zLjEuMi5iYiA9PiBweXRob24zLWppbmphMl8zLjEuMy5iYn0gfCAyICst
-CiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBt
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWppbmphMl8zLjEuMi5iYiA9PiBw
-eXRob24zLWppbmphMl8zLjEuMy5iYn0gKDkyJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtamluamEyXzMuMS4yLmJiIGIvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3B5dGhvbi9weXRob24zLWppbmphMl8zLjEuMy5iYgpzaW1pbGFyaXR5IGluZGV4IDky
-JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtamluamEy
-XzMuMS4yLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMt
-amluamEyXzMuMS4zLmJiCmluZGV4IGZhNmQ5MzBhOWMuLjE4MDU3ODA5YzggMTAwNjQ0Ci0tLSBh
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1qaW5qYTJfMy4xLjIuYmIKKysr
-IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWppbmphMl8zLjEuMy5iYgpA
-QCAtNCw3ICs0LDcgQEAgSE9NRVBBR0UgPSAiaHR0cHM6Ly9weXBpLm9yZy9wcm9qZWN0L0ppbmph
-Mi8iCiBMSUNFTlNFID0gIkJTRC0zLUNsYXVzZSIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTov
-L0xJQ0VOU0UucnN0O21kNT01ZGM4ODMwMDc4NmYxYzIxNGMxZTk4MjdhNTIyOTQ2MiIKIAotU1JD
-X1VSSVtzaGEyNTZzdW1dID0gIjMxMzUxYTcwMmE0MDhhOWU3NTk1YThmYzYxNTBmYzNmNDNiYjZi
-ZjdlMzE5NzcwY2JjMGRiOWRmOTQzN2U4NTIiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYWM4YmQ2
-NTQ0ZDRiYjJjOTc5MmJmM2ExNTllODBiYmE4ZmRhN2YwN2U4MWJjM2FlZDU2NTQzMmQ1OTI1YmE5
-MCIKIAogUFlQSV9QQUNLQUdFID0gIkppbmphMiIKIAotLSAKMi40Mi4wCgo=
-
---===============1525432912842476182==--
+--===============8462337666558953495==--
 
