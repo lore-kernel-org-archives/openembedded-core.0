@@ -1,382 +1,184 @@
-Return-Path: <adrian.freihofer@gmail.com>
+Return-Path: <Jasper.Orschulko@iris-sensing.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46AE2C47077
-	for <webhook@archiver.kernel.org>; Sun, 14 Jan 2024 22:15:01 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web10.52022.1705270491674183926
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42C12C4707B
+	for <webhook@archiver.kernel.org>; Mon, 15 Jan 2024 00:54:52 +0000 (UTC)
+Received: from DEU01-FR2-obe.outbound.protection.outlook.com (DEU01-FR2-obe.outbound.protection.outlook.com [40.107.135.81])
+ by mx.groups.io with SMTP id smtpd.web10.62952.1705280088844368579
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Jan 2024 14:14:52 -0800
+ Sun, 14 Jan 2024 16:54:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=O9TFGtPc;
- spf=pass (domain: gmail.com, ip: 209.85.221.50, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-336897b6bd6so7964357f8f.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 14 Jan 2024 14:14:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705270490; x=1705875290; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vkA8JmIqu+tEZQPINCgxYk+1SogLmP0MfuItZDG+1ho=;
-        b=O9TFGtPcHKIepZ7s6nXrYLRP4vnrqm1Na89Pzg00dnS+NyYy4HQ9aOsDihvgzWLkpR
-         H4han1s7U+yT6lYl9k4EiZ/oSfbRmyf75ycKhgxnFz8/n8zRe5Tj7P4YiXlLjeGHkykH
-         m6CJJuTJkltH7Dar/jFSZOr2XdgvNIRpNc3syU//6W33Kuepq9jfyj8b6+wFt/1dTAx6
-         ByDacgjZ/wCEcSRhlC/GYqt7wKGyQFpGYMXUVd19BM+yUwhUDhL5ouo8MdZBSnf4/QVL
-         3clZ+yB8KBtlvISjngRKE9SbeFREH2FEsQ2cVUnxCB/SC0jESiiyls3sKGmXPztvfEtQ
-         a6tQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705270490; x=1705875290;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vkA8JmIqu+tEZQPINCgxYk+1SogLmP0MfuItZDG+1ho=;
-        b=PSB2kkSLcdQha1HzO94TxG85AbYi9A2dNEwizE3FJO7yPk2aYR37cPsUufjEc7baAi
-         LqsM//TCI8nCRGiMwaYdW1nJff5j7AxfDjGv8c1JGw/WmkOfhlOr0EoDkOp9NehXB9Qb
-         7CDEinyRHD7mRfgzC+BZmSszgH3/VyMHvVUUQdNmMBLM9K5tEKyWAHE5MeT9N0/duCC/
-         Fy0SU+8fDEBe1DN5T3HEA8eOb/vk61obvvFh003Ly8/jDaPRkHrilgqi1/It9DEnrvBe
-         9YOEog2c5udX5w5iG6KWktpb2lHj3mh9Ymt8QphqqWIYN/aJn0rfpNUSuw/7p5rpBtVU
-         TEKQ==
-X-Gm-Message-State: AOJu0YyO89vcNgUlPC+mtZzJOZ2B0UKAGhVR/+o2tQ1W47Ud2+QnlgX7
-	p27E/kv7tCzIb+ozrL4WNhWF19t7zHM=
-X-Google-Smtp-Source: AGHT+IFHaKsSCkxKx1zFx+KtxxIlQHQkbSUh0k7lms0LWB3a5FoCE8vwLmo4UHQOkHWb309RYdqVkQ==
-X-Received: by 2002:a05:600c:a01c:b0:40e:5a02:7820 with SMTP id jg28-20020a05600ca01c00b0040e5a027820mr2357155wmb.13.1705270489763;
-        Sun, 14 Jan 2024 14:14:49 -0800 (PST)
-Received: from wsadrian16.fritz.box ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id t21-20020a05600c451500b0040e3ac9f4c8sm17451943wmo.28.2024.01.14.14.14.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Jan 2024 14:14:48 -0800 (PST)
-From: Adrian Freihofer <adrian.freihofer@gmail.com>
-X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v9 9/9] WIP: sdk-manual: extensible.rst: cover devtool ide-sdk
-Date: Sun, 14 Jan 2024 23:14:21 +0100
-Message-ID: <20240114221437.1255866-10-adrian.freihofer@siemens.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240114221437.1255866-1-adrian.freihofer@siemens.com>
-References: <20240114221437.1255866-1-adrian.freihofer@siemens.com>
+ dkim=pass header.i=@iris-sensing.com header.s=selector1 header.b=5MdY937y;
+ spf=pass (domain: iris-sensing.com, ip: 40.107.135.81, mailfrom: jasper.orschulko@iris-sensing.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Hjl2V2oD5wwiqc+RBayjTcerA45dXYIgeUDvxUCanUuic6Kyb8219yJomJNAuW9DoXgFjF9D0AaPGaPMGzmsOF7Zsz5JxyEBlApaBEDKdKIRHvAZjHhxoz5ibaAcY5ZlHXs69c3rB6MrErPtsx1tV1wBJjCDHezsLxrDpO0HhKDUiVQobBQKnC9tkI0L6SaGZQoaPtGY5qrAYNcbcHBPkiNqrDPV+A65l21hugvO5rbg1MkGwYGkVi3wVAC8DuDB7uz3udKHsBzr17Gg5LN8CRfvKmFymX29p4PiKiSFG1GaIL6usrNUyy977Q5EK5GBrNuSsKVQz9ZEdhYQ69S7WA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PwFCW0XdjXchRVJpkpuJAgr2fxDfZSX5vo2N2HkqORE=;
+ b=BmOGFuJTvTrLQTJnjnIP59ibM2z3o1NoQX789Z8z+805zwJcHBLAfBFkxM26zGmMtW9W6iPxS26Ed4F7rYQSE8f6BqjnrZzaPKTRxYCu8rP7FMJqixQM8M0YBhY+53GVwYUAEASfjiiuhDPDaXelz2vxXVQOE1bgkykWJGTBF1wnh01u3PZUqXh5XAieplxLNCdIG+mn7SH7BDuZeVnWDJhhn/+RhT1ZZbH8lBJn1U3k3+DY9t5NJwZXC+mLdHpS5qGP30vHR9wznBSYAcHNMxxLerVxfkbB1X1M1img8JaUUcsrWzLLsnEGGkTOzAtX55dtL5IzYg+aP5fxHL0s6w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=iris-sensing.com; dmarc=pass action=none
+ header.from=iris-sensing.com; dkim=pass header.d=iris-sensing.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iris-sensing.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PwFCW0XdjXchRVJpkpuJAgr2fxDfZSX5vo2N2HkqORE=;
+ b=5MdY937yPcz3/FFKTIJrsGS0u4bxJbJY8G2OBWdazFFxoKYvnkODUx2tRmNQk0e97iriZQ4lf2APYKQoDpqIdZXCu+7ceGuTnDfk2roaeeNbMpaZFXgy2blIjFiziJRDaxCOUQFcKHChj0SMiSJ/7CGQJPxKWovPm491XHOxtAvhxsTvpfOSmFObmxCYmhuuChANq5En/Th2sxpaNlUwZteP0xodq1J9fsUGEhwWMGb5QIZYt9SMQx4EWRzWlPX4ftVRyvhiV6/GGZEAv9ZAWiRzjC8Rhbk9ozRjeD1Q3KIA7M4cgl1/8mdw+8ru69BTEVtNphIcGmtbOVei8zuPwA==
+Received: from FR2P281MB1963.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:3d::14)
+ by FR2P281MB2860.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:67::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7181.23; Mon, 15 Jan
+ 2024 00:54:45 +0000
+Received: from FR2P281MB1963.DEUP281.PROD.OUTLOOK.COM
+ ([fe80::1568:5c5e:8a0d:be4a]) by FR2P281MB1963.DEUP281.PROD.OUTLOOK.COM
+ ([fe80::1568:5c5e:8a0d:be4a%4]) with mapi id 15.20.7181.026; Mon, 15 Jan 2024
+ 00:54:45 +0000
+From: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Removing Github release SRC_URIs from oe-core recipes?
+Thread-Topic: Removing Github release SRC_URIs from oe-core recipes?
+Thread-Index: AQHaR01toZjDsnahoEKeitp4QsxNjQ==
+Date: Mon, 15 Jan 2024 00:54:44 +0000
+Message-ID: <2ef89f525fd5ceaec574d025c515033c06fcaf6c.camel@iris-sensing.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=iris-sensing.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: FR2P281MB1963:EE_|FR2P281MB2860:EE_
+x-ms-office365-filtering-correlation-id: 1359eb75-2b7c-4e30-1c54-08dc15649070
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ 4A8lzLcGHu2NutaInseK72zQf9bzckeeTaKIiy7CDgK4zKPRQCB+IcKHYHEjrVqbE+RxM7eT7RT54YF3YLN+1f4MiLYVmtowjIoYMtIjGO8VfwiC4moOCUJUlsAgVAwWMfXb14lk8kn1QAVDUIuqI1B0b7i6kKHmqgB980k/XE/w/AL4NDql4UqwbDj8CMmf3UtZgigd1ShMqT7Er9IVKjRS4HihvMZzUm3Di6ja1P+C0n9yBxfQbyf7g3Ev9BjOf/so97exO1rTN8Sl44aFUYNks6YpKW7BlQVFQb75q+NBiDxBRK+/MwessggMHnl4ApLSonWlAtImjnk0CarG/4PklXlo++qhsjoEHpliMD4oU0J79iYpdlbXJyBMACrMrkQAc58AIh+UijwXrbAR4XTyXioiaQD37xFB3vi62GxrX9PKk64maonyhq6Tk+BayCic/30ZmvqvPAw61fb+zSypJbRIcqD93FjlqNDBuLUQIbXW34ehmoFo0c1he/fllGu/H5nUspwqHYA3+md9pNSFxwFkDiYPmWMRHd/glyu4EXS30NUE20GBXA8gzmAmX/kM6u4tbdXax2yW6tIcXW7lcu5SG8W95hsdxCl6Fv4=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:FR2P281MB1963.DEUP281.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(346002)(396003)(376002)(366004)(39830400003)(136003)(230922051799003)(64100799003)(1800799012)(451199024)(186009)(83380400001)(2616005)(86362001)(36756003)(38070700009)(6512007)(8676002)(8936002)(5660300002)(71200400001)(122000001)(38100700002)(66946007)(66446008)(6916009)(66476007)(316002)(91956017)(66556008)(64756008)(76116006)(2906002)(41300700001)(478600001)(6486002)(6506007);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?MTl2czdzM1VUUkZxaERQbXBKUGJvanlIVEp2Nit0MkNoZ3ZQSnMxaFVyQmJj?=
+ =?utf-8?B?aDJicW9VeStTeDRRQXJhT0libjIvbk5ZWUkzdy9iUDZTQmtnNzJKeVk4cGlm?=
+ =?utf-8?B?b1RNYWJnRWhyaXJWZ0FwOEI1K2RPeHR0Nmw4MndVckZwMzF4TGhXQzhQakMw?=
+ =?utf-8?B?aU14MVdhUXFPNGV4WGZZOGV5UkVJWWk5WDE1dVQ4Q1YxU2VNMnBEU0lFTXpy?=
+ =?utf-8?B?TnZDVXZvVUZPT0ZkUmhVSUM4QXZLYVM3cW5QLzJMUld0UERFeS9xdXI4S3JL?=
+ =?utf-8?B?THErQVZJYnVicDJWa0xOSEYyQUJiWUw5aXZNTXdmcFRUUC9QdUVMaG1RMTlH?=
+ =?utf-8?B?MXpPWFBXcmlOWWRkeEpwRHdrcno5eXlWTzltUm5NTkZPdVphY084Wm5qTlRE?=
+ =?utf-8?B?L1hNbGhFY1N5NkZIVGtkVmlRblcxNmZwVldDd2dUTjFmZHhzR01pdDVmU2NF?=
+ =?utf-8?B?MkpnN2UwWWRnbk5GK2xocTB2QjE4K2YwcTd5d0FWM0FNNHk3MlB2ZTlRRUVz?=
+ =?utf-8?B?SnlTU0Z2ZmNiRkxDNXN2aThyb3kwOGtzc1B3cEJQWnhWWTU4alE3K0cvTkk3?=
+ =?utf-8?B?aC9HbWVNQUE4V2FTTElkVXpsd25OM3hqWTV4ZlgvelVNcGRaVHNuMW5RR1VP?=
+ =?utf-8?B?ZnVXRVNuZ3RiazY2M3R2d1orUllBMlcwT3BENldyU2ZzbHc2bDdBUDJHdDJ4?=
+ =?utf-8?B?UkwybnVwSVowTERJaERHeWdBWUpvVnBhQlg5cld4NzVmUTR2QlJXUm5FUnFJ?=
+ =?utf-8?B?ZHYvYzZGSURLM2RFZWdSb0FIbHF5NlhuS2pKVUNjMFYyS2p0bXlnbzBPSjFO?=
+ =?utf-8?B?MTZJeUlvY2Y4ZlRpbTJmOUpUc3pZaVlSRk5wN2p4MDVQZXkyNWthYkhPYkJB?=
+ =?utf-8?B?dVhzbU1sNVZPS09rM2M5bENoeUdJdVh6enBzeVJvbllqT080Q0psK3hpMndE?=
+ =?utf-8?B?bU5mbGVkRmp3MEk3OXlzMVpnYlhsSkdXdDFDZFh2Rnl4SEJFSUlQZHdRQVVX?=
+ =?utf-8?B?eXFaOWdtUmxCTy9lNDhzbzhVb2xCUkI5Z2xLbVFTUlFkb21udmd4MG14eWx5?=
+ =?utf-8?B?VTJnYmFVNmdOVjV6d2lHSlRDRkh3bDBsdkRJRGpBZjF3ajhNNVFpRkQwWmFm?=
+ =?utf-8?B?aE1nRUhGbktadDAvdExMVWJwWnpFblZxWU1UaGFSeXNKeFRIT3BOUVNuV2t0?=
+ =?utf-8?B?aHlSRHZpY3QyazlHNkQ2Sm5TNTNaZXphNThjanB2dDlXc003L1kyRVoydk9O?=
+ =?utf-8?B?YWoxQkk5UFg4K0tGM3pMNS9FYitLT203M215czdTYmdBcXB6K21uOXJyM3JX?=
+ =?utf-8?B?YTVVZDFZNjd3azNOQWNFSkNqVVk1bDFkbEsvS1FEVnh3ckc3QVdrVGpTZHRO?=
+ =?utf-8?B?SUMrTEJCcWh6djV0b2xZNys4K2V4bUYyTkcyTHdNTjA0TzI1bmRQK0QvRzVr?=
+ =?utf-8?B?U2VYOWV5bDBkQkVBejhzc2VsemRrY2ZySk5aWWZ3NGd4eFNWWmNNZ3BWYXpT?=
+ =?utf-8?B?dTVRSmZlenFNRUIwOVVMUEpCNzBreGlYVG90aUw4dmdEVjIvSzZNMjBLRHZk?=
+ =?utf-8?B?T3pmdG9yY3V0bEYvOTdvU3hzRzVFVkpneTJvNjZ4V29IakVjcmxnUzg4OWRR?=
+ =?utf-8?B?OEU4SjFOc3NIYnIycERPSU02SVJvNlpiYWxpcHN1OWRtWStEVXFJZm9oMlNZ?=
+ =?utf-8?B?akk3YnkrY3FRZUhJL0lmMXlCMkV0Ujkyd3k4ZFRMa0ZLbEFMaGhRMUJuZXdI?=
+ =?utf-8?B?bHkrc3A5NEZFS3J6Zi9QVzRXeDhGNzltYmFYdklReVN4OHQ3RVRHVm9oYURy?=
+ =?utf-8?B?NVNiRXJFNDU0RHVIdDV1bXZ2VWJ3VlhITG9RN1dCOUFUaUVrMXFsblo2WkVo?=
+ =?utf-8?B?TUFXcWJPa1hiZWxxWGdWZ0s2akM5VjNHM2VMRUJnbVNPNVRnVDJ2QjhYM205?=
+ =?utf-8?B?RTZldnVpa0owSzV6MG1nQ0hZMmg2aENkMTVHZkpTbUhOdmZzRjRHd1hIUU11?=
+ =?utf-8?B?VkFwajkrcEdibjRXMHFmOC9JWlBsdmMrcnRtRWgrNEVad2V6WWxYVklCd2Nt?=
+ =?utf-8?B?end2dElDdHZkNytRbXdXSUk1QkpVUzZMWEZyb0tia1NQV0IxYllQODhLeVdi?=
+ =?utf-8?B?ZUdhWEFJQVhZK3JVWEtuZUpDMVZhM0tHdVdvS2pMT0U0VURCOW9vdTJURm5v?=
+ =?utf-8?B?MEVvbWorTnA3Z0pUejVkZHdxVkttMlVFS3Q2NFpPZnZXMm5OWVdPd3Fyd0xh?=
+ =?utf-8?Q?cAkLMs9co9fMAa4hy1QGtk09jsrGXC3T5g66LFXfSY=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <FB426E2354D3F7468C0CCA3EE8A8EA08@DEUP281.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: iris-sensing.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: FR2P281MB1963.DEUP281.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1359eb75-2b7c-4e30-1c54-08dc15649070
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jan 2024 00:54:44.3409
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 963f3913-ffae-43fd-856b-2dfd3f6604e3
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: jHFYY8xgfbd5xxlg9MPNELBg6ZbcYjJPEpvZsHRslFGHfZVPjNRSjjLaOWU0rkLRz4R7oPct8au98QZRteGwnYuxLhEzjoS6pur8NQe9PjADtmJd4YEjTOVWoNY+xkbW
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: FR2P281MB2860
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 14 Jan 2024 22:15:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193627
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Jan 2024 00:54:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193628
 
-Cover the new devtool ide plugin in the extensible sdk section.
-
-Many thanks to Enguerrand de Ribaucourt for his re-view and
-contributions.
-
-Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
----
- documentation/sdk-manual/extensible.rst | 257 +++++++++++++++++++++++-
- 1 file changed, 256 insertions(+), 1 deletion(-)
-
-diff --git a/documentation/sdk-manual/extensible.rst b/documentation/sdk-manual/extensible.rst
-index 355c6cb0e4a..7a80f94a38b 100644
---- a/documentation/sdk-manual/extensible.rst
-+++ b/documentation/sdk-manual/extensible.rst
-@@ -63,6 +63,8 @@ their own pros and cons:
-    need to provide a well-functioning binary artefact cache over the network
-    for developers with underpowered laptops.
- 
-+.. _setting_up_ext_sdk_in_build:
-+
- Setting up the Extensible SDK environment directly in a Yocto build
- -------------------------------------------------------------------
- 
-@@ -168,6 +170,8 @@ architecture. The example assumes the SDK installer is located in
-    that case, set up the proper permissions in the directory and run the
-    installer again.
- 
-+.. _running_the_ext_sdk_env:
-+
- Running the Extensible SDK Environment Setup Script
- ===================================================
- 
-@@ -205,6 +209,8 @@ use the SDK (e.g. ``PATH``, :term:`CC`, :term:`LD`, and so forth). If you want
- to see all the environment variables the script exports, examine the
- installation file itself.
- 
-+.. _using_devtool:
-+
- Using ``devtool`` in Your SDK Workflow
- ======================================
- 
-@@ -230,13 +236,15 @@ all the commands.
-    See the ":doc:`/ref-manual/devtool-reference`"
-    section in the Yocto Project Reference Manual.
- 
--Three ``devtool`` subcommands provide entry-points into development:
-+``devtool`` subcommands provide entry-points into development:
- 
- -  *devtool add*: Assists in adding new software to be built.
- 
- -  *devtool modify*: Sets up an environment to enable you to modify
-    the source of an existing component.
- 
-+-  *devtool ide-sdk*: Generates a configuration for an IDE.
-+
- -  *devtool upgrade*: Updates an existing recipe so that you can
-    build it for an updated set of source files.
- 
-@@ -614,6 +622,253 @@ command:
-       decide you do not want to proceed with your work. If you do use this
-       command, realize that the source tree is preserved.
- 
-+``devtool ide-sdk`` configures IDEs for the extensible SDK
-+----------------------------------------------------------
-+
-+``devtool ide-sdk`` automatically configures IDEs to use the extensible SDK.
-+To make sure that all parts of the extensible SDK required by the generated IDE configuration are
-+available, ``devtool ide-sdk`` uses bitbake in the background to bootstrap the extensible SDK.
-+
-+The extensible SDK supports two different development modes.
-+``devtool ide-sdk`` supports both of them:
-+
-+#. *Modified mode*:
-+
-+   By default ``devtool ide-sdk`` generates IDE configurations for recipes in workspaces
-+   created by ``devtool modify`` or ``devtool add`` as described in :ref:`using_devtool`.
-+   This mode creates IDE configurations with support for advanced features, such as deploying
-+   the binaries to the remote target device and performing remote debugging sessions.
-+   The generated IDE configurations use the per recipe sysroots as Bitbake does internally.
-+
-+   In order to use the tool, a few settings must be made.
-+   As a starting example, the following lines of code can be added to the ``local.conf`` file::
-+
-+      # Build the companion debug file system
-+      IMAGE_GEN_DEBUGFS = "1"
-+      # Optimize build time: with devtool ide-sdk the dbg tar is not needed
-+      IMAGE_FSTYPES_DEBUGFS = ""
-+      # Without copying the binaries into roofs-dbg, GDB does not find all source files.
-+      IMAGE_CLASSES += "image-combined-dbg"
-+
-+      # ssh is mandatory, no password simplifies the usage
-+      EXTRA_IMAGE_FEATURES += "\
-+         ssh-server-openssh \
-+         debug-tweaks \
-+      "
-+
-+      # Remote debugging needs the gdbserver on the target device
-+      IMAGE_INSTALL:append = " gdbserver"
-+
-+      # Add the recipes which should be modified to the image
-+      # Otherwise some dependencies might be missing.
-+      IMAGE_INSTALL:append = " my-recipe"
-+
-+   Assuming the bitbake environment is set up correctly and a workspace has been created
-+   for the recipe using ``devtool modify my-recipe``, the following command can create the
-+   SDK and the configuration for VSCode in the recipe workspace::
-+
-+      $ devtool ide-sdk my-recipe core-image-minimal --target root@192.168.7.2
-+
-+   The command requires an image recipe (``core-image-minimal`` for this example)
-+   that is used to create the SDK.
-+   This firmware image should also be installed on the target device.
-+   It is possible to pass multiple package recipes.
-+   ``devtool ide-sdk`` tries to create an IDE configuration for all package recipes.
-+
-+   Exactly what this command does depends on the recipe respectively on the build tool used by
-+   the recipe. The basic idea is to configure the IDE so that it calls the build tool exactly
-+   as ``bitbake`` does.
-+
-+   For example, a CMake preset is created for a recipe that inherits :ref:`ref-classes-cmake`.
-+   In the case of VSCode, CMake presets are supported by the CMake Tools plugin.
-+   This is an example of how the build configuration used by ``bitbake`` is exported to an IDE
-+   configuration that gives exactly the same build results.
-+
-+   Support for remote debugging with seamless integration into the IDE is important for a cross-SDK.
-+   ``devtool ide-sdk`` automatically generates the necessary helper scripts for deploying the compiled
-+   artifacts to the target device as well as the necessary configuration for the debugger and the IDE.
-+
-+   .. note::
-+
-+      To ensure that the debug symbols on the build machine match the binaries running on the target device,
-+      it is essential that the image built by ``devtool ide-sdk`` is running on the target device.
-+
-+   ``devtool ide-sdk`` aims to support multiple programming languages and multiple IDEs natively.
-+   Native means that the IDE is configured to call the build tool (e.g. CMake or Meson) directly.
-+   This has several advantages. First of all, it is much faster than ``devtool build``.
-+   But it also allows to use the very good integration of tools like CMake or GDB directly with VSCode or other IDEs.
-+   However, supporting many programming languages and multiple IDEs is quite an elaborate and constantly evolving thing.
-+   Support for IDEs is therefore implemented as plugins.
-+   Plugins can also be provided by optional layers.
-+
-+   The default IDE is VSCode. Some hints about using VSCode:
-+
-+   - To work on the source code of a recipe an instance of VSCode is started in the recipe's workspace.
-+     Example::
-+
-+        code build/workspace/sources/my-recipe
-+
-+   - To work with CMake press ``Ctrl + Shift + p``, type ``cmake``.
-+     This will show some possible commands like selecting a CMake preset, compiling or running CTest.
-+
-+     For recipes inheriting :ref:`ref-classes-cmake-qemu` rather than :ref:`ref-classes-cmake` executing
-+     cross-compiled unit tests on the host can be supported transparently with QEMU user-mode.
-+
-+   - To work with Meson press ``Ctrl + Shift + p``, type ``meson``.
-+     This will show some possible commands like compiling or executing the unit tests.
-+
-+     A note on running cross-compiled unit tests on the host: Meson enables support for QEMU user-mode by default.
-+     It is expected that the execution of the unit tests from the IDE will work easily without any additional steps,
-+     provided that the code is suitable for execution on the host machine.
-+
-+   - For the deployment to the target device, just press ``Ctrl + Shift + p``, type ``task``.
-+     Select the ``install && deploy-target``.
-+
-+   - For remote debugging, switch to the debugging view by pressing the "play" button with the ``bug icon`` on the left side.
-+     This will provide a green play button with a drop-down list where a debug configuration can be selected.
-+     After selecting one of the generated configurations, press the "play" button.
-+
-+     Starting a remote debugging session automatically initiates the deployment to the target device.
-+     If this is not desired, the ``"dependsOn": ["install && deploy-target...]`` parameter of the tasks
-+     with ``"label": "gdbserver start...`` can be removed from the ``tasks.json`` file.
-+
-+     VSCode supports GDB with many different setups and configurations for many different use cases.
-+     However, most of these setups have some limitations when it comes to cross-development, support only a few target
-+     architectures or require a high performance target device.
-+     Therefore ``devtool ide-sdk`` supports the classic, generic setup with GDB on the development host and gdbserver
-+     on the target device.
-+     Roughly summarized, this means:
-+
-+     - The binaries are copied via ssh to the remote target device by a script referred by ``tasks.json``.
-+     - gdbserver is started on the remote target device via ssh by a script referred by ``tasks.json``.
-+
-+       Changing the parameters that are passed to the debugging executable requires changing the generated script.
-+       The scipts is located at ``oe-scripts/gdbserver_*``.
-+       The definition of the parameters in the ``args`` field in the ``launch.json`` file does not work.
-+
-+     - VSCode connects to the gdbserver as documented in
-+       `Remote debugging or debugging with a local debugger server <https://code.visualstudio.com/docs/cpp/launch-json-reference#_remote-debugging-or-debugging-with-a-local-debugger-server>`__.
-+
-+   Additionally ``--ide=none`` is supported.
-+   With the none IDE parameter some generic configurations files like ``gdbinit`` files and some helper scripts
-+   starting the gdbserver remotely on the target device as well as the gdb client on the host are generated.
-+
-+   Usage example for the cmake-example recipe from the meta-selftest layer
-+   which inherits :ref:`ref-classes-cmake-qemu`:
-+
-+   .. code-block:: sh
-+
-+      # Create the SDK
-+      devtool modify cmake-example
-+      devtool ide-sdk cmake-example core-image-minimal -c --debug-build-config --ide=none
-+
-+      # Install the firmware on a target device or start QEMU
-+      runqemu
-+
-+      # From a Navigate into the workspace of cmake-example
-+      cd build/workspace/sources/cmake-example
-+
-+      # Find cmake-native and save the path into a variable
-+      # Note: using just cmake instead of $CMAKE_NATIVE would work in many cases
-+      CMAKE_NATIVE="$(jq -r '.configurePresets[0] | "\(.cmakeExecutable)"' CMakeUserPresets.json)"
-+
-+      # List available CMake presets
-+      "$CMAKE_NATIVE" --list-presets
-+      Available configure presets:
-+
-+        "cmake-example-cortexa57" - cmake-example: cortexa57
-+
-+      # Re-compile the already compiled sources
-+      "$CMAKE_NATIVE" --build --preset cmake-example-cortexa57
-+      ninja: no work to do.
-+      # Do a clean re-build
-+      "$CMAKE_NATIVE" --build --preset cmake-example-cortexa57 --target clean
-+      [1/1] Cleaning all built files...
-+      Cleaning... 8 files.
-+      "$CMAKE_NATIVE" --build --preset cmake-example-cortexa57 --target all
-+      [7/7] Linking CXX executable cmake-example
-+
-+      # Run the cross-compiled unit tests with QEMU user-mode
-+      "$CMAKE_NATIVE" --build --preset cmake-example-cortexa57 --target test
-+      [0/1] Running tests...
-+      Test project .../build/tmp/work/cortexa57-poky-linux/cmake-example/1.0/cmake-example-1.0
-+          Start 1: test-cmake-example
-+      1/1 Test #1: test-cmake-example ...............   Passed    0.03 sec
-+
-+      100% tests passed, 0 tests failed out of 1
-+
-+      Total Test time (real) =   0.03 sec
-+
-+      # Using CTest directly is possible as well
-+      CTEST_NATIVE="$(dirname "$CMAKE_NATIVE")/ctest"
-+
-+      # List available CMake presets
-+      "$CTEST_NATIVE" --list-presets
-+      Available test presets:
-+
-+        "cmake-example-cortexa57" - cmake-example: cortexa57
-+
-+      # Run the cross-compiled unit tests with QEMU user-mode
-+      "$CTEST_NATIVE" --preset "cmake-example-cortexa57" 
-+      Test project ...build/tmp/work/cortexa57-poky-linux/cmake-example/1.0/cmake-example-1.0
-+          Start 1: test-cmake-example
-+      1/1 Test #1: test-cmake-example ...............   Passed    0.03 sec
-+
-+      100% tests passed, 0 tests failed out of 1
-+
-+      Total Test time (real) =   0.03 sec
-+
-+      # Deploying the new build to the target device (default is QEUM at 192.168.7.2)
-+      oe-scripts/install_and_deploy_cmake-example-cortexa57
-+
-+      # Start a remote debugging session with gdbserver on the target ang GDB on the host
-+      oe-scripts/gdbserver_1234_usr-bin-cmake-example_m
-+      oe-scripts/gdb_1234_usr-bin-cmake-example
-+      break main
-+      run
-+      step
-+      stepi
-+      continue
-+      quit
-+
-+      # Stop the gdbserver on the target device
-+      oe-scripts/gdbserver_1234_usr-bin-cmake-example_m stop
-+
-+#. *Shared sysroots mode*
-+
-+   For some recipes and use cases a per-recipe sysroot based SDK is not suitable.
-+   Optionally ``devtool ide-sdk`` configures the IDE to use the tool-chain provided by the
-+   extensible SDK as described in :ref:`running_the_ext_sdk_env`.
-+   ``devtool ide-sdk --mode=shared`` is basically a wrapper for the setup of the extensible SDK
-+   as described in :ref:`setting_up_ext_sdk_in_build`.
-+   The IDE gets configuration to use the shared sysroots.
-+
-+   Creating a SDK with shared sysroots that contains all the dependencies needed to work with my-recipe is possible
-+   with the following example command::
-+
-+      $ devtool ide-sdk --mode=shared my-recipe
-+
-+   For VSCode the cross-tool-chain is exposed as a CMake kit. CMake kits are defined in
-+   ``~/.local/share/CMakeTools/cmake-tools-kits.json``.
-+   The following example shows how the cross-toolchain can be selected in VSCode.
-+   Fist of all we need a folder containing a CMake project.
-+   For this example lets create a CMake project and start VSCode::
-+
-+      mkdir kit-test
-+      echo "project(foo VERSION 1.0)" > kit-test/CMakeLists.txt
-+      code kit-test
-+
-+   If there is a CMake project in the workspace cross-compilation is supported:
-+
-+   - Press ``Ctrl + Shift + P``, type ``CMake: Scan for Kits``
-+   - Press ``Ctrl + Shift + P``, type ``CMake: Select a Kit``
-+
-+   Finally most of the features provided by CMake and the IDE should be available.
-+
-+   Other IDEs than VSCode are supported as well.
-+   However, ``devtool ide-sdk --mode=shared --ide=none my-recipe`` is currently just a simple wrapper
-+   for the setup of the extensible SDK as described in :ref:`setting_up_ext_sdk_in_build`.
-+
- Use ``devtool upgrade`` to Create a Version of the Recipe that Supports a Newer Version of the Software
- -------------------------------------------------------------------------------------------------------
- 
--- 
-2.43.0
-
+SGkgYWxsLA0KDQoNClRoZSBUTDtEUjoNCg0KSWYgbm8gb25lIG9iamVjdHMsIEkgd291bGQgbGlr
+ZSB0byBwdXQgaW50byBtb3Rpb24gdGhhdCB3ZSBncmFkdWFsbHkNCm1vdmUgYWxsIG9lLWNvcmUg
+cmVjaXBlcyBTUkNfVVJJcyBmcm9tIEdpdGh1YiByZWxlYXNlcyB0byBnaXQgc291cmNlDQpjb2Rl
+IChhcmNoaXZlcykgZm9yIGJldHRlciBzb3VyY2UgY29kZSB0cmFjZWFiaWxpdHkuDQoNCg0KUmVh
+c29uaW5nIGZvbGxvd3M6DQoNCi0tLQ0KDQpDdXJyZW50bHksIHRoZXJlIGFyZSAoYXQgbGVhc3TC
+uSkgMzUgcmVjaXBlcyBpbiBwb2t5IHRoYXQgdXNlIEdpdGh1Yg0KcmVsZWFzZSBwYWNrYWdlcywg
+cmF0aGVyIHRoYW4gdXNpbmcgdGhlIHVubW9kaWZpZWQgZ2l0IHNvdXJjZSBjb2RlDQooYXJjaGl2
+ZXMpLg0KDQpJbiBteSBodW1ibGUgb3BpbmlvbiwgdGhpcyBpcyBub3QgYSBnb29kIGlkZWEsIGFz
+IHRoZSBHaXRIdWIgcmVsZWFzZXMNCmRvIG5vdCBuZWNlc3NhcmlseSBhbGlnbiB3aXRoIHRoZSBj
+b250ZW50IG9mIHRoZSBhY2NvbXBhbnlpbmcgZ2l0DQpyZXBvc2l0b3J5LCBvYnNjdXJpZnlpbmcg
+dGhlIGFjdHVhbCBzb3VyY2UgY29kZSB0aGF0IGdvZXMgaW50byBhIHlvY3RvDQpwYWNrYWdlLg0K
+DQpDYXNlIGluIHBvaW50LCBJIGFtIGN1cnJlbnRseSB3b3JraW5nIG9uIGEgKE1JVCBsaWNlbnNl
+ZCkgYml0YmFrZSBsYXllcg0KZm9yIGludGVncmF0aW5nIE9zc2Vsb3QgKGh0dHBzOi8vd3d3Lm9z
+c2Vsb3Qub3JnLyksIGEgc29mdHdhcmUgbGljZW5zZQ0KY3VyYXRpb24gZGF0YWJhc2UgaW50byB0
+aGUgYml0YmFrZSBidWlsZCBwcm9jZXNzLCBpbiB0aGUgaG9wZSBvZg0KY29sbGVjdGl2ZWx5IGxl
+c3NlbmluZyB0aGUgcmVvY2N1cmluZyB3b3JrIChhbmQgcGFpbikgb2YgY29tcGFuaWVzIHdpdGgN
+CnN0cmljdCBvcGVuIHNvdXJjZSBzb2Z0d2FyZSBjbGVhcmFuY2UgcmVxdWlyZW1lbnRzLg0KDQpP
+c3NlbG90IHVzZXMgdGhlIG9yaWdpbmFsIHNvdXJjZSBjb2RlIGZvciBwb2ludC1yZWxlYXNlcyAo
+ZS5nLiBHaXRIdWINClNvdXJjZSBDb2RlIGFyY2hpdmUpIGZvciBjdXJhdGluZyBwYWNrYWdlIGxp
+Y2Vuc2UgaW5mb3JtYXRpb24gb24gZmlsZS0NCmxldmVsIGFuZCBleHBvcnRpbmcgdGhlIGxpY2Vu
+c2UgaW5mb3JtYXRpb24gaW4gU1BEWCBmb3JtYXQuDQoNCk15IGJpdGJha2UgaW50ZWdyYXRpb24g
+d291bGQgdGhlbiBhdHRlbXB0IHRvIG1hdGNoIGNvZGUgaW4gdGhlIFMNCmRpcmVjdG9yeSBhZ2Fp
+bnN0IGxpY2Vuc2UgZGF0YSB3aXRoaW4gdGhlIFNQRFggZmlsZSwgdmVyaWZ5aW5nIGZpbGUNCmVx
+dWl2YWxlbmNlIGJ5IGhhc2guDQoNClRoaXMgaXMgd2hlbiBJIG5vdGljZWQgYSByZW9jY3Vycmlu
+ZyBwYXR0ZXJuIHdpdGhpbiBtdWx0aXBsZSBvZS1jb3JlDQpwYWNrYWdlcyB0aGF0IHJlbHkgb24g
+R2l0SHViIHJlbGVhc2VzOiANCg0KRm9yIGV4YW1wbGUsIHRoZSByZWxlYXNlIGRvd25sb2FkIGZv
+ciBsaWJleHBhdA0KKGh0dHBzOi8vZ2l0aHViLmNvbS9saWJleHBhdC9saWJleHBhdC9yZWxlYXNl
+cy9kb3dubG9hZC9SXzJfNV8wL2V4cGF0LTIuNS4wLnRhci5neg0KKSBjb250YWlucyB0aGVzZSBh
+ZGRpdGlvbmFsIGZpbGVzIHdoZW4gY29tcGFyZWQgdG8gdGhlIGNvcnJlc3BvbmRpbmcNCnRhZyBp
+biB0aGUgZ2l0IHJlcG9zaXRvcnk6DQoNCiAgICAiZXhwYXRfY29uZmlnLmguaW4iLA0KICAgICJj
+b25maWd1cmUiLA0KICAgICJNYWtlZmlsZS5pbiIsDQogICAgImFjbG9jYWwubTQiLA0KICAgICJl
+eHBhdF9jb25maWcuaCIsDQogICAgIm00L2x0dmVyc2lvbi5tNCIsDQogICAgIm00L2x0b3B0aW9u
+cy5tNCIsDQogICAgIm00L2xpYnRvb2wubTQiLA0KICAgICJtNC9sdH5vYnNvbGV0ZS5tNCIsDQog
+ICAgIm00L2x0c3VnYXIubTQiLA0KICAgICJjb25mdG9vbHMvY29uZmlnLmd1ZXNzIiwNCiAgICAi
+Y29uZnRvb2xzL2NvbmZpZy5zdWIiLA0KICAgICJjb25mdG9vbHMvbWlzc2luZyIsDQogICAgImNv
+bmZ0b29scy9pbnN0YWxsLXNoIiwNCiAgICAiY29uZnRvb2xzL2FyLWxpYiIsDQogICAgImNvbmZ0
+b29scy9sdG1haW4uc2giLA0KICAgICJjb25mdG9vbHMvZGVwY29tcCIsDQogICAgImNvbmZ0b29s
+cy9jb21waWxlIiwNCiAgICAiY29uZnRvb2xzL3Rlc3QtZHJpdmVyIiwNCiAgICAieG1sd2YvTWFr
+ZWZpbGUuaW4iLA0KICAgICJsaWIvTWFrZWZpbGUuaW4iDQoNCkluIHRoaXMgY2FzZSB0aGUgZmls
+ZXMgYXJlIHRoZSByZXN1bHQgb2YgcHJlLXJ1biBhdXRvY29uZiAod2hpY2ggZnJvbSBhDQpvcGVu
+ZW1iZWRkZWQgcGVyc3BlY3RpdmUgZG8gbm90IGJlbG9uZyBoZXJlIGluIHRoZSBmaXJzdCBwbGFj
+ZSwgdGhhdCdzDQp0aGUgImRvX2NvbmZpZ3VyZSIgdGFza3Mgam9iKSwgaG93ZXZlciB0aGVvcmV0
+aWNhbGx5IHRoZSBHaXRIdWIgcHJvamVjdA0KbWFpbnRhaW5lciBjb3VsZCB1cGxvYWQgYW55dGhp
+bmcgYXMgYSAiR2l0SHViIHJlbGVhc2UiIHRoYXQgZG9lcyBub3QNCm5lY2Vzc2FyaWx5IG5lZWQg
+dG8gYWxpZ24gd2l0aCB0aGUgYWN0dWFsbHkgZ2l0IHNvdXJjZSBjb2RlLg0KDQpTbyBub3Qgb25s
+eSBkb2VzIHRoaXMgbWFrZSB0aGluZ3MgY29tcGxpY2F0ZWQgZm9yIG1lIGFuZC9vciB0aGUgT3Nz
+ZWxvdA0KY3VyYXRvcnMgKGVpdGhlciBJIGFtIHN0dWNrIHdpdGggWCBhbW91bnQgb2YgdW5jdXJh
+dGVkIGRhdGEsIG9yDQpjdXJhdGlvbiBlZmZvcnRzIHdpbGwgaGF2ZSB0byBiZSBleHBhbmRlZCB0
+byBhbHNvIGluY2x1ZGUgR2l0SHViDQpyZWxlYXNlIGFyY2hpdmVzKSBpbiBteSBzcGVjaWZpYyB1
+c2UtY2FzZSwgYnV0IGl0IGFsc28gcmVkdWNlcyB0aGUNCmNvbmZpZGVuY2UgaW4gdGhlIHJlcHJv
+ZHVjaWJpbGl0eS4gV2hvIGlzIHRvIHNheSB0aGF0IGEgYnVpbGQgZnJvbSB0aGUNCmdpdCBzb3Vy
+Y2VzIHByb2R1Y2VzIHRoZSBzYW1lIG91dHB1dCBvZiBhICJtYWdpYyIgcmVsZWFzZSBwYWNrYWdl
+Pw0KDQpJIGJlbGlldmUgdGhhdCB3aXRoIHRoZSBhbW91bnQgb2Ygd29yayBvZSBoYXMgYWxyZWFk
+eSBwdXQgaW50bw0KcmVwcm9kdWNpYmxlIGJ1aWxkcyBmcm9tIHNjcmF0Y2gsIGl0IHdvdWxkIGJl
+IGEgc2hhbWUgaWYgd2Ugd291bGRuJ3QNCmV4cGFuZCB0aGlzIGVmZm9ydCBtYWtlIChhdCBsZWFz
+dCkgb2UtY29yZSByZWNpcGVzIGJ1aWxkIHJlcHJvZHVjaWJsZQ0KZnJvbSBnaXQgc291cmNlLg0K
+DQpXaGF0IGFyZSB5b3VyIHRob3VnaHRzIG9uIHRoaXM/DQoNCldpdGggYmVzdCByZWdhcmRzLA0K
+SmFzcGVyDQoNCg0KLS0tDQoNCsK5OiBncmVwIC1yRSAiaW5oZXJpdC4qZ2l0aHViLXJlbGVhc2Vz
+IiBwb2t5LyoqLyouYmIgfCB3YyAtbA0KQ3VycmVudGx5LCB0aGUgR0lUSFVCX0JBU0VfVVJJIHZh
+cmlhYmxlIHVzZWQgaW4gdGhpcyBjbGFzcyBkZWZhdWx0cyB0bw0KImh0dHBzOi8vZ2l0aHViLmNv
+bS8ke0JQTn0vJHtCUE59L3JlbGVhc2VzLyIuDQo=
 
