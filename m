@@ -2,38 +2,37 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B2AAC54791
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A8DAC54792
 	for <webhook@archiver.kernel.org>; Mon, 15 Jan 2024 17:34:02 +0000 (UTC)
 Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.88277.1705340029282008064
+ by mx.groups.io with SMTP id smtpd.web10.88839.1705340029292398126
  for <openembedded-core@lists.openembedded.org>;
  Mon, 15 Jan 2024 09:33:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=TSGWnlfD;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=LPOaUnJ2;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018d0e2fc582-f5238b46-1565-4d6f-884a-749a4102db23-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=QxxMYWAq;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=SYiMKsOg;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018d0e2fc5cb-3e09b4b8-020b-42cb-b6fc-646ae4f18183-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1705340028;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=QAZsn/TmWhwPE2XMYWt3dWQPjgnv8k8TsB26gP9jcm4=;
-	b=TSGWnlfDLBDJ/nGwQKsXtyTGA7tfEUHK4xD+T98JNrhK4n1Zok76ss0HwAztnPjS
-	CCkVK6tbFEZIbzrC9CngisC+UXD+tfe+jjhypB3bvooqVIBd3P4m8xuW9WW7QtlwtVS
-	PJ61xcwJB1mvJNBhY6zHBAoHzY2uLZOYvZzCNMi0=
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=/hO0RZJHuux4FS7ME4RyjofmAc6iwm0OwMy55z8TSog=;
+	b=QxxMYWAqmAThbtrhd2JWQqIBsbxxSFl2nJze6nxe9bV1uTfBA8PE6midlSYNqV7Q
+	So3rsRjDFP0dYgx5si6M/N5Gp7mbEHAXaW+7Gm1a7W+o2oEwevcVm6UK5B/ClRJ9bVG
+	G5IxUve/HR1U83getEfKJaHMWtOEfrImjBcTfuXE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1705340028;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=QAZsn/TmWhwPE2XMYWt3dWQPjgnv8k8TsB26gP9jcm4=;
-	b=LPOaUnJ2T88wDnRPMXTVheG4ZANeV/m6Mb4Wtk2T1xUStni09qZQv+rlkfhlg24y
-	8ZfQR1ICWtwRXOF9pC2zqyIxERgsxaWZ6afXJHrhg8oEwtMGoNFVt2zx9zVs9omJrzX
-	Qg1JKEUGyvRh+070O/Y8eU4gSppYxdxNijg0TzKw=
-Content-Type: multipart/mixed; boundary="===============0450732911563769618=="
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=/hO0RZJHuux4FS7ME4RyjofmAc6iwm0OwMy55z8TSog=;
+	b=SYiMKsOgj07wmul/sL+xwGFDswKRlPFINKIVll8vCdMThzml2OeRLkJvBTy6T8kC
+	EirXJmKKBE++2vq1VUN5XzYnLl57mk7MJDREy2Tg0pkYICgVZXvu9qMyPZipkT+9Y6f
+	jhBiE9Cs+1xuvVP0uruJjbWattKmHcMHygkZisvI=
+Content-Type: multipart/mixed; boundary="===============3232280505190933666=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] bluez5: upgrading to 5.72 SUCCEEDED
-Message-ID: <0101018d0e2fc582-f5238b46-1565-4d6f-884a-749a4102db23-000000@us-west-2.amazonses.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] openssh: upgrading to 9.6p1 FAILED
+Message-ID: <0101018d0e2fc5cb-3e09b4b8-020b-42cb-b6fc-646ae4f18183-000000@us-west-2.amazonses.com>
 Date: Mon, 15 Jan 2024 17:33:48 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2024.01.15-54.240.27.23
@@ -41,9 +40,9 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 15 Jan 2024 17:34:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193698
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193700
 
---===============0450732911563769618==
+--===============3232280505190933666==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +50,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *bluez5* to *5.72* has Succeeded.
+that the automatic attempt to upgrade the recipe *openssh* to *9.6p1* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-bluez5-upgrade-5.71-5.72.patch
+    - apply the patch: git am 0001-openssh-upgrade-9.5p1-9.6p1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,242 +77,521 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 7041b7aa16df7a05a3cf3289ae352efaec9ee7ac Mon Sep 17 00:00:00 2001
+From b0f04d69a668a26c92987303360a4465d154deef Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 15 Jan 2024 05:22:13 +0000
-Subject: [PATCH] bluez5: upgrade 5.71 -> 5.72
+Date: Mon, 15 Jan 2024 05:37:20 +0000
+Subject: [PATCH] openssh: upgrade 9.5p1 -> 9.6p1
 
 ---
- .../bluez5/bluez5/0001-test-gatt-Fix-hung-issue.patch       | 6 +++---
- ...sts-add-a-target-for-building-tests-without-runnin.patch | 4 ++--
- .../0004-src-shared-util.c-include-linux-limits.h.patch     | 4 ++--
- .../bluez5/{bluez5_5.71.bb => bluez5_5.72.bb}               | 2 +-
- 4 files changed, 8 insertions(+), 8 deletions(-)
- rename meta/recipes-connectivity/bluez5/{bluez5_5.71.bb => bluez5_5.72.bb} (94%)
+ ...h-log-input-and-output-files-on-erro.patch | 10 +---
+ ...tional-support-for-systemd-sd_notify.patch | 18 +++---
+ .../add-test-support-for-busybox.patch        | 57 +++++++++++--------
+ ...igned-overflow-in-pointer-arithmatic.patch |  6 +-
+ .../{openssh_9.5p1.bb => openssh_9.6p1.bb}    |  2 +-
+ 5 files changed, 47 insertions(+), 46 deletions(-)
+ rename meta/recipes-connectivity/openssh/{openssh_9.5p1.bb => openssh_9.6p1.bb} (99%)
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-test-gatt-Fix-hung-issue.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-test-gatt-Fix-hung-issue.patch
-index 3546c7c305..b1e93dbe19 100644
---- a/meta/recipes-connectivity/bluez5/bluez5/0001-test-gatt-Fix-hung-issue.patch
-+++ b/meta/recipes-connectivity/bluez5/bluez5/0001-test-gatt-Fix-hung-issue.patch
+diff --git a/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch b/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch
+index 2c14014fed..11756b3194 100644
+--- a/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch
++++ b/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch
 @@ -1,4 +1,4 @@
--From e8808a2f5e17d375411c7409eaffb17e72f65022 Mon Sep 17 00:00:00 2001
-+From fb583a57f9f4ab956a09e9bb96d89aa13553bf21 Mon Sep 17 00:00:00 2001
- From: Mingli Yu <Mingli.Yu@windriver.com>
- Date: Fri, 24 Aug 2018 12:04:03 +0800
- Subject: [PATCH] test-gatt: Fix hung issue
-@@ -27,10 +27,10 @@ Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
+-From f5a4dacc987ca548fc86577c2dba121c86da3c34 Mon Sep 17 00:00:00 2001
++From 4be1055fe228d3fbab0bb90ae805a1d7af3b35c9 Mon Sep 17 00:00:00 2001
+ From: Mikko Rapeli <mikko.rapeli@linaro.org>
+ Date: Mon, 11 Sep 2023 09:55:21 +0100
+ Subject: [PATCH] regress/banner.sh: log input and output files on error
+@@ -35,14 +35,13 @@ return value: 1
+ See: https://bugzilla.yoctoproject.org/show_bug.cgi?id=15178
  
- diff --git a/unit/test-gatt.c b/unit/test-gatt.c
--index f92d860..a5f7117 100644
-+index 5e06d4e..4864d36 100644
- --- a/unit/test-gatt.c
- +++ b/unit/test-gatt.c
--@@ -4479,7 +4479,7 @@ int main(int argc, char *argv[])
-+@@ -4546,7 +4546,7 @@ int main(int argc, char *argv[])
-  			test_server, service_db_1, NULL,
-  			raw_pdu(0x03, 0x00, 0x02),
-  			raw_pdu(0xbf, 0x00),
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch
-index be05093551..881494a354 100644
---- a/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch
-+++ b/meta/recipes-connectivity/bluez5/bluez5/0001-tests-add-a-target-for-building-tests-without-runnin.patch
+ Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
++
+ ---
+  regress/banner.sh | 4 +++-
+  1 file changed, 3 insertions(+), 1 deletion(-)
+ 
+-Upstream-Status: Denied [https://github.com/openssh/openssh-portable/pull/437]
+-
+ diff --git a/regress/banner.sh b/regress/banner.sh
+-index a84feb5a..de84957a 100644
++index a84feb5..de84957 100644
+ --- a/regress/banner.sh
+ +++ b/regress/banner.sh
+ @@ -32,7 +32,9 @@ for s in 0 10 100 1000 10000 100000 ; do
+@@ -56,6 +55,3 @@ index a84feb5a..de84957a 100644
+  done
+  
+  trace "test suppress banner (-q)"
+--- 
+-2.34.1
+-
+diff --git a/meta/recipes-connectivity/openssh/openssh/0001-systemd-Add-optional-support-for-systemd-sd_notify.patch b/meta/recipes-connectivity/openssh/openssh/0001-systemd-Add-optional-support-for-systemd-sd_notify.patch
+index acda8f1ce9..c39e919caa 100644
+--- a/meta/recipes-connectivity/openssh/openssh/0001-systemd-Add-optional-support-for-systemd-sd_notify.patch
++++ b/meta/recipes-connectivity/openssh/openssh/0001-systemd-Add-optional-support-for-systemd-sd_notify.patch
 @@ -1,4 +1,4 @@
--From 3724958858b0ee430f37fb83388c3737d2039a3a Mon Sep 17 00:00:00 2001
-+From 738e73b386352fd90f1f26cc1ee75427cf4dc23b Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 1 Apr 2016 17:07:34 +0300
- Subject: [PATCH] tests: add a target for building tests without running them
-@@ -11,7 +11,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 3 insertions(+)
+-From be187435911cde6cc3cef6982a508261074f1e56 Mon Sep 17 00:00:00 2001
++From 46fee03df1a12d22a60edfd1c015ee0da5c17ac1 Mon Sep 17 00:00:00 2001
+ From: Matt Jolly <Matt.Jolly@footclan.ninja>
+ Date: Thu, 2 Feb 2023 21:05:40 +1100
+ Subject: [PATCH] systemd: Add optional support for systemd `sd_notify`
+@@ -9,16 +9,17 @@ patch based on Jakub Jelen's <jjelen@redhat.com> original patch
+ Upstream-Status: Submitted [https://github.com/openssh/openssh-portable/pull/375/commits/be187435911cde6cc3cef6982a508261074f1e56]
  
- diff --git a/Makefile.am b/Makefile.am
--index e7221bd..9595fd1 100644
-+index e738eb3..dab17dd 100644
- --- a/Makefile.am
- +++ b/Makefile.am
- @@ -710,6 +710,9 @@ endif
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/0004-src-shared-util.c-include-linux-limits.h.patch b/meta/recipes-connectivity/bluez5/bluez5/0004-src-shared-util.c-include-linux-limits.h.patch
-index 6ef135327d..516d859069 100644
---- a/meta/recipes-connectivity/bluez5/bluez5/0004-src-shared-util.c-include-linux-limits.h.patch
-+++ b/meta/recipes-connectivity/bluez5/bluez5/0004-src-shared-util.c-include-linux-limits.h.patch
+ Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
++
+ ---
+  configure.ac | 24 ++++++++++++++++++++++++
+  sshd.c       | 13 +++++++++++++
+  2 files changed, 37 insertions(+)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index 22fee70f..486c189f 100644
++index 379cd74..a7d0e92 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -4835,6 +4835,29 @@ AC_SUBST([GSSLIBS])
++@@ -4842,6 +4842,29 @@ AC_SUBST([GSSLIBS])
+  AC_SUBST([K5LIBS])
+  AC_SUBST([CHANNELLIBS])
+  
+@@ -48,7 +49,7 @@ index 22fee70f..486c189f 100644
+  # Looking for programs, paths and files
+  
+  PRIVSEP_PATH=/var/empty
+-@@ -5634,6 +5657,7 @@ echo "                   libldns support: $LDNS_MSG"
++@@ -5650,6 +5673,7 @@ echo "                   libldns support: $LDNS_MSG"
+  echo "  Solaris process contract support: $SPC_MSG"
+  echo "           Solaris project support: $SP_MSG"
+  echo "         Solaris privilege support: $SPP_MSG"
+@@ -57,7 +58,7 @@ index 22fee70f..486c189f 100644
+  echo "           Translate v4 in v6 hack: $IPV4_IN6_HACK_MSG"
+  echo "                  BSD Auth support: $BSD_AUTH_MSG"
+ diff --git a/sshd.c b/sshd.c
+-index 6321936c..859d6a0b 100644
++index 9cbe922..4b342c5 100644
+ --- a/sshd.c
+ +++ b/sshd.c
+ @@ -88,6 +88,10 @@
+@@ -71,7 +72,7 @@ index 6321936c..859d6a0b 100644
+  #include "xmalloc.h"
+  #include "ssh.h"
+  #include "ssh2.h"
+-@@ -310,6 +314,10 @@ static void
++@@ -308,6 +312,10 @@ static void
+  sighup_restart(void)
+  {
+  	logit("Received SIGHUP; restarting.");
+@@ -82,7 +83,7 @@ index 6321936c..859d6a0b 100644
+  	if (options.pid_file != NULL)
+  		unlink(options.pid_file);
+  	platform_pre_restart();
+-@@ -2086,6 +2094,11 @@ main(int ac, char **av)
++@@ -2093,6 +2101,11 @@ main(int ac, char **av)
+  			}
+  		}
+  
+@@ -94,6 +95,3 @@ index 6321936c..859d6a0b 100644
+  		/* Accept a connection and return in a forked child */
+  		server_accept_loop(&sock_in, &sock_out,
+  		    &newsock, config_s);
+--- 
+-2.25.1
+-
+diff --git a/meta/recipes-connectivity/openssh/openssh/add-test-support-for-busybox.patch b/meta/recipes-connectivity/openssh/openssh/add-test-support-for-busybox.patch
+index b8402a4dee..9bf40ecc62 100644
+--- a/meta/recipes-connectivity/openssh/openssh/add-test-support-for-busybox.patch
++++ b/meta/recipes-connectivity/openssh/openssh/add-test-support-for-busybox.patch
+@@ -1,4 +1,7 @@
+-Adjust test cases to work with busybox.
++From 6f92f2b07c2b55d1e62221aa3123135298686348 Mon Sep 17 00:00:00 2001
++From: "Maxin B. John" <maxin.john@enea.com>
++Date: Thu, 24 Apr 2014 18:00:22 +0200
++Subject: [PATCH] Adjust test cases to work with busybox.
+ 
+ - Replace dd parameter "obs" with "bs".
+ - Replace "head -<num>" with "head -n <num>".
+@@ -6,11 +9,17 @@ Adjust test cases to work with busybox.
+ Signed-off-by: Maxin B. John <maxin.john@enea.com>
+ Upstream-Status: Pending
+ 
+-Index: openssh-7.6p1/regress/cipher-speed.sh
+-===================================================================
+---- openssh-7.6p1.orig/regress/cipher-speed.sh
+-+++ openssh-7.6p1/regress/cipher-speed.sh
+-@@ -17,7 +17,7 @@ for c in `${SSH} -Q cipher`; do n=0; for
++---
++ regress/cipher-speed.sh | 2 +-
++ regress/key-options.sh  | 2 +-
++ regress/transfer.sh     | 2 +-
++ 3 files changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/regress/cipher-speed.sh b/regress/cipher-speed.sh
++index 1340bd1..8770757 100644
++--- a/regress/cipher-speed.sh
+++++ b/regress/cipher-speed.sh
++@@ -27,7 +27,7 @@ for c in `${SSH} -Q cipher`; do n=0; for m in `${SSH} -Q mac`; do
+  		printf "%-60s" "$c/$m:"
+  		( ${SSH} -o 'compression no' \
+  			-F $OBJ/ssh_proxy -m $m -c $c somehost \
+@@ -19,24 +28,11 @@ Index: openssh-7.6p1/regress/cipher-speed.sh
+  		< ${DATA} ) 2>&1 | getbytes
+  
+  		if [ $? -ne 0 ]; then
+-Index: openssh-7.6p1/regress/transfer.sh
+-===================================================================
+---- openssh-7.6p1.orig/regress/transfer.sh
+-+++ openssh-7.6p1/regress/transfer.sh
+-@@ -13,7 +13,7 @@ cmp ${DATA} ${COPY}		|| fail "corrupted
+- for s in 10 100 1k 32k 64k 128k 256k; do
+- 	trace "dd-size ${s}"
+- 	rm -f ${COPY}
+--	dd if=$DATA obs=${s} 2> /dev/null | \
+-+	dd if=$DATA bs=${s} 2> /dev/null | \
+- 		${SSH} -q -F $OBJ/ssh_proxy somehost "cat > ${COPY}"
+- 	if [ $? -ne 0 ]; then
+- 		fail "ssh cat $DATA failed"
+-Index: openssh-7.6p1/regress/key-options.sh
+-===================================================================
+---- openssh-7.6p1.orig/regress/key-options.sh
+-+++ openssh-7.6p1/regress/key-options.sh
+-@@ -47,7 +47,7 @@ for f in 127.0.0.1 '127.0.0.0\/8'; do
++diff --git a/regress/key-options.sh b/regress/key-options.sh
++index 2f3d66e..7f8166d 100644
++--- a/regress/key-options.sh
+++++ b/regress/key-options.sh
++@@ -90,7 +90,7 @@ for f in 127.0.0.1 '127.0.0.0\/8'; do
+  	fi
+  
+  	sed 's/.*/from="'"$f"'" &/' $origkeys >$authkeys
+@@ -45,3 +41,16 @@ Index: openssh-7.6p1/regress/key-options.sh
+  	verbose "key option $from"
+  	r=`${SSH} -q -F $OBJ/ssh_proxy somehost 'echo true'`
+  	if [ "$r" = "true" ]; then
++diff --git a/regress/transfer.sh b/regress/transfer.sh
++index cf174a0..41cfdc7 100644
++--- a/regress/transfer.sh
+++++ b/regress/transfer.sh
++@@ -13,7 +13,7 @@ cmp ${DATA} ${COPY}		|| fail "corrupted copy"
++ for s in 10 100 1k 32k 64k 128k 256k; do
++ 	trace "dd-size ${s}"
++ 	rm -f ${COPY}
++-	dd if=$DATA obs=${s} 2> /dev/null | \
+++	dd if=$DATA bs=${s} 2> /dev/null | \
++ 		${SSH} -q -F $OBJ/ssh_proxy somehost "cat > ${COPY}"
++ 	if [ $? -ne 0 ]; then
++ 		fail "ssh cat $DATA failed"
+diff --git a/meta/recipes-connectivity/openssh/openssh/fix-potential-signed-overflow-in-pointer-arithmatic.patch b/meta/recipes-connectivity/openssh/openssh/fix-potential-signed-overflow-in-pointer-arithmatic.patch
+index 20036da931..58e77776a6 100644
+--- a/meta/recipes-connectivity/openssh/openssh/fix-potential-signed-overflow-in-pointer-arithmatic.patch
++++ b/meta/recipes-connectivity/openssh/openssh/fix-potential-signed-overflow-in-pointer-arithmatic.patch
 @@ -1,4 +1,4 @@
--From ad069fadfcce2cf70f45b1c4a42665448675297e Mon Sep 17 00:00:00 2001
-+From b53df61b41088b68c127ac76cc71683ac3453b9d Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
- Date: Mon, 12 Dec 2022 13:10:19 +0100
- Subject: [PATCH] src/shared/util.c: include linux/limits.h
-@@ -14,7 +14,7 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-  1 file changed, 1 insertion(+)
+-From 3328e98bcbf2930cd7eea3e6c92ad5dcbdf4794f Mon Sep 17 00:00:00 2001
++From 9f9e1c18db6f7358950a49f0350bc7fc35673bea Mon Sep 17 00:00:00 2001
+ From: Yuanjie Huang <yuanjie.huang@windriver.com>
+ Date: Wed, 24 Aug 2016 03:15:43 +0000
+ Subject: [PATCH] Fix potential signed overflow in pointer arithmatic
+@@ -14,6 +14,7 @@ Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
  
- diff --git a/src/shared/util.c b/src/shared/util.c
--index 34491f4..412f3ad 100644
-+index c0c2c4a..036dc0d 100644
- --- a/src/shared/util.c
- +++ b/src/shared/util.c
- @@ -23,6 +23,7 @@
-diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.71.bb b/meta/recipes-connectivity/bluez5/bluez5_5.72.bb
-similarity index 94%
-rename from meta/recipes-connectivity/bluez5/bluez5_5.71.bb
-rename to meta/recipes-connectivity/bluez5/bluez5_5.72.bb
-index b9bc3dd1b6..9fda960ea7 100644
---- a/meta/recipes-connectivity/bluez5/bluez5_5.71.bb
-+++ b/meta/recipes-connectivity/bluez5/bluez5_5.72.bb
-@@ -1,6 +1,6 @@
- require bluez5.inc
+ Complete the fix
+ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++
+ ---
+  openbsd-compat/strlcat.c | 10 +++++++---
+  openbsd-compat/strlcpy.c |  8 ++++++--
+@@ -106,6 +107,3 @@ index 7ad3573..7040f1f 100644
+ +	return (size_t)((uintptr_t)cp - (uintptr_t)str);
+  }
+  #endif
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-connectivity/openssh/openssh_9.5p1.bb b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
+similarity index 99%
+rename from meta/recipes-connectivity/openssh/openssh_9.5p1.bb
+rename to meta/recipes-connectivity/openssh/openssh_9.6p1.bb
+index 0312d5bd66..6366cefdf9 100644
+--- a/meta/recipes-connectivity/openssh/openssh_9.5p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
+@@ -28,7 +28,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
+            file://0001-regress-banner.sh-log-input-and-output-files-on-erro.patch \
+            file://0001-systemd-Add-optional-support-for-systemd-sd_notify.patch \
+            "
+-SRC_URI[sha256sum] = "f026e7b79ba7fb540f75182af96dc8a8f1db395f922bbc9f6ca603672686086b"
++SRC_URI[sha256sum] = "910211c07255a8c5ad654391b40ee59800710dd8119dd5362de09385aa7a777c"
  
--SRC_URI[sha256sum] = "b828d418c93ced1f55b616fb5482cf01537440bfb34fbda1a564f3ece94735d8"
-+SRC_URI[sha256sum] = "499d7fa345a996c1bb650f5c6749e1d929111fa6ece0be0e98687fee6124536e"
- 
- CVE_STATUS[CVE-2020-24490] = "cpe-incorrect: This issue has kernel fixes rather than bluez fixes"
+ CVE_STATUS[CVE-2007-2768] = "not-applicable-config: This CVE is specific to OpenSSH with the pam opie which we don't build/use here."
  
 -- 
 2.42.0
 
 
---===============0450732911563769618==
+--===============3232280505190933666==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1852 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 914 .bb files complete (913 cached, 1 parsed). 1850 targets, 38 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-64 sysroot...done.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.7.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.3+snapshot-1d0f73bf6e5bff63ecf5ef6e6e0ee3f7f766babd"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:1d0f73bf6e5bff63ecf5ef6e6e0ee3f7f766babd"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 346 Local 335 Mirrors 0 Missed 11 Current 411 (96% match, 98% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 423 of 757 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssh/openssh_9.6p1.bb:do_recipe_qa_setscene)
+NOTE: recipe openssh-9.6p1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe openssh-9.6p1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1455 of 2092 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssh/openssh_9.6p1.bb:do_fetch)
+NOTE: recipe openssh-9.6p1-r0: task do_fetch: Started
+NOTE: recipe openssh-9.6p1-r0: task do_fetch: Succeeded
+NOTE: Running task 1979 of 2092 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssh/openssh_9.6p1.bb:do_unpack)
+NOTE: Running task 1980 of 2092 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssh/openssh_9.6p1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe openssh-9.6p1-r0: task do_unpack: Started
+NOTE: recipe openssh-9.6p1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe openssh-9.6p1-r0: task do_unpack: Succeeded
+NOTE: Running task 2073 of 2092 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssh/openssh_9.6p1.bb:do_patch)
+NOTE: Running task 2074 of 2092 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssh/openssh_9.6p1.bb:do_collect_spdx_deps)
+NOTE: recipe openssh-9.6p1-r0: task do_patch: Started
+NOTE: recipe openssh-9.6p1-r0: task do_collect_spdx_deps: Started
+NOTE: recipe openssh-9.6p1-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe openssh-9.6p1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe openssh-9.6p1-r0: task do_patch: Failed
+NOTE: Tasks Summary: Attempted 2074 tasks of which 2069 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240115053700.txt
+You can send the errors to a reports server by running:
+  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240115053700.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssh/openssh_9.6p1.bb:do_patch
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: openssh-9.6p1-r0 do_patch: QA Issue: Missing Upstream-Status in patch
+/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch
+Please add according to https://docs.yoctoproject.org/contributor-guide/recipe-style-guide.html#patch-upstream-status . [patch-status]
+ERROR: openssh-9.6p1-r0 do_patch: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/openssh/9.6p1/temp/log.do_patch.1144458
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssh/openssh_9.6p1.bb:do_patch) failed with exit code '1'
+
+--===============3232280505190933666==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-bluez5-upgrade-5.71-5.72.patch"
+ filename="0001-openssh-upgrade-9.5p1-9.6p1.patch"
 
-RnJvbSA3MDQxYjdhYTE2ZGY3YTA1YTNjZjMyODlhZTM1MmVmYWVjOWVlN2FjIE1vbiBTZXAgMTcg
+RnJvbSBiMGYwNGQ2OWE2NjhhMjZjOTI5ODczMDMzNjBhNDQ2NWQxNTRkZWVmIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgSmFuIDIwMjQgMDU6MjI6MTMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBi
-bHVlejU6IHVwZ3JhZGUgNS43MSAtPiA1LjcyCgotLS0KIC4uLi9ibHVlejUvYmx1ZXo1LzAwMDEt
-dGVzdC1nYXR0LUZpeC1odW5nLWlzc3VlLnBhdGNoICAgICAgIHwgNiArKystLS0KIC4uLnN0cy1h
-ZGQtYS10YXJnZXQtZm9yLWJ1aWxkaW5nLXRlc3RzLXdpdGhvdXQtcnVubmluLnBhdGNoIHwgNCAr
-Ky0tCiAuLi4vMDAwNC1zcmMtc2hhcmVkLXV0aWwuYy1pbmNsdWRlLWxpbnV4LWxpbWl0cy5oLnBh
-dGNoICAgICB8IDQgKystLQogLi4uL2JsdWV6NS97Ymx1ZXo1XzUuNzEuYmIgPT4gYmx1ZXo1XzUu
-NzIuYmJ9ICAgICAgICAgICAgICAgfCAyICstCiA0IGZpbGVzIGNoYW5nZWQsIDggaW5zZXJ0aW9u
-cygrKSwgOCBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2Js
-dWV6NS97Ymx1ZXo1XzUuNzEuYmIgPT4gYmx1ZXo1XzUuNzIuYmJ9ICg5NCUpCgpkaWZmIC0tZ2l0
-IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9ibHVlejUvYmx1ZXo1LzAwMDEtdGVzdC1nYXR0
-LUZpeC1odW5nLWlzc3VlLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9ibHVlejUv
-Ymx1ZXo1LzAwMDEtdGVzdC1nYXR0LUZpeC1odW5nLWlzc3VlLnBhdGNoCmluZGV4IDM1NDZjN2Mz
-MDUuLmIxZTkzZGJlMTkgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmx1
-ZXo1L2JsdWV6NS8wMDAxLXRlc3QtZ2F0dC1GaXgtaHVuZy1pc3N1ZS5wYXRjaAorKysgYi9tZXRh
-L3JlY2lwZXMtY29ubmVjdGl2aXR5L2JsdWV6NS9ibHVlejUvMDAwMS10ZXN0LWdhdHQtRml4LWh1
-bmctaXNzdWUucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGU4ODA4YTJmNWUxN2QzNzU0MTFj
-NzQwOWVhZmZiMTdlNzJmNjUwMjIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGZiNTgz
-YTU3ZjlmNGFiOTU2YTA5ZTliYjk2ZDg5YWExMzU1M2JmMjEgTW9uIFNlcCAxNyAwMDowMDowMCAy
-MDAxCiBGcm9tOiBNaW5nbGkgWXUgPE1pbmdsaS5ZdUB3aW5kcml2ZXIuY29tPgogRGF0ZTogRnJp
-LCAyNCBBdWcgMjAxOCAxMjowNDowMyArMDgwMAogU3ViamVjdDogW1BBVENIXSB0ZXN0LWdhdHQ6
-IEZpeCBodW5nIGlzc3VlCkBAIC0yNywxMCArMjcsMTAgQEAgU2lnbmVkLW9mZi1ieTogTWluZ2xp
-IFl1IDxNaW5nbGkuWXVAd2luZHJpdmVyLmNvbT4KICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
-b24oKyksIDEgZGVsZXRpb24oLSkKIAogZGlmZiAtLWdpdCBhL3VuaXQvdGVzdC1nYXR0LmMgYi91
-bml0L3Rlc3QtZ2F0dC5jCi1pbmRleCBmOTJkODYwLi5hNWY3MTE3IDEwMDY0NAoraW5kZXggNWUw
-NmQ0ZS4uNDg2NGQzNiAxMDA2NDQKIC0tLSBhL3VuaXQvdGVzdC1nYXR0LmMKICsrKyBiL3VuaXQv
-dGVzdC1nYXR0LmMKLUBAIC00NDc5LDcgKzQ0NzksNyBAQCBpbnQgbWFpbihpbnQgYXJnYywgY2hh
-ciAqYXJndltdKQorQEAgLTQ1NDYsNyArNDU0Niw3IEBAIGludCBtYWluKGludCBhcmdjLCBjaGFy
-ICphcmd2W10pCiAgCQkJdGVzdF9zZXJ2ZXIsIHNlcnZpY2VfZGJfMSwgTlVMTCwKICAJCQlyYXdf
-cGR1KDB4MDMsIDB4MDAsIDB4MDIpLAogIAkJCXJhd19wZHUoMHhiZiwgMHgwMCksCmRpZmYgLS1n
-aXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JsdWV6NS9ibHVlejUvMDAwMS10ZXN0cy1h
-ZGQtYS10YXJnZXQtZm9yLWJ1aWxkaW5nLXRlc3RzLXdpdGhvdXQtcnVubmluLnBhdGNoIGIvbWV0
-YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9ibHVlejUvYmx1ZXo1LzAwMDEtdGVzdHMtYWRkLWEtdGFy
-Z2V0LWZvci1idWlsZGluZy10ZXN0cy13aXRob3V0LXJ1bm5pbi5wYXRjaAppbmRleCBiZTA1MDkz
-NTUxLi44ODE0OTRhMzU0IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2Js
-dWV6NS9ibHVlejUvMDAwMS10ZXN0cy1hZGQtYS10YXJnZXQtZm9yLWJ1aWxkaW5nLXRlc3RzLXdp
-dGhvdXQtcnVubmluLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmx1ZXo1
-L2JsdWV6NS8wMDAxLXRlc3RzLWFkZC1hLXRhcmdldC1mb3ItYnVpbGRpbmctdGVzdHMtd2l0aG91
-dC1ydW5uaW4ucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDM3MjQ5NTg4NThiMGVlNDMwZjM3
-ZmI4MzM4OGMzNzM3ZDIwMzlhM2EgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDczOGU3
-M2IzODYzNTJmZDkwZjFmMjZjYzFlZTc1NDI3Y2Y0ZGMyM2IgTW9uIFNlcCAxNyAwMDowMDowMCAy
-MDAxCiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KIERh
-dGU6IEZyaSwgMSBBcHIgMjAxNiAxNzowNzozNCArMDMwMAogU3ViamVjdDogW1BBVENIXSB0ZXN0
-czogYWRkIGEgdGFyZ2V0IGZvciBidWlsZGluZyB0ZXN0cyB3aXRob3V0IHJ1bm5pbmcgdGhlbQpA
-QCAtMTEsNyArMTEsNyBAQCBTaWduZWQtb2ZmLWJ5OiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5r
-YW5hdmluQGdtYWlsLmNvbT4KICAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspCiAKIGRp
-ZmYgLS1naXQgYS9NYWtlZmlsZS5hbSBiL01ha2VmaWxlLmFtCi1pbmRleCBlNzIyMWJkLi45NTk1
-ZmQxIDEwMDY0NAoraW5kZXggZTczOGViMy4uZGFiMTdkZCAxMDA2NDQKIC0tLSBhL01ha2VmaWxl
-LmFtCiArKysgYi9NYWtlZmlsZS5hbQogQEAgLTcxMCw2ICs3MTAsOSBAQCBlbmRpZgpkaWZmIC0t
-Z2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9ibHVlejUvYmx1ZXo1LzAwMDQtc3JjLXNo
-YXJlZC11dGlsLmMtaW5jbHVkZS1saW51eC1saW1pdHMuaC5wYXRjaCBiL21ldGEvcmVjaXBlcy1j
-b25uZWN0aXZpdHkvYmx1ZXo1L2JsdWV6NS8wMDA0LXNyYy1zaGFyZWQtdXRpbC5jLWluY2x1ZGUt
-bGludXgtbGltaXRzLmgucGF0Y2gKaW5kZXggNmVmMTM1MzI3ZC4uNTE2ZDg1OTA2OSAxMDA2NDQK
-LS0tIGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9ibHVlejUvYmx1ZXo1LzAwMDQtc3JjLXNo
-YXJlZC11dGlsLmMtaW5jbHVkZS1saW51eC1saW1pdHMuaC5wYXRjaAorKysgYi9tZXRhL3JlY2lw
-ZXMtY29ubmVjdGl2aXR5L2JsdWV6NS9ibHVlejUvMDAwNC1zcmMtc2hhcmVkLXV0aWwuYy1pbmNs
-dWRlLWxpbnV4LWxpbWl0cy5oLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBhZDA2OWZhZGZj
-Y2UyY2Y3MGY0NWIxYzRhNDI2NjU0NDg2NzUyOTdlIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQor
-RnJvbSBiNTNkZjYxYjQxMDg4YjY4YzEyN2FjNzZjYzcxNjgzYWMzNDUzYjlkIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQogRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRyb25peC5k
-ZT4KIERhdGU6IE1vbiwgMTIgRGVjIDIwMjIgMTM6MTA6MTkgKzAxMDAKIFN1YmplY3Q6IFtQQVRD
-SF0gc3JjL3NoYXJlZC91dGlsLmM6IGluY2x1ZGUgbGludXgvbGltaXRzLmgKQEAgLTE0LDcgKzE0
-LDcgQEAgU2lnbmVkLW9mZi1ieTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRyb25peC5k
-ZT4KICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykKIAogZGlmZiAtLWdpdCBhL3NyYy9z
-aGFyZWQvdXRpbC5jIGIvc3JjL3NoYXJlZC91dGlsLmMKLWluZGV4IDM0NDkxZjQuLjQxMmYzYWQg
-MTAwNjQ0CitpbmRleCBjMGMyYzRhLi4wMzZkYzBkIDEwMDY0NAogLS0tIGEvc3JjL3NoYXJlZC91
-dGlsLmMKICsrKyBiL3NyYy9zaGFyZWQvdXRpbC5jCiBAQCAtMjMsNiArMjMsNyBAQApkaWZmIC0t
-Z2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9ibHVlejUvYmx1ZXo1XzUuNzEuYmIgYi9t
-ZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JsdWV6NS9ibHVlejVfNS43Mi5iYgpzaW1pbGFyaXR5
-IGluZGV4IDk0JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JsdWV6NS9i
-bHVlejVfNS43MS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9ibHVlejUv
-Ymx1ZXo1XzUuNzIuYmIKaW5kZXggYjliYzNkZDFiNi4uOWZkYTk2MGVhNyAxMDA2NDQKLS0tIGEv
-bWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9ibHVlejUvYmx1ZXo1XzUuNzEuYmIKKysrIGIvbWV0
-YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9ibHVlejUvYmx1ZXo1XzUuNzIuYmIKQEAgLTEsNiArMSw2
-IEBACiByZXF1aXJlIGJsdWV6NS5pbmMKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gImI4MjhkNDE4
-YzkzY2VkMWY1NWI2MTZmYjU0ODJjZjAxNTM3NDQwYmZiMzRmYmRhMWE1NjRmM2VjZTk0NzM1ZDgi
-CitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNDk5ZDdmYTM0NWE5OTZjMWJiNjUwZjVjNjc0OWUxZDky
-OTExMWZhNmVjZTBiZTBlOTg2ODdmZWU2MTI0NTM2ZSIKIAogQ1ZFX1NUQVRVU1tDVkUtMjAyMC0y
-NDQ5MF0gPSAiY3BlLWluY29ycmVjdDogVGhpcyBpc3N1ZSBoYXMga2VybmVsIGZpeGVzIHJhdGhl
-ciB0aGFuIGJsdWV6IGZpeGVzIgogCi0tIAoyLjQyLjAKCg==
+CkRhdGU6IE1vbiwgMTUgSmFuIDIwMjQgMDU6Mzc6MjAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBv
+cGVuc3NoOiB1cGdyYWRlIDkuNXAxIC0+IDkuNnAxCgotLS0KIC4uLmgtbG9nLWlucHV0LWFuZC1v
+dXRwdXQtZmlsZXMtb24tZXJyby5wYXRjaCB8IDEwICstLS0KIC4uLnRpb25hbC1zdXBwb3J0LWZv
+ci1zeXN0ZW1kLXNkX25vdGlmeS5wYXRjaCB8IDE4ICsrKy0tLQogLi4uL2FkZC10ZXN0LXN1cHBv
+cnQtZm9yLWJ1c3lib3gucGF0Y2ggICAgICAgIHwgNTcgKysrKysrKysrKystLS0tLS0tLQogLi4u
+aWduZWQtb3ZlcmZsb3ctaW4tcG9pbnRlci1hcml0aG1hdGljLnBhdGNoIHwgIDYgKy0KIC4uLi97
+b3BlbnNzaF85LjVwMS5iYiA9PiBvcGVuc3NoXzkuNnAxLmJifSAgICB8ICAyICstCiA1IGZpbGVz
+IGNoYW5nZWQsIDQ3IGluc2VydGlvbnMoKyksIDQ2IGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEv
+cmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzaC97b3BlbnNzaF85LjVwMS5iYiA9PiBvcGVuc3No
+XzkuNnAxLmJifSAoOTklKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkv
+b3BlbnNzaC9vcGVuc3NoLzAwMDEtcmVncmVzcy1iYW5uZXIuc2gtbG9nLWlucHV0LWFuZC1vdXRw
+dXQtZmlsZXMtb24tZXJyby5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNz
+aC9vcGVuc3NoLzAwMDEtcmVncmVzcy1iYW5uZXIuc2gtbG9nLWlucHV0LWFuZC1vdXRwdXQtZmls
+ZXMtb24tZXJyby5wYXRjaAppbmRleCAyYzE0MDE0ZmVkLi4xMTc1NmIzMTk0IDEwMDY0NAotLS0g
+YS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2gvb3BlbnNzaC8wMDAxLXJlZ3Jlc3Mt
+YmFubmVyLnNoLWxvZy1pbnB1dC1hbmQtb3V0cHV0LWZpbGVzLW9uLWVycm8ucGF0Y2gKKysrIGIv
+bWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NoL29wZW5zc2gvMDAwMS1yZWdyZXNzLWJh
+bm5lci5zaC1sb2ctaW5wdXQtYW5kLW91dHB1dC1maWxlcy1vbi1lcnJvLnBhdGNoCkBAIC0xLDQg
+KzEsNCBAQAotRnJvbSBmNWE0ZGFjYzk4N2NhNTQ4ZmM4NjU3N2MyZGJhMTIxYzg2ZGEzYzM0IE1v
+biBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA0YmUxMDU1ZmUyMjhkM2ZiYWIwYmI5MGFlODA1
+YTFkN2FmM2IzNWM5IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogTWlra28gUmFwZWxp
+IDxtaWtrby5yYXBlbGlAbGluYXJvLm9yZz4KIERhdGU6IE1vbiwgMTEgU2VwIDIwMjMgMDk6NTU6
+MjEgKzAxMDAKIFN1YmplY3Q6IFtQQVRDSF0gcmVncmVzcy9iYW5uZXIuc2g6IGxvZyBpbnB1dCBh
+bmQgb3V0cHV0IGZpbGVzIG9uIGVycm9yCkBAIC0zNSwxNCArMzUsMTMgQEAgcmV0dXJuIHZhbHVl
+OiAxCiBTZWU6IGh0dHBzOi8vYnVnemlsbGEueW9jdG9wcm9qZWN0Lm9yZy9zaG93X2J1Zy5jZ2k/
+aWQ9MTUxNzgKIAogU2lnbmVkLW9mZi1ieTogTWlra28gUmFwZWxpIDxtaWtrby5yYXBlbGlAbGlu
+YXJvLm9yZz4KKwogLS0tCiAgcmVncmVzcy9iYW5uZXIuc2ggfCA0ICsrKy0KICAxIGZpbGUgY2hh
+bmdlZCwgMyBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCiAKLVVwc3RyZWFtLVN0YXR1czog
+RGVuaWVkIFtodHRwczovL2dpdGh1Yi5jb20vb3BlbnNzaC9vcGVuc3NoLXBvcnRhYmxlL3B1bGwv
+NDM3XQotCiBkaWZmIC0tZ2l0IGEvcmVncmVzcy9iYW5uZXIuc2ggYi9yZWdyZXNzL2Jhbm5lci5z
+aAotaW5kZXggYTg0ZmViNWEuLmRlODQ5NTdhIDEwMDY0NAoraW5kZXggYTg0ZmViNS4uZGU4NDk1
+NyAxMDA2NDQKIC0tLSBhL3JlZ3Jlc3MvYmFubmVyLnNoCiArKysgYi9yZWdyZXNzL2Jhbm5lci5z
+aAogQEAgLTMyLDcgKzMyLDkgQEAgZm9yIHMgaW4gMCAxMCAxMDAgMTAwMCAxMDAwMCAxMDAwMDAg
+OyBkbwpAQCAtNTYsNiArNTUsMyBAQCBpbmRleCBhODRmZWI1YS4uZGU4NDk1N2EgMTAwNjQ0CiAg
+ZG9uZQogIAogIHRyYWNlICJ0ZXN0IHN1cHByZXNzIGJhbm5lciAoLXEpIgotLS0gCi0yLjM0LjEK
+LQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NoL29wZW5zc2gv
+MDAwMS1zeXN0ZW1kLUFkZC1vcHRpb25hbC1zdXBwb3J0LWZvci1zeXN0ZW1kLXNkX25vdGlmeS5w
+YXRjaCBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzaC9vcGVuc3NoLzAwMDEtc3lz
+dGVtZC1BZGQtb3B0aW9uYWwtc3VwcG9ydC1mb3Itc3lzdGVtZC1zZF9ub3RpZnkucGF0Y2gKaW5k
+ZXggYWNkYThmMWNlOS4uYzM5ZTkxOWNhYSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvbm5l
+Y3Rpdml0eS9vcGVuc3NoL29wZW5zc2gvMDAwMS1zeXN0ZW1kLUFkZC1vcHRpb25hbC1zdXBwb3J0
+LWZvci1zeXN0ZW1kLXNkX25vdGlmeS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2
+aXR5L29wZW5zc2gvb3BlbnNzaC8wMDAxLXN5c3RlbWQtQWRkLW9wdGlvbmFsLXN1cHBvcnQtZm9y
+LXN5c3RlbWQtc2Rfbm90aWZ5LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBiZTE4NzQzNTkx
+MWNkZTZjYzNjZWY2OTgyYTUwODI2MTA3NGYxZTU2IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQor
+RnJvbSA0NmZlZTAzZGYxYTEyZDIyYTYwZWRmZDFjMDE1ZWUwZGE1YzE3YWMxIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQogRnJvbTogTWF0dCBKb2xseSA8TWF0dC5Kb2xseUBmb290Y2xhbi5uaW5q
+YT4KIERhdGU6IFRodSwgMiBGZWIgMjAyMyAyMTowNTo0MCArMTEwMAogU3ViamVjdDogW1BBVENI
+XSBzeXN0ZW1kOiBBZGQgb3B0aW9uYWwgc3VwcG9ydCBmb3Igc3lzdGVtZCBgc2Rfbm90aWZ5YApA
+QCAtOSwxNiArOSwxNyBAQCBwYXRjaCBiYXNlZCBvbiBKYWt1YiBKZWxlbidzIDxqamVsZW5AcmVk
+aGF0LmNvbT4gb3JpZ2luYWwgcGF0Y2gKIFVwc3RyZWFtLVN0YXR1czogU3VibWl0dGVkIFtodHRw
+czovL2dpdGh1Yi5jb20vb3BlbnNzaC9vcGVuc3NoLXBvcnRhYmxlL3B1bGwvMzc1L2NvbW1pdHMv
+YmUxODc0MzU5MTFjZGU2Y2MzY2VmNjk4MmE1MDgyNjEwNzRmMWU1Nl0KIAogU2lnbmVkLW9mZi1i
+eTogWGlhbmd5dSBDaGVuIDx4aWFuZ3l1LmNoZW5Ad2luZHJpdmVyLmNvbT4KKwogLS0tCiAgY29u
+ZmlndXJlLmFjIHwgMjQgKysrKysrKysrKysrKysrKysrKysrKysrCiAgc3NoZC5jICAgICAgIHwg
+MTMgKysrKysrKysrKysrKwogIDIgZmlsZXMgY2hhbmdlZCwgMzcgaW5zZXJ0aW9ucygrKQogCiBk
+aWZmIC0tZ2l0IGEvY29uZmlndXJlLmFjIGIvY29uZmlndXJlLmFjCi1pbmRleCAyMmZlZTcwZi4u
+NDg2YzE4OWYgMTAwNjQ0CitpbmRleCAzNzljZDc0Li5hN2QwZTkyIDEwMDY0NAogLS0tIGEvY29u
+ZmlndXJlLmFjCiArKysgYi9jb25maWd1cmUuYWMKLUBAIC00ODM1LDYgKzQ4MzUsMjkgQEAgQUNf
+U1VCU1QoW0dTU0xJQlNdKQorQEAgLTQ4NDIsNiArNDg0MiwyOSBAQCBBQ19TVUJTVChbR1NTTElC
+U10pCiAgQUNfU1VCU1QoW0s1TElCU10pCiAgQUNfU1VCU1QoW0NIQU5ORUxMSUJTXSkKICAKQEAg
+LTQ4LDcgKzQ5LDcgQEAgaW5kZXggMjJmZWU3MGYuLjQ4NmMxODlmIDEwMDY0NAogICMgTG9va2lu
+ZyBmb3IgcHJvZ3JhbXMsIHBhdGhzIGFuZCBmaWxlcwogIAogIFBSSVZTRVBfUEFUSD0vdmFyL2Vt
+cHR5Ci1AQCAtNTYzNCw2ICs1NjU3LDcgQEAgZWNobyAiICAgICAgICAgICAgICAgICAgIGxpYmxk
+bnMgc3VwcG9ydDogJExETlNfTVNHIgorQEAgLTU2NTAsNiArNTY3Myw3IEBAIGVjaG8gIiAgICAg
+ICAgICAgICAgICAgICBsaWJsZG5zIHN1cHBvcnQ6ICRMRE5TX01TRyIKICBlY2hvICIgIFNvbGFy
+aXMgcHJvY2VzcyBjb250cmFjdCBzdXBwb3J0OiAkU1BDX01TRyIKICBlY2hvICIgICAgICAgICAg
+IFNvbGFyaXMgcHJvamVjdCBzdXBwb3J0OiAkU1BfTVNHIgogIGVjaG8gIiAgICAgICAgIFNvbGFy
+aXMgcHJpdmlsZWdlIHN1cHBvcnQ6ICRTUFBfTVNHIgpAQCAtNTcsNyArNTgsNyBAQCBpbmRleCAy
+MmZlZTcwZi4uNDg2YzE4OWYgMTAwNjQ0CiAgZWNobyAiICAgICAgICAgICBUcmFuc2xhdGUgdjQg
+aW4gdjYgaGFjazogJElQVjRfSU42X0hBQ0tfTVNHIgogIGVjaG8gIiAgICAgICAgICAgICAgICAg
+IEJTRCBBdXRoIHN1cHBvcnQ6ICRCU0RfQVVUSF9NU0ciCiBkaWZmIC0tZ2l0IGEvc3NoZC5jIGIv
+c3NoZC5jCi1pbmRleCA2MzIxOTM2Yy4uODU5ZDZhMGIgMTAwNjQ0CitpbmRleCA5Y2JlOTIyLi40
+YjM0MmM1IDEwMDY0NAogLS0tIGEvc3NoZC5jCiArKysgYi9zc2hkLmMKIEBAIC04OCw2ICs4OCwx
+MCBAQApAQCAtNzEsNyArNzIsNyBAQCBpbmRleCA2MzIxOTM2Yy4uODU5ZDZhMGIgMTAwNjQ0CiAg
+I2luY2x1ZGUgInhtYWxsb2MuaCIKICAjaW5jbHVkZSAic3NoLmgiCiAgI2luY2x1ZGUgInNzaDIu
+aCIKLUBAIC0zMTAsNiArMzE0LDEwIEBAIHN0YXRpYyB2b2lkCitAQCAtMzA4LDYgKzMxMiwxMCBA
+QCBzdGF0aWMgdm9pZAogIHNpZ2h1cF9yZXN0YXJ0KHZvaWQpCiAgewogIAlsb2dpdCgiUmVjZWl2
+ZWQgU0lHSFVQOyByZXN0YXJ0aW5nLiIpOwpAQCAtODIsNyArODMsNyBAQCBpbmRleCA2MzIxOTM2
+Yy4uODU5ZDZhMGIgMTAwNjQ0CiAgCWlmIChvcHRpb25zLnBpZF9maWxlICE9IE5VTEwpCiAgCQl1
+bmxpbmsob3B0aW9ucy5waWRfZmlsZSk7CiAgCXBsYXRmb3JtX3ByZV9yZXN0YXJ0KCk7Ci1AQCAt
+MjA4Niw2ICsyMDk0LDExIEBAIG1haW4oaW50IGFjLCBjaGFyICoqYXYpCitAQCAtMjA5Myw2ICsy
+MTAxLDExIEBAIG1haW4oaW50IGFjLCBjaGFyICoqYXYpCiAgCQkJfQogIAkJfQogIApAQCAtOTQs
+NiArOTUsMyBAQCBpbmRleCA2MzIxOTM2Yy4uODU5ZDZhMGIgMTAwNjQ0CiAgCQkvKiBBY2NlcHQg
+YSBjb25uZWN0aW9uIGFuZCByZXR1cm4gaW4gYSBmb3JrZWQgY2hpbGQgKi8KICAJCXNlcnZlcl9h
+Y2NlcHRfbG9vcCgmc29ja19pbiwgJnNvY2tfb3V0LAogIAkJICAgICZuZXdzb2NrLCBjb25maWdf
+cyk7Ci0tLSAKLTIuMjUuMQotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5
+L29wZW5zc2gvb3BlbnNzaC9hZGQtdGVzdC1zdXBwb3J0LWZvci1idXN5Ym94LnBhdGNoIGIvbWV0
+YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NoL29wZW5zc2gvYWRkLXRlc3Qtc3VwcG9ydC1m
+b3ItYnVzeWJveC5wYXRjaAppbmRleCBiODQwMmE0ZGVlLi45YmY0MGVjYzYyIDEwMDY0NAotLS0g
+YS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2gvb3BlbnNzaC9hZGQtdGVzdC1zdXBw
+b3J0LWZvci1idXN5Ym94LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3Bl
+bnNzaC9vcGVuc3NoL2FkZC10ZXN0LXN1cHBvcnQtZm9yLWJ1c3lib3gucGF0Y2gKQEAgLTEsNCAr
+MSw3IEBACi1BZGp1c3QgdGVzdCBjYXNlcyB0byB3b3JrIHdpdGggYnVzeWJveC4KK0Zyb20gNmY5
+MmYyYjA3YzJiNTVkMWU2MjIyMWFhMzEyMzEzNTI5ODY4NjM0OCBNb24gU2VwIDE3IDAwOjAwOjAw
+IDIwMDEKK0Zyb206ICJNYXhpbiBCLiBKb2huIiA8bWF4aW4uam9obkBlbmVhLmNvbT4KK0RhdGU6
+IFRodSwgMjQgQXByIDIwMTQgMTg6MDA6MjIgKzAyMDAKK1N1YmplY3Q6IFtQQVRDSF0gQWRqdXN0
+IHRlc3QgY2FzZXMgdG8gd29yayB3aXRoIGJ1c3lib3guCiAKIC0gUmVwbGFjZSBkZCBwYXJhbWV0
+ZXIgIm9icyIgd2l0aCAiYnMiLgogLSBSZXBsYWNlICJoZWFkIC08bnVtPiIgd2l0aCAiaGVhZCAt
+biA8bnVtPiIuCkBAIC02LDExICs5LDE3IEBAIEFkanVzdCB0ZXN0IGNhc2VzIHRvIHdvcmsgd2l0
+aCBidXN5Ym94LgogU2lnbmVkLW9mZi1ieTogTWF4aW4gQi4gSm9obiA8bWF4aW4uam9obkBlbmVh
+LmNvbT4KIFVwc3RyZWFtLVN0YXR1czogUGVuZGluZwogCi1JbmRleDogb3BlbnNzaC03LjZwMS9y
+ZWdyZXNzL2NpcGhlci1zcGVlZC5zaAotPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQotLS0tIG9wZW5zc2gtNy42cDEub3Jp
+Zy9yZWdyZXNzL2NpcGhlci1zcGVlZC5zaAotKysrIG9wZW5zc2gtNy42cDEvcmVncmVzcy9jaXBo
+ZXItc3BlZWQuc2gKLUBAIC0xNyw3ICsxNyw3IEBAIGZvciBjIGluIGAke1NTSH0gLVEgY2lwaGVy
+YDsgZG8gbj0wOyBmb3IKKy0tLQorIHJlZ3Jlc3MvY2lwaGVyLXNwZWVkLnNoIHwgMiArLQorIHJl
+Z3Jlc3Mva2V5LW9wdGlvbnMuc2ggIHwgMiArLQorIHJlZ3Jlc3MvdHJhbnNmZXIuc2ggICAgIHwg
+MiArLQorIDMgZmlsZXMgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQor
+CitkaWZmIC0tZ2l0IGEvcmVncmVzcy9jaXBoZXItc3BlZWQuc2ggYi9yZWdyZXNzL2NpcGhlci1z
+cGVlZC5zaAoraW5kZXggMTM0MGJkMS4uODc3MDc1NyAxMDA2NDQKKy0tLSBhL3JlZ3Jlc3MvY2lw
+aGVyLXNwZWVkLnNoCisrKysgYi9yZWdyZXNzL2NpcGhlci1zcGVlZC5zaAorQEAgLTI3LDcgKzI3
+LDcgQEAgZm9yIGMgaW4gYCR7U1NIfSAtUSBjaXBoZXJgOyBkbyBuPTA7IGZvciBtIGluIGAke1NT
+SH0gLVEgbWFjYDsgZG8KICAJCXByaW50ZiAiJS02MHMiICIkYy8kbToiCiAgCQkoICR7U1NIfSAt
+byAnY29tcHJlc3Npb24gbm8nIFwKICAJCQktRiAkT0JKL3NzaF9wcm94eSAtbSAkbSAtYyAkYyBz
+b21laG9zdCBcCkBAIC0xOSwyNCArMjgsMTEgQEAgSW5kZXg6IG9wZW5zc2gtNy42cDEvcmVncmVz
+cy9jaXBoZXItc3BlZWQuc2gKICAJCTwgJHtEQVRBfSApIDI+JjEgfCBnZXRieXRlcwogIAogIAkJ
+aWYgWyAkPyAtbmUgMCBdOyB0aGVuCi1JbmRleDogb3BlbnNzaC03LjZwMS9yZWdyZXNzL3RyYW5z
+ZmVyLnNoCi09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09Ci0tLS0gb3BlbnNzaC03LjZwMS5vcmlnL3JlZ3Jlc3MvdHJhbnNm
+ZXIuc2gKLSsrKyBvcGVuc3NoLTcuNnAxL3JlZ3Jlc3MvdHJhbnNmZXIuc2gKLUBAIC0xMyw3ICsx
+Myw3IEBAIGNtcCAke0RBVEF9ICR7Q09QWX0JCXx8IGZhaWwgImNvcnJ1cHRlZAotIGZvciBzIGlu
+IDEwIDEwMCAxayAzMmsgNjRrIDEyOGsgMjU2azsgZG8KLSAJdHJhY2UgImRkLXNpemUgJHtzfSIK
+LSAJcm0gLWYgJHtDT1BZfQotLQlkZCBpZj0kREFUQSBvYnM9JHtzfSAyPiAvZGV2L251bGwgfCBc
+Ci0rCWRkIGlmPSREQVRBIGJzPSR7c30gMj4gL2Rldi9udWxsIHwgXAotIAkJJHtTU0h9IC1xIC1G
+ICRPQkovc3NoX3Byb3h5IHNvbWVob3N0ICJjYXQgPiAke0NPUFl9IgotIAlpZiBbICQ/IC1uZSAw
+IF07IHRoZW4KLSAJCWZhaWwgInNzaCBjYXQgJERBVEEgZmFpbGVkIgotSW5kZXg6IG9wZW5zc2gt
+Ny42cDEvcmVncmVzcy9rZXktb3B0aW9ucy5zaAotPT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQotLS0tIG9wZW5zc2gtNy42
+cDEub3JpZy9yZWdyZXNzL2tleS1vcHRpb25zLnNoCi0rKysgb3BlbnNzaC03LjZwMS9yZWdyZXNz
+L2tleS1vcHRpb25zLnNoCi1AQCAtNDcsNyArNDcsNyBAQCBmb3IgZiBpbiAxMjcuMC4wLjEgJzEy
+Ny4wLjAuMFwvOCc7IGRvCitkaWZmIC0tZ2l0IGEvcmVncmVzcy9rZXktb3B0aW9ucy5zaCBiL3Jl
+Z3Jlc3Mva2V5LW9wdGlvbnMuc2gKK2luZGV4IDJmM2Q2NmUuLjdmODE2NmQgMTAwNjQ0CistLS0g
+YS9yZWdyZXNzL2tleS1vcHRpb25zLnNoCisrKysgYi9yZWdyZXNzL2tleS1vcHRpb25zLnNoCitA
+QCAtOTAsNyArOTAsNyBAQCBmb3IgZiBpbiAxMjcuMC4wLjEgJzEyNy4wLjAuMFwvOCc7IGRvCiAg
+CWZpCiAgCiAgCXNlZCAncy8uKi9mcm9tPSInIiRmIiciICYvJyAkb3JpZ2tleXMgPiRhdXRoa2V5
+cwpAQCAtNDUsMyArNDEsMTYgQEAgSW5kZXg6IG9wZW5zc2gtNy42cDEvcmVncmVzcy9rZXktb3B0
+aW9ucy5zaAogIAl2ZXJib3NlICJrZXkgb3B0aW9uICRmcm9tIgogIAlyPWAke1NTSH0gLXEgLUYg
+JE9CSi9zc2hfcHJveHkgc29tZWhvc3QgJ2VjaG8gdHJ1ZSdgCiAgCWlmIFsgIiRyIiA9ICJ0cnVl
+IiBdOyB0aGVuCitkaWZmIC0tZ2l0IGEvcmVncmVzcy90cmFuc2Zlci5zaCBiL3JlZ3Jlc3MvdHJh
+bnNmZXIuc2gKK2luZGV4IGNmMTc0YTAuLjQxY2ZkYzcgMTAwNjQ0CistLS0gYS9yZWdyZXNzL3Ry
+YW5zZmVyLnNoCisrKysgYi9yZWdyZXNzL3RyYW5zZmVyLnNoCitAQCAtMTMsNyArMTMsNyBAQCBj
+bXAgJHtEQVRBfSAke0NPUFl9CQl8fCBmYWlsICJjb3JydXB0ZWQgY29weSIKKyBmb3IgcyBpbiAx
+MCAxMDAgMWsgMzJrIDY0ayAxMjhrIDI1Nms7IGRvCisgCXRyYWNlICJkZC1zaXplICR7c30iCisg
+CXJtIC1mICR7Q09QWX0KKy0JZGQgaWY9JERBVEEgb2JzPSR7c30gMj4gL2Rldi9udWxsIHwgXAor
+KwlkZCBpZj0kREFUQSBicz0ke3N9IDI+IC9kZXYvbnVsbCB8IFwKKyAJCSR7U1NIfSAtcSAtRiAk
+T0JKL3NzaF9wcm94eSBzb21laG9zdCAiY2F0ID4gJHtDT1BZfSIKKyAJaWYgWyAkPyAtbmUgMCBd
+OyB0aGVuCisgCQlmYWlsICJzc2ggY2F0ICREQVRBIGZhaWxlZCIKZGlmZiAtLWdpdCBhL21ldGEv
+cmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzaC9vcGVuc3NoL2ZpeC1wb3RlbnRpYWwtc2lnbmVk
+LW92ZXJmbG93LWluLXBvaW50ZXItYXJpdGhtYXRpYy5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb25u
+ZWN0aXZpdHkvb3BlbnNzaC9vcGVuc3NoL2ZpeC1wb3RlbnRpYWwtc2lnbmVkLW92ZXJmbG93LWlu
+LXBvaW50ZXItYXJpdGhtYXRpYy5wYXRjaAppbmRleCAyMDAzNmRhOTMxLi41OGU3Nzc3NmE2IDEw
+MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2gvb3BlbnNzaC9maXgt
+cG90ZW50aWFsLXNpZ25lZC1vdmVyZmxvdy1pbi1wb2ludGVyLWFyaXRobWF0aWMucGF0Y2gKKysr
+IGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NoL29wZW5zc2gvZml4LXBvdGVudGlh
+bC1zaWduZWQtb3ZlcmZsb3ctaW4tcG9pbnRlci1hcml0aG1hdGljLnBhdGNoCkBAIC0xLDQgKzEs
+NCBAQAotRnJvbSAzMzI4ZTk4YmNiZjI5MzBjZDdlZWEzZTZjOTJhZDVkY2JkZjQ3OTRmIE1vbiBT
+ZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA5ZjllMWMxOGRiNmY3MzU4OTUwYTQ5ZjAzNTBiYzdm
+YzM1NjczYmVhIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogWXVhbmppZSBIdWFuZyA8
+eXVhbmppZS5odWFuZ0B3aW5kcml2ZXIuY29tPgogRGF0ZTogV2VkLCAyNCBBdWcgMjAxNiAwMzox
+NTo0MyArMDAwMAogU3ViamVjdDogW1BBVENIXSBGaXggcG90ZW50aWFsIHNpZ25lZCBvdmVyZmxv
+dyBpbiBwb2ludGVyIGFyaXRobWF0aWMKQEAgLTE0LDYgKzE0LDcgQEAgU2lnbmVkLW9mZi1ieTog
+WXVhbmppZSBIdWFuZyA8eXVhbmppZS5odWFuZ0B3aW5kcml2ZXIuY29tPgogCiBDb21wbGV0ZSB0
+aGUgZml4CiBTaWduZWQtb2ZmLWJ5OiBIb25neHUgSmlhIDxob25neHUuamlhQHdpbmRyaXZlci5j
+b20+CisKIC0tLQogIG9wZW5ic2QtY29tcGF0L3N0cmxjYXQuYyB8IDEwICsrKysrKystLS0KICBv
+cGVuYnNkLWNvbXBhdC9zdHJsY3B5LmMgfCAgOCArKysrKystLQpAQCAtMTA2LDYgKzEwNywzIEBA
+IGluZGV4IDdhZDM1NzMuLjcwNDBmMWYgMTAwNjQ0CiArCXJldHVybiAoc2l6ZV90KSgodWludHB0
+cl90KWNwIC0gKHVpbnRwdHJfdClzdHIpOwogIH0KICAjZW5kaWYKLS0tIAotMi4xNy4xCi0KZGlm
+ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzaC9vcGVuc3NoXzkuNXAx
+LmJiIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NoL29wZW5zc2hfOS42cDEuYmIK
+c2ltaWxhcml0eSBpbmRleCA5OSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0
+eS9vcGVuc3NoL29wZW5zc2hfOS41cDEuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1jb25uZWN0
+aXZpdHkvb3BlbnNzaC9vcGVuc3NoXzkuNnAxLmJiCmluZGV4IDAzMTJkNWJkNjYuLjYzNjZjZWZk
+ZjkgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzaC9vcGVuc3No
+XzkuNXAxLmJiCisrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzaC9vcGVuc3No
+XzkuNnAxLmJiCkBAIC0yOCw3ICsyOCw3IEBAIFNSQ19VUkkgPSAiaHR0cDovL2Z0cC5vcGVuYnNk
+Lm9yZy9wdWIvT3BlbkJTRC9PcGVuU1NIL3BvcnRhYmxlL29wZW5zc2gtJHtQVn0udGFyCiAgICAg
+ICAgICAgIGZpbGU6Ly8wMDAxLXJlZ3Jlc3MtYmFubmVyLnNoLWxvZy1pbnB1dC1hbmQtb3V0cHV0
+LWZpbGVzLW9uLWVycm8ucGF0Y2ggXAogICAgICAgICAgICBmaWxlOi8vMDAwMS1zeXN0ZW1kLUFk
+ZC1vcHRpb25hbC1zdXBwb3J0LWZvci1zeXN0ZW1kLXNkX25vdGlmeS5wYXRjaCBcCiAgICAgICAg
+ICAgICIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJmMDI2ZTdiNzliYTdmYjU0MGY3NTE4MmFmOTZk
+YzhhOGYxZGIzOTVmOTIyYmJjOWY2Y2E2MDM2NzI2ODYwODZiIgorU1JDX1VSSVtzaGEyNTZzdW1d
+ID0gIjkxMDIxMWMwNzI1NWE4YzVhZDY1NDM5MWI0MGVlNTk4MDA3MTBkZDgxMTlkZDUzNjJkZTA5
+Mzg1YWE3YTc3N2MiCiAKIENWRV9TVEFUVVNbQ1ZFLTIwMDctMjc2OF0gPSAibm90LWFwcGxpY2Fi
+bGUtY29uZmlnOiBUaGlzIENWRSBpcyBzcGVjaWZpYyB0byBPcGVuU1NIIHdpdGggdGhlIHBhbSBv
+cGllIHdoaWNoIHdlIGRvbid0IGJ1aWxkL3VzZSBoZXJlLiIKIAotLSAKMi40Mi4wCgo=
 
---===============0450732911563769618==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-64-poky-linux/bluez5/bluez5: FILELIST: removed "/usr/lib/libbluetooth.so.3.19.11", added "/usr/lib/libbluetooth.so.3.19.12"
-Changes to packages/core2-64-poky-linux/bluez5 (sysroot):
-  /usr/lib/libbluetooth.so.3 changed symlink target from libbluetooth.so.3.19.11 to libbluetooth.so.3.19.12
-  /usr/lib/libbluetooth.so changed symlink target from libbluetooth.so.3.19.11 to libbluetooth.so.3.19.12
-  /usr/lib/libbluetooth.so.3.19.11 moved to /usr/lib/libbluetooth.so.3.19.12
-
---===============0450732911563769618==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/bluez5/bluez5-dbg: PKGSIZE changed from 33496200 to 33647200 (+0%)
-packages/core2-64-poky-linux/bluez5/bluez5-dbg: FILELIST: removed "/usr/lib/.debug/libbluetooth.so.3.19.11", added "/usr/lib/.debug/libbluetooth.so.3.19.12"
-packages/core2-64-poky-linux/bluez5/bluez5-dbg: PKGV changed from 5.71 [default] to 5.72 [default]
-packages/core2-64-poky-linux/bluez5/bluez5-dbg: PV changed from "5.71" to "5.72"
-packages/core2-64-poky-linux/bluez5/bluez5-dev: PKGV changed from 5.71 [default] to 5.72 [default]
-packages/core2-64-poky-linux/bluez5/bluez5-dev: PV changed from "5.71" to "5.72"
-packages/core2-64-poky-linux/bluez5/bluez5-doc: PKGV changed from 5.71 [default] to 5.72 [default]
-packages/core2-64-poky-linux/bluez5/bluez5-doc: PV changed from "5.71" to "5.72"
-packages/core2-64-poky-linux/bluez5/bluez5-locale: PKGV changed from 5.71 [default] to 5.72 [default]
-packages/core2-64-poky-linux/bluez5/bluez5-locale: PV changed from "5.71" to "5.72"
-packages/core2-64-poky-linux/bluez5/bluez5-noinst-tools: PKGSIZE changed from 5237016 to 5249304 (+0%)
-packages/core2-64-poky-linux/bluez5/bluez5-noinst-tools: PKGV changed from 5.71 [default] to 5.72 [default]
-packages/core2-64-poky-linux/bluez5/bluez5-noinst-tools: PV changed from "5.71" to "5.72"
-packages/core2-64-poky-linux/bluez5/bluez5-obex: PKGV changed from 5.71 [default] to 5.72 [default]
-packages/core2-64-poky-linux/bluez5/bluez5-obex: PV changed from "5.71" to "5.72"
-packages/core2-64-poky-linux/bluez5/bluez5-ptest: PKGSIZE changed from 6198771 to 6268595 (+1%)
-packages/core2-64-poky-linux/bluez5/bluez5-ptest: PKGV changed from 5.71 [default] to 5.72 [default]
-packages/core2-64-poky-linux/bluez5/bluez5-ptest: PV changed from "5.71" to "5.72"
-packages/core2-64-poky-linux/bluez5/bluez5-src: PKGSIZE changed from 8313398 to 8400912 (+1%)
-packages/core2-64-poky-linux/bluez5/bluez5-src: PKGV changed from 5.71 [default] to 5.72 [default]
-packages/core2-64-poky-linux/bluez5/bluez5-src: PV changed from "5.71" to "5.72"
-packages/core2-64-poky-linux/bluez5/bluez5-staticdev: PKGV changed from 5.71 [default] to 5.72 [default]
-packages/core2-64-poky-linux/bluez5/bluez5-staticdev: PV changed from "5.71" to "5.72"
-packages/core2-64-poky-linux/bluez5/bluez5-testtools: PKGV changed from 5.71 [default] to 5.72 [default]
-packages/core2-64-poky-linux/bluez5/bluez5-testtools: PV changed from "5.71" to "5.72"
-packages/core2-64-poky-linux/bluez5/bluez5: PKGSIZE changed from 6115668 to 6137060 (+0%)
-packages/core2-64-poky-linux/bluez5/bluez5: FILELIST: removed "/usr/lib/libbluetooth.so.3.19.11", added "/usr/lib/libbluetooth.so.3.19.12"
-packages/core2-64-poky-linux/bluez5/bluez5: PKGV changed from 5.71 [default] to 5.72 [default]
-packages/core2-64-poky-linux/bluez5/bluez5: PV changed from "5.71" to "5.72"
-packages/core2-64-poky-linux/bluez5: SRC_URI changed from "https://cdn.kernel.org/pub/linux/bluetooth/bluez-5.71.tar.xz file://init file://run-ptest file://0001-tests-add-a-target-for-building-tests-without-runnin.patch file://0001-test-gatt-Fix-hung-issue.patch file://0004-src-shared-util.c-include-linux-limits.h.patch" to "https://cdn.kernel.org/pub/linux/bluetooth/bluez-5.72.tar.xz file://init file://run-ptest file://0001-tests-add-a-target-for-building-tests-without-runnin.patch file://0001-test-gatt-Fix-hung-issue.patch file://0004-src-shared-util.c-include-linux-limits.h.patch"
-packages/core2-64-poky-linux/bluez5: PKGV changed from 5.71 [default] to 5.72 [default]
-packages/core2-64-poky-linux/bluez5: PV changed from "5.71" to "5.72"
-Changes to packages/core2-64-poky-linux/bluez5 (sysroot):
-  /usr/lib/libbluetooth.so.3 changed symlink target from libbluetooth.so.3.19.11 to libbluetooth.so.3.19.12
-  /usr/lib/libbluetooth.so changed symlink target from libbluetooth.so.3.19.11 to libbluetooth.so.3.19.12
-  /usr/lib/libbluetooth.so.3.19.11 moved to /usr/lib/libbluetooth.so.3.19.12
-
---===============0450732911563769618==--
+--===============3232280505190933666==--
 
