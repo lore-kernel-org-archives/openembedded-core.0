@@ -2,47 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A8DAC54792
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 081B6C5478D
 	for <webhook@archiver.kernel.org>; Mon, 15 Jan 2024 17:34:02 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web10.88839.1705340029292398126
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web10.88844.1705340029542338047
  for <openembedded-core@lists.openembedded.org>;
  Mon, 15 Jan 2024 09:33:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=QxxMYWAq;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=SYiMKsOg;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018d0e2fc5cb-3e09b4b8-020b-42cb-b6fc-646ae4f18183-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=T806ITKd;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=lJQ19bWo;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018d0e2fc71f-24386f85-bfe5-4eb6-9ce8-ac207e61456e-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1705340028;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=/hO0RZJHuux4FS7ME4RyjofmAc6iwm0OwMy55z8TSog=;
-	b=QxxMYWAqmAThbtrhd2JWQqIBsbxxSFl2nJze6nxe9bV1uTfBA8PE6midlSYNqV7Q
-	So3rsRjDFP0dYgx5si6M/N5Gp7mbEHAXaW+7Gm1a7W+o2oEwevcVm6UK5B/ClRJ9bVG
-	G5IxUve/HR1U83getEfKJaHMWtOEfrImjBcTfuXE=
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=U46G0XfQxZxmklkGwf7aNN/j6YLxonrIHzOM1wLQbhw=;
+	b=T806ITKdvpWOuaH500R7o/B85kYc8dO64GNWb1NfmVMsMrv+erpexGaAs9JodyS4
+	c8LGH0u6Gahlv5USOIbsuBXS6GS86ch9DDEfTpBWyHe8V/MytHPzewO6+lx+b78uCFa
+	djTq4TxqycZDKgpyRVfHwnhfkpD7caz15cnswK0U=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1705340028;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=/hO0RZJHuux4FS7ME4RyjofmAc6iwm0OwMy55z8TSog=;
-	b=SYiMKsOgj07wmul/sL+xwGFDswKRlPFINKIVll8vCdMThzml2OeRLkJvBTy6T8kC
-	EirXJmKKBE++2vq1VUN5XzYnLl57mk7MJDREy2Tg0pkYICgVZXvu9qMyPZipkT+9Y6f
-	jhBiE9Cs+1xuvVP0uruJjbWattKmHcMHygkZisvI=
-Content-Type: multipart/mixed; boundary="===============3232280505190933666=="
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=U46G0XfQxZxmklkGwf7aNN/j6YLxonrIHzOM1wLQbhw=;
+	b=lJQ19bWoeSm4qzbjueSzlzx6pH8e4/PgLPHGAP6XI0+aRttJ4TJSZQK1n4L1RsIC
+	t92TP288ka1RhYRqv5QROJg6Cvs8jXzS6Zk0vGuQmRLsxUhchIrSS4smGv/rROg65gM
+	FkVF0TegEqFyplwGvjU/QC1QROXXSCv/bA+rhp8U=
+Content-Type: multipart/mixed; boundary="===============7399817928307414781=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] openssh: upgrading to 9.6p1 FAILED
-Message-ID: <0101018d0e2fc5cb-3e09b4b8-020b-42cb-b6fc-646ae4f18183-000000@us-west-2.amazonses.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] libxml2: upgrading to 2.12.3 SUCCEEDED
+Message-ID: <0101018d0e2fc71f-24386f85-bfe5-4eb6-9ce8-ac207e61456e-000000@us-west-2.amazonses.com>
 Date: Mon, 15 Jan 2024 17:33:48 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.01.15-54.240.27.23
+X-SES-Outgoing: 2024.01.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 15 Jan 2024 17:34:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193700
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193703
 
---===============3232280505190933666==
+--===============7399817928307414781==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *openssh* to *9.6p1* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *libxml2* to *2.12.3* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-openssh-upgrade-9.5p1-9.6p1.patch
+    - apply the patch: git am 0001-libxml2-upgrade-2.11.5-2.12.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -77,521 +72,300 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From b0f04d69a668a26c92987303360a4465d154deef Mon Sep 17 00:00:00 2001
+From 07ff27a5d5f95e37236cf539629802b7c0b5685d Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 15 Jan 2024 05:37:20 +0000
-Subject: [PATCH] openssh: upgrade 9.5p1 -> 9.6p1
+Date: Mon, 15 Jan 2024 05:44:09 +0000
+Subject: [PATCH] libxml2: upgrade 2.11.5 -> 2.12.3
 
 ---
- ...h-log-input-and-output-files-on-erro.patch | 10 +---
- ...tional-support-for-systemd-sd_notify.patch | 18 +++---
- .../add-test-support-for-busybox.patch        | 57 +++++++++++--------
- ...igned-overflow-in-pointer-arithmatic.patch |  6 +-
- .../{openssh_9.5p1.bb => openssh_9.6p1.bb}    |  2 +-
- 5 files changed, 47 insertions(+), 46 deletions(-)
- rename meta/recipes-connectivity/openssh/{openssh_9.5p1.bb => openssh_9.6p1.bb} (99%)
+ .../libxml/libxml2/install-tests.patch        |  8 +--
+ .../{libxml2_2.11.5.bb => libxml2_2.12.3.bb}  | 50 +++++++++++++++++--
+ 2 files changed, 50 insertions(+), 8 deletions(-)
+ rename meta/recipes-core/libxml/{libxml2_2.11.5.bb => libxml2_2.12.3.bb} (69%)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch b/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch
-index 2c14014fed..11756b3194 100644
---- a/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch
-+++ b/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch
+diff --git a/meta/recipes-core/libxml/libxml2/install-tests.patch b/meta/recipes-core/libxml/libxml2/install-tests.patch
+index 14ccce5873..85b140842c 100644
+--- a/meta/recipes-core/libxml/libxml2/install-tests.patch
++++ b/meta/recipes-core/libxml/libxml2/install-tests.patch
 @@ -1,4 +1,4 @@
--From f5a4dacc987ca548fc86577c2dba121c86da3c34 Mon Sep 17 00:00:00 2001
-+From 4be1055fe228d3fbab0bb90ae805a1d7af3b35c9 Mon Sep 17 00:00:00 2001
- From: Mikko Rapeli <mikko.rapeli@linaro.org>
- Date: Mon, 11 Sep 2023 09:55:21 +0100
- Subject: [PATCH] regress/banner.sh: log input and output files on error
-@@ -35,14 +35,13 @@ return value: 1
- See: https://bugzilla.yoctoproject.org/show_bug.cgi?id=15178
+-From 3fc716357ce1372d9418dc86f24315b34d9808de Mon Sep 17 00:00:00 2001
++From 8ccd0f80c72468c00c2939d237b9fc3b2df37088 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@arm.com>
+ Date: Mon, 5 Dec 2022 17:02:32 +0000
+ Subject: [PATCH] add yocto-specific install-ptest target
+@@ -13,11 +13,11 @@ Signed-off-by: Ross Burton <ross.burton@arm.com>
+  1 file changed, 10 insertions(+)
  
- Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+ diff --git a/Makefile.am b/Makefile.am
+-index 5bc4018..57d27af 100644
++index 0a49d37..1097c63 100644
+ --- a/Makefile.am
+ +++ b/Makefile.am
+-@@ -26,6 +26,16 @@ check_PROGRAMS = \
+- 	testlimits \
++@@ -27,6 +27,16 @@ check_PROGRAMS = \
++ 	testparser \
+  	testrecurse
+  
+ +ptestdir=$(libexecdir)
+diff --git a/meta/recipes-core/libxml/libxml2_2.11.5.bb b/meta/recipes-core/libxml/libxml2_2.12.3.bb
+similarity index 69%
+rename from meta/recipes-core/libxml/libxml2_2.11.5.bb
+rename to meta/recipes-core/libxml/libxml2_2.12.3.bb
+index 319833f053..dc61d5f862 100644
+--- a/meta/recipes-core/libxml/libxml2_2.11.5.bb
++++ b/meta/recipes-core/libxml/libxml2_2.12.3.bb
+@@ -1,13 +1,55 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- Copyright
++# +++ Copyright
++# @@ -1,4 +1,4 @@
++# -Except where otherwise noted in the source code (e.g. the files hash.c,
++# +Except where otherwise noted in the source code (e.g. the files dict.c,
++#  list.c and the trio files, which are covered by a similar licence but
++#  with different Copyright notices) all the files are:
++#  
++# --- hash.c
++# +++ hash.c
++# @@ -1,10 +1,10 @@
++# - * Copyright (C) 2000,2012 Bjorn Reese and Daniel Veillard.
++#   *
++# - * Permission to use, copy, modify, and distribute this software for any
++# - * purpose with or without fee is hereby granted, provided that the above
++# - * copyright notice and this permission notice appear in all copies.
++# - *
++# - * THIS SOFTWARE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR IMPLIED
++# - * WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF
++# - * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE AUTHORS AND
++# - * CONTRIBUTORS ACCEPT NO RESPONSIBILITY IN ANY CONCEIVABLE MANNER.
++# + * See Copyright for the status of this software.
++# + */
++# +
++# +#define IN_LIBXML
++# +#include "libxml.h"
++# +
++# +#include <string.h>
++# +#include <limits.h>
++# +
++# 
++#
 +
- ---
-  regress/banner.sh | 4 +++-
-  1 file changed, 3 insertions(+), 1 deletion(-)
+ SUMMARY = "XML C Parser Library and Toolkit"
+ DESCRIPTION = "The XML Parser Library allows for manipulation of XML files.  Libxml2 exports Push and Pull type parser interfaces for both XML and HTML.  It can do DTD validation at parse time, on a parsed document instance or with an arbitrary DTD.  Libxml2 includes complete XPath, XPointer and Xinclude implementations.  It also has a SAX like interface, which is designed to be compatible with Expat."
+ HOMEPAGE = "https://gitlab.gnome.org/GNOME/libxml2"
+ BUGTRACKER = "http://bugzilla.gnome.org/buglist.cgi?product=libxml2"
+ SECTION = "libs"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://Copyright;md5=2044417e2e5006b65a8b9067b683fcf1 \
+-                    file://hash.c;beginline=6;endline=15;md5=e77f77b12cb69e203d8b4090a0eee879 \
++LIC_FILES_CHKSUM = "file://Copyright;md5=fec7ecfe714722b2bb0aaff7d200c701 \
++                    file://hash.c;beginline=6;endline=15;md5=9af9349d0ead24569dc332f2116ef5f8 \
+                     file://list.c;beginline=4;endline=13;md5=b9c25b021ccaf287e50060602d20f3a7 \
+-                    file://trio.c;beginline=5;endline=14;md5=cd4f61e27f88c1d43df112966b1cd28f"
++                    file://trio.c;beginline=5;endline=14;md5=cd4f61e27f88c1d43df112966b1cd28f \
++                    "
  
--Upstream-Status: Denied [https://github.com/openssh/openssh-portable/pull/437]
--
- diff --git a/regress/banner.sh b/regress/banner.sh
--index a84feb5a..de84957a 100644
-+index a84feb5..de84957 100644
- --- a/regress/banner.sh
- +++ b/regress/banner.sh
- @@ -32,7 +32,9 @@ for s in 0 10 100 1000 10000 100000 ; do
-@@ -56,6 +55,3 @@ index a84feb5a..de84957a 100644
-  done
-  
-  trace "test suppress banner (-q)"
---- 
--2.34.1
--
-diff --git a/meta/recipes-connectivity/openssh/openssh/0001-systemd-Add-optional-support-for-systemd-sd_notify.patch b/meta/recipes-connectivity/openssh/openssh/0001-systemd-Add-optional-support-for-systemd-sd_notify.patch
-index acda8f1ce9..c39e919caa 100644
---- a/meta/recipes-connectivity/openssh/openssh/0001-systemd-Add-optional-support-for-systemd-sd_notify.patch
-+++ b/meta/recipes-connectivity/openssh/openssh/0001-systemd-Add-optional-support-for-systemd-sd_notify.patch
-@@ -1,4 +1,4 @@
--From be187435911cde6cc3cef6982a508261074f1e56 Mon Sep 17 00:00:00 2001
-+From 46fee03df1a12d22a60edfd1c015ee0da5c17ac1 Mon Sep 17 00:00:00 2001
- From: Matt Jolly <Matt.Jolly@footclan.ninja>
- Date: Thu, 2 Feb 2023 21:05:40 +1100
- Subject: [PATCH] systemd: Add optional support for systemd `sd_notify`
-@@ -9,16 +9,17 @@ patch based on Jakub Jelen's <jjelen@redhat.com> original patch
- Upstream-Status: Submitted [https://github.com/openssh/openssh-portable/pull/375/commits/be187435911cde6cc3cef6982a508261074f1e56]
+ DEPENDS = "zlib virtual/libiconv"
  
- Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
-+
- ---
-  configure.ac | 24 ++++++++++++++++++++++++
-  sshd.c       | 13 +++++++++++++
-  2 files changed, 37 insertions(+)
- 
- diff --git a/configure.ac b/configure.ac
--index 22fee70f..486c189f 100644
-+index 379cd74..a7d0e92 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -4835,6 +4835,29 @@ AC_SUBST([GSSLIBS])
-+@@ -4842,6 +4842,29 @@ AC_SUBST([GSSLIBS])
-  AC_SUBST([K5LIBS])
-  AC_SUBST([CHANNELLIBS])
-  
-@@ -48,7 +49,7 @@ index 22fee70f..486c189f 100644
-  # Looking for programs, paths and files
-  
-  PRIVSEP_PATH=/var/empty
--@@ -5634,6 +5657,7 @@ echo "                   libldns support: $LDNS_MSG"
-+@@ -5650,6 +5673,7 @@ echo "                   libldns support: $LDNS_MSG"
-  echo "  Solaris process contract support: $SPC_MSG"
-  echo "           Solaris project support: $SP_MSG"
-  echo "         Solaris privilege support: $SPP_MSG"
-@@ -57,7 +58,7 @@ index 22fee70f..486c189f 100644
-  echo "           Translate v4 in v6 hack: $IPV4_IN6_HACK_MSG"
-  echo "                  BSD Auth support: $BSD_AUTH_MSG"
- diff --git a/sshd.c b/sshd.c
--index 6321936c..859d6a0b 100644
-+index 9cbe922..4b342c5 100644
- --- a/sshd.c
- +++ b/sshd.c
- @@ -88,6 +88,10 @@
-@@ -71,7 +72,7 @@ index 6321936c..859d6a0b 100644
-  #include "xmalloc.h"
-  #include "ssh.h"
-  #include "ssh2.h"
--@@ -310,6 +314,10 @@ static void
-+@@ -308,6 +312,10 @@ static void
-  sighup_restart(void)
-  {
-  	logit("Received SIGHUP; restarting.");
-@@ -82,7 +83,7 @@ index 6321936c..859d6a0b 100644
-  	if (options.pid_file != NULL)
-  		unlink(options.pid_file);
-  	platform_pre_restart();
--@@ -2086,6 +2094,11 @@ main(int ac, char **av)
-+@@ -2093,6 +2101,11 @@ main(int ac, char **av)
-  			}
-  		}
-  
-@@ -94,6 +95,3 @@ index 6321936c..859d6a0b 100644
-  		/* Accept a connection and return in a forked child */
-  		server_accept_loop(&sock_in, &sock_out,
-  		    &newsock, config_s);
---- 
--2.25.1
--
-diff --git a/meta/recipes-connectivity/openssh/openssh/add-test-support-for-busybox.patch b/meta/recipes-connectivity/openssh/openssh/add-test-support-for-busybox.patch
-index b8402a4dee..9bf40ecc62 100644
---- a/meta/recipes-connectivity/openssh/openssh/add-test-support-for-busybox.patch
-+++ b/meta/recipes-connectivity/openssh/openssh/add-test-support-for-busybox.patch
-@@ -1,4 +1,7 @@
--Adjust test cases to work with busybox.
-+From 6f92f2b07c2b55d1e62221aa3123135298686348 Mon Sep 17 00:00:00 2001
-+From: "Maxin B. John" <maxin.john@enea.com>
-+Date: Thu, 24 Apr 2014 18:00:22 +0200
-+Subject: [PATCH] Adjust test cases to work with busybox.
- 
- - Replace dd parameter "obs" with "bs".
- - Replace "head -<num>" with "head -n <num>".
-@@ -6,11 +9,17 @@ Adjust test cases to work with busybox.
- Signed-off-by: Maxin B. John <maxin.john@enea.com>
- Upstream-Status: Pending
- 
--Index: openssh-7.6p1/regress/cipher-speed.sh
--===================================================================
----- openssh-7.6p1.orig/regress/cipher-speed.sh
--+++ openssh-7.6p1/regress/cipher-speed.sh
--@@ -17,7 +17,7 @@ for c in `${SSH} -Q cipher`; do n=0; for
-+---
-+ regress/cipher-speed.sh | 2 +-
-+ regress/key-options.sh  | 2 +-
-+ regress/transfer.sh     | 2 +-
-+ 3 files changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/regress/cipher-speed.sh b/regress/cipher-speed.sh
-+index 1340bd1..8770757 100644
-+--- a/regress/cipher-speed.sh
-++++ b/regress/cipher-speed.sh
-+@@ -27,7 +27,7 @@ for c in `${SSH} -Q cipher`; do n=0; for m in `${SSH} -Q mac`; do
-  		printf "%-60s" "$c/$m:"
-  		( ${SSH} -o 'compression no' \
-  			-F $OBJ/ssh_proxy -m $m -c $c somehost \
-@@ -19,24 +28,11 @@ Index: openssh-7.6p1/regress/cipher-speed.sh
-  		< ${DATA} ) 2>&1 | getbytes
-  
-  		if [ $? -ne 0 ]; then
--Index: openssh-7.6p1/regress/transfer.sh
--===================================================================
----- openssh-7.6p1.orig/regress/transfer.sh
--+++ openssh-7.6p1/regress/transfer.sh
--@@ -13,7 +13,7 @@ cmp ${DATA} ${COPY}		|| fail "corrupted
-- for s in 10 100 1k 32k 64k 128k 256k; do
-- 	trace "dd-size ${s}"
-- 	rm -f ${COPY}
---	dd if=$DATA obs=${s} 2> /dev/null | \
--+	dd if=$DATA bs=${s} 2> /dev/null | \
-- 		${SSH} -q -F $OBJ/ssh_proxy somehost "cat > ${COPY}"
-- 	if [ $? -ne 0 ]; then
-- 		fail "ssh cat $DATA failed"
--Index: openssh-7.6p1/regress/key-options.sh
--===================================================================
----- openssh-7.6p1.orig/regress/key-options.sh
--+++ openssh-7.6p1/regress/key-options.sh
--@@ -47,7 +47,7 @@ for f in 127.0.0.1 '127.0.0.0\/8'; do
-+diff --git a/regress/key-options.sh b/regress/key-options.sh
-+index 2f3d66e..7f8166d 100644
-+--- a/regress/key-options.sh
-++++ b/regress/key-options.sh
-+@@ -90,7 +90,7 @@ for f in 127.0.0.1 '127.0.0.0\/8'; do
-  	fi
-  
-  	sed 's/.*/from="'"$f"'" &/' $origkeys >$authkeys
-@@ -45,3 +41,16 @@ Index: openssh-7.6p1/regress/key-options.sh
-  	verbose "key option $from"
-  	r=`${SSH} -q -F $OBJ/ssh_proxy somehost 'echo true'`
-  	if [ "$r" = "true" ]; then
-+diff --git a/regress/transfer.sh b/regress/transfer.sh
-+index cf174a0..41cfdc7 100644
-+--- a/regress/transfer.sh
-++++ b/regress/transfer.sh
-+@@ -13,7 +13,7 @@ cmp ${DATA} ${COPY}		|| fail "corrupted copy"
-+ for s in 10 100 1k 32k 64k 128k 256k; do
-+ 	trace "dd-size ${s}"
-+ 	rm -f ${COPY}
-+-	dd if=$DATA obs=${s} 2> /dev/null | \
-++	dd if=$DATA bs=${s} 2> /dev/null | \
-+ 		${SSH} -q -F $OBJ/ssh_proxy somehost "cat > ${COPY}"
-+ 	if [ $? -ne 0 ]; then
-+ 		fail "ssh cat $DATA failed"
-diff --git a/meta/recipes-connectivity/openssh/openssh/fix-potential-signed-overflow-in-pointer-arithmatic.patch b/meta/recipes-connectivity/openssh/openssh/fix-potential-signed-overflow-in-pointer-arithmatic.patch
-index 20036da931..58e77776a6 100644
---- a/meta/recipes-connectivity/openssh/openssh/fix-potential-signed-overflow-in-pointer-arithmatic.patch
-+++ b/meta/recipes-connectivity/openssh/openssh/fix-potential-signed-overflow-in-pointer-arithmatic.patch
-@@ -1,4 +1,4 @@
--From 3328e98bcbf2930cd7eea3e6c92ad5dcbdf4794f Mon Sep 17 00:00:00 2001
-+From 9f9e1c18db6f7358950a49f0350bc7fc35673bea Mon Sep 17 00:00:00 2001
- From: Yuanjie Huang <yuanjie.huang@windriver.com>
- Date: Wed, 24 Aug 2016 03:15:43 +0000
- Subject: [PATCH] Fix potential signed overflow in pointer arithmatic
-@@ -14,6 +14,7 @@ Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
- 
- Complete the fix
- Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+
- ---
-  openbsd-compat/strlcat.c | 10 +++++++---
-  openbsd-compat/strlcpy.c |  8 ++++++--
-@@ -106,6 +107,3 @@ index 7ad3573..7040f1f 100644
- +	return (size_t)((uintptr_t)cp - (uintptr_t)str);
-  }
-  #endif
---- 
--2.17.1
--
-diff --git a/meta/recipes-connectivity/openssh/openssh_9.5p1.bb b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
-similarity index 99%
-rename from meta/recipes-connectivity/openssh/openssh_9.5p1.bb
-rename to meta/recipes-connectivity/openssh/openssh_9.6p1.bb
-index 0312d5bd66..6366cefdf9 100644
---- a/meta/recipes-connectivity/openssh/openssh_9.5p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
-@@ -28,7 +28,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
-            file://0001-regress-banner.sh-log-input-and-output-files-on-erro.patch \
-            file://0001-systemd-Add-optional-support-for-systemd-sd_notify.patch \
+@@ -19,7 +61,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=${BP};name=testt
+            file://install-tests.patch \
             "
--SRC_URI[sha256sum] = "f026e7b79ba7fb540f75182af96dc8a8f1db395f922bbc9f6ca603672686086b"
-+SRC_URI[sha256sum] = "910211c07255a8c5ad654391b40ee59800710dd8119dd5362de09385aa7a777c"
  
- CVE_STATUS[CVE-2007-2768] = "not-applicable-config: This CVE is specific to OpenSSH with the pam opie which we don't build/use here."
+-SRC_URI[archive.sha256sum] = "3727b078c360ec69fa869de14bd6f75d7ee8d36987b071e6928d4720a28df3a6"
++SRC_URI[archive.sha256sum] = "8c8f1092340a89ff32bc44ad5c9693aff9bc8a7a3e161bb239666e5d15ac9aaa"
+ SRC_URI[testtar.sha256sum] = "c6b2d42ee50b8b236e711a97d68e6c4b5c8d83e69a2be4722379f08702ea7273"
  
+ # Disputed as a security issue, but fixed in d39f780
 -- 
 2.42.0
 
 
---===============3232280505190933666==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1852 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 914 .bb files complete (913 cached, 1 parsed). 1850 targets, 38 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.7.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-1d0f73bf6e5bff63ecf5ef6e6e0ee3f7f766babd"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:1d0f73bf6e5bff63ecf5ef6e6e0ee3f7f766babd"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 346 Local 335 Mirrors 0 Missed 11 Current 411 (96% match, 98% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 423 of 757 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssh/openssh_9.6p1.bb:do_recipe_qa_setscene)
-NOTE: recipe openssh-9.6p1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe openssh-9.6p1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1455 of 2092 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssh/openssh_9.6p1.bb:do_fetch)
-NOTE: recipe openssh-9.6p1-r0: task do_fetch: Started
-NOTE: recipe openssh-9.6p1-r0: task do_fetch: Succeeded
-NOTE: Running task 1979 of 2092 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssh/openssh_9.6p1.bb:do_unpack)
-NOTE: Running task 1980 of 2092 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssh/openssh_9.6p1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe openssh-9.6p1-r0: task do_unpack: Started
-NOTE: recipe openssh-9.6p1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe openssh-9.6p1-r0: task do_unpack: Succeeded
-NOTE: Running task 2073 of 2092 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssh/openssh_9.6p1.bb:do_patch)
-NOTE: Running task 2074 of 2092 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssh/openssh_9.6p1.bb:do_collect_spdx_deps)
-NOTE: recipe openssh-9.6p1-r0: task do_patch: Started
-NOTE: recipe openssh-9.6p1-r0: task do_collect_spdx_deps: Started
-NOTE: recipe openssh-9.6p1-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe openssh-9.6p1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe openssh-9.6p1-r0: task do_patch: Failed
-NOTE: Tasks Summary: Attempted 2074 tasks of which 2069 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240115053700.txt
-You can send the errors to a reports server by running:
-  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240115053700.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssh/openssh_9.6p1.bb:do_patch
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: openssh-9.6p1-r0 do_patch: QA Issue: Missing Upstream-Status in patch
-/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch
-Please add according to https://docs.yoctoproject.org/contributor-guide/recipe-style-guide.html#patch-upstream-status . [patch-status]
-ERROR: openssh-9.6p1-r0 do_patch: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/openssh/9.6p1/temp/log.do_patch.1144458
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssh/openssh_9.6p1.bb:do_patch) failed with exit code '1'
-
---===============3232280505190933666==
+--===============7399817928307414781==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-openssh-upgrade-9.5p1-9.6p1.patch"
+ filename="0001-libxml2-upgrade-2.11.5-2.12.3.patch"
 
-RnJvbSBiMGYwNGQ2OWE2NjhhMjZjOTI5ODczMDMzNjBhNDQ2NWQxNTRkZWVmIE1vbiBTZXAgMTcg
+RnJvbSAwN2ZmMjdhNWQ1Zjk1ZTM3MjM2Y2Y1Mzk2Mjk4MDJiN2MwYjU2ODVkIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgSmFuIDIwMjQgMDU6Mzc6MjAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBv
-cGVuc3NoOiB1cGdyYWRlIDkuNXAxIC0+IDkuNnAxCgotLS0KIC4uLmgtbG9nLWlucHV0LWFuZC1v
-dXRwdXQtZmlsZXMtb24tZXJyby5wYXRjaCB8IDEwICstLS0KIC4uLnRpb25hbC1zdXBwb3J0LWZv
-ci1zeXN0ZW1kLXNkX25vdGlmeS5wYXRjaCB8IDE4ICsrKy0tLQogLi4uL2FkZC10ZXN0LXN1cHBv
-cnQtZm9yLWJ1c3lib3gucGF0Y2ggICAgICAgIHwgNTcgKysrKysrKysrKystLS0tLS0tLQogLi4u
-aWduZWQtb3ZlcmZsb3ctaW4tcG9pbnRlci1hcml0aG1hdGljLnBhdGNoIHwgIDYgKy0KIC4uLi97
-b3BlbnNzaF85LjVwMS5iYiA9PiBvcGVuc3NoXzkuNnAxLmJifSAgICB8ICAyICstCiA1IGZpbGVz
-IGNoYW5nZWQsIDQ3IGluc2VydGlvbnMoKyksIDQ2IGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEv
-cmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzaC97b3BlbnNzaF85LjVwMS5iYiA9PiBvcGVuc3No
-XzkuNnAxLmJifSAoOTklKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkv
-b3BlbnNzaC9vcGVuc3NoLzAwMDEtcmVncmVzcy1iYW5uZXIuc2gtbG9nLWlucHV0LWFuZC1vdXRw
-dXQtZmlsZXMtb24tZXJyby5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNz
-aC9vcGVuc3NoLzAwMDEtcmVncmVzcy1iYW5uZXIuc2gtbG9nLWlucHV0LWFuZC1vdXRwdXQtZmls
-ZXMtb24tZXJyby5wYXRjaAppbmRleCAyYzE0MDE0ZmVkLi4xMTc1NmIzMTk0IDEwMDY0NAotLS0g
-YS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2gvb3BlbnNzaC8wMDAxLXJlZ3Jlc3Mt
-YmFubmVyLnNoLWxvZy1pbnB1dC1hbmQtb3V0cHV0LWZpbGVzLW9uLWVycm8ucGF0Y2gKKysrIGIv
-bWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NoL29wZW5zc2gvMDAwMS1yZWdyZXNzLWJh
-bm5lci5zaC1sb2ctaW5wdXQtYW5kLW91dHB1dC1maWxlcy1vbi1lcnJvLnBhdGNoCkBAIC0xLDQg
-KzEsNCBAQAotRnJvbSBmNWE0ZGFjYzk4N2NhNTQ4ZmM4NjU3N2MyZGJhMTIxYzg2ZGEzYzM0IE1v
-biBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA0YmUxMDU1ZmUyMjhkM2ZiYWIwYmI5MGFlODA1
-YTFkN2FmM2IzNWM5IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogTWlra28gUmFwZWxp
-IDxtaWtrby5yYXBlbGlAbGluYXJvLm9yZz4KIERhdGU6IE1vbiwgMTEgU2VwIDIwMjMgMDk6NTU6
-MjEgKzAxMDAKIFN1YmplY3Q6IFtQQVRDSF0gcmVncmVzcy9iYW5uZXIuc2g6IGxvZyBpbnB1dCBh
-bmQgb3V0cHV0IGZpbGVzIG9uIGVycm9yCkBAIC0zNSwxNCArMzUsMTMgQEAgcmV0dXJuIHZhbHVl
-OiAxCiBTZWU6IGh0dHBzOi8vYnVnemlsbGEueW9jdG9wcm9qZWN0Lm9yZy9zaG93X2J1Zy5jZ2k/
-aWQ9MTUxNzgKIAogU2lnbmVkLW9mZi1ieTogTWlra28gUmFwZWxpIDxtaWtrby5yYXBlbGlAbGlu
-YXJvLm9yZz4KKwogLS0tCiAgcmVncmVzcy9iYW5uZXIuc2ggfCA0ICsrKy0KICAxIGZpbGUgY2hh
-bmdlZCwgMyBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCiAKLVVwc3RyZWFtLVN0YXR1czog
-RGVuaWVkIFtodHRwczovL2dpdGh1Yi5jb20vb3BlbnNzaC9vcGVuc3NoLXBvcnRhYmxlL3B1bGwv
-NDM3XQotCiBkaWZmIC0tZ2l0IGEvcmVncmVzcy9iYW5uZXIuc2ggYi9yZWdyZXNzL2Jhbm5lci5z
-aAotaW5kZXggYTg0ZmViNWEuLmRlODQ5NTdhIDEwMDY0NAoraW5kZXggYTg0ZmViNS4uZGU4NDk1
-NyAxMDA2NDQKIC0tLSBhL3JlZ3Jlc3MvYmFubmVyLnNoCiArKysgYi9yZWdyZXNzL2Jhbm5lci5z
-aAogQEAgLTMyLDcgKzMyLDkgQEAgZm9yIHMgaW4gMCAxMCAxMDAgMTAwMCAxMDAwMCAxMDAwMDAg
-OyBkbwpAQCAtNTYsNiArNTUsMyBAQCBpbmRleCBhODRmZWI1YS4uZGU4NDk1N2EgMTAwNjQ0CiAg
-ZG9uZQogIAogIHRyYWNlICJ0ZXN0IHN1cHByZXNzIGJhbm5lciAoLXEpIgotLS0gCi0yLjM0LjEK
-LQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NoL29wZW5zc2gv
-MDAwMS1zeXN0ZW1kLUFkZC1vcHRpb25hbC1zdXBwb3J0LWZvci1zeXN0ZW1kLXNkX25vdGlmeS5w
-YXRjaCBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzaC9vcGVuc3NoLzAwMDEtc3lz
-dGVtZC1BZGQtb3B0aW9uYWwtc3VwcG9ydC1mb3Itc3lzdGVtZC1zZF9ub3RpZnkucGF0Y2gKaW5k
-ZXggYWNkYThmMWNlOS4uYzM5ZTkxOWNhYSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvbm5l
-Y3Rpdml0eS9vcGVuc3NoL29wZW5zc2gvMDAwMS1zeXN0ZW1kLUFkZC1vcHRpb25hbC1zdXBwb3J0
-LWZvci1zeXN0ZW1kLXNkX25vdGlmeS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2
-aXR5L29wZW5zc2gvb3BlbnNzaC8wMDAxLXN5c3RlbWQtQWRkLW9wdGlvbmFsLXN1cHBvcnQtZm9y
-LXN5c3RlbWQtc2Rfbm90aWZ5LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBiZTE4NzQzNTkx
-MWNkZTZjYzNjZWY2OTgyYTUwODI2MTA3NGYxZTU2IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQor
-RnJvbSA0NmZlZTAzZGYxYTEyZDIyYTYwZWRmZDFjMDE1ZWUwZGE1YzE3YWMxIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQogRnJvbTogTWF0dCBKb2xseSA8TWF0dC5Kb2xseUBmb290Y2xhbi5uaW5q
-YT4KIERhdGU6IFRodSwgMiBGZWIgMjAyMyAyMTowNTo0MCArMTEwMAogU3ViamVjdDogW1BBVENI
-XSBzeXN0ZW1kOiBBZGQgb3B0aW9uYWwgc3VwcG9ydCBmb3Igc3lzdGVtZCBgc2Rfbm90aWZ5YApA
-QCAtOSwxNiArOSwxNyBAQCBwYXRjaCBiYXNlZCBvbiBKYWt1YiBKZWxlbidzIDxqamVsZW5AcmVk
-aGF0LmNvbT4gb3JpZ2luYWwgcGF0Y2gKIFVwc3RyZWFtLVN0YXR1czogU3VibWl0dGVkIFtodHRw
-czovL2dpdGh1Yi5jb20vb3BlbnNzaC9vcGVuc3NoLXBvcnRhYmxlL3B1bGwvMzc1L2NvbW1pdHMv
-YmUxODc0MzU5MTFjZGU2Y2MzY2VmNjk4MmE1MDgyNjEwNzRmMWU1Nl0KIAogU2lnbmVkLW9mZi1i
-eTogWGlhbmd5dSBDaGVuIDx4aWFuZ3l1LmNoZW5Ad2luZHJpdmVyLmNvbT4KKwogLS0tCiAgY29u
-ZmlndXJlLmFjIHwgMjQgKysrKysrKysrKysrKysrKysrKysrKysrCiAgc3NoZC5jICAgICAgIHwg
-MTMgKysrKysrKysrKysrKwogIDIgZmlsZXMgY2hhbmdlZCwgMzcgaW5zZXJ0aW9ucygrKQogCiBk
-aWZmIC0tZ2l0IGEvY29uZmlndXJlLmFjIGIvY29uZmlndXJlLmFjCi1pbmRleCAyMmZlZTcwZi4u
-NDg2YzE4OWYgMTAwNjQ0CitpbmRleCAzNzljZDc0Li5hN2QwZTkyIDEwMDY0NAogLS0tIGEvY29u
-ZmlndXJlLmFjCiArKysgYi9jb25maWd1cmUuYWMKLUBAIC00ODM1LDYgKzQ4MzUsMjkgQEAgQUNf
-U1VCU1QoW0dTU0xJQlNdKQorQEAgLTQ4NDIsNiArNDg0MiwyOSBAQCBBQ19TVUJTVChbR1NTTElC
-U10pCiAgQUNfU1VCU1QoW0s1TElCU10pCiAgQUNfU1VCU1QoW0NIQU5ORUxMSUJTXSkKICAKQEAg
-LTQ4LDcgKzQ5LDcgQEAgaW5kZXggMjJmZWU3MGYuLjQ4NmMxODlmIDEwMDY0NAogICMgTG9va2lu
-ZyBmb3IgcHJvZ3JhbXMsIHBhdGhzIGFuZCBmaWxlcwogIAogIFBSSVZTRVBfUEFUSD0vdmFyL2Vt
-cHR5Ci1AQCAtNTYzNCw2ICs1NjU3LDcgQEAgZWNobyAiICAgICAgICAgICAgICAgICAgIGxpYmxk
-bnMgc3VwcG9ydDogJExETlNfTVNHIgorQEAgLTU2NTAsNiArNTY3Myw3IEBAIGVjaG8gIiAgICAg
-ICAgICAgICAgICAgICBsaWJsZG5zIHN1cHBvcnQ6ICRMRE5TX01TRyIKICBlY2hvICIgIFNvbGFy
-aXMgcHJvY2VzcyBjb250cmFjdCBzdXBwb3J0OiAkU1BDX01TRyIKICBlY2hvICIgICAgICAgICAg
-IFNvbGFyaXMgcHJvamVjdCBzdXBwb3J0OiAkU1BfTVNHIgogIGVjaG8gIiAgICAgICAgIFNvbGFy
-aXMgcHJpdmlsZWdlIHN1cHBvcnQ6ICRTUFBfTVNHIgpAQCAtNTcsNyArNTgsNyBAQCBpbmRleCAy
-MmZlZTcwZi4uNDg2YzE4OWYgMTAwNjQ0CiAgZWNobyAiICAgICAgICAgICBUcmFuc2xhdGUgdjQg
-aW4gdjYgaGFjazogJElQVjRfSU42X0hBQ0tfTVNHIgogIGVjaG8gIiAgICAgICAgICAgICAgICAg
-IEJTRCBBdXRoIHN1cHBvcnQ6ICRCU0RfQVVUSF9NU0ciCiBkaWZmIC0tZ2l0IGEvc3NoZC5jIGIv
-c3NoZC5jCi1pbmRleCA2MzIxOTM2Yy4uODU5ZDZhMGIgMTAwNjQ0CitpbmRleCA5Y2JlOTIyLi40
-YjM0MmM1IDEwMDY0NAogLS0tIGEvc3NoZC5jCiArKysgYi9zc2hkLmMKIEBAIC04OCw2ICs4OCwx
-MCBAQApAQCAtNzEsNyArNzIsNyBAQCBpbmRleCA2MzIxOTM2Yy4uODU5ZDZhMGIgMTAwNjQ0CiAg
-I2luY2x1ZGUgInhtYWxsb2MuaCIKICAjaW5jbHVkZSAic3NoLmgiCiAgI2luY2x1ZGUgInNzaDIu
-aCIKLUBAIC0zMTAsNiArMzE0LDEwIEBAIHN0YXRpYyB2b2lkCitAQCAtMzA4LDYgKzMxMiwxMCBA
-QCBzdGF0aWMgdm9pZAogIHNpZ2h1cF9yZXN0YXJ0KHZvaWQpCiAgewogIAlsb2dpdCgiUmVjZWl2
-ZWQgU0lHSFVQOyByZXN0YXJ0aW5nLiIpOwpAQCAtODIsNyArODMsNyBAQCBpbmRleCA2MzIxOTM2
-Yy4uODU5ZDZhMGIgMTAwNjQ0CiAgCWlmIChvcHRpb25zLnBpZF9maWxlICE9IE5VTEwpCiAgCQl1
-bmxpbmsob3B0aW9ucy5waWRfZmlsZSk7CiAgCXBsYXRmb3JtX3ByZV9yZXN0YXJ0KCk7Ci1AQCAt
-MjA4Niw2ICsyMDk0LDExIEBAIG1haW4oaW50IGFjLCBjaGFyICoqYXYpCitAQCAtMjA5Myw2ICsy
-MTAxLDExIEBAIG1haW4oaW50IGFjLCBjaGFyICoqYXYpCiAgCQkJfQogIAkJfQogIApAQCAtOTQs
-NiArOTUsMyBAQCBpbmRleCA2MzIxOTM2Yy4uODU5ZDZhMGIgMTAwNjQ0CiAgCQkvKiBBY2NlcHQg
-YSBjb25uZWN0aW9uIGFuZCByZXR1cm4gaW4gYSBmb3JrZWQgY2hpbGQgKi8KICAJCXNlcnZlcl9h
-Y2NlcHRfbG9vcCgmc29ja19pbiwgJnNvY2tfb3V0LAogIAkJICAgICZuZXdzb2NrLCBjb25maWdf
-cyk7Ci0tLSAKLTIuMjUuMQotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5
-L29wZW5zc2gvb3BlbnNzaC9hZGQtdGVzdC1zdXBwb3J0LWZvci1idXN5Ym94LnBhdGNoIGIvbWV0
-YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NoL29wZW5zc2gvYWRkLXRlc3Qtc3VwcG9ydC1m
-b3ItYnVzeWJveC5wYXRjaAppbmRleCBiODQwMmE0ZGVlLi45YmY0MGVjYzYyIDEwMDY0NAotLS0g
-YS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2gvb3BlbnNzaC9hZGQtdGVzdC1zdXBw
-b3J0LWZvci1idXN5Ym94LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3Bl
-bnNzaC9vcGVuc3NoL2FkZC10ZXN0LXN1cHBvcnQtZm9yLWJ1c3lib3gucGF0Y2gKQEAgLTEsNCAr
-MSw3IEBACi1BZGp1c3QgdGVzdCBjYXNlcyB0byB3b3JrIHdpdGggYnVzeWJveC4KK0Zyb20gNmY5
-MmYyYjA3YzJiNTVkMWU2MjIyMWFhMzEyMzEzNTI5ODY4NjM0OCBNb24gU2VwIDE3IDAwOjAwOjAw
-IDIwMDEKK0Zyb206ICJNYXhpbiBCLiBKb2huIiA8bWF4aW4uam9obkBlbmVhLmNvbT4KK0RhdGU6
-IFRodSwgMjQgQXByIDIwMTQgMTg6MDA6MjIgKzAyMDAKK1N1YmplY3Q6IFtQQVRDSF0gQWRqdXN0
-IHRlc3QgY2FzZXMgdG8gd29yayB3aXRoIGJ1c3lib3guCiAKIC0gUmVwbGFjZSBkZCBwYXJhbWV0
-ZXIgIm9icyIgd2l0aCAiYnMiLgogLSBSZXBsYWNlICJoZWFkIC08bnVtPiIgd2l0aCAiaGVhZCAt
-biA8bnVtPiIuCkBAIC02LDExICs5LDE3IEBAIEFkanVzdCB0ZXN0IGNhc2VzIHRvIHdvcmsgd2l0
-aCBidXN5Ym94LgogU2lnbmVkLW9mZi1ieTogTWF4aW4gQi4gSm9obiA8bWF4aW4uam9obkBlbmVh
-LmNvbT4KIFVwc3RyZWFtLVN0YXR1czogUGVuZGluZwogCi1JbmRleDogb3BlbnNzaC03LjZwMS9y
-ZWdyZXNzL2NpcGhlci1zcGVlZC5zaAotPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQotLS0tIG9wZW5zc2gtNy42cDEub3Jp
-Zy9yZWdyZXNzL2NpcGhlci1zcGVlZC5zaAotKysrIG9wZW5zc2gtNy42cDEvcmVncmVzcy9jaXBo
-ZXItc3BlZWQuc2gKLUBAIC0xNyw3ICsxNyw3IEBAIGZvciBjIGluIGAke1NTSH0gLVEgY2lwaGVy
-YDsgZG8gbj0wOyBmb3IKKy0tLQorIHJlZ3Jlc3MvY2lwaGVyLXNwZWVkLnNoIHwgMiArLQorIHJl
-Z3Jlc3Mva2V5LW9wdGlvbnMuc2ggIHwgMiArLQorIHJlZ3Jlc3MvdHJhbnNmZXIuc2ggICAgIHwg
-MiArLQorIDMgZmlsZXMgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQor
-CitkaWZmIC0tZ2l0IGEvcmVncmVzcy9jaXBoZXItc3BlZWQuc2ggYi9yZWdyZXNzL2NpcGhlci1z
-cGVlZC5zaAoraW5kZXggMTM0MGJkMS4uODc3MDc1NyAxMDA2NDQKKy0tLSBhL3JlZ3Jlc3MvY2lw
-aGVyLXNwZWVkLnNoCisrKysgYi9yZWdyZXNzL2NpcGhlci1zcGVlZC5zaAorQEAgLTI3LDcgKzI3
-LDcgQEAgZm9yIGMgaW4gYCR7U1NIfSAtUSBjaXBoZXJgOyBkbyBuPTA7IGZvciBtIGluIGAke1NT
-SH0gLVEgbWFjYDsgZG8KICAJCXByaW50ZiAiJS02MHMiICIkYy8kbToiCiAgCQkoICR7U1NIfSAt
-byAnY29tcHJlc3Npb24gbm8nIFwKICAJCQktRiAkT0JKL3NzaF9wcm94eSAtbSAkbSAtYyAkYyBz
-b21laG9zdCBcCkBAIC0xOSwyNCArMjgsMTEgQEAgSW5kZXg6IG9wZW5zc2gtNy42cDEvcmVncmVz
-cy9jaXBoZXItc3BlZWQuc2gKICAJCTwgJHtEQVRBfSApIDI+JjEgfCBnZXRieXRlcwogIAogIAkJ
-aWYgWyAkPyAtbmUgMCBdOyB0aGVuCi1JbmRleDogb3BlbnNzaC03LjZwMS9yZWdyZXNzL3RyYW5z
-ZmVyLnNoCi09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09Ci0tLS0gb3BlbnNzaC03LjZwMS5vcmlnL3JlZ3Jlc3MvdHJhbnNm
-ZXIuc2gKLSsrKyBvcGVuc3NoLTcuNnAxL3JlZ3Jlc3MvdHJhbnNmZXIuc2gKLUBAIC0xMyw3ICsx
-Myw3IEBAIGNtcCAke0RBVEF9ICR7Q09QWX0JCXx8IGZhaWwgImNvcnJ1cHRlZAotIGZvciBzIGlu
-IDEwIDEwMCAxayAzMmsgNjRrIDEyOGsgMjU2azsgZG8KLSAJdHJhY2UgImRkLXNpemUgJHtzfSIK
-LSAJcm0gLWYgJHtDT1BZfQotLQlkZCBpZj0kREFUQSBvYnM9JHtzfSAyPiAvZGV2L251bGwgfCBc
-Ci0rCWRkIGlmPSREQVRBIGJzPSR7c30gMj4gL2Rldi9udWxsIHwgXAotIAkJJHtTU0h9IC1xIC1G
-ICRPQkovc3NoX3Byb3h5IHNvbWVob3N0ICJjYXQgPiAke0NPUFl9IgotIAlpZiBbICQ/IC1uZSAw
-IF07IHRoZW4KLSAJCWZhaWwgInNzaCBjYXQgJERBVEEgZmFpbGVkIgotSW5kZXg6IG9wZW5zc2gt
-Ny42cDEvcmVncmVzcy9rZXktb3B0aW9ucy5zaAotPT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQotLS0tIG9wZW5zc2gtNy42
-cDEub3JpZy9yZWdyZXNzL2tleS1vcHRpb25zLnNoCi0rKysgb3BlbnNzaC03LjZwMS9yZWdyZXNz
-L2tleS1vcHRpb25zLnNoCi1AQCAtNDcsNyArNDcsNyBAQCBmb3IgZiBpbiAxMjcuMC4wLjEgJzEy
-Ny4wLjAuMFwvOCc7IGRvCitkaWZmIC0tZ2l0IGEvcmVncmVzcy9rZXktb3B0aW9ucy5zaCBiL3Jl
-Z3Jlc3Mva2V5LW9wdGlvbnMuc2gKK2luZGV4IDJmM2Q2NmUuLjdmODE2NmQgMTAwNjQ0CistLS0g
-YS9yZWdyZXNzL2tleS1vcHRpb25zLnNoCisrKysgYi9yZWdyZXNzL2tleS1vcHRpb25zLnNoCitA
-QCAtOTAsNyArOTAsNyBAQCBmb3IgZiBpbiAxMjcuMC4wLjEgJzEyNy4wLjAuMFwvOCc7IGRvCiAg
-CWZpCiAgCiAgCXNlZCAncy8uKi9mcm9tPSInIiRmIiciICYvJyAkb3JpZ2tleXMgPiRhdXRoa2V5
-cwpAQCAtNDUsMyArNDEsMTYgQEAgSW5kZXg6IG9wZW5zc2gtNy42cDEvcmVncmVzcy9rZXktb3B0
-aW9ucy5zaAogIAl2ZXJib3NlICJrZXkgb3B0aW9uICRmcm9tIgogIAlyPWAke1NTSH0gLXEgLUYg
-JE9CSi9zc2hfcHJveHkgc29tZWhvc3QgJ2VjaG8gdHJ1ZSdgCiAgCWlmIFsgIiRyIiA9ICJ0cnVl
-IiBdOyB0aGVuCitkaWZmIC0tZ2l0IGEvcmVncmVzcy90cmFuc2Zlci5zaCBiL3JlZ3Jlc3MvdHJh
-bnNmZXIuc2gKK2luZGV4IGNmMTc0YTAuLjQxY2ZkYzcgMTAwNjQ0CistLS0gYS9yZWdyZXNzL3Ry
-YW5zZmVyLnNoCisrKysgYi9yZWdyZXNzL3RyYW5zZmVyLnNoCitAQCAtMTMsNyArMTMsNyBAQCBj
-bXAgJHtEQVRBfSAke0NPUFl9CQl8fCBmYWlsICJjb3JydXB0ZWQgY29weSIKKyBmb3IgcyBpbiAx
-MCAxMDAgMWsgMzJrIDY0ayAxMjhrIDI1Nms7IGRvCisgCXRyYWNlICJkZC1zaXplICR7c30iCisg
-CXJtIC1mICR7Q09QWX0KKy0JZGQgaWY9JERBVEEgb2JzPSR7c30gMj4gL2Rldi9udWxsIHwgXAor
-KwlkZCBpZj0kREFUQSBicz0ke3N9IDI+IC9kZXYvbnVsbCB8IFwKKyAJCSR7U1NIfSAtcSAtRiAk
-T0JKL3NzaF9wcm94eSBzb21laG9zdCAiY2F0ID4gJHtDT1BZfSIKKyAJaWYgWyAkPyAtbmUgMCBd
-OyB0aGVuCisgCQlmYWlsICJzc2ggY2F0ICREQVRBIGZhaWxlZCIKZGlmZiAtLWdpdCBhL21ldGEv
-cmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzaC9vcGVuc3NoL2ZpeC1wb3RlbnRpYWwtc2lnbmVk
-LW92ZXJmbG93LWluLXBvaW50ZXItYXJpdGhtYXRpYy5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb25u
-ZWN0aXZpdHkvb3BlbnNzaC9vcGVuc3NoL2ZpeC1wb3RlbnRpYWwtc2lnbmVkLW92ZXJmbG93LWlu
-LXBvaW50ZXItYXJpdGhtYXRpYy5wYXRjaAppbmRleCAyMDAzNmRhOTMxLi41OGU3Nzc3NmE2IDEw
-MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2gvb3BlbnNzaC9maXgt
-cG90ZW50aWFsLXNpZ25lZC1vdmVyZmxvdy1pbi1wb2ludGVyLWFyaXRobWF0aWMucGF0Y2gKKysr
-IGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NoL29wZW5zc2gvZml4LXBvdGVudGlh
-bC1zaWduZWQtb3ZlcmZsb3ctaW4tcG9pbnRlci1hcml0aG1hdGljLnBhdGNoCkBAIC0xLDQgKzEs
-NCBAQAotRnJvbSAzMzI4ZTk4YmNiZjI5MzBjZDdlZWEzZTZjOTJhZDVkY2JkZjQ3OTRmIE1vbiBT
-ZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA5ZjllMWMxOGRiNmY3MzU4OTUwYTQ5ZjAzNTBiYzdm
-YzM1NjczYmVhIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogWXVhbmppZSBIdWFuZyA8
-eXVhbmppZS5odWFuZ0B3aW5kcml2ZXIuY29tPgogRGF0ZTogV2VkLCAyNCBBdWcgMjAxNiAwMzox
-NTo0MyArMDAwMAogU3ViamVjdDogW1BBVENIXSBGaXggcG90ZW50aWFsIHNpZ25lZCBvdmVyZmxv
-dyBpbiBwb2ludGVyIGFyaXRobWF0aWMKQEAgLTE0LDYgKzE0LDcgQEAgU2lnbmVkLW9mZi1ieTog
-WXVhbmppZSBIdWFuZyA8eXVhbmppZS5odWFuZ0B3aW5kcml2ZXIuY29tPgogCiBDb21wbGV0ZSB0
-aGUgZml4CiBTaWduZWQtb2ZmLWJ5OiBIb25neHUgSmlhIDxob25neHUuamlhQHdpbmRyaXZlci5j
-b20+CisKIC0tLQogIG9wZW5ic2QtY29tcGF0L3N0cmxjYXQuYyB8IDEwICsrKysrKystLS0KICBv
-cGVuYnNkLWNvbXBhdC9zdHJsY3B5LmMgfCAgOCArKysrKystLQpAQCAtMTA2LDYgKzEwNywzIEBA
-IGluZGV4IDdhZDM1NzMuLjcwNDBmMWYgMTAwNjQ0CiArCXJldHVybiAoc2l6ZV90KSgodWludHB0
-cl90KWNwIC0gKHVpbnRwdHJfdClzdHIpOwogIH0KICAjZW5kaWYKLS0tIAotMi4xNy4xCi0KZGlm
-ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzaC9vcGVuc3NoXzkuNXAx
-LmJiIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NoL29wZW5zc2hfOS42cDEuYmIK
-c2ltaWxhcml0eSBpbmRleCA5OSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0
-eS9vcGVuc3NoL29wZW5zc2hfOS41cDEuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1jb25uZWN0
-aXZpdHkvb3BlbnNzaC9vcGVuc3NoXzkuNnAxLmJiCmluZGV4IDAzMTJkNWJkNjYuLjYzNjZjZWZk
-ZjkgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzaC9vcGVuc3No
-XzkuNXAxLmJiCisrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzaC9vcGVuc3No
-XzkuNnAxLmJiCkBAIC0yOCw3ICsyOCw3IEBAIFNSQ19VUkkgPSAiaHR0cDovL2Z0cC5vcGVuYnNk
-Lm9yZy9wdWIvT3BlbkJTRC9PcGVuU1NIL3BvcnRhYmxlL29wZW5zc2gtJHtQVn0udGFyCiAgICAg
-ICAgICAgIGZpbGU6Ly8wMDAxLXJlZ3Jlc3MtYmFubmVyLnNoLWxvZy1pbnB1dC1hbmQtb3V0cHV0
-LWZpbGVzLW9uLWVycm8ucGF0Y2ggXAogICAgICAgICAgICBmaWxlOi8vMDAwMS1zeXN0ZW1kLUFk
-ZC1vcHRpb25hbC1zdXBwb3J0LWZvci1zeXN0ZW1kLXNkX25vdGlmeS5wYXRjaCBcCiAgICAgICAg
-ICAgICIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJmMDI2ZTdiNzliYTdmYjU0MGY3NTE4MmFmOTZk
-YzhhOGYxZGIzOTVmOTIyYmJjOWY2Y2E2MDM2NzI2ODYwODZiIgorU1JDX1VSSVtzaGEyNTZzdW1d
-ID0gIjkxMDIxMWMwNzI1NWE4YzVhZDY1NDM5MWI0MGVlNTk4MDA3MTBkZDgxMTlkZDUzNjJkZTA5
-Mzg1YWE3YTc3N2MiCiAKIENWRV9TVEFUVVNbQ1ZFLTIwMDctMjc2OF0gPSAibm90LWFwcGxpY2Fi
-bGUtY29uZmlnOiBUaGlzIENWRSBpcyBzcGVjaWZpYyB0byBPcGVuU1NIIHdpdGggdGhlIHBhbSBv
-cGllIHdoaWNoIHdlIGRvbid0IGJ1aWxkL3VzZSBoZXJlLiIKIAotLSAKMi40Mi4wCgo=
+CkRhdGU6IE1vbiwgMTUgSmFuIDIwMjQgMDU6NDQ6MDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJ4bWwyOiB1cGdyYWRlIDIuMTEuNSAtPiAyLjEyLjMKCi0tLQogLi4uL2xpYnhtbC9saWJ4bWwy
+L2luc3RhbGwtdGVzdHMucGF0Y2ggICAgICAgIHwgIDggKy0tCiAuLi4ve2xpYnhtbDJfMi4xMS41
+LmJiID0+IGxpYnhtbDJfMi4xMi4zLmJifSAgfCA1MCArKysrKysrKysrKysrKysrKy0tCiAyIGZp
+bGVzIGNoYW5nZWQsIDUwIGluc2VydGlvbnMoKyksIDggZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0
+YS9yZWNpcGVzLWNvcmUvbGlieG1sL3tsaWJ4bWwyXzIuMTEuNS5iYiA9PiBsaWJ4bWwyXzIuMTIu
+My5iYn0gKDY5JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9saWJ4bWwvbGlieG1s
+Mi9pbnN0YWxsLXRlc3RzLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvcmUvbGlieG1sL2xpYnhtbDIv
+aW5zdGFsbC10ZXN0cy5wYXRjaAppbmRleCAxNGNjY2U1ODczLi44NWIxNDA4NDJjIDEwMDY0NAot
+LS0gYS9tZXRhL3JlY2lwZXMtY29yZS9saWJ4bWwvbGlieG1sMi9pbnN0YWxsLXRlc3RzLnBhdGNo
+CisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL2xpYnhtbC9saWJ4bWwyL2luc3RhbGwtdGVzdHMucGF0
+Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDNmYzcxNjM1N2NlMTM3MmQ5NDE4ZGM4NmYyNDMxNWIz
+NGQ5ODA4ZGUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDhjY2QwZjgwYzcyNDY4YzAw
+YzI5MzlkMjM3YjlmYzNiMmRmMzcwODggTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBS
+b3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNvbT4KIERhdGU6IE1vbiwgNSBEZWMgMjAyMiAx
+NzowMjozMiArMDAwMAogU3ViamVjdDogW1BBVENIXSBhZGQgeW9jdG8tc3BlY2lmaWMgaW5zdGFs
+bC1wdGVzdCB0YXJnZXQKQEAgLTEzLDExICsxMywxMSBAQCBTaWduZWQtb2ZmLWJ5OiBSb3NzIEJ1
+cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNvbT4KICAxIGZpbGUgY2hhbmdlZCwgMTAgaW5zZXJ0aW9u
+cygrKQogCiBkaWZmIC0tZ2l0IGEvTWFrZWZpbGUuYW0gYi9NYWtlZmlsZS5hbQotaW5kZXggNWJj
+NDAxOC4uNTdkMjdhZiAxMDA2NDQKK2luZGV4IDBhNDlkMzcuLjEwOTdjNjMgMTAwNjQ0CiAtLS0g
+YS9NYWtlZmlsZS5hbQogKysrIGIvTWFrZWZpbGUuYW0KLUBAIC0yNiw2ICsyNiwxNiBAQCBjaGVj
+a19QUk9HUkFNUyA9IFwKLSAJdGVzdGxpbWl0cyBcCitAQCAtMjcsNiArMjcsMTYgQEAgY2hlY2tf
+UFJPR1JBTVMgPSBcCisgCXRlc3RwYXJzZXIgXAogIAl0ZXN0cmVjdXJzZQogIAogK3B0ZXN0ZGly
+PSQobGliZXhlY2RpcikKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL2xpYnhtbC9saWJ4
+bWwyXzIuMTEuNS5iYiBiL21ldGEvcmVjaXBlcy1jb3JlL2xpYnhtbC9saWJ4bWwyXzIuMTIuMy5i
+YgpzaW1pbGFyaXR5IGluZGV4IDY5JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtY29yZS9saWJ4
+bWwvbGlieG1sMl8yLjExLjUuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1jb3JlL2xpYnhtbC9s
+aWJ4bWwyXzIuMTIuMy5iYgppbmRleCAzMTk4MzNmMDUzLi5kYzYxZDVmODYyIDEwMDY0NAotLS0g
+YS9tZXRhL3JlY2lwZXMtY29yZS9saWJ4bWwvbGlieG1sMl8yLjExLjUuYmIKKysrIGIvbWV0YS9y
+ZWNpcGVzLWNvcmUvbGlieG1sL2xpYnhtbDJfMi4xMi4zLmJiCkBAIC0xLDEzICsxLDU1IEBACisj
+IEZJWE1FOiB0aGUgTElDX0ZJTEVTX0NIS1NVTSB2YWx1ZXMgaGF2ZSBiZWVuIHVwZGF0ZWQgYnkg
+J2RldnRvb2wgdXBncmFkZScuCisjIFRoZSBmb2xsb3dpbmcgaXMgdGhlIGRpZmZlcmVuY2UgYmV0
+d2VlbiB0aGUgb2xkIGFuZCB0aGUgbmV3IGxpY2Vuc2UgdGV4dC4KKyMgUGxlYXNlIHVwZGF0ZSB0
+aGUgTElDRU5TRSB2YWx1ZSBpZiBuZWVkZWQsIGFuZCBzdW1tYXJpemUgdGhlIGNoYW5nZXMgaW4K
+KyMgdGhlIGNvbW1pdCBtZXNzYWdlIHZpYSAnTGljZW5zZS1VcGRhdGU6JyB0YWcuCisjIChleGFt
+cGxlOiAnTGljZW5zZS1VcGRhdGU6IGNvcHlyaWdodCB5ZWFycyB1cGRhdGVkLicpCisjCisjIFRo
+ZSBjaGFuZ2VzOgorIworIyAtLS0gQ29weXJpZ2h0CisjICsrKyBDb3B5cmlnaHQKKyMgQEAgLTEs
+NCArMSw0IEBACisjIC1FeGNlcHQgd2hlcmUgb3RoZXJ3aXNlIG5vdGVkIGluIHRoZSBzb3VyY2Ug
+Y29kZSAoZS5nLiB0aGUgZmlsZXMgaGFzaC5jLAorIyArRXhjZXB0IHdoZXJlIG90aGVyd2lzZSBu
+b3RlZCBpbiB0aGUgc291cmNlIGNvZGUgKGUuZy4gdGhlIGZpbGVzIGRpY3QuYywKKyMgIGxpc3Qu
+YyBhbmQgdGhlIHRyaW8gZmlsZXMsIHdoaWNoIGFyZSBjb3ZlcmVkIGJ5IGEgc2ltaWxhciBsaWNl
+bmNlIGJ1dAorIyAgd2l0aCBkaWZmZXJlbnQgQ29weXJpZ2h0IG5vdGljZXMpIGFsbCB0aGUgZmls
+ZXMgYXJlOgorIyAgCisjIC0tLSBoYXNoLmMKKyMgKysrIGhhc2guYworIyBAQCAtMSwxMCArMSwx
+MCBAQAorIyAtICogQ29weXJpZ2h0IChDKSAyMDAwLDIwMTIgQmpvcm4gUmVlc2UgYW5kIERhbmll
+bCBWZWlsbGFyZC4KKyMgICAqCisjIC0gKiBQZXJtaXNzaW9uIHRvIHVzZSwgY29weSwgbW9kaWZ5
+LCBhbmQgZGlzdHJpYnV0ZSB0aGlzIHNvZnR3YXJlIGZvciBhbnkKKyMgLSAqIHB1cnBvc2Ugd2l0
+aCBvciB3aXRob3V0IGZlZSBpcyBoZXJlYnkgZ3JhbnRlZCwgcHJvdmlkZWQgdGhhdCB0aGUgYWJv
+dmUKKyMgLSAqIGNvcHlyaWdodCBub3RpY2UgYW5kIHRoaXMgcGVybWlzc2lvbiBub3RpY2UgYXBw
+ZWFyIGluIGFsbCBjb3BpZXMuCisjIC0gKgorIyAtICogVEhJUyBTT0ZUV0FSRSBJUyBQUk9WSURF
+RCBgYEFTIElTJycgQU5EIFdJVEhPVVQgQU5ZIEVYUFJFU1MgT1IgSU1QTElFRAorIyAtICogV0FS
+UkFOVElFUywgSU5DTFVESU5HLCBXSVRIT1VUIExJTUlUQVRJT04sIFRIRSBJTVBMSUVEIFdBUlJB
+TlRJRVMgT0YKKyMgLSAqIE1FUkNIQU5UQUJJTElUWSBBTkQgRklUTkVTUyBGT1IgQSBQQVJUSUNV
+TEFSIFBVUlBPU0UuIFRIRSBBVVRIT1JTIEFORAorIyAtICogQ09OVFJJQlVUT1JTIEFDQ0VQVCBO
+TyBSRVNQT05TSUJJTElUWSBJTiBBTlkgQ09OQ0VJVkFCTEUgTUFOTkVSLgorIyArICogU2VlIENv
+cHlyaWdodCBmb3IgdGhlIHN0YXR1cyBvZiB0aGlzIHNvZnR3YXJlLgorIyArICovCisjICsKKyMg
+KyNkZWZpbmUgSU5fTElCWE1MCisjICsjaW5jbHVkZSAibGlieG1sLmgiCisjICsKKyMgKyNpbmNs
+dWRlIDxzdHJpbmcuaD4KKyMgKyNpbmNsdWRlIDxsaW1pdHMuaD4KKyMgKworIyAKKyMKKwogU1VN
+TUFSWSA9ICJYTUwgQyBQYXJzZXIgTGlicmFyeSBhbmQgVG9vbGtpdCIKIERFU0NSSVBUSU9OID0g
+IlRoZSBYTUwgUGFyc2VyIExpYnJhcnkgYWxsb3dzIGZvciBtYW5pcHVsYXRpb24gb2YgWE1MIGZp
+bGVzLiAgTGlieG1sMiBleHBvcnRzIFB1c2ggYW5kIFB1bGwgdHlwZSBwYXJzZXIgaW50ZXJmYWNl
+cyBmb3IgYm90aCBYTUwgYW5kIEhUTUwuICBJdCBjYW4gZG8gRFREIHZhbGlkYXRpb24gYXQgcGFy
+c2UgdGltZSwgb24gYSBwYXJzZWQgZG9jdW1lbnQgaW5zdGFuY2Ugb3Igd2l0aCBhbiBhcmJpdHJh
+cnkgRFRELiAgTGlieG1sMiBpbmNsdWRlcyBjb21wbGV0ZSBYUGF0aCwgWFBvaW50ZXIgYW5kIFhp
+bmNsdWRlIGltcGxlbWVudGF0aW9ucy4gIEl0IGFsc28gaGFzIGEgU0FYIGxpa2UgaW50ZXJmYWNl
+LCB3aGljaCBpcyBkZXNpZ25lZCB0byBiZSBjb21wYXRpYmxlIHdpdGggRXhwYXQuIgogSE9NRVBB
+R0UgPSAiaHR0cHM6Ly9naXRsYWIuZ25vbWUub3JnL0dOT01FL2xpYnhtbDIiCiBCVUdUUkFDS0VS
+ID0gImh0dHA6Ly9idWd6aWxsYS5nbm9tZS5vcmcvYnVnbGlzdC5jZ2k/cHJvZHVjdD1saWJ4bWwy
+IgogU0VDVElPTiA9ICJsaWJzIgogTElDRU5TRSA9ICJNSVQiCi1MSUNfRklMRVNfQ0hLU1VNID0g
+ImZpbGU6Ly9Db3B5cmlnaHQ7bWQ1PTIwNDQ0MTdlMmU1MDA2YjY1YThiOTA2N2I2ODNmY2YxIFwK
+LSAgICAgICAgICAgICAgICAgICAgZmlsZTovL2hhc2guYztiZWdpbmxpbmU9NjtlbmRsaW5lPTE1
+O21kNT1lNzdmNzdiMTJjYjY5ZTIwM2Q4YjQwOTBhMGVlZTg3OSBcCitMSUNfRklMRVNfQ0hLU1VN
+ID0gImZpbGU6Ly9Db3B5cmlnaHQ7bWQ1PWZlYzdlY2ZlNzE0NzIyYjJiYjBhYWZmN2QyMDBjNzAx
+IFwKKyAgICAgICAgICAgICAgICAgICAgZmlsZTovL2hhc2guYztiZWdpbmxpbmU9NjtlbmRsaW5l
+PTE1O21kNT05YWY5MzQ5ZDBlYWQyNDU2OWRjMzMyZjIxMTZlZjVmOCBcCiAgICAgICAgICAgICAg
+ICAgICAgIGZpbGU6Ly9saXN0LmM7YmVnaW5saW5lPTQ7ZW5kbGluZT0xMzttZDU9YjljMjViMDIx
+Y2NhZjI4N2U1MDA2MDYwMmQyMGYzYTcgXAotICAgICAgICAgICAgICAgICAgICBmaWxlOi8vdHJp
+by5jO2JlZ2lubGluZT01O2VuZGxpbmU9MTQ7bWQ1PWNkNGY2MWUyN2Y4OGMxZDQzZGYxMTI5NjZi
+MWNkMjhmIgorICAgICAgICAgICAgICAgICAgICBmaWxlOi8vdHJpby5jO2JlZ2lubGluZT01O2Vu
+ZGxpbmU9MTQ7bWQ1PWNkNGY2MWUyN2Y4OGMxZDQzZGYxMTI5NjZiMWNkMjhmIFwKKyAgICAgICAg
+ICAgICAgICAgICAgIgogCiBERVBFTkRTID0gInpsaWIgdmlydHVhbC9saWJpY29udiIKIApAQCAt
+MTksNyArNjEsNyBAQCBTUkNfVVJJICs9ICJodHRwOi8vd3d3LnczLm9yZy9YTUwvVGVzdC94bWx0
+czIwMTMwOTIzLnRhcjtzdWJkaXI9JHtCUH07bmFtZT10ZXN0dAogICAgICAgICAgICBmaWxlOi8v
+aW5zdGFsbC10ZXN0cy5wYXRjaCBcCiAgICAgICAgICAgICIKIAotU1JDX1VSSVthcmNoaXZlLnNo
+YTI1NnN1bV0gPSAiMzcyN2IwNzhjMzYwZWM2OWZhODY5ZGUxNGJkNmY3NWQ3ZWU4ZDM2OTg3YjA3
+MWU2OTI4ZDQ3MjBhMjhkZjNhNiIKK1NSQ19VUklbYXJjaGl2ZS5zaGEyNTZzdW1dID0gIjhjOGYx
+MDkyMzQwYTg5ZmYzMmJjNDRhZDVjOTY5M2FmZjliYzhhN2EzZTE2MWJiMjM5NjY2ZTVkMTVhYzlh
+YWEiCiBTUkNfVVJJW3Rlc3R0YXIuc2hhMjU2c3VtXSA9ICJjNmIyZDQyZWU1MGI4YjIzNmU3MTFh
+OTdkNjhlNmM0YjVjOGQ4M2U2OWEyYmU0NzIyMzc5ZjA4NzAyZWE3MjczIgogCiAjIERpc3B1dGVk
+IGFzIGEgc2VjdXJpdHkgaXNzdWUsIGJ1dCBmaXhlZCBpbiBkMzlmNzgwCi0tIAoyLjQyLjAKCg==
 
---===============3232280505190933666==--
+--===============7399817928307414781==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-64-poky-linux/libxml2/libxml2-doc: FILELIST: added "/usr/share/doc/libxml2/python/examples/setup_test.py"
+packages/core2-64-poky-linux/libxml2/libxml2-ptest: FILELIST: added "/usr/lib/libxml2/ptest/result/issue626.xml.rdr /usr/lib/libxml2/ptest/result/issue643.xml.rdr /usr/lib/libxml2/ptest/result/valid/pe-latin1.xml /usr/lib/libxml2/ptest/test/errors/invalid-start-tag-1.xml /usr/lib/libxml2/ptest/test/errors/invalid-start-tag-2.xml /usr/lib/libxml2/ptest/result/issue626.xml.rde /usr/lib/libxml2/ptest/result/issue643.xml.rde /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-1.xml.str /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-2.xml.str /usr/lib/libxml2/ptest/result/errors/name3.xml.str /usr/lib/libxml2/ptest/result/issue626.xml /usr/lib/libxml2/ptest/result/issue643.xml /usr/lib/libxml2/ptest/result/errors/extra-content.xml.err /usr/lib/libxml2/ptest/result/ns-ent.xml /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-1.xml.err /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-2.xml.err /usr/lib/libxml2/ptest/result/errors/truncated-utf16.xml.err /usr/lib/libxml
+ 2/ptest/result/errors/trailing-null-1.xml.ent /usr/lib/libxml2/ptest/result/errors/trailing-null-2.xml.ent /usr/lib/libxml2/ptest/result/ns-ent.xml.rde /usr/lib/libxml2/ptest/test/valid/pe-latin1.xml /usr/lib/libxml2/ptest/result/errors/truncated-utf16.xml.str /usr/lib/libxml2/ptest/test/errors/unclosed-element.xml /usr/lib/libxml2/ptest/result/ns-ent.xml.rdr /usr/lib/libxml2/ptest/test/errors/trailing-null-1.xml /usr/lib/libxml2/ptest/result/errors/attr5.xml.str /usr/lib/libxml2/ptest/result/noent/issue626.xml /usr/lib/libxml2/ptest/test/ns-ent.xml /usr/lib/libxml2/ptest/result/errors/name3.xml.err /usr/lib/libxml2/ptest/result/errors/unclosed-element.xml.str /usr/lib/libxml2/ptest/test/HTML/xml-declaration-1.html /usr/lib/libxml2/ptest/result/errors/extra-content.xml.str /usr/lib/libxml2/ptest/test/issue626.xml /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-1.xml.ent /usr/lib/libxml2/ptest/test/valid/huge.xml /usr/lib/libxml2/ptest/test/errors/truncated-utf16.xml /usr/lib/
+ libxml2/ptest/result/issue626.xml.sax2 /usr/lib/libxml2/ptest/result/issue643.xml.sax2 /usr/lib/libxml2/ptest/test/valid/dtds/pe-val-latin1.dtd /usr/lib/libxml2/ptest/result/valid/huge.xml /usr/lib/libxml2/ptest/result/errors/quadratic-defattr.xml.ent /usr/lib/libxml2/ptest/result/HTML/xml-declaration-1.html.sax /usr/lib/libxml2/ptest/result/errors/attr5.xml.err /usr/lib/libxml2/ptest/result/noent/issue626.xml.sax2 /usr/lib/libxml2/ptest/result/noent/issue643.xml.sax2 /usr/lib/libxml2/ptest/result/noent/ns-ent.xml /usr/lib/libxml2/ptest/python/tests/setup_test.py /usr/lib/libxml2/ptest/result/errors/attr6.xml.ent /usr/lib/libxml2/ptest/test/issue643.xml /usr/lib/libxml2/ptest/result/noent/ns-ent.xml.sax2 /usr/lib/libxml2/ptest/result/errors/trailing-null-1.xml.str /usr/lib/libxml2/ptest/result/errors/trailing-null-2.xml.str /usr/lib/libxml2/ptest/result/errors/unclosed-element.xml.ent /usr/lib/libxml2/ptest/result/HTML/xml-declaration-1.html /usr/lib/libxml2/ptest/test/valid/dtds/pe
+ -val-latin1.ent /usr/lib/libxml2/ptest/test/valid/pe-val-latin1.xml /usr/lib/libxml2/ptest/test/errors/extra-content.xml /usr/lib/libxml2/ptest/result/errors/trailing-null-1.xml.err /usr/lib/libxml2/ptest/result/errors/trailing-null-2.xml.err /usr/lib/libxml2/ptest/result/errors/empty.xml.err /usr/lib/libxml2/ptest/test/valid/dtds/huge.ent /usr/lib/libxml2/ptest/result/errors/extra-content.xml.ent /usr/lib/libxml2/ptest/result/errors/truncated-utf16.xml.ent /usr/lib/libxml2/ptest/result/noent/issue643.xml /usr/lib/libxml2/ptest/test/valid/dtds/pe-latin1.ent /usr/lib/libxml2/ptest/test/errors/trailing-null-2.xml /usr/lib/libxml2/ptest/test/errors/quadratic-defattr.xml /usr/lib/libxml2/ptest/test/errors/attr5.xml /usr/lib/libxml2/ptest/test/errors/attr6.xml /usr/lib/libxml2/ptest/test/errors/empty.xml /usr/lib/libxml2/ptest/test/errors/name3.xml /usr/lib/libxml2/ptest/result/errors/quadratic-defattr.xml.str /usr/lib/libxml2/ptest/result/errors/attr6.xml.str /usr/lib/libxml2/ptest/resu
+ lt/errors/quadratic-defattr.xml.err /usr/lib/libxml2/ptest/result/errors/empty.xml.str /usr/lib/libxml2/ptest/result/ns-ent.xml.sax2 /usr/lib/libxml2/ptest/result/errors/name3.xml.ent /usr/lib/libxml2/ptest/result/ns-ent.xml.sax /usr/lib/libxml2/ptest/result/valid/pe-val-latin1.xml /usr/lib/libxml2/ptest/result/errors/unclosed-element.xml.err /usr/lib/libxml2/ptest/testparser /usr/lib/libxml2/ptest/result/errors/attr6.xml.err /usr/lib/libxml2/ptest/result/errors/empty.xml.ent /usr/lib/libxml2/ptest/result/issue626.xml.sax /usr/lib/libxml2/ptest/result/issue643.xml.sax /usr/lib/libxml2/ptest/result/errors/attr5.xml.ent /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-2.xml.ent"
+packages/core2-64-poky-linux/libxml2/libxml2: FILELIST: removed "/usr/lib/libxml2.so.2.11.5", added "/usr/lib/libxml2.so.2.12.3"
+Changes to packages/core2-64-poky-linux/libxml2 (sysroot):
+  /usr/lib/libxml2.so.2 changed symlink target from libxml2.so.2.11.5 to libxml2.so.2.12.3
+  /usr/lib/libxml2.so changed symlink target from libxml2.so.2.11.5 to libxml2.so.2.12.3
+  /usr/lib/libxml2.so.2.11.5 moved to /usr/lib/libxml2.so.2.12.3
+Changes to packages/x86_64-linux/libxml2-native (sysroot):
+  /usr/lib/libxml2.so.2 changed symlink target from libxml2.so.2.11.5 to libxml2.so.2.12.3
+  /usr/lib/libxml2.so changed symlink target from libxml2.so.2.11.5 to libxml2.so.2.12.3
+  /usr/lib/libxml2.so.2.11.5 moved to /usr/lib/libxml2.so.2.12.3
+
+--===============7399817928307414781==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/libxml2: SRC_URI changed from "https://download.gnome.org/sources//libxml2/2.11/libxml2-2.11.5.tar.xz;name=archive http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=libxml2-2.11.5;name=testtar file://run-ptest file://install-tests.patch" to "https://download.gnome.org/sources//libxml2/2.12/libxml2-2.12.3.tar.xz;name=archive http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=libxml2-2.12.3;name=testtar file://run-ptest file://install-tests.patch"
+packages/core2-64-poky-linux/libxml2: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
+packages/core2-64-poky-linux/libxml2: PV changed from "2.11.5" to "2.12.3"
+packages/core2-64-poky-linux/libxml2/libxml2-dbg: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
+packages/core2-64-poky-linux/libxml2/libxml2-dbg: FILELIST: removed "/usr/lib/.debug/libxml2.so.2.11.5", added "/usr/lib/libxml2/ptest/.debug/testparser /usr/lib/.debug/libxml2.so.2.12.3"
+packages/core2-64-poky-linux/libxml2/libxml2-dbg: PV changed from "2.11.5" to "2.12.3"
+packages/core2-64-poky-linux/libxml2/libxml2-dbg: PKGSIZE changed from 7413008 to 7478128 (+1%)
+packages/core2-64-poky-linux/libxml2/libxml2-dev: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
+packages/core2-64-poky-linux/libxml2/libxml2-dev: PV changed from "2.11.5" to "2.12.3"
+packages/core2-64-poky-linux/libxml2/libxml2-dev: PKGSIZE changed from 417112 to 415228 (-0%)
+packages/core2-64-poky-linux/libxml2/libxml2-doc: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
+packages/core2-64-poky-linux/libxml2/libxml2-doc: FILELIST: added "/usr/share/doc/libxml2/python/examples/setup_test.py"
+packages/core2-64-poky-linux/libxml2/libxml2-doc: PV changed from "2.11.5" to "2.12.3"
+packages/core2-64-poky-linux/libxml2/libxml2-doc: PKGSIZE changed from 3132415 to 3119076 (-0%)
+packages/core2-64-poky-linux/libxml2/libxml2-locale: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
+packages/core2-64-poky-linux/libxml2/libxml2-locale: PV changed from "2.11.5" to "2.12.3"
+packages/core2-64-poky-linux/libxml2/libxml2-ptest: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
+packages/core2-64-poky-linux/libxml2/libxml2-ptest: FILELIST: added "/usr/lib/libxml2/ptest/test/errors/trailing-null-1.xml /usr/lib/libxml2/ptest/test/HTML/xml-declaration-1.html /usr/lib/libxml2/ptest/test/errors/quadratic-defattr.xml /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-1.xml.err /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-2.xml.err /usr/lib/libxml2/ptest/result/errors/truncated-utf16.xml.str /usr/lib/libxml2/ptest/result/errors/quadratic-defattr.xml.str /usr/lib/libxml2/ptest/test/valid/pe-latin1.xml /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-1.xml.str /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-2.xml.str /usr/lib/libxml2/ptest/result/ns-ent.xml /usr/lib/libxml2/ptest/test/valid/pe-val-latin1.xml /usr/lib/libxml2/ptest/result/errors/attr5.xml.str /usr/lib/libxml2/ptest/test/valid/huge.xml /usr/lib/libxml2/ptest/result/errors/trailing-null-1.xml.ent /usr/lib/libxml2/ptest/result/errors/trailing-null-2.xml.ent /usr/lib/libxml2/pte
+ st/test/errors/trailing-null-2.xml /usr/lib/libxml2/ptest/test/valid/dtds/pe-val-latin1.dtd /usr/lib/libxml2/ptest/result/errors/name3.xml.err /usr/lib/libxml2/ptest/python/tests/setup_test.py /usr/lib/libxml2/ptest/result/issue626.xml.rdr /usr/lib/libxml2/ptest/result/issue643.xml.rdr /usr/lib/libxml2/ptest/result/errors/quadratic-defattr.xml.err /usr/lib/libxml2/ptest/test/errors/invalid-start-tag-1.xml /usr/lib/libxml2/ptest/test/errors/invalid-start-tag-2.xml /usr/lib/libxml2/ptest/result/errors/empty.xml.str /usr/lib/libxml2/ptest/result/errors/attr6.xml.ent /usr/lib/libxml2/ptest/result/issue643.xml.rde /usr/lib/libxml2/ptest/result/issue626.xml.rde /usr/lib/libxml2/ptest/result/issue626.xml.sax2 /usr/lib/libxml2/ptest/result/issue643.xml.sax2 /usr/lib/libxml2/ptest/result/errors/unclosed-element.xml.str /usr/lib/libxml2/ptest/test/ns-ent.xml /usr/lib/libxml2/ptest/result/errors/trailing-null-1.xml.str /usr/lib/libxml2/ptest/result/errors/trailing-null-2.xml.str /usr/lib/libxm
+ l2/ptest/result/issue626.xml.sax /usr/lib/libxml2/ptest/result/issue643.xml.sax /usr/lib/libxml2/ptest/result/errors/attr5.xml.err /usr/lib/libxml2/ptest/result/errors/truncated-utf16.xml.err /usr/lib/libxml2/ptest/result/errors/empty.xml.err /usr/lib/libxml2/ptest/test/valid/dtds/huge.ent /usr/lib/libxml2/ptest/result/errors/unclosed-element.xml.err /usr/lib/libxml2/ptest/result/noent/issue643.xml /usr/lib/libxml2/ptest/result/errors/empty.xml.ent /usr/lib/libxml2/ptest/result/ns-ent.xml.rdr /usr/lib/libxml2/ptest/result/valid/pe-latin1.xml /usr/lib/libxml2/ptest/result/errors/unclosed-element.xml.ent /usr/lib/libxml2/ptest/test/errors/attr6.xml /usr/lib/libxml2/ptest/test/errors/empty.xml /usr/lib/libxml2/ptest/test/errors/name3.xml /usr/lib/libxml2/ptest/result/ns-ent.xml.rde /usr/lib/libxml2/ptest/test/errors/attr5.xml /usr/lib/libxml2/ptest/result/issue626.xml /usr/lib/libxml2/ptest/result/issue643.xml /usr/lib/libxml2/ptest/result/errors/extra-content.xml.str /usr/lib/libxml2/
+ ptest/result/errors/name3.xml.ent /usr/lib/libxml2/ptest/result/HTML/xml-declaration-1.html /usr/lib/libxml2/ptest/result/errors/attr6.xml.str /usr/lib/libxml2/ptest/test/errors/extra-content.xml /usr/lib/libxml2/ptest/result/errors/extra-content.xml.ent /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-1.xml.ent /usr/lib/libxml2/ptest/result/errors/invalid-start-tag-2.xml.ent /usr/lib/libxml2/ptest/result/valid/pe-val-latin1.xml /usr/lib/libxml2/ptest/test/issue643.xml /usr/lib/libxml2/ptest/result/errors/trailing-null-2.xml.err /usr/lib/libxml2/ptest/result/errors/trailing-null-1.xml.err /usr/lib/libxml2/ptest/test/issue626.xml /usr/lib/libxml2/ptest/result/errors/quadratic-defattr.xml.ent /usr/lib/libxml2/ptest/testparser /usr/lib/libxml2/ptest/result/valid/huge.xml /usr/lib/libxml2/ptest/result/HTML/xml-declaration-1.html.sax /usr/lib/libxml2/ptest/result/ns-ent.xml.sax2 /usr/lib/libxml2/ptest/result/noent/issue626.xml.sax2 /usr/lib/libxml2/ptest/result/errors/attr5.xml.ent
+  /usr/lib/libxml2/ptest/result/noent/issue643.xml.sax2 /usr/lib/libxml2/ptest/test/errors/unclosed-element.xml /usr/lib/libxml2/ptest/result/errors/extra-content.xml.err /usr/lib/libxml2/ptest/result/noent/ns-ent.xml.sax2 /usr/lib/libxml2/ptest/result/ns-ent.xml.sax /usr/lib/libxml2/ptest/test/valid/dtds/pe-val-latin1.ent /usr/lib/libxml2/ptest/result/errors/attr6.xml.err /usr/lib/libxml2/ptest/test/valid/dtds/pe-latin1.ent /usr/lib/libxml2/ptest/result/errors/truncated-utf16.xml.ent /usr/lib/libxml2/ptest/result/errors/name3.xml.str /usr/lib/libxml2/ptest/result/noent/issue626.xml /usr/lib/libxml2/ptest/result/noent/ns-ent.xml /usr/lib/libxml2/ptest/test/errors/truncated-utf16.xml"
+packages/core2-64-poky-linux/libxml2/libxml2-ptest: PV changed from "2.11.5" to "2.12.3"
+packages/core2-64-poky-linux/libxml2/libxml2-ptest: PKGSIZE changed from 16156913 to 16278948 (+1%)
+packages/core2-64-poky-linux/libxml2/libxml2-python: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
+packages/core2-64-poky-linux/libxml2/libxml2-python: PV changed from "2.11.5" to "2.12.3"
+packages/core2-64-poky-linux/libxml2/libxml2-python: PKGSIZE changed from 1748462 to 1747394 (-0%)
+packages/core2-64-poky-linux/libxml2/libxml2-src: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
+packages/core2-64-poky-linux/libxml2/libxml2-src: FILELIST: directory renamed /usr/src/debug/libxml2/2.11.5/python -> /usr/src/debug/libxml2/2.12.3/python, directory renamed /usr/src/debug/libxml2/2.11.5/include/libxml -> /usr/src/debug/libxml2/2.12.3/include/libxml, directory renamed /usr/src/debug/libxml2/2.11.5/include/private -> /usr/src/debug/libxml2/2.12.3/include/private, removed "/usr/src/debug/libxml2/2.11.5/parserInternals.c /usr/src/debug/libxml2/2.11.5/c14n.c /usr/src/debug/libxml2/2.11.5/xmllint.c /usr/src/debug/libxml2/2.11.5/tree.c /usr/src/debug/libxml2/2.11.5/valid.c /usr/src/debug/libxml2/2.11.5/xlink.c /usr/src/debug/libxml2/2.11.5/list.c /usr/src/debug/libxml2/2.11.5/nanohttp.c /usr/src/debug/libxml2/2.11.5/HTMLtree.c /usr/src/debug/libxml2/2.11.5/SAX2.c /usr/src/debug/libxml2/2.11.5/timsort.h /usr/src/debug/libxml2/2.11.5/uri.c /usr/src/debug/libxml2/2.11.5/xmlreader.c /usr/src/debug/libxml2/2.11.5/xmlregexp.c /usr/src/debug/libxml2/2.11.5/xmlmemory.c /usr/src/de
+ bug/libxml2/2.11.5/xmlmodule.c /usr/src/debug/libxml2/2.11.5/HTMLparser.c /usr/src/debug/libxml2/2.11.5/parser.c /usr/src/debug/libxml2/2.11.5/dict.c /usr/src/debug/libxml2/2.11.5/xmlstring.c /usr/src/debug/libxml2/2.11.5/xmlwriter.c /usr/src/debug/libxml2/2.11.5/encoding.c /usr/src/debug/libxml2/2.11.5/testModule.c /usr/src/debug/libxml2/2.11.5/entities.c /usr/src/debug/libxml2/2.11.5/testlimits.c /usr/src/debug/libxml2/2.11.5/xpath.c /usr/src/debug/libxml2/2.11.5/xinclude.c /usr/src/debug/libxml2/2.11.5/testrecurse.c /usr/src/debug/libxml2/2.11.5/globals.c /usr/src/debug/libxml2/2.11.5/xpointer.c /usr/src/debug/libxml2/2.11.5/pattern.c /usr/src/debug/libxml2/2.11.5/chvalid.c /usr/src/debug/libxml2/2.11.5/hash.c /usr/src/debug/libxml2/2.11.5/testapi.c /usr/src/debug/libxml2/2.11.5/catalog.c /usr/src/debug/libxml2/2.11.5/error.c /usr/src/debug/libxml2/2.11.5/relaxng.c /usr/src/debug/libxml2/2.11.5/buf.c /usr/src/debug/libxml2/2.11.5/runsuite.c /usr/src/debug/libxml2/2.11.5/schematro
+ n.c /usr/src/debug/libxml2/2.11.5/threads.c /usr/src/debug/libxml2/2.11.5/runtest.c /usr/src/debug/libxml2/2.11.5/xmlIO.c /usr/src/debug/libxml2/2.11.5/testThreads.c /usr/src/debug/libxml2/2.11.5/runxmlconf.c /usr/src/debug/libxml2/2.11.5/xmlschemas.c /usr/src/debug/libxml2/2.11.5/testdict.c /usr/src/debug/libxml2/2.11.5/xmlsave.c /usr/src/debug/libxml2/2.11.5/xmlcatalog.c /usr/src/debug/libxml2/2.11.5/testchar.c /usr/src/debug/libxml2/2.11.5/xmlschemastypes.c /usr/src/debug/libxml2/2.11.5/xmlunicode.c", added "/usr/src/debug/libxml2/2.12.3/parserInternals.c /usr/src/debug/libxml2/2.12.3/c14n.c /usr/src/debug/libxml2/2.12.3/xmllint.c /usr/src/debug/libxml2/2.12.3/tree.c /usr/src/debug/libxml2/2.12.3/valid.c /usr/src/debug/libxml2/2.12.3/xlink.c /usr/src/debug/libxml2/2.12.3/list.c /usr/src/debug/libxml2/2.12.3/nanohttp.c /usr/src/debug/libxml2/2.12.3/HTMLtree.c /usr/src/debug/libxml2/2.12.3/SAX2.c /usr/src/debug/libxml2/2.12.3/timsort.h /usr/src/debug/libxml2/2.12.3/uri.c /usr/src/d
+ ebug/libxml2/2.12.3/xmlreader.c /usr/src/debug/libxml2/2.12.3/xmlregexp.c /usr/src/debug/libxml2/2.12.3/xmlmemory.c /usr/src/debug/libxml2/2.12.3/xmlmodule.c /usr/src/debug/libxml2/2.12.3/HTMLparser.c /usr/src/debug/libxml2/2.12.3/parser.c /usr/src/debug/libxml2/2.12.3/dict.c /usr/src/debug/libxml2/2.12.3/xmlstring.c /usr/src/debug/libxml2/2.12.3/xmlwriter.c /usr/src/debug/libxml2/2.12.3/encoding.c /usr/src/debug/libxml2/2.12.3/testModule.c /usr/src/debug/libxml2/2.12.3/entities.c /usr/src/debug/libxml2/2.12.3/testlimits.c /usr/src/debug/libxml2/2.12.3/testparser.c /usr/src/debug/libxml2/2.12.3/xinclude.c /usr/src/debug/libxml2/2.12.3/xpath.c /usr/src/debug/libxml2/2.12.3/testrecurse.c /usr/src/debug/libxml2/2.12.3/globals.c /usr/src/debug/libxml2/2.12.3/xpointer.c /usr/src/debug/libxml2/2.12.3/pattern.c /usr/src/debug/libxml2/2.12.3/chvalid.c /usr/src/debug/libxml2/2.12.3/hash.c /usr/src/debug/libxml2/2.12.3/testapi.c /usr/src/debug/libxml2/2.12.3/catalog.c /usr/src/debug/libxml2/2
+ .12.3/error.c /usr/src/debug/libxml2/2.12.3/relaxng.c /usr/src/debug/libxml2/2.12.3/buf.c /usr/src/debug/libxml2/2.12.3/runsuite.c /usr/src/debug/libxml2/2.12.3/schematron.c /usr/src/debug/libxml2/2.12.3/threads.c /usr/src/debug/libxml2/2.12.3/runtest.c /usr/src/debug/libxml2/2.12.3/xmlIO.c /usr/src/debug/libxml2/2.12.3/testThreads.c /usr/src/debug/libxml2/2.12.3/runxmlconf.c /usr/src/debug/libxml2/2.12.3/xmlschemas.c /usr/src/debug/libxml2/2.12.3/testdict.c /usr/src/debug/libxml2/2.12.3/xmlsave.c /usr/src/debug/libxml2/2.12.3/xmlcatalog.c /usr/src/debug/libxml2/2.12.3/testchar.c /usr/src/debug/libxml2/2.12.3/xmlschemastypes.c /usr/src/debug/libxml2/2.12.3/xmlunicode.c"
+packages/core2-64-poky-linux/libxml2/libxml2-src: PV changed from "2.11.5" to "2.12.3"
+packages/core2-64-poky-linux/libxml2/libxml2-src: PKGSIZE changed from 7846177 to 7760859 (-1%)
+packages/core2-64-poky-linux/libxml2/libxml2-staticdev: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
+packages/core2-64-poky-linux/libxml2/libxml2-staticdev: PV changed from "2.11.5" to "2.12.3"
+packages/core2-64-poky-linux/libxml2/libxml2-utils: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
+packages/core2-64-poky-linux/libxml2/libxml2-utils: PV changed from "2.11.5" to "2.12.3"
+packages/core2-64-poky-linux/libxml2/libxml2-utils: PKGSIZE changed from 91040 to 95208 (+5%)
+packages/core2-64-poky-linux/libxml2/libxml2: PKGV changed from 2.11.5 [default] to 2.12.3 [default]
+packages/core2-64-poky-linux/libxml2/libxml2: FILELIST: removed "/usr/lib/libxml2.so.2.11.5", added "/usr/lib/libxml2.so.2.12.3"
+packages/core2-64-poky-linux/libxml2/libxml2: PV changed from "2.11.5" to "2.12.3"
+packages/core2-64-poky-linux/libxml2/libxml2: PKGSIZE changed from 1383977 to 1379977 (-0%)
+Changes to packages/core2-64-poky-linux/libxml2 (sysroot):
+  /usr/lib/libxml2.so.2 changed symlink target from libxml2.so.2.11.5 to libxml2.so.2.12.3
+  /usr/lib/libxml2.so changed symlink target from libxml2.so.2.11.5 to libxml2.so.2.12.3
+  /usr/lib/libxml2.so.2.11.5 moved to /usr/lib/libxml2.so.2.12.3
+Changes to packages/x86_64-linux/libxml2-native (sysroot):
+  /usr/lib/libxml2.so.2 changed symlink target from libxml2.so.2.11.5 to libxml2.so.2.12.3
+  /usr/lib/libxml2.so changed symlink target from libxml2.so.2.11.5 to libxml2.so.2.12.3
+  /usr/lib/libxml2.so.2.11.5 moved to /usr/lib/libxml2.so.2.12.3
+
+--===============7399817928307414781==--
 
