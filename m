@@ -2,48 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0ED26C48BF4
-	for <webhook@archiver.kernel.org>; Mon, 15 Jan 2024 17:34:01 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.88851.1705340029663417594
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5E69C48BF2
+	for <webhook@archiver.kernel.org>; Mon, 15 Jan 2024 17:34:00 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.88842.1705340029425553604
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jan 2024 09:33:49 -0800
+ Mon, 15 Jan 2024 09:33:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Y5jhhRtA;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=rj142Yg3;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018d0e2fc7b6-b4492a73-b7ee-43b6-bdff-74169a1f7cbc-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=JSBxrk+n;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=TfHs5NUe;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018d0e2fcb6f-b739606d-4db6-4671-82fa-0bf44d48a34e-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1705340029;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=qe+UqzpRIdS8zCgiZedTxB7roJ8eicYOoW3czLt75LY=;
-	b=Y5jhhRtAEvLvZb11u9dRAh6tpPy6JWkqrWlWTrvmvr5EgZltTqEgj+IsMCZGexGW
-	yYvbhi0f3mIMkh4Xz8AfLF/Up7bDvZ/+KO79hpqBs7oCmzz/UVgB7UAw6LQlwRDiJqn
-	WT23eC7qhsGQ3fW0erk2m/Ce0eTnryzKJBYIbRGI=
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=2W3S18KoaBrWV8Hdng6efg4eFZaiZXZwTy3/aK8kEr4=;
+	b=JSBxrk+nQdZjrBPr+9VdnMwTrNkxrrSDT7tDnoq/r7ZTlXTP+nnhrlKft+Uh19Be
+	9fYSSqF3jrsv0AsHnCm9m2TSc/xJrhzhDl9kJ5aKwJG+N5EywFUOZCxZiFKKBEDHVL6
+	VqCPbF8BxGlpnQQ9sYvJnaq76nmnrNVVw3LFS0JE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1705340029;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=qe+UqzpRIdS8zCgiZedTxB7roJ8eicYOoW3czLt75LY=;
-	b=rj142Yg3vhUjbLWw3ts4chGCQXdK2Mu17t0CMEoI7A9eAMdV2PvRCfmTQc87N1DA
-	W0twV86Y67zhmYnEchXDEqwZsisJ7lX1aDPiQi5NRLrUx8NAaPs9nrS7X/JQr10xxdQ
-	EYmHgA8mQVG/RXi33mlevUFdXVB4/vDlV+Tye72U=
-Content-Type: multipart/mixed; boundary="===============7732943136674152655=="
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=2W3S18KoaBrWV8Hdng6efg4eFZaiZXZwTy3/aK8kEr4=;
+	b=TfHs5NUe9Z6vFmaUJZLLhdwI5K7Z1j8HB2zklRDss8oFabvFrHHH9Hk1cR5bTuDV
+	/1EHWuRkWuGInjndCISZHbCJ+JVtGwT3q8ck0UwrQaAQjyvzO4qplmiS2koGrMSFiPJ
+	oHZyawZrpDCYa6EllSAqzkuGkYIjPzzTFD2OtelM=
+Content-Type: multipart/mixed; boundary="===============7050454106776701461=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] go-runtime: upgrading to 1.21.6 FAILED
-Message-ID: <0101018d0e2fc7b6-b4492a73-b7ee-43b6-bdff-74169a1f7cbc-000000@us-west-2.amazonses.com>
-Date: Mon, 15 Jan 2024 17:33:48 +0000
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-subunit: upgrading to 1.4.4 SUCCEEDED
+Message-ID: <0101018d0e2fcb6f-b739606d-4db6-4671-82fa-0bf44d48a34e-000000@us-west-2.amazonses.com>
+Date: Mon, 15 Jan 2024 17:33:49 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.01.15-54.240.27.193
+X-SES-Outgoing: 2024.01.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Jan 2024 17:34:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193707
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Jan 2024 17:34:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193727
 
---===============7732943136674152655==
+--===============7050454106776701461==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,131 +50,173 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *go-runtime* to *1.21.6* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *python3-subunit* to *1.4.4* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-python3-subunit-upgrade-1.4.2-1.4.4.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe go-runtime failed.
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1850 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.7.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-522272899d2b29bcdf124b8eaaf1c6d579fd7781"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:522272899d2b29bcdf124b8eaaf1c6d579fd7781"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 6 Local 6 Mirrors 0 Missed 0 Current 24 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-Loading cache...done.
-Loaded 1850 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 915 .bb files complete (913 cached, 2 parsed). 1851 targets, 38 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.7.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-522272899d2b29bcdf124b8eaaf1c6d579fd7781"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:522272899d2b29bcdf124b8eaaf1c6d579fd7781"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   2% |                                    | ETA:  0:00:05
-Adding changed files:   4% |#                                   | ETA:  0:00:03
-Adding changed files:   7% |##                                  | ETA:  0:00:03
-Adding changed files:   9% |###                                 | ETA:  0:00:03
-Adding changed files:  12% |####                                | ETA:  0:00:02
-Adding changed files:  14% |#####                               | ETA:  0:00:02
-Adding changed files:  17% |######                              | ETA:  0:00:02
-Adding changed files:  19% |#######                             | ETA:  0:00:02
-Adding changed files:  22% |#######                             | ETA:  0:00:02
-Adding changed files:  24% |########                            | ETA:  0:00:02
-Adding changed files:  27% |#########                           | ETA:  0:00:02
-Adding changed files:  29% |##########                          | ETA:  0:00:02
-Adding changed files:  31% |###########                         | ETA:  0:00:02
-Adding changed files:  34% |############                        | ETA:  0:00:02
-Adding changed files:  36% |#############                       | ETA:  0:00:02
-Adding changed files:  39% |##############                      | ETA:  0:00:02
-Adding changed files:  41% |###############                     | ETA:  0:00:02
-Adding changed files:  44% |###############                     | ETA:  0:00:02
-Adding changed files:  46% |################                    | ETA:  0:00:01
-Adding changed files:  49% |#################                   | ETA:  0:00:01
-Adding changed files:  51% |##################                  | ETA:  0:00:01
-Adding changed files:  54% |###################                 | ETA:  0:00:01
-Adding changed files:  56% |####################                | ETA:  0:00:01
-Adding changed files:  59% |#####################               | ETA:  0:00:01
-Adding changed files:  61% |######################              | ETA:  0:00:01
-Adding changed files:  63% |#######################             | ETA:  0:00:01
-Adding changed files:  66% |#######################             | ETA:  0:00:01
-Adding changed files:  68% |########################            | ETA:  0:00:01
-Adding changed files:  71% |#########################           | ETA:  0:00:01
-Adding changed files:  73% |##########################          | ETA:  0:00:01
-Adding changed files:  76% |###########################         | ETA:  0:00:00
-Adding changed files:  78% |############################        | ETA:  0:00:00
-Adding changed files:  81% |#############################       | ETA:  0:00:00
-Adding changed files:  83% |##############################      | ETA:  0:00:00
-Adding changed files:  86% |###############################     | ETA:  0:00:00
-Adding changed files:  88% |###############################     | ETA:  0:00:00
-Adding changed files:  91% |################################    | ETA:  0:00:00
-Adding changed files:  93% |#################################   | ETA:  0:00:00
-Adding changed files:  95% |##################################  | ETA:  0:00:00
-Adding changed files:  98% |################################### | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:03
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://golang.org/dl/go1.21.6.src.tar.gz;name=main...
-INFO: Rebasing devtool onto 88d837698b1a04d92ad0d421aa34b6811bc16816
-WARNING: Command 'git rebase 88d837698b1a04d92ad0d421aa34b6811bc16816' failed:
-Auto-merging src/cmd/go/internal/envcmd/env.go
-Auto-merging src/cmd/go/internal/work/exec.go
-CONFLICT (content): Merge conflict in src/cmd/go/internal/work/exec.go
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Using source tree as build directory since that would be the default for this recipe
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/workspace/sources/go-runtime
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/workspace/recipes/go-runtime/go-runtime_1.21.6.bb
-WARNING: Version is pinned to 1.20% via PREFERRED_VERSION; it may need adjustment to match the new version before any further steps are taken
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============7732943136674152655==--
+
+-- >8 --
+From b87f274cbb65764c399501ce836376764abc711b Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Mon, 15 Jan 2024 08:18:44 +0000
+Subject: [PATCH] python3-subunit: upgrade 1.4.2 -> 1.4.4
+
+---
+ ...unit_1.4.2.bb => python3-subunit_1.4.4.bb} | 26 +++++++++++++++++--
+ 1 file changed, 24 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-subunit_1.4.2.bb => python3-subunit_1.4.4.bb} (31%)
+
+diff --git a/meta/recipes-devtools/python/python3-subunit_1.4.2.bb b/meta/recipes-devtools/python/python3-subunit_1.4.4.bb
+similarity index 31%
+rename from meta/recipes-devtools/python/python3-subunit_1.4.2.bb
+rename to meta/recipes-devtools/python/python3-subunit_1.4.4.bb
+index a018ef1dc8..8eab656a46 100644
+--- a/meta/recipes-devtools/python/python3-subunit_1.4.2.bb
++++ b/meta/recipes-devtools/python/python3-subunit_1.4.4.bb
+@@ -1,12 +1,34 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- README.rst
++# +++ README.rst
++# @@ -15,6 +15,6 @@
++#  
++#    See the COPYING file for full details on the licensing of Subunit.
++#  
++# -  subunit reuses iso8601 by Michael Twomey, distributed under an MIT style
++# -  licence - see python/iso8601/LICENSE for details.
++# +Subunit
++# +-------
++#  
++# 
++#
++
+ SUMMARY = "Python implementation of subunit test streaming protocol"
+ HOMEPAGE = "https://pypi.org/project/python-subunit/"
+ SECTION = "devel/python"
+ LICENSE = "Apache-2.0"
+-LIC_FILES_CHKSUM = "file://README.rst;beginline=1;endline=20;md5=909c08e291647fd985fbe5d9836d51b6"
++LIC_FILES_CHKSUM = "file://README.rst;beginline=1;endline=20;md5=571e2d702e247b9d8a7745b3b54315ed"
+ 
+ PYPI_PACKAGE = "python-subunit"
+ 
+-SRC_URI[sha256sum] = "2988d324d55ec35dd037e502e3f74ac38f4e457bd44ee0edf5e898f7ee1134d4"
++SRC_URI[sha256sum] = "1079363131aa1d3f45259237265bc2e61a77e35f20edfb6e3d1d2558a2cdea34"
+ 
+ inherit pypi setuptools3
+ 
+-- 
+2.42.0
+
+
+--===============7050454106776701461==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-64-poky-linux/python3-subunit/python3-subunit: FILELIST: directory renamed /usr/lib/python3.11/site-packages/python_subunit-1.4.2.dist-info -> /usr/lib/python3.11/site-packages/python_subunit-1.4.4.dist-info, removed "/usr/lib/python3.11/site-packages/subunit/__pycache__/iso8601.cpython-311.pyc /usr/lib/python3.11/site-packages/subunit/iso8601.py"
+Changes to packages/core2-64-poky-linux/python3-subunit (sysroot):
+  /usr/lib/python3.11/site-packages/python_subunit-1.4.2.dist-info moved to /usr/lib/python3.11/site-packages/python_subunit-1.4.4.dist-info
+  /usr/lib/python3.11/site-packages/subunit/iso8601.py was removed
+  /usr/lib/python3.11/site-packages/subunit/__pycache__/iso8601.cpython-311.pyc was removed
+
+--===============7050454106776701461==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/python3-subunit: PKGV changed from 1.4.2 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/python3-subunit: PV changed from "1.4.2" to "1.4.4"
+packages/core2-64-poky-linux/python3-subunit: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/python-subunit/python-subunit-1.4.2.tar.gz;downloadfilename=python-subunit-1.4.2.tar.gz" to "https://files.pythonhosted.org/packages/source/p/python-subunit/python-subunit-1.4.4.tar.gz;downloadfilename=python-subunit-1.4.4.tar.gz"
+packages/core2-64-poky-linux/python3-subunit/python3-subunit-dbg: PKGV changed from 1.4.2 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/python3-subunit/python3-subunit-dbg: PV changed from "1.4.2" to "1.4.4"
+packages/core2-64-poky-linux/python3-subunit/python3-subunit-dev: PKGV changed from 1.4.2 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/python3-subunit/python3-subunit-dev: PV changed from "1.4.2" to "1.4.4"
+packages/core2-64-poky-linux/python3-subunit/python3-subunit-doc: PKGV changed from 1.4.2 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/python3-subunit/python3-subunit-doc: PV changed from "1.4.2" to "1.4.4"
+packages/core2-64-poky-linux/python3-subunit/python3-subunit-locale: PKGV changed from 1.4.2 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/python3-subunit/python3-subunit-locale: PV changed from "1.4.2" to "1.4.4"
+packages/core2-64-poky-linux/python3-subunit/python3-subunit-src: PKGV changed from 1.4.2 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/python3-subunit/python3-subunit-src: PV changed from "1.4.2" to "1.4.4"
+packages/core2-64-poky-linux/python3-subunit/python3-subunit-staticdev: PKGV changed from 1.4.2 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/python3-subunit/python3-subunit-staticdev: PV changed from "1.4.2" to "1.4.4"
+packages/core2-64-poky-linux/python3-subunit/python3-subunit: PKGV changed from 1.4.2 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/python3-subunit/python3-subunit: PV changed from "1.4.2" to "1.4.4"
+packages/core2-64-poky-linux/python3-subunit/python3-subunit: PKGSIZE changed from 932776 to 915101 (-2%)
+packages/core2-64-poky-linux/python3-subunit/python3-subunit: FILELIST: directory renamed /usr/lib/python3.11/site-packages/python_subunit-1.4.2.dist-info -> /usr/lib/python3.11/site-packages/python_subunit-1.4.4.dist-info, removed "/usr/lib/python3.11/site-packages/subunit/iso8601.py /usr/lib/python3.11/site-packages/subunit/__pycache__/iso8601.cpython-311.pyc"
+Changes to packages/core2-64-poky-linux/python3-subunit (sysroot):
+  /usr/lib/python3.11/site-packages/python_subunit-1.4.2.dist-info moved to /usr/lib/python3.11/site-packages/python_subunit-1.4.4.dist-info
+  /usr/lib/python3.11/site-packages/subunit/iso8601.py was removed
+  /usr/lib/python3.11/site-packages/subunit/__pycache__/iso8601.cpython-311.pyc was removed
+
+--===============7050454106776701461==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-subunit-upgrade-1.4.2-1.4.4.patch"
+
+RnJvbSBiODdmMjc0Y2JiNjU3NjRjMzk5NTAxY2U4MzYzNzY3NjRhYmM3MTFiIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMTUgSmFuIDIwMjQgMDg6MTg6NDQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXN1YnVuaXQ6IHVwZ3JhZGUgMS40LjIgLT4gMS40LjQKCi0tLQogLi4udW5pdF8xLjQu
+Mi5iYiA9PiBweXRob24zLXN1YnVuaXRfMS40LjQuYmJ9IHwgMjYgKysrKysrKysrKysrKysrKyst
+LQogMSBmaWxlIGNoYW5nZWQsIDI0IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiByZW5h
+bWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1zdWJ1bml0XzEuNC4yLmJi
+ID0+IHB5dGhvbjMtc3VidW5pdF8xLjQuNC5iYn0gKDMxJSkKCmRpZmYgLS1naXQgYS9tZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc3VidW5pdF8xLjQuMi5iYiBiL21ldGEvcmVj
+aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zdWJ1bml0XzEuNC40LmJiCnNpbWlsYXJpdHkg
+aW5kZXggMzElCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
+My1zdWJ1bml0XzEuNC4yLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
+L3B5dGhvbjMtc3VidW5pdF8xLjQuNC5iYgppbmRleCBhMDE4ZWYxZGM4Li44ZWFiNjU2YTQ2IDEw
+MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc3VidW5pdF8x
+LjQuMi5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc3VidW5p
+dF8xLjQuNC5iYgpAQCAtMSwxMiArMSwzNCBAQAorIyBGSVhNRTogdGhlIExJQ19GSUxFU19DSEtT
+VU0gdmFsdWVzIGhhdmUgYmVlbiB1cGRhdGVkIGJ5ICdkZXZ0b29sIHVwZ3JhZGUnLgorIyBUaGUg
+Zm9sbG93aW5nIGlzIHRoZSBkaWZmZXJlbmNlIGJldHdlZW4gdGhlIG9sZCBhbmQgdGhlIG5ldyBs
+aWNlbnNlIHRleHQuCisjIFBsZWFzZSB1cGRhdGUgdGhlIExJQ0VOU0UgdmFsdWUgaWYgbmVlZGVk
+LCBhbmQgc3VtbWFyaXplIHRoZSBjaGFuZ2VzIGluCisjIHRoZSBjb21taXQgbWVzc2FnZSB2aWEg
+J0xpY2Vuc2UtVXBkYXRlOicgdGFnLgorIyAoZXhhbXBsZTogJ0xpY2Vuc2UtVXBkYXRlOiBjb3B5
+cmlnaHQgeWVhcnMgdXBkYXRlZC4nKQorIworIyBUaGUgY2hhbmdlczoKKyMKKyMgLS0tIFJFQURN
+RS5yc3QKKyMgKysrIFJFQURNRS5yc3QKKyMgQEAgLTE1LDYgKzE1LDYgQEAKKyMgIAorIyAgICBT
+ZWUgdGhlIENPUFlJTkcgZmlsZSBmb3IgZnVsbCBkZXRhaWxzIG9uIHRoZSBsaWNlbnNpbmcgb2Yg
+U3VidW5pdC4KKyMgIAorIyAtICBzdWJ1bml0IHJldXNlcyBpc284NjAxIGJ5IE1pY2hhZWwgVHdv
+bWV5LCBkaXN0cmlidXRlZCB1bmRlciBhbiBNSVQgc3R5bGUKKyMgLSAgbGljZW5jZSAtIHNlZSBw
+eXRob24vaXNvODYwMS9MSUNFTlNFIGZvciBkZXRhaWxzLgorIyArU3VidW5pdAorIyArLS0tLS0t
+LQorIyAgCisjIAorIworCiBTVU1NQVJZID0gIlB5dGhvbiBpbXBsZW1lbnRhdGlvbiBvZiBzdWJ1
+bml0IHRlc3Qgc3RyZWFtaW5nIHByb3RvY29sIgogSE9NRVBBR0UgPSAiaHR0cHM6Ly9weXBpLm9y
+Zy9wcm9qZWN0L3B5dGhvbi1zdWJ1bml0LyIKIFNFQ1RJT04gPSAiZGV2ZWwvcHl0aG9uIgogTElD
+RU5TRSA9ICJBcGFjaGUtMi4wIgotTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vUkVBRE1FLnJz
+dDtiZWdpbmxpbmU9MTtlbmRsaW5lPTIwO21kNT05MDljMDhlMjkxNjQ3ZmQ5ODVmYmU1ZDk4MzZk
+NTFiNiIKK0xJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL1JFQURNRS5yc3Q7YmVnaW5saW5lPTE7
+ZW5kbGluZT0yMDttZDU9NTcxZTJkNzAyZTI0N2I5ZDhhNzc0NWIzYjU0MzE1ZWQiCiAKIFBZUElf
+UEFDS0FHRSA9ICJweXRob24tc3VidW5pdCIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjI5ODhk
+MzI0ZDU1ZWMzNWRkMDM3ZTUwMmUzZjc0YWMzOGY0ZTQ1N2JkNDRlZTBlZGY1ZTg5OGY3ZWUxMTM0
+ZDQiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMTA3OTM2MzEzMWFhMWQzZjQ1MjU5MjM3MjY1YmMy
+ZTYxYTc3ZTM1ZjIwZWRmYjZlM2QxZDI1NThhMmNkZWEzNCIKIAogaW5oZXJpdCBweXBpIHNldHVw
+dG9vbHMzCiAKLS0gCjIuNDIuMAoK
+
+--===============7050454106776701461==--
 
