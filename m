@@ -2,129 +2,158 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F880C3DA79
-	for <webhook@archiver.kernel.org>; Mon, 15 Jan 2024 16:39:37 +0000 (UTC)
-Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
- by mx.groups.io with SMTP id smtpd.web11.86187.1705336774574788455
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59F19C3DA79
+	for <webhook@archiver.kernel.org>; Mon, 15 Jan 2024 16:53:27 +0000 (UTC)
+Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
+ by mx.groups.io with SMTP id smtpd.web11.86792.1705337605920583624
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jan 2024 08:39:34 -0800
+ Mon, 15 Jan 2024 08:53:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=YUG5Gcoz;
- spf=pass (domain: gmail.com, ip: 209.85.160.43, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-2043e721daaso5690260fac.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jan 2024 08:39:34 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=YPPa154i;
+ spf=pass (domain: gmail.com, ip: 209.85.160.47, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-2053f5e97b2so5363763fac.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jan 2024 08:53:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705336774; x=1705941574; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1705337605; x=1705942405; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=pFGvVIzaYop7gXp2gzBQ3YCzQR3MRYllTB4+ifDX8j0=;
-        b=YUG5GcozH/j7ohhEqQb9W/b5asuf0du46H0tAix1wr+Uh+8B/ZQbMtMtTPHTkhuiHi
-         vxPz9pTNa0q9EBrEPqRna/mhqIqBV5BfPRqsHK5LL6CL0CxczLSUJkU4ibSrfpgqtMck
-         V3lzjScwQVr0TppOgwZxc7nF3M5aw69Pqm9I8dIvu+WKjqGGzkFcYkJCnJqcgN/ohWut
-         YE6OME+ldI1AhwbJIPdX09FRo3RCdaP3i9egaVWU71b2pWPIVP7upWmr0bPNWEG+Spox
-         cgbTCxJvmb3y/8zMWLYzqiVldZAZevzZ1t7fczINV/xFJwQrypQ0IcPl6jURr+T51IyM
-         Mxcg==
+        bh=s5yREfvGELJ09AWA+5WsSH/srRbAUeyPZIxMVJ2og7A=;
+        b=YPPa154iV+9H7wO8Y7X3fPFDsBtgYlEBsi9LzQlNHSo0/Qi+7UAuDvTFsk6vfIpOX7
+         /bq6/qJ82DTS0Nucx4urqlc8E1cr0FeyiFlb+4CMoPTlYApnJNw0qagM3qFXDaPm6eXI
+         NIZrVScP2K58K+tBLBBa6ySiPnDEkQ8UA7DyOn8XpBG9fNoxOVlEpf5Lj96fJSm4SoCu
+         mtCHvqpBU81CKeYdSJrVJ01pDOoHNe1p4earyed9dRsGn9h12yiuMtWoSMkOZ3Zv5ykP
+         E+YATe78ydhQcCLl6agPm2XI96eAQi0VbCT1zBEcEIvevC37TaRnepMw7FABgvCltnOK
+         b0oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705336774; x=1705941574;
+        d=1e100.net; s=20230601; t=1705337605; x=1705942405;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=pFGvVIzaYop7gXp2gzBQ3YCzQR3MRYllTB4+ifDX8j0=;
-        b=JnJ4aND5GvMTT/UnFspwUO1e1P7i4P0dcsV4PSl/l+INshKHrMC7LXoC/5/JO7tezA
-         0JMyyNoz4dhdEEG/J4iNS2VcY/hTW9QOUGWV0Y/oHepcLAPSoYM0wYHAz9FG+dM0CSOq
-         nLWDSo1gGf7mwB4JLunSFpOwX088itsyr/43pR9tw4Cab0wDNvgnEdewVkf+6tsqOJto
-         iI7q94aRB7DloAFs19PgNA4WkXNz7gqibQSfbG8SdfJthSmmKXCtx3q9Oks45//jc6kg
-         8e+Uf3pgWLpW74L2xh3e53kHsIWEosaoedLrxmpKalLb6zXxEHkkYhLqQzUDxutOCeUo
-         w5ng==
-X-Gm-Message-State: AOJu0YwSCRcMxINOtdy8/4de02COvcF7YNf3RZ/y52HJieyikjjHjZ/O
-	pxZ67vqTCM9JDV7IT4hQe3L6NOpl4P+blVtTaWM=
-X-Google-Smtp-Source: AGHT+IHQWtivV8sjTukbRkd5HpFZq2KB+VRdyBkfHVnSZI5vLFy1V72EIXdo09T83fcYiRNQ5qD4UO9pjN6XCFy8QNU=
-X-Received: by 2002:a05:6870:6b8b:b0:203:49b8:aac4 with SMTP id
- ms11-20020a0568706b8b00b0020349b8aac4mr8802369oab.54.1705336772969; Mon, 15
- Jan 2024 08:39:32 -0800 (PST)
+        bh=s5yREfvGELJ09AWA+5WsSH/srRbAUeyPZIxMVJ2og7A=;
+        b=gh+khpHQmu2tC+Liy2tnWVW1jgNf+Kr8tCUt9LNQZ7DkCjrpLRMrPZrT3zz8rjgtF6
+         xei81gJtxDdWxcrcLfTLcjktNIAEFQDtAH6BjbH4Q8KUZz4Yqkp9/Aptrn9BJMwqnMAd
+         0VgoFv31UvAspondUZRNjsziRT9s6Q6Gu9wxqQdko+b5DJ86OuliFRDYsIWmPHuehPVM
+         A1EjMrDjSaJqd3LMCIrTinp+wPzLfRXFMWPXub36hwByIjAXY2gsjy/+wNbomB+KGDp5
+         UlYhmIEDYA87YdLEanz1jqmhNpB3qwD1CbTrYSHS16NZ7/bCdnjqAVdQQOjX/ZMpl7Zz
+         4yEQ==
+X-Gm-Message-State: AOJu0YyGvVLWawey6QQmK5xuzI2iMl0aTFj9FVo4bHckNfp0jhFp9ZhR
+	aBX9ekbwWkSc/nmSTlwtd5ySNKslW0NF1dZ86s0=
+X-Google-Smtp-Source: AGHT+IFDMyrj/ndN8fitI7uT3dpZzkeTiO9P/CJRNDd1NjNmfcaqJ1DhurTo18UmED1mBioXG2j9TK5lQsJnL+hwTt0=
+X-Received: by 2002:a05:6871:5b23:b0:206:d94c:64d4 with SMTP id
+ op35-20020a0568715b2300b00206d94c64d4mr3365175oac.11.1705337604822; Mon, 15
+ Jan 2024 08:53:24 -0800 (PST)
 MIME-Version: 1.0
 References: <20240109192923.3183219-1-raj.khem@gmail.com> <3B3DBDDB-9E17-431A-B3E8-DC8E072066FC@arm.com>
-In-Reply-To: <3B3DBDDB-9E17-431A-B3E8-DC8E072066FC@arm.com>
+ <CANNYZj_oydN+0ODz_kCjus74uzF-wUhcZ1nfmYqrRo+BoupB4A@mail.gmail.com> <3642B18A-B5F2-40EF-B1A9-303923477117@arm.com>
+In-Reply-To: <3642B18A-B5F2-40EF-B1A9-303923477117@arm.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 15 Jan 2024 08:39:22 -0800
-Message-ID: <CAMKF1so70hh_XBPgDrSjpfVx4=qv=WPBAe2bj2WScuDKZRmHjw@mail.gmail.com>
+Date: Mon, 15 Jan 2024 08:53:14 -0800
+Message-ID: <CAMKF1soNT6kc-jCNsop1qaQVxDphZEO3DNa5AB4jwP=2Rd729w@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH v3] glib-networking: Fix ptest failures with
  openssl backend
 To: Ross Burton <ross.burton@arm.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000934925060efea89a"
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000028592f060efeda0b"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Jan 2024 16:39:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193687
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Jan 2024 16:53:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193688
 
---000000000000934925060efea89a
+--00000000000028592f060efeda0b
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 15, 2024 at 5:41=E2=80=AFAM Ross Burton <Ross.Burton@arm.com> w=
+On Mon, Jan 15, 2024 at 6:04=E2=80=AFAM Ross Burton <Ross.Burton@arm.com> w=
 rote:
 
-> On 9 Jan 2024, at 19:29, Khem Raj via lists.openembedded.org <raj.khem=3D
-> gmail.com@lists.openembedded.org> wrote:
-> > ++  #ifndef BACKEND_IS_OPENSSL
-> > +   g_test_add ("/tls/" BACKEND "/connection/unclean-close-by-server",
-> TestConnection, NULL,
-> > +               setup_connection, test_unclean_close_by_server,
-> teardown_connection);
-> > ++  #endif
->
-> Personally, unless upstream say =E2=80=9Cyes this test doesn=E2=80=99t wo=
-rk on openssl
-> yet=E2=80=9D and mark it as such, this is still a test failure that is fa=
-iling for
-> unknown reasons.
->
-> We could #if 0 out every test that failed and rejoice in our 100% pass
+> On 15 Jan 2024, at 13:49, Alexander Kanavin <alex.kanavin@gmail.com>
+> wrote:
+> >> We could #if 0 out every test that failed and rejoice in our 100% pass
 > test cases but that would be a terrible idea, so why is this different?
+> >
+> > This is what we already do for intermittently failing ptests all over
+> > the stack. Rejoice!
 >
+> Hopefully we assess the test and determine if the odds are good that it i=
+s
+> in fact timing related before doing this!
+>
+> > This issue is reported upstream, and the link is in the patch. Yes,
+> > given sufficient time one can become an expert in intricacies of glib,
+> > openssl, and their interaction, and then develop a real fix all by
+> > themselves, but I think a more fair expectation is exactly what Khem
+> > is doing: report upstream, add a reasonable workaround, follow up
+> > upstream requests in the reported ticket.
+>
+> This is a configuration that upstream doesn=E2=80=99t support and we don=
+=E2=80=99t enable
+> by default, so I=E2=80=99m leaning towards Khem carries the patch alongsi=
+de the
+> bbappend to turn on the openssl backend in the first place.
 
-This however is not the case here. Upstream has accepted the bug already
-and marked it so as well. I am not sure why we should act more stricter in
-accepting patches than upstream activity here.
+
+Where does it say it does not support? On the contrary there are patches in
+this area sent recently
+
+Yes I can carry all of changes we need locally that=E2=80=99s not an issue =
+we are
+already carrying many of them they just make it harder to contribute back
+to project as these pile up
 
 
+
+>
 > Ross
 
---000000000000934925060efea89a
+--00000000000028592f060efeda0b
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto"><br></div><div><br><div class=3D"gmail_quote"><div dir=3D=
-"ltr" class=3D"gmail_attr">On Mon, Jan 15, 2024 at 5:41=E2=80=AFAM Ross Bur=
-ton &lt;<a href=3D"mailto:Ross.Burton@arm.com">Ross.Burton@arm.com</a>&gt; =
-wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
-x;border-left:1px #ccc solid;padding-left:1ex">On 9 Jan 2024, at 19:29, Khe=
-m Raj via <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" targ=
-et=3D"_blank">lists.openembedded.org</a> &lt;raj.khem=3D<a href=3D"mailto:g=
-mail.com@lists.openembedded.org" target=3D"_blank">gmail.com@lists.openembe=
-dded.org</a>&gt; wrote:<br>
-&gt; ++=C2=A0 #ifndef BACKEND_IS_OPENSSL<br>
-&gt; +=C2=A0 =C2=A0g_test_add (&quot;/tls/&quot; BACKEND &quot;/connection/=
-unclean-close-by-server&quot;, TestConnection, NULL,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0setup_connecti=
-on, test_unclean_close_by_server, teardown_connection);<br>
-&gt; ++=C2=A0 #endif<br>
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Mon, Jan 15, 2024 at 6:04=E2=80=AFAM Ross Burton &lt;<a =
+href=3D"mailto:Ross.Burton@arm.com">Ross.Burton@arm.com</a>&gt; wrote:<br><=
+/div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-le=
+ft:1px #ccc solid;padding-left:1ex">On 15 Jan 2024, at 13:49, Alexander Kan=
+avin &lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.k=
+anavin@gmail.com</a>&gt; wrote:<br>
+&gt;&gt; We could #if 0 out every test that failed and rejoice in our 100% =
+pass test cases but that would be a terrible idea, so why is this different=
+?<br>
+&gt; <br>
+&gt; This is what we already do for intermittently failing ptests all over<=
+br>
+&gt; the stack. Rejoice!<br>
 <br>
-Personally, unless upstream say =E2=80=9Cyes this test doesn=E2=80=99t work=
- on openssl yet=E2=80=9D and mark it as such, this is still a test failure =
-that is failing for unknown reasons.<br>
+Hopefully we assess the test and determine if the odds are good that it is =
+in fact timing related before doing this!<br>
 <br>
-We could #if 0 out every test that failed and rejoice in our 100% pass test=
- cases but that would be a terrible idea, so why is this different?<br>
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">This however is =
-not the case here. Upstream has accepted the bug already and marked it so a=
-s well. I am not sure why we should act more stricter in accepting patches =
-than upstream activity here.=C2=A0</div><div dir=3D"auto"><br></div><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
-solid;padding-left:1ex"><br>
+&gt; This issue is reported upstream, and the link is in the patch. Yes,<br=
+>
+&gt; given sufficient time one can become an expert in intricacies of glib,=
+<br>
+&gt; openssl, and their interaction, and then develop a real fix all by<br>
+&gt; themselves, but I think a more fair expectation is exactly what Khem<b=
+r>
+&gt; is doing: report upstream, add a reasonable workaround, follow up<br>
+&gt; upstream requests in the reported ticket.<br>
+<br>
+This is a configuration that upstream doesn=E2=80=99t support and we don=E2=
+=80=99t enable by default, so I=E2=80=99m leaning towards Khem carries the =
+patch alongside the bbappend to turn on the openssl backend in the first pl=
+ace.</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Where does i=
+t say it does not support? On the contrary there are patches in this area s=
+ent recently</div><div dir=3D"auto"><br></div><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
+" dir=3D"auto"></blockquote><div dir=3D"auto">Yes I can carry all of change=
+s we need locally that=E2=80=99s not an issue we are already carrying many =
+of them they just make it harder to contribute back to project as these pil=
+e up</div><div dir=3D"auto"><br></div><div dir=3D"auto"><br></div><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc so=
+lid;padding-left:1ex" dir=3D"auto"><br>
+<br>
 Ross</blockquote></div></div>
 
---000000000000934925060efea89a--
+--00000000000028592f060efeda0b--
 
