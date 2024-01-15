@@ -2,47 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5A8FC47DA2
-	for <webhook@archiver.kernel.org>; Mon, 15 Jan 2024 17:33:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CDDDC47258
+	for <webhook@archiver.kernel.org>; Mon, 15 Jan 2024 17:33:58 +0000 (UTC)
 Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.88850.1705340029647244285
+ by mx.groups.io with SMTP id smtpd.web11.88287.1705340030380468216
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jan 2024 09:33:52 -0800
+ Mon, 15 Jan 2024 09:33:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=NCwZy1vZ;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=TWo2hGwl;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018d0e2fcf7b-a0a4ba6d-3692-4328-ac1f-d3e207147e10-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=K/Rwd+tJ;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=aA7W9axi;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018d0e2fd123-f5bc2a70-a339-488b-86af-5dd747303a6d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1705340031;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=PxkoLlQOM7zcHopoLvIRl/NiTFiGrWoeKWjxaJokfwQ=;
-	b=NCwZy1vZi0rzmqxhTGNRvGBc0Z0fYrVvfwsbIhKQPC/eT4DEKjblYLB6Dbl8rkJV
-	Lk57i6178uKnkGmPGAR3X3fQOpw/CckuWUiZGCGZ3s9ZMhVINQyC2pHSycYC4LDzYsP
-	PM7u9GmKx6grVUiHiqTGAf12QW5cKE6ZzkogkcP0=
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=FVqq8fzvMIl/FwRf76LKXdIR8GW2v3MaheVtECJ8Vi0=;
+	b=K/Rwd+tJ76daURkMikvVkupkcUtXJU8bh4o1dA8hRG1w7cJQ9jqlk1SeDw05CFYy
+	4ZA2KjN+3ajFrDQ4vhJC/K6P47u9fmEyXI87RtAC/R8LB9g+jAJg3bZW6oNqNOorW8A
+	1YhmP3J2HhcKrJomIN8WtaHTLqKQiiShbBfq/bvs=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1705340031;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=PxkoLlQOM7zcHopoLvIRl/NiTFiGrWoeKWjxaJokfwQ=;
-	b=TWo2hGwlM2gQOmGi1nA4t7omyfuirQjAXw02QMkWHtu6TdwJ3B8NPka18NouiTww
-	TTyYRs8F2H5JoifgLdet2cjk3ulA8PkPyumUO2AovzWwtrNPx6Is1QeNvy+jsOxTwp7
-	P25kV1rd6SpgI1e0ggEfhXGT+GWOIxsSrvu+Rj6g=
-Content-Type: multipart/mixed; boundary="===============2983574562752926556=="
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=FVqq8fzvMIl/FwRf76LKXdIR8GW2v3MaheVtECJ8Vi0=;
+	b=aA7W9axiAoronX7mNzqBQVBITu2Sec2KK00qEcW3/aFP2CgBzLrspA0Nirc9/gaf
+	0gYDty5lPc2J4DSy8/9LqI5y+oGU4X7M/yBvCHYJCIw0oXZLl1TlaBroGw63mT5NiwO
+	PHD7tRQetKL5gLSUjqtp68c1JHbjz236dljBNnxw=
+Content-Type: multipart/mixed; boundary="===============5902781178279699554=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] kexec-tools: upgrading to 2.0.28 SUCCEEDED
-Message-ID: <0101018d0e2fcf7b-a0a4ba6d-3692-4328-ac1f-d3e207147e10-000000@us-west-2.amazonses.com>
-Date: Mon, 15 Jan 2024 17:33:50 +0000
+To: Wang Mingyu <wangmy@cn.fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] iso-codes: upgrading to 4.16.0 SUCCEEDED
+Message-ID: <0101018d0e2fd123-f5bc2a70-a339-488b-86af-5dd747303a6d-000000@us-west-2.amazonses.com>
+Date: Mon, 15 Jan 2024 17:33:51 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2024.01.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Jan 2024 17:33:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193792
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Jan 2024 17:33:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193788
 
---===============2983574562752926556==
+--===============5902781178279699554==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *kexec-tools* to *2.0.28* has Succeeded.
+that the automatic attempt to upgrade the recipe *iso-codes* to *4.16.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-kexec-tools-upgrade-2.0.27-2.0.28.patch
+    - apply the patch: git am 0001-iso-codes-upgrade-4.15.0-4.16.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -71,397 +72,500 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From a1a8e7c414ec49c580d534a2c92b785a01e50dd5 Mon Sep 17 00:00:00 2001
+From dbb6fbc156d1f75526e039d411e08f3ce2517fdc Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 15 Jan 2024 13:11:15 +0000
-Subject: [PATCH] kexec-tools: upgrade 2.0.27 -> 2.0.28
+Date: Mon, 15 Jan 2024 16:59:38 +0000
+Subject: [PATCH] iso-codes: upgrade 4.15.0 -> 4.16.0
 
 ---
- ...xec-disabled-check-if-kaslr-seed-dtb-propert.patch |  8 +++-----
- .../0001-powerpc-change-the-memory-size-limit.patch   |  3 ++-
- .../0002-purgatory-Pass-r-directly-to-linker.patch    |  7 ++++---
- ...xec-ARM-Fix-add_buffer_phys_virt-align-issue.patch | 11 ++++++-----
- .../kexec-tools/0005-Disable-PIE-during-link.patch    |  7 ++++---
- .../{kexec-tools_2.0.27.bb => kexec-tools_2.0.28.bb}  |  2 +-
- 6 files changed, 20 insertions(+), 18 deletions(-)
- rename meta/recipes-kernel/kexec/{kexec-tools_2.0.27.bb => kexec-tools_2.0.28.bb} (97%)
+ .../iso-codes/{iso-codes_4.15.0.bb => iso-codes_4.16.0.bb}      | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/iso-codes/{iso-codes_4.15.0.bb => iso-codes_4.16.0.bb} (94%)
 
-diff --git a/meta/recipes-kernel/kexec/kexec-tools/0001-arm64-kexec-disabled-check-if-kaslr-seed-dtb-propert.patch b/meta/recipes-kernel/kexec/kexec-tools/0001-arm64-kexec-disabled-check-if-kaslr-seed-dtb-propert.patch
-index ddc1519126..adcc3e09b0 100644
---- a/meta/recipes-kernel/kexec/kexec-tools/0001-arm64-kexec-disabled-check-if-kaslr-seed-dtb-propert.patch
-+++ b/meta/recipes-kernel/kexec/kexec-tools/0001-arm64-kexec-disabled-check-if-kaslr-seed-dtb-propert.patch
-@@ -1,4 +1,4 @@
--From d48ec5e1a5fb7907520dee71b1d94045486a0c29 Mon Sep 17 00:00:00 2001
-+From 91855300bfda18fde0d03b82c773e7bc504555b1 Mon Sep 17 00:00:00 2001
- From: Alexander Kamensky <alexander.kamensky42@gmail.com>
- Date: Thu, 12 Nov 2020 12:56:46 -0800
- Subject: [PATCH] arm64: kexec: disabled check if kaslr-seed dtb property was
-@@ -29,12 +29,13 @@ as kaslr is disabled anyway.
+diff --git a/meta/recipes-support/iso-codes/iso-codes_4.15.0.bb b/meta/recipes-support/iso-codes/iso-codes_4.16.0.bb
+similarity index 94%
+rename from meta/recipes-support/iso-codes/iso-codes_4.15.0.bb
+rename to meta/recipes-support/iso-codes/iso-codes_4.16.0.bb
+index 6ae6fdf8cb..f33cce1a9d 100644
+--- a/meta/recipes-support/iso-codes/iso-codes_4.15.0.bb
++++ b/meta/recipes-support/iso-codes/iso-codes_4.16.0.bb
+@@ -9,7 +9,7 @@ LICENSE = "LGPL-2.1-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
  
- Signed-off-by: Alexander Kamensky <alexander.kamensky42@gmail.com>
- Upstream-Status: Submitted [http://lists.infradead.org/pipermail/kexec/2020-November/021740.html]
-+
- ---
-  kexec/arch/arm64/kexec-arm64.c | 14 +-------------
-  1 file changed, 1 insertion(+), 13 deletions(-)
+ SRC_URI = "git://salsa.debian.org/iso-codes-team/iso-codes.git;protocol=https;branch=main;"
+-SRCREV = "69ba16daef3c5c5e3c18f2d919e25296a4b946be"
++SRCREV = "c2fcaadc832ed9f858950a43994973442d85ef4f"
  
- diff --git a/kexec/arch/arm64/kexec-arm64.c b/kexec/arch/arm64/kexec-arm64.c
--index ec6df4b..10238d9 100644
-+index 4a67b0d..b208275 100644
- --- a/kexec/arch/arm64/kexec-arm64.c
- +++ b/kexec/arch/arm64/kexec-arm64.c
- @@ -503,7 +503,7 @@ static int setup_2nd_dtb(struct dtb *dtb, char *command_line, int on_crash)
-@@ -65,6 +66,3 @@ index ec6df4b..10238d9 100644
-  		/*
-  		 * Invoke the getrandom system call with
-  		 * GRND_NONBLOCK, to make sure we
---- 
--2.25.1
--
-diff --git a/meta/recipes-kernel/kexec/kexec-tools/0001-powerpc-change-the-memory-size-limit.patch b/meta/recipes-kernel/kexec/kexec-tools/0001-powerpc-change-the-memory-size-limit.patch
-index 029650f35c..06c7651ff1 100644
---- a/meta/recipes-kernel/kexec/kexec-tools/0001-powerpc-change-the-memory-size-limit.patch
-+++ b/meta/recipes-kernel/kexec/kexec-tools/0001-powerpc-change-the-memory-size-limit.patch
-@@ -1,4 +1,4 @@
--From 211cae4b6a02a4d9d37bfcd76f3702696e095fc3 Mon Sep 17 00:00:00 2001
-+From b60861420caed6abf788f380d987741f3201ac7b Mon Sep 17 00:00:00 2001
- From: Quanyang Wang <quanyang.wang@windriver.com>
- Date: Tue, 16 Jun 2015 12:59:57 +0800
- Subject: [PATCH] powerpc: change the memory size limit
-@@ -16,6 +16,7 @@ locate_hole failed
- Upstream-Status: Pending
- 
- Signed-off-by: Quanyang Wang <quanyang.wang@windriver.com>
-+
- ---
-  kexec/arch/ppc/kexec-ppc.h | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
-diff --git a/meta/recipes-kernel/kexec/kexec-tools/0002-purgatory-Pass-r-directly-to-linker.patch b/meta/recipes-kernel/kexec/kexec-tools/0002-purgatory-Pass-r-directly-to-linker.patch
-index 363d5da4ae..41f3b7db78 100644
---- a/meta/recipes-kernel/kexec/kexec-tools/0002-purgatory-Pass-r-directly-to-linker.patch
-+++ b/meta/recipes-kernel/kexec/kexec-tools/0002-purgatory-Pass-r-directly-to-linker.patch
-@@ -1,4 +1,4 @@
--From a04bcf8f683c1a5a7d015920124457ad56fb7cf0 Mon Sep 17 00:00:00 2001
-+From 972deaf4dc65503bb9c48a33025014cb6a5387f7 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Mon, 7 Sep 2015 07:59:45 +0000
- Subject: [PATCH] purgatory: Pass -r directly to linker
-@@ -10,15 +10,16 @@ unfiltered
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
- 
- Upstream-Status: Pending
-+
- ---
-  purgatory/Makefile | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/purgatory/Makefile b/purgatory/Makefile
--index 2dd6c47..416e6b9 100644
-+index 4d2d071..6673423 100644
- --- a/purgatory/Makefile
- +++ b/purgatory/Makefile
--@@ -60,7 +60,7 @@ $(PURGATORY): CPPFLAGS=$($(ARCH)_PURGATORY_EXTRA_CFLAGS) \
-+@@ -61,7 +61,7 @@ $(PURGATORY): CPPFLAGS=$($(ARCH)_PURGATORY_EXTRA_CFLAGS) \
-  			-I$(shell $(CC) -print-file-name=include)
-  $(PURGATORY): LDFLAGS=$($(ARCH)_PURGATORY_EXTRA_CFLAGS)\
-  			-Wl,--no-undefined -nostartfiles -nostdlib \
-diff --git a/meta/recipes-kernel/kexec/kexec-tools/0003-kexec-ARM-Fix-add_buffer_phys_virt-align-issue.patch b/meta/recipes-kernel/kexec/kexec-tools/0003-kexec-ARM-Fix-add_buffer_phys_virt-align-issue.patch
-index 832fe67716..3ba6cb1fb1 100644
---- a/meta/recipes-kernel/kexec/kexec-tools/0003-kexec-ARM-Fix-add_buffer_phys_virt-align-issue.patch
-+++ b/meta/recipes-kernel/kexec/kexec-tools/0003-kexec-ARM-Fix-add_buffer_phys_virt-align-issue.patch
-@@ -1,4 +1,4 @@
--From 55e583d20651e829afbbc8dba0f8ec3017cda2d5 Mon Sep 17 00:00:00 2001
-+From d00cdc259d734d138035c256776d3cf94a548f88 Mon Sep 17 00:00:00 2001
- From: Haiqing Bai <Haiqing.Bai@windriver.com>
- Date: Mon, 9 Jan 2017 15:26:29 +0800
- Subject: [PATCH] kexec: ARM: Fix add_buffer_phys_virt() align issue
-@@ -12,15 +12,16 @@ Upstream-Status: Pending
- 
- Suggested-By:fredrik.markstrom@gmail.com
- Signed-off-by: Haiqing Bai <Haiqing.Bai@windriver.com>
-+
- ---
-  kexec/arch/arm/crashdump-arm.c | 5 ++++-
-  1 file changed, 4 insertions(+), 1 deletion(-)
- 
- diff --git a/kexec/arch/arm/crashdump-arm.c b/kexec/arch/arm/crashdump-arm.c
--index daa4788..3f72b38 100644
-+index 1ec1826..cc20f63 100644
- --- a/kexec/arch/arm/crashdump-arm.c
- +++ b/kexec/arch/arm/crashdump-arm.c
--@@ -240,6 +240,7 @@ int load_crashdump_segments(struct kexec_info *info, char *mod_cmdline)
-+@@ -242,6 +242,7 @@ int load_crashdump_segments(struct kexec_info *info, char *mod_cmdline)
-  	void *buf;
-  	int err;
-  	int last_ranges;
-@@ -28,7 +29,7 @@ index daa4788..3f72b38 100644
-  
-  	/*
-  	 * First fetch all the memory (RAM) ranges that we are going to pass to
--@@ -281,6 +282,7 @@ int load_crashdump_segments(struct kexec_info *info, char *mod_cmdline)
-+@@ -283,6 +284,7 @@ int load_crashdump_segments(struct kexec_info *info, char *mod_cmdline)
-  
-  		/* for support LPAE enabled kernel*/
-  		elf_info.class = ELFCLASS64;
-@@ -36,7 +37,7 @@ index daa4788..3f72b38 100644
-  
-  		err = crash_create_elf64_headers(info, &elf_info,
-  					 usablemem_rgns.ranges,
--@@ -302,8 +304,9 @@ int load_crashdump_segments(struct kexec_info *info, char *mod_cmdline)
-+@@ -304,8 +306,9 @@ int load_crashdump_segments(struct kexec_info *info, char *mod_cmdline)
-  	 * 1MB) so that available memory passed in kernel command line will be
-  	 * aligned to 1MB. This is because kernel create_mapping() wants memory
-  	 * regions to be aligned to SECTION_SIZE.
-diff --git a/meta/recipes-kernel/kexec/kexec-tools/0005-Disable-PIE-during-link.patch b/meta/recipes-kernel/kexec/kexec-tools/0005-Disable-PIE-during-link.patch
-index 7a4b8548ca..b65b5956b8 100644
---- a/meta/recipes-kernel/kexec/kexec-tools/0005-Disable-PIE-during-link.patch
-+++ b/meta/recipes-kernel/kexec/kexec-tools/0005-Disable-PIE-during-link.patch
-@@ -1,4 +1,4 @@
--From c54488ad5fd657e0f154d76d7456d9080be24836 Mon Sep 17 00:00:00 2001
-+From 0376b48dd49ce2ad1e52f76022656d53bf2597c8 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Sat, 10 Jun 2017 11:18:49 -0700
- Subject: [PATCH] Disable PIE during link
-@@ -9,15 +9,16 @@ just need to match it with linker flags
- Upstream-Status: Pending
- 
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
- ---
-  purgatory/Makefile | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/purgatory/Makefile b/purgatory/Makefile
--index 416e6b9..f00edb4 100644
-+index 6673423..a7405ea 100644
- --- a/purgatory/Makefile
- +++ b/purgatory/Makefile
--@@ -59,7 +59,7 @@ $(PURGATORY): CPPFLAGS=$($(ARCH)_PURGATORY_EXTRA_CFLAGS) \
-+@@ -60,7 +60,7 @@ $(PURGATORY): CPPFLAGS=$($(ARCH)_PURGATORY_EXTRA_CFLAGS) \
-  			-Iinclude \
-  			-I$(shell $(CC) -print-file-name=include)
-  $(PURGATORY): LDFLAGS=$($(ARCH)_PURGATORY_EXTRA_CFLAGS)\
-diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.27.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.28.bb
-similarity index 97%
-rename from meta/recipes-kernel/kexec/kexec-tools_2.0.27.bb
-rename to meta/recipes-kernel/kexec/kexec-tools_2.0.28.bb
-index 9b9864da9a..c2141e6716 100644
---- a/meta/recipes-kernel/kexec/kexec-tools_2.0.27.bb
-+++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.28.bb
-@@ -19,7 +19,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/kexec/kexec-tools-${PV}.tar.gz
-            file://0001-arm64-kexec-disabled-check-if-kaslr-seed-dtb-propert.patch \
-            "
- 
--SRC_URI[sha256sum] = "410f89057d1f4cd2b0477b6c2035ec2c52e21c185e90742bbae8b4f78a7077a5"
-+SRC_URI[sha256sum] = "f33d2660b3e38d25a127e87097978e0f7a9a73ab5151a29eb80974d169ff6a29"
- 
- inherit autotools update-rc.d systemd
- 
+ # inherit gettext cannot be used, because it adds gettext-native to BASEDEPENDS which
+ # are inhibited by allarch
 -- 
 2.42.0
 
 
---===============2983574562752926556==
+--===============5902781178279699554==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/all-poky-linux/iso-codes/iso-codes-locale-he: PKGSIZE changed from 81194 to 90579 (+12%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-hy: FILELIST: added "/usr/share/locale/hy/LC_MESSAGES/iso_639-2.mo /usr/share/locale/hy/LC_MESSAGES/iso_639.mo"
+packages/all-poky-linux/iso-codes/iso-codes-locale-hy: PKGSIZE changed from 34054 to 63315 (+86%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-km: FILELIST: added "/usr/share/locale/km/LC_MESSAGES/iso_3166_2.mo /usr/share/locale/km/LC_MESSAGES/iso_3166-2.mo /usr/share/locale/km/LC_MESSAGES/iso_4217.mo"
+packages/all-poky-linux/iso-codes/iso-codes-locale-km: PKGSIZE changed from 39888 to 46145 (+16%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-lt: FILELIST: added "/usr/share/locale/lt/LC_MESSAGES/iso_639_5.mo /usr/share/locale/lt/LC_MESSAGES/iso_639-5.mo"
+packages/all-poky-linux/iso-codes/iso-codes-locale-nb-no: FILELIST: added "/usr/share/locale/nb_NO/LC_MESSAGES/iso_3166-1.mo /usr/share/locale/nb_NO/LC_MESSAGES/iso_3166-3.mo /usr/share/locale/nb_NO/LC_MESSAGES/iso_639_3.mo /usr/share/locale/nb_NO/LC_MESSAGES/iso_639-2.mo /usr/share/locale/nb_NO/LC_MESSAGES/iso_639.mo /usr/share/locale/nb_NO/LC_MESSAGES/iso_4217.mo /usr/share/locale/nb_NO/LC_MESSAGES/iso_639-3.mo /usr/share/locale/nb_NO/LC_MESSAGES/iso_3166.mo /usr/share/locale/nb_NO/LC_MESSAGES/iso_15924.mo"
+packages/all-poky-linux/iso-codes/iso-codes-locale-nb-no: PKGSIZE changed from 2556 to 54247 (+2022%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-ro-md: FILELIST: added "/usr/share/locale/ro_MD/LC_MESSAGES/iso_3166.mo /usr/share/locale/ro_MD/LC_MESSAGES/iso_3166-1.mo"
+packages/all-poky-linux/iso-codes/iso-codes-locale-ro-md: PKGSIZE changed from 681 to 2473 (+263%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-ro: FILELIST: added "/usr/share/locale/ro/LC_MESSAGES/iso_639_5.mo /usr/share/locale/ro/LC_MESSAGES/iso_639-5.mo"
+packages/all-poky-linux/iso-codes/iso-codes-locale-ro: PKGSIZE changed from 102871 to 322751 (+214%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-ta: FILELIST: added "/usr/share/locale/ta/LC_MESSAGES/iso_3166-2.mo /usr/share/locale/ta/LC_MESSAGES/iso_3166_2.mo /usr/share/locale/ta/LC_MESSAGES/iso_4217.mo /usr/share/locale/ta/LC_MESSAGES/iso_15924.mo /usr/share/locale/ta/LC_MESSAGES/iso_639_5.mo /usr/share/locale/ta/LC_MESSAGES/iso_639-5.mo"
+packages/all-poky-linux/iso-codes: PACKAGES: removed "iso-codes-locale-mo iso-codes-locale-nb"
+
+--===============5902781178279699554==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-kexec-tools-upgrade-2.0.27-2.0.28.patch"
+ filename="0001-iso-codes-upgrade-4.15.0-4.16.0.patch"
 
-RnJvbSBhMWE4ZTdjNDE0ZWM0OWM1ODBkNTM0YTJjOTJiNzg1YTAxZTUwZGQ1IE1vbiBTZXAgMTcg
+RnJvbSBkYmI2ZmJjMTU2ZDFmNzU1MjZlMDM5ZDQxMWUwOGYzY2UyNTE3ZmRjIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgSmFuIDIwMjQgMTM6MTE6MTUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBr
-ZXhlYy10b29sczogdXBncmFkZSAyLjAuMjcgLT4gMi4wLjI4CgotLS0KIC4uLnhlYy1kaXNhYmxl
-ZC1jaGVjay1pZi1rYXNsci1zZWVkLWR0Yi1wcm9wZXJ0LnBhdGNoIHwgIDggKysrLS0tLS0KIC4u
-Li8wMDAxLXBvd2VycGMtY2hhbmdlLXRoZS1tZW1vcnktc2l6ZS1saW1pdC5wYXRjaCAgIHwgIDMg
-KystCiAuLi4vMDAwMi1wdXJnYXRvcnktUGFzcy1yLWRpcmVjdGx5LXRvLWxpbmtlci5wYXRjaCAg
-ICB8ICA3ICsrKystLS0KIC4uLnhlYy1BUk0tRml4LWFkZF9idWZmZXJfcGh5c192aXJ0LWFsaWdu
-LWlzc3VlLnBhdGNoIHwgMTEgKysrKysrLS0tLS0KIC4uLi9rZXhlYy10b29scy8wMDA1LURpc2Fi
-bGUtUElFLWR1cmluZy1saW5rLnBhdGNoICAgIHwgIDcgKysrKy0tLQogLi4uL3trZXhlYy10b29s
-c18yLjAuMjcuYmIgPT4ga2V4ZWMtdG9vbHNfMi4wLjI4LmJifSAgfCAgMiArLQogNiBmaWxlcyBj
-aGFuZ2VkLCAyMCBpbnNlcnRpb25zKCspLCAxOCBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3Jl
-Y2lwZXMta2VybmVsL2tleGVjL3trZXhlYy10b29sc18yLjAuMjcuYmIgPT4ga2V4ZWMtdG9vbHNf
-Mi4wLjI4LmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1rZXJuZWwva2V4ZWMv
-a2V4ZWMtdG9vbHMvMDAwMS1hcm02NC1rZXhlYy1kaXNhYmxlZC1jaGVjay1pZi1rYXNsci1zZWVk
-LWR0Yi1wcm9wZXJ0LnBhdGNoIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9rZXhlYy9rZXhlYy10b29s
-cy8wMDAxLWFybTY0LWtleGVjLWRpc2FibGVkLWNoZWNrLWlmLWthc2xyLXNlZWQtZHRiLXByb3Bl
-cnQucGF0Y2gKaW5kZXggZGRjMTUxOTEyNi4uYWRjYzNlMDliMCAxMDA2NDQKLS0tIGEvbWV0YS9y
-ZWNpcGVzLWtlcm5lbC9rZXhlYy9rZXhlYy10b29scy8wMDAxLWFybTY0LWtleGVjLWRpc2FibGVk
-LWNoZWNrLWlmLWthc2xyLXNlZWQtZHRiLXByb3BlcnQucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVz
-LWtlcm5lbC9rZXhlYy9rZXhlYy10b29scy8wMDAxLWFybTY0LWtleGVjLWRpc2FibGVkLWNoZWNr
-LWlmLWthc2xyLXNlZWQtZHRiLXByb3BlcnQucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGQ0
-OGVjNWUxYTVmYjc5MDc1MjBkZWU3MWIxZDk0MDQ1NDg2YTBjMjkgTW9uIFNlcCAxNyAwMDowMDow
-MCAyMDAxCitGcm9tIDkxODU1MzAwYmZkYTE4ZmRlMGQwM2I4MmM3NzNlN2JjNTA0NTU1YjEgTW9u
-IFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBBbGV4YW5kZXIgS2FtZW5za3kgPGFsZXhhbmRl
-ci5rYW1lbnNreTQyQGdtYWlsLmNvbT4KIERhdGU6IFRodSwgMTIgTm92IDIwMjAgMTI6NTY6NDYg
-LTA4MDAKIFN1YmplY3Q6IFtQQVRDSF0gYXJtNjQ6IGtleGVjOiBkaXNhYmxlZCBjaGVjayBpZiBr
-YXNsci1zZWVkIGR0YiBwcm9wZXJ0eSB3YXMKQEAgLTI5LDEyICsyOSwxMyBAQCBhcyBrYXNsciBp
-cyBkaXNhYmxlZCBhbnl3YXkuCiAKIFNpZ25lZC1vZmYtYnk6IEFsZXhhbmRlciBLYW1lbnNreSA8
-YWxleGFuZGVyLmthbWVuc2t5NDJAZ21haWwuY29tPgogVXBzdHJlYW0tU3RhdHVzOiBTdWJtaXR0
-ZWQgW2h0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL3BpcGVybWFpbC9rZXhlYy8yMDIwLU5vdmVt
-YmVyLzAyMTc0MC5odG1sXQorCiAtLS0KICBrZXhlYy9hcmNoL2FybTY0L2tleGVjLWFybTY0LmMg
-fCAxNCArLS0tLS0tLS0tLS0tLQogIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMTMg
-ZGVsZXRpb25zKC0pCiAKIGRpZmYgLS1naXQgYS9rZXhlYy9hcmNoL2FybTY0L2tleGVjLWFybTY0
-LmMgYi9rZXhlYy9hcmNoL2FybTY0L2tleGVjLWFybTY0LmMKLWluZGV4IGVjNmRmNGIuLjEwMjM4
-ZDkgMTAwNjQ0CitpbmRleCA0YTY3YjBkLi5iMjA4Mjc1IDEwMDY0NAogLS0tIGEva2V4ZWMvYXJj
-aC9hcm02NC9rZXhlYy1hcm02NC5jCiArKysgYi9rZXhlYy9hcmNoL2FybTY0L2tleGVjLWFybTY0
-LmMKIEBAIC01MDMsNyArNTAzLDcgQEAgc3RhdGljIGludCBzZXR1cF8ybmRfZHRiKHN0cnVjdCBk
-dGIgKmR0YiwgY2hhciAqY29tbWFuZF9saW5lLCBpbnQgb25fY3Jhc2gpCkBAIC02NSw2ICs2Niwz
-IEBAIGluZGV4IGVjNmRmNGIuLjEwMjM4ZDkgMTAwNjQ0CiAgCQkvKgogIAkJICogSW52b2tlIHRo
-ZSBnZXRyYW5kb20gc3lzdGVtIGNhbGwgd2l0aAogIAkJICogR1JORF9OT05CTE9DSywgdG8gbWFr
-ZSBzdXJlIHdlCi0tLSAKLTIuMjUuMQotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMta2VybmVs
-L2tleGVjL2tleGVjLXRvb2xzLzAwMDEtcG93ZXJwYy1jaGFuZ2UtdGhlLW1lbW9yeS1zaXplLWxp
-bWl0LnBhdGNoIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9rZXhlYy9rZXhlYy10b29scy8wMDAxLXBv
-d2VycGMtY2hhbmdlLXRoZS1tZW1vcnktc2l6ZS1saW1pdC5wYXRjaAppbmRleCAwMjk2NTBmMzVj
-Li4wNmM3NjUxZmYxIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMta2VybmVsL2tleGVjL2tleGVj
-LXRvb2xzLzAwMDEtcG93ZXJwYy1jaGFuZ2UtdGhlLW1lbW9yeS1zaXplLWxpbWl0LnBhdGNoCisr
-KyBiL21ldGEvcmVjaXBlcy1rZXJuZWwva2V4ZWMva2V4ZWMtdG9vbHMvMDAwMS1wb3dlcnBjLWNo
-YW5nZS10aGUtbWVtb3J5LXNpemUtbGltaXQucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDIx
-MWNhZTRiNmEwMmE0ZDlkMzdiZmNkNzZmMzcwMjY5NmUwOTVmYzMgTW9uIFNlcCAxNyAwMDowMDow
-MCAyMDAxCitGcm9tIGI2MDg2MTQyMGNhZWQ2YWJmNzg4ZjM4MGQ5ODc3NDFmMzIwMWFjN2IgTW9u
-IFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBRdWFueWFuZyBXYW5nIDxxdWFueWFuZy53YW5n
-QHdpbmRyaXZlci5jb20+CiBEYXRlOiBUdWUsIDE2IEp1biAyMDE1IDEyOjU5OjU3ICswODAwCiBT
-dWJqZWN0OiBbUEFUQ0hdIHBvd2VycGM6IGNoYW5nZSB0aGUgbWVtb3J5IHNpemUgbGltaXQKQEAg
-LTE2LDYgKzE2LDcgQEAgbG9jYXRlX2hvbGUgZmFpbGVkCiBVcHN0cmVhbS1TdGF0dXM6IFBlbmRp
-bmcKIAogU2lnbmVkLW9mZi1ieTogUXVhbnlhbmcgV2FuZyA8cXVhbnlhbmcud2FuZ0B3aW5kcml2
-ZXIuY29tPgorCiAtLS0KICBrZXhlYy9hcmNoL3BwYy9rZXhlYy1wcGMuaCB8IDIgKy0KICAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKZGlmZiAtLWdpdCBhL21l
-dGEvcmVjaXBlcy1rZXJuZWwva2V4ZWMva2V4ZWMtdG9vbHMvMDAwMi1wdXJnYXRvcnktUGFzcy1y
-LWRpcmVjdGx5LXRvLWxpbmtlci5wYXRjaCBiL21ldGEvcmVjaXBlcy1rZXJuZWwva2V4ZWMva2V4
-ZWMtdG9vbHMvMDAwMi1wdXJnYXRvcnktUGFzcy1yLWRpcmVjdGx5LXRvLWxpbmtlci5wYXRjaApp
-bmRleCAzNjNkNWRhNGFlLi40MWYzYjdkYjc4IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMta2Vy
-bmVsL2tleGVjL2tleGVjLXRvb2xzLzAwMDItcHVyZ2F0b3J5LVBhc3Mtci1kaXJlY3RseS10by1s
-aW5rZXIucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9rZXhlYy9rZXhlYy10b29scy8w
-MDAyLXB1cmdhdG9yeS1QYXNzLXItZGlyZWN0bHktdG8tbGlua2VyLnBhdGNoCkBAIC0xLDQgKzEs
-NCBAQAotRnJvbSBhMDRiY2Y4ZjY4M2MxYTVhN2QwMTU5MjAxMjQ0NTdhZDU2ZmI3Y2YwIE1vbiBT
-ZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA5NzJkZWFmNGRjNjU1MDNiYjljNDhhMzMwMjUwMTRj
-YjZhNTM4N2Y3IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogS2hlbSBSYWogPHJhai5r
-aGVtQGdtYWlsLmNvbT4KIERhdGU6IE1vbiwgNyBTZXAgMjAxNSAwNzo1OTo0NSArMDAwMAogU3Vi
-amVjdDogW1BBVENIXSBwdXJnYXRvcnk6IFBhc3MgLXIgZGlyZWN0bHkgdG8gbGlua2VyCkBAIC0x
-MCwxNSArMTAsMTYgQEAgdW5maWx0ZXJlZAogU2lnbmVkLW9mZi1ieTogS2hlbSBSYWogPHJhai5r
-aGVtQGdtYWlsLmNvbT4KIAogVXBzdHJlYW0tU3RhdHVzOiBQZW5kaW5nCisKIC0tLQogIHB1cmdh
-dG9yeS9NYWtlZmlsZSB8IDIgKy0KICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEg
-ZGVsZXRpb24oLSkKIAogZGlmZiAtLWdpdCBhL3B1cmdhdG9yeS9NYWtlZmlsZSBiL3B1cmdhdG9y
-eS9NYWtlZmlsZQotaW5kZXggMmRkNmM0Ny4uNDE2ZTZiOSAxMDA2NDQKK2luZGV4IDRkMmQwNzEu
-LjY2NzM0MjMgMTAwNjQ0CiAtLS0gYS9wdXJnYXRvcnkvTWFrZWZpbGUKICsrKyBiL3B1cmdhdG9y
-eS9NYWtlZmlsZQotQEAgLTYwLDcgKzYwLDcgQEAgJChQVVJHQVRPUlkpOiBDUFBGTEFHUz0kKCQo
-QVJDSClfUFVSR0FUT1JZX0VYVFJBX0NGTEFHUykgXAorQEAgLTYxLDcgKzYxLDcgQEAgJChQVVJH
-QVRPUlkpOiBDUFBGTEFHUz0kKCQoQVJDSClfUFVSR0FUT1JZX0VYVFJBX0NGTEFHUykgXAogIAkJ
-CS1JJChzaGVsbCAkKENDKSAtcHJpbnQtZmlsZS1uYW1lPWluY2x1ZGUpCiAgJChQVVJHQVRPUlkp
-OiBMREZMQUdTPSQoJChBUkNIKV9QVVJHQVRPUllfRVhUUkFfQ0ZMQUdTKVwKICAJCQktV2wsLS1u
-by11bmRlZmluZWQgLW5vc3RhcnRmaWxlcyAtbm9zdGRsaWIgXApkaWZmIC0tZ2l0IGEvbWV0YS9y
-ZWNpcGVzLWtlcm5lbC9rZXhlYy9rZXhlYy10b29scy8wMDAzLWtleGVjLUFSTS1GaXgtYWRkX2J1
-ZmZlcl9waHlzX3ZpcnQtYWxpZ24taXNzdWUucGF0Y2ggYi9tZXRhL3JlY2lwZXMta2VybmVsL2tl
-eGVjL2tleGVjLXRvb2xzLzAwMDMta2V4ZWMtQVJNLUZpeC1hZGRfYnVmZmVyX3BoeXNfdmlydC1h
-bGlnbi1pc3N1ZS5wYXRjaAppbmRleCA4MzJmZTY3NzE2Li4zYmE2Y2IxZmIxIDEwMDY0NAotLS0g
-YS9tZXRhL3JlY2lwZXMta2VybmVsL2tleGVjL2tleGVjLXRvb2xzLzAwMDMta2V4ZWMtQVJNLUZp
-eC1hZGRfYnVmZmVyX3BoeXNfdmlydC1hbGlnbi1pc3N1ZS5wYXRjaAorKysgYi9tZXRhL3JlY2lw
-ZXMta2VybmVsL2tleGVjL2tleGVjLXRvb2xzLzAwMDMta2V4ZWMtQVJNLUZpeC1hZGRfYnVmZmVy
-X3BoeXNfdmlydC1hbGlnbi1pc3N1ZS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gNTVlNTgz
-ZDIwNjUxZTgyOWFmYmJjOGRiYTBmOGVjMzAxN2NkYTJkNSBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
-MDEKK0Zyb20gZDAwY2RjMjU5ZDczNGQxMzgwMzVjMjU2Nzc2ZDNjZjk0YTU0OGY4OCBNb24gU2Vw
-IDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEhhaXFpbmcgQmFpIDxIYWlxaW5nLkJhaUB3aW5kcml2
-ZXIuY29tPgogRGF0ZTogTW9uLCA5IEphbiAyMDE3IDE1OjI2OjI5ICswODAwCiBTdWJqZWN0OiBb
-UEFUQ0hdIGtleGVjOiBBUk06IEZpeCBhZGRfYnVmZmVyX3BoeXNfdmlydCgpIGFsaWduIGlzc3Vl
-CkBAIC0xMiwxNSArMTIsMTYgQEAgVXBzdHJlYW0tU3RhdHVzOiBQZW5kaW5nCiAKIFN1Z2dlc3Rl
-ZC1CeTpmcmVkcmlrLm1hcmtzdHJvbUBnbWFpbC5jb20KIFNpZ25lZC1vZmYtYnk6IEhhaXFpbmcg
-QmFpIDxIYWlxaW5nLkJhaUB3aW5kcml2ZXIuY29tPgorCiAtLS0KICBrZXhlYy9hcmNoL2FybS9j
-cmFzaGR1bXAtYXJtLmMgfCA1ICsrKystCiAgMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygr
-KSwgMSBkZWxldGlvbigtKQogCiBkaWZmIC0tZ2l0IGEva2V4ZWMvYXJjaC9hcm0vY3Jhc2hkdW1w
-LWFybS5jIGIva2V4ZWMvYXJjaC9hcm0vY3Jhc2hkdW1wLWFybS5jCi1pbmRleCBkYWE0Nzg4Li4z
-ZjcyYjM4IDEwMDY0NAoraW5kZXggMWVjMTgyNi4uY2MyMGY2MyAxMDA2NDQKIC0tLSBhL2tleGVj
-L2FyY2gvYXJtL2NyYXNoZHVtcC1hcm0uYwogKysrIGIva2V4ZWMvYXJjaC9hcm0vY3Jhc2hkdW1w
-LWFybS5jCi1AQCAtMjQwLDYgKzI0MCw3IEBAIGludCBsb2FkX2NyYXNoZHVtcF9zZWdtZW50cyhz
-dHJ1Y3Qga2V4ZWNfaW5mbyAqaW5mbywgY2hhciAqbW9kX2NtZGxpbmUpCitAQCAtMjQyLDYgKzI0
-Miw3IEBAIGludCBsb2FkX2NyYXNoZHVtcF9zZWdtZW50cyhzdHJ1Y3Qga2V4ZWNfaW5mbyAqaW5m
-bywgY2hhciAqbW9kX2NtZGxpbmUpCiAgCXZvaWQgKmJ1ZjsKICAJaW50IGVycjsKICAJaW50IGxh
-c3RfcmFuZ2VzOwpAQCAtMjgsNyArMjksNyBAQCBpbmRleCBkYWE0Nzg4Li4zZjcyYjM4IDEwMDY0
-NAogIAogIAkvKgogIAkgKiBGaXJzdCBmZXRjaCBhbGwgdGhlIG1lbW9yeSAoUkFNKSByYW5nZXMg
-dGhhdCB3ZSBhcmUgZ29pbmcgdG8gcGFzcyB0bwotQEAgLTI4MSw2ICsyODIsNyBAQCBpbnQgbG9h
-ZF9jcmFzaGR1bXBfc2VnbWVudHMoc3RydWN0IGtleGVjX2luZm8gKmluZm8sIGNoYXIgKm1vZF9j
-bWRsaW5lKQorQEAgLTI4Myw2ICsyODQsNyBAQCBpbnQgbG9hZF9jcmFzaGR1bXBfc2VnbWVudHMo
-c3RydWN0IGtleGVjX2luZm8gKmluZm8sIGNoYXIgKm1vZF9jbWRsaW5lKQogIAogIAkJLyogZm9y
-IHN1cHBvcnQgTFBBRSBlbmFibGVkIGtlcm5lbCovCiAgCQllbGZfaW5mby5jbGFzcyA9IEVMRkNM
-QVNTNjQ7CkBAIC0zNiw3ICszNyw3IEBAIGluZGV4IGRhYTQ3ODguLjNmNzJiMzggMTAwNjQ0CiAg
-CiAgCQllcnIgPSBjcmFzaF9jcmVhdGVfZWxmNjRfaGVhZGVycyhpbmZvLCAmZWxmX2luZm8sCiAg
-CQkJCQkgdXNhYmxlbWVtX3JnbnMucmFuZ2VzLAotQEAgLTMwMiw4ICszMDQsOSBAQCBpbnQgbG9h
-ZF9jcmFzaGR1bXBfc2VnbWVudHMoc3RydWN0IGtleGVjX2luZm8gKmluZm8sIGNoYXIgKm1vZF9j
-bWRsaW5lKQorQEAgLTMwNCw4ICszMDYsOSBAQCBpbnQgbG9hZF9jcmFzaGR1bXBfc2VnbWVudHMo
-c3RydWN0IGtleGVjX2luZm8gKmluZm8sIGNoYXIgKm1vZF9jbWRsaW5lKQogIAkgKiAxTUIpIHNv
-IHRoYXQgYXZhaWxhYmxlIG1lbW9yeSBwYXNzZWQgaW4ga2VybmVsIGNvbW1hbmQgbGluZSB3aWxs
-IGJlCiAgCSAqIGFsaWduZWQgdG8gMU1CLiBUaGlzIGlzIGJlY2F1c2Uga2VybmVsIGNyZWF0ZV9t
-YXBwaW5nKCkgd2FudHMgbWVtb3J5CiAgCSAqIHJlZ2lvbnMgdG8gYmUgYWxpZ25lZCB0byBTRUNU
-SU9OX1NJWkUuCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMta2VybmVsL2tleGVjL2tleGVjLXRv
-b2xzLzAwMDUtRGlzYWJsZS1QSUUtZHVyaW5nLWxpbmsucGF0Y2ggYi9tZXRhL3JlY2lwZXMta2Vy
-bmVsL2tleGVjL2tleGVjLXRvb2xzLzAwMDUtRGlzYWJsZS1QSUUtZHVyaW5nLWxpbmsucGF0Y2gK
-aW5kZXggN2E0Yjg1NDhjYS4uYjY1YjU5NTZiOCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWtl
-cm5lbC9rZXhlYy9rZXhlYy10b29scy8wMDA1LURpc2FibGUtUElFLWR1cmluZy1saW5rLnBhdGNo
-CisrKyBiL21ldGEvcmVjaXBlcy1rZXJuZWwva2V4ZWMva2V4ZWMtdG9vbHMvMDAwNS1EaXNhYmxl
-LVBJRS1kdXJpbmctbGluay5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gYzU0NDg4YWQ1ZmQ2
-NTdlMGYxNTRkNzZkNzQ1NmQ5MDgwYmUyNDgzNiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zy
-b20gMDM3NmI0OGRkNDljZTJhZDFlNTJmNzYwMjI2NTZkNTNiZjI1OTdjOCBNb24gU2VwIDE3IDAw
-OjAwOjAwIDIwMDEKIEZyb206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiBEYXRlOiBT
-YXQsIDEwIEp1biAyMDE3IDExOjE4OjQ5IC0wNzAwCiBTdWJqZWN0OiBbUEFUQ0hdIERpc2FibGUg
-UElFIGR1cmluZyBsaW5rCkBAIC05LDE1ICs5LDE2IEBAIGp1c3QgbmVlZCB0byBtYXRjaCBpdCB3
-aXRoIGxpbmtlciBmbGFncwogVXBzdHJlYW0tU3RhdHVzOiBQZW5kaW5nCiAKIFNpZ25lZC1vZmYt
-Ynk6IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CisKIC0tLQogIHB1cmdhdG9yeS9NYWtl
-ZmlsZSB8IDIgKy0KICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24o
-LSkKIAogZGlmZiAtLWdpdCBhL3B1cmdhdG9yeS9NYWtlZmlsZSBiL3B1cmdhdG9yeS9NYWtlZmls
-ZQotaW5kZXggNDE2ZTZiOS4uZjAwZWRiNCAxMDA2NDQKK2luZGV4IDY2NzM0MjMuLmE3NDA1ZWEg
-MTAwNjQ0CiAtLS0gYS9wdXJnYXRvcnkvTWFrZWZpbGUKICsrKyBiL3B1cmdhdG9yeS9NYWtlZmls
-ZQotQEAgLTU5LDcgKzU5LDcgQEAgJChQVVJHQVRPUlkpOiBDUFBGTEFHUz0kKCQoQVJDSClfUFVS
-R0FUT1JZX0VYVFJBX0NGTEFHUykgXAorQEAgLTYwLDcgKzYwLDcgQEAgJChQVVJHQVRPUlkpOiBD
-UFBGTEFHUz0kKCQoQVJDSClfUFVSR0FUT1JZX0VYVFJBX0NGTEFHUykgXAogIAkJCS1JaW5jbHVk
-ZSBcCiAgCQkJLUkkKHNoZWxsICQoQ0MpIC1wcmludC1maWxlLW5hbWU9aW5jbHVkZSkKICAkKFBV
-UkdBVE9SWSk6IExERkxBR1M9JCgkKEFSQ0gpX1BVUkdBVE9SWV9FWFRSQV9DRkxBR1MpXApkaWZm
-IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWtlcm5lbC9rZXhlYy9rZXhlYy10b29sc18yLjAuMjcuYmIg
-Yi9tZXRhL3JlY2lwZXMta2VybmVsL2tleGVjL2tleGVjLXRvb2xzXzIuMC4yOC5iYgpzaW1pbGFy
-aXR5IGluZGV4IDk3JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMta2VybmVsL2tleGVjL2tleGVj
-LXRvb2xzXzIuMC4yNy5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWtlcm5lbC9rZXhlYy9rZXhl
-Yy10b29sc18yLjAuMjguYmIKaW5kZXggOWI5ODY0ZGE5YS4uYzIxNDFlNjcxNiAxMDA2NDQKLS0t
-IGEvbWV0YS9yZWNpcGVzLWtlcm5lbC9rZXhlYy9rZXhlYy10b29sc18yLjAuMjcuYmIKKysrIGIv
-bWV0YS9yZWNpcGVzLWtlcm5lbC9rZXhlYy9rZXhlYy10b29sc18yLjAuMjguYmIKQEAgLTE5LDcg
-KzE5LDcgQEAgU1JDX1VSSSA9ICIke0tFUk5FTE9SR19NSVJST1J9L2xpbnV4L3V0aWxzL2tlcm5l
-bC9rZXhlYy9rZXhlYy10b29scy0ke1BWfS50YXIuZ3oKICAgICAgICAgICAgZmlsZTovLzAwMDEt
-YXJtNjQta2V4ZWMtZGlzYWJsZWQtY2hlY2staWYta2FzbHItc2VlZC1kdGItcHJvcGVydC5wYXRj
-aCBcCiAgICAgICAgICAgICIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjQxMGY4OTA1N2QxZjRj
-ZDJiMDQ3N2I2YzIwMzVlYzJjNTJlMjFjMTg1ZTkwNzQyYmJhZThiNGY3OGE3MDc3YTUiCitTUkNf
-VVJJW3NoYTI1NnN1bV0gPSAiZjMzZDI2NjBiM2UzOGQyNWExMjdlODcwOTc5NzhlMGY3YTlhNzNh
-YjUxNTFhMjllYjgwOTc0ZDE2OWZmNmEyOSIKIAogaW5oZXJpdCBhdXRvdG9vbHMgdXBkYXRlLXJj
-LmQgc3lzdGVtZAogCi0tIAoyLjQyLjAKCg==
+CkRhdGU6IE1vbiwgMTUgSmFuIDIwMjQgMTY6NTk6MzggKzAwMDAKU3ViamVjdDogW1BBVENIXSBp
+c28tY29kZXM6IHVwZ3JhZGUgNC4xNS4wIC0+IDQuMTYuMAoKLS0tCiAuLi4vaXNvLWNvZGVzL3tp
+c28tY29kZXNfNC4xNS4wLmJiID0+IGlzby1jb2Rlc180LjE2LjAuYmJ9ICAgICAgfCAyICstCiAx
+IGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRh
+L3JlY2lwZXMtc3VwcG9ydC9pc28tY29kZXMve2lzby1jb2Rlc180LjE1LjAuYmIgPT4gaXNvLWNv
+ZGVzXzQuMTYuMC5iYn0gKDk0JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9p
+c28tY29kZXMvaXNvLWNvZGVzXzQuMTUuMC5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2lzby1j
+b2Rlcy9pc28tY29kZXNfNC4xNi4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTQlCnJlbmFtZSBmcm9t
+IG1ldGEvcmVjaXBlcy1zdXBwb3J0L2lzby1jb2Rlcy9pc28tY29kZXNfNC4xNS4wLmJiCnJlbmFt
+ZSB0byBtZXRhL3JlY2lwZXMtc3VwcG9ydC9pc28tY29kZXMvaXNvLWNvZGVzXzQuMTYuMC5iYgpp
+bmRleCA2YWU2ZmRmOGNiLi5mMzNjY2UxYTlkIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3Vw
+cG9ydC9pc28tY29kZXMvaXNvLWNvZGVzXzQuMTUuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtc3Vw
+cG9ydC9pc28tY29kZXMvaXNvLWNvZGVzXzQuMTYuMC5iYgpAQCAtOSw3ICs5LDcgQEAgTElDRU5T
+RSA9ICJMR1BMLTIuMS1vbmx5IgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORztt
+ZDU9NGZiZDY1MzgwY2RkMjU1OTUxMDc5MDA4YjM2NDUxNmMiCiAKIFNSQ19VUkkgPSAiZ2l0Oi8v
+c2Fsc2EuZGViaWFuLm9yZy9pc28tY29kZXMtdGVhbS9pc28tY29kZXMuZ2l0O3Byb3RvY29sPWh0
+dHBzO2JyYW5jaD1tYWluOyIKLVNSQ1JFViA9ICI2OWJhMTZkYWVmM2M1YzVlM2MxOGYyZDkxOWUy
+NTI5NmE0Yjk0NmJlIgorU1JDUkVWID0gImMyZmNhYWRjODMyZWQ5Zjg1ODk1MGE0Mzk5NDk3MzQ0
+MmQ4NWVmNGYiCiAKICMgaW5oZXJpdCBnZXR0ZXh0IGNhbm5vdCBiZSB1c2VkLCBiZWNhdXNlIGl0
+IGFkZHMgZ2V0dGV4dC1uYXRpdmUgdG8gQkFTRURFUEVORFMgd2hpY2gKICMgYXJlIGluaGliaXRl
+ZCBieSBhbGxhcmNoCi0tIAoyLjQyLjAKCg==
 
---===============2983574562752926556==
+--===============5902781178279699554==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/kexec-tools/kdump: PKGV changed from 2.0.27 [default] to 2.0.28 [default]
-packages/core2-64-poky-linux/kexec-tools/kdump: PV changed from "2.0.27" to "2.0.28"
-packages/core2-64-poky-linux/kexec-tools/kexec-tools-dbg: PKGSIZE changed from 544296 to 545544 (+0%)
-packages/core2-64-poky-linux/kexec-tools/kexec-tools-dbg: PKGV changed from 2.0.27 [default] to 2.0.28 [default]
-packages/core2-64-poky-linux/kexec-tools/kexec-tools-dbg: PV changed from "2.0.27" to "2.0.28"
-packages/core2-64-poky-linux/kexec-tools/kexec-tools-dev: PKGV changed from 2.0.27 [default] to 2.0.28 [default]
-packages/core2-64-poky-linux/kexec-tools/kexec-tools-dev: PV changed from "2.0.27" to "2.0.28"
-packages/core2-64-poky-linux/kexec-tools/kexec-tools-doc: PKGSIZE changed from 10455 to 10890 (+4%)
-packages/core2-64-poky-linux/kexec-tools/kexec-tools-doc: PKGV changed from 2.0.27 [default] to 2.0.28 [default]
-packages/core2-64-poky-linux/kexec-tools/kexec-tools-doc: PV changed from "2.0.27" to "2.0.28"
-packages/core2-64-poky-linux/kexec-tools/kexec-tools-locale: PKGV changed from 2.0.27 [default] to 2.0.28 [default]
-packages/core2-64-poky-linux/kexec-tools/kexec-tools-locale: PV changed from "2.0.27" to "2.0.28"
-packages/core2-64-poky-linux/kexec-tools/kexec-tools-src: PKGSIZE changed from 763485 to 765502 (+0%)
-packages/core2-64-poky-linux/kexec-tools/kexec-tools-src: PKGV changed from 2.0.27 [default] to 2.0.28 [default]
-packages/core2-64-poky-linux/kexec-tools/kexec-tools-src: PV changed from "2.0.27" to "2.0.28"
-packages/core2-64-poky-linux/kexec-tools/kexec-tools-staticdev: PKGV changed from 2.0.27 [default] to 2.0.28 [default]
-packages/core2-64-poky-linux/kexec-tools/kexec-tools-staticdev: PV changed from "2.0.27" to "2.0.28"
-packages/core2-64-poky-linux/kexec-tools/kexec-tools: PKGV changed from 2.0.27 [default] to 2.0.28 [default]
-packages/core2-64-poky-linux/kexec-tools/kexec-tools: PV changed from "2.0.27" to "2.0.28"
-packages/core2-64-poky-linux/kexec-tools/kexec: PKGV changed from 2.0.27 [default] to 2.0.28 [default]
-packages/core2-64-poky-linux/kexec-tools/kexec: PV changed from "2.0.27" to "2.0.28"
-packages/core2-64-poky-linux/kexec-tools: PKGV changed from 2.0.27 [default] to 2.0.28 [default]
-packages/core2-64-poky-linux/kexec-tools: SRC_URI changed from "https://cdn.kernel.org/pub/linux/utils/kernel/kexec/kexec-tools-2.0.27.tar.gz file://kdump file://kdump.conf file://kdump.service file://0001-powerpc-change-the-memory-size-limit.patch file://0002-purgatory-Pass-r-directly-to-linker.patch file://0003-kexec-ARM-Fix-add_buffer_phys_virt-align-issue.patch file://0005-Disable-PIE-during-link.patch file://0001-arm64-kexec-disabled-check-if-kaslr-seed-dtb-propert.patch" to "https://cdn.kernel.org/pub/linux/utils/kernel/kexec/kexec-tools-2.0.28.tar.gz file://kdump file://kdump.conf file://kdump.service file://0001-powerpc-change-the-memory-size-limit.patch file://0002-purgatory-Pass-r-directly-to-linker.patch file://0003-kexec-ARM-Fix-add_buffer_phys_virt-align-issue.patch file://0005-Disable-PIE-during-link.patch file://0001-arm64-kexec-disabled-check-if-kaslr-seed-dtb-propert.patch"
-packages/core2-64-poky-linux/kexec-tools: PV changed from "2.0.27" to "2.0.28"
-packages/core2-64-poky-linux/kexec-tools/vmcore-dmesg: PKGV changed from 2.0.27 [default] to 2.0.28 [default]
-packages/core2-64-poky-linux/kexec-tools/vmcore-dmesg: PV changed from "2.0.27" to "2.0.28"
+packages/all-poky-linux/iso-codes/iso-codes-dbg: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-dbg: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-dev: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-dev: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-doc: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-doc: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-ab: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-ab: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-ace: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-ace: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-ach: PKGSIZE changed from 9101 to 9157 (+1%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-ach: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-ach: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-af: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-af: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-ak: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-ak: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-am: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-am: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-an: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-an: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-ar: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-ar: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-as: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-as: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-ast: PKGSIZE changed from 360952 to 364609 (+1%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-ast: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-ast: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-ay: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-ay: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-az: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-az: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-ba: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-ba: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-bar: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-bar: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-be: PKGSIZE changed from 316015 to 309384 (-2%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-be: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-be: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-bg: PKGSIZE changed from 89119 to 90031 (+1%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-bg: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-bg: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-bi: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-bi: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-bn-bd: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-bn-bd: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-bn-in: PKGSIZE changed from 39817 to 40119 (+1%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-bn-in: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-bn-in: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-bn: PKGSIZE changed from 177101 to 181584 (+3%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-bn: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-bn: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-br: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-br: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-bs: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-bs: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-byn: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-byn: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-ca: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-ca: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-ce: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-ce: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-ch: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-ch: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-chr: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-chr: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-ckb: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-ckb: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-crh: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-crh: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-cs: PKGSIZE changed from 94308 to 97908 (+4%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-cs: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-cs: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-csb: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-csb: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-cv: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-cv: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-cy: PKGSIZE changed from 99148 to 99533 (+0%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-cy: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-cy: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-da: PKGSIZE changed from 224055 to 226193 (+1%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-da: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-da: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-de: PKGSIZE changed from 693125 to 685942 (-1%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-de: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-de: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-dv: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-dv: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-dz: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-dz: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-ee: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-ee: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-el: PKGSIZE changed from 123242 to 123682 (+0%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-el: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-el: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-en: PKGSIZE changed from 91240 to 90781 (-1%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-en: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-en: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-eo: PKGSIZE changed from 166469 to 167062 (+0%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-eo: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-eo: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-es: PKGSIZE changed from 118198 to 119403 (+1%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-es: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-es: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-et: PKGSIZE changed from 110292 to 119170 (+8%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-et: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-et: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-eu: PKGSIZE changed from 104421 to 104394 (-0%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-eu: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-eu: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-fa: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-fa: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-ff: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-ff: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-fi: PKGSIZE changed from 81132 to 81143 (+0%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-fi: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-fi: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-fil: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-fil: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-fo: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-fo: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-fr: PKGSIZE changed from 650891 to 658048 (+1%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-fr: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-fr: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-frp: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-frp: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-fur: PKGSIZE changed from 55564 to 57420 (+3%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-fur: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-fur: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-fy: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-fy: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-ga: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-ga: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-gez: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-gez: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-gl: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-gl: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-gn: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-gn: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-gu: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-gu: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-gv: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-gv: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-ha: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-ha: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-haw: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-haw: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-he: PKGSIZE changed from 81194 to 90579 (+12%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-he: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-he: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-hi: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-hi: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-hr: PKGSIZE changed from 149022 to 148792 (-0%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-hr: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-hr: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-ht: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-ht: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-hu: PKGSIZE changed from 183373 to 184137 (+0%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-hu: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-hu: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-hy: PKGSIZE changed from 34054 to 63315 (+86%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-hy: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-hy: FILELIST: added "/usr/share/locale/hy/LC_MESSAGES/iso_639.mo /usr/share/locale/hy/LC_MESSAGES/iso_639-2.mo"
+packages/all-poky-linux/iso-codes/iso-codes-locale-hy: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-ia: PKGSIZE changed from 34114 to 34123 (+0%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-ia: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-ia: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-id: PKGSIZE changed from 532883 to 527478 (-1%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-id: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-id: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-io: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-io: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-is: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-is: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-it: PKGSIZE changed from 607938 to 602379 (-1%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-it: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-it: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-iu: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-iu: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-ja: PKGSIZE changed from 182503 to 181848 (-0%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-ja: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-ja: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-jam: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-jam: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-ka: PKGSIZE changed from 194747 to 199113 (+2%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-ka: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-ka: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-kab: PKGSIZE changed from 17662 to 18189 (+3%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-kab: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-kab: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-ki: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-ki: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-kk: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-kk: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-kl: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-kl: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-km: PKGSIZE changed from 39888 to 46145 (+16%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-km: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-km: FILELIST: added "/usr/share/locale/km/LC_MESSAGES/iso_3166-2.mo /usr/share/locale/km/LC_MESSAGES/iso_4217.mo /usr/share/locale/km/LC_MESSAGES/iso_3166_2.mo"
+packages/all-poky-linux/iso-codes/iso-codes-locale-km: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-kmr: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-kmr: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-kn: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-kn: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-ko: PKGSIZE changed from 85254 to 87810 (+3%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-ko: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-ko: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-kok: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-kok: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-kv: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-kv: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-kw: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-kw: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-ky: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-ky: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-lo: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-lo: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-lt: PKGSIZE changed from 170068 to 185532 (+9%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-lt: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-lt: FILELIST: added "/usr/share/locale/lt/LC_MESSAGES/iso_639_5.mo /usr/share/locale/lt/LC_MESSAGES/iso_639-5.mo"
+packages/all-poky-linux/iso-codes/iso-codes-locale-lt: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-lv: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-lv: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-mai: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-mai: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-mhr: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-mhr: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-mi: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-mi: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-mk: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-mk: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-ml: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-ml: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-mn: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-mn: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-mr: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-mr: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-ms: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-ms: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-mt: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-mt: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-my: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-my: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-na: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-na: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-nah: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-nah: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-nb-no: PKGSIZE changed from 2556 to 54247 (+2022%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-nb-no: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-nb-no: FILELIST: added "/usr/share/locale/nb_NO/LC_MESSAGES/iso_639.mo /usr/share/locale/nb_NO/LC_MESSAGES/iso_3166-1.mo /usr/share/locale/nb_NO/LC_MESSAGES/iso_3166-3.mo /usr/share/locale/nb_NO/LC_MESSAGES/iso_639_3.mo /usr/share/locale/nb_NO/LC_MESSAGES/iso_4217.mo /usr/share/locale/nb_NO/LC_MESSAGES/iso_639-2.mo /usr/share/locale/nb_NO/LC_MESSAGES/iso_15924.mo /usr/share/locale/nb_NO/LC_MESSAGES/iso_639-3.mo /usr/share/locale/nb_NO/LC_MESSAGES/iso_3166.mo"
+packages/all-poky-linux/iso-codes/iso-codes-locale-nb-no: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-ne: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-ne: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-nl: PKGSIZE changed from 378006 to 379512 (+0%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-nl: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-nl: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-nn: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-nn: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-nso: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-nso: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-nv: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-nv: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-oc: PKGSIZE changed from 43975 to 43947 (-0%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-oc: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-oc: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-or: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-or: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-pa-pk: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-pa-pk: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-pa: PKGSIZE changed from 475892 to 476542 (+0%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-pa: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-pa: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-pap: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-pap: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-pi: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-pi: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-pl: PKGSIZE changed from 388605 to 403900 (+4%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-pl: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-pl: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-ps: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-ps: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-pt-br: PKGSIZE changed from 95868 to 96014 (+0%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-pt-br: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-pt-br: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-pt: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-pt: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-ro-md: PKGSIZE changed from 681 to 2473 (+263%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-ro-md: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-ro-md: FILELIST: added "/usr/share/locale/ro_MD/LC_MESSAGES/iso_3166.mo /usr/share/locale/ro_MD/LC_MESSAGES/iso_3166-1.mo"
+packages/all-poky-linux/iso-codes/iso-codes-locale-ro-md: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-ro: PKGSIZE changed from 102871 to 322751 (+214%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-ro: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-ro: FILELIST: added "/usr/share/locale/ro/LC_MESSAGES/iso_639_5.mo /usr/share/locale/ro/LC_MESSAGES/iso_639-5.mo"
+packages/all-poky-linux/iso-codes/iso-codes-locale-ro: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-ru: PKGSIZE changed from 226909 to 220699 (-3%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-ru: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-ru: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-rw: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-rw: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-sc: PKGSIZE changed from 203610 to 198279 (-3%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-sc: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-sc: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-sd: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-sd: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-si: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-si: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-sk: PKGSIZE changed from 81937 to 83028 (+1%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-sk: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-sk: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-sl: PKGSIZE changed from 156835 to 156437 (-0%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-sl: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-sl: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-so: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-so: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-son: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-son: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-sq: PKGSIZE changed from 52835 to 56274 (+7%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-sq: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-sq: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-sr+latin: PKGSIZE changed from 208622 to 209589 (+0%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-sr+latin: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-sr+latin: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-sr: PKGSIZE changed from 250906 to 252163 (+1%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-sr: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-sr: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-sv: PKGSIZE changed from 639609 to 634272 (-1%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-sv: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-sv: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-sw: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-sw: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-ta: PKGSIZE changed from 507609 to 555373 (+9%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-ta: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-ta: FILELIST: added "/usr/share/locale/ta/LC_MESSAGES/iso_4217.mo /usr/share/locale/ta/LC_MESSAGES/iso_15924.mo /usr/share/locale/ta/LC_MESSAGES/iso_639-5.mo /usr/share/locale/ta/LC_MESSAGES/iso_3166-2.mo /usr/share/locale/ta/LC_MESSAGES/iso_639_5.mo /usr/share/locale/ta/LC_MESSAGES/iso_3166_2.mo"
+packages/all-poky-linux/iso-codes/iso-codes-locale-ta: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-te: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-te: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-tg: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-tg: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-th: PKGSIZE changed from 214856 to 213964 (-0%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-th: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-th: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-ti: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-ti: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-tig: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-tig: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-tk: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-tk: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-tl: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-tl: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-tr: PKGSIZE changed from 498536 to 497947 (-0%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-tr: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-tr: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-tt+iqtelif: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-tt+iqtelif: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-tt: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-tt: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-tzm: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-tzm: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-ug: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-ug: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-uk: PKGSIZE changed from 873721 to 864464 (-1%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-uk: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-uk: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-ur: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-ur: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-uz: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-uz: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-ve: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-ve: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-vi: PKGSIZE changed from 222943 to 222409 (-0%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-vi: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-vi: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-wa: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-wa: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-wal: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-wal: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-wo: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-wo: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-xh: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-xh: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-yo: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-yo: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-zh-cn: PKGSIZE changed from 198605 to 198069 (-0%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-zh-cn: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-zh-cn: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-zh-hans: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-zh-hans: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-zh-hant: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-zh-hant: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-zh-hk: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-zh-hk: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-zh-tw: PKGSIZE changed from 121665 to 121592 (-0%)
+packages/all-poky-linux/iso-codes/iso-codes-locale-zh-tw: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-zh-tw: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-locale-zu: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-locale-zu: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-src: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-src: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes-staticdev: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes-staticdev: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes/iso-codes: PKGSIZE changed from 3012718 to 3009238 (-0%)
+packages/all-poky-linux/iso-codes/iso-codes: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes/iso-codes: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
+packages/all-poky-linux/iso-codes: PACKAGES: removed "iso-codes-locale-mo iso-codes-locale-nb"
+packages/all-poky-linux/iso-codes: PV changed from "4.15.0" to "4.16.0"
+packages/all-poky-linux/iso-codes: PKGV changed from 4.15.0 [default] to 4.16.0 [default]
 
---===============2983574562752926556==--
+--===============5902781178279699554==--
 
