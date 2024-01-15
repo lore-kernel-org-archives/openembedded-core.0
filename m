@@ -2,38 +2,38 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C76D6C47DD7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4562C47DDA
 	for <webhook@archiver.kernel.org>; Mon, 15 Jan 2024 17:33:58 +0000 (UTC)
 Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web11.88278.1705340029588139260
+ by mx.groups.io with SMTP id smtpd.web11.88285.1705340030280705559
  for <openembedded-core@lists.openembedded.org>;
  Mon, 15 Jan 2024 09:33:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=N3CQ6oTe;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=APIz4WYD;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018d0e2fcfc3-4a1457a0-8fb8-4a5e-bbf8-477e76932419-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=DrJIVsoJ;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=XwBmaLwa;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018d0e2fcf86-bf14de63-204a-4e98-b599-762155114bbd-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1705340031;
+	t=1705340030;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=ddfh+I758WkBbA5n6FC3Ska45WeteuaXg2FKHsQ2M/A=;
-	b=N3CQ6oTecFmjDJRlApBwL6XLE2o1AMKj5S4cKIXs9UO0bLsZXXPphRzi5XCk+A7f
-	XO569PaeAYxDrH8eXB1XPnElZLiJpfhKmQUxRKmVdMgH3bzZrVfWL7I7G+O+HeGLjEB
-	M4TZoeCmpZXXnz8rr656LpqmzvSiQSMkxKJHyR+M=
+	bh=L1sykxSkqQgZ0iQ0s1ms8Y3bH+1XPtl7BWzHATRoeHc=;
+	b=DrJIVsoJzsjXsl+nXApy9ulpxHBpo1eFOeKrfc7Ii3YbDtFrhDSRQX7tn1upghYQ
+	UcQOyZz5HOiqmQ3Dpm1GtKNgibd6Vm76epbhoNF4g4wi+S7+nuhIldRSC43pAyfSfWo
+	sr5LzjdKvBka2fwnsT3M4XEBFvLuYq2RsN97v1oI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1705340031;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1705340030;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=ddfh+I758WkBbA5n6FC3Ska45WeteuaXg2FKHsQ2M/A=;
-	b=APIz4WYDkI/B3OI4K67zPD3Wf0Np2pUbXZXvp8X0wJIbjUfZ4br/bggQz4UIhbWJ
-	Xv0sAjF9t8nmFBI1/3nbXshfJGW+Y5dFNTUhLqm0akIZkfygh2ytmlZE+y9epq+Ff04
-	nWZj+iGkIJYvfAHRuckM9FBWdQb1Pywl3q4HksE4=
-Content-Type: multipart/mixed; boundary="===============6303919692632011454=="
+	bh=L1sykxSkqQgZ0iQ0s1ms8Y3bH+1XPtl7BWzHATRoeHc=;
+	b=XwBmaLwaOOOJULJBmlz99Id+o4I8/j1sHdtwcxugfQ5S+/YFwgNbVnz5ZnPN/oTq
+	oIF2fJgFPY+o3MDIVwKm6fFbv5E3CLBRFRuu2j95l9hIr5JidHvxgNFMVEce/qDTl5q
+	G9UnWOPujJLJNcMjCgROBuncb7brZlUeNjAxUrvE=
+Content-Type: multipart/mixed; boundary="===============0249412672301509649=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] mpg123: upgrading to 1.32.4 SUCCEEDED
-Message-ID: <0101018d0e2fcfc3-4a1457a0-8fb8-4a5e-bbf8-477e76932419-000000@us-west-2.amazonses.com>
+Subject: [AUH] lttng-modules: upgrading to 2.13.11 FAILED
+Message-ID: <0101018d0e2fcf86-bf14de63-204a-4e98-b599-762155114bbd-000000@us-west-2.amazonses.com>
 Date: Mon, 15 Jan 2024 17:33:50 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2024.01.15-54.240.27.29
@@ -41,9 +41,9 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 15 Jan 2024 17:33:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193776
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193774
 
---===============6303919692632011454==
+--===============0249412672301509649==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,152 +51,483 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *mpg123* to *1.32.4* has Succeeded.
+that the automatic attempt to upgrade the recipe *lttng-modules* to *2.13.11* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-mpg123-upgrade-1.32.3-1.32.4.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe lttng-modules failed.
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1850 entries from dependency cache.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.7.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.3+snapshot-631ab3919f97c8e807219d9c3136f7135c51d555"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:631ab3919f97c8e807219d9c3136f7135c51d555"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 4 Local 4 Mirrors 0 Missed 0 Current 26 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+Loading cache...done.
+Loaded 1850 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 915 .bb files complete (913 cached, 2 parsed). 1851 targets, 38 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.7.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.3+snapshot-631ab3919f97c8e807219d9c3136f7135c51d555"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:631ab3919f97c8e807219d9c3136f7135c51d555"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files: 100% |####################################| Time: 0:00:00
+Cloning into bare repository '/srv/autobuilder/autobuilder.yocto.io/current_sources/git2/git.lttng.org.lttng-modules'...
+remote: Enumerating objects: 21786, done.        
+remote: Counting objects:   0% (1/21786)        
+remote: Counting objects:   1% (218/21786)        
+remote: Counting objects:   2% (436/21786)        
+remote: Counting objects:   3% (654/21786)        
+remote: Counting objects:   4% (872/21786)        
+remote: Counting objects:   5% (1090/21786)        
+remote: Counting objects:   6% (1308/21786)        
+remote: Counting objects:   7% (1526/21786)        
+remote: Counting objects:   8% (1743/21786)        
+remote: Counting objects:   9% (1961/21786)        
+remote: Counting objects:  10% (2179/21786)        
+remote: Counting objects:  11% (2397/21786)        
+remote: Counting objects:  12% (2615/21786)        
+remote: Counting objects:  13% (2833/21786)        
+remote: Counting objects:  14% (3051/21786)        
+remote: Counting objects:  15% (3268/21786)        
+remote: Counting objects:  16% (3486/21786)        
+remote: Counting objects:  17% (3704/21786)        
+remote: Counting objects:  18% (3922/21786)        
+remote: Counting objects:  19% (4140/21786)        
+remote: Counting objects:  20% (4358/21786)        
+remote: Counting objects:  21% (4576/21786)        
+remote: Counting objects:  22% (4793/21786)        
+remote: Counting objects:  23% (5011/21786)        
+remote: Counting objects:  24% (5229/21786)        
+remote: Counting objects:  25% (5447/21786)        
+remote: Counting objects:  26% (5665/21786)        
+remote: Counting objects:  27% (5883/21786)        
+remote: Counting objects:  28% (6101/21786)        
+remote: Counting objects:  29% (6318/21786)        
+remote: Counting objects:  30% (6536/21786)        
+remote: Counting objects:  31% (6754/21786)        
+remote: Counting objects:  32% (6972/21786)        
+remote: Counting objects:  33% (7190/21786)        
+remote: Counting objects:  34% (7408/21786)        
+remote: Counting objects:  35% (7626/21786)        
+remote: Counting objects:  36% (7843/21786)        
+remote: Counting objects:  37% (8061/21786)        
+remote: Counting objects:  38% (8279/21786)        
+remote: Counting objects:  39% (8497/21786)        
+remote: Counting objects:  40% (8715/21786)        
+remote: Counting objects:  41% (8933/21786)        
+remote: Counting objects:  42% (9151/21786)        
+remote: Counting objects:  43% (9368/21786)        
+remote: Counting objects:  44% (9586/21786)        
+remote: Counting objects:  45% (9804/21786)        
+remote: Counting objects:  46% (10022/21786)        
+remote: Counting objects:  47% (10240/21786)        
+remote: Counting objects:  48% (10458/21786)        
+remote: Counting objects:  49% (10676/21786)        
+remote: Counting objects:  50% (10893/21786)        
+remote: Counting objects:  51% (11111/21786)        
+remote: Counting objects:  52% (11329/21786)        
+remote: Counting objects:  53% (11547/21786)        
+remote: Counting objects:  54% (11765/21786)        
+remote: Counting objects:  55% (11983/21786)        
+remote: Counting objects:  56% (12201/21786)        
+remote: Counting objects:  57% (12419/21786)        
+remote: Counting objects:  58% (12636/21786)        
+remote: Counting objects:  59% (12854/21786)        
+remote: Counting objects:  60% (13072/21786)        
+remote: Counting objects:  61% (13290/21786)        
+remote: Counting objects:  62% (13508/21786)        
+remote: Counting objects:  63% (13726/21786)        
+remote: Counting objects:  64% (13944/21786)        
+remote: Counting objects:  65% (14161/21786)        
+remote: Counting objects:  66% (14379/21786)        
+remote: Counting objects:  67% (14597/21786)        
+remote: Counting objects:  68% (14815/21786)        
+remote: Counting objects:  69% (15033/21786)        
+remote: Counting objects:  70% (15251/21786)        
+remote: Counting objects:  71% (15469/21786)        
+remote: Counting objects:  72% (15686/21786)        
+remote: Counting objects:  73% (15904/21786)        
+remote: Counting objects:  74% (16122/21786)        
+remote: Counting objects:  75% (16340/21786)        
+remote: Counting objects:  76% (16558/21786)        
+remote: Counting objects:  77% (16776/21786)        
+remote: Counting objects:  78% (16994/21786)        
+remote: Counting objects:  79% (17211/21786)        
+remote: Counting objects:  80% (17429/21786)        
+remote: Counting objects:  81% (17647/21786)        
+remote: Counting objects:  82% (17865/21786)        
+remote: Counting objects:  83% (18083/21786)        
+remote: Counting objects:  84% (18301/21786)        
+remote: Counting objects: 100% (21786/21786), done.        
+remote: Compressing objects:   0% (1/10238)        
+remote: Compressing objects:   1% (103/10238)        
+remote: Compressing objects:   2% (205/10238)        
+remote: Compressing objects:   3% (308/10238)        
+remote: Compressing objects:   4% (410/10238)        
+remote: Compressing objects:   5% (512/10238)        
+remote: Compressing objects:   6% (615/10238)        
+remote: Compressing objects:   7% (717/10238)        
+remote: Compressing objects:   8% (820/10238)        
+remote: Compressing objects:   9% (922/10238)        
+remote: Compressing objects:  10% (1024/10238)        
+remote: Compressing objects:  11% (1127/10238)        
+remote: Compressing objects:  12% (1229/10238)        
+remote: Compressing objects:  13% (1331/10238)        
+remote: Compressing objects:  14% (1434/10238)        
+remote: Compressing objects:  15% (1536/10238)        
+remote: Compressing objects:  16% (1639/10238)        
+remote: Compressing objects:  17% (1741/10238)        
+remote: Compressing objects:  18% (1843/10238)        
+remote: Compressing objects:  19% (1946/10238)        
+remote: Compressing objects:  20% (2048/10238)        
+remote: Compressing objects:  21% (2150/10238)        
+remote: Compressing objects:  22% (2253/10238)        
+remote: Compressing objects:  23% (2355/10238)        
+remote: Compressing objects:  24% (2458/10238)        
+remote: Compressing objects:  25% (2560/10238)        
+remote: Compressing objects:  26% (2662/10238)        
+remote: Compressing objects:  27% (2765/10238)        
+remote: Compressing objects:  28% (2867/10238)        
+remote: Compressing objects:  29% (2970/10238)        
+remote: Compressing objects:  30% (3072/10238)        
+remote: Compressing objects:  31% (3174/10238)        
+remote: Compressing objects:  32% (3277/10238)        
+remote: Compressing objects:  33% (3379/10238)        
+remote: Compressing objects:  34% (3481/10238)        
+remote: Compressing objects:  35% (3584/10238)        
+remote: Compressing objects:  36% (3686/10238)        
+remote: Compressing objects:  37% (3789/10238)        
+remote: Compressing objects:  38% (3891/10238)        
+remote: Compressing objects:  39% (3993/10238)        
+remote: Compressing objects:  40% (4096/10238)        
+remote: Compressing objects:  41% (4198/10238)        
+remote: Compressing objects:  42% (4300/10238)        
+remote: Compressing objects:  43% (4403/10238)        
+remote: Compressing objects:  44% (4505/10238)        
+remote: Compressing objects:  45% (4608/10238)        
+remote: Compressing objects:  46% (4710/10238)        
+remote: Compressing objects:  47% (4812/10238)        
+remote: Compressing objects:  48% (4915/10238)        
+remote: Compressing objects:  49% (5017/10238)        
+remote: Compressing objects:  50% (5119/10238)        
+remote: Compressing objects:  51% (5222/10238)        
+remote: Compressing objects:  52% (5324/10238)        
+remote: Compressing objects:  53% (5427/10238)        
+remote: Compressing objects:  54% (5529/10238)        
+remote: Compressing objects:  55% (5631/10238)        
+remote: Compressing objects:  56% (5734/10238)        
+remote: Compressing objects:  57% (5836/10238)        
+remote: Compressing objects:  58% (5939/10238)        
+remote: Compressing objects:  59% (6041/10238)        
+remote: Compressing objects:  60% (6143/10238)        
+remote: Compressing objects:  61% (6246/10238)        
+remote: Compressing objects:  62% (6348/10238)        
+remote: Compressing objects:  63% (6450/10238)        
+remote: Compressing objects:  64% (6553/10238)        
+remote: Compressing objects:  65% (6655/10238)        
+remote: Compressing objects:  66% (6758/10238)        
+remote: Compressing objects:  67% (6860/10238)        
+remote: Compressing objects:  68% (6962/10238)        
+remote: Compressing objects:  69% (7065/10238)        
+remote: Compressing objects:  70% (7167/10238)        
+remote: Compressing objects:  71% (7269/10238)        
+remote: Compressing objects:  72% (7372/10238)        
+remote: Compressing objects:  73% (7474/10238)        
+remote: Compressing objects:  74% (7577/10238)        
+remote: Compressing objects:  75% (7679/10238)        
+remote: Compressing objects:  76% (7781/10238)        
+remote: Compressing objects:  77% (7884/10238)        
+remote: Compressing objects:  78% (7986/10238)        
+remote: Compressing objects:  79% (8089/10238)        
+remote: Compressing objects:  80% (8191/10238)        
+remote: Compressing objects:  81% (8293/10238)        
+remote: Compressing objects:  82% (8396/10238)        
+remote: Compressing objects:  83% (8498/10238)        
+remote: Compressing objects:  84% (8600/10238)        
+remote: Compressing objects:  85% (8703/10238)        
+remote: Compressing objects:  86% (8805/10238)        
+remote: Compressing objects:  87% (8908/10238)        
+remote: Compressing objects:  88% (9010/10238)        
+remote: Compressing objects:  89% (9112/10238)        
+remote: Compressing objects:  90% (9215/10238)        
+remote: Compressing objects:  91% (9317/10238)        
+remote: Compressing objects:  92% (9419/10238)        
+remote: Compressing objects:  93% (9522/10238)        
+remote: Compressing objects:  94% (9624/10238)        
+remote: Compressing objects:  95% (9727/10238)        
+remote: Compressing objects:  96% (9829/10238)        
+remote: Compressing objects:  97% (9931/10238)        
+remote: Compressing objects:  98% (10034/10238)        
+remote: Compressing objects:  99% (10136/10238)        
+remote: Compressing objects: 100% (10238/10238), done.        
+Receiving objects:   0% (1/21786)
+Receiving objects:   1% (218/21786)
+Receiving objects:   2% (436/21786)
+Receiving objects:   3% (654/21786)
+Receiving objects:   4% (872/21786)
+Receiving objects:   5% (1090/21786)
+Receiving objects:   6% (1308/21786)
+Receiving objects:   7% (1526/21786)
+Receiving objects:   8% (1743/21786)
+Receiving objects:   9% (1961/21786)
+Receiving objects:  10% (2179/21786)
+Receiving objects:  11% (2397/21786)
+Receiving objects:  12% (2615/21786)
+Receiving objects:  13% (2833/21786)
+Receiving objects:  14% (3051/21786)
+Receiving objects:  15% (3268/21786)
+Receiving objects:  16% (3486/21786)
+Receiving objects:  17% (3704/21786)
+Receiving objects:  18% (3922/21786)
+Receiving objects:  19% (4140/21786)
+Receiving objects:  20% (4358/21786)
+Receiving objects:  21% (4576/21786)
+Receiving objects:  22% (4793/21786)
+Receiving objects:  23% (5011/21786)
+Receiving objects:  24% (5229/21786)
+Receiving objects:  25% (5447/21786)
+Receiving objects:  26% (5665/21786)
+Receiving objects:  27% (5883/21786)
+Receiving objects:  28% (6101/21786)
+Receiving objects:  29% (6318/21786)
+Receiving objects:  30% (6536/21786)
+Receiving objects:  31% (6754/21786)
+Receiving objects:  32% (6972/21786)
+Receiving objects:  33% (7190/21786)
+Receiving objects:  34% (7408/21786)
+Receiving objects:  35% (7626/21786)
+Receiving objects:  36% (7843/21786)
+Receiving objects:  37% (8061/21786)
+Receiving objects:  38% (8279/21786)
+Receiving objects:  39% (8497/21786)
+Receiving objects:  40% (8715/21786)
+Receiving objects:  41% (8933/21786)
+Receiving objects:  42% (9151/21786)
+Receiving objects:  43% (9368/21786)
+Receiving objects:  44% (9586/21786)
+Receiving objects:  45% (9804/21786)
+Receiving objects:  46% (10022/21786)
+Receiving objects:  47% (10240/21786)
+Receiving objects:  48% (10458/21786)
+Receiving objects:  49% (10676/21786)
+Receiving objects:  50% (10893/21786)
+Receiving objects:  51% (11111/21786)
+Receiving objects:  52% (11329/21786)
+Receiving objects:  53% (11547/21786)
+Receiving objects:  54% (11765/21786)
+Receiving objects:  55% (11983/21786)
+Receiving objects:  56% (12201/21786)
+Receiving objects:  57% (12419/21786)
+Receiving objects:  58% (12636/21786)
+Receiving objects:  59% (12854/21786)
+Receiving objects:  60% (13072/21786)
+Receiving objects:  61% (13290/21786)
+Receiving objects:  62% (13508/21786)
+Receiving objects:  63% (13726/21786)
+Receiving objects:  64% (13944/21786)
+Receiving objects:  65% (14161/21786)
+Receiving objects:  66% (14379/21786)
+Receiving objects:  67% (14597/21786)
+Receiving objects:  68% (14815/21786)
+Receiving objects:  69% (15033/21786)
+Receiving objects:  70% (15251/21786)
+Receiving objects:  71% (15469/21786)
+Receiving objects:  72% (15686/21786)
+Receiving objects:  73% (15904/21786)
+Receiving objects:  74% (16122/21786)
+Receiving objects:  75% (16340/21786)
+Receiving objects:  76% (16558/21786)
+Receiving objects:  77% (16776/21786)
+Receiving objects:  78% (16994/21786)
+Receiving objects:  79% (17211/21786)
+Receiving objects:  80% (17429/21786)
+Receiving objects:  81% (17647/21786)
+Receiving objects:  82% (17865/21786)
+Receiving objects:  83% (18083/21786)
+Receiving objects:  84% (18301/21786)
+Receiving objects:  85% (18519/21786)
+Receiving objects:  86% (18736/21786)
+Receiving objects:  87% (18954/21786)
+Receiving objects:  88% (19172/21786)
+Receiving objects:  89% (19390/21786)
+Receiving objects:  90% (19608/21786)
+Receiving objects:  91% (19826/21786)
+Receiving objects:  92% (20044/21786)
+Receiving objects:  93% (20261/21786)
+Receiving objects:  94% (20479/21786)
+Receiving objects:  95% (20697/21786)
+Receiving objects:  96% (20915/21786)
+Receiving objects:  97% (21133/21786)
+remote: Total 21786 (delta 16707), reused 15404 (delta 11342), pack-reused 0        
+Receiving objects:  98% (21351/21786)
+Receiving objects:  99% (21569/21786)
+Receiving objects: 100% (21786/21786), 3.87 MiB | 10.57 MiB/s, done.
+Resolving deltas:   0% (0/16707)
+Resolving deltas:   1% (168/16707)
+Resolving deltas:   2% (337/16707)
+Resolving deltas:   3% (502/16707)
+Resolving deltas:   4% (670/16707)
+Resolving deltas:   5% (841/16707)
+Resolving deltas:   6% (1005/16707)
+Resolving deltas:   7% (1170/16707)
+Resolving deltas:   8% (1337/16707)
+Resolving deltas:   9% (1504/16707)
+Resolving deltas:  10% (1671/16707)
+Resolving deltas:  11% (1838/16707)
+Resolving deltas:  12% (2005/16707)
+Resolving deltas:  13% (2172/16707)
+Resolving deltas:  14% (2341/16707)
+Resolving deltas:  15% (2507/16707)
+Resolving deltas:  16% (2675/16707)
+Resolving deltas:  17% (2841/16707)
+Resolving deltas:  18% (3009/16707)
+Resolving deltas:  19% (3175/16707)
+Resolving deltas:  20% (3342/16707)
+Resolving deltas:  21% (3509/16707)
+Resolving deltas:  22% (3676/16707)
+Resolving deltas:  23% (3843/16707)
+Resolving deltas:  24% (4010/16707)
+Resolving deltas:  25% (4177/16707)
+Resolving deltas:  26% (4344/16707)
+Resolving deltas:  27% (4511/16707)
+Resolving deltas:  28% (4678/16707)
+Resolving deltas:  29% (4846/16707)
+Resolving deltas:  30% (5013/16707)
+Resolving deltas:  31% (5180/16707)
+Resolving deltas:  32% (5347/16707)
+Resolving deltas:  33% (5514/16707)
+Resolving deltas:  34% (5681/16707)
+Resolving deltas:  35% (5848/16707)
+Resolving deltas:  36% (6015/16707)
+Resolving deltas:  37% (6182/16707)
+Resolving deltas:  38% (6349/16707)
+Resolving deltas:  39% (6516/16707)
+Resolving deltas:  40% (6683/16707)
+Resolving deltas:  41% (6850/16707)
+Resolving deltas:  42% (7017/16707)
+Resolving deltas:  43% (7185/16707)
+Resolving deltas:  44% (7352/16707)
+Resolving deltas:  45% (7519/16707)
+Resolving deltas:  46% (7687/16707)
+Resolving deltas:  47% (7853/16707)
+Resolving deltas:  48% (8020/16707)
+Resolving deltas:  49% (8187/16707)
+Resolving deltas:  50% (8354/16707)
+Resolving deltas:  51% (8521/16707)
+Resolving deltas:  52% (8689/16707)
+Resolving deltas:  53% (8856/16707)
+Resolving deltas:  54% (9022/16707)
+Resolving deltas:  55% (9189/16707)
+Resolving deltas:  56% (9357/16707)
+Resolving deltas:  57% (9523/16707)
+Resolving deltas:  58% (9691/16707)
+Resolving deltas:  59% (9860/16707)
+Resolving deltas:  60% (10026/16707)
+Resolving deltas:  61% (10192/16707)
+Resolving deltas:  62% (10359/16707)
+Resolving deltas:  63% (10526/16707)
+Resolving deltas:  64% (10693/16707)
+Resolving deltas:  65% (10860/16707)
+Resolving deltas:  66% (11028/16707)
+Resolving deltas:  67% (11194/16707)
+Resolving deltas:  68% (11362/16707)
+Resolving deltas:  69% (11530/16707)
+Resolving deltas:  70% (11695/16707)
+Resolving deltas:  71% (11863/16707)
+Resolving deltas:  72% (12030/16707)
+Resolving deltas:  73% (12198/16707)
+Resolving deltas:  74% (12364/16707)
+Resolving deltas:  75% (12532/16707)
+Resolving deltas:  76% (12698/16707)
+Resolving deltas:  77% (12866/16707)
+Resolving deltas:  78% (13032/16707)
+Resolving deltas:  79% (13199/16707)
+Resolving deltas:  80% (13366/16707)
+Resolving deltas:  81% (13534/16707)
+Resolving deltas:  82% (13700/16707)
+Resolving deltas:  83% (13868/16707)
+Resolving deltas:  84% (14034/16707)
+Resolving deltas:  85% (14202/16707)
+Resolving deltas:  86% (14369/16707)
+Resolving deltas:  87% (14537/16707)
+Resolving deltas:  88% (14704/16707)
+Resolving deltas:  89% (14870/16707)
+Resolving deltas:  90% (15037/16707)
+Resolving deltas:  91% (15210/16707)
+Resolving deltas:  92% (15373/16707)
+Resolving deltas:  93% (15539/16707)
+Resolving deltas:  94% (15707/16707)
+Resolving deltas:  95% (15883/16707)
+Resolving deltas:  96% (16040/16707)
+Resolving deltas:  97% (16210/16707)
+Resolving deltas:  98% (16373/16707)
+Resolving deltas:  99% (16540/16707)
+Resolving deltas: 100% (16707/16707)
+Resolving deltas: 100% (16707/16707), done.
+NOTE: Creating tarball of git repository
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://lttng.org/files/lttng-modules/lttng-modules-2.13.11.tar.bz2...
+INFO: Rebasing devtool onto fe5dbd8a4b92974ff81e21690c26e2b4ad46eda0
+WARNING: Command 'git rebase fe5dbd8a4b92974ff81e21690c26e2b4ad46eda0' failed:
+Auto-merging include/wrapper/fdtable.h
+CONFLICT (content): Merge conflict in include/wrapper/fdtable.h
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Using source tree as build directory since that would be the default for this recipe
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/workspace/sources/lttng-modules
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/workspace/recipes/lttng-modules/lttng-modules_2.13.11.bb
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From 37c01a4e0d42f57fa2dc15eb9d8ae60043a95ff4 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 15 Jan 2024 13:34:56 +0000
-Subject: [PATCH] mpg123: upgrade 1.32.3 -> 1.32.4
-
----
- .../mpg123/{mpg123_1.32.3.bb => mpg123_1.32.4.bb}               | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/mpg123/{mpg123_1.32.3.bb => mpg123_1.32.4.bb} (96%)
-
-diff --git a/meta/recipes-multimedia/mpg123/mpg123_1.32.3.bb b/meta/recipes-multimedia/mpg123/mpg123_1.32.4.bb
-similarity index 96%
-rename from meta/recipes-multimedia/mpg123/mpg123_1.32.3.bb
-rename to meta/recipes-multimedia/mpg123/mpg123_1.32.4.bb
-index 3ea68b12a8..8c6101fee8 100644
---- a/meta/recipes-multimedia/mpg123/mpg123_1.32.3.bb
-+++ b/meta/recipes-multimedia/mpg123/mpg123_1.32.4.bb
-@@ -10,7 +10,7 @@ LICENSE = "LGPL-2.1-only"
- LIC_FILES_CHKSUM = "file://COPYING;md5=e7b9c15fcfb986abb4cc5e8400a24169"
- 
- SRC_URI = "https://www.mpg123.de/download/${BP}.tar.bz2"
--SRC_URI[sha256sum] = "2d9913a57d4ee8f497a182c6e82582602409782a4fb481e989feebf4435867b4"
-+SRC_URI[sha256sum] = "5a99664338fb2f751b662f40ee25804d0c9db6b575dcb5ce741c6dc64224a08a"
- 
- UPSTREAM_CHECK_REGEX = "mpg123-(?P<pver>\d+(\.\d+)+)\.tar"
- 
--- 
-2.42.0
-
-
---===============6303919692632011454==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-mpg123-upgrade-1.32.3-1.32.4.patch"
-
-RnJvbSAzN2MwMWE0ZTBkNDJmNTdmYTJkYzE1ZWI5ZDhhZTYwMDQzYTk1ZmY0IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTUgSmFuIDIwMjQgMTM6MzQ6NTYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBt
-cGcxMjM6IHVwZ3JhZGUgMS4zMi4zIC0+IDEuMzIuNAoKLS0tCiAuLi4vbXBnMTIzL3ttcGcxMjNf
-MS4zMi4zLmJiID0+IG1wZzEyM18xLjMyLjQuYmJ9ICAgICAgICAgICAgICAgfCAyICstCiAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
-Y2lwZXMtbXVsdGltZWRpYS9tcGcxMjMve21wZzEyM18xLjMyLjMuYmIgPT4gbXBnMTIzXzEuMzIu
-NC5iYn0gKDk2JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9tcGcxMjMv
-bXBnMTIzXzEuMzIuMy5iYiBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL21wZzEyMy9tcGcxMjNf
-MS4zMi40LmJiCnNpbWlsYXJpdHkgaW5kZXggOTYlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1t
-dWx0aW1lZGlhL21wZzEyMy9tcGcxMjNfMS4zMi4zLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMt
-bXVsdGltZWRpYS9tcGcxMjMvbXBnMTIzXzEuMzIuNC5iYgppbmRleCAzZWE2OGIxMmE4Li44YzYx
-MDFmZWU4IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9tcGcxMjMvbXBnMTIz
-XzEuMzIuMy5iYgorKysgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9tcGcxMjMvbXBnMTIzXzEu
-MzIuNC5iYgpAQCAtMTAsNyArMTAsNyBAQCBMSUNFTlNFID0gIkxHUEwtMi4xLW9ubHkiCiBMSUNf
-RklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT1lN2I5YzE1ZmNmYjk4NmFiYjRjYzVl
-ODQwMGEyNDE2OSIKIAogU1JDX1VSSSA9ICJodHRwczovL3d3dy5tcGcxMjMuZGUvZG93bmxvYWQv
-JHtCUH0udGFyLmJ6MiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIyZDk5MTNhNTdkNGVlOGY0OTdh
-MTgyYzZlODI1ODI2MDI0MDk3ODJhNGZiNDgxZTk4OWZlZWJmNDQzNTg2N2I0IgorU1JDX1VSSVtz
-aGEyNTZzdW1dID0gIjVhOTk2NjQzMzhmYjJmNzUxYjY2MmY0MGVlMjU4MDRkMGM5ZGI2YjU3NWRj
-YjVjZTc0MWM2ZGM2NDIyNGEwOGEiCiAKIFVQU1RSRUFNX0NIRUNLX1JFR0VYID0gIm1wZzEyMy0o
-P1A8cHZlcj5cZCsoXC5cZCspKylcLnRhciIKIAotLSAKMi40Mi4wCgo=
-
---===============6303919692632011454==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-64-poky-linux/mpg123/mpg123: FILELIST: removed "/usr/lib/libmpg123.so.0.48.1 /usr/lib/libsyn123.so.0.2.2 /usr/lib/libout123.so.0.5.0", added "/usr/lib/libmpg123.so.0.48.2 /usr/lib/libout123.so.0.5.1 /usr/lib/libsyn123.so.0.2.3"
-Changes to packages/core2-64-poky-linux/mpg123 (sysroot):
-  /usr/lib/libmpg123.so.0 changed symlink target from libmpg123.so.0.48.1 to libmpg123.so.0.48.2
-  /usr/lib/libmpg123.so changed symlink target from libmpg123.so.0.48.1 to libmpg123.so.0.48.2
-  /usr/lib/libout123.so.0 changed symlink target from libout123.so.0.5.0 to libout123.so.0.5.1
-  /usr/lib/libout123.so changed symlink target from libout123.so.0.5.0 to libout123.so.0.5.1
-  /usr/lib/libsyn123.so.0 changed symlink target from libsyn123.so.0.2.2 to libsyn123.so.0.2.3
-  /usr/lib/libsyn123.so changed symlink target from libsyn123.so.0.2.2 to libsyn123.so.0.2.3
-  /usr/lib/libmpg123.so.0.48.1 moved to /usr/lib/libmpg123.so.0.48.2
-  /usr/lib/libout123.so.0.5.0 moved to /usr/lib/libout123.so.0.5.1
-  /usr/lib/libsyn123.so.0.2.2 moved to /usr/lib/libsyn123.so.0.2.3
-
---===============6303919692632011454==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/mpg123: PV changed from "1.32.3" to "1.32.4"
-packages/core2-64-poky-linux/mpg123: SRC_URI changed from "https://www.mpg123.de/download/mpg123-1.32.3.tar.bz2" to "https://www.mpg123.de/download/mpg123-1.32.4.tar.bz2"
-packages/core2-64-poky-linux/mpg123: PKGV changed from 1.32.3 [default] to 1.32.4 [default]
-packages/core2-64-poky-linux/mpg123/mpg123-dbg: PKGSIZE changed from 2301544 to 2302520 (+0%)
-packages/core2-64-poky-linux/mpg123/mpg123-dbg: PV changed from "1.32.3" to "1.32.4"
-packages/core2-64-poky-linux/mpg123/mpg123-dbg: PKGV changed from 1.32.3 [default] to 1.32.4 [default]
-packages/core2-64-poky-linux/mpg123/mpg123-dbg: FILELIST: removed "/usr/lib/.debug/libmpg123.so.0.48.1 /usr/lib/.debug/libout123.so.0.5.0 /usr/lib/.debug/libsyn123.so.0.2.2", added "/usr/lib/.debug/libmpg123.so.0.48.2 /usr/lib/.debug/libout123.so.0.5.1 /usr/lib/.debug/libsyn123.so.0.2.3"
-packages/core2-64-poky-linux/mpg123/mpg123-dev: PV changed from "1.32.3" to "1.32.4"
-packages/core2-64-poky-linux/mpg123/mpg123-dev: PKGV changed from 1.32.3 [default] to 1.32.4 [default]
-packages/core2-64-poky-linux/mpg123/mpg123-doc: PV changed from "1.32.3" to "1.32.4"
-packages/core2-64-poky-linux/mpg123/mpg123-doc: PKGV changed from 1.32.3 [default] to 1.32.4 [default]
-packages/core2-64-poky-linux/mpg123/mpg123-locale: PV changed from "1.32.3" to "1.32.4"
-packages/core2-64-poky-linux/mpg123/mpg123-locale: PKGV changed from 1.32.3 [default] to 1.32.4 [default]
-packages/core2-64-poky-linux/mpg123/mpg123-src: PKGSIZE changed from 1902858 to 1903721 (+0%)
-packages/core2-64-poky-linux/mpg123/mpg123-src: PV changed from "1.32.3" to "1.32.4"
-packages/core2-64-poky-linux/mpg123/mpg123-src: PKGV changed from 1.32.3 [default] to 1.32.4 [default]
-packages/core2-64-poky-linux/mpg123/mpg123-src: FILELIST: directory renamed /usr/src/debug/mpg123/1.32.3/src -> /usr/src/debug/mpg123/1.32.4/src, directory renamed /usr/src/debug/mpg123/1.32.3/src/compat -> /usr/src/debug/mpg123/1.32.4/src/compat, directory renamed /usr/src/debug/mpg123/1.32.3/src/libout123/modules -> /usr/src/debug/mpg123/1.32.4/src/libout123/modules, removed "/usr/src/debug/mpg123/1.32.3/src/libmpg123/newhuffman.h /usr/src/debug/mpg123/1.32.3/src/libout123/stringlists.h /usr/src/debug/mpg123/1.32.3/src/libout123/wav.h /usr/src/debug/mpg123/1.32.3/src/libout123/stringlists.c /usr/src/debug/mpg123/1.32.3/src/libout123/wav.c /usr/src/debug/mpg123/1.32.3/src/libsyn123/syn123_int.h /usr/src/debug/mpg123/1.32.3/src/libout123/out123_int.h /usr/src/debug/mpg123/1.32.3/src/libmpg123/dct64.c /usr/src/debug/mpg123/1.32.3/src/libmpg123/frame.c /usr/src/debug/mpg123/1.32.3/src/libmpg123/index.c /usr/src/debug/mpg123/1.32.3/src/libmpg123/parse.c /usr/src/debug/mpg123/1.32.3/src/
- libmpg123/synth.c /usr/src/debug/mpg123/1.32.3/src/libmpg123/index.h /usr/src/debug/mpg123/1.32.3/src/libmpg123/parse.h /usr/src/debug/mpg123/1.32.3/src/libmpg123/synth.h /usr/src/debug/mpg123/1.32.3/src/libmpg123/frame.h /usr/src/debug/mpg123/1.32.3/src/libmpg123/feature.c /usr/src/debug/mpg123/1.32.3/src/libmpg123/stringbuf.c /usr/src/debug/mpg123/1.32.3/src/libmpg123/getbits.h /usr/src/debug/mpg123/1.32.3/src/libmpg123/dither_impl.h /usr/src/debug/mpg123/1.32.3/src/libmpg123/icy2utf8.h /usr/src/debug/mpg123/1.32.3/src/libmpg123/synth_ntom.h /usr/src/debug/mpg123/1.32.3/src/libmpg123/synth_mono.h /usr/src/debug/mpg123/1.32.3/src/libsyn123/libsyn123.c /usr/src/debug/mpg123/1.32.3/src/libmpg123/icy2utf8.c /usr/src/debug/mpg123/1.32.3/src/libout123/module.c /usr/src/debug/mpg123/1.32.3/src/libsyn123/volume.c /usr/src/debug/mpg123/1.32.3/src/libmpg123/decode.h /usr/src/debug/mpg123/1.32.3/src/libmpg123/sample.h /usr/src/debug/mpg123/1.32.3/src/libout123/module.h /usr/src/debug/mpg123/
- 1.32.3/src/libsyn123/sampleconv.c /usr/src/debug/mpg123/1.32.3/src/libmpg123/libmpg123.c /usr/src/debug/mpg123/1.32.3/src/libmpg123/l3tabs.h /usr/src/debug/mpg123/1.32.3/src/libmpg123/synth_real.c /usr/src/debug/mpg123/1.32.3/src/libmpg123/synths.h /usr/src/debug/mpg123/1.32.3/src/libout123/wavhead.h /usr/src/debug/mpg123/1.32.3/src/libmpg123/swap_bytes_impl.h /usr/src/debug/mpg123/1.32.3/src/libout123/xfermem.c /usr/src/debug/mpg123/1.32.3/src/libsyn123/pinknoise.c /usr/src/debug/mpg123/1.32.3/src/libout123/xfermem.h /usr/src/debug/mpg123/1.32.3/src/libmpg123/fmt123.h /usr/src/debug/mpg123/1.32.3/src/libmpg123/getcpuflags.h /usr/src/debug/mpg123/1.32.3/src/libmpg123/mpg123.h /usr/src/debug/mpg123/1.32.3/src/libout123/out123.h /usr/src/debug/mpg123/1.32.3/src/libsyn123/syn123.h /usr/src/debug/mpg123/1.32.3/src/libmpg123/layer3.c /usr/src/debug/mpg123/1.32.3/src/libmpg123/id3.c /usr/src/debug/mpg123/1.32.3/src/libmpg123/icy.c /usr/src/debug/mpg123/1.32.3/src/libmpg123/mpg123lib_inter
- n.h /usr/src/debug/mpg123/1.32.3/src/libmpg123/icy.h /usr/src/debug/mpg123/1.32.3/src/libmpg123/id3.h /usr/src/debug/mpg123/1.32.3/src/libmpg123/equalizer.c /usr/src/debug/mpg123/1.32.3/src/libmpg123/lfs_wrap.h /usr/src/debug/mpg123/1.32.3/src/libmpg123/readers.c /usr/src/debug/mpg123/1.32.3/src/libmpg123/lfs_wrap.c /usr/src/debug/mpg123/1.32.3/src/libout123/hextxt.h /usr/src/debug/mpg123/1.32.3/src/libmpg123/layer1.c /usr/src/debug/mpg123/1.32.3/src/libmpg123/format.c /usr/src/debug/mpg123/1.32.3/src/libmpg123/ntom.c /usr/src/debug/mpg123/1.32.3/src/libout123/hextxt.c /usr/src/debug/mpg123/1.32.3/src/libmpg123/dither.h /usr/src/debug/mpg123/1.32.3/src/libmpg123/reader.h /usr/src/debug/mpg123/1.32.3/src/libout123/buffer.h /usr/src/debug/mpg123/1.32.3/src/libsyn123/geiger.c /usr/src/debug/mpg123/1.32.3/src/libout123/buffer.c /usr/src/debug/mpg123/1.32.3/src/libsyn123/filter.c /usr/src/debug/mpg123/1.32.3/src/libmpg123/l3bandgain.h /usr/src/debug/mpg123/1.32.3/src/libmpg123/costabs.h 
- /usr/src/debug/mpg123/1.32.3/src/libmpg123/l12tabs.h /usr/src/debug/mpg123/1.32.3/src/libsyn123/resample.c /usr/src/debug/mpg123/1.32.3/src/libmpg123/layer2.c /usr/src/debug/mpg123/1.32.3/src/libmpg123/synth_8bit.h /usr/src/debug/mpg123/1.32.3/src/libmpg123/synth_s32.c /usr/src/debug/mpg123/1.32.3/src/libout123/libout123.c /usr/src/debug/mpg123/1.32.3/src/libsyn123/g711_impl.h /usr/src/debug/mpg123/1.32.3/src/libmpg123/gapless.h /usr/src/debug/mpg123/1.32.3/src/libmpg123/optimize.h /usr/src/debug/mpg123/1.32.3/src/libmpg123/tabinit.c /usr/src/debug/mpg123/1.32.3/src/libmpg123/l2tables.h /usr/src/debug/mpg123/1.32.3/src/libmpg123/optimize.c", added "/usr/src/debug/mpg123/1.32.4/src/libmpg123/newhuffman.h /usr/src/debug/mpg123/1.32.4/src/libout123/stringlists.h /usr/src/debug/mpg123/1.32.4/src/libout123/wav.h /usr/src/debug/mpg123/1.32.4/src/libout123/stringlists.c /usr/src/debug/mpg123/1.32.4/src/libout123/wav.c /usr/src/debug/mpg123/1.32.4/src/libsyn123/syn123_int.h /usr/src/debug/m
- pg123/1.32.4/src/libout123/out123_int.h /usr/src/debug/mpg123/1.32.4/src/libmpg123/dct64.c /usr/src/debug/mpg123/1.32.4/src/libmpg123/frame.c /usr/src/debug/mpg123/1.32.4/src/libmpg123/index.c /usr/src/debug/mpg123/1.32.4/src/libmpg123/parse.c /usr/src/debug/mpg123/1.32.4/src/libmpg123/synth.c /usr/src/debug/mpg123/1.32.4/src/libmpg123/index.h /usr/src/debug/mpg123/1.32.4/src/libmpg123/parse.h /usr/src/debug/mpg123/1.32.4/src/libmpg123/synth.h /usr/src/debug/mpg123/1.32.4/src/libmpg123/frame.h /usr/src/debug/mpg123/1.32.4/src/libmpg123/feature.c /usr/src/debug/mpg123/1.32.4/src/libmpg123/stringbuf.c /usr/src/debug/mpg123/1.32.4/src/common/sample.h /usr/src/debug/mpg123/1.32.4/src/libmpg123/getbits.h /usr/src/debug/mpg123/1.32.4/src/libmpg123/dither_impl.h /usr/src/debug/mpg123/1.32.4/src/libmpg123/icy2utf8.h /usr/src/debug/mpg123/1.32.4/src/libmpg123/synth_ntom.h /usr/src/debug/mpg123/1.32.4/src/libmpg123/synth_mono.h /usr/src/debug/mpg123/1.32.4/src/libsyn123/libsyn123.c /usr/src/d
- ebug/mpg123/1.32.4/src/libmpg123/icy2utf8.c /usr/src/debug/mpg123/1.32.4/src/libout123/module.c /usr/src/debug/mpg123/1.32.4/src/libsyn123/volume.c /usr/src/debug/mpg123/1.32.4/src/libmpg123/decode.h /usr/src/debug/mpg123/1.32.4/src/libout123/module.h /usr/src/debug/mpg123/1.32.4/src/libsyn123/sampleconv.c /usr/src/debug/mpg123/1.32.4/src/common/swap_bytes_impl.h /usr/src/debug/mpg123/1.32.4/src/libmpg123/libmpg123.c /usr/src/debug/mpg123/1.32.4/src/libmpg123/l3tabs.h /usr/src/debug/mpg123/1.32.4/src/libmpg123/synth_real.c /usr/src/debug/mpg123/1.32.4/src/libmpg123/synths.h /usr/src/debug/mpg123/1.32.4/src/include/mpg123.h /usr/src/debug/mpg123/1.32.4/src/include/out123.h /usr/src/debug/mpg123/1.32.4/src/include/syn123.h /usr/src/debug/mpg123/1.32.4/src/libout123/wavhead.h /usr/src/debug/mpg123/1.32.4/src/libout123/xfermem.c /usr/src/debug/mpg123/1.32.4/src/libsyn123/pinknoise.c /usr/src/debug/mpg123/1.32.4/src/libout123/xfermem.h /usr/src/debug/mpg123/1.32.4/src/libmpg123/getcpufla
- gs.h /usr/src/debug/mpg123/1.32.4/src/libmpg123/layer3.c /usr/src/debug/mpg123/1.32.4/src/libmpg123/id3.c /usr/src/debug/mpg123/1.32.4/src/libmpg123/icy.c /usr/src/debug/mpg123/1.32.4/src/libmpg123/mpg123lib_intern.h /usr/src/debug/mpg123/1.32.4/src/libmpg123/icy.h /usr/src/debug/mpg123/1.32.4/src/libmpg123/id3.h /usr/src/debug/mpg123/1.32.4/src/libmpg123/equalizer.c /usr/src/debug/mpg123/1.32.4/src/libmpg123/lfs_wrap.h /usr/src/debug/mpg123/1.32.4/src/libmpg123/readers.c /usr/src/debug/mpg123/1.32.4/src/libmpg123/lfs_wrap.c /usr/src/debug/mpg123/1.32.4/src/libout123/hextxt.h /usr/src/debug/mpg123/1.32.4/src/libmpg123/layer1.c /usr/src/debug/mpg123/1.32.4/src/libmpg123/format.c /usr/src/debug/mpg123/1.32.4/src/libmpg123/ntom.c /usr/src/debug/mpg123/1.32.4/src/libout123/hextxt.c /usr/src/debug/mpg123/1.32.4/src/libmpg123/dither.h /usr/src/debug/mpg123/1.32.4/src/libmpg123/reader.h /usr/src/debug/mpg123/1.32.4/src/libout123/buffer.h /usr/src/debug/mpg123/1.32.4/src/libsyn123/geiger.c 
- /usr/src/debug/mpg123/1.32.4/src/libout123/buffer.c /usr/src/debug/mpg123/1.32.4/src/libsyn123/filter.c /usr/src/debug/mpg123/1.32.4/src/libmpg123/l3bandgain.h /usr/src/debug/mpg123/1.32.4/src/libmpg123/costabs.h /usr/src/debug/mpg123/1.32.4/src/libmpg123/l12tabs.h /usr/src/debug/mpg123/1.32.4/src/libsyn123/resample.c /usr/src/debug/mpg123/1.32.4/src/libmpg123/layer2.c /usr/src/debug/mpg123/1.32.4/src/libmpg123/synth_8bit.h /usr/src/debug/mpg123/1.32.4/src/libmpg123/synth_s32.c /usr/src/debug/mpg123/1.32.4/src/libout123/libout123.c /usr/src/debug/mpg123/1.32.4/src/libsyn123/g711_impl.h /usr/src/debug/mpg123/1.32.4/src/libmpg123/gapless.h /usr/src/debug/mpg123/1.32.4/src/libmpg123/optimize.h /usr/src/debug/mpg123/1.32.4/src/libmpg123/tabinit.c /usr/src/debug/mpg123/1.32.4/src/include/fmt123.h /usr/src/debug/mpg123/1.32.4/src/libmpg123/l2tables.h /usr/src/debug/mpg123/1.32.4/src/libmpg123/optimize.c"
-packages/core2-64-poky-linux/mpg123/mpg123-staticdev: PV changed from "1.32.3" to "1.32.4"
-packages/core2-64-poky-linux/mpg123/mpg123-staticdev: PKGV changed from 1.32.3 [default] to 1.32.4 [default]
-packages/core2-64-poky-linux/mpg123/mpg123: PKGSIZE changed from 994207 to 994255 (+0%)
-packages/core2-64-poky-linux/mpg123/mpg123: PV changed from "1.32.3" to "1.32.4"
-packages/core2-64-poky-linux/mpg123/mpg123: PKGV changed from 1.32.3 [default] to 1.32.4 [default]
-packages/core2-64-poky-linux/mpg123/mpg123: FILELIST: removed "/usr/lib/libmpg123.so.0.48.1 /usr/lib/libsyn123.so.0.2.2 /usr/lib/libout123.so.0.5.0", added "/usr/lib/libout123.so.0.5.1 /usr/lib/libsyn123.so.0.2.3 /usr/lib/libmpg123.so.0.48.2"
-Changes to packages/core2-64-poky-linux/mpg123 (sysroot):
-  /usr/lib/libmpg123.so.0 changed symlink target from libmpg123.so.0.48.1 to libmpg123.so.0.48.2
-  /usr/lib/libmpg123.so changed symlink target from libmpg123.so.0.48.1 to libmpg123.so.0.48.2
-  /usr/lib/libout123.so.0 changed symlink target from libout123.so.0.5.0 to libout123.so.0.5.1
-  /usr/lib/libout123.so changed symlink target from libout123.so.0.5.0 to libout123.so.0.5.1
-  /usr/lib/libsyn123.so.0 changed symlink target from libsyn123.so.0.2.2 to libsyn123.so.0.2.3
-  /usr/lib/libsyn123.so changed symlink target from libsyn123.so.0.2.2 to libsyn123.so.0.2.3
-  /usr/lib/libmpg123.so.0.48.1 moved to /usr/lib/libmpg123.so.0.48.2
-  /usr/lib/libout123.so.0.5.0 moved to /usr/lib/libout123.so.0.5.1
-  /usr/lib/libsyn123.so.0.2.2 moved to /usr/lib/libsyn123.so.0.2.3
-
---===============6303919692632011454==--
+--===============0249412672301509649==--
 
