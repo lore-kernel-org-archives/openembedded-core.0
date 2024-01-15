@@ -1,133 +1,130 @@
-Return-Path: <mark.hatle@kernel.crashing.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43A8CC3DA79
-	for <webhook@archiver.kernel.org>; Mon, 15 Jan 2024 16:31:27 +0000 (UTC)
-Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
- by mx.groups.io with SMTP id smtpd.web10.86356.1705336278326845633
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F880C3DA79
+	for <webhook@archiver.kernel.org>; Mon, 15 Jan 2024 16:39:37 +0000 (UTC)
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
+ by mx.groups.io with SMTP id smtpd.web11.86187.1705336774574788455
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jan 2024 08:31:18 -0800
+ Mon, 15 Jan 2024 08:39:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
-Received: from [192.168.2.37] ([70.99.78.137])
-	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 40FGVHEb026100
-	for <openembedded-core@lists.openembedded.org>; Mon, 15 Jan 2024 10:31:17 -0600
-Message-ID: <568f6686-51c8-49c5-b4e5-2dafbf3f6f1e@kernel.crashing.org>
-Date: Mon, 15 Jan 2024 10:31:16 -0600
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=YUG5Gcoz;
+ spf=pass (domain: gmail.com, ip: 209.85.160.43, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-2043e721daaso5690260fac.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jan 2024 08:39:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1705336774; x=1705941574; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=pFGvVIzaYop7gXp2gzBQ3YCzQR3MRYllTB4+ifDX8j0=;
+        b=YUG5GcozH/j7ohhEqQb9W/b5asuf0du46H0tAix1wr+Uh+8B/ZQbMtMtTPHTkhuiHi
+         vxPz9pTNa0q9EBrEPqRna/mhqIqBV5BfPRqsHK5LL6CL0CxczLSUJkU4ibSrfpgqtMck
+         V3lzjScwQVr0TppOgwZxc7nF3M5aw69Pqm9I8dIvu+WKjqGGzkFcYkJCnJqcgN/ohWut
+         YE6OME+ldI1AhwbJIPdX09FRo3RCdaP3i9egaVWU71b2pWPIVP7upWmr0bPNWEG+Spox
+         cgbTCxJvmb3y/8zMWLYzqiVldZAZevzZ1t7fczINV/xFJwQrypQ0IcPl6jURr+T51IyM
+         Mxcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705336774; x=1705941574;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pFGvVIzaYop7gXp2gzBQ3YCzQR3MRYllTB4+ifDX8j0=;
+        b=JnJ4aND5GvMTT/UnFspwUO1e1P7i4P0dcsV4PSl/l+INshKHrMC7LXoC/5/JO7tezA
+         0JMyyNoz4dhdEEG/J4iNS2VcY/hTW9QOUGWV0Y/oHepcLAPSoYM0wYHAz9FG+dM0CSOq
+         nLWDSo1gGf7mwB4JLunSFpOwX088itsyr/43pR9tw4Cab0wDNvgnEdewVkf+6tsqOJto
+         iI7q94aRB7DloAFs19PgNA4WkXNz7gqibQSfbG8SdfJthSmmKXCtx3q9Oks45//jc6kg
+         8e+Uf3pgWLpW74L2xh3e53kHsIWEosaoedLrxmpKalLb6zXxEHkkYhLqQzUDxutOCeUo
+         w5ng==
+X-Gm-Message-State: AOJu0YwSCRcMxINOtdy8/4de02COvcF7YNf3RZ/y52HJieyikjjHjZ/O
+	pxZ67vqTCM9JDV7IT4hQe3L6NOpl4P+blVtTaWM=
+X-Google-Smtp-Source: AGHT+IHQWtivV8sjTukbRkd5HpFZq2KB+VRdyBkfHVnSZI5vLFy1V72EIXdo09T83fcYiRNQ5qD4UO9pjN6XCFy8QNU=
+X-Received: by 2002:a05:6870:6b8b:b0:203:49b8:aac4 with SMTP id
+ ms11-20020a0568706b8b00b0020349b8aac4mr8802369oab.54.1705336772969; Mon, 15
+ Jan 2024 08:39:32 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] Removing Github release SRC_URIs from oe-core recipes?
-Content-Language: en-US
-To: openembedded-core@lists.openembedded.org
-References: <2ef89f525fd5ceaec574d025c515033c06fcaf6c.camel@iris-sensing.com>
- <17AA7149AA53F0BC.13033@lists.openembedded.org>
- <CANNYZj9yuJemGmM3aLqL+LEaixSrqchgH3406fzreQbqzjwPaA@mail.gmail.com>
- <af6662addc22623e6b10e24a62b7a0c39c749ed7.camel@iris-sensing.com>
-From: Mark Hatle <mark.hatle@kernel.crashing.org>
-In-Reply-To: <af6662addc22623e6b10e24a62b7a0c39c749ed7.camel@iris-sensing.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by gate.crashing.org id 40FGVHEb026100
+References: <20240109192923.3183219-1-raj.khem@gmail.com> <3B3DBDDB-9E17-431A-B3E8-DC8E072066FC@arm.com>
+In-Reply-To: <3B3DBDDB-9E17-431A-B3E8-DC8E072066FC@arm.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 15 Jan 2024 08:39:22 -0800
+Message-ID: <CAMKF1so70hh_XBPgDrSjpfVx4=qv=WPBAe2bj2WScuDKZRmHjw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3] glib-networking: Fix ptest failures with
+ openssl backend
+To: Ross Burton <ross.burton@arm.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000934925060efea89a"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Jan 2024 16:31:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193686
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Jan 2024 16:39:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193687
+
+--000000000000934925060efea89a
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Jan 15, 2024 at 5:41=E2=80=AFAM Ross Burton <Ross.Burton@arm.com> w=
+rote:
+
+> On 9 Jan 2024, at 19:29, Khem Raj via lists.openembedded.org <raj.khem=3D
+> gmail.com@lists.openembedded.org> wrote:
+> > ++  #ifndef BACKEND_IS_OPENSSL
+> > +   g_test_add ("/tls/" BACKEND "/connection/unclean-close-by-server",
+> TestConnection, NULL,
+> > +               setup_connection, test_unclean_close_by_server,
+> teardown_connection);
+> > ++  #endif
+>
+> Personally, unless upstream say =E2=80=9Cyes this test doesn=E2=80=99t wo=
+rk on openssl
+> yet=E2=80=9D and mark it as such, this is still a test failure that is fa=
+iling for
+> unknown reasons.
+>
+> We could #if 0 out every test that failed and rejoice in our 100% pass
+> test cases but that would be a terrible idea, so why is this different?
+>
+
+This however is not the case here. Upstream has accepted the bug already
+and marked it so as well. I am not sure why we should act more stricter in
+accepting patches than upstream activity here.
 
 
+> Ross
 
-On 1/15/24 7:50 AM, Jasper Orschulko via lists.openembedded.org wrote:
-> Hi Alex,
->=20
->> Okay, I've read the README file in that repo, and if i understood it
->> right, the process is:
->> - run fossology
->> - have a human inspect the output, and correct it on a file by file
->> basis (tremendous waste of time and limited developer resources even
->> when done the 'open source way' if you ask me but whatevs)
->> - place the corrected output into the above repository
->=20
-> Correct.
->=20
->> Do you really really need the 'human corrected' part of all this?
->=20
-> Unfortunately we do need the "human corrected" part (I wish we
-> wouldn't). We have industry customers (and in turn our legal
-> department) that demand a license compliance report and clearing on a
-> "per-file" basis. Currently available scanning tools are unfortunately
-> way to unreliable for usage without any human interaction (believe me,
-> we tried).
->=20
-> Will this be stupid amount of work? Yes. Is this compliance obligations
-> gone mad? IMO, absolutely yes.
->=20
-> But unfortunately this seems to be the way the industry is heading. We
-> as a supplier company are getting more and more requests of this sort
-> from our clients (big players in the public transport and automotive
-> industry) who won't "play" with us unless these obligations are
-> fulfilled. I've also heared similar stories from other companies.
-> (That's what you get when you let company lawyers go wild =F0=9F=98=89=EF=
-=B8=8F)
->=20
-> So I'm not happy with the situation but doing the best I can, given the
-> requirements. In our case that means sharing our license clearings
-> (which we have to do in any case) with the open source community, in
-> the hope that other companies have similar challenges and that we can
-> get some crowd-sourcing going.
->=20
->> It will never possibly cover all of the packages you need to ship and
->> match all their versions.
->=20
-> So what we are currently striving for is covering all target relevant
-> packages (aka without any special suffixes) of a "basic linux build"
-> (aka image-core-minimal) for LTS releases (starting with kirkstone).
-> Additionally, meta-ossselot will have logic for re-use of other package
-> versions (so does osselot as a whole), limiting curation to the diff.
-> I also have some ideas on dealing with openembedded patches added to
-> point releases (currently another pain point).
+--000000000000934925060efea89a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-One note, when I worked on this a few years ago (pre-2020) each source fi=
-le was=20
-correlated to an entry in our SPDX database.  The licenses were manually=20
-reviewed and that was all attached to a file's hash.
+<div dir=3D"auto"><br></div><div><br><div class=3D"gmail_quote"><div dir=3D=
+"ltr" class=3D"gmail_attr">On Mon, Jan 15, 2024 at 5:41=E2=80=AFAM Ross Bur=
+ton &lt;<a href=3D"mailto:Ross.Burton@arm.com">Ross.Burton@arm.com</a>&gt; =
+wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
+x;border-left:1px #ccc solid;padding-left:1ex">On 9 Jan 2024, at 19:29, Khe=
+m Raj via <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" targ=
+et=3D"_blank">lists.openembedded.org</a> &lt;raj.khem=3D<a href=3D"mailto:g=
+mail.com@lists.openembedded.org" target=3D"_blank">gmail.com@lists.openembe=
+dded.org</a>&gt; wrote:<br>
+&gt; ++=C2=A0 #ifndef BACKEND_IS_OPENSSL<br>
+&gt; +=C2=A0 =C2=A0g_test_add (&quot;/tls/&quot; BACKEND &quot;/connection/=
+unclean-close-by-server&quot;, TestConnection, NULL,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0setup_connecti=
+on, test_unclean_close_by_server, teardown_connection);<br>
+&gt; ++=C2=A0 #endif<br>
+<br>
+Personally, unless upstream say =E2=80=9Cyes this test doesn=E2=80=99t work=
+ on openssl yet=E2=80=9D and mark it as such, this is still a test failure =
+that is failing for unknown reasons.<br>
+<br>
+We could #if 0 out every test that failed and rejoice in our 100% pass test=
+ cases but that would be a terrible idea, so why is this different?<br>
+</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">This however is =
+not the case here. Upstream has accepted the bug already and marked it so a=
+s well. I am not sure why we should act more stricter in accepting patches =
+than upstream activity here.=C2=A0</div><div dir=3D"auto"><br></div><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
+solid;padding-left:1ex"><br>
+Ross</blockquote></div></div>
 
-This way it didn't matter if you were looking at an upstream tarball, an=20
-upstream git repository, or any other mode of getting the source code.
-
-Tracking was effectively "human reviewed" SPDX was compared against the p=
-atched=20
-file manifest.  Any sources that didn't match the checksum were flagged f=
-or=20
-review.  A master database of checksums were also available to see if the=
- file=20
-was duplicated in other repositories as well.  This also allowed comparis=
-on of=20
-license/copyright and possibly patent data between different projects.  (=
-and=20
-ALSO allowed exceptions for generated m4, configure.in, etc files!)
-
-This manual review work absolutely needs to be done for some parts of the=
- world=20
-and some company requirements... but be careful not to make the work so c=
-omplex=20
-it can't be completed.
-
---Mark
-
-> Best,
-> Jasper
->=20
->=20
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#193674): https://lists.openembedded.org/g/openembed=
-ded-core/message/193674
-> Mute This Topic: https://lists.openembedded.org/mt/103730186/3616948
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-mark.hatle@kernel.crashing.org]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+--000000000000934925060efea89a--
 
