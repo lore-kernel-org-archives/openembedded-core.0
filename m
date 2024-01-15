@@ -1,97 +1,89 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <scott.murray@konsulko.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22D49C3DA79
-	for <webhook@archiver.kernel.org>; Mon, 15 Jan 2024 21:18:44 +0000 (UTC)
-Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
- by mx.groups.io with SMTP id smtpd.web10.96307.1705353516247363074
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 361B1C3DA79
+	for <webhook@archiver.kernel.org>; Mon, 15 Jan 2024 21:50:24 +0000 (UTC)
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+ by mx.groups.io with SMTP id smtpd.web10.97219.1705355418402563458
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jan 2024 13:18:36 -0800
+ Mon, 15 Jan 2024 13:50:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Mnb3EXtG;
- spf=pass (domain: gmail.com, ip: 209.85.160.42, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-204f50f305cso6106989fac.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jan 2024 13:18:36 -0800 (PST)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=XhDGuGIx;
+ spf=pass (domain: konsulko.com, ip: 209.85.160.180, mailfrom: scott.murray@konsulko.com)
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-429be9fe952so32433751cf.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jan 2024 13:50:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705353515; x=1705958315; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lO3/+PfY6qnNXOkCeWRgeCF8GUbKIo4LKMKqnH/pCfo=;
-        b=Mnb3EXtGj2Zvz5TfMyzcl4YhE3G/U/7JqNQh5WeChoyuRTIz4UO+QD3EYwKIL+K+KW
-         Q2IeVFI2oYQu/ub4tyDo6whwcBiVnkeyWTm5lRMeMdVhDiPy/n/AJQXaAiT6Kxilnklc
-         zO0Fc63JRhpLTG3UiMCNzeI1x4VMpVOPzoNnDZHHox+asdeDlCNQ3/49iHH1p4SfrKSd
-         S60fVOkWuIMvnU6sqGr8sy4Q+BRr/EhI8AJSxO+RsFtUhTPNflBsTn8Wlk3f+OsGInmW
-         cIsQ/Ov/QnsG8dBF5UvgG5l2ZRCfDrTIbHnEo5e2NghY3tTDdByk5tsV+BI/rKrg8OJb
-         a3eQ==
+        d=konsulko.com; s=google; t=1705355417; x=1705960217; darn=lists.openembedded.org;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3aLYO9l50Pa/49mwT7g7orvsDl6yWqjoehFcarG8FZg=;
+        b=XhDGuGIxdnX9/wWDf3mRhdlNkNhJvzryxkQJGp24O+A+MCcfnaMkEwOmGVCMi90iqT
+         BRnz2V5XMsKq8Ysd7SSIaz1g+uMmFGMcC8Dm3SvUY9fypd0Cq+4qmb/eNPN8TIF8REzN
+         qs3ag0xznFsa1eZZEroTRaDoFFUjlMvffzuEU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705353515; x=1705958315;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lO3/+PfY6qnNXOkCeWRgeCF8GUbKIo4LKMKqnH/pCfo=;
-        b=PJAgr7qStmzhgFHeJjgBYfwSIYBKnnBGWdXEHsoCIh7BE9zNnsTpKAJgopLOEFLxDv
-         4YpLTT1lBhx3LiyUljuUIgrboaWaSAFM5lfv43mMnx3cHsUdd8FZTEVVkg/HIoncMmFZ
-         BWvfngueQCnhbcOqqN1QQEg6G3flFZX8j9ysuyoaw1K7VspRilFfIHKMYT52jVTCAntD
-         xBckSI+cFrxq1q8oE5s4c6x42ONRaPvjLHpTvMfSC1IKpoP+9QxNLf0q+wCb7DUbTKq0
-         Gn43EL1sAYQ2ye5fWLdsYtaF2v8CWGRY2s+ulOc6EB9TJxe3yE7mQRxJnCtxtH3/Y//2
-         ubTw==
-X-Gm-Message-State: AOJu0YwsSKiRgRdukD+excxS3bQMB0NxIyFPBfQRgvqyCctQybnyPb03
-	Ii/jrrdrVom1HtoBZnmlHFZcVQeSz6NIb98PEY8=
-X-Google-Smtp-Source: AGHT+IFW+zWkErrwS9FzTaE/M0O19712mPPs0XnKHmxj4s59BRHT5gYvIQCjwd2sJkyRQInmvn53nkRN6NxEG5jdlT8=
-X-Received: by 2002:a05:6870:3913:b0:206:cf8:f0db with SMTP id
- b19-20020a056870391300b002060cf8f0dbmr8185427oap.43.1705353515437; Mon, 15
- Jan 2024 13:18:35 -0800 (PST)
+        d=1e100.net; s=20230601; t=1705355417; x=1705960217;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3aLYO9l50Pa/49mwT7g7orvsDl6yWqjoehFcarG8FZg=;
+        b=gzTFDPNcrz75e1oXgEPzsvKBcNbDEGqZd5XHBDCbaweCL5ctmMR348Mo/LyZvThfTU
+         YqpaHRccW3yQD+/7A4ozlCIvUXKN/huh+HlUxR8LY080AVK336cziYB67wwFGX1AIpNV
+         LjVei8GIccdSfaVGCbsSpf7y5iFdBuJV3kR55osPNR56zy8mOY8GutUka1+ZajXSQ98t
+         Opj6KD0rJq/dbSycAP+/khYEvVAzucqip1vsXFi7vGv/NJIp6feOEsKXL4v6ZWrtE49m
+         5pzUtOTtE3D/2o3zOoaRKt2RwpXUGqf3tTJV5woS+OG4/55zY0OmeJZ10vm7CuQ8UhGC
+         +1Ww==
+X-Gm-Message-State: AOJu0YxCxYWkR7398o0VX/tBTtJIDmvFDLhyztK0KK9YG5PfHsqpcTgW
+	mQIKOHT9zOWETeDaGubC2ZSCAgqtJfr+WA==
+X-Google-Smtp-Source: AGHT+IEoUuKicP2NzpDtv008yQLqGnv0XPu+2W8mQ0RBqxucHc0VhSw1sb1ZO1Jv7SD4nUSn3Dq8sA==
+X-Received: by 2002:ac8:5e0f:0:b0:429:f134:929a with SMTP id h15-20020ac85e0f000000b00429f134929amr2562655qtx.53.1705355417403;
+        Mon, 15 Jan 2024 13:50:17 -0800 (PST)
+Received: from godzilla (107-179-213-3.cpe.teksavvy.com. [107.179.213.3])
+        by smtp.gmail.com with ESMTPSA id u13-20020a05622a010d00b00429ff82eb74sm277982qtw.82.2024.01.15.13.50.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Jan 2024 13:50:16 -0800 (PST)
+Date: Mon, 15 Jan 2024 16:50:00 -0500 (EST)
+From: Scott Murray <scott.murray@konsulko.com>
+To: randy.macleod@windriver.com
+cc: alexandre.belloni@bootlin.com, stephane.desneux@iot.bzh, 
+    jsmoeller@linuxfoundation.org, openembedded-core@lists.openembedded.org, 
+    anuj.mittal@intel.com, david.zuhn@sonos.com
+Subject: Re: [OE-core] [PATCH] rng-tools: move to meta-oe
+In-Reply-To: <cfa90344-0753-4ae1-9979-2c0f12a33d50@windriver.com>
+Message-ID: <b8554634-5da9-9872-660a-5e94a62c765e@konsulko.com>
+References: <20240110202501.1554379-1-Randy.MacLeod@windriver.com> <20240115165859d332c9cb@mail.local> <cfa90344-0753-4ae1-9979-2c0f12a33d50@windriver.com>
 MIME-Version: 1.0
-References: <20240109192923.3183219-1-raj.khem@gmail.com> <3B3DBDDB-9E17-431A-B3E8-DC8E072066FC@arm.com>
- <CANNYZj_oydN+0ODz_kCjus74uzF-wUhcZ1nfmYqrRo+BoupB4A@mail.gmail.com>
- <3642B18A-B5F2-40EF-B1A9-303923477117@arm.com> <CAMKF1soNT6kc-jCNsop1qaQVxDphZEO3DNa5AB4jwP=2Rd729w@mail.gmail.com>
- <D8380C51-6614-4A8A-AC51-E702FC039561@arm.com> <CAMKF1sp9qs6Ue2n1S6cJbWu4wJ6MPb-WgnpBaqq-MMYwU9hrDw@mail.gmail.com>
-In-Reply-To: <CAMKF1sp9qs6Ue2n1S6cJbWu4wJ6MPb-WgnpBaqq-MMYwU9hrDw@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 15 Jan 2024 13:18:09 -0800
-Message-ID: <CAMKF1sqaDxgSprt3OWKRKQ123k3DRumP67xknU0iNNOFOzpvNA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3] glib-networking: Fix ptest failures with
- openssl backend
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Jan 2024 21:18:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193803
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Jan 2024 21:50:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193804
 
-On Mon, Jan 15, 2024 at 11:38=E2=80=AFAM Khem Raj <raj.khem@gmail.com> wrot=
-e:
->
-> On Mon, Jan 15, 2024 at 9:06=E2=80=AFAM Ross Burton <Ross.Burton@arm.com>=
- wrote:
-> >
-> >
-> >
-> > > On 15 Jan 2024, at 16:53, Khem Raj <raj.khem@gmail.com> wrote:
-> > > Where does it say it does not support? On the contrary there are patc=
-hes in this area sent recently
-> >
-> > https://gitlab.gnome.org/GNOME/glib-networking/-/commit/8e1d80c1e0fc52d=
-17d08a21946fa4a86ec30e1db
-> >
->
-> Right, it was 3 years ago and note the mention kind of systems where
-> it maybe in use :) and OE is used for such
-> distros so it might be useful. The fixes to get openssl support
-> improved have happened after this commit.
-> Its fine if we do not want to accept patches here and wait upstream to
-> support it fully. Because than it's easier to direct
-> upstream work correctly. We just have to be clear with these criterias
-> in general.
+On Mon, 15 Jan 2024, Randy MacLeod via lists.openembedded.org wrote:
 
-Lets drop this patch.
-
+> On 2024-01-15 11:58 a.m., Alexandre Belloni via lists.openembedded.org wrote:
+> > This is breaking meta-agl-core until this gets into meta-oe:
+> >
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/120/builds/3849/steps/14/logs/stdio
 >
-> > Ross
+> Thanks Alexandre.
+>
+>
+> Stephane, Jan-Simon,
+>
+> Is rng-tools actually still a requirement for meta-agl ?
+> It was added back in 2018 but the kernel algorithm improved as of 5.6:
+> https://lists.openembedded.org/g/openembedded-core/message/178518
+
+The kernel no longer blocking does mean things won't get stuck on boot,
+but it seems like any distro with an eye towards security still needs
+either rngd or haveged present to feed in entropy on hardware that does
+not have a hardware RNG (and potentially even when there is a hardware
+RNG to improve the quality of the pool).  We definitely support some
+platforms in AGL that do not have a hardware RNG, so we'll have to work
+out whether we're going to need to eat making meta-oe a hard requirement
+for using meta-agl-core or do something else.
+
+Scott
+
 
