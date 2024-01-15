@@ -1,259 +1,96 @@
-Return-Path: <jamin_lin@aspeedtech.com>
+Return-Path: <chee.yang.lee@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83E4CC3DA79
-	for <webhook@archiver.kernel.org>; Mon, 15 Jan 2024 07:54:24 +0000 (UTC)
-Received: from TWMBX02.aspeed.com (TWMBX02.aspeed.com [211.20.114.72])
- by mx.groups.io with SMTP id smtpd.web11.72030.1705305261478423235
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 746DFC3DA79
+	for <webhook@archiver.kernel.org>; Mon, 15 Jan 2024 07:59:44 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+ by mx.groups.io with SMTP id smtpd.web10.72636.1705305579383474380
  for <openembedded-core@lists.openembedded.org>;
- Sun, 14 Jan 2024 23:54:22 -0800
+ Sun, 14 Jan 2024 23:59:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: aspeedtech.com, ip: 211.20.114.72, mailfrom: jamin_lin@aspeedtech.com)
-Received: from TWMBX02.aspeed.com (192.168.0.24) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 15 Jan
- 2024 15:54:18 +0800
-Received: from twmbx02.aspeed.com (192.168.10.10) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 15 Jan 2024 15:54:18 +0800
-From: Jamin Lin <jamin_lin@aspeedtech.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] uboot-sign: support to load optee-os and TFA images
-Date: Mon, 15 Jan 2024 15:54:16 +0800
-Message-ID: <20240115075416.393025-1-jamin_lin@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@intel.com header.s=Intel header.b=e3sTcgO2;
+ spf=pass (domain: intel.com, ip: 134.134.136.65, mailfrom: chee.yang.lee@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705305579; x=1736841579;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=VmaBwRqV7rE67sj7drD1iLBtvkQ2PWFMMjbQwRaFKSE=;
+  b=e3sTcgO2w70bs45o2Wn7KWw/zrtIChoilcfVI6U5YuGAENyBeDq48OWO
+   Dj60X9w3od7ooJusUkKZRJqVqd1TTUlSaanBMfhmLrgKaJZM4G5wNWtNr
+   JhaPJlRlk4n9R4W+vW+pnvnk0SVqfeExuhPLSHdlEHdoZKOsJFPDqrMnj
+   TSlXciBvsl0ctjewyc4HSB44gK3+E7A6bKu2Eaz1pG6/6zwipMzC2ZhbB
+   ti5q+uRmjyP+NgCT219VFdxgNr5G5HUQ24mO4ik9FeHAJ1xrTGiqo4IId
+   MHVBc/QDQXZ+s7EfK+7kNTuDvQFJ5z5536jtgccuKEz13AjBW2sfJFshN
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="403316088"
+X-IronPort-AV: E=Sophos;i="6.04,196,1695711600"; 
+   d="scan'208";a="403316088"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2024 23:59:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10953"; a="787007043"
+X-IronPort-AV: E=Sophos;i="6.04,196,1695711600"; 
+   d="scan'208";a="787007043"
+Received: from andromeda02.png.intel.com ([10.221.253.198])
+  by fmsmga007.fm.intel.com with ESMTP; 14 Jan 2024 23:59:37 -0800
+From: chee.yang.lee@intel.com
+To: openembedded-core@lists.openembedded.org
+Subject: [master][nanbield][patch] qemu: 8.1.2 -> 8.1.4
+Date: Mon, 15 Jan 2024 15:30:57 +0800
+Message-Id: <20240115073057.2143308-1-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-Received-SPF: Fail (TWMBX02.aspeed.com: domain of jamin_lin@aspeedtech.com
- does not designate 192.168.10.10 as permitted sender)
- receiver=TWMBX02.aspeed.com; client-ip=192.168.10.10;
- helo=twmbx02.aspeed.com;
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 15 Jan 2024 07:54:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193636
+ <openembedded-core@lists.openembedded.org>; Mon, 15 Jan 2024 07:59:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193637
 
-Currently, u-boot FIT image only support to load u-boot image.
-To support optee-os and trusted-firmware-a, update ITS file generation
-scripts, so users are able to use u-boot FIT image to load
-u-boot, optee-os and treustred-firmware-a images
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-Add a variable "UBOOT_FIT_ARM_TRUSTED_FIRMWARE_A" to
-enable trusted-firmware-a image and it is disable by default.
+update include fix for CVE-2023-3019.
+CVE-2023-3019 : https://github.com/qemu/qemu/commit/88e79a2dfda319f9ebec2cc8a5c3c9733716d13f
 
-Add a variable "UBOOT_FIT_OPTEE_OS" to enable optee-os image
-and it is disable by default.
-
-The ITS file creation loos like as following.
-1. Both optee-os and trusted-firmware-a are disabled.
-'''
-/dts-v1/;
-
-/ {
-    images {
-        uboot {
-
-        };
-        fdt {
-        };
-    };
-
-    configurations {
-        default =3D "conf";
-        conf {
-            loadables =3D "uboot";
-            fdt =3D "fdt";
-        };
-    };
-};
-'''
-
-2. Only enable optee-os
-'''
-/dts-v1/;
-
-/ {
-    images {
-        uboot {
-        };
-        fdt {
-        };
-        optee {
-        };
-    };
-
-    configurations {
-        default =3D "conf";
-        conf {
-            firmware =3D "optee";
-            loadables =3D "uboot";
-            fdt =3D "fdt";
-        };
-    };
-};
-'''
-
-3: Both optee-os and trusted-firmware-a are enabled
-'''
-/dts-v1/;
-
-/ {
-    images {
-        uboot {
-        };
-        fdt {
-        };
-        atf {
-        };
-        optee {
-        };
-    };
-
-    configurations {
-        default =3D "conf";
-        conf {
-            firmware =3D "atf";
-            loadables =3D "uboot", "optee";
-            fdt =3D "fdt";
-        };
-    };
-};
-'''
-
-Signed-off-by: Jamin Lin <jamin_lin@aspeedtech.com>
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 ---
- meta/classes-recipe/uboot-sign.bbclass | 91 +++++++++++++++++++++++++-
- 1 file changed, 90 insertions(+), 1 deletion(-)
+ .../qemu/{qemu-native_8.1.2.bb => qemu-native_8.1.4.bb}         | 0
+ ...{qemu-system-native_8.1.2.bb => qemu-system-native_8.1.4.bb} | 0
+ meta/recipes-devtools/qemu/qemu.inc                             | 2 +-
+ meta/recipes-devtools/qemu/{qemu_8.1.2.bb => qemu_8.1.4.bb}     | 0
+ 4 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/qemu/{qemu-native_8.1.2.bb => qemu-native_8.1.4.bb} (100%)
+ rename meta/recipes-devtools/qemu/{qemu-system-native_8.1.2.bb => qemu-system-native_8.1.4.bb} (100%)
+ rename meta/recipes-devtools/qemu/{qemu_8.1.2.bb => qemu_8.1.4.bb} (100%)
 
-diff --git a/meta/classes-recipe/uboot-sign.bbclass b/meta/classes-recipe/u=
-boot-sign.bbclass
-index ad04c82378..b874eb84db 100644
---- a/meta/classes-recipe/uboot-sign.bbclass
-+++ b/meta/classes-recipe/uboot-sign.bbclass
-@@ -88,6 +88,18 @@ UBOOT_FIT_ADDRESS_CELLS ?=3D "1"
- # This is only necessary for determining the signing configuration
- KERNEL_PN =3D "${PREFERRED_PROVIDER_virtual/kernel}"
-=20
-+# Trusted Firmware-A (TF-A) provides a reference implementation of
-+# secure world software for Armv7-A and Armv8-A,
-+# including a Secure Monitor executing at Exception Level 3 (EL3)
-+# ATF is used as the initial start code on ARMv8-A cores for all K3 platfo=
-rms
-+UBOOT_FIT_ARM_TRUSTED_FIRMWARE_A ?=3D "0"
-+UBOOT_FIT_ARM_TRUSTED_FIRMWARE_A_IMAGE ?=3D "bl31.bin"
-+
-+# OP-TEE is a Trusted Execution Environment (TEE) designed as
-+# companion to a non-secure Linux kernel running on Arm
-+UBOOT_FIT_OPTEE_OS ?=3D "0"
-+UBOOT_FIT_OPTEE_OS_IMAGE ?=3D "tee-raw.bin"
-+
- python() {
-     # We need u-boot-tools-native if we're creating a U-Boot fitImage
-     sign =3D d.getVar('UBOOT_SIGN_ENABLE') =3D=3D '1'
-@@ -230,6 +242,20 @@ addtask uboot_generate_rsa_keys before do_uboot_assemb=
-le_fitimage after do_compi
- # Create a ITS file for the U-boot FIT, for use when
- # we want to sign it so that the SPL can verify it
- uboot_fitimage_assemble() {
-+	conf_loadables=3D"\"uboot\""
-+	conf_firmware=3D""
-+
-+	if [ "${UBOOT_FIT_ARM_TRUSTED_FIRMWARE_A}" =3D "1" ]; then
-+		conf_firmware=3D"\"atf\""
-+		if [ "${UBOOT_FIT_OPTEE_OS}" =3D "1" ]; then
-+			conf_loadables=3D"\"uboot\", \"optee\""
-+		fi
-+	else
-+		if [ "${UBOOT_FIT_OPTEE_OS}" =3D "1" ]; then
-+			conf_firmware=3D"\"optee\""
-+		fi
-+	fi
-+
- 	rm -f ${UBOOT_ITS} ${UBOOT_FITIMAGE_BINARY}
-=20
- 	# First we create the ITS script
-@@ -282,13 +308,76 @@ EOF
-=20
- 	cat << EOF >> ${UBOOT_ITS}
-         };
-+EOF
-+	if [ "${UBOOT_FIT_ARM_TRUSTED_FIRMWARE_A}" =3D "1" ] ; then
-+		cat << EOF >> ${UBOOT_ITS}
-+        atf {
-+            description =3D "ARM Trusted Firmware-A";
-+            data =3D /incbin/("${UBOOT_FIT_ARM_TRUSTED_FIRMWARE_A_IMAGE}")=
-;
-+            type =3D "firmware";
-+            arch =3D "${UBOOT_ARCH}";
-+            os =3D "arm-trusted-firmware";
-+            load =3D <${UBOOT_FIT_ARM_TRUSTED_FIRMWARE_A_LOADADDRESS}>;
-+            entry =3D <${UBOOT_FIT_ARM_TRUSTED_FIRMWARE_A_ENTRYPOINT}>;
-+            compression =3D "none";
-+EOF
-+
-+		if [ "${SPL_SIGN_ENABLE}" =3D "1" ] ; then
-+			cat << EOF >> ${UBOOT_ITS}
-+            signature {
-+                algo =3D "${UBOOT_FIT_HASH_ALG},${UBOOT_FIT_SIGN_ALG}";
-+                key-name-hint =3D "${SPL_SIGN_KEYNAME}";
-+            };
-+EOF
-+		fi
-+
-+	cat << EOF >> ${UBOOT_ITS}
-+        };
-+EOF
-+	fi
-+
-+	if [ "${UBOOT_FIT_OPTEE_OS}" =3D "1" ] ; then
-+		cat << EOF >> ${UBOOT_ITS}
-+        optee {
-+            description =3D "OPTEE OS Image";
-+            data =3D /incbin/("${UBOOT_FIT_OPTEE_OS_IMAGE}");
-+            type =3D "tee";
-+            arch =3D "${UBOOT_ARCH}";
-+            os =3D "tee";
-+            load =3D <${UBOOT_FIT_OPTEE_OS_LOADADDRESS}>;
-+            entry =3D <${UBOOT_FIT_OPTEE_OS_ENTRYPOINT}>;
-+            compression =3D "none";
-+EOF
-+
-+		if [ "${SPL_SIGN_ENABLE}" =3D "1" ] ; then
-+			cat << EOF >> ${UBOOT_ITS}
-+            signature {
-+                algo =3D "${UBOOT_FIT_HASH_ALG},${UBOOT_FIT_SIGN_ALG}";
-+                key-name-hint =3D "${SPL_SIGN_KEYNAME}";
-+            };
-+EOF
-+		fi
-+
-+	cat << EOF >> ${UBOOT_ITS}
-+        };
-+EOF
-+	fi
-+
-+	cat << EOF >> ${UBOOT_ITS}
-     };
-=20
-     configurations {
-         default =3D "conf";
-         conf {
-             description =3D "Boot with signed U-Boot FIT";
--            loadables =3D "uboot";
-+EOF
-+	if [ -n "${conf_firmware}" ]; then
-+	cat << EOF >> ${UBOOT_ITS}
-+            firmware =3D ${conf_firmware};
-+EOF
-+	fi
-+	cat << EOF >> ${UBOOT_ITS}
-+            loadables =3D ${conf_loadables};
-             fdt =3D "fdt";
-         };
-     };
---=20
-2.25.1
+diff --git a/meta/recipes-devtools/qemu/qemu-native_8.1.2.bb b/meta/recipes-devtools/qemu/qemu-native_8.1.4.bb
+similarity index 100%
+rename from meta/recipes-devtools/qemu/qemu-native_8.1.2.bb
+rename to meta/recipes-devtools/qemu/qemu-native_8.1.4.bb
+diff --git a/meta/recipes-devtools/qemu/qemu-system-native_8.1.2.bb b/meta/recipes-devtools/qemu/qemu-system-native_8.1.4.bb
+similarity index 100%
+rename from meta/recipes-devtools/qemu/qemu-system-native_8.1.2.bb
+rename to meta/recipes-devtools/qemu/qemu-system-native_8.1.4.bb
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 70515d980e..afa2915b1d 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -41,7 +41,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+ 
+-SRC_URI[sha256sum] = "541526a764576eb494d2ff5ec46aeb253e62ea29035d1c23c0a8af4e6cd4f087"
++SRC_URI[sha256sum] = "176dd6d0bdcc4c71a94172d12ddb7a3b2e8e20d638e5db26138165a382be2dbd"
+ 
+ SRC_URI:append:class-target = " file://cross.patch"
+ SRC_URI:append:class-nativesdk = " file://cross.patch"
+diff --git a/meta/recipes-devtools/qemu/qemu_8.1.2.bb b/meta/recipes-devtools/qemu/qemu_8.1.4.bb
+similarity index 100%
+rename from meta/recipes-devtools/qemu/qemu_8.1.2.bb
+rename to meta/recipes-devtools/qemu/qemu_8.1.4.bb
+-- 
+2.37.3
 
 
