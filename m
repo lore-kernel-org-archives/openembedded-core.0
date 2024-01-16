@@ -2,48 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B58D6C47DA6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B252DC4706C
 	for <webhook@archiver.kernel.org>; Tue, 16 Jan 2024 08:46:03 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.8713.1705394757532780232
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web10.8767.1705394757119615811
  for <openembedded-core@lists.openembedded.org>;
  Tue, 16 Jan 2024 00:45:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=U/QLW4b0;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=KrsNzAGN;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018d1172dc39-f2d22e2f-d864-4c0f-b375-1798f0b743bb-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=NyJqSPyD;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=CGzw5mk7;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018d1172da83-7ed14884-b91a-4462-8e69-6e533e212272-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1705394756; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=sFlf8wY6cl/tAl4nlMItrZmtfLnJOZ+x4n9xaZnPGmw=;
-	b=U/QLW4b0JQSFmnVMQfr6aydyNqg2NBvp6UQ4rPVdIc64uKrapEJZFEGLTT+uZHF5
-	sSoXPulstMzSWoBccqhkuuc5pqsvADCTrK52lHtOZPzOUvqiXTJAz3ReNsUC4eytzth
-	/GiZUSjGutgXzQnhzNw8hVLj90D58wkJD69vrfgE=
+	bh=46BAed5dA9ztJZf4BDjE16Ce5pkt8lIoqbBQSmpRubI=;
+	b=NyJqSPyDOYW/3rfv8rJQc+FW3LA+RGn2t3LDMAJMHR+F/6c5JamAhTus2PZEKADs
+	k8EZpF5J3L1C3z+Ui7IEzortYWclkYdihdHwpmvRb2U1N6Y9x33x/10bhTm4eCn+MDQ
+	DCbtZgxQEzvThBbV1tBqC/wovwV7mXj1aE/YPjFY=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1705394756;
 	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=sFlf8wY6cl/tAl4nlMItrZmtfLnJOZ+x4n9xaZnPGmw=;
-	b=KrsNzAGNDD/jBLxjIBQihygnu0QrNmXXVOY56Xf/qSbZqdx5g0kyWGgwId6bAgUH
-	j/1xQm5xbpVgAif58XNqQXsjf0SJ8wS6sEvotClsSfWIshegn6DF+kL+KHXBrnD+SWT
-	2vShNRWOj53KdDhRqQPhLr8zCvhgHGeLT4BjG59g=
+	bh=46BAed5dA9ztJZf4BDjE16Ce5pkt8lIoqbBQSmpRubI=;
+	b=CGzw5mk7q+GKDkes6Nh459wRPECpr687c83PCHVwEjX777iWgSTc+6Sd62Q0harb
+	5v0EwZ9QEgN0XklNvA5zTR4SjHjL9HcVvEWCWIf7WQv7KofOZQIYeB/zSXz9JHM5ZV3
+	9u1xh5mq+CsT0xMgp07ooIghtAjk4zjhkm+7tMA0=
 From: patchtest@automation.yoctoproject.org
 To: Vyacheslav Yurkov <uvv.mail@gmail.com>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH v2 9/9] oeqa/selftest/recipetool: Add test coverage for local
- go modules
-In-Reply-To: 20240116082327.128990-9-uvv.mail@gmail.com
+Subject: Patchtest results for [PATCH v2 8/9] oeqa/selftest/recipetool: Move helper function to the
+ class scope
+In-Reply-To: 20240116082327.128990-8-uvv.mail@gmail.com
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018d1172dc39-f2d22e2f-d864-4c0f-b375-1798f0b743bb-000000@us-west-2.amazonses.com>
+Message-ID: <0101018d1172da83-7ed14884-b91a-4462-8e69-6e533e212272-000000@us-west-2.amazonses.com>
 Date: Tue, 16 Jan 2024 08:45:56 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.01.16-54.240.27.193
+X-SES-Outgoing: 2024.01.16-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 16 Jan 2024 08:46:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193839
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193838
 
 --NextPart
 Content-Type: text/plain
@@ -53,7 +53,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/v2-9-9-oeqa-selftest-recipetool-Add-test-coverage-for-local-go-modules.patch
+Testing patch /home/patchtest/share/mboxes/v2-8-9-oeqa-selftest-recipetool-Move-helper-function-to-the-class-scope.patch
 
 FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
