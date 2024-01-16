@@ -1,159 +1,130 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F479C47077
-	for <webhook@archiver.kernel.org>; Tue, 16 Jan 2024 04:40:12 +0000 (UTC)
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
- by mx.groups.io with SMTP id smtpd.web10.4647.1705380002792771449
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CB25C47077
+	for <webhook@archiver.kernel.org>; Tue, 16 Jan 2024 04:46:32 +0000 (UTC)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+ by mx.groups.io with SMTP id smtpd.web10.4778.1705380385245101265
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jan 2024 20:40:02 -0800
+ Mon, 15 Jan 2024 20:46:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=laJQX2R0;
- spf=pass (domain: gmail.com, ip: 209.85.160.41, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-2046c724383so3408411fac.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jan 2024 20:40:02 -0800 (PST)
+ dkim=pass header.i=@mvista.com header.s=google header.b=VuxM33j9;
+ spf=pass (domain: mvista.com, ip: 209.85.128.177, mailfrom: hprajapati@mvista.com)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-5ff4b02a187so5398127b3.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jan 2024 20:46:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705380002; x=1705984802; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XU2f2IrdL0SqmS/rTv6+GMehSLQKngLJYDa4oZiZfyQ=;
-        b=laJQX2R0ggq3CxvlLOvGBDe4kOcr0QlTi+9AbkUQb+vxy500wg18T4yIo9zKO6ojBE
-         8M8dpVMv76Li9aeyuZPCS3AEgAuYfAxmrYfEIgKrqmNB9aMQ0+sdqGc9gYcnQ92v4jCM
-         FgABEdFBlEdtwcTry3Z8ikbV2d0MY9AYdz9C7+CesaROVzAPkArDWh9qa/WNHUuin90B
-         4LQAckezKAXGBtUJfrq6Btkm5oAEvn01Cyv1WTIrl/5awxBfVF1JH+0/HZGN/oM8pIHr
-         EFTRDW6GY/3bDqXQ4XOQJ8wFXoxMTQ/YehzrY6E3h02eeIIkTiMwtsFXI9kZX38CXJSB
-         iU8g==
+        d=mvista.com; s=google; t=1705380384; x=1705985184; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cKsLCVh/NmGJAIlk7kfdLgdDZXmMhfoK1oZ3vw1AG6Q=;
+        b=VuxM33j9FTY51ypqE6uKiPJE6kunrkGkvenxmMOdLUxsWvUtXhVa04vuDnkD/4dlm4
+         Ne/BMjsgBi0Y/ot3duSwTqmjFDm8LWN8n2UKBFr+FZcbL66KxFw0MqguQD/q8cB/DM7R
+         3gzARs2DNycKR6Tz8a6KxsT7f1a9ZBzU9gNBs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705380002; x=1705984802;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XU2f2IrdL0SqmS/rTv6+GMehSLQKngLJYDa4oZiZfyQ=;
-        b=mz2ej3qddLDw1creQYxSBGdyg9G4ci2iyxkOYSEAQrZzGuoiX5gaZCB4mZ6F0oFf08
-         AoWh0hgixBNPT41GgjVeg3Bg9fTN5eZyX7HV0tJaDOxRgje2gWsQGCnQYWHKg1zuytyr
-         ZNSyxFZMnlNSalUvWoslNneiqjBhFROXT4iusCPYuA9aZBNbar1nfHEVpxEZJF1zOq9z
-         mjZ0Q/dguAEG6t+RKVBBc+jdDX0GN48hjN4fgl408yNdA2b3TjfWM4WadQN6+urNEOTG
-         g1VdkcKMr1cPVVtZN6qO1+MVM+gwEyztmnkpDP3lpRx+8IxpdI33jAYeBT26PTumnTqf
-         Fdxg==
-X-Gm-Message-State: AOJu0YznNpWOrOg2Vn6t9d9cBejN3p+4Q6THuBmk/K4M4PL7YzZVnkVh
-	dA9zrgi+iXgkEz4bZ0VuKYIV/961sGwnlPzphM8=
-X-Google-Smtp-Source: AGHT+IE5ZyHORb/IByQ3XTIeUArBP8HXNUFJjaEaHnLUz5QTXTf3qy8ZrfjNCdBl2iNFxhRqxvOq8hqqpGjpWIrrf14=
-X-Received: by 2002:a05:6871:4d2:b0:203:90ab:c19 with SMTP id
- n18-20020a05687104d200b0020390ab0c19mr4076408oai.48.1705380001817; Mon, 15
- Jan 2024 20:40:01 -0800 (PST)
+        d=1e100.net; s=20230601; t=1705380384; x=1705985184;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cKsLCVh/NmGJAIlk7kfdLgdDZXmMhfoK1oZ3vw1AG6Q=;
+        b=qWBB7bgEujBJWSmjJp+0LpTFlVuSfxDNsc4r5nvr3CFdPYX4s3hVxdHRT7AthpuI68
+         8LNUwjfbBcXhzgt0wgTzBcVzrVm/uOlVi33uxa26OK+3gVO+KgFROTInvqGZ1gHdvxL6
+         7u3X7Kc7nJqrUqSicMDPjNK9ra9K4HYWhY5e6EqoUwuig6YA5TvNcgm1lN1pNRddBzK5
+         3/IqFE774/SG1yU0F0wLmv9ppuwgXPoAj0FJGDtYaqwQ6drxzEgj0syIozMGiSOQokNm
+         TuPlgWDkc+NQZSptfX89aFdCA369k3wqNVfA4PWLu9/1TUf3RrvSI8yAbzd05ywrkLGu
+         zAHA==
+X-Gm-Message-State: AOJu0Yz+Mt1JbfTg8vxmzdKimIjMnV+8QM3QuuwIk2OdLKqy+nPslJYx
+	hSkR2DHQsGJd0lYKQHVArWSjWoOHOzb/zGoch9AUHAOnaAw=
+X-Google-Smtp-Source: AGHT+IEc1ZYy1TeHk7UZBw1RQ6QGDhikcsgGF2s85CsU4sLk/alq79xVpNH97yyjqNU8Q5qQG7/neg==
+X-Received: by 2002:a81:e348:0:b0:5f6:dcf5:becf with SMTP id w8-20020a81e348000000b005f6dcf5becfmr4272712ywl.31.1705380384214;
+        Mon, 15 Jan 2024 20:46:24 -0800 (PST)
+Received: from MVIN00016.mvista.com ([27.121.101.81])
+        by smtp.gmail.com with ESMTPSA id b4-20020a170902b60400b001d3e2578e66sm8370980pls.243.2024.01.15.20.46.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Jan 2024 20:46:23 -0800 (PST)
+From: Hitendra Prajapati <hprajapati@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [kirkstone][PATCH] systemd: fix CVE-2023-7008
+Date: Tue, 16 Jan 2024 10:16:18 +0530
+Message-Id: <20240116044618.5485-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20240116032529.3321994-1-festevam@gmail.com>
-In-Reply-To: <20240116032529.3321994-1-festevam@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 15 Jan 2024 20:39:35 -0800
-Message-ID: <CAMKF1spvV5J80YahV6RP2Q05fgjHqD4bu9ueNUn87gVTpoHHCw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] weston: Update to 13.0.0
-To: Fabio Estevam <festevam@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, Fabio Estevam <festevam@denx.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Jan 2024 04:40:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193816
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Jan 2024 04:46:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193817
 
-On Mon, Jan 15, 2024 at 7:25=E2=80=AFPM Fabio Estevam <festevam@gmail.com> =
-wrote:
->
-> From: Fabio Estevam <festevam@denx.de>
->
-> Update to Weston 13.0.0.
->
-> Remove the following options that were no longer exist in 13.0.0:
-> launcher-libseat and launcher-libseat.
+Upstream-Status: Backport from https://github.com/systemd/systemd/commit/3b4cc1437b51fcc0b08da8cc3f5d1175eed25eb1
 
-I think one of them should be launcher-logind
->
-> Add seatd as a required dependency for kms.
->
-> Signed-off-by: Fabio Estevam <festevam@denx.de>
-> ---
->  .../wayland/{weston_12.0.2.bb =3D> weston_13.0.0.bb}       | 9 ++-------
->  1 file changed, 2 insertions(+), 7 deletions(-)
->  rename meta/recipes-graphics/wayland/{weston_12.0.2.bb =3D> weston_13.0.=
-0.bb} (93%)
->
-> diff --git a/meta/recipes-graphics/wayland/weston_12.0.2.bb b/meta/recipe=
-s-graphics/wayland/weston_13.0.0.bb
-> similarity index 93%
-> rename from meta/recipes-graphics/wayland/weston_12.0.2.bb
-> rename to meta/recipes-graphics/wayland/weston_13.0.0.bb
-> index cfcaaca9c7..c74f471f07 100644
-> --- a/meta/recipes-graphics/wayland/weston_12.0.2.bb
-> +++ b/meta/recipes-graphics/wayland/weston_13.0.0.bb
-> @@ -14,7 +14,7 @@ SRC_URI =3D "https://gitlab.freedesktop.org/wayland/wes=
-ton/-/releases/${PV}/downlo
->             file://systemd-notify.weston-start \
->             "
->
-> -SRC_URI[sha256sum] =3D "eb686a7cf00992a23b17f192fca9a887313e92c346ee35d8=
-575196983d656b4a"
-> +SRC_URI[sha256sum] =3D "52ff1d4aa2394a2e416c85a338b627ce97fa71d43eb762fd=
-4aaf145d36fc795a"
->
->  UPSTREAM_CHECK_URI =3D "https://wayland.freedesktop.org/releases.html"
->  UPSTREAM_CHECK_REGEX =3D "weston-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
-> @@ -38,7 +38,6 @@ PACKAGECONFIG ??=3D "${@bb.utils.contains('DISTRO_FEATU=
-RES', 'wayland', 'kms wayla
->                     ${@bb.utils.contains('DISTRO_FEATURES', 'x11 wayland'=
-, 'xwayland', '', d)} \
->                     ${@bb.utils.filter('DISTRO_FEATURES', 'systemd x11', =
-d)} \
->                     ${@bb.utils.contains_any('DISTRO_FEATURES', 'wayland =
-x11', '', 'headless', d)} \
-> -                   launcher-libseat \
->                     image-jpeg \
->                     screenshare \
->                     shell-desktop \
-> @@ -54,7 +53,7 @@ SIMPLECLIENTS ?=3D "all"
->  # Compositor choices
->  #
->  # Weston on KMS
-> -PACKAGECONFIG[kms] =3D "-Dbackend-drm=3Dtrue,-Dbackend-drm=3Dfalse,drm u=
-dev virtual/egl virtual/libgles2 virtual/libgbm mtdev"
-> +PACKAGECONFIG[kms] =3D "-Dbackend-drm=3Dtrue,-Dbackend-drm=3Dfalse,drm u=
-dev seatd virtual/egl virtual/libgles2 virtual/libgbm mtdev"
->  # Weston on Wayland (nested Weston)
->  PACKAGECONFIG[wayland] =3D "-Dbackend-wayland=3Dtrue,-Dbackend-wayland=
-=3Dfalse,virtual/egl virtual/libgles2"
->  # Weston on X11
-> @@ -93,10 +92,6 @@ PACKAGECONFIG[shell-ivi] =3D "-Dshell-ivi=3Dtrue,-Dshe=
-ll-ivi=3Dfalse"
->  PACKAGECONFIG[shell-kiosk] =3D "-Dshell-kiosk=3Dtrue,-Dshell-kiosk=3Dfal=
-se"
->  # JPEG image loading support
->  PACKAGECONFIG[image-jpeg] =3D "-Dimage-jpeg=3Dtrue,-Dimage-jpeg=3Dfalse,=
- jpeg"
-> -# support libseat based launch
-> -PACKAGECONFIG[launcher-libseat] =3D "-Dlauncher-libseat=3Dtrue,-Dlaunche=
-r-libseat=3Dfalse,seatd"
-> -# deprecated and superseded by libseat launcher
-> -PACKAGECONFIG[launcher-logind] =3D "-Ddeprecated-launcher-logind=3Dtrue,=
--Ddeprecated-launcher-logind=3Dfalse,"
->  # screencasting via PipeWire
->  PACKAGECONFIG[pipewire] =3D "-Dbackend-pipewire=3Dtrue,-Dbackend-pipewir=
-e=3Dfalse,pipewire"
->  # VNC remote screensharing
-> --
-> 2.37.3
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#193815): https://lists.openembedded.org/g/openembedde=
-d-core/message/193815
-> Mute This Topic: https://lists.openembedded.org/mt/103755579/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+---
+ .../systemd/systemd/CVE-2023-7008.patch       | 40 +++++++++++++++++++
+ meta/recipes-core/systemd/systemd_250.5.bb    |  1 +
+ 2 files changed, 41 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/CVE-2023-7008.patch
+
+diff --git a/meta/recipes-core/systemd/systemd/CVE-2023-7008.patch b/meta/recipes-core/systemd/systemd/CVE-2023-7008.patch
+new file mode 100644
+index 0000000000..e2296abc49
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/CVE-2023-7008.patch
+@@ -0,0 +1,40 @@
++From 3b4cc1437b51fcc0b08da8cc3f5d1175eed25eb1 Mon Sep 17 00:00:00 2001
++From: Michal Sekletar <msekleta@redhat.com>
++Date: Wed, 20 Dec 2023 16:44:14 +0100
++Subject: [PATCH] resolved: actually check authenticated flag of SOA
++ transaction
++
++Fixes #25676
++
++Upstream-Status: Backport [https://github.com/systemd/systemd/commit/3b4cc1437b51fcc0b08da8cc3f5d1175eed25eb1]
++CVE: CVE-2023-7008
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ src/resolve/resolved-dns-transaction.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/src/resolve/resolved-dns-transaction.c b/src/resolve/resolved-dns-transaction.c
++index f937f9f7b5..7deb598400 100644
++--- a/src/resolve/resolved-dns-transaction.c
+++++ b/src/resolve/resolved-dns-transaction.c
++@@ -2761,7 +2761,7 @@ static int dns_transaction_requires_rrsig(DnsTransaction *t, DnsResourceRecord *
++                         if (r == 0)
++                                 continue;
++ 
++-                        return FLAGS_SET(t->answer_query_flags, SD_RESOLVED_AUTHENTICATED);
+++                        return FLAGS_SET(dt->answer_query_flags, SD_RESOLVED_AUTHENTICATED);
++                 }
++ 
++                 return true;
++@@ -2788,7 +2788,7 @@ static int dns_transaction_requires_rrsig(DnsTransaction *t, DnsResourceRecord *
++                         /* We found the transaction that was supposed to find the SOA RR for us. It was
++                          * successful, but found no RR for us. This means we are not at a zone cut. In this
++                          * case, we require authentication if the SOA lookup was authenticated too. */
++-                        return FLAGS_SET(t->answer_query_flags, SD_RESOLVED_AUTHENTICATED);
+++                        return FLAGS_SET(dt->answer_query_flags, SD_RESOLVED_AUTHENTICATED);
++                 }
++ 
++                 return true;
++-- 
++2.25.1
++
+diff --git a/meta/recipes-core/systemd/systemd_250.5.bb b/meta/recipes-core/systemd/systemd_250.5.bb
+index c35557471a..889473ee1f 100644
+--- a/meta/recipes-core/systemd/systemd_250.5.bb
++++ b/meta/recipes-core/systemd/systemd_250.5.bb
+@@ -32,6 +32,7 @@ SRC_URI += "file://touchscreen.rules \
+            file://CVE-2022-4415-2.patch \
+            file://0001-network-remove-only-managed-configs-on-reconfigure-o.patch \
+            file://0001-nspawn-make-sure-host-root-can-write-to-the-uidmappe.patch \
++           file://CVE-2023-7008.patch \
+            "
+ 
+ # patches needed by musl
+-- 
+2.25.1
+
 
