@@ -1,97 +1,129 @@
-Return-Path: <uvv.mail@gmail.com>
+Return-Path: <festevam@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DD83C4706C
-	for <webhook@archiver.kernel.org>; Tue, 16 Jan 2024 10:05:44 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web10.9929.1705399537836191650
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12B60C47077
+	for <webhook@archiver.kernel.org>; Tue, 16 Jan 2024 10:07:54 +0000 (UTC)
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.web10.9954.1705399665176387191
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Jan 2024 02:05:38 -0800
+ Tue, 16 Jan 2024 02:07:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZQkjRYSK;
- spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: uvv.mail@gmail.com)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-40e800461baso10816265e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 16 Jan 2024 02:05:37 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=nV5z0W18;
+ spf=pass (domain: gmail.com, ip: 209.85.214.177, mailfrom: festevam@gmail.com)
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1d51bf8a7dcso20838465ad.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Jan 2024 02:07:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705399536; x=1706004336; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=fttAHgMDN1J42dH2WUuRBE76wgUDhr78fdBoSC0R/Q4=;
-        b=ZQkjRYSK/XJSdzjaQulhhu7EbrkhimiEPpQGsH7cxGi1r3/HO9HEk0LAOAB8KpEVlM
-         p2HFeiff1BeFS6XZkHtd3NAfkby/3LDVZUwN+nI/g5imcPWqeyQaLEvTPEyIf+/8OZqz
-         3mlxGCf7EOJH1njUFnoCRQWMrqRsXSZLEEralpeB5DWd/y5c5wql7oAkYUVFQY12j4P2
-         EAirjAmqoaNKazsscE2rCKXzZ4LPMtE5PFJ2+l4B9ZbFiiE1apBpFLsenfkdvEfzUtzJ
-         DoABbQHUOjUczCQYu4JHX/P/b1cZXSgpV2fGwBkJ0NqSetBDs6H55j5LylpRaN1JMmDd
-         0d9g==
+        d=gmail.com; s=20230601; t=1705399664; x=1706004464; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xjOtgaVYmMOB7aZO6TGu3C9Bzu2oLXutv0+x+rK1uKQ=;
+        b=nV5z0W18vlJIjFV2xaiabhp9pVyB9f2p9xL7f3Z63IZnAkGR59buyaSRJ3ZSnSm444
+         tBz5l5Ixcizc2PXkVbOC1fArNLuG5wlstw3PIuvqBQ9HrNm/02WlPp0F1Z6VvVa5l+hd
+         zsG5si4GUUaA0lSAoLo+iGiriXEu/uyFiyFv0a34sOT5r9B7vHq2fLSQpo0NKk/iId+n
+         4Tm8Cw9QiO+TomRwBuoV9Z3uyv7/t/OlsPk2m62cc4yicLQ98dHCuPaCe3LY4o9Dh2gY
+         jwE0qtQzNDB92xzsNCBjoqT5hFWsyC/8M5GrWucjYU01gf7cKjHHfSGEjK4/KIjenwwB
+         HZsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705399536; x=1706004336;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fttAHgMDN1J42dH2WUuRBE76wgUDhr78fdBoSC0R/Q4=;
-        b=HLAFpWGeBPmfBwG3QNFjoEV+cooRSceqSGEaHjxIpyPoamKjctmOYa1Xvdn6s3n4pP
-         AXZo/G7P76GxdqTAYmk+mMykCURUvlt1hv7JKA2pzknXs+jI85fifRXSM1yNf+TQISuP
-         3kTP5tBRAx6hSn5gIe1dVtXdAexY8AMzJR3zQhgid7PA3RrSICyRHqlh+9MirJTfaZgq
-         BUczUDKxhB5W8kumeabZrP1ZWr0Qz4iQ0+t9uW5bHsnpvrVzW/7ksUQQh+hRn9gi4JKU
-         zvCAK4JSnajWnFGTVugwliq6TISjTrTvLf0Q6mh08NBIXzPj1odXLLZR8ghoO6yCMqw9
-         3kkw==
-X-Gm-Message-State: AOJu0YzERdiNCGvJ++Iua7aJMtUKTNzA3jYFBFpntyutkrDzsdmPVcFO
-	MKuCkbvFbxViIsGzwt2G6Fk=
-X-Google-Smtp-Source: AGHT+IEOvBYzmtZ+rmOy5oHhu0bfdsICqULY+7HW6Fycp35QWBF7fh3HwB2vfTIRsUi+5hUy5YV57g==
-X-Received: by 2002:a05:600c:253:b0:40e:70f2:5754 with SMTP id 19-20020a05600c025300b0040e70f25754mr1083208wmj.250.1705399536004;
-        Tue, 16 Jan 2024 02:05:36 -0800 (PST)
-Received: from [10.139.3.237] ([154.47.27.145])
-        by smtp.gmail.com with ESMTPSA id n18-20020a05600c501200b0040e77ce8768sm6891009wmr.16.2024.01.16.02.05.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Jan 2024 02:05:35 -0800 (PST)
-Message-ID: <cc8df8ea-e8c6-4190-a02e-9ffcbfa7ab0b@gmail.com>
-Date: Tue, 16 Jan 2024 11:05:34 +0100
+        d=1e100.net; s=20230601; t=1705399664; x=1706004464;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xjOtgaVYmMOB7aZO6TGu3C9Bzu2oLXutv0+x+rK1uKQ=;
+        b=korR+/n5PIjRE2ibV0m+CNOZXTgbP44vppiT9F125JBKV2igLGC0gJVRDO8hfGbtyZ
+         0TlrOoQZFJN/t+HscDlON59brfujsf7h2PVAK6tazznujC3FM+fBVbx+504BS+jdgEmO
+         AOwGWCLabJvkRN4BlwNGHTe4doO/UZyhb71UuYZ9LxwVt1gb87yUTJkIdFNlXXOGwHlt
+         /sbk5o1E9LAgGdd+/PWH+pGBT7s2heKx730PC6ZB2sqbAE9BFCKdrJRJKQ+WZMhYVKfI
+         cWyXlOw8y1mc9eJOtjv94Q7Dyt1CLaX1y5nqRcBM6Vu5mtwn+YEH81yjTdgEB4KxuA0x
+         RyLA==
+X-Gm-Message-State: AOJu0YzqHhcNqI3LMG7D3b7Ngujm1m6oMyRosqHgG9ZyXuVcz6XYpYAQ
+	9Znr2ANUlInc7hrip1bqM6DFCSiYolM=
+X-Google-Smtp-Source: AGHT+IFwBHlCRCNnRWXKUte0Se5ScjGr3vojqGei5NIKKpQRZdXZ75hVcUUcJ7bdQliskPpwulQ/Vg==
+X-Received: by 2002:a17:902:e803:b0:1d4:b46d:81fe with SMTP id u3-20020a170902e80300b001d4b46d81femr13821274plg.3.1705399664123;
+        Tue, 16 Jan 2024 02:07:44 -0800 (PST)
+Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:6721:ae83:1e87:5aff])
+        by smtp.gmail.com with ESMTPSA id ja20-20020a170902efd400b001d5e7348692sm915158plb.277.2024.01.16.02.07.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Jan 2024 02:07:43 -0800 (PST)
+From: Fabio Estevam <festevam@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: raj.khem@gmail.com,
+	Fabio Estevam <festevam@denx.de>
+Subject: [PATCH v2] weston: Update to 13.0.0
+Date: Tue, 16 Jan 2024 07:07:37 -0300
+Message-Id: <20240116100737.3324375-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] Patchtest results for [PATCH v2 7/9]
- oeqa/selftest/recipetool: Move create_go test to a proper class
-Content-Language: en-US
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: patchtest@automation.yoctoproject.org,
- openembedded-core@lists.openembedded.org
-References: <0101018d1172d8bd-cd6ef52d-0c3b-4f2e-9b9a-a06b4234da50-000000@us-west-2.amazonses.com>
- <553ec677-73d2-4595-a113-304f269918a5@gmail.com>
- <CANNYZj_T7xfJy51UaB9UVaB_S-ZM=UHNy-7Aqu2akAyd+P4syw@mail.gmail.com>
- <20240116092834f19a1e78@mail.local>
- <CANNYZj90_-6AssGQLxc7tAqT24KDBMB5NPNpsD3g-XLOXc1sGg@mail.gmail.com>
-From: Vyacheslav Yurkov <uvv.mail@gmail.com>
-In-Reply-To: <CANNYZj90_-6AssGQLxc7tAqT24KDBMB5NPNpsD3g-XLOXc1sGg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Jan 2024 10:05:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193848
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Jan 2024 10:07:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193849
 
-I also have the same opinion. What else am I supposed to write in the 
-body if it were merely a refactoring (function moved, renamed, etc), and 
-it's already described in the hearer?
+From: Fabio Estevam <festevam@denx.de>
 
-Slava
+Update to Weston 13.0.0.
 
-On 16.01.2024 10:32, Alexander Kanavin wrote:
-> Because making it strict would only result in useless noise in the
-> commit logs. It's entirely valid to have changes that can fully be
-> described with a commit header. I see it as a notice to consider if
-> the commit message should be added, at the discretion of both
-> submitter and committer.
->
-> Alex
->
-> On Tue, 16 Jan 2024 at 10:28, Alexandre Belloni
-> <alexandre.belloni@bootlin.com> wrote:
->> On 16/01/2024 10:08:50+0100, Alexander Kanavin wrote:
->>> No.
->> Why not?
->>
+Remove the following options that were no longer exist in 13.0.0:
+deprecated-launcher-logind and launcher-libseat.
+
+Add seatd as a required dependency for kms.
+
+Signed-off-by: Fabio Estevam <festevam@denx.de>
+---
+Changes since v1:
+- Fixed typo in the commit log. (Khem)
+
+ .../wayland/{weston_12.0.2.bb => weston_13.0.0.bb}       | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
+ rename meta/recipes-graphics/wayland/{weston_12.0.2.bb => weston_13.0.0.bb} (93%)
+
+diff --git a/meta/recipes-graphics/wayland/weston_12.0.2.bb b/meta/recipes-graphics/wayland/weston_13.0.0.bb
+similarity index 93%
+rename from meta/recipes-graphics/wayland/weston_12.0.2.bb
+rename to meta/recipes-graphics/wayland/weston_13.0.0.bb
+index cfcaaca9c7..c74f471f07 100644
+--- a/meta/recipes-graphics/wayland/weston_12.0.2.bb
++++ b/meta/recipes-graphics/wayland/weston_13.0.0.bb
+@@ -14,7 +14,7 @@ SRC_URI = "https://gitlab.freedesktop.org/wayland/weston/-/releases/${PV}/downlo
+            file://systemd-notify.weston-start \
+            "
+ 
+-SRC_URI[sha256sum] = "eb686a7cf00992a23b17f192fca9a887313e92c346ee35d8575196983d656b4a"
++SRC_URI[sha256sum] = "52ff1d4aa2394a2e416c85a338b627ce97fa71d43eb762fd4aaf145d36fc795a"
+ 
+ UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
+ UPSTREAM_CHECK_REGEX = "weston-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
+@@ -38,7 +38,6 @@ PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'kms wayla
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 wayland', 'xwayland', '', d)} \
+                    ${@bb.utils.filter('DISTRO_FEATURES', 'systemd x11', d)} \
+                    ${@bb.utils.contains_any('DISTRO_FEATURES', 'wayland x11', '', 'headless', d)} \
+-                   launcher-libseat \
+                    image-jpeg \
+                    screenshare \
+                    shell-desktop \
+@@ -54,7 +53,7 @@ SIMPLECLIENTS ?= "all"
+ # Compositor choices
+ #
+ # Weston on KMS
+-PACKAGECONFIG[kms] = "-Dbackend-drm=true,-Dbackend-drm=false,drm udev virtual/egl virtual/libgles2 virtual/libgbm mtdev"
++PACKAGECONFIG[kms] = "-Dbackend-drm=true,-Dbackend-drm=false,drm udev seatd virtual/egl virtual/libgles2 virtual/libgbm mtdev"
+ # Weston on Wayland (nested Weston)
+ PACKAGECONFIG[wayland] = "-Dbackend-wayland=true,-Dbackend-wayland=false,virtual/egl virtual/libgles2"
+ # Weston on X11
+@@ -93,10 +92,6 @@ PACKAGECONFIG[shell-ivi] = "-Dshell-ivi=true,-Dshell-ivi=false"
+ PACKAGECONFIG[shell-kiosk] = "-Dshell-kiosk=true,-Dshell-kiosk=false"
+ # JPEG image loading support
+ PACKAGECONFIG[image-jpeg] = "-Dimage-jpeg=true,-Dimage-jpeg=false, jpeg"
+-# support libseat based launch
+-PACKAGECONFIG[launcher-libseat] = "-Dlauncher-libseat=true,-Dlauncher-libseat=false,seatd"
+-# deprecated and superseded by libseat launcher
+-PACKAGECONFIG[launcher-logind] = "-Ddeprecated-launcher-logind=true,-Ddeprecated-launcher-logind=false,"
+ # screencasting via PipeWire
+ PACKAGECONFIG[pipewire] = "-Dbackend-pipewire=true,-Dbackend-pipewire=false,pipewire"
+ # VNC remote screensharing
+-- 
+2.37.3
 
 
