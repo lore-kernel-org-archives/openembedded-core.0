@@ -2,39 +2,38 @@ Return-Path: <william.lyu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E871AC47077
-	for <webhook@archiver.kernel.org>; Tue, 16 Jan 2024 16:56:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7AD7C47077
+	for <webhook@archiver.kernel.org>; Tue, 16 Jan 2024 16:56:25 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.21564.1705424175480391648
+ by mx.groups.io with SMTP id smtpd.web11.21565.1705424176055033280
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Jan 2024 08:56:15 -0800
+ Tue, 16 Jan 2024 08:56:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=UkO3MpAM;
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=hw141XVs;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=17456644bb=william.lyu@windriver.com)
 Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40GEU514029112
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40GEU515029112
 	for <openembedded-core@lists.openembedded.org>; Tue, 16 Jan 2024 08:56:15 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:subject:date:message-id:in-reply-to:references
-	:content-transfer-encoding:content-type:mime-version; s=
-	PPS06212021; bh=hLan1ufK6eat868QYMLpiIVMhvgm/D5ayXpl4Y+vs6A=; b=
-	UkO3MpAMvUYUigyQeH2+SZqx/sPHi0wtGc4FYJsmXHSXBmdWPN9qj4NOnyHtR/7r
-	/k/culTWT4TiR0Iz4e8hT6whSjp3Js7sGdzD12oG23ZBCQ+z/Z4dkrRsi/2YACcz
-	b0vxhm9M2kwookxNMSpVX8U0cARh4ISGLyXgyOkXgbCiebSSoYE0AtkYWubpL1Kb
-	DJfeufwyRzArEHpwBRl9vqzmdepyrCMjClzLoXHJDDzfoaoeZKnS7tPmdcEIYBYl
-	BVgNpI/Dc/xSBV/rZcRlIYgIDW+UdHixEu07A6jiELg9eyI6qLGZVUYA9WWfGY+G
-	aXjzKBjq9EiW99kUfX9GzA==
+	 h=from:to:subject:date:message-id:content-transfer-encoding
+	:content-type:mime-version; s=PPS06212021; bh=MZXc31RrkRENDMwD1Y
+	1JFhVKYg3MG+Dc12sFBTCA/7s=; b=hw141XVsXFbJIFFl89lRi3C9VAGdKGiXTk
+	iHCPC+7nuXb3a7jkdFilGiNEZF40wMZz3Ke8UQAtsi1z/OveWpz1Vdo8hIDR1G/s
+	VxB5tZd6LyCjWe7hSRVlVacqe+/jTPmwF67DvnQwJ6GtbuptP8PSOFKJatqxmw6t
+	pgclt/dFN0Vwcuasao8vKTfJaR5SbOFFC2G7g3mGvNMm2E/E2cNqW6Fj8RHChiKF
+	aMmzFZsSKLD8/Pm8Ldb9+VFwmZaOPRYSjEOk7g3mc55eXU5TSCs9DSNmBCIznpIm
+	7bnUYESKwsu+43FzW0hY5/Aof+679CdbF4T4smhXd7dhl3VIFzjg==
 Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2101.outbound.protection.outlook.com [104.47.55.101])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3vktwkk34t-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3vktwkk34t-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 16 Jan 2024 08:56:14 -0800 (PST)
+	for <openembedded-core@lists.openembedded.org>; Tue, 16 Jan 2024 08:56:15 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DVirbFvl8u5x41fgbrKICYWuBlK43Pl5X/Td+8EKVUspdVrf6zXa54l+oABJXSVVwxFSvPCxbwHQ2Hw4VEncosRwGVJsouuepWgtNYApnUp2RLfbT5YnwbqCTlSN+SiCNixezXMjYHHZNLS/6DiOo0ecLlYDkn+HikXH9SdOe0vSPJmCp3uMBhAwZyzNHeJQhXSi14cekwGs6y0p5U0CXw0aVx9NxaTJQNz4/FSeUr1ANdQGYsC/tefDZfO17IdKJoj4ug0+JOTt/Px+SSXheGYgukcQJtckqc7r+t5UdY1Llm+ragYkH9Gz8sI+oOUd1tgvHV3yp6NIXL2WQggW2g==
+ b=MLs90jsZSGIV+5KOMXxHsZ41DnD8uQLZiNmYIlAYnhn31Fsat6zx9I8eB590v1HIcC2NuyBYBu+V4VCgTmRnFUtLNxobTQ3HFnI6RxPlahx4XcraFlO3WCokOWO3Irmrve/MkQT4/VDtMj2Ym/JMkvW+1p0vfD60tqflqdb/Eg2H1bfhphIdJCVoWBIC/XqA8BYaqdKdZDTyAEyQR19oW9qfLAqQ1Ab+7kO7I/0tt0Gpdzvp03X8Le7mY3ItMnEd+3sjB24GewjmDc9s38MsLXsIF/KvjecR6f4nWWJNT0Fe5qRT1k7enS/9vxDYqAI4/oj7hYEScpUkTKuDYyMAeQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hLan1ufK6eat868QYMLpiIVMhvgm/D5ayXpl4Y+vs6A=;
- b=KN+t3XKlYr/Ts1bnzdCgNuBRLhOybLotbd7zAM7YOJG6pYNwZeimLct1V3doVJM/ymc7TRsrMxap0OpeFSZ6OlrCD3SqIzOfx1EmD2TWcnabOAuD4S9TEwN7TXHoi6P7Y4eHoar7faj6aOwommyJr8nZkaCZs1ioFTpnJdh7oGsq5P6+bVeOqJS2bNE5SQVOlrHv9HMUb+C3hAzWPgc8Q4bxnE2seHsEFShbs686uG9mAr2HRYRYLITyISq8Cnq04eKcFd93nyW5AW2y216NVQtGoAjKTRlxeDibg6IGqKhD3QRgF3ITXZos5IPBkZdmL5CjGZ5b6DNzOzN28QzQeA==
+ bh=MZXc31RrkRENDMwD1Y1JFhVKYg3MG+Dc12sFBTCA/7s=;
+ b=AugD4+MuqsgBKSp6RNg85DYbt8nfz0Jl99YaAUfOfZciQ8gxK63dfvSQX8ztFr+E7P4ITT6FWIgRidfqkuymMN5YMun+vvs2GvOJEkC9hSmXU4Kq7gfXI0npkjFRpUfLJUX/dMveXBefHFwy7a6+x165NZ7JRo49G/eOorF8gEk4LR7hjJ4JeavBoLB9g9oelnx6QssYO5flJkJQ9sNbAESnuW9u2lTYBJ62gfZpvAR5Nmwl3AVyL9l7wfkg4S7lT+BGpM12UQW7wc5cuGRr66HNPtcL0JmKUR36ZSjkwXF0ls2MTbU6fHtgg6JR3bcdlBU3CGzt0aHGtuyBM8E/4A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -48,12 +47,10 @@ Received: from CY5PR11MB6342.namprd11.prod.outlook.com
  16:56:11 +0000
 From: William.Lyu@windriver.com
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] openssl: Fix ptest dependencies on perl-module-* being ignored by COMPLEMENTARY_GLOB
-Date: Tue, 16 Jan 2024 08:56:02 -0800
-Message-ID: <20240116165602.2053194-2-William.Lyu@windriver.com>
+Subject: [PATCH 1/2] perl: Add option to prevent COMPLEMENTARY_GLOB from ignoring perl-modules
+Date: Tue, 16 Jan 2024 08:56:01 -0800
+Message-ID: <20240116165602.2053194-1-William.Lyu@windriver.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240116165602.2053194-1-William.Lyu@windriver.com>
-References: <20240116165602.2053194-1-William.Lyu@windriver.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: BY5PR17CA0021.namprd17.prod.outlook.com
@@ -62,97 +59,128 @@ X-ClientProxiedBy: BY5PR17CA0021.namprd17.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CY5PR11MB6342:EE_|DS0PR11MB6544:EE_
-X-MS-Office365-Filtering-Correlation-Id: aa892747-b11e-4ec5-8361-08dc16b40af4
+X-MS-Office365-Filtering-Correlation-Id: 082897da-5e83-4cfa-d90b-08dc16b40acc
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	zcBCjay/x24ao8nrFvGK5Xsvs4MHREFGowQ8ZyiyQtP/lSSqcElHZEJH0zxcPNuZvrF6HuNBA+eme8YFqpd3yHfYcjfMgDTo81W02J8gWuuKIhzrtUGqGk7hRIbB64BaTN2j9K737+vDGNqCy73cE8pBLlsQD0irOmRuuDw6DqqQZFzDhRPuM54aKLI3ai4rwNHvVFtxSLDRyBtYMKuR5HObCSuN0mweVeTF0wLvMjqLa5DC83/Pb1mhPw7VOmbXfePXl52b8koZci0aJdVJkHwz06Qampup0bH0aGLXpmRl6z95uNft50Wt+dNTuUP6cSjpHPzXxZky1x5A4TRCPvKNHpVRAdc0WPco/HhGcPTZBTUR/t8mRnp96OD8b1l8YxhY26NJB6Oo+tXpfBobkrDJw6CKLsv3PfUHYrZeVGhyJbpFFAVWDrfQ+OM0cbUNG83/a5sZK9EmAKisZdNiHLeh4sCWxcR8E179jDy9YGzk6sNEPgct5wMrI+qpnxUJAW7B7+HHXAvqJTxCo90VVJCSV+1LrsUnhLzZ+02+iwg0OzIe7hkL4dHxUs91HyzyC6PqYzk8PTRQqHJ/LXpe+Y8wuFZcyz0TeQPHaXYFjBcppxFxEpGEscUL27S6O57k
+	R+gNeeP+2IFhp9Gi77sxdLiyKxLnaMhcVJ1ZyVscQwi89qhHXODUTGYN6so7c68IgQCrbij3/itORDzLf+U+Wmc5y9qPqM04ToVCAlqE4HT8m8j0ebt+/cIHDGWX5pYMoc/LizRcmatKjeDV+cW4wM4wnTIjeeL/16a423CwDVbiiHCrfOi88axxgNivP3Xj0hbw2dW9PiOS6e+XEIdWnj+S1+jJxGLDToNYsvL7hpdC8nfzdxNr22cNc1nhgUheMozAvD4N/GkebGn2NN0bBhWUa6VNXyMRKW7NndMHVZjOkuLCJ6aNwgzzlP+F7kVonjJU+v6p0EsStUQKn5vvibh6/zI5Fqf8A7l69BNWTbbJOns+8Pxe4b7H7l7z51Sy4oKyXgQe9fdO/0+dfIuWnV/PoWadejDZJnhuqfw8cSQ0osD0GmUqDzU2gJFCzNSB0ViNohvxzeRt4WPpUzxmQiIW4pPV/FTX43Se8xwh+hqF4umf5FKpQXUrq1ywDyAWwO2/h5s2Db1hGKTaqMWb/4u40mKrouxUeyjPa+UyvaS/e2uc2GxbpLN/OQ7R/QA1wDsb2zvh5OK5PFX3ZwYnVPtHL3FmEkWAmDtAgp3Qr21R2xV8dUzUhG2KjQt03DpK
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6342.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(136003)(396003)(376002)(346002)(39850400004)(230922051799003)(451199024)(1800799012)(64100799003)(186009)(6666004)(478600001)(6512007)(5660300002)(9686003)(41300700001)(86362001)(8676002)(6506007)(52116002)(2616005)(8936002)(6486002)(66476007)(66556008)(316002)(38100700002)(1076003)(26005)(66946007)(83380400001)(36756003)(38350700005)(6916009)(2906002);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6342.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(136003)(396003)(376002)(346002)(39850400004)(230922051799003)(451199024)(1800799012)(64100799003)(186009)(6666004)(478600001)(6512007)(5660300002)(9686003)(41300700001)(86362001)(8676002)(6506007)(52116002)(2616005)(8936002)(6486002)(66476007)(66556008)(316002)(38100700002)(1076003)(26005)(66946007)(36756003)(38350700005)(6916009)(2906002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?SfUJd2eagOfZexhUfCJ2FPkc2PfA/icOfZYYtGSrrPN4y2NFmsXsRFCYpAqa?=
- =?us-ascii?Q?IF5+t298OKl8N4qRqnB4JkrK4RpmP3mI77EuDuhUi05WBY9BmLKpzEQAFy+7?=
- =?us-ascii?Q?8CDDyQchl17cL6x3NilF6pxruDjZiiV2MTfs5dk8VJSt8ms1+7Kgn9MNHmDi?=
- =?us-ascii?Q?7JhmU2qDuaS6cC083x1uZNNoQf171MElUhiMTOk7Mk1THU4EoveiA0HFezfR?=
- =?us-ascii?Q?CoNlQZN+TOx+POOTrbc3HNE5LErYsosaDv5Sgkl70l8W5AC02CJqxh5I735j?=
- =?us-ascii?Q?q6hsVTKn0oQ7mqkgzyz6TkLne7N7bXg3CMoNypIU+GVEihXR78sUpvsxjjaJ?=
- =?us-ascii?Q?BVrPoFZCN95L49LnvudQ/jzPMqlrnlPlRDwteCK1B702gVDa9svIcpyUptle?=
- =?us-ascii?Q?IKFg62wtE59ezAeLHsoUtxaxjyg4Mnef+VrL4cUlYTEYdYFTM2hGfs00ya8N?=
- =?us-ascii?Q?FWnIkpHBgCA2BpcwfDohvXrHsEFNzOJN84fEyd1pZSrws/X0W2JFr84Ci6XM?=
- =?us-ascii?Q?/juEjsqLkFAtQby+oi753X5a7e/dwnGvy2TxZP+WJzq/lhXvgRP792+TyrFg?=
- =?us-ascii?Q?ChknJzJjP5Xq2UnG5ZYHtIGc7SyH0sWlooxhYe1XzPWJA8ZKRZBfXP/hZlGZ?=
- =?us-ascii?Q?OsywEykw7x8L1ckpZyPUeJrtAZPeRDr8xCkPHKcL/+48WGNfPJltRAztLkLd?=
- =?us-ascii?Q?wJZw1/z2igdBjUiW88epF5Ksjerd5BUvJYVwGHXqXv4sb/TDfWqxQJq8QQlZ?=
- =?us-ascii?Q?tB4Z8OvWmNNi3Vr4RifPBLwQ+FXNJPApgmFGMLjtKeBC3SRlBBykjZoy7XFK?=
- =?us-ascii?Q?r52n6Vr2/RuRqI61XMuMcYyOj2htTT+ZNOv5ugvZg7AMHlkKeJRQ3Ds4bFDh?=
- =?us-ascii?Q?u6+ankoTrLk/FjNNywuqReIkLN8tmfxxPV3F3bBX/4vmvuvRV1+mITCoHliA?=
- =?us-ascii?Q?+3A3xxkWbZjViFVWXkHLquecREo+3MkGmEozVStMBxxPhfzeiPMgARlqgfI8?=
- =?us-ascii?Q?G/+Wq6qSeFC/pcnjx+wePLJcO8LITZos99wl4JDhaOxl/ZOpVz35CKMciVg0?=
- =?us-ascii?Q?ujsEX6iZ5F9zvouQX0yaWaW2W1UE6yTfLMB7KEfnQ5hP+bAcj5KR6qcVVNGF?=
- =?us-ascii?Q?/2eIns7m4ZMDvb/+zJhr9FCTnGW6HEAiJNMETLFdoDk8XPN06EnT2cnrJUPm?=
- =?us-ascii?Q?nTzXxcQ8mVh9Q7Xoprv+8yajzDDfde4kgyW+ESB9z+gcZkGYhN58ZmbS/vsj?=
- =?us-ascii?Q?KLI1TixlgFARPv6PkXObdjl+/ocBNEFTHb5ozmXvJYvBWC3ZDn2C6X+qmlwR?=
- =?us-ascii?Q?S23a6HoI2TFPJYfttT/U1A8/1uZnbQo63xcmv4dBjwiuPGwADjRd/UvwxgCH?=
- =?us-ascii?Q?911wXzaGpXJBCUzEZsnzQ3arE5yO+oOEo1zwpvvZ5mywr4EmGVCPPeld9Chx?=
- =?us-ascii?Q?wFUPP2+tAPxhgHg35pb/GmbOf+/tixQTSFXxEOv5yAo14Urf5Iyp7AUTg6Sk?=
- =?us-ascii?Q?ESpMhfjd15FMXRC8krxrlJ1oxAFs/ikmawUOGBRxj0CrsVn7b6tNzOJRz1XO?=
- =?us-ascii?Q?xVR35ZYyLRLRjpUEI5RKXb7X6r/mtjbKPa0R5ydqq62ZayxZJjbJJOmp6Z0m?=
- =?us-ascii?Q?wQ=3D=3D?=
+	=?us-ascii?Q?u+X7L8kmP17G25UqYnAA0uyA+Z319NKm3/2BDDd7WyFjRKQg+mrpdyOYaFKb?=
+ =?us-ascii?Q?mIRyAKULMOOPN3FYlIrYcpFulAObqikJV3hs+3rFCn85XY+7TGG9JSgAcZ8W?=
+ =?us-ascii?Q?dwjVXqO/whFlmpDnvF0Qe/qGm8ftJQWsjeikXqRR0cAK7whGv7WF+FRbzCnc?=
+ =?us-ascii?Q?VTp/W7nnF77ja875krcXmYYGmQCoQKbMSmSPn8Y4d3AOqQ+RoqruPB5IRGc1?=
+ =?us-ascii?Q?UyQfoHaK0kEVUD9nA5Dy7vW67X4S8FyCs8SVGVv8JhHsKTIqb6RLq9dKqDt5?=
+ =?us-ascii?Q?5VBLC5W6z6A8wYhUcBe0RMpMy6RkzXBpcr1/ch3Rr9YYMfkcj43QaDGLyUNS?=
+ =?us-ascii?Q?3pnh3f7ch1s41pBbkZ6qT9+g/oGhsOBerox9TwCMMIriQIDK/sq/zi4qgCB8?=
+ =?us-ascii?Q?5h584l4Y91HGutag5q4XUbAyixMTm+ugwlab1xy+uKqnK79qCKwoFGq4E6q5?=
+ =?us-ascii?Q?URX63gapRYy1C9cFYTbQFw83tM88qjjqAQ0O3CkMYlBDE++LCIbK8exb63S5?=
+ =?us-ascii?Q?gLGbjpXm/kKrG2ddQMZMkaTLCkk//uM4mIYxwaG5v7TQGv0EdVoc4ZIV96wd?=
+ =?us-ascii?Q?ibtVDMhsl8zAptY78rjS8KMB3/tEtp3R/YGw0BM8xLZb1jKpRxnU+W05JZPx?=
+ =?us-ascii?Q?NGKOwzW4n//iW+x/Kwrf/UNpUXfvEiNClwy7LDjIrXSmSfi7ohGbVCAu7jvG?=
+ =?us-ascii?Q?goTQ2yO5mIg7cWLbJlX+Wd0d8nppzuLGqf5tOUQXmcQ/x19h9y6KtbtAx+xg?=
+ =?us-ascii?Q?F1Psn+L10zQc8QPgHj4poyTVNQ5JEMmYZIQuTXzJ2u+QlB0flChG64EPuaPi?=
+ =?us-ascii?Q?tiaWV7JsZXvUaBfAGJ02uPqZCHpSu9wtcXtrNKGJTZjvbEOhwCRQY+LGmNzs?=
+ =?us-ascii?Q?V6VVrJVbHWcVqlDipPd6eoPTgktR9EXWToi/mnVjenkWJR4z4m5YSwQdFCZV?=
+ =?us-ascii?Q?syS4eWrjP5z7InSybSDUKu1au+3q+7lvHDAkXwDjtRnrHFqIH5K1FmhJg8KU?=
+ =?us-ascii?Q?MpYuiGto/1QZMkHDqTBJzqr0T8ild9+Zce9iSW5uS8H1+pQeVRwkEcxTL0Q5?=
+ =?us-ascii?Q?dsKjyKxP3GPIjZGudBr2IhZWxjtIsQFLzrdZogMm550x0EjOSw7m3KJPl4FF?=
+ =?us-ascii?Q?niGcJ4OAq3UKAUI7Yt/4/b6pIeFlzPfk5REhq1kMB5xcUTVHUM2NrHDWn573?=
+ =?us-ascii?Q?96GZNLabTmyUMMNVu48XEhQ3s4ycsAFoJCmU435Bkyxva6AIv0g5ea1YB70O?=
+ =?us-ascii?Q?haQ4oCsduQQY6+oWUeyxLFOMl8O376dqFuOXXGesFqLoekCZRUVABCsVVToa?=
+ =?us-ascii?Q?syxtDrmIxH5a1tVEsXGqf/PYVylp5uSwOKUEcX2jIJe26EoNlKgC7m/rTEMQ?=
+ =?us-ascii?Q?8BKEsh09MPRyEluTmy0ak9qiXiIHGLLW8Qn5jQCNwsKwM8srTp/eo1PO4ySV?=
+ =?us-ascii?Q?VC5//wuQmS2VCRBUiF2f/FHSwq57D2N6BgNsmFtLQFWJani65K3FhrBF3a0K?=
+ =?us-ascii?Q?BRkhueD/9j04b0xxJnGRQ6n57kB+saFM3uzasyXiaugM6pu83v/ONo3XbkyA?=
+ =?us-ascii?Q?7KXogYorJ/3kpXmKD8JfKhtp+ekjaX5LDfS34Hd0hcyn+j1Qu+3nHbiFdOJs?=
+ =?us-ascii?Q?AA=3D=3D?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: aa892747-b11e-4ec5-8361-08dc16b40af4
+X-MS-Exchange-CrossTenant-Network-Message-Id: 082897da-5e83-4cfa-d90b-08dc16b40acc
 X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6342.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2024 16:56:11.4766
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2024 16:56:11.1633
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Xe4Clr6DM9BkM2OEMukRQ31TWmeWQCRsbZM4n7B9r0zZwp01NyrbV6M/5I7pROkDaSteDNVaHSyZTQtGpxTbR1D5m9ATO2h717UC6HLP4v0=
+X-MS-Exchange-CrossTenant-UserPrincipalName: XySGqCRtueXitlwC6gcL4DGjU83rPZ9lFQTeceqki4z3dv5B2HcPVVDc2OmONGG5BqfQkymo6oVF7V8JAl299/XG0GU7jMA8mtC5Hl+zago=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB6544
-X-Proofpoint-ORIG-GUID: WTH1ut4oSYfxzzpejGQq_DyeBksAyyu7
-X-Proofpoint-GUID: WTH1ut4oSYfxzzpejGQq_DyeBksAyyu7
+X-Proofpoint-ORIG-GUID: uQn0WYXexsuIoOkhMzjLvFMLWtN6688D
+X-Proofpoint-GUID: uQn0WYXexsuIoOkhMzjLvFMLWtN6688D
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-11-16_25,2023-11-16_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 adultscore=0
- mlxlogscore=825 suspectscore=0 phishscore=0 lowpriorityscore=0 spamscore=0
+ mlxlogscore=607 suspectscore=0 phishscore=0 lowpriorityscore=0 spamscore=0
  clxscore=1015 malwarescore=0 priorityscore=1501 impostorscore=0 mlxscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2311290000
  definitions=main-2401160134
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Jan 2024 16:56:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193866
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Jan 2024 16:56:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193867
 
 From: William Lyu <William.Lyu@windriver.com>
 
-Change the openssl-ptest RDEPENDS from perl-modules to
-perl-modules-force-all which RDEPENDS on the same set of packages
-perl-module-* recommended by perl-modules. So, when openssl-ptest is
-added via COMPLEMENTARY_GLOB "ptest-pkgs", its dependencies on these
-perl-module-* packages still get added.
+When perl-modules is added via COMPLEMENTARY_GLOB, all perl-module-*
+packages recommended by perl-modules are ignored due to the defined
+behavior of COMPLEMENTARY_GLOB.
+
+This patch creates a new package perl-modules-force-all that RDEPENDS on
+the same set of packages perl-modules recommends. If another recipe
+always needs the packages recommended by perl-modules, it can add
+perl-modules-force-all to RDEPENDS to make sure that the recommended
+packages by perl-modules are not ignored by COMPLEMENTARY_GLOB.
 
 Signed-off-by: William Lyu <William.Lyu@windriver.com>
 ---
- meta/recipes-connectivity/openssl/openssl_3.2.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/perl/perl_5.38.2.bb | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_3.2.0.bb b/meta/recipes-connectivity/openssl/openssl_3.2.0.bb
-index d041d2d214..7076bd3a7b 100644
---- a/meta/recipes-connectivity/openssl/openssl_3.2.0.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_3.2.0.bb
-@@ -247,7 +247,7 @@ CONFFILES:openssl-conf = "${sysconfdir}/ssl/openssl.cnf"
+diff --git a/meta/recipes-devtools/perl/perl_5.38.2.bb b/meta/recipes-devtools/perl/perl_5.38.2.bb
+index a9d684cfc5..f75c5aa971 100644
+--- a/meta/recipes-devtools/perl/perl_5.38.2.bb
++++ b/meta/recipes-devtools/perl/perl_5.38.2.bb
+@@ -311,6 +311,14 @@ ALTERNATIVE_LINK_NAME[Thread.3] = "${mandir}/man3/Thread.3"
+ ALLOW_EMPTY:${PN}-modules = "1"
+ PACKAGES += "${PN}-modules "
  
- RRECOMMENDS:libcrypto += "openssl-conf ${PN}-ossl-module-legacy"
- RDEPENDS:${PN}-misc = "perl"
--RDEPENDS:${PN}-ptest += "openssl-bin perl perl-modules bash sed"
-+RDEPENDS:${PN}-ptest += "openssl-bin perl perl-modules-force-all bash sed"
++# When perl-modules is added through COMPLEMENTARY_GLOB, as it is recommending
++# packages, all its recommendations will be ignored. So, we create a
++# perl-modules-force-all package depending on the same set of packages as listed
++# in perl-modules to provide a way to guarantee COMPLEMENTARY_GLOB not removing
++# these packages.
++ALLOW_EMPTY:${PN}-modules-force-all = "1"
++PACKAGES += "${PN}-modules-force-all "
++
+ PACKAGESPLITFUNCS =+ "split_perl_packages"
  
- RDEPENDS:${PN}-bin += "openssl-conf"
+ python split_perl_packages () {
+@@ -328,6 +336,20 @@ python split_perl_packages () {
+     packages = filter(lambda p: 'perl-module-' in p, d.getVar('PACKAGES').split())
+     d.setVar(d.expand("RRECOMMENDS:${PN}-modules"), ' '.join(packages))
  
++    # perl-modules-force-all provides a way to prevent COMPLEMENTARY_GLOB
++    # from removing the packages specified in perl-modules.
++    # perl-modules-force-all contains the same set of packages as perl-modules.
++    d.setVar(
++        d.expand("RDEPENDS:${PN}-modules-force-all"),
++        d.getVar(d.expand("RRECOMMENDS:${PN}-modules"))
++    )
++
++    # As perl-modules-force-all depends on all other, potentially non-existent,
++    # perl packages, we allow these packages to be empty to prevent build
++    # errors.
++    for pkg in d.getVar(d.expand("RDEPENDS:${PN}-modules-force-all")).split():
++        d.setVar(d.expand("ALLOW_EMPTY:" + pkg), "1")
++
+     # Read the pre-generated dependency file, and use it to set module dependecies
+     for line in open(d.expand("${WORKDIR}") + '/perl-rdepends.txt').readlines():
+         splitline = line.split()
 -- 
 2.43.0
 
