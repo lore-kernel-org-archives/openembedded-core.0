@@ -1,117 +1,128 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49B2DC47077
-	for <webhook@archiver.kernel.org>; Tue, 16 Jan 2024 17:40:06 +0000 (UTC)
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
- by mx.groups.io with SMTP id smtpd.web10.23026.1705426797252314252
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95846C47077
+	for <webhook@archiver.kernel.org>; Tue, 16 Jan 2024 18:45:56 +0000 (UTC)
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+ by mx.groups.io with SMTP id smtpd.web10.25505.1705430748288528962
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Jan 2024 09:39:57 -0800
+ Tue, 16 Jan 2024 10:45:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=A1LqE3RA;
- spf=pass (domain: baylibre.com, ip: 209.85.222.175, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-7833bd8be24so421151185a.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 16 Jan 2024 09:39:56 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=fLB0sVoi;
+ spf=pass (domain: gmail.com, ip: 209.85.210.178, mailfrom: ticotimo@gmail.com)
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-6d9bec20980so5487947b3a.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Jan 2024 10:45:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1705426796; x=1706031596; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9DSQy6f9euYmchu23veKqT512OZUvfT+eq9D3+qoNrk=;
-        b=A1LqE3RAsT5PfCPxtBnXR1AkKP6SZFrOnSX60Tzkl05wTpbLKc1w5a3rmgf30e6D3z
-         ZcwMUDE7CWjxT/A+GBS+4hO9iDhvANRyq7h4avy33V7f+xLuill7PRGImsR53XtF+OT7
-         lfpyZCtTbQUWa4MbtxpDN18/wltqdxVOp/KewZl2pxvH8MbaGgv9N+XYNtTY5lwUN2HP
-         WVVATOE5BNx69rd3th8puC5NJmEE55LWeCbZdi7p7SwdIpBlgG9XllFwzDdb99iI9TOD
-         kfDollHL67IX7OBraCye1IhfgCpt6qgfAph7b7qdjxONM6oCO14ZSm3I0qHbGBgtHAMq
-         vGYw==
+        d=gmail.com; s=20230601; t=1705430747; x=1706035547; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=tGqWwlU39wbIlXoSL5A4zLc6sFzl8PjPhAH65Jl1HyA=;
+        b=fLB0sVoi+oEm77WD61X4q2bOt+P6qf8CybsDKfPf8WAqnyjib0pDuh7pWjhYaHrXMz
+         F9kpuHT+S95+OVNaI2e6fiORT7k7SN31xHqx+0ap5ZZ5DsTbwZgdtdTtHb12/ifKBHnY
+         2lZyUKq5IT+/0ufYHNEsKi+zgDpaF9QwQYv/Bdm+NgFJ+sKEu5vbNvNecc55hmEjXR9F
+         2ITnN9ANagLs/eJhDH7FFHAMuwHAkG92v5LE3fV0AEvEzJp+KjjZnvUwp6NLH3ebt8EA
+         JCUpuPLxojTp07mdTneXuWFRh0Ktw67nTu+cxhYmCoYT3wEsoVXUkEZlybEQfUOj7Cjb
+         y/Tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705426796; x=1706031596;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9DSQy6f9euYmchu23veKqT512OZUvfT+eq9D3+qoNrk=;
-        b=FA+FUpQuZSb3YsUhAXDPi5HGLJcOs8Ig+q43H7hLZFJOeGep5ywh1yEb5AeDblipCi
-         1owUkspmy3Bd4fItePs6bKcOfWXsV8b04J/ZCn6n9mHJ+OZVGFltPpisX8xJA8g42XVg
-         bXWgAqKkIQ9zsTdYr7s/q+TY99qa8ONdTVaIZNmiy/SafQ0IWeIsg1QvOUzROJrYi7xG
-         oG+I3vL/NXXU5Nqce279Dndou4tBr+9nrZ130M7bGnkk6ufD28GgKmp7+lEKtYztkwT4
-         gFhuA7dQXd6aA1+hTBZZEm51JCYJpWUQGZEDqVpU0DUywFC5Uoe0CisgOGg8ZqEhXe6f
-         ouyQ==
-X-Gm-Message-State: AOJu0YwAbgoXzN7+hL6MwcPY/VNi/efYO+C+RFGe8EG7OV2I/DPBksxM
-	9mMV9H7C2w35W76mQkMwV+05Q/MArCkoCA==
-X-Google-Smtp-Source: AGHT+IHJyAZwzIGrMw9AzXYG0q4aFuKm+yNRXbaveZ8RPUTcbzcutn+jWloBqCRuoQYMDdM9J8pEJw==
-X-Received: by 2002:a05:620a:478e:b0:783:2472:e6df with SMTP id dt14-20020a05620a478e00b007832472e6dfmr9696875qkb.40.1705426796101;
-        Tue, 16 Jan 2024 09:39:56 -0800 (PST)
-Received: from [192.168.40.12] (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id c16-20020ae9e210000000b0078345bd4d27sm3644366qkc.77.2024.01.16.09.39.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Jan 2024 09:39:55 -0800 (PST)
-Message-ID: <b27c2e41-2a41-49bd-9e40-49b39a535ff6@baylibre.com>
-Date: Tue, 16 Jan 2024 12:39:53 -0500
+        d=1e100.net; s=20230601; t=1705430747; x=1706035547;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tGqWwlU39wbIlXoSL5A4zLc6sFzl8PjPhAH65Jl1HyA=;
+        b=NLvDelFmsHVjuB36C+wykk9LOyzd7jqFR44+e42godVh0QX5AZPNLjbop6Ld6zheyT
+         N95k3StPvhD9kzanZefX0+0FUX7Y3hBYWaYQsGVzK2DuWHcGu6mcEBKChzjeyyHswvIX
+         yfMMCGvD4KPHnSdfos1hDGrU3QqsyhX+fM/ZSttSmoSMP/oluRXuhTa2ockOZKwjB6YF
+         Mjl40o8AGMqWi/PNpqvCn6UZg7f5IYkEiQKy1iBy6wsrS1DS5AUc03Roo94VBdLmhbAH
+         Ap9l3OVZ3U65jzs5FmaDQSGQuyWSaH8/mGz8PGxbEvBshrP8uGj3v4knl1oAF8k3BJE8
+         myrQ==
+X-Gm-Message-State: AOJu0YxyufrPEYsjhzjr432Qszglg0fPz1cOVeTZ+CflwbVmtSg5dllF
+	6LKF0f1q8T7ceYevOcDAM9YXfxVQ4HE=
+X-Google-Smtp-Source: AGHT+IEbXjZKByuNnTFYEADmPZ/THN6YUM10/wi691x+Zgu6SPPCK4tciGVYD4EqBQ5MIAzqx2ZtdA==
+X-Received: by 2002:a05:6a20:9f86:b0:19a:fad2:5051 with SMTP id mm6-20020a056a209f8600b0019afad25051mr2762864pzb.43.1705430747179;
+        Tue, 16 Jan 2024 10:45:47 -0800 (PST)
+Received: from chiron.hsd1.or.comcast.net ([2601:1c0:ca01:19f0:9215:7e73:c00c:6dae])
+        by smtp.gmail.com with ESMTPSA id l23-20020a63ba57000000b005cdad153d84sm9050875pgu.90.2024.01.16.10.45.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Jan 2024 10:45:46 -0800 (PST)
+From: Tim Orling <ticotimo@gmail.com>
+X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Tim Orling <tim.orling@konsulko.com>
+Subject: [PATCH] python3-alabaster: upgrade 0.7.13 -> 0.7.16
+Date: Tue, 16 Jan 2024 10:45:04 -0800
+Message-Id: <20240116184503.3146833-1-tim.orling@konsulko.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] Patchtest results for [PATCH v2 7/9]
- oeqa/selftest/recipetool: Move create_go test to a proper class
-Content-Language: en-US
-To: Vyacheslav Yurkov <uvv.mail@gmail.com>,
- Alexander Kanavin <alex.kanavin@gmail.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: patchtest@automation.yoctoproject.org,
- openembedded-core@lists.openembedded.org
-References: <0101018d1172d8bd-cd6ef52d-0c3b-4f2e-9b9a-a06b4234da50-000000@us-west-2.amazonses.com>
- <553ec677-73d2-4595-a113-304f269918a5@gmail.com>
- <CANNYZj_T7xfJy51UaB9UVaB_S-ZM=UHNy-7Aqu2akAyd+P4syw@mail.gmail.com>
- <20240116092834f19a1e78@mail.local>
- <CANNYZj90_-6AssGQLxc7tAqT24KDBMB5NPNpsD3g-XLOXc1sGg@mail.gmail.com>
- <cc8df8ea-e8c6-4190-a02e-9ffcbfa7ab0b@gmail.com>
-From: Trevor Gamblin <tgamblin@baylibre.com>
-In-Reply-To: <cc8df8ea-e8c6-4190-a02e-9ffcbfa7ab0b@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Jan 2024 17:40:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193870
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Jan 2024 18:45:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193871
 
+* Since 0.7.14 setup.py was dropped and now the project is using the
+  flit core backend (inherit python_flit_core)
+* Add BUGTRACKER url
 
-On 2024-01-16 05:05, Vyacheslav Yurkov wrote:
-> I also have the same opinion. What else am I supposed to write in the 
-> body if it were merely a refactoring (function moved, renamed, etc), 
-> and it's already described in the hearer?
->
-It shouldn't be considered a strict requirement, as it's going to be 
-difficult for Patchtest to correctly identify which pages do and don't 
-need more explanation.
+License-Update: LICENSE renamed to LICENSE.rst
 
-If you want to completely avoid that feedback, then the solution for now 
-is to re-state the shortlog as a one-line commit description.
+https://alabaster.readthedocs.io/en/latest/changelog.html#changelog
 
-> Slava
->
-> On 16.01.2024 10:32, Alexander Kanavin wrote:
->> Because making it strict would only result in useless noise in the
->> commit logs. It's entirely valid to have changes that can fully be
->> described with a commit header. I see it as a notice to consider if
->> the commit message should be added, at the discretion of both
->> submitter and committer.
->>
->> Alex
->>
->> On Tue, 16 Jan 2024 at 10:28, Alexandre Belloni
->> <alexandre.belloni@bootlin.com> wrote:
->>> On 16/01/2024 10:08:50+0100, Alexander Kanavin wrote:
->>>> No.
->>> Why not?
->>>
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#193848): https://lists.openembedded.org/g/openembedded-core/message/193848
-> Mute This Topic: https://lists.openembedded.org/mt/103758512/7611679
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [tgamblin@baylibre.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+0.7.14 – 2024-01-08
+* Dropped support for Python 3.8 and earlier.
+* Dropped support for Sphinx 3.3 and earlier.
+* #198 Fix horizontal scrolling on mobile.
+* #206 Properly support the html_support_sphinx config value.
+* #211 Fix the GitHub ‘forkme’ banner.
+* Added alabaster_version_info to the HTML template context.
+* Declare support for Python 3.13.
+* Adopt the Ruff linter and formatter.
+* Migrate from CircleCI to GitHub Actions.
+
+0.7.15 – 2024-01-08
+* #213 Allow an arbitrary string in the logo_name option.
+* #114 Improved sidebar CSS styles.
+* #178 Deprecated canonical_url in favor of html_baseurl.
+* #200 Removed duplicate <meta name="viewport" ... /> tag.
+* #188 Removed underline from whitespace.
+* #164 Removed type="text/javascript" from <script> elements.
+* #161 Replaced &copy; with unicode decimal code entity #169;.
+
+0.7.16 – 2024-01-10
+* #215 Do not display logo_name if it is set to False.
+
+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+---
+ ...on3-alabaster_0.7.13.bb => python3-alabaster_0.7.16.bb} | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/python/{python3-alabaster_0.7.13.bb => python3-alabaster_0.7.16.bb} (50%)
+
+diff --git a/meta/recipes-devtools/python/python3-alabaster_0.7.13.bb b/meta/recipes-devtools/python/python3-alabaster_0.7.16.bb
+similarity index 50%
+rename from meta/recipes-devtools/python/python3-alabaster_0.7.13.bb
+rename to meta/recipes-devtools/python/python3-alabaster_0.7.16.bb
+index 05d59febf0d..c61fce454f0 100644
+--- a/meta/recipes-devtools/python/python3-alabaster_0.7.13.bb
++++ b/meta/recipes-devtools/python/python3-alabaster_0.7.16.bb
+@@ -1,11 +1,12 @@
+ SUMMARY = "Alabaster is a visually (c)lean, responsive, configurable theme for the Sphinx documentation system."
+ HOMEPAGE = "https://alabaster.readthedocs.io/en/latest/"
++BUGTRACKER = "https://github.com/sphinx-doc/alabaster/issues"
+ SECTION = "devel/python"
+ LICENSE = "BSD-3-Clause"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=21860fdb805bf4e0bfaf94b566b747fa"
++LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=21860fdb805bf4e0bfaf94b566b747fa"
+ 
+-SRC_URI[sha256sum] = "a27a4a084d5e690e16e01e03ad2b2e552c61a65469419b907243193de1a84ae2"
++SRC_URI[sha256sum] = "75a8b99c28a5dad50dd7f8ccdd447a121ddb3892da9e53d1ca5cca3106d58d65"
+ 
+-inherit setuptools3 pypi
++inherit python_flit_core pypi
+ 
+ BBCLASSEXTEND = "native nativesdk"
+-- 
+2.34.1
+
 
