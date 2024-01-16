@@ -1,86 +1,143 @@
-Return-Path: <chee.yang.lee@intel.com>
+Return-Path: <uvv.mail@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E8BAC4706C
-	for <webhook@archiver.kernel.org>; Tue, 16 Jan 2024 07:59:43 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
- by mx.groups.io with SMTP id smtpd.web11.7926.1705391977627956449
- for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jan 2024 23:59:38 -0800
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71827C47077
+	for <webhook@archiver.kernel.org>; Tue, 16 Jan 2024 08:24:33 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web11.8365.1705393470969641780
+ for <Openembedded-core@lists.openembedded.org>;
+ Tue, 16 Jan 2024 00:24:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=Intel header.b=eSXjrR7o;
- spf=pass (domain: intel.com, ip: 192.55.52.93, mailfrom: chee.yang.lee@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1705391977; x=1736927977;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=DXqwMlqGD/UbwBGPTXSpht3fCFtMYhSNIgKU1dI541I=;
-  b=eSXjrR7o72lokUnz/pSkFUbfhKdyCWaKL1e0k2odp2/aqEJUkdLdr53v
-   N9AvJ20TmX7Qcxo6tE3wVgc2LizMNWS97pV7wfqfsh5nrF6nWRjb65LO9
-   y8/lSvN7Ex47mvfQ0eR7433k6rJ23mykIzLN8MjZB2uo62ITgZAGrQK9W
-   6kjtJ5ioqoo/+a71pXsz+YHoLq530L3UIh9ZfaCY64g5dY4c5OoHLPOan
-   R+rd5KRDDAC5Uw6WR2bqWzvkudVb6mswPh4AZ+67WyGtmelInemFnXJEZ
-   /Pf0e91wT9bfbQGHLDC/F5KQlbwhV/wKItAEX2q7Hp+tWEvztArH3PCel
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10954"; a="396943060"
-X-IronPort-AV: E=Sophos;i="6.04,198,1695711600"; 
-   d="scan'208";a="396943060"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2024 23:59:37 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10954"; a="927368046"
-X-IronPort-AV: E=Sophos;i="6.04,198,1695711600"; 
-   d="scan'208";a="927368046"
-Received: from andromeda02.png.intel.com ([10.221.253.198])
-  by fmsmga001.fm.intel.com with ESMTP; 15 Jan 2024 23:59:36 -0800
-From: chee.yang.lee@intel.com
-To: openembedded-core@lists.openembedded.org
-Subject: [nanbield][patch 1/2] xwayland: upgrade 23.2.2 -> 23.2.3
-Date: Tue, 16 Jan 2024 15:30:55 +0800
-Message-Id: <20240116073056.2506109-1-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.37.3
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=QU0y9/TP;
+ spf=pass (domain: gmail.com, ip: 209.85.221.46, mailfrom: uvv.mail@gmail.com)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-33770772136so5581110f8f.3
+        for <Openembedded-core@lists.openembedded.org>; Tue, 16 Jan 2024 00:24:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1705393469; x=1705998269; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=UXV3OfWGbYuxMUonLRy130I4B5lOhS5MWWL1Ga39/tk=;
+        b=QU0y9/TPDsXk3kCXU/AoxUq1mVyS/+YuELb13rZ7GIEXTokWvV+EFejcJJmKIcAiSf
+         56GAhVe2ejCkLjHitOz0yKpkmqXwwf0AIQakrUykeV6+eUgtKOnfXpEThv++vI/XOIJY
+         xOODh9u9ISMU4KbzSnOc6y/9+wSQjAGEpkl499yTpmE7KiwlylobnndwYzUkF/+b/28S
+         8IgqaznUweK/b+mkOEY6KDjK5qouFqXSYlePLntMbWBotonGBd00fg0tpiYlNW/D1Gup
+         OBvDn09smYF6RHLMElffSHdSvqLJ+p8eH5X+Uk8s2ICFurUftD4sjKXvPnQwzn45N71z
+         Tqmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705393469; x=1705998269;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UXV3OfWGbYuxMUonLRy130I4B5lOhS5MWWL1Ga39/tk=;
+        b=TMpaQ2wx8v0zKK7dykVj6erX3QNbqml5RwL99tuImTZjSE70HgFaH5BWW1kgoqWWst
+         jo3NsPkiHbNkJwzIPBNZ2WEK0F3FcEHsInZM2sakbeDhRduV/1DnuiWAcGftNiiRwyq5
+         CBFdNf3y3xdFHAkb9L5rqy3UOa5y44LNomcqWcK6PAFw9Lzm/qR8jEhpPfxM+VLrvGKx
+         +ey65WrShmsV3HnvrYTGJdOo39r0goFjbWJUHk5akU5VHl8Sw24Yreqm4ZIyxSjs6pgs
+         tooivi/kKHpvLESrMhNkZhcbl9DfifOyEjszBHGl1cNsU7BLboXk9IbHJdNiCDM9KE3m
+         L8Rg==
+X-Gm-Message-State: AOJu0Yxi3Z4MnNSEVaBfuZ/SX4CY+om25vUDPKp8e7zBQ2gAMjucBUAu
+	MjxlUvQxImePbSYsc5X0S+2ltfEVScNTQw==
+X-Google-Smtp-Source: AGHT+IHSrYhtTp1rdRHeFty7IDtZ2tw8vfIokL1u1PA8m2GiFJpnu+l8D7fCOTBkxjSG/2cyymHUuQ==
+X-Received: by 2002:a5d:4b05:0:b0:336:6900:96e2 with SMTP id v5-20020a5d4b05000000b00336690096e2mr3192387wrq.72.1705393468867;
+        Tue, 16 Jan 2024 00:24:28 -0800 (PST)
+Received: from slackware.local ([154.47.27.145])
+        by smtp.gmail.com with ESMTPSA id dv1-20020a0560000d8100b00337b55ed9afsm1091923wrb.95.2024.01.16.00.24.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Jan 2024 00:24:28 -0800 (PST)
+From: Vyacheslav Yurkov <uvv.mail@gmail.com>
+To: Openembedded-core@lists.openembedded.org
+Cc: Lukas Funke <lukas.funke-oss@weidmueller.com>,
+	Vyacheslav Yurkov <uvv.mail@gmail.com>
+Subject: [PATCH v2 1/9] recipetool: Don't fail on local go modules
+Date: Tue, 16 Jan 2024 09:23:19 +0100
+Message-Id: <20240116082327.128990-1-uvv.mail@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Jan 2024 07:59:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193822
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Jan 2024 08:24:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193824
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+Local modules are usually referenced with a 'replace' directive in
+go.mod file. If that's the case, remove them from populating SRC_URI.
 
-upgrade include fix for CVE-2023-6377 CVE-2023-6478
-
-(Cherry-pick from OE-Core rev: bf0bb7b94ed4930145af5f1fb3836157daceb6bb)
-
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
 ---
- .../xwayland/{xwayland_23.2.2.bb => xwayland_23.2.3.bb}         | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xwayland/{xwayland_23.2.2.bb => xwayland_23.2.3.bb} (95%)
+ scripts/lib/recipetool/create_go.py | 36 ++++++++++++++++++-----------
+ 1 file changed, 23 insertions(+), 13 deletions(-)
 
-diff --git a/meta/recipes-graphics/xwayland/xwayland_23.2.2.bb b/meta/recipes-graphics/xwayland/xwayland_23.2.3.bb
-similarity index 95%
-rename from meta/recipes-graphics/xwayland/xwayland_23.2.2.bb
-rename to meta/recipes-graphics/xwayland/xwayland_23.2.3.bb
-index 9feac147db..9aa7b4dfcd 100644
---- a/meta/recipes-graphics/xwayland/xwayland_23.2.2.bb
-+++ b/meta/recipes-graphics/xwayland/xwayland_23.2.3.bb
-@@ -10,7 +10,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=5df87950af51ac2c5822094553ea1880"
+diff --git a/scripts/lib/recipetool/create_go.py b/scripts/lib/recipetool/create_go.py
+index 21dcb41271..668a24b8dd 100644
+--- a/scripts/lib/recipetool/create_go.py
++++ b/scripts/lib/recipetool/create_go.py
+@@ -504,7 +504,7 @@ class GoRecipeHandler(RecipeHandler):
  
- SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz"
--SRC_URI[sha256sum] = "9f7c0938d2a41e941ffa04f99c35e5db2bcd3eec034afe8d35d5c810a22eb0a8"
-+SRC_URI[sha256sum] = "eb9d9aa7232c47412c8835ec15a97c575f03563726c787754ff0c019bd07e302"
+         return inline_fcn, commit
  
- UPSTREAM_CHECK_REGEX = "xwayland-(?P<pver>\d+(\.(?!90\d)\d+)+)\.tar"
+-    def __go_handle_dependencies(self, go_mod, localfilesdir, extravalues, d):
++    def __go_handle_dependencies(self, go_mod, srctree, localfilesdir, extravalues, d):
  
+         src_uris = []
+         src_revs = []
+@@ -525,6 +525,27 @@ class GoRecipeHandler(RecipeHandler):
+ 
+             return src_rev
+ 
++        # we first go over replacement list, because we are essentialy
++        # interested only in the replaced path
++        if go_mod['Replace']:
++            for replacement in go_mod['Replace']:
++                oldpath = replacement['Old']['Path']
++                path = replacement['New']['Path']
++                version = ''
++                if 'Version' in replacement['New']:
++                    version = replacement['New']['Version']
++
++                if os.path.exists(os.path.join(srctree, path)):
++                    # the module refers to the local path, remove it from requirement list
++                    # because it's a local module
++                    go_mod['Require'][:] = [v for v in go_mod['Require'] if v.get('Path') != oldpath]
++                else:
++                    # Replace the path and the version, so we don't iterate replacement list anymore
++                    for require in go_mod['Require']:
++                        if require['Path'] == oldpath:
++                            require.update({'Path': path, 'Version': version})
++                            break
++
+         for require in go_mod['Require']:
+             path = require['Path']
+             version = require['Version']
+@@ -534,17 +555,6 @@ class GoRecipeHandler(RecipeHandler):
+             src_uris.append(inline_fcn)
+             src_revs.append(generate_src_rev(path, version, commithash))
+ 
+-        if go_mod['Replace']:
+-            for replacement in go_mod['Replace']:
+-                oldpath = replacement['Old']['Path']
+-                path = replacement['New']['Path']
+-                version = replacement['New']['Version']
+-
+-                inline_fcn, commithash = self.__generate_srcuri_inline_fcn(
+-                    path, version, oldpath)
+-                src_uris.append(inline_fcn)
+-                src_revs.append(generate_src_rev(path, version, commithash))
+-
+         pn, _ = determine_from_url(go_mod['Module']['Path'])
+         go_mods_basename = "%s-modules.inc" % pn
+ 
+@@ -693,7 +703,7 @@ class GoRecipeHandler(RecipeHandler):
+ 
+             self.__rewrite_src_uri(lines_before, ["file://modules.txt"])
+ 
+-            self.__go_handle_dependencies(go_mod, localfilesdir, extravalues, d)
++            self.__go_handle_dependencies(go_mod, srctree, localfilesdir, extravalues, d)
+             lines_before.append("require ${BPN}-modules.inc")
+ 
+         # Do generic license handling
 -- 
-2.37.3
+2.35.1
 
 
