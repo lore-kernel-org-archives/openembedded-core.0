@@ -2,127 +2,235 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95846C47077
-	for <webhook@archiver.kernel.org>; Tue, 16 Jan 2024 18:45:56 +0000 (UTC)
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.web10.25505.1705430748288528962
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A842FC47077
+	for <webhook@archiver.kernel.org>; Tue, 16 Jan 2024 18:57:16 +0000 (UTC)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+ by mx.groups.io with SMTP id smtpd.web11.26183.1705431428549158493
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Jan 2024 10:45:48 -0800
+ Tue, 16 Jan 2024 10:57:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=fLB0sVoi;
- spf=pass (domain: gmail.com, ip: 209.85.210.178, mailfrom: ticotimo@gmail.com)
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-6d9bec20980so5487947b3a.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 16 Jan 2024 10:45:48 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=EF+57tag;
+ spf=pass (domain: gmail.com, ip: 209.85.128.171, mailfrom: ticotimo@gmail.com)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-5ff5be20308so5736167b3.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Jan 2024 10:57:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705430747; x=1706035547; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=tGqWwlU39wbIlXoSL5A4zLc6sFzl8PjPhAH65Jl1HyA=;
-        b=fLB0sVoi+oEm77WD61X4q2bOt+P6qf8CybsDKfPf8WAqnyjib0pDuh7pWjhYaHrXMz
-         F9kpuHT+S95+OVNaI2e6fiORT7k7SN31xHqx+0ap5ZZ5DsTbwZgdtdTtHb12/ifKBHnY
-         2lZyUKq5IT+/0ufYHNEsKi+zgDpaF9QwQYv/Bdm+NgFJ+sKEu5vbNvNecc55hmEjXR9F
-         2ITnN9ANagLs/eJhDH7FFHAMuwHAkG92v5LE3fV0AEvEzJp+KjjZnvUwp6NLH3ebt8EA
-         JCUpuPLxojTp07mdTneXuWFRh0Ktw67nTu+cxhYmCoYT3wEsoVXUkEZlybEQfUOj7Cjb
-         y/Tw==
+        d=gmail.com; s=20230601; t=1705431428; x=1706036228; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=1q7lIiHlKuQyD46J2UTwiNsucFFWwTbGGEGlwTkWl4U=;
+        b=EF+57tag+RLnBIxfTIS0bX9GEp0VhJHMIqH6N7fckvXoWBMvLqMQ7vFCBznpkkkys/
+         N5a0S7k0tkoi1ocCtw/oJM9pdp5RvHnPbFLoPGGc2wh6GTFD+ddSvWkBas4vlBu9wfzN
+         l/C7sVybMB0Ke1GnLg8tVk1XWPQfW0X03D+Ty1tsvZ4lLuIccGlj+i8vJLt7hDR8/0uk
+         LtApIbraJhKE0CAG75kCxaRQ7BS3LwKgqPi7ZZRYdPu06yBHQd31LCTt4zrHPQVbWv3E
+         CwYvfwESo4uhe4evLQE2yr9+A+KfZSjROJtL1E+9ZTYhvIeUiZF/Qjn2j/mqGtR0D5jG
+         idwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705430747; x=1706035547;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1705431428; x=1706036228;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=tGqWwlU39wbIlXoSL5A4zLc6sFzl8PjPhAH65Jl1HyA=;
-        b=NLvDelFmsHVjuB36C+wykk9LOyzd7jqFR44+e42godVh0QX5AZPNLjbop6Ld6zheyT
-         N95k3StPvhD9kzanZefX0+0FUX7Y3hBYWaYQsGVzK2DuWHcGu6mcEBKChzjeyyHswvIX
-         yfMMCGvD4KPHnSdfos1hDGrU3QqsyhX+fM/ZSttSmoSMP/oluRXuhTa2ockOZKwjB6YF
-         Mjl40o8AGMqWi/PNpqvCn6UZg7f5IYkEiQKy1iBy6wsrS1DS5AUc03Roo94VBdLmhbAH
-         Ap9l3OVZ3U65jzs5FmaDQSGQuyWSaH8/mGz8PGxbEvBshrP8uGj3v4knl1oAF8k3BJE8
-         myrQ==
-X-Gm-Message-State: AOJu0YxyufrPEYsjhzjr432Qszglg0fPz1cOVeTZ+CflwbVmtSg5dllF
-	6LKF0f1q8T7ceYevOcDAM9YXfxVQ4HE=
-X-Google-Smtp-Source: AGHT+IEbXjZKByuNnTFYEADmPZ/THN6YUM10/wi691x+Zgu6SPPCK4tciGVYD4EqBQ5MIAzqx2ZtdA==
-X-Received: by 2002:a05:6a20:9f86:b0:19a:fad2:5051 with SMTP id mm6-20020a056a209f8600b0019afad25051mr2762864pzb.43.1705430747179;
-        Tue, 16 Jan 2024 10:45:47 -0800 (PST)
-Received: from chiron.hsd1.or.comcast.net ([2601:1c0:ca01:19f0:9215:7e73:c00c:6dae])
-        by smtp.gmail.com with ESMTPSA id l23-20020a63ba57000000b005cdad153d84sm9050875pgu.90.2024.01.16.10.45.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jan 2024 10:45:46 -0800 (PST)
-From: Tim Orling <ticotimo@gmail.com>
-X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH] python3-alabaster: upgrade 0.7.13 -> 0.7.16
-Date: Tue, 16 Jan 2024 10:45:04 -0800
-Message-Id: <20240116184503.3146833-1-tim.orling@konsulko.com>
-X-Mailer: git-send-email 2.34.1
+        bh=1q7lIiHlKuQyD46J2UTwiNsucFFWwTbGGEGlwTkWl4U=;
+        b=pJDyaUY9iYb5/KwLXIfKh0cuJK4QlBixSamrtabKUD677TcwG/4mj4aEeKIku5YgYq
+         ooaPTmybQi6jw3v9OFniCM3gQqpSqD6aDC+rkTkazZs+pygeBLoHEFFw156FFnDFhARh
+         Z5bYmy+5V5kpz2kQ+av12AipKZhK0ZbEYV+G9H/ehBkxkRdIdb0TJAUxp2fNAFEs08/Z
+         +Buz75bdD7WFSvVRVkSYx9sES5t/JM4wXXDv/ITS094hxDuXMeqBIql61IKEiTwws5xD
+         LejU1i0RwFDivS9xuspqgGFsruVG6SqgyrrOVL0rQAkI7M4AtcEj8aathfLV6WlIIBIE
+         LoGw==
+X-Gm-Message-State: AOJu0Yz19GvZsNqpxFQhpaCwrg4aIAbPt6GVNu7mIhPSt8J3mVCYafDn
+	xu4dOsvsP0x0js7seEgIUe8yYb1X7ifAGj7GEWY=
+X-Google-Smtp-Source: AGHT+IFiQQzFVpRKH7MLFoCimK1eEogW9a4sm1/GsAZXWvBfUctQcTqoVjLzVqHBKOVusAXJe2js/JseATMKXn6nfrg=
+X-Received: by 2002:a81:7e03:0:b0:5d7:1a33:5ad7 with SMTP id
+ o3-20020a817e03000000b005d71a335ad7mr4543129ywn.36.1705431427607; Tue, 16 Jan
+ 2024 10:57:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20240116165602.2053194-1-William.Lyu@windriver.com>
+ <20240116165602.2053194-2-William.Lyu@windriver.com> <CANNYZj_OVth=cfNE_+VY4gb27hNcx45VagwZf1J_eEUEm0Ltvg@mail.gmail.com>
+In-Reply-To: <CANNYZj_OVth=cfNE_+VY4gb27hNcx45VagwZf1J_eEUEm0Ltvg@mail.gmail.com>
+From: Tim Orling <ticotimo@gmail.com>
+Date: Tue, 16 Jan 2024 10:56:56 -0800
+Message-ID: <CANx9H-B19_Fk2KgK-G=-nCU=D8xfBPim_t810BWu5n1jkvOQUA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] openssl: Fix ptest dependencies on
+ perl-module-* being ignored by COMPLEMENTARY_GLOB
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, william.lyu@windriver.com
+Content-Type: multipart/alternative; boundary="0000000000006e7102060f14b291"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Jan 2024 18:45:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193871
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Jan 2024 18:57:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193872
 
-* Since 0.7.14 setup.py was dropped and now the project is using the
-  flit core backend (inherit python_flit_core)
-* Add BUGTRACKER url
+--0000000000006e7102060f14b291
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-License-Update: LICENSE renamed to LICENSE.rst
+On Tue, Jan 16, 2024 at 9:21=E2=80=AFAM Alexander Kanavin <alex.kanavin@gma=
+il.com>
+wrote:
 
-https://alabaster.readthedocs.io/en/latest/changelog.html#changelog
+> How about simple depending on specific module packages? I don=E2=80=99t t=
+hink
+> OpenSSL truly needs all modules.
+>
 
-0.7.14 – 2024-01-08
-* Dropped support for Python 3.8 and earlier.
-* Dropped support for Sphinx 3.3 and earlier.
-* #198 Fix horizontal scrolling on mobile.
-* #206 Properly support the html_support_sphinx config value.
-* #211 Fix the GitHub ‘forkme’ banner.
-* Added alabaster_version_info to the HTML template context.
-* Declare support for Python 3.13.
-* Adopt the Ruff linter and formatter.
-* Migrate from CircleCI to GitHub Actions.
+Agreed. I don=E2=80=99t see a compelling reason to add the perl-modules-for=
+ce-all
+complication. This will add confusion in my opinion.
 
-0.7.15 – 2024-01-08
-* #213 Allow an arbitrary string in the logo_name option.
-* #114 Improved sidebar CSS styles.
-* #178 Deprecated canonical_url in favor of html_baseurl.
-* #200 Removed duplicate <meta name="viewport" ... /> tag.
-* #188 Removed underline from whitespace.
-* #164 Removed type="text/javascript" from <script> elements.
-* #161 Replaced &copy; with unicode decimal code entity #169;.
+Iterate the tests and add the required perl-module-* sub-packages one by
+one (or by inspection if the test cases)
 
-0.7.16 – 2024-01-10
-* #215 Do not display logo_name if it is set to False.
+In almost all cases, RDEPENDS on perl-modules is a short cut and should be
+avoided in favor of being explicit.
 
-Signed-off-by: Tim Orling <tim.orling@konsulko.com>
----
- ...on3-alabaster_0.7.13.bb => python3-alabaster_0.7.16.bb} | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/python/{python3-alabaster_0.7.13.bb => python3-alabaster_0.7.16.bb} (50%)
 
-diff --git a/meta/recipes-devtools/python/python3-alabaster_0.7.13.bb b/meta/recipes-devtools/python/python3-alabaster_0.7.16.bb
-similarity index 50%
-rename from meta/recipes-devtools/python/python3-alabaster_0.7.13.bb
-rename to meta/recipes-devtools/python/python3-alabaster_0.7.16.bb
-index 05d59febf0d..c61fce454f0 100644
---- a/meta/recipes-devtools/python/python3-alabaster_0.7.13.bb
-+++ b/meta/recipes-devtools/python/python3-alabaster_0.7.16.bb
-@@ -1,11 +1,12 @@
- SUMMARY = "Alabaster is a visually (c)lean, responsive, configurable theme for the Sphinx documentation system."
- HOMEPAGE = "https://alabaster.readthedocs.io/en/latest/"
-+BUGTRACKER = "https://github.com/sphinx-doc/alabaster/issues"
- SECTION = "devel/python"
- LICENSE = "BSD-3-Clause"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=21860fdb805bf4e0bfaf94b566b747fa"
-+LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=21860fdb805bf4e0bfaf94b566b747fa"
- 
--SRC_URI[sha256sum] = "a27a4a084d5e690e16e01e03ad2b2e552c61a65469419b907243193de1a84ae2"
-+SRC_URI[sha256sum] = "75a8b99c28a5dad50dd7f8ccdd447a121ddb3892da9e53d1ca5cca3106d58d65"
- 
--inherit setuptools3 pypi
-+inherit python_flit_core pypi
- 
- BBCLASSEXTEND = "native nativesdk"
--- 
-2.34.1
+> Alex
+>
+> On Tue 16. Jan 2024 at 17.56, Lyu, William via lists.openembedded.org
+> <william.lyu=3Dwindriver.com@lists.openembedded.org> wrote:
+>
+>> From: William Lyu <William.Lyu@windriver.com>
+>>
+>> Change the openssl-ptest RDEPENDS from perl-modules to
+>> perl-modules-force-all which RDEPENDS on the same set of packages
+>> perl-module-* recommended by perl-modules. So, when openssl-ptest is
+>> added via COMPLEMENTARY_GLOB "ptest-pkgs", its dependencies on these
+>> perl-module-* packages still get added.
+>>
+>> Signed-off-by: William Lyu <William.Lyu@windriver.com>
+>> ---
+>>  meta/recipes-connectivity/openssl/openssl_3.2.0.bb | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-connectivity/openssl/openssl_3.2.0.bb
+>> b/meta/recipes-connectivity/openssl/openssl_3.2.0.bb
+>> index d041d2d214..7076bd3a7b 100644
+>> --- a/meta/recipes-connectivity/openssl/openssl_3.2.0.bb
+>> +++ b/meta/recipes-connectivity/openssl/openssl_3.2.0.bb
+>> @@ -247,7 +247,7 @@ CONFFILES:openssl-conf =3D
+>> "${sysconfdir}/ssl/openssl.cnf"
+>>
+>>  RRECOMMENDS:libcrypto +=3D "openssl-conf ${PN}-ossl-module-legacy"
+>>  RDEPENDS:${PN}-misc =3D "perl"
+>> -RDEPENDS:${PN}-ptest +=3D "openssl-bin perl perl-modules bash sed"
+>> +RDEPENDS:${PN}-ptest +=3D "openssl-bin perl perl-modules-force-all bash
+>> sed"
+>>
+>>  RDEPENDS:${PN}-bin +=3D "openssl-conf"
+>>
+>> --
+>> 2.43.0
+>>
+>>
+>>
+>>
+>>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#193868):
+> https://lists.openembedded.org/g/openembedded-core/message/193868
+> Mute This Topic: https://lists.openembedded.org/mt/103766390/924729
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> ticotimo@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
+--0000000000006e7102060f14b291
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Tue, Jan 16, 2024 at 9:21=E2=80=AFAM Alexander Kanavin &=
+lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt;=
+ wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left-width:1px;border-left-style:solid;padding-left:1ex;bo=
+rder-left-color:rgb(204,204,204)"><div dir=3D"auto">How about simple depend=
+ing on specific module packages? I don=E2=80=99t think OpenSSL truly needs =
+all modules.</div><div dir=3D"auto"></div></blockquote><div dir=3D"auto"><b=
+r></div><div dir=3D"auto">Agreed. I don=E2=80=99t see a compelling reason t=
+o add the perl-modules-force-all complication. This will add confusion in m=
+y opinion.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Iterate the t=
+ests and add the required perl-module-* sub-packages one by one (or by insp=
+ection if the test cases)</div><div dir=3D"auto"><br></div><div dir=3D"auto=
+">In almost all cases, RDEPENDS on perl-modules is a short cut and should b=
+e avoided in favor of being explicit.</div><div dir=3D"auto"><br></div><blo=
+ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
+-width:1px;border-left-style:solid;padding-left:1ex;border-left-color:rgb(2=
+04,204,204)"><div dir=3D"auto"><br></div><div dir=3D"auto">Alex</div><div><=
+br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue =
+16. Jan 2024 at 17.56, Lyu, William via <a href=3D"http://lists.openembedde=
+d.org" target=3D"_blank">lists.openembedded.org</a> &lt;william.lyu=3D<a hr=
+ef=3D"mailto:windriver.com@lists.openembedded.org" target=3D"_blank">windri=
+ver.com@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;borde=
+r-left-style:solid;padding-left:1ex;border-left-color:rgb(204,204,204)">Fro=
+m: William Lyu &lt;<a href=3D"mailto:William.Lyu@windriver.com" target=3D"_=
+blank">William.Lyu@windriver.com</a>&gt;<br>
+<br>
+Change the openssl-ptest RDEPENDS from perl-modules to<br>
+perl-modules-force-all which RDEPENDS on the same set of packages<br>
+perl-module-* recommended by perl-modules. So, when openssl-ptest is<br>
+added via COMPLEMENTARY_GLOB &quot;ptest-pkgs&quot;, its dependencies on th=
+ese<br>
+perl-module-* packages still get added.<br>
+<br>
+Signed-off-by: William Lyu &lt;<a href=3D"mailto:William.Lyu@windriver.com"=
+ target=3D"_blank">William.Lyu@windriver.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-connectivity/openssl/<a href=3D"http://openssl_3.2.0.bb"=
+ rel=3D"noreferrer" target=3D"_blank">openssl_3.2.0.bb</a> | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/recipes-connectivity/openssl/<a href=3D"http://openssl_3.=
+2.0.bb" rel=3D"noreferrer" target=3D"_blank">openssl_3.2.0.bb</a> b/meta/re=
+cipes-connectivity/openssl/<a href=3D"http://openssl_3.2.0.bb" rel=3D"noref=
+errer" target=3D"_blank">openssl_3.2.0.bb</a><br>
+index d041d2d214..7076bd3a7b 100644<br>
+--- a/meta/recipes-connectivity/openssl/<a href=3D"http://openssl_3.2.0.bb"=
+ rel=3D"noreferrer" target=3D"_blank">openssl_3.2.0.bb</a><br>
++++ b/meta/recipes-connectivity/openssl/<a href=3D"http://openssl_3.2.0.bb"=
+ rel=3D"noreferrer" target=3D"_blank">openssl_3.2.0.bb</a><br>
+@@ -247,7 +247,7 @@ CONFFILES:openssl-conf =3D &quot;${sysconfdir}/ssl/open=
+ssl.cnf&quot;<br>
+<br>
+=C2=A0RRECOMMENDS:libcrypto +=3D &quot;openssl-conf ${PN}-ossl-module-legac=
+y&quot;<br>
+=C2=A0RDEPENDS:${PN}-misc =3D &quot;perl&quot;<br>
+-RDEPENDS:${PN}-ptest +=3D &quot;openssl-bin perl perl-modules bash sed&quo=
+t;<br>
++RDEPENDS:${PN}-ptest +=3D &quot;openssl-bin perl perl-modules-force-all ba=
+sh sed&quot;<br>
+<br>
+=C2=A0RDEPENDS:${PN}-bin +=3D &quot;openssl-conf&quot;<br>
+<br>
+-- <br>
+2.43.0<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div></div>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#193868): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/193868" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/193868</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/103766390/924=
+729" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/103766390/924729</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:ticotimo@gmail.com" target=
+=3D"_blank">ticotimo@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--0000000000006e7102060f14b291--
 
