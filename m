@@ -1,93 +1,117 @@
-Return-Path: <simone.p.weiss@posteo.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B4B0C47258
-	for <webhook@archiver.kernel.org>; Tue, 16 Jan 2024 20:46:17 +0000 (UTC)
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
- by mx.groups.io with SMTP id smtpd.web10.29418.1705437970893070767
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73E9CC47077
+	for <webhook@archiver.kernel.org>; Tue, 16 Jan 2024 21:25:57 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web10.30648.1705440355205092563
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Jan 2024 12:46:11 -0800
+ Tue, 16 Jan 2024 13:25:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@posteo.com header.s=2017 header.b=enMn6wY3;
- spf=pass (domain: posteo.com, ip: 185.67.36.65, mailfrom: simone.p.weiss@posteo.com)
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id E9611240028
-	for <openembedded-core@lists.openembedded.org>; Tue, 16 Jan 2024 21:46:08 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.com; s=2017;
-	t=1705437968; bh=K57Nr0smccP8Z1Uxq7tQWFcrAXxSGGn9ASxLs9u8+B4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:
-	 Content-Transfer-Encoding:From;
-	b=enMn6wY3+for/ZwD9qK0m93H/U/AM1ZhU03NbKV7MjWixl5iI3DEmafRgOIT4Sexz
-	 nqL33vEelbS+Tos1pEce+2lchs+VYZvQ0Tk2KYqFAnszsdaaZ+fWcTCc+XgdSswJp5
-	 1wZlzCyZMY5+qHr6cAikdPb9KQQklZRZ5mi9kuK0oKDn/tqg6KW9zocqABQqtKWm4i
-	 vGjKLb4SDQt7Gf8VqCD9+NS8I2PRjvzrL2HEt20C+nsJ2/KzjwW5Obg8dFevGomklw
-	 9s3syqVGt6sL5vOFeEKYlbzSQW6LsBl5jBhATbIXv5Bof2VArcljg+4PGbF48oeiGN
-	 /yiwBhVfPc7DQ==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4TF1J00fN0z9rxD;
-	Tue, 16 Jan 2024 21:46:07 +0100 (CET)
-From: simone.p.weiss@posteo.com
-To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Simone=20Wei=C3=9F?= <simone.p.weiss@posteo.com>
-Subject: [PATCH] tune-core2: Update qemu cpu to supported model
-Date: Tue, 16 Jan 2024 20:45:58 +0000
-Message-Id: <20240116204558.7726-1-simone.p.weiss@posteo.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SWBJWrRE;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-337984681bcso3737621f8f.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Jan 2024 13:25:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1705440353; x=1706045153; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZK/WNDJHlaehla4dojuUFvU9fAziRAlW3rB0VRFYSD8=;
+        b=SWBJWrRESZT0D1hRjX6RwVGZCvVkdCVv5Hphs67VlJBrqyP0GAU2MFRVf+QNdpkins
+         phq2Fa4+/2/qC7Cp+Ll3nhSFqi/jcMsvCukzFMCPUMSdHav5F6YqQdwcN6iKhv5iT4/g
+         1bxenTe54TkDMghvgwSGFv67IBeLMjH+DbLKU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705440353; x=1706045153;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ZK/WNDJHlaehla4dojuUFvU9fAziRAlW3rB0VRFYSD8=;
+        b=MIQNEC48XceM51gNe3IF5Y/bJVypufGhjC0lDmn+LtzA7hy6LG8/mAjU1TbumOxi1z
+         yMfUIH6HVS3Na1KuCVRLM8I+3W4g1GTAAw7BdgHwLrNxoVSUIZb7Ts6+R2xPfYKa11lL
+         BzGTt3zx9CKLIINI5j++MhqL56ZpekMDnkfBk4Dbp3HUjJPAuAcvz/Ra4zy240N/kjr3
+         vOhipO3oPNpObROWEAmAGbyhf1VQnoMei9WH4ScFdLm3VYeqaI3ALD08ZC9C+EhahlNu
+         1zbF7760NTUfeA7KmntF60UjEwvFDoJbaYdVdBAKY/xbojY7yjaJB+Atqarex7RUiMKb
+         NWdg==
+X-Gm-Message-State: AOJu0YwG9Hz4reZCrgf/c4BA1wm8dGQi+hdyz1j8q5qLe9EbutG9Bok+
+	1qWe3IJTlKi3WykJLEmLajIZgRxm01vXyA==
+X-Google-Smtp-Source: AGHT+IFJn7mZWJ2ekB7mUjM98s3sTg00JjpUz/PbuptR/izXiQi5JSc9LtFjY9+fVpSlk7gVm4fOuQ==
+X-Received: by 2002:a5d:518f:0:b0:337:bee6:9031 with SMTP id k15-20020a5d518f000000b00337bee69031mr523619wrv.18.1705440353537;
+        Tue, 16 Jan 2024 13:25:53 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:717c:d951:6325:d768? ([2001:8b0:aba:5f3c:717c:d951:6325:d768])
+        by smtp.gmail.com with ESMTPSA id w12-20020adfee4c000000b003373fe3d345sm72317wro.65.2024.01.16.13.25.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Jan 2024 13:25:53 -0800 (PST)
+Message-ID: <36a4f6c58a7d96873ddc772f4b2c0e302ec1ff62.camel@linuxfoundation.org>
+Subject: Re: [OE-core] how badly do symlinks from within ${S} to outside
+ ${S} mess up sstate?
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>, OE Core mailing list
+	 <openembedded-core@lists.openembedded.org>
+Date: Tue, 16 Jan 2024 21:25:52 +0000
+In-Reply-To: <57164b82-ca31-8438-f2f0-f6dcaece8b9f@crashcourse.ca>
+References: <57164b82-ca31-8438-f2f0-f6dcaece8b9f@crashcourse.ca>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.1-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Jan 2024 20:46:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193874
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Jan 2024 21:25:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193875
 
-From: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
+On Tue, 2024-01-16 at 09:23 -0500, Robert P. J. Day wrote:
+>   a very weird question, to be sure, but i literally just ran across a
+> recipe that does the following (i will paraphrase some stuff to
+> protect the innocent).
+>=20
+>   the recipe processes a bunch of XML source files, and generates from
+> them JSON files, so any change in any of the XML source files should
+> (obviously) trigger a rebuild of the recipe. and here's the problem.
+>=20
+>   the XML files are not copied into the recipe source directory, and
+> are not even referenced by SRC_URI. rather, the files live in a
+> well-known location on the build host (placed there by a monstrous
+> "repo sync"), and to save time and space, the recipe just *symlinks*
+> from inside ${S} to the XML source files outside of ${S}, then
+> proceeds to process them to generate the subsequent JSON files.
+>=20
+>   the complaint is that, when the build pipeline started taking
+> advantage of sstate-cache, even after some of the XML files were
+> changed, the recipe would not rebuild.
+>=20
+>   once i understood what was happening, my immediate reaction was
+> along the lines, "well, since what is under ${S} is simply symlinks to
+> files *outside* of ${S} and (worse) those symlink names will never
+> change (all that will change is the XML files at the other end), how
+> is bitbake supposed to have any idea that those XML files have
+> changed to kick off a rebuild?"
+>=20
+>   so my initial response was, "this does not surprise me at all," but
+> does my reasoning hold up? obviously, this should probably use a
+> combination of bin_package and externalsrc, but as it is now, is it
+> moderately accurate to suggest that it is those symlinks that are
+> preventing bitbake from understanding that anything has changed, so
+> that it continues to use the old sstate-cache?
 
-Fixes [YOCTO #12388]
+Inputs to a recipe need to come through SRC_URI. That way bitbake can
+know when they change. If you point at some random place via a symlink
+how is bitbake supposed to know if/when they change?
 
-QEMUs documentation does recommend to not use n270 and core2duo as
-an argument to -cpu anymore. Update therefore the QEMU cpu option for
-the core2duo tune to Nehalam. Tested it locally with QEMU and KVM.
+Yes, pointing at a large tree of files will take time to hash and yes,
+that can make parsing slow. Either you care when it changes or you
+don't.
 
-Signed-off-by: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
----
- meta/conf/machine/include/x86/tune-core2.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+The inputs are used to generate a hash which makes up the hash
+representing the task. When the hash changes, we know that sstate is
+invalid and we need to rebuild.
 
-diff --git a/meta/conf/machine/include/x86/tune-core2.inc b/meta/conf/mac=
-hine/include/x86/tune-core2.inc
-index 97b7c1b188..082fd4efc3 100644
---- a/meta/conf/machine/include/x86/tune-core2.inc
-+++ b/meta/conf/machine/include/x86/tune-core2.inc
-@@ -21,18 +21,18 @@ TUNE_FEATURES:tune-core2-32 =3D "${TUNE_FEATURES:tune=
--x86} core2"
- BASE_LIB:tune-core2-32 =3D "lib"
- TUNE_PKGARCH:tune-core2-32 =3D "core2-32"
- PACKAGE_EXTRA_ARCHS:tune-core2-32 =3D "${PACKAGE_EXTRA_ARCHS:tune-i686} =
-core2-32"
--QEMU_EXTRAOPTIONS_core2-32 =3D " -cpu n270"
-+QEMU_EXTRAOPTIONS_core2-32 =3D " -cpu Nehalem,check=3Dfalse"
-=20
- AVAILTUNES +=3D "core2-64"
- TUNE_FEATURES:tune-core2-64 =3D "${TUNE_FEATURES:tune-x86-64} core2"
- BASE_LIB:tune-core2-64 =3D "lib64"
- TUNE_PKGARCH:tune-core2-64 =3D "core2-64"
- PACKAGE_EXTRA_ARCHS:tune-core2-64 =3D "${PACKAGE_EXTRA_ARCHS:tune-x86-64=
-} core2-64"
--QEMU_EXTRAOPTIONS_core2-64 =3D " -cpu core2duo"
-+QEMU_EXTRAOPTIONS_core2-64 =3D " -cpu Nehalem,check=3Dfalse"
-=20
- AVAILTUNES +=3D "core2-64-x32"
- TUNE_FEATURES:tune-core2-64-x32 =3D "${TUNE_FEATURES:tune-x86-64-x32} co=
-re2"
- BASE_LIB:tune-core2-64-x32 =3D "libx32"
- TUNE_PKGARCH:tune-core2-64-x32 =3D "core2-64-x32"
- PACKAGE_EXTRA_ARCHS:tune-core2-64-x32 =3D "${PACKAGE_EXTRA_ARCHS:tune-x8=
-6-64-x32} core2-64-x32"
--QEMU_EXTRAOPTIONS_core2-64-x32 =3D " -cpu core2duo"
-+QEMU_EXTRAOPTIONS_core2-64-x32 =3D " -cpu Nehalem,check=3Dfalse"
---=20
-2.39.2
+Cheers,
+
+Richard
+
+
 
 
