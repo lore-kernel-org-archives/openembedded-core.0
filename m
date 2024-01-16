@@ -1,88 +1,125 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <festevam@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85521C3DA79
-	for <webhook@archiver.kernel.org>; Tue, 16 Jan 2024 02:08:41 +0000 (UTC)
-Received: from esa1.hc1455-7.c3s2.iphmx.com (esa1.hc1455-7.c3s2.iphmx.com [207.54.90.47])
- by mx.groups.io with SMTP id smtpd.web10.1945.1705370919466297842
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A32AC4706C
+	for <webhook@archiver.kernel.org>; Tue, 16 Jan 2024 03:25:42 +0000 (UTC)
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
+ by mx.groups.io with SMTP id smtpd.web10.3485.1705375540401257540
  for <openembedded-core@lists.openembedded.org>;
- Mon, 15 Jan 2024 18:08:39 -0800
+ Mon, 15 Jan 2024 19:25:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: fujitsu.com, ip: 207.54.90.47, mailfrom: wangmy@fujitsu.com)
-X-IronPort-AV: E=McAfee;i="6600,9927,10954"; a="146070462"
-X-IronPort-AV: E=Sophos;i="6.04,197,1695654000"; 
-   d="scan'208";a="146070462"
-Received: from unknown (HELO oym-r3.gw.nic.fujitsu.com) ([210.162.30.91])
-  by esa1.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2024 11:08:37 +0900
-Received: from oym-m2.gw.nic.fujitsu.com (oym-nat-oym-m2.gw.nic.fujitsu.com [192.168.87.59])
-	by oym-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id 61111CA243
-	for <openembedded-core@lists.openembedded.org>; Tue, 16 Jan 2024 11:08:35 +0900 (JST)
-Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
-	by oym-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id 99A75BF3E6
-	for <openembedded-core@lists.openembedded.org>; Tue, 16 Jan 2024 11:08:34 +0900 (JST)
-Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id 2070D20086E93
-	for <openembedded-core@lists.openembedded.org>; Tue, 16 Jan 2024 11:08:34 +0900 (JST)
-Received: from vm4860.g01.fujitsu.local (unknown [10.193.128.187])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id ACA5F1A015E;
-	Tue, 16 Jan 2024 10:08:33 +0800 (CST)
-From: wangmy@fujitsu.com
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=LyKwNqt7;
+ spf=pass (domain: gmail.com, ip: 209.85.160.43, mailfrom: festevam@gmail.com)
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-2057f388b2dso1918081fac.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 15 Jan 2024 19:25:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1705375539; x=1705980339; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=LuOzXlE6i/3olq0VaLTz70ax4gszlexTy75RyBAnXWs=;
+        b=LyKwNqt7JO7qFjXI/YlKW2vkoqA9fuIb0xOzHZdwUOOQeEQQpnRq7K7ijLsmcm6N9B
+         Uk9tl+4QVxR6gYrEFsZ4yBdfyjH3bSa+HlFBCJeAWSiqHy7l5p/NmFyFGK2vxVJBxFwq
+         B0gdmufslshL/q4iRbu8DA7k3tDcjf5+F5w/n5uGZ6pwlJJLHOQxKIrphMWbCxrJqGLX
+         OdoVCEiGT8YM3RZXHtcIUrOZral6fpTZf1HXdyGeumue4XP4Q3rqTj0+BPG1gKoko/SX
+         ZUQeCZjuaHQLKcs0D4ACg7ek/a2W4FhJcp23oCSLuyww9wwgMrJ8SwPmMCOKK/4Qzzh+
+         7/GA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705375539; x=1705980339;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LuOzXlE6i/3olq0VaLTz70ax4gszlexTy75RyBAnXWs=;
+        b=myC4BzKOZIyEyaNoaHbfC0FScMYKvxV9r75N9B1eTt1K/1mfC2K2zSMTKU1ZWk0pIE
+         p3CYfg/yr83Ff8O50UFTP7QLol7/Fom6Iyx/Dhv4enPywwYGyaIO20vu0xwphr7KM4xN
+         GMvBw1hLlxPcNJCaiic6vQ/axN2nGDvTJ/u1MVj/l2u/PJwb3OJVI87uf0TiBIuVEKED
+         qX31btg1+02GMqiPcqYaYmeG3o6j1kkkv9nugOBHY9ruiG81MgeVds93rD0AnFxikzAX
+         6s+VGLWqSZD2n2FnyI3IEXG7CRAvOvppDncZecu+P/HeJ93j3mn2fH0EffEKEYAgHe77
+         HZoQ==
+X-Gm-Message-State: AOJu0Yww90PrE238wXiujmDZnxYzISPcr9xgZdnrxBsA7oTUT9YYViFJ
+	SuVZAQpSsNYV29v19INoxFD069TDCnI=
+X-Google-Smtp-Source: AGHT+IHDrUyk/jZ9V833SLbPqRn9ZIgZDGsjAh3xMKjWm6CvzNHOVyCtxT2DJEhdvIEa/u/Ge4gDFA==
+X-Received: by 2002:aca:2413:0:b0:3bd:660d:5d6a with SMTP id n19-20020aca2413000000b003bd660d5d6amr9501392oic.2.1705375539270;
+        Mon, 15 Jan 2024 19:25:39 -0800 (PST)
+Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:3ce7:bbce:335e:2c36])
+        by smtp.gmail.com with ESMTPSA id k18-20020aa792d2000000b006d9b0336a27sm8282869pfa.125.2024.01.15.19.25.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Jan 2024 19:25:38 -0800 (PST)
+From: Fabio Estevam <festevam@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Jiang Kai <jiangkai@fujitsu.com>,
-	Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] libxrandr: upgrade 1.5.3 -> 1.5.4
-Date: Tue, 16 Jan 2024 10:06:40 +0800
-Message-Id: <1705370800-31004-5-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1705370800-31004-1-git-send-email-wangmy@fujitsu.com>
-References: <1705370800-31004-1-git-send-email-wangmy@fujitsu.com>
-X-TM-AS-GCONF: 00
-X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28122.004
-X-TM-AS-User-Approved-Sender: Yes
-X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28122.004
-X-TMASE-Result: 10--1.757800-10.000000
-X-TMASE-MatchedRID: 4E21WKQgrFSjz0nOeth/yUIIxwDaU5mrMVx/3ZYby7/KTGsUj/bUwl43
-	w2EJksOJVAQKVQh21MkNyr61Mu6ROm0Xr+fj3ww/8t4fUUGeErTBOVz0Jwcxl/qzSYnI5VS9npt
-	r8PnHpyni8zVgXoAltuJ5hXsnxp7jC24oEZ6SpSmcfuxsiY4QFATtLX4TS48iIeWf6ZqM+fK5Gb
-	7EG8DJrYabnJGK7HvcZBVUt9FgCQ6VVdw3rWIcLRHG7U/RSE9I8vTv6iAi9M0SY2vMl6TlE+x9n
-	1XpDqsJmC9SiJioatWbjnu8jwgbwH9jicWwFYB0PpCuffGH9zI=
-X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
+Cc: Fabio Estevam <festevam@denx.de>
+Subject: [PATCH] weston: Update to 13.0.0
+Date: Tue, 16 Jan 2024 00:25:29 -0300
+Message-Id: <20240116032529.3321994-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Jan 2024 02:08:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193814
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Jan 2024 03:25:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193815
 
-From: Jiang Kai <jiangkai@fujitsu.com>
+From: Fabio Estevam <festevam@denx.de>
 
-Changelog:
-=========
--Remove "All rights reserved" from Oracle copyright notices
--configure: Use LT_INIT from libtool 2 instead of deprecated AC_PROG_LIBTOOL
--XRRGetMonitors(): free correct pointer in error path
+Update to Weston 13.0.0.
 
-Signed-off-by: Jiang Kai <jiangkai@fujitsu.com>
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Remove the following options that were no longer exist in 13.0.0:
+launcher-libseat and launcher-libseat.
+
+Add seatd as a required dependency for kms.
+
+Signed-off-by: Fabio Estevam <festevam@denx.de>
 ---
- .../xorg-lib/{libxrandr_1.5.3.bb => libxrandr_1.5.4.bb}         | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-lib/{libxrandr_1.5.3.bb => libxrandr_1.5.4.bb} (87%)
+ .../wayland/{weston_12.0.2.bb => weston_13.0.0.bb}       | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
+ rename meta/recipes-graphics/wayland/{weston_12.0.2.bb => weston_13.0.0.bb} (93%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxrandr_1.5.3.bb b/meta/recipes-graphics/xorg-lib/libxrandr_1.5.4.bb
-similarity index 87%
-rename from meta/recipes-graphics/xorg-lib/libxrandr_1.5.3.bb
-rename to meta/recipes-graphics/xorg-lib/libxrandr_1.5.4.bb
-index 98572bd969..3e2825b916 100644
---- a/meta/recipes-graphics/xorg-lib/libxrandr_1.5.3.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxrandr_1.5.4.bb
-@@ -19,4 +19,4 @@ XORG_PN = "libXrandr"
+diff --git a/meta/recipes-graphics/wayland/weston_12.0.2.bb b/meta/recipes-graphics/wayland/weston_13.0.0.bb
+similarity index 93%
+rename from meta/recipes-graphics/wayland/weston_12.0.2.bb
+rename to meta/recipes-graphics/wayland/weston_13.0.0.bb
+index cfcaaca9c7..c74f471f07 100644
+--- a/meta/recipes-graphics/wayland/weston_12.0.2.bb
++++ b/meta/recipes-graphics/wayland/weston_13.0.0.bb
+@@ -14,7 +14,7 @@ SRC_URI = "https://gitlab.freedesktop.org/wayland/weston/-/releases/${PV}/downlo
+            file://systemd-notify.weston-start \
+            "
  
- BBCLASSEXTEND = "native nativesdk"
+-SRC_URI[sha256sum] = "eb686a7cf00992a23b17f192fca9a887313e92c346ee35d8575196983d656b4a"
++SRC_URI[sha256sum] = "52ff1d4aa2394a2e416c85a338b627ce97fa71d43eb762fd4aaf145d36fc795a"
  
--SRC_URI[sha256sum] = "897639014a78e1497704d669c5dd5682d721931a4452c89a7ba62676064eb428"
-+SRC_URI[sha256sum] = "1ad5b065375f4a85915aa60611cc6407c060492a214d7f9daf214be752c3b4d3"
+ UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
+ UPSTREAM_CHECK_REGEX = "weston-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
+@@ -38,7 +38,6 @@ PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'kms wayla
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 wayland', 'xwayland', '', d)} \
+                    ${@bb.utils.filter('DISTRO_FEATURES', 'systemd x11', d)} \
+                    ${@bb.utils.contains_any('DISTRO_FEATURES', 'wayland x11', '', 'headless', d)} \
+-                   launcher-libseat \
+                    image-jpeg \
+                    screenshare \
+                    shell-desktop \
+@@ -54,7 +53,7 @@ SIMPLECLIENTS ?= "all"
+ # Compositor choices
+ #
+ # Weston on KMS
+-PACKAGECONFIG[kms] = "-Dbackend-drm=true,-Dbackend-drm=false,drm udev virtual/egl virtual/libgles2 virtual/libgbm mtdev"
++PACKAGECONFIG[kms] = "-Dbackend-drm=true,-Dbackend-drm=false,drm udev seatd virtual/egl virtual/libgles2 virtual/libgbm mtdev"
+ # Weston on Wayland (nested Weston)
+ PACKAGECONFIG[wayland] = "-Dbackend-wayland=true,-Dbackend-wayland=false,virtual/egl virtual/libgles2"
+ # Weston on X11
+@@ -93,10 +92,6 @@ PACKAGECONFIG[shell-ivi] = "-Dshell-ivi=true,-Dshell-ivi=false"
+ PACKAGECONFIG[shell-kiosk] = "-Dshell-kiosk=true,-Dshell-kiosk=false"
+ # JPEG image loading support
+ PACKAGECONFIG[image-jpeg] = "-Dimage-jpeg=true,-Dimage-jpeg=false, jpeg"
+-# support libseat based launch
+-PACKAGECONFIG[launcher-libseat] = "-Dlauncher-libseat=true,-Dlauncher-libseat=false,seatd"
+-# deprecated and superseded by libseat launcher
+-PACKAGECONFIG[launcher-logind] = "-Ddeprecated-launcher-logind=true,-Ddeprecated-launcher-logind=false,"
+ # screencasting via PipeWire
+ PACKAGECONFIG[pipewire] = "-Dbackend-pipewire=true,-Dbackend-pipewire=false,pipewire"
+ # VNC remote screensharing
 -- 
-2.34.1
+2.37.3
 
 
