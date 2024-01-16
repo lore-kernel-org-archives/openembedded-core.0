@@ -1,116 +1,99 @@
-Return-Path: <uvv.mail@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EE23C47077
-	for <webhook@archiver.kernel.org>; Tue, 16 Jan 2024 08:34:03 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web11.8547.1705394040159055900
- for <Openembedded-core@lists.openembedded.org>;
- Tue, 16 Jan 2024 00:34:00 -0800
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B58D6C47DA6
+	for <webhook@archiver.kernel.org>; Tue, 16 Jan 2024 08:46:03 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web11.8713.1705394757532780232
+ for <openembedded-core@lists.openembedded.org>;
+ Tue, 16 Jan 2024 00:45:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=WW+gDpiR;
- spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: uvv.mail@gmail.com)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-40e586a62f7so73456065e9.2
-        for <Openembedded-core@lists.openembedded.org>; Tue, 16 Jan 2024 00:33:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705394038; x=1705998838; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JOZWMbejDkGQoMN+JuGKVJokeSqHjRgApE4XaNYEEz8=;
-        b=WW+gDpiRLoX5+wMNADC/27imMP7oh1T/iEIJK0eVSIUZUZoh60aoPTyhZ10AsPqbfH
-         PAK6pS/Jt8y5b25p3VdQ3hGWK3kx6aiNHRLd2rBZTIaMy10opdHZBj0H3IkH6u1KbW2B
-         YOVy7yZsNXw7XcSDunRR4dXmwYFDEVXtZWf6sfM5q7KRGt0W3n32QNMcWoiqTDK/7CN1
-         3M4GGl2chCU6yVJ51Pk0zDEJFBOjUY+MUwk1lxihNbFok7c0fl1awaLFN3JYSDe7wVX6
-         AcEf5WfOT9aQnnTKayedsxlQ4o9t9BM21jvBGmmM56Ns2vsAtjlZF2i07thvj8GTevzO
-         gkzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705394038; x=1705998838;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JOZWMbejDkGQoMN+JuGKVJokeSqHjRgApE4XaNYEEz8=;
-        b=AyVpIB8+W7dXip5eazQvlqfYoBdkK75ED8oLao0pvz+eUJeaxcXRh03+J38JHWhVmf
-         HggJUG4scLn/PP6CK7G0ArWiEWTHH0OpHdRmA8t8nJ+Jps3Ek2WbyD7LwyViWC7uoJ0c
-         SGhBZkytIKjUhCOpjQ92XRHB6TxhJkMg4b52T/MHiyR+JesjKoBaQcuEEB8VuYc1/k1+
-         lxip+VdzcMFQN4p4wxR3QyvG5ck97TW13ND+iyK1JNBbGFdmOrR5TeawVDcg9/l+gOvL
-         MBiX7Zl5lvlsNBvSxSRNNjH4JXJoQuhxIDyXLQHxSTSRuEHWbORJyxC7bCkC8NPONuOk
-         UGuw==
-X-Gm-Message-State: AOJu0Yzf6VIS0chQomkQyuG1jufcuiEy6oTZZ1Wa5pWCwWpXdK7/fd03
-	qQqnlHl3OaTGaouU0RXPVS0=
-X-Google-Smtp-Source: AGHT+IH4fZ+tjz14ccWHFQ6pgdjY68PcxXhkdYydoeWpI6M1TC9ZuT/6+f+63GG+4QTMgTqRxQNsnw==
-X-Received: by 2002:a7b:ca58:0:b0:40e:76bf:7168 with SMTP id m24-20020a7bca58000000b0040e76bf7168mr1737293wml.103.1705394038506;
-        Tue, 16 Jan 2024 00:33:58 -0800 (PST)
-Received: from [10.139.3.237] ([154.47.27.145])
-        by smtp.gmail.com with ESMTPSA id m26-20020a05600c3b1a00b0040e4c1dade4sm22598701wms.36.2024.01.16.00.33.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Jan 2024 00:33:58 -0800 (PST)
-Message-ID: <be7981e3-0d3d-44af-9ce1-6b9ca51d06b7@gmail.com>
-Date: Tue, 16 Jan 2024 09:33:57 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 1/3] recipetool: Don't fail on local go modules
-Content-Language: en-US
-To: Lukas Funke <lukas.funke-oss@weidmueller.com>,
- Richard Purdie <richard.purdie@linuxfoundation.org>,
- Openembedded-core@lists.openembedded.org
-References: <20240110115335.92914-1-uvv.mail@gmail.com>
- <8a756432917f8120a8e2d0d5b1e8ee9daebd6132.camel@linuxfoundation.org>
- <3ec7d9d9-c1bb-45ad-ae57-54ff7733d487@weidmueller.com>
-From: Vyacheslav Yurkov <uvv.mail@gmail.com>
-In-Reply-To: <3ec7d9d9-c1bb-45ad-ae57-54ff7733d487@weidmueller.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=U/QLW4b0;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=KrsNzAGN;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018d1172dc39-f2d22e2f-d864-4c0f-b375-1798f0b743bb-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1705394756; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
+	bh=sFlf8wY6cl/tAl4nlMItrZmtfLnJOZ+x4n9xaZnPGmw=;
+	b=U/QLW4b0JQSFmnVMQfr6aydyNqg2NBvp6UQ4rPVdIc64uKrapEJZFEGLTT+uZHF5
+	sSoXPulstMzSWoBccqhkuuc5pqsvADCTrK52lHtOZPzOUvqiXTJAz3ReNsUC4eytzth
+	/GiZUSjGutgXzQnhzNw8hVLj90D58wkJD69vrfgE=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1705394756;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=sFlf8wY6cl/tAl4nlMItrZmtfLnJOZ+x4n9xaZnPGmw=;
+	b=KrsNzAGNDD/jBLxjIBQihygnu0QrNmXXVOY56Xf/qSbZqdx5g0kyWGgwId6bAgUH
+	j/1xQm5xbpVgAif58XNqQXsjf0SJ8wS6sEvotClsSfWIshegn6DF+kL+KHXBrnD+SWT
+	2vShNRWOj53KdDhRqQPhLr8zCvhgHGeLT4BjG59g=
+From: patchtest@automation.yoctoproject.org
+To: Vyacheslav Yurkov <uvv.mail@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH v2 9/9] oeqa/selftest/recipetool: Add test coverage for local
+ go modules
+In-Reply-To: 20240116082327.128990-9-uvv.mail@gmail.com
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018d1172dc39-f2d22e2f-d864-4c0f-b375-1798f0b743bb-000000@us-west-2.amazonses.com>
+Date: Tue, 16 Jan 2024 08:45:56 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.01.16-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Jan 2024 08:34:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193836
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Jan 2024 08:46:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193839
 
-On 10.01.2024 16:45, Lukas Funke wrote:
-> On 10.01.2024 14:59, Richard Purdie wrote:
->> On Wed, 2024-01-10 at 12:53 +0100, Vyacheslav Yurkov wrote:
->>> Local modules are usually referenced with a 'replace' directive in
->>> go.mod file. If that's the case, remove them from populating SRC_URI.
->>>
->>> Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
->>> ---
->>>   scripts/lib/recipetool/create_go.py | 32 
->>> +++++++++++++++++------------
->>>   1 file changed, 19 insertions(+), 13 deletions(-)
->>
->> Do these changes mean we need to improve the test coverage in oe-
->> selftest for recipetool?
->
-> Test converage needs improvement, yes. I haven't considered the case 
-> for local modules since this seems to be rare(?). Are there public 
-> projects which use this mechanism?
->
-> Best regards
-> Lukas
->
+--NextPart
+Content-Type: text/plain
 
-I added coverage for local modules in my v2.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-I'm not a golang expert, but it seems that local modules in golang is a 
-means to "place a patched version into the project space until upstream 
-fixes it" more or less like Yocto does with Upstream patches. It's used 
-a lot by in-house projects, but you could also get a glimpse on github 
-with this query 
-https://github.com/search?q=path%3A%2Fgo.mod+NOT+is%3Afork+content%3A%2F%5Ereplace+.*%2F&type=code&query=content%3Ago.mod+replace&p=3 
-. Note, Github is able to display only first 100 search results (Github 
-API restriction).
+---
+Testing patch /home/patchtest/share/mboxes/v2-9-9-oeqa-selftest-recipetool-Add-test-coverage-for-local-go-modules.patch
 
-One thing I don't like in my v2 is that I need to look up a public 
-project to add required coverage. I would rather improve tests further 
-by having everything in one repository and just one test, i.e. it has to 
-be a small test project that could be used to test all go-related 
-functionality. The question is though where it should be placed? I could 
-create it on my Github account, but would that be a good option?
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
-Richard, any suggestions on where these projects for selftest coverage 
-should be hosted?
+PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test pylint (test_python_pylint.PyLint.test_pylint)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
 
-Slava
+SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
