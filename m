@@ -2,70 +2,70 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34F09C47077
-	for <webhook@archiver.kernel.org>; Tue, 16 Jan 2024 17:21:06 +0000 (UTC)
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
- by mx.groups.io with SMTP id smtpd.web10.22299.1705425659693124555
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B719C47077
+	for <webhook@archiver.kernel.org>; Tue, 16 Jan 2024 17:24:36 +0000 (UTC)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+ by mx.groups.io with SMTP id smtpd.web11.22681.1705425872161249846
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Jan 2024 09:21:00 -0800
+ Tue, 16 Jan 2024 09:24:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=aZDTZrnX;
- spf=pass (domain: gmail.com, ip: 209.85.208.181, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2cd0d05838fso113996631fa.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 16 Jan 2024 09:20:59 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=gf5iHVAZ;
+ spf=pass (domain: gmail.com, ip: 209.85.167.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-50e5a9bcec9so12380841e87.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 16 Jan 2024 09:24:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705425658; x=1706030458; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1705425870; x=1706030670; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=tu2RSEidH3sSNfGy/pJTnAVrbD6s/1Qkzj67uNQo0qQ=;
-        b=aZDTZrnX/69Kj9IGMSAWoN0tpyflperqubzi5CAVkVxQTcfpc79kqOkLK/MLO6UWyh
-         wDZYdcvLe+lFQCIB/5XpUARvhx59RktJeCAKIvRLzPVcwhSCXFouVwd6dbTHA4hFk/U3
-         KSnpSnl6WyATQWcg8XaaQxMoDDk+Xv9l0jvmhJ2yY2aRiPrjx7NyiM+/X5NtQXouNtuK
-         NyzASYLu73bLfOouz7GhCUWY5KODierWn1ourQ/kzulqdVqr1Ecivp2SJRFbyvCrbnU+
-         vCTLjFY0hu33xImk4yGmuZ/qmA3sfBuZP6LsT1RDIP42Y2ApAu04jhOCqHbnOUcxGwrw
-         kNlw==
+        bh=NXFsn7XHgVT/dYlSwF28X++Fl5r1fiYDycJbk6zkGNE=;
+        b=gf5iHVAZ766XfNigGRXNQaAbf5Fr9WIIh9kv5nh482zlf9iHgwsFUHA42JcPXfXPju
+         OGZWPrGTo/DrqPWt8R8xX36Ib+bkhZuYHIQS3xxIULDwJSFeYfX1UNfvt69aOInnLXhQ
+         vjwgvhBcJAzieDzMd6EcOjBD4qDjJR6gJ5zDxAMkYj+HGCHQVlwN/s/5OUT69hd3Zvrr
+         NxZav4NmbNM/TkggaQgcIAF8VlhFJA+iqyVmdj7+Zp5yBkuoAGMM28Ic14nU42w1m7ms
+         PpQK/9Q3bzubIXClSlOl/xgrnTIoXuvSsexbTo7sa2nIcioh2T/k579XkGHkRliQw/dB
+         lRFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705425658; x=1706030458;
+        d=1e100.net; s=20230601; t=1705425870; x=1706030670;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=tu2RSEidH3sSNfGy/pJTnAVrbD6s/1Qkzj67uNQo0qQ=;
-        b=ULfoDSnJGVrxrrc81bFsDtw5FPsaVl5nzQLRyZArNhRK9nWRq/NeNDpBE2UFI5rUkv
-         kUvJoVCQi/+LjyifdmzivLJ+YF//RIN0NlxTe6VkbiFhq70q9rNyuXgcRJKTmJSPuIzK
-         dfQq4A3BiVupJ8Zy/vN0JUSRMXetma9mhPRpYfLZeO5eKeyDl85kOEn5yJ30fU8TnsTw
-         vXcLvsQ/2Tt/Ii/j7+MqYU8v/bmaAoBrpVUDzm+jsm8ZupNkU0cJ+SXfO/lMC/CqzK8k
-         VuxDZ7JqbBrlm5AnK+KIszsEtLiYBlauLfbX2BkVnh5GP16bDcd1bM/qSUORV5+RTT0t
-         W6BQ==
-X-Gm-Message-State: AOJu0YyvI6gePpiYgILicNwwoQKW51p2+ElexoCz/bL1zTAqs/PHucm5
-	veaTw7bysVrQmq9ieI9IR/2HqJQvPvvD/mA4VzQ=
-X-Google-Smtp-Source: AGHT+IF3sbg1dtjA/v3rOeGHacAYwQ+AZ+JAfKmO10ghwZkGjSm7iLvQom3I/R8Msf3knj54xu5v0EYHuv/w9KxIafw=
-X-Received: by 2002:a2e:8193:0:b0:2cd:217:4605 with SMTP id
- e19-20020a2e8193000000b002cd02174605mr3498632ljg.50.1705425657401; Tue, 16
- Jan 2024 09:20:57 -0800 (PST)
+        bh=NXFsn7XHgVT/dYlSwF28X++Fl5r1fiYDycJbk6zkGNE=;
+        b=p6m3aAH3ABPN4Z4KjvLletJ+Ve0/tlkEYYzSRJ9NoTohnBOvCq4/orN7I4CbBc9ISD
+         FVA08lp+Se0DkzNFnIkw6ud0bf0H/VHGdWEjQSgZua4Bo+cZPJYai/MGK3uh48vzSZUr
+         r+TkCokkYP+xe9vFEQMUdojYOpDj6FB/xr84QusFLaD8FEQo8RAC+dYQ3f5YWwaVtWB4
+         2ou08jXsrWIKw+WcTu74qw7fmzwP20vxKXq3ufi+8DciPFrATiozSpZSdAEWxulfTREf
+         kfMLIrucDoeO7Sg12ZxBzw3m7Dqc9dQRiKyZl/XW62HuKh2PVh5hafDZqd/IZi1Kkcrj
+         w5Bw==
+X-Gm-Message-State: AOJu0YyBGWmgXv1bcFTwEJDgIZCb+waTxzW4CKCFlA8u/AbSCXIHC1FF
+	ZYzTg9LFlDBmAiFIGo/8UFwSyosep55Sr9MpKFvD+mA1
+X-Google-Smtp-Source: AGHT+IGWUick22YlD/Di4zTnOQrW5uMmv+fHLka3GlS+gaNS4/aL82mJRZvtwYE5p3GtYPTNXgWE+4buye/oCnCdStg=
+X-Received: by 2002:a05:6512:220d:b0:50e:7be9:52fb with SMTP id
+ h13-20020a056512220d00b0050e7be952fbmr4501244lfu.82.1705425870098; Tue, 16
+ Jan 2024 09:24:30 -0800 (PST)
 MIME-Version: 1.0
-References: <20240116165602.2053194-1-William.Lyu@windriver.com> <20240116165602.2053194-2-William.Lyu@windriver.com>
-In-Reply-To: <20240116165602.2053194-2-William.Lyu@windriver.com>
+References: <20240116165602.2053194-1-William.Lyu@windriver.com>
+In-Reply-To: <20240116165602.2053194-1-William.Lyu@windriver.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 16 Jan 2024 18:20:46 +0100
-Message-ID: <CANNYZj_OVth=cfNE_+VY4gb27hNcx45VagwZf1J_eEUEm0Ltvg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] openssl: Fix ptest dependencies on
- perl-module-* being ignored by COMPLEMENTARY_GLOB
+Date: Tue, 16 Jan 2024 18:24:19 +0100
+Message-ID: <CANNYZj_CPwSSG1G95gGkaS72komPiXgZ8M=kDLJu_r2JW2M8dA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] perl: Add option to prevent
+ COMPLEMENTARY_GLOB from ignoring perl-modules
 To: william.lyu@windriver.com
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000801454060f135adc"
+Content-Type: multipart/alternative; boundary="0000000000002d9454060f1367a0"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 16 Jan 2024 17:21:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193868
+ <openembedded-core@lists.openembedded.org>; Tue, 16 Jan 2024 17:24:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193869
 
---000000000000801454060f135adc
+--0000000000002d9454060f1367a0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-How about simple depending on specific module packages? I don=E2=80=99t thi=
-nk
-OpenSSL truly needs all modules.
+If this is only for fixing OpenSSL ptest, then it=E2=80=99s not needed perh=
+aps,
+once OpenSSL recipe is fixed?
 
 Alex
 
@@ -74,42 +74,84 @@ On Tue 16. Jan 2024 at 17.56, Lyu, William via lists.openembedded.org
 
 > From: William Lyu <William.Lyu@windriver.com>
 >
-> Change the openssl-ptest RDEPENDS from perl-modules to
-> perl-modules-force-all which RDEPENDS on the same set of packages
-> perl-module-* recommended by perl-modules. So, when openssl-ptest is
-> added via COMPLEMENTARY_GLOB "ptest-pkgs", its dependencies on these
-> perl-module-* packages still get added.
+> When perl-modules is added via COMPLEMENTARY_GLOB, all perl-module-*
+> packages recommended by perl-modules are ignored due to the defined
+> behavior of COMPLEMENTARY_GLOB.
+>
+> This patch creates a new package perl-modules-force-all that RDEPENDS on
+> the same set of packages perl-modules recommends. If another recipe
+> always needs the packages recommended by perl-modules, it can add
+> perl-modules-force-all to RDEPENDS to make sure that the recommended
+> packages by perl-modules are not ignored by COMPLEMENTARY_GLOB.
 >
 > Signed-off-by: William Lyu <William.Lyu@windriver.com>
 > ---
->  meta/recipes-connectivity/openssl/openssl_3.2.0.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  meta/recipes-devtools/perl/perl_5.38.2.bb | 22 ++++++++++++++++++++++
+>  1 file changed, 22 insertions(+)
 >
-> diff --git a/meta/recipes-connectivity/openssl/openssl_3.2.0.bb
-> b/meta/recipes-connectivity/openssl/openssl_3.2.0.bb
-> index d041d2d214..7076bd3a7b 100644
-> --- a/meta/recipes-connectivity/openssl/openssl_3.2.0.bb
-> +++ b/meta/recipes-connectivity/openssl/openssl_3.2.0.bb
-> @@ -247,7 +247,7 @@ CONFFILES:openssl-conf =3D
-> "${sysconfdir}/ssl/openssl.cnf"
+> diff --git a/meta/recipes-devtools/perl/perl_5.38.2.bb
+> b/meta/recipes-devtools/perl/perl_5.38.2.bb
+> index a9d684cfc5..f75c5aa971 100644
+> --- a/meta/recipes-devtools/perl/perl_5.38.2.bb
+> +++ b/meta/recipes-devtools/perl/perl_5.38.2.bb
+> @@ -311,6 +311,14 @@ ALTERNATIVE_LINK_NAME[Thread.3] =3D
+> "${mandir}/man3/Thread.3"
+>  ALLOW_EMPTY:${PN}-modules =3D "1"
+>  PACKAGES +=3D "${PN}-modules "
 >
->  RRECOMMENDS:libcrypto +=3D "openssl-conf ${PN}-ossl-module-legacy"
->  RDEPENDS:${PN}-misc =3D "perl"
-> -RDEPENDS:${PN}-ptest +=3D "openssl-bin perl perl-modules bash sed"
-> +RDEPENDS:${PN}-ptest +=3D "openssl-bin perl perl-modules-force-all bash =
-sed"
+> +# When perl-modules is added through COMPLEMENTARY_GLOB, as it is
+> recommending
+> +# packages, all its recommendations will be ignored. So, we create a
+> +# perl-modules-force-all package depending on the same set of packages a=
+s
+> listed
+> +# in perl-modules to provide a way to guarantee COMPLEMENTARY_GLOB not
+> removing
+> +# these packages.
+> +ALLOW_EMPTY:${PN}-modules-force-all =3D "1"
+> +PACKAGES +=3D "${PN}-modules-force-all "
+> +
+>  PACKAGESPLITFUNCS =3D+ "split_perl_packages"
 >
->  RDEPENDS:${PN}-bin +=3D "openssl-conf"
+>  python split_perl_packages () {
+> @@ -328,6 +336,20 @@ python split_perl_packages () {
+>      packages =3D filter(lambda p: 'perl-module-' in p,
+> d.getVar('PACKAGES').split())
+>      d.setVar(d.expand("RRECOMMENDS:${PN}-modules"), ' '.join(packages))
 >
+> +    # perl-modules-force-all provides a way to prevent COMPLEMENTARY_GLO=
+B
+> +    # from removing the packages specified in perl-modules.
+> +    # perl-modules-force-all contains the same set of packages as
+> perl-modules.
+> +    d.setVar(
+> +        d.expand("RDEPENDS:${PN}-modules-force-all"),
+> +        d.getVar(d.expand("RRECOMMENDS:${PN}-modules"))
+> +    )
+> +
+> +    # As perl-modules-force-all depends on all other, potentially
+> non-existent,
+> +    # perl packages, we allow these packages to be empty to prevent buil=
+d
+> +    # errors.
+> +    for pkg in
+> d.getVar(d.expand("RDEPENDS:${PN}-modules-force-all")).split():
+> +        d.setVar(d.expand("ALLOW_EMPTY:" + pkg), "1")
+> +
+>      # Read the pre-generated dependency file, and use it to set module
+> dependecies
+>      for line in open(d.expand("${WORKDIR}") +
+> '/perl-rdepends.txt').readlines():
+>          splitline =3D line.split()
 > --
 > 2.43.0
 >
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#193866):
-> https://lists.openembedded.org/g/openembedded-core/message/193866
-> Mute This Topic: https://lists.openembedded.org/mt/103766390/1686489
+> View/Reply Online (#193867):
+> https://lists.openembedded.org/g/openembedded-core/message/193867
+> Mute This Topic: https://lists.openembedded.org/mt/103766391/1686489
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
 > alex.kanavin@gmail.com]
@@ -117,70 +159,114 @@ sed"
 >
 >
 
---000000000000801454060f135adc
+--0000000000002d9454060f1367a0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto">How about simple depending on specific module packages? I=
- don=E2=80=99t think OpenSSL truly needs all modules.</div><div dir=3D"auto=
-"><br></div><div dir=3D"auto">Alex</div><div><br><div class=3D"gmail_quote"=
-><div dir=3D"ltr" class=3D"gmail_attr">On Tue 16. Jan 2024 at 17.56, Lyu, W=
-illiam via <a href=3D"http://lists.openembedded.org">lists.openembedded.org=
-</a> &lt;william.lyu=3D<a href=3D"mailto:windriver.com@lists.openembedded.o=
-rg">windriver.com@lists.openembedded.org</a>&gt; wrote:<br></div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width=
-:1px;border-left-style:solid;padding-left:1ex;border-left-color:rgb(204,204=
-,204)">From: William Lyu &lt;<a href=3D"mailto:William.Lyu@windriver.com" t=
-arget=3D"_blank">William.Lyu@windriver.com</a>&gt;<br>
+<div dir=3D"auto">If this is only for fixing OpenSSL ptest, then it=E2=80=
+=99s not needed perhaps, once OpenSSL recipe is fixed?=C2=A0</div><div dir=
+=3D"auto"><br></div><div dir=3D"auto">Alex</div><div><br><div class=3D"gmai=
+l_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue 16. Jan 2024 at 17.56=
+, Lyu, William via <a href=3D"http://lists.openembedded.org">lists.openembe=
+dded.org</a> &lt;william.lyu=3D<a href=3D"mailto:windriver.com@lists.openem=
+bedded.org">windriver.com@lists.openembedded.org</a>&gt; wrote:<br></div><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft-width:1px;border-left-style:solid;padding-left:1ex;border-left-color:rgb=
+(204,204,204)">From: William Lyu &lt;<a href=3D"mailto:William.Lyu@windrive=
+r.com" target=3D"_blank">William.Lyu@windriver.com</a>&gt;<br>
 <br>
-Change the openssl-ptest RDEPENDS from perl-modules to<br>
-perl-modules-force-all which RDEPENDS on the same set of packages<br>
-perl-module-* recommended by perl-modules. So, when openssl-ptest is<br>
-added via COMPLEMENTARY_GLOB &quot;ptest-pkgs&quot;, its dependencies on th=
-ese<br>
-perl-module-* packages still get added.<br>
+When perl-modules is added via COMPLEMENTARY_GLOB, all perl-module-*<br>
+packages recommended by perl-modules are ignored due to the defined<br>
+behavior of COMPLEMENTARY_GLOB.<br>
+<br>
+This patch creates a new package perl-modules-force-all that RDEPENDS on<br=
+>
+the same set of packages perl-modules recommends. If another recipe<br>
+always needs the packages recommended by perl-modules, it can add<br>
+perl-modules-force-all to RDEPENDS to make sure that the recommended<br>
+packages by perl-modules are not ignored by COMPLEMENTARY_GLOB.<br>
 <br>
 Signed-off-by: William Lyu &lt;<a href=3D"mailto:William.Lyu@windriver.com"=
  target=3D"_blank">William.Lyu@windriver.com</a>&gt;<br>
 ---<br>
-=C2=A0meta/recipes-connectivity/openssl/<a href=3D"http://openssl_3.2.0.bb"=
- rel=3D"noreferrer" target=3D"_blank">openssl_3.2.0.bb</a> | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+=C2=A0meta/recipes-devtools/perl/<a href=3D"http://perl_5.38.2.bb" rel=3D"n=
+oreferrer" target=3D"_blank">perl_5.38.2.bb</a> | 22 ++++++++++++++++++++++=
 <br>
-diff --git a/meta/recipes-connectivity/openssl/<a href=3D"http://openssl_3.=
-2.0.bb" rel=3D"noreferrer" target=3D"_blank">openssl_3.2.0.bb</a> b/meta/re=
-cipes-connectivity/openssl/<a href=3D"http://openssl_3.2.0.bb" rel=3D"noref=
-errer" target=3D"_blank">openssl_3.2.0.bb</a><br>
-index d041d2d214..7076bd3a7b 100644<br>
---- a/meta/recipes-connectivity/openssl/<a href=3D"http://openssl_3.2.0.bb"=
- rel=3D"noreferrer" target=3D"_blank">openssl_3.2.0.bb</a><br>
-+++ b/meta/recipes-connectivity/openssl/<a href=3D"http://openssl_3.2.0.bb"=
- rel=3D"noreferrer" target=3D"_blank">openssl_3.2.0.bb</a><br>
-@@ -247,7 +247,7 @@ CONFFILES:openssl-conf =3D &quot;${sysconfdir}/ssl/open=
-ssl.cnf&quot;<br>
+=C2=A01 file changed, 22 insertions(+)<br>
 <br>
-=C2=A0RRECOMMENDS:libcrypto +=3D &quot;openssl-conf ${PN}-ossl-module-legac=
-y&quot;<br>
-=C2=A0RDEPENDS:${PN}-misc =3D &quot;perl&quot;<br>
--RDEPENDS:${PN}-ptest +=3D &quot;openssl-bin perl perl-modules bash sed&quo=
-t;<br>
-+RDEPENDS:${PN}-ptest +=3D &quot;openssl-bin perl perl-modules-force-all ba=
-sh sed&quot;<br>
+diff --git a/meta/recipes-devtools/perl/<a href=3D"http://perl_5.38.2.bb" r=
+el=3D"noreferrer" target=3D"_blank">perl_5.38.2.bb</a> b/meta/recipes-devto=
+ols/perl/<a href=3D"http://perl_5.38.2.bb" rel=3D"noreferrer" target=3D"_bl=
+ank">perl_5.38.2.bb</a><br>
+index a9d684cfc5..f75c5aa971 100644<br>
+--- a/meta/recipes-devtools/perl/<a href=3D"http://perl_5.38.2.bb" rel=3D"n=
+oreferrer" target=3D"_blank">perl_5.38.2.bb</a><br>
++++ b/meta/recipes-devtools/perl/<a href=3D"http://perl_5.38.2.bb" rel=3D"n=
+oreferrer" target=3D"_blank">perl_5.38.2.bb</a><br>
+@@ -311,6 +311,14 @@ ALTERNATIVE_LINK_NAME[Thread.3] =3D &quot;${mandir}/ma=
+n3/Thread.3&quot;<br>
+=C2=A0ALLOW_EMPTY:${PN}-modules =3D &quot;1&quot;<br>
+=C2=A0PACKAGES +=3D &quot;${PN}-modules &quot;<br>
 <br>
-=C2=A0RDEPENDS:${PN}-bin +=3D &quot;openssl-conf&quot;<br>
++# When perl-modules is added through COMPLEMENTARY_GLOB, as it is recommen=
+ding<br>
++# packages, all its recommendations will be ignored. So, we create a<br>
++# perl-modules-force-all package depending on the same set of packages as =
+listed<br>
++# in perl-modules to provide a way to guarantee COMPLEMENTARY_GLOB not rem=
+oving<br>
++# these packages.<br>
++ALLOW_EMPTY:${PN}-modules-force-all =3D &quot;1&quot;<br>
++PACKAGES +=3D &quot;${PN}-modules-force-all &quot;<br>
++<br>
+=C2=A0PACKAGESPLITFUNCS =3D+ &quot;split_perl_packages&quot;<br>
 <br>
+=C2=A0python split_perl_packages () {<br>
+@@ -328,6 +336,20 @@ python split_perl_packages () {<br>
+=C2=A0 =C2=A0 =C2=A0packages =3D filter(lambda p: &#39;perl-module-&#39; in=
+ p, d.getVar(&#39;PACKAGES&#39;).split())<br>
+=C2=A0 =C2=A0 =C2=A0d.setVar(d.expand(&quot;RRECOMMENDS:${PN}-modules&quot;=
+), &#39; &#39;.join(packages))<br>
+<br>
++=C2=A0 =C2=A0 # perl-modules-force-all provides a way to prevent COMPLEMEN=
+TARY_GLOB<br>
++=C2=A0 =C2=A0 # from removing the packages specified in perl-modules.<br>
++=C2=A0 =C2=A0 # perl-modules-force-all contains the same set of packages a=
+s perl-modules.<br>
++=C2=A0 =C2=A0 d.setVar(<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 d.expand(&quot;RDEPENDS:${PN}-modules-force-al=
+l&quot;),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 d.getVar(d.expand(&quot;RRECOMMENDS:${PN}-modu=
+les&quot;))<br>
++=C2=A0 =C2=A0 )<br>
++<br>
++=C2=A0 =C2=A0 # As perl-modules-force-all depends on all other, potentiall=
+y non-existent,<br>
++=C2=A0 =C2=A0 # perl packages, we allow these packages to be empty to prev=
+ent build<br>
++=C2=A0 =C2=A0 # errors.<br>
++=C2=A0 =C2=A0 for pkg in d.getVar(d.expand(&quot;RDEPENDS:${PN}-modules-fo=
+rce-all&quot;)).split():<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 d.setVar(d.expand(&quot;ALLOW_EMPTY:&quot; + p=
+kg), &quot;1&quot;)<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0# Read the pre-generated dependency file, and use it to=
+ set module dependecies<br>
+=C2=A0 =C2=A0 =C2=A0for line in open(d.expand(&quot;${WORKDIR}&quot;) + &#3=
+9;/perl-rdepends.txt&#39;).readlines():<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0splitline =3D line.split()<br>
 -- <br>
 2.43.0<br>
 <br>
 <br>
 -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
 Links: You receive all messages sent to this group.<br>
-View/Reply Online (#193866): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/193866" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/193866</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/103766390/168=
+View/Reply Online (#193867): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/193867" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/193867</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/103766391/168=
 6489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/103766390/1686489</a><br>
+t/103766391/1686489</a><br>
 Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
 .org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
 br>
@@ -192,5 +278,5 @@ rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
 <br>
 </blockquote></div></div>
 
---000000000000801454060f135adc--
+--0000000000002d9454060f1367a0--
 
