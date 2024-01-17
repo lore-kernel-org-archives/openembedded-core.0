@@ -1,98 +1,130 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29713C47DA2
-	for <webhook@archiver.kernel.org>; Wed, 17 Jan 2024 15:26:00 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.5293.1705505157729681968
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45D6DC47DA2
+	for <webhook@archiver.kernel.org>; Wed, 17 Jan 2024 15:59:10 +0000 (UTC)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web10.6442.1705507148965550445
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Jan 2024 07:25:57 -0800
+ Wed, 17 Jan 2024 07:59:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=NW4h5wJ9;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=GQO+A7Cx;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018d18076e9d-9358227a-856a-4dc4-802c-5b4d71bf403b-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1705505156; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=j2D+SzW+CZu4+NpvYmF7oLunvsjCQChpIZoc0BQDIzQ=;
-	b=NW4h5wJ9x8BrDHPdPdinZ+I4RhE2+U3KQjUCMSAv5zZCiSdZ9qa2+gpupBR56mzO
-	9ORVhLfr+uo14wqPI43YBTHGj77n91ykNzefKKriW7bIGA1e0sZmOVyPTNtximAGgxA
-	OqgovvpqWj06EngtqtceuLoprMODhsQi3Udg/uhA=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1705505156;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=j2D+SzW+CZu4+NpvYmF7oLunvsjCQChpIZoc0BQDIzQ=;
-	b=GQO+A7Cxjs7tFdLP9ruw8akZU0j/5amN0U04q5jfn6bN8g7667z0P7COXHjo+5Y/
-	KHZotJiYPBjl5cKyl7hJEKjhsum3KrkgfEpX5+jmq6F3Y8+IY0lASSZUQt1GOXy9jnI
-	adC4NNGmTQsKrm85iBL9hen9Vtk/5b+oGx9Wesqs=
-From: patchtest@automation.yoctoproject.org
-To: ross.burton@arm.com
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 2/4] libunwind: merge .inc and .bb
-In-Reply-To: 20240117150720.3585669-2-ross.burton@arm.com
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018d18076e9d-9358227a-856a-4dc4-802c-5b4d71bf403b-000000@us-west-2.amazonses.com>
-Date: Wed, 17 Jan 2024 15:25:56 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.01.17-54.240.27.29
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=wJqvohlA;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1d6f1cdf279so5811895ad.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 17 Jan 2024 07:59:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1705507148; x=1706111948; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XD/5w/6sdy1IwRMOjr5DHAeJvnE96U78TXyA2cfGzJg=;
+        b=wJqvohlAK+a6PVm1fkRberExoPWoTCpQgIV2UIaanr5R+fDNVCeyB+XSSVZFgefda5
+         ZR4fmS0l2P7afWdunH0g8KpfFf5YRv/UP3UYSm5D+L7BS6VPpaopUOrK+PV2Y3YcrHXg
+         bXJbEMJnmkWEmelOmuCUTwDKVO6pPFiH6hV0b92TlkjRY5PnUEKAnkX1ANMVmbhTrLbZ
+         oFyLm44OaFByrX9zEpZz/K1/mAtAHpkB+f0DokC6jkqdctkF723bp9xnKG+ITWSSSEaQ
+         YdPocULdgUoBMxGG+RKCFXssH1BpsIb3h6J0sxH7v1O+Lr8XEbsaWRagwD4EX5rbuDYt
+         LVUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705507148; x=1706111948;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=XD/5w/6sdy1IwRMOjr5DHAeJvnE96U78TXyA2cfGzJg=;
+        b=iLhqFsYj41bJ8IRxq/iGGuazaksvWGJRoNbL0yt4bOTBlKW+MY8WNNrItiENZZcsA8
+         PLOv1QnXBvfdL6S69krJy+NrHUAMm6wkRxpOvz9IkSULETirLSB7XTILbxe1zIBD0c6B
+         mOCjxFLkTQp8SyQtTm8Q5L9dGsDsLwYM1eJ/Trcnoo9CPyaFHqyACTaKqikyCQaguhra
+         3ypJ33cCjQAlaXdukK9TDtJ8zeMq8Ay4LCV83K1aVQ/Br1E3GwHGMyokBkb495uT41wG
+         7Q9SOHJkAslvIF05xwvXCM98lJaobL5C7/GLKcWnL4jwjnEj5wXIhuGiKQ/aJEsykfg4
+         kQ6g==
+X-Gm-Message-State: AOJu0YxWKvx1z+NobS2QKwz3vWCrGBVsU2aaaKwp5hC0i0YcLKpBTrXd
+	iBsDaZkn5J7a8C9hmMTgCykiZ23HNMI1M0PU0U5LEHSm61e+PQ==
+X-Google-Smtp-Source: AGHT+IEAHlesHAx+2hS7s1s9h7dNkCiLAVm80pOTAEdnB2nhu9THZBUBDJHLdRf/3oppZdSbj1QiHg==
+X-Received: by 2002:a17:903:94d:b0:1d3:65b0:838a with SMTP id ma13-20020a170903094d00b001d365b0838amr11890764plb.131.1705507147846;
+        Wed, 17 Jan 2024 07:59:07 -0800 (PST)
+Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
+        by smtp.gmail.com with ESMTPSA id s4-20020a170902ea0400b001d425d495c9sm11117999plg.190.2024.01.17.07.59.06
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Jan 2024 07:59:07 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][kirkstone 0/7] Patch review
+Date: Wed, 17 Jan 2024 05:58:53 -1000
+Message-Id: <cover.1705505890.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Jan 2024 15:26:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193923
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Jan 2024 15:59:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193924
 
---NextPart
-Content-Type: text/plain
+Please reviwe this set of changes for kirkstone and have comments back by
+end of day Friday, January 19
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Passed a-full on autobuilder:
 
----
-Testing patch /home/patchtest/share/mboxes/2-4-libunwind-merge-.inc-and-.bb.patch
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6458
 
-FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+The following changes since commit 8e27f96c0befbbb5cf8a2f7076b7a1ffd79addb6:
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+  linux-firmware: upgrade 20230804 -> 20231030 (2024-01-09 05:50:24 -1000)
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+are available in the Git repository at:
 
----
+  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
+Hitendra Prajapati (1):
+  systemd: fix CVE-2023-7008
 
---NextPart
+Martin Jansa (1):
+  pybootchartgui: fix 2 SyntaxWarnings
 
+Peter Marko (2):
+  sqlite3: backport patch for CVE-2023-7104
+  zlib: ignore CVE-2023-6992
 
---NextPart--
+Poonam Jadhav (1):
+  Revert "curl: Backport fix CVE-2023-32001"
+
+Soumya Sambu (1):
+  cpio: upgrade to 2.14
+
+Vivek Kumbhar (1):
+  openssl: Backport fix for CVE-2023-6129
+
+ .../openssl/openssl/CVE-2023-6129.patch       | 113 ++++
+ .../openssl/openssl_3.0.12.bb                 |   1 +
+ .../systemd/systemd/CVE-2023-7008.patch       |  40 ++
+ meta/recipes-core/systemd/systemd_250.5.bb    |   1 +
+ meta/recipes-core/zlib/zlib_1.2.11.bb         |   3 +
+ ...charset_alias-when-building-for-musl.patch |  30 -
+ ...ove-superfluous-declaration-of-progr.patch |  28 -
+ ...-calculation-of-CRC-in-copy-out-mode.patch |  58 --
+ ...appending-to-archives-bigger-than-2G.patch | 312 ----------
+ .../cpio/cpio-2.13/CVE-2021-38185.patch       | 581 ------------------
+ .../cpio/{cpio_2.13.bb => cpio_2.14.bb}       |   9 +-
+ ...e-needed-header-for-major-minor-macr.patch |  47 ++
+ .../curl/curl/CVE-2023-32001.patch            |  39 --
+ meta/recipes-support/curl/curl_7.82.0.bb      |   1 -
+ .../sqlite/files/CVE-2023-7104.patch          |  44 ++
+ meta/recipes-support/sqlite/sqlite3_3.38.5.bb |   1 +
+ scripts/pybootchartgui/pybootchartgui/draw.py |   4 +-
+ 17 files changed, 254 insertions(+), 1058 deletions(-)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-6129.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/CVE-2023-7008.patch
+ delete mode 100644 meta/recipes-extended/cpio/cpio-2.13/0001-Unset-need_charset_alias-when-building-for-musl.patch
+ delete mode 100644 meta/recipes-extended/cpio/cpio-2.13/0002-src-global.c-Remove-superfluous-declaration-of-progr.patch
+ delete mode 100644 meta/recipes-extended/cpio/cpio-2.13/0003-Fix-calculation-of-CRC-in-copy-out-mode.patch
+ delete mode 100644 meta/recipes-extended/cpio/cpio-2.13/0004-Fix-appending-to-archives-bigger-than-2G.patch
+ delete mode 100644 meta/recipes-extended/cpio/cpio-2.13/CVE-2021-38185.patch
+ rename meta/recipes-extended/cpio/{cpio_2.13.bb => cpio_2.14.bb} (74%)
+ create mode 100644 meta/recipes-extended/cpio/files/0001-configure-Include-needed-header-for-major-minor-macr.patch
+ delete mode 100644 meta/recipes-support/curl/curl/CVE-2023-32001.patch
+ create mode 100644 meta/recipes-support/sqlite/files/CVE-2023-7104.patch
+
+-- 
+2.34.1
+
 
