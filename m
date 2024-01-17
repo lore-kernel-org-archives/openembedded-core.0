@@ -1,228 +1,179 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <jermain.horsman@nedap.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA7D7C47258
-	for <webhook@archiver.kernel.org>; Wed, 17 Jan 2024 14:53:59 +0000 (UTC)
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
- by mx.groups.io with SMTP id smtpd.web10.4254.1705503238631969967
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0824C47258
+	for <webhook@archiver.kernel.org>; Wed, 17 Jan 2024 15:02:49 +0000 (UTC)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+ by mx.groups.io with SMTP id smtpd.web10.4507.1705503760466676993
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Jan 2024 06:53:59 -0800
+ Wed, 17 Jan 2024 07:02:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=WVUQDVwL;
- spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 709BFFF80C;
-	Wed, 17 Jan 2024 14:53:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1705503236;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SYgVEurPRN09riLVx3Kui6+4BVZJn3oiwf3pG2V/T3M=;
-	b=WVUQDVwLM7LJQH9FCu11Ax+TawaFptdTRK3ZLCXsKJYvjjCuauq2yWx/AM+VJcHq6IlQQ8
-	thHLCdizZTgkMu/cGuOK4/1RpTrKcCKbWwzOi8D2w4cl8BjhdxgtQHBnANIxHL5dMSpKQi
-	kdd7BS0Jk6TspxcQSDSROAoN28ju986pl9qmNSxPA5TnG2/67bBG5tF7EReXTmb2yDXV+c
-	BVdjZDKVTBEhqzMXjoYZpHpKlOLvy3fwY7pbx8l1T0C0onHpw6OJjQ4865HE5X4YadU7nD
-	0a0oLXru8OZxkU0HE0c7Nbcu93oKtFoEkPqZ0Xkyt4BuJyDn9BATQJ8Wbj7yKw==
-Date: Wed, 17 Jan 2024 15:53:56 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: wangmy <wangmy@fujitsu.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] swig: upgrade 4.1.1 -> 4.2.0
-Message-ID: <20240117145356e21db1e4@mail.local>
-References: <1705310874-24840-1-git-send-email-wangmy@fujitsu.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=fQ2Y14QY;
+ spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: jhatnedap@gmail.com)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a271a28aeb4so1213203366b.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 17 Jan 2024 07:02:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1705503759; x=1706108559; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=C8nWMs8GhueY1LCbn0DjNHpI8ur4GQAGNsq4/jga0ro=;
+        b=fQ2Y14QYeXdhQHTi6EKoRLpZw1oV56I6UFZCfQvaqJs6Icw8jM/1ZUm3EvC1r9OvfO
+         ltuXObiXjtuuJwZZCkmP2q3WNTVMiO38qES/wi+wXUkW7u1OHG4Ij1u3+FfWT81WU5dF
+         ExGB/esa2YvqlCBrhxg2Hc8YbrxCFR1daxsHPkJ/3ll6aT6XL6qdbqGVzvXHvINsYiBp
+         QUZnto6I1zc5idpnJ838nUK+WiW41dZKiW6W8zUCHMDoP8NRN/oHjVq2gQNR6pd8+1TR
+         ExGCpgi5IniZpAwttTh/k1qFEes9e8Ai4BON3Lzc9f0ztawi2s3puPfRYFDtoyeTtxyL
+         Xvxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705503759; x=1706108559;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=C8nWMs8GhueY1LCbn0DjNHpI8ur4GQAGNsq4/jga0ro=;
+        b=icL895vq5eCA/nXE1N9qXWcG2XwGdIVvLB9XW8kyNbEG/EKdjcQ4T5eRxtOtPJXA3x
+         ZkAcUZf4zl5ZVICDvmNzcqjP5KyaU8U18zc3hz5jNCeKPhTQCNLWK70ujST147pqPyE9
+         0OeYqbVLMyzh7XpCMTcUxectHz5TOZJDWZqYkdlEe/UJqJgrTZ9ucya0bt3igeq6GbHr
+         1GGLiBPzKAr2PyKdewbXFwJFpHB1HwK+kheXaCoKIAUse5I3PJwM26SuvVx2r2BjxHpd
+         ALj7hgDXaMRB3Ksve+pXXg66aA/AtlWB0Je17hhZoySiFEBXZzCilzTaVXnmAKf3buQL
+         XXMQ==
+X-Gm-Message-State: AOJu0Yx8jlDWpYnYjk64R7jdXqafJEiEjbe0bIuWT3BDuFb48qG+4R28
+	P3e/s+j09dY0VrXb4ECGK6FNq+K2AgE=
+X-Google-Smtp-Source: AGHT+IFO0E/A+c0qbHFY233eTK8BJLwj1qfd2/Wc+Sq3SVOGT4AtMJivBaLgqlGz0+DEAfj3e1CqVg==
+X-Received: by 2002:a17:907:31c6:b0:a28:93cb:19a6 with SMTP id xf6-20020a17090731c600b00a2893cb19a6mr5311027ejb.61.1705503758603;
+        Wed, 17 Jan 2024 07:02:38 -0800 (PST)
+Received: from NVC4181.nedap.local ([149.3.168.10])
+        by smtp.gmail.com with ESMTPSA id h25-20020a170906399900b00a29db9e8c84sm7867465eje.220.2024.01.17.07.02.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Jan 2024 07:02:38 -0800 (PST)
+From: jhatnedap@gmail.com
+X-Google-Original-From: jermain.horsman@nedap.com
+To: openembedded-core@lists.openembedded.org
+Cc: Jermain Horsman <jermain.horsman@nedap.com>
+Subject: [PATCH 1/2] bitbake-layers: Add ability to update the reference of repositories
+Date: Wed, 17 Jan 2024 16:02:13 +0100
+Message-ID: <20240117150214.1110-2-jermain.horsman@nedap.com>
+X-Mailer: git-send-email 2.43.0.windows.1
+Reply-To: jermain.horsman@nedap.com
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1705310874-24840-1-git-send-email-wangmy@fujitsu.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Jan 2024 14:53:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193916
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Jan 2024 15:02:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193917
 
-Hello,
+From: Jermain Horsman <jermain.horsman@nedap.com>
 
-This causes failures on the autobuilders:
-https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/4241/steps/12/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/8438/steps/11/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/8470/steps/11/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/8446/steps/11/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/52/builds/8314/steps/12/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/108/builds/5592/steps/11/logs/stdio
+This creates a new layers setup with, or, modifies an existing layers
+setup using, one or more repositories where the references are provided
+by the user.
 
+This is a very minimal implementation, no validation of any reference
+is done and it is left to the user to provide a valid value.
 
-On 15/01/2024 17:27:54+0800, wangmy wrote:
-> From: Wang Mingyu <wangmy@fujitsu.com>
-> 
-> 0001-Use-proc-self-exe-for-swig-swiglib-on-non-Win32-plat.patch
-> 0001-configure-use-pkg-config-for-pcre-detection.patch
-> determinism.patch
-> refreshed for 4.2.0
-> 
-> Changelog:
-> ============
-> -Various template wrapping improvements: template template parameters,
->  variadic templates, partially specialized templates, const template
->  parameters and improved error checking instantiating templates.
-> -Improved decltype() support for expressions.
-> -C++14 auto without trailing return type and C++11 auto variables.
-> -Numerous C++ using declarations improvements.
-> -Numerous fixes for constructors, destructors and assignment operators:
->  implicit, default and deleted and related non-assignable variable
->  wrappers.
-> -STL: std::array and std::map improvements, std::string_view support
->  added.
-> -Various C preprocessor improvements.
-> -Various issues fixed to do with architecture specific long type.
-> -Various Doxygen improvements.
-> -D1/Tango support removed. D2/Phobos is now the supported D version
->  and SWIG now generates code which works with recent D2 releases.
-> -New Javascript generator targeting Node.js binary stable ABI Node-API.
-> -Octave 8.1 support added.
-> -PHP7 support removed, PHP8 is now the supported PHP version.
-> -Python STL container wrappers now use the Python Iterator Protocol.
-> -Python stable ABI support added.
-> -Python 3.12 support added.
-> -Ruby 3.2 and 3.3 support.
-> -Scilab 2023.* support added.
-> -Various minor enhancements for C#, Go, Guile, Javascript, Lua, Ocaml,
->  Perl, PHP, R, Racket, Ruby, Scilab and Tcl.
-> -A number of deprecated features have been removed.
-> 
-> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-> ---
->  ...self-exe-for-swig-swiglib-on-non-Win32-plat.patch | 10 ++++++----
->  ...configure-use-pkg-config-for-pcre-detection.patch |  6 +++---
->  meta/recipes-devtools/swig/swig/determinism.patch    | 12 +++++++++++-
->  .../swig/{swig_4.1.1.bb => swig_4.2.0.bb}            |  2 +-
->  4 files changed, 21 insertions(+), 9 deletions(-)
->  rename meta/recipes-devtools/swig/{swig_4.1.1.bb => swig_4.2.0.bb} (72%)
-> 
-> diff --git a/meta/recipes-devtools/swig/swig/0001-Use-proc-self-exe-for-swig-swiglib-on-non-Win32-plat.patch b/meta/recipes-devtools/swig/swig/0001-Use-proc-self-exe-for-swig-swiglib-on-non-Win32-plat.patch
-> index f27f80ea18..3f9c298430 100644
-> --- a/meta/recipes-devtools/swig/swig/0001-Use-proc-self-exe-for-swig-swiglib-on-non-Win32-plat.patch
-> +++ b/meta/recipes-devtools/swig/swig/0001-Use-proc-self-exe-for-swig-swiglib-on-non-Win32-plat.patch
-> @@ -1,4 +1,4 @@
-> -From a4a0440a644c6c5e5da096efe3cf05ba309a284f Mon Sep 17 00:00:00 2001
-> +From ca02368e2fcb469649534e00eeb21a3c86300f1e Mon Sep 17 00:00:00 2001
->  From: "NODA, Kai" <nodakai@gmail.com>
->  Date: Sun, 22 Apr 2012 17:01:02 +0900
->  Subject: [PATCH] Use /proc/self/exe for "swig -swiglib" on non-Win32
-> @@ -10,9 +10,11 @@ Upstream-Status: Submitted
->  http://sourceforge.net/mailarchive/message.php?msg_id=29179733
->  
->  ---
-> - Source/Modules/main.cxx |   24 ++++++++++++++++++++++--
-> + Source/Modules/main.cxx | 24 ++++++++++++++++++++++--
->   1 file changed, 22 insertions(+), 2 deletions(-)
->  
-> +diff --git a/Source/Modules/main.cxx b/Source/Modules/main.cxx
-> +index 8a44921..8250dee 100644
->  --- a/Source/Modules/main.cxx
->  +++ b/Source/Modules/main.cxx
->  @@ -25,6 +25,11 @@
-> @@ -27,7 +29,7 @@ http://sourceforge.net/mailarchive/message.php?msg_id=29179733
->   
->   // Global variables
->   
-> -@@ -934,9 +939,9 @@ int SWIG_main(int argc, char *argv[], co
-> +@@ -886,9 +891,9 @@ int SWIG_main(int argc, char *argv[], const TargetLanguageModule *tlm) {
->   
->     // Check for SWIG_LIB environment variable
->     if ((c = getenv("SWIG_LIB")) == (char *) 0) {
-> @@ -38,7 +40,7 @@ http://sourceforge.net/mailarchive/message.php?msg_id=29179733
->       if (!(GetModuleFileName(0, buf, MAX_PATH) == 0 || (p = strrchr(buf, '\\')) == 0)) {
->         *(p + 1) = '\0';
->         SwigLib = NewStringf("%sLib", buf); // Native windows installation path
-> -@@ -946,7 +951,22 @@ int SWIG_main(int argc, char *argv[], co
-> +@@ -898,7 +903,22 @@ int SWIG_main(int argc, char *argv[], const TargetLanguageModule *tlm) {
->       if (Len(SWIG_LIB_WIN_UNIX) > 0)
->         SwigLibWinUnix = NewString(SWIG_LIB_WIN_UNIX); // Unix installation path using a drive letter (for msys/mingw)
->   #else
-> diff --git a/meta/recipes-devtools/swig/swig/0001-configure-use-pkg-config-for-pcre-detection.patch b/meta/recipes-devtools/swig/swig/0001-configure-use-pkg-config-for-pcre-detection.patch
-> index cfcbd8c73a..40e98af77c 100644
-> --- a/meta/recipes-devtools/swig/swig/0001-configure-use-pkg-config-for-pcre-detection.patch
-> +++ b/meta/recipes-devtools/swig/swig/0001-configure-use-pkg-config-for-pcre-detection.patch
-> @@ -1,4 +1,4 @@
-> -From ffb785ed8d3cac3c28e014b1238d93e2bc1f0c01 Mon Sep 17 00:00:00 2001
-> +From 94f53f3f6629c2b7ffcffe0dd6ff4b5874271d26 Mon Sep 17 00:00:00 2001
->  From: Koen Kooi <koen.kooi@linaro.org>
->  Date: Tue, 17 Jun 2014 08:18:17 +0200
->  Subject: [PATCH] configure: use pkg-config for pcre detection
-> @@ -11,10 +11,10 @@ Upstream-Status: Pending
->   1 file changed, 7 insertions(+), 32 deletions(-)
->  
->  diff --git a/configure.ac b/configure.ac
-> -index f88004a..3a2b47c 100644
-> +index c060028..a330266 100644
->  --- a/configure.ac
->  +++ b/configure.ac
-> -@@ -57,39 +57,14 @@ AC_MSG_RESULT([$with_pcre])
-> +@@ -49,39 +49,14 @@ AC_MSG_RESULT([$with_pcre])
->   
->   dnl To make configuring easier, check for a locally built PCRE using the Tools/pcre-build.sh script
->   if test x"${with_pcre}" = xyes ; then
-> diff --git a/meta/recipes-devtools/swig/swig/determinism.patch b/meta/recipes-devtools/swig/swig/determinism.patch
-> index 84c399182a..8e6b01deb3 100644
-> --- a/meta/recipes-devtools/swig/swig/determinism.patch
-> +++ b/meta/recipes-devtools/swig/swig/determinism.patch
-> @@ -1,13 +1,23 @@
-> +From 2a106412fa86e57b6c069a6498fa6181ec5f983e Mon Sep 17 00:00:00 2001
-> +From: Richard Purdie <richard.purdie@linuxfoundation.org>
-> +Date: Mon, 1 Mar 2021 00:11:10 +0000
-> +Subject: [PATCH] swig: Fix reproducibility issue
-> +
->  Remove the compiler commandline/platform from the compiled binary as this
->  breaks reproducibilty.
->  
->  Upstream-Status: Inappropriate [OE reproducibiity fix upstream unlikely to take]
->  RP 2021/3/1
->  
-> +---
-> + Source/Modules/main.cxx | 1 -
-> + 1 file changed, 1 deletion(-)
->  
-> +diff --git a/Source/Modules/main.cxx b/Source/Modules/main.cxx
-> +index 8250dee..415761d 100644
->  --- a/Source/Modules/main.cxx
->  +++ b/Source/Modules/main.cxx
-> -@@ -642,7 +642,6 @@ static void getoptions(int argc, char *a
-> +@@ -629,7 +629,6 @@ static void getoptions(int argc, char *argv[]) {
->   	}
->         } else if (strcmp(argv[i], "-version") == 0) {
->   	fprintf(stdout, "\nSWIG Version %s\n", Swig_package_version());
-> diff --git a/meta/recipes-devtools/swig/swig_4.1.1.bb b/meta/recipes-devtools/swig/swig_4.2.0.bb
-> similarity index 72%
-> rename from meta/recipes-devtools/swig/swig_4.1.1.bb
-> rename to meta/recipes-devtools/swig/swig_4.2.0.bb
-> index b9e0175299..2ab4ed006c 100644
-> --- a/meta/recipes-devtools/swig/swig_4.1.1.bb
-> +++ b/meta/recipes-devtools/swig/swig_4.2.0.bb
-> @@ -4,4 +4,4 @@ SRC_URI += "file://0001-Use-proc-self-exe-for-swig-swiglib-on-non-Win32-plat.pat
->              file://0001-configure-use-pkg-config-for-pcre-detection.patch \
->              file://determinism.patch \
->             "
-> -SRC_URI[sha256sum] = "2af08aced8fcd65cdb5cc62426768914bedc735b1c250325203716f78e39ac9b"
-> +SRC_URI[sha256sum] = "261ca2d7589e260762817b912c075831572b72ff2717942f75b3e51244829c97"
-> -- 
-> 2.34.1
-> 
+Signed-off-by: Jermain Horsman <jermain.horsman@nedap.com>
+---
+ .../bblayers/setupwriters/oe-setup-layers.py  | 79 +++++++++++++++++--
+ 1 file changed, 72 insertions(+), 7 deletions(-)
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#193664): https://lists.openembedded.org/g/openembedded-core/message/193664
-> Mute This Topic: https://lists.openembedded.org/mt/103735728/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-
-
+diff --git a/meta/lib/bblayers/setupwriters/oe-setup-layers.py b/meta/lib/bblayers/setupwriters/oe-setup-layers.py
+index bd71ca1f51..59ca968ff3 100644
+--- a/meta/lib/bblayers/setupwriters/oe-setup-layers.py
++++ b/meta/lib/bblayers/setupwriters/oe-setup-layers.py
+@@ -31,16 +31,69 @@ class OeSetupLayersWriter():
+         with open(output, 'w') as f:
+             json.dump(repos, f, sort_keys=True, indent=4)
+ 
++    def _read_repo_config(self, json_path):
++        with open(json_path) as f:
++            json_config = json.load(f)
++
++        supported_versions = ["1.0"]
++        if json_config["version"] not in supported_versions:
++            err = "File {} has version {}, which is not in supported versions: {}".format(json_path, json_config["version"], supported_versions)
++            logger.error(err)
++            raise Exception(err)
++
++        return json_config
++
++    def _modify_repo_config(self, json_config, args):
++        sources = json_config['sources']
++        for pair in args.custom_references:
++            try:
++                repo, rev = pair.split(':', maxsplit=1)
++            except ValueError:
++                err = "Invalid custom reference specified: '{}'. Provide one using 'REPOSITORY:REFERENCE'.".format(pair)
++                logger.error(err)
++                raise Exception(err)
++            if not repo in sources.keys():
++                err = "Repository {} does not exist in setup-layers config".format(repo)
++                logger.error(err)
++                raise Exception(err)
++
++            layer_remote = json_config['sources'][repo]['git-remote']
++            layer_remote['rev'] = rev
++            # Clear describe
++            layer_remote['describe'] = ''
++
+     def do_write(self, parent, args):
+         """ Writes out a python script and a json config that replicate the directory structure and revisions of the layers in a current build. """
+-        if not os.path.exists(args.destdir):
+-            os.makedirs(args.destdir)
+-        repos = parent.make_repo_config(args.destdir)
+-        json = {"version":"1.0","sources":repos}
+-        if not repos:
+-            raise Exception("Could not determine layer sources")
+         output = args.output_prefix or "setup-layers"
+-        output = os.path.join(os.path.abspath(args.destdir),output)
++        output = os.path.join(os.path.abspath(args.destdir), output)
++
++        if args.update:
++            # Modify existing layers setup
++            if args.custom_references is None:
++                err = "No custom reference specified. Please provide one using '--use-custom-reference REPOSITORY:REFERENCE'."
++                logger.error(err)
++                raise Exception(err)
++
++            json = self._read_repo_config(output + ".json")
++            if not 'sources' in json.keys():
++                err = "File {}.json does not contain valid layer sources.".format(output)
++                logger.error(err)
++                raise Exception(err)
++
++        else:
++            # Create new layers setup
++            if not os.path.exists(args.destdir):
++                os.makedirs(args.destdir)
++            repos = parent.make_repo_config(args.destdir)
++            json = {"version":"1.0","sources":repos}
++            if not repos:
++                err = "Could not determine layer sources"
++                logger.error(err)
++                raise Exception(err)
++
++        if args.custom_references is not None:
++            self._modify_repo_config(json, args)
++
+         self._write_json(json, output + ".json")
+         logger.info('Created {}.json'.format(output))
+         if not args.json_only:
+@@ -50,3 +103,15 @@ class OeSetupLayersWriter():
+     def register_arguments(self, parser):
+         parser.add_argument('--json-only', action='store_true',
+             help='When using the oe-setup-layers writer, write only the layer configuruation in json format. Otherwise, also a copy of scripts/oe-setup-layers (from oe-core or poky) is provided, which is a self contained python script that fetches all the needed layers and sets them to correct revisions using the data from the json.')
++
++        parser.add_argument('--update', '-u',
++            action='store_true',
++            help=("Instead of writing a new json file, update an existing layer setup json file with custom references provided via the '--use-custom-reference' option."
++                  "\nThis will only update repositories for which a custom reference is specified, all other repositores will be left unchanged."))
++        parser.add_argument('--use-custom-reference', '-r',
++            action='append',
++            dest='custom_references',
++            metavar='REPOSITORY:REFERENCE',
++            help=("A pair consisting of a repository and a custom reference to use for it (by default the currently checked out commit id would be written out)."
++                  "\nThis value can be any reference that 'git checkout' would accept, and is not checked for validity."
++                  "\nThis option can be used multiple times."))
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.43.0.windows.1
+
 
