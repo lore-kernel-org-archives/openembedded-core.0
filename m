@@ -2,47 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B0B7C47422
-	for <webhook@archiver.kernel.org>; Wed, 17 Jan 2024 08:19:09 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.5021.1705479541116588293
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3A6FC47258
+	for <webhook@archiver.kernel.org>; Wed, 17 Jan 2024 08:19:08 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.4796.1705479540544576203
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Jan 2024 00:19:01 -0800
+ Wed, 17 Jan 2024 00:19:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=BV8y+U6b;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=XylH98XV;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018d16808d4c-21d76e55-3da7-4689-9c86-73c28eb7740c-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=HwOcZHHG;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=O5+p8k0s;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018d16808b8f-a8510d28-5a27-48ee-b8ea-69ff4f7141c4-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1705479540; i=@automation.yoctoproject.org;
+	t=1705479539; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=vxnfuGjKD205VT4c/lF2nOzvPSDEuOFQMCEupmNfFjQ=;
-	b=BV8y+U6btS37giYuXHSKbTT0/uSKlzywT7ABXhHQscKi1f5Op51msICsUpieHkHv
-	NHgHekyjqUeMSZA1typvIP7KRULgCvznlbTxHUMS9m+jDLUYOt1J+EGlwYWBLd3MaI5
-	vLY0WqU1N3yzlmnadNALfySpgVLaO0fJGpIoIaWw=
+	bh=L+8nvXFdXwOse9/k16kGeDrP7ssrItboA+C3yNCH5C0=;
+	b=HwOcZHHG5Esx93K25dTdwlLn+WqEIyvN/ypvk+SqxEroUr6YLSIs8QmW4zar4gDL
+	PuZ/glidEHtFZCGBiFqXJzwkjbeB0Y8yCJN3SWaK1jiWDE/PLfVGfUB4m2yXGu4dxFD
+	ScFSuqkUBPdNtCYFhe2vzM5A6uU+35yLsOJPM6Ws=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1705479540;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1705479539;
 	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=vxnfuGjKD205VT4c/lF2nOzvPSDEuOFQMCEupmNfFjQ=;
-	b=XylH98XVsDtuxV/MgC6PhQWTPE7VdM3AFqYLGcQutDEbmiDp0Qo2Uxonsck79B06
-	Qfe8jf2Hnqw6+mCcYaQVetoPCqd02q2ca1gHpFqh09lBXin4K2sU6dQlhy7vFGcfv54
-	50wlVItIYRVJ9xWk20k1NCbBsl47S8JVPvYHa1Bg=
+	bh=L+8nvXFdXwOse9/k16kGeDrP7ssrItboA+C3yNCH5C0=;
+	b=O5+p8k0sbiSqfrayDEzHHSHMonrC7Z928mIib8qOPlqV/K2CjVj1QZIGjUtznCZI
+	bK85fxZxM6thwb6sKRHtnwOlJyVG8qkdXFg0OXK6nF3VcvyYSFoEPY4P+Of0FaOjGLf
+	1N3z1ejpkPhtkrbL4459qHHeT1J1ngqb9Cd/hKrk=
 From: patchtest@automation.yoctoproject.org
 To: Uladzimir Bely <ubely@ilbers.de>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [meta-oe][PATCH 2/2] buildstats: support of custom disk usage command
-In-Reply-To: 20240117080754.16123-3-ubely@ilbers.de
+Subject: Patchtest results for [meta-oe][PATCH 1/2] buildstats: consider multiconfigs when
+ collecting statistics.
+In-Reply-To: 20240117080754.16123-2-ubely@ilbers.de
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018d16808d4c-21d76e55-3da7-4689-9c86-73c28eb7740c-000000@us-west-2.amazonses.com>
-Date: Wed, 17 Jan 2024 08:19:00 +0000
+Message-ID: <0101018d16808b8f-a8510d28-5a27-48ee-b8ea-69ff4f7141c4-000000@us-west-2.amazonses.com>
+Date: Wed, 17 Jan 2024 08:18:59 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.01.17-54.240.27.193
+X-SES-Outgoing: 2024.01.17-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Jan 2024 08:19:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193902
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Jan 2024 08:19:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193901
 
 --NextPart
 Content-Type: text/plain
@@ -52,7 +53,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/meta-oe-2-2-buildstats-support-of-custom-disk-usage-command.patch
+Testing patch /home/patchtest/share/mboxes/meta-oe-1-2-buildstats-consider-multiconfigs-when-collecting-statistics..patch
 
 FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
