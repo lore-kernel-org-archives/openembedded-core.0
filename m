@@ -1,232 +1,179 @@
-Return-Path: <dbaryshkov@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E395DC47DA2
-	for <webhook@archiver.kernel.org>; Wed, 17 Jan 2024 12:47:18 +0000 (UTC)
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
- by mx.groups.io with SMTP id smtpd.web10.1057.1705495630816946488
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01287C47DA9
+	for <webhook@archiver.kernel.org>; Wed, 17 Jan 2024 13:08:29 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web10.1532.1705496907077158703
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Jan 2024 04:47:11 -0800
+ Wed, 17 Jan 2024 05:08:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=U2nlP0Mo;
- spf=pass (domain: gmail.com, ip: 209.85.208.41, mailfrom: dbaryshkov@gmail.com)
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-554fe147ddeso12438228a12.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 Jan 2024 04:47:10 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Q6OLs4cg;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-40e80046264so29016645e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 17 Jan 2024 05:08:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705495629; x=1706100429; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ekNhvpHf2EHWHTAMDKvtCoiMlsH1UMZyXeDh9TCmJOU=;
-        b=U2nlP0MosvNNFeRhWp6MTJ2KMJX8Va9Irczwfq4ng7KoOPJJupOyhHDrXgQpGuXLWQ
-         mAs7FJLQMZU7jIGOFH1l/SRjCCus2oU3H4h8Wlffzd+a+jecsud4hQ76hQrY9Q0AyDqO
-         PaERuxa+4c+5cNWFlmpSrz3i68UKBmYjD9C/7QhYzl8nLYXh/vLz6SZSaI6G8kHQQ3Ca
-         MHpnTgbFUW5txfuQuNuxMOqGfkLNdkWbrkIhCPCF2X4f9UEBqS0zYSbq97e0mYK4OQ2Z
-         LWlasoBdJGcIUoN9NlY4N8E7w/nsSfZWBBZn1ZfamE6gp/Zq1E3/Dsb0c/IZG5G4yMiE
-         aScA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705495629; x=1706100429;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=linuxfoundation.org; s=google; t=1705496905; x=1706101705; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ekNhvpHf2EHWHTAMDKvtCoiMlsH1UMZyXeDh9TCmJOU=;
-        b=hLZA3U5h/BEQHr0yrKWxf0AEpnW8D41X310sBnuYi1NMh17XBcx+13zyrMZp/lfUWO
-         DWSdSbrNgXJgYZM4da3DmG4tkRSkfUTTGZWE92g1WpD2h+0axnu5mINRaEMPBJG3QmyH
-         gR+VikGoYqzHrPXXiQCaay34TvaZVaMwbaFz3caxs/so8C1K0os/eeRMyEIp08UCyDNs
-         UGLDWLFobmA7G4bU1gyWs7GY6ww9wuowygEwyiOIEFcIUZgewnnUAO7NGHRM/f3KzQdt
-         P8JTznULizTD6cUKbJK7Aoe8KMARelGN27S94QqkyW8EVf05dLhTOB4Z1rZudz7GRvZK
-         /87g==
-X-Gm-Message-State: AOJu0YzNOsD/oQAeVbfsMT726yDYwVqBPP93ET2pq416qVeX8ALlGogF
-	2bX5O4BCBiU4cwu/Ldcm3FzmCY2NfdUT1wsBghs=
-X-Google-Smtp-Source: AGHT+IHEBjJx4Gktr8YvY3CcI/dwhkPulwY0Hcq7jOayCGKXSrWBwVCjU721RXWBhNH6WTDpL8czHBXHy3VxvIVtYLI=
-X-Received: by 2002:a17:907:1685:b0:a2e:9f1c:1b96 with SMTP id
- cx5-20020a170907168500b00a2e9f1c1b96mr612707ejd.80.1705495628893; Wed, 17 Jan
- 2024 04:47:08 -0800 (PST)
+        bh=LvryT2Y8SYHfT+R29BLz71Ed+LTg7jdExt0ao4Q6j6o=;
+        b=Q6OLs4cg5//vHAWbPajnZ2q6A8Mvo3z3iM2LrO6cVhYJk7n3h0VgBq2DLg8W/bffoc
+         4sBLURyNKtfu+XhVls1eIwJKPsU76hlIaoCfcYUoYpI5vYzjJls+iu6y2I/LNGpfOI3i
+         YSBOqwQJjy0Uxdc81Vx4q5MKRzfjPCM/dDZmg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705496905; x=1706101705;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LvryT2Y8SYHfT+R29BLz71Ed+LTg7jdExt0ao4Q6j6o=;
+        b=Hf5+gC1wu6y0QOq1sBPpUec+hSWL/kGD7ySgyME90ni7yk1pHnF3MJQNBeRb8mBaDZ
+         PvTG2hGxWZt9f+ZsZaRhcXTGM7efHDY0iCc/WBzSzLCUWMwnI+86zUmV4WQwt1uAyks5
+         MVvQOy55iaWFrkPowMKZxOq0h48H/v6nfOSPiVtcKJzKjTKDH7NAMBSFMUg5G2vIYhHZ
+         lL3A496DnoFPd5ITU6yzw7ZaLJdMznhHQg/PkhQWLnqvRTz6XYheqjMuj6iHW1uv7595
+         6PZrM16yFJnvKqhi/nrbJf9hTu0bmg6wul2473oULDinOdxVkP0vLSRI6lejdH2ucciI
+         guqA==
+X-Gm-Message-State: AOJu0YyrjRto3q5XuHzOnAmVOPLAAq6br612IgeHwwbKsomo1AAAi+8R
+	ferZnKyADu6142icnBkXMdfRTsoio5zgV3SoEnpKLl3hhpw=
+X-Google-Smtp-Source: AGHT+IGF3V+zxI+CR46taF3InmvjMvbLf0XgLz2FXMh19eKSlkN2Z+qIIoz2DfxntTs7/JpvziKz9A==
+X-Received: by 2002:a05:600c:144:b0:40e:4252:e26 with SMTP id w4-20020a05600c014400b0040e42520e26mr4758607wmm.69.1705496905203;
+        Wed, 17 Jan 2024 05:08:25 -0800 (PST)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:3c1d:bf3d:325f:7bb3])
+        by smtp.gmail.com with ESMTPSA id k20-20020a05600c1c9400b0040e54f15d3dsm26263349wms.31.2024.01.17.05.08.24
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Jan 2024 05:08:24 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 3/5] libtool: Update prefixmap and clang patches to match upstream submission
+Date: Wed, 17 Jan 2024 13:08:20 +0000
+Message-Id: <20240117130822.3928928-3-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240117130822.3928928-1-richard.purdie@linuxfoundation.org>
+References: <20240117130822.3928928-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-References: <20240111131521.2305172-1-alex@linutronix.de> <20240111131521.2305172-2-alex@linutronix.de>
-In-Reply-To: <20240111131521.2305172-2-alex@linutronix.de>
-From: Dmitry Baryshkov <dbaryshkov@gmail.com>
-Date: Wed, 17 Jan 2024 14:46:57 +0200
-Message-ID: <CALT56yMAYUiu8VLbH1HLLYGm=TkVZx31nZu_M5+bhDp=OnqMXg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3 2/2] shadow: link executables statically for
- -native variant
-To: Alexander Kanavin <alex.kanavin@gmail.com>, Vishal Bhoj <vishal.bhoj@linaro.org>
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Jan 2024 12:47:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193907
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Jan 2024 13:08:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193910
 
-On Thu, 11 Jan 2024 at 15:15, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
->
-> shadow 4.14.x adds a number of libraries it dynamically links with
-> (md, bsd, attr). This causes troubles in setscene tasks where
-> shadow executables are used (such as useradd), as pulling in
-> the needed dynamic libraries needs unpleasant special-casing.
->
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+The patches were submitted upstream and adjusted after discussion. Update to match
+the changes requested.
 
-It seems, this is causing issues with the TuxOE builds. We have been
-observing issues with the TuxOE build environment with the image
-creation choking on the home dirs. Reverting this patch seems to fix
-the problem. The build environment is Ubuntu 20.04 running in a
-container on Ubuntu 22.04.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ ...in.in-Parse-additional-clang-options.patch | 31 +++++++++++--------
+ ...-prefix-map-compiler-options-correct.patch | 31 ++++++++++++-------
+ 2 files changed, 38 insertions(+), 24 deletions(-)
 
-ERROR: rpb-weston-image-1.0-r0 do_image_tar:
-ExecutionError('/oe/build/tmp-rpb_wayland-glibc/work/qcom_armv8a-linaro-linux/rpb-weston-image/1.0/temp/run.do_image_tar.160075',
-1, None, None)
-ERROR: Logfile of failure stored in:
-/oe/build/tmp-rpb_wayland-glibc/work/qcom_armv8a-linaro-linux/rpb-weston-image/1.0/temp/log.do_image_tar.160075
-Log data follows:
-| DEBUG: Executing python function set_image_size
-| DEBUG: 1402908.000000 = 1079160 * 1.300000
-| DEBUG: 1402908.000000 = max(1402908.000000, 65536)[1402908.000000] + 0
-| DEBUG: 1402908.000000 = int(1402908.000000)
-| DEBUG: 1404928 = aligned(1402908)
-| DEBUG: returning 1404928
-| DEBUG: Python function set_image_size finished
-| DEBUG: Executing shell function do_image_tar
-| tar: ./home/linaro/.bashrc: Unknown file type; file ignored
-| tar: ./home/linaro/.profile: Unknown file type; file ignored
-| tar: Exiting with failure status due to previous errors
-| WARNING: /oe/build/tmp-rpb_wayland-glibc/work/qcom_armv8a-linaro-linux/rpb-weston-image/1.0/temp/run.do_image_tar.160075:146
-exit 1 from '[ $? -eq 1 ]'
-| WARNING: Backtrace (BB generated script):
-| #1: do_image_tar,
-/oe/build/tmp-rpb_wayland-glibc/work/qcom_armv8a-linaro-linux/rpb-weston-image/1.0/temp/run.do_image_tar.160075,
-line 146
-| #2: main, /oe/build/tmp-rpb_wayland-glibc/work/qcom_armv8a-linaro-linux/rpb-weston-image/1.0/temp/run.do_image_tar.160075,
-line 152
-NOTE: recipe rpb-weston-image-1.0-r0: task do_image_tar: Failed
-ERROR: Task (/oe/build/conf/../../layers/meta-rpb/recipes-samples/images/rpb-weston-image.bb:do_image_tar)
-failed with exit code '1'
-
-| DEBUG: Python function extend_recipe_sysroot finished
-| DEBUG: Executing python function set_image_size
-| DEBUG: 1402908.000000 = 1079160 * 1.300000
-| DEBUG: 1402908.000000 = max(1402908.000000, 65536)[1402908.000000] + 0
-| DEBUG: 1402908.000000 = int(1402908.000000)
-| DEBUG: 1404928 = aligned(1402908)
-| DEBUG: returning 1404928
-| DEBUG: Python function set_image_size finished
-| DEBUG: Executing shell function do_image_ext4
-| DEBUG: Executing dd if=/dev/zero
-of=/oe/build/tmp-rpb_wayland-glibc/work/qcom_armv8a-linaro-linux/rpb-weston-image/1.0/deploy-rpb-weston-image-image-complete/rpb-weston-image-qcom-armv8a.rootfs-20240117062023.ext4
-seek=1404928 count=0 bs=1024
-| 0+0 records in
-| 0+0 records out
-| 0 bytes copied, 9.0878e-05 s, 0.0 kB/s
-| DEBUG: Actual Rootfs size:  1075376
-/oe/build/tmp-rpb_wayland-glibc/work/qcom_armv8a-linaro-linux/rpb-weston-image/1.0/rootfs
-| DEBUG: Actual Partition size: 1438646272
-| DEBUG: Executing mkfs.ext4 -F -b 4096
-/oe/build/tmp-rpb_wayland-glibc/work/qcom_armv8a-linaro-linux/rpb-weston-image/1.0/deploy-rpb-weston-image-image-complete/rpb-weston-image-qcom-armv8a.rootfs-20240117062023.ext4
--d /oe/build/tmp-rpb_wayland-glibc/work/qcom_armv8a-linaro-linux/rpb-weston-image/1.0/rootfs
-| mke2fs 1.47.0 (5-Feb-2023)
-| Discarding device blocks:      0/351232
-             done
-| Creating filesystem with 351232 4k blocks and 87824 inodes
-| Filesystem UUID: 27cefb6f-e38e-44ed-ab0f-4b613d3594f2
-| Superblock backups stored on blocks:
-| 32768, 98304, 163840, 229376, 294912
-|
-| Allocating group tables:  0/11               done
-| Writing inode tables:  0/11               done
-| Creating journal (8192 blocks): done
-| Copying files into the device: __populate_fs: ignoring entry ".bashrc"
-| .bashrc: File not found by ext2_lookup while looking up ".bashrc"
-| mkfs.ext4: File not found by ext2_lookup while populating file system
-| WARNING: /oe/build/tmp-rpb_wayland-glibc/work/qcom_armv8a-linaro-linux/rpb-weston-image/1.0/temp/run.do_image_ext4.160095:176
-exit 1 from 'mkfs.$fstype -F $extra_imagecmd
-/oe/build/tmp-rpb_wayland-glibc/work/qcom_armv8a-linaro-linux/rpb-weston-image/1.0/deploy-rpb-weston-image-image-complete/rpb-weston-image-qcom-armv8a.rootfs-20240117062023.$fstype
--d /oe/build/tmp-rpb_wayland-glibc/work/qcom_armv8a-linaro-linux/rpb-weston-image/1.0/rootfs'
-| WARNING: Backtrace (BB generated script):
-| #1: oe_mkext234fs,
-/oe/build/tmp-rpb_wayland-glibc/work/qcom_armv8a-linaro-linux/rpb-weston-image/1.0/temp/run.do_image_ext4.160095,
-line 176
-| #2: do_image_ext4,
-/oe/build/tmp-rpb_wayland-glibc/work/qcom_armv8a-linaro-linux/rpb-weston-image/1.0/temp/run.do_image_ext4.160095,
-line 146
-| #3: main, /oe/build/tmp-rpb_wayland-glibc/work/qcom_armv8a-linaro-linux/rpb-weston-image/1.0/temp/run.do_image_ext4.160095,
-line 213
-NOTE: recipe rpb-weston-image-1.0-r0: task do_image_ext4: Failed
-
-
-
->
-> ---
-> v2: patch only Makefiles that produce executables and libshadow.a
-> (that executables all statically link with), do not patch libsubid/Makefile,
-> as patching in .a linking can clash with producing dynamic libraries.
-> libsubid is used only in getsubids executable, which is not used in
-> setscene user management (or anywhere else from what I can see).
->
-> v3: add -no-pie to linker flags, as otherwise some host distros
-> would refuse to link against libattr produced on other host distros
-> and supplied via sstate (libattr made with gcc 13 and used on gcc 11/12
-> hosts seems to be problematic)
->
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> ---
->  meta/conf/distro/include/no-static-libs.inc |  5 +++++
->  meta/recipes-extended/shadow/shadow.inc     | 10 ++++++++++
->  2 files changed, 15 insertions(+)
->
-> diff --git a/meta/conf/distro/include/no-static-libs.inc b/meta/conf/distro/include/no-static-libs.inc
-> index 75359928a14..8898d53d756 100644
-> --- a/meta/conf/distro/include/no-static-libs.inc
-> +++ b/meta/conf/distro/include/no-static-libs.inc
-> @@ -21,6 +21,11 @@ DISABLE_STATIC:pn-libusb1-native = ""
->  # needed by rust
->  DISABLE_STATIC:pn-musl = ""
->
-> +# needed by shadow-native to build static executables, particularly useradd
-> +DISABLE_STATIC:pn-attr-native = ""
-> +DISABLE_STATIC:pn-libbsd-native = ""
-> +DISABLE_STATIC:pn-libmd-native = ""
-> +
->  EXTRA_OECONF:append = "${DISABLE_STATIC}"
->
->  EXTRA_OECMAKE:append:pn-libical = " -DSHARED_ONLY=True"
-> diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
-> index c024746d4ff..43f456251a5 100644
-> --- a/meta/recipes-extended/shadow/shadow.inc
-> +++ b/meta/recipes-extended/shadow/shadow.inc
-> @@ -47,6 +47,16 @@ EXTRA_OECONF += "--without-libcrack \
->
->  CFLAGS:append:libc-musl = " -DLIBBSD_OVERLAY"
->
-> +# Force static linking of utilities so we can use from the sysroot/sstate for useradd
-> +# without worrying about the dependency libraries being available
-> +LDFLAGS:append:class-native = " -no-pie"
-> +do_compile:prepend:class-native () {
-> +       sed -i -e 's#\(LIBS.*\)-lbsd#\1 ${STAGING_LIBDIR}/libbsd.a ${STAGING_LIBDIR}/libmd.a#g' \
-> +              -e 's#\(LIBBSD.*\)-lbsd#\1 ${STAGING_LIBDIR}/libbsd.a ${STAGING_LIBDIR}/libmd.a#g' \
-> +              -e 's#\(LIBATTR.*\)-lattr#\1 ${STAGING_LIBDIR}/libattr.a#g' \
-> +               ${B}/lib/Makefile ${B}/src/Makefile
-> +}
-> +
->  NSCDOPT = ""
->  NSCDOPT:class-native = "--without-nscd"
->  NSCDOPT:class-nativesdk = "--without-nscd"
-> --
-> 2.39.2
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#193543): https://lists.openembedded.org/g/openembedded-core/message/193543
-> Mute This Topic: https://lists.openembedded.org/mt/103661548/3618183
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [dbaryshkov@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
-
-
+diff --git a/meta/recipes-devtools/libtool/libtool/0001-ltmain.in-Parse-additional-clang-options.patch b/meta/recipes-devtools/libtool/libtool/0001-ltmain.in-Parse-additional-clang-options.patch
+index 0285c143d28..0dcf963dcca 100644
+--- a/meta/recipes-devtools/libtool/libtool/0001-ltmain.in-Parse-additional-clang-options.patch
++++ b/meta/recipes-devtools/libtool/libtool/0001-ltmain.in-Parse-additional-clang-options.patch
+@@ -1,21 +1,26 @@
+-From: Khem Raj <raj.khem@gmail.com>
+-Subject: [PATCH] ltmain.in: Parse additional clang options
++ltmain.in: Parse additional clang options
+ 
+-clang uses -rtlib and --unwindlib to select proper compiler runtime in
+-some cases. There fore pass these options to linker when found in
++clang uses -rtlib and --unwindlib to select proper compiler
++runtime in some cases. Therefore pass these options to linker when found in
+ ldflags
+ 
+-Upstream-Status: Pending
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
++* build-aux/ltmain.in: Handle clang linker options
+ 
+-Index: libtool-2.4.7/build-aux/ltmain.in
+-===================================================================
+---- libtool-2.4.7.orig/build-aux/ltmain.in
+-+++ libtool-2.4.7/build-aux/ltmain.in
+-@@ -5420,10 +5420,12 @@ func_mode_link ()
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++Upstream-Status: Submitted [https://lists.gnu.org/archive/html/libtool-patches/2024-01/msg00110.html]
++
++---
++ build-aux/ltmain.in | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
++
++diff --git a/build-aux/ltmain.in b/build-aux/ltmain.in
++index 037f009..ba5c816 100644
++--- a/build-aux/ltmain.in
+++++ b/build-aux/ltmain.in
++@@ -5414,10 +5414,12 @@ func_mode_link ()
+        # -fsanitize=*         Clang/GCC memory and address sanitizer
+        # -fuse-ld=*           Linker select flags for GCC
+-       # -f*-prefix-map*      needed for lto linking
++       # -f{file|debug|macro|profile}-prefix-map* needed for lto linking
+ +      # -rtlib=*             select c runtime lib with clang
+ +      # --unwindlib=*        select unwinder library with clang
+        # -Wa,*                Pass flags directly to the assembler
+@@ -23,6 +28,6 @@ Index: libtool-2.4.7/build-aux/ltmain.in
+        -t[45]*|-txscale*|-p|-pg|--coverage|-fprofile-*|-F*|@*|-tp=*|--sysroot=*| \
+ -      -O*|-g*|-flto*|-fwhopr*|-fuse-linker-plugin|-fstack-protector*|-stdlib=*| \
+ +      -O*|-g*|-flto*|-fwhopr*|-fuse-linker-plugin|-fstack-protector*|-stdlib=*|-rtlib=*|--unwindlib=*| \
+-       -specs=*|-fsanitize=*|-fuse-ld=*|-f*-prefix-map*|-Wa,*)
++       -specs=*|-fsanitize=*|-fuse-ld=*|-ffile-prefix-map=*|-fdebug-prefix-map=*|-fmacro-prefix-map=*|-fprofile-prefix-map=*|-Wa,*)
+          func_quote_arg pretty "$arg"
+  	arg=$func_quote_arg_result
+diff --git a/meta/recipes-devtools/libtool/libtool/0011-ltmain.in-Handle-prefix-map-compiler-options-correct.patch b/meta/recipes-devtools/libtool/libtool/0011-ltmain.in-Handle-prefix-map-compiler-options-correct.patch
+index 4945533badd..c0627795b45 100644
+--- a/meta/recipes-devtools/libtool/libtool/0011-ltmain.in-Handle-prefix-map-compiler-options-correct.patch
++++ b/meta/recipes-devtools/libtool/libtool/0011-ltmain.in-Handle-prefix-map-compiler-options-correct.patch
+@@ -1,28 +1,37 @@
+-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+-Subject: [PATCH 11/12] ltmain.in: Handle prefix-map compiler options correctly
++ltmain.in: Handle prefix-map compiler options correctly
++
++If lto is enabled, we need the prefix-map variables to be passed to the linker
++to correctly link the objects using correctly mapped paths.
+ 
+-If lto is enabled, we need the prefix-map variables to be passed to the linker.
+ Add these to the list of options libtool passes through.
+ 
++* build-aux/ltmain.in: Handle prefix-map compiler options
++
+ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+ 
+-Upstream-Status: Submitted [https://lists.gnu.org/archive/html/libtool-patches/2021-10/msg00019.html]
++https://lists.gnu.org/archive/html/libtool-patches/2021-10/msg00019.html
++https://lists.gnu.org/archive/html/libtool-patches/2024-01/msg00066.html
++Upstream-Status: Submitted [https://lists.gnu.org/archive/html/libtool-patches/2024-01/msg00109.html]
++
++---
++ build-aux/ltmain.in | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
+ 
+-Index: libtool-2.4.7/build-aux/ltmain.in
+-===================================================================
+---- libtool-2.4.7.orig/build-aux/ltmain.in
+-+++ libtool-2.4.7/build-aux/ltmain.in
+-@@ -5419,11 +5419,12 @@ func_mode_link ()
++diff --git a/build-aux/ltmain.in b/build-aux/ltmain.in
++index 0a50f5b..037f009 100644
++--- a/build-aux/ltmain.in
+++++ b/build-aux/ltmain.in
++@@ -5413,11 +5413,12 @@ func_mode_link ()
+        # -stdlib=*            select c++ std lib with clang
+        # -fsanitize=*         Clang/GCC memory and address sanitizer
+        # -fuse-ld=*           Linker select flags for GCC
+-+      # -f*-prefix-map*      needed for lto linking
+++      # -f{file|debug|macro|profile}-prefix-map* needed for lto linking
+        # -Wa,*                Pass flags directly to the assembler
+        -64|-mips[0-9]|-r[0-9][0-9]*|-xarch=*|-xtarget=*|+DA*|+DD*|-q*|-m*| \
+        -t[45]*|-txscale*|-p|-pg|--coverage|-fprofile-*|-F*|@*|-tp=*|--sysroot=*| \
+        -O*|-g*|-flto*|-fwhopr*|-fuse-linker-plugin|-fstack-protector*|-stdlib=*| \
+ -      -specs=*|-fsanitize=*|-fuse-ld=*|-Wa,*)
+-+      -specs=*|-fsanitize=*|-fuse-ld=*|-f*-prefix-map*|-Wa,*)
+++      -specs=*|-fsanitize=*|-fuse-ld=*|-ffile-prefix-map=*|-fdebug-prefix-map=*|-fmacro-prefix-map=*|-fprofile-prefix-map=*|-Wa,*)
+          func_quote_arg pretty "$arg"
+  	arg=$func_quote_arg_result
+          func_append compile_command " $arg"
 -- 
-With best wishes
-Dmitry
+2.39.2
+
 
