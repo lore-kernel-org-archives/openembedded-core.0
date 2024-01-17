@@ -1,115 +1,195 @@
-Return-Path: <rpjday@crashcourse.ca>
+Return-Path: <thomas.perrot@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21931C47422
-	for <webhook@archiver.kernel.org>; Wed, 17 Jan 2024 08:54:59 +0000 (UTC)
-Received: from cpanel10.indieserve.net (cpanel10.indieserve.net [199.212.143.9])
- by mx.groups.io with SMTP id smtpd.web11.5420.1705481688752043717
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F07FC47422
+	for <webhook@archiver.kernel.org>; Wed, 17 Jan 2024 09:47:09 +0000 (UTC)
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+ by mx.groups.io with SMTP id smtpd.web11.6104.1705484826208690293
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Jan 2024 00:54:49 -0800
+ Wed, 17 Jan 2024 01:47:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@crashcourse.ca header.s=default header.b=dA9oC/Ab;
- spf=pass (domain: crashcourse.ca, ip: 199.212.143.9, mailfrom: rpjday@crashcourse.ca)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=crashcourse.ca; s=default; h=Content-Type:MIME-Version:References:
-	Message-ID:In-Reply-To:Subject:cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=wlY9ZkEo4WP/SouSnuS8un3hSsYs3y3C2XlACc7v5p4=; b=dA9oC/AbZi1zbmCxPx4k9gVtaC
-	l7l1/ALMO/9GbEZjU6OQBLcyMxW6VDj5yKyVCdGjY+SjK+EaSIsEeGyL1pfk14lZNmfInN1vPFYAT
-	e2TWLZ7tiBgmxkNJduJ/mEv/qlbHN+IlZ7DDsvOtt+MPfGxq8l/4QAS33+czo3H5grZUMDPgeLhk6
-	sobCpaT8udxO+ld3O8jn7ehCAsbCpTYQp0tgIirGV7wUslnQeBQgf33KqupRLcuMILwOgN0ujnwqy
-	+T6+N4b7enVKctreudrVrL5zkBcPtySnM0rIKTk1gWtSy3G2SQL2QVc2orfCCaZdQM6dpWLwlGNTL
-	g07mkaiQ==;
-Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.102.5]:49868 helo=fedora)
-	by cpanel10.indieserve.net with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96.2)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1rQ1h7-00E2ns-2O;
-	Wed, 17 Jan 2024 03:54:46 -0500
-Date: Wed, 17 Jan 2024 03:54:29 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] how badly do symlinks from within ${S} to outside ${S}
- mess up sstate?
-In-Reply-To: <36a4f6c58a7d96873ddc772f4b2c0e302ec1ff62.camel@linuxfoundation.org>
-Message-ID: <739f7494-c293-5580-bd51-cfd63ff813d@crashcourse.ca>
-References: <57164b82-ca31-8438-f2f0-f6dcaece8b9f@crashcourse.ca> <36a4f6c58a7d96873ddc772f4b2c0e302ec1ff62.camel@linuxfoundation.org>
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=OlgPn1pq;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: thomas.perrot@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 530421BF213;
+	Wed, 17 Jan 2024 09:47:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1705484824;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=XaD0pP/Ko6d/jHEzQIy9zCMySuzo2zXL2OAbGZa3A4c=;
+	b=OlgPn1pqxRTqP0AN/QPN87u0K71A51bhnckLxz60GnPVGOpY3a21quNW5maS+lLoBIwJ1e
+	5U7boh/diQXbw8ZHMUQ3zA41kqm41QwvLosp3UQ3Qr6/H9+lp9UGqC0wewOL7YpZpFmqCq
+	CZS/6Y2OjcayTGdWpXYxWUhXb7pBUTzBP+fq3toipBIAjWGGZiZwwTTUg39bWti29N/fbe
+	ZJ/zyKXCGJmjDTKhIg7C3aikpxq1P1oSIgFKURBpk5KMGbCaw9d1T7VCaG2BmhhK4iDg6g
+	rZsEaXtStx7kodSPcRuUIYnDjQKa+CddN30mwmyd5GP4WP9qGA1JTaLqOrgvYQ==
+From: thomas.perrot@bootlin.com
+To: openembedded-core@lists.openembedded.org
+Cc: thomas.petazzoni@bootlin.com,
+	Thomas Perrot <thomas.perrot@bootlin.com>
+Subject: [OE-core][PATCH] opensbi: bump to 1.4
+Date: Wed, 17 Jan 2024 10:47:01 +0100
+Message-ID: <20240117094701.25763-1-thomas.perrot@bootlin.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel10.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel10.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: cpanel10.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: thomas.perrot@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Jan 2024 08:54:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193903
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Jan 2024 09:47:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193904
 
-On Tue, 16 Jan 2024, Richard Purdie wrote:
+From: Thomas Perrot <thomas.perrot@bootlin.com>
 
-> On Tue, 2024-01-16 at 09:23 -0500, Robert P. J. Day wrote:
-> >   a very weird question, to be sure, but i literally just ran across a
-> > recipe that does the following (i will paraphrase some stuff to
-> > protect the innocent).
-> >
-> >   the recipe processes a bunch of XML source files, and generates from
-> > them JSON files, so any change in any of the XML source files should
-> > (obviously) trigger a rebuild of the recipe. and here's the problem.
-> >
-> >   the XML files are not copied into the recipe source directory, and
-> > are not even referenced by SRC_URI. rather, the files live in a
-> > well-known location on the build host (placed there by a monstrous
-> > "repo sync"), and to save time and space, the recipe just *symlinks*
-> > from inside ${S} to the XML source files outside of ${S}, then
-> > proceeds to process them to generate the subsequent JSON files.
-> >
-> >   the complaint is that, when the build pipeline started taking
-> > advantage of sstate-cache, even after some of the XML files were
-> > changed, the recipe would not rebuild.
-> >
-> >   once i understood what was happening, my immediate reaction was
-> > along the lines, "well, since what is under ${S} is simply symlinks to
-> > files *outside* of ${S} and (worse) those symlink names will never
-> > change (all that will change is the XML files at the other end), how
-> > is bitbake supposed to have any idea that those XML files have
-> > changed to kick off a rebuild?"
-> >
-> >   so my initial response was, "this does not surprise me at all," but
-> > does my reasoning hold up? obviously, this should probably use a
-> > combination of bin_package and externalsrc, but as it is now, is it
-> > moderately accurate to suggest that it is those symlinks that are
-> > preventing bitbake from understanding that anything has changed, so
-> > that it continues to use the old sstate-cache?
->
-> Inputs to a recipe need to come through SRC_URI. That way bitbake can
-> know when they change. If you point at some random place via a symlink
-> how is bitbake supposed to know if/when they change?
->
-> Yes, pointing at a large tree of files will take time to hash and yes,
-> that can make parsing slow. Either you care when it changes or you
-> don't.
->
-> The inputs are used to generate a hash which makes up the hash
-> representing the task. When the hash changes, we know that sstate is
-> invalid and we need to rebuild.
+This release has:
+- Synopsys DesignWare APB GPIO driver
+- Zicntr and Zihpm support
+- Console print improvements
+- Smepmp support
+- Simple FDT based syscon regmap driver
+- Syscon based reboot and poweroff driver
+- Non-contiguous hpm counters
+- Smcntrpmf support
+- Full sparse hartid support
+- IPI improvements
+- RFENCE improvements
+- Zkr support
+- Andes custom PMU support
+Overall, this release mainly adds more ISA extensions, drivers and other improvements.
 
-  thanks, richard, i appreciate the time you took to clarify this. i'm
-going to paraphrase and add it to my WIP "OE/YP best practices"
-internal doc; this advice would be contained in the chapter, "for the
-love of god, stop doing this!"
+https://github.com/riscv-software-src/opensbi/compare/v1.3.1...v1.4
 
-  thanks again.
+Signed-off-by: Thomas Perrot <thomas.perrot@bootlin.com>
+---
+ ...re-Remove-handling-of-R_RISCV_-32-64.patch | 88 +++++++++++++++++++
+ .../{opensbi_1.3.bb => opensbi_1.4.bb}        |  8 +-
+ 2 files changed, 92 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-bsp/opensbi/opensbi/0001-Revert-firmware-Remove-handling-of-R_RISCV_-32-64.patch
+ rename meta/recipes-bsp/opensbi/{opensbi_1.3.bb => opensbi_1.4.bb} (90%)
 
-rday
+diff --git a/meta/recipes-bsp/opensbi/opensbi/0001-Revert-firmware-Remove-handling-of-R_RISCV_-32-64.patch b/meta/recipes-bsp/opensbi/opensbi/0001-Revert-firmware-Remove-handling-of-R_RISCV_-32-64.patch
+new file mode 100644
+index 000000000000..d14e0b73a9bc
+--- /dev/null
++++ b/meta/recipes-bsp/opensbi/opensbi/0001-Revert-firmware-Remove-handling-of-R_RISCV_-32-64.patch
+@@ -0,0 +1,88 @@
++From bfe480929bcc966e1fdf5afdde8d4c22adba7f6f Mon Sep 17 00:00:00 2001
++From: Thomas Perrot <thomas.perrot@bootlin.com>
++Date: Tue, 16 Jan 2024 15:16:58 +0100
++Subject: [PATCH] Revert "firmware: Remove handling of R_RISCV_{32,64}"
++
++This reverts commit 2a6d72534d44c39e1de0614970a0dad97b1c41ba.
++
++Upstream-Status: Inappropriate [oe specific]
++Signed-off-by: Thomas Perrot <thomas.perrot@bootlin.com>
++---
++ firmware/fw_base.S      | 22 ++++++++++++++++++++++
++ firmware/fw_base.ldS    |  6 ++++++
++ include/sbi/riscv_elf.h |  8 ++++++++
++ 3 files changed, 36 insertions(+)
++
++diff --git a/firmware/fw_base.S b/firmware/fw_base.S
++index f7763f4d9e56..60efad39b231 100644
++--- a/firmware/fw_base.S
+++++ b/firmware/fw_base.S
++@@ -88,8 +88,30 @@ _try_lottery:
++ 	add	t5, t5, t2
++ 	add	t3, t3, t2
++ 	REG_S	t5, 0(t3)		/* store runtime address to the GOT entry */
+++	j	5f
++
++ 3:
+++	lla	t4, __dyn_sym_start
+++
+++4:
+++	srli	t6, t5, SYM_INDEX	/* t6 <--- sym table index */
+++	andi	t5, t5, 0xFF		/* t5 <--- relocation type */
+++	li	t3, RELOC_TYPE
+++	bne	t5, t3, 5f
+++
+++	/* address R_RISCV_64 or R_RISCV_32 cases*/
+++	REG_L	t3, 0(t0)
+++	li	t5, SYM_SIZE
+++	mul	t6, t6, t5
+++	add	s5, t4, t6
+++	REG_L	t6, (REGBYTES * 2)(t0)	/* t0 <-- addend */
+++	REG_L	t5, REGBYTES(s5)
+++	add	t5, t5, t6
+++	add	t5, t5, t2		/* t5 <-- location to fix up in RAM */
+++	add	t3, t3, t2		/* t3 <-- location to fix up in RAM */
+++	REG_S	t5, 0(t3)		/* store runtime address to the variable */
+++
+++5:
++ 	addi	t0, t0, (REGBYTES * 3)
++ 	blt	t0, t1, 2b
++ 	j	_relocate_done
++diff --git a/firmware/fw_base.ldS b/firmware/fw_base.ldS
++index c15ccdbf6612..88b8dfd9cb56 100644
++--- a/firmware/fw_base.ldS
+++++ b/firmware/fw_base.ldS
++@@ -40,6 +40,12 @@
++
++ 	. = ALIGN(0x1000); /* Ensure next section is page aligned */
++
+++	.dynsym : {
+++		PROVIDE(__dyn_sym_start = .);
+++		*(.dynsym)
+++		PROVIDE(__dyn_sym_end = .);
+++	}
+++
++ 	.rela.dyn : {
++ 		PROVIDE(__rel_dyn_start = .);
++ 		*(.rela*)
++diff --git a/include/sbi/riscv_elf.h b/include/sbi/riscv_elf.h
++index ed361e346155..3b62c38b4a2d 100644
++--- a/include/sbi/riscv_elf.h
+++++ b/include/sbi/riscv_elf.h
++@@ -1,6 +1,14 @@
++ #ifndef __RISCV_ELF_H__
++ #define __RISCV_ELF_H__
++
+++#include <sbi/riscv_asm.h>
+++
+++#define R_RISCV_32		1
+++#define R_RISCV_64		2
++ #define R_RISCV_RELATIVE	3
++
+++#define RELOC_TYPE		__REG_SEL(R_RISCV_64, R_RISCV_32)
+++#define SYM_INDEX		__REG_SEL(0x20,	0x8)
+++#define SYM_SIZE		__REG_SEL(0x18,0x10)
+++
++ #endif
++--
++2.43.0
+diff --git a/meta/recipes-bsp/opensbi/opensbi_1.3.bb b/meta/recipes-bsp/opensbi/opensbi_1.4.bb
+similarity index 90%
+rename from meta/recipes-bsp/opensbi/opensbi_1.3.bb
+rename to meta/recipes-bsp/opensbi/opensbi_1.4.bb
+index f01cae34d1ff..6cb1a2680f2a 100644
+--- a/meta/recipes-bsp/opensbi/opensbi_1.3.bb
++++ b/meta/recipes-bsp/opensbi/opensbi_1.4.bb
+@@ -8,8 +8,10 @@ require opensbi-payloads.inc
+ 
+ inherit autotools-brokensep deploy
+ 
+-SRCREV = "057eb10b6d523540012e6947d5c9f63e95244e94"
+-SRC_URI = "git://github.com/riscv/opensbi.git;branch=release-1.3.x;protocol=https"
++SRCREV = "a2b255b88918715173942f2c5e1f97ac9e90c877"
++SRC_URI = "git://github.com/riscv/opensbi.git;branch=master;protocol=https \
++	   file://0001-Revert-firmware-Remove-handling-of-R_RISCV_-32-64.patch \
++	  "
+ 
+ S = "${WORKDIR}/git"
+ 
+@@ -43,5 +45,3 @@ FILES:${PN} += "/share/opensbi/*/${RISCV_SBI_PLAT}/firmware/fw_dynamic.*"
+ 
+ COMPATIBLE_HOST = "(riscv64|riscv32).*"
+ INHIBIT_PACKAGE_STRIP = "1"
+-
+-SECURITY_CFLAGS = ""
+-- 
+2.43.0
+
 
