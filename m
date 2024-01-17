@@ -1,1049 +1,1546 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81F3EC47422
-	for <webhook@archiver.kernel.org>; Wed, 17 Jan 2024 07:20:58 +0000 (UTC)
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
- by mx.groups.io with SMTP id smtpd.web11.4321.1705476050642634051
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D463FC47422
+	for <webhook@archiver.kernel.org>; Wed, 17 Jan 2024 08:03:08 +0000 (UTC)
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+ by mx.groups.io with SMTP id smtpd.web10.4559.1705478580305544505
  for <openembedded-core@lists.openembedded.org>;
- Tue, 16 Jan 2024 23:20:50 -0800
+ Wed, 17 Jan 2024 00:03:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=mfqSOEQY;
- spf=pass (domain: gmail.com, ip: 209.85.160.46, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-2109743a111so352670fac.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 16 Jan 2024 23:20:50 -0800 (PST)
+ dkim=pass header.i=@mvista.com header.s=google header.b=H6nFPwh+;
+ spf=pass (domain: mvista.com, ip: 209.85.208.178, mailfrom: vanusuri@mvista.com)
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2cd8b64a52dso64759421fa.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 17 Jan 2024 00:03:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705476050; x=1706080850; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FGwbqe04tMTNDkywFOlSlnQjlXCca6dccHrytA4oGl8=;
-        b=mfqSOEQY1Lw5NWxNwn3YnNDhaBxiBH8D/tyv3X6bvKpVkv+nQvLDVfZr8zUUjg7ocA
-         3DlHqgNYzmvNYPm4N1DAr+o17SRrZsvYMnbJHubakb7JP+EtMs1rJOZxGKwGppaVUCxf
-         9eVoKChOmgOjgtewZFT0uqsrYRKGSYUqOPFONxTMjhgvliXfYpwwyHs2vkCkfChbL05g
-         JDei1Tc1yBbedb0dScFOK4JZ15buvgHEnS8XafUdnzF+lj5aI6yqMhVR3P/MsWrSysj8
-         PhA3tg92LSKdLVVJIczOLbOPrZACzaAzZDwdsV6cD2b7ECDpa9dKfYAQEhTNPXEzvuT8
-         xN9w==
+        d=mvista.com; s=google; t=1705478578; x=1706083378; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=z9X7pZuTj5ZpRTJc5EnkX3XSKBDgLEJ6Dtx2dkG+gng=;
+        b=H6nFPwh+sj0Hedn3jDdcRish1nwNBNBuYVnljx0R7EA36oNi6kOkknadbZu0K3TcP8
+         3i3sERPkIPkTWM8Lz4574TG+A2fn3uUZGRDMhoJp+7bTQJU8xV363AUmodgL2yuAt7fG
+         yyRjCzT4NGD2NJgAVcTVtsHSZdOtO7JK2Fi1s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705476050; x=1706080850;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FGwbqe04tMTNDkywFOlSlnQjlXCca6dccHrytA4oGl8=;
-        b=MMmfS+kC2MzM8frLUWngNBvzcKYABHv+s8ccZMBvLzo/60uS8SniqFAcz09Y9owB4k
-         ingK5Bx8sIGXiCdduRkNuq0ysU8G2zPTUnSkARuvyVwB4XD+E2xcoi1DVI3dggooQBLu
-         /7AWTeYLouSso4BfhlDfHet0hnTu/1MCXj5NUa5WNqeASoFTKFJrrJLxbtJO1IgNYSto
-         HaACsoHoFX6QZdFr8+GJDObzVtjXU8DL7qPXNDqriecrhcpL07x4t3lG17AXFZ0PptM9
-         c9hegyw6gApVvmIa7uVz/hfnEkuX7zqCCryaK4y7AHxnoduceoctCNAgvnlUeqzjxosG
-         Knag==
-X-Gm-Message-State: AOJu0YxViMa0aukyBw3qdeCNVCPqaTern1Q3wHZNIpCCbvPRO6Eih27N
-	jt3PL4waVFkauNj5pxgZvt+oArhsLW2yXbySm6Lqj/AN3KA=
-X-Google-Smtp-Source: AGHT+IFBoaqGwHIWztWRg7FTthBwdCbZEA2cAG7ThkKpkioQZ2KZ15h9Z/0Ao2oD5HZX4BiE7tkJGM4R+c4cbVZKImE=
-X-Received: by 2002:a05:6870:2194:b0:210:8057:6d5b with SMTP id
- l20-20020a056870219400b0021080576d5bmr1706245oae.119.1705476049563; Tue, 16
- Jan 2024 23:20:49 -0800 (PST)
+        d=1e100.net; s=20230601; t=1705478578; x=1706083378;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=z9X7pZuTj5ZpRTJc5EnkX3XSKBDgLEJ6Dtx2dkG+gng=;
+        b=Tk6zu/vrNgVeOZYm5SBvE8FtTR/JUaYnq9Og4jNdTUl66gKbq6bFzF6b9qr7tDn6D3
+         CrZNPAtMa8EysKyoYpEtXPNr5KbxwNknqOd5F9iYOnOL3Za8x93rP9kFD81A0dBX83DO
+         2/PdqNh76DrGvBecs3lb4b9VwDR+qygk9rPfCgkYVhmUHjrXfpZhzNI2iWMoOwzVqv7a
+         zgYeC2aqOAtwQtYiaqwFhmMNrg3HKKeGAf0uKhcd2JBertGUdD+BNt3hYL1DlpD8f5su
+         HFT403mTSvcwlZn3h3NibZ37sShpiHwOLH+7kF/j8pkj8wpwTv3JmQWstv/Es3m94lvK
+         q5Uw==
+X-Gm-Message-State: AOJu0YwA4mdnh1XnLYgBJCFJnKPIgCwDtBtuXgpVSS1H7OIl0qz5GEex
+	8N2Uys0RW2jXwRE9pupO1CBI2XD5mCpyTLSIuqFdMAj9ZGbwvfKl1Plu5CZzsjo=
+X-Google-Smtp-Source: AGHT+IFhu/VtFJ/HpgPeEfg9B8r9bgojyTbMB0mvZtKmOo0vCTayDCzWAxrqZpaqRyBeloDKFOrNXixPUoCZBE0Ntt4=
+X-Received: by 2002:a2e:730f:0:b0:2cc:695a:ab4f with SMTP id
+ o15-20020a2e730f000000b002cc695aab4fmr3969192ljc.104.1705478577903; Wed, 17
+ Jan 2024 00:02:57 -0800 (PST)
 MIME-Version: 1.0
-References: <20240116195353.3362079-1-raj.khem@gmail.com> <5cdc6851-8dc5-40d8-81ec-0660257e54f0@skyrain.eu>
-In-Reply-To: <5cdc6851-8dc5-40d8-81ec-0660257e54f0@skyrain.eu>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 16 Jan 2024 23:20:23 -0800
-Message-ID: <CAMKF1sodvmZVho3qP2X10EJE8MAFxhJ03HevN4JwxG7nFVqkOg@mail.gmail.com>
-Subject: Re: [OE-core] [RFT][PATCH] glibc: Upgrade to 2.39
-To: Andrej Valek <andrej.v@skyrain.eu>
+References: <20240117070817.1099249-1-meenali.gupta@windriver.com>
+In-Reply-To: <20240117070817.1099249-1-meenali.gupta@windriver.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
+Date: Wed, 17 Jan 2024 13:32:46 +0530
+Message-ID: <CANQUz1-ZqGapAYxgUUiCfZoA5j+KvEFMQpz8nLAWA_S2jh-=Jg@mail.gmail.com>
+Subject: Re: [oe-core][kirkstone][PATCH 1/1] openssh: fix CVE-2023-48795
+To: meenali.gupta@windriver.com
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/alternative; boundary="000000000000cee9c5060f1facfa"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Jan 2024 07:20:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193896
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Jan 2024 08:03:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193897
 
-On Tue, Jan 16, 2024 at 11:10=E2=80=AFPM Andrej Valek <andrej.v@skyrain.eu>=
- wrote:
->
-> Hello Raj,
->
-> Don't forget to change the glibc-version.inc too and try to make a
-> optimization/cleaning like I proposed here:
-> https://lists.openembedded.org/g/openembedded-core/message/193572 ;).
+--000000000000cee9c5060f1facfa
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-yeah CVEs list will need cleaning anyway as it will be verson bump. But if
-you turn your suggestion into a patch I can include it in patchset.
+Hi Meenali Gupta,
 
+Already CVE-2023-48795 patch for openssh recipe has been merged to
+kirkstone branch.
+
+Please find the below links
+
+https://git.openembedded.org/openembedded-core-contrib/commit/?h=3Dstable/k=
+irkstone-nut&id=3Ddf5dc8d67e67a2aebf1a552c3e22374e305270bf
+
+https://lists.openembedded.org/g/openembedded-core/message/192819
+
+Thanks & Regards,
+Vijay
+
+On Wed, Jan 17, 2024 at 12:38=E2=80=AFPM Meenali Gupta via lists.openembedd=
+ed.org
+<meenali.gupta=3Dwindriver.com@lists.openembedded.org> wrote:
+
+> From: Meenali Gupta <meenali.gupta@windriver.com>
 >
-> Regards,
-> Andy
+> A flaw was found in the SSH channel integrity.By manipulating sequence
+> numbers during the handshake,an attacker can remove the initial messages
+> on the secure channel without causing a MAC failure. For example,an
+> attacker
+> could disable the ping extension and thus disable the new countermeasure =
+in
+> OpenSSH 9.5 against keystroke timing attacks.
 >
-> On 16.01.2024 20:53, Khem Raj wrote:
-> > Upgrade localdef to get glibc 2.39 build fixes
-> > Details of release [1]
-> >
-> > [1] https://sourceware.org/glibc/wiki/Release/2.39
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> >   meta/conf/distro/include/tcmode-default.inc   |  2 +-
-> >   ...2.38.bb =3D> cross-localedef-native_2.39.bb} |  0
-> >   meta/recipes-core/glibc/glibc-common.inc      |  2 +-
-> >   ...bc-locale_2.38.bb =3D> glibc-locale_2.39.bb} |  0
-> >   ...bc-mtrace_2.38.bb =3D> glibc-mtrace_2.39.bb} |  0
-> >   ...-scripts_2.38.bb =3D> glibc-scripts_2.39.bb} |  0
-> >   ...tsuite_2.38.bb =3D> glibc-testsuite_2.39.bb} |  0
-> >   meta/recipes-core/glibc/glibc-version.inc     |  8 ++--
-> >   ...ests_2.38.bb =3D> glibc-y2038-tests_2.39.bb} |  0
-> >   ...dd-hardlink-resolver-from-util-linux.patch |  2 +-
-> >   ...-fix-ups-hardlink-to-make-it-compile.patch |  2 +-
-> >   ...Look-for-host-system-ld.so.cache-as-.patch |  8 ++--
-> >   ...Fix-buffer-overrun-with-a-relocated-.patch |  4 +-
-> >   ...Raise-the-size-of-arrays-containing-.patch | 22 ++++-----
-> >   ...k-glibc-Allow-64-bit-atomics-for-x86.patch |  4 +-
-> >   ...Make-relocatable-install-for-locales.patch | 10 ++--
-> >   ...Fall-back-to-faccessat-on-faccess2-r.patch |  4 +-
-> >   ...the-path-sets-wrong-config-variables.patch |  2 +-
-> >   ...ss-building-and-testing-instructions.patch |  2 +-
-> >   ...glibc-Help-bootstrap-cross-toolchain.patch |  4 +-
-> >   ...eglibc-Resolve-__fpscr_values-on-SH4.patch |  4 +-
-> >   ...port-cross-locale-generation-support.patch | 46 +++++++++---------=
--
-> >   ...-archive-uses-a-hard-coded-locale-pa.patch |  4 +-
-> >   ...Do-not-ask-compiler-for-finding-arch.patch |  2 +-
-> >   ...y-the-header-between-arm-and-aarch64.patch |  4 +-
-> >   ...h-printf-builtin-in-nscd-init-script.patch |  2 +-
-> >   ...igure.ac-Set-libc_cv_rootsbindir-onl.patch |  2 +-
-> >   ...ell-interpreter-overridable-in-tzsel.patch |  6 +--
-> >   ...Use-bin-sh-default-shell-interpreter.patch |  2 +-
-> >   ...d-failed-in-unprivileged-process-BZ-.patch |  6 +--
-> >   ...build-time-paths-in-the-output-binar.patch |  6 +--
-> >   ...e-Pass-mcpu-along-with-march-to-dete.patch |  5 +-
-> >   ...Bump-__GLIBC_MINOR__-to-39-on-master.patch | 25 ++++++++++
-> >   .../glibc/{glibc_2.38.bb =3D> glibc_2.39.bb}    |  1 +
-> >   34 files changed, 106 insertions(+), 85 deletions(-)
-> >   rename meta/recipes-core/glibc/{cross-localedef-native_2.38.bb =3D> c=
-ross-localedef-native_2.39.bb} (100%)
-> >   rename meta/recipes-core/glibc/{glibc-locale_2.38.bb =3D> glibc-local=
-e_2.39.bb} (100%)
-> >   rename meta/recipes-core/glibc/{glibc-mtrace_2.38.bb =3D> glibc-mtrac=
-e_2.39.bb} (100%)
-> >   rename meta/recipes-core/glibc/{glibc-scripts_2.38.bb =3D> glibc-scri=
-pts_2.39.bb} (100%)
-> >   rename meta/recipes-core/glibc/{glibc-testsuite_2.38.bb =3D> glibc-te=
-stsuite_2.39.bb} (100%)
-> >   rename meta/recipes-core/glibc/{glibc-y2038-tests_2.38.bb =3D> glibc-=
-y2038-tests_2.39.bb} (100%)
-> >   create mode 100644 meta/recipes-core/glibc/glibc/0024-features.h-Bump=
--__GLIBC_MINOR__-to-39-on-master.patch
-> >   rename meta/recipes-core/glibc/{glibc_2.38.bb =3D> glibc_2.39.bb} (98=
-%)
-> >
-> > diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/di=
-stro/include/tcmode-default.inc
-> > index 3720a4c5b86..977fb316107 100644
-> > --- a/meta/conf/distro/include/tcmode-default.inc
-> > +++ b/meta/conf/distro/include/tcmode-default.inc
-> > @@ -20,7 +20,7 @@ GCCVERSION ?=3D "13.%"
-> >   SDKGCCVERSION ?=3D "${GCCVERSION}"
-> >   BINUVERSION ?=3D "2.41%"
-> >   GDBVERSION ?=3D "14.%"
-> > -GLIBCVERSION ?=3D "2.38%"
-> > +GLIBCVERSION ?=3D "2.39%"
-> >   LINUXLIBCVERSION ?=3D "6.6%"
-> >   QEMUVERSION ?=3D "8.1%"
-> >   GOVERSION ?=3D "1.20%"
-> > diff --git a/meta/recipes-core/glibc/cross-localedef-native_2.38.bb b/m=
-eta/recipes-core/glibc/cross-localedef-native_2.39.bb
-> > similarity index 100%
-> > rename from meta/recipes-core/glibc/cross-localedef-native_2.38.bb
-> > rename to meta/recipes-core/glibc/cross-localedef-native_2.39.bb
-> > diff --git a/meta/recipes-core/glibc/glibc-common.inc b/meta/recipes-co=
-re/glibc/glibc-common.inc
-> > index be33c29857c..5b62884a017 100644
-> > --- a/meta/recipes-core/glibc/glibc-common.inc
-> > +++ b/meta/recipes-core/glibc/glibc-common.inc
-> > @@ -22,4 +22,4 @@ ARM_INSTRUCTION_SET:armv6 =3D "arm"
-> >   #
-> >   COMPATIBLE_HOST:libc-musl:class-target =3D "null"
-> >
-> > -PV =3D "2.38"
-> > +PV =3D "2.39+git"
-> > diff --git a/meta/recipes-core/glibc/glibc-locale_2.38.bb b/meta/recipe=
-s-core/glibc/glibc-locale_2.39.bb
-> > similarity index 100%
-> > rename from meta/recipes-core/glibc/glibc-locale_2.38.bb
-> > rename to meta/recipes-core/glibc/glibc-locale_2.39.bb
-> > diff --git a/meta/recipes-core/glibc/glibc-mtrace_2.38.bb b/meta/recipe=
-s-core/glibc/glibc-mtrace_2.39.bb
-> > similarity index 100%
-> > rename from meta/recipes-core/glibc/glibc-mtrace_2.38.bb
-> > rename to meta/recipes-core/glibc/glibc-mtrace_2.39.bb
-> > diff --git a/meta/recipes-core/glibc/glibc-scripts_2.38.bb b/meta/recip=
-es-core/glibc/glibc-scripts_2.39.bb
-> > similarity index 100%
-> > rename from meta/recipes-core/glibc/glibc-scripts_2.38.bb
-> > rename to meta/recipes-core/glibc/glibc-scripts_2.39.bb
-> > diff --git a/meta/recipes-core/glibc/glibc-testsuite_2.38.bb b/meta/rec=
-ipes-core/glibc/glibc-testsuite_2.39.bb
-> > similarity index 100%
-> > rename from meta/recipes-core/glibc/glibc-testsuite_2.38.bb
-> > rename to meta/recipes-core/glibc/glibc-testsuite_2.39.bb
-> > diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-c=
-ore/glibc/glibc-version.inc
-> > index 5f24a108267..278576eb285 100644
-> > --- a/meta/recipes-core/glibc/glibc-version.inc
-> > +++ b/meta/recipes-core/glibc/glibc-version.inc
-> > @@ -1,7 +1,7 @@
-> > -SRCBRANCH ?=3D "release/2.38/master"
-> > -PV =3D "2.38+git"
-> > -SRCREV_glibc ?=3D "1e04dcec491bd8f48b5b74ce3e8414132578a645"
-> > -SRCREV_localedef ?=3D "e0eca29583b9e0f62645c4316ced93cf4e4e26e1"
-> > +SRCBRANCH ?=3D "master"
-> > +PV =3D "2.39+git"
-> > +SRCREV_glibc ?=3D "9d94997b5f9445afd4f2bccc5fa60ff7c4361ec1"
-> > +SRCREV_localedef ?=3D "fab74f31b3811df543e24b6de47efdf45b538abc"
-> >
-> >   GLIBC_GIT_URI ?=3D "git://sourceware.org/git/glibc.git;protocol=3Dhtt=
-ps"
-> >
-> > diff --git a/meta/recipes-core/glibc/glibc-y2038-tests_2.38.bb b/meta/r=
-ecipes-core/glibc/glibc-y2038-tests_2.39.bb
-> > similarity index 100%
-> > rename from meta/recipes-core/glibc/glibc-y2038-tests_2.38.bb
-> > rename to meta/recipes-core/glibc/glibc-y2038-tests_2.39.bb
-> > diff --git a/meta/recipes-core/glibc/glibc/0001-localedef-Add-hardlink-=
-resolver-from-util-linux.patch b/meta/recipes-core/glibc/glibc/0001-localed=
-ef-Add-hardlink-resolver-from-util-linux.patch
-> > index eb3da94b8ba..4f919078dd0 100644
-> > --- a/meta/recipes-core/glibc/glibc/0001-localedef-Add-hardlink-resolve=
-r-from-util-linux.patch
-> > +++ b/meta/recipes-core/glibc/glibc/0001-localedef-Add-hardlink-resolve=
-r-from-util-linux.patch
-> > @@ -1,4 +1,4 @@
-> > -From 7c06ca59b47ce06f785b9fce7b9e9d675d5b6e10 Mon Sep 17 00:00:00 2001
-> > +From 544d23dea91b2be793c805b9e4bce8cd1d28121f Mon Sep 17 00:00:00 2001
-> >   From: Jason Wessel <jason.wessel@windriver.com>
-> >   Date: Sat, 7 Dec 2019 09:59:22 -0800
-> >   Subject: [PATCH] localedef: Add hardlink resolver from util-linux
-> > diff --git a/meta/recipes-core/glibc/glibc/0002-localedef-fix-ups-hardl=
-ink-to-make-it-compile.patch b/meta/recipes-core/glibc/glibc/0002-localedef=
--fix-ups-hardlink-to-make-it-compile.patch
-> > index 2dc4634dd5c..7c8fa973ec3 100644
-> > --- a/meta/recipes-core/glibc/glibc/0002-localedef-fix-ups-hardlink-to-=
-make-it-compile.patch
-> > +++ b/meta/recipes-core/glibc/glibc/0002-localedef-fix-ups-hardlink-to-=
-make-it-compile.patch
-> > @@ -1,4 +1,4 @@
-> > -From 9ff5200eb16e9c89ca8da89d7e07975d082a13b0 Mon Sep 17 00:00:00 2001
-> > +From ebb1e37285ab541135005cfe945b7a58e4b95040 Mon Sep 17 00:00:00 2001
-> >   From: Jason Wessel <jason.wessel@windriver.com>
-> >   Date: Sat, 7 Dec 2019 10:01:37 -0800
-> >   Subject: [PATCH] localedef: fix-ups hardlink to make it compile
-> > diff --git a/meta/recipes-core/glibc/glibc/0003-nativesdk-glibc-Look-fo=
-r-host-system-ld.so.cache-as-.patch b/meta/recipes-core/glibc/glibc/0003-na=
-tivesdk-glibc-Look-for-host-system-ld.so.cache-as-.patch
-> > index f2602d0e567..bd4b5aa98b3 100644
-> > --- a/meta/recipes-core/glibc/glibc/0003-nativesdk-glibc-Look-for-host-=
-system-ld.so.cache-as-.patch
-> > +++ b/meta/recipes-core/glibc/glibc/0003-nativesdk-glibc-Look-for-host-=
-system-ld.so.cache-as-.patch
-> > @@ -1,4 +1,4 @@
-> > -From 0d996c5600603a67f0265e870511cdd18dbaa8a6 Mon Sep 17 00:00:00 2001
-> > +From 9770abfda8e85fe027f95871bc03450d05b1e2c8 Mon Sep 17 00:00:00 2001
-> >   From: Khem Raj <raj.khem@gmail.com>
-> >   Date: Wed, 18 Mar 2015 01:48:24 +0000
-> >   Subject: [PATCH] nativesdk-glibc: Look for host system ld.so.cache as=
- well
-> > @@ -30,10 +30,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> >    1 file changed, 8 insertions(+), 8 deletions(-)
-> >
-> >   diff --git a/elf/dl-load.c b/elf/dl-load.c
-> > -index 9a87fda9c9..0a6fa9b8f0 100644
-> > +index ce8fdea302..1f502eb026 100644
-> >   --- a/elf/dl-load.c
-> >   +++ b/elf/dl-load.c
-> > -@@ -2102,6 +2102,14 @@ _dl_map_object (struct link_map *loader, const =
-char *name,
-> > +@@ -2105,6 +2105,14 @@ _dl_map_object (struct link_map *loader, const =
-char *name,
-> >                }
-> >            }
-> >
-> > @@ -48,7 +48,7 @@ index 9a87fda9c9..0a6fa9b8f0 100644
-> >    #ifdef USE_LDCONFIG
-> >          if (fd =3D=3D -1
-> >         && (__glibc_likely ((mode & __RTLD_SECURE) =3D=3D 0)
-> > -@@ -2160,14 +2168,6 @@ _dl_map_object (struct link_map *loader, const =
-char *name,
-> > +@@ -2163,14 +2171,6 @@ _dl_map_object (struct link_map *loader, const =
-char *name,
-> >       }
-> >    #endif
-> >
-> > diff --git a/meta/recipes-core/glibc/glibc/0004-nativesdk-glibc-Fix-buf=
-fer-overrun-with-a-relocated-.patch b/meta/recipes-core/glibc/glibc/0004-na=
-tivesdk-glibc-Fix-buffer-overrun-with-a-relocated-.patch
-> > index 974312367e8..19fc561a068 100644
-> > --- a/meta/recipes-core/glibc/glibc/0004-nativesdk-glibc-Fix-buffer-ove=
-rrun-with-a-relocated-.patch
-> > +++ b/meta/recipes-core/glibc/glibc/0004-nativesdk-glibc-Fix-buffer-ove=
-rrun-with-a-relocated-.patch
-> > @@ -1,4 +1,4 @@
-> > -From c3492719b2deaf3339eefb1ab30f4337e592ed80 Mon Sep 17 00:00:00 2001
-> > +From 587b92ff99e6d8f59c461ee8beecae39d8818f7e Mon Sep 17 00:00:00 2001
-> >   From: Khem Raj <raj.khem@gmail.com>
-> >   Date: Wed, 18 Mar 2015 01:50:00 +0000
-> >   Subject: [PATCH] nativesdk-glibc: Fix buffer overrun with a relocated=
- SDK
-> > @@ -21,7 +21,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> >    1 file changed, 12 insertions(+)
-> >
-> >   diff --git a/elf/dl-load.c b/elf/dl-load.c
-> > -index 0a6fa9b8f0..3a23dc618c 100644
-> > +index 1f502eb026..c4a543fb00 100644
-> >   --- a/elf/dl-load.c
-> >   +++ b/elf/dl-load.c
-> >   @@ -1802,7 +1802,19 @@ open_path (const char *name, size_t namelen, i=
-nt mode,
-> > diff --git a/meta/recipes-core/glibc/glibc/0005-nativesdk-glibc-Raise-t=
-he-size-of-arrays-containing-.patch b/meta/recipes-core/glibc/glibc/0005-na=
-tivesdk-glibc-Raise-the-size-of-arrays-containing-.patch
-> > index 086e0c6f143..55892417f49 100644
-> > --- a/meta/recipes-core/glibc/glibc/0005-nativesdk-glibc-Raise-the-size=
--of-arrays-containing-.patch
-> > +++ b/meta/recipes-core/glibc/glibc/0005-nativesdk-glibc-Raise-the-size=
--of-arrays-containing-.patch
-> > @@ -1,4 +1,4 @@
-> > -From e874dacbfdb06520240887e9077c58006ee33f87 Mon Sep 17 00:00:00 2001
-> > +From 49caf586b80ba030a0ee4af9f6128ff2979ea636 Mon Sep 17 00:00:00 2001
-> >   From: Khem Raj <raj.khem@gmail.com>
-> >   Date: Wed, 18 Mar 2015 01:51:38 +0000
-> >   Subject: [PATCH] nativesdk-glibc: Raise the size of arrays containing=
- dl paths
-> > @@ -26,7 +26,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> >    8 files changed, 15 insertions(+), 10 deletions(-)
-> >
-> >   diff --git a/elf/dl-cache.c b/elf/dl-cache.c
-> > -index 804bf23222..d99501c389 100644
-> > +index 85f3f179ed..cc55887c56 100644
-> >   --- a/elf/dl-cache.c
-> >   +++ b/elf/dl-cache.c
-> >   @@ -352,6 +352,10 @@ search_cache (const char *string_table, uint32_t=
- string_table_size,
-> > @@ -41,7 +41,7 @@ index 804bf23222..d99501c389 100644
-> >    _dl_cache_libcmp (const char *p1, const char *p2)
-> >    {
-> >   diff --git a/elf/dl-load.c b/elf/dl-load.c
-> > -index 3a23dc618c..563e703096 100644
-> > +index c4a543fb00..27fb70f09b 100644
-> >   --- a/elf/dl-load.c
-> >   +++ b/elf/dl-load.c
-> >   @@ -117,8 +117,8 @@ enum { ncapstr =3D 1, max_capstrlen =3D 0 };
-> > @@ -56,7 +56,7 @@ index 3a23dc618c..563e703096 100644
-> >      SYSTEM_DIRS_LEN
-> >    };
-> >   diff --git a/elf/dl-usage.c b/elf/dl-usage.c
-> > -index 98f0b0d027..ab4f76e1fe 100644
-> > +index 5baac4ba8e..60097ad0e2 100644
-> >   --- a/elf/dl-usage.c
-> >   +++ b/elf/dl-usage.c
-> >   @@ -25,6 +25,8 @@
-> > @@ -68,7 +68,7 @@ index 98f0b0d027..ab4f76e1fe 100644
-> >    void
-> >    _dl_usage (const char *argv0, const char *wrong_option)
-> >    {
-> > -@@ -184,7 +186,7 @@ setting environment variables (which would be inhe=
-rited by subprocesses).\n\
-> > +@@ -185,7 +187,7 @@ setting environment variables (which would be inhe=
-rited by subprocesses).\n\
-> >      --list                list all dependencies and how they are resol=
-ved\n\
-> >      --verify              verify that given object really is a dynamic=
-ally linked\n\
-> >                            object we can handle\n\
-> > @@ -77,7 +77,7 @@ index 98f0b0d027..ab4f76e1fe 100644
-> >      --library-path PATH   use given PATH instead of content of the env=
-ironment\n\
-> >                            variable LD_LIBRARY_PATH\n\
-> >      --glibc-hwcaps-prepend LIST\n\
-> > -@@ -203,7 +205,7 @@ setting environment variables (which would be inhe=
-rited by subprocesses).\n\
-> > +@@ -204,7 +206,7 @@ setting environment variables (which would be inhe=
-rited by subprocesses).\n\
-> >    \n\
-> >    This program interpreter self-identifies as: " RTLD "\n\
-> >    ",
-> > @@ -87,7 +87,7 @@ index 98f0b0d027..ab4f76e1fe 100644
-> >      print_hwcaps_subdirectories (state);
-> >      _exit (EXIT_SUCCESS);
-> >   diff --git a/elf/interp.c b/elf/interp.c
-> > -index ae21ae0cb3..b168e6da66 100644
-> > +index 8b705824bf..7d094829f3 100644
-> >   --- a/elf/interp.c
-> >   +++ b/elf/interp.c
-> >   @@ -18,5 +18,5 @@
-> > @@ -98,7 +98,7 @@ index ae21ae0cb3..b168e6da66 100644
-> >   +const char __invoke_dynamic_linker__[4096] __attribute__ ((section (=
-".interp")))
-> >      =3D RUNTIME_LINKER;
-> >   diff --git a/elf/ldconfig.c b/elf/ldconfig.c
-> > -index d26eef1fb4..e5af6e5c01 100644
-> > +index b64c54b53e..caf7001745 100644
-> >   --- a/elf/ldconfig.c
-> >   +++ b/elf/ldconfig.c
-> >   @@ -150,6 +150,8 @@ static struct argp argp =3D
-> > @@ -111,7 +111,7 @@ index d26eef1fb4..e5af6e5c01 100644
-> >    static error_t
-> >    parse_opt (int key, char *arg, struct argp_state *state)
-> >   diff --git a/elf/rtld.c b/elf/rtld.c
-> > -index a91e2a4471..56d816d4d9 100644
-> > +index 4f494b792e..d1c1252188 100644
-> >   --- a/elf/rtld.c
-> >   +++ b/elf/rtld.c
-> >   @@ -190,6 +190,7 @@ dso_name_valid_for_suid (const char *p)
-> > @@ -123,7 +123,7 @@ index a91e2a4471..56d816d4d9 100644
-> >    static void
-> >    audit_list_init (struct audit_list *list)
-> >   diff --git a/iconv/gconv_conf.c b/iconv/gconv_conf.c
-> > -index ee9e97e1bd..01a99382d0 100644
-> > +index 1063c31a2b..57fa832e52 100644
-> >   --- a/iconv/gconv_conf.c
-> >   +++ b/iconv/gconv_conf.c
-> >   @@ -35,7 +35,7 @@
-> > @@ -136,7 +136,7 @@ index ee9e97e1bd..01a99382d0 100644
-> >    /* Type to represent search path.  */
-> >    struct path_elem
-> >   diff --git a/sysdeps/generic/dl-cache.h b/sysdeps/generic/dl-cache.h
-> > -index bd39ff7fb7..38f9e2ad57 100644
-> > +index 919e49ffc8..cd3f8ba94b 100644
-> >   --- a/sysdeps/generic/dl-cache.h
-> >   +++ b/sysdeps/generic/dl-cache.h
-> >   @@ -34,10 +34,6 @@
-> > diff --git a/meta/recipes-core/glibc/glibc/0006-nativesdk-glibc-Allow-6=
-4-bit-atomics-for-x86.patch b/meta/recipes-core/glibc/glibc/0006-nativesdk-=
-glibc-Allow-64-bit-atomics-for-x86.patch
-> > index 421afdca1ca..56eaaed4b7c 100644
-> > --- a/meta/recipes-core/glibc/glibc/0006-nativesdk-glibc-Allow-64-bit-a=
-tomics-for-x86.patch
-> > +++ b/meta/recipes-core/glibc/glibc/0006-nativesdk-glibc-Allow-64-bit-a=
-tomics-for-x86.patch
-> > @@ -1,4 +1,4 @@
-> > -From 76eaf7340a7f9063ab1ad2d7c6c0e205f22f544c Mon Sep 17 00:00:00 2001
-> > +From 3a94365c730d174a3c30c6d9282e6ca12d9ad091 Mon Sep 17 00:00:00 2001
-> >   From: Khem Raj <raj.khem@gmail.com>
-> >   Date: Thu, 31 Dec 2015 14:35:35 -0800
-> >   Subject: [PATCH] nativesdk-glibc: Allow 64 bit atomics for x86
-> > @@ -17,7 +17,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> >    1 file changed, 1 insertion(+), 6 deletions(-)
-> >
-> >   diff --git a/sysdeps/x86/atomic-machine.h b/sysdeps/x86/atomic-machin=
-e.h
-> > -index 95663099e4..4d81efc51a 100644
-> > +index cfd395087b..28a937c468 100644
-> >   --- a/sysdeps/x86/atomic-machine.h
-> >   +++ b/sysdeps/x86/atomic-machine.h
-> >   @@ -26,19 +26,14 @@
-> > diff --git a/meta/recipes-core/glibc/glibc/0007-nativesdk-glibc-Make-re=
-locatable-install-for-locales.patch b/meta/recipes-core/glibc/glibc/0007-na=
-tivesdk-glibc-Make-relocatable-install-for-locales.patch
-> > index 64243b10981..54c085a7144 100644
-> > --- a/meta/recipes-core/glibc/glibc/0007-nativesdk-glibc-Make-relocatab=
-le-install-for-locales.patch
-> > +++ b/meta/recipes-core/glibc/glibc/0007-nativesdk-glibc-Make-relocatab=
-le-install-for-locales.patch
-> > @@ -1,4 +1,4 @@
-> > -From ef8bb46455d602cb00caf59b2044a9a23b240cc2 Mon Sep 17 00:00:00 2001
-> > +From 296bdde0683aa55cdea0fd0cab05ff8fbc462b17 Mon Sep 17 00:00:00 2001
-> >   From: Khem Raj <raj.khem@gmail.com>
-> >   Date: Fri, 3 Aug 2018 09:55:12 -0700
-> >   Subject: [PATCH] nativesdk-glibc: Make relocatable install for locale=
-s
-> > @@ -19,7 +19,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> >    4 files changed, 8 insertions(+), 7 deletions(-)
-> >
-> >   diff --git a/locale/findlocale.c b/locale/findlocale.c
-> > -index 1b7034348b..939d4fd613 100644
-> > +index 8d6e4e33e3..bfe74f241d 100644
-> >   --- a/locale/findlocale.c
-> >   +++ b/locale/findlocale.c
-> >   @@ -55,7 +55,7 @@ struct __locale_data *const _nl_C[] attribute_hidde=
-n =3D
-> > @@ -41,7 +41,7 @@ index 1b7034348b..939d4fd613 100644
-> >      else
-> >        /* We really have to load some data.  First see whether the name=
- is
-> >   diff --git a/locale/loadarchive.c b/locale/loadarchive.c
-> > -index 5b857d5d24..e642912e2a 100644
-> > +index 452e3eb6e3..c7467aec42 100644
-> >   --- a/locale/loadarchive.c
-> >   +++ b/locale/loadarchive.c
-> >   @@ -42,7 +42,7 @@
-> > @@ -54,7 +54,7 @@ index 5b857d5d24..e642912e2a 100644
-> >    /* Size of initial mapping window, optimal if large enough to
-> >       cover the header plus the initial locale.  */
-> >   diff --git a/locale/localeinfo.h b/locale/localeinfo.h
-> > -index 8bbf281427..7a930079a5 100644
-> > +index ed698faef1..f7efc288a5 100644
-> >   --- a/locale/localeinfo.h
-> >   +++ b/locale/localeinfo.h
-> >   @@ -347,7 +347,7 @@ _nl_lookup_word (locale_t l, int category, int it=
-em)
-> > @@ -67,7 +67,7 @@ index 8bbf281427..7a930079a5 100644
-> >    /* Load the locale data for CATEGORY from the file specified by *NAM=
-E.
-> >       If *NAME is "", use environment variables as specified by POSIX, =
-and
-> >   diff --git a/locale/programs/locale.c b/locale/programs/locale.c
-> > -index 1d1a9b2f00..d9ed395b39 100644
-> > +index c7ee1874e8..8281e32236 100644
-> >   --- a/locale/programs/locale.c
-> >   +++ b/locale/programs/locale.c
-> >   @@ -631,6 +631,7 @@ nameentcmp (const void *a, const void *b)
-> > diff --git a/meta/recipes-core/glibc/glibc/0008-nativesdk-glibc-Fall-ba=
-ck-to-faccessat-on-faccess2-r.patch b/meta/recipes-core/glibc/glibc/0008-na=
-tivesdk-glibc-Fall-back-to-faccessat-on-faccess2-r.patch
-> > index 38dca83b1b4..096764009a1 100644
-> > --- a/meta/recipes-core/glibc/glibc/0008-nativesdk-glibc-Fall-back-to-f=
-accessat-on-faccess2-r.patch
-> > +++ b/meta/recipes-core/glibc/glibc/0008-nativesdk-glibc-Fall-back-to-f=
-accessat-on-faccess2-r.patch
-> > @@ -1,4 +1,4 @@
-> > -From 7f05e35c675a6d1af2144b4cfbabab250de43f38 Mon Sep 17 00:00:00 2001
-> > +From 70da806febac8b2eead6ddc32451bbc1787a1d7d Mon Sep 17 00:00:00 2001
-> >   From: Khem Raj <raj.khem@gmail.com>
-> >   Date: Sat, 6 Mar 2021 14:48:56 -0800
-> >   Subject: [PATCH] nativesdk-glibc: Fall back to faccessat on faccess2 =
-returns
-> > @@ -14,7 +14,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> >    1 file changed, 5 insertions(+), 1 deletion(-)
-> >
-> >   diff --git a/sysdeps/unix/sysv/linux/faccessat.c b/sysdeps/unix/sysv/=
-linux/faccessat.c
-> > -index 0ccbd778b5..9df1a0fe12 100644
-> > +index 2fa57fd63d..4d0d5ff0c4 100644
-> >   --- a/sysdeps/unix/sysv/linux/faccessat.c
-> >   +++ b/sysdeps/unix/sysv/linux/faccessat.c
-> >   @@ -30,7 +30,11 @@ __faccessat (int fd, const char *file, int mode, i=
-nt flag)
-> > diff --git a/meta/recipes-core/glibc/glibc/0009-yes-within-the-path-set=
-s-wrong-config-variables.patch b/meta/recipes-core/glibc/glibc/0009-yes-wit=
-hin-the-path-sets-wrong-config-variables.patch
-> > index 61fdcb08167..364e5cfde82 100644
-> > --- a/meta/recipes-core/glibc/glibc/0009-yes-within-the-path-sets-wrong=
--config-variables.patch
-> > +++ b/meta/recipes-core/glibc/glibc/0009-yes-within-the-path-sets-wrong=
--config-variables.patch
-> > @@ -1,4 +1,4 @@
-> > -From 70e721856c3ebf6ae0ea84b828396bd2af090acf Mon Sep 17 00:00:00 2001
-> > +From 2192588942c5bc3b5fa10fc6d7433923f42e9ba0 Mon Sep 17 00:00:00 2001
-> >   From: Khem Raj <raj.khem@gmail.com>
-> >   Date: Wed, 18 Mar 2015 00:31:06 +0000
-> >   Subject: [PATCH] 'yes' within the path sets wrong config variables
-> > diff --git a/meta/recipes-core/glibc/glibc/0010-eglibc-Cross-building-a=
-nd-testing-instructions.patch b/meta/recipes-core/glibc/glibc/0010-eglibc-C=
-ross-building-and-testing-instructions.patch
-> > index ffbe138ff1c..d7f15c1cfa2 100644
-> > --- a/meta/recipes-core/glibc/glibc/0010-eglibc-Cross-building-and-test=
-ing-instructions.patch
-> > +++ b/meta/recipes-core/glibc/glibc/0010-eglibc-Cross-building-and-test=
-ing-instructions.patch
-> > @@ -1,4 +1,4 @@
-> > -From 9625e90bdf35774c71f1e566e73d435e38c04171 Mon Sep 17 00:00:00 2001
-> > +From ce8b13bdf488058754fce573754cea0b022c37e2 Mon Sep 17 00:00:00 2001
-> >   From: Khem Raj <raj.khem@gmail.com>
-> >   Date: Wed, 18 Mar 2015 00:42:58 +0000
-> >   Subject: [PATCH] eglibc: Cross building and testing instructions
-> > diff --git a/meta/recipes-core/glibc/glibc/0011-eglibc-Help-bootstrap-c=
-ross-toolchain.patch b/meta/recipes-core/glibc/glibc/0011-eglibc-Help-boots=
-trap-cross-toolchain.patch
-> > index 88017bd29b0..82a32926555 100644
-> > --- a/meta/recipes-core/glibc/glibc/0011-eglibc-Help-bootstrap-cross-to=
-olchain.patch
-> > +++ b/meta/recipes-core/glibc/glibc/0011-eglibc-Help-bootstrap-cross-to=
-olchain.patch
-> > @@ -1,4 +1,4 @@
-> > -From cf2126b2d6e073137a3a7d9bcc261e0a760a82da Mon Sep 17 00:00:00 2001
-> > +From 65b79161b9e2848a174d3519a03348884f182975 Mon Sep 17 00:00:00 2001
-> >   From: Khem Raj <raj.khem@gmail.com>
-> >   Date: Wed, 18 Mar 2015 00:49:28 +0000
-> >   Subject: [PATCH] eglibc: Help bootstrap cross toolchain
-> > @@ -29,7 +29,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> >    create mode 100644 include/stubs-bootstrap.h
-> >
-> >   diff --git a/Makefile b/Makefile
-> > -index c6d4817a9e..b4b0e23560 100644
-> > +index 7052b46df8..46073abaa8 100644
-> >   --- a/Makefile
-> >   +++ b/Makefile
-> >   @@ -79,9 +79,18 @@ subdir-dirs =3D include
-> > diff --git a/meta/recipes-core/glibc/glibc/0012-eglibc-Resolve-__fpscr_=
-values-on-SH4.patch b/meta/recipes-core/glibc/glibc/0012-eglibc-Resolve-__f=
-pscr_values-on-SH4.patch
-> > index fee020cc4cc..e726a9e76fe 100644
-> > --- a/meta/recipes-core/glibc/glibc/0012-eglibc-Resolve-__fpscr_values-=
-on-SH4.patch
-> > +++ b/meta/recipes-core/glibc/glibc/0012-eglibc-Resolve-__fpscr_values-=
-on-SH4.patch
-> > @@ -1,4 +1,4 @@
-> > -From 61948c02226acea68d34313cc6286ee1ab44a98c Mon Sep 17 00:00:00 2001
-> > +From 07a5fa22a9a8bbd43982c1b35132f8c2d5276bfe Mon Sep 17 00:00:00 2001
-> >   From: Khem Raj <raj.khem@gmail.com>
-> >   Date: Wed, 18 Mar 2015 00:55:53 +0000
-> >   Subject: [PATCH] eglibc: Resolve __fpscr_values on SH4
-> > @@ -33,7 +33,7 @@ index 3ad702e165..931985b5d6 100644
-> >        # a*
-> >        alphasort64;
-> >   diff --git a/sysdeps/unix/sysv/linux/sh/sysdep.S b/sysdeps/unix/sysv/=
-linux/sh/sysdep.S
-> > -index 9d85ff99a0..6bda921ca3 100644
-> > +index d5d8c5e033..f356d02077 100644
-> >   --- a/sysdeps/unix/sysv/linux/sh/sysdep.S
-> >   +++ b/sysdeps/unix/sysv/linux/sh/sysdep.S
-> >   @@ -30,3 +30,14 @@ ENTRY (__syscall_error)
-> > diff --git a/meta/recipes-core/glibc/glibc/0013-eglibc-Forward-port-cro=
-ss-locale-generation-support.patch b/meta/recipes-core/glibc/glibc/0013-egl=
-ibc-Forward-port-cross-locale-generation-support.patch
-> > index 60bcab0fecd..f36b7f6f4cc 100644
-> > --- a/meta/recipes-core/glibc/glibc/0013-eglibc-Forward-port-cross-loca=
-le-generation-support.patch
-> > +++ b/meta/recipes-core/glibc/glibc/0013-eglibc-Forward-port-cross-loca=
-le-generation-support.patch
-> > @@ -1,4 +1,4 @@
-> > -From befa58c48a8ba664e7bbdfcf22e2a15efa2e0d17 Mon Sep 17 00:00:00 2001
-> > +From 33e9867758e830e19d181d5a0aa7f2f3cc4a08b3 Mon Sep 17 00:00:00 2001
-> >   From: Khem Raj <raj.khem@gmail.com>
-> >   Date: Wed, 18 Mar 2015 01:33:49 +0000
-> >   Subject: [PATCH] eglibc: Forward port cross locale generation support
-> > @@ -7,7 +7,7 @@ Upstream-Status: Pending
-> >
-> >   Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> >   ---
-> > - locale/Makefile               |  3 +-
-> > + locale/Makefile               |  1 +
-> >    locale/catnames.c             | 46 +++++++++++++++++++++++++++
-> >    locale/localeinfo.h           |  2 +-
-> >    locale/programs/charmap-dir.c |  6 ++++
-> > @@ -19,23 +19,21 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> >    locale/programs/locfile.c     |  5 ++-
-> >    locale/programs/locfile.h     | 59 +++++++++++++++++++++++++++++++++=
---
-> >    locale/setlocale.c            | 29 -----------------
-> > - 12 files changed, 167 insertions(+), 68 deletions(-)
-> > + 12 files changed, 166 insertions(+), 67 deletions(-)
-> >    create mode 100644 locale/catnames.c
-> >
-> >   diff --git a/locale/Makefile b/locale/Makefile
-> > -index d7036b0855..ed795e2710 100644
-> > +index 2810f28605..05f847f9a6 100644
-> >   --- a/locale/Makefile
-> >   +++ b/locale/Makefile
-> > -@@ -26,7 +26,8 @@ headers            =3D langinfo.h locale.h bits/loca=
-le.h \
-> > -               bits/types/locale_t.h bits/types/__locale_t.h
-> > - routines    =3D setlocale findlocale loadlocale loadarchive \
-> > -               localeconv nl_langinfo nl_langinfo_l mb_cur_max \
-> > --              newlocale duplocale freelocale uselocale
-> > -+              newlocale duplocale freelocale uselocale \
-> > -+              catnames
-> > - tests               =3D tst-C-locale tst-locname tst-duplocale
-> > - tests-container     =3D tst-localedef-path-norm
-> > - categories  =3D ctype messages monetary numeric time paper name \
-> > +@@ -30,6 +30,7 @@ headers =3D \
-> > +   locale.h \
-> > +   # headers
-> > + routines =3D \
-> > ++    catnames \
-> > +   duplocale \
-> > +   findlocale \
-> > +   freelocale \
-> >   diff --git a/locale/catnames.c b/locale/catnames.c
-> >   new file mode 100644
-> >   index 0000000000..538f3f5edb
-> > @@ -89,7 +87,7 @@ index 0000000000..538f3f5edb
-> >   +    [LC_ALL] =3D sizeof ("LC_ALL") - 1
-> >   +  };
-> >   diff --git a/locale/localeinfo.h b/locale/localeinfo.h
-> > -index 7a930079a5..05d7848d29 100644
-> > +index f7efc288a5..6ef082eb25 100644
-> >   --- a/locale/localeinfo.h
-> >   +++ b/locale/localeinfo.h
-> >   @@ -246,7 +246,7 @@ __libc_tsd_define (extern, locale_t, LOCALE)
-> > @@ -102,7 +100,7 @@ index 7a930079a5..05d7848d29 100644
-> >    # define NL_CURRENT_INDIRECT       1
-> >    #endif
-> >   diff --git a/locale/programs/charmap-dir.c b/locale/programs/charmap-=
-dir.c
-> > -index 9582f2d167..8f9f3f582c 100644
-> > +index 36504f238d..56ee97e61b 100644
-> >   --- a/locale/programs/charmap-dir.c
-> >   +++ b/locale/programs/charmap-dir.c
-> >   @@ -18,7 +18,9 @@
-> > @@ -148,7 +146,7 @@ index 9582f2d167..8f9f3f582c 100644
-> >      return NULL;
-> >    }
-> >   diff --git a/locale/programs/ld-collate.c b/locale/programs/ld-collat=
-e.c
-> > -index 2c9f540bf1..c937cfd2ab 100644
-> > +index 5048adbd9f..4232834ead 100644
-> >   --- a/locale/programs/ld-collate.c
-> >   +++ b/locale/programs/ld-collate.c
-> >   @@ -352,7 +352,7 @@ new_element (struct locale_collate_t *collate, co=
-nst char *mbs, size_t mbslen,
-> > @@ -197,7 +195,7 @@ index 2c9f540bf1..c937cfd2ab 100644
-> >                        =3D=3D runp->wcnext->wcs[runp->nwcs - 1] + 1));
-> >
-> >   diff --git a/locale/programs/ld-ctype.c b/locale/programs/ld-ctype.c
-> > -index d285b72611..4bf01fa3db 100644
-> > +index eb6e7e145c..14736d1cac 100644
-> >   --- a/locale/programs/ld-ctype.c
-> >   +++ b/locale/programs/ld-ctype.c
-> >   @@ -914,7 +914,7 @@ ctype_output (struct localedef_t *locale, const s=
-truct charmap_t *charmap,
-> > @@ -279,7 +277,7 @@ index d285b72611..4bf01fa3db 100644
-> >             srunp =3D srunp->next;
-> >           }
-> >   diff --git a/locale/programs/ld-time.c b/locale/programs/ld-time.c
-> > -index a590b013b3..5ed4fa0f59 100644
-> > +index 1abff3cf53..8a2f2b820a 100644
-> >   --- a/locale/programs/ld-time.c
-> >   +++ b/locale/programs/ld-time.c
-> >   @@ -219,8 +219,10 @@ No definition for %s category found"), "LC_TIME"=
+> This CVE fix included function kex_proposal_populate_entries in kex.c fil=
+e
+> which
+> is not present in 8.9p, so ignored this change.
+>
+> Signed-off-by: Meenali Gupta <meenali.gupta@windriver.com>
+> ---
+>  .../openssh/openssh/CVE-2023-48795.patch      | 503 ++++++++++++++++++
+>  .../openssh/openssh_8.9p1.bb                  |   1 +
+>  2 files changed, 504 insertions(+)
+>  create mode 100644
+> meta/recipes-connectivity/openssh/openssh/CVE-2023-48795.patch
+>
+> diff --git
+> a/meta/recipes-connectivity/openssh/openssh/CVE-2023-48795.patch
+> b/meta/recipes-connectivity/openssh/openssh/CVE-2023-48795.patch
+> new file mode 100644
+> index 0000000000..b1b16d5641
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/openssh/openssh/CVE-2023-48795.patch
+> @@ -0,0 +1,503 @@
+> +From 1edb00c58f8a6875fad6a497aa2bacf37f9e6cd5 Mon Sep 17 00:00:00 2001
+> +From: "djm@openbsd.org" <djm@openbsd.org>
+> +Date: Mon, 18 Dec 2023 14:45:17 +0000
+> +Subject: [PATCH] upstream: implement "strict key exchange" in ssh and ss=
+hd
+> + This adds a protocol extension to improve the integrity of the SSH
+> transport
+> + protocol, particular in and around the initial key exchange (KEX) phase=
+.
+> +
+> +Full details of the extension are in the PROTOCOL file.
+> +
+> +with markus@
+> +
+> +OpenBSD-Commit-ID: 2a66ac962f0a630d7945fee54004ed9e9c439f14
+> +
+> +CVE: CVE-2023-48795
+> +Upstream-Status: Backport [
+> https://github.com/openssh/openssh-portable/commit/1edb00c58f8a6875fad6a4=
+97aa2bacf37f9e6cd5
+> ]
+> +
+> +Signed-off-by: Meenali Gupta <meenali.gupta@windriver.com>
+> +---
+> + PROTOCOL      |  28 +++++++++++++-
+> + kex.c         |  71 +++++++++++++++++++++-------------
+> + kex.h         |   3 +-
+> + packet.c      | 103 +++++++++++++++++++++++++++++---------------------
+> + packet.h      |   3 +-
+> + sshconnect2.c |  12 ++----
+> + 6 files changed, 137 insertions(+), 83 deletions(-)
+> +
+> +diff --git a/PROTOCOL b/PROTOCOL
+> +index e6a7d60..68912ce 100644
+> +--- a/PROTOCOL
+> ++++ b/PROTOCOL
+> +@@ -102,6 +102,32 @@ OpenSSH supports the use of ECDH in Curve25519 for
+> key exchange as
+> + described at:
+> +
+> http://git.libssh.org/users/aris/libssh.git/plain/doc/curve25519-sha256@l=
+ibssh.org.txt?h=3Dcurve25519
+> +
+> ++1.9 transport: strict key exchange extension
+> ++
+> ++OpenSSH supports a number of transport-layer hardening measures under
+> ++a "strict KEX" feature. This feature is signalled similarly to the
+> ++RFC8308 ext-info feature: by including a additional algorithm in the
+> ++initiial SSH2_MSG_KEXINIT kex_algorithms field. The client may append
+> ++"kex-strict-c-v00@openssh.com" to its kex_algorithms and the server
+> ++may append "kex-strict-s-v00@openssh.com". These pseudo-algorithms
+> ++are only valid in the initial SSH2_MSG_KEXINIT and MUST be ignored
+> ++if they are present in subsequent SSH2_MSG_KEXINIT packets.
+> ++
+> ++When an endpoint that supports this extension observes this algorithm
+> ++name in a peer's KEXINIT packet, it MUST make the following changes to
+> ++the the protocol:
+> ++
+> ++a) During initial KEX, terminate the connection if any unexpected or
+> ++   out-of-sequence packet is received. This includes terminating the
+> ++   connection if the first packet received is not SSH2_MSG_KEXINIT.
+> ++   Unexpected packets for the purpose of strict KEX include messages
+> ++   that are otherwise valid at any time during the connection such as
+> ++   SSH2_MSG_DEBUG and SSH2_MSG_IGNORE.
+> ++b) After sending or receiving a SSH2_MSG_NEWKEYS message, reset the
+> ++   packet sequence number to zero. This behaviour persists for the
+> ++   duration of the connection (i.e. not just the first
+> ++   SSH2_MSG_NEWKEYS).
+> ++
+> + 2. Connection protocol changes
+> +
+> + 2.1. connection: Channel write close extension "eow@openssh.com"
+> +@@ -612,4 +638,4 @@ master instance and later clients.
+> + OpenSSH extends the usual agent protocol. These changes are documented
+> + in the PROTOCOL.agent file.
+> +
+> +-$OpenBSD: PROTOCOL,v 1.43 2021/12/19 22:15:42 djm Exp $
+> ++$OpenBSD: PROTOCOL,v 1.50 2023/12/18 14:45:17 djm Exp $
+> +diff --git a/kex.c b/kex.c
+> +index 0bcd27d..da16568 100644
+> +--- a/kex.c
+> ++++ b/kex.c
+> +@@ -1,4 +1,4 @@
+> +-/* $OpenBSD: kex.c,v 1.172 2022/02/01 23:32:51 djm Exp $ */
+> ++/* $OpenBSD: kex.c,v 1.183 2023/12/18 14:45:17 djm Exp $ */
+> + /*
+> +  * Copyright (c) 2000, 2001 Markus Friedl.  All rights reserved.
+> +  *
+> +@@ -63,7 +63,7 @@
+> + #include "digest.h"
+> +
+> + /* prototype */
+> +-static int kex_choose_conf(struct ssh *);
+> ++static int kex_choose_conf(struct ssh *, uint32_t seq);
+> + static int kex_input_newkeys(int, u_int32_t, struct ssh *);
+> +
+> + static const char * const proposal_names[PROPOSAL_MAX] =3D {
+> +@@ -175,6 +175,18 @@ kex_names_valid(const char *names)
+> +       return 1;
+> + }
+> +
+> ++/* returns non-zero if proposal contains any algorithm from algs */
+> ++static int
+> ++has_any_alg(const char *proposal, const char *algs)
+> ++{
+> ++      char *cp;
+> ++
+> ++      if ((cp =3D match_list(proposal, algs, NULL)) =3D=3D NULL)
+> ++              return 0;
+> ++      free(cp);
+> ++      return 1;
+> ++}
+> ++
+> + /*
+> +  * Concatenate algorithm names, avoiding duplicates in the process.
+> +  * Caller must free returned string.
+> +@@ -182,7 +194,7 @@ kex_names_valid(const char *names)
+> + char *
+> + kex_names_cat(const char *a, const char *b)
+> + {
+> +-      char *ret =3D NULL, *tmp =3D NULL, *cp, *p, *m;
+> ++      char *ret =3D NULL, *tmp =3D NULL, *cp, *p;
+> +       size_t len;
+> +
+> +       if (a =3D=3D NULL || *a =3D=3D '\0')
+> +@@ -199,10 +211,8 @@ kex_names_cat(const char *a, const char *b)
+> +       }
+> +       strlcpy(ret, a, len);
+> +       for ((p =3D strsep(&cp, ",")); p && *p !=3D '\0'; (p =3D strsep(&=
+cp,
+> ","))) {
+> +-              if ((m =3D match_list(ret, p, NULL)) !=3D NULL) {
+> +-                      free(m);
+> ++              if (has_any_alg(ret, p))
+> +                       continue; /* Algorithm already present */
+> +-              }
+> +               if (strlcat(ret, ",", len) >=3D len ||
+> +                   strlcat(ret, p, len) >=3D len) {
+> +                       free(tmp);
+> +@@ -410,7 +420,12 @@ kex_protocol_error(int type, u_int32_t seq, struct
+> ssh *ssh)
+> + {
+> +       int r;
+> +
+> +-      error("kex protocol error: type %d seq %u", type, seq);
+> ++      /* If in strict mode, any unexpected message is an error */
+> ++      if ((ssh->kex->flags & KEX_INITIAL) && ssh->kex->kex_strict) {
+> ++              ssh_packet_disconnect(ssh, "strict KEX violation: "
+> ++                  "unexpected packet type %u (seqnr %u)", type, seq);
+> ++      }
+> ++      error_f("type %u seq %u", type, seq);
+> +       if ((r =3D sshpkt_start(ssh, SSH2_MSG_UNIMPLEMENTED)) !=3D 0 ||
+> +           (r =3D sshpkt_put_u32(ssh, seq)) !=3D 0 ||
+> +           (r =3D sshpkt_send(ssh)) !=3D 0)
+> +@@ -496,7 +511,7 @@ kex_input_ext_info(int type, u_int32_t seq, struct
+> ssh *ssh)
+> +                       /* Ensure no \0 lurking in value */
+> +                       if (memchr(val, '\0', vlen) !=3D NULL) {
+> +                               error_f("nul byte in %s", name);
+> +-                              return SSH_ERR_INVALID_FORMAT;
+> ++                              return dispatch_protocol_error(type, seq,
+> ssh);
+> +                       }
+> +                       debug_f("%s=3D<%s>", name, val);
+> +                       kex->server_sig_algs =3D val;
+> +@@ -600,7 +615,7 @@ kex_input_kexinit(int type, u_int32_t seq, struct ss=
+h
+> *ssh)
+> +               error_f("no kex");
+> +               return SSH_ERR_INTERNAL_ERROR;
+> +       }
+> +-      ssh_dispatch_set(ssh, SSH2_MSG_KEXINIT, NULL);
+> ++      ssh_dispatch_set(ssh, SSH2_MSG_KEXINIT, &kex_protocol_error);
+> +       ptr =3D sshpkt_ptr(ssh, &dlen);
+> +       if ((r =3D sshbuf_put(kex->peer, ptr, dlen)) !=3D 0)
+> +               return r;
+> +@@ -636,7 +651,7 @@ kex_input_kexinit(int type, u_int32_t seq, struct ss=
+h
+> *ssh)
+> +       if (!(kex->flags & KEX_INIT_SENT))
+> +               if ((r =3D kex_send_kexinit(ssh)) !=3D 0)
+> +                       return r;
+> +-      if ((r =3D kex_choose_conf(ssh)) !=3D 0)
+> ++      if ((r =3D kex_choose_conf(ssh, seq)) !=3D 0)
+> +               return r;
+> +
+> +       if (kex->kex_type < KEX_MAX && kex->kex[kex->kex_type] !=3D NULL)
+> +@@ -900,20 +915,14 @@ proposals_match(char *my[PROPOSAL_MAX], char
+> *peer[PROPOSAL_MAX])
+> +       return (1);
+> + }
+> +
+> +-/* returns non-zero if proposal contains any algorithm from algs */
+> + static int
+> +-has_any_alg(const char *proposal, const char *algs)
+> ++kexalgs_contains(char **peer, const char *ext)
+> + {
+> +-      char *cp;
+> +-
+> +-      if ((cp =3D match_list(proposal, algs, NULL)) =3D=3D NULL)
+> +-              return 0;
+> +-      free(cp);
+> +-      return 1;
+> ++      return has_any_alg(peer[PROPOSAL_KEX_ALGS], ext);
+> + }
+> +
+> + static int
+> +-kex_choose_conf(struct ssh *ssh)
+> ++kex_choose_conf(struct ssh *ssh, uint32_t seq)
+> + {
+> +       struct kex *kex =3D ssh->kex;
+> +       struct newkeys *newkeys;
+> +@@ -938,13 +947,23 @@ kex_choose_conf(struct ssh *ssh)
+> +               sprop=3Dpeer;
+> +       }
+> +
+> +-      /* Check whether client supports ext_info_c */
+> +-      if (kex->server && (kex->flags & KEX_INITIAL)) {
+> +-              char *ext;
+> +-
+> +-              ext =3D match_list("ext-info-c", peer[PROPOSAL_KEX_ALGS],
+> NULL);
+> +-              kex->ext_info_c =3D (ext !=3D NULL);
+> +-              free(ext);
+> ++      /* Check whether peer supports ext_info/kex_strict */
+> ++      if ((kex->flags & KEX_INITIAL) !=3D 0) {
+> ++              if (kex->server) {
+> ++                      kex->ext_info_c =3D kexalgs_contains(peer,
+> "ext-info-c");
+> ++                      kex->kex_strict =3D kexalgs_contains(peer,
+> ++                          "kex-strict-c-v00@openssh.com");
+> ++              } else {
+> ++                      kex->kex_strict =3D kexalgs_contains(peer,
+> ++                          "kex-strict-s-v00@openssh.com");
+> ++              }
+> ++              if (kex->kex_strict) {
+> ++                      debug3_f("will use strict KEX ordering");
+> ++                      if (seq !=3D 0)
+> ++                              ssh_packet_disconnect(ssh,
+> ++                                  "strict KEX violation: "
+> ++                                  "KEXINIT was not the first packet");
+> ++              }
+> +       }
+> +
+> +       /* Check whether client supports rsa-sha2 algorithms */
+> +diff --git a/kex.h b/kex.h
+> +index c353295..c27f9d8 100644
+> +--- a/kex.h
+> ++++ b/kex.h
+> +@@ -1,4 +1,4 @@
+> +-/* $OpenBSD: kex.h,v 1.117 2022/01/06 21:55:23 djm Exp $ */
+> ++/* $OpenBSD: kex.h,v 1.120 2023/12/18 14:45:17 djm Exp $ */
+> +
+> + /*
+> +  * Copyright (c) 2000, 2001 Markus Friedl.  All rights reserved.
+> +@@ -148,6 +148,7 @@ struct kex {
+> +       u_int   kex_type;
+> +       char    *server_sig_algs;
+> +       int     ext_info_c;
+> ++      int     kex_strict;
+> +       struct sshbuf *my;
+> +       struct sshbuf *peer;
+> +       struct sshbuf *client_version;
+> +diff --git a/packet.c b/packet.c
+> +index bde6c10..322a8c2 100644
+> +--- a/packet.c
+> ++++ b/packet.c
+> +@@ -1,4 +1,4 @@
+> +-/* $OpenBSD: packet.c,v 1.307 2022/01/22 00:49:34 djm Exp $ */
+> ++/* $OpenBSD: packet.c,v 1.313 2023/12/18 14:45:17 djm Exp $ */
+> + /*
+> +  * Author: Tatu Ylonen <ylo@cs.hut.fi>
+> +  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
+> +@@ -1205,8 +1205,13 @@ ssh_packet_send2_wrapped(struct ssh *ssh)
+> +       sshbuf_dump(state->output, stderr);
+> + #endif
+> +       /* increment sequence number for outgoing packets */
+> +-      if (++state->p_send.seqnr =3D=3D 0)
+> ++      if (++state->p_send.seqnr =3D=3D 0) {
+> ++              if ((ssh->kex->flags & KEX_INITIAL) !=3D 0) {
+> ++                      ssh_packet_disconnect(ssh, "outgoing sequence
+> number "
+> ++                          "wrapped during initial key exchange");
+> ++              }
+> +               logit("outgoing seqnr wraps around");
+> ++      }
+> +       if (++state->p_send.packets =3D=3D 0)
+> +               if (!(ssh->compat & SSH_BUG_NOREKEY))
+> +                       return SSH_ERR_NEED_REKEY;
+> +@@ -1214,6 +1219,11 @@ ssh_packet_send2_wrapped(struct ssh *ssh)
+> +       state->p_send.bytes +=3D len;
+> +       sshbuf_reset(state->outgoing_packet);
+> +
+> ++      if (type =3D=3D SSH2_MSG_NEWKEYS && ssh->kex->kex_strict) {
+> ++              debug_f("resetting send seqnr %u", state->p_send.seqnr);
+> ++              state->p_send.seqnr =3D 0;
+> ++      }
+> ++
+> +       if (type =3D=3D SSH2_MSG_NEWKEYS)
+> +               r =3D ssh_set_newkeys(ssh, MODE_OUT);
+> +       else if (type =3D=3D SSH2_MSG_USERAUTH_SUCCESS && state->server_s=
+ide)
+> +@@ -1342,8 +1352,7 @@ ssh_packet_read_seqnr(struct ssh *ssh, u_char
+> *typep, u_int32_t *seqnr_p)
+> +       /* Stay in the loop until we have received a complete packet. */
+> +       for (;;) {
+> +               /* Try to read a packet from the buffer. */
+> +-              r =3D ssh_packet_read_poll_seqnr(ssh, typep, seqnr_p);
+> +-              if (r !=3D 0)
+> ++              if ((r =3D ssh_packet_read_poll_seqnr(ssh, typep, seqnr_p=
+))
+> !=3D 0)
+> +                       break;
+> +               /* If we got a packet, return it. */
+> +               if (*typep !=3D SSH_MSG_NONE)
+> +@@ -1414,29 +1423,6 @@ ssh_packet_read(struct ssh *ssh)
+> +       return type;
+> + }
+> +
+> +-/*
+> +- * Waits until a packet has been received, verifies that its type match=
+es
+> +- * that given, and gives a fatal error and exits if there is a mismatch=
+.
+> +- */
+> +-
+> +-int
+> +-ssh_packet_read_expect(struct ssh *ssh, u_int expected_type)
+> +-{
+> +-      int r;
+> +-      u_char type;
+> +-
+> +-      if ((r =3D ssh_packet_read_seqnr(ssh, &type, NULL)) !=3D 0)
+> +-              return r;
+> +-      if (type !=3D expected_type) {
+> +-              if ((r =3D sshpkt_disconnect(ssh,
+> +-                  "Protocol error: expected packet type %d, got %d",
+> +-                  expected_type, type)) !=3D 0)
+> +-                      return r;
+> +-              return SSH_ERR_PROTOCOL_ERROR;
+> +-      }
+> +-      return 0;
+> +-}
+> +-
+> + static int
+> + ssh_packet_read_poll2_mux(struct ssh *ssh, u_char *typep, u_int32_t
+> *seqnr_p)
+> + {
+> +@@ -1627,10 +1613,16 @@ ssh_packet_read_poll2(struct ssh *ssh, u_char
+> *typep, u_int32_t *seqnr_p)
+> +               if ((r =3D sshbuf_consume(state->input, mac->mac_len)) !=
+=3D 0)
+> +                       goto out;
+> +       }
+> ++
+> +       if (seqnr_p !=3D NULL)
+> +               *seqnr_p =3D state->p_read.seqnr;
+> +-      if (++state->p_read.seqnr =3D=3D 0)
+> ++      if (++state->p_read.seqnr =3D=3D 0) {
+> ++              if ((ssh->kex->flags & KEX_INITIAL) !=3D 0) {
+> ++                      ssh_packet_disconnect(ssh, "incoming sequence
+> number "
+> ++                          "wrapped during initial key exchange");
+> ++              }
+> +               logit("incoming seqnr wraps around");
+> ++      }
+> +       if (++state->p_read.packets =3D=3D 0)
+> +               if (!(ssh->compat & SSH_BUG_NOREKEY))
+> +                       return SSH_ERR_NEED_REKEY;
+> +@@ -1696,6 +1688,10 @@ ssh_packet_read_poll2(struct ssh *ssh, u_char
+> *typep, u_int32_t *seqnr_p)
+> + #endif
+> +       /* reset for next packet */
+> +       state->packlen =3D 0;
+> ++      if (*typep =3D=3D SSH2_MSG_NEWKEYS && ssh->kex->kex_strict) {
+> ++              debug_f("resetting read seqnr %u", state->p_read.seqnr);
+> ++              state->p_read.seqnr =3D 0;
+> ++      }
+> +
+> +       if ((r =3D ssh_packet_check_rekey(ssh)) !=3D 0)
+> +               return r;
+> +@@ -1716,10 +1712,39 @@ ssh_packet_read_poll_seqnr(struct ssh *ssh,
+> u_char *typep, u_int32_t *seqnr_p)
+> +               r =3D ssh_packet_read_poll2(ssh, typep, seqnr_p);
+> +               if (r !=3D 0)
+> +                       return r;
+> +-              if (*typep) {
+> +-                      state->keep_alive_timeouts =3D 0;
+> +-                      DBG(debug("received packet type %d", *typep));
+> ++              if (*typep =3D=3D 0) {
+> ++                      /* no message ready */
+> ++                      return 0;
+> +               }
+> ++              state->keep_alive_timeouts =3D 0;
+> ++              DBG(debug("received packet type %d", *typep));
+> ++
+> ++              /* Always process disconnect messages */
+> ++              if (*typep =3D=3D SSH2_MSG_DISCONNECT) {
+> ++                      if ((r =3D sshpkt_get_u32(ssh, &reason)) !=3D 0 |=
+|
+> ++                          (r =3D sshpkt_get_string(ssh, &msg, NULL)) !=
+=3D 0)
+> ++                              return r;
+> ++                      /* Ignore normal client exit notifications */
+> ++                      do_log2(ssh->state->server_side &&
+> ++                          reason =3D=3D SSH2_DISCONNECT_BY_APPLICATION =
+?
+> ++                          SYSLOG_LEVEL_INFO : SYSLOG_LEVEL_ERROR,
+> ++                          "Received disconnect from %s port %d:"
+> ++                          "%u: %.400s", ssh_remote_ipaddr(ssh),
+> ++                          ssh_remote_port(ssh), reason, msg);
+> ++                      free(msg);
+> ++                      return SSH_ERR_DISCONNECTED;
+> ++              }
+> ++
+> ++              /*
+> ++               * Do not implicitly handle any messages here during
+> initial
+> ++               * KEX when in strict mode. They will be need to be allow=
+ed
+> ++               * explicitly by the KEX dispatch table or they will
+> generate
+> ++               * protocol errors.
+> ++               */
+> ++              if (ssh->kex !=3D NULL &&
+> ++                  (ssh->kex->flags & KEX_INITIAL) &&
+> ssh->kex->kex_strict)
+> ++                      return 0;
+> ++              /* Implicitly handle transport-level messages */
+> +               switch (*typep) {
+> +               case SSH2_MSG_IGNORE:
+> +                       debug3("Received SSH2_MSG_IGNORE");
+> +@@ -1734,19 +1759,6 @@ ssh_packet_read_poll_seqnr(struct ssh *ssh, u_cha=
+r
+> *typep, u_int32_t *seqnr_p)
+> +                       debug("Remote: %.900s", msg);
+> +                       free(msg);
+> +                       break;
+> +-              case SSH2_MSG_DISCONNECT:
+> +-                      if ((r =3D sshpkt_get_u32(ssh, &reason)) !=3D 0 |=
+|
+> +-                          (r =3D sshpkt_get_string(ssh, &msg, NULL)) !=
+=3D 0)
+> +-                              return r;
+> +-                      /* Ignore normal client exit notifications */
+> +-                      do_log2(ssh->state->server_side &&
+> +-                          reason =3D=3D SSH2_DISCONNECT_BY_APPLICATION =
+?
+> +-                          SYSLOG_LEVEL_INFO : SYSLOG_LEVEL_ERROR,
+> +-                          "Received disconnect from %s port %d:"
+> +-                          "%u: %.400s", ssh_remote_ipaddr(ssh),
+> +-                          ssh_remote_port(ssh), reason, msg);
+> +-                      free(msg);
+> +-                      return SSH_ERR_DISCONNECTED;
+> +               case SSH2_MSG_UNIMPLEMENTED:
+> +                       if ((r =3D sshpkt_get_u32(ssh, &seqnr)) !=3D 0)
+> +                               return r;
+> +@@ -2211,6 +2223,7 @@ kex_to_blob(struct sshbuf *m, struct kex *kex)
+> +           (r =3D sshbuf_put_u32(m, kex->hostkey_type)) !=3D 0 ||
+> +           (r =3D sshbuf_put_u32(m, kex->hostkey_nid)) !=3D 0 ||
+> +           (r =3D sshbuf_put_u32(m, kex->kex_type)) !=3D 0 ||
+> ++          (r =3D sshbuf_put_u32(m, kex->kex_strict)) !=3D 0 ||
+> +           (r =3D sshbuf_put_stringb(m, kex->my)) !=3D 0 ||
+> +           (r =3D sshbuf_put_stringb(m, kex->peer)) !=3D 0 ||
+> +           (r =3D sshbuf_put_stringb(m, kex->client_version)) !=3D 0 ||
+> +@@ -2373,6 +2386,7 @@ kex_from_blob(struct sshbuf *m, struct kex **kexp)
+> +           (r =3D sshbuf_get_u32(m, (u_int *)&kex->hostkey_type)) !=3D 0=
+ ||
+> +           (r =3D sshbuf_get_u32(m, (u_int *)&kex->hostkey_nid)) !=3D 0 =
+||
+> +           (r =3D sshbuf_get_u32(m, &kex->kex_type)) !=3D 0 ||
+> ++          (r =3D sshbuf_get_u32(m, &kex->kex_strict)) !=3D 0 ||
+> +           (r =3D sshbuf_get_stringb(m, kex->my)) !=3D 0 ||
+> +           (r =3D sshbuf_get_stringb(m, kex->peer)) !=3D 0 ||
+> +           (r =3D sshbuf_get_stringb(m, kex->client_version)) !=3D 0 ||
+> +@@ -2701,6 +2715,7 @@ sshpkt_disconnect(struct ssh *ssh, const char
+> *fmt,...)
+> +       vsnprintf(buf, sizeof(buf), fmt, args);
+> +       va_end(args);
+> +
+> ++      debug2_f("sending SSH2_MSG_DISCONNECT: %s", buf);
+> +       if ((r =3D sshpkt_start(ssh, SSH2_MSG_DISCONNECT)) !=3D 0 ||
+> +           (r =3D sshpkt_put_u32(ssh, SSH2_DISCONNECT_PROTOCOL_ERROR)) !=
+=3D 0
+> ||
+> +           (r =3D sshpkt_put_cstring(ssh, buf)) !=3D 0 ||
+> +diff --git a/packet.h b/packet.h
+> +index 176488b..3e03f53 100644
+> +--- a/packet.h
+> ++++ b/packet.h
+> +@@ -1,4 +1,4 @@
+> +-/* $OpenBSD: packet.h,v 1.94 2022/01/22 00:49:34 djm Exp $ */
+> ++/* $OpenBSD: packet.h,v 1.96 2023/12/18 14:45:17 djm Exp $ */
+> +
+> + /*
+> +  * Author: Tatu Ylonen <ylo@cs.hut.fi>
+> +@@ -124,7 +124,6 @@ int         ssh_packet_send2_wrapped(struct ssh *);
+> + int    ssh_packet_send2(struct ssh *);
+> +
+> + int      ssh_packet_read(struct ssh *);
+> +-int    ssh_packet_read_expect(struct ssh *, u_int type);
+> + int      ssh_packet_read_poll(struct ssh *);
+> + int ssh_packet_read_poll2(struct ssh *, u_char *, u_int32_t *seqnr_p);
+> + int    ssh_packet_process_incoming(struct ssh *, const char *buf, u_int
+> len);
+> +diff --git a/sshconnect2.c b/sshconnect2.c
+> +index b25225e..1deaa5e 100644
+> +--- a/sshconnect2.c
+> ++++ b/sshconnect2.c
+> +@@ -1,4 +1,4 @@
+> +-/* $OpenBSD: sshconnect2.c,v 1.356 2022/02/01 23:32:51 djm Exp $ */
+> ++/* $OpenBSD: sshconnect2.c,v 1.370 2023/12/18 14:45:17 djm Exp $ */
+> + /*
+> +  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
+> +  * Copyright (c) 2008 Damien Miller.  All rights reserved.
+> +@@ -363,7 +363,6 @@ struct cauthmethod {
+> + };
+> +
+> + static int input_userauth_service_accept(int, u_int32_t, struct ssh *);
+> +-static int input_userauth_ext_info(int, u_int32_t, struct ssh *);
+> + static int input_userauth_success(int, u_int32_t, struct ssh *);
+> + static int input_userauth_failure(int, u_int32_t, struct ssh *);
+> + static int input_userauth_banner(int, u_int32_t, struct ssh *);
+> +@@ -477,7 +476,7 @@ ssh_userauth2(struct ssh *ssh, const char *local_use=
+r,
+> +
+> +       ssh->authctxt =3D &authctxt;
+> +       ssh_dispatch_init(ssh, &input_userauth_error);
+> +-      ssh_dispatch_set(ssh, SSH2_MSG_EXT_INFO, &input_userauth_ext_info=
 );
-> > @@ -348,7 +346,7 @@ index a590b013b3..5ed4fa0f59 100644
-> >
-> >
-> >   diff --git a/locale/programs/linereader.c b/locale/programs/linereade=
-r.c
-> > -index f8c49ac06f..ddda006037 100644
-> > +index 61373d2657..7ec5726377 100644
-> >   --- a/locale/programs/linereader.c
-> >   +++ b/locale/programs/linereader.c
-> >   @@ -776,7 +776,7 @@ get_string (struct linereader *lr, const struct c=
-harmap_t *charmap,
-> > @@ -361,7 +359,7 @@ index f8c49ac06f..ddda006037 100644
-> >      lr_buffer_init (&lrb);
-> >
-> >   diff --git a/locale/programs/localedef.c b/locale/programs/localedef.=
-c
-> > -index 1b751bb7be..c255e2b436 100644
-> > +index 907bb5fb25..3106529043 100644
-> >   --- a/locale/programs/localedef.c
-> >   +++ b/locale/programs/localedef.c
-> >   @@ -108,6 +108,7 @@ void (*argp_program_version_hook) (FILE *, struct=
- argp_state *) =3D print_version;
-> > @@ -407,7 +405,7 @@ index 1b751bb7be..c255e2b436 100644
-> >          force_output =3D 1;
-> >          break;
-> >   diff --git a/locale/programs/locfile.c b/locale/programs/locfile.c
-> > -index e3eef59295..711d6fbea0 100644
-> > +index 6c6ebf2dd6..cc02ab82bf 100644
-> >   --- a/locale/programs/locfile.c
-> >   +++ b/locale/programs/locfile.c
-> >   @@ -543,6 +543,9 @@ compare_files (const char *filename1, const char =
-*filename2, size_t size,
-> > @@ -430,7 +428,7 @@ index e3eef59295..711d6fbea0 100644
-> >
-> >    /* Record that FILE's next element is the 32-bit integer VALUE.  */
-> >   diff --git a/locale/programs/locfile.h b/locale/programs/locfile.h
-> > -index 5caf5c348f..76856a32c2 100644
-> > +index 3afb0a8d29..46785374e8 100644
-> >   --- a/locale/programs/locfile.h
-> >   +++ b/locale/programs/locfile.h
-> >   @@ -70,6 +70,8 @@ extern void write_all_categories (struct localedef_=
-t *definitions,
-> > @@ -519,7 +517,7 @@ index 5caf5c348f..76856a32c2 100644
-> >   +
-> >    #endif /* locfile.h */
-> >   diff --git a/locale/setlocale.c b/locale/setlocale.c
-> > -index 6a902faa50..17413f0a9c 100644
-> > +index 7bd27e5398..2f194bad7c 100644
-> >   --- a/locale/setlocale.c
-> >   +++ b/locale/setlocale.c
-> >   @@ -63,35 +63,6 @@ static char *const _nl_current_used[] =3D
-> > diff --git a/meta/recipes-core/glibc/glibc/0014-localedef-add-to-archiv=
-e-uses-a-hard-coded-locale-pa.patch b/meta/recipes-core/glibc/glibc/0014-lo=
-caledef-add-to-archive-uses-a-hard-coded-locale-pa.patch
-> > index 3e7d5b74c1b..daeff7b0653 100644
-> > --- a/meta/recipes-core/glibc/glibc/0014-localedef-add-to-archive-uses-=
-a-hard-coded-locale-pa.patch
-> > +++ b/meta/recipes-core/glibc/glibc/0014-localedef-add-to-archive-uses-=
-a-hard-coded-locale-pa.patch
-> > @@ -1,4 +1,4 @@
-> > -From 653b0631f80f17abe01957c06ef8a8d5d189b789 Mon Sep 17 00:00:00 2001
-> > +From f4b1d6429298c0f8a2aa29ff559eb2093ea0188f Mon Sep 17 00:00:00 2001
-> >   From: Khem Raj <raj.khem@gmail.com>
-> >   Date: Fri, 3 Aug 2018 09:42:06 -0700
-> >   Subject: [PATCH] localedef --add-to-archive uses a hard-coded locale =
-path
-> > @@ -18,7 +18,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> >    1 file changed, 25 insertions(+), 10 deletions(-)
-> >
-> >   diff --git a/locale/programs/locarchive.c b/locale/programs/locarchiv=
-e.c
-> > -index 71fd9f34fa..cd3eb90ad5 100644
-> > +index 8d79a1b6d1..6dc7ecd4e7 100644
-> >   --- a/locale/programs/locarchive.c
-> >   +++ b/locale/programs/locarchive.c
-> >   @@ -339,12 +339,24 @@ enlarge_archive (struct locarhandle *ah, const =
-struct locarhead *head)
-> > diff --git a/meta/recipes-core/glibc/glibc/0015-powerpc-Do-not-ask-comp=
-iler-for-finding-arch.patch b/meta/recipes-core/glibc/glibc/0015-powerpc-Do=
--not-ask-compiler-for-finding-arch.patch
-> > index ff49a71bb21..8dd1f0a6567 100644
-> > --- a/meta/recipes-core/glibc/glibc/0015-powerpc-Do-not-ask-compiler-fo=
-r-finding-arch.patch
-> > +++ b/meta/recipes-core/glibc/glibc/0015-powerpc-Do-not-ask-compiler-fo=
-r-finding-arch.patch
-> > @@ -1,4 +1,4 @@
-> > -From fae5ee7d7b9dca2f25684a99f7046042d870235f Mon Sep 17 00:00:00 2001
-> > +From 2d064c0c1243ea0bf405909285d7cddca92cf097 Mon Sep 17 00:00:00 2001
-> >   From: Khem Raj <raj.khem@gmail.com>
-> >   Date: Fri, 7 Aug 2020 14:31:16 -0700
-> >   Subject: [PATCH] powerpc: Do not ask compiler for finding arch
-> > diff --git a/meta/recipes-core/glibc/glibc/0016-wordsize.h-Unify-the-he=
-ader-between-arm-and-aarch64.patch b/meta/recipes-core/glibc/glibc/0016-wor=
-dsize.h-Unify-the-header-between-arm-and-aarch64.patch
-> > index b7b4046efc3..066c3b1ea29 100644
-> > --- a/meta/recipes-core/glibc/glibc/0016-wordsize.h-Unify-the-header-be=
-tween-arm-and-aarch64.patch
-> > +++ b/meta/recipes-core/glibc/glibc/0016-wordsize.h-Unify-the-header-be=
-tween-arm-and-aarch64.patch
-> > @@ -1,4 +1,4 @@
-> > -From 91a7848698ce6c96c646f3a170714ee71eab6884 Mon Sep 17 00:00:00 2001
-> > +From b1c374f7ede81a98f2d02def2c7ca17f1001f7cb Mon Sep 17 00:00:00 2001
-> >   From: Khem Raj <raj.khem@gmail.com>
-> >   Date: Fri, 15 May 2020 17:05:45 -0700
-> >   Subject: [PATCH] wordsize.h: Unify the header between arm and aarch64
-> > @@ -17,7 +17,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> >    create mode 120000 sysdeps/arm/bits/wordsize.h
-> >
-> >   diff --git a/sysdeps/aarch64/bits/wordsize.h b/sysdeps/aarch64/bits/w=
-ordsize.h
-> > -index 04d4be9519..63876a7830 100644
-> > +index 118e59172d..b4b0692eb5 100644
-> >   --- a/sysdeps/aarch64/bits/wordsize.h
-> >   +++ b/sysdeps/aarch64/bits/wordsize.h
-> >   @@ -17,12 +17,16 @@
-> > diff --git a/meta/recipes-core/glibc/glibc/0017-Replace-echo-with-print=
-f-builtin-in-nscd-init-script.patch b/meta/recipes-core/glibc/glibc/0017-Re=
-place-echo-with-printf-builtin-in-nscd-init-script.patch
-> > index f2ed8210815..d8c0b1b4add 100644
-> > --- a/meta/recipes-core/glibc/glibc/0017-Replace-echo-with-printf-built=
-in-in-nscd-init-script.patch
-> > +++ b/meta/recipes-core/glibc/glibc/0017-Replace-echo-with-printf-built=
-in-in-nscd-init-script.patch
-> > @@ -1,4 +1,4 @@
-> > -From 63611cfd3b25f3656db168aee41a5850ac769dfc Mon Sep 17 00:00:00 2001
-> > +From 0aac3b8ee5b13e289b6969da51de384443286a5b Mon Sep 17 00:00:00 2001
-> >   From: Khem Raj <raj.khem@gmail.com>
-> >   Date: Thu, 31 Dec 2015 14:33:02 -0800
-> >   Subject: [PATCH] Replace echo with printf builtin in nscd init script
-> > diff --git a/meta/recipes-core/glibc/glibc/0018-sysdeps-gnu-configure.a=
-c-Set-libc_cv_rootsbindir-onl.patch b/meta/recipes-core/glibc/glibc/0018-sy=
-sdeps-gnu-configure.ac-Set-libc_cv_rootsbindir-onl.patch
-> > index 12a460664f0..c81f82f4335 100644
-> > --- a/meta/recipes-core/glibc/glibc/0018-sysdeps-gnu-configure.ac-Set-l=
-ibc_cv_rootsbindir-onl.patch
-> > +++ b/meta/recipes-core/glibc/glibc/0018-sysdeps-gnu-configure.ac-Set-l=
-ibc_cv_rootsbindir-onl.patch
-> > @@ -1,4 +1,4 @@
-> > -From 912ccb5001ffa5355caff09354558e89e9aa937b Mon Sep 17 00:00:00 2001
-> > +From 7a25d4796411f22f824742092a4c2a08df99752d Mon Sep 17 00:00:00 2001
-> >   From: Khem Raj <raj.khem@gmail.com>
-> >   Date: Wed, 18 Mar 2015 00:27:10 +0000
-> >   Subject: [PATCH] sysdeps/gnu/configure.ac: Set libc_cv_rootsbindir on=
-ly if its
-> > diff --git a/meta/recipes-core/glibc/glibc/0019-timezone-Make-shell-int=
-erpreter-overridable-in-tzsel.patch b/meta/recipes-core/glibc/glibc/0019-ti=
-mezone-Make-shell-interpreter-overridable-in-tzsel.patch
-> > index 359b1c37e5e..d724c3e968d 100644
-> > --- a/meta/recipes-core/glibc/glibc/0019-timezone-Make-shell-interprete=
-r-overridable-in-tzsel.patch
-> > +++ b/meta/recipes-core/glibc/glibc/0019-timezone-Make-shell-interprete=
-r-overridable-in-tzsel.patch
-> > @@ -1,4 +1,4 @@
-> > -From 1d518ac57b00a3335f80f10f899c1bc24a0ddbf5 Mon Sep 17 00:00:00 2001
-> > +From 6aa1b835d95482287851e02abd3a406cbd0ef8c7 Mon Sep 17 00:00:00 2001
-> >   From: Khem Raj <raj.khem@gmail.com>
-> >   Date: Thu, 9 Dec 2021 15:14:42 -0800
-> >   Subject: [PATCH] timezone: Make shell interpreter overridable in tzse=
-lect.ksh
-> > @@ -14,7 +14,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> >    2 files changed, 10 insertions(+)
-> >
-> >   diff --git a/Makeconfig b/Makeconfig
-> > -index 77d7fd14df..e253046861 100644
-> > +index 85e00cef94..643724108a 100644
-> >   --- a/Makeconfig
-> >   +++ b/Makeconfig
-> >   @@ -309,6 +309,15 @@ ifndef sysincludedir
-> > @@ -34,7 +34,7 @@ index 77d7fd14df..e253046861 100644
-> >    # Commands to install files.
-> >    ifndef INSTALL_DATA
-> >   diff --git a/timezone/Makefile b/timezone/Makefile
-> > -index 0306c0bca9..4dfdcebdb7 100644
-> > +index d7acb387ba..ec79326f66 100644
-> >   --- a/timezone/Makefile
-> >   +++ b/timezone/Makefile
-> >   @@ -136,6 +136,7 @@ $(objpfx)tzselect: tzselect.ksh $(common-objpfx)c=
-onfig.make
-> > diff --git a/meta/recipes-core/glibc/glibc/0020-tzselect.ksh-Use-bin-sh=
--default-shell-interpreter.patch b/meta/recipes-core/glibc/glibc/0020-tzsel=
-ect.ksh-Use-bin-sh-default-shell-interpreter.patch
-> > index 9a1bfdd6af3..08c60a271b4 100644
-> > --- a/meta/recipes-core/glibc/glibc/0020-tzselect.ksh-Use-bin-sh-defaul=
-t-shell-interpreter.patch
-> > +++ b/meta/recipes-core/glibc/glibc/0020-tzselect.ksh-Use-bin-sh-defaul=
-t-shell-interpreter.patch
-> > @@ -1,4 +1,4 @@
-> > -From 7274541782927394852712ba0c8dfd67bd9b8b5b Mon Sep 17 00:00:00 2001
-> > +From ef47e6199986c4951e681ed74f064042db1ae2e1 Mon Sep 17 00:00:00 2001
-> >   From: Khem Raj <raj.khem@gmail.com>
-> >   Date: Wed, 15 Dec 2021 21:47:53 -0800
-> >   Subject: [PATCH] tzselect.ksh: Use /bin/sh default shell interpreter
-> > diff --git a/meta/recipes-core/glibc/glibc/0021-fix-create-thread-faile=
-d-in-unprivileged-process-BZ-.patch b/meta/recipes-core/glibc/glibc/0021-fi=
-x-create-thread-failed-in-unprivileged-process-BZ-.patch
-> > index 3b567cc9ab1..d57dce125c7 100644
-> > --- a/meta/recipes-core/glibc/glibc/0021-fix-create-thread-failed-in-un=
-privileged-process-BZ-.patch
-> > +++ b/meta/recipes-core/glibc/glibc/0021-fix-create-thread-failed-in-un=
-privileged-process-BZ-.patch
-> > @@ -1,4 +1,4 @@
-> > -From 4a1bff4c1e34ad9b596a7ba44ab61f4c9d00097b Mon Sep 17 00:00:00 2001
-> > +From 7254706544be5100843fc0a332e836fccffc9ef1 Mon Sep 17 00:00:00 2001
-> >   From: Hongxu Jia <hongxu.jia@windriver.com>
-> >   Date: Sun, 29 Aug 2021 20:49:16 +0800
-> >   Subject: [PATCH] fix create thread failed in unprivileged process [BZ=
- #28287]
-> > @@ -72,10 +72,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> >    1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> >   diff --git a/sysdeps/unix/sysv/linux/clone-internal.c b/sysdeps/unix/=
-sysv/linux/clone-internal.c
-> > -index 790739cfce..8d24d04917 100644
-> > +index 40ef30303f..f97b1f6900 100644
-> >   --- a/sysdeps/unix/sysv/linux/clone-internal.c
-> >   +++ b/sysdeps/unix/sysv/linux/clone-internal.c
-> > -@@ -106,7 +106,7 @@ __clone_internal (struct clone_args *cl_args,
-> > +@@ -98,7 +98,7 @@ __clone_internal (struct clone_args *cl_args,
-> >    #ifdef HAVE_CLONE3_WRAPPER
-> >      int saved_errno =3D errno;
-> >      int ret =3D __clone3_internal (cl_args, func, arg);
-> > diff --git a/meta/recipes-core/glibc/glibc/0022-Avoid-hardcoded-build-t=
-ime-paths-in-the-output-binar.patch b/meta/recipes-core/glibc/glibc/0022-Av=
-oid-hardcoded-build-time-paths-in-the-output-binar.patch
-> > index 55c81f38aa3..b527ddffc83 100644
-> > --- a/meta/recipes-core/glibc/glibc/0022-Avoid-hardcoded-build-time-pat=
-hs-in-the-output-binar.patch
-> > +++ b/meta/recipes-core/glibc/glibc/0022-Avoid-hardcoded-build-time-pat=
-hs-in-the-output-binar.patch
-> > @@ -1,4 +1,4 @@
-> > -From e61792fc978f9b8a9c790be468fbf97828ac8ae9 Mon Sep 17 00:00:00 2001
-> > +From d39779afc72d34f87f052097592008cc38e20615 Mon Sep 17 00:00:00 2001
-> >   From: Richard Purdie <richard.purdie@linuxfoundation.org>
-> >   Date: Sun, 24 Jul 2022 07:07:29 -0700
-> >   Subject: [PATCH] Avoid hardcoded build time paths in the output binar=
-ies
-> > @@ -14,10 +14,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> >    1 file changed, 3 insertions(+), 3 deletions(-)
-> >
-> >   diff --git a/support/Makefile b/support/Makefile
-> > -index 917a858bd1..17a747c8c7 100644
-> > +index 362a51f882..56d2b37058 100644
-> >   --- a/support/Makefile
-> >   +++ b/support/Makefile
-> > -@@ -227,9 +227,9 @@ libsupport-inhibit-o +=3D .o
-> > +@@ -228,9 +228,9 @@ libsupport-inhibit-o +=3D .o
-> >    endif
-> >
-> >    CFLAGS-support_paths.c =3D \
-> > diff --git a/meta/recipes-core/glibc/glibc/0023-aarch64-configure-Pass-=
-mcpu-along-with-march-to-dete.patch b/meta/recipes-core/glibc/glibc/0023-aa=
-rch64-configure-Pass-mcpu-along-with-march-to-dete.patch
-> > index 7be9fc981d6..816471a8287 100644
-> > --- a/meta/recipes-core/glibc/glibc/0023-aarch64-configure-Pass-mcpu-al=
-ong-with-march-to-dete.patch
-> > +++ b/meta/recipes-core/glibc/glibc/0023-aarch64-configure-Pass-mcpu-al=
-ong-with-march-to-dete.patch
-> > @@ -1,4 +1,4 @@
-> > -From d836f008a96aa9b2e88c7b394bfc110542e57176 Mon Sep 17 00:00:00 2001
-> > +From f761f5ca2d453e11d34fc7d552dab4a0e189dae9 Mon Sep 17 00:00:00 2001
-> >   From: Khem Raj <raj.khem@gmail.com>
-> >   Date: Fri, 4 Aug 2023 09:34:50 -0700
-> >   Subject: [PATCH] aarch64/configure: Pass -mcpu along with -march to d=
-etect sve
-> > @@ -51,6 +51,3 @@ index 8a708f2ef4..b6a146d2be 100644
-> >      libc_cv_aarch64_sve_asm=3Dyes
-> >    else
-> >      libc_cv_aarch64_sve_asm=3Dno
-> > ---
-> > -2.41.0
-> > -
-> > diff --git a/meta/recipes-core/glibc/glibc/0024-features.h-Bump-__GLIBC=
-_MINOR__-to-39-on-master.patch b/meta/recipes-core/glibc/glibc/0024-feature=
-s.h-Bump-__GLIBC_MINOR__-to-39-on-master.patch
-> > new file mode 100644
-> > index 00000000000..0553d85963f
-> > --- /dev/null
-> > +++ b/meta/recipes-core/glibc/glibc/0024-features.h-Bump-__GLIBC_MINOR_=
-_-to-39-on-master.patch
-> > @@ -0,0 +1,25 @@
-> > +From 42f76558232659956aded7ae1c02f4be0a4d2f7f Mon Sep 17 00:00:00 2001
-> > +From: Khem Raj <raj.khem@gmail.com>
-> > +Date: Sun, 30 Jul 2023 13:27:11 -0700
-> > +Subject: [PATCH] features.h: Bump __GLIBC_MINOR__ to 39 on master
-> > +
-> > +Upstream-Status: Inappropriate [Development only]
-> > +
-> > +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > +---
-> > + include/features.h | 2 +-
-> > + 1 file changed, 1 insertion(+), 1 deletion(-)
-> > +
-> > +diff --git a/include/features.h b/include/features.h
-> > +index 1c38393fed..fc164d332a 100644
-> > +--- a/include/features.h
-> > ++++ b/include/features.h
-> > +@@ -492,7 +492,7 @@
-> > + /* Major and minor version number of the GNU C library package.  Use
-> > +    these macros to test for features in specific releases.  */
-> > + #define     __GLIBC__       2
-> > +-#define     __GLIBC_MINOR__ 38
-> > ++#define     __GLIBC_MINOR__ 39
-> > +
-> > + #define __GLIBC_PREREQ(maj, min) \
-> > +     ((__GLIBC__ << 16) + __GLIBC_MINOR__ >=3D ((maj) << 16) + (min))
-> > diff --git a/meta/recipes-core/glibc/glibc_2.38.bb b/meta/recipes-core/=
-glibc/glibc_2.39.bb
-> > similarity index 98%
-> > rename from meta/recipes-core/glibc/glibc_2.38.bb
-> > rename to meta/recipes-core/glibc/glibc_2.39.bb
-> > index 32ccb888f0f..3d783e4cee1 100644
-> > --- a/meta/recipes-core/glibc/glibc_2.38.bb
-> > +++ b/meta/recipes-core/glibc/glibc_2.39.bb
-> > @@ -51,6 +51,7 @@ SRC_URI =3D  "${GLIBC_GIT_URI};branch=3D${SRCBRANCH};=
-name=3Dglibc \
-> >              file://0021-fix-create-thread-failed-in-unprivileged-proce=
-ss-BZ-.patch \
-> >              file://0022-Avoid-hardcoded-build-time-paths-in-the-output=
--binar.patch \
-> >              file://0023-aarch64-configure-Pass-mcpu-along-with-march-t=
-o-dete.patch \
-> > +           file://0024-features.h-Bump-__GLIBC_MINOR__-to-39-on-master=
-.patch \
-> >   "
-> >   S =3D "${WORKDIR}/git"
-> >   B =3D "${WORKDIR}/build-${TARGET_SYS}"
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#193873): https://lists.openembedded.org/g/openembed=
-ded-core/message/193873
-> > Mute This Topic: https://lists.openembedded.org/mt/103770754/3619876
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-andrej.v@skyrain.eu]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
+> ++      ssh_dispatch_set(ssh, SSH2_MSG_EXT_INFO, kex_input_ext_info);
+> +       ssh_dispatch_set(ssh, SSH2_MSG_SERVICE_ACCEPT,
+> &input_userauth_service_accept);
+> +       ssh_dispatch_run_fatal(ssh, DISPATCH_BLOCK, &authctxt.success); /=
+*
+> loop until success */
+> +       pubkey_cleanup(ssh);
+> +@@ -530,12 +529,6 @@ input_userauth_service_accept(int type, u_int32_t
+> seq, struct ssh *ssh)
+> + }
+> +
+> + /* ARGSUSED */
+> +-static int
+> +-input_userauth_ext_info(int type, u_int32_t seqnr, struct ssh *ssh)
+> +-{
+> +-      return kex_input_ext_info(type, seqnr, ssh);
+> +-}
+> +-
+> + void
+> + userauth(struct ssh *ssh, char *authlist)
+> + {
+> +@@ -617,6 +610,7 @@ input_userauth_success(int type, u_int32_t seq,
+> struct ssh *ssh)
+> +       free(authctxt->methoddata);
+> +       authctxt->methoddata =3D NULL;
+> +       authctxt->success =3D 1;                  /* break out */
+> ++      ssh_dispatch_set(ssh, SSH2_MSG_EXT_INFO, dispatch_protocol_error)=
+;
+> +       return 0;
+> + }
+> +
+> +--
+> +2.40.0
+> diff --git a/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
+> b/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
+> index 3f3cd2a908..91f04bf08b 100644
+> --- a/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
+> +++ b/meta/recipes-connectivity/openssh/openssh_8.9p1.bb
+> @@ -33,6 +33,7 @@ SRC_URI =3D "
+> http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
+>             file://CVE-2023-38408-0002.patch \
+>             file://CVE-2023-38408-0003.patch \
+>             file://CVE-2023-38408-0004.patch \
+> +           file://CVE-2023-48795.patch \
+>             "
+>  SRC_URI[sha256sum] =3D
+> "fd497654b7ab1686dac672fb83dfb4ba4096e8b5ffcdaccd262380ae58bec5e7"
 >
+> --
+> 2.40.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#193892):
+> https://lists.openembedded.org/g/openembedded-core/message/193892
+> Mute This Topic: https://lists.openembedded.org/mt/103781431/7301997
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> vanusuri@mvista.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--000000000000cee9c5060f1facfa
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div><div><div>Hi Meenali Gupta,<br><br></div>Already CVE-=
+2023-48795 patch for openssh recipe has been merged to kirkstone branch.<br=
+><br></div>Please find the below links<br><br><a href=3D"https://git.openem=
+bedded.org/openembedded-core-contrib/commit/?h=3Dstable/kirkstone-nut&amp;i=
+d=3Ddf5dc8d67e67a2aebf1a552c3e22374e305270bf">https://git.openembedded.org/=
+openembedded-core-contrib/commit/?h=3Dstable/kirkstone-nut&amp;id=3Ddf5dc8d=
+67e67a2aebf1a552c3e22374e305270bf</a><br><br><a href=3D"https://lists.opene=
+mbedded.org/g/openembedded-core/message/192819">https://lists.openembedded.=
+org/g/openembedded-core/message/192819</a><br><br></div><div>Thanks &amp; R=
+egards,</div><div>Vijay<br></div></div><br><div class=3D"gmail_quote"><div =
+dir=3D"ltr" class=3D"gmail_attr">On Wed, Jan 17, 2024 at 12:38=E2=80=AFPM M=
+eenali Gupta via <a href=3D"http://lists.openembedded.org">lists.openembedd=
+ed.org</a> &lt;meenali.gupta=3D<a href=3D"mailto:windriver.com@lists.openem=
+bedded.org">windriver.com@lists.openembedded.org</a>&gt; wrote:<br></div><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex">From: Meenali Gupta &lt;<a =
+href=3D"mailto:meenali.gupta@windriver.com" target=3D"_blank">meenali.gupta=
+@windriver.com</a>&gt;<br>
+<br>
+A flaw was found in the SSH channel integrity.By manipulating sequence<br>
+numbers during the handshake,an attacker can remove the initial messages<br=
+>
+on the secure channel without causing a MAC failure. For example,an attacke=
+r<br>
+could disable the ping extension and thus disable the new countermeasure in=
+<br>
+OpenSSH 9.5 against keystroke timing attacks.<br>
+<br>
+This CVE fix included function kex_proposal_populate_entries in kex.c file =
+which<br>
+is not present in 8.9p, so ignored this change.<br>
+<br>
+Signed-off-by: Meenali Gupta &lt;<a href=3D"mailto:meenali.gupta@windriver.=
+com" target=3D"_blank">meenali.gupta@windriver.com</a>&gt;<br>
+---<br>
+=C2=A0.../openssh/openssh/CVE-2023-48795.patch=C2=A0 =C2=A0 =C2=A0 | 503 ++=
+++++++++++++++++<br>
+=C2=A0.../openssh/<a href=3D"http://openssh_8.9p1.bb" rel=3D"noreferrer" ta=
+rget=3D"_blank">openssh_8.9p1.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A01 +<br>
+=C2=A02 files changed, 504 insertions(+)<br>
+=C2=A0create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2023=
+-48795.patch<br>
+<br>
+diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2023-48795.patch=
+ b/meta/recipes-connectivity/openssh/openssh/CVE-2023-48795.patch<br>
+new file mode 100644<br>
+index 0000000000..b1b16d5641<br>
+--- /dev/null<br>
++++ b/meta/recipes-connectivity/openssh/openssh/CVE-2023-48795.patch<br>
+@@ -0,0 +1,503 @@<br>
++From 1edb00c58f8a6875fad6a497aa2bacf37f9e6cd5 Mon Sep 17 00:00:00 2001<br>
++From: &quot;<a href=3D"mailto:djm@openbsd.org" target=3D"_blank">djm@openb=
+sd.org</a>&quot; &lt;<a href=3D"mailto:djm@openbsd.org" target=3D"_blank">d=
+jm@openbsd.org</a>&gt;<br>
++Date: Mon, 18 Dec 2023 14:45:17 +0000<br>
++Subject: [PATCH] upstream: implement &quot;strict key exchange&quot; in ss=
+h and sshd<br>
++ This adds a protocol extension to improve the integrity of the SSH transp=
+ort<br>
++ protocol, particular in and around the initial key exchange (KEX) phase.<=
+br>
++<br>
++Full details of the extension are in the PROTOCOL file.<br>
++<br>
++with markus@<br>
++<br>
++OpenBSD-Commit-ID: 2a66ac962f0a630d7945fee54004ed9e9c439f14<br>
++<br>
++CVE: CVE-2023-48795<br>
++Upstream-Status: Backport [<a href=3D"https://github.com/openssh/openssh-p=
+ortable/commit/1edb00c58f8a6875fad6a497aa2bacf37f9e6cd5" rel=3D"noreferrer"=
+ target=3D"_blank">https://github.com/openssh/openssh-portable/commit/1edb0=
+0c58f8a6875fad6a497aa2bacf37f9e6cd5</a>]<br>
++<br>
++Signed-off-by: Meenali Gupta &lt;<a href=3D"mailto:meenali.gupta@windriver=
+.com" target=3D"_blank">meenali.gupta@windriver.com</a>&gt;<br>
++---<br>
++ PROTOCOL=C2=A0 =C2=A0 =C2=A0 |=C2=A0 28 +++++++++++++-<br>
++ kex.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 71 +++++++++++++++++++++--=
+-----------<br>
++ kex.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A03 +-<br>
++ packet.c=C2=A0 =C2=A0 =C2=A0 | 103 +++++++++++++++++++++++++++++---------=
+------------<br>
++ packet.h=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A03 +-<br>
++ sshconnect2.c |=C2=A0 12 ++----<br>
++ 6 files changed, 137 insertions(+), 83 deletions(-)<br>
++<br>
++diff --git a/PROTOCOL b/PROTOCOL<br>
++index e6a7d60..68912ce 100644<br>
++--- a/PROTOCOL<br>
+++++ b/PROTOCOL<br>
++@@ -102,6 +102,32 @@ OpenSSH supports the use of ECDH in Curve25519 for ke=
+y exchange as<br>
++ described at:<br>
++ <a href=3D"http://git.libssh.org/users/aris/libssh.git/plain/doc/curve255=
+19-sha256@libssh.org.txt?h=3Dcurve25519" rel=3D"noreferrer" target=3D"_blan=
+k">http://git.libssh.org/users/aris/libssh.git/plain/doc/curve25519-sha256@=
+libssh.org.txt?h=3Dcurve25519</a><br>
++<br>
+++1.9 transport: strict key exchange extension<br>
+++<br>
+++OpenSSH supports a number of transport-layer hardening measures under<br>
+++a &quot;strict KEX&quot; feature. This feature is signalled similarly to =
+the<br>
+++RFC8308 ext-info feature: by including a additional algorithm in the<br>
+++initiial SSH2_MSG_KEXINIT kex_algorithms field. The client may append<br>
+++&quot;<a href=3D"mailto:kex-strict-c-v00@openssh.com" target=3D"_blank">k=
+ex-strict-c-v00@openssh.com</a>&quot; to its kex_algorithms and the server<=
+br>
+++may append &quot;<a href=3D"mailto:kex-strict-s-v00@openssh.com" target=
+=3D"_blank">kex-strict-s-v00@openssh.com</a>&quot;. These pseudo-algorithms=
+<br>
+++are only valid in the initial SSH2_MSG_KEXINIT and MUST be ignored<br>
+++if they are present in subsequent SSH2_MSG_KEXINIT packets.<br>
+++<br>
+++When an endpoint that supports this extension observes this algorithm<br>
+++name in a peer&#39;s KEXINIT packet, it MUST make the following changes t=
+o<br>
+++the the protocol:<br>
+++<br>
+++a) During initial KEX, terminate the connection if any unexpected or<br>
+++=C2=A0 =C2=A0out-of-sequence packet is received. This includes terminatin=
+g the<br>
+++=C2=A0 =C2=A0connection if the first packet received is not SSH2_MSG_KEXI=
+NIT.<br>
+++=C2=A0 =C2=A0Unexpected packets for the purpose of strict KEX include mes=
+sages<br>
+++=C2=A0 =C2=A0that are otherwise valid at any time during the connection s=
+uch as<br>
+++=C2=A0 =C2=A0SSH2_MSG_DEBUG and SSH2_MSG_IGNORE.<br>
+++b) After sending or receiving a SSH2_MSG_NEWKEYS message, reset the<br>
+++=C2=A0 =C2=A0packet sequence number to zero. This behaviour persists for =
+the<br>
+++=C2=A0 =C2=A0duration of the connection (i.e. not just the first<br>
+++=C2=A0 =C2=A0SSH2_MSG_NEWKEYS).<br>
+++<br>
++ 2. Connection protocol changes<br>
++<br>
++ 2.1. connection: Channel write close extension &quot;<a href=3D"mailto:eo=
+w@openssh.com" target=3D"_blank">eow@openssh.com</a>&quot;<br>
++@@ -612,4 +638,4 @@ master instance and later clients.<br>
++ OpenSSH extends the usual agent protocol. These changes are documented<br=
+>
++ in the PROTOCOL.agent file.<br>
++<br>
++-$OpenBSD: PROTOCOL,v 1.43 2021/12/19 22:15:42 djm Exp $<br>
+++$OpenBSD: PROTOCOL,v 1.50 2023/12/18 14:45:17 djm Exp $<br>
++diff --git a/kex.c b/kex.c<br>
++index 0bcd27d..da16568 100644<br>
++--- a/kex.c<br>
+++++ b/kex.c<br>
++@@ -1,4 +1,4 @@<br>
++-/* $OpenBSD: kex.c,v 1.172 2022/02/01 23:32:51 djm Exp $ */<br>
+++/* $OpenBSD: kex.c,v 1.183 2023/12/18 14:45:17 djm Exp $ */<br>
++ /*<br>
++=C2=A0 * Copyright (c) 2000, 2001 Markus Friedl.=C2=A0 All rights reserved=
+.<br>
++=C2=A0 *<br>
++@@ -63,7 +63,7 @@<br>
++ #include &quot;digest.h&quot;<br>
++<br>
++ /* prototype */<br>
++-static int kex_choose_conf(struct ssh *);<br>
+++static int kex_choose_conf(struct ssh *, uint32_t seq);<br>
++ static int kex_input_newkeys(int, u_int32_t, struct ssh *);<br>
++<br>
++ static const char * const proposal_names[PROPOSAL_MAX] =3D {<br>
++@@ -175,6 +175,18 @@ kex_names_valid(const char *names)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0return 1;<br>
++ }<br>
++<br>
+++/* returns non-zero if proposal contains any algorithm from algs */<br>
+++static int<br>
+++has_any_alg(const char *proposal, const char *algs)<br>
+++{<br>
+++=C2=A0 =C2=A0 =C2=A0 char *cp;<br>
+++<br>
+++=C2=A0 =C2=A0 =C2=A0 if ((cp =3D match_list(proposal, algs, NULL)) =3D=3D=
+ NULL)<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return 0;<br>
+++=C2=A0 =C2=A0 =C2=A0 free(cp);<br>
+++=C2=A0 =C2=A0 =C2=A0 return 1;<br>
+++}<br>
+++<br>
++ /*<br>
++=C2=A0 * Concatenate algorithm names, avoiding duplicates in the process.<=
+br>
++=C2=A0 * Caller must free returned string.<br>
++@@ -182,7 +194,7 @@ kex_names_valid(const char *names)<br>
++ char *<br>
++ kex_names_cat(const char *a, const char *b)<br>
++ {<br>
++-=C2=A0 =C2=A0 =C2=A0 char *ret =3D NULL, *tmp =3D NULL, *cp, *p, *m;<br>
+++=C2=A0 =C2=A0 =C2=A0 char *ret =3D NULL, *tmp =3D NULL, *cp, *p;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0size_t len;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (a =3D=3D NULL || *a =3D=3D &#39;\0&#39;)<br=
+>
++@@ -199,10 +211,8 @@ kex_names_cat(const char *a, const char *b)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0strlcpy(ret, a, len);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0for ((p =3D strsep(&amp;cp, &quot;,&quot;)); p =
+&amp;&amp; *p !=3D &#39;\0&#39;; (p =3D strsep(&amp;cp, &quot;,&quot;))) {<=
+br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if ((m =3D match_list(re=
+t, p, NULL)) !=3D NULL) {<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 free(m);<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (has_any_alg(ret, p))=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0continue; /* Algorithm already present */<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (strlcat(ret, &q=
+uot;,&quot;, len) &gt;=3D len ||<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0strlc=
+at(ret, p, len) &gt;=3D len) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0free(tmp);<br>
++@@ -410,7 +420,12 @@ kex_protocol_error(int type, u_int32_t seq, struct ss=
+h *ssh)<br>
++ {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0int r;<br>
++<br>
++-=C2=A0 =C2=A0 =C2=A0 error(&quot;kex protocol error: type %d seq %u&quot;=
+, type, seq);<br>
+++=C2=A0 =C2=A0 =C2=A0 /* If in strict mode, any unexpected message is an e=
+rror */<br>
+++=C2=A0 =C2=A0 =C2=A0 if ((ssh-&gt;kex-&gt;flags &amp; KEX_INITIAL) &amp;&=
+amp; ssh-&gt;kex-&gt;kex_strict) {<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ssh_packet_disconnect(ss=
+h, &quot;strict KEX violation: &quot;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;unex=
+pected packet type %u (seqnr %u)&quot;, type, seq);<br>
+++=C2=A0 =C2=A0 =C2=A0 }<br>
+++=C2=A0 =C2=A0 =C2=A0 error_f(&quot;type %u seq %u&quot;, type, seq);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if ((r =3D sshpkt_start(ssh, SSH2_MSG_UNIMPLEME=
+NTED)) !=3D 0 ||<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(r =3D sshpkt_put_u32(ssh, seq)) =
+!=3D 0 ||<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(r =3D sshpkt_send(ssh)) !=3D 0)<=
+br>
++@@ -496,7 +511,7 @@ kex_input_ext_info(int type, u_int32_t seq, struct ssh=
+ *ssh)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0/* Ensure no \0 lurking in value */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0if (memchr(val, &#39;\0&#39;, vlen) !=3D NULL) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0error_f(&quot;nul byte in %s&quot;, n=
+ame);<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return SSH_ERR_INVALID_FORMAT;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return dispatch_protocol_error(type, seq, s=
+sh);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0debug_f(&quot;%s=3D&lt;%s&gt;&quot;, name, val);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0kex-&gt;server_sig_algs =3D val;<br>
++@@ -600,7 +615,7 @@ kex_input_kexinit(int type, u_int32_t seq, struct ssh =
+*ssh)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0error_f(&quot;no ke=
+x&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return SSH_ERR_INTE=
+RNAL_ERROR;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++-=C2=A0 =C2=A0 =C2=A0 ssh_dispatch_set(ssh, SSH2_MSG_KEXINIT, NULL);<br>
+++=C2=A0 =C2=A0 =C2=A0 ssh_dispatch_set(ssh, SSH2_MSG_KEXINIT, &amp;kex_pro=
+tocol_error);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ptr =3D sshpkt_ptr(ssh, &amp;dlen);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if ((r =3D sshbuf_put(kex-&gt;peer, ptr, dlen))=
+ !=3D 0)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return r;<br>
++@@ -636,7 +651,7 @@ kex_input_kexinit(int type, u_int32_t seq, struct ssh =
+*ssh)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!(kex-&gt;flags &amp; KEX_INIT_SENT))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if ((r =3D kex_send=
+_kexinit(ssh)) !=3D 0)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0return r;<br>
++-=C2=A0 =C2=A0 =C2=A0 if ((r =3D kex_choose_conf(ssh)) !=3D 0)<br>
+++=C2=A0 =C2=A0 =C2=A0 if ((r =3D kex_choose_conf(ssh, seq)) !=3D 0)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return r;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (kex-&gt;kex_type &lt; KEX_MAX &amp;&amp; ke=
+x-&gt;kex[kex-&gt;kex_type] !=3D NULL)<br>
++@@ -900,20 +915,14 @@ proposals_match(char *my[PROPOSAL_MAX], char *peer[P=
+ROPOSAL_MAX])<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0return (1);<br>
++ }<br>
++<br>
++-/* returns non-zero if proposal contains any algorithm from algs */<br>
++ static int<br>
++-has_any_alg(const char *proposal, const char *algs)<br>
+++kexalgs_contains(char **peer, const char *ext)<br>
++ {<br>
++-=C2=A0 =C2=A0 =C2=A0 char *cp;<br>
++-<br>
++-=C2=A0 =C2=A0 =C2=A0 if ((cp =3D match_list(proposal, algs, NULL)) =3D=3D=
+ NULL)<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return 0;<br>
++-=C2=A0 =C2=A0 =C2=A0 free(cp);<br>
++-=C2=A0 =C2=A0 =C2=A0 return 1;<br>
+++=C2=A0 =C2=A0 =C2=A0 return has_any_alg(peer[PROPOSAL_KEX_ALGS], ext);<br=
+>
++ }<br>
++<br>
++ static int<br>
++-kex_choose_conf(struct ssh *ssh)<br>
+++kex_choose_conf(struct ssh *ssh, uint32_t seq)<br>
++ {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct kex *kex =3D ssh-&gt;kex;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct newkeys *newkeys;<br>
++@@ -938,13 +947,23 @@ kex_choose_conf(struct ssh *ssh)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sprop=3Dpeer;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++<br>
++-=C2=A0 =C2=A0 =C2=A0 /* Check whether client supports ext_info_c */<br>
++-=C2=A0 =C2=A0 =C2=A0 if (kex-&gt;server &amp;&amp; (kex-&gt;flags &amp; K=
+EX_INITIAL)) {<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 char *ext;<br>
++-<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ext =3D match_list(&quot=
+;ext-info-c&quot;, peer[PROPOSAL_KEX_ALGS], NULL);<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 kex-&gt;ext_info_c =3D (=
+ext !=3D NULL);<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 free(ext);<br>
+++=C2=A0 =C2=A0 =C2=A0 /* Check whether peer supports ext_info/kex_strict *=
+/<br>
+++=C2=A0 =C2=A0 =C2=A0 if ((kex-&gt;flags &amp; KEX_INITIAL) !=3D 0) {<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (kex-&gt;server) {<br=
+>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 kex-&gt;ext_info_c =3D kexalgs_contains(peer, &quot;ext-info-c&quot;);<=
+br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 kex-&gt;kex_strict =3D kexalgs_contains(peer,<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 &quot;<a href=3D"mailto:kex-strict-c-v00@openssh.com" tar=
+get=3D"_blank">kex-strict-c-v00@openssh.com</a>&quot;);<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 kex-&gt;kex_strict =3D kexalgs_contains(peer,<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 &quot;<a href=3D"mailto:kex-strict-s-v00@openssh.com" tar=
+get=3D"_blank">kex-strict-s-v00@openssh.com</a>&quot;);<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (kex-&gt;kex_strict) =
+{<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 debug3_f(&quot;will use strict KEX ordering&quot;);<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 if (seq !=3D 0)<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ssh_packet_disconnect(ssh,<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;strict KEX violation: &=
+quot;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;KEXINIT was not the fir=
+st packet&quot;);<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0/* Check whether client supports rsa-sha2 algor=
+ithms */<br>
++diff --git a/kex.h b/kex.h<br>
++index c353295..c27f9d8 100644<br>
++--- a/kex.h<br>
+++++ b/kex.h<br>
++@@ -1,4 +1,4 @@<br>
++-/* $OpenBSD: kex.h,v 1.117 2022/01/06 21:55:23 djm Exp $ */<br>
+++/* $OpenBSD: kex.h,v 1.120 2023/12/18 14:45:17 djm Exp $ */<br>
++<br>
++ /*<br>
++=C2=A0 * Copyright (c) 2000, 2001 Markus Friedl.=C2=A0 All rights reserved=
+.<br>
++@@ -148,6 +148,7 @@ struct kex {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0u_int=C2=A0 =C2=A0kex_type;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0char=C2=A0 =C2=A0 *server_sig_algs;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0int=C2=A0 =C2=A0 =C2=A0ext_info_c;<br>
+++=C2=A0 =C2=A0 =C2=A0 int=C2=A0 =C2=A0 =C2=A0kex_strict;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct sshbuf *my;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct sshbuf *peer;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct sshbuf *client_version;<br>
++diff --git a/packet.c b/packet.c<br>
++index bde6c10..322a8c2 100644<br>
++--- a/packet.c<br>
+++++ b/packet.c<br>
++@@ -1,4 +1,4 @@<br>
++-/* $OpenBSD: packet.c,v 1.307 2022/01/22 00:49:34 djm Exp $ */<br>
+++/* $OpenBSD: packet.c,v 1.313 2023/12/18 14:45:17 djm Exp $ */<br>
++ /*<br>
++=C2=A0 * Author: Tatu Ylonen &lt;<a href=3D"mailto:ylo@cs.hut.fi" target=
+=3D"_blank">ylo@cs.hut.fi</a>&gt;<br>
++=C2=A0 * Copyright (c) 1995 Tatu Ylonen &lt;<a href=3D"mailto:ylo@cs.hut.f=
+i" target=3D"_blank">ylo@cs.hut.fi</a>&gt;, Espoo, Finland<br>
++@@ -1205,8 +1205,13 @@ ssh_packet_send2_wrapped(struct ssh *ssh)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0sshbuf_dump(state-&gt;output, stderr);<br>
++ #endif<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0/* increment sequence number for outgoing packe=
+ts */<br>
++-=C2=A0 =C2=A0 =C2=A0 if (++state-&gt;p_send.seqnr =3D=3D 0)<br>
+++=C2=A0 =C2=A0 =C2=A0 if (++state-&gt;p_send.seqnr =3D=3D 0) {<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if ((ssh-&gt;kex-&gt;fla=
+gs &amp; KEX_INITIAL) !=3D 0) {<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 ssh_packet_disconnect(ssh, &quot;outgoing sequence number &quot;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 &quot;wrapped during initial key exchange&quot;);<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0logit(&quot;outgoin=
+g seqnr wraps around&quot;);<br>
+++=C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (++state-&gt;p_send.packets =3D=3D 0)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!(ssh-&gt;compa=
+t &amp; SSH_BUG_NOREKEY))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0return SSH_ERR_NEED_REKEY;<br>
++@@ -1214,6 +1219,11 @@ ssh_packet_send2_wrapped(struct ssh *ssh)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0state-&gt;p_send.bytes +=3D len;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0sshbuf_reset(state-&gt;outgoing_packet);<br>
++<br>
+++=C2=A0 =C2=A0 =C2=A0 if (type =3D=3D SSH2_MSG_NEWKEYS &amp;&amp; ssh-&gt;=
+kex-&gt;kex_strict) {<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 debug_f(&quot;resetting =
+send seqnr %u&quot;, state-&gt;p_send.seqnr);<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 state-&gt;p_send.seqnr =
+=3D 0;<br>
+++=C2=A0 =C2=A0 =C2=A0 }<br>
+++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (type =3D=3D SSH2_MSG_NEWKEYS)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0r =3D ssh_set_newke=
+ys(ssh, MODE_OUT);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0else if (type =3D=3D SSH2_MSG_USERAUTH_SUCCESS =
+&amp;&amp; state-&gt;server_side)<br>
++@@ -1342,8 +1352,7 @@ ssh_packet_read_seqnr(struct ssh *ssh, u_char *typep=
+, u_int32_t *seqnr_p)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0/* Stay in the loop until we have received a co=
+mplete packet. */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0for (;;) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Try to read a pa=
+cket from the buffer. */<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 r =3D ssh_packet_read_po=
+ll_seqnr(ssh, typep, seqnr_p);<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (r !=3D 0)<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if ((r =3D ssh_packet_re=
+ad_poll_seqnr(ssh, typep, seqnr_p)) !=3D 0)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0break;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* If we got a pack=
+et, return it. */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (*typep !=3D SSH=
+_MSG_NONE)<br>
++@@ -1414,29 +1423,6 @@ ssh_packet_read(struct ssh *ssh)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0return type;<br>
++ }<br>
++<br>
++-/*<br>
++- * Waits until a packet has been received, verifies that its type matches=
+<br>
++- * that given, and gives a fatal error and exits if there is a mismatch.<=
+br>
++- */<br>
++-<br>
++-int<br>
++-ssh_packet_read_expect(struct ssh *ssh, u_int expected_type)<br>
++-{<br>
++-=C2=A0 =C2=A0 =C2=A0 int r;<br>
++-=C2=A0 =C2=A0 =C2=A0 u_char type;<br>
++-<br>
++-=C2=A0 =C2=A0 =C2=A0 if ((r =3D ssh_packet_read_seqnr(ssh, &amp;type, NUL=
+L)) !=3D 0)<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return r;<br>
++-=C2=A0 =C2=A0 =C2=A0 if (type !=3D expected_type) {<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if ((r =3D sshpkt_discon=
+nect(ssh,<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;Prot=
+ocol error: expected packet type %d, got %d&quot;,<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 expected_t=
+ype, type)) !=3D 0)<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 return r;<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return SSH_ERR_PROTOCOL_=
+ERROR;<br>
++-=C2=A0 =C2=A0 =C2=A0 }<br>
++-=C2=A0 =C2=A0 =C2=A0 return 0;<br>
++-}<br>
++-<br>
++ static int<br>
++ ssh_packet_read_poll2_mux(struct ssh *ssh, u_char *typep, u_int32_t *seqn=
+r_p)<br>
++ {<br>
++@@ -1627,10 +1613,16 @@ ssh_packet_read_poll2(struct ssh *ssh, u_char *typ=
+ep, u_int32_t *seqnr_p)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if ((r =3D sshbuf_c=
+onsume(state-&gt;input, mac-&gt;mac_len)) !=3D 0)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0goto out;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (seqnr_p !=3D NULL)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*seqnr_p =3D state-=
+&gt;p_read.seqnr;<br>
++-=C2=A0 =C2=A0 =C2=A0 if (++state-&gt;p_read.seqnr =3D=3D 0)<br>
+++=C2=A0 =C2=A0 =C2=A0 if (++state-&gt;p_read.seqnr =3D=3D 0) {<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if ((ssh-&gt;kex-&gt;fla=
+gs &amp; KEX_INITIAL) !=3D 0) {<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 ssh_packet_disconnect(ssh, &quot;incoming sequence number &quot;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 &quot;wrapped during initial key exchange&quot;);<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0logit(&quot;incomin=
+g seqnr wraps around&quot;);<br>
+++=C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (++state-&gt;p_read.packets =3D=3D 0)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!(ssh-&gt;compa=
+t &amp; SSH_BUG_NOREKEY))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0return SSH_ERR_NEED_REKEY;<br>
++@@ -1696,6 +1688,10 @@ ssh_packet_read_poll2(struct ssh *ssh, u_char *type=
+p, u_int32_t *seqnr_p)<br>
++ #endif<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0/* reset for next packet */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0state-&gt;packlen =3D 0;<br>
+++=C2=A0 =C2=A0 =C2=A0 if (*typep =3D=3D SSH2_MSG_NEWKEYS &amp;&amp; ssh-&g=
+t;kex-&gt;kex_strict) {<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 debug_f(&quot;resetting =
+read seqnr %u&quot;, state-&gt;p_read.seqnr);<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 state-&gt;p_read.seqnr =
+=3D 0;<br>
+++=C2=A0 =C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if ((r =3D ssh_packet_check_rekey(ssh)) !=3D 0)=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return r;<br>
++@@ -1716,10 +1712,39 @@ ssh_packet_read_poll_seqnr(struct ssh *ssh, u_char=
+ *typep, u_int32_t *seqnr_p)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0r =3D ssh_packet_re=
+ad_poll2(ssh, typep, seqnr_p);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (r !=3D 0)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0return r;<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (*typep) {<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 state-&gt;keep_alive_timeouts =3D 0;<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 DBG(debug(&quot;received packet type %d&quot;, *typep));<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (*typep =3D=3D 0) {<b=
+r>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 /* no message ready */<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 return 0;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 state-&gt;keep_alive_tim=
+eouts =3D 0;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 DBG(debug(&quot;received=
+ packet type %d&quot;, *typep));<br>
+++<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Always process discon=
+nect messages */<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (*typep =3D=3D SSH2_M=
+SG_DISCONNECT) {<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 if ((r =3D sshpkt_get_u32(ssh, &amp;reason)) !=3D 0 ||<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 (r =3D sshpkt_get_string(ssh, &amp;msg, NULL)) !=3D 0)<br=
+>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return r;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 /* Ignore normal client exit notifications */<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 do_log2(ssh-&gt;state-&gt;server_side &amp;&amp;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 reason =3D=3D SSH2_DISCONNECT_BY_APPLICATION ?<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 SYSLOG_LEVEL_INFO : SYSLOG_LEVEL_ERROR,<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 &quot;Received disconnect from %s port %d:&quot;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 &quot;%u: %.400s&quot;, ssh_remote_ipaddr(ssh),<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 ssh_remote_port(ssh), reason, msg);<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 free(msg);<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 return SSH_ERR_DISCONNECTED;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+++<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* Do not implicitl=
+y handle any messages here during initial<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* KEX when in stri=
+ct mode. They will be need to be allowed<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* explicitly by th=
+e KEX dispatch table or they will generate<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* protocol errors.=
+<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ssh-&gt;kex !=3D NUL=
+L &amp;&amp;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (ssh-&gt;k=
+ex-&gt;flags &amp; KEX_INITIAL) &amp;&amp; ssh-&gt;kex-&gt;kex_strict)<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 return 0;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Implicitly handle tra=
+nsport-level messages */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0switch (*typep) {<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0case SSH2_MSG_IGNOR=
+E:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0debug3(&quot;Received SSH2_MSG_IGNORE&quot;);<br>
++@@ -1734,19 +1759,6 @@ ssh_packet_read_poll_seqnr(struct ssh *ssh, u_char =
+*typep, u_int32_t *seqnr_p)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0debug(&quot;Remote: %.900s&quot;, msg);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0free(msg);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0break;<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case SSH2_MSG_DISCONNECT=
+:<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 if ((r =3D sshpkt_get_u32(ssh, &amp;reason)) !=3D 0 ||<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 (r =3D sshpkt_get_string(ssh, &amp;msg, NULL)) !=3D 0)<br=
+>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return r;<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 /* Ignore normal client exit notifications */<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 do_log2(ssh-&gt;state-&gt;server_side &amp;&amp;<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 reason =3D=3D SSH2_DISCONNECT_BY_APPLICATION ?<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 SYSLOG_LEVEL_INFO : SYSLOG_LEVEL_ERROR,<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 &quot;Received disconnect from %s port %d:&quot;<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 &quot;%u: %.400s&quot;, ssh_remote_ipaddr(ssh),<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 ssh_remote_port(ssh), reason, msg);<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 free(msg);<br>
++-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 return SSH_ERR_DISCONNECTED;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0case SSH2_MSG_UNIMP=
+LEMENTED:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0if ((r =3D sshpkt_get_u32(ssh, &amp;seqnr)) !=3D 0)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return r;<br>
++@@ -2211,6 +2223,7 @@ kex_to_blob(struct sshbuf *m, struct kex *kex)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(r =3D sshbuf_put_u32(m, kex-&gt;=
+hostkey_type)) !=3D 0 ||<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(r =3D sshbuf_put_u32(m, kex-&gt;=
+hostkey_nid)) !=3D 0 ||<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(r =3D sshbuf_put_u32(m, kex-&gt;=
+kex_type)) !=3D 0 ||<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (r =3D sshbuf_put_u32(m, kex-&gt;kex_s=
+trict)) !=3D 0 ||<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(r =3D sshbuf_put_stringb(m, kex-=
+&gt;my)) !=3D 0 ||<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(r =3D sshbuf_put_stringb(m, kex-=
+&gt;peer)) !=3D 0 ||<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(r =3D sshbuf_put_stringb(m, kex-=
+&gt;client_version)) !=3D 0 ||<br>
++@@ -2373,6 +2386,7 @@ kex_from_blob(struct sshbuf *m, struct kex **kexp)<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(r =3D sshbuf_get_u32(m, (u_int *=
+)&amp;kex-&gt;hostkey_type)) !=3D 0 ||<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(r =3D sshbuf_get_u32(m, (u_int *=
+)&amp;kex-&gt;hostkey_nid)) !=3D 0 ||<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(r =3D sshbuf_get_u32(m, &amp;kex=
+-&gt;kex_type)) !=3D 0 ||<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (r =3D sshbuf_get_u32(m, &amp;kex-&gt;=
+kex_strict)) !=3D 0 ||<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(r =3D sshbuf_get_stringb(m, kex-=
+&gt;my)) !=3D 0 ||<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(r =3D sshbuf_get_stringb(m, kex-=
+&gt;peer)) !=3D 0 ||<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(r =3D sshbuf_get_stringb(m, kex-=
+&gt;client_version)) !=3D 0 ||<br>
++@@ -2701,6 +2715,7 @@ sshpkt_disconnect(struct ssh *ssh, const char *fmt,.=
+..)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0vsnprintf(buf, sizeof(buf), fmt, args);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0va_end(args);<br>
++<br>
+++=C2=A0 =C2=A0 =C2=A0 debug2_f(&quot;sending SSH2_MSG_DISCONNECT: %s&quot;=
+, buf);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if ((r =3D sshpkt_start(ssh, SSH2_MSG_DISCONNEC=
+T)) !=3D 0 ||<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(r =3D sshpkt_put_u32(ssh, SSH2_D=
+ISCONNECT_PROTOCOL_ERROR)) !=3D 0 ||<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(r =3D sshpkt_put_cstring(ssh, bu=
+f)) !=3D 0 ||<br>
++diff --git a/packet.h b/packet.h<br>
++index 176488b..3e03f53 100644<br>
++--- a/packet.h<br>
+++++ b/packet.h<br>
++@@ -1,4 +1,4 @@<br>
++-/* $OpenBSD: packet.h,v 1.94 2022/01/22 00:49:34 djm Exp $ */<br>
+++/* $OpenBSD: packet.h,v 1.96 2023/12/18 14:45:17 djm Exp $ */<br>
++<br>
++ /*<br>
++=C2=A0 * Author: Tatu Ylonen &lt;<a href=3D"mailto:ylo@cs.hut.fi" target=
+=3D"_blank">ylo@cs.hut.fi</a>&gt;<br>
++@@ -124,7 +124,6 @@ int=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ssh_packet_send2_=
+wrapped(struct ssh *);<br>
++ int=C2=A0 =C2=A0 ssh_packet_send2(struct ssh *);<br>
++<br>
++ int=C2=A0 =C2=A0 =C2=A0 ssh_packet_read(struct ssh *);<br>
++-int=C2=A0 =C2=A0 ssh_packet_read_expect(struct ssh *, u_int type);<br>
++ int=C2=A0 =C2=A0 =C2=A0 ssh_packet_read_poll(struct ssh *);<br>
++ int ssh_packet_read_poll2(struct ssh *, u_char *, u_int32_t *seqnr_p);<br=
+>
++ int=C2=A0 =C2=A0 ssh_packet_process_incoming(struct ssh *, const char *bu=
+f, u_int len);<br>
++diff --git a/sshconnect2.c b/sshconnect2.c<br>
++index b25225e..1deaa5e 100644<br>
++--- a/sshconnect2.c<br>
+++++ b/sshconnect2.c<br>
++@@ -1,4 +1,4 @@<br>
++-/* $OpenBSD: sshconnect2.c,v 1.356 2022/02/01 23:32:51 djm Exp $ */<br>
+++/* $OpenBSD: sshconnect2.c,v 1.370 2023/12/18 14:45:17 djm Exp $ */<br>
++ /*<br>
++=C2=A0 * Copyright (c) 2000 Markus Friedl.=C2=A0 All rights reserved.<br>
++=C2=A0 * Copyright (c) 2008 Damien Miller.=C2=A0 All rights reserved.<br>
++@@ -363,7 +363,6 @@ struct cauthmethod {<br>
++ };<br>
++<br>
++ static int input_userauth_service_accept(int, u_int32_t, struct ssh *);<b=
+r>
++-static int input_userauth_ext_info(int, u_int32_t, struct ssh *);<br>
++ static int input_userauth_success(int, u_int32_t, struct ssh *);<br>
++ static int input_userauth_failure(int, u_int32_t, struct ssh *);<br>
++ static int input_userauth_banner(int, u_int32_t, struct ssh *);<br>
++@@ -477,7 +476,7 @@ ssh_userauth2(struct ssh *ssh, const char *local_user,=
+<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ssh-&gt;authctxt =3D &amp;authctxt;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ssh_dispatch_init(ssh, &amp;input_userauth_erro=
+r);<br>
++-=C2=A0 =C2=A0 =C2=A0 ssh_dispatch_set(ssh, SSH2_MSG_EXT_INFO, &amp;input_=
+userauth_ext_info);<br>
+++=C2=A0 =C2=A0 =C2=A0 ssh_dispatch_set(ssh, SSH2_MSG_EXT_INFO, kex_input_e=
+xt_info);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ssh_dispatch_set(ssh, SSH2_MSG_SERVICE_ACCEPT, =
+&amp;input_userauth_service_accept);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ssh_dispatch_run_fatal(ssh, DISPATCH_BLOCK, &am=
+p;authctxt.success); /* loop until success */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0pubkey_cleanup(ssh);<br>
++@@ -530,12 +529,6 @@ input_userauth_service_accept(int type, u_int32_t seq=
+, struct ssh *ssh)<br>
++ }<br>
++<br>
++ /* ARGSUSED */<br>
++-static int<br>
++-input_userauth_ext_info(int type, u_int32_t seqnr, struct ssh *ssh)<br>
++-{<br>
++-=C2=A0 =C2=A0 =C2=A0 return kex_input_ext_info(type, seqnr, ssh);<br>
++-}<br>
++-<br>
++ void<br>
++ userauth(struct ssh *ssh, char *authlist)<br>
++ {<br>
++@@ -617,6 +610,7 @@ input_userauth_success(int type, u_int32_t seq, struct=
+ ssh *ssh)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0free(authctxt-&gt;methoddata);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0authctxt-&gt;methoddata =3D NULL;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0authctxt-&gt;success =3D 1;=C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* break out */<br>
+++=C2=A0 =C2=A0 =C2=A0 ssh_dispatch_set(ssh, SSH2_MSG_EXT_INFO, dispatch_pr=
+otocol_error);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
++ }<br>
++<br>
++--<br>
++2.40.0<br>
+diff --git a/meta/recipes-connectivity/openssh/<a href=3D"http://openssh_8.=
+9p1.bb" rel=3D"noreferrer" target=3D"_blank">openssh_8.9p1.bb</a> b/meta/re=
+cipes-connectivity/openssh/<a href=3D"http://openssh_8.9p1.bb" rel=3D"noref=
+errer" target=3D"_blank">openssh_8.9p1.bb</a><br>
+index 3f3cd2a908..91f04bf08b 100644<br>
+--- a/meta/recipes-connectivity/openssh/<a href=3D"http://openssh_8.9p1.bb"=
+ rel=3D"noreferrer" target=3D"_blank">openssh_8.9p1.bb</a><br>
++++ b/meta/recipes-connectivity/openssh/<a href=3D"http://openssh_8.9p1.bb"=
+ rel=3D"noreferrer" target=3D"_blank">openssh_8.9p1.bb</a><br>
+@@ -33,6 +33,7 @@ SRC_URI =3D &quot;<a href=3D"http://ftp.openbsd.org/pub/O=
+penBSD/OpenSSH/portable/openssh-$%7BPV%7D.tar" rel=3D"noreferrer" target=3D=
+"_blank">http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.=
+tar</a><br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://CVE-2023-38408-0002.patch =
+\<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://CVE-2023-38408-0003.patch =
+\<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://CVE-2023-38408-0004.patch =
+\<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2023-48795.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+=C2=A0SRC_URI[sha256sum] =3D &quot;fd497654b7ab1686dac672fb83dfb4ba4096e8b5=
+ffcdaccd262380ae58bec5e7&quot;<br>
+<br>
+-- <br>
+2.40.0<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#193892): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/193892" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/193892</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/103781431/730=
+1997" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/103781431/7301997</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:vanusuri@mvista.com" targe=
+t=3D"_blank">vanusuri@mvista.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
+
+--000000000000cee9c5060f1facfa--
 
