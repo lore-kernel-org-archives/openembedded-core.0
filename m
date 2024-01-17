@@ -1,108 +1,127 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <joe.slater@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50B6CC47258
-	for <webhook@archiver.kernel.org>; Wed, 17 Jan 2024 17:51:31 +0000 (UTC)
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
- by mx.groups.io with SMTP id smtpd.web10.10033.1705513887664002762
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8569EC47258
+	for <webhook@archiver.kernel.org>; Wed, 17 Jan 2024 18:34:31 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.11626.1705516470514732827
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Jan 2024 09:51:27 -0800
+ Wed, 17 Jan 2024 10:34:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hlCRhm+L;
- spf=pass (domain: gmail.com, ip: 209.85.210.43, mailfrom: raj.khem@gmail.com)
-Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-6ddeb015ec6so6121444a34.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 Jan 2024 09:51:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705513887; x=1706118687; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ftRCmF5rWkaCtFjYuUMpJW9EgB1fSLfU9hV8jP9ISUs=;
-        b=hlCRhm+LW0gX/rxa1Xfsb1Bb4rXlsRvb6DmabcYkKMlQNWizb1GVXBt9Jk+eTx7M1U
-         w974dvh2hZFjYbt6UhIaZwIhavsxwYjlve9rD9bwT9aZ0bVxt1OBQGlcZPoF5v9CqvnB
-         j44AmTpCuC1Q9IXMIEK1k0+AEiWwv7yUGE8Ehx2CINIi28OMeochnG575NB9pW570+Wj
-         oFfwCM6OkdAh5MJjGvM/ToGds/9LkLjwhDLcSjRKEPH2X7Bfn/ekyeM+aQozWDXgITyr
-         H1PbxxvZNrc+Oeyj03X9osT1gqL6nGihlIQ1pEqoqE+c1NpIADiWdB2W216wUQ6kNi0f
-         f/+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705513887; x=1706118687;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ftRCmF5rWkaCtFjYuUMpJW9EgB1fSLfU9hV8jP9ISUs=;
-        b=VWVBDqr8gazopv1cN1P6/XMkJObSyHXqovNqaKbTTPeDLtaQijD59lX8Dx336XE9Kz
-         upoHC+E+h61Ai8Y9ZCik4rO4EgJmudqPJxy7Mxmk++A7TIlSUEc1y3BCk93//Mb8c9iW
-         TpZDD07gegOpcD/wf279JnPzikdLjAteH/mAq4KBINHCbZBjaYXnk7gEXACAz5NW0rVd
-         H07mZ/h/q4GOEswL7hOTOmKJ8ZFqfowhZoHp/TCrTwQSmZY5r9x8K2ApsiCuWCC1KdsS
-         Vv1HXtZktgWzRAYtCmE9ocsOdGCOaL7d9fYUXuT3GORC8LnMuEDEpRLIJtJzzGpq7HOD
-         ZD/g==
-X-Gm-Message-State: AOJu0Yz3ZzYoJ3FczeOLZMtA3jIuQOqm2H8iyg+yunjdKXMjLqkbSzVF
-	IBLw/1daBsiSw5FtJK6LQZQ01Mh1VX5YiynG3Tw=
-X-Google-Smtp-Source: AGHT+IGTSygIeawxr2eNXPnml/fWrio/2qEMXStQgI+smwdBi31SBPasC73WY6b8eknNkbKwgupoLp3KdWuClZRTF7Y=
-X-Received: by 2002:a05:6870:d393:b0:210:95d2:3e1d with SMTP id
- k19-20020a056870d39300b0021095d23e1dmr1973093oag.40.1705513886793; Wed, 17
- Jan 2024 09:51:26 -0800 (PST)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=P/dySXat;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1746b549e3=joe.slater@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40HCKx7h020644
+	for <openembedded-core@lists.openembedded.org>; Wed, 17 Jan 2024 18:34:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=wydcH
+	gyNiUY55UgZxSXTjt7S15axstwU8Pmuq6iZjI8=; b=P/dySXatDi5tvtzbgexub
+	lQcai2oCwNq8dMCb1GQ9SL5TV572OU2Eoz3zNevnObq9v6FDm4+3YsRs7FlBifaC
+	H+SC9o+O6N7HEPqF2w4oAGLgZWPQAoSioPFGr5suwZeTvnc5Y36bPjWmZpsS/viC
+	30+ZaHvfTZai7ZC4O6wTM/ZqeY9UomGRwluukz6WQ7Zeu2foIY9BxTHLDfD70jgK
+	ec9VI0L2XUDXGI0Osff/lpu+5cbJN13SrkwgOlW39qc4g2DVaoTSQKhiZDQpTtYB
+	3T90u1EEjS+rtff79/RuRpx60U0US9k3VF1oEPGvABPhbaJje76LTf0qqs+Y/1MI
+	Q==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3vkhg64w6q-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 17 Jan 2024 18:34:29 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Wed, 17 Jan 2024 10:34:40 -0800
+Received: from ala-jslater-lx2.corp.ad.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.35 via Frontend Transport; Wed, 17 Jan 2024 10:34:40 -0800
+From: <joe.slater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <joe.slater@windriver.com>, <randy.macleod@windriver.com>
+Subject: [v2][oe-core][PATCH 1/1] eudev: modify predictable network if name search
+Date: Wed, 17 Jan 2024 10:34:28 -0800
+Message-ID: <20240117183428.627525-1-joe.slater@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20240117150720.3585669-1-ross.burton@arm.com>
-In-Reply-To: <20240117150720.3585669-1-ross.burton@arm.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 17 Jan 2024 09:51:00 -0800
-Message-ID: <CAMKF1srk7GauhcSYZgda-RnFni4A2eLdZo7s_GwJZ3Wv9PXQKg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/4] musl: doesn't support riscv32
-To: Ross Burton <ross.burton@arm.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: VOEHyYCUdX_g9GfFFVkHCJiT4q21bpjN
+X-Proofpoint-GUID: VOEHyYCUdX_g9GfFFVkHCJiT4q21bpjN
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-17_11,2024-01-17_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 spamscore=0
+ lowpriorityscore=0 phishscore=0 priorityscore=1501 mlxlogscore=498
+ suspectscore=0 bulkscore=0 malwarescore=0 adultscore=0 clxscore=1015
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2401170132
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 17 Jan 2024 17:51:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193942
+ <openembedded-core@lists.openembedded.org>; Wed, 17 Jan 2024 18:34:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193943
 
-On Wed, Jan 17, 2024 at 7:07=E2=80=AFAM Ross Burton <ross.burton@arm.com> w=
-rote:
->
-> From: Ross Burton <ross.burton@arm.com>
->
-> musl doesn't support riscv32, so set COMPATIBLE_HOST appropriately.
->
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
->  meta/recipes-core/musl/musl.inc | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/meta/recipes-core/musl/musl.inc b/meta/recipes-core/musl/mus=
-l.inc
-> index 66468e92ff0..6ca52b186a5 100644
-> --- a/meta/recipes-core/musl/musl.inc
-> +++ b/meta/recipes-core/musl/musl.inc
-> @@ -25,6 +25,9 @@ MIPS_INSTRUCTION_SET =3D "mips"
->  ARM_INSTRUCTION_SET:armv5 =3D "arm"
->  ARM_INSTRUCTION_SET:armv4 =3D "arm"
->
-> +# 1.2.4 doesn't support riscv32
-> +COMPATIBLE_HOST:riscv32 =3D "null"
+From: Joe Slater <joe.slater@windriver.com>
 
-there is a port in meta-riscv for RV32 which is WIP for upstreaming.
-I think it is better to direct folks to use meta-riscv until then
+Consider a name based on mac address in addition to
+those based on slot or path.
 
-> +
->  # Enable out of tree build
->  B =3D "${WORKDIR}/build"
->
-> --
-> 2.34.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#193919): https://lists.openembedded.org/g/openembedde=
-d-core/message/193919
-> Mute This Topic: https://lists.openembedded.org/mt/103787497/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Note that as of this commit predictable naming is
+suppressed by eudev, but can be enabled by removing
+/etc/udev/rules.d/80-net-name-slot.rules from the
+root filesystem.
+
+Signed-off-by: Joe Slater <joe.slater@windriver.com>
+---
+ meta/recipes-core/udev/eudev/netifnames.patch | 17 +++++++++++++++++
+ meta/recipes-core/udev/eudev_3.2.14.bb        |  2 ++
+ 2 files changed, 19 insertions(+)
+ create mode 100644 meta/recipes-core/udev/eudev/netifnames.patch
+
+diff --git a/meta/recipes-core/udev/eudev/netifnames.patch b/meta/recipes-core/udev/eudev/netifnames.patch
+new file mode 100644
+index 0000000000..11c4d92a32
+--- /dev/null
++++ b/meta/recipes-core/udev/eudev/netifnames.patch
+@@ -0,0 +1,17 @@
++eudev: consider ID_NET_NAME_MAC as an interface name
++
++eudev might not create names based on slot or path.
++
++Upstream-Status: Submitted - github.com/eudev-project/eudev/pull/274
++
++Signed-off-by: Joe Slater <joe.slater@windriver.com>
++
++--- a/rules/80-net-name-slot.rules
+++++ b/rules/80-net-name-slot.rules
++@@ -10,5 +10,6 @@ ENV{net.ifnames}=="0", GOTO="net_name_sl
++ NAME=="", ENV{ID_NET_NAME_ONBOARD}!="", NAME="$env{ID_NET_NAME_ONBOARD}"
++ NAME=="", ENV{ID_NET_NAME_SLOT}!="", NAME="$env{ID_NET_NAME_SLOT}"
++ NAME=="", ENV{ID_NET_NAME_PATH}!="", NAME="$env{ID_NET_NAME_PATH}"
+++NAME=="", ENV{ID_NET_NAME_MAC}!="", NAME="$env{ID_NET_NAME_MAC}"
++ 
++ LABEL="net_name_slot_end"
+diff --git a/meta/recipes-core/udev/eudev_3.2.14.bb b/meta/recipes-core/udev/eudev_3.2.14.bb
+index d0758691bd..ddb3c3340f 100644
+--- a/meta/recipes-core/udev/eudev_3.2.14.bb
++++ b/meta/recipes-core/udev/eudev_3.2.14.bb
+@@ -10,6 +10,7 @@ DEPENDS = "gperf-native"
+ PROVIDES = "udev"
+ 
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz \
++           file://netifnames.patch \
+            file://init \
+            file://local.rules \
+            "
+@@ -50,6 +51,7 @@ do_install:append() {
+ 
+ 	# Use classic network interface naming scheme
+ 	touch ${D}${sysconfdir}/udev/rules.d/80-net-name-slot.rules
++
+ }
+ 
+ do_install:prepend:class-target () {
+-- 
+2.25.1
+
 
