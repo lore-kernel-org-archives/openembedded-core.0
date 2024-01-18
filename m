@@ -1,102 +1,114 @@
-Return-Path: <rpjday@crashcourse.ca>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DFC0C4707B
-	for <webhook@archiver.kernel.org>; Thu, 18 Jan 2024 14:07:05 +0000 (UTC)
-Received: from cpanel10.indieserve.net (cpanel10.indieserve.net [199.212.143.9])
- by mx.groups.io with SMTP id smtpd.web11.12157.1705586820167423112
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9230DC4707B
+	for <webhook@archiver.kernel.org>; Thu, 18 Jan 2024 14:09:55 +0000 (UTC)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+ by mx.groups.io with SMTP id smtpd.web11.12226.1705586993158977768
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Jan 2024 06:07:00 -0800
+ Thu, 18 Jan 2024 06:09:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@crashcourse.ca header.s=default header.b=ABdufxmF;
- spf=pass (domain: crashcourse.ca, ip: 199.212.143.9, mailfrom: rpjday@crashcourse.ca)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=crashcourse.ca; s=default; h=Content-Type:MIME-Version:References:
-	Message-ID:In-Reply-To:Subject:cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=gkCiEfABwgZAFMO/+V12An4+MF5lFnoIxAXerh7+Tr8=; b=ABdufxmFIa/rJEFYAi9gh0anMi
-	1JwhlNrFtHfnPpi/UP76Yngb4NZ0+m8OVe3WJv18fgKQwFg3ApWuukNCNpLU15pO+j7WqTMQx81wk
-	Xxi3aR9/RG7efr4+4rPT8ddxFyxtGdnc6l2oRWvMO5aeVscIivwrI4kDs0z4L4diwKr05Q6QohfPJ
-	pAM7hlT20N4r2tWJmCNL2bHYsWf04qqkAy6qMyzgqoi1b1qUVlklyPoM8NT27Rd7kCwMzZDHZiLOl
-	nFxe5lm2VOYbYbmuomWgqzVhYiFvvAit1fHb3nsEy22BSGz4GykLKRDUKEK7fFnM38EI8JXj04ks3
-	U9alqHYQ==;
-Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.102.5]:49988 helo=fedora)
-	by cpanel10.indieserve.net with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96.2)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1rQT2m-00GgTE-2s;
-	Thu, 18 Jan 2024 09:06:58 -0500
-Date: Thu, 18 Jan 2024 09:06:57 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] want to confirm i'm using "externalsrc" and "bin_package"
- efficiently
-In-Reply-To: <CANNYZj9aG5qcpe6PksShW4W69uk7EZ+j7yxHb43tgfDrk8ygFQ@mail.gmail.com>
-Message-ID: <dcd19ed3-e2c7-d7c8-36f9-1e46c094379a@crashcourse.ca>
-References: <dfcf7a4a-81b1-ff26-d14-923bf379025@crashcourse.ca> <CANNYZj9aG5qcpe6PksShW4W69uk7EZ+j7yxHb43tgfDrk8ygFQ@mail.gmail.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ml4o3H5f;
+ spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-50e6ee8e911so14904650e87.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jan 2024 06:09:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1705586991; x=1706191791; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=XJ11iadYt3HjqsRVYer73aGWzSTmHOaGMwhE88tfQDI=;
+        b=ml4o3H5fRIP647PYI6WqcSNd+SgI6iv3RrLPwGMnqKObaxQfAcCL0nYvBXrmPORJUN
+         T2vaC84h2dk6Bcyt5Hg4hndKdd48rgLYUgZMUhqoYYmZ/WvdB0S71eAy7HlmL8bawHcO
+         8Ob22WhOEkC9Wl+ce2BrSipVSL3fPZBPlSXYgdM7I4G8csFuqOUMD31nPseGsmUOPDCP
+         N136G6CLho5/e6UINtXBwAkCtlQ3yjGq683pNIFxBXWyziCgdoHAjYEygzRSepKbOQ4D
+         jfK5DyTkiyVN9v0dt9EFvAEgl+waudhxWjrwEleLMoXlXOfgObxMEyjdL0vI+s6QDiEv
+         XMFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705586991; x=1706191791;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XJ11iadYt3HjqsRVYer73aGWzSTmHOaGMwhE88tfQDI=;
+        b=mH7u7T9qmdZLW+IT49Ej/yMps3oy8nqQZSNPraEFhI20c6SAvwKZOD2wWNUEfO7Z40
+         vPqfqaiiW2+uJaFK0IKW8gauNA2lCmnR2jm23YPdvcKBbEwg/an3oyWJ9oHKB2Ld4kTV
+         SZOKQqFdeoyDtEcPB+QzkZ1KfWxtxhAjbMgwzAhJ4BPLfyGxqkDNT8QvLwoBcg4+jDZ7
+         cxWuZ3VZO1vceHHUBfkMjtnFn84bXz6IcFOPxX0VMcyKjob0hDnrcYyfQQ7O2acKU3/B
+         O9f4QII5meCHhAdAvsqblWOdBllHigkInbyvgkLEVnuO5PxCXqZwoXHYy2isFt+yegh4
+         WDWQ==
+X-Gm-Message-State: AOJu0YxnJXLIfHFlf/cHr29zTVJfSZGJdlIyl0xMzHR2HBA2olp+35Fs
+	g2KvzX6vgvdkp2tDKW4nuoFs4FqUj++zfd/wlLPzB2GSoqrr5IAAgKZmZpQq4EgnYiOqGyS/+gi
+	aIfHCbNaujXG+WzfAGvUf8Mex8TVmVdP6+DE=
+X-Google-Smtp-Source: AGHT+IHdoXcK3XF3dempi0jRgQ322kaFw6uCplghFDx/CPhDm4FTyNnEp9vO6bOjxY2vzKKQoXHWz5nw5lUNjIIfOrE=
+X-Received: by 2002:a05:6512:131a:b0:50e:9dbe:e563 with SMTP id
+ x26-20020a056512131a00b0050e9dbee563mr597604lfu.77.1705586991158; Thu, 18 Jan
+ 2024 06:09:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel10.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel10.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: cpanel10.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+References: <dfcf7a4a-81b1-ff26-d14-923bf379025@crashcourse.ca>
+ <CANNYZj9aG5qcpe6PksShW4W69uk7EZ+j7yxHb43tgfDrk8ygFQ@mail.gmail.com> <dcd19ed3-e2c7-d7c8-36f9-1e46c094379a@crashcourse.ca>
+In-Reply-To: <dcd19ed3-e2c7-d7c8-36f9-1e46c094379a@crashcourse.ca>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 18 Jan 2024 15:09:40 +0100
+Message-ID: <CANNYZj9Qzwxdn82MKu8K4FV+XdfVhbDnNe8bY3rH82xd+9ZkSQ@mail.gmail.com>
+Subject: Re: [OE-core] want to confirm i'm using "externalsrc" and
+ "bin_package" efficiently
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Jan 2024 14:07:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193985
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Jan 2024 14:09:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193986
 
-On Thu, 18 Jan 2024, Alexander Kanavin wrote:
+This is reusing an existing build directory (Wanted 96 Local 96). You
+need to make a new one first.
 
-> Mono-repo seemed like a good idea at the time, I'm sure.
+Alex
+
+On Thu, 18 Jan 2024 at 15:06, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
 >
-> I need to point out that externalsrc disables sstate and always
-> rebuilds from scratch. Is that okay?
-
-  just tested a bitbake on recipe after changing nothing:
-
-Sstate summary: Wanted 96 Local 96 Mirrors 0 Missed 0 Current 100
-(100% match, 100% complete)      | ETA:  0:00:00
-Initialising tasks: 100%
-|#########################################################################|
-Time: 0:00:01
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 637 tasks of which 637 didn't need to
-be rerun and all succeeded.
-
-  then i made a trivial change to a single file in the source
-directory and bitbake'd again:
-
-Sstate summary: Wanted 103 Local 96 Mirrors 0 Missed 7 Current 93 (93%
-match, 96% complete)        | ETA:  0:00:00
-Removing 6 stale sstate objects for arch allarch: 100%
-|###########################################| Time: 0:00:00
-Removing 1 stale sstate objects for arch qemux86_64: 100%
-|########################################| Time: 0:00:00
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 637 tasks of which 627 didn't need to
-be rerun and all succeeded.
-NOTE: Build completion summary:
-NOTE:   do_populate_sysroot: 0.0% sstate reuse(0 setscene, 1 scratch)
-NOTE:   do_create_spdx: 0.0% sstate reuse(0 setscene, 1 scratch)
-NOTE:   do_create_runtime_spdx: 0.0% sstate reuse(0 setscene, 1
-scratch)
-NOTE:   do_package_qa: 0.0% sstate reuse(0 setscene, 1 scratch)
-NOTE:   do_package: 0.0% sstate reuse(0 setscene, 1 scratch)
-NOTE:   do_packagedata: 0.0% sstate reuse(0 setscene, 1 scratch)
-NOTE:   do_package_write_rpm: 0.0% sstate reuse(0 setscene, 1 scratch)
-
-  seems to be honouring sstate-cache.
-
-rday
+> On Thu, 18 Jan 2024, Alexander Kanavin wrote:
+>
+> > Mono-repo seemed like a good idea at the time, I'm sure.
+> >
+> > I need to point out that externalsrc disables sstate and always
+> > rebuilds from scratch. Is that okay?
+>
+>   just tested a bitbake on recipe after changing nothing:
+>
+> Sstate summary: Wanted 96 Local 96 Mirrors 0 Missed 0 Current 100
+> (100% match, 100% complete)      | ETA:  0:00:00
+> Initialising tasks: 100%
+> |#########################################################################|
+> Time: 0:00:01
+> NOTE: Executing Tasks
+> NOTE: Tasks Summary: Attempted 637 tasks of which 637 didn't need to
+> be rerun and all succeeded.
+>
+>   then i made a trivial change to a single file in the source
+> directory and bitbake'd again:
+>
+> Sstate summary: Wanted 103 Local 96 Mirrors 0 Missed 7 Current 93 (93%
+> match, 96% complete)        | ETA:  0:00:00
+> Removing 6 stale sstate objects for arch allarch: 100%
+> |###########################################| Time: 0:00:00
+> Removing 1 stale sstate objects for arch qemux86_64: 100%
+> |########################################| Time: 0:00:00
+> NOTE: Executing Tasks
+> NOTE: Tasks Summary: Attempted 637 tasks of which 627 didn't need to
+> be rerun and all succeeded.
+> NOTE: Build completion summary:
+> NOTE:   do_populate_sysroot: 0.0% sstate reuse(0 setscene, 1 scratch)
+> NOTE:   do_create_spdx: 0.0% sstate reuse(0 setscene, 1 scratch)
+> NOTE:   do_create_runtime_spdx: 0.0% sstate reuse(0 setscene, 1
+> scratch)
+> NOTE:   do_package_qa: 0.0% sstate reuse(0 setscene, 1 scratch)
+> NOTE:   do_package: 0.0% sstate reuse(0 setscene, 1 scratch)
+> NOTE:   do_packagedata: 0.0% sstate reuse(0 setscene, 1 scratch)
+> NOTE:   do_package_write_rpm: 0.0% sstate reuse(0 setscene, 1 scratch)
+>
+>   seems to be honouring sstate-cache.
+>
+> rday
 
