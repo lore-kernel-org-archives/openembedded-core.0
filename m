@@ -1,203 +1,281 @@
-Return-Path: <jhaller.oss@gmail.com>
+Return-Path: <randy.macleod@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74382C47DAF
-	for <webhook@archiver.kernel.org>; Thu, 18 Jan 2024 17:40:56 +0000 (UTC)
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.137])
- by mx.groups.io with SMTP id smtpd.web10.19495.1705599653783497858
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86C5DC47DAF
+	for <webhook@archiver.kernel.org>; Thu, 18 Jan 2024 17:44:26 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.19600.1705599865381080570
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Jan 2024 09:40:54 -0800
+ Thu, 18 Jan 2024 09:44:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@Philips.onmicrosoft.com header.s=selector2-Philips-onmicrosoft-com header.b=VnF/nk3N;
- spf=pass (domain: bbl.ms.philips.com, ip: 40.107.21.137, mailfrom: jhaller@bbl.ms.philips.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=dE8i4b2u;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=174791ccb8=randy.macleod@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40IBTSht018282
+	for <openembedded-core@lists.openembedded.org>; Thu, 18 Jan 2024 09:44:25 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-type:message-id:date:subject:to:cc:references:from
+	:in-reply-to:mime-version; s=PPS06212021; bh=FW0Ub8W75Ebhb+OQuN0
+	JZS6iM16iJsdyocnYEyGu5/c=; b=dE8i4b2u1GWIoscdTOnO3AOU17Lo2Ajk04F
+	+vVM3Xj/PpYOQURpUoEBvqt0Yc77+l5TSq/pA20Qf0bN8i7uK/ReJRVMgAqhI0Cp
+	yUgEqjuKXpTwUkcT3Qh/dSbI7s8knjYEDyY0N1oEoK1N3+pb0mB/cecjfnkutQGm
+	GkPoR95Wr5xOeRWNF5G9D417fPNz8Boa8g6YA1KUnjYjl4bwE/bU6NakOt1tHmzT
+	N4UKe46kDKgOQFMwGi46Y7nzKkDN9qHNP79fRJ1G+pmGJFYAieezbHcdkCZU17az
+	APSsbTnYaoiUGpH9eWoJ2ToXk/wYS0ghzEwUzrPjLAZRL6EXLFg==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3vkpp45ufv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 18 Jan 2024 09:44:24 -0800 (PST)
+Received: from m0250810.ppops.net (m0250810.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.24/8.17.1.24) with ESMTP id 40IHiOZr010717
+	for <openembedded-core@lists.openembedded.org>; Thu, 18 Jan 2024 09:44:24 -0800
+Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2040.outbound.protection.outlook.com [104.47.66.40])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3vkpp45ufn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 18 Jan 2024 09:44:24 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dZsO1P2utV150V7/E/3YXZkslPWxfbHgpyEKoO2zgixQt3xiXQmcARCfJyTa4yj1XFzw7iDV9qmxGR9ub8gWffuhDJEVOrWADrMOHfdMsyG5aJ4sxmZWb0/0LfJO1DCdPLRoeMxEqR1ddujAnw4FJJR0b4dwHaY+178HTPCds/o8+A0lCad7MsYiLVIAQvs//Dkq0WBbStMh6yfuqB/JQBc8PJ0mWt/rPa5DNPCIZ5dwMOh2daiakU0qlHcbD74YI4JNepGTth9pktZQfXNfzWGmv7BcN8zza3LMVCQ3D5y6nG2pPBMVYJ8BxzEleTPqWn2Js4Jz2qKxXX4N4CgGvQ==
+ b=QA4UkP4w8OFoz3hlp0jxhn1jVzO50AwBTKGYFQ1yEylxKj0BvmqAG5IJ3mnDq6oIFChqbT2Mf28JapNXDB8arDYXmJQ2k2wSCb6BdUcHWDx4Wf8AF9vdYx57R2b53JWJ2NdVmeihB3IO4cg/i7pvZelFQ26jLgWveukFUNFqNoX+y7sne8uUa69JtgC2/Q4mZ5ksK97yDpUHJ0+QCwNFteFmpKFbkxSlLdP7lq8WTkX3Y5BpWbHc4DrxmfN4U3Bgp8DGMSOgHVkzV5v2y3gUiN/Cu2VJ8rE+A6/oPWFPno4q8bPVPiFthVsMiDtP8nWzNjXmD79q1SadPxGta+LsHQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=j4pfCoc+T/p6uejd+OAn0FUhkFOhjlA8+qkgCZ/sTKw=;
- b=bu0YdGe4uS+Yzpmt+5GZVgLuWAsDkx9i3JjwMkUnNIXeeGd+p38knAw5Hu+5Ykyr6MKQuqta8mya6BMngi014V2RoZw7pD4aVHybzjB7GlmHYkznvfpllTkmaqFg4qX/VTAEWpuyBJyPBcL3W4Md9b69isEsNB5lcNMtjj6UJRaYpOA8dUSV9pJIx3LPJ3EIN7H+/hGgZaWk7tRlJAOTaUspNjVmdZgwIjUA1JFPmRbpYU6u9BnHSI91opbTKr5mX9w1iorArv34M7Ihl+Wq6cVMle01VqGnx7NUotizHNGx4P/e14Q76VITCChut4QCLKLUad2nrcspWPnkDxu3nQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 212.159.232.72) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=bbl.ms.philips.com; dmarc=fail (p=none sp=quarantine pct=100)
- action=none header.from=gmail.com; dkim=none (message not signed); arc=none
- (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=Philips.onmicrosoft.com; s=selector2-Philips-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=j4pfCoc+T/p6uejd+OAn0FUhkFOhjlA8+qkgCZ/sTKw=;
- b=VnF/nk3NgrLrHSAAfYXqfaL0m/gpOJyrarCdqZH/CYD4uRCZyQEGHagVGYt0Snx2WnX8pbx7y1ECAI45C1Sa+DoZh3FTnuONALnO4YiH7qLgN8DoAvWYm242hIx3v7BYO9VkpuIwB24NG7ZV4DSJy1j9X55MKSroHhjz627nlL4=
-Received: from AM0P190CA0025.EURP190.PROD.OUTLOOK.COM (2603:10a6:208:190::35)
- by AMAP122MB0215.EURP122.PROD.OUTLOOK.COM (2603:10a6:20b:197::20) with
+ bh=FW0Ub8W75Ebhb+OQuN0JZS6iM16iJsdyocnYEyGu5/c=;
+ b=DXaJxFM4bn8BymLe1LeiVXuJIO2nmUO9GP0oUSLq+yzliiXQ+/5N0Xehq/MbB3meUqYhg1CFna9WsdgVWZwLKXbM2k4tSWBxlvCKlbnozfCLtdCt7kD7WFZRJsSF6Rcm5Xh3Z14f0oM0oBGKUOXMF9MroJrfXVMMjOmyXF3b5flVqVtPGViHkBzJGhElBM1LJTiIkLdXgyRQmraZTaiU9nCJEO1iUbY/sffzafqYDM/xk73OODBXXSu4GMr5TdnoOLNvFpgq00DA2qoE/weJVV/WAvAmDL6CTnHZICG8LDmsAh0/il426fjnOda1qCrMrkV6zoEGwDeJbd2Q6OWYTQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from SJ0PR11MB5920.namprd11.prod.outlook.com (2603:10b6:a03:42e::9)
+ by IA1PR11MB6172.namprd11.prod.outlook.com (2603:10b6:208:3e8::5) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7181.32; Thu, 18 Jan
- 2024 17:40:49 +0000
-Received: from AM4PEPF00025F9A.EURPRD83.prod.outlook.com
- (2603:10a6:208:190:cafe::4f) by AM0P190CA0025.outlook.office365.com
- (2603:10a6:208:190::35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.23 via Frontend
- Transport; Thu, 18 Jan 2024 17:40:49 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 212.159.232.72)
- smtp.mailfrom=bbl.ms.philips.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=none header.from=gmail.com;
-Received-SPF: Pass (protection.outlook.com: domain of bbl.ms.philips.com
- designates 212.159.232.72 as permitted sender)
- receiver=protection.outlook.com; client-ip=212.159.232.72;
- helo=ext-eur1.smtp.philips.com; pr=C
-Received: from ext-eur1.smtp.philips.com (212.159.232.72) by
- AM4PEPF00025F9A.mail.protection.outlook.com (10.167.16.9) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7228.0 via Frontend Transport; Thu, 18 Jan 2024 17:40:49 +0000
-Received: from smtprelay-eur1.philips.com ([130.144.57.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 256/256 bits)
-	(Client did not present a certificate)
-	by ext-eur1.smtp.philips.com with ESMTP
-	id QKA5retWO0QCjQWNlrGf1X; Thu, 18 Jan 2024 18:40:49 +0100
-Received: from mail.bbl.ms.philips.com ([130.143.87.230])
-	by smtprelay-eur1.philips.com with ESMTP
-	id QWNlrCi0FIUGzQWNlrbsqL; Thu, 18 Jan 2024 18:40:49 +0100
-X-CLAM-Verdict: legit
-X-CLAM-Score: ??
-X-CLAM-Description: ??
-Received: from bbl2xr12.bbl.ms.philips.com (bbl2xr12.bbl.ms.philips.com [130.143.222.238])
-	by mail.bbl.ms.philips.com (Postfix) with ESMTP id 43F60182502
-	for <openembedded-core@lists.openembedded.org>; Thu, 18 Jan 2024 18:40:49 +0100 (CET)
-Received: by bbl2xr12.bbl.ms.philips.com (Postfix, from userid 1876)
-	id 351292A015E; Thu, 18 Jan 2024 18:40:49 +0100 (CET)
-From: jhaller.oss@gmail.com
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] linux-firmware: fix mediatek MT76x empty license package
-Date: Thu, 18 Jan 2024 18:40:49 +0100
-Message-ID: <20240118174049.3517958-1-jhaller.oss@gmail.com>
-X-Mailer: git-send-email 2.25.1
-Reply-To: Julian Haller <julian.haller@philips.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.24; Thu, 18 Jan
+ 2024 17:44:03 +0000
+Received: from SJ0PR11MB5920.namprd11.prod.outlook.com
+ ([fe80::f3ba:ff33:12be:cff7]) by SJ0PR11MB5920.namprd11.prod.outlook.com
+ ([fe80::f3ba:ff33:12be:cff7%7]) with mapi id 15.20.7181.026; Thu, 18 Jan 2024
+ 17:44:03 +0000
+Content-Type: multipart/alternative;
+ boundary="------------Cbk1pxOYQdrlVdN0vtEl4ju7"
+Message-ID: <efec0d97-cab1-43a9-96e3-1cf6627109a5@windriver.com>
+Date: Thu, 18 Jan 2024 12:44:00 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] rng-tools: Revert "rng-tools: move to meta-oe"
+Content-Language: en-CA
+To: openembedded-core@lists.openembedded.org, anuj.mittal@intel.com,
+        scott.murray@konsulko.com,
+        Alexandre Belloni
+ <alexandre.belloni@bootlin.com>,
+        jsmoeller@linuxfoundation.org, stephane.desneux@iot.bzh,
+        Khem Raj <raj.khem@gmail.com>,
+        Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: david.zuhn@sonos.com
+References: <17AB7F9C512EBC5E.27523@lists.openembedded.org>
+From: Randy MacLeod <randy.macleod@windriver.com>
+In-Reply-To: <17AB7F9C512EBC5E.27523@lists.openembedded.org>
+X-ClientProxiedBy: SJ0PR13CA0058.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c2::33) To SJ0PR11MB5920.namprd11.prod.outlook.com
+ (2603:10b6:a03:42e::9)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM4PEPF00025F9A:EE_|AMAP122MB0215:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 61b580f6-2ec0-49e0-dca2-08dc184c9c1e
-X-MS-Exchange-SenderADCheck: 0
+X-MS-TrafficTypeDiagnostic: SJ0PR11MB5920:EE_|IA1PR11MB6172:EE_
+X-MS-Office365-Filtering-Correlation-Id: 32f8eb43-9a83-40bd-66f8-08dc184d0f84
+X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	tkQjtjCERxkSZqCgoFo04J8o6zk0le0916URERl0o1Uw3F9fLzr9pxUglkcDFxgGGZZYsPBu8nYaqRGy/zZG/Bd14fdrMYbbxSTA3t279shPsA8dhQMx8ygsifvO4Gleq0flUSYAlGOuYzIZtStC8Ma0awIX+LNXB8aNEOJZyF84ewHUWqEyYZP/2qLUt3s7phtgA2iDVht08JMxcotKqHpW44ZOgcgWoCJFgB3wKGcgPSNH45jzLpBs3t4A14I6vZyeOz40yXS/RzSJ+/8hPFkEd0ZOR5zk5SfYsCJGNJ4CmRV1NuPAp8pmq8Eb6JQmyCheeJWKHqN8F55OMGB5u0QQcL1gT8gO7v0sDOZiIvLEEdg4AcgQQky8nSYmzs3A2oYRoRiF7q0kVxV7r7KvXnhD4qjhaVzR1jYxiFcN9aBPgDRHGtSBzDwCVU6XlWPVZ0AoXF9fgR74rxCuOzE0RN0WoJnzms/8Q81DpvLoM5rIMU87JBJ5skIK4QDKtKV4iEyDZBdY4VgXf4VYeHHZrRziZD1eIcyD5Ur86nQh7/fyvngFPQmga9m+ImggjNQ7hwEapkYOMEOk5J0ls7vqVkslEkOfRb+saAtUm+HL9pMgXk6I5GFakLJ4hJk2X/Mt1K1Jaj7W8Rb2DYp8/RAiKgxx8UDGUqBWYNFzJypAfIF230iCzg3B4ZWzjNJ7VXpHdSJZ+xSEB1nq3CeeWuH1kwH7QFu2kSpzCaAZdIH2mcdt4YGL96FXT6T08mCxn7QTycIroHipHNKStF26yxOxLQ==
+	5TXpSL6cf8vk7wxw53lU7HJ26Jh++nlzwqYKQZ2qGKnVfO1ctcnnfw32j8cRrZABvIfeG1PG9Mi/ubS74qvI60CXmDXUyGJkTI6VwmsMl6YXC913VpQv8EZObF7uMCgopKPqdnakVWE5KiGJss1KZa8XVg3pAO3C6JWTZL/f5KnncsSef6kOTeQgR1v5EJa2hGuAsCGFRtoi0OBXngiReIRwSpKKXoLC4msh7WbTyZUCRhLUy1yfPcAxUzaOGqjtOEph8zchnnTzeM1smSTvYFQm+zqqychimd8699GWJ1ts1rFWUxdFPhG6d2/yI92wM/OvMuIoAFrNa5hZguvDXB8CRszo85035fOLdwJpLSSYvei14sZw8ZK96BarMJEhy0DmALsA4ABQV4lYhGUZiw9sbojRgu0LOoSkxVXIn9WzILpWB7QwnrEfQiwjfogLMaDQy6FYFx09nqaajNftyOk/Be0IcM9haO559VUh2HkurBBgjGbBYUV96xrAfBg8AkI9xcew5V/zRbz50RrAxoI6akUbRo5WjnaFGNcFBo2uTS36LXPNPjqAf1ksXsniOG+NBN1KOjmRrB/h39+r6fW+rhFw+a971OYnBidEEbR7E4mE6KsQAP1kUqDZ/WgKXQeuZup10C8Dpw9nhPdRrw==
 X-Forefront-Antispam-Report: 
-	CIP:212.159.232.72;CTRY:NL;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:ext-eur1.smtp.philips.com;PTR:ext-eur1.smtp.philips.com;CAT:NONE;SFS:(13230031)(4636009)(396003)(136003)(376002)(346002)(39860400002)(84050400002)(230922051799003)(64100799003)(451199024)(82310400011)(48200799006)(186009)(61400799012)(46966006)(40470700004)(36840700001)(83380400001)(41300700001)(47076005)(55446002)(82960400001)(83170400001)(36756003)(7636003)(356005)(7596003)(82740400003)(478600001)(36860700001)(8676002)(8936002)(6916009)(76482006)(316002)(42186006)(70206006)(70586007)(1076003)(6266002)(2906002)(26005)(73392003)(82202003)(336012)(42882007)(9686003)(2616005)(5660300002)(40460700003)(40480700001)(35450700002);DIR:OUT;SFP:1102;
-X-OriginatorOrg: ms.philips.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jan 2024 17:40:49.5148
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5920.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(39850400004)(346002)(396003)(366004)(136003)(230922051799003)(64100799003)(1800799012)(451199024)(186009)(31686004)(83380400001)(966005)(478600001)(8936002)(4326008)(5660300002)(66556008)(316002)(110136005)(6506007)(8676002)(66476007)(33964004)(53546011)(6512007)(6486002)(66946007)(26005)(2616005)(2906002)(38100700002)(166002)(36756003)(41300700001)(31696002)(86362001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?L1dmbkUyeUluTExpVkhHVHhHM3dMUWRod1JuMExBaGZiaHNaVzZiV1QwaHla?=
+ =?utf-8?B?TWxQekFFM3lLWjVrRXZJTitPVnVQVkcwejhHYjBSb0ZqVHdhUk1HcUZSZmJk?=
+ =?utf-8?B?N0RsdEROdXN5MmxGekkxQll0WHJYRTViZ2UvMW9Yb1MvbXdZaFYrL3NsZWgy?=
+ =?utf-8?B?OUVyaEdPcWZ5aC9EMUFHVnZWbVJBQVlHSndLOFFsYnowY3hsOUhZOGlSbldl?=
+ =?utf-8?B?QXRCQ2I2VGpRRjhDK2JqNHZYVW9LVTlJK3MzcHlncitENGovSlpqWHJqdm1j?=
+ =?utf-8?B?OWVneWFxeUNPYXllU3NaaklsSTQycEhmOUhhelF6OFVjcHQyZk45NTErV1Bm?=
+ =?utf-8?B?SEhBTGtDU1pLbyt1TUt3SGN5QVNOT0FqTENEcWJkYUpIbGliUlpPUFFtdllT?=
+ =?utf-8?B?R3k2b0RGcWcyb3FrRHQ4alczcGVnclM0czMrbXNLMHphbDdzSDltZS9xQW52?=
+ =?utf-8?B?WDV4NzVjS2VxbFNEOWlEVUhzMGxUNXVEb3NFV0NQSmFqSmw5NWZBT0JwZGxN?=
+ =?utf-8?B?dWZXZzJtWFVBelpkQ1dwM2RUQ0RkRE9rTHNLSFkzWEt2RnVRR2lGWkcyZll0?=
+ =?utf-8?B?cDdKTUoxUy84LzBoY1hlOGQrR2hML01DamJQMFZ5Ym05Q2NHR0JlanhOMVVS?=
+ =?utf-8?B?QlNkVXp1MVFqZk1ObGxzQWwwaEFzUXdlZDJjdTR2SlhMdnQrdTg4YVQ5UnZQ?=
+ =?utf-8?B?c20rSVVOazkvRTRjSkhCaVJrcitDbmlBVHh6c1Q1dnhDYnFYcWpkYWpTZlIz?=
+ =?utf-8?B?dEJZQ1J1dGVyU1k1NkFRSVd6OFRDZmlaZDBjSlIwVEp0eUJkTFUxZFlhZm1i?=
+ =?utf-8?B?UzlCVTI0TkU3NHUvd3d3bUtZV1BXQjhqRnRoa1NxcVh1NlZLTk9DODNCMENm?=
+ =?utf-8?B?MmYxR2ZKSjZ5MlZNK2tyN1p3WWV4VzhBYmtQTXRxdnluSkRCSXRlTEpGd1Zm?=
+ =?utf-8?B?emMwYmxyU0MwZjZTZTlpMW9VSUs0TGg0b1A2Qklud1FXQU5ZSTdPY3MrUDdm?=
+ =?utf-8?B?NEpKcjg2TVBXT0ZhMXlEdWhua0NaZTF2R0FmNzZyNUNQSmtGRjRUa3lkVDVi?=
+ =?utf-8?B?YmhQMU1kQmpiWGNLaGlHdXZYQml3UzRQOEY1WHZpbFdoelBZR3JzSjRNMFFH?=
+ =?utf-8?B?YUo1eXBtblFEV3RBVXV0THNvY0VPZzN6Uy80NjB5RXl2ckViM3BLbXE0NDBZ?=
+ =?utf-8?B?TmVxSEQ3cU54MjZOTFV0OVhNc3J4Qnk0ZDVBT256NzhLSWN4ZnJTMVpJQnRR?=
+ =?utf-8?B?V0RnR0dJSFU1SmR2dTVpdmI4VzVsZXNaT1dDSUtHSXdiWXMycDR6L0ZWMEVP?=
+ =?utf-8?B?WnFoZzZPelpTNmpSd0ZtMkJZREVrOWFCOVVnS0UvQzB5cmMyTU5CWUF0TTFp?=
+ =?utf-8?B?MDFQVXVPRHpHVkphbE1DVGE5OHlnblVFcUlqZnhyMFE1WjVOWm5lR29ERmpy?=
+ =?utf-8?B?R3ViZE1hVFlWMFUxNGxPS011TmJWaHlpdzJBNi9MRDA5WkhLakxrR2xlOFRV?=
+ =?utf-8?B?aW5CNGxoU0ptc3U0SDIxQWlWTFRjb0tkNVRvcVFCT1hZMXE5WDdONGZNVTd1?=
+ =?utf-8?B?ZHRseGUyQnpEd3JMMmdGL2pYZ3V4dUNMWE1iRjBLR0JheTFwZmJkSkJXY1lL?=
+ =?utf-8?B?VUpRNWFNUGY2UmFYdnp5SWhncDN1cXlLZFJSZzJ0OW5aaUZCQzdzUXpZNW9Y?=
+ =?utf-8?B?dEhRS2tlKzZ5akxXSkRIQmx3RUdmd2ZqY05vWDZLSWVOeGZYdHRWa1oyYjN0?=
+ =?utf-8?B?N214d0RuNjVJemhsRWpKM1ZhWXRHMXVkbEd2VkVQb2dDS3NRZnB2MXVzWTJP?=
+ =?utf-8?B?Q1AxeE9xMExqM3RDdENybkpVZHUwaTVjRUJiQWJYUmQ4RVNwRjQyRjVhUUVi?=
+ =?utf-8?B?bkhxQ2lhMU5hdVBrdUpheFhvREhuVmNzaDRGTUt1ZEkxeFlOSzVHYy9zMk5z?=
+ =?utf-8?B?aEwrQkc5VGFBR2VsMFFDT3JEMWYySmUrMXFNMk4yTGpiR240TXdxamdOMy9W?=
+ =?utf-8?B?bzE4d05tNURvVy9SclM2UGV2d3dSVGhDWHZQSm5MajZDa0I1N3RoR1ZFUWly?=
+ =?utf-8?B?d1ZZMmhvK1lxdHl4K29iTXloQVQybXdWa3lKTmZaK2d1VVBIVk1ZRlQyNXFE?=
+ =?utf-8?B?NjFYNU1vcEVOMDUzZzJKZ01hbWZCL1dWVytGdldrL1NlWG1YUUR0SnE0TEtl?=
+ =?utf-8?B?UEE9PQ==?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 32f8eb43-9a83-40bd-66f8-08dc184d0f84
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5920.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jan 2024 17:44:03.3237
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 61b580f6-2ec0-49e0-dca2-08dc184c9c1e
-X-MS-Exchange-CrossTenant-Id: 1a407a2d-7675-4d17-8692-b3ac285306e4
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=1a407a2d-7675-4d17-8692-b3ac285306e4;Ip=[212.159.232.72];Helo=[ext-eur1.smtp.philips.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM4PEPF00025F9A.EURPRD83.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMAP122MB0215
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +/logaqZvOpEaGKBy3b+5pTw2EaYQnkGHJNldThpEUknj1n5ziyaXcwEPGWFVAaed7A2UBfQj7R6JRRy0/tyHKWTPcU1Vew9S/NrEPnGXYI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB6172
+X-Proofpoint-GUID: A3-aL8JVevBFqHEW2Y2p_7bMiFAyZexQ
+X-Proofpoint-ORIG-GUID: EwEx8JwrkFWhRu0KljNYEqWeHqjZ-dl9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-18_08,2024-01-17_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 bulkscore=0
+ phishscore=0 mlxlogscore=991 suspectscore=0 malwarescore=0 adultscore=0
+ priorityscore=1501 spamscore=0 mlxscore=0 lowpriorityscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2401180128
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Jan 2024 17:40:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193995
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Jan 2024 17:44:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193996
 
-From: Timotheus Giuliani <timotheus.giuliani@philips.com>
+--------------Cbk1pxOYQdrlVdN0vtEl4ju7
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 40IBTSht018282
 
-Installing the linux-firmware-dev package fails because of the following pr=
-oblem.
-For each mediatek MT76x firmware a separate license package was declared.
-In all these license packages the same file was referenced as the license f=
-ile.
-This meant that if several of these packages were used at the same time,
-the license packages would be empty.
+Sorry for the noise and back and forth on rng-tools removal.
+I'll avoid hastily cleaning up things for a while! ;-)
 
-This commit defines a common license package for the mediatek MT76x package=
-s,
-which is then referenced by all of them.
 
-Fixes: dfb7d2c426b4 ("linux-firmware: create separate packages")
-Signed-off-by: Julian Haller <julian.haller@philips.com>
----
- .../linux-firmware/linux-firmware_20231211.bb | 23 ++++++-------------
- 1 file changed, 7 insertions(+), 16 deletions(-)
+On 2024-01-18 11:59 a.m., Randy MacLeod via lists.openembedded.org wrote:
+> From: Randy MacLeod<Randy.MacLeod@windriver.com>
+>
+> This reverts commit d2b445384da3f3e6dab8577b6c56648b5244a788.
+>
+> Revert this commit since:
+>
+>   - some systems using oe-core master may still be using kernels from
+>     before 5.6 pulled in the rng-tools algorithm, and
+>
+>   - some hardware platforms may not have a hardware random number gener=
+ator
+>     and could therefore need to run rngd to avoid long boot-time initia=
+lization
+>     due to a depleted entropy pool.
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20231211.bb =
-b/meta/recipes-kernel/linux-firmware/linux-firmware_20231211.bb
-index 16cf8e241b..9347cde298 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20231211.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20231211.bb
-@@ -263,9 +263,7 @@ do_install() {
- PACKAGES =3D+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-cw1200-license ${PN}-cw1200 \
-              ${PN}-ralink-license ${PN}-ralink \
--             ${PN}-mt7601u-license ${PN}-mt7601u \
--             ${PN}-mt7650-license ${PN}-mt7650 \
--             ${PN}-mt76x2-license ${PN}-mt76x2 \
-+             ${PN}-mt76x-license ${PN}-mt7601u ${PN}-mt7650 ${PN}-mt76x2 \
-              ${PN}-radeon-license ${PN}-radeon \
-              ${PN}-amdgpu-license ${PN}-amdgpu \
-              ${PN}-marvell-license ${PN}-pcie8897 ${PN}-pcie8997 \
-@@ -507,43 +505,36 @@ FILES:${PN}-ralink =3D " \
- RDEPENDS:${PN}-ralink +=3D "${PN}-ralink-license"
-=20
- # For mediatek MT7601U
-+LICENSE:${PN}-mt76x-license =3D "Firmware-ralink_a_mediatek_company_firmwa=
-re"
-+FILES:${PN}-mt76x-license =3D "${nonarch_base_libdir}/firmware/LICENCE.ral=
-ink_a_mediatek_company_firmware"
-+
- LICENSE:${PN}-mt7601u =3D "Firmware-ralink_a_mediatek_company_firmware"
--LICENSE:${PN}-mt7601u-license =3D "Firmware-ralink_a_mediatek_company_firm=
-ware"
-=20
--FILES:${PN}-mt7601u-license =3D "${nonarch_base_libdir}/firmware/LICENCE.r=
-alink_a_mediatek_company_firmware"
- FILES:${PN}-mt7601u =3D " \
-   ${nonarch_base_libdir}/firmware/mediatek/mt7601u.bin \
-   ${nonarch_base_libdir}/firmware/mt7601u.bin \
- "
--RDEPENDS:${PN}-mt7601u +=3D "${PN}-mt7601u-license"
-+RDEPENDS:${PN}-mt7601u +=3D "${PN}-mt76x-license"
-=20
- # For MediaTek Bluetooth USB driver 7650
- LICENSE:${PN}-mt7650 =3D "Firmware-ralink_a_mediatek_company_firmware"
--LICENSE:${PN}-mt7650-license =3D "Firmware-ralink_a_mediatek_company_firmw=
-are"
-=20
--FILES:${PN}-mt7650-license =3D " \
--  ${nonarch_base_libdir}/firmware/LICENCE.ralink_a_mediatek_company_firmwa=
-re \
--"
- FILES:${PN}-mt7650 =3D " \
-   ${nonarch_base_libdir}/firmware/mediatek/mt7650.bin \
-   ${nonarch_base_libdir}/firmware/mt7650.bin \
- "
--RDEPENDS:${PN}-mt7650 +=3D "${PN}-mt7650-license"
-+RDEPENDS:${PN}-mt7650 +=3D "${PN}-mt76x-license"
-=20
- # For MediaTek MT76x2 Wireless MACs
- LICENSE:${PN}-mt76x2 =3D "Firmware-ralink_a_mediatek_company_firmware"
--LICENSE:${PN}-mt76x2-license =3D "Firmware-ralink_a_mediatek_company_firmw=
-are"
-=20
--FILES:${PN}-mt76x2-license =3D " \
--  ${nonarch_base_libdir}/firmware/LICENCE.ralink_a_mediatek_company_firmwa=
-re \
--"
- FILES:${PN}-mt76x2 =3D " \
-   ${nonarch_base_libdir}/firmware/mediatek/mt7662.bin \
-   ${nonarch_base_libdir}/firmware/mt7662.bin \
-   ${nonarch_base_libdir}/firmware/mediatek/mt7662_rom_patch.bin \
-   ${nonarch_base_libdir}/firmware/mt7662_rom_patch.bin \
- "
--RDEPENDS:${PN}-mt76x2 +=3D "${PN}-mt76x2-license"
-+RDEPENDS:${PN}-mt76x2 +=3D "${PN}-mt76x-license"
-=20
- # For MediaTek
- LICENSE:${PN}-mediatek =3D "Firmware-mediatek"
---=20
-2.25.1
 
+The additional context that doesn't belong in the commit log
+is that we talked about this change in the YP bug review meeting
+and decided that we would keep rng-tools in oe-core for 5.0-M2
+for the two reasons given above. If we end up adding a test, as=20
+described below,
+we may never move the recipe to meta-oe.
+
+
+It seems to me that we need a test that checks if the entropy pool size
+ever falls below a critical threshold for "too long" in the first N=20
+seconds of boot time.
+
+Getting that test written so that:
+ =C2=A0- qemu VMs and
+ =C2=A0- real HW with and without /dev/hwrng
+
+all pass without the test being too permissive may take some time.
+
+I've created a bug to track adding such a test:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15360
+
+
+Scott,
+Do you have any info on the need for rngd on HW without /dev/hwrng but=20
+with a kernel >=3D 5.6 ?
+
+../Randy
+
+
+
+
+--------------Cbk1pxOYQdrlVdN0vtEl4ju7
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html><html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <div class="moz-cite-prefix">
+      <p>Sorry for the noise and back and forth on rng-tools removal.<br>
+        I'll avoid hastily cleaning up things for a while! ;-)</p>
+      <p><br>
+      </p>
+    </div>
+    <div class="moz-cite-prefix">On 2024-01-18 11:59 a.m., Randy MacLeod
+      via lists.openembedded.org wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:17AB7F9C512EBC5E.27523@lists.openembedded.org">
+      <pre class="moz-quote-pre" wrap="">From: Randy MacLeod <a class="moz-txt-link-rfc2396E" href="mailto:Randy.MacLeod@windriver.com">&lt;Randy.MacLeod@windriver.com&gt;</a>
+
+This reverts commit d2b445384da3f3e6dab8577b6c56648b5244a788.
+
+Revert this commit since:
+
+ - some systems using oe-core master may still be using kernels from
+   before 5.6 pulled in the rng-tools algorithm, and
+
+ - some hardware platforms may not have a hardware random number generator
+   and could therefore need to run rngd to avoid long boot-time initialization
+   due to a depleted entropy pool.</pre>
+    </blockquote>
+    <p><br>
+    </p>
+    <p>The additional context that doesn't belong in the commit log <br>
+      is that we talked about this change in the YP bug review meeting<br>
+      and decided that we would keep rng-tools in oe-core for 5.0-M2 <br>
+      for the two reasons given above. If we end up adding a test, as
+      described below,<br>
+      we may never move the recipe to meta-oe.<br>
+    </p>
+    <p><br>
+    </p>
+    <p>It seems to me that we need a test that checks if the entropy
+      pool size <br>
+      ever falls below a critical threshold for &quot;too long&quot; in the first
+      N seconds of boot time. <br>
+    </p>
+    <p>Getting that test written so that:&nbsp;<br>
+      &nbsp;- qemu VMs and <br>
+      &nbsp;- real HW with and without /dev/hwrng&nbsp;</p>
+    <p>all pass without the test being too permissive may take some
+      time.<br>
+    </p>
+    <p>I've created a bug to track adding such a test:<br>
+      &nbsp;&nbsp; <a class="moz-txt-link-freetext" href="https://bugzilla.yoctoproject.org/show_bug.cgi?id=15360">https://bugzilla.yoctoproject.org/show_bug.cgi?id=15360</a></p>
+    <p><br>
+    </p>
+    <p>Scott, <br>
+      Do you have any info on the need for rngd on HW without /dev/hwrng
+      but with a kernel &gt;= 5.6 ?</p>
+    <p>../Randy</p>
+    <p><br>
+    </p>
+    <p><br>
+    </p>
+    <br>
+  </body>
+</html>
+
+--------------Cbk1pxOYQdrlVdN0vtEl4ju7--
 
