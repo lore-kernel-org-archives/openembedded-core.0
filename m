@@ -1,77 +1,76 @@
-Return-Path: <rpjday@crashcourse.ca>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5913AC4707B
-	for <webhook@archiver.kernel.org>; Thu, 18 Jan 2024 14:10:45 +0000 (UTC)
-Received: from cpanel10.indieserve.net (cpanel10.indieserve.net [199.212.143.9])
- by mx.groups.io with SMTP id smtpd.web10.12322.1705587035359557445
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CD3EC4707B
+	for <webhook@archiver.kernel.org>; Thu, 18 Jan 2024 14:13:05 +0000 (UTC)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+ by mx.groups.io with SMTP id smtpd.web10.12375.1705587180312537851
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Jan 2024 06:10:35 -0800
+ Thu, 18 Jan 2024 06:13:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@crashcourse.ca header.s=default header.b=Gdw0GrXs;
- spf=pass (domain: crashcourse.ca, ip: 199.212.143.9, mailfrom: rpjday@crashcourse.ca)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=crashcourse.ca; s=default; h=Content-Type:MIME-Version:References:
-	Message-ID:In-Reply-To:Subject:cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=UYO0uS33UWE0hg2TOtIrf3uG2OJBfnN7QYdd7F0bTJ8=; b=Gdw0GrXs9rD8H6MrgXRC57ZwaD
-	3BjA7Wl4QHX2XnXJvgv5/GJDlRm4bufHVcIbZ31qjPkDlr7aBmc/aZxRRwcQF/IvtbuXmoRL6eteh
-	gQ8IORKWY+0Yg1GHIJdLhWR1Up49pFzLp/sO1ZP9m2/Mc+DuXOn5FUOoNWzGD5LsKbiRT0AL5YA91
-	zfq3sxzA+/oXLO151tqI7odm4F7liansHArZ/H4NyXnRFGOwxBeQZy7wqbNwEkucu6DIQ2M5H0LZu
-	7BfZG4/I98ydllvAS4S0pkp3jxne+435KnuFeRpOnLzEA9FLqIQt0j0CKxeXoUq4BLGYohdV+kqUf
-	SEZmj0wA==;
-Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.102.5]:49992 helo=fedora)
-	by cpanel10.indieserve.net with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96.2)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1rQT6G-00Ggoq-1G;
-	Thu, 18 Jan 2024 09:10:33 -0500
-Date: Thu, 18 Jan 2024 09:10:30 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] want to confirm i'm using "externalsrc" and "bin_package"
- efficiently
-In-Reply-To: <CANNYZj9swGJz6kc4ykCAOnw=ACc_4aCn1UODGZSKrhT4Rcpj4g@mail.gmail.com>
-Message-ID: <cbd55bb-9148-16b4-4146-b6e8cebb9d3@crashcourse.ca>
-References: <dfcf7a4a-81b1-ff26-d14-923bf379025@crashcourse.ca> <CANNYZj9aG5qcpe6PksShW4W69uk7EZ+j7yxHb43tgfDrk8ygFQ@mail.gmail.com> <5610c776-f1d9-3543-9878-56fad23e776a@crashcourse.ca> <CANNYZj9swGJz6kc4ykCAOnw=ACc_4aCn1UODGZSKrhT4Rcpj4g@mail.gmail.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Fmm4KISV;
+ spf=pass (domain: gmail.com, ip: 209.85.167.53, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-50e5a9bcec9so15186722e87.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jan 2024 06:13:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1705587178; x=1706191978; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=GcaM0E1IHaCVuohImWWdlzmrFI8ZkIJvpC5DEFIxszQ=;
+        b=Fmm4KISV3FqVAQrG5wR6fpjUmPgYMUKkZDpM3FfDbwvc9zfrmEALaxZ7XasIOGZZUJ
+         2elF2FObhRYG81gA7SwBzDrjDzrmeNHo8v/wTlUAti7Uj5kD/5kdmv9qqbWhnDjJCoJS
+         PvK2VHJfXz4B8Rb6VAlxFYB1yiX0CEAMbZqVAEXiQxPlhjSDOC4RTq8eVg1/mHKgit0w
+         4K9z0iUhkjvmTMrh5kExYvVPNZNNVQjMMtE9PdKWwgjwwUonivMvsinLvCEEUMtnT0ZG
+         /7nF38f6TkrQuiKhNClLlm3y4pm1D3zTy3YQb5ARXn+w8cr6VYTxbkV27Vpzkjs4yd9Q
+         zHTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705587178; x=1706191978;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GcaM0E1IHaCVuohImWWdlzmrFI8ZkIJvpC5DEFIxszQ=;
+        b=LwI0aYZizN717VPYI+vEgBSigGEmARFPQeDoo96I9NvQ8Dj+x/gpWc4cFOyWwkqFzx
+         0/04YOxcs80dJzMlw2Ltt53TANDQWqC6bYN4EZ4IoV2KXKfr71UcnhMsVTDXS6IHe5ic
+         IDO6UzIrlpzkrigheMLEgwrQHA+n4Kbp/Eu4Z58LTXEtovjlXFj6d9Nr9YTReWWGqRlG
+         ZC1aJv5yRh4oygWl2c89GN5cdpQluTQ/VI3aM4k/POCi+q9PbITDKy6AMKqadZukp6Yp
+         HQ379dF1bmw3z4rsGEjCjBz5sAOVVf7lPjZdkvXEtNA4Aezr39r4RF4fxhN6HXw0UWXf
+         uwXQ==
+X-Gm-Message-State: AOJu0YyUh7IzHmx42jdl334SMn+3ldXRfo/76HDSULcZXu8K2vlQCmLB
+	Zoza3t5MfWAyvwu7EIJwLPbqJ2icYEpldY989TlMLLNKcJee5b+rqC4WpsqRCQFlv25fkHNPiMd
+	8AblEbyRelRv+QZ5Pkha+dVud2w82YW7r
+X-Google-Smtp-Source: AGHT+IE6Y3wJC5kQVwpQS8YAMB98WsnptFASB99xPF2uWpu1Nahy3yX5I3w3OYAk/4puigCZ9NNWtkFEr5cAo2OHIvc=
+X-Received: by 2002:a05:6512:3c81:b0:50e:4e6b:9cd7 with SMTP id
+ h1-20020a0565123c8100b0050e4e6b9cd7mr751843lfv.12.1705587178317; Thu, 18 Jan
+ 2024 06:12:58 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel10.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel10.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: cpanel10.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+References: <dfcf7a4a-81b1-ff26-d14-923bf379025@crashcourse.ca>
+ <CANNYZj9aG5qcpe6PksShW4W69uk7EZ+j7yxHb43tgfDrk8ygFQ@mail.gmail.com>
+ <5610c776-f1d9-3543-9878-56fad23e776a@crashcourse.ca> <CANNYZj9swGJz6kc4ykCAOnw=ACc_4aCn1UODGZSKrhT4Rcpj4g@mail.gmail.com>
+ <cbd55bb-9148-16b4-4146-b6e8cebb9d3@crashcourse.ca>
+In-Reply-To: <cbd55bb-9148-16b4-4146-b6e8cebb9d3@crashcourse.ca>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 18 Jan 2024 15:12:47 +0100
+Message-ID: <CANNYZj_0QmjJY-LE9FiGo0iVWA28u3rsFujEyS9ppk-bDCk8fg@mail.gmail.com>
+Subject: Re: [OE-core] want to confirm i'm using "externalsrc" and
+ "bin_package" efficiently
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Jan 2024 14:10:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193987
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Jan 2024 14:13:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193988
 
-On Thu, 18 Jan 2024, Alexander Kanavin wrote:
+On Thu, 18 Jan 2024 at 15:10, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+>   ah, got it. that's still fine since as the content is almost
+> exclusively binary (pre-built) content, redoing from scratch will take
+> no time at all. thanks for clarifying that.
 
-> On Thu, 18 Jan 2024 at 15:04, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
-> >   i just tested, and the recipe does *not* rebuild unless i change
-> > something in the ("externalsrc") source directory, at which point,
-> > yes, it rebuilds. which is exactly what i'm after.
->
-> It only doesn't rebuild because you already have a build/tmp directory.
->
-> But as no sstate objects are created, if you wipe tmp/ or make a new
-> build directory, it will rebuild again even without any changes at
-> all. Try that!
+Pre-built content is ok on its own, but if those items are in the
+dependency tree of something that does take time to build, they will
+subvert sstate and lengthen build times.
 
-  ah, got it. that's still fine since as the content is almost
-exclusively binary (pre-built) content, redoing from scratch will take
-no time at all. thanks for clarifying that.
-
-rday
+Alex
 
