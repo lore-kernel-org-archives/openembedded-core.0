@@ -1,273 +1,203 @@
-Return-Path: <randy.macleod@windriver.com>
+Return-Path: <jhaller.oss@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A99CC47DB3
-	for <webhook@archiver.kernel.org>; Thu, 18 Jan 2024 16:59:56 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.18354.1705597192949888733
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74382C47DAF
+	for <webhook@archiver.kernel.org>; Thu, 18 Jan 2024 17:40:56 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.137])
+ by mx.groups.io with SMTP id smtpd.web10.19495.1705599653783497858
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Jan 2024 08:59:53 -0800
+ Thu, 18 Jan 2024 09:40:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=RZMWvy+J;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=174791ccb8=randy.macleod@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40IBlKcP018381;
-	Thu, 18 Jan 2024 16:59:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=B4sOr
-	EYpX4IUzZIVjiP703wekiO904NAMWT0xWB3Wsg=; b=RZMWvy+JBTaE1OaFa7kl0
-	n47HFJbxn0RtWeuTc5zGtrGw0nTX4N6lNV5p7hAtmBwy/SDfBA9nKav5VCeOWiC1
-	gP0y3D8pyCQnrF0cmJUptYKs3PNGcPkzLcejKXQ5hI+tsg5WE/2IQ+8dRj68bNGT
-	mK+sur5r1hqvYvDdtyFS/pBy8qaJbSnz7raFas+JIfJaveniSXiKpBHJBVb62Wcd
-	l6RSp2VyYZmQod82uh5p2JQRoPK3sHOmDjr6Smug92JVLROE9cnFDDF0dzT+FzDK
-	/iJH24gRzq5VqTdd1hPdzQZ/POzoXe4f+jB7JadVID0Cg68juuP4Y2Yg5qV138Aj
-	Q==
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3vkfqxe2aq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 18 Jan 2024 16:59:38 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 18 Jan 2024 08:59:47 -0800
-Received: from pop-os.wrs.com (172.25.44.3) by ala-exchng01.corp.ad.wrs.com
- (147.11.82.252) with Microsoft SMTP Server id 15.1.2507.35 via Frontend
- Transport; Thu, 18 Jan 2024 08:59:47 -0800
-From: <Randy.MacLeod@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <anuj.mittal@intel.com>
-CC: <david.zuhn@sonos.com>
-Subject: [PATCH] rng-tools: Revert "rng-tools: move to meta-oe"
-Date: Thu, 18 Jan 2024 11:59:35 -0500
-Message-ID: <20240118165935.1999929-1-Randy.MacLeod@windriver.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=fail reason="dkim: body hash did not verify" header.i=@Philips.onmicrosoft.com header.s=selector2-Philips-onmicrosoft-com header.b=VnF/nk3N;
+ spf=pass (domain: bbl.ms.philips.com, ip: 40.107.21.137, mailfrom: jhaller@bbl.ms.philips.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dZsO1P2utV150V7/E/3YXZkslPWxfbHgpyEKoO2zgixQt3xiXQmcARCfJyTa4yj1XFzw7iDV9qmxGR9ub8gWffuhDJEVOrWADrMOHfdMsyG5aJ4sxmZWb0/0LfJO1DCdPLRoeMxEqR1ddujAnw4FJJR0b4dwHaY+178HTPCds/o8+A0lCad7MsYiLVIAQvs//Dkq0WBbStMh6yfuqB/JQBc8PJ0mWt/rPa5DNPCIZ5dwMOh2daiakU0qlHcbD74YI4JNepGTth9pktZQfXNfzWGmv7BcN8zza3LMVCQ3D5y6nG2pPBMVYJ8BxzEleTPqWn2Js4Jz2qKxXX4N4CgGvQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=j4pfCoc+T/p6uejd+OAn0FUhkFOhjlA8+qkgCZ/sTKw=;
+ b=bu0YdGe4uS+Yzpmt+5GZVgLuWAsDkx9i3JjwMkUnNIXeeGd+p38knAw5Hu+5Ykyr6MKQuqta8mya6BMngi014V2RoZw7pD4aVHybzjB7GlmHYkznvfpllTkmaqFg4qX/VTAEWpuyBJyPBcL3W4Md9b69isEsNB5lcNMtjj6UJRaYpOA8dUSV9pJIx3LPJ3EIN7H+/hGgZaWk7tRlJAOTaUspNjVmdZgwIjUA1JFPmRbpYU6u9BnHSI91opbTKr5mX9w1iorArv34M7Ihl+Wq6cVMle01VqGnx7NUotizHNGx4P/e14Q76VITCChut4QCLKLUad2nrcspWPnkDxu3nQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 212.159.232.72) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=bbl.ms.philips.com; dmarc=fail (p=none sp=quarantine pct=100)
+ action=none header.from=gmail.com; dkim=none (message not signed); arc=none
+ (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=Philips.onmicrosoft.com; s=selector2-Philips-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=j4pfCoc+T/p6uejd+OAn0FUhkFOhjlA8+qkgCZ/sTKw=;
+ b=VnF/nk3NgrLrHSAAfYXqfaL0m/gpOJyrarCdqZH/CYD4uRCZyQEGHagVGYt0Snx2WnX8pbx7y1ECAI45C1Sa+DoZh3FTnuONALnO4YiH7qLgN8DoAvWYm242hIx3v7BYO9VkpuIwB24NG7ZV4DSJy1j9X55MKSroHhjz627nlL4=
+Received: from AM0P190CA0025.EURP190.PROD.OUTLOOK.COM (2603:10a6:208:190::35)
+ by AMAP122MB0215.EURP122.PROD.OUTLOOK.COM (2603:10a6:20b:197::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7181.32; Thu, 18 Jan
+ 2024 17:40:49 +0000
+Received: from AM4PEPF00025F9A.EURPRD83.prod.outlook.com
+ (2603:10a6:208:190:cafe::4f) by AM0P190CA0025.outlook.office365.com
+ (2603:10a6:208:190::35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.23 via Frontend
+ Transport; Thu, 18 Jan 2024 17:40:49 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 212.159.232.72)
+ smtp.mailfrom=bbl.ms.philips.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=none header.from=gmail.com;
+Received-SPF: Pass (protection.outlook.com: domain of bbl.ms.philips.com
+ designates 212.159.232.72 as permitted sender)
+ receiver=protection.outlook.com; client-ip=212.159.232.72;
+ helo=ext-eur1.smtp.philips.com; pr=C
+Received: from ext-eur1.smtp.philips.com (212.159.232.72) by
+ AM4PEPF00025F9A.mail.protection.outlook.com (10.167.16.9) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7228.0 via Frontend Transport; Thu, 18 Jan 2024 17:40:49 +0000
+Received: from smtprelay-eur1.philips.com ([130.144.57.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 256/256 bits)
+	(Client did not present a certificate)
+	by ext-eur1.smtp.philips.com with ESMTP
+	id QKA5retWO0QCjQWNlrGf1X; Thu, 18 Jan 2024 18:40:49 +0100
+Received: from mail.bbl.ms.philips.com ([130.143.87.230])
+	by smtprelay-eur1.philips.com with ESMTP
+	id QWNlrCi0FIUGzQWNlrbsqL; Thu, 18 Jan 2024 18:40:49 +0100
+X-CLAM-Verdict: legit
+X-CLAM-Score: ??
+X-CLAM-Description: ??
+Received: from bbl2xr12.bbl.ms.philips.com (bbl2xr12.bbl.ms.philips.com [130.143.222.238])
+	by mail.bbl.ms.philips.com (Postfix) with ESMTP id 43F60182502
+	for <openembedded-core@lists.openembedded.org>; Thu, 18 Jan 2024 18:40:49 +0100 (CET)
+Received: by bbl2xr12.bbl.ms.philips.com (Postfix, from userid 1876)
+	id 351292A015E; Thu, 18 Jan 2024 18:40:49 +0100 (CET)
+From: jhaller.oss@gmail.com
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][PATCH] linux-firmware: fix mediatek MT76x empty license package
+Date: Thu, 18 Jan 2024 18:40:49 +0100
+Message-ID: <20240118174049.3517958-1-jhaller.oss@gmail.com>
+X-Mailer: git-send-email 2.25.1
+Reply-To: Julian Haller <julian.haller@philips.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM4PEPF00025F9A:EE_|AMAP122MB0215:EE_
 Content-Type: text/plain
-X-Proofpoint-GUID: yizI0rQuY3ieBxg_Kl92k5TdJr3URfC0
-X-Proofpoint-ORIG-GUID: yizI0rQuY3ieBxg_Kl92k5TdJr3URfC0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-01-18_08,2024-01-17_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- impostorscore=0 spamscore=0 lowpriorityscore=0 phishscore=0 malwarescore=0
- mlxlogscore=999 clxscore=1015 bulkscore=0 mlxscore=0 suspectscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2311290000 definitions=main-2401180124
+X-MS-Office365-Filtering-Correlation-Id: 61b580f6-2ec0-49e0-dca2-08dc184c9c1e
+X-MS-Exchange-SenderADCheck: 0
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	tkQjtjCERxkSZqCgoFo04J8o6zk0le0916URERl0o1Uw3F9fLzr9pxUglkcDFxgGGZZYsPBu8nYaqRGy/zZG/Bd14fdrMYbbxSTA3t279shPsA8dhQMx8ygsifvO4Gleq0flUSYAlGOuYzIZtStC8Ma0awIX+LNXB8aNEOJZyF84ewHUWqEyYZP/2qLUt3s7phtgA2iDVht08JMxcotKqHpW44ZOgcgWoCJFgB3wKGcgPSNH45jzLpBs3t4A14I6vZyeOz40yXS/RzSJ+/8hPFkEd0ZOR5zk5SfYsCJGNJ4CmRV1NuPAp8pmq8Eb6JQmyCheeJWKHqN8F55OMGB5u0QQcL1gT8gO7v0sDOZiIvLEEdg4AcgQQky8nSYmzs3A2oYRoRiF7q0kVxV7r7KvXnhD4qjhaVzR1jYxiFcN9aBPgDRHGtSBzDwCVU6XlWPVZ0AoXF9fgR74rxCuOzE0RN0WoJnzms/8Q81DpvLoM5rIMU87JBJ5skIK4QDKtKV4iEyDZBdY4VgXf4VYeHHZrRziZD1eIcyD5Ur86nQh7/fyvngFPQmga9m+ImggjNQ7hwEapkYOMEOk5J0ls7vqVkslEkOfRb+saAtUm+HL9pMgXk6I5GFakLJ4hJk2X/Mt1K1Jaj7W8Rb2DYp8/RAiKgxx8UDGUqBWYNFzJypAfIF230iCzg3B4ZWzjNJ7VXpHdSJZ+xSEB1nq3CeeWuH1kwH7QFu2kSpzCaAZdIH2mcdt4YGL96FXT6T08mCxn7QTycIroHipHNKStF26yxOxLQ==
+X-Forefront-Antispam-Report: 
+	CIP:212.159.232.72;CTRY:NL;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:ext-eur1.smtp.philips.com;PTR:ext-eur1.smtp.philips.com;CAT:NONE;SFS:(13230031)(4636009)(396003)(136003)(376002)(346002)(39860400002)(84050400002)(230922051799003)(64100799003)(451199024)(82310400011)(48200799006)(186009)(61400799012)(46966006)(40470700004)(36840700001)(83380400001)(41300700001)(47076005)(55446002)(82960400001)(83170400001)(36756003)(7636003)(356005)(7596003)(82740400003)(478600001)(36860700001)(8676002)(8936002)(6916009)(76482006)(316002)(42186006)(70206006)(70586007)(1076003)(6266002)(2906002)(26005)(73392003)(82202003)(336012)(42882007)(9686003)(2616005)(5660300002)(40460700003)(40480700001)(35450700002);DIR:OUT;SFP:1102;
+X-OriginatorOrg: ms.philips.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jan 2024 17:40:49.5148
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 61b580f6-2ec0-49e0-dca2-08dc184c9c1e
+X-MS-Exchange-CrossTenant-Id: 1a407a2d-7675-4d17-8692-b3ac285306e4
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=1a407a2d-7675-4d17-8692-b3ac285306e4;Ip=[212.159.232.72];Helo=[ext-eur1.smtp.philips.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AM4PEPF00025F9A.EURPRD83.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMAP122MB0215
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Jan 2024 16:59:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193994
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Jan 2024 17:40:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193995
 
-From: Randy MacLeod <Randy.MacLeod@windriver.com>
+From: Timotheus Giuliani <timotheus.giuliani@philips.com>
 
-This reverts commit d2b445384da3f3e6dab8577b6c56648b5244a788.
+Installing the linux-firmware-dev package fails because of the following pr=
+oblem.
+For each mediatek MT76x firmware a separate license package was declared.
+In all these license packages the same file was referenced as the license f=
+ile.
+This meant that if several of these packages were used at the same time,
+the license packages would be empty.
 
-Revert this commit since:
+This commit defines a common license package for the mediatek MT76x package=
+s,
+which is then referenced by all of them.
 
- - some systems using oe-core master may still be using kernels from
-   before 5.6 pulled in the rng-tools algorithm, and
-
- - some hardware platforms may not have a hardware random number generator
-   and could therefore need to run rngd to avoid long boot-time initialization
-   due to a depleted entropy pool.
-
-Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+Fixes: dfb7d2c426b4 ("linux-firmware: create separate packages")
+Signed-off-by: Julian Haller <julian.haller@philips.com>
 ---
- meta/conf/distro/include/maintainers.inc      |  1 +
- .../rng-tools/rng-tools/default               |  1 +
- meta/recipes-support/rng-tools/rng-tools/init | 42 +++++++++++
- .../rng-tools/rng-tools/rng-tools.service     | 32 +++++++++
- .../rng-tools/rng-tools_6.16.bb               | 69 +++++++++++++++++++
- 5 files changed, 145 insertions(+)
- create mode 100644 meta/recipes-support/rng-tools/rng-tools/default
- create mode 100644 meta/recipes-support/rng-tools/rng-tools/init
- create mode 100644 meta/recipes-support/rng-tools/rng-tools/rng-tools.service
- create mode 100644 meta/recipes-support/rng-tools/rng-tools_6.16.bb
+ .../linux-firmware/linux-firmware_20231211.bb | 23 ++++++-------------
+ 1 file changed, 7 insertions(+), 16 deletions(-)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 31023021ac..8dc63b138e 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -739,6 +739,7 @@ RECIPE_MAINTAINER:pn-repo = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-resolvconf = "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER:pn-rgb = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-rpcbind = "Hongxu Jia <hongxu.jia@windriver.com>"
-+RECIPE_MAINTAINER:pn-rng-tools = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER:pn-rpcsvc-proto = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-rpm = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-rsync = "Yi Zhao <yi.zhao@windriver.com>"
-diff --git a/meta/recipes-support/rng-tools/rng-tools/default b/meta/recipes-support/rng-tools/rng-tools/default
-new file mode 100644
-index 0000000000..b9f8e03635
---- /dev/null
-+++ b/meta/recipes-support/rng-tools/rng-tools/default
-@@ -0,0 +1 @@
-+EXTRA_ARGS="-r /dev/hwrng"
-diff --git a/meta/recipes-support/rng-tools/rng-tools/init b/meta/recipes-support/rng-tools/rng-tools/init
-new file mode 100644
-index 0000000000..13f0ecd37c
---- /dev/null
-+++ b/meta/recipes-support/rng-tools/rng-tools/init
-@@ -0,0 +1,42 @@
-+#!/bin/sh
-+#
-+# This is an init script for openembedded
-+# Copy it to @SYSCONFDIR@/init.d/rng-tools and type
-+# > update-rc.d rng-tools defaults 60
-+#
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20231211.bb =
+b/meta/recipes-kernel/linux-firmware/linux-firmware_20231211.bb
+index 16cf8e241b..9347cde298 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20231211.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20231211.bb
+@@ -263,9 +263,7 @@ do_install() {
+ PACKAGES =3D+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
+              ${PN}-cw1200-license ${PN}-cw1200 \
+              ${PN}-ralink-license ${PN}-ralink \
+-             ${PN}-mt7601u-license ${PN}-mt7601u \
+-             ${PN}-mt7650-license ${PN}-mt7650 \
+-             ${PN}-mt76x2-license ${PN}-mt76x2 \
++             ${PN}-mt76x-license ${PN}-mt7601u ${PN}-mt7650 ${PN}-mt76x2 \
+              ${PN}-radeon-license ${PN}-radeon \
+              ${PN}-amdgpu-license ${PN}-amdgpu \
+              ${PN}-marvell-license ${PN}-pcie8897 ${PN}-pcie8997 \
+@@ -507,43 +505,36 @@ FILES:${PN}-ralink =3D " \
+ RDEPENDS:${PN}-ralink +=3D "${PN}-ralink-license"
+=20
+ # For mediatek MT7601U
++LICENSE:${PN}-mt76x-license =3D "Firmware-ralink_a_mediatek_company_firmwa=
+re"
++FILES:${PN}-mt76x-license =3D "${nonarch_base_libdir}/firmware/LICENCE.ral=
+ink_a_mediatek_company_firmware"
 +
-+rngd=@SBINDIR@/rngd
-+test -x "$rngd" || exit 1
-+
-+[ -r @SYSCONFDIR@/default/rng-tools ] && . "@SYSCONFDIR@/default/rng-tools"
-+
-+case "$1" in
-+  start)
-+    echo -n "Starting random number generator daemon"
-+    start-stop-daemon -S -q -x $rngd -- $EXTRA_ARGS
-+    echo "."
-+    ;;
-+  stop)
-+    echo -n "Stopping random number generator daemon"
-+    start-stop-daemon -K -q -n rngd
-+    echo "."
-+    ;;
-+  reload|force-reload)
-+    echo -n "Signalling rng daemon restart"
-+    start-stop-daemon -K -q -s 1 -x $rngd
-+    start-stop-daemon -K -q -s 1 -x $rngd
-+    ;;
-+  restart)
-+    echo -n "Stopping random number generator daemon"
-+    start-stop-daemon -K -q -n rngd
-+    echo "."
-+    echo -n "Starting random number generator daemon"
-+    start-stop-daemon -S -q -x $rngd -- $EXTRA_ARGS
-+    echo "."
-+    ;;
-+  *)
-+    echo "Usage: @SYSCONFDIR@/init.d/rng-tools {start|stop|reload|restart|force-reload}"
-+    exit 1
-+esac
-+
-+exit 0
-diff --git a/meta/recipes-support/rng-tools/rng-tools/rng-tools.service b/meta/recipes-support/rng-tools/rng-tools/rng-tools.service
-new file mode 100644
-index 0000000000..5ae2fba215
---- /dev/null
-+++ b/meta/recipes-support/rng-tools/rng-tools/rng-tools.service
-@@ -0,0 +1,32 @@
-+[Unit]
-+Description=Hardware RNG Entropy Gatherer Daemon
-+DefaultDependencies=no
-+Conflicts=shutdown.target
-+Before=sysinit.target shutdown.target
-+ConditionVirtualization=!container
-+
-+[Service]
-+EnvironmentFile=-@SYSCONFDIR@/default/rng-tools
-+ExecStart=@SBINDIR@/rngd -f $EXTRA_ARGS
-+CapabilityBoundingSet=CAP_SYS_ADMIN
-+IPAddressDeny=any
-+LockPersonality=yes
-+MemoryDenyWriteExecute=yes
-+NoNewPrivileges=yes
-+PrivateTmp=yes
-+ProtectControlGroups=yes
-+ProtectHome=yes
-+ProtectHostname=yes
-+ProtectKernelModules=yes
-+ProtectKernelLogs=yes
-+ProtectSystem=strict
-+RestrictAddressFamilies=AF_UNIX
-+RestrictNamespaces=yes
-+RestrictRealtime=yes
-+RestrictSUIDSGID=yes
-+SystemCallArchitectures=native
-+SystemCallErrorNumber=EPERM
-+SystemCallFilter=@system-service
-+
-+[Install]
-+WantedBy=sysinit.target
-diff --git a/meta/recipes-support/rng-tools/rng-tools_6.16.bb b/meta/recipes-support/rng-tools/rng-tools_6.16.bb
-new file mode 100644
-index 0000000000..f0aa3ff93f
---- /dev/null
-+++ b/meta/recipes-support/rng-tools/rng-tools_6.16.bb
-@@ -0,0 +1,69 @@
-+SUMMARY = "Random number generator daemon"
-+DESCRIPTION = "Check and feed random data from hardware device to kernel"
-+HOMEPAGE = "https://github.com/nhorman/rng-tools"
-+BUGTRACKER = "https://github.com/nhorman/rng-tools/issues"
-+LICENSE = "GPL-2.0-only"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
-+DEPENDS = "openssl libcap"
-+
-+SRC_URI = "git://github.com/nhorman/rng-tools.git;branch=master;protocol=https \
-+           file://init \
-+           file://default \
-+           file://rng-tools.service \
-+           "
-+SRCREV = "e061c313b95890eb5fa0ada0cd6eec619dafdfe2"
-+
-+S = "${WORKDIR}/git"
-+
-+inherit autotools update-rc.d systemd pkgconfig
-+
-+EXTRA_OECONF = "--without-rtlsdr"
-+
-+PACKAGECONFIG ??= "libjitterentropy"
-+PACKAGECONFIG:libc-musl = "libargp libjitterentropy"
-+
-+PACKAGECONFIG[libargp] = "--with-libargp,--without-libargp,argp-standalone,"
-+PACKAGECONFIG[libjitterentropy] = "--enable-jitterentropy,--disable-jitterentropy,libjitterentropy"
-+PACKAGECONFIG[libp11] = "--with-pkcs11,--without-pkcs11,libp11 openssl"
-+PACKAGECONFIG[nistbeacon] = "--with-nistbeacon,--without-nistbeacon,curl libxml2"
-+PACKAGECONFIG[qrypt] = "--with-qrypt,--without-qrypt,curl"
-+
-+INITSCRIPT_PACKAGES = "${PN}-service"
-+INITSCRIPT_NAME:${PN}-service = "rng-tools"
-+INITSCRIPT_PARAMS:${PN}-service = "start 03 2 3 4 5 . stop 30 0 6 1 ."
-+
-+SYSTEMD_PACKAGES = "${PN}-service"
-+SYSTEMD_SERVICE:${PN}-service = "rng-tools.service"
-+
-+CFLAGS += " -DJENT_CONF_ENABLE_INTERNAL_TIMER "
-+
-+PACKAGES =+ "${PN}-service"
-+
-+FILES:${PN}-service += " \
-+    ${sysconfdir}/init.d/rng-tools \
-+    ${sysconfdir}/default/rng-tools \
-+"
-+
-+# Refer autogen.sh in rng-tools
-+do_configure:prepend() {
-+    cp ${S}/README.md ${S}/README
-+}
-+
-+do_install:append() {
-+    install -Dm 0644 ${WORKDIR}/default ${D}${sysconfdir}/default/rng-tools
-+    install -Dm 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/rng-tools
-+    install -Dm 0644 ${WORKDIR}/rng-tools.service \
-+                     ${D}${systemd_system_unitdir}/rng-tools.service
-+    sed -i \
-+        -e 's,@SYSCONFDIR@,${sysconfdir},g' \
-+        -e 's,@SBINDIR@,${sbindir},g' \
-+        ${D}${sysconfdir}/init.d/rng-tools \
-+        ${D}${systemd_system_unitdir}/rng-tools.service
-+
-+    if [ "${@bb.utils.contains('PACKAGECONFIG', 'nistbeacon', 'yes', 'no', d)}" = "yes" ]; then
-+        sed -i \
-+            -e '/^IPAddressDeny=any/d' \
-+            -e '/^RestrictAddressFamilies=/ s/$/ AF_INET AF_INET6/' \
-+            ${D}${systemd_system_unitdir}/rng-tools.service
-+    fi
-+}
--- 
-2.34.1
+ LICENSE:${PN}-mt7601u =3D "Firmware-ralink_a_mediatek_company_firmware"
+-LICENSE:${PN}-mt7601u-license =3D "Firmware-ralink_a_mediatek_company_firm=
+ware"
+=20
+-FILES:${PN}-mt7601u-license =3D "${nonarch_base_libdir}/firmware/LICENCE.r=
+alink_a_mediatek_company_firmware"
+ FILES:${PN}-mt7601u =3D " \
+   ${nonarch_base_libdir}/firmware/mediatek/mt7601u.bin \
+   ${nonarch_base_libdir}/firmware/mt7601u.bin \
+ "
+-RDEPENDS:${PN}-mt7601u +=3D "${PN}-mt7601u-license"
++RDEPENDS:${PN}-mt7601u +=3D "${PN}-mt76x-license"
+=20
+ # For MediaTek Bluetooth USB driver 7650
+ LICENSE:${PN}-mt7650 =3D "Firmware-ralink_a_mediatek_company_firmware"
+-LICENSE:${PN}-mt7650-license =3D "Firmware-ralink_a_mediatek_company_firmw=
+are"
+=20
+-FILES:${PN}-mt7650-license =3D " \
+-  ${nonarch_base_libdir}/firmware/LICENCE.ralink_a_mediatek_company_firmwa=
+re \
+-"
+ FILES:${PN}-mt7650 =3D " \
+   ${nonarch_base_libdir}/firmware/mediatek/mt7650.bin \
+   ${nonarch_base_libdir}/firmware/mt7650.bin \
+ "
+-RDEPENDS:${PN}-mt7650 +=3D "${PN}-mt7650-license"
++RDEPENDS:${PN}-mt7650 +=3D "${PN}-mt76x-license"
+=20
+ # For MediaTek MT76x2 Wireless MACs
+ LICENSE:${PN}-mt76x2 =3D "Firmware-ralink_a_mediatek_company_firmware"
+-LICENSE:${PN}-mt76x2-license =3D "Firmware-ralink_a_mediatek_company_firmw=
+are"
+=20
+-FILES:${PN}-mt76x2-license =3D " \
+-  ${nonarch_base_libdir}/firmware/LICENCE.ralink_a_mediatek_company_firmwa=
+re \
+-"
+ FILES:${PN}-mt76x2 =3D " \
+   ${nonarch_base_libdir}/firmware/mediatek/mt7662.bin \
+   ${nonarch_base_libdir}/firmware/mt7662.bin \
+   ${nonarch_base_libdir}/firmware/mediatek/mt7662_rom_patch.bin \
+   ${nonarch_base_libdir}/firmware/mt7662_rom_patch.bin \
+ "
+-RDEPENDS:${PN}-mt76x2 +=3D "${PN}-mt76x2-license"
++RDEPENDS:${PN}-mt76x2 +=3D "${PN}-mt76x-license"
+=20
+ # For MediaTek
+ LICENSE:${PN}-mediatek =3D "Firmware-mediatek"
+--=20
+2.25.1
 
 
