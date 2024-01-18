@@ -1,75 +1,89 @@
-Return-Path: <rpjday@crashcourse.ca>
+Return-Path: <david.wretman@ferroamp.se>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84760C4707B
-	for <webhook@archiver.kernel.org>; Thu, 18 Jan 2024 14:16:35 +0000 (UTC)
-Received: from cpanel10.indieserve.net (cpanel10.indieserve.net [199.212.143.9])
- by mx.groups.io with SMTP id smtpd.web10.12463.1705587387548493811
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1BE5C4707B
+	for <webhook@archiver.kernel.org>; Thu, 18 Jan 2024 15:10:45 +0000 (UTC)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+ by mx.groups.io with SMTP id smtpd.web11.13889.1705590642618198360
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Jan 2024 06:16:27 -0800
+ Thu, 18 Jan 2024 07:10:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@crashcourse.ca header.s=default header.b=LAhq17BW;
- spf=pass (domain: crashcourse.ca, ip: 199.212.143.9, mailfrom: rpjday@crashcourse.ca)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=crashcourse.ca; s=default; h=Content-Type:MIME-Version:References:
-	Message-ID:In-Reply-To:Subject:cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=P1v5nrSub2+CZbouOI9mI4jPERqm6pc7cGqpeMHULYo=; b=LAhq17BW4VSgoxOkYNbiWJEv76
-	LX20VLzJd2Pn7PZz2zKoUgs9SZLOguK/NdoHtl17O6e2K2afLJDJa5ysA1FnSflRmgiMkQ+OdLApe
-	smOZ5N2RnXdkPr6dLupY0NytDLZoe/y90sP8wqn5G+lF+LA+xqqLaUMN/XATy2MsJch/rF5GiL7h9
-	aVe3erMBRMAJZ8NOD0Cz/ivHCLLevB0DcRY49I/P/W/xKHghn98FhwGklfVr7jtuRo0UvWocXRbjn
-	9wavc/bYCwJsb4niB+u0ASZ/Wu548thBB1P2YXCU8yvdWgt1LBta6VdEEe5eU91qrqZLBOL/F3Eyi
-	WlmS1bpw==;
-Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.102.5]:49994 helo=fedora)
-	by cpanel10.indieserve.net with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96.2)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1rQTBw-00GhLM-26;
-	Thu, 18 Jan 2024 09:16:26 -0500
-Date: Thu, 18 Jan 2024 09:16:22 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] want to confirm i'm using "externalsrc" and "bin_package"
- efficiently
-In-Reply-To: <CANNYZj_0QmjJY-LE9FiGo0iVWA28u3rsFujEyS9ppk-bDCk8fg@mail.gmail.com>
-Message-ID: <26ab7d89-3ae8-37c5-a084-7c4ffe497f2@crashcourse.ca>
-References: <dfcf7a4a-81b1-ff26-d14-923bf379025@crashcourse.ca> <CANNYZj9aG5qcpe6PksShW4W69uk7EZ+j7yxHb43tgfDrk8ygFQ@mail.gmail.com> <5610c776-f1d9-3543-9878-56fad23e776a@crashcourse.ca> <CANNYZj9swGJz6kc4ykCAOnw=ACc_4aCn1UODGZSKrhT4Rcpj4g@mail.gmail.com>
- <cbd55bb-9148-16b4-4146-b6e8cebb9d3@crashcourse.ca> <CANNYZj_0QmjJY-LE9FiGo0iVWA28u3rsFujEyS9ppk-bDCk8fg@mail.gmail.com>
+ dkim=pass header.i=@ferroamp-se.20230601.gappssmtp.com header.s=20230601 header.b=KJxDJJ7X;
+ spf=permerror, err=too many SPF records (domain: ferroamp.se, ip: 209.85.167.52, mailfrom: david.wretman@ferroamp.se)
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-50ea98440a7so13377339e87.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jan 2024 07:10:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ferroamp-se.20230601.gappssmtp.com; s=20230601; t=1705590640; x=1706195440; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4UE5ne8vSGLzOmQ9fI/iqAvgjRqlpxNjGFExL93c4ks=;
+        b=KJxDJJ7Xc1S5PRlntnfQwp0db5X7q7ORimybXuwTqvGHFDXrWk9jV5x5bI7jujFwMF
+         6DTwmqIFmsKTUntaCVYl2y8CmMxJ1t3OZQYnR0ThWc8KEC9ziHP2lvNkLXEcQ6O4vVHA
+         uDbfYhXsskfvTmMfUAUJ6jiISdeWXgIjD5WNWt+NOka8ZZWDa98zNfekC3LI7KbHGeMT
+         vPvm1VaQMEsSd8MDYZ1DPRfjUoR71RgQbSG7/gjGFc359pzZ09Xm520nE5PUFz2++SiM
+         +qlQwVWEMFX/4PfymcwVuaMNL72LZsL3G2ZfyMweGSNkbC1fqzmzFoMe0rWVfCowl5D5
+         YMbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705590640; x=1706195440;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4UE5ne8vSGLzOmQ9fI/iqAvgjRqlpxNjGFExL93c4ks=;
+        b=g9ZEqZlDsoZrVAkgCie821843p0zs/GdaX0ux74pZMgssK5zYIpgmYYQKfdvz5VC2A
+         SpZGwRN7kIC1Om4R+TLrlVf99sWYpfyndQuFX4lji8sYERcP7LMKGNfKh6yEeFewmIf7
+         aB0l3JlzFOXxsxbysDTtO07foyH64o+C/DtRBLqELV8sAPMoMidOoBC+q5Et1mAXu+jg
+         ZFaEFhMzmCDUjhd6kDj1MVpZtBnTfuiEA/p8bKNKZJRg3oewhVD1A2eQ8RlvSGFjR9g9
+         7S9IAq9X9kktYSzW/GUso2oV5XeP229g8hfatXydVWstYBtMD538QR3H4ztDk7jdoBBX
+         6+pA==
+X-Gm-Message-State: AOJu0YwePOT0Dd0FCa4KqKRbO2bN9VsET9vuLOFJbE4SGezoAcKLd2TB
+	n5n7k6FppcDrlU9t88T4inK3qeI/O5JL/y5961ux5E3T0oGWHoTUyK0kDcErmEZNAGPGWa6hFjX
+	V
+X-Google-Smtp-Source: AGHT+IF+djHIuz5HbFIc8lNTqUXbyvk+uAovwBA1TtLiX9fgXYHSlXjQxb86qUue27O6JGNxGO5SUA==
+X-Received: by 2002:ac2:44b1:0:b0:50d:f824:959a with SMTP id c17-20020ac244b1000000b0050df824959amr341516lfm.206.1705590640623;
+        Thu, 18 Jan 2024 07:10:40 -0800 (PST)
+Received: from dwr-latitude-5400.local (c-5b7de455.017-252-73746f3.bbcust.telenor.se. [85.228.125.91])
+        by smtp.gmail.com with ESMTPSA id p15-20020a056512234f00b0050e7ec49881sm662658lfu.21.2024.01.18.07.10.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Jan 2024 07:10:40 -0800 (PST)
+From: David Wretman <david.wretman@ferroamp.se>
+To: openembedded-core@lists.openembedded.org
+Cc: David Wretman <david.wretman@ferroamp.se>
+Subject: [PATCH 0/1] uboot-sign: Break dependency loop in fitImage signing
+Date: Thu, 18 Jan 2024 16:10:29 +0100
+Message-Id: <20240118151030.1781313-1-david.wretman@ferroamp.se>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel10.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel10.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: cpanel10.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Jan 2024 14:16:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193989
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Jan 2024 15:10:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193990
 
-On Thu, 18 Jan 2024, Alexander Kanavin wrote:
+When trying to sign a Linux fitImage including a U-Boot boot script we
+end up in a dependency loop.
 
-> On Thu, 18 Jan 2024 at 15:10, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
-> >   ah, got it. that's still fine since as the content is almost
-> > exclusively binary (pre-built) content, redoing from scratch will take
-> > no time at all. thanks for clarifying that.
->
-> Pre-built content is ok on its own, but if those items are in the
-> dependency tree of something that does take time to build, they will
-> subvert sstate and lengthen build times.
+In this scenario adding the public key used to sign the fitImage to the
+U-Boot dtb depends on the availability of the Linux fitImage. The
+fitImage in turn can not be created before the boot script is made
+available by the U-Boot do_populate_sysroot task which can not run
+before the signing of U-Boot.
 
-  i'm already going over the entire build to identify unnoticed
-dependencies that could cause problems.
+To fix this, we create a dummy fitImage to feed to mkimage when adding
+the public keys instead of using the Linux fitImage. The dependency on
+Linux fitImage availability from U-Boot recipes can thus be removed.
 
-rday
+This approach was earlier suggested by Sean Anderson in commit
+d6858c9f45d25cfec6defec17f62139593ae87f3.
+
+David Wretman (1):
+  uboot-sign.bbclass: Break dependency loop in fitImage signing
+
+ meta/classes-recipe/uboot-sign.bbclass | 77 ++++++++++++++++++++------
+ 1 file changed, 61 insertions(+), 16 deletions(-)
+
+-- 
+2.34.1
+
 
