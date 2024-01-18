@@ -1,190 +1,144 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <jamin_lin@aspeedtech.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD504C4725D
-	for <webhook@archiver.kernel.org>; Thu, 18 Jan 2024 02:15:01 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web10.2123.1705544099478288096
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABD59C4725D
+	for <webhook@archiver.kernel.org>; Thu, 18 Jan 2024 02:19:21 +0000 (UTC)
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (APC01-TYZ-obe.outbound.protection.outlook.com [40.107.117.109])
+ by mx.groups.io with SMTP id smtpd.web10.2239.1705544357355678273
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Jan 2024 18:14:59 -0800
+ Wed, 17 Jan 2024 18:19:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=MmAHBc5i;
- spf=pass (domain: mvista.com, ip: 209.85.214.170, mailfrom: vanusuri@mvista.com)
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1d5f38313f9so1906285ad.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 Jan 2024 18:14:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1705544098; x=1706148898; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=RIIxRzHQ2qZRXxW73V6Lw7qTeXQoDqyBvaMDWDSIVdY=;
-        b=MmAHBc5iMY7moH6DxwN1mdTP+LymKOfyMr8Ip9BGDv4IvsM60MTOQ/VaAsDtMKVCUj
-         eM4sU2OAZ4g+1ApEmbCtUd6UGJYbndpjxLe39PtUZ85VEE9MnJshHB1AH/dua/DAkHZz
-         rFu20+D8RyRj9659iiVPlc2723xvC3NQSIh50=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705544098; x=1706148898;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RIIxRzHQ2qZRXxW73V6Lw7qTeXQoDqyBvaMDWDSIVdY=;
-        b=aUGiOBRJ8pg6+AIOenoLMDxvSVeljJDo3EF+X9zzD/oA0MSc543uGEP/7xIQJXq/Bs
-         UxQBifmxLsxddAyjAprxbeM+qo2rbUlv5JOEUcEYO6iL2r58J10p0STgVWnBmNQVOhI8
-         1F5BHs6abV0ASAMM23wyj3/0OYRi9J2Qp/hbh67ZYpzqx7csu4kzcmSQVm0dPS0vuAxV
-         pwBgVust40YeuJ2ow71Cr/t4nK8U9dYWuEC/SB3xHhEAcEUfhqvNnvRWKbzPO/YiOFKR
-         xUqASnixzTy5UrThp5hpFdhTdoYoxH+8bvw9tQB0VWT0IcU7PvYvSvOzM4kHU8p9ZCPs
-         1AYw==
-X-Gm-Message-State: AOJu0YyIhvUzHVT1Zt0RNcFSRXFWw+xjo5nfBFO2UjP/Feq1FW1KBn4e
-	IfAQwoXqybmQpgagEtdW6hhqMwx070lBZIH4fxw8UhG4jIywDwmEmzU8ooAxHvapx3byGjRm7Hv
-	I
-X-Google-Smtp-Source: AGHT+IFShDnYSV2cCmg2Cel9Cn9+B127LU2wWdjLowXCx42nyfVaoTpXz4qPYvoCllyebkrbo1HZdg==
-X-Received: by 2002:a17:902:c389:b0:1d5:6114:b4e8 with SMTP id g9-20020a170902c38900b001d56114b4e8mr2666909plg.41.1705544098126;
-        Wed, 17 Jan 2024 18:14:58 -0800 (PST)
-Received: from MVIN00020.mvista.com ([122.174.86.95])
-        by smtp.gmail.com with ESMTPSA id s16-20020a639250000000b005c200b11b77sm355240pgn.86.2024.01.17.18.14.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jan 2024 18:14:57 -0800 (PST)
-From: vanusuri@mvista.com
-To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][dunfell][PATCH] openssh: Backport fix for CVE-2023-51385
-Date: Thu, 18 Jan 2024 07:42:44 +0530
-Message-Id: <20240118021244.5841-1-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@aspeedtech.com header.s=selector2 header.b=Gjhyjvsq;
+ spf=pass (domain: aspeedtech.com, ip: 40.107.117.109, mailfrom: jamin_lin@aspeedtech.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mOnBYLZm9W6p6W+O7Slj95rMmvsWtjDMx2ucHSD1cSTlv3QINcx9+fUMsjeQXMewMaNqmJvRSjS4M2VvVx2cdadUl9EC87FNRslpIQdy0G1jo07liJQ9TqUDUBGGo/SsHRmdn3T8AFMMUOyOw9jWxepamJyjGigZ2Vi69eq86KV9PJQWeCOXvJNbKjSms9YljoDFJQ5PCi0Ft3LolYJieiozWyHQ/joOVmuzYiI1BhsoZ14MJsgTVDttlW1g9I2yFV/vmp+OnU/wjsgsrbA7s0jO9hVJaeJGYrHnZrGEFYag+VjRwYvQx48K53bkbMz5G/lx6wa3NDB1yVwJqrFN+g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4K2r4VdcazrmQRHYOsjjT317XCvS6T5IWiu0465n8R8=;
+ b=dx+nyPOagrYzfYoHCUFA+wcBMPX0L6norkGXcGcbJduBPvpns1CI9yhYTXbVRY9bMP5Kcl7NRIIMnhyENvBGX6wzYz8goXxMPpdPksQFrzkkR3Tt2jy3zEvybgB6tG3ChTWc/v3HkYzLCzUPqfP4CUHFDdlBqjr4wuM7gLnTvf4+1e/Oq/gIktf3L/54O3iZXf1Fzk/9Nv+SsnfDoLuiSj1b29QdwuUHPcbmJrUntiJ7/ByF081Ny12rUIUbFxV/VXUfrvCOhCY6hDbuyk+c8QMk3rwvUucxTPVprLddUXush2UDdSQigkHuKzqf/9De7gwO8X712xKEIqR7HsrlPQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4K2r4VdcazrmQRHYOsjjT317XCvS6T5IWiu0465n8R8=;
+ b=GjhyjvsqAlOnq9BI/yqzlE47g4q/tZgYCR/bMs++u6IHbNiFag7ICmGpRJwUG1PApbnqsiRKKgHextd6OIIeFijrxQPpmuwHP0x/7+jRlrInFwf75rTL7bNBrvj+7Q4dVzyrslhY+WzN54jjs3BGlfikaylEZxN13krtWnjfAoRjRFQfkKfhJlLG0O0Q1JOum5DxlkrxV9XV+iiVASg86ujmIbScdwlxBU684iDS+8gLVAVIISmfBeSjmr4zBToA38HuzPkMs5IA6VpIR1GT9X/PXEc8Jk4MGGDIqBlMUY9cV7COs1gwHL2CX3zj8mm0n3qv9yLXdIW9kSz9dVrZJw==
+Received: from SI2PR06MB5041.apcprd06.prod.outlook.com (2603:1096:4:1a4::6) by
+ TY0PR06MB5234.apcprd06.prod.outlook.com (2603:1096:400:21a::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.23; Thu, 18 Jan
+ 2024 02:19:11 +0000
+Received: from SI2PR06MB5041.apcprd06.prod.outlook.com
+ ([fe80::c621:5399:ca9:c609]) by SI2PR06MB5041.apcprd06.prod.outlook.com
+ ([fe80::c621:5399:ca9:c609%5]) with mapi id 15.20.7202.020; Thu, 18 Jan 2024
+ 02:19:09 +0000
+From: Jamin Lin <jamin_lin@aspeedtech.com>
+To: Tom Rini <trini@konsulko.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [PATCH] uboot-sign: support to load optee-os and TFA images
+Thread-Topic: [PATCH] uboot-sign: support to load optee-os and TFA images
+Thread-Index: AQHaSVKqvWWf27BY1U6AILRAotgAPbDe1ZfA
+Date: Thu, 18 Jan 2024 02:19:09 +0000
+Message-ID: 
+ <SI2PR06MB5041B4FBF62741BAB50A66CDFC712@SI2PR06MB5041.apcprd06.prod.outlook.com>
+References: <8f804eb9fff6b055a4d53198fa4553242e1204af.camel@siemens.com>
+ <1770.1705462624460046867@lists.openembedded.org>
+ <20240117143705.GW12635@bill-the-cat>
+In-Reply-To: <20240117143705.GW12635@bill-the-cat>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SI2PR06MB5041:EE_|TY0PR06MB5234:EE_
+x-ms-office365-filtering-correlation-id: 2e44a29a-eda1-4065-dbe9-08dc17cbdaf6
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ a7FMIuMlXSNW5odefdE0VZxKfZ9+ha/YdMrDZSA37ziG33F8BmkmFgvsaD9y6W2kGZRxdcQ/FSCYRuaYEN/wOhwuK40KDN4K03u7hVJqrFdJmK0sF9bYE2ZpbtQEfTT2mnqNhpDw1bFUVmrUq1tLug4ZqAg6/xHydhLdn+/KMb7PV+leN6a4zyMEPeYiLOfYYq0zY23L/CRQknLfcqVR0qlScCUfkviH+GUZn6zNsOZ8BrJs6dQ45CCbrKuavx4NlddwamdTyXZipZiMdoQ6zYqD+kamyKTrX+sv/z80QH0kYGeteJKXKdb6YJZ6j6fAvUAPxB1A8F5jNkFyxMIV3Wk83Y6ZVHTkyFksyJsChs4IrtoqP2G55EBzD8lXJVqW290PyIHS2OcFZfZkkoYwB16m2pN2HmeLINQk53GbcPu9PSlA8hP4cK/+NS2IUpkwr0GY6ZvaiFaCWcWYRpVphfsbRXvc2r1T2XYhOLVZBt2MC5ny4VGJMYI3bUKnbPRhzrtr45syjmDrkyZmSzX1t2rvz1fOOI9Le/sm+FPCVowqP1wAXx3lwacg/7OZSL0k1YLgCRiETDBlqc0f4m5RUWaUm95JBFgzghsYdKv6/lrOmpOsqYbhGkbjTrtovTm8
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SI2PR06MB5041.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(346002)(136003)(366004)(376002)(39850400004)(230922051799003)(64100799003)(1800799012)(451199024)(186009)(5660300002)(2906002)(8676002)(66476007)(4326008)(4744005)(8936002)(52536014)(316002)(76116006)(66446008)(66946007)(55016003)(6916009)(64756008)(66556008)(478600001)(6506007)(7696005)(71200400001)(9686003)(53546011)(83380400001)(26005)(41300700001)(38070700009)(122000001)(33656002)(38100700002)(86362001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?Se+pzGuKmKBfhPhjydiw0FnkYL8IrAifyGncbpj+6hmJMxza3UZQ5Lwmv+xQ?=
+ =?us-ascii?Q?FhBNuDe/ORTeYHjcZh1YrsbmaP0B/vzW8b/OiwK3qZjqKns+1FAoLF09CFMy?=
+ =?us-ascii?Q?QiOc8IG/E6I9EgngAv/X7RtsY8V6efYl1xCojGzjaa7iuY4er9/5qqn/4oKU?=
+ =?us-ascii?Q?zdB7O7CZ5tKIiDo6AnTW0cJ/4Sl2XsgP7LVtGXmVyw4nsIX2YRXbVCsen9f5?=
+ =?us-ascii?Q?oeZQ7RYmmX2GFvObzGSPMaxiX6pcIKzLI1WuTaj5/GOzJLJmnEen4S2hLrRG?=
+ =?us-ascii?Q?no1QMVzBmVsSc+nBRJXTk8Z00UzI6PN18LoMsVvoTGSIL0jzV2s9F0HKsF5H?=
+ =?us-ascii?Q?AA2ONUpNtNB7bMHr3/4ocm2Hzgl1j2y7mBybhjTwL4/xaeMSIse5qEeJ+hoL?=
+ =?us-ascii?Q?22mwTnZINCmkjfYtQsdaew6SEFqHrZuClf2Gflgot9KCsxfGI00m+LXnvafx?=
+ =?us-ascii?Q?s0KxhHb77mYLeXCu1p2auLHqaiabWj8my/qRZ4KD9jRs7suCkl6Q+HEmtGbW?=
+ =?us-ascii?Q?0hiLAtmpN8HZD8JQrpRlgjnKy0cgSeiNDQ0OccZ3Wl+7hrukxZCNr0bVrdR9?=
+ =?us-ascii?Q?rfVUyKceQvedl2k26Lk7WBbnA+QGiiEczMGeKwUTUOcBugIXs0KyueKr3jzP?=
+ =?us-ascii?Q?SnNseRyCqwSJ5NTWCcfHeoTDWHaNmRLwys9Pgdd7Z9kNzSMVUqeurFV65kXs?=
+ =?us-ascii?Q?nyuXAekoJYHiaBcd1vVnTSBJ+pkcTyyvV70t1wSnDBVkkfFZ3434ICLuzP2Y?=
+ =?us-ascii?Q?EutYVpwGstRJ2FU3EeE/XzcfRHAkNK2f8g3/mkGMTldL2sc308cyP/DTZlXr?=
+ =?us-ascii?Q?Pz3vzGdep6lqsZ3zC4ZqmgOD9x9wg4S/7fDImYtCmaOlVaFzagYFg16SpJQQ?=
+ =?us-ascii?Q?yI36HvuX310sZgpgqB+Yu0p9sW5RK14qiCYerf+wCaQDg3WTZxyokvuKFTmI?=
+ =?us-ascii?Q?QOqdwvfhRTrl130ZfLNyChX+LtkFIC9b3SgcxPB3oNNewMAyQya30e01sjUH?=
+ =?us-ascii?Q?W1xCvJQLZmdP7VC3vzpRsQem7bsq6QPo7SWrvtcWpKB1r8f5lIsc5OGDTM4t?=
+ =?us-ascii?Q?Ogrztwu3g7jxoeQFBOYvc1gHDUUOxTGM9qGjNyp8LDFBp6ZOBuvQanqMycld?=
+ =?us-ascii?Q?Z898+j4XUozd57v1h1BZNE+3TntfRjoralvpkcUabelvIkaNHrruvkhzSr89?=
+ =?us-ascii?Q?aOlCGNT3Y7nQMMVvupLfHzB8iwJmZewQwnW5/6wPZkCBAC2jsE943ogD8O5D?=
+ =?us-ascii?Q?vAl2jwtD0iuzP+RzDGTB3HJ1GKwBp2jCunPj5bqRpVpWudvCnVS8XANzBtnp?=
+ =?us-ascii?Q?9h8C6HwojVhAxJpaELDEDIxl48tXgMp8rLF9x0vxply0JvjmsqslLI8CGHT1?=
+ =?us-ascii?Q?pR/0LJtV5ttueGEO0d/eOySw4CesWcTI4z4DPw7JgKq9hRPZ1xCskYEjGxQq?=
+ =?us-ascii?Q?j+Kvva+XuJ7N6qFFWs/3vVrs8MqtI5p3cArSX/tIVuMwSN7sMLeEMfyZ2CFG?=
+ =?us-ascii?Q?K5E5ls/qL3B+EG1OG4QRWZMjRRpXgKFG8jgThzvxndF8IPk0DXf2MFx+nnbt?=
+ =?us-ascii?Q?XWr0UkUR4TKaOVaknyXkasoMAUBefb3M0NR69Vc+?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SI2PR06MB5041.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2e44a29a-eda1-4065-dbe9-08dc17cbdaf6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jan 2024 02:19:09.8883
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: BdqcVFFXRwJNJ/x1PaBpkE20rGKUoY0+pHvH6Gzq4bnEl/q9+/JlCU51kS6B5BE4LPVX1dc5ncfVjtsmZlzk0D5Sb7s9Ut5bVBn3Lz88ARg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY0PR06MB5234
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Jan 2024 02:15:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193953
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Jan 2024 02:19:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193954
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+> -----Original Message-----
+> From: Tom Rini <trini@konsulko.com>
+> Sent: Wednesday, January 17, 2024 10:37 PM
+> To: Jamin Lin <jamin_lin@aspeedtech.com>
+> Cc: openembedded-core@lists.openembedded.org
+> Subject: Re: [PATCH] uboot-sign: support to load optee-os and TFA images
+>=20
+> On Tue, Jan 16, 2024 at 07:37:04PM -0800, Jamin Lin wrote:
+>=20
+> > Hi Alexander,
+> >
+> > One more thing, So far, bitman only support hash 256.
+>=20
+> What hashing algorithm would you like to be using instead? We can always
+> include more and better options with configuration as needed.
+>=20
+> --
+> Tom
 
-Upstream-Status: Backport
-[https://github.com/openssh/openssh-portable/commit/7ef3787c84b6b524501211b11a26c742f829af1a]
+Hi Tom
+At present, makeimage tool support hash 256, 384 and 512. It also support r=
+sa 2038, 3072 and 4096.
+It would be better if binman support these algorithms.
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
----
- .../openssh/openssh/CVE-2023-51385.patch      | 96 +++++++++++++++++++
- .../openssh/openssh_8.2p1.bb                  |  1 +
- 2 files changed, 97 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2023-51385.patch
-
-diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2023-51385.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2023-51385.patch
-new file mode 100644
-index 0000000000..ae084053f8
---- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh/CVE-2023-51385.patch
-@@ -0,0 +1,96 @@
-+From 7ef3787c84b6b524501211b11a26c742f829af1a Mon Sep 17 00:00:00 2001
-+From: "djm@openbsd.org" <djm@openbsd.org>
-+Date: Mon, 18 Dec 2023 14:47:44 +0000
-+Subject: [PATCH] upstream: ban user/hostnames with most shell metacharacters
-+
-+This makes ssh(1) refuse user or host names provided on the
-+commandline that contain most shell metacharacters.
-+
-+Some programs that invoke ssh(1) using untrusted data do not filter
-+metacharacters in arguments they supply. This could create
-+interactions with user-specified ProxyCommand and other directives
-+that allow shell injection attacks to occur.
-+
-+It's a mistake to invoke ssh(1) with arbitrary untrusted arguments,
-+but getting this stuff right can be tricky, so this should prevent
-+most obvious ways of creating risky situations. It however is not
-+and cannot be perfect: ssh(1) has no practical way of interpreting
-+what shell quoting rules are in use and how they interact with the
-+user's specified ProxyCommand.
-+
-+To allow configurations that use strange user or hostnames to
-+continue to work, this strictness is applied only to names coming
-+from the commandline. Names specified using User or Hostname
-+directives in ssh_config(5) are not affected.
-+
-+feedback/ok millert@ markus@ dtucker@ deraadt@
-+
-+OpenBSD-Commit-ID: 3b487348b5964f3e77b6b4d3da4c3b439e94b2d9
-+
-+Upstream-Status: Backport [https://github.com/openssh/openssh-portable/commit/7ef3787c84b6b524501211b11a26c742f829af1a]
-+CVE: CVE-2023-51385
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ ssh.c | 39 +++++++++++++++++++++++++++++++++++++++
-+ 1 file changed, 39 insertions(+)
-+
-+diff --git a/ssh.c b/ssh.c
-+index 15aee56..2cf0b64 100644
-+--- a/ssh.c
-++++ b/ssh.c
-+@@ -583,6 +583,41 @@ set_addrinfo_port(struct addrinfo *addrs, int port)
-+ 	}
-+ }
-+ 
-++static int
-++valid_hostname(const char *s)
-++{
-++	size_t i;
-++
-++	if (*s == '-')
-++		return 0;
-++	for (i = 0; s[i] != 0; i++) {
-++		if (strchr("'`\"$\\;&<>|(){}", s[i]) != NULL ||
-++		    isspace((u_char)s[i]) || iscntrl((u_char)s[i]))
-++			return 0;
-++	}
-++	return 1;
-++}
-++
-++static int
-++valid_ruser(const char *s)
-++{
-++	size_t i;
-++
-++	if (*s == '-')
-++		return 0;
-++	for (i = 0; s[i] != 0; i++) {
-++		if (strchr("'`\";&<>|(){}", s[i]) != NULL)
-++			return 0;
-++		/* Disallow '-' after whitespace */
-++		if (isspace((u_char)s[i]) && s[i + 1] == '-')
-++			return 0;
-++		/* Disallow \ in last position */
-++		if (s[i] == '\\' && s[i + 1] == '\0')
-++			return 0;
-++	}
-++	return 1;
-++}
-++
-+ /*
-+  * Main program for the ssh client.
-+  */
-+@@ -1067,6 +1102,10 @@ main(int ac, char **av)
-+ 	if (!host)
-+ 		usage();
-+ 
-++	if (!valid_hostname(host))
-++		fatal("hostname contains invalid characters");
-++	if (options.user != NULL && !valid_ruser(options.user))
-++		fatal("remote username contains invalid characters");
-+ 	host_arg = xstrdup(host);
-+ 
-+ 	/* Initialize the command to execute on remote host. */
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-connectivity/openssh/openssh_8.2p1.bb b/meta/recipes-connectivity/openssh/openssh_8.2p1.bb
-index eb3089cd8a..9d6cf7da6c 100644
---- a/meta/recipes-connectivity/openssh/openssh_8.2p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_8.2p1.bb
-@@ -40,6 +40,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
-            file://CVE-2023-38408-11.patch \
-            file://CVE-2023-38408-12.patch \
-            file://CVE-2023-48795.patch \
-+           file://CVE-2023-51385.patch \
-            "
- SRC_URI[md5sum] = "3076e6413e8dbe56d33848c1054ac091"
- SRC_URI[sha256sum] = "43925151e6cf6cee1450190c0e9af4dc36b41c12737619edff8bcebdff64e671"
--- 
-2.25.1
-
+I patched uboot-sign.bbclass the original goal is to make yocto support opt=
+ee-os and tfa in the old version of u-boot.
+Thanks
 
