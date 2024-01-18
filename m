@@ -1,106 +1,190 @@
-Return-Path: <petr.vorel@gmail.com>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D383C47258
-	for <webhook@archiver.kernel.org>; Thu, 18 Jan 2024 00:30:14 +0000 (UTC)
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
- by mx.groups.io with SMTP id smtpd.web10.4081.1705537806845473829
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD504C4725D
+	for <webhook@archiver.kernel.org>; Thu, 18 Jan 2024 02:15:01 +0000 (UTC)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web10.2123.1705544099478288096
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Jan 2024 16:30:07 -0800
+ Wed, 17 Jan 2024 18:14:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=CGbBt/yv;
- spf=pass (domain: gmail.com, ip: 209.85.208.46, mailfrom: petr.vorel@gmail.com)
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-55a02948940so157894a12.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 Jan 2024 16:30:06 -0800 (PST)
+ dkim=pass header.i=@mvista.com header.s=google header.b=MmAHBc5i;
+ spf=pass (domain: mvista.com, ip: 209.85.214.170, mailfrom: vanusuri@mvista.com)
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1d5f38313f9so1906285ad.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 17 Jan 2024 18:14:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705537805; x=1706142605; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1705544098; x=1706148898; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vUDGgRy6g3oKegtni/QD2wL/uDy2zk8D4BKbq7BxB7Q=;
-        b=CGbBt/yvX7ZLk/7HgTSp2inibHs8JHniiGpNVspl1UanMKf6VKxFo7JOoKdWp/CyTm
-         a3P4kQlAY3ihKPkg7+bYtYe+a/Lqug6Bq/V3BGviKKSEQcjc8V6BTafS4ibNRkXxIrzR
-         jVpwfyPLIpUamviiU+ByNy6tHkTduXnX3Co2R0gMbRbArGam0UjKXIPMNTMrtB/YKXFr
-         pCJGJtQzZuwq+F78AJJqPq0zWu5OTCBsIzthzYkbrGhsdABE5Jc1/3DEB5o5/cdiNob8
-         W3Ps2pL1IF2inznAHlOkDF7tf203fweT7iVNbshhA/2fN9pE6dKJ++GJZ4hykwwtVf8p
-         0WoA==
+        bh=RIIxRzHQ2qZRXxW73V6Lw7qTeXQoDqyBvaMDWDSIVdY=;
+        b=MmAHBc5iMY7moH6DxwN1mdTP+LymKOfyMr8Ip9BGDv4IvsM60MTOQ/VaAsDtMKVCUj
+         eM4sU2OAZ4g+1ApEmbCtUd6UGJYbndpjxLe39PtUZ85VEE9MnJshHB1AH/dua/DAkHZz
+         rFu20+D8RyRj9659iiVPlc2723xvC3NQSIh50=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705537805; x=1706142605;
+        d=1e100.net; s=20230601; t=1705544098; x=1706148898;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=vUDGgRy6g3oKegtni/QD2wL/uDy2zk8D4BKbq7BxB7Q=;
-        b=TvW0QeM9KD65bCLgg4ECirTtR6TPU9mXBaraNXpLG9y/nnz/a5lrnJKa01/KU88zWL
-         xbb3eYp/3K4XbusA73nxnO/iPMSnvVfFtQTz3n5Dnf3LaDP52V6k1L5gwrQCDEZvzAqL
-         aug0guNExZgm2IEcHtQ/mVFFuTc8YXi+UTWHzh3NRpjsZqDunefZvTz1j3hD/ltHghyO
-         iJviIfJEt86Kf3WvjSGN254nB+m+ez9Usa3YIAo5exQvVE1XUGTHCR1ep/kwaCWm1whK
-         J1Hnq/jp3ez5HDesQX3Al++m5JZSPHF+6xfFb9TBGjIzaWkfBYoaLRiXmdsmKdQsuhr/
-         MzXw==
-X-Gm-Message-State: AOJu0YzjwPPnJOqotSSPfdDdhGu8SaFN6f0lRJd+MmakTigvDKD/ko1A
-	cXOgAyoh0yvL7YlNxjxPUbYmPfi+D4+Sz3YmkWnFqnIbdNg/nY5Exl16pm8+
-X-Google-Smtp-Source: AGHT+IHlOUjwXiiecGe8w3a9laeOxKAKhkvnp5MFNA7xovVQSVZ5xgdacAkuKdUKFGj1PAOuYe/ftQ==
-X-Received: by 2002:a17:906:2288:b0:a2c:551e:6278 with SMTP id p8-20020a170906228800b00a2c551e6278mr8973eja.9.1705537803774;
-        Wed, 17 Jan 2024 16:30:03 -0800 (PST)
-Received: from localhost.localdomain (gw1.ms-free.net. [185.243.124.10])
-        by smtp.gmail.com with ESMTPSA id ks19-20020a170906f85300b00a2b086c29e1sm8401524ejb.127.2024.01.17.16.30.02
+        bh=RIIxRzHQ2qZRXxW73V6Lw7qTeXQoDqyBvaMDWDSIVdY=;
+        b=aUGiOBRJ8pg6+AIOenoLMDxvSVeljJDo3EF+X9zzD/oA0MSc543uGEP/7xIQJXq/Bs
+         UxQBifmxLsxddAyjAprxbeM+qo2rbUlv5JOEUcEYO6iL2r58J10p0STgVWnBmNQVOhI8
+         1F5BHs6abV0ASAMM23wyj3/0OYRi9J2Qp/hbh67ZYpzqx7csu4kzcmSQVm0dPS0vuAxV
+         pwBgVust40YeuJ2ow71Cr/t4nK8U9dYWuEC/SB3xHhEAcEUfhqvNnvRWKbzPO/YiOFKR
+         xUqASnixzTy5UrThp5hpFdhTdoYoxH+8bvw9tQB0VWT0IcU7PvYvSvOzM4kHU8p9ZCPs
+         1AYw==
+X-Gm-Message-State: AOJu0YyIhvUzHVT1Zt0RNcFSRXFWw+xjo5nfBFO2UjP/Feq1FW1KBn4e
+	IfAQwoXqybmQpgagEtdW6hhqMwx070lBZIH4fxw8UhG4jIywDwmEmzU8ooAxHvapx3byGjRm7Hv
+	I
+X-Google-Smtp-Source: AGHT+IFShDnYSV2cCmg2Cel9Cn9+B127LU2wWdjLowXCx42nyfVaoTpXz4qPYvoCllyebkrbo1HZdg==
+X-Received: by 2002:a17:902:c389:b0:1d5:6114:b4e8 with SMTP id g9-20020a170902c38900b001d56114b4e8mr2666909plg.41.1705544098126;
+        Wed, 17 Jan 2024 18:14:58 -0800 (PST)
+Received: from MVIN00020.mvista.com ([122.174.86.95])
+        by smtp.gmail.com with ESMTPSA id s16-20020a639250000000b005c200b11b77sm355240pgn.86.2024.01.17.18.14.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jan 2024 16:30:03 -0800 (PST)
-From: Petr Vorel <petr.vorel@gmail.com>
+        Wed, 17 Jan 2024 18:14:57 -0800 (PST)
+From: vanusuri@mvista.com
 To: openembedded-core@lists.openembedded.org
-Cc: Petr Vorel <petr.vorel@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	=?UTF-8?q?Daniel=20D=C3=ADaz?= <daniel.diaz@linaro.org>,
-	Khem Raj <raj.khem@gmail.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Changhyeok Bae <changhyeok.bae@gmail.com>,
-	Alexander Kanavin <alex.kanavin@gmail.com>,
-	Wang Mingyu <wangmy@fujitsu.com>
-Subject: [PATCH 1/1] iputils: update to 20240117
-Date: Thu, 18 Jan 2024 01:29:47 +0100
-Message-ID: <20240118002947.2734625-1-petr.vorel@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Cc: Vijay Anusuri <vanusuri@mvista.com>
+Subject: [OE-core][dunfell][PATCH] openssh: Backport fix for CVE-2023-51385
+Date: Thu, 18 Jan 2024 07:42:44 +0530
+Message-Id: <20240118021244.5841-1-vanusuri@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 18 Jan 2024 00:30:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193952
+ <openembedded-core@lists.openembedded.org>; Thu, 18 Jan 2024 02:15:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193953
 
-Changelog:
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-* ping
-- fix: Restore -i0 (commit: 7a51494, PR: #519, regression from 2a63b94)
+Upstream-Status: Backport
+[https://github.com/openssh/openssh-portable/commit/7ef3787c84b6b524501211b11a26c742f829af1a]
 
-* localization
-- Updated Turkish and Indonesian
-- 100% translated: Chinese (Simplified), Czech, French, Georgian, German,
-  Korean, Portuguese (Brazil), Turkish, Ukrainian
-- > 90% translated: Finnish, Indonesian, Japanese
-
-Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 ---
- .../iputils/{iputils_20231222.bb => iputils_20240117.bb}        | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/iputils/{iputils_20231222.bb => iputils_20240117.bb} (97%)
+ .../openssh/openssh/CVE-2023-51385.patch      | 96 +++++++++++++++++++
+ .../openssh/openssh_8.2p1.bb                  |  1 +
+ 2 files changed, 97 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2023-51385.patch
 
-diff --git a/meta/recipes-extended/iputils/iputils_20231222.bb b/meta/recipes-extended/iputils/iputils_20240117.bb
-similarity index 97%
-rename from meta/recipes-extended/iputils/iputils_20231222.bb
-rename to meta/recipes-extended/iputils/iputils_20240117.bb
-index e919febd12..5a5e15528e 100644
---- a/meta/recipes-extended/iputils/iputils_20231222.bb
-+++ b/meta/recipes-extended/iputils/iputils_20240117.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=627cc07ec86a45951d43e30658bbd819"
- DEPENDS = "gnutls"
- 
- SRC_URI = "git://github.com/iputils/iputils;branch=master;protocol=https"
--SRCREV = "84cdf26908b4a03b917a5429a6339b7374fcc38b"
-+SRCREV = "8372f355bdf7a9b0c79338dd8ef8464c00a5c4e2"
- 
- S = "${WORKDIR}/git"
- 
+diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2023-51385.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2023-51385.patch
+new file mode 100644
+index 0000000000..ae084053f8
+--- /dev/null
++++ b/meta/recipes-connectivity/openssh/openssh/CVE-2023-51385.patch
+@@ -0,0 +1,96 @@
++From 7ef3787c84b6b524501211b11a26c742f829af1a Mon Sep 17 00:00:00 2001
++From: "djm@openbsd.org" <djm@openbsd.org>
++Date: Mon, 18 Dec 2023 14:47:44 +0000
++Subject: [PATCH] upstream: ban user/hostnames with most shell metacharacters
++
++This makes ssh(1) refuse user or host names provided on the
++commandline that contain most shell metacharacters.
++
++Some programs that invoke ssh(1) using untrusted data do not filter
++metacharacters in arguments they supply. This could create
++interactions with user-specified ProxyCommand and other directives
++that allow shell injection attacks to occur.
++
++It's a mistake to invoke ssh(1) with arbitrary untrusted arguments,
++but getting this stuff right can be tricky, so this should prevent
++most obvious ways of creating risky situations. It however is not
++and cannot be perfect: ssh(1) has no practical way of interpreting
++what shell quoting rules are in use and how they interact with the
++user's specified ProxyCommand.
++
++To allow configurations that use strange user or hostnames to
++continue to work, this strictness is applied only to names coming
++from the commandline. Names specified using User or Hostname
++directives in ssh_config(5) are not affected.
++
++feedback/ok millert@ markus@ dtucker@ deraadt@
++
++OpenBSD-Commit-ID: 3b487348b5964f3e77b6b4d3da4c3b439e94b2d9
++
++Upstream-Status: Backport [https://github.com/openssh/openssh-portable/commit/7ef3787c84b6b524501211b11a26c742f829af1a]
++CVE: CVE-2023-51385
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ ssh.c | 39 +++++++++++++++++++++++++++++++++++++++
++ 1 file changed, 39 insertions(+)
++
++diff --git a/ssh.c b/ssh.c
++index 15aee56..2cf0b64 100644
++--- a/ssh.c
+++++ b/ssh.c
++@@ -583,6 +583,41 @@ set_addrinfo_port(struct addrinfo *addrs, int port)
++ 	}
++ }
++ 
+++static int
+++valid_hostname(const char *s)
+++{
+++	size_t i;
+++
+++	if (*s == '-')
+++		return 0;
+++	for (i = 0; s[i] != 0; i++) {
+++		if (strchr("'`\"$\\;&<>|(){}", s[i]) != NULL ||
+++		    isspace((u_char)s[i]) || iscntrl((u_char)s[i]))
+++			return 0;
+++	}
+++	return 1;
+++}
+++
+++static int
+++valid_ruser(const char *s)
+++{
+++	size_t i;
+++
+++	if (*s == '-')
+++		return 0;
+++	for (i = 0; s[i] != 0; i++) {
+++		if (strchr("'`\";&<>|(){}", s[i]) != NULL)
+++			return 0;
+++		/* Disallow '-' after whitespace */
+++		if (isspace((u_char)s[i]) && s[i + 1] == '-')
+++			return 0;
+++		/* Disallow \ in last position */
+++		if (s[i] == '\\' && s[i + 1] == '\0')
+++			return 0;
+++	}
+++	return 1;
+++}
+++
++ /*
++  * Main program for the ssh client.
++  */
++@@ -1067,6 +1102,10 @@ main(int ac, char **av)
++ 	if (!host)
++ 		usage();
++ 
+++	if (!valid_hostname(host))
+++		fatal("hostname contains invalid characters");
+++	if (options.user != NULL && !valid_ruser(options.user))
+++		fatal("remote username contains invalid characters");
++ 	host_arg = xstrdup(host);
++ 
++ 	/* Initialize the command to execute on remote host. */
++-- 
++2.25.1
++
+diff --git a/meta/recipes-connectivity/openssh/openssh_8.2p1.bb b/meta/recipes-connectivity/openssh/openssh_8.2p1.bb
+index eb3089cd8a..9d6cf7da6c 100644
+--- a/meta/recipes-connectivity/openssh/openssh_8.2p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_8.2p1.bb
+@@ -40,6 +40,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
+            file://CVE-2023-38408-11.patch \
+            file://CVE-2023-38408-12.patch \
+            file://CVE-2023-48795.patch \
++           file://CVE-2023-51385.patch \
+            "
+ SRC_URI[md5sum] = "3076e6413e8dbe56d33848c1054ac091"
+ SRC_URI[sha256sum] = "43925151e6cf6cee1450190c0e9af4dc36b41c12737619edff8bcebdff64e671"
 -- 
-2.43.0
+2.25.1
 
 
