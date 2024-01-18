@@ -2,93 +2,121 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4245C47422
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3685C47258
 	for <webhook@archiver.kernel.org>; Thu, 18 Jan 2024 02:51:51 +0000 (UTC)
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
- by mx.groups.io with SMTP id smtpd.web10.2909.1705546311577802091
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+ by mx.groups.io with SMTP id smtpd.web11.2800.1705546304634072845
  for <openembedded-core@lists.openembedded.org>;
- Wed, 17 Jan 2024 18:51:51 -0800
+ Wed, 17 Jan 2024 18:51:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=tVOn/ajF;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.172, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-5ce942efda5so8683196a12.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 17 Jan 2024 18:51:51 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=jOnCKRHZ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.175, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-5ce6b5e3c4eso5640355a12.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 17 Jan 2024 18:51:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1705546310; x=1706151110; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kefklrp6h/R4Qd/F6javO/3vOQhGilTVHllRcRi9oqQ=;
-        b=tVOn/ajFPxPpb0c8Tyqw/cb0wziEztcvSZ9lpCO/PTRVImIPi/1vlAPvPijkDZFm/v
-         2iEIli8ZgcubUsrD1vDyrZKAtqw81Bp0Qbmayigq/vvd1xEQK2x8/wc1NaJq9O608axI
-         RBZq4+GC44UpCyUWAEmrjHRcTvhs0dIl7JEQ8/fbc9vrtqtDUynXuVI248Wt+DxtaEtG
-         VyGuyi1OpmRlfMag6QqowA7j2EZurgqLQq4PInhUCq5XIGpzj1ttGKXIXH0A7fCNXlPV
-         lVKqAQNYsIzoZCOMzYeH1+QwgJBAhCcsvIUDKoeHDo7bzqg9hD85a1SUXDjI2gBZsNCY
-         8ucw==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1705546303; x=1706151103; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dhDCXdg6H7RlqQv4A1/xKm/7BeqVpyPkDh4MtYNVn/g=;
+        b=jOnCKRHZDcuE/eVE2PoOrSga3yHTEVYqcqjkZFPS0ak+aSLLN0GGIw6kFGiTWMQoJy
+         pFmZ/60lhArGeimb13iya0xtDOnkSn1126xsfVMnCfCrOMxO2aeuyRrXMQLsPDjoNYhr
+         vIHlXVFUt0wCD3hGkKzo2pg2gouvuzli7UlQrMbz46J1csLDhWCfwAFAtfgUaj9vY92P
+         saDPQdB5q2yyqpw62in6i8VzSnVty+BIrpj+D0LXkuZv3eu1QnMyXqVnV3ZR1YOfavsf
+         G3pmlbweiYEPESoDXYz2/M20rp/ZAHZLTIiLmL9zT2Lf1QfoPy3cPffElIOE+DfneJb6
+         RvhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705546310; x=1706151110;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kefklrp6h/R4Qd/F6javO/3vOQhGilTVHllRcRi9oqQ=;
-        b=liVSirjf7BBG40DtIUgS2RABO3hzeHJrEvS4/REHg4nrVROqvnsMbweC7fv6NGchuC
-         ltQuEytRK4tjlLXorhYRzpPZW4Ts0PohynTEf7GQ1b6N+OLJye0uIXgMgVAEW2VCXFBo
-         9DUsSGM+tm29PtCaaaMatWFzrMOQdZJQxY573SQGHWge52cYBiu56cP+NizNqAN/1YQM
-         wlpBavdQ2MCKw41GH20QKQTRoK31hl2COvzn4nf2NDfjdsINytHn5sCquxLjvfztVmfd
-         ObjQYbOXkMV3ABrS88CJSOC22vZOiorbGVbQcpggQotskZsR7u05sVcQbbFJKPk8M839
-         t13Q==
-X-Gm-Message-State: AOJu0YzrXDct6KgnLsdMMJ/QoFaJtwYKY+qxuSfuZ5fmMoJ69mmcEhfD
-	MSNcn39IkxSNrgC7LkVIuU9n2Amjpsc9rpopGC3QXXlWjqLibplstBkLc0Otj49DgYomjz6dU+s
-	CCkc=
-X-Google-Smtp-Source: AGHT+IGHPFL+hWM738m/YsdmHExN17TWWHxxIyCNPw4vRqQ6JVMhIkw2TwHj1PbCGwEJBwO9XFjWbQ==
-X-Received: by 2002:a05:6a20:2453:b0:199:ddac:ad4f with SMTP id t19-20020a056a20245300b00199ddacad4fmr221310pzc.100.1705546310223;
-        Wed, 17 Jan 2024 18:51:50 -0800 (PST)
+        d=1e100.net; s=20230601; t=1705546303; x=1706151103;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dhDCXdg6H7RlqQv4A1/xKm/7BeqVpyPkDh4MtYNVn/g=;
+        b=WHDLei+jrwBm3gaWi4DHjSIBCIqdACtbBXtXurBHSGUXc1dLvmcMuExiuwMWMiKc0s
+         SkkUtAHTCKqz4IKORzBeGQwn8vd1JEuuNjFKBdlDL3waut78HN7DiMmi21X7dW+SesrR
+         dfk5GwFlVrZJIxUJc6qi0Ci2PwsVBnE6CIgKyMGSckCtQVXUkrwQF3eONjsxGb5r5AK2
+         MT5tbO23kOzmBWha+hmvUwli33RRH4mvK3q6hRzloJp0e6dkfzPGkmRJJ7ZQRdOcNcrB
+         +Ji0wD8WUuc5YRDVmLjpPfF7Eh0aSc4rNX23yJd0iQ4drC212dONs8stg2gheNEuxj3B
+         KUtw==
+X-Gm-Message-State: AOJu0YwGUPvkdVeePLSl/UhIWJpr0EEiIeZgYk3DPJ9ZLIS+dacKsESF
+	fkLhRB1dfGanjBWlLPybRfIgX3ivObTSk0pYX6sZkd3v2nS+/3dtjRfleq/CxGFVNIdW+m/dkyB
+	GaEU=
+X-Google-Smtp-Source: AGHT+IF5Zpj7MQaKWKecj4VKwV6YYtIhMGt95FSsi4RBxDhqjlzVAVhtjepmZoGT7CUhoeNpt+JUag==
+X-Received: by 2002:a17:90a:f015:b0:290:9b:252f with SMTP id bt21-20020a17090af01500b00290009b252fmr175296pjb.18.1705546302913;
+        Wed, 17 Jan 2024 18:51:42 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id qb2-20020a17090b280200b0028dd956835bsm441844pjb.2.2024.01.17.18.51.49
+        by smtp.gmail.com with ESMTPSA id qb2-20020a17090b280200b0028dd956835bsm441844pjb.2.2024.01.17.18.51.42
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jan 2024 18:51:49 -0800 (PST)
+        Wed, 17 Jan 2024 18:51:42 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 4/6] zlib: ignore CVE-2023-6992
-Date: Wed, 17 Jan 2024 16:51:36 -1000
-Message-Id: <5dc87309639e78195eb1283afc193f6eac63b044.1705546122.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 0/6] Patch review
+Date: Wed, 17 Jan 2024 16:51:32 -1000
+Message-Id: <cover.1705546122.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1705546122.git.steve@sakoman.com>
-References: <cover.1705546122.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 18 Jan 2024 02:51:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193959
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/193955
 
-From: Peter Marko <peter.marko@siemens.com>
+Please review this set of changes for dunfell and have comments back by
+end of day Friday, January 19
 
-This CVE is for iCPE cloudflare:zlib.
+Passed a-full on autobuilder:
 
-Alternative to ignoring would be to limit CVE_PRODUCT, but
-historic CVEs already have two - gnu:zlib and zlib:zlib.
-So limiting it could miss future CVEs.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6460
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/recipes-core/zlib/zlib_1.2.11.bb | 3 +++
- 1 file changed, 3 insertions(+)
+The following changes since commit b3dd6852c0d6b8aa9b36377d7024ac95062e8098:
 
-diff --git a/meta/recipes-core/zlib/zlib_1.2.11.bb b/meta/recipes-core/zlib/zlib_1.2.11.bb
-index 910fc2ec17..9355f0556e 100644
---- a/meta/recipes-core/zlib/zlib_1.2.11.bb
-+++ b/meta/recipes-core/zlib/zlib_1.2.11.bb
-@@ -53,3 +53,6 @@ do_install_append_class-target() {
- }
- 
- BBCLASSEXTEND = "native nativesdk"
-+
-+# this CVE is for cloudflare zlib
-+CVE_CHECK_WHITELIST += "CVE-2023-6992"
+  linux-firmware: upgrade 20230804 -> 20231030 (2024-01-04 07:24:12 -1000)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
+
+Peter Marko (1):
+  zlib: ignore CVE-2023-6992
+
+Vijay Anusuri (5):
+  go: Backport fix for CVE-2023-45287
+  xserver-xorg: Fix for CVE-2023-6377 and CVE-2023-6478
+  libxml2: Fix for CVE-2023-45322
+  qemu: Backport fix for CVE-2023-2861
+  libtiff: Fix for CVE-2023-6228
+
+ .../libxml/libxml2/CVE-2023-45322-1.patch     |   50 +
+ .../libxml/libxml2/CVE-2023-45322-2.patch     |   80 +
+ meta/recipes-core/libxml/libxml2_2.9.10.bb    |    2 +
+ meta/recipes-core/zlib/zlib_1.2.11.bb         |    3 +
+ meta/recipes-devtools/go/go-1.14.inc          |    4 +
+ .../go/go-1.14/CVE-2023-45287-pre1.patch      |  393 ++++
+ .../go/go-1.14/CVE-2023-45287-pre2.patch      |  401 ++++
+ .../go/go-1.14/CVE-2023-45287-pre3.patch      |   86 +
+ .../go/go-1.14/CVE-2023-45287.patch           | 1697 +++++++++++++++++
+ meta/recipes-devtools/qemu/qemu.inc           |    2 +
+ ...x-libcap-header-issue-on-some-distro.patch |    9 +-
+ ...e-O_NOATIME-if-we-don-t-have-permiss.patch |   63 +
+ .../qemu/qemu/CVE-2023-2861.patch             |  178 ++
+ .../xserver-xorg/CVE-2023-6377.patch          |   79 +
+ .../xserver-xorg/CVE-2023-6478.patch          |   63 +
+ .../xorg-xserver/xserver-xorg_1.20.14.bb      |    2 +
+ .../libtiff/files/CVE-2023-6228.patch         |   30 +
+ meta/recipes-multimedia/libtiff/tiff_4.1.0.bb |    1 +
+ 18 files changed, 3140 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2023-45322-1.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2023-45322-2.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2023-45287-pre1.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2023-45287-pre2.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2023-45287-pre3.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2023-45287.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/9pfs-local-ignore-O_NOATIME-if-we-don-t-have-permiss.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2023-2861.patch
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-6377.patch
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-6478.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/CVE-2023-6228.patch
+
 -- 
 2.34.1
 
