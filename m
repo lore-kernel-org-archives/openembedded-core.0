@@ -2,100 +2,112 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EA5CC47DD9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DE50C4725D
 	for <webhook@archiver.kernel.org>; Fri, 19 Jan 2024 21:14:26 +0000 (UTC)
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
- by mx.groups.io with SMTP id smtpd.web10.6079.1705698864623395340
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+ by mx.groups.io with SMTP id smtpd.web10.6077.1705698862104414381
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Jan 2024 13:14:24 -0800
+ Fri, 19 Jan 2024 13:14:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=FDqxqZeg;
- spf=pass (domain: gmail.com, ip: 209.85.219.54, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-681922a61baso10591816d6.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 19 Jan 2024 13:14:24 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=VYq9RrZs;
+ spf=pass (domain: gmail.com, ip: 209.85.160.177, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-42a029c8e62so6957361cf.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 19 Jan 2024 13:14:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705698864; x=1706303664; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2uOkWQOHLvdPLh+ZsbI6rNNLBzEtIO5g/pUgzc5zENo=;
-        b=FDqxqZeg30SkKK37rW3QVqVLOJnvVYUKPtC20FHQPmtNSVVjtDc7iKxL+PPlJGDbM0
-         wg0X3UAFnB3trwHybYgd7ZeZG2eDZv/VftfIkcr6yizQngmyjT/0U2LS/w4tNmUxUE9y
-         gVIWkzXapnNRPFz9yg3HgpuTpSUzxEDX6C3dGT/9CqMqWESz+RxKUnpWaqtzq54mnBiV
-         B7NpUf6LxrIfV1v/JQT94SExqtEFVRaQvg8+TOGSOVHNVDzr/dlMc1GFgWfLnSGaOlnk
-         xPIuRFZ+5PusVwCSMmpmqf2x4MLkW9vOFWJFPqw+Z2d3tFvm1uCIXD+RVpioRw2yIt1m
-         hQeg==
+        d=gmail.com; s=20230601; t=1705698861; x=1706303661; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BZFDYsPTgphAMK5RkEJGjotII4FXxMz7Mhxffp1n84k=;
+        b=VYq9RrZs/SMGHKGFWrf0kF3wAObFUqyYfJ6rFRGor7K81lGxguuL0PPl45kY5Yo8bv
+         GCyR5mTpqDyRSUCkxr8BiqTqvC8dccakmhuuGYzXzVAzknJGSmIXOa0OeVoQkAx65Go3
+         MiaTbyulGqTqZpUYmJwQNPlaurimXK0EO+iNgoMVYjvmqHj+Xqi27ML2PN9/Ez0t5Xzd
+         9rFYVLAAP4BefiXSc8hfIhZGKFhIya+EQPs0tYwjT2KsqGhTmILqUbYVuumjgmCv/YDb
+         6EbbkHGncUyDzfFmZW9nByfheXnFFp09w3yV/EOaHa2B3CtJC2eoS3fPvSAflwAyeGfC
+         n39w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705698864; x=1706303664;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2uOkWQOHLvdPLh+ZsbI6rNNLBzEtIO5g/pUgzc5zENo=;
-        b=TIQLrtwMQ1qSwqVcSBIRi5A0Ryvynuuvr+WFx84eWP0vRd31BQnMu/7dzKE728R/vp
-         w7d0OCj6w2FXY1j7wyrtv2eYqyMLrvunnhjnm7cXorj0sQEwJDjoVEUX3qLO2cE1bvLp
-         3zZBUD/BYLkW2A8QQaZQtvSVjS2/WbblXUHDxBXjN0Xh794Oe3kSQICGs2rSykBSp+V7
-         5cLbiA9crb8JB4SQ5cfxQ28h2Yb8sYwLH2h7yPQ+cn5KjkAVaI3pV9np5GDc99SqAqxj
-         c9mXIfJ7xxrSm4pnAzvNujsBRTubbHXuLjM6SaB7+gkqLXfaT/8kTbE3gmdsAK1BFRy3
-         TdOw==
-X-Gm-Message-State: AOJu0Ywe73uY8R0+zJDFfosUoTT3XFUkwcd9pIhtyJ4xGaI+So96wMLW
-	cN+jb1h85MyPmpC0GIGljKQCWmBOM1dO16E9X9oP6T3/R1Hd3dBePBVKRocdi2Y=
-X-Google-Smtp-Source: AGHT+IEmGpAFWRtVi5xzSsPYg9R7KTOS4ZNhslq1t/WE9LKZWcZxO0FrDKWeMTQuAAnKaSrAD7wWEg==
-X-Received: by 2002:a05:6214:29ef:b0:682:4c34:90d2 with SMTP id jv15-20020a05621429ef00b006824c3490d2mr638561qvb.7.1705698863639;
-        Fri, 19 Jan 2024 13:14:23 -0800 (PST)
+        d=1e100.net; s=20230601; t=1705698861; x=1706303661;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BZFDYsPTgphAMK5RkEJGjotII4FXxMz7Mhxffp1n84k=;
+        b=MLByn2v5ZdfdcqkaiHrh6wmHN7JvEdLT8c6fG7LFg+cwapfBtQyQMfQ6JCzwfxfe80
+         CBrRCtwSpQj/f1DzemyS77rCV34sIhGsa/w1O5hO8cMMLTnolND3dd7CGIVIKdSkwcbE
+         iCU33QKbObPuYtvPD2gWgHGKloEv05pdmD/ILOypAIZ6dPiRMKsc0yIKAh2FI28/DgKP
+         N0RU0oiXtoD6MU4ZiCcvKB6m7TEkk5J8hOtWpCVJA2/UvsL8+lKj0Xl8Xc5ScNu1VluQ
+         XbOBNmlg9YgxrBiOkv/eQiG1vt+nAao7G+gj2g5y5fEB1bMgoR57norgjR2zOcJYcIlG
+         E/TQ==
+X-Gm-Message-State: AOJu0YzRGFQGl1KZbXJAa8WSoYqhbXErM9K4KPevCfRCfiUkyzYur4Sp
+	EOdk9s+klHFa+j5CezlM2Y/4IrP5uM/prDFoNzO8HomtrnMNqYyy
+X-Google-Smtp-Source: AGHT+IHeVvKevGTnHzRogIukDWpopKoccGy0Java9nBL/YQf5BaEg7N+nLJmFauVlv03yXjfB9NMYg==
+X-Received: by 2002:a05:6214:76a:b0:67f:356:5731 with SMTP id f10-20020a056214076a00b0067f03565731mr587549qvz.44.1705698861084;
+        Fri, 19 Jan 2024 13:14:21 -0800 (PST)
 Received: from bruce-XPS-8940.. ([174.112.183.231])
-        by smtp.gmail.com with ESMTPSA id mk13-20020a056214580d00b0068178f50102sm33552qvb.25.2024.01.19.13.14.22
+        by smtp.gmail.com with ESMTPSA id mk13-20020a056214580d00b0068178f50102sm33552qvb.25.2024.01.19.13.14.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Jan 2024 13:14:22 -0800 (PST)
+        Fri, 19 Jan 2024 13:14:20 -0800 (PST)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 02/11] linux-yocto/6.6: update CVE exclusions
-Date: Fri, 19 Jan 2024 16:14:10 -0500
-Message-Id: <724d8f54fcd82f4d9488843c4473d8ea90a05bec.1705698717.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 00/11] linux-yocto: consolidated pull request
+Date: Fri, 19 Jan 2024 16:14:08 -0500
+Message-Id: <cover.1705698717.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <cover.1705698717.git.bruce.ashfield@gmail.com>
-References: <cover.1705698717.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 19 Jan 2024 21:14:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194068
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194066
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Data pulled from: https://github.com/nluedtke/linux_kernel_cves
+Richard,
 
-    1/1 [
-        Author: Nicholas Luedtke
-        Email: nicholas.luedtke@uwalumni.com
-        Subject: Update 27Dec23
-        Date: Wed, 27 Dec 2023 19:47:13 -0500
+Here's the colllected -stable updates for 6.6 and 6.1. This will probably be
+the last round of 6.1 updates for master, since I'll drop it shortly in
+preparation for the release. 6.1 will of course continue to be updated in
+linux-yocto and in older releases.
 
-    ]
+I've also reenabled my CVE update script, if any of those commits don't look
+right, feel free to toss them out.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
----
- meta/recipes-kernel/linux/cve-exclusion_6.6.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Cheers,
 
-diff --git a/meta/recipes-kernel/linux/cve-exclusion_6.6.inc b/meta/recipes-kernel/linux/cve-exclusion_6.6.inc
-index ee7df04c4a..2b74d3585d 100644
---- a/meta/recipes-kernel/linux/cve-exclusion_6.6.inc
-+++ b/meta/recipes-kernel/linux/cve-exclusion_6.6.inc
-@@ -1,9 +1,9 @@
- 
- # Auto-generated CVE metadata, DO NOT EDIT BY HAND.
--# Generated at 2024-01-03 18:54:52.866645+00:00 for version 6.6.9
-+# Generated at 2024-01-11 15:23:15.711210+00:00 for version 6.6.11
- 
- python check_kernel_cve_status_version() {
--    this_version = "6.6.9"
-+    this_version = "6.6.11"
-     kernel_version = d.getVar("LINUX_VERSION")
-     if kernel_version != this_version:
-         bb.warn("Kernel CVE status needs updating: generated for %s but kernel is %s" % (this_version, kernel_version))
+Bruce
+
+The following changes since commit 7af374c90c349af2c7ae9cf7d4fa14eeeb23b108:
+
+  build-appliance-image: Update to master head revision (2024-01-19 12:22:58 +0000)
+
+are available in the Git repository at:
+
+  https://git.yoctoproject.org/poky-contrib zedd/kernel
+  https://git.yoctoproject.org/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (11):
+  linux-yocto/6.6: update to v6.6.11
+  linux-yocto/6.6: update CVE exclusions
+  linux-yocto/6.1: update to v6.1.72
+  linux-yocto/6.1: update CVE exclusions
+  linux-yocto/6.6: cfg: arm: introduce page size fragments
+  linux-yocto/6.6: security/cfg: add configs to harden protection
+  linux-yocto/6.1: security/cfg: add configs to harden protection
+  linux-yocto/6.6: update to v6.6.12
+  linux-yocto/6.6: update CVE exclusions
+  linux-yocto/6.1: update to v6.1.73
+  linux-yocto/6.1: update CVE exclusions
+
+ .../linux/cve-exclusion_6.1.inc               | 34 +++++++++++++++----
+ .../linux/cve-exclusion_6.6.inc               | 30 +++++++++++++---
+ .../linux/linux-yocto-rt_6.1.bb               |  6 ++--
+ .../linux/linux-yocto-rt_6.6.bb               |  6 ++--
+ .../linux/linux-yocto-tiny_6.1.bb             |  6 ++--
+ .../linux/linux-yocto-tiny_6.6.bb             |  6 ++--
+ meta/recipes-kernel/linux/linux-yocto_6.1.bb  | 28 +++++++--------
+ meta/recipes-kernel/linux/linux-yocto_6.6.bb  | 28 +++++++--------
+ 8 files changed, 92 insertions(+), 52 deletions(-)
+
 -- 
 2.39.2
 
