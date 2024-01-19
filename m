@@ -2,54 +2,55 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F0B9C47DD3
-	for <webhook@archiver.kernel.org>; Fri, 19 Jan 2024 17:19:42 +0000 (UTC)
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
- by mx.groups.io with SMTP id smtpd.web11.307.1705684774870078013
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16E2CC4725D
+	for <webhook@archiver.kernel.org>; Fri, 19 Jan 2024 17:22:12 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web10.417.1705684925401715928
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Jan 2024 09:19:35 -0800
+ Fri, 19 Jan 2024 09:22:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fGNEKJS4;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.178, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-5ff9ba70977so9411857b3.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 19 Jan 2024 09:19:34 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=B9EPhE5P;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-40e490c2115so13269315e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 19 Jan 2024 09:22:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1705684774; x=1706289574; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1705684924; x=1706289724; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jlE/C9uG+oG+KR9m84N9ToeG3HemQnRoI3oFOL6sD6c=;
-        b=fGNEKJS4qOuJm05/zOeOXo3TXktd1J3uWDiVNnCL/7RyHuWkSvL0QHrGCNiwt2b06N
-         vbF6QjVWK8uXfKz8nY89RSf/0YtHKN/wYm0KGEEl4IZyFGet/N1lTgMeORbmYzOV9R58
-         AzXOnmRE32muYijXoKmV0sCe0zLWqKhWOz6pc=
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Rj+I4GmcgLnv/XQnWx/wWC83K5X2dcsoUI8zNH0Clpo=;
+        b=B9EPhE5Py74rlRHSKmEFVPyLPdCeCzBG1eAoGxUdGTIUmsfh6UXdZaUJoHYHbGyErg
+         MpGYp6iNbH18i/Pj4fevQh4rSkDYeU4yK4k2BJ8jMGFJXx2y9x7D01rpDBzbq/pABAOJ
+         BxZ0aZcx/5Zs6l5iwale/tPcuyqJqOuI0RAzM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705684774; x=1706289574;
+        d=1e100.net; s=20230601; t=1705684924; x=1706289724;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:to:from:subject:message-id
+         :references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jlE/C9uG+oG+KR9m84N9ToeG3HemQnRoI3oFOL6sD6c=;
-        b=f6HmAPAyIpybChHRffnBvX0o6hHrwk8FXcinlV1pdo+Wzxiu+z0SzOYM2maCTBb6Uj
-         hlxP4W0s1x/ZDFcgTbpVqmuvYGMAFGa4VsYWvaK4nRqMhdKRdfQyQLhe8n3uQ6iXXc4L
-         7dAMC77EyIgCQK0TZEioydJPACxM1j2yrcODKf3S8YbT5RUZcnbj7tXhecVH2ifKq59h
-         Qr3F6jig/ipOvg4rYtEI4aWPQzyRXScaUfc1FwEwzEZvKVkGV5R4sGPan6VKIAHXqmjj
-         2eMgUMgaOEfVg6IflBh5AJH/EYB3RZFUuC6LnuEQt4OEpFysQkkWuyk3XP56on82+BgQ
-         Pwhg==
-X-Gm-Message-State: AOJu0Yy2ozTihjL1HdIuaqeiTSv5HBRvvxjU3m6fWIycTGKe+dsMFYjP
-	RmNLKo0tzz7cAma32wiT+j9hzlaxhtwVMJRXJxk8qJ4wH+rPW6XntpR+P/ps81k=
-X-Google-Smtp-Source: AGHT+IGI2duAUqryHuP1ifBxuUt+kupZN3UX+oUddZoFCJV5/XaQfFOX0LPmWcrklJAgrpqwaOilDw==
-X-Received: by 2002:a0d:d912:0:b0:5ff:8ae2:22f3 with SMTP id b18-20020a0dd912000000b005ff8ae222f3mr203900ywe.73.1705684774101;
-        Fri, 19 Jan 2024 09:19:34 -0800 (PST)
+        bh=Rj+I4GmcgLnv/XQnWx/wWC83K5X2dcsoUI8zNH0Clpo=;
+        b=fOA3hAd4XUvXgI0QpaZuJzXGtvvHcNQFum0WhCYS7Qb4k/QpIcVbVhpfjyic92jmB8
+         JgMUuCoKQ++vb84p4aJCFJtGdvWfgbWTqoMqJLfVfcuWlN4Z/REZRvTSZPAvgpBaDXgy
+         GDdsh5vnk+ftNadchNOvmctZEk9Xq0t/6usPdO7+1R8CYapcSM69aUXL1KKNFMHSK05n
+         qq1LJ0+WiB2aHznc1ShVHgFHtzVWcd2VT5vc/Smor9fp6rRP/KmHLsK1RiYumSwXErrS
+         qTVx9bRziEk2qrTzD0sd7Uma1eAt+E1Iw6JZULSxfyyC3/SbA2voePUyS2w9or0pc+ok
+         gPlA==
+X-Gm-Message-State: AOJu0Ywy7XJvaPYsDP+Rj7qe/QfpMcLGO8QWr5mJ7DSuH3tluYucQquN
+	KJZHIE7NyKNnD1qrcxA4edqhdG71CE7sb2yGD881gQYFRtORHPSo46SiDPRZqjM=
+X-Google-Smtp-Source: AGHT+IH+EZ1jpv11L6QgTIfjuyfyYZ/GVQ7OeA6m6HcXtomDZEO4DCrOqBxIDAN6rI++rhPY3QvJKg==
+X-Received: by 2002:a05:600c:3412:b0:40e:5672:f485 with SMTP id y18-20020a05600c341200b0040e5672f485mr106730wmp.134.1705684923839;
+        Fri, 19 Jan 2024 09:22:03 -0800 (PST)
 Received: from ?IPv6:2001:8b0:aba:5f3c:bdad:632e:4428:9197? ([2001:8b0:aba:5f3c:bdad:632e:4428:9197])
-        by smtp.gmail.com with ESMTPSA id h4-20020a0dde04000000b005ffa8e12965sm133998ywe.54.2024.01.19.09.19.33
+        by smtp.gmail.com with ESMTPSA id b1-20020a5d4b81000000b0033920dfd287sm1909331wrt.19.2024.01.19.09.22.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Jan 2024 09:19:33 -0800 (PST)
-Message-ID: <0dcd0753b7a5370bff4ecf9862847b64afa673bd.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH] devtool/standard: avoid KeyError
+        Fri, 19 Jan 2024 09:22:03 -0800 (PST)
+Message-ID: <abad3986d80e9eae3e7ed69f1ca466678eea042d.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH] opensbi: bump to 1.4
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Qi.Chen@windriver.com, openembedded-core@lists.openembedded.org
-Date: Fri, 19 Jan 2024 17:19:31 +0000
-In-Reply-To: <20231226044457.3699093-1-Qi.Chen@windriver.com>
-References: <20231226044457.3699093-1-Qi.Chen@windriver.com>
+To: thomas.perrot@bootlin.com, openembedded-core@lists.openembedded.org
+Cc: thomas.petazzoni@bootlin.com
+Date: Fri, 19 Jan 2024 17:22:02 +0000
+In-Reply-To: <20240117094701.25763-1-thomas.perrot@bootlin.com>
+References: <20240117094701.25763-1-thomas.perrot@bootlin.com>
 Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
@@ -65,54 +66,72 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 Jan 2024 17:19:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194058
+ <openembedded-core@lists.openembedded.org>; Fri, 19 Jan 2024 17:22:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194059
 
-On Tue, 2023-12-26 at 12:44 +0800, Chen Qi via lists.openembedded.org
-wrote:
-> From: Chen Qi <Qi.Chen@windriver.com>
+On Wed, 2024-01-17 at 10:47 +0100, Thomas Perrot via
+lists.openembedded.org wrote:
+> From: Thomas Perrot <thomas.perrot@bootlin.com>
 >=20
-> The initial_revs["."] does not have an initial value, resulting
-> in the following error:
+> This release has:
+> - Synopsys DesignWare APB GPIO driver
+> - Zicntr and Zihpm support
+> - Console print improvements
+> - Smepmp support
+> - Simple FDT based syscon regmap driver
+> - Syscon based reboot and poweroff driver
+> - Non-contiguous hpm counters
+> - Smcntrpmf support
+> - Full sparse hartid support
+> - IPI improvements
+> - RFENCE improvements
+> - Zkr support
+> - Andes custom PMU support
+> Overall, this release mainly adds more ISA extensions, drivers and other =
+improvements.
 >=20
->   KeyError: '.'
+> https://github.com/riscv-software-src/opensbi/compare/v1.3.1...v1.4
 >=20
-> The problem could be reproduced by running:
->=20
->   devtool modify -n systemd </path/to/my/local/systemd/repo>
->=20
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> Signed-off-by: Thomas Perrot <thomas.perrot@bootlin.com>
+
+This all seems reasonable but why is there a revert below?
+
 > ---
->  scripts/lib/devtool/standard.py | 1 +
->  1 file changed, 1 insertion(+)
+>  ...re-Remove-handling-of-R_RISCV_-32-64.patch | 88 +++++++++++++++++++
+>  .../{opensbi_1.3.bb =3D> opensbi_1.4.bb}        |  8 +-
+>  2 files changed, 92 insertions(+), 4 deletions(-)
+>  create mode 100644 meta/recipes-bsp/opensbi/opensbi/0001-Revert-firmware=
+-Remove-handling-of-R_RISCV_-32-64.patch
+>  rename meta/recipes-bsp/opensbi/{opensbi_1.3.bb =3D> opensbi_1.4.bb} (90=
+%)
 >=20
-> diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standa=
-rd.py
-> index 559fd45676..5d9b86ed6a 100644
-> --- a/scripts/lib/devtool/standard.py
-> +++ b/scripts/lib/devtool/standard.py
-> @@ -905,6 +905,7 @@ def modify(args, config, basepath, workspace):
->                      (stdout, _) =3D bb.process.run('git rev-list --rever=
-se devtool-base..HEAD', cwd=3Dsubmodule_path)
->                      commits[submodule] =3D stdout.split()
->          else:
-> +            initial_revs["."] =3D None
->              if os.path.exists(os.path.join(srctree, '.git')):
->                  # Check if it's a tree previously extracted by us. This =
-is done
->                  # by ensuring that devtool-base and args.branch (devtool=
-) exist.
+> diff --git a/meta/recipes-bsp/opensbi/opensbi/0001-Revert-firmware-Remove=
+-handling-of-R_RISCV_-32-64.patch b/meta/recipes-bsp/opensbi/opensbi/0001-R=
+evert-firmware-Remove-handling-of-R_RISCV_-32-64.patch
+> new file mode 100644
+> index 000000000000..d14e0b73a9bc
+> --- /dev/null
+> +++ b/meta/recipes-bsp/opensbi/opensbi/0001-Revert-firmware-Remove-handli=
+ng-of-R_RISCV_-32-64.patch
+> @@ -0,0 +1,88 @@
+> +From bfe480929bcc966e1fdf5afdde8d4c22adba7f6f Mon Sep 17 00:00:00 2001
+> +From: Thomas Perrot <thomas.perrot@bootlin.com>
+> +Date: Tue, 16 Jan 2024 15:16:58 +0100
+> +Subject: [PATCH] Revert "firmware: Remove handling of R_RISCV_{32,64}"
+> +
+> +This reverts commit 2a6d72534d44c39e1de0614970a0dad97b1c41ba.
+> +
+> +Upstream-Status: Inappropriate [oe specific]
+> +Signed-off-by: Thomas Perrot <thomas.perrot@bootlin.com>
 
-Why aren't we seeing other reports of this? How is it reproduced?
-Should we be adding an extra test to improve coverage?
+If we're going to revert an upstream change, we need to say *why*. We
+need to revert it for some OE specific reason but what is that reason?
 
-I'm assuming this isn't related to:
-
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15318
-
-?
+We cannot take patches marked as Inappropriate without much more
+information.
 
 Cheers,
 
 Richard
+
 
