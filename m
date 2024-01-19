@@ -2,56 +2,56 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A846C47DD9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A892C47DDC
 	for <webhook@archiver.kernel.org>; Fri, 19 Jan 2024 21:14:36 +0000 (UTC)
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
- by mx.groups.io with SMTP id smtpd.web11.5988.1705698873959393391
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+ by mx.groups.io with SMTP id smtpd.web11.5984.1705698867638950593
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Jan 2024 13:14:34 -0800
+ Fri, 19 Jan 2024 13:14:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=LdSfDaU9;
- spf=pass (domain: gmail.com, ip: 209.85.219.43, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-6818aa08a33so8916936d6.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 19 Jan 2024 13:14:33 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=VZKkoz18;
+ spf=pass (domain: gmail.com, ip: 209.85.160.171, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-4298e866cd6so7950541cf.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 19 Jan 2024 13:14:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705698873; x=1706303673; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1705698867; x=1706303667; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vjDXpTlTtiQeKjZxnghHHrEVUcdZPAyeQjCMFLa0GvY=;
-        b=LdSfDaU9k4++hbiHVW3dt+l4Vn4J/nXkrc8hG9lIYsjXQ0CkwBqgX7z3roKAl7ZQlN
-         UgSsMyH9FFBSB27Cw23czr6v+gHCZLYjg7ueidQiTWkiGZFJ88xZ1sr6LZ4x8tE/+RfV
-         7uri3S1tC5G2P/Fee+IPxyoA0HBJJzXENLE4rHWI9SNCBST2XdrrauOvIgOJ/l/JJWRm
-         sA5UXxy/VqCNzDos14MC18BHpoMYE/yxFbESsNbJbKy1flfnnp8vlFIjheokwOo8xuR2
-         MsQ7Ct/H3JlRsgprWIvziYoZ6jd7Lhw4VVv+Qs7XGDT80tnznkshE804I++yGK3i1Fup
-         U02Q==
+        bh=nGwT3zd/Pq09ufo4QbSVzfxgITgB5SB97+YwYkNoKcI=;
+        b=VZKkoz18oYUe6jtxKKFDH1aY0oSjVZ414X7GEt8vEae7H9lQ3krb2c+XF8EOejlpkF
+         LdJE9v31FdKXXUFrZJHAcObJ0eV1TGZKKbl7XcZaL/nRLB7zYYkATawuaXbF0f0Yxjjr
+         GcUAXdDzOf818uU+cCiFSWISsE4dXARht78qKR41mgC5rW3zvV4+d7Q/FKSzayYepj2v
+         2ln+wU9HvUsNX6Ddo2Jhq6RggEbg4Gdocf+giK/25vqFjPfIMKxWtBWYu0NiIeC/YlRF
+         dBizsNW2xM2vxQc7QrAyaBkB9NQe5hxM17p594N8KX0UmVD4PJCHV6Inw0fqyMKses5s
+         IdvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705698873; x=1706303673;
+        d=1e100.net; s=20230601; t=1705698867; x=1706303667;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=vjDXpTlTtiQeKjZxnghHHrEVUcdZPAyeQjCMFLa0GvY=;
-        b=CfbwwUh1knHQOznfQzsroPhmp16mXQNAlFHJIi2ruIZM66DvAzo5Q+imqo/6v+9akg
-         8pn+tZv4XZTafzhXoZNJzOad0zYbwI/uA2FIgRP1iI8RKNBYGao/B75DeXMN/MsdqUg7
-         rl+IlUSXOmNmMG9ztfx3Dt29K9aOdHTv1E1WUvuxJqxxcSm/B6tGAKWo0dDf4L0Yuexx
-         U83k+9JLVjWtNdgLS0aDY/5dl/1vUaL4m23xk/JYbdeCT86w3DgGq05CGDEm4juAzv81
-         y+CoNJ3J3ZAuznzUf2Crw8pA6yialfPIZzIg8fE1tsxoFk7RUrVgUcE3mX1LRCP/gnIx
-         N74w==
-X-Gm-Message-State: AOJu0Yx7Uk4H4xifG5DKZdJgOC+enp4oE0IkQaFJkEmSuGQibG19qaiE
-	zbRdxyYB9r3pkhhBnSPWVlLdHQCV0tcJMENArcZtUGMaZnU0WfddWBacwckS4C8=
-X-Google-Smtp-Source: AGHT+IGSULtGNfRGTflqzYLa2FhHO0793g07CRGp1UF+nAjlSBylxle2v1pkt7V74GSHmHQCap5RsA==
-X-Received: by 2002:a05:6214:2582:b0:682:c9b9:7164 with SMTP id fq2-20020a056214258200b00682c9b97164mr790487qvb.35.1705698872889;
-        Fri, 19 Jan 2024 13:14:32 -0800 (PST)
+        bh=nGwT3zd/Pq09ufo4QbSVzfxgITgB5SB97+YwYkNoKcI=;
+        b=tSwh5SOIZuMkVqNkBWJbLFUQjUxeXnQfsLDX+mgs44H2DZNze4ispz/F6L6Iw64T2l
+         5ORTU+IrNiKjz8X0CV/gUOg/zLXvT7CqCy/x3OIqmjxdlZ2kIdzK/OKoAQoFvWfOVXnX
+         cIqjnFkRZPTIDH4xEUCth6LI0Fs18lgR1hhTPjomrX7q85KQjfFxcM0Cn0I0hoFSu2sy
+         MwGGnKcqdFOr6mp7Laqa3+BEOLSo920zaXSrwBzAguamEIfF0NUOhEwoNHdmw2npcEeE
+         Jl0leG9pSEbeRy913AwaxneAWNUpDxF31Ul6deEfWtP3w9g4ybprJ2oT8PvN9ZQuSbKx
+         /JEA==
+X-Gm-Message-State: AOJu0Yx+1KAuj3bpnSwBfHAcuhGDOBHhmJwOobzY3ArQ8qxJL82F2wt0
+	va0J1TCd12T6/Jpx1wLsvxjTmoNY7pIVowmmMsOMgs2hFcqnd479
+X-Google-Smtp-Source: AGHT+IE6hVX8mryqJvo61SjkaY6pslH6s9Ndof4086vnIMdjV0UXPqczyQ4xJ8nedctyQB7xGVhoxg==
+X-Received: by 2002:a05:6214:5289:b0:681:77e3:e3ac with SMTP id kj9-20020a056214528900b0068177e3e3acmr602863qvb.89.1705698866606;
+        Fri, 19 Jan 2024 13:14:26 -0800 (PST)
 Received: from bruce-XPS-8940.. ([174.112.183.231])
-        by smtp.gmail.com with ESMTPSA id mk13-20020a056214580d00b0068178f50102sm33552qvb.25.2024.01.19.13.14.31
+        by smtp.gmail.com with ESMTPSA id mk13-20020a056214580d00b0068178f50102sm33552qvb.25.2024.01.19.13.14.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Jan 2024 13:14:32 -0800 (PST)
+        Fri, 19 Jan 2024 13:14:26 -0800 (PST)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 10/11] linux-yocto/6.1: update to v6.1.73
-Date: Fri, 19 Jan 2024 16:14:18 -0500
-Message-Id: <d6a9d68abde532a417d3347d01c86977480f5827.1705698717.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 05/11] linux-yocto/6.6: cfg: arm: introduce page size fragments
+Date: Fri, 19 Jan 2024 16:14:13 -0500
+Message-Id: <4611ede535afa80d6a746647b79c961859908808.1705698717.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1705698717.git.bruce.ashfield@gmail.com>
 References: <cover.1705698717.git.bruce.ashfield@gmail.com>
@@ -61,123 +61,72 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 19 Jan 2024 21:14:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194076
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194071
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Updating linux-yocto/6.1 to the latest korg -stable release that comprises
-the following commits:
+Integrating the following commit(s) to linux-yocto/.:
 
-    fec3b1451d5f Linux 6.1.73
-    f9ee31dc7fcd cifs: fix flushing folio regression for 6.1 backport
-    0f22c8a6efe6 ipv6: remove max_size check inline with ipv4
-    b2c545c39877 Revert "nfsd: separate nfsd_last_thread() from nfsd_put()"
-    db5f2f4db8b7 Revert "nfsd: call nfsd_last_thread() before final nfsd_put()"
+1/1 [
+    Author: Ross Burton
+    Email: ross.burton@arm.com
+    Subject: arch/arm: add fragments to explicitly select 4/16/64 KB pages on arm64
+    Date: Tue, 9 Jan 2024 13:33:06 +0000
+
+    Linux on aarch64 supports various page sizes. The default is 4KB but
+    there can be performance improvements in many workloads with larger
+    pages.
+
+    Signed-off-by: Ross Burton <ross.burton@arm.com>
+    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+]
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- .../linux/linux-yocto-rt_6.1.bb               |  6 ++--
- .../linux/linux-yocto-tiny_6.1.bb             |  6 ++--
- meta/recipes-kernel/linux/linux-yocto_6.1.bb  | 28 +++++++++----------
- 3 files changed, 20 insertions(+), 20 deletions(-)
+ meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb   | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_6.6.bb      | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.1.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.1.bb
-index 857197b211..06c07b70c8 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_6.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.1.bb
-@@ -14,13 +14,13 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
+index 2094613aa0..324494f122 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
+@@ -15,7 +15,7 @@ python () {
  }
  
--SRCREV_machine ?= "6d67557b912380b57b6081da7ac106e9c003f4d1"
--SRCREV_meta ?= "74fa91143e9076e0d1d5ff0cca93987b3330bf27"
-+SRCREV_machine ?= "6fd0860ac9846438f226257ab515bcd612fdc379"
-+SRCREV_meta ?= "40dede8a165ea5894f172fede6baa0dd94d23fec"
+ SRCREV_machine ?= "3e67e7e050ae8af74f9158dc71f952539f1516e5"
+-SRCREV_meta ?= "25ae36cd00a816ba8aab368a443cab1c166e3c2f"
++SRCREV_meta ?= "399295102a9b0db007323d12f561ecfd5782dcf0"
  
  SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.1;destsuffix=${KMETA};protocol=https"
- 
--LINUX_VERSION ?= "6.1.72"
-+LINUX_VERSION ?= "6.1.73"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.1.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.1.bb
-index 55f78404b1..e391074f8b 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.1.bb
-@@ -8,7 +8,7 @@ require recipes-kernel/linux/linux-yocto.inc
- # CVE exclusions
- include recipes-kernel/linux/cve-exclusion_6.1.inc
- 
--LINUX_VERSION ?= "6.1.72"
-+LINUX_VERSION ?= "6.1.73"
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-@@ -17,8 +17,8 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.6;destsuffix=${KMETA};protocol=https"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
+index 842e9c7693..b839bac95d 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
+@@ -18,7 +18,7 @@ KMETA = "kernel-meta"
  KCONF_BSP_AUDIT_LEVEL = "2"
  
--SRCREV_machine ?= "d08880e7ec70e70249f80b8305da8e90bd47c606"
--SRCREV_meta ?= "74fa91143e9076e0d1d5ff0cca93987b3330bf27"
-+SRCREV_machine ?= "6c78fd37122b29c40bd8bb6f43aaa1ba7d6fb53a"
-+SRCREV_meta ?= "40dede8a165ea5894f172fede6baa0dd94d23fec"
+ SRCREV_machine ?= "1c28ec6773065e82643c9ec1cb7dd2bd8ab1f929"
+-SRCREV_meta ?= "25ae36cd00a816ba8aab368a443cab1c166e3c2f"
++SRCREV_meta ?= "399295102a9b0db007323d12f561ecfd5782dcf0"
  
  PV = "${LINUX_VERSION}+git"
  
-diff --git a/meta/recipes-kernel/linux/linux-yocto_6.1.bb b/meta/recipes-kernel/linux/linux-yocto_6.1.bb
-index a75efe66de..f520954646 100644
---- a/meta/recipes-kernel/linux/linux-yocto_6.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_6.1.bb
-@@ -18,25 +18,25 @@ KBRANCH:qemux86-64 ?= "v6.1/standard/base"
- KBRANCH:qemuloongarch64  ?= "v6.1/standard/base"
- KBRANCH:qemumips64 ?= "v6.1/standard/mti-malta64"
- 
--SRCREV_machine:qemuarm ?= "4b6d6ef48b0d11dfdcdc9ae25e1c83be9396a116"
--SRCREV_machine:qemuarm64 ?= "d08880e7ec70e70249f80b8305da8e90bd47c606"
--SRCREV_machine:qemuloongarch64 ?= "d08880e7ec70e70249f80b8305da8e90bd47c606"
--SRCREV_machine:qemumips ?= "8a0e36da16bca1553532936c198c43362be35a82"
--SRCREV_machine:qemuppc ?= "d08880e7ec70e70249f80b8305da8e90bd47c606"
--SRCREV_machine:qemuriscv64 ?= "d08880e7ec70e70249f80b8305da8e90bd47c606"
--SRCREV_machine:qemuriscv32 ?= "d08880e7ec70e70249f80b8305da8e90bd47c606"
--SRCREV_machine:qemux86 ?= "d08880e7ec70e70249f80b8305da8e90bd47c606"
--SRCREV_machine:qemux86-64 ?= "d08880e7ec70e70249f80b8305da8e90bd47c606"
--SRCREV_machine:qemumips64 ?= "3407157586b654c9932356124429ee9dc9f56f18"
--SRCREV_machine ?= "d08880e7ec70e70249f80b8305da8e90bd47c606"
--SRCREV_meta ?= "74fa91143e9076e0d1d5ff0cca93987b3330bf27"
-+SRCREV_machine:qemuarm ?= "45e6b64447b888e94af6fa8529cf976bf8116624"
-+SRCREV_machine:qemuarm64 ?= "6c78fd37122b29c40bd8bb6f43aaa1ba7d6fb53a"
-+SRCREV_machine:qemuloongarch64 ?= "6c78fd37122b29c40bd8bb6f43aaa1ba7d6fb53a"
-+SRCREV_machine:qemumips ?= "90ea25826ce7ef511d0d93ae33c3888f3b583bf3"
-+SRCREV_machine:qemuppc ?= "6c78fd37122b29c40bd8bb6f43aaa1ba7d6fb53a"
-+SRCREV_machine:qemuriscv64 ?= "6c78fd37122b29c40bd8bb6f43aaa1ba7d6fb53a"
-+SRCREV_machine:qemuriscv32 ?= "6c78fd37122b29c40bd8bb6f43aaa1ba7d6fb53a"
-+SRCREV_machine:qemux86 ?= "6c78fd37122b29c40bd8bb6f43aaa1ba7d6fb53a"
-+SRCREV_machine:qemux86-64 ?= "6c78fd37122b29c40bd8bb6f43aaa1ba7d6fb53a"
-+SRCREV_machine:qemumips64 ?= "59248cf67c17a987f898d9d0c81292cb5fcda858"
-+SRCREV_machine ?= "6c78fd37122b29c40bd8bb6f43aaa1ba7d6fb53a"
-+SRCREV_meta ?= "40dede8a165ea5894f172fede6baa0dd94d23fec"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_6.6.bb b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
+index 9dae76e9a3..7c5d5f25d1 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_6.6.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
+@@ -29,7 +29,7 @@ SRCREV_machine:qemux86 ?= "1c28ec6773065e82643c9ec1cb7dd2bd8ab1f929"
+ SRCREV_machine:qemux86-64 ?= "1c28ec6773065e82643c9ec1cb7dd2bd8ab1f929"
+ SRCREV_machine:qemumips64 ?= "cbf59cfe385657b0ee385264be2fcf785f6f1959"
+ SRCREV_machine ?= "1c28ec6773065e82643c9ec1cb7dd2bd8ab1f929"
+-SRCREV_meta ?= "25ae36cd00a816ba8aab368a443cab1c166e3c2f"
++SRCREV_meta ?= "399295102a9b0db007323d12f561ecfd5782dcf0"
  
  # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
  # get the <version>/base branch, which is pure upstream -stable, and the same
- # meta SRCREV as the linux-yocto-standard builds. Select your version using the
- # normal PREFERRED_VERSION settings.
- BBCLASSEXTEND = "devupstream:target"
--SRCREV_machine:class-devupstream ?= "7c58bfa711cb556ef1edc48e7dfa6d84e5fb8912"
-+SRCREV_machine:class-devupstream ?= "fec3b1451d5febbc9e04250f879c10f8952e6bed"
- PN:class-devupstream = "linux-yocto-upstream"
- KBRANCH:class-devupstream = "v6.1/base"
- 
-@@ -45,7 +45,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
- SRC_URI += "file://0001-perf-cpumap-Make-counter-as-unsigned-ints.patch"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
--LINUX_VERSION ?= "6.1.72"
-+LINUX_VERSION ?= "6.1.73"
- 
- PV = "${LINUX_VERSION}+git"
- 
 -- 
 2.39.2
 
