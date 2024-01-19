@@ -1,419 +1,168 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7997CC4725D
-	for <webhook@archiver.kernel.org>; Fri, 19 Jan 2024 18:14:55 +0000 (UTC)
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
- by mx.groups.io with SMTP id smtpd.web10.807.1705688087088715135
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB8F6C4725D
+	for <webhook@archiver.kernel.org>; Fri, 19 Jan 2024 19:24:55 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web10.2988.1705692287872228195
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Jan 2024 10:14:47 -0800
+ Fri, 19 Jan 2024 11:24:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=kboc73rp;
- spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 7E95CFF802;
-	Fri, 19 Jan 2024 18:14:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1705688084;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WJPJrHYVJGmxYWA5KlWt8DM/L/2KyTjYC9P46GBhKuc=;
-	b=kboc73rpnSDf/wnwkA0ij7kAlRlHhaPOQfAWroJp+fj57W+GAAgjXS5Ph1rVs7vUHMQmBy
-	EYamWbGvn6zaMS/UuXcOwoFQzOg4Ll7WQ3YWDfwRySTnV5Z+Uc1FxG3tBNqPGboLgM1r80
-	8L7YHt7r0GNdkypywUNH5+i6CCVT1Lu2r8Z/6cCU0+Qpl/FD3ujuDVVON7HC1XGDKbANj6
-	XMbU5Bym+1borikgGUKuF1Klo/ZjuXVBsreDklpnmIb+BDxLkY9SjhrTC6IAvCCaZV/CZi
-	HzGPbWJHv3v8c7x/VL/26wMizQCsCdkQV0ekIGc/3ECA31XJaHm9q3myU+Ng+g==
-Date: Fri, 19 Jan 2024 19:14:43 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Qi.Chen@windriver.com
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core][PATCH 1/3] systemd: upgrade to 255.1
-Message-ID: <202401191814434c0685e2@mail.local>
-References: <20231227042036.2376255-1-Qi.Chen@windriver.com>
- <2968be9a-c13d-5d98-e1be-d291d0b5b008@windriver.com>
- <2024011918132485b9ba7f@mail.local>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=PjiXWiOp;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-337d58942c9so1084027f8f.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 19 Jan 2024 11:24:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1705692286; x=1706297086; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=uubkPGm7H5EfAYe5Dow1ZrcYkljna5KZ0TAPW16z2Bg=;
+        b=PjiXWiOpmiJBhSUf0KzjJnB2/pny+bdFuMJMr/SlZtcjGJpJxitD/OVWN9WUM5gZpi
+         1y2Y7A2u/MwAS8Sr1HBwtgVd8XGlLTf1N/L5h7bRMm/OeaRatMTgZcLTdkUOCKCxeEPO
+         AC/dQuRS7ZI0mji2TIeqRCo4H7thuNc30HuKI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705692286; x=1706297086;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=uubkPGm7H5EfAYe5Dow1ZrcYkljna5KZ0TAPW16z2Bg=;
+        b=KmuJkrYLg9PbIhZxklpyyPX2btNIQWZ2r8sNmiZc0yuB8XI2CQyb23MSaWIgGma3MK
+         GHU8gxYEceXBEVkVjUhnvtNCZs4vNULoT0jGNKRocDOvqUMugpmm8E8G+FBvUfD9YRKh
+         bVEl1cRqt9hpLpNkjEa/NF2o+KUY5We49MUL16WiqxUqKdkeF+ssjzhNIBEAAVivXSxM
+         9Orfs1YPWxf3w4vvO4pchSuumGfo2KO3yX8Byq8HNbOCBSWUWOf9Vy3tAI1bJUo97eL6
+         lvNT5HNp0KpIw/2EJQWQuzrQVTMZH9nR9wC/hYL+Gj7uzUeAcvP6GB0ICEXWHRnU8DQn
+         UpIg==
+X-Gm-Message-State: AOJu0YyjWTZr1ooCr+6mSRCM46ZLzIAyUa8w+pu0lXsVyWX1tHnwZYKL
+	d/IsPGUFEk3L/0a6ukUnYRNkVPOGh8N97CbcGVU6yS/fLTAKB5M1jM9aaOIr7Hs=
+X-Google-Smtp-Source: AGHT+IHMf+UyPok6JDImbWSN0y0FU8OAvO7oF4gF5SH2S3YwsxSTYee5WJPebZSi6EPvs6fvGsL7Dw==
+X-Received: by 2002:a05:6000:1e81:b0:337:a003:3d6b with SMTP id dd1-20020a0560001e8100b00337a0033d6bmr134387wrb.28.1705692285984;
+        Fri, 19 Jan 2024 11:24:45 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:bdad:632e:4428:9197? ([2001:8b0:aba:5f3c:bdad:632e:4428:9197])
+        by smtp.gmail.com with ESMTPSA id o10-20020a5d62ca000000b00337d4ce6ab4sm4268099wrv.20.2024.01.19.11.24.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Jan 2024 11:24:45 -0800 (PST)
+Message-ID: <3d768fea662107ded470e7aa3dbd3e2d561e173a.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH] opensbi: bump to 1.4
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Thomas Perrot <thomas.perrot@bootlin.com>, 
+	openembedded-core@lists.openembedded.org, Khem Raj <raj.khem@gmail.com>
+Cc: thomas.petazzoni@bootlin.com
+Date: Fri, 19 Jan 2024 19:24:44 +0000
+In-Reply-To: <f9050dd0b2bb0c072f891a5b45cf96bdb7b9a7f0.camel@bootlin.com>
+References: <20240117094701.25763-1-thomas.perrot@bootlin.com>
+	 <abad3986d80e9eae3e7ed69f1ca466678eea042d.camel@linuxfoundation.org>
+	 <f9050dd0b2bb0c072f891a5b45cf96bdb7b9a7f0.camel@bootlin.com>
+Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
+ YNvg==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.0-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2024011918132485b9ba7f@mail.local>
-X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 Jan 2024 18:14:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194064
+ <openembedded-core@lists.openembedded.org>; Fri, 19 Jan 2024 19:24:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194065
 
-On 19/01/2024 19:13:25+0100, Alexandre Belloni wrote:
-> On 19/01/2024 11:09:20+0800, Chen Qi via lists.openembedded.org wrote:
-> > What's the status of this patch series?
-> > Is there any issue or concern that I missed?
-> 
-> I'm glad you asked, I got this today:
-> 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/72/builds/8466/steps/26/logs/warnings
+On Fri, 2024-01-19 at 18:48 +0100, Thomas Perrot wrote:
+> Hello Richard,
+>=20
+> On Fri, 2024-01-19 at 17:22 +0000, Richard Purdie wrote:
+> > On Wed, 2024-01-17 at 10:47 +0100, Thomas Perrot via
+> > lists.openembedded.org wrote:
+> > > From: Thomas Perrot <thomas.perrot@bootlin.com>
+> > >=20
+> > > This release has:
+> > > - Synopsys DesignWare APB GPIO driver
+> > > - Zicntr and Zihpm support
+> > > - Console print improvements
+> > > - Smepmp support
+> > > - Simple FDT based syscon regmap driver
+> > > - Syscon based reboot and poweroff driver
+> > > - Non-contiguous hpm counters
+> > > - Smcntrpmf support
+> > > - Full sparse hartid support
+> > > - IPI improvements
+> > > - RFENCE improvements
+> > > - Zkr support
+> > > - Andes custom PMU support
+> > > Overall, this release mainly adds more ISA extensions, drivers and
+> > > other improvements.
+> > >=20
+> > > https://github.com/riscv-software-src/opensbi/compare/v1.3.1...v1.4
+> > >=20
+> > > Signed-off-by: Thomas Perrot <thomas.perrot@bootlin.com>
+> >=20
+> > This all seems reasonable but why is there a revert below?
+>=20
+> I reverted it otherwise the following link issue occurs:
+>=20
+> "build/tmp-glibc/work/riscv64-oe-linux/opensbi/1.4/recipe-sysroot-
+> native/usr/bin/riscv64-oe-linux/../../libexec/riscv64-oe-
+> linux/gcc/riscv64-oe-linux/13.2.0/ld.bfd:/src/build/tmp-
+> glibc/work/riscv64-oe-
+> linux/opensbi/1.4/git/build/platform/generic/firmware/fw_dynamic.elf.ld
+> :54: undefined section `.dynsym' referenced in expression"
 
-and I know you sent a patch for this but it didn't make it yet.
+The commit should at least mention the issue.
 
-> 
-> > 
-> > Regards,
-> > Qi
-> > 
-> > On 12/27/23 12:20, Chen Qi via lists.openembedded.org wrote:
-> > > From: Chen Qi <Qi.Chen@windriver.com>
-> > > 
-> > > 1. Patch changes:
-> > > 
-> > > 0004-Move-sysusers.d-sysctl.d-binfmt.d-modules-load.d-to-.patch
-> > > is removed because it has no real effect now. The /lib is now
-> > > /usr/lib because 'usrmerge' is a required distro feature for systemd.
-> > > 
-> > > 0002-binfmt-Don-t-install-dependency-links-at-install-tim.patch is
-> > > refreshed for the new version to avoid patch-fuzz issue.
-> > > 
-> > > 2. root user's home directory now defaults to "/root":
-> > > 
-> > > The sysuers.d/basic.conf is still modified to respect the ROOT_HOME
-> > > value, so if users set ROOT_HOME to "/home/root", the behavior is the
-> > > same as before. However, this is only for backward compatibility. With
-> > > this patch, The ROOT_HOME value is set to "/root" in init-manager-systemd.inc.
-> > > This is because systemd's source codes are hardcoding "/root", and other
-> > > values are not officially supported. See the list below.
-> > > $ grep -rl '"/root"' src/ | grep -v 'src/test'
-> > > src/core/namespace.c
-> > > src/basic/user-util.c
-> > > src/nss-systemd/nss-systemd.c
-> > > src/nspawn/nspawn.c
-> > > src/firstboot/firstboot.c
-> > > src/shared/userdb.c
-> > > src/shared/user-record.c
-> > > $ grep -rl /root network/ factory/ sysctl.d/ sysusers.d/ rules.d/ tmpfiles.d/ units/ xorg/ tools/
-> > > sysusers.d/basic.conf.in
-> > > tmpfiles.d/provision.conf
-> > > units/emergency.service.in
-> > > units/rescue.service.in
-> > > tools/list-discoverable-partitions.py
-> > > Previously, the recipe was just substituting sysusers.d/basic.conf.in,
-> > > which is not enough to be treated as 'fully support'. I deliberately put
-> > > a warning message in do_install to warn users about non "/root" ROOT_HOME
-> > > value. Don't remove it until all above places are handled.
-> > > 
-> > > 3. cgroupv2 is now the default.
-> > > cgroupv2 is the default for systemd for many years and it's the default
-> > > for distros such as ubuntu and fedora. Let's also use it as the default.
-> > > 
-> > > Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+I'm also not sure that is "Inappropriate", more like "Pending" as in
+needs further investigation.
+
 > > > ---
-> > >   .../distro/include/init-manager-systemd.inc   |  2 +
-> > >   meta/recipes-core/systemd/systemd.inc         |  4 +-
-> > >   ...tall-dependency-links-at-install-tim.patch | 22 +++---
-> > >   ...sysctl.d-binfmt.d-modules-load.d-to-.patch | 73 -------------------
-> > >   .../systemd/systemd/basic.conf.in             | 40 ----------
-> > >   .../{systemd_254.4.bb => systemd_255.1.bb}    | 16 ++--
-> > >   6 files changed, 25 insertions(+), 132 deletions(-)
-> > >   delete mode 100644 meta/recipes-core/systemd/systemd/0004-Move-sysusers.d-sysctl.d-binfmt.d-modules-load.d-to-.patch
-> > >   delete mode 100644 meta/recipes-core/systemd/systemd/basic.conf.in
-> > >   rename meta/recipes-core/systemd/{systemd_254.4.bb => systemd_255.1.bb} (98%)
-> > > 
-> > > diff --git a/meta/conf/distro/include/init-manager-systemd.inc b/meta/conf/distro/include/init-manager-systemd.inc
-> > > index 595d1f2644..0a76647459 100644
-> > > --- a/meta/conf/distro/include/init-manager-systemd.inc
-> > > +++ b/meta/conf/distro/include/init-manager-systemd.inc
-> > > @@ -5,3 +5,5 @@ VIRTUAL-RUNTIME_init_manager ??= "systemd"
-> > >   VIRTUAL-RUNTIME_initscripts ??= "systemd-compat-units"
-> > >   VIRTUAL-RUNTIME_login_manager ??= "shadow-base"
-> > >   VIRTUAL-RUNTIME_dev_manager ??= "systemd"
-> > > +# systemd hardcodes /root in its source codes, other values are not offically supported
-> > > +ROOT_HOME ?= "/root"
-> > > diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
-> > > index ccc3236457..1417e0150f 100644
-> > > --- a/meta/recipes-core/systemd/systemd.inc
-> > > +++ b/meta/recipes-core/systemd/systemd.inc
-> > > @@ -15,8 +15,8 @@ LICENSE:libsystemd = "LGPL-2.1-or-later"
-> > >   LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
-> > >                       file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
-> > > -SRCREV = "2e7504449a51fb38db9cd2da391c6434f82def51"
-> > > -SRCBRANCH = "v254-stable"
-> > > +SRCREV = "2018ccef6645ce00c784369a22dc4e98f6d7061d"
-> > > +SRCBRANCH = "v255-stable"
-> > >   SRC_URI = "git://github.com/systemd/systemd-stable.git;protocol=https;branch=${SRCBRANCH}"
-> > >   S = "${WORKDIR}/git"
-> > > diff --git a/meta/recipes-core/systemd/systemd/0002-binfmt-Don-t-install-dependency-links-at-install-tim.patch b/meta/recipes-core/systemd/systemd/0002-binfmt-Don-t-install-dependency-links-at-install-tim.patch
-> > > index 085f1e9052..be231cf6b2 100644
-> > > --- a/meta/recipes-core/systemd/systemd/0002-binfmt-Don-t-install-dependency-links-at-install-tim.patch
-> > > +++ b/meta/recipes-core/systemd/systemd/0002-binfmt-Don-t-install-dependency-links-at-install-tim.patch
-> > > @@ -1,8 +1,8 @@
-> > > -From ca7d9a8d9c81702af9c599bb79706f12b1a465cf Mon Sep 17 00:00:00 2001
-> > > +From 29a58009a172e369ad7166e16dab2f4945c6b0d2 Mon Sep 17 00:00:00 2001
-> > >   From: Chen Qi <Qi.Chen@windriver.com>
-> > >   Date: Thu, 21 Feb 2019 16:23:24 +0800
-> > > -Subject: [PATCH] binfmt: Don't install dependency links at install time for
-> > > - the binfmt services
-> > > +Subject: [PATCH 1/2] binfmt: Don't install dependency links at install time
-> > > + for the binfmt services
-> > >   use [Install] blocks so that they get created when the service is enabled
-> > >   like a traditional service.
-> > > @@ -25,10 +25,10 @@ Signed-off-by: Scott Murray <scott.murray@konsulko.com>
-> > >    3 files changed, 7 insertions(+), 2 deletions(-)
-> > >   diff --git a/units/meson.build b/units/meson.build
-> > > -index c7939a10f8..219570ab19 100644
-> > > +index e7bfb7f838..1d5ec4b178 100644
-> > >   --- a/units/meson.build
-> > >   +++ b/units/meson.build
-> > > -@@ -149,7 +149,6 @@ units = [
-> > > +@@ -154,7 +154,6 @@ units = [
-> > >            {
-> > >              'file' : 'proc-sys-fs-binfmt_misc.automount',
-> > >              'conditions' : ['ENABLE_BINFMT'],
-> > > @@ -36,7 +36,7 @@ index c7939a10f8..219570ab19 100644
-> > >            },
-> > >            {
-> > >              'file' : 'proc-sys-fs-binfmt_misc.mount',
-> > > -@@ -246,7 +245,6 @@ units = [
-> > > +@@ -251,7 +250,6 @@ units = [
-> > >            {
-> > >              'file' : 'systemd-binfmt.service.in',
-> > >              'conditions' : ['ENABLE_BINFMT'],
-> > > @@ -45,7 +45,7 @@ index c7939a10f8..219570ab19 100644
-> > >            {
-> > >              'file' : 'systemd-bless-boot.service.in',
-> > >   diff --git a/units/proc-sys-fs-binfmt_misc.automount b/units/proc-sys-fs-binfmt_misc.automount
-> > > -index 6b1bbdc91e..5ec5b8670a 100644
-> > > +index 5d212015a5..6c2900ca77 100644
-> > >   --- a/units/proc-sys-fs-binfmt_misc.automount
-> > >   +++ b/units/proc-sys-fs-binfmt_misc.automount
-> > >   @@ -22,3 +22,6 @@ Before=shutdown.target
-> > > @@ -56,7 +56,7 @@ index 6b1bbdc91e..5ec5b8670a 100644
-> > >   +[Install]
-> > >   +WantedBy=sysinit.target
-> > >   diff --git a/units/systemd-binfmt.service.in b/units/systemd-binfmt.service.in
-> > > -index b04412e037..63f116e4fa 100644
-> > > +index 6861c76674..531e9fbd90 100644
-> > >   --- a/units/systemd-binfmt.service.in
-> > >   +++ b/units/systemd-binfmt.service.in
-> > >   @@ -14,6 +14,7 @@ Documentation=https://docs.kernel.org/admin-guide/binfmt-misc.html
-> > > @@ -68,12 +68,12 @@ index b04412e037..63f116e4fa 100644
-> > >    After=proc-sys-fs-binfmt_misc.mount
-> > >    After=local-fs.target
-> > >   @@ -31,3 +32,6 @@ RemainAfterExit=yes
-> > > - ExecStart={{ROOTLIBEXECDIR}}/systemd-binfmt
-> > > - ExecStop={{ROOTLIBEXECDIR}}/systemd-binfmt --unregister
-> > > + ExecStart={{LIBEXECDIR}}/systemd-binfmt
-> > > + ExecStop={{LIBEXECDIR}}/systemd-binfmt --unregister
-> > >    TimeoutSec=90s
-> > >   +
-> > >   +[Install]
-> > >   +WantedBy=sysinit.target
-> > >   --
-> > > -2.39.2
-> > > +2.34.1
-> > > diff --git a/meta/recipes-core/systemd/systemd/0004-Move-sysusers.d-sysctl.d-binfmt.d-modules-load.d-to-.patch b/meta/recipes-core/systemd/systemd/0004-Move-sysusers.d-sysctl.d-binfmt.d-modules-load.d-to-.patch
-> > > deleted file mode 100644
-> > > index 98914ae154..0000000000
-> > > --- a/meta/recipes-core/systemd/systemd/0004-Move-sysusers.d-sysctl.d-binfmt.d-modules-load.d-to-.patch
-> > > +++ /dev/null
-> > > @@ -1,73 +0,0 @@
-> > > -From f75f03ef6bc3554068e456bed227f333d5cb8c34 Mon Sep 17 00:00:00 2001
-> > > -From: Khem Raj <raj.khem@gmail.com>
-> > > -Date: Tue, 29 Sep 2020 18:01:41 -0700
-> > > -Subject: [PATCH] Move sysusers.d/sysctl.d/binfmt.d/modules-load.d to /usr
-> > > -
-> > > -These directories are moved to /lib since systemd v246, commit
-> > > -4a56315a990b ("path: use ROOTPREFIX properly"), but in oe-core/yocto,
-> > > -the old /usr/lib is still being used.
-> > > -
-> > > -Upstream-Status: Inappropriate (OE-specific)
-> > > -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > > -Signed-off-by: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
-> > > ----
-> > > - src/core/systemd.pc.in           | 8 ++++----
-> > > - src/libsystemd/sd-path/sd-path.c | 8 ++++----
-> > > - 2 files changed, 8 insertions(+), 8 deletions(-)
-> > > -
-> > > -diff --git a/src/core/systemd.pc.in b/src/core/systemd.pc.in
-> > > -index 693433b34b..8368a3ff02 100644
-> > > ---- a/src/core/systemd.pc.in
-> > > -+++ b/src/core/systemd.pc.in
-> > > -@@ -67,16 +67,16 @@ tmpfilesdir=${tmpfiles_dir}
-> > > -
-> > > - user_tmpfiles_dir=${prefix}/share/user-tmpfiles.d
-> > > -
-> > > --sysusers_dir=${rootprefix}/lib/sysusers.d
-> > > -+sysusers_dir=${prefix}/lib/sysusers.d
-> > > - sysusersdir=${sysusers_dir}
-> > > -
-> > > --sysctl_dir=${rootprefix}/lib/sysctl.d
-> > > -+sysctl_dir=${prefix}/lib/sysctl.d
-> > > - sysctldir=${sysctl_dir}
-> > > -
-> > > --binfmt_dir=${rootprefix}/lib/binfmt.d
-> > > -+binfmt_dir=${prefix}/lib/binfmt.d
-> > > - binfmtdir=${binfmt_dir}
-> > > -
-> > > --modules_load_dir=${rootprefix}/lib/modules-load.d
-> > > -+modules_load_dir=${prefix}/lib/modules-load.d
-> > > - modulesloaddir=${modules_load_dir}
-> > > -
-> > > - catalog_dir=${prefix}/lib/systemd/catalog
-> > > -diff --git a/src/libsystemd/sd-path/sd-path.c b/src/libsystemd/sd-path/sd-path.c
-> > > -index 1af3a36d1d..def502b717 100644
-> > > ---- a/src/libsystemd/sd-path/sd-path.c
-> > > -+++ b/src/libsystemd/sd-path/sd-path.c
-> > > -@@ -365,19 +365,19 @@ static int get_path(uint64_t type, char **buffer, const char **ret) {
-> > > -                 return 0;
-> > > -
-> > > -         case SD_PATH_SYSUSERS:
-> > > --                *ret = ROOTPREFIX_NOSLASH "/lib/sysusers.d";
-> > > -+                *ret = "/usr/lib/sysusers.d";
-> > > -                 return 0;
-> > > -
-> > > -         case SD_PATH_SYSCTL:
-> > > --                *ret = ROOTPREFIX_NOSLASH "/lib/sysctl.d";
-> > > -+                *ret = "/usr/lib/sysctl.d";
-> > > -                 return 0;
-> > > -
-> > > -         case SD_PATH_BINFMT:
-> > > --                *ret = ROOTPREFIX_NOSLASH "/lib/binfmt.d";
-> > > -+                *ret = "/usr/lib/binfmt.d";
-> > > -                 return 0;
-> > > -
-> > > -         case SD_PATH_MODULES_LOAD:
-> > > --                *ret = ROOTPREFIX_NOSLASH "/lib/modules-load.d";
-> > > -+                *ret = "/usr/lib/modules-load.d";
-> > > -                 return 0;
-> > > -
-> > > -         case SD_PATH_CATALOG:
-> > > ---
-> > > -2.39.2
-> > > -
-> > > diff --git a/meta/recipes-core/systemd/systemd/basic.conf.in b/meta/recipes-core/systemd/systemd/basic.conf.in
-> > > deleted file mode 100644
-> > > index fac288f7fa..0000000000
-> > > --- a/meta/recipes-core/systemd/systemd/basic.conf.in
-> > > +++ /dev/null
-> > > @@ -1,40 +0,0 @@
-> > > -#  This file is part of systemd.
-> > > -#
-> > > -#  systemd is free software; you can redistribute it and/or modify it
-> > > -#  under the terms of the GNU Lesser General Public License as published by
-> > > -#  the Free Software Foundation; either version 2.1 of the License, or
-> > > -#  (at your option) any later version.
-> > > -
-> > > -# The superuser
-> > > -u root    0     "root" :ROOT_HOME:
-> > > -
-> > > -# The nobody user/group for NFS file systems
-> > > -g {{NOBODY_GROUP_NAME}} 65534       -            -
-> > > -u {{NOBODY_USER_NAME }} 65534:65534 "Nobody"     -
-> > > -
-> > > -# Administrator group: can *see* more than normal users
-> > > -g adm     {{ADM_GID    }}     -            -
-> > > -
-> > > -# Administrator group: can *do* more than normal users
-> > > -g wheel   {{WHEEL_GID  }}     -            -
-> > > -
-> > > -# Access to shared database of users on the system
-> > > -g utmp    {{UTMP_GID   }}     -            -
-> > > -
-> > > -# Physical and virtual hardware access groups
-> > > -g audio   {{AUDIO_GID  }}     -            -
-> > > -g cdrom   {{CDROM_GID  }}     -            -
-> > > -g dialout {{DIALOUT_GID}}     -            -
-> > > -g disk    {{DISK_GID   }}     -            -
-> > > -g input   {{INPUT_GID  }}     -            -
-> > > -g kmem    {{KMEM_GID   }}     -            -
-> > > -g kvm     {{KVM_GID    }}     -            -
-> > > -g lp      {{LP_GID     }}     -            -
-> > > -g render  {{RENDER_GID }}     -            -
-> > > -g sgx     {{SGX_GID    }}     -            -
-> > > -g tape    {{TAPE_GID   }}     -            -
-> > > -g tty     {{TTY_GID    }}     -            -
-> > > -g video   {{VIDEO_GID  }}     -            -
-> > > -
-> > > -# Default group for normal users
-> > > -g users   {{USERS_GID  }}     -            -
-> > > diff --git a/meta/recipes-core/systemd/systemd_254.4.bb b/meta/recipes-core/systemd/systemd_255.1.bb
-> > > similarity index 98%
-> > > rename from meta/recipes-core/systemd/systemd_254.4.bb
-> > > rename to meta/recipes-core/systemd/systemd_255.1.bb
-> > > index 0c12926bef..daa3a01fef 100644
-> > > --- a/meta/recipes-core/systemd/systemd_254.4.bb
-> > > +++ b/meta/recipes-core/systemd/systemd_255.1.bb
-> > > @@ -21,7 +21,6 @@ REQUIRED_DISTRO_FEATURES += "systemd"
-> > >   SRC_URI += " \
-> > >              file://touchscreen.rules \
-> > >              file://00-create-volatile.conf \
-> > > -           file://basic.conf.in \
-> > >              ${@bb.utils.contains('PACKAGECONFIG', 'polkit_hostnamed_fallback', 'file://org.freedesktop.hostname1_no_polkit.conf', '', d)} \
-> > >              ${@bb.utils.contains('PACKAGECONFIG', 'polkit_hostnamed_fallback', 'file://00-hostnamed-network-user.conf', '', d)} \
-> > >              file://init \
-> > > @@ -29,7 +28,6 @@ SRC_URI += " \
-> > >              file://systemd-pager.sh \
-> > >              file://0002-binfmt-Don-t-install-dependency-links-at-install-tim.patch \
-> > >              file://0008-implment-systemd-sysv-install-for-OE.patch \
-> > > -           file://0004-Move-sysusers.d-sysctl.d-binfmt.d-modules-load.d-to-.patch \
-> > >              "
-> > >   # patches needed by musl
-> > > @@ -73,6 +71,7 @@ PACKAGECONFIG ??= " \
-> > >       ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', '', 'link-udev-shared', d)} \
-> > >       backlight \
-> > >       binfmt \
-> > > +    cgroupv2 \
-> > >       gshadow \
-> > >       hibernate \
-> > >       hostnamed \
-> > > @@ -266,12 +265,16 @@ EXTRA_OEMESON += "-Dkexec-path=${sbindir}/kexec \
-> > >   # The 60 seconds is watchdog's default vaule.
-> > >   WATCHDOG_TIMEOUT ??= "60"
-> > > -do_configure:prepend() {
-> > > -  sed s@:ROOT_HOME:@${ROOT_HOME}@g ${WORKDIR}/basic.conf.in > ${S}/sysusers.d/basic.conf.in
-> > > -}
-> > > -
-> > >   do_install() {
-> > >   	meson_do_install
-> > > +	# Change the root user's home directory in /lib/sysusers.d/basic.conf.
-> > > +	# This is done merely for backward compatibility with previous systemd recipes.
-> > > +	# systemd hardcodes root user's HOME to be "/root". Changing to use other values
-> > > +	# may have unexpected runtime behaviors.
-> > > +	if [ "${ROOT_HOME}" != "/root" ]; then
-> > > +		bbwarn "Using ${ROOT_HOME} as root user's home directory is not fully supported by systemd"
-> > > +		sed -i -e 's#/root#${ROOT_HOME}#g' ${D}${exec_prefix}/lib/sysusers.d/basic.conf
-> > > +	fi
-> > >   	install -d ${D}/${base_sbindir}
-> > >   	if ${@bb.utils.contains('PACKAGECONFIG', 'serial-getty-generator', 'false', 'true', d)}; then
-> > >   		# Provided by a separate recipe
-> > > @@ -754,6 +757,7 @@ FILES:udev += "${base_sbindir}/udevd \
-> > >                  ${rootlibexecdir}/udev/rules.d/60-persistent-alsa.rules \
-> > >                  ${rootlibexecdir}/udev/rules.d/60-persistent-input.rules \
-> > >                  ${rootlibexecdir}/udev/rules.d/60-persistent-storage.rules \
-> > > +               ${rootlibexecdir}/udev/rules.d/60-persistent-storage-mtd.rules \
-> > >                  ${rootlibexecdir}/udev/rules.d/60-persistent-storage-tape.rules \
-> > >                  ${rootlibexecdir}/udev/rules.d/60-persistent-v4l.rules \
-> > >                  ${rootlibexecdir}/udev/rules.d/60-sensor.rules \
-> > > 
-> > > 
-> > > 
-> > 
-> 
-> > 
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#194007): https://lists.openembedded.org/g/openembedded-core/message/194007
-> > Mute This Topic: https://lists.openembedded.org/mt/103380516/3617179
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > 
-> 
-> 
-> -- 
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+> > > =C2=A0...re-Remove-handling-of-R_RISCV_-32-64.patch | 88
+> > > +++++++++++++++++++
+> > > =C2=A0.../{opensbi_1.3.bb =3D> opensbi_1.4.bb}=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 8 +-
+> > > =C2=A02 files changed, 92 insertions(+), 4 deletions(-)
+> > > =C2=A0create mode 100644 meta/recipes-bsp/opensbi/opensbi/0001-Revert=
+-
+> > > firmware-Remove-handling-of-R_RISCV_-32-64.patch
+> > > =C2=A0rename meta/recipes-bsp/opensbi/{opensbi_1.3.bb =3D> opensbi_1.=
+4.bb}
+> > > (90%)
+> > >=20
+> > > diff --git a/meta/recipes-bsp/opensbi/opensbi/0001-Revert-firmware-
+> > > Remove-handling-of-R_RISCV_-32-64.patch b/meta/recipes-
+> > > bsp/opensbi/opensbi/0001-Revert-firmware-Remove-handling-of-
+> > > R_RISCV_-32-64.patch
+> > > new file mode 100644
+> > > index 000000000000..d14e0b73a9bc
+> > > --- /dev/null
+> > > +++ b/meta/recipes-bsp/opensbi/opensbi/0001-Revert-firmware-Remove-
+> > > handling-of-R_RISCV_-32-64.patch
+> > > @@ -0,0 +1,88 @@
+> > > +From bfe480929bcc966e1fdf5afdde8d4c22adba7f6f Mon Sep 17 00:00:00
+> > > 2001
+> > > +From: Thomas Perrot <thomas.perrot@bootlin.com>
+> > > +Date: Tue, 16 Jan 2024 15:16:58 +0100
+> > > +Subject: [PATCH] Revert "firmware: Remove handling of
+> > > R_RISCV_{32,64}"
+> > > +
+> > > +This reverts commit 2a6d72534d44c39e1de0614970a0dad97b1c41ba.
+> > > +
+> > > +Upstream-Status: Inappropriate [oe specific]
+> > > +Signed-off-by: Thomas Perrot <thomas.perrot@bootlin.com>
+> >=20
+> > If we're going to revert an upstream change, we need to say *why*. We
+> > need to revert it for some OE specific reason but what is that
+> > reason?
+> >=20
+>=20
+> I agree, maybe you have any advice to fix it in another way?
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+I have no idea, I've copied Khem who might or might know who to talk
+to.
+
+Cheers,
+
+Richard
 
