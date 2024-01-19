@@ -1,983 +1,647 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23CB8C4725D
-	for <webhook@archiver.kernel.org>; Fri, 19 Jan 2024 12:07:57 +0000 (UTC)
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
- by mx.groups.io with SMTP id smtpd.web10.20480.1705666068074367650
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28BBBC4725D
+	for <webhook@archiver.kernel.org>; Fri, 19 Jan 2024 12:13:27 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.20547.1705666398715407981
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Jan 2024 04:07:50 -0800
+ Fri, 19 Jan 2024 04:13:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=WXyt2Q+E;
- spf=pass (domain: mvista.com, ip: 209.85.210.174, mailfrom: vanusuri@mvista.com)
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-6d9344f30caso487936b3a.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 19 Jan 2024 04:07:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1705666067; x=1706270867; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=D6VZIXNA3NySEV4SdgclXJBIzBUg1K1ZV59YVpFb6R4=;
-        b=WXyt2Q+EfiJR5qMjTGC/hZNPaTv7UN30Vs0dHd8AOSw03LKpcGw/JNVya/EyJJY1xn
-         bvOwE7IQvmSmMjti64SUq5nRwj9Ea0T8uNG1uDUFOw9eAu/HVmlTd9b79w8nzNWOCIz8
-         hLwIOuxEXOoXNFEdlnDL8XEr9SUf7uAnN9SIY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705666067; x=1706270867;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=D6VZIXNA3NySEV4SdgclXJBIzBUg1K1ZV59YVpFb6R4=;
-        b=U/kY1WM3b3WLSor7ICa3ecfHzsWffMVUJEBJ5Nf3qupGow1nf37m1BWsSX/XkmW6R4
-         YiZ99/F60mJXJ3bgsvandqa7f2FPhlF6imd1G2nfqQDFOVpLRR7v6QEEHNsXhwEYQvVF
-         cN0e32+qFayGHuhGle1VTBUtdj6btHtcXKIt99XyqHjNHJTRZkNMNe3vbSY2lOEBu8uh
-         zraqfI/V2r+/+YT7VZMBWu7PLFadDF+NAXn704JiNL5Jg6mDt+y1eMPwNKUtYoF/TTZD
-         Ljko7ZgFfiPAky+l47sRfBXYTplmYUgtOnVN6YS7qA6vzFvrJ7/buxvHA5Ulp605h2A6
-         U64Q==
-X-Gm-Message-State: AOJu0YwmPSfBJoAkn0486ul3Z/4fRfl4OMh++k29IIbptibMxuNYVGim
-	GHBU4ZH9oD61vAFyzW0Wod7d0u5cT/mxsd3yn3tyAUloLYwXIL9l4XSwAWLJ6uTS9JyVCd3PsrL
-	P
-X-Google-Smtp-Source: AGHT+IEdIZdfFtGjg8z5ZdX4+LEcul/uJ6qMWWHJw3YH6Ws7J5EdBZhfg+COQhP1AzQYP5mkdFKemA==
-X-Received: by 2002:a05:6a00:93a6:b0:6d9:f07b:4cad with SMTP id ka38-20020a056a0093a600b006d9f07b4cadmr1122942pfb.29.1705666066240;
-        Fri, 19 Jan 2024 04:07:46 -0800 (PST)
-Received: from localhost.localdomain ([2401:4900:1cb1:15b7:edf:11b9:3b41:fa27])
-        by smtp.gmail.com with ESMTPSA id d7-20020aa78147000000b006dbc6a5daa5sm485079pfn.154.2024.01.19.04.07.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Jan 2024 04:07:45 -0800 (PST)
-From: vanusuri@mvista.com
-To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][kirkstone][PATCH] xserver-xorg: Multiple CVE fixes
-Date: Fri, 19 Jan 2024 17:37:37 +0530
-Message-Id: <20240119120737.90848-1-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=l4x7hQzX;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=1748b1ad81=qi.chen@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40J9ZluZ026411
+	for <openembedded-core@lists.openembedded.org>; Fri, 19 Jan 2024 04:13:18 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:cc:subject:date:message-id:references:in-reply-to
+	:content-type:content-transfer-encoding:mime-version; s=
+	PPS06212021; bh=eVeSse9OBw4hS+Ox+jWDIiX7KPjUZgE4HSEK1/IVQHg=; b=
+	l4x7hQzXxQ6fgt+sbd8fgPRqDPBPea8bYXdWTvHrLzC5kl9gFp6/BwNw0bevt4QW
+	xWJ6mfP7OwCibsqOYPgI9VAZUioUyul5C1QKli1oC3MmWTzAz+DIY6J8PdIFs22u
+	pnLJ3XnrVQfZn3aGNiMaBANfvlQnnHQM02aE/+jrMrk/ZJUuYDqZHQFt9bVpvx7V
+	BlpTmHfNip5ZkrGrnbF//4e8bD9o5+Q49TSduKhfy7OmZaUaMhq1Xc+DdIBlG2X7
+	dxMgzvhEGxVvjdSWoT6BQ1sRuX2yQak15FaS9HAypHNGQqhnx9He8QmOOmHOQkl/
+	lr0qJbhF53u0cdWjMTrGqA==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3vkpp46r9j-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 19 Jan 2024 04:13:18 -0800 (PST)
+Received: from m0250810.ppops.net (m0250810.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.24/8.17.1.24) with ESMTP id 40JCDHqU019169;
+	Fri, 19 Jan 2024 04:13:17 -0800
+Received: from nam02-dm3-obe.outbound.protection.outlook.com (mail-dm3nam02lp2040.outbound.protection.outlook.com [104.47.56.40])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3vkpp46r9h-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 19 Jan 2024 04:13:17 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NwGFW5pXMumVRaSNdLhQah2U54uCvOdiUGn7qiqjYmFoO9xYM5qqmnu0dDBSTSCB37bdLzbLvmq6OplaMbL0ZfcHiY62Xv5FGRFzyTWNWMbAj4wIIs7BYgNAAzeX9JhxOUKArTTIQrAtJh3ML5fMlAgwqMzZs8ftfRvRdEwqtmRfXC/cFgEXWPJj3uSh7egBVN7MFC/sMOYUpWR2VvuNypr1jhVjrS4rbxMiCLOC7UDRuJhxHcRW0w6JSQKSFQ25Qmx0B+YVjvMzCjXnimX7MVUx8CifiJ3wUGekd4/cARqUBO7cbbggsVC9OPBpZdgMLOAKW9ZczZ3nwwmSxztBIg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eVeSse9OBw4hS+Ox+jWDIiX7KPjUZgE4HSEK1/IVQHg=;
+ b=kNOzd7UXcV6tXAz+D4/qdTZ5yR5m/i5WpwmE013qw42MYxZeOJLGBJyDjvBydVcuIiZEy1Uq4jkKLpif6xo5L73PtrVhkwdgddyqUrwYs+/sEVFL2HdEd7MASmG7D+K565x8X4AAqG0WpLy/u48aPvyGn1Osg9Aa6BMLTkpvhSeTLDjX7pZP5Z2nIkewpZAXGk3zeFKb88ogc5H7sUst9EDS1To4L1R+PZVEJjPl0Gu8+L39II0cqX/VO/7veDvV8jOAyjE6xX2z8cllLZJCxTpzIgWjo64TST2GkCBVgv3EDspDhCJiEmnDVOPliPTE1SyJ3A39C5JkG9lX3ZMZSg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
+ by MW3PR11MB4538.namprd11.prod.outlook.com (2603:10b6:303:57::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.24; Fri, 19 Jan
+ 2024 12:13:12 +0000
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::5d84:2b01:5029:9315]) by CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::5d84:2b01:5029:9315%7]) with mapi id 15.20.7202.026; Fri, 19 Jan 2024
+ 12:13:12 +0000
+From: "Chen, Qi" <Qi.Chen@windriver.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>,
+        Alexander Kanavin
+	<alex@linutronix.de>
+Subject: RE: [OE-core] [PATCH v3 1/2] shadow: update 4.13 -> 4.14.2
+Thread-Topic: [OE-core] [PATCH v3 1/2] shadow: update 4.13 -> 4.14.2
+Thread-Index: AQHaSoR5fNZyR/hr2kCls+VCoaWM5LDg6uOAgAAhXRA=
+Date: Fri, 19 Jan 2024 12:13:12 +0000
+Message-ID: 
+ <CO6PR11MB56024A3C9C403E77C038F106ED702@CO6PR11MB5602.namprd11.prod.outlook.com>
+References: <20240111131521.2305172-1-alex@linutronix.de>
+ <51ee1c53-0687-22a5-ec9b-88c2ecd2bc66@windriver.com>
+ <CANNYZj8Wqm1NNx0VuxOU7sxoxsKcKh+vG-3WrkKiDqQVGSDNsg@mail.gmail.com>
+In-Reply-To: 
+ <CANNYZj8Wqm1NNx0VuxOU7sxoxsKcKh+vG-3WrkKiDqQVGSDNsg@mail.gmail.com>
+Accept-Language: en-US, zh-CN
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CO6PR11MB5602:EE_|MW3PR11MB4538:EE_
+x-ms-office365-filtering-correlation-id: d9f738fc-8e4a-4ce9-b4cc-08dc18e80220
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ Joz4PWYXxvjqkgtueHoKwugm8RyZhk3T3Ag1pY/ojHR0G/N67+gL9Po/zVFnr23txJrtI5p+eQadJxb5O/LAPAA8lBzWnaRpqqg6LSeArQub4Kfsud6mGVkG+Y3B8raJapls5z/+pr7oLHR+WG5atQxtJuHC0Bw1ifVxCDARkwVcIqkwAOGbomjkuJslYwBtwi1//LeMCQ8yBtmLHpReKAxj8DaF6GOzLNzIamv/1/Qx4X7udGVVQKa5E33IqIJIxGEXcxQmxBRy6RcDvoGXx0Dt5OCUFP6GAAPiQUy8piiGiQrpCIm9sf0wfGH/II380Zn8N+bd7rCuFoY/RJ0Trv7B4/qdM4sJ7vogaFEqZNN5M345rq2N8MdWQ1TmzgokH3luuD1i4pwn+Tq22byaQPCrIU/2Y9GuA6c9mNUhwZWGpCDiCWwImpTZkSxArpqw0+2BnocaBiO/A9blOURoQHfe3G+I0uZmpuL+CYLBbpEgmpbsXl3bmN5MuOZC4gVmO2YSLihHcvi9ihDIv/QKHjBmNmSb6k0s0WGRZ1VgYOV6b01sXQdTzCs9x2yMNZ8MFWfhgUY4l6PFVvmgyz+UI563SlBBukiAwSeyB+xw7z22JRRvXZ70eqE15hQM2WXjVFQzUWoLfgcv8aYiQIw1mpjhofA5cjXjP8A2XIemQKY=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(396003)(346002)(136003)(366004)(39850400004)(230922051799003)(1800799012)(451199024)(64100799003)(186009)(66899024)(9686003)(6506007)(7696005)(53546011)(26005)(66574015)(83380400001)(41300700001)(4326008)(33656002)(52536014)(8676002)(316002)(8936002)(6916009)(18074004)(86362001)(15650500001)(5660300002)(30864003)(2906002)(64756008)(54906003)(66446008)(66476007)(66556008)(38070700009)(76116006)(66946007)(71200400001)(966005)(478600001)(55016003)(122000001)(38100700002)(21314003)(579004)(559001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?U1VIWHNpaEpuWjlmL2VKOTJwQXJseUdDWUlkT3RhZkIvQXVtTWFwUFJZQXl3?=
+ =?utf-8?B?NzA1ZGU2MnRsWkUvekhpV2VYM3ZKNmNlOHV6OWJpUlAwWC8xcUswRGlpMVZS?=
+ =?utf-8?B?OVZJZXgvYlpLeVBpUVprSHEzNWMxYzQ2UDZhajNKa29CcUpXV1BzamtxMXZD?=
+ =?utf-8?B?WnlDVWN0L1FOcDFJYzYvNjZLaXVsTGppNEkvNWVETmt3Yk1SSVQwM282dk1r?=
+ =?utf-8?B?bmtuQi9ZOUZwbWM0MmQyUllnbmRrY2ExcWNwVnlhNVZCUHFPUFlPcERXQTl2?=
+ =?utf-8?B?dWNja0xzb1FBL3pZSTBMOVZRU3ExN1p4ZUdMbDFKdm9TcjErWmpFQi91T0Rr?=
+ =?utf-8?B?UmszYitVdmprcGNkWHJoTUtwb0Q4bDJqSlpSQVorTC9CbDlnTm8xcmpnMDZT?=
+ =?utf-8?B?QW1rS1A0RjFpSG9XVm1OZnRCSUN5M2hhTmEzMXF0WlI0T1hYSWxIQ2NhYk5U?=
+ =?utf-8?B?UUx3dFdySFMzaFNQNEQyczVGR05JYlQ1NEdkVFNoenBKQWxwc09BK0VqVWhS?=
+ =?utf-8?B?MFc3Zk41bWtxQzJPbWgzcHVhY0JrQ0pVbjlSTFMwSEkwRm1rV0dQckpKSmhQ?=
+ =?utf-8?B?VERVU0pOM1hFeW9xcWgvSTRjbk1CeVR0b0RDOWpwck1LRU5lR21VMjA3S2Ev?=
+ =?utf-8?B?UWZ6Vnh2YWFzRWp2c05aTlBaSTFuMWxtT1JWZml4TGpEWHVOSUNvYWN1Unhl?=
+ =?utf-8?B?b2JRSmRkODViclFZRi9vQTVTVGNnYlJUZnBvWXdERURQKzVHaThHVDBDRUw2?=
+ =?utf-8?B?MzF4djVpZDhFTWFNOGE3MCtQMThtbm92K29PczJhZWM0c3MzeUhVbFlub3dS?=
+ =?utf-8?B?UDRDTnA2Q0VpcEtZT2lrVXJKZHg1U3dGdlI1SnNVUnZaTnRjRU5MN0hKR0xD?=
+ =?utf-8?B?b01XNkZ3ZW5CNHBERkZ5RDUraXQzdDFLSGhvTTlmMnA0WGgvaU9ZbENKYkZh?=
+ =?utf-8?B?SytjQ1lPVk9mcDZLeTdhZkk0V0xNYXVNdHVrUzFESHUyRjJ6bmdpY2xnaldF?=
+ =?utf-8?B?UlM3VjROQmhZRk5Nakw5b21JUTY3UG9kc0RrWmJyUnRWWjFtQ2JCMVEwWFZn?=
+ =?utf-8?B?K3ZoS3d5cmVySmNpaFVhNUFzc1AvbXVPbjlPWStNanQ0bGJqNkszUGlYNlgz?=
+ =?utf-8?B?ZDVEZS9WRVRpOGw5TXhsaXA4dnQyV3dFT3hrSnk1MFZwWHh2TUpBT1FVUE4v?=
+ =?utf-8?B?eU5IKzUwdTV1YzZJNU5LMUZxOUJHc1M5VFo1U2hjVWpCQWtzb3IwRXhDanFr?=
+ =?utf-8?B?eHNUSHZvQVREcnVSQmYwR0N5RWdUR2JRYVQ4UWMrYUxjeVYxUFpVck1BL05m?=
+ =?utf-8?B?WFlKbWJNZE1FUWhlT1JhWDBqTnhlN29hSHNZRndUQ1owdjhwWG9URUhCb2hK?=
+ =?utf-8?B?aDdvb3pnVTZVWVNDMWYyVk1IWTl1cjFzQzJtYS9HVWJaVFpZVTRzOUx0VnBP?=
+ =?utf-8?B?U05pUXFYL3J5WG92V3M1aCsyR1laRkdnalY0aDlWZ0lhQTM0VlNqRU1Pa0NW?=
+ =?utf-8?B?UkZjbzZzd1Y0dmg5VFlvaGpiRUdReW9ZOFZRQ2VtbWR0TWQzL3JhbXFjQ3ZU?=
+ =?utf-8?B?Zys0Mm1za1BBMGg1YXdQaXovSTVsb21XbXJ6N1ZPMHdnTktCMEpOaFpBUmpI?=
+ =?utf-8?B?MkJ4MngzTmdjVEdhVFlqaDNudXlqRllBTUZmcHY4d2lRRzIxYjVjc1UwM1FS?=
+ =?utf-8?B?VmtYQ2NCMlNManhabTI3TlRPQ0dZWjR1Y0hqejVBQ2FMNXBicU5hYVkxTmx2?=
+ =?utf-8?B?SmpKWHRJWjh2NXd5bmV5YzFib096OGNjRE1yekIrYzdOSGhUcVpYc3N3MzJl?=
+ =?utf-8?B?VjF5M0ViWmZxcytHNDAvK3NCbmtwbmFHRFpZejV3bHpEU0c4NmZSWEIrMWJy?=
+ =?utf-8?B?Y3BZcUxFYXk2M0srbnRKL3pUWG16YlJ3djVGcXBiOFhjNU5LTUdOeFA0NEJT?=
+ =?utf-8?B?N2RlUklzVDc5cHFhd1dkaWJENnk0L0dYbGZvSE9uTml6cUs1anl1ZGdUOUpW?=
+ =?utf-8?B?UXROa2pGT2ZLbjM2VlFuTmQwNGFBL2hmSHZNZGJtMzQxRzZ4bm1LS3NTNXd5?=
+ =?utf-8?B?RE16TDIxNkg4cnNWazBzdXE4enVtM0tGbGVRRzdOM3NlZndDU2R6SDJvMVFv?=
+ =?utf-8?Q?hQAOjfGT9MqF379YjuStvdbGs?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d9f738fc-8e4a-4ce9-b4cc-08dc18e80220
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jan 2024 12:13:12.6722
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: M6xlR0nzo2A3+cDxDd8mPHsUl2JaWcTHNsy3OKtiaTf0HxFeIxNHF9uEDCF1WTCQ0CGQtsoNolgYYRq5+Dr3Aw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR11MB4538
+X-Proofpoint-GUID: lQEXHOCr-WBVHH-J4UEW-U2HwB9HOt0d
+X-Proofpoint-ORIG-GUID: qpBXxVS_Bgb9QL4tNxIzYcXrdgC2BmId
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-19_06,2024-01-19_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 bulkscore=0
+ phishscore=0 mlxlogscore=999 suspectscore=0 malwarescore=0 adultscore=0
+ priorityscore=1501 spamscore=0 mlxscore=0 lowpriorityscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2401190060
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 Jan 2024 12:07:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194036
+ <openembedded-core@lists.openembedded.org>; Fri, 19 Jan 2024 12:13:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194037
 
-From: Vijay Anusuri <vanusuri@mvista.com>
-
-Fix below CVE's
-CVE-2023-6816
-CVE-2024-0229
-CVE-2024-21885
-CVE-2024-21886
-CVE-2024-0408
-CVE-2024-0409
-
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
----
- .../xserver-xorg/CVE-2023-6816.patch          |  55 +++++
- .../xserver-xorg/CVE-2024-0229-1.patch        |  87 +++++++
- .../xserver-xorg/CVE-2024-0229-2.patch        | 221 ++++++++++++++++++
- .../xserver-xorg/CVE-2024-0229-3.patch        |  41 ++++
- .../xserver-xorg/CVE-2024-0229-4.patch        |  45 ++++
- .../xserver-xorg/CVE-2024-0408.patch          |  64 +++++
- .../xserver-xorg/CVE-2024-0409.patch          |  46 ++++
- .../xserver-xorg/CVE-2024-21885.patch         | 113 +++++++++
- .../xserver-xorg/CVE-2024-21886-1.patch       |  74 ++++++
- .../xserver-xorg/CVE-2024-21886-2.patch       |  57 +++++
- .../xorg-xserver/xserver-xorg_21.1.8.bb       |  10 +
- 11 files changed, 813 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-6816.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-0229-1.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-0229-2.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-0229-3.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-0229-4.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-0408.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-0409.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-21885.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-21886-1.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-21886-2.patch
-
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-6816.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-6816.patch
-new file mode 100644
-index 0000000000..0bfff268e7
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2023-6816.patch
-@@ -0,0 +1,55 @@
-+From 9e2ecb2af8302dedc49cb6a63ebe063c58a9e7e3 Mon Sep 17 00:00:00 2001
-+From: Peter Hutterer <peter.hutterer@who-t.net>
-+Date: Thu, 14 Dec 2023 11:29:49 +1000
-+Subject: [PATCH] dix: allocate enough space for logical button maps
-+
-+Both DeviceFocusEvent and the XIQueryPointer reply contain a bit for
-+each logical button currently down. Since buttons can be arbitrarily mapped
-+to anything up to 255 make sure we have enough bits for the maximum mapping.
-+
-+CVE-2023-6816, ZDI-CAN-22664, ZDI-CAN-22665
-+
-+This vulnerability was discovered by:
-+Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/9e2ecb2af8302dedc49cb6a63ebe063c58a9e7e3]
-+CVE: CVE-2023-6816
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ Xi/xiquerypointer.c | 3 +--
-+ dix/enterleave.c    | 5 +++--
-+ 2 files changed, 4 insertions(+), 4 deletions(-)
-+
-+diff --git a/Xi/xiquerypointer.c b/Xi/xiquerypointer.c
-+index 5b77b1a444..2b05ac5f39 100644
-+--- a/Xi/xiquerypointer.c
-++++ b/Xi/xiquerypointer.c
-+@@ -149,8 +149,7 @@ ProcXIQueryPointer(ClientPtr client)
-+     if (pDev->button) {
-+         int i;
-+ 
-+-        rep.buttons_len =
-+-            bytes_to_int32(bits_to_bytes(pDev->button->numButtons));
-++        rep.buttons_len = bytes_to_int32(bits_to_bytes(256)); /* button map up to 255 */
-+         rep.length += rep.buttons_len;
-+         buttons = calloc(rep.buttons_len, 4);
-+         if (!buttons)
-+diff --git a/dix/enterleave.c b/dix/enterleave.c
-+index 867ec74363..ded8679d76 100644
-+--- a/dix/enterleave.c
-++++ b/dix/enterleave.c
-+@@ -784,8 +784,9 @@ DeviceFocusEvent(DeviceIntPtr dev, int type, int mode, int detail,
-+ 
-+     mouse = IsFloating(dev) ? dev : GetMaster(dev, MASTER_POINTER);
-+ 
-+-    /* XI 2 event */
-+-    btlen = (mouse->button) ? bits_to_bytes(mouse->button->numButtons) : 0;
-++    /* XI 2 event contains the logical button map - maps are CARD8
-++     * so we need 256 bits for the possibly maximum mapping */
-++    btlen = (mouse->button) ? bits_to_bytes(256) : 0;
-+     btlen = bytes_to_int32(btlen);
-+     len = sizeof(xXIFocusInEvent) + btlen * 4;
-+ 
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-0229-1.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-0229-1.patch
-new file mode 100644
-index 0000000000..80ebc64e59
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-0229-1.patch
-@@ -0,0 +1,87 @@
-+From ece23be888a93b741aa1209d1dbf64636109d6a5 Mon Sep 17 00:00:00 2001
-+From: Peter Hutterer <peter.hutterer@who-t.net>
-+Date: Mon, 18 Dec 2023 14:27:50 +1000
-+Subject: [PATCH] dix: Allocate sufficient xEvents for our DeviceStateNotify
-+
-+If a device has both a button class and a key class and numButtons is
-+zero, we can get an OOB write due to event under-allocation.
-+
-+This function seems to assume a device has either keys or buttons, not
-+both. It has two virtually identical code paths, both of which assume
-+they're applying to the first event in the sequence.
-+
-+A device with both a key and button class triggered a logic bug - only
-+one xEvent was allocated but the deviceStateNotify pointer was pushed on
-+once per type. So effectively this logic code:
-+
-+   int count = 1;
-+   if (button && nbuttons > 32) count++;
-+   if (key && nbuttons > 0) count++;
-+   if (key && nkeys > 32) count++; // this is basically always true
-+   // count is at 2 for our keys + zero button device
-+
-+   ev = alloc(count * sizeof(xEvent));
-+   FixDeviceStateNotify(ev);
-+   if (button)
-+     FixDeviceStateNotify(ev++);
-+   if (key)
-+     FixDeviceStateNotify(ev++);   // santa drops into the wrong chimney here
-+
-+If the device has more than 3 valuators, the OOB is pushed back - we're
-+off by one so it will happen when the last deviceValuator event is
-+written instead.
-+
-+Fix this by allocating the maximum number of events we may allocate.
-+Note that the current behavior is not protocol-correct anyway, this
-+patch fixes only the allocation issue.
-+
-+Note that this issue does not trigger if the device has at least one
-+button. While the server does not prevent a button class with zero
-+buttons, it is very unlikely.
-+
-+CVE-2024-0229, ZDI-CAN-22678
-+
-+This vulnerability was discovered by:
-+Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/ece23be888a93b741aa1209d1dbf64636109d6a5]
-+CVE: CVE-2024-0229
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ dix/enterleave.c | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/dix/enterleave.c b/dix/enterleave.c
-+index ded8679d76..17964b00a4 100644
-+--- a/dix/enterleave.c
-++++ b/dix/enterleave.c
-+@@ -675,7 +675,8 @@ static void
-+ DeliverStateNotifyEvent(DeviceIntPtr dev, WindowPtr win)
-+ {
-+     int evcount = 1;
-+-    deviceStateNotify *ev, *sev;
-++    deviceStateNotify sev[6 + (MAX_VALUATORS + 2)/3];
-++    deviceStateNotify *ev;
-+     deviceKeyStateNotify *kev;
-+     deviceButtonStateNotify *bev;
-+ 
-+@@ -714,7 +715,7 @@ DeliverStateNotifyEvent(DeviceIntPtr dev, WindowPtr win)
-+         }
-+     }
-+ 
-+-    sev = ev = xallocarray(evcount, sizeof(xEvent));
-++    ev = sev;
-+     FixDeviceStateNotify(dev, ev, NULL, NULL, NULL, first);
-+ 
-+     if (b != NULL) {
-+@@ -770,7 +771,6 @@ DeliverStateNotifyEvent(DeviceIntPtr dev, WindowPtr win)
-+ 
-+     DeliverEventsToWindow(dev, win, (xEvent *) sev, evcount,
-+                           DeviceStateNotifyMask, NullGrab);
-+-    free(sev);
-+ }
-+ 
-+ void
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-0229-2.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-0229-2.patch
-new file mode 100644
-index 0000000000..65df74376b
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-0229-2.patch
-@@ -0,0 +1,221 @@
-+From 219c54b8a3337456ce5270ded6a67bcde53553d5 Mon Sep 17 00:00:00 2001
-+From: Peter Hutterer <peter.hutterer@who-t.net>
-+Date: Mon, 18 Dec 2023 12:26:20 +1000
-+Subject: [PATCH] dix: fix DeviceStateNotify event calculation
-+
-+The previous code only made sense if one considers buttons and keys to
-+be mutually exclusive on a device. That is not necessarily true, causing
-+a number of issues.
-+
-+This function allocates and fills in the number of xEvents we need to
-+send the device state down the wire.  This is split across multiple
-+32-byte devices including one deviceStateNotify event and optional
-+deviceKeyStateNotify, deviceButtonStateNotify and (possibly multiple)
-+deviceValuator events.
-+
-+The previous behavior would instead compose a sequence
-+of [state, buttonstate, state, keystate, valuator...]. This is not
-+protocol correct, and on top of that made the code extremely convoluted.
-+
-+Fix this by streamlining: add both button and key into the deviceStateNotify
-+and then append the key state and button state, followed by the
-+valuators. Finally, the deviceValuator events contain up to 6 valuators
-+per event but we only ever sent through 3 at a time. Let's double that
-+troughput.
-+
-+CVE-2024-0229, ZDI-CAN-22678
-+
-+This vulnerability was discovered by:
-+Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/219c54b8a3337456ce5270ded6a67bcde53553d5]
-+CVE: CVE-2024-0229
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ dix/enterleave.c | 121 ++++++++++++++++++++---------------------------
-+ 1 file changed, 52 insertions(+), 69 deletions(-)
-+
-+diff --git a/dix/enterleave.c b/dix/enterleave.c
-+index 17964b00a4..7b7ba1098b 100644
-+--- a/dix/enterleave.c
-++++ b/dix/enterleave.c
-+@@ -615,9 +615,15 @@ FixDeviceValuator(DeviceIntPtr dev, deviceValuator * ev, ValuatorClassPtr v,
-+ 
-+     ev->type = DeviceValuator;
-+     ev->deviceid = dev->id;
-+-    ev->num_valuators = nval < 3 ? nval : 3;
-++    ev->num_valuators = nval < 6 ? nval : 6;
-+     ev->first_valuator = first;
-+     switch (ev->num_valuators) {
-++    case 6:
-++        ev->valuator2 = v->axisVal[first + 5];
-++    case 5:
-++        ev->valuator2 = v->axisVal[first + 4];
-++    case 4:
-++        ev->valuator2 = v->axisVal[first + 3];
-+     case 3:
-+         ev->valuator2 = v->axisVal[first + 2];
-+     case 2:
-+@@ -626,7 +632,6 @@ FixDeviceValuator(DeviceIntPtr dev, deviceValuator * ev, ValuatorClassPtr v,
-+         ev->valuator0 = v->axisVal[first];
-+         break;
-+     }
-+-    first += ev->num_valuators;
-+ }
-+ 
-+ static void
-+@@ -646,7 +651,7 @@ FixDeviceStateNotify(DeviceIntPtr dev, deviceStateNotify * ev, KeyClassPtr k,
-+         ev->num_buttons = b->numButtons;
-+         memcpy((char *) ev->buttons, (char *) b->down, 4);
-+     }
-+-    else if (k) {
-++    if (k) {
-+         ev->classes_reported |= (1 << KeyClass);
-+         ev->num_keys = k->xkbInfo->desc->max_key_code -
-+             k->xkbInfo->desc->min_key_code;
-+@@ -670,15 +675,26 @@ FixDeviceStateNotify(DeviceIntPtr dev, deviceStateNotify * ev, KeyClassPtr k,
-+     }
-+ }
-+ 
-+-
-++/**
-++ * The device state notify event is split across multiple 32-byte events.
-++ * The first one contains the first 32 button state bits, the first 32
-++ * key state bits, and the first 3 valuator values.
-++ *
-++ * If a device has more than that, the server sends out:
-++ * - one deviceButtonStateNotify for buttons 32 and above
-++ * - one deviceKeyStateNotify for keys 32 and above
-++ * - one deviceValuator event per 6 valuators above valuator 4
-++ *
-++ * All events but the last one have the deviceid binary ORed with MORE_EVENTS,
-++ */
-+ static void
-+ DeliverStateNotifyEvent(DeviceIntPtr dev, WindowPtr win)
-+ {
-++    /* deviceStateNotify, deviceKeyStateNotify, deviceButtonStateNotify
-++     * and one deviceValuator for each 6 valuators */
-++    deviceStateNotify sev[3 + (MAX_VALUATORS + 6)/6];
-+     int evcount = 1;
-+-    deviceStateNotify sev[6 + (MAX_VALUATORS + 2)/3];
-+-    deviceStateNotify *ev;
-+-    deviceKeyStateNotify *kev;
-+-    deviceButtonStateNotify *bev;
-++    deviceStateNotify *ev = sev;
-+ 
-+     KeyClassPtr k;
-+     ButtonClassPtr b;
-+@@ -691,82 +707,49 @@ DeliverStateNotifyEvent(DeviceIntPtr dev, WindowPtr win)
-+ 
-+     if ((b = dev->button) != NULL) {
-+         nbuttons = b->numButtons;
-+-        if (nbuttons > 32)
-++        if (nbuttons > 32) /* first 32 are encoded in deviceStateNotify */
-+             evcount++;
-+     }
-+     if ((k = dev->key) != NULL) {
-+         nkeys = k->xkbInfo->desc->max_key_code - k->xkbInfo->desc->min_key_code;
-+-        if (nkeys > 32)
-++        if (nkeys > 32) /* first 32 are encoded in deviceStateNotify */
-+             evcount++;
-+-        if (nbuttons > 0) {
-+-            evcount++;
-+-        }
-+     }
-+     if ((v = dev->valuator) != NULL) {
-+         nval = v->numAxes;
-+-
-+-        if (nval > 3)
-+-            evcount++;
-+-        if (nval > 6) {
-+-            if (!(k && b))
-+-                evcount++;
-+-            if (nval > 9)
-+-                evcount += ((nval - 7) / 3);
-+-        }
-++        /* first three are encoded in deviceStateNotify, then
-++         * it's 6 per deviceValuator event */
-++        evcount += ((nval - 3) + 6)/6;
-+     }
-+ 
-+-    ev = sev;
-+-    FixDeviceStateNotify(dev, ev, NULL, NULL, NULL, first);
-+-
-+-    if (b != NULL) {
-+-        FixDeviceStateNotify(dev, ev++, NULL, b, v, first);
-+-        first += 3;
-+-        nval -= 3;
-+-        if (nbuttons > 32) {
-+-            (ev - 1)->deviceid |= MORE_EVENTS;
-+-            bev = (deviceButtonStateNotify *) ev++;
-+-            bev->type = DeviceButtonStateNotify;
-+-            bev->deviceid = dev->id;
-+-            memcpy((char *) &bev->buttons[4], (char *) &b->down[4],
-+-                   DOWN_LENGTH - 4);
-+-        }
-+-        if (nval > 0) {
-+-            (ev - 1)->deviceid |= MORE_EVENTS;
-+-            FixDeviceValuator(dev, (deviceValuator *) ev++, v, first);
-+-            first += 3;
-+-            nval -= 3;
-+-        }
-++    BUG_RETURN(evcount <= ARRAY_SIZE(sev));
-++
-++    FixDeviceStateNotify(dev, ev, k, b, v, first);
-++
-++    if (b != NULL && nbuttons > 32) {
-++        deviceButtonStateNotify *bev = (deviceButtonStateNotify *) ++ev;
-++        (ev - 1)->deviceid |= MORE_EVENTS;
-++        bev->type = DeviceButtonStateNotify;
-++        bev->deviceid = dev->id;
-++        memcpy((char *) &bev->buttons[4], (char *) &b->down[4],
-++               DOWN_LENGTH - 4);
-+     }
-+ 
-+-    if (k != NULL) {
-+-        FixDeviceStateNotify(dev, ev++, k, NULL, v, first);
-+-        first += 3;
-+-        nval -= 3;
-+-        if (nkeys > 32) {
-+-            (ev - 1)->deviceid |= MORE_EVENTS;
-+-            kev = (deviceKeyStateNotify *) ev++;
-+-            kev->type = DeviceKeyStateNotify;
-+-            kev->deviceid = dev->id;
-+-            memmove((char *) &kev->keys[0], (char *) &k->down[4], 28);
-+-        }
-+-        if (nval > 0) {
-+-            (ev - 1)->deviceid |= MORE_EVENTS;
-+-            FixDeviceValuator(dev, (deviceValuator *) ev++, v, first);
-+-            first += 3;
-+-            nval -= 3;
-+-        }
-++    if (k != NULL && nkeys > 32) {
-++        deviceKeyStateNotify *kev = (deviceKeyStateNotify *) ++ev;
-++        (ev - 1)->deviceid |= MORE_EVENTS;
-++        kev->type = DeviceKeyStateNotify;
-++        kev->deviceid = dev->id;
-++        memmove((char *) &kev->keys[0], (char *) &k->down[4], 28);
-+     }
-+ 
-++    first = 3;
-++    nval -= 3;
-+     while (nval > 0) {
-+-        FixDeviceStateNotify(dev, ev++, NULL, NULL, v, first);
-+-        first += 3;
-+-        nval -= 3;
-+-        if (nval > 0) {
-+-            (ev - 1)->deviceid |= MORE_EVENTS;
-+-            FixDeviceValuator(dev, (deviceValuator *) ev++, v, first);
-+-            first += 3;
-+-            nval -= 3;
-+-        }
-++        ev->deviceid |= MORE_EVENTS;
-++        FixDeviceValuator(dev, (deviceValuator *) ++ev, v, first);
-++        first += 6;
-++        nval -= 6;
-+     }
-+ 
-+     DeliverEventsToWindow(dev, win, (xEvent *) sev, evcount,
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-0229-3.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-0229-3.patch
-new file mode 100644
-index 0000000000..742c122fa8
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-0229-3.patch
-@@ -0,0 +1,41 @@
-+From df3c65706eb169d5938df0052059f3e0d5981b74 Mon Sep 17 00:00:00 2001
-+From: Peter Hutterer <peter.hutterer@who-t.net>
-+Date: Thu, 21 Dec 2023 13:48:10 +1000
-+Subject: [PATCH] Xi: when creating a new ButtonClass, set the number of
-+ buttons
-+
-+There's a racy sequence where a master device may copy the button class
-+from the slave, without ever initializing numButtons. This leads to a
-+device with zero buttons but a button class which is invalid.
-+
-+Let's copy the numButtons value from the source - by definition if we
-+don't have a button class yet we do not have any other slave devices
-+with more than this number of buttons anyway.
-+
-+CVE-2024-0229, ZDI-CAN-22678
-+
-+This vulnerability was discovered by:
-+Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/df3c65706eb169d5938df0052059f3e0d5981b74]
-+CVE: CVE-2024-0229
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ Xi/exevents.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/Xi/exevents.c b/Xi/exevents.c
-+index 54ea11a938..e161714682 100644
-+--- a/Xi/exevents.c
-++++ b/Xi/exevents.c
-+@@ -605,6 +605,7 @@ DeepCopyPointerClasses(DeviceIntPtr from, DeviceIntPtr to)
-+                 to->button = calloc(1, sizeof(ButtonClassRec));
-+                 if (!to->button)
-+                     FatalError("[Xi] no memory for class shift.\n");
-++                to->button->numButtons = from->button->numButtons;
-+             }
-+             else
-+                 classes->button = NULL;
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-0229-4.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-0229-4.patch
-new file mode 100644
-index 0000000000..d1a6214793
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-0229-4.patch
-@@ -0,0 +1,45 @@
-+From 37539cb0bfe4ed96d4499bf371e6b1a474a740fe Mon Sep 17 00:00:00 2001
-+From: Peter Hutterer <peter.hutterer@who-t.net>
-+Date: Thu, 21 Dec 2023 14:10:11 +1000
-+Subject: [PATCH] Xi: require a pointer and keyboard device for
-+ XIAttachToMaster
-+
-+If we remove a master device and specify which other master devices
-+attached slaves should be returned to, enforce that those two are
-+indeeed a pointer and a keyboard.
-+
-+Otherwise we can try to attach the keyboards to pointers and vice versa,
-+leading to possible crashes later.
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/37539cb0bfe4ed96d4499bf371e6b1a474a740fe]
-+CVE: CVE-2024-0229
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ Xi/xichangehierarchy.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/Xi/xichangehierarchy.c b/Xi/xichangehierarchy.c
-+index 504defe566..d2d985848d 100644
-+--- a/Xi/xichangehierarchy.c
-++++ b/Xi/xichangehierarchy.c
-+@@ -270,7 +270,7 @@ remove_master(ClientPtr client, xXIRemoveMasterInfo * r, int flags[MAXDEVICES])
-+         if (rc != Success)
-+             goto unwind;
-+ 
-+-        if (!IsMaster(newptr)) {
-++        if (!IsMaster(newptr) || !IsPointerDevice(newptr)) {
-+             client->errorValue = r->return_pointer;
-+             rc = BadDevice;
-+             goto unwind;
-+@@ -281,7 +281,7 @@ remove_master(ClientPtr client, xXIRemoveMasterInfo * r, int flags[MAXDEVICES])
-+         if (rc != Success)
-+             goto unwind;
-+ 
-+-        if (!IsMaster(newkeybd)) {
-++        if (!IsMaster(newkeybd) || !IsKeyboardDevice(newkeybd)) {
-+             client->errorValue = r->return_keyboard;
-+             rc = BadDevice;
-+             goto unwind;
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-0408.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-0408.patch
-new file mode 100644
-index 0000000000..c8f75d8a7e
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-0408.patch
-@@ -0,0 +1,64 @@
-+From e5e8586a12a3ec915673edffa10dc8fe5e15dac3 Mon Sep 17 00:00:00 2001
-+From: Olivier Fourdan <ofourdan@redhat.com>
-+Date: Wed, 6 Dec 2023 12:09:41 +0100
-+Subject: [PATCH] glx: Call XACE hooks on the GLX buffer
-+
-+The XSELINUX code will label resources at creation by checking the
-+access mode. When the access mode is DixCreateAccess, it will call the
-+function to label the new resource SELinuxLabelResource().
-+
-+However, GLX buffers do not go through the XACE hooks when created,
-+hence leaving the resource actually unlabeled.
-+
-+When, later, the client tries to create another resource using that
-+drawable (like a GC for example), the XSELINUX code would try to use
-+the security ID of that object which has never been labeled, get a NULL
-+pointer and crash when checking whether the requested permissions are
-+granted for subject security ID.
-+
-+To avoid the issue, make sure to call the XACE hooks when creating the
-+GLX buffers.
-+
-+Credit goes to Donn Seeley <donn@xmission.com> for providing the patch.
-+
-+CVE-2024-0408
-+
-+Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
-+Acked-by: Peter Hutterer <peter.hutterer@who-t.net>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/e5e8586a12a3ec915673edffa10dc8fe5e15dac3]
-+CVE: CVE-2024-0408
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ glx/glxcmds.c | 8 ++++++++
-+ 1 file changed, 8 insertions(+)
-+
-+diff --git a/glx/glxcmds.c b/glx/glxcmds.c
-+index fc26a2e345..1e46d0c723 100644
-+--- a/glx/glxcmds.c
-++++ b/glx/glxcmds.c
-+@@ -48,6 +48,7 @@
-+ #include "indirect_util.h"
-+ #include "protocol-versions.h"
-+ #include "glxvndabi.h"
-++#include "xace.h"
-+ 
-+ static char GLXServerVendorName[] = "SGI";
-+ 
-+@@ -1392,6 +1393,13 @@ DoCreatePbuffer(ClientPtr client, int screenNum, XID fbconfigId,
-+     if (!pPixmap)
-+         return BadAlloc;
-+ 
-++    err = XaceHook(XACE_RESOURCE_ACCESS, client, glxDrawableId, RT_PIXMAP,
-++                   pPixmap, RT_NONE, NULL, DixCreateAccess);
-++    if (err != Success) {
-++        (*pGlxScreen->pScreen->DestroyPixmap) (pPixmap);
-++        return err;
-++    }
-++
-+     /* Assign the pixmap the same id as the pbuffer and add it as a
-+      * resource so it and the DRI2 drawable will be reclaimed when the
-+      * pbuffer is destroyed. */
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-0409.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-0409.patch
-new file mode 100644
-index 0000000000..9763e0b562
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-0409.patch
-@@ -0,0 +1,46 @@
-+From 2ef0f1116c65d5cb06d7b6d83f8a1aea702c94f7 Mon Sep 17 00:00:00 2001
-+From: Olivier Fourdan <ofourdan@redhat.com>
-+Date: Wed, 6 Dec 2023 11:51:56 +0100
-+Subject: [PATCH] ephyr,xwayland: Use the proper private key for cursor
-+
-+The cursor in DIX is actually split in two parts, the cursor itself and
-+the cursor bits, each with their own devPrivates.
-+
-+The cursor itself includes the cursor bits, meaning that the cursor bits
-+devPrivates in within structure of the cursor.
-+
-+Both Xephyr and Xwayland were using the private key for the cursor bits
-+to store the data for the cursor, and when using XSELINUX which comes
-+with its own special devPrivates, the data stored in that cursor bits'
-+devPrivates would interfere with the XSELINUX devPrivates data and the
-+SELINUX security ID would point to some other unrelated data, causing a
-+crash in the XSELINUX code when trying to (re)use the security ID.
-+
-+CVE-2024-0409
-+
-+Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
-+Reviewed-by: Peter Hutterer <peter.hutterer@who-t.net>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/2ef0f1116c65d5cb06d7b6d83f8a1aea702c94f7]
-+CVE: CVE-2024-0409
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ hw/kdrive/ephyr/ephyrcursor.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/hw/kdrive/ephyr/ephyrcursor.c b/hw/kdrive/ephyr/ephyrcursor.c
-+index f991899..3f192d0 100644
-+--- a/hw/kdrive/ephyr/ephyrcursor.c
-++++ b/hw/kdrive/ephyr/ephyrcursor.c
-+@@ -246,7 +246,7 @@ miPointerSpriteFuncRec EphyrPointerSpriteFuncs = {
-+ Bool
-+ ephyrCursorInit(ScreenPtr screen)
-+ {
-+-    if (!dixRegisterPrivateKey(&ephyrCursorPrivateKey, PRIVATE_CURSOR_BITS,
-++    if (!dixRegisterPrivateKey(&ephyrCursorPrivateKey, PRIVATE_CURSOR,
-+                                sizeof(ephyrCursorRec)))
-+         return FALSE;
-+ 
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-21885.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-21885.patch
-new file mode 100644
-index 0000000000..7c8fbcc3ec
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-21885.patch
-@@ -0,0 +1,113 @@
-+From 4a5e9b1895627d40d26045bd0b7ef3dce503cbd1 Mon Sep 17 00:00:00 2001
-+From: Peter Hutterer <peter.hutterer@who-t.net>
-+Date: Thu, 4 Jan 2024 10:01:24 +1000
-+Subject: [PATCH] Xi: flush hierarchy events after adding/removing master
-+ devices
-+
-+The `XISendDeviceHierarchyEvent()` function allocates space to store up
-+to `MAXDEVICES` (256) `xXIHierarchyInfo` structures in `info`.
-+
-+If a device with a given ID was removed and a new device with the same
-+ID added both in the same operation, the single device ID will lead to
-+two info structures being written to `info`.
-+
-+Since this case can occur for every device ID at once, a total of two
-+times `MAXDEVICES` info structures might be written to the allocation.
-+
-+To avoid it, once one add/remove master is processed, send out the
-+device hierarchy event for the current state and continue. That event
-+thus only ever has exactly one of either added/removed in it (and
-+optionally slave attached/detached).
-+
-+CVE-2024-21885, ZDI-CAN-22744
-+
-+This vulnerability was discovered by:
-+Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/4a5e9b1895627d40d26045bd0b7ef3dce503cbd1]
-+CVE: CVE-2024-21885
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ Xi/xichangehierarchy.c | 27 ++++++++++++++++++++++-----
-+ 1 file changed, 22 insertions(+), 5 deletions(-)
-+
-+diff --git a/Xi/xichangehierarchy.c b/Xi/xichangehierarchy.c
-+index d2d985848d..72d00451e3 100644
-+--- a/Xi/xichangehierarchy.c
-++++ b/Xi/xichangehierarchy.c
-+@@ -416,6 +416,11 @@ ProcXIChangeHierarchy(ClientPtr client)
-+     size_t len;			/* length of data remaining in request */
-+     int rc = Success;
-+     int flags[MAXDEVICES] = { 0 };
-++    enum {
-++        NO_CHANGE,
-++        FLUSH,
-++        CHANGED,
-++    } changes = NO_CHANGE;
-+ 
-+     REQUEST(xXIChangeHierarchyReq);
-+     REQUEST_AT_LEAST_SIZE(xXIChangeHierarchyReq);
-+@@ -465,8 +470,9 @@ ProcXIChangeHierarchy(ClientPtr client)
-+             rc = add_master(client, c, flags);
-+             if (rc != Success)
-+                 goto unwind;
-+-        }
-++            changes = FLUSH;
-+             break;
-++        }
-+         case XIRemoveMaster:
-+         {
-+             xXIRemoveMasterInfo *r = (xXIRemoveMasterInfo *) any;
-+@@ -475,8 +481,9 @@ ProcXIChangeHierarchy(ClientPtr client)
-+             rc = remove_master(client, r, flags);
-+             if (rc != Success)
-+                 goto unwind;
-+-        }
-++            changes = FLUSH;
-+             break;
-++        }
-+         case XIDetachSlave:
-+         {
-+             xXIDetachSlaveInfo *c = (xXIDetachSlaveInfo *) any;
-+@@ -485,8 +492,9 @@ ProcXIChangeHierarchy(ClientPtr client)
-+             rc = detach_slave(client, c, flags);
-+             if (rc != Success)
-+                 goto unwind;
-+-        }
-++            changes = CHANGED;
-+             break;
-++        }
-+         case XIAttachSlave:
-+         {
-+             xXIAttachSlaveInfo *c = (xXIAttachSlaveInfo *) any;
-+@@ -495,16 +503,25 @@ ProcXIChangeHierarchy(ClientPtr client)
-+             rc = attach_slave(client, c, flags);
-+             if (rc != Success)
-+                 goto unwind;
-++            changes = CHANGED;
-++            break;
-+         }
-++        default:
-+             break;
-+         }
-+ 
-++        if (changes == FLUSH) {
-++            XISendDeviceHierarchyEvent(flags);
-++            memset(flags, 0, sizeof(flags));
-++            changes = NO_CHANGE;
-++        }
-++
-+         len -= any->length * 4;
-+         any = (xXIAnyHierarchyChangeInfo *) ((char *) any + any->length * 4);
-+     }
-+ 
-+  unwind:
-+-
-+-    XISendDeviceHierarchyEvent(flags);
-++    if (changes != NO_CHANGE)
-++        XISendDeviceHierarchyEvent(flags);
-+     return rc;
-+ }
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-21886-1.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-21886-1.patch
-new file mode 100644
-index 0000000000..1e1c782963
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-21886-1.patch
-@@ -0,0 +1,74 @@
-+From bc1fdbe46559dd947674375946bbef54dd0ce36b Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jexposit@redhat.com>
-+Date: Fri, 22 Dec 2023 18:28:31 +0100
-+Subject: [PATCH] Xi: do not keep linked list pointer during recursion
-+
-+The `DisableDevice()` function is called whenever an enabled device
-+is disabled and it moves the device from the `inputInfo.devices` linked
-+list to the `inputInfo.off_devices` linked list.
-+
-+However, its link/unlink operation has an issue during the recursive
-+call to `DisableDevice()` due to the `prev` pointer pointing to a
-+removed device.
-+
-+This issue leads to a length mismatch between the total number of
-+devices and the number of device in the list, leading to a heap
-+overflow and, possibly, to local privilege escalation.
-+
-+Simplify the code that checked whether the device passed to
-+`DisableDevice()` was in `inputInfo.devices` or not and find the
-+previous device after the recursion.
-+
-+CVE-2024-21886, ZDI-CAN-22840
-+
-+This vulnerability was discovered by:
-+Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/bc1fdbe46559dd947674375946bbef54dd0ce36b]
-+CVE: CVE-2024-21886
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ dix/devices.c | 15 ++++++++++++---
-+ 1 file changed, 12 insertions(+), 3 deletions(-)
-+
-+diff --git a/dix/devices.c b/dix/devices.c
-+index dca98c8d1b..389d28a23c 100644
-+--- a/dix/devices.c
-++++ b/dix/devices.c
-+@@ -453,14 +453,20 @@ DisableDevice(DeviceIntPtr dev, BOOL sendevent)
-+ {
-+     DeviceIntPtr *prev, other;
-+     BOOL enabled;
-++    BOOL dev_in_devices_list = FALSE;
-+     int flags[MAXDEVICES] = { 0 };
-+ 
-+     if (!dev->enabled)
-+         return TRUE;
-+ 
-+-    for (prev = &inputInfo.devices;
-+-         *prev && (*prev != dev); prev = &(*prev)->next);
-+-    if (*prev != dev)
-++    for (other = inputInfo.devices; other; other = other->next) {
-++        if (other == dev) {
-++            dev_in_devices_list = TRUE;
-++            break;
-++        }
-++    }
-++
-++    if (!dev_in_devices_list)
-+         return FALSE;
-+ 
-+     TouchEndPhysicallyActiveTouches(dev);
-+@@ -511,6 +517,9 @@ DisableDevice(DeviceIntPtr dev, BOOL sendevent)
-+     LeaveWindow(dev);
-+     SetFocusOut(dev);
-+ 
-++    for (prev = &inputInfo.devices;
-++         *prev && (*prev != dev); prev = &(*prev)->next);
-++
-+     *prev = dev->next;
-+     dev->next = inputInfo.off_devices;
-+     inputInfo.off_devices = dev;
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-21886-2.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-21886-2.patch
-new file mode 100644
-index 0000000000..af607df4f0
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2024-21886-2.patch
-@@ -0,0 +1,57 @@
-+From 26769aa71fcbe0a8403b7fb13b7c9010cc07c3a8 Mon Sep 17 00:00:00 2001
-+From: Peter Hutterer <peter.hutterer@who-t.net>
-+Date: Fri, 5 Jan 2024 09:40:27 +1000
-+Subject: [PATCH] dix: when disabling a master, float disabled slaved devices
-+ too
-+
-+Disabling a master device floats all slave devices but we didn't do this
-+to already-disabled slave devices. As a result those devices kept their
-+reference to the master device resulting in access to already freed
-+memory if the master device was removed before the corresponding slave
-+device.
-+
-+And to match this behavior, also forcibly reset that pointer during
-+CloseDownDevices().
-+
-+Related to CVE-2024-21886, ZDI-CAN-22840
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/xserver/-/commit/26769aa71fcbe0a8403b7fb13b7c9010cc07c3a8]
-+CVE: CVE-2024-21886
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ dix/devices.c | 12 ++++++++++++
-+ 1 file changed, 12 insertions(+)
-+
-+diff --git a/dix/devices.c b/dix/devices.c
-+index 389d28a23c..84a6406d13 100644
-+--- a/dix/devices.c
-++++ b/dix/devices.c
-+@@ -483,6 +483,13 @@ DisableDevice(DeviceIntPtr dev, BOOL sendevent)
-+                 flags[other->id] |= XISlaveDetached;
-+             }
-+         }
-++
-++        for (other = inputInfo.off_devices; other; other = other->next) {
-++            if (!IsMaster(other) && GetMaster(other, MASTER_ATTACHED) == dev) {
-++                AttachDevice(NULL, other, NULL);
-++                flags[other->id] |= XISlaveDetached;
-++            }
-++        }
-+     }
-+     else {
-+         for (other = inputInfo.devices; other; other = other->next) {
-+@@ -1088,6 +1095,11 @@ CloseDownDevices(void)
-+             dev->master = NULL;
-+     }
-+ 
-++    for (dev = inputInfo.off_devices; dev; dev = dev->next) {
-++        if (!IsMaster(dev) && !IsFloating(dev))
-++            dev->master = NULL;
-++    }
-++
-+     CloseDeviceList(&inputInfo.devices);
-+     CloseDeviceList(&inputInfo.off_devices);
-+ 
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb
-index 7738085e11..e62babd4cb 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.8.bb
-@@ -6,6 +6,16 @@ SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.pat
-            file://CVE-2023-5380.patch \
-            file://CVE-2023-6377.patch \
-            file://CVE-2023-6478.patch \
-+           file://CVE-2023-6816.patch \
-+           file://CVE-2024-0229-1.patch \
-+           file://CVE-2024-0229-2.patch \
-+           file://CVE-2024-0229-3.patch \
-+           file://CVE-2024-0229-4.patch \
-+           file://CVE-2024-21885.patch \
-+           file://CVE-2024-21886-1.patch \
-+           file://CVE-2024-21886-2.patch \
-+           file://CVE-2024-0408.patch \
-+           file://CVE-2024-0409.patch \
-            "
- SRC_URI[sha256sum] = "38aadb735650c8024ee25211c190bf8aad844c5f59632761ab1ef4c4d5aeb152"
- 
--- 
-2.25.1
-
+SSBkaWRuJ3QgZG8gYW55dGhpbmcgcGFydGljdWxhciwgYnV0IGFzIHNldmVyYWwgcGVvcGxlIGFy
+ZSBzaGFyaW5nIHRoZSBzZXJ2ZXIsIGl0J3MgcG9zc2libGUgdGhhdCBpdHMgZW52aXJvbm1lbnQg
+aXMgc29tZXdoYXQgbWVzc2VkIHVwLiBJJ2xsIGNoZWNrIG1vcmUgYW5kIGZpeCB0aGUgZW52aXJv
+bm1lbnQuIFRoYW5rcyBmb3IgeW91ciBkb3VibGUgY2hlY2suDQoNClJlZ2FyZHMsDQpRaQ0KDQot
+LS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgu
+a2FuYXZpbkBnbWFpbC5jb20+IA0KU2VudDogRnJpZGF5LCBKYW51YXJ5IDE5LCAyMDI0IDY6MTIg
+UE0NClRvOiBDaGVuLCBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPg0KQ2M6IG9wZW5lbWJlZGRl
+ZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc7IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4QGxp
+bnV0cm9uaXguZGU+DQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCB2MyAxLzJdIHNoYWRv
+dzogdXBkYXRlIDQuMTMgLT4gNC4xNC4yDQoNCkkganVzdCB0cmllZCBwb2t5IG1hc3RlciBvbiB1
+YnVudHUgMjAuMDQsIGFuZCB0aGUgaXNzdWVzIGRvIG5vdCBhcHBlYXIuIERvIHlvdSBoYXZlIGEg
+Y3VzdG9tIHNldHVwPw0KDQpBbGV4DQoNCk9uIEZyaSwgMTkgSmFuIDIwMjQgYXQgMDQ6MDYsIENo
+ZW5RaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPiB3cm90ZToNCj4NCj4gSSdtIHNlZWluZyBidWls
+ZCBmYWlsdXJlcyBvbiBVYnVudHUgMjAuMDQuDQo+IEdDQyB2ZXJzaW9uOiA5LjQuMA0KPg0KPiAx
+LiBlcnJvcjogcGFyYW1ldGVyIG5hbWUgb21pdHRlZA0KPiBUaGUgcHJvYmxlbSBpcyB0aGF0IHRo
+ZSBhY3RpdmVfc2Vzc2lvbnNfY291bnQgZnVuY3Rpb24ncyBkZWZpbml0aW9uIA0KPiBsYWNrcyBw
+YXJhbWV0ZXIuIEkgZGlkIGNoYW5nZSBsaWtlIGJlbG93Og0KPiAtdW5zaWduZWQgbG9uZyBhY3Rp
+dmVfc2Vzc2lvbnNfY291bnQoY29uc3QgY2hhciAqbmFtZSwgdW5zaWduZWQgbG9uZyANCj4gdW51
+c2VkKQ0KPiArdW5zaWduZWQgbG9uZyBhY3RpdmVfc2Vzc2lvbnNfY291bnQoY29uc3QgY2hhciAq
+bmFtZSwgdW5zaWduZWQgbG9uZw0KPiB1bnVzZWQgdW51c2VkX3BhcmFtZXRlcikNCj4gQnV0IHRo
+ZW4gSSBvYnNlcnZlZCBhbm90aGVyIGVycm9yLCBhcyBzaG93biBiZWxvdy4NCj4NCj4gMi4gdW5k
+ZWZpbmVkIHJlZmVyZW5jZSB0byBgZGxzeW0nLg0KPiB8IC9hbGEtbHBnZ3A3Mi9xaWNoZW4vWW9j
+dG8vYnVpbGRzL2J1aWxkLW1hc3Rlci90bXAvaG9zdHRvb2xzL2xkOg0KPiAuLi9saWIvLmxpYnMv
+bGlic2hhZG93LmEobGlic2hhZG93X2xhLW5zcy5vKTogaW4gZnVuY3Rpb24gYG5zc19leGl0JzoN
+Cj4gfCBuc3MuYzooLnRleHQrMHgzMik6IHVuZGVmaW5lZCByZWZlcmVuY2UgdG8gYGRsY2xvc2Un
+DQo+IHwgL2FsYS1scGdncDcyL3FpY2hlbi9Zb2N0by9idWlsZHMvYnVpbGQtbWFzdGVyL3RtcC9o
+b3N0dG9vbHMvbGQ6DQo+IC4uL2xpYi8ubGlicy9saWJzaGFkb3cuYShsaWJzaGFkb3dfbGEtbnNz
+Lm8pOiBpbiBmdW5jdGlvbiBgbnNzX2luaXQnOg0KPiB8IG5zcy5jOigudGV4dCsweDFkZCk6IHVu
+ZGVmaW5lZCByZWZlcmVuY2UgdG8gYGRsb3BlbicNCj4gfCAvYWxhLWxwZ2dwNzIvcWljaGVuL1lv
+Y3RvL2J1aWxkcy9idWlsZC1tYXN0ZXIvdG1wL2hvc3R0b29scy9sZDoNCj4gbnNzLmM6KC50ZXh0
+KzB4MjFjKTogdW5kZWZpbmVkIHJlZmVyZW5jZSB0byBgZGxzeW0nDQo+IHwgL2FsYS1scGdncDcy
+L3FpY2hlbi9Zb2N0by9idWlsZHMvYnVpbGQtbWFzdGVyL3RtcC9ob3N0dG9vbHMvbGQ6DQo+IG5z
+cy5jOigudGV4dCsweDIzNyk6IHVuZGVmaW5lZCByZWZlcmVuY2UgdG8gYGRsc3ltJw0KPiB8IC9h
+bGEtbHBnZ3A3Mi9xaWNoZW4vWW9jdG8vYnVpbGRzL2J1aWxkLW1hc3Rlci90bXAvaG9zdHRvb2xz
+L2xkOg0KPiBuc3MuYzooLnRleHQrMHgyNTMpOiB1bmRlZmluZWQgcmVmZXJlbmNlIHRvIGBkbHN5
+bScNCj4gfCAvYWxhLWxwZ2dwNzIvcWljaGVuL1lvY3RvL2J1aWxkcy9idWlsZC1tYXN0ZXIvdG1w
+L2hvc3R0b29scy9sZDoNCj4gbnNzLmM6KC50ZXh0KzB4MzY1KTogdW5kZWZpbmVkIHJlZmVyZW5j
+ZSB0byBgZGxjbG9zZScNCj4gfCAvYWxhLWxwZ2dwNzIvcWljaGVuL1lvY3RvL2J1aWxkcy9idWls
+ZC1tYXN0ZXIvdG1wL2hvc3R0b29scy9sZDoNCj4gbnNzLmM6KC50ZXh0KzB4M2IyKTogdW5kZWZp
+bmVkIHJlZmVyZW5jZSB0byBgZGxlcnJvcicNCj4gfCBjb2xsZWN0MjogZXJyb3I6IGxkIHJldHVy
+bmVkIDEgZXhpdCBzdGF0dXMNCj4gfCBtYWtlWzJdOiAqKiogW01ha2VmaWxlOjExMzA6IHN1XSBF
+cnJvciAxDQo+DQo+IE9uIFVidW50dTIyLjA0LCB0aGVyZSdzIG5vIHN1Y2ggaXNzdWUuDQo+DQo+
+IFJlZ2FyZHMsDQo+IFFpDQo+DQo+IE9uIDEvMTEvMjQgMjE6MTUsIEFsZXhhbmRlciBLYW5hdmlu
+IHdyb3RlOg0KPiA+IExpY2Vuc2UtVXBkYXRlOiBmb3JtYXR0aW5nLCBzcGR4IGNvbnZlcnNpb24N
+Cj4gPg0KPiA+IERyb3A6DQo+ID4gMDAwMS1EaXNhYmxlLXVzZS1vZi1zeXNsb2ctZm9yLXN5c3Jv
+b3QucGF0Y2gNCj4gPiAoaXNzdWUgZml4ZWQgdXBzdHJlYW0pDQo+ID4NCj4gPiAwMDAxLUZpeC1j
+YW4tbm90LXByaW50LWZ1bGwtbG9naW4ucGF0Y2gNCj4gPiAwMDAxLU92ZXJoYXVsLXZhbGlkX2Zp
+ZWxkLnBhdGNoDQo+ID4gQ1ZFLTIwMjMtMjkzODMucGF0Y2gNCj4gPiAoYmFja3BvcnRzKQ0KPiA+
+DQo+ID4gbGliYnNkIGlzIGEgbmV3IG5hdGl2ZSBkZXBlbmRlbmN5LCBhcyBvdGhlcndpc2UgZ2xp
+YmMgPj0gMi4zOCBpcyANCj4gPiBuZWVkZWQuDQo+ID4NCj4gPiBBIHNpbWlsYXIgZml4IGlzIGFk
+ZGVkIHRvIG11c2wgaW4gb3JkZXIgdG8gZGVmaW5lIG5vbi1zdGFuZGFyZCBfX0JFR0lOX0RFQ0xT
+L19fRU5EX0RFQ0xTLg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogQWxleGFuZGVyIEthbmF2aW4g
+PGFsZXhAbGludXRyb25peC5kZT4NCj4gPiAtLS0NCj4gPiAgIC4uLjAxLURpc2FibGUtdXNlLW9m
+LXN5c2xvZy1mb3Itc3lzcm9vdC5wYXRjaCB8ICA1MiAtLS0tLS0tDQo+ID4gICAuLi4vMDAwMS1G
+aXgtY2FuLW5vdC1wcmludC1mdWxsLWxvZ2luLnBhdGNoICAgfCAgNDEgLS0tLS0NCj4gPiAgIC4u
+Li9maWxlcy8wMDAxLU92ZXJoYXVsLXZhbGlkX2ZpZWxkLnBhdGNoICAgICB8ICA2NSAtLS0tLS0t
+LQ0KPiA+ICAgLi4uL3NoYWRvdy9maWxlcy9DVkUtMjAyMy0yOTM4My5wYXRjaCAgICAgICAgIHwg
+IDUzIC0tLS0tLS0NCj4gPiAgIC4uLi9zaGFkb3cvZmlsZXMvQ1ZFLTIwMjMtNDY0MS5wYXRjaCAg
+ICAgICAgICB8IDE0NyAtLS0tLS0tLS0tLS0tLS0tLS0NCj4gPiAgIC4uLm5leHBlY3RlZC1vcGVu
+LWZhaWx1cmUtaW4tY2hyb290LWVudi5wYXRjaCB8ICAxNiArLQ0KPiA+ICAgbWV0YS9yZWNpcGVz
+LWV4dGVuZGVkL3NoYWRvdy9zaGFkb3cuaW5jICAgICAgIHwgIDIwICstLQ0KPiA+ICAgLi4uL3tz
+aGFkb3dfNC4xMy5iYiA9PiBzaGFkb3dfNC4xNC4yLmJifSAgICAgIHwgICAwDQo+ID4gICA4IGZp
+bGVzIGNoYW5nZWQsIDE2IGluc2VydGlvbnMoKyksIDM3OCBkZWxldGlvbnMoLSkNCj4gPiAgIGRl
+bGV0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvc2hhZG93L2ZpbGVzLzAwMDEt
+RGlzYWJsZS11c2Utb2Ytc3lzbG9nLWZvci1zeXNyb290LnBhdGNoDQo+ID4gICBkZWxldGUgbW9k
+ZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3NoYWRvdy9maWxlcy8wMDAxLUZpeC1jYW4t
+bm90LXByaW50LWZ1bGwtbG9naW4ucGF0Y2gNCj4gPiAgIGRlbGV0ZSBtb2RlIDEwMDY0NCBtZXRh
+L3JlY2lwZXMtZXh0ZW5kZWQvc2hhZG93L2ZpbGVzLzAwMDEtT3ZlcmhhdWwtdmFsaWRfZmllbGQu
+cGF0Y2gNCj4gPiAgIGRlbGV0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvc2hh
+ZG93L2ZpbGVzL0NWRS0yMDIzLTI5MzgzLnBhdGNoDQo+ID4gICBkZWxldGUgbW9kZSAxMDA2NDQg
+bWV0YS9yZWNpcGVzLWV4dGVuZGVkL3NoYWRvdy9maWxlcy9DVkUtMjAyMy00NjQxLnBhdGNoDQo+
+ID4gICByZW5hbWUgbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3NoYWRvdy97c2hhZG93XzQuMTMuYmIg
+PT4gDQo+ID4gc2hhZG93XzQuMTQuMi5iYn0gKDEwMCUpDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IA0K
+PiA+IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3NoYWRvdy9maWxlcy8wMDAxLURpc2FibGUtdXNl
+LW9mLXN5c2xvZy1mb3ItDQo+ID4gc3lzcm9vdC5wYXRjaCANCj4gPiBiL21ldGEvcmVjaXBlcy1l
+eHRlbmRlZC9zaGFkb3cvZmlsZXMvMDAwMS1EaXNhYmxlLXVzZS1vZi1zeXNsb2ctZm9yLQ0KPiA+
+IHN5c3Jvb3QucGF0Y2gNCj4gPiBkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQNCj4gPiBpbmRleCBm
+YTE1MzJjODMxNy4uMDAwMDAwMDAwMDANCj4gPiAtLS0gDQo+ID4gYS9tZXRhL3JlY2lwZXMtZXh0
+ZW5kZWQvc2hhZG93L2ZpbGVzLzAwMDEtRGlzYWJsZS11c2Utb2Ytc3lzbG9nLWZvci0NCj4gPiBz
+eXNyb290LnBhdGNoDQo+ID4gKysrIC9kZXYvbnVsbA0KPiA+IEBAIC0xLDUyICswLDAgQEANCj4g
+PiAtRnJvbSA4NWQwNDQ0MjI5ZWUzZDE0ZmVmY2YxMGQwOTNmNDljODYyODI2ZjgyIE1vbiBTZXAg
+MTcgMDA6MDA6MDAgDQo+ID4gMjAwMQ0KPiA+IC1Gcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmljaGFy
+ZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4NCj4gPiAtRGF0ZTogVGh1LCAxNCBBcHIgMjAy
+MiAyMzoxMTo1MyArMDAwMA0KPiA+IC1TdWJqZWN0OiBbUEFUQ0hdIERpc2FibGUgdXNlIG9mIHN5
+c2xvZyBmb3Igc2hhZG93LW5hdGl2ZSB0b29scw0KPiA+IC0NCj4gPiAtRGlzYWJsZSB1c2Ugb2Yg
+c3lzbG9nIHRvIHByZXZlbnQgc3lzcm9vdCB1c2VyIGFuZCBncm91cCBhZGRpdGlvbnMgDQo+ID4g
+ZnJvbSAtd3JpdGluZyBlbnRyaWVzIHRvIHRoZSBob3N0J3Mgc3lzbG9nLiBUaGlzIHBhdGNoIHNo
+b3VsZCBvbmx5IA0KPiA+IGJlIHVzZWQgLXdpdGggdGhlIHNoYWRvdy1uYXRpdmUgcmVjaXBlLg0K
+PiA+IC0NCj4gPiAtVXBzdHJlYW0tU3RhdHVzOiBJbmFwcHJvcHJpYXRlIFtPRSBzcGVjaWZpYyBj
+b25maWd1cmF0aW9uXQ0KPiA+IC1TaWduZWQtb2ZmLWJ5OiBSaWNoYXJkIFB1cmRpZSA8cmljaGFy
+ZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4NCj4gPiAtU2lnbmVkLW9mZi1ieTogUGV0ZXIg
+S2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+DQo+ID4gLQ0KPiA+IC0t
+LS0NCj4gPiAtIGNvbmZpZ3VyZS5hYyAgICAgIHwgMiArLQ0KPiA+IC0gc3JjL2xvZ2luX25vcGFt
+LmMgfCAzICsrLQ0KPiA+IC0gMiBmaWxlcyBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDIgZGVs
+ZXRpb25zKC0pDQo+ID4gLQ0KPiA+IC1kaWZmIC0tZ2l0IGEvY29uZmlndXJlLmFjIGIvY29uZmln
+dXJlLmFjIC1pbmRleCA5MjQyNTRhLi42MDNhZjgxIA0KPiA+IDEwMDY0NA0KPiA+IC0tLS0gYS9j
+b25maWd1cmUuYWMNCj4gPiAtKysrIGIvY29uZmlndXJlLmFjDQo+ID4gLUBAIC0xOTEsNyArMTkx
+LDcgQEAgQUNfREVGSU5FX1VOUVVPVEVEKFBBU1NXRF9QUk9HUkFNLCAiJHNoYWRvd19jdl9wYXNz
+d2RfZGlyL3Bhc3N3ZCIsDQo+ID4gLSAgICAgW1BhdGggdG8gcGFzc3dkIHByb2dyYW0uXSkNCj4g
+PiAtDQo+ID4gLSBkbmwgWFhYIC0gcXVpY2sgaGFjaywgc2hvdWxkIGRpc2FwcGVhciBiZWZvcmUg
+YW55b25lIG5vdGljZXMgOikuDQo+ID4gLS1BQ19ERUZJTkUoVVNFX1NZU0xPRywgMSwgW0RlZmlu
+ZSB0byB1c2Ugc3lzbG9nKCkuXSkNCj4gPiAtKyNBQ19ERUZJTkUoVVNFX1NZU0xPRywgMSwgW0Rl
+ZmluZSB0byB1c2Ugc3lzbG9nKCkuXSkNCj4gPiAtIGlmIHRlc3QgIiRhY19jdl9mdW5jX3J1c2Vy
+b2siID0gInllcyI7IHRoZW4NCj4gPiAtICAgICBBQ19ERUZJTkUoUkxPR0lOLCAxLCBbRGVmaW5l
+IGlmIGxvZ2luIHNob3VsZCBzdXBwb3J0IHRoZSAtciBmbGFnIGZvciBybG9naW5kLl0pDQo+ID4g
+LSAgICAgQUNfREVGSU5FKFJVU0VST0ssIDAsIFtEZWZpbmUgdG8gdGhlIHJ1c2Vyb2soKSAic3Vj
+Y2VzcyIgcmV0dXJuIHZhbHVlICgwIG9yIDEpLl0pDQo+ID4gLWRpZmYgLS1naXQgYS9zcmMvbG9n
+aW5fbm9wYW0uYyBiL3NyYy9sb2dpbl9ub3BhbS5jIC1pbmRleCANCj4gPiBkZjZiYTg4Li5mYzI0
+ZTEzIDEwMDY0NA0KPiA+IC0tLS0gYS9zcmMvbG9naW5fbm9wYW0uYw0KPiA+IC0rKysgYi9zcmMv
+bG9naW5fbm9wYW0uYw0KPiA+IC1AQCAtMjksNyArMjksNiBAQA0KPiA+IC0gI2lmbmRlZiBVU0Vf
+UEFNDQo+ID4gLSAjaWRlbnQgIiRJZCQiDQo+ID4gLQ0KPiA+IC0tI2luY2x1ZGUgInByb3RvdHlw
+ZXMuaCINCj4gPiAtICAgICAvKg0KPiA+IC0gICAgICAqIFRoaXMgbW9kdWxlIGltcGxlbWVudHMg
+YSBzaW1wbGUgYnV0IGVmZmVjdGl2ZSBmb3JtIG9mIGxvZ2luIGFjY2Vzcw0KPiA+IC0gICAgICAq
+IGNvbnRyb2wgYmFzZWQgb24gbG9naW4gbmFtZXMgYW5kIG9uIGhvc3QgKG9yIGRvbWFpbikgbmFt
+ZXMsIGludGVybmV0DQo+ID4gLUBAIC01Nyw2ICs1Niw4IEBADQo+ID4gLSAjaW5jbHVkZSA8bmV0
+aW5ldC9pbi5oPg0KPiA+IC0gI2luY2x1ZGUgPGFycGEvaW5ldC5oPiAgICAgICAgICAgICAgLyog
+Zm9yIGluZXRfbnRvYSgpICovDQo+ID4gLQ0KPiA+IC0rI2luY2x1ZGUgInByb3RvdHlwZXMuaCIN
+Cj4gPiAtKw0KPiA+IC0gI2lmICFkZWZpbmVkKE1BWEhPU1ROQU1FTEVOKSB8fCAoTUFYSE9TVE5B
+TUVMRU4gPCA2NCkNCj4gPiAtICN1bmRlZiBNQVhIT1NUTkFNRUxFTg0KPiA+IC0gI2RlZmluZSBN
+QVhIT1NUTkFNRUxFTiAyNTYNCj4gPiBkaWZmIC0tZ2l0IA0KPiA+IGEvbWV0YS9yZWNpcGVzLWV4
+dGVuZGVkL3NoYWRvdy9maWxlcy8wMDAxLUZpeC1jYW4tbm90LXByaW50LWZ1bGwtbG9nDQo+ID4g
+aW4ucGF0Y2ggDQo+ID4gYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvc2hhZG93L2ZpbGVzLzAwMDEt
+Rml4LWNhbi1ub3QtcHJpbnQtZnVsbC1sb2cNCj4gPiBpbi5wYXRjaA0KPiA+IGRlbGV0ZWQgZmls
+ZSBtb2RlIDEwMDY0NA0KPiA+IGluZGV4IDg5ZjljMDVjOGQzLi4wMDAwMDAwMDAwMA0KPiA+IC0t
+LSANCj4gPiBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9zaGFkb3cvZmlsZXMvMDAwMS1GaXgtY2Fu
+LW5vdC1wcmludC1mdWxsLWxvZw0KPiA+IGluLnBhdGNoDQo+ID4gKysrIC9kZXYvbnVsbA0KPiA+
+IEBAIC0xLDQxICswLDAgQEANCj4gPiAtY29tbWl0IDY3MGNhZTgzNDgyN2E4Zjc5NGU2Zjc0NjRm
+YTU3NzkwZDkxMWI2M2MNCj4gPiAtQXV0aG9yOiBTb3VteWFXaW5kIDwxMjE0NzU4MzQrU291bXlh
+V2luZEB1c2Vycy5ub3JlcGx5LmdpdGh1Yi5jb20+DQo+ID4gLURhdGU6ICAgVHVlIERlYyAyNyAx
+Nzo0MDoxNyAyMDIyICswNTMwDQo+ID4gLQ0KPiA+IC0gICAgc2hhZG93OiBGaXggY2FuIG5vdCBw
+cmludCBmdWxsIGxvZ2luIHRpbWVvdXQgbWVzc2FnZQ0KPiA+IC0NCj4gPiAtICAgIExvZ2luIHRp
+bWVkIG91dCBtZXNzYWdlIHByaW50cyBvbmx5IGZpcnN0IGZldyBieXRlcyB3aGVuIHdyaXRlIGlz
+IGltbWVkaWF0ZWx5IGZvbGxvd2VkIGJ5IGV4aXQuDQo+ID4gLSAgICBDYWxsaW5nIGV4aXQgZnJv
+bSBuZXcgaGFuZGxlciBwcm92aWRlcyBlbm91Z2ggdGltZSB0byBkaXNwbGF5IGZ1bGwgbWVzc2Fn
+ZS4NCj4gPiAtDQo+ID4gLVVwc3RyZWFtLVN0YXR1czogQmFja3BvcnQgDQo+ID4gW2h0dHBzOi8v
+Z2l0aHViLmNvbS9zaGFkb3ctbWFpbnQvc2hhZG93L2NvbW1pdC82NzBjYWU4MzQ4MjdhOGY3OTRl
+NmYNCj4gPiA3NDY0ZmE1Nzc5MGQ5MTFiNjNjXQ0KPiA+IC0NCj4gPiAtZGlmZiAtLWdpdCBhL3Ny
+Yy9sb2dpbi5jIGIvc3JjL2xvZ2luLmMgLWluZGV4IDExNmUyY2IzLi5jNTVmNGRlMCANCj4gPiAx
+MDA2NDQNCj4gPiAtLS0tIGEvc3JjL2xvZ2luLmMNCj4gPiAtKysrIGIvc3JjL2xvZ2luLmMNCj4g
+PiAtQEAgLTEyMCw2ICsxMjAsNyBAQCBzdGF0aWMgdm9pZCBnZXRfcGFtX3VzZXIgKGNoYXIgKipw
+dHJfcGFtX3VzZXIpOw0KPiA+IC0NCj4gPiAtIHN0YXRpYyB2b2lkIGluaXRfZW52ICh2b2lkKTsN
+Cj4gPiAtIHN0YXRpYyB2b2lkIGFsYXJtX2hhbmRsZXIgKGludCk7DQo+ID4gLStzdGF0aWMgdm9p
+ZCBleGl0X2hhbmRsZXIgKGludCk7DQo+ID4gLQ0KPiA+IC0gLyoNCj4gPiAtICAqIHVzYWdlIC0g
+cHJpbnQgbG9naW4gY29tbWFuZCB1c2FnZSBhbmQgZXhpdCAtQEAgLTM5MSwxMSArMzkyLDE2IA0K
+PiA+IEBAIHN0YXRpYyB2b2lkIGluaXRfZW52ICh2b2lkKQ0KPiA+IC0gI2VuZGlmICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgLyogIVVTRV9QQU0gKi8NCj4gPiAtIH0NCj4gPiAtDQo+ID4g
+LStzdGF0aWMgdm9pZCBleGl0X2hhbmRsZXIgKHVudXNlZCBpbnQgc2lnKSB7DQo+ID4gLSsgICAg
+X2V4aXQgKDApOw0KPiA+IC0rfQ0KPiA+IC0NCj4gPiAtIHN0YXRpYyB2b2lkIGFsYXJtX2hhbmRs
+ZXIgKHVudXNlZCBpbnQgc2lnKQ0KPiA+IC0gew0KPiA+IC0gICAgIHdyaXRlIChTVERFUlJfRklM
+RU5PLCB0bXNnLCBzdHJsZW4gKHRtc2cpKTsNCj4gPiAtLSAgICBfZXhpdCAoMCk7DQo+ID4gLSsg
+ICAgc2lnbmFsKFNJR0FMUk0sIGV4aXRfaGFuZGxlcik7DQo+ID4gLSsgICAgYWxhcm0oMik7DQo+
+ID4gLSB9DQo+ID4gLQ0KPiA+IC0gI2lmZGVmIFVTRV9QQU0NCj4gPiBkaWZmIC0tZ2l0IA0KPiA+
+IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3NoYWRvdy9maWxlcy8wMDAxLU92ZXJoYXVsLXZhbGlk
+X2ZpZWxkLnBhdGNoIA0KPiA+IGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3NoYWRvdy9maWxlcy8w
+MDAxLU92ZXJoYXVsLXZhbGlkX2ZpZWxkLnBhdGNoDQo+ID4gZGVsZXRlZCBmaWxlIG1vZGUgMTAw
+NjQ0DQo+ID4gaW5kZXggYWMwOGJlNTE1YmYuLjAwMDAwMDAwMDAwDQo+ID4gLS0tIA0KPiA+IGEv
+bWV0YS9yZWNpcGVzLWV4dGVuZGVkL3NoYWRvdy9maWxlcy8wMDAxLU92ZXJoYXVsLXZhbGlkX2Zp
+ZWxkLnBhdGNoDQo+ID4gKysrIC9kZXYvbnVsbA0KPiA+IEBAIC0xLDY1ICswLDAgQEANCj4gPiAt
+RnJvbSAyZWFlYTcwMTExZjY1YjE2ZDU1OTk4Mzg2ZTRjZWI0MjczYzE5ZWI0IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgDQo+ID4gMjAwMQ0KPiA+IC1Gcm9tOiA9P1VURi04P3E/Q2hyaXN0aWFuPTIwRz1D
+Mz1CNnR0c2NoZT89IA0KPiA+IDxjZ3pvbmVzQGdvb2dsZW1haWwuY29tPg0KPiA+IC1EYXRlOiBG
+cmksIDMxIE1hciAyMDIzIDE0OjQ2OjUwICswMjAwDQo+ID4gLVN1YmplY3Q6IFtQQVRDSF0gT3Zl
+cmhhdWwgdmFsaWRfZmllbGQoKQ0KPiA+IC0NCj4gPiAtZTU5MDVjNGIgKCJBZGRlZCBjb250cm9s
+IGNoYXJhY3RlciBjaGVjayIpIGludHJvZHVjZWQgY2hlY2tpbmcgZm9yIA0KPiA+IC1jb250cm9s
+IGNoYXJhY3RlcnMgYnV0IGhhZCB0aGUgbG9naWMgaW52ZXJ0ZWQsIHNvIGl0IHJlamVjdHMgYWxs
+IA0KPiA+IC1jaGFyYWN0ZXJzIHRoYXQgYXJlIG5vdCBjb250cm9sIG9uZXMuDQo+ID4gLQ0KPiA+
+IC1DYXN0IHRoZSBjaGFyYWN0ZXIgdG8gYHVuc2lnbmVkIGNoYXJgIGJlZm9yZSBwYXNzaW5nIHRv
+IHRoZSANCj4gPiBjaGFyYWN0ZXIgLWNoZWNraW5nIGZ1bmN0aW9ucyB0byBhdm9pZCBVQi4NCj4g
+PiAtDQo+ID4gLVVzZSBzdHJwYnJrKDMpIGZvciB0aGUgaWxsZWdhbCBjaGFyYWN0ZXIgdGVzdCBh
+bmQgcmV0dXJuIGVhcmx5Lg0KPiA+IC0NCj4gPiAtVXBzdHJlYW0tU3RhdHVzOiBCYWNrcG9ydCAN
+Cj4gPiBbaHR0cHM6Ly9naXRodWIuY29tL3NoYWRvdy1tYWludC9zaGFkb3cvY29tbWl0LzJlYWVh
+NzAxMTFmNjViMTZkNTU5OQ0KPiA+IDgzODZlNGNlYjQyNzNjMTllYjRdDQo+ID4gLQ0KPiA+IC1T
+aWduZWQtb2ZmLWJ5OiBYaWFuZ3l1IENoZW4gPHhpYW5neXUuY2hlbkB3aW5kcml2ZXIuY29tPg0K
+PiA+IC0tLS0NCj4gPiAtIGxpYi9maWVsZHMuYyB8IDI0ICsrKysrKysrKystLS0tLS0tLS0tLS0t
+LQ0KPiA+IC0gMSBmaWxlIGNoYW5nZWQsIDEwIGluc2VydGlvbnMoKyksIDE0IGRlbGV0aW9ucygt
+KQ0KPiA+IC0NCj4gPiAtZGlmZiAtLWdpdCBhL2xpYi9maWVsZHMuYyBiL2xpYi9maWVsZHMuYyAt
+aW5kZXggZmI1MWI1ODIuLjUzOTI5MjQ4IA0KPiA+IDEwMDY0NA0KPiA+IC0tLS0gYS9saWIvZmll
+bGRzLmMNCj4gPiAtKysrIGIvbGliL2ZpZWxkcy5jDQo+ID4gLUBAIC0zNywyNiArMzcsMjIgQEAg
+aW50IHZhbGlkX2ZpZWxkIChjb25zdCBjaGFyICpmaWVsZCwgY29uc3QgY2hhciANCj4gPiAqaWxs
+ZWdhbCkNCj4gPiAtDQo+ID4gLSAgICAgLyogRm9yIGVhY2ggY2hhcmFjdGVyIG9mIGZpZWxkLCBz
+ZWFyY2ggaWYgaXQgYXBwZWFycyBpbiB0aGUgbGlzdA0KPiA+IC0gICAgICAqIG9mIGlsbGVnYWwg
+Y2hhcmFjdGVycy4gKi8NCj4gPiAtKyAgICBpZiAoaWxsZWdhbCAmJiBOVUxMICE9IHN0cnBicmsg
+KGZpZWxkLCBpbGxlZ2FsKSkgew0KPiA+IC0rICAgICAgICAgICAgcmV0dXJuIC0xOw0KPiA+IC0r
+ICAgIH0NCj4gPiAtKw0KPiA+IC0rICAgIC8qIFNlYXJjaCBpZiB0aGVyZSBhcmUgbm9uLXByaW50
+YWJsZSBvciBjb250cm9sIGNoYXJhY3RlcnMgKi8NCj4gPiAtICAgICBmb3IgKGNwID0gZmllbGQ7
+ICdcMCcgIT0gKmNwOyBjcCsrKSB7DQo+ID4gLS0gICAgICAgICAgICBpZiAoc3RyY2hyIChpbGxl
+Z2FsLCAqY3ApICE9IE5VTEwpIHsNCj4gPiAtKyAgICAgICAgICAgIHVuc2lnbmVkIGNoYXIgYyA9
+ICpjcDsNCj4gPiAtKyAgICAgICAgICAgIGlmICghaXNwcmludCAoYykpIHsNCj4gPiAtKyAgICAg
+ICAgICAgICAgICAgICAgZXJyID0gMTsNCj4gPiAtKyAgICAgICAgICAgIH0NCj4gPiAtKyAgICAg
+ICAgICAgIGlmIChpc2NudHJsIChjKSkgew0KPiA+IC0gICAgICAgICAgICAgICAgICAgICBlcnIg
+PSAtMTsNCj4gPiAtICAgICAgICAgICAgICAgICAgICAgYnJlYWs7DQo+ID4gLSAgICAgICAgICAg
+ICB9DQo+ID4gLSAgICAgfQ0KPiA+IC0NCj4gPiAtLSAgICBpZiAoMCA9PSBlcnIpIHsNCj4gPiAt
+LSAgICAgICAgICAgIC8qIFNlYXJjaCBpZiB0aGVyZSBhcmUgbm9uLXByaW50YWJsZSBvciBjb250
+cm9sIGNoYXJhY3RlcnMgKi8NCj4gPiAtLSAgICAgICAgICAgIGZvciAoY3AgPSBmaWVsZDsgJ1ww
+JyAhPSAqY3A7IGNwKyspIHsNCj4gPiAtLSAgICAgICAgICAgICAgICAgICAgaWYgKCFpc3ByaW50
+ICgqY3ApKSB7DQo+ID4gLS0gICAgICAgICAgICAgICAgICAgICAgICAgICAgZXJyID0gMTsNCj4g
+PiAtLSAgICAgICAgICAgICAgICAgICAgfQ0KPiA+IC0tICAgICAgICAgICAgICAgICAgICBpZiAo
+IWlzY250cmwgKCpjcCkpIHsNCj4gPiAtLSAgICAgICAgICAgICAgICAgICAgICAgICAgICBlcnIg
+PSAtMTsNCj4gPiAtLSAgICAgICAgICAgICAgICAgICAgICAgICAgICBicmVhazsNCj4gPiAtLSAg
+ICAgICAgICAgICAgICAgICAgfQ0KPiA+IC0tICAgICAgICAgICAgfQ0KPiA+IC0tICAgIH0NCj4g
+PiAtLQ0KPiA+IC0gICAgIHJldHVybiBlcnI7DQo+ID4gLSB9DQo+ID4gLQ0KPiA+IC0tLQ0KPiA+
+IC0yLjM0LjENCj4gPiAtDQo+ID4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9z
+aGFkb3cvZmlsZXMvQ1ZFLTIwMjMtMjkzODMucGF0Y2ggDQo+ID4gYi9tZXRhL3JlY2lwZXMtZXh0
+ZW5kZWQvc2hhZG93L2ZpbGVzL0NWRS0yMDIzLTI5MzgzLnBhdGNoDQo+ID4gZGVsZXRlZCBmaWxl
+IG1vZGUgMTAwNjQ0DQo+ID4gaW5kZXggZjUzMzQxZDNmYzIuLjAwMDAwMDAwMDAwDQo+ID4gLS0t
+IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3NoYWRvdy9maWxlcy9DVkUtMjAyMy0yOTM4My5wYXRj
+aA0KPiA+ICsrKyAvZGV2L251bGwNCj4gPiBAQCAtMSw1MyArMCwwIEBADQo+ID4gLUZyb20gZTU5
+MDVjNGI4NGQ0ZmI5MGFlZmNkOTZlZTYxODQxMWViZmFjNjYzZCBNb24gU2VwIDE3IDAwOjAwOjAw
+IA0KPiA+IDIwMDENCj4gPiAtRnJvbTogdG9tc3BpZGVybGFicyANCj4gPiA8MTI4NzU1NDAzK3Rv
+bXNwaWRlcmxhYnNAdXNlcnMubm9yZXBseS5naXRodWIuY29tPg0KPiA+IC1EYXRlOiBUaHUsIDIz
+IE1hciAyMDIzIDIzOjM5OjM4ICswMDAwDQo+ID4gLVN1YmplY3Q6IFtQQVRDSF0gQWRkZWQgY29u
+dHJvbCBjaGFyYWN0ZXIgY2hlY2sNCj4gPiAtDQo+ID4gLUFkZGVkIGNvbnRyb2wgY2hhcmFjdGVy
+IGNoZWNrLCByZXR1cm5pbmcgLTEgKHRvICJlcnIiKSBpZiBjb250cm9sIGNoYXJhY3RlcnMgYXJl
+IHByZXNlbnQuDQo+ID4gLQ0KPiA+IC1DVkU6IENWRS0yMDIzLTI5MzgzDQo+ID4gLVVwc3RyZWFt
+LVN0YXR1czogQmFja3BvcnQNCj4gPiAtDQo+ID4gLVJlZmVyZW5jZSB0byB1cHN0cmVhbToNCj4g
+PiAtaHR0cHM6Ly9naXRodWIuY29tL3NoYWRvdy1tYWludC9zaGFkb3cvY29tbWl0L2U1OTA1YzRi
+ODRkNGZiOTBhZWZjZA0KPiA+IDk2ZWU2MTg0MTFlYmZhYzY2M2QNCj4gPiAtDQo+ID4gLVNpZ25l
+ZC1vZmYtYnk6IFhpYW5neXUgQ2hlbiA8eGlhbmd5dS5jaGVuQHdpbmRyaXZlci5jb20+DQo+ID4g
+LS0tLQ0KPiA+IC0gbGliL2ZpZWxkcy5jIHwgMTEgKysrKysrKy0tLS0NCj4gPiAtIDEgZmlsZSBj
+aGFuZ2VkLCA3IGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0pDQo+ID4gLQ0KPiA+IC1kaWZm
+IC0tZ2l0IGEvbGliL2ZpZWxkcy5jIGIvbGliL2ZpZWxkcy5jIC1pbmRleCA2NDBiZTkzMS4uZmI1
+MWI1ODIgDQo+ID4gMTAwNjQ0DQo+ID4gLS0tLSBhL2xpYi9maWVsZHMuYw0KPiA+IC0rKysgYi9s
+aWIvZmllbGRzLmMNCj4gPiAtQEAgLTIxLDkgKzIxLDkgQEANCj4gPiAtICAqDQo+ID4gLSAgKiBU
+aGUgc3VwcGxpZWQgZmllbGQgaXMgc2Nhbm5lZCBmb3Igbm9uLXByaW50YWJsZSBhbmQgb3RoZXIg
+DQo+ID4gaWxsZWdhbA0KPiA+IC0gICogY2hhcmFjdGVycy4NCj4gPiAtLSAqICArIC0xIGlzIHJl
+dHVybmVkIGlmIGFuIGlsbGVnYWwgY2hhcmFjdGVyIGlzIHByZXNlbnQuDQo+ID4gLS0gKiAgKyAg
+MSBpcyByZXR1cm5lZCBpZiBubyBpbGxlZ2FsIGNoYXJhY3RlcnMgYXJlIHByZXNlbnQsIGJ1dCB0
+aGUgZmllbGQNCj4gPiAtLSAqICAgICAgIGNvbnRhaW5zIGEgbm9uLXByaW50YWJsZSBjaGFyYWN0
+ZXIuDQo+ID4gLSsgKiAgKyAtMSBpcyByZXR1cm5lZCBpZiBhbiBpbGxlZ2FsIG9yIGNvbnRyb2wg
+Y2hhcmFjdGVyIGlzIHByZXNlbnQuDQo+ID4gLSsgKiAgKyAgMSBpcyByZXR1cm5lZCBpZiBubyBp
+bGxlZ2FsIG9yIGNvbnRyb2wgY2hhcmFjdGVycyBhcmUgcHJlc2VudCwNCj4gPiAtKyAqICAgICAg
+IGJ1dCB0aGUgZmllbGQgY29udGFpbnMgYSBub24tcHJpbnRhYmxlIGNoYXJhY3Rlci4NCj4gPiAt
+ICAqICArICAwIGlzIHJldHVybmVkIG90aGVyd2lzZS4NCj4gPiAtICAqLw0KPiA+IC0gaW50IHZh
+bGlkX2ZpZWxkIChjb25zdCBjaGFyICpmaWVsZCwgY29uc3QgY2hhciAqaWxsZWdhbCkgLUBAIA0K
+PiA+IC00NSwxMCArNDUsMTMgQEAgaW50IHZhbGlkX2ZpZWxkIChjb25zdCBjaGFyICpmaWVsZCwg
+Y29uc3QgY2hhciAqaWxsZWdhbCkNCj4gPiAtICAgICB9DQo+ID4gLQ0KPiA+IC0gICAgIGlmICgw
+ID09IGVycikgew0KPiA+IC0tICAgICAgICAgICAgLyogU2VhcmNoIGlmIHRoZXJlIGFyZSBzb21l
+IG5vbi1wcmludGFibGUgY2hhcmFjdGVycyAqLw0KPiA+IC0rICAgICAgICAgICAgLyogU2VhcmNo
+IGlmIHRoZXJlIGFyZSBub24tcHJpbnRhYmxlIG9yIGNvbnRyb2wgDQo+ID4gLSsgY2hhcmFjdGVy
+cyAqLw0KPiA+IC0gICAgICAgICAgICAgZm9yIChjcCA9IGZpZWxkOyAnXDAnICE9ICpjcDsgY3Ar
+Kykgew0KPiA+IC0gICAgICAgICAgICAgICAgICAgICBpZiAoIWlzcHJpbnQgKCpjcCkpIHsNCj4g
+PiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgICBlcnIgPSAxOw0KPiA+IC0rICAgICAgICAg
+ICAgICAgICAgICB9DQo+ID4gLSsgICAgICAgICAgICAgICAgICAgIGlmICghaXNjbnRybCAoKmNw
+KSkgew0KPiA+IC0rICAgICAgICAgICAgICAgICAgICAgICAgICAgIGVyciA9IC0xOw0KPiA+IC0g
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIGJyZWFrOw0KPiA+IC0gICAgICAgICAgICAgICAg
+ICAgICB9DQo+ID4gLSAgICAgICAgICAgICB9DQo+ID4gLS0tDQo+ID4gLTIuMzQuMQ0KPiA+IC0N
+Cj4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3NoYWRvdy9maWxlcy9DVkUt
+MjAyMy00NjQxLnBhdGNoIA0KPiA+IGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3NoYWRvdy9maWxl
+cy9DVkUtMjAyMy00NjQxLnBhdGNoDQo+ID4gZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0DQo+ID4g
+aW5kZXggMWZhYmZlOTI4ZTQuLjAwMDAwMDAwMDAwDQo+ID4gLS0tIGEvbWV0YS9yZWNpcGVzLWV4
+dGVuZGVkL3NoYWRvdy9maWxlcy9DVkUtMjAyMy00NjQxLnBhdGNoDQo+ID4gKysrIC9kZXYvbnVs
+bA0KPiA+IEBAIC0xLDE0NyArMCwwIEBADQo+ID4gLUZyb20gMjVkYmUyY2UxNjZhMTMzMjJiNzUz
+NmZmMmY3Mzg3ODZlYTJlNjFlNyBNb24gU2VwIDE3IDAwOjAwOjAwIA0KPiA+IDIwMDENCj4gPiAt
+RnJvbTogQWxlamFuZHJvIENvbG9tYXIgPGFseEBrZXJuZWwub3JnPg0KPiA+IC1EYXRlOiBTYXQs
+IDEwIEp1biAyMDIzIDE2OjIwOjA1ICswMjAwDQo+ID4gLVN1YmplY3Q6IFtQQVRDSF0gZ3Bhc3N3
+ZCgxKTogRml4IHBhc3N3b3JkIGxlYWsNCj4gPiAtDQo+ID4gLUhvdyB0byB0cmlnZ2VyIHRoaXMg
+cGFzc3dvcmQgbGVhaz8NCj4gPiAtfn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fg0K
+PiA+IC0NCj4gPiAtV2hlbiBncGFzc3dkKDEpIGFza3MgZm9yIHRoZSBuZXcgcGFzc3dvcmQsIGl0
+IGFza3MgdHdpY2UgKGFzIGlzIA0KPiA+IHVzdWFsIC1mb3IgY29uZmlybWluZyB0aGUgbmV3IHBh
+c3N3b3JkKS4gIEVhY2ggb2YgdGhvc2UgMiBwYXNzd29yZCANCj4gPiBwcm9tcHRzIC11c2VzIGFn
+ZXRwYXNzKCkgdG8gZ2V0IHRoZSBwYXNzd29yZC4gIElmIHRoZSBzZWNvbmQgDQo+ID4gYWdldHBh
+c3MoKSBmYWlscywgLXRoZSBmaXJzdCBwYXNzd29yZCwgd2hpY2ggaGFzIGJlZW4gY29waWVkIGlu
+dG8gDQo+ID4gdGhlICdzdGF0aWMnIGJ1ZmZlciAtJ3Bhc3MnIHZpYSBTVFJGQ1BZKCksIHdhc24n
+dCBiZWluZyB6ZXJvZWQuDQo+ID4gLQ0KPiA+IC1hZ2V0cGFzcygpIGlzIGRlZmluZWQgaW4gPC4v
+bGlibWlzYy9hZ2V0cGFzcy5jPiAoYXJvdW5kIGxpbmUgOTEpLCANCj4gPiBhbmQgLWNhbiBmYWls
+IGZvciBhbnkgb2YgdGhlIGZvbGxvd2luZyByZWFzb25zOg0KPiA+IC0NCj4gPiAtLSAgbWFsbG9j
+KDMpIG9yIHJlYWRwYXNzcGhyYXNlKDMpIGZhaWx1cmUuDQo+ID4gLQ0KPiA+IC0gICBUaGVzZSBh
+cmUgZ29pbmcgdG8gYmUgZGlmZmljdWx0IHRvIHRyaWdnZXIuICBNYXliZSBnZXR0aW5nIHRoZSBz
+eXN0ZW0NCj4gPiAtICAgdG8gdGhlIGxpbWl0cyBvZiBtZW1vcnkgdXRpbGl6YXRpb24gYXQgdGhh
+dCBleGFjdCBwb2ludCwgc28gdGhhdCB0aGUNCj4gPiAtICAgbmV4dCBtYWxsb2MoMykgZ2V0cyBF
+Tk9NRU0sIGFuZCBwb3NzaWJseSBldmVuIHRoZSBPT00gaXMgdHJpZ2dlcmVkLg0KPiA+IC0gICBB
+Ym91dCByZWFkcGFzc3BocmFzZSgzKSwgRU5GSUxFIGFuZCBFSU5UUiBzZWVtIHRoZSBvbmx5IHBs
+YXVzaWJsZQ0KPiA+IC0gICBvbmVzLCBhbmQgRUlOVFIgcHJvYmFibHkgcmVxdWlyZXMgcHJpdmls
+ZWdlIG9yIGJlaW5nIHRoZSBzYW1lIHVzZXI7DQo+ID4gLSAgIGJ1dCBJIHdvdWxkbid0IGRpc2Nh
+cmQgRU5GSUxFIHNvIGVhc2lseSwgaWYgYSBwcm9jZXNzIHN0YXJ0cyBvcGVuaW5nDQo+ID4gLSAg
+IGZpbGVzLg0KPiA+IC0NCj4gPiAtLSAgVGhlIHBhc3N3b3JkIGlzIGxvbmdlciB0aGFuIFBBU1Nf
+TUFYLg0KPiA+IC0NCj4gPiAtICAgVGhlIGlzIHBsYXVzaWJsZSB3aXRoIHBoeXNpY2FsIGFjY2Vz
+cy4gIEhvd2V2ZXIsIGF0IHRoYXQgcG9pbnQsIGENCj4gPiAtICAga2V5bG9nZ2VyIHdpbGwgYmUg
+YSBtdWNoIHNpbXBsZXIgYXR0YWNrLg0KPiA+IC0NCj4gPiAtQW5kLCB0aGUgYXR0YWNrZXIgbXVz
+dCBiZSBhYmxlIHRvIGtub3cgd2hlbiB0aGUgc2Vjb25kIHBhc3N3b3JkIGlzIA0KPiA+IGJlaW5n
+IC1pbnRyb2R1Y2VkLCB3aGljaCBpcyBub3QgZ29pbmcgdG8gYmUgZWFzeS4NCj4gPiAtDQo+ID4g
+LUhvdyB0byByZWFkIHRoZSBwYXNzd29yZCBhZnRlciB0aGUgbGVhaz8NCj4gPiAtfn5+fn5+fn5+
+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fg0KPiA+IC0NCj4gPiAtUHJvdm9raW5nIHRo
+ZSBsZWFrIHlvdXJzZWxmIGF0IHRoZSByaWdodCBwb2ludCBieSBlbnRlcmluZyBhIHZlcnkgDQo+
+ID4gbG9uZyAtcGFzc3dvcmQgaXMgZWFzeSwgYW5kIGluc3BlY3RpbmcgdGhlIHByb2Nlc3Mgc3Rh
+Y2sgYXQgdGhhdCANCj4gPiBwb2ludCBzaG91bGQgLWJlIGRvYWJsZS4gIFRyeSB0byBmaW5kIHNv
+bWUgY29uc2lzdGVudCBwYXR0ZXJucy4NCj4gPiAtDQo+ID4gLVRoZW4sIHNlYXJjaCBmb3IgdGhv
+c2UgcGF0dGVybnMgaW4gZnJlZSBtZW1vcnksIHJpZ2h0IGFmdGVyIHRoZSANCj4gPiB2aWN0aW0g
+LWxlYWtzIHRoZWlyIHBhc3N3b3JkLg0KPiA+IC0NCj4gPiAtT25jZSB5b3UgZ2V0IHRoZSBsZWFr
+LCBhIHByb2dyYW0gc2hvdWxkIHJlYWQgYWxsIHRoZSBmcmVlIG1lbW9yeSANCj4gPiAtc2VhcmNo
+aW5nIGZvciBwYXR0ZXJucyB0aGF0IGdwYXNzd2QoMSkgbGVhdmVzIG5lYXJieSB0aGUgbGVha2Vk
+IA0KPiA+IC1wYXNzd29yZC4NCj4gPiAtDQo+ID4gLU9uIDYvMTAvMjMgMDM6MTQsIFNldGggQXJu
+b2xkIHdyb3RlOg0KPiA+IC0+IEFuIGF0dGFja2VyIHByb2Nlc3Mgd291bGRuJ3QgYmUgYWJsZSB0
+byB1c2UgbWFsbG9jKDMpIGZvciB0aGlzIHRhc2suDQo+ID4gLT4gVGhlcmUncyBhIGhhbmRmdWwg
+b2YgdG9vbHMgYXZhaWxhYmxlIGZvciB1c2Vyc3BhY2UgdG8gYWxsb2NhdGUgbWVtb3J5Og0KPiA+
+IC0+DQo+ID4gLT4gLSAgYnJrIC8gc2Jyaw0KPiA+IC0+IC0gIG1tYXAgTUFQX0FOT05ZTU9VUw0K
+PiA+IC0+IC0gIG1tYXAgL2Rldi96ZXJvDQo+ID4gLT4gLSAgbW1hcCBzb21lIG90aGVyIGZpbGUN
+Cj4gPiAtPiAtICBzaG1fb3Blbg0KPiA+IC0+IC0gIHNobWdldA0KPiA+IC0+DQo+ID4gLT4gTW9z
+dCBvZiB0aGVzZSByZXR1cm4gb25seSBwYWdlcyBvZiB6ZXJvcyB0byBhIHByb2Nlc3MuICBVc2lu
+ZyANCj4gPiAtPiBtbWFwIG9mIGFuIGV4aXN0aW5nIGZpbGUsIHlvdSBjYW4gZ2V0IHNvbWUgb2Yg
+dGhlIGNvbnRlbnRzIG9mIHRoZSANCj4gPiAtPiBmaWxlIGRlbWFuZC1sb2FkZWQgaW50byB0aGUg
+bWVtb3J5IHNwYWNlIG9uIHRoZSBmaXJzdCB1c2UuDQo+ID4gLT4NCj4gPiAtPiBUaGUgTUFQX1VO
+SU5JVElBTElaRUQgZmxhZyBvbmx5IHdvcmtzIGlmIHRoZSBrZXJuZWwgd2FzIGNvbXBpbGVkIA0K
+PiA+IC0+IHdpdGggQ09ORklHX01NQVBfQUxMT1dfVU5JTklUSUFMSVpFRC4gIFRoaXMgaXMgcmFy
+ZS4NCj4gPiAtPg0KPiA+IC0+IG1hbGxvYygzKSBkb2Vzbid0IHplcm8gbWVtb3J5LCB0byBvdXIg
+Y29sbGVjdGl2ZSBmcnVzdHJhdGlvbiwgYnV0IA0KPiA+IC0+IGFsbCB0aGUgZ2FyYmFnZSBpbiB0
+aGUgYWxsb2NhdGlvbnMgaXMgZnJvbSBwcmV2aW91cyBhbGxvY2F0aW9ucyANCj4gPiAtPiBpbiB0
+aGUgY3VycmVudCBwcm9jZXNzLiAgSXQgaXNuJ3QgbGVmdG92ZXIgZnJvbSBvdGhlciBwcm9jZXNz
+ZXMuDQo+ID4gLT4NCj4gPiAtPiBUaGUgYXZlbnVlcyBhdmFpbGFibGUgZm9yIHJlYWRpbmcgdGhl
+IG1lbW9yeToNCj4gPiAtPiAtICAvZGV2L21lbSBhbmQgL2Rldi9rbWVtIChyZXF1aXJlcyByb290
+LCBub3QgYXZhaWxhYmxlIHdpdGggDQo+ID4gLT4gU2VjdXJlIEJvb3QpDQo+ID4gLT4gLSAgL3By
+b2MvcGlkL21lbSAocmVxdWlyZXMgcHRyYWNlIHByaXZpbGVnZXMsIG1lZGlhdGVkIGJ5IFlBTUEp
+DQo+ID4gLT4gLSAgcHRyYWNlIChyZXF1aXJlcyBwdHJhY2UgcHJpdmlsZWdlcywgbWVkaWF0ZWQg
+YnkgWUFNQSkNCj4gPiAtPiAtICBjYXVzaW5nIG1lbW9yeSB0byBiZSBzd2FwcGVkIHRvIGRpc2ss
+IGFuZCB0aGVuIGluc3BlY3RpbmcgdGhlIA0KPiA+IC0+IHN3YXANCj4gPiAtPg0KPiA+IC0+IFRo
+ZXNlIGFsbCByZXF1aXJlIGEgY2VydGFpbiBhbW91bnQgb2YgcHJpdmlsZWdlcy4NCj4gPiAtDQo+
+ID4gLUhvdyB0byBmaXggaXQ/DQo+ID4gLX5+fn5+fn5+fn5+fn5+DQo+ID4gLQ0KPiA+IC1tZW16
+ZXJvKCksIHdoaWNoIGludGVybmFsbHkgY2FsbHMgZXhwbGljaXRfYnplcm8oMyksIG9yIHdoYXRl
+dmVyIA0KPiA+IC1hbHRlcm5hdGl2ZSB0aGUgc3lzdGVtIHByb3ZpZGVzIHdpdGggYSBzbGlnaHRs
+eSBkaWZmZXJlbnQgbmFtZSwgDQo+ID4gd2lsbCAtbWFrZSBzdXJlIHRoYXQgdGhlIGJ1ZmZlciBp
+cyB6ZXJvZWQgaW4gbWVtb3J5LCBhbmQgDQo+ID4gb3B0aW1pemF0aW9ucyBhcmUgbm90IC1hbGxv
+d2VkIHRvIGltcGVkZSB0aGlzIHplcm9pbmcuDQo+ID4gLQ0KPiA+IC1UaGlzIGlzIG5vdCByZWFs
+bHkgMTAwJSBlZmZlY3RpdmUsIHNpbmNlIGNvbXBpbGVycyBtYXkgcGxhY2UgY29waWVzIA0KPiA+
+IG9mIC10aGUgc3RyaW5nIHNvbWV3aGVyZSBoaWRkZW4gaW4gdGhlIHN0YWNrLiAgVGhvc2UgY29w
+aWVzIHdvbid0IA0KPiA+IGdldCB6ZXJvZWQgLWJ5IGV4cGxpY2l0X2J6ZXJvKDMpLiAgSG93ZXZl
+ciwgdGhhdCdzIGFyZ3VhYmx5IGEgDQo+ID4gY29tcGlsZXIgYnVnLCBzaW5jZSAtY29tcGlsZXJz
+IHNob3VsZCBtYWtlIGV2ZXJ5dGhpbmcgcG9zc2libGUgdG8gDQo+ID4gYXZvaWQgb3B0aW1pemlu
+ZyBzdHJpbmdzIC10aGF0IGFyZSBsYXRlciBwYXNzZWQgdG8gDQo+ID4gZXhwbGljaXRfYnplcm8o
+MykuICBCdXQgd2UgYWxsIGtub3cgdGhhdCAtc29tZXRpbWVzIGl0J3MgaW1wb3NzaWJsZSANCj4g
+PiB0byBoYXZlIHBlcmZlY3Qga25vd2xlZGdlIGluIHRoZSBjb21waWxlciwgc28gLXRoaXMgaXMg
+cGxhdXNpYmxlLiAgDQo+ID4gTmV2ZXJ0aGVsZXNzLCB0aGVyZSdzIG5vdGhpbmcgd2UgY2FuIGRv
+IGFnYWluc3Qgc3VjaCAtaXNzdWVzLCBleGNlcHQgDQo+ID4gbWluaW1pemluZyB0aGUgdGltZSBz
+dWNoIHBhc3N3b3JkcyBhcmUgc3RvcmVkIGluIHBsYWluIC10ZXh0Lg0KPiA+IC0NCj4gPiAtU2Vj
+dXJpdHkgY29uY2VybnMNCj4gPiAtfn5+fn5+fn5+fn5+fn5+fn4NCj4gPiAtDQo+ID4gLVdlIGJl
+bGlldmUgdGhpcyBpc24ndCBlYXN5IHRvIGV4cGxvaXQuICBOZXZlcnRoZWxlc3MsIGFuZCBzaW5j
+ZSB0aGUgDQo+ID4gZml4IC1pcyB0cml2aWFsLCB0aGlzIGZpeCBzaG91bGQgcHJvYmFibHkgYmUg
+YXBwbGllZCBzb29uLCBhbmQgDQo+ID4gYmFja3BvcnRlZCB0byAtYWxsIHN1cHBvcnRlZCBkaXN0
+cmlidXRpb25zLCB0byBwcmV2ZW50IHNvbWVvbmUgZWxzZSANCj4gPiBoYXZpbmcgbW9yZSAtaW1h
+Z2luYXRpb24gdGhhbiB1cyB0byBmaW5kIGEgd2F5Lg0KPiA+IC0NCj4gPiAtQWZmZWN0ZWQgdmVy
+c2lvbnMNCj4gPiAtfn5+fn5+fn5+fn5+fn5+fn4NCj4gPiAtDQo+ID4gLUFsbC4gIEJ1ZyBpbnRy
+b2R1Y2VkIGluIHNoYWRvdyAxOTk5MDcwOS4gIFRoYXQncyB0aGUgc2Vjb25kIGNvbW1pdCANCj4g
+PiBpbiAtdGhlIGdpdCBoaXN0b3J5Lg0KPiA+IC0NCj4gPiAtRml4ZXM6IDQ1YzY2MDNjYzg2YyAo
+Iltzdm4tdXBncmFkZV0gSW50ZWdyYXRpbmcgbmV3IHVwc3RyZWFtIA0KPiA+IHZlcnNpb24sIHNo
+YWRvdyAoMTk5OTA3MDkpIikNCj4gPiAtDQo+ID4gLUNWRTogQ1ZFLTIwMjMtNDY0MQ0KPiA+IC1V
+cHN0cmVhbS1TdGF0dXM6IEJhY2twb3J0IA0KPiA+IFtodHRwczovL2dpdGh1Yi5jb20vc2hhZG93
+LW1haW50L3NoYWRvdy9jb21taXQvNjVjODhhNDNhMjNjMjM5MWRjYzkwDQo+ID4gYzBhYmRhM2U4
+MzllOWM1NzkwNF0NCj4gPiAtDQo+ID4gLVJlcG9ydGVkLWJ5OiBBbGVqYW5kcm8gQ29sb21hciA8
+YWx4QGtlcm5lbC5vcmc+DQo+ID4gLUNjOiBTZXJnZSBIYWxseW4gPHNlcmdlQGhhbGx5bi5jb20+
+DQo+ID4gLUNjOiBJa2VyIFBlZHJvc2EgPGlwZWRyb3NhQHJlZGhhdC5jb20+DQo+ID4gLUNjOiBT
+ZXRoIEFybm9sZCA8c2V0aC5hcm5vbGRAY2Fub25pY2FsLmNvbT4NCj4gPiAtQ2M6IENocmlzdGlh
+biBCcmF1bmVyIDxjaHJpc3RpYW5AYnJhdW5lci5pbz4NCj4gPiAtQ2M6IEJhbGludCBSZWN6ZXkg
+PHJiYWxpbnRAZGViaWFuLm9yZz4NCj4gPiAtQ2M6IFNhbSBKYW1lcyA8c2FtQGdlbnRvby5vcmc+
+DQo+ID4gLUNjOiBEYXZpZCBSdW5nZSA8ZHZ6cnZAYXJjaGxpbnV4Lm9yZz4NCj4gPiAtQ2M6IEFu
+ZHJlYXMgSmFlZ2VyIDxhakBzdXNlLmRlPg0KPiA+IC1DYzogPH5oYWxseW4vc2hhZG93QGxpc3Rz
+LnNyLmh0Pg0KPiA+IC1TaWduZWQtb2ZmLWJ5OiBBbGVqYW5kcm8gQ29sb21hciA8YWx4QGtlcm5l
+bC5vcmc+DQo+ID4gLVNpZ25lZC1vZmYtYnk6IFhpYW5neXUgQ2hlbiA8eGlhbmd5dS5jaGVuQHdp
+bmRyaXZlci5jb20+DQo+ID4gLS0tLQ0KPiA+IC0gc3JjL2dwYXNzd2QuYyB8IDEgKw0KPiA+IC0g
+MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspDQo+ID4gLQ0KPiA+IC1kaWZmIC0tZ2l0IGEv
+c3JjL2dwYXNzd2QuYyBiL3NyYy9ncGFzc3dkLmMgLWluZGV4IA0KPiA+IDU5ODNmNzg3Li4yZDg4
+NjllZiAxMDA2NDQNCj4gPiAtLS0tIGEvc3JjL2dwYXNzd2QuYw0KPiA+IC0rKysgYi9zcmMvZ3Bh
+c3N3ZC5jDQo+ID4gLUBAIC04OTYsNiArODk2LDcgQEAgc3RhdGljIHZvaWQgY2hhbmdlX3Bhc3N3
+ZCAoc3RydWN0IGdyb3VwICpncikNCj4gPiAtICAgICAgICAgICAgIHN0cnplcm8gKGNwKTsNCj4g
+PiAtICAgICAgICAgICAgIGNwID0gZ2V0cGFzcyAoXygiUmUtZW50ZXIgbmV3IHBhc3N3b3JkOiAi
+KSk7DQo+ID4gLSAgICAgICAgICAgICBpZiAoTlVMTCA9PSBjcCkgew0KPiA+IC0rICAgICAgICAg
+ICAgICAgICAgICBtZW16ZXJvIChwYXNzLCBzaXplb2YgcGFzcyk7DQo+ID4gLSAgICAgICAgICAg
+ICAgICAgICAgIGV4aXQgKDEpOw0KPiA+IC0gICAgICAgICAgICAgfQ0KPiA+IC0NCj4gPiAtLS0N
+Cj4gPiAtMi4zNC4xDQo+ID4gLQ0KPiA+IGRpZmYgLS1naXQgDQo+ID4gYS9tZXRhL3JlY2lwZXMt
+ZXh0ZW5kZWQvc2hhZG93L2ZpbGVzL2NvbW1vbmlvLmMtZml4LXVuZXhwZWN0ZWQtb3Blbi0NCj4g
+PiBmYWlsdXJlLWluLWNocm9vdC1lbnYucGF0Y2ggDQo+ID4gYi9tZXRhL3JlY2lwZXMtZXh0ZW5k
+ZWQvc2hhZG93L2ZpbGVzL2NvbW1vbmlvLmMtZml4LXVuZXhwZWN0ZWQtb3Blbi0NCj4gPiBmYWls
+dXJlLWluLWNocm9vdC1lbnYucGF0Y2ggaW5kZXggODVkOTE3NTEwNTYuLjRhOTMyZDJkYmIxIDEw
+MDY0NA0KPiA+IC0tLSANCj4gPiBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9zaGFkb3cvZmlsZXMv
+Y29tbW9uaW8uYy1maXgtdW5leHBlY3RlZC1vcGVuLQ0KPiA+IGZhaWx1cmUtaW4tY2hyb290LWVu
+di5wYXRjaA0KPiA+ICsrKyBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9zaGFkb3cvZmlsZXMvY29t
+bW9uaW8uYy1maXgtdW5leHBlY3RlZC1vDQo+ID4gKysrIHBlbi1mYWlsdXJlLWluLWNocm9vdC1l
+bnYucGF0Y2gNCj4gPiBAQCAtMSw0ICsxLDQgQEANCj4gPiAtRnJvbSAyMTU4M2RhMDcyYWE2Njkw
+MWQ4NTlhYzAwY2UyMDliYWM4N2RkZWNjIE1vbiBTZXAgMTcgMDA6MDA6MDAgDQo+ID4gMjAwMQ0K
+PiA+ICtGcm9tIGE3NzNjNmIyNDBkMjdlMjNkNmJlNDFkZWNlZjBlZGYyNGZjZWU1MjMgTW9uIFNl
+cCAxNyAwMDowMDowMCANCj4gPiArMjAwMQ0KPiA+ICAgRnJvbTogQ2hlbiBRaSA8UWkuQ2hlbkB3
+aW5kcml2ZXIuY29tPg0KPiA+ICAgRGF0ZTogVGh1LCAxNyBKdWwgMjAxNCAxNTo1MzozNCArMDgw
+MA0KPiA+ICAgU3ViamVjdDogW1BBVENIXSANCj4gPiBjb21tb25pby5jLWZpeC11bmV4cGVjdGVk
+LW9wZW4tZmFpbHVyZS1pbi1jaHJvb3QtZW52DQo+ID4gQEAgLTE1LDM1ICsxNSwzNyBAQCBOb3Rl
+IHRoYXQgdGhpcyBwYXRjaCBkb2Vzbid0IGNoYW5nZSB0aGUgbG9naWMgaW4gdGhlIGNvZGUsIGl0
+IGp1c3QgZXhwYW5kcw0KPiA+ICAgdGhlIGNvZGVzLg0KPiA+DQo+ID4gICBTaWduZWQtb2ZmLWJ5
+OiBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+DQo+ID4gLQ0KPiA+ICAgLS0tDQo+ID4g
+ICAgbGliL2NvbW1vbmlvLmMgfCAxNiArKysrKysrKysrKystLS0tDQo+ID4gICAgMSBmaWxlIGNo
+YW5nZWQsIDEyIGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0pDQo+ID4NCj4gPiAgIGRpZmYg
+LS1naXQgYS9saWIvY29tbW9uaW8uYyBiL2xpYi9jb21tb25pby5jIC1pbmRleCANCj4gPiA5YTAy
+Y2UxLi42MTM4NGVjIDEwMDY0NA0KPiA+ICtpbmRleCA3M2ZkYjNhLi5kMTIzMWU5IDEwMDY0NA0K
+PiA+ICAgLS0tIGEvbGliL2NvbW1vbmlvLmMNCj4gPiAgICsrKyBiL2xpYi9jb21tb25pby5jDQo+
+ID4gLUBAIC02MTYsMTAgKzYxNiwxOCBAQCBpbnQgY29tbW9uaW9fb3BlbiAoc3RydWN0IGNvbW1v
+bmlvX2RiICpkYiwgDQo+ID4gaW50IG1vZGUpDQo+ID4gK0BAIC02MDYsMTAgKzYwNiwxOCBAQCBp
+bnQgY29tbW9uaW9fb3BlbiAoc3RydWN0IGNvbW1vbmlvX2RiICpkYiwgDQo+ID4gK2ludCBtb2Rl
+KQ0KPiA+ICAgICAgIGRiLT5jdXJzb3IgPSBOVUxMOw0KPiA+ICAgICAgIGRiLT5jaGFuZ2VkID0g
+ZmFsc2U7DQo+ID4NCj4gPiAgIC0gICBmZCA9IG9wZW4gKGRiLT5maWxlbmFtZSwNCj4gPiAgIC0g
+ICAgICAgICAgICAgICAgKGRiLT5yZWFkb25seSA/IE9fUkRPTkxZIDogT19SRFdSKQ0KPiA+IC0t
+ICAgICAgICAgICAgICAgfCBPX05PQ1RUWSB8IE9fTk9OQkxPQ0sgfCBPX05PRk9MTE9XKTsNCj4g
+PiArLSAgICAgICAgICAgICAgIHwgT19OT0NUVFkgfCBPX05PTkJMT0NLIHwgT19OT0ZPTExPVyB8
+IE9fQ0xPRVhFQyk7DQo+ID4gICAtICAgc2F2ZWRfZXJybm8gPSBlcnJubzsNCj4gPiAgICsgICBp
+ZiAoZGItPnJlYWRvbmx5KSB7DQo+ID4gICArICAgICAgICAgICBmZCA9IG9wZW4gKGRiLT5maWxl
+bmFtZSwNCj4gPiAgICsgICAgICAgICAgICAgICAgICAgICAgKHRydWUgPyBPX1JET05MWSA6IE9f
+UkRXUikNCj4gPiAtKyAgICAgICAgICAgICAgICAgICAgICAgfCBPX05PQ1RUWSB8IE9fTk9OQkxP
+Q0sgfCBPX05PRk9MTE9XKTsNCj4gPiArKyAgICAgICAgICAgICAgICAgICAgICAgfCBPX05PQ1RU
+WSB8IE9fTk9OQkxPQ0sgfCBPX05PRk9MTE9XIHwgDQo+ID4gKysgT19DTE9FWEVDKTsNCj4gPiAg
+ICsgICAgICAgICAgIHNhdmVkX2Vycm5vID0gZXJybm87DQo+ID4gICArICAgfSBlbHNlIHsNCj4g
+PiAgICsgICAgICAgICAgIGZkID0gb3BlbiAoZGItPmZpbGVuYW1lLA0KPiA+ICAgKyAgICAgICAg
+ICAgICAgICAgICAgICAoZmFsc2UgPyBPX1JET05MWSA6IE9fUkRXUikNCj4gPiAtKyAgICAgICAg
+ICAgICAgICAgICAgICAgfCBPX05PQ1RUWSB8IE9fTk9OQkxPQ0sgfCBPX05PRk9MTE9XKTsNCj4g
+PiArKyAgICAgICAgICAgICAgICAgICAgICAgfCBPX05PQ1RUWSB8IE9fTk9OQkxPQ0sgfCBPX05P
+Rk9MTE9XfCANCj4gPiArKyBPX0NMT0VYRUMpOw0KPiA+ICAgKyAgICAgICAgICAgc2F2ZWRfZXJy
+bm8gPSBlcnJubzsNCj4gPiAgICsgICB9DQo+ID4gICArDQo+ID4gICAgICAgZGItPmZwID0gTlVM
+TDsNCj4gPiAgICAgICBpZiAoZmQgPj0gMCkgew0KPiA+ICAgICNpZmRlZiBXSVRIX1RDQg0KPiA+
+ICstLQ0KPiA+ICsyLjMwLjINCj4gPiArDQo+ID4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1l
+eHRlbmRlZC9zaGFkb3cvc2hhZG93LmluYyANCj4gPiBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9z
+aGFkb3cvc2hhZG93LmluYw0KPiA+IGluZGV4IGNlM2NlNjI3MTU2Li5jMDI0NzQ2ZDRmZiAxMDA2
+NDQNCj4gPiAtLS0gYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvc2hhZG93L3NoYWRvdy5pbmMNCj4g
+PiArKysgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvc2hhZG93L3NoYWRvdy5pbmMNCj4gPiBAQCAt
+NSw3ICs1LDcgQEAgQlVHVFJBQ0tFUiA9ICJodHRwOi8vZ2l0aHViLmNvbS9zaGFkb3ctbWFpbnQv
+c2hhZG93L2lzc3VlcyINCj4gPiAgIFNFQ1RJT04gPSAiYmFzZS91dGlscyINCj4gPiAgIExJQ0VO
+U0UgPSAiQlNELTMtQ2xhdXNlIg0KPiA+ICAgTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09Q
+WUlORzttZDU9YzlhNDUwYjdiZTg0ZWFjMjNlNjM1M2VmZWNiNjBiNWIgXA0KPiA+IC0gICAgICAg
+ICAgICAgICAgICAgIGZpbGU6Ly9zcmMvcGFzc3dkLmM7YmVnaW5saW5lPTI7ZW5kbGluZT0zMDtt
+ZDU9NzU4YzI2NzUxNTEzYjY3OTUzOTUyNzU5NjlkZDNiZTEgXA0KPiA+ICsgICAgICAgICAgICAg
+ICAgICAgIA0KPiA+ICsgZmlsZTovL3NyYy9wYXNzd2QuYztiZWdpbmxpbmU9MjtlbmRsaW5lPTc7
+bWQ1PTY3YmNmMzE0Njg3ODIwYjJmMDEwDQo+ID4gKyBkNDg2M2ZjZTNmYzUgXA0KPiA+ICAgICAg
+ICAgICAgICAgICAgICAgICAiDQo+ID4NCj4gPiAgIERFUEVORFMgPSAidmlydHVhbC9jcnlwdCIN
+Cj4gPiBAQCAtMTQsMTAgKzE0LDYgQEAgR0lUSFVCX0JBU0VfVVJJID0gImh0dHBzOi8vZ2l0aHVi
+LmNvbS9zaGFkb3ctbWFpbnQvc2hhZG93L3JlbGVhc2VzIg0KPiA+ICAgU1JDX1VSSSA9ICIke0dJ
+VEhVQl9CQVNFX1VSSX0vZG93bmxvYWQvJHtQVn0vJHtCUH0udGFyLmd6IFwNCj4gPiAgICAgICAg
+ICAgICAgJHtAYmIudXRpbHMuY29udGFpbnMoJ1BBQ0tBR0VDT05GSUcnLCAncGFtJywgJyR7UEFN
+X1NSQ19VUkl9JywgJycsIGQpfSBcDQo+ID4gICAgICAgICAgICAgIGZpbGU6Ly91c2VyYWRkIFwN
+Cj4gPiAtICAgICAgICBmaWxlOi8vMDAwMS1GaXgtY2FuLW5vdC1wcmludC1mdWxsLWxvZ2luLnBh
+dGNoIFwNCj4gPiAtICAgICAgICAgICBmaWxlOi8vQ1ZFLTIwMjMtMjkzODMucGF0Y2ggXA0KPiA+
+IC0gICAgICAgICAgIGZpbGU6Ly8wMDAxLU92ZXJoYXVsLXZhbGlkX2ZpZWxkLnBhdGNoIFwNCj4g
+PiAtICAgICAgICAgICBmaWxlOi8vQ1ZFLTIwMjMtNDY0MS5wYXRjaCBcDQo+ID4gICAgICAgICAg
+ICAgICINCj4gPg0KPiA+ICAgU1JDX1VSSTphcHBlbmQ6Y2xhc3MtdGFyZ2V0ID0gIiBcDQo+ID4g
+QEAgLTI2LDE0ICsyMiw5IEBAIFNSQ19VUkk6YXBwZW5kOmNsYXNzLXRhcmdldCA9ICIgXA0KPiA+
+ICAgICAgICAgICAgICAiDQo+ID4NCj4gPiAgIFNSQ19VUkk6YXBwZW5kOmNsYXNzLW5hdGl2ZSA9
+ICIgXA0KPiA+IC0gICAgICAgICAgIGZpbGU6Ly8wMDAxLURpc2FibGUtdXNlLW9mLXN5c2xvZy1m
+b3Itc3lzcm9vdC5wYXRjaCBcDQo+ID4gICAgICAgICAgICAgIGZpbGU6Ly9jb21tb25pby5jLWZp
+eC11bmV4cGVjdGVkLW9wZW4tZmFpbHVyZS1pbi1jaHJvb3QtZW52LnBhdGNoIFwNCj4gPiAgICAg
+ICAgICAgICAgIg0KPiA+IC1TUkNfVVJJOmFwcGVuZDpjbGFzcy1uYXRpdmVzZGsgPSAiIFwNCj4g
+PiAtICAgICAgICAgICBmaWxlOi8vMDAwMS1EaXNhYmxlLXVzZS1vZi1zeXNsb2ctZm9yLXN5c3Jv
+b3QucGF0Y2ggXA0KPiA+IC0gICAgICAgICAgICINCj4gPiAtU1JDX1VSSVtzaGEyNTZzdW1dID0g
+IjgxMzA1NzA0NzQ5OWM3ZmU4MTEwOGFkY2YwY2ZmYTNhZDRlYzc1ZTE5YTgwMTUxZjljYmFhNDU4
+ZmYyZTg2Y2QiDQo+ID4gLQ0KPiA+ICtTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYTMwNWVkZjVkMTli
+ZGRiZGY1ZTgzNmQyZDYwOWZhOGJmZjJkMzU0NTg4MTlkZTRkOWYwNjMwNmExY2YyNDM0MiINCj4g
+Pg0KPiA+ICAgIyBBZGRpdGlvbmFsIFBvbGljeSBmaWxlcyBmb3IgUEFNDQo+ID4gICBQQU1fU1JD
+X1VSSSA9ICJmaWxlOi8vcGFtLmQvY2hmbiBcIEBAIC00NCw3ICszNSw3IEBAIFBBTV9TUkNfVVJJ
+ID0gDQo+ID4gImZpbGU6Ly9wYW0uZC9jaGZuIFwNCj4gPiAgICAgICAgICAgICAgICAgIGZpbGU6
+Ly9wYW0uZC9wYXNzd2QgXA0KPiA+ICAgICAgICAgICAgICAgICAgZmlsZTovL3BhbS5kL3N1Ig0K
+PiA+DQo+ID4gLWluaGVyaXQgYXV0b3Rvb2xzIGdldHRleHQgZ2l0aHViLXJlbGVhc2VzDQo+ID4g
+K2luaGVyaXQgYXV0b3Rvb2xzIGdldHRleHQgZ2l0aHViLXJlbGVhc2VzIHBrZ2NvbmZpZw0KPiA+
+DQo+ID4gICBleHBvcnQgQ09ORklHX1NIRUxMPSIvYmluL3NoIg0KPiA+DQo+ID4gQEAgLTU0LDYg
+KzQ1LDggQEAgRVhUUkFfT0VDT05GICs9ICItLXdpdGhvdXQtbGliY3JhY2sgXA0KPiA+ICAgICAg
+ICAgICAgICAgICAgICAtLXdpdGhvdXQtc3NzZCBcDQo+ID4gICAgICAgICAgICAgICAgICAgICR7
+TlNDRE9QVH0iDQo+ID4NCj4gPiArQ0ZMQUdTOmFwcGVuZDpsaWJjLW11c2wgPSAiIC1ETElCQlNE
+X09WRVJMQVkiDQo+ID4gKw0KPiA+ICAgTlNDRE9QVCA9ICIiDQo+ID4gICBOU0NET1BUOmNsYXNz
+LW5hdGl2ZSA9ICItLXdpdGhvdXQtbnNjZCINCj4gPiAgIE5TQ0RPUFQ6Y2xhc3MtbmF0aXZlc2Rr
+ID0gIi0td2l0aG91dC1uc2NkIg0KPiA+IEBAIC03MywxMyArNjYsMTQgQEAgUEFNX1BMVUdJTlMg
+PSAibGlicGFtLXJ1bnRpbWUgXA0KPiA+DQo+ID4gICBQQUNLQUdFQ09ORklHID8/PSAiJHtAYmIu
+dXRpbHMuZmlsdGVyKCdESVNUUk9fRkVBVFVSRVMnLCAncGFtJywgZCl9IFwNCj4gPiAgICAgICAg
+ICAgICAgICAgICAgICAke0BiYi51dGlscy5jb250YWlucygnRElTVFJPX0ZFQVRVUkVTJywgJ3hh
+dHRyJywgJ2F0dHInLCAnJywgZCl9Ig0KPiA+IC1QQUNLQUdFQ09ORklHOmNsYXNzLW5hdGl2ZSA/
+Pz0gIiR7QGJiLnV0aWxzLmNvbnRhaW5zKCdESVNUUk9fRkVBVFVSRVMnLCAneGF0dHInLCAnYXR0
+cicsICcnLCBkKX0iDQo+ID4gK1BBQ0tBR0VDT05GSUc6Y2xhc3MtbmF0aXZlID8/PSAiJHtAYmIu
+dXRpbHMuY29udGFpbnMoJ0RJU1RST19GRUFUVVJFUycsICd4YXR0cicsICdhdHRyJywgJycsIGQp
+fSBsaWJic2QiDQo+ID4gICBQQUNLQUdFQ09ORklHOmNsYXNzLW5hdGl2ZXNkayA9ICIiDQo+ID4g
+ICBQQUNLQUdFQ09ORklHW3BhbV0gPSAiLS13aXRoLWxpYnBhbSwtLXdpdGhvdXQtbGlicGFtLGxp
+YnBhbSwke1BBTV9QTFVHSU5TfSINCj4gPiAgIFBBQ0tBR0VDT05GSUdbYXR0cl0gPSAiLS13aXRo
+LWF0dHIsLS13aXRob3V0LWF0dHIsYXR0ciINCj4gPiAgIFBBQ0tBR0VDT05GSUdbYWNsXSA9ICIt
+LXdpdGgtYWNsLC0td2l0aG91dC1hY2wsYWNsIg0KPiA+ICAgUEFDS0FHRUNPTkZJR1thdWRpdF0g
+PSAiLS13aXRoLWF1ZGl0LC0td2l0aG91dC1hdWRpdCxhdWRpdCINCj4gPiAgIFBBQ0tBR0VDT05G
+SUdbc2VsaW51eF0gPSAiLS13aXRoLXNlbGludXgsLS13aXRob3V0LXNlbGludXgsbGlic2VsaW51
+eCBsaWJzZW1hbmFnZSINCj4gPiArUEFDS0FHRUNPTkZJR1tsaWJic2RdID0gIi0td2l0aC1saWJi
+c2QsLS13aXRob3V0LWxpYmJzZCxsaWJic2QiDQo+ID4NCj4gPiAgIFJERVBFTkRTOiR7UE59ID0g
+InNoYWRvdy1zZWN1cmV0dHkgXA0KPiA+ICAgICAgICAgICAgICAgICAgICAgYmFzZS1wYXNzd2Qg
+XA0KPiA+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvc2hhZG93L3NoYWRvd180
+LjEzLmJiIA0KPiA+IGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3NoYWRvdy9zaGFkb3dfNC4xNC4y
+LmJiDQo+ID4gc2ltaWxhcml0eSBpbmRleCAxMDAlDQo+ID4gcmVuYW1lIGZyb20gbWV0YS9yZWNp
+cGVzLWV4dGVuZGVkL3NoYWRvdy9zaGFkb3dfNC4xMy5iYg0KPiA+IHJlbmFtZSB0byBtZXRhL3Jl
+Y2lwZXMtZXh0ZW5kZWQvc2hhZG93L3NoYWRvd180LjE0LjIuYmINCj4gPg0KPiA+IC09LT0tPS09
+LT0tPS09LT0tPS09LT0tDQo+ID4gTGlua3M6IFlvdSByZWNlaXZlIGFsbCBtZXNzYWdlcyBzZW50
+IHRvIHRoaXMgZ3JvdXAuDQo+ID4gVmlldy9SZXBseSBPbmxpbmUgKCMxOTM1NDIpOiANCj4gPiBo
+dHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS9tZXNzYWdl
+LzE5MzU0Mg0KPiA+IE11dGUgVGhpcyBUb3BpYzogaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQu
+b3JnL210LzEwMzY2MTU0Ny83MzA0ODY1DQo+ID4gR3JvdXAgT3duZXI6IG9wZW5lbWJlZGRlZC1j
+b3JlK293bmVyQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiBVbnN1YnNjcmliZTogDQo+ID4g
+aHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVkLWNvcmUvdW5zdWIg
+DQo+ID4gW1FpLkNoZW5AZW5nLndpbmRyaXZlci5jb21dDQo+ID4gLT0tPS09LT0tPS09LT0tPS09
+LT0tPS0NCj4gPg0KPg0K
 
