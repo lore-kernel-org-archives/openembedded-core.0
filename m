@@ -1,424 +1,95 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CA84C4725D
-	for <webhook@archiver.kernel.org>; Fri, 19 Jan 2024 08:54:56 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web11.17820.1705654488988807879
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A0DCC4725D
+	for <webhook@archiver.kernel.org>; Fri, 19 Jan 2024 09:30:06 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web11.18318.1705656599776531705
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Jan 2024 00:54:49 -0800
+ Fri, 19 Jan 2024 01:30:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile-fr.20230601.gappssmtp.com header.s=20230601 header.b=nAEx5/SK;
- spf=pass (domain: smile.fr, ip: 209.85.128.49, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-40e7065b692so5285305e9.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 19 Jan 2024 00:54:48 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HNbAorTu;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-40e8801221cso4948155e9.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 19 Jan 2024 01:29:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1705654487; x=1706259287; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=aY480GJ2nyKDAesugPR651ziUfUhxcZP/UtzKLEZr/g=;
-        b=nAEx5/SKqvlyoNttvhL3bUgFgrTjyZt+Zk4snkBnuAqkO2Z3GKJYNam7n/AndrU2es
-         APC+EwjZ1Buxmvd3hbgNPNG6PNK/TKoYe+mW64H4DUXDOOP0mhDH1CmU1+ha9JOZUgbi
-         PBjFVkraepUIQbfVuMqgZ4lzksqN9dLW2t0OqEZs0M4xymxIccSmamUUvGDE0AFAjEOz
-         CbPvnc7kiu/dFdmVVeKiD0hXnZCmWpsOhz1jR0+Gv8YAeC3xJM699s1RGoraIkfP0fCI
-         uEgUbXKl1R8FibZ9mEtb8CYKDLNDA7FLTcvCos6K/gNx0x/jrBZbEjTa26F3X9idj+iR
-         f90g==
+        d=linuxfoundation.org; s=google; t=1705656598; x=1706261398; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=M5b2A0wr0ffYyWK3UrXHRaCCSAOt6Fzy2sRO/bXeLrI=;
+        b=HNbAorTup+wHX3jN0PTbd2MKeEwNKZsBuahg7JJrNPmHbXV7jo40ql/m2Y/NLrmAdM
+         w8GsrtYtDktc03yiWAJQkOH5rQ8+shLsnbf1LGUoOUCuf+9S0cU1h/+qbW0QN7di1Cmd
+         QMXDox5jQssmFILglAA43bpWWal3lO742viP8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705654487; x=1706259287;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :to:content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1705656598; x=1706261398;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:to:from:subject:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aY480GJ2nyKDAesugPR651ziUfUhxcZP/UtzKLEZr/g=;
-        b=BPQe5EtS0YRnFM6yeUD6uFLqxhjyejBm+TTNO+Er86tJErYQuXNdU2430DhtPtwhPk
-         q1t7mdPS6ur5bekHE0rRQ7bPEpFzzNZ0OukgBouSjemN8oGWmGFaH5WiBpiehRgj3YUM
-         zw+8Fw4ftTYfuWbGfCu3cQH4xq8aTftOMBFtQe0wwf4mv4lp0/OWbAT71i6AYRp/zjzc
-         spIrh8oSBMfrMmdb3Nc1uL+LvZ2YGYYAAsXWchMqwZL9iId8qcFl9PlRBB2iYgI7Vdwp
-         nCGsqz0JPauhRhWnYEhA4WEsuMChxB3FJxqynUmbuvhyQ5JntAdGxPn71wa1G3GoTkfD
-         Do/g==
-X-Gm-Message-State: AOJu0YxKGZWV0i2+NfMNVX6rPB6HGaR3EAjNsk1s3CQFbSaq4JRkHAX7
-	B29iC+psDNTAz8jiCCetGLaQPWwnoyQQWwHbHg0MGWeR22knXBAvk2nbEUfdMMk=
-X-Google-Smtp-Source: AGHT+IHLKapyx1pjUQkYcUer6BN5rm727m8kjsZk6KRvCRMIHiCQlbupRVdZEhKs3TOcN6TDtGc1yQ==
-X-Received: by 2002:a05:600c:1986:b0:40e:52d3:e964 with SMTP id t6-20020a05600c198600b0040e52d3e964mr1321739wmq.172.1705654486771;
-        Fri, 19 Jan 2024 00:54:46 -0800 (PST)
-Received: from [192.168.0.20] ([89.159.1.53])
-        by smtp.gmail.com with ESMTPSA id m21-20020a05600c4f5500b0040e4733aecbsm28180973wmq.15.2024.01.19.00.54.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Jan 2024 00:54:46 -0800 (PST)
-Message-ID: <5af72078-4346-46ec-9b20-13758b9179ea@smile.fr>
-Date: Fri, 19 Jan 2024 09:54:45 +0100
+        bh=M5b2A0wr0ffYyWK3UrXHRaCCSAOt6Fzy2sRO/bXeLrI=;
+        b=YvOSagWF5IiJaiwUc50LQIvbiGcBz7HfMRZqwjJJjIbYLhYwY4mQr8FmmbN3Zjz45N
+         W845zJlxFeQrpib1Y0/bLUu0AuKMgS02W1gQJ000gF3vCqJEBgOmMrbq8sTh6F5MD1PV
+         PVMQ13c4JFhi+7GkSytfa0ZJ/QrvbOOcp4jiobqDdWc9TwHy4NpDmsm+NkFNusZoFB52
+         mYgvHIcspEOBy/VeZb04Nny4Avi6UOr8sv5n2VCRl5s2W/oCj4ilIdTCsyccAda0mNNT
+         ZWv5dL9YYhrrTMXmcmDpOLlg6vfVnY9tQnLQwov7dQc0sspp05wXvj3oE1SMwCxjvwgn
+         RnaQ==
+X-Gm-Message-State: AOJu0YyzuFjd5jtpf0L6m5RD0uDro6Cy6lA1GUn9W4fa5Wwo/EM2v7J/
+	PiHBa6uf87uK/esTeaK9JGDGcxElq/G8yB7nm8KvPsHBHt/eknwWH8hBu26ezVO7r8ru6I/4M2E
+	V
+X-Google-Smtp-Source: AGHT+IH4Uh5eutfqq9FU/qgTHJp3amrmOY60R390QfHzYwg6eEv2C+NAD5Kx+kILLkwuOwCQA81TeA==
+X-Received: by 2002:a05:600c:14b:b0:40e:6227:175e with SMTP id w11-20020a05600c014b00b0040e6227175emr1487177wmm.61.1705656598056;
+        Fri, 19 Jan 2024 01:29:58 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:bdad:632e:4428:9197? ([2001:8b0:aba:5f3c:bdad:632e:4428:9197])
+        by smtp.gmail.com with ESMTPSA id p36-20020a05600c1da400b0040ea04b3459sm307386wms.34.2024.01.19.01.29.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Jan 2024 01:29:57 -0800 (PST)
+Message-ID: <6546abd13a7991e0654ba98cf0878b405ad6ba3f.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] tcmode-default.inc: use ?= to set
+ PREFERRED_VERSION_llvm/llvm-native/nativesdk-llvm
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Changqing Li <changqing.li@eng.windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Fri, 19 Jan 2024 09:29:57 +0000
+In-Reply-To: <20240119073509.934362-1-changqing.li@windriver.com>
+References: <20240119073509.934362-1-changqing.li@windriver.com>
+Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
+ YNvg==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.0-1 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] [WIC] Configurable addressing of GTP main table
-Content-Language: en-US
-To: davide.cardillo@seco.com, openembedded-core@lists.openembedded.org
-References: <LgwM.1705653509015986487.SlLM@lists.openembedded.org>
-From: Yoann Congal <yoann.congal@smile.fr>
-Organization: Smile ECS
-In-Reply-To: <LgwM.1705653509015986487.SlLM@lists.openembedded.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 Jan 2024 08:54:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194020
+ <openembedded-core@lists.openembedded.org>; Fri, 19 Jan 2024 09:30:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194021
 
-Hello,
-
-
-Le 19/01/2024 à 09:38, davide.cardillo via lists.openembedded.org a écrit :
-> Issue:
-> the usage of a gpt table with i.MX processor is not compatible by default.
-> This is due to a memory conflict: the main partition table is placed into
-> the same memory space used to flash the header of the U-Boot. This last
-> can not be moved since the ROM code of the i.MX6 starts to read to that
-> fixed address (0x400).
-> This problem can be solved using a feature of the GTP partition table for
-> witch the main table can be moved to a desired memory area.
-> The WIC library present in Poky manages the GTP table through some
-> standard Linux commands (gdisk and sgdisk) which ones have already the
-> opportunity to perform this task.
-> This patch introduces this feature with the addition of some wic's options,
-> used also in wks file.
-> 
-> New partition placement behavior:
-> Since now all partitions are placed after the gpt table presents into the
-> first 1KB of memory (including both the gpt header at the first byte of
-> memory and the main partition table starting at 0x400).
-> Now the main gpt table can be placed in other address spaces and a partition
-> can be placed also before the gpt table. Recap:
-> - by default, all partitions are placed sequentially, one after the other.
-> The first partition implicitly starts after the GPT partition table.
-> - adding a flag to the item of a partition into the wks file, the partition
-> can be placed, starting from a fixed memory offset (neglecting the memory
-> space occupied by the GTP table).
-> Combining the moving of the main partition table and the absolute (not yet
-> relative) positioning of a partition, now it is possible to place one or more
->    partitions before the GPT table.
-> 
-> New flags:
-> - main-ptable-offset (size in KB): to add as property of the bootloader item.
-> Specifies the main partition table location in KB.
-> - fixed-align (boolean): to add as property of a partition. Specifies that the
-> partition must to placed with absolute offset, used in conjunction with --align
-> property
-> 
-> Example:
-> setting used for a wic for an i.MX6 processor, where the main partition table is
-> placed with the absolute offset of 4MB
-> 
-> bootloader --ptable gpt --main-ptable-offset 4096K
-> part / --source rawcopy --sourceparams="file=u-boot.imx" --ondisk mmcblk --align 1 --size 1M --no-table --fixed-align
-> 
-> Test environment:
-> This patch is a part of Edgehog OS (https://git.seco.com/edgehog) a
-> custom Yocto distribution by SECO SpA (www.seco.com), used on multiple
-> architectures (both ARM and x86).
-> This solution is widely used by all SECO customers who use hardware
-> solution based on NXP i.MX6 processors.
-> 
-> Signed-off-by: Davide Cardillo <davide.cardillo@seco.com>
-> Reviewed-by: Tobias Poganiuch <tobias.poganiuch@seco.com>
-> Tested-by: Andrea Da Col <andrea.dacol@seco.com>
-> Tested-by: Daniel Rinaldi <daniel.rinaldi@seco.com>
-
-FYI, your patch is not formatted properly. (It lacks spaces at the start of context lines?)
-
-Maybe look into using git-send-email to avoid this kind of problem?
-
-Regards,
-
+On Fri, 2024-01-19 at 15:35 +0800, Changqing Li wrote:
+> From: Changqing Li <changqing.li@windriver.com>
+>=20
+> use ?=3D to set following configs in order to allow user
+> to override the default settings:
+> PREFERRED_VERSION_llvm
+> PREFERRED_VERSION_llvm-native
+> PREFERRED_VERSION_nativesdk-llvm
+>=20
+> Signed-off-by: Changqing Li <changqing.li@windriver.com>
 > ---
-> scripts/lib/wic/ksparser.py              |   2 +
-> scripts/lib/wic/partition.py             |   1 +
-> scripts/lib/wic/plugins/imager/direct.py | 102 +++++++++++++++++++++--
-> scripts/wic                              |   2 +-
-> 4 files changed, 98 insertions(+), 9 deletions(-)
-> 
-> diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
-> index 0df9eb0d05..45db2eaa5d 100644
-> --- a/scripts/lib/wic/ksparser.py
-> +++ b/scripts/lib/wic/ksparser.py
-> @@ -148,6 +148,7 @@ class KickStart():
->         part = subparsers.add_parser('part')
->         part.add_argument('mountpoint', nargs='?')
->         part.add_argument('--active', action='store_true')
-> +        part.add_argument('--fixed-align', action='store_true')
->         part.add_argument('--align', type=int)
->         part.add_argument('--offset', type=sizetype("K", True))
->         part.add_argument('--exclude-path', nargs='+')
-> @@ -194,6 +195,7 @@ class KickStart():
->                                 default='msdos')
->         bootloader.add_argument('--timeout', type=int)
->         bootloader.add_argument('--source')
-> +        bootloader.add_argument('--main-ptable-offset', type=sizetype("K"), default=0)
->  
->         include = subparsers.add_parser('include')
->         include.add_argument('path', type=cannedpathtype)
-> diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-> index 5275da6ed3..1bd2b457cd 100644
-> --- a/scripts/lib/wic/partition.py
-> +++ b/scripts/lib/wic/partition.py
-> @@ -26,6 +26,7 @@ class Partition():
->         self.args = args
->         self.active = args.active
->         self.align = args.align
-> +        self.fixed_align = args.fixed_align
->         self.disk = args.disk
->         self.device = None
->         self.extra_space = args.extra_space
-> diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
-> index 165fc2979f..efa4d7804e 100644
-> --- a/scripts/lib/wic/plugins/imager/direct.py
-> +++ b/scripts/lib/wic/plugins/imager/direct.py
-> @@ -16,6 +16,7 @@ import random
-> import shutil
-> import tempfile
-> import uuid
-  ^ For example, here
+>  meta/conf/distro/include/tcmode-default.inc | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 
-> +import operator
->  
-> from time import strftime
->  
-> @@ -66,6 +67,7 @@ class DirectPlugin(ImagerPlugin):
->         self.workdir = self.setup_workdir(options.workdir)
->         self._image = None
->         self.ptable_format = self.ks.bootloader.ptable
-> +        self.main_ptable_offset = self.ks.bootloader.main_ptable_offset
->         self.parts = self.ks.partitions
->  
->         # as a convenience, set source to the boot partition source
-> @@ -77,6 +79,7 @@ class DirectPlugin(ImagerPlugin):
->  
->         image_path = self._full_path(self.workdir, self.parts[0].disk, "direct")
->         self._image = PartitionedImage(image_path, self.ptable_format,
-> +                                       self.main_ptable_offset,
->                                        self.parts, self.native_sysroot,
->                                        options.extra_space)
->  
-> @@ -294,15 +297,27 @@ GPT_OVERHEAD = 34
-> # Size of a sector in bytes
-> SECTOR_SIZE = 512
->  
-> +class memoryRegion():
-> +    def __init__(self):
-> +        self.start_sector = 1
-> +        self.end_sector = 1
-> +        self.part_num = 0
-> +
-> +    def __init__(self, part_num, start_sec, end_sec):
-> +        self.part_num = part_num
-> +        self.start_sector = start_sec
-> +        self.end_sector = end_sec
-> +
-> class PartitionedImage():
->     """
->     Partitioned image in a file.
->     """
->  
-> -    def __init__(self, path, ptable_format, partitions, native_sysroot=None, extra_space=0):
-> +    def __init__(self, path, ptable_format, main_ptable_offset, partitions, native_sysroot=None, extra_space=0):
->         self.path = path  # Path to the image file
->         self.numpart = 0  # Number of allocated partitions
->         self.realpart = 0 # Number of partitions in the partition table
-> +        self.fixedalign_part = 0 # Number of partitions with absolute alignment
->         self.primary_part_num = 0  # Number of primary partitions (msdos)
->         self.extendedpart = 0      # Create extended partition before this logical partition (msdos)
->         self.extended_size_sec = 0 # Size of exteded partition (msdos)
-> @@ -311,11 +326,13 @@ class PartitionedImage():
->         self.min_size = 0 # Minimum required disk size to fit
->                           # all partitions (in bytes)
->         self.ptable_format = ptable_format  # Partition table format
-> +        self.main_ptable_offset = main_ptable_offset # for GPT table, offset
->         # Disk system identifier
->         self.identifier = random.SystemRandom().randint(1, 0xffffffff)
->  
->         self.partitions = partitions
->         self.partimages = []
-> +        self.used_memory_region = []
->         # Size of a sector used in calculations
->         self.sector_size = SECTOR_SIZE
->         self.native_sysroot = native_sysroot
-> @@ -368,6 +385,30 @@ class PartitionedImage():
->             # Converting kB to sectors for parted
->             part.size_sec = part.disk_size * 1024 // self.sector_size
->  
-> +    def _add_busy_region(self, part_num, start_sec, end_sec):
-> +        self.used_memory_region.append(memoryRegion(part_num, start_sec, end_sec))
-> +        self.used_memory_region = sorted(self.used_memory_region, key=operator.attrgetter('start_sector'))
-> +
-> +    def _print_busy_region_list(self):
-> +        list = "Busy memory region (in sector)\n"
-> +        list += "\tpart#\tstart\tEnd\n"
-> +        for num in range(len(self.used_memory_region)):
-> +            list +="\t%s\t%s\t%s\n" % (self.used_memory_region[num].part_num, \
-> +                self.used_memory_region[num].start_sector, self.used_memory_region[num].end_sector)
-> +        logger.debug(list)
-> +
-> +    def _check_memory_region(self, start_sec, end_sec ):
-> +        """ Check if the specified region is already flagges as used. Returns
-> +        zero if not used, 1 otherwise"""
-> +        for num in range(len(self.used_memory_region)):
-> +            region = self.used_memory_region[num]
-> +            if ( ( region.start_sector < start_sec and start_sec < region.end_sector) or \
-> +                    ( region.start_sector < end_sec and end_sec < region.end_sector) ):
-> +                return 1
-> +            if ( start_sec < region.start_sector and end_sec > region.end_sector ):
-> +                return 1
-> +        return 0
-> +
->     def layout_partitions(self):
->         """ Layout the partitions, meaning calculate the position of every
->         partition on the disk. The 'ptable_format' parameter defines the
-> @@ -379,6 +420,35 @@ class PartitionedImage():
->         # partitions not listed in the table are not included.
->         num_real_partitions = len([p for p in self.partitions if not p.no_table])
->  
-> +        # The partitions flagged as fixed alignment partition are placed into image
-> +        # before the others. Instead, relative-aligned partitions are placed in a
-> +        # serialized fashion, with control of the intersection of memory areas.
-> +        # The base address of the relative-aligned partitions is, as before,
-> +        # the maximum address accupied by the partition table
-> +
-> +        # Flag as used the momoery required for partition table
-> +        self._add_busy_region(-1, 0, MBR_OVERHEAD)
-> +        if self.ptable_format == "gpt":
-> +            offset = self.main_ptable_offset * 1024 // self.sector_size
-> +            self._add_busy_region(-1, offset, offset + GPT_OVERHEAD)
-> +
-> +        # Search all partition with fixed position into the image
-> +        for num in range(len(self.partitions)):
-> +            part = self.partitions[num]
-> +            if not part.fixed_align:
-> +                continue
-> +            if not part.no_table:
-> +                raise WicError("A partition with fixed alignment must have no_table flag set")
-> +
-> +            start_sector = (part.align * 1024 // self.sector_size)
-> +            end_sector = start_sector + part.size_sec - 1
-> +            if self._check_memory_region(start_sector, end_sector) == 1:
-> +                self._print_busy_region_list()
-> +                raise WicError("A partition wants to use an already used memory region (sectors %d - %d)" \
-> +                        % (start_sector, end_sector))
-> +            self._add_busy_region(num, start_sector, end_sector)
-> +            part.start = start_sector
-> +
->         # Go through partitions in the order they are added in .ks file
->         for num in range(len(self.partitions)):
->             part = self.partitions[num]
-> @@ -403,7 +473,7 @@ class PartitionedImage():
->                 if self.ptable_format == "msdos":
->                     overhead = MBR_OVERHEAD
->                 elif self.ptable_format == "gpt":
-> -                    overhead = GPT_OVERHEAD
-> +                    overhead = (self.main_ptable_offset * 1024 // self.sector_size) + GPT_OVERHEAD
->  
->                 # Skip one sector required for the partitioning scheme overhead
->                 self.offset += overhead
-> @@ -418,7 +488,7 @@ class PartitionedImage():
->                     self.offset += 2
->  
->             align_sectors = 0
-> -            if part.align:
-> +            if not part.fixed_align and part.align:
->                 # If not first partition and we do have alignment set we need
->                 # to align the partition.
->                 # FIXME: This leaves a empty spaces to the disk. To fill the
-> @@ -440,7 +510,7 @@ class PartitionedImage():
->                     # increase the offset so we actually start the partition on right alignment
->                     self.offset += align_sectors
->  
-> -            if part.offset is not None:
-> +            if not part.fixed_align and part.offset is not None:
->                 offset = part.offset // self.sector_size
->  
->                 if offset * self.sector_size != part.offset:
-> @@ -455,14 +525,20 @@ class PartitionedImage():
->  
->                 self.offset = offset
->  
-> -            part.start = self.offset
-> -            self.offset += part.size_sec
-> -
->             if not part.no_table:
->                 part.num = self.realpart
->             else:
->                 part.num = 0
->  
-> +            if not part.fixed_align:
-> +                part.start = self.offset
-> +                self.offset += part.size_sec
-> +                if self._check_memory_region(part.start, self.offset) == 1:
-> +                    self._print_busy_region_list()
-> +                    raise WicError("A partition wants to use an already used memory region (sectors %d - %d)" \
-> +                        % (part.start, self.offset))
-> +                self._add_busy_region(part.num, part.start, self.offset)
-> +
->             if self.ptable_format == "msdos" and not part.no_table:
->                 if part.type == 'logical':
->                     self.logical_part_cnt += 1
-> @@ -482,12 +558,14 @@ class PartitionedImage():
->                          "sectors (%d bytes).", part.mountpoint, part.disk,
->                          part.num, part.start, self.offset - 1, part.size_sec,
->                          part.size_sec * self.sector_size)
-> +             
-> +        self._print_busy_region_list()
->  
->         # Once all the partitions have been layed out, we can calculate the
->         # minumim disk size
->         self.min_size = self.offset
->         if self.ptable_format == "gpt":
-> -            self.min_size += GPT_OVERHEAD
-> +            self.min_size += (self.main_ptable_offset * 1024 // self.sector_size) + GPT_OVERHEAD
->  
->         self.min_size *= self.sector_size
->         self.min_size += self.extra_space
-> @@ -606,6 +684,14 @@ class PartitionedImage():
->                 exec_native_cmd("sfdisk --part-type %s %s %s" % \
->                                 (self.path, part.num, part.system_id),
->                                 self.native_sysroot)
-> +                 
-> +        if self.ptable_format == "gpt" and self.main_ptable_offset > 0:
-> +            main_ptable_sectors = self.main_ptable_offset * 1024 // self.sector_size
-> +            logger.debug("Move the main GPT partition table forward by %s sector(s)", main_ptable_sectors)
-> +            cmd = "sgdisk -j %d %s" % (main_ptable_sectors, self.path)
-> +            #cmd = "(echo -e 'x'; echo -e 'j' ; echo -e '%d'; echo -e 'w'; echo -e 'Y') | gdisk %s" % (main_ptable_sectors, self.path)
-> +            exec_native_cmd(cmd, self.native_sysroot)
-> +
->  
->     def cleanup(self):
->         pass
-> diff --git a/scripts/wic b/scripts/wic
-> index 06e0b48db0..0c59a550ef 100755
-> --- a/scripts/wic
-> +++ b/scripts/wic
-> @@ -59,7 +59,7 @@ from wic import help as hlp
->  
->  
-> def wic_logger():
-> -    """Create and convfigure wic logger."""
-> +    """Create and configure wic logger."""
->     logger = logging.getLogger('wic')
->     logger.setLevel(logging.INFO)
->  
-> --  
-> 2.39.2
-> 
-> 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#194018): https://lists.openembedded.org/g/openembedded-core/message/194018
-> Mute This Topic: https://lists.openembedded.org/mt/103826557/4316185
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [yoann.congal@smile.fr]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+You're said what this does but not *why*. I'm not against doing this
+but I do want to make it clear it is actually quite risky as others
+often rely on the existing behaviour.
 
--- 
-Yoann Congal
-Smile ECS - Tech Expert
+Cheers,
+
+Richard
 
