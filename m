@@ -2,84 +2,96 @@ Return-Path: <jamin_lin@aspeedtech.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75716C47DD6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7443BC4725D
 	for <webhook@archiver.kernel.org>; Fri, 19 Jan 2024 06:19:45 +0000 (UTC)
-Received: from TWMBX01.aspeed.com (TWMBX01.aspeed.com [211.20.114.70])
- by mx.groups.io with SMTP id smtpd.web10.16005.1705645182890444594
+Received: from TWMBX02.aspeed.com (TWMBX02.aspeed.com [211.20.114.72])
+ by mx.groups.io with SMTP id smtpd.web10.16006.1705645183191773477
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Jan 2024 22:19:43 -0800
+ Thu, 18 Jan 2024 22:19:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=fail (domain: aspeedtech.com, ip: 211.20.114.70, mailfrom: jamin_lin@aspeedtech.com)
-Received: from TWMBX03.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
- (192.168.0.124) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Fri, 19 Jan
- 2024 14:20:04 +0800
-Received: from TWMBX02.aspeed.com (192.168.0.24) by TWMBX03.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 19 Jan
- 2024 14:20:05 +0800
+ dkim=none (message not signed); spf=pass (domain: aspeedtech.com, ip: 211.20.114.72, mailfrom: jamin_lin@aspeedtech.com)
+Received: from TWMBX02.aspeed.com (192.168.0.25) by TWMBX02.aspeed.com
+ (192.168.0.25) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 19 Jan
+ 2024 14:19:43 +0800
 Received: from twmbx02.aspeed.com (192.168.10.10) by TWMBX02.aspeed.com
  (192.168.0.24) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 19 Jan 2024 14:19:40 +0800
+ Transport; Fri, 19 Jan 2024 14:19:43 +0800
 From: Jamin Lin <jamin_lin@aspeedtech.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH v2 1/4] uboot-sign: set load address and entrypoint
-Date: Fri, 19 Jan 2024 14:19:34 +0800
-Message-ID: <20240119061937.1368163-1-jamin_lin@aspeedtech.com>
+Subject: [PATCH v2 3/4] u-boot-sign:uboot-config: support to verify signed FIT image
+Date: Fri, 19 Jan 2024 14:19:36 +0800
+Message-ID: <20240119061937.1368163-3-jamin_lin@aspeedtech.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240119061937.1368163-1-jamin_lin@aspeedtech.com>
+References: <20240119061937.1368163-1-jamin_lin@aspeedtech.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
+Received-SPF: Fail (TWMBX02.aspeed.com: domain of jamin_lin@aspeedtech.com
+ does not designate 192.168.10.10 as permitted sender)
+ receiver=TWMBX02.aspeed.com; client-ip=192.168.10.10;
+ helo=twmbx02.aspeed.com;
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 19 Jan 2024 06:19:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194010
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194012
 
-According to the design of uboot-sign.bbclass and kernel-fitimage.bbclass,
-both of them use an UBOOT_LOADADDRESS variable to set the load address of
-kernel and u-boot image and use an UBOOT_ENTRYPOINT variable to set the ent=
-ry address of
-kernel and u-boot image.
-
-However, users may want to set the different load address of u-boot
-and kernel image. Therefore, adds UBOOT_FIT_UBOOT_LOADADDRESS
-and UBOOT_FIT_UBOOT_ENTRYPOINT variables to set the
-load address and entry point of u-boot image, respectively.
-
-The value of UBOOT_FIT_UBOOT_ENTRYPOINT is UBOOT_LOADADDRESS by default.
-The value of UBOOT_FIT_UBOOT_ENTRYPOINT is UBOOT_ENTRYPOINT by default.
+It does not verify the signed FIT image of kernel and uboot.
+To catch the unexpected errors as far as possible at the build time,
+add uboot-fit-check-sign tool which is provided by u-boot to
+verify the signed FIT image.
 
 Signed-off-by: Jamin Lin <jamin_lin@aspeedtech.com>
 ---
- meta/classes-recipe/uboot-sign.bbclass | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ meta/classes-recipe/uboot-config.bbclass |  3 +++
+ meta/classes-recipe/uboot-sign.bbclass   | 10 ++++++++++
+ 2 files changed, 13 insertions(+)
 
+diff --git a/meta/classes-recipe/uboot-config.bbclass b/meta/classes-recipe=
+/uboot-config.bbclass
+index 9be1d64d3e..0c579e8861 100644
+--- a/meta/classes-recipe/uboot-config.bbclass
++++ b/meta/classes-recipe/uboot-config.bbclass
+@@ -94,6 +94,9 @@ SPL_MKIMAGE_SIGN_ARGS ?=3D ""
+ UBOOT_DTB ?=3D ""
+ UBOOT_DTB_BINARY ??=3D ""
+=20
++# uboot-fit_check_sign command
++UBOOT_FIT_CHECK_SIGN ?=3D "uboot-fit_check_sign"
++
+ python () {
+     ubootmachine =3D d.getVar("UBOOT_MACHINE")
+     ubootconfigflags =3D d.getVarFlags('UBOOT_CONFIG')
 diff --git a/meta/classes-recipe/uboot-sign.bbclass b/meta/classes-recipe/u=
 boot-sign.bbclass
-index ad04c82378..abde0bc61c 100644
+index 4b462698f9..7a0b8047e4 100644
 --- a/meta/classes-recipe/uboot-sign.bbclass
 +++ b/meta/classes-recipe/uboot-sign.bbclass
-@@ -88,6 +88,9 @@ UBOOT_FIT_ADDRESS_CELLS ?=3D "1"
- # This is only necessary for determining the signing configuration
- KERNEL_PN =3D "${PREFERRED_PROVIDER_virtual/kernel}"
+@@ -112,6 +112,10 @@ concat_dtb() {
+ 			-K "${UBOOT_DTB_BINARY}" \
+ 			-r ${B}/fitImage-linux \
+ 			${UBOOT_MKIMAGE_SIGN_ARGS}
++		# Verify the kernel image and u-boot dtb
++		${UBOOT_FIT_CHECK_SIGN} \
++			-k "${UBOOT_DTB_BINARY}" \
++			-f ${B}/fitImage-linux
+ 		cp ${UBOOT_DTB_BINARY} ${UBOOT_DTB_SIGNED}
+ 	fi
 =20
-+UBOOT_FIT_UBOOT_LOADADDRESS ?=3D "${UBOOT_LOADADDRESS}"
-+UBOOT_FIT_UBOOT_ENTRYPOINT ?=3D "${UBOOT_ENTRYPOINT}"
-+
- python() {
-     # We need u-boot-tools-native if we're creating a U-Boot fitImage
-     sign =3D d.getVar('UBOOT_SIGN_ENABLE') =3D=3D '1'
-@@ -248,8 +251,8 @@ uboot_fitimage_assemble() {
-             os =3D "u-boot";
-             arch =3D "${UBOOT_ARCH}";
-             compression =3D "none";
--            load =3D <${UBOOT_LOADADDRESS}>;
--            entry =3D <${UBOOT_ENTRYPOINT}>;
-+            load =3D <${UBOOT_FIT_UBOOT_LOADADDRESS}>;
-+            entry =3D <${UBOOT_FIT_UBOOT_ENTRYPOINT}>;
- EOF
+@@ -316,6 +320,12 @@ EOF
+ 			-K "${SPL_DIR}/${SPL_DTB_BINARY}" \
+ 			-r ${UBOOT_FITIMAGE_BINARY} \
+ 			${SPL_MKIMAGE_SIGN_ARGS}
++		#
++		# Verify the U-boot FIT image and SPL dtb
++		#
++		${UBOOT_FIT_CHECK_SIGN} \
++			-k "${SPL_DIR}/${SPL_DTB_BINARY}" \
++			-f ${UBOOT_FITIMAGE_BINARY}
+ 	fi
 =20
- 	if [ "${SPL_SIGN_ENABLE}" =3D "1" ] ; then
+ 	if [ -e "${SPL_DIR}/${SPL_DTB_BINARY}" ]; then
 --=20
 2.25.1
 
