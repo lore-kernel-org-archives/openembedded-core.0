@@ -1,87 +1,93 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <mingli.yu@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3103C4725D
-	for <webhook@archiver.kernel.org>; Fri, 19 Jan 2024 10:45:06 +0000 (UTC)
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
- by mx.groups.io with SMTP id smtpd.web11.19236.1705661097176171738
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E86C6C4725D
+	for <webhook@archiver.kernel.org>; Fri, 19 Jan 2024 11:34:06 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.19965.1705664038577596569
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Jan 2024 02:44:57 -0800
+ Fri, 19 Jan 2024 03:33:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hfREbrjf;
- spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-50e7b51b0ceso743205e87.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 19 Jan 2024 02:44:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705661095; x=1706265895; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=LTQBMffA+Ev0iPUs1DXreK6e342XlwOWWnBNnYcfvWw=;
-        b=hfREbrjf4jjdxGv0olHAy7YuHJBw/qgB7pM/cOp705KjkYi/emgYwBaC3Ig2JHeGD7
-         lmdiHcH3VOD6hgJW3ICcSfkgpWcsjTPgokzihKwleqXPd/9iCoN7b3eTAcHmlwGVylri
-         kBkBA5q8qi4T7mnWQWoz5UNwU1e+yvIzjSNwm+CNSEvcYEEHpw8WXG7i7DmtVjSBO4LT
-         vt8AwEH4TyX+OGZv3Ph6DDAS6E58BL1HxMTMzTCLEL/ppzSoVN7oElQBb4zOe+OA0nF2
-         GT5Mdpi2+to51I85rvHyP4kcXAwHV9c5IEmRrfI5rvsGl44OEdc34YslaWONPxSk1t+G
-         fbPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705661095; x=1706265895;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LTQBMffA+Ev0iPUs1DXreK6e342XlwOWWnBNnYcfvWw=;
-        b=iPc24fItMQ/gS97RsLNGjDu3QyYK/o0NVRT5iF2KmaBEpKHS1rr2RI1C7ijgdxbnpW
-         e759RRgsjVlE8BsSO14uLdTDcMiERWW4O+KduLvKT+03SqOLUwwlcxk6XUeKoFjNRovN
-         B7z56ff9kz4oNNLBGwrdQtvnOaenu4U95+qYPiNxmJxdYnwywEmhVWBEwii5INVj3G6W
-         sVwBbH0+qhNMWWrcFZp0r5EwWp/nsGqriTYLCyp3dhSNuJIg/N2c5+r4mM9kJq2y2PBT
-         C8BZVLeYrTNTUov+v38X8hT0wCQ95wDD68RHQxVWYxiZQTg8kdHXtlKifN2A1Bbm9s2r
-         txyQ==
-X-Gm-Message-State: AOJu0Yx5Nesx1Vj2sICb3KsEsF41saw5w5yAVRLgNOpRWn7V3LEG2Pri
-	vGloEJLhUwYcRDpyF596nb7aid6YcHPAKBl2xoseDsEBdJsZhYrfHsfAYL9paFNXSUpJn+f3Oz9
-	8FyRX13XcMJxai1mysEWbVDFj4yc=
-X-Google-Smtp-Source: AGHT+IHKnfFyjQOjhznsydu96vN9vr3h3blADtv9vGVE8y8elWN+nUlvYHSSglqB/h17gwFJp1XMPUm0oVYTxEZkjgk=
-X-Received: by 2002:a19:4f1b:0:b0:50e:9357:2ddf with SMTP id
- d27-20020a194f1b000000b0050e93572ddfmr555189lfb.17.1705661095117; Fri, 19 Jan
- 2024 02:44:55 -0800 (PST)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=j007g14H;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1748114a0b=mingli.yu@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40J9wrZ9012464
+	for <openembedded-core@lists.openembedded.org>; Fri, 19 Jan 2024 11:33:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=TRadU
+	Cj4dayOeVE0xYXrqVQ50R5H9bOoOITnXX8PY0w=; b=j007g14HB5Mg9MTX+DKtv
+	GsLvwP/46cQ8dkPBPrOrJRAIKP8Vn96hqCcSc8tTNfBaPm09BlcxvmLwV8TsVHI2
+	9XyQswjlbPVTaMWoI8rjbHxPDhdJqgO0zRTp+CHUF/2TR/JMOT9ssQmP9OgBb+dH
+	lJr+mzGeW4N5ea9QQ4+HI/jA9f+Rb3TTC7Asz5WgXtdvmzgrCZtC1tqF9nOmT73e
+	yAo9L6NYJPAa5fn5U2w39DBmybsyZFDDBYB3TTrciV9txDB47RSPYNZEX1Y8IzN7
+	bip/P+xqUctkw2boR4LqRtSzMMFirk5EHeY/h3jcMHBPlxzytUVSszOAyKNCE7Mi
+	w==
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3vkfqxf01k-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 19 Jan 2024 11:33:57 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Fri, 19 Jan 2024 03:34:07 -0800
+Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.35 via Frontend Transport; Fri, 19 Jan 2024 03:34:06 -0800
+From: <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH 1/3] xmlto: Remove the explicit PV setting
+Date: Fri, 19 Jan 2024 19:33:52 +0800
+Message-ID: <20240119113354.3000697-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20240111131521.2305172-1-alex@linutronix.de> <51ee1c53-0687-22a5-ec9b-88c2ecd2bc66@windriver.com>
- <CANNYZj8Wqm1NNx0VuxOU7sxoxsKcKh+vG-3WrkKiDqQVGSDNsg@mail.gmail.com> <1fa0d9c93f89c4f486f5d7607b52bb55c18787e6.camel@linuxfoundation.org>
-In-Reply-To: <1fa0d9c93f89c4f486f5d7607b52bb55c18787e6.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 19 Jan 2024 11:44:43 +0100
-Message-ID: <CANNYZj8aT3SjK3VxejDoQ-wnUXAbjJp2PtmBt-yX2S+niWy9qg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3 1/2] shadow: update 4.13 -> 4.14.2
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: ChenQi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>, Dmitry Baryshkov <dbaryshkov@gmail.com>, 
-	Vishal Bhoj <vishal.bhoj@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: jAoj2MwFvhNbeh-twlJiXVsgEtoMu3pG
+X-Proofpoint-ORIG-GUID: jAoj2MwFvhNbeh-twlJiXVsgEtoMu3pG
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-19_06,2024-01-19_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ impostorscore=0 spamscore=0 lowpriorityscore=0 phishscore=0 malwarescore=0
+ mlxlogscore=568 clxscore=1015 bulkscore=0 mlxscore=0 suspectscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2401190055
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 Jan 2024 10:45:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194028
+ <openembedded-core@lists.openembedded.org>; Fri, 19 Jan 2024 11:34:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194029
 
-On Fri, 19 Jan 2024 at 11:24, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> There is another report about issues from the shadow static linking
-> change.
->
-> I'm worried that there are now accesses to files with are out of sight
-> of pseudo so that some combinations of builds are breaking. I'd
-> forgotten about pseudo in the push to fix the various sstate issues. It
-> is worrying we don't have good test cases for these.
->
-> I've also been thinking about how we could solve it. My proposal is
-> that we go back to dyanmic linking, however we add copies of the libs
-> we need into the shadow-native populate_sysroot sstate/sysroot output
-> in a special directory and we add that directory to the shadow binaries
-> as a RUNPATH/RPATH.
+From: Mingli Yu <mingli.yu@windriver.com>
 
-Sounds good. I'll make a patch for this.
+The latest release for xmlto is 0.0.28 [1], but the PV is set
+individually [2] in terms of backport several patches to fix
+builds with newer compilers after 0.0.28 was releases in 2015.
 
-Static linking in C world is something of an 'obsolete technology', it
-isn't tested or supported by anyone really.
+[1] https://releases.pagure.org/xmlto/
+[2] https://git.openembedded.org/openembedded-core/commit/?id=27a5000724e4f4df274279bcd801d1dc2830208e
 
-Alex
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ meta/recipes-devtools/xmlto/xmlto_0.0.28.bb | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb b/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
+index d5a0e69849..69f989f5b8 100644
+--- a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
++++ b/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
+@@ -11,8 +11,6 @@ UPSTREAM_CHECK_COMMITS = "1"
+ SRC_URI = "git://pagure.io/xmlto.git;protocol=https;branch=master"
+ S = "${WORKDIR}/git"
+ 
+-PV .= "+0.0.29+git"
+-
+ inherit autotools
+ 
+ CLEANBROKEN = "1"
+-- 
+2.25.1
+
 
