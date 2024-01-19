@@ -2,56 +2,56 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2A59C47DDE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3248C48277
 	for <webhook@archiver.kernel.org>; Fri, 19 Jan 2024 21:14:36 +0000 (UTC)
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
- by mx.groups.io with SMTP id smtpd.web11.5985.1705698868850935069
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+ by mx.groups.io with SMTP id smtpd.web10.6081.1705698866720425084
  for <openembedded-core@lists.openembedded.org>;
- Fri, 19 Jan 2024 13:14:29 -0800
+ Fri, 19 Jan 2024 13:14:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=XQQuew2k;
- spf=pass (domain: gmail.com, ip: 209.85.160.173, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-429fc7a1eacso10554151cf.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 19 Jan 2024 13:14:28 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=BiVtN7mN;
+ spf=pass (domain: gmail.com, ip: 209.85.219.44, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-6806914dba7so6707616d6.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 19 Jan 2024 13:14:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705698868; x=1706303668; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1705698866; x=1706303666; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=iZSoorzBu0LauDTvS7VWHc8L/VpKE8V4LtxBKbbasCI=;
-        b=XQQuew2kAl22Agcq/AjtG8Q6i2h8lSZOOXJDUHGq6Vs2FOsjIm6c1317ydryJSgscz
-         lBl1WZQzrJm14DBEBxmAWzq1L/VJ1fihTIf53HlTnfR3+usaf5/D4dHzFdAvz72rahT1
-         +mXFaTh3YUNbKi4Df4VkC71x2gn1PAtBFksTUdGZjiu643LT9Bw7KbhOKPLTBAbs0na1
-         1MxX5aYF4lxwAupzCCvv/mGLmWeeqE/62WoANaonQYXKizY7FatcCSpf8DSY9rHXad5S
-         O33Otyjk5DZxCLwq3L+WW8tpzORXl7reRqsAQXi+uyE2GifdMwXFa9gIepemdcv2MDzh
-         vg1w==
+        bh=tJU/Lr6hhLd58bClo6cE49xbqTWVrgP9KKcaDIuI/EQ=;
+        b=BiVtN7mNZNK/6uIS83fCn6V5Zs58hG7C1qBSi22El09d0pndO/dfl8V7n7mnsjoF3J
+         Pd9/h9Zrb0FXaNZzDiz9Xl6NjgscPb0sayfKa7PfkAV6gsqDa+CWhmbIwdGdmQrP53Uf
+         MTt0Pdo5rSZWwcGeNbk7ug7b/sme1Qimdeg02Uy3g9Q/5mEv8I4vLH+9pZXp733eArwi
+         a33zduQDaH2uDXgLkmVhFPkCrxVgi1g98qX7nYO20972y0ffygbgR4hsQkedas5h6s6p
+         71+xAXOD4iOLIX1KbYmpUR6oW9aTZwbkYOh+g3NnWNvSX4HVWeHO7dBM1zPoqWjAWX+W
+         Na7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705698868; x=1706303668;
+        d=1e100.net; s=20230601; t=1705698866; x=1706303666;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=iZSoorzBu0LauDTvS7VWHc8L/VpKE8V4LtxBKbbasCI=;
-        b=hf+/izwuLbk0M+DHxkSxv9aGNCOc/22hu/4kFWr1+bAoXvh4PcvI1XHz+uSNNGrg8/
-         h5Y0AhStfcFPSVB3x/yEvorVjsiFm8UXW3UvDAkVqPsoc5m5RrkGulJoJgm+jV2UF1UK
-         pwFYsjnPzJNkSSLmBWYvr06cbtitntDQ7z9sI3AP6wAToaUyMfZo8Xb5CvbkRP43sI0l
-         QAaPsA1vhq99bFKti5vedixr9NPIJ+BZjP07iPt56NBl2ooMA6ncmMQAflwbBFRzVsHu
-         Qh22lVwupP2/elMGVO35OyegDWt/378Eh4fnuO0yAD02j5N1nPSyrCcNcv2LCBBcfG8m
-         kY5A==
-X-Gm-Message-State: AOJu0YwKVGR588FnVbYbhy1UV62nxTzeJRJeCrhGssDoT23YbFWyI790
-	HCASGBj0nbbkwOYhho8IhniGEbUcO/zvAksKYzGzUNi86ivA4YaFJ14quJibmfQ=
-X-Google-Smtp-Source: AGHT+IHfCELLzjrur5vpl7XPk9xd7stq7suhTi26AdQrzh3wsWHhlgZcny1sOfVnt9xTCrKZCT6v0w==
-X-Received: by 2002:a05:6214:d8e:b0:681:78cf:1ed5 with SMTP id e14-20020a0562140d8e00b0068178cf1ed5mr569798qve.50.1705698867881;
-        Fri, 19 Jan 2024 13:14:27 -0800 (PST)
+        bh=tJU/Lr6hhLd58bClo6cE49xbqTWVrgP9KKcaDIuI/EQ=;
+        b=hvNeGATk2fQ4Zn92yeTZ8KmGWa9W4lYgsSGyzi+Z6boPnLnYD+sy5fCRIObmQm/ZwY
+         UOI13TvE0k4lZy6ES4uvkM4nY5IzG8CDXlV6z9lOJO7PHuQEvxW0iFwG1HjHwvWWvSSF
+         MShrWOvILcy5LxA1+HmvNp8ihkoH1Qr1KQ8sFL5a0NQfopBvBJnmMUGxS3rFDgT5sNA6
+         zxLPITRDOCPSojW8fW+3aDvJGCHen4FiDppohK47ODbtD4exPLZ8GwTyt4kCGcuMkvOK
+         jr//abis80qhDxvkW/icin1G2IF1f5EU0/uz5DnVendccQdZtxeEksVMDlLjXqt8YFd1
+         8cpA==
+X-Gm-Message-State: AOJu0Yyb5Taz+z6LL0jlGenbuQvVN5sUiFkJyZAEkDHQ1F8p+u3/pE5+
+	L/Ow3dlVt9v7f5lDDkBxdYBjBKThEZ07O47PHTAH0uL/9o+MSz/SiCiOiOVzWtg=
+X-Google-Smtp-Source: AGHT+IHriAONRowfm637eFxHmlAG5ni5lk/kW3BY0n8tkQ2XRhj8O6KbgAgqw3m5UagnQBHD5Kl4aA==
+X-Received: by 2002:a05:6214:21e3:b0:681:8739:9171 with SMTP id p3-20020a05621421e300b0068187399171mr507039qvj.119.1705698865763;
+        Fri, 19 Jan 2024 13:14:25 -0800 (PST)
 Received: from bruce-XPS-8940.. ([174.112.183.231])
-        by smtp.gmail.com with ESMTPSA id mk13-20020a056214580d00b0068178f50102sm33552qvb.25.2024.01.19.13.14.26
+        by smtp.gmail.com with ESMTPSA id mk13-20020a056214580d00b0068178f50102sm33552qvb.25.2024.01.19.13.14.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Jan 2024 13:14:27 -0800 (PST)
+        Fri, 19 Jan 2024 13:14:25 -0800 (PST)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 06/11] linux-yocto/6.6: security/cfg: add configs to harden protection
-Date: Fri, 19 Jan 2024 16:14:14 -0500
-Message-Id: <7806857399611e78c1705b34b7fcf3bec68ae405.1705698717.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 04/11] linux-yocto/6.1: update CVE exclusions
+Date: Fri, 19 Jan 2024 16:14:12 -0500
+Message-Id: <e448aa602a899d30384f63b57ce5a124fb00d69f.1705698717.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1705698717.git.bruce.ashfield@gmail.com>
 References: <cover.1705698717.git.bruce.ashfield@gmail.com>
@@ -61,74 +61,41 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 19 Jan 2024 21:14:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194072
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194070
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Integrating the following commit(s) to linux-yocto/.:
+Data pulled from: https://github.com/nluedtke/linux_kernel_cves
 
-1/1 [
-    Author: Xiangyu Chen
-    Email: xiangyu.chen@windriver.com
-    Subject: feature/security: add configs to harden protection
-    Date: Tue, 16 Jan 2024 18:22:31 +0800
+    1/1 [
+        Author: Nicholas Luedtke
+        Email: nicholas.luedtke@uwalumni.com
+        Subject: Update 27Dec23
+        Date: Wed, 27 Dec 2023 19:47:13 -0500
 
-    Add some configs to harden protection:
-      CONFIG_HW_RANDOM_TPM=y Exposing the TPM's Random Number Generator as a hwrng device.
-      CONFIG_DEBUG_WX=y Warn on W+X mappings at boot.
-      CONFIG_SECURITY_DMESG_RESTRICT=y Restrict unprivileged access to the kernel syslog.
-      CONFIG_LDISC_AUTOLOAD=n Disable automatically load TTY Line Disciplines.
-
-    Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
-    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-]
+    ]
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb   | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto_6.6.bb      | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-kernel/linux/cve-exclusion_6.1.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
-index 324494f122..308beb9bc1 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
-@@ -15,7 +15,7 @@ python () {
- }
+diff --git a/meta/recipes-kernel/linux/cve-exclusion_6.1.inc b/meta/recipes-kernel/linux/cve-exclusion_6.1.inc
+index 8d345831d3..9e0c5bc49e 100644
+--- a/meta/recipes-kernel/linux/cve-exclusion_6.1.inc
++++ b/meta/recipes-kernel/linux/cve-exclusion_6.1.inc
+@@ -1,9 +1,9 @@
  
- SRCREV_machine ?= "3e67e7e050ae8af74f9158dc71f952539f1516e5"
--SRCREV_meta ?= "399295102a9b0db007323d12f561ecfd5782dcf0"
-+SRCREV_meta ?= "268af5402032d35347f7d949673250b9bcc3a389"
+ # Auto-generated CVE metadata, DO NOT EDIT BY HAND.
+-# Generated at 2024-01-03 21:24:21.156991+00:00 for version 6.1.70
++# Generated at 2024-01-11 18:31:26.124059+00:00 for version 6.1.72
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.6;destsuffix=${KMETA};protocol=https"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
-index b839bac95d..f32e58f418 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
-@@ -18,7 +18,7 @@ KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
- SRCREV_machine ?= "1c28ec6773065e82643c9ec1cb7dd2bd8ab1f929"
--SRCREV_meta ?= "399295102a9b0db007323d12f561ecfd5782dcf0"
-+SRCREV_meta ?= "268af5402032d35347f7d949673250b9bcc3a389"
- 
- PV = "${LINUX_VERSION}+git"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_6.6.bb b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
-index 7c5d5f25d1..0d16fac054 100644
---- a/meta/recipes-kernel/linux/linux-yocto_6.6.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
-@@ -29,7 +29,7 @@ SRCREV_machine:qemux86 ?= "1c28ec6773065e82643c9ec1cb7dd2bd8ab1f929"
- SRCREV_machine:qemux86-64 ?= "1c28ec6773065e82643c9ec1cb7dd2bd8ab1f929"
- SRCREV_machine:qemumips64 ?= "cbf59cfe385657b0ee385264be2fcf785f6f1959"
- SRCREV_machine ?= "1c28ec6773065e82643c9ec1cb7dd2bd8ab1f929"
--SRCREV_meta ?= "399295102a9b0db007323d12f561ecfd5782dcf0"
-+SRCREV_meta ?= "268af5402032d35347f7d949673250b9bcc3a389"
- 
- # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
- # get the <version>/base branch, which is pure upstream -stable, and the same
+ python check_kernel_cve_status_version() {
+-    this_version = "6.1.70"
++    this_version = "6.1.72"
+     kernel_version = d.getVar("LINUX_VERSION")
+     if kernel_version != this_version:
+         bb.warn("Kernel CVE status needs updating: generated for %s but kernel is %s" % (this_version, kernel_version))
 -- 
 2.39.2
 
