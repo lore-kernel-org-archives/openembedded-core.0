@@ -1,136 +1,96 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <changqing.li@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D05DCC4725D
-	for <webhook@archiver.kernel.org>; Fri, 19 Jan 2024 07:27:15 +0000 (UTC)
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
- by mx.groups.io with SMTP id smtpd.web11.16751.1705649228206531196
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D425BC4725D
+	for <webhook@archiver.kernel.org>; Fri, 19 Jan 2024 07:35:15 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.16963.1705649711556579689
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Jan 2024 23:27:08 -0800
+ Thu, 18 Jan 2024 23:35:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=RC6c8DE2;
- spf=pass (domain: linaro.org, ip: 209.85.167.42, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-50eaaf2c7deso498018e87.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jan 2024 23:27:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1705649226; x=1706254026; darn=lists.openembedded.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nbj4A33SkC0otA9KXqp6btycQ0YhJlviwUz/NeNtByg=;
-        b=RC6c8DE2IGK9tWTfkkMf+mhWOgH7t+sNoWFb3u7veD8gofX6Wg0GSqglcBJtlp9xBS
-         USzufzFGZsbjytykOLksc9w2CkdKUGGJn/WWPvv+qUbdduAUBVB+krn9Jx7yvVYvYl45
-         GrTe8BV3QQSdlhWQy1gQnd5F7/fH+XsGlxu3nNeqfPrYe3HvG+hQPe83ph73UAXk3jki
-         a9lKef/D+OPgrGNUanu9Mu7YaguDdwQtqX5UvxJ0qO8jUejZVfRGYgsAIgni1a1naygG
-         o6PmSJAnUAXsNPeDVQuD2wWeInYu8nZLmiPDCMRlQRB5jx2FGznuLWKS0sEp8uT4iDX4
-         38LA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705649226; x=1706254026;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nbj4A33SkC0otA9KXqp6btycQ0YhJlviwUz/NeNtByg=;
-        b=A5pAVIvbSrgwSyBeVsEaHot+mb8KyZrE4ijFA9nPKlf7XprNwxuQtuqMSs+lv8gv2g
-         ddjQIjp5VvH1D+kg+GQu3SmDI7oCSKfuf9nvEvU/sQ4jtcnBHh2A0G4H68ApdzEv/YRl
-         l5n8IZZXHLmHtEphYrydIGVWIwYrzTGilZshm2R6RFdaXJF7QgAkJ5E770VfV7mlMx7I
-         wXZTXoPj8QHiEDLu0+ZdyKG3P22sYt5bYuqkZ1DTAQU32QbYy/rpiv5ltxEF7XQCcb/q
-         0OW6oLl7YEQ/JDjvO5yHFXLwEq3VWbf8bod86klrxiqOSFRA9HU1aMWE7YtlM9MR8V8x
-         dK+w==
-X-Gm-Message-State: AOJu0YxnOITmL+ElrUTXol4pHdyfRO7fu4LC0QG5e6gA7MLnWLmrXj9L
-	pNyIlMZKTikutRwMdlrop9IYr+t29mXefnK0gyz2LOpuJKL65fZlydFySG8RDzo=
-X-Google-Smtp-Source: AGHT+IHCsM/fyvAcS/WuHAOt+XaZqip0J+A8ilT9JFqb9zic1ZV4rrPuJrUDKNzYkHmJUyZOWAp1yg==
-X-Received: by 2002:a05:6512:3107:b0:50e:7b0b:4379 with SMTP id n7-20020a056512310700b0050e7b0b4379mr419282lfb.12.1705649226108;
-        Thu, 18 Jan 2024 23:27:06 -0800 (PST)
-Received: from nuoska (drtyq0yyyyyyyyyyyyf5t-3.rev.dnainternet.fi. [2001:14ba:7400:df00::133])
-        by smtp.gmail.com with ESMTPSA id h13-20020a056512220d00b0050f0a6888f7sm886013lfu.142.2024.01.18.23.27.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jan 2024 23:27:05 -0800 (PST)
-Date: Fri, 19 Jan 2024 09:27:03 +0200
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: Ross Burton <Ross.Burton@arm.com>,
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] oeqa parselogs.py: load ignore files from
- sys.path
-Message-ID: <ZaokR9vovtUH-0cO@nuoska>
-References: <20240110130322.4078930-1-mikko.rapeli@linaro.org>
- <40B3B6D9-1EC6-4CD3-A42E-52E7F3A588D8@arm.com>
- <17A9026E670466F3.1780@lists.openembedded.org>
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=gpZ3kN+R;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=1748b1ce9d=changqing.li@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40J4dI8b031750
+	for <openembedded-core@lists.openembedded.org>; Thu, 18 Jan 2024 23:35:11 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=oiBsu
+	1JPH5sujp+OD+ZcnVD7F4/2LMMJsMkosG0u2WM=; b=gpZ3kN+RUQEunVMo1VxSO
+	/N4BIT0Dx8RMIKJV0brZFGRktW+mSrdugQAH7wy1jt/gqa4A7ctqhJI2s2rshDxF
+	NOZVKNJlMB1KP4fQGuKHr2DDA43CeJVZ0Ak7l3XuAXC6RElcu4Ora6Nb9156JYm7
+	dDcKMwMCCcTBtXuAGfcol6BnX1nP5Yo4YyRujDXRAWps11XKt3asmRR6mmuAOBBD
+	HaDGuGbVC+CgvrhpXYMKh4Y/wZxieGJLo6LxOA4AK4l6ftsMr577fxCtJsxVDxpx
+	9p2mm5CH1G7yZ1raOZen0hA/lGx7sC/N7cuC6k33/P9mJbEZ1HMaYT3Lehyzq+Ld
+	g==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3vkpp46hnv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 18 Jan 2024 23:35:11 -0800 (PST)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Thu, 18 Jan 2024 23:35:21 -0800
+Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.35 via Frontend Transport; Thu, 18 Jan 2024 23:35:21 -0800
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] tcmode-default.inc: use ?= to set PREFERRED_VERSION_llvm/llvm-native/nativesdk-llvm
+Date: Fri, 19 Jan 2024 15:35:09 +0800
+Message-ID: <20240119073509.934362-1-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <17A9026E670466F3.1780@lists.openembedded.org>
+Content-Type: text/plain
+X-Proofpoint-GUID: hsrkJ246LPxp6Y7Y7-l6kNl2E4KZJtNZ
+X-Proofpoint-ORIG-GUID: hsrkJ246LPxp6Y7Y7-l6kNl2E4KZJtNZ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-19_03,2024-01-17_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 bulkscore=0
+ phishscore=0 mlxlogscore=578 suspectscore=0 malwarescore=0 adultscore=0
+ priorityscore=1501 spamscore=0 mlxscore=0 lowpriorityscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2401190025
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 Jan 2024 07:27:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194016
+ <openembedded-core@lists.openembedded.org>; Fri, 19 Jan 2024 07:35:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194017
 
-Hi,
+From: Changqing Li <changqing.li@windriver.com>
 
-I think this patch should be applied as it aligns oeqa .py and .text file searches
-across layers. Without this layers need to add "addpylib ${LAYERDIR}/lib oeqa"
-in layer.conf which doesn't have any other uses and debugging this is really hard.
+use ?= to set following configs in order to allow user
+to override the default settings:
+PREFERRED_VERSION_llvm
+PREFERRED_VERSION_llvm-native
+PREFERRED_VERSION_nativesdk-llvm
 
-There may be addition things wrong in bitbake python environment when oeqa tests run
-but this is already an improvement.
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ meta/conf/distro/include/tcmode-default.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Ross, do you agree?
-
-Cheers,
-
--Mikko
-
-On Wed, Jan 10, 2024 at 04:23:22PM +0200, Mikko Rapeli via lists.openembedded.org wrote:
-> Hi,
-> 
-> On Wed, Jan 10, 2024 at 02:01:36PM +0000, Ross Burton wrote:
-> > On 10 Jan 2024, at 13:03, Mikko Rapeli via lists.openembedded.org <mikko.rapeli=linaro.org@lists.openembedded.org> wrote:
-> > > python import.resources open_text() loads files from the module paths
-> > > but this requires layers to set "addpylib ${LAYERDIR}/lib oeqa"
-> > > which is not needed to find the plain .py test files to run the tests.
-> > > Also an empty __init__.py file in a layer will break the resource file
-> > > loading completely as only that path with __init__.py file will
-> > > be used to search the resource files. Then open_text() is marked
-> > > as deprecated from python 3.11 onwards
-> > > https://docs.python.org/3/library/importlib.resources.html
-> > 
-> > Deprecated but replaceable with files(package).joinpath(resource).open() (which is all open_text does internally).
-> 
-> Yes, but that seems to break if __init__.py file is found from
-> ${LAYERDIR}/lib/oeqa/runtime/cases.
-> 
-> > > So replace open_text() by iterating over sys.path to find the ignore
-> > > files. This works since paths like ${LAYERDIR}/lib/oeqa/runtime/cases are
-> > > already in sys.path. Add debug prints for found and not found files
-> > > while at it.
-> > 
-> > I’m confused why lib/oeqa/runtime/cases is on sys.path directly, that sounds… unusual.  Do you have any idea where that comes from?  I’m guessing oeqa is throwing it on the path whilst searching for test cases, but that sounds like bad behaviour that should be removed to me.
-> 
-> No idea where this comes from, but it's there. addpylib is doing similar things,
-> adding paths to sys.path and for this use case this not really necessary as
-> ${LAYERDIR}/lib should not need to be, it only has oeqa directory. I presume
-> test case loading via testimage.bbclass or OERuntim are adding it. These are kind
-> of hard to debug since "bitbake -e" show any of this.
-> 
-> It's a bit odd that layer.conf would need "addpylib ${LAYERDIR}/lib oeqa" for loading
-> .txt files but that's not needed for finding and using the oeqa .py test files.
-> With this change addpylib magic is not needed, at least for finding these
-> .txt files.
-> 
-> Cheers,
-> 
-> -Mikko
-
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#193513): https://lists.openembedded.org/g/openembedded-core/message/193513
-> Mute This Topic: https://lists.openembedded.org/mt/103639917/7159507
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [mikko.rapeli@linaro.org]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+index 3720a4c5b8..0de858d3af 100644
+--- a/meta/conf/distro/include/tcmode-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -77,9 +77,9 @@ PREFERRED_VERSION_go-runtime ?= "${GOVERSION}"
+ PREFERRED_VERSION_nativesdk-go ?= "${GOVERSION}"
+ PREFERRED_VERSION_nativesdk-go-runtime ?= "${GOVERSION}"
+ 
+-PREFERRED_VERSION_llvm = "${LLVMVERSION}"
+-PREFERRED_VERSION_llvm-native = "${LLVMVERSION}"
+-PREFERRED_VERSION_nativesdk-llvm = "${LLVMVERSION}"
++PREFERRED_VERSION_llvm ?= "${LLVMVERSION}"
++PREFERRED_VERSION_llvm-native ?= "${LLVMVERSION}"
++PREFERRED_VERSION_nativesdk-llvm ?= "${LLVMVERSION}"
+ 
+ # Rust toolchain preferred versions:
+ 
+-- 
+2.25.1
 
 
