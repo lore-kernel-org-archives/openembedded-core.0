@@ -2,46 +2,39 @@ Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8063CC47422
-	for <webhook@archiver.kernel.org>; Fri, 19 Jan 2024 03:06:34 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.13376.1705633590794998660
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DB49C47422
+	for <webhook@archiver.kernel.org>; Fri, 19 Jan 2024 03:09:34 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.13423.1705633768113194785
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Jan 2024 19:06:31 -0800
+ Thu, 18 Jan 2024 19:09:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=hbJlpDHc;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1748b1ad81=qi.chen@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40J36U8w009639;
-	Fri, 19 Jan 2024 03:06:30 GMT
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=NIA3VLGe;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=1748b1ad81=qi.chen@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40J2RfWN011206
+	for <openembedded-core@lists.openembedded.org>; Thu, 18 Jan 2024 19:09:27 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=message-id:date:subject:to:cc:references:from:in-reply-to
+	 h=message-id:date:subject:to:references:from:in-reply-to
 	:content-type:content-transfer-encoding:mime-version; s=
-	PPS06212021; bh=rntsRwh+JQ9NBwbh4ZFpogkEx014yQPesEhKzCNq25Q=; b=
-	hbJlpDHczA1JZeYY4eT0BIQ7dRWcSqJy8mqdsl0mtmIFTVDVgbkuBCHnOXiC2lMo
-	3euHvbsUlEGAIuDIyO6Y/uR1GQNU2J8WztPTanYxYrGkFWqaUo3y/5/DOkzl8CvG
-	Ww3tBJ+k6E9o3QkdXatcTymuiguuGINM74hxLWGRp5pXDrLltLj3oDk7sumGxplr
-	bxjGdH7Pfi1iBIJot9V3XOkEL3t7YYQ9Ja8ATvghG8IBuVsekM3MBPJ43KPnqxyJ
-	mOZHIaVfwOvJomvTptBoVRr9pAcwaFDU01dfYXCsDJLiLyYw21fcw6aAV1vXifSa
-	CQDj9H2R5RGHz/OMLCqlnQ==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3vkfqxem2j-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 19 Jan 2024 03:06:29 +0000 (GMT)
-Received: from m0250811.ppops.net (m0250811.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.24/8.17.1.24) with ESMTP id 40J36Tq9009634;
-	Fri, 19 Jan 2024 03:06:29 GMT
+	PPS06212021; bh=B5kiIHwumgPGA9ZO2ezBKJViY3KZKooIuU5cAnZ0RQU=; b=
+	NIA3VLGeCNLJ1omrTUXcmdYyUi6cskyVNQ/oWolv81p375tKfgnOAdJxFkaGy9iq
+	zN6BLUGQKAl/ziN5ibfCCiuDzLfnf7yGgsGJuYpp26iPE1wI8v/DYW5JwCkIc08G
+	25wCs76SHaoCA5fRq2RB1avlb48mpeoQTBKlb3piWcoQ2QJ6WLqqlystEc8mGXSY
+	NFZvmQK5dCH0xM5K7oXJJZlrd0fee2a2sIMHiuYnDwNVK9Pvh5Ep8pxfB6UbZSGs
+	lDL7WRAJQeWpjYyN7UyG2MsO09D9uAlzRI09YOtiOQ+dRna0atqpJAYD5u9cBHXP
+	NTp+su8BWTuzI0sNHJG0MA==
 Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2100.outbound.protection.outlook.com [104.47.55.100])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3vkfqxem2h-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 19 Jan 2024 03:06:29 +0000 (GMT)
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3vkpp46bn9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 18 Jan 2024 19:09:27 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hQ3JuCl5hxNEtNtnAFbu90GMWuh5NzCY3QrPLl3X6rg1ytddD2eXi72OXatSQRnut0bsdtRNxgU2EXnHQQ1phXFT//91XFw7d2dMjG6T/DWp2R+M4Vg8/zteZPn3Bci6mOWRn1E+4gdbsGwEEOIvFE15Qkr1S3C8nMDSamQqgadI8gqEeDRCG3LylWSxtvhBmGLsppuQAvBeFbXGakJh9fWSF0y0SLzRIUIG8kRaUWwwx9n1OPSTzUAXL2hRV1BMd18Md9d8DJvwXuOmiGYmF+yYcKMwRuSm9OUG8SRAa8cHQDjn3d7kh5tsjER/q2dw6x28oo2lK13G8MQHqthVDg==
+ b=fOZV1M5XhAQsOeV1tZZRQ8H4yJyPDY4b7NTCtZBdpCnxBrNRxxANaGHK0tagNJe3/7yqjyadH0O5DCVeowtsJACObTFlZKtLR99gikRehwhciji6WfCYqnbUSmhMxnfP0HJ5a/BfMAQbC8nrvSrTXg/WahPQm5UHbMNi33euLOaAIxtDfN7kCi8XLjdpqJ61NvPXciaXAj8CfVrjr2pR2aVfXyg5zqOFlTswI7VIRW7d/YYsCfT90yiTchaHhqBQfTsfjhqoIfbfruNvs9cI3tIJH3dN3/tn7RM2VNLw1nZRMROEUSPQ42NAvAe/Ap5pHl3yg1JpiDvmuWEMepEudw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rntsRwh+JQ9NBwbh4ZFpogkEx014yQPesEhKzCNq25Q=;
- b=Sf8Dd6jZG4gMSRohJYjl6/xUEQ51uT3VljAsytyrArYedlt1SrGFwfium22Jxh+8wueAuLW9BGWYtbkb885SlHiGzJEWLKZapeRq7e8J4CLWO6QjIxFV9rJ7Iclj1D8CiBgD0WRypnrZ9G4XwqynK91bBTLtz7RAWuNfVN9it9TtEfQ+C2+g4KcGIAmKTvhg21kIvY5YODBwZ4qV1l6TXSes6BGCo1IgSPsODNRQOmMc1l21xdQcljynAKUgDnwgNHk9TsZE/+eCnK6J7NuoH/aJZVnua566o0fMMjkagOknSa0i5wnS3XXDMsXP8WpfpgBDtz+LGY5YZohVvwvGpQ==
+ bh=B5kiIHwumgPGA9ZO2ezBKJViY3KZKooIuU5cAnZ0RQU=;
+ b=GFo3+j/OIqJxmf5apakspjYDEPr/IZHv5fBcHWSSzjvMepWx/k4zwkqkJvgMhYI1AteV0+7wWwLaMobwOHxTzzX3E6W+XoRZ8mYedbaL9QF6TrmRaSPJoEDhd8EkDRCdodZ6CfN9tIzPoYBRB/3E1gg0CGYzj4sV0Y5CT6dNOvN+EJ2IhvZ5O/TB3cXogxCO4FQPJZfbsiE1Xlp1GzjaPkR5La+UAtBJJTUgSUU9FW7ZzXr5bzUtsz5Q6Roo5CfKO0w/IKXhAg3XTgjY/sqew9fQtMprylBOH8rJ/5RazJ5Yibs39r4Z4qAddvGAdugKr12UD0eGoBFpaHDSbl07EA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -49,700 +42,451 @@ Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
  by CY8PR11MB6964.namprd11.prod.outlook.com (2603:10b6:930:57::17) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.24; Fri, 19 Jan
- 2024 03:06:25 +0000
+ 2024 03:09:25 +0000
 Received: from CO6PR11MB5602.namprd11.prod.outlook.com
  ([fe80::5d84:2b01:5029:9315]) by CO6PR11MB5602.namprd11.prod.outlook.com
  ([fe80::5d84:2b01:5029:9315%7]) with mapi id 15.20.7202.024; Fri, 19 Jan 2024
- 03:06:24 +0000
-Message-ID: <51ee1c53-0687-22a5-ec9b-88c2ecd2bc66@windriver.com>
-Date: Fri, 19 Jan 2024 11:06:19 +0800
+ 03:09:24 +0000
+Message-ID: <2968be9a-c13d-5d98-e1be-d291d0b5b008@windriver.com>
+Date: Fri, 19 Jan 2024 11:09:20 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [OE-core] [PATCH v3 1/2] shadow: update 4.13 -> 4.14.2
+Subject: Re: [OE-core][PATCH 1/3] systemd: upgrade to 255.1
 Content-Language: en-US
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
-        openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-References: <20240111131521.2305172-1-alex@linutronix.de>
+To: openembedded-core@lists.openembedded.org
+References: <20231227042036.2376255-1-Qi.Chen@windriver.com>
 From: ChenQi <Qi.Chen@windriver.com>
-In-Reply-To: <20240111131521.2305172-1-alex@linutronix.de>
+In-Reply-To: <20231227042036.2376255-1-Qi.Chen@windriver.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR13CA0120.namprd13.prod.outlook.com
- (2603:10b6:a03:2c5::35) To CO6PR11MB5602.namprd11.prod.outlook.com
+X-ClientProxiedBy: SJ0PR03CA0298.namprd03.prod.outlook.com
+ (2603:10b6:a03:39e::33) To CO6PR11MB5602.namprd11.prod.outlook.com
  (2603:10b6:303:13a::5)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|CY8PR11MB6964:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3cb7aeb2-3896-43d1-e0f5-08dc189b9f15
+X-MS-Office365-Filtering-Correlation-Id: ce6f5a82-63e5-4e6a-3a66-08dc189c0a5a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	U8jZL8qaJjCOWdkv7ArMSFBMbYaCVgZz3PlXi/Hhqqf6Cfej7qQDWkGEqxlI1i9/cA17llmpWcPfhmm/aTtAPyt8+bU+g7DZGMumPjIr3AhK8VeBDkEPaDczKY8CSIKJtgxwCeIydGeaKOP2MtqKiq4zkY0MfuTQL6r+qmTEAI6z9ttLrYx9RkYCnwFZpERm192M670QHZwLgjVLYaupEuNhiaK4APoXU4osmXZYPRXen6H4D+HZWhK8KVEZ+tw0OTOpVlsTjRP+ppnWCiMHy4qtCP5//ROR1n1cmEWooavE7fGevW3HUeOx1UkfBa54gQx3gCzuFOEHzmjwGg4//BfzenJD21D2uqEpP/M0EGnhKoOHLEK5zn3tu0ToYZLsg8bsJuMA9GhvCrpPjHzm0ODZfNbY6cglB5ezYdDTPOvkZY5ThO368UaaBsVOILQzc0QA3Jb9an/OIM3lNNnhbar0W+/j3sFHwGE+PXoPSGC5qxTwSkjTv+bkq+Wd5z8LHaiqrMZUM0lCJ3V7JbN1BufRNRd3FdPDIxKoRldThSZFnKM9PdZjqq/Zhb6p23TsOljeypelb+eZst3DiekXFYoIfXqwoPwIlacfEP106CIgAMnH2amC4QZqHBMuiNbKwVKTmtWbOCGqRer9tdnXESM3/YPORcpCjS48P6YnQsrnXO9pTxmzVTsZJ6PaBZD/FV+X7PQkW1AenC/R3pmDFA==
+	dluL8nrAlu4VK8dLcs3LSpTBh1x6Jw8naSXfAvIOUnGeX/EIwtnbUV14+ZHk2ETsywvUcjfAvqpDZBs9QUsonTVhB3AszS6jUsZpPFFkFNMeBJ5wzPiCnX5dw3CtLIi0qoMhjv2NT/aX1LTUEWMqY3EcON/Ahm/NZyR+jVGI0wgc4XwS49Tk/sAn41ld1FjWlCbkUAPReIyW/iyjrN/wX0txd8ogjw4IMz3FDx514fD/n5V0sET2u3OX+C7+uXFGDb7MYe8v6t6uHkzlXNl/sFwO2tzVxeka6YnbFY5eZcqpElHQ5SW4Y4hWmJetrtMiigqA/UpTJnHumK5vpQokHKex6yBGbE7BslOnSvWsRFlHX6SeUL8MTI5OaMoHPHgrUPz8MAs9QqTq6Iz40GceqGy8YXD0ltZUMz3OwbAdAky2Te4XDrb1enNMyzkmzcrWBTXMznCo/ycH/WKzCVvTQQWgWZ6ho4ohxgbebKzofNxGFs7y3nQ5Jvtf0jYOmkAgMVwSJlrlNERLjxc2LwHr005V74DmrG86oBavKHSzQsPDF4ZAgtzcAh/982m2e/s3MajyLNIrOE1HAx8zJ8BWvnIyM718586OyU4LUBs1uy6Ks9NdKVCYuzFtUtk8K2cH08d+4JBM92fOtTzfcA9fJsjfQ2Ie2ecuscC8NvCy2vmQSNN9TCa4mhTUWvwQHSVSnAoCwOggGkt+LjBr51vWDJq3aaPvh7ho5bTOVuP8HApxcYWeaJXVqh1gP2N4Nk1g
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(136003)(396003)(376002)(366004)(39850400004)(230922051799003)(1800799012)(186009)(451199024)(64100799003)(31696002)(6506007)(66946007)(53546011)(83380400001)(6512007)(18074004)(86362001)(66556008)(316002)(66476007)(66574015)(8936002)(4326008)(38100700002)(31686004)(6486002)(478600001)(2616005)(26005)(6666004)(8676002)(966005)(30864003)(15650500001)(2906002)(66899024)(41300700001)(5660300002)(36756003)(21314003)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39850400004)(366004)(376002)(396003)(136003)(346002)(230173577357003)(230273577357003)(230922051799003)(451199024)(64100799003)(1800799012)(186009)(66899024)(41300700001)(2906002)(30864003)(36756003)(5660300002)(316002)(66476007)(66946007)(6916009)(6506007)(31696002)(66556008)(86362001)(53546011)(6512007)(83380400001)(26005)(2616005)(478600001)(6486002)(6666004)(8676002)(966005)(38100700002)(8936002)(31686004)(2004002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?NVBHbHBPWUJ3WktQWkRyTnZKSVFaTFRMQmxxcnYxeVJETUtORXU5SG10K2Rq?=
- =?utf-8?B?MEVzT0xhRVdKWHlzeVV6M2lDbm5iNVZzenNjdVdoNVQ1YmFkMjdpelpoMCtQ?=
- =?utf-8?B?bW93NndTY2poeExBM1VUQy9WUFl3L0JtVjVRTkFuTUNmTGhFdElscko3YU16?=
- =?utf-8?B?cmM5blZVbkNwWXNyTnBvcEg5Ni9RQ0RyMTZDalltS2RJaWQ1K2tidU9UYkEr?=
- =?utf-8?B?RXFuamxZcmNBZkZma0hhQ1B1dktDZk1mYi92d1p6TUNVVGptcnhNbFdyMlBu?=
- =?utf-8?B?Nm9SLzdhSWVWNEx3c0k5cnB4ZTlLc2luM2NQV2tsazIxS2FteHJ6aG1tQWE0?=
- =?utf-8?B?eE5hNDJBK3l6UHBwcy9RaDIrTjZ5STJYN0Q1SGhkNFlOSzduTDNvejNRYmFr?=
- =?utf-8?B?Z0haOXFmZXQrMlVjSVJpcEdvUUNIV014dGc1eDV4QnZ0ZFFzT3ljUDdJY3Ix?=
- =?utf-8?B?Y2V5cWljNllkVHFhckFSVzRmc2dVNkxpaUJlclpXdmNPYkZLZnFCNE0wbWNW?=
- =?utf-8?B?c0FIdGpvSUlxNFFOWHdVb3RXUldMSkZ1amQvYjVidDR5MTBhM3k5OUJHSTZD?=
- =?utf-8?B?ZksxMTVZR3AxTXAzZm5HdCtLOFZ4MURpVmU1VHhoT2taVzNiQU1OSk1ZdTFj?=
- =?utf-8?B?WXZRcG8zTmpWSE9ibTFHZ3JqQ1p2UVZQYm9vQlVJa0QzM1Faa0gxc1BiVmVl?=
- =?utf-8?B?UUlzaXNiUDFkSS9pWmRwK0pocUZlbFBZVWxEaUZnMDFUTFM5K1h0ZGxNMUVJ?=
- =?utf-8?B?VytVSGlSdmwwMmNRRlZGZmdZcHJYbk9GQlNudUQ4dXUvb3E0YnVmYTRnN0hI?=
- =?utf-8?B?S2ZFNlo4Wit4ZUVxT0ZWRU5ISFpWZWtqMW5qRy9ram4xYnR0Z2hGNnNYM0lR?=
- =?utf-8?B?ZTVjaWM5eG9tUllDbnY4TlNuVlB4NmNhM3lkSHpka0N3akhXRXBPSHl4cFY3?=
- =?utf-8?B?VXkybkpMam8yS2Nhd0VoUTN5aGU0dlJleDhqWEQ5eEpwQ3B3MFlKMzdSUzkz?=
- =?utf-8?B?emFncU9IejkxdTBrelFETjhuMjFTK0R1eWk3TUt1QlZGY3cwd1dyQ1ZWNVpu?=
- =?utf-8?B?RE1jTFZSY2IwYWgySldBb2FVMlpPcnlmbkZGYklaY0dyaEs4ckdLNDcwcCtl?=
- =?utf-8?B?Z3ppSTA0VzNCYkZla1Nzd0FoWjVIVXpCR0VIV3dHRXFyUjJSbFhkdklZa1pY?=
- =?utf-8?B?M2s3MGd1YXpUUHBxazdMdW8zekNzMkZsNGJyNWFSYXMrMmoxMDNRdm1UemM3?=
- =?utf-8?B?aDhyWUJxWkc2M1p6NGZ5bWFYdFRLYWlpcWloejZ1eWRYb2hYMncydW5mU0gx?=
- =?utf-8?B?Q1dPdG5zL1RJdnY5SUlsRjRjTmk3aHFmckx0N3B5Nng4U3lTMlRTcGpWbm5s?=
- =?utf-8?B?anRxNWlmUE1PaGpyYnM5WU9hei80aCtMRm9oZ2cxaDNxRUdLZzc1bTFMbW9P?=
- =?utf-8?B?MkU1b3ViUzNGK3d1bXZibVBVRjlTZWVKSWFIZmlpMjhGM1NReSt1TUExUGZC?=
- =?utf-8?B?UCtxajlXVVE5M2E1bENhbHNGUlFDNWMwUEdIcHVRbzJlYTM5cDRsTTV1QUda?=
- =?utf-8?B?OC9EcXdvSHdER3VFSUtudE42REI5SGMwcnVteDdKdHNLa0JZMEw1eFcvNHRQ?=
- =?utf-8?B?V2Q1WFhhY1ZxTnl0UU9xb3RJOXc5b3c4ZUV0OFliZ3p3dGwxcWlOTE5EdWQ3?=
- =?utf-8?B?Zi9GOWRlcFd2WXN4RWxlUC9rbjE5R2I3SW5NbjR2djNtOW5TaC9aSzk1OWZa?=
- =?utf-8?B?YTIwcFNBRDhNZVhqUmJkV3R2bGtXNlJuaUVYUmM3Uld5ZTBXeXZEYnMxS2I4?=
- =?utf-8?B?NDFCQUNJOWhDTU1EaEtQMWdOd1E0Z0tSbW9UZ3d2UXZPZGYrMHlzVW5TQkdM?=
- =?utf-8?B?ZGVIa2dqSDc5UlVPT1RKc0E2Q3orZVVHUkdBREQzMjNKKzN5VHZySTRXdk5S?=
- =?utf-8?B?Z0dGQ2FaZWhjRXVzdHJOVUxtRGhrQWlmVHM1UkpVd3MyenZKbC9iS2hsWElQ?=
- =?utf-8?B?RjdjYWYrc0VWS3oycldML3VuRU9GZW5qbTVLQ09mckFKZG5hVFVQZVZkeHdv?=
- =?utf-8?B?TUhZQ0lmZ0RZVFFqL0RsdXRBYXBPNC9wank2QU1vMkszbitvYWtSaWZzdm9E?=
- =?utf-8?Q?wukcrXGqhrd0IQNh1JA6sI6hH?=
+	=?utf-8?B?TEtJdnpiYWh0cW43dzFzYWl6bkRWK0JOV044UDZkYmo4RXR3b013UUp1UmRI?=
+ =?utf-8?B?Rk5wZEEwTE5xVTJLNTgwSXRmaUhWZXlXRXAyRlJ6OHRPc2phK1gyTEg1TmdS?=
+ =?utf-8?B?ZjVuSU5BMnlrTUdoS3RtRlVKa2VzeDMvQkNBTXBDTzgxM2VhSWFXTDZPZWEv?=
+ =?utf-8?B?WXVtOTRsL1pVUms1VzNDTnMvMjZRd3Rxbzl1ZkdHVzdkK0tCeTc1RlU0dEJm?=
+ =?utf-8?B?M2ZLU1F5bkNsbnVPU3YzQVphRGp1cXM1c21vb3o5QlV2bEw3UTIxVTlGbFFV?=
+ =?utf-8?B?ZmU1Vm9JdXZZblVScWZGL0haNVY0aVpmaDA3eGhJSGw5NEgrdTZ1YjllOFFM?=
+ =?utf-8?B?bi8ybGlNMEZ1Q0dzYlRFNUdlSjNrMjlFUWtMaUszMHJ1TElBdVl1dGwrR1Fu?=
+ =?utf-8?B?RE1heENuMm5TdzdDUzhHSTErLzRkdENPNE90OThBTzM1aTZQWml1UUlLSjRK?=
+ =?utf-8?B?ZmJkQlJuOTFEbHo2K2Y4bG95blhPT3dhVVpkK294c2ZXTmV4NU13T1FXYmRE?=
+ =?utf-8?B?Q1prNWFsaGZuaWpQc284ZjRDQXJYOVpYWTBSQlA3dVFGSVBDbjg4L2s1Njl0?=
+ =?utf-8?B?WHp2c0hSYVRYQm5UVHdIZVlCQnZGRXNURXFZMTd2TXh1WGxXY21XQzhrOEUx?=
+ =?utf-8?B?cmhGRlQzNkM0U2M3U1pUajdETk85Snp1eVY2TUtjRUN4N3F5RHhIaUJrT2NU?=
+ =?utf-8?B?V0lWaVA5VHJIOG5qU0RTNytlTjRydGk0STRLbnc3WnhRQW9zeHpqRjIzYmlr?=
+ =?utf-8?B?WTdXZUNwSnlQUGdPMVVHeFpBclVJc1ptaTJOZTRIRUJLSG42bnVaTWpHUzgw?=
+ =?utf-8?B?aENHYUZlVy9OeGM2ZzBVOWVNNVBkR2ltVVFVQ2FSVTkvUnMzS3MwMThTTzFB?=
+ =?utf-8?B?UDhYZ3dTUEpxdWRQYTF5NHdVN1Q0dy9KQk8ycjY5M2p5cncxRWlhSmVEdW1m?=
+ =?utf-8?B?KzBuVElnVVFhL1VYNkt2VXRkSkg5R3BCSXQyYXh1aklyVnpmY0M1M1dLMUVj?=
+ =?utf-8?B?bSs1ZWVvR2NidGVXV1ZPSlRuc1NPUmNla0d5YnVJNjlRSFk5VVFjWVU1bkpL?=
+ =?utf-8?B?SjdPdFFtOERvVFF3dERYRTRQdmdjODNyZU9yZ05tb3ZEcE0yZTJxQ0N2YzM3?=
+ =?utf-8?B?OUNheUxXcEx3WE5ic0N3Ty9NcnZmQ0hCZUFIUjBtejdTZjJoUVROQ1B2UExL?=
+ =?utf-8?B?Z05VWmZQaTB1NUViY056Rkc5dUZ2QzNPTitmUVZkTW1ib3pKYlBRUGp6bU40?=
+ =?utf-8?B?UTdubWNGUHJFS05tL09RMVdGSTAxY0tCNGJNbS96ZjlOVkUvVXExQ2NBR0tG?=
+ =?utf-8?B?V1NVcFRBTmpSblZpeE9Bb3NuZWo2UHdHVmlvaDRnYXFOOStTN09FcDRoRDAv?=
+ =?utf-8?B?eGxaWktZMmtMaTRtMDhTU0RoaHQ5WjR2M0Y2UWpWT2JHdU92M0l0YTYzZ0VW?=
+ =?utf-8?B?RFhTS0YzNTI4TVlYeHpnVERKREhvbCtaWUJYbWdIZE9hTXVyWDd6dVZzNXN1?=
+ =?utf-8?B?b2RYakdFbUo3a0s4VFdTQi9zT0RTbTFobXNKNGRuWW9RaFdrNW96UXpna2t4?=
+ =?utf-8?B?cHd1MEhSY1JCN2t3cVJpMnJKckFwa2N0Z1ZRNTU5dzRsQzVVc1ZiN09LbWE3?=
+ =?utf-8?B?eWlzazFWOS9saG9uZDV5M0NGOS9leGd0bDJPLzZ3R2lIaFE0TFMyUkxiaTZP?=
+ =?utf-8?B?Vkx4aEZCcEpHTnlueFFkNUEySkUwZFl6WlFySHhia003cDJYT1M3bVlvNTNj?=
+ =?utf-8?B?SzZGM3hCS1dacHhybGdhQzViRWhxWk15RmlYeXptbXBYUFhxd213YWhKL09o?=
+ =?utf-8?B?MWVPUFVVUVVWbS90d1J2UkFVNVMwcFFlbndCYWxwbUdzNzNyaHY1WFRtaDY1?=
+ =?utf-8?B?NDNGaWNlUkpzbWdSMUQ3L0pnN2RGY2xLeHVoUFRHekxCRWFUZDVTMnZ1dUQr?=
+ =?utf-8?B?ak1NZmswd3QxYk5RVHNMZTg5czJPTy8vaXQ5RTB0ZUx2NmFiSHB6dy93eUNr?=
+ =?utf-8?B?cW9DQ0hyOHJJTmNvbU1PY1huWlZPcnp4K1JnelFITEJmZjFmUy9NeUdnOEVr?=
+ =?utf-8?B?OE5qNmpMR1M2bC9lM3ptUXhFbU5KWmdDNXhDTHFpL2lHK0lrRlZTSm1kL21k?=
+ =?utf-8?Q?4srsgoPpXy128m3yoDu5dDz6i?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3cb7aeb2-3896-43d1-e0f5-08dc189b9f15
+X-MS-Exchange-CrossTenant-Network-Message-Id: ce6f5a82-63e5-4e6a-3a66-08dc189c0a5a
 X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2024 03:06:24.8938
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2024 03:09:24.8459
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yVVAgZqXfcv4CteCeZHubJWUUbDEvFh5n+BOatricb145lezK7STRFjfEopzSLXNmNjmQzvU6pw/GApRSPupzg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: C4zFrCkQTD3QI4NJsEZKcVCc0GUkgtOt/Ou05WDA52EAfkVMX2XP815pb+VoeF5M8cX0SvR9CA+Z50zZmifRSw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB6964
-X-Proofpoint-GUID: wuXX-FuOkUa5dOyKXCdM94FlyAhlxTx4
-X-Proofpoint-ORIG-GUID: o1qQ1lt2Ppj_haRP7B2aZsRRXkPqOCvJ
+X-Proofpoint-GUID: r1C_SdmOp7VaEWaZQc02qAvPHUKowUsi
+X-Proofpoint-ORIG-GUID: r1C_SdmOp7VaEWaZQc02qAvPHUKowUsi
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2024-01-18_12,2024-01-17_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- impostorscore=0 spamscore=0 lowpriorityscore=0 phishscore=0 malwarescore=0
- mlxlogscore=999 clxscore=1015 bulkscore=0 mlxscore=0 suspectscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 bulkscore=0
+ phishscore=0 mlxlogscore=999 suspectscore=0 malwarescore=0 adultscore=0
+ priorityscore=1501 spamscore=0 mlxscore=0 lowpriorityscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2311290000 definitions=main-2401190012
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 Jan 2024 03:06:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194006
+ <openembedded-core@lists.openembedded.org>; Fri, 19 Jan 2024 03:09:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194007
 
-I'm seeing build failures on Ubuntu 20.04.
-GCC version: 9.4.0
-
-1. error: parameter name omitted
-The problem is that the active_sessions_count function's definition 
-lacks parameter. I did change like below:
--unsigned long active_sessions_count(const char *name, unsigned long unused)
-+unsigned long active_sessions_count(const char *name, unsigned long 
-unused unused_parameter)
-But then I observed another error, as shown below.
-
-2. undefined reference to `dlsym'.
-| /ala-lpggp72/qichen/Yocto/builds/build-master/tmp/hosttools/ld: 
-../lib/.libs/libshadow.a(libshadow_la-nss.o): in function `nss_exit':
-| nss.c:(.text+0x32): undefined reference to `dlclose'
-| /ala-lpggp72/qichen/Yocto/builds/build-master/tmp/hosttools/ld: 
-../lib/.libs/libshadow.a(libshadow_la-nss.o): in function `nss_init':
-| nss.c:(.text+0x1dd): undefined reference to `dlopen'
-| /ala-lpggp72/qichen/Yocto/builds/build-master/tmp/hosttools/ld: 
-nss.c:(.text+0x21c): undefined reference to `dlsym'
-| /ala-lpggp72/qichen/Yocto/builds/build-master/tmp/hosttools/ld: 
-nss.c:(.text+0x237): undefined reference to `dlsym'
-| /ala-lpggp72/qichen/Yocto/builds/build-master/tmp/hosttools/ld: 
-nss.c:(.text+0x253): undefined reference to `dlsym'
-| /ala-lpggp72/qichen/Yocto/builds/build-master/tmp/hosttools/ld: 
-nss.c:(.text+0x365): undefined reference to `dlclose'
-| /ala-lpggp72/qichen/Yocto/builds/build-master/tmp/hosttools/ld: 
-nss.c:(.text+0x3b2): undefined reference to `dlerror'
-| collect2: error: ld returned 1 exit status
-| make[2]: *** [Makefile:1130: su] Error 1
-
-On Ubuntu22.04, there's no such issue.
+What's the status of this patch series?
+Is there any issue or concern that I missed?
 
 Regards,
 Qi
 
-On 1/11/24 21:15, Alexander Kanavin wrote:
-> License-Update: formatting, spdx conversion
+On 12/27/23 12:20, Chen Qi via lists.openembedded.org wrote:
+> From: Chen Qi <Qi.Chen@windriver.com>
 >
-> Drop:
-> 0001-Disable-use-of-syslog-for-sysroot.patch
-> (issue fixed upstream)
+> 1. Patch changes:
 >
-> 0001-Fix-can-not-print-full-login.patch
-> 0001-Overhaul-valid_field.patch
-> CVE-2023-29383.patch
-> (backports)
+> 0004-Move-sysusers.d-sysctl.d-binfmt.d-modules-load.d-to-.patch
+> is removed because it has no real effect now. The /lib is now
+> /usr/lib because 'usrmerge' is a required distro feature for systemd.
 >
-> libbsd is a new native dependency, as otherwise glibc >= 2.38
-> is needed.
+> 0002-binfmt-Don-t-install-dependency-links-at-install-tim.patch is
+> refreshed for the new version to avoid patch-fuzz issue.
 >
-> A similar fix is added to musl in order to define non-standard __BEGIN_DECLS/__END_DECLS.
+> 2. root user's home directory now defaults to "/root":
 >
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> The sysuers.d/basic.conf is still modified to respect the ROOT_HOME
+> value, so if users set ROOT_HOME to "/home/root", the behavior is the
+> same as before. However, this is only for backward compatibility. With
+> this patch, The ROOT_HOME value is set to "/root" in init-manager-systemd.inc.
+> This is because systemd's source codes are hardcoding "/root", and other
+> values are not officially supported. See the list below.
+> $ grep -rl '"/root"' src/ | grep -v 'src/test'
+> src/core/namespace.c
+> src/basic/user-util.c
+> src/nss-systemd/nss-systemd.c
+> src/nspawn/nspawn.c
+> src/firstboot/firstboot.c
+> src/shared/userdb.c
+> src/shared/user-record.c
+> $ grep -rl /root network/ factory/ sysctl.d/ sysusers.d/ rules.d/ tmpfiles.d/ units/ xorg/ tools/
+> sysusers.d/basic.conf.in
+> tmpfiles.d/provision.conf
+> units/emergency.service.in
+> units/rescue.service.in
+> tools/list-discoverable-partitions.py
+> Previously, the recipe was just substituting sysusers.d/basic.conf.in,
+> which is not enough to be treated as 'fully support'. I deliberately put
+> a warning message in do_install to warn users about non "/root" ROOT_HOME
+> value. Don't remove it until all above places are handled.
+>
+> 3. cgroupv2 is now the default.
+> cgroupv2 is the default for systemd for many years and it's the default
+> for distros such as ubuntu and fedora. Let's also use it as the default.
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 > ---
->   ...01-Disable-use-of-syslog-for-sysroot.patch |  52 -------
->   .../0001-Fix-can-not-print-full-login.patch   |  41 -----
->   .../files/0001-Overhaul-valid_field.patch     |  65 --------
->   .../shadow/files/CVE-2023-29383.patch         |  53 -------
->   .../shadow/files/CVE-2023-4641.patch          | 147 ------------------
->   ...nexpected-open-failure-in-chroot-env.patch |  16 +-
->   meta/recipes-extended/shadow/shadow.inc       |  20 +--
->   .../{shadow_4.13.bb => shadow_4.14.2.bb}      |   0
->   8 files changed, 16 insertions(+), 378 deletions(-)
->   delete mode 100644 meta/recipes-extended/shadow/files/0001-Disable-use-of-syslog-for-sysroot.patch
->   delete mode 100644 meta/recipes-extended/shadow/files/0001-Fix-can-not-print-full-login.patch
->   delete mode 100644 meta/recipes-extended/shadow/files/0001-Overhaul-valid_field.patch
->   delete mode 100644 meta/recipes-extended/shadow/files/CVE-2023-29383.patch
->   delete mode 100644 meta/recipes-extended/shadow/files/CVE-2023-4641.patch
->   rename meta/recipes-extended/shadow/{shadow_4.13.bb => shadow_4.14.2.bb} (100%)
+>   .../distro/include/init-manager-systemd.inc   |  2 +
+>   meta/recipes-core/systemd/systemd.inc         |  4 +-
+>   ...tall-dependency-links-at-install-tim.patch | 22 +++---
+>   ...sysctl.d-binfmt.d-modules-load.d-to-.patch | 73 -------------------
+>   .../systemd/systemd/basic.conf.in             | 40 ----------
+>   .../{systemd_254.4.bb => systemd_255.1.bb}    | 16 ++--
+>   6 files changed, 25 insertions(+), 132 deletions(-)
+>   delete mode 100644 meta/recipes-core/systemd/systemd/0004-Move-sysusers.d-sysctl.d-binfmt.d-modules-load.d-to-.patch
+>   delete mode 100644 meta/recipes-core/systemd/systemd/basic.conf.in
+>   rename meta/recipes-core/systemd/{systemd_254.4.bb => systemd_255.1.bb} (98%)
 >
-> diff --git a/meta/recipes-extended/shadow/files/0001-Disable-use-of-syslog-for-sysroot.patch b/meta/recipes-extended/shadow/files/0001-Disable-use-of-syslog-for-sysroot.patch
-> deleted file mode 100644
-> index fa1532c8317..00000000000
-> --- a/meta/recipes-extended/shadow/files/0001-Disable-use-of-syslog-for-sysroot.patch
-> +++ /dev/null
-> @@ -1,52 +0,0 @@
-> -From 85d0444229ee3d14fefcf10d093f49c862826f82 Mon Sep 17 00:00:00 2001
-> -From: Richard Purdie <richard.purdie@linuxfoundation.org>
-> -Date: Thu, 14 Apr 2022 23:11:53 +0000
-> -Subject: [PATCH] Disable use of syslog for shadow-native tools
-> -
-> -Disable use of syslog to prevent sysroot user and group additions from
-> -writing entries to the host's syslog. This patch should only be used
-> -with the shadow-native recipe.
-> -
-> -Upstream-Status: Inappropriate [OE specific configuration]
-> -Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> -Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> -
-> ----
-> - configure.ac      | 2 +-
-> - src/login_nopam.c | 3 ++-
-> - 2 files changed, 3 insertions(+), 2 deletions(-)
-> -
-> -diff --git a/configure.ac b/configure.ac
-> -index 924254a..603af81 100644
-> ---- a/configure.ac
-> -+++ b/configure.ac
-> -@@ -191,7 +191,7 @@ AC_DEFINE_UNQUOTED(PASSWD_PROGRAM, "$shadow_cv_passwd_dir/passwd",
-> - 	[Path to passwd program.])
-> -
-> - dnl XXX - quick hack, should disappear before anyone notices :).
-> --AC_DEFINE(USE_SYSLOG, 1, [Define to use syslog().])
-> -+#AC_DEFINE(USE_SYSLOG, 1, [Define to use syslog().])
-> - if test "$ac_cv_func_ruserok" = "yes"; then
-> - 	AC_DEFINE(RLOGIN, 1, [Define if login should support the -r flag for rlogind.])
-> - 	AC_DEFINE(RUSEROK, 0, [Define to the ruserok() "success" return value (0 or 1).])
-> -diff --git a/src/login_nopam.c b/src/login_nopam.c
-> -index df6ba88..fc24e13 100644
-> ---- a/src/login_nopam.c
-> -+++ b/src/login_nopam.c
-> -@@ -29,7 +29,6 @@
-> - #ifndef USE_PAM
-> - #ident "$Id$"
-> -
-> --#include "prototypes.h"
-> -     /*
-> -      * This module implements a simple but effective form of login access
-> -      * control based on login names and on host (or domain) names, internet
-> -@@ -57,6 +56,8 @@
-> - #include <netinet/in.h>
-> - #include <arpa/inet.h>		/* for inet_ntoa() */
-> -
-> -+#include "prototypes.h"
-> -+
-> - #if !defined(MAXHOSTNAMELEN) || (MAXHOSTNAMELEN < 64)
-> - #undef MAXHOSTNAMELEN
-> - #define MAXHOSTNAMELEN 256
-> diff --git a/meta/recipes-extended/shadow/files/0001-Fix-can-not-print-full-login.patch b/meta/recipes-extended/shadow/files/0001-Fix-can-not-print-full-login.patch
-> deleted file mode 100644
-> index 89f9c05c8d3..00000000000
-> --- a/meta/recipes-extended/shadow/files/0001-Fix-can-not-print-full-login.patch
-> +++ /dev/null
-> @@ -1,41 +0,0 @@
-> -commit 670cae834827a8f794e6f7464fa57790d911b63c
-> -Author: SoumyaWind <121475834+SoumyaWind@users.noreply.github.com>
-> -Date:   Tue Dec 27 17:40:17 2022 +0530
-> -
-> -    shadow: Fix can not print full login timeout message
-> -
-> -    Login timed out message prints only first few bytes when write is immediately followed by exit.
-> -    Calling exit from new handler provides enough time to display full message.
-> -
-> -Upstream-Status: Backport [https://github.com/shadow-maint/shadow/commit/670cae834827a8f794e6f7464fa57790d911b63c]
-> -
-> -diff --git a/src/login.c b/src/login.c
-> -index 116e2cb3..c55f4de0 100644
-> ---- a/src/login.c
-> -+++ b/src/login.c
-> -@@ -120,6 +120,7 @@ static void get_pam_user (char **ptr_pam_user);
-> -
-> - static void init_env (void);
-> - static void alarm_handler (int);
-> -+static void exit_handler (int);
-> -
-> - /*
-> -  * usage - print login command usage and exit
-> -@@ -391,11 +392,16 @@ static void init_env (void)
-> - #endif				/* !USE_PAM */
-> - }
-> -
-> -+static void exit_handler (unused int sig)
-> -+{
-> -+	_exit (0);
-> -+}
-> -
-> - static void alarm_handler (unused int sig)
-> - {
-> - 	write (STDERR_FILENO, tmsg, strlen (tmsg));
-> --	_exit (0);
-> -+	signal(SIGALRM, exit_handler);
-> -+	alarm(2);
-> - }
-> -
-> - #ifdef USE_PAM
-> diff --git a/meta/recipes-extended/shadow/files/0001-Overhaul-valid_field.patch b/meta/recipes-extended/shadow/files/0001-Overhaul-valid_field.patch
-> deleted file mode 100644
-> index ac08be515bf..00000000000
-> --- a/meta/recipes-extended/shadow/files/0001-Overhaul-valid_field.patch
-> +++ /dev/null
-> @@ -1,65 +0,0 @@
-> -From 2eaea70111f65b16d55998386e4ceb4273c19eb4 Mon Sep 17 00:00:00 2001
-> -From: =?UTF-8?q?Christian=20G=C3=B6ttsche?= <cgzones@googlemail.com>
-> -Date: Fri, 31 Mar 2023 14:46:50 +0200
-> -Subject: [PATCH] Overhaul valid_field()
-> -
-> -e5905c4b ("Added control character check") introduced checking for
-> -control characters but had the logic inverted, so it rejects all
-> -characters that are not control ones.
-> -
-> -Cast the character to `unsigned char` before passing to the character
-> -checking functions to avoid UB.
-> -
-> -Use strpbrk(3) for the illegal character test and return early.
-> -
-> -Upstream-Status: Backport [https://github.com/shadow-maint/shadow/commit/2eaea70111f65b16d55998386e4ceb4273c19eb4]
-> -
-> -Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
-> ----
-> - lib/fields.c | 24 ++++++++++--------------
-> - 1 file changed, 10 insertions(+), 14 deletions(-)
-> -
-> -diff --git a/lib/fields.c b/lib/fields.c
-> -index fb51b582..53929248 100644
-> ---- a/lib/fields.c
-> -+++ b/lib/fields.c
-> -@@ -37,26 +37,22 @@ int valid_field (const char *field, const char *illegal)
-> -
-> - 	/* For each character of field, search if it appears in the list
-> - 	 * of illegal characters. */
-> -+	if (illegal && NULL != strpbrk (field, illegal)) {
-> -+		return -1;
-> -+	}
-> -+
-> -+	/* Search if there are non-printable or control characters */
-> - 	for (cp = field; '\0' != *cp; cp++) {
-> --		if (strchr (illegal, *cp) != NULL) {
-> -+		unsigned char c = *cp;
-> -+		if (!isprint (c)) {
-> -+			err = 1;
-> -+		}
-> -+		if (iscntrl (c)) {
-> - 			err = -1;
-> - 			break;
-> - 		}
-> - 	}
-> -
-> --	if (0 == err) {
-> --		/* Search if there are non-printable or control characters */
-> --		for (cp = field; '\0' != *cp; cp++) {
-> --			if (!isprint (*cp)) {
-> --				err = 1;
-> --			}
-> --			if (!iscntrl (*cp)) {
-> --				err = -1;
-> --				break;
-> --			}
-> --		}
-> --	}
-> --
-> - 	return err;
-> - }
-> -
-> ---
-> -2.34.1
-> -
-> diff --git a/meta/recipes-extended/shadow/files/CVE-2023-29383.patch b/meta/recipes-extended/shadow/files/CVE-2023-29383.patch
-> deleted file mode 100644
-> index f53341d3fc2..00000000000
-> --- a/meta/recipes-extended/shadow/files/CVE-2023-29383.patch
-> +++ /dev/null
-> @@ -1,53 +0,0 @@
-> -From e5905c4b84d4fb90aefcd96ee618411ebfac663d Mon Sep 17 00:00:00 2001
-> -From: tomspiderlabs <128755403+tomspiderlabs@users.noreply.github.com>
-> -Date: Thu, 23 Mar 2023 23:39:38 +0000
-> -Subject: [PATCH] Added control character check
-> -
-> -Added control character check, returning -1 (to "err") if control characters are present.
-> -
-> -CVE: CVE-2023-29383
-> -Upstream-Status: Backport
-> -
-> -Reference to upstream:
-> -https://github.com/shadow-maint/shadow/commit/e5905c4b84d4fb90aefcd96ee618411ebfac663d
-> -
-> -Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
-> ----
-> - lib/fields.c | 11 +++++++----
-> - 1 file changed, 7 insertions(+), 4 deletions(-)
-> -
-> -diff --git a/lib/fields.c b/lib/fields.c
-> -index 640be931..fb51b582 100644
-> ---- a/lib/fields.c
-> -+++ b/lib/fields.c
-> -@@ -21,9 +21,9 @@
-> -  *
-> -  * The supplied field is scanned for non-printable and other illegal
-> -  * characters.
-> -- *  + -1 is returned if an illegal character is present.
-> -- *  +  1 is returned if no illegal characters are present, but the field
-> -- *       contains a non-printable character.
-> -+ *  + -1 is returned if an illegal or control character is present.
-> -+ *  +  1 is returned if no illegal or control characters are present,
-> -+ *       but the field contains a non-printable character.
-> -  *  +  0 is returned otherwise.
-> -  */
-> - int valid_field (const char *field, const char *illegal)
-> -@@ -45,10 +45,13 @@ int valid_field (const char *field, const char *illegal)
-> - 	}
-> -
-> - 	if (0 == err) {
-> --		/* Search if there are some non-printable characters */
-> -+		/* Search if there are non-printable or control characters */
-> - 		for (cp = field; '\0' != *cp; cp++) {
-> - 			if (!isprint (*cp)) {
-> - 				err = 1;
-> -+			}
-> -+			if (!iscntrl (*cp)) {
-> -+				err = -1;
-> - 				break;
-> - 			}
-> - 		}
-> ---
-> -2.34.1
-> -
-> diff --git a/meta/recipes-extended/shadow/files/CVE-2023-4641.patch b/meta/recipes-extended/shadow/files/CVE-2023-4641.patch
-> deleted file mode 100644
-> index 1fabfe928e4..00000000000
-> --- a/meta/recipes-extended/shadow/files/CVE-2023-4641.patch
-> +++ /dev/null
-> @@ -1,147 +0,0 @@
-> -From 25dbe2ce166a13322b7536ff2f738786ea2e61e7 Mon Sep 17 00:00:00 2001
-> -From: Alejandro Colomar <alx@kernel.org>
-> -Date: Sat, 10 Jun 2023 16:20:05 +0200
-> -Subject: [PATCH] gpasswd(1): Fix password leak
-> -
-> -How to trigger this password leak?
-> -~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> -
-> -When gpasswd(1) asks for the new password, it asks twice (as is usual
-> -for confirming the new password).  Each of those 2 password prompts
-> -uses agetpass() to get the password.  If the second agetpass() fails,
-> -the first password, which has been copied into the 'static' buffer
-> -'pass' via STRFCPY(), wasn't being zeroed.
-> -
-> -agetpass() is defined in <./libmisc/agetpass.c> (around line 91), and
-> -can fail for any of the following reasons:
-> -
-> --  malloc(3) or readpassphrase(3) failure.
-> -
-> -   These are going to be difficult to trigger.  Maybe getting the system
-> -   to the limits of memory utilization at that exact point, so that the
-> -   next malloc(3) gets ENOMEM, and possibly even the OOM is triggered.
-> -   About readpassphrase(3), ENFILE and EINTR seem the only plausible
-> -   ones, and EINTR probably requires privilege or being the same user;
-> -   but I wouldn't discard ENFILE so easily, if a process starts opening
-> -   files.
-> -
-> --  The password is longer than PASS_MAX.
-> -
-> -   The is plausible with physical access.  However, at that point, a
-> -   keylogger will be a much simpler attack.
-> -
-> -And, the attacker must be able to know when the second password is being
-> -introduced, which is not going to be easy.
-> -
-> -How to read the password after the leak?
-> -~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> -
-> -Provoking the leak yourself at the right point by entering a very long
-> -password is easy, and inspecting the process stack at that point should
-> -be doable.  Try to find some consistent patterns.
-> -
-> -Then, search for those patterns in free memory, right after the victim
-> -leaks their password.
-> -
-> -Once you get the leak, a program should read all the free memory
-> -searching for patterns that gpasswd(1) leaves nearby the leaked
-> -password.
-> -
-> -On 6/10/23 03:14, Seth Arnold wrote:
-> -> An attacker process wouldn't be able to use malloc(3) for this task.
-> -> There's a handful of tools available for userspace to allocate memory:
-> ->
-> -> -  brk / sbrk
-> -> -  mmap MAP_ANONYMOUS
-> -> -  mmap /dev/zero
-> -> -  mmap some other file
-> -> -  shm_open
-> -> -  shmget
-> ->
-> -> Most of these return only pages of zeros to a process.  Using mmap of an
-> -> existing file, you can get some of the contents of the file demand-loaded
-> -> into the memory space on the first use.
-> ->
-> -> The MAP_UNINITIALIZED flag only works if the kernel was compiled with
-> -> CONFIG_MMAP_ALLOW_UNINITIALIZED.  This is rare.
-> ->
-> -> malloc(3) doesn't zero memory, to our collective frustration, but all the
-> -> garbage in the allocations is from previous allocations in the current
-> -> process.  It isn't leftover from other processes.
-> ->
-> -> The avenues available for reading the memory:
-> -> -  /dev/mem and /dev/kmem (requires root, not available with Secure Boot)
-> -> -  /proc/pid/mem (requires ptrace privileges, mediated by YAMA)
-> -> -  ptrace (requires ptrace privileges, mediated by YAMA)
-> -> -  causing memory to be swapped to disk, and then inspecting the swap
-> ->
-> -> These all require a certain amount of privileges.
-> -
-> -How to fix it?
-> -~~~~~~~~~~~~~~
-> -
-> -memzero(), which internally calls explicit_bzero(3), or whatever
-> -alternative the system provides with a slightly different name, will
-> -make sure that the buffer is zeroed in memory, and optimizations are not
-> -allowed to impede this zeroing.
-> -
-> -This is not really 100% effective, since compilers may place copies of
-> -the string somewhere hidden in the stack.  Those copies won't get zeroed
-> -by explicit_bzero(3).  However, that's arguably a compiler bug, since
-> -compilers should make everything possible to avoid optimizing strings
-> -that are later passed to explicit_bzero(3).  But we all know that
-> -sometimes it's impossible to have perfect knowledge in the compiler, so
-> -this is plausible.  Nevertheless, there's nothing we can do against such
-> -issues, except minimizing the time such passwords are stored in plain
-> -text.
-> -
-> -Security concerns
-> -~~~~~~~~~~~~~~~~~
-> -
-> -We believe this isn't easy to exploit.  Nevertheless, and since the fix
-> -is trivial, this fix should probably be applied soon, and backported to
-> -all supported distributions, to prevent someone else having more
-> -imagination than us to find a way.
-> -
-> -Affected versions
-> -~~~~~~~~~~~~~~~~~
-> -
-> -All.  Bug introduced in shadow 19990709.  That's the second commit in
-> -the git history.
-> -
-> -Fixes: 45c6603cc86c ("[svn-upgrade] Integrating new upstream version, shadow (19990709)")
-> -
-> -CVE: CVE-2023-4641
-> -Upstream-Status: Backport [https://github.com/shadow-maint/shadow/commit/65c88a43a23c2391dcc90c0abda3e839e9c57904]
-> -
-> -Reported-by: Alejandro Colomar <alx@kernel.org>
-> -Cc: Serge Hallyn <serge@hallyn.com>
-> -Cc: Iker Pedrosa <ipedrosa@redhat.com>
-> -Cc: Seth Arnold <seth.arnold@canonical.com>
-> -Cc: Christian Brauner <christian@brauner.io>
-> -Cc: Balint Reczey <rbalint@debian.org>
-> -Cc: Sam James <sam@gentoo.org>
-> -Cc: David Runge <dvzrv@archlinux.org>
-> -Cc: Andreas Jaeger <aj@suse.de>
-> -Cc: <~hallyn/shadow@lists.sr.ht>
-> -Signed-off-by: Alejandro Colomar <alx@kernel.org>
-> -Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
-> ----
-> - src/gpasswd.c | 1 +
-> - 1 file changed, 1 insertion(+)
-> -
-> -diff --git a/src/gpasswd.c b/src/gpasswd.c
-> -index 5983f787..2d8869ef 100644
-> ---- a/src/gpasswd.c
-> -+++ b/src/gpasswd.c
-> -@@ -896,6 +896,7 @@ static void change_passwd (struct group *gr)
-> - 		strzero (cp);
-> - 		cp = getpass (_("Re-enter new password: "));
-> - 		if (NULL == cp) {
-> -+			memzero (pass, sizeof pass);
-> - 			exit (1);
-> - 		}
-> -
-> ---
-> -2.34.1
-> -
-> diff --git a/meta/recipes-extended/shadow/files/commonio.c-fix-unexpected-open-failure-in-chroot-env.patch b/meta/recipes-extended/shadow/files/commonio.c-fix-unexpected-open-failure-in-chroot-env.patch
-> index 85d91751056..4a932d2dbb1 100644
-> --- a/meta/recipes-extended/shadow/files/commonio.c-fix-unexpected-open-failure-in-chroot-env.patch
-> +++ b/meta/recipes-extended/shadow/files/commonio.c-fix-unexpected-open-failure-in-chroot-env.patch
-> @@ -1,4 +1,4 @@
-> -From 21583da072aa66901d859ac00ce209bac87ddecc Mon Sep 17 00:00:00 2001
-> +From a773c6b240d27e23d6be41decef0edf24fcee523 Mon Sep 17 00:00:00 2001
+> diff --git a/meta/conf/distro/include/init-manager-systemd.inc b/meta/conf/distro/include/init-manager-systemd.inc
+> index 595d1f2644..0a76647459 100644
+> --- a/meta/conf/distro/include/init-manager-systemd.inc
+> +++ b/meta/conf/distro/include/init-manager-systemd.inc
+> @@ -5,3 +5,5 @@ VIRTUAL-RUNTIME_init_manager ??= "systemd"
+>   VIRTUAL-RUNTIME_initscripts ??= "systemd-compat-units"
+>   VIRTUAL-RUNTIME_login_manager ??= "shadow-base"
+>   VIRTUAL-RUNTIME_dev_manager ??= "systemd"
+> +# systemd hardcodes /root in its source codes, other values are not offically supported
+> +ROOT_HOME ?= "/root"
+> diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
+> index ccc3236457..1417e0150f 100644
+> --- a/meta/recipes-core/systemd/systemd.inc
+> +++ b/meta/recipes-core/systemd/systemd.inc
+> @@ -15,8 +15,8 @@ LICENSE:libsystemd = "LGPL-2.1-or-later"
+>   LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
+>                       file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
+>   
+> -SRCREV = "2e7504449a51fb38db9cd2da391c6434f82def51"
+> -SRCBRANCH = "v254-stable"
+> +SRCREV = "2018ccef6645ce00c784369a22dc4e98f6d7061d"
+> +SRCBRANCH = "v255-stable"
+>   SRC_URI = "git://github.com/systemd/systemd-stable.git;protocol=https;branch=${SRCBRANCH}"
+>   
+>   S = "${WORKDIR}/git"
+> diff --git a/meta/recipes-core/systemd/systemd/0002-binfmt-Don-t-install-dependency-links-at-install-tim.patch b/meta/recipes-core/systemd/systemd/0002-binfmt-Don-t-install-dependency-links-at-install-tim.patch
+> index 085f1e9052..be231cf6b2 100644
+> --- a/meta/recipes-core/systemd/systemd/0002-binfmt-Don-t-install-dependency-links-at-install-tim.patch
+> +++ b/meta/recipes-core/systemd/systemd/0002-binfmt-Don-t-install-dependency-links-at-install-tim.patch
+> @@ -1,8 +1,8 @@
+> -From ca7d9a8d9c81702af9c599bb79706f12b1a465cf Mon Sep 17 00:00:00 2001
+> +From 29a58009a172e369ad7166e16dab2f4945c6b0d2 Mon Sep 17 00:00:00 2001
 >   From: Chen Qi <Qi.Chen@windriver.com>
->   Date: Thu, 17 Jul 2014 15:53:34 +0800
->   Subject: [PATCH] commonio.c-fix-unexpected-open-failure-in-chroot-env
-> @@ -15,35 +15,37 @@ Note that this patch doesn't change the logic in the code, it just expands
->   the codes.
+>   Date: Thu, 21 Feb 2019 16:23:24 +0800
+> -Subject: [PATCH] binfmt: Don't install dependency links at install time for
+> - the binfmt services
+> +Subject: [PATCH 1/2] binfmt: Don't install dependency links at install time
+> + for the binfmt services
 >   
->   Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> -
->   ---
->    lib/commonio.c | 16 ++++++++++++----
->    1 file changed, 12 insertions(+), 4 deletions(-)
+>   use [Install] blocks so that they get created when the service is enabled
+>   like a traditional service.
+> @@ -25,10 +25,10 @@ Signed-off-by: Scott Murray <scott.murray@konsulko.com>
+>    3 files changed, 7 insertions(+), 2 deletions(-)
 >   
->   diff --git a/lib/commonio.c b/lib/commonio.c
-> -index 9a02ce1..61384ec 100644
-> +index 73fdb3a..d1231e9 100644
->   --- a/lib/commonio.c
->   +++ b/lib/commonio.c
-> -@@ -616,10 +616,18 @@ int commonio_open (struct commonio_db *db, int mode)
-> +@@ -606,10 +606,18 @@ int commonio_open (struct commonio_db *db, int mode)
->    	db->cursor = NULL;
->    	db->changed = false;
->    
->   -	fd = open (db->filename,
->   -	             (db->readonly ? O_RDONLY : O_RDWR)
-> --	           | O_NOCTTY | O_NONBLOCK | O_NOFOLLOW);
-> +-	           | O_NOCTTY | O_NONBLOCK | O_NOFOLLOW | O_CLOEXEC);
->   -	saved_errno = errno;
->   +	if (db->readonly) {
->   +		fd = open (db->filename,
->   +			   (true ? O_RDONLY : O_RDWR)
-> -+			   | O_NOCTTY | O_NONBLOCK | O_NOFOLLOW);
-> ++			   | O_NOCTTY | O_NONBLOCK | O_NOFOLLOW | O_CLOEXEC);
->   +		saved_errno = errno;
->   +	} else {
->   +		fd = open (db->filename,
->   +			   (false ? O_RDONLY : O_RDWR)
-> -+			   | O_NOCTTY | O_NONBLOCK | O_NOFOLLOW);
-> ++			   | O_NOCTTY | O_NONBLOCK | O_NOFOLLOW| O_CLOEXEC);
->   +		saved_errno = errno;
->   +	}
+>   diff --git a/units/meson.build b/units/meson.build
+> -index c7939a10f8..219570ab19 100644
+> +index e7bfb7f838..1d5ec4b178 100644
+>   --- a/units/meson.build
+>   +++ b/units/meson.build
+> -@@ -149,7 +149,6 @@ units = [
+> +@@ -154,7 +154,6 @@ units = [
+>            {
+>              'file' : 'proc-sys-fs-binfmt_misc.automount',
+>              'conditions' : ['ENABLE_BINFMT'],
+> @@ -36,7 +36,7 @@ index c7939a10f8..219570ab19 100644
+>            },
+>            {
+>              'file' : 'proc-sys-fs-binfmt_misc.mount',
+> -@@ -246,7 +245,6 @@ units = [
+> +@@ -251,7 +250,6 @@ units = [
+>            {
+>              'file' : 'systemd-binfmt.service.in',
+>              'conditions' : ['ENABLE_BINFMT'],
+> @@ -45,7 +45,7 @@ index c7939a10f8..219570ab19 100644
+>            {
+>              'file' : 'systemd-bless-boot.service.in',
+>   diff --git a/units/proc-sys-fs-binfmt_misc.automount b/units/proc-sys-fs-binfmt_misc.automount
+> -index 6b1bbdc91e..5ec5b8670a 100644
+> +index 5d212015a5..6c2900ca77 100644
+>   --- a/units/proc-sys-fs-binfmt_misc.automount
+>   +++ b/units/proc-sys-fs-binfmt_misc.automount
+>   @@ -22,3 +22,6 @@ Before=shutdown.target
+> @@ -56,7 +56,7 @@ index 6b1bbdc91e..5ec5b8670a 100644
+>   +[Install]
+>   +WantedBy=sysinit.target
+>   diff --git a/units/systemd-binfmt.service.in b/units/systemd-binfmt.service.in
+> -index b04412e037..63f116e4fa 100644
+> +index 6861c76674..531e9fbd90 100644
+>   --- a/units/systemd-binfmt.service.in
+>   +++ b/units/systemd-binfmt.service.in
+>   @@ -14,6 +14,7 @@ Documentation=https://docs.kernel.org/admin-guide/binfmt-misc.html
+> @@ -68,12 +68,12 @@ index b04412e037..63f116e4fa 100644
+>    After=proc-sys-fs-binfmt_misc.mount
+>    After=local-fs.target
+>   @@ -31,3 +32,6 @@ RemainAfterExit=yes
+> - ExecStart={{ROOTLIBEXECDIR}}/systemd-binfmt
+> - ExecStop={{ROOTLIBEXECDIR}}/systemd-binfmt --unregister
+> + ExecStart={{LIBEXECDIR}}/systemd-binfmt
+> + ExecStop={{LIBEXECDIR}}/systemd-binfmt --unregister
+>    TimeoutSec=90s
 >   +
->    	db->fp = NULL;
->    	if (fd >= 0) {
->    #ifdef WITH_TCB
-> +--
-> +2.30.2
-> +
-> diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
-> index ce3ce627156..c024746d4ff 100644
-> --- a/meta/recipes-extended/shadow/shadow.inc
-> +++ b/meta/recipes-extended/shadow/shadow.inc
-> @@ -5,7 +5,7 @@ BUGTRACKER = "http://github.com/shadow-maint/shadow/issues"
->   SECTION = "base/utils"
->   LICENSE = "BSD-3-Clause"
->   LIC_FILES_CHKSUM = "file://COPYING;md5=c9a450b7be84eac23e6353efecb60b5b \
-> -                    file://src/passwd.c;beginline=2;endline=30;md5=758c26751513b6795395275969dd3be1 \
-> +                    file://src/passwd.c;beginline=2;endline=7;md5=67bcf314687820b2f010d4863fce3fc5 \
->                       "
+>   +[Install]
+>   +WantedBy=sysinit.target
+>   --
+> -2.39.2
+> +2.34.1
 >   
->   DEPENDS = "virtual/crypt"
-> @@ -14,10 +14,6 @@ GITHUB_BASE_URI = "https://github.com/shadow-maint/shadow/releases"
->   SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BP}.tar.gz \
->              ${@bb.utils.contains('PACKAGECONFIG', 'pam', '${PAM_SRC_URI}', '', d)} \
->              file://useradd \
-> -	   file://0001-Fix-can-not-print-full-login.patch \
-> -           file://CVE-2023-29383.patch \
-> -           file://0001-Overhaul-valid_field.patch \
-> -           file://CVE-2023-4641.patch \
->              "
->   
->   SRC_URI:append:class-target = " \
-> @@ -26,14 +22,9 @@ SRC_URI:append:class-target = " \
->              "
->   
->   SRC_URI:append:class-native = " \
-> -           file://0001-Disable-use-of-syslog-for-sysroot.patch \
->              file://commonio.c-fix-unexpected-open-failure-in-chroot-env.patch \
->              "
-> -SRC_URI:append:class-nativesdk = " \
-> -           file://0001-Disable-use-of-syslog-for-sysroot.patch \
-> -           "
-> -SRC_URI[sha256sum] = "813057047499c7fe81108adcf0cffa3ad4ec75e19a80151f9cbaa458ff2e86cd"
+> diff --git a/meta/recipes-core/systemd/systemd/0004-Move-sysusers.d-sysctl.d-binfmt.d-modules-load.d-to-.patch b/meta/recipes-core/systemd/systemd/0004-Move-sysusers.d-sysctl.d-binfmt.d-modules-load.d-to-.patch
+> deleted file mode 100644
+> index 98914ae154..0000000000
+> --- a/meta/recipes-core/systemd/systemd/0004-Move-sysusers.d-sysctl.d-binfmt.d-modules-load.d-to-.patch
+> +++ /dev/null
+> @@ -1,73 +0,0 @@
+> -From f75f03ef6bc3554068e456bed227f333d5cb8c34 Mon Sep 17 00:00:00 2001
+> -From: Khem Raj <raj.khem@gmail.com>
+> -Date: Tue, 29 Sep 2020 18:01:41 -0700
+> -Subject: [PATCH] Move sysusers.d/sysctl.d/binfmt.d/modules-load.d to /usr
 > -
-> +SRC_URI[sha256sum] = "a305edf5d19bddbdf5e836d2d609fa8bff2d35458819de4d9f06306a1cf24342"
+> -These directories are moved to /lib since systemd v246, commit
+> -4a56315a990b ("path: use ROOTPREFIX properly"), but in oe-core/yocto,
+> -the old /usr/lib is still being used.
+> -
+> -Upstream-Status: Inappropriate (OE-specific)
+> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> -Signed-off-by: Jiaqing Zhao <jiaqing.zhao@linux.intel.com>
+> ----
+> - src/core/systemd.pc.in           | 8 ++++----
+> - src/libsystemd/sd-path/sd-path.c | 8 ++++----
+> - 2 files changed, 8 insertions(+), 8 deletions(-)
+> -
+> -diff --git a/src/core/systemd.pc.in b/src/core/systemd.pc.in
+> -index 693433b34b..8368a3ff02 100644
+> ---- a/src/core/systemd.pc.in
+> -+++ b/src/core/systemd.pc.in
+> -@@ -67,16 +67,16 @@ tmpfilesdir=${tmpfiles_dir}
+> -
+> - user_tmpfiles_dir=${prefix}/share/user-tmpfiles.d
+> -
+> --sysusers_dir=${rootprefix}/lib/sysusers.d
+> -+sysusers_dir=${prefix}/lib/sysusers.d
+> - sysusersdir=${sysusers_dir}
+> -
+> --sysctl_dir=${rootprefix}/lib/sysctl.d
+> -+sysctl_dir=${prefix}/lib/sysctl.d
+> - sysctldir=${sysctl_dir}
+> -
+> --binfmt_dir=${rootprefix}/lib/binfmt.d
+> -+binfmt_dir=${prefix}/lib/binfmt.d
+> - binfmtdir=${binfmt_dir}
+> -
+> --modules_load_dir=${rootprefix}/lib/modules-load.d
+> -+modules_load_dir=${prefix}/lib/modules-load.d
+> - modulesloaddir=${modules_load_dir}
+> -
+> - catalog_dir=${prefix}/lib/systemd/catalog
+> -diff --git a/src/libsystemd/sd-path/sd-path.c b/src/libsystemd/sd-path/sd-path.c
+> -index 1af3a36d1d..def502b717 100644
+> ---- a/src/libsystemd/sd-path/sd-path.c
+> -+++ b/src/libsystemd/sd-path/sd-path.c
+> -@@ -365,19 +365,19 @@ static int get_path(uint64_t type, char **buffer, const char **ret) {
+> -                 return 0;
+> -
+> -         case SD_PATH_SYSUSERS:
+> --                *ret = ROOTPREFIX_NOSLASH "/lib/sysusers.d";
+> -+                *ret = "/usr/lib/sysusers.d";
+> -                 return 0;
+> -
+> -         case SD_PATH_SYSCTL:
+> --                *ret = ROOTPREFIX_NOSLASH "/lib/sysctl.d";
+> -+                *ret = "/usr/lib/sysctl.d";
+> -                 return 0;
+> -
+> -         case SD_PATH_BINFMT:
+> --                *ret = ROOTPREFIX_NOSLASH "/lib/binfmt.d";
+> -+                *ret = "/usr/lib/binfmt.d";
+> -                 return 0;
+> -
+> -         case SD_PATH_MODULES_LOAD:
+> --                *ret = ROOTPREFIX_NOSLASH "/lib/modules-load.d";
+> -+                *ret = "/usr/lib/modules-load.d";
+> -                 return 0;
+> -
+> -         case SD_PATH_CATALOG:
+> ---
+> -2.39.2
+> -
+> diff --git a/meta/recipes-core/systemd/systemd/basic.conf.in b/meta/recipes-core/systemd/systemd/basic.conf.in
+> deleted file mode 100644
+> index fac288f7fa..0000000000
+> --- a/meta/recipes-core/systemd/systemd/basic.conf.in
+> +++ /dev/null
+> @@ -1,40 +0,0 @@
+> -#  This file is part of systemd.
+> -#
+> -#  systemd is free software; you can redistribute it and/or modify it
+> -#  under the terms of the GNU Lesser General Public License as published by
+> -#  the Free Software Foundation; either version 2.1 of the License, or
+> -#  (at your option) any later version.
+> -
+> -# The superuser
+> -u root    0     "root" :ROOT_HOME:
+> -
+> -# The nobody user/group for NFS file systems
+> -g {{NOBODY_GROUP_NAME}} 65534       -            -
+> -u {{NOBODY_USER_NAME }} 65534:65534 "Nobody"     -
+> -
+> -# Administrator group: can *see* more than normal users
+> -g adm     {{ADM_GID    }}     -            -
+> -
+> -# Administrator group: can *do* more than normal users
+> -g wheel   {{WHEEL_GID  }}     -            -
+> -
+> -# Access to shared database of users on the system
+> -g utmp    {{UTMP_GID   }}     -            -
+> -
+> -# Physical and virtual hardware access groups
+> -g audio   {{AUDIO_GID  }}     -            -
+> -g cdrom   {{CDROM_GID  }}     -            -
+> -g dialout {{DIALOUT_GID}}     -            -
+> -g disk    {{DISK_GID   }}     -            -
+> -g input   {{INPUT_GID  }}     -            -
+> -g kmem    {{KMEM_GID   }}     -            -
+> -g kvm     {{KVM_GID    }}     -            -
+> -g lp      {{LP_GID     }}     -            -
+> -g render  {{RENDER_GID }}     -            -
+> -g sgx     {{SGX_GID    }}     -            -
+> -g tape    {{TAPE_GID   }}     -            -
+> -g tty     {{TTY_GID    }}     -            -
+> -g video   {{VIDEO_GID  }}     -            -
+> -
+> -# Default group for normal users
+> -g users   {{USERS_GID  }}     -            -
+> diff --git a/meta/recipes-core/systemd/systemd_254.4.bb b/meta/recipes-core/systemd/systemd_255.1.bb
+> similarity index 98%
+> rename from meta/recipes-core/systemd/systemd_254.4.bb
+> rename to meta/recipes-core/systemd/systemd_255.1.bb
+> index 0c12926bef..daa3a01fef 100644
+> --- a/meta/recipes-core/systemd/systemd_254.4.bb
+> +++ b/meta/recipes-core/systemd/systemd_255.1.bb
+> @@ -21,7 +21,6 @@ REQUIRED_DISTRO_FEATURES += "systemd"
+>   SRC_URI += " \
+>              file://touchscreen.rules \
+>              file://00-create-volatile.conf \
+> -           file://basic.conf.in \
+>              ${@bb.utils.contains('PACKAGECONFIG', 'polkit_hostnamed_fallback', 'file://org.freedesktop.hostname1_no_polkit.conf', '', d)} \
+>              ${@bb.utils.contains('PACKAGECONFIG', 'polkit_hostnamed_fallback', 'file://00-hostnamed-network-user.conf', '', d)} \
+>              file://init \
+> @@ -29,7 +28,6 @@ SRC_URI += " \
+>              file://systemd-pager.sh \
+>              file://0002-binfmt-Don-t-install-dependency-links-at-install-tim.patch \
+>              file://0008-implment-systemd-sysv-install-for-OE.patch \
+> -           file://0004-Move-sysusers.d-sysctl.d-binfmt.d-modules-load.d-to-.patch \
+>              "
 >   
->   # Additional Policy files for PAM
->   PAM_SRC_URI = "file://pam.d/chfn \
-> @@ -44,7 +35,7 @@ PAM_SRC_URI = "file://pam.d/chfn \
->                  file://pam.d/passwd \
->                  file://pam.d/su"
+>   # patches needed by musl
+> @@ -73,6 +71,7 @@ PACKAGECONFIG ??= " \
+>       ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', '', 'link-udev-shared', d)} \
+>       backlight \
+>       binfmt \
+> +    cgroupv2 \
+>       gshadow \
+>       hibernate \
+>       hostnamed \
+> @@ -266,12 +265,16 @@ EXTRA_OEMESON += "-Dkexec-path=${sbindir}/kexec \
+>   # The 60 seconds is watchdog's default vaule.
+>   WATCHDOG_TIMEOUT ??= "60"
 >   
-> -inherit autotools gettext github-releases
-> +inherit autotools gettext github-releases pkgconfig
->   
->   export CONFIG_SHELL="/bin/sh"
->   
-> @@ -54,6 +45,8 @@ EXTRA_OECONF += "--without-libcrack \
->                    --without-sssd \
->                    ${NSCDOPT}"
->   
-> +CFLAGS:append:libc-musl = " -DLIBBSD_OVERLAY"
-> +
->   NSCDOPT = ""
->   NSCDOPT:class-native = "--without-nscd"
->   NSCDOPT:class-nativesdk = "--without-nscd"
-> @@ -73,13 +66,14 @@ PAM_PLUGINS = "libpam-runtime \
->   
->   PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)} \
->                      ${@bb.utils.contains('DISTRO_FEATURES', 'xattr', 'attr', '', d)}"
-> -PACKAGECONFIG:class-native ??= "${@bb.utils.contains('DISTRO_FEATURES', 'xattr', 'attr', '', d)}"
-> +PACKAGECONFIG:class-native ??= "${@bb.utils.contains('DISTRO_FEATURES', 'xattr', 'attr', '', d)} libbsd"
->   PACKAGECONFIG:class-nativesdk = ""
->   PACKAGECONFIG[pam] = "--with-libpam,--without-libpam,libpam,${PAM_PLUGINS}"
->   PACKAGECONFIG[attr] = "--with-attr,--without-attr,attr"
->   PACKAGECONFIG[acl] = "--with-acl,--without-acl,acl"
->   PACKAGECONFIG[audit] = "--with-audit,--without-audit,audit"
->   PACKAGECONFIG[selinux] = "--with-selinux,--without-selinux,libselinux libsemanage"
-> +PACKAGECONFIG[libbsd] = "--with-libbsd,--without-libbsd,libbsd"
->   
->   RDEPENDS:${PN} = "shadow-securetty \
->                     base-passwd \
-> diff --git a/meta/recipes-extended/shadow/shadow_4.13.bb b/meta/recipes-extended/shadow/shadow_4.14.2.bb
-> similarity index 100%
-> rename from meta/recipes-extended/shadow/shadow_4.13.bb
-> rename to meta/recipes-extended/shadow/shadow_4.14.2.bb
+> -do_configure:prepend() {
+> -  sed s@:ROOT_HOME:@${ROOT_HOME}@g ${WORKDIR}/basic.conf.in > ${S}/sysusers.d/basic.conf.in
+> -}
+> -
+>   do_install() {
+>   	meson_do_install
+> +	# Change the root user's home directory in /lib/sysusers.d/basic.conf.
+> +	# This is done merely for backward compatibility with previous systemd recipes.
+> +	# systemd hardcodes root user's HOME to be "/root". Changing to use other values
+> +	# may have unexpected runtime behaviors.
+> +	if [ "${ROOT_HOME}" != "/root" ]; then
+> +		bbwarn "Using ${ROOT_HOME} as root user's home directory is not fully supported by systemd"
+> +		sed -i -e 's#/root#${ROOT_HOME}#g' ${D}${exec_prefix}/lib/sysusers.d/basic.conf
+> +	fi
+>   	install -d ${D}/${base_sbindir}
+>   	if ${@bb.utils.contains('PACKAGECONFIG', 'serial-getty-generator', 'false', 'true', d)}; then
+>   		# Provided by a separate recipe
+> @@ -754,6 +757,7 @@ FILES:udev += "${base_sbindir}/udevd \
+>                  ${rootlibexecdir}/udev/rules.d/60-persistent-alsa.rules \
+>                  ${rootlibexecdir}/udev/rules.d/60-persistent-input.rules \
+>                  ${rootlibexecdir}/udev/rules.d/60-persistent-storage.rules \
+> +               ${rootlibexecdir}/udev/rules.d/60-persistent-storage-mtd.rules \
+>                  ${rootlibexecdir}/udev/rules.d/60-persistent-storage-tape.rules \
+>                  ${rootlibexecdir}/udev/rules.d/60-persistent-v4l.rules \
+>                  ${rootlibexecdir}/udev/rules.d/60-sensor.rules \
 >
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#193542): https://lists.openembedded.org/g/openembedded-core/message/193542
-> Mute This Topic: https://lists.openembedded.org/mt/103661547/7304865
+> View/Reply Online (#192923): https://lists.openembedded.org/g/openembedded-core/message/192923
+> Mute This Topic: https://lists.openembedded.org/mt/103380516/7304865
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [Qi.Chen@eng.windriver.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
