@@ -1,182 +1,153 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A0C1C47DD3
-	for <webhook@archiver.kernel.org>; Fri, 19 Jan 2024 03:28:54 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.13716.1705634925112366275
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58F7FC4725D
+	for <webhook@archiver.kernel.org>; Fri, 19 Jan 2024 05:50:05 +0000 (UTC)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web10.15687.1705643401640377184
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Jan 2024 19:28:45 -0800
+ Thu, 18 Jan 2024 21:50:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=G+2oOuzz;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=1748b1ad81=qi.chen@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40J3RlFd019251
-	for <openembedded-core@lists.openembedded.org>; Thu, 18 Jan 2024 19:28:44 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=message-id:date:subject:to:references:from:in-reply-to
-	:content-type:content-transfer-encoding:mime-version; s=
-	PPS06212021; bh=O3z6L3Krvo/YiuQsdikOnpancOWIvJCwEkX1CuoJCwM=; b=
-	G+2oOuzzXS1/zy1oczRM7fvPfOXGm2/vW+PYBz4k1Ru+ECQwmszpvlrc8/BSDUDt
-	suFir2S+kHgak51XMoN4dzLzbBJ8N3PBu7nS+FS61SrsQ9QY7VIliiOwYnQP4VZF
-	DekGYj5JYlz6ZCEndB3gOPY7OH3CgehUoRkgGmQ82BgV3no+lymTtWS3JKHxEHk0
-	lwS9JSiXGePwEZ3bbvxafdXZnQ6UCgVI5nKI7EqCDgjpRPB89iN4/xbj+VsFp3fQ
-	rJ1Fb6bAB/1Y4zLzZzk9Meei8d7XNbTycBXAfjOXhZmT9r2F0gN+ExlBwQEPJJmj
-	tUla86l8mpIDJr52MSPBoA==
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2101.outbound.protection.outlook.com [104.47.55.101])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3vktwkp726-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 18 Jan 2024 19:28:44 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ivDoS5GnyMih1ekk5yz84Qt5jganjm31gKiouFJEDkhr88zHtpGC9D08V5fbQaqUNNC6pcUgmO42F81ZUX/GP3WErZmsXrzLwoMqjNT6Yoks7SumrPtbWycfNpUcLYg7nUbeCMTGrPacCzkJCQTelup2B+zyNQHsnkz3/SQ6REPMy+EJdjW6xZJpQ9s4/FhgO2yZhdELasucxFzAAgJ2C7JCy6iLegqHcVEWko7KTQ/WiAXF9X53TZbwuewTBh7MPqaMeuNuCwO/RKD4NeDUbLK1cMHGh0Y+77jen0KV0Ku7V0UjDkYZBRlyXNpRWivsfc59BzZtvurJV5K2ruN/jQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=O3z6L3Krvo/YiuQsdikOnpancOWIvJCwEkX1CuoJCwM=;
- b=JR70LXx4bB5ZJ5ckkrYh9V85MU3qtXS7kbX0Z2osdTZsWJbZ1oNYhcYmhy5g89XlRiFTHz3x0v2WOHUoqYuRAF+zNJ3r16vA1Emx1y23QHUzt6kIifjiy/dEgsnI/z0Q6R4A8oKm92hp3oNXKd6n9uDDZUjuMpw/0XjkZdpO/PQRpd1JRABvJ9BaKOF2RVjjD17SB3Ec2/VEp2aKxt39QIFEMuvp/Yypi7URh6b6FljAyYdrmuKyvnWhtVDRhTvBQvgF5hCta6Hp4P4KDOt5uQOdq3g7p8hcYiW+yfk7yL6m0zDZwMAdY8ZogWLmrURHIj9qLGc5vVjWaJlOPNkDWA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
- by SJ0PR11MB6789.namprd11.prod.outlook.com (2603:10b6:a03:47f::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.24; Fri, 19 Jan
- 2024 03:28:40 +0000
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::5d84:2b01:5029:9315]) by CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::5d84:2b01:5029:9315%7]) with mapi id 15.20.7202.024; Fri, 19 Jan 2024
- 03:28:40 +0000
-Message-ID: <b79b6994-6516-4c42-46ef-7d6a583600fb@windriver.com>
-Date: Fri, 19 Jan 2024 11:28:36 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [OE-core][PATCH] devtool/standard: avoid KeyError
-Content-Language: en-US
+ dkim=pass header.i=@mvista.com header.s=google header.b=TKFwZVvR;
+ spf=pass (domain: mvista.com, ip: 209.85.214.180, mailfrom: hprajapati@mvista.com)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1d720c7fc04so1179905ad.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jan 2024 21:50:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1705643401; x=1706248201; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fF4MT2VaB3CfAHgmmyqzezcgRB0xrNccavtV8KvubOA=;
+        b=TKFwZVvRAGxgs8O8pNRZU3kwE5bPFBxQlGbM4kP7rnAB7XjejHgpMw/7BfejBV5wDt
+         ZU4pbJWNOPydh/fXyVEtu+lv//+HM7VC3UYRc2Ef/6m2pEvDZo2mx8AYbLJgwtqPef4m
+         7+qIn/+1/EJpm+IzZJur0Tc4BJFAf8nvScJl0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705643401; x=1706248201;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fF4MT2VaB3CfAHgmmyqzezcgRB0xrNccavtV8KvubOA=;
+        b=O3lj8Y45hg5ApC8tkyKc/9iazP0KqwvNW466BmKm9R3jrc4iiL/CZYmQe6KBioXfwg
+         sWZ+SWSF/qTduVpXTlPhbEQsD7AgXqNdNdv9kuCqt3ByOyRJhAQFF72Xi9JWgUINavSX
+         u2+q8yAqEAmE8C7ywrc+L3OGjQWb/y7jkZnLc4zENvYGOweKSPX+yMPuFkq9GBhAMSUF
+         z7Wm4UaS8geQueJL3G6I31b8bIXEP57nBNlOt4ffayt/thcCkeuWzZdzWjFEt541iyLx
+         yWtU5qJbYSo9tqbGywcsjVQFYswzjruvCr+cv6O9HZ+oITgU8fcHnR7a0VgdMonStPDe
+         qWTQ==
+X-Gm-Message-State: AOJu0YyPCJm+FidRopnDKdFqrPhlwRmjDVJaqV5WXrEAspmLr1BexNg7
+	GWVuB+RA5cI9KOIZxpE7JMrzI1UERrcBgeOsKRnPZJo3jZitK2W6pN9z1wc5gqZr1uAC/1/ceHQ
+	rZco=
+X-Google-Smtp-Source: AGHT+IFpmcdQASvYprPFWbiNsA0ILJhdYbCai46tQoYezJl7svv18vOYrHs8xLo83oTFKP8Q7VzoeQ==
+X-Received: by 2002:a17:903:8d0:b0:1d3:77c4:59db with SMTP id lk16-20020a17090308d000b001d377c459dbmr2202796plb.139.1705643400778;
+        Thu, 18 Jan 2024 21:50:00 -0800 (PST)
+Received: from MVIN00016.mvista.com ([150.129.170.246])
+        by smtp.gmail.com with ESMTPSA id ku15-20020a170903288f00b001d5ebb95329sm2228540plb.271.2024.01.18.21.49.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Jan 2024 21:50:00 -0800 (PST)
+From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
-References: <20231226044457.3699093-1-Qi.Chen@windriver.com>
-From: ChenQi <Qi.Chen@windriver.com>
-In-Reply-To: <20231226044457.3699093-1-Qi.Chen@windriver.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR05CA0149.namprd05.prod.outlook.com
- (2603:10b6:a03:33d::34) To CO6PR11MB5602.namprd11.prod.outlook.com
- (2603:10b6:303:13a::5)
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [kirkstone][PATCH] pam: fix CVE-2024-22365 pam_namespace misses
+Date: Fri, 19 Jan 2024 11:19:54 +0530
+Message-Id: <20240119054954.146655-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|SJ0PR11MB6789:EE_
-X-MS-Office365-Filtering-Correlation-Id: c1085cfe-1482-483f-ac8b-08dc189ebad4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	rEQv4Ofxd+9NtuoTbIzW8f1OQD+J3huhonRKwO7tT1MdmpYtSDqJfuNkNQR1rssnUczsPCLCA2Fx6I5jW1AYI0TOr5KjDNmdO17BGLdW9JtA9LJ5ueMorHvMbXO1M+vGjaB0Pl/26XTeEx28jfwL48vGhCQsme2m1IGCi7xFlW8EhXEk9CDRcRQUfEkz0Fq9ilVGwtrAaLySm6qXU2Bi5MGf5WlbKbvudEWZdveUckv43l8HsxRdxfa6oiplc0/VJsXmxJ90CEIT8VTQ7Hdw2M/Lm9jjujLd7349adniEZm+BRcU7XQ9yH263eExr/0unAyd4r3FESCDWyTyR7UtD5vLbtZNTLI/KSuhaPlxZyHpm1a0Qe+1Di5LgxzBfbc/ES6xV8dQAZ/JsGMaeEHeLuQDuZDWy3SoxXn2LjT4+8n5MbtKHCbQoWpvN3lBopaS9fVzFJEMldR+sYSVJ+5wk3nQahcIpbTGFVsfbJFjLPPhM4Wprh+iRQqVARZOfX6rhWW4R46Po2o6SbTZIIEqL7yg2BYs1VOHkp65b8GUdkvvDP5CQndvjH7mFzW92SBMpoB9cdKmdwBEipPZWHHu8ONKSjpWNKzH2/NNpIfqMtcnYWTaJmENIows9dQtfbFHx586JcqCUy/HGBNXrCPKS1oSJ7k2svAD64bGaMq8pPvi3Ltd7aOac5OrQNA5nJEO
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39850400004)(376002)(396003)(346002)(136003)(366004)(230922051799003)(1800799012)(451199024)(186009)(64100799003)(83380400001)(53546011)(6512007)(2616005)(26005)(478600001)(8676002)(5660300002)(41300700001)(6666004)(6486002)(966005)(2906002)(316002)(8936002)(6916009)(66476007)(66946007)(38100700002)(66556008)(86362001)(36756003)(31696002)(6506007)(31686004)(66899024)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?bCtNUjc4Z2NHRlpmR1VLM0ltQSt6eHlreER1ZVhrQUZpSmNrZ05zVEhTMkZO?=
- =?utf-8?B?Q2hPT0wwS01aajZJS1Y5cmkrVUgyekN4REFFWitKTUlJckJxZEF1REZwamYy?=
- =?utf-8?B?N0p0M3Z3K0gvTHl2V0EvMGFjTUJIZFlDTmt2L0Z2Smh6a1pVTU53RkIrQ2R4?=
- =?utf-8?B?eEI2ZlV4TXJOV0gwS09rc2xobUgrdmRvdHM0aGZCMnpGU1ZJL21TZm1pZmJ5?=
- =?utf-8?B?WVpjYlhZUENOK3RzdEFlZnQvMjdGcnQwcU16ZGdBRk51SmJWTnRuNkNPaS9M?=
- =?utf-8?B?VytLcm9kNWgwa1orTjlxVkI3WjY4TFhKTmNlazNRSC9Md3RNOUkyTlNUbjNM?=
- =?utf-8?B?L1h1V3JKOUtEeW5odFhJN1ZSK1lqU0xtaDBwaHA1d1poektnTytGTDYxKzJk?=
- =?utf-8?B?RERKbC9halByU2NCczMxUXB3WjRTTWhERGdxN3U0aDF2SDhwdkV1UlFhbTg0?=
- =?utf-8?B?cCtlalQ1SHp4bXdodFE5QUFaeGUyMFBzUW9pRjF2UEVDZWZqS0E5aWl2anJL?=
- =?utf-8?B?UXN5WmhzYUF3bDY5TVpwRVBNRHBaeTgwVkQzL3ZaKzRaY3lrcTlsdGVjM2Rn?=
- =?utf-8?B?MHZ0WW9EckMyWXZodmpLWk1wcko1OTRlWlNMazNFdjh0QTZTd2xnZmhzaUhP?=
- =?utf-8?B?M0FGUGhYZWs3K1ZKd3lVYmpGVGpOS1l0ckhWNVQ1ZlA4U0czQkxWT251YzdL?=
- =?utf-8?B?M2VEdjVQREFwb3ArRVBrMzREbElsSG1CWkIvRzV4RllFUXZtOW8xV3FSU2RL?=
- =?utf-8?B?VDhvbmc5b3UyVnIwTzZRS0drd3RGdFdNVCtsZ0VZVGxLVEorNUl4T3V2STc3?=
- =?utf-8?B?MHIwVFA1ZStYRzgwZEU1c3d0eG44aFkwZ3pMVldtTjdhOFJqb1IxNkd5eVJX?=
- =?utf-8?B?czJIMkRLc1g2R0k1WFMvZ1AwdFFTNGNyOTlOV2RWU05rTVREdXBLS05wU1JJ?=
- =?utf-8?B?b0FhdkdMK0FvSzNadnd1UkJXQUNoSlgwNFJHL3Jpc0p5K2JYZEZFbmltS2Nm?=
- =?utf-8?B?T0k0bEJzWElsRi9EM0dLakVJRjFBbjBJaG1LN1d2TDZTSE15SG1yeUlJOFlh?=
- =?utf-8?B?bk9JZmVFNEJiaFRETUNBbTIrTE13RlFZVWlGb2pnWmVabmVXOG96WGtZR0Vt?=
- =?utf-8?B?QkR6eWxha0MxUGZrNno0UWhaMHIxYzZkTzZXZ3E2RE9yeHUzNmc5OW1jSHdR?=
- =?utf-8?B?aW8wb3lzb1IrNU45NFlvZTdoa1dxMzlQeCtVS3hzMzNzM0IvZ3R0cnhXU3o3?=
- =?utf-8?B?MkY2VFBQcjIyODdXK0xEa1F6MEU5aGM5aS9LR1I5ZXdCaGIvVTNiWW5xR3lF?=
- =?utf-8?B?UkIzZ1F2RTZRc3VyUWFXTkNkajNGb0NhSDlwcW0wNE82MWp2UjcvYTEvWVB0?=
- =?utf-8?B?b1JDVUtCSTB1MWdxN3E3K2xCbjQvOGhmc0hidE1YQmUwZ29XV0NnbFp3dDlX?=
- =?utf-8?B?Q2toN25QSFJXMVVFdG1UekVMbjdKZUFHcDU2UjN0cUMrUG1FYmo2WC9TYkJI?=
- =?utf-8?B?VDJpbGRQR2ZVSmxHNW9MRFNmdUhmcHBLK2xoREJaL2ZXbThCSFNSM05pMG9N?=
- =?utf-8?B?TjhJTGcxOHFkUE13Z2hXVzZEcHRLSkxCaDhjVnVpL0ZGbjg1bTNJelJhNlVE?=
- =?utf-8?B?QlJBUWdUY0VIU2d5QnAyUitNYVo5ZU0wSWpoNmFmcTRrcncxQWFVQ1pvcHZY?=
- =?utf-8?B?enRHbnV5YzJZYkxpV2ZwZnVOREFXTnhDd0RGZEU3UGpkM2xHa1ZvRGFjb3Ni?=
- =?utf-8?B?eStPZnJGQUU4VnpkU0RXUXVKY3NSWHU4cWlNUUZQWHMzencyUUVQY1p1cU8v?=
- =?utf-8?B?WkRMbFFsUkJUelVZSDkyTHd0NEQ0c3JhVzNRcEZSdEFjQXpydnE1OEVrR0ZZ?=
- =?utf-8?B?b0c3UlU1RUM4aTRFOXR6bHhZejE4Y3VtakJHM3kyUEl0WU92RllNQkk3ZUZu?=
- =?utf-8?B?aE02SzR0TnlCVkhyWmY0b2o5czBNOWR2cHRMT1lacU51MEc3YTFDQlNyYmEv?=
- =?utf-8?B?b0JvVHdCcXVjdjlFRHNic2xZOWdRbFpHaDlJMXgzT2Y3aWVpK2o4V2NwQXI2?=
- =?utf-8?B?QnNCS2xSUW0rOURKV1ZFL2F5S1Y4c042akVKNmpWbUpBV2o2NUtDVnFuSyts?=
- =?utf-8?Q?m4sJUk5smCX5WJJJXoUVl+zme?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c1085cfe-1482-483f-ac8b-08dc189ebad4
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2024 03:28:39.9246
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xA3qyYXGAQ2IKaloyI2+LmtjptrAWhBe21OyTdct2nMjGE3+IBoCDQ8E38c0ezcKJTGPrcIN60kelO4okBqfdA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB6789
-X-Proofpoint-ORIG-GUID: jXzfUWdSSmgQStDEzYyHtlL_7O2J0-pz
-X-Proofpoint-GUID: jXzfUWdSSmgQStDEzYyHtlL_7O2J0-pz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-01-18_12,2024-01-17_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 adultscore=0
- mlxlogscore=648 suspectscore=0 phishscore=0 lowpriorityscore=0 spamscore=0
- clxscore=1015 malwarescore=0 priorityscore=1501 impostorscore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2311290000
- definitions=main-2401190012
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 Jan 2024 03:28:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194008
+ <openembedded-core@lists.openembedded.org>; Fri, 19 Jan 2024 05:50:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194009
 
-ping
+Upstream-Status: Backport from https://github.com/linux-pam/linux-pam/commit/031bb5a5d0d950253b68138b498dc93be69a64cb
 
-On 12/26/23 12:44, Chen Qi via lists.openembedded.org wrote:
-> From: Chen Qi <Qi.Chen@windriver.com>
->
-> The initial_revs["."] does not have an initial value, resulting
-> in the following error:
->
->    KeyError: '.'
->
-> The problem could be reproduced by running:
->
->    devtool modify -n systemd </path/to/my/local/systemd/repo>
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->   scripts/lib/devtool/standard.py | 1 +
->   1 file changed, 1 insertion(+)
->
-> diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-> index 559fd45676..5d9b86ed6a 100644
-> --- a/scripts/lib/devtool/standard.py
-> +++ b/scripts/lib/devtool/standard.py
-> @@ -905,6 +905,7 @@ def modify(args, config, basepath, workspace):
->                       (stdout, _) = bb.process.run('git rev-list --reverse devtool-base..HEAD', cwd=submodule_path)
->                       commits[submodule] = stdout.split()
->           else:
-> +            initial_revs["."] = None
->               if os.path.exists(os.path.join(srctree, '.git')):
->                   # Check if it's a tree previously extracted by us. This is done
->                   # by ensuring that devtool-base and args.branch (devtool) exist.
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#192906): https://lists.openembedded.org/g/openembedded-core/message/192906
-> Mute This Topic: https://lists.openembedded.org/mt/103366660/7304865
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [Qi.Chen@eng.windriver.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+---
+ .../pam/libpam/CVE-2024-22365.patch           | 62 +++++++++++++++++++
+ meta/recipes-extended/pam/libpam_1.5.2.bb     |  1 +
+ 2 files changed, 63 insertions(+)
+ create mode 100644 meta/recipes-extended/pam/libpam/CVE-2024-22365.patch
+
+diff --git a/meta/recipes-extended/pam/libpam/CVE-2024-22365.patch b/meta/recipes-extended/pam/libpam/CVE-2024-22365.patch
+new file mode 100644
+index 0000000000..e9e3a078e0
+--- /dev/null
++++ b/meta/recipes-extended/pam/libpam/CVE-2024-22365.patch
+@@ -0,0 +1,62 @@
++From 031bb5a5d0d950253b68138b498dc93be69a64cb Mon Sep 17 00:00:00 2001
++From: Matthias Gerstner <matthias.gerstner@suse.de>
++Date: Wed, 27 Dec 2023 14:01:59 +0100
++Subject: [PATCH] pam_namespace: protect_dir(): use O_DIRECTORY to prevent
++ local DoS situations
++
++Without O_DIRECTORY the path crawling logic is subject to e.g. FIFOs
++being placed in user controlled directories, causing the PAM module to
++block indefinitely during `openat()`.
++
++Pass O_DIRECTORY to cause the `openat()` to fail if the path does not
++refer to a directory.
++
++With this the check whether the final path element is a directory
++becomes unnecessary, drop it.
++
++Upstream-Status: Backport [https://github.com/linux-pam/linux-pam/commit/031bb5a5d0d950253b68138b498dc93be69a64cb]
++CVE: CVE-2024-22365
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ modules/pam_namespace/pam_namespace.c      | 18 +-----------------
++ 1 file changed, 1 insertion(+), 17 deletions(-)
++
++diff --git a/modules/pam_namespace/pam_namespace.c b/modules/pam_namespace/pam_namespace.c
++index 4d4188d..d6b1d3c 100644
++--- a/modules/pam_namespace/pam_namespace.c
+++++ b/modules/pam_namespace/pam_namespace.c
++@@ -1103,7 +1103,7 @@ static int protect_dir(const char *path, mode_t mode, int do_mkdir,
++ 	int dfd = AT_FDCWD;
++ 	int dfd_next;
++ 	int save_errno;
++-	int flags = O_RDONLY;
+++	int flags = O_RDONLY | O_DIRECTORY;
++ 	int rv = -1;
++ 	struct stat st;
++ 
++@@ -1157,22 +1157,6 @@ static int protect_dir(const char *path, mode_t mode, int do_mkdir,
++ 		rv = openat(dfd, dir, flags);
++ 	}
++ 
++-	if (rv != -1) {
++-		if (fstat(rv, &st) != 0) {
++-			save_errno = errno;
++-			close(rv);
++-			rv = -1;
++-			errno = save_errno;
++-			goto error;
++-		}
++-		if (!S_ISDIR(st.st_mode)) {
++-			close(rv);
++-			errno = ENOTDIR;
++-			rv = -1;
++-			goto error;
++-		}
++-	}
++-
++ 	if (flags & O_NOFOLLOW) {
++ 		/* we are inside user-owned dir - protect */
++ 		if (protect_mount(rv, p, idata) == -1) {
++-- 
++2.25.1
++
+diff --git a/meta/recipes-extended/pam/libpam_1.5.2.bb b/meta/recipes-extended/pam/libpam_1.5.2.bb
+index 0799102f8e..20745aa837 100644
+--- a/meta/recipes-extended/pam/libpam_1.5.2.bb
++++ b/meta/recipes-extended/pam/libpam_1.5.2.bb
+@@ -26,6 +26,7 @@ SRC_URI = "https://github.com/linux-pam/linux-pam/releases/download/v${PV}/Linux
+            file://pam-volatiles.conf \
+            file://CVE-2022-28321-0002.patch \
+            file://0001-pam_motd-do-not-rely-on-all-filesystems-providing-a-.patch \
++           file://CVE-2024-22365.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "e4ec7131a91da44512574268f493c6d8ca105c87091691b8e9b56ca685d4f94d"
+-- 
+2.25.1
 
 
