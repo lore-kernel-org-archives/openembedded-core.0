@@ -2,137 +2,422 @@ Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53A17C47422
-	for <webhook@archiver.kernel.org>; Fri, 19 Jan 2024 02:27:44 +0000 (UTC)
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
- by mx.groups.io with SMTP id smtpd.web10.12722.1705631258836536448
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74B25C47422
+	for <webhook@archiver.kernel.org>; Fri, 19 Jan 2024 02:55:34 +0000 (UTC)
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web10.13182.1705632928954097315
  for <openembedded-core@lists.openembedded.org>;
- Thu, 18 Jan 2024 18:27:38 -0800
+ Thu, 18 Jan 2024 18:55:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=Hv4alV/+;
- spf=pass (domain: mvista.com, ip: 209.85.210.174, mailfrom: vanusuri@mvista.com)
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-6d9cb95ddd1so275339b3a.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jan 2024 18:27:38 -0800 (PST)
+ dkim=pass header.i=@mvista.com header.s=google header.b=WMsL/vvU;
+ spf=pass (domain: mvista.com, ip: 209.85.210.179, mailfrom: vanusuri@mvista.com)
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-6da6b0eb2d4so281629b3a.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 18 Jan 2024 18:55:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1705631257; x=1706236057; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1705632927; x=1706237727; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=HMTL7GAtAI1EyN3cu+mn0BCHxEMFyqJKbopRYX6yUio=;
-        b=Hv4alV/+btOvepKW7MSiV7qiaWhIS3Qqwz/fUJcXpEbavLwTU676H8sH6HOI9E0KkN
-         F0WmIOmjqnQZ+Y3CT/fKtvr1eO2QNNXrUT3jkfGss0FyaApCzAecWHsgrdpZ88dfxxUJ
-         TGNz5O17GS2KvcyWph0s8iEZYM1n0X/UHpD94=
+        bh=s4UmvJW7a/wQfc8ggeRfRm+TS8x33r697Tqm9q/RP0Q=;
+        b=WMsL/vvUcITfxNrxa+NznKA7TndKySedZh6ITOLX94SQ0Bn1ES5ItXyJymuZZGQqm6
+         B7xPHvm1nFS6kqfrx3ZbIQvOaUr+mQL/XE4HGAOQ1XMK7/kjKxMBAazilApniIvx+EcK
+         hba51Pn5+Cf+v9KaJsdcZh6k59RWdryLJ2e+I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705631257; x=1706236057;
+        d=1e100.net; s=20230601; t=1705632927; x=1706237727;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=HMTL7GAtAI1EyN3cu+mn0BCHxEMFyqJKbopRYX6yUio=;
-        b=tjFq0/xJVptZeqpWfFRvHyYlgzKg6vqcHr1rYZMkRl+2PT4D45DxXmTsoh2l+JcSy1
-         Twri/+pR/2oDDR6mGojZwogWYxpONEqg12dIUEuD5XbTlPtd20mRcAlLl41ZFMVq1t/r
-         qqNjxFn5KW3uO0uEyK0fKHgn2CNu7FrcKaIEpLO/kx1/5NzCTzkTBfQI9VAgPdx/0Mlg
-         5Qiz/xMYTHDuRBdbfgVuw/XEaJmLdUXZz1aIJujy5cb3spw1f4his0mjSM4YD26Sy2eJ
-         pLb0urbUz9Yozy3rSkhvCdawd0jeXSiRNfmYS1Uj/JzYRQeEhJ0kXg2CxPmWUGetYfof
-         ldXA==
-X-Gm-Message-State: AOJu0YwqZKJpBiHAoJTFQmR+3ApS4TM36Xcv+GUIqmVXUmGHgrEu7aTY
-	Y53XXc1PE+fNCH7VU8C2y1/KyIL7IBHWzo+B/aLymGUUw/xRB3WqN4NqccTcHIe4Np9ktAU6AIm
-	M
-X-Google-Smtp-Source: AGHT+IGXSBmKocPt0dRvfL89W/ODWtjceO9L8drd8Zwd/eaMrT4+5pzFtzUnRXb8zgN+RZ6Nokmngg==
-X-Received: by 2002:a62:8416:0:b0:6d9:97f5:392e with SMTP id k22-20020a628416000000b006d997f5392emr2061837pfd.44.1705631257154;
-        Thu, 18 Jan 2024 18:27:37 -0800 (PST)
+        bh=s4UmvJW7a/wQfc8ggeRfRm+TS8x33r697Tqm9q/RP0Q=;
+        b=VGRkH026K/Nh9Kya4YjR6ZpS9mZvkA8wLZ+pN5YI+op5d9ueZT0TK2PNdmuWGP41hH
+         W/F/zp/MqDisVJ0qZs6J68askF/QPA5FraHnstRBMY+cxD2onw5/mIy63jdKJ3cE4pmS
+         Bt9sV9fllvH8sKlpRNzRpIqz7WfhRmtPcKV3u0J4hX7AAuXMJNNsd0xv1lDey3T9JwIg
+         DAzoFFMJRqkHUcHrPFsxgspZdw/44FAGmksHic3CHa/hjvjv0jS391tIoAHEG/u69Fdl
+         uTacR1GGtI3tSsuj3aWovMXvGwa8gfrMeKNdk+87z0BrAy0WfJCGT1YYKhcsYMBY3+k0
+         1CBA==
+X-Gm-Message-State: AOJu0YwXrPWbB4tgPk0gE8JgL3u4gTjq+tGhoT4Qi9V1Y3G1TqpNmsuv
+	tlbJY5URUhZfMSARi0HpZtBsGPzBF1dIQAR1zSjFmPBNIduS84uiTpsesfqK5EjNsylPDvL2Xib
+	F
+X-Google-Smtp-Source: AGHT+IF8AJv/U1JQf8OB4cBFwcC002Sj715idHSxjYwuC1nSHcHZia6p9/x3JPBYxkVS7jOGTGpUYg==
+X-Received: by 2002:a62:d40e:0:b0:6d9:a811:98bf with SMTP id a14-20020a62d40e000000b006d9a81198bfmr1446784pfh.31.1705632927371;
+        Thu, 18 Jan 2024 18:55:27 -0800 (PST)
 Received: from MVIN00020.mvista.com ([106.212.247.212])
-        by smtp.gmail.com with ESMTPSA id t15-20020a62d14f000000b006d9a6953f08sm4135255pfl.103.2024.01.18.18.27.35
+        by smtp.gmail.com with ESMTPSA id ei25-20020a056a0080d900b006d9361fcfc8sm4123594pfb.177.2024.01.18.18.55.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jan 2024 18:27:36 -0800 (PST)
+        Thu, 18 Jan 2024 18:55:26 -0800 (PST)
 From: vanusuri@mvista.com
 To: openembedded-core@lists.openembedded.org
 Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][dunfell][PATCH] sqlite3: Backport fix for CVE-2023-7104
-Date: Fri, 19 Jan 2024 07:55:24 +0530
-Message-Id: <20240119022524.4293-1-vanusuri@mvista.com>
+Subject: [OE-core][kirkstone][PATCH] gnutls: Fix for CVE-2024-0553 and CVE-2024-0567
+Date: Fri, 19 Jan 2024 08:23:15 +0530
+Message-Id: <20240119025315.5748-1-vanusuri@mvista.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 19 Jan 2024 02:27:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194004
+ <openembedded-core@lists.openembedded.org>; Fri, 19 Jan 2024 02:55:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194005
 
 From: Vijay Anusuri <vanusuri@mvista.com>
 
-Backport https://sqlite.org/src/info/0e4e7a05c4204b47
+CVE-2024-0553
+A vulnerability was found in GnuTLS. The response times to malformed ciphertexts in RSA-PSK ClientKeyExchange differ from response times of ciphertexts with correct PKCS#1 v1.5 padding. This issue may allow a remote attacker to perform a timing side-channel attack in the RSA-PSK key exchange, potentially leading to the leakage of sensitive data. CVE-2024-0553 is designated as an incomplete resolution for CVE-2023-5981.
+
+CVE-2024-0567
+A vulnerability was found in GnuTLS, where a cockpit (which uses gnuTLS) rejects a certificate chain with distributed trust. This issue occurs when validating a certificate chain with cockpit-certificate-ensure. This flaw allows an unauthenticated, remote client or attacker to initiate a denial of service attack.
+
+Upstream-Status: Backport
+[https://gitlab.com/gnutls/gnutls/-/commit/40dbbd8de499668590e8af51a15799fbc430595e
+&
+https://gitlab.com/gnutls/gnutls/-/commit/9edbdaa84e38b1bfb53a7d72c1de44f8de373405]
+
+Reference: https://ubuntu.com/security/CVE-2024-0553
+           https://ubuntu.com/security/CVE-2024-0567
 
 Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 ---
- .../sqlite/files/CVE-2023-7104.patch          | 46 +++++++++++++++++++
- meta/recipes-support/sqlite/sqlite3_3.31.1.bb |  1 +
- 2 files changed, 47 insertions(+)
- create mode 100644 meta/recipes-support/sqlite/files/CVE-2023-7104.patch
+ .../gnutls/gnutls/CVE-2024-0553.patch         | 125 ++++++++++++
+ .../gnutls/gnutls/CVE-2024-0567.patch         | 184 ++++++++++++++++++
+ meta/recipes-support/gnutls/gnutls_3.7.4.bb   |   2 +
+ 3 files changed, 311 insertions(+)
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2024-0553.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2024-0567.patch
 
-diff --git a/meta/recipes-support/sqlite/files/CVE-2023-7104.patch b/meta/recipes-support/sqlite/files/CVE-2023-7104.patch
+diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2024-0553.patch b/meta/recipes-support/gnutls/gnutls/CVE-2024-0553.patch
 new file mode 100644
-index 0000000000..01ff29ff5e
+index 0000000000..f15c470879
 --- /dev/null
-+++ b/meta/recipes-support/sqlite/files/CVE-2023-7104.patch
-@@ -0,0 +1,46 @@
-+From eab426c5fba69d2c77023939f72b4ad446834e3c Mon Sep 17 00:00:00 2001
-+From: dan <Dan Kennedy>
-+Date: Thu, 7 Sep 2023 13:53:09 +0000
-+Subject: [PATCH] Fix a buffer overread in the sessions extension that could occur when processing a corrupt changeset.
++++ b/meta/recipes-support/gnutls/gnutls/CVE-2024-0553.patch
+@@ -0,0 +1,125 @@
++From 40dbbd8de499668590e8af51a15799fbc430595e Mon Sep 17 00:00:00 2001
++From: Daiki Ueno <ueno@gnu.org>
++Date: Wed, 10 Jan 2024 19:13:17 +0900
++Subject: [PATCH] rsa-psk: minimize branching after decryption
 +
-+Upstream-Status: Backport [https://sqlite.org/src/info/0e4e7a05c4204b47]
-+CVE: CVE-2023-7104
++This moves any non-trivial code between gnutls_privkey_decrypt_data2
++and the function return in _gnutls_proc_rsa_psk_client_kx up until the
++decryption.  This also avoids an extra memcpy to session->key.key.
++
++Signed-off-by: Daiki Ueno <ueno@gnu.org>
++
++Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/40dbbd8de499668590e8af51a15799fbc430595e]
++CVE: CVE-2024-0553
 +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ sqlite3.c | 18 +++++++++++-------
-+ 1 file changed, 11 insertions(+), 7 deletions(-)
++ lib/auth/rsa_psk.c | 68 ++++++++++++++++++++++++----------------------
++ 1 file changed, 35 insertions(+), 33 deletions(-)
 +
-+diff --git a/sqlite3.c b/sqlite3.c
-+index 972ef18..c645ac8 100644
-+--- a/sqlite3.c
-++++ b/sqlite3.c
-+@@ -203301,15 +203301,19 @@ static int sessionReadRecord(
-+         }
-+       }
-+       if( eType==SQLITE_INTEGER || eType==SQLITE_FLOAT ){
-+-        sqlite3_int64 v = sessionGetI64(aVal);
-+-        if( eType==SQLITE_INTEGER ){
-+-          sqlite3VdbeMemSetInt64(apOut[i], v);
-++	if( (pIn->nData-pIn->iNext)<8 ){
-++	  rc = SQLITE_CORRUPT_BKPT;
-+         }else{
-+-          double d;
-+-          memcpy(&d, &v, 8);
-+-          sqlite3VdbeMemSetDouble(apOut[i], d);
-++	  sqlite3_int64 v = sessionGetI64(aVal);
-++	  if( eType==SQLITE_INTEGER ){
-++	    sqlite3VdbeMemSetInt64(apOut[i], v);
-++	  }else{
-++	    double d;
-++	    memcpy(&d, &v, 8);
-++	    sqlite3VdbeMemSetDouble(apOut[i], d);
-++	  }
-++	  pIn->iNext += 8;
-+         }
-+-        pIn->iNext += 8;
-+       }
-+     }
-+   }
++diff --git a/lib/auth/rsa_psk.c b/lib/auth/rsa_psk.c
++index 93c2dc9..c6cfb92 100644
++--- a/lib/auth/rsa_psk.c
+++++ b/lib/auth/rsa_psk.c
++@@ -269,7 +269,6 @@ _gnutls_proc_rsa_psk_client_kx(gnutls_session_t session, uint8_t * data,
++ 	int ret, dsize;
++ 	ssize_t data_size = _data_size;
++ 	gnutls_psk_server_credentials_t cred;
++-	gnutls_datum_t premaster_secret = { NULL, 0 };
++ 	volatile uint8_t ver_maj, ver_min;
++ 
++ 	cred = (gnutls_psk_server_credentials_t)
++@@ -329,24 +328,48 @@ _gnutls_proc_rsa_psk_client_kx(gnutls_session_t session, uint8_t * data,
++ 	ver_maj = _gnutls_get_adv_version_major(session);
++ 	ver_min = _gnutls_get_adv_version_minor(session);
++ 
++-	premaster_secret.data = gnutls_malloc(GNUTLS_MASTER_SIZE);
++-	if (premaster_secret.data == NULL) {
+++	/* Find the key of this username. A random value will be
+++	 * filled in if the key is not found.
+++	 */
+++	ret = _gnutls_psk_pwd_find_entry(session, info->username,
+++			                 strlen(info->username), &pwd_psk);
+++	if (ret < 0)
+++		return gnutls_assert_val(ret);
+++
+++	/* Allocate memory for premaster secret, and fill in the
+++	 * fields except the decryption result.
+++	 */
+++	session->key.key.size = 2 + GNUTLS_MASTER_SIZE + 2 + pwd_psk.size;
+++	session->key.key.data = gnutls_malloc(session->key.key.size);
+++	if (session->key.key.data == NULL) {
++ 		gnutls_assert();
+++		_gnutls_free_key_datum(&pwd_psk);
+++		/* No need to zeroize, as the secret is not copied in yet */
+++		_gnutls_free_datum(&session->key.key);
++ 		return GNUTLS_E_MEMORY_ERROR;
++ 	}
++-	premaster_secret.size = GNUTLS_MASTER_SIZE;
++ 
++ 	/* Fallback value when decryption fails. Needs to be unpredictable. */
++-	ret = gnutls_rnd(GNUTLS_RND_NONCE, premaster_secret.data,
++-			 premaster_secret.size);
+++	ret = gnutls_rnd(GNUTLS_RND_NONCE, session->key.key.data + 2,
+++			 GNUTLS_MASTER_SIZE);
++ 	if (ret < 0) {
++ 		gnutls_assert();
++-		goto cleanup;
+++		_gnutls_free_key_datum(&pwd_psk);
+++		/* No need to zeroize, as the secret is not copied in yet */
+++		_gnutls_free_datum(&session->key.key);
+++		return ret;
++ 	}
++ 
+++	_gnutls_write_uint16(GNUTLS_MASTER_SIZE, session->key.key.data);
+++	_gnutls_write_uint16(pwd_psk.size,
+++			     &session->key.key.data[2 + GNUTLS_MASTER_SIZE]);
+++	memcpy(&session->key.key.data[2 + GNUTLS_MASTER_SIZE + 2], pwd_psk.data,
+++	       pwd_psk.size);
+++	_gnutls_free_key_datum(&pwd_psk);
+++
++ 	gnutls_privkey_decrypt_data2(session->internals.selected_key, 0,
++-				     &ciphertext, premaster_secret.data,
++-				     premaster_secret.size);
+++				     &ciphertext, session->key.key.data + 2,
+++				     GNUTLS_MASTER_SIZE);
++ 	/* After this point, any conditional on failure that cause differences
++ 	 * in execution may create a timing or cache access pattern side
++ 	 * channel that can be used as an oracle, so tread carefully */
++@@ -365,31 +388,10 @@ _gnutls_proc_rsa_psk_client_kx(gnutls_session_t session, uint8_t * data,
++ 	/* This is here to avoid the version check attack
++ 	 * discussed above.
++ 	 */
++-	premaster_secret.data[0] = ver_maj;
++-	premaster_secret.data[1] = ver_min;
+++	session->key.key.data[2] = ver_maj;
+++	session->key.key.data[3] = ver_min;
++ 
++-	/* find the key of this username
++-	 */
++-	ret =
++-	    _gnutls_psk_pwd_find_entry(session, info->username, strlen(info->username), &pwd_psk);
++-	if (ret < 0) {
++-		gnutls_assert();
++-		goto cleanup;
++-	}
++-
++-	ret =
++-	    set_rsa_psk_session_key(session, &pwd_psk, &premaster_secret);
++-	if (ret < 0) {
++-		gnutls_assert();
++-		goto cleanup;
++-	}
++-
++-	ret = 0;
++-      cleanup:
++-	_gnutls_free_key_datum(&pwd_psk);
++-	_gnutls_free_temp_key_datum(&premaster_secret);
++-
++-	return ret;
+++	return 0;
++ }
++ 
++ static int
 +-- 
 +2.25.1
 +
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.31.1.bb b/meta/recipes-support/sqlite/sqlite3_3.31.1.bb
-index ef12ef0db2..0e7bcfa5a7 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.31.1.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.31.1.bb
-@@ -17,6 +17,7 @@ SRC_URI = "http://www.sqlite.org/2020/sqlite-autoconf-${SQLITE_PV}.tar.gz \
-            file://CVE-2020-35525.patch \
-            file://CVE-2020-35527.patch \
-            file://CVE-2021-20223.patch \
-+           file://CVE-2023-7104.patch \
+diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2024-0567.patch b/meta/recipes-support/gnutls/gnutls/CVE-2024-0567.patch
+new file mode 100644
+index 0000000000..49c4531a9b
+--- /dev/null
++++ b/meta/recipes-support/gnutls/gnutls/CVE-2024-0567.patch
+@@ -0,0 +1,184 @@
++From 9edbdaa84e38b1bfb53a7d72c1de44f8de373405 Mon Sep 17 00:00:00 2001
++From: Daiki Ueno <ueno@gnu.org>
++Date: Thu, 11 Jan 2024 15:45:11 +0900
++Subject: [PATCH] x509: detect loop in certificate chain
++
++There can be a loop in a certificate chain, when multiple CA
++certificates are cross-signed with each other, such as A â†’ B, B â†’ C,
++and C â†’ A.  Previously, the verification logic was not capable of
++handling this scenario while sorting the certificates in the chain in
++_gnutls_sort_clist, resulting in an assertion failure.  This patch
++properly detects such loop and aborts further processing in a graceful
++manner.
++
++Signed-off-by: Daiki Ueno <ueno@gnu.org>
++
++Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/9edbdaa84e38b1bfb53a7d72c1de44f8de373405]
++CVE: CVE-2024-0567
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ lib/x509/common.c   |   4 ++
++ tests/test-chains.h | 125 ++++++++++++++++++++++++++++++++++++++++++++
++ 2 files changed, 129 insertions(+)
++
++diff --git a/lib/x509/common.c b/lib/x509/common.c
++index fad9da5..6367b03 100644
++--- a/lib/x509/common.c
+++++ b/lib/x509/common.c
++@@ -1790,6 +1790,10 @@ unsigned int _gnutls_sort_clist(gnutls_x509_crt_t *clist,
++ 			break;
++ 		}
++ 
+++		if (insorted[prev]) { /* loop detected */
+++			break;
+++		}
+++
++ 		sorted[i] = clist[prev];
++ 		insorted[prev] = 1;
++ 	}
++diff --git a/tests/test-chains.h b/tests/test-chains.h
++index dd7ccf0..09a5461 100644
++--- a/tests/test-chains.h
+++++ b/tests/test-chains.h
++@@ -4263,6 +4263,129 @@ static const char *rsa_sha1_not_in_trusted_ca[] = {
++ 	NULL
++ };
++ 
+++static const char *cross_signed[] = {
+++	/* server (signed by A1) */
+++	"-----BEGIN CERTIFICATE-----\n"
+++	"MIIBqDCCAVqgAwIBAgIUejlil+8DBffazcnMNwyOOP6yCCowBQYDK2VwMBoxGDAW\n"
+++	"BgNVBAMTD0ludGVybWVkaWF0ZSBBMTAgFw0yNDAxMTEwNjI3MjJaGA85OTk5MTIz\n"
+++	"MTIzNTk1OVowNzEbMBkGA1UEChMSR251VExTIHRlc3Qgc2VydmVyMRgwFgYDVQQD\n"
+++	"Ew90ZXN0LmdudXRscy5vcmcwKjAFBgMrZXADIQA1ZVS0PcNeTPQMZ+FuVz82AHrj\n"
+++	"qL5hWEpCDgpG4M4fxaOBkjCBjzAMBgNVHRMBAf8EAjAAMBoGA1UdEQQTMBGCD3Rl\n"
+++	"c3QuZ251dGxzLm9yZzATBgNVHSUEDDAKBggrBgEFBQcDATAOBgNVHQ8BAf8EBAMC\n"
+++	"B4AwHQYDVR0OBBYEFGtEUv+JSt+zPoO3lu0IiObZVoiNMB8GA1UdIwQYMBaAFPnY\n"
+++	"v6Pw0IvKSqIlb6ewHyEAmTA3MAUGAytlcANBAAS2lyc87kH/aOvNKzPjqDwUYxPA\n"
+++	"CfYjyaKea2d0DZLBM5+Bjnj/4aWwTKgVTJzWhLJcLtaSdVHrXqjr9NhEhQ0=\n"
+++	"-----END CERTIFICATE-----\n",
+++	/* A1 (signed by A) */
+++	"-----BEGIN CERTIFICATE-----\n"
+++	"MIIBUjCCAQSgAwIBAgIUe/R+NVp04e74ySw2qgI6KZgFR20wBQYDK2VwMBExDzAN\n"
+++	"BgNVBAMTBlJvb3QgQTAgFw0yNDAxMTEwNjI1MDFaGA85OTk5MTIzMTIzNTk1OVow\n"
+++	"GjEYMBYGA1UEAxMPSW50ZXJtZWRpYXRlIEExMCowBQYDK2VwAyEAlkTNqwz973sy\n"
+++	"u3whMjSiUMs77CZu5YA7Gi5KcakExrKjYzBhMA8GA1UdEwEB/wQFMAMBAf8wDgYD\n"
+++	"VR0PAQH/BAQDAgIEMB0GA1UdDgQWBBT52L+j8NCLykqiJW+nsB8hAJkwNzAfBgNV\n"
+++	"HSMEGDAWgBRbYgOkRGsd3Z74+CauX4htzLg0lzAFBgMrZXADQQBM0NBaFVPd3cTJ\n"
+++	"DSaZNT34fsHuJk4eagpn8mBxKQpghq4s8Ap+nYtp2KiXjcizss53PeLXVnkfyLi0\n"
+++	"TLVBHvUJ\n"
+++	"-----END CERTIFICATE-----\n",
+++	/* A (signed by B) */
+++	"-----BEGIN CERTIFICATE-----\n"
+++	"MIIBSDCB+6ADAgECAhQtdJpg+qlPcLoRW8iiztJUD4xNvDAFBgMrZXAwETEPMA0G\n"
+++	"A1UEAxMGUm9vdCBCMCAXDTI0MDExMTA2MTk1OVoYDzk5OTkxMjMxMjM1OTU5WjAR\n"
+++	"MQ8wDQYDVQQDEwZSb290IEEwKjAFBgMrZXADIQA0vDYyg3tgotSETL1Wq2hBs32p\n"
+++	"WbnINkmOSNmOiZlGHKNjMGEwDwYDVR0TAQH/BAUwAwEB/zAOBgNVHQ8BAf8EBAMC\n"
+++	"AgQwHQYDVR0OBBYEFFtiA6REax3dnvj4Jq5fiG3MuDSXMB8GA1UdIwQYMBaAFJFA\n"
+++	"s2rg6j8w9AKItRnOOOjG2FG6MAUGAytlcANBAPv674p9ek5GjRcRfVQhgN+kQlHU\n"
+++	"u774wL3Vx3fWA1E7+WchdMzcHrPoa5OKtKmxjIKUTO4SeDZL/AVpvulrWwk=\n"
+++	"-----END CERTIFICATE-----\n",
+++	/* A (signed by C) */
+++	"-----BEGIN CERTIFICATE-----\n"
+++	"MIIBSDCB+6ADAgECAhReNpCiVn7eFDUox3mvM5qE942AVzAFBgMrZXAwETEPMA0G\n"
+++	"A1UEAxMGUm9vdCBDMCAXDTI0MDExMTA2MjEyMVoYDzk5OTkxMjMxMjM1OTU5WjAR\n"
+++	"MQ8wDQYDVQQDEwZSb290IEIwKjAFBgMrZXADIQAYX92hS97OGKbMzwrD7ReVifwM\n"
+++	"3iz5tnfQHWQSkvvYMKNjMGEwDwYDVR0TAQH/BAUwAwEB/zAOBgNVHQ8BAf8EBAMC\n"
+++	"AgQwHQYDVR0OBBYEFJFAs2rg6j8w9AKItRnOOOjG2FG6MB8GA1UdIwQYMBaAFEh/\n"
+++	"XKjIuMeEavX5QVoy39Q+GhnwMAUGAytlcANBAIwghH3gelXty8qtoTGIEJb0+EBv\n"
+++	"BH4YOUh7TamxjxkjvvIhDA7ZdheofFb7NrklJco7KBcTATUSOvxakYRP9Q8=\n"
+++	"-----END CERTIFICATE-----\n",
+++	/* B1 (signed by B) */
+++	"-----BEGIN CERTIFICATE-----\n"
+++	"MIIBUjCCAQSgAwIBAgIUfpmrVDc1XBA5/7QYMyGBuB9mTtUwBQYDK2VwMBExDzAN\n"
+++	"BgNVBAMTBlJvb3QgQjAgFw0yNDAxMTEwNjI1MjdaGA85OTk5MTIzMTIzNTk1OVow\n"
+++	"GjEYMBYGA1UEAxMPSW50ZXJtZWRpYXRlIEIxMCowBQYDK2VwAyEAh6ZTuJWsweVB\n"
+++	"a5fsye5iq89kWDC2Y/Hlc0htLmjzMP+jYzBhMA8GA1UdEwEB/wQFMAMBAf8wDgYD\n"
+++	"VR0PAQH/BAQDAgIEMB0GA1UdDgQWBBTMQu37PKyLjKfPODZgxYCaayff+jAfBgNV\n"
+++	"HSMEGDAWgBSRQLNq4Oo/MPQCiLUZzjjoxthRujAFBgMrZXADQQBblmguY+lnYvOK\n"
+++	"rAZJnqpEUGfm1tIFyu3rnlE7WOVcXRXMIoNApLH2iHIipQjlvNWuSBFBTC1qdewh\n"
+++	"/e+0cgQB\n"
+++	"-----END CERTIFICATE-----\n",
+++	/* B (signed by A) */
+++	"-----BEGIN CERTIFICATE-----\n"
+++	"MIIBSDCB+6ADAgECAhRpEm+dWNX6DMZh/nottkFfFFrXXDAFBgMrZXAwETEPMA0G\n"
+++	"A1UEAxMGUm9vdCBBMCAXDTI0MDExMTA2MTcyNloYDzk5OTkxMjMxMjM1OTU5WjAR\n"
+++	"MQ8wDQYDVQQDEwZSb290IEIwKjAFBgMrZXADIQAYX92hS97OGKbMzwrD7ReVifwM\n"
+++	"3iz5tnfQHWQSkvvYMKNjMGEwDwYDVR0TAQH/BAUwAwEB/zAOBgNVHQ8BAf8EBAMC\n"
+++	"AgQwHQYDVR0OBBYEFJFAs2rg6j8w9AKItRnOOOjG2FG6MB8GA1UdIwQYMBaAFFti\n"
+++	"A6REax3dnvj4Jq5fiG3MuDSXMAUGAytlcANBAFvmcK3Ida5ViVYDzxKVLPcPsCHe\n"
+++	"3hxz99lBrerJC9iJSvRYTJoPBvjTxDYnBn5EFrQYMrUED+6i71lmGXNU9gs=\n"
+++	"-----END CERTIFICATE-----\n",
+++	/* B (signed by C) */
+++	"-----BEGIN CERTIFICATE-----\n"
+++	"MIIBSDCB+6ADAgECAhReNpCiVn7eFDUox3mvM5qE942AVzAFBgMrZXAwETEPMA0G\n"
+++	"A1UEAxMGUm9vdCBDMCAXDTI0MDExMTA2MjEyMVoYDzk5OTkxMjMxMjM1OTU5WjAR\n"
+++	"MQ8wDQYDVQQDEwZSb290IEIwKjAFBgMrZXADIQAYX92hS97OGKbMzwrD7ReVifwM\n"
+++	"3iz5tnfQHWQSkvvYMKNjMGEwDwYDVR0TAQH/BAUwAwEB/zAOBgNVHQ8BAf8EBAMC\n"
+++	"AgQwHQYDVR0OBBYEFJFAs2rg6j8w9AKItRnOOOjG2FG6MB8GA1UdIwQYMBaAFEh/\n"
+++	"XKjIuMeEavX5QVoy39Q+GhnwMAUGAytlcANBAIwghH3gelXty8qtoTGIEJb0+EBv\n"
+++	"BH4YOUh7TamxjxkjvvIhDA7ZdheofFb7NrklJco7KBcTATUSOvxakYRP9Q8=\n"
+++	"-----END CERTIFICATE-----\n",
+++	/* C1 (signed by C) */
+++	"-----BEGIN CERTIFICATE-----\n"
+++	"MIIBUjCCAQSgAwIBAgIUSKsfY1wD3eD2VmaaK1wt5naPckMwBQYDK2VwMBExDzAN\n"
+++	"BgNVBAMTBlJvb3QgQzAgFw0yNDAxMTEwNjI1NDdaGA85OTk5MTIzMTIzNTk1OVow\n"
+++	"GjEYMBYGA1UEAxMPSW50ZXJtZWRpYXRlIEMxMCowBQYDK2VwAyEA/t7i1chZlKkV\n"
+++	"qxJOrmmyATn8XnpK+nV/iT4OMHSHfAyjYzBhMA8GA1UdEwEB/wQFMAMBAf8wDgYD\n"
+++	"VR0PAQH/BAQDAgIEMB0GA1UdDgQWBBRmpF3JjoP3NiBzE5J5ANT0bvfRmjAfBgNV\n"
+++	"HSMEGDAWgBRIf1yoyLjHhGr1+UFaMt/UPhoZ8DAFBgMrZXADQQAeRBXv6WCTOp0G\n"
+++	"3wgd8bbEGrrILfpi+qH7aj/MywgkPIlppDYRQ3jL6ASd+So/408dlE0DV9DXKBi0\n"
+++	"725XUUYO\n"
+++	"-----END CERTIFICATE-----\n",
+++	/* C (signed by A) */
+++	"-----BEGIN CERTIFICATE-----\n"
+++	"MIIBSDCB+6ADAgECAhRvbZv3SRTjDOiAbyFWHH4y0yMZkjAFBgMrZXAwETEPMA0G\n"
+++	"A1UEAxMGUm9vdCBBMCAXDTI0MDExMTA2MTg1MVoYDzk5OTkxMjMxMjM1OTU5WjAR\n"
+++	"MQ8wDQYDVQQDEwZSb290IEMwKjAFBgMrZXADIQDxm6Ubhsa0gSa1vBCIO5e+qZEH\n"
+++	"8Oocz+buNHfIJbh5NaNjMGEwDwYDVR0TAQH/BAUwAwEB/zAOBgNVHQ8BAf8EBAMC\n"
+++	"AgQwHQYDVR0OBBYEFEh/XKjIuMeEavX5QVoy39Q+GhnwMB8GA1UdIwQYMBaAFFti\n"
+++	"A6REax3dnvj4Jq5fiG3MuDSXMAUGAytlcANBAPl+SyiOfXJnjSWx8hFMhJ7w92mn\n"
+++	"tkGifCFHBpUhYcBIMeMtLw0RBLXqaaN0EKlTFimiEkLClsU7DKYrpEEJegs=\n"
+++	"-----END CERTIFICATE-----\n",
+++	/* C (signed by B) */
+++	"-----BEGIN CERTIFICATE-----\n"
+++	"MIIBSDCB+6ADAgECAhQU1OJWRVOLrGrgJiLwexd1/MwKkTAFBgMrZXAwETEPMA0G\n"
+++	"A1UEAxMGUm9vdCBCMCAXDTI0MDExMTA2MjAzMFoYDzk5OTkxMjMxMjM1OTU5WjAR\n"
+++	"MQ8wDQYDVQQDEwZSb290IEMwKjAFBgMrZXADIQDxm6Ubhsa0gSa1vBCIO5e+qZEH\n"
+++	"8Oocz+buNHfIJbh5NaNjMGEwDwYDVR0TAQH/BAUwAwEB/zAOBgNVHQ8BAf8EBAMC\n"
+++	"AgQwHQYDVR0OBBYEFEh/XKjIuMeEavX5QVoy39Q+GhnwMB8GA1UdIwQYMBaAFJFA\n"
+++	"s2rg6j8w9AKItRnOOOjG2FG6MAUGAytlcANBALXeyuj8vj6Q8j4l17VzZwmJl0gN\n"
+++	"bCGoKMl0J/0NiN/fQRIsdbwQDh0RUN/RN3I6DTtB20ER6f3VdnzAh8nXkQ4=\n"
+++	"-----END CERTIFICATE-----\n",
+++	NULL
+++};
+++
+++static const char *cross_signed_ca[] = {
+++	/* A (self-signed) */
+++	"-----BEGIN CERTIFICATE-----\n"
+++	"MIIBJzCB2qADAgECAhQs1Ur+gzPs1ISxs3Tbs700q0CZcjAFBgMrZXAwETEPMA0G\n"
+++	"A1UEAxMGUm9vdCBBMCAXDTI0MDExMTA2MTYwMFoYDzk5OTkxMjMxMjM1OTU5WjAR\n"
+++	"MQ8wDQYDVQQDEwZSb290IEEwKjAFBgMrZXADIQA0vDYyg3tgotSETL1Wq2hBs32p\n"
+++	"WbnINkmOSNmOiZlGHKNCMEAwDwYDVR0TAQH/BAUwAwEB/zAOBgNVHQ8BAf8EBAMC\n"
+++	"AgQwHQYDVR0OBBYEFFtiA6REax3dnvj4Jq5fiG3MuDSXMAUGAytlcANBAHrVv7E9\n"
+++	"5scuOVCH9gNRRm8Z9SUoLakRHAPnySdg6z/kI3vOgA/OM7reArpnW8l1H2FapgpL\n"
+++	"bDeZ2XJH+BdVFwg=\n"
+++	"-----END CERTIFICATE-----\n",
+++	NULL
+++};
+++
++ #if defined __clang__ || __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 5)
++ #  pragma GCC diagnostic push
++ #  pragma GCC diagnostic ignored "-Wunused-variable"
++@@ -4442,6 +4565,8 @@ static struct
++     rsa_sha1_not_in_trusted, rsa_sha1_not_in_trusted_ca,
++     GNUTLS_PROFILE_TO_VFLAGS(GNUTLS_PROFILE_MEDIUM),
++     GNUTLS_CERT_INSECURE_ALGORITHM | GNUTLS_CERT_INVALID, NULL, 1620118136, 1},
+++  { "cross signed - ok", cross_signed, cross_signed_ca, 0, 0, 0,
+++    1704955300 },
++   { NULL, NULL, NULL, 0, 0}
++ };
++ 
++-- 
++2.25.1
++
+diff --git a/meta/recipes-support/gnutls/gnutls_3.7.4.bb b/meta/recipes-support/gnutls/gnutls_3.7.4.bb
+index 25f730b801..b290022781 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.7.4.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.7.4.bb
+@@ -24,6 +24,8 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
+            file://CVE-2022-2509.patch \
+            file://CVE-2023-0361.patch \
+            file://CVE-2023-5981.patch \
++           file://CVE-2024-0553.patch \
++           file://CVE-2024-0567.patch \
             "
- SRC_URI[md5sum] = "2d0a553534c521504e3ac3ad3b90f125"
- SRC_URI[sha256sum] = "62284efebc05a76f909c580ffa5c008a7d22a1287285d68b7825a2b6b51949ae"
+ 
+ SRC_URI[sha256sum] = "e6adbebcfbc95867de01060d93c789938cf89cc1d1f6ef9ef661890f6217451f"
 -- 
 2.25.1
 
