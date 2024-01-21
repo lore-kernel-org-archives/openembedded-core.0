@@ -2,47 +2,47 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D5D5C47DD9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B764C47DB7
 	for <webhook@archiver.kernel.org>; Sun, 21 Jan 2024 19:23:55 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.54988.1705865027117207075
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.54756.1705865028029493860
  for <openembedded-core@lists.openembedded.org>;
- Sun, 21 Jan 2024 11:23:47 -0800
+ Sun, 21 Jan 2024 11:23:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=If+P89wB;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=q95UtZNP;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018d2d7a9b4d-002ad790-5176-4929-abc9-6fa1a3033222-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=VvgBzIZV;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=dNX8WD0L;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018d2d7a9e55-1537bcab-09f3-4823-a0dc-f9455525f651-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1705865026; i=@automation.yoctoproject.org;
+	t=1705865027; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=8KkA/KUd0fUufxey6mcH7KOwthDM4y1hxkDoqfy076A=;
-	b=If+P89wB7jfOfcOnxUZrfDPBSBzahez3mHVyCYL/DdJAQ/tASQ944khtGAxoKgH2
-	Bodfvx4z0RCOLzt+12AfuEv00FbI+DBg5kN6GxyetFmOnR0+cg0t3KxpiQM8/KwxffM
-	MSXXsxAPNtsSTomR+THyPtP9wgZED1sjR6oi8sY4=
+	bh=9uEUyMLcGPlIDJdJCiKJ/GeDBz5u8yZffT7HX5fnV2E=;
+	b=VvgBzIZVnl7kgXiZyquoOrPQ4EZG261entTZDxVJK6W0a1R2kd0lX2vshReDNkp5
+	tXha2unMD4I1tcg47zJ63hqBOpptSPHluxxIBhd5ws9bJpJjpSAiIScpKmg7hcBcSwM
+	ojsgLfPaUflx1KeaL9YsAcFbLNaGfqZ91JWZgMHQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1705865026;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1705865027;
 	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=8KkA/KUd0fUufxey6mcH7KOwthDM4y1hxkDoqfy076A=;
-	b=q95UtZNPDXABqgJDC0iGdOe5GS33kfRn89jL412qr8VbcLUYTL1kWw4hghmeNc/D
-	0lDo24ZQJ6piSaiL49VHKrSYYkiiLVV1S487ZEdlJpPBhOukPnlqKlad072AraAq0lm
-	Dd8sfSqfaje2fOUXGNZqcViSLRQaSgCPHG06VtEg=
+	bh=9uEUyMLcGPlIDJdJCiKJ/GeDBz5u8yZffT7HX5fnV2E=;
+	b=dNX8WD0LO27ZbgIl+9lu1YJavN/XMuJcyz8eaCXE/o2Y4muezOruWwwODVOnI9gq
+	wTkxbyqS8wSlnofEgIp2VH0sDRigNMNNfsBumG5azH++vialjcK6X48fj4N5zq41fol
+	1REtJANmy+VoZVOLLp5i2U0myx6lPq4flePhpZk8=
 From: patchtest@automation.yoctoproject.org
 To: Steve Sakoman <steve@sakoman.com>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][kirkstone 3/6] tiff: fix CVE-2023-6228
-In-Reply-To: 0730806ae39093b05ce943df1f9f5d0a25a8a673.1705863274.git.steve@sakoman.com
+Subject: Patchtest results for [OE-core][kirkstone 6/6] xserver-xorg: Multiple CVE fixes
+In-Reply-To: ad696a0067e11c332a4542ccacd76455f5fbd984.1705863274.git.steve@sakoman.com
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018d2d7a9b4d-002ad790-5176-4929-abc9-6fa1a3033222-000000@us-west-2.amazonses.com>
-Date: Sun, 21 Jan 2024 19:23:46 +0000
+Message-ID: <0101018d2d7a9e55-1537bcab-09f3-4823-a0dc-f9455525f651-000000@us-west-2.amazonses.com>
+Date: Sun, 21 Jan 2024 19:23:47 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.01.21-54.240.27.45
+X-SES-Outgoing: 2024.01.21-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 21 Jan 2024 19:23:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194103
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194104
 
 --NextPart
 Content-Type: text/plain
@@ -52,7 +52,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/kirkstone-3-6-tiff-fix-CVE-2023-6228.patch
+Testing patch /home/patchtest/share/mboxes/kirkstone-6-6-xserver-xorg-Multiple-CVE-fixes.patch
 
 FAIL: test CVE check ignore: CVE_CHECK_IGNORE is deprecated and should be replaced by CVE_STATUS (test_metadata.TestMetadata.test_cve_check_ignore)
 
