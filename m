@@ -1,69 +1,99 @@
-Return-Path: <simone.p.weiss@posteo.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49236C47422
-	for <webhook@archiver.kernel.org>; Sun, 21 Jan 2024 19:19:55 +0000 (UTC)
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
- by mx.groups.io with SMTP id smtpd.web11.54681.1705864787918373401
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CAF9C47422
+	for <webhook@archiver.kernel.org>; Sun, 21 Jan 2024 19:23:55 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.54754.1705865026832795951
  for <openembedded-core@lists.openembedded.org>;
- Sun, 21 Jan 2024 11:19:48 -0800
+ Sun, 21 Jan 2024 11:23:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@posteo.com header.s=2017 header.b=j7Ix8mOo;
- spf=pass (domain: posteo.com, ip: 185.67.36.65, mailfrom: simone.p.weiss@posteo.com)
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id 01D08240027
-	for <openembedded-core@lists.openembedded.org>; Sun, 21 Jan 2024 20:19:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.com; s=2017;
-	t=1705864786; bh=4IdAJfO9nmay/8uAlM6RheVmFs+mKgF0dtK5UnfxMOo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:From;
-	b=j7Ix8mOo+V36pgT7TgL3QTDQZrmLE5hEzfeVV6dvZspCPOISYjdOqptdq7Js77QLK
-	 wPJ+Mi0top0JfLu7yLyqdOwZ0nalq29Sm6IjrDW1rZf5y1CVeQ6EnCLNOqHo2SDsvr
-	 N/3s25eKI82bQe+2LJK+n5E4nBeEG09K9kBxuf8nSyn6h96POqg8gyy9m5z5aigW2K
-	 6G2YXY1RtrK7cLWciZtinF1+qvSQ9I4TLZMaQunbvKZII3ShEcOseG4aSQ9v/0bGMz
-	 g3efw5iRFXfOs+nr3OdIVeoNrDN0VhKqgvaHB3rgBjn67sWsi6zyiCJ7NDU4FzBulR
-	 Q2B0kpB5i7HRg==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4TJ38118Rlz9rxG;
-	Sun, 21 Jan 2024 20:19:44 +0100 (CET)
-From: simone.p.weiss@posteo.com
-To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Simone=20Wei=C3=9F?= <simone.p.weiss@posteo.com>
-Subject: [PATCH] libgcc-initial: Update status of CVE-2023-4039
-Date: Sun, 21 Jan 2024 19:19:35 +0000
-Message-Id: <20240121191935.738504-1-simone.p.weiss@posteo.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=QkOej0Du;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=ix0OduVq;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018d2d7a999f-953f1607-b74f-4352-921a-2a58c533dd76-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1705865026; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
+	bh=/DkOwqFWC7nqnBnBzlEbkAkQOj5s5N+v2+aI+I3CSLc=;
+	b=QkOej0DucXRFUWvQ0tW7QqcEHUn+oqDZNaIjeZxQvgP7l7h4OhFu74EyOjrq+DPV
+	MrN1J8TH7zJdjNm9ncjUJwqwROi1QjPl6btciQi99MfiycsYPeROJlszDLogLnjJeC2
+	cUoERGHbLpnpvuZbUxoZIIeZSi9jja4NyQWmIZ2U=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1705865026;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=/DkOwqFWC7nqnBnBzlEbkAkQOj5s5N+v2+aI+I3CSLc=;
+	b=ix0OduVqcz8NsOr7JV3srLyf3El5y11YB1OVdLqwag3OA3q5Ei+NEDtscSIqjtbH
+	SrPY8ZUvbFznQiNqjB8Z3uJywPDfFrLUauztA6jwi3NVj/5AiSHmOyYzkF8W3o0dFNK
+	31Cds47kugcD/zgZn64zti3LzRHbKTr5Vb0lEuBg=
+From: patchtest@automation.yoctoproject.org
+To: Steve Sakoman <steve@sakoman.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-core][kirkstone 2/6] openssl: fix CVE-2023-6237 Excessive time
+ spent checking invalid RSA public keys
+In-Reply-To: 6bb64af6ce167eadd34570b061b3e6ed13c39c74.1705863274.git.steve@sakoman.com
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018d2d7a999f-953f1607-b74f-4352-921a-2a58c533dd76-000000@us-west-2.amazonses.com>
+Date: Sun, 21 Jan 2024 19:23:45 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.01.21-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 21 Jan 2024 19:19:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194101
+ <openembedded-core@lists.openembedded.org>; Sun, 21 Jan 2024 19:23:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194102
 
-From: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
+--NextPart
+Content-Type: text/plain
 
-This is fixed via a patch added in gcc-13.2.inc already.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Signed-off-by: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
 ---
- meta/recipes-devtools/gcc/libgcc-initial_13.2.bb | 2 ++
- 1 file changed, 2 insertions(+)
+Testing patch /home/patchtest/share/mboxes/kirkstone-2-6-openssl-fix-CVE-2023-6237-Excessive-time-spent-checking-invalid-RSA-public-keys.patch
 
-diff --git a/meta/recipes-devtools/gcc/libgcc-initial_13.2.bb b/meta/reci=
-pes-devtools/gcc/libgcc-initial_13.2.bb
-index a259082b47..fd66692185 100644
---- a/meta/recipes-devtools/gcc/libgcc-initial_13.2.bb
-+++ b/meta/recipes-devtools/gcc/libgcc-initial_13.2.bb
-@@ -3,3 +3,5 @@ require libgcc-initial.inc
-=20
- # Building with thumb enabled on armv6t fails
- ARM_INSTRUCTION_SET:armv6 =3D "arm"
-+
-+CVE_STATUS[CVE-2023-4039] =3D "fixed-version: Fixed via CVE-2023-4039.pa=
-tch in gcc-13-2.inc which is added via require here"
---=20
-2.39.2
+FAIL: test CVE check ignore: CVE_CHECK_IGNORE is deprecated and should be replaced by CVE_STATUS (test_metadata.TestMetadata.test_cve_check_ignore)
+FAIL: test shortlog length: Edit shortlog so that it is 90 characters or less (currently 96 characters) (test_mbox.TestMbox.test_shortlog_length)
 
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
+PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
