@@ -1,92 +1,105 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <reatmon@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2238C46CD2
-	for <webhook@archiver.kernel.org>; Mon, 22 Jan 2024 22:30:13 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web11.6997.1705962609557939637
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 274F6C46CD2
+	for <webhook@archiver.kernel.org>; Mon, 22 Jan 2024 23:36:24 +0000 (UTC)
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by mx.groups.io with SMTP id smtpd.web10.8644.1705966575637384347
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Jan 2024 14:30:10 -0800
+ Mon, 22 Jan 2024 15:36:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile-fr.20230601.gappssmtp.com header.s=20230601 header.b=H5WaFF0H;
- spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-40ea5653f6bso31078185e9.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jan 2024 14:30:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1705962608; x=1706567408; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=x5N47bM4LJLMC9ZEsi+bGA6S51mSfG7hcSzQuCFouHc=;
-        b=H5WaFF0HUpRQEcPx1OtE2a9fAEg4Eefj/AYc2J4dyQ553LKVJvcO12hq430zzoAXMa
-         weoZg9jg7t6S+gY9Z4qVth4vZDncV0SzyRhRbTwQ+XOsWDAU2gR2QPoZhNQI4ivplwtl
-         VuCOxwLSRCrY5WY4UDA10LeHXWyqs1x7SKmKnGdavmy+t/P83gBD9Gfv7NvRFwLjU0N3
-         vy3JFZ5wg+0768SulAQ9Kqwx8ekfLm0jglkBzeNC1SF2Ob2kRMdgwebyM0kOYggCaAKz
-         bupWIBlM8tSAudHXtxdlUw9978t2GVLq4qwfQ/DDixhvOcEMgBI6Kw2eOQ0jKf4hJLf/
-         HkuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705962608; x=1706567408;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=x5N47bM4LJLMC9ZEsi+bGA6S51mSfG7hcSzQuCFouHc=;
-        b=tOpyFdgrOutQQGFxBCuxvDNuao1FcW6H3FfGC5HoReXYM49tIKBpgKVvZplEYmr28l
-         C/RpmwLG8i/UL0B/MlqGgCKXKbardPrxWJLhdiT1tKHSjrbzwtWV7nRNJJu3qsEUSqAH
-         vWQtXRlBkrwPIuk73dLE29/euQjI7cLdeiLQxPYT+XFsxVy3YmTtGr3TQvhN/VymX0Nq
-         WlfsA6gpxl2ZTsse5Z3xhxOMDc5hhErF8SL2LCbE5hVsWnWaXw8LQFYRNK/5HvQ7AbUQ
-         Si7Q2kBmxJYOu+FRUh50ijTd2DVdGFzAf14DWTbqk9JtC1c8KOqYawGYLPSPA4O/VAQr
-         tN3A==
-X-Gm-Message-State: AOJu0YxfeCFuPisSstrAvm5Cg5tpu1GJxFDNxdy9UHwfa342/vqWYkdE
-	fDLXY+EzL/crTeFKh6e7/ixSu92n7jX48iiLSYls1Zv237qyFzBfVE55Lfu1RAs=
-X-Google-Smtp-Source: AGHT+IHj8nmVwK/sN6h3Je/Otw5jA/G49f9P+6ck0ahPaR8bP7PCQDV0UR57xpq3lQeOkV0/lONDGw==
-X-Received: by 2002:a7b:c7ca:0:b0:40e:509c:36ec with SMTP id z10-20020a7bc7ca000000b0040e509c36ecmr2651751wmk.206.1705962607999;
-        Mon, 22 Jan 2024 14:30:07 -0800 (PST)
-Received: from [192.168.0.28] ([89.159.1.53])
-        by smtp.gmail.com with ESMTPSA id fl21-20020a05600c0b9500b0040e9d507424sm14093628wmb.5.2024.01.22.14.30.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Jan 2024 14:30:07 -0800 (PST)
-Message-ID: <b9a69f67-802a-4c94-88ec-1c16d787d3da@smile.fr>
-Date: Mon, 22 Jan 2024 23:30:07 +0100
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ti.com header.s=ti-com-17Q1 header.b=rsmKX46d;
+ spf=pass (domain: ti.com, ip: 198.47.19.142, mailfrom: reatmon@ti.com)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 40MNaDSV080541;
+	Mon, 22 Jan 2024 17:36:13 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1705966573;
+	bh=71WnH5ly3eTeG0BhkSjfDPxPQfa6TxkNKK0QVbO4zAQ=;
+	h=Date:Subject:To:References:From:In-Reply-To;
+	b=rsmKX46dVENl3kPuMprFOELiR/5NpFnFluybHOLixbArGynNmoD9bnoIY1p1F+Av/
+	 b6GueHVwLSh/ZGY6uJX46eBVvJu/io+NKJl9/XVnCUh2y6bDp4wTvtmA1LH9OOkLLF
+	 x4msTuwiSvYaDptCrlf0GC7g2j913hB6Kyhwejtk=
+Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
+	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 40MNaDk5012718
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Mon, 22 Jan 2024 17:36:13 -0600
+Received: from DLEE113.ent.ti.com (157.170.170.24) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 22
+ Jan 2024 17:36:13 -0600
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Mon, 22 Jan 2024 17:36:12 -0600
+Received: from [10.249.39.53] ([10.249.39.53])
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 40MNaCfB066837;
+	Mon, 22 Jan 2024 17:36:12 -0600
+Message-ID: <88033e10-0c89-4498-a785-058d4334c532@ti.com>
+Date: Mon, 22 Jan 2024 17:36:12 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [OE-core][PATCH] python3-yamllint: Add recipe
 Content-Language: en-US
-To: reatmon@ti.com, openembedded-core@lists.openembedded.org
+To: Yoann Congal <yoann.congal@smile.fr>,
+        <openembedded-core@lists.openembedded.org>, <tim.orling@konsulko.com>
 References: <20240122200704.21018-1-reatmon@ti.com>
-From: Yoann Congal <yoann.congal@smile.fr>
-Organization: Smile ECS
-In-Reply-To: <20240122200704.21018-1-reatmon@ti.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+ <b9a69f67-802a-4c94-88ec-1c16d787d3da@smile.fr>
+From: Ryan Eatmon <reatmon@ti.com>
+In-Reply-To: <b9a69f67-802a-4c94-88ec-1c16d787d3da@smile.fr>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by fllv0016.ext.ti.com id 40MNaDSV080541
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Jan 2024 22:30:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194194
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Jan 2024 23:36:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194195
 
-Hi,
 
-Le 22/01/2024 à 21:07, Ryan Eatmon via lists.openembedded.org a écrit :
-> Add recipe for yamllint.  There is an upcoming change in u-boot where
-> the binman tool is now configured to call yamllint to verify the configs
-> during compile time.
-> 
-> There was a previous patch a year ago from Trevor Woerner that never
-> made it into oe-core.  This patch is a reworking of his patch but
-> pointing to a newer version.
-> 
-> Signed-off-by: Ryan Eatmon <reatmon@ti.com>
-> ---
->  .../python/python3-yamllint_1.33.0.bb             | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
->  create mode 100644 meta/recipes-devtools/python/python3-yamllint_1.33.0.bb
 
-FYI, this new recipe lacks a maintainer and throw this warning :
-WARNING: python3-yamllint-1.33.0-r0 do_recipe_qa: QA Issue: Recipe python3-yamllint in [...]/poky/meta/recipes-devtools/python/python3-yamllint_1.33.0.bb does not have an assigned maintainer. Please add an entry into meta/conf/distro/include/maintainers.inc. [missing-maintainer]
+On 1/22/2024 4:30 PM, Yoann Congal wrote:
+> Hi,
+>=20
+> Le 22/01/2024 =C3=A0 21:07, Ryan Eatmon via lists.openembedded.org a =C3=
+=A9crit=C2=A0:
+>> Add recipe for yamllint.  There is an upcoming change in u-boot where
+>> the binman tool is now configured to call yamllint to verify the confi=
+gs
+>> during compile time.
+>>
+>> There was a previous patch a year ago from Trevor Woerner that never
+>> made it into oe-core.  This patch is a reworking of his patch but
+>> pointing to a newer version.
+>>
+>> Signed-off-by: Ryan Eatmon <reatmon@ti.com>
+>> ---
+>>   .../python/python3-yamllint_1.33.0.bb             | 15 +++++++++++++=
+++
+>>   1 file changed, 15 insertions(+)
+>>   create mode 100644 meta/recipes-devtools/python/python3-yamllint_1.3=
+3.0.bb
+>=20
+> FYI, this new recipe lacks a maintainer and throw this warning :
+> WARNING: python3-yamllint-1.33.0-r0 do_recipe_qa: QA Issue: Recipe pyth=
+on3-yamllint in [...]/poky/meta/recipes-devtools/python/python3-yamllint_=
+1.33.0.bb does not have an assigned maintainer. Please add an entry into =
+meta/conf/distro/include/maintainers.inc. [missing-maintainer]
 
-Regards,
--- 
-Yoann Congal
-Smile ECS - Tech Expert
+Tim,
+
+Do you mind being the maintainer for this new python recipe?  You are=20
+maintainer for many other python modules including pyyaml which this=20
+module depends on.  I can submit a v2 updating that file as well if you=20
+are willing.
+
+
+> Regards,
+
+--=20
+Ryan Eatmon                reatmon@ti.com
+-----------------------------------------
+Texas Instruments, Inc.  -  LCPD  -  MGTS
 
