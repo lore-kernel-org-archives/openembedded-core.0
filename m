@@ -1,228 +1,178 @@
-Return-Path: <Joakim.Tjernlund@infinera.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C9C7C47DAF
-	for <webhook@archiver.kernel.org>; Mon, 22 Jan 2024 15:01:22 +0000 (UTC)
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (NAM11-DM6-obe.outbound.protection.outlook.com [40.107.223.60])
- by mx.groups.io with SMTP id smtpd.web11.76234.1705935672565578533
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36AAAC47DAF
+	for <webhook@archiver.kernel.org>; Mon, 22 Jan 2024 15:10:52 +0000 (UTC)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+ by mx.groups.io with SMTP id smtpd.web10.76358.1705936249601206169
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Jan 2024 07:01:12 -0800
+ Mon, 22 Jan 2024 07:10:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@infinera.com header.s=selector2 header.b=LXNpIvQ0;
- spf=pass (domain: infinera.com, ip: 40.107.223.60, mailfrom: joakim.tjernlund@infinera.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fQHf8kP/GIzL/5LVsGAOrXUHtDNgAeJP51yTtf0EbACGZm3EJVn8bDnfY487b+PY6CCnsgTNK9fCwnGrCMpuiBxpd3WehcKIiu3jf4TTBaP677eDOBt/Eh54kP1tJ5zZokltaBUUy1+8Oja0JcUR0Hz4Y5JftMCfTtshjhuQCKuXXsEVaQ3PqC2sHJASv6fJmn0dmcIHnKjWOCaBsUJbdfRrdb5Jn/iuBg68HiG3JHzYhFctjOoKQu1T8nSP8HiqXqE0HphBnWBKAvdCShfdBKiVaE6MTCEBV4I15vOL7nxW+Kma2Y8XiC/2+2EeTtmG67UO0gJ2mQEuav7Zdx4qZg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=q/POamRHQcujDQgdpgTisNQIz2uI9LXSxpgJwnj2h3U=;
- b=KIbLUBLQ0EsWQivVbMMqrlKXYdDGM0w6tu63HfZFGkQTBShUYgvQKRD5BuJ3Za4sLPXdBw+mILBLTgNDHZ9146ItsEpETpMQnvJv1VUEv6N0CeYXAHmHEM1NryQNN5x/S4IdRVh3bZODF464wzXcpro8T5O+Kvga+vYB/SSFf0P9CWUaR6i4KQvraMx8rIkdzilOQANoHv1FYtrtoZMH3EJnvB1E4S0he0TfDgUuPiMblVvZgFoXfJgN3ux3mimzTgMgXptth8vR+ChFEzv3hrDNdNwtkuUm02FC6RXQCZRgNcHykxivsDmVtZvYiqnU6QRch85ix3qtFk66S/M1VA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=infinera.com; dmarc=pass action=none header.from=infinera.com;
- dkim=pass header.d=infinera.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=infinera.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=q/POamRHQcujDQgdpgTisNQIz2uI9LXSxpgJwnj2h3U=;
- b=LXNpIvQ0RCVAp6XGg5YYckC42Jha2w/nUl43s+TQVEtDSHbz4xOYugK7CPZua6n4fhX2ynIDxhgXyY6y8tEEJ8QEeWvrSjYfQHsdnTXPi2I9AirMHGXfK1Mto7RR9+2AmY+pHnx2BFrLDZOs260xn0T8yB83J6z6zP0IaxT50ASvXVXG5kJMbShgjdYdUMaVNnevCD9fvi72RO199Oq1aFxWvrW2yGNEFKO/gqP7nZ6l1U7PPBXn6S7K3kcmaC+rD2l4GZzSxyV108NPqtL80JYlpnAxmPcA+G6+bcvcgYxrAVY/ZHt4FfOZnwEukh/W/cow/fsh7TFvVtQT4v3+/g==
-Received: from PH0PR10MB4615.namprd10.prod.outlook.com (2603:10b6:510:36::24)
- by MW6PR10MB7688.namprd10.prod.outlook.com (2603:10b6:303:246::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.32; Mon, 22 Jan
- 2024 15:01:08 +0000
-Received: from PH0PR10MB4615.namprd10.prod.outlook.com
- ([fe80::4d76:4230:708c:9eea]) by PH0PR10MB4615.namprd10.prod.outlook.com
- ([fe80::4d76:4230:708c:9eea%7]) with mapi id 15.20.7202.033; Mon, 22 Jan 2024
- 15:01:08 +0000
-From: Joakim Tjernlund <Joakim.Tjernlund@infinera.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: oe-selftest -v -K -r
- reproducible.ReproducibleTests.test_reproducible_builds always succeeds, even
- when pkg is non-reproducible
-Thread-Topic: oe-selftest -v -K -r
- reproducible.ReproducibleTests.test_reproducible_builds always succeeds, even
- when pkg is non-reproducible
-Thread-Index: AQHaTUPUG5+0CfWaNE6rcQgwgYDmjA==
-Date: Mon, 22 Jan 2024 15:01:08 +0000
-Message-ID: <5387538c4d9cdb021ad26dec9d8553ed0ead8e6b.camel@infinera.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.50.1 
-autocrypt: addr=joakim.tjernlund@infinera.com; prefer-encrypt=mutual;
- keydata=mQENBFp0f28BCADPn4XzN2HEzkY4BZKE6/T/S4M/Qjlf01K6gmECJZi5LQgOt0jOUAdvsXVd8yKYeqCq+eWvlfrLU9OXPGoCqwj95P2YjMsttqaPBEAnf4XyBs67Snz2wHyBDONoRxGoyq2Ondy+TPicWEm0mh404h9EzKxRNxwrRyKhsjWoVeaucuybAiGbJvqQj0CLmuMCl4PUBYDmXFzt3yx0g54z8E9/8ON+z0J7yZbA0aftZAjFLv6nn0Th/2dpD8d3vWtkJw4yBjLX2KFvlzJfQqkd6RI4Cn1OP9sguXDob123dMiMk/5XbjXz+0C21QFxejxt3HGisvKes+8swplyni7KdiDtABEBAAG0MEpvYWtpbSBUamVybmx1bmQgPGpvYWtpbS50amVybmx1bmRAaW5maW5lcmEuY29tPokBVAQTAQgAPhYhBFtMG/jmfqy7x0aBp4VMQ6CbDpcaBQJadH9vAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEIVMQ6CbDpcasFAH/j64dpHpjY55tVoUg5yK8hcmxS/buKQQP9H3e2DdHeYrK0qeQ97AXiWTh63UvzvEXchiKjua6kYhUUkDObaltmwkKgPv0qb9lP6yfFBzvllriS6LrdIMCOLgtnQW2x28m5mC1hYT08jlqEXluYDoj2dTll9HGMsqn0JkhRjBsuzTXq8VyJjjnNLpzsAlTOGEQoAi7SqtDHs9PSNyOAKH5jRjATdNbPAsTKuI1veJf7Zzyc98yG0ya43Hqal1scoa+9GJZXNQPRaMVkyxKGbEEncdtnQl9e/DUMH4SUQ5vbM/+U4WvkX5Cvc+KwI6JAm1PhrAaVHSkDNAU5LqUqEbbHY=
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=infinera.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH0PR10MB4615:EE_|MW6PR10MB7688:EE_
-x-ms-office365-filtering-correlation-id: 54df4c41-260e-4fc3-9628-08dc1b5af6f7
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- 8fcVaw/pD2P0EgOUv30oRVJD1Ejr7jFa6QxDbeSgqJljwq5Y07mdkULw7rJoQ9zkxkMTJJYJ/3KsuoP6Do+TRBOm1ZOIW65IFNChy5XfZZbP1B6ZAyrn9iesZTsFnqEaI8+lYa0W/agGXp6Sdc4ZjMHzVzmrk9UEUdY0zc3S1UAWOqdHNvNfwIpflYrjB/iqPxUDdm7CvyvG5xwIaAeskEc/koetC2cF/eAb9rUNuHgrX1kJUZz7r22tWFlNU454y6EX1+AMWC3wo/wUyyuIsXzGg5zZ+QRQGdml4XjhVQ/NnDSEx+p0cfjk9XthNJ8hqeFrhvhSApjK0BTZ/yliRZyCBMqeA/GL2GOm3xYZaXyXqM6h4KN78c8jvRp4gGENzk2ktupYxH8XSJoiepPAloe4pAwYe8Kb5vU3dAtDnu3qtWzbjYlNtmLMU4FQgH+YTh3MDE3uDIpmzLE9J0gkvBNQeW3CTGUnW9YAt/vPeoJjaEBJ+/NWke2eK8dV6yrND9kys6rK/1+ZO0p6rJUgPc8lUoI1Q6Ft1e5kxYzsHckqzqce8Q2VqeIhEWnwT5cFUpiwMBTyYhE24ULcxhYleJzA0p7zJbQ0bNOsMvVS+/s=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB4615.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(136003)(366004)(346002)(376002)(39860400002)(230922051799003)(451199024)(64100799003)(1800799012)(186009)(38100700002)(5660300002)(6512007)(83380400001)(122000001)(2616005)(38070700009)(478600001)(966005)(6486002)(6506007)(71200400001)(86362001)(41300700001)(66946007)(66556008)(91956017)(66446008)(64756008)(66476007)(316002)(6916009)(76116006)(36756003)(2906002)(8936002)(8676002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?OU5ocFRIeDlKb3JjUmJ0Y1lsVzY5cldOZWdrdEF6WmhMYjBNTTlVejJxL0U4?=
- =?utf-8?B?aS82L083czlDbHFHMEV2L1l2Mmc3YzJSNVFZN2xndk5FREl3NjdMRXMveHpu?=
- =?utf-8?B?TGZ0ekx4Z1ZlM2ZoQTRGYW5kREhuYlJaNmp2OHd0bnJ4ZlVVdlVYNTRvaVRI?=
- =?utf-8?B?OEtrT2FvWmJkYVVDaTFtRGdVOWk2dmFQSFpaclhUdzA3L1E5c3l4QW1qcjMr?=
- =?utf-8?B?R1hIWTJnUVVOSEZ2bU80Q29IUGxsVytDWkUvOGo3K283R21LOWVXQnZ1aDRI?=
- =?utf-8?B?WTduMTlkRy9tZThMdTRMbCtUWkg4amhMVWtzcUZDaWhpMjRVNnZEN09qUS9U?=
- =?utf-8?B?cDV0M3VDRWJJQUdyNzZOK0VYL0JGZVN3VUZYdDB4RkVobHgxdVVyYUdXNG5u?=
- =?utf-8?B?ak4xZ0pkRmJqZ25VQVRjcmU5bFVndEkrcWZRYXc3ajUwdUhIdldlcDdjWXFM?=
- =?utf-8?B?TGxxUmcwQkh6eFM5ZzhFcDV4dS9jQWxoTnVNdkdHTytrVEtZZUpDL1A5OWFj?=
- =?utf-8?B?YU1jaFdCRHMyaTgwNkJKTFNTK0NRUC9XMFBiQjRLMnIxVCtPemtScUZGN0ZV?=
- =?utf-8?B?cFdvcDJ3Vzc1dElSR1U0bVV4bGxaVWJ2Q2tHM1F4MHRUOTM4RmxWRjBlQXhx?=
- =?utf-8?B?WXdoRGxZWit3L1EwcGRxaVVRRTdCYUhrb1NsbzQvUGVadmowQXNPblpkb3Q0?=
- =?utf-8?B?emtWaGNhZm56UWNvVW56TGg4UWVGeVVPMkNIVkV5VDY2d1lyaXlsRnJkRFhv?=
- =?utf-8?B?NGxBQU1PcTQwUGFvcC9EWGtlY1ZmWkhpb1VmdUFJWjlZbEVXaHlIMmpaS1J4?=
- =?utf-8?B?cCsyS3hQaTc0QzVYMlh5NCs3K2tSSnRoekJHMHlrNER4V3pxQTgrcUEyeVRr?=
- =?utf-8?B?TzdmQUg0WVZkU0ZyU21FRGVrVFlBTTA1U1BoMXZmaDc4UUtjMDBFdTV4UmFv?=
- =?utf-8?B?QmFqUDJjaERYaU9qanB6REZpZFMzalIxck1OSktMYlJuME5QclhnQmdDWVFh?=
- =?utf-8?B?dHV2V1BiYjlhY3R3QnlsaTUrOGxTN1Jkamg0d3dHZ3FJVjFOTXZTcmVsMlBW?=
- =?utf-8?B?UGdGM29uRjY5QTQ4cVk3ZW9ZWXBxdTNUMm85NjJZSDVpUStzbGlFbWVjTDh6?=
- =?utf-8?B?ZmNXV3FNbGxpa3dIeEFMdFdUNU16TlAvbll4L3h2cHNFU1RiVGRBcTRESGwy?=
- =?utf-8?B?b0l3S0FCS01TV2t6RnQrSWtzL1EzOUZDay9NUXhCcGptOFZaSkFJRm9sNXNv?=
- =?utf-8?B?cEwvNTNQNXRwbE9rRGpmUVBCR1pyZGo1ZVRuU0JkMEswTy9oME9SV1VjU0RN?=
- =?utf-8?B?SnJNTVBoRGp5d01sZFpvcndOZ1JIUG9aMXhNNFNGQ2V0MWxBRUpHQTNMb2tS?=
- =?utf-8?B?MnRxYmI4L3JZQnFibGNhRGJ4cWJYRGthTEVETzRWeTZsS0gxUVJlSUJzZWJ2?=
- =?utf-8?B?U2FFcFdVc3VYM1cvK1hOcnJpQUgrZkRrRWNlTFhKaEZIWmRHNW04ZW00akNS?=
- =?utf-8?B?SUk2R1JKb1pQWHBuaVdIMzNNbm11a3NOekhTQVQvNVViSmc3VC83TjRNTHZk?=
- =?utf-8?B?VFVGZEpZcU5vT3RVeUYzS25DMzNXYWFYd1hSblJvdXNJZlhGWHI1SmlhWDdB?=
- =?utf-8?B?cEJYeUJ5aXZYS09KcG5aVlpDNUhoa0pCNmdkbEZpVHdHSTlYNXN4OWxSRVRW?=
- =?utf-8?B?Z0NFLzNzS2lZc21BWEhaRFd0WWdkWWFqaC9PMUxYRjhDaXJFRVVlZDUyZXlZ?=
- =?utf-8?B?bTMzNHV0NWhZTmJqaUVsbE1SVjdqOUlXWEUvT2FSUTNaOVZzS1JKT0FUbUx4?=
- =?utf-8?B?OEtON1NFanhwTFNCN2JvYXFCVUo3NjdaZ1l1c2JjY0VTS0haakpUYUZYNE9B?=
- =?utf-8?B?dE5TVU4zdHBXOE1sL1ZtYVViWlJyRjBLaUxXREpETmZoLzFhY1FCbmVUNFEy?=
- =?utf-8?B?blIwQzZ5emczanVRYnJGNTRKYWJCbGI3Sk8ySUdCZVNaczZhU0dTOFJBbE16?=
- =?utf-8?B?MEpuRm94cmdzbHp1WDhrcGFmS1JxdDNJWVhjT1BRKytmVXRJRC9wWkxSKy9O?=
- =?utf-8?B?V3VKYU8yRzNvOFBUL3hpdWV6T2F3QVZNSzNWWXY5TmgvRTJHWGdGbi95eGFP?=
- =?utf-8?B?eTBTV25ZUXlRUEIzclpyNndMTDlXdjMxNDZFaGhKK2R5eWIzWTFIM0h0Z1Zi?=
- =?utf-8?Q?HbasgRkSvSmRqbVj9senvoh8Y/5m8EoubmTpf102RwxV?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <40B9CC052D216D4787DD1A131EF5BF0D@namprd10.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Yazuq5Ir;
+ spf=pass (domain: gmail.com, ip: 209.85.208.170, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2cdeb954640so33828081fa.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jan 2024 07:10:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1705936248; x=1706541048; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=iCTalas8/D3tz8f10GIiAPN/kve0LzMCZhFbUDfCMF0=;
+        b=Yazuq5Ir0PPmLEytDIRkv0+jouqnBGtvwOf+aAmk5am4kojJsNOhE4CakpYPm/QN45
+         B6tV2f2aKhQPjclBrp12+6AwA1cqZeRKn8d+MaysP4LUx+rTx9nta2+SzbzV+1CcFOSr
+         xb9RaYACCohNqNmfp1nf4wLOlHvv6cjwA7kZcB5Qr9MgC8n2H072TbG8v5mZF/Lr9/yE
+         MPM2DSYt0xZFm0FWjzd27L/CpM5XM/YFRSwr5bw5FZn4Yb0RGIhX2MEHIYnJK+gZR+es
+         1WHTbLm+2vz6fRZBLIZRG5jRtNiLiRLrWn6JIGyxn51zN4p9eJZSzNeiwAQ8YBLGBGL3
+         +ayQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705936248; x=1706541048;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=iCTalas8/D3tz8f10GIiAPN/kve0LzMCZhFbUDfCMF0=;
+        b=lTIXLnS9k50ako8rkgfDSA5dBgJ5sJQq8frGkdL7O3uwc+j6VDSXPTMLzAlr2eUiEN
+         VfGZwFhjyGzaSidGfdg2jDyXxVE/nVxpRhbu69xorQVFMsPL/ut/JfOj3o2h1Xunt0SD
+         8mX3GVb+Ys+gXCMVGNM+KVgfzv7g38yi1qDfglhTtlJqaVj0bhyWxLrmFCWvbYa+bNO8
+         uN+2WDkOtUbfRerAXooiarooIhlURG02QemqDOBQ2OmDlcOP2ptzg9HC0gb/MNL4jVqt
+         dZpJZy4EX4r9AkiltFDqzbcOb8GenrcrXw2z/MdOign1suuf2xOQjJKJCL6nvJcbDcOP
+         gmig==
+X-Gm-Message-State: AOJu0Yx7JZkSE6JLoZvmAdWI1jixibeZJm1ieZAqhR1LODK5soVkalAq
+	4rqrqpd0f/MNvRTk5gxGEwGwCOv64MMtrs2NtxYZXJ0670uwHrwVl36IEBtvRK81yq2VjGeaQJe
+	nsLHYOEW2vED4OMjQorzyj8HkMLA=
+X-Google-Smtp-Source: AGHT+IH1uoA6YzF8MJGbnzKxypZTCW/cKp/JjJze1haSzwyFkEfL9hgZzfsbauECpKx6gW5UrKl8lV4gEhdUa+oVtkw=
+X-Received: by 2002:a2e:8249:0:b0:2cd:ff6:c089 with SMTP id
+ j9-20020a2e8249000000b002cd0ff6c089mr1663553ljh.99.1705936247483; Mon, 22 Jan
+ 2024 07:10:47 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: infinera.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4615.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 54df4c41-260e-4fc3-9628-08dc1b5af6f7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Jan 2024 15:01:08.4157
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 285643de-5f5b-4b03-a153-0ae2dc8aaf77
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: KJ8zt1mslKcXhXDj39rjue4hfwiQxnGdQjcaWXW1SeyIzx4Ks7RNXcVm/ysKHoKKBIeSGcXLjlmobL+rdQ+9qw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR10MB7688
+References: <5387538c4d9cdb021ad26dec9d8553ed0ead8e6b.camel@infinera.com>
+In-Reply-To: <5387538c4d9cdb021ad26dec9d8553ed0ead8e6b.camel@infinera.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 22 Jan 2024 16:10:36 +0100
+Message-ID: <CANNYZj8hkwep=rLn2_tiBmFJhYPpgB9gbkGssdpq6uZbn_qZig@mail.gmail.com>
+Subject: Re: [OE-core] oe-selftest -v -K -r reproducible.ReproducibleTests.test_reproducible_builds
+ always succeeds, even when pkg is non-reproducible
+To: Joakim.Tjernlund@infinera.com
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Jan 2024 15:01:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194174
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Jan 2024 15:10:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194175
 
-V2hhdGV2ZXIgSSBkbywgUmVwcm9kdWNpYmxlVGVzdHMgYWx3YXlzIHN1Y2NlZWRzIGFuZCBJIHRo
-aW5rIEkgZ290IGEgY2x1ZS4NCkxvb2tpbmcgYXQgdGhlIGxvZ3MgYmVsb3cgYW5kIHRoZSBmaWxl
-cyBhZnRlciBidWlsZCBvbmUgY2FuIHNlZSB0aGF0ZSB0aGVyZQ0KYXJlIG5vICAuLi5yZXByb2R1
-Y2libGVBL3RtcCBvciAuLi5yZXByb2R1Y2libGVCL3RtcCBkaXJzIGluIHRoZSBGUy4NCg0KRnVy
-dGhlcm1vcmUsIGRlcGxveV9BIGFuZCBkZXBsb3lfQiBhcmUgdGhlIHNhbWUuIFRoaXMgYWxsIGVu
-ZHMgdXAgd2l0aCB0aGUgdHdvIGJ1aWxkcyBvdmVyd3JpdGVzDQplYWNoIG90aGVyIHRoZW4gUmVw
-cm9kdWNpYmxlVGVzdHMgY29tcGFyZXMgdGhlIHBhY2thZ2Ugd2l0aCBpdHNlbGYgYW5kIHRoYXQg
-d2lsbCBhbHdheXMgc3VjY2VlZC4NCg0KSSBjYW4ndCBzZWUvZmluZCBhbiBlcnJvciBpbiBvdXIg
-eW9jdG8oS2lya3N0b25lKSBzeXN0ZW0sIHNvIEkgd29uZGVyIGlmIHRoaXMgaXMgYW4gdXBzdHJl
-YW0gYnVnPw0KDQogSm9ja2UNCg0Kb2Utc2VsZnRlc3QgLXYgLUsgLXIgcmVwcm9kdWNpYmxlLlJl
-cHJvZHVjaWJsZVRlc3RzLnRlc3RfcmVwcm9kdWNpYmxlX2J1aWxkcyANCjIwMjQtMDEtMTUgMTg6
-MDM6NDUsNTYzIC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gQWRkaW5nIGxheWVyIGxpYnJhcmllczoN
-CjIwMjQtMDEtMTUgMTg6MDM6NDUsNTYzIC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gCS9ob21lL2pv
-Y2tlL3lvY3RvLXhyLzNwcC9wb2t5L21ldGEvbGliDQoyMDI0LTAxLTE1IDE4OjAzOjQ1LDU2MyAt
-IG9lLXNlbGZ0ZXN0IC0gSU5GTyAtIAkvaG9tZS9qb2NrZS95b2N0by14ci8zcHAvcG9reS9tZXRh
-LXlvY3RvLWJzcC9saWINCjIwMjQtMDEtMTUgMTg6MDM6NDUsNTYzIC0gb2Utc2VsZnRlc3QgLSBJ
-TkZPIC0gCS9ob21lL2pvY2tlL3lvY3RvLXhyLzNwcC9tZXRhLW9wZW5lbWJlZGRlZC9tZXRhLW9l
-L2xpYg0KMjAyNC0wMS0xNSAxODowMzo0NSw1NjMgLSBvZS1zZWxmdGVzdCAtIElORk8gLSAJL2hv
-bWUvam9ja2UveW9jdG8teHIvbWV0YS14ci9saWINCjIwMjQtMDEtMTUgMTg6MDM6NDUsNTYzIC0g
-b2Utc2VsZnRlc3QgLSBJTkZPIC0gCS9ob21lL2pvY2tlL3lvY3RvLXhyLzNwcC9wb2t5L21ldGEt
-c2VsZnRlc3QvbGliDQoyMDI0LTAxLTE1IDE4OjAzOjQ1LDU2NSAtIG9lLXNlbGZ0ZXN0IC0gSU5G
-TyAtIFJ1bm5pbmcgYml0YmFrZSAtZSB0byB0ZXN0IHRoZSBjb25maWd1cmF0aW9uIGlzIHZhbGlk
-L3BhcnNhYmxlDQoyMDI0LTAxLTE1IDE4OjAzOjUwLDcwMiAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAt
-IEFkZGluZzogImluY2x1ZGUgc2VsZnRlc3QuaW5jIiBpbiAvaG9tZS9qb2NrZS95b2N0by14ci9i
-dWlsZC9pbmZuLXhyL2dtY3Utc3QvY29uZi9sb2NhbC5jb25mDQoyMDI0LTAxLTE1IDE4OjAzOjUw
-LDcwMiAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAtIEFkZGluZzogImluY2x1ZGUgYmJsYXllcnMuaW5j
-IiBpbiBiYmxheWVycy5jb25mDQoyMDI0LTAxLTE1IDE4OjAzOjUwLDcwMiAtIG9lLXNlbGZ0ZXN0
-IC0gSU5GTyAtIHRlc3RfcmVwcm9kdWNpYmxlX2J1aWxkcyAocmVwcm9kdWNpYmxlLlJlcHJvZHVj
-aWJsZVRlc3RzKQ0KMjAyNC0wMS0xNSAxODowMzo1MywzNzUgLSBvZS1zZWxmdGVzdCAtIERFQlVH
-IC0gV3JpdGluZyB0bzogL2hvbWUvam9ja2UveW9jdG8teHIvYnVpbGQvaW5mbi14ci9nbWN1LXN0
-L2NvbmYvc2VsZnRlc3QuaW5jDQoNCg0KMjAyNC0wMS0xNSAxODowNjo0NCw5OTUgLSBvZS1zZWxm
-dGVzdCAtIElORk8gLSBDb25maWc6IFBBQ0tBR0VfQ0xBU1NFUyA9ICJwYWNrYWdlX2lwayINCklO
-SElCSVRfUEFDS0FHRV9TVFJJUCA9ICIxIg0KVE1QRElSID0gIi9ob21lL2pvY2tlL3lvY3RvLXhy
-L2J1aWxkL2luZm4teHIvZ21jdS1zdC9yZXByb2R1Y2libGVBL3RtcCINCkxJQ0VOU0VfRkxBR1Nf
-QUNDRVBURUQgPSAiY29tbWVyY2lhbCINCkRJU1RST19GRUFUVVJFUzphcHBlbmQgPSAnIHN5c3Rl
-bWQgcGFtJw0KVVNFUkFEREVYVEVOU0lPTiA9ICJ1c2VyYWRkLXN0YXRpY2lkcyINClVTRVJBRERf
-RVJST1JfRFlOQU1JQyA9ICJza2lwIg0KVVNFUkFERF9VSURfVEFCTEVTICs9ICJmaWxlcy9zdGF0
-aWMtcGFzc3dkIg0KVVNFUkFERF9HSURfVEFCTEVTICs9ICJmaWxlcy9zdGF0aWMtZ3JvdXAiDQoN
-CjIwMjQtMDEtMTUgMTg6MDY6NDQsOTk2IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gQnVpbGRpbmcg
-cmVwcm9kdWNpYmxlQSAoc3N0YXRlIGFsbG93ZWQpLi4uDQoyMDI0LTAxLTE1IDE4OjA2OjQ0LDk5
-NiAtIG9lLXNlbGZ0ZXN0IC0gREVCVUcgLSBXcml0aW5nIHRvOiAvaG9tZS9qb2NrZS95b2N0by14
-ci9idWlsZC9pbmZuLXhyL2dtY3Utc3QvY29uZi9zZWxmdGVzdC5pbmMNClBBQ0tBR0VfQ0xBU1NF
-UyA9ICJwYWNrYWdlX2lwayINCklOSElCSVRfUEFDS0FHRV9TVFJJUCA9ICIxIg0KVE1QRElSID0g
-Ii9ob21lL2pvY2tlL3lvY3RvLXhyL2J1aWxkL2luZm4teHIvZ21jdS1zdC9yZXByb2R1Y2libGVB
-L3RtcCINCkxJQ0VOU0VfRkxBR1NfQUNDRVBURUQgPSAiY29tbWVyY2lhbCINCkRJU1RST19GRUFU
-VVJFUzphcHBlbmQgPSAnIHN5c3RlbWQgcGFtJw0KVVNFUkFEREVYVEVOU0lPTiA9ICJ1c2VyYWRk
-LXN0YXRpY2lkcyINClVTRVJBRERfRVJST1JfRFlOQU1JQyA9ICJza2lwIg0KVVNFUkFERF9VSURf
-VEFCTEVTICs9ICJmaWxlcy9zdGF0aWMtcGFzc3dkIg0KVVNFUkFERF9HSURfVEFCTEVTICs9ICJm
-aWxlcy9zdGF0aWMtZ3JvdXAiDQoNCg0KMjAyNC0wMS0xNSAxODowNzowMiwxNDIgLSBvZS1zZWxm
-dGVzdCAtIElORk8gLSBDb25maWc6IFBBQ0tBR0VfQ0xBU1NFUyA9ICJwYWNrYWdlX2lwayINCklO
-SElCSVRfUEFDS0FHRV9TVFJJUCA9ICIxIg0KVE1QRElSID0gIi9ob21lL2pvY2tlL3lvY3RvLXhy
-L2J1aWxkL2luZm4teHIvZ21jdS1zdC9yZXByb2R1Y2libGVCL3RtcCINCkxJQ0VOU0VfRkxBR1Nf
-QUNDRVBURUQgPSAiY29tbWVyY2lhbCINCkRJU1RST19GRUFUVVJFUzphcHBlbmQgPSAnIHN5c3Rl
-bWQgcGFtJw0KVVNFUkFEREVYVEVOU0lPTiA9ICJ1c2VyYWRkLXN0YXRpY2lkcyINClVTRVJBRERf
-RVJST1JfRFlOQU1JQyA9ICJza2lwIg0KVVNFUkFERF9VSURfVEFCTEVTICs9ICJmaWxlcy9zdGF0
-aWMtcGFzc3dkIg0KVVNFUkFERF9HSURfVEFCTEVTICs9ICJmaWxlcy9zdGF0aWMtZ3JvdXAiDQoN
-CjIwMjQtMDEtMTUgMTg6MDc6MDIsMTQzIC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gQnVpbGRpbmcg
-cmVwcm9kdWNpYmxlQiAoc3N0YXRlIE5PVCBhbGxvd2VkKS4uLg0KMjAyNC0wMS0xNSAxODowNzow
-MiwxNDMgLSBvZS1zZWxmdGVzdCAtIERFQlVHIC0gV3JpdGluZyB0bzogL2hvbWUvam9ja2UveW9j
-dG8teHIvYnVpbGQvaW5mbi14ci9nbWN1LXN0L2NvbmYvc2VsZnRlc3QuaW5jDQpQQUNLQUdFX0NM
-QVNTRVMgPSAicGFja2FnZV9pcGsiDQpJTkhJQklUX1BBQ0tBR0VfU1RSSVAgPSAiMSINClRNUERJ
-UiA9ICIvaG9tZS9qb2NrZS95b2N0by14ci9idWlsZC9pbmZuLXhyL2dtY3Utc3QvcmVwcm9kdWNp
-YmxlQi90bXAiDQpMSUNFTlNFX0ZMQUdTX0FDQ0VQVEVEID0gImNvbW1lcmNpYWwiDQpESVNUUk9f
-RkVBVFVSRVM6YXBwZW5kID0gJyBzeXN0ZW1kIHBhbScNClVTRVJBRERFWFRFTlNJT04gPSAidXNl
-cmFkZC1zdGF0aWNpZHMiDQpVU0VSQUREX0VSUk9SX0RZTkFNSUMgPSAic2tpcCINClVTRVJBRERf
-VUlEX1RBQkxFUyArPSAiZmlsZXMvc3RhdGljLXBhc3N3ZCINClVTRVJBRERfR0lEX1RBQkxFUyAr
-PSAiZmlsZXMvc3RhdGljLWdyb3VwIg0KU1NUQVRFX0RJUiA9ICIke1RNUERJUn0vc3N0YXRlIg0K
-U1NUQVRFX01JUlJPUlMgPSAiZmlsZTovLy4qLy4qLW5hdGl2ZS4qICBodHRwOi8vc3N0YXRlLnlv
-Y3RvcHJvamVjdC5vcmcvYWxsL1BBVEg7ZG93bmxvYWRmaWxlbmFtZT1QQVRIIGZpbGU6Ly8uKi8u
-Ki1jcm9zcy4qIA0KaHR0cDovL3NzdGF0ZS55b2N0b3Byb2plY3Qub3JnL2FsbC9QQVRIO2Rvd25s
-b2FkZmlsZW5hbWU9UEFUSCINCg0KDQoyMDI0LTAxLTE1IDE4OjA3OjE2LDQyNCAtIG9lLXNlbGZ0
-ZXN0IC0gSU5GTyAtIHZhcnNfQTp7J0RFUExPWV9ESVJfSVBLJzogJy9ob21lL2pvY2tlL3lvY3Rv
-LXhyL2J1aWxkL2luZm4teHIvZ21jdS1zdC90bXAvZGVwbG95L2lwayd9DQoyMDI0LTAxLTE1IDE4
-OjA3OjE2LDQyNCAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAtIHZhcnNfQjp7J0RFUExPWV9ESVJfSVBL
-JzogJy9ob21lL2pvY2tlL3lvY3RvLXhyL2J1aWxkL2luZm4teHIvZ21jdS1zdC90bXAvZGVwbG95
-L2lwayd9DQoyMDI0LTAxLTE1IDE4OjA3OjE2LDQyNCAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAtIGMg
-aW4gcGFja2FnZV9jbGFzc2VzOmlwaw0KMjAyNC0wMS0xNSAxODowNzoxNiw0MjQgLSBvZS1zZWxm
-dGVzdCAtIElORk8gLSBkZXBsb3lfQTovaG9tZS9qb2NrZS95b2N0by14ci9idWlsZC9pbmZuLXhy
-L2dtY3Utc3QvdG1wL2RlcGxveS9pcGsNCjIwMjQtMDEtMTUgMTg6MDc6MTYsNDI1IC0gb2Utc2Vs
-ZnRlc3QgLSBJTkZPIC0gZGVwbGF5X0I6L2hvbWUvam9ja2UveW9jdG8teHIvYnVpbGQvaW5mbi14
-ci9nbWN1LXN0L3RtcC9kZXBsb3kvaXBrDQoyMDI0LTAxLTE1IDE4OjA3OjE2LDQyNSAtIG9lLXNl
-bGZ0ZXN0IC0gSU5GTyAtIENoZWNraW5nIGlwayBwYWNrYWdlcyBmb3IgZGlmZmVyZW5jZXMuLi4N
-CjIwMjQtMDEtMTUgMTg6MDc6MTYsNDQyIC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gUmVwcm9kdWNp
-YmlsaXR5IHN1bW1hcnkgZm9yIGlwazogc2FtZT00IGRpZmZlcmVudD0wIGRpZmZlcmVudF9leGNs
-dWRlZD0wIG1pc3Npbmc9MCB0b3RhbD00DQp1bnVzZWRfZXhjbHVzaW9ucz1bXQ0KMjAyNC0wMS0x
-NSAxODowNzoxNiw0NDIgLSBvZS1zZWxmdGVzdCAtIElORk8gLSAgLi4uIG9rDQoyMDI0LTAxLTE1
-IDE4OjA3OjE2LDQ0MyAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAtIC0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCjIwMjQt
-MDEtMTUgMTg6MDc6MTYsNDQzIC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gUmFuIDEgdGVzdCBpbiAy
-MDguMzk3cw0KMjAyNC0wMS0xNSAxODowNzoxNiw0NDMgLSBvZS1zZWxmdGVzdCAtIElORk8gLSBP
-Sw0KMjAyNC0wMS0xNSAxODowNzoyMiwxNTAgLSBvZS1zZWxmdGVzdCAtIElORk8gLSBSRVNVTFRT
-Og0KMjAyNC0wMS0xNSAxODowNzoyMiwxNTAgLSBvZS1zZWxmdGVzdCAtIElORk8gLSBSRVNVTFRT
-IC0gcmVwcm9kdWNpYmxlLlJlcHJvZHVjaWJsZVRlc3RzLnRlc3RfcmVwcm9kdWNpYmxlX2J1aWxk
-czogUEFTU0VEICgyMDUuNzRzKQ0KMjAyNC0wMS0xNSAxODowNzoyMiwxNTQgLSBvZS1zZWxmdGVz
-dCAtIElORk8gLSBTVU1NQVJZOg0KMjAyNC0wMS0xNSAxODowNzoyMiwxNTQgLSBvZS1zZWxmdGVz
-dCAtIElORk8gLSBvZS1zZWxmdGVzdCAoKSAtIFJhbiAxIHRlc3QgaW4gMjA4LjM5OHMNCjIwMjQt
-MDEtMTUgMTg6MDc6MjIsMTU0IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gb2Utc2VsZnRlc3QgLSBP
-SyAtIEFsbCByZXF1aXJlZCB0ZXN0cyBwYXNzZWQgKHN1Y2Nlc3Nlcz0xLCBza2lwcGVkPTAsIGZh
-aWx1cmVzPTAsIGVycm9ycz0wKQ0KDQo=
+You are not showing what kind of error you expect to see. What is
+being tested for non-reproducibility?
+
+Also the short completion time is suspicious: it might indicate that
+both runs indeed take the same package from sstate. The test expects
+that the second run uses a private empty sstate to trigger a full
+rebuild.
+
+Alex
+
+On Mon, 22 Jan 2024 at 16:01, Joakim Tjernlund via
+lists.openembedded.org
+<Joakim.Tjernlund=infinera.com@lists.openembedded.org> wrote:
+>
+> Whatever I do, ReproducibleTests always succeeds and I think I got a clue.
+> Looking at the logs below and the files after build one can see thate there
+> are no  ...reproducibleA/tmp or ...reproducibleB/tmp dirs in the FS.
+>
+> Furthermore, deploy_A and deploy_B are the same. This all ends up with the two builds overwrites
+> each other then ReproducibleTests compares the package with itself and that will always succeed.
+>
+> I can't see/find an error in our yocto(Kirkstone) system, so I wonder if this is an upstream bug?
+>
+>  Jocke
+>
+> oe-selftest -v -K -r reproducible.ReproducibleTests.test_reproducible_builds
+> 2024-01-15 18:03:45,563 - oe-selftest - INFO - Adding layer libraries:
+> 2024-01-15 18:03:45,563 - oe-selftest - INFO -  /home/jocke/yocto-xr/3pp/poky/meta/lib
+> 2024-01-15 18:03:45,563 - oe-selftest - INFO -  /home/jocke/yocto-xr/3pp/poky/meta-yocto-bsp/lib
+> 2024-01-15 18:03:45,563 - oe-selftest - INFO -  /home/jocke/yocto-xr/3pp/meta-openembedded/meta-oe/lib
+> 2024-01-15 18:03:45,563 - oe-selftest - INFO -  /home/jocke/yocto-xr/meta-xr/lib
+> 2024-01-15 18:03:45,563 - oe-selftest - INFO -  /home/jocke/yocto-xr/3pp/poky/meta-selftest/lib
+> 2024-01-15 18:03:45,565 - oe-selftest - INFO - Running bitbake -e to test the configuration is valid/parsable
+> 2024-01-15 18:03:50,702 - oe-selftest - INFO - Adding: "include selftest.inc" in /home/jocke/yocto-xr/build/infn-xr/gmcu-st/conf/local.conf
+> 2024-01-15 18:03:50,702 - oe-selftest - INFO - Adding: "include bblayers.inc" in bblayers.conf
+> 2024-01-15 18:03:50,702 - oe-selftest - INFO - test_reproducible_builds (reproducible.ReproducibleTests)
+> 2024-01-15 18:03:53,375 - oe-selftest - DEBUG - Writing to: /home/jocke/yocto-xr/build/infn-xr/gmcu-st/conf/selftest.inc
+>
+>
+> 2024-01-15 18:06:44,995 - oe-selftest - INFO - Config: PACKAGE_CLASSES = "package_ipk"
+> INHIBIT_PACKAGE_STRIP = "1"
+> TMPDIR = "/home/jocke/yocto-xr/build/infn-xr/gmcu-st/reproducibleA/tmp"
+> LICENSE_FLAGS_ACCEPTED = "commercial"
+> DISTRO_FEATURES:append = ' systemd pam'
+> USERADDEXTENSION = "useradd-staticids"
+> USERADD_ERROR_DYNAMIC = "skip"
+> USERADD_UID_TABLES += "files/static-passwd"
+> USERADD_GID_TABLES += "files/static-group"
+>
+> 2024-01-15 18:06:44,996 - oe-selftest - INFO - Building reproducibleA (sstate allowed)...
+> 2024-01-15 18:06:44,996 - oe-selftest - DEBUG - Writing to: /home/jocke/yocto-xr/build/infn-xr/gmcu-st/conf/selftest.inc
+> PACKAGE_CLASSES = "package_ipk"
+> INHIBIT_PACKAGE_STRIP = "1"
+> TMPDIR = "/home/jocke/yocto-xr/build/infn-xr/gmcu-st/reproducibleA/tmp"
+> LICENSE_FLAGS_ACCEPTED = "commercial"
+> DISTRO_FEATURES:append = ' systemd pam'
+> USERADDEXTENSION = "useradd-staticids"
+> USERADD_ERROR_DYNAMIC = "skip"
+> USERADD_UID_TABLES += "files/static-passwd"
+> USERADD_GID_TABLES += "files/static-group"
+>
+>
+> 2024-01-15 18:07:02,142 - oe-selftest - INFO - Config: PACKAGE_CLASSES = "package_ipk"
+> INHIBIT_PACKAGE_STRIP = "1"
+> TMPDIR = "/home/jocke/yocto-xr/build/infn-xr/gmcu-st/reproducibleB/tmp"
+> LICENSE_FLAGS_ACCEPTED = "commercial"
+> DISTRO_FEATURES:append = ' systemd pam'
+> USERADDEXTENSION = "useradd-staticids"
+> USERADD_ERROR_DYNAMIC = "skip"
+> USERADD_UID_TABLES += "files/static-passwd"
+> USERADD_GID_TABLES += "files/static-group"
+>
+> 2024-01-15 18:07:02,143 - oe-selftest - INFO - Building reproducibleB (sstate NOT allowed)...
+> 2024-01-15 18:07:02,143 - oe-selftest - DEBUG - Writing to: /home/jocke/yocto-xr/build/infn-xr/gmcu-st/conf/selftest.inc
+> PACKAGE_CLASSES = "package_ipk"
+> INHIBIT_PACKAGE_STRIP = "1"
+> TMPDIR = "/home/jocke/yocto-xr/build/infn-xr/gmcu-st/reproducibleB/tmp"
+> LICENSE_FLAGS_ACCEPTED = "commercial"
+> DISTRO_FEATURES:append = ' systemd pam'
+> USERADDEXTENSION = "useradd-staticids"
+> USERADD_ERROR_DYNAMIC = "skip"
+> USERADD_UID_TABLES += "files/static-passwd"
+> USERADD_GID_TABLES += "files/static-group"
+> SSTATE_DIR = "${TMPDIR}/sstate"
+> SSTATE_MIRRORS = "file://.*/.*-native.*  http://sstate.yoctoproject.org/all/PATH;downloadfilename=PATH file://.*/.*-cross.*
+> http://sstate.yoctoproject.org/all/PATH;downloadfilename=PATH"
+>
+>
+> 2024-01-15 18:07:16,424 - oe-selftest - INFO - vars_A:{'DEPLOY_DIR_IPK': '/home/jocke/yocto-xr/build/infn-xr/gmcu-st/tmp/deploy/ipk'}
+> 2024-01-15 18:07:16,424 - oe-selftest - INFO - vars_B:{'DEPLOY_DIR_IPK': '/home/jocke/yocto-xr/build/infn-xr/gmcu-st/tmp/deploy/ipk'}
+> 2024-01-15 18:07:16,424 - oe-selftest - INFO - c in package_classes:ipk
+> 2024-01-15 18:07:16,424 - oe-selftest - INFO - deploy_A:/home/jocke/yocto-xr/build/infn-xr/gmcu-st/tmp/deploy/ipk
+> 2024-01-15 18:07:16,425 - oe-selftest - INFO - deplay_B:/home/jocke/yocto-xr/build/infn-xr/gmcu-st/tmp/deploy/ipk
+> 2024-01-15 18:07:16,425 - oe-selftest - INFO - Checking ipk packages for differences...
+> 2024-01-15 18:07:16,442 - oe-selftest - INFO - Reproducibility summary for ipk: same=4 different=0 different_excluded=0 missing=0 total=4
+> unused_exclusions=[]
+> 2024-01-15 18:07:16,442 - oe-selftest - INFO -  ... ok
+> 2024-01-15 18:07:16,443 - oe-selftest - INFO - ----------------------------------------------------------------------
+> 2024-01-15 18:07:16,443 - oe-selftest - INFO - Ran 1 test in 208.397s
+> 2024-01-15 18:07:16,443 - oe-selftest - INFO - OK
+> 2024-01-15 18:07:22,150 - oe-selftest - INFO - RESULTS:
+> 2024-01-15 18:07:22,150 - oe-selftest - INFO - RESULTS - reproducible.ReproducibleTests.test_reproducible_builds: PASSED (205.74s)
+> 2024-01-15 18:07:22,154 - oe-selftest - INFO - SUMMARY:
+> 2024-01-15 18:07:22,154 - oe-selftest - INFO - oe-selftest () - Ran 1 test in 208.398s
+> 2024-01-15 18:07:22,154 - oe-selftest - INFO - oe-selftest - OK - All required tests passed (successes=1, skipped=0, failures=0, errors=0)
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#194174): https://lists.openembedded.org/g/openembedded-core/message/194174
+> Mute This Topic: https://lists.openembedded.org/mt/103887646/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
