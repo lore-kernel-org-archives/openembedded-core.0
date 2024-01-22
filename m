@@ -1,274 +1,681 @@
-Return-Path: <Joakim.Tjernlund@infinera.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BB5EC47DAF
-	for <webhook@archiver.kernel.org>; Mon, 22 Jan 2024 15:59:52 +0000 (UTC)
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (NAM04-BN8-obe.outbound.protection.outlook.com [40.107.100.87])
- by mx.groups.io with SMTP id smtpd.web11.78124.1705939189143968499
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7ADE1C47DD9
+	for <webhook@archiver.kernel.org>; Mon, 22 Jan 2024 16:03:02 +0000 (UTC)
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
+ by mx.groups.io with SMTP id smtpd.web10.78002.1705939376769063869
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Jan 2024 07:59:49 -0800
+ Mon, 22 Jan 2024 08:02:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@infinera.com header.s=selector2 header.b=tpKwfdUQ;
- spf=pass (domain: infinera.com, ip: 40.107.100.87, mailfrom: joakim.tjernlund@infinera.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=I3/mFAfFPVoaY0yFRttjYgb07PXY/Ypr2kyEjn/QNFeow4HRP6tL9Zoy5BDLAYo1qqqN1QmU3JPkszeXU0syzVjgrI71/JCqc57IwADzKfK7tomJTG7CzaYRG4SWRDaZtEjEIo+ZWThoebkNls0ITDylnonWCtGibRHi9fk3grVGuikYaFVRFn8OkNkHYRQoCqaajd2l6z6k0Ru/9RensRSOZO0wq4RmsyIOx5StooLZXEHJZu5cBvzkfbKtTOD4PdUW3SQbAn0XGtqKjWNanUqmIzPint0A5uEpD3tacodS2nEnnRRxr27jcMTfuQQgP3BT6IvB6FOiLemnSH89Mw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XPD8UIqeCnoSef7X/7OTiP5HmdAroWde/L/jBZN/vrY=;
- b=Z4KNLIAvWmopJqf/xrxxJdck4ZHkec8TT3GW9qxYj4SSIFiR5lSCx+vY0L/QufHw/HnLpQqfubfIDGBWGTZF5wHLxovLZYNYp9hbvf3vHMhYHYWBqponCDjPhe8fr++WChEXOl4k0KHRs5hIEz/ZutUQaojRtbjDLLeVS/r5om4KJbL1WoqNojtkNHIHjevMOqZJvAb5lwF5GAxm6s8F7bBW78+gwzemsus6L0N1CgUGzslh35t8SShU2QTB2UtltU5jhv3uhwB8uazvNcGbwZ0PubEC5R/Vk5Zng9HY9PQSNpfOUpKGv6YNpZRIMeQQlFMXGZxAMHkn9jGDh10niw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=infinera.com; dmarc=pass action=none header.from=infinera.com;
- dkim=pass header.d=infinera.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=infinera.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XPD8UIqeCnoSef7X/7OTiP5HmdAroWde/L/jBZN/vrY=;
- b=tpKwfdUQnjnHCqR+n1iGXZ/MrtZGQK/hybbnKgwKHDyFtWZMS5r4+GqVCDu2IKDHp113WxIu1gwIVWMBn/F3y8egwcllWWSaODb7/uySu8kIDRQxf+gRL3/LT5IEhWX+qmQPY4DdMO9Y1CABlDDIGpEJYMYiHjdJPOGvvtkUhr66bxDEvKCdUhTEqbqYQ4ZYAcVFygbloaqpOEKhWWT0QizMDeHKQCSiDED2Wx/lBJcdpOGzqNswH7Ok+b+1FA7pYoHzjE6+DsPfj1+syNogYHlfnyfe55pxFMcYKiDFxFsvhqoOTbrCAJOokr8VVPPocntf0u05uEnrhvLMdl6ofA==
-Received: from PH0PR10MB4615.namprd10.prod.outlook.com (2603:10b6:510:36::24)
- by CO1PR10MB4404.namprd10.prod.outlook.com (2603:10b6:303:90::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.34; Mon, 22 Jan
- 2024 15:59:44 +0000
-Received: from PH0PR10MB4615.namprd10.prod.outlook.com
- ([fe80::4d76:4230:708c:9eea]) by PH0PR10MB4615.namprd10.prod.outlook.com
- ([fe80::4d76:4230:708c:9eea%7]) with mapi id 15.20.7202.033; Mon, 22 Jan 2024
- 15:59:44 +0000
-From: Joakim Tjernlund <Joakim.Tjernlund@infinera.com>
-To: "alex.kanavin@gmail.com" <alex.kanavin@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] oe-selftest -v -K -r
- reproducible.ReproducibleTests.test_reproducible_builds always succeeds, even
- when pkg is non-reproducible
-Thread-Topic: [OE-core] oe-selftest -v -K -r
- reproducible.ReproducibleTests.test_reproducible_builds always succeeds, even
- when pkg is non-reproducible
-Thread-Index: AQHaTUPUG5+0CfWaNE6rcQgwgYDmjLDl78UAgAANuAA=
-Date: Mon, 22 Jan 2024 15:59:43 +0000
-Message-ID: <15c60ef81ccec80f50643b4ebbe40a6dbacd4f5c.camel@infinera.com>
-References: <5387538c4d9cdb021ad26dec9d8553ed0ead8e6b.camel@infinera.com>
-	 <CANNYZj8hkwep=rLn2_tiBmFJhYPpgB9gbkGssdpq6uZbn_qZig@mail.gmail.com>
-In-Reply-To: 
- <CANNYZj8hkwep=rLn2_tiBmFJhYPpgB9gbkGssdpq6uZbn_qZig@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.50.1 
-autocrypt: addr=joakim.tjernlund@infinera.com; prefer-encrypt=mutual;
- keydata=mQENBFp0f28BCADPn4XzN2HEzkY4BZKE6/T/S4M/Qjlf01K6gmECJZi5LQgOt0jOUAdvsXVd8yKYeqCq+eWvlfrLU9OXPGoCqwj95P2YjMsttqaPBEAnf4XyBs67Snz2wHyBDONoRxGoyq2Ondy+TPicWEm0mh404h9EzKxRNxwrRyKhsjWoVeaucuybAiGbJvqQj0CLmuMCl4PUBYDmXFzt3yx0g54z8E9/8ON+z0J7yZbA0aftZAjFLv6nn0Th/2dpD8d3vWtkJw4yBjLX2KFvlzJfQqkd6RI4Cn1OP9sguXDob123dMiMk/5XbjXz+0C21QFxejxt3HGisvKes+8swplyni7KdiDtABEBAAG0MEpvYWtpbSBUamVybmx1bmQgPGpvYWtpbS50amVybmx1bmRAaW5maW5lcmEuY29tPokBVAQTAQgAPhYhBFtMG/jmfqy7x0aBp4VMQ6CbDpcaBQJadH9vAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEIVMQ6CbDpcasFAH/j64dpHpjY55tVoUg5yK8hcmxS/buKQQP9H3e2DdHeYrK0qeQ97AXiWTh63UvzvEXchiKjua6kYhUUkDObaltmwkKgPv0qb9lP6yfFBzvllriS6LrdIMCOLgtnQW2x28m5mC1hYT08jlqEXluYDoj2dTll9HGMsqn0JkhRjBsuzTXq8VyJjjnNLpzsAlTOGEQoAi7SqtDHs9PSNyOAKH5jRjATdNbPAsTKuI1veJf7Zzyc98yG0ya43Hqal1scoa+9GJZXNQPRaMVkyxKGbEEncdtnQl9e/DUMH4SUQ5vbM/+U4WvkX5Cvc+KwI6JAm1PhrAaVHSkDNAU5LqUqEbbHY=
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=infinera.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH0PR10MB4615:EE_|CO1PR10MB4404:EE_
-x-ms-office365-filtering-correlation-id: 90049c10-1ac2-4b65-8081-08dc1b63266c
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- 7d1WPOVgPhKDfsgylZ8qMUJXAGXl7qNjIocK7LHRJQ5cQyr+at9lQO7b8wrK/fC1opWhzbDlZS06rN+aZRL1GMdJ8kzqrsrN0qdZOZD45JaUdfhgFDN95CQUv4qgLIhzqOvtqUPXh7OW92ZbEv56QjJRGbJSVzvM2lncBvF0H8Af6zrK3/78AcsB82Dl9oJNq+v2EwOodrW1vr/rWwzH++tqWjlH1MhVK7y4iWLcFVbq/mz0W0wcfQr5lbya+AUOrFy+gZUimLIdppHBUePApyYkff+JiP9TMhrQtkIMxCTUfVlMbGa5ZYZRgWqvGZodHTD7iBfcaBz0uaosogr7Dvnr37lAsHRmWyWJ0LbYh/e8OZQlxQKRmuVn6tivUPfAfdaPhMAifdNQ6FQSO8vupInhApOKFRcdLb8k3fjBxmYDyiOUL5u0u6Ymvr0mjoKiGJ09U1vUPd59g2dFA/zSdHZroFxqdsf6mWZWJHDwi7nbNK7gtyuwLmFBDaJ6nOsLQq3iF4PA67tblfiKyEO7GSV5rDPlL4KFc4WmBsEJivHv6roQeMGqD0LHhNP5n2j+c65CKaOSEkEVQj/I4pYOMDHntCleHOY6LE+iwzfRNQ4=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB4615.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(346002)(396003)(366004)(136003)(39860400002)(230922051799003)(186009)(1800799012)(451199024)(64100799003)(71200400001)(45080400002)(6486002)(966005)(478600001)(38100700002)(122000001)(2616005)(83380400001)(66899024)(6506007)(2906002)(6916009)(86362001)(316002)(5660300002)(64756008)(36756003)(8936002)(8676002)(76116006)(4326008)(38070700009)(91956017)(66446008)(66476007)(66946007)(66556008)(41300700001)(6512007);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?SW1aMXVlOW00UkpBYmxMaDR1M3ZVMEtyZ2ZUbHZ6cEY4UU96WnVUYTV2Tmw0?=
- =?utf-8?B?Wkxjc1k2ZjRhUFJ0bjVNUWVaNlUvL3ByUWdCSW56RzROR3BJTncvemNyOTFQ?=
- =?utf-8?B?YVlaamxjcDJxMmNOeDhzb0N3OWRWQjBLc0trNDdQcE1NNDlRZyt6T283TC93?=
- =?utf-8?B?dHo2bVJsK1FSUjF0TjRSVFcxMjlHWkZHMHRsR1h1UWtXZSt2Y0Q5NUNMNjg1?=
- =?utf-8?B?RXFlVmZVOXdlaFR3MEZLK0dQaGdQZTNpd29vd2lMNkErZUh6UTMvakNaaUtl?=
- =?utf-8?B?VWZjdTJENisySHdveHpQZVo0NHM4RHRCNVRZUGU1QzNQS2ZMOWFwV25haHZL?=
- =?utf-8?B?QkpPd1l4WDV6VENvOWswdWtIRmt2RmxtMXFqL0Q0UXV4WGQ1WFl5SDFBUUJV?=
- =?utf-8?B?MGI1VmNHWXkwOHdpZjQ1cmYvQ3JpcVN2Y1YySjBqM09qUDZXejlrUFZyczJ2?=
- =?utf-8?B?eHlFa3RnQWJXWkRkZ1IxYUJPS1dOV2lkTXh6T0NLR3dMNlR5VGJoUEJrdzll?=
- =?utf-8?B?ZHFielZsRUdnS3JKMHdyUkZlbXhmb2VhNDhmRkwxRzY3b2VWT2h0aEUvYTE3?=
- =?utf-8?B?UmtJbXZJZTFIRUJBZWU3RURDZXRhbGRmWEdreGxHejcrMnY2U21yZ1hLeUw5?=
- =?utf-8?B?S3FSaHMrcGt4R2dYa0VNRWdXWGlqQjhDeEhxaW9SVU5IelJySW1tRzBJMjhs?=
- =?utf-8?B?YW9DNUNwYkduM0V6MXpid0Y5OHV0SzlEUEFMdklUZ1hWMDZTZVY2V1M3SE95?=
- =?utf-8?B?Ly9vTkxDaE0yU1VYU1plK1lCUHFMc2w5cGdrbENZRTRndDZFSzJNRXkxMmlM?=
- =?utf-8?B?bkljVERwRFRaT05RVFhaRzBQcm1qWko3cXVzaW1UbldxS1ZpWFkzTG4rcDVF?=
- =?utf-8?B?S1FUTjJPeWpVNG5hVzIrMUovSVJUMmQ5cVp6bDE4cUpvcys5bTQ3MWRDczJR?=
- =?utf-8?B?aVFuSm9FNTNqV1FWTktZQnBFUWNpOCtvd3ZXZlczVzR1bVBkRkd3ZDlFUGx6?=
- =?utf-8?B?aGF3M1B1ODFLM0RiRVAwNEp6MEwrcXIyLyt4Ryt4WmpzM2VGbVZZL2FHdkdH?=
- =?utf-8?B?N3JxNjJBeFZtc1NFOGNFSGZXZXl5RS9PRXcrVnllbGwwN2lKbk5mZGJUZGsv?=
- =?utf-8?B?cEZYQ2ZBM3V3RGFFV29Ic1Z2U2NpeFZVcFJmZElpdHZJRmFySWdiVDkxLzBS?=
- =?utf-8?B?dy9EQndrRGFXTnB0cGk4Ym9OeDFiUTltU0ZmVEpPa2w4Z0dOQk44WDRwYWwx?=
- =?utf-8?B?WGhWa1VzVVQrT3VHaUU2NkFHTWtra1lrNE5wU3ZxT2NSbEJTL1ZFT0t3Unhi?=
- =?utf-8?B?VVovWUJkQ3o5azNoOERUSWN3NnF0cG9IWjcyUG5LUGV5dXAwdko4NFI1Ym9u?=
- =?utf-8?B?TWdKTW9sRzFxTTRkRC9IUExnVlVSNUQvdEpjRUd1MUxyMDErSlB2M2JQZFgw?=
- =?utf-8?B?U2I3M0JQdmp2djdEdG1wRVlpQXdUemIvdVhvSjF6TGhTYmVvMGRIQnZaaDBG?=
- =?utf-8?B?YzIyNVA0M3l5NXY5Z2kva3Y5R3B5UEFPT0tsMjMvMnFRUkJNT1BtUE83bFJw?=
- =?utf-8?B?ckVGZlBpWXFheW9ZTmtlenFTSE9raHFVZ2w4SjdpQUFlQVlpdGgwRkt6SnVG?=
- =?utf-8?B?UUZKK01TcURLMHRZcXpjMmg4TXh1Y2dNMThBVVFvNVJBQko2OVZYTHJObUl3?=
- =?utf-8?B?bzJFaWZ0QTJJWXlkSXdtdmFzOWh2eWdHRVg5am9aUHgvRlFxQVdwWjdib2JN?=
- =?utf-8?B?L2FYZk55QjREWXpDMTYydVg3enlPSVNvODQvSjc4U21jUExDb0wyMXF4N21I?=
- =?utf-8?B?VlJXNWloUnNBM2krNnZWanF6ZWhlNWNqdzZacGhhdHorbFU1MDdDOXc2SnVj?=
- =?utf-8?B?ck5qaGV4VFExUWQxZFZUK3dVcFNjamZXWXduVnoxbmp2UkxMeHJDYy9FeG5U?=
- =?utf-8?B?emx2Tk4rV3dmbW5KbTZaZUlVVVAzc250VFhzQjBoVmVBOThEclJNa090VnBp?=
- =?utf-8?B?Y3ZuT1RybmM5OWZ1dTExeHRDUmhJZlpnRElXSVhoeTVkNklHblBlM2s2RkV2?=
- =?utf-8?B?SUlRaS95eXl4Y0VhdStLU1pVOE5HNWEvVEJScVhMcHQycXUxa3hYZ2JBeVht?=
- =?utf-8?B?cnVNV0hocXlRdWJtQmhPTlFCeG1Ud2V4T0RPS1FrS1hXdWVQQmcwaWF3ZC9P?=
- =?utf-8?Q?VqkQzxz2oADD9QCi8Lq0kvpn0JCz1pu2D9s6lUzcR9iy?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <CC84B48654C8D54FA1C3F115F02DE454@namprd10.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=LC1T4aKv;
+ spf=pass (domain: gmail.com, ip: 209.85.167.180, mailfrom: raj.khem@gmail.com)
+Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-3bd884146e9so2819228b6e.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jan 2024 08:02:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1705939376; x=1706544176; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lEIX5wV1WoV1CBIpxtwxmgJ6hmIgD+0wPlSdiK4i5M8=;
+        b=LC1T4aKvW5LnT8skR1s/j2VHB6nPwRBU26TMZ4Seq57nAYBilZBXYvlmveLq9Z4g/+
+         J/wtdAEQRKVt2QNtRc/6CmuyuBA3i1qFtOK68fI+6PztnLrLJMzGXBY5GywwO1A+0jkU
+         o1fETx2vXhFFBKRci7WCcv88xtevEy3gP5C09NEEkZrViUkYcj3ONRifIzVd0I/6BvP2
+         608Xp3TkZwrJ5KjXPDJiyDVnaU0eFH9/wXmcH8Zv0N36KHXP4jQFmnn0exan0nTA8iYt
+         3KT765F2B9jSaHs9EjrK0cxQjDoS+98vg4i6mbnjJtUgsheOhfUvWGCUlFaIGRVxHKF2
+         Aojw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705939376; x=1706544176;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lEIX5wV1WoV1CBIpxtwxmgJ6hmIgD+0wPlSdiK4i5M8=;
+        b=wDOLwHsAPEomUIuEuElHR8wajnPexhkUdg1cyB1lgsphnYgsXD42juGEkjLL/o55AN
+         Qc1J0XkuhaF9HFVNuu8c0RupXpEJzY0uSwcdxUaduHCdD0LmB3mKxoZKjO1+wf4KCTo8
+         lWnTlEUUdqL+CzvVrR2sgl4dlmWzIKTvUSh5kL+RHyhENYvnz4AVgjkkQCZayXLdiY0P
+         FfmBb7Canpdc7fcnEMFSdgUbEgzF70NrhtVhkN0I2bggMPn4bJekpuEGjXM+kMHX7lSm
+         cnbIYpn16EkOcuX8QEJY8Ia+w6hbHSqhmkpjzSY9NOwoxiDc7q8BBkEnKbTIgD9M+xxc
+         VWWQ==
+X-Gm-Message-State: AOJu0Yyfhxj50n7vMMObApG7+/c5GteHVcJiXqrS7syzWGArAKYM0U13
+	glWlhE3DsN6+GoTXbZ9E7XJJ1WSIhOGZvObiXSArKR6H6ydCJJwIirLCNg4FodAOQXxftlzJXKW
+	c4bBPtBYxzJZyjIgqkHTIq+yopM0=
+X-Google-Smtp-Source: AGHT+IHQ4vX2J8Xkvuwcwp7aqIjYuV4A50JXcKOaRJx4PVhHPXEwZ6ew26jRTz0CWuuKb9e7n8elfasLDGYQAA2IJFw=
+X-Received: by 2002:a05:6870:4712:b0:214:4305:eb30 with SMTP id
+ b18-20020a056870471200b002144305eb30mr105761oaq.77.1705939375702; Mon, 22 Jan
+ 2024 08:02:55 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: infinera.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4615.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 90049c10-1ac2-4b65-8081-08dc1b63266c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Jan 2024 15:59:43.9530
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 285643de-5f5b-4b03-a153-0ae2dc8aaf77
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: gHE+cqJvVTCGcqNOs5r7S9GFFjlEUmJuHq0nR+7wUhsoFTRNnVduvKn1mVm2DWc3L/3V5TPO1eXjr2h+aUk6VA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4404
+References: <20240122075626.1216098-1-ashish.emailaddress@gmail.com>
+In-Reply-To: <20240122075626.1216098-1-ashish.emailaddress@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 22 Jan 2024 08:02:29 -0800
+Message-ID: <CAMKF1sqyYREo8gOB3Zjto=eUBEOQzn3Fszn3D7dE5f6-u2Wkdw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] binutils : CVE-2023-25584
+To: Ashishx88 <ashish.emailaddress@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Jan 2024 15:59:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194179
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Jan 2024 16:03:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194180
 
-T24gTW9uLCAyMDI0LTAxLTIyIGF0IDE2OjEwICswMTAwLCBBbGV4YW5kZXIgS2FuYXZpbiB3cm90
-ZToNCj4gWW91IGFyZSBub3Qgc2hvd2luZyB3aGF0IGtpbmQgb2YgZXJyb3IgeW91IGV4cGVjdCB0
-byBzZWUuIFdoYXQgaXMNCj4gYmVpbmcgdGVzdGVkIGZvciBub24tcmVwcm9kdWNpYmlsaXR5Pw0K
-DQpSaWdodCwgSSBoYWNrZWQgdS1ib290IHRvIHNldCBjdXJyZW50IGRhdGU6DQotLS0gYS9tZXRh
-L3JlY2lwZXMtYnNwL3UtYm9vdC91LWJvb3QuaW5jDQorKysgYi9tZXRhL3JlY2lwZXMtYnNwL3Ut
-Ym9vdC91LWJvb3QuaW5jDQpAQCAtOSw3ICs5LDcgQEAgaW5oZXJpdCB1Ym9vdC1jb25maWcgdWJv
-b3QtZXh0bGludXgtY29uZmlnIHVib290LXNpZ24gZGVwbG95IHB5dGhvbjNuYXRpdmUga2VybmUN
-Cg0KIERFUEVORFMgKz0gInN3aWctbmF0aXZlIg0KDQotRVhUUkFfT0VNQUtFID0gJ0NST1NTX0NP
-TVBJTEU9JHtUQVJHRVRfUFJFRklYfSBDQz0iJHtUQVJHRVRfUFJFRklYfWdjYyAke1RPT0xDSEFJ
-Tl9PUFRJT05TfSIgVj0xJw0KK0VYVFJBX09FTUFLRSA9ICdDUk9TU19DT01QSUxFPSR7VEFSR0VU
-X1BSRUZJWH0gQ0M9IiR7VEFSR0VUX1BSRUZJWH1nY2MgJHtUT09MQ0hBSU5fT1BUSU9OU30iIFY9
-MSBTT1VSQ0VfREFURV9FUE9DSD0iJChkYXRlICslcykiJw0KIEVYVFJBX09FTUFLRSArPSAnSE9T
-VENDPSIke0JVSUxEX0NDfSAke0JVSUxEX0NGTEFHU30gJHtCVUlMRF9MREZMQUdTfSInDQogRVhU
-UkFfT0VNQUtFICs9ICdTVEFHSU5HX0lOQ0RJUj0ke1NUQUdJTkdfSU5DRElSX05BVElWRX0gU1RB
-R0lOR19MSUJESVI9JHtTVEFHSU5HX0xJQkRJUl9OQVRJVkV9Jw0KDQphbmQgdGhlIEkgb25seSBi
-dWlsZCB1LWJvb3QgdG8ga2VlcCB0ZXN0IGN5Y2xlIHNob3J0Lg0KDQoNCj4NCj4gQWxzbyB0aGUg
-c2hvcnQgY29tcGxldGlvbiB0aW1lIGlzIHN1c3BpY2lvdXM6IGl0IG1pZ2h0IGluZGljYXRlIHRo
-YXQNCj4gYm90aCBydW5zIGluZGVlZCB0YWtlIHRoZSBzYW1lIHBhY2thZ2UgZnJvbSBzc3RhdGUu
-IFRoZSB0ZXN0IGV4cGVjdHMNCj4gdGhhdCB0aGUgc2Vjb25kIHJ1biB1c2VzIGEgcHJpdmF0ZSBl
-bXB0eSBzc3RhdGUgdG8gdHJpZ2dlciBhIGZ1bGwNCj4gcmVidWlsZC4NCg0KTWF5YmUgYnV0IHdo
-YXQgYWJvdXQgdGhlIG1pc3NpbmcgcmVwcm9kdWNpYmxlQS90bXAgYW5kIHJlcHJvZHVjaWJsZUIv
-dG1wID8NCldvdWxkIHRoZXNlIGJlIG1pc3NpbmcgaWYgc3N0YXRlIGlzIHVzZWQgZm9yIGJvdGg/
-DQpJbiB0aGUgbG9nIHRoZXJlIGlzIHRoaXM6DQogIElORk8gLSBCdWlsZGluZyByZXByb2R1Y2li
-bGVCIChzc3RhdGUgTk9UIGFsbG93ZWQpLi4uDQoNCiBKb2NrZQ0KDQo+DQo+IEFsZXgNCj4NCj4g
-T24gTW9uLCAyMiBKYW4gMjAyNCBhdCAxNjowMSwgSm9ha2ltIFRqZXJubHVuZCB2aWENCj4gbGlz
-dHMub3BlbmVtYmVkZGVkLm9yZw0KPiA8Sm9ha2ltLlRqZXJubHVuZD1pbmZpbmVyYS5jb21AbGlz
-dHMub3BlbmVtYmVkZGVkLm9yZz4gd3JvdGU6DQo+ID4NCj4gPiBXaGF0ZXZlciBJIGRvLCBSZXBy
-b2R1Y2libGVUZXN0cyBhbHdheXMgc3VjY2VlZHMgYW5kIEkgdGhpbmsgSSBnb3QgYSBjbHVlLg0K
-PiA+IExvb2tpbmcgYXQgdGhlIGxvZ3MgYmVsb3cgYW5kIHRoZSBmaWxlcyBhZnRlciBidWlsZCBv
-bmUgY2FuIHNlZSB0aGF0ZSB0aGVyZQ0KPiA+IGFyZSBubyAgLi4ucmVwcm9kdWNpYmxlQS90bXAg
-b3IgLi4ucmVwcm9kdWNpYmxlQi90bXAgZGlycyBpbiB0aGUgRlMuDQo+ID4NCj4gPiBGdXJ0aGVy
-bW9yZSwgZGVwbG95X0EgYW5kIGRlcGxveV9CIGFyZSB0aGUgc2FtZS4gVGhpcyBhbGwgZW5kcyB1
-cCB3aXRoIHRoZSB0d28gYnVpbGRzIG92ZXJ3cml0ZXMNCj4gPiBlYWNoIG90aGVyIHRoZW4gUmVw
-cm9kdWNpYmxlVGVzdHMgY29tcGFyZXMgdGhlIHBhY2thZ2Ugd2l0aCBpdHNlbGYgYW5kIHRoYXQg
-d2lsbCBhbHdheXMgc3VjY2VlZC4NCj4gPg0KPiA+IEkgY2FuJ3Qgc2VlL2ZpbmQgYW4gZXJyb3Ig
-aW4gb3VyIHlvY3RvKEtpcmtzdG9uZSkgc3lzdGVtLCBzbyBJIHdvbmRlciBpZiB0aGlzIGlzIGFu
-IHVwc3RyZWFtIGJ1Zz8NCj4gPg0KPiA+ICBKb2NrZQ0KPiA+DQo+ID4gb2Utc2VsZnRlc3QgLXYg
-LUsgLXIgcmVwcm9kdWNpYmxlLlJlcHJvZHVjaWJsZVRlc3RzLnRlc3RfcmVwcm9kdWNpYmxlX2J1
-aWxkcw0KPiA+IDIwMjQtMDEtMTUgMTg6MDM6NDUsNTYzIC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0g
-QWRkaW5nIGxheWVyIGxpYnJhcmllczoNCj4gPiAyMDI0LTAxLTE1IDE4OjAzOjQ1LDU2MyAtIG9l
-LXNlbGZ0ZXN0IC0gSU5GTyAtICAvaG9tZS9qb2NrZS95b2N0by14ci8zcHAvcG9reS9tZXRhL2xp
-Yg0KPiA+IDIwMjQtMDEtMTUgMTg6MDM6NDUsNTYzIC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gIC9o
-b21lL2pvY2tlL3lvY3RvLXhyLzNwcC9wb2t5L21ldGEteW9jdG8tYnNwL2xpYg0KPiA+IDIwMjQt
-MDEtMTUgMTg6MDM6NDUsNTYzIC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gIC9ob21lL2pvY2tlL3lv
-Y3RvLXhyLzNwcC9tZXRhLW9wZW5lbWJlZGRlZC9tZXRhLW9lL2xpYg0KPiA+IDIwMjQtMDEtMTUg
-MTg6MDM6NDUsNTYzIC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gIC9ob21lL2pvY2tlL3lvY3RvLXhy
-L21ldGEteHIvbGliDQo+ID4gMjAyNC0wMS0xNSAxODowMzo0NSw1NjMgLSBvZS1zZWxmdGVzdCAt
-IElORk8gLSAgL2hvbWUvam9ja2UveW9jdG8teHIvM3BwL3Bva3kvbWV0YS1zZWxmdGVzdC9saWIN
-Cj4gPiAyMDI0LTAxLTE1IDE4OjAzOjQ1LDU2NSAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAtIFJ1bm5p
-bmcgYml0YmFrZSAtZSB0byB0ZXN0IHRoZSBjb25maWd1cmF0aW9uIGlzIHZhbGlkL3BhcnNhYmxl
-DQo+ID4gMjAyNC0wMS0xNSAxODowMzo1MCw3MDIgLSBvZS1zZWxmdGVzdCAtIElORk8gLSBBZGRp
-bmc6ICJpbmNsdWRlIHNlbGZ0ZXN0LmluYyIgaW4gL2hvbWUvam9ja2UveW9jdG8teHIvYnVpbGQv
-aW5mbi14ci9nbWN1LXN0L2NvbmYvbG9jYWwuY29uZg0KPiA+IDIwMjQtMDEtMTUgMTg6MDM6NTAs
-NzAyIC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gQWRkaW5nOiAiaW5jbHVkZSBiYmxheWVycy5pbmMi
-IGluIGJibGF5ZXJzLmNvbmYNCj4gPiAyMDI0LTAxLTE1IDE4OjAzOjUwLDcwMiAtIG9lLXNlbGZ0
-ZXN0IC0gSU5GTyAtIHRlc3RfcmVwcm9kdWNpYmxlX2J1aWxkcyAocmVwcm9kdWNpYmxlLlJlcHJv
-ZHVjaWJsZVRlc3RzKQ0KPiA+IDIwMjQtMDEtMTUgMTg6MDM6NTMsMzc1IC0gb2Utc2VsZnRlc3Qg
-LSBERUJVRyAtIFdyaXRpbmcgdG86IC9ob21lL2pvY2tlL3lvY3RvLXhyL2J1aWxkL2luZm4teHIv
-Z21jdS1zdC9jb25mL3NlbGZ0ZXN0LmluYw0KPiA+DQo+ID4NCj4gPiAyMDI0LTAxLTE1IDE4OjA2
-OjQ0LDk5NSAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAtIENvbmZpZzogUEFDS0FHRV9DTEFTU0VTID0g
-InBhY2thZ2VfaXBrIg0KPiA+IElOSElCSVRfUEFDS0FHRV9TVFJJUCA9ICIxIg0KPiA+IFRNUERJ
-UiA9ICIvaG9tZS9qb2NrZS95b2N0by14ci9idWlsZC9pbmZuLXhyL2dtY3Utc3QvcmVwcm9kdWNp
-YmxlQS90bXAiDQo+ID4gTElDRU5TRV9GTEFHU19BQ0NFUFRFRCA9ICJjb21tZXJjaWFsIg0KPiA+
-IERJU1RST19GRUFUVVJFUzphcHBlbmQgPSAnIHN5c3RlbWQgcGFtJw0KPiA+IFVTRVJBRERFWFRF
-TlNJT04gPSAidXNlcmFkZC1zdGF0aWNpZHMiDQo+ID4gVVNFUkFERF9FUlJPUl9EWU5BTUlDID0g
-InNraXAiDQo+ID4gVVNFUkFERF9VSURfVEFCTEVTICs9ICJmaWxlcy9zdGF0aWMtcGFzc3dkIg0K
-PiA+IFVTRVJBRERfR0lEX1RBQkxFUyArPSAiZmlsZXMvc3RhdGljLWdyb3VwIg0KPiA+DQo+ID4g
-MjAyNC0wMS0xNSAxODowNjo0NCw5OTYgLSBvZS1zZWxmdGVzdCAtIElORk8gLSBCdWlsZGluZyBy
-ZXByb2R1Y2libGVBIChzc3RhdGUgYWxsb3dlZCkuLi4NCj4gPiAyMDI0LTAxLTE1IDE4OjA2OjQ0
-LDk5NiAtIG9lLXNlbGZ0ZXN0IC0gREVCVUcgLSBXcml0aW5nIHRvOiAvaG9tZS9qb2NrZS95b2N0
-by14ci9idWlsZC9pbmZuLXhyL2dtY3Utc3QvY29uZi9zZWxmdGVzdC5pbmMNCj4gPiBQQUNLQUdF
-X0NMQVNTRVMgPSAicGFja2FnZV9pcGsiDQo+ID4gSU5ISUJJVF9QQUNLQUdFX1NUUklQID0gIjEi
-DQo+ID4gVE1QRElSID0gIi9ob21lL2pvY2tlL3lvY3RvLXhyL2J1aWxkL2luZm4teHIvZ21jdS1z
-dC9yZXByb2R1Y2libGVBL3RtcCINCj4gPiBMSUNFTlNFX0ZMQUdTX0FDQ0VQVEVEID0gImNvbW1l
-cmNpYWwiDQo+ID4gRElTVFJPX0ZFQVRVUkVTOmFwcGVuZCA9ICcgc3lzdGVtZCBwYW0nDQo+ID4g
-VVNFUkFEREVYVEVOU0lPTiA9ICJ1c2VyYWRkLXN0YXRpY2lkcyINCj4gPiBVU0VSQUREX0VSUk9S
-X0RZTkFNSUMgPSAic2tpcCINCj4gPiBVU0VSQUREX1VJRF9UQUJMRVMgKz0gImZpbGVzL3N0YXRp
-Yy1wYXNzd2QiDQo+ID4gVVNFUkFERF9HSURfVEFCTEVTICs9ICJmaWxlcy9zdGF0aWMtZ3JvdXAi
-DQo+ID4NCj4gPg0KPiA+IDIwMjQtMDEtMTUgMTg6MDc6MDIsMTQyIC0gb2Utc2VsZnRlc3QgLSBJ
-TkZPIC0gQ29uZmlnOiBQQUNLQUdFX0NMQVNTRVMgPSAicGFja2FnZV9pcGsiDQo+ID4gSU5ISUJJ
-VF9QQUNLQUdFX1NUUklQID0gIjEiDQo+ID4gVE1QRElSID0gIi9ob21lL2pvY2tlL3lvY3RvLXhy
-L2J1aWxkL2luZm4teHIvZ21jdS1zdC9yZXByb2R1Y2libGVCL3RtcCINCj4gPiBMSUNFTlNFX0ZM
-QUdTX0FDQ0VQVEVEID0gImNvbW1lcmNpYWwiDQo+ID4gRElTVFJPX0ZFQVRVUkVTOmFwcGVuZCA9
-ICcgc3lzdGVtZCBwYW0nDQo+ID4gVVNFUkFEREVYVEVOU0lPTiA9ICJ1c2VyYWRkLXN0YXRpY2lk
-cyINCj4gPiBVU0VSQUREX0VSUk9SX0RZTkFNSUMgPSAic2tpcCINCj4gPiBVU0VSQUREX1VJRF9U
-QUJMRVMgKz0gImZpbGVzL3N0YXRpYy1wYXNzd2QiDQo+ID4gVVNFUkFERF9HSURfVEFCTEVTICs9
-ICJmaWxlcy9zdGF0aWMtZ3JvdXAiDQo+ID4NCj4gPiAyMDI0LTAxLTE1IDE4OjA3OjAyLDE0MyAt
-IG9lLXNlbGZ0ZXN0IC0gSU5GTyAtIEJ1aWxkaW5nIHJlcHJvZHVjaWJsZUIgKHNzdGF0ZSBOT1Qg
-YWxsb3dlZCkuLi4NCj4gPiAyMDI0LTAxLTE1IDE4OjA3OjAyLDE0MyAtIG9lLXNlbGZ0ZXN0IC0g
-REVCVUcgLSBXcml0aW5nIHRvOiAvaG9tZS9qb2NrZS95b2N0by14ci9idWlsZC9pbmZuLXhyL2dt
-Y3Utc3QvY29uZi9zZWxmdGVzdC5pbmMNCj4gPiBQQUNLQUdFX0NMQVNTRVMgPSAicGFja2FnZV9p
-cGsiDQo+ID4gSU5ISUJJVF9QQUNLQUdFX1NUUklQID0gIjEiDQo+ID4gVE1QRElSID0gIi9ob21l
-L2pvY2tlL3lvY3RvLXhyL2J1aWxkL2luZm4teHIvZ21jdS1zdC9yZXByb2R1Y2libGVCL3RtcCIN
-Cj4gPiBMSUNFTlNFX0ZMQUdTX0FDQ0VQVEVEID0gImNvbW1lcmNpYWwiDQo+ID4gRElTVFJPX0ZF
-QVRVUkVTOmFwcGVuZCA9ICcgc3lzdGVtZCBwYW0nDQo+ID4gVVNFUkFEREVYVEVOU0lPTiA9ICJ1
-c2VyYWRkLXN0YXRpY2lkcyINCj4gPiBVU0VSQUREX0VSUk9SX0RZTkFNSUMgPSAic2tpcCINCj4g
-PiBVU0VSQUREX1VJRF9UQUJMRVMgKz0gImZpbGVzL3N0YXRpYy1wYXNzd2QiDQo+ID4gVVNFUkFE
-RF9HSURfVEFCTEVTICs9ICJmaWxlcy9zdGF0aWMtZ3JvdXAiDQo+ID4gU1NUQVRFX0RJUiA9ICIk
-e1RNUERJUn0vc3N0YXRlIg0KPiA+IFNTVEFURV9NSVJST1JTID0gImZpbGU6Ly8uKi8uKi1uYXRp
-dmUuKiAgaHR0cDovL3NzdGF0ZS55b2N0b3Byb2plY3Qub3JnL2FsbC9QQVRIO2Rvd25sb2FkZmls
-ZW5hbWU9UEFUSCBmaWxlOi8vLiovLiotY3Jvc3MuKg0KPiA+IGh0dHA6Ly9zc3RhdGUueW9jdG9w
-cm9qZWN0Lm9yZy9hbGwvUEFUSDtkb3dubG9hZGZpbGVuYW1lPVBBVEgiDQo+ID4NCj4gPg0KPiA+
-IDIwMjQtMDEtMTUgMTg6MDc6MTYsNDI0IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gdmFyc19BOnsn
-REVQTE9ZX0RJUl9JUEsnOiAnL2hvbWUvam9ja2UveW9jdG8teHIvYnVpbGQvaW5mbi14ci9nbWN1
-LXN0L3RtcC9kZXBsb3kvaXBrJ30NCj4gPiAyMDI0LTAxLTE1IDE4OjA3OjE2LDQyNCAtIG9lLXNl
-bGZ0ZXN0IC0gSU5GTyAtIHZhcnNfQjp7J0RFUExPWV9ESVJfSVBLJzogJy9ob21lL2pvY2tlL3lv
-Y3RvLXhyL2J1aWxkL2luZm4teHIvZ21jdS1zdC90bXAvZGVwbG95L2lwayd9DQo+ID4gMjAyNC0w
-MS0xNSAxODowNzoxNiw0MjQgLSBvZS1zZWxmdGVzdCAtIElORk8gLSBjIGluIHBhY2thZ2VfY2xh
-c3NlczppcGsNCj4gPiAyMDI0LTAxLTE1IDE4OjA3OjE2LDQyNCAtIG9lLXNlbGZ0ZXN0IC0gSU5G
-TyAtIGRlcGxveV9BOi9ob21lL2pvY2tlL3lvY3RvLXhyL2J1aWxkL2luZm4teHIvZ21jdS1zdC90
-bXAvZGVwbG95L2lwaw0KPiA+IDIwMjQtMDEtMTUgMTg6MDc6MTYsNDI1IC0gb2Utc2VsZnRlc3Qg
-LSBJTkZPIC0gZGVwbGF5X0I6L2hvbWUvam9ja2UveW9jdG8teHIvYnVpbGQvaW5mbi14ci9nbWN1
-LXN0L3RtcC9kZXBsb3kvaXBrDQo+ID4gMjAyNC0wMS0xNSAxODowNzoxNiw0MjUgLSBvZS1zZWxm
-dGVzdCAtIElORk8gLSBDaGVja2luZyBpcGsgcGFja2FnZXMgZm9yIGRpZmZlcmVuY2VzLi4uDQo+
-ID4gMjAyNC0wMS0xNSAxODowNzoxNiw0NDIgLSBvZS1zZWxmdGVzdCAtIElORk8gLSBSZXByb2R1
-Y2liaWxpdHkgc3VtbWFyeSBmb3IgaXBrOiBzYW1lPTQgZGlmZmVyZW50PTAgZGlmZmVyZW50X2V4
-Y2x1ZGVkPTAgbWlzc2luZz0wIHRvdGFsPTQNCj4gPiB1bnVzZWRfZXhjbHVzaW9ucz1bXQ0KPiA+
-IDIwMjQtMDEtMTUgMTg6MDc6MTYsNDQyIC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gIC4uLiBvaw0K
-PiA+IDIwMjQtMDEtMTUgMTg6MDc6MTYsNDQzIC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLQ0KPiA+IDIwMjQtMDEtMTUgMTg6MDc6MTYsNDQzIC0gb2Utc2VsZnRlc3QgLSBJTkZP
-IC0gUmFuIDEgdGVzdCBpbiAyMDguMzk3cw0KPiA+IDIwMjQtMDEtMTUgMTg6MDc6MTYsNDQzIC0g
-b2Utc2VsZnRlc3QgLSBJTkZPIC0gT0sNCj4gPiAyMDI0LTAxLTE1IDE4OjA3OjIyLDE1MCAtIG9l
-LXNlbGZ0ZXN0IC0gSU5GTyAtIFJFU1VMVFM6DQo+ID4gMjAyNC0wMS0xNSAxODowNzoyMiwxNTAg
-LSBvZS1zZWxmdGVzdCAtIElORk8gLSBSRVNVTFRTIC0gcmVwcm9kdWNpYmxlLlJlcHJvZHVjaWJs
-ZVRlc3RzLnRlc3RfcmVwcm9kdWNpYmxlX2J1aWxkczogUEFTU0VEICgyMDUuNzRzKQ0KPiA+IDIw
-MjQtMDEtMTUgMTg6MDc6MjIsMTU0IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gU1VNTUFSWToNCj4g
-PiAyMDI0LTAxLTE1IDE4OjA3OjIyLDE1NCAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAtIG9lLXNlbGZ0
-ZXN0ICgpIC0gUmFuIDEgdGVzdCBpbiAyMDguMzk4cw0KPiA+IDIwMjQtMDEtMTUgMTg6MDc6MjIs
-MTU0IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gb2Utc2VsZnRlc3QgLSBPSyAtIEFsbCByZXF1aXJl
-ZCB0ZXN0cyBwYXNzZWQgKHN1Y2Nlc3Nlcz0xLCBza2lwcGVkPTAsIGZhaWx1cmVzPTAsIGVycm9y
-cz0wKQ0KPiA+DQo+ID4NCj4gPiAtPS09LT0tPS09LT0tPS09LT0tPS09LQ0KPiA+IExpbmtzOiBZ
-b3UgcmVjZWl2ZSBhbGwgbWVzc2FnZXMgc2VudCB0byB0aGlzIGdyb3VwLg0KPiA+IFZpZXcvUmVw
-bHkgT25saW5lICgjMTk0MTc0KTogaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3Bl
-bmVtYmVkZGVkLWNvcmUvbWVzc2FnZS8xOTQxNzQNCj4gPiBNdXRlIFRoaXMgVG9waWM6IGh0dHBz
-Oi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tdC8xMDM4ODc2NDYvMTY4NjQ4OQ0KPiA+IEdyb3Vw
-IE93bmVyOiBvcGVuZW1iZWRkZWQtY29yZStvd25lckBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+
-ID4gVW5zdWJzY3JpYmU6IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5lbWJl
-ZGRlZC1jb3JlL3Vuc3ViIFthbGV4LmthbmF2aW5AZ21haWwuY29tXQ0KPiA+IC09LT0tPS09LT0t
-PS09LT0tPS09LT0tDQo+ID4NCg0K
+On Sun, Jan 21, 2024 at 11:56=E2=80=AFPM Ashishx88
+<ashish.emailaddress@gmail.com> wrote:
+>
+> Closes: CVE-2023-25584
+>
+> Upstream-Status: Backport [https://sourceware.org/git/?p=3Dbinutils-gdb.g=
+it;a=3Dpatch;h=3D77c225bdeb410cf60da804879ad41622f5f1aa44]
+>
+> Signed-off-by: Ashish Kumar Mishra <ashish.emailaddress@gmail.com>
+> ---
+>  .../binutils/binutils-2.39.inc                |   1 +
+>  .../binutils/0016-CVE-2023-25584.patch        | 534 ++++++++++++++++++
+>  2 files changed, 535 insertions(+)
+>  create mode 100644 meta/recipes-devtools/binutils/binutils/0016-CVE-2023=
+-25584.patch
+>
+> diff --git a/meta/recipes-devtools/binutils/binutils-2.39.inc b/meta/reci=
+pes-devtools/binutils/binutils-2.39.inc
+> index 419571d56c..5b84ee1a8d 100644
+> --- a/meta/recipes-devtools/binutils/binutils-2.39.inc
+> +++ b/meta/recipes-devtools/binutils/binutils-2.39.inc
+> @@ -36,6 +36,7 @@ SRC_URI =3D "\
+>       file://0014-CVE-2022-38128-2.patch \
+>       file://0014-CVE-2022-38128-3.patch \
+>       file://0015-CVE-2022-4285.patch \
+> +                file://0016-CVE-2023-25584.patch \
+
+This looks like tabs and spaces mixup. Please keep it consistent.
+
+>  "
+>  S  =3D "${WORKDIR}/git"
+>  # Already in 2.39 branch
+> diff --git a/meta/recipes-devtools/binutils/binutils/0016-CVE-2023-25584.=
+patch b/meta/recipes-devtools/binutils/binutils/0016-CVE-2023-25584.patch
+> new file mode 100644
+> index 0000000000..876322b75e
+> --- /dev/null
+> +++ b/meta/recipes-devtools/binutils/binutils/0016-CVE-2023-25584.patch
+> @@ -0,0 +1,534 @@
+> +From 278ba66aa1d2f1a355940ae2c706ad804becda07 Mon Sep 17 00:00:00 2001
+> +From: Alan Modra <amodra@gmail.com>
+> +Date: Sun, 21 Jan 2024 20:10:49 +0530
+> +Subject: [PATCH] CVE-2023-25584
+> +
+> +Lack of bounds checking in vms-alpha.c parse_module
+> +
+> +       PR 29873
+> +       PR 29874
+> +       PR 29875
+> +       PR 29876
+> +       PR 29877
+> +       PR 29878
+> +       PR 29879
+> +       PR 29880
+> +       PR 29881
+> +       PR 29882
+> +       PR 29883
+> +       PR 29884
+> +       PR 29885
+> +       PR 29886
+> +       PR 29887
+> +       PR 29888
+> +       PR 29889
+> +       PR 29890
+> +       PR 29891
+> +       * vms-alpha.c (parse_module): Make length param bfd_size_type.
+> +       Delete length =3D=3D -1 checks.  Sanity check record_length.
+> +       Sanity check DST__K_MODBEG, DST__K_RTNBEG, DST__K_RTNEND lengths.
+> +       Sanity check DST__K_SOURCE and DST__K_LINE_NUM elements
+> +       before accessing.
+> +       (build_module_list): Pass dst_section size to parse_modu
+> +
+> +Closes: CVE-2023-25584
+> +
+> +Upstream-Status: Backport [https://sourceware.org/git/?p=3Dbinutils-gdb.=
+git;a=3Dpatch;h=3D77c225bdeb410cf60da804879ad41622f5f1aa44]
+> +
+> +Signed-off-by: Ashish Kumar Mishra <ashish.emailaddress@gmail.com>
+> +---
+> + bfd/vms-alpha.c | 213 ++++++++++++++++++++++++++++++++++++++----------
+> + 1 file changed, 168 insertions(+), 45 deletions(-)
+> +
+> +diff --git a/bfd/vms-alpha.c b/bfd/vms-alpha.c
+> +index 5a867f71..9b0b2a51 100644
+> +--- a/bfd/vms-alpha.c
+> ++++ b/bfd/vms-alpha.c
+> +@@ -4340,7 +4340,7 @@ new_module (bfd *abfd)
+> +
+> + static bool
+> + parse_module (bfd *abfd, struct module *module, unsigned char *ptr,
+> +-            int length)
+> ++            bfd_size_type length)
+> + {
+> +   unsigned char *maxptr =3D ptr + length;
+> +   unsigned char *src_ptr, *pcl_ptr;
+> +@@ -4361,7 +4361,7 @@ parse_module (bfd *abfd, struct module *module, un=
+signed char *ptr,
+> +     return false;
+> +   module->line_table =3D curr_line;
+> +
+> +-  while (length =3D=3D -1 || ptr < maxptr)
+> ++  while (ptr + 3 < maxptr)
+> +     {
+> +       /* The first byte is not counted in the recorded length.  */
+> +       int rec_length =3D bfd_getl16 (ptr) + 1;
+> +@@ -4369,15 +4369,19 @@ parse_module (bfd *abfd, struct module *module, =
+unsigned char *ptr,
+> +
+> +       vms_debug2 ((2, "DST record: leng %d, type %d\n", rec_length, rec=
+_type));
+> +
+> +-      if (length =3D=3D -1 && rec_type =3D=3D DST__K_MODEND)
+> ++      if (rec_length > maxptr - ptr)
+> ++      break;
+> ++      if (rec_type =3D=3D DST__K_MODEND)
+> +       break;
+> +
+> +       switch (rec_type)
+> +       {
+> +       case DST__K_MODBEG:
+> ++        if (rec_length <=3D DST_S_B_MODBEG_NAME)
+> ++          break;
+> +         module->name
+> +           =3D _bfd_vms_save_counted_string (abfd, ptr + DST_S_B_MODBEG_=
+NAME,
+> +-                                          maxptr - (ptr + DST_S_B_MODBE=
+G_NAME));
+> ++                                          rec_length - DST_S_B_MODBEG_N=
+AME);
+> +
+> +         curr_pc =3D 0;
+> +         prev_pc =3D 0;
+> +@@ -4391,13 +4395,15 @@ parse_module (bfd *abfd, struct module *module, =
+unsigned char *ptr,
+> +         break;
+> +
+> +       case DST__K_RTNBEG:
+> ++        if (rec_length <=3D DST_S_B_RTNBEG_NAME)
+> ++          break;
+> +         funcinfo =3D (struct funcinfo *)
+> +           bfd_zalloc (abfd, sizeof (struct funcinfo));
+> +         if (!funcinfo)
+> +           return false;
+> +         funcinfo->name
+> +           =3D _bfd_vms_save_counted_string (abfd, ptr + DST_S_B_RTNBEG_=
+NAME,
+> +-                                          maxptr - (ptr + DST_S_B_RTNBE=
+G_NAME));
+> ++                                          rec_length - DST_S_B_RTNBEG_N=
+AME);
+> +         funcinfo->low =3D bfd_getl32 (ptr + DST_S_L_RTNBEG_ADDRESS);
+> +         funcinfo->next =3D module->func_table;
+> +         module->func_table =3D funcinfo;
+> +@@ -4407,6 +4413,8 @@ parse_module (bfd *abfd, struct module *module, un=
+signed char *ptr,
+> +         break;
+> +
+> +       case DST__K_RTNEND:
+> ++        if (rec_length < DST_S_L_RTNEND_SIZE + 4)
+> ++          break;
+> +         if (!module->func_table)
+> +           return false;
+> +         module->func_table->high =3D module->func_table->low
+> +@@ -4439,10 +4447,63 @@ parse_module (bfd *abfd, struct module *module, =
+unsigned char *ptr,
+> +
+> +         vms_debug2 ((3, "source info\n"));
+> +
+> +-        while (src_ptr < ptr + rec_length)
+> ++        while (src_ptr - ptr < rec_length)
+> +           {
+> +             int cmd =3D src_ptr[0], cmd_length, data;
+> +
+> ++            switch (cmd)
+> ++              {
+> ++              case DST__K_SRC_DECLFILE:
+> ++                if (src_ptr - ptr + DST_S_B_SRC_DF_LENGTH >=3D rec_leng=
+th)
+> ++                  cmd_length =3D 0x10000;
+> ++                else
+> ++                  cmd_length =3D src_ptr[DST_S_B_SRC_DF_LENGTH] + 2;
+> ++                break;
+> ++
+> ++              case DST__K_SRC_DEFLINES_B:
+> ++                cmd_length =3D 2;
+> ++                break;
+> ++
+> ++              case DST__K_SRC_DEFLINES_W:
+> ++                cmd_length =3D 3;
+> ++                break;
+> ++
+> ++              case DST__K_SRC_INCRLNUM_B:
+> ++                cmd_length =3D 2;
+> ++                break;
+> ++
+> ++              case DST__K_SRC_SETFILE:
+> ++                cmd_length =3D 3;
+> ++                break;
+> ++
+> ++              case DST__K_SRC_SETLNUM_L:
+> ++                cmd_length =3D 5;
+> ++                break;
+> ++
+> ++              case DST__K_SRC_SETLNUM_W:
+> ++                cmd_length =3D 3;
+> ++                break;
+> ++
+> ++              case DST__K_SRC_SETREC_L:
+> ++                cmd_length =3D 5;
+> ++                break;
+> ++
+> ++              case DST__K_SRC_SETREC_W:
+> ++                cmd_length =3D 3;
+> ++                break;
+> ++
+> ++              case DST__K_SRC_FORMFEED:
+> ++                cmd_length =3D 1;
+> ++                break;
+> ++
+> ++              default:
+> ++                cmd_length =3D 2;
+> ++                break;
+> ++              }
+> ++
+> ++            if (src_ptr - ptr + cmd_length > rec_length)
+> ++              break;
+> ++
+> +             switch (cmd)
+> +               {
+> +               case DST__K_SRC_DECLFILE:
+> +@@ -4467,7 +4528,6 @@ parse_module (bfd *abfd, struct module *module, un=
+signed char *ptr,
+> +
+> +                   module->file_table [fileid].name =3D filename;
+> +                   module->file_table [fileid].srec =3D 1;
+> +-                  cmd_length =3D src_ptr[DST_S_B_SRC_DF_LENGTH] + 2;
+> +                   vms_debug2 ((4, "DST_S_C_SRC_DECLFILE: %d, %s\n",
+> +                                fileid, module->file_table [fileid].name=
+));
+> +                 }
+> +@@ -4484,7 +4544,6 @@ parse_module (bfd *abfd, struct module *module, un=
+signed char *ptr,
+> +                 srec->sfile =3D curr_srec->sfile;
+> +                 curr_srec->next =3D srec;
+> +                 curr_srec =3D srec;
+> +-                cmd_length =3D 2;
+> +                 vms_debug2 ((4, "DST_S_C_SRC_DEFLINES_B: %d\n", data));
+> +                 break;
+> +
+> +@@ -4499,14 +4558,12 @@ parse_module (bfd *abfd, struct module *module, =
+unsigned char *ptr,
+> +                 srec->sfile =3D curr_srec->sfile;
+> +                 curr_srec->next =3D srec;
+> +                 curr_srec =3D srec;
+> +-                cmd_length =3D 3;
+> +                 vms_debug2 ((4, "DST_S_C_SRC_DEFLINES_W: %d\n", data));
+> +                 break;
+> +
+> +               case DST__K_SRC_INCRLNUM_B:
+> +                 data =3D src_ptr[DST_S_B_SRC_UNSBYTE];
+> +                 curr_srec->line +=3D data;
+> +-                cmd_length =3D 2;
+> +                 vms_debug2 ((4, "DST_S_C_SRC_INCRLNUM_B: %d\n", data));
+> +                 break;
+> +
+> +@@ -4514,21 +4571,18 @@ parse_module (bfd *abfd, struct module *module, =
+unsigned char *ptr,
+> +                 data =3D bfd_getl16 (src_ptr + DST_S_W_SRC_UNSWORD);
+> +                 curr_srec->sfile =3D data;
+> +                 curr_srec->srec =3D module->file_table[data].srec;
+> +-                cmd_length =3D 3;
+> +                 vms_debug2 ((4, "DST_S_C_SRC_SETFILE: %d\n", data));
+> +                 break;
+> +
+> +               case DST__K_SRC_SETLNUM_L:
+> +                 data =3D bfd_getl32 (src_ptr + DST_S_L_SRC_UNSLONG);
+> +                 curr_srec->line =3D data;
+> +-                cmd_length =3D 5;
+> +                 vms_debug2 ((4, "DST_S_C_SRC_SETLNUM_L: %d\n", data));
+> +                 break;
+> +
+> +               case DST__K_SRC_SETLNUM_W:
+> +                 data =3D bfd_getl16 (src_ptr + DST_S_W_SRC_UNSWORD);
+> +                 curr_srec->line =3D data;
+> +-                cmd_length =3D 3;
+> +                 vms_debug2 ((4, "DST_S_C_SRC_SETLNUM_W: %d\n", data));
+> +                 break;
+> +
+> +@@ -4536,7 +4590,6 @@ parse_module (bfd *abfd, struct module *module, un=
+signed char *ptr,
+> +                 data =3D bfd_getl32 (src_ptr + DST_S_L_SRC_UNSLONG);
+> +                 curr_srec->srec =3D data;
+> +                 module->file_table[curr_srec->sfile].srec =3D data;
+> +-                cmd_length =3D 5;
+> +                 vms_debug2 ((4, "DST_S_C_SRC_SETREC_L: %d\n", data));
+> +                 break;
+> +
+> +@@ -4544,19 +4597,16 @@ parse_module (bfd *abfd, struct module *module, =
+unsigned char *ptr,
+> +                 data =3D bfd_getl16 (src_ptr + DST_S_W_SRC_UNSWORD);
+> +                 curr_srec->srec =3D data;
+> +                 module->file_table[curr_srec->sfile].srec =3D data;
+> +-                cmd_length =3D 3;
+> +                 vms_debug2 ((4, "DST_S_C_SRC_SETREC_W: %d\n", data));
+> +                 break;
+> +
+> +               case DST__K_SRC_FORMFEED:
+> +-                cmd_length =3D 1;
+> +                 vms_debug2 ((4, "DST_S_C_SRC_FORMFEED\n"));
+> +                 break;
+> +
+> +               default:
+> +                 _bfd_error_handler (_("unknown source command %d"),
+> +                                     cmd);
+> +-                cmd_length =3D 2;
+> +                 break;
+> +               }
+> +
+> +@@ -4569,18 +4619,114 @@ parse_module (bfd *abfd, struct module *module,=
+ unsigned char *ptr,
+> +
+> +         vms_debug2 ((3, "line info\n"));
+> +
+> +-        while (pcl_ptr < ptr + rec_length)
+> ++        while (pcl_ptr - ptr < rec_length)
+> +           {
+> +             /* The command byte is signed so we must sign-extend it.  *=
+/
+> +             int cmd =3D ((signed char *)pcl_ptr)[0], cmd_length, data;
+> +
+> ++            switch (cmd)
+> ++              {
+> ++              case DST__K_DELTA_PC_W:
+> ++                cmd_length =3D 3;
+> ++                break;
+> ++
+> ++              case DST__K_DELTA_PC_L:
+> ++                cmd_length =3D 5;
+> ++                break;
+> ++
+> ++              case DST__K_INCR_LINUM:
+> ++                cmd_length =3D 2;
+> ++                break;
+> ++
+> ++              case DST__K_INCR_LINUM_W:
+> ++                cmd_length =3D 3;
+> ++                break;
+> ++
+> ++              case DST__K_INCR_LINUM_L:
+> ++                cmd_length =3D 5;
+> ++                break;
+> ++
+> ++              case DST__K_SET_LINUM_INCR:
+> ++                cmd_length =3D 2;
+> ++                break;
+> ++
+> ++              case DST__K_SET_LINUM_INCR_W:
+> ++                cmd_length =3D 3;
+> ++                break;
+> ++
+> ++              case DST__K_RESET_LINUM_INCR:
+> ++                cmd_length =3D 1;
+> ++                break;
+> ++
+> ++              case DST__K_BEG_STMT_MODE:
+> ++                cmd_length =3D 1;
+> ++                break;
+> ++
+> ++              case DST__K_END_STMT_MODE:
+> ++                cmd_length =3D 1;
+> ++                break;
+> ++
+> ++              case DST__K_SET_LINUM_B:
+> ++                cmd_length =3D 2;
+> ++                break;
+> ++
+> ++              case DST__K_SET_LINUM:
+> ++                cmd_length =3D 3;
+> ++                break;
+> ++
+> ++              case DST__K_SET_LINUM_L:
+> ++                cmd_length =3D 5;
+> ++                break;
+> ++
+> ++              case DST__K_SET_PC:
+> ++                cmd_length =3D 2;
+> ++                break;
+> ++
+> ++              case DST__K_SET_PC_W:
+> ++                cmd_length =3D 3;
+> ++                break;
+> ++
+> ++              case DST__K_SET_PC_L:
+> ++                cmd_length =3D 5;
+> ++                break;
+> ++
+> ++              case DST__K_SET_STMTNUM:
+> ++                cmd_length =3D 2;
+> ++                break;
+> ++
+> ++              case DST__K_TERM:
+> ++                cmd_length =3D 2;
+> ++                break;
+> ++
+> ++              case DST__K_TERM_W:
+> ++                cmd_length =3D 3;
+> ++                break;
+> ++
+> ++              case DST__K_TERM_L:
+> ++                cmd_length =3D 5;
+> ++                break;
+> ++
+> ++              case DST__K_SET_ABS_PC:
+> ++                cmd_length =3D 5;
+> ++                break;
+> ++
+> ++              default:
+> ++                if (cmd <=3D 0)
+> ++                  cmd_length =3D 1;
+> ++                else
+> ++                  cmd_length =3D 2;
+> ++                break;
+> ++              }
+> ++
+> ++            if (pcl_ptr - ptr + cmd_length > rec_length)
+> ++              break;
+> ++
+> +             switch (cmd)
+> +               {
+> +               case DST__K_DELTA_PC_W:
+> +                 data =3D bfd_getl16 (pcl_ptr + DST_S_W_PCLINE_UNSWORD);
+> +                 curr_pc +=3D data;
+> +                 curr_linenum +=3D 1;
+> +-                cmd_length =3D 3;
+> +                 vms_debug2 ((4, "DST__K_DELTA_PC_W: %d\n", data));
+> +                 break;
+> +
+> +@@ -4588,131 +4734,111 @@ parse_module (bfd *abfd, struct module *module=
+, unsigned char *ptr,
+> +                 data =3D bfd_getl32 (pcl_ptr + DST_S_L_PCLINE_UNSLONG);
+> +                 curr_pc +=3D data;
+> +                 curr_linenum +=3D 1;
+> +-                cmd_length =3D 5;
+> +                 vms_debug2 ((4, "DST__K_DELTA_PC_L: %d\n", data));
+> +                 break;
+> +
+> +               case DST__K_INCR_LINUM:
+> +                 data =3D pcl_ptr[DST_S_B_PCLINE_UNSBYTE];
+> +                 curr_linenum +=3D data;
+> +-                cmd_length =3D 2;
+> +                 vms_debug2 ((4, "DST__K_INCR_LINUM: %d\n", data));
+> +                 break;
+> +
+> +               case DST__K_INCR_LINUM_W:
+> +                 data =3D bfd_getl16 (pcl_ptr + DST_S_W_PCLINE_UNSWORD);
+> +                 curr_linenum +=3D data;
+> +-                cmd_length =3D 3;
+> +                 vms_debug2 ((4, "DST__K_INCR_LINUM_W: %d\n", data));
+> +                 break;
+> +
+> +               case DST__K_INCR_LINUM_L:
+> +                 data =3D bfd_getl32 (pcl_ptr + DST_S_L_PCLINE_UNSLONG);
+> +                 curr_linenum +=3D data;
+> +-                cmd_length =3D 5;
+> +                 vms_debug2 ((4, "DST__K_INCR_LINUM_L: %d\n", data));
+> +                 break;
+> +
+> +               case DST__K_SET_LINUM_INCR:
+> +                 _bfd_error_handler
+> +                   (_("%s not implemented"), "DST__K_SET_LINUM_INCR");
+> +-                cmd_length =3D 2;
+> +                 break;
+> +
+> +               case DST__K_SET_LINUM_INCR_W:
+> +                 _bfd_error_handler
+> +                   (_("%s not implemented"), "DST__K_SET_LINUM_INCR_W");
+> +-                cmd_length =3D 3;
+> +                 break;
+> +
+> +               case DST__K_RESET_LINUM_INCR:
+> +                 _bfd_error_handler
+> +                   (_("%s not implemented"), "DST__K_RESET_LINUM_INCR");
+> +-                cmd_length =3D 1;
+> +                 break;
+> +
+> +               case DST__K_BEG_STMT_MODE:
+> +                 _bfd_error_handler
+> +                   (_("%s not implemented"), "DST__K_BEG_STMT_MODE");
+> +-                cmd_length =3D 1;
+> +                 break;
+> +
+> +               case DST__K_END_STMT_MODE:
+> +                 _bfd_error_handler
+> +                   (_("%s not implemented"), "DST__K_END_STMT_MODE");
+> +-                cmd_length =3D 1;
+> +                 break;
+> +
+> +               case DST__K_SET_LINUM_B:
+> +                 data =3D pcl_ptr[DST_S_B_PCLINE_UNSBYTE];
+> +                 curr_linenum =3D data;
+> +-                cmd_length =3D 2;
+> +                 vms_debug2 ((4, "DST__K_SET_LINUM_B: %d\n", data));
+> +                 break;
+> +
+> +               case DST__K_SET_LINUM:
+> +                 data =3D bfd_getl16 (pcl_ptr + DST_S_W_PCLINE_UNSWORD);
+> +                 curr_linenum =3D data;
+> +-                cmd_length =3D 3;
+> +                 vms_debug2 ((4, "DST__K_SET_LINE_NUM: %d\n", data));
+> +                 break;
+> +
+> +               case DST__K_SET_LINUM_L:
+> +                 data =3D bfd_getl32 (pcl_ptr + DST_S_L_PCLINE_UNSLONG);
+> +                 curr_linenum =3D data;
+> +-                cmd_length =3D 5;
+> +                 vms_debug2 ((4, "DST__K_SET_LINUM_L: %d\n", data));
+> +                 break;
+> +
+> +               case DST__K_SET_PC:
+> +                 _bfd_error_handler
+> +                   (_("%s not implemented"), "DST__K_SET_PC");
+> +-                cmd_length =3D 2;
+> +                 break;
+> +
+> +               case DST__K_SET_PC_W:
+> +                 _bfd_error_handler
+> +                   (_("%s not implemented"), "DST__K_SET_PC_W");
+> +-                cmd_length =3D 3;
+> +                 break;
+> +
+> +               case DST__K_SET_PC_L:
+> +                 _bfd_error_handler
+> +                   (_("%s not implemented"), "DST__K_SET_PC_L");
+> +-                cmd_length =3D 5;
+> +                 break;
+> +
+> +               case DST__K_SET_STMTNUM:
+> +                 _bfd_error_handler
+> +                   (_("%s not implemented"), "DST__K_SET_STMTNUM");
+> +-                cmd_length =3D 2;
+> +                 break;
+> +
+> +               case DST__K_TERM:
+> +                 data =3D pcl_ptr[DST_S_B_PCLINE_UNSBYTE];
+> +                 curr_pc +=3D data;
+> +-                cmd_length =3D 2;
+> +                 vms_debug2 ((4, "DST__K_TERM: %d\n", data));
+> +                 break;
+> +
+> +               case DST__K_TERM_W:
+> +                 data =3D bfd_getl16 (pcl_ptr + DST_S_W_PCLINE_UNSWORD);
+> +                 curr_pc +=3D data;
+> +-                cmd_length =3D 3;
+> +                 vms_debug2 ((4, "DST__K_TERM_W: %d\n", data));
+> +                 break;
+> +
+> +               case DST__K_TERM_L:
+> +                 data =3D bfd_getl32 (pcl_ptr + DST_S_L_PCLINE_UNSLONG);
+> +                 curr_pc +=3D data;
+> +-                cmd_length =3D 5;
+> +                 vms_debug2 ((4, "DST__K_TERM_L: %d\n", data));
+> +                 break;
+> +
+> +               case DST__K_SET_ABS_PC:
+> +                 data =3D bfd_getl32 (pcl_ptr + DST_S_L_PCLINE_UNSLONG);
+> +                 curr_pc =3D data;
+> +-                cmd_length =3D 5;
+> +                 vms_debug2 ((4, "DST__K_SET_ABS_PC: 0x%x\n", data));
+> +                 break;
+> +
+> +@@ -4721,15 +4847,11 @@ parse_module (bfd *abfd, struct module *module, =
+unsigned char *ptr,
+> +                   {
+> +                     curr_pc -=3D cmd;
+> +                     curr_linenum +=3D 1;
+> +-                    cmd_length =3D 1;
+> +                     vms_debug2 ((4, "bump pc to 0x%lx and line to %d\n"=
+,
+> +                                  (unsigned long)curr_pc, curr_linenum))=
+;
+> +                   }
+> +                 else
+> +-                  {
+> +-                    _bfd_error_handler (_("unknown line command %d"), c=
+md);
+> +-                    cmd_length =3D 2;
+> +-                  }
+> ++                  _bfd_error_handler (_("unknown line command %d"), cmd=
+);
+> +                 break;
+> +               }
+> +
+> +@@ -4859,7 +4981,8 @@ build_module_list (bfd *abfd)
+> +       return NULL;
+> +
+> +       module =3D new_module (abfd);
+> +-      if (!parse_module (abfd, module, PRIV (dst_section)->contents, -1=
+))
+> ++      if (!parse_module (abfd, module, PRIV (dst_section)->contents,
+> ++                       PRIV (dst_section)->size))
+> +       return NULL;
+> +       list =3D module;
+> +     }
+> --
+> 2.25.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#194117): https://lists.openembedded.org/g/openembedde=
+d-core/message/194117
+> Mute This Topic: https://lists.openembedded.org/mt/103882398/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
