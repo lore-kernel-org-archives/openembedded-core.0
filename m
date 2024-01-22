@@ -1,95 +1,81 @@
-Return-Path: <pavel@zhukoff.net>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9A40C4725D
-	for <webhook@archiver.kernel.org>; Mon, 22 Jan 2024 10:28:49 +0000 (UTC)
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
- by mx.groups.io with SMTP id smtpd.web10.70491.1705919324528548254
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF29AC47DD3
+	for <webhook@archiver.kernel.org>; Mon, 22 Jan 2024 10:32:59 +0000 (UTC)
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+ by mx.groups.io with SMTP id smtpd.web10.70541.1705919574797906178
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Jan 2024 02:28:44 -0800
+ Mon, 22 Jan 2024 02:32:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@zhukoff.net header.s=fm3 header.b=y5q3sljx;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=tb0uJtC/;
- spf=pass (domain: zhukoff.net, ip: 64.147.123.19, mailfrom: pavel@zhukoff.net)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.west.internal (Postfix) with ESMTP id CA6713200AA5;
-	Mon, 22 Jan 2024 05:28:41 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute4.internal (MEProxy); Mon, 22 Jan 2024 05:28:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zhukoff.net; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1705919321; x=1706005721; bh=E3zfiQhX+n
-	WEcPerOaFALdtK7jMsNKosEjbOclJ7mHs=; b=y5q3sljxoASRPzsy9/9MBSs5XQ
-	gyS17OXvdsRVQfnFAxoHl1jwbD8LhfSCp6nosViB6g762+sbUn4baBFy6QDDlO7G
-	mNfutaa3KVrxM3nL19LIUsy5aqHVhC/xkNDw7UbYkJjWbXkREJBcKxu0EnzD8lsW
-	jNmjA9U3qmVfGpKoEbkcgEgJ71sv25/ZFlEiP188auImbKiMkkzR+rgL0oopC4C0
-	4nigoWOxMynAl2UB+S5fllrAA7hbxaBsysUQbuJ0UXjRhk2jOjXDTv4Xnn6+nCWl
-	FOjhPlkFAvwZCsU/piChPWTSJkY+GMJ1DBAVTN5V2b3aCh4bP+cqpRu/D+4A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1705919321; x=1706005721; bh=E3zfiQhX+nWEcPerOaFALdtK7jMs
-	NKosEjbOclJ7mHs=; b=tb0uJtC/HjnN8lCncnqHMU4mvke2mg2N4OWs7DeZIhPL
-	gObCjHOCZcB1L/DxZxUF8+hWMyrR9lyWmLfoAvqc5+d/2uiA7odvXD573Z5TBVrr
-	0PmgVutIiADA3JBJ02QA+sGJmeu7oIVi/mC5rQt5H/Nd/4mlyRnfLR3rzb6gy7pM
-	6xjmL1tV+Td4OJUZUV9S8qD5rw2TqpoE/zAtIdPm7aB0PF5Zw2E3ekDOrXU6C7LC
-	9TIk80xe70YpHGAkceKUAbAga3w66o9GqgXvbN0hPgF6Yy3FDpO4fyCkhwRkp+CN
-	gNCm+okTe5UBNOaTRWtvuIXCZjQO/WLtMiuEtY30+g==
-X-ME-Sender: <xms:WUOuZajj4QnIlfXpPU4Twmid9dAqXHeg6RdQpOW8w1MS0UcLiyEa1w>
-    <xme:WUOuZbD6jP7ItEGPBXLFKeTRbSOEpQ7cthPKmkvMHyVFF3Dgsm9IerNZaO1griXDc
-    7SYaMzuFRTdWXjxKqA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdekiedgudehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsegrtderreerredtnecuhfhrohhmpedfrfgr
-    vhgvlhcukghhuhhkohhvfdcuoehprghvvghlseiihhhukhhofhhfrdhnvghtqeenucggtf
-    frrghtthgvrhhnpeejhfejvdevgfefvddvhfevfeehtddttdegieejveffveduffdtveeh
-    geeigedtveenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdhophgvnhgvmhgsvgguug
-    gvugdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhr
-    ohhmpehprghvvghlseiihhhukhhofhhfrdhnvght
-X-ME-Proxy: <xmx:WUOuZSE14bzaAZepXn5E_np-4l1LGW4nkjU63AoXgRkp2xaRFQ8kRw>
-    <xmx:WUOuZTSx7p6kAqC9ktkpzhVaekzWEKZsISd7CUl4USCWtHwtwhFq7Q>
-    <xmx:WUOuZXzvCc-xV1xeWsum1Wl5zUUTLohHd1jf4xRzLxl4Wzey1kaYsw>
-    <xmx:WUOuZYvTE1vo7pKP_VROoCxgd4oBOM2AazqKy6YnMKSoeu_k2lrMVw>
-Feedback-ID: ib94946c9:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 143EDB6008D; Mon, 22 Jan 2024 05:28:41 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-1374-gc37f3abe3d-fm-20240102.001-gc37f3abe
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=jN4p8fRt;
+ spf=pass (domain: gmail.com, ip: 209.85.208.179, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2cdebb968feso34064031fa.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jan 2024 02:32:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1705919573; x=1706524373; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=uw3TP3a1bBj4W3abn3l3ZIvGkQty3GuUfTltt4RipQA=;
+        b=jN4p8fRtV9kVQytVU2463leUbRzm/s3INFgB4TOzgY8JBqPP9zILBuBsQv5n0O65FT
+         SVNraGmnZdn8UJuI3SecfCZWRZYX9ECThKTEGJEEL0R0Prwd+dT9YWK4YGDh4Bc5FxnS
+         RWTiX+UEvTCmTaM6MhrAi+O6qCIrk/ViQwX6BlEovNYX6sBoBRtEJOK4y+ASYw8uujfd
+         Gvh1tI7zvG5bLxZpFEUqq7n2Hdwq+PLOV16DFaErph+WGfjXBq/TcBby4mm2NM87+Apj
+         KKhHGyUUdrPG1PkZePnATwad4XBdLlIyd9VWu4r/8uHfewC2cloqAdzy2KWQCnVPCcJq
+         aK6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705919573; x=1706524373;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uw3TP3a1bBj4W3abn3l3ZIvGkQty3GuUfTltt4RipQA=;
+        b=gdNJCGa5A36W8Bh7IBJsU9SfZ186Tm3QsbhL3MBG42s63dBqA311ZdQ8tdwgGMbm65
+         4q0sbHtMuWfM+dPKvGiTObWkxj5Bl8O/wE5dBiYKC6v6aspftYwTpkUnxh+4rtTrvgdA
+         QmuWwjC78SxAe/CxXuE2B1OMwDIOeEDIxUdsQK7pwtZ1SVcMI9CmWrOHCkV1PZiU5kt9
+         JGyKmH05I1UjdnCTdZpewh+tti+MOQaNpchc/U/49pja5rSzTYIdOgl5dcVYlqus23QM
+         m3B4Ipm7dI6DURSK/ClTA01XnUbj3eEHykOpuKhQGXzmBVAK8NZTcjANkBruT6oywbXL
+         ++Sg==
+X-Gm-Message-State: AOJu0Ywzl/4SZwak93mPG4IcRcFN6n5GkkxLB6yW8BPsx9GXxHwozjzu
+	4DR+PmvxBmGE0Q/THhYqWw4P/S0QxpZg8CDwcGtqxB5PlVnGRFGWI8owzsN407NIL3LjzzNxHdA
+	qDRRdb0tpEDjv9kBR7ZGtIYOSDJg=
+X-Google-Smtp-Source: AGHT+IE66Mgd6WtOzYIlS99cayf6EAt+ZJSpmgx8LfpykzOMr+kKk+P06uBkNWCiqp5/eXqyiqYyfKQ/dwFGct3YKNY=
+X-Received: by 2002:a2e:a543:0:b0:2cd:1efa:d27a with SMTP id
+ e3-20020a2ea543000000b002cd1efad27amr1734007ljn.106.1705919572644; Mon, 22
+ Jan 2024 02:32:52 -0800 (PST)
 MIME-Version: 1.0
-Message-Id: <c8a2cb0e-e2d5-4232-bdb1-a854f8fb6705@app.fastmail.com>
-In-Reply-To: 
- <CANNYZj-YMGJQ_9s=GE=6gFWcqrz=+OJdPZnRrzq54Hp=GO=eYw@mail.gmail.com>
-References: <20240122085443.637472-2-pavel@zhukoff.net>
- <20240122085443.637472-4-pavel@zhukoff.net>
- <CANNYZj-YMGJQ_9s=GE=6gFWcqrz=+OJdPZnRrzq54Hp=GO=eYw@mail.gmail.com>
-Date: Mon, 22 Jan 2024 11:28:23 +0100
-From: "Pavel Zhukov" <pavel@zhukoff.net>
-To: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
+References: <20240122085443.637472-2-pavel@zhukoff.net> <20240122085443.637472-4-pavel@zhukoff.net>
+ <CANNYZj-YMGJQ_9s=GE=6gFWcqrz=+OJdPZnRrzq54Hp=GO=eYw@mail.gmail.com> <c8a2cb0e-e2d5-4232-bdb1-a854f8fb6705@app.fastmail.com>
+In-Reply-To: <c8a2cb0e-e2d5-4232-bdb1-a854f8fb6705@app.fastmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 22 Jan 2024 11:32:41 +0100
+Message-ID: <CANNYZj8vy6j-U03dpnqGAOQMRY2UdoqDxvMb-S+ykedXiuosUQ@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH 2/2] mdadm: Disable ptest
-Content-Type: multipart/alternative;
- boundary=1681ce1d876d46c78d95caae6d8ae78d
+To: Pavel Zhukov <pavel@zhukoff.net>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Jan 2024 10:28:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194137
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Jan 2024 10:32:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194138
 
---1681ce1d876d46c78d95caae6d8ae78d
-Content-Type: text/plain
+None of the recipes in oe-core set PTEST_ENABLED, they only read it to
+determine build settings. If recipes in other layers do that, it's a
+mistake.
 
-Yes, Yoann has mentioned this already.
-Seems like recipes use both PTEST_ENABLED and PTESTS_PROBLEMS for this purposes and I've not found any documentation. I'll update the patch to use PTESTS_PROBLEMS instead 
+Alex
 
--- 
-Pavel
-
-On Mon, Jan 22, 2024, at 11:21, Alexander Kanavin wrote:
+On Mon, 22 Jan 2024 at 11:28, Pavel Zhukov <pavel@zhukoff.net> wrote:
+>
+> Yes, Yoann has mentioned this already.
+> Seems like recipes use both PTEST_ENABLED and PTESTS_PROBLEMS for this purposes and I've not found any documentation. I'll update the patch to use PTESTS_PROBLEMS instead
+>
+> --
+> Pavel
+>
+> On Mon, Jan 22, 2024, at 11:21, Alexander Kanavin wrote:
+>
 > On Mon, 22 Jan 2024 at 09:55, Pavel Zhukov <pavel@zhukoff.net> wrote:
 > > mdadm tests are flaky and cause a lot of failures on autobuilder.
 > > Disable them for now. Keeping ptest code in the recipe to fix/enable
@@ -100,66 +86,22 @@ On Mon, Jan 22, 2024, at 11:21, Alexander Kanavin wrote:
 > > +# but keeping ptest code in case we want to enable them in the future
 > > +PTEST_ENABLED="0"
 > > +SRC_URI:append = "${@bb.utils.contains('PTEST_ENABLED', '1', ' file://run-ptest', '', d)}"
-> 
+>
 > The correct way to do this is to modify
 > conf/distro/include/ptest-packagelists.inc. There's a specific
 > exclusion list made for that purpose in there at the end.
-> 
+>
 > Alex
-> 
-> 
+>
+>
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
 > View/Reply Online (#194135): https://lists.openembedded.org/g/openembedded-core/message/194135
 > Mute This Topic: https://lists.openembedded.org/mt/103882792/6390638
-> Group Owner: openembedded-core+owner@lists.openembedded.org <mailto:openembedded-core%2Bowner@lists.openembedded.org>
+> Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [pavel@zhukoff.net]
 > -=-=-=-=-=-=-=-=-=-=-=-
-> 
-> 
-
---1681ce1d876d46c78d95caae6d8ae78d
-Content-Type: text/html
-Content-Transfer-Encoding: quoted-printable
-
-<!DOCTYPE html><html><head><title></title><style type=3D"text/css">p.Mso=
-Normal,p.MsoNoSpacing{margin:0}</style></head><body><div>Yes, Yoann has =
-mentioned this already.<br></div><div>Seems like recipes use both PTEST_=
-ENABLED and PTESTS_PROBLEMS for this purposes and I've not found any doc=
-umentation. I'll update the patch to use PTESTS_PROBLEMS instead&nbsp;<b=
-r></div><div><br></div><div>--&nbsp;<br></div><div>Pavel</div><div><br><=
-/div><div>On Mon, Jan 22, 2024, at 11:21, Alexander Kanavin wrote:<br></=
-div><blockquote type=3D"cite" id=3D"qt" style=3D""><div>On Mon, 22 Jan 2=
-024 at 09:55, Pavel Zhukov &lt;<a href=3D"mailto:pavel@zhukoff.net">pave=
-l@zhukoff.net</a>&gt; wrote:<br></div><div>&gt; mdadm tests are flaky an=
-d cause a lot of failures on autobuilder.<br></div><div>&gt; Disable the=
-m for now. Keeping ptest code in the recipe to fix/enable<br></div><div>=
-&gt; in the future<br></div><div>&gt;&nbsp; SRC_URI =3D "git://<a href=3D=
-"http://git.kernel.org/pub/scm/utils/mdadm/mdadm.git;protocol=3Dhttps;br=
-anch=3Dmaster">git.kernel.org/pub/scm/utils/mdadm/mdadm.git;protocol=3Dh=
-ttps;branch=3Dmaster</a> \<br></div><div>&gt; -&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; file://run-ptest \<br></div><div>&gt=
-; +# Disable ptests for now as they're flaky<br></div><div>&gt; +# but k=
-eeping ptest code in case we want to enable them in the future<br></div>=
-<div>&gt; +PTEST_ENABLED=3D"0"<br></div><div>&gt; +SRC_URI:append =3D "$=
-{@bb.utils.contains('PTEST_ENABLED', '1', ' file://run-ptest', '', d)}"<=
-br></div><div><br></div><div>The correct way to do this is to modify<br>=
-</div><div>conf/distro/include/ptest-packagelists.inc. There's a specifi=
-c<br></div><div>exclusion list made for that purpose in there at the end=
-.<br></div><div><br></div><div>Alex<br></div><div><br></div><div><br></d=
-iv><div>-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br></div><div>Link=
-s: You receive all messages sent to this group.<br></div><div>View/Reply=
- Online (#194135):&nbsp;<a href=3D"https://lists.openembedded.org/g/open=
-embedded-core/message/194135">https://lists.openembedded.org/g/openembed=
-ded-core/message/194135</a><br></div><div>Mute This Topic:&nbsp;<a href=3D=
-"https://lists.openembedded.org/mt/103882792/6390638">https://lists.open=
-embedded.org/mt/103882792/6390638</a><br></div><div>Group Owner:&nbsp;<a=
- href=3D"mailto:openembedded-core%2Bowner@lists.openembedded.org">openem=
-bedded-core+owner@lists.openembedded.org</a><br></div><div>Unsubscribe:&=
-nbsp;<a href=3D"https://lists.openembedded.org/g/openembedded-core/unsub=
-">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a href=3D=
-"mailto:pavel@zhukoff.net">pavel@zhukoff.net</a>]<br></div><div>-=3D-=3D=
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br></div><div><br></div><div><br><=
-/div></blockquote><div><br></div></body></html>
---1681ce1d876d46c78d95caae6d8ae78d--
+>
+>
+>
 
