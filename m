@@ -2,57 +2,57 @@ Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E006C47DD9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C627C47DDB
 	for <webhook@archiver.kernel.org>; Mon, 22 Jan 2024 13:59:31 +0000 (UTC)
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
- by mx.groups.io with SMTP id smtpd.web10.74257.1705931963388870001
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+ by mx.groups.io with SMTP id smtpd.web11.74368.1705931967665846752
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Jan 2024 05:59:23 -0800
+ Mon, 22 Jan 2024 05:59:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=NUUHrx9h;
- spf=pass (domain: gmail.com, ip: 209.85.218.50, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a2d7e2e7fe0so541156366b.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jan 2024 05:59:23 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=PzfdAxe9;
+ spf=pass (domain: gmail.com, ip: 209.85.208.42, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-55c1ac8d2f2so1504272a12.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jan 2024 05:59:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705931961; x=1706536761; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1705931966; x=1706536766; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3HlAeRAPp3I4urAm+keorks1nYc9ZvWV4HesjIU5poc=;
-        b=NUUHrx9hquYXB3XKoiw2ceFttIe5/0FDMHPTqjwvgAUxV3X26Uifqzt7lIDF7ZCUxc
-         WxQmiKPsYTFzDQXUXAQRkQmOCVBKIIOjdHWxBoNGGD9LCLVlr4CgKYeH82m9OFJjUojE
-         QeQZ3MvBuQ0VPvha5rL2nif5oP32w+GyAhTcZdtuOP8eHCEsBAFSMeUeG6MCVQi5lQME
-         Z0bEN6dwRHRil3ypn1m6LMv6IpBLZ0HzLHrJD/w1kPuJ60GD6eiahxPwyzoXeqEpKI2Z
-         kuJuD1Yx0x1QP4Mijuk8s2hZbjD8+oHjPSJ1kQsxAdiibOQlp5ulNQVO8ZZIRdjDwSzR
-         Zbqw==
+        bh=JwRA+OhhW5FIBT2i7TxbtL1+itpsmXTPUTEbpdriySI=;
+        b=PzfdAxe9i1n3MI0KaeaMJU3UP6Vy0A3PMVOcGHZaH0tJdG87H4j3VIYQxwbbMDOhIw
+         Mt5wHDU8pWlA7tGjZuUXWw1ojbqe1ta1Rkqh0WNWF3rzN4LTDNDnufVJtpdcjR0cIu8V
+         VWdRi7sPD/aWf+lggUJThkUM9QAtb8fInEfsUNl1hlFZagiK8RNFFkChtJ7029ian1hX
+         /9IPgFDf5kEw97PKfMgFjDgU323glAnYJIoZBEHT1uxPFAg3OCOImfwJ57YDr3VV32mV
+         Dk7CeM30rbtVPyyg3WYACLmB6rS/0RvLKW4NVH0wEVYu14pQcJZen98vZpxaNt/L/6Vo
+         uHTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705931961; x=1706536761;
+        d=1e100.net; s=20230601; t=1705931966; x=1706536766;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=3HlAeRAPp3I4urAm+keorks1nYc9ZvWV4HesjIU5poc=;
-        b=Qb6GXatypPcJ9jhCoG6HePlbDBJFZOuamWN7V32pNPYTZ5G1qwcIX7wUTR65SeRzQO
-         NsLWlTHkE4OcMG/by36T0nkr0DlqY9e2qe/F3iPPVQ2q16VCaOZ7CJFKAUYTJYnkEkf1
-         DCnsjhJX7YcOU/9q3yRJ2cpt24Rm1Axb/Z/u5siDRLZz/Vbo4TdFCCH0xDqwcZiYET6b
-         DiFFxwIiE7gFA2UTvsms/DOvjhRrc7LpSONR0z23GWkAtW1rKVMjfPvRU6tuZzoO/0yz
-         GI2RnsUMxpJ/5Vx6RhNom+tyOa1xDtyhlTenP1CcLxlCnmo+HqGkMlMWiAmmabz6rNDp
-         zgIQ==
-X-Gm-Message-State: AOJu0YyKqvV8fwkpNnjhPmh3X9BYA/5n8H5ZU/RAu2zwd+vEUi6Oe2Zu
-	8Iou1Z3HVwM/buudFAlaWf3AbV06z0HS0YKttlcylloRYGB7ofTSPmT2xZc7
-X-Google-Smtp-Source: AGHT+IHOcwMAFiZiGTs6J9JWrZlihXoXOCqc3nrWsbvNOhJGysArflgE8Z6b+/rlNyGKGBgB+I92Gw==
-X-Received: by 2002:a17:906:3283:b0:a2f:1546:aadc with SMTP id 3-20020a170906328300b00a2f1546aadcmr4884694ejw.20.1705931961382;
-        Mon, 22 Jan 2024 05:59:21 -0800 (PST)
+        bh=JwRA+OhhW5FIBT2i7TxbtL1+itpsmXTPUTEbpdriySI=;
+        b=gAV7Z3yuzx6pqjBTcutESu5JtHZOJ1S7AZcS4umhLsxXjLegmlqOUIs2d3Ajr51NeL
+         oZ4blHJ2axlgdZHA2F1Ng6XQ3AYUHbh74Cj+NJgLwtmRefuNogRDdcU8dZXLe9L44roH
+         EOe4TrlkhJRMbjRbPce4kyiZlJkXT4+D7IBfvAXT5RjQgH/99EwvfBWHp49DAFpTmxkN
+         0UZy/u794UBILb7cEnAMMhhPxYdWUI7cWUCK/AMJg8sFmVBfJWFb8acK8KcwfqBRDrFO
+         Q53QjvBGQWCu7Ds3qaNwLLZzZbM1jMuOALevoMKN4JcTAoAdjWXUJV5MnhbfB+uoQHoK
+         dp3Q==
+X-Gm-Message-State: AOJu0YzCEBVTXud0236VDx9Lhp38MNwbupOtA/VVluCkRgBm5hGJVGOC
+	zysgycNKAliCCqUAkGNSl7qJpssOR+AQXJ5UVHt6nd3bQsS2aSs1/kIsJ2jp
+X-Google-Smtp-Source: AGHT+IECfutax2e6Z2DtpE8LuiGD8kFB8Sa801+9i6I12xXJkKfRbgqnIhfG/o1/qxlRlsdy8Kly4Q==
+X-Received: by 2002:a17:906:493:b0:a2f:de3b:1307 with SMTP id f19-20020a170906049300b00a2fde3b1307mr1862689eja.135.1705931965877;
+        Mon, 22 Jan 2024 05:59:25 -0800 (PST)
 Received: from wsadrian16.fritz.box ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id vw15-20020a170907a70f00b00a2d0595cd0dsm11568513ejc.86.2024.01.22.05.59.20
+        by smtp.gmail.com with ESMTPSA id vw15-20020a170907a70f00b00a2d0595cd0dsm11568513ejc.86.2024.01.22.05.59.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jan 2024 05:59:21 -0800 (PST)
+        Mon, 22 Jan 2024 05:59:24 -0800 (PST)
 From: Adrian Freihofer <adrian.freihofer@gmail.com>
 X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v10 1/9] cmake.bbclass: use --install
-Date: Mon, 22 Jan 2024 14:58:19 +0100
-Message-ID: <20240122135901.171596-2-adrian.freihofer@siemens.com>
+Subject: [PATCH v10 6/9] devtool: refactor deploy to use exec_fakeroot_no_d
+Date: Mon, 22 Jan 2024 14:58:24 +0100
+Message-ID: <20240122135901.171596-7-adrian.freihofer@siemens.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240122135901.171596-1-adrian.freihofer@siemens.com>
 References: <20240122135901.171596-1-adrian.freihofer@siemens.com>
@@ -62,59 +62,63 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 22 Jan 2024 13:59:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194150
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194155
 
-Since version 3.15 CMake provides a command-line signature to install an
-already-generated project binary tree. This may be used after building a
-project to run installation without using the generated build system or
-the native build tool.
-
-This is a small improvement, for regular bitbake calls. CMake does not
-check the dependencies again which is expected to be faster.
-
-The main motivation for this change is using CMake from an SDK context.
-With this change it is possible to initiate the compile step from an
-IDE and later on initiating the install step via bitbake which runs the
-install step on pseudo.
-
-This is also what the meson.bbclass already does with the --no-rebuild
-option.
+This is a step towards a deploy function which can be called without
+passing the d variable.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/classes-recipe/cmake.bbclass | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+ scripts/lib/devtool/deploy.py | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes-recipe/cmake.bbclass b/meta/classes-recipe/cmake.bbclass
-index 1e353f660f7..3d3781ef333 100644
---- a/meta/classes-recipe/cmake.bbclass
-+++ b/meta/classes-recipe/cmake.bbclass
-@@ -224,12 +224,24 @@ cmake_runcmake_build() {
- 	eval ${DESTDIR:+DESTDIR=${DESTDIR} }${CMAKE_VERBOSE} cmake --build '${B}' "$@" -- ${EXTRA_OECMAKE_BUILD}
- }
+diff --git a/scripts/lib/devtool/deploy.py b/scripts/lib/devtool/deploy.py
+index eadf6e15214..b71d55e2312 100644
+--- a/scripts/lib/devtool/deploy.py
++++ b/scripts/lib/devtool/deploy.py
+@@ -16,7 +16,7 @@ import bb.utils
+ import argparse_oe
+ import oe.types
  
-+# Install an already-generated project binary tree. Not checking the compile
-+# dependencies again is particularly important for SDK use cases.
-+cmake_runcmake_install() {
-+	bbnote ${DESTDIR:+DESTDIR=${DESTDIR} }${CMAKE_VERBOSE} cmake --install '${B}'
-+	eval ${DESTDIR:+DESTDIR=${DESTDIR} }${CMAKE_VERBOSE} cmake --install '${B}'
-+}
+-from devtool import exec_fakeroot, setup_tinfoil, check_workspace_recipe, DevtoolError
++from devtool import exec_fakeroot_no_d, setup_tinfoil, check_workspace_recipe, DevtoolError
+ 
+ logger = logging.getLogger('devtool')
+ 
+@@ -160,19 +160,22 @@ def deploy(args, config, basepath, workspace):
+         except Exception as e:
+             raise DevtoolError('Exception parsing recipe %s: %s' %
+                             (args.recipename, e))
 +
- cmake_do_compile()  {
- 	cmake_runcmake_build --target ${OECMAKE_TARGET_COMPILE}
- }
+         recipe_outdir = rd.getVar('D')
+         if not os.path.exists(recipe_outdir) or not os.listdir(recipe_outdir):
+             raise DevtoolError('No files to deploy - have you built the %s '
+                             'recipe? If so, the install step has not installed '
+                             'any files.' % args.recipename)
  
- cmake_do_install() {
--	DESTDIR='${D}' cmake_runcmake_build --target ${OECMAKE_TARGET_INSTALL}
-+	if [ "${OECMAKE_TARGET_INSTALL}" = "install" ]; then
-+		DESTDIR='${D}' cmake_runcmake_install
-+	else
-+		# Legacy path which supports also custom install targets
-+		DESTDIR='${D}' cmake_runcmake_build --target ${OECMAKE_TARGET_INSTALL}
-+	fi
- }
++        fakerootcmd = rd.getVar('FAKEROOTCMD')
++        fakerootenv = rd.getVar('FAKEROOTENV')
+         if args.strip and not args.dry_run:
+             # Fakeroot copy to new destination
+             srcdir = recipe_outdir
+             recipe_outdir = os.path.join(rd.getVar('WORKDIR'), 'devtool-deploy-target-stripped')
+             if os.path.isdir(recipe_outdir):
+-                exec_fakeroot(rd, "rm -rf %s" % recipe_outdir, shell=True)
+-            exec_fakeroot(rd, "cp -af %s %s" % (os.path.join(srcdir, '.'), recipe_outdir), shell=True)
++                exec_fakeroot_no_d(fakerootcmd, fakerootenv, "rm -rf %s" % recipe_outdir, shell=True)
++            exec_fakeroot_no_d(fakerootcmd, fakerootenv, "cp -af %s %s" % (os.path.join(srcdir, '.'), recipe_outdir), shell=True)
+             os.environ['PATH'] = ':'.join([os.environ['PATH'], rd.getVar('PATH') or ''])
+             oe.package.strip_execs(args.recipename, recipe_outdir, rd.getVar('STRIP'), rd.getVar('libdir'),
+                         rd.getVar('base_libdir'), oe.utils.get_bb_number_threads(rd), rd)
+@@ -251,7 +254,7 @@ def deploy(args, config, basepath, workspace):
+             shutil.rmtree(tmpdir)
  
- EXPORT_FUNCTIONS do_configure do_compile do_install do_generate_toolchain_file
+         # Now run the script
+-        ret = exec_fakeroot(rd, 'tar cf - . | %s  %s %s %s \'sh %s %s %s %s\'' % (ssh_sshexec, ssh_port, extraoptions, args.target, tmpscript, args.recipename, destdir, tmpfilelist), cwd=recipe_outdir, shell=True)
++        ret = exec_fakeroot_no_d(fakerootcmd, fakerootenv, 'tar cf - . | %s  %s %s %s \'sh %s %s %s %s\'' % (ssh_sshexec, ssh_port, extraoptions, args.target, tmpscript, args.recipename, destdir, tmpfilelist), cwd=recipe_outdir, shell=True)
+         if ret != 0:
+             raise DevtoolError('Deploy failed - rerun with -s to get a complete '
+                             'error message')
 -- 
 2.43.0
 
