@@ -2,8 +2,8 @@ Return-Path: <Yash.Shinde@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6E69C4725D
-	for <webhook@archiver.kernel.org>; Mon, 22 Jan 2024 10:59:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 104F6C4725D
+	for <webhook@archiver.kernel.org>; Mon, 22 Jan 2024 11:01:50 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
  by mx.groups.io with SMTP id smtpd.web10.70938.1705921152607260233
  for <openembedded-core@lists.openembedded.org>;
@@ -53,13 +53,10 @@ Received: from SJ1PR11MB6129.namprd11.prod.outlook.com
  ([fe80::e90b:e018:1b70:f107]) by SJ1PR11MB6129.namprd11.prod.outlook.com
  ([fe80::e90b:e018:1b70:f107%4]) with mapi id 15.20.7202.033; Mon, 22 Jan 2024
  10:59:08 +0000
-Content-Type: multipart/alternative;
- boundary="------------npYP9COCTmES5xz0NerbZiyC"
 Message-ID: <53d0b908-39af-4eb4-bbeb-2e3511c5d48c@windriver.com>
-Date: Mon, 22 Jan 2024 16:29:07 +0530
+Date: Mon, 22 Jan 2024 03:01:42 -0800
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2 5/5] rust: Enable rust oe-selftest.
-Content-Language: en-US
 To: Randy MacLeod <randy.macleod@windriver.com>,
         openembedded-core@lists.openembedded.org,
         Richard Purdie <richard.purdie@linuxfoundation.org>
@@ -68,7 +65,7 @@ Cc: Umesh.Kallapa@windriver.com, Naveen.Gowda@windriver.com,
 References: <20240119150907.3840110-1-Yash.Shinde@windriver.com>
  <20240119150907.3840110-5-Yash.Shinde@windriver.com>
  <e06788dd-2104-40fc-923c-11c4bfbbac0d@windriver.com>
-From: Yash Shinde <Yash.Shinde@windriver.com>
+From: "Shinde, Yash" <Yash.Shinde@windriver.com>
 In-Reply-To: <e06788dd-2104-40fc-923c-11c4bfbbac0d@windriver.com>
 X-ClientProxiedBy: BYAPR05CA0063.namprd05.prod.outlook.com
  (2603:10b6:a03:74::40) To SJ1PR11MB6129.namprd11.prod.outlook.com
@@ -144,349 +141,789 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogs
  priorityscore=1501 clxscore=1015 phishscore=0 mlxscore=0 bulkscore=0
  suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2311290000 definitions=main-2401220078
+X-Old-Date: Mon, 22 Jan 2024 16:29:07 +0530
+Content-Type: multipart/alternative;
+ boundary="------------npYP9COCTmES5xz0NerbZiyC"
+Content-Language: en-US
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Jan 2024 10:59:19 -0000
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Jan 2024 11:01:50 -0000
 X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194142
+Message-ID: <20240122110142.QiwrXVlKkQMxQ8oj3smzgvSVby-JJZMBtkh9ERn3jeI@z>
 
 --------------npYP9COCTmES5xz0NerbZiyC
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 40MAf65Q024345
 
-
 On 20-01-2024 22:31, Randy MacLeod wrote:
-> I like that you have broken the original patch down into 5 patches=20
-> that are easier to
+
+>=20
+> I like that you have broken the original patch down into 5 patches that
+> are easier to
 > understand.
->
+>=20
 > On 2024-01-19 10:09 a.m., Yash.Shinde@windriver.com wrote:
->> From: Yash Shinde<Yash.Shinde@windriver.com>
->>
+>=20
+>> From: Yash Shinde <Yash.Shinde@windriver.com> ( Yash.Shinde@windriver.co=
+m )
+>>=20
+>>=20
 >> Tests which are failing from below modules are added to exclude list
->> 	tests/run-make
+>>=20
+>> tests/run-make
 >> 	tests/rustdoc
 >> 	tests/mir-opt
 >> 	tests/ui-fulldeps
->>
->> * Redundent test cases whose parent dir is also present in  exclud lis=
-t are removed.
->>
+>>=20
+>> *
+>> Redundent test cases whose parent dir is also present in  exclud list ar=
+e
+>> removed.
+>>=20
 >> * Newly addded tests are sorted and updated.
->>
->> * Overall exclude tests count in exclude list is now reduced to 114.
+>>=20
+>> * Overall exclude
+>> tests count in exclude list is now reduced to 114.
+>=20
 > We need to resolve the mips32 problems that Richard pointed out.
->
+>=20
+>=20
 > Should we skip all the rust tests for mips32?
->
+>=20
+>=20
+
 In previous oe-selftest implementation, we skipped rust tests for mips32.
 I think we should continue with it as rust tests are unstable with mips32.
 
->
-> Please submit a v3 with the mips fix/avoidance and split this exclude=20
-> list commit down into 3 steps:
->
-> =C2=A01. Sort the existing list of tests
-> =C2=A02. Remove the test cases whose parent dir is also present in the=20
-> exclude list
->
-> =C2=A03. Add the new tests that are to be excluded.
->
-> This may seem really pedantic but otherwise the changes are really=20
-> hard to review.
->
-> The way I think about this is that someone looking at the commit log=20
-> might be interested
-> in exactly which tests are in being added to the exclude list so that=20
+>=20
+>=20
+>=20
+>=20
+>=20
+> Please submit a v3 with the mips fix/avoidance and split this exclude lis=
+t
+> commit down into 3 steps:
+>=20
+> 1. Sort the existing list of tests
+> 2. Remove the test cases whose parent dir is also present in the exclude
+> list
+>=20
+> 3. Add the new tests that are to be excluded.
+>=20
+>=20
+>=20
+> This may seem really pedantic but otherwise the changes are really hard t=
+o
+> review.
+>=20
+>=20
+>=20
+> The way I think about this is that someone looking at the commit log migh=
+t
+> be interested
+> in exactly which tests are in being added to the exclude list so that
 > should be clear from 3.
 > 1. won't really be of interest so most people will skip over that
 > 2. also won't be of interest to most people
-> but you need 1 and 2 to make 3 be apparent to people who want that=20
-> info quickly.
->
+> but you need 1 and 2 to make 3 be apparent to people who want that info
+> quickly.
+>=20
+>=20
+
 For 1 the existing list of tests are already sorted.
 I will send a v3 with separate commits for:
 
 1. newly added test cases
-2. removing test cases whose parent dir is also present in the exclude=20
-list 3. sorting the overall final list Regards, Yash
+2. removing test cases whose parent dir is also present in the exclude list
+3. sorting the overall final list
 
+Regards,
+Yash
+
+>=20
+>=20
+>=20
 > Thanks,
->
+>=20
+>=20
+>=20
 > ../Randy
->
+>=20
+>=20
 >> * The testing is done on arm32, arm64, mips64, x86 and  x86_64 targets.
->>
->> Signed-off-by: Yash Shinde<Yash.Shinde@windriver.com>
+>>=20
+>> Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com> (
+>> Yash.Shinde@windriver.com )
 >> ---
->>   meta/lib/oeqa/selftest/cases/rust.py       | 165 +++++--------------=
---
->>   meta/recipes-devtools/rust/rust-source.inc |   4 +
->>   2 files changed, 43 insertions(+), 126 deletions(-)
->>
->> diff --git a/meta/lib/oeqa/selftest/cases/rust.py b/meta/lib/oeqa/self=
-test/cases/rust.py
+>>  meta/lib/oeqa/selftest/cases/rust.py    =20
+>> | 165 +++++----------------
+>>  meta/recipes-devtools/rust/rust-source.inc |=20
+>> 4 +
+>>  2 files changed, 43 insertions(+), 126 deletions(-)
+>>=20
+>> diff --git
+>> a/meta/lib/oeqa/selftest/cases/rust.py
+>> b/meta/lib/oeqa/selftest/cases/rust.py
 >> index 6dbc517006..7d0efb1b01 100644
 >> --- a/meta/lib/oeqa/selftest/cases/rust.py
->> +++ b/meta/lib/oeqa/selftest/cases/rust.py
->> @@ -40,7 +40,7 @@ def parse_results(filename):
->>   class RustSelfTestSystemEmulated(OESelftestTestCase, OEPTestResultTe=
-stCase):
->>       def test_rust(self, *args, **kwargs):
->>           # Disable Rust Oe-selftest
+>> +++
+>> b/meta/lib/oeqa/selftest/cases/rust.py
+>> @@ -40,7 +40,7 @@ def
+>> parse_results(filename):
+>>  class
+>> RustSelfTestSystemEmulated(OESelftestTestCase, OEPTestResultTestCase):
+>>   =20
+>> def test_rust(self, *args, **kwargs):
+>>          # Disable Rust Oe-selftest
 >> -        self.skipTest("The Rust Oe-selftest is disabled.")
->> +        #self.skipTest("The Rust Oe-selftest is disabled.")
->>  =20
->>           # build remote-test-server before image build
->>           recipe =3D "rust" @@ -73,156 +73,90 @@ class=20
->> RustSelfTestSystemEmulated(OESelftestTestCase,=20
->> OEPTestResultTestCase): 'src/librustdoc', 'src/rustdoc-json-types',=20
->> 'src/tools/compiletest/src/common.rs', + 'src/tools/jsondoclint',=20
->> 'src/tools/lint-docs', + 'src/tools/replace-version-placeholder',=20
->> 'src/tools/rust-analyzer', 'src/tools/rustdoc-themes',=20
->> 'src/tools/tidy', 'tests/assembly/asm/aarch64-outline-atomics.rs', +=20
->> 'tests/codegen/abi-efiapi.rs', + 'tests/codegen/abi-efiapi.rs',=20
->> 'tests/codegen/abi-main-signature-32bit-c-int.rs',=20
->> 'tests/codegen/abi-repr-ext.rs', + 'tests/codegen/abi-sysv64.rs',=20
->> 'tests/codegen/abi-x86-interrupt.rs', +=20
->> 'tests/codegen/align-byval.rs', + 'tests/codegen/align-fn.rs', +=20
->> 'tests/codegen/asm-powerpc-clobbers.rs', +=20
->> 'tests/codegen/async-fn-debug-awaitee-field.rs', +=20
->> 'tests/codegen/binary-search-index-no-bound-check.rs',=20
->> 'tests/codegen/branch-protection.rs', +=20
->> 'tests/codegen/call-metadata.rs', 'tests/codegen/catch-unwind.rs',=20
->> 'tests/codegen/cf-protection.rs', + 'tests/codegen/debug-column.rs',=20
->> + 'tests/codegen/debug-limited.rs', +=20
->> 'tests/codegen/debuginfo-generic-closure-env-names.rs', +=20
->> 'tests/codegen/drop.rs', +=20
->> 'tests/codegen/dst-vtable-align-nonzero.rs', +=20
->> 'tests/codegen/enable-lto-unit-splitting.rs',=20
->> 'tests/codegen/enum-bounds-check-derived-idx.rs', +=20
->> 'tests/codegen/enum/enum-u128.rs', +=20
->> 'tests/codegen/fn-impl-trait-self.rs',=20
->> 'tests/codegen/force-unwind-tables.rs', +=20
->> 'tests/codegen/inherit_overflow.rs', +=20
->> 'tests/codegen/inherit_overflow.rs', +=20
->> 'tests/codegen/inline-function-args-debug-info.rs',=20
->> 'tests/codegen/intrinsic-no-unnamed-attr.rs', +=20
->> 'tests/codegen/intrinsics/mask.rs', +=20
->> 'tests/codegen/intrinsics/transmute-niched.rs',=20
->> 'tests/codegen/issues/issue-103840.rs',=20
->> 'tests/codegen/issues/issue-47278.rs', +=20
->> 'tests/codegen/issues/issue-73258.rs',=20
->> 'tests/codegen/issues/issue-73827-bounds-check-index-in-subexpr.rs',=20
->> + 'tests/codegen/issues/issue-75546.rs', +=20
->> 'tests/codegen/issues/issue-77812.rs', +=20
->> 'tests/codegen/issues/issue-98156-const-arg-temp-lifetime.rs',=20
->> 'tests/codegen/lifetime_start_end.rs', +=20
->> 'tests/codegen/llvm-ident.rs',=20
->> 'tests/codegen/local-generics-in-exe-internalized.rs', +=20
->> 'tests/codegen/mainsubprogram.rs',=20
->> 'tests/codegen/match-unoptimized.rs', +=20
->> 'tests/codegen/move-operands.rs',=20
->> 'tests/codegen/noalias-rwlockreadguard.rs',=20
->> 'tests/codegen/non-terminate/nonempty-infinite-loop.rs',=20
->> 'tests/codegen/noreturn-uninhabited.rs',=20
->> 'tests/codegen/repr-transparent-aggregates-3.rs', +=20
->> 'tests/codegen/repr/transparent-mips64.rs',=20
->> 'tests/codegen/sse42-implies-crc32.rs',=20
->> 'tests/codegen/thread-local.rs', 'tests/codegen/uninit-consts.rs', +=20
->> 'tests/mir-opt/', 'tests/pretty/raw-str-nonexpr.rs',=20
->> 'tests/run-make', - 'tests/run-make/cdylib-fewer-symbols/foo.rs', -=20
->> 'tests/run-make/doctests-keep-binaries/t.rs', -=20
->> 'tests/run-make-fulldeps', - 'tests/run-make/issue-22131/foo.rs', -=20
->> 'tests/run-make/issue-36710/Makefile', -=20
->> 'tests/run-make/issue-47551', - 'tests/run-make/pgo-branch-weights',=20
->> - 'tests/run-make/pgo-gen', - 'tests/run-make/pgo-gen-lto', -=20
->> 'tests/run-make/pgo-indirect-call-promotion', -=20
->> 'tests/run-make/pgo-use', -=20
->> 'tests/run-make/pointer-auth-link-with-c/Makefile', -=20
->> 'tests/run-make/profile', - 'tests/run-make/static-pie', -=20
->> 'tests/run-make/sysroot-crates-are-unstable', -=20
->> 'tests/run-make/target-specs', 'tests/rustdoc', -=20
->> 'tests/rustdoc/async-move-doctest.rs', -=20
->> 'tests/rustdoc/async-trait.rs', - 'tests/rustdoc/auto-traits.rs', -=20
->> 'tests/rustdoc/check-source-code-urls-to-def.rs', -=20
->> 'tests/rustdoc/comment-in-doctest.rs', -=20
->> 'tests/rustdoc/const-generics/const-generics-docs.rs', -=20
->> 'tests/rustdoc/cross-crate-hidden-assoc-trait-items.rs', -=20
->> 'tests/rustdoc/cross-crate-hidden-impl-parameter.rs', -=20
->> 'tests/rustdoc/cross-crate-links.rs', -=20
->> 'tests/rustdoc/cross-crate-primitive-doc.rs', -=20
->> 'tests/rustdoc/doctest-manual-crate-name.rs', -=20
->> 'tests/rustdoc/edition-doctest.rs', -=20
->> 'tests/rustdoc/edition-flag.rs', -=20
->> 'tests/rustdoc/elided-lifetime.rs', -=20
->> 'tests/rustdoc/external-macro-src.rs', -=20
->> 'tests/rustdoc/extern-html-root-url.rs', -=20
->> 'tests/rustdoc/extern-impl-trait.rs', -=20
->> 'tests/rustdoc/hide-unstable-trait.rs', -=20
->> 'tests/rustdoc/inline_cross/add-docs.rs', -=20
->> 'tests/rustdoc/inline_cross/default-trait-method.rs', -=20
->> 'tests/rustdoc/inline_cross/dyn_trait.rs', -=20
->> 'tests/rustdoc/inline_cross/impl_trait.rs', -=20
->> 'tests/rustdoc/inline_cross/issue-24183.rs', -=20
->> 'tests/rustdoc/inline_cross/macros.rs', -=20
->> 'tests/rustdoc/inline_cross/trait-vis.rs', -=20
->> 'tests/rustdoc/inline_cross/use_crate.rs', -=20
->> 'tests/rustdoc/intra-doc-crate/self.rs', -=20
->> 'tests/rustdoc/intra-doc/cross-crate/additional_doc.rs', -=20
->> 'tests/rustdoc/intra-doc/cross-crate/basic.rs', -=20
->> 'tests/rustdoc/intra-doc/cross-crate/crate.rs', -=20
->> 'tests/rustdoc/intra-doc/cross-crate/hidden.rs', -=20
->> 'tests/rustdoc/intra-doc/cross-crate/macro.rs', -=20
->> 'tests/rustdoc/intra-doc/cross-crate/module.rs', -=20
->> 'tests/rustdoc/intra-doc/cross-crate/submodule-inner.rs', -=20
->> 'tests/rustdoc/intra-doc/cross-crate/submodule-outer.rs', -=20
->> 'tests/rustdoc/intra-doc/cross-crate/traits.rs', -=20
->> 'tests/rustdoc/intra-doc/extern-builtin-type-impl.rs', -=20
->> 'tests/rustdoc/intra-doc/extern-crate-only-used-in-link.rs', -=20
->> 'tests/rustdoc/intra-doc/extern-crate.rs', -=20
->> 'tests/rustdoc/intra-doc/extern-inherent-impl.rs', -=20
->> 'tests/rustdoc/intra-doc/extern-reference-link.rs', -=20
->> 'tests/rustdoc/intra-doc/issue-103463.rs', -=20
->> 'tests/rustdoc/intra-doc/issue-104145.rs', -=20
->> 'tests/rustdoc/intra-doc/issue-66159.rs', -=20
->> 'tests/rustdoc/intra-doc/pub-use.rs', -=20
->> 'tests/rustdoc/intra-doc/reexport-additional-docs.rs', -=20
->> 'tests/rustdoc/issue-18199.rs', - 'tests/rustdoc/issue-23106.rs', -=20
->> 'tests/rustdoc/issue-23744.rs', - 'tests/rustdoc/issue-25944.rs', -=20
->> 'tests/rustdoc/issue-30252.rs', - 'tests/rustdoc/issue-38129.rs', -=20
->> 'tests/rustdoc/issue-40936.rs', - 'tests/rustdoc/issue-43153.rs', -=20
->> 'tests/rustdoc/issue-46727.rs', - 'tests/rustdoc/issue-48377.rs', -=20
->> 'tests/rustdoc/issue-48414.rs', - 'tests/rustdoc/issue-53689.rs', -=20
->> 'tests/rustdoc/issue-54478-demo-allocator.rs', -=20
->> 'tests/rustdoc/issue-57180.rs', - 'tests/rustdoc/issue-61592.rs', -=20
->> 'tests/rustdoc/issue-73061-cross-crate-opaque-assoc-type.rs', -=20
->> 'tests/rustdoc/issue-75588.rs', - 'tests/rustdoc/issue-85454.rs', -=20
->> 'tests/rustdoc/issue-86620.rs', - 'tests/rustdoc-json',=20
->> 'tests/rustdoc-js-std', - 'tests/rustdoc/macro_pub_in_module.rs', -=20
->> 'tests/rustdoc/masked.rs', - 'tests/rustdoc/normalize-assoc-item.rs',=20
->> - 'tests/rustdoc/no-stack-overflow-25295.rs', -=20
->> 'tests/rustdoc/primitive-reexport.rs', -=20
->> 'tests/rustdoc/process-termination.rs', -=20
->> 'tests/rustdoc/pub-extern-crate.rs', -=20
->> 'tests/rustdoc/pub-use-extern-macros.rs', -=20
->> 'tests/rustdoc/reexport-check.rs', -=20
->> 'tests/rustdoc/reexport-dep-foreign-fn.rs', -=20
->> 'tests/rustdoc/reexport-doc.rs', - 'tests/rustdoc/reexports-priv.rs',=20
->> - 'tests/rustdoc/reexports.rs', -=20
->> 'tests/rustdoc/rustc,-incoherent-impls.rs', -=20
->> 'tests/rustdoc/test_option_check/bar.rs', -=20
->> 'tests/rustdoc/test_option_check/test.rs', -=20
->> 'tests/rustdoc/trait-alias-mention.rs', -=20
->> 'tests/rustdoc/trait-visibility.rs', + 'tests/rustdoc-json',=20
->> 'tests/rustdoc-ui/cfg-test.rs', 'tests/rustdoc-ui/check-cfg-test.rs',=20
->> 'tests/rustdoc-ui/display-output.rs',=20
->> 'tests/rustdoc-ui/doc-comment-multi-line-attr.rs',=20
->> 'tests/rustdoc-ui/doc-comment-multi-line-cfg-attr.rs',=20
->> 'tests/rustdoc-ui/doc-test-doctest-feature.rs', +=20
->> 'tests/rustdoc-ui/doc-test-rustdoc-feature.rs',=20
->> 'tests/rustdoc-ui/doctest-multiline-crate-attribute.rs',=20
->> 'tests/rustdoc-ui/doctest-output.rs', -=20
->> 'tests/rustdoc-ui/doc-test-rustdoc-feature.rs',=20
->> 'tests/rustdoc-ui/failed-doctest-compile-fail.rs',=20
->> 'tests/rustdoc-ui/issue-80992.rs', 'tests/rustdoc-ui/issue-91134.rs',=20
->> + 'tests/rustdoc-ui/no-run-flag.rs',=20
->> 'tests/rustdoc-ui/nocapture-fail.rs',=20
->> 'tests/rustdoc-ui/nocapture.rs', - 'tests/rustdoc-ui/no-run-flag.rs',=20
->> 'tests/rustdoc-ui/run-directory.rs',=20
->> 'tests/rustdoc-ui/test-no_std.rs', 'tests/rustdoc-ui/test-type.rs', -=20
->> 'tests/rustdoc/unit-return.rs', + 'tests/ui-fulldeps/',=20
->> 'tests/ui/abi/stack-probes-lto.rs', 'tests/ui/abi/stack-probes.rs',=20
->> 'tests/ui/array-slice-vec/subslice-patterns-const-eval-match.rs', @@=20
->> -233,31 +167,10 @@ class=20
->> RustSelfTestSystemEmulated(OESelftestTestCase,=20
->> OEPTestResultTestCase):=20
->> 'tests/ui/debuginfo/debuginfo-emit-llvm-ir-and-split-debuginfo.rs',=20
->> 'tests/ui/drop/dynamic-drop.rs', 'tests/ui/empty_global_asm.rs', -=20
->> 'tests/ui-fulldeps/deriving-encodable-decodable-box.rs', -=20
->> 'tests/ui-fulldeps/deriving-encodable-decodable-cell-refcell.rs', -=20
->> 'tests/ui-fulldeps/deriving-global.rs', -=20
->> 'tests/ui-fulldeps/deriving-hygiene.rs', -=20
->> 'tests/ui-fulldeps/dropck_tarena_sound_drop.rs', -=20
->> 'tests/ui-fulldeps/empty-struct-braces-derive.rs', -=20
->> 'tests/ui-fulldeps/internal-lints/bad_opt_access.rs', -=20
->> 'tests/ui-fulldeps/internal-lints/bad_opt_access.stderr', -=20
->> 'tests/ui-fulldeps/internal-lints/default_hash_types.rs', -=20
->> 'tests/ui-fulldeps/internal-lints/diagnostics.rs', -=20
->> 'tests/ui-fulldeps/internal-lints/lint_pass_impl_without_macro.rs', -=20
->> 'tests/ui-fulldeps/internal-lints/qualified_ty_ty_ctxt.rs', -=20
->> 'tests/ui-fulldeps/internal-lints/query_stability.rs', -=20
->> 'tests/ui-fulldeps/internal-lints/rustc_pass_by_value.rs', -=20
->> 'tests/ui-fulldeps/internal-lints/ty_tykind_usage.rs', -=20
->> 'tests/ui-fulldeps/issue-14021.rs', -=20
->> 'tests/ui-fulldeps/lint-group-denied-lint-allowed.rs', -=20
->> 'tests/ui-fulldeps/lint-group-forbid-always-trumps-cli.rs', -=20
->> 'tests/ui-fulldeps/lint-pass-macros.rs', -=20
->> 'tests/ui-fulldeps/regions-mock-tcx.rs', -=20
->> 'tests/ui-fulldeps/rustc_encodable_hygiene.rs', -=20
->> 'tests/ui-fulldeps/session-diagnostic/enforce_slug_naming.rs',=20
->> 'tests/ui/functions-closures/fn-help-with-err.rs',=20
->> 'tests/ui/linkage-attr/issue-10755.rs',=20
->> 'tests/ui/macros/restricted-shadowing-legacy.rs', +=20
->> 'tests/ui/numbers-arithmetic/u128.rs',=20
->> 'tests/ui/process/nofile-limit.rs',=20
->> 'tests/ui/process/process-panic-after-fork.rs',=20
->> 'tests/ui/process/process-sigpipe.rs', diff --git=20
->> a/meta/recipes-devtools/rust/rust-source.inc=20
->> b/meta/recipes-devtools/rust/rust-source.inc index=20
->> 83a0dbc15f..e02829e6b3 100644 ---=20
->> a/meta/recipes-devtools/rust/rust-source.inc +++=20
->> b/meta/recipes-devtools/rust/rust-source.inc @@ -10,6 +10,10 @@=20
->> SRC_URI +=3D "https://static.rust-lang.org/dist/rustc-${RUST_VERSION}-=
-src.tar.xz;n
->>               file://0004-musl-Define-O_LARGEFILE-for-riscv32.patch;pa=
-tchdir=3D${RUSTSRC} \
->>               file://0005-musl-Define-SOCK_SEQPACKET-in-common-place.p=
-atch;patchdir=3D${RUSTSRC} \
->>               file://0001-Revert-Map-source-absolute-paths-to-OUT_DIR-=
-as-relat.patch;patchdir=3D${RUSTSRC} \
->> +file://cargo-path.patch;patchdir=3D${RUSTSRC} \
->> +file://custom-target-cfg.patch;patchdir=3D${RUSTSRC} \
->> +file://rustc-bootstrap.patch;patchdir=3D${RUSTSRC} \
->> +file://target-build-value.patch;patchdir=3D${RUSTSRC} \
->>   "
->>   SRC_URI[rust.sha256sum] =3D "b98c09d968529212fb29eec7d6d3e9bdaa86981=
-0679b7fb86a1ca69469d75f5e"
->>  =20
->
->
+>> +      =20
+>> #self.skipTest("The Rust Oe-selftest is disabled.")
+>> =20
+>>          # build
+>> remote-test-server before image build
+>>          recipe =3D "rust "
+>> @@ -73,156 +73,90 @@ class
+>> RustSelfTestSystemEmulated(OESelftestTestCase, OEPTestResultTestCase):
+>>   =20
+>> 'src/librustdoc',
+>>                              'src/rustdoc-json-types',
+>> =20
+>> 'src/tools/compiletest/src/common.rs',
+>> +                          =20
+>> 'src/tools/jsondoclint',
+>>                            =20
+>> 'src/tools/lint-docs',
+>> +                          =20
+>> 'src/tools/replace-version-placeholder',
+>>                            =20
+>> 'src/tools/rust-analyzer',
+>>                            =20
+>> 'src/tools/rustdoc-themes',
+>>                              'src/tools/tidy',
+>> 'tests/assembly/asm/aarch64-outline-atomics.rs',
+>> +                       =20
+>> 'tests/codegen/abi-efiapi.rs',
+>> +                          =20
+>> 'tests/codegen/abi-efiapi.rs',
+>>                            =20
+>> 'tests/codegen/abi-main-signature-32bit-c-int.rs',
+>>                       =20
+>> 'tests/codegen/abi-repr-ext.rs',
+>> +                          =20
+>> 'tests/codegen/abi-sysv64.rs',
+>>                            =20
+>> 'tests/codegen/abi-x86-interrupt.rs',
+>> +                          =20
+>> 'tests/codegen/align-byval.rs',
+>> +                          =20
+>> 'tests/codegen/align-fn.rs',
+>> +                          =20
+>> 'tests/codegen/asm-powerpc-clobbers.rs',
+>> +                          =20
+>> 'tests/codegen/async-fn-debug-awaitee-field.rs',
+>> +                       =20
+>> 'tests/codegen/binary-search-index-no-bound-check.rs',
+>>                   =20
+>> 'tests/codegen/branch-protection.rs',
+>> +                          =20
+>> 'tests/codegen/call-metadata.rs',
+>>                            =20
+>> 'tests/codegen/catch-unwind.rs',
+>>                            =20
+>> 'tests/codegen/cf-protection.rs',
+>> +                          =20
+>> 'tests/codegen/debug-column.rs',
+>> +                          =20
+>> 'tests/codegen/debug-limited.rs',
+>> +                          =20
+>> 'tests/codegen/debuginfo-generic-closure-env-names.rs',
+>> +                =20
+>> 'tests/codegen/drop.rs',
+>> +                          =20
+>> 'tests/codegen/dst-vtable-align-nonzero.rs',
+>> +                          =20
+>> 'tests/codegen/enable-lto-unit-splitting.rs',
+>>                            =20
+>> 'tests/codegen/enum-bounds-check-derived-idx.rs',
+>> +                      =20
+>> 'tests/codegen/enum/enum-u128.rs',
+>> +                          =20
+>> 'tests/codegen/fn-impl-trait-self.rs',
+>>                            =20
+>> 'tests/codegen/force-unwind-tables.rs',
+>> +                          =20
+>> 'tests/codegen/inherit_overflow.rs',
+>> +                          =20
+>> 'tests/codegen/inherit_overflow.rs',
+>> +                          =20
+>> 'tests/codegen/inline-function-args-debug-info.rs',
+>>                      =20
+>> 'tests/codegen/intrinsic-no-unnamed-attr.rs',
+>> +                          =20
+>> 'tests/codegen/intrinsics/mask.rs',
+>> +                          =20
+>> 'tests/codegen/intrinsics/transmute-niched.rs',
+>>                          =20
+>> 'tests/codegen/issues/issue-103840.rs',
+>>                            =20
+>> 'tests/codegen/issues/issue-47278.rs',
+>> +                          =20
+>> 'tests/codegen/issues/issue-73258.rs',
+>>                            =20
+>> 'tests/codegen/issues/issue-73827-bounds-check-index-in-subexpr.rs',
+>> +   =20
+>> 'tests/codegen/issues/issue-75546.rs',
+>> +                          =20
+>> 'tests/codegen/issues/issue-77812.rs',
+>> +                          =20
+>> 'tests/codegen/issues/issue-98156-const-arg-temp-lifetime.rs',
+>>           =20
+>> 'tests/codegen/lifetime_start_end.rs',
+>> +                          =20
+>> 'tests/codegen/llvm-ident.rs',
+>>                            =20
+>> 'tests/codegen/local-generics-in-exe-internalized.rs',
+>> +                 =20
+>> 'tests/codegen/mainsubprogram.rs',
+>>                            =20
+>> 'tests/codegen/match-unoptimized.rs',
+>> +                          =20
+>> 'tests/codegen/move-operands.rs',
+>>                            =20
+>> 'tests/codegen/noalias-rwlockreadguard.rs',
+>>                            =20
+>> 'tests/codegen/non-terminate/nonempty-infinite-loop.rs',
+>>                 =20
+>> 'tests/codegen/noreturn-uninhabited.rs',
+>>                            =20
+>> 'tests/codegen/repr-transparent-aggregates-3.rs',
+>> +                      =20
+>> 'tests/codegen/repr/transparent-mips64.rs',
+>>                            =20
+>> 'tests/codegen/sse42-implies-crc32.rs',
+>>                            =20
+>> 'tests/codegen/thread-local.rs',
+>>                            =20
+>> 'tests/codegen/uninit-consts.rs',
+>> +                          =20
+>> 'tests/mir-opt/',
+>>                            =20
+>> 'tests/pretty/raw-str-nonexpr.rs',
+>>                            =20
+>> 'tests/run-make',
+>> -                          =20
+>> 'tests/run-make/cdylib-fewer-symbols/foo.rs',
+>> -                          =20
+>> 'tests/run-make/doctests-keep-binaries/t.rs',
+>> -                          =20
+>> 'tests/run-make-fulldeps',
+>> -                          =20
+>> 'tests/run-make/issue-22131/foo.rs',
+>> -                          =20
+>> 'tests/run-make/issue-36710/Makefile',
+>> -                          =20
+>> 'tests/run-make/issue-47551',
+>> -                          =20
+>> 'tests/run-make/pgo-branch-weights',
+>> -                          =20
+>> 'tests/run-make/pgo-gen',
+>> -                          =20
+>> 'tests/run-make/pgo-gen-lto',
+>> -                          =20
+>> 'tests/run-make/pgo-indirect-call-promotion',
+>> -                          =20
+>> 'tests/run-make/pgo-use',
+>> -                          =20
+>> 'tests/run-make/pointer-auth-link-with-c/Makefile',
+>> -                    =20
+>> 'tests/run-make/profile',
+>> -                          =20
+>> 'tests/run-make/static-pie',
+>> -                          =20
+>> 'tests/run-make/sysroot-crates-are-unstable',
+>> -                          =20
+>> 'tests/run-make/target-specs',
+>>                            =20
+>> 'tests/rustdoc',
+>> -                          =20
+>> 'tests/rustdoc/async-move-doctest.rs',
+>> -                          =20
+>> 'tests/rustdoc/async-trait.rs',
+>> -                          =20
+>> 'tests/rustdoc/auto-traits.rs',
+>> -                          =20
+>> 'tests/rustdoc/check-source-code-urls-to-def.rs',
+>> -                      =20
+>> 'tests/rustdoc/comment-in-doctest.rs',
+>> -                          =20
+>> 'tests/rustdoc/const-generics/const-generics-docs.rs',
+>> -                 =20
+>> 'tests/rustdoc/cross-crate-hidden-assoc-trait-items.rs',
+>> -               =20
+>> 'tests/rustdoc/cross-crate-hidden-impl-parameter.rs',
+>> -                  =20
+>> 'tests/rustdoc/cross-crate-links.rs',
+>> -                          =20
+>> 'tests/rustdoc/cross-crate-primitive-doc.rs',
+>> -                          =20
+>> 'tests/rustdoc/doctest-manual-crate-name.rs',
+>> -                          =20
+>> 'tests/rustdoc/edition-doctest.rs',
+>> -                          =20
+>> 'tests/rustdoc/edition-flag.rs',
+>> -                          =20
+>> 'tests/rustdoc/elided-lifetime.rs',
+>> -                          =20
+>> 'tests/rustdoc/external-macro-src.rs',
+>> -                          =20
+>> 'tests/rustdoc/extern-html-root-url.rs',
+>> -                          =20
+>> 'tests/rustdoc/extern-impl-trait.rs',
+>> -                          =20
+>> 'tests/rustdoc/hide-unstable-trait.rs',
+>> -                          =20
+>> 'tests/rustdoc/inline_cross/add-docs.rs',
+>> -                          =20
+>> 'tests/rustdoc/inline_cross/default-trait-method.rs',
+>> -                  =20
+>> 'tests/rustdoc/inline_cross/dyn_trait.rs',
+>> -                          =20
+>> 'tests/rustdoc/inline_cross/impl_trait.rs',
+>> -                          =20
+>> 'tests/rustdoc/inline_cross/issue-24183.rs',
+>> -                          =20
+>> 'tests/rustdoc/inline_cross/macros.rs',
+>> -                          =20
+>> 'tests/rustdoc/inline_cross/trait-vis.rs',
+>> -                          =20
+>> 'tests/rustdoc/inline_cross/use_crate.rs',
+>> -                          =20
+>> 'tests/rustdoc/intra-doc-crate/self.rs',
+>> -                          =20
+>> 'tests/rustdoc/intra-doc/cross-crate/additional_doc.rs',
+>> -               =20
+>> 'tests/rustdoc/intra-doc/cross-crate/basic.rs',
+>> -                        =20
+>> 'tests/rustdoc/intra-doc/cross-crate/crate.rs',
+>> -                        =20
+>> 'tests/rustdoc/intra-doc/cross-crate/hidden.rs',
+>> -                       =20
+>> 'tests/rustdoc/intra-doc/cross-crate/macro.rs',
+>> -                        =20
+>> 'tests/rustdoc/intra-doc/cross-crate/module.rs',
+>> -                       =20
+>> 'tests/rustdoc/intra-doc/cross-crate/submodule-inner.rs',
+>> -              =20
+>> 'tests/rustdoc/intra-doc/cross-crate/submodule-outer.rs',
+>> -              =20
+>> 'tests/rustdoc/intra-doc/cross-crate/traits.rs',
+>> -                       =20
+>> 'tests/rustdoc/intra-doc/extern-builtin-type-impl.rs',
+>> -                 =20
+>> 'tests/rustdoc/intra-doc/extern-crate-only-used-in-link.rs',
+>> -           =20
+>> 'tests/rustdoc/intra-doc/extern-crate.rs',
+>> -                          =20
+>> 'tests/rustdoc/intra-doc/extern-inherent-impl.rs',
+>> -                     =20
+>> 'tests/rustdoc/intra-doc/extern-reference-link.rs',
+>> -                    =20
+>> 'tests/rustdoc/intra-doc/issue-103463.rs',
+>> -                          =20
+>> 'tests/rustdoc/intra-doc/issue-104145.rs',
+>> -                          =20
+>> 'tests/rustdoc/intra-doc/issue-66159.rs',
+>> -                          =20
+>> 'tests/rustdoc/intra-doc/pub-use.rs',
+>> -                          =20
+>> 'tests/rustdoc/intra-doc/reexport-additional-docs.rs',
+>> -                 =20
+>> 'tests/rustdoc/issue-18199.rs',
+>> -                          =20
+>> 'tests/rustdoc/issue-23106.rs',
+>> -                          =20
+>> 'tests/rustdoc/issue-23744.rs',
+>> -                          =20
+>> 'tests/rustdoc/issue-25944.rs',
+>> -                          =20
+>> 'tests/rustdoc/issue-30252.rs',
+>> -                          =20
+>> 'tests/rustdoc/issue-38129.rs',
+>> -                          =20
+>> 'tests/rustdoc/issue-40936.rs',
+>> -                          =20
+>> 'tests/rustdoc/issue-43153.rs',
+>> -                          =20
+>> 'tests/rustdoc/issue-46727.rs',
+>> -                          =20
+>> 'tests/rustdoc/issue-48377.rs',
+>> -                          =20
+>> 'tests/rustdoc/issue-48414.rs',
+>> -                          =20
+>> 'tests/rustdoc/issue-53689.rs',
+>> -                          =20
+>> 'tests/rustdoc/issue-54478-demo-allocator.rs',
+>> -                         =20
+>> 'tests/rustdoc/issue-57180.rs',
+>> -                          =20
+>> 'tests/rustdoc/issue-61592.rs',
+>> -                          =20
+>> 'tests/rustdoc/issue-73061-cross-crate-opaque-assoc-type.rs',
+>> -          =20
+>> 'tests/rustdoc/issue-75588.rs',
+>> -                          =20
+>> 'tests/rustdoc/issue-85454.rs',
+>> -                          =20
+>> 'tests/rustdoc/issue-86620.rs',
+>> -                          =20
+>> 'tests/rustdoc-json',
+>>                              'tests/rustdoc-js-std',
+>> -                            'tests/rustdoc/macro_pub_in_module.rs',
+>> -   =20
+>> 'tests/rustdoc/masked.rs',
+>> -                          =20
+>> 'tests/rustdoc/normalize-assoc-item.rs',
+>> -                          =20
+>> 'tests/rustdoc/no-stack-overflow-25295.rs',
+>> -                          =20
+>> 'tests/rustdoc/primitive-reexport.rs',
+>> -                          =20
+>> 'tests/rustdoc/process-termination.rs',
+>> -                          =20
+>> 'tests/rustdoc/pub-extern-crate.rs',
+>> -                          =20
+>> 'tests/rustdoc/pub-use-extern-macros.rs',
+>> -                          =20
+>> 'tests/rustdoc/reexport-check.rs',
+>> -                          =20
+>> 'tests/rustdoc/reexport-dep-foreign-fn.rs',
+>> -                          =20
+>> 'tests/rustdoc/reexport-doc.rs',
+>> -                          =20
+>> 'tests/rustdoc/reexports-priv.rs',
+>> -                          =20
+>> 'tests/rustdoc/reexports.rs',
+>> -                          =20
+>> 'tests/rustdoc/rustc,-incoherent-impls.rs',
+>> -                          =20
+>> 'tests/rustdoc/test_option_check/bar.rs',
+>> -                          =20
+>> 'tests/rustdoc/test_option_check/test.rs',
+>> -                          =20
+>> 'tests/rustdoc/trait-alias-mention.rs',
+>> -                          =20
+>> 'tests/rustdoc/trait-visibility.rs',
+>> +                          =20
+>> 'tests/rustdoc-json',
+>>                            =20
+>> 'tests/rustdoc-ui/cfg-test.rs',
+>>                            =20
+>> 'tests/rustdoc-ui/check-cfg-test.rs',
+>>                            =20
+>> 'tests/rustdoc-ui/display-output.rs',
+>>                            =20
+>> 'tests/rustdoc-ui/doc-comment-multi-line-attr.rs',
+>>                       =20
+>> 'tests/rustdoc-ui/doc-comment-multi-line-cfg-attr.rs',
+>>                   =20
+>> 'tests/rustdoc-ui/doc-test-doctest-feature.rs',
+>> +                        =20
+>> 'tests/rustdoc-ui/doc-test-rustdoc-feature.rs',
+>>                          =20
+>> 'tests/rustdoc-ui/doctest-multiline-crate-attribute.rs',
+>>                 =20
+>> 'tests/rustdoc-ui/doctest-output.rs',
+>> -                          =20
+>> 'tests/rustdoc-ui/doc-test-rustdoc-feature.rs',
+>>                          =20
+>> 'tests/rustdoc-ui/failed-doctest-compile-fail.rs',
+>>                       =20
+>> 'tests/rustdoc-ui/issue-80992.rs',
+>>                            =20
+>> 'tests/rustdoc-ui/issue-91134.rs',
+>> +                          =20
+>> 'tests/rustdoc-ui/no-run-flag.rs',
+>>                            =20
+>> 'tests/rustdoc-ui/nocapture-fail.rs',
+>>                            =20
+>> 'tests/rustdoc-ui/nocapture.rs',
+>> -                          =20
+>> 'tests/rustdoc-ui/no-run-flag.rs',
+>>                            =20
+>> 'tests/rustdoc-ui/run-directory.rs',
+>>                            =20
+>> 'tests/rustdoc-ui/test-no_std.rs',
+>>                            =20
+>> 'tests/rustdoc-ui/test-type.rs',
+>> -                          =20
+>> 'tests/rustdoc/unit-return.rs',
+>> +                          =20
+>> 'tests/ui-fulldeps/',
+>>                            =20
+>> 'tests/ui/abi/stack-probes-lto.rs',
+>>                            =20
+>> 'tests/ui/abi/stack-probes.rs',
+>>                            =20
+>> 'tests/ui/array-slice-vec/subslice-patterns-const-eval-match.rs',
+>> @@
+>> -233,31 +167,10 @@ class RustSelfTestSystemEmulated(OESelftestTestCase,
+>> OEPTestResultTestCase):
+>>                            =20
+>> 'tests/ui/debuginfo/debuginfo-emit-llvm-ir-and-split-debuginfo.rs',
+>>      =20
+>> 'tests/ui/drop/dynamic-drop.rs',
+>>                            =20
+>> 'tests/ui/empty_global_asm.rs',
+>> -                          =20
+>> 'tests/ui-fulldeps/deriving-encodable-decodable-box.rs',
+>> -               =20
+>> 'tests/ui-fulldeps/deriving-encodable-decodable-cell-refcell.rs',
+>> -      =20
+>> 'tests/ui-fulldeps/deriving-global.rs',
+>> -                          =20
+>> 'tests/ui-fulldeps/deriving-hygiene.rs',
+>> -                          =20
+>> 'tests/ui-fulldeps/dropck_tarena_sound_drop.rs',
+>> -                       =20
+>> 'tests/ui-fulldeps/empty-struct-braces-derive.rs',
+>> -                     =20
+>> 'tests/ui-fulldeps/internal-lints/bad_opt_access.rs',
+>> -                  =20
+>> 'tests/ui-fulldeps/internal-lints/bad_opt_access.stderr',
+>> -              =20
+>> 'tests/ui-fulldeps/internal-lints/default_hash_types.rs',
+>> -              =20
+>> 'tests/ui-fulldeps/internal-lints/diagnostics.rs',
+>> -                     =20
+>> 'tests/ui-fulldeps/internal-lints/lint_pass_impl_without_macro.rs',
+>> -    =20
+>> 'tests/ui-fulldeps/internal-lints/qualified_ty_ty_ctxt.rs',
+>> -            =20
+>> 'tests/ui-fulldeps/internal-lints/query_stability.rs',
+>> -                 =20
+>> 'tests/ui-fulldeps/internal-lints/rustc_pass_by_value.rs',
+>> -             =20
+>> 'tests/ui-fulldeps/internal-lints/ty_tykind_usage.rs',
+>> -                 =20
+>> 'tests/ui-fulldeps/issue-14021.rs',
+>> -                          =20
+>> 'tests/ui-fulldeps/lint-group-denied-lint-allowed.rs',
+>> -                 =20
+>> 'tests/ui-fulldeps/lint-group-forbid-always-trumps-cli.rs',
+>> -            =20
+>> 'tests/ui-fulldeps/lint-pass-macros.rs',
+>> -                          =20
+>> 'tests/ui-fulldeps/regions-mock-tcx.rs',
+>> -                          =20
+>> 'tests/ui-fulldeps/rustc_encodable_hygiene.rs',
+>> -                        =20
+>> 'tests/ui-fulldeps/session-diagnostic/enforce_slug_naming.rs',
+>>           =20
+>> 'tests/ui/functions-closures/fn-help-with-err.rs',
+>>                       =20
+>> 'tests/ui/linkage-attr/issue-10755.rs',
+>>                            =20
+>> 'tests/ui/macros/restricted-shadowing-legacy.rs',
+>> +                      =20
+>> 'tests/ui/numbers-arithmetic/u128.rs',
+>>                            =20
+>> 'tests/ui/process/nofile-limit.rs',
+>>                            =20
+>> 'tests/ui/process/process-panic-after-fork.rs',
+>>                          =20
+>> 'tests/ui/process/process-sigpipe.rs',
+>> diff --git
+>> a/meta/recipes-devtools/rust/rust-source.inc
+>> b/meta/recipes-devtools/rust/rust-source.inc
+>> index 83a0dbc15f..e02829e6b3
+>> 100644
+>> --- a/meta/recipes-devtools/rust/rust-source.inc
+>> +++
+>> b/meta/recipes-devtools/rust/rust-source.inc
+>> @@ -10,6 +10,10 @@ SRC_URI +=3D
+>> " (
+>> @@-73,156+73,90@@classRustSelfTestSystemEmulated(OESelftestTestCase,OEPT=
+estResultTestCase):'src/librustdoc','src/rustdoc-json-types','src/tools/com=
+piletest/src/common.rs',+'src/tools/jsondoclint','src/tools/lint-docs',+'sr=
+c/tools/replace-version-placeholder','src/tools/rust-analyzer','src/tools/r=
+ustdoc-themes','src/tools/tidy','tests/assembly/asm/aarch64-outline-atomics=
+.rs',+'tests/codegen/abi-efiapi.rs',+'tests/codegen/abi-efiapi.rs','tests/c=
+odegen/abi-main-signature-32bit-c-int.rs','tests/codegen/abi-repr-ext.rs',+=
+'tests/codegen/abi-sysv64.rs','tests/codegen/abi-x86-interrupt.rs',+'tests/=
+codegen/align-byval.rs',+'tests/codegen/align-fn.rs',+'tests/codegen/asm-po=
+werpc-clobbers.rs',+'tests/codegen/async-fn-debug-awaitee-field.rs',+'tests=
+/codegen/binary-search-index-no-bound-check.rs','tests/codegen/branch-prote=
+ction.rs',+'tests/codegen/call-metadata.rs','tests/codegen/catch-unwind.rs'=
+,'tests/codegen/cf-protection.rs',+'tests/codegen/debug-column.rs',+'tests/=
+codegen/debug-limited.rs',+'tests/codegen/debuginfo-generic-closure-env-nam=
+es.rs',+'tests/codegen/drop.rs',+'tests/codegen/dst-vtable-align-nonzero.rs=
+',+'tests/codegen/enable-lto-unit-splitting.rs','tests/codegen/enum-bounds-=
+check-derived-idx.rs',+'tests/codegen/enum/enum-u128.rs',+'tests/codegen/fn=
+-impl-trait-self.rs','tests/codegen/force-unwind-tables.rs',+'tests/codegen=
+/inherit_overflow.rs',+'tests/codegen/inherit_overflow.rs',+'tests/codegen/=
+inline-function-args-debug-info.rs','tests/codegen/intrinsic-no-unnamed-att=
+r.rs',+'tests/codegen/intrinsics/mask.rs',+'tests/codegen/intrinsics/transm=
+ute-niched.rs','tests/codegen/issues/issue-103840.rs','tests/codegen/issues=
+/issue-47278.rs',+'tests/codegen/issues/issue-73258.rs','tests/codegen/issu=
+es/issue-73827-bounds-check-index-in-subexpr.rs',+'tests/codegen/issues/iss=
+ue-75546.rs',+'tests/codegen/issues/issue-77812.rs',+'tests/codegen/issues/=
+issue-98156-const-arg-temp-lifetime.rs','tests/codegen/lifetime_start_end.r=
+s',+'tests/codegen/llvm-ident.rs','tests/codegen/local-generics-in-exe-inte=
+rnalized.rs',+'tests/codegen/mainsubprogram.rs','tests/codegen/match-unopti=
+mized.rs',+'tests/codegen/move-operands.rs','tests/codegen/noalias-rwlockre=
+adguard.rs','tests/codegen/non-terminate/nonempty-infinite-loop.rs','tests/=
+codegen/noreturn-uninhabited.rs','tests/codegen/repr-transparent-aggregates=
+-3.rs',+'tests/codegen/repr/transparent-mips64.rs','tests/codegen/sse42-imp=
+lies-crc32.rs','tests/codegen/thread-local.rs','tests/codegen/uninit-consts=
+.rs',+'tests/mir-opt/','tests/pretty/raw-str-nonexpr.rs','tests/run-make',-=
+'tests/run-make/cdylib-fewer-symbols/foo.rs',-'tests/run-make/doctests-keep=
+-binaries/t.rs',-'tests/run-make-fulldeps',-'tests/run-make/issue-22131/foo=
+.rs',-'tests/run-make/issue-36710/Makefile',-'tests/run-make/issue-47551',-=
+'tests/run-make/pgo-branch-weights',-'tests/run-make/pgo-gen',-'tests/run-m=
+ake/pgo-gen-lto',-'tests/run-make/pgo-indirect-call-promotion',-'tests/run-=
+make/pgo-use',-'tests/run-make/pointer-auth-link-with-c/Makefile',-'tests/r=
+un-make/profile',-'tests/run-make/static-pie',-'tests/run-make/sysroot-crat=
+es-are-unstable',-'tests/run-make/target-specs','tests/rustdoc',-'tests/rus=
+tdoc/async-move-doctest.rs',-'tests/rustdoc/async-trait.rs',-'tests/rustdoc=
+/auto-traits.rs',-'tests/rustdoc/check-source-code-urls-to-def.rs',-'tests/=
+rustdoc/comment-in-doctest.rs',-'tests/rustdoc/const-generics/const-generic=
+s-docs.rs',-'tests/rustdoc/cross-crate-hidden-assoc-trait-items.rs',-'tests=
+/rustdoc/cross-crate-hidden-impl-parameter.rs',-'tests/rustdoc/cross-crate-=
+links.rs',-'tests/rustdoc/cross-crate-primitive-doc.rs',-'tests/rustdoc/doc=
+test-manual-crate-name.rs',-'tests/rustdoc/edition-doctest.rs',-'tests/rust=
+doc/edition-flag.rs',-'tests/rustdoc/elided-lifetime.rs',-'tests/rustdoc/ex=
+ternal-macro-src.rs',-'tests/rustdoc/extern-html-root-url.rs',-'tests/rustd=
+oc/extern-impl-trait.rs',-'tests/rustdoc/hide-unstable-trait.rs',-'tests/ru=
+stdoc/inline_cross/add-docs.rs',-'tests/rustdoc/inline_cross/default-trait-=
+method.rs',-'tests/rustdoc/inline_cross/dyn_trait.rs',-'tests/rustdoc/inlin=
+e_cross/impl_trait.rs',-'tests/rustdoc/inline_cross/issue-24183.rs',-'tests=
+/rustdoc/inline_cross/macros.rs',-'tests/rustdoc/inline_cross/trait-vis.rs'=
+,-'tests/rustdoc/inline_cross/use_crate.rs',-'tests/rustdoc/intra-doc-crate=
+/self.rs',-'tests/rustdoc/intra-doc/cross-crate/additional_doc.rs',-'tests/=
+rustdoc/intra-doc/cross-crate/basic.rs',-'tests/rustdoc/intra-doc/cross-cra=
+te/crate.rs',-'tests/rustdoc/intra-doc/cross-crate/hidden.rs',-'tests/rustd=
+oc/intra-doc/cross-crate/macro.rs',-'tests/rustdoc/intra-doc/cross-crate/mo=
+dule.rs',-'tests/rustdoc/intra-doc/cross-crate/submodule-inner.rs',-'tests/=
+rustdoc/intra-doc/cross-crate/submodule-outer.rs',-'tests/rustdoc/intra-doc=
+/cross-crate/traits.rs',-'tests/rustdoc/intra-doc/extern-builtin-type-impl.=
+rs',-'tests/rustdoc/intra-doc/extern-crate-only-used-in-link.rs',-'tests/ru=
+stdoc/intra-doc/extern-crate.rs',-'tests/rustdoc/intra-doc/extern-inherent-=
+impl.rs',-'tests/rustdoc/intra-doc/extern-reference-link.rs',-'tests/rustdo=
+c/intra-doc/issue-103463.rs',-'tests/rustdoc/intra-doc/issue-104145.rs',-'t=
+ests/rustdoc/intra-doc/issue-66159.rs',-'tests/rustdoc/intra-doc/pub-use.rs=
+',-'tests/rustdoc/intra-doc/reexport-additional-docs.rs',-'tests/rustdoc/is=
+sue-18199.rs',-'tests/rustdoc/issue-23106.rs',-'tests/rustdoc/issue-23744.r=
+s',-'tests/rustdoc/issue-25944.rs',-'tests/rustdoc/issue-30252.rs',-'tests/=
+rustdoc/issue-38129.rs',-'tests/rustdoc/issue-40936.rs',-'tests/rustdoc/iss=
+ue-43153.rs',-'tests/rustdoc/issue-46727.rs',-'tests/rustdoc/issue-48377.rs=
+',-'tests/rustdoc/issue-48414.rs',-'tests/rustdoc/issue-53689.rs',-'tests/r=
+ustdoc/issue-54478-demo-allocator.rs',-'tests/rustdoc/issue-57180.rs',-'tes=
+ts/rustdoc/issue-61592.rs',-'tests/rustdoc/issue-73061-cross-crate-opaque-a=
+ssoc-type.rs',-'tests/rustdoc/issue-75588.rs',-'tests/rustdoc/issue-85454.r=
+s',-'tests/rustdoc/issue-86620.rs',-'tests/rustdoc-json','tests/rustdoc-js-=
+std',-'tests/rustdoc/macro_pub_in_module.rs',-'tests/rustdoc/masked.rs',-'t=
+ests/rustdoc/normalize-assoc-item.rs',-'tests/rustdoc/no-stack-overflow-252=
+95.rs',-'tests/rustdoc/primitive-reexport.rs',-'tests/rustdoc/process-termi=
+nation.rs',-'tests/rustdoc/pub-extern-crate.rs',-'tests/rustdoc/pub-use-ext=
+ern-macros.rs',-'tests/rustdoc/reexport-check.rs',-'tests/rustdoc/reexport-=
+dep-foreign-fn.rs',-'tests/rustdoc/reexport-doc.rs',-'tests/rustdoc/reexpor=
+ts-priv.rs',-'tests/rustdoc/reexports.rs',-'tests/rustdoc/rustc,-incoherent=
+-impls.rs',-'tests/rustdoc/test_option_check/bar.rs',-'tests/rustdoc/test_o=
+ption_check/test.rs',-'tests/rustdoc/trait-alias-mention.rs',-'tests/rustdo=
+c/trait-visibility.rs',+'tests/rustdoc-json','tests/rustdoc-ui/cfg-test.rs'=
+,'tests/rustdoc-ui/check-cfg-test.rs','tests/rustdoc-ui/display-output.rs',=
+'tests/rustdoc-ui/doc-comment-multi-line-attr.rs','tests/rustdoc-ui/doc-com=
+ment-multi-line-cfg-attr.rs','tests/rustdoc-ui/doc-test-doctest-feature.rs'=
+,+'tests/rustdoc-ui/doc-test-rustdoc-feature.rs','tests/rustdoc-ui/doctest-=
+multiline-crate-attribute.rs','tests/rustdoc-ui/doctest-output.rs',-'tests/=
+rustdoc-ui/doc-test-rustdoc-feature.rs','tests/rustdoc-ui/failed-doctest-co=
+mpile-fail.rs','tests/rustdoc-ui/issue-80992.rs','tests/rustdoc-ui/issue-91=
+134.rs',+'tests/rustdoc-ui/no-run-flag.rs','tests/rustdoc-ui/nocapture-fail=
+.rs','tests/rustdoc-ui/nocapture.rs',-'tests/rustdoc-ui/no-run-flag.rs','te=
+sts/rustdoc-ui/run-directory.rs','tests/rustdoc-ui/test-no_std.rs','tests/r=
+ustdoc-ui/test-type.rs',-'tests/rustdoc/unit-return.rs',+'tests/ui-fulldeps=
+/','tests/ui/abi/stack-probes-lto.rs','tests/ui/abi/stack-probes.rs','tests=
+/ui/array-slice-vec/subslice-patterns-const-eval-match.rs',@@-233,31+167,10=
+@@classRustSelfTestSystemEmulated(OESelftestTestCase,OEPTestResultTestCase)=
+:'tests/ui/debuginfo/debuginfo-emit-llvm-ir-and-split-debuginfo.rs','tests/=
+ui/drop/dynamic-drop.rs','tests/ui/empty_global_asm.rs',-'tests/ui-fulldeps=
+/deriving-encodable-decodable-box.rs',-'tests/ui-fulldeps/deriving-encodabl=
+e-decodable-cell-refcell.rs',-'tests/ui-fulldeps/deriving-global.rs',-'test=
+s/ui-fulldeps/deriving-hygiene.rs',-'tests/ui-fulldeps/dropck_tarena_sound_=
+drop.rs',-'tests/ui-fulldeps/empty-struct-braces-derive.rs',-'tests/ui-full=
+deps/internal-lints/bad_opt_access.rs',-'tests/ui-fulldeps/internal-lints/b=
+ad_opt_access.stderr',-'tests/ui-fulldeps/internal-lints/default_hash_types=
+.rs',-'tests/ui-fulldeps/internal-lints/diagnostics.rs',-'tests/ui-fulldeps=
+/internal-lints/lint_pass_impl_without_macro.rs',-'tests/ui-fulldeps/intern=
+al-lints/qualified_ty_ty_ctxt.rs',-'tests/ui-fulldeps/internal-lints/query_=
+stability.rs',-'tests/ui-fulldeps/internal-lints/rustc_pass_by_value.rs',-'=
+tests/ui-fulldeps/internal-lints/ty_tykind_usage.rs',-'tests/ui-fulldeps/is=
+sue-14021.rs',-'tests/ui-fulldeps/lint-group-denied-lint-allowed.rs',-'test=
+s/ui-fulldeps/lint-group-forbid-always-trumps-cli.rs',-'tests/ui-fulldeps/l=
+int-pass-macros.rs',-'tests/ui-fulldeps/regions-mock-tcx.rs',-'tests/ui-ful=
+ldeps/rustc_encodable_hygiene.rs',-'tests/ui-fulldeps/session-diagnostic/en=
+force_slug_naming.rs','tests/ui/functions-closures/fn-help-with-err.rs','te=
+sts/ui/linkage-attr/issue-10755.rs','tests/ui/macros/restricted-shadowing-l=
+egacy.rs',+'tests/ui/numbers-arithmetic/u128.rs','tests/ui/process/nofile-l=
+imit.rs','tests/ui/process/process-panic-after-fork.rs','tests/ui/process/p=
+rocess-sigpipe.rs',diff--gita/meta/recipes-devtools/rust/rust-source.incb/m=
+eta/recipes-devtools/rust/rust-source.incindex83a0dbc15f..e02829e6b3100644-=
+--a/meta/recipes-devtools/rust/rust-source.inc+++b/meta/recipes-devtools/ru=
+st/rust-source.inc@@-10,6+10,10@@SRC_URI+=3D
+>> ) https://static.rust-lang.org/dist/rustc-$ {RUST_VERSION}-src.tar.xz;n
+>>   =20
+>> file://0004-musl-Define-O_LARGEFILE-for-riscv32.patch;patchdir=3D$ {RUST=
+SRC}
+>> \
+>>              file://0005-musl-Define-SOCK_SEQPACKET-in-common-place.patc=
+h;patchdir=3D$
+>> {RUSTSRC} \
+>>              file://0001-Revert-Map-source-absolute-paths-to-OUT_DIR-as-=
+relat.patch;patchdir=3D$
+>> {RUSTSRC} \
+>> +            file://cargo-path.patch;patchdir=3D$ {RUSTSRC} \
+>> +            file://custom-target-cfg.patch;patchdir=3D$ {RUSTSRC} \
+>> +      =20
+>> file://rustc-bootstrap.patch;patchdir=3D$ {RUSTSRC} \
+>> +            file://target-build-value.patch;patchdir=3D$ {RUSTSRC} \
+>>  "
+>>=20
+>> SRC_URI[rust.sha256sum] =3D
+>> "b98c09d968529212fb29eec7d6d3e9bdaa869810679b7fb86a1ca69469d75f5e"
+>> =20
+>>=20
+>=20
+>=20
+>=20
+>=20
+>=20
 > --=20
 > # Randy MacLeod
 > # Wind River Linux
+
 --------------npYP9COCTmES5xz0NerbZiyC
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<!DOCTYPE html><html><head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class=3D"moz-cite-prefix">On 20-01-2024 22:31, Randy MacLeod
-      wrote:<br>
-    </div>
-    <blockquote type=3D"cite" cite=3D"mid:e06788dd-2104-40fc-923c-11c4bfbba=
-c0d@windriver.com">
-     =20
-      <div class=3D"moz-cite-prefix">I like that you have broken the
-        original patch down into 5 patches that are easier to<br>
-        understand.</div>
-      <div class=3D"moz-cite-prefix"><br>
-      </div>
-      <div class=3D"moz-cite-prefix">On 2024-01-19 10:09 a.m., <a class=3D"=
-moz-txt-link-abbreviated moz-txt-link-freetext" href=3D"mailto:Yash.Shinde@=
-windriver.com" moz-do-not-send=3D"true">Yash.Shinde@windriver.com</a>
-        wrote:<br>
-      </div>
-      <blockquote type=3D"cite" cite=3D"mid:20240119150907.3840110-5-Yash.S=
-hinde@windriver.com">
-        <pre class=3D"moz-quote-pre" wrap=3D"">From: Yash Shinde <a class=
-=3D"moz-txt-link-rfc2396E" href=3D"mailto:Yash.Shinde@windriver.com" moz-do=
--not-send=3D"true">&lt;Yash.Shinde@windriver.com&gt;</a>
+<p>&nbsp;</p>
+<div class=3D"moz-cite-prefix">On 20-01-2024 22:31, Randy MacLeod wrote:</d=
+iv>
+<blockquote cite=3D"mid:e06788dd-2104-40fc-923c-11c4bfbbac0d@windriver.com"=
+>
+<div class=3D"moz-cite-prefix">I like that you have broken the original pat=
+ch down into 5 patches that are easier to<br />understand.</div>
+<div class=3D"moz-cite-prefix">&nbsp;</div>
+<div class=3D"moz-cite-prefix">On 2024-01-19 10:09 a.m., <a class=3D"moz-tx=
+t-link-abbreviated moz-txt-link-freetext" href=3D"mailto:Yash.Shinde@windri=
+ver.com" target=3D"_blank" rel=3D"nofollow noopener">Yash.Shinde@windriver.=
+com</a> wrote:</div>
+<blockquote cite=3D"mid:20240119150907.3840110-5-Yash.Shinde@windriver.com"=
+>
+<pre class=3D"moz-quote-pre">From: Yash Shinde <a class=3D"moz-txt-link-rfc=
+2396E" href=3D"mailto:Yash.Shinde@windriver.com" target=3D"_blank" rel=3D"n=
+ofollow noopener">&lt;Yash.Shinde@windriver.com&gt;</a>
 
 Tests which are failing from below modules are added to exclude list
 	tests/run-make
@@ -500,63 +937,48 @@ Tests which are failing from below modules are added to exclude list
 * Newly addded tests are sorted and updated.
 
 * Overall exclude tests count in exclude list is now reduced to 114.</pre>
-      </blockquote>
-      We need to resolve the mips32 problems that Richard pointed out.<br>
-      <p>Should we skip all the rust tests for mips32?</p>
-    </blockquote>
-    In previous oe-selftest implementation, we skipped rust tests for
-    mips32.<br>
-    I think we should continue with it as rust tests are unstable with
-    mips32.<br>
-    <br>
-    <blockquote type=3D"cite" cite=3D"mid:e06788dd-2104-40fc-923c-11c4bfbba=
-c0d@windriver.com">
-      <p><br>
-      </p>
-      Please submit a v3 with the mips fix/avoidance and split this
-      exclude list commit down into 3 steps:<br>
-      <br>
-      &nbsp;1. Sort the existing list of tests<br>
-      &nbsp;2. Remove the <span style=3D"white-space: pre-wrap">test cases =
-whose parent dir is also present in the exclude list
-</span>
-      <p>&nbsp;3. Add the new tests that are to be excluded.</p>
-      <p>This may seem really pedantic but otherwise the changes are
-        really hard to review.</p>
-      <p>The way I think about this is that someone looking at the
-        commit log might be interested<br>
-        in exactly which tests are in being added to the exclude list so
-        that should be clear from 3.<br>
-        1. won't really be of interest so most people will skip over
-        that<br>
-        2. also won't be of interest to most people <br>
-        but you need 1 and 2 to make 3 be apparent to people who want
-        that info quickly.</p>
-    </blockquote>
-    <p>For 1 the existing list of tests are already sorted.<br>
-      I will send a v3 with separate commits for:<br>
-      <br>
-      1. newly added test cases<br>
-      2. removing test cases <span style=3D"white-space: pre-wrap">whose pa=
-rent dir is also present in the exclude list
-3. sorting the overall final list
-
-Regards,
-Yash
-</span></p>
-    <blockquote type=3D"cite" cite=3D"mid:e06788dd-2104-40fc-923c-11c4bfbba=
-c0d@windriver.com">
-      <p>Thanks,</p>
-      <p>../Randy<br>
-      </p>
-      <blockquote type=3D"cite" cite=3D"mid:20240119150907.3840110-5-Yash.S=
-hinde@windriver.com">
-        <pre class=3D"moz-quote-pre" wrap=3D"">* The testing is done on arm=
-32, arm64, mips64, x86 and  x86_64 targets.
+</blockquote>
+We need to resolve the mips32 problems that Richard pointed out.<br />
+<p>Should we skip all the rust tests for mips32?</p>
+</blockquote>
+In previous oe-selftest implementation, we skipped rust tests for mips32.<b=
+r />I think we should continue with it as rust tests are unstable with mips=
+32.<br /><br />
+<blockquote cite=3D"mid:e06788dd-2104-40fc-923c-11c4bfbbac0d@windriver.com"=
+>
+<p>&nbsp;</p>
+Please submit a v3 with the mips fix/avoidance and split this exclude list =
+commit down into 3 steps:<br /><br />&nbsp;1. Sort the existing list of tes=
+ts<br />&nbsp;2. Remove the <span>test cases whose parent dir is also prese=
+nt in the exclude list </span>
+<p>&nbsp;3. Add the new tests that are to be excluded.</p>
+<p>This may seem really pedantic but otherwise the changes are really hard =
+to review.</p>
+<p>The way I think about this is that someone looking at the commit log mig=
+ht be interested<br />in exactly which tests are in being added to the excl=
+ude list so that should be clear from 3.<br />1. won't really be of interes=
+t so most people will skip over that<br />2. also won't be of interest to m=
+ost people <br />but you need 1 and 2 to make 3 be apparent to people who w=
+ant that info quickly.</p>
+</blockquote>
+<p>For 1 the existing list of tests are already sorted.<br />I will send a =
+v3 with separate commits for:<br /><br />1. newly added test cases<br />2. =
+removing test cases <span>whose parent dir is also present in the exclude l=
+ist<br /></span>3. sorting the overall final list<span><br /></span></p>
+<p>&nbsp;</p>
+<p><span>Regards, <br /></span><span>Yash </span></p>
+<blockquote cite=3D"mid:e06788dd-2104-40fc-923c-11c4bfbbac0d@windriver.com"=
+>
+<p>Thanks,</p>
+<p>../Randy</p>
+<blockquote cite=3D"mid:20240119150907.3840110-5-Yash.Shinde@windriver.com"=
+>
+<pre class=3D"moz-quote-pre">* The testing is done on arm32, arm64, mips64,=
+ x86 and  x86_64 targets.
 
 Signed-off-by: Yash Shinde <a class=3D"moz-txt-link-rfc2396E" href=3D"mailt=
-o:Yash.Shinde@windriver.com" moz-do-not-send=3D"true">&lt;Yash.Shinde@windr=
-iver.com&gt;</a>
+o:Yash.Shinde@windriver.com" target=3D"_blank" rel=3D"nofollow noopener">&l=
+t;Yash.Shinde@windriver.com&gt;</a>
 ---
  meta/lib/oeqa/selftest/cases/rust.py       | 165 +++++----------------
  meta/recipes-devtools/rust/rust-source.inc |   4 +
@@ -572,140 +994,140 @@ index 6dbc517006..7d0efb1b01 100644
 ):
      def test_rust(self, *args, **kwargs):
          # Disable Rust Oe-selftest
--        self.skipTest(&quot;The Rust Oe-selftest is disabled.&quot;)
-+        #self.skipTest(&quot;The Rust Oe-selftest is disabled.&quot;)
+-        self.skipTest("The Rust Oe-selftest is disabled.")
++        #self.skipTest("The Rust Oe-selftest is disabled.")
 =20
          # build remote-test-server before image build
-         recipe =3D &quot;rust<a class=3D"moz-txt-link-rfc2396E" href=3D"ma=
-ilto:@@-73,156+73,90@@classRustSelfTestSystemEmulated(OESelftestTestCase,OE=
-PTestResultTestCase):'src/librustdoc','src/rustdoc-json-types','src/tools/c=
-ompiletest/src/common.rs',+'src/tools/jsondoclint','src/tools/lint-docs',+'=
-src/tools/replace-version-placeholder','src/tools/rust-analyzer','src/tools=
-/rustdoc-themes','src/tools/tidy','tests/assembly/asm/aarch64-outline-atomi=
-cs.rs',+'tests/codegen/abi-efiapi.rs',+'tests/codegen/abi-efiapi.rs','tests=
-/codegen/abi-main-signature-32bit-c-int.rs','tests/codegen/abi-repr-ext.rs'=
-,+'tests/codegen/abi-sysv64.rs','tests/codegen/abi-x86-interrupt.rs',+'test=
-s/codegen/align-byval.rs',+'tests/codegen/align-fn.rs',+'tests/codegen/asm-=
-powerpc-clobbers.rs',+'tests/codegen/async-fn-debug-awaitee-field.rs',+'tes=
-ts/codegen/binary-search-index-no-bound-check.rs','tests/codegen/branch-pro=
-tection.rs',+'tests/codegen/call-metadata.rs','tests/codegen/catch-unwind.r=
-s','tests/codegen/cf-protection.rs',+'tests/codegen/debug-column.rs',+'test=
-s/codegen/debug-limited.rs',+'tests/codegen/debuginfo-generic-closure-env-n=
-ames.rs',+'tests/codegen/drop.rs',+'tests/codegen/dst-vtable-align-nonzero.=
-rs',+'tests/codegen/enable-lto-unit-splitting.rs','tests/codegen/enum-bound=
-s-check-derived-idx.rs',+'tests/codegen/enum/enum-u128.rs',+'tests/codegen/=
-fn-impl-trait-self.rs','tests/codegen/force-unwind-tables.rs',+'tests/codeg=
-en/inherit_overflow.rs',+'tests/codegen/inherit_overflow.rs',+'tests/codege=
-n/inline-function-args-debug-info.rs','tests/codegen/intrinsic-no-unnamed-a=
-ttr.rs',+'tests/codegen/intrinsics/mask.rs',+'tests/codegen/intrinsics/tran=
-smute-niched.rs','tests/codegen/issues/issue-103840.rs','tests/codegen/issu=
-es/issue-47278.rs',+'tests/codegen/issues/issue-73258.rs','tests/codegen/is=
-sues/issue-73827-bounds-check-index-in-subexpr.rs',+'tests/codegen/issues/i=
-ssue-75546.rs',+'tests/codegen/issues/issue-77812.rs',+'tests/codegen/issue=
-s/issue-98156-const-arg-temp-lifetime.rs','tests/codegen/lifetime_start_end=
-.rs',+'tests/codegen/llvm-ident.rs','tests/codegen/local-generics-in-exe-in=
-ternalized.rs',+'tests/codegen/mainsubprogram.rs','tests/codegen/match-unop=
-timized.rs',+'tests/codegen/move-operands.rs','tests/codegen/noalias-rwlock=
-readguard.rs','tests/codegen/non-terminate/nonempty-infinite-loop.rs','test=
-s/codegen/noreturn-uninhabited.rs','tests/codegen/repr-transparent-aggregat=
-es-3.rs',+'tests/codegen/repr/transparent-mips64.rs','tests/codegen/sse42-i=
-mplies-crc32.rs','tests/codegen/thread-local.rs','tests/codegen/uninit-cons=
-ts.rs',+'tests/mir-opt/','tests/pretty/raw-str-nonexpr.rs','tests/run-make'=
-,-'tests/run-make/cdylib-fewer-symbols/foo.rs',-'tests/run-make/doctests-ke=
-ep-binaries/t.rs',-'tests/run-make-fulldeps',-'tests/run-make/issue-22131/f=
-oo.rs',-'tests/run-make/issue-36710/Makefile',-'tests/run-make/issue-47551'=
-,-'tests/run-make/pgo-branch-weights',-'tests/run-make/pgo-gen',-'tests/run=
--make/pgo-gen-lto',-'tests/run-make/pgo-indirect-call-promotion',-'tests/ru=
-n-make/pgo-use',-'tests/run-make/pointer-auth-link-with-c/Makefile',-'tests=
-/run-make/profile',-'tests/run-make/static-pie',-'tests/run-make/sysroot-cr=
-ates-are-unstable',-'tests/run-make/target-specs','tests/rustdoc',-'tests/r=
-ustdoc/async-move-doctest.rs',-'tests/rustdoc/async-trait.rs',-'tests/rustd=
-oc/auto-traits.rs',-'tests/rustdoc/check-source-code-urls-to-def.rs',-'test=
-s/rustdoc/comment-in-doctest.rs',-'tests/rustdoc/const-generics/const-gener=
-ics-docs.rs',-'tests/rustdoc/cross-crate-hidden-assoc-trait-items.rs',-'tes=
-ts/rustdoc/cross-crate-hidden-impl-parameter.rs',-'tests/rustdoc/cross-crat=
-e-links.rs',-'tests/rustdoc/cross-crate-primitive-doc.rs',-'tests/rustdoc/d=
-octest-manual-crate-name.rs',-'tests/rustdoc/edition-doctest.rs',-'tests/ru=
-stdoc/edition-flag.rs',-'tests/rustdoc/elided-lifetime.rs',-'tests/rustdoc/=
-external-macro-src.rs',-'tests/rustdoc/extern-html-root-url.rs',-'tests/rus=
-tdoc/extern-impl-trait.rs',-'tests/rustdoc/hide-unstable-trait.rs',-'tests/=
-rustdoc/inline_cross/add-docs.rs',-'tests/rustdoc/inline_cross/default-trai=
-t-method.rs',-'tests/rustdoc/inline_cross/dyn_trait.rs',-'tests/rustdoc/inl=
-ine_cross/impl_trait.rs',-'tests/rustdoc/inline_cross/issue-24183.rs',-'tes=
-ts/rustdoc/inline_cross/macros.rs',-'tests/rustdoc/inline_cross/trait-vis.r=
-s',-'tests/rustdoc/inline_cross/use_crate.rs',-'tests/rustdoc/intra-doc-cra=
-te/self.rs',-'tests/rustdoc/intra-doc/cross-crate/additional_doc.rs',-'test=
-s/rustdoc/intra-doc/cross-crate/basic.rs',-'tests/rustdoc/intra-doc/cross-c=
-rate/crate.rs',-'tests/rustdoc/intra-doc/cross-crate/hidden.rs',-'tests/rus=
-tdoc/intra-doc/cross-crate/macro.rs',-'tests/rustdoc/intra-doc/cross-crate/=
-module.rs',-'tests/rustdoc/intra-doc/cross-crate/submodule-inner.rs',-'test=
-s/rustdoc/intra-doc/cross-crate/submodule-outer.rs',-'tests/rustdoc/intra-d=
-oc/cross-crate/traits.rs',-'tests/rustdoc/intra-doc/extern-builtin-type-imp=
-l.rs',-'tests/rustdoc/intra-doc/extern-crate-only-used-in-link.rs',-'tests/=
-rustdoc/intra-doc/extern-crate.rs',-'tests/rustdoc/intra-doc/extern-inheren=
-t-impl.rs',-'tests/rustdoc/intra-doc/extern-reference-link.rs',-'tests/rust=
-doc/intra-doc/issue-103463.rs',-'tests/rustdoc/intra-doc/issue-104145.rs',-=
-'tests/rustdoc/intra-doc/issue-66159.rs',-'tests/rustdoc/intra-doc/pub-use.=
-rs',-'tests/rustdoc/intra-doc/reexport-additional-docs.rs',-'tests/rustdoc/=
-issue-18199.rs',-'tests/rustdoc/issue-23106.rs',-'tests/rustdoc/issue-23744=
-.rs',-'tests/rustdoc/issue-25944.rs',-'tests/rustdoc/issue-30252.rs',-'test=
-s/rustdoc/issue-38129.rs',-'tests/rustdoc/issue-40936.rs',-'tests/rustdoc/i=
-ssue-43153.rs',-'tests/rustdoc/issue-46727.rs',-'tests/rustdoc/issue-48377.=
-rs',-'tests/rustdoc/issue-48414.rs',-'tests/rustdoc/issue-53689.rs',-'tests=
-/rustdoc/issue-54478-demo-allocator.rs',-'tests/rustdoc/issue-57180.rs',-'t=
-ests/rustdoc/issue-61592.rs',-'tests/rustdoc/issue-73061-cross-crate-opaque=
--assoc-type.rs',-'tests/rustdoc/issue-75588.rs',-'tests/rustdoc/issue-85454=
-.rs',-'tests/rustdoc/issue-86620.rs',-'tests/rustdoc-json','tests/rustdoc-j=
-s-std',-'tests/rustdoc/macro_pub_in_module.rs',-'tests/rustdoc/masked.rs',-=
-'tests/rustdoc/normalize-assoc-item.rs',-'tests/rustdoc/no-stack-overflow-2=
-5295.rs',-'tests/rustdoc/primitive-reexport.rs',-'tests/rustdoc/process-ter=
-mination.rs',-'tests/rustdoc/pub-extern-crate.rs',-'tests/rustdoc/pub-use-e=
-xtern-macros.rs',-'tests/rustdoc/reexport-check.rs',-'tests/rustdoc/reexpor=
-t-dep-foreign-fn.rs',-'tests/rustdoc/reexport-doc.rs',-'tests/rustdoc/reexp=
-orts-priv.rs',-'tests/rustdoc/reexports.rs',-'tests/rustdoc/rustc,-incohere=
-nt-impls.rs',-'tests/rustdoc/test_option_check/bar.rs',-'tests/rustdoc/test=
-_option_check/test.rs',-'tests/rustdoc/trait-alias-mention.rs',-'tests/rust=
-doc/trait-visibility.rs',+'tests/rustdoc-json','tests/rustdoc-ui/cfg-test.r=
-s','tests/rustdoc-ui/check-cfg-test.rs','tests/rustdoc-ui/display-output.rs=
-','tests/rustdoc-ui/doc-comment-multi-line-attr.rs','tests/rustdoc-ui/doc-c=
-omment-multi-line-cfg-attr.rs','tests/rustdoc-ui/doc-test-doctest-feature.r=
-s',+'tests/rustdoc-ui/doc-test-rustdoc-feature.rs','tests/rustdoc-ui/doctes=
-t-multiline-crate-attribute.rs','tests/rustdoc-ui/doctest-output.rs',-'test=
-s/rustdoc-ui/doc-test-rustdoc-feature.rs','tests/rustdoc-ui/failed-doctest-=
-compile-fail.rs','tests/rustdoc-ui/issue-80992.rs','tests/rustdoc-ui/issue-=
-91134.rs',+'tests/rustdoc-ui/no-run-flag.rs','tests/rustdoc-ui/nocapture-fa=
-il.rs','tests/rustdoc-ui/nocapture.rs',-'tests/rustdoc-ui/no-run-flag.rs','=
-tests/rustdoc-ui/run-directory.rs','tests/rustdoc-ui/test-no_std.rs','tests=
-/rustdoc-ui/test-type.rs',-'tests/rustdoc/unit-return.rs',+'tests/ui-fullde=
-ps/','tests/ui/abi/stack-probes-lto.rs','tests/ui/abi/stack-probes.rs','tes=
-ts/ui/array-slice-vec/subslice-patterns-const-eval-match.rs',@@-233,31+167,=
-10@@classRustSelfTestSystemEmulated(OESelftestTestCase,OEPTestResultTestCas=
-e):'tests/ui/debuginfo/debuginfo-emit-llvm-ir-and-split-debuginfo.rs','test=
-s/ui/drop/dynamic-drop.rs','tests/ui/empty_global_asm.rs',-'tests/ui-fullde=
-ps/deriving-encodable-decodable-box.rs',-'tests/ui-fulldeps/deriving-encoda=
-ble-decodable-cell-refcell.rs',-'tests/ui-fulldeps/deriving-global.rs',-'te=
-sts/ui-fulldeps/deriving-hygiene.rs',-'tests/ui-fulldeps/dropck_tarena_soun=
-d_drop.rs',-'tests/ui-fulldeps/empty-struct-braces-derive.rs',-'tests/ui-fu=
-lldeps/internal-lints/bad_opt_access.rs',-'tests/ui-fulldeps/internal-lints=
-/bad_opt_access.stderr',-'tests/ui-fulldeps/internal-lints/default_hash_typ=
-es.rs',-'tests/ui-fulldeps/internal-lints/diagnostics.rs',-'tests/ui-fullde=
-ps/internal-lints/lint_pass_impl_without_macro.rs',-'tests/ui-fulldeps/inte=
-rnal-lints/qualified_ty_ty_ctxt.rs',-'tests/ui-fulldeps/internal-lints/quer=
-y_stability.rs',-'tests/ui-fulldeps/internal-lints/rustc_pass_by_value.rs',=
--'tests/ui-fulldeps/internal-lints/ty_tykind_usage.rs',-'tests/ui-fulldeps/=
-issue-14021.rs',-'tests/ui-fulldeps/lint-group-denied-lint-allowed.rs',-'te=
-sts/ui-fulldeps/lint-group-forbid-always-trumps-cli.rs',-'tests/ui-fulldeps=
-/lint-pass-macros.rs',-'tests/ui-fulldeps/regions-mock-tcx.rs',-'tests/ui-f=
-ulldeps/rustc_encodable_hygiene.rs',-'tests/ui-fulldeps/session-diagnostic/=
-enforce_slug_naming.rs','tests/ui/functions-closures/fn-help-with-err.rs','=
-tests/ui/linkage-attr/issue-10755.rs','tests/ui/macros/restricted-shadowing=
--legacy.rs',+'tests/ui/numbers-arithmetic/u128.rs','tests/ui/process/nofile=
--limit.rs','tests/ui/process/process-panic-after-fork.rs','tests/ui/process=
-/process-sigpipe.rs',diff--gita/meta/recipes-devtools/rust/rust-source.incb=
-/meta/recipes-devtools/rust/rust-source.incindex83a0dbc15f..e02829e6b310064=
-4---a/meta/recipes-devtools/rust/rust-source.inc+++b/meta/recipes-devtools/=
-rust/rust-source.inc@@-10,6+10,10@@SRC_URI+=3D" moz-do-not-send=3D"true">&q=
-uot;
+         recipe =3D "rust<a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:=
+@@-73,156+73,90@@classRustSelfTestSystemEmulated(OESelftestTestCase,OEPTest=
+ResultTestCase):'src/librustdoc','src/rustdoc-json-types','src/tools/compil=
+etest/src/common.rs',+'src/tools/jsondoclint','src/tools/lint-docs',+'src/t=
+ools/replace-version-placeholder','src/tools/rust-analyzer','src/tools/rust=
+doc-themes','src/tools/tidy','tests/assembly/asm/aarch64-outline-atomics.rs=
+',+'tests/codegen/abi-efiapi.rs',+'tests/codegen/abi-efiapi.rs','tests/code=
+gen/abi-main-signature-32bit-c-int.rs','tests/codegen/abi-repr-ext.rs',+'te=
+sts/codegen/abi-sysv64.rs','tests/codegen/abi-x86-interrupt.rs',+'tests/cod=
+egen/align-byval.rs',+'tests/codegen/align-fn.rs',+'tests/codegen/asm-power=
+pc-clobbers.rs',+'tests/codegen/async-fn-debug-awaitee-field.rs',+'tests/co=
+degen/binary-search-index-no-bound-check.rs','tests/codegen/branch-protecti=
+on.rs',+'tests/codegen/call-metadata.rs','tests/codegen/catch-unwind.rs','t=
+ests/codegen/cf-protection.rs',+'tests/codegen/debug-column.rs',+'tests/cod=
+egen/debug-limited.rs',+'tests/codegen/debuginfo-generic-closure-env-names.=
+rs',+'tests/codegen/drop.rs',+'tests/codegen/dst-vtable-align-nonzero.rs',+=
+'tests/codegen/enable-lto-unit-splitting.rs','tests/codegen/enum-bounds-che=
+ck-derived-idx.rs',+'tests/codegen/enum/enum-u128.rs',+'tests/codegen/fn-im=
+pl-trait-self.rs','tests/codegen/force-unwind-tables.rs',+'tests/codegen/in=
+herit_overflow.rs',+'tests/codegen/inherit_overflow.rs',+'tests/codegen/inl=
+ine-function-args-debug-info.rs','tests/codegen/intrinsic-no-unnamed-attr.r=
+s',+'tests/codegen/intrinsics/mask.rs',+'tests/codegen/intrinsics/transmute=
+-niched.rs','tests/codegen/issues/issue-103840.rs','tests/codegen/issues/is=
+sue-47278.rs',+'tests/codegen/issues/issue-73258.rs','tests/codegen/issues/=
+issue-73827-bounds-check-index-in-subexpr.rs',+'tests/codegen/issues/issue-=
+75546.rs',+'tests/codegen/issues/issue-77812.rs',+'tests/codegen/issues/iss=
+ue-98156-const-arg-temp-lifetime.rs','tests/codegen/lifetime_start_end.rs',=
++'tests/codegen/llvm-ident.rs','tests/codegen/local-generics-in-exe-interna=
+lized.rs',+'tests/codegen/mainsubprogram.rs','tests/codegen/match-unoptimiz=
+ed.rs',+'tests/codegen/move-operands.rs','tests/codegen/noalias-rwlockreadg=
+uard.rs','tests/codegen/non-terminate/nonempty-infinite-loop.rs','tests/cod=
+egen/noreturn-uninhabited.rs','tests/codegen/repr-transparent-aggregates-3.=
+rs',+'tests/codegen/repr/transparent-mips64.rs','tests/codegen/sse42-implie=
+s-crc32.rs','tests/codegen/thread-local.rs','tests/codegen/uninit-consts.rs=
+',+'tests/mir-opt/','tests/pretty/raw-str-nonexpr.rs','tests/run-make',-'te=
+sts/run-make/cdylib-fewer-symbols/foo.rs',-'tests/run-make/doctests-keep-bi=
+naries/t.rs',-'tests/run-make-fulldeps',-'tests/run-make/issue-22131/foo.rs=
+',-'tests/run-make/issue-36710/Makefile',-'tests/run-make/issue-47551',-'te=
+sts/run-make/pgo-branch-weights',-'tests/run-make/pgo-gen',-'tests/run-make=
+/pgo-gen-lto',-'tests/run-make/pgo-indirect-call-promotion',-'tests/run-mak=
+e/pgo-use',-'tests/run-make/pointer-auth-link-with-c/Makefile',-'tests/run-=
+make/profile',-'tests/run-make/static-pie',-'tests/run-make/sysroot-crates-=
+are-unstable',-'tests/run-make/target-specs','tests/rustdoc',-'tests/rustdo=
+c/async-move-doctest.rs',-'tests/rustdoc/async-trait.rs',-'tests/rustdoc/au=
+to-traits.rs',-'tests/rustdoc/check-source-code-urls-to-def.rs',-'tests/rus=
+tdoc/comment-in-doctest.rs',-'tests/rustdoc/const-generics/const-generics-d=
+ocs.rs',-'tests/rustdoc/cross-crate-hidden-assoc-trait-items.rs',-'tests/ru=
+stdoc/cross-crate-hidden-impl-parameter.rs',-'tests/rustdoc/cross-crate-lin=
+ks.rs',-'tests/rustdoc/cross-crate-primitive-doc.rs',-'tests/rustdoc/doctes=
+t-manual-crate-name.rs',-'tests/rustdoc/edition-doctest.rs',-'tests/rustdoc=
+/edition-flag.rs',-'tests/rustdoc/elided-lifetime.rs',-'tests/rustdoc/exter=
+nal-macro-src.rs',-'tests/rustdoc/extern-html-root-url.rs',-'tests/rustdoc/=
+extern-impl-trait.rs',-'tests/rustdoc/hide-unstable-trait.rs',-'tests/rustd=
+oc/inline_cross/add-docs.rs',-'tests/rustdoc/inline_cross/default-trait-met=
+hod.rs',-'tests/rustdoc/inline_cross/dyn_trait.rs',-'tests/rustdoc/inline_c=
+ross/impl_trait.rs',-'tests/rustdoc/inline_cross/issue-24183.rs',-'tests/ru=
+stdoc/inline_cross/macros.rs',-'tests/rustdoc/inline_cross/trait-vis.rs',-'=
+tests/rustdoc/inline_cross/use_crate.rs',-'tests/rustdoc/intra-doc-crate/se=
+lf.rs',-'tests/rustdoc/intra-doc/cross-crate/additional_doc.rs',-'tests/rus=
+tdoc/intra-doc/cross-crate/basic.rs',-'tests/rustdoc/intra-doc/cross-crate/=
+crate.rs',-'tests/rustdoc/intra-doc/cross-crate/hidden.rs',-'tests/rustdoc/=
+intra-doc/cross-crate/macro.rs',-'tests/rustdoc/intra-doc/cross-crate/modul=
+e.rs',-'tests/rustdoc/intra-doc/cross-crate/submodule-inner.rs',-'tests/rus=
+tdoc/intra-doc/cross-crate/submodule-outer.rs',-'tests/rustdoc/intra-doc/cr=
+oss-crate/traits.rs',-'tests/rustdoc/intra-doc/extern-builtin-type-impl.rs'=
+,-'tests/rustdoc/intra-doc/extern-crate-only-used-in-link.rs',-'tests/rustd=
+oc/intra-doc/extern-crate.rs',-'tests/rustdoc/intra-doc/extern-inherent-imp=
+l.rs',-'tests/rustdoc/intra-doc/extern-reference-link.rs',-'tests/rustdoc/i=
+ntra-doc/issue-103463.rs',-'tests/rustdoc/intra-doc/issue-104145.rs',-'test=
+s/rustdoc/intra-doc/issue-66159.rs',-'tests/rustdoc/intra-doc/pub-use.rs',-=
+'tests/rustdoc/intra-doc/reexport-additional-docs.rs',-'tests/rustdoc/issue=
+-18199.rs',-'tests/rustdoc/issue-23106.rs',-'tests/rustdoc/issue-23744.rs',=
+-'tests/rustdoc/issue-25944.rs',-'tests/rustdoc/issue-30252.rs',-'tests/rus=
+tdoc/issue-38129.rs',-'tests/rustdoc/issue-40936.rs',-'tests/rustdoc/issue-=
+43153.rs',-'tests/rustdoc/issue-46727.rs',-'tests/rustdoc/issue-48377.rs',-=
+'tests/rustdoc/issue-48414.rs',-'tests/rustdoc/issue-53689.rs',-'tests/rust=
+doc/issue-54478-demo-allocator.rs',-'tests/rustdoc/issue-57180.rs',-'tests/=
+rustdoc/issue-61592.rs',-'tests/rustdoc/issue-73061-cross-crate-opaque-asso=
+c-type.rs',-'tests/rustdoc/issue-75588.rs',-'tests/rustdoc/issue-85454.rs',=
+-'tests/rustdoc/issue-86620.rs',-'tests/rustdoc-json','tests/rustdoc-js-std=
+',-'tests/rustdoc/macro_pub_in_module.rs',-'tests/rustdoc/masked.rs',-'test=
+s/rustdoc/normalize-assoc-item.rs',-'tests/rustdoc/no-stack-overflow-25295.=
+rs',-'tests/rustdoc/primitive-reexport.rs',-'tests/rustdoc/process-terminat=
+ion.rs',-'tests/rustdoc/pub-extern-crate.rs',-'tests/rustdoc/pub-use-extern=
+-macros.rs',-'tests/rustdoc/reexport-check.rs',-'tests/rustdoc/reexport-dep=
+-foreign-fn.rs',-'tests/rustdoc/reexport-doc.rs',-'tests/rustdoc/reexports-=
+priv.rs',-'tests/rustdoc/reexports.rs',-'tests/rustdoc/rustc,-incoherent-im=
+pls.rs',-'tests/rustdoc/test_option_check/bar.rs',-'tests/rustdoc/test_opti=
+on_check/test.rs',-'tests/rustdoc/trait-alias-mention.rs',-'tests/rustdoc/t=
+rait-visibility.rs',+'tests/rustdoc-json','tests/rustdoc-ui/cfg-test.rs','t=
+ests/rustdoc-ui/check-cfg-test.rs','tests/rustdoc-ui/display-output.rs','te=
+sts/rustdoc-ui/doc-comment-multi-line-attr.rs','tests/rustdoc-ui/doc-commen=
+t-multi-line-cfg-attr.rs','tests/rustdoc-ui/doc-test-doctest-feature.rs',+'=
+tests/rustdoc-ui/doc-test-rustdoc-feature.rs','tests/rustdoc-ui/doctest-mul=
+tiline-crate-attribute.rs','tests/rustdoc-ui/doctest-output.rs',-'tests/rus=
+tdoc-ui/doc-test-rustdoc-feature.rs','tests/rustdoc-ui/failed-doctest-compi=
+le-fail.rs','tests/rustdoc-ui/issue-80992.rs','tests/rustdoc-ui/issue-91134=
+.rs',+'tests/rustdoc-ui/no-run-flag.rs','tests/rustdoc-ui/nocapture-fail.rs=
+','tests/rustdoc-ui/nocapture.rs',-'tests/rustdoc-ui/no-run-flag.rs','tests=
+/rustdoc-ui/run-directory.rs','tests/rustdoc-ui/test-no_std.rs','tests/rust=
+doc-ui/test-type.rs',-'tests/rustdoc/unit-return.rs',+'tests/ui-fulldeps/',=
+'tests/ui/abi/stack-probes-lto.rs','tests/ui/abi/stack-probes.rs','tests/ui=
+/array-slice-vec/subslice-patterns-const-eval-match.rs',@@-233,31+167,10@@c=
+lassRustSelfTestSystemEmulated(OESelftestTestCase,OEPTestResultTestCase):'t=
+ests/ui/debuginfo/debuginfo-emit-llvm-ir-and-split-debuginfo.rs','tests/ui/=
+drop/dynamic-drop.rs','tests/ui/empty_global_asm.rs',-'tests/ui-fulldeps/de=
+riving-encodable-decodable-box.rs',-'tests/ui-fulldeps/deriving-encodable-d=
+ecodable-cell-refcell.rs',-'tests/ui-fulldeps/deriving-global.rs',-'tests/u=
+i-fulldeps/deriving-hygiene.rs',-'tests/ui-fulldeps/dropck_tarena_sound_dro=
+p.rs',-'tests/ui-fulldeps/empty-struct-braces-derive.rs',-'tests/ui-fulldep=
+s/internal-lints/bad_opt_access.rs',-'tests/ui-fulldeps/internal-lints/bad_=
+opt_access.stderr',-'tests/ui-fulldeps/internal-lints/default_hash_types.rs=
+',-'tests/ui-fulldeps/internal-lints/diagnostics.rs',-'tests/ui-fulldeps/in=
+ternal-lints/lint_pass_impl_without_macro.rs',-'tests/ui-fulldeps/internal-=
+lints/qualified_ty_ty_ctxt.rs',-'tests/ui-fulldeps/internal-lints/query_sta=
+bility.rs',-'tests/ui-fulldeps/internal-lints/rustc_pass_by_value.rs',-'tes=
+ts/ui-fulldeps/internal-lints/ty_tykind_usage.rs',-'tests/ui-fulldeps/issue=
+-14021.rs',-'tests/ui-fulldeps/lint-group-denied-lint-allowed.rs',-'tests/u=
+i-fulldeps/lint-group-forbid-always-trumps-cli.rs',-'tests/ui-fulldeps/lint=
+-pass-macros.rs',-'tests/ui-fulldeps/regions-mock-tcx.rs',-'tests/ui-fullde=
+ps/rustc_encodable_hygiene.rs',-'tests/ui-fulldeps/session-diagnostic/enfor=
+ce_slug_naming.rs','tests/ui/functions-closures/fn-help-with-err.rs','tests=
+/ui/linkage-attr/issue-10755.rs','tests/ui/macros/restricted-shadowing-lega=
+cy.rs',+'tests/ui/numbers-arithmetic/u128.rs','tests/ui/process/nofile-limi=
+t.rs','tests/ui/process/process-panic-after-fork.rs','tests/ui/process/proc=
+ess-sigpipe.rs',diff--gita/meta/recipes-devtools/rust/rust-source.incb/meta=
+/recipes-devtools/rust/rust-source.incindex83a0dbc15f..e02829e6b3100644---a=
+/meta/recipes-devtools/rust/rust-source.inc+++b/meta/recipes-devtools/rust/=
+rust-source.inc@@-10,6+10,10@@SRC_URI+=3D" target=3D"_blank" rel=3D"nofollo=
+w noopener">"
 @@ -73,156 +73,90 @@ class RustSelfTestSystemEmulated(OESelftestTestCase, O=
 EPTestResultTestCase):
                              'src/librustdoc',
@@ -1003,44 +1425,45 @@ ools/rust/rust-source.inc
 index 83a0dbc15f..e02829e6b3 100644
 --- a/meta/recipes-devtools/rust/rust-source.inc
 +++ b/meta/recipes-devtools/rust/rust-source.inc
-@@ -10,6 +10,10 @@ SRC_URI +=3D &quot;</a><a class=3D"moz-txt-link-freetext=
-" href=3D"https://static.rust-lang.org/dist/rustc-$">https://static.rust-la=
-ng.org/dist/rustc-$</a>{RUST_VERSION}-src.tar.xz;n
+@@ -10,6 +10,10 @@ SRC_URI +=3D "</a><a class=3D"moz-txt-link-freetext" hre=
+f=3D"https://static.rust-lang.org/dist/rustc-$" target=3D"_blank" rel=3D"no=
+follow noopener">https://static.rust-lang.org/dist/rustc-$</a>{RUST_VERSION=
+}-src.tar.xz;n
              <a class=3D"moz-txt-link-freetext" href=3D"file://0004-musl-De=
-fine-O_LARGEFILE-for-riscv32.patch;patchdir=3D$">file://0004-musl-Define-O_=
-LARGEFILE-for-riscv32.patch;patchdir=3D$</a>{RUSTSRC} \
+fine-O_LARGEFILE-for-riscv32.patch;patchdir=3D$" target=3D"_blank" rel=3D"n=
+ofollow noopener">file://0004-musl-Define-O_LARGEFILE-for-riscv32.patch;pat=
+chdir=3D$</a>{RUSTSRC} \
              <a class=3D"moz-txt-link-freetext" href=3D"file://0005-musl-De=
-fine-SOCK_SEQPACKET-in-common-place.patch;patchdir=3D$">file://0005-musl-De=
-fine-SOCK_SEQPACKET-in-common-place.patch;patchdir=3D$</a>{RUSTSRC} \
+fine-SOCK_SEQPACKET-in-common-place.patch;patchdir=3D$" target=3D"_blank" r=
+el=3D"nofollow noopener">file://0005-musl-Define-SOCK_SEQPACKET-in-common-p=
+lace.patch;patchdir=3D$</a>{RUSTSRC} \
              <a class=3D"moz-txt-link-freetext" href=3D"file://0001-Revert-=
-Map-source-absolute-paths-to-OUT_DIR-as-relat.patch;patchdir=3D$">file://00=
-01-Revert-Map-source-absolute-paths-to-OUT_DIR-as-relat.patch;patchdir=3D$<=
-/a>{RUSTSRC} \
+Map-source-absolute-paths-to-OUT_DIR-as-relat.patch;patchdir=3D$" target=3D=
+"_blank" rel=3D"nofollow noopener">file://0001-Revert-Map-source-absolute-p=
+aths-to-OUT_DIR-as-relat.patch;patchdir=3D$</a>{RUSTSRC} \
 +            <a class=3D"moz-txt-link-freetext" href=3D"file://cargo-path.p=
-atch;patchdir=3D$">file://cargo-path.patch;patchdir=3D$</a>{RUSTSRC} \
+atch;patchdir=3D$" target=3D"_blank" rel=3D"nofollow noopener">file://cargo=
+-path.patch;patchdir=3D$</a>{RUSTSRC} \
 +            <a class=3D"moz-txt-link-freetext" href=3D"file://custom-targe=
-t-cfg.patch;patchdir=3D$">file://custom-target-cfg.patch;patchdir=3D$</a>{R=
-USTSRC} \
+t-cfg.patch;patchdir=3D$" target=3D"_blank" rel=3D"nofollow noopener">file:=
+//custom-target-cfg.patch;patchdir=3D$</a>{RUSTSRC} \
 +            <a class=3D"moz-txt-link-freetext" href=3D"file://rustc-bootst=
-rap.patch;patchdir=3D$">file://rustc-bootstrap.patch;patchdir=3D$</a>{RUSTS=
-RC} \
+rap.patch;patchdir=3D$" target=3D"_blank" rel=3D"nofollow noopener">file://=
+rustc-bootstrap.patch;patchdir=3D$</a>{RUSTSRC} \
 +            <a class=3D"moz-txt-link-freetext" href=3D"file://target-build=
--value.patch;patchdir=3D$">file://target-build-value.patch;patchdir=3D$</a>=
-{RUSTSRC} \
- &quot;
- SRC_URI[rust.sha256sum] =3D &quot;b98c09d968529212fb29eec7d6d3e9bdaa869810=
-679b7fb86a1ca69469d75f5e&quot;
+-value.patch;patchdir=3D$" target=3D"_blank" rel=3D"nofollow noopener">file=
+://target-build-value.patch;patchdir=3D$</a>{RUSTSRC} \
+ "
+ SRC_URI[rust.sha256sum] =3D "b98c09d968529212fb29eec7d6d3e9bdaa869810679b7=
+fb86a1ca69469d75f5e"
 =20
 </pre>
-      </blockquote>
-      <p><br>
-      </p>
-      <pre class=3D"moz-signature" cols=3D"72">--=20
+</blockquote>
+<p>&nbsp;</p>
+<pre class=3D"moz-signature">--=20
 # Randy MacLeod
 # Wind River Linux</pre>
-    </blockquote>
-  </body>
-</html>
+</blockquote>
 
 --------------npYP9COCTmES5xz0NerbZiyC--
 
