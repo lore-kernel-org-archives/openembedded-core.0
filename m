@@ -2,57 +2,57 @@ Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C627C47DDB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CB47C47DDF
 	for <webhook@archiver.kernel.org>; Mon, 22 Jan 2024 13:59:31 +0000 (UTC)
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
- by mx.groups.io with SMTP id smtpd.web11.74368.1705931967665846752
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+ by mx.groups.io with SMTP id smtpd.web11.74366.1705931965978086434
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Jan 2024 05:59:27 -0800
+ Mon, 22 Jan 2024 05:59:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=PzfdAxe9;
- spf=pass (domain: gmail.com, ip: 209.85.208.42, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-55c1ac8d2f2so1504272a12.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jan 2024 05:59:27 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=cyRhBEtH;
+ spf=pass (domain: gmail.com, ip: 209.85.208.43, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-55a684acf92so3242931a12.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jan 2024 05:59:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705931966; x=1706536766; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1705931964; x=1706536764; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JwRA+OhhW5FIBT2i7TxbtL1+itpsmXTPUTEbpdriySI=;
-        b=PzfdAxe9i1n3MI0KaeaMJU3UP6Vy0A3PMVOcGHZaH0tJdG87H4j3VIYQxwbbMDOhIw
-         Mt5wHDU8pWlA7tGjZuUXWw1ojbqe1ta1Rkqh0WNWF3rzN4LTDNDnufVJtpdcjR0cIu8V
-         VWdRi7sPD/aWf+lggUJThkUM9QAtb8fInEfsUNl1hlFZagiK8RNFFkChtJ7029ian1hX
-         /9IPgFDf5kEw97PKfMgFjDgU323glAnYJIoZBEHT1uxPFAg3OCOImfwJ57YDr3VV32mV
-         Dk7CeM30rbtVPyyg3WYACLmB6rS/0RvLKW4NVH0wEVYu14pQcJZen98vZpxaNt/L/6Vo
-         uHTQ==
+        bh=EBNBj0nu8ui88glkGOzRhtBoQZsl8ckqJKa7AYI7LMQ=;
+        b=cyRhBEtH4L1N1Y3kLBj0dMArBAO2lnEcl7+xVE7w+HQj91cBAV2K4MLdT0hxZ8Rp5K
+         Rf+/q+YMLx3R298lV4fJBJZ0A6+DrG18e8k2l5IbtqtuIDvaH7Ejl2sKLce0aRMfdJL/
+         x4wDHcWsbbBY0Eimxt6+CPcuBYcqaIVIXH0BS249OPjHcNGrNFmFQ1yy4uM012iBMfHu
+         Q24qmNVc01DGofGH1Y/H4Fsi+ueTWAMFDDlQGRwVCBuiZFMf8evngVaZ4PUMTiD8oopS
+         WCZMRWJ6wDWpQBvKO+XW5Nvc/TCUsUIM8tLswl3g58/p1SIU20/e+UirZ/2srKcLLc+c
+         aCfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705931966; x=1706536766;
+        d=1e100.net; s=20230601; t=1705931964; x=1706536764;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=JwRA+OhhW5FIBT2i7TxbtL1+itpsmXTPUTEbpdriySI=;
-        b=gAV7Z3yuzx6pqjBTcutESu5JtHZOJ1S7AZcS4umhLsxXjLegmlqOUIs2d3Ajr51NeL
-         oZ4blHJ2axlgdZHA2F1Ng6XQ3AYUHbh74Cj+NJgLwtmRefuNogRDdcU8dZXLe9L44roH
-         EOe4TrlkhJRMbjRbPce4kyiZlJkXT4+D7IBfvAXT5RjQgH/99EwvfBWHp49DAFpTmxkN
-         0UZy/u794UBILb7cEnAMMhhPxYdWUI7cWUCK/AMJg8sFmVBfJWFb8acK8KcwfqBRDrFO
-         Q53QjvBGQWCu7Ds3qaNwLLZzZbM1jMuOALevoMKN4JcTAoAdjWXUJV5MnhbfB+uoQHoK
-         dp3Q==
-X-Gm-Message-State: AOJu0YzCEBVTXud0236VDx9Lhp38MNwbupOtA/VVluCkRgBm5hGJVGOC
-	zysgycNKAliCCqUAkGNSl7qJpssOR+AQXJ5UVHt6nd3bQsS2aSs1/kIsJ2jp
-X-Google-Smtp-Source: AGHT+IECfutax2e6Z2DtpE8LuiGD8kFB8Sa801+9i6I12xXJkKfRbgqnIhfG/o1/qxlRlsdy8Kly4Q==
-X-Received: by 2002:a17:906:493:b0:a2f:de3b:1307 with SMTP id f19-20020a170906049300b00a2fde3b1307mr1862689eja.135.1705931965877;
-        Mon, 22 Jan 2024 05:59:25 -0800 (PST)
+        bh=EBNBj0nu8ui88glkGOzRhtBoQZsl8ckqJKa7AYI7LMQ=;
+        b=V33wzLKXNmsD3vYhjg7KK8eL7+vBKeWlkg5R1WqJpLP9ntkwOgI3tkeTTwDFAa8zaL
+         YIZcLoNu1hYvICpnnZyN8m6G4mjqqYqYxW81XNQIAvcJw/HnOsRXJaLQVNoF0Ha+SSG3
+         oCYdMpemdpuvk/3bXBOh3jP2yn/4apOspEjtdKxrofS3qYpMZZSMvOYjeOyGkg02zYRV
+         7zmvu6QEQcFpTngq3FF7dKfv4CMMP8HPlRicQSq5a6yn54W+E7CFZZrbaPYm1rf7i4oc
+         9odxzodp0vrKyjBa7+SxtY4RtS+amO/xFNBmV4V4b/Q5zKQNO97o8WpHXLG7bK23TiI5
+         nBeQ==
+X-Gm-Message-State: AOJu0YyJCs9QRG4/oCySqs8kVmGUdry6KxV4Phk3SxMbVbsIgAakmsIU
+	EVoItc+IzSR8vUItrLZbA1cOtCLCDMmk2gGvwMXE9KcTnuHqTDx4bP3BP0Ov
+X-Google-Smtp-Source: AGHT+IFNP2ZVRWR8Bj6yrId8d8ogPdMajP+xIaAQfIwcHz2oU5wOVryRQX6yk/97qHMJP2kFTIyZ0w==
+X-Received: by 2002:a17:907:2d9f:b0:a2f:617b:f8a4 with SMTP id gt31-20020a1709072d9f00b00a2f617bf8a4mr1878458ejc.19.1705931963897;
+        Mon, 22 Jan 2024 05:59:23 -0800 (PST)
 Received: from wsadrian16.fritz.box ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id vw15-20020a170907a70f00b00a2d0595cd0dsm11568513ejc.86.2024.01.22.05.59.24
+        by smtp.gmail.com with ESMTPSA id vw15-20020a170907a70f00b00a2d0595cd0dsm11568513ejc.86.2024.01.22.05.59.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jan 2024 05:59:24 -0800 (PST)
+        Mon, 22 Jan 2024 05:59:23 -0800 (PST)
 From: Adrian Freihofer <adrian.freihofer@gmail.com>
 X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v10 6/9] devtool: refactor deploy to use exec_fakeroot_no_d
-Date: Mon, 22 Jan 2024 14:58:24 +0100
-Message-ID: <20240122135901.171596-7-adrian.freihofer@siemens.com>
+Subject: [PATCH v10 4/9] oe-selftest devtool: ide-sdk tests
+Date: Mon, 22 Jan 2024 14:58:22 +0100
+Message-ID: <20240122135901.171596-5-adrian.freihofer@siemens.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240122135901.171596-1-adrian.freihofer@siemens.com>
 References: <20240122135901.171596-1-adrian.freihofer@siemens.com>
@@ -62,63 +62,525 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 22 Jan 2024 13:59:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194155
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194152
 
-This is a step towards a deploy function which can be called without
-passing the d variable.
+Add some oe-selftests for the new devtool ide-sdk plugin. Most of the
+workflows are covered.
+
+Many thanks to Enguerrand de Ribaucourt for testing and bug fixing.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- scripts/lib/devtool/deploy.py | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ meta/lib/oeqa/selftest/cases/devtool.py | 492 ++++++++++++++++++++++++
+ 1 file changed, 492 insertions(+)
 
-diff --git a/scripts/lib/devtool/deploy.py b/scripts/lib/devtool/deploy.py
-index eadf6e15214..b71d55e2312 100644
---- a/scripts/lib/devtool/deploy.py
-+++ b/scripts/lib/devtool/deploy.py
-@@ -16,7 +16,7 @@ import bb.utils
- import argparse_oe
- import oe.types
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index a8777207694..006c846438d 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -12,6 +12,7 @@ import tempfile
+ import glob
+ import fnmatch
+ import unittest
++import json
  
--from devtool import exec_fakeroot, setup_tinfoil, check_workspace_recipe, DevtoolError
-+from devtool import exec_fakeroot_no_d, setup_tinfoil, check_workspace_recipe, DevtoolError
+ from oeqa.selftest.case import OESelftestTestCase
+ from oeqa.utils.commands import runCmd, bitbake, get_bb_var, create_temp_layer
+@@ -2314,3 +2315,494 @@ class DevtoolUpgradeTests(DevtoolBase):
  
- logger = logging.getLogger('devtool')
- 
-@@ -160,19 +160,22 @@ def deploy(args, config, basepath, workspace):
-         except Exception as e:
-             raise DevtoolError('Exception parsing recipe %s: %s' %
-                             (args.recipename, e))
+         #Step 4.5
+         runCmd("grep %s %s" % (modconfopt, codeconfigfile))
 +
-         recipe_outdir = rd.getVar('D')
-         if not os.path.exists(recipe_outdir) or not os.listdir(recipe_outdir):
-             raise DevtoolError('No files to deploy - have you built the %s '
-                             'recipe? If so, the install step has not installed '
-                             'any files.' % args.recipename)
- 
-+        fakerootcmd = rd.getVar('FAKEROOTCMD')
-+        fakerootenv = rd.getVar('FAKEROOTENV')
-         if args.strip and not args.dry_run:
-             # Fakeroot copy to new destination
-             srcdir = recipe_outdir
-             recipe_outdir = os.path.join(rd.getVar('WORKDIR'), 'devtool-deploy-target-stripped')
-             if os.path.isdir(recipe_outdir):
--                exec_fakeroot(rd, "rm -rf %s" % recipe_outdir, shell=True)
--            exec_fakeroot(rd, "cp -af %s %s" % (os.path.join(srcdir, '.'), recipe_outdir), shell=True)
-+                exec_fakeroot_no_d(fakerootcmd, fakerootenv, "rm -rf %s" % recipe_outdir, shell=True)
-+            exec_fakeroot_no_d(fakerootcmd, fakerootenv, "cp -af %s %s" % (os.path.join(srcdir, '.'), recipe_outdir), shell=True)
-             os.environ['PATH'] = ':'.join([os.environ['PATH'], rd.getVar('PATH') or ''])
-             oe.package.strip_execs(args.recipename, recipe_outdir, rd.getVar('STRIP'), rd.getVar('libdir'),
-                         rd.getVar('base_libdir'), oe.utils.get_bb_number_threads(rd), rd)
-@@ -251,7 +254,7 @@ def deploy(args, config, basepath, workspace):
-             shutil.rmtree(tmpdir)
- 
-         # Now run the script
--        ret = exec_fakeroot(rd, 'tar cf - . | %s  %s %s %s \'sh %s %s %s %s\'' % (ssh_sshexec, ssh_port, extraoptions, args.target, tmpscript, args.recipename, destdir, tmpfilelist), cwd=recipe_outdir, shell=True)
-+        ret = exec_fakeroot_no_d(fakerootcmd, fakerootenv, 'tar cf - . | %s  %s %s %s \'sh %s %s %s %s\'' % (ssh_sshexec, ssh_port, extraoptions, args.target, tmpscript, args.recipename, destdir, tmpfilelist), cwd=recipe_outdir, shell=True)
-         if ret != 0:
-             raise DevtoolError('Deploy failed - rerun with -s to get a complete '
-                             'error message')
++
++class DevtoolIdeSdkTests(DevtoolBase):
++    def _write_bb_config(self, recipe_names):
++        """Helper to write the bitbake local.conf file"""
++        conf_lines = [
++            'IMAGE_CLASSES += "image-combined-dbg"',
++            'IMAGE_GEN_DEBUGFS = "1"',
++            'IMAGE_INSTALL:append = " gdbserver %s"' % ' '.join(
++                [r + '-ptest' for r in recipe_names])
++        ]
++        self.write_config("\n".join(conf_lines))
++
++    def _check_workspace(self):
++        """Check if a workspace directory is available and setup the cleanup"""
++        self.assertTrue(not os.path.exists(self.workspacedir),
++                        'This test cannot be run with a workspace directory under the build directory')
++        self.track_for_cleanup(self.workspacedir)
++        self.add_command_to_tearDown('bitbake-layers remove-layer */workspace')
++
++    def _workspace_scripts_dir(self, recipe_name):
++        return os.path.realpath(os.path.join(self.builddir, 'workspace', 'ide-sdk', recipe_name, 'scripts'))
++
++    def _sources_scripts_dir(self, src_dir):
++        return os.path.realpath(os.path.join(src_dir, 'oe-scripts'))
++
++    def _workspace_gdbinit_dir(self, recipe_name):
++        return os.path.realpath(os.path.join(self.builddir, 'workspace', 'ide-sdk', recipe_name, 'scripts', 'gdbinit'))
++
++    def _sources_gdbinit_dir(self, src_dir):
++        return os.path.realpath(os.path.join(src_dir, 'oe-gdbinit'))
++
++    def _devtool_ide_sdk_recipe(self, recipe_name, build_file, testimage):
++        """Setup a recipe for working with devtool ide-sdk
++
++        Basically devtool modify -x followed by some tests
++        """
++        tempdir = tempfile.mkdtemp(prefix='devtoolqa')
++        self.track_for_cleanup(tempdir)
++        self.add_command_to_tearDown('bitbake -c clean %s' % recipe_name)
++
++        result = runCmd('devtool modify %s -x %s' % (recipe_name, tempdir))
++        self.assertExists(os.path.join(tempdir, build_file),
++                          'Extracted source could not be found')
++        self.assertExists(os.path.join(self.workspacedir, 'conf',
++                                       'layer.conf'), 'Workspace directory not created')
++        matches = glob.glob(os.path.join(self.workspacedir,
++                            'appends', recipe_name + '.bbappend'))
++        self.assertTrue(matches, 'bbappend not created %s' % result.output)
++
++        # Test devtool status
++        result = runCmd('devtool status')
++        self.assertIn(recipe_name, result.output)
++        self.assertIn(tempdir, result.output)
++        self._check_src_repo(tempdir)
++
++        # Usually devtool ide-sdk would initiate the build of the SDK.
++        # But there is a circular dependency with starting Qemu and passing the IP of runqemu to devtool ide-sdk.
++        if testimage:
++            bitbake("%s qemu-native qemu-helper-native" % testimage)
++            deploy_dir_image = get_bb_var('DEPLOY_DIR_IMAGE')
++            self.add_command_to_tearDown('bitbake -c clean %s' % testimage)
++            self.add_command_to_tearDown(
++                'rm -f %s/%s*' % (deploy_dir_image, testimage))
++
++        return tempdir
++
++    def _get_recipe_ids(self, recipe_name):
++        """IDs needed to write recipe specific config entries into IDE config files"""
++        package_arch = get_bb_var('PACKAGE_ARCH', recipe_name)
++        recipe_id = recipe_name + "-" + package_arch
++        recipe_id_pretty = recipe_name + ": " + package_arch
++        return (recipe_id, recipe_id_pretty)
++
++    def _verify_install_script_code(self, tempdir, recipe_name):
++        """Verify the scripts referred by the tasks.json file are fine.
++
++        This function does not depend on Qemu. Therefore it verifies the scripts
++        exists and the delete step works as expected. But it does not try to
++        deploy to Qemu.
++        """
++        recipe_id, recipe_id_pretty = self._get_recipe_ids(recipe_name)
++        with open(os.path.join(tempdir, '.vscode', 'tasks.json')) as tasks_j:
++            tasks_d = json.load(tasks_j)
++        tasks = tasks_d["tasks"]
++        task_install = next(
++            (task for task in tasks if task["label"] == "install && deploy-target %s" % recipe_id_pretty), None)
++        self.assertIsNot(task_install, None)
++        # execute only the bb_run_do_install script since the deploy would require e.g. Qemu running.
++        i_and_d_script = "install_and_deploy_" + recipe_id
++        i_and_d_script_path = os.path.join(
++            self._workspace_scripts_dir(recipe_name), i_and_d_script)
++        self.assertExists(i_and_d_script_path)
++        del_script = "delete_package_dirs_" + recipe_id
++        del_script_path = os.path.join(
++            self._workspace_scripts_dir(recipe_name), del_script)
++        self.assertExists(del_script_path)
++        runCmd(del_script_path, cwd=tempdir)
++
++    def _devtool_ide_sdk_qemu(self, tempdir, qemu, recipe_name, example_exe):
++        """Verify deployment and execution in Qemu system work for one recipe.
++
++        This function checks the entire SDK workflow: changing the code, recompiling
++        it and deploying it back to Qemu, and checking that the changes have been
++        incorporated into the provided binaries. It also runs the tests of the recipe.
++        """
++        recipe_id, _ = self._get_recipe_ids(recipe_name)
++        i_and_d_script = "install_and_deploy_" + recipe_id
++        install_deploy_cmd = os.path.join(
++            self._workspace_scripts_dir(recipe_name), i_and_d_script)
++        self.assertExists(install_deploy_cmd,
++                          '%s script not found' % install_deploy_cmd)
++        runCmd(install_deploy_cmd)
++
++        MAGIC_STRING_ORIG = "Magic: 123456789"
++        MAGIC_STRING_NEW = "Magic: 987654321"
++        ptest_cmd = "ptest-runner " + recipe_name
++
++        # validate that SSH is working
++        status, _ = qemu.run("uname")
++        self.assertEqual(
++            status, 0, msg="Failed to connect to the SSH server on Qemu")
++
++        # Verify the unmodified example prints the magic string
++        status, output = qemu.run(example_exe)
++        self.assertEqual(status, 0, msg="%s failed: %s" %
++                         (example_exe, output))
++        self.assertIn(MAGIC_STRING_ORIG, output)
++
++        # Verify the unmodified ptests work
++        status, output = qemu.run(ptest_cmd)
++        self.assertEqual(status, 0, msg="%s failed: %s" % (ptest_cmd, output))
++        self.assertIn("PASS: cpp-example-lib", output)
++
++        # Replace the Magic String in the code, compile and deploy to Qemu
++        cpp_example_lib_hpp = os.path.join(tempdir, 'cpp-example-lib.hpp')
++        with open(cpp_example_lib_hpp, 'r') as file:
++            cpp_code = file.read()
++            cpp_code = cpp_code.replace(MAGIC_STRING_ORIG, MAGIC_STRING_NEW)
++        with open(cpp_example_lib_hpp, 'w') as file:
++            file.write(cpp_code)
++        runCmd(install_deploy_cmd, cwd=tempdir)
++
++        # Verify the modified example prints the modified magic string
++        status, output = qemu.run(example_exe)
++        self.assertEqual(status, 0, msg="%s failed: %s" %
++                         (example_exe, output))
++        self.assertNotIn(MAGIC_STRING_ORIG, output)
++        self.assertIn(MAGIC_STRING_NEW, output)
++
++        # Verify the modified example ptests work
++        status, output = qemu.run(ptest_cmd)
++        self.assertEqual(status, 0, msg="%s failed: %s" % (ptest_cmd, output))
++        self.assertIn("PASS: cpp-example-lib", output)
++
++    def _gdb_cross(self):
++        """Verify gdb-cross is provided by devtool ide-sdk"""
++        target_arch = self.td["TARGET_ARCH"]
++        target_sys = self.td["TARGET_SYS"]
++        gdb_recipe = "gdb-cross-" + target_arch
++        gdb_binary = target_sys + "-gdb"
++
++        native_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", gdb_recipe)
++        r = runCmd("%s --version" % gdb_binary,
++                   native_sysroot=native_sysroot, target_sys=target_sys)
++        self.assertEqual(r.status, 0)
++        self.assertIn("GNU gdb", r.output)
++
++    def _gdb_cross_debugging(self, qemu, recipe_name, example_exe):
++        """Verify gdb-cross is working
++
++        Test remote debugging:
++        break main
++        run
++        continue
++        """
++        sshargs = '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
++        gdbserver_script = os.path.join(self._workspace_scripts_dir(
++            recipe_name), 'gdbserver_1234_usr-bin-' + example_exe + '_m')
++        gdb_script = os.path.join(self._workspace_scripts_dir(
++            recipe_name), 'gdb_1234_usr-bin-' + example_exe)
++
++        # Start a gdbserver
++        r = runCmd(gdbserver_script)
++        self.assertEqual(r.status, 0)
++
++        # Check there is a gdbserver running
++        r = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, 'ps'))
++        self.assertEqual(r.status, 0)
++        self.assertIn("gdbserver ", r.output)
++
++        # Check the pid file is correct
++        test_cmd = "cat /proc/$(cat /tmp/gdbserver_1234_usr-bin-" + \
++            example_exe + "/pid)/cmdline"
++        r = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, test_cmd))
++        self.assertEqual(r.status, 0)
++        self.assertIn("gdbserver", r.output)
++
++        # Test remote debugging works
++        r = runCmd(
++            gdb_script + " --batch -ex 'break main' --ex 'run' -ex 'continue'")
++        self.assertEqual(r.status, 0)
++        self.assertIn("Breakpoint 1, main", r.output)
++        self.assertIn("exited normally", r.output)
++
++        # Stop the gdbserver
++        r = runCmd(gdbserver_script + ' stop')
++        self.assertEqual(r.status, 0)
++
++        # Check there is no gdbserver running
++        r = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, 'ps'))
++        self.assertEqual(r.status, 0)
++        self.assertNotIn("gdbserver ", r.output)
++
++    def _verify_cmake_preset(self, tempdir):
++        """Verify the generated cmake preset works as expected
++
++        Check if compiling works
++        Check if unit tests can be executed in qemu (not qemu-system)
++        """
++        with open(os.path.join(tempdir, 'CMakeUserPresets.json')) as cmake_preset_j:
++            cmake_preset_d = json.load(cmake_preset_j)
++        config_presets = cmake_preset_d["configurePresets"]
++        self.assertEqual(len(config_presets), 1)
++        cmake_exe = config_presets[0]["cmakeExecutable"]
++        preset_name = config_presets[0]["name"]
++
++        # Verify the wrapper for cmake native is available
++        self.assertExists(cmake_exe)
++
++        # Verify the cmake preset generated by devtool ide-sdk is available
++        result = runCmd('%s --list-presets' % cmake_exe, cwd=tempdir)
++        self.assertIn(preset_name, result.output)
++
++        # Verify cmake re-uses the o files compiled by bitbake
++        result = runCmd('%s --build --preset %s' %
++                        (cmake_exe, preset_name), cwd=tempdir)
++        self.assertIn("ninja: no work to do.", result.output)
++
++        # Verify the unit tests work (in Qemu user mode)
++        result = runCmd('%s --build --preset %s --target test' %
++                        (cmake_exe, preset_name), cwd=tempdir)
++        self.assertIn("100% tests passed", result.output)
++
++        # Verify re-building and testing works again
++        result = runCmd('%s --build --preset %s --target clean' %
++                        (cmake_exe, preset_name), cwd=tempdir)
++        self.assertIn("Cleaning", result.output)
++        result = runCmd('%s --build --preset %s' %
++                        (cmake_exe, preset_name), cwd=tempdir)
++        self.assertIn("Building", result.output)
++        self.assertIn("Linking", result.output)
++        result = runCmd('%s --build --preset %s --target test' %
++                        (cmake_exe, preset_name), cwd=tempdir)
++        self.assertIn("Running tests...", result.output)
++        self.assertIn("100% tests passed", result.output)
++
++    @OETestTag("runqemu")
++    def test_devtool_ide_sdk_none_qemu(self):
++        """Start qemu-system and run tests for multiple recipes. ide=none is used."""
++        recipe_names = ["cmake-example", "meson-example"]
++        testimage = "oe-selftest-image"
++
++        self._check_workspace()
++        self._write_bb_config(recipe_names)
++        self._check_runqemu_prerequisites()
++
++        # Verify deployment to Qemu (system mode) works
++        bitbake(testimage)
++        with runqemu(testimage, runqemuparams="nographic") as qemu:
++            # cmake-example recipe
++            recipe_name = "cmake-example"
++            example_exe = "cmake-example"
++            build_file = "CMakeLists.txt"
++            tempdir = self._devtool_ide_sdk_recipe(
++                recipe_name, build_file, testimage)
++            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --ide=none' % (
++                recipe_name, testimage, qemu.ip)
++            runCmd(bitbake_sdk_cmd)
++            self._verify_cmake_preset(tempdir)
++            self._devtool_ide_sdk_qemu(tempdir, qemu, recipe_name, example_exe)
++            # Verify the oe-scripts sym-link is valid
++            self.assertEqual(self._workspace_scripts_dir(
++                recipe_name), self._sources_scripts_dir(tempdir))
++            # Verify GDB is working after devtool ide-sdk
++            self._gdb_cross()
++            self._gdb_cross_debugging(qemu, recipe_name, example_exe)
++
++            # meson-example recipe
++            recipe_name = "meson-example"
++            example_exe = "mesonex"
++            build_file = "meson.build"
++            tempdir = self._devtool_ide_sdk_recipe(
++                recipe_name, build_file, testimage)
++            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --ide=none' % (
++                recipe_name, testimage, qemu.ip)
++            runCmd(bitbake_sdk_cmd)
++            self._devtool_ide_sdk_qemu(tempdir, qemu, recipe_name, example_exe)
++            # Verify the oe-scripts sym-link is valid
++            self.assertEqual(self._workspace_scripts_dir(
++                recipe_name), self._sources_scripts_dir(tempdir))
++            # Verify GDB is working after devtool ide-sdk
++            self._gdb_cross()
++            self._gdb_cross_debugging(qemu, recipe_name, example_exe)
++
++    def test_devtool_ide_sdk_code_cmake(self):
++        """Verify a cmake recipe works with ide=code mode"""
++        recipe_name = "cmake-example"
++        build_file = "CMakeLists.txt"
++        testimage = "oe-selftest-image"
++
++        self._check_workspace()
++        self._write_bb_config([recipe_name])
++        tempdir = self._devtool_ide_sdk_recipe(
++            recipe_name, build_file, testimage)
++        bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@192.168.17.17 -c --ide=code' % (
++            recipe_name, testimage)
++        runCmd(bitbake_sdk_cmd)
++        self._verify_cmake_preset(tempdir)
++        self._verify_install_script_code(tempdir,  recipe_name)
++        self._gdb_cross()
++
++    def test_devtool_ide_sdk_code_meson(self):
++        """Verify a meson recipe works with ide=code mode"""
++        recipe_name = "meson-example"
++        build_file = "meson.build"
++        testimage = "oe-selftest-image"
++
++        self._check_workspace()
++        self._write_bb_config([recipe_name])
++        tempdir = self._devtool_ide_sdk_recipe(
++            recipe_name, build_file, testimage)
++        bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@192.168.17.17 -c --ide=code' % (
++            recipe_name, testimage)
++        runCmd(bitbake_sdk_cmd)
++
++        with open(os.path.join(tempdir, '.vscode', 'settings.json')) as settings_j:
++            settings_d = json.load(settings_j)
++        meson_exe = settings_d["mesonbuild.mesonPath"]
++        meson_build_folder = settings_d["mesonbuild.buildFolder"]
++
++        # Verify the wrapper for meson native is available
++        self.assertExists(meson_exe)
++
++        # Verify meson re-uses the o files compiled by bitbake
++        result = runCmd('%s compile -C  %s' %
++                        (meson_exe, meson_build_folder), cwd=tempdir)
++        self.assertIn("ninja: no work to do.", result.output)
++
++        # Verify the unit tests work (in Qemu)
++        runCmd('%s test -C %s' % (meson_exe, meson_build_folder), cwd=tempdir)
++
++        # Verify re-building and testing works again
++        result = runCmd('%s compile -C  %s --clean' %
++                        (meson_exe, meson_build_folder), cwd=tempdir)
++        self.assertIn("Cleaning...", result.output)
++        result = runCmd('%s compile -C  %s' %
++                        (meson_exe, meson_build_folder), cwd=tempdir)
++        self.assertIn("Linking target", result.output)
++        runCmd('%s test -C %s' % (meson_exe, meson_build_folder), cwd=tempdir)
++
++        self._verify_install_script_code(tempdir,  recipe_name)
++        self._gdb_cross()
++
++    def test_devtool_ide_sdk_shared_sysroots(self):
++        """Verify the shared sysroot SDK"""
++
++        # Handle the workspace (which is not needed by this test case)
++        self._check_workspace()
++
++        result_init = runCmd(
++            'devtool ide-sdk -m shared oe-selftest-image cmake-example meson-example --ide=code')
++        bb_vars = get_bb_vars(
++            ['REAL_MULTIMACH_TARGET_SYS', 'DEPLOY_DIR_IMAGE', 'COREBASE'], "meta-ide-support")
++        environment_script = 'environment-setup-%s' % bb_vars['REAL_MULTIMACH_TARGET_SYS']
++        deploydir = bb_vars['DEPLOY_DIR_IMAGE']
++        environment_script_path = os.path.join(deploydir, environment_script)
++        cpp_example_src = os.path.join(
++            bb_vars['COREBASE'], 'meta-selftest', 'recipes-test', 'cpp', 'files')
++
++        # Verify the cross environment script is available
++        self.assertExists(environment_script_path)
++
++        def runCmdEnv(cmd, cwd):
++            cmd = '/bin/sh -c ". %s > /dev/null && %s"' % (
++                environment_script_path, cmd)
++            return runCmd(cmd, cwd)
++
++        # Verify building the C++ example works with CMake
++        tempdir_cmake = tempfile.mkdtemp(prefix='devtoolqa')
++        self.track_for_cleanup(tempdir_cmake)
++
++        result_cmake = runCmdEnv("which cmake", cwd=tempdir_cmake)
++        cmake_native = os.path.normpath(result_cmake.output.strip())
++        self.assertExists(cmake_native)
++
++        runCmdEnv('cmake %s' % cpp_example_src, cwd=tempdir_cmake)
++        runCmdEnv('cmake --build %s' % tempdir_cmake, cwd=tempdir_cmake)
++
++        # Verify the printed note really referres to a cmake executable
++        cmake_native_code = ""
++        for line in result_init.output.splitlines():
++            m = re.search(r'"cmake.cmakePath": "(.*)"', line)
++            if m:
++                cmake_native_code = m.group(1)
++                break
++        self.assertExists(cmake_native_code)
++        self.assertEqual(cmake_native, cmake_native_code)
++
++        # Verify building the C++ example works with Meson
++        tempdir_meson = tempfile.mkdtemp(prefix='devtoolqa')
++        self.track_for_cleanup(tempdir_meson)
++
++        result_cmake = runCmdEnv("which meson", cwd=tempdir_meson)
++        meson_native = os.path.normpath(result_cmake.output.strip())
++        self.assertExists(meson_native)
++
++        runCmdEnv('meson setup %s' % tempdir_meson, cwd=cpp_example_src)
++        runCmdEnv('meson compile', cwd=tempdir_meson)
++
++    def test_devtool_ide_sdk_plugins(self):
++        """Test that devtool ide-sdk can use plugins from other layers."""
++
++        # We need a workspace layer and a modified recipe (but no image)
++        modified_recipe_name = "meson-example"
++        modified_build_file = "meson.build"
++        testimage = "oe-selftest-image"
++        shared_recipe_name = "cmake-example"
++
++        self._check_workspace()
++        self._write_bb_config([modified_recipe_name])
++        tempdir = self._devtool_ide_sdk_recipe(
++            modified_recipe_name, modified_build_file, None)
++
++        IDE_RE = re.compile(r'.*--ide \{(.*)\}.*')
++
++        def get_ides_from_help(help_str):
++            m = IDE_RE.search(help_str)
++            return m.group(1).split(',')
++
++        # verify the default plugins are available but the foo plugin is not
++        result = runCmd('devtool ide-sdk -h')
++        found_ides = get_ides_from_help(result.output)
++        self.assertIn('code', found_ides)
++        self.assertIn('none', found_ides)
++        self.assertNotIn('foo', found_ides)
++
++        shared_config_file = os.path.join(tempdir, 'shared-config.txt')
++        shared_config_str = 'Dummy shared IDE config'
++        modified_config_file = os.path.join(tempdir, 'modified-config.txt')
++        modified_config_str = 'Dummy modified IDE config'
++
++        # Generate a foo plugin in the workspace layer
++        plugin_dir = os.path.join(
++            self.workspacedir, 'lib', 'devtool', 'ide_plugins')
++        os.makedirs(plugin_dir)
++        plugin_code = 'from devtool.ide_plugins import IdeBase\n\n'
++        plugin_code += 'class IdeFoo(IdeBase):\n'
++        plugin_code += '    def setup_shared_sysroots(self, shared_env):\n'
++        plugin_code += '        with open("%s", "w") as config_file:\n' % shared_config_file
++        plugin_code += '            config_file.write("%s")\n\n' % shared_config_str
++        plugin_code += '    def setup_modified_recipe(self, args, image_recipe, modified_recipe):\n'
++        plugin_code += '        with open("%s", "w") as config_file:\n' % modified_config_file
++        plugin_code += '            config_file.write("%s")\n\n' % modified_config_str
++        plugin_code += 'def register_ide_plugin(ide_plugins):\n'
++        plugin_code += '    ide_plugins["foo"] = IdeFoo\n'
++
++        plugin_py = os.path.join(plugin_dir, 'ide_foo.py')
++        with open(plugin_py, 'w') as plugin_file:
++            plugin_file.write(plugin_code)
++
++        # Verify the foo plugin is available as well
++        result = runCmd('devtool ide-sdk -h')
++        found_ides = get_ides_from_help(result.output)
++        self.assertIn('code', found_ides)
++        self.assertIn('none', found_ides)
++        self.assertIn('foo', found_ides)
++
++        # Verify the foo plugin generates a shared config
++        result = runCmd(
++            'devtool ide-sdk -m shared --skip-bitbake --ide foo %s' % shared_recipe_name)
++        with open(shared_config_file) as shared_config:
++            shared_config_new = shared_config.read()
++        self.assertEqual(shared_config_str, shared_config_new)
++
++        # Verify the foo plugin generates a modified config
++        result = runCmd('devtool ide-sdk --skip-bitbake --ide foo %s %s' %
++                        (modified_recipe_name, testimage))
++        with open(modified_config_file) as modified_config:
++            modified_config_new = modified_config.read()
++        self.assertEqual(modified_config_str, modified_config_new)
 -- 
 2.43.0
 
