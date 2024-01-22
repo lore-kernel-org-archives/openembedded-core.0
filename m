@@ -1,102 +1,184 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <pavel@zhukoff.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16B38C47DAF
-	for <webhook@archiver.kernel.org>; Mon, 22 Jan 2024 11:10:00 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web11.71150.1705921794824153967
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21213C4725D
+	for <webhook@archiver.kernel.org>; Mon, 22 Jan 2024 11:23:20 +0000 (UTC)
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
+ by mx.groups.io with SMTP id smtpd.web11.71366.1705922596954556571
  for <openembedded-core@lists.openembedded.org>;
- Mon, 22 Jan 2024 03:09:55 -0800
+ Mon, 22 Jan 2024 03:23:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DDGKXY02;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-40e76626170so34896725e9.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 22 Jan 2024 03:09:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1705921793; x=1706526593; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=2zk8nOXlWhZoQfEelXs863jIjUEbxj0c4KTuWgujNHw=;
-        b=DDGKXY02hL/IeK2azhAiJHSKtUwyDZBCVWiJ8lp03gs1jUDfC7zBsR7uTqeXRHAwYt
-         ktQ3pUPGryTE/fPEMPMOhO4Cdjz2DtduXNapa66p6AF7efOFArHGcDcoUcjA5swFaEYk
-         wr5E0o3RrVelyBJAGGiSF4T2h/Mi1NCF/IFXk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705921793; x=1706526593;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2zk8nOXlWhZoQfEelXs863jIjUEbxj0c4KTuWgujNHw=;
-        b=dkLPGxIYTjFBI9rKW/CX8EFUBHxsQ1ZrszZCsYLRnYbqWVT1CKnWaKEZZdFk+FVMud
-         cE/K+6ucx22NK/RXiMcLf/VFD2KjQsHxhw/rwG4wgm8cnN/41l7tqrXXtkMemQJdNhsV
-         3QzOYm13NUCcTakxN0omoyTrzNweA2AUEwSwdKSeRrq7/eIQ8ZXOANI0TvFtA5joHOW4
-         qjd+JHx5BqAgZG3C1IpszaFNrGc5tR75OHFjAREjk3C61ISPQ2qdsV5dbIxXjYhbzcFU
-         Q+vu9bEIQrghybbyv+J6JA0EV+8xAIa2B1r82/AQR5Qb6VeZqs6sWVmiQqnQRHQ5cJOL
-         2K8Q==
-X-Gm-Message-State: AOJu0YyLVhiVnkzKxtVOvethlOoWmcRshixR0eOBaHB7rC6jdzbxy6rv
-	PH2O09Obhsn+91GpjYSWXGXEqnIZuu9zwifTIER3LcD7jnT6xW3CSdS+6m63D6g=
-X-Google-Smtp-Source: AGHT+IEGd/lfEJKRhVZeKiJLOso2BbYIbbG8hdzkHu/5L+P/4sJTEiITbtYLPDwnCDzuTFtl040rLA==
-X-Received: by 2002:a05:600c:213:b0:40e:5d36:8bb2 with SMTP id 19-20020a05600c021300b0040e5d368bb2mr2062511wmi.70.1705921793193;
-        Mon, 22 Jan 2024 03:09:53 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:a57c:4d56:a1d0:e701? ([2001:8b0:aba:5f3c:a57c:4d56:a1d0:e701])
-        by smtp.gmail.com with ESMTPSA id z10-20020a05600c0a0a00b0040e486bc0dfsm43081598wmp.27.2024.01.22.03.09.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jan 2024 03:09:52 -0800 (PST)
-Message-ID: <6b44d037440ecc31572f8656e2098729b2bd3d24.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/2] mdamd: Switch to git recipe
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, Pavel Zhukov
- <pavel@zhukoff.net>
-Cc: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Jan 2024 11:09:52 +0000
-In-Reply-To: <CANNYZj9a+pvXVcCf9-6qPzVF9gcNccOwqno7ducFYajXFauyfQ@mail.gmail.com>
-References: <20240122085443.637472-2-pavel@zhukoff.net>
-	 <CANNYZj9a+pvXVcCf9-6qPzVF9gcNccOwqno7ducFYajXFauyfQ@mail.gmail.com>
-Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
- YNvg==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.0-1 
+ dkim=pass header.i=@zhukoff.net header.s=fm3 header.b=ROxcSj1m;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=Dm0Zlm4R;
+ spf=pass (domain: zhukoff.net, ip: 64.147.123.24, mailfrom: pavel@zhukoff.net)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.west.internal (Postfix) with ESMTP id CC7BE320046F;
+	Mon, 22 Jan 2024 06:23:13 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute4.internal (MEProxy); Mon, 22 Jan 2024 06:23:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zhukoff.net; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1705922593; x=1706008993; bh=wo8sYzSH3i
+	87hSQsBJsSEWQIWe13at14a73A7uGrNUk=; b=ROxcSj1midlHjcFFNR8V9ou6lk
+	EHwGzYA1HQOUiV+jHFQIMhYbQG6ThClrWY7VjE/77fzEEfSnZnXaIWbSaGgp1JWe
+	APDJDWBB3JnzdYNSQr5dXghsnN0hGO3k/+7oWS0lG8u47F04eDEiLVYoYYSLVm+L
+	N1AhgmykF1L1R+eD4NB2r8XyKuB/Gz9bUuNXE96NqDRU0lFi9oSqHuu7/2dsypH+
+	HNc3I9LkHY56iW1k911ve6yiAftnYyNKJjd3w5GKsEStlsSmZCArAYpATLZj0qaE
+	FkzeO1cpL9DkyQUxclZtHmqG2v8hhzwKz9UGxos+1SlUY/Rvh5k7EosY435w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1705922593; x=1706008993; bh=wo8sYzSH3i87hSQsBJsSEWQIWe13
+	at14a73A7uGrNUk=; b=Dm0Zlm4R2VUGVYt3l+swJJyGLJRLH1YJxC3iy3YY1icq
+	EkFCOmMPSQj0W7TeRoDQ8rCzPrx3oEGOuXsdDwa92BbMGCwuDlcKgcLj4FsNMJj2
+	xIU7mz+LVG16Lha/B+9bXBU31QZiHnR3+9aNw+iRTnRyV6xuZ2xGUikvtWyPwinB
+	Jl36hBO4qAaVCex4XoR+2DeoSGqD1KnMmQr2HR7zPMw/LmkpD/hWKY4PR3YRklVP
+	ahAnR5VmfRJ4YHLwnV5/NXVQT83687Il9ADaaWSLV1LGHycmjlIFoFy/Zo77Jlug
+	0gV8SW2xrKlhd//VUT56X2G72VY2uIfHxDwbT0gUEQ==
+X-ME-Sender: <xms:IVCuZW1vYymMlUGucktE4EUeb2-0HHLfopODL39x5h4LvmMILZ6Quw>
+    <xme:IVCuZZF75HuL4iPG-DUEE3EHHYLgTFzaTPv4gxk0NrNR2WOGlWZpVxjk3hetqVDVW
+    dtb2i4g4wuyD-1iKKk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdekiedgvdehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsegrtderreerredtnecuhfhrohhmpedfrfgr
+    vhgvlhcukghhuhhkohhvfdcuoehprghvvghlseiihhhukhhofhhfrdhnvghtqeenucggtf
+    frrghtthgvrhhnpeethfefieffjedvkeeijeeuiedvteduledvheeuteduhfekudegvedv
+    leejudeiheenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgnecuvehluh
+    hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepphgrvhgvlhesiihh
+    uhhkohhffhdrnhgvth
+X-ME-Proxy: <xmx:IVCuZe46WaZ9NH4_8BDEl04CxLp6JEHVUmBR4gL4unCpfgngXbZyBA>
+    <xmx:IVCuZX1XO_t5cAmtexttrEWX0xcVz6hmbn_k7kEXgA9SQBj3L-y0OQ>
+    <xmx:IVCuZZFSXpIuZXoyiNBJ8RP1Lepy05yhVQFgzoM6W90cGqsCpkQoaQ>
+    <xmx:IVCuZcOHzVv5paNvpzGhtaVwumUQMXEJ6uNhyJLojlUyxeL6fLJBzw>
+Feedback-ID: ib94946c9:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 01D1CB6008D; Mon, 22 Jan 2024 06:23:12 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-1374-gc37f3abe3d-fm-20240102.001-gc37f3abe
 MIME-Version: 1.0
+Message-Id: <e39baf9d-ad60-4c98-a5c7-fa68c15a5902@app.fastmail.com>
+In-Reply-To: 
+ <6b44d037440ecc31572f8656e2098729b2bd3d24.camel@linuxfoundation.org>
+References: <20240122085443.637472-2-pavel@zhukoff.net>
+ <CANNYZj9a+pvXVcCf9-6qPzVF9gcNccOwqno7ducFYajXFauyfQ@mail.gmail.com>
+ <6b44d037440ecc31572f8656e2098729b2bd3d24.camel@linuxfoundation.org>
+Date: Mon, 22 Jan 2024 12:22:55 +0100
+From: "Pavel Zhukov" <pavel@zhukoff.net>
+To: "Richard Purdie" <richard.purdie@linuxfoundation.org>,
+ "Alexander Kanavin" <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH 1/2] mdamd: Switch to git recipe
+Content-Type: multipart/alternative;
+ boundary=a1fc303d9759492ba30723b673cb2d51
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 22 Jan 2024 11:10:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194143
+ <openembedded-core@lists.openembedded.org>; Mon, 22 Jan 2024 11:23:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194144
 
-On Mon, 2024-01-22 at 11:17 +0100, Alexander Kanavin wrote:
-> On Mon, 22 Jan 2024 at 09:55, Pavel Zhukov <pavel@zhukoff.net> wrote:
-> >=20
-> > mdadm latest official release was long time while development is
-> > ongoing. This caused growing number of downstream patches in the layer.
-> > Switch to git recipe and cleanup patches.
->=20
-> Wait.
->=20
-> Did you engage with upstream to find out if/when they're making a new
-> release? Switching to a random commit in the middle of a development
-> cycle needs to be carefully considered, and preferably, confirmed with
-> upstream. Even if the last release was a long time ago, and
-> maintenance burden with custom patches is growing.
+--a1fc303d9759492ba30723b673cb2d51
+Content-Type: text/plain
 
-We did discuss this one a little on the tech call or bug triage. mdadm
-is proving to be a pain, the tests are broken and we have a growing set
-of patches.
+Upstream project has got new maintainer last month. I'm contacting him to see what's the plan is. 
+They were doing release every 2-3 years before and 4.2 has been released in 2021 (Dec 30th :) ) so not so long time ago.  
 
-It seems upstream are happy working in git and weren't going to make
-official releases, I'm not sure where I head that though.=C2=A0
+-- 
+Pavel
 
-Whilst I generally prefer releases, moving over to git does seem like
-the right thing to do in this case.
+On Mon, Jan 22, 2024, at 12:09, Richard Purdie wrote:
+> On Mon, 2024-01-22 at 11:17 +0100, Alexander Kanavin wrote:
+> > On Mon, 22 Jan 2024 at 09:55, Pavel Zhukov <pavel@zhukoff.net> wrote:
+> > > 
+> > > mdadm latest official release was long time while development is
+> > > ongoing. This caused growing number of downstream patches in the layer.
+> > > Switch to git recipe and cleanup patches.
+> > 
+> > Wait.
+> > 
+> > Did you engage with upstream to find out if/when they're making a new
+> > release? Switching to a random commit in the middle of a development
+> > cycle needs to be carefully considered, and preferably, confirmed with
+> > upstream. Even if the last release was a long time ago, and
+> > maintenance burden with custom patches is growing.
+> 
+> We did discuss this one a little on the tech call or bug triage. mdadm
+> is proving to be a pain, the tests are broken and we have a growing set
+> of patches.
+> 
+> It seems upstream are happy working in git and weren't going to make
+> official releases, I'm not sure where I head that though. 
+> 
+> Whilst I generally prefer releases, moving over to git does seem like
+> the right thing to do in this case.
+> 
+> Cheers,
+> 
+> Richard
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#194143): https://lists.openembedded.org/g/openembedded-core/message/194143
+> Mute This Topic: https://lists.openembedded.org/mt/103882790/6390638
+> Group Owner: openembedded-core+owner@lists.openembedded.org <mailto:openembedded-core%2Bowner@lists.openembedded.org>
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [pavel@zhukoff.net]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+> 
 
-Cheers,
+--a1fc303d9759492ba30723b673cb2d51
+Content-Type: text/html
+Content-Transfer-Encoding: quoted-printable
 
-Richard
+<!DOCTYPE html><html><head><title></title><style type=3D"text/css">p.Mso=
+Normal,p.MsoNoSpacing{margin:0}</style></head><body><div>Upstream projec=
+t has got new maintainer last month. I'm contacting him to see what's th=
+e plan is. <br></div><div>They were doing release every 2-3 years before=
+ and 4.2 has been released in 2021 (Dec 30th :) ) so not so long time ag=
+o.&nbsp;&nbsp;<br></div><div><br></div><div>--&nbsp;<br></div><div>Pavel=
+</div><div><br></div><div>On Mon, Jan 22, 2024, at 12:09, Richard Purdie=
+ wrote:<br></div><blockquote type=3D"cite" id=3D"qt" style=3D""><div>On =
+Mon, 2024-01-22 at 11:17 +0100, Alexander Kanavin wrote:<br></div><div>&=
+gt; On Mon, 22 Jan 2024 at 09:55, Pavel Zhukov &lt;<a href=3D"mailto:pav=
+el@zhukoff.net">pavel@zhukoff.net</a>&gt; wrote:<br></div><div>&gt; &gt;=
+&nbsp;<br></div><div>&gt; &gt; mdadm latest official release was long ti=
+me while development is<br></div><div>&gt; &gt; ongoing. This caused gro=
+wing number of downstream patches in the layer.<br></div><div>&gt; &gt; =
+Switch to git recipe and cleanup patches.<br></div><div>&gt;&nbsp;<br></=
+div><div>&gt; Wait.<br></div><div>&gt;&nbsp;<br></div><div>&gt; Did you =
+engage with upstream to find out if/when they're making a new<br></div><=
+div>&gt; release? Switching to a random commit in the middle of a develo=
+pment<br></div><div>&gt; cycle needs to be carefully considered, and pre=
+ferably, confirmed with<br></div><div>&gt; upstream. Even if the last re=
+lease was a long time ago, and<br></div><div>&gt; maintenance burden wit=
+h custom patches is growing.<br></div><div><br></div><div>We did discuss=
+ this one a little on the tech call or bug triage. mdadm<br></div><div>i=
+s proving to be a pain, the tests are broken and we have a growing set<b=
+r></div><div>of patches.<br></div><div><br></div><div>It seems upstream =
+are happy working in git and weren't going to make<br></div><div>officia=
+l releases, I'm not sure where I head that though.&nbsp;<br></div><div><=
+br></div><div>Whilst I generally prefer releases, moving over to git doe=
+s seem like<br></div><div>the right thing to do in this case.<br></div><=
+div><br></div><div>Cheers,<br></div><div><br></div><div>Richard<br></div=
+><div><br></div><div><br></div><div>-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D=
+-=3D-=3D-<br></div><div>Links: You receive all messages sent to this gro=
+up.<br></div><div>View/Reply Online (#194143):&nbsp;<a href=3D"https://l=
+ists.openembedded.org/g/openembedded-core/message/194143">https://lists.=
+openembedded.org/g/openembedded-core/message/194143</a><br></div><div>Mu=
+te This Topic:&nbsp;<a href=3D"https://lists.openembedded.org/mt/1038827=
+90/6390638">https://lists.openembedded.org/mt/103882790/6390638</a><br><=
+/div><div>Group Owner:&nbsp;<a href=3D"mailto:openembedded-core%2Bowner@=
+lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</=
+a><br></div><div>Unsubscribe:&nbsp;<a href=3D"https://lists.openembedded=
+.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openemb=
+edded-core/unsub</a> [<a href=3D"mailto:pavel@zhukoff.net">pavel@zhukoff=
+.net</a>]<br></div><div>-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br=
+></div><div><br></div><div><br></div></blockquote><div><br></div></body>=
+</html>
+--a1fc303d9759492ba30723b673cb2d51--
 
