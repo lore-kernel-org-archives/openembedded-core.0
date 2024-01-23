@@ -1,115 +1,113 @@
-Return-Path: <jstephan@baylibre.com>
+Return-Path: <festevam@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACD26C47258
-	for <webhook@archiver.kernel.org>; Tue, 23 Jan 2024 14:07:08 +0000 (UTC)
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
- by mx.groups.io with SMTP id smtpd.web11.13148.1706018819071496232
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7178C47DDB
+	for <webhook@archiver.kernel.org>; Tue, 23 Jan 2024 14:08:48 +0000 (UTC)
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web11.13207.1706018919933190872
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jan 2024 06:06:59 -0800
+ Tue, 23 Jan 2024 06:08:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=zz7+8OIy;
- spf=pass (domain: baylibre.com, ip: 209.85.208.176, mailfrom: jstephan@baylibre.com)
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2ceba21ccccso26216471fa.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jan 2024 06:06:58 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=EhpkG4Xc;
+ spf=pass (domain: gmail.com, ip: 209.85.210.169, mailfrom: festevam@gmail.com)
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-6dd7b2bc6bfso109065b3a.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jan 2024 06:08:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1706018816; x=1706623616; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ImmVnxbKZqVDhBcDBEdPfxHuaz+S0teTbpVaIWgLr6I=;
-        b=zz7+8OIyePP/r/tJ87t/etcKHE6cUB9EDkCMj+10KjpoJJecquksN8MIafqMgpbERi
-         hstbIzW6aUgt2XQ0HvQSp2afE4IaFhIvLRQ2ejMv8Iwg8xYLD4Dx7jD+WIrOTs/biriM
-         4cp2LUWK2UxCjnOEXjPur6FCceM8CPc38AwkWbfVLmH98HfGbcWf3KpJYvvSltBKJ/cq
-         JkCvJekZOmJ1EgT2Sbd9M+HNHg/hudZHfDWerR9xIVGqmQ0/xaDENc1WFieHoS8gkVpe
-         TCQVHANz17/2sYPMHkTBuVdCB4zC8jXLTDaXuizLJXZIYV6dqM9Z6D+GClaDPl16pz0Z
-         QhzA==
+        d=gmail.com; s=20230601; t=1706018919; x=1706623719; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=C/6RWYiusWlwpJYhPBdvqhK/fqZKruj7DiU8jpZJ5Tk=;
+        b=EhpkG4XcN8XFIG0vOzyl46f7o7ZCN7+ira3ls+usYvMbQy5KTNjMaoKucG9GeuQqb0
+         eHYdiQB8ZBKYWQt9kCvg2fG67lXZWvrzwbqnb9lTOZQI4yu7zcIKyl0XflW3Kwjt6OS+
+         GTbIJ+VkdXjCIsVow+mLhQrAsdQbDs5j6+D9tZ7kpnL6IVoHdzZtbeIHXQGilfTywB0Y
+         Wv+rocEDn4ISKs+IkfdEEkj3hMVWpbUqRhM3BmNeAy1G4zRyc44fXliFQj1zJWY9CU1S
+         XPXEtqn4plEEuCiEaRXOx+80xBeu60Esvj98f8D/uBasy9f6azIDTW+BByMBb0LD37cq
+         mYyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706018816; x=1706623616;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ImmVnxbKZqVDhBcDBEdPfxHuaz+S0teTbpVaIWgLr6I=;
-        b=W9mzTKReHeMHMTpoyhWVp6mb40oGTVUYJv+DpRAHq1W/AwW7J3rKV4mWVPNl8KKVtp
-         UcQkx+LBhAhAJevrQ2Exul7ZV6kbPU5p4oj9cJIFLjAQqUQOKc8ZKYv/diLV1K5wcxnm
-         4UQaZZkO+PCqsLtUFrc8pAPRrPzTJ4/K5REw4cDojOzS+f0dpjd57550dsBM0qb9WQoE
-         e3jRKf3wiRInunnd0LEcnmurhAIZFTlPWQSRZ91dkOyytk02/MF1REI3k5wHfxSos47M
-         x/I9oqeoJJA0a+yeGQiYGNtPfTouFEuDLiNrTITHHMDoHrFsH3y2V/qVbznqHOmYHo9I
-         U4nw==
-X-Gm-Message-State: AOJu0Yy3BQrp0nzCG4tSvVZXnN2xq1yaoQMlEbuUs0gc+OW89cRYLRdD
-	MiyQlyAOkJ0h6vwRynJyz9Z0NvthSRUvYsi7T54XjwdYJQEPDjCYrFRrSWDwPU7z56+6PEjzDp8
-	/8ec=
-X-Google-Smtp-Source: AGHT+IGTlpkzcgHlAV2ED9t/fCb4WovYyOxRtL9zM4DvmQj6xPwAYdS+FMuL3zQIuxUsntEZPWCEcg==
-X-Received: by 2002:a2e:8801:0:b0:2cd:c75d:8a60 with SMTP id x1-20020a2e8801000000b002cdc75d8a60mr2743882ljh.40.1706018816607;
-        Tue, 23 Jan 2024 06:06:56 -0800 (PST)
-Received: from localhost.localdomain ([2a01:e0a:55f:21e0:9e19:4376:dea6:dbfa])
-        by smtp.gmail.com with ESMTPSA id q9-20020adff789000000b00337d6aa3912sm12998447wrp.10.2024.01.23.06.06.55
+        d=1e100.net; s=20230601; t=1706018919; x=1706623719;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=C/6RWYiusWlwpJYhPBdvqhK/fqZKruj7DiU8jpZJ5Tk=;
+        b=BRwoECwwAD2TLhiZVD5MhEOWPo6wj8feruanHG3YloFl72sNbZdmFQx1/D7DSHSQ0/
+         LSlLtsA/Q3xJHAH3BrZJvSCBvl0m897XkGhwWSiuQWBAsx5/+G2r1i6MKPj2S49C5Jeb
+         eW6/nH0t3bcAvB8qdKe7QkbtoAL943O0rYddhtur8Y3K22E288tFtUX1vBIEwRL2pmef
+         MSHQ9lG8g7zrj4pL/PYTooJD1DGeNOFNl6Je1zBZoc3y/hEnCW70lWzTOKlQOWHYZQa5
+         epZDTHmBiMXWYkDeE3tjQHoZeFVhGk7KaoFjugkW9c2k5me56twHn79FmWNP/XFCb1Qz
+         dB9g==
+X-Gm-Message-State: AOJu0YzmJkYvAOGCEIwPZh+Fi/d2IIcmQLDXXaw9QSciTQHybeISz9JZ
+	RQBGPsFD/Ab15z/bAplbYldsdzCgU8pDMVptnEnBYrkt8lRzA6zIr1mmbBN+
+X-Google-Smtp-Source: AGHT+IEjIZmjT012HG6xbE3AsG6Po4dIhu2l3eMzgLnXhCVnpXeFxnD/jzykghs+IQ2MBYRHI3/xCg==
+X-Received: by 2002:a05:6a00:6596:b0:6dd:7ae5:9dca with SMTP id hd22-20020a056a00659600b006dd7ae59dcamr1420639pfb.1.1706018918858;
+        Tue, 23 Jan 2024 06:08:38 -0800 (PST)
+Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:4739:3f89:fff4:a7a7])
+        by smtp.gmail.com with ESMTPSA id 10-20020a056a00070a00b006dbe1d91426sm3669261pfl.84.2024.01.23.06.08.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jan 2024 06:06:55 -0800 (PST)
-From: Julien Stephan <jstephan@baylibre.com>
+        Tue, 23 Jan 2024 06:08:38 -0800 (PST)
+From: Fabio Estevam <festevam@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Julien Stephan <jstephan@baylibre.com>
-Subject: [PATCH v3 3/3] oeqa/selftest/devtool: add test for recipes with multiple sources in SRC_URI
-Date: Tue, 23 Jan 2024 15:06:51 +0100
-Message-ID: <20240123140651.930307-4-jstephan@baylibre.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240123140651.930307-1-jstephan@baylibre.com>
-References: <20240123140651.930307-1-jstephan@baylibre.com>
+Cc: Fabio Estevam <festevam@denx.de>
+Subject: [PATCH] pulseaudio: Update to 17.0
+Date: Tue, 23 Jan 2024 11:08:33 -0300
+Message-Id: <20240123140833.1372704-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Jan 2024 14:07:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194240
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Jan 2024 14:08:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194241
 
-add a non regression test for devtool modify/build on recipe having
-several sources in SRC_URI
+From: Fabio Estevam <festevam@denx.de>
 
-Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+Update to pulseaudio 17.0 version.
+
+Since pulseaudio commit e96d278bfc51 ("daemon/meson.build: Install
+dbus policy in /usr, not /etc"), ${datadir} needs to be passed
+in FILES, otherwise the following QA error is seen:
+
+ERROR: pulseaudio-17.0-r0 do_package: QA Issue: pulseaudio: Files/directories were installed but not shipped in any package:
+  /usr/share/dbus-1
+  /usr/share/dbus-1/system.d
+  /usr/share/dbus-1/system.d/pulseaudio-system.conf
+
+Signed-off-by: Fabio Estevam <festevam@denx.de>
 ---
- meta/lib/oeqa/selftest/cases/devtool.py | 26 +++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc               | 2 +-
+ .../pulseaudio/{pulseaudio_16.1.bb => pulseaudio_17.0.bb}       | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-multimedia/pulseaudio/{pulseaudio_16.1.bb => pulseaudio_17.0.bb} (84%)
 
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index a8777207694..6ed51d7a452 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -1086,6 +1086,32 @@ class DevtoolModifyTests(DevtoolBase):
-         check('devtool-override-qemuarm', 'This is a test for qemuarm\n')
-         check('devtool-override-qemux86', 'This is a test for qemux86\n')
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index 2245a73392..a55b5d12eb 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -186,7 +186,7 @@ FILES:libpulse-mainloop-glib = "${libdir}/libpulse-mainloop-glib.so.*"
+ FILES:${PN}-dev += "${libdir}/pulse-${PV}/modules/*.la ${datadir}/vala"
+ FILES:${PN}-bin += "${sysconfdir}/default/volatiles/04_pulse"
+ FILES:${PN}-pa-info = "${bindir}/pa-info"
+-FILES:${PN}-server = "${bindir}/pulseaudio ${bindir}/start-* ${sysconfdir} ${bindir}/pactl */udev/rules.d/*.rules */*/udev/rules.d/*.rules ${systemd_user_unitdir}/*"
++FILES:${PN}-server = "${bindir}/pulseaudio ${bindir}/start-* ${datadir} ${sysconfdir} ${bindir}/pactl */udev/rules.d/*.rules */*/udev/rules.d/*.rules ${systemd_user_unitdir}/*"
  
-+    def test_devtool_modify_multiple_sources(self):
-+        # This test check that recipes fetching several sources can be used with devtool modify/build
-+        # Check preconditions
-+        testrecipe = 'bzip2'
-+        src_uri = get_bb_var('SRC_URI', testrecipe)
-+        src1 = 'https://' in src_uri
-+        src2 = 'git://' in src_uri
-+        self.assertTrue(src1 and src2, 'This test expects the %s recipe to fetch both a git source and a tarball and it seems that it no longer does' % testrecipe)
-+        # Clean up anything in the workdir/sysroot/sstate cache
-+        bitbake('%s -c cleansstate' % testrecipe)
-+        # Try modifying a recipe
-+        tempdir = tempfile.mkdtemp(prefix='devtoolqa')
-+        self.track_for_cleanup(tempdir)
-+        self.track_for_cleanup(self.workspacedir)
-+        self.add_command_to_tearDown('bitbake -c clean %s' % testrecipe)
-+        self.add_command_to_tearDown('bitbake-layers remove-layer */workspace')
-+        result = runCmd('devtool modify %s -x %s' % (testrecipe, tempdir))
-+        self.assertEqual(result.status, 0, "Could not modify recipe %s. Output: %s" % (testrecipe, result.output))
-+        # Test devtool status
-+        result = runCmd('devtool status')
-+        self.assertIn(testrecipe, result.output)
-+        self.assertIn(tempdir, result.output)
-+        # Try building
-+        result = bitbake(testrecipe)
-+        self.assertEqual(result.status, 0, "Bitbake failed, exit code %s, output %s" % (result.status, result.output))
-+
- class DevtoolUpdateTests(DevtoolBase):
- 
-     def test_devtool_update_recipe(self):
+ #SYSTEMD_PACKAGES = "${PN}-server"
+ SYSTEMD_SERVICE:${PN}-server = "pulseaudio.service"
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_17.0.bb
+similarity index 84%
+rename from meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb
+rename to meta/recipes-multimedia/pulseaudio/pulseaudio_17.0.bb
+index 64002cd1cc..54c79b4097 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio_16.1.bb
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_17.0.bb
+@@ -6,5 +6,5 @@ SRC_URI = "http://freedesktop.org/software/pulseaudio/releases/${BP}.tar.xz \
+            file://volatiles.04_pulse \
+            file://0001-doxygen-meson.build-remove-dependency-on-doxygen-bin.patch \
+            "
+-SRC_URI[sha256sum] = "8eef32ce91d47979f95fd9a935e738cd7eb7463430dabc72863251751e504ae4"
++SRC_URI[sha256sum] = "053794d6671a3e397d849e478a80b82a63cb9d8ca296bd35b73317bb5ceb87b5"
+ UPSTREAM_CHECK_REGEX = "pulseaudio-(?P<pver>\d+(\.(?!99)\d+)+)\.tar"
 -- 
-2.43.0
+2.37.3
 
 
