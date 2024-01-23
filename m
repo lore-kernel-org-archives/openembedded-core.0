@@ -2,47 +2,47 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EB8DC47DDC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DCC1C47258
 	for <webhook@archiver.kernel.org>; Tue, 23 Jan 2024 09:09:27 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web11.7972.1706000960006738725
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.7941.1706000959510388116
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jan 2024 01:09:20 -0800
+ Tue, 23 Jan 2024 01:09:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=acwl4myg;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=PMUSvaaY;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018d3594c6ad-c1b92353-6339-4cd4-904d-409de89d0064-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=W+ICD7zP;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=LD4+ua3X;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018d3594c4e2-5baec1d6-d640-40fa-ac09-8ff3c11d706c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1706000959; i=@automation.yoctoproject.org;
+	t=1706000958; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=Nq8zyXmWe0GNUm6eL4sx1sRIax45VTQw8OYRaGjpko0=;
-	b=acwl4myg7vZevBzDDzl7CQIKB09xSODtAJO2iCm9/k0LSuqyZK5ygfSlyL9dOzny
-	+ZeeIDEJdlN6iiRZfsclkZFKdWqooCPvFqjbjm5aaPyuhTjNermkvRyYvMRgEWAsFAd
-	vgHTM/Uq/je4ojrrZ/TXS7dpYSHoGF30HrAbNOIk=
+	bh=GNJdueJGHMGEoLgCWVYnA0wbsvP2zbjpRxfz3E2nuvs=;
+	b=W+ICD7zP3xCVAqTPmQgRXByzU4i3Q0W3yxlLfm7JeOtpUVf1B8KrSwMlwbl4JV7J
+	yNIGHvdGanxLruEUKD/QoE/ln24n8rCPNZ5rTUjmUi36AzO6A2B7Pao8iQT13n8niiq
+	VpPggpkE17OrgHVx6Ol7S4U9X2lExyi08c6Nt1tQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1706000959;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1706000958;
 	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=Nq8zyXmWe0GNUm6eL4sx1sRIax45VTQw8OYRaGjpko0=;
-	b=PMUSvaaY5khGnju1QfOhwC3UtqdbzTGlDuxHztlMglCS9NFtIXO5FBPeDp+9+I6o
-	1N105eGvMfm3wI+isPZfLQ0Q8XrmPTOd86kPi7k8p5HAE/fO58MmkgwEyRMKGETQI2t
-	xpVWQLhNGi49fflNYRNV2R90zigKAxCB6Z/WfGOw=
+	bh=GNJdueJGHMGEoLgCWVYnA0wbsvP2zbjpRxfz3E2nuvs=;
+	b=LD4+ua3XoP7AWQ5iry7drLovibfl7oaybFJ3jOidqJlNbebyZx4ntfTIlNiP+A3B
+	f+9H3oyPoAlOAazyLVdvPugHovJMtegLy6Pa4sAdVfVybsO6LdlCofEsxedW1zA+U/C
+	cSTc9HhxnebgJo6W+gLhfU6xjuyg028IXr4kynkA=
 From: patchtest@automation.yoctoproject.org
 To: Anuj Mittal <anuj.mittal@intel.com>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 2/4] cronie: upgrade 1.7.0 -> 1.7.1
-In-Reply-To: 20240123084734.223154-2-anuj.mittal@intel.com
+Subject: Patchtest results for [PATCH 1/4] bluez5: upgrade 5.71 -> 5.72
+In-Reply-To: 20240123084734.223154-1-anuj.mittal@intel.com
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018d3594c6ad-c1b92353-6339-4cd4-904d-409de89d0064-000000@us-west-2.amazonses.com>
-Date: Tue, 23 Jan 2024 09:09:19 +0000
+Message-ID: <0101018d3594c4e2-5baec1d6-d640-40fa-ac09-8ff3c11d706c-000000@us-west-2.amazonses.com>
+Date: Tue, 23 Jan 2024 09:09:18 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.01.23-54.240.27.33
+X-SES-Outgoing: 2024.01.23-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 23 Jan 2024 09:09:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194220
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194219
 
 --NextPart
 Content-Type: text/plain
@@ -52,7 +52,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/2-4-cronie-upgrade-1.7.0---1.7.1.patch
+Testing patch /home/patchtest/share/mboxes/1-4-bluez5-upgrade-5.71---5.72.patch
 
 FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
