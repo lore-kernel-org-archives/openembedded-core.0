@@ -1,181 +1,89 @@
-Return-Path: <chi.xu@eng.windriver.com>
+Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B629C47DDB
-	for <webhook@archiver.kernel.org>; Tue, 23 Jan 2024 08:21:17 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.7349.1705998073875924671
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 467CEC47258
+	for <webhook@archiver.kernel.org>; Tue, 23 Jan 2024 08:47:47 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+ by mx.groups.io with SMTP id smtpd.web11.7669.1705999661163650396
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jan 2024 00:21:14 -0800
+ Tue, 23 Jan 2024 00:47:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=DHl9pzYt;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=175214bd93=chi.xu@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40MCfXeY020788
-	for <openembedded-core@lists.openembedded.org>; Tue, 23 Jan 2024 08:21:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=ckptm
-	Z70QOeTTHoDOWt9E6CJj5N36XfBNbc3xrrmtVI=; b=DHl9pzYt9zADRI1Oe4eoO
-	aKHDcDqYOwKWDTcRLpMZHCrCOmm9Tv4bgawGXJkqenRFyb4QxMsTaMgtsGVineIe
-	P1clyrzR52wFuqWDmzOSSMi0j2+iRGJRUe6BWvU16H6NZ3FcngQByZG0hYCGFArB
-	F6OxiwBT81rvZUtIkBdNIXymzEvse4GK+uX598He+4zBOlCHbBbf5CL0TR9ctOz5
-	SeCSg8VXAtCtI5ohn7ns8tyWFythqm7rbzYzlwcYVkigEiDk8Ony+RkHFE/dB5WJ
-	ZtSxEWppK7O5DRI3yVL/TWHZnbehfIxLgik7SvvtL04oK5VPG3XhpC+nrl9TTsPh
-	w==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3vr3cyk665-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 23 Jan 2024 08:21:13 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 23 Jan 2024 00:21:17 -0800
-Received: from pek-lpgtest20.wrs.com (128.224.179.28) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Tue, 23 Jan 2024 00:21:16 -0800
-From: "Xu, Chi" <chi.xu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] xz: Add ptest support
-Date: Tue, 23 Jan 2024 16:09:18 +0800
-Message-ID: <20240123080918.3391325-1-chi.xu@windriver.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@intel.com header.s=Intel header.b=OyX22mGG;
+ spf=pass (domain: intel.com, ip: 192.55.52.88, mailfrom: anuj.mittal@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1705999663; x=1737535663;
+  h=from:to:subject:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding;
+  bh=EKOBy8LvRH69+LjdGX0Fh9R6IW0pju0KMDgfC2Tq52Y=;
+  b=OyX22mGGhBOCEkv0LZi1Hml4QqlS2PRi/t5dhc4MljdA/IPgRHC9wPTn
+   k/xzDZ6hjD+Ech8bjKo2qfeYx9WtQNSzg1hMrSzCM0UF5UDb2mkkRVmrX
+   luzg3iJC1NtTPSNcnQCo0uSEmSjqDid+6HVuAkpYTRKPFlQ/I1xr+MGIH
+   HPStB2x57Jq/NJ55VB2R1Y73puDsDGXrq6FHvjA32GjuBdj5KtSCS42XW
+   t+tVQpMYBrU0c/l1260SDKoYh+K2vlJtS6tPWaKJhw8m0EFdd5R709q2A
+   V8Aux30ZhxHPyFjQmcgSLy7+HEehfSqZP3KzfjiqL0xwKv23W1MnTShKr
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10961"; a="432617030"
+X-IronPort-AV: E=Sophos;i="6.05,213,1701158400"; 
+   d="scan'208";a="432617030"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2024 00:47:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10961"; a="820013004"
+X-IronPort-AV: E=Sophos;i="6.05,213,1701158400"; 
+   d="scan'208";a="820013004"
+Received: from anmitta2-mobl3.gar.corp.intel.com (HELO anmitta2-mobl3.intel.com) ([10.214.153.8])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2024 00:47:42 -0800
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 3/4] libpsl: upgrade 0.21.2 -> 0.21.5
+Date: Tue, 23 Jan 2024 16:47:33 +0800
+Message-ID: <20240123084734.223154-3-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240123084734.223154-1-anuj.mittal@intel.com>
+References: <20240123084734.223154-1-anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: g0PHWcgghyEU0yZ-l8-SSGns992Z8OhF
-X-Proofpoint-ORIG-GUID: g0PHWcgghyEU0yZ-l8-SSGns992Z8OhF
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-01-23_02,2024-01-23_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 bulkscore=0
- spamscore=0 impostorscore=0 suspectscore=0 lowpriorityscore=0 adultscore=0
- mlxlogscore=999 priorityscore=1501 mlxscore=0 clxscore=1011 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2311290000
- definitions=main-2401230059
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Jan 2024 08:21:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194213
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Jan 2024 08:47:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194216
 
-72 test cases in all and all test cases PASS.
-Test results on qemux86-64:
-root@qemux86-64:~# ptest-runner xz
-START: ptest-runner
-2024-01-23T07:37
-BEGIN: /usr/lib/xz/ptest
-=== test_block_header.c ===
-PASS: test_lzma_block_header_size
-PASS: test_lzma_block_header_encode
-PASS: test_lzma_block_header_decode
----
-=== END ===
-PASS: create_compress_files
-=== test_hardware.c ===
-PASS: test_lzma_physmem
-PASS: test_lzma_cputhreads
----
-=== END ===
-...
-...
-=== test_bcj_exact_size.c ===
-PASS: test_exact_size
-PASS: test_empty_block
----
-=== END ===
-DURATION: 1
-END: /usr/lib/xz/ptest
-2024-01-23T07:37
-STOP: ptest-runner
-TOTAL: 1 FAIL: 0
+License-Update: Copyright dates changed
 
-Signed-off-by: Xu, Chi <chi.xu@windriver.com>
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../distro/include/ptest-packagelists.inc     |  1 +
- meta/recipes-extended/xz/xz/run-ptest         | 20 +++++++++++++++++++
- meta/recipes-extended/xz/xz_5.4.5.bb          | 18 +++++++++++++++--
- 3 files changed, 37 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-extended/xz/xz/run-ptest
+ .../libpsl/{libpsl_0.21.2.bb => libpsl_0.21.5.bb}           | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-support/libpsl/{libpsl_0.21.2.bb => libpsl_0.21.5.bb} (79%)
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index ef6f471e7b..21b84d311a 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -78,6 +78,7 @@ PTESTS_FAST = "\
-     slang \
-     wayland \
-     zlib \
-+    xz \
-     libexif \
- "
- PTESTS_FAST:append:libc-glibc = " glibc-y2038-tests"
-diff --git a/meta/recipes-extended/xz/xz/run-ptest b/meta/recipes-extended/xz/xz/run-ptest
-new file mode 100644
-index 0000000000..64aaf38638
---- /dev/null
-+++ b/meta/recipes-extended/xz/xz/run-ptest
-@@ -0,0 +1,20 @@
-+#!/bin/bash
-+
-+ptestdir=$(dirname "$(readlink -f "$0")")
-+cd "$ptestdir"/tests || exit
-+
-+tests=`find . -type f -executable | sed 's/\.\///g'`
-+
-+for i in ${tests}; do
-+    if [ $i == "create_compress_files" ]; then
-+        ./$i
-+        if [ $? -eq 0 ]; then
-+            echo "PASS: $i"
-+        else
-+            echo "FAIL: $i"
-+        fi
-+    else
-+        ./$i
-+    fi
-+done
-+
-diff --git a/meta/recipes-extended/xz/xz_5.4.5.bb b/meta/recipes-extended/xz/xz_5.4.5.bb
-index 09eade8be0..e7a873af96 100644
---- a/meta/recipes-extended/xz/xz_5.4.5.bb
-+++ b/meta/recipes-extended/xz/xz_5.4.5.bb
-@@ -24,13 +24,15 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c8ea84ebe7b93cce676b54355dc6b2c0 \
-                     file://lib/getopt.c;endline=23;md5=2069b0ee710572c03bb3114e4532cd84 \
+diff --git a/meta/recipes-support/libpsl/libpsl_0.21.2.bb b/meta/recipes-support/libpsl/libpsl_0.21.5.bb
+similarity index 79%
+rename from meta/recipes-support/libpsl/libpsl_0.21.2.bb
+rename to meta/recipes-support/libpsl/libpsl_0.21.5.bb
+index 3bbbc0e5214..b9341a986e5 100644
+--- a/meta/recipes-support/libpsl/libpsl_0.21.2.bb
++++ b/meta/recipes-support/libpsl/libpsl_0.21.5.bb
+@@ -7,13 +7,13 @@ HOMEPAGE = "https://rockdaboot.github.io/libpsl/"
+ BUGTRACKER = "https://github.com/rockdaboot/libpsl/issues"
+ 
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=6f40ab7fcf5ff18f3ff7f4b0860493fa \
+-                    file://COPYING;md5=6f40ab7fcf5ff18f3ff7f4b0860493fa \
++LIC_FILES_CHKSUM = "file://LICENSE;md5=9f9e317096db2a598fc44237c5b8a4f7 \
++                    file://COPYING;md5=9f9e317096db2a598fc44237c5b8a4f7 \
                      "
  
--SRC_URI = "https://tukaani.org/xz/xz-${PV}.tar.gz"
-+SRC_URI = "https://tukaani.org/xz/xz-${PV}.tar.gz \
-+           ${@bb.utils.contains('PTEST_ENABLED', '1', 'file://run-ptest', '', d)} \
-+          "
- SRC_URI[sha256sum] = "135c90b934aee8fbc0d467de87a05cb70d627da36abe518c357a873709e5b7d6"
- UPSTREAM_CHECK_REGEX = "xz-(?P<pver>\d+(\.\d+)+)\.tar"
+ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BP}.tar.gz \
+            "
+-SRC_URI[sha256sum] = "e35991b6e17001afa2c0ca3b10c357650602b92596209b7492802f3768a6285f"
++SRC_URI[sha256sum] = "1dcc9ceae8b128f3c0b3f654decd0e1e891afc6ff81098f227ef260449dae208"
  
- CACHED_CONFIGUREVARS += "gl_cv_posix_shell=/bin/sh"
+ GITHUB_BASE_URI = "https://github.com/rockdaboot/libpsl/releases"
  
--inherit autotools gettext
-+inherit autotools gettext ptest
- 
- PACKAGES =+ "liblzma"
- 
-@@ -42,3 +44,15 @@ ALTERNATIVE:${PN} = "xz xzcat unxz \
-                      lzma lzcat unlzma"
- 
- BBCLASSEXTEND = "native nativesdk"
-+
-+RDEPENDS:${PN}-ptest += "bash"
-+
-+do_compile_ptest() {
-+        oe_runmake check TESTS=
-+}
-+
-+do_install_ptest () {
-+        install -d ${D}/${PTEST_PATH}/tests
-+        find ${B}/tests/.libs -type f -executable -exec cp {} ${D}${PTEST_PATH}/tests \;
-+        cp -r ${S}/tests/files ${D}${PTEST_PATH}/tests
-+}
 -- 
-2.25.1
+2.43.0
 
 
