@@ -2,46 +2,47 @@ Return-Path: <jstephan@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA226C47DDF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8823C47258
 	for <webhook@archiver.kernel.org>; Tue, 23 Jan 2024 14:06:58 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web11.13145.1706018815833732613
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+ by mx.groups.io with SMTP id smtpd.web10.12948.1706018817658088203
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jan 2024 06:06:56 -0800
+ Tue, 23 Jan 2024 06:06:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=xqqCobWU;
- spf=pass (domain: baylibre.com, ip: 209.85.128.53, mailfrom: jstephan@baylibre.com)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-40e8d3b29f2so51885335e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jan 2024 06:06:55 -0800 (PST)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=ufLRY5ST;
+ spf=pass (domain: baylibre.com, ip: 209.85.208.180, mailfrom: jstephan@baylibre.com)
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2cddb2c2b54so43064451fa.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jan 2024 06:06:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1706018813; x=1706623613; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5vwRUfwlkYcPYED+3WTHvDXPVkS26U+I5JAn0EEsEjs=;
-        b=xqqCobWUMGdxzhGZANJvz+bFI9utm7BJhLeRTteY9zco3zPOQoiV5Xqo6z6ZFeT44M
-         bn4ir0aVubVfoBXYhDYJvvgfgyGtMpcjPUm6iku2YpZFy6hVlq0sqTHRbqPjvTY2u2R2
-         LnIe9D2EMqEPf81JxI4rNiMVRLn/IJtBCPiZ90RRvio0yyxVYknaJXDbpP8WVQjP3WbM
-         +wAS5d3GwIdlR9/MYqBy4qmYKWZao+ISa7i6fIF6UYkx0NK1cGwZXO1CmwXxdcRlTy7Y
-         6ERZ+jCUsiCQJasensRMPnQ1qetklw24YRf2iO9wPP/CZHw99p8MjJF9Yp9PVaZFhJKq
-         e0ZA==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1706018815; x=1706623615; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=39Mj3J8NiAGnFD5+wIVjybr9VmHKjpe5br1DegH/4zw=;
+        b=ufLRY5STXpKLAwTl4j5FIJohSgYKT4uSaXhFXiBd+rFcIeX4DV50D+RBSE1CchzVOG
+         +XFQlHz6qzzNCspmTmTRdsK0ZH8KIMb7qENJUx+NUkQl8BtH14Wucdi1ukLSDInyjN6+
+         EKfrTV5jl4mOGZMikCKCAP9jmr4xXh2S+IQwp0VqXtumMnTVSCGUU4pDBVtn00GXtrA0
+         xsjiaLGodq+3jwdvHE1hvSDmBW74vwJzu8kZ56zGpMDQTajaLaTRGo7NwzgFn/xeY0i3
+         r/XDhI1+gqhcRcj2oMA56Lekp8zswV1ONY2lAZ0bBd88gzWMCBCVZeajXdr+bSXFROpm
+         2FzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706018813; x=1706623613;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5vwRUfwlkYcPYED+3WTHvDXPVkS26U+I5JAn0EEsEjs=;
-        b=ngcMD6LVuDCUlsfZx1idHgxoo4bMWb2PpvfktlheiZcBDTxdmTXIa/8E3NBW5xix14
-         cFXr6npWeJKotdBVN9iHg3mdRKIDPMbIyPc7Q3Z0rjm+2rPDFXrtw6jBFpa5fZyWnqYb
-         jraDPYOFBy7v8DTZKzx12DGgBS5QNuXCOoaKgPhIp1PJeUEWWJddgKpprCiAPqKmz2tM
-         n1AtD4tMBj3qkljjnL8QqJL7Lru+/ehfYADDKZmWNt0fozK5avVtv4jCJcO8rMheHsjo
-         nWw6Xiq5wJmngDk1DK1u9NcpjCttGg2P9jTOESAkADq7iX9J3L+YAxsCWc0MdKsAUAmh
-         S3ZA==
-X-Gm-Message-State: AOJu0Yybeke0/w+ODBqFhiEmc56hDQJbl4Kg34zPo51wiB7cyfsu0Cw9
-	KgkLXW6OtDUvOHDyUhxZPc7JnfacsyT820tOuRj5g+a/0WEmLgYHFhqkrnxp8sOUlPlOpfsL0+b
-	TBNY=
-X-Google-Smtp-Source: AGHT+IHG19MWQpyE0a1uebyFksTzfsyz8OBreiFzy8PyIKQURCvsbQy7xIS2HxfM3wR/NUcl4dgzYA==
-X-Received: by 2002:a05:600c:3212:b0:40e:49ac:e4a6 with SMTP id r18-20020a05600c321200b0040e49ace4a6mr131810wmp.171.1706018813650;
-        Tue, 23 Jan 2024 06:06:53 -0800 (PST)
+        d=1e100.net; s=20230601; t=1706018815; x=1706623615;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=39Mj3J8NiAGnFD5+wIVjybr9VmHKjpe5br1DegH/4zw=;
+        b=AKPoz/OxbI9/+gfmmnCCl+3p5Yv85A/Oxr1R/rIfe2N5MxxYU+rQh3AwxonxRX5B/K
+         Ii3OzUMPPlH7qqFFe1RxgiqIprk8pl/Nh//yQtYMzjIytu9PS1ZE18wb3vFFudTdf5qy
+         UUfkIe9tlk8ZHnGLYNH0GWq6JKKBImWBeBmhdn7mkLJ+gaNvT7+QwatMxLUVa9patJeM
+         4dr2yRwFkCo2zJ/XtDCAd8uVLOkTW+9xCo976B+c2ZD+nqotLnpAySIhA+CI0INOy55D
+         0BlJs/9VZSQKeV1YkrO/r7STXvZaGcQ0dY6MYxYnxS9DMvejb9PC+eWNHg2VEJ4Q5EIQ
+         R7CQ==
+X-Gm-Message-State: AOJu0Yz7UrMctgCpoQxdewYT4hcc9/4jFmfD2kfZoM4soA2R1xfNB1iO
+	MlA41enABDgghA8P7FWg+AtDpUGfe8rYg3hR9wSOoZZpu+36hp2GULFod/OgWNFa3ulpqhgrqRO
+	m7HM=
+X-Google-Smtp-Source: AGHT+IHKRMfgaTlnl2cuBx7k5uhUsCJo2kWPmac7NAxbw1ZPTT7XNcZ9fUI4vo4T/HbXhr/T09eFqA==
+X-Received: by 2002:a2e:300c:0:b0:2cc:8735:5532 with SMTP id w12-20020a2e300c000000b002cc87355532mr2584739ljw.59.1706018814778;
+        Tue, 23 Jan 2024 06:06:54 -0800 (PST)
 Received: from localhost.localdomain ([2a01:e0a:55f:21e0:9e19:4376:dea6:dbfa])
         by smtp.gmail.com with ESMTPSA id q9-20020adff789000000b00337d6aa3912sm12998447wrp.10.2024.01.23.06.06.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
@@ -49,65 +50,72 @@ Received: from localhost.localdomain ([2a01:e0a:55f:21e0:9e19:4376:dea6:dbfa])
 From: Julien Stephan <jstephan@baylibre.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Julien Stephan <jstephan@baylibre.com>
-Subject: [PATCH v3 0/3] devtool: modify: add support for multiple source 
-Date: Tue, 23 Jan 2024 15:06:48 +0100
-Message-ID: <20240123140651.930307-1-jstephan@baylibre.com>
+Subject: [PATCH v3 1/3] externalsrc: fix task dependency for do_populate_lic
+Date: Tue, 23 Jan 2024 15:06:49 +0100
+Message-ID: <20240123140651.930307-2-jstephan@baylibre.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240123140651.930307-1-jstephan@baylibre.com>
+References: <20240123140651.930307-1-jstephan@baylibre.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 23 Jan 2024 14:06:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194237
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194238
 
-Hello all,
+do_populate_lic dependencies are defined inside license.bbclass such as:
 
-As we discussed in #15162, I tried to implement a devtool unpack tracer.
-I did manage to get a list of files unpacked after do_unpack and
-manually copy them into WORKDIR but: 
-- unpack tracer just tells us the url and the unpack dir, but does not
-  directly give the unpacked files. Of course we can get the list by 
-  looking at files in the temporary workdir directory at the beginning
-  and the end of unpack, but I guess we can also do that without the
-  unpack tracer mechanism
-- the issue we are trying to fix here, is to get the secondary sources.
-  We can obviously use the unpack tracer for that, but the main source,
-  and local files (file://) are already correctly handled, so we would 
-  end up handling different parts of SRC_URI in different location..
-  IMHO the unpack tracer should handle all the src_uri entries itself
-  but it means a more global code refactor.
+  addtask populate_lic after do_patch before do_build
 
-Moreover, it turns out that the issue we are trying to solve was already known
-and externalsrc class can handle secondary sources. The fix was
-introduced with:
-  da1bcf08089 - devtool: add support for multiple git url inside a cargo based recipe <Frederic Martinsons>
-We can modify the problematic recipes by adding "type=git-dependency"
-on the src_uri entries of the dependencies (secondary sources).
+but externalsrc deletes the do_patch task, so the only dependency left for
+do_populate_lic is "before do_build"
 
-So, I am sending a patch to automatically add the "type=git-dependency"
-on secondary sources when a recipe is under devtool control by modifying
-the SRC_URI inside the append recipe (in build/workspace/appends/)
+On a devtool context, when doing devtool modify, sources are extracted inside
+build/workspace/sources/${BPN}/ and local files inside
+build/workspace/sources/${BPN}/oe-local-files
 
-Doing that, I tested my work with the bzip2 recipe and found another
-bug on do_populate_lic dependency. I added a patch to this series
-because otherwise the selftest will not work, but it can be applied
-separately.
+When building the recipe after a devtool modify, do_unpack is called again to
+unpack (possibly modified) local files from
+build/workspace/sources/${BPN}/oe-local-files into ${WORKDIR}.
 
-Cheers
-Julien
+Since the only left dependency for do_populate_lic is do_build, the
+do_populate_lic can be called BEFORE do_unpack. Most of the time this is not a
+problem, because license files are generally located inside ${S}, which
+corresponds to build/workspace/sources/${BPN} (and is already unpacked),
+but this can lead to an issue if recipe sets LIC_FILES_CHKSUM to look for
+files in ${WORKDIR} (example from init-ifupdown_1.0.bb):
 
-Julien Stephan (3):
-  externalsrc: fix task dependency for do_populate_lic
-  devtool: modify: add support for multiple source in SRC_URI
-  oeqa/selftest/devtool: add test for recipes with multiple sources in
-    SRC_URI
+  LIC_FILES_CHKSUM = "file://${WORKDIR}/copyright;md5=3dd6192d306f582dee7687da3d8748ab"
 
- meta/classes/externalsrc.bbclass        |  1 +
- meta/lib/oeqa/selftest/cases/devtool.py | 26 +++++++++++++++++++++++++
- scripts/lib/devtool/standard.py         | 20 +++++++++++++++++++
- 3 files changed, 47 insertions(+)
+So devtool modify init-ifupdown && bitbake init-ifupdown gives the following
+error:
 
+  WARNING: init-ifupdown-1.0-r0 do_populate_lic: Could not copy license file <...>/build/tmp/work/qemux86_64-poky-linux/init-ifupdown/1.0/copyright to <...>/build/tmp/work/qemux86_64-poky-linux/init-ifupdown/1.0/license-destdir/qemux86_64/init-ifupdown/copyright: [Errno 2] No such file or directory: '<...>/build/tmp/work/qemux86_64-poky-linux/init-ifupdown/1.0/copyright'
+  ERROR: init-ifupdown-1.0-r0 do_populate_lic: QA Issue: init-ifupdown: LIC_FILES_CHKSUM points to an invalid file: <...>/build/tmp/work/qemux86_64-poky-linux/init-ifupdown/1.0/copyright [license-checksum]
+  ERROR: init-ifupdown-1.0-r0 do_populate_lic: Fatal QA errors were found, failing task.
+  ERROR: Logfile of failure stored in: <...>/build/tmp/work/qemux86_64-poky-linux/init-ifupdown/1.0/temp/log.do_populate_lic.838584
+  ERROR: Task (<...>/poky/meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb:do_populate_lic) failed with exit code '1'
+
+Fix this by forcing the do_populate_lic task to run after do_unpack
+
+Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+---
+ meta/classes/externalsrc.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
+index a54f316aa0a..70e27a8d351 100644
+--- a/meta/classes/externalsrc.bbclass
++++ b/meta/classes/externalsrc.bbclass
+@@ -104,6 +104,7 @@ python () {
+         # If we deltask do_patch, there's no dependency to ensure do_unpack gets run, so add one
+         # Note that we cannot use d.appendVarFlag() here because deps is expected to be a list object, not a string
+         d.setVarFlag('do_configure', 'deps', (d.getVarFlag('do_configure', 'deps', False) or []) + ['do_unpack'])
++        d.setVarFlag('do_populate_lic', 'deps', (d.getVarFlag('do_populate_lic', 'deps', False) or []) + ['do_unpack'])
+ 
+         for task in d.getVar("SRCTREECOVEREDTASKS").split():
+             if local_srcuri and task in fetch_tasks:
 -- 
 2.43.0
 
