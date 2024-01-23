@@ -2,39 +2,39 @@ Return-Path: <Yash.Shinde@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEF98C47258
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF9BEC47DDB
 	for <webhook@archiver.kernel.org>; Tue, 23 Jan 2024 08:10:46 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.7163.1705997438930387744
+ by mx.groups.io with SMTP id smtpd.web11.7152.1705997444152383521
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jan 2024 00:10:39 -0800
+ Tue, 23 Jan 2024 00:10:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=pHO9TIPB;
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=gOJUnw1s;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=175275645d=yash.shinde@windriver.com)
 Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40MCfXe5020788
-	for <openembedded-core@lists.openembedded.org>; Tue, 23 Jan 2024 08:10:38 GMT
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40MCfXe7020788
+	for <openembedded-core@lists.openembedded.org>; Tue, 23 Jan 2024 08:10:43 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:content-transfer-encoding:content-type:mime-version; s=
-	PPS06212021; bh=j1Fhkxksf7PeZIOCJ377q5I1PyOOuXUqC7eS4L71cts=; b=
-	pHO9TIPBzTmXwhET9SC2LiEoX0tTf8aGspnFMHBdyLapkBy2ZcIhgLzthuZ/zFg1
-	eombxMVsdJTTMZJwkna4kuRMRK1RNQdYqiACUpR1vErSFpNc+81ZeecDxdJ4W218
-	drwr2rAiJrsGzy4/rqdizU72ZVhnDAG8MXMkESpZIkMoui0Y5wEs4/ACPzPZy9zO
-	K1DbMqDSLIyBPdcRc9o7aG7lRVUCIIEPhgqlKe3VK7b/Btm+s5SaHdTclBIckTLr
-	VFylfGHa31zDaX72P2Er56gRQDEFTnBq3oET5sotuYViE8HRTrGtqoOMOuHbTUCa
-	omUH+dxyWkypnLRDXnDmmw==
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2169.outbound.protection.outlook.com [104.47.59.169])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3vr3cyk5sr-2
+	PPS06212021; bh=OLdP9IAacWpoOLY8aCWfzibkyIr8I34+mCvMuSg9+04=; b=
+	gOJUnw1sGuqO0JdjUJkdHFWszh9vsCCiy1ut3LTAqPRCrmsfvIIGHibcffnsPwQa
+	gi1uQxlGQmpUB+VZ1YOwQNdHBEmn4xdC8tCUt7jtb5sbE4AWe6pXjzsnDfvhzlT+
+	ZuAOHFmPsZLHGT/h28nFz8Gnu7Mf5ZJEpX6S+RcRkoE4td6AjkPYK6P6BGx1CQIg
+	buR+ki74SWbf16I+3j2P2FNkjQ0GUf+nQ39L1UT3HIDvYDp91rumEtqvEtX0mTSd
+	Jb4b7geSJEEmHfNJL5/ttJH/qO2X1NBVyYv8CnGCRud6x4ggP+ov9gUtA6Te6yJv
+	XiB+Jnw2LIPmicPezPPiDg==
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2168.outbound.protection.outlook.com [104.47.59.168])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3vr3cyk5t3-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 23 Jan 2024 08:10:37 +0000 (GMT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 23 Jan 2024 08:10:43 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cQt/NlUol+YeyS1g0U3B3wZ+9iAiOD9vLn1iE2RxMxY/Nm4SyNsaXx8idz36g15k6tQvS84+Cr74koy5Cdyk2guEmZzz53pb7wAl3SLV1ruVv+Z7YhNmdJLk1IJPVFhiwuvpK8BQp+0/u8z4EtaCbUD3K6D9QCeqILRp2B4Nii3mKkKD/Y/ix+tdjy0C7XvEAfiJUfuyVn441FQrT37q8hlwG5LUEiWe5w5tSlZp/zT8jA8+4uYEO8zzBrQXGs4RiZrm5vA+pm9xtQ+lZ+I1vW5DmFPuJ4HtdZSBndHiWeQm/7j7tUsurz4AdnZjmAJjTD1U5w+rDPW+hooBRk0iNg==
+ b=dLhl7mzMdv3DGid2gJuu1HZH9H+/XSNXmbaShOWN4fufkvbtqjJKwtqelhFDN7wzXPJNMrdQeSkOYTUNIgaSNfHx/R4mVvpiUkRLaXDb5f5VGjlu//l3sl1WTxXa2qSjRC2dPRzzamrK+86/xPW040Q/BW5cp/xsZ/zCcnETdJICc5fvTQFCTrE8Jwp218Bc3ys5hIB1fqVBAlxvkNnY4voT+oOQkrrM3XctwenbQaRH3xXhzFyhQhifa8s38y1yJE5+oEJx6L7AFOzrTqNb9IIk7qH68UCNZ3+6Ww7gNYsgvt3Ih5RYQvwmodMmgHFmv6ZqtGY3V43CQqu1bRCNaQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=j1Fhkxksf7PeZIOCJ377q5I1PyOOuXUqC7eS4L71cts=;
- b=NRyuNM5havXPmbxemr32qA/+knMqCouTlh1SrxSx4SAp+qptz6gGJot4JeiDN0Q8/MhR7Hsn/CfhQHK7WiZAs4mh7hJNZC4nRmftlK+c53IBLrtUP314Q1moWijyv4otzdp1CpSZ5Ugy4SHNfagc05xCp5l8gRTEudPycbnYpGlQrM/i7MOQsHd8XurtUy6MRan1PQ7E5ce1feD8m6C23ZBI/Q9mwY+eW1rPs81LPBMmVWXLdSFeXuXmqpK1zI9uRimm3+Ko7JqBXsf8/QBPiy7rGTlcyjUvIWDmg03JtD3PHsdGTEtrcdhQ1fp82SW4ZdZUHdpnVHFt33jcCGfPJQ==
+ bh=OLdP9IAacWpoOLY8aCWfzibkyIr8I34+mCvMuSg9+04=;
+ b=Xlhds+w4Pi4qvQC2qK54vrPfszDeaz9fFnc/vHkHgx1f009GMCfu685fuB0df0qmBBEm9ShW+DxqwAoP61/x1MAz3i/YVudbrFlRo4zinSxTl6cx17DXMT3NeBYqUKc1kgVYCTxQ1yVVlVdP5hi9SkX+JMPGjKlQIcBI0gwlBKAtYGwFGZ69NkHc+NGOfs9rox++VLqRK9IgF8fvFP1BYrxYfxfUC3hqxSJ9+BIWCIM0bNBjDR5v6ZUyh/RtRvdl2K1sMILd/xWLaHDT2R3h/RqqbKNdmoJvGFWExg49YQboo2rjUhdyZAtekXoteyCY3aN02VyY7jfr2ARxavAgHA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -42,19 +42,19 @@ Received: from SJ1PR11MB6129.namprd11.prod.outlook.com (2603:10b6:a03:488::12)
  by CH3PR11MB8344.namprd11.prod.outlook.com (2603:10b6:610:17f::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.34; Tue, 23 Jan
- 2024 08:10:35 +0000
+ 2024 08:10:41 +0000
 Received: from SJ1PR11MB6129.namprd11.prod.outlook.com
  ([fe80::e90b:e018:1b70:f107]) by SJ1PR11MB6129.namprd11.prod.outlook.com
  ([fe80::e90b:e018:1b70:f107%4]) with mapi id 15.20.7202.033; Tue, 23 Jan 2024
- 08:10:35 +0000
+ 08:10:41 +0000
 From: Yash.Shinde@windriver.com
 To: openembedded-core@lists.openembedded.org
 Cc: Randy.MacLeod@windriver.com, Umesh.Kallapa@windriver.com,
         Naveen.Gowda@windriver.com, Sundeep.Kokkonda@windriver.com,
         Shivaprasad.Moodalappa@windriver.com, Yash.Shinde@windriver.com
-Subject: [PATCH v3 2/7] rust: detect user-specified custom targets in compiletest
-Date: Tue, 23 Jan 2024 00:10:01 -0800
-Message-ID: <20240123081006.3310715-2-Yash.Shinde@windriver.com>
+Subject: [PATCH v3 4/7] rust: Fix assertion failure error on oe-selftest
+Date: Tue, 23 Jan 2024 00:10:03 -0800
+Message-ID: <20240123081006.3310715-4-Yash.Shinde@windriver.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240123081006.3310715-1-Yash.Shinde@windriver.com>
 References: <20240123081006.3310715-1-Yash.Shinde@windriver.com>
@@ -66,181 +66,117 @@ X-ClientProxiedBy: SJ0P220CA0013.NAMP220.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SJ1PR11MB6129:EE_|CH3PR11MB8344:EE_
-X-MS-Office365-Filtering-Correlation-Id: e3fed05b-66eb-4256-3c44-08dc1beac6fd
+X-MS-Office365-Filtering-Correlation-Id: 6f69a766-c874-44d6-2fde-08dc1beaca9d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	Mwyv9jnwxFzkzHuJu9HSOerxXZx/ov6f1ASLT+VxDOUNDV1dBQVyquGPkL6wF8dSgrOL9WnTiVqcjw93ms0IL3F4om2H4JMzM3Z7EcSGTuW22q4HVJ1hC/fULTCqEuqMvCcTCJ3AOMFoMVbwbjIxNsEc3Vi4P4eKSRQ8Y/tsJFrxilm0tV6pucB3wuqSCv5xg/ytowk/3fcx5jUI/Op/FWHREmD3xnAlRSlAS46VJtUags80VTX0NH+bTHfptkLPbPDrx7VX3ddH0gIOaoBs7SfxLKlHzx/wkf5zMtUNagoWOhsD9AbteLYOdTzXh3U/LsO2KuJBAtA7xmVshIZDgY76209FdCyLCXrFbqXZzQgQq2IsbiHogn1eqN+Y25tIuS8+61TxIeLU71GXN5Hld9d4XkhJnYQ6ANIXMPuK1dG8Baddv7X4NWrV+VR4Ha/nRQ4KJo+s/AgBJ10iRlJv9Oh961UgqzXNLa4i9EJZy7g437GwY5iYoF1KFDiTi9SNpLCXuos3EgqK8Z62qgvM9EWzCDxXeb3yNPPqGgNw/7lbqNujteEm17ZH//JYoTFuoDaZPG0UXNS9h7j2Icq0Vv6Ud0aEfUiUzzvIogUGtZQ=
+	lm4yTOcSF7lI2TunXSTYYf4PVq56PWsvIYYwvr7V3TYR6/K7N0dZ/2Cb4iKkLY4yRUSax5d4vXtljmkgRffp52EznVIR1PLOdrcSoD5dcAh43hZRXUg2cekyRMwjssliUEc01KcYF9a+3+RVUtXl+pAa36NE/eSxe2a+qivwrnqY+L/zQTxVP5ow2vcZViCYfLe7dSCq9A9xGWd242uFFm1fR6o9gTDkCmrUvs8LIUusoMpMR4tY7+C+c1EUwFnd+KI3HtlV99FNgFLGrQamb2aSlsiSMe39uDUvCHRz36fwvyFg7dZHfAIfS+gYBTdekdIPXHh9eTo4PwYeEdiSke1x84WGj5qkQ7eGuqgUU10qjeTLsqdGg17rOlQmiWToJA/z9F4S/6KsiMIAqVCqmu4+Hb8RERixSIvuJMMTJSjH1AY1W4arCdUkFFHIGBOFsyCkjPjSZ/dwo7geP5uHIFriekihRuC0MUZPcz6rzcwItflARYNXltdagdtFpNlp2q5F1i8WbvF9MulKeHcyFSh3oNEysxq3fBDXeEMHmVyhwV1IAMky4kuEXGZXCNoliYlBJ6A3GH+1hXS2Krxrdv1QlpSqccHATXx79LYcwo4=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6129.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(39850400004)(396003)(366004)(136003)(376002)(230922051799003)(64100799003)(451199024)(1800799012)(186009)(66476007)(316002)(66946007)(66556008)(6916009)(6486002)(9686003)(52116002)(6512007)(6666004)(6506007)(5660300002)(83380400001)(8676002)(26005)(1076003)(2616005)(8936002)(2906002)(38100700002)(4326008)(478600001)(36756003)(38350700005)(41300700001)(86362001)(107886003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6129.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(39850400004)(396003)(366004)(136003)(376002)(230922051799003)(64100799003)(451199024)(1800799012)(186009)(66476007)(316002)(66946007)(66556008)(6916009)(6486002)(9686003)(52116002)(6512007)(6666004)(6506007)(5660300002)(8676002)(26005)(1076003)(2616005)(8936002)(2906002)(38100700002)(4326008)(478600001)(36756003)(38350700005)(41300700001)(86362001)(107886003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?EcHjn54OTcSUk8dTllXQiShzqYvNrhiRzVJzTamGjJ6X6HK+QSoEQhC2ryRw?=
- =?us-ascii?Q?gaIqqs5EON+V8sYH4rHmE2DjsbY1qXv/E8/FQqZODnV5eFDLq/qmzGSre0na?=
- =?us-ascii?Q?xiXRWHzcM5YUKQZ00EBF1B7M42ViM4LQTt4K5a8ZonYEQYDDs7ONzjBJnWt+?=
- =?us-ascii?Q?8BI7Sn/tHDRZmW2S6TRqChqQnGUz5gzD7JBdM0eIqh4N8VOksdRna6igoT0y?=
- =?us-ascii?Q?e+Px34deNPRraGV51iQJ46kn7rwNfjAzrS4feWlFyGacoO47erGYdpON9d6e?=
- =?us-ascii?Q?3qiuCwv41tjbb4IfJluZpjF63LOV/XSPysOv+e1DD1dENooo1l05zpi+b8w/?=
- =?us-ascii?Q?EGWmtTMSczosM8w5ZGLh6QT8QeItorOJSwbUWQ/xMbMcBpAsbAxhS9X7HiM0?=
- =?us-ascii?Q?B7TJyQbc5iaDePXthos0Nv5kKoujx4BuYgp93QXbBaJ5nlYC7RS5Qt51VCxI?=
- =?us-ascii?Q?18oLon/R+FkvDo6HlttMGC04uXBRakZYI6dD5JEzP2tkZCA/BxjWrFEdvLAn?=
- =?us-ascii?Q?K056noytbZy4fVyiXn9qCHLt9S+6OozYHTxu2d4TVLM4JcTErSqVAtGNmoW6?=
- =?us-ascii?Q?s0SgAY157lA1uNQRzfwFBoC5/y8UtfInjzoBBS8Q63fnGNVgoBYN18FU+Qbx?=
- =?us-ascii?Q?csvH7QP/iDrdzKG0avqddCObYYt8P55dhvin/XuNm1D06rbaaEtHheyo4sQZ?=
- =?us-ascii?Q?ghNSgrYKhCQYbMm3dOPeCslb/KcfXDJ50TqafXwwwfSVcIQQTok/HGSaHsRp?=
- =?us-ascii?Q?Mq9fKeVHRe2fkmtMv3VXe72IByUJAATgV7XNXH6Or+pMVG+ur/6kQUhZXoCI?=
- =?us-ascii?Q?TUwJ927C2Uarcbk6/2JwYzDIoBL/C1lcs8D5eOMyi7haSgLIfZBkC5rcOrrA?=
- =?us-ascii?Q?4azb6OP3qkMM6nASjy1XN4Ob/ci5wFhRXOz+3xt1RvGzXXgXVfYOu5/fZPTj?=
- =?us-ascii?Q?hzMh4YItnzZS3diLTHjNK1h5TNBIuaHXQhjMX92EB4aLHAvGRtDJ0gY9aBz+?=
- =?us-ascii?Q?6a6jasKFiDHrYVmFL3jOhjYwujAX/H3odGYk3zm4GHFR4gaC/eaWM2MQcGNu?=
- =?us-ascii?Q?1XpnTO75tPJVJhhVCB1qHnWoehfj6JFNWqEzlQoBAw7EixwUccn04eFRvDtw?=
- =?us-ascii?Q?mwwNx+OWACK2JZXKCMzsqCRtBszhSGWUpcgF4F9hwsBClpcm8KT7B8VrX6in?=
- =?us-ascii?Q?lqcztasvqBq1vC86Pjeh4Ihd+210SndJGwmMVG3yEmOXr8SHnTl8PwJ5hu8i?=
- =?us-ascii?Q?gI8cMUNiV8G0w4/QfeBJ8ZZeJNtIYKx7hWmFUQjc6qswqEcuYDl9cZcGKtqu?=
- =?us-ascii?Q?ZKKBQsly9yfi2zprLiPHRxqnexmht9L656YNq/QAGc1gYuHO1rSBnapS0Gev?=
- =?us-ascii?Q?9lKLZbabV65YMF8X6Yz2G93glfRlojW33DzPuaA3EAHo+sruS7RL8qbDqDin?=
- =?us-ascii?Q?aI/eXBqAXtk8E9ZGQK+rU+FU/sjyGNWZ/3w3KNJfgZPmuhBpOQkz8TXavlEM?=
- =?us-ascii?Q?W9p6sO9dgTk5RRgA5n1rVxcTK0I0kROOHKdRaBnwmMgADWtsmzZtXod7Q6Kg?=
- =?us-ascii?Q?4xk0jq67crMusQlbc7eq4J2+uj1wrt7SO6nfirPl6+4YfyldfNAOeDetYo1Q?=
- =?us-ascii?Q?tA=3D=3D?=
+	=?us-ascii?Q?33gPHk0HqJguHJsYZxsqKurlJnqc62wAJeYvh1nMiBUUzItpfxnp3872/Rq0?=
+ =?us-ascii?Q?YkCTVUAvdzpbwwTCx8CXLAq6SfuRB0+tMDUAeYf6cGpgRq/CJePx0sAcooVL?=
+ =?us-ascii?Q?LK4cqUysBSKjqLhjAyrZ+I41SerK8ZSVvTZNaMHAMgKRS3YwaObe6WrQH1IE?=
+ =?us-ascii?Q?JizTtvXqZFATUNRXBD1nqZUY06I5L0ureHEF+uQS5fmFU7LA+s5v8wBMBi9i?=
+ =?us-ascii?Q?cDnm/py8vAMlQDbSQl/rxKhOTy8T6DfeRZjQXYBQCn3d3b/5Au9YX/XRPygA?=
+ =?us-ascii?Q?bCbNZsIvqLO9sztq3hqyjJt2YjOPPIWxnMsXlCi6AJuyDbtIswh/RkBckwh0?=
+ =?us-ascii?Q?zRiWHGqfCVkY2pUwTBLX9tduAczSV+RGjPYLcsyJsepIO9D7auzFxgXdc5cU?=
+ =?us-ascii?Q?f1YehWyhOTBJWITFzEH2MKEEI6VJgcq9XIqgtPoMZ9Vx8Lb2wAXomo1SE3iV?=
+ =?us-ascii?Q?HwORuhkyMRlZ1A0/M6diWAlQMMHkiK1jZXaVkok9r1WvB+Jgo/AF1YMrm+F7?=
+ =?us-ascii?Q?gxlTi2mIyTVeFF8WzAvt5AcVPrT1otFDPMSvrD2QJiuA+x4ymtjqazE8eAeq?=
+ =?us-ascii?Q?itu8IpDy0WtPpcT0tLbz2Ajwea33DPmuD2kOYGYRgFW0T+w5/eKu4PDh771u?=
+ =?us-ascii?Q?+k+6BAZVs5V7R2rhJxsGBH7xQjzACiXTBUm7kVRrnjdK7V0g3Cvca1TmLi7C?=
+ =?us-ascii?Q?Ng3ZxgH4GNLnU2K+u2AQ7QN7JBrouVyivgMjFE1pIS1+jBGTo5Td9KDLA7ep?=
+ =?us-ascii?Q?9OtwJhjEZBdYwX0TZoEwWErc1ZOaPQulCvzlO1CU4d3ttJ1kuqVtwvj81hf5?=
+ =?us-ascii?Q?HBVDcnls3MEj1dD/7DTkhmemiy/oWl7C79uBQCAUrubSbIGLDp2i0JVJ5uVq?=
+ =?us-ascii?Q?v2GkH35WObtuq/H/XG53Wmyc//Chbam/+LUlUuAfsUby/XHlV3N5Go61pcCi?=
+ =?us-ascii?Q?RCA5TXggdBvN3jz+a/tBaOFykZNF3fFGtmOTrqVsL4oc4jdp+1q4w2LxsR6D?=
+ =?us-ascii?Q?4eWTtog1aCY8Ai6aC0d5xYCfaBDp/rRWNuuRyHAezR06zXsT9lpbMRSke9xe?=
+ =?us-ascii?Q?FRGkkczcgaDGfTeaYfC5oKytUojRGlj4n7K5vXN3AjlqiathICtX3A/+xOtP?=
+ =?us-ascii?Q?ZFGNSSh8Q09f76mE0VosnM45xqflu9A20M7fZj0dePiNXQ+eDi4gOMoXi5Qq?=
+ =?us-ascii?Q?NoKrQLsM0h2kpL8pyB8zTBKI7mbgsxyWWKNcucYDgVlVVPULrQTkW4gbt1LH?=
+ =?us-ascii?Q?8i0NYXuF15fJeAYF9tE/9bZRRYCnp+nzviO+usdMjk9uZejiamgPwHrt6LW5?=
+ =?us-ascii?Q?ThpejXWDXXostqYF5DpHq46ifAqbe8gveTUhK0VimBRufzDPywWC7geNp0CV?=
+ =?us-ascii?Q?PYf2ZFXsAgTVRybQ9tvpxpCARhclAkCcCXYDLDK9xru8v0WbEP+UNrR8+BHj?=
+ =?us-ascii?Q?A4+Gy/EUm3vMGuOSgwbJo5ws9wzDDbkJirnHbq80bR9QGOqBo5aOkdDHulbq?=
+ =?us-ascii?Q?v0ss+TP32VfKHdAUmdNjufe1pBgxiCAntvce5raZStPxS5XZxILTKO9VcS0Q?=
+ =?us-ascii?Q?76zfLL8ngUzJmcB+K6GYGO9cOn5/lVgSjBNFlc7z2ICKCpXpyiyyFg/DQNWj?=
+ =?us-ascii?Q?Yw=3D=3D?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e3fed05b-66eb-4256-3c44-08dc1beac6fd
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6f69a766-c874-44d6-2fde-08dc1beaca9d
 X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6129.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2024 08:10:35.6046
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2024 08:10:41.6422
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jxoSESbqrLxqyq114pwB4nQoRULI2NbCy5vToS7YXgJGW+ezx5CptHoNJYmdvWtZBA26NXyBG/jRIwGpyDfl2iiOaPs7Hcn5K3eoP8NfM1s=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0zJ0LDZLH7GbCuPWHnqO+Pfl/AmcPeRgImLc25AWCYOeZS5sDdWYCANB6fNu3YhsiltQtzNBuw2d+Poy2kdSoAYfPCUXRB/si1rBn8i06SE=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8344
-X-Proofpoint-GUID: Um52VU3jEEWcb5FXbBIqeC__LPGM-Jxu
-X-Proofpoint-ORIG-GUID: Um52VU3jEEWcb5FXbBIqeC__LPGM-Jxu
+X-Proofpoint-GUID: 6UqbN7MpNVy2wqPvPnv7H0J1JT1QBoUF
+X-Proofpoint-ORIG-GUID: 6UqbN7MpNVy2wqPvPnv7H0J1JT1QBoUF
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2024-01-23_02,2024-01-23_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 bulkscore=0
  spamscore=0 impostorscore=0 suspectscore=0 lowpriorityscore=0 adultscore=0
- mlxlogscore=999 priorityscore=1501 mlxscore=0 clxscore=1015 malwarescore=0
+ mlxlogscore=817 priorityscore=1501 mlxscore=0 clxscore=1015 malwarescore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2311290000
  definitions=main-2401230058
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 23 Jan 2024 08:10:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194207
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194209
 
 From: Yash Shinde <Yash.Shinde@windriver.com>
 
-    Fixes: thread 'main' panicked at 'failed to gather the target spec
-           for '<arch>-unknown-linux-gnu', synthetic_targets.rs:66:9
+    Fixes: thread 'main' panicked at 'assertion failed: `(left == right)`
+    left: `x86_64-unknown-linux-gnu`,
+    right: `x86_64-poky-linux-gnu`: Cannot obtain compiler for non-native build triple at stage 0', compile.rs:1474:13
 
-    Detect and fetch custom target configurations when rustc is
-    bootstrapped in rust oe-selftest.
+    Add correct target value for cross-compiled targets on stage1 during rust oe-selfest.
 
 Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
 ---
- .../rust/files/custom-target-cfg.patch        | 90 +++++++++++++++++++
- 1 file changed, 90 insertions(+)
- create mode 100644 meta/recipes-devtools/rust/files/custom-target-cfg.patch
+ .../rust/files/target-build-value.patch       | 26 +++++++++++++++++++
+ 1 file changed, 26 insertions(+)
+ create mode 100644 meta/recipes-devtools/rust/files/target-build-value.patch
 
-diff --git a/meta/recipes-devtools/rust/files/custom-target-cfg.patch b/meta/recipes-devtools/rust/files/custom-target-cfg.patch
+diff --git a/meta/recipes-devtools/rust/files/target-build-value.patch b/meta/recipes-devtools/rust/files/target-build-value.patch
 new file mode 100644
-index 0000000000..15a7f252cc
+index 0000000000..23e8c76801
 --- /dev/null
-+++ b/meta/recipes-devtools/rust/files/custom-target-cfg.patch
-@@ -0,0 +1,90 @@
-+Detect and fetch custom target configurations when rustc is
-+bootstrapped in rust oe-selftest.
++++ b/meta/recipes-devtools/rust/files/target-build-value.patch
+@@ -0,0 +1,26 @@
++Add correct build value for cross-compiled targets on stage1 when
++bootstapping rustc.
 +
-+Upstream-Status: Backport [https://github.com/rust-lang/rust/pull/119619/commits/26c71cbcf1a9bce6ceb962d753c467d098f63cf6]
++Upstream-Status: Backport [https://github.com/rust-lang/rust/pull/119619/commits/b888e2f82b9dbe81875f50d13adbc0271a9401ff]
 +
 +Signed-off-by: onur-ozkan <work@onurozkan.dev>
 +Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
 +---
-+diff --git a/src/tools/compiletest/src/common.rs b/src/tools/compiletest/src/common.rs
-+index e85f6319936..c45c0b3c652 100644
-+--- a/src/tools/compiletest/src/common.rs
-++++ b/src/tools/compiletest/src/common.rs
-+@@ -479,6 +479,7 @@ fn new(config: &Config) -> TargetCfgs {
-+         let mut targets: HashMap<String, TargetCfg> = serde_json::from_str(&rustc_output(
-+             config,
-+             &["--print=all-target-specs-json", "-Zunstable-options"],
-++            Default::default(),
-+         ))
-+         .unwrap();
-+
-+@@ -491,16 +492,33 @@ fn new(config: &Config) -> TargetCfgs {
-+         let mut all_families = HashSet::new();
-+         let mut all_pointer_widths = HashSet::new();
-+
-+-        // Handle custom target specs, which are not included in `--print=all-target-specs-json`.
-+-        if config.target.ends_with(".json") {
-+-            targets.insert(
-+-                config.target.clone(),
-+-                serde_json::from_str(&rustc_output(
-+-                    config,
-+-                    &["--print=target-spec-json", "-Zunstable-options", "--target", &config.target],
-+-                ))
-+-                .unwrap(),
-+-            );
-++        // If current target is not included in the `--print=all-target-specs-json` output,
-++        // we check whether it is a custom target from the user or a synthetic target from bootstrap.
-++        if !targets.contains_key(&config.target) {
-++            let mut envs: HashMap<String, String> = HashMap::new();
-++
-++            if let Ok(t) = std::env::var("RUST_TARGET_PATH") {
-++                envs.insert("RUST_TARGET_PATH".into(), t);
-++            }
-++
-++            // This returns false only when the target is neither a synthetic target
-++            // nor a custom target from the user, indicating it is most likely invalid.
-++            if config.target.ends_with(".json") || !envs.is_empty() {
-++                targets.insert(
-++                    config.target.clone(),
-++                    serde_json::from_str(&rustc_output(
-++                        config,
-++                        &[
-++                            "--print=target-spec-json",
-++                            "-Zunstable-options",
-++                            "--target",
-++                            &config.target,
-++                        ],
-++                        envs,
-++                    ))
-++                    .unwrap(),
-++                );
-++            }
-+         }
-+
-+         for (target, cfg) in targets.iter() {
-+@@ -545,7 +563,9 @@ fn get_current_target_config(
-+         // code below extracts them from `--print=cfg`: make sure to only override fields that can
-+         // actually be changed with `-C` flags.
-+         for config in
-+-            rustc_output(config, &["--print=cfg", "--target", &config.target]).trim().lines()
-++            rustc_output(config, &["--print=cfg", "--target", &config.target], Default::default())
-++                .trim()
-++                .lines()
-+         {
-+             let (name, value) = config
-+                 .split_once("=\"")
-+@@ -624,11 +644,12 @@ pub enum Endian {
-+     Big,
-+ }
-+
-+-fn rustc_output(config: &Config, args: &[&str]) -> String {
-++fn rustc_output(config: &Config, args: &[&str], envs: HashMap<String, String>) -> String {
-+     let mut command = Command::new(&config.rustc_path);
-+     add_dylib_path(&mut command, iter::once(&config.compile_lib_path));
-+     command.args(&config.target_rustcflags).args(args);
-+     command.env("RUSTC_BOOTSTRAP", "1");
-++    command.envs(envs);
-+
-+     let output = match command.output() {
-+         Ok(output) => output,
-+
++diff --git a/src/bootstrap/test.rs b/src/bootstrap/test.rs
++--- a/src/bootstrap/test.rs
+++++ b/src/bootstrap/test.rs
++@@ -1489,8 +1489,12 @@
++         // NOTE: Only stage 1 is special cased because we need the rustc_private artifacts to match the
++         // running compiler in stage 2 when plugins run.
++         let stage_id = if suite == "ui-fulldeps" && compiler.stage == 1 {
++-            compiler = builder.compiler(compiler.stage - 1, target);
++-            format!("stage{}-{}", compiler.stage + 1, target)
+++            // At stage 0 (stage - 1) we are using the beta compiler. Using `self.target` can lead finding
+++            // an incorrect compiler path on cross-targets, as the stage 0 beta compiler is always equal
+++            // to `build.build` in the configuration.
+++            let build = builder.build.build;
+++            compiler = builder.compiler(compiler.stage - 1, build);
+++            format!("stage{}-{}", compiler.stage + 1, build)
++         } else {
++             format!("stage{}-{}", compiler.stage, target)
++         };
 -- 
 2.43.0
 
