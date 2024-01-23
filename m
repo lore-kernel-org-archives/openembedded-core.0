@@ -1,108 +1,95 @@
-Return-Path: <dbaryshkov@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9341C47258
-	for <webhook@archiver.kernel.org>; Tue, 23 Jan 2024 13:35:18 +0000 (UTC)
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
- by mx.groups.io with SMTP id smtpd.web11.12274.1706016914727549628
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2DE4C47258
+	for <webhook@archiver.kernel.org>; Tue, 23 Jan 2024 14:05:08 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web11.13093.1706018702839370828
  for <openembedded-core@lists.openembedded.org>;
- Tue, 23 Jan 2024 05:35:15 -0800
+ Tue, 23 Jan 2024 06:05:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hM3nJjp6;
- spf=pass (domain: gmail.com, ip: 209.85.208.50, mailfrom: dbaryshkov@gmail.com)
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-55a9008c185so4947237a12.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jan 2024 05:35:14 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Y3cEX8og;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-40eacb4bfa0so23387105e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 23 Jan 2024 06:05:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706016913; x=1706621713; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=boj6BDtbFcUVGvE1X05AynqTXM96aEugm1BXjjQlr48=;
-        b=hM3nJjp6Sx5sM2EzYmZmpPDtAkkN58AJDwAzRmeUfeH+BPFdSMt8cPuqTZKwcGdyX8
-         Nkzq6das1b7rfI2AgWSdOLunZbC9o+649iXSJkv6C9uOcfsq38vw/QvGN1i63OzuuQpC
-         e6IxXH7DZ0U7nfafLeiUa3bO13oM2niftmCzf3oaM9YHVL/eNqrmxtu98SD3jMxQB2j+
-         zCrkLnpzStnT95G4lOe4JlEI1Rnygb6LteOSkK6O6o0okpCGmCATbIWHQ56kFP/LOU7I
-         NHsLcCAAPkIVPTxHWVvKTka/9nrm7gMAb7xnkonxLqmMO2+mz10XO73hk3oA7+WwCEKK
-         qJhw==
+        d=linuxfoundation.org; s=google; t=1706018701; x=1706623501; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Ol1J/ut3zfytY/IslwryP82hwRQ6yXjRzNnlAjZbAy8=;
+        b=Y3cEX8ogVlPk/ooQ3G5AmrPi2jmnCcpd+LdzJaLdzFk4Agdsg75KzEYhLkqoGRm3yH
+         YiMuAtZT68wlbVKPKKytomwkZEi/iDtM0ztfUZwXg96CRFSrdodP+WVEz0gQXWk5v4IE
+         M4JsddW1KY49/jzkmpGmTEiBvm4n3BllgE8MA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706016913; x=1706621713;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=boj6BDtbFcUVGvE1X05AynqTXM96aEugm1BXjjQlr48=;
-        b=gZNOA9HlM9ThsenpySDYmXHhAAy/5er2m7CQdVeWQ/U0HB5Uy5EBHqteSITRwZuZBu
-         nP1SKMJCXFgx3oCdwxpTBw7xlYmcP6xZR9YTqHAHM3jlCQVAlExttnvaXptWfQmwZxjP
-         PqlPMN7I7bOEwA1juGNgp6f2jjLKGlyGDLkSiOSFPyoGLxk+MEXo7yuq0oS+vLp4o4H7
-         9KI/onGMM2SbvGUgv2CFJVbgTlhlixkGIc/25UqCySJffcS/CVSKM8dIifBBVLf+E5XJ
-         mTCjLS4pz8YOQYT13JMLMGEbIK+U+j2CQEjkvTE8S3uhC9UVJSBgOVRJ/8nM9V/9aS6Y
-         c5jA==
-X-Gm-Message-State: AOJu0Yxi/KIJsI7THh6cqzMK9ijddElvwKEAjYGdbDBA3VjFUO4+B2rO
-	/wjEOMUOydoTuZPqxNGBv8P5NHKxCBYVBCAynzIH1fWNFg1rGlXFQCPYG88zuJg2WZbHJcL2pRL
-	TkhT1iGndK4RyhtYU2LgjIsqYtyo=
-X-Google-Smtp-Source: AGHT+IHs0IhQfDA0N8r1MpXyiD9cuM5pB75AezIo2tQemJK8i/Sn7ZGYH75WroHdCZsGBFGHHES8bJ03FG+GRUCmKIA=
-X-Received: by 2002:aa7:c60e:0:b0:559:cf48:630f with SMTP id
- h14-20020aa7c60e000000b00559cf48630fmr1717086edq.35.1706016912910; Tue, 23
- Jan 2024 05:35:12 -0800 (PST)
-MIME-Version: 1.0
-References: <20240119124323.3823059-1-alex@linutronix.de> <CALT56yOPW6akXrH_xyJbgoH_s5nYoMDYLX55H1betVZ+8T_uEg@mail.gmail.com>
- <CANNYZj_qrCvwjeGFjZcaoHJPtPJk1FyU9Rm28kZxMBM8aE37Dg@mail.gmail.com>
-In-Reply-To: <CANNYZj_qrCvwjeGFjZcaoHJPtPJk1FyU9Rm28kZxMBM8aE37Dg@mail.gmail.com>
-From: Dmitry Baryshkov <dbaryshkov@gmail.com>
-Date: Tue, 23 Jan 2024 15:35:01 +0200
-Message-ID: <CALT56yOgcVpJPPZgvdNZhQ1PJw3OpGu1i8WRgU0_KqcurNHpJg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] shadow: replace static linking with dynamic
- libraries in a custom location and bundled with shadow
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>
+        d=1e100.net; s=20230601; t=1706018701; x=1706623501;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ol1J/ut3zfytY/IslwryP82hwRQ6yXjRzNnlAjZbAy8=;
+        b=bz/pO4Tluic99J79aZWbOawxW8XnkuuuoIdyE5aqEpjrAUAVDGGcXyNAhVXDbGSB9r
+         cfg/+ym6VTyV/EjZAfiQ/CLTv8RvrEuoMGJBrywBiYpMmzGLKs+Rgx7qwXdX+oy3ryNd
+         z48daQfLZAQCrkAhnmBDUukr+Fsc6F5O5Vsjz8NvfZk6B5lG6TVevpOP8xcHf4j6JhRx
+         rw8BjJauSh6h5sVCPgRs4CEyqqkYm5l4sX1MbyFRCwaIVMgCzOPwMTXnlFa1zbMvLDCU
+         Ouk+8+2bp94Kg+lJbDfwKHk0/RnZA5FfaslBObbPkwfDLwFJXyPiYgcsiO9QzSmWeGwG
+         kr1g==
+X-Gm-Message-State: AOJu0YwvriKSUQ0SQnN4xwo6MlsXOCg1y7U/+94Zm5utqPMo4sTvXzMQ
+	meKxwUUf729j2sj2U7F5hl2lAvCJcjEX6ybA9jhPArvsz2FDH7tw1g/N2SxL1A4=
+X-Google-Smtp-Source: AGHT+IG/ZeFUTG8/z8OhCX9Bo52HaXR+McBIGgtYowLWqb8oDkxsKG2lBnLuRr8ge+HXOlROAGlx+Q==
+X-Received: by 2002:a05:600c:4594:b0:40e:47d7:d36f with SMTP id r20-20020a05600c459400b0040e47d7d36fmr174520wmo.91.1706018701212;
+        Tue, 23 Jan 2024 06:05:01 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:9f8c:6efa:4303:47ea? ([2001:8b0:aba:5f3c:9f8c:6efa:4303:47ea])
+        by smtp.gmail.com with ESMTPSA id f13-20020a05600c4e8d00b0040eb6ce137asm2349165wmq.39.2024.01.23.06.05.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Jan 2024 06:05:00 -0800 (PST)
+Message-ID: <2cb28a792ef3886cfb0911d5e50a583e9df8b3a8.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] binutils : CVE-2023-25584
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, Ashishx88 <ashish.emailaddress@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Tue, 23 Jan 2024 14:05:00 +0000
+In-Reply-To: <CAMKF1sqGrxXqC9ACmevcufg=RubxLuR_mmJyZBD495JYn7gdpQ@mail.gmail.com>
+References: <20240122075626.1216098-1-ashish.emailaddress@gmail.com>
+	 <4625.1705986948729329771@lists.openembedded.org>
+	 <CAMKF1sqGrxXqC9ACmevcufg=RubxLuR_mmJyZBD495JYn7gdpQ@mail.gmail.com>
+Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
+ YNvg==
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.0-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 23 Jan 2024 13:35:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194235
+ <openembedded-core@lists.openembedded.org>; Tue, 23 Jan 2024 14:05:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194236
 
-On Tue, 23 Jan 2024 at 11:13, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
->
-> On Tue, 23 Jan 2024 at 02:13, Dmitry Baryshkov <dbaryshkov@gmail.com> wrote:
-> >
-> > On Fri, 19 Jan 2024 at 14:43, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
-> > >
-> > > Despite our efforts to make static linking work, there have
-> > > been new reports of bizarre build failures:
-> > > https://lists.openembedded.org/g/openembedded-core/message/194006
-> > > https://lists.openembedded.org/g/openembedded-core/message/193907
-> > >
-> > > This commit changes back to dynamic linking, but places
-> > > the libraries in a custom location, per RP's suggestion.
-> > >
-> > > Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> >
-> > Alexander, please excuse my ignorance. What was the original issue
-> > that you observed on your build system? I tried simply reverting the
-> > offending commit and performing the build. I see libbsd, libattr and
-> > libmd populated in recipe-sysroot-native for both target and native
-> > builds that depend on shadow-native (added manual dependency of test
-> > -native recipe on shadow-native).
->
-> shadow contains executables for user/group management such as useradd.
-> These executables are used both in regular tasks and in setscene tasks
-> to create users that a recipe provides (in addition to simply
-> unpacking the sstate archive). It is those setscene tasks where
-> providing library dependencies of shadow is problematic. If you delete
-> tmp/ and run the build again from sstate, you'll see that for those
-> recipes which add users, shadow-native will be installed but those
-> three libraries will not. On some systems executing useradd will fall
-> through to using the build host libraries (which is a ticking time
-> bomb and can fail later), on others it will fail outright because e.g.
-> libbsd is not installed on the host.
+On Mon, 2024-01-22 at 21:52 -0800, Khem Raj wrote:
+> On Mon, Jan 22, 2024 at 9:15=E2=80=AFPM Ashishx88 <ashish.emailaddress@gm=
+ail.com> wrote:
+> >=20
+> > Hi Khem Raj ,
+> >=20
+> > Thanks for the input .
+> > Do i need to submit v3 with the space fixed ?
+> > Just trying to get idea w.r.t process
+>=20
+> yes please.
 
-Thanks for the explanation. Indeed, reproduced the issue with these
-libs missing in sstate.
+I think you also need to specify which branch this is against in the
+patch subject line, e.g. [nanbield]. I think this may be against
+langdale which is now end of life?
 
+https://wiki.yoctoproject.org/wiki/Releases
 
+Cheers,
 
--- 
-With best wishes
-Dmitry
+Richard
 
