@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4C13C47E49
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8E9DC48260
 	for <webhook@archiver.kernel.org>; Wed, 24 Jan 2024 14:01:48 +0000 (UTC)
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web10.23026.1706104901401304934
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web10.23032.1706104906085955032
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Jan 2024 06:01:41 -0800
+ Wed, 24 Jan 2024 06:01:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=iJ4Iuvdz;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-6daa89a6452so3821612b3a.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 24 Jan 2024 06:01:41 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=aFpkJq/Q;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.173, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-6dbb003be79so4714608b3a.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 24 Jan 2024 06:01:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1706104900; x=1706709700; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1706104905; x=1706709705; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=hoP3m6ziCWKgFaRYsu7BNQVvJW5hArMPv+iWO1zlrJ8=;
-        b=iJ4IuvdzXhXjW9qWhq/tPIPfBy48Jdl/f+unigokEizUeGkOQAL86g2U+B/8PUbTx/
-         RDenB4C8gfRT6CX7Iauk8o51CV8KLz3YTxtzbrH7kRXTA28lQ0Fm/ShfU2GDnW7Fx71c
-         AF+3O+yqcrJXB36OyzWx8DhPZF7WlfVvMrKT2NnV0zxbXyKYr0AkHOE/SHyc5LPl171y
-         JeLIzL5Epq1huwbl75Wl0HR1eo1i7cwX4bet3vshqxDhfvpewUewniV5Yg5+9xbCzUqT
-         FxAtkALh3OvvMPqG/n8ViftCLybIMNQM3t4uQoPmyqGlqalz8uuVF30RuGqGubr8+0h+
-         XadQ==
+        bh=49JsrqzRkgKEsDGeY6XJXdAHleU0+KGttIJmkGr/9aM=;
+        b=aFpkJq/QrEU+5sE5MstrWbDZeYBEJvUENj7/NoZi6rfcc+4gZVceFVkQdu7QeMYZBR
+         ZyRTdBPFFiH/StpkepWhQwEN5QIBI6Fcbzc0uEU39olbQVgHVq9Lb+H41w7dg+C/g8cn
+         DnQFmNXcrNcJFDU7heKZmshCKAOni11Q3NCIxVsr4MHDp4QLfT/KgGxxt04xt5A9kkXL
+         xsdPu/qtW4hhICy29KgsLfR7tFzHmmmN2mfkBxcOluj5n7ZXMsyCx72wc158StsuPDYI
+         vE/b1eISrckoVCVzktgE/9GLvl+TUnrbhSA/iQ4e8j2I/U+lrbRRkIiTQdDUgMteApTg
+         CCsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706104900; x=1706709700;
+        d=1e100.net; s=20230601; t=1706104905; x=1706709705;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hoP3m6ziCWKgFaRYsu7BNQVvJW5hArMPv+iWO1zlrJ8=;
-        b=CV6midKQXFm5NiriANJ4Ryr6fe+X4TPMdCJdI7UijmIDXBRxmxdMkpIkfrON9WML6H
-         i9YgZgw9XbsBsxU7icy5cDasOjC7a2vwjTUE9GObl3Ey1CJR9okAS3ax6HKc0PbitGxG
-         g872BAqFmBJpIhSGGudGfoTAlCr/CpRNwu/x2zK1lVPisacJNWa4RK1W0oItkfohEmIP
-         HBoLXi0xUTfKk3+Sm8KJQG0TcnJZQ43RJIHGKWIvFbwUF7uKCOyANZ1pJUuPxeMn4Xhc
-         ZU2cE2VVEP4Zn9yY9Ccc/2fTm9V2IiYUnkjl6Xk4ze9rw3/VDHeKhnPRQ2rb80sY9loR
-         LRnQ==
-X-Gm-Message-State: AOJu0YxPo/29cByHSwrR7qy6nx/zlpdGey1IonNLmV7BMATGdxcrozAG
-	2yz2GetQTEzEJEJkwhmPomoGI4cjIjpsviPWjGihowibVhanCBc1QxDRBJ1vUNwfjuZuhi0fB5Q
-	zEj0=
-X-Google-Smtp-Source: AGHT+IGPeDP7QcxnhgTMOqLhmlphqaAnNrLSHHVvScr4pSYWtOP0VC9Zu33KQCT8f2/9IfWLuJ+Utw==
-X-Received: by 2002:a05:6a00:1146:b0:6db:605c:b9e4 with SMTP id b6-20020a056a00114600b006db605cb9e4mr5146695pfm.31.1706104900279;
-        Wed, 24 Jan 2024 06:01:40 -0800 (PST)
+        bh=49JsrqzRkgKEsDGeY6XJXdAHleU0+KGttIJmkGr/9aM=;
+        b=Kib9njIHP9Mtoo+yzD8temLNN6+LBwttplbrbZdcFUp8dYMutHvKDMcBGaJAX3hi+W
+         LNWLrSJdxzDI1md58HIJQ19L/qFS9oUZhDjb/Zg8Hejdc43Gc/VOOzrOax2jR10hLut3
+         fldvV4HRk3q9mS24gxd9ZvP/ie79ZvL2Oz787bI2W0a6ZoKC76lGG8aNC6VzuJEZH8MQ
+         lnn53LLDV//9dpnH8u4RUNwc4XQ3i7brZn8MWuK8flpYY5RWMZquOvz0NyOG0V3/Yujc
+         CnBC6omcKvy4dv6e2yAlObDk69DOJnv9QyrqzGvdfFVEam7iWVkRBSUU4cRwzBRpPjQH
+         Bdqg==
+X-Gm-Message-State: AOJu0YxYpyMdTi7U9+f1iF8pkcS+b/jfssOlJLSyvTnxfI2Z9uPs6nd7
+	1U6QBZvLE3Ne8K1eZbTPhCReT/a6tHGJu/ijO6qTDZ/YV1a8JhEdhto8EndmfGuSikOnx4yT+DY
+	MfQ0=
+X-Google-Smtp-Source: AGHT+IF2BdP4I3ZQ5EhYdikplnkEBuxywCJFkO6zTMjuAGOzXU4Ph0RQ3u9dmiVoGwWYxPAirsEmeg==
+X-Received: by 2002:a05:6a20:3d0b:b0:19a:37be:1af9 with SMTP id y11-20020a056a203d0b00b0019a37be1af9mr1219539pzi.43.1706104904590;
+        Wed, 24 Jan 2024 06:01:44 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id 8-20020a631648000000b005ccf10e73b8sm11535739pgw.91.2024.01.24.06.01.39
+        by smtp.gmail.com with ESMTPSA id 8-20020a631648000000b005ccf10e73b8sm11535739pgw.91.2024.01.24.06.01.43
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jan 2024 06:01:39 -0800 (PST)
+        Wed, 24 Jan 2024 06:01:44 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][nanbield 08/12] sudo: upgrade from 1.9.15p2 to 1.9.15p5
-Date: Wed, 24 Jan 2024 04:01:11 -1000
-Message-Id: <e2cb6c1b5e90822bf9e73f43f8bb30259d2b75f6.1706104658.git.steve@sakoman.com>
+Subject: [OE-core][nanbield 10/12] devtool: modify: Handle recipes with a menuconfig task correctly
+Date: Wed, 24 Jan 2024 04:01:13 -1000
+Message-Id: <91192e861f0f764799f0ae9943cf387b18c70820.1706104658.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1706104658.git.steve@sakoman.com>
 References: <cover.1706104658.git.steve@sakoman.com>
@@ -62,38 +62,40 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 24 Jan 2024 14:01:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194284
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194286
 
-From: Chen Qi <Qi.Chen@windriver.com>
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 
-(cherry picked from OE-Core rev 4b2eccc0ee3f2906f9b04de194b9df6e24c2cdf4)
+This avoids the following error when running `devtool modify` on a
+recipe that has a menuconfig task, but does not have
+KCONFIG_CONFIG_ENABLE_MENUCONFIG set.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+  .../temp/run.do_configure.4163366: line 152:
+  ${@ oe.types.boolean('${KCONFIG_CONFIG_ENABLE_MENUCONFIG}') }: bad substitution
+  WARNING: .../temp/run.do_configure.4163366:152 exit 1 from
+  '[ ${@ oe.types.boolean('${KCONFIG_CONFIG_ENABLE_MENUCONFIG}') } = True ]'
+
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+(cherry picked from commit e87e6fa84a0c4b5ac8e736dc62f6e08390ba2436)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../sudo/{sudo_1.9.15p2.bb => sudo_1.9.15p5.bb}                 | 2 +-
+ scripts/lib/devtool/standard.py | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/sudo/{sudo_1.9.15p2.bb => sudo_1.9.15p5.bb} (96%)
 
-diff --git a/meta/recipes-extended/sudo/sudo_1.9.15p2.bb b/meta/recipes-extended/sudo/sudo_1.9.15p5.bb
-similarity index 96%
-rename from meta/recipes-extended/sudo/sudo_1.9.15p2.bb
-rename to meta/recipes-extended/sudo/sudo_1.9.15p5.bb
-index 431dfba3c2..8e542015ad 100644
---- a/meta/recipes-extended/sudo/sudo_1.9.15p2.bb
-+++ b/meta/recipes-extended/sudo/sudo_1.9.15p5.bb
-@@ -7,7 +7,7 @@ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
- 
- PAM_SRC_URI = "file://sudo.pam"
- 
--SRC_URI[sha256sum] = "199c0cdbfa7efcfffa9c88684a8e2fb206a62b70a316507e4a91c89c873bbcc8"
-+SRC_URI[sha256sum] = "558d10b9a1991fb3b9fa7fa7b07ec4405b7aefb5b3cb0b0871dbc81e3a88e558"
- 
- DEPENDS += " virtual/crypt ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- RDEPENDS:${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index 55fa38ccfb..0126f75022 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -971,7 +971,7 @@ def modify(args, config, basepath, workspace):
+                         '}\n')
+             if rd.getVarFlag('do_menuconfig','task'):
+                 f.write('\ndo_configure:append() {\n'
+-                '    if [ ${@ oe.types.boolean(\'${KCONFIG_CONFIG_ENABLE_MENUCONFIG}\') } = True ]; then\n'
++                '    if [ ${@oe.types.boolean(d.getVar("KCONFIG_CONFIG_ENABLE_MENUCONFIG"))} = True ]; then\n'
+                 '        cp ${KCONFIG_CONFIG_ROOTDIR}/.config ${S}/.config.baseline\n'
+                 '        ln -sfT ${KCONFIG_CONFIG_ROOTDIR}/.config ${S}/.config.new\n'
+                 '    fi\n'
 -- 
 2.34.1
 
