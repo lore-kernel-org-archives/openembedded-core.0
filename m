@@ -2,58 +2,60 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 932D4C46CD2
-	for <webhook@archiver.kernel.org>; Wed, 24 Jan 2024 16:20:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B16C2C46CD2
+	for <webhook@archiver.kernel.org>; Wed, 24 Jan 2024 16:22:59 +0000 (UTC)
 Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web11.27101.1706113251083553909
- for <Openembedded-core@lists.openembedded.org>;
- Wed, 24 Jan 2024 08:20:51 -0800
+ by mx.groups.io with SMTP id smtpd.web10.27134.1706113371544139688
+ for <openembedded-core@lists.openembedded.org>;
+ Wed, 24 Jan 2024 08:22:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MvDJ4Zin;
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=R/Rjcprz;
  spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-337cf4eabc9so4585721f8f.3
-        for <Openembedded-core@lists.openembedded.org>; Wed, 24 Jan 2024 08:20:50 -0800 (PST)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-337cf4eabc9so4587784f8f.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 24 Jan 2024 08:22:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1706113249; x=1706718049; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1706113370; x=1706718170; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=5/O0mO0TM3KG8X+I+kgGvoWzvze93lzzwF8Devj8vCY=;
-        b=MvDJ4ZinTytxhBqHKxpCMb4OGf7OKb+4NiXNhFYl7/oHWUxYsrPPcP0pdPXoGT3Q/l
-         3jKs+BpqzbB2cGSM5G7BN2mkMzo97ERAVRh+OpA/V1Dcg9sngBME+clZkYjJi1AZiSpt
-         YRA/vOBcpn8jucSrsfK06gq582AyL9NBhl9Wg=
+        bh=lyLsE4uM4BaCZeCeQAI7VTuDokml4H0NgJKBYQF+B3M=;
+        b=R/RjcprzZkWiyyGes806C7qprhaaBuRq1xwME5Qf30muE9qO9CgsGJrqrNLTask5Rz
+         tFfZGxae/687xs1CKhTF6PYOIXCRSJMc+2LtaV2eCa7duieUkhghj8cdxEQfy//3TWPQ
+         7gjlVuZeFkvgWE4TY/9bMpHh27PGw4SNB+Cwo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706113249; x=1706718049;
+        d=1e100.net; s=20230601; t=1706113370; x=1706718170;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5/O0mO0TM3KG8X+I+kgGvoWzvze93lzzwF8Devj8vCY=;
-        b=L2TqQsGcgWCnVM/hRRY2hv5iSPAVPvg5Qdv/ac/IQe1fZYuS+KJTxiPi493K0VL7bU
-         foyd1o58azOfRbJF2olFL0FGQW9wjAKJj3Ry2qTm+C8BIdGaNknP76qZ2fu9+7xnEUOb
-         U0LzcQtLjXDlLF6jlvVcOW1SYzYfrBM8aD9ZKLIZOPEEl+xgalBew/6LHj8Y6gxq8fFy
-         rWXwRhFVomercdO10Af4Q470+srow0iY0UzjsfEr9UuiSkNGHXmvGnrySGyR8SZN40+U
-         s/zlVxeCb9Y6q/fIsLthzfRWjMab/csMqXSx/4+8bHUYlP++7qQhGP+VJixLeyCIwS/j
-         io4w==
-X-Gm-Message-State: AOJu0YwyxXizvHqZERdhcwe/lg2JlQd+ZIAvIduxQNgiUogvM6VHIa0u
-	HjGBlnSZvj48CkePAkYJC6CBXm7Q4WO1+ApbYJOHtCseyX8iyF1l1v2ie1dcVjk=
-X-Google-Smtp-Source: AGHT+IHlNQIwsaijE/kSVqG05LiWLT68oAzldtxW9WKsJm5lXMbJrkQDA9SBAd9vULcNKtK4h9IjNg==
-X-Received: by 2002:a05:600c:3ca9:b0:40e:4c1a:a0d with SMTP id bg41-20020a05600c3ca900b0040e4c1a0a0dmr1371578wmb.24.1706113249417;
-        Wed, 24 Jan 2024 08:20:49 -0800 (PST)
+        bh=lyLsE4uM4BaCZeCeQAI7VTuDokml4H0NgJKBYQF+B3M=;
+        b=CqedpLGrR1In3s+fpUvvsdbEB918t5npKSaMwgB1W5Cd/vO0DV8W+UtI8cCexvYDjb
+         GD4XoKeQJdSw+ZPSZG2jgrmmJQQ9WRkMeD4Ot4dqtsTN7PIksZw2lZ0P2JXTSZm5/FXW
+         m4BQBdKcm/6P5OcI/YbQYmLXH36oj4vtzQ11etDngOPPIpFytdl2cgKRXsufZBKjFcwz
+         J+7ebq0QsTV5QyilvtDWmqVRH8qqdjK+wqpV7uiBwWmQRpzXR/OPIjiLdIrGjL2zulhm
+         CG71+CDR7CmIlpkPOhHFPZIR+uSTJ5N31lSEm4dk+vW/3ouwp/Z6TQLO6F3HCdrWaT1y
+         4r9Q==
+X-Gm-Message-State: AOJu0YzC897HpvQxWEqsfCeFa9loWQ2fYTf+x1KQmyyoCF3Ft4vBJNdv
+	HiL0Qys9PMP1mDYQ5JG8VgyGxTs8bS5R5S/M8MzJkgrAlzGaTGjiXaZNehoPmxWaxa6gC4AYYAo
+	/
+X-Google-Smtp-Source: AGHT+IEtt7hUFPZwHjd+haEle+yXLjpRPXpyvqskS7zkYBXzb5EJnEx/Jk09xWEzCofkV9WFChpyMA==
+X-Received: by 2002:a05:6000:100f:b0:337:c287:2997 with SMTP id a15-20020a056000100f00b00337c2872997mr691138wrx.44.1706113369960;
+        Wed, 24 Jan 2024 08:22:49 -0800 (PST)
 Received: from ?IPv6:2001:8b0:aba:5f3c:27a9:6a99:2170:a4d6? ([2001:8b0:aba:5f3c:27a9:6a99:2170:a4d6])
-        by smtp.gmail.com with ESMTPSA id fa10-20020a05600c518a00b0040e3635ca65sm149037wmb.2.2024.01.24.08.20.48
+        by smtp.gmail.com with ESMTPSA id p12-20020adfce0c000000b0033865f08f2asm14204836wrn.34.2024.01.24.08.22.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jan 2024 08:20:49 -0800 (PST)
-Message-ID: <8b8c3138d4cc63eec5e72b46bbe7553615cb34d1.camel@linuxfoundation.org>
-Subject: Re: [OE-Core][PATCH 1/2] testimage: move
- TESTIMAGE_FAILED_QA_ARTIFACTS default value to core-image-minimal
+        Wed, 24 Jan 2024 08:22:49 -0800 (PST)
+Message-ID: <b72c96006e0711b704577ab9038d39bdc935a30b.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 4/4] grub2: upgrade 2.06 -> 2.12
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: alexis.lothore@bootlin.com, Openembedded-core@lists.openembedded.org
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Alexandre Belloni
-	 <alexandre.belloni@bootlin.com>, Mikko Rapeli <mikko.rapeli@linaro.org>
-Date: Wed, 24 Jan 2024 16:20:48 +0000
-In-Reply-To: <20240124142930.1038759-2-alexis.lothore@bootlin.com>
-References: <20240124142930.1038759-1-alexis.lothore@bootlin.com>
-	 <20240124142930.1038759-2-alexis.lothore@bootlin.com>
+To: Ross Burton <ross.burton@arm.com>, "anuj.mittal@intel.com"
+	 <anuj.mittal@intel.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Wed, 24 Jan 2024 16:22:49 +0000
+In-Reply-To: <A950FDEA-F17E-4234-AFE4-563163121E62@arm.com>
+References: <20240123084734.223154-1-anuj.mittal@intel.com>
+	 <20240123084734.223154-4-anuj.mittal@intel.com>
+	 <A950FDEA-F17E-4234-AFE4-563163121E62@arm.com>
 Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
@@ -69,88 +71,31 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Jan 2024 16:20:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194293
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Jan 2024 16:22:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194294
 
-On Wed, 2024-01-24 at 15:29 +0100, Alexis Lothor=C3=A9 via
-lists.openembedded.org wrote:
-> From: Alexis Lothor=C3=A9 <alexis.lothore@bootlin.com>
+On Wed, 2024-01-24 at 13:50 +0000, Ross Burton wrote:
+> On 23 Jan 2024, at 08:47, Anuj Mittal via lists.openembedded.org <anuj.mi=
+ttal=3Dintel.com@lists.openembedded.org> wrote:
+> >=20
+> > Drop patches that have been upstreamed. Refresh others.
 >=20
-> TESTIMAGE_FAILED_QA_ARTIFACTS currently sets a default list of files to b=
-e
-> saved whenever some tests fail. Unfortunately, this default value is very
-> easily discarded, because TESTIMAGE_FAILED_QA_ARTIFACTS is expected to be
-> enriched by some core recipes (example: ptest images) which are often
-> parsed before testimage.bbclass. Those core recipes could still manage to
-> get the default value AND add some files by using override syntax, but th=
-en
-> it makes it difficult for downstream recipes or bbappend files to tune th=
-is
-> variable.
+> I was nervous but I=E2=80=99m pleased to say:
 >=20
-> Allow to set this default value and make sure it is not overwritten by
-> recipes wanting to tune it, by setting the default value in
-> core-image-minimal.
-> While doing so, set it as a default value instead of a weak default value=
-.
+> Tested-by: Ross Burton <ross.burton@arm.com <mailto:ross.burton@arm.com>>
 >=20
-> Signed-off-by: Alexis Lothor=C3=A9 <alexis.lothore@bootlin.com>
-> ---
->  meta/classes-recipe/testimage.bbclass          | 9 ---------
->  meta/recipes-core/images/core-image-minimal.bb | 8 ++++++++
->  2 files changed, 8 insertions(+), 9 deletions(-)
+> For the upgrade on the fvp-base aarch64 machine.
 >=20
-> diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-recipe/=
-testimage.bbclass
-> index f36d9418914f..cfda5b631ba8 100644
-> --- a/meta/classes-recipe/testimage.bbclass
-> +++ b/meta/classes-recipe/testimage.bbclass
-> @@ -18,15 +18,6 @@ inherit image-artifact-names
-> =20
->  TESTIMAGE_AUTO ??=3D "0"
-> =20
-> -# When any test fails, TESTIMAGE_FAILED_QA ARTIFACTS will be parsed and =
-for
-> -# each entry in it, if artifact pointed by path description exists on ta=
-rget,
-> -# it will be retrieved onto host
-> -
-> -TESTIMAGE_FAILED_QA_ARTIFACTS ??=3D "\
-> -    ${localstatedir}/log \
-> -    ${sysconfdir}/version \
-> -    ${sysconfdir}/os-release"
-> -
->  # You can set (or append to) TEST_SUITES in local.conf to select the tes=
-ts
->  # which you want to run for your target.
->  # The test names are the module names in meta/lib/oeqa/runtime/cases.
-> diff --git a/meta/recipes-core/images/core-image-minimal.bb b/meta/recipe=
-s-core/images/core-image-minimal.bb
-> index 84343adcd8e2..8f5fb0d2ae51 100644
-> --- a/meta/recipes-core/images/core-image-minimal.bb
-> +++ b/meta/recipes-core/images/core-image-minimal.bb
-> @@ -10,3 +10,11 @@ inherit core-image
-> =20
->  IMAGE_ROOTFS_SIZE ?=3D "8192"
->  IMAGE_ROOTFS_EXTRA_SPACE:append =3D "${@bb.utils.contains("DISTRO_FEATUR=
-ES", "systemd", " + 4096", "", d)}"
-> +
-> +# When any test fails, TESTIMAGE_FAILED_QA ARTIFACTS will be parsed and =
-for
-> +# each entry in it, if artifact pointed by path description exists on ta=
-rget,
-> +# it will be retrieved onto host
-> +TESTIMAGE_FAILED_QA_ARTIFACTS ?=3D "\
-> +    ${localstatedir}/log \
-> +    ${sysconfdir}/version \
-> +    ${sysconfdir}/os-release"
-> \ No newline at end of file
+> Thanks Anuj!
 
-I'm a little puzzled by this. Doesn't this mean it won't work for any
-image that isn't based upon minimal (which is most of them)?
+I was really happy to see this upgrade arrive too. It was on my radar
+as something we definitely wanted to get into 5.0 since it lets us drop
+a lot of patches from what might have been the most patched recipe in
+OE-Core.
+
+Thanks Anuj :)
 
 Cheers,
 
 Richard
-
 
