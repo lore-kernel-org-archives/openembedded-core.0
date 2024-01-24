@@ -2,176 +2,200 @@ Return-Path: <william.lyu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8DD3C46CD2
-	for <webhook@archiver.kernel.org>; Wed, 24 Jan 2024 16:26:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0AA0C46CD2
+	for <webhook@archiver.kernel.org>; Wed, 24 Jan 2024 16:32:49 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.27302.1706113614820131841
+ by mx.groups.io with SMTP id smtpd.web10.27428.1706113967372147454
  for <openembedded-core@lists.openembedded.org>;
- Wed, 24 Jan 2024 08:26:55 -0800
+ Wed, 24 Jan 2024 08:32:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=NOKdw0Mi;
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=O0Bgz8q7;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1753a196b2=william.lyu@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40ODfFrM000954
-	for <openembedded-core@lists.openembedded.org>; Wed, 24 Jan 2024 16:26:54 GMT
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 40O6Qal6027734
+	for <openembedded-core@lists.openembedded.org>; Wed, 24 Jan 2024 16:32:46 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:cc:subject:date:message-id:references:in-reply-to
-	:content-type:content-transfer-encoding:mime-version; s=
-	PPS06212021; bh=au/sYejiBa1TfTTuQf5hihZxKLWttvrsGfdVn6QcZcY=; b=
-	NOKdw0MiAlqWDqdFVnsd5BxX8nsWV7lDKIf6Fx6mHRxvkk1PyF1KkGkPEMH2FOsB
-	CtD9q45tD1iYK+TU11jz5V7HzCrGtNJ4MGJkhOo57EJF978BIholeDBcUAEpCCKK
-	Aa/oqHIv2UkpCNCbpoxu+k+XMlGoSydzjOpGvNfIRoisNPwUfIRpfAnKtTPMZWrz
-	/F/Hmhqvu4BUvMwhhOAorxhp5RtVOeFM+1LpspjJ+lZPQoahkgCGreYQWedeND5M
-	hhuJwfMvMqjjM/vVZG8Dvo0BZEn+JFCpbonc/doTGBVnVjpIHNgnF+7mnL58hRyB
-	HonU7xqw5qKpQxzUISheUA==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3vtmg28xmm-1
+	 h=from:to:subject:date:message-id:content-transfer-encoding
+	:content-type:mime-version; s=PPS06212021; bh=IMHRzvaQSx1RFua0Es
+	8IZHta0ZAPV9no8fQD3YD7Ep4=; b=O0Bgz8q7kEp0G4/esDZjSLDoky1wAEwF1c
+	WoeOveGn9TaNybB5YqGyFEA0otn4/xC/YBKx8ERFIMwbdj+YF1rkzxpt4idhdXLN
+	gaTQOE5wT5Hvtlqlabm2UyMIWkk4G2SolkrIkYGmc0cv06BJs/Hpwqm+8gzw8PQe
+	SyhPtqxayv75T9NGQHBeS6M1KZ9pEF941zhz3VDU4MQtFed/ykDgAXsNObSVotMC
+	CvuDKowdN1fjZwHw564WYlkzPWWrLKNjNZtQHySS/LhILHkQv4nHeP6CetH3d6v/
+	85UiRSLgcnDQGw3NL8ajy88bDVuBkDtr0uHyn+BNmHeucynACT8g==
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2101.outbound.protection.outlook.com [104.47.58.101])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3vtmfsgy9e-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 24 Jan 2024 16:26:53 +0000 (GMT)
-Received: from m0250812.ppops.net (m0250812.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.24/8.17.1.24) with ESMTP id 40OGQr0Z008311;
-	Wed, 24 Jan 2024 16:26:53 GMT
-Received: from nam02-sn1-obe.outbound.protection.outlook.com (mail-sn1nam02lp2041.outbound.protection.outlook.com [104.47.57.41])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3vtmg28xmk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 24 Jan 2024 16:26:53 +0000 (GMT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 24 Jan 2024 16:32:46 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZD5ryv4qd5V69HRVQK1A7cts+LXavnsaxWF3ZcG571k/2sgXo+8nlnaV1C5VYzpzzzTM/LuBHQTzlBc4GlTz6kDpIknX/zMDIR+bKrV6cuzh7KpZQ3Wq2CvieLY5m3MV+UjInwJF4TsqBKhTqtkOTXkP3SW8TvWS6yLbkRP69MSRwYYiM+fLz0OSeidNHOHWf8WMw+MwKIJemUDT5bWsFBZj3I7Lv5AkGQpnZTnumYGyevw4gQ2IfX2l20g6T8Z4m9guPvpmSJ+XHrWUgQSYLn9nMiTRgkoH0MDODSyhNS2Xc+5GGk5iXikkqm8gzZjmWYQQEzOfZR5xYfHLa269dw==
+ b=VkDv9TlgXcHmkZPG2LI0ahh6s4i1LE9tYYL0pn1blb3CJxFgXKMLlXWp9oEp0mEO0AleW2WmoiHi7t0kop0JeXbxFszVzABiHB5oyflJZJwi7okwdGEv2oNTR26WtGIVKuqu3YfzkAkCvCTbBfh56APksCeQTn2aZaeOLKZLeVCq0rpwN2Cm03yBoW/ik6+r9O+ZyeARSIajgjXUqWaAKmYmUOgL3jP84LW1Jxuh3gLe1LyNyKDVmlsEHETC/3jP3xaP0rUd63UWjOCQsqjbsDz5CWjokFi4RPKD11tELB1yqf8IYY94x1sAVMm0BBEJXXxZHZBPp9cSrXa0Uucuag==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=au/sYejiBa1TfTTuQf5hihZxKLWttvrsGfdVn6QcZcY=;
- b=niwyNxfp9ZXm0tNeKz07qcKjpp7z8RJKON2e54VLSNp7hRbAy07ljt5Z2c3ezoJm2EHvQe55eeTxl4RXWf6IA4Sn4H42JTPBUkIo8BqZzpYWgsy0asQg1CS5tgoHrWEZU3RZnfmZJvE6pRbM6+MmlLUD7WcAMRbH5YaqBLD50hjqxyi7NchBt3yUyMIpiMChgDJ9ZeBUkjZWdvq1cXRlchEsN2EKV5KLiDvEDsLK4wkabXEN/Y4k1lb/E81mK3L0CIGZlQ45clY3HUc4Y8jj7DQgnQNPsZicKA9mcvfuF4gTwrpd1mpybRNren0p5YsdB6jjNzvoN3V7v9qSC0iI6Q==
+ bh=IMHRzvaQSx1RFua0Es8IZHta0ZAPV9no8fQD3YD7Ep4=;
+ b=niWd5B5yBIWhVfNduEJSeUGFDObRUYRFlu3vaCAddP0Ltme2wozqZn50eHd5COMIs1ThNKfgbssj1hC4dIgLcC8HWJ+in2ZBhU+ob0bshWlqXk3lnL5BobEv4WsjNo94cDEhz6qve5ekfBuxGTUjYoVxXj0cn/NjpKYWqM/6AkpJPM7tEpjbPvoZXlcExobY/WCqLGyMUPy4Ld20z6vUlNcyrm349rkrWQmFoV9XXCJS7aFeHW9VOnYknrohmWbR9+x3Ty7FDDmB+TZEbG2+XAxiWGLCLxtNkIJPc4GJPHGVAVk9B1KYWE8O/ov17xkGg50js1D9s/fzESTNpi6ygA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 Received: from MN2PR11MB4447.namprd11.prod.outlook.com (2603:10b6:208:194::25)
- by DS0PR11MB8164.namprd11.prod.outlook.com (2603:10b6:8:167::8) with
+ by MW4PR11MB6738.namprd11.prod.outlook.com (2603:10b6:303:20c::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.24; Wed, 24 Jan
- 2024 16:26:50 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.37; Wed, 24 Jan
+ 2024 16:32:43 +0000
 Received: from MN2PR11MB4447.namprd11.prod.outlook.com
  ([fe80::8206:ec84:da0f:f2d8]) by MN2PR11MB4447.namprd11.prod.outlook.com
  ([fe80::8206:ec84:da0f:f2d8%6]) with mapi id 15.20.7228.022; Wed, 24 Jan 2024
- 16:26:50 +0000
-From: "Lyu, William" <William.Lyu@windriver.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH] perl: Fix perl-module-* being ignored via
- COMPLEMENTARY_GLOB
-Thread-Topic: [OE-core] [PATCH] perl: Fix perl-module-* being ignored via
- COMPLEMENTARY_GLOB
-Thread-Index: AQHaTnSRujTTIAkdgkihBlq/ofSkvbDotvEAgABwX/A=
-Date: Wed, 24 Jan 2024 16:26:50 +0000
-Message-ID: 
- <MN2PR11MB44470EAF151921F243A8E08EEE7B2@MN2PR11MB4447.namprd11.prod.outlook.com>
-References: <20240124032220.1906541-1-William.Lyu@windriver.com>
- <CANNYZj9=zyL9xL2DofAKTeNd7JPo1tv-SoRvZPf-+AFgNG-Qyg@mail.gmail.com>
-In-Reply-To: 
- <CANNYZj9=zyL9xL2DofAKTeNd7JPo1tv-SoRvZPf-+AFgNG-Qyg@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MN2PR11MB4447:EE_|DS0PR11MB8164:EE_
-x-ms-office365-filtering-correlation-id: e37a6d31-750f-460b-0b38-08dc1cf9447b
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- w/JEq3L/oJM763Z0nRGwtiYRLypjRTe7q1JUNUubf8iTp5FAdQ00P2XyfGubP27e4dK6QLi7elFAuEH+YIReiPX5bDAs3lpzwl2sweY2uV8ELx4dLR9Ff7phg1+zFTDbMM0MUbfx/JAy9/BXGgPjB7qRbqTeh6r+PEopxn81iL96fsG6EEEaST9LGud4zoQiLjyvI5xrM/H+PTKTGIC6Vxv3S0xuA/NrGyGI4qOJEvKFnsPEzmHxPlMkbQPhghriYwQhU0NfSl3xMArIrDAbCA3ZfyLriLeGZp5zmYDn78HOiOTsnXmnW198PAprvnqV4KpIAGdwp18tZpDiKQkJIqZeZfB1fiNzPdC/W1MSilq2suscbLBjvBybok4ms2N8qYJi1U1gvlMCPdKk3f6R/jQnSffsfeQ7x3tDTdu9g0ufJXiMmcLJlFaw3y28019GgwXtmACP9W5z77UDgiNj+hpjJBLZGM49Ll+5W9SZ9KFdze3GqBnvAV2P4f8cPWOu2LmomEFvT43dlVrqGpqK0ALY4jnDBV3bsqqROHF3telkilAqJCRsC1v7fT2dPhh0p/C5mev4eLjE9X/YXi6WjLfEZIU5NoDFLrsWe85p/NU6sw0iIIP1qK5D7QCeZAn1
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR11MB4447.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(346002)(136003)(39850400004)(376002)(396003)(230922051799003)(1800799012)(186009)(451199024)(64100799003)(41300700001)(55016003)(26005)(38100700002)(38070700009)(478600001)(7696005)(6506007)(9686003)(71200400001)(122000001)(5660300002)(2906002)(66556008)(66476007)(66446008)(66946007)(76116006)(33656002)(316002)(64756008)(86362001)(6916009)(8936002)(8676002)(4326008)(52536014);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?Ri9SS0ZKS0hxaHI3M2h4eFpDNWdGTUFydGxhblA4Z3ZPdGRRWFFlWndUTTRu?=
- =?utf-8?B?SkcwOTJKR2JpeitjdjZ4Tzg1TUQ5MG5nQnlFM2lWVVVnSmEvV0hIZUZLeXdr?=
- =?utf-8?B?VTRrSXdyWGVmOFhEQ2tGQ0xRKzVWVTIzZEJRZk9IZC85T3VCUWFIVEJUK3NL?=
- =?utf-8?B?YWVHY1ZuZVlWN3pVc3QrQ2lkTmlBS3JXTTZYNXlRQ2VQNitldVBjei8rTUN1?=
- =?utf-8?B?MnBvY3oyWTVGRUxwZTFnNDU0aFVGdzc0cEsrcE1lOExhd3R6Wkc1QWs3d2hU?=
- =?utf-8?B?ajFHZzVmSlhDd2ZGb2dlckpXdWlQV3RnQW9rTi8vSnJEWWNzWjhNTzFxTkNI?=
- =?utf-8?B?Y0srMHdZTFFIZWwwRWQrMlFkUVVNVGFTQmo3WXhTZ1p5RU9wdjZFWEpWQ0wx?=
- =?utf-8?B?czlIemtQQVliMGJLdERUVlRLcythcnp0Uk5mNUJmZUlPK3gxMm9EYU1jNFRF?=
- =?utf-8?B?dlVienNnMkRaZEJKZzlNNG16WVBBZ1JzMkpweDRCRkhFbnFNcU1vN3VvTDZU?=
- =?utf-8?B?OVlnQytBcmlOcmgvOTIvcGIrelBlWC9MbnVKcHBPNVV0K1diSzJiMUVJQzkz?=
- =?utf-8?B?bW1IWHppS3FJK0wrWVdhbzFPcDUvUzVQVEV0b3djYXg3WXVkcHU1czNkN2sx?=
- =?utf-8?B?OUJYSUVySk1ENXMrQWZFNzEyeVN4MXlkZHdJa3BLbUx2dHNQU3VpWFpxYkE2?=
- =?utf-8?B?SXVOL1p5T2R2dXJPeSt5NjNRMGFZZGdUT00wbC9ROElsVCtld0ozT1BUOE9m?=
- =?utf-8?B?eVVBTnFkVnhVcTlnMlVqdHFuanloZ2pwVDdtRnpnS0VReHVkaEJSWUx6dkhn?=
- =?utf-8?B?YnptQmJGYTEycXhueG9CRkZxaWgvbVRQYnVxeXV5aStWMWhRUnlxa0VqNis1?=
- =?utf-8?B?VXZ4UFA2TUU2WTduQm9ESSs5UUVhNGM2NDZoRGVTUXUyOU4yQkhhYlJLMVpl?=
- =?utf-8?B?MEJ2TEptU2FoRkxMM3k3RWJkM1h2ZS80WmxUa3lBejQzQmxaMFZkdVFWRFVs?=
- =?utf-8?B?K1cySjAxZ3NZM0xKelRKbmY1SFhjU3JRUDluV0xSS2NDUDE4QjFlc24rV3gr?=
- =?utf-8?B?RjZ3VjNONjhncFJzeGt2ZWtzTEVJQmRnTTNQK0pEdEtBdnd2d3R2NVo5M3dw?=
- =?utf-8?B?WE1XeUJZV1B3dkFhZUx6UnhzSTYyOVlOcjFDQkdjeGZKQkg0L1FUcVptMUhN?=
- =?utf-8?B?d1BidTgwYmdVSTB4Zlh5eGRNZXh1WG9MY2VhampWN3ZXRHFiZ0Uva1hKeGhi?=
- =?utf-8?B?cjNUZ3JmQkdaWGhzQ1lIMWNIbEdKUDdyK1pXbXVNSXJqSUx5NjZLZzRBanZF?=
- =?utf-8?B?MVdFeVQ0dlJhdTRaVjEyRlBiTTRFeU9jRHVhMGsyeEpjQU1nNk9VTlRpOCtT?=
- =?utf-8?B?WTZqdnoyTFZXN2p6SDdDYS9BRWZZSXlqWnN3QXFkTEVLNUVTamFFckNBVkZO?=
- =?utf-8?B?SjFvQWt2eVcvTGUwOVdGY3NLL1FHRU1XNkFDSUYvNjV6RjliSjhXZEloZnlF?=
- =?utf-8?B?c3AxZTBHeHo0TWN3NHM0Rk5WNEQzVElRblBtejNoc1ZLc0xUdVNFckREMzFX?=
- =?utf-8?B?ZFBVM2JSNUFjcjVFM1ZmbEE0czVwb0dkb2hadXJ6NW0yK29YRGhlNGxwSko3?=
- =?utf-8?B?Z3BxdDlUemE1bFlyUnM5dnIvSDZQU1F1VlJ2RWp1YkE0QWZ1ekRSV3Q4cjB6?=
- =?utf-8?B?V1A1aUF3UlNMWXJON0IvZGhYRWpIRFh4UW5NOWI2aVBuN2d5UTA2ZWlrbWJr?=
- =?utf-8?B?dFRMUXQ0SExoRmFicXkxaXorbWsyNEx4TFJISWdNWmd3TStReWJoMFc2ZUJE?=
- =?utf-8?B?Rkpua0d5YU8yQVBUbDZyalR6d2JmZ2VUdHN6bUtmTWlJdElWeUdDYU5yVzRM?=
- =?utf-8?B?cGsxTTZ0ODk5Mm05WVBUc3BFeVlVWnlwd0kyYlJOSHNHZGNvaGZZamV3THpu?=
- =?utf-8?B?c1FSeEtZUG9qbVExN1h0WHlqUlBFc1Y0bTBOMFFlUGVObCt1Q3p1bU1TN1J5?=
- =?utf-8?B?TklPay9idTJpQ3FRQXNlVTdzMXhIU2VGYmx1MHNEZVZlekw5dVpIbDRFMmZP?=
- =?utf-8?B?YU1VVk9jM0tpMjRRcXZ6SUNBWlJnb2p5cDNoN3lrd0hCb1M1c0NhemUrV1JQ?=
- =?utf-8?Q?A7VQ3AG2mmUEAtUel+eloD1Nw?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ 16:32:43 +0000
+From: William.Lyu@windriver.com
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] perl: Fix perl-module-* being ignored via COMPLEMENTARY_GLOB
+Date: Wed, 24 Jan 2024 08:32:34 -0800
+Message-ID: <20240124163234.2366869-1-William.Lyu@windriver.com>
+X-Mailer: git-send-email 2.43.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR13CA0125.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c6::10) To MN2PR11MB4447.namprd11.prod.outlook.com
+ (2603:10b6:208:194::25)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN2PR11MB4447:EE_|MW4PR11MB6738:EE_
+X-MS-Office365-Filtering-Correlation-Id: d638570e-aa6a-4af8-3a82-08dc1cfa16c8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	cjYoVb3v8DpmtzP5PYwqNzVD1S3IZtJmaUNRjRNu0sOj9fpdVzQapzuWDSVJBDSC5nSWZY9EYFkijy11Cqb/XmEAyXRjQvL+FGx4xZc6HrXDLvbWMOWZr715N2DLw0cKN98geYV3wLBVfinQEbKU5vvSTb6R7ANnM9S7cOJEELZu2YQNHVlmlxn3Pps5vllx2nIQRU/6AVshqgaHqDJ/fOHqyJAEhjeHzuwNvSnVcosBAcoqUjOZFKKUEpN4JUvjnTxnKLkcpz1KG049FGwk+llMsvOMn4BpbhDXdOskb4UXGJbOHBAiNySzfU0X6+8TfOfsZVo74PzP2zrt/HTAkeuYgryws7Jhf8JusRyMRzM2vajICyBGJZ06lD9pVa7UAdZm1V19Aby/kh0iJgmLAPeN9AecIGL5lsmY7NCR8IViM/ssKY5s7IjspEdmfz7bTuwB6f8dBa+uwAAQPFupjBFMuH+b3My+KqymjUrA3cr/L//kZJ5Z20ZTTnBVeovxn7v36oTmI4odsayXn9c1IGDSW4X3G8k8Z/AGj8JEOX6upp5w3NG8uEUSlM6VpUjyS1Js4iIXXwfY/tYfGnhc/9dLpM0auTUtkDFxSvtzj33LCYQ9J3C4sYIYphMkrf/tsRhewCulMV1pepYoaWfRBy70W8aPNLhuOFtswz0M5dE=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR11MB4447.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39850400004)(396003)(346002)(136003)(376002)(366004)(230922051799003)(230273577357003)(230173577357003)(64100799003)(186009)(1800799012)(451199024)(6512007)(9686003)(1076003)(66476007)(66556008)(478600001)(66946007)(6916009)(2616005)(316002)(5660300002)(52116002)(26005)(6486002)(6506007)(6666004)(83380400001)(41300700001)(2906002)(36756003)(86362001)(38100700002)(38350700005)(8676002)(8936002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?TNPE/lh6EfXJIhp+j0ogl/zmCjeuC4hxBxyBLdMi5FbUEpDVRW2fFckN787H?=
+ =?us-ascii?Q?20QMGvISJYrT0P41rJiD69XKAMD/Dj+EbYCBoPPKu8WNqxfSh0EC+073j83x?=
+ =?us-ascii?Q?52sXRofVac74Pqv4kFi/aLTveN80t0rdGNcCZ0ZVEGZb2OkD2bK5RLzr29XH?=
+ =?us-ascii?Q?lU7Bh8EPD5tD0xAOd5eJsodKeH3IpgeosjC1i2OU0McRh0bTzS+sqN/SphN5?=
+ =?us-ascii?Q?7y84gVNmMNu0ACL8X4IZI7OufD3N8kCB3TI3idqlWnUnOxw+C9KbwEDbgPeW?=
+ =?us-ascii?Q?h2VhGXORKxf65/pE1ibzBCKZ/xR4fic/vBhfmt392beCAkwRtQWTr1BOMMNW?=
+ =?us-ascii?Q?f0NQRYp063kI3l7o1GB0QCpp3ylESUaXB68nBDnscTD6ePyzbgfnfuzUYSrH?=
+ =?us-ascii?Q?Ou+FWkc36OztymcKDvGGm/AuSCSdSxvq9HMK0XNIxKdHyUTPcW+BeErQ60oD?=
+ =?us-ascii?Q?3OWqR28c2RlJh4bvxS2ayi7woEQFuTrQOkemUPdlXbbruBuw+AzWV4G8hj75?=
+ =?us-ascii?Q?mCuAui/0u4x/ZxGqXSgMoovkcmieW0etiG7yynXHU8Cqb6fg5KadixfW2m3R?=
+ =?us-ascii?Q?JFqrlnvAHsyiIFLrxD0mWq40vbV9rGzCfTF1Ttq3vwzmC4enNJv4EJIOLO9v?=
+ =?us-ascii?Q?PNLVJZsQ9p/DwwbKvN1uxSJQDKa1QWT64Fe9pQ7U906CVe57Qt2iZ6N01Uu4?=
+ =?us-ascii?Q?BTopphnAIxSkAvRN3wL0RMPsexzRl0YrlsN1aYjap2jynm0cSvNGqNR+a3Ik?=
+ =?us-ascii?Q?qWMXFkK+OEzOzivIEY9AaKVHcBHz4FJEJEmLqEKBvpWyYGoeuxi+1QCP4EMT?=
+ =?us-ascii?Q?ErMmqqMo3A/tUGtEO/qONWIHHp2oqW9ec4UoUVMV2S/eiMgDBEvPb2F+p5q5?=
+ =?us-ascii?Q?5mVoWxEReHIUyJC0Qgj+06Yz1SBb0iiAxydZCU5YUr3XmxIWd8ydeUfBk57X?=
+ =?us-ascii?Q?kzBQgNTcr33hc686TEEuLYbeAKEIZFnhQxFy3c0hvja7LgPtyoB3qLXFX7yD?=
+ =?us-ascii?Q?73JUF//4rRRI8nFpeo2MXfd3LCIzTdaECedH+Y31ZPYBfxECytCH2j9f3UdX?=
+ =?us-ascii?Q?+GZya3AGMikOiye/YGoD52wwZvsBWr7/hH/sfA11e08JmFCiVT73IOL/BQhC?=
+ =?us-ascii?Q?kY1ydQzG998aRzkF3SJEIsQwPPlti5Df6Q1VShz6fabKn8f1vr7Tx2I3C+yo?=
+ =?us-ascii?Q?xNKwr5xswJaNj5lfTfAENInZwJrwsUPWlnIuGHUQFIJJiLCGhdK6zmOuY8Fu?=
+ =?us-ascii?Q?qAaqaBGU7TsM6HFOH5SIcaxIhFXVg+KoXHFKT4ErajskX+jrgZEwrrn7JO9k?=
+ =?us-ascii?Q?uqntAwBA4NPE4nXB2ejdeC1skxArRL3IGoL3z8T/iNoc+hPjT8QiR0v0Bckz?=
+ =?us-ascii?Q?Uu9xnUIDoes2MXwEuicjpssPjtbJM7couQppWZARknhLRPwtgbXkuKUvY+Er?=
+ =?us-ascii?Q?XjgljE3HjCsdhz+U5DGQltZRCrhRZwMr8Nxv+3wiuraDyZWO7+R4bjqEGf1w?=
+ =?us-ascii?Q?+feB7YAs8pgf092j78p0IyABxIpLaTLq2/m3h1OQxmdD9o8sQecrnePcKQd3?=
+ =?us-ascii?Q?awQcJEFjrMxUZd4RSBeafRN/bQq1bu4AvvjD1sW4ArE0D6dL80qkWEZUmFr5?=
+ =?us-ascii?Q?6Q=3D=3D?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-Network-Message-Id: d638570e-aa6a-4af8-3a82-08dc1cfa16c8
 X-MS-Exchange-CrossTenant-AuthSource: MN2PR11MB4447.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e37a6d31-750f-460b-0b38-08dc1cf9447b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jan 2024 16:26:50.0901
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jan 2024 16:32:43.1198
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: g1QMaesHP9aOU49TujSRFJqGRaNDiyDodc7SKrBwGgheIx7J6xoLOEqML4izFDQaerNtxCwXbKD7PUdhNUhp2Qt62HIeShSLeGKacSxyIzY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB8164
-X-Proofpoint-GUID: 5ry98an6F3_aqJjuDZ8skg5xtadG7vc5
-X-Proofpoint-ORIG-GUID: 2NDkw3x7tt4B_MnY_L7EIOXjccvPU9em
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: uIlLyNX27LR1VwPlNY4v6E5tdoowBGBCNqpw4wPgjA64dnBhHmXlkXQSY7sRLE6O28iIDgxf36vW8u0tfzz5C6Q6VdjvQVaZhjZHIlQx/gI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6738
+X-Proofpoint-GUID: gkzkekk04kLL-A1JaDVn0UlqBmKeiLiB
+X-Proofpoint-ORIG-GUID: gkzkekk04kLL-A1JaDVn0UlqBmKeiLiB
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2024-01-24_06,2024-01-24_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
- lowpriorityscore=0 phishscore=0 priorityscore=1501 bulkscore=0
- mlxlogscore=785 impostorscore=0 suspectscore=0 adultscore=0 spamscore=0
- mlxscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
+ bulkscore=0 priorityscore=1501 phishscore=0 malwarescore=0 clxscore=1015
+ mlxlogscore=843 adultscore=0 lowpriorityscore=0 impostorscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2401190000 definitions=main-2401240120
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 24 Jan 2024 16:26:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194295
+ <openembedded-core@lists.openembedded.org>; Wed, 24 Jan 2024 16:32:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194296
 
-PiBPbiBXZWQsIDI0IEphbiAyMDI0IGF0IDA0OjIyLCBMeXUsIFdpbGxpYW0gdmlhIGxpc3RzLm9w
-ZW5lbWJlZGRlZC5vcmcNCj4gPHdpbGxpYW0ubHl1PXdpbmRyaXZlci5jb21AbGlzdHMub3BlbmVt
-YmVkZGVkLm9yZz4gd3JvdGU6DQo+PiArICAgICMgbW9kdWxlcyBhcmUgbWFudWFsbHkgc3BsaXQg
-KGVnLiBwZXJsLW1vZHVsZS11bmljb3JlKS4gQWxzbywgdGhlIHNwbGl0DQo+PiArICAgICMgcGFj
-a2FnZXMgc2hvdWxkIG5vdCBpbmNsdWRlIHBhY2thZ2VzIGRlZmluZWQgaW4gUlBST1ZJREVTOiR7
-UE59LiBJbg0KPj4gKyAgICAjIGFkZGl0aW9uLCAicGVybC1tb2R1bGUtY29uZmlnLWdpdCIgaXMg
-bm90IGEgdmFsaWQgcGFja2FnZSBhcw0KPj4gKyAgICAjIENvbmZpZ19naXQucGwgaXMgbGlzdGVk
-IHVuZGVyIEZJTEVTOiR7UE59Lg0KPj4gKyAgICBlbXB0eV9tb2R1bGVfcGtncyA9IGQuZ2V0VmFy
-KGQuZXhwYW5kKCJSUFJPVklERVM6JHtQTn0iKSkuc3BsaXQoKSArIFsncGVybC1tb2R1bGUtY29u
-ZmlnLWdpdCddDQo+IA0KPiBOZWFybHkgdGhlcmUgLSBJIHRoaW5rIGl0J3MgYmV0dGVyIHRvIGFk
-ZCBwZXJsLW1vZHVsZS1jb25maWctZ2l0IHRvDQo+IFJQUk9WSURFUzpwZXJsLCBhbmQgYXZvaWQg
-c3BlY2lhbCBjYXNpbmcgaGVyZS4NCg0KSXQgbWFrZXMgcGVyZmVjdCBzZW5zZSB0byBtZSBub3cu
-IHBlcmwtbW9kdWxlLWNvbmZpZy1naXQgaXMganVzdCBsaWtlIA0KcGVybC1tb2R1bGUtc3RyaWN0
-LiBBcyB0aGUgZmlsZSAtICIke2xpYmRpcn0vcGVybDUvJHtQVn0vc3RyaWN0LnBtIiAtIA0KY29y
-cmVzcG9uZGluZyB0byBwZXJsLW1vZHVsZS1zdHJpY3QgaXMgYWxyZWFkeSBsaXN0ZWQgdW5kZXIg
-RklMRVM6JHtQTn0sICR7UE59IA0KaXMgZWZmZWN0aXZlbHkgcnVudGltZS1wcm92aWRpbmcgKFJQ
-Uk9WSURFUykgcGVybC1tb2R1bGUtc3RyaWN0LiBTaW1pbGFybHksIHdlIA0Kc2VlIHRoYXQgdGhl
-IGZpbGUgLSAiJHtsaWJkaXJ9L3Blcmw1LyR7UFZ9LyovQ29uZmlnX2dpdC5wbCIgLSBjb3JyZXNw
-b25kaW5nIHRvIA0KcGVybC1tb2R1bGUtY29uZmlnLWdpdCBpcyBhbHNvIGxpc3RlZCB1bmRlciBG
-SUxFUzoke1BOfSwgJHtQTn0gaXMgZWZmZWN0aXZlbHkgDQpydW50aW1lLXByb3ZpZGluZyAoUlBS
-T1ZJREVTKSBwZXJsLW1vZHVsZS1jb25maWctaXQuDQoNCkkgd2lsbCBzdWJtaXQgYSBuZXcgcGF0
-Y2guIA0KDQpUaGFua3MhDQpXaWxsaWFtDQoNCj4gDQo+IEFsZXgNCg==
+From: William Lyu <William.Lyu@windriver.com>
+
+When perl-modules is added via COMPLEMENTARY_GLOB, all perl-module-*
+packages recommended by perl-modules are ignored due to the defined
+behavior of COMPLEMENTARY_GLOB.
+
+This patch changes the relationship between perl-modules and all of its
+perl-module-* from RRECOMMENDS to RDEPENDS. This makes sense as
+perl-modules should represent the collection of all optional
+perl-module-* packages. After this patch, perl-modules itself is being
+RRECOMMENDED instead of the individual perl-module-* packages
+perl-modules represents.
+
+Signed-off-by: William Lyu <William.Lyu@windriver.com>
+---
+ meta/recipes-devtools/perl/perl_5.38.2.bb | 19 +++++++++++--------
+ 1 file changed, 11 insertions(+), 8 deletions(-)
+
+diff --git a/meta/recipes-devtools/perl/perl_5.38.2.bb b/meta/recipes-devtools/perl/perl_5.38.2.bb
+index a9d684cfc5..b6c9cda7ae 100644
+--- a/meta/recipes-devtools/perl/perl_5.38.2.bb
++++ b/meta/recipes-devtools/perl/perl_5.38.2.bb
+@@ -273,7 +273,7 @@ FILES:${PN} = "${bindir}/perl ${bindir}/perl.real ${bindir}/perl${PV} ${libdir}/
+                ${libdir}/perl5/${PV}/ExtUtils/typemap \
+                "
+ RPROVIDES:${PN} += "perl-module-strict perl-module-vars perl-module-config perl-module-warnings \
+-                    perl-module-warnings-register"
++                    perl-module-warnings-register perl-module-config-git"
+ 
+ FILES:${PN}-staticdev:append = " ${libdir}/perl5/${PV}/*/CORE/libperl.a"
+ 
+@@ -306,8 +306,8 @@ ALTERNATIVE_PRIORITY = "40"
+ ALTERNATIVE:${PN}-doc = "Thread.3"
+ ALTERNATIVE_LINK_NAME[Thread.3] = "${mandir}/man3/Thread.3"
+ 
+-# Create a perl-modules package recommending all the other perl
+-# packages (actually the non modules packages and not created too)
++# Create a perl-modules package that represents the collection of all the
++# other perl packages (actually the non modules packages and not created too).
+ ALLOW_EMPTY:${PN}-modules = "1"
+ PACKAGES += "${PN}-modules "
+ 
+@@ -322,11 +322,13 @@ python split_perl_packages () {
+     do_split_packages(d, libdir, r'.*linux/([^\/].*)\.(pm|pl|e2x)', '${PN}-module-%s', 'perl module %s', recursive=True, allow_dirs=False, match_path=True, prepend=False)
+     do_split_packages(d, libdir, r'(^(?!(CPAN\/|CPANPLUS\/|Module\/|unicore\/|.*linux\/)[^\/]).*)\.(pm|pl|e2x)', '${PN}-module-%s', 'perl module %s', recursive=True, allow_dirs=False, match_path=True, prepend=False)
+ 
+-    # perl-modules should recommend every perl module, and only the
++    # perl-modules should runtime-depend on every perl module, and only the
+     # modules. Don't attempt to use the result of do_split_packages() as some
+-    # modules are manually split (eg. perl-module-unicore).
+-    packages = filter(lambda p: 'perl-module-' in p, d.getVar('PACKAGES').split())
+-    d.setVar(d.expand("RRECOMMENDS:${PN}-modules"), ' '.join(packages))
++    # modules are manually split (eg. perl-module-unicore). Also, the split
++    # packages should not include packages defined in RPROVIDES:${PN}.
++    perl_sub_pkgs = d.getVar(d.expand("RPROVIDES:${PN}")).split()
++    packages = filter(lambda p: 'perl-module-' in p and p not in perl_sub_pkgs, d.getVar('PACKAGES').split())
++    d.setVar(d.expand("RDEPENDS:${PN}-modules"), ' '.join(packages))
+ 
+     # Read the pre-generated dependency file, and use it to set module dependecies
+     for line in open(d.expand("${WORKDIR}") + '/perl-rdepends.txt').readlines():
+@@ -352,7 +354,8 @@ python() {
+         d.setVar("PACKAGES_DYNAMIC", "^nativesdk-perl-module-.*")
+ }
+ 
+-RDEPENDS:${PN}-misc += "perl perl-modules"
++RDEPENDS:${PN}-misc += "perl"
++RRECOMMENDS:${PN}-misc += "perl-modules"
+ RDEPENDS:${PN}-pod += "perl"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+-- 
+2.43.0
+
 
