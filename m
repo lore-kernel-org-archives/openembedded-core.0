@@ -2,142 +2,160 @@ Return-Path: <ecordonnier@snap.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA701C47258
-	for <webhook@archiver.kernel.org>; Thu, 25 Jan 2024 13:04:34 +0000 (UTC)
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
- by mx.groups.io with SMTP id smtpd.web11.16978.1706187868548302501
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1851C47258
+	for <webhook@archiver.kernel.org>; Thu, 25 Jan 2024 13:14:24 +0000 (UTC)
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+ by mx.groups.io with SMTP id smtpd.web10.17192.1706188457824806871
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Jan 2024 05:04:28 -0800
+ Thu, 25 Jan 2024 05:14:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@snap.com header.s=google header.b=clw5htYp;
- spf=pass (domain: snapchat.com, ip: 209.85.208.45, mailfrom: ecordonnier@snapchat.com)
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-55cd798b394so1370882a12.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 25 Jan 2024 05:04:28 -0800 (PST)
+ dkim=pass header.i=@snap.com header.s=google header.b=Xg0a3j0L;
+ spf=pass (domain: snapchat.com, ip: 209.85.218.44, mailfrom: ecordonnier@snapchat.com)
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a313b51cf1fso132867066b.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 25 Jan 2024 05:14:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=snap.com; s=google; t=1706187867; x=1706792667; darn=lists.openembedded.org;
+        d=snap.com; s=google; t=1706188456; x=1706793256; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZbBpp7IoySUKSlQuMVO0WQ2NVihQ9czfogpYQQOyudM=;
-        b=clw5htYppXSfxOlKpSUcdKkSGUrxSJYgmQey3mzscyskU3Yu8747vAPIBmNueDl1gH
-         YJsJjxbFw2pItSVqaAdwwq+J/lBAjUiBPodhkkaYCZX2NaHH0YMAHIDUl69XWVbjkPS3
-         IpYg6eIfaS9/f18VBOnBHF69GjGwA55Nr+pCI=
+        bh=gBaZlVr0JwC65KSoRoVdCUFm4HbEEBAlDOL/vfnEtfU=;
+        b=Xg0a3j0LF7t+KxtZr1aUYgLN2CTjBiS//Vh5YRCSSoDqt4VWLg3Y3zzq44XrEoizd+
+         amHxYfjWPjr2QNixIqLfeToknYfNrBcwY5/zmX/XpEYVF7Br/qsPgqNxZPYiowG7RqAX
+         OZG4cvppfXZFPgrhPHl3LbD2JnFGO5Ni5HbrU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706187867; x=1706792667;
+        d=1e100.net; s=20230601; t=1706188456; x=1706793256;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ZbBpp7IoySUKSlQuMVO0WQ2NVihQ9czfogpYQQOyudM=;
-        b=U3+CoaMjCoKOxmu2SuqIgMEVQDn3mOdFvMLwZRfPnRNaH9VlXed+SZFzQaCzY3smjn
-         eGXFjmSigrhh+DCPQBle2h6zaS4KBeVts1VEovQUa0xL4Rp6I8Mc6GI2+xmyyy2JkLoz
-         7IUg8YwnFoJ2YrOjjGYIK0MBLW8Ey3dEIa7xFItk/xAZ724PngkhpJuTT5RIwmnZDQ+D
-         yN9xygT53WecGl5VZApaPbwaB76buiE5tf95Nep6bSrF+mkZm7Si2qOueDtKAHmplVve
-         KVriqFktlHLIzoRNT77v0XCfpi8bFjeaA0L8Db2t3KqMueVvVwnI9MSpQuSQcSU5jUws
-         QuIA==
-X-Gm-Message-State: AOJu0YwO0Fl0Wfj6eR/IkKHR3sb4UtrleQw2vRNswHtlsWXyFbzfVX1t
-	8pQL8G/B883MSK6lHYMpei269qY9/brayOTwJjZMIanFGbYXrszA/XzkuVHdGgPeIIrvGWNMceU
-	5pIiCUibnwQ+iQUP6GEdRh66hWhVWz48E9sORMiSymc6Qq9d4kydlrQ==
-X-Google-Smtp-Source: AGHT+IF9Y6aYXdxTEsdzE0ZmyFrS2Ry+QuB7bA8m5/R4MI2dVLQU++c/CzOTW27WqBfNXY4bCeC+wjVJADjjhwm8sA4=
-X-Received: by 2002:a17:907:20f1:b0:a2c:f62d:a598 with SMTP id
- rh17-20020a17090720f100b00a2cf62da598mr953284ejb.0.1706187866620; Thu, 25 Jan
- 2024 05:04:26 -0800 (PST)
+        bh=gBaZlVr0JwC65KSoRoVdCUFm4HbEEBAlDOL/vfnEtfU=;
+        b=teQAZSTMO/YLIbNULQijkforFGJNJtACqxn9jA+gaAruwRXEqatPsxtts8mYm4tcV3
+         0Z4TRmJutdDuieMQ29be8+hZpKrEDbyW3h2qrPiKQ+DYSjLONjlnLhA0AYYh0KGsRmFr
+         xqRwGuYvDOb7PrMcyAXj7GDYF//Ei1OVoZaoy9evmKyP8C3rb9g1xgs+AA+TEZ/zyu9h
+         wU+YhGvTYz3k4xKmW+WNsDMTYh7Sf7isU6aegil1+0EDpGMZb4p8CA93XIthPH98QNPi
+         O9rm+hhpnqQTKeX6q+TD/TswX1eNxQyj2dJuw2OwwKt32i2JrmEbNbObK4xAv7I4Qwyb
+         WBfA==
+X-Gm-Message-State: AOJu0YwAkla+1ycehc6/aEu83fGCyBqLoh40AfhCyna59kLJnafzl3n8
+	5ZC36Ex8/J2IvKjs35uizfuFACxXa7exKdKbMfjM58H26ymis4m0csTL0ofZY7x4OOystTt9vHH
+	dMnp+GJ03UDghh0QSgf7xv3MRszOanJ7ub5J6eQ==
+X-Google-Smtp-Source: AGHT+IE+aqqOQC2tndEEl0qENutNwRK6zkrb8Ka3/g+odYJ9so2Hfhb1x36nXMp0nykAc/xDpSEG/0HuMOGZ6Fh7+Nc=
+X-Received: by 2002:a17:906:4687:b0:a30:6107:cdea with SMTP id
+ a7-20020a170906468700b00a306107cdeamr769352ejr.2.1706188455987; Thu, 25 Jan
+ 2024 05:14:15 -0800 (PST)
 MIME-Version: 1.0
-References: <58f27f4-ffee-b4f2-9d39-2c286f7377c4@crashcourse.ca>
-In-Reply-To: <58f27f4-ffee-b4f2-9d39-2c286f7377c4@crashcourse.ca>
+References: <58f27f4-ffee-b4f2-9d39-2c286f7377c4@crashcourse.ca> <17AD98D3BC34832F.9550@lists.openembedded.org>
+In-Reply-To: <17AD98D3BC34832F.9550@lists.openembedded.org>
 From: Etienne Cordonnier <ecordonnier@snap.com>
-Date: Thu, 25 Jan 2024 14:04:15 +0100
-Message-ID: <CAHUKmYargzdGOEVq8qvFSGW2fLyHeM0i8bpcuFW5-sbfe+U15Q@mail.gmail.com>
+Date: Thu, 25 Jan 2024 14:14:05 +0100
+Message-ID: <CAHUKmYbMLcScbXmvjVX+tPp4kqeGxqDX2fbgAf=QV7UNQCT7Pg@mail.gmail.com>
 Subject: Re: [OE-core] tutorial-level questions to clean up recipes for demo purposes
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000b670f3060fc4d1ca"
+To: ecordonnier@snap.com
+Cc: "Robert P. J. Day" <rpjday@crashcourse.ca>, 
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000d760d2060fc4f40b"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 25 Jan 2024 13:04:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194318
+ <openembedded-core@lists.openembedded.org>; Thu, 25 Jan 2024 13:14:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194319
 
---000000000000b670f3060fc4d1ca
+--000000000000d760d2060fc4f40b
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Robert,
-for this kind of things I usually run bitbake -e dropbear > out-before.txt,
-remove the line, then run bitbake -e dropbear > out-after.txt, and finally
-vimdiff out-before.txt out-after.txt
+In this particular case the line should be removed IMO.
 
-Etienne
+On Thu, Jan 25, 2024 at 2:04=E2=80=AFPM Etienne Cordonnier via
+lists.openembedded.org <ecordonnier=3Dsnap.com@lists.openembedded.org> wrot=
+e:
 
-On Thu, Jan 25, 2024 at 12:22=E2=80=AFPM Robert P. J. Day <rpjday@crashcour=
-se.ca>
-wrote:
-
+> Hi Robert,
+> for this kind of things I usually run bitbake -e dropbear >
+> out-before.txt, remove the line, then run bitbake -e dropbear >
+> out-after.txt, and finally vimdiff out-before.txt out-after.txt
 >
->   (NOTE: i'm currently tutoring some colleagues in the basics of OE
-> and using standard OE recipes as examples of good programming
-> practice, so occasionally i run across something that looks strange
-> and i just want to clarify so i don't have to say, "i don't know, i
-> guess there's a reason for that, i just don't know what it is." so,
-> first question that has arisen ...)
+> Etienne
 >
->   in current dropbear recipe, very last line:
+> On Thu, Jan 25, 2024 at 12:22=E2=80=AFPM Robert P. J. Day <rpjday@crashco=
+urse.ca>
+> wrote:
 >
->
-> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__git.openembedded.o=
-rg_openembedded-2Dcore_tree_meta_recipes-2Dcore_dropbear_dropbear-5F2022.83=
-.bb-23n134&d=3DDwIBAg&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DA=
-hkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3DW9n61A0zDvN6Tj5VtV34qyc-BOCT=
-DVwKaiOFK5rQRDBz5hCnNdgxjqE-W6fBEXyw&s=3DWplZmxLv9Ks1Z_nFQ7ut5gDiJmOB4sSHSn=
-eLPg015Z0&e=3D
->
-> the line:
->
->   FILES:${PN} +=3D "${bindir}"
->
-> but as i read bitbake.conf, ${bindir} is *already* part of FILES:${PN}
-> and i see nothing in the rest of the dropbear recipe that redefines
-> the PACKAGES or reorders them. is there some point to that last line
-> that i am simply missing? it seems unnecessary.
->
-> rday
->
+>>
+>>   (NOTE: i'm currently tutoring some colleagues in the basics of OE
+>> and using standard OE recipes as examples of good programming
+>> practice, so occasionally i run across something that looks strange
+>> and i just want to clarify so i don't have to say, "i don't know, i
+>> guess there's a reason for that, i just don't know what it is." so,
+>> first question that has arisen ...)
+>>
+>>   in current dropbear recipe, very last line:
+>>
+>>
+>> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__git.openembedded.=
+org_openembedded-2Dcore_tree_meta_recipes-2Dcore_dropbear_dropbear-5F2022.8=
+3.bb-23n134&d=3DDwIBAg&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3D=
+AhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3DW9n61A0zDvN6Tj5VtV34qyc-BOC=
+TDVwKaiOFK5rQRDBz5hCnNdgxjqE-W6fBEXyw&s=3DWplZmxLv9Ks1Z_nFQ7ut5gDiJmOB4sSHS=
+neLPg015Z0&e=3D
+>>
+>> the line:
+>>
+>>   FILES:${PN} +=3D "${bindir}"
+>>
+>> but as i read bitbake.conf, ${bindir} is *already* part of FILES:${PN}
+>> and i see nothing in the rest of the dropbear recipe that redefines
+>> the PACKAGES or reorders them. is there some point to that last line
+>> that i am simply missing? it seems unnecessary.
+>>
+>> rday
+>>
+>>
+>>
+>>
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#194316):
+> View/Reply Online (#194318):
 > https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.openembedded=
-.org_g_openembedded-2Dcore_message_194316&d=3DDwIFaQ&c=3DncDTmphkJTvjIDPh0h=
+.org_g_openembedded-2Dcore_message_194318&d=3DDwIFaQ&c=3DncDTmphkJTvjIDPh0h=
 pF_4vCHvabgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=
-=3DW9n61A0zDvN6Tj5VtV34qyc-BOCTDVwKaiOFK5rQRDBz5hCnNdgxjqE-W6fBEXyw&s=3Db3l=
-Ikj-uzwH3R3PAtvwsqddETQXBbyGzbtGML2_kje4&e=3D
+=3DzVYtui1-buDCB31Pr4h-xYybBLfB96D4CQeKf_eoqglIMz29VGHwJyWd9DfD8PEi&s=3DagE=
+gfwR4KV375IZ6cUd6X4Pq1VRdmUKPEomyfxdjDeA&e=3D
 > Mute This Topic:
 > https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.openembedded=
 .org_mt_103951915_7048771&d=3DDwIFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC=
-2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3DW9n61A0zDvN6T=
-j5VtV34qyc-BOCTDVwKaiOFK5rQRDBz5hCnNdgxjqE-W6fBEXyw&s=3DAGZrjZ4iI2DC_pbE22z=
-mkfHRJw1dgIEJX_N9fVG-apw&e=3D
+2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3DzVYtui1-buDCB=
+31Pr4h-xYybBLfB96D4CQeKf_eoqglIMz29VGHwJyWd9DfD8PEi&s=3D15IZUiJaQ3firKmkyBQ=
+1ckz_wkdIXtM1DD88z_G3Kc8&e=3D
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe:
 > https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.openembedded=
 .org_g_openembedded-2Dcore_unsub&d=3DDwIFaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHva=
-bgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3DW9n61A=
-0zDvN6Tj5VtV34qyc-BOCTDVwKaiOFK5rQRDBz5hCnNdgxjqE-W6fBEXyw&s=3DGB-VslI64OKX=
-LBmDlL4OYTuEtTNXHh0CKjD_3LRfzMk&e=3D
+bgGkICC2epckfdiw&r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3DzVYtui=
+1-buDCB31Pr4h-xYybBLfB96D4CQeKf_eoqglIMz29VGHwJyWd9DfD8PEi&s=3D-TGSLxDUPbnR=
+tvkllQRcOGGmdN_951RyrRDh6ms39ec&e=3D
 > [ecordonnier@snap.com]
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
 >
 
---000000000000b670f3060fc4d1ca
+--000000000000d760d2060fc4f40b
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Hi Robert,<br>for this kind of things I usually run bitbak=
-e -e dropbear &gt; out-before.txt, remove the line, then run bitbake -e dro=
-pbear &gt; out-after.txt, and finally vimdiff out-before.txt out-after.txt<=
-br><br>Etienne</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Thu, Jan 25, 2024 at 12:22=E2=80=AFPM Robert P. J. Day &=
-lt;<a href=3D"mailto:rpjday@crashcourse.ca">rpjday@crashcourse.ca</a>&gt; w=
-rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
-x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
+<div dir=3D"ltr">In this particular case the line should be removed IMO.</d=
+iv><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On =
+Thu, Jan 25, 2024 at 2:04=E2=80=AFPM Etienne Cordonnier via <a href=3D"http=
+://lists.openembedded.org">lists.openembedded.org</a> &lt;ecordonnier=3D<a =
+href=3D"mailto:snap.com@lists.openembedded.org">snap.com@lists.openembedded=
+.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
+ex"><div dir=3D"ltr">Hi Robert,<br>for this kind of things I usually run bi=
+tbake -e dropbear &gt; out-before.txt, remove the line, then run bitbake -e=
+ dropbear &gt; out-after.txt, and finally vimdiff out-before.txt out-after.=
+txt<br><br>Etienne</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" cla=
+ss=3D"gmail_attr">On Thu, Jan 25, 2024 at 12:22=E2=80=AFPM Robert P. J. Day=
+ &lt;<a href=3D"mailto:rpjday@crashcourse.ca" target=3D"_blank">rpjday@cras=
+hcourse.ca</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex"><br>
 =C2=A0 (NOTE: i&#39;m currently tutoring some colleagues in the basics of O=
 E<br>
 and using standard OE recipes as examples of good programming<br>
@@ -174,48 +192,52 @@ that i am simply missing? it seems unnecessary.<br>
 <br>
 rday<br>
 <br>
+<br>
+<br>
+</blockquote></div>
+<br>
 -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
 Links: You receive all messages sent to this group.<br>
-View/Reply Online (#194316): <a href=3D"https://urldefense.proofpoint.com/v=
+View/Reply Online (#194318): <a href=3D"https://urldefense.proofpoint.com/v=
 2/url?u=3Dhttps-3A__lists.openembedded.org_g_openembedded-2Dcore_message_19=
-4316&amp;d=3DDwIFaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp=
-;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3DW9n61A0zDvN6Tj5VtV=
-34qyc-BOCTDVwKaiOFK5rQRDBz5hCnNdgxjqE-W6fBEXyw&amp;s=3Db3lIkj-uzwH3R3PAtvws=
-qddETQXBbyGzbtGML2_kje4&amp;e=3D" rel=3D"noreferrer" target=3D"_blank">http=
+4318&amp;d=3DDwIFaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp=
+;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3DzVYtui1-buDCB31Pr4=
+h-xYybBLfB96D4CQeKf_eoqglIMz29VGHwJyWd9DfD8PEi&amp;s=3DagEgfwR4KV375IZ6cUd6=
+X4Pq1VRdmUKPEomyfxdjDeA&amp;e=3D" rel=3D"noreferrer" target=3D"_blank">http=
 s://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lists.openembedded.org_g=
-_openembedded-2Dcore_message_194316&amp;d=3DDwIFaQ&amp;c=3DncDTmphkJTvjIDPh=
+_openembedded-2Dcore_message_194318&amp;d=3DDwIFaQ&amp;c=3DncDTmphkJTvjIDPh=
 0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66=
-m67E&amp;m=3DW9n61A0zDvN6Tj5VtV34qyc-BOCTDVwKaiOFK5rQRDBz5hCnNdgxjqE-W6fBEX=
-yw&amp;s=3Db3lIkj-uzwH3R3PAtvwsqddETQXBbyGzbtGML2_kje4&amp;e=3D</a> <br>
+m67E&amp;m=3DzVYtui1-buDCB31Pr4h-xYybBLfB96D4CQeKf_eoqglIMz29VGHwJyWd9DfD8P=
+Ei&amp;s=3DagEgfwR4KV375IZ6cUd6X4Pq1VRdmUKPEomyfxdjDeA&amp;e=3D</a> <br>
 Mute This Topic: <a href=3D"https://urldefense.proofpoint.com/v2/url?u=3Dht=
 tps-3A__lists.openembedded.org_mt_103951915_7048771&amp;d=3DDwIFaQ&amp;c=3D=
 ncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsR=
-ih1DULJTKUkSGa66m67E&amp;m=3DW9n61A0zDvN6Tj5VtV34qyc-BOCTDVwKaiOFK5rQRDBz5h=
-CnNdgxjqE-W6fBEXyw&amp;s=3DAGZrjZ4iI2DC_pbE22zmkfHRJw1dgIEJX_N9fVG-apw&amp;=
+ih1DULJTKUkSGa66m67E&amp;m=3DzVYtui1-buDCB31Pr4h-xYybBLfB96D4CQeKf_eoqglIMz=
+29VGHwJyWd9DfD8PEi&amp;s=3D15IZUiJaQ3firKmkyBQ1ckz_wkdIXtM1DD88z_G3Kc8&amp;=
 e=3D" rel=3D"noreferrer" target=3D"_blank">https://urldefense.proofpoint.co=
 m/v2/url?u=3Dhttps-3A__lists.openembedded.org_mt_103951915_7048771&amp;d=3D=
 DwIFaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonV=
-uMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3DW9n61A0zDvN6Tj5VtV34qyc-BOCTDVw=
-KaiOFK5rQRDBz5hCnNdgxjqE-W6fBEXyw&amp;s=3DAGZrjZ4iI2DC_pbE22zmkfHRJw1dgIEJX=
-_N9fVG-apw&amp;e=3D</a> <br>
+uMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3DzVYtui1-buDCB31Pr4h-xYybBLfB96D=
+4CQeKf_eoqglIMz29VGHwJyWd9DfD8PEi&amp;s=3D15IZUiJaQ3firKmkyBQ1ckz_wkdIXtM1D=
+D88z_G3Kc8&amp;e=3D</a> <br>
 Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
 .org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
 br>
 Unsubscribe: <a href=3D"https://urldefense.proofpoint.com/v2/url?u=3Dhttps-=
 3A__lists.openembedded.org_g_openembedded-2Dcore_unsub&amp;d=3DDwIFaQ&amp;c=
 =3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9=
-TsRih1DULJTKUkSGa66m67E&amp;m=3DW9n61A0zDvN6Tj5VtV34qyc-BOCTDVwKaiOFK5rQRDB=
-z5hCnNdgxjqE-W6fBEXyw&amp;s=3DGB-VslI64OKXLBmDlL4OYTuEtTNXHh0CKjD_3LRfzMk&a=
+TsRih1DULJTKUkSGa66m67E&amp;m=3DzVYtui1-buDCB31Pr4h-xYybBLfB96D4CQeKf_eoqgl=
+IMz29VGHwJyWd9DfD8PEi&amp;s=3D-TGSLxDUPbnRtvkllQRcOGGmdN_951RyrRDh6ms39ec&a=
 mp;e=3D" rel=3D"noreferrer" target=3D"_blank">https://urldefense.proofpoint=
 .com/v2/url?u=3Dhttps-3A__lists.openembedded.org_g_openembedded-2Dcore_unsu=
 b&amp;d=3DDwIFaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&amp;r=
-=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3DW9n61A0zDvN6Tj5VtV34=
-qyc-BOCTDVwKaiOFK5rQRDBz5hCnNdgxjqE-W6fBEXyw&amp;s=3DGB-VslI64OKXLBmDlL4OYT=
-uEtTNXHh0CKjD_3LRfzMk&amp;e=3D</a>=C2=A0 [<a href=3D"mailto:ecordonnier@sna=
+=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3DzVYtui1-buDCB31Pr4h-=
+xYybBLfB96D4CQeKf_eoqglIMz29VGHwJyWd9DfD8PEi&amp;s=3D-TGSLxDUPbnRtvkllQRcOG=
+GmdN_951RyrRDh6ms39ec&amp;e=3D</a>=C2=A0 [<a href=3D"mailto:ecordonnier@sna=
 p.com" target=3D"_blank">ecordonnier@snap.com</a>]<br>
 -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
 <br>
 </blockquote></div>
 
---000000000000b670f3060fc4d1ca--
+--000000000000d760d2060fc4f40b--
 
