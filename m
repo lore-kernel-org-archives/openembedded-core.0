@@ -2,75 +2,79 @@ Return-Path: <mark.hatle@kernel.crashing.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38628C48285
-	for <webhook@archiver.kernel.org>; Thu, 25 Jan 2024 22:21:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44973C47258
+	for <webhook@archiver.kernel.org>; Thu, 25 Jan 2024 22:23:56 +0000 (UTC)
 Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
- by mx.groups.io with SMTP id smtpd.web10.1885.1706221306382992262
+ by mx.groups.io with SMTP id smtpd.web10.1965.1706221426867315241
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Jan 2024 14:21:46 -0800
+ Thu, 25 Jan 2024 14:23:47 -0800
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
 Received: from [192.168.2.236] ([70.99.78.137])
-	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 40PMKc4h002216;
-	Thu, 25 Jan 2024 16:20:39 -0600
-Message-ID: <4b6eca03-cc54-4a38-8aa0-73eb73efb6d5@kernel.crashing.org>
-Date: Thu, 25 Jan 2024 16:20:37 -0600
+	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 40PMNkD6002382
+	for <openembedded-core@lists.openembedded.org>; Thu, 25 Jan 2024 16:23:46 -0600
+Message-ID: <e37d8ba8-bf75-4e0e-a52d-984fd39582c6@kernel.crashing.org>
+Date: Thu, 25 Jan 2024 16:23:44 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [OE-core] [PATCH 1/1] qemu: Allow native and nativesdk versions
  on Linux older then 4.17
 Content-Language: en-US
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, mark.hatle@amd.com
+To: openembedded-core@lists.openembedded.org
 References: <1706216634-8340-1-git-send-email-mark.hatle@kernel.crashing.org>
  <1706216634-8340-2-git-send-email-mark.hatle@kernel.crashing.org>
- <CA+chaQekfBh8sXYmNE7zVABKVVhU9Z_W5iD0k7tvNJ-DhPed=Q@mail.gmail.com>
+ <CANNYZj8AcHDRngXF08_G-KwKYZo67AW_NZVHC1NaJu0wFXH4Vw@mail.gmail.com>
 From: Mark Hatle <mark.hatle@kernel.crashing.org>
-In-Reply-To: <CA+chaQekfBh8sXYmNE7zVABKVVhU9Z_W5iD0k7tvNJ-DhPed=Q@mail.gmail.com>
+In-Reply-To: <CANNYZj8AcHDRngXF08_G-KwKYZo67AW_NZVHC1NaJu0wFXH4Vw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by gate.crashing.org id 40PMKc4h002216
+X-MIME-Autoconverted: from 8bit to quoted-printable by gate.crashing.org id 40PMNkD6002382
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 25 Jan 2024 22:21:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194335
+ <openembedded-core@lists.openembedded.org>; Thu, 25 Jan 2024 22:23:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194336
 
+QEMU is a symptom of the real problem.
 
+SDK_OLDEST_KERNEL is set to 3.2.0.  If that is what we keep it as, then w=
+e need=20
+to make sure that the nativesdk tooling works on a pre 4.17 kernel.
 
-On 1/25/24 3:42 PM, Martin Jansa wrote:
-> I did something similar for LGE when we were using 18.04 ubuntu, but II=
-RC it's=20
-> not about the kernel version, but glibc being older than 2.27.
->=20
-> 18.04 is already unsupported for a while, I don't think oe-core should =
-support=20
-> unsupported host OS versions (that's why I've never send my version).
->=20
-> To make this change smaller you can just=20
-> revert=C2=A0c42e77a90d9244c8caf76fe0e54f84200430a4e1 from qemu.
->=20
-> If oe-core really needs to support this I can share my version as in:
-> https://github.com/shr-project/meta-webosose/commit/7528c20bf3ba7576d46=
-11f71f987a408ac8845c2 <https://github.com/shr-project/meta-webosose/commi=
-t/7528c20bf3ba7576d4611f71f987a408ac8845c2>
+If that value moves to 4.17 then we can't use the same uninative /=20
+buildtools-tarball with older (LTS) releases.  So there is no "good" solu=
+tion here.
 
-This version includes an actual check that the mmap returned a proper val=
-ue.=20
-The version here just sets the flags to avoid the compilation issue.
+As you said, it's RPs decision, I see three courses here:
 
-Using the buildtools-tarball in your build will accomplish the same end r=
-esult,=20
-hides the problem but doesn't verify the mmap will actually work (or erro=
-r) as=20
-needed.
+1) Accept qemu mmap calls could break silently on pre-4.17 kernels
+2) Apply this patch, allowing SDK_OLDEST_KERNEL to remain at 3.2.0
+3) Bump SDK_OLDEST_KERNEL to at least 4.17
+
+or.... ?
+
+I'm not really partial to one solution or another in this case, but we do=
+ have=20
+an underlying issue that needs to be resolved or we're going to be chasin=
+g bug=20
+reports that we have no way to resolve.
 
 --Mark
 
-> Regards,
+On 1/25/24 3:41 PM, Alexander Kanavin wrote:
+> Initial release of Ubuntu 18.04 had 4.15 alright. Later point releases =
+offered=20
+> much newer kernels. It=E2=80=99s also altogether EOL since end of may 2=
+023.
 >=20
-> On Thu, Jan 25, 2024 at 10:04=E2=80=AFPM Mark Hatle <mark.hatle@kernel.=
-crashing.org=20
+> Why should oe-core carry these? It=E2=80=99s RP=E2=80=99s call as qemu =
+maintainer but my vote is=20
+> a firm no, unless additional arguments are put forward.
+>=20
+> Alex
+>=20
+> On Thu 25. Jan 2024 at 22.04, Mark Hatle <mark.hatle@kernel.crashing.or=
+g=20
 > <mailto:mark.hatle@kernel.crashing.org>> wrote:
 >=20
 >     From: Mark Hatle <mark.hatle@amd.com <mailto:mark.hatle@amd.com>>
@@ -674,20 +678,18 @@ md.com>>
 >     2.34.1
 >=20
 >=20
->     -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->     Links: You receive all messages sent to this group.
->     View/Reply Online (#194331):
->     https://lists.openembedded.org/g/openembedded-core/message/194331
->     <https://lists.openembedded.org/g/openembedded-core/message/194331>
->     Mute This Topic: https://lists.openembedded.org/mt/103962276/361715=
-6
->     <https://lists.openembedded.org/mt/103962276/3617156>
->     Group Owner: openembedded-core+owner@lists.openembedded.org
->     <mailto:openembedded-core%2Bowner@lists.openembedded.org>
->     Unsubscribe: https://lists.openembedded.org/g/openembedded-core/uns=
-ub
->     <https://lists.openembedded.org/g/openembedded-core/unsub>
->     [martin.jansa@gmail.com <mailto:martin.jansa@gmail.com>]
->     -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
+>=20
+>=20
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#194333): https://lists.openembedded.org/g/openembed=
+ded-core/message/194333
+> Mute This Topic: https://lists.openembedded.org/mt/103962276/3616948
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
+mark.hatle@kernel.crashing.org]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >=20
 
