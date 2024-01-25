@@ -1,80 +1,87 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 006D1C47258
-	for <webhook@archiver.kernel.org>; Thu, 25 Jan 2024 21:41:46 +0000 (UTC)
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
- by mx.groups.io with SMTP id smtpd.web11.550.1706218898353418180
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DFBBC48260
+	for <webhook@archiver.kernel.org>; Thu, 25 Jan 2024 21:43:06 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web10.564.1706218980989225802
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Jan 2024 13:41:39 -0800
+ Thu, 25 Jan 2024 13:43:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=V4SiZU7k;
- spf=pass (domain: gmail.com, ip: 209.85.208.179, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2cddb0ee311so79493181fa.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 25 Jan 2024 13:41:38 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=RGobE3ZK;
+ spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-40eb033c1b0so56367145e9.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 25 Jan 2024 13:43:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706218896; x=1706823696; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1706218979; x=1706823779; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=3Y/FApPhEOqMo40J6+zVHBD5XCRwwJ27Mr8dlHW5rpU=;
-        b=V4SiZU7kdMhjzBDNFzTYKbD3K4K7+PuLHG9UPor9SSZfxSlI8tw6FUvk/3JnjYmkzu
-         o6vwO4xd/cys+7555Y4BbQmwj2qk89Xe9L6c6992op/ydIkkGeDZDqP/OkywCY/ET2Lo
-         7oJxPOYJQkGZ61ZXwQJH/uFCE3wYauvxZMKAaa0KB6EincWzsK34uz2hH0PIsKOhTam+
-         oOyFAo6UGn2ouhgs3NtxV9oSRUO9MyGYYvS0t3Ym7jeN6a3VzVPy5GwrXpCKjeVXLecb
-         tjRfFjWHGyBlxjPT9bhzjkDh/CTEMemRsWYZ8ZtxgBIL0kvGTspXx/CWHpqEhBuBTBnV
-         b+8A==
+        bh=cGziPzI+o+V6xBwBiaSI0xqn7kmX3QLs2SjPuaCeeS0=;
+        b=RGobE3ZKdUsoRYAfDB072B49CBhjyzOHwHT06saHEi7y/1CGgjYa06w167m/aVBHh0
+         TWb6ovN4cC4qfYBatLLMboWQFypwyrEf2/TuWvlfBWDBGrrm6DITGC4VbsZMoqRoGues
+         Ogk7PQcQwfYfFg/NUNLMQNw4zzrwS7gJy7aiYNnfzsDAuZQnKlqtLlcGuTtyoOLM4vqG
+         rboGxwm3vWOtl+mcHZKzq/wCB72kg7P+0JMAlotXSwgFVesCdoUBNbV+UvPTSOMljmmA
+         GIRnJBSmDuXXCFfRUKjWlE6OIuvWTUUt02gv9soy7+G+K392n4Su1g6HI/orFULiPn8k
+         P+Ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706218896; x=1706823696;
+        d=1e100.net; s=20230601; t=1706218979; x=1706823779;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=3Y/FApPhEOqMo40J6+zVHBD5XCRwwJ27Mr8dlHW5rpU=;
-        b=fE46geWKcITb0HcsR+eIMtHk+heTOhzKD6cbNnkuaJdfFGxRGl5EhzFRJmlb3gN0+x
-         kez4yS7uXESf1ZNadhL7RYnvOyUMScYIlZve6S7kHVzRiXpvAaXlkwcyWHGQIFokz5fu
-         vvRMSnrouBDaqfv8QiXI2zqrU6IjATBqK6Xs/QofAM/PRoQ0SuedlCCFN0Mrfm9gZ2sn
-         rUgiBzoSgC+I4BiM+s8QKVXBN2xAZwu2K9aPA5+s/SiNI93LeZl32rs2pF44HKQK66mF
-         yT7GKkuIixpZg2N4IYTWDDu4B/Jgawj7iGL4cxQmcVKe5gAH/QWNC6jEWIUGkK8z0quj
-         VG6g==
-X-Gm-Message-State: AOJu0YxaJkuwpb82oqSrwttIDcLXYuc+y/AnHVyL+foDGrwLbytV8IjX
-	N+PSfVKTJrt4EYBUDcqmf64RGKrnCmMccNtT4+OB/xXNMQbc6D11sUlP5t210Un8RhR6rQX52S9
-	zJ5vVKMFwm2t6RhlbD5VLfOXFAPs=
-X-Google-Smtp-Source: AGHT+IFC1G3o5n+aoQxO3Lk+NTfpCuvAYt8rRjGNFW6Bp8bU4FhcY5ei1rHp55HqKbvQkNnNRV4sYWMFEgJ2KAyh3MY=
-X-Received: by 2002:a05:651c:21b:b0:2cf:2ce2:759c with SMTP id
- y27-20020a05651c021b00b002cf2ce2759cmr91656ljn.109.1706218895914; Thu, 25 Jan
- 2024 13:41:35 -0800 (PST)
+        bh=cGziPzI+o+V6xBwBiaSI0xqn7kmX3QLs2SjPuaCeeS0=;
+        b=fGRplTetUGcG9E5QT+GjH8BsVOu0ZHG1Ppy3pmpskUOBH91S5H9C/bnZUatPl0YWtN
+         Ib+5ZyodB1K9oZFN1chY3hrs/lxVtB1m56HwRTCEDjbqOnX5u4B7Ex1iZG0hDAuaFKUj
+         h1lMJDhNwjICI5ixfuFg+EloHhUYYT2h8hUArlH1wFTqIxecRwdd5fjBEG+JJwxm0UQD
+         6/Dwj4W1rEJn9pQRa1Ur1ZidMuckqP2ail7YrKC1gEfk5ERLL4YMMpI76oSdRII1FPrB
+         QjSpS4ORPYordank9dXF7OhSOufyJb6Hj8SrOdA+3xX2SCwyIX5ng/iwSxBiRxjHPCXK
+         CPiw==
+X-Gm-Message-State: AOJu0YxhDaM3Gk6yRFFcIc5iiSsDtJgAIWH9nq+UNOMDLRsP98BCcY4/
+	yOpuvqoHSIsg1+N0ie9No4+LcaWU4cLf0LCT1wY742wMLpygv64glyITtFhQLVlV/q3AQQBAzNp
+	D6BEgLYq4qhIK86tt3wU/ZAXJOvA=
+X-Google-Smtp-Source: AGHT+IFSFs5cWvGWf5N1tyk/ILRjVrL0hAVH/K1B1EWQfeNUrf9k7M/Oq0zr9JRrL8lHSJLKPx++TJnBp3CjaS/Zcxk=
+X-Received: by 2002:a05:600c:500f:b0:40e:68a9:9373 with SMTP id
+ n15-20020a05600c500f00b0040e68a99373mr231498wmr.128.1706218979143; Thu, 25
+ Jan 2024 13:42:59 -0800 (PST)
 MIME-Version: 1.0
 References: <1706216634-8340-1-git-send-email-mark.hatle@kernel.crashing.org> <1706216634-8340-2-git-send-email-mark.hatle@kernel.crashing.org>
 In-Reply-To: <1706216634-8340-2-git-send-email-mark.hatle@kernel.crashing.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 25 Jan 2024 22:41:15 +0100
-Message-ID: <CANNYZj8AcHDRngXF08_G-KwKYZo67AW_NZVHC1NaJu0wFXH4Vw@mail.gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Thu, 25 Jan 2024 22:42:47 +0100
+Message-ID: <CA+chaQekfBh8sXYmNE7zVABKVVhU9Z_W5iD0k7tvNJ-DhPed=Q@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH 1/1] qemu: Allow native and nativesdk versions
  on Linux older then 4.17
 To: Mark Hatle <mark.hatle@kernel.crashing.org>
-Cc: mark.hatle@amd.com, openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000333cd6060fcc0b66"
+Cc: openembedded-core@lists.openembedded.org, mark.hatle@amd.com
+Content-Type: multipart/alternative; boundary="000000000000293473060fcc10c4"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 25 Jan 2024 21:41:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194333
+ <openembedded-core@lists.openembedded.org>; Thu, 25 Jan 2024 21:43:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194334
 
---000000000000333cd6060fcc0b66
+--000000000000293473060fcc10c4
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Initial release of Ubuntu 18.04 had 4.15 alright. Later point releases
-offered much newer kernels. It=E2=80=99s also altogether EOL since end of m=
-ay 2023.
+I did something similar for LGE when we were using 18.04 ubuntu, but IIRC
+it's not about the kernel version, but glibc being older than 2.27.
 
-Why should oe-core carry these? It=E2=80=99s RP=E2=80=99s call as qemu main=
-tainer but my
-vote is a firm no, unless additional arguments are put forward.
+18.04 is already unsupported for a while, I don't think oe-core should
+support unsupported host OS versions (that's why I've never send my
+version).
 
-Alex
+To make this change smaller you can just
+revert c42e77a90d9244c8caf76fe0e54f84200430a4e1 from qemu.
 
-On Thu 25. Jan 2024 at 22.04, Mark Hatle <mark.hatle@kernel.crashing.org>
+If oe-core really needs to support this I can share my version as in:
+https://github.com/shr-project/meta-webosose/commit/7528c20bf3ba7576d4611f7=
+1f987a408ac8845c2
+
+Regards,
+
+On Thu, Jan 25, 2024 at 10:04=E2=80=AFPM Mark Hatle <mark.hatle@kernel.cras=
+hing.org>
 wrote:
 
 > From: Mark Hatle <mark.hatle@amd.com>
@@ -580,31 +587,36 @@ es
 > Links: You receive all messages sent to this group.
 > View/Reply Online (#194331):
 > https://lists.openembedded.org/g/openembedded-core/message/194331
-> Mute This Topic: https://lists.openembedded.org/mt/103962276/1686489
+> Mute This Topic: https://lists.openembedded.org/mt/103962276/3617156
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> alex.kanavin@gmail.com]
+> martin.jansa@gmail.com]
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
 >
 
---000000000000333cd6060fcc0b66
+--000000000000293473060fcc10c4
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto">Initial release of Ubuntu 18.04 had 4.15 alright. Later p=
-oint releases offered much newer kernels. It=E2=80=99s also altogether EOL =
-since end of may 2023.</div><div dir=3D"auto"><br></div><div dir=3D"auto">W=
-hy should oe-core carry these? It=E2=80=99s RP=E2=80=99s call as qemu maint=
-ainer but my vote is a firm no, unless additional arguments are put forward=
-.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Alex</div><div><br><di=
-v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu 25. Ja=
-n 2024 at 22.04, Mark Hatle &lt;<a href=3D"mailto:mark.hatle@kernel.crashin=
-g.org">mark.hatle@kernel.crashing.org</a>&gt; wrote:<br></div><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1p=
-x;border-left-style:solid;padding-left:1ex;border-left-color:rgb(204,204,20=
-4)">From: Mark Hatle &lt;<a href=3D"mailto:mark.hatle@amd.com" target=3D"_b=
-lank">mark.hatle@amd.com</a>&gt;<br>
+<div dir=3D"ltr"><div>I did something similar for LGE when we were using 18=
+.04 ubuntu, but IIRC it&#39;s not about the kernel version, but glibc being=
+ older than 2.27.</div><div><br></div><div>18.04 is already unsupported for=
+ a while, I don&#39;t think oe-core should support unsupported host OS vers=
+ions (that&#39;s why I&#39;ve never send my version).</div><div><br></div><=
+div>To make this change smaller you can just revert=C2=A0c42e77a90d9244c8ca=
+f76fe0e54f84200430a4e1 from qemu.</div><div><br></div><div>If oe-core reall=
+y needs to support this I can share my version as in:</div><div><a href=3D"=
+https://github.com/shr-project/meta-webosose/commit/7528c20bf3ba7576d4611f7=
+1f987a408ac8845c2">https://github.com/shr-project/meta-webosose/commit/7528=
+c20bf3ba7576d4611f71f987a408ac8845c2</a><br></div><div><br></div><div>Regar=
+ds,</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_att=
+r">On Thu, Jan 25, 2024 at 10:04=E2=80=AFPM Mark Hatle &lt;<a href=3D"mailt=
+o:mark.hatle@kernel.crashing.org" target=3D"_blank">mark.hatle@kernel.crash=
+ing.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
+t:1ex">From: Mark Hatle &lt;<a href=3D"mailto:mark.hatle@amd.com" target=3D=
+"_blank">mark.hatle@amd.com</a>&gt;<br>
 <br>
 Linux kernel 4.17 introduced two new mmap flags, MAP_FIXED_NOREPLACE and<br=
 >
@@ -1188,19 +1200,19 @@ Links: You receive all messages sent to this group.<br>
 View/Reply Online (#194331): <a href=3D"https://lists.openembedded.org/g/op=
 enembedded-core/message/194331" rel=3D"noreferrer" target=3D"_blank">https:=
 //lists.openembedded.org/g/openembedded-core/message/194331</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/103962276/168=
-6489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/103962276/1686489</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/103962276/361=
+7156" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/103962276/3617156</a><br>
 Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
 .org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
 br>
 Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
 unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
-rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
+g/openembedded-core/unsub</a> [<a href=3D"mailto:martin.jansa@gmail.com" ta=
+rget=3D"_blank">martin.jansa@gmail.com</a>]<br>
 -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
 <br>
 </blockquote></div></div>
 
---000000000000333cd6060fcc0b66--
+--000000000000293473060fcc10c4--
 
