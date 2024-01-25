@@ -1,695 +1,106 @@
-Return-Path: <mark.hatle@kernel.crashing.org>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44973C47258
-	for <webhook@archiver.kernel.org>; Thu, 25 Jan 2024 22:23:56 +0000 (UTC)
-Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
- by mx.groups.io with SMTP id smtpd.web10.1965.1706221426867315241
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4475EC47258
+	for <webhook@archiver.kernel.org>; Thu, 25 Jan 2024 22:38:36 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web11.2522.1706222310854714122
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Jan 2024 14:23:47 -0800
+ Thu, 25 Jan 2024 14:38:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
-Received: from [192.168.2.236] ([70.99.78.137])
-	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 40PMNkD6002382
-	for <openembedded-core@lists.openembedded.org>; Thu, 25 Jan 2024 16:23:46 -0600
-Message-ID: <e37d8ba8-bf75-4e0e-a52d-984fd39582c6@kernel.crashing.org>
-Date: Thu, 25 Jan 2024 16:23:44 -0600
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=A7MKvnMO;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-33921b95dddso796564f8f.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 25 Jan 2024 14:38:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1706222309; x=1706827109; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=01mbC4Vr+SNWSdol6VbYmoYLWnidamMb+CAnPf3qpnI=;
+        b=A7MKvnMO9Z35Cos9d/L/a6wG3cV3qL106CjhL/AyNbloHR8KkWjS+UvJ2wQFW3y7Ij
+         mB04xLKjqBd5cFMuX+iKae1GuYcxzEQlPX4Y+8xSlN9BVO71OILXaep8cXDYHy7G6nGo
+         30ssRddqAPhIWiXA1Mb0vKxT3vzozL8lXGGs4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706222309; x=1706827109;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=01mbC4Vr+SNWSdol6VbYmoYLWnidamMb+CAnPf3qpnI=;
+        b=iBTphyEUePOXbdpfCkna+/YM+3HeFYCSIZ3Q6EihCk2I9ozEgOJUadvmKEUbLO0gBF
+         mZlgrBGFJW/klaSP8wtJP0kalyLeiOMu+zwrnHfJ4uP5Xz1mA89tk8a6MMrGVBKTo1iV
+         +/9Yj1Ar8hdLzpvMosGuaoLXtvP4mok4aZMEafomqoVBT/seYhPJ9+MnmQcZXFOih3Tl
+         pe+FAjKWk20u8F6blhgeXoG0QSmgBL/ChiSj4y34ADYUR4alG7I2iRaMgl480psvLfQa
+         B2c/AIfJSfvwBV/jtnOYks/HKqBPg+6o5kzqZ7OZY/1LwEcZJgDJQCjsJOv0i57Hn/hB
+         K8pg==
+X-Gm-Message-State: AOJu0Yy/pH2s5TaOOYdXLEus8T8P0KsIoGgERFu4Ze2kobDF/irr4EFf
+	O8S08rQaxbqHpLMQX0HnXhL3kAWW51QjucZ3oL3SSGlRtdmriTNr6M+XAaE54b4=
+X-Google-Smtp-Source: AGHT+IHi2sr+F43uLHktWRd4nq94uCSmW26XnXdcwyX4K5sYAHhsL2CIGvKhBkhzkaeIFjN2LjC/MA==
+X-Received: by 2002:a05:600c:4b17:b0:40e:87e1:9b32 with SMTP id i23-20020a05600c4b1700b0040e87e19b32mr770wmp.155.1706222309112;
+        Thu, 25 Jan 2024 14:38:29 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:eef:5a49:b13d:a655? ([2001:8b0:aba:5f3c:eef:5a49:b13d:a655])
+        by smtp.gmail.com with ESMTPSA id iv16-20020a05600c549000b0040e3635ca65sm3978438wmb.2.2024.01.25.14.38.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Jan 2024 14:38:28 -0800 (PST)
+Message-ID: <9ffa7599e4a73860b2e696fc7b04c968355f369f.camel@linuxfoundation.org>
 Subject: Re: [OE-core] [PATCH 1/1] qemu: Allow native and nativesdk versions
  on Linux older then 4.17
-Content-Language: en-US
-To: openembedded-core@lists.openembedded.org
-References: <1706216634-8340-1-git-send-email-mark.hatle@kernel.crashing.org>
- <1706216634-8340-2-git-send-email-mark.hatle@kernel.crashing.org>
- <CANNYZj8AcHDRngXF08_G-KwKYZo67AW_NZVHC1NaJu0wFXH4Vw@mail.gmail.com>
-From: Mark Hatle <mark.hatle@kernel.crashing.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, Mark Hatle
+	 <mark.hatle@kernel.crashing.org>
+Cc: mark.hatle@amd.com, openembedded-core@lists.openembedded.org
+Date: Thu, 25 Jan 2024 22:38:28 +0000
 In-Reply-To: <CANNYZj8AcHDRngXF08_G-KwKYZo67AW_NZVHC1NaJu0wFXH4Vw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+References: 
+	<1706216634-8340-1-git-send-email-mark.hatle@kernel.crashing.org>
+	 <1706216634-8340-2-git-send-email-mark.hatle@kernel.crashing.org>
+	 <CANNYZj8AcHDRngXF08_G-KwKYZo67AW_NZVHC1NaJu0wFXH4Vw@mail.gmail.com>
+Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
+ YNvg==
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by gate.crashing.org id 40PMNkD6002382
+User-Agent: Evolution 3.50.0-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 25 Jan 2024 22:23:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194336
+ <openembedded-core@lists.openembedded.org>; Thu, 25 Jan 2024 22:38:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194337
 
-QEMU is a symptom of the real problem.
+On Thu, 2024-01-25 at 22:41 +0100, Alexander Kanavin wrote:
+> Initial release of Ubuntu 18.04 had 4.15 alright. Later point releases=C2=
+=A0
+> offered much newer kernels. It=E2=80=99s also altogether EOL since end of=
+ may 2023.
+>=20
+> Why should oe-core carry these? It=E2=80=99s RP=E2=80=99s call as qemu ma=
+intainer but my vote=C2=A0
+> is a firm no, unless additional arguments are put forward.
 
-SDK_OLDEST_KERNEL is set to 3.2.0.  If that is what we keep it as, then w=
-e need=20
-to make sure that the nativesdk tooling works on a pre 4.17 kernel.
+I had talked a bit with Mark about this issue and in the end I did
+suggest sending the patch as the issue is a tricky one and it is
+something we should really think about. At the very least it is worth
+documenting and understanding the implications as it isn't easy to see
+all the implications straight away.
 
-If that value moves to 4.17 then we can't use the same uninative /=20
-buildtools-tarball with older (LTS) releases.  So there is no "good" solu=
-tion here.
+The challenge is that the generated SDKs may end up running on
+older/interesting systems and it is mostly pure luck we haven't hit
+this. We do still have one 18.04 autobuilder system, albeit with a
+slightly newer kernel version without this issue. Our "normal" sanity
+checks don't cover it either.
 
-As you said, it's RPs decision, I see three courses here:
+I'm still unsure if we plan to merge the patch or not.
 
-1) Accept qemu mmap calls could break silently on pre-4.17 kernels
-2) Apply this patch, allowing SDK_OLDEST_KERNEL to remain at 3.2.0
-3) Bump SDK_OLDEST_KERNEL to at least 4.17
+Cheers,
 
-or.... ?
+Richard
 
-I'm not really partial to one solution or another in this case, but we do=
- have=20
-an underlying issue that needs to be resolved or we're going to be chasin=
-g bug=20
-reports that we have no way to resolve.
 
---Mark
-
-On 1/25/24 3:41 PM, Alexander Kanavin wrote:
-> Initial release of Ubuntu 18.04 had 4.15 alright. Later point releases =
-offered=20
-> much newer kernels. It=E2=80=99s also altogether EOL since end of may 2=
-023.
->=20
-> Why should oe-core carry these? It=E2=80=99s RP=E2=80=99s call as qemu =
-maintainer but my vote is=20
-> a firm no, unless additional arguments are put forward.
->=20
-> Alex
->=20
-> On Thu 25. Jan 2024 at 22.04, Mark Hatle <mark.hatle@kernel.crashing.or=
-g=20
-> <mailto:mark.hatle@kernel.crashing.org>> wrote:
->=20
->     From: Mark Hatle <mark.hatle@amd.com <mailto:mark.hatle@amd.com>>
->=20
->     Linux kernel 4.17 introduced two new mmap flags, MAP_FIXED_NOREPLAC=
-E and
->     MAP_SHARED_VALIDATE.=C2=A0 Starting with QEMU 8.1, these flags are =
-now used
->     and required for proper system operation.=C2=A0 In order to build a=
-nd run on a
->     system older then 4.17, we need to emulate this new behavior.
->=20
->     Not having a newer kernel could result in the mmap memory being all=
-ocated
->     in a way that will cause failures without QEMU checking for these
->     conditions.=C2=A0 Note, memory allocation issues are rare in my exp=
-erience so
->     this is more of a 'just-in-case' behavior.
->=20
->     SDK_OLDEST_KERNEL is currently set to 3.2.0, the only way this can =
-claim
->     that qemu works in an SDK is by checking the return values to emula=
-te
->     the expected behavior.
->=20
->     Signed-off-by: Mark Hatle <mark.hatle@amd.com <mailto:mark.hatle@am=
-d.com>>
->     Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org
->     <mailto:mark.hatle@kernel.crashing.org>>
->     ---
->      =C2=A0meta/recipes-devtools/qemu/qemu.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0|=C2=A0 12 +
->      =C2=A0...round-for-missing-MAP_FIXED_NOREPLAC.patch | 286 ++++++++=
-++++++++++
->      =C2=A0...round-for-missing-MAP_SHARED_VALIDAT.patch |=C2=A0 51 +++=
-+
->      =C2=A03 files changed, 349 insertions(+)
->      =C2=A0create mode 100644
->     meta/recipes-devtools/qemu/qemu/0011-linux-user-workaround-for-miss=
-ing-MAP_FIXED_NOREPLAC.patch
->      =C2=A0create mode 100644
->     meta/recipes-devtools/qemu/qemu/0012-linux-user-workaround-for-miss=
-ing-MAP_SHARED_VALIDAT.patch
->=20
->     diff --git a/meta/recipes-devtools/qemu/qemu.inc
->     b/meta/recipes-devtools/qemu/qemu.inc
->     index ccb2880402..7c31a5aa83 100644
->     --- a/meta/recipes-devtools/qemu/qemu.inc
->     +++ b/meta/recipes-devtools/qemu/qemu.inc
->     @@ -39,6 +39,18 @@ SRC_URI =3D "https://download.qemu.org/${BPN}-${=
-PV}.tar.xz
->     <https://download.qemu.org/$%7BBPN%7D-$%7BPV%7D.tar.xz> \
->      =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 "
->      =C2=A0UPSTREAM_CHECK_REGEX =3D "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
->=20
->     +# SDK_OLDEST_KERNEL is set below 4.17, which is the minimum versio=
-n
->     required by QEMU >=3D 8.1
->     +# This is due to two MMAP flags being used at certain points
->     +SRC_URI:append:class-nativesdk =3D " \
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0file://0011-linux-user-workaround-for-m=
-issing-MAP_FIXED_NOREPLAC.patch \
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0file://0012-linux-user-workaround-for-m=
-issing-MAP_SHARED_VALIDAT.patch \
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 "
->     +
->     +# Support building and using native version on pre 4.17 kernels
->     +SRC_URI:append:class-native =3D " \
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0file://0011-linux-user-workaround-for-m=
-issing-MAP_FIXED_NOREPLAC.patch \
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0file://0012-linux-user-workaround-for-m=
-issing-MAP_SHARED_VALIDAT.patch \
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 "
->=20
->      =C2=A0SRC_URI[sha256sum] =3D
->     "bf00d2fa12010df8b0ade93371def58e632cb32a6bfdc5f5a0ff8e6a1fb1bf32"
->=20
->     diff --git
->     a/meta/recipes-devtools/qemu/qemu/0011-linux-user-workaround-for-mi=
-ssing-MAP_FIXED_NOREPLAC.patch b/meta/recipes-devtools/qemu/qemu/0011-lin=
-ux-user-workaround-for-missing-MAP_FIXED_NOREPLAC.patch
->     new file mode 100644
->     index 0000000000..8941911fb3
->     --- /dev/null
->     +++
->     b/meta/recipes-devtools/qemu/qemu/0011-linux-user-workaround-for-mi=
-ssing-MAP_FIXED_NOREPLAC.patch
->     @@ -0,0 +1,286 @@
->     +From fa9bcabe2387bb230ef82d62827ad6f93b8a1e61 Mon Sep 17 00:00:00 =
-2001
->     +From: Frederic Konrad <fkonrad@amd.com <mailto:fkonrad@amd.com>>
->     +Date: Wed, 17 Jan 2024 18:15:06 +0000
->     +Subject: [PATCH 1/2] linux-user/*: workaround for missing MAP_FIXE=
-D_NOREPLACE
->     +
->     +QEMU v8.1.0 recently requires MAP_FIXED_NOREPLACE flags implementa=
-tion for
->     mmap.
->     +
->     +This is missing from ubuntu 18.04, thus this patch catches the mma=
-p calls which
->     +could use that new flag and forwards them to mmap when MAP_FIXED_N=
-OREPLACE
->     +flag isn't set or emulates them by checking the returned address w=
-.r.t the
->     +requested address.
->     +
->     +Signed-off-by: Frederic Konrad <fkonrad@amd.com <mailto:fkonrad@am=
-d.com>>
->     +Signed-off-by: Francisco Iglesias <francisco.iglesias@amd.com
->     <mailto:francisco.iglesias@amd.com>>
->     +
->     +Upstream-Status: Inappropriate [OE specific]
->     +
->     +The upstream only supports the last two major releases of an OS.=C2=
-=A0 The ones
->     +they have declared all have kernel 4.17 or newer.
->     +
->     +See:
->     +https://xilinx.slack.com/archives/D04G2647CTV/p1705074697942019
->     <https://xilinx.slack.com/archives/D04G2647CTV/p1705074697942019>
->     +
->     +https://www.qemu.org/docs/master/about/build-platforms.html
->     <https://www.qemu.org/docs/master/about/build-platforms.html>
->     +
->     + The project aims to support the most recent major version at all =
-times for up
->     + to five years after its initial release. Support for the previous=
- major
->     + version will be dropped 2 years after the new major version is re=
-leased or
->     + when the vendor itself drops support, whichever comes first.
->     +
->     +Signed-off-by: Mark Hatle <mark.hatle@amd.com <mailto:mark.hatle@a=
-md.com>>
->     +---
->     + linux-user/elfload.c=C2=A0 =C2=A0 |=C2=A0 7 +++--
->     + linux-user/meson.build=C2=A0 |=C2=A0 1 +
->     + linux-user/mmap-fixed.c | 63 ++++++++++++++++++++++++++++++++++++=
-+++++
->     + linux-user/mmap-fixed.h | 39 +++++++++++++++++++++++++
->     + linux-user/mmap.c=C2=A0 =C2=A0 =C2=A0 =C2=A0| 31 +++++++++++-----=
-----
->     + linux-user/syscall.c=C2=A0 =C2=A0 |=C2=A0 1 +
->     + 6 files changed, 125 insertions(+), 17 deletions(-)
->     + create mode 100644 linux-user/mmap-fixed.c
->     + create mode 100644 linux-user/mmap-fixed.h
->     +
->     +Index: qemu-8.2.0/linux-user/elfload.c
->     +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->     +--- qemu-8.2.0.orig/linux-user/elfload.c
->     ++++ qemu-8.2.0/linux-user/elfload.c
->     +@@ -22,6 +22,7 @@
->     + #include "qemu/error-report.h"
->     + #include "target_signal.h"
->     + #include "accel/tcg/debuginfo.h"
->     ++#include "mmap-fixed.h"
->     +
->     + #ifdef TARGET_ARM
->     + #include "target/arm/cpu-features.h"
->     +@@ -2765,9 +2766,9 @@ static abi_ulong create_elf_tables(abi_u
->     + static int pgb_try_mmap(uintptr_t addr, uintptr_t addr_last, bool=
- keep)
->     + {
->     +=C2=A0 =C2=A0 =C2=A0size_t size =3D addr_last - addr + 1;
->     +-=C2=A0 =C2=A0 void *p =3D mmap((void *)addr, size, PROT_NONE,
->     +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0MAP_ANONYMOUS | MAP_PRIVATE |
->     +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0MAP_NORESERVE | MAP_FIXED_NOREPLACE, -1, 0);
->     ++=C2=A0 =C2=A0 void *p =3D mmap_fixed_noreplace((void *)addr, size=
-, PROT_NONE,
->     ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0MAP_ANONYMOUS =
-| MAP_PRIVATE |
->     ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0MAP_NORESERVE =
-| MAP_FIXED_NOREPLACE,
->     -1, 0);
->     +=C2=A0 =C2=A0 =C2=A0int ret;
->     +
->     +=C2=A0 =C2=A0 =C2=A0if (p =3D=3D MAP_FAILED) {
->     +Index: qemu-8.2.0/linux-user/meson.build
->     +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->     +--- qemu-8.2.0.orig/linux-user/meson.build
->     ++++ qemu-8.2.0/linux-user/meson.build
->     +@@ -14,6 +14,7 @@ linux_user_ss.add(files(
->     +=C2=A0 =C2=A0'linuxload.c',
->     +=C2=A0 =C2=A0'main.c',
->     +=C2=A0 =C2=A0'mmap.c',
->     ++=C2=A0 'mmap-fixed.c',
->     +=C2=A0 =C2=A0'signal.c',
->     +=C2=A0 =C2=A0'strace.c',
->     +=C2=A0 =C2=A0'syscall.c',
->     +Index: qemu-8.2.0/linux-user/mmap-fixed.c
->     +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->     +--- /dev/null
->     ++++ qemu-8.2.0/linux-user/mmap-fixed.c
->     +@@ -0,0 +1,63 @@
->     ++/*
->     ++ * Workaround for MAP_FIXED_NOREPLACE
->     ++ *
->     ++ * Copyright (c) 2024, Advanced Micro Devices, Inc.
->     ++ * Developed by Fred Konrad <fkonrad@amd.com <mailto:fkonrad@amd.=
-com>>
->     ++ *
->     ++ * Permission is hereby granted, free of charge, to any person ob=
-taining a
->     copy
->     ++ * of this software and associated documentation files (the "Soft=
-ware"),
->     to deal
->     ++ * in the Software without restriction, including without limitat=
-ion the
->     rights
->     ++ * to use, copy, modify, merge, publish, distribute, sublicense, =
-and/or sell
->     ++ * copies of the Software, and to permit persons to whom the Soft=
-ware is
->     ++ * furnished to do so, subject to the following conditions:
->     ++ *
->     ++ * The above copyright notice and this permission notice shall be=
- included in
->     ++ * all copies or substantial portions of the Software.
->     ++ *
->     ++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND=
-, EXPRESS OR
->     ++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHA=
-NTABILITY,
->     ++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EV=
-ENT SHALL
->     ++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMA=
-GES OR OTHER
->     ++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE=
-, ARISING
->     FROM,
->     ++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER =
-DEALINGS IN
->     ++ * THE SOFTWARE.
->     ++ */
->     ++
->     ++#include <sys/mman.h>
->     ++#include <errno.h>
->     ++
->     ++#ifndef MAP_FIXED_NOREPLACE
->     ++#include "mmap-fixed.h"
->     ++
->     ++void *mmap_fixed_noreplace(void *addr, size_t len, int prot, int =
-flags,
->     ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int fd, off_t offset=
-)
->     ++{
->     ++=C2=A0 =C2=A0 void *retaddr;
->     ++
->     ++=C2=A0 =C2=A0 if (!(flags & MAP_FIXED_NOREPLACE)) {
->     ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* General case, use the regular mmap=
-.=C2=A0 */
->     ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return mmap(addr, len, prot, flags, f=
-d, offset);
->     ++=C2=A0 =C2=A0 }
->     ++
->     ++=C2=A0 =C2=A0 /* Since MAP_FIXED_NOREPLACE is not implemented, tr=
-y to emulate it.=C2=A0 */
->     ++=C2=A0 =C2=A0 flags =3D flags & ~(MAP_FIXED_NOREPLACE | MAP_FIXED=
-);
->     ++=C2=A0 =C2=A0 retaddr =3D mmap(addr, len, prot, flags, fd, offset=
-);
->     ++=C2=A0 =C2=A0 if ((retaddr =3D=3D addr) || (retaddr =3D=3D MAP_FA=
-ILED)) {
->     ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /*
->     ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* Either the map worked and we =
-get the good address so it can be
->     ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* returned, or it failed and wo=
-uld have failed the same with
->     ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* MAP_FIXED*, in which case ret=
-urn MAP_FAILED.
->     ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/
->     ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return retaddr;
->     ++=C2=A0 =C2=A0 } else {
->     ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /*
->     ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* Page has been mapped but not =
-at the requested address.. unmap
->     it and
->     ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* return EEXIST.
->     ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/
->     ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 munmap(retaddr, len);
->     ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 errno =3D EEXIST;
->     ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return MAP_FAILED;
->     ++=C2=A0 =C2=A0 }
->     ++}
->     ++
->     ++#endif
->     +Index: qemu-8.2.0/linux-user/mmap-fixed.h
->     +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->     +--- /dev/null
->     ++++ qemu-8.2.0/linux-user/mmap-fixed.h
->     +@@ -0,0 +1,39 @@
->     ++/*
->     ++ * Workaround for MAP_FIXED_NOREPLACE
->     ++ *
->     ++ * Copyright (c) 2024, Advanced Micro Devices, Inc.
->     ++ * Developed by Fred Konrad <fkonrad@amd.com <mailto:fkonrad@amd.=
-com>>
->     ++ *
->     ++ * Permission is hereby granted, free of charge, to any person ob=
-taining a
->     copy
->     ++ * of this software and associated documentation files (the "Soft=
-ware"),
->     to deal
->     ++ * in the Software without restriction, including without limitat=
-ion the
->     rights
->     ++ * to use, copy, modify, merge, publish, distribute, sublicense, =
-and/or sell
->     ++ * copies of the Software, and to permit persons to whom the Soft=
-ware is
->     ++ * furnished to do so, subject to the following conditions:
->     ++ *
->     ++ * The above copyright notice and this permission notice shall be=
- included in
->     ++ * all copies or substantial portions of the Software.
->     ++ *
->     ++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND=
-, EXPRESS OR
->     ++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHA=
-NTABILITY,
->     ++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EV=
-ENT SHALL
->     ++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMA=
-GES OR OTHER
->     ++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE=
-, ARISING
->     FROM,
->     ++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER =
-DEALINGS IN
->     ++ * THE SOFTWARE.
->     ++ */
->     ++
->     ++#ifndef MMAP_FIXED_H
->     ++#define MMAP_FIXED_H
->     ++
->     ++#ifndef MAP_FIXED_NOREPLACE
->     ++#define MAP_FIXED_NOREPLACE 0x100000
->     ++
->     ++void *mmap_fixed_noreplace(void *addr, size_t len, int prot, int =
-flags,
->     ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int fd, off_t offset);
->     ++
->     ++#else /* MAP_FIXED_NOREPLACE */
->     ++#define mmap_fixed_noreplace mmap
->     ++#endif /* MAP_FIXED_NOREPLACE */
->     ++
->     ++#endif /* MMAP_FIXED_H */
->     +Index: qemu-8.2.0/linux-user/mmap.c
->     +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->     +--- qemu-8.2.0.orig/linux-user/mmap.c
->     ++++ qemu-8.2.0/linux-user/mmap.c
->     +@@ -25,6 +25,7 @@
->     + #include "user-mmap.h"
->     + #include "target_mman.h"
->     + #include "qemu/interval-tree.h"
->     ++#include "mmap-fixed.h"
->     +
->     + #ifdef TARGET_ARM
->     + #include "target/arm/cpu-features.h"
->     +@@ -304,9 +305,9 @@ static bool mmap_frag(abi_ulong real_sta
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * outside of the fragment we ne=
-ed to map.=C2=A0 Allocate a new host
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * page to cover, discarding wha=
-tever else may have been present.
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */
->     +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 void *p =3D mmap(host_start, qemu_hos=
-t_page_size,
->     +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0target_to_host_prot(prot),
->     +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0flags | MAP_ANONYMOUS, -1, 0);
->     ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 void *p =3D mmap_fixed_noreplace(host=
-_start, qemu_host_page_size,
->     ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-target_to_host_prot(prot),
->     ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-flags | MAP_ANONYMOUS, -1, 0);
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (p !=3D host_start) {
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (p !=3D MAP_FAI=
-LED) {
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0munm=
-ap(p, qemu_host_page_size);
->     +@@ -405,8 +406,9 @@ abi_ulong mmap_find_vma(abi_ulong start,
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *=C2=A0 - mremap() with MREMAP_=
-FIXED flag
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 *=C2=A0 - shmat() with SHM_REMA=
-P flag
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */
->     +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 ptr =3D mmap(g2h_untagged(addr), size=
-, PROT_NONE,
->     +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0MAP_ANONYMOUS | MAP_PRIVATE | MAP_NORESERVE, -1, 0);
->     ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 ptr =3D mmap_fixed_noreplace(g2h_unta=
-gged(addr), size, PROT_NONE,
->     ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0MAP_ANONYMOUS =
-| MAP_PRIVATE |
->     MAP_NORESERVE,
->     ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-1, 0);
->     +
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* ENOMEM, if host address space=
- has no memory */
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (ptr =3D=3D MAP_FAILED) {
->     +@@ -600,16 +602,16 @@ abi_long target_mmap(abi_ulong start, ab
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * especially important if qemu_=
-host_page_size >
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * qemu_real_host_page_size.
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */
->     +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 p =3D mmap(g2h_untagged(start), host_=
-len, host_prot,
->     +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fla=
-gs | MAP_FIXED | MAP_ANONYMOUS, -1, 0);
->     ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 p =3D mmap_fixed_noreplace(g2h_untagg=
-ed(start), host_len, host_prot,
->     ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0flags | MAP_FIXED | M=
-AP_ANONYMOUS, -1, 0);
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (p =3D=3D MAP_FAILED) {
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto fail;
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* update start so that it point=
-s to the file position at 'offset' */
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0host_start =3D (uintptr_t)p;
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!(flags & MAP_ANONYMOUS)) {
->     +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 p =3D mmap(g2h_untagged=
-(start), len, host_prot,
->     +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0flags | MAP_FIXED, fd, host_offset);
->     ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 p =3D mmap_fixed_norepl=
-ace(g2h_untagged(start), len, host_prot,
->     ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0flags |=
- MAP_FIXED, fd, host_offset);
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (p =3D=3D MAP_F=
-AILED) {
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0munm=
-ap(g2h_untagged(start), host_len);
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto=
- fail;
->     +@@ -734,8 +736,9 @@ abi_long target_mmap(abi_ulong start, ab
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0len1 =3D real_last=
- - real_start + 1;
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0want_p =3D g2h_unt=
-agged(real_start);
->     +
->     +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 p =3D mmap(want_p, len1=
-, target_to_host_prot(target_prot),
->     +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0flags, fd, offset1);
->     ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 p =3D mmap_fixed_norepl=
-ace(want_p, len1,
->     ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0target_=
-to_host_prot(target_prot),
->     ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0flags, =
-fd, offset1);
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (p !=3D want_p)=
- {
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (=
-p !=3D MAP_FAILED) {
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0munmap(p, len1);
->     +@@ -837,9 +840,9 @@ static int mmap_reserve_or_unmap(abi_ulo
->     +=C2=A0 =C2=A0 =C2=A0host_start =3D g2h_untagged(real_start);
->     +
->     +=C2=A0 =C2=A0 =C2=A0if (reserved_va) {
->     +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 void *ptr =3D mmap(host_start, real_l=
-en, PROT_NONE,
->     +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0MAP_FIXED | MAP_ANONYMOUS
->     +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| MAP_PRIVATE | MAP_NORESERVE, -1, 0);
->     ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 void *ptr =3D mmap_fixed_noreplace(ho=
-st_start, real_len, PROT_NONE,
->     ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0MAP_FIXED | MAP_ANONYMOUS
->     ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0| MAP_PRIVATE | MAP_NORESERVE,
->     -1, 0);
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ptr =3D=3D host_start ? 0=
- : -1;
->     +=C2=A0 =C2=A0 =C2=A0}
->     +=C2=A0 =C2=A0 =C2=A0return munmap(host_start, real_len);
->     +Index: qemu-8.2.0/linux-user/syscall.c
->     +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->     +--- qemu-8.2.0.orig/linux-user/syscall.c
->     ++++ qemu-8.2.0/linux-user/syscall.c
->     +@@ -145,6 +145,7 @@
->     + #include "qapi/error.h"
->     + #include "fd-trans.h"
->     + #include "cpu_loop-common.h"
->     ++#include "mmap-fixed.h"
->     +
->     + #ifndef CLONE_IO
->     + #define CLONE_IO=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 0x80000000=C2=A0 =C2=A0 =C2=A0 /* Clone io context */
->     diff --git
->     a/meta/recipes-devtools/qemu/qemu/0012-linux-user-workaround-for-mi=
-ssing-MAP_SHARED_VALIDAT.patch b/meta/recipes-devtools/qemu/qemu/0012-lin=
-ux-user-workaround-for-missing-MAP_SHARED_VALIDAT.patch
->     new file mode 100644
->     index 0000000000..081409f355
->     --- /dev/null
->     +++
->     b/meta/recipes-devtools/qemu/qemu/0012-linux-user-workaround-for-mi=
-ssing-MAP_SHARED_VALIDAT.patch
->     @@ -0,0 +1,51 @@
->     +From 5c73e53997df800a742f9cd7355f3045861984bb Mon Sep 17 00:00:00 =
-2001
->     +From: Frederic Konrad <fkonrad@amd.com <mailto:fkonrad@amd.com>>
->     +Date: Thu, 18 Jan 2024 10:43:44 +0000
->     +Subject: [PATCH 2/2] linux-user/*: workaround for missing MAP_SHAR=
-ED_VALIDATE
->     +
->     +QEMU v8.1.0 recently requires MAP_SHARED_VALIDATE flags implementa=
-tion for
->     mmap.
->     +
->     +This is missing from the Ubuntu 18.04 compiler but looks like to b=
-e in the
->     +kernel source.
->     +
->     +Signed-off-by: Frederic Konrad <fkonrad@amd.com <mailto:fkonrad@am=
-d.com>>
->     +Signed-off-by: Francisco Iglesias <francisco.iglesias@amd.com
->     <mailto:francisco.iglesias@amd.com>>
->     +
->     +Upstream-Status: Inappropriate [OE specific]
->     +
->     +The upstream only supports the last two major releases of an OS.=C2=
-=A0 The ones
->     +they have declared all have kernel 4.17 or newer.
->     +
->     +See:
->     +https://xilinx.slack.com/archives/D04G2647CTV/p1705074697942019
->     <https://xilinx.slack.com/archives/D04G2647CTV/p1705074697942019>
->     +
->     +https://www.qemu.org/docs/master/about/build-platforms.html
->     <https://www.qemu.org/docs/master/about/build-platforms.html>
->     +
->     + The project aims to support the most recent major version at all =
-times for up
->     + to five years after its initial release. Support for the previous=
- major
->     + version will be dropped 2 years after the new major version is re=
-leased or
->     + when the vendor itself drops support, whichever comes first.
->     +
->     +Signed-off-by: Mark Hatle <mark.hatle@amd.com <mailto:mark.hatle@a=
-md.com>>
->     +---
->     + linux-user/mmap-fixed.h | 4 ++++
->     + 1 file changed, 4 insertions(+)
->     +
->     +diff --git a/linux-user/mmap-fixed.h b/linux-user/mmap-fixed.h
->     +index ef6eef5114..ec86586c1f 100644
->     +--- a/linux-user/mmap-fixed.h
->     ++++ b/linux-user/mmap-fixed.h
->     +@@ -26,6 +26,10 @@
->     + #ifndef MMAP_FIXED_H
->     + #define MMAP_FIXED_H
->     +
->     ++#ifndef MAP_SHARED_VALIDATE
->     ++#define MAP_SHARED_VALIDATE 0x03
->     ++#endif
->     ++
->     + #ifndef MAP_FIXED_NOREPLACE
->     + #define MAP_FIXED_NOREPLACE 0x100000
->     +
->     +--
->     +2.34.1
->     +
->     --=20
->     2.34.1
->=20
->=20
->=20
->=20
->=20
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#194333): https://lists.openembedded.org/g/openembed=
-ded-core/message/194333
-> Mute This Topic: https://lists.openembedded.org/mt/103962276/3616948
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-mark.hatle@kernel.crashing.org]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
 
