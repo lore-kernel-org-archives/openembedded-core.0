@@ -1,89 +1,101 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E5C4C47DDF
-	for <webhook@archiver.kernel.org>; Fri, 26 Jan 2024 14:11:32 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web10.16914.1706278283785591011
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F79BC47DDF
+	for <webhook@archiver.kernel.org>; Fri, 26 Jan 2024 14:18:52 +0000 (UTC)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+ by mx.groups.io with SMTP id smtpd.web10.17118.1706278724455717560
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Jan 2024 06:11:24 -0800
+ Fri, 26 Jan 2024 06:18:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=E9eYillT;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-40e7065b692so6159445e9.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jan 2024 06:11:23 -0800 (PST)
+ dkim=pass header.i=@linaro.org header.s=google header.b=g+kiqHF4;
+ spf=pass (domain: linaro.org, ip: 209.85.167.43, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5102188d2aeso370123e87.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jan 2024 06:18:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1706278282; x=1706883082; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=YBWC7lQHctN+/JPqK8MGqbut3BNTzSO+nwhan1jrauM=;
-        b=E9eYillTyvCPPxoJJbGLcCCmMFd+et2+FtSB6ZcaS2D0LX9xLsE+JfZ4fgicY2iiX1
-         wjXjGIH034f/isiudYVqTjClSvW4ZLtPXA7vMJMKnOPmllS1n9OJRIzMtGDYvMu6KEtw
-         4Jwqum1QfqZzWyRlOp+W0MZPuNjlYpqBSbzYU=
+        d=linaro.org; s=google; t=1706278723; x=1706883523; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=0mGjoAw/t2O1+BL90Ix2E+LnAUUKxGS9RI4XpuvBDCc=;
+        b=g+kiqHF40V3LuxF+7U+LOxv83d58YJkzjS1clF1EaXVfUgeZiBbl7Irak+NFgqOYL/
+         vrST9Dd93RVV/R88/cETi7guDhLBPrj+fBQq1D9M/aBx0XUqCBXTbLn51ghuaq6J0r1C
+         7Mp1IpKH4f41y6amBnzQm3oTEwjCZm6NcbkpdrmexNl2A2Wr/HsX0RnEtS82cXVz4YjQ
+         wpiBiDqSFylGtn3dJMiNZHnP59EHhwbOUXjvwF2gzT+66kcNIsxs1hQa/4q1XazIdutK
+         k53s/hFeE+E5OGU4SycPHfekLGFnVgTMxSwag1xp8GPLp0hAn8BB5SALhuHZk1hMAbxt
+         voMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706278282; x=1706883082;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YBWC7lQHctN+/JPqK8MGqbut3BNTzSO+nwhan1jrauM=;
-        b=JOo32dpiSwldzYfNtjXIcNBbGF+ieTIa9P1QhTv6qjzW+CB7SpIw65lXKKtMpRchn6
-         0aebPDwImu8qMOeZvaEW54IBkzNtsgEUOiaaN7v4YyvfB+703VFXhpzIkBy8uVdYoztF
-         lJjGusCLdbc4HjWiOtaXBZ3uHLK3gr71/Va5is5LJu8+eVP2HsNut3M2W86/LWpWGpp8
-         2808xrY0urCK9aSkdI3QQ5aqm43uQvkiGtUaf2xulhmhYUtX2EX0I16ksPtZPx5FMShr
-         iI4sKpMqq2A24EAJbocGUwUxmCMQiverrQBhwrcFZAVJe082e1ERbJ7DsWojnyMKtJcK
-         yf8Q==
-X-Gm-Message-State: AOJu0YxL+xLqU9sKF8sc86UVw+COnYpJYZUt+DOIo7wageBfWHds/ds9
-	LK0fWBKSgvPoEgew1oEIGJYFTYmT+ue5yZOXGqP3cbBWT0zuIF44JUINNBoVE+uwUlBcf+5mFDZ
-	v
-X-Google-Smtp-Source: AGHT+IEgeB8YScOhPFGaxQ+qEmAbGVV9mJhiaNWmGWM9a82nY4D/KQR9+d5bKFjjIrool1VBuT7EKw==
-X-Received: by 2002:a05:600c:1ca0:b0:40e:8f3e:871a with SMTP id k32-20020a05600c1ca000b0040e8f3e871amr941334wms.89.1706278282254;
-        Fri, 26 Jan 2024 06:11:22 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:eef:5a49:b13d:a655? ([2001:8b0:aba:5f3c:eef:5a49:b13d:a655])
-        by smtp.gmail.com with ESMTPSA id j32-20020a05600c1c2000b0040ecd453e8esm5995223wms.34.2024.01.26.06.11.21
+        d=1e100.net; s=20230601; t=1706278723; x=1706883523;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0mGjoAw/t2O1+BL90Ix2E+LnAUUKxGS9RI4XpuvBDCc=;
+        b=fH5lcaV1zEMSkAZ72bm8NYoGDwDtqY8ns5DzRFGrGIWbW+ipAjsINaksmnAALWRzvW
+         UGyAuOHLX7zDINLJg5N5YEVrOw5/LHVvqKfA1o97G3UFznaIzhG9srquYGrWJ4ZTfLwe
+         ptx6LcpLn+Z27LYue+2FMFRh8WmSQK4RMkMpe1zk8ok9U+xIuQe6RVz0dluNbOkX/Hei
+         8rDEXSel/iA2R1irKE+pH7CyWFetGoG6sHyBD7+q3ytjaHWo8e7NQyv9Qtn1gZE61guU
+         GHQ4MszfxpI1Zumpgv9V47sSOvSw6yrO21tn3dJ78PhR9wCcowwlFnRTUzGjcc/epr2R
+         9UNw==
+X-Gm-Message-State: AOJu0YzUHC3wL7g22ke69ELcH/YWzvMcuqPTqSSexFThxFxu0uPxmJj1
+	Rv3hWXk7cknrcTwzM8qMrQdIYGYpRUNtgKhXA++o4LOmRBpmjXZurBblFvvGChY=
+X-Google-Smtp-Source: AGHT+IFlEKwRd/+eI19s9V8oSyRkPonVerzAGrcCxxSDmy7eBo27z9MMNRYbVfRmwc9j6OJkQFahIQ==
+X-Received: by 2002:ac2:544f:0:b0:50e:d3dc:2245 with SMTP id d15-20020ac2544f000000b0050ed3dc2245mr709344lfn.58.1706278722657;
+        Fri, 26 Jan 2024 06:18:42 -0800 (PST)
+Received: from nuoska (87-100-245-199.bb.dnainternet.fi. [87.100.245.199])
+        by smtp.gmail.com with ESMTPSA id cf12-20020a056512280c00b0050ef97ce785sm190261lfb.179.2024.01.26.06.18.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jan 2024 06:11:21 -0800 (PST)
-Message-ID: <7c6c18a0f2163e4303c71b50ede0b2baa9553fcd.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 7/8] oeqa/runtime/rpm: fail tests if test rpm
- file cannot be found
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Date: Fri, 26 Jan 2024 14:11:21 +0000
-In-Reply-To: <20240126133455.2609378-7-alex@linutronix.de>
-References: <20240126133455.2609378-1-alex@linutronix.de>
-	 <20240126133455.2609378-7-alex@linutronix.de>
-Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=mQINBGN1PzgBEADqZynxX+ivalgYtZ+AoHoGynCiJw0lR+H9rC83sj9z38nlKHBCuh8r8KOqelDUf1B73E9oCLjZQVwqKLmao6ZDQYt7utG+h6qGLEgyDfeochYkLwElvRtjhTp0Ks5WPIHUgE4lwfqmsLrHbkEfRYui9eSd+zJpPKTRgQ7WhTGfRaXPEVYn24fWEo637biLyoEop1qaZMoY/mPsflDYDISWgAeunFx63oL9zNAhOWbLIy2uicKq2GyS56CooPzQkpUv7ssQBOqXp/FSuGJ49RV7Npj/eXyEepAh3BtMliJF08rAj07Hpywp3skXku8YcwUAD7TqOnJ4Wr6G8vpJlQKSITIGMBqtq3f8+SwImWEMRVXxDzrmznihOC7qEUWH4tN/AEkz2BJQbGYnp3iQjZqsoqKblyC83/5MCCUHHpDg20HooEWVNTUxUa8dGWaJehKC5fX1276Sm4WLaoqbQwSGCmwS1e+LjO9lFT80WHIELw07iDhQxshNqVLIxCt3pZfWRlf9fHCtxStiQIRrQLAKN7ze+//YjExjkDOt1ZFIsgMmKIQmJ6b8kRAAmQUraTcn4E/hy0mArFLmROyPSc1nD8hQMeELDcjyjEmo7j3qQCsU464v4tcvJVXyqPc4TU1GDQdZBaKP0/jR68aR3ZOvzx99jdocPdHNW4Kpbv6PnQARAQABtDNSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz6JAlcEEwEKAEECGwEFCQPCZwAFCwkIBwIGFQoJCAsCBBYCAwECHgECF4AWIQQRclb3b/q6zLA9Fn+aUMY1GLyygAUCY3VBgQIZAQAKCRCaUMY1GLyygAtOEADglyjAhkCSGGetbs40FJ4
- xdHKck7aaB1FgbpGn9e9/WAeAPC722eJsxhujxgKaS9b7mHcTcWeMP7KFut4yKTDHovt4VbQOd PGqwyUmi8z0yd2ORlT9E3RjEEllpj/Z2Wfzs3H4qR5wz3Rij1BCirDH8LD5yAO8PpIW2N1Y4VbzFDTPX2KtLGQYIraOHZQQe8XjAJnXflVQbzSIbNw14IlVWnF94UwkamxRhhCVAdA4139ebU+R0inaVsG0Bb7GP3KiED4C1I/tj171G4bOsyz3zYkpuV64yuq5pVevLBuCJv1Z/yiBdbB02B+FkosKLWRvoZFa2gqK2xpZT8RvDdkBQTmZTs/hP59mh1QSt4d2p1KsBu7cx2fjRBuf9XVG+uR/XnbD5T1BQRVV641ZNzPTjtE3rEZzR1nsUv+vcFYv0V/FPcLg5f3Ui+4cuYj/xDykMKZlrBIVGExBOJr7Anbzwq8o4nYUsrbFE3Fu88l8/mWrQCkAIZqc2NRyuXplZrDanB9Abi2XmZO0B3Q9wKvzmH0yJyLfswmzrejf3oVOJNEKJP5acPnXfQqAr5F7gdeLvdHbOAtg1iU8GujkOvRA7ad5ahT/1mDzKlkjaf36p4jodsGzPydOks2/jbVZxbZsR1il3BuDXb0agChNXJH4IpcnrjAliBtTKwnEYuLQeLQsUmljaGFyZCBQdXJkaWUgPHJwdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz6JAlQEEwEKAD4WIQQRclb3b/q6zLA9Fn+aUMY1GLyygAUCY3VBEAIbAQUJA8JnAAULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRCaUMY1GLyygA0tD/4l5GVZ1OTKoCsHzQuSUVnyzmSwYmJD7W7E1VeVVvVk5bfFf/w6p3dXfGjhZ8zFackE+RmT3//8kQ+Zs68csd0wjX8klyFXgA5PWP3DxNkejnHCq7wiLouOGC/E9RSUULn1DYb68yPzvdGQBooqPQZORtXzNgM
- NuWDKH+9uvhGbdvURJHCRPTpgcdCo64d+IMzA+XmZUg0P722IyVmB+I2TgjaIRr/NsbsGP4x3u8 TVfJPXmE1IS9nrKEm023ntuy1AH9JlACLZ4LGvpxf8x7ZVKaXXqWOQ1aQ5BCQoOc41AiVUyeiq2wdLRQaNOxbb8+ED34BYLyMjZdII9eovZMbMt7kLSjkbOs/k3s7wtQ2eY7QnSggf8/MWUSUaJzLKHnOBRcqGjdFdlZ0BKXL+v9NrpjcUBsG1TY5XORIahk6Pt1+cPyIsKdycKU4RHtNfwX5fidE8AhU97U04z3tIYs121J4M/EG3bEfOtwDaH7BRTZHK5B05Mks/kX608CwLSJSbX2dSENInh5+dSVQ0egbFbXQGcHFmCCMjYH09hcNUSEyI4OUQHVu8HHQIfvutPqIsZEtJ1K/s3ZD3Zyq35UUiwnCu5hYohX9B0o0TwgDaI85dS2edHy2bnM3a9yuTPiwNYpfR6dp6cg8BM+9qqkJvwp5LiMcZcJC8S5xR3U0FtbQiUmljaGFyZCBQdXJkaWUgPHJwdXJkaWVAcnBzeXMubmV0PokCVAQTAQoAPhYhBBFyVvdv+rrMsD0Wf5pQxjUYvLKABQJjdUEhAhsBBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEJpQxjUYvLKA/iUQAJJkVW2yDzxrH/5szOuG0ZDDH6X6Yrdp+m+F4hHHJQkTYgdRPeoHYKyXNOettdVKrZyEDkztBWkB7Sd7zuVHR3Q4PVTsEh09ZzkqBgN8OevMA7RPHZOa2PYJ8pAx7eTah1whM2eOf+VZGKrW1R9ouTluV7/c4o5loaKuh+t61W2nH6E+lQt3/gKnwj4QmUb5V957ZSHO1cnjtHrd4FFmkYQOCbolEfC25lT9vh4ldY+dILQPcq4at/LEABp4xEgS6R7K4E3cDnjWogrZTiniAUrR7P0SNYv7WCpAbvk4Z9DGCHXpKod
- KjTi3em7xDpqA1Rxd/rV4z9VQJrbpL/oiPCnTW/iCx+eMH70dRk+gHxSU8FWVf+CucFZprvO9UMi tGHLvfpBxfnGDT2EOqOoFOYgYHq7MfSDZT+zM/gBWfHXbyz6W9RYqycwWCIhG5jhMhT2sEWr4FlwmXfogvSqxvKondwPfXsgNT1MdBqa0Hhm0pIJYs4ovKWnvymTraziqSWI2C9X5lPmf6ugNiuzJt5BqlilNHxsej9OC53HfBbkgDONdcJbduW9nrJlIl9OLanB4/fvuqG1ZIS/eFFAkb2YnBBuS2TNz3aPd7vFkOoMU7VegDic/sH23eZPGQm3XWcTYwIY2djBU8Jzyy4mRIOQZMGXb/ygrGXAuIxL2R2O1uFYEY3VB1RIIKoZIzj0DAQcCAwQzkAYGjbS/m2SeumSYfDZKeazIkOpwUxpTQ7kPxz0ijiquKSsEZzlPMFzhA+iBJh2jdCyabi5K+8+v3VZZglbWAwEIB4kCNgQYAQoAIBYhBBFyVvdv+rrMsD0Wf5pQxjUYvLKABQJjdUHVAhsMAAoJEJpQxjUYvLKAr6UQAMyaDatvvCkxvOyFgO6jxLLzbkwl40hTNB/TsG5RdwL6FXnBMzkIa5lEfgV1u2zwu0p7SKWH9J3DSNqYKjUCAfwDEv6aDKrFYqGQZMuke1ZAfKqmWTIYOKYG4vRgvvF1u0aCOrRJiipjEPnrw1LC6eaqpnI3WGJyy8Wgr8aO0RBUO93ax/+Mpw3QG+jQqZjuomBWGvUwsjRtzE9j2QUcGxjyTrocVsR2qjK0boE4jLGJWNreSIgs5Nllww++3l0pabmXhyXqDdoYE1U0WkI/yemsc8ydDtjpeG4uzv9rfd5VUqHoZpuYZ1sc4DTGFrEAoght/9FXWsOFOtX8vZprLFFi7iFNSDChIFEsyuizHOW5wl/PYkGCCMZvwPK61IvCARKwevdnSrle9omYEqjnU/HjVZ/kvtKxn1VN15j1NNF
- 0zgmm+/RfbZFHbeuea/lVInXpNBMDj+pl3VyygUae65DMFWgYVSLtXPTRLVMb2mIxiNpk3T2UcuVW 1XC9LWup6h8jHEJ0zBCPjPyd1tFQ9hHVOJnwRthV+VG3zuBf8sri1TPnz5XjNpu3Q3r/6turvh+Khal2itb980tITH5fDbLUewPiA2jCAgZCkVMQcvYTS4rZCC+hpHSMte4m1n7AcmF9ohhw6tt41AEhwbMh+nRkyjDkY+k/vivg0obC2JpruDMEY3VCGBYJKwYBBAHaRw8BAQdArl5/9Fe2aA9JEc+HRm2rnCl6NMb7DZJLnM0xmQg1ouyJAq0EGAEKACAWIQQRclb3b/q6zLA9Fn+aUMY1GLyygAUCY3VCGAIbAgCBCRCaUMY1GLyygHYgBBkWCAAdFiEEHKt8QO5c0zRDdmiGodJewzbIKeYFAmN1QhgACgkQodJewzbIKeawUgEAzEwjSYf8lXVNcZVYL/4SLX9FEop83Q8+WmwT2rGhA+MBAKga5Fl8afYVHuPlPOxB/M7aQdP8vfYEx/cWmHmQEUICQxQQAJd85C4//BU0FOUPlEQ1vofZGNC1wTzVA7cQtYlIRrgQOmjR4tOFTxEzusA8QvXxOYkMkDlaa/Ai4/nicMqadnWPQ37BmTAW3/O5PVA22mWaC/ZVeG6DGBGVWb/OAwZe9KMxOR6say+bEIM6B6iDgc3V/HNsLWYYPHaj5HebHOKAJ7dqGGUlFV02OrVW5yAaOUEI61cKw0QuwoN1fZgih94EvFicNaLnDVDV64cbOnNyxGlJhbv4WMErtU4RVD3tT1soESmDB4jS2v49reBpsVVXg2G/M1xFO3sUcczHeo5LRaKtXpkXNh4WO3HDT/eb/IWP8Me2YKpwa5dzlrUz0AYi2s+h+LGclOP0Mls0tgS8sQSVdTj/feLk1FSSQGhSKdHMMGTlSsqj7XjToTAnIheq+5sdaY8UCEYu4s6jDiKu6G02HlF
- WpERQ9FmtGo2PVqnMaZy2w9lkNNn8ccyMWpP2EwGuCxONQrc22a7WnCYLTpOukLUSD7ApH7M2Jk8on
- kPGvi48NFq7PWaTkvG3vuSm+eApSToeyz7AVtFt8QOUnHTiNHbuiNpQsDd3y5bLLhU9mIJTbsWNP/72oXV7Tcz7w8zVh2qmuZqhu5qz9rcox3D9unGQ49N3i+CO9c7SqxcLckEjd9o62HsDDpqYv3cdtFNajNsHD8bFU9bb+swCuDMEY3VCRhYJKwYBBAHaRw8BAQdAjoQBsbbnpigttLSFJOFohHY6BGWmjCi520kt0UBBgG+JAjYEGAEKACAWIQQRclb3b/q6zLA9Fn+aUMY1GLyygAUCY3VCRgIbIAAKCRCaUMY1GLyygAQbD/0WyvGz8jA3CTAMTa8yoAlcX73+7aHQaP+DT1PaVU6W85Mm/Bv5JXJ+RWyCCa1jllAWTOhqkOXZ1lXqgislBGtpY22LdwlXW4NGETWwZb79ypR+nayuIPnjOrxkxPOFpcH+wCk9wX0qYi4/8xFTeIZtoty6ayP2bZUZL8aQ91kyUn7nrLmAymPhDq1AAjg+Dkz6DDyzkzXDsY6OY9SpKcWxLkcOm8oXn5B5K5Pl3FaRfYrmX2pAZ6DliQsvPMtXlA01qJ6W4nvRN5ROfjXefNGdyRK8LfJ8BkfDqtZ9/5UrMrW1b7CPA9/7dC5P2jfImtU6R90fz/S4ua2jzeVY2gt7olSDsBqJDOMBPwqEETDROu1+oCIXvdrrZszBu0pTCLV8r+rQqqjICZtK17CEXH3jmDeD/Q6MmAQqeyIhi3uQpGOaveP81WMiC8DDLRXmSuMYOIH/KebzgNnaCQzlQl3a+8tD2qQ48RqzR6JLcKu6h0A6KWItZScfshopNRVsm7FIWM1XUGm1nG6lmPtpVYsXF75hx+YxpAogbzm6fOnUJWFiP1/NVRgtWiii2HG8YCIrEeR3LCUQd/5aYS0CI0cy8WATg/1qkLbcr0lVaCRLT2KZd5WH7tz/4IBanSdCAj6vEfovE5ilWNThQHwg8aPQI6COaHFcTcervMD4Sy
- YNvg==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.0-1 
+        Fri, 26 Jan 2024 06:18:42 -0800 (PST)
+Date: Fri, 26 Jan 2024 16:18:40 +0200
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: Joakim.Tjernlund@infinera.com
+Cc: "alex.kanavin@gmail.com" <alex.kanavin@gmail.com>,
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] oe-selftest
+ reproducible.ReproducibleTests.test_reproducible_builds appears to hardcode
+ important tunable params
+Message-ID: <ZbO_QLpPEv502Ix1@nuoska>
+References: <f2b33f50e7f11903a1b16f9a2f814134da203223.camel@infinera.com>
+ <CANNYZj9Hy670NNEm_vTf8drPuhBWCGtjGbfVvgcnNq_+xgsy5w@mail.gmail.com>
+ <6dc1b2effd68945b83870b24669f9a86eba64515.camel@infinera.com>
+ <CANNYZj-rVN+CNCG6x4VYoPZTcCYwMnhKXzo7kT7zpN9HNvJ7zg@mail.gmail.com>
+ <1f9e50e96714b8ed49f2e1b62ef769a6d4a32edb.camel@infinera.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1f9e50e96714b8ed49f2e1b62ef769a6d4a32edb.camel@infinera.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 Jan 2024 14:11:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194372
+ <openembedded-core@lists.openembedded.org>; Fri, 26 Jan 2024 14:18:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194373
 
-On Fri, 2024-01-26 at 14:34 +0100, Alexander Kanavin wrote:
-> Discovery of the test file was happening in a class initializer.
-> That block of code cannot fail (it's not a test), and so it
-> falls through to completion even if the needed file could not be found.
+Hi,
 
-Is that true? I thought a failure in the setup function just caused all
-the tests in that class not to run?
+On Fri, Jan 26, 2024 at 02:04:18PM +0000, Joakim Tjernlund via lists.openembedded.org wrote:
+> On Fri, 2024-01-26 at 14:33 +0100, Alexander Kanavin via lists.openembedded.org wrote:
+> > On Fri, 26 Jan 2024 at 14:21, Joakim Tjernlund
+> > <Joakim.Tjernlund@infinera.com> wrote:
+> > > I will try workaround these somehow but will not go so far as creating a new MACHINE just to
+> > > run these tests.
+> > 
+> > Why would you need a new machine? You only need a new configuration
+> > template in addition to existing one (e.g.
+> > conf/templates/repro-test/local.conf.sample and bblayer.conf.sample).
+> > Then initialize the build with TEMPLATECONF pointing to that.
+> 
+> Ah, there is an idea. But this will still change the original machine so one cannot switch
+> between normal builds and repro builds in he same tree.
 
-I've no issue with the patch itself, I just was surprised to read that.
+FWIW, I ran into the same issues. Many selftests also have dependencies which only work
+on pure poky distro, machine and build configs. The dependencies to various features
+which break tests are not clearly marked inside the tests.
+
+At least with repro test it is now possible to define different image and recipe
+build targets instead of world builds now but sadly these tests can not be run on
+real product machine configurations and need a vanilla poky machine and/or distro
+configs. I guess patches welcome but not sure into which direction...
 
 Cheers,
 
-Richard
+-Mikko
 
