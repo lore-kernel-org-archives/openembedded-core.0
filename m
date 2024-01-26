@@ -1,99 +1,92 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <chee.yang.lee@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDE02C47DDF
-	for <webhook@archiver.kernel.org>; Fri, 26 Jan 2024 02:18:38 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.6109.1706235518386659686
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1840AC48285
+	for <webhook@archiver.kernel.org>; Fri, 26 Jan 2024 03:14:59 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by mx.groups.io with SMTP id smtpd.web11.7284.1706238894951339775
  for <openembedded-core@lists.openembedded.org>;
- Thu, 25 Jan 2024 18:18:38 -0800
+ Thu, 25 Jan 2024 19:14:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Q6xOty9g;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=U8Zfwwcq;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018d438fda59-a107ff35-047c-4556-a3eb-2005d2694ad3-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1706235517; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=fmoBTS8ao0+Cas04VRyMBWVttE3WI1KHtjqrmae4+aQ=;
-	b=Q6xOty9gkd0GnS7seW8xQXeMXBvhdppjaZgoABNnCpRHFOs4fPPYZrS5cAFDQjYl
-	jn24vRvRT3B45opEI/xe9q/Ec5ejb8+uULLw7++cZZ95UdJ2gDuGHEWyxRA5ahRd4NX
-	XO/gZzgjJE9/3WowdxTmxHPrSjJ1kVs7SHGdLNDQ=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1706235517;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=fmoBTS8ao0+Cas04VRyMBWVttE3WI1KHtjqrmae4+aQ=;
-	b=U8ZfwwcqAg3QLZ6rEQyV4P0WAbiWd/60Inl1ZPnUUWy3dqoBJL/aoW0b4EYreN01
-	cDpXQmwL0g2D1ZrP4XJq/AEP5IPo7lUbbH8/ZGor/MtAUpb7vJRknY6YDW6uTJ9AGIN
-	rCIbUZXtux4mSIT9ARXL4wEJ3GKNIOiQ0xbV1Qr8=
-From: patchtest@automation.yoctoproject.org
-To: Yuta Hayama <hayama@lineo.co.jp>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [RFC PATCH][RESEND] cve-update-nvd2-native: make an error if the DB
- file is not present at the end of do_fetch
-In-Reply-To: 290d833f-f6da-47ec-bfda-7d46400bbc70@lineo.co.jp
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018d438fda59-a107ff35-047c-4556-a3eb-2005d2694ad3-000000@us-west-2.amazonses.com>
-Date: Fri, 26 Jan 2024 02:18:37 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.01.26-54.240.27.23
+ dkim=pass header.i=@intel.com header.s=Intel header.b=kanvEZG2;
+ spf=pass (domain: intel.com, ip: 198.175.65.14, mailfrom: chee.yang.lee@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706238896; x=1737774896;
+  h=from:to:subject:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding;
+  bh=sDoBJFbToJMN4ukOTxi1CIEVjMqdIs/YqWIsgqtrdO8=;
+  b=kanvEZG2+1hrSKpBBb6HtjRoY+vh0EzhyhrOMUhD3bU5xoOV9/w1juiN
+   GZ/rMYO7U01qVXrvqTu/tZOcjTsIr9bTlclZUe+hC9EPNOaYMNx/QFE1Y
+   MPG3rElDEzTCHAO8EMfWTffZ0cIdtmZvPvwZYeBg/vulU9eiaunG1eNlN
+   JvsL9yn4Q7IKEUbL8WeaN5dRqgsmuNV2eXl5nnbDGRUsxmVCfQ/WEe/mE
+   b+K6fphydiWNJYbdCHrTn+DsS1aZ7yWqQy1DC8U+uvgsJji8JnxXB9C30
+   4i90t50gb/Ad8Rm+bWVh/XcNMuTuGZLcDSpdQwTpDL1rMsqIvZzJpLubZ
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="2266472"
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
+   d="scan'208";a="2266472"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2024 19:14:56 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="736553028"
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
+   d="scan'208";a="736553028"
+Received: from andromeda02.png.intel.com ([10.221.253.198])
+  by orsmga003.jf.intel.com with ESMTP; 25 Jan 2024 19:14:54 -0800
+From: chee.yang.lee@intel.com
+To: openembedded-core@lists.openembedded.org
+Subject: [kirkstone][patch 2/3] python3-jinja2: upgrade 3.1.2 -> 3.1.3
+Date: Fri, 26 Jan 2024 10:46:11 +0800
+Message-Id: <20240126024612.358182-2-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20240126024612.358182-1-chee.yang.lee@intel.com>
+References: <20240126024612.358182-1-chee.yang.lee@intel.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 Jan 2024 02:18:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194340
+ <openembedded-core@lists.openembedded.org>; Fri, 26 Jan 2024 03:14:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194342
 
---NextPart
-Content-Type: text/plain
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Changelog:
+==========
+-Fix compiler error when checking if required blocks in parent templates are empty.
+-xmlattr filter does not allow keys with spaces.
+-Make error messages stemming from invalid nesting of {% trans %} blocks more helpful
 
+(cherry picked from OE-Core rev: 8a0524464583d69df7746253f5020c2c125a8e1f)
+
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 ---
-Testing patch /home/patchtest/share/mboxes/RFC-RESEND-cve-update-nvd2-native-make-an-error-if-the-DB-file-is-not-present-at-the-end-of-do_fetch.patch
+ .../python/{python3-jinja2_3.1.2.bb => python3-jinja2_3.1.3.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-jinja2_3.1.2.bb => python3-jinja2_3.1.3.bb} (92%)
 
-FAIL: test shortlog length: Edit shortlog so that it is 90 characters or less (currently 99 characters) (test_mbox.TestMbox.test_shortlog_length)
+diff --git a/meta/recipes-devtools/python/python3-jinja2_3.1.2.bb b/meta/recipes-devtools/python/python3-jinja2_3.1.3.bb
+similarity index 92%
+rename from meta/recipes-devtools/python/python3-jinja2_3.1.2.bb
+rename to meta/recipes-devtools/python/python3-jinja2_3.1.3.bb
+index 80e0b85670..068e21bf5f 100644
+--- a/meta/recipes-devtools/python/python3-jinja2_3.1.2.bb
++++ b/meta/recipes-devtools/python/python3-jinja2_3.1.3.bb
+@@ -4,7 +4,7 @@ HOMEPAGE = "https://pypi.org/project/Jinja2/"
+ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=5dc88300786f1c214c1e9827a5229462"
+ 
+-SRC_URI[sha256sum] = "31351a702a408a9e7595a8fc6150fc3f43bb6bf7e319770cbc0db9df9437e852"
++SRC_URI[sha256sum] = "ac8bd6544d4bb2c9792bf3a159e80bba8fda7f07e81bc3aed565432d5925ba90"
+ 
+ PYPI_PACKAGE = "Jinja2"
+ 
+-- 
+2.37.3
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
