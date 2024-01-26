@@ -1,159 +1,87 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C119C47DDF
-	for <webhook@archiver.kernel.org>; Fri, 26 Jan 2024 14:21:22 +0000 (UTC)
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.web11.17150.1706278877352082901
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84740C47422
+	for <webhook@archiver.kernel.org>; Fri, 26 Jan 2024 14:21:32 +0000 (UTC)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.web11.17157.1706278887751096557
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Jan 2024 06:21:17 -0800
+ Fri, 26 Jan 2024 06:21:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=wCSDrgqr;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.44, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-290da27f597so230880a91.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jan 2024 06:21:17 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=k1WSJSGj;
+ spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5100cb64e7dso714770e87.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jan 2024 06:21:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1706278876; x=1706883676; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lb+Umo3LGICSbiS+c1tqAOR5PWnRMuQM20z28T9pU7M=;
-        b=wCSDrgqreKAXMBB8+URRzIujeuUKB/q4jpV0ACIvaxRpLw83idlE9a9r2lgsKklu2D
-         xLzgrSWhgn8VvddYBtDPA02iATJYGxEQdGiiLn6Bdhwes8rj9uTAyaN2DSko6KUpgwGu
-         pYtU3+8yY5/zFv1E9kX1w+8kKffcYRJXkW4lfCzAfIDl3bMQCx9H6j3tneKXo6eHFFE3
-         SJ+V+CmfEVMjtLuEi/6jbkyGNEjPMVnVTZFKZjooVRpveInuuB+p4de0uPYQlHpJpstD
-         UkKgUmz9JqLparQiWpGcngZQXMAeczMQx+pdqQloUM6ovPI2/R5zlnx/OU0rV21NDKsf
-         8CHg==
+        d=gmail.com; s=20230601; t=1706278886; x=1706883686; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=+GKve0wYAkcHR3uzh1qAf9aCXSYVTwY6IN16HxB6Sts=;
+        b=k1WSJSGjfCLQY1rp/pQHoWF1JIBvW0ITUFeI6N4j5l7IyfVeoxbz26aFx51mTqaP8K
+         vhRvgqnsRsK2adAIDG2o3lEtHg1NAcS9086BsPhQS9zvlbQ+uhJ/wdps45/4RKMuwom4
+         M2ijNr/bjwdkalnQSpRyPco8dfrjlYnJTJzzUhIGAuB6PAxuxOQQOaaOg1FCR1P9CtjF
+         wDt80bQ0TslC6337XYQya491iaVtsfOSgRzLuqVPe5f9HqELda6CPcb/LrDF6vVgsSiu
+         pmvu/gHQDfKAHUSiz3ieNWjtXTWOgTkWT8wuUOC5mIYorpIHU3e9xDiQebQogeUH8/Dn
+         lwxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706278876; x=1706883676;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lb+Umo3LGICSbiS+c1tqAOR5PWnRMuQM20z28T9pU7M=;
-        b=hrd4y/mppAsQ1Y8YOnmSLUA7By0pVR6VueXaZGtNPeEo4FPc1cTllmKwnzBH78PjJl
-         YqnSHeI2/HfyrCL0HyNYjelmpNK5rtGTetgufQD/1Yfb28l5osDmJ/2WlA8oKo/jHp5V
-         rh+ycsM2bywAg/TWA4ybfrfoxoxb9K92fZfzQe21EbFCeMvy4PMLdig+rY0KhD12u0Tv
-         jQaV/RPhL5Jp1TowB8UaHiY8X061AgRjEEEJRLfY0qS5GhX24czOW9QG+SC8ubdfwdJ9
-         i3MouGRn5jz+5s7xk5dVTjH2IvVLCpdZg3QxLNEUQMm2aC+FZs4PosJ9He3cVbXU30/k
-         AQTg==
-X-Gm-Message-State: AOJu0YwQltbptPX+IneszXQrA/wkyzEd4r/4pB5EyipltjIcDxmD805/
-	QwVdsEZv34l4uEXP7W1ehUCHW8YZyJESIfruRli7FWVq8IYhEH4pGX1Ttnm2YLYsLMKmMAixIZk
-	QD6w=
-X-Google-Smtp-Source: AGHT+IFGsIpi2RfvXEpImmqjSn5wLLN58/Flurz1P0BoJSHT2Fchna/rIDZEHAe2SHipTPPOhPFAUA==
-X-Received: by 2002:a17:90b:2290:b0:290:505:248e with SMTP id kx16-20020a17090b229000b002900505248emr794163pjb.67.1706278876005;
-        Fri, 26 Jan 2024 06:21:16 -0800 (PST)
-Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id rr14-20020a17090b2b4e00b0029095a896c8sm1136458pjb.40.2024.01.26.06.21.14
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jan 2024 06:21:15 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 8/8] systemtap: Fix build with gcc-12
-Date: Fri, 26 Jan 2024 04:20:41 -1000
-Message-Id: <18ae4fea4bf8681f9138d21124589918e336ff6b.1706278642.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1706278642.git.steve@sakoman.com>
-References: <cover.1706278642.git.steve@sakoman.com>
+        d=1e100.net; s=20230601; t=1706278886; x=1706883686;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+GKve0wYAkcHR3uzh1qAf9aCXSYVTwY6IN16HxB6Sts=;
+        b=S5d/gRqqQQ9K4a8GOIrGAwRAmUBzqxuoqp1U4E9vq0gQ9uMJRsnYziE1OItdu69MA1
+         qXwEMuwDcWaGRex/ogjfwNRd77IgsMeMTu4sIAr5pXU6t4XKTIZSIbc1qX5Uz2bOFwTg
+         QluCEnpzyqjCMfq+sYk0YH0cEsw7F/m82Qgjc5HuIELzs8QLsB/ngfwyDe+bsugMHhPY
+         hm8V1RJsu6S2PWmawypoKwVIwjFYHKfTHZtk2Guge6ZUyRfUoSuAW8+Ey3BwQOaT00H1
+         kpftpX6ylDVc4UE2mhTh3jcs7IGiY4OEXlKmlJJq62tVFTrnXR58RzPybjYuKrPbH+vO
+         eWIA==
+X-Gm-Message-State: AOJu0YzMJ9ke+uN1aqI6XyhcCAfzysLg/wbhni+E2dOya/9X26dcL1Ng
+	8r/RnLbbSs8UKALdAsSqx57H3uqj6UNsz/dCm664B6ue/WKYn34RZ+HCLLoqmtIEg+kJNfrpH8+
+	LPgeKGAkLzgIrT5VeE5pKtijdxAQ=
+X-Google-Smtp-Source: AGHT+IFzIi+GehE5mDuH9r3FkxQ1RtkYRXiFmzn3LJFnZh25HTSylkTmOSpBuLVPKQ+AQ1X3qler18N/9kqbmJdGNL0=
+X-Received: by 2002:a05:6512:6d5:b0:510:b6e:3ecc with SMTP id
+ u21-20020a05651206d500b005100b6e3eccmr446012lff.193.1706278885627; Fri, 26
+ Jan 2024 06:21:25 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240126133455.2609378-1-alex@linutronix.de> <20240126133455.2609378-7-alex@linutronix.de>
+ <7c6c18a0f2163e4303c71b50ede0b2baa9553fcd.camel@linuxfoundation.org>
+In-Reply-To: <7c6c18a0f2163e4303c71b50ede0b2baa9553fcd.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 26 Jan 2024 15:21:13 +0100
+Message-ID: <CANNYZj9SNJ3qRFGzkMgVQ=iyjRE9poSQ=HXJ10-q6VR7bW8hBQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 7/8] oeqa/runtime/rpm: fail tests if test rpm
+ file cannot be found
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org, 
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 Jan 2024 14:21:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194382
+ <openembedded-core@lists.openembedded.org>; Fri, 26 Jan 2024 14:21:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194383
 
-From: Khem Raj <raj.khem@gmail.com>
+On Fri, 26 Jan 2024 at 15:11, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Fri, 2024-01-26 at 14:34 +0100, Alexander Kanavin wrote:
+> > Discovery of the test file was happening in a class initializer.
+> > That block of code cannot fail (it's not a test), and so it
+> > falls through to completion even if the needed file could not be found.
+>
+> Is that true? I thought a failure in the setup function just caused all
+> the tests in that class not to run?
 
-Backport a patch to fix
-| ../git/util.cxx:1766:56: error: 'std::pointer_to_unary_function<_Arg, _Result> std::ptr_fun(_Result (*)(_Arg)) [with _Arg = int; _Result = int]' is deprecated: use 'std::function' instea
-d [-Werror=deprecated-declarations]
-|  1766 |                        std::not1(std::ptr_fun<int, int>(std::isspace))));
-|       |                                  ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~
+I think I didn't formulate it well enough. The rpm test initalizer was
+written in a way that it would never fail, even if the needed rpm file
+actually could not be discovered and the variable for it (used by test
+cases) would remain None.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 0b360d12203aafd8bf96433d11221a6ed910a11f)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- ...ility-re-tweak-for-rhel6-use-functio.patch | 49 +++++++++++++++++++
- .../recipes-kernel/systemtap/systemtap_git.bb |  4 +-
- 2 files changed, 52 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-gcc12-c-compatibility-re-tweak-for-rhel6-use-functio.patch
+The reason for it being that way is that the initializer runs even
+when the build is not-rpm based (e.g. ipk/deb only), and there's no
+way at that point to detect absence of rpm and skip the whole class
+(various decorators can be attached to test cases only).
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-gcc12-c-compatibility-re-tweak-for-rhel6-use-functio.patch b/meta/recipes-kernel/systemtap/systemtap/0001-gcc12-c-compatibility-re-tweak-for-rhel6-use-functio.patch
-new file mode 100644
-index 0000000000..f885c44460
---- /dev/null
-+++ b/meta/recipes-kernel/systemtap/systemtap/0001-gcc12-c-compatibility-re-tweak-for-rhel6-use-functio.patch
-@@ -0,0 +1,49 @@
-+From f199d1982ef8a6c6d5c06c082d057b8793bcc6aa Mon Sep 17 00:00:00 2001
-+From: Serhei Makarov <serhei@serhei.io>
-+Date: Fri, 21 Jan 2022 18:21:46 -0500
-+Subject: [PATCH] gcc12 c++ compatibility re-tweak for rhel6: use function
-+ pointer instead of lambdas instead of ptr_fun<>
-+
-+Saving 2 lines in ltrim/rtrim is probably not a good reason to drop
-+compatibility with the RHEL6 system compiler.  Actually declaring a
-+named function and passing the function pointer is compatible with
-+everything.
-+
-+Upstream-Status: Backport [https://sourceware.org/git/?p=systemtap.git;a=commit;h=f199d1982ef8a6c6d5c06c082d057b8793bcc6aa]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ util.cxx | 13 ++++++++-----
-+ 1 file changed, 8 insertions(+), 5 deletions(-)
-+
-+--- a/util.cxx
-++++ b/util.cxx
-+@@ -1757,21 +1757,24 @@ flush_to_stream (const string &fname, os
-+   return 1; // Failure
-+ }
-+ 
-++int
-++not_isspace(unsigned char c)
-++{
-++  return !std::isspace(c);
-++}
-++
-+ // trim from start (in place)
-+ void
-+ ltrim(std::string &s)
-+ {
-+-  s.erase(s.begin(),
-+-	  std::find_if(s.begin(), s.end(),
-+-		       std::not1(std::ptr_fun<int, int>(std::isspace))));
-++  s.erase(s.begin(), std::find_if(s.begin(), s.end(), not_isspace));
-+ }
-+ 
-+ // trim from end (in place)
-+ void
-+ rtrim(std::string &s)
-+ {
-+-  s.erase(std::find_if(s.rbegin(), s.rend(),
-+-	  std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
-++  s.erase(std::find_if(s.rbegin(), s.rend(), not_isspace).base(), s.end());
-+ }
-+ 
-+ // trim from both ends (in place)
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.bb b/meta/recipes-kernel/systemtap/systemtap_git.bb
-index bdd8fb83b0..a8b2cf1eac 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.bb
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.bb
-@@ -6,7 +6,9 @@ HOMEPAGE = "https://sourceware.org/systemtap/"
- 
- require systemtap_git.inc
- 
--SRC_URI += "file://0001-improve-reproducibility-for-c-compiling.patch"
-+SRC_URI += "file://0001-improve-reproducibility-for-c-compiling.patch \
-+            file://0001-gcc12-c-compatibility-re-tweak-for-rhel6-use-functio.patch \
-+           "
- 
- DEPENDS = "elfutils"
- 
--- 
-2.34.1
-
+Alex
 
