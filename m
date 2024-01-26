@@ -1,85 +1,157 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <rpjday@crashcourse.ca>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FC93C47422
-	for <webhook@archiver.kernel.org>; Fri, 26 Jan 2024 12:18:41 +0000 (UTC)
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
- by mx.groups.io with SMTP id smtpd.web11.14352.1706271517092657714
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2611C47422
+	for <webhook@archiver.kernel.org>; Fri, 26 Jan 2024 12:47:01 +0000 (UTC)
+Received: from cpanel10.indieserve.net (cpanel10.indieserve.net [199.212.143.9])
+ by mx.groups.io with SMTP id smtpd.web11.14848.1706273215260153686
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Jan 2024 04:18:37 -0800
+ Fri, 26 Jan 2024 04:46:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=aWFwWwh8;
- spf=pass (domain: gmail.com, ip: 209.85.167.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5101f2dfd97so430037e87.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jan 2024 04:18:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706271515; x=1706876315; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=eXbv6RSOPKYWpHeX1GNiCskHHseLOPDkzdEUmc1W5a0=;
-        b=aWFwWwh8awRC/0V4IlnWwuL1es9lIeE2LPi9kiqui2OZG/Ft6/y9fQE+dl0mFzEdIm
-         STX/UYGBRWhpvIFJSgi17E38QE4v1dm4YIRCk+g6iGOedOXCYL5sekwujgfzsjP1ZDhu
-         20PO/n4j/GjLH9mQiZmvIkdmGw/iOMqVsFfqfBCSc1piYJM8FzD72g/geqkS0en+yfzB
-         Eq1+jumOPGGoCGxvkAQzm1LByUOTO/sF5TB9aAYKZmnvUx8lsHqwyivtgdRGtaRFdRsc
-         ejiaT5MblnJULr9QwmhKUymJpu9OgorvDhzLfbLVJah4y8XNUejDGGQDYoyEWTg2NRWH
-         6+AQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706271515; x=1706876315;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=eXbv6RSOPKYWpHeX1GNiCskHHseLOPDkzdEUmc1W5a0=;
-        b=CCVOKF6+qP7EMiOLTl7HulPqgFMEzTRe24n4yxTIajtF5MiOakcAXWUUHxvIpBqYk8
-         Sd4iemZtSWOdat1LGsc5FJFRpmyrMgJYdWM4jiNQLNtSBR+eqf55TFcc44ZFYM4fzBXS
-         ifpRAdsT9ywQeNhX/gLK/aB79JifnssugBjPG+lJorb/F4MCRjy71cwpUpXzM98QrODY
-         gi+tA6OQQ2k2lDeHlwCf38Bj2mETp9zn6TS1gRlBSbbV46qKrtPI4R3BUpb1erR61mPG
-         QPqRAek3ranZff9fRfdqbECni11fuEhFECZ1DraIrPMOVEqTgsI4vwXnmG5FbCzmInYH
-         qL+w==
-X-Gm-Message-State: AOJu0Yx8c4+uhGNTNdrGty27q46BZTNWmQNUOOB3XxmWy9Af23vuYeFH
-	aSTUA7TqqZJHtf6oUoE0A5eV+SM/Ucx/QEdNGcMx0tDWkYmww3/6ynoeRyi5ud6C7nT/NP8GOXE
-	TgyTVAqa20Wqsm4ltV+R6O2GQoLY=
-X-Google-Smtp-Source: AGHT+IFnplT3KwF12cSKoHlN8lExidxiPpoKwY/dSE7B3Wu7Y7d8gbLEYfc4KR5eom14jdFsEX9+edzGtUR6IefAQQo=
-X-Received: by 2002:ac2:4434:0:b0:50e:3649:8649 with SMTP id
- w20-20020ac24434000000b0050e36498649mr587822lfl.61.1706271514852; Fri, 26 Jan
- 2024 04:18:34 -0800 (PST)
+ dkim=pass header.i=@crashcourse.ca header.s=default header.b=myoE4Fqx;
+ spf=pass (domain: crashcourse.ca, ip: 199.212.143.9, mailfrom: rpjday@crashcourse.ca)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=crashcourse.ca; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
+	To:From:Date:Sender:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=cEPuUknD9zlQgEcH8JelguRLh2nZmTHm1wllwguaOog=; b=myoE4FqxDrnJ62tQWqYbP+SkLv
+	p/6UqpicX0O390N58jLgqyHy/Fc03WGfKNI05B4/8wC5zw3sFZ9aVqvi620x/qhS6BCQt1s5s52dB
+	UzdhWsk83MoAQqNaUSd0yaGYmrx/OtKFnqskmE6KIJqB8iuesxMnUG2qHrjkwuZzD3uL8HcQUDrlh
+	y4/lsooy9DiFNKEPkm9r+eoigjAc88rN3BcI2xTA36q1uoonpuLswX06Ix3km7LtpfskJkepQQuvU
+	Dq6GZUDFvkJOToEfyNAHBl8R0ESefaSlCbByTKW7hfBNwES2pfllTOEZRhYdlNmZUvRnTItjSdX5r
+	n54Mvf9Q==;
+Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.102.5]:50298 helo=fedora)
+	by cpanel10.indieserve.net with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <rpjday@crashcourse.ca>)
+	id 1rTLbc-009zgb-2X
+	for openembedded-core@lists.openembedded.org;
+	Fri, 26 Jan 2024 07:46:54 -0500
+Date: Fri, 26 Jan 2024 07:46:42 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: trying to create simple example of "externalsrc" recipe
+Message-ID: <436ae552-2fad-8de3-9435-b03df2d2a823@crashcourse.ca>
 MIME-Version: 1.0
-References: <f2b33f50e7f11903a1b16f9a2f814134da203223.camel@infinera.com>
-In-Reply-To: <f2b33f50e7f11903a1b16f9a2f814134da203223.camel@infinera.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 26 Jan 2024 13:18:23 +0100
-Message-ID: <CANNYZj9Hy670NNEm_vTf8drPuhBWCGtjGbfVvgcnNq_+xgsy5w@mail.gmail.com>
-Subject: Re: [OE-core] oe-selftest reproducible.ReproducibleTests.test_reproducible_builds
- appears to hardcode important tunable params
-To: Joakim.Tjernlund@infinera.com
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel10.indieserve.net
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Get-Message-Sender-Via: cpanel10.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: cpanel10.indieserve.net: rpjday@crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 Jan 2024 12:18:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194355
+ <openembedded-core@lists.openembedded.org>; Fri, 26 Jan 2024 12:47:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194356
 
-On Fri, 26 Jan 2024 at 12:09, Joakim Tjernlund via
-lists.openembedded.org
-<Joakim.Tjernlund=infinera.com@lists.openembedded.org> wrote:
-> These are hardcoded settings too of which some could need need tewaking, DISTRO_FEATURES for sure.
->
-> So reproducible builds does not seem usable outside poky or am I missing something here ?
 
-That is not the intention. If there are obstacles to reusability, we'd
-like to eliminate them.
+  i've been trying to put together a really basic example of a recipe
+using "externalsrc" that refers to some local source, and cannot get
+it to work. so here's what i'm trying.
 
-To comply with selftest/context.py things you likely need to create a
-special configuration with these extra settings, and perhaps save it
-as a config template, but that doesn't mean making a special distro.
-There are various reasons for all these restrictions for running
-selftests and some of it probably don't apply or can be solved better,
-but as of now they're enforced.
+  as a demo, i selected a random simple OE recipe -- in this case,
+"dmidecode", whose recipe you can see here (and which seems
+conveniently simple for demonstration purposes):
 
-systemd has been dropped from DISTRO_FEATURES in master, so you can
-backport that change if that's what is problematic. You can also copy
-and tweak the whole repro selftest if it's truly unsuitable.
+https://git.openembedded.org/openembedded-core/tree/meta/recipes-devtools/dmidecode/dmidecode_3.5.bb?h=master
 
-Alex
+so to start, since the SRC_URI is a tarball, i downloaded the tarball
+so that i have the equivalent local source here:
+
+  $ ls /home/rpjday/oe/srcs/dmidecode-3.5
+  AUTHORS       dmioem.h     Makefile     util.c
+  biosdecode.c  dmiopt.c     man          util.h
+  config.h      dmiopt.h     NEWS         version.h
+  dmidecode.c   dmioutput.c  ownership.c  vpddecode.c
+  dmidecode.h   dmioutput.h  README       vpdopt.c
+  dmioem.c      LICENSE      types.h      vpdopt.h
+  $
+
+  as my first test, i set the build to the source directory in my
+dmid_1.0.bb recipe file:
+
+  inherit externalsrc
+  EXTERNALSRC = "/home/rpjday/oe/srcs/dmidecode-3.5"
+  EXTERNALSRC_BUILD = "${EXTERNALSRC}"
+
+  do_install() {
+    oe_runmake \
+        DESTDIR="${D}" \
+        prefix="${prefix}" \
+        sbindir="${sbindir}" \
+        docdir="${docdir}/${BPN}" \
+        mandir="${mandir}" \
+        install
+
+then ran:
+
+  $ bitbake dmid
+
+sure enough, that build in the source directory, generating:
+
+  AUTHORS       dmidecode.o  dmioutput.h  ownership*   version.h
+  biosdecode*   dmioem.c     dmioutput.o  ownership.c  vpddecode*
+  biosdecode.c  dmioem.h     LICENSE      ownership.o  vpddecode.c
+  biosdecode.o  dmioem.o     Makefile     README       vpddecode.o
+  config.h      dmiopt.c     man/         types.h      vpdopt.c
+  dmidecode*    dmiopt.h     NEWS         util.c       vpdopt.h
+  dmidecode.c   dmiopt.o     oe-logs@     util.h       vpdopt.o
+  dmidecode.h   dmioutput.c  oe-workdir@  util.o
+
+  great, but i really want to build out-of-tree to preserve the
+pristine state of the source, so i followed the instructions and
+allowed EXTERNALSRC_BUILD to default to ${WORKDIR}/${BPN}-${PV}:
+
+  inherit externalsrc
+  EXTERNALSRC = "/home/rpjday/oe/srcs/dmidecode-3.5"
+  # EXTERNALSRC_BUILD = "${EXTERNALSRC}"
+
+so I did a "make clean" in the source directory to start with the
+pristine source (also deleted the "oe-" symlinks), then:
+
+$ bitbake dmid
+... snip ...
+| NOTE: make -j 8
+DESTDIR=/home/rpjday/oe/builds/qemux86/tmp/work/core2-64-poky-linux/dmid/1.0/image
+prefix=/usr sbindir=/usr/sbin docdir=/usr/share/doc/dmid
+mandir=/usr/share/man install
+| make: *** No rule to make target 'install'.  Stop.
+| ERROR: oe_runmake failed
+
+  from "bitbake -e dmid", i can see:
+
+S="/home/rpjday/oe/srcs/dmidecode-3.5"
+WORKDIR="/home/rpjday/oe/builds/qemux86/tmp/work/core2-64-poky-linux/dmid/1.0"
+B="/home/rpjday/oe/builds/qemux86/tmp/work/core2-64-poky-linux/dmid/1.0/dmid-1.0"
+
+but there is nothing unloaded into the B directory; hence, the
+failure. in fact, the log file for the compile step is:
+
+DEBUG: Executing python function externalsrc_compile_prefunc
+NOTE: dmid: compiling from external source tree
+/home/rpjday/oe/srcs/dmidecode-3.5
+DEBUG: Python function externalsrc_compile_prefunc finished
+DEBUG: Executing python function fetcher_hashes_dummyfunc
+DEBUG: Python function fetcher_hashes_dummyfunc finished
+DEBUG: Executing shell function do_compile
+NOTE: nothing to compile
+DEBUG: Shell function do_compile finished
+
+  so ... what have i overlooked? did i grab an inappropriate sample
+recipe that does not support building out-of-tree? the build directory
+is empty, so i'm perusing the externalsrc.bbclass to see what i have
+misunderstood.
+
+rday
+
+
 
