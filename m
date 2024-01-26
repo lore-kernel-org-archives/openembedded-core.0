@@ -1,87 +1,126 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84740C47422
-	for <webhook@archiver.kernel.org>; Fri, 26 Jan 2024 14:21:32 +0000 (UTC)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
- by mx.groups.io with SMTP id smtpd.web11.17157.1706278887751096557
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6A59C47422
+	for <webhook@archiver.kernel.org>; Fri, 26 Jan 2024 14:22:52 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+ by mx.groups.io with SMTP id smtpd.web11.17200.1706278962601283660
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Jan 2024 06:21:28 -0800
+ Fri, 26 Jan 2024 06:22:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=k1WSJSGj;
- spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5100cb64e7dso714770e87.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jan 2024 06:21:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706278886; x=1706883686; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=+GKve0wYAkcHR3uzh1qAf9aCXSYVTwY6IN16HxB6Sts=;
-        b=k1WSJSGjfCLQY1rp/pQHoWF1JIBvW0ITUFeI6N4j5l7IyfVeoxbz26aFx51mTqaP8K
-         vhRvgqnsRsK2adAIDG2o3lEtHg1NAcS9086BsPhQS9zvlbQ+uhJ/wdps45/4RKMuwom4
-         M2ijNr/bjwdkalnQSpRyPco8dfrjlYnJTJzzUhIGAuB6PAxuxOQQOaaOg1FCR1P9CtjF
-         wDt80bQ0TslC6337XYQya491iaVtsfOSgRzLuqVPe5f9HqELda6CPcb/LrDF6vVgsSiu
-         pmvu/gHQDfKAHUSiz3ieNWjtXTWOgTkWT8wuUOC5mIYorpIHU3e9xDiQebQogeUH8/Dn
-         lwxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706278886; x=1706883686;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+GKve0wYAkcHR3uzh1qAf9aCXSYVTwY6IN16HxB6Sts=;
-        b=S5d/gRqqQQ9K4a8GOIrGAwRAmUBzqxuoqp1U4E9vq0gQ9uMJRsnYziE1OItdu69MA1
-         qXwEMuwDcWaGRex/ogjfwNRd77IgsMeMTu4sIAr5pXU6t4XKTIZSIbc1qX5Uz2bOFwTg
-         QluCEnpzyqjCMfq+sYk0YH0cEsw7F/m82Qgjc5HuIELzs8QLsB/ngfwyDe+bsugMHhPY
-         hm8V1RJsu6S2PWmawypoKwVIwjFYHKfTHZtk2Guge6ZUyRfUoSuAW8+Ey3BwQOaT00H1
-         kpftpX6ylDVc4UE2mhTh3jcs7IGiY4OEXlKmlJJq62tVFTrnXR58RzPybjYuKrPbH+vO
-         eWIA==
-X-Gm-Message-State: AOJu0YzMJ9ke+uN1aqI6XyhcCAfzysLg/wbhni+E2dOya/9X26dcL1Ng
-	8r/RnLbbSs8UKALdAsSqx57H3uqj6UNsz/dCm664B6ue/WKYn34RZ+HCLLoqmtIEg+kJNfrpH8+
-	LPgeKGAkLzgIrT5VeE5pKtijdxAQ=
-X-Google-Smtp-Source: AGHT+IFzIi+GehE5mDuH9r3FkxQ1RtkYRXiFmzn3LJFnZh25HTSylkTmOSpBuLVPKQ+AQ1X3qler18N/9kqbmJdGNL0=
-X-Received: by 2002:a05:6512:6d5:b0:510:b6e:3ecc with SMTP id
- u21-20020a05651206d500b005100b6e3eccmr446012lff.193.1706278885627; Fri, 26
- Jan 2024 06:21:25 -0800 (PST)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Xq6CRcaf;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 18587FF80E;
+	Fri, 26 Jan 2024 14:22:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1706278960;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7xDktYb+iGGQu7B0LihuzgS0TcGO/uvNN5w+8++AQrY=;
+	b=Xq6CRcafqYnnjqYyd1f5h8Wefp443+oQU3T1wzcmP7KLtIL4jjEfkgmCB7oH8PPUDFJdQi
+	FPNOfCA/rJZgPAiwwT3AoTwCrsbPNxOvh8kmpjQH9r1F6/smWsgHMSquKJnkv8P5C9vaAY
+	gRDY/Q3MvDQDK4JKBfYpAdv9H70u87pT3NL4FquMyxbkwV6QDOcBYkyjXcVEQSexmeeRFW
+	RyYliDqgbCjC3ynVuZtjuoPY23G6Uznn6Ku+NraCBjHm5l7pXNX48psOFQBVAq9jHRqpxT
+	JpZDxtPDEzYPG2MgnuE5vC7RfU9uCckdkT0lpAQ3cql4QLwMXh/OmRRaE+8hig==
+Date: Fri, 26 Jan 2024 15:22:38 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Adithya Balakumar <adithya.balakumar@toshiba-tsip.com>
+Cc: openembedded-core@lists.openembedded.org,
+	shivanand.kunijadar@toshiba-tsip.com,
+	sai.sathujoda@toshiba-tsip.com, dinesh.kumar@toshiba-tsip.com,
+	kazuhiro3.hayashi@toshiba.co.jp, jan.kiszka@siemens.com
+Subject: Re: [OE-Core][PATCH v1] wic: implement reproducible Disk GUID
+Message-ID: <20240126142238d9357689@mail.local>
+References: <20240122122521.2605264-1-Adithya.Balakumar@toshiba-tsip.com>
 MIME-Version: 1.0
-References: <20240126133455.2609378-1-alex@linutronix.de> <20240126133455.2609378-7-alex@linutronix.de>
- <7c6c18a0f2163e4303c71b50ede0b2baa9553fcd.camel@linuxfoundation.org>
-In-Reply-To: <7c6c18a0f2163e4303c71b50ede0b2baa9553fcd.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 26 Jan 2024 15:21:13 +0100
-Message-ID: <CANNYZj9SNJ3qRFGzkMgVQ=iyjRE9poSQ=HXJ10-q6VR7bW8hBQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 7/8] oeqa/runtime/rpm: fail tests if test rpm
- file cannot be found
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240122122521.2605264-1-Adithya.Balakumar@toshiba-tsip.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 Jan 2024 14:21:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194383
+ <openembedded-core@lists.openembedded.org>; Fri, 26 Jan 2024 14:22:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194384
 
-On Fri, 26 Jan 2024 at 15:11, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Fri, 2024-01-26 at 14:34 +0100, Alexander Kanavin wrote:
-> > Discovery of the test file was happening in a class initializer.
-> > That block of code cannot fail (it's not a test), and so it
-> > falls through to completion even if the needed file could not be found.
->
-> Is that true? I thought a failure in the setup function just caused all
-> the tests in that class not to run?
+Hello,
 
-I think I didn't formulate it well enough. The rpm test initalizer was
-written in a way that it would never fail, even if the needed rpm file
-actually could not be discovered and the variable for it (used by test
-cases) would remain None.
+This causes oe-selftest failures:
 
-The reason for it being that way is that the initializer runs even
-when the build is not-rpm based (e.g. ipk/deb only), and there's no
-way at that point to detect absence of rpm and skip the whole class
-(various decorators can be attached to test cases only).
+https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/6342/steps/15/logs/stdio
 
-Alex
+2024-01-25 02:21:53,130 - oe-selftest - INFO - RESULTS - runqemu.RunqemuTests.test_boot_machine_slirp_qcow2: ERROR (1028.13s)
+2024-01-25 02:21:53,131 - oe-selftest - INFO - RESULTS - runqemu.RunqemuTests.test_boot_recipe_image_vdi: ERROR (1031.11s)
+2024-01-25 02:21:53,131 - oe-selftest - INFO - RESULTS - runqemu.RunqemuTests.test_boot_recipe_image_vmdk: ERROR (1075.13s)
+2024-01-25 02:21:53,131 - oe-selftest - INFO - RESULTS - wic.Wic2.test_biosplusefi_plugin_qemu: ERROR (1037.31s)
+2024-01-25 02:21:53,131 - oe-selftest - INFO - RESULTS - wic.Wic2.test_efi_plugin_unified_kernel_image_qemu: ERROR (1953.51s)
+2024-01-25 02:21:53,131 - oe-selftest - INFO - RESULTS - wic.Wic2.test_rawcopy_plugin_qemu: ERROR (1187.55s)
+
+On 22/01/2024 17:55:21+0530, Adithya Balakumar wrote:
+> From: Adithya Balakumar <adithya.balakumar@toshiba-tsip.com>
+> 
+> GPT based disks have a disk guid apart from the 32-bit disk identifier.
+> This commit implements reproducible disk guid by using SOURCE_DATE_EPOCH (if available) value as a random seed
+> 
+> Signed-off-by: Adithya Balakumar <adithya.balakumar@toshiba-tsip.com>
+> ---
+>  scripts/lib/wic/plugins/imager/direct.py | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+> 
+> diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
+> index 9b619e41c1..d0f8481c2e 100644
+> --- a/scripts/lib/wic/plugins/imager/direct.py
+> +++ b/scripts/lib/wic/plugins/imager/direct.py
+> @@ -530,6 +530,21 @@ class PartitionedImage():
+>          exec_native_cmd("parted -s %s mklabel %s" % (device, ptable_format),
+>                          self.native_sysroot)
+>  
+> +    def _write_disk_guid(self):
+> +        if os.getenv('SOURCE_DATE_EPOCH'):
+> +            if self.ptable_format in ('gpt', 'gpt-hybrid'):
+> +                self.disk_guid = uuid.UUID(int=int(os.getenv('SOURCE_DATE_EPOCH')))
+> +            elif self.ptable_format == "msdos":
+> +                self.disk_guid = '0x' + str(uuid.UUID(int=int(os.getenv('SOURCE_DATE_EPOCH'))).int & 0xFFFFFFFF)[:8]
+> +        else:
+> +            if self.ptable_format in ('gpt', 'gpt-hybrid'):
+> +                self.disk_guid = uuid.uuid4()
+> +            elif self.ptable_format == "msdos":
+> +                self.disk_guid = '0x' + str(uuid.uuid4())[:8]
+> +
+> +        logger.debug("Set disk guid %s", self.disk_guid)
+> +        sfdisk_cmd = "sfdisk --disk-id %s %s" % (self.path, self.disk_guid)
+> +        exec_native_cmd(sfdisk_cmd, self.native_sysroot)
+>  
+>      def create(self):
+>          self._make_disk(self.path,
+> @@ -537,6 +552,7 @@ class PartitionedImage():
+>                          self.min_size)
+>  
+>          self._write_identifier(self.path, self.identifier)
+> +        self._write_disk_guid()
+>  
+>          if self.ptable_format == "gpt-hybrid":
+>              mbr_path = self.path + ".mbr"
+> -- 
+> 2.39.2
+> 
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#194145): https://lists.openembedded.org/g/openembedded-core/message/194145
+> Mute This Topic: https://lists.openembedded.org/mt/103884949/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
