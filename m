@@ -1,377 +1,160 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <Joakim.Tjernlund@infinera.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B015C47DDF
-	for <webhook@archiver.kernel.org>; Fri, 26 Jan 2024 10:57:21 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web11.13095.1706266639141499617
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A016C47DDF
+	for <webhook@archiver.kernel.org>; Fri, 26 Jan 2024 11:09:41 +0000 (UTC)
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (NAM04-BN8-obe.outbound.protection.outlook.com [40.107.100.87])
+ by mx.groups.io with SMTP id smtpd.web10.13423.1706267377618468059
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Jan 2024 02:57:19 -0800
+ Fri, 26 Jan 2024 03:09:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hydMlRec;
- spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-40e86a9fc4bso3753965e9.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jan 2024 02:57:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706266637; x=1706871437; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=0RK7Wm2XpV6zlH262gQXw27OG518WdouZ5tWvbl+M1U=;
-        b=hydMlRecQHKESa3BofEk0rrD+bgNMiXvsx84ZDTHK/i2Q38Z54OE4HMaPHrPxgrkiq
-         pSaWLiorqUyIMTcHm05yVVV3Ru9zbewB1sHFhGvcNBdoz+gv3JcdxuO1OLgi13sDeJA8
-         jhKd4AvWM4S38DGKKb6c5b6VmVwfZESwo/g9LKDzEa0Ng6JxoNIdnRfnnasyWa6xMsll
-         FoH0dOG37DlXkINdpJhDls4jsutPtUfbii5499IryHzvPCoEbb98OpxVJhJPg0cAwdet
-         lLg6OQ5jsYhJyRiz4nVBf9moTvQk7qygCh6FnXSIf+H1ohD78ZrJR1kMLLQjeoOJIhur
-         FE/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706266637; x=1706871437;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0RK7Wm2XpV6zlH262gQXw27OG518WdouZ5tWvbl+M1U=;
-        b=wqJ5jhADvSImXzqKzbQKq1ugzZo79ATOQEqIZKhBr1iICDWVbxFkOqYQkrCSpee+fl
-         NR4D109yfiR6S4EG356zh04zmbL33Ppq/7t3//UpouQDMG/HiUigemkEIpIjefu22GIY
-         CeSJVyG/XD5W7Hmbr4H5dJdMHdHSWSOHr7AwpwVEa1miEvj49QlLnZG6fdSZnwE0QJSJ
-         EjO++p20wJt76j/OgLqeOQfD0zqfw2eJbfceNkWQLZd50bk7y5AuzANMaU5aZ9D7I4XR
-         ZrU/ucJoxWjs0A5xMsJFCDyrAoFy5H3/LvRyhNyL8+RdrC9sfpPex2gqI+4JhoIkjRQx
-         d3Cg==
-X-Gm-Message-State: AOJu0YwmrKxoBZhnoH5XAQxh0iXXllR206Q1c9SGje3lD25/Xv57bLv+
-	SzY/NO9jStX28uO2DXsJFhWzlcEFhvyhphMqWpbRfgbz05l98PCeoMy4jnKNGk1otp8lkPqwiue
-	RAKRJ+51wtD2GObrm2i1J/f0gfhpGwbHiX5k=
-X-Google-Smtp-Source: AGHT+IH8kUWR9LmvebKk8QotPXLtHiAGKCbTPeY04qwLOhQhBqf9owxmuDmK+ErQAyvwCa2g5KhzF4ry6Cz9cfmeJ4A=
-X-Received: by 2002:a05:600c:3d8a:b0:40e:3fa2:a16 with SMTP id
- bi10-20020a05600c3d8a00b0040e3fa20a16mr699817wmb.201.1706266637117; Fri, 26
- Jan 2024 02:57:17 -0800 (PST)
+ dkim=pass header.i=@infinera.com header.s=selector2 header.b=J5YVCd0l;
+ spf=pass (domain: infinera.com, ip: 40.107.100.87, mailfrom: joakim.tjernlund@infinera.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dDOBlUA0W0ySpgkPEv3GE/kvGgyf6d3xL7AmIcEFagtTKa/tPtZM93hcqP0XnSVPUu6cN5Rb2iofzyztUsvPs5j7D7PP/qSFfEhw/h87QLwzJAVJiDPRhwjkY6ySz5J1Du57le3AgquLvm733Opn3dvrAkfiFRBVEpg/tgcTbpN/dD4RHiykuq8cgcvVql390Ku2/acHAAgB/c/R3EnorznXas6S88Qv8eC9WeN0JeI3FUivGF5OM7mKxvDP/Yryzfo+vySJIl/9c7dnZEvybWe5B3aPVgt26HGgTR6Ambb6D7qAQqa/gr11IQqt9OwRohTaWp0kxwBvnVK47E4dgg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lDrP7Wq/pKC1O9XwY/2qRU5m0MyG1PsgLHRmA0INvho=;
+ b=iDVa2lqzN5EMkIBUqy3dPV/GsN87IQNtQJNcPLpt7p9blCDkbY+K3378N3Qp8hO/Vm3bEoVSm9ydkV/x6bvJ8wJVz2nRb92pcn7ZbzG3gQzYJYs5T931Xla2YN9I/KMN3hpPk9BdjE1gq65JDa6qqqufuLsjtLJE4zkKv58KfXukXu6RgrqEbaGbETHg2MqZVcqcdgFboXUI6BHSinHL80ifNooK0yz9J+XTTybu3LOf2R/+nk83XpjsxqmX3ay+OHlyqfxkRL7YlV3QM/ZyJ64AHYJ5YQFXyTGAJYfWLObN4Vy3W8E/FAjQCrfDeh38JRCiQqUNbjmWl2DjNki/8Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=infinera.com; dmarc=pass action=none header.from=infinera.com;
+ dkim=pass header.d=infinera.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=infinera.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lDrP7Wq/pKC1O9XwY/2qRU5m0MyG1PsgLHRmA0INvho=;
+ b=J5YVCd0lHxgu9x6ndXmEDdhFaZ6gbi5qLxVPswQqvOLoWJqkil7kWJkIE8SChv2P36LuZabOeSlm+FE4IhON7J5OMwY21SD3d+b2osQ/8eE6jYPeHbySpicXlcYsTrlAnOPAeK/XQNwBBJrjVOoFeZXlBLl7sLasNu8PhtXF6I+GAzejAw7ow4dCJul+GBmAUjSuHkgb0NNy6yrRIX9/x7qxhTUtzHapLYEjVh6cEkURFzfOd9wW2ZtnWrzSGk1bkCO+U2OF23QrbTzRtLSOYhMZAyAnlU+VY0UHHg6oPlCLAVt4CKhsbPqKCbG4O5p7V3QqKqreyLw4RNfd/bC1hQ==
+Received: from PH0PR10MB4615.namprd10.prod.outlook.com (2603:10b6:510:36::24)
+ by IA0PR10MB6820.namprd10.prod.outlook.com (2603:10b6:208:437::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.27; Fri, 26 Jan
+ 2024 11:09:34 +0000
+Received: from PH0PR10MB4615.namprd10.prod.outlook.com
+ ([fe80::4d76:4230:708c:9eea]) by PH0PR10MB4615.namprd10.prod.outlook.com
+ ([fe80::4d76:4230:708c:9eea%7]) with mapi id 15.20.7228.022; Fri, 26 Jan 2024
+ 11:09:33 +0000
+From: Joakim Tjernlund <Joakim.Tjernlund@infinera.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: oe-selftest reproducible.ReproducibleTests.test_reproducible_builds
+ appears to hardcode important tunable params
+Thread-Topic: oe-selftest
+ reproducible.ReproducibleTests.test_reproducible_builds appears to hardcode
+ important tunable params
+Thread-Index: AQHaUEgkMNzCIETAnkmJ7AygmSs1uQ==
+Date: Fri, 26 Jan 2024 11:09:33 +0000
+Message-ID: <f2b33f50e7f11903a1b16f9a2f814134da203223.camel@infinera.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.50.3 
+autocrypt: addr=joakim.tjernlund@infinera.com; prefer-encrypt=mutual;
+ keydata=mQENBFp0f28BCADPn4XzN2HEzkY4BZKE6/T/S4M/Qjlf01K6gmECJZi5LQgOt0jOUAdvsXVd8yKYeqCq+eWvlfrLU9OXPGoCqwj95P2YjMsttqaPBEAnf4XyBs67Snz2wHyBDONoRxGoyq2Ondy+TPicWEm0mh404h9EzKxRNxwrRyKhsjWoVeaucuybAiGbJvqQj0CLmuMCl4PUBYDmXFzt3yx0g54z8E9/8ON+z0J7yZbA0aftZAjFLv6nn0Th/2dpD8d3vWtkJw4yBjLX2KFvlzJfQqkd6RI4Cn1OP9sguXDob123dMiMk/5XbjXz+0C21QFxejxt3HGisvKes+8swplyni7KdiDtABEBAAG0MEpvYWtpbSBUamVybmx1bmQgPGpvYWtpbS50amVybmx1bmRAaW5maW5lcmEuY29tPokBVAQTAQgAPhYhBFtMG/jmfqy7x0aBp4VMQ6CbDpcaBQJadH9vAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEIVMQ6CbDpcasFAH/j64dpHpjY55tVoUg5yK8hcmxS/buKQQP9H3e2DdHeYrK0qeQ97AXiWTh63UvzvEXchiKjua6kYhUUkDObaltmwkKgPv0qb9lP6yfFBzvllriS6LrdIMCOLgtnQW2x28m5mC1hYT08jlqEXluYDoj2dTll9HGMsqn0JkhRjBsuzTXq8VyJjjnNLpzsAlTOGEQoAi7SqtDHs9PSNyOAKH5jRjATdNbPAsTKuI1veJf7Zzyc98yG0ya43Hqal1scoa+9GJZXNQPRaMVkyxKGbEEncdtnQl9e/DUMH4SUQ5vbM/+U4WvkX5Cvc+KwI6JAm1PhrAaVHSkDNAU5LqUqEbbHY=
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=infinera.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PH0PR10MB4615:EE_|IA0PR10MB6820:EE_
+x-ms-office365-filtering-correlation-id: 43eb226f-4695-48f3-0853-08dc1e5f46da
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ jNjvQSWFDoiPfu6liMd2Pl3zHCjXNeiZgcTBsQ8oYdoEHgGTYQEAKkNRAsS6e5xl9jCaSXkj3zcWhy9+iVV02Z9xP/1RlrDJHBYjRp9e2HulcFRysp0m61zmVm0VcpJgXHIxtmoUqShWJFFZy2ddmsEJtj2NwW4tqRHkdzWNgz5tO0ZpSgnkZiM6Plq/xK8YB/MmFJa4sxp+5agyrDuKgBJ0SE52l4ckXLyC29kfcYfBVFJSZbnL6BJLuCOIMNmMTtbxEPB9N6EMSW9k0Xsvwqcr4V4qrhnUx21lCXy/wI1NjBmaQfcvNr+Vl72Pi2cX6pX/xjagMlsHCAh8nOgsRByw0CK3kif7ViUy+CIiqO0igWiX2ZG1MLFDnUJZ6W9U+1rRNpvMZm9smI3mqSCbxZb5kjC+ETVAqt0Z+Fyp2dA/yVniQE7JMnsTGtM8PJ0rRYc1o4dJqabNZHi3R6qfqntWy8C8rCpwbOFx7FAZZ7Zlzqd7TjdIN38quvGt0nM+duMYj5RpC+yRF02c+ruRi9i3dTqit+Xn+aoof2a/iqH+DxVVVS7Ksj86qTqJIp8Sy5fPCDyhmeTfzGRkxpWgCGBfpjwQKLgnYbfjXYldDh9T20EPl0tKB/bbcndSFVx5
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB4615.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(39860400002)(366004)(396003)(346002)(376002)(230922051799003)(1800799012)(451199024)(64100799003)(186009)(2616005)(6512007)(6506007)(83380400001)(41300700001)(66556008)(316002)(6916009)(64756008)(66446008)(66476007)(5660300002)(8936002)(36756003)(2906002)(66946007)(38070700009)(76116006)(91956017)(8676002)(71200400001)(86362001)(478600001)(6486002)(122000001)(38100700002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?dzFpeDBoRnh6OVp6UjdlMStCV29Qd3pYa2dReDRXQ3laZFZSZ3FObzRHMTBu?=
+ =?utf-8?B?VDR2V1c5b0ZNdXh0N2NQN1AvdldKcHltZlFGYjl0dlppa3dIUmtmaFlGRUlL?=
+ =?utf-8?B?cTdTSStYQVAxc0RUdjVmVGxnNFJKQlgwNlZtQXc1R2hzTW1iU2dId2JaTlho?=
+ =?utf-8?B?di9iKytVSjJsbkh0eHMwOXJjZStNbkg4bEg0OEJHZTVuQ2hvT2liYi82Ny9l?=
+ =?utf-8?B?N1QwdmcxKzZvWUs2NzJWbGVReGV0bHByaVZocExFajkvenpLaUwyMHVTUERR?=
+ =?utf-8?B?UXMxZm04M25zT094UDkzQmZZc2lyajdvRGNxUm1DYnoyc2xYNTQybFVYZlJS?=
+ =?utf-8?B?SEVOa0VBbnRuYzhGejg5UndFeFBUbHdzYWRBSmhLdHlsRHlxeFNadzFBNStK?=
+ =?utf-8?B?N1g3NXYwR2ZYMVJQQkdzSmIwRlYxMDY0Yi94dzlFWTZ0UEVPVFB6cjIzMDJ4?=
+ =?utf-8?B?VVlJSmZzNTlCOFZpbFlCVWlHN0VLbDh3MGpEcjBoRFhqOXdwZllqcDl5R0xj?=
+ =?utf-8?B?aUZaR1RtZkU0MnlLNS9Od3RYWUVXenhzVmx0ZUhvcmdUV0tXZld6V29GRnRm?=
+ =?utf-8?B?TGNRc2Q0RVM4UUs4dUM5MFZES1JEZ2ZsTjBVVG5PaGh4Q0lBeDltS2s1U0o5?=
+ =?utf-8?B?ZHN2ZDh6RFNFZ0FPYkdjUm5wdmF6QzYvdm1jZ3RBVENiVkFZalp4a1RRQlM3?=
+ =?utf-8?B?U2ZMYjNKdVFoVXlIeFZrYzJsVG11N2RVNzlpcVc1eFpYN05ZYzdVQUE0WDY2?=
+ =?utf-8?B?eSswU0FyL1ZBdGhMZkJEUUpKUm1KL3p3c0JSL1hITjRQdUpieExXdXRZVGFG?=
+ =?utf-8?B?WHhHdmo4Q2M0MFQ0ZytlNGRJeFY4ZitOT3JNQWJXenIycHZ6eWVVcjJwZUdL?=
+ =?utf-8?B?WUEyV2xKdDczQnNKTjNzYUJLeEc0NDU2Q0w1YTFseDBaaW5MZTRWQSsrTDVn?=
+ =?utf-8?B?akRud0dDL3pwU2ROcGIwL3J2QTlkNGgrcnh0M0NzaTNod293UTZoR3JGWk1H?=
+ =?utf-8?B?a2laSXhDN1cxTFljMEE3TElmRXVnczQ4Ukt0UFBPQ0h0NWJpT3JHd0lKN1px?=
+ =?utf-8?B?RSt1aUhxeUIwK20vczZqZHA2cGpmSTBUMFFwOWFXMHBicnpzMDVyK1JjOS9H?=
+ =?utf-8?B?VDlrRnVLZTc1VjRBdGJjODlXYXV1TCswTzhoeG9JSWJjRGZreDNpRVA0TDZD?=
+ =?utf-8?B?KytGaTVTd1RRN2JwamhuM2VFRXFHWlZnM1Q3bXQ0OXkzeGw2MzRRQ2d4bU92?=
+ =?utf-8?B?NW9EQmpNWjZrZ012djE0ZzZkandxR1kvaFRUS3RXRm1rN0Q3RjJIeUtBcGtS?=
+ =?utf-8?B?WmNTcVJHNXhnbEZORjgwb0VKTU94QUhodGVEQTJqWjhDTE9RRXduRUdxWXdV?=
+ =?utf-8?B?cHRGZGVHeDdFYzdpaGFMbFpneW9WU3cveVpKK1AvR0w4NW1KN2UxODRIVjEr?=
+ =?utf-8?B?OVhIdUpSWE1nSnZSZzZXcHZGRHdIUStWRi9NbWZDbEhYNXAvdjFaVUpieVRq?=
+ =?utf-8?B?Nnk3ZGFCLzMwMHVjeHlXQWdSWmVrLzhFczZwbklLSjdWNjRnS3V3RCthY0x2?=
+ =?utf-8?B?V1JodHV0WlI2ZHhXQWdPekNQS09IWk43ejBkTlp6Q0V3a1hnbW00NEY1Zks3?=
+ =?utf-8?B?RXNTU1dwQ3J3M3hqbllBdkRrQU1OV3poY0NROFU1UkdiZ24rYlZMbUsyRmwx?=
+ =?utf-8?B?SERmbnE4ZzRzVXRoaWF1ZS82aUNLSFU2NWttUXVZMXdWL3hNRkZYU2tlTmU5?=
+ =?utf-8?B?elArMEQ4Y1dyMjZwMXlhR2xOVlgxZXBvbkxkaUtUQWVjajZWMTdudzZSY2RL?=
+ =?utf-8?B?S1NsY1hSZCtCaGgrS1NyMnovMUNzZ0pBTFA2SUp3c2Z0RDk0RlJYRDVqUEx0?=
+ =?utf-8?B?a3VVd1Jya0hqY1k0VzlnMHJlZ2NqYXRyRm0rVEpoN2FVNmdLbjdtRjRYajIr?=
+ =?utf-8?B?TlV1TE9kTWs2MUY0cys3ejRFME1qcHpYZ2lUMWRWV2tXdSs1b0hkVzZoZ054?=
+ =?utf-8?B?UHRpYTVCMmFoTU1CelRCN1NacmxtOWxMMkU5Q3pWWktVS0VIVmhyY0kzQTRr?=
+ =?utf-8?B?QlhKRzZCZGxnSGJuUkUwaGl5NkJtZDl5MlRONGl4b1M1RkQyRGJDQXlFaElT?=
+ =?utf-8?B?MkNTSjYvZjdsSXlqc1AxeVdjSHJ1YSs1MDRKeSt1WjVyTFJlRDl1OTQwTzRJ?=
+ =?utf-8?Q?vwPhKmYoO8RzMNoAq1+SmrYFON9RmMvcIGn0qHmDvfSW?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <3D83AE27E55AC941BC1AE70E94726C8B@namprd10.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <4ed80c78-5940-454d-b4a7-a820f04f0f08@gmail.com> <CA+chaQfrEKrfFDEKt3__x1pg2SPApqU60e8RWOYHPOvmUDGcpg@mail.gmail.com>
-In-Reply-To: <CA+chaQfrEKrfFDEKt3__x1pg2SPApqU60e8RWOYHPOvmUDGcpg@mail.gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Fri, 26 Jan 2024 11:57:04 +0100
-Message-ID: <CA+chaQev=e2XatLHfufKOUpgWc29tka0gURj9CB5mirXXsTsdA@mail.gmail.com>
-Subject: Re: [OE-core] bb.utils.vercmp_string_op() vs Python 3.12
-To: Zoltan Boszormenyi <zboszor@gmail.com>
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000cc340e060fd728fa"
+X-OriginatorOrg: infinera.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4615.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 43eb226f-4695-48f3-0853-08dc1e5f46da
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Jan 2024 11:09:33.8688
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 285643de-5f5b-4b03-a153-0ae2dc8aaf77
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: z4iDrex+GlpO6gfjFMvu3HOHkujn0uPSncM1BuwjhXUIFB09HxweYQeFCRdkdBKytJQDi4a4e//BhhdA2IJiug==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR10MB6820
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 Jan 2024 10:57:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194350
+ <openembedded-core@lists.openembedded.org>; Fri, 26 Jan 2024 11:09:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194351
 
---000000000000cc340e060fd728fa
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-See
-https://git.openembedded.org/meta-openembedded/commit/?h=3Dkirkstone&id=3D8=
-a042b540db5421785edcf21d5114be6358246fd
-
-On Fri, Jan 26, 2024 at 11:53=E2=80=AFAM Martin Jansa <martin.jansa@gmail.c=
-om>
-wrote:
-
-> > I copied vercmp_string_op() and all others called by it from
-> bitbake/lib/bb/utils.py into a new python script.
->
-> It's not an issue in vercmp_string_op itself, but the version value it
-> gets from waf --version isn't just the version itself but also
-> SyntaxWarning from waf.
->
-> So you need to update waf in jack not to trigger SyntaxWarning when waf
-> --version is called.
->
-> On Fri, Jan 26, 2024 at 10:17=E2=80=AFAM Zoltan Boszormenyi <zboszor@gmai=
-l.com>
-> wrote:
->
->> Hi,
->>
->> Just a FYI.
->>
->> After the bitbake-server getting stuck after bitbake exited
->> with Python 3.12 issue was fixed, here's another one.
->>
->> This time it's semi-reliably triggered by the jack recipe
->> in meta-openembedded:
->>
->> ERROR: jack-1.19.22-r0 do_configure: Error executing a python function i=
-n
->> exec_func_python() autogenerated:
->>
->> The stack trace of python calls that resulted in this exception/failure
->> was:
->> File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
->>       0001:
->>   *** 0002:waf_preconfigure(d)
->>       0003:
->> File:
->> '/home/zozo/test-yocto-4.3-gh/conf/../layers/openembedded-core/meta/clas=
-ses-recipe/waf.bbclass',
->>
->> lineno: 58, function: waf_preconfigure
->>       0054:    wafbin =3D os.path.join(subsrcdir, 'waf')
->>       0055:    try:
->>       0056:        result =3D subprocess.check_output([python, wafbin,
->> '--version'],
->> cwd=3Dsubsrcdir, stderr=3Dsubprocess.STDOUT)
->>       0057:        version =3D result.decode('utf-8').split()[1]
->>   *** 0058:        if bb.utils.vercmp_string_op(version, "1.8.7", ">=3D"=
-):
->>       0059:            d.setVar("WAF_EXTRA_CONF", "--bindir=3D${bindir}
->> --libdir=3D${libdir}")
->>       0060:    except subprocess.CalledProcessError as e:
->>       0061:        bb.warn("Unable to execute waf --version, exit code
->> %d. Assuming waf
->> version without bindir/libdir support." % e.returncode)
->>       0062:    except FileNotFoundError:
->> File: '/home/zozo/test-yocto-4.3-gh/bitbake/lib/bb/utils.py', lineno:
->> 150, function:
->> vercmp_string_op
->>       0146:    Compare two versions and check if the specified compariso=
-n
->> operator matches
->> the result of the comparison.
->>       0147:    This function is fairly liberal about what operators it
->> will accept since
->> there are a variety of styles
->>       0148:    depending on the context.
->>       0149:    """
->>   *** 0150:    res =3D vercmp_string(a, b)
->>       0151:    if op in ('=3D', '=3D=3D'):
->>       0152:        return res =3D=3D 0
->>       0153:    elif op =3D=3D '<=3D':
->>       0154:        return res <=3D 0
->> File: '/home/zozo/test-yocto-4.3-gh/bitbake/lib/bb/utils.py', lineno:
->> 140, function:
->> vercmp_string
->>       0136:    return r
->>       0137:
->>       0138:def vercmp_string(a, b):
->>       0139:    """ Split version strings and compare them """
->>   *** 0140:    ta =3D split_version(a)
->>       0141:    tb =3D split_version(b)
->>       0142:    return vercmp(ta, tb)
->>       0143:
->>       0144:def vercmp_string_op(a, b, op):
->> File: '/home/zozo/test-yocto-4.3-gh/bitbake/lib/bb/utils.py', lineno: 91=
-,
->> function:
->> split_version
->>       0087:    """Split a version string into its constituent parts (PE,
->> PV, PR)"""
->>       0088:    s =3D s.strip(" <>=3D")
->>       0089:    e =3D 0
->>       0090:    if s.count(':'):
->>   *** 0091:        e =3D int(s.split(":")[0])
->>       0092:        s =3D s.split(":")[1]
->>       0093:    r =3D ""
->>       0094:    if s.count('-'):
->>       0095:        r =3D s.rsplit("-", 1)[1]
->> Exception: ValueError: invalid literal for int() with base 10:
->> 'SyntaxWarning'
->>
->> ERROR: Logfile of failure stored in:
->>
->> /home/zozo/test-yocto-4.3-gh/tmp-sicom-glibc/work/corei7-64-oe-linux/jac=
-k/1.19.22/temp/log.do_configure.1709417
->>
->> "Semi-reliably", i.e. about 50-50 or 60-40 percent failure vs success
->> rate.
->> Usually the second run succeeds after a failure.
->>
->> I copied vercmp_string_op() and all others called by it
->> from bitbake/lib/bb/utils.py into a new python script as a
->> minimum test case. Running this script inside a locally
->> cloned jack git repository has 100% success rate.
->>
->> It looks like an internal Python "flake" issue.
->>
->> Best regards,
->> Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi
->>
->>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#194348):
->> https://lists.openembedded.org/g/openembedded-core/message/194348
->> Mute This Topic: https://lists.openembedded.org/mt/103973063/3617156
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
->> martin.jansa@gmail.com]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
->>
-
---000000000000cc340e060fd728fa
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">See<div><a href=3D"https://git.openembedded.org/meta-opene=
-mbedded/commit/?h=3Dkirkstone&amp;id=3D8a042b540db5421785edcf21d5114be63582=
-46fd">https://git.openembedded.org/meta-openembedded/commit/?h=3Dkirkstone&=
-amp;id=3D8a042b540db5421785edcf21d5114be6358246fd</a><br></div></div><br><d=
-iv class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jan =
-26, 2024 at 11:53=E2=80=AFAM Martin Jansa &lt;<a href=3D"mailto:martin.jans=
-a@gmail.com">martin.jansa@gmail.com</a>&gt; wrote:<br></div><blockquote cla=
-ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
-rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr">&gt; I copied=C2=A0verc=
-mp_string_op() and all others called by it from bitbake/lib/bb/utils.py int=
-o a new python script.<div><br></div><div>It&#39;s not an issue in vercmp_s=
-tring_op itself, but the version value it gets from waf --version isn&#39;t=
- just the version itself but also SyntaxWarning from waf.</div><div><br></d=
-iv><div>So you need to update waf in jack not to trigger SyntaxWarning when=
- waf --version is called.</div></div><br><div class=3D"gmail_quote"><div di=
-r=3D"ltr" class=3D"gmail_attr">On Fri, Jan 26, 2024 at 10:17=E2=80=AFAM Zol=
-tan Boszormenyi &lt;<a href=3D"mailto:zboszor@gmail.com" target=3D"_blank">=
-zboszor@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex">Hi,<br>
-<br>
-Just a FYI.<br>
-<br>
-After the bitbake-server getting stuck after bitbake exited<br>
-with Python 3.12 issue was fixed, here&#39;s another one.<br>
-<br>
-This time it&#39;s semi-reliably triggered by the jack recipe<br>
-in meta-openembedded:<br>
-<br>
-ERROR: jack-1.19.22-r0 do_configure: Error executing a python function in <=
-br>
-exec_func_python() autogenerated:<br>
-<br>
-The stack trace of python calls that resulted in this exception/failure was=
-:<br>
-File: &#39;exec_func_python() autogenerated&#39;, lineno: 2, function: &lt;=
-module&gt;<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0001:<br>
-=C2=A0=C2=A0*** 0002:waf_preconfigure(d)<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0003:<br>
-File: <br>
-&#39;/home/zozo/test-yocto-4.3-gh/conf/../layers/openembedded-core/meta/cla=
-sses-recipe/waf.bbclass&#39;, <br>
-lineno: 58, function: waf_preconfigure<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0054:=C2=A0=C2=A0=C2=A0 wafbin =3D os.path.j=
-oin(subsrcdir, &#39;waf&#39;)<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0055:=C2=A0=C2=A0=C2=A0 try:<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0056:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 result =3D subprocess.check_output([python, wafbin, &#39;--version&#39;=
-], <br>
-cwd=3Dsubsrcdir, stderr=3Dsubprocess.STDOUT)<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0057:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 version =3D result.decode(&#39;utf-8&#39;).split()[1]<br>
-=C2=A0=C2=A0*** 0058:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if bb.utils=
-.vercmp_string_op(version, &quot;1.8.7&quot;, &quot;&gt;=3D&quot;):<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0059:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 d.setVar(&quot;WAF_EXTRA_CONF&quot;, &quot;--bi=
-ndir=3D${bindir} --libdir=3D${libdir}&quot;)<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0060:=C2=A0=C2=A0=C2=A0 except subprocess.Ca=
-lledProcessError as e:<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0061:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 bb.warn(&quot;Unable to execute waf --version, exit code %d. Assuming w=
-af <br>
-version without bindir/libdir support.&quot; % e.returncode)<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0062:=C2=A0=C2=A0=C2=A0 except FileNotFoundE=
-rror:<br>
-File: &#39;/home/zozo/test-yocto-4.3-gh/bitbake/lib/bb/utils.py&#39;, linen=
-o: 150, function: <br>
-vercmp_string_op<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0146:=C2=A0=C2=A0=C2=A0 Compare two versions=
- and check if the specified comparison operator matches <br>
-the result of the comparison.<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0147:=C2=A0=C2=A0=C2=A0 This function is fai=
-rly liberal about what operators it will accept since <br>
-there are a variety of styles<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0148:=C2=A0=C2=A0=C2=A0 depending on the con=
-text.<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0149:=C2=A0=C2=A0=C2=A0 &quot;&quot;&quot;<b=
-r>
-=C2=A0=C2=A0*** 0150:=C2=A0=C2=A0=C2=A0 res =3D vercmp_string(a, b)<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0151:=C2=A0=C2=A0=C2=A0 if op in (&#39;=3D&#=
-39;, &#39;=3D=3D&#39;):<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0152:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 return res =3D=3D 0<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0153:=C2=A0=C2=A0=C2=A0 elif op =3D=3D &#39;=
-&lt;=3D&#39;:<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0154:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 return res &lt;=3D 0<br>
-File: &#39;/home/zozo/test-yocto-4.3-gh/bitbake/lib/bb/utils.py&#39;, linen=
-o: 140, function: <br>
-vercmp_string<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0136:=C2=A0=C2=A0=C2=A0 return r<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0137:<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0138:def vercmp_string(a, b):<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0139:=C2=A0=C2=A0=C2=A0 &quot;&quot;&quot; S=
-plit version strings and compare them &quot;&quot;&quot;<br>
-=C2=A0=C2=A0*** 0140:=C2=A0=C2=A0=C2=A0 ta =3D split_version(a)<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0141:=C2=A0=C2=A0=C2=A0 tb =3D split_version=
-(b)<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0142:=C2=A0=C2=A0=C2=A0 return vercmp(ta, tb=
-)<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0143:<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0144:def vercmp_string_op(a, b, op):<br>
-File: &#39;/home/zozo/test-yocto-4.3-gh/bitbake/lib/bb/utils.py&#39;, linen=
-o: 91, function: <br>
-split_version<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0087:=C2=A0=C2=A0=C2=A0 &quot;&quot;&quot;Sp=
-lit a version string into its constituent parts (PE, PV, PR)&quot;&quot;&qu=
-ot;<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0088:=C2=A0=C2=A0=C2=A0 s =3D s.strip(&quot;=
- &lt;&gt;=3D&quot;)<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0089:=C2=A0=C2=A0=C2=A0 e =3D 0<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0090:=C2=A0=C2=A0=C2=A0 if s.count(&#39;:&#3=
-9;):<br>
-=C2=A0=C2=A0*** 0091:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 e =3D int(s=
-.split(&quot;:&quot;)[0])<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0092:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 s =3D s.split(&quot;:&quot;)[1]<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0093:=C2=A0=C2=A0=C2=A0 r =3D &quot;&quot;<b=
-r>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0094:=C2=A0=C2=A0=C2=A0 if s.count(&#39;-&#3=
-9;):<br>
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0095:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 r =3D s.rsplit(&quot;-&quot;, 1)[1]<br>
-Exception: ValueError: invalid literal for int() with base 10: &#39;SyntaxW=
-arning&#39;<br>
-<br>
-ERROR: Logfile of failure stored in: <br>
-/home/zozo/test-yocto-4.3-gh/tmp-sicom-glibc/work/corei7-64-oe-linux/jack/1=
-.19.22/temp/log.do_configure.1709417<br>
-<br>
-&quot;Semi-reliably&quot;, i.e. about 50-50 or 60-40 percent failure vs suc=
-cess rate.<br>
-Usually the second run succeeds after a failure.<br>
-<br>
-I copied=C2=A0vercmp_string_op() and all others called by it<br>
-from bitbake/lib/bb/utils.py into a new python script as a<br>
-minimum test case. Running this script inside a locally<br>
-cloned jack git repository has 100% success rate.<br>
-<br>
-It looks like an internal Python &quot;flake&quot; issue.<br>
-<br>
-Best regards,<br>
-Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#194348): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/194348" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/194348</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/103973063/361=
-7156" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/103973063/3617156</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:martin.jansa@gmail.com" ta=
-rget=3D"_blank">martin.jansa@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-</blockquote></div>
-
---000000000000cc340e060fd728fa--
+SW4gcG9reS9tZXRhL2xpYi9vZXFhL3NlbGZ0ZXN0L2NvbnRleHQucHkgdGhlcmUgaXM6DQogICAg
+ICAgIGlmICJidWlsZGhpc3RvcnkuYmJjbGFzcyIgaW4gc2VsZi50Yy50ZFsiQkJJTkNMVURFRCJd
+Og0KICAgICAgICAgICAgc2VsZi50Yy5sb2dnZXIuZXJyb3IoIllvdSBoYXZlIGJ1aWxkaGlzdG9y
+eSBlbmFibGVkIGFscmVhZHkgYW5kIHRoaXMgaXNuJ3QgcmVjb21tZW5kZWQgZm9yIHNlbGZ0ZXN0
+LCBwbGVhc2UgZGlzYWJsZSBpdCBmaXJzdC4iKQ0KICAgICAgICAgICAgcmFpc2UgT0VRQVByZVJ1
+bg0KDQogICAgICAgIGlmICJybV93b3JrLmJiY2xhc3MiIGluIHNlbGYudGMudGRbIkJCSU5DTFVE
+RUQiXToNCiAgICAgICAgICAgIHNlbGYudGMubG9nZ2VyLmVycm9yKCJZb3UgaGF2ZSBybV93b3Jr
+IGVuYWJsZWQgd2hpY2ggaXNuJ3QgcmVjb21tZW5kZWQgd2hpbGUgcnVubmluZyBvZS1zZWxmdGVz
+dC4gUGxlYXNlIGRpc2FibGUgaXQgYmVmb3JlIGNvbnRpbnVpbmcuIikNCiAgICAgICAgICAgIHJh
+aXNlIE9FUUFQcmVSdW4NCg0KICAgICAgICBpZiAiUFJTRVJWX0hPU1QiIGluIHNlbGYudGMudGQ6
+DQogICAgICAgICAgICBzZWxmLnRjLmxvZ2dlci5lcnJvcigiUGxlYXNlIHVuc2V0IFBSU0VSVl9I
+T1NUIGluIG9yZGVyIHRvIHJ1biBvZS1zZWxmdGVzdCIpDQogICAgICAgICAgICByYWlzZSBPRVFB
+UHJlUnVuDQoNCiAgICAgICAgaWYgIlNBTklUWV9URVNURURfRElTVFJPUyIgaW4gc2VsZi50Yy50
+ZDoNCiAgICAgICAgICAgIHNlbGYudGMubG9nZ2VyLmVycm9yKCJQbGVhc2UgdW5zZXQgU0FOSVRZ
+X1RFU1RFRF9ESVNUUk9TIGluIG9yZGVyIHRvIHJ1biBvZS1zZWxmdGVzdCIpDQogICAgICAgICAg
+ICByYWlzZSBPRVFBUHJlUnVuDQoNCkkgc2VlIG5vdCB3YXkgdG8gZGlzYWJsZS91bnNldCBhbnkg
+b2YgdGhlc2UgdmFycyBzaG9ydCBvZiBtb2RpZnkgdGhlIHNyYyBmb3IgdGhlIG9yaWdpbmFsIG1h
+Y2hpbmUsIG1ha2UgdGhlIHNyYw0KdHJlZSAiZGlydHkiIGJlZm9yZSBydW5uaW5nIHRoZSB0ZXN0
+Lg0KDQpJbiBtZXRhL2xpYi9vZXFhL3NlbGZ0ZXN0L2Nhc2VzL3JlcHJvZHVjaWJsZS5weSB0aGVy
+ZSBpczoNCiAgICAgY29uZmlnID0gdGV4dHdyYXAuZGVkZW50KCcnJ1wNCiAgICAgICAgICAgIFBB
+Q0tBR0VfQ0xBU1NFUyA9ICJ7cGFja2FnZV9jbGFzc2VzfSINCiAgICAgICAgICAgIElOSElCSVRf
+UEFDS0FHRV9TVFJJUCA9ICIxIg0KICAgICAgICAgICAgVE1QRElSID0gInt0bXBkaXJ9Ig0KICAg
+ICAgICAgICAgTElDRU5TRV9GTEFHU19BQ0NFUFRFRCA9ICJjb21tZXJjaWFsIg0KICAgICAgICAg
+ICAgRElTVFJPX0ZFQVRVUkVTOmFwcGVuZCA9ICcgc3lzdGVtZCBwYW0nDQogICAgICAgICAgICBV
+U0VSQURERVhURU5TSU9OID0gInVzZXJhZGQtc3RhdGljaWRzIg0KICAgICAgICAgICAgVVNFUkFE
+RF9FUlJPUl9EWU5BTUlDID0gInNraXAiDQogICAgICAgICAgICBVU0VSQUREX1VJRF9UQUJMRVMg
+Kz0gImZpbGVzL3N0YXRpYy1wYXNzd2QiDQogICAgICAgICAgICBVU0VSQUREX0dJRF9UQUJMRVMg
+Kz0gImZpbGVzL3N0YXRpYy1ncm91cCINCg0KVGhlc2UgYXJlIGhhcmRjb2RlZCBzZXR0aW5ncyB0
+b28gb2Ygd2hpY2ggc29tZSBjb3VsZCBuZWVkIG5lZWQgdGV3YWtpbmcsIERJU1RST19GRUFUVVJF
+UyBmb3Igc3VyZS4NCg0KU28gcmVwcm9kdWNpYmxlIGJ1aWxkcyBkb2VzIG5vdCBzZWVtIHVzYWJs
+ZSBvdXRzaWRlIHBva3kgb3IgYW0gSSBtaXNzaW5nIHNvbWV0aGluZyBoZXJlID8NCg0KIEpvY2tl
+DQo=
 
