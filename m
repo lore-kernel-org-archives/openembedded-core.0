@@ -1,96 +1,156 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9ABCAC47422
-	for <webhook@archiver.kernel.org>; Fri, 26 Jan 2024 15:21:57 +0000 (UTC)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
- by mx.groups.io with SMTP id smtpd.web10.238.1706282515945102616
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0E79C47DDB
+	for <webhook@archiver.kernel.org>; Fri, 26 Jan 2024 16:06:07 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web10.1645.1706285165331225636
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Jan 2024 07:21:56 -0800
+ Fri, 26 Jan 2024 08:06:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=MEoOLw8h;
- spf=pass (domain: gmail.com, ip: 209.85.167.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-51020e061b5so563738e87.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jan 2024 07:21:55 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=BM7RtTRc;
+ spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-40e800461baso11400525e9.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jan 2024 08:06:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706282514; x=1706887314; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=yPycil59qNlPHV6T9Ybalr2n7O03stj7WKf7ItXDTC4=;
-        b=MEoOLw8h621dYH/3U8lrW2m09I8WxiSExOmqwK9sXqyy70OV2Sm5vr0E+5MgnX+rN3
-         jqTHuqZXXp0x342SoNawvzI1JxhW+emYvDa4EyaB6R/cA3MYylwiMwbiX39sZmtAoUcN
-         /toIWp3KwhIcvdRlTVen1/FT0BGqKuR9aesNN9D4YXqr8oDgYAjsCU3TICPxvUNYTTeH
-         smkNfFKV2tyH0PPZv4XW7vi6zo+SS/uJYfLRKwyJZoPVf7XTe7BOKHNXWjCRlDH9WX8K
-         1+DD824nBDld2ooQK0qIQiy8wtN/XHRQr8TI8G0xqNoEys+MZJ63svrsBGjikH1fJzx8
-         QgNg==
+        d=gmail.com; s=20230601; t=1706285163; x=1706889963; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HXbDAQHP0VCISJLAjKl+piZgPlD9EZGfwZynD6bSykA=;
+        b=BM7RtTRcyOlsUQTv4gTvgjDg+X2j8kcjwtAj8E7CWxO6LVqRlMcgjPjle5W51nKYJU
+         E4dPvMY/HGY42itupTehvPMHnKfqyAIvrxMuuWoaaw0F+2MUzCwQV6f0TAgxQfC2ZocA
+         WsvdijRwjWMLeIg9ZTTR0iSR/q7SwbBOkDVG2GaNPkMtgYnJboSvZl4MTZ/CrEIIqA/B
+         zHxrXvH4RON6DdbLXpoubwTbiHBhB2R1r5uvER6X8Re95gxrbQYKSw43ORsPqRozz60Z
+         ujKzdi0fI/rHu0JQmUvimMTayzsnCjNaNmrJbaBm11d3bkMuvXCbj7unOkCtQklBq8Nw
+         SFDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706282514; x=1706887314;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1706285163; x=1706889963;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=yPycil59qNlPHV6T9Ybalr2n7O03stj7WKf7ItXDTC4=;
-        b=Rx+4qzmtE+92gIbW2WO9cxJNsLyY+iPr4D2z4TYWvFu+4tBlF/t6RxI3wHJCSQpQsf
-         jcmrpmCCR1KPw8goc9dyW9sy4hM7vKQM7f/MiLImwidU1FwQKy5tnwl0zfQXAdAdlEiq
-         obvHpksMwVvpraNq7/Vnfeh5arEJaNNtGILusX2hCE8d5s72UE8d0ick64LqfigIpAh4
-         5+trPdqI24ZU4VxJa5aQIYsX4A+N+0Mk8JoLoisgwSdyPzWpaQ0fCGvQ1H5AtRi1MPqw
-         o69M29GoXxyb1ZtZZY/W5jrZKhxr9pio5ac75a51Xi2ldRkRUr5nZnVzNalBUJgAUMK6
-         4bZA==
-X-Gm-Message-State: AOJu0Yz23dofkJNsDSW8M/gguFsKyGPOnPYxIpZlwc9ZxooKMIv/2Ta5
-	cn+q5+RbF1cTpLKQesfrPbSqpqCcWM0Iynr2kH6+UrF8QfnByzZ4Ndd3d2GSSJFv9s/x3FYARAx
-	mohxJPfNCT1VrKZKsXZmJDuM91kI=
-X-Google-Smtp-Source: AGHT+IH6PyCTgTlyJ/pAc7secRYLPKm3/MOXhb953MyaCPmDgTJiyGbvaK6HdUM2njm7xfLzSFl0UOBM4N0ECD8igMI=
-X-Received: by 2002:ac2:4ecb:0:b0:510:da7:bdbb with SMTP id
- p11-20020ac24ecb000000b005100da7bdbbmr779287lfr.45.1706282513809; Fri, 26 Jan
- 2024 07:21:53 -0800 (PST)
+        bh=HXbDAQHP0VCISJLAjKl+piZgPlD9EZGfwZynD6bSykA=;
+        b=N+mdoh5iS+3mtCbLfqSmgjBuFDqCZNB5zWh/6XRsrNpP4zDLzBP/qOiJ29Mu8N5pHx
+         d93Xeh972sfF9PcZmUWj6PLaS3p6w7ROXetIjSutyGWYnPKCG2HoqjdJT/p8AYRU8kLx
+         URYGvNeqSd5ZlkZ0Ng07gDw345uMIYsPFuMEKSchf0HgLBRxIteXZQJ1oEImGDCNjQLk
+         zPuN1bNJtPt4gBAyHaD92HeghxoQdQjf7TySyJ5klis6H/JM1WHTizEbO7u1P+g3w/76
+         MuiCKkZ20G5RMTyBGLkGb3i2t9QCm1zAfhTFVypyKr+wbWu1X9nbOmrwSOYIIY759/Gz
+         vNaQ==
+X-Gm-Message-State: AOJu0Yx/KxxRNxbxdvXv7i37iISPqZ0LiMe4lvr6Q3JFeqMkR1GLu4QG
+	lMZAEFDSaqz9YCMDws5HdNOQMF5xD/28a4FzewUNhQ5jSYTgR4t/3m1bvpzWQYE=
+X-Google-Smtp-Source: AGHT+IE/0BXbw/7kqyIQQ9bSOtEVgHEMucSnQZ7IUPtBd+GqZ7dNFajqpMF6vMBnIU0o27u+qt/lDQ==
+X-Received: by 2002:a05:600c:470e:b0:40e:68af:5616 with SMTP id v14-20020a05600c470e00b0040e68af5616mr9925wmo.39.1706285163117;
+        Fri, 26 Jan 2024 08:06:03 -0800 (PST)
+Received: from toster.lan (bl23-106-114.dsl.telepac.pt. [144.64.106.114])
+        by smtp.gmail.com with ESMTPSA id fc20-20020a05600c525400b0040ed1e5d5f3sm5327920wmb.41.2024.01.26.08.06.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Jan 2024 08:06:02 -0800 (PST)
+From: Jose Quaresma <quaresma.jose@gmail.com>
+X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
+To: openembedded-core@lists.openembedded.org
+Cc: Jose Quaresma <jose.quaresma@foundries.io>
+Subject: [PATCH] go: update 1.20.12 -> 1.20.13
+Date: Fri, 26 Jan 2024 16:05:55 +0000
+Message-ID: <20240126160555.66586-1-jose.quaresma@foundries.io>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <f2b33f50e7f11903a1b16f9a2f814134da203223.camel@infinera.com>
- <CANNYZj9Hy670NNEm_vTf8drPuhBWCGtjGbfVvgcnNq_+xgsy5w@mail.gmail.com>
- <6dc1b2effd68945b83870b24669f9a86eba64515.camel@infinera.com>
- <CANNYZj-rVN+CNCG6x4VYoPZTcCYwMnhKXzo7kT7zpN9HNvJ7zg@mail.gmail.com>
- <7b811dd50bf9451b3a221c547fe13328f2dac140.camel@infinera.com>
- <CANNYZj-sad7Cb8iVae=mACp55vYu8b-K9Gr69jTFpWaD=fQgmg@mail.gmail.com> <7d151635479f421df3e711f39ad99fef71b2f833.camel@infinera.com>
-In-Reply-To: <7d151635479f421df3e711f39ad99fef71b2f833.camel@infinera.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 26 Jan 2024 16:21:42 +0100
-Message-ID: <CANNYZj8kEHJVfpUUP3gh=rEwGe6MO_UsD8mvwe=vTVSSBJ5L3A@mail.gmail.com>
-Subject: Re: [OE-core] oe-selftest reproducible.ReproducibleTests.test_reproducible_builds
- appears to hardcode important tunable params
-To: Joakim Tjernlund <Joakim.Tjernlund@infinera.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 26 Jan 2024 15:21:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194391
+ <openembedded-core@lists.openembedded.org>; Fri, 26 Jan 2024 16:06:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194392
 
-They're forbidden in selftests as a whole, for other reasons. You can
-probably find the reasons out via git blame.
+Upgrade to latest 1.20.x release [1]:
 
-Alex
+$ git log --oneline go1.20.12..go1.20.13
+a95136a88c (tag: go1.20.13) [release-branch.go1.20] go1.20.13
+5c38c04957 [release-branch.go1.20] crypto/tls: align FIPS-only mode with BoringSSL policy
+9e4abed39b [release-branch.go1.20] crypto/internal/boring: upgrade module to fips-20220613
+95afc744a7 [release-branch.go1.20] runtime: put ReadMemStats debug assertions behind a double-check mode
+8cb86b5f85 [release-branch.go1.20] os/signal: skip nohup tests on darwin builders
+59ffd3b90d [release-branch.go1.20] os/signal: remove go t.Run from TestNohup
 
-On Fri, 26 Jan 2024 at 16:14, Joakim Tjernlund
-<Joakim.Tjernlund@infinera.com> wrote:
->
-> On Fri, 2024-01-26 at 15:55 +0100, Alexander Kanavin wrote:
-> > On Fri, 26 Jan 2024 at 15:52, Joakim Tjernlund
-> > <Joakim.Tjernlund@infinera.com> wrote:
-> > > A thought just occurred to me, these vars(SANITY_TESTED_DISTROS, buildhistory etc.),
-> > > do they need to be off in the original machine when building up the SSTATE ?
-> > > I figured they just needed to be off for the repro build(in xxxx-st dir) but
-> > > now I am not sure any more.
-> >
-> > Machine is typically understood as MACHINE setting, please do not
-> > confuse it with a build from a specific configuration in build/conf/.
-> >
-> > SANITY_TESTED_DISTROS and buildhistory do not factor in sstate
-> > signature calculation, so turning them off and one will not cause
-> > cache invalidation and a rebuild.
-> >
-> > Alex
->
-> A bit odd that repro. builds forbids them if they don't factor in sstate
->
->  Jocke
+[1] https://github.com/golang/go/compare/go1.20.12...go1.20.13
+
+Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+---
+ meta/recipes-devtools/go/{go-1.20.12.inc => go-1.20.13.inc} | 2 +-
+ ...binary-native_1.20.12.bb => go-binary-native_1.20.13.bb} | 6 +++---
+ ...oss-canadian_1.20.12.bb => go-cross-canadian_1.20.13.bb} | 0
+ .../go/{go-cross_1.20.12.bb => go-cross_1.20.13.bb}         | 0
+ .../go/{go-crosssdk_1.20.12.bb => go-crosssdk_1.20.13.bb}   | 0
+ .../go/{go-native_1.20.12.bb => go-native_1.20.13.bb}       | 0
+ .../go/{go-runtime_1.20.12.bb => go-runtime_1.20.13.bb}     | 0
+ meta/recipes-devtools/go/{go_1.20.12.bb => go_1.20.13.bb}   | 0
+ 8 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/go/{go-1.20.12.inc => go-1.20.13.inc} (89%)
+ rename meta/recipes-devtools/go/{go-binary-native_1.20.12.bb => go-binary-native_1.20.13.bb} (78%)
+ rename meta/recipes-devtools/go/{go-cross-canadian_1.20.12.bb => go-cross-canadian_1.20.13.bb} (100%)
+ rename meta/recipes-devtools/go/{go-cross_1.20.12.bb => go-cross_1.20.13.bb} (100%)
+ rename meta/recipes-devtools/go/{go-crosssdk_1.20.12.bb => go-crosssdk_1.20.13.bb} (100%)
+ rename meta/recipes-devtools/go/{go-native_1.20.12.bb => go-native_1.20.13.bb} (100%)
+ rename meta/recipes-devtools/go/{go-runtime_1.20.12.bb => go-runtime_1.20.13.bb} (100%)
+ rename meta/recipes-devtools/go/{go_1.20.12.bb => go_1.20.13.bb} (100%)
+
+diff --git a/meta/recipes-devtools/go/go-1.20.12.inc b/meta/recipes-devtools/go/go-1.20.13.inc
+similarity index 89%
+rename from meta/recipes-devtools/go/go-1.20.12.inc
+rename to meta/recipes-devtools/go/go-1.20.13.inc
+index 9be56c6707..b6eeb651c9 100644
+--- a/meta/recipes-devtools/go/go-1.20.12.inc
++++ b/meta/recipes-devtools/go/go-1.20.13.inc
+@@ -15,4 +15,4 @@ SRC_URI += "\
+     file://0008-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
+     file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch \
+ "
+-SRC_URI[main.sha256sum] = "c5bf934751d31c315c1d0bb5fb02296545fa6d08923566f7a5afec81f2ed27d6"
++SRC_URI[main.sha256sum] = "0fe745c530f2f1d67193af3c5ea25246be077989ec5178df266e975f3532449e"
+diff --git a/meta/recipes-devtools/go/go-binary-native_1.20.12.bb b/meta/recipes-devtools/go/go-binary-native_1.20.13.bb
+similarity index 78%
+rename from meta/recipes-devtools/go/go-binary-native_1.20.12.bb
+rename to meta/recipes-devtools/go/go-binary-native_1.20.13.bb
+index 41db2ada80..d99bab71e1 100644
+--- a/meta/recipes-devtools/go/go-binary-native_1.20.12.bb
++++ b/meta/recipes-devtools/go/go-binary-native_1.20.13.bb
+@@ -9,9 +9,9 @@ PROVIDES = "go-native"
+ 
+ # Checksums available at https://go.dev/dl/
+ SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
+-SRC_URI[go_linux_amd64.sha256sum] = "9c5d48c54dd8b0a3b2ef91b0f92a1190aa01f11d26e98033efa64c46a30bba7b"
+-SRC_URI[go_linux_arm64.sha256sum] = "8afe8e3fb6972eaa2179ef0a71678c67f26509fab4f0f67c4b00f4cdfa92dc87"
+-SRC_URI[go_linux_ppc64le.sha256sum] = "2ae0ec3736216dfbd7b01ff679842dc1bed365e53a024d522645bcffd01c7328"
++SRC_URI[go_linux_amd64.sha256sum] = "9a9d3dcae2b6a638b1f2e9bd4db08ffb39c10e55d9696914002742d90f0047b5"
++SRC_URI[go_linux_arm64.sha256sum] = "a2d811cef3c4fc77c01195622e637af0c2cf8b3814a95a0920cf2f83b6061d38"
++SRC_URI[go_linux_ppc64le.sha256sum] = "5f632b83323e16f8c6ceb676cd570b3f13f1826e06a81d92985d1301b643a7d3"
+ 
+ UPSTREAM_CHECK_URI = "https://golang.org/dl/"
+ UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
+diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.20.12.bb b/meta/recipes-devtools/go/go-cross-canadian_1.20.13.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross-canadian_1.20.12.bb
+rename to meta/recipes-devtools/go/go-cross-canadian_1.20.13.bb
+diff --git a/meta/recipes-devtools/go/go-cross_1.20.12.bb b/meta/recipes-devtools/go/go-cross_1.20.13.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross_1.20.12.bb
+rename to meta/recipes-devtools/go/go-cross_1.20.13.bb
+diff --git a/meta/recipes-devtools/go/go-crosssdk_1.20.12.bb b/meta/recipes-devtools/go/go-crosssdk_1.20.13.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-crosssdk_1.20.12.bb
+rename to meta/recipes-devtools/go/go-crosssdk_1.20.13.bb
+diff --git a/meta/recipes-devtools/go/go-native_1.20.12.bb b/meta/recipes-devtools/go/go-native_1.20.13.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-native_1.20.12.bb
+rename to meta/recipes-devtools/go/go-native_1.20.13.bb
+diff --git a/meta/recipes-devtools/go/go-runtime_1.20.12.bb b/meta/recipes-devtools/go/go-runtime_1.20.13.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-runtime_1.20.12.bb
+rename to meta/recipes-devtools/go/go-runtime_1.20.13.bb
+diff --git a/meta/recipes-devtools/go/go_1.20.12.bb b/meta/recipes-devtools/go/go_1.20.13.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go_1.20.12.bb
+rename to meta/recipes-devtools/go/go_1.20.13.bb
+-- 
+2.43.0
+
 
