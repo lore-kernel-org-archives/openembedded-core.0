@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F25DC4828A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CA10C4828C
 	for <webhook@archiver.kernel.org>; Fri, 26 Jan 2024 13:35:22 +0000 (UTC)
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
- by mx.groups.io with SMTP id smtpd.web11.15940.1706276119514068608
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web10.15959.1706276120699357048
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Jan 2024 05:35:19 -0800
+ Fri, 26 Jan 2024 05:35:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=cfDZ54Fg;
- spf=pass (domain: gmail.com, ip: 209.85.218.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a310409589aso24882466b.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jan 2024 05:35:19 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=BQPUXV7Q;
+ spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-40e60e137aaso10176465e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jan 2024 05:35:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706276118; x=1706880918; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1706276119; x=1706880919; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hLam///cWW4a2fL9Mhk2CmVKUUVWhrRoU33kEPyj5Dw=;
-        b=cfDZ54Fg4JP347ynHXnnNTulHMjt/vuOXHS4hDLRgavJzLhBRPchG0+lTtfQKVBlDX
-         6zgFims6U0GiXUfU+ZmGDFnXR1uCKlQgJNI4u2MxqXYQZMRjk0mtxvQ4upBkub/vuKVT
-         mKGc2Rdz/NbUCFkJAUzVE8mvibI5nSVI9zWcSMsN45ZVeseF9WcIwZ8qBUKZjzeC+e8L
-         tFsBue6XNhdFtAAus25uBK0lpvQQdglqGk/a06rjdTZ+Ie1E9knXVmEN0oq6yTtHamvW
-         dlXDuEIibvWPKEzXVO9HxemkpLDDJ41fX6xEqJu6SPWx01Cr/Y7OFM8mG+ieD1jIgj2T
-         jXtg==
+        bh=iG3pNsTHKCM9haeGeHhuuEJtKcYOOxPWEp7jj/b9cqU=;
+        b=BQPUXV7QYXvO+rCZTmfT/+jANNri3d9rAt10gNmQpscLKUlZbFZhilu9Q8lpXEJnQO
+         M5Kv+iHgusqF6uhneQ4O643O5F7nM5JW2MME3JuiIppF6qEcqViUUAAb5YPsveFpIhg6
+         gj68LZcFHb25LXIqWc9dbt7cHHJ/vDThsxBUkPbx8MSr/ulHoyviNkkCug7uBPe75Cb+
+         xHQjAZLssrRwehkuMpmbsiqUjDPOEC5+1gH9FvBxE0JJhOdmLFwnxqEVHswkhGx/1Lgj
+         7owUmqQpB6y8jtcp4Z28iIjCxjtIQofJc/NqBPmXsh5UM9etPl8LepQD6sylFmGPzNKo
+         J0Fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706276118; x=1706880918;
+        d=1e100.net; s=20230601; t=1706276119; x=1706880919;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hLam///cWW4a2fL9Mhk2CmVKUUVWhrRoU33kEPyj5Dw=;
-        b=rGHiu74XMeoBNQEf0bKf2W9Onh9JClcSPVj6RoKu6p8NBTaHf2Kod+Mo91NfgDII6s
-         GgRhFq/oNwcjd8iVmuBIjSy+Mpj6jQT2vLXaYHEjQFrYIGc72kpQRBmghg4c6bQVErtt
-         qY3PNj0yR7j+l0NHoCHVMzHHBaBKOoCPHzhw+esYN5eTjmZsxc6gK2aY5q/vPZJMAzlf
-         zPnDrvkB+y28UZI6Y3xjbp2YdcE66HdZif/BqSGuMPyiUrxcfRHZTgfUtD8oL/yyfDj7
-         8Mkhi4sawn08USUzPCgGc7yy3jTVxi6iyTOK3geBkbwdM1ngRiGGT0hJpTc4jpWO5yqq
-         HbkQ==
-X-Gm-Message-State: AOJu0YwBniG9rOqhjSBfV0eNI88puoQlf0kjftQdtDVefgxvGeBisEvj
-	bgIPAv1uLNVxGAspQ0CKDveYk7Eq/6UAAav3N8iH0CZhclFSFNoPcO5vZj3F
-X-Google-Smtp-Source: AGHT+IG7jo/hOsIc1Rqif4jzbEEQyhBKpC31QQCslVs5HFrs/tHyPdQCsP/dV8vUZe53CEedObx3tQ==
-X-Received: by 2002:a17:906:1694:b0:a2e:81d4:524e with SMTP id s20-20020a170906169400b00a2e81d4524emr556507ejd.12.1706276117943;
-        Fri, 26 Jan 2024 05:35:17 -0800 (PST)
+        bh=iG3pNsTHKCM9haeGeHhuuEJtKcYOOxPWEp7jj/b9cqU=;
+        b=kew0b8x00ph4v1UX5oX/UbTSySlOxP8r/P6u7TS+JA6xOUNcFJMEtRgWGEmFlLcZ7F
+         oUc7bMlY4jk26T+yjIoG6P1JMN44J99NBkjnvBFN9YqbTQjAJSJCAzdkHsEueMqWtwps
+         5Ttb0KOrreC6hLRVsop2bXnzD9bblp3YY/v3XA+eRvAnVcaD/SGEaYHjrce3nuS1/nYH
+         u3tBtHzOgAGuEtUq4+b383HHt4aao170BNSSsCYMBcGAIGdRrMIdfRxmaFq9+TQaApyH
+         j8nMwNV7A/LS6BrPOnIsyWE4NfZqcZwuFar9TxxrvOrfEDMdTAFFh+O5XeJt39EkdAjv
+         xtPg==
+X-Gm-Message-State: AOJu0YxI87ITs7moNeM94fmAowLmzEMVDl2IBLJGlFBAOIZWYMoXWcQC
+	PD4QKKi326ubNP77gro1H8UHlSK1wFkKf46/UPE2Lmpldke6OGyecdY5sMrh
+X-Google-Smtp-Source: AGHT+IFmBoGME9jG9En+rL6YL5YKti7eXR0+oLDjr381RmUcSQydXgHm6MtWco07lTIejHLL1hJJkA==
+X-Received: by 2002:a05:600c:40c4:b0:40e:a5b8:a27a with SMTP id m4-20020a05600c40c400b0040ea5b8a27amr858406wmh.106.1706276119036;
+        Fri, 26 Jan 2024 05:35:19 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id vg14-20020a170907d30e00b00a30f3e8838bsm631554ejc.127.2024.01.26.05.35.17
+        by smtp.gmail.com with ESMTPSA id vg14-20020a170907d30e00b00a30f3e8838bsm631554ejc.127.2024.01.26.05.35.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jan 2024 05:35:17 -0800 (PST)
+        Fri, 26 Jan 2024 05:35:18 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 4/8] classes/package_rpm: write file permissions and ownership explicitly into .spec
-Date: Fri, 26 Jan 2024 14:34:51 +0100
-Message-Id: <20240126133455.2609378-4-alex@linutronix.de>
+Subject: [PATCH 6/8] classes/package_rpm: set bogus locations for passwd/group files
+Date: Fri, 26 Jan 2024 14:34:53 +0100
+Message-Id: <20240126133455.2609378-6-alex@linutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240126133455.2609378-1-alex@linutronix.de>
 References: <20240126133455.2609378-1-alex@linutronix.de>
@@ -62,99 +62,36 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 26 Jan 2024 13:35:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194364
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194366
 
-Per https://github.com/rpm-software-management/rpm/commit/77d3529c31ca090a40b8d3959a0bcdd721a556d6
-rpm 4.19.1+ will not consider actual filesystem permissions and ownership, and will quietly default
-to root if not expictly set otherwise in .spec file.
+Since https://github.com/rpm-software-management/rpm/commit/f3eaeeb7341085e1850e914350cf1f33d538320d
+rpm does its own parsing of /etc/passwd and /etc/group instead of relying on getpwnam() and friends.
 
-There's also additional diagnostics (printing what is in passwd/group)
-when user/group name lookup against the sysroot fails.
-That is never supposed to happen, and yet there was one report that it did:
-https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/8493/steps/23/logs/stdio
+This has an unfortunate effect of leaking build host uid/gid values for users and groups
+into the cpio header inside rpm file (where previously those were always zero).
 
-Investigating that issue led to the first three commits in this patchset:
-
-sysroot user management postinsts: run with /bin/sh -e to report errors when they happen
-classes/multilib: expand PACKAGE_WRITE_DEPS in addition to DEPENDS
-classes/staging: capture output of sysroot postinsts into logs
+Installation of rpm packages relies on rpm header to set files ownership, and that
+is a different structure that is build from .spec information, so we can avoid host
+contamination by setting the paths to something bogus.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/classes-global/package_rpm.bbclass | 34 ++++++++++++++++++++-----
- 1 file changed, 28 insertions(+), 6 deletions(-)
+ meta/classes-global/package_rpm.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/meta/classes-global/package_rpm.bbclass b/meta/classes-global/package_rpm.bbclass
-index 2fc18fe98c1..a641dbdb299 100644
+index 3ca6c5aa7b3..e0f4de42a15 100644
 --- a/meta/classes-global/package_rpm.bbclass
 +++ b/meta/classes-global/package_rpm.bbclass
-@@ -103,6 +103,7 @@ def write_rpm_perfiledata(srcname, d):
- 
- python write_specfile () {
-     import oe.packagedata
-+    import os,pwd,grp,stat
- 
-     # append information for logs and patches to %prep
-     def add_prep(d, spec_files_bottom):
-@@ -198,6 +199,23 @@ python write_specfile () {
-         # of the walk, the isdir() test would then fail and the walk code would assume its a file
-         # hence we check for the names in files too.
-         for rootpath, dirs, files in os.walk(walkpath):
-+            def get_attr(path):
-+                stat_f = os.stat(rootpath + "/" + path, follow_symlinks=False)
-+                mode = stat.S_IMODE(stat_f.st_mode)
-+                try:
-+                    owner = pwd.getpwuid(stat_f.st_uid).pw_name
-+                except Exception as e:
-+                    bb.error("Content of /etc/passwd in sysroot:\n{}".format(
-+                        open(d.getVar("RECIPE_SYSROOT") +"/etc/passwd").read()))
-+                    raise e
-+                try:
-+                    group = grp.getgrgid(stat_f.st_gid).gr_name
-+                except Exception as e:
-+                    bb.error("Content of /etc/group in sysroot:\n{}".format(
-+                        open(d.getVar("RECIPE_SYSROOT") +"/etc/group").read()))
-+                    raise e
-+                return "%attr({:o},{},{}) ".format(mode, owner, group)
-+
-             path = rootpath.replace(walkpath, "")
-             if path.endswith("DEBIAN") or path.endswith("CONTROL"):
-                 continue
-@@ -221,24 +239,28 @@ python write_specfile () {
-                     if dir == "CONTROL" or dir == "DEBIAN":
-                         continue
-                     dir = dir.replace("%", "%%%%%%%%")
-+                    p = path + '/' + dir
-                     # All packages own the directories their files are in...
--                    target.append('%dir "' + path + '/' + dir + '"')
-+                    target.append(get_attr(dir) + '%dir "' + p + '"')
-             else:
-                 # packages own only empty directories or explict directory.
-                 # This will prevent the overlapping of security permission.
-+                attr = get_attr(path)
-                 if path and not files and not dirs:
--                    target.append('%dir "' + path + '"')
-+                    target.append(attr + '%dir "' + path + '"')
-                 elif path and path in dirfiles:
--                    target.append('%dir "' + path + '"')
-+                    target.append(attr + '%dir "' + path + '"')
- 
-             for file in files:
-                 if file == "CONTROL" or file == "DEBIAN":
-                     continue
-                 file = file.replace("%", "%%%%%%%%")
--                if conffiles.count(path + '/' + file):
--                    target.append('%config "' + path + '/' + file + '"')
-+                attr = get_attr(file)
-+                p = path + '/' + file
-+                if conffiles.count(p):
-+                    target.append(attr + '%config "' + p + '"')
-                 else:
--                    target.append('"' + path + '/' + file + '"')
-+                    target.append(attr + '"' + p + '"')
- 
-     # Prevent the prerm/postrm scripts from being run during an upgrade
-     def wrap_uninstall(scriptvar):
+@@ -722,6 +722,8 @@ python do_package_rpm () {
+     cmd = cmd + " --define 'debug_package %{nil}'"
+     cmd = cmd + " --define '_tmppath " + workdir + "'"
+     cmd = cmd + " --define '_use_weak_usergroup_deps 1'"
++    cmd = cmd + " --define '_passwd_path " + "/completely/bogus/path" + "'"
++    cmd = cmd + " --define '_group_path " + "/completely/bogus/path" + "'"
+     if d.getVarFlag('ARCHIVER_MODE', 'srpm') == '1' and bb.data.inherits_class('archiver', d):
+         cmd = cmd + " --define '_sourcedir " + d.getVar('ARCHIVER_OUTDIR') + "'"
+         cmdsrpm = cmd + " --define '_srcrpmdir " + d.getVar('ARCHIVER_RPMOUTDIR') + "'"
 -- 
 2.39.2
 
