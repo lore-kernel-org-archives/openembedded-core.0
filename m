@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA094C47422
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA4C5C47DA9
 	for <webhook@archiver.kernel.org>; Sat, 27 Jan 2024 02:38:09 +0000 (UTC)
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
- by mx.groups.io with SMTP id smtpd.web11.8493.1706323079842129805
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+ by mx.groups.io with SMTP id smtpd.web11.8497.1706323087933935498
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Jan 2024 18:37:59 -0800
+ Fri, 26 Jan 2024 18:38:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=N5w9HpNr;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.179, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-53fbf2c42bfso728239a12.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jan 2024 18:37:59 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=cLOITIEd;
+ spf=softfail (domain: sakoman.com, ip: 209.85.128.178, mailfrom: steve@sakoman.com)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-5ff7a098ab8so11586027b3.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jan 2024 18:38:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1706323079; x=1706927879; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1706323086; x=1706927886; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=aMzqdiE2cVstQh/0ARV5dhFg4Ykk8KVuGFDcOA6XCv4=;
-        b=N5w9HpNrCjkmFK1ew8DGys4S4LfYHUhxRwwPLBEhrwj6ozryk80hZApMQa8SSJuwRy
-         Xd7iSYIaVbLO3uUx2y6XdcbgnNDgxJQeDRRMWowwt47LYULQuDml1OW0shNRaQKkgkW4
-         U2udk2u50sNvj/hGIe6DqbTvS4M7VLL28V3hW29r/U8bYMooAsRUqgXopy4hQlLi+hBK
-         R4YkSWq90kUJOiGoLB1+k2UZ4ts4ku5Y2W+BY0vddU4Ae00yLXYArAWqAHjtR/Yga+uB
-         e2PMgk9M+WCFF6ArMR0VkK2tAetU5QDSmTGQ08157YtHDBgcIybJ7mAuOwHciHaS36d/
-         rKmg==
+        bh=SFwT6arLchjEjwImjZZ4EBs3wf0Uat/x91N4nDLfrrA=;
+        b=cLOITIEdgZwm8iWX3aDlfd4D8ytTx8ltG36fsiq+r1jox8ayD9dbed7IyWl8QSTetJ
+         sVTdjN74ekZVGc9q3sXST5X2q076ttycbW7N0GkCtRyh8z7AV7ezpCuBPfgKzYaf0uNs
+         iEZ7ABL9ynrb8zlGPLEfaK3S2j3BLVmiGnjPuDhYZUND+4ZBbphTGQSIbdGd/QbajsrD
+         YNdsck2XcBPlFI9mtxXUEP7b2l117/5dY5Vw+YlWQMdwA+gr05cOsKIX2jm8gfolmj8C
+         VPFQj7c8+64/AkGJvjL3kcHkPtNGEVWy1nzyAgfBchAxaHxkKpwn2l2xNCQwyWfanczb
+         z4EA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706323079; x=1706927879;
+        d=1e100.net; s=20230601; t=1706323086; x=1706927886;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=aMzqdiE2cVstQh/0ARV5dhFg4Ykk8KVuGFDcOA6XCv4=;
-        b=ShLvuEyTosqz1YVbbgrs8YjoXALRlVb2sVeNRCvAQcszPzMW8ZbnWjHuPa/kqxT4tl
-         z2HjIyEtvhcYMQrGLc23dNO5CPbEGB2Nj1MkDmQDLXmWkcU2JmPUx+JITbnGsfO1OxpC
-         +QLt5qv6RoYQbPK395KgVl4R/M0GgB+pMYbmlZ+4kAX7n2hImNDg3j6crAYoV1GzwhZR
-         HoVpu3g98RzYlgR5IJUsF6q5/sB6N/Z8JC6EDIa7RIJE9hR84WjlgqndcuzW0Jo2b67O
-         1pVpxaizMHMtmroY6xqa5OsZrAeAMhoZsPVtvI+g4UZE5i1hDYAEYTH1D0IaoPgQv18Z
-         cyLg==
-X-Gm-Message-State: AOJu0Yza4EUESe/Kb8W9uYS57pZdkHs7KCNAHMULoTrNPD/D965JiHQ1
-	Du5WH5DoGT50hEQQRAqm68g0mIiU40Onczq3woeLtOljLoIJwZt/REYRKo9flY8PqGbE5P+TSzW
-	7kCQHEg==
-X-Google-Smtp-Source: AGHT+IEZ6Y1xy37jBQ5fGfNWz/lA+wGCy42pyLqZ7snLL02UIpuDPpwqpcEGqzkqJKbr1ocXyntShg==
-X-Received: by 2002:a17:902:ecc1:b0:1d4:be46:5325 with SMTP id a1-20020a170902ecc100b001d4be465325mr1058299plh.78.1706323078945;
-        Fri, 26 Jan 2024 18:37:58 -0800 (PST)
+        bh=SFwT6arLchjEjwImjZZ4EBs3wf0Uat/x91N4nDLfrrA=;
+        b=WJnUsa1brkMviDgAL0pxPab+4iT5FETzKafeZKVDHy+TSF9bumHKGE9kpTc4/WonKf
+         K1x/hWMOlgzSLNFf4t5ejU10eTkJxF5j+OqlbgVFfiTUn8NItYF0qiEDfY7s+YU7Kb1U
+         5Dnxrx3RXjjmDJwtZgyA5exm3RAPR+SJ/gJXxoafcJ8gf0uPtPoKNLWnwhFj4tst98Nn
+         PHV4C79U4wGxE/tNtdcGsLKsI3TqJl1pgV8Anj0mL1V1HiU/TBegcCrSRks7Vk1vmEnv
+         bBNUNILLq5VZcQ2ffgzAz+p0jTsWD20kpeSkhP6OJ/0/BiroH0NVRdrkR6cp66rpTgY+
+         LvKQ==
+X-Gm-Message-State: AOJu0YxfEt+28HeKveRIA48/P2LFGAHo/xSIZ31dP23KuFR34EMR7pqE
+	WTZRluUaMqr6FYLio2/EAZufr3QVCvNeF7tLYVKjLIQPxo9ngx1p9opof8uedTzMvpjTuZjgCpK
+	u5lGmog==
+X-Google-Smtp-Source: AGHT+IGTCafKCLQoxxrE/Yj1EKX2BKRJwRD1USbnKXFWR1i2FExGoTInBHo5FljOjLvh+FeRarfBrw==
+X-Received: by 2002:a0d:dfd5:0:b0:600:517:3de4 with SMTP id i204-20020a0ddfd5000000b0060005173de4mr1068331ywe.4.1706323086379;
+        Fri, 26 Jan 2024 18:38:06 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id r8-20020a170902be0800b001d7405022ecsm1547045pls.159.2024.01.26.18.37.58
+        by smtp.gmail.com with ESMTPSA id r8-20020a170902be0800b001d7405022ecsm1547045pls.159.2024.01.26.18.38.05
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jan 2024 18:37:58 -0800 (PST)
+        Fri, 26 Jan 2024 18:38:06 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][nanbield 11/23] linux-yocto/6.1: update to v6.1.73
-Date: Fri, 26 Jan 2024 16:37:19 -1000
-Message-Id: <84a86b91de33a048b8a4aafacb051c9dbc3abbca.1706322780.git.steve@sakoman.com>
+Subject: [OE-core][nanbield 15/23] dtc: preserve version also from shallow git clones
+Date: Fri, 26 Jan 2024 16:37:23 -1000
+Message-Id: <a77defdac80d4cc660d6b6677bc166a1d1d338b5.1706322780.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1706322780.git.steve@sakoman.com>
 References: <cover.1706322780.git.steve@sakoman.com>
@@ -62,126 +62,130 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 27 Jan 2024 02:38:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194420
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194424
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-Updating linux-yocto/6.1 to the latest korg -stable release that comprises
-the following commits:
+Since switch from Makefile to meson based build,
+the version is no longer hardcoded but queried from git tag.
 
-    fec3b1451d5f Linux 6.1.73
-    f9ee31dc7fcd cifs: fix flushing folio regression for 6.1 backport
-    0f22c8a6efe6 ipv6: remove max_size check inline with ipv4
-    b2c545c39877 Revert "nfsd: separate nfsd_last_thread() from nfsd_put()"
-    db5f2f4db8b7 Revert "nfsd: call nfsd_last_thread() before final nfsd_put()"
+This works only if git history is available.
+When shallow tarballs are used, tag is not available.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Example error for trusted-firmware-a from meta-arm:
+dtc version too old (039a994), you need at least version 1.4.4
+
+Backport also patch to fix version in meson file.
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 27004956fb5ce3d4c2a48e64681b743763641f04)
+(cherry picked from commit 319f5d8a32d1f4a71ac997ce4522249b08f84945)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../linux/linux-yocto-rt_6.1.bb               |  6 ++--
- .../linux/linux-yocto-tiny_6.1.bb             |  6 ++--
- meta/recipes-kernel/linux/linux-yocto_6.1.bb  | 28 +++++++++----------
- 3 files changed, 20 insertions(+), 20 deletions(-)
+ ...01-meson.build-bump-version-to-1.7.0.patch | 29 ++++++++++++++
+ ...n-allow-building-from-shallow-clones.patch | 38 +++++++++++++++++++
+ meta/recipes-kernel/dtc/dtc_1.7.0.bb          |  6 ++-
+ 3 files changed, 72 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-kernel/dtc/dtc/0001-meson.build-bump-version-to-1.7.0.patch
+ create mode 100644 meta/recipes-kernel/dtc/dtc/0002-meson-allow-building-from-shallow-clones.patch
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.1.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.1.bb
-index 857197b211..06c07b70c8 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_6.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.1.bb
-@@ -14,13 +14,13 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
+diff --git a/meta/recipes-kernel/dtc/dtc/0001-meson.build-bump-version-to-1.7.0.patch b/meta/recipes-kernel/dtc/dtc/0001-meson.build-bump-version-to-1.7.0.patch
+new file mode 100644
+index 0000000000..79a3b92b44
+--- /dev/null
++++ b/meta/recipes-kernel/dtc/dtc/0001-meson.build-bump-version-to-1.7.0.patch
+@@ -0,0 +1,29 @@
++From 9153522103bd4ed7e3299c4d073f66bb37cb2d42 Mon Sep 17 00:00:00 2001
++From: Nikolay Letov <letov.nikolay@gmail.com>
++Date: Wed, 22 Feb 2023 13:36:07 +0300
++Subject: [PATCH 1/2] meson.build: bump version to 1.7.0
++
++[This was botched in the actual 1.7.0 release :( - David Gibson]
++
++Upstream-Status: Backport [https://git.kernel.org/pub/scm/utils/dtc/dtc.git/commit/?id=64a907f08b9bedd89833c1eee674148cff2343c6]
++
++Signed-off-by: Nikolay Letov <letov.nikolay@gmail.com>
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ meson.build | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/meson.build b/meson.build
++index 78251eb..d88cd9f 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -1,5 +1,5 @@
++ project('dtc', 'c',
++-  version: '1.6.0',
+++  version: '1.7.0',
++   license: ['GPL2+', 'BSD-2'],
++   default_options: 'werror=true',
++ )
++-- 
++2.30.2
++
+diff --git a/meta/recipes-kernel/dtc/dtc/0002-meson-allow-building-from-shallow-clones.patch b/meta/recipes-kernel/dtc/dtc/0002-meson-allow-building-from-shallow-clones.patch
+new file mode 100644
+index 0000000000..0284905913
+--- /dev/null
++++ b/meta/recipes-kernel/dtc/dtc/0002-meson-allow-building-from-shallow-clones.patch
+@@ -0,0 +1,38 @@
++From 4415b0baece3c4351a6d3637c2754abbefd4795d Mon Sep 17 00:00:00 2001
++From: Peter Marko <peter.marko@siemens.com>
++Date: Sat, 16 Dec 2023 18:58:31 +0100
++Subject: [PATCH 2/2] meson: allow building from shallow clones
++
++When building from shallow clone, tag is not available
++and version defaults to git hash.
++Problem is that some builds check DTC version and fail the comparison.
++Example is https://git.trustedfirmware.org/TF-A/trusted-firmware-a.git
++Which fails to build with following error:
++dtc version too old (039a994), you need at least version 1.4.4
++
++Drop --always from git describe command, see
++https://github.com/mesonbuild/meson/blob/1.3.0/mesonbuild/utils/universal.py#L773
++This will make it more closer to build via Makefile.
++
++Upstream-Status: Submitted [https://github.com/dgibson/dtc/pull/122]
++
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ meson.build | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/meson.build b/meson.build
++index 78251eb..fc0c92a 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -56,6 +56,7 @@ py = py.find_installation(required: get_option('python'))
++ swig = find_program('swig', required: get_option('python'))
++ 
++ version_gen_h = vcs_tag(
+++  command: ['git', 'describe', '--dirty=+'],
++   input: 'version_gen.h.in',
++   output: 'version_gen.h',
++ )
++-- 
++2.30.2
++
+diff --git a/meta/recipes-kernel/dtc/dtc_1.7.0.bb b/meta/recipes-kernel/dtc/dtc_1.7.0.bb
+index 1a78a0c079..0702fc16df 100644
+--- a/meta/recipes-kernel/dtc/dtc_1.7.0.bb
++++ b/meta/recipes-kernel/dtc/dtc_1.7.0.bb
+@@ -8,7 +8,11 @@ LIC_FILES_CHKSUM = "file://GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://BSD-2-Clause;md5=5d6306d1b08f8df623178dfd81880927 \
+                     file://README.license;md5=a1eb22e37f09df5b5511b8a278992d0e"
  
--SRCREV_machine ?= "6d67557b912380b57b6081da7ac106e9c003f4d1"
--SRCREV_meta ?= "74fa91143e9076e0d1d5ff0cca93987b3330bf27"
-+SRCREV_machine ?= "6fd0860ac9846438f226257ab515bcd612fdc379"
-+SRCREV_meta ?= "40dede8a165ea5894f172fede6baa0dd94d23fec"
+-SRC_URI = "git://git.kernel.org/pub/scm/utils/dtc/dtc.git;branch=main;protocol=https" 
++SRC_URI = " \
++    git://git.kernel.org/pub/scm/utils/dtc/dtc.git;branch=main;protocol=https \
++    file://0001-meson.build-bump-version-to-1.7.0.patch \
++    file://0002-meson-allow-building-from-shallow-clones.patch \
++"
+ SRCREV = "039a99414e778332d8f9c04cbd3072e1dcc62798"
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.1;destsuffix=${KMETA};protocol=https"
- 
--LINUX_VERSION ?= "6.1.72"
-+LINUX_VERSION ?= "6.1.73"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.1.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.1.bb
-index 55f78404b1..e391074f8b 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.1.bb
-@@ -8,7 +8,7 @@ require recipes-kernel/linux/linux-yocto.inc
- # CVE exclusions
- include recipes-kernel/linux/cve-exclusion_6.1.inc
- 
--LINUX_VERSION ?= "6.1.72"
-+LINUX_VERSION ?= "6.1.73"
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-@@ -17,8 +17,8 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine ?= "d08880e7ec70e70249f80b8305da8e90bd47c606"
--SRCREV_meta ?= "74fa91143e9076e0d1d5ff0cca93987b3330bf27"
-+SRCREV_machine ?= "6c78fd37122b29c40bd8bb6f43aaa1ba7d6fb53a"
-+SRCREV_meta ?= "40dede8a165ea5894f172fede6baa0dd94d23fec"
- 
- PV = "${LINUX_VERSION}+git"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_6.1.bb b/meta/recipes-kernel/linux/linux-yocto_6.1.bb
-index a75efe66de..f520954646 100644
---- a/meta/recipes-kernel/linux/linux-yocto_6.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_6.1.bb
-@@ -18,25 +18,25 @@ KBRANCH:qemux86-64 ?= "v6.1/standard/base"
- KBRANCH:qemuloongarch64  ?= "v6.1/standard/base"
- KBRANCH:qemumips64 ?= "v6.1/standard/mti-malta64"
- 
--SRCREV_machine:qemuarm ?= "4b6d6ef48b0d11dfdcdc9ae25e1c83be9396a116"
--SRCREV_machine:qemuarm64 ?= "d08880e7ec70e70249f80b8305da8e90bd47c606"
--SRCREV_machine:qemuloongarch64 ?= "d08880e7ec70e70249f80b8305da8e90bd47c606"
--SRCREV_machine:qemumips ?= "8a0e36da16bca1553532936c198c43362be35a82"
--SRCREV_machine:qemuppc ?= "d08880e7ec70e70249f80b8305da8e90bd47c606"
--SRCREV_machine:qemuriscv64 ?= "d08880e7ec70e70249f80b8305da8e90bd47c606"
--SRCREV_machine:qemuriscv32 ?= "d08880e7ec70e70249f80b8305da8e90bd47c606"
--SRCREV_machine:qemux86 ?= "d08880e7ec70e70249f80b8305da8e90bd47c606"
--SRCREV_machine:qemux86-64 ?= "d08880e7ec70e70249f80b8305da8e90bd47c606"
--SRCREV_machine:qemumips64 ?= "3407157586b654c9932356124429ee9dc9f56f18"
--SRCREV_machine ?= "d08880e7ec70e70249f80b8305da8e90bd47c606"
--SRCREV_meta ?= "74fa91143e9076e0d1d5ff0cca93987b3330bf27"
-+SRCREV_machine:qemuarm ?= "45e6b64447b888e94af6fa8529cf976bf8116624"
-+SRCREV_machine:qemuarm64 ?= "6c78fd37122b29c40bd8bb6f43aaa1ba7d6fb53a"
-+SRCREV_machine:qemuloongarch64 ?= "6c78fd37122b29c40bd8bb6f43aaa1ba7d6fb53a"
-+SRCREV_machine:qemumips ?= "90ea25826ce7ef511d0d93ae33c3888f3b583bf3"
-+SRCREV_machine:qemuppc ?= "6c78fd37122b29c40bd8bb6f43aaa1ba7d6fb53a"
-+SRCREV_machine:qemuriscv64 ?= "6c78fd37122b29c40bd8bb6f43aaa1ba7d6fb53a"
-+SRCREV_machine:qemuriscv32 ?= "6c78fd37122b29c40bd8bb6f43aaa1ba7d6fb53a"
-+SRCREV_machine:qemux86 ?= "6c78fd37122b29c40bd8bb6f43aaa1ba7d6fb53a"
-+SRCREV_machine:qemux86-64 ?= "6c78fd37122b29c40bd8bb6f43aaa1ba7d6fb53a"
-+SRCREV_machine:qemumips64 ?= "59248cf67c17a987f898d9d0c81292cb5fcda858"
-+SRCREV_machine ?= "6c78fd37122b29c40bd8bb6f43aaa1ba7d6fb53a"
-+SRCREV_meta ?= "40dede8a165ea5894f172fede6baa0dd94d23fec"
- 
- # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
- # get the <version>/base branch, which is pure upstream -stable, and the same
- # meta SRCREV as the linux-yocto-standard builds. Select your version using the
- # normal PREFERRED_VERSION settings.
- BBCLASSEXTEND = "devupstream:target"
--SRCREV_machine:class-devupstream ?= "7c58bfa711cb556ef1edc48e7dfa6d84e5fb8912"
-+SRCREV_machine:class-devupstream ?= "fec3b1451d5febbc9e04250f879c10f8952e6bed"
- PN:class-devupstream = "linux-yocto-upstream"
- KBRANCH:class-devupstream = "v6.1/base"
- 
-@@ -45,7 +45,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
- SRC_URI += "file://0001-perf-cpumap-Make-counter-as-unsigned-ints.patch"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
--LINUX_VERSION ?= "6.1.72"
-+LINUX_VERSION ?= "6.1.73"
- 
- PV = "${LINUX_VERSION}+git"
- 
+ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
 -- 
 2.34.1
 
