@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3B76C48286
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B885EC48285
 	for <webhook@archiver.kernel.org>; Sat, 27 Jan 2024 02:38:09 +0000 (UTC)
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
- by mx.groups.io with SMTP id smtpd.web10.8375.1706323086097892519
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web10.8373.1706323082138735382
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Jan 2024 18:38:06 -0800
+ Fri, 26 Jan 2024 18:38:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=FKyUo1nu;
- spf=softfail (domain: sakoman.com, ip: 209.85.128.172, mailfrom: steve@sakoman.com)
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-5ff7a098ab8so11585857b3.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jan 2024 18:38:06 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=BU509Wqa;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1d75c97ea6aso7166885ad.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jan 2024 18:38:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1706323084; x=1706927884; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1706323081; x=1706927881; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=oiPSnp7M6OzpdgVwpDTLl9eDbFzLCcXuMeiRjJO71fk=;
-        b=FKyUo1nu3Jzqtj0I7o3+xQxnnPzOf/JDRaK9NS3D4K5+CX2h20vMfOV/yipAJaakp/
-         ox5Uhng53Ml84GTPmEmsNHapaIxW9k3gV2bDknnlQeiBzqjI6pdNGtbyx1h9CdvR197Q
-         x0o08vtGAhyq4uTMRtYWJxe8x0YetXTAc+jOffQAlB7MUL4lubFhPonr0d4HX17lGZlT
-         K71iQtBZTynH0Z4qfd391froxJgJkJFlBlgnG+jozgA4NmtS0EEbczwBuOgzWytxHIuU
-         0BrHK19AzxHRXo3AD9pdCq441Wz+d/Le2y61o3+vw/lPZ3Tqq5Bqr00eh3/cAxTa0usG
-         eR5w==
+        bh=hAYJz9wVwhz6J+jl7dc2ZcTubO9cJYwFwITEcWvIoI0=;
+        b=BU509Wqaglr4kiQwQOPoSOK0gBwyPMIKxBHs0xNu+zuSTKh9ZyBSAX5DuO0aSGd3Je
+         ZHA8sT8wq7HALfD4me48jlu5R4RBs0Nit/Nc4/puvVXo6A/I5hdG/bv/6TO5ondI4k01
+         OqtD35JTgE6EI/tuPXrch/Xm2w6UKRgJB6UFRZf2dFSPxmOTaKaIMNXNShd33H9Eak0W
+         LAdwZf2unPKmJ8OGCx0yRViICkxhq3J+CtRXTGvHrpeGkehRyEEMNdhqTGyfXxUn9Ecp
+         kh4k4ybXxvr+8nHK+kHba61OIvyjT7LeP6iAVlmt0t3tf9J2MLL9AQ7gVYIE2gMJB/Ox
+         W5rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706323084; x=1706927884;
+        d=1e100.net; s=20230601; t=1706323081; x=1706927881;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=oiPSnp7M6OzpdgVwpDTLl9eDbFzLCcXuMeiRjJO71fk=;
-        b=Xl5YHl/JG/YBVR5uKbAwl5wl7zWOkasyKZ/4mysI6kW1vuq2B4tFbjPrwql5TNSyZR
-         XVqhJfnZXtyRwX0IoLc4NVuKofI7YVMmp5FBt1Eb88EEscpe9Ujzjv40Y8qq0KB89/Ri
-         Ia89CVDHhFMmUA1Tjt0oiFa6vSyUubVp8KNzAnFUeS7qLmeSGHbp/xjQWeN+nA2TBAzd
-         9vkQ6tXCsX4zG7KpP5Ik7tYiaVRyLnFM3XSAHBk7CENpJ96sWFLla02xz6g69o/Jy2it
-         gK3SozTBySLy8hsbpj46xDVzz7BXL8UTREG9+V9Crq1ydhf9ovYFCZjPP7BGoiZpWunJ
-         xewA==
-X-Gm-Message-State: AOJu0Yy7gHVOWC45z/YCdcYfDBiAjdA2icj4EPmRDrvqJWCg/gWseZbd
-	lX8xkxBvhDOu3ZE4K9vfSib/uXrVAFfstsNnHR7DPxIwsVMFUUHLuZxKbzqT7TsAtKmFzcgRlVv
-	Et2L1oA==
-X-Google-Smtp-Source: AGHT+IFVpRsLatZdN1Laz19ZcXDTb7mKPk/90QSRFEx/hf2Zem8r3QxqjKbzjdFRxCmttQGeNsgDLQ==
-X-Received: by 2002:a81:ad4b:0:b0:5ff:7890:17e4 with SMTP id l11-20020a81ad4b000000b005ff789017e4mr1125238ywk.27.1706323084367;
-        Fri, 26 Jan 2024 18:38:04 -0800 (PST)
+        bh=hAYJz9wVwhz6J+jl7dc2ZcTubO9cJYwFwITEcWvIoI0=;
+        b=otJV5m9KEUjJeRMGRMnrPmeAm3IZtJd3N0SgPc50r/JzKDOPNiYNg402ua03i01Z5p
+         fKqhzX0jfRwXc6nNXDrD79Dxct0eoQoGlzYaGJgIx5EVO8XP9lBQUUnqXREF1+Shii9N
+         msCPA2WbEpceAj+mKGhW6Ptp0CtJZPdNT6KJtCL8n+MC7Y8A3HPchJqOg/Z5GfKWVDgb
+         UYGaoujauY7z0x7+by0iWLtKF5ulwTwWmxMNBdaW3iEfncvXMT0Le49L5WBsn/8l3Bek
+         kbQKK8mCFRCxFjrW+cmy+lyrILEF8C0AIWYNXr+w7IAxEVZjIj2h/eaZNJPsKX9qBfm6
+         N/MQ==
+X-Gm-Message-State: AOJu0Yz4JNvms2mvho0uVxEZN2chk4e7Dmv8fxcCp/PSVgXbkxhiksbZ
+	Py/QhEgBzpOI0BLORpkY2NwBywULIuP3IMZuV0BnnjptTmsqTcv9Nj7rhOFUrZ2oP4xgXwkIW2D
+	De2v//Q==
+X-Google-Smtp-Source: AGHT+IFAHol0Gadoli8k2m6fbzlfu8T6bCGp5Wd4FG9sz++honK6ErwtH/9pAgE+y5F5WVxIlDDzsA==
+X-Received: by 2002:a17:902:a50c:b0:1d7:19ec:2eaf with SMTP id s12-20020a170902a50c00b001d719ec2eafmr798478plq.6.1706323080771;
+        Fri, 26 Jan 2024 18:38:00 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id r8-20020a170902be0800b001d7405022ecsm1547045pls.159.2024.01.26.18.38.03
+        by smtp.gmail.com with ESMTPSA id r8-20020a170902be0800b001d7405022ecsm1547045pls.159.2024.01.26.18.37.59
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jan 2024 18:38:04 -0800 (PST)
+        Fri, 26 Jan 2024 18:38:00 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][nanbield 14/23] python3-license-expression: Fix the ptest failure
-Date: Fri, 26 Jan 2024 16:37:22 -1000
-Message-Id: <f69530a3b86b512c5c60da4da34fc287ff0d1366.1706322780.git.steve@sakoman.com>
+Subject: [OE-core][nanbield 12/23] linux-yocto/6.1: update CVE exclusions
+Date: Fri, 26 Jan 2024 16:37:20 -1000
+Message-Id: <dfd3c5c6fbe2cd3b0723879bd2b6574eb59a5860.1706322780.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1706322780.git.steve@sakoman.com>
 References: <cover.1706322780.git.steve@sakoman.com>
@@ -62,94 +62,141 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 27 Jan 2024 02:38:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194423
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194421
 
-From: Mingli Yu <mingli.yu@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Fix the below ptest failure:
- self = <test_skeleton_codestyle.BaseTests testMethod=test_skeleton_codestyle>
- def test_skeleton_codestyle(self):
- """
- This test shouldn't run in proliferated repositories.
- """
- setup_cfg = configparser.ConfigParser()
- setup_cfg.read("setup.cfg")
- > if setup_cfg["metadata"]["name"] != "skeleton":
- tests/test_skeleton_codestyle.py:22:
- self = <configparser.ConfigParser object at 0x7fd87cf55110>, key = 'metadata'
- def _getitem_(self, key):
- if key != self.default_section and not self.has_section(key):
- > raise KeyError(key)
- E KeyError: 'metadata'
+Data pulled from: https://github.com/nluedtke/linux_kernel_cves
 
-After the patch:
- # ./run-ptest
- [snip]
- PASS: tests/test_license_expression.py::LicensingValidateTest::test_validation_bad_syntax
- PASS: tests/test_license_expression.py::LicensingValidateTest::test_validation_exception_as_regular_key
- PASS: tests/test_license_expression.py::LicensingValidateTest::test_validation_exception_with_choice
- PASS: tests/test_license_expression.py::LicensingValidateTest::test_validation_invalid_license_exception
- PASS: tests/test_license_expression.py::LicensingValidateTest::test_validation_invalid_license_exception_strict_false
- PASS: tests/test_license_expression.py::LicensingValidateTest::test_validation_invalid_license_key
- PASS: tests/test_license_expression.py::UtilTest::test_build_licensing
- PASS: tests/test_license_expression.py::UtilTest::test_build_spdx_licensing
- PASS: tests/test_license_expression.py::UtilTest::test_get_license_key_info
- PASS: tests/test_license_expression.py::UtilTest::test_get_license_key_info_vendored
- PASS: tests/test_license_expression.py::CombineExpressionTest::test_combine_expressions_with_duplicated_elements
- PASS: tests/test_license_expression.py::CombineExpressionTest::test_combine_expressions_with_empty_input
- PASS: tests/test_license_expression.py::CombineExpressionTest::test_combine_expressions_with_or_relationship
- PASS: tests/test_license_expression.py::CombineExpressionTest::test_combine_expressions_with_regular
- PASS: tests/test_skeleton_codestyle.py::BaseTests::test_skeleton_codestyle
-============================================================================
-Testsuite summary
- # TOTAL: 175
- # PASS: 175
- # SKIP: 0
- # XFAIL: 0
- # FAIL: 0
- # XPASS: 0
+    1/1 [
+        Author: Nicholas Luedtke
+        Email: nicholas.luedtke@uwalumni.com
+        Subject: Update 15Jan24
+        Date: Mon, 15 Jan 2024 12:48:45 -0500
 
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+    ]
 
-Changed in v4:
-Add python3-license-expression to PTESTS_FAST
-
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 6b06ad7a9f1dd5900483102f5723a6821f961dab)
+(cherry picked from commit 74bf102eb4ae7377527a146e3db1d9ee1da1f2da)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../python/python3-license-expression/run-ptest                 | 2 +-
- .../python/python3-license-expression_30.1.1.bb                 | 2 ++
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ .../linux/cve-exclusion_6.1.inc               | 34 +++++++++++++++----
+ 1 file changed, 27 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3-license-expression/run-ptest b/meta/recipes-devtools/python/python3-license-expression/run-ptest
-index 5cec711696..8d2017d39c 100644
---- a/meta/recipes-devtools/python/python3-license-expression/run-ptest
-+++ b/meta/recipes-devtools/python/python3-license-expression/run-ptest
-@@ -1,3 +1,3 @@
- #!/bin/sh
+diff --git a/meta/recipes-kernel/linux/cve-exclusion_6.1.inc b/meta/recipes-kernel/linux/cve-exclusion_6.1.inc
+index 4183ceab04..45fcc7b260 100644
+--- a/meta/recipes-kernel/linux/cve-exclusion_6.1.inc
++++ b/meta/recipes-kernel/linux/cve-exclusion_6.1.inc
+@@ -1,9 +1,9 @@
  
--pytest
-+pytest --automake
-diff --git a/meta/recipes-devtools/python/python3-license-expression_30.1.1.bb b/meta/recipes-devtools/python/python3-license-expression_30.1.1.bb
-index 31fb88d6e5..92ca419e4a 100644
---- a/meta/recipes-devtools/python/python3-license-expression_30.1.1.bb
-+++ b/meta/recipes-devtools/python/python3-license-expression_30.1.1.bb
-@@ -26,6 +26,7 @@ SRC_URI += " \
+ # Auto-generated CVE metadata, DO NOT EDIT BY HAND.
+-# Generated at 2024-01-11 18:31:26.124059+00:00 for version 6.1.72
++# Generated at 2024-01-18 21:10:06.148505+00:00 for version 6.1.73
  
- RDEPENDS:${PN}-ptest += " \
- 	${PYTHON_PN}-pytest \
-+	${PYTHON_PN}-unittest-automake-output \
- "
+ python check_kernel_cve_status_version() {
+-    this_version = "6.1.72"
++    this_version = "6.1.73"
+     kernel_version = d.getVar("LINUX_VERSION")
+     if kernel_version != this_version:
+         bb.warn("Kernel CVE status needs updating: generated for %s but kernel is %s" % (this_version, kernel_version))
+@@ -4584,6 +4584,8 @@ CVE_STATUS[CVE-2022-48425] = "cpe-stable-backport: Backported in 6.1.33"
  
- do_install_ptest() {
-@@ -33,4 +34,5 @@ do_install_ptest() {
-     install -d ${D}${PTEST_PATH}/src
-     cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
-     cp -rf ${S}/src/* ${D}${PTEST_PATH}/src/
-+    cp -rf ${S}/setup.cfg ${D}${PTEST_PATH}/
- }
+ CVE_STATUS[CVE-2022-48502] = "cpe-stable-backport: Backported in 6.1.40"
+ 
++CVE_STATUS[CVE-2022-48619] = "fixed-version: Fixed from version 5.18rc1"
++
+ CVE_STATUS[CVE-2023-0030] = "fixed-version: Fixed from version 5.0rc1"
+ 
+ CVE_STATUS[CVE-2023-0045] = "cpe-stable-backport: Backported in 6.1.5"
+@@ -4644,7 +4646,7 @@ CVE_STATUS[CVE-2023-1118] = "cpe-stable-backport: Backported in 6.1.16"
+ 
+ CVE_STATUS[CVE-2023-1192] = "cpe-stable-backport: Backported in 6.1.33"
+ 
+-# CVE-2023-1193 needs backporting (fixed from 6.3rc6)
++CVE_STATUS[CVE-2023-1193] = "cpe-stable-backport: Backported in 6.1.71"
+ 
+ CVE_STATUS[CVE-2023-1194] = "cpe-stable-backport: Backported in 6.1.34"
+ 
+@@ -4666,6 +4668,8 @@ CVE_STATUS[CVE-2023-1382] = "fixed-version: Fixed from version 6.1rc7"
+ 
+ CVE_STATUS[CVE-2023-1390] = "fixed-version: Fixed from version 5.11rc4"
+ 
++# CVE-2023-1476 has no known resolution
++
+ CVE_STATUS[CVE-2023-1513] = "cpe-stable-backport: Backported in 6.1.13"
+ 
+ CVE_STATUS[CVE-2023-1582] = "fixed-version: Fixed from version 5.17rc4"
+@@ -5088,7 +5092,7 @@ CVE_STATUS[CVE-2023-45871] = "cpe-stable-backport: Backported in 6.1.53"
+ 
+ CVE_STATUS[CVE-2023-45898] = "fixed-version: only affects 6.5rc1 onwards"
+ 
+-# CVE-2023-4610 needs backporting (fixed from 6.4)
++CVE_STATUS[CVE-2023-4610] = "fixed-version: only affects 6.4rc1 onwards"
+ 
+ CVE_STATUS[CVE-2023-4611] = "fixed-version: only affects 6.4rc1 onwards"
+ 
+@@ -5112,7 +5116,7 @@ CVE_STATUS[CVE-2023-5090] = "cpe-stable-backport: Backported in 6.1.62"
+ 
+ CVE_STATUS[CVE-2023-5158] = "cpe-stable-backport: Backported in 6.1.57"
+ 
+-# CVE-2023-51779 needs backporting (fixed from 6.7rc7)
++CVE_STATUS[CVE-2023-51779] = "cpe-stable-backport: Backported in 6.1.70"
+ 
+ CVE_STATUS[CVE-2023-5178] = "cpe-stable-backport: Backported in 6.1.60"
+ 
+@@ -5134,6 +5138,8 @@ CVE_STATUS[CVE-2023-5972] = "fixed-version: only affects 6.2rc1 onwards"
+ 
+ # CVE-2023-6039 needs backporting (fixed from 6.5rc5)
+ 
++CVE_STATUS[CVE-2023-6040] = "fixed-version: Fixed from version 5.18rc1"
++
+ CVE_STATUS[CVE-2023-6111] = "fixed-version: only affects 6.6rc3 onwards"
+ 
+ CVE_STATUS[CVE-2023-6121] = "cpe-stable-backport: Backported in 6.1.65"
+@@ -5142,8 +5148,12 @@ CVE_STATUS[CVE-2023-6176] = "cpe-stable-backport: Backported in 6.1.54"
+ 
+ # CVE-2023-6238 has no known resolution
+ 
++# CVE-2023-6270 has no known resolution
++
+ # CVE-2023-6356 has no known resolution
+ 
++CVE_STATUS[CVE-2023-6531] = "cpe-stable-backport: Backported in 6.1.68"
++
+ # CVE-2023-6535 has no known resolution
+ 
+ # CVE-2023-6536 has no known resolution
+@@ -5152,13 +5162,13 @@ CVE_STATUS[CVE-2023-6546] = "cpe-stable-backport: Backported in 6.1.47"
+ 
+ # CVE-2023-6560 needs backporting (fixed from 6.7rc4)
+ 
+-# CVE-2023-6606 needs backporting (fixed from 6.7rc7)
++CVE_STATUS[CVE-2023-6606] = "cpe-stable-backport: Backported in 6.1.70"
+ 
+ # CVE-2023-6610 needs backporting (fixed from 6.7rc7)
+ 
+ CVE_STATUS[CVE-2023-6622] = "cpe-stable-backport: Backported in 6.1.68"
+ 
+-# CVE-2023-6679 needs backporting (fixed from 6.7rc6)
++CVE_STATUS[CVE-2023-6679] = "fixed-version: only affects 6.7rc1 onwards"
+ 
+ CVE_STATUS[CVE-2023-6817] = "cpe-stable-backport: Backported in 6.1.68"
+ 
+@@ -5168,3 +5178,13 @@ CVE_STATUS[CVE-2023-6932] = "cpe-stable-backport: Backported in 6.1.66"
+ 
+ # CVE-2023-7042 has no known resolution
+ 
++CVE_STATUS[CVE-2023-7192] = "cpe-stable-backport: Backported in 6.1.18"
++
++CVE_STATUS[CVE-2024-0193] = "fixed-version: only affects 6.5rc6 onwards"
++
++# CVE-2024-0340 needs backporting (fixed from 6.4rc6)
++
++CVE_STATUS[CVE-2024-0443] = "fixed-version: only affects 6.2rc1 onwards"
++
++# Skipping dd=CVE-2023-1476, no affected_versions
++
 -- 
 2.34.1
 
