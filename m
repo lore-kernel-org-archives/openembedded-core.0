@@ -1,165 +1,190 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <rpjday@crashcourse.ca>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9ECFC47422
-	for <webhook@archiver.kernel.org>; Sat, 27 Jan 2024 02:38:29 +0000 (UTC)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
- by mx.groups.io with SMTP id smtpd.web11.8504.1706323100235443119
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3014BC47DDB
+	for <webhook@archiver.kernel.org>; Sat, 27 Jan 2024 09:36:52 +0000 (UTC)
+Received: from cpanel10.indieserve.net (cpanel10.indieserve.net [199.212.143.9])
+ by mx.groups.io with SMTP id smtpd.web10.12683.1706348202653420411
  for <openembedded-core@lists.openembedded.org>;
- Fri, 26 Jan 2024 18:38:20 -0800
+ Sat, 27 Jan 2024 01:36:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=C4I5rTiL;
- spf=softfail (domain: sakoman.com, ip: 209.85.219.174, mailfrom: steve@sakoman.com)
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-dc226dca91aso1005884276.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 26 Jan 2024 18:38:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1706323099; x=1706927899; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UVjhpG/Sekxv77xLjJl/SjzHd9C8WsceJ5/tsK909Og=;
-        b=C4I5rTiLQrRipFU2rD0HSf8Xup7HzEtP3hheFugIZx5xAtYdmExtCs384cBqqxnLVz
-         EG4NXmzAZMrcScdvWyyukf98jYcTTOXkSUx8oRUa6aOvHVWHQxoad6HH80Z97zxkxyE1
-         ch8+Q3cmpRUt6xxl8NatHPPT7X/n6zENg/OVa9OaQNFMjHc8nslwuhvmlxRMjgW18j/n
-         whY0baW9gCTfj9Z/cvZ4ZbbAWUdLoKoJFjld9ry5prkjAhPHt/QkPWynW25bl8XAsMbZ
-         WjeLcCVk4AKaOtSfzUdHSfHaH/PqaX9Ik8TnhWfNJNjoesQ2M/E6qKNNtD5OIY0LVxEU
-         YaUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706323099; x=1706927899;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UVjhpG/Sekxv77xLjJl/SjzHd9C8WsceJ5/tsK909Og=;
-        b=cP6pZK9De8vJuDW27XUVsNHnx6QASKBTK2OHaDscXc9lu3Wywh8rOFYPU1WyXu2tkO
-         navg9JEsnqfiJC1u1kKCxS+18nN3CZtwzjT+cc0lEZqtmS4/OdDHOkbxzTe/Z+WW6cGj
-         wyY0y99E7bx5dFRRmnmE+3bYRsXfWtuJ++1RegY0Z+P68S5dXSmNtSAOYO3DHchMP7UP
-         nUfNb/+LwJ0NdHGloIOdy0nd94lBkIS0us0dLIKx+Peu3n4HWBGsBeG4MP9lt7W4Sd0b
-         CAcKcBjSnXD9CUeJg/t/glkVEfpfVgahi0lixuXPSKzoLki5rew5af9AgPwnfkKA9Fdq
-         Ai+w==
-X-Gm-Message-State: AOJu0YzEQRfkzIZ7Squ5Prq8Do2zmH/DfdOw//ErVPura67DQ0S5qF17
-	MDS9o3YbSWN7rGr2+wI33PzQrH8N7e8mWzZMJObEsy63Dankzjtk9O9+kQuG4VxlwLuMbw8Wvjr
-	B2osl/g==
-X-Google-Smtp-Source: AGHT+IGjmh1iUwt3dw+apC6uO9HiGVO31R/J/vk14uL28KIFsvJzomME9jeOylyaZe/2+l8/6jEdxg==
-X-Received: by 2002:a81:6dcb:0:b0:602:9c0a:3289 with SMTP id i194-20020a816dcb000000b006029c0a3289mr874005ywc.54.1706323099097;
-        Fri, 26 Jan 2024 18:38:19 -0800 (PST)
-Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id r8-20020a170902be0800b001d7405022ecsm1547045pls.159.2024.01.26.18.38.18
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jan 2024 18:38:18 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][nanbield 22/23] oeqa/selftest/prservice: Improve test robustness
-Date: Fri, 26 Jan 2024 16:37:30 -1000
-Message-Id: <81d7011a793de2548c573ebb84f60fb80a357bed.1706322780.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1706322780.git.steve@sakoman.com>
-References: <cover.1706322780.git.steve@sakoman.com>
+ dkim=pass header.i=@crashcourse.ca header.s=default header.b=bpWBBahv;
+ spf=pass (domain: crashcourse.ca, ip: 199.212.143.9, mailfrom: rpjday@crashcourse.ca)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=crashcourse.ca; s=default; h=Content-Type:MIME-Version:References:
+	Message-ID:In-Reply-To:Subject:cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=Wv5/Z8hZ3uUDQxottEWLJt1+pduEI0qr+dcAKdh4OPI=; b=bpWBBahvC+F2sKopSYo0vpEOdM
+	zf6xPL6aHS2884ndiosZa7qeMJiOVLHh5T+qyybw29IV1vMxUH1vESN1GOH+bUGd/dIMJT5nEcYPV
+	aygGAN0Opft4XrFXJEDLP8Mc+9HlhDuokyDxBz57T8ImMUzWeVyLO4qPwE+Q3XrgnjctNSBaPJAPY
+	+CzPBbaIyEQwml87KwI5wI+osTFakuKeGQbQ3nAlqPoAmUUtsxjRo36FhsQ+IqXNAXDgN/Oovsowe
+	UopwOOxz9xPZIGcoTcb8gFawN51t96zZrsBpTNl5ztPXSvv6dJh7qKhA8HdownpKrRT+ExSWo4P4U
+	rcsBifZQ==;
+Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.102.5]:50324 helo=fedora)
+	by cpanel10.indieserve.net with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <rpjday@crashcourse.ca>)
+	id 1rTf76-00BsoR-07;
+	Sat, 27 Jan 2024 04:36:40 -0500
+Date: Sat, 27 Jan 2024 04:36:29 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+To: Khem Raj <raj.khem@gmail.com>
+cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] trying to create simple example of "externalsrc"
+ recipe
+In-Reply-To: <CAMKF1sqO+izPybMT2j+S699RRgB7psge1hYA2r455C6z8AW7Lg@mail.gmail.com>
+Message-ID: <01a1aa4-7c38-a478-5ae5-d0c17ed4215@crashcourse.ca>
+References: <436ae552-2fad-8de3-9435-b03df2d2a823@crashcourse.ca> <CAMKF1sqO+izPybMT2j+S699RRgB7psge1hYA2r455C6z8AW7Lg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/mixed; boundary="8323328-2051499681-1706348198=:3628997"
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel10.indieserve.net
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Get-Message-Sender-Via: cpanel10.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: cpanel10.indieserve.net: rpjday@crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 27 Jan 2024 02:38:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194431
+ <openembedded-core@lists.openembedded.org>; Sat, 27 Jan 2024 09:36:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194433
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-The tests were not cleaning up after themselves and making assumptions about
-memory resident bitbake being stopped by the scripts.
+--8323328-2051499681-1706348198=:3628997
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 
-Add cleanup logic to ensure the tests don't break other things and
-clean up created files.
+On Fri, 26 Jan 2024, Khem Raj wrote:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 692dd762a0c817797c28381c6169205fbaeb2705)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/lib/oeqa/selftest/cases/prservice.py | 31 +++++++++++++++++------
- 1 file changed, 23 insertions(+), 8 deletions(-)
+> On Fri, Jan 26, 2024 at 4:46 AM Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+> >
+> >
+> >   i've been trying to put together a really basic example of a recipe
+> > using "externalsrc" that refers to some local source, and cannot get
+> > it to work. so here's what i'm trying.
+> >
+> >   as a demo, i selected a random simple OE recipe -- in this case,
+> > "dmidecode", whose recipe you can see here (and which seems
+> > conveniently simple for demonstration purposes):
+> >
+> > https://git.openembedded.org/openembedded-core/tree/meta/recipes-devtools/dmidecode/dmidecode_3.5.bb?h=master
+> >
+> > so to start, since the SRC_URI is a tarball, i downloaded the tarball
+> > so that i have the equivalent local source here:
+> >
+> >   $ ls /home/rpjday/oe/srcs/dmidecode-3.5
+> >   AUTHORS       dmioem.h     Makefile     util.c
+> >   biosdecode.c  dmiopt.c     man          util.h
+> >   config.h      dmiopt.h     NEWS         version.h
+> >   dmidecode.c   dmioutput.c  ownership.c  vpddecode.c
+> >   dmidecode.h   dmioutput.h  README       vpdopt.c
+> >   dmioem.c      LICENSE      types.h      vpdopt.h
+> >   $
+> >
+> >   as my first test, i set the build to the source directory in my
+> > dmid_1.0.bb recipe file:
+> >
+> >   inherit externalsrc
+> >   EXTERNALSRC = "/home/rpjday/oe/srcs/dmidecode-3.5"
+> >   EXTERNALSRC_BUILD = "${EXTERNALSRC}"
+> >
+> >   do_install() {
+> >     oe_runmake \
+> >         DESTDIR="${D}" \
+> >         prefix="${prefix}" \
+> >         sbindir="${sbindir}" \
+> >         docdir="${docdir}/${BPN}" \
+> >         mandir="${mandir}" \
+> >         install
+> >
+> > then ran:
+> >
+> >   $ bitbake dmid
+> >
+> > sure enough, that build in the source directory, generating:
+> >
+> >   AUTHORS       dmidecode.o  dmioutput.h  ownership*   version.h
+> >   biosdecode*   dmioem.c     dmioutput.o  ownership.c  vpddecode*
+> >   biosdecode.c  dmioem.h     LICENSE      ownership.o  vpddecode.c
+> >   biosdecode.o  dmioem.o     Makefile     README       vpddecode.o
+> >   config.h      dmiopt.c     man/         types.h      vpdopt.c
+> >   dmidecode*    dmiopt.h     NEWS         util.c       vpdopt.h
+> >   dmidecode.c   dmiopt.o     oe-logs@     util.h       vpdopt.o
+> >   dmidecode.h   dmioutput.c  oe-workdir@  util.o
+> >
+> >   great, but i really want to build out-of-tree to preserve the
+> > pristine state of the source, so i followed the instructions and
+> > allowed EXTERNALSRC_BUILD to default to ${WORKDIR}/${BPN}-${PV}:
+> >
+> >   inherit externalsrc
+> >   EXTERNALSRC = "/home/rpjday/oe/srcs/dmidecode-3.5"
+> >   # EXTERNALSRC_BUILD = "${EXTERNALSRC}"
+> >
+> > so I did a "make clean" in the source directory to start with the
+> > pristine source (also deleted the "oe-" symlinks), then:
+> >
+> > $ bitbake dmid
+> > ... snip ...
+> > | NOTE: make -j 8
+> > DESTDIR=/home/rpjday/oe/builds/qemux86/tmp/work/core2-64-poky-linux/dmid/1.0/image
+> > prefix=/usr sbindir=/usr/sbin docdir=/usr/share/doc/dmid
+> > mandir=/usr/share/man install
+> > | make: *** No rule to make target 'install'.  Stop.
+> > | ERROR: oe_runmake failed
+> >
+> >   from "bitbake -e dmid", i can see:
+> >
+> > S="/home/rpjday/oe/srcs/dmidecode-3.5"
+> > WORKDIR="/home/rpjday/oe/builds/qemux86/tmp/work/core2-64-poky-linux/dmid/1.0"
+> > B="/home/rpjday/oe/builds/qemux86/tmp/work/core2-64-poky-linux/dmid/1.0/dmid-1.0"
+> >
+> > but there is nothing unloaded into the B directory; hence, the
+> > failure. in fact, the log file for the compile step is:
+> >
+> > DEBUG: Executing python function externalsrc_compile_prefunc
+> > NOTE: dmid: compiling from external source tree
+> > /home/rpjday/oe/srcs/dmidecode-3.5
+> > DEBUG: Python function externalsrc_compile_prefunc finished
+> > DEBUG: Executing python function fetcher_hashes_dummyfunc
+> > DEBUG: Python function fetcher_hashes_dummyfunc finished
+> > DEBUG: Executing shell function do_compile
+> > NOTE: nothing to compile
+> > DEBUG: Shell function do_compile finished
+> >
+> >   so ... what have i overlooked? did i grab an inappropriate sample
+> > recipe that does not support building out-of-tree? the build directory
+> > is empty, so i'm perusing the externalsrc.bbclass to see what i have
+> > misunderstood.
+>
+> externalsrc is as good as the components build system since that's
+> what it relies on
+> so if the makery for that component does not support building out of
+> source tree then
+> externalsrc will fail doing so too, in such cases you set
+> EXTERNALSRC_BUILD = "${EXTERNALSRC}"
+> which is what you did in step 1.
+>
+> Default is B = S in bitbake.conf, so that's what will be used for bare
+> make based recipes like dmidecode.
+>
+> The example you chose, does require you to build inside the source
+> tree. If you want a
+> sample where S != B then use something other than dmidecode, maybe
+> something like
+> https://github.com/jameskbride/cmake-hello-world
 
-diff --git a/meta/lib/oeqa/selftest/cases/prservice.py b/meta/lib/oeqa/selftest/cases/prservice.py
-index 9fe3b80a31..8da3739c57 100644
---- a/meta/lib/oeqa/selftest/cases/prservice.py
-+++ b/meta/lib/oeqa/selftest/cases/prservice.py
-@@ -14,6 +14,8 @@ from oeqa.selftest.case import OESelftestTestCase
- from oeqa.utils.commands import runCmd, bitbake, get_bb_var
- from oeqa.utils.network import get_free_port
- 
-+import bb.utils
-+
- class BitbakePrTests(OESelftestTestCase):
- 
-     @classmethod
-@@ -21,6 +23,16 @@ class BitbakePrTests(OESelftestTestCase):
-         super(BitbakePrTests, cls).setUpClass()
-         cls.pkgdata_dir = get_bb_var('PKGDATA_DIR')
- 
-+        cls.exported_db_path = os.path.join(cls.builddir, 'export.inc')
-+        cls.current_db_path = os.path.join(get_bb_var('PERSISTENT_DIR'), 'prserv.sqlite3')
-+
-+    def cleanup(self):
-+        # Ensure any memory resident bitbake is stopped
-+        bitbake("-m")
-+        # Remove any existing export file or prserv database
-+        bb.utils.remove(self.exported_db_path)
-+        bb.utils.remove(self.current_db_path + "*")
-+
-     def get_pr_version(self, package_name):
-         package_data_file = os.path.join(self.pkgdata_dir, 'runtime', package_name)
-         package_data = ftools.read_file(package_data_file)
-@@ -49,6 +61,7 @@ class BitbakePrTests(OESelftestTestCase):
-         self.assertEqual(res.status, 0, msg=res.output)
- 
-     def config_pr_tests(self, package_name, package_type='rpm', pr_socket='localhost:0'):
-+        self.cleanup()
-         config_package_data = 'PACKAGE_CLASSES = "package_%s"' % package_type
-         self.write_config(config_package_data)
-         config_server_data = 'PRSERV_HOST = "%s"' % pr_socket
-@@ -68,24 +81,24 @@ class BitbakePrTests(OESelftestTestCase):
-         self.assertTrue(pr_2 - pr_1 == 1, "New PR %s did not increment as expected (from %s), difference should be 1" % (pr_2, pr_1))
-         self.assertTrue(stamp_1 != stamp_2, "Different pkg rev. but same stamp: %s" % stamp_1)
- 
-+        self.cleanup()
-+
-     def run_test_pr_export_import(self, package_name, replace_current_db=True):
-         self.config_pr_tests(package_name)
- 
-         self.increment_package_pr(package_name)
-         pr_1 = self.get_pr_version(package_name)
- 
--        exported_db_path = os.path.join(self.builddir, 'export.inc')
--        export_result = runCmd("bitbake-prserv-tool export %s" % exported_db_path, ignore_status=True)
-+        export_result = runCmd("bitbake-prserv-tool export %s" % self.exported_db_path, ignore_status=True)
-         self.assertEqual(export_result.status, 0, msg="PR Service database export failed: %s" % export_result.output)
--        self.assertTrue(os.path.exists(exported_db_path), msg="%s didn't exist, tool output %s" % (exported_db_path, export_result.output))
-+        self.assertTrue(os.path.exists(self.exported_db_path), msg="%s didn't exist, tool output %s" % (self.exported_db_path, export_result.output))
- 
-         if replace_current_db:
--            current_db_path = os.path.join(get_bb_var('PERSISTENT_DIR'), 'prserv.sqlite3')
--            self.assertTrue(os.path.exists(current_db_path), msg="Path to current PR Service database is invalid: %s" % current_db_path)
--            os.remove(current_db_path)
-+            self.assertTrue(os.path.exists(self.current_db_path), msg="Path to current PR Service database is invalid: %s" % self.current_db_path)
-+            os.remove(self.current_db_path)
- 
--        import_result = runCmd("bitbake-prserv-tool import %s" % exported_db_path, ignore_status=True)
--        os.remove(exported_db_path)
-+        import_result = runCmd("bitbake-prserv-tool import %s" % self.exported_db_path, ignore_status=True)
-+        #os.remove(self.exported_db_path)
-         self.assertEqual(import_result.status, 0, msg="PR Service database import failed: %s" % import_result.output)
- 
-         self.increment_package_pr(package_name)
-@@ -93,6 +106,8 @@ class BitbakePrTests(OESelftestTestCase):
- 
-         self.assertTrue(pr_2 - pr_1 == 1, "New PR %s did not increment as expected (from %s), difference should be 1" % (pr_2, pr_1))
- 
-+        self.cleanup()
-+
-     def test_import_export_replace_db(self):
-         self.run_test_pr_export_import('m4')
- 
--- 
-2.34.1
+  thanks for clarifying that i picked a bad example -- that's what i
+suspected, and thanks for pointing me at an appropriate demo.
 
+rday
+--8323328-2051499681-1706348198=:3628997--
 
