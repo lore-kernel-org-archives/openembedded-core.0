@@ -1,98 +1,91 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 289F7C47258
-	for <webhook@archiver.kernel.org>; Sun, 28 Jan 2024 17:03:21 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web11.41334.1706461400122059790
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CC8AC47258
+	for <webhook@archiver.kernel.org>; Sun, 28 Jan 2024 17:06:11 +0000 (UTC)
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+ by mx.groups.io with SMTP id smtpd.web10.41064.1706461562825848716
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Jan 2024 09:03:20 -0800
+ Sun, 28 Jan 2024 09:06:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Zzz+LxKX;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=bA3RKTie;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018d510688bc-793cbaff-1baf-4432-bbf5-6d5a997c6c6b-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1706461399; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=kJD7N9PzLVzzrP2iF4HWog25FlVJjcESQx7QW1c+lpg=;
-	b=Zzz+LxKX+5SrDZ4WUx6t75fU1cpYjW+wPNGlOf9Hupx6Y13nJnilFkem+vuBpw+1
-	EYiAHA8XG+akc2u8k3yYKY7W8ZcchVxAPHqmdjIIvRYQ/haGusB10UAIY0d8jXUOiBl
-	kQigZHwyzxJu4KC6jYA8kVkzOr2jiathrX8CVVx8=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1706461399;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=kJD7N9PzLVzzrP2iF4HWog25FlVJjcESQx7QW1c+lpg=;
-	b=bA3RKTiePre3YLZvaLYwYLk7RpMn2Sy1rMif0oU4BqXbSD5vJX4iVkIlxUBOgyr6
-	jQDmwW+AYyiROchG9TrI/0bxlaXchWs86zvxjO8+DG2w49nNuefnTN8HphwTrUIJDBo
-	4krv5bq/MderSXMPMBrTo7+mCi6iHwguIbpKEFa8=
-From: patchtest@automation.yoctoproject.org
-To: Peter Marko <peter.marko@siemens.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][kirkstone][PATCH] sqlite3: ignore CVE-2024-0232
-In-Reply-To: 20240128165455.658066-1-peter.marko@siemens.com
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018d510688bc-793cbaff-1baf-4432-bbf5-6d5a997c6c6b-000000@us-west-2.amazonses.com>
-Date: Sun, 28 Jan 2024 17:03:19 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.01.28-54.240.27.29
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=j+rM3W/E;
+ spf=pass (domain: gmail.com, ip: 209.85.210.181, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-6de2735151cso37657b3a.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 28 Jan 2024 09:06:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706461562; x=1707066362; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=86XKbSvWEu0dAag2MAMc1TB/oA/pb5AlBAzjn2FpyL8=;
+        b=j+rM3W/ElCS/0vDPDP29oOELhC12pqSxoxti3ekyAm4R60JXdGdRE8EaVwEF6SbLEJ
+         y+cPo9Z5PZ+r1AqhrLzis68TUtz6rfJ3xPl1zN5ebYpZc1H6RQCK9aPSkDZPPAq+V+Jv
+         RxvdcvGXPXYXszgCWbVNoOpd75M7zkMq9k6ftDIQQ7OAMxp9dtTHyEHu6a3eB/erye52
+         IvYhRhxclvxOFy+nTdxYqYBwacWkU0PP1nEYFLvuzvLgcFXwQcEltOvUkWv/WrtTgEgw
+         wam5F90i9v9mPdOqbljdONOPWsSY401JMrkOdtK/sMlr3MjCKBWRyrJjsQqkfo4HZc1a
+         sSCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706461562; x=1707066362;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=86XKbSvWEu0dAag2MAMc1TB/oA/pb5AlBAzjn2FpyL8=;
+        b=XEMCndacXWJmIlRWYC+QPo7pPcddKglaUXZ3Ug/WAiuycqg0GLEsIT7m96mhMSyK3Z
+         qPuAHaT2j7Z4WBfv5wIxdQWhrOAQhFLlMd00G0UspxLPPMgadM/b0DvKyAXUhVh5D5Vd
+         cT+N3fJ4xmXpbcMuFWzYRL2zec6ICt0VCSsvz75cjU0ZxW/iSEpHOnDblhEPzUMWXRbW
+         Hl1d6ypR5BViofdtnD+3GRJB81Q0xFauqLGOwOmKj56ozkv8nBGH1I49n36847uitM6i
+         kTXYM8j85QiChD1vQm3jYPmHJzrFhqd0rtjUiGrh6qrvKLLB302MvSd3FeEkNWnuW+aH
+         Zfbw==
+X-Gm-Message-State: AOJu0YwHBaCxiEdg1vneoE0uvLcJwkR/Nwn+zeOKn9A/j63iIxPvVARo
+	uBIyZeQcJGDjJM1YhzsbW+nSIorz7xDFJ4r0J0+WWpTOyKEz6wzlkrliqV6oEvY=
+X-Google-Smtp-Source: AGHT+IEz940zg+oXOaYTFc5zy+8WC+S+BrFxL0qHovA067KzfLN5rk3uyx/exHbSA7ZxyhSa7QXs6A==
+X-Received: by 2002:a05:6a00:be4:b0:6db:7073:f845 with SMTP id x36-20020a056a000be400b006db7073f845mr1314574pfu.18.1706461561853;
+        Sun, 28 Jan 2024 09:06:01 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::e0b5])
+        by smtp.gmail.com with ESMTPSA id jw3-20020a056a00928300b006d9b4303f9csm4317264pfb.71.2024.01.28.09.06.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Jan 2024 09:06:01 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] xwayland: Upgrade 23.2.3 -> 23.2.4
+Date: Sun, 28 Jan 2024 09:05:59 -0800
+Message-ID: <20240128170559.856386-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 28 Jan 2024 17:03:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194448
+ <openembedded-core@lists.openembedded.org>; Sun, 28 Jan 2024 17:06:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194449
 
---NextPart
-Content-Type: text/plain
+Cumulative Fixes for CVE-2023-6816, CVE-2024-0229, CVE-2024-21885, CVE-2024-21886,
+CVE-2024-0408, CVE-2024-0409
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
-Testing patch /home/patchtest/share/mboxes/kirkstone-sqlite3-ignore-CVE-2024-0232.patch
+ .../xwayland/{xwayland_23.2.3.bb => xwayland_23.2.4.bb}         | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/xwayland/{xwayland_23.2.3.bb => xwayland_23.2.4.bb} (95%)
 
-FAIL: test CVE check ignore: CVE_CHECK_IGNORE is deprecated and should be replaced by CVE_STATUS (test_metadata.TestMetadata.test_cve_check_ignore)
+diff --git a/meta/recipes-graphics/xwayland/xwayland_23.2.3.bb b/meta/recipes-graphics/xwayland/xwayland_23.2.4.bb
+similarity index 95%
+rename from meta/recipes-graphics/xwayland/xwayland_23.2.3.bb
+rename to meta/recipes-graphics/xwayland/xwayland_23.2.4.bb
+index 9aa7b4dfcd9..092359172ab 100644
+--- a/meta/recipes-graphics/xwayland/xwayland_23.2.3.bb
++++ b/meta/recipes-graphics/xwayland/xwayland_23.2.4.bb
+@@ -10,7 +10,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=5df87950af51ac2c5822094553ea1880"
+ 
+ SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "eb9d9aa7232c47412c8835ec15a97c575f03563726c787754ff0c019bd07e302"
++SRC_URI[sha256sum] = "a99e159b6d0d33098b3b6ab22a88bfcece23c8b9d0ca72c535c55dcb0681b46b"
+ 
+ UPSTREAM_CHECK_REGEX = "xwayland-(?P<pver>\d+(\.(?!90\d)\d+)+)\.tar"
+ 
+-- 
+2.43.0
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
