@@ -1,66 +1,98 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2690C47DA9
-	for <webhook@archiver.kernel.org>; Sun, 28 Jan 2024 16:58:10 +0000 (UTC)
-Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
- by mx.groups.io with SMTP id smtpd.web11.41211.1706461085692814576
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 289F7C47258
+	for <webhook@archiver.kernel.org>; Sun, 28 Jan 2024 17:03:21 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web11.41334.1706461400122059790
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Jan 2024 08:58:06 -0800
+ Sun, 28 Jan 2024 09:03:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=DQKGqEaO;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-20240128165803fcc46b2cbd5c7a8805-dlexvq@rts-flowmailer.siemens.com)
-Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 20240128165803fcc46b2cbd5c7a8805
-        for <openembedded-core@lists.openembedded.org>;
-        Sun, 28 Jan 2024 17:58:03 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=PL0fRpZRbWwRor0T7N5rWWwXyw7ncoMZunAYEeM8geE=;
- b=DQKGqEaOig9O+tElyqvbhVVMTsOhkn6CzKi1KHrqprCCY70GBY7UNvfsJCPIfxRUguSfjM
- /8vFns9uvmYOgUKR+r1hyfKsOocL9W9q1OE0CoPQ85I3P416e0D8XMAQRIbMQ3fRtP0qOZIG
- UngYS3PsGGygo2UzAItv63cL53/uo=;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][nanbield][PATCH 2/2] sqlite: drop obsolete CVE ignore
-Date: Sun, 28 Jan 2024 17:57:05 +0100
-Message-Id: <20240128165705.658656-2-peter.marko@siemens.com>
-In-Reply-To: <20240128165705.658656-1-peter.marko@siemens.com>
-References: <20240128165705.658656-1-peter.marko@siemens.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Zzz+LxKX;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=bA3RKTie;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018d510688bc-793cbaff-1baf-4432-bbf5-6d5a997c6c6b-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1706461399; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
+	bh=kJD7N9PzLVzzrP2iF4HWog25FlVJjcESQx7QW1c+lpg=;
+	b=Zzz+LxKX+5SrDZ4WUx6t75fU1cpYjW+wPNGlOf9Hupx6Y13nJnilFkem+vuBpw+1
+	EYiAHA8XG+akc2u8k3yYKY7W8ZcchVxAPHqmdjIIvRYQ/haGusB10UAIY0d8jXUOiBl
+	kQigZHwyzxJu4KC6jYA8kVkzOr2jiathrX8CVVx8=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1706461399;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=kJD7N9PzLVzzrP2iF4HWog25FlVJjcESQx7QW1c+lpg=;
+	b=bA3RKTiePre3YLZvaLYwYLk7RpMn2Sy1rMif0oU4BqXbSD5vJX4iVkIlxUBOgyr6
+	jQDmwW+AYyiROchG9TrI/0bxlaXchWs86zvxjO8+DG2w49nNuefnTN8HphwTrUIJDBo
+	4krv5bq/MderSXMPMBrTo7+mCi6iHwguIbpKEFa8=
+From: patchtest@automation.yoctoproject.org
+To: Peter Marko <peter.marko@siemens.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-core][kirkstone][PATCH] sqlite3: ignore CVE-2024-0232
+In-Reply-To: 20240128165455.658066-1-peter.marko@siemens.com
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018d510688bc-793cbaff-1baf-4432-bbf5-6d5a997c6c6b-000000@us-west-2.amazonses.com>
+Date: Sun, 28 Jan 2024 17:03:19 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.01.28-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 28 Jan 2024 16:58:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194447
+ <openembedded-core@lists.openembedded.org>; Sun, 28 Jan 2024 17:03:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194448
 
-From: Peter Marko <peter.marko@siemens.com>
+--NextPart
+Content-Type: text/plain
 
-CVE-2023-36191 is now rejected in NVD DB so it won't shoup up in
-cve-check report anymore.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/recipes-support/sqlite/sqlite3_3.43.2.bb | 3 ---
- 1 file changed, 3 deletions(-)
+Testing patch /home/patchtest/share/mboxes/kirkstone-sqlite3-ignore-CVE-2024-0232.patch
 
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.43.2.bb b/meta/recipes-support/sqlite/sqlite3_3.43.2.bb
-index 64c1013625..66d6255ac0 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.43.2.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.43.2.bb
-@@ -5,6 +5,3 @@ LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed0
- 
- SRC_URI = "http://www.sqlite.org/2023/sqlite-autoconf-${SQLITE_PV}.tar.gz"
- SRC_URI[sha256sum] = "6d422b6f62c4de2ca80d61860e3a3fb693554d2f75bb1aaca743ccc4d6f609f0"
--
--CVE_STATUS[CVE-2023-36191] = "disputed: The error is a bug. It has been fixed upstream. But it is not a vulnerability"
--
--- 
-2.30.2
+FAIL: test CVE check ignore: CVE_CHECK_IGNORE is deprecated and should be replaced by CVE_STATUS (test_metadata.TestMetadata.test_cve_check_ignore)
 
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
