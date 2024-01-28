@@ -1,91 +1,94 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <simone.p.weiss@posteo.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CC8AC47258
-	for <webhook@archiver.kernel.org>; Sun, 28 Jan 2024 17:06:11 +0000 (UTC)
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
- by mx.groups.io with SMTP id smtpd.web10.41064.1706461562825848716
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D014C47258
+	for <webhook@archiver.kernel.org>; Sun, 28 Jan 2024 18:48:01 +0000 (UTC)
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+ by mx.groups.io with SMTP id smtpd.web10.47172.1706467678971504745
  for <openembedded-core@lists.openembedded.org>;
- Sun, 28 Jan 2024 09:06:02 -0800
+ Sun, 28 Jan 2024 10:47:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=j+rM3W/E;
- spf=pass (domain: gmail.com, ip: 209.85.210.181, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-6de2735151cso37657b3a.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 28 Jan 2024 09:06:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706461562; x=1707066362; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=86XKbSvWEu0dAag2MAMc1TB/oA/pb5AlBAzjn2FpyL8=;
-        b=j+rM3W/ElCS/0vDPDP29oOELhC12pqSxoxti3ekyAm4R60JXdGdRE8EaVwEF6SbLEJ
-         y+cPo9Z5PZ+r1AqhrLzis68TUtz6rfJ3xPl1zN5ebYpZc1H6RQCK9aPSkDZPPAq+V+Jv
-         RxvdcvGXPXYXszgCWbVNoOpd75M7zkMq9k6ftDIQQ7OAMxp9dtTHyEHu6a3eB/erye52
-         IvYhRhxclvxOFy+nTdxYqYBwacWkU0PP1nEYFLvuzvLgcFXwQcEltOvUkWv/WrtTgEgw
-         wam5F90i9v9mPdOqbljdONOPWsSY401JMrkOdtK/sMlr3MjCKBWRyrJjsQqkfo4HZc1a
-         sSCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706461562; x=1707066362;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=86XKbSvWEu0dAag2MAMc1TB/oA/pb5AlBAzjn2FpyL8=;
-        b=XEMCndacXWJmIlRWYC+QPo7pPcddKglaUXZ3Ug/WAiuycqg0GLEsIT7m96mhMSyK3Z
-         qPuAHaT2j7Z4WBfv5wIxdQWhrOAQhFLlMd00G0UspxLPPMgadM/b0DvKyAXUhVh5D5Vd
-         cT+N3fJ4xmXpbcMuFWzYRL2zec6ICt0VCSsvz75cjU0ZxW/iSEpHOnDblhEPzUMWXRbW
-         Hl1d6ypR5BViofdtnD+3GRJB81Q0xFauqLGOwOmKj56ozkv8nBGH1I49n36847uitM6i
-         kTXYM8j85QiChD1vQm3jYPmHJzrFhqd0rtjUiGrh6qrvKLLB302MvSd3FeEkNWnuW+aH
-         Zfbw==
-X-Gm-Message-State: AOJu0YwHBaCxiEdg1vneoE0uvLcJwkR/Nwn+zeOKn9A/j63iIxPvVARo
-	uBIyZeQcJGDjJM1YhzsbW+nSIorz7xDFJ4r0J0+WWpTOyKEz6wzlkrliqV6oEvY=
-X-Google-Smtp-Source: AGHT+IEz940zg+oXOaYTFc5zy+8WC+S+BrFxL0qHovA067KzfLN5rk3uyx/exHbSA7ZxyhSa7QXs6A==
-X-Received: by 2002:a05:6a00:be4:b0:6db:7073:f845 with SMTP id x36-20020a056a000be400b006db7073f845mr1314574pfu.18.1706461561853;
-        Sun, 28 Jan 2024 09:06:01 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::e0b5])
-        by smtp.gmail.com with ESMTPSA id jw3-20020a056a00928300b006d9b4303f9csm4317264pfb.71.2024.01.28.09.06.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Jan 2024 09:06:01 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@posteo.com header.s=2017 header.b=JYjijmGJ;
+ spf=pass (domain: posteo.com, ip: 185.67.36.66, mailfrom: simone.p.weiss@posteo.com)
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout02.posteo.de (Postfix) with ESMTPS id 07446240103
+	for <openembedded-core@lists.openembedded.org>; Sun, 28 Jan 2024 19:47:56 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.com; s=2017;
+	t=1706467677; bh=5H48tklLYdA7XihamiHQAmX1FOT2k09BBGofe5cC/3g=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:From;
+	b=JYjijmGJn+3Eoz1K/rqqWU8foreOSOQMGVpmzkToe5HP/BeYl0fwcq3rwv0QM6fli
+	 tnsz1Dbgjca/oDp56fhAd8dR1aE+anubp9zgM80VX4PXtT8WP6kLBSudKxz2V8gDgJ
+	 1uBb+CfkQUn5rHk8KZfQ/plxt5edyXmFPARKBJ1CIcQ0FfdNqzKU5jhW+zPTdjTSb+
+	 Zjw80p5u2Y9SNmWhZ9v1dH05mxACRUURW+LpuUEJpxrilq5bfvN2XCyhujplLyvs7v
+	 pML2lJYdNlQXZKnMaOsaR89MQTXz8ShZJ3eichC3OKcG765ZwiGT1eHjdYKYD5gcX/
+	 aOJPMGWrb5ZJg==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4TNL641LHLz9rxM;
+	Sun, 28 Jan 2024 19:47:55 +0100 (CET)
+From: simone.p.weiss@posteo.com
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] xwayland: Upgrade 23.2.3 -> 23.2.4
-Date: Sun, 28 Jan 2024 09:05:59 -0800
-Message-ID: <20240128170559.856386-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Cc: =?UTF-8?q?Simone=20Wei=C3=9F?= <simone.p.weiss@posteo.com>
+Subject: [PATCH] gnutls: Upgrade 3.8.2 -> 3.8.3
+Date: Sun, 28 Jan 2024 18:47:41 +0000
+Message-Id: <20240128184741.1446715-1-simone.p.weiss@posteo.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 28 Jan 2024 17:06:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194449
+ <openembedded-core@lists.openembedded.org>; Sun, 28 Jan 2024 18:48:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194450
 
-Cumulative Fixes for CVE-2023-6816, CVE-2024-0229, CVE-2024-21885, CVE-2024-21886,
-CVE-2024-0408, CVE-2024-0409
+From: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Upgrade version to adress recent CVE findings.
+
+Changelog
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
+** libgnutls: Fix more timing side-channel inside RSA-PSK key exchange
+   [GNUTLS-SA-2024-01-14, CVSS: medium] [CVE-2024-0553]
+
+** libgnutls: Fix assertion failure when verifying a certificate chain wi=
+th a
+   cycle of cross signatures
+   [GNUTLS-SA-2024-01-09, CVSS: medium] [CVE-2024-0567]
+
+** libgnutls: Fix regression in handling Ed25519 keys stored in PKCS#11 t=
+oken
+   certtool was unable to handle Ed25519 keys generated on PKCS#11
+   with pkcs11-tool (OpenSC). This is a regression introduced in 3.8.2.
+
+Signed-off-by: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
 ---
- .../xwayland/{xwayland_23.2.3.bb => xwayland_23.2.4.bb}         | 2 +-
+ .../recipes-support/gnutls/{gnutls_3.8.2.bb =3D> gnutls_3.8.3.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xwayland/{xwayland_23.2.3.bb => xwayland_23.2.4.bb} (95%)
+ rename meta/recipes-support/gnutls/{gnutls_3.8.2.bb =3D> gnutls_3.8.3.bb=
+} (97%)
 
-diff --git a/meta/recipes-graphics/xwayland/xwayland_23.2.3.bb b/meta/recipes-graphics/xwayland/xwayland_23.2.4.bb
-similarity index 95%
-rename from meta/recipes-graphics/xwayland/xwayland_23.2.3.bb
-rename to meta/recipes-graphics/xwayland/xwayland_23.2.4.bb
-index 9aa7b4dfcd9..092359172ab 100644
---- a/meta/recipes-graphics/xwayland/xwayland_23.2.3.bb
-+++ b/meta/recipes-graphics/xwayland/xwayland_23.2.4.bb
-@@ -10,7 +10,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=5df87950af51ac2c5822094553ea1880"
- 
- SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz"
--SRC_URI[sha256sum] = "eb9d9aa7232c47412c8835ec15a97c575f03563726c787754ff0c019bd07e302"
-+SRC_URI[sha256sum] = "a99e159b6d0d33098b3b6ab22a88bfcece23c8b9d0ca72c535c55dcb0681b46b"
- 
- UPSTREAM_CHECK_REGEX = "xwayland-(?P<pver>\d+(\.(?!90\d)\d+)+)\.tar"
- 
--- 
-2.43.0
+diff --git a/meta/recipes-support/gnutls/gnutls_3.8.2.bb b/meta/recipes-s=
+upport/gnutls/gnutls_3.8.3.bb
+similarity index 97%
+rename from meta/recipes-support/gnutls/gnutls_3.8.2.bb
+rename to meta/recipes-support/gnutls/gnutls_3.8.3.bb
+index 43fb5c4c4e..27d6753be0 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.8.2.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.8.3.bb
+@@ -25,7 +25,7 @@ SRC_URI =3D "https://www.gnupg.org/ftp/gcrypt/gnutls/v$=
+{SHRT_VER}/gnutls-${PV}.tar
+            file://Add-ptest-support.patch \
+            "
+=20
+-SRC_URI[sha256sum] =3D "e765e5016ffa9b9dd243e363a0460d577074444ee2491267=
+db2e96c9c2adef77"
++SRC_URI[sha256sum] =3D "f74fc5954b27d4ec6dfbb11dea987888b5b124289a3703af=
+cada0ee520f4173e"
+=20
+ inherit autotools texinfo pkgconfig gettext lib_package gtk-doc ptest
+=20
+--=20
+2.39.2
 
 
