@@ -1,119 +1,85 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <ecordonnier@snap.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10FE3C47422
-	for <webhook@archiver.kernel.org>; Mon, 29 Jan 2024 14:19:37 +0000 (UTC)
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
- by mx.groups.io with SMTP id smtpd.web10.16020.1706537973032772470
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FE11C47DDB
+	for <webhook@archiver.kernel.org>; Mon, 29 Jan 2024 15:35:07 +0000 (UTC)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+ by mx.groups.io with SMTP id smtpd.web10.18247.1706542506568178005
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Jan 2024 06:19:33 -0800
+ Mon, 29 Jan 2024 07:35:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=V5wMYv4Z;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.49, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a358ec50b7cso215805166b.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 Jan 2024 06:19:32 -0800 (PST)
+ dkim=pass header.i=@snap.com header.s=google header.b=ANs8iGHv;
+ spf=pass (domain: snapchat.com, ip: 209.85.167.45, mailfrom: ecordonnier@snapchat.com)
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5110fae7af5so1169330e87.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 Jan 2024 07:35:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1706537971; x=1707142771; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XLJxWIRdue4kEEKhGOw82BQDZdqk7HfjZZMaKw9me8U=;
-        b=V5wMYv4ZyMbXfpislzf7xsLa/QIjOLtf6NX/mn289vWDYM84ayjReL3wEU6190CprJ
-         7l+KNOZSzdJM43Dcjxqy8ycF0lNyQuP54AoDTDtXki51zfyoKS/wiIfCN+Dg9eKzaqOm
-         kGoW+uO2iZrPS1ajbFncjFvzDAi+7C40COZMfgVyX6cpQ7/EeWANJ32958bpOs6+vxIV
-         0pI/gvIVZqOCq9mDmL6eWvyTHu9bhcYnoZcjZkroSBzsQkOqx/oFqe9SvAwbZ3n9iRuQ
-         keoK6gXK6Hdf1lKLk6y5ZOIR4z5MV6wkQjqTfzudk1l3SN7lyAqU+KD+tEvhA00Bl7JA
-         I0bQ==
+        d=snap.com; s=google; t=1706542504; x=1707147304; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7ad4Ksb/SSSjvsQD0lTQBCN77Pc6HZacMPu8F6dDxys=;
+        b=ANs8iGHvPafKWzbHzDjp5VUfXfxE8UjusucGJ/9uWexRZS3rqJuMoWqBE1zQ2ecD2+
+         yjuRnFs3kf2fDlhom19g/lle6mC9BlBK+nDhbqYk7Rg3H5zkQZeQp5yOYA8LYbeWoe8y
+         Rd9fR68NmGiZfeaS+I0CbAfvbahhFNriC//Hw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706537971; x=1707142771;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XLJxWIRdue4kEEKhGOw82BQDZdqk7HfjZZMaKw9me8U=;
-        b=gQWNKNbKhwSuDqw2eXyQIF2+Q+rpX2zohapx7/mlgv1LvMCAsVerqVcW/eLFp36yFF
-         neCaHdGhgp+PgoGNGnYsEIKVuFDgosRIAKHllw229m6KJfbZw+0rHDxM0P2te3QUsThR
-         Nb9wRpvoTV1KqbTzSJLYDT1PXVA3Ei3doc9+QFlAANfkSdZoBiZ53jk6nypcd6+IzBbl
-         zgx43kdJ7qTJ2KMZNylvAs8rCjtHBWqescBX5BDVwDPeyyb2AYessxNOuTjFT6e70Zg2
-         eXfloA84agsBX/zBdpR5TRLoro0vdLrqh/ToUgQvG9YrxQFxaLjXk/TRrObPjti/XXEI
-         Fp+w==
-X-Gm-Message-State: AOJu0Yzv1ulmu603mzAbnmQ6kjB2i1q9mGjn1+TL0Lbt/Q3had8ryaFD
-	eS01z9H5KjnEWXNfWNw7iRtW4vbcxrtOGdJ3dQB6UTKqAz0reAEj6bBE/+0D5OKGisOF+keJiiV
-	65zo8T3sGbyT7EKW72oNccAxZ7J6U50dKSwVqHA==
-X-Google-Smtp-Source: AGHT+IH2tGmERxvW3E3+ouNshkIe405fNykjmlHgmKilMmhWxO52ld1F7K6vlIeaadOl4KDmHYmehF6ou3yUbgwxNwI=
-X-Received: by 2002:a17:907:1608:b0:a31:1a10:3b1d with SMTP id
- cw8-20020a170907160800b00a311a103b1dmr7507609ejd.7.1706537971245; Mon, 29 Jan
- 2024 06:19:31 -0800 (PST)
+        d=1e100.net; s=20230601; t=1706542504; x=1707147304;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7ad4Ksb/SSSjvsQD0lTQBCN77Pc6HZacMPu8F6dDxys=;
+        b=EYxpD5zNShkf6uH9xVZT4TAK0ymDyr7IDLd4nIpZdWiUdgTaLhFyl9zuOkZ6zMqfpd
+         ksAoNP+vnHFUHcpnobMGdV4/LKfE410d1tL/0G9c9AGOpFWXXxFbeqC/9CeSXTAJFm6U
+         fpHmRc7VnMsLKwNGjtSlziW/uXJ+/dh+gPMuwTwhSlqxSaI9RniuMzpI/bk7w2XIDVV8
+         E+ekJaMaYIUMcdnNPtsWLIDEQCZAtJq8S1I2Z61GoRdwI7mF6gamM5pJo1YfUX78TjTb
+         O+Ys14VvlbeP1an7jHxMcL+UsY7DFS/Lyd9+tcW+HYo2vvZbPfL/CppvBI+2i03l3PY/
+         D6uQ==
+X-Gm-Message-State: AOJu0YxYI7ulUKV1nDHzPUA2wuFHhTBZXD/uF1WJwWhDn2D8RnSuX9Ot
+	2VTufWwdh8DxYB3OU3dDTQUl5xzRuPkTOyaZN7h7BFDXlHfwSiip7JKrudnszRmA2WQOEHcql0q
+	nE7/VMw==
+X-Google-Smtp-Source: AGHT+IEipA27oe7HdpB7HPzx8wXErNlyoGe6OZ3rcDrcrcxhY+BbPr/ERStIHV1q+x1ErpDx95Bh7w==
+X-Received: by 2002:a2e:860f:0:b0:2d0:41d1:8124 with SMTP id a15-20020a2e860f000000b002d041d18124mr2755352lji.1.1706542503881;
+        Mon, 29 Jan 2024 07:35:03 -0800 (PST)
+Received: from lj8k2dq3.sc-core.net ([213.249.125.50])
+        by smtp.gmail.com with ESMTPSA id g9-20020a056402428900b0055d333a0584sm3838224edc.72.2024.01.29.07.35.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jan 2024 07:35:03 -0800 (PST)
+From: ecordonnier@snap.com
+To: openembedded-core@lists.openembedded.org
+Cc: Etienne Cordonnier <ecordonnier@snap.com>
+Subject: [PATCH] dropbear: remove unnecessary line
+Date: Mon, 29 Jan 2024 16:34:54 +0100
+Message-Id: <20240129153454.3610960-1-ecordonnier@snap.com>
+X-Mailer: git-send-email 2.36.1.vfs.0.0
 MIME-Version: 1.0
-References: <20240128165358.657852-1-peter.marko@siemens.com>
-In-Reply-To: <20240128165358.657852-1-peter.marko@siemens.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Mon, 29 Jan 2024 04:19:20 -1000
-Message-ID: <CAOSpxdYH5AYuEQ3P3dzMWXZmEkaC5D02XLsaNzk+f8vvG89ZWA@mail.gmail.com>
-Subject: Re: [OE-core][dunfell][PATCH] sqlite3: ignore CVE-2024-0232
-To: peter.marko@siemens.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Jan 2024 14:19:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194461
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Jan 2024 15:35:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194462
 
-On Sun, Jan 28, 2024 at 6:54=E2=80=AFAM Peter Marko via lists.openembedded.=
-org
-<peter.marko=3Dsiemens.com@lists.openembedded.org> wrote:
->
-> From: Peter Marko <peter.marko@siemens.com>
->
-> This CVE reports bug which was fixed in 3.43.2 by [1].
-> Code analysis shows that it is fixing caching issue
-> and this cache was introduced by [2].
-> This landed only in 3.43.0 so 3.85.5 is not affected.
+From: Etienne Cordonnier <ecordonnier@snap.com>
 
-I think you meant 3.31.1, not 3.85.5
+This line was added in 703e3faaec8c5a22, however
+the default value of FILES:${PN} contains "${bindir}/*", so this directory does
+not need to be explicitly added.
 
-In cases like this where the database is in error it is best to send
-an email to cpe_dictionary@nist.gov providing the above data and
-asking them to fix the issue. They are usually quite responsive.
+Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
+---
+ meta/recipes-core/dropbear/dropbear_2022.83.bb | 2 --
+ 1 file changed, 2 deletions(-)
 
-Steve
+diff --git a/meta/recipes-core/dropbear/dropbear_2022.83.bb b/meta/recipes-core/dropbear/dropbear_2022.83.bb
+index 12ac732f58..528eff1a10 100644
+--- a/meta/recipes-core/dropbear/dropbear_2022.83.bb
++++ b/meta/recipes-core/dropbear/dropbear_2022.83.bb
+@@ -130,5 +130,3 @@ pkg_postrm:${PN} () {
+ }
+ 
+ CONFFILES:${PN} = "${sysconfdir}/default/dropbear"
+-
+-FILES:${PN} += "${bindir}"
+-- 
+2.36.1.vfs.0.0
 
->
-> [1] https://sqlite.org/src/info/5b09212ac05615fc
-> [2] https://sqlite.org/src/info/2dbb22c75e86f2e3
->
-> Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> ---
->  meta/recipes-support/sqlite/sqlite3_3.31.1.bb | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/meta/recipes-support/sqlite/sqlite3_3.31.1.bb b/meta/recipes=
--support/sqlite/sqlite3_3.31.1.bb
-> index ef12ef0db2..b2d8f9f1dd 100644
-> --- a/meta/recipes-support/sqlite/sqlite3_3.31.1.bb
-> +++ b/meta/recipes-support/sqlite/sqlite3_3.31.1.bb
-> @@ -25,3 +25,5 @@ SRC_URI[sha256sum] =3D "62284efebc05a76f909c580ffa5c008=
-a7d22a1287285d68b7825a2b6b5
->  CVE_CHECK_WHITELIST +=3D "CVE-2019-19242"
->  # This is believed to be iOS specific (https://groups.google.com/g/sqlit=
-e-dev/c/U7OjAbZO6LA)
->  CVE_CHECK_WHITELIST +=3D "CVE-2015-3717"
-> +# This was introduced in 3.43.0, 3.31.1 is not yet affected
-> +CVE_CHECK_WHITELIST +=3D "CVE-2024-0232"
-> --
-> 2.30.2
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#194444): https://lists.openembedded.org/g/openembedde=
-d-core/message/194444
-> Mute This Topic: https://lists.openembedded.org/mt/104014792/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
-eve@sakoman.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
 
