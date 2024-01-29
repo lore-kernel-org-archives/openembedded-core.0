@@ -1,135 +1,187 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1484EC47DB3
-	for <webhook@archiver.kernel.org>; Mon, 29 Jan 2024 18:06:46 +0000 (UTC)
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
- by mx.groups.io with SMTP id smtpd.web11.1906.1706551597770638818
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D94FAC47DDB
+	for <webhook@archiver.kernel.org>; Mon, 29 Jan 2024 18:07:15 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.1920.1706551625810400409
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Jan 2024 10:06:38 -0800
+ Mon, 29 Jan 2024 10:07:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=XJMT+/q/;
- spf=pass (domain: gmail.com, ip: 209.85.208.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-55eb1f9d1f0so4054995a12.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 29 Jan 2024 10:06:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706551596; x=1707156396; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=I0o3Dw9hdsRNkrs9RcE3veWRhnNYIxOgRbdvwafI2vc=;
-        b=XJMT+/q/b4dcu7J64a6ZGgJHjiSkA10irX7Q+cst2Pv8okcGcrdfHMNbMT4TgbT6Ni
-         bf0iSTFSlgdtY1IbYYc5i0y0Kdwz535pPw7mGxlP3q/aUWSuBUldKQ7+5htPtP6naY1i
-         3+3y3BCqzVycJLFtQl79saulgZjv8h6ssvxPzI/a4kEN+1lcOTj3V0pITy2/kfQyBxxd
-         RmL8mevgiaqvDhHF2LUZf6JKxQYH+VATmMO8H7BaAOGsL6n/FfeYvyosOQPOKZHmEnKj
-         vcYwLLfkPz1N7YW4QuBW9VNr7smqhLWtAeLo+zvAtfM457RRVRyQjJ8ha+i4fv1Uthw3
-         79Mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706551596; x=1707156396;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=I0o3Dw9hdsRNkrs9RcE3veWRhnNYIxOgRbdvwafI2vc=;
-        b=BvVDH5jV7qcxZ7gUx5eLOJoyg2o/qsjmy4svDvhh3qoAhceyPUrUl0nTdY/LXJO9Tu
-         bvslvN5XlZBs/qoJjbHIuekBRomojRJKIzVQN78QoiRNA8vse5MNoUnYqaWCS2sIi4yi
-         2VCe/OAW+07s8AYDamIT9hdbzaQ241xV88eMRNcOd2bqMIYvu6Yp9EdSKIAQ4S9oVhyw
-         DNdVN4wzp0YehEUl1tRXrj48MZwgEcFajmK/8Rm9VRzRb3byEBdzw3BTRz3DSRzNmLFk
-         AzmDCdEK6WlIHqos7JBGnz3fU0MZM2ZXv5iFgJ2R9g8E7RXTX4q35R+o4RkOooQ29VZA
-         1eUA==
-X-Gm-Message-State: AOJu0Yx4XTFtr2c0Ssxm4aeHTHDc+QfF3urWbeBkZw1y5gaOK1YyAJRi
-	frq47LLaWDIYxGHWJjeveH6sbkmuLfbGrMeTVb6ZmqFNuHHTEN+OfhVy+5+g
-X-Google-Smtp-Source: AGHT+IHYl0FkBlu5uQrb2v13FXHHg3Ap9Kt0AF8C35Sg0EQt8Jlbu7EaLPsBH/1WJy7tLGDkix6y/g==
-X-Received: by 2002:a17:906:c346:b0:a35:fa5c:3e1e with SMTP id ci6-20020a170906c34600b00a35fa5c3e1emr918489ejb.38.1706551595759;
-        Mon, 29 Jan 2024 10:06:35 -0800 (PST)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id ub11-20020a170907c80b00b00a353ca3d907sm3087045ejc.217.2024.01.29.10.06.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jan 2024 10:06:35 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 57870DA7
+	for <openembedded-core@lists.openembedded.org>; Mon, 29 Jan 2024 10:07:48 -0800 (PST)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 258E73F738
+	for <openembedded-core@lists.openembedded.org>; Mon, 29 Jan 2024 10:07:04 -0800 (PST)
+From: ross.burton@arm.com
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH] classes/package_rpm: correctly escape percent characters
-Date: Mon, 29 Jan 2024 19:06:29 +0100
-Message-Id: <20240129180629.1631473-1-alex@linutronix.de>
-X-Mailer: git-send-email 2.39.2
+Subject: [PATCH] openssl: backport fix for CVE-2023-6129
+Date: Mon, 29 Jan 2024 18:07:02 +0000
+Message-Id: <20240129180702.2169499-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Jan 2024 18:06:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194473
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Jan 2024 18:07:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194474
 
-This many characters doesn't work with rpm 4.19 packaging
-(as shown by nodejs recipes), and per documentation a single escape
-is enough:
+From: Ross Burton <ross.burton@arm.com>
 
-https://github.com/rpm-software-management/rpm/blob/rpm-4.19.x/docs/manual/spec.md#shell-globbing
-
-It also should be done in a function, and just before writing out the
-corrected filename to .spec, not earlier where the path may still
-be needed for file operations (such as gettings file attributes).
-
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/classes-global/package_rpm.bbclass | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ .../openssl/openssl/CVE-2023-6129.patch       | 113 ++++++++++++++++++
+ .../openssl/openssl_3.2.0.bb                  |   1 +
+ 2 files changed, 114 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-61=
+29.patch
 
-diff --git a/meta/classes-global/package_rpm.bbclass b/meta/classes-global/package_rpm.bbclass
-index e0f4de42a15..819ee502783 100644
---- a/meta/classes-global/package_rpm.bbclass
-+++ b/meta/classes-global/package_rpm.bbclass
-@@ -216,10 +216,12 @@ python write_specfile () {
-                     raise e
-                 return "%attr({:o},{},{}) ".format(mode, owner, group)
- 
-+            def escape_chars(p):
-+                return p.replace("%", "%%")
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2023-6129.patc=
+h b/meta/recipes-connectivity/openssl/openssl/CVE-2023-6129.patch
+new file mode 100644
+index 00000000000..c2cbedd1b70
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2023-6129.patch
+@@ -0,0 +1,113 @@
++From 5b139f95c9a47a55a0c54100f3837b1eee942b04 Mon Sep 17 00:00:00 2001
++From: Rohan McLure <rmclure@linux.ibm.com>
++Date: Thu, 4 Jan 2024 10:25:50 +0100
++Subject: [PATCH] poly1305-ppc.pl: Fix vector register clobbering
 +
-             path = rootpath.replace(walkpath, "")
-             if path.endswith("DEBIAN") or path.endswith("CONTROL"):
-                 continue
--            path = path.replace("%", "%%%%%%%%")
- 
-             # Treat all symlinks to directories as normal files.
-             # os.walk() lists them as directories.
-@@ -238,29 +240,27 @@ python write_specfile () {
-                 for dir in dirs:
-                     if dir == "CONTROL" or dir == "DEBIAN":
-                         continue
--                    dir = dir.replace("%", "%%%%%%%%")
-                     p = path + '/' + dir
-                     # All packages own the directories their files are in...
--                    target.append(get_attr(dir) + '%dir "' + p + '"')
-+                    target.append(get_attr(dir) + '%dir "' + escape_chars(p) + '"')
-             else:
-                 # packages own only empty directories or explict directory.
-                 # This will prevent the overlapping of security permission.
-                 attr = get_attr(path)
-                 if path and not files and not dirs:
--                    target.append(attr + '%dir "' + path + '"')
-+                    target.append(attr + '%dir "' + escape_chars(path) + '"')
-                 elif path and path in dirfiles:
--                    target.append(attr + '%dir "' + path + '"')
-+                    target.append(attr + '%dir "' + escape_chars(path) + '"')
- 
-             for file in files:
-                 if file == "CONTROL" or file == "DEBIAN":
-                     continue
--                file = file.replace("%", "%%%%%%%%")
-                 attr = get_attr(file)
-                 p = path + '/' + file
-                 if conffiles.count(p):
--                    target.append(attr + '%config "' + p + '"')
-+                    target.append(attr + '%config "' + escape_chars(p) + '"')
-                 else:
--                    target.append(attr + '"' + p + '"')
-+                    target.append(attr + '"' + escape_chars(p) + '"')
- 
-     # Prevent the prerm/postrm scripts from being run during an upgrade
-     def wrap_uninstall(scriptvar):
--- 
-2.39.2
++Fixes CVE-2023-6129
++
++The POLY1305 MAC (message authentication code) implementation in OpenSSL=
+ for
++PowerPC CPUs saves the the contents of vector registers in different ord=
+er
++than they are restored. Thus the contents of some of these vector regist=
+ers
++is corrupted when returning to the caller. The vulnerable code is used o=
+nly
++on newer PowerPC processors supporting the PowerISA 2.07 instructions.
++
++Reviewed-by: Matt Caswell <matt@openssl.org>
++Reviewed-by: Richard Levitte <levitte@openssl.org>
++Reviewed-by: Tomas Mraz <tomas@openssl.org>
++(Merged from https://github.com/openssl/openssl/pull/23200)
++
++(cherry picked from commit 8d847a3ffd4f0b17ee33962cf69c36224925b34f)
++
++CVE: CVE-2023-6129
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++---
++ crypto/poly1305/asm/poly1305-ppc.pl | 42 ++++++++++++++---------------
++ 1 file changed, 21 insertions(+), 21 deletions(-)
++
++diff --git a/crypto/poly1305/asm/poly1305-ppc.pl b/crypto/poly1305/asm/p=
+oly1305-ppc.pl
++index 9f86134d923fb..2e601bb9c24be 100755
++--- a/crypto/poly1305/asm/poly1305-ppc.pl
+++++ b/crypto/poly1305/asm/poly1305-ppc.pl
++@@ -744,7 +744,7 @@
++ my $LOCALS=3D 6*$SIZE_T;
++ my $VSXFRAME =3D $LOCALS + 6*$SIZE_T;
++    $VSXFRAME +=3D 128;	# local variables
++-   $VSXFRAME +=3D 13*16;	# v20-v31 offload
+++   $VSXFRAME +=3D 12*16;	# v20-v31 offload
++=20
++ my $BIG_ENDIAN =3D ($flavour !~ /le/) ? 4 : 0;
++=20
++@@ -919,12 +919,12 @@
++ 	addi	r11,r11,32
++ 	stvx	v22,r10,$sp
++ 	addi	r10,r10,32
++-	stvx	v23,r10,$sp
++-	addi	r10,r10,32
++-	stvx	v24,r11,$sp
+++	stvx	v23,r11,$sp
++ 	addi	r11,r11,32
++-	stvx	v25,r10,$sp
+++	stvx	v24,r10,$sp
++ 	addi	r10,r10,32
+++	stvx	v25,r11,$sp
+++	addi	r11,r11,32
++ 	stvx	v26,r10,$sp
++ 	addi	r10,r10,32
++ 	stvx	v27,r11,$sp
++@@ -1153,12 +1153,12 @@
++ 	addi	r11,r11,32
++ 	stvx	v22,r10,$sp
++ 	addi	r10,r10,32
++-	stvx	v23,r10,$sp
++-	addi	r10,r10,32
++-	stvx	v24,r11,$sp
+++	stvx	v23,r11,$sp
++ 	addi	r11,r11,32
++-	stvx	v25,r10,$sp
+++	stvx	v24,r10,$sp
++ 	addi	r10,r10,32
+++	stvx	v25,r11,$sp
+++	addi	r11,r11,32
++ 	stvx	v26,r10,$sp
++ 	addi	r10,r10,32
++ 	stvx	v27,r11,$sp
++@@ -1899,26 +1899,26 @@
++ 	mtspr	256,r12				# restore vrsave
++ 	lvx	v20,r10,$sp
++ 	addi	r10,r10,32
++-	lvx	v21,r10,$sp
++-	addi	r10,r10,32
++-	lvx	v22,r11,$sp
+++	lvx	v21,r11,$sp
++ 	addi	r11,r11,32
++-	lvx	v23,r10,$sp
+++	lvx	v22,r10,$sp
++ 	addi	r10,r10,32
++-	lvx	v24,r11,$sp
+++	lvx	v23,r11,$sp
++ 	addi	r11,r11,32
++-	lvx	v25,r10,$sp
+++	lvx	v24,r10,$sp
++ 	addi	r10,r10,32
++-	lvx	v26,r11,$sp
+++	lvx	v25,r11,$sp
++ 	addi	r11,r11,32
++-	lvx	v27,r10,$sp
+++	lvx	v26,r10,$sp
++ 	addi	r10,r10,32
++-	lvx	v28,r11,$sp
+++	lvx	v27,r11,$sp
++ 	addi	r11,r11,32
++-	lvx	v29,r10,$sp
+++	lvx	v28,r10,$sp
++ 	addi	r10,r10,32
++-	lvx	v30,r11,$sp
++-	lvx	v31,r10,$sp
+++	lvx	v29,r11,$sp
+++	addi	r11,r11,32
+++	lvx	v30,r10,$sp
+++	lvx	v31,r11,$sp
++ 	$POP	r27,`$VSXFRAME-$SIZE_T*5`($sp)
++ 	$POP	r28,`$VSXFRAME-$SIZE_T*4`($sp)
++ 	$POP	r29,`$VSXFRAME-$SIZE_T*3`($sp)
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.2.0.bb b/meta/re=
+cipes-connectivity/openssl/openssl_3.2.0.bb
+index cf08cdbaa05..b2cdf761fc1 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.2.0.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.2.0.bb
+@@ -14,6 +14,7 @@ SRC_URI =3D "http://www.openssl.org/source/openssl-${PV=
+}.tar.gz \
+            file://0001-Added-handshake-history-reporting-when-test-fails=
+.patch \
+            file://aarch64-bti.patch \
+            file://0001-riscv-Fix-mispelling-of-extension-test-macro.patc=
+h \
++           file://CVE-2023-6129.patch \
+            "
+=20
+ SRC_URI:append:class-nativesdk =3D " \
+--=20
+2.34.1
 
 
