@@ -1,187 +1,145 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D94FAC47DDB
-	for <webhook@archiver.kernel.org>; Mon, 29 Jan 2024 18:07:15 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.1920.1706551625810400409
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BFB1C47DB3
+	for <webhook@archiver.kernel.org>; Mon, 29 Jan 2024 18:17:16 +0000 (UTC)
+Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
+ by mx.groups.io with SMTP id smtpd.web11.2224.1706552233065688692
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Jan 2024 10:07:06 -0800
+ Mon, 29 Jan 2024 10:17:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 57870DA7
-	for <openembedded-core@lists.openembedded.org>; Mon, 29 Jan 2024 10:07:48 -0800 (PST)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 258E73F738
-	for <openembedded-core@lists.openembedded.org>; Mon, 29 Jan 2024 10:07:04 -0800 (PST)
-From: ross.burton@arm.com
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] openssl: backport fix for CVE-2023-6129
-Date: Mon, 29 Jan 2024 18:07:02 +0000
-Message-Id: <20240129180702.2169499-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=jRq693yi;
+ spf=pass (domain: gmail.com, ip: 209.85.160.54, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-20536d5c5c7so1893440fac.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 29 Jan 2024 10:17:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706552232; x=1707157032; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cMVKAHpBQDibwpnBXaiIauSQZdh/tHmLQAINr0ZCvhA=;
+        b=jRq693yihBzDhu9Xkf0XuWOJEZhV2qph8roLRk4E0JjYoYBe0hzXmjfSBI0NGLtUe9
+         tzP0A2m9cixVAkNkWR8dEAjadDdEPmBMJtm/YlelKS8OJLMZycq39tIKM0ekUmfLXTHb
+         0aWBhK0oonrhb+A8x8vQ1O7x+U25/SBqnU8VzXK5CcrhW1o2ISHfoDpgH1ZauA4rZqLR
+         d2BLlj7HuH/itqq/txL+FFOMEhHn3JAnjgiaMG/GM7EUeBMrSOU8osA2T3t9mJCsYGr/
+         hJf7FE9rYmG3Q+1el1TCjsASE7GAwlarjzlwPKi0uQJWqouOIRz5DRu2m1nXqlXHxtW0
+         tVYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706552232; x=1707157032;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cMVKAHpBQDibwpnBXaiIauSQZdh/tHmLQAINr0ZCvhA=;
+        b=QKFeXyu9K+jLEURrW1yXl0FxatAaJr4y8Z1GFJc90wx935CapffyrWeLP+d6kJQ1iV
+         2se7pI7Qrzc8e4bnH3AEhxNhnZUCi5LzzQkRPGCu1g97M4hWJUw8P5MBUCAcu29VsZdG
+         /UL8sCxZx5fTZH9ERhc28GOh+zlljCIFWZVzmKsgdoxOEinE8p381ofC7atZkG4lZlhb
+         Vl99YhtF6lnKXdd+kDn59jgX8YMKndiEcYwFZpT81pG8kBl9Pav7fFd+7FDG5/H4DCil
+         q4KTKQ/iR6VYbzyAXggvVSRiTbQz7K/KVLtb9TR5QpTewnsnceIShzaQTTstoQfgQYiX
+         ngQQ==
+X-Gm-Message-State: AOJu0Yzt5jz8ns5wGrJOZh5KPbBZlPDN0lRZHQ2bl8bXniWT78OYZDnP
+	/WJ2Q6c7Ejab4X+SgyaZXxkfnpJ0XgCqvY47wXwcwlUYfoLTSj+n3+DQF+Um5XEQai4zm0pH1PB
+	kp259GmgM+Vwhp2p8GMU51NpIR+Gn/+B5Kp8=
+X-Google-Smtp-Source: AGHT+IFNvWDwkpn68ZbZbr1yIWruCYsshd2sU4exB+P5EPAvGFJ1Go8FOIJpBXby1n21PmKaxyUaQJWZoA/5QKqVGAo=
+X-Received: by 2002:a05:6870:8608:b0:214:e3ce:83b6 with SMTP id
+ h8-20020a056870860800b00214e3ce83b6mr3511472oal.8.1706552232222; Mon, 29 Jan
+ 2024 10:17:12 -0800 (PST)
 MIME-Version: 1.0
+References: <20240129162615.3724802-1-matt@madison.systems>
+ <CAMKF1sqfi=O0Bw26Wj3bsx=aUWe2thHw7Jt1_nzsxttD6NwNmQ@mail.gmail.com> <CAGgRHJrfSuW84beU_VgyHLBVydHg_OSxXZ6XvHH6U6FRpA6QxQ@mail.gmail.com>
+In-Reply-To: <CAGgRHJrfSuW84beU_VgyHLBVydHg_OSxXZ6XvHH6U6FRpA6QxQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 29 Jan 2024 10:16:46 -0800
+Message-ID: <CAMKF1sqys=LvpvLLE2G85LP+GNDDXRA9LiO=DfHELhAu7pHUDw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH][pseudo] ports/linux: add wrapper for statvfs64
+To: Matt Madison <matt@madison.systems>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 29 Jan 2024 18:07:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194474
+ <openembedded-core@lists.openembedded.org>; Mon, 29 Jan 2024 18:17:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194475
 
-From: Ross Burton <ross.burton@arm.com>
+On Mon, Jan 29, 2024 at 10:03=E2=80=AFAM Matt Madison <matt@madison.systems=
+> wrote:
+>
+> Should be covered by the same conditional - the guts are in the same dire=
+ctory.
+>
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- .../openssl/openssl/CVE-2023-6129.patch       | 113 ++++++++++++++++++
- .../openssl/openssl_3.2.0.bb                  |   1 +
- 2 files changed, 114 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-61=
-29.patch
+right seems so. Thanks it looks ok now
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2023-6129.patc=
-h b/meta/recipes-connectivity/openssl/openssl/CVE-2023-6129.patch
-new file mode 100644
-index 00000000000..c2cbedd1b70
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/CVE-2023-6129.patch
-@@ -0,0 +1,113 @@
-+From 5b139f95c9a47a55a0c54100f3837b1eee942b04 Mon Sep 17 00:00:00 2001
-+From: Rohan McLure <rmclure@linux.ibm.com>
-+Date: Thu, 4 Jan 2024 10:25:50 +0100
-+Subject: [PATCH] poly1305-ppc.pl: Fix vector register clobbering
-+
-+Fixes CVE-2023-6129
-+
-+The POLY1305 MAC (message authentication code) implementation in OpenSSL=
- for
-+PowerPC CPUs saves the the contents of vector registers in different ord=
-er
-+than they are restored. Thus the contents of some of these vector regist=
-ers
-+is corrupted when returning to the caller. The vulnerable code is used o=
-nly
-+on newer PowerPC processors supporting the PowerISA 2.07 instructions.
-+
-+Reviewed-by: Matt Caswell <matt@openssl.org>
-+Reviewed-by: Richard Levitte <levitte@openssl.org>
-+Reviewed-by: Tomas Mraz <tomas@openssl.org>
-+(Merged from https://github.com/openssl/openssl/pull/23200)
-+
-+(cherry picked from commit 8d847a3ffd4f0b17ee33962cf69c36224925b34f)
-+
-+CVE: CVE-2023-6129
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+---
-+ crypto/poly1305/asm/poly1305-ppc.pl | 42 ++++++++++++++---------------
-+ 1 file changed, 21 insertions(+), 21 deletions(-)
-+
-+diff --git a/crypto/poly1305/asm/poly1305-ppc.pl b/crypto/poly1305/asm/p=
-oly1305-ppc.pl
-+index 9f86134d923fb..2e601bb9c24be 100755
-+--- a/crypto/poly1305/asm/poly1305-ppc.pl
-++++ b/crypto/poly1305/asm/poly1305-ppc.pl
-+@@ -744,7 +744,7 @@
-+ my $LOCALS=3D 6*$SIZE_T;
-+ my $VSXFRAME =3D $LOCALS + 6*$SIZE_T;
-+    $VSXFRAME +=3D 128;	# local variables
-+-   $VSXFRAME +=3D 13*16;	# v20-v31 offload
-++   $VSXFRAME +=3D 12*16;	# v20-v31 offload
-+=20
-+ my $BIG_ENDIAN =3D ($flavour !~ /le/) ? 4 : 0;
-+=20
-+@@ -919,12 +919,12 @@
-+ 	addi	r11,r11,32
-+ 	stvx	v22,r10,$sp
-+ 	addi	r10,r10,32
-+-	stvx	v23,r10,$sp
-+-	addi	r10,r10,32
-+-	stvx	v24,r11,$sp
-++	stvx	v23,r11,$sp
-+ 	addi	r11,r11,32
-+-	stvx	v25,r10,$sp
-++	stvx	v24,r10,$sp
-+ 	addi	r10,r10,32
-++	stvx	v25,r11,$sp
-++	addi	r11,r11,32
-+ 	stvx	v26,r10,$sp
-+ 	addi	r10,r10,32
-+ 	stvx	v27,r11,$sp
-+@@ -1153,12 +1153,12 @@
-+ 	addi	r11,r11,32
-+ 	stvx	v22,r10,$sp
-+ 	addi	r10,r10,32
-+-	stvx	v23,r10,$sp
-+-	addi	r10,r10,32
-+-	stvx	v24,r11,$sp
-++	stvx	v23,r11,$sp
-+ 	addi	r11,r11,32
-+-	stvx	v25,r10,$sp
-++	stvx	v24,r10,$sp
-+ 	addi	r10,r10,32
-++	stvx	v25,r11,$sp
-++	addi	r11,r11,32
-+ 	stvx	v26,r10,$sp
-+ 	addi	r10,r10,32
-+ 	stvx	v27,r11,$sp
-+@@ -1899,26 +1899,26 @@
-+ 	mtspr	256,r12				# restore vrsave
-+ 	lvx	v20,r10,$sp
-+ 	addi	r10,r10,32
-+-	lvx	v21,r10,$sp
-+-	addi	r10,r10,32
-+-	lvx	v22,r11,$sp
-++	lvx	v21,r11,$sp
-+ 	addi	r11,r11,32
-+-	lvx	v23,r10,$sp
-++	lvx	v22,r10,$sp
-+ 	addi	r10,r10,32
-+-	lvx	v24,r11,$sp
-++	lvx	v23,r11,$sp
-+ 	addi	r11,r11,32
-+-	lvx	v25,r10,$sp
-++	lvx	v24,r10,$sp
-+ 	addi	r10,r10,32
-+-	lvx	v26,r11,$sp
-++	lvx	v25,r11,$sp
-+ 	addi	r11,r11,32
-+-	lvx	v27,r10,$sp
-++	lvx	v26,r10,$sp
-+ 	addi	r10,r10,32
-+-	lvx	v28,r11,$sp
-++	lvx	v27,r11,$sp
-+ 	addi	r11,r11,32
-+-	lvx	v29,r10,$sp
-++	lvx	v28,r10,$sp
-+ 	addi	r10,r10,32
-+-	lvx	v30,r11,$sp
-+-	lvx	v31,r10,$sp
-++	lvx	v29,r11,$sp
-++	addi	r11,r11,32
-++	lvx	v30,r10,$sp
-++	lvx	v31,r11,$sp
-+ 	$POP	r27,`$VSXFRAME-$SIZE_T*5`($sp)
-+ 	$POP	r28,`$VSXFRAME-$SIZE_T*4`($sp)
-+ 	$POP	r29,`$VSXFRAME-$SIZE_T*3`($sp)
-diff --git a/meta/recipes-connectivity/openssl/openssl_3.2.0.bb b/meta/re=
-cipes-connectivity/openssl/openssl_3.2.0.bb
-index cf08cdbaa05..b2cdf761fc1 100644
---- a/meta/recipes-connectivity/openssl/openssl_3.2.0.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_3.2.0.bb
-@@ -14,6 +14,7 @@ SRC_URI =3D "http://www.openssl.org/source/openssl-${PV=
-}.tar.gz \
-            file://0001-Added-handshake-history-reporting-when-test-fails=
-.patch \
-            file://aarch64-bti.patch \
-            file://0001-riscv-Fix-mispelling-of-extension-test-macro.patc=
-h \
-+           file://CVE-2023-6129.patch \
-            "
-=20
- SRC_URI:append:class-nativesdk =3D " \
---=20
-2.34.1
-
+> -M
+>
+> On Mon, Jan 29, 2024 at 8:48=E2=80=AFAM Khem Raj <raj.khem@gmail.com> wro=
+te:
+>>
+>>
+>>
+>> On Mon, Jan 29, 2024 at 8:26=E2=80=AFAM Matt Madison <matt@madison.syste=
+ms> wrote:
+>>>
+>>> rpm 4.19 now builds with LFS64 support enabled by default,
+>>> so it calls statvfs64() to get the space available on the
+>>> filesystem it is installing packages into.  Add a wrapper
+>>> for this call so the right filesystem is used.
+>>>
+>>> Signed-off-by: Matt Madison <matt@madison.systems>
+>>> ---
+>>>  ports/linux/statvfs/guts/statvfs64.c | 15 +++++++++++++++
+>>>  ports/linux/statvfs/wrapfuncs.in     |  1 +
+>>>  2 files changed, 16 insertions(+)
+>>>  create mode 100644 ports/linux/statvfs/guts/statvfs64.c
+>>>
+>>> diff --git a/ports/linux/statvfs/guts/statvfs64.c b/ports/linux/statvfs=
+/guts/statvfs64.c
+>>> new file mode 100644
+>>> index 0000000..856d3db
+>>> --- /dev/null
+>>> +++ b/ports/linux/statvfs/guts/statvfs64.c
+>>> @@ -0,0 +1,15 @@
+>>> +/*
+>>> + * Copyright (c) 2018 Wind River Systems; see
+>>> + * guts/COPYRIGHT for information.
+>>> + *
+>>> + * SPDX-License-Identifier: LGPL-2.1-only
+>>> + *
+>>> + * int statvfs64(const char *path, struct statvfs64 *buf)
+>>> + *     int rc =3D -1;
+>>> + */
+>>> +
+>>> +       rc =3D real_statvfs64(path, buf);
+>>> +
+>>> +/*     return rc;
+>>> + * }
+>>> + */
+>>> diff --git a/ports/linux/statvfs/wrapfuncs.in b/ports/linux/statvfs/wra=
+pfuncs.in
+>>> index 1afb64d..6a59660 100644
+>>> --- a/ports/linux/statvfs/wrapfuncs.in
+>>> +++ b/ports/linux/statvfs/wrapfuncs.in
+>>> @@ -1 +1,2 @@
+>>>  int statvfs(const char *path, struct statvfs *buf);
+>>> +int statvfs64(const char *path, struct statvfs64 *buf);
+>>
+>>
+>> Statvfs is under a conditional I wonder if this should be too
+>>>
+>>>
+>>> --
+>>> 2.34.1
+>>>
+>>>
+>>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>> Links: You receive all messages sent to this group.
+>>> View/Reply Online (#194464): https://lists.openembedded.org/g/openembed=
+ded-core/message/194464
+>>> Mute This Topic: https://lists.openembedded.org/mt/104034596/1997914
+>>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
+raj.khem@gmail.com]
+>>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>>
 
