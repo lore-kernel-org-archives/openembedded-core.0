@@ -1,98 +1,128 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0793EC46CD2
-	for <webhook@archiver.kernel.org>; Tue, 30 Jan 2024 07:35:35 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web11.13246.1706600133708772171
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EED8C46CD2
+	for <webhook@archiver.kernel.org>; Tue, 30 Jan 2024 08:01:55 +0000 (UTC)
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+ by mx.groups.io with SMTP id smtpd.web10.13732.1706601709522010378
  for <openembedded-core@lists.openembedded.org>;
- Mon, 29 Jan 2024 23:35:33 -0800
+ Tue, 30 Jan 2024 00:01:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=VbNXHT60;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=KFns+Rt2;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018d594b6d00-2ed199da-d6e2-470f-ba4a-1b59685da6f9-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1706600132; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=jOU8a1E20pbZFOP4Pwa7p18CC6RtcNKXCTDT+SHWhd8=;
-	b=VbNXHT6090fgfJNdaMKfWqI/DLA1Trky8fWgutjgarPvTWCk/RqyjnLVadIb5OaI
-	xjZps4TX+tU0csFTi59L13TGdB/kQXxqK5lXJb+ggfOUx99ZIAz99dNUblQb6ZiuRlf
-	qZEDgr8n1x/fdriwb7XJiT8uYBAFt9EJf1V4jjuo=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1706600132;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=jOU8a1E20pbZFOP4Pwa7p18CC6RtcNKXCTDT+SHWhd8=;
-	b=KFns+Rt2AmLNVo5KoFY/VSuTiZhJKuUwQzC+eXLyVMtftJAazOlML1XXEPgjEq0m
-	YVBsXzTr7MjKZJbCj/7r2CgsoNAn0Z7522gSsKw1btZ3FJzGD2dmAhvWFLzO9EA1PzJ
-	3o2WEpgsLAcYjf8GHZeF58ffqhNS92DygEiPmOpA=
-From: patchtest@automation.yoctoproject.org
-To: aszh07 <mail2szahir@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][kirkstone][PATCH V2] nghttp2: fix CVE-2023-44487
-In-Reply-To: 20240130071405.3675-1-mail2szahir@gmail.com
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018d594b6d00-2ed199da-d6e2-470f-ba4a-1b59685da6f9-000000@us-west-2.amazonses.com>
-Date: Tue, 30 Jan 2024 07:35:31 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.01.30-54.240.27.29
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=hkxMjWDc;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.194, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 3C82640002;
+	Tue, 30 Jan 2024 08:01:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1706601707;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wRBpp3nxY3mxGg7CQ88mVAD/F2X/Q2wMxaz+G2AvwxE=;
+	b=hkxMjWDcXMB0rqRBK97V+5nBJIgEADDnBqjq8HNjFWrv0uiQjVQEPX+OniJ/UqzlsjaDYs
+	OZaR0e9Qt7mg2jL/QFiTXofdMjjWVw5w296o/c4Xd4ydeP8btLYaBbDtoDoPnqb2WnDPfS
+	teXL8mK1zyZ0BrU5ljpfb6iDxsXEdp57JHAB+UXbqH/q6o3dKG6rKJimSSZPN+NGoJ9+os
+	UXQkCUMWL+kZ6VzWo2dvwsTfPSbFvkokouy5JKMpdrblZAK9ezlBbIyCnheXAQeAn4nIAA
+	wUrfKi1PWsRsK7npUDk7E+G4xBCoDvb/eCIyjnAZWMBQ/TYDvhWk4FGuWYikqQ==
+Date: Tue, 30 Jan 2024 09:01:46 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] gcc-runtime: Move gdb pretty printer file to
+ auto-load location
+Message-ID: <202401300801463ac1e737@mail.local>
+References: <20240129223250.42872-1-raj.khem@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240129223250.42872-1-raj.khem@gmail.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 Jan 2024 07:35:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194489
+ <openembedded-core@lists.openembedded.org>; Tue, 30 Jan 2024 08:01:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194490
 
---NextPart
-Content-Type: text/plain
+This breaks on mingw:
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/89/builds/8517/steps/12/logs/stdio
 
----
-Testing patch /home/patchtest/share/mboxes/kirkstone-V2-nghttp2-fix-CVE-2023-44487.patch
+On 29/01/2024 14:32:50-0800, Khem Raj wrote:
+> When debugging a C++ program on target using libcstdc++, gdb does not
+> find the pretty printer python support, this is because the init file is
+> installed into /usr/lib which is excluded from gdb's default list of
+> directories to load config's from, where as defaults to load from
+> datadir is still on, it therefore does not load this file
+> 
+> warning: File "/usr/lib/libstdc++.so.6.0.33-gdb.py" auto-loading has been declined by your `auto-load safe-path' set to "$debugdir:$datadir/auto-load".
+> 
+> This leaves the libstdc++ pretty-printers disabled even though added via
+> IMAGE_INSTALL += "gcc-runtime-dbg"
+> 
+> Add missing runtime dependency on datetime python module for the pretty
+> printer to work/load successfully.
+> 
+> Once the pretty-printer gdb file is moved out of libdir, it may become
+> empty therefore delete it if its empty.
+> 
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/recipes-devtools/gcc/gcc-runtime.inc | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
+> index 64b6168ba76..403ad76b5f2 100644
+> --- a/meta/recipes-devtools/gcc/gcc-runtime.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
+> @@ -85,6 +85,8 @@ do_install () {
+>  		cd ${B}/${TARGET_SYS}/$d/
+>  		oe_runmake 'DESTDIR=${D}' MULTIBUILDTOP=${B}/${TARGET_SYS}/$d/ install
+>  	done
+> +	install -d ${D}${datadir}/gdb/auto-load/${libdir}
+> +	mv ${D}${libdir}/libstdc++.so.*-gdb.py ${D}${datadir}/gdb/auto-load/${libdir}
+>  	if [ -d ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include ]; then
+>  		install -d ${D}${libdir}/${TARGET_SYS}/${BINV}/include 
+>  		mv ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include/* ${D}${libdir}/${TARGET_SYS}/${BINV}/include
+> @@ -99,6 +101,9 @@ do_install () {
+>  	if [ -d ${D}${infodir} ]; then
+>  		rmdir --ignore-fail-on-non-empty -p ${D}${infodir}
+>  	fi
+> +	if [ -d ${D}${libdir} ]; then
+> +		rmdir --ignore-fail-on-non-empty -p ${D}${libdir}
+> +	fi
+>  }
+>  
+>  do_install:append:class-target () {
+> @@ -182,9 +187,11 @@ RRECOMMENDS:${PN}-dbg = ""
+>  
+>  # include python debugging scripts
+>  FILES:${PN}-dbg += "\
+> -    ${libdir}/libstdc++.*-gdb.py \
+>      ${datadir}/gcc-${BINV}/python/libstdcxx \
+> +    ${datadir}/gdb/auto-load \
+>  "
+> +# Needed by libstdcxx pretty printer
+> +RDEPENDS:${PN}-dbg += "python3-datetime"
+>  
+>  FILES:libg2c = "${target_libdir}/libg2c.so.*"
+>  SUMMARY:libg2c = "Companion runtime library for g77"
+> -- 
+> 2.43.0
+> 
 
-FAIL: test Signed-off-by presence: A patch file has been added without a Signed-off-by tag: 'CVE-2023-44487.patch' (test_patch.TestPatch.test_signed_off_by_presence)
-
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#194483): https://lists.openembedded.org/g/openembedded-core/message/194483
+> Mute This Topic: https://lists.openembedded.org/mt/104038368/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
 
---NextPart--
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
