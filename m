@@ -1,89 +1,92 @@
-Return-Path: <mhalstead@linuxfoundation.org>
+Return-Path: <simone.p.weiss@posteo.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBEF0C47DA9
-	for <webhook@archiver.kernel.org>; Tue, 30 Jan 2024 18:03:16 +0000 (UTC)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
- by mx.groups.io with SMTP id smtpd.web11.3264.1706637785470113151
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02623C48285
+	for <webhook@archiver.kernel.org>; Tue, 30 Jan 2024 18:38:57 +0000 (UTC)
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+ by mx.groups.io with SMTP id smtpd.web10.4209.1706639927434551219
  for <openembedded-core@lists.openembedded.org>;
- Tue, 30 Jan 2024 10:03:06 -0800
+ Tue, 30 Jan 2024 10:38:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UH8CeesL;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.167.48, mailfrom: mhalstead@linuxfoundation.org)
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-51032e62171so4585506e87.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 30 Jan 2024 10:03:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1706637783; x=1707242583; darn=lists.openembedded.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=1VlSKTp7CvpzaJdZLUyiBmiNIhj0USeqtHcrLIbLbxo=;
-        b=UH8CeesLm9cGk51AbRIIWTbD2TZs07JhXR/G+Toi37Z1CCdYRAUrX7p5U/uvKObSDj
-         V4QhaCGjKYERUKnANPoBbmAXX0EN8zajsi/RvROFmKc/UzPxm6o6411yy4Q5Ie6mRkdn
-         lJ16KEHrNO8ZwRfis9YmQKGSJmuEYiXQmekHY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706637783; x=1707242583;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1VlSKTp7CvpzaJdZLUyiBmiNIhj0USeqtHcrLIbLbxo=;
-        b=ZaZFREaa87slwvQXYdGR6kVwiruh6tLZc8K5LaeK10WnzsHdx7O+fRg8VVvLA9BqM1
-         tFt9Pj8/J9E5h5ZKR9TOMk0jZ1180S04gZ5MVvsMiJrhLueNRC16q6VQFOAx3oa1JNh2
-         JAbhK9xZPUTniGWVl/vQPT3dr+BPnntlXofOgdkaBcrZX4r4311UqM8Mo8LItEXt8Nnz
-         JFSMjlYV7ZyxafIK5zp3Uu3Bwu4V6B91kgsKl8Cx/4lIBJzQcYYjB2NSLQZd/S6Nu5Op
-         bxFKxy486XJ/utZ0zaMh9ikXDRWdDa6rEUK+Vm4xXjIdWoJnlymT7innNycZ+VzzP6Af
-         qoxA==
-X-Gm-Message-State: AOJu0Yw5EgdiDT1S7yXQkkv6braQ299/huh3cUVBRW+OCuyml10lyDCT
-	xbcfqcsJPX1Kzljz2WDebDmvOnRaf19P3S1e1+9xWrxQHq1JTM9PGj000h60Jm61iSPYZXfsX4R
-	e1vD3GTA6INa15eRzD7I1bklazIork8HMADTObQ==
-X-Google-Smtp-Source: AGHT+IG7uFCq+/nMp272YkLxknBoOD2TxAFYHOcabfm8TUh2bDUHyeMkzC9mH6q7wDh6y+Y3D71jykP5LN/ANnUU5y4=
-X-Received: by 2002:a19:6406:0:b0:511:17b6:5dc5 with SMTP id
- y6-20020a196406000000b0051117b65dc5mr2393638lfb.12.1706637783196; Tue, 30 Jan
- 2024 10:03:03 -0800 (PST)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@posteo.com header.s=2017 header.b=dZQPfGuc;
+ spf=pass (domain: posteo.com, ip: 185.67.36.66, mailfrom: simone.p.weiss@posteo.com)
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout02.posteo.de (Postfix) with ESMTPS id 4A2EE240101
+	for <openembedded-core@lists.openembedded.org>; Tue, 30 Jan 2024 19:38:44 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.com; s=2017;
+	t=1706639925; bh=NqYZ+rGDQiireyYapgNh1O2H7xWQ9CtI+DKoVX5wWyI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:From;
+	b=dZQPfGucBhXkoiqsUucMn+/ROlKR1rFwly9ytnTlc39dhWmBU2gS6H35u5xSlBNcL
+	 Wlpft65N/6c7424T7AexCNqg2rvGwIvcEnh38KifBwM1jMUnaRCBrUSc2cbVzLGqoY
+	 IOZN5vSUYTnMiHCRIlXDxI8l9Iy0TR3UZ5Oms6iX2PGo56V+00B2Ka0y5MPgUlWmyK
+	 CPfOoJtrv/442fBmcWO3vDusqnMkgX1nrbWDsXjUA939lDXQ3U0g9yxzUamYSuz6wX
+	 /6sn3xn8SgFY8fKtEAZ6QvxJ1X+iJANBJfI38dwoozE+73//eJPn37NoBSWxrNb+JF
+	 +DXTdMFSDNSFQ==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4TPYpX3HK8z6tsg;
+	Tue, 30 Jan 2024 19:38:43 +0100 (CET)
+From: simone.p.weiss@posteo.com
+To: openembedded-core@lists.openembedded.org
+Cc: =?UTF-8?q?Simone=20Wei=C3=9F?= <simone.p.weiss@posteo.com>
+Subject: [PATCH] maintainers.inc: Add self for libseccomp and gnutls
+Date: Tue, 30 Jan 2024 18:38:35 +0000
+Message-Id: <20240130183835.42645-1-simone.p.weiss@posteo.com>
 MIME-Version: 1.0
-From: Michael Halstead <mhalstead@linuxfoundation.org>
-Date: Tue, 30 Jan 2024 10:02:51 -0800
-Message-ID: <CADfgfobScqVYRtPjm5buBRVzROqWX++85inBmKqZ1MVLSWawMg@mail.gmail.com>
-Subject: List membership verification
-To: Yocto-mailing-list <yocto@lists.yoctoproject.org>, 
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000d3f78f06102d9210"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 30 Jan 2024 18:03:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194501
+ <openembedded-core@lists.openembedded.org>; Tue, 30 Jan 2024 18:38:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194502
 
---000000000000d3f78f06102d9210
-Content-Type: text/plain; charset="UTF-8"
+From: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
 
-Hello,
-Some mailing list users are being asked to confirm they actively want to
-continue receiving emails from our lists. Please search your inbox for a
-message with the subject: "Action Required: Confirm Your Groups.io
-Membership to Continue Receiving Group Emails" from "@groups.io". Reply to
-this email to ensure you continue to receive listmail.
+Signed-off-by: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
+---
+ meta/conf/distro/include/maintainers.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Please let me know if you have any issues.
--- 
-Michael Halstead
-Linux Foundation / Yocto Project
-Systems Operations Engineer
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
+include/maintainers.inc
+index b0625a1097..f0e27b8380 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -218,7 +218,7 @@ RECIPE_MAINTAINER:pn-gnome-desktop-testing =3D "Ross =
+Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER:pn-gnu-config =3D "Robert Yang <liezhi.yang@windriver.=
+com>"
+ RECIPE_MAINTAINER:pn-gnu-efi =3D "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER:pn-gnupg =3D "Hongxu Jia <hongxu.jia@windriver.com>"
+-RECIPE_MAINTAINER:pn-gnutls =3D "Unassigned <unassigned@yoctoproject.org=
+>"
++RECIPE_MAINTAINER:pn-gnutls =3D "Simone Wei=C3=9F <simone.p.weiss@posteo=
+.net>"
+ RECIPE_MAINTAINER:pn-go =3D "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-go-binary-native =3D "Khem Raj <raj.khem@gmail.com>=
+"
+ RECIPE_MAINTAINER:pn-go-cross-${TUNE_PKGARCH} =3D "Khem Raj <raj.khem@gm=
+ail.com>"
+@@ -385,7 +385,7 @@ RECIPE_MAINTAINER:pn-librsvg =3D "Anuj Mittal <anuj.m=
+ittal@intel.com>"
+ RECIPE_MAINTAINER:pn-libstd-rs =3D "Randy MacLeod <Randy.MacLeod@windriv=
+er.com>"
+ RECIPE_MAINTAINER:pn-libsamplerate0 =3D "Unassigned <unassigned@yoctopro=
+ject.org>"
+ RECIPE_MAINTAINER:pn-libsdl2 =3D "Yi Zhao <yi.zhao@windriver.com>"
+-RECIPE_MAINTAINER:pn-libseccomp =3D "Unassigned <unassigned@yoctoproject=
+.org>"
++RECIPE_MAINTAINER:pn-libseccomp =3D "Simone Wei=C3=9F <simone.p.weiss@po=
+steo.net>"
+ RECIPE_MAINTAINER:pn-libsecret =3D "Alexander Kanavin <alex.kanavin@gmai=
+l.com>"
+ RECIPE_MAINTAINER:pn-libslirp =3D "Unassigned <unassigned@yoctoproject.o=
+rg>"
+ RECIPE_MAINTAINER:pn-libsm =3D "Unassigned <unassigned@yoctoproject.org>=
+"
+--=20
+2.39.2
 
---000000000000d3f78f06102d9210
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hello,<div>Some mailing list users are being asked to conf=
-irm they actively want to continue receiving emails from our lists. Please =
-search your inbox for a message with the subject: &quot;Action Required: Co=
-nfirm Your Groups.io Membership to Continue Receiving Group Emails&quot; fr=
-om &quot;@<a href=3D"http://groups.io">groups.io</a>&quot;. Reply to this e=
-mail to ensure you continue to receive listmail.</div><div><br></div><div>P=
-lease let=C2=A0me know if you have any issues.<br><span class=3D"gmail_sign=
-ature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature" data=
--smartmail=3D"gmail_signature"><div dir=3D"ltr">Michael Halstead<div>Linux =
-Foundation / Yocto Project</div><div>Systems Operations Engineer</div></div=
-></div></div></div>
-
---000000000000d3f78f06102d9210--
 
