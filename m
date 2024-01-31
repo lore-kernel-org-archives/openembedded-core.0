@@ -2,90 +2,135 @@ Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED1A6C47DB3
-	for <webhook@archiver.kernel.org>; Wed, 31 Jan 2024 16:45:09 +0000 (UTC)
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
- by mx.groups.io with SMTP id smtpd.web10.472.1706719507591690804
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C98C3C47DB3
+	for <webhook@archiver.kernel.org>; Wed, 31 Jan 2024 16:53:52 +0000 (UTC)
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+ by mx.groups.io with SMTP id smtpd.web11.93.1706720023930123455
  for <openembedded-core@lists.openembedded.org>;
- Wed, 31 Jan 2024 08:45:08 -0800
+ Wed, 31 Jan 2024 08:53:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=eRnRuSwS;
- spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 6905B1BF209;
-	Wed, 31 Jan 2024 16:45:05 +0000 (UTC)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=BzK55uys;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 20481E0005;
+	Wed, 31 Jan 2024 16:53:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1706719505;
+	t=1706720021;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=L5vlvCOIyokFl9aKUkc6ik1lsujnhcMNETUCsxt+Skw=;
-	b=eRnRuSwSuPpVJULQsTWjSZoCe0Swz9p5Om8MpcWXHGyX6KB1BAnI4/CMjui7LNKboXTzAk
-	3C16lQYwmKLyngH55PY2z9CPBZ/YD2xGlz0DlHWW1IZ2X9quSlL5EJK9eYMtGlUqsNZ24K
-	LXjoqYl03qMwMmmRCuqtueopbFOkZyY9hMmK4+k8HOePOBxN9yFfGB+2rhFZEupm4C+ZV5
-	BpAburlzMhxYLZJGuvfz7T2I4YpSO24Ls586yRy8xK6zmvL1cAKx6iihZ5yGRDJsbgj1Je
-	ruIWQEpvt/xyBIemZgraFF3Lqkp5eYAKkMERuyfaHcqSIUc2g/XJ0dJd2QIhsA==
-Date: Wed, 31 Jan 2024 17:45:05 +0100
+	bh=sMCDEhf9YcxGxU7Hcfkld/HvtnajCJqcl8A4imtsZDw=;
+	b=BzK55uyskFIqYggb2vEyKPtqEIjuP6RommaDfz8ZJZuS7iFNFA+8XUNKmhh6VJIIBOTitw
+	5jvq/vYOS+p1CDdynKWk4ZkYoDBrs82zh1ykI1q4JLc6wr5DeJyPKDmXeULET/KZq1lCxh
+	mrHKTOFVfEDEPPvlWX0A4vmxhIDEx/HpeC0mb0Ah0BYav3jhmGB6k3sZlzZFuxGlftxV1L
+	EpPPSOk+HO7wmStjr/AYZJcjdYytPWXTysW+yiBySc72hWbcNH0K0MaqNbGS2s7scRrG/b
+	2h9kFnYo3nYgLICbkHubIllpH0ySlPJbz5pkpNn+EDLX1qgmodAnLryjwYTgTA==
+Date: Wed, 31 Jan 2024 17:53:40 +0100
 From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Khem Raj <raj.khem@gmail.com>
+To: ecordonnier@snap.com
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] core-image-ptest: Increase disk size to 1.5G
- for strace ptest image
-Message-ID: <2024013116450562b504c7@mail.local>
-References: <20240130203219.4155783-1-raj.khem@gmail.com>
+Subject: Re: [OE-core][PATCH v5] kernel.bbclass: make do_symlink_kernelsrc
+ reentrant
+Message-ID: <20240131165340dbfecc40@mail.local>
+References: <17A2F72F5D272934.28089@lists.openembedded.org>
+ <17A2F73D8934EE37.10357@lists.openembedded.org>
+ <CAHUKmYbSB7YvxRbriXxpG9+JumEysDgVW=SxBX=B1yjDCRMrtw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240130203219.4155783-1-raj.khem@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHUKmYbSB7YvxRbriXxpG9+JumEysDgVW=SxBX=B1yjDCRMrtw@mail.gmail.com>
 X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 31 Jan 2024 16:45:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194528
+ <openembedded-core@lists.openembedded.org>; Wed, 31 Jan 2024 16:53:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194529
 
-On 30/01/2024 12:32:19-0800, Khem Raj wrote:
-> Autobuilder sees and intermittent failure on strace tests and it occurs
-> quite often therefore bump the size of image as the space requirement is
-> more now with parallel execution enabled.
+On 30/01/2024 16:39:27+0100, Etienne Cordonnier via lists.openembedded.org wrote:
+> Hi,
+> what is the status of this patch? Was it rejected?
 > 
 
-Note that I've resisted doing this because I'm still not sure this is
-what is happening, I've added a patch to clean up a bit more after each
-test which should have been enough. From my testing, I can't reproduce
-locally and I don't see some much space being used in the image itself.
+I'll test it again because I don't remember but I possibly add a
+build/test failure.
 
-> [YOCTO #15370]
-
-Isn't it 15220 ? :)
-
+> Étienne
 > 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/recipes-core/images/core-image-ptest.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> On Thu, Dec 21, 2023 at 10:50 PM Etienne Cordonnier via
+> lists.openembedded.org <ecordonnier=snap.com@lists.openembedded.org> wrote:
 > 
-> diff --git a/meta/recipes-core/images/core-image-ptest.bb b/meta/recipes-core/images/core-image-ptest.bb
-> index b6f5c2fd604..f2d0ae94b89 100644
-> --- a/meta/recipes-core/images/core-image-ptest.bb
-> +++ b/meta/recipes-core/images/core-image-ptest.bb
-> @@ -21,7 +21,7 @@ BBCLASSEXTEND = "${@' '.join(['mcextend:'+x for x in d.getVar('PTESTS').split()]
->  IMAGE_OVERHEAD_FACTOR = "1.0"
->  IMAGE_ROOTFS_EXTRA_SPACE = "324288"
->  IMAGE_ROOTFS_EXTRA_SPACE:virtclass-mcextend-mdadm = "1524288"
-> -IMAGE_ROOTFS_EXTRA_SPACE:virtclass-mcextend-strace = "1024288"
-> +IMAGE_ROOTFS_EXTRA_SPACE:virtclass-mcextend-strace = "1524288"
->  IMAGE_ROOTFS_EXTRA_SPACE:virtclass-mcextend-lttng-tools = "1524288"
->  
->  # tar-ptest in particular needs more space
-> -- 
-> 2.43.0
-> 
+> > patch v5: added ignore_dangling_symlinks to avoid error when linux sources
+> > contain dangling symlinks
+> >
+> > On Thu, Dec 21, 2023 at 10:49 PM Etienne Cordonnier via
+> > lists.openembedded.org
+> > <https://urldefense.proofpoint.com/v2/url?u=http-3A__lists.openembedded.org&d=DwMFaQ&c=ncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=AhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=UCoMTsJKrnqkV-eQGGRGBeC-wIGTP7H0LRPvcTWkn9673LluHqkCpFInRctDEEct&s=Af3lZ-qHdVwBo6b8tlJ45PXYNer8GU6q0uxJ740caCA&e=>
+> > <ecordonnier=snap.com@lists.openembedded.org> wrote:
+> >
+> >> From: Etienne Cordonnier <ecordonnier@snap.com>
+> >>
+> >> The function do_symlink_kernsrc is not reentrant in the case where S is
+> >> defined
+> >> to a non-default value. This causes build-failures e.g. when building
+> >> linux-yocto, then updating
+> >> poky to a commit which modifies kernel.bbclass, and then building
+> >> linux-yocto again.
+> >>
+> >> Bugzilla: https://bugzilla.yoctoproject.org/show_bug.cgi?id=15325
+> >> <https://urldefense.proofpoint.com/v2/url?u=https-3A__bugzilla.yoctoproject.org_show-5Fbug.cgi-3Fid-3D15325&d=DwMFaQ&c=ncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=AhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=eo9dzHi2uXPV1dA2f4GoA6Y7QoDiG2TTF1R2YQ__SwnF1U1d0O2JxX3PprS_T9BN&s=e9FG4cG4GbLjCy8loEN6qVisSUax4Ngvd_Ok8TPonvY&e=>
+> >>
+> >> Tested with a recipe "my-custom-linux" which unpacks sources to a custom
+> >> ${S} directory
+> >> and ran symlink_kernsrc several times:
+> >> $ bitbake -f -c symlink_kernsrc my-custom-linux
+> >>
+> >> Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
+> >> ---
+> >>  meta/classes-recipe/kernel.bbclass | 8 +++++++-
+> >>  1 file changed, 7 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/meta/classes-recipe/kernel.bbclass
+> >> b/meta/classes-recipe/kernel.bbclass
+> >> index 9ff37f5c38..45b63f1fa1 100644
+> >> --- a/meta/classes-recipe/kernel.bbclass
+> >> +++ b/meta/classes-recipe/kernel.bbclass
+> >> @@ -189,11 +189,17 @@ python do_symlink_kernsrc () {
+> >>              # drop trailing slash, so that os.symlink(kernsrc, s)
+> >> doesn't use s as
+> >>              # directory name and fail
+> >>              s = s[:-1]
+> >> -        if d.getVar("EXTERNALSRC"):
+> >> +        if d.getVar("EXTERNALSRC") and not os.path.islink(s):
+> >>              # With EXTERNALSRC S will not be wiped so we can symlink to
+> >> it
+> >>              os.symlink(s, kernsrc)
+> >>          else:
+> >>              import shutil
+> >> +            # perform idempotent/reentrant copy
+> >> +            s_copy = s + ".orig"
+> >> +            if not os.path.isdir(s_copy):
+> >> +                shutil.copytree(s, s_copy, ignore_dangling_symlinks=True)
+> >> +            bb.utils.remove(s, recurse=True)
+> >> +            shutil.copytree(s_copy, s, ignore_dangling_symlinks=True)
+> >>              shutil.move(s, kernsrc)
+> >>              os.symlink(kernsrc, s)
+> >>  }
+> >> --
+> >> 2.34.1
+> >>
+> >>
+> >>
+> >>
+> > 
+> >
+> >
 
 > 
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#194504): https://lists.openembedded.org/g/openembedded-core/message/194504
-> Mute This Topic: https://lists.openembedded.org/mt/104062115/3617179
+> View/Reply Online (#194496): https://lists.openembedded.org/g/openembedded-core/message/194496
+> Mute This Topic: https://lists.openembedded.org/mt/104055728/3617179
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
