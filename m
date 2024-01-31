@@ -1,371 +1,273 @@
-Return-Path: <rahulchauhankitps@gmail.com>
+Return-Path: <jamin_lin@aspeedtech.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDB7FC47258
-	for <webhook@archiver.kernel.org>; Wed, 31 Jan 2024 07:51:55 +0000 (UTC)
-Subject: Re: How to enable libstdc++ Pretty Printers in GDB #poky
-To: openembedded-core@lists.openembedded.org
-From: "Rahul Chauhan" <rahulchauhankitps@gmail.com>
-X-Originating-Location: Melbourne, Victoria, AU (155.190.53.4)
-X-Originating-Platform: Windows Chrome 121
-User-Agent: GROUPS.IO Web Poster
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40D68C47258
+	for <webhook@archiver.kernel.org>; Wed, 31 Jan 2024 08:54:26 +0000 (UTC)
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (APC01-TYZ-obe.outbound.protection.outlook.com [40.107.117.110])
+ by mx.groups.io with SMTP id smtpd.web11.10068.1706691263721379953
+ for <openembedded-core@lists.openembedded.org>;
+ Wed, 31 Jan 2024 00:54:24 -0800
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@aspeedtech.com header.s=selector2 header.b=GH07Hrjl;
+ spf=pass (domain: aspeedtech.com, ip: 40.107.117.110, mailfrom: jamin_lin@aspeedtech.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=n2RsPQknAF0zpzUVolcMt8uhUeISh47j5hL+aevJoeH/ozIIiN5mg7swDEBCU7oB070SKIPckGMoWRwG1bxkGwPmV2Jh1QWD/xwO0rmU80lZlUUUBWoh6gUL2v5lmwiETbsh+xxHYNMB6h9Bo2yoekHJrkob7MshwzNGlmMZHEAUWbFYpoFiP3/AkgazDD4L0lwcsAkEXXizdDpdXCt8vHWg67l5wZOAsMKqpeA2re/wIdxigyI9YS+SIX6UV/bKVzfsX1DdiKME2ovibRt5lbB1786UMkS88ZGF+xzam1w/oUQdCdxuCCqzulA0JD7i7oD/2QuStiV95TnxVuqCtA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4k1YAAS4BAuvShfdvDbI9MoD4Y+mEpttukIIc/UJhxk=;
+ b=Xa6QdvOhL/B3nSQ2XNwN8idLvR44m08F/n5KYSa/SIMRzGe3PyRVpszi+8NtwiCvdlx7LC3C2xhIVkvTtg4M9uzleYhjWFaffw1noYO+C3YMOjVcobcyHU8Q0/xNBX7fEUNQWlYFcA98Zml41ZZtjb1nlEcKiVOFLFf8DYAD48wi+sytyzu3EjLxiUX1MdMLVwxjNYZr7MhcdJd5oiCH5RudV+6tuTrZ/zZMXKNICrp/25gbYRpuuh3+qgSJcZUjJvA5dNr80Gc+Kz5SmgKXCkt8/eGF7QDE/VDsTqufstv4Eov3MzwEdtUzWIVRPTxo2LdPYJOhciHmg/VnJb9l2Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4k1YAAS4BAuvShfdvDbI9MoD4Y+mEpttukIIc/UJhxk=;
+ b=GH07HrjlMdN58IJeGcTgAWYrwKCTgq9OIRQWdGcimaD6VqcqILAyGeyX/omzScFZRDjPDo6D8hZBeIcPmOmrOkEyrNPPLDKBAqNmgdoXEIxPlr42O0aUFzd/M4Ho6fSs4SGeo6iSNMe1/JFdPPvLfAaHob+E22q5WxH7IHuEyZR+xF3RYQObOM3Cu+b5Q6l4gC6E8xn2mSCG1GiBT7iTC9aTvaXTRESh02+BPLwhl7ezp0mY6tEZWI54gdMSRBQbZAYQXn8toxP7J5Ma7Hidhyq1v4gsPC0UL6zBCafem0YR4PnEbm4eHQiceUj8JJ4qguFYu8QEa1QdpY7dKnCllg==
+Received: from SI2PR06MB5041.apcprd06.prod.outlook.com (2603:1096:4:1a4::6) by
+ TYZPR06MB4541.apcprd06.prod.outlook.com (2603:1096:400:74::13) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7228.34; Wed, 31 Jan 2024 08:54:16 +0000
+Received: from SI2PR06MB5041.apcprd06.prod.outlook.com
+ ([fe80::9c95:79fe:96a0:cf91]) by SI2PR06MB5041.apcprd06.prod.outlook.com
+ ([fe80::9c95:79fe:96a0:cf91%6]) with mapi id 15.20.7228.029; Wed, 31 Jan 2024
+ 08:54:16 +0000
+From: Jamin Lin <jamin_lin@aspeedtech.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH v2 4/4] uboot-sign: support to load optee-os and
+ TFA images
+Thread-Topic: [OE-core] [PATCH v2 4/4] uboot-sign: support to load optee-os
+ and TFA images
+Thread-Index: AQHaUHnSn8xRov1apkuLt4TyN8Gja7DzoHvQ
+Date: Wed, 31 Jan 2024 08:54:16 +0000
+Message-ID: 
+ <SI2PR06MB50416E075AE969B6C4A9CEC1FC7C2@SI2PR06MB5041.apcprd06.prod.outlook.com>
+References: <20240119061937.1368163-1-jamin_lin@aspeedtech.com>
+	 <20240119061937.1368163-4-jamin_lin@aspeedtech.com>
+ <12ffb6f38cba0eacf365bb36806a1bd2f69771d2.camel@linuxfoundation.org>
+In-Reply-To: 
+ <12ffb6f38cba0eacf365bb36806a1bd2f69771d2.camel@linuxfoundation.org>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SI2PR06MB5041:EE_|TYZPR06MB4541:EE_
+x-ms-office365-filtering-correlation-id: 2c4924cd-af3d-43bd-f034-08dc223a3469
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ VM8WkkVIQGXhMrzn4SnCMSoIOngGge1eupb1AnwzIKqBkrYCdf7Z8pfPSiDiJ8ldeBwu9Emoe6tgEZSbqXB753LX+qUpBHUp7Q7R5V3lpZvJSAof+cv+2IrcbLhrh0VNkrMxO0l89GloLJ1bfZR8hFlflkUyqrBbUyDUILfGOTSYzx4+1Z2xKCLz31WUEQRA9j+K0zAaCRbAZOjTa7bG/H2WdM5q5nl8TQLkt1emr4bmLjPcrXNg5FBFdg3QtxHIwCVT2NcpVSKTYG4uXL6TOXhrrrnc1j+DKA50LyLmcMjJe72ly0V+V7B10p3EsLS40vEQQcFgFRXmeMsmKYZbm1/d/0adjIwRKTUIn3KqhSBJDwqD6dlhawX9L4t4SoS9E9VotrDXWBzqMsBbrgZ0fvKenV/upsekKmTrLxxxTXvMWlGl/bKnv0NPd2s1hjQtKx0yExDpYv1+IyEhIynZE27CQVrkti9n9Vlhi+xEzJdjyeXL3zpEMhb0NOp6tcKXe4Q2U+0CA6jKZwSr+4x66ZV/zXt7PSbVWIN/8HNeFObTTypjcgqZCwMNITQ6ugaba/s9p7nG/7bTSZSxNUyxS9hI5InCzV3UOVku8+QIJRE=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SI2PR06MB5041.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(366004)(396003)(39840400004)(136003)(376002)(230922051799003)(186009)(451199024)(1800799012)(64100799003)(83380400001)(38100700002)(7696005)(26005)(122000001)(52536014)(6506007)(8936002)(8676002)(316002)(5660300002)(966005)(71200400001)(2906002)(478600001)(53546011)(76116006)(66446008)(64756008)(66556008)(66476007)(110136005)(41300700001)(66946007)(33656002)(38070700009)(86362001)(9686003)(55016003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?eDFZejJobDlzVi9QLzBJMWJHOWpPTnNZUGcxL3pkMTYyN3JWenozTmszSUI5?=
+ =?utf-8?B?eHpwaWt3aVF1Z0JXMGt6WHNKSTJLQm45WXBHbkZSdHkrRFRQTnU2UFljb0l1?=
+ =?utf-8?B?bmxrUnMzVTl4c3pxbSs4RUg2cjE3YjhLZkxVTHE3TnlMWSthdVA5QmoxOE9P?=
+ =?utf-8?B?MTQrU0VqcjVTdEdxcVRNb0xCRUVkcTNybWJiSVJJTDlleTlLTENKT1ZrZVls?=
+ =?utf-8?B?Y2JMMTYyU0l4bjJZMnFpRFNwNERNaVlxdG83WWxSVldjODlhbHpPYWtGSzBS?=
+ =?utf-8?B?eE5XcUhVc0F5aWtrQXZHVlhKdzhOR01pNHJ0aFJXMmlCNFhlSnNvcXZBeXRF?=
+ =?utf-8?B?NXZNMHlqMUordVNHVDJURDgzaVJucnZ4VXFPRVRFcjRqcXNNeWtnZTdJWHlr?=
+ =?utf-8?B?cDZiRE5vcE10bTNBM1JqMjE4Q2FpektST3lOU0hyakU3MjVDVEl1UEFxSU1V?=
+ =?utf-8?B?eGhxUUN0c2JsejJ5a0tTU3Q1Q3ZLTHZpc2JRMDhqd0tjbVNtNFIzWXlZb1Yr?=
+ =?utf-8?B?ODdQQ3Y3OVpPbjRMdVhpV3kycm5CVUtGRnMwcXEzQ1N0dlpBREg2REY2dm5Z?=
+ =?utf-8?B?RXhtZEo1T2Y5T2NadDRmUXhtQlZXU3dSTUNEaDJsZThzTmFYeXFMazVIVHVJ?=
+ =?utf-8?B?Ykp2Vk8xUDF5Z1ZJN2VDQXdDS0lXT3VkUDdleG9LQnBxRUpVZ0pzT1ZnUUM1?=
+ =?utf-8?B?RjdVQ2IvYjlQVU1XKzNhSXBzY1FBUzBTd0hJMEVrRkh2dWx0OXhWL1F2ZXlK?=
+ =?utf-8?B?QUxIdzhnV0FSdUFrMUhCV1k0MXhMWktqa2R0Z1dYU2RzQlkzZGtCalZWUWM5?=
+ =?utf-8?B?VXduTlVVOWRFNjkzdGRraXhUenJiUE40U2EzenFtUUppdjJmOTdxUUt0MVBk?=
+ =?utf-8?B?TUJrOGlWQUFZRGNnUnp0WHBYazFJemNOV0hRSmJaejYvMlRsN0tVNTRxZVox?=
+ =?utf-8?B?bUVFNjFXRnlVYVEzc3RadEhaeWxvdXVuNzR4VGpJS0ZqMk1McnBKd3hzMjJY?=
+ =?utf-8?B?SUlDZzAxUThzTjdQK3VXNUpFZC9BNXkxNWk0MUUxZCtGRzFwaXZTVHRZRW9q?=
+ =?utf-8?B?dC9oenRtOXhyMUZ3b1QrZ2JKTi9hNmhDOEFIc0R4NGFSd0xkdUYzU0NZWUR0?=
+ =?utf-8?B?QXdsb2xueTErb2RHNmZidjFIV1dtRlY0bHFoWEV3eFpWM2JMWGwwbHBSdGJD?=
+ =?utf-8?B?WE5OQStzbEpYZjhvTVhGRDFud1JIV3FPVmJBeHd4NmxTdkNYSXA3OG1uNmtz?=
+ =?utf-8?B?QVUyMlEwZjNWWjhJTk5Sb01RZ0d0a3RxNXVBUkNPMFFtTDFJVkt0WDhRNkJG?=
+ =?utf-8?B?Y0gvVElIblEzcXBVeWxwQ0JXdTU1b2RSaDg5Vy9nWk1wckdPS0o5d1FtSENy?=
+ =?utf-8?B?b0NUTjBMU0pJTGgwQXRaMHV5dktxMVBRN21vanV0MGhQVUFWKzhucWdYVjQ0?=
+ =?utf-8?B?OFNsb25VbU4veFdudkd0NUltNlFBZEpkOHZRdlAyanRybjAycWthZ2UxeGxr?=
+ =?utf-8?B?ejg4dGM5dWdaQ09yTXZ3U1p1R21ra2NoWWNMbTFBaEY5NG9mVHBMdzlDQTZF?=
+ =?utf-8?B?WjYrZjVqenlEU0NpUUMzcGpjMmxQMUFPaTVHYUNnMDZUUkk2QmV3cTFOTVFU?=
+ =?utf-8?B?U0QvNU4rZWZVenpvWmd0elRVMFozQ3NTOHJiKzRNRGFjMkdVM2pRdkIwSFpw?=
+ =?utf-8?B?SjF5cGc0T2RKWklBTnV6MDZIQWQ3TDRBdkMxRENPUDRieHNiaGJOc0VnTW00?=
+ =?utf-8?B?RUlJYVo2RHdKRFJGL2RSV002M0dYOFhoU3FZNDJCcGVjRzdySWc2THBMclVp?=
+ =?utf-8?B?NHRMQmdQVTBJQnUwSzhnaENOS1lQN3hGMHc2Uk1kRCtNSDNPVTNUNDh1U3Fn?=
+ =?utf-8?B?UkUxczRwUVJaZVVUVVMwaGNBSm9ITmZPcXhsVnphY1p5VmlOcVpIU0k2eUc1?=
+ =?utf-8?B?K25uTkVJTGZNYTlVSklVMCtNMllTamZRRkQ2R0dkeUIwN2JRTi9Va001Ykor?=
+ =?utf-8?B?bU9qczF3dzM4OFRMSG11WjNyNDVWYlUzKzJKWHJzbkRZZlp1dnRtdWtKUHZm?=
+ =?utf-8?B?aU9OODIrOG9XbVo2UnVmWUlXcWZJTStQaVVRR1R1MG9sYno3WXZ6Y0Z3c0Vk?=
+ =?utf-8?Q?kQ9jBaVR95SBj7dd7Y6zWLxru?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Date: Tue, 30 Jan 2024 23:51:52 -0800
-References: <10032.1706678833265291851@lists.openembedded.org>
-In-Reply-To: <10032.1706678833265291851@lists.openembedded.org>
-Message-ID: <10032.1706687512615914058@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="nX6uddnfhFIq4X030Qo5"
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SI2PR06MB5041.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2c4924cd-af3d-43bd-f034-08dc223a3469
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Jan 2024 08:54:16.2147
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 2ALMTzxIDKQGGn+PBlttjD0Ic3sBeW8RU4lPAbxVILesqH7RGHJnEuISWTu2bfPXwynU8CBNtoZZX0KyyNiXnMWzQiDyBPRU+wv9uIB4HpA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB4541
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 31 Jan 2024 07:51:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194511
+ <openembedded-core@lists.openembedded.org>; Wed, 31 Jan 2024 08:54:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194512
 
---nX6uddnfhFIq4X030Qo5
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi Khem Raj,
-
-I noti ced that whe n I chec k th e in fo p rett y-pr inte r co mman d ou t=
-put aft er l oadi ng t he t est appl icat ion with gdb ,
-it is show ing the expe cted beh avio r. T his mean s th at e very thin g s=
-e ems to b e fu ncti onin g co rrec tly in t hat aspe ct.
-
-Thanks for your support.
-
-bash-5.1# gdb -q test
-Reading symbols from test...
-(gdb) b 12
-Breakpoint 1 at 0x234e: file test.cpp, line 12.
-(gdb) r
-Starting program: /test
-warning: Error disabling address space randomization: Operation not permitt=
-ed
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/libthread_db.so.1".
-
-Breakpoint 1, main () at test.cpp:12
-12=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return 0;
-(gdb) p s
-$1 =3D "test"
-(gdb) p vi
-$2 =3D std::vector of length 3, capacity 4 =3D {1, 2, 3}
-(gdb) info pretty-printer
-global pretty-printers:
-builtin
-mpx_bound128
-objfile /lib/libstdc++.so.6 pretty-printers:
-libstdc++-v6
-__gnu_cxx::_Slist_iterator
-__gnu_cxx::__8::_Slist_iterator
-__gnu_cxx::__8::__normal_iterator
-__gnu_cxx::__8::slist
-__gnu_cxx::__normal_iterator
-__gnu_cxx::slist
-__gnu_debug::_Safe_iterator
-std::_Bit_const_iterator
-std::_Bit_iterator
-std::_Bit_reference
-std::_Deque_const_iterator
-std::_Deque_iterator
-std::_Fwd_list_const_iterator
-std::_Fwd_list_iterator
-std::_List_const_iterator
-std::_List_iterator
-std::_Node_handle
-std::_Rb_tree_const_iterator
-std::_Rb_tree_iterator
-std::__8::_Bit_const_iterator
-std::__8::_Bit_iterator
-std::__8::_Bit_reference
-std::__8::_Deque_const_iterator
-std::__8::_Deque_iterator
-std::__8::_Fwd_list_const_iterator
-std::__8::_Fwd_list_iterator
-std::__8::_List_const_iterator
-std::__8::_List_iterator
-std::__8::_Node_handle
-std::__8::_Rb_tree_const_iterator
-std::__8::_Rb_tree_iterator
-std::__8::__cxx11::__cxx1998::list
-std::__8::__cxx11::basic_string
-std::__8::__cxx11::list
-std::__8::__cxx1998::_Bit_const_iterator
-std::__8::__cxx1998::_Bit_iterator
-std::__8::__cxx1998::_Bit_reference
-std::__8::__cxx1998::_Deque_const_iterator
-std::__8::__cxx1998::_Deque_iterator
-std::__8::__cxx1998::_Fwd_list_const_iterator
-std::__8::__cxx1998::_Fwd_list_iterator
-std::__8::__cxx1998::_List_const_iterator
-std::__8::__cxx1998::_List_iterator
-std::__8::__cxx1998::bitset
-std::__8::__cxx1998::deque
-std::__8::__cxx1998::forward_list
-
---nX6uddnfhFIq4X030Qo5
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi Khem Raj,<br /><br /><span style=3D"box-sizing: inherit; animation: 0.7s=
- cubic-bezier(0.7, 0, 0.84, 0) 0s 1 normal none running lbWRkT; color: #474=
-340; font-family: Inter; font-size: 15px; letter-spacing: -0.225px; white-s=
-pace-collapse: preserve-breaks;">I </span><span style=3D"box-sizing: inheri=
-t; animation: 0.7s cubic-bezier(0.7, 0, 0.84, 0) 0s 1 normal none running l=
-bWRkT; color: #474340; font-family: Inter; font-size: 15px; letter-spacing:=
- -0.225px; white-space-collapse: preserve-breaks;">noti</span><span style=
-=3D"box-sizing: inherit; animation: 0.7s cubic-bezier(0.7, 0, 0.84, 0) 0s 1=
- normal none running lbWRkT; color: #474340; font-family: Inter; font-size:=
- 15px; letter-spacing: -0.225px; white-space-collapse: preserve-breaks;">ce=
-d </span><span style=3D"box-sizing: inherit; animation: 0.7s cubic-bezier(0=
-.7, 0, 0.84, 0) 0s 1 normal none running lbWRkT; color: #474340; font-famil=
-y: Inter; font-size: 15px; letter-spacing: -0.225px; white-space-collapse: =
-preserve-breaks;">that</span><span style=3D"box-sizing: inherit; animation:=
- 0.7s cubic-bezier(0.7, 0, 0.84, 0) 0s 1 normal none running lbWRkT; color:=
- #474340; font-family: Inter; font-size: 15px; letter-spacing: -0.225px; wh=
-ite-space-collapse: preserve-breaks;"> whe</span><span style=3D"box-sizing:=
- inherit; animation: 0.7s cubic-bezier(0.7, 0, 0.84, 0) 0s 1 normal none ru=
-nning lbWRkT; color: #474340; font-family: Inter; font-size: 15px; letter-s=
-pacing: -0.225px; white-space-collapse: preserve-breaks;">n I </span><span =
-style=3D"box-sizing: inherit; animation: 0.7s cubic-bezier(0.7, 0, 0.84, 0)=
- 0s 1 normal none running lbWRkT; color: #474340; font-family: Inter; font-=
-size: 15px; letter-spacing: -0.225px; white-space-collapse: preserve-breaks=
-;">chec</span><span style=3D"box-sizing: inherit; animation: 0.7s cubic-bez=
-ier(0.7, 0, 0.84, 0) 0s 1 normal none running lbWRkT; color: #474340; font-=
-family: Inter; font-size: 15px; letter-spacing: -0.225px; white-space-colla=
-pse: preserve-breaks;">k th</span><span style=3D"box-sizing: inherit; anima=
-tion: 0.7s cubic-bezier(0.7, 0, 0.84, 0) 0s 1 normal none running lbWRkT; c=
-olor: #474340; font-family: Inter; font-size: 15px; letter-spacing: -0.225p=
-x; white-space-collapse: preserve-breaks;">e in</span><span style=3D"box-si=
-zing: inherit; animation: 0.7s cubic-bezier(0.7, 0, 0.84, 0) 0s 1 normal no=
-ne running lbWRkT; color: #474340; font-family: Inter; font-size: 15px; let=
-ter-spacing: -0.225px; white-space-collapse: preserve-breaks;">fo p</span><=
-span style=3D"box-sizing: inherit; animation: 0.7s cubic-bezier(0.7, 0, 0.8=
-4, 0) 0s 1 normal none running lbWRkT; color: #474340; font-family: Inter; =
-font-size: 15px; letter-spacing: -0.225px; white-space-collapse: preserve-b=
-reaks;">rett</span><span style=3D"box-sizing: inherit; animation: 0.7s cubi=
-c-bezier(0.7, 0, 0.84, 0) 0s 1 normal none running lbWRkT; color: #474340; =
-font-family: Inter; font-size: 15px; letter-spacing: -0.225px; white-space-=
-collapse: preserve-breaks;">y-pr</span><span style=3D"box-sizing: inherit; =
-animation: 0.7s cubic-bezier(0.7, 0, 0.84, 0) 0s 1 normal none running lbWR=
-kT; color: #474340; font-family: Inter; font-size: 15px; letter-spacing: -0=
-.225px; white-space-collapse: preserve-breaks;">inte</span><span style=3D"b=
-ox-sizing: inherit; animation: 0.7s cubic-bezier(0.7, 0, 0.84, 0) 0s 1 norm=
-al none running lbWRkT; color: #474340; font-family: Inter; font-size: 15px=
-; letter-spacing: -0.225px; white-space-collapse: preserve-breaks;">r co</s=
-pan><span style=3D"box-sizing: inherit; animation: 0.7s cubic-bezier(0.7, 0=
-, 0.84, 0) 0s 1 normal none running lbWRkT; color: #474340; font-family: In=
-ter; font-size: 15px; letter-spacing: -0.225px; white-space-collapse: prese=
-rve-breaks;">mman</span><span style=3D"box-sizing: inherit; animation: 0.7s=
- cubic-bezier(0.7, 0, 0.84, 0) 0s 1 normal none running lbWRkT; color: #474=
-340; font-family: Inter; font-size: 15px; letter-spacing: -0.225px; white-s=
-pace-collapse: preserve-breaks;">d ou</span><span style=3D"box-sizing: inhe=
-rit; animation: 0.7s cubic-bezier(0.7, 0, 0.84, 0) 0s 1 normal none running=
- lbWRkT; color: #474340; font-family: Inter; font-size: 15px; letter-spacin=
-g: -0.225px; white-space-collapse: preserve-breaks;">tput</span><span style=
-=3D"box-sizing: inherit; animation: 0.7s cubic-bezier(0.7, 0, 0.84, 0) 0s 1=
- normal none running lbWRkT; color: #474340; font-family: Inter; font-size:=
- 15px; letter-spacing: -0.225px; white-space-collapse: preserve-breaks;"> a=
-ft</span><span style=3D"box-sizing: inherit; animation: 0.7s cubic-bezier(0=
-.7, 0, 0.84, 0) 0s 1 normal none running lbWRkT; color: #474340; font-famil=
-y: Inter; font-size: 15px; letter-spacing: -0.225px; white-space-collapse: =
-preserve-breaks;">er l</span><span style=3D"box-sizing: inherit; animation:=
- 0.7s cubic-bezier(0.7, 0, 0.84, 0) 0s 1 normal none running lbWRkT; color:=
- #474340; font-family: Inter; font-size: 15px; letter-spacing: -0.225px; wh=
-ite-space-collapse: preserve-breaks;">oadi</span><span style=3D"box-sizing:=
- inherit; animation: 0.7s cubic-bezier(0.7, 0, 0.84, 0) 0s 1 normal none ru=
-nning lbWRkT; color: #474340; font-family: Inter; font-size: 15px; letter-s=
-pacing: -0.225px; white-space-collapse: preserve-breaks;">ng t</span><span =
-style=3D"box-sizing: inherit; animation: 0.7s cubic-bezier(0.7, 0, 0.84, 0)=
- 0s 1 normal none running lbWRkT; color: #474340; font-family: Inter; font-=
-size: 15px; letter-spacing: -0.225px; white-space-collapse: preserve-breaks=
-;">he t</span><span style=3D"box-sizing: inherit; animation: 0.7s cubic-bez=
-ier(0.7, 0, 0.84, 0) 0s 1 normal none running lbWRkT; color: #474340; font-=
-family: Inter; font-size: 15px; letter-spacing: -0.225px; white-space-colla=
-pse: preserve-breaks;">est </span><span style=3D"box-sizing: inherit; anima=
-tion: 0.7s cubic-bezier(0.7, 0, 0.84, 0) 0s 1 normal none running lbWRkT; c=
-olor: #474340; font-family: Inter; font-size: 15px; letter-spacing: -0.225p=
-x; white-space-collapse: preserve-breaks;">appl</span><span style=3D"box-si=
-zing: inherit; animation: 0.7s cubic-bezier(0.7, 0, 0.84, 0) 0s 1 normal no=
-ne running lbWRkT; color: #474340; font-family: Inter; font-size: 15px; let=
-ter-spacing: -0.225px; white-space-collapse: preserve-breaks;">icat</span><=
-span style=3D"box-sizing: inherit; animation: 0.7s cubic-bezier(0.7, 0, 0.8=
-4, 0) 0s 1 normal none running lbWRkT; color: #474340; font-family: Inter; =
-font-size: 15px; letter-spacing: -0.225px; white-space-collapse: preserve-b=
-reaks;">ion </span><span style=3D"box-sizing: inherit; animation: 0.7s cubi=
-c-bezier(0.7, 0, 0.84, 0) 0s 1 normal none running lbWRkT; color: #474340; =
-font-family: Inter; font-size: 15px; letter-spacing: -0.225px; white-space-=
-collapse: preserve-breaks;">with</span><span style=3D"box-sizing: inherit; =
-animation: 0.7s cubic-bezier(0.7, 0, 0.84, 0) 0s 1 normal none running lbWR=
-kT; color: #474340; font-family: Inter; font-size: 15px; letter-spacing: -0=
-.225px; white-space-collapse: preserve-breaks;"> gdb</span><span style=3D"b=
-ox-sizing: inherit; animation: 0.7s cubic-bezier(0.7, 0, 0.84, 0) 0s 1 norm=
-al none running lbWRkT; color: #474340; font-family: Inter; font-size: 15px=
-; letter-spacing: -0.225px; white-space-collapse: preserve-breaks;">,<br />=
-it</span><span style=3D"box-sizing: inherit; animation: 0.7s cubic-bezier(0=
-.7, 0, 0.84, 0) 0s 1 normal none running lbWRkT; color: #474340; font-famil=
-y: Inter; font-size: 15px; letter-spacing: -0.225px; white-space-collapse: =
-preserve-breaks;"> is </span><span style=3D"box-sizing: inherit; animation:=
- 0.7s cubic-bezier(0.7, 0, 0.84, 0) 0s 1 normal none running lbWRkT; color:=
- #474340; font-family: Inter; font-size: 15px; letter-spacing: -0.225px; wh=
-ite-space-collapse: preserve-breaks;">show</span><span style=3D"box-sizing:=
- inherit; animation: 0.7s cubic-bezier(0.7, 0, 0.84, 0) 0s 1 normal none ru=
-nning lbWRkT; color: #474340; font-family: Inter; font-size: 15px; letter-s=
-pacing: -0.225px; white-space-collapse: preserve-breaks;">ing </span><span =
-style=3D"box-sizing: inherit; animation: 0.7s cubic-bezier(0.7, 0, 0.84, 0)=
- 0s 1 normal none running lbWRkT; color: #474340; font-family: Inter; font-=
-size: 15px; letter-spacing: -0.225px; white-space-collapse: preserve-breaks=
-;">the </span><span style=3D"box-sizing: inherit; animation: 0.7s cubic-bez=
-ier(0.7, 0, 0.84, 0) 0s 1 normal none running lbWRkT; color: #474340; font-=
-family: Inter; font-size: 15px; letter-spacing: -0.225px; white-space-colla=
-pse: preserve-breaks;">expe</span><span style=3D"box-sizing: inherit; anima=
-tion: 0.7s cubic-bezier(0.7, 0, 0.84, 0) 0s 1 normal none running lbWRkT; c=
-olor: #474340; font-family: Inter; font-size: 15px; letter-spacing: -0.225p=
-x; white-space-collapse: preserve-breaks;">cted</span><span style=3D"box-si=
-zing: inherit; animation: 0.7s cubic-bezier(0.7, 0, 0.84, 0) 0s 1 normal no=
-ne running lbWRkT; color: #474340; font-family: Inter; font-size: 15px; let=
-ter-spacing: -0.225px; white-space-collapse: preserve-breaks;"> beh</span><=
-span style=3D"box-sizing: inherit; animation: 0.7s cubic-bezier(0.7, 0, 0.8=
-4, 0) 0s 1 normal none running lbWRkT; color: #474340; font-family: Inter; =
-font-size: 15px; letter-spacing: -0.225px; white-space-collapse: preserve-b=
-reaks;">avio</span><span style=3D"box-sizing: inherit; animation: 0.7s cubi=
-c-bezier(0.7, 0, 0.84, 0) 0s 1 normal none running lbWRkT; color: #474340; =
-font-family: Inter; font-size: 15px; letter-spacing: -0.225px; white-space-=
-collapse: preserve-breaks;">r. T</span><span style=3D"box-sizing: inherit; =
-animation: 0.7s cubic-bezier(0.7, 0, 0.84, 0) 0s 1 normal none running lbWR=
-kT; color: #474340; font-family: Inter; font-size: 15px; letter-spacing: -0=
-.225px; white-space-collapse: preserve-breaks;">his </span><span style=3D"b=
-ox-sizing: inherit; animation: 0.7s cubic-bezier(0.7, 0, 0.84, 0) 0s 1 norm=
-al none running lbWRkT; color: #474340; font-family: Inter; font-size: 15px=
-; letter-spacing: -0.225px; white-space-collapse: preserve-breaks;">mean</s=
-pan><span style=3D"box-sizing: inherit; animation: 0.7s cubic-bezier(0.7, 0=
-, 0.84, 0) 0s 1 normal none running lbWRkT; color: #474340; font-family: In=
-ter; font-size: 15px; letter-spacing: -0.225px; white-space-collapse: prese=
-rve-breaks;">s th</span><span style=3D"box-sizing: inherit; animation: 0.7s=
- cubic-bezier(0.7, 0, 0.84, 0) 0s 1 normal none running lbWRkT; color: #474=
-340; font-family: Inter; font-size: 15px; letter-spacing: -0.225px; white-s=
-pace-collapse: preserve-breaks;">at e</span><span style=3D"box-sizing: inhe=
-rit; animation: 0.7s cubic-bezier(0.7, 0, 0.84, 0) 0s 1 normal none running=
- lbWRkT; color: #474340; font-family: Inter; font-size: 15px; letter-spacin=
-g: -0.225px; white-space-collapse: preserve-breaks;">very</span><span style=
-=3D"box-sizing: inherit; animation: 0.7s cubic-bezier(0.7, 0, 0.84, 0) 0s 1=
- normal none running lbWRkT; color: #474340; font-family: Inter; font-size:=
- 15px; letter-spacing: -0.225px; white-space-collapse: preserve-breaks;">th=
-in</span><span style=3D"box-sizing: inherit; animation: 0.7s cubic-bezier(0=
-.7, 0, 0.84, 0) 0s 1 normal none running lbWRkT; color: #474340; font-famil=
-y: Inter; font-size: 15px; letter-spacing: -0.225px; white-space-collapse: =
-preserve-breaks;">g se</span><span style=3D"box-sizing: inherit; animation:=
- 0.7s cubic-bezier(0.7, 0, 0.84, 0) 0s 1 normal none running lbWRkT; color:=
- #474340; font-family: Inter; font-size: 15px; letter-spacing: -0.225px; wh=
-ite-space-collapse: preserve-breaks;">ems </span><span style=3D"box-sizing:=
- inherit; animation: 0.7s cubic-bezier(0.7, 0, 0.84, 0) 0s 1 normal none ru=
-nning lbWRkT; color: #474340; font-family: Inter; font-size: 15px; letter-s=
-pacing: -0.225px; white-space-collapse: preserve-breaks;">to b</span><span =
-style=3D"box-sizing: inherit; animation: 0.7s cubic-bezier(0.7, 0, 0.84, 0)=
- 0s 1 normal none running lbWRkT; color: #474340; font-family: Inter; font-=
-size: 15px; letter-spacing: -0.225px; white-space-collapse: preserve-breaks=
-;">e fu</span><span style=3D"box-sizing: inherit; animation: 0.7s cubic-bez=
-ier(0.7, 0, 0.84, 0) 0s 1 normal none running lbWRkT; color: #474340; font-=
-family: Inter; font-size: 15px; letter-spacing: -0.225px; white-space-colla=
-pse: preserve-breaks;">ncti</span><span style=3D"box-sizing: inherit; anima=
-tion: 0.7s cubic-bezier(0.7, 0, 0.84, 0) 0s 1 normal none running lbWRkT; c=
-olor: #474340; font-family: Inter; font-size: 15px; letter-spacing: -0.225p=
-x; white-space-collapse: preserve-breaks;">onin</span><span style=3D"box-si=
-zing: inherit; animation: 0.7s cubic-bezier(0.7, 0, 0.84, 0) 0s 1 normal no=
-ne running lbWRkT; color: #474340; font-family: Inter; font-size: 15px; let=
-ter-spacing: -0.225px; white-space-collapse: preserve-breaks;">g co</span><=
-span style=3D"box-sizing: inherit; animation: 0.7s cubic-bezier(0.7, 0, 0.8=
-4, 0) 0s 1 normal none running lbWRkT; color: #474340; font-family: Inter; =
-font-size: 15px; letter-spacing: -0.225px; white-space-collapse: preserve-b=
-reaks;">rrec</span><span style=3D"box-sizing: inherit; animation: 0.7s cubi=
-c-bezier(0.7, 0, 0.84, 0) 0s 1 normal none running lbWRkT; color: #474340; =
-font-family: Inter; font-size: 15px; letter-spacing: -0.225px; white-space-=
-collapse: preserve-breaks;">tly </span><span style=3D"box-sizing: inherit; =
-animation: 0.7s cubic-bezier(0.7, 0, 0.84, 0) 0s 1 normal none running lbWR=
-kT; color: #474340; font-family: Inter; font-size: 15px; letter-spacing: -0=
-.225px; white-space-collapse: preserve-breaks;">in t</span><span style=3D"b=
-ox-sizing: inherit; animation: 0.7s cubic-bezier(0.7, 0, 0.84, 0) 0s 1 norm=
-al none running lbWRkT; color: #474340; font-family: Inter; font-size: 15px=
-; letter-spacing: -0.225px; white-space-collapse: preserve-breaks;">hat </s=
-pan><span style=3D"box-sizing: inherit; animation: 0.7s cubic-bezier(0.7, 0=
-, 0.84, 0) 0s 1 normal none running lbWRkT; color: #474340; font-family: In=
-ter; font-size: 15px; letter-spacing: -0.225px; white-space-collapse: prese=
-rve-breaks;">aspe</span><span style=3D"box-sizing: inherit; animation: 0.7s=
- cubic-bezier(0.7, 0, 0.84, 0) 0s 1 normal none running lbWRkT; color: #474=
-340; font-family: Inter; font-size: 15px; letter-spacing: -0.225px; white-s=
-pace-collapse: preserve-breaks;">ct.<br /><br /></span>Thanks for your supp=
-ort.<br /><br />
-<div>bash-5.1# gdb -q test</div>
-<div>Reading symbols from test...</div>
-<div>(gdb) b 12</div>
-<div>Breakpoint 1 at 0x234e: file test.cpp, line 12.</div>
-<div>(gdb) r</div>
-<div>Starting program: /test</div>
-<div>warning: Error disabling address space randomization: Operation not pe=
-rmitted</div>
-<div>[Thread debugging using libthread_db enabled]</div>
-<div>Using host libthread_db library "/lib/libthread_db.so.1".</div>
-<div>&nbsp;</div>
-<div>Breakpoint 1, main () at test.cpp:12</div>
-<div>12&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return 0;</div>
-<div>(gdb) p s</div>
-<div>$1 =3D "test"</div>
-<div>(gdb) p vi</div>
-<div>$2 =3D std::vector of length 3, capacity 4 =3D {1, 2, 3}</div>
-<div>(gdb) info pretty-printer</div>
-<div>global pretty-printers:</div>
-<div>&nbsp; builtin</div>
-<div>&nbsp; &nbsp; mpx_bound128</div>
-<div>objfile /lib/libstdc++.so.6 pretty-printers:</div>
-<div>&nbsp; libstdc++-v6</div>
-<div>&nbsp; &nbsp; __gnu_cxx::_Slist_iterator</div>
-<div>&nbsp; &nbsp; __gnu_cxx::__8::_Slist_iterator</div>
-<div>&nbsp; &nbsp; __gnu_cxx::__8::__normal_iterator</div>
-<div>&nbsp; &nbsp; __gnu_cxx::__8::slist</div>
-<div>&nbsp; &nbsp; __gnu_cxx::__normal_iterator</div>
-<div>&nbsp; &nbsp; __gnu_cxx::slist</div>
-<div>&nbsp; &nbsp; __gnu_debug::_Safe_iterator</div>
-<div>&nbsp; &nbsp; std::_Bit_const_iterator</div>
-<div>&nbsp; &nbsp; std::_Bit_iterator</div>
-<div>&nbsp; &nbsp; std::_Bit_reference</div>
-<div>&nbsp; &nbsp; std::_Deque_const_iterator</div>
-<div>&nbsp; &nbsp; std::_Deque_iterator</div>
-<div>&nbsp; &nbsp; std::_Fwd_list_const_iterator</div>
-<div>&nbsp; &nbsp; std::_Fwd_list_iterator</div>
-<div>&nbsp; &nbsp; std::_List_const_iterator</div>
-<div>&nbsp; &nbsp; std::_List_iterator</div>
-<div>&nbsp; &nbsp; std::_Node_handle</div>
-<div>&nbsp; &nbsp; std::_Rb_tree_const_iterator</div>
-<div>&nbsp; &nbsp; std::_Rb_tree_iterator</div>
-<div>&nbsp; &nbsp; std::__8::_Bit_const_iterator</div>
-<div>&nbsp; &nbsp; std::__8::_Bit_iterator</div>
-<div>&nbsp; &nbsp; std::__8::_Bit_reference</div>
-<div>&nbsp; &nbsp; std::__8::_Deque_const_iterator</div>
-<div>&nbsp; &nbsp; std::__8::_Deque_iterator</div>
-<div>&nbsp; &nbsp; std::__8::_Fwd_list_const_iterator</div>
-<div>&nbsp; &nbsp; std::__8::_Fwd_list_iterator</div>
-<div>&nbsp; &nbsp; std::__8::_List_const_iterator</div>
-<div>&nbsp; &nbsp; std::__8::_List_iterator</div>
-<div>&nbsp; &nbsp; std::__8::_Node_handle</div>
-<div>&nbsp; &nbsp; std::__8::_Rb_tree_const_iterator</div>
-<div>&nbsp; &nbsp; std::__8::_Rb_tree_iterator</div>
-<div>&nbsp; &nbsp; std::__8::__cxx11::__cxx1998::list</div>
-<div>&nbsp; &nbsp; std::__8::__cxx11::basic_string</div>
-<div>&nbsp; &nbsp; std::__8::__cxx11::list</div>
-<div>&nbsp; &nbsp; std::__8::__cxx1998::_Bit_const_iterator</div>
-<div>&nbsp; &nbsp; std::__8::__cxx1998::_Bit_iterator</div>
-<div>&nbsp; &nbsp; std::__8::__cxx1998::_Bit_reference</div>
-<div>&nbsp; &nbsp; std::__8::__cxx1998::_Deque_const_iterator</div>
-<div>&nbsp; &nbsp; std::__8::__cxx1998::_Deque_iterator</div>
-<div>&nbsp; &nbsp; std::__8::__cxx1998::_Fwd_list_const_iterator</div>
-<div>&nbsp; &nbsp; std::__8::__cxx1998::_Fwd_list_iterator</div>
-<div>&nbsp; &nbsp; std::__8::__cxx1998::_List_const_iterator</div>
-<div>&nbsp; &nbsp; std::__8::__cxx1998::_List_iterator</div>
-<div>&nbsp; &nbsp; std::__8::__cxx1998::bitset</div>
-<div>&nbsp; &nbsp; std::__8::__cxx1998::deque</div>
-<div>&nbsp; &nbsp; std::__8::__cxx1998::forward_list</div>
-
---nX6uddnfhFIq4X030Qo5--
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmlj
+aGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4NCj4gU2VudDogU2F0dXJkYXksIEphbnVh
+cnkgMjcsIDIwMjQgMTowNSBBTQ0KPiBUbzogSmFtaW4gTGluIDxqYW1pbl9saW5AYXNwZWVkdGVj
+aC5jb20+Ow0KPiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFN1
+YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIHYyIDQvNF0gdWJvb3Qtc2lnbjogc3VwcG9ydCB0
+byBsb2FkIG9wdGVlLW9zIGFuZA0KPiBURkEgaW1hZ2VzDQo+IA0KPiBPbiBGcmksIDIwMjQtMDEt
+MTkgYXQgMTQ6MTkgKzA4MDAsIEphbWluIExpbiB2aWEgbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0K
+PiB3cm90ZToNCj4gPiBDdXJyZW50bHksIHUtYm9vdCBGSVQgaW1hZ2Ugb25seSBzdXBwb3J0IHRv
+IGxvYWQgdS1ib290IGltYWdlLg0KPiA+IFRvIHN1cHBvcnQgb3B0ZWUtb3MgYW5kIHRydXN0ZWQt
+ZmlybXdhcmUtYSwgdXBkYXRlIElUUyBmaWxlIGdlbmVyYXRpb24NCj4gPiBzY3JpcHRzLCBzbyB1
+c2VycyBhcmUgYWJsZSB0byB1c2UgdS1ib290IEZJVCBpbWFnZSB0byBsb2FkIHUtYm9vdCwNCj4g
+PiBvcHRlZS1vcyBhbmQgdHJldXN0cmVkLWZpcm13YXJlLWEgaW1hZ2VzDQo+ID4NCj4gPiBBZGQg
+YSB2YXJpYWJsZSAiVUJPT1RfRklUX0FSTV9UUlVTVEVEX0ZJUk1XQVJFX0EiIHRvIGVuYWJsZQ0K
+PiA+IHRydXN0ZWQtZmlybXdhcmUtYSBpbWFnZSBhbmQgaXQgaXMgZGlzYWJsZSBieSBkZWZhdWx0
+Lg0KPiA+DQo+ID4gQWRkIGEgdmFyaWFibGUgIlVCT09UX0ZJVF9PUFRFRV9PUyIgdG8gZW5hYmxl
+IG9wdGVlLW9zIGltYWdlIGFuZCBpdCBpcw0KPiA+IGRpc2FibGUgYnkgZGVmYXVsdC4NCj4gPg0K
+PiA+IFRoZSBJVFMgZmlsZSBjcmVhdGlvbiBsb29rcyBsaWtlIGFzIGZvbGxvd2luZy4NCj4gPiAx
+LiBCb3RoIG9wdGVlLW9zIGFuZCB0cnVzdGVkLWZpcm13YXJlLWEgYXJlIGRpc2FibGVkLg0KPiA+
+ICcnJw0KPiA+IC9kdHMtdjEvOw0KPiA+DQo+ID4gLyB7DQo+ID4gICAgIGltYWdlcyB7DQo+ID4g
+ICAgICAgICB1Ym9vdCB7DQo+ID4gICAgICAgICB9Ow0KPiA+ICAgICAgICAgZmR0IHsNCj4gPiAg
+ICAgICAgIH07DQo+ID4gICAgIH07DQo+ID4NCj4gPiAgICAgY29uZmlndXJhdGlvbnMgew0KPiA+
+ICAgICAgICAgZGVmYXVsdCA9ICJjb25mIjsNCj4gPiAgICAgICAgIGNvbmYgew0KPiA+ICAgICAg
+ICAgICAgIGxvYWRhYmxlcyA9ICJ1Ym9vdCI7DQo+ID4gICAgICAgICAgICAgZmR0ID0gImZkdCI7
+DQo+ID4gICAgICAgICB9Ow0KPiA+ICAgICB9Ow0KPiA+IH07DQo+ID4gJycnDQo+ID4NCj4gPiAy
+LiBPbmx5IGVuYWJsZSBvcHRlZS1vcw0KPiA+ICcnJw0KPiA+IC9kdHMtdjEvOw0KPiA+DQo+ID4g
+LyB7DQo+ID4gICAgIGltYWdlcyB7DQo+ID4gICAgICAgICB1Ym9vdCB7DQo+ID4gICAgICAgICB9
+Ow0KPiA+ICAgICAgICAgZmR0IHsNCj4gPiAgICAgICAgIH07DQo+ID4gICAgICAgICBvcHRlZSB7
+DQo+ID4gICAgICAgICB9Ow0KPiA+ICAgICB9Ow0KPiA+DQo+ID4gICAgIGNvbmZpZ3VyYXRpb25z
+IHsNCj4gPiAgICAgICAgIGRlZmF1bHQgPSAiY29uZiI7DQo+ID4gICAgICAgICBjb25mIHsNCj4g
+PiAgICAgICAgICAgICBmaXJtd2FyZSA9ICJvcHRlZSI7DQo+ID4gICAgICAgICAgICAgbG9hZGFi
+bGVzID0gInVib290IjsNCj4gPiAgICAgICAgICAgICBmZHQgPSAiZmR0IjsNCj4gPiAgICAgICAg
+IH07DQo+ID4gICAgIH07DQo+ID4gfTsNCj4gPiAnJycNCj4gPg0KPiA+IDMuIEJvdGggb3B0ZWUt
+b3MgYW5kIHRydXN0ZWQtZmlybXdhcmUtYSBhcmUgZW5hYmxlZCAnJycNCj4gPiAvZHRzLXYxLzsN
+Cj4gPg0KPiA+IC8gew0KPiA+ICAgICBpbWFnZXMgew0KPiA+ICAgICAgICAgdWJvb3Qgew0KPiA+
+ICAgICAgICAgfTsNCj4gPiAgICAgICAgIGZkdCB7DQo+ID4gICAgICAgICB9Ow0KPiA+ICAgICAg
+ICAgYXRmIHsNCj4gPiAgICAgICAgIH07DQo+ID4gICAgICAgICBvcHRlZSB7DQo+ID4gICAgICAg
+ICB9Ow0KPiA+ICAgICB9Ow0KPiA+DQo+ID4gICAgIGNvbmZpZ3VyYXRpb25zIHsNCj4gPiAgICAg
+ICAgIGRlZmF1bHQgPSAiY29uZiI7DQo+ID4gICAgICAgICBjb25mIHsNCj4gPiAgICAgICAgICAg
+ICBmaXJtd2FyZSA9ICJhdGYiOw0KPiA+ICAgICAgICAgICAgIGxvYWRhYmxlcyA9ICJ1Ym9vdCIs
+ICJvcHRlZSI7DQo+ID4gICAgICAgICAgICAgZmR0ID0gImZkdCI7DQo+ID4gICAgICAgICB9Ow0K
+PiA+ICAgICB9Ow0KPiA+IH07DQo+ID4gJycnDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBKYW1p
+biBMaW4gPGphbWluX2xpbkBhc3BlZWR0ZWNoLmNvbT4NCj4gPiAtLS0NCj4gPiAgbWV0YS9jbGFz
+c2VzLXJlY2lwZS91Ym9vdC1zaWduLmJiY2xhc3MgfCA5MQ0KPiA+ICsrKysrKysrKysrKysrKysr
+KysrKysrKystDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCA5MCBpbnNlcnRpb25zKCspLCAxIGRlbGV0
+aW9uKC0pDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9jbGFzc2VzLXJlY2lwZS91Ym9vdC1z
+aWduLmJiY2xhc3MNCj4gPiBiL21ldGEvY2xhc3Nlcy1yZWNpcGUvdWJvb3Qtc2lnbi5iYmNsYXNz
+DQo+ID4gaW5kZXggN2EwYjgwNDdlNC4uZDJiMTAxM2I5MyAxMDA2NDQNCj4gPiAtLS0gYS9tZXRh
+L2NsYXNzZXMtcmVjaXBlL3Vib290LXNpZ24uYmJjbGFzcw0KPiA+ICsrKyBiL21ldGEvY2xhc3Nl
+cy1yZWNpcGUvdWJvb3Qtc2lnbi5iYmNsYXNzDQo+ID4gQEAgLTkxLDYgKzkxLDE4IEBAIEtFUk5F
+TF9QTiA9DQo+ICIke1BSRUZFUlJFRF9QUk9WSURFUl92aXJ0dWFsL2tlcm5lbH0iDQo+ID4gIFVC
+T09UX0ZJVF9VQk9PVF9MT0FEQUREUkVTUyA/PSAiJHtVQk9PVF9MT0FEQUREUkVTU30iDQo+ID4g
+IFVCT09UX0ZJVF9VQk9PVF9FTlRSWVBPSU5UID89ICIke1VCT09UX0VOVFJZUE9JTlR9Ig0KPiA+
+DQo+ID4gKyMgVHJ1c3RlZCBGaXJtd2FyZS1BIChURi1BKSBwcm92aWRlcyBhIHJlZmVyZW5jZSBp
+bXBsZW1lbnRhdGlvbiBvZiAjDQo+ID4gK3NlY3VyZSB3b3JsZCBzb2Z0d2FyZSBmb3IgQXJtdjct
+QSBhbmQgQXJtdjgtQSwgIyBpbmNsdWRpbmcgYSBTZWN1cmUNCj4gPiArTW9uaXRvciBleGVjdXRp
+bmcgYXQgRXhjZXB0aW9uIExldmVsIDMgKEVMMykgIyBBVEYgaXMgdXNlZCBhcyB0aGUNCj4gPiAr
+aW5pdGlhbCBzdGFydCBjb2RlIG9uIEFSTXY4LUEgY29yZXMgZm9yIGFsbCBLMyBwbGF0Zm9ybXMN
+Cj4gPiArVUJPT1RfRklUX0FSTV9UUlVTVEVEX0ZJUk1XQVJFX0EgPz0gIjAiDQo+ID4gK1VCT09U
+X0ZJVF9BUk1fVFJVU1RFRF9GSVJNV0FSRV9BX0lNQUdFID89ICJibDMxLmJpbiINCj4gPiArDQo+
+ID4gKyMgT1AtVEVFIGlzIGEgVHJ1c3RlZCBFeGVjdXRpb24gRW52aXJvbm1lbnQgKFRFRSkgZGVz
+aWduZWQgYXMgIw0KPiA+ICtjb21wYW5pb24gdG8gYSBub24tc2VjdXJlIExpbnV4IGtlcm5lbCBy
+dW5uaW5nIG9uIEFybQ0KPiA+ICtVQk9PVF9GSVRfT1BURUVfT1MgPz0gIjAiDQo+ID4gK1VCT09U
+X0ZJVF9PUFRFRV9PU19JTUFHRSA/PSAidGVlLXJhdy5iaW4iDQo+ID4gKw0KPiA+ICBweXRob24o
+KSB7DQo+ID4gICAgICAjIFdlIG5lZWQgdS1ib290LXRvb2xzLW5hdGl2ZSBpZiB3ZSdyZSBjcmVh
+dGluZyBhIFUtQm9vdCBmaXRJbWFnZQ0KPiA+ICAgICAgc2lnbiA9IGQuZ2V0VmFyKCdVQk9PVF9T
+SUdOX0VOQUJMRScpID09ICcxJw0KPiA+IEBAIC0yMzcsNiArMjQ5LDIwIEBAIGFkZHRhc2sgdWJv
+b3RfZ2VuZXJhdGVfcnNhX2tleXMgYmVmb3JlDQo+ID4gZG9fdWJvb3RfYXNzZW1ibGVfZml0aW1h
+Z2UgYWZ0ZXIgZG9fY29tcGkgICMgQ3JlYXRlIGEgSVRTIGZpbGUgZm9yIHRoZQ0KPiA+IFUtYm9v
+dCBGSVQsIGZvciB1c2Ugd2hlbiAgIyB3ZSB3YW50IHRvIHNpZ24gaXQgc28gdGhhdCB0aGUgU1BM
+IGNhbg0KPiA+IHZlcmlmeSBpdA0KPiA+ICB1Ym9vdF9maXRpbWFnZV9hc3NlbWJsZSgpIHsNCj4g
+PiArCWNvbmZfbG9hZGFibGVzPSJcInVib290XCIiDQo+ID4gKwljb25mX2Zpcm13YXJlPSIiDQo+
+ID4gKw0KPiA+ICsJaWYgWyAiJHtVQk9PVF9GSVRfQVJNX1RSVVNURURfRklSTVdBUkVfQX0iID0g
+IjEiIF07IHRoZW4NCj4gPiArCQljb25mX2Zpcm13YXJlPSJcImF0ZlwiIg0KPiA+ICsJCWlmIFsg
+IiR7VUJPT1RfRklUX09QVEVFX09TfSIgPSAiMSIgXTsgdGhlbg0KPiA+ICsJCQljb25mX2xvYWRh
+Ymxlcz0iXCJ1Ym9vdFwiLCBcIm9wdGVlXCIiDQo+ID4gKwkJZmkNCj4gPiArCWVsc2UNCj4gPiAr
+CQlpZiBbICIke1VCT09UX0ZJVF9PUFRFRV9PU30iID0gIjEiIF07IHRoZW4NCj4gPiArCQkJY29u
+Zl9maXJtd2FyZT0iXCJvcHRlZVwiIg0KPiA+ICsJCWZpDQo+ID4gKwlmaQ0KPiA+ICsNCj4gPiAg
+CXJtIC1mICR7VUJPT1RfSVRTfSAke1VCT09UX0ZJVElNQUdFX0JJTkFSWX0NCj4gPg0KPiA+ICAJ
+IyBGaXJzdCB3ZSBjcmVhdGUgdGhlIElUUyBzY3JpcHQNCj4gPiBAQCAtMjg5LDEzICszMTUsNzYg
+QEAgRU9GDQo+ID4NCj4gPiAgCWNhdCA8PCBFT0YgPj4gJHtVQk9PVF9JVFN9DQo+ID4gICAgICAg
+ICAgfTsNCj4gPiArRU9GDQo+ID4gKwlpZiBbICIke1VCT09UX0ZJVF9BUk1fVFJVU1RFRF9GSVJN
+V0FSRV9BfSIgPSAiMSIgXSA7IHRoZW4NCj4gPiArCQljYXQgPDwgRU9GID4+ICR7VUJPT1RfSVRT
+fQ0KPiA+ICsgICAgICAgIGF0ZiB7DQo+ID4gKyAgICAgICAgICAgIGRlc2NyaXB0aW9uID0gIkFS
+TSBUcnVzdGVkIEZpcm13YXJlLUEiOw0KPiA+ICsgICAgICAgICAgICBkYXRhID0NCj4gL2luY2Jp
+bi8oIiR7VUJPT1RfRklUX0FSTV9UUlVTVEVEX0ZJUk1XQVJFX0FfSU1BR0V9Iik7DQo+ID4gKyAg
+ICAgICAgICAgIHR5cGUgPSAiZmlybXdhcmUiOw0KPiA+ICsgICAgICAgICAgICBhcmNoID0gIiR7
+VUJPT1RfQVJDSH0iOw0KPiA+ICsgICAgICAgICAgICBvcyA9ICJhcm0tdHJ1c3RlZC1maXJtd2Fy
+ZSI7DQo+ID4gKyAgICAgICAgICAgIGxvYWQgPQ0KPiA8JHtVQk9PVF9GSVRfQVJNX1RSVVNURURf
+RklSTVdBUkVfQV9MT0FEQUREUkVTU30+Ow0KPiA+ICsgICAgICAgICAgICBlbnRyeSA9DQo+IDwk
+e1VCT09UX0ZJVF9BUk1fVFJVU1RFRF9GSVJNV0FSRV9BX0VOVFJZUE9JTlR9PjsNCj4gPiArICAg
+ICAgICAgICAgY29tcHJlc3Npb24gPSAibm9uZSI7DQo+ID4gK0VPRg0KPiA+ICsNCj4gPiArCQlp
+ZiBbICIke1NQTF9TSUdOX0VOQUJMRX0iID0gIjEiIF0gOyB0aGVuDQo+ID4gKwkJCWNhdCA8PCBF
+T0YgPj4gJHtVQk9PVF9JVFN9DQo+ID4gKyAgICAgICAgICAgIHNpZ25hdHVyZSB7DQo+ID4gKyAg
+ICAgICAgICAgICAgICBhbGdvID0NCj4gIiR7VUJPT1RfRklUX0hBU0hfQUxHfSwke1VCT09UX0ZJ
+VF9TSUdOX0FMR30iOw0KPiA+ICsgICAgICAgICAgICAgICAga2V5LW5hbWUtaGludCA9ICIke1NQ
+TF9TSUdOX0tFWU5BTUV9IjsNCj4gPiArICAgICAgICAgICAgfTsNCj4gPiArRU9GDQo+ID4gKwkJ
+ZmkNCj4gPiArDQo+ID4gKwljYXQgPDwgRU9GID4+ICR7VUJPT1RfSVRTfQ0KPiA+ICsgICAgICAg
+IH07DQo+ID4gK0VPRg0KPiA+ICsJZmkNCj4gPiArDQo+ID4gKwlpZiBbICIke1VCT09UX0ZJVF9P
+UFRFRV9PU30iID0gIjEiIF0gOyB0aGVuDQo+ID4gKwkJY2F0IDw8IEVPRiA+PiAke1VCT09UX0lU
+U30NCj4gPiArICAgICAgICBvcHRlZSB7DQo+ID4gKyAgICAgICAgICAgIGRlc2NyaXB0aW9uID0g
+Ik9QVEVFIE9TIEltYWdlIjsNCj4gPiArICAgICAgICAgICAgZGF0YSA9IC9pbmNiaW4vKCIke1VC
+T09UX0ZJVF9PUFRFRV9PU19JTUFHRX0iKTsNCj4gPiArICAgICAgICAgICAgdHlwZSA9ICJ0ZWUi
+Ow0KPiA+ICsgICAgICAgICAgICBhcmNoID0gIiR7VUJPT1RfQVJDSH0iOw0KPiA+ICsgICAgICAg
+ICAgICBvcyA9ICJ0ZWUiOw0KPiA+ICsgICAgICAgICAgICBsb2FkID0gPCR7VUJPT1RfRklUX09Q
+VEVFX09TX0xPQURBRERSRVNTfT47DQo+ID4gKyAgICAgICAgICAgIGVudHJ5ID0gPCR7VUJPT1Rf
+RklUX09QVEVFX09TX0VOVFJZUE9JTlR9PjsNCj4gPiArICAgICAgICAgICAgY29tcHJlc3Npb24g
+PSAibm9uZSI7DQo+ID4gK0VPRg0KPiA+ICsNCj4gPiArCQlpZiBbICIke1NQTF9TSUdOX0VOQUJM
+RX0iID0gIjEiIF0gOyB0aGVuDQo+ID4gKwkJCWNhdCA8PCBFT0YgPj4gJHtVQk9PVF9JVFN9DQo+
+ID4gKyAgICAgICAgICAgIHNpZ25hdHVyZSB7DQo+ID4gKyAgICAgICAgICAgICAgICBhbGdvID0N
+Cj4gIiR7VUJPT1RfRklUX0hBU0hfQUxHfSwke1VCT09UX0ZJVF9TSUdOX0FMR30iOw0KPiA+ICsg
+ICAgICAgICAgICAgICAga2V5LW5hbWUtaGludCA9ICIke1NQTF9TSUdOX0tFWU5BTUV9IjsNCj4g
+PiArICAgICAgICAgICAgfTsNCj4gPiArRU9GDQo+ID4gKwkJZmkNCj4gPiArDQo+ID4gKwljYXQg
+PDwgRU9GID4+ICR7VUJPT1RfSVRTfQ0KPiA+ICsgICAgICAgIH07DQo+ID4gK0VPRg0KPiA+ICsJ
+ZmkNCj4gPiArDQo+ID4gKwljYXQgPDwgRU9GID4+ICR7VUJPT1RfSVRTfQ0KPiA+ICAgICAgfTsN
+Cj4gPg0KPiA+ICAgICAgY29uZmlndXJhdGlvbnMgew0KPiA+ICAgICAgICAgIGRlZmF1bHQgPSAi
+Y29uZiI7DQo+ID4gICAgICAgICAgY29uZiB7DQo+ID4gICAgICAgICAgICAgIGRlc2NyaXB0aW9u
+ID0gIkJvb3Qgd2l0aCBzaWduZWQgVS1Cb290IEZJVCI7DQo+ID4gLSAgICAgICAgICAgIGxvYWRh
+YmxlcyA9ICJ1Ym9vdCI7DQo+ID4gK0VPRg0KPiA+ICsJaWYgWyAtbiAiJHtjb25mX2Zpcm13YXJl
+fSIgXTsgdGhlbg0KPiA+ICsJY2F0IDw8IEVPRiA+PiAke1VCT09UX0lUU30NCj4gPiArICAgICAg
+ICAgICAgZmlybXdhcmUgPSAke2NvbmZfZmlybXdhcmV9OyBFT0YNCj4gPiArCWZpDQo+ID4gKwlj
+YXQgPDwgRU9GID4+ICR7VUJPT1RfSVRTfQ0KPiA+ICsgICAgICAgICAgICBsb2FkYWJsZXMgPSAk
+e2NvbmZfbG9hZGFibGVzfTsNCj4gPiAgICAgICAgICAgICAgZmR0ID0gImZkdCI7DQo+ID4gICAg
+ICAgICAgfTsNCj4gPiAgICAgIH07DQo+IA0KPiBUaGVzZSBjaGFuZ2VzIGxvb2sgZ29vZCB0aGFu
+a3MuIEknbSBqdXN0IGEgYml0IHdvcnJpZWQgdGhleSBkb24ndCBoYXZlIGFueSB0ZXN0DQo+IGNv
+dmVyYWdlIHNvIHRoZXkncmUgZWFzaWx5IGdvaW5nIHRvIHJlZ3Jlc3M/DQo+IA0KPiBUaGVyZSBh
+cmUgYWxzbyBubyBkb2N1bWVudGF0aW9uIHBhdGNoZXM/DQo+IA0KPiBDaGVlcnMsDQo+IA0KPiBS
+aWNoYXJkDQoNCkhpIFJpY2hhcmQsDQpUaGFua3MgZm9yIHlvdXIgcmV2aWV3IGFuZCBzb3JyeSBy
+ZXBseSB5b3UgbGF0ZS4NCg0KRGlkIHlvdSBtZWFuIEkgc2hvdWxkIGNyZWF0ZSBhIG5ldyBwYXRj
+aCB0byBhZGQgdGVzdCBjYXNlIGZvciBmaXRpbWFnZSBvZiBvZS1zZWxmdGVzdCBpbiB0aGlzIHNl
+cmllcyBwYXRjaD8NCkFmdGVyIEkgcmVhZCB0aGlzIGRvY3VtZW50IGh0dHBzOi8vZG9jcy55b2N0
+b3Byb2plY3Qub3JnL3Rlc3QtbWFudWFsL2luZGV4Lmh0bWwsIGl0IHNlZW1zIA0Kb2Utc2VsZnRl
+c3Qgc3VwcG9ydCB0byB0ZXN0IHRoZSBnZW5lcmF0ZWQgdS1ib290IEZJVCBpbWFnZSBhbmQgdGhl
+IGdlbmVyYXRlZCB1LWJvb3QuaXRzIGhlcmUsDQptZXRhL2xpYi9vZXFhL3NlbGZ0ZXN0L2Nhc2Vz
+L2ZpdGltYWdlLnB5DQoNCkRvIEkgbmVlZCB0byBhZGQgbW9yZSB0ZXN0IGNhc2UgdG8gdGVzdCB1
+LWJvb3QuaXRzIGFuZCB1LWJvb3QgRklUIGltYWdlIGZvciBteSBtb2RpZmljYXRpb25zIHN1Y2gg
+YXMgb3B0ZWUtb3MgYW5kIHRydXN0ZWQtZmlybXdhcmUtYSBzdXBwb3J0ZWQgRklUIGltYWdlPw0K
+QWNjb3JkaW5nIHRvIHRoZSBkZXNpZ24gb2Ygb3B0ZWUtb3MgYW5kIHRydXN0ZWQtZmlybXdhcmUt
+YSwgYm90aCByZWNpcGVzIHdlcmUgcGxhY2VkIGluIG1ldGEtYXJtIG1ldGEgbGF5ZXIsIGh0dHBz
+Oi8vZ2l0LnlvY3RvcHJvamVjdC5vcmcvbWV0YS1hcm0vdHJlZQ0KQ2FuIEkgYWRkIGRlcGVuZGVu
+Y2llcyBpbiBib3RoIG1ldGEvY2xhc3Nlcy1yZWNpcGUvdWJvb3Qtc2lnbi5iYmNsYXNzIGFuZCBt
+ZXRhL2xpYi9vZXFhL3NlbGZ0ZXN0L2Nhc2VzL2ZpdGltYWdlLnB5Lg0KDQpPbmUgbW9yZSBxdWVz
+dGlvbiwgIiBUaGVyZSBhcmUgYWxzbyBubyBkb2N1bWVudGF0aW9uIHBhdGNoZXM/IiwgRGlkIHlv
+dSBtZWFuIHRvIHVwZGF0ZSBZb2N0byBkb2N1bWVudD8NCklmIHllcywgY291bGQgeW91IHBsZWFz
+ZSB0ZWxsIG1lIHdoaWNoIGRvY3VtZW50IEkgbmVlZCB0byB1cGRhdGU/DQoNClRoYW5rcy1KYW1p
+bg0KDQoNCg0KDQogDQoNCg0KDQoNCg0KDQo=
 
