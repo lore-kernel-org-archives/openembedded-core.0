@@ -1,80 +1,95 @@
-Return-Path: <adithya.balakumar@toshiba-tsip.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC190C47DB3
-	for <webhook@archiver.kernel.org>; Wed, 31 Jan 2024 11:04:46 +0000 (UTC)
-Received: from mo-csw.securemx.jp (mo-csw.securemx.jp [210.130.202.132])
- by mx.groups.io with SMTP id smtpd.web10.11537.1706699078538111236
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D431C47DDF
+	for <webhook@archiver.kernel.org>; Wed, 31 Jan 2024 12:04:47 +0000 (UTC)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+ by mx.groups.io with SMTP id smtpd.web10.12324.1706702685009266361
  for <openembedded-core@lists.openembedded.org>;
- Wed, 31 Jan 2024 03:04:39 -0800
+ Wed, 31 Jan 2024 04:04:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: toshiba-tsip.com, ip: 210.130.202.132, mailfrom: adithya.balakumar@toshiba-tsip.com)
-Received: by mo-csw.securemx.jp (mx-mo-csw1121) id 40VB4aFN208375; Wed, 31 Jan 2024 20:04:36 +0900
-X-Iguazu-Qid: 2rWh6c5guTX0COC4Fk
-X-Iguazu-QSIG: v=2; s=0; t=1706699076; q=2rWh6c5guTX0COC4Fk; m=h05Gh2PT5I/v0b3cnePbDlyIoNbkd8SKhlT3xKI/pho=
-Received: from imx12-a.toshiba.co.jp ([38.106.60.135])
-	by relay.securemx.jp (mx-mr1123) id 40VB4ZUe3788435
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 31 Jan 2024 20:04:35 +0900
-From: Adithya Balakumar <Adithya.Balakumar@toshiba-tsip.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Rjv0pUCE;
+ spf=pass (domain: gmail.com, ip: 209.85.167.54, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-51124d416e3so865841e87.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 31 Jan 2024 04:04:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706702683; x=1707307483; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7guO2eXt8SXR99wDTplufkgaRKWU148ZhWg9BDLi2wg=;
+        b=Rjv0pUCEebueBsXTuKJr/2lPWWTyHIh6KOW1D85qtTB5rYWrBICKoYEQhq8ugYdeYB
+         8vIvIsHxbV6ntPFjZVTQJnLYGJB2RoWpbeMyU4F08fel1nhKIgO0ldHw360yoyMy+4Ym
+         pwvKFXZMvlVIXQ8EuO8hLrUVfqndjjRQhO9gWUkkwaEud/8wR5TOxmrp2Te5eOWtUF6e
+         bSasZ444s/8Q9OooMHSqrevEHLElzRg9enMlLmZ+Kmo321gXANr0etwjZyrWwRioYoZm
+         L4/Z6iBMVUFqaZmPx/haizWmB7dQcaw28zL9OXgd0+H0ZxNGXGtztDGmW9ZRCw9iCPRp
+         gPpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706702683; x=1707307483;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7guO2eXt8SXR99wDTplufkgaRKWU148ZhWg9BDLi2wg=;
+        b=ljXTiOk0i3kFlB8yoZumYSIIeaNcc1fe4mlAqtrfTVkjwFWOqP3KkCBwU+1BYL8vg5
+         kAbdAlxGjoGYgzrlTr/Nwponohy9wbgUuIdTinlGE6pG/CbKWzx3y1R1K2YJc6xNthCy
+         /POheXp3jIdbU9YS66h/mFOZac0i8+KrlwXXO7ep93VVxgLWrNA+c+KULZ/IZz4qwoVI
+         hNuQa7PrfFy91zxMj6ZYoPG4pbk7HsrBWSSrYrUdeWwkJvcluB41gLnTD2SwxC5AYmh2
+         NU5XKakkykUzp9lSbdX9WjGk5d9AF4iY2awKtxjk7EM/ic7ND4rhDrB5kvoUojRlb0BV
+         SlsQ==
+X-Gm-Message-State: AOJu0YwhXVNwE1rthTu0o75unueNqGDtI/CFEqpNpuO68iDZNACeCDS+
+	CWbnvaJVki4lEi3OGEeSj34tWu63TGdAFkvz6bblHox3neDxXqCsiGmidt5m
+X-Google-Smtp-Source: AGHT+IH2yB3uSQI1N3fLffqiKb4J26z289rd5JktQ0WElXe0yNDePJWfp6d1nj6Pj/CLyRxLTEJKyQ==
+X-Received: by 2002:ac2:5bce:0:b0:511:17b7:db1a with SMTP id u14-20020ac25bce000000b0051117b7db1amr970474lfn.34.1706702682931;
+        Wed, 31 Jan 2024 04:04:42 -0800 (PST)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id t12-20020a05600c450c00b0040d5ae2906esm1429854wmo.30.2024.01.31.04.04.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 31 Jan 2024 04:04:42 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
-Cc: shivanand.kunijadar@toshiba-tsip.com, sai.sathujoda@toshiba-tsip.com,
-        dinesh.kumar@toshiba-tsip.com, kazuhiro3.hayashi@toshiba.co.jp,
-        adithya.balakumar@toshiba-tsip.com
-Subject: [OE-Core][PATCH v2] wic: implement reproducible Disk GUID
-Date: Wed, 31 Jan 2024 16:33:55 +0530
-X-TSB-HOP2: ON
-Message-Id: <20240131110355.2433724-1-Adithya.Balakumar@toshiba-tsip.com>
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 2/2] classes/package_rpm: streamline the logic in one of the condition blocks
+Date: Wed, 31 Jan 2024 13:04:38 +0100
+Message-Id: <20240131120438.1097632-2-alex@linutronix.de>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240131120438.1097632-1-alex@linutronix.de>
+References: <20240131120438.1097632-1-alex@linutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 31 Jan 2024 11:04:33.0647 (UTC) FILETIME=[4579EFF0:01DA5435]
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 31 Jan 2024 11:04:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194514
+ <openembedded-core@lists.openembedded.org>; Wed, 31 Jan 2024 12:04:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194516
 
-GPT based disks have a disk guid apart from the 32-bit disk identifier.
-This commit implements reproducible disk guid by using SOURCE_DATE_EPOCH (if available) value as a random seed
-
-Signed-off-by: Adithya Balakumar <Adithya.Balakumar@toshiba-tsip.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- scripts/lib/wic/plugins/imager/direct.py | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ meta/classes-global/package_rpm.bbclass | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
-index 9b619e41c1..a1d152659b 100644
---- a/scripts/lib/wic/plugins/imager/direct.py
-+++ b/scripts/lib/wic/plugins/imager/direct.py
-@@ -530,6 +530,16 @@ class PartitionedImage():
-         exec_native_cmd("parted -s %s mklabel %s" % (device, ptable_format),
-                         self.native_sysroot)
+diff --git a/meta/classes-global/package_rpm.bbclass b/meta/classes-global/package_rpm.bbclass
+index c9354734756..ffa0623af1d 100644
+--- a/meta/classes-global/package_rpm.bbclass
++++ b/meta/classes-global/package_rpm.bbclass
+@@ -243,13 +243,11 @@ python write_specfile () {
+                     p = path + '/' + dir
+                     # All packages own the directories their files are in...
+                     target.append(get_attr(dir) + '%dir "' + escape_chars(p) + '"')
+-            else:
++            elif path:
+                 # packages own only empty directories or explict directory.
+                 # This will prevent the overlapping of security permission.
+                 attr = get_attr(path)
+-                if path and not files and not dirs:
+-                    target.append(attr + '%dir "' + escape_chars(path) + '"')
+-                elif path and path in dirfiles:
++                if (not files and not dirs) or path in dirfiles:
+                     target.append(attr + '%dir "' + escape_chars(path) + '"')
  
-+    def _write_disk_guid(self):
-+        if self.ptable_format in ('gpt', 'gpt-hybrid'):
-+            if os.getenv('SOURCE_DATE_EPOCH'):
-+                self.disk_guid = uuid.UUID(int=int(os.getenv('SOURCE_DATE_EPOCH')))
-+            else:
-+                self.disk_guid = uuid.uuid4()
-+
-+            logger.debug("Set disk guid %s", self.disk_guid)
-+            sfdisk_cmd = "sfdisk --disk-id %s %s" % (self.path, self.disk_guid)
-+            exec_native_cmd(sfdisk_cmd, self.native_sysroot)
- 
-     def create(self):
-         self._make_disk(self.path,
-@@ -537,6 +547,7 @@ class PartitionedImage():
-                         self.min_size)
- 
-         self._write_identifier(self.path, self.identifier)
-+        self._write_disk_guid()
- 
-         if self.ptable_format == "gpt-hybrid":
-             mbr_path = self.path + ".mbr"
+             for file in files:
 -- 
 2.39.2
-
 
 
