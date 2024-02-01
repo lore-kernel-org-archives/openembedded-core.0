@@ -1,98 +1,71 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A82DC48286
-	for <webhook@archiver.kernel.org>; Thu,  1 Feb 2024 22:48:44 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.9812.1706827723017457632
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75E96C4828D
+	for <webhook@archiver.kernel.org>; Thu,  1 Feb 2024 22:51:14 +0000 (UTC)
+Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+ by mx.groups.io with SMTP id smtpd.web11.9826.1706827868729415870
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Feb 2024 14:48:43 -0800
+ Thu, 01 Feb 2024 14:51:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=RCrsO1aL;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=a5bB67bN;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018d66dc2ca5-7a8305b3-2036-4719-a9ea-8b0129aaded4-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1706827722; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=73M7LZ0TVUZemhSqtStZBeqLL0RQBELC+iVpDLbGf/o=;
-	b=RCrsO1aLgn4ch3Q69B6igd/Y7W2N9299yBvZTSOcRUm97kO8Sma0YJvgdaLivoWn
-	htaQbLp+SjPI9XJyF3/7VQuSJFta6K+EDobB43qw4veiaHygaF04DYy/oDqAzf+5Yf4
-	tCtFcO6eUMHAlkx9zQtmZO3HZCtsoBYL5tSEEgHs=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1706827722;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=73M7LZ0TVUZemhSqtStZBeqLL0RQBELC+iVpDLbGf/o=;
-	b=a5bB67bNlGJQJMUdBbwj18Wbkiryi1RTFTcWt/NLA89GL1mnm361KKSCtVSpjZet
-	97P2bAg0+I/Qkoaz0V+VsPU5JArEHOtdfAwGDE7Nyg6pE0BILk4Ex2OUy4RAYDGmJaT
-	qnN96ott/o+PqlmvJl0zfwIlW6i0aT/bG+WTMC2Y=
-From: patchtest@automation.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH v2] kexec-tools: Fix build with gas 2.42
-In-Reply-To: 20240201222849.873612-1-raj.khem@gmail.com
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018d66dc2ca5-7a8305b3-2036-4719-a9ea-8b0129aaded4-000000@us-west-2.amazonses.com>
-Date: Thu, 1 Feb 2024 22:48:41 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.02.01-54.240.27.29
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=YXH3dvFU;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-202402012251055aacf72786be9ba3bf-d4hrdb@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 202402012251055aacf72786be9ba3bf
+        for <openembedded-core@lists.openembedded.org>;
+        Thu, 01 Feb 2024 23:51:05 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=vou7s4hB1yj2erKs4L1C0Bf9WxhqG4k5VwZYfvsTB24=;
+ b=YXH3dvFUyzM1TQKecBcvJXG8JbfPfkUCrJjFMRcrQL1UqZJEt0ynlbrd/iN2R2oNyNe+ML
+ POfQFaoJVBTZ8TUG4lLHi2JLnbPr2H45WCZAY2YyMqpyMXe46MhdBEYGsR+osEhAjhmdDXjR
+ fppXhccNz3NUzkv0EOmNPSDRZd0XE=;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][kirkstone][PATCH] curl: ignore CVE-2023-42915
+Date: Thu,  1 Feb 2024 23:50:17 +0100
+Message-Id: <20240201225017.14667-1-peter.marko@siemens.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 Feb 2024 22:48:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194759
+ <openembedded-core@lists.openembedded.org>; Thu, 01 Feb 2024 22:51:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194760
 
---NextPart
-Content-Type: text/plain
+From: Peter Marko <peter.marko@siemens.com>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+This CVE reports that apple had to upgrade curl because of other
+already reported CVEs:
+* CVE-2023-38039: not affected, introduced in 7.84.0
+* CVE-2023-38545: patch already backported
+* CVE-2023-38546: patch already backported
+* CVE-2023-42915: reference to itself
 
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
-Testing patch /home/patchtest/share/mboxes/v2-kexec-tools-Fix-build-with-gas-2.42.patch
+ meta/recipes-support/curl/curl_7.82.0.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+diff --git a/meta/recipes-support/curl/curl_7.82.0.bb b/meta/recipes-support/curl/curl_7.82.0.bb
+index 9e9ff00bf7..965f05bc98 100644
+--- a/meta/recipes-support/curl/curl_7.82.0.bb
++++ b/meta/recipes-support/curl/curl_7.82.0.bb
+@@ -60,6 +60,9 @@ SRC_URI[sha256sum] = "0aaa12d7bd04b0966254f2703ce80dd5c38dbbd76af0297d3d690cdce5
+ # Curl has used many names over the years...
+ CVE_PRODUCT = "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:libcurl daniel_stenberg:curl"
+ 
++# This CVE reports that apple had to upgrade curl because of other already reported CVEs
++CVE_CHECK_IGNORE += "CVE-2023-42915"
++
+ inherit autotools pkgconfig binconfig multilib_header
+ 
+ # Entropy source for random PACKAGECONFIG option
+-- 
+2.30.2
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
