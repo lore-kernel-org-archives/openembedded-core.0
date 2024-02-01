@@ -1,106 +1,98 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7130C4828D
-	for <webhook@archiver.kernel.org>; Thu,  1 Feb 2024 19:38:02 +0000 (UTC)
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
- by mx.groups.io with SMTP id smtpd.web11.4931.1706816273591653789
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A8FEC4828E
+	for <webhook@archiver.kernel.org>; Thu,  1 Feb 2024 20:15:53 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.5943.1706818552053570461
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Feb 2024 11:37:53 -0800
+ Thu, 01 Feb 2024 12:15:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=cpM23bhn;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-6ddc0c02665so863435b3a.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 01 Feb 2024 11:37:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1706816273; x=1707421073; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vl0eAIhiGYkZlRENrZneh2pD0ndVybEqit5a4twiuqw=;
-        b=cpM23bhnOABz07SbW4X2rDhS4IwObklCjm8aWdzPRFCgeVNy2GU7USDNw1N0giuhNe
-         dxVPSxxapSqdhMsg6ARmgA836Vkb74FBzvvGR/jLxB9j6SqCR42Ue4GLyrv2Da38bDQV
-         XsK4mq9MExzUn4OdAyGveM4YWubMN5zc1AgeHL8eEbsPjMkUiznq0trp3mSTBv4WaqNq
-         wBKYXVz83l1z2c0Qa6AgLtW0STdNE/PQJkxzITdX8NgRcOzTEHbZlCsSJPCXOVRrS7yb
-         HZqSgAT62/nCy0IE0i0BugpKEpN6VdTjazgqLxJqcIkJRRENpDvvTMk+q9cS0PJiAx/Y
-         /Iew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706816273; x=1707421073;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vl0eAIhiGYkZlRENrZneh2pD0ndVybEqit5a4twiuqw=;
-        b=kbe80FsG8WzyRCR2b2+m17jmCswB8A7+4IseAX0RRWJWFfKAool3Jr/bWIR4u7Cceq
-         AXCnNtkyAlt9PqsoiLbiNyZMOYlwVMdLPMBKOe3BCmgkXtQjqiDmvcw2GJ1KuaAUcik7
-         Tb4NA0NwNsDvJ3z3/B2yIovYbmtCc8yJaOSFJMccW75QtD8sEJ4Szi9T3IW7CNDhfQrd
-         k22jizBT+XefNqnOIeohC02WzcV5c0GrTTIJkbAYKT8WOZZKIaVA6OGkM9Gdh5f4lP1W
-         Dy8sLFre1MdcuLaLzZGmwQVU0mDJtmsfaxmuKXcN/taC5EbBh+JdQxawnjKm7NrHvt1o
-         GHxw==
-X-Gm-Message-State: AOJu0YyFghgqmWsc7Q1PmARlE59CWW5KAD8DPx0zstx6ThQ1sMBAC1BY
-	k6Sy97IdYKQGfc+seoxEylTWC3CCkkbZ5hUPnJf0L5/ln5xgX9OgRk29XyQCNEopj0yFvQtlv7l
-	0Ejo=
-X-Google-Smtp-Source: AGHT+IHn/pdGWytbMYdz1cNHf2fV8jYIMcy+uOEX3FnCDl4ZC++xa4beAPzVJu80arXCIwbiXfZ42Q==
-X-Received: by 2002:a05:6a00:3206:b0:6db:b287:d43c with SMTP id bm6-20020a056a00320600b006dbb287d43cmr114876pfb.24.1706816272679;
-        Thu, 01 Feb 2024 11:37:52 -0800 (PST)
-Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id e10-20020a056a001a8a00b006dbdbe7f71csm109717pfv.98.2024.02.01.11.37.51
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Feb 2024 11:37:52 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 4/4] image-live.bbclass: LIVE_ROOTFS_TYPE support compression
-Date: Thu,  1 Feb 2024 09:37:42 -1000
-Message-Id: <60d88989698968c13f8e641f0ba1a82fcf700fb7.1706815725.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1706815725.git.steve@sakoman.com>
-References: <cover.1706815725.git.steve@sakoman.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=IRHKv3Ev;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=DPzUzbLj;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018d66503dd0-9d1ebf0c-6b50-4f23-9814-798a98ea9dd2-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1706818551; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
+	bh=wbJE0eBGokeG9OzHuk2huthVtYku/mBeIAO9yDXG4RM=;
+	b=IRHKv3EvM/tv0owr7B+TNGCivuPidpdlTQ9bTCqC0R4iKIhYKFJnJPJCnLcGmC8g
+	xHFA8BqhO00wi+BbvzpjdqbJDU5hfVp4/1n3q1PkXgNLI+k9NAZ6xnJvkaFSdvSm4B7
+	w3YAJATOzfuJLQTyIcFYYlxyvg8pLnLEKiq6hTM8=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1706818551;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=wbJE0eBGokeG9OzHuk2huthVtYku/mBeIAO9yDXG4RM=;
+	b=DPzUzbLjFyXU7QhZf7o8nvKetc14xNyX5nsE9wsnJA8kF0IdUYX0RLiVoaH02saF
+	I8qYih5jVSuMs4r6qNrTd0ECVOT5EJeK9J7nEZAE3NXq8PxJ3t9qfK06WbUFUSRIwo5
+	6w9Hml3wlJyRj5y363yNc2supKp+MWVY9FjBKHsQ=
+From: patchtest@automation.yoctoproject.org
+To: auh@yoctoproject.org
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [AUH] diffoscope: upgrading to 255 SUCCEEDED
+In-Reply-To: 0101018d65db810f-6dba7ac3-5043-4554-a7d9-cdf86023f938-000000@us-west-2.amazonses.com
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018d66503dd0-9d1ebf0c-6b50-4f23-9814-798a98ea9dd2-000000@us-west-2.amazonses.com>
+Date: Thu, 1 Feb 2024 20:15:51 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.02.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 Feb 2024 19:38:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194738
+ <openembedded-core@lists.openembedded.org>; Thu, 01 Feb 2024 20:15:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194740
 
-From: Ludovic Jozeau <ludovic.jozeau@smile.fr>
+--NextPart
+Content-Type: text/plain
 
-The task for fstypes with compression is the same as the task for the
-uncompressed fstypes, e.g. when adding tar.xz to `IMAGE_FSTYPES`, it will
-be included into the do_image_tar task and not creating a separate
-do_image_tar.xz task.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-This commit fixes `LIVE_ROOTFS_TYPE` with compressed fstypes by
-depending on the actual task instead of the non-existent
-do_image_<fstype>.<compression> task.
-
-Fixes [YOCTO #15331]
-
-Signed-off-by: Ludovic Jozeau <ludovic.jozeau@smile.fr>
-Reviewed-by: Yoann Congal <yoann.congal@smile.fr>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 67c507e3d42e52a6d452c4a453eeaf7f2e2d68d6)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/image-live.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Testing patch /home/patchtest/share/mboxes/AUH-diffoscope-upgrading-to-255-SUCCEEDED.patch
 
-diff --git a/meta/classes/image-live.bbclass b/meta/classes/image-live.bbclass
-index 2c948190cf..c0c1fb31ac 100644
---- a/meta/classes/image-live.bbclass
-+++ b/meta/classes/image-live.bbclass
-@@ -30,7 +30,7 @@ do_bootimg[depends] += "dosfstools-native:do_populate_sysroot \
-                         virtual/kernel:do_deploy \
-                         ${MLPREFIX}syslinux:do_populate_sysroot \
-                         syslinux-native:do_populate_sysroot \
--                        ${@'%s:do_image_%s' % (d.getVar('PN'), d.getVar('LIVE_ROOTFS_TYPE').replace('-', '_')) if d.getVar('ROOTFS') else ''} \
-+                        ${@'%s:do_image_%s' % (d.getVar('PN'), d.getVar('LIVE_ROOTFS_TYPE').replace('-', '_').split('.')[0]) if d.getVar('ROOTFS') else ''} \
-                         "
- 
- 
--- 
-2.34.1
+FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_off_by_presence)
+FAIL: test author valid: Invalid author Upgrade Helper <auh@yoctoproject.org>. Resend the series with a valid patch author (test_mbox.TestMbox.test_author_valid)
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
