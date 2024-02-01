@@ -2,48 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64C8DC54E8A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB97EC54EB8
 	for <webhook@archiver.kernel.org>; Thu,  1 Feb 2024 18:00:20 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.2098.1706810405337265200
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web10.2154.1706810405264903285
  for <openembedded-core@lists.openembedded.org>;
  Thu, 01 Feb 2024 10:00:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=RIB9PeSw;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=C3WomCvC;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018d65d3f4c0-e9a2ed2a-8b5d-40ce-941c-c3f7c3364288-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=CfNlL8pD;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=nrKDFmjo;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018d65d3f3f5-4e4ca967-8d2e-45a0-afa8-11a7dda6c26b-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1706810406;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=GgVy7oodiNd0LXYucwukRYqI+1414Jwtp4V0vRp01vg=;
-	b=RIB9PeSwsUxDYxN1QkqDgwlo3tj0cODhOVKMo/VABIMgeZ+KizD9d3r2R3mj+hWc
-	xzlSRSTpOjlGgd+iHItzH/tP92WmD2nA1jXVkIuCaJahrhIBoS0c20KnW/JTuPh8Pje
-	gLrth1Ed8lxpW6hVxTaQm3ibF87J74Yv7z8tpa70=
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=r90pfK5f1mGfmx6vLxknFRTMK2mX25d+ma+E9b+R6Tg=;
+	b=CfNlL8pDmeSy/EJEU4e1zcvxlP/qz/Uh+/NhIWRDuFuQUiu2sMvSIRiAwxC27Asw
+	09POUmMUyTbUJemdrlHmd7qJtWEjVH94aUEMk5lWB6A+JXKJJfPvd+GpLykfhuUvaHi
+	ah/thZcdBBKhmZ9CeM33hePl+R1Vlx4yR82e+8xc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1706810406;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=GgVy7oodiNd0LXYucwukRYqI+1414Jwtp4V0vRp01vg=;
-	b=C3WomCvCeIPmxTvKp5uG0xsuUCZuGkKvdlxtR3fFdQa4qDcoOFAbVWR+qbeBxtdK
-	HjzdBWpx0qd8D/D2OxQP/4LiDUBW/KOsA8hza5t5LCjBoNSbb3SzYJUbv36mIfDOkIV
-	eQS46NWhPqdJC3BuA7KHVLbJ5Ftp7Ow5c+1yf9Rk=
-Content-Type: multipart/mixed; boundary="===============6378157856995324992=="
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=r90pfK5f1mGfmx6vLxknFRTMK2mX25d+ma+E9b+R6Tg=;
+	b=nrKDFmjon7sY4ovF6AL6tNo9mRm7qlTOkcZdTQAQ/mVdP+h8ASlVyjZrwjX4NbG3
+	G0h/yZ9QW1nC/bfNs3HdmZUQO1ELiNhQcFYTAdrAGG8WHrMfM+jcTlVe2ZEeSDS7NMm
+	8ODJIOMYmjhcy/o/V49bMObxrL68Iv8OVyX3tC8o=
+Content-Type: multipart/mixed; boundary="===============8502881254752834237=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Randy MacLeod <Randy.MacLeod@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] rust-llvm: upgrading to 1.75.0 FAILED
-Message-ID: <0101018d65d3f4c0-e9a2ed2a-8b5d-40ce-941c-c3f7c3364288-000000@us-west-2.amazonses.com>
-Date: Thu, 1 Feb 2024 18:00:06 +0000
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] repo: upgrading to 2.41 SUCCEEDED
+Message-ID: <0101018d65d3f3f5-4e4ca967-8d2e-45a0-afa8-11a7dda6c26b-000000@us-west-2.amazonses.com>
+Date: Thu, 1 Feb 2024 18:00:05 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.02.01-54.240.27.45
+X-SES-Outgoing: 2024.02.01-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 Feb 2024 18:00:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194647
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194639
 
---===============6378157856995324992==
+--===============8502881254752834237==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,279 +50,161 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *rust-llvm* to *1.75.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *repo* to *2.41* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-repo-upgrade-2.40-2.41.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe rust-llvm failed.
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1852 entries from dependency cache.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.7.2"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-a9ebf1e0b9daabb9d605076da2686d974e931129"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:a9ebf1e0b9daabb9d605076da2686d974e931129"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 5 Local 5 Mirrors 0 Missed 0 Current 28 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-Loading cache...done.
-Loaded 1852 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 913 .bb files complete (911 cached, 2 parsed). 1850 targets, 35 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.7.2"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-a9ebf1e0b9daabb9d605076da2686d974e931129"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:a9ebf1e0b9daabb9d605076da2686d974e931129"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 6 Local 5 Mirrors 0 Missed 1 Current 22 (83% match, 96% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                    | ETA:  0:02:04
-Adding changed files:   1% |                                    | ETA:  0:01:30
-Adding changed files:   1% |                                    | ETA:  0:01:23
-Adding changed files:   2% |                                    | ETA:  0:01:15
-Adding changed files:   2% |                                    | ETA:  0:01:12
-Adding changed files:   3% |#                                   | ETA:  0:01:10
-Adding changed files:   3% |#                                   | ETA:  0:01:08
-Adding changed files:   4% |#                                   | ETA:  0:01:07
-Adding changed files:   4% |#                                   | ETA:  0:01:06
-Adding changed files:   5% |#                                   | ETA:  0:01:05
-Adding changed files:   6% |##                                  | ETA:  0:01:04
-Adding changed files:   6% |##                                  | ETA:  0:01:04
-Adding changed files:   7% |##                                  | ETA:  0:01:04
-Adding changed files:   7% |##                                  | ETA:  0:01:03
-Adding changed files:   8% |##                                  | ETA:  0:01:03
-Adding changed files:   8% |###                                 | ETA:  0:01:02
-Adding changed files:   9% |###                                 | ETA:  0:01:01
-Adding changed files:   9% |###                                 | ETA:  0:01:01
-Adding changed files:  10% |###                                 | ETA:  0:01:01
-Adding changed files:  11% |###                                 | ETA:  0:01:00
-Adding changed files:  11% |####                                | ETA:  0:01:00
-Adding changed files:  12% |####                                | ETA:  0:00:59
-Adding changed files:  12% |####                                | ETA:  0:00:59
-Adding changed files:  13% |####                                | ETA:  0:00:58
-Adding changed files:  13% |####                                | ETA:  0:00:57
-Adding changed files:  14% |#####                               | ETA:  0:00:57
-Adding changed files:  14% |#####                               | ETA:  0:00:57
-Adding changed files:  15% |#####                               | ETA:  0:00:56
-Adding changed files:  16% |#####                               | ETA:  0:00:56
-Adding changed files:  16% |#####                               | ETA:  0:00:55
-Adding changed files:  17% |######                              | ETA:  0:00:55
-Adding changed files:  17% |######                              | ETA:  0:00:55
-Adding changed files:  18% |######                              | ETA:  0:00:54
-Adding changed files:  18% |######                              | ETA:  0:00:54
-Adding changed files:  19% |######                              | ETA:  0:00:54
-Adding changed files:  19% |#######                             | ETA:  0:00:53
-Adding changed files:  20% |#######                             | ETA:  0:00:53
-Adding changed files:  21% |#######                             | ETA:  0:00:52
-Adding changed files:  21% |#######                             | ETA:  0:00:52
-Adding changed files:  22% |#######                             | ETA:  0:00:52
-Adding changed files:  22% |########                            | ETA:  0:00:51
-Adding changed files:  23% |########                            | ETA:  0:00:51
-Adding changed files:  23% |########                            | ETA:  0:00:50
-Adding changed files:  24% |########                            | ETA:  0:00:50
-Adding changed files:  24% |########                            | ETA:  0:00:50
-Adding changed files:  25% |#########                           | ETA:  0:00:49
-Adding changed files:  25% |#########                           | ETA:  0:00:49
-Adding changed files:  26% |#########                           | ETA:  0:00:48
-Adding changed files:  27% |#########                           | ETA:  0:00:48
-Adding changed files:  27% |#########                           | ETA:  0:00:48
-Adding changed files:  28% |##########                          | ETA:  0:00:47
-Adding changed files:  28% |##########                          | ETA:  0:00:47
-Adding changed files:  29% |##########                          | ETA:  0:00:47
-Adding changed files:  29% |##########                          | ETA:  0:00:46
-Adding changed files:  30% |##########                          | ETA:  0:00:46
-Adding changed files:  30% |###########                         | ETA:  0:00:46
-Adding changed files:  31% |###########                         | ETA:  0:00:45
-Adding changed files:  32% |###########                         | ETA:  0:00:45
-Adding changed files:  32% |###########                         | ETA:  0:00:46
-Adding changed files:  33% |###########                         | ETA:  0:00:46
-Adding changed files:  33% |############                        | ETA:  0:00:46
-Adding changed files:  34% |############                        | ETA:  0:00:45
-Adding changed files:  34% |############                        | ETA:  0:00:45
-Adding changed files:  35% |############                        | ETA:  0:00:45
-Adding changed files:  35% |############                        | ETA:  0:00:44
-Adding changed files:  36% |#############                       | ETA:  0:00:44
-Adding changed files:  37% |#############                       | ETA:  0:00:44
-Adding changed files:  37% |#############                       | ETA:  0:00:43
-Adding changed files:  38% |#############                       | ETA:  0:00:43
-Adding changed files:  38% |#############                       | ETA:  0:00:43
-Adding changed files:  39% |##############                      | ETA:  0:00:42
-Adding changed files:  39% |##############                      | ETA:  0:00:42
-Adding changed files:  40% |##############                      | ETA:  0:00:42
-Adding changed files:  40% |##############                      | ETA:  0:00:41
-Adding changed files:  41% |##############                      | ETA:  0:00:41
-Adding changed files:  42% |###############                     | ETA:  0:00:41
-Adding changed files:  42% |###############                     | ETA:  0:00:41
-Adding changed files:  43% |###############                     | ETA:  0:00:40
-Adding changed files:  43% |###############                     | ETA:  0:00:40
-Adding changed files:  44% |###############                     | ETA:  0:00:40
-Adding changed files:  44% |################                    | ETA:  0:00:39
-Adding changed files:  45% |################                    | ETA:  0:00:39
-Adding changed files:  45% |################                    | ETA:  0:00:39
-Adding changed files:  46% |################                    | ETA:  0:00:38
-Adding changed files:  46% |################                    | ETA:  0:00:38
-Adding changed files:  47% |#################                   | ETA:  0:00:37
-Adding changed files:  48% |#################                   | ETA:  0:00:37
-Adding changed files:  48% |#################                   | ETA:  0:00:37
-Adding changed files:  49% |#################                   | ETA:  0:00:36
-Adding changed files:  49% |#################                   | ETA:  0:00:36
-Adding changed files:  50% |##################                  | ETA:  0:00:36
-Adding changed files:  50% |##################                  | ETA:  0:00:35
-Adding changed files:  51% |##################                  | ETA:  0:00:35
-Adding changed files:  51% |##################                  | ETA:  0:00:35
-Adding changed files:  52% |##################                  | ETA:  0:00:34
-Adding changed files:  53% |###################                 | ETA:  0:00:34
-Adding changed files:  53% |###################                 | ETA:  0:00:34
-Adding changed files:  54% |###################                 | ETA:  0:00:33
-Adding changed files:  54% |###################                 | ETA:  0:00:33
-Adding changed files:  55% |###################                 | ETA:  0:00:32
-Adding changed files:  55% |####################                | ETA:  0:00:32
-Adding changed files:  56% |####################                | ETA:  0:00:32
-Adding changed files:  56% |####################                | ETA:  0:00:31
-Adding changed files:  57% |####################                | ETA:  0:00:31
-Adding changed files:  58% |####################                | ETA:  0:00:31
-Adding changed files:  58% |#####################               | ETA:  0:00:30
-Adding changed files:  59% |#####################               | ETA:  0:00:30
-Adding changed files:  59% |#####################               | ETA:  0:00:29
-Adding changed files:  60% |#####################               | ETA:  0:00:29
-Adding changed files:  60% |#####################               | ETA:  0:00:29
-Adding changed files:  61% |######################              | ETA:  0:00:28
-Adding changed files:  61% |######################              | ETA:  0:00:28
-Adding changed files:  62% |######################              | ETA:  0:00:28
-Adding changed files:  63% |######################              | ETA:  0:00:27
-Adding changed files:  63% |######################              | ETA:  0:00:27
-Adding changed files:  64% |#######################             | ETA:  0:00:26
-Adding changed files:  64% |#######################             | ETA:  0:00:26
-Adding changed files:  65% |#######################             | ETA:  0:00:26
-Adding changed files:  65% |#######################             | ETA:  0:00:25
-Adding changed files:  66% |#######################             | ETA:  0:00:25
-Adding changed files:  66% |########################            | ETA:  0:00:24
-Adding changed files:  67% |########################            | ETA:  0:00:24
-Adding changed files:  67% |########################            | ETA:  0:00:24
-Adding changed files:  68% |########################            | ETA:  0:00:23
-Adding changed files:  69% |########################            | ETA:  0:00:23
-Adding changed files:  69% |#########################           | ETA:  0:00:23
-Adding changed files:  70% |#########################           | ETA:  0:00:22
-Adding changed files:  70% |#########################           | ETA:  0:00:22
-Adding changed files:  71% |#########################           | ETA:  0:00:21
-Adding changed files:  71% |#########################           | ETA:  0:00:21
-Adding changed files:  72% |##########################          | ETA:  0:00:21
-Adding changed files:  72% |##########################          | ETA:  0:00:20
-Adding changed files:  73% |##########################          | ETA:  0:00:20
-Adding changed files:  74% |##########################          | ETA:  0:00:19
-Adding changed files:  74% |##########################          | ETA:  0:00:19
-Adding changed files:  75% |###########################         | ETA:  0:00:19
-Adding changed files:  75% |###########################         | ETA:  0:00:18
-Adding changed files:  76% |###########################         | ETA:  0:00:18
-Adding changed files:  76% |###########################         | ETA:  0:00:17
-Adding changed files:  77% |###########################         | ETA:  0:00:17
-Adding changed files:  77% |############################        | ETA:  0:00:16
-Adding changed files:  78% |############################        | ETA:  0:00:16
-Adding changed files:  79% |############################        | ETA:  0:00:16
-Adding changed files:  79% |############################        | ETA:  0:00:15
-Adding changed files:  80% |############################        | ETA:  0:00:15
-Adding changed files:  80% |#############################       | ETA:  0:00:14
-Adding changed files:  81% |#############################       | ETA:  0:00:14
-Adding changed files:  81% |#############################       | ETA:  0:00:14
-Adding changed files:  82% |#############################       | ETA:  0:00:13
-Adding changed files:  82% |#############################       | ETA:  0:00:13
-Adding changed files:  83% |##############################      | ETA:  0:00:12
-Adding changed files:  84% |##############################      | ETA:  0:00:12
-Adding changed files:  84% |##############################      | ETA:  0:00:11
-Adding changed files:  85% |##############################      | ETA:  0:00:11
-Adding changed files:  85% |##############################      | ETA:  0:00:11
-Adding changed files:  86% |###############################     | ETA:  0:00:10
-Adding changed files:  86% |###############################     | ETA:  0:00:10
-Adding changed files:  87% |###############################     | ETA:  0:00:09
-Adding changed files:  87% |###############################     | ETA:  0:00:09
-Adding changed files:  88% |###############################     | ETA:  0:00:08
-Adding changed files:  88% |################################    | ETA:  0:00:08
-Adding changed files:  89% |################################    | ETA:  0:00:08
-Adding changed files:  90% |################################    | ETA:  0:00:07
-Adding changed files:  90% |################################    | ETA:  0:00:07
-Adding changed files:  91% |################################    | ETA:  0:00:06
-Adding changed files:  91% |#################################   | ETA:  0:00:06
-Adding changed files:  92% |#################################   | ETA:  0:00:05
-Adding changed files:  92% |#################################   | ETA:  0:00:05
-Adding changed files:  93% |#################################   | ETA:  0:00:05
-Adding changed files:  93% |#################################   | ETA:  0:00:04
-Adding changed files:  94% |##################################  | ETA:  0:00:04
-Adding changed files:  95% |##################################  | ETA:  0:00:03
-Adding changed files:  95% |##################################  | ETA:  0:00:03
-Adding changed files:  96% |##################################  | ETA:  0:00:02
-Adding changed files:  96% |##################################  | ETA:  0:00:02
-Adding changed files:  97% |################################### | ETA:  0:00:02
-Adding changed files:  97% |################################### | ETA:  0:00:01
-Adding changed files:  98% |################################### | ETA:  0:00:01
-Adding changed files:  98% |################################### | ETA:  0:00:00
-Adding changed files:  99% |################################### | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:01:19
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://static.rust-lang.org/dist/rustc-1.75.0-src.tar.xz;name=rust...
-INFO: Rebasing devtool onto d8b50f86d0cd608aecbfaaece5f0545184fcaaee
-WARNING: Command 'git rebase d8b50f86d0cd608aecbfaaece5f0545184fcaaee' failed:
-Auto-merging vendor/libc/.cargo-checksum.json
-CONFLICT (content): Merge conflict in vendor/libc/.cargo-checksum.json
-Auto-merging vendor/libc/src/unix/linux_like/linux/musl/b32/arm/mod.rs
-Auto-merging vendor/libc/src/unix/linux_like/linux/musl/b32/hexagon.rs
-CONFLICT (content): Merge conflict in vendor/libc/src/unix/linux_like/linux/musl/b32/hexagon.rs
-Auto-merging vendor/libc/src/unix/linux_like/linux/musl/b32/mips/mod.rs
-Auto-merging vendor/libc/src/unix/linux_like/linux/musl/b32/powerpc.rs
-Auto-merging vendor/libc/src/unix/linux_like/linux/musl/b32/x86/mod.rs
-Auto-merging vendor/libc/src/unix/linux_like/linux/musl/b64/mod.rs
-CONFLICT (content): Merge conflict in vendor/libc/src/unix/linux_like/linux/musl/b64/mod.rs
-Auto-merging vendor/libc/src/unix/linux_like/linux/musl/mod.rs
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/workspace/sources/rust-llvm
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/workspace/recipes/rust-llvm/rust-llvm_1.75.0.bb
-WARNING: Version is pinned to 1.74% via PREFERRED_VERSION; it may need adjustment to match the new version before any further steps are taken
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============6378157856995324992==--
+
+-- >8 --
+From 62913c310f03e269abad25a2a49b0b9933913186 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Thu, 1 Feb 2024 09:04:50 +0000
+Subject: [PATCH] repo: upgrade 2.40 -> 2.41
+
+---
+ meta/recipes-devtools/repo/repo/0001-python3-shebang.patch | 7 +++----
+ meta/recipes-devtools/repo/{repo_2.40.bb => repo_2.41.bb}  | 2 +-
+ 2 files changed, 4 insertions(+), 5 deletions(-)
+ rename meta/recipes-devtools/repo/{repo_2.40.bb => repo_2.41.bb} (95%)
+
+diff --git a/meta/recipes-devtools/repo/repo/0001-python3-shebang.patch b/meta/recipes-devtools/repo/repo/0001-python3-shebang.patch
+index fba89a32d8..a3beb1cc7a 100644
+--- a/meta/recipes-devtools/repo/repo/0001-python3-shebang.patch
++++ b/meta/recipes-devtools/repo/repo/0001-python3-shebang.patch
+@@ -1,4 +1,4 @@
+-From b8e84b202cd302a7c99288d3835dc9c63071f8f2 Mon Sep 17 00:00:00 2001
++From af9098153447bebb21737dc64d59e247e7ad1a1a Mon Sep 17 00:00:00 2001
+ From: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
+ Date: Tue, 14 Sep 2021 16:46:51 +0200
+ Subject: [PATCH] python3 shebang
+@@ -8,12 +8,13 @@ python to python3.
+ 
+ Upstream-Status: Inappropriate [configuration]
+ Signed-off-by: Jasper Orschulko <Jasper.Orschulko@iris-sensing.com>
++
+ ---
+  repo | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/repo b/repo
+-index b13e34c..205e0e5 100755
++index b598c32..73bbce1 100755
+ --- a/repo
+ +++ b/repo
+ @@ -1,4 +1,4 @@
+@@ -22,5 +23,3 @@ index b13e34c..205e0e5 100755
+  #
+  # Copyright (C) 2008 The Android Open Source Project
+  #
+---
+-2.33.0
+diff --git a/meta/recipes-devtools/repo/repo_2.40.bb b/meta/recipes-devtools/repo/repo_2.41.bb
+similarity index 95%
+rename from meta/recipes-devtools/repo/repo_2.40.bb
+rename to meta/recipes-devtools/repo/repo_2.41.bb
+index e749ee1b76..4d614d9c5f 100644
+--- a/meta/recipes-devtools/repo/repo_2.40.bb
++++ b/meta/recipes-devtools/repo/repo_2.41.bb
+@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+ SRC_URI = "git://gerrit.googlesource.com/git-repo.git;protocol=https;branch=main \
+            file://0001-python3-shebang.patch \
+            "
+-SRCREV = "4c80921d22c20a28d531c9e3e8a0ce4433c6509d"
++SRCREV = "4217a82bec7b95c1a0bc7b081a1764a6a6d6c59b"
+ 
+ MIRRORS += "git://gerrit.googlesource.com/git-repo.git git://github.com/GerritCodeReview/git-repo.git"
+ 
+-- 
+2.42.0
+
+
+--===============8502881254752834237==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="0001-repo-upgrade-2.40-2.41.patch"
+
+RnJvbSA2MjkxM2MzMTBmMDNlMjY5YWJhZDI1YTJhNDliMGI5OTMzOTEzMTg2IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMSBGZWIgMjAyNCAwOTowNDo1MCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHJl
+cG86IHVwZ3JhZGUgMi40MCAtPiAyLjQxCgotLS0KIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9yZXBv
+L3JlcG8vMDAwMS1weXRob24zLXNoZWJhbmcucGF0Y2ggfCA3ICsrKy0tLS0KIG1ldGEvcmVjaXBl
+cy1kZXZ0b29scy9yZXBvL3tyZXBvXzIuNDAuYmIgPT4gcmVwb18yLjQxLmJifSAgfCAyICstCiAy
+IGZpbGVzIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgNSBkZWxldGlvbnMoLSkKIHJlbmFtZSBt
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcmVwby97cmVwb18yLjQwLmJiID0+IHJlcG9fMi40MS5iYn0g
+KDk1JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcmVwby9yZXBvLzAwMDEt
+cHl0aG9uMy1zaGViYW5nLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3JlcG8vcmVwby8w
+MDAxLXB5dGhvbjMtc2hlYmFuZy5wYXRjaAppbmRleCBmYmE4OWEzMmQ4Li5hM2JlYjFjYzdhIDEw
+MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcmVwby9yZXBvLzAwMDEtcHl0aG9uMy1z
+aGViYW5nLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9yZXBvL3JlcG8vMDAwMS1w
+eXRob24zLXNoZWJhbmcucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGI4ZTg0YjIwMmNkMzAy
+YTdjOTkyODhkMzgzNWRjOWM2MzA3MWY4ZjIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9t
+IGFmOTA5ODE1MzQ0N2JlYmIyMTczN2RjNjRkNTllMjQ3ZTdhZDFhMWEgTW9uIFNlcCAxNyAwMDow
+MDowMCAyMDAxCiBGcm9tOiBKYXNwZXIgT3JzY2h1bGtvIDxKYXNwZXIuT3JzY2h1bGtvQGlyaXMt
+c2Vuc2luZy5jb20+CiBEYXRlOiBUdWUsIDE0IFNlcCAyMDIxIDE2OjQ2OjUxICswMjAwCiBTdWJq
+ZWN0OiBbUEFUQ0hdIHB5dGhvbjMgc2hlYmFuZwpAQCAtOCwxMiArOCwxMyBAQCBweXRob24gdG8g
+cHl0aG9uMy4KIAogVXBzdHJlYW0tU3RhdHVzOiBJbmFwcHJvcHJpYXRlIFtjb25maWd1cmF0aW9u
+XQogU2lnbmVkLW9mZi1ieTogSmFzcGVyIE9yc2NodWxrbyA8SmFzcGVyLk9yc2NodWxrb0Bpcmlz
+LXNlbnNpbmcuY29tPgorCiAtLS0KICByZXBvIHwgMiArLQogIDEgZmlsZSBjaGFuZ2VkLCAxIGlu
+c2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogCiBkaWZmIC0tZ2l0IGEvcmVwbyBiL3JlcG8KLWlu
+ZGV4IGIxM2UzNGMuLjIwNWUwZTUgMTAwNzU1CitpbmRleCBiNTk4YzMyLi43M2JiY2UxIDEwMDc1
+NQogLS0tIGEvcmVwbwogKysrIGIvcmVwbwogQEAgLTEsNCArMSw0IEBACkBAIC0yMiw1ICsyMywz
+IEBAIGluZGV4IGIxM2UzNGMuLjIwNWUwZTUgMTAwNzU1CiAgIwogICMgQ29weXJpZ2h0IChDKSAy
+MDA4IFRoZSBBbmRyb2lkIE9wZW4gU291cmNlIFByb2plY3QKICAjCi0tLQotMi4zMy4wCmRpZmYg
+LS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcmVwby9yZXBvXzIuNDAuYmIgYi9tZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvcmVwby9yZXBvXzIuNDEuYmIKc2ltaWxhcml0eSBpbmRleCA5NSUKcmVu
+YW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3JlcG8vcmVwb18yLjQwLmJiCnJlbmFtZSB0
+byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcmVwby9yZXBvXzIuNDEuYmIKaW5kZXggZTc0OWVlMWI3
+Ni4uNGQ2MTRkOWM1ZiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3JlcG8vcmVw
+b18yLjQwLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9yZXBvL3JlcG9fMi40MS5iYgpA
+QCAtMTIsNyArMTIsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT0z
+YjgzZWY5NjM4N2YxNDY1NWZjODU0ZGRjM2M2YmQ1NyIKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2Vycml0
+Lmdvb2dsZXNvdXJjZS5jb20vZ2l0LXJlcG8uZ2l0O3Byb3RvY29sPWh0dHBzO2JyYW5jaD1tYWlu
+IFwKICAgICAgICAgICAgZmlsZTovLzAwMDEtcHl0aG9uMy1zaGViYW5nLnBhdGNoIFwKICAgICAg
+ICAgICAgIgotU1JDUkVWID0gIjRjODA5MjFkMjJjMjBhMjhkNTMxYzllM2U4YTBjZTQ0MzNjNjUw
+OWQiCitTUkNSRVYgPSAiNDIxN2E4MmJlYzdiOTVjMWEwYmM3YjA4MWExNzY0YTZhNmQ2YzU5YiIK
+IAogTUlSUk9SUyArPSAiZ2l0Oi8vZ2Vycml0Lmdvb2dsZXNvdXJjZS5jb20vZ2l0LXJlcG8uZ2l0
+IGdpdDovL2dpdGh1Yi5jb20vR2Vycml0Q29kZVJldmlldy9naXQtcmVwby5naXQiCiAKLS0gCjIu
+NDIuMAoK
+
+--===============8502881254752834237==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/repo: PKGV changed from 2.40 [default] to 2.41 [default]
+packages/core2-64-poky-linux/repo: PV changed from "2.40" to "2.41"
+packages/core2-64-poky-linux/repo/repo-dbg: PKGV changed from 2.40 [default] to 2.41 [default]
+packages/core2-64-poky-linux/repo/repo-dbg: PV changed from "2.40" to "2.41"
+packages/core2-64-poky-linux/repo/repo-dev: PKGV changed from 2.40 [default] to 2.41 [default]
+packages/core2-64-poky-linux/repo/repo-dev: PV changed from "2.40" to "2.41"
+packages/core2-64-poky-linux/repo/repo-doc: PKGV changed from 2.40 [default] to 2.41 [default]
+packages/core2-64-poky-linux/repo/repo-doc: PV changed from "2.40" to "2.41"
+packages/core2-64-poky-linux/repo/repo-locale: PKGV changed from 2.40 [default] to 2.41 [default]
+packages/core2-64-poky-linux/repo/repo-locale: PV changed from "2.40" to "2.41"
+packages/core2-64-poky-linux/repo/repo-src: PKGV changed from 2.40 [default] to 2.41 [default]
+packages/core2-64-poky-linux/repo/repo-src: PV changed from "2.40" to "2.41"
+packages/core2-64-poky-linux/repo/repo-staticdev: PKGV changed from 2.40 [default] to 2.41 [default]
+packages/core2-64-poky-linux/repo/repo-staticdev: PV changed from "2.40" to "2.41"
+packages/core2-64-poky-linux/repo/repo: PKGV changed from 2.40 [default] to 2.41 [default]
+packages/core2-64-poky-linux/repo/repo: PV changed from "2.40" to "2.41"
+packages/core2-64-poky-linux/repo/repo: PKGSIZE changed from 48178 to 46973 (-3%)
+
+--===============8502881254752834237==--
 
