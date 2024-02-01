@@ -2,98 +2,104 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 391F9C48291
-	for <webhook@archiver.kernel.org>; Thu,  1 Feb 2024 04:21:39 +0000 (UTC)
-Received: from esa2.hc1455-7.c3s2.iphmx.com (esa2.hc1455-7.c3s2.iphmx.com [207.54.90.48])
- by mx.groups.io with SMTP id smtpd.web10.8427.1706761296323151889
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F291C48292
+	for <webhook@archiver.kernel.org>; Thu,  1 Feb 2024 04:25:49 +0000 (UTC)
+Received: from esa5.hc1455-7.c3s2.iphmx.com (esa5.hc1455-7.c3s2.iphmx.com [68.232.139.130])
+ by mx.groups.io with SMTP id smtpd.web10.8471.1706761541583342744
  for <openembedded-core@lists.openembedded.org>;
- Wed, 31 Jan 2024 20:21:36 -0800
+ Wed, 31 Jan 2024 20:25:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=PqO8Im9U;
- spf=pass (domain: fujitsu.com, ip: 207.54.90.48, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=WbsSfUFl;
+ spf=pass (domain: fujitsu.com, ip: 68.232.139.130, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1706761297; x=1738297297;
+  t=1706761542; x=1738297542;
   h=from:to:cc:subject:date:message-id;
-  bh=cDSthGDq94iVyW097o1DwcE0r9J7YjALetKq4Sq2eB8=;
-  b=PqO8Im9UwOkL1EoPKYq9pJCyqG/tO0a1yXsaax7GI+pMB+5eBSYoVh/u
-   155XGiSWNKlz31qYHXgMpzEueTM+m06IPB4pHFZ1XOcognQOceVXsx5aN
-   1jacJdfOzPowMPj9ZrHNVpnSqWg3gUe6zqYo2+zKWG9n/2/kYj6h+TaUa
-   TFRcXHEiYNLBta3eZAP8v9tEExDA18a5fWDX6s4S+ltcooAVKIG/J9rwk
-   bEKhyKQx4R3r9AUNn8MFVPMV/csExzCwwoQZWBga5Dul+SNWIm5zA9Nqu
-   b+9ksM1FS6FXBNaVsJ4An3THit3+pbNbXT5r+/ywfXtMzLJLCGPb8fI5q
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="148010491"
+  bh=SOI58MPMOZVgFV70y7NfIgckLeYChVW/6Nv5Cr+tUOw=;
+  b=WbsSfUFlKeAYg0DWUGXWLRB/amkuhF511pOyBenxBvkUneJ5+12NjtYl
+   bM7fkPEeIYlIFo2t5wj4ONfPCiatab6vh1v2BWLE0yuXF1T1g6Ok+s1ZJ
+   Lmp2qve9Ts5x3IKHPy8I7mdX96D0AFgeVXuB44bLXffgaGLyRuffthhOe
+   1LQ05LHOcU6JcEIYbF+N2QMRMoqrr+ejJ8bQD+Hdd345iZgn6QpLbK6Ad
+   HkJanuJlxqJKhjck0zAo4g5DFXSh24ttIEFBD+CHUeiM510c+kY6prkZz
+   EO+mxmXpNu58wOLYHWAmtVPefhzYmlmclBhezzo5ipD4Cz9egbzqGJuSY
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="147471679"
 X-IronPort-AV: E=Sophos;i="6.05,234,1701097200"; 
-   d="scan'208";a="148010491"
+   d="scan'208";a="147471679"
 Received: from unknown (HELO yto-r4.gw.nic.fujitsu.com) ([218.44.52.220])
-  by esa2.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2024 13:21:34 +0900
-Received: from yto-m1.gw.nic.fujitsu.com (yto-nat-yto-m1.gw.nic.fujitsu.com [192.168.83.64])
-	by yto-r4.gw.nic.fujitsu.com (Postfix) with ESMTP id B17BF1730E1
-	for <openembedded-core@lists.openembedded.org>; Thu,  1 Feb 2024 13:21:28 +0900 (JST)
-Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
-	by yto-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id 02444CF7C7
-	for <openembedded-core@lists.openembedded.org>; Thu,  1 Feb 2024 13:21:28 +0900 (JST)
+  by esa5.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2024 13:25:39 +0900
+Received: from yto-m2.gw.nic.fujitsu.com (yto-nat-yto-m2.gw.nic.fujitsu.com [192.168.83.65])
+	by yto-r4.gw.nic.fujitsu.com (Postfix) with ESMTP id 10494174768
+	for <openembedded-core@lists.openembedded.org>; Thu,  1 Feb 2024 13:25:37 +0900 (JST)
+Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
+	by yto-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id 559ECD5628
+	for <openembedded-core@lists.openembedded.org>; Thu,  1 Feb 2024 13:25:36 +0900 (JST)
 Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id 858751EAC07
-	for <openembedded-core@lists.openembedded.org>; Thu,  1 Feb 2024 13:21:27 +0900 (JST)
+	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id DA7A920079DEC
+	for <openembedded-core@lists.openembedded.org>; Thu,  1 Feb 2024 13:25:35 +0900 (JST)
 Received: from vm4860.g01.fujitsu.local (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 2E0B21A006A;
-	Thu,  1 Feb 2024 12:21:27 +0800 (CST)
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 564511A006A;
+	Thu,  1 Feb 2024 12:25:35 +0800 (CST)
 From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] libwpe: upgrade 1.14.1 -> 1.14.2
-Date: Thu,  1 Feb 2024 12:20:49 +0800
-Message-Id: <1706761249-11942-1-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] lzip: upgrade 1.23 -> 1.24
+Date: Thu,  1 Feb 2024 12:21:55 +0800
+Message-Id: <1706761315-11997-1-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 X-TM-AS-GCONF: 00
 X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28156.000
 X-TM-AS-User-Approved-Sender: Yes
 X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28156.000
-X-TMASE-Result: 10--3.356900-10.000000
-X-TMASE-MatchedRID: dhm/lGuWeZijz0nOeth/yUIIxwDaU5mrXs5nqGvDCfO7N2IdiDgmM5Zh
-	jmb07zEXCC8aAmGeO6nqXvXKPBg5BmVjCRquYdk+EXjPIvKd74BUENBIMyKD0VGJGXffuLdvhTx
-	J68Al2VrJ7QyCkL9GiIZSCkD4rpM2SJD6DmpCD0fdCok3ibXlQX0tCKdnhB58I/9UW5M5dRNp7q
-	EhmmPgy46HM5rqDwqtnE9OZnBsbGC2lW9RKZMSIfX9wF+3tv7JrJ/pYOS/YP3fBPqnrrMLaxgJ3
-	Df9oW+04DPsTUth8KtYN4W8ITYmKCbd/WL2KmlFHSbhGbmGylXFJK7yLnZRGZdO3Q67ImL8gi4R
-	Uz90EQwG2MApbv6odw==
+X-TMASE-Result: 10--3.319700-10.000000
+X-TMASE-MatchedRID: rofoCPeR2CGjz0nOeth/yUIIxwDaU5mrKQNhMboqZlqxinR47PuWw4hP
+	UalxxqyH5F5HDiyPX4D08edkgvdYLFaBvJpACoM8zYK5U+QI3O6lL7hugWmfM1GJGXffuLdvuJE
+	UmdYPGSUppiuzBwGFPsYoh/qEF/tVoYY7KoErjW8ReM8i8p3vgFQQ0EgzIoPRKXqmmYTGpxiUg5
+	UD6AlF0rF9uGobEuT7gDLqnrRlXrbIDt27MLDp0t0H8LFZNFG76sBnwpOylLPCTvRnlrYUykZZF
+	mbcbhXiwSfpnHHuq51bl3ysPFYTG/OhKnx8+i9rz8n3EM8kSfbCZCQe0dDDz1QsOyiTUdiNShip
+	aNm3xuCIHqaUMp7VXtL/LK0d4I30Ze/gJB41STsbqpM7Cr+fvX7cGd19dSFd
 X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 Feb 2024 04:21:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194558
+ <openembedded-core@lists.openembedded.org>; Thu, 01 Feb 2024 04:25:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194559
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
 Changelog:
-==========
-- Allow resetting the fullscreen client to a null pointer.
-- Fix usage of the _wpe_loader_interface with the static loader.
+===========
+* New options '--empty-error' and '--marking-error'.
+* main.cc: Reformat file diagnostics as 'PROGRAM: FILE: MESSAGE'.
+  (show_option_error): New function showing argument and option name.
+  (main): Make -o preserve date/mode/owner if 1 input file.
+  (open_outstream): Create missing intermediate directories.
+* lzip.h: Rename verify_* to check_*.
+* configure, Makefile.in: New variable 'MAKEINFO'.
+* testsuite: New test files fox6.lz, fox6_mark.lz.
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- meta/recipes-sato/webkit/{libwpe_1.14.1.bb => libwpe_1.14.2.bb} | 2 +-
+ meta/recipes-extended/lzip/{lzip_1.23.bb => lzip_1.24.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-sato/webkit/{libwpe_1.14.1.bb => libwpe_1.14.2.bb} (88%)
+ rename meta/recipes-extended/lzip/{lzip_1.23.bb => lzip_1.24.bb} (93%)
 
-diff --git a/meta/recipes-sato/webkit/libwpe_1.14.1.bb b/meta/recipes-sato/webkit/libwpe_1.14.2.bb
-similarity index 88%
-rename from meta/recipes-sato/webkit/libwpe_1.14.1.bb
-rename to meta/recipes-sato/webkit/libwpe_1.14.2.bb
-index e63e1c8367..03ee88193d 100644
---- a/meta/recipes-sato/webkit/libwpe_1.14.1.bb
-+++ b/meta/recipes-sato/webkit/libwpe_1.14.2.bb
-@@ -11,7 +11,7 @@ inherit cmake features_check pkgconfig
- REQUIRED_DISTRO_FEATURES = "opengl"
+diff --git a/meta/recipes-extended/lzip/lzip_1.23.bb b/meta/recipes-extended/lzip/lzip_1.24.bb
+similarity index 93%
+rename from meta/recipes-extended/lzip/lzip_1.23.bb
+rename to meta/recipes-extended/lzip/lzip_1.24.bb
+index 12e8fa6c58..73040a6f00 100644
+--- a/meta/recipes-extended/lzip/lzip_1.23.bb
++++ b/meta/recipes-extended/lzip/lzip_1.24.bb
+@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=76d6e300ffd8fb9d18bd9b136a9bba13 \
+                     "
  
- SRC_URI = "https://wpewebkit.org/releases/${BPN}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "b1d0cdcf0f8dbb494e65b0f7913e357106da9a0d57f4fbb7b9d1238a6dbe9ade"
-+SRC_URI[sha256sum] = "8ae38022c50cb340c96fdbee1217f1e46ab57fbc1c8ba98142565abbedbe22ef"
+ SRC_URI = "${SAVANNAH_GNU_MIRROR}/lzip/lzip-${PV}.tar.gz"
+-SRC_URI[sha256sum] = "4792c047ddf15ef29d55ba8e68a1a21e0cb7692d87ecdf7204419864582f280d"
++SRC_URI[sha256sum] = "d42659229b10e066eeb6e81eb673cdd893b672e512d26719c2d95975556ca56c"
  
- # This is a tweak of upstream-version-is-even needed because
- # ipstream directory contains tarballs for other components as well.
+ B = "${WORKDIR}/build"
+ do_configure[cleandirs] = "${B}"
 -- 
 2.34.1
 
