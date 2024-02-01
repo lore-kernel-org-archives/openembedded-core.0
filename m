@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B986C54E64
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DA40C54E63
 	for <webhook@archiver.kernel.org>; Thu,  1 Feb 2024 18:00:19 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.2157.1706810405701359527
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.2123.1706810407961070556
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Feb 2024 10:00:07 -0800
+ Thu, 01 Feb 2024 10:00:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=YW+6R9w5;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=kUnb0hW4;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018d65d3fabd-3710b203-807e-45dd-8d94-8cbef2ed6c17-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=fQLCI0ca;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=j2TqsIvP;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018d65d3f7a1-ac0426d2-8383-4cb7-976c-2ab160b7c0aa-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1706810407;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=k+fK4Efc3PairjmiQr9V8g0MwpGkmuiEUTTHMD2ByFk=;
-	b=YW+6R9w5cRA1MBjShVaNg8O6btf9bSYWOQWeuAnyVIijVOvvJ/++JcvqJpqNKZL0
-	x7r4YB9z77E672zZc9P7GCOXwKU3QfR7l/o+vP+XeW0FFK1wJbZlfw9wgLmDrqWsVt2
-	MFyiiZZJyiPOyaO250uLutjz7/5rm0tyMXMnZtyI=
+	bh=ZE36tbECe4HvgwctgoqjSJpgyCH1dGAHFJfUTYlJTxY=;
+	b=fQLCI0caHaVn9zNRh4grXU+PCKcSbcQJc36RyqP9WngkMTDhoGCDSAFAfRqXC2X5
+	THPIeGmGxq48+endIYY+gzWjWCfKzDkMlUlqVQ5isF8EhchQMNW5mkHnVTUgWedIjs/
+	MPAxmMgzjlfga6sefGKK7wBxJVmgiKTnMC1RFFbE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1706810407;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=k+fK4Efc3PairjmiQr9V8g0MwpGkmuiEUTTHMD2ByFk=;
-	b=kUnb0hW4XUXLUA6QkbndUghpgb0j26VMrFpXxYK4raIc3W/LtJLMicOCVifp283A
-	I+hwXXXztRDFWj2h3+01U6Ej7U32AVyLPCUbZ0o9lISvr7uU4ToYdia+LXVwkI59UXi
-	Vbgjs8KkiqtZkM7JbZ5WMVxhjOibKQNnZ3bvA/Yo=
-Content-Type: multipart/mixed; boundary="===============4250862368329364293=="
+	bh=ZE36tbECe4HvgwctgoqjSJpgyCH1dGAHFJfUTYlJTxY=;
+	b=j2TqsIvPf4hLMZ+0Qk76+bDJR0C+qame8L0/vJyMj7tbErMQOi18MHShTiRm+bRg
+	Tn3dGOl39e892iElkd13KO0GjIS2KemvgXC5C43i/qDK8owudS/xWGBz7L832umtnY9
+	ccDWiNm5pG79+HnrCkmKS+Gr34KrVn2R1MRqqxPA=
+Content-Type: multipart/mixed; boundary="===============2672020417549447177=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Jose Quaresma <quaresma.jose@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gstreamer1.0-omx: upgrading to 1.22.9 SUCCEEDED
-Message-ID: <0101018d65d3fabd-3710b203-807e-45dd-8d94-8cbef2ed6c17-000000@us-west-2.amazonses.com>
-Date: Thu, 1 Feb 2024 18:00:07 +0000
+Subject: [AUH] spirv-headers: upgrading to 1.3.275.0 SUCCEEDED
+Message-ID: <0101018d65d3f7a1-ac0426d2-8383-4cb7-976c-2ab160b7c0aa-000000@us-west-2.amazonses.com>
+Date: Thu, 1 Feb 2024 18:00:06 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.02.01-54.240.27.31
+X-SES-Outgoing: 2024.02.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 Feb 2024 18:00:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194691
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194695
 
---===============4250862368329364293==
+--===============2672020417549447177==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gstreamer1.0-omx* to *1.22.9* has Succeeded.
+that the automatic attempt to upgrade the recipe *spirv-headers* to *1.3.275.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gstreamer1.0-omx-upgrade-1.22.8-1.22.9.patch
+    - apply the patch: git am 0001-spirv-headers-upgrade-1.3.268.0-1.3.275.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,91 +72,90 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From cb8f6aa6c895af08bbb0b5687752eee25c6061af Mon Sep 17 00:00:00 2001
+From 6e711aa6dedc17cf1850bcf1682de81db98ac9bb Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 1 Feb 2024 14:40:44 +0000
-Subject: [PATCH] gstreamer1.0-omx: upgrade 1.22.8 -> 1.22.9
+Date: Thu, 1 Feb 2024 13:20:19 +0000
+Subject: [PATCH] spirv-headers: upgrade 1.3.268.0 -> 1.3.275.0
 
 ---
- .../{gstreamer1.0-omx_1.22.8.bb => gstreamer1.0-omx_1.22.9.bb}  | 2 +-
+ .../{spirv-headers_1.3.268.0.bb => spirv-headers_1.3.275.0.bb}  | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-omx_1.22.8.bb => gstreamer1.0-omx_1.22.9.bb} (95%)
+ rename meta/recipes-graphics/spir/{spirv-headers_1.3.268.0.bb => spirv-headers_1.3.275.0.bb} (93%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.8.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.9.bb
-similarity index 95%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.8.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.9.bb
-index 5aa9c9cc41..05d64748bb 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.8.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.9.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
+diff --git a/meta/recipes-graphics/spir/spirv-headers_1.3.268.0.bb b/meta/recipes-graphics/spir/spirv-headers_1.3.275.0.bb
+similarity index 93%
+rename from meta/recipes-graphics/spir/spirv-headers_1.3.268.0.bb
+rename to meta/recipes-graphics/spir/spirv-headers_1.3.275.0.bb
+index 7045f70473..598a8fc209 100644
+--- a/meta/recipes-graphics/spir/spirv-headers_1.3.268.0.bb
++++ b/meta/recipes-graphics/spir/spirv-headers_1.3.275.0.bb
+@@ -4,7 +4,7 @@ HOMEPAGE = "https://www.khronos.org/registry/spir-v"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=c938b85bceb8fb26c1a807f28a52ae2d"
  
- SRC_URI = "https://gstreamer.freedesktop.org/src/gst-omx/gst-omx-${PV}.tar.xz"
- 
--SRC_URI[sha256sum] = "94df10e7713618f0c8a4223f6e047f2d8f0ccecba1d585618e791f13037762df"
-+SRC_URI[sha256sum] = "9362d6117985d09dcf6e27bdaef377dc08efb7df01d00101d04fb644addac61e"
- 
- S = "${WORKDIR}/gst-omx-${PV}"
- 
+-SRCREV = "e867c06631767a2d96424cbec530f9ee5e78180f"
++SRCREV = "1c6bb2743599e6eb6f37b2969acc0aef812e32e3"
+ SRC_URI = "git://github.com/KhronosGroup/SPIRV-Headers;protocol=https;branch=main"
+ PE = "1"
+ # These recipes need to be updated in lockstep with each other:
 -- 
 2.42.0
 
 
---===============4250862368329364293==
+--===============2672020417549447177==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-gstreamer1.0-omx-upgrade-1.22.8-1.22.9.patch"
+ filename="0001-spirv-headers-upgrade-1.3.268.0-1.3.275.0.patch"
 
-RnJvbSBjYjhmNmFhNmM4OTVhZjA4YmJiMGI1Njg3NzUyZWVlMjVjNjA2MWFmIE1vbiBTZXAgMTcg
+RnJvbSA2ZTcxMWFhNmRlZGMxN2NmMTg1MGJjZjE2ODJkZTgxZGI5OGFjOWJiIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMSBGZWIgMjAyNCAxNDo0MDo0NCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdz
-dHJlYW1lcjEuMC1vbXg6IHVwZ3JhZGUgMS4yMi44IC0+IDEuMjIuOQoKLS0tCiAuLi4ve2dzdHJl
-YW1lcjEuMC1vbXhfMS4yMi44LmJiID0+IGdzdHJlYW1lcjEuMC1vbXhfMS4yMi45LmJifSAgfCAy
-ICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFt
-ZSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIve2dzdHJlYW1lcjEuMC1vbXhfMS4y
-Mi44LmJiID0+IGdzdHJlYW1lcjEuMC1vbXhfMS4yMi45LmJifSAoOTUlKQoKZGlmZiAtLWdpdCBh
-L21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtb214XzEuMjIu
-OC5iYiBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtb214
-XzEuMjIuOS5iYgpzaW1pbGFyaXR5IGluZGV4IDk1JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMt
-bXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLW9teF8xLjIyLjguYmIKcmVuYW1lIHRv
-IG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtb214XzEuMjIu
-OS5iYgppbmRleCA1YWE5YzljYzQxLi4wNWQ2NDc0OGJiIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
-ZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLW9teF8xLjIyLjguYmIKKysrIGIv
-bWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1vbXhfMS4yMi45
-LmJiCkBAIC0xMCw3ICsxMCw3IEBAIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7
-bWQ1PTRmYmQ2NTM4MGNkZDI1NTk1MTA3OTAwOGIzNjQ1MTZjIFwKIAogU1JDX1VSSSA9ICJodHRw
-czovL2dzdHJlYW1lci5mcmVlZGVza3RvcC5vcmcvc3JjL2dzdC1vbXgvZ3N0LW9teC0ke1BWfS50
-YXIueHoiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI5NGRmMTBlNzcxMzYxOGYwYzhhNDIyM2Y2
-ZTA0N2YyZDhmMGNjZWNiYTFkNTg1NjE4ZTc5MWYxMzAzNzc2MmRmIgorU1JDX1VSSVtzaGEyNTZz
-dW1dID0gIjkzNjJkNjExNzk4NWQwOWRjZjZlMjdiZGFlZjM3N2RjMDhlZmI3ZGYwMWQwMDEwMWQw
-NGZiNjQ0YWRkYWM2MWUiCiAKIFMgPSAiJHtXT1JLRElSfS9nc3Qtb214LSR7UFZ9IgogCi0tIAoy
-LjQyLjAKCg==
+CkRhdGU6IFRodSwgMSBGZWIgMjAyNCAxMzoyMDoxOSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHNw
+aXJ2LWhlYWRlcnM6IHVwZ3JhZGUgMS4zLjI2OC4wIC0+IDEuMy4yNzUuMAoKLS0tCiAuLi4ve3Nw
+aXJ2LWhlYWRlcnNfMS4zLjI2OC4wLmJiID0+IHNwaXJ2LWhlYWRlcnNfMS4zLjI3NS4wLmJifSAg
+fCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJl
+bmFtZSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc3Bpci97c3BpcnYtaGVhZGVyc18xLjMuMjY4LjAu
+YmIgPT4gc3BpcnYtaGVhZGVyc18xLjMuMjc1LjAuYmJ9ICg5MyUpCgpkaWZmIC0tZ2l0IGEvbWV0
+YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIvc3BpcnYtaGVhZGVyc18xLjMuMjY4LjAuYmIgYi9tZXRh
+L3JlY2lwZXMtZ3JhcGhpY3Mvc3Bpci9zcGlydi1oZWFkZXJzXzEuMy4yNzUuMC5iYgpzaW1pbGFy
+aXR5IGluZGV4IDkzJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc3Bpci9zcGly
+di1oZWFkZXJzXzEuMy4yNjguMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Nw
+aXIvc3BpcnYtaGVhZGVyc18xLjMuMjc1LjAuYmIKaW5kZXggNzA0NWY3MDQ3My4uNTk4YThmYzIw
+OSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIvc3BpcnYtaGVhZGVyc18x
+LjMuMjY4LjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIvc3BpcnYtaGVhZGVy
+c18xLjMuMjc1LjAuYmIKQEAgLTQsNyArNCw3IEBAIEhPTUVQQUdFID0gImh0dHBzOi8vd3d3Lmto
+cm9ub3Mub3JnL3JlZ2lzdHJ5L3NwaXItdiIKIExJQ0VOU0UgPSAiTUlUIgogTElDX0ZJTEVTX0NI
+S1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9YzkzOGI4NWJjZWI4ZmIyNmMxYTgwN2YyOGE1MmFl
+MmQiCiAKLVNSQ1JFViA9ICJlODY3YzA2NjMxNzY3YTJkOTY0MjRjYmVjNTMwZjllZTVlNzgxODBm
+IgorU1JDUkVWID0gIjFjNmJiMjc0MzU5OWU2ZWI2ZjM3YjI5NjlhY2MwYWVmODEyZTMyZTMiCiBT
+UkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20vS2hyb25vc0dyb3VwL1NQSVJWLUhlYWRlcnM7cHJv
+dG9jb2w9aHR0cHM7YnJhbmNoPW1haW4iCiBQRSA9ICIxIgogIyBUaGVzZSByZWNpcGVzIG5lZWQg
+dG8gYmUgdXBkYXRlZCBpbiBsb2Nrc3RlcCB3aXRoIGVhY2ggb3RoZXI6Ci0tIAoyLjQyLjAKCg==
 
---===============4250862368329364293==
+--===============2672020417549447177==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/gstreamer1.0-omx/gstreamer1.0-omx-dbg: PV changed from "1.22.8" to "1.22.9"
-packages/core2-64-poky-linux/gstreamer1.0-omx/gstreamer1.0-omx-dbg: PKGV changed from 1.22.8 [default] to 1.22.9 [default]
-packages/core2-64-poky-linux/gstreamer1.0-omx/gstreamer1.0-omx-dev: PV changed from "1.22.8" to "1.22.9"
-packages/core2-64-poky-linux/gstreamer1.0-omx/gstreamer1.0-omx-dev: PKGV changed from 1.22.8 [default] to 1.22.9 [default]
-packages/core2-64-poky-linux/gstreamer1.0-omx/gstreamer1.0-omx-doc: PV changed from "1.22.8" to "1.22.9"
-packages/core2-64-poky-linux/gstreamer1.0-omx/gstreamer1.0-omx-doc: PKGV changed from 1.22.8 [default] to 1.22.9 [default]
-packages/core2-64-poky-linux/gstreamer1.0-omx/gstreamer1.0-omx-locale: PV changed from "1.22.8" to "1.22.9"
-packages/core2-64-poky-linux/gstreamer1.0-omx/gstreamer1.0-omx-locale: PKGV changed from 1.22.8 [default] to 1.22.9 [default]
-packages/core2-64-poky-linux/gstreamer1.0-omx/gstreamer1.0-omx-src: PV changed from "1.22.8" to "1.22.9"
-packages/core2-64-poky-linux/gstreamer1.0-omx/gstreamer1.0-omx-src: PKGV changed from 1.22.8 [default] to 1.22.9 [default]
-packages/core2-64-poky-linux/gstreamer1.0-omx/gstreamer1.0-omx-staticdev: PV changed from "1.22.8" to "1.22.9"
-packages/core2-64-poky-linux/gstreamer1.0-omx/gstreamer1.0-omx-staticdev: PKGV changed from 1.22.8 [default] to 1.22.9 [default]
-packages/core2-64-poky-linux/gstreamer1.0-omx/gstreamer1.0-omx: PV changed from "1.22.8" to "1.22.9"
-packages/core2-64-poky-linux/gstreamer1.0-omx/gstreamer1.0-omx: PKGV changed from 1.22.8 [default] to 1.22.9 [default]
-packages/core2-64-poky-linux/gstreamer1.0-omx: PKGV changed from 1.22.8 [default] to 1.22.9 [default]
-packages/core2-64-poky-linux/gstreamer1.0-omx: PV changed from "1.22.8" to "1.22.9"
-packages/core2-64-poky-linux/gstreamer1.0-omx: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-omx/gst-omx-1.22.8.tar.xz" to "https://gstreamer.freedesktop.org/src/gst-omx/gst-omx-1.22.9.tar.xz"
+packages/core2-64-poky-linux/spirv-headers: PKGV changed from 1.3.268.0 [default] to 1.3.275.0 [default]
+packages/core2-64-poky-linux/spirv-headers: PV changed from "1.3.268.0" to "1.3.275.0"
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-dbg: PKGV changed from 1.3.268.0 [default] to 1.3.275.0 [default]
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-dbg: PV changed from "1.3.268.0" to "1.3.275.0"
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-dev: PKGSIZE changed from 2902543 to 2907497 (+0%)
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-dev: PKGV changed from 1.3.268.0 [default] to 1.3.275.0 [default]
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-dev: PV changed from "1.3.268.0" to "1.3.275.0"
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-doc: PKGV changed from 1.3.268.0 [default] to 1.3.275.0 [default]
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-doc: PV changed from "1.3.268.0" to "1.3.275.0"
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-locale: PKGV changed from 1.3.268.0 [default] to 1.3.275.0 [default]
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-locale: PV changed from "1.3.268.0" to "1.3.275.0"
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-src: PKGV changed from 1.3.268.0 [default] to 1.3.275.0 [default]
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-src: PV changed from "1.3.268.0" to "1.3.275.0"
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-staticdev: PKGV changed from 1.3.268.0 [default] to 1.3.275.0 [default]
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-staticdev: PV changed from "1.3.268.0" to "1.3.275.0"
+packages/core2-64-poky-linux/spirv-headers/spirv-headers: PKGV changed from 1.3.268.0 [default] to 1.3.275.0 [default]
+packages/core2-64-poky-linux/spirv-headers/spirv-headers: PV changed from "1.3.268.0" to "1.3.275.0"
 
---===============4250862368329364293==--
+--===============2672020417549447177==--
 
