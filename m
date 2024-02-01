@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 890D3C48BF9
-	for <webhook@archiver.kernel.org>; Thu,  1 Feb 2024 18:00:16 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web10.2149.1706810405005390391
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53684C54788
+	for <webhook@archiver.kernel.org>; Thu,  1 Feb 2024 18:00:17 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web11.2122.1706810407365288911
  for <openembedded-core@lists.openembedded.org>;
  Thu, 01 Feb 2024 10:00:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Yk+r/yaQ;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=QQW3ChWQ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018d65d3f8aa-605e19f0-abcc-48d0-a761-716c2670c4b9-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Jsr+1pYb;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=SOr2nR1b;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018d65d3f664-0ace2774-e4b3-42b8-9091-cf45091cfd21-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1706810407;
+	t=1706810406;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=JlH8wT/HK2n9rtOd26O87Uoh7KnWqhwutd2pp49r7TA=;
-	b=Yk+r/yaQ7jRQU3HHio7VdjoQkHH0A5P+DwA51zae1fVLuwMjgGDqVLoT7rsKoIMe
-	HR3Mwu/CUzMTqOiumetQERCewDj2DJD0QHeULkVmgIHjJjzMZwUYLQgp5Qamc4lyfRJ
-	ZHQzqe1tMCkBY+Yim1sUYbkYYosoWvmxLY64vGh0=
+	bh=dg7KvSsu8k7SiWXujJZDOMNitG4jYCHVIWIdfyCV+pA=;
+	b=Jsr+1pYbbtsI6iU8GLQeKYSB0vUT5ybvHNDUl2OYMuGaW5cV7dIfdfSpE/2ZT/PY
+	Cgzi66N6fBa/rzqGZc3ITwT1TtZWnZMpplbwoNvSMK/G8muhVPmhvwtJzfB1Pa510zE
+	ajIXQknDDAzJSeg5FL09TjOiEcWClXQFR7nb4lHI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1706810407;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1706810406;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=JlH8wT/HK2n9rtOd26O87Uoh7KnWqhwutd2pp49r7TA=;
-	b=QQW3ChWQk9zLS9VGmCBtN8ycIAC8ZfwkXsYiWjRTpy7wFiGa+LMCwEjazNUT47WE
-	xQ7g/ff10GqZz4r6nYMSKCLj0fRy5lGZ5lBjfgjzATo92YWmAJo3/IHV6eI+pJLOHIN
-	LCIWHVhm7wuyVFJCUQtDnZdSbO9GYarKyG9NrTMs=
-Content-Type: multipart/mixed; boundary="===============8942802273366496436=="
+	bh=dg7KvSsu8k7SiWXujJZDOMNitG4jYCHVIWIdfyCV+pA=;
+	b=SOr2nR1bg7q8LdOuENXzy3FjaYBGBq6SltPVE6qX0lCID8/iFcVz4D0W4rceXic1
+	let/pZszNvn6vdLcyA8zF0k5k4Tf7M6geGNNID4hGEVaHF5dgAzTHcW4gHf/2lYgyOm
+	dOgbDPgm4GiYC+R0iDNcXx1DB5Yx16oKS2Yaan84=
+Content-Type: multipart/mixed; boundary="===============1717303151836247756=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] vulkan-utility-libraries: upgrading to 1.3.275.0 FAILED
-Message-ID: <0101018d65d3f8aa-605e19f0-abcc-48d0-a761-716c2670c4b9-000000@us-west-2.amazonses.com>
-Date: Thu, 1 Feb 2024 18:00:07 +0000
+Subject: [AUH] mc: upgrading to 4.8.31 SUCCEEDED
+Message-ID: <0101018d65d3f664-0ace2774-e4b3-42b8-9091-cf45091cfd21-000000@us-west-2.amazonses.com>
+Date: Thu, 1 Feb 2024 18:00:06 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.02.01-54.240.27.23
+X-SES-Outgoing: 2024.02.01-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 Feb 2024 18:00:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194688
+ <openembedded-core@lists.openembedded.org>; Thu, 01 Feb 2024 18:00:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194676
 
---===============8942802273366496436==
+--===============1717303151836247756==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *vulkan-utility-libraries* to *1.3.275.0* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *mc* to *4.8.31* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-vulkan-utility-libraries-upgrade-1.3.268.0-1.3.275.0.patch
+    - apply the patch: git am 0001-mc-upgrade-4.8.30-4.8.31.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,586 +72,314 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From b158d7be28c4ebcc75f821301491cdfad8e01f34 Mon Sep 17 00:00:00 2001
+From d427c13ee6e4887caefd56ccbfd989589075f9c4 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 1 Feb 2024 13:43:13 +0000
-Subject: [PATCH] vulkan-utility-libraries: upgrade 1.3.268.0 -> 1.3.275.0
+Date: Thu, 1 Feb 2024 11:34:49 +0000
+Subject: [PATCH] mc: upgrade 4.8.30 -> 4.8.31
 
 ---
- ...aries_1.3.268.0.bb => vulkan-utility-libraries_1.3.275.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/vulkan/{vulkan-utility-libraries_1.3.268.0.bb => vulkan-utility-libraries_1.3.275.0.bb} (95%)
+ meta/recipes-extended/mc/files/nomandate.patch          | 4 ++--
+ meta/recipes-extended/mc/{mc_4.8.30.bb => mc_4.8.31.bb} | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-extended/mc/{mc_4.8.30.bb => mc_4.8.31.bb} (97%)
 
-diff --git a/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.268.0.bb b/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.275.0.bb
-similarity index 95%
-rename from meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.268.0.bb
-rename to meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.275.0.bb
-index fee4ba6cc9..759a03926b 100644
---- a/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.268.0.bb
-+++ b/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.275.0.bb
-@@ -10,7 +10,7 @@ LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE.md;md5=4ca2d6799091aaa98a8520f1b793939b"
+diff --git a/meta/recipes-extended/mc/files/nomandate.patch b/meta/recipes-extended/mc/files/nomandate.patch
+index 4ebaaa2fa7..bdc033007c 100644
+--- a/meta/recipes-extended/mc/files/nomandate.patch
++++ b/meta/recipes-extended/mc/files/nomandate.patch
+@@ -1,4 +1,4 @@
+-From 4482ed0b8bd506cc2590ceacfdada6cc34450796 Mon Sep 17 00:00:00 2001
++From 9488c7f9f1e5c207f1c5b5f8ac5cfd949b2ed6ef Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Tue, 4 Feb 2020 18:12:15 +0000
+ Subject: [PATCH] mc: Fix manpage date indeterminism
+@@ -21,7 +21,7 @@ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
- SRC_URI = "git://github.com/KhronosGroup/Vulkan-Utility-Libraries.git;branch=main;protocol=https"
--SRCREV = "c9ca4ac620a238a93c65d864f2eaa33954d74509"
-+SRCREV = "4cfc176e3242b4dbdfd3f6c5680c5d8f2cb7db45"
+ diff --git a/doc/man/date-of-man-include.am b/doc/man/date-of-man-include.am
+-index c6b1e69..165a796 100644
++index 96f9f10..d734c5d 100644
+ --- a/doc/man/date-of-man-include.am
+ +++ b/doc/man/date-of-man-include.am
+ @@ -1,5 +1,5 @@
+diff --git a/meta/recipes-extended/mc/mc_4.8.30.bb b/meta/recipes-extended/mc/mc_4.8.31.bb
+similarity index 97%
+rename from meta/recipes-extended/mc/mc_4.8.30.bb
+rename to meta/recipes-extended/mc/mc_4.8.31.bb
+index 258ac38e15..b6e5a1f98c 100644
+--- a/meta/recipes-extended/mc/mc_4.8.30.bb
++++ b/meta/recipes-extended/mc/mc_4.8.31.bb
+@@ -11,7 +11,7 @@ RRECOMMENDS:${PN} = "ncurses-terminfo"
+ SRC_URI = "http://www.midnight-commander.org/downloads/${BPN}-${PV}.tar.bz2 \
+            file://nomandate.patch \
+            "
+-SRC_URI[sha256sum] = "38171f22f889e3030ec9055463d3ecd7843984ab24e6497d8294d1c441a7ddb4"
++SRC_URI[sha256sum] = "f42f4114ed42f6cf9995f1d896fa6c797ccb36dac57760dda8dd9f78ac462841"
  
- S = "${WORKDIR}/git"
+ inherit autotools gettext pkgconfig
  
 -- 
 2.42.0
 
 
---===============8942802273366496436==
+--===============1717303151836247756==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-vulkan-utility-libraries-upgrade-1.3.268.0-1.3.275.0.patch"
+ filename="0001-mc-upgrade-4.8.30-4.8.31.patch"
 
-RnJvbSBiMTU4ZDdiZTI4YzRlYmNjNzVmODIxMzAxNDkxY2RmYWQ4ZTAxZjM0IE1vbiBTZXAgMTcg
+RnJvbSBkNDI3YzEzZWU2ZTQ4ODdjYWVmZDU2Y2NiZmQ5ODk1ODkwNzVmOWM0IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMSBGZWIgMjAyNCAxMzo0MzoxMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHZ1
-bGthbi11dGlsaXR5LWxpYnJhcmllczogdXBncmFkZSAxLjMuMjY4LjAgLT4gMS4zLjI3NS4wCgot
-LS0KIC4uLmFyaWVzXzEuMy4yNjguMC5iYiA9PiB2dWxrYW4tdXRpbGl0eS1saWJyYXJpZXNfMS4z
-LjI3NS4wLmJifSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxl
-dGlvbigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1ncmFwaGljcy92dWxrYW4ve3Z1bGthbi11dGls
-aXR5LWxpYnJhcmllc18xLjMuMjY4LjAuYmIgPT4gdnVsa2FuLXV0aWxpdHktbGlicmFyaWVzXzEu
-My4yNzUuMC5iYn0gKDk1JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVs
-a2FuL3Z1bGthbi11dGlsaXR5LWxpYnJhcmllc18xLjMuMjY4LjAuYmIgYi9tZXRhL3JlY2lwZXMt
-Z3JhcGhpY3MvdnVsa2FuL3Z1bGthbi11dGlsaXR5LWxpYnJhcmllc18xLjMuMjc1LjAuYmIKc2lt
-aWxhcml0eSBpbmRleCA5NSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1bGth
-bi92dWxrYW4tdXRpbGl0eS1saWJyYXJpZXNfMS4zLjI2OC4wLmJiCnJlbmFtZSB0byBtZXRhL3Jl
-Y2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi11dGlsaXR5LWxpYnJhcmllc18xLjMuMjc1LjAu
-YmIKaW5kZXggZmVlNGJhNmNjOS4uNzU5YTAzOTI2YiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
-LWdyYXBoaWNzL3Z1bGthbi92dWxrYW4tdXRpbGl0eS1saWJyYXJpZXNfMS4zLjI2OC4wLmJiCisr
-KyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy92dWxrYW4vdnVsa2FuLXV0aWxpdHktbGlicmFyaWVz
-XzEuMy4yNzUuMC5iYgpAQCAtMTAsNyArMTAsNyBAQCBMSUNFTlNFID0gIkFwYWNoZS0yLjAiCiBM
-SUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFLm1kO21kNT00Y2EyZDY3OTkwOTFhYWE5
-OGE4NTIwZjFiNzkzOTM5YiIKIAogU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL0tocm9ub3NH
-cm91cC9WdWxrYW4tVXRpbGl0eS1MaWJyYXJpZXMuZ2l0O2JyYW5jaD1tYWluO3Byb3RvY29sPWh0
-dHBzIgotU1JDUkVWID0gImM5Y2E0YWM2MjBhMjM4YTkzYzY1ZDg2NGYyZWFhMzM5NTRkNzQ1MDki
-CitTUkNSRVYgPSAiNGNmYzE3NmUzMjQyYjRkYmRmZDNmNmM1NjgwYzVkOGYyY2I3ZGI0NSIKIAog
-UyA9ICIke1dPUktESVJ9L2dpdCIKIAotLSAKMi40Mi4wCgo=
+CkRhdGU6IFRodSwgMSBGZWIgMjAyNCAxMTozNDo0OSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG1j
+OiB1cGdyYWRlIDQuOC4zMCAtPiA0LjguMzEKCi0tLQogbWV0YS9yZWNpcGVzLWV4dGVuZGVkL21j
+L2ZpbGVzL25vbWFuZGF0ZS5wYXRjaCAgICAgICAgICB8IDQgKystLQogbWV0YS9yZWNpcGVzLWV4
+dGVuZGVkL21jL3ttY180LjguMzAuYmIgPT4gbWNfNC44LjMxLmJifSB8IDIgKy0KIDIgZmlsZXMg
+Y2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVj
+aXBlcy1leHRlbmRlZC9tYy97bWNfNC44LjMwLmJiID0+IG1jXzQuOC4zMS5iYn0gKDk3JSkKCmRp
+ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbWMvZmlsZXMvbm9tYW5kYXRlLnBhdGNo
+IGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL21jL2ZpbGVzL25vbWFuZGF0ZS5wYXRjaAppbmRleCA0
+ZWJhYWEyZmE3Li5iZGMwMzMwMDdjIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQv
+bWMvZmlsZXMvbm9tYW5kYXRlLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9tYy9m
+aWxlcy9ub21hbmRhdGUucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDQ0ODJlZDBiOGJkNTA2
+Y2MyNTkwY2VhY2ZkYWRhNmNjMzQ0NTA3OTYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9t
+IDk0ODhjN2Y5ZjFlNWMyMDdmMWM1YjVmOGFjNWNmZDk0OWIyZWQ2ZWYgTW9uIFNlcCAxNyAwMDow
+MDowMCAyMDAxCiBGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3Vu
+ZGF0aW9uLm9yZz4KIERhdGU6IFR1ZSwgNCBGZWIgMjAyMCAxODoxMjoxNSArMDAwMAogU3ViamVj
+dDogW1BBVENIXSBtYzogRml4IG1hbnBhZ2UgZGF0ZSBpbmRldGVybWluaXNtCkBAIC0yMSw3ICsy
+MSw3IEBAIFNpZ25lZC1vZmYtYnk6IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51
+eGZvdW5kYXRpb24ub3JnPgogIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxl
+dGlvbigtKQogCiBkaWZmIC0tZ2l0IGEvZG9jL21hbi9kYXRlLW9mLW1hbi1pbmNsdWRlLmFtIGIv
+ZG9jL21hbi9kYXRlLW9mLW1hbi1pbmNsdWRlLmFtCi1pbmRleCBjNmIxZTY5Li4xNjVhNzk2IDEw
+MDY0NAoraW5kZXggOTZmOWYxMC4uZDczNGM1ZCAxMDA2NDQKIC0tLSBhL2RvYy9tYW4vZGF0ZS1v
+Zi1tYW4taW5jbHVkZS5hbQogKysrIGIvZG9jL21hbi9kYXRlLW9mLW1hbi1pbmNsdWRlLmFtCiBA
+QCAtMSw1ICsxLDUgQEAKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9tYy9tY180
+LjguMzAuYmIgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbWMvbWNfNC44LjMxLmJiCnNpbWlsYXJp
+dHkgaW5kZXggOTclCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9tYy9tY180Ljgu
+MzAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9tYy9tY180LjguMzEuYmIKaW5k
+ZXggMjU4YWMzOGUxNS4uYjZlNWExZjk4YyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVu
+ZGVkL21jL21jXzQuOC4zMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbWMvbWNfNC44
+LjMxLmJiCkBAIC0xMSw3ICsxMSw3IEBAIFJSRUNPTU1FTkRTOiR7UE59ID0gIm5jdXJzZXMtdGVy
+bWluZm8iCiBTUkNfVVJJID0gImh0dHA6Ly93d3cubWlkbmlnaHQtY29tbWFuZGVyLm9yZy9kb3du
+bG9hZHMvJHtCUE59LSR7UFZ9LnRhci5iejIgXAogICAgICAgICAgICBmaWxlOi8vbm9tYW5kYXRl
+LnBhdGNoIFwKICAgICAgICAgICAgIgotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjM4MTcxZjIyZjg4
+OWUzMDMwZWM5MDU1NDYzZDNlY2Q3ODQzOTg0YWIyNGU2NDk3ZDgyOTRkMWM0NDFhN2RkYjQiCitT
+UkNfVVJJW3NoYTI1NnN1bV0gPSAiZjQyZjQxMTRlZDQyZjZjZjk5OTVmMWQ4OTZmYTZjNzk3Y2Ni
+MzZkYWM1Nzc2MGRkYThkZDlmNzhhYzQ2Mjg0MSIKIAogaW5oZXJpdCBhdXRvdG9vbHMgZ2V0dGV4
+dCBwa2djb25maWcKIAotLSAKMi40Mi4wCgo=
 
---===============8942802273366496436==
+--===============1717303151836247756==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1849 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 912 .bb files complete (911 cached, 1 parsed). 1849 targets, 35 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/core2-64-poky-linux/mc/mc-fish: FILELIST: removed all items "/usr/libexec/mc/fish/README.fish /usr/libexec/mc/fish/fexists /usr/libexec/mc/fish/ln /usr/libexec/mc/fish/mkdir /usr/libexec/mc/fish/rmdir /usr/libexec/mc/fish/chown /usr/libexec/mc/fish/hardlink /usr/libexec/mc/fish/append /usr/libexec/mc/fish/utime /usr/libexec/mc/fish/info /usr/libexec/mc/fish/get /usr/libexec/mc/fish/chmod /usr/libexec/mc/fish/mv /usr/libexec/mc/fish/unlink /usr/libexec/mc/fish/ls /usr/libexec/mc/fish/send"
+packages/core2-64-poky-linux/mc/mc-fish: PKGSIZE changed from 17132 to 0 (-100%)
+packages/core2-64-poky-linux/mc/mc: FILELIST: added "/usr/libexec/mc/shell/hardlink /usr/libexec/mc/shell/mkdir /usr/libexec/mc/shell/rmdir /usr/libexec/mc/shell/info /usr/libexec/mc/shell/send /usr/libexec/mc/shell/append /usr/libexec/mc/shell/chmod /usr/libexec/mc/shell/ln /usr/libexec/mc/shell/get /usr/libexec/mc/shell/unlink /usr/libexec/mc/shell/chown /usr/libexec/mc/shell/ls /usr/libexec/mc/shell/mv /usr/libexec/mc/shell/README.shell /usr/libexec/mc/shell/utime /usr/libexec/mc/shell/fexists"
 
-Build Configuration:
-BB_VERSION           = "2.7.2"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-4ec632bbed18abde6c485c5355fbc6954fa6e196"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:4ec632bbed18abde6c485c5355fbc6954fa6e196"
+--===============1717303151836247756==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 93 Local 81 Mirrors 0 Missed 12 Current 212 (87% match, 96% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 784 of 913 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.275.0.bb:do_recipe_qa)
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_recipe_qa: Started
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 893 of 913 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.275.0.bb:do_fetch)
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_fetch: Started
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_fetch: Succeeded
-NOTE: Running task 894 of 913 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.275.0.bb:do_unpack)
-NOTE: Running task 895 of 913 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.275.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_unpack: Started
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_unpack: Succeeded
-NOTE: Running task 896 of 913 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.275.0.bb:do_patch)
-NOTE: Running task 897 of 913 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.275.0.bb:do_collect_spdx_deps)
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_patch: Started
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_patch: Succeeded
-NOTE: Running task 898 of 913 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.275.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 899 of 913 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.275.0.bb:do_generate_toolchain_file)
-NOTE: Running task 900 of 913 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.275.0.bb:do_populate_lic)
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_generate_toolchain_file: Started
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_populate_lic: Started
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_populate_lic: Succeeded
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 901 of 913 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.275.0.bb:do_configure)
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_configure: Started
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_configure: Succeeded
-NOTE: Running task 902 of 913 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.275.0.bb:do_compile)
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_compile: Started
-Log data follows:
-| DEBUG: Executing shell function do_compile
-| NOTE: VERBOSE=1 cmake --build /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/build --target all --
-| Change Dir: '/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/build'
-| 
-| Run Build Command(s): ninja -v -j 16 all
-| [1/5] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git=/usr/src/debug/vulkan-utility-libraries/1.
- 3.275.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/build=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/build=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot-na
- tive=  -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wpedantic -Wunreachable-code -Wunused-function -Wall -Wextra -Wpointer-arith -Wextra-semi -MD -MT src/layer/CMakeFiles/VulkanLayerSettings.dir/vk_layer_settings_helper.cpp.o -MF src/layer/CMakeFiles/VulkanLayerSettings.dir/vk_layer_settings_helper.cpp.o.d -o src/layer/CMakeFiles/VulkanLayerSettings.dir/vk_layer_settings_helper.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings_helper.cpp
-| FAILED: src/layer/CMakeFiles/VulkanLayerSettings.dir/vk_layer_settings_helper.cpp.o
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git=/usr/src/debug/vulkan-utility-libraries/1.3.275.
- 0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/build=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/build=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot-native= 
-  -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wpedantic -Wunreachable-code -Wunused-function -Wall -Wextra -Wpointer-arith -Wextra-semi -MD -MT src/layer/CMakeFiles/VulkanLayerSettings.dir/vk_layer_settings_helper.cpp.o -MF src/layer/CMakeFiles/VulkanLayerSettings.dir/vk_layer_settings_helper.cpp.o.d -o src/layer/CMakeFiles/VulkanLayerSettings.dir/vk_layer_settings_helper.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings_helper.cpp
-| In file included from /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.hpp:12,
-|                  from /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings_helper.cpp:9:
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:19:37: error: 'VK_LAYER_SETTING_TYPE_BOOL32_EXT' was not declared in this scope
-|    19 |     VKU_LAYER_SETTING_TYPE_BOOL32 = VK_LAYER_SETTING_TYPE_BOOL32_EXT,
-|       |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:20:36: error: 'VK_LAYER_SETTING_TYPE_INT32_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_BOOL32'?
-|    20 |     VKU_LAYER_SETTING_TYPE_INT32 = VK_LAYER_SETTING_TYPE_INT32_EXT,
-|       |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                    VKU_LAYER_SETTING_TYPE_BOOL32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:21:36: error: 'VK_LAYER_SETTING_TYPE_INT64_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_INT32'?
-|    21 |     VKU_LAYER_SETTING_TYPE_INT64 = VK_LAYER_SETTING_TYPE_INT64_EXT,
-|       |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                    VKU_LAYER_SETTING_TYPE_INT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:22:37: error: 'VK_LAYER_SETTING_TYPE_UINT32_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_INT32'?
-|    22 |     VKU_LAYER_SETTING_TYPE_UINT32 = VK_LAYER_SETTING_TYPE_UINT32_EXT,
-|       |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                     VKU_LAYER_SETTING_TYPE_INT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:23:37: error: 'VK_LAYER_SETTING_TYPE_UINT64_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_INT64'?
-|    23 |     VKU_LAYER_SETTING_TYPE_UINT64 = VK_LAYER_SETTING_TYPE_UINT64_EXT,
-|       |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                     VKU_LAYER_SETTING_TYPE_INT64
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:24:38: error: 'VK_LAYER_SETTING_TYPE_FLOAT32_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_UINT32'?
-|    24 |     VKU_LAYER_SETTING_TYPE_FLOAT32 = VK_LAYER_SETTING_TYPE_FLOAT32_EXT,
-|       |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                      VKU_LAYER_SETTING_TYPE_UINT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:25:38: error: 'VK_LAYER_SETTING_TYPE_FLOAT64_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_FLOAT32'?
-|    25 |     VKU_LAYER_SETTING_TYPE_FLOAT64 = VK_LAYER_SETTING_TYPE_FLOAT64_EXT,
-|       |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                      VKU_LAYER_SETTING_TYPE_FLOAT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:26:37: error: 'VK_LAYER_SETTING_TYPE_STRING_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_UINT64'?
-|    26 |     VKU_LAYER_SETTING_TYPE_STRING = VK_LAYER_SETTING_TYPE_STRING_EXT,
-|       |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                     VKU_LAYER_SETTING_TYPE_UINT64
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:50:65: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    50 | VkResult vkuCreateLayerSettingSet(const char *pLayerName, const VkLayerSettingsCreateInfoEXT *pFirstCreateInfo,
-|       |                                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                                                 VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:67:7: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    67 | const VkLayerSettingsCreateInfoEXT *vkuFindLayerSettingsCreateInfo(const VkInstanceCreateInfo *pCreateInfo);
-|       |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |       VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:70:7: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    70 | const VkLayerSettingsCreateInfoEXT *vkuNextLayerSettingsCreateInfo(const VkLayerSettingsCreateInfoEXT *pCreateInfo);
-|       |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |       VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:73:38: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    73 | VkResult vkuGetUnknownSettings(const VkLayerSettingsCreateInfoEXT *pFirstCreateInfo, uint32_t settingsCount, const char **pSettings,
-|       |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                      VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.hpp:61:38: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    61 | VkResult vkuGetUnknownSettings(const VkLayerSettingsCreateInfoEXT *pFirstCreateInfo, uint32_t settingsCount, const char **pSettings,
-|       |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                      VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings_helper.cpp:200:38: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|   200 | VkResult vkuGetUnknownSettings(const VkLayerSettingsCreateInfoEXT *pFirstCreateInfo, uint32_t settingsCount, const char **pSettings,
-|       |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                      VkImageViewMinLodCreateInfoEXT
-| [2/5] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git=/usr/src/debug/vulkan-utility-libraries/1.
- 3.275.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/build=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/build=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot-na
- tive=  -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wpedantic -Wunreachable-code -Wunused-function -Wall -Wextra -Wpointer-arith -Wextra-semi -MD -MT src/layer/CMakeFiles/VulkanLayerSettings.dir/layer_settings_manager.cpp.o -MF src/layer/CMakeFiles/VulkanLayerSettings.dir/layer_settings_manager.cpp.o.d -o src/layer/CMakeFiles/VulkanLayerSettings.dir/layer_settings_manager.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.cpp
-| FAILED: src/layer/CMakeFiles/VulkanLayerSettings.dir/layer_settings_manager.cpp.o
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git=/usr/src/debug/vulkan-utility-libraries/1.3.275.
- 0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/build=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/build=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot-native= 
-  -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wpedantic -Wunreachable-code -Wunused-function -Wall -Wextra -Wpointer-arith -Wextra-semi -MD -MT src/layer/CMakeFiles/VulkanLayerSettings.dir/layer_settings_manager.cpp.o -MF src/layer/CMakeFiles/VulkanLayerSettings.dir/layer_settings_manager.cpp.o.d -o src/layer/CMakeFiles/VulkanLayerSettings.dir/layer_settings_manager.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.cpp
-| In file included from /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.hpp:11,
-|                  from /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.cpp:9:
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:19:37: error: 'VK_LAYER_SETTING_TYPE_BOOL32_EXT' was not declared in this scope
-|    19 |     VKU_LAYER_SETTING_TYPE_BOOL32 = VK_LAYER_SETTING_TYPE_BOOL32_EXT,
-|       |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:20:36: error: 'VK_LAYER_SETTING_TYPE_INT32_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_BOOL32'?
-|    20 |     VKU_LAYER_SETTING_TYPE_INT32 = VK_LAYER_SETTING_TYPE_INT32_EXT,
-|       |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                    VKU_LAYER_SETTING_TYPE_BOOL32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:21:36: error: 'VK_LAYER_SETTING_TYPE_INT64_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_INT32'?
-|    21 |     VKU_LAYER_SETTING_TYPE_INT64 = VK_LAYER_SETTING_TYPE_INT64_EXT,
-|       |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                    VKU_LAYER_SETTING_TYPE_INT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:22:37: error: 'VK_LAYER_SETTING_TYPE_UINT32_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_INT32'?
-|    22 |     VKU_LAYER_SETTING_TYPE_UINT32 = VK_LAYER_SETTING_TYPE_UINT32_EXT,
-|       |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                     VKU_LAYER_SETTING_TYPE_INT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:23:37: error: 'VK_LAYER_SETTING_TYPE_UINT64_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_INT64'?
-|    23 |     VKU_LAYER_SETTING_TYPE_UINT64 = VK_LAYER_SETTING_TYPE_UINT64_EXT,
-|       |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                     VKU_LAYER_SETTING_TYPE_INT64
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:24:38: error: 'VK_LAYER_SETTING_TYPE_FLOAT32_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_UINT32'?
-|    24 |     VKU_LAYER_SETTING_TYPE_FLOAT32 = VK_LAYER_SETTING_TYPE_FLOAT32_EXT,
-|       |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                      VKU_LAYER_SETTING_TYPE_UINT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:25:38: error: 'VK_LAYER_SETTING_TYPE_FLOAT64_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_FLOAT32'?
-|    25 |     VKU_LAYER_SETTING_TYPE_FLOAT64 = VK_LAYER_SETTING_TYPE_FLOAT64_EXT,
-|       |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                      VKU_LAYER_SETTING_TYPE_FLOAT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:26:37: error: 'VK_LAYER_SETTING_TYPE_STRING_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_UINT64'?
-|    26 |     VKU_LAYER_SETTING_TYPE_STRING = VK_LAYER_SETTING_TYPE_STRING_EXT,
-|       |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                     VKU_LAYER_SETTING_TYPE_UINT64
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:50:65: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    50 | VkResult vkuCreateLayerSettingSet(const char *pLayerName, const VkLayerSettingsCreateInfoEXT *pFirstCreateInfo,
-|       |                                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                                                 VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:67:7: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    67 | const VkLayerSettingsCreateInfoEXT *vkuFindLayerSettingsCreateInfo(const VkInstanceCreateInfo *pCreateInfo);
-|       |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |       VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:70:7: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    70 | const VkLayerSettingsCreateInfoEXT *vkuNextLayerSettingsCreateInfo(const VkLayerSettingsCreateInfoEXT *pCreateInfo);
-|       |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |       VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:73:38: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    73 | VkResult vkuGetUnknownSettings(const VkLayerSettingsCreateInfoEXT *pFirstCreateInfo, uint32_t settingsCount, const char **pSettings,
-|       |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                      VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.hpp:21:49: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    21 |     LayerSettings(const char *pLayerName, const VkLayerSettingsCreateInfoEXT *pFirstCreateInfo,
-|       |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                                 VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.hpp:39:11: error: 'VkLayerSettingEXT' does not name a type; did you mean 'VkuLayerSettingSet'?
-|    39 |     const VkLayerSettingEXT *GetAPISetting(const char *pSettingName);
-|       |           ^~~~~~~~~~~~~~~~~
-|       |           VkuLayerSettingSet
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.hpp:46:11: error: 'VkLayerSettingEXT' does not name a type; did you mean 'VkuLayerSettingSet'?
-|    46 |     const VkLayerSettingEXT *FindLayerSettingValue(const char *pSettingName);
-|       |           ^~~~~~~~~~~~~~~~~
-|       |           VkuLayerSettingSet
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.hpp:60:11: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    60 |     const VkLayerSettingsCreateInfoEXT *first_create_info{nullptr};
-|       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |           VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.hpp:60:67: warning: extra ';' [-Wpedantic]
-|    60 |     const VkLayerSettingsCreateInfoEXT *first_create_info{nullptr};
-|       |                                                                   ^
-|       |                                                                   -
-| In file included from /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.cpp:10:
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_util.hpp:19:7: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    19 | const VkLayerSettingsCreateInfoEXT *FindSettingsInChain(const void *next);
-|       |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |       VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.cpp:113:60: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|   113 | LayerSettings::LayerSettings(const char *pLayerName, const VkLayerSettingsCreateInfoEXT *pFirstCreateInfo,
-|       |                                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                                            VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.cpp: In constructor 'vl::LayerSettings::LayerSettings(const char*, const int*, const VkAllocationCallbacks*, VkuLayerSettingLogCallback)':
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.cpp:115:31: error: class 'vl::LayerSettings' does not have any field named 'first_create_info'
-|   115 |     : layer_name(pLayerName), first_create_info(pFirstCreateInfo), pCallback(pCallback) {
-|       |                               ^~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.cpp: At global scope:
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.cpp:227:7: error: 'VkLayerSettingEXT' does not name a type; did you mean 'VkuLayerSettingSet'?
-|   227 | const VkLayerSettingEXT *LayerSettings::FindLayerSettingValue(const char *pSettingName) {
-|       |       ^~~~~~~~~~~~~~~~~
-|       |       VkuLayerSettingSet
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.cpp: In member function 'bool vl::LayerSettings::HasAPISetting(const char*)':
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.cpp:293:18: error: 'class vl::LayerSettings' has no member named 'FindLayerSettingValue'
-|   293 |     return this->FindLayerSettingValue(pSettingName) != nullptr;
-|       |                  ^~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.cpp: At global scope:
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.cpp:342:7: error: 'VkLayerSettingEXT' does not name a type; did you mean 'VkuLayerSettingSet'?
-|   342 | const VkLayerSettingEXT *LayerSettings::GetAPISetting(const char *pSettingName) {
-|       |       ^~~~~~~~~~~~~~~~~
-|       |       VkuLayerSettingSet
-| [3/5] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git=/usr/src/debug/vulkan-utility-libraries/1.
- 3.275.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/build=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/build=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot-na
- tive=  -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wpedantic -Wunreachable-code -Wunused-function -Wall -Wextra -Wpointer-arith -Wextra-semi -MD -MT src/layer/CMakeFiles/VulkanLayerSettings.dir/layer_settings_util.cpp.o -MF src/layer/CMakeFiles/VulkanLayerSettings.dir/layer_settings_util.cpp.o.d -o src/layer/CMakeFiles/VulkanLayerSettings.dir/layer_settings_util.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_util.cpp
-| FAILED: src/layer/CMakeFiles/VulkanLayerSettings.dir/layer_settings_util.cpp.o
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git=/usr/src/debug/vulkan-utility-libraries/1.3.275.
- 0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/build=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/build=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot-native= 
-  -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wpedantic -Wunreachable-code -Wunused-function -Wall -Wextra -Wpointer-arith -Wextra-semi -MD -MT src/layer/CMakeFiles/VulkanLayerSettings.dir/layer_settings_util.cpp.o -MF src/layer/CMakeFiles/VulkanLayerSettings.dir/layer_settings_util.cpp.o.d -o src/layer/CMakeFiles/VulkanLayerSettings.dir/layer_settings_util.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_util.cpp
-| In file included from /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_util.hpp:11,
-|                  from /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_util.cpp:9:
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:19:37: error: 'VK_LAYER_SETTING_TYPE_BOOL32_EXT' was not declared in this scope
-|    19 |     VKU_LAYER_SETTING_TYPE_BOOL32 = VK_LAYER_SETTING_TYPE_BOOL32_EXT,
-|       |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:20:36: error: 'VK_LAYER_SETTING_TYPE_INT32_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_BOOL32'?
-|    20 |     VKU_LAYER_SETTING_TYPE_INT32 = VK_LAYER_SETTING_TYPE_INT32_EXT,
-|       |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                    VKU_LAYER_SETTING_TYPE_BOOL32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:21:36: error: 'VK_LAYER_SETTING_TYPE_INT64_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_INT32'?
-|    21 |     VKU_LAYER_SETTING_TYPE_INT64 = VK_LAYER_SETTING_TYPE_INT64_EXT,
-|       |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                    VKU_LAYER_SETTING_TYPE_INT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:22:37: error: 'VK_LAYER_SETTING_TYPE_UINT32_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_INT32'?
-|    22 |     VKU_LAYER_SETTING_TYPE_UINT32 = VK_LAYER_SETTING_TYPE_UINT32_EXT,
-|       |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                     VKU_LAYER_SETTING_TYPE_INT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:23:37: error: 'VK_LAYER_SETTING_TYPE_UINT64_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_INT64'?
-|    23 |     VKU_LAYER_SETTING_TYPE_UINT64 = VK_LAYER_SETTING_TYPE_UINT64_EXT,
-|       |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                     VKU_LAYER_SETTING_TYPE_INT64
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:24:38: error: 'VK_LAYER_SETTING_TYPE_FLOAT32_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_UINT32'?
-|    24 |     VKU_LAYER_SETTING_TYPE_FLOAT32 = VK_LAYER_SETTING_TYPE_FLOAT32_EXT,
-|       |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                      VKU_LAYER_SETTING_TYPE_UINT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:25:38: error: 'VK_LAYER_SETTING_TYPE_FLOAT64_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_FLOAT32'?
-|    25 |     VKU_LAYER_SETTING_TYPE_FLOAT64 = VK_LAYER_SETTING_TYPE_FLOAT64_EXT,
-|       |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                      VKU_LAYER_SETTING_TYPE_FLOAT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:26:37: error: 'VK_LAYER_SETTING_TYPE_STRING_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_UINT64'?
-|    26 |     VKU_LAYER_SETTING_TYPE_STRING = VK_LAYER_SETTING_TYPE_STRING_EXT,
-|       |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                     VKU_LAYER_SETTING_TYPE_UINT64
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:50:65: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    50 | VkResult vkuCreateLayerSettingSet(const char *pLayerName, const VkLayerSettingsCreateInfoEXT *pFirstCreateInfo,
-|       |                                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                                                 VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:67:7: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    67 | const VkLayerSettingsCreateInfoEXT *vkuFindLayerSettingsCreateInfo(const VkInstanceCreateInfo *pCreateInfo);
-|       |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |       VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:70:7: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    70 | const VkLayerSettingsCreateInfoEXT *vkuNextLayerSettingsCreateInfo(const VkLayerSettingsCreateInfoEXT *pCreateInfo);
-|       |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |       VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:73:38: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    73 | VkResult vkuGetUnknownSettings(const VkLayerSettingsCreateInfoEXT *pFirstCreateInfo, uint32_t settingsCount, const char **pSettings,
-|       |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                      VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_util.hpp:19:7: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    19 | const VkLayerSettingsCreateInfoEXT *FindSettingsInChain(const void *next);
-|       |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |       VkImageViewMinLodCreateInfoEXT
-| [4/5] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git=/usr/src/debug/vulkan-utility-libraries/1.
- 3.275.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/build=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/build=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot-na
- tive=  -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wpedantic -Wunreachable-code -Wunused-function -Wall -Wextra -Wpointer-arith -Wextra-semi -MD -MT src/layer/CMakeFiles/VulkanLayerSettings.dir/vk_layer_settings.cpp.o -MF src/layer/CMakeFiles/VulkanLayerSettings.dir/vk_layer_settings.cpp.o.d -o src/layer/CMakeFiles/VulkanLayerSettings.dir/vk_layer_settings.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp
-| FAILED: src/layer/CMakeFiles/VulkanLayerSettings.dir/vk_layer_settings.cpp.o
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git=/usr/src/debug/vulkan-utility-libraries/1.3.275.
- 0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/build=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/build=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot-native= 
-  -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wpedantic -Wunreachable-code -Wunused-function -Wall -Wextra -Wpointer-arith -Wextra-semi -MD -MT src/layer/CMakeFiles/VulkanLayerSettings.dir/vk_layer_settings.cpp.o -MF src/layer/CMakeFiles/VulkanLayerSettings.dir/vk_layer_settings.cpp.o.d -o src/layer/CMakeFiles/VulkanLayerSettings.dir/vk_layer_settings.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp
-| In file included from /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:9:
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:19:37: error: 'VK_LAYER_SETTING_TYPE_BOOL32_EXT' was not declared in this scope
-|    19 |     VKU_LAYER_SETTING_TYPE_BOOL32 = VK_LAYER_SETTING_TYPE_BOOL32_EXT,
-|       |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:20:36: error: 'VK_LAYER_SETTING_TYPE_INT32_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_BOOL32'?
-|    20 |     VKU_LAYER_SETTING_TYPE_INT32 = VK_LAYER_SETTING_TYPE_INT32_EXT,
-|       |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                    VKU_LAYER_SETTING_TYPE_BOOL32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:21:36: error: 'VK_LAYER_SETTING_TYPE_INT64_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_INT32'?
-|    21 |     VKU_LAYER_SETTING_TYPE_INT64 = VK_LAYER_SETTING_TYPE_INT64_EXT,
-|       |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                    VKU_LAYER_SETTING_TYPE_INT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:22:37: error: 'VK_LAYER_SETTING_TYPE_UINT32_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_INT32'?
-|    22 |     VKU_LAYER_SETTING_TYPE_UINT32 = VK_LAYER_SETTING_TYPE_UINT32_EXT,
-|       |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                     VKU_LAYER_SETTING_TYPE_INT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:23:37: error: 'VK_LAYER_SETTING_TYPE_UINT64_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_INT64'?
-|    23 |     VKU_LAYER_SETTING_TYPE_UINT64 = VK_LAYER_SETTING_TYPE_UINT64_EXT,
-|       |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                     VKU_LAYER_SETTING_TYPE_INT64
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:24:38: error: 'VK_LAYER_SETTING_TYPE_FLOAT32_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_UINT32'?
-|    24 |     VKU_LAYER_SETTING_TYPE_FLOAT32 = VK_LAYER_SETTING_TYPE_FLOAT32_EXT,
-|       |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                      VKU_LAYER_SETTING_TYPE_UINT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:25:38: error: 'VK_LAYER_SETTING_TYPE_FLOAT64_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_FLOAT32'?
-|    25 |     VKU_LAYER_SETTING_TYPE_FLOAT64 = VK_LAYER_SETTING_TYPE_FLOAT64_EXT,
-|       |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                      VKU_LAYER_SETTING_TYPE_FLOAT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:26:37: error: 'VK_LAYER_SETTING_TYPE_STRING_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_UINT64'?
-|    26 |     VKU_LAYER_SETTING_TYPE_STRING = VK_LAYER_SETTING_TYPE_STRING_EXT,
-|       |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                     VKU_LAYER_SETTING_TYPE_UINT64
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:50:65: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    50 | VkResult vkuCreateLayerSettingSet(const char *pLayerName, const VkLayerSettingsCreateInfoEXT *pFirstCreateInfo,
-|       |                                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                                                 VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:67:7: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    67 | const VkLayerSettingsCreateInfoEXT *vkuFindLayerSettingsCreateInfo(const VkInstanceCreateInfo *pCreateInfo);
-|       |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |       VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:70:7: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    70 | const VkLayerSettingsCreateInfoEXT *vkuNextLayerSettingsCreateInfo(const VkLayerSettingsCreateInfoEXT *pCreateInfo);
-|       |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |       VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:73:38: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    73 | VkResult vkuGetUnknownSettings(const VkLayerSettingsCreateInfoEXT *pFirstCreateInfo, uint32_t settingsCount, const char **pSettings,
-|       |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                      VkImageViewMinLodCreateInfoEXT
-| In file included from /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:10:
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_util.hpp:19:7: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    19 | const VkLayerSettingsCreateInfoEXT *FindSettingsInChain(const void *next);
-|       |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |       VkImageViewMinLodCreateInfoEXT
-| In file included from /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:11:
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.hpp:21:49: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    21 |     LayerSettings(const char *pLayerName, const VkLayerSettingsCreateInfoEXT *pFirstCreateInfo,
-|       |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                                 VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.hpp:39:11: error: 'VkLayerSettingEXT' does not name a type; did you mean 'VkuLayerSettingSet'?
-|    39 |     const VkLayerSettingEXT *GetAPISetting(const char *pSettingName);
-|       |           ^~~~~~~~~~~~~~~~~
-|       |           VkuLayerSettingSet
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.hpp:46:11: error: 'VkLayerSettingEXT' does not name a type; did you mean 'VkuLayerSettingSet'?
-|    46 |     const VkLayerSettingEXT *FindLayerSettingValue(const char *pSettingName);
-|       |           ^~~~~~~~~~~~~~~~~
-|       |           VkuLayerSettingSet
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.hpp:60:11: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    60 |     const VkLayerSettingsCreateInfoEXT *first_create_info{nullptr};
-|       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |           VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.hpp:60:67: warning: extra ';' [-Wpedantic]
-|    60 |     const VkLayerSettingsCreateInfoEXT *first_create_info{nullptr};
-|       |                                                                   ^
-|       |                                                                   -
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:34:65: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    34 | VkResult vkuCreateLayerSettingSet(const char *pLayerName, const VkLayerSettingsCreateInfoEXT *pFirstCreateInfo,
-|       |                                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                                                 VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp: In function 'VkResult vkuGetLayerSettingValues(VkuLayerSettingSet, const char*, VkuLayerSettingType, uint32_t*, void*)':
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:98:11: error: 'VkLayerSettingEXT' does not name a type; did you mean 'VkuLayerSettingSet'?
-|    98 |     const VkLayerSettingEXT *api_setting = layer_setting_set->GetAPISetting(pSettingName);
-|       |           ^~~~~~~~~~~~~~~~~
-|       |           VkuLayerSettingSet
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:103:33: error: 'api_setting' was not declared in this scope
-|   103 |     if (setting_list.empty() && api_setting == nullptr) {
-|       |                                 ^~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:146:24: error: 'api_setting' was not declared in this scope
-|   146 |             } else if (api_setting != nullptr) {  // From Vulkan Layer Setting API
-|       |                        ^~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:191:24: error: 'api_setting' was not declared in this scope
-|   191 |             } else if (api_setting != nullptr) {  // From Vulkan Layer Setting API
-|       |                        ^~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:245:24: error: 'api_setting' was not declared in this scope
-|   245 |             } else if (api_setting != nullptr) {  // From Vulkan Layer Setting API
-|       |                        ^~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:299:24: error: 'api_setting' was not declared in this scope
-|   299 |             } else if (api_setting != nullptr) {  // From Vulkan Layer Setting API
-|       |                        ^~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:353:24: error: 'api_setting' was not declared in this scope
-|   353 |             } else if (api_setting != nullptr) {  // From Vulkan Layer Setting API
-|       |                        ^~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:398:24: error: 'api_setting' was not declared in this scope
-|   398 |             } else if (api_setting != nullptr) {  // From Vulkan Layer Setting API
-|       |                        ^~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:443:24: error: 'api_setting' was not declared in this scope
-|   443 |             } else if (api_setting != nullptr) {  // From Vulkan Layer Setting API
-|       |                        ^~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:488:24: error: 'api_setting' was not declared in this scope
-|   488 |             } else if (api_setting != nullptr) {  // From Vulkan Layer Setting API
-|       |                        ^~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:491:42: error: 'VK_LAYER_SETTING_TYPE_UINT32_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_UINT32'?
-|   491 |                 if (api_setting->type != VK_LAYER_SETTING_TYPE_UINT32_EXT) {
-|       |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                          VKU_LAYER_SETTING_TYPE_UINT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:526:24: error: 'api_setting' was not declared in this scope
-|   526 |             } else if (api_setting != nullptr) {  // From Vulkan Layer Setting API
-|       |                        ^~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:535:30: error: 'VK_LAYER_SETTING_TYPE_STRING_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_STRING'?
-|   535 |                         case VK_LAYER_SETTING_TYPE_STRING_EXT:
-|       |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                              VKU_LAYER_SETTING_TYPE_STRING
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:540:30: error: 'VK_LAYER_SETTING_TYPE_BOOL32_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_BOOL32'?
-|   540 |                         case VK_LAYER_SETTING_TYPE_BOOL32_EXT:
-|       |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                              VKU_LAYER_SETTING_TYPE_BOOL32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:546:30: error: 'VK_LAYER_SETTING_TYPE_INT32_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_INT32'?
-|   546 |                         case VK_LAYER_SETTING_TYPE_INT32_EXT:
-|       |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                              VKU_LAYER_SETTING_TYPE_INT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:551:30: error: 'VK_LAYER_SETTING_TYPE_INT64_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_INT64'?
-|   551 |                         case VK_LAYER_SETTING_TYPE_INT64_EXT:
-|       |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                              VKU_LAYER_SETTING_TYPE_INT64
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:556:30: error: 'VK_LAYER_SETTING_TYPE_UINT32_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_UINT32'?
-|   556 |                         case VK_LAYER_SETTING_TYPE_UINT32_EXT:
-|       |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                              VKU_LAYER_SETTING_TYPE_UINT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:561:30: error: 'VK_LAYER_SETTING_TYPE_UINT64_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_UINT64'?
-|   561 |                         case VK_LAYER_SETTING_TYPE_UINT64_EXT:
-|       |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                              VKU_LAYER_SETTING_TYPE_UINT64
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:567:30: error: 'VK_LAYER_SETTING_TYPE_FLOAT32_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_FLOAT32'?
-|   567 |                         case VK_LAYER_SETTING_TYPE_FLOAT32_EXT:
-|       |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                              VKU_LAYER_SETTING_TYPE_FLOAT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:572:30: error: 'VK_LAYER_SETTING_TYPE_FLOAT64_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_FLOAT64'?
-|   572 |                         case VK_LAYER_SETTING_TYPE_FLOAT64_EXT:
-|       |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                              VKU_LAYER_SETTING_TYPE_FLOAT64
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:609:24: error: 'api_setting' was not declared in this scope
-|   609 |             } else if (api_setting != nullptr) {  // From Vulkan Layer Setting API
-|       |                        ^~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:621:30: error: 'VK_LAYER_SETTING_TYPE_STRING_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_STRING'?
-|   621 |                         case VK_LAYER_SETTING_TYPE_STRING_EXT:
-|       |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                              VKU_LAYER_SETTING_TYPE_STRING
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:626:30: error: 'VK_LAYER_SETTING_TYPE_UINT32_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_UINT32'?
-|   626 |                         case VK_LAYER_SETTING_TYPE_UINT32_EXT:
-|       |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                              VKU_LAYER_SETTING_TYPE_UINT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp: At global scope:
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:653:7: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|   653 | const VkLayerSettingsCreateInfoEXT *vkuFindLayerSettingsCreateInfo(const VkInstanceCreateInfo *pCreateInfo) {
-|       |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |       VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:667:7: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|   667 | const VkLayerSettingsCreateInfoEXT *vkuNextLayerSettingsCreateInfo(const VkLayerSettingsCreateInfoEXT *pCreateInfo) {
-|       |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |       VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:691:38: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|   691 | VkResult vkuGetUnknownSettings(const VkLayerSettingsCreateInfoEXT *pCreateInfo, uint32_t settingsCount, const char **pSettings,
-|       |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                      VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp: In function 'VkResult vkuGetUnknownSettings(const int*, uint32_t, const char**, uint32_t*, const char**)':
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:695:11: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|   695 |     const VkLayerSettingsCreateInfoEXT *current_create_info = pCreateInfo;
-|       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |           VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:698:12: error: 'current_create_info' was not declared in this scope; did you mean 'VkEventCreateInfo'?
-|   698 |     while (current_create_info != nullptr) {
-|       |            ^~~~~~~~~~~~~~~~~~~
-|       |            VkEventCreateInfo
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:710:31: error: 'vkuNextLayerSettingsCreateInfo' was not declared in this scope
-|   710 |         current_create_info = vkuNextLayerSettingsCreateInfo(current_create_info);
-|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:691:68: warning: unused parameter 'pCreateInfo' [-Wunused-parameter]
-|   691 | VkResult vkuGetUnknownSettings(const VkLayerSettingsCreateInfoEXT *pCreateInfo, uint32_t settingsCount, const char **pSettings,
-|       |                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
-| ninja: build stopped: subcommand failed.
-| 
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/temp/run.do_compile.1094606:153 exit 1 from 'eval ${DESTDIR:+DESTDIR=${DESTDIR} }VERBOSE=1 cmake --build '/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/build' "$@" -- ${EXTRA_OECMAKE_BUILD}'
-| WARNING: Backtrace (BB generated script):
-| 	#1: cmake_runcmake_build, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/temp/run.do_compile.1094606, line 153
-| 	#2: cmake_do_compile, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/temp/run.do_compile.1094606, line 147
-| 	#3: do_compile, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/temp/run.do_compile.1094606, line 142
-| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/temp/run.do_compile.1094606, line 166
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_compile: Failed
-NOTE: Tasks Summary: Attempted 902 tasks of which 891 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240201134251.txt
-You can send the errors to a reports server by running:
-  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240201134251.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+packages/core2-64-poky-linux/mc: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc: SRC_URI changed from "http://www.midnight-commander.org/downloads/mc-4.8.30.tar.bz2 file://nomandate.patch" to "http://www.midnight-commander.org/downloads/mc-4.8.31.tar.bz2 file://nomandate.patch"
+packages/core2-64-poky-linux/mc: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-dbg: PKGSIZE changed from 3960104 to 3962816 (+0%)
+packages/core2-64-poky-linux/mc/mc-dbg: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-dbg: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-dev: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-dev: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-doc: PKGSIZE changed from 1083788 to 1083784 (-0%)
+packages/core2-64-poky-linux/mc/mc-doc: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-doc: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-fish: FILELIST: removed all items "/usr/libexec/mc/fish/chmod /usr/libexec/mc/fish/utime /usr/libexec/mc/fish/README.fish /usr/libexec/mc/fish/unlink /usr/libexec/mc/fish/chown /usr/libexec/mc/fish/append /usr/libexec/mc/fish/ln /usr/libexec/mc/fish/get /usr/libexec/mc/fish/hardlink /usr/libexec/mc/fish/mkdir /usr/libexec/mc/fish/rmdir /usr/libexec/mc/fish/info /usr/libexec/mc/fish/fexists /usr/libexec/mc/fish/mv /usr/libexec/mc/fish/ls /usr/libexec/mc/fish/send"
+packages/core2-64-poky-linux/mc/mc-fish: PKGSIZE changed from 17132 to 0 (-100%)
+packages/core2-64-poky-linux/mc/mc-fish: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-fish: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-helpers-perl: PKGSIZE changed from 77901 to 78149 (+0%)
+packages/core2-64-poky-linux/mc/mc-helpers-perl: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-helpers-perl: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-helpers: PKGSIZE changed from 103695 to 104333 (+1%)
+packages/core2-64-poky-linux/mc/mc-helpers: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-helpers: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-af: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-af: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-ar: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-ar: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-az: PKGSIZE changed from 20124 to 19405 (-4%)
+packages/core2-64-poky-linux/mc/mc-locale-az: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-az: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-be: PKGSIZE changed from 113736 to 112778 (-1%)
+packages/core2-64-poky-linux/mc/mc-locale-be: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-be: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-bg: PKGSIZE changed from 109171 to 105958 (-3%)
+packages/core2-64-poky-linux/mc/mc-locale-bg: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-bg: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-br: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-br: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-ca: PKGSIZE changed from 94405 to 95292 (+1%)
+packages/core2-64-poky-linux/mc/mc-locale-ca: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-ca: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-cs: PKGSIZE changed from 93878 to 90967 (-3%)
+packages/core2-64-poky-linux/mc/mc-locale-cs: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-cs: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-da: PKGSIZE changed from 87310 to 84430 (-3%)
+packages/core2-64-poky-linux/mc/mc-locale-da: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-da: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-de-ch: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-de-ch: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-de: PKGSIZE changed from 91265 to 89623 (-2%)
+packages/core2-64-poky-linux/mc/mc-locale-de: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-de: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-el: PKGSIZE changed from 56398 to 55474 (-2%)
+packages/core2-64-poky-linux/mc/mc-locale-el: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-el: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-en-gb: PKGSIZE changed from 26760 to 28330 (+6%)
+packages/core2-64-poky-linux/mc/mc-locale-en-gb: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-en-gb: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-eo: PKGSIZE changed from 88898 to 87420 (-2%)
+packages/core2-64-poky-linux/mc/mc-locale-eo: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-eo: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-es: PKGSIZE changed from 90242 to 90628 (+0%)
+packages/core2-64-poky-linux/mc/mc-locale-es: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-es: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-et: PKGSIZE changed from 87323 to 88531 (+1%)
+packages/core2-64-poky-linux/mc/mc-locale-et: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-et: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-eu: PKGSIZE changed from 81013 to 78149 (-4%)
+packages/core2-64-poky-linux/mc/mc-locale-eu: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-eu: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-fa: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-fa: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-fi: PKGSIZE changed from 42747 to 42070 (-2%)
+packages/core2-64-poky-linux/mc/mc-locale-fi: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-fi: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-fr-ca: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-fr-ca: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-fr: PKGSIZE changed from 95447 to 95947 (+1%)
+packages/core2-64-poky-linux/mc/mc-locale-fr: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-fr: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-ga: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-ga: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-gl: PKGSIZE changed from 83304 to 80443 (-3%)
+packages/core2-64-poky-linux/mc/mc-locale-gl: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-gl: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-he: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-he: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-hr: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-hr: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-hu: PKGSIZE changed from 77835 to 75033 (-4%)
+packages/core2-64-poky-linux/mc/mc-locale-hu: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-hu: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-ia: PKGSIZE changed from 28589 to 27694 (-3%)
+packages/core2-64-poky-linux/mc/mc-locale-ia: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-ia: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-id: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-id: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-ie: PKGSIZE changed from 19013 to 18924 (-0%)
+packages/core2-64-poky-linux/mc/mc-locale-ie: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-ie: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-it: PKGSIZE changed from 88177 to 85228 (-3%)
+packages/core2-64-poky-linux/mc/mc-locale-it: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-it: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-ja: PKGSIZE changed from 39067 to 38282 (-2%)
+packages/core2-64-poky-linux/mc/mc-locale-ja: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-ja: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-ka: PKGSIZE changed from 69185 to 66443 (-4%)
+packages/core2-64-poky-linux/mc/mc-locale-ka: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-ka: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-kk: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-kk: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-ko: PKGSIZE changed from 93470 to 90903 (-3%)
+packages/core2-64-poky-linux/mc/mc-locale-ko: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-ko: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-kw: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-kw: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-lt: PKGSIZE changed from 48043 to 47340 (-1%)
+packages/core2-64-poky-linux/mc/mc-locale-lt: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-lt: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-lv: PKGSIZE changed from 19415 to 18714 (-4%)
+packages/core2-64-poky-linux/mc/mc-locale-lv: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-lv: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-mn: PKGSIZE changed from 31118 to 30266 (-3%)
+packages/core2-64-poky-linux/mc/mc-locale-mn: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-mn: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-nb: PKGSIZE changed from 87563 to 87880 (+0%)
+packages/core2-64-poky-linux/mc/mc-locale-nb: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-nb: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-nl-be: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-nl-be: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-nl: PKGSIZE changed from 87731 to 84912 (-3%)
+packages/core2-64-poky-linux/mc/mc-locale-nl: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-nl: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-pl: PKGSIZE changed from 92888 to 93284 (+0%)
+packages/core2-64-poky-linux/mc/mc-locale-pl: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-pl: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-pt-br: PKGSIZE changed from 97486 to 97891 (+0%)
+packages/core2-64-poky-linux/mc/mc-locale-pt-br: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-pt-br: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-pt: PKGSIZE changed from 91990 to 92306 (+0%)
+packages/core2-64-poky-linux/mc/mc-locale-pt: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-pt: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-ro: PKGSIZE changed from 91588 to 88756 (-3%)
+packages/core2-64-poky-linux/mc/mc-locale-ro: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-ro: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-ru: PKGSIZE changed from 115135 to 113548 (-1%)
+packages/core2-64-poky-linux/mc/mc-locale-ru: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-ru: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-sk: PKGSIZE changed from 82273 to 79477 (-3%)
+packages/core2-64-poky-linux/mc/mc-locale-sk: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-sk: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-sl: PKGSIZE changed from 22865 to 22131 (-3%)
+packages/core2-64-poky-linux/mc/mc-locale-sl: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-sl: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-sr: PKGSIZE changed from 96511 to 93427 (-3%)
+packages/core2-64-poky-linux/mc/mc-locale-sr: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-sr: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-sv: PKGSIZE changed from 80973 to 78256 (-3%)
+packages/core2-64-poky-linux/mc/mc-locale-sv: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-sv: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-szl: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-szl: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-ta: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-ta: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-te: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-te: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-tr: PKGSIZE changed from 83076 to 80194 (-3%)
+packages/core2-64-poky-linux/mc/mc-locale-tr: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-tr: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-uk: PKGSIZE changed from 113888 to 110483 (-3%)
+packages/core2-64-poky-linux/mc/mc-locale-uk: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-uk: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-uz: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-uz: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-vi: PKGSIZE changed from 24556 to 23803 (-3%)
+packages/core2-64-poky-linux/mc/mc-locale-vi: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-vi: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-wa: PKGSIZE changed from 13343 to 13108 (-2%)
+packages/core2-64-poky-linux/mc/mc-locale-wa: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-wa: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-zh-cn: PKGSIZE changed from 76418 to 73791 (-3%)
+packages/core2-64-poky-linux/mc/mc-locale-zh-cn: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-zh-cn: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-locale-zh-tw: PKGSIZE changed from 49011 to 48119 (-2%)
+packages/core2-64-poky-linux/mc/mc-locale-zh-tw: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-locale-zh-tw: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-src: FILELIST: directory renamed /usr/src/debug/mc/4.8.30/src/vfs/local -> /usr/src/debug/mc/4.8.31/src/vfs/local, directory renamed /usr/src/debug/mc/4.8.30/src/vfs/cpio -> /usr/src/debug/mc/4.8.31/src/vfs/cpio, directory renamed /usr/src/debug/mc/4.8.30/src/viewer -> /usr/src/debug/mc/4.8.31/src/viewer, directory renamed /usr/src/debug/mc/4.8.30/src/vfs/tar -> /usr/src/debug/mc/4.8.31/src/vfs/tar, directory renamed /usr/src/debug/mc/4.8.30/src/editor -> /usr/src/debug/mc/4.8.31/src/editor, directory renamed /usr/src/debug/mc/4.8.30/src/vfs/extfs -> /usr/src/debug/mc/4.8.31/src/vfs/extfs, directory renamed /usr/src/debug/mc/4.8.30/lib/strutil -> /usr/src/debug/mc/4.8.31/lib/strutil, directory renamed /usr/src/debug/mc/4.8.30/src/consaver -> /usr/src/debug/mc/4.8.31/src/consaver, directory renamed /usr/src/debug/mc/4.8.30/src/filemanager -> /usr/src/debug/mc/4.8.31/src/filemanager, directory renamed /usr/src/debug/mc/4.8.30/src/vfs/ftpfs -> /usr/src
+ /debug/mc/4.8.31/src/vfs/ftpfs, directory renamed /usr/src/debug/mc/4.8.30/src -> /usr/src/debug/mc/4.8.31/src, directory renamed /usr/src/debug/mc/4.8.30/lib/search -> /usr/src/debug/mc/4.8.31/lib/search, directory renamed /usr/src/debug/mc/4.8.30/lib/mcconfig -> /usr/src/debug/mc/4.8.31/lib/mcconfig, directory renamed /usr/src/debug/mc/4.8.30/src/subshell -> /usr/src/debug/mc/4.8.31/src/subshell, directory renamed /usr/src/debug/mc/4.8.30/lib/vfs -> /usr/src/debug/mc/4.8.31/lib/vfs, directory renamed /usr/src/debug/mc/4.8.30/src/vfs -> /usr/src/debug/mc/4.8.31/src/vfs, directory renamed /usr/src/debug/mc/4.8.30/lib/skin -> /usr/src/debug/mc/4.8.31/lib/skin, directory renamed /usr/src/debug/mc/4.8.30/lib/widget -> /usr/src/debug/mc/4.8.31/lib/widget, directory renamed /usr/src/debug/mc/4.8.30/src/diffviewer -> /usr/src/debug/mc/4.8.31/src/diffviewer, directory renamed /usr/src/debug/mc/4.8.30/lib/tty -> /usr/src/debug/mc/4.8.31/lib/tty, directory renamed /usr/src/debug/mc/4.8.30/li
+ b/event -> /usr/src/debug/mc/4.8.31/lib/event, directory renamed /usr/src/debug/mc/4.8.30/lib/filehighlight -> /usr/src/debug/mc/4.8.31/lib/filehighlight, directory renamed /usr/src/debug/mc/4.8.30/lib -> /usr/src/debug/mc/4.8.31/lib, directory renamed /usr/src/debug/mc/4.8.30/src/vfs/sfs -> /usr/src/debug/mc/4.8.31/src/vfs/sfs, removed "/usr/src/debug/mc/4.8.30/src/vfs/fish/fish.c /usr/src/debug/mc/4.8.30/src/vfs/fish/fish.h", added "/usr/src/debug/mc/4.8.31/src/vfs/shell/shell.h /usr/src/debug/mc/4.8.31/src/vfs/shell/shell.c"
+packages/core2-64-poky-linux/mc/mc-src: PKGSIZE changed from 3954728 to 3956776 (+0%)
+packages/core2-64-poky-linux/mc/mc-src: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-src: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc-staticdev: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc-staticdev: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
+packages/core2-64-poky-linux/mc/mc: FILELIST: added "/usr/libexec/mc/shell/get /usr/libexec/mc/shell/append /usr/libexec/mc/shell/send /usr/libexec/mc/shell/hardlink /usr/libexec/mc/shell/mkdir /usr/libexec/mc/shell/mv /usr/libexec/mc/shell/rmdir /usr/libexec/mc/shell/README.shell /usr/libexec/mc/shell/ls /usr/libexec/mc/shell/unlink /usr/libexec/mc/shell/utime /usr/libexec/mc/shell/chown /usr/libexec/mc/shell/ln /usr/libexec/mc/shell/chmod /usr/libexec/mc/shell/info /usr/libexec/mc/shell/fexists"
+packages/core2-64-poky-linux/mc/mc: PKGSIZE changed from 3649364 to 3672372 (+1%)
+packages/core2-64-poky-linux/mc/mc: PV changed from "4.8.30" to "4.8.31"
+packages/core2-64-poky-linux/mc/mc: PKGV changed from 4.8.30 [default] to 4.8.31 [default]
 
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.275.0.bb:do_compile
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: vulkan-utility-libraries-1.3.275.0-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/temp/run.do_compile.1094606', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/temp/log.do_compile.1094606
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.275.0.bb:do_compile) failed with exit code '1'
-
---===============8942802273366496436==--
+--===============1717303151836247756==--
 
