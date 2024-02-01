@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EA30C54E71
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B86C7C54E72
 	for <webhook@archiver.kernel.org>; Thu,  1 Feb 2024 18:00:19 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web11.2094.1706810405005668227
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web11.2095.1706810405189795237
  for <openembedded-core@lists.openembedded.org>;
  Thu, 01 Feb 2024 10:00:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=FJoZd5Ot;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=BFGccHXE;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018d65d3f1c2-e808d7fb-9f90-4f96-958f-a78bab9e646b-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=WkOmyoms;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=OF1oA3h5;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018d65d3f187-1d1f8f21-1779-4705-a598-a8ac4dd66c42-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1706810405;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=YRbgdjih8FCS8sV1P9OBvYqpU179Gemv7NPIGh+h/sY=;
-	b=FJoZd5OtDA2akI39efMibw9DtOMnZOrAiTzGAEy/5YF+sAb1WlT64be6tE+PST1g
-	8G+nhUYwKz0RFyoOjBOWkzU7qpiobKIb+5HOt20/oJJHD6+1nfrws1nLhPTP2q/Y0s7
-	ODn9dTgnVCZg8Whfm7qrTChbbsRXE7sEl6s3nAfk=
+	bh=+iAA026Yp5aM5RitHvOvGS06bSQHl25Aj9srjWF48II=;
+	b=WkOmyoms6zC6qkxddWJgjnjPMiAC+R9NiXkjOvEuvmwcOwk10k2HkoA49GFIwPKz
+	ipfbQ/Grm8CYpbeoFUieQYUkQR//qDh1Cxu2ICAIDlt80oKLitFsP49j6qhmt7jF10G
+	V2RmgDQGhqZ3xkhDWg/rN8UCu5UQod9OJ+z4Qp7s=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1706810405;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=YRbgdjih8FCS8sV1P9OBvYqpU179Gemv7NPIGh+h/sY=;
-	b=BFGccHXE0DY68iq1wiv1uvvzQjJ3/k9J6mkDGkvVVc9xEO57PKZ0/Chr2RFFQaiG
-	5ih82swDvxlYpx2Q9ppHsR9e9+UxSabVWTQPmX+h/8CmlbV2TfXeC4K+CeZSwfQPyXq
-	YNHJpgIfv5AY1cGouqwYFE9MSVW7E3anGA3tPDtM=
-Content-Type: multipart/mixed; boundary="===============8170385548486443570=="
+	bh=+iAA026Yp5aM5RitHvOvGS06bSQHl25Aj9srjWF48II=;
+	b=OF1oA3h53cvMEolAhc248u+kMIG8lx+WChjtMnYEnh+x+iP6J0pvQsBmKnj8Bt1t
+	M5XakBCGbnBnsKncr0xYD/hzyZD0AM3iRwsM1nt6H723UB0OCcixvp1Zz6vGHk9MdNR
+	QFssfZJ56ga93S0r+3NDJhiL2QW/JabaH7jouvy4=
+Content-Type: multipart/mixed; boundary="===============3676466580165933669=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pluggy: upgrading to 1.4.0 SUCCEEDED
-Message-ID: <0101018d65d3f1c2-e808d7fb-9f90-4f96-958f-a78bab9e646b-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-markupsafe: upgrading to 2.1.4 SUCCEEDED
+Message-ID: <0101018d65d3f187-1d1f8f21-1779-4705-a598-a8ac4dd66c42-000000@us-west-2.amazonses.com>
 Date: Thu, 1 Feb 2024 18:00:05 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.02.01-54.240.27.30
+X-SES-Outgoing: 2024.02.01-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 Feb 2024 18:00:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194634
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194632
 
---===============8170385548486443570==
+--===============3676466580165933669==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-pluggy* to *1.4.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-markupsafe* to *2.1.4* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-pluggy-upgrade-1.3.0-1.4.0.patch
+    - apply the patch: git am 0001-python3-markupsafe-upgrade-2.1.3-2.1.4.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,79 +72,76 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 1ec1c93761739522a58a82c85c725d294e4eb0d1 Mon Sep 17 00:00:00 2001
+From 8e86d8c2c71cb85018da452b14eb849feb481863 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 1 Feb 2024 08:00:45 +0000
-Subject: [PATCH] python3-pluggy: upgrade 1.3.0 -> 1.4.0
+Date: Thu, 1 Feb 2024 07:56:50 +0000
+Subject: [PATCH] python3-markupsafe: upgrade 2.1.3 -> 2.1.4
 
 ---
- .../python/{python3-pluggy_1.3.0.bb => python3-pluggy_1.4.0.bb} | 2 +-
+ ...{python3-markupsafe_2.1.3.bb => python3-markupsafe_2.1.4.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pluggy_1.3.0.bb => python3-pluggy_1.4.0.bb} (88%)
+ rename meta/recipes-devtools/python/{python3-markupsafe_2.1.3.bb => python3-markupsafe_2.1.4.bb} (87%)
 
-diff --git a/meta/recipes-devtools/python/python3-pluggy_1.3.0.bb b/meta/recipes-devtools/python/python3-pluggy_1.4.0.bb
-similarity index 88%
-rename from meta/recipes-devtools/python/python3-pluggy_1.3.0.bb
-rename to meta/recipes-devtools/python/python3-pluggy_1.4.0.bb
-index c149cbb0e2..6e4c0cd98c 100644
---- a/meta/recipes-devtools/python/python3-pluggy_1.3.0.bb
-+++ b/meta/recipes-devtools/python/python3-pluggy_1.4.0.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/pytest-dev/pluggy"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=1c8206d16fd5cc02fa9b0bb98955e5c2"
+diff --git a/meta/recipes-devtools/python/python3-markupsafe_2.1.3.bb b/meta/recipes-devtools/python/python3-markupsafe_2.1.4.bb
+similarity index 87%
+rename from meta/recipes-devtools/python/python3-markupsafe_2.1.3.bb
+rename to meta/recipes-devtools/python/python3-markupsafe_2.1.4.bb
+index b346cc85d9..b245ce6fe9 100644
+--- a/meta/recipes-devtools/python/python3-markupsafe_2.1.3.bb
++++ b/meta/recipes-devtools/python/python3-markupsafe_2.1.4.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "http://github.com/mitsuhiko/markupsafe"
+ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=ffeffa59c90c9c4a033c7574f8f3fb75"
  
--SRC_URI[sha256sum] = "cf61ae8f126ac6f7c451172cf30e3e43d3ca77615509771b3a984a0730651e12"
-+SRC_URI[sha256sum] = "8c85c2876142a764e5b7548e7d9a0e0ddb46f5185161049a79b7e974454223be"
+-SRC_URI[sha256sum] = "af598ed32d6ae86f1b747b82783958b1a4ab8f617b06fe68795c7f026abbdcad"
++SRC_URI[sha256sum] = "3aae9af4cac263007fd6309c64c6ab4506dd2b79382d9d19a1994f9240b8db4f"
  
- DEPENDS += "${PYTHON_PN}-setuptools-scm-native"
- RDEPENDS:${PN} += "${PYTHON_PN}-importlib-metadata \
+ PYPI_PACKAGE = "MarkupSafe"
+ inherit pypi setuptools3 ptest
 -- 
 2.42.0
 
 
---===============8170385548486443570==
+--===============3676466580165933669==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-pluggy-upgrade-1.3.0-1.4.0.patch"
+ filename="0001-python3-markupsafe-upgrade-2.1.3-2.1.4.patch"
 
-RnJvbSAxZWMxYzkzNzYxNzM5NTIyYTU4YTgyYzg1YzcyNWQyOTRlNGViMGQxIE1vbiBTZXAgMTcg
+RnJvbSA4ZTg2ZDhjMmM3MWNiODUwMThkYTQ1MmIxNGViODQ5ZmViNDgxODYzIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMSBGZWIgMjAyNCAwODowMDo0NSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtcGx1Z2d5OiB1cGdyYWRlIDEuMy4wIC0+IDEuNC4wCgotLS0KIC4uLi9weXRob24ve3B5
-dGhvbjMtcGx1Z2d5XzEuMy4wLmJiID0+IHB5dGhvbjMtcGx1Z2d5XzEuNC4wLmJifSB8IDIgKy0K
-IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
-dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtcGx1Z2d5XzEuMy4wLmJiID0+IHB5
-dGhvbjMtcGx1Z2d5XzEuNC4wLmJifSAoODglKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9weXRob24vcHl0aG9uMy1wbHVnZ3lfMS4zLjAuYmIgYi9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvcHl0aG9uL3B5dGhvbjMtcGx1Z2d5XzEuNC4wLmJiCnNpbWlsYXJpdHkgaW5kZXggODgl
-CnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1wbHVnZ3lf
-MS4zLjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1w
-bHVnZ3lfMS40LjAuYmIKaW5kZXggYzE0OWNiYjBlMi4uNmU0YzBjZDk4YyAxMDA2NDQKLS0tIGEv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBsdWdneV8xLjMuMC5iYgorKysg
-Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcGx1Z2d5XzEuNC4wLmJiCkBA
-IC0zLDcgKzMsNyBAQCBIT01FUEFHRSA9ICJodHRwczovL2dpdGh1Yi5jb20vcHl0ZXN0LWRldi9w
-bHVnZ3kiCiBMSUNFTlNFID0gIk1JVCIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VO
-U0U7bWQ1PTFjODIwNmQxNmZkNWNjMDJmYTliMGJiOTg5NTVlNWMyIgogCi1TUkNfVVJJW3NoYTI1
-NnN1bV0gPSAiY2Y2MWFlOGYxMjZhYzZmN2M0NTExNzJjZjMwZTNlNDNkM2NhNzc2MTU1MDk3NzFi
-M2E5ODRhMDczMDY1MWUxMiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI4Yzg1YzI4NzYxNDJhNzY0
-ZTViNzU0OGU3ZDlhMGUwZGRiNDZmNTE4NTE2MTA0OWE3OWI3ZTk3NDQ1NDIyM2JlIgogCiBERVBF
-TkRTICs9ICIke1BZVEhPTl9QTn0tc2V0dXB0b29scy1zY20tbmF0aXZlIgogUkRFUEVORFM6JHtQ
-Tn0gKz0gIiR7UFlUSE9OX1BOfS1pbXBvcnRsaWItbWV0YWRhdGEgXAotLSAKMi40Mi4wCgo=
+CkRhdGU6IFRodSwgMSBGZWIgMjAyNCAwNzo1Njo1MCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtbWFya3Vwc2FmZTogdXBncmFkZSAyLjEuMyAtPiAyLjEuNAoKLS0tCiAuLi57cHl0aG9u
+My1tYXJrdXBzYWZlXzIuMS4zLmJiID0+IHB5dGhvbjMtbWFya3Vwc2FmZV8yLjEuNC5iYn0gfCAy
+ICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFt
+ZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLW1hcmt1cHNhZmVfMi4xLjMu
+YmIgPT4gcHl0aG9uMy1tYXJrdXBzYWZlXzIuMS40LmJifSAoODclKQoKZGlmZiAtLWdpdCBhL21l
+dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1tYXJrdXBzYWZlXzIuMS4zLmJiIGIv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLW1hcmt1cHNhZmVfMi4xLjQuYmIK
+c2ltaWxhcml0eSBpbmRleCA4NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
+dGhvbi9weXRob24zLW1hcmt1cHNhZmVfMi4xLjMuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9weXRob24vcHl0aG9uMy1tYXJrdXBzYWZlXzIuMS40LmJiCmluZGV4IGIzNDZjYzg1
+ZDkuLmIyNDVjZTZmZTkgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
+cHl0aG9uMy1tYXJrdXBzYWZlXzIuMS4zLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9w
+eXRob24vcHl0aG9uMy1tYXJrdXBzYWZlXzIuMS40LmJiCkBAIC0zLDcgKzMsNyBAQCBIT01FUEFH
+RSA9ICJodHRwOi8vZ2l0aHViLmNvbS9taXRzdWhpa28vbWFya3Vwc2FmZSIKIExJQ0VOU0UgPSAi
+QlNELTMtQ2xhdXNlIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRS5yc3Q7bWQ1
+PWZmZWZmYTU5YzkwYzljNGEwMzNjNzU3NGY4ZjNmYjc1IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0g
+PSAiYWY1OThlZDMyZDZhZTg2ZjFiNzQ3YjgyNzgzOTU4YjFhNGFiOGY2MTdiMDZmZTY4Nzk1Yzdm
+MDI2YWJiZGNhZCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIzYWFlOWFmNGNhYzI2MzAwN2ZkNjMw
+OWM2NGM2YWI0NTA2ZGQyYjc5MzgyZDlkMTlhMTk5NGY5MjQwYjhkYjRmIgogCiBQWVBJX1BBQ0tB
+R0UgPSAiTWFya3VwU2FmZSIKIGluaGVyaXQgcHlwaSBzZXR1cHRvb2xzMyBwdGVzdAotLSAKMi40
+Mi4wCgo=
 
---===============8170385548486443570==
+--===============3676466580165933669==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/python3-pluggy/python3-pluggy-ptest: FILELIST: added "/usr/lib/python3-pluggy/ptest/testing/test_warnings.py"
-packages/core2-64-poky-linux/python3-pluggy/python3-pluggy: FILELIST: directory renamed /usr/lib/python3.12/site-packages/pluggy-1.3.0.dist-info -> /usr/lib/python3.12/site-packages/pluggy-1.4.0.dist-info, added "/usr/lib/python3.12/site-packages/pluggy/_warnings.py /usr/lib/python3.12/site-packages/pluggy/__pycache__/_warnings.cpython-312.pyc"
-Changes to packages/core2-64-poky-linux/python3-pluggy (sysroot):
-  /usr/lib/python3.12/site-packages/pluggy-1.3.0.dist-info moved to /usr/lib/python3.12/site-packages/pluggy-1.4.0.dist-info
-  /usr/lib/python3.12/site-packages/pluggy/__pycache__/_warnings.cpython-312.pyc was added
-  /usr/lib/python3.12/site-packages/pluggy/_warnings.py was added
+Changes to packages/core2-64-poky-linux/python3-markupsafe (sysroot):
+  /usr/lib/python3.12/site-packages/MarkupSafe-2.1.3.dist-info moved to /usr/lib/python3.12/site-packages/MarkupSafe-2.1.4.dist-info
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1781,44 +1778,35 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
-Changes to packages/x86_64-linux/python3-pluggy-native (sysroot):
-  /usr/lib/python3.12/site-packages/pluggy-1.3.0.dist-info moved to /usr/lib/python3.12/site-packages/pluggy-1.4.0.dist-info
-  /usr/lib/python3.12/site-packages/pluggy/__pycache__/_warnings.cpython-312.pyc was added
-  /usr/lib/python3.12/site-packages/pluggy/_warnings.py was added
 
---===============8170385548486443570==
+--===============3676466580165933669==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-pluggy: PKGV changed from 1.3.0 [default] to 1.4.0 [default]
-packages/core2-64-poky-linux/python3-pluggy: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pluggy/pluggy-1.3.0.tar.gz;downloadfilename=pluggy-1.3.0.tar.gz file://run-ptest" to "https://files.pythonhosted.org/packages/source/p/pluggy/pluggy-1.4.0.tar.gz;downloadfilename=pluggy-1.4.0.tar.gz file://run-ptest"
-packages/core2-64-poky-linux/python3-pluggy: PV changed from "1.3.0" to "1.4.0"
-packages/core2-64-poky-linux/python3-pluggy/python3-pluggy-dbg: PKGV changed from 1.3.0 [default] to 1.4.0 [default]
-packages/core2-64-poky-linux/python3-pluggy/python3-pluggy-dbg: PV changed from "1.3.0" to "1.4.0"
-packages/core2-64-poky-linux/python3-pluggy/python3-pluggy-dev: PKGV changed from 1.3.0 [default] to 1.4.0 [default]
-packages/core2-64-poky-linux/python3-pluggy/python3-pluggy-dev: PV changed from "1.3.0" to "1.4.0"
-packages/core2-64-poky-linux/python3-pluggy/python3-pluggy-doc: PKGV changed from 1.3.0 [default] to 1.4.0 [default]
-packages/core2-64-poky-linux/python3-pluggy/python3-pluggy-doc: PV changed from "1.3.0" to "1.4.0"
-packages/core2-64-poky-linux/python3-pluggy/python3-pluggy-locale: PKGV changed from 1.3.0 [default] to 1.4.0 [default]
-packages/core2-64-poky-linux/python3-pluggy/python3-pluggy-locale: PV changed from "1.3.0" to "1.4.0"
-packages/core2-64-poky-linux/python3-pluggy/python3-pluggy-ptest: FILELIST: added "/usr/lib/python3-pluggy/ptest/testing/test_warnings.py"
-packages/core2-64-poky-linux/python3-pluggy/python3-pluggy-ptest: PKGV changed from 1.3.0 [default] to 1.4.0 [default]
-packages/core2-64-poky-linux/python3-pluggy/python3-pluggy-ptest: PKGSIZE changed from 56217 to 61169 (+9%)
-packages/core2-64-poky-linux/python3-pluggy/python3-pluggy-ptest: PV changed from "1.3.0" to "1.4.0"
-packages/core2-64-poky-linux/python3-pluggy/python3-pluggy-src: PKGV changed from 1.3.0 [default] to 1.4.0 [default]
-packages/core2-64-poky-linux/python3-pluggy/python3-pluggy-src: PV changed from "1.3.0" to "1.4.0"
-packages/core2-64-poky-linux/python3-pluggy/python3-pluggy-staticdev: PKGV changed from 1.3.0 [default] to 1.4.0 [default]
-packages/core2-64-poky-linux/python3-pluggy/python3-pluggy-staticdev: PV changed from "1.3.0" to "1.4.0"
-packages/core2-64-poky-linux/python3-pluggy/python3-pluggy: FILELIST: directory renamed /usr/lib/python3.12/site-packages/pluggy-1.3.0.dist-info -> /usr/lib/python3.12/site-packages/pluggy-1.4.0.dist-info, added "/usr/lib/python3.12/site-packages/pluggy/_warnings.py /usr/lib/python3.12/site-packages/pluggy/__pycache__/_warnings.cpython-312.pyc"
-packages/core2-64-poky-linux/python3-pluggy/python3-pluggy: PKGV changed from 1.3.0 [default] to 1.4.0 [default]
-packages/core2-64-poky-linux/python3-pluggy/python3-pluggy: PKGSIZE changed from 130255 to 135796 (+4%)
-packages/core2-64-poky-linux/python3-pluggy/python3-pluggy: PV changed from "1.3.0" to "1.4.0"
-Changes to packages/core2-64-poky-linux/python3-pluggy (sysroot):
-  /usr/lib/python3.12/site-packages/pluggy-1.3.0.dist-info moved to /usr/lib/python3.12/site-packages/pluggy-1.4.0.dist-info
-  /usr/lib/python3.12/site-packages/pluggy/__pycache__/_warnings.cpython-312.pyc was added
-  /usr/lib/python3.12/site-packages/pluggy/_warnings.py was added
+packages/core2-64-poky-linux/python3-markupsafe: SRC_URI changed from "https://files.pythonhosted.org/packages/source/M/MarkupSafe/MarkupSafe-2.1.3.tar.gz;downloadfilename=MarkupSafe-2.1.3.tar.gz file://run-ptest" to "https://files.pythonhosted.org/packages/source/M/MarkupSafe/MarkupSafe-2.1.4.tar.gz;downloadfilename=MarkupSafe-2.1.4.tar.gz file://run-ptest"
+packages/core2-64-poky-linux/python3-markupsafe: PV changed from "2.1.3" to "2.1.4"
+packages/core2-64-poky-linux/python3-markupsafe: PKGV changed from 2.1.3 [default] to 2.1.4 [default]
+packages/core2-64-poky-linux/python3-markupsafe/python3-markupsafe-dbg: PV changed from "2.1.3" to "2.1.4"
+packages/core2-64-poky-linux/python3-markupsafe/python3-markupsafe-dbg: PKGV changed from 2.1.3 [default] to 2.1.4 [default]
+packages/core2-64-poky-linux/python3-markupsafe/python3-markupsafe-dev: PV changed from "2.1.3" to "2.1.4"
+packages/core2-64-poky-linux/python3-markupsafe/python3-markupsafe-dev: PKGV changed from 2.1.3 [default] to 2.1.4 [default]
+packages/core2-64-poky-linux/python3-markupsafe/python3-markupsafe-doc: PV changed from "2.1.3" to "2.1.4"
+packages/core2-64-poky-linux/python3-markupsafe/python3-markupsafe-doc: PKGV changed from 2.1.3 [default] to 2.1.4 [default]
+packages/core2-64-poky-linux/python3-markupsafe/python3-markupsafe-locale: PV changed from "2.1.3" to "2.1.4"
+packages/core2-64-poky-linux/python3-markupsafe/python3-markupsafe-locale: PKGV changed from 2.1.3 [default] to 2.1.4 [default]
+packages/core2-64-poky-linux/python3-markupsafe/python3-markupsafe-ptest: PV changed from "2.1.3" to "2.1.4"
+packages/core2-64-poky-linux/python3-markupsafe/python3-markupsafe-ptest: PKGV changed from 2.1.3 [default] to 2.1.4 [default]
+packages/core2-64-poky-linux/python3-markupsafe/python3-markupsafe-src: PV changed from "2.1.3" to "2.1.4"
+packages/core2-64-poky-linux/python3-markupsafe/python3-markupsafe-src: PKGV changed from 2.1.3 [default] to 2.1.4 [default]
+packages/core2-64-poky-linux/python3-markupsafe/python3-markupsafe-staticdev: PV changed from "2.1.3" to "2.1.4"
+packages/core2-64-poky-linux/python3-markupsafe/python3-markupsafe-staticdev: PKGV changed from 2.1.3 [default] to 2.1.4 [default]
+packages/core2-64-poky-linux/python3-markupsafe/python3-markupsafe: PV changed from "2.1.3" to "2.1.4"
+packages/core2-64-poky-linux/python3-markupsafe/python3-markupsafe: PKGSIZE changed from 59177 to 59873 (+1%)
+packages/core2-64-poky-linux/python3-markupsafe/python3-markupsafe: PKGV changed from 2.1.3 [default] to 2.1.4 [default]
+Changes to packages/core2-64-poky-linux/python3-markupsafe (sysroot):
+  /usr/lib/python3.12/site-packages/MarkupSafe-2.1.3.dist-info moved to /usr/lib/python3.12/site-packages/MarkupSafe-2.1.4.dist-info
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3455,10 +3443,6 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
-Changes to packages/x86_64-linux/python3-pluggy-native (sysroot):
-  /usr/lib/python3.12/site-packages/pluggy-1.3.0.dist-info moved to /usr/lib/python3.12/site-packages/pluggy-1.4.0.dist-info
-  /usr/lib/python3.12/site-packages/pluggy/__pycache__/_warnings.cpython-312.pyc was added
-  /usr/lib/python3.12/site-packages/pluggy/_warnings.py was added
 
---===============8170385548486443570==--
+--===============3676466580165933669==--
 
