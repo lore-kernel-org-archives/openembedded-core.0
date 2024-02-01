@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 799C0C4828E
-	for <webhook@archiver.kernel.org>; Thu,  1 Feb 2024 18:00:14 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web11.2091.1706810404660546641
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17499C48294
+	for <webhook@archiver.kernel.org>; Thu,  1 Feb 2024 18:00:15 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.2099.1706810405418465370
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Feb 2024 10:00:09 -0800
+ Thu, 01 Feb 2024 10:00:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=QoKgKZbx;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=bShI99ys;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018d65d3fc97-8bea5e40-b670-4588-b688-9f00e0fdd951-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=c/Lk6N+d;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=fYW8QsPw;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018d65d3fc72-a97e5b53-44d3-49ae-ac4c-9f12fdc43f83-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1706810408;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=CVX32UGX/7MHGMUdvHRWXfkep7QSHKFEvTLdcRAH1E0=;
-	b=QoKgKZbx03p3LhiHuOS+YHFNDTTt/TFnGOdWhW+m6AlsVkeUkeFLLDDWOM+tIyY4
-	2oL44QWq4wJtkp+O+8cvg/PZAEDhcx0zC9ltEwlS9IHEVDq02phU8+nK4Sm/7XU9qBZ
-	MNpjIbxDheJfKnGnjl1jLwnUgqx0hL23kTdyDzBQ=
+	bh=Jf0MIEjPPEn7W+RbrQwc6ukp7AySjTluEgnE4O7XW3k=;
+	b=c/Lk6N+dkZf6xkeoxy4ZZLn6GHnj7C4cP3J/YEbybbRhBzopM07Gd/2SN+DF9EH5
+	gMEvEucyqv+MmPirDY26B/wZp4wZE6zg1AC6qVwPDf2WDDrDnt8ksQej5q7QiHG3INT
+	kcGLRCVSR1lTP3yWQtSo1O3kGduSozPVS3ZSCd/o=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1706810408;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=CVX32UGX/7MHGMUdvHRWXfkep7QSHKFEvTLdcRAH1E0=;
-	b=bShI99ysCyAMDuaTcy2uik1vsbw0b+8woL+M3wTtfhGOjX63cOmtqIckeeuCntig
-	Ufp4RBCr42iOmw20MAQTqntXsZP6/dDK4HIjFL2Xjjw/1wCfZAyGfjW8CFTQl7wEuBL
-	PuvJimdrVt1gCz771zenNUC1z9FcZc2x/j2iNqgE=
-Content-Type: multipart/mixed; boundary="===============6025488417590878401=="
+	bh=Jf0MIEjPPEn7W+RbrQwc6ukp7AySjTluEgnE4O7XW3k=;
+	b=fYW8QsPwSLLDotJvUU8yuhsbQin6s+BYsfEwqSTRQTmI23ZKklbDWB7FL0zDN7iL
+	Oevi9qoCtYls7coQ8Mf3kyribmA3oWZlnkdKolltXgCtiKqaGMrA4v/+HofbhfDdwnH
+	DEQAiZWx7uMhsHQi/zn/GJfTb2Zowtgt/LnHYyZM=
+Content-Type: multipart/mixed; boundary="===============7919479098553769682=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Markus Volk <f_l_k@t-online.de>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] at-spi2-core: upgrading to 2.50.1 SUCCEEDED
-Message-ID: <0101018d65d3fc97-8bea5e40-b670-4588-b688-9f00e0fdd951-000000@us-west-2.amazonses.com>
+Subject: [AUH] appstream: upgrading to 1.0.1 SUCCEEDED
+Message-ID: <0101018d65d3fc72-a97e5b53-44d3-49ae-ac4c-9f12fdc43f83-000000@us-west-2.amazonses.com>
 Date: Thu, 1 Feb 2024 18:00:08 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.02.01-54.240.27.192
+X-SES-Outgoing: 2024.02.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 Feb 2024 18:00:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194721
+ <openembedded-core@lists.openembedded.org>; Thu, 01 Feb 2024 18:00:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194715
 
---===============6025488417590878401==
+--===============7919479098553769682==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *at-spi2-core* to *2.50.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *appstream* to *1.0.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-at-spi2-core-upgrade-2.50.0-2.50.1.patch
+    - apply the patch: git am 0001-appstream-upgrade-1.0.0-1.0.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,46 +72,84 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 85603fe098a02f62fbc167600474482774d95dad Mon Sep 17 00:00:00 2001
+From fc26da77565268b720953a8cf435e200a531b4d0 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 1 Feb 2024 16:14:33 +0000
-Subject: [PATCH] at-spi2-core: upgrade 2.50.0 -> 2.50.1
+Date: Thu, 1 Feb 2024 16:10:55 +0000
+Subject: [PATCH] appstream: upgrade 1.0.0 -> 1.0.1
 
 ---
- .../atk/{at-spi2-core_2.50.0.bb => at-spi2-core_2.50.1.bb}      | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/atk/{at-spi2-core_2.50.0.bb => at-spi2-core_2.50.1.bb} (95%)
+ .../appstream/0001-remove-hardcoded-path.patch       | 12 +++++-------
+ .../{appstream_1.0.0.bb => appstream_1.0.1.bb}       |  2 +-
+ 2 files changed, 6 insertions(+), 8 deletions(-)
+ rename meta/recipes-support/appstream/{appstream_1.0.0.bb => appstream_1.0.1.bb} (93%)
 
-diff --git a/meta/recipes-support/atk/at-spi2-core_2.50.0.bb b/meta/recipes-support/atk/at-spi2-core_2.50.1.bb
-similarity index 95%
-rename from meta/recipes-support/atk/at-spi2-core_2.50.0.bb
-rename to meta/recipes-support/atk/at-spi2-core_2.50.1.bb
-index 57958fb7f5..6996ebebcd 100644
---- a/meta/recipes-support/atk/at-spi2-core_2.50.0.bb
-+++ b/meta/recipes-support/atk/at-spi2-core_2.50.1.bb
-@@ -11,7 +11,7 @@ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+diff --git a/meta/recipes-support/appstream/appstream/0001-remove-hardcoded-path.patch b/meta/recipes-support/appstream/appstream/0001-remove-hardcoded-path.patch
+index 66687a5b89..4e039300b0 100644
+--- a/meta/recipes-support/appstream/appstream/0001-remove-hardcoded-path.patch
++++ b/meta/recipes-support/appstream/appstream/0001-remove-hardcoded-path.patch
+@@ -1,4 +1,4 @@
+-From 6ab00a4279823829a9b82dc9e4d055da4de88c6e Mon Sep 17 00:00:00 2001
++From b7ea37a06bbdaf8664ed9a37312fb41ee609efe6 Mon Sep 17 00:00:00 2001
+ From: Markus Volk <f_l_k@t-online.de>
+ Date: Mon, 12 Dec 2022 15:42:42 +0100
+ Subject: [PATCH] remove hardcoded path
+@@ -9,12 +9,13 @@ Dont include hardcoded path. This fixes:
+ | cc1: error: include location "/usr/include" is unsafe for cross-compilation [-Werror=poison-system-directories]
  
- SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz"
+ Upstream-Status: Inappropriate [oe-specific]
++
+ ---
+- meson.build       | 2 +-
+- 1 files changed, 1 insertions(+), 1 deletions(-)
++ meson.build | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
  
--SRC_URI[sha256sum] = "e9f5a8c8235c9dd963b2171de9120301129c677dde933955e1df618b949c4adc"
-+SRC_URI[sha256sum] = "5727b5c0687ac57ba8040e79bd6731b714a36b8fcf32190f236b8fb3698789e7"
+ diff --git a/meson.build b/meson.build
+-index fd0e3373..2f273ada 100644
++index 0556b1e..f9694b3 100644
+ --- a/meson.build
+ +++ b/meson.build
+ @@ -185,10 +185,10 @@ endif
+@@ -30,6 +31,3 @@ index fd0e3373..2f273ada 100644
+          else
+              error('Unable to find Snowball header "libstemmer.h". Please ensure libstemmer/Snowball is installed properly in order to continue.')
+          endif
+--- 
+-2.34.1
+-
+diff --git a/meta/recipes-support/appstream/appstream_1.0.0.bb b/meta/recipes-support/appstream/appstream_1.0.1.bb
+similarity index 93%
+rename from meta/recipes-support/appstream/appstream_1.0.0.bb
+rename to meta/recipes-support/appstream/appstream_1.0.1.bb
+index 3f8bfcd263..1114011835 100644
+--- a/meta/recipes-support/appstream/appstream_1.0.0.bb
++++ b/meta/recipes-support/appstream/appstream_1.0.1.bb
+@@ -28,7 +28,7 @@ SRC_URI = " \
+ 	https://www.freedesktop.org/software/appstream/releases/AppStream-${PV}.tar.xz \
+ 	file://0001-remove-hardcoded-path.patch \
+ "
+-SRC_URI[sha256sum] = "ef23477a380e8b525e92cfa87687f1146b9cef74c641349a1ae11250be5401d0"
++SRC_URI[sha256sum] = "fa4d5994e5c6f22e9b66cb0b52e8b5f5d96e7353ea5528b56436e0150829203b"
  
- DEPENDS = " \
- 	dbus \
+ S = "${WORKDIR}/AppStream-${PV}"
+ 
 -- 
 2.42.0
 
 
---===============6025488417590878401==
+--===============7919479098553769682==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core: FILELIST: removed "/usr/lib/libatk-1.0.so.0.25009.1", added "/usr/lib/libatk-1.0.so.0.25010.1"
-Changes to packages/core2-64-poky-linux/at-spi2-core (sysroot):
-  /usr/lib/libatk-1.0.so.0 changed symlink target from libatk-1.0.so.0.25009.1 to libatk-1.0.so.0.25010.1
-  /usr/lib/libatk-1.0.so.0.25009.1 moved to /usr/lib/libatk-1.0.so.0.25010.1
+packages/core2-64-poky-linux/appstream/appstream: FILELIST: removed "/usr/lib/libappstream.so.1.0.0", added "/usr/lib/libappstream.so.1.0.1"
+Changes to packages/core2-64-poky-linux/appstream (sysroot):
+  /usr/lib/libappstream.so.5 changed symlink target from libappstream.so.1.0.0 to libappstream.so.1.0.1
+  /usr/lib/libappstream.so.1.0.0 moved to /usr/lib/libappstream.so.1.0.1
+Changes to packages/x86_64-linux/appstream-native (sysroot):
+  /usr/lib/libappstream.so.5 changed symlink target from libappstream.so.1.0.0 to libappstream.so.1.0.1
+  /usr/lib/libappstream.so.1.0.0 moved to /usr/lib/libappstream.so.1.0.1
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -1496,267 +1534,130 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============6025488417590878401==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-at-spi2-core-upgrade-2.50.0-2.50.1.patch"
-
-RnJvbSA4NTYwM2ZlMDk4YTAyZjYyZmJjMTY3NjAwNDc0NDgyNzc0ZDk1ZGFkIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMSBGZWIgMjAyNCAxNjoxNDozMyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGF0
-LXNwaTItY29yZTogdXBncmFkZSAyLjUwLjAgLT4gMi41MC4xCgotLS0KIC4uLi9hdGsve2F0LXNw
-aTItY29yZV8yLjUwLjAuYmIgPT4gYXQtc3BpMi1jb3JlXzIuNTAuMS5iYn0gICAgICB8IDIgKy0K
-IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
-dGEvcmVjaXBlcy1zdXBwb3J0L2F0ay97YXQtc3BpMi1jb3JlXzIuNTAuMC5iYiA9PiBhdC1zcGky
-LWNvcmVfMi41MC4xLmJifSAoOTUlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0
-L2F0ay9hdC1zcGkyLWNvcmVfMi41MC4wLmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvYXRrL2F0
-LXNwaTItY29yZV8yLjUwLjEuYmIKc2ltaWxhcml0eSBpbmRleCA5NSUKcmVuYW1lIGZyb20gbWV0
-YS9yZWNpcGVzLXN1cHBvcnQvYXRrL2F0LXNwaTItY29yZV8yLjUwLjAuYmIKcmVuYW1lIHRvIG1l
-dGEvcmVjaXBlcy1zdXBwb3J0L2F0ay9hdC1zcGkyLWNvcmVfMi41MC4xLmJiCmluZGV4IDU3OTU4
-ZmI3ZjUuLjY5OTZlYmViY2QgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2F0ay9h
-dC1zcGkyLWNvcmVfMi41MC4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2F0ay9hdC1z
-cGkyLWNvcmVfMi41MC4xLmJiCkBAIC0xMSw3ICsxMSw3IEBAIE1BSl9WRVIgPSAiJHtAb2UudXRp
-bHMudHJpbV92ZXJzaW9uKCIke1BWfSIsIDIpfSIKIAogU1JDX1VSSSA9ICIke0dOT01FX01JUlJP
-Un0vJHtCUE59LyR7TUFKX1ZFUn0vJHtCUE59LSR7UFZ9LnRhci54eiIKIAotU1JDX1VSSVtzaGEy
-NTZzdW1dID0gImU5ZjVhOGM4MjM1YzlkZDk2M2IyMTcxZGU5MTIwMzAxMTI5YzY3N2RkZTkzMzk1
-NWUxZGY2MThiOTQ5YzRhZGMiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNTcyN2I1YzA2ODdhYzU3
-YmE4MDQwZTc5YmQ2NzMxYjcxNGEzNmI4ZmNmMzIxOTBmMjM2YjhmYjM2OTg3ODllNyIKIAogREVQ
-RU5EUyA9ICIgXAogCWRidXMgXAotLSAKMi40Mi4wCgo=
-
---===============6025488417590878401==
+--===============7919479098553769682==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-dbg: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-dbg: FILELIST: removed "/usr/lib/.debug/libatk-1.0.so.0.25009.1", added "/usr/lib/.debug/libatk-1.0.so.0.25010.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-dbg: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-dbg: PKGSIZE changed from 1993280 to 1993376 (+0%)
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-dev: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-dev: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-doc: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-doc: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ab: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ab: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-af: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-af: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-am: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-am: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-an: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-an: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ar: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ar: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-as: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-as: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ast: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ast: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-az: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-az: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-be+latin: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-be+latin: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-be: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-be: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-bg: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-bg: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-bn-in: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-bn-in: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-bn: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-bn: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-bs: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-bs: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ca+valencia: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ca+valencia: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ca: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ca: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ckb: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ckb: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-cs: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-cs: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-cy: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-cy: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-da: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-da: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-de: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-de: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-dz: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-dz: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-el: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-el: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-en+shaw: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-en+shaw: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-en-ca: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-en-ca: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-en-gb: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-en-gb: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-eo: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-eo: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-es: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-es: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-et: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-et: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-eu: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-eu: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-fa: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-fa: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-fi: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-fi: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-fr: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-fr: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-fur: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-fur: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ga: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ga: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-gd: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-gd: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-gl: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-gl: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-gu: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-gu: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-he: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-he: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-hi: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-hi: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-hr: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-hr: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-hu: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-hu: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-hy: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-hy: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-id: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-id: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-is: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-is: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-it: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-it: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ja: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ja: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ka: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ka: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-kk: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-kk: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-km: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-km: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-kn: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-kn: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ko: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ko: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ku: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ku: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-li: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-li: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-lt: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-lt: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-lv: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-lv: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-mai: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-mai: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-mk: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-mk: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ml: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ml: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-mn: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-mn: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-mr: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-mr: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ms: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ms: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-nb: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-nb: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ne: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ne: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-nl: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-nl: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-nn: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-nn: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-oc: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-oc: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-or: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-or: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-pa: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-pa: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-pl: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-pl: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ps: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ps: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-pt-br: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-pt-br: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-pt: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-pt: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ro: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ro: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ru: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ru: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-rw: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-rw: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-si: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-si: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sk: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sk: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sl: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sl: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sq: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sq: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sr+ije: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sr+ije: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sr+latin: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sr+latin: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sr: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sr: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sv: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-sv: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ta: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ta: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-te: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-te: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-tg: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-tg: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-th: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-th: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-tk: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-tk: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-tr: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-tr: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-tt: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-tt: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ug: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-ug: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-uk: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-uk: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-uz+cyrillic: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-uz+cyrillic: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-vi: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-vi: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-wa: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-wa: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-xh: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-xh: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-yi: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-yi: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-zh-cn: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-zh-cn: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-zh-hk: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-zh-hk: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-zh-tw: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-zh-tw: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-zu: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-locale-zu: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-src: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-src: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-src: PKGSIZE changed from 2020749 to 2020764 (+0%)
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-staticdev: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core-staticdev: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core: FILELIST: removed "/usr/lib/libatk-1.0.so.0.25009.1", added "/usr/lib/libatk-1.0.so.0.25010.1"
-packages/core2-64-poky-linux/at-spi2-core/at-spi2-core: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-packages/core2-64-poky-linux/at-spi2-core: SRC_URI changed from "https://download.gnome.org/sources//at-spi2-core/2.50/at-spi2-core-2.50.0.tar.xz" to "https://download.gnome.org/sources//at-spi2-core/2.50/at-spi2-core-2.50.1.tar.xz"
-packages/core2-64-poky-linux/at-spi2-core: PV changed from "2.50.0" to "2.50.1"
-packages/core2-64-poky-linux/at-spi2-core: PKGV changed from 2.50.0 [default] to 2.50.1 [default]
-Changes to packages/core2-64-poky-linux/at-spi2-core (sysroot):
-  /usr/lib/libatk-1.0.so.0 changed symlink target from libatk-1.0.so.0.25009.1 to libatk-1.0.so.0.25010.1
-  /usr/lib/libatk-1.0.so.0.25009.1 moved to /usr/lib/libatk-1.0.so.0.25010.1
+packages/core2-64-poky-linux/appstream/appstream-dbg: PKGSIZE changed from 2373928 to 2376832 (+0%)
+packages/core2-64-poky-linux/appstream/appstream-dbg: FILELIST: removed "/usr/lib/.debug/libappstream.so.1.0.0", added "/usr/lib/.debug/libappstream.so.1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-dbg: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-dbg: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-dev: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-dev: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-doc: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-doc: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-ain: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-ain: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-ar: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-ar: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-bn-bd: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-bn-bd: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-bn: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-bn: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-ca: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-ca: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-ckb: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-ckb: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-cs: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-cs: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-da: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-da: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-de: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-de: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-en-gb: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-en-gb: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-eo: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-eo: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-es: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-es: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-et: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-et: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-eu: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-eu: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-fi: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-fi: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-fr: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-fr: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-gd: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-gd: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-gl: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-gl: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-he: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-he: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-hi: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-hi: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-hr: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-hr: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-hu: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-hu: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-id: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-id: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-it: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-it: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-ja: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-ja: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-ka: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-ka: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-ko: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-ko: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-lt: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-lt: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-nb: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-nb: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-nl: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-nl: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-oc: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-oc: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-pl: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-pl: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-pt-br: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-pt-br: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-pt: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-pt: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-ro: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-ro: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-rom: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-rom: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-ru: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-ru: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-sk: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-sk: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-sl: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-sl: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-sr+latin: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-sr+latin: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-sr: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-sr: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-sv: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-sv: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-tr: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-tr: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-uk: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-uk: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-zh-cn: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-zh-cn: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-locale-zh-tw: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-locale-zh-tw: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-src: PKGSIZE changed from 1829227 to 1832848 (+0%)
+packages/core2-64-poky-linux/appstream/appstream-src: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-src: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream-staticdev: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream-staticdev: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream/appstream: PKGSIZE changed from 3571943 to 3577830 (+0%)
+packages/core2-64-poky-linux/appstream/appstream: FILELIST: removed "/usr/lib/libappstream.so.1.0.0", added "/usr/lib/libappstream.so.1.0.1"
+packages/core2-64-poky-linux/appstream/appstream: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream/appstream: PV changed from "1.0.0" to "1.0.1"
+packages/core2-64-poky-linux/appstream: SRC_URI changed from "https://www.freedesktop.org/software/appstream/releases/AppStream-1.0.0.tar.xz file://0001-remove-hardcoded-path.patch" to "https://www.freedesktop.org/software/appstream/releases/AppStream-1.0.1.tar.xz file://0001-remove-hardcoded-path.patch"
+packages/core2-64-poky-linux/appstream: PKGV changed from 1.0.0 [default] to 1.0.1 [default]
+packages/core2-64-poky-linux/appstream: PV changed from "1.0.0" to "1.0.1"
+Changes to packages/core2-64-poky-linux/appstream (sysroot):
+  /usr/lib/libappstream.so.5 changed symlink target from libappstream.so.1.0.0 to libappstream.so.1.0.1
+  /usr/lib/libappstream.so.1.0.0 moved to /usr/lib/libappstream.so.1.0.1
+Changes to packages/x86_64-linux/appstream-native (sysroot):
+  /usr/lib/libappstream.so.5 changed symlink target from libappstream.so.1.0.0 to libappstream.so.1.0.1
+  /usr/lib/libappstream.so.1.0.0 moved to /usr/lib/libappstream.so.1.0.1
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -3141,5 +3042,61 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============6025488417590878401==--
+--===============7919479098553769682==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-appstream-upgrade-1.0.0-1.0.1.patch"
+
+RnJvbSBmYzI2ZGE3NzU2NTI2OGI3MjA5NTNhOGNmNDM1ZTIwMGE1MzFiNGQwIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMSBGZWIgMjAyNCAxNjoxMDo1NSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGFw
+cHN0cmVhbTogdXBncmFkZSAxLjAuMCAtPiAxLjAuMQoKLS0tCiAuLi4vYXBwc3RyZWFtLzAwMDEt
+cmVtb3ZlLWhhcmRjb2RlZC1wYXRoLnBhdGNoICAgICAgIHwgMTIgKysrKystLS0tLS0tCiAuLi4v
+e2FwcHN0cmVhbV8xLjAuMC5iYiA9PiBhcHBzdHJlYW1fMS4wLjEuYmJ9ICAgICAgIHwgIDIgKy0K
+IDIgZmlsZXMgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspLCA4IGRlbGV0aW9ucygtKQogcmVuYW1l
+IG1ldGEvcmVjaXBlcy1zdXBwb3J0L2FwcHN0cmVhbS97YXBwc3RyZWFtXzEuMC4wLmJiID0+IGFw
+cHN0cmVhbV8xLjAuMS5iYn0gKDkzJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9y
+dC9hcHBzdHJlYW0vYXBwc3RyZWFtLzAwMDEtcmVtb3ZlLWhhcmRjb2RlZC1wYXRoLnBhdGNoIGIv
+bWV0YS9yZWNpcGVzLXN1cHBvcnQvYXBwc3RyZWFtL2FwcHN0cmVhbS8wMDAxLXJlbW92ZS1oYXJk
+Y29kZWQtcGF0aC5wYXRjaAppbmRleCA2NjY4N2E1Yjg5Li40ZTAzOTMwMGIwIDEwMDY0NAotLS0g
+YS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9hcHBzdHJlYW0vYXBwc3RyZWFtLzAwMDEtcmVtb3ZlLWhh
+cmRjb2RlZC1wYXRoLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2FwcHN0cmVhbS9h
+cHBzdHJlYW0vMDAwMS1yZW1vdmUtaGFyZGNvZGVkLXBhdGgucGF0Y2gKQEAgLTEsNCArMSw0IEBA
+Ci1Gcm9tIDZhYjAwYTQyNzk4MjM4MjlhOWI4MmRjOWU0ZDA1NWRhNGRlODhjNmUgTW9uIFNlcCAx
+NyAwMDowMDowMCAyMDAxCitGcm9tIGI3ZWEzN2EwNmJiZGFmODY2NGVkOWEzNzMxMmZiNDFlZTYw
+OWVmZTYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBNYXJrdXMgVm9sayA8Zl9sX2tA
+dC1vbmxpbmUuZGU+CiBEYXRlOiBNb24sIDEyIERlYyAyMDIyIDE1OjQyOjQyICswMTAwCiBTdWJq
+ZWN0OiBbUEFUQ0hdIHJlbW92ZSBoYXJkY29kZWQgcGF0aApAQCAtOSwxMiArOSwxMyBAQCBEb250
+IGluY2x1ZGUgaGFyZGNvZGVkIHBhdGguIFRoaXMgZml4ZXM6CiB8IGNjMTogZXJyb3I6IGluY2x1
+ZGUgbG9jYXRpb24gIi91c3IvaW5jbHVkZSIgaXMgdW5zYWZlIGZvciBjcm9zcy1jb21waWxhdGlv
+biBbLVdlcnJvcj1wb2lzb24tc3lzdGVtLWRpcmVjdG9yaWVzXQogCiBVcHN0cmVhbS1TdGF0dXM6
+IEluYXBwcm9wcmlhdGUgW29lLXNwZWNpZmljXQorCiAtLS0KLSBtZXNvbi5idWlsZCAgICAgICB8
+IDIgKy0KLSAxIGZpbGVzIGNoYW5nZWQsIDEgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbnMoLSkK
+KyBtZXNvbi5idWlsZCB8IDQgKystLQorIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyks
+IDIgZGVsZXRpb25zKC0pCiAKIGRpZmYgLS1naXQgYS9tZXNvbi5idWlsZCBiL21lc29uLmJ1aWxk
+Ci1pbmRleCBmZDBlMzM3My4uMmYyNzNhZGEgMTAwNjQ0CitpbmRleCAwNTU2YjFlLi5mOTY5NGIz
+IDEwMDY0NAogLS0tIGEvbWVzb24uYnVpbGQKICsrKyBiL21lc29uLmJ1aWxkCiBAQCAtMTg1LDEw
+ICsxODUsMTAgQEAgZW5kaWYKQEAgLTMwLDYgKzMxLDMgQEAgaW5kZXggZmQwZTMzNzMuLjJmMjcz
+YWRhIDEwMDY0NAogICAgICAgICAgZWxzZQogICAgICAgICAgICAgIGVycm9yKCdVbmFibGUgdG8g
+ZmluZCBTbm93YmFsbCBoZWFkZXIgImxpYnN0ZW1tZXIuaCIuIFBsZWFzZSBlbnN1cmUgbGlic3Rl
+bW1lci9Tbm93YmFsbCBpcyBpbnN0YWxsZWQgcHJvcGVybHkgaW4gb3JkZXIgdG8gY29udGludWUu
+JykKICAgICAgICAgIGVuZGlmCi0tLSAKLTIuMzQuMQotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lw
+ZXMtc3VwcG9ydC9hcHBzdHJlYW0vYXBwc3RyZWFtXzEuMC4wLmJiIGIvbWV0YS9yZWNpcGVzLXN1
+cHBvcnQvYXBwc3RyZWFtL2FwcHN0cmVhbV8xLjAuMS5iYgpzaW1pbGFyaXR5IGluZGV4IDkzJQpy
+ZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtc3VwcG9ydC9hcHBzdHJlYW0vYXBwc3RyZWFtXzEuMC4w
+LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc3VwcG9ydC9hcHBzdHJlYW0vYXBwc3RyZWFtXzEu
+MC4xLmJiCmluZGV4IDNmOGJmY2QyNjMuLjExMTQwMTE4MzUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVj
+aXBlcy1zdXBwb3J0L2FwcHN0cmVhbS9hcHBzdHJlYW1fMS4wLjAuYmIKKysrIGIvbWV0YS9yZWNp
+cGVzLXN1cHBvcnQvYXBwc3RyZWFtL2FwcHN0cmVhbV8xLjAuMS5iYgpAQCAtMjgsNyArMjgsNyBA
+QCBTUkNfVVJJID0gIiBcCiAJaHR0cHM6Ly93d3cuZnJlZWRlc2t0b3Aub3JnL3NvZnR3YXJlL2Fw
+cHN0cmVhbS9yZWxlYXNlcy9BcHBTdHJlYW0tJHtQVn0udGFyLnh6IFwKIAlmaWxlOi8vMDAwMS1y
+ZW1vdmUtaGFyZGNvZGVkLXBhdGgucGF0Y2ggXAogIgotU1JDX1VSSVtzaGEyNTZzdW1dID0gImVm
+MjM0NzdhMzgwZThiNTI1ZTkyY2ZhODc2ODdmMTE0NmI5Y2VmNzRjNjQxMzQ5YTFhZTExMjUwYmU1
+NDAxZDAiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiZmE0ZDU5OTRlNWM2ZjIyZTliNjZjYjBiNTJl
+OGI1ZjVkOTZlNzM1M2VhNTUyOGI1NjQzNmUwMTUwODI5MjAzYiIKIAogUyA9ICIke1dPUktESVJ9
+L0FwcFN0cmVhbS0ke1BWfSIKIAotLSAKMi40Mi4wCgo=
+
+--===============7919479098553769682==--
 
