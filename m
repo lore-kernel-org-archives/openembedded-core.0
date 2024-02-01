@@ -2,47 +2,47 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A8FEC4828E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29637C48286
 	for <webhook@archiver.kernel.org>; Thu,  1 Feb 2024 20:15:53 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.5943.1706818552053570461
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.5894.1706818552615812540
  for <openembedded-core@lists.openembedded.org>;
  Thu, 01 Feb 2024 12:15:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=IRHKv3Ev;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=DPzUzbLj;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018d66503dd0-9d1ebf0c-6b50-4f23-9814-798a98ea9dd2-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=e5E0HK8g;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=J0z+nRJ+;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018d66503fca-c4fd433d-eaa2-4f4d-aa35-9aa3c73281f6-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1706818551; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=wbJE0eBGokeG9OzHuk2huthVtYku/mBeIAO9yDXG4RM=;
-	b=IRHKv3EvM/tv0owr7B+TNGCivuPidpdlTQ9bTCqC0R4iKIhYKFJnJPJCnLcGmC8g
-	xHFA8BqhO00wi+BbvzpjdqbJDU5hfVp4/1n3q1PkXgNLI+k9NAZ6xnJvkaFSdvSm4B7
-	w3YAJATOzfuJLQTyIcFYYlxyvg8pLnLEKiq6hTM8=
+	bh=j5LrF7AD+9GEZL9PfM+DsplC5gaCUyXAKAkycMFXwZI=;
+	b=e5E0HK8gNn0GpCmERGtWjH4vmp2XFzrJ6DKE/omfjWP3g04MGlEWaAOeU5m0glQC
+	03g4Kn0MVNalEUURVtxZOHssJtIi/h1oD4haD07esDt8+zOdvvxmDe6Kl1+wnpMPb4o
+	QaGYVCICUrlXui7yzzJFnv7sdlt/O8ezK4Cops1g=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1706818551;
 	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=wbJE0eBGokeG9OzHuk2huthVtYku/mBeIAO9yDXG4RM=;
-	b=DPzUzbLjFyXU7QhZf7o8nvKetc14xNyX5nsE9wsnJA8kF0IdUYX0RLiVoaH02saF
-	I8qYih5jVSuMs4r6qNrTd0ECVOT5EJeK9J7nEZAE3NXq8PxJ3t9qfK06WbUFUSRIwo5
-	6w9Hml3wlJyRj5y363yNc2supKp+MWVY9FjBKHsQ=
+	bh=j5LrF7AD+9GEZL9PfM+DsplC5gaCUyXAKAkycMFXwZI=;
+	b=J0z+nRJ+UWgGLULy0MLc8Ps1Ks4sgpHgz4Etbx9VSNA+XCc2HHnUXnN1+h6tEvHQ
+	gncOQxldZf8cg3Qfims53MDVvw9W32RLrIPvcPEG0zsYYPwwhVyiMT9fCu9y8+EaC9P
+	7XD6qJJ/OQW8EQMEaXJOmwj+rRN8uwTSNnc3M7cM=
 From: patchtest@automation.yoctoproject.org
 To: auh@yoctoproject.org
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [AUH] diffoscope: upgrading to 255 SUCCEEDED
-In-Reply-To: 0101018d65db810f-6dba7ac3-5043-4554-a7d9-cdf86023f938-000000@us-west-2.amazonses.com
+Subject: Patchtest results for [AUH] iso-codes: upgrading to 4.16.0 SUCCEEDED
+In-Reply-To: 0101018d65db7fe1-35223d6f-8f49-4fb7-b3fc-b632be835b8e-000000@us-west-2.amazonses.com
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018d66503dd0-9d1ebf0c-6b50-4f23-9814-798a98ea9dd2-000000@us-west-2.amazonses.com>
+Message-ID: <0101018d66503fca-c4fd433d-eaa2-4f4d-aa35-9aa3c73281f6-000000@us-west-2.amazonses.com>
 Date: Thu, 1 Feb 2024 20:15:51 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.02.01-54.240.27.192
+X-SES-Outgoing: 2024.02.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 Feb 2024 20:15:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194740
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194739
 
 --NextPart
 Content-Type: text/plain
@@ -52,7 +52,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/AUH-diffoscope-upgrading-to-255-SUCCEEDED.patch
+Testing patch /home/patchtest/share/mboxes/AUH-iso-codes-upgrading-to-4.16.0-SUCCEEDED.patch
 
 FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_off_by_presence)
 FAIL: test author valid: Invalid author Upgrade Helper <auh@yoctoproject.org>. Resend the series with a valid patch author (test_mbox.TestMbox.test_author_valid)
