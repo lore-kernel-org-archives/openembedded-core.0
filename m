@@ -1,124 +1,98 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70C97C48286
-	for <webhook@archiver.kernel.org>; Thu,  1 Feb 2024 22:55:14 +0000 (UTC)
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
- by mx.groups.io with SMTP id smtpd.web10.9965.1706828104793030273
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CDD7C48286
+	for <webhook@archiver.kernel.org>; Thu,  1 Feb 2024 23:03:14 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.10153.1706828585321282739
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Feb 2024 14:55:05 -0800
+ Thu, 01 Feb 2024 15:03:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Qc0dxiPg;
- spf=pass (domain: bootlin.com, ip: 217.70.183.194, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 87B7940004;
-	Thu,  1 Feb 2024 22:55:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1706828102;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eUTLu6apcj36hQUbKVNqf4jlIjMuN2qIIDVA3OQaGrA=;
-	b=Qc0dxiPgCUMBdQfHubgYWAtyOl/jz3qlV+8qomqt9FhR9v4riOaki+SuR96lw0S7VBidS/
-	CraeZZKax66MAXyEhQ3l8iAWuod5ALpEcnUIkEuAs9CU9y1hbMwneZw/m02W758NnZkaZM
-	dWKhuzoIztLSZ+J5+kT10xCTiIctw4XpwwaMSlFk5qgL6WaXBhmUXF3mKm8hOvpEmPhMhl
-	6TtKXuX88bY3SuHzcuwmK5w8iw8FVH+CfVrPh7sWdo3BWhSmPJSWF+d7nj3s9J/W/CQepk
-	q+rbMd3kEdxY1XQcoiFjdray3FbyUru41b+msjyDj9k2jtmEdIDm68Qh5hybVA==
-Date: Thu, 1 Feb 2024 23:55:02 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: wangmy@fujitsu.com
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] mc: upgrade 4.8.30 -> 4.8.31
-Message-ID: <2024020122550235222d5a@mail.local>
-References: <1706765861-12895-1-git-send-email-wangmy@fujitsu.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1706765861-12895-1-git-send-email-wangmy@fujitsu.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=f2d0T5DB;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=b7D6yixU;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018d66e95599-6d4161e0-fae5-42e8-a0e8-e6f551a1baad-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1706828584; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
+	bh=K5RlHUZPEDu/jkAec4cjTf6bOrYdkdk2tXlQQENx3FI=;
+	b=f2d0T5DB6Z3TRlt8KjuFMRxwbrzGYA/FibEnMjHWvOGVlWQihEan5Misn252/8/G
+	7J/zgTNGcmZLzaAMebFH6i03BQ3R80pPDzAJApA0dbjG8AMLOynUPfqw5PcPA5uNIHh
+	G069EfZTYsZzvMScI0tQGlgrEMwNYiPv+k69ckdQ=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1706828584;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=K5RlHUZPEDu/jkAec4cjTf6bOrYdkdk2tXlQQENx3FI=;
+	b=b7D6yixUn1KYvLcVNMJF9JYhAecDpnuXBufmvqdJGmVHVD0Me3fqEFPTMYdKjM8n
+	Ftt1ZM15befvlofd2lZmCMGkhoUzUqxPy4YykrldOrWj/j9C3yyf1LCHj81Pr5sd5dm
+	R85xQvXpzct8O67d2W8fkZ6gez6tpB04R6scjx6E=
+From: patchtest@automation.yoctoproject.org
+To: Peter Marko <peter.marko@siemens.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-core][kirkstone][PATCH] curl: ignore CVE-2023-42915
+In-Reply-To: 20240201225017.14667-1-peter.marko@siemens.com
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018d66e95599-6d4161e0-fae5-42e8-a0e8-e6f551a1baad-000000@us-west-2.amazonses.com>
+Date: Thu, 1 Feb 2024 23:03:04 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.02.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 Feb 2024 22:55:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194762
+ <openembedded-core@lists.openembedded.org>; Thu, 01 Feb 2024 23:03:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194763
 
-On 01/02/2024 13:37:41+0800, wangmy via lists.openembedded.org wrote:
-> From: Wang Mingyu <wangmy@fujitsu.com>
-> 
-> Changelog:
-> ===========
-> - Core
->   * Minimal version of GLib is 2.32.0.
-> 
-> - VFS
->   * fish: drop support of native FISH server and protocol. Rename VFS to shell (#4232)
+--NextPart
+Content-Type: text/plain
 
-Error: 
- Problem: package packagegroup-self-hosted-1.0-r0.core2_64 from oe-repo requires packagegroup-self-hosted-host-tools, but none of the providers can be installed
-  - conflicting requests
-  - nothing provides mc-fish needed by packagegroup-self-hosted-host-tools-1.0-r0.core2_64 from oe-repo
-(try to add '--skip-broken' to skip uninstallable packages)
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
->   * extfs;
->     * uc1541 extfs: update up to 3.6 version (#4511)
->     * s3+: port to Python3 (#4324)
->   * Support for LZO/LZOP compression format (#4509)
-> 
-> - Misc
->   * Skins: add color for non-printable characters in editor (#4433)
-> 
-> - Fixes
->   * FTBFS on FreeBSD with ext2fs attribute support (#4493)
->   * Broken stickchars (-a) mode (#4498)
->   * Wrong timestamp after resuming of file copy operation (#4499)
->   * Editor: wrong deletion of marked column (#3761)
->   * Diff viewer: segfault when display of line numbers is enabled (#4500)
->   * Tar VFS: broken handling of hard links (#4494)
->   * Sftp VFS: failure establishing SSH session due hashed host names in ~/.ssh/known_hosts (#4506)
->   * Shell VFS: incorrect file names with cyrillic or diacritic symbols (#4507)
->   * mc.ext.ini: incorrect description of of how multiple sections and keys with same names are processed (#4497)
->   * mc.ext.ini: unescaped backslash \ is treated as invalid escape sequence in glib-2.77.3 and glib-2.79 (#4502)
->   * mc.ext.ini: file "Makefile.zip" is handled as Makefile not as zip-arhive (#4419)
-> 
-> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-> ---
->  meta/recipes-extended/mc/{mc_4.8.30.bb => mc_4.8.31.bb} | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-extended/mc/{mc_4.8.30.bb => mc_4.8.31.bb} (97%)
-> 
-> diff --git a/meta/recipes-extended/mc/mc_4.8.30.bb b/meta/recipes-extended/mc/mc_4.8.31.bb
-> similarity index 97%
-> rename from meta/recipes-extended/mc/mc_4.8.30.bb
-> rename to meta/recipes-extended/mc/mc_4.8.31.bb
-> index 258ac38e15..b6e5a1f98c 100644
-> --- a/meta/recipes-extended/mc/mc_4.8.30.bb
-> +++ b/meta/recipes-extended/mc/mc_4.8.31.bb
-> @@ -11,7 +11,7 @@ RRECOMMENDS:${PN} = "ncurses-terminfo"
->  SRC_URI = "http://www.midnight-commander.org/downloads/${BPN}-${PV}.tar.bz2 \
->             file://nomandate.patch \
->             "
-> -SRC_URI[sha256sum] = "38171f22f889e3030ec9055463d3ecd7843984ab24e6497d8294d1c441a7ddb4"
-> +SRC_URI[sha256sum] = "f42f4114ed42f6cf9995f1d896fa6c797ccb36dac57760dda8dd9f78ac462841"
->  
->  inherit autotools gettext pkgconfig
->  
-> -- 
-> 2.34.1
-> 
+---
+Testing patch /home/patchtest/share/mboxes/kirkstone-curl-ignore-CVE-2023-42915.patch
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#194571): https://lists.openembedded.org/g/openembedded-core/message/194571
-> Mute This Topic: https://lists.openembedded.org/mt/104091623/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+FAIL: test CVE check ignore: CVE_CHECK_IGNORE is deprecated and should be replaced by CVE_STATUS (test_metadata.TestMetadata.test_cve_check_ignore)
+
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
 
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+--NextPart--
 
