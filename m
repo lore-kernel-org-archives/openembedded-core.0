@@ -2,49 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 742A2C54ECA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65F3CC54ECB
 	for <webhook@archiver.kernel.org>; Thu,  1 Feb 2024 18:00:21 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web10.2154.1706810405264903285
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web11.2090.1706810404602702708
  for <openembedded-core@lists.openembedded.org>;
  Thu, 01 Feb 2024 10:00:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=g8Zs7nMo;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=E1ZEAa8G;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018d65d3ee90-9e9aa926-6a4c-400b-ab80-96aa2a0057b6-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=f5SBqdTe;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=H2C/3GZi;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018d65d3f072-b0651946-cfbc-43c9-a6e2-d1bad9e3b021-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1706810404;
+	t=1706810405;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=0DCbJGVtuPAlTfxkwNdg/9QaYVyklUqmWP5pxoDwhjs=;
-	b=g8Zs7nMoitvlmEdlrgsTUZD4xv35Vy9PVRrnGevR4o/AXcprmfT3fs9QxIIyF6lH
-	BJLgOzfsy4Jd+XyOYJy1MYF7GkpOq8gPocpBGhdhpo8eXhMdo6IiKvhP3f1w1bJeApC
-	HwuRlj9hpJmQyZy0VbVrqKlXK5ny0zqcCnt6jsoM=
+	bh=Jhlcat7Niuh7E4qNUF9Rpi7JHMko1opOn0/s6bXt3a0=;
+	b=f5SBqdTemhuOH63S+psz5C9Adz6zQ+rDO+r/J9zLoNG7H7sPI3BQqHNBQ2jOGouX
+	3aCdRuwpcBcMwVv8WLZNvUJyxNVB+D4gjyWugFaXgM4h5YeR76nmrXVy/nZhDHxxTPh
+	zUwAqX5prUccyAesqsdlXNuaMA0IzmxH/XBee98I=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1706810404;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1706810405;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=0DCbJGVtuPAlTfxkwNdg/9QaYVyklUqmWP5pxoDwhjs=;
-	b=E1ZEAa8GEYIPl2DFHJDWTY7W96W/cMPQCYgcRjTXJtHcmWRPpNzsoq7ABFZ+eT+T
-	yVn4/7J69E++8wVzl0EgjQY0jUHNocyLrTSaPr5Scibt9GwW2UzQKjRt34iWIiqVTS2
-	cTZwoEp5SPDD3fMf0o7K8h+uKeSljOsIdqw3DCL0=
-Content-Type: multipart/mixed; boundary="===============1295261243022761009=="
+	bh=Jhlcat7Niuh7E4qNUF9Rpi7JHMko1opOn0/s6bXt3a0=;
+	b=H2C/3GZiBxfnhXvDIZ77qufV9e9ykkEvMBAJeZ3Q6qoVxZ2f9eaaTyBWhQ9E5cnq
+	pWK2azjJl7dVeqo+ZeIb6qbaJnLt9D5QxbzEf4adZR2HhsZz/LiHDhGqpIWzbTB/OrX
+	fTlzd7XA8nAMl/R6enfNPPuguE+BKbFz0B67qCSA=
+Content-Type: multipart/mixed; boundary="===============0888124124054103039=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Robert Yang <liezhi.yang@windriver.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gnu-config: upgrading to
- 948ae97ca5703224bd3eada06b7a69f40dd15a02 FAILED
-Message-ID: <0101018d65d3ee90-9e9aa926-6a4c-400b-ab80-96aa2a0057b6-000000@us-west-2.amazonses.com>
+Subject: [AUH] pkgconf: upgrading to 2.1.0 SUCCEEDED
+Message-ID: <0101018d65d3f072-b0651946-cfbc-43c9-a6e2-d1bad9e3b021-000000@us-west-2.amazonses.com>
 Date: Thu, 1 Feb 2024 18:00:04 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.02.01-54.240.27.23
+X-SES-Outgoing: 2024.02.01-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 01 Feb 2024 18:00:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194617
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194619
 
---===============1295261243022761009==
+--===============0888124124054103039==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -52,59 +51,112 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gnu-config* to *948ae97ca5703224bd3eada06b7a69f40dd15a02* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *pkgconf* to *2.1.0* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-pkgconf-upgrade-2.0.3-2.1.0.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-The following devtool command failed:  upgrade gnu-config -S 948ae97ca5703224bd3eada06b7a69f40dd15a02
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1849 entries from dependency cache.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.7.2"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-7596767c592f937eebb2ad9a0acd91b4cb1be35c"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:7596767c592f937eebb2ad9a0acd91b4cb1be35c"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 17 Local 9 Mirrors 0 Missed 8 Current 12 (52% match, 72% complete)
-Removing 6 stale sstate objects for arch x86_64...done.
-NOTE: Executing Tasks
-WARNING: Failed to find a git repository in WORKDIR: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gnu-config/20231127+git/devtooltmp-88xk76q6/workdir
-WARNING: gnu-config: the directory ${WORKDIR}/git (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gnu-config/20231127+git/devtooltmp-88xk76q6/workdir/git) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
-WARNING: No source unpacked to S - either the gnu-config recipe doesn't use any source or the correct source directory could not be determined
-NOTE: Tasks Summary: Attempted 65 tasks of which 42 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240201071031.txt
-You can send the errors to a reports server by running:
-  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240201071031.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-INFO: Extracting current version source...
-ERROR: Bitbake Fetcher Error: FetchError('Fetch command export PSEUDO_DISABLED=1; export SSL_CERT_FILE="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export GIT_SSL_CAINFO="/home/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export ftp_proxy="http://proxy.yocto.io:5187/"; export FTP_PROXY="http://proxy.yocto.io:5187/"; export PATH="/home/pokybuild/yocto-worker/auh/build/scripts/native-intercept:/home/pokybuild/yocto-worker/auh/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/pokybuild/yocto-worker/auh/build/scripts:/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gnu-config/20231127+git/devtooltmp-88xk76q6/workdir/recipe-sysroot-native/usr/bin/x86_64-linux:/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gnu-config/20231127+git/devtooltmp-88xk76q6/workdir/recipe-sysroot-native/usr/bin:/home
- /pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gnu-config/20231127+git/devtooltmp-88xk76q6/workdir/recipe-sysroot-native/usr/sbin:/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gnu-config/20231127+git/devtooltmp-88xk76q6/workdir/recipe-sysroot-native/usr/bin:/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gnu-config/20231127+git/devtooltmp-88xk76q6/workdir/recipe-sysroot-native/sbin:/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gnu-config/20231127+git/devtooltmp-88xk76q6/workdir/recipe-sysroot-native/bin:/home/pokybuild/yocto-worker/auh/build/bitbake/bin:/home/pokybuild/yocto-worker/auh/build/build/tmp/hosttools"; export HOME="/home/pokybuild"; git -c gc.autoDetach=false -c core.pager=cat clone -n -s /srv/autobuilder/autobuilder.yocto.io/current_sources/git2/git.savannah.gnu.org.git.config.git/ /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gnu-config/202
- 31127+git/devtooltmp-88xk76q6/workdir/git/ failed with exit code 128, output:\nfatal: destination path \'/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gnu-config/20231127+git/devtooltmp-88xk76q6/workdir/git\' already exists and is not an empty directory.\n', None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gnu-config/20231127+git/devtooltmp-88xk76q6/temp/log.do_unpack.3646896
-ERROR: Extracting source for gnu-config failed
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============1295261243022761009==--
+
+-- >8 --
+From 32927227611c100203c2d8b8d3d5b628588c60ee Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Thu, 1 Feb 2024 07:29:15 +0000
+Subject: [PATCH] pkgconf: upgrade 2.0.3 -> 2.1.0
+
+---
+ .../pkgconf/{pkgconf_2.0.3.bb => pkgconf_2.1.0.bb}              | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/pkgconf/{pkgconf_2.0.3.bb => pkgconf_2.1.0.bb} (96%)
+
+diff --git a/meta/recipes-devtools/pkgconf/pkgconf_2.0.3.bb b/meta/recipes-devtools/pkgconf/pkgconf_2.1.0.bb
+similarity index 96%
+rename from meta/recipes-devtools/pkgconf/pkgconf_2.0.3.bb
+rename to meta/recipes-devtools/pkgconf/pkgconf_2.1.0.bb
+index 5aa5a191f2..1921f3a086 100644
+--- a/meta/recipes-devtools/pkgconf/pkgconf_2.0.3.bb
++++ b/meta/recipes-devtools/pkgconf/pkgconf_2.1.0.bb
+@@ -20,7 +20,7 @@ SRC_URI = "\
+     file://pkg-config-native.in \
+     file://pkg-config-esdk.in \
+ "
+-SRC_URI[sha256sum] = "cabdf3c474529854f7ccce8573c5ac68ad34a7e621037535cbc3981f6b23836c"
++SRC_URI[sha256sum] = "266d5861ee51c52bc710293a1d36622ae16d048d71ec56034a02eb9cf9677761"
+ 
+ inherit autotools
+ 
+-- 
+2.42.0
+
+
+--===============0888124124054103039==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-pkgconf-upgrade-2.0.3-2.1.0.patch"
+
+RnJvbSAzMjkyNzIyNzYxMWMxMDAyMDNjMmQ4YjhkM2Q1YjYyODU4OGM2MGVlIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMSBGZWIgMjAyNCAwNzoyOToxNSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHBr
+Z2NvbmY6IHVwZ3JhZGUgMi4wLjMgLT4gMi4xLjAKCi0tLQogLi4uL3BrZ2NvbmYve3BrZ2NvbmZf
+Mi4wLjMuYmIgPT4gcGtnY29uZl8yLjEuMC5iYn0gICAgICAgICAgICAgIHwgMiArLQogMSBmaWxl
+IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL3BrZ2NvbmYve3BrZ2NvbmZfMi4wLjMuYmIgPT4gcGtnY29uZl8yLjEuMC5i
+Yn0gKDk2JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcGtnY29uZi9wa2dj
+b25mXzIuMC4zLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3BrZ2NvbmYvcGtnY29uZl8yLjEu
+MC5iYgpzaW1pbGFyaXR5IGluZGV4IDk2JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcGtnY29uZi9wa2djb25mXzIuMC4zLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcGtnY29uZi9wa2djb25mXzIuMS4wLmJiCmluZGV4IDVhYTVhMTkxZjIuLjE5MjFmM2EwODYg
+MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9wa2djb25mL3BrZ2NvbmZfMi4wLjMu
+YmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3BrZ2NvbmYvcGtnY29uZl8yLjEuMC5iYgpA
+QCAtMjAsNyArMjAsNyBAQCBTUkNfVVJJID0gIlwKICAgICBmaWxlOi8vcGtnLWNvbmZpZy1uYXRp
+dmUuaW4gXAogICAgIGZpbGU6Ly9wa2ctY29uZmlnLWVzZGsuaW4gXAogIgotU1JDX1VSSVtzaGEy
+NTZzdW1dID0gImNhYmRmM2M0NzQ1Mjk4NTRmN2NjY2U4NTczYzVhYzY4YWQzNGE3ZTYyMTAzNzUz
+NWNiYzM5ODFmNmIyMzgzNmMiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMjY2ZDU4NjFlZTUxYzUy
+YmM3MTAyOTNhMWQzNjYyMmFlMTZkMDQ4ZDcxZWM1NjAzNGEwMmViOWNmOTY3Nzc2MSIKIAogaW5o
+ZXJpdCBhdXRvdG9vbHMKIAotLSAKMi40Mi4wCgo=
+
+--===============0888124124054103039==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/pkgconf: PKGV changed from 2.0.3 [default] to 2.1.0 [default]
+packages/core2-64-poky-linux/pkgconf: SRC_URI changed from "https://distfiles.ariadne.space/pkgconf/pkgconf-2.0.3.tar.xz file://pkg-config-wrapper file://pkg-config-native.in file://pkg-config-esdk.in" to "https://distfiles.ariadne.space/pkgconf/pkgconf-2.1.0.tar.xz file://pkg-config-wrapper file://pkg-config-native.in file://pkg-config-esdk.in"
+packages/core2-64-poky-linux/pkgconf: PV changed from "2.0.3" to "2.1.0"
+packages/core2-64-poky-linux/pkgconf/pkgconf-dbg: PKGV changed from 2.0.3 [default] to 2.1.0 [default]
+packages/core2-64-poky-linux/pkgconf/pkgconf-dbg: PKGSIZE changed from 310288 to 314232 (+1%)
+packages/core2-64-poky-linux/pkgconf/pkgconf-dbg: PV changed from "2.0.3" to "2.1.0"
+packages/core2-64-poky-linux/pkgconf/pkgconf-dev: PKGV changed from 2.0.3 [default] to 2.1.0 [default]
+packages/core2-64-poky-linux/pkgconf/pkgconf-dev: PKGSIZE changed from 24195 to 24354 (+1%)
+packages/core2-64-poky-linux/pkgconf/pkgconf-dev: PV changed from "2.0.3" to "2.1.0"
+packages/core2-64-poky-linux/pkgconf/pkgconf-doc: PKGV changed from 2.0.3 [default] to 2.1.0 [default]
+packages/core2-64-poky-linux/pkgconf/pkgconf-doc: PV changed from "2.0.3" to "2.1.0"
+packages/core2-64-poky-linux/pkgconf/pkgconf-locale: PKGV changed from 2.0.3 [default] to 2.1.0 [default]
+packages/core2-64-poky-linux/pkgconf/pkgconf-locale: PV changed from "2.0.3" to "2.1.0"
+packages/core2-64-poky-linux/pkgconf/pkgconf-src: PKGV changed from 2.0.3 [default] to 2.1.0 [default]
+packages/core2-64-poky-linux/pkgconf/pkgconf-src: PKGSIZE changed from 269541 to 273448 (+1%)
+packages/core2-64-poky-linux/pkgconf/pkgconf-src: PV changed from "2.0.3" to "2.1.0"
+packages/core2-64-poky-linux/pkgconf/pkgconf-staticdev: PKGV changed from 2.0.3 [default] to 2.1.0 [default]
+packages/core2-64-poky-linux/pkgconf/pkgconf-staticdev: PV changed from "2.0.3" to "2.1.0"
+packages/core2-64-poky-linux/pkgconf/pkgconf: PKGV changed from 2.0.3 [default] to 2.1.0 [default]
+packages/core2-64-poky-linux/pkgconf/pkgconf: PKGSIZE changed from 154025 to 154057 (+0%)
+packages/core2-64-poky-linux/pkgconf/pkgconf: PV changed from "2.0.3" to "2.1.0"
+
+--===============0888124124054103039==--
 
