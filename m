@@ -2,105 +2,129 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DCE0C48286
-	for <webhook@archiver.kernel.org>; Thu,  1 Feb 2024 05:18:19 +0000 (UTC)
-Received: from esa11.hc1455-7.c3s2.iphmx.com (esa11.hc1455-7.c3s2.iphmx.com [207.54.90.137])
- by mx.groups.io with SMTP id smtpd.web11.9036.1706764689213067242
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 874EFC47DDB
+	for <webhook@archiver.kernel.org>; Thu,  1 Feb 2024 05:20:49 +0000 (UTC)
+Received: from esa12.hc1455-7.c3s2.iphmx.com (esa12.hc1455-7.c3s2.iphmx.com [139.138.37.100])
+ by mx.groups.io with SMTP id smtpd.web11.9064.1706764839837071021
  for <openembedded-core@lists.openembedded.org>;
- Wed, 31 Jan 2024 21:18:09 -0800
+ Wed, 31 Jan 2024 21:20:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=MSPC66eZ;
- spf=pass (domain: fujitsu.com, ip: 207.54.90.137, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=SmvX9LCx;
+ spf=pass (domain: fujitsu.com, ip: 139.138.37.100, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1706764691; x=1738300691;
+  t=1706764840; x=1738300840;
   h=from:to:cc:subject:date:message-id;
-  bh=gupTcH8UB+tDecoKRUffrl3JtiFMC7LTEWr1IzmCrnc=;
-  b=MSPC66eZ2J2lCG/MNXbXtl/prcY5BGfFVx0e6PGcNXsIzScUmQBX869Z
-   JNEKjs1o94emfRDDzDiCydvUAiaqVBeJ+q8ImXTvQ+0gSbASDn55PyK58
-   Og/E+lyBhVPYZPn8mJd0+BqBI4UfWC82Y5Kiy4jM9eO9Y1ho8Fcj33vst
-   xJ/BXxSu1crjtkakVupQ4ViATkIBeXnp3T/kkRD0tfTBtQwZOxMsOZ9yR
-   qfeCy0n9EIjsTp9LKNZdAoic+cu+NthmnBViuK/8FTFYmhtkk+u5ite7h
-   Z2CwVqRuejTSGtN38ZWhDGUrdcMR8MgEkEnYJ5IEAxhlf3qpipc/yNZR2
+  bh=4GLiSUYwaoCrkvorkE8R+QRRjw2cqEyMyDfgqUB8eic=;
+  b=SmvX9LCx8wl2YcSWhGkhFgW04LfesIDKPIijK8jG2QxLzenL5g66N33+
+   Zsz93OkWxRfywwrQgaPO8gFjpiqVzDI78pRAp1aSM06AYBHgfXuVzRa0V
+   B2UB1wiBSXgf6rplw/F5JdBWTgSRLCuh0PfyIqhSfWWE85QQJA6VWzCZT
+   Ea2nzjzXT2blITDSywJEpFtqxyymMMF3J0TQhTuzcnnt8DdanCB5QHPqy
+   /EHWEBvk5vgZEKneXuQROBCKOo0KeCS3TBG/Z7uqZcAgGBkFGM+RLywh1
+   RwtcHfBDOGvh5CN7qAbpkVyUqu5rf52Z5uRPg1vAAPA+AbZL3Xido/R7b
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="127396343"
+X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="127311069"
 X-IronPort-AV: E=Sophos;i="6.05,234,1701097200"; 
-   d="scan'208";a="127396343"
+   d="scan'208";a="127311069"
 Received: from unknown (HELO oym-r1.gw.nic.fujitsu.com) ([210.162.30.89])
-  by esa11.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2024 14:18:08 +0900
+  by esa12.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2024 14:20:37 +0900
 Received: from oym-m4.gw.nic.fujitsu.com (oym-nat-oym-m4.gw.nic.fujitsu.com [192.168.87.61])
-	by oym-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id 94445D4807
-	for <openembedded-core@lists.openembedded.org>; Thu,  1 Feb 2024 14:18:04 +0900 (JST)
-Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
-	by oym-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id 8D2EBD4BD1
-	for <openembedded-core@lists.openembedded.org>; Thu,  1 Feb 2024 14:18:03 +0900 (JST)
+	by oym-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id 046A3D4806
+	for <openembedded-core@lists.openembedded.org>; Thu,  1 Feb 2024 14:20:35 +0900 (JST)
+Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
+	by oym-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id 345DAD5303
+	for <openembedded-core@lists.openembedded.org>; Thu,  1 Feb 2024 14:20:34 +0900 (JST)
 Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id 2BC69200501BB
-	for <openembedded-core@lists.openembedded.org>; Thu,  1 Feb 2024 14:18:03 +0900 (JST)
+	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id A5CE56B4D9
+	for <openembedded-core@lists.openembedded.org>; Thu,  1 Feb 2024 14:20:33 +0900 (JST)
 Received: from vm4860.g01.fujitsu.local (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id CAF931A006A;
-	Thu,  1 Feb 2024 13:18:02 +0800 (CST)
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 2BD431A006A;
+	Thu,  1 Feb 2024 13:20:33 +0800 (CST)
 From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH] libidn2: upgrade 2.3.4 -> 2.3.7
-Date: Thu,  1 Feb 2024 13:11:06 +0800
-Message-Id: <1706764266-12513-1-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH] libpng: upgrade 1.6.40 -> 1.6.41
+Date: Thu,  1 Feb 2024 13:18:30 +0800
+Message-Id: <1706764710-12596-1-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 X-TM-AS-GCONF: 00
 X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28156.000
 X-TM-AS-User-Approved-Sender: Yes
 X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28156.000
-X-TMASE-Result: 10--5.204600-10.000000
-X-TMASE-MatchedRID: R9NZgeCyXhKjz0nOeth/yUIIxwDaU5mrMVVFhl7NwvMZSz1vvG+0mtv9
-	Yxcv46SL9JDgPIfVMVVxLAyM+BP7txLmJd2F/yFuP0HVIeixJdA3l2plwgrtWCD1HdXyqDnEvwU
-	evDt+uW5tMXimGWsZZAYUFsN5WfiFOwTo9ZXISSzdCok3ibXlQX0tCKdnhB589yM15V5aWpj6C0
-	ePs7A07b4iOwQQ4jNi1TS+Qb/MG7lIlk1y2AVFCTu1w+cMzfgbCKyi0WHbrWw=
+X-TMASE-Result: 10-1.931500-10.000000
+X-TMASE-MatchedRID: bwTBD8UNLVWjz0nOeth/yUIIxwDaU5mrajzNTFMlQCMtorPLNYrwZCmF
+	OYJJbPqple1SEYlyiKRUwnRxdSxtg67L5ELdZx3rCRsJ4lFzPjNiWBZa0oBo6FSOymiJfTYXxJQ
+	rKK8r4nc9WRvbmI8erPS2RzG22s++uIyoVyyka/dZNYSHk3Zr0fG6GRFYrbYYRQ0dAChl/lyLcY
+	4IaAaI5i0Z2IlORVSLenmD2BglYMsbAxBQtNeYriAWHOR37+ATa9qiaDSLgo3g+IOnD53pQr6px
+	bTOjavy+7QcRaVoa8nGKIf6hBf7VaGGOyqBK41vEXjPIvKd74CbQfYveSNCCg3lqQV07qgTssbE
+	kSX6c0lrLf3+bsA/g4sO0CwAwPo6mHmoWTamhgtvTnqYKYXTRlXgGeVUh3WdmyiLZetSf8lBgw5
+	G4NYCZN9pjzubZ2rHJ0RPnyOnrZIMyIWoNdHy0rwOsKf0TI9XZHthtp8M1G7LajZEe2ssIFDxgq
+	6sCUOm/5tUQvrPQ1Rn9aMvIyQLHtPYrl6VAbPoWGBLcJ4xEx5Lv5Eyr/YIrqsDhztRXZ9Cm+LY9
+	A78UVCLPa6Os9XH3IQhTU20ySbR
 X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 Feb 2024 05:18:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194566
+ <openembedded-core@lists.openembedded.org>; Thu, 01 Feb 2024 05:20:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194567
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
 Changelog:
 ===========
--Really include tests/standalone.sh in tarball.
--Bump libtool version numbers to reflect API/ABI addition.
--Include tests/standalone.sh in tarball.
+- Added SIMD-optimized code for the Loongarch LSX hardware.
+- Fixed the run-time discovery of MIPS MSA hardware.
+- Fixed an off-by-one error in the function 'png_do_check_palette_indexes',
+  which failed to recognize errors that might have existed in the first
+  column of a broken palette-encoded image. This was a benign regression
+  accidentally introduced in libpng-1.6.33. No pixel was harmed.
+- Fixed, improved and modernized the contrib/pngminus programs, i.e.,
+  png2pnm.c and pnm2png.c
+- Removed old and peculiar portability hacks that were meant to silence
+  warnings issued by gcc version 7.1 alone.
+- Fixed and modernized the CMake file, and raised the minimum required
+  CMake version from 3.1 to 3.6.
+- Allowed the configure script to disable the building of auxiliary tools
+  and tests, thus catching up with the CMake file.
+- Fixed a build issue on Mac.
+- Moved the Autoconf macro files to scripts/autoconf.
+- Moved the CMake files (except for the main CMakeLists.txt) to
+  scripts/cmake and moved the list of their contributing authors to
+  scripts/cmake/AUTHORS.md
+- Updated the CI configurations and scripts.
+- Relicensed the CI scripts to the MIT License.
+- Improved the test coverage.
 
 License-Update: Copyright year updated to 2024.
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../libidn/{libidn2_2.3.4.bb => libidn2_2.3.7.bb}           | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-extended/libidn/{libidn2_2.3.4.bb => libidn2_2.3.7.bb} (83%)
+ .../libpng/{libpng_1.6.40.bb => libpng_1.6.41.bb}             | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-multimedia/libpng/{libpng_1.6.40.bb => libpng_1.6.41.bb} (87%)
 
-diff --git a/meta/recipes-extended/libidn/libidn2_2.3.4.bb b/meta/recipes-extended/libidn/libidn2_2.3.7.bb
-similarity index 83%
-rename from meta/recipes-extended/libidn/libidn2_2.3.4.bb
-rename to meta/recipes-extended/libidn/libidn2_2.3.7.bb
-index b48de39fa0..7ae933e047 100644
---- a/meta/recipes-extended/libidn/libidn2_2.3.4.bb
-+++ b/meta/recipes-extended/libidn/libidn2_2.3.7.bb
-@@ -7,12 +7,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=2d834ea7d480438ada04e5d846152395 \
-                     file://COPYING.LESSERv3;md5=e6a600fd5e1d9cbde2d983680233ad02 \
-                     file://COPYINGv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-                     file://COPYING.unicode;md5=684cf5f7e3fded3546679424528261a9 \
--                    file://src/idn2.c;endline=16;md5=0f347a5b17acf44440bf53e406f1df70 \
--                    file://lib/idn2.h.in;endline=27;md5=4d7b3771faa9c60067ed1da914508bc5 \
-+                    file://src/idn2.c;endline=16;md5=afc1531bda991ba6338e33a7eff758a0 \
-+                    file://lib/idn2.h.in;endline=27;md5=f88d218005a5c45b68a83cecb5bd7f26 \
-                     "
+diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.40.bb b/meta/recipes-multimedia/libpng/libpng_1.6.41.bb
+similarity index 87%
+rename from meta/recipes-multimedia/libpng/libpng_1.6.40.bb
+rename to meta/recipes-multimedia/libpng/libpng_1.6.41.bb
+index 293bf2858d..59d3db8efd 100644
+--- a/meta/recipes-multimedia/libpng/libpng_1.6.40.bb
++++ b/meta/recipes-multimedia/libpng/libpng_1.6.41.bb
+@@ -5,13 +5,13 @@ library for use in applications that read, create, and manipulate PNG \
+ HOMEPAGE = "http://www.libpng.org/"
+ SECTION = "libs"
+ LICENSE = "Libpng"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=8f533bc367bfd43f556b6f782234c076"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=0fdbfbe10fc294a6fca24dc76134222a"
+ DEPENDS = "zlib"
  
- SRC_URI = "${GNU_MIRROR}/libidn/${BPN}-${PV}.tar.gz"
--SRC_URI[sha256sum] = "93caba72b4e051d1f8d4f5a076ab63c99b77faee019b72b9783b267986dbb45f"
-+SRC_URI[sha256sum] = "4c21a791b610b9519b9d0e12b8097bf2f359b12f8dd92647611a929e6bfd7d64"
+ LIBV = "16"
  
- DEPENDS = "virtual/libiconv libunistring"
+ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}${LIBV}/${BP}.tar.xz"
+-SRC_URI[sha256sum] = "535b479b2467ff231a3ec6d92a525906fb8ef27978be4f66dbe05d3f3a01b3a1"
++SRC_URI[sha256sum] = "d6a49a7a4abca7e44f72542030e53319c081fea508daccf4ecc7c6d9958d190f"
+ 
+ MIRRORS += "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}${LIBV}/ ${SOURCEFORGE_MIRROR}/${BPN}/${BPN}${LIBV}/older-releases/"
  
 -- 
 2.34.1
