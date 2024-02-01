@@ -1,103 +1,75 @@
-Return-Path: <mark.hatle@kernel.crashing.org>
+Return-Path: <maanyagoenka@linux.microsoft.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A15D8C47258
-	for <webhook@archiver.kernel.org>; Thu,  1 Feb 2024 02:17:08 +0000 (UTC)
-Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
- by mx.groups.io with SMTP id smtpd.web10.6359.1706753823830727638
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3684C47DB3
+	for <webhook@archiver.kernel.org>; Thu,  1 Feb 2024 02:57:38 +0000 (UTC)
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web11.7094.1706756253289023184
  for <openembedded-core@lists.openembedded.org>;
- Wed, 31 Jan 2024 18:17:04 -0800
+ Wed, 31 Jan 2024 18:57:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
-Received: from [192.168.2.236] ([70.99.78.137])
-	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 4112FwkQ023362;
-	Wed, 31 Jan 2024 20:15:59 -0600
-Message-ID: <1784bb31-b573-4fb1-8ab7-6bee719e7071@kernel.crashing.org>
-Date: Wed, 31 Jan 2024 20:15:57 -0600
+ dkim=fail reason="dkim: body hash did not verify" header.i=@linux.microsoft.com header.s=default header.b=jJQfDwRF;
+ spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: maanyagoenka@linux.microsoft.com)
+Received: from maanya-vm-20.i32zew0cey2u1cyshmh12embkc.xx.internal.cloudapp.net (unknown [20.115.210.253])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 7DCDE206FCC1;
+	Wed, 31 Jan 2024 18:57:32 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7DCDE206FCC1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1706756252;
+	bh=356zHELsGq1cpa9aMarr9bpFEBv6jcOv79/e08Uxtaw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=jJQfDwRF/9KnvyWuNoEqt9IynJihp25SDCtOjijUHhBxTFVz2wGM2w34+qeMcFNgK
+	 ZewMnaMu5BVRvB/u8pJb3itt8Dm4oL+5c9DEz0GtMa1K/0GPQhBkjkVoB03D4At7jl
+	 8IH7g4ENCtun4XYA+HwEFY0zwtZXUoHlKl8lTrDo=
+From: Maanya Goenka <maanyagoenka@linux.microsoft.com>
+To: openembedded-core@lists.openembedded.org
+Cc: alhe@linux.microsoft.com,
+	Maanya Goenka <maanyagoenka@microsoft.com>
+Subject: [PATCH] bash: nativesdk-sdk-provides-dummy RPROVIDES bash for nativesdk already so usrmerge should not
+Date: Thu,  1 Feb 2024 02:56:20 +0000
+Message-Id: <20240201025621.1632547-1-maanyagoenka@linux.microsoft.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 1/4] tune-cortexa78.inc: Add cortexa78 tune,
- based on cortexa77
-Content-Language: en-US
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-References: <1706743783-10659-1-git-send-email-mark.hatle@kernel.crashing.org>
- <1706743783-10659-2-git-send-email-mark.hatle@kernel.crashing.org>
- <CAMKF1spTk=-ruCfNpxC12skg=KCLF71NbFUY-xa5qRRHX5PkZg@mail.gmail.com>
-From: Mark Hatle <mark.hatle@kernel.crashing.org>
-In-Reply-To: <CAMKF1spTk=-ruCfNpxC12skg=KCLF71NbFUY-xa5qRRHX5PkZg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by gate.crashing.org id 4112FwkQ023362
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 Feb 2024 02:17:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194546
+ <openembedded-core@lists.openembedded.org>; Thu, 01 Feb 2024 02:57:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194547
 
-It should be the same as the cortexa77.inc file, but say 78..  So I've no=
+From: Maanya Goenka <maanyagoenka@microsoft.com>
+
+The package nativesdk-sdk-provides-dummy already provides /bin/sh and /bi=
+n/bash
+so we prevent re-including them with the usrmerge distro feature to avoid=
+ conflicts.
+
+Signed-off-by: Maanya Goenka <maanyagoenka@microsoft.com>
+Signed-off-by : Alejandro Hernandez Samaniego <alhe@linux.microsoft.com>
+---
+ meta/recipes-extended/bash/bash.inc | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-extended/=
+bash/bash.inc
+index 18874a0e24..94972294d3 100644
+--- a/meta/recipes-extended/bash/bash.inc
++++ b/meta/recipes-extended/bash/bash.inc
+@@ -128,4 +128,6 @@ PACKAGE_BEFORE_PN +=3D "${PN}-loadable"
+ RDEPENDS:${PN}-loadable +=3D "${PN}"
+ FILES:${PN}-loadable +=3D "${libdir}/bash/*"
 =20
-problems with that change if it's in master.
+-RPROVIDES:${PN} +=3D "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge'=
+, '/bin/sh /bin/bash', '', d)}"
++# Limit the RPROVIDES here to class target so that if usrmerge is added =
+to the host, it does not also include bash and sh;
++# this is needed because the package 'nativesdk-sdk-provides-dummy' alre=
+ady provides /bin/sh and /bin/bash and we do not want any conflicting RPR=
+OVIDES
++RPROVIDES:${PN}:append:class-target =3D " ${@bb.utils.contains('DISTRO_F=
+EATURES', 'usrmerge', '/bin/sh /bin/bash', '', d)}"
+--=20
+2.25.1
 
---Mark
-
-On 1/31/24 8:09 PM, Khem Raj wrote:
-> On Wed, Jan 31, 2024 at 3:29=E2=80=AFPM Mark Hatle
-> <mark.hatle@kernel.crashing.org> wrote:
->>
->> From: Mark Hatle <mark.hatle@amd.com>
->>
->> Signed-off-by: Mark Hatle <mark.hatle@amd.com>
->> Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
->> ---
->>   .../include/arm/armv8-2a/tune-cortexa78.inc      | 16 ++++++++++++++=
-++
->>   1 file changed, 16 insertions(+)
->>   create mode 100644 meta/conf/machine/include/arm/armv8-2a/tune-corte=
-xa78.inc
->>
->> diff --git a/meta/conf/machine/include/arm/armv8-2a/tune-cortexa78.inc=
- b/meta/conf/machine/include/arm/armv8-2a/tune-cortexa78.inc
->> new file mode 100644
->> index 0000000000..8c85d98ef9
->> --- /dev/null
->> +++ b/meta/conf/machine/include/arm/armv8-2a/tune-cortexa78.inc
->> @@ -0,0 +1,16 @@
->> +#
->> +# Tune Settings for Cortex-A78
->> +#
->> +DEFAULTTUNE                                        ?=3D "cortexa78"
->> +
->> +TUNEVALID[cortexa78] =3D "Enable Cortex-A78 specific processor optimi=
-zations"
->> +TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES', 'cortexa78', =
-' -mcpu=3Dcortex-a78', '', d)}"
->> +
->> +require conf/machine/include/arm/arch-armv8-2a.inc
->> +
->> +# Little Endian base configs
->> +AVAILTUNES                                         +=3D "cortexa78"
->> +ARMPKGARCH:tune-cortexa78                           =3D "cortexa78"
->> +TUNE_FEATURES:tune-cortexa78                        =3D "${TUNE_FEATU=
-RES:tune-armv8-2a-crypto} cortexa78"
->=20
-> I think this should be set to "aarch64 crypto cortexa78" inline with
-> patch I sent last week [1], otherwise it looks ok.
->=20
-> [1] https://lore.kernel.org/openembedded-core/20240126233141.1589013-1-=
-raj.khem@gmail.com/
->=20
->=20
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#194545): https://lists.openembedded.org/g/openembed=
-ded-core/message/194545
-> Mute This Topic: https://lists.openembedded.org/mt/104086355/3616948
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-mark.hatle@kernel.crashing.org]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
 
