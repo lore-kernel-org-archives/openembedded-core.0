@@ -1,98 +1,69 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <mark.hatle@kernel.crashing.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35715C48295
-	for <webhook@archiver.kernel.org>; Thu,  1 Feb 2024 20:16:03 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.5897.1706818555102848396
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BBF2C4828E
+	for <webhook@archiver.kernel.org>; Thu,  1 Feb 2024 20:47:13 +0000 (UTC)
+Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
+ by mx.groups.io with SMTP id smtpd.web11.6775.1706820428558599057
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Feb 2024 12:15:55 -0800
+ Thu, 01 Feb 2024 12:47:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=coXuaebI;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=IPezybg8;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018d6650493b-75d01bbd-44ea-47bf-89d3-abd3b52f3a85-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1706818554; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=7U9tP0Q5zj6ybZHMZYTQ5GDmx0LIUTbX17irYU7cK44=;
-	b=coXuaebI7hYrx3Aw8OzjL7bH3w5Q07XzAmS9AJkBYCiaRwmGmdi9kDU/q0TY4j6+
-	bweYCaHspVoPXD7ElW8+kWJCHuqB0JenWAhJdQt5bV1GfuQjDtChm5wVfAHhNP82PFI
-	wsmWWplq0MsUlLOy3IX/xSJtwLvUQ2bBp9YIkjkg=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1706818554;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=7U9tP0Q5zj6ybZHMZYTQ5GDmx0LIUTbX17irYU7cK44=;
-	b=IPezybg8xSqGW8Qpz46YlA1diY3MghqOBaKZVwJn1ZXmhIaHj2Y79h+mgWLkSvdn
-	uXvDbxF0FHLegK/BiIOAUQtu4XBOguOtppDF1RZVwy96VhHYkVZ345erJp9SONlDf0/
-	+PX8Qy31VlidBgoElpD/u+dW3kBpPytinY8YjWSU=
-From: patchtest@automation.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] kexec-tools: Fix build with gas 2.42
-In-Reply-To: 20240201182935.457623-1-raj.khem@gmail.com
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018d6650493b-75d01bbd-44ea-47bf-89d3-abd3b52f3a85-000000@us-west-2.amazonses.com>
-Date: Thu, 1 Feb 2024 20:15:54 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.02.01-54.240.27.193
+ dkim=none (message not signed); spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
+Received: from kernel.crashing.org.net ([70.99.78.136])
+	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 411Kk16n007767;
+	Thu, 1 Feb 2024 14:46:01 -0600
+From: Mark Hatle <mark.hatle@kernel.crashing.org>
+To: openembedded-core@lists.openembedded.org
+Cc: mark.hatle@amd.com, raj.khem@gmail.com, jon.mason@arm.com
+Subject: [PATCH v2 0/4] Updates for ARM tunings
+Date: Thu,  1 Feb 2024 14:45:49 -0600
+Message-Id: <1706820353-6967-1-git-send-email-mark.hatle@kernel.crashing.org>
+X-Mailer: git-send-email 1.8.3.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 Feb 2024 20:16:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194745
+ <openembedded-core@lists.openembedded.org>; Thu, 01 Feb 2024 20:47:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194748
 
---NextPart
-Content-Type: text/plain
+From: Mark Hatle <mark.hatle@amd.com>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+cortexa78 missing seems to be an oversight.  It (according to wikipedia) is a
+successor to the cortexa77 which already exists.  This was created by
+copying the cortexa77 and changing it to be a78.  A test system was build to
+verify no obvious issues with the toolchain.
 
----
-Testing patch /home/patchtest/share/mboxes/kexec-tools-Fix-build-with-gas-2.42.patch
+The remaining three changes are related.  I've got a need for a cortex-r5 and
+cortex-r52 that enables the hard-float calling convention (this might also
+be useful to others with other cortex-r and maybe even cortex-m processors,
+but I'm not in a position to know this outside of my specific need.)
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+tune-cortexr5 simply adds an hf variant that adds the callconvention-hard.
+Since there is no armv7r-vfp3d16 w/ this, the package_arch list is more
+limited then the regular r5.
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+tune-cortexr52 requires the change to feature-arm-vfp to allow the setting
+when 'simd' is enabled (since we don't specify vfp or neon).  Otherwise
+this follows the same convention as the r5 change.
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+v2:
+Rebase cortex-a78 tune based on current master-next branch.  THis addresses
+Khem's comment.
 
----
+Mark Hatle (4):
+  tune-cortexa78.inc: Add cortexa78 tune, based on cortexa77
+  feature-arm-vfp.inc: Allow hard-float on newer simd targets
+  tune-cortexr5: Add hard-float variant
+  tune-cortexr52: Add hard-float variant
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
+ .../include/arm/armv7r/tune-cortexr5.inc        |  5 +++++
+ .../include/arm/armv8-2a/tune-cortexa78.inc     | 17 +++++++++++++++++
+ .../include/arm/armv8r/tune-cortexr52.inc       |  5 +++++
+ .../machine/include/arm/feature-arm-vfp.inc     |  3 ++-
+ 4 files changed, 29 insertions(+), 1 deletion(-)
+ create mode 100644 meta/conf/machine/include/arm/armv8-2a/tune-cortexa78.inc
 
---NextPart
+-- 
+2.34.1
 
-
---NextPart--
 
