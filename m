@@ -1,126 +1,186 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0919C48291
-	for <webhook@archiver.kernel.org>; Fri,  2 Feb 2024 15:57:19 +0000 (UTC)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
- by mx.groups.io with SMTP id smtpd.web10.26253.1706889433186311061
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8796C4828F
+	for <webhook@archiver.kernel.org>; Fri,  2 Feb 2024 15:57:49 +0000 (UTC)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+ by mx.groups.io with SMTP id smtpd.web11.26155.1706889460055428127
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Feb 2024 07:57:13 -0800
+ Fri, 02 Feb 2024 07:57:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MAhgpbdl;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.167.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-51124d43943so3578647e87.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 02 Feb 2024 07:57:12 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=J2DKljue;
+ spf=softfail (domain: sakoman.com, ip: 209.85.218.49, mailfrom: steve@sakoman.com)
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a349ed467d9so290022166b.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 02 Feb 2024 07:57:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1706889431; x=1707494231; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=p49MMz9vWEqZ6pLgIVOhb5aX4Gzo5bT32NS7oOTLVjM=;
-        b=MAhgpbdljIL8nVFpwe2YMdZTm3B1sKCdfUpHtZQGxXyF6Vv2ycdkla13I/sHj8ENzi
-         FY2xLidBA+0KVgzZPS8rgPySM4LPWPkCSO9qYPLxkl5nobwbS9TiA7Hv2DDyzrhbdhtp
-         jQnnYgOWeqKNxJ+OPHSpUYFaC3KuWDXNH4XE4=
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1706889458; x=1707494258; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9mZ+1WSIQE0kJOpexwVpLuq5SftSAp/RFYUDJXa5k4w=;
+        b=J2DKljuetkAPGh6ORq3ycY44RORT8+OfLIcDWn6dGgJ54m15FdHIx+zASkBurjs37N
+         E/cWHp/dCyYA3w6F6Ue0HkteghMrG63PJXEy4Bn8RGrMUAKd5iGxyBWKZkfXEN4tS99k
+         pYWPmr8iQI1lebgtuCCw3v2/EDJjlYPo0KJ+VgD2cm0/pnecAroh9FP/gt2Df0HaykaP
+         VMJknR1yebTrUJBz4xZOhLc8+WykVf25dNr+u/tpIJK++miqpG9qE5gviaJhf+8dkj8F
+         dD8UUHaP+ixpeAX8zB1feO+yyi8z8JDGEQyUBnXcUtapq7J5ElOqwVXQkokk31WN3Bga
+         064Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706889431; x=1707494231;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=p49MMz9vWEqZ6pLgIVOhb5aX4Gzo5bT32NS7oOTLVjM=;
-        b=KCvycWE3YMp0mXzsFcgzLCmgzwjJH7R4P0A1WHyKTews9kAqtfJ/3OU5y2u4mSDyzD
-         91NSD0OzT/Yiy1f22gvkyJNjgfdZlOSqhMaPV/WHrm4h8APDK8vGlYwGNwg66F6obn+2
-         ns8uWet11YAmPDh+wBANC/H04Mp2XHCFgIuLB8Wu2kD35NH5HAsAihm4kxg53uYFn9Hi
-         xATDpIw40zwNFpRaDjPr/QkcfM/a1ZnUtdDqaOU/zzWUI9oMdg1p0jBY1Z+EVqkIXiPY
-         zS4FVbzLxF4iiqwvAAIpnD/Lonq0ZOXebsgc8ShwBuGnOKHPuUp10D/a/ybSElEEcWPY
-         xDvQ==
-X-Gm-Message-State: AOJu0YyFCn9REQDzn7euo9KQK0hHDv3wnTG1lgLJHXkt3ZfxroYsFYsu
-	V/jN+Ah867YnWkucRMp7cG0Jb8EdYH3LatCoGmS6HOFlK+f7G3prBLvngq4trHs=
-X-Google-Smtp-Source: AGHT+IHPf8dGIDavwsLc/oOH/J2Q6+j3HYne83iy19cpx/OuZ/FiQkO3pyHWkT7UH2V4XIyHdZmQmA==
-X-Received: by 2002:a05:6512:3e16:b0:511:20e3:e44d with SMTP id i22-20020a0565123e1600b0051120e3e44dmr2072126lfv.50.1706889430720;
-        Fri, 02 Feb 2024 07:57:10 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCU7UG4TxFeC236wHHGhhwujN0pN7i1+V+dW7i4ZRCbmcNRaIGIBg+vcqNuyNg6vEepoRWtYuj5EGJAq5sGOvE2kKxyOH8cUZzWSONeQzmNDiNFu5NHWPH2w
-Received: from ?IPv6:2001:8b0:aba:5f3c:b42e:89d6:2685:5a68? ([2001:8b0:aba:5f3c:b42e:89d6:2685:5a68])
-        by smtp.gmail.com with ESMTPSA id m16-20020a05600c4f5000b0040e3635ca65sm301387wmq.2.2024.02.02.07.57.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Feb 2024 07:57:10 -0800 (PST)
-Message-ID: <a2ec9e318bc5e11b0ce42797293735db0b0819e2.camel@linuxfoundation.org>
-Subject: Re: [OE-core] Shouldn't packages for all PACKAGE_CLASSES be
- generated?
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: michael.opdenacker@bootlin.com, OE-core
-	 <openembedded-core@lists.openembedded.org>
-Date: Fri, 02 Feb 2024 15:57:09 +0000
-In-Reply-To: <c0b1cf77-830b-4838-a92c-cd0d70c1bb05@bootlin.com>
-References: <c0b1cf77-830b-4838-a92c-cd0d70c1bb05@bootlin.com>
-Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
- YNvg==
+        d=1e100.net; s=20230601; t=1706889458; x=1707494258;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9mZ+1WSIQE0kJOpexwVpLuq5SftSAp/RFYUDJXa5k4w=;
+        b=Hxk7TlP1VK8YF8CItaLNBQChjg5OWxTWv802VvJZ3EVjYR/nhCgNtCIUDLhVuwsKIP
+         GQmigj8DWS/Jl1o2reGhewfPbbWg2fwR+ve2coXRRn+kqDOkx6FuMULXGTkeRptrrsfV
+         WgDIQk9ktAr2LEgtTY3FiJIe7rrTnNNX1yksPNop1DKH4hgI0HzvlgHoTq1EGUBg+EPF
+         uSZfrBJ4mgA6hMGgbgrcrtPFuhq8yydElupQN4g6UqorgH4iLGoogEtqkZKZkmauETGU
+         XEV3BPMaBFpiRRSsGFI6vvPgzxDfUPotwpiQil4ygrRy3nY8jn/5jVWtEwt4HJasLH2I
+         H2fQ==
+X-Gm-Message-State: AOJu0YxrOHvbZ5hFAHTEhzbanNhrXtQV9F790MZF/fax0a1Oms7dWdRm
+	CX3wv95bnzuDBdU46llBmJPJfQ30FRzeQq72b0k5q7y2JbHVKiQ4EOlQurqKVNCXv9zXHOa3qEb
+	eaYA8b5zUfIpr5jiBUhlU0FLcw7eoXW62GO6esQ==
+X-Google-Smtp-Source: AGHT+IFhd11AEtt2BBHy1uMAr6u6vSWpWvnugbjPoy9cO4RLL15yJ5Fa7TIRKp3Ht/AEuW8RQWUqqoon9SgZaLRIdH0=
+X-Received: by 2002:a17:907:7747:b0:a37:5ca:3117 with SMTP id
+ kx7-20020a170907774700b00a3705ca3117mr1417535ejc.11.1706889457959; Fri, 02
+ Feb 2024 07:57:37 -0800 (PST)
+MIME-Version: 1.0
+References: <20240202120104.3735837-1-Deepthi.Hemraj@windriver.com>
+In-Reply-To: <20240202120104.3735837-1-Deepthi.Hemraj@windriver.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Fri, 2 Feb 2024 05:57:26 -1000
+Message-ID: <CAOSpxdbXC2D4iiUx8950bKHF1ajCOm1ijbazrkqKADNqdZnpOA@mail.gmail.com>
+Subject: Re: [OE-core] [kirkstone][PATCH V3 1/2] gdb: Fix CVE-2023-39129
+To: Deepthi.Hemraj@windriver.com
+Cc: openembedded-core@lists.openembedded.org, rwmacleod@gmail.com, 
+	umesh.kalappa0@gmail.com, pgowda.cve@gmail.com, shivams@gmail.com, 
+	sundeep.kokkonda@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.0-1 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Feb 2024 15:57:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194804
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Feb 2024 15:57:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194805
 
-On Thu, 2024-02-01 at 13:47 +0100, Michael Opdenacker via
-lists.openembedded.org wrote:
-> Greetings,
->=20
-> I'm surprised by this behavior, which I didn't expect... I'm running=20
-> "bitbake core-image-cmdline-full; bitbake generate-index" from Poky maste=
-r.
->=20
-> with PACKAGE_CLASSES =3D "package_ipk package_rpm package_deb"...
->=20
-> find tmp/deploy/deb -name *.deb | wc; find tmp/deploy/rpm -name *.rpm |=
-=20
-> wc; find tmp/deploy/ipk -name *.ipk | wc
->  =C2=A0=C2=A0 1918=C2=A0=C2=A0=C2=A0 1918=C2=A0 129927
->  =C2=A0=C2=A0 1918=C2=A0=C2=A0=C2=A0 1918=C2=A0 135794
->  =C2=A0=C2=A0 5404=C2=A0=C2=A0=C2=A0 5404=C2=A0 393252
->=20
-> with PACKAGE_CLASSES =3D "package_rpm package_deb package_ipk"...
->=20
-> find tmp/deploy/deb -name *.deb | wc; find tmp/deploy/rpm -name *.rpm |=
-=20
-> wc; find tmp/deploy/ipk -name *.ipk | wc
->  =C2=A0=C2=A0 1918=C2=A0=C2=A0=C2=A0 1918=C2=A0 129927
->  =C2=A0=C2=A0 5404=C2=A0=C2=A0=C2=A0 5404=C2=A0 393606
->  =C2=A0=C2=A0 1918=C2=A0=C2=A0=C2=A0 1918=C2=A0 135584
->=20
-> with PACKAGE_CLASSES =3D "package_deb package_ipk package_rpm"...
->=20
-> find tmp/deploy/deb -name *.deb | wc; find tmp/deploy/rpm -name *.rpm |=
-=20
-> wc; find tmp/deploy/ipk -name *.ipk | wc
->  =C2=A0=C2=A0 5404=C2=A0=C2=A0=C2=A0 5404=C2=A0 376187
->  =C2=A0=C2=A0 1918=C2=A0=C2=A0=C2=A0 1918=C2=A0 135794
->  =C2=A0=C2=A0 1918=C2=A0=C2=A0=C2=A0 1918=C2=A0 135584
->=20
-> So, more packages are generated to the first item in PACKAGE_CLASSES.
->=20
-> It's expected to have the first item in PACKAGE_CLASSES that is used to=
-=20
-> generate the image, but I expected all packages to be generated for all=
-=20
-> package types anyway. Isn't this the expected behavior? Otherwise, how=
-=20
-> would you generate 3 types of feeds (rpm, deb and ipk) at the same time?
+On Fri, Feb 2, 2024 at 2:01=E2=80=AFAM Hemraj, Deepthi via
+lists.openembedded.org
+<Deepthi.Hemraj=3Dwindriver.com@lists.openembedded.org> wrote:
+>
+> From: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
+>
+> Issue: LIN1022-4854
 
-This is expected for various reasons, try adding --runall build to the
-command.
+Please don't include internal windriver issue designators.
 
-Cheers,
+Also, please send your initial submission without a version number.
+If you need to resubmit, add a version number and include a comment
+after the --- line below indicating what has changed. Otherwise I am
+left to puzzle out which patch you intended I should take.
 
-Richard
+I have fixed this, so no need to resubmit this time.
 
+Thanks,
+
+Steve
+
+>
+> Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
+> ---
+>  meta/recipes-devtools/gdb/gdb.inc             |  1 +
+>  .../gdb/gdb/0012-CVE-2023-39129.patch         | 50 +++++++++++++++++++
+>  2 files changed, 51 insertions(+)
+>  create mode 100644 meta/recipes-devtools/gdb/gdb/0012-CVE-2023-39129.pat=
+ch
+>
+> diff --git a/meta/recipes-devtools/gdb/gdb.inc b/meta/recipes-devtools/gd=
+b/gdb.inc
+> index 099bd2d8f5..ad2b3ad4b7 100644
+> --- a/meta/recipes-devtools/gdb/gdb.inc
+> +++ b/meta/recipes-devtools/gdb/gdb.inc
+> @@ -15,5 +15,6 @@ SRC_URI =3D "${GNU_MIRROR}/gdb/gdb-${PV}.tar.xz \
+>             file://0009-Fix-invalid-sigprocmask-call.patch \
+>             file://0010-gdbserver-ctrl-c-handling.patch \
+>             file://0011-CVE-2023-39128.patch \
+> +          file://0012-CVE-2023-39129.patch \
+>             "
+>  SRC_URI[sha256sum] =3D "1497c36a71881b8671a9a84a0ee40faab788ca30d7ba19d8=
+463c3cc787152e32"
+> diff --git a/meta/recipes-devtools/gdb/gdb/0012-CVE-2023-39129.patch b/me=
+ta/recipes-devtools/gdb/gdb/0012-CVE-2023-39129.patch
+> new file mode 100644
+> index 0000000000..63fb44d59a
+> --- /dev/null
+> +++ b/meta/recipes-devtools/gdb/gdb/0012-CVE-2023-39129.patch
+> @@ -0,0 +1,50 @@
+> +From: Keith Seitz <keiths@...>
+> +Date: Wed, 2 Aug 2023 15:35:11 +0000 (-0700)
+> +Subject: Verify COFF symbol stringtab offset
+> +X-Git-Tag: gdb-14-branchpoint~473
+> +X-Git-Url: https://sourceware.org/git/?p=3Dbinutils-gdb.git;a=3Dcommitdi=
+ff_plain;h=3D58abdf887821a5da09ba184c6e400a3bc5cccd5a
+> +
+> +Verify COFF symbol stringtab offset
+> +
+> +This patch addresses an issue with malformed/fuzzed debug information th=
+at
+> +was recently reported in gdb/30639. That bug specifically deals with
+> +an ASAN issue, but the reproducer provided by the reporter causes a
+> +another failure outside of ASAN:
+> +
+> +Upstream-Status: Backport [https://sourceware.org/git/?p=3Dbinutils-gdb.=
+git;a=3Dcommitdiff_plain;h=3D58abdf887821a5da09ba184c6e400a3bc5cccd5a]
+> +
+> +CVE: CVE-2023-39129
+> +
+> +Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
+> +
+> +diff --git a/gdb/coffread.c b/gdb/coffread.c
+> +--- a/gdb/coffread.c
+> ++++ b/gdb/coffread.c
+> +@@ -159,6 +160,7 @@ static file_ptr linetab_offset;
+> + static file_ptr linetab_size;
+> +
+> + static char *stringtab =3D NULL;
+> ++static long stringtab_length =3D 0;
+> +
+> + extern void stabsread_clear_cache (void);
+> +
+> +@@ -1303,6 +1298,7 @@ init_stringtab (bfd *abfd, file_ptr offset, gdb::u=
+nique_xmalloc_ptr<char> *stora
+> +   /* This is in target format (probably not very useful, and not
+> +      currently used), not host format.  */
+> +   memcpy (stringtab, lengthbuf, sizeof lengthbuf);
+> ++  stringtab_length =3D length;
+> +   if (length =3D=3D sizeof length)        /* Empty table -- just the co=
+unt.  */
+> +     return 0;
+> +
+> +@@ -1322,8 +1318,9 @@ getsymname (struct internal_syment *symbol_entry)
+> +
+> +   if (symbol_entry->_n._n_n._n_zeroes =3D=3D 0)
+> +     {
+> +-      /* FIXME: Probably should be detecting corrupt symbol files by
+> +-       seeing whether offset points to within the stringtab.  */
+> ++      if (symbol_entry->_n._n_n._n_offset > stringtab_length)
+> ++      error (_("COFF Error: string table offset (%ld) outside string ta=
+ble (length %ld)"),
+> ++             symbol_entry->_n._n_n._n_offset, stringtab_length);
+> +       result =3D stringtab + symbol_entry->_n._n_n._n_offset;
+> +     }
+> +   else
+> --
+> 2.43.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#194787): https://lists.openembedded.org/g/openembedde=
+d-core/message/194787
+> Mute This Topic: https://lists.openembedded.org/mt/104117785/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
