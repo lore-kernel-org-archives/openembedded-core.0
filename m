@@ -1,89 +1,121 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18F60C4828F
-	for <webhook@archiver.kernel.org>; Fri,  2 Feb 2024 13:24:09 +0000 (UTC)
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
- by mx.groups.io with SMTP id smtpd.web11.22419.1706880239852530679
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0D7EC4828F
+	for <webhook@archiver.kernel.org>; Fri,  2 Feb 2024 13:24:48 +0000 (UTC)
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+ by mx.groups.io with SMTP id smtpd.web10.22471.1706880281628110419
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Feb 2024 05:24:00 -0800
+ Fri, 02 Feb 2024 05:24:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=BLRFSuxd;
- spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a30f7c9574eso299363166b.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 02 Feb 2024 05:23:59 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=JjVWOoNN;
+ spf=pass (domain: gmail.com, ip: 209.85.208.52, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-55fc9a581f8so1948384a12.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 02 Feb 2024 05:24:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706880238; x=1707485038; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=mKmePtTHgGt0Itf96rZjo3aNeEpj+gvnLYROSnvjBes=;
-        b=BLRFSuxdlMI7nPczUNvQL/ywqGe4roy0wMq0hFF3ZY2DdzZFxmKVMeiWCuIp7kYIQc
-         ltDlJxxylnTplYqD1TfVxZJ6C9+0D6AqBR1nrJstK1+gO1ECcvW5xi75bTRISb4YFbAi
-         mgxn2Y4EIOEFXtJQ3p/K/SjTmJ/0TGYvxOQWxQ6YJf9ckUJtZj3KhILB+SCRjvfvsWTj
-         rx17pvK4lm6M3Z3Ur8IxdrHhSCGku1SzFyLvMLMtsEzRqyTwQ56Ctd1o2nhZas2Bd944
-         3uUKDBCAyV0/oiUqx64Gf81uzOasWQnz57OMKzzroMZwaN86HTjbS8RxHKge+YQnWvHo
-         txvQ==
+        d=gmail.com; s=20230601; t=1706880280; x=1707485080; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gkGzuz2TCFbSU4kQcJwS1pV2sPPXwZ1mHjR8NOuPwuo=;
+        b=JjVWOoNNCGLBTDzxf7uYXqdkib28/vBVdioxOJGtmNr2rvUtKxGa3nwgCk67aVLCLQ
+         +4QyYcoUDFUuUVm7Y1v8kXhFCmRj/dUxftPWWXrjJiO+8Elv8HsYx67sNuB2HWcNmmLr
+         n5j4TioRmmiI13Q1tWKEIjRxPIXyL6I0J+gz6ZDpt4yYb3j5GS3Q6ogxo00ARTPa2KBs
+         blkXcRAOR450t+LxI1ik/mMx+o584jbZNqOxhPg+sTJYzn4i2Onyk+nAShwo8TVMMjaX
+         8zO9XnG02LkQ07pmPzG9QZP7qEM5Vyz3RIlB8yFb+sjaoRkcBrpnh4KXAS58bHk0xHK0
+         a73A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706880238; x=1707485038;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mKmePtTHgGt0Itf96rZjo3aNeEpj+gvnLYROSnvjBes=;
-        b=j4br5EyCVev7OcX7gSkPD48YgdNqxuMkbRVcOHF4d4Sewzit33Xe762RYw5l0zSuee
-         MP2Z0ajnYeXQu112HyWzrr71OyQKGU1HN7EPN/IIZ3P1f7yQhbrNPXzdN8QlMP6BVCWh
-         1Vr4LVVfQxad8OSLD4yauUkH2vibXyY+wNYr6/qIwQCxihoYMoCiL8BKBvxOc/ZRr5Qu
-         1N4C68vkOeCBMge8MAl6m1ptZNZcu5c+ZCUYOgsxOQe+ShwjnzXoyfQqDAeNWujhAaGU
-         v6wDrhdULVbb4JMqz773XFdPppAXx4PkMJOWCr/HTCW8F+pFmXRFBnaQft7gb/H0FOh2
-         16mA==
-X-Gm-Message-State: AOJu0Yy0TcQLkkC2txxA++eyxPNTSiMCIcTKkmtrFpz1OugT3q/4QInw
-	z2HOlxcesV9JKfWJH9YB9dpMf8VlD+9cDOXzJSEuZItkELGXJkXw3RGk+JKd
-X-Google-Smtp-Source: AGHT+IGb5UVGjOwyJhPu3n9u35Xv+vY/e0jrPNb9gkHgeWn3o81qtbbk5tWQpnItKfgaWn7i0maFTw==
-X-Received: by 2002:a17:906:2648:b0:a36:ce3a:6c90 with SMTP id i8-20020a170906264800b00a36ce3a6c90mr3300063ejc.10.1706880238024;
-        Fri, 02 Feb 2024 05:23:58 -0800 (PST)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id wb14-20020a170907d50e00b00a36fc7f0f85sm767427ejc.47.2024.02.02.05.23.57
+        d=1e100.net; s=20230601; t=1706880280; x=1707485080;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gkGzuz2TCFbSU4kQcJwS1pV2sPPXwZ1mHjR8NOuPwuo=;
+        b=K+wQ0GmJMMwUwiQh71UuM6XFbqvY5lVdwU9dOSn4Jrxqmi4pA2m4zYlm2GY5tUZ+lA
+         KOF/ufhWvm/23oeeA6CAr29K4cirKPfptH6LogsnKU/UQjPQHGK3UPWt0WDiN9SKTCRP
+         mJjqRa+djygRndnIpfMNPBr2XXhToe52AlZFXIeWXzF2xn0un+BJxcHDVEFniTiSbzNY
+         ws2qz46tmwCSU53jciFRNWrWo4YHJDq/f+M+SLVcmgbmpBNB9PpkUi6ZGohbh8JNC0MG
+         SFstXJLus/b5ag7DqteT7sK9lkx/9nmqWXrHLW3aRcK8IG8oj1jlMZ7EoGli7evGsmch
+         3a/A==
+X-Gm-Message-State: AOJu0YxCag2VmYaCNNjOBDCdqgLNOTo+ZIleXL0CgpWR4xIo8vyQMzAG
+	skBwRxXWBNUWwbe0s0qT74KDDvIXJgYdyQY+zPnV2e2Kg+jTo06ibsHitEgT
+X-Google-Smtp-Source: AGHT+IGHxqchNZyeJZv7UMP+jORaRmZzU3PdyxEu7/jFjdKRzm0jyzWkLGI8idLN6p/KpmC/F6mnFA==
+X-Received: by 2002:a17:907:9502:b0:a36:cd96:4b34 with SMTP id ew2-20020a170907950200b00a36cd964b34mr1297564ejc.54.1706880279573;
+        Fri, 02 Feb 2024 05:24:39 -0800 (PST)
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id dr4-20020a170907720400b00a317ca8b422sm880666ejc.92.2024.02.02.05.24.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Feb 2024 05:23:57 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
+        Fri, 02 Feb 2024 05:24:39 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH] rpm: override curl executable search with just 'curl'
-Date: Fri,  2 Feb 2024 14:23:52 +0100
-Message-Id: <20240202132352.2185807-1-alex@linutronix.de>
-X-Mailer: git-send-email 2.39.2
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: [PATCH 2/2] package_rpm: add RPMBUILD_EXTRA_PARAMS variable
+Date: Fri,  2 Feb 2024 14:24:34 +0100
+Message-ID: <20240202132434.1787053-2-martin.jansa@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240202132434.1787053-1-martin.jansa@gmail.com>
+References: <20240202132434.1787053-1-martin.jansa@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Feb 2024 13:24:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194794
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Feb 2024 13:24:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194796
 
-rpm is searching for curl executable at do_configure time
-and result is non-deterministic, depending on whether curl
-is in native sysroot or not:
-https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20240201-8dcic6ea/packages/diff-html/
+* e.g. for DISTROs which define extra user-defined fields with
+  PACKAGE_ADD_METADATA/PACKAGE_ADD_METADATA_RPM
+  as undefined fields in packagedata are fatal error for rpmbuild:
+  "error: line 9: Unknown tag: Author: Unspecified"
+  as shown in:
+  http://errors.yoctoproject.org/Errors/Details/751706/
+  with "Author" field added with:
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+  PACKAGE_CLASSES = "package_rpm"
+  PACKAGE_ADD_AUTHOR_METADATA = "test-author"
+  PACKAGE_ADD_METADATA = "Author: ${PACKAGE_ADD_AUTHOR_METADATA}"
+
+  to fix rpm build you can use:
+  RPMBUILD_EXTRA_PARAMS = " --define '_Author Author'"
+  keep in mind that this doesn't cause this Author field to be
+  added in .rpm, it just avoids the BUILDSPEC failure.
+
+  and for ipk build:
+  OPKG_MAKE_INDEX_EXTRA_PARAMS = "-f"
+
+  alternatively you can avoid additional packagedata fields ending
+  in the package manager (if you use them only with buildhistory
+  or packagedata) with:
+  PACKAGE_ADD_METADATA_RPM = ""
+  PACKAGE_ADD_METADATA_IPK = ""
+  PACKAGE_ADD_METADATA_DEP = ""
+
+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 ---
- meta/recipes-devtools/rpm/rpm_4.19.1.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes-global/package_rpm.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/rpm/rpm_4.19.1.bb b/meta/recipes-devtools/rpm/rpm_4.19.1.bb
-index af11dec5ef3..086f100229b 100644
---- a/meta/recipes-devtools/rpm/rpm_4.19.1.bb
-+++ b/meta/recipes-devtools/rpm/rpm_4.19.1.bb
-@@ -51,6 +51,7 @@ S = "${WORKDIR}/git"
- DEPENDS = "lua libgcrypt file popt xz bzip2 elfutils python3 sqlite3 zstd"
- DEPENDS:append:class-native = " file-replacement-native bzip2-replacement-native"
+diff --git a/meta/classes-global/package_rpm.bbclass b/meta/classes-global/package_rpm.bbclass
+index 819ee50278..f932d2c928 100644
+--- a/meta/classes-global/package_rpm.bbclass
++++ b/meta/classes-global/package_rpm.bbclass
+@@ -683,6 +683,7 @@ python do_package_rpm () {
+     # Setup the rpmbuild arguments...
+     rpmbuild = d.getVar('RPMBUILD')
+     rpmbuild_compmode = d.getVar('RPMBUILD_COMPMODE')
++    rpmbuild_extra_params = d.getVar('RPMBUILD_EXTRA_PARAMS')
  
-+EXTRA_OECMAKE:append = " -D__CURL:FILEPATH=curl"
- EXTRA_OECMAKE:append:libc-musl = " -DENABLE_NLS=OFF -DENABLE_OPENMP=OFF"
- 
- # --sysconfdir prevents rpm from attempting to access machine-specific configuration in sysroot/etc; we need to have it in rootfs
+     # Too many places in dnf stack assume that arch-independent packages are "noarch".
+     # Let's not fight against this.
+@@ -724,6 +725,7 @@ python do_package_rpm () {
+     cmd = cmd + " --define '_use_weak_usergroup_deps 1'"
+     cmd = cmd + " --define '_passwd_path " + "/completely/bogus/path" + "'"
+     cmd = cmd + " --define '_group_path " + "/completely/bogus/path" + "'"
++    cmd = cmd + rpmbuild_extra_params
+     if d.getVarFlag('ARCHIVER_MODE', 'srpm') == '1' and bb.data.inherits_class('archiver', d):
+         cmd = cmd + " --define '_sourcedir " + d.getVar('ARCHIVER_OUTDIR') + "'"
+         cmdsrpm = cmd + " --define '_srcrpmdir " + d.getVar('ARCHIVER_RPMOUTDIR') + "'"
 -- 
-2.39.2
+2.43.0
 
 
