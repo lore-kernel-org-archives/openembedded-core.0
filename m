@@ -1,345 +1,152 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <matt@madison.systems>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C11BC48294
-	for <webhook@archiver.kernel.org>; Fri,  2 Feb 2024 14:05:59 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web10.23345.1706882754911794499
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AA5CC47DB3
+	for <webhook@archiver.kernel.org>; Fri,  2 Feb 2024 14:41:19 +0000 (UTC)
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+ by mx.groups.io with SMTP id smtpd.web11.24089.1706884870530709392
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Feb 2024 06:05:55 -0800
+ Fri, 02 Feb 2024 06:41:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Zyihysv8;
- spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-40ef6bbb61fso17854215e9.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 02 Feb 2024 06:05:54 -0800 (PST)
+ dkim=pass header.i=@madison.systems header.s=google header.b=fzpieVQO;
+ spf=pass (domain: madison.systems, ip: 209.85.210.182, mailfrom: matt@madison.systems)
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-6de0f53f8e8so2609813b3a.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 02 Feb 2024 06:41:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706882753; x=1707487553; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=9N3PyPYM+bRJ1s6OkK8UeQdXF8z/FXNSccjlP1VtyK0=;
-        b=Zyihysv84B8MF/9z/SULNUD0yVN+chMt9lRZy85TZxCx7lfiWFbhNgtKyAsSF+36aR
-         nSDyzRIWwIgTSxfsz1X2xMnkV5VD9XgyFuQGZ8b/a5Hl4iWtd9O/8zahivN79zXnYD7E
-         SUQyBsGROsNUc5dEee4zYpVI7brXPI19wh6W3ZPTZfqbzJBF2yfrMDQ86tc7/UK8yBJG
-         Ed7Ci6Vj0sDCovMXqr32BgEIiq7OuoLY4Bu3KRtA/2dQKvZ1uApf+fyqDPhLEv98tQN7
-         FA26dYVezZHuF3EkLGvCEffCx4DUJxytAloC18WCVRYKnJwpbtQ+O8nat7uBeMDcnXsw
-         AYxg==
+        d=madison.systems; s=google; t=1706884869; x=1707489669; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bnOs0Ek5h2zoGYD6BRSeNuvUeXCrgLzWYVI/X6hJeOE=;
+        b=fzpieVQOV9Ms2o6IIPey49y3j67MZeFVxW/Hxrcrf5CDOSG8jJOGA0kDzLqd/15lnO
+         eDYdpkReLl7S6DHD9Wn5Zx59tZnP4L2r+1PZF6dPI1R8LKTTb3ECpy33821amy3OUXN2
+         uuW4mwEPdSpD+eOFaUoxZ88O/OtrBLuokjXLaBR9SALx7qn8lCzW0Zz0zfthpGJJYgt0
+         XbbXzFk2P+fl3XIchRWv9ptCDQ4dLtvHTEiYp9hyD8t6+OYBE5bb5gSafhQ9ad3xPehz
+         cPN2wmGnhtf6tMeOdTahPhz7y3Kprn5tGjrkLgUoH42hhZebUVRVxp879mJgf+wzVxrX
+         C6wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706882753; x=1707487553;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1706884869; x=1707489669;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=9N3PyPYM+bRJ1s6OkK8UeQdXF8z/FXNSccjlP1VtyK0=;
-        b=VWH1/Wtf59hA43Jliv2r8cla1N5oQnyLLSbXXmNjyd0JNUQgZgIubusGzmUXyTMFtL
-         kJ7TaWoUWkcqzfTSuPmmmqUe9n0j/an4qVE/OZ2PLgAVDwVF45xXVudNfMhUQvCeazhi
-         4OPSn5QrRevwXR5JDoXzrRGXddwNOdIjk6Zinx5Nlobeugt9IHnFFfTRZwExsiO4Lx62
-         rgU20r6L4MOWPZbHD8AUH0+1aJNeHTZCEbcdGSJdVpkAv0qUAhwydk2yVBzxrJR1XODP
-         DmmcTNBWikDeCUs5ra2rp8jTiaj33YgVbTHFK2q5TWhz35Kf+DOW7sx9AZz6VmssB31q
-         jPDg==
-X-Gm-Message-State: AOJu0YwDeN7woRbZiwj6IVkjcUFn7jxkTl/dXfaDc/V0lcKjFimeVmi5
-	EdJRqFKenqpHT4DmrhPPIr8IbA73OeCdsO0gwzDghxeL3yoU5XCHo2owakNlY4//8awcwOLdf/c
-	foEQ9vsqgtyDyeNfFwO1+QiBCKHg=
-X-Google-Smtp-Source: AGHT+IEQsiIcEDKjJrVorVV9HWFm7MKSsi6WOj7vYbHjO3sCot7VpOTsHhlCPSJuoI6yVQL7Z7UGMt6y9gc4drAPlTM=
-X-Received: by 2002:a5d:4e88:0:b0:33a:e526:3a49 with SMTP id
- e8-20020a5d4e88000000b0033ae5263a49mr1552024wru.23.1706882752972; Fri, 02 Feb
- 2024 06:05:52 -0800 (PST)
+        bh=bnOs0Ek5h2zoGYD6BRSeNuvUeXCrgLzWYVI/X6hJeOE=;
+        b=GGLNaC58RaYMEH3HpTIKuZd2GQPzfCcmhw16Pd+oPtVeBtEgKlBjlhFGzVFD3qq5+H
+         jx+ESDNtxQSjkUVZ/EY8k1u/qO7cEy35X/wvnRCbIeEhPZRZWp1mTMuTCo81gbWml6Dd
+         7DWrU0kQ4Mv+9/nBRzWQhijA02alMfbQ3QxQAUpfDz/+rhhrCxLyqFXQxbGc+1hzfj7Q
+         SHJT7ZKvfLDRLFwIUYtT1XLQp03xGs3VWqjdEYZLQBvVnAAsoG4U+P81nqsnFpr00hqQ
+         Z4ainYaNny4yTkV5IYKZ78W92M2qPxPRwhdPt5FIYxUdAbMLk4A9uyE14ByGmtVMWBn9
+         JIeQ==
+X-Gm-Message-State: AOJu0YwoD3GwIhTAApZxFQFuz3PWy0RKYbU51JTirqYRBzI4spOB0HKn
+	YJcS/MEY7hBs8EqEEXjmL+gr5AI5tuoViS1ELnSKjWBMwposFrAgFwh37GVnHETjEFZrHZhTvcq
+	J
+X-Google-Smtp-Source: AGHT+IHzJFgozz8z6MLsi91DHEMQAgmcJRmmeoGO4HvUd/8h8oLRpxD9nYYdpSOJWXAlVBfmIT6MzQ==
+X-Received: by 2002:a05:6a00:6601:b0:6df:fc74:2802 with SMTP id he1-20020a056a00660100b006dffc742802mr1186373pfb.16.1706884869016;
+        Fri, 02 Feb 2024 06:41:09 -0800 (PST)
+Received: from visar.local ([2600:1700:87f0:9cff:50be:6081:b8b1:4e2c])
+        by smtp.gmail.com with ESMTPSA id p21-20020a056a000a1500b006dab36287bfsm1696042pfh.207.2024.02.02.06.41.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Feb 2024 06:41:08 -0800 (PST)
+From: Matt Madison <matt@madison.systems>
+To: openembedded-core@lists.openembedded.org
+Cc: Matt Madison <matt@madison.systems>
+Subject: [PATCH] pseudo: add patch with statvfs64 wrapper
+Date: Fri,  2 Feb 2024 06:40:42 -0800
+Message-Id: <20240202144042.675454-1-matt@madison.systems>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20240126233141.1589013-1-raj.khem@gmail.com>
-In-Reply-To: <20240126233141.1589013-1-raj.khem@gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Fri, 2 Feb 2024 15:05:39 +0100
-Message-ID: <CA+chaQcVxMyXLfaFzFxA1nAeWMrSFMA8SNOdBE7=yK7MO9sEfw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] armv8/armv9: Avoid using -march when -mcpu is chosen
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Ross Burton <ross.burton@arm.com>, Jon Mason <jdmason@kudzu.us>
-Content-Type: multipart/alternative; boundary="0000000000002a126d0610669c42"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Feb 2024 14:05:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194799
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Feb 2024 14:41:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194800
 
---0000000000002a126d0610669c42
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+rpm 4.19 now builds with LFS64 support enabled by default,
+so it calls statvfs64() to get the space available on the
+filesystem it is installing packages into.  This is not
+getting caught by pseudo, so rpm is checking the host's
+root filesystem, rather than the filesystem where the
+build is happening.
 
-On Sat, Jan 27, 2024 at 12:31=E2=80=AFAM Khem Raj <raj.khem@gmail.com> wrot=
-e:
+The patch here adds the missing wrapper, so pseudo performs
+the correct path remapping.
 
-> Current include logic goes into generic arm v8/v9 architecture tunes and
-> adds corresponding -march option after synthesizing it from various tune
-> fragments, this is fine for a machine which is using armv8/armv9 based
-> tunes but cortex tunes are intentionally using -mcpu option based on
-> selected tune value. So when cortex based default tune is selected for a
-> machine, it will add both -mcpu and -march to the compiler commandline
-> which can result in invalid combinations for this pair in gcc's own
-> logic. This can then result in compiler warnings/errors reporting this
->
-> e.g.
->
-> aarch64-yoe-linux-gcc  -mcpu=3Dcortex-a72.cortex-a53
-> -march=3Darmv8-a+crc+crypto -mbranch-protection=3Dstandard
-> ...
-> cc1: error: switch '-mcpu=3Dcortex-a72.cortex-a53' conflicts with
-> '-march=3Darmv8-a+crc+crypto' switch and resulted in options '+crc+crypto=
-'
-> being added [-Werror]
->
-> This is seen in lot of configure test results in glibc 2.39 and the
-> warning is promoted to errors by gcc in some of these checks especially
-> with gcc-14, the logs also show it as warning in other places in
-> configure checks.
->
-> mcpu option will compute relevant march implicitly as it specifies a cpu
-> implementation and this will be the right value to use, therefore do not
-> specify -march when -mcpu is already describing the cpu.
->
+Signed-off-by: Matt Madison <matt@madison.systems>
+---
+ ...orts-linux-add-wrapper-for-statvfs64.patch | 50 +++++++++++++++++++
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |  1 +
+ 2 files changed, 51 insertions(+)
+ create mode 100644 meta/recipes-devtools/pseudo/files/0001-ports-linux-add-wrapper-for-statvfs64.patch
 
-I agree that keeping mapping between mcpu and march is tricky.
+diff --git a/meta/recipes-devtools/pseudo/files/0001-ports-linux-add-wrapper-for-statvfs64.patch b/meta/recipes-devtools/pseudo/files/0001-ports-linux-add-wrapper-for-statvfs64.patch
+new file mode 100644
+index 0000000000..bf22cdeaf9
+--- /dev/null
++++ b/meta/recipes-devtools/pseudo/files/0001-ports-linux-add-wrapper-for-statvfs64.patch
+@@ -0,0 +1,50 @@
++From e3eca18e28859b6d8a1450eac22dbb314e8e6225 Mon Sep 17 00:00:00 2001
++From: Matt Madison <matt@madison.systems>
++Date: Sun, 28 Jan 2024 09:49:55 -0800
++Subject: [PATCH][pseudo] ports/linux: add wrapper for statvfs64
++
++rpm 4.19 now builds with LFS64 support enabled by default,
++so it calls statvfs64() to get the space available on the
++filesystem it is installing packages into.  Add a wrapper
++for this call so the right filesystem is used.
++
++Upstream-Status: Submitted [https://lists.openembedded.org/g/openembedded-core/message/194464]
++
++Signed-off-by: Matt Madison <matt@madison.systems>
++---
++ ports/linux/statvfs/guts/statvfs64.c | 15 +++++++++++++++
++ ports/linux/statvfs/wrapfuncs.in     |  1 +
++ 2 files changed, 16 insertions(+)
++ create mode 100644 ports/linux/statvfs/guts/statvfs64.c
++
++diff --git a/ports/linux/statvfs/guts/statvfs64.c b/ports/linux/statvfs/guts/statvfs64.c
++new file mode 100644
++index 0000000..856d3db
++--- /dev/null
+++++ b/ports/linux/statvfs/guts/statvfs64.c
++@@ -0,0 +1,15 @@
+++/*
+++ * Copyright (c) 2018 Wind River Systems; see
+++ * guts/COPYRIGHT for information.
+++ *
+++ * SPDX-License-Identifier: LGPL-2.1-only
+++ *
+++ * int statvfs64(const char *path, struct statvfs64 *buf)
+++ *	int rc = -1;
+++ */
+++
+++	rc = real_statvfs64(path, buf);
+++
+++/*	return rc;
+++ * }
+++ */
++diff --git a/ports/linux/statvfs/wrapfuncs.in b/ports/linux/statvfs/wrapfuncs.in
++index 1afb64d..6a59660 100644
++--- a/ports/linux/statvfs/wrapfuncs.in
+++++ b/ports/linux/statvfs/wrapfuncs.in
++@@ -1 +1,2 @@
++ int statvfs(const char *path, struct statvfs *buf);
+++int statvfs64(const char *path, struct statvfs64 *buf);
++-- 
++2.34.1
++
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index 699cab11c6..f15fb0aaee 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -3,6 +3,7 @@ require pseudo.inc
+ SRC_URI = "git://git.yoctoproject.org/pseudo;branch=master;protocol=https \
+            file://0001-configure-Prune-PIE-flags.patch \
+            file://glibc238.patch \
++           file://0001-ports-linux-add-wrapper-for-statvfs64.patch \
+            file://fallback-passwd \
+            file://fallback-group \
+            "
+-- 
+2.34.1
 
-Just in case someone else hits similar issue, here is one new failure
-caused by this change.
-
-It is reproducible in xnnpack, it used to build with:
--march=3Darmv8-a+crc and then -march=3Darmv8.2-a+fp16+dotprod added by xnnp=
-ack
-source
-while with this change it ends with:
--mcpu=3Dcortex-a72+crc and -march=3Darmv8.2-a+fp16+dotprod
-actually causing the issue you were trying to avoid, because tensorflow has
-in some cases different expectations that what is set in TUNE_CCARGS and
-needs to be fixed in tensorflow or worked around in metadata as before with=
-:
-https://github.com/webosose/meta-webosose/blob/master/meta-webos/recipes-up=
-streamable/xnnpack/xnnpack.bb#L70
-
-which will need to be extended to avoid:
-FAILED:
-CMakeFiles/all_microkernels.dir/src/f16-gemm/gen-inc/1x16inc-minmax-aarch64=
--neonfp16arith-ld32.S.o
-
-TOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/recipe-sysr=
-oot-native/usr/bin/aarch64-webos-linux/aarch64-webos-linux-gcc
---sysroot=3DTOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903=
-/recipe-sysroot
--DFXDIV_USE_INLINE_ASSEMBLY=3D0 -DXNN_ENABLE_ARM_BF16=3D1
--DXNN_ENABLE_ARM_DOTPROD=3D1 -DXNN_ENABLE_ARM_FP16=3D1 -DXNN_ENABLE_ASSEMBL=
-Y=3D1
--DXNN_ENABLE_GEMM_M_SPECIALIZATION=3D1 -DXNN_ENABLE_JIT=3D0
--DXNN_ENABLE_MEMOPT=3D1 -DXNN_ENABLE_SPARSE=3D1
--ITOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/src
--ITOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/pthre=
-adpool-source/include
--ITOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/FXdiv=
--source/include
--ITOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/FP16-=
-source/include
--mcpu=3Dcortex-a72+crc -mbranch-protection=3Dstandard -fstack-protector-str=
-ong
- -O2 -D_FORTIFY_SOURCE=3D2 -Wformat -Wformat-security -Werror=3Dformat-secu=
-rity
--Werror=3Dreturn-type
- --sysroot=3DTOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/47588490=
-3/recipe-sysroot
- -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map
- -fmacro-prefix-map=3DTOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack=
-/475884903/git=3D/usr/src/debug/xnnpack/475884903
- -fdebug-prefix-map=3DTOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack=
-/475884903/git=3D/usr/src/debug/xnnpack/475884903
- -fmacro-prefix-map=3DTOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack=
-/475884903/build=3D/usr/src/debug/xnnpack/475884903
- -fdebug-prefix-map=3DTOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack=
-/475884903/build=3D/usr/src/debug/xnnpack/475884903
- -fdebug-prefix-map=3DTOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack=
-/475884903/recipe-sysroot=3D
- -fmacro-prefix-map=3DTOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack=
-/475884903/recipe-sysroot=3D
- -fdebug-prefix-map=3DTOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack=
-/475884903/recipe-sysroot-native=3D
- -Wno-psabi -pthread  -fno-math-errno  -march=3Darmv8.2-a+fp16+dotprod  -O2
--MD -MT
-CMakeFiles/all_microkernels.dir/src/f16-gemm/gen-inc/1x16inc-minmax-aarch64=
--neonfp16arith-ld32.S.o
--MF
-CMakeFiles/all_microkernels.dir/src/f16-gemm/gen-inc/1x16inc-minmax-aarch64=
--neonfp16arith-ld32.S.o.d
--o
-CMakeFiles/all_microkernels.dir/src/f16-gemm/gen-inc/1x16inc-minmax-aarch64=
--neonfp16arith-ld32.S.o
--c
-TOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/src/f16=
--gemm/gen-inc/1x16inc-minmax-aarch64-neonfp16arith-ld32.S
-cc1: warning: switch '-mcpu=3Dcortex-a72+crc' conflicts with
-'-march=3Darmv8.2-a+fp16+dotprod' switch
-TOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/src/f16=
--gemm/gen-inc/1x16inc-minmax-aarch64-neonfp16arith-ld32.S:
-Assembler messages:
-TOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/src/f16=
--gemm/gen-inc/1x16inc-minmax-aarch64-neonfp16arith-ld32.S:64:
-Error: selected processor does not support `fmla v16.8h,v20.8h,v0.h[0]'
-TOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/src/f16=
--gemm/gen-inc/1x16inc-minmax-aarch64-neonfp16arith-ld32.S:65:
-Error: selected processor does not support `fmla v17.8h,v21.8h,v0.h[0]'
-TOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/src/f16=
--gemm/gen-inc/1x16inc-minmax-aarch64-neonfp16arith-ld32.S:66:
-Error: selected processor does not support `fmla v18.8h,v22.8h,v0.h[1]'
-TOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/src/f16=
--gemm/gen-inc/1x16inc-minmax-aarch64-neonfp16arith-ld32.S:67:
-Error: selected processor does not support `fmla v19.8h,v23.8h,v0.h[1]'
-TOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/src/f16=
--gemm/gen-inc/1x16inc-minmax-aarch64-neonfp16arith-ld32.S:75:
-Error: selected processor does not support `fadd v16.8h,v16.8h,v18.8h'
-TOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/src/f16=
--gemm/gen-inc/1x16inc-minmax-aarch64-neonfp16arith-ld32.S:76:
-Error: selected processor does not support `fadd v17.8h,v17.8h,v19.8h'
-TOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/src/f16=
--gemm/gen-inc/1x16inc-minmax-aarch64-neonfp16arith-ld32.S:80:
-Error: selected processor does not support `fmax v16.8h,v16.8h,v4.8h'
-TOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/src/f16=
--gemm/gen-inc/1x16inc-minmax-aarch64-neonfp16arith-ld32.S:81:
-Error: selected processor does not support `fmax v17.8h,v17.8h,v4.8h'
-TOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/src/f16=
--gemm/gen-inc/1x16inc-minmax-aarch64-neonfp16arith-ld32.S:82:
-Error: selected processor does not support `fmin v16.8h,v16.8h,v5.8h'
-TOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/src/f16=
--gemm/gen-inc/1x16inc-minmax-aarch64-neonfp16arith-ld32.S:83:
-Error: selected processor does not support `fmin v17.8h,v17.8h,v5.8h'
-TOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/src/f16=
--gemm/gen-inc/1x16inc-minmax-aarch64-neonfp16arith-ld32.S:102:
-Error: selected processor does not support `fmla v16.8h,v20.8h,v0.h[0]'
-TOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/src/f16=
--gemm/gen-inc/1x16inc-minmax-aarch64-neonfp16arith-ld32.S:103:
-Error: selected processor does not support `fmla v17.8h,v21.8h,v0.h[0]'
-
---0000000000002a126d0610669c42
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Sat, Jan 27, 2024 at 12:31=E2=80=AFAM =
-Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&g=
-t; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex">Current include logic goes into generic arm v8/v9 arch=
-itecture tunes and<br>
-adds corresponding -march option after synthesizing it from various tune<br=
->
-fragments, this is fine for a machine which is using armv8/armv9 based<br>
-tunes but cortex tunes are intentionally using -mcpu option based on<br>
-selected tune value. So when cortex based default tune is selected for a<br=
->
-machine, it will add both -mcpu and -march to the compiler commandline<br>
-which can result in invalid combinations for this pair in gcc&#39;s own<br>
-logic. This can then result in compiler warnings/errors reporting this<br>
-<br>
-e.g.<br>
-<br>
-aarch64-yoe-linux-gcc=C2=A0 -mcpu=3Dcortex-a72.cortex-a53 -march=3Darmv8-a+=
-crc+crypto -mbranch-protection=3Dstandard<br>
-...<br>
-cc1: error: switch &#39;-mcpu=3Dcortex-a72.cortex-a53&#39; conflicts with &=
-#39;-march=3Darmv8-a+crc+crypto&#39; switch and resulted in options &#39;+c=
-rc+crypto&#39; being added [-Werror]<br>
-<br>
-This is seen in lot of configure test results in glibc 2.39 and the<br>
-warning is promoted to errors by gcc in some of these checks especially<br>
-with gcc-14, the logs also show it as warning in other places in<br>
-configure checks.<br>
-<br>
-mcpu option will compute relevant march implicitly as it specifies a cpu<br=
->
-implementation and this will be the right value to use, therefore do not<br=
->
-specify -march when -mcpu is already describing the cpu.<br></blockquote><d=
-iv><br></div><div>I agree that keeping mapping between mcpu and march is tr=
-icky.</div><div><br></div><div>Just in case someone else hits similar issue=
-, here is one new failure caused by this change.</div><div><br></div><div>I=
-t is reproducible in xnnpack, it used to build with:</div><div>-march=3Darm=
-v8-a+crc and then=C2=A0-march=3Darmv8.2-a+fp16+dotprod added by xnnpack sou=
-rce</div><div>while with this change it ends with:</div><div>-mcpu=3Dcortex=
--a72+crc and -march=3Darmv8.2-a+fp16+dotprod<br></div><div>actually causing=
- the issue you were trying to avoid, because tensorflow has in some cases d=
-ifferent expectations that what is set in TUNE_CCARGS and needs to be fixed=
- in tensorflow or worked around in metadata as before with:</div><div><a hr=
-ef=3D"https://github.com/webosose/meta-webosose/blob/master/meta-webos/reci=
-pes-upstreamable/xnnpack/xnnpack.bb#L70">https://github.com/webosose/meta-w=
-ebosose/blob/master/meta-webos/recipes-upstreamable/xnnpack/xnnpack.bb#L70<=
-/a><br></div><div><br></div><div>which will need to be extended to avoid:</=
-div><div>FAILED: CMakeFiles/all_microkernels.dir/src/f16-gemm/gen-inc/1x16i=
-nc-minmax-aarch64-neonfp16arith-ld32.S.o <br>TOPDIR/BUILD/work/raspberrypi4=
-_64-webos-linux/xnnpack/475884903/recipe-sysroot-native/usr/bin/aarch64-web=
-os-linux/aarch64-webos-linux-gcc --sysroot=3DTOPDIR/BUILD/work/raspberrypi4=
-_64-webos-linux/xnnpack/475884903/recipe-sysroot -DFXDIV_USE_INLINE_ASSEMBL=
-Y=3D0 -DXNN_ENABLE_ARM_BF16=3D1 -DXNN_ENABLE_ARM_DOTPROD=3D1 -DXNN_ENABLE_A=
-RM_FP16=3D1 -DXNN_ENABLE_ASSEMBLY=3D1 -DXNN_ENABLE_GEMM_M_SPECIALIZATION=3D=
-1 -DXNN_ENABLE_JIT=3D0 -DXNN_ENABLE_MEMOPT=3D1 -DXNN_ENABLE_SPARSE=3D1 -ITO=
-PDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/src -ITOP=
-DIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/pthreadpoo=
-l-source/include -ITOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/47=
-5884903/git/FXdiv-source/include -ITOPDIR/BUILD/work/raspberrypi4_64-webos-=
-linux/xnnpack/475884903/git/FP16-source/include -mcpu=3Dcortex-a72+crc -mbr=
-anch-protection=3Dstandard -fstack-protector-strong =C2=A0-O2 -D_FORTIFY_SO=
-URCE=3D2 -Wformat -Wformat-security -Werror=3Dformat-security -Werror=3Dret=
-urn-type =C2=A0--sysroot=3DTOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xn=
-npack/475884903/recipe-sysroot =C2=A0-O2 -pipe -g -feliminate-unused-debug-=
-types -fcanon-prefix-map =C2=A0-fmacro-prefix-map=3DTOPDIR/BUILD/work/raspb=
-errypi4_64-webos-linux/xnnpack/475884903/git=3D/usr/src/debug/xnnpack/47588=
-4903 =C2=A0-fdebug-prefix-map=3DTOPDIR/BUILD/work/raspberrypi4_64-webos-lin=
-ux/xnnpack/475884903/git=3D/usr/src/debug/xnnpack/475884903 =C2=A0-fmacro-p=
-refix-map=3DTOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903=
-/build=3D/usr/src/debug/xnnpack/475884903 =C2=A0-fdebug-prefix-map=3DTOPDIR=
-/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/build=3D/usr/src/=
-debug/xnnpack/475884903 =C2=A0-fdebug-prefix-map=3DTOPDIR/BUILD/work/raspbe=
-rrypi4_64-webos-linux/xnnpack/475884903/recipe-sysroot=3D =C2=A0-fmacro-pre=
-fix-map=3DTOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/r=
-ecipe-sysroot=3D =C2=A0-fdebug-prefix-map=3DTOPDIR/BUILD/work/raspberrypi4_=
-64-webos-linux/xnnpack/475884903/recipe-sysroot-native=3D =C2=A0-Wno-psabi =
--pthread =C2=A0-fno-math-errno =C2=A0-march=3Darmv8.2-a+fp16+dotprod =C2=A0=
--O2 -MD -MT CMakeFiles/all_microkernels.dir/src/f16-gemm/gen-inc/1x16inc-mi=
-nmax-aarch64-neonfp16arith-ld32.S.o -MF CMakeFiles/all_microkernels.dir/src=
-/f16-gemm/gen-inc/1x16inc-minmax-aarch64-neonfp16arith-ld32.S.o.d -o CMakeF=
-iles/all_microkernels.dir/src/f16-gemm/gen-inc/1x16inc-minmax-aarch64-neonf=
-p16arith-ld32.S.o -c TOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/=
-475884903/git/src/f16-gemm/gen-inc/1x16inc-minmax-aarch64-neonfp16arith-ld3=
-2.S<br>cc1: warning: switch &#39;-mcpu=3Dcortex-a72+crc&#39; conflicts with=
- &#39;-march=3Darmv8.2-a+fp16+dotprod&#39; switch<br>TOPDIR/BUILD/work/rasp=
-berrypi4_64-webos-linux/xnnpack/475884903/git/src/f16-gemm/gen-inc/1x16inc-=
-minmax-aarch64-neonfp16arith-ld32.S: Assembler messages:<br>TOPDIR/BUILD/wo=
-rk/raspberrypi4_64-webos-linux/xnnpack/475884903/git/src/f16-gemm/gen-inc/1=
-x16inc-minmax-aarch64-neonfp16arith-ld32.S:64: Error: selected processor do=
-es not support `fmla v16.8h,v20.8h,v0.h[0]&#39;<br>TOPDIR/BUILD/work/raspbe=
-rrypi4_64-webos-linux/xnnpack/475884903/git/src/f16-gemm/gen-inc/1x16inc-mi=
-nmax-aarch64-neonfp16arith-ld32.S:65: Error: selected processor does not su=
-pport `fmla v17.8h,v21.8h,v0.h[0]&#39;<br>TOPDIR/BUILD/work/raspberrypi4_64=
--webos-linux/xnnpack/475884903/git/src/f16-gemm/gen-inc/1x16inc-minmax-aarc=
-h64-neonfp16arith-ld32.S:66: Error: selected processor does not support `fm=
-la v18.8h,v22.8h,v0.h[1]&#39;<br>TOPDIR/BUILD/work/raspberrypi4_64-webos-li=
-nux/xnnpack/475884903/git/src/f16-gemm/gen-inc/1x16inc-minmax-aarch64-neonf=
-p16arith-ld32.S:67: Error: selected processor does not support `fmla v19.8h=
-,v23.8h,v0.h[1]&#39;<br>TOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpa=
-ck/475884903/git/src/f16-gemm/gen-inc/1x16inc-minmax-aarch64-neonfp16arith-=
-ld32.S:75: Error: selected processor does not support `fadd v16.8h,v16.8h,v=
-18.8h&#39;<br>TOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/4758849=
-03/git/src/f16-gemm/gen-inc/1x16inc-minmax-aarch64-neonfp16arith-ld32.S:76:=
- Error: selected processor does not support `fadd v17.8h,v17.8h,v19.8h&#39;=
-<br>TOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/src=
-/f16-gemm/gen-inc/1x16inc-minmax-aarch64-neonfp16arith-ld32.S:80: Error: se=
-lected processor does not support `fmax v16.8h,v16.8h,v4.8h&#39;<br>TOPDIR/=
-BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/src/f16-gemm/g=
-en-inc/1x16inc-minmax-aarch64-neonfp16arith-ld32.S:81: Error: selected proc=
-essor does not support `fmax v17.8h,v17.8h,v4.8h&#39;<br>TOPDIR/BUILD/work/=
-raspberrypi4_64-webos-linux/xnnpack/475884903/git/src/f16-gemm/gen-inc/1x16=
-inc-minmax-aarch64-neonfp16arith-ld32.S:82: Error: selected processor does =
-not support `fmin v16.8h,v16.8h,v5.8h&#39;<br>TOPDIR/BUILD/work/raspberrypi=
-4_64-webos-linux/xnnpack/475884903/git/src/f16-gemm/gen-inc/1x16inc-minmax-=
-aarch64-neonfp16arith-ld32.S:83: Error: selected processor does not support=
- `fmin v17.8h,v17.8h,v5.8h&#39;<br>TOPDIR/BUILD/work/raspberrypi4_64-webos-=
-linux/xnnpack/475884903/git/src/f16-gemm/gen-inc/1x16inc-minmax-aarch64-neo=
-nfp16arith-ld32.S:102: Error: selected processor does not support `fmla v16=
-.8h,v20.8h,v0.h[0]&#39;<br>TOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xn=
-npack/475884903/git/src/f16-gemm/gen-inc/1x16inc-minmax-aarch64-neonfp16ari=
-th-ld32.S:103: Error: selected processor does not support `fmla v17.8h,v21.=
-8h,v0.h[0]&#39;<br></div></div></div>
-
---0000000000002a126d0610669c42--
 
