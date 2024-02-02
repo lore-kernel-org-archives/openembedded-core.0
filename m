@@ -1,152 +1,176 @@
-Return-Path: <matt@madison.systems>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AA5CC47DB3
-	for <webhook@archiver.kernel.org>; Fri,  2 Feb 2024 14:41:19 +0000 (UTC)
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
- by mx.groups.io with SMTP id smtpd.web11.24089.1706884870530709392
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87E64C4828F
+	for <webhook@archiver.kernel.org>; Fri,  2 Feb 2024 15:06:29 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+ by mx.groups.io with SMTP id smtpd.web11.24801.1706886384583322540
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Feb 2024 06:41:10 -0800
+ Fri, 02 Feb 2024 07:06:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@madison.systems header.s=google header.b=fzpieVQO;
- spf=pass (domain: madison.systems, ip: 209.85.210.182, mailfrom: matt@madison.systems)
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-6de0f53f8e8so2609813b3a.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 02 Feb 2024 06:41:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=madison.systems; s=google; t=1706884869; x=1707489669; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bnOs0Ek5h2zoGYD6BRSeNuvUeXCrgLzWYVI/X6hJeOE=;
-        b=fzpieVQOV9Ms2o6IIPey49y3j67MZeFVxW/Hxrcrf5CDOSG8jJOGA0kDzLqd/15lnO
-         eDYdpkReLl7S6DHD9Wn5Zx59tZnP4L2r+1PZF6dPI1R8LKTTb3ECpy33821amy3OUXN2
-         uuW4mwEPdSpD+eOFaUoxZ88O/OtrBLuokjXLaBR9SALx7qn8lCzW0Zz0zfthpGJJYgt0
-         XbbXzFk2P+fl3XIchRWv9ptCDQ4dLtvHTEiYp9hyD8t6+OYBE5bb5gSafhQ9ad3xPehz
-         cPN2wmGnhtf6tMeOdTahPhz7y3Kprn5tGjrkLgUoH42hhZebUVRVxp879mJgf+wzVxrX
-         C6wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706884869; x=1707489669;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bnOs0Ek5h2zoGYD6BRSeNuvUeXCrgLzWYVI/X6hJeOE=;
-        b=GGLNaC58RaYMEH3HpTIKuZd2GQPzfCcmhw16Pd+oPtVeBtEgKlBjlhFGzVFD3qq5+H
-         jx+ESDNtxQSjkUVZ/EY8k1u/qO7cEy35X/wvnRCbIeEhPZRZWp1mTMuTCo81gbWml6Dd
-         7DWrU0kQ4Mv+9/nBRzWQhijA02alMfbQ3QxQAUpfDz/+rhhrCxLyqFXQxbGc+1hzfj7Q
-         SHJT7ZKvfLDRLFwIUYtT1XLQp03xGs3VWqjdEYZLQBvVnAAsoG4U+P81nqsnFpr00hqQ
-         Z4ainYaNny4yTkV5IYKZ78W92M2qPxPRwhdPt5FIYxUdAbMLk4A9uyE14ByGmtVMWBn9
-         JIeQ==
-X-Gm-Message-State: AOJu0YwoD3GwIhTAApZxFQFuz3PWy0RKYbU51JTirqYRBzI4spOB0HKn
-	YJcS/MEY7hBs8EqEEXjmL+gr5AI5tuoViS1ELnSKjWBMwposFrAgFwh37GVnHETjEFZrHZhTvcq
-	J
-X-Google-Smtp-Source: AGHT+IHzJFgozz8z6MLsi91DHEMQAgmcJRmmeoGO4HvUd/8h8oLRpxD9nYYdpSOJWXAlVBfmIT6MzQ==
-X-Received: by 2002:a05:6a00:6601:b0:6df:fc74:2802 with SMTP id he1-20020a056a00660100b006dffc742802mr1186373pfb.16.1706884869016;
-        Fri, 02 Feb 2024 06:41:09 -0800 (PST)
-Received: from visar.local ([2600:1700:87f0:9cff:50be:6081:b8b1:4e2c])
-        by smtp.gmail.com with ESMTPSA id p21-20020a056a000a1500b006dab36287bfsm1696042pfh.207.2024.02.02.06.41.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Feb 2024 06:41:08 -0800 (PST)
-From: Matt Madison <matt@madison.systems>
-To: openembedded-core@lists.openembedded.org
-Cc: Matt Madison <matt@madison.systems>
-Subject: [PATCH] pseudo: add patch with statvfs64 wrapper
-Date: Fri,  2 Feb 2024 06:40:42 -0800
-Message-Id: <20240202144042.675454-1-matt@madison.systems>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=mQjAA/Dg;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 96F14FF805;
+	Fri,  2 Feb 2024 15:06:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1706886382;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SIDBycAKwE5DgalcpM2jKnvfwaHCEBhsko8A0TJPwbk=;
+	b=mQjAA/Dg3UD5qKKMulmd/KX2nmckizj8E5KoUeoDoOSTjOrIw4OtzJk+P92SbISu39AUe8
+	GnaQxOBcILMDDcPQDncVzVrCW+M5GOLr7CBtxCSgj9TrBuIQFtx4n9oCN65lMiaAs8uUo4
+	t4Sq+GfPAqK2wtlcqkg/PJ1FL/E8PVTLtrHAzbAZ/6eMJ7inrTP3FU9FgOfikJSDSosknq
+	of26ymRw9sxFwFiPTy4aTlKJB0HPdISgNy7S+lhPRhyuMAq7dQCqI5h5+luYGIr0a8eKFt
+	KvtNMPbI4XD71iiVIbrmiJm67zWutrhOCbudJtR1zdHrTsPhQAiBDdgTkq78UA==
+Date: Fri, 2 Feb 2024 16:06:21 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: wangmy@fujitsu.com
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] ltp: upgrade 20230929 -> 20240129
+Message-ID: <202402021506218c278a26@mail.local>
+References: <1706765184-12808-1-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1706765184-12808-1-git-send-email-wangmy@fujitsu.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Feb 2024 14:41:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194800
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Feb 2024 15:06:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194801
 
-rpm 4.19 now builds with LFS64 support enabled by default,
-so it calls statvfs64() to get the space available on the
-filesystem it is installing packages into.  This is not
-getting caught by pseudo, so rpm is checking the host's
-root filesystem, rather than the filesystem where the
-build is happening.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/96/builds/5918/steps/13/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/95/builds/5958/steps/12/logs/stdio
 
-The patch here adds the missing wrapper, so pseudo performs
-the correct path remapping.
+On 01/02/2024 13:26:24+0800, wangmy via lists.openembedded.org wrote:
+> From: Wang Mingyu <wangmy@fujitsu.com>
+> 
+> 0001-testcases-kernel-syscalls-fcntl-define-_LARGEFILE64_.patch
+> revmoed since it's included in 20240129
+> 
+> 0001-Remove-OOM-tests-from-runtest-mm.patch
+> refreshed for 20240129
+> 
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> ---
+>  ...001-Remove-OOM-tests-from-runtest-mm.patch | 10 +++----
+>  ...-syscalls-fcntl-define-_LARGEFILE64_.patch | 28 -------------------
+>  .../ltp/{ltp_20230929.bb => ltp_20240129.bb}  |  3 +-
+>  3 files changed, 5 insertions(+), 36 deletions(-)
+>  delete mode 100644 meta/recipes-extended/ltp/ltp/0001-testcases-kernel-syscalls-fcntl-define-_LARGEFILE64_.patch
+>  rename meta/recipes-extended/ltp/{ltp_20230929.bb => ltp_20240129.bb} (97%)
+> 
+> diff --git a/meta/recipes-extended/ltp/ltp/0001-Remove-OOM-tests-from-runtest-mm.patch b/meta/recipes-extended/ltp/ltp/0001-Remove-OOM-tests-from-runtest-mm.patch
+> index 6d945700be..a5e7b37976 100644
+> --- a/meta/recipes-extended/ltp/ltp/0001-Remove-OOM-tests-from-runtest-mm.patch
+> +++ b/meta/recipes-extended/ltp/ltp/0001-Remove-OOM-tests-from-runtest-mm.patch
+> @@ -1,4 +1,4 @@
+> -From e87c2ad1e16cdbd62ba71b2ace3270503decaa56 Mon Sep 17 00:00:00 2001
+> +From 02136a4490b7d9b31e691cdd50adef95378c781b Mon Sep 17 00:00:00 2001
+>  From: "Mingde (Matthew) Zeng" <matthewzmd@gmail.com>
+>  Date: Wed, 29 Jul 2020 08:47:09 -0400
+>  Subject: [PATCH] Remove OOM tests from runtest/mm
+> @@ -9,15 +9,16 @@ Upstream-Status: Inappropriate [oe-core specific]
+>  Signed-off-by: Mingde (Matthew) Zeng <matthew.zeng@windriver.com>
+>  [ pvorel: rebased for 20210927 ]
+>  Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
+> +
+>  ---
+>   runtest/mm | 6 ------
+>   1 file changed, 6 deletions(-)
+>  
+>  diff --git a/runtest/mm b/runtest/mm
+> -index 6537666a9..e5a091a5a 100644
+> +index d859b331c..3c2962f44 100644
+>  --- a/runtest/mm
+>  +++ b/runtest/mm
+> -@@ -73,12 +73,6 @@ ksm06_2 ksm06 -n 8000
+> +@@ -74,12 +74,6 @@ ksm07 ksm07
+>   
+>   cpuset01 cpuset01
+>   
+> @@ -30,6 +31,3 @@ index 6537666a9..e5a091a5a 100644
+>   swapping01 swapping01 -i 5
+>   
+>   thp01 thp01 -I 120
+> --- 
+> -2.33.0
+> -
+> diff --git a/meta/recipes-extended/ltp/ltp/0001-testcases-kernel-syscalls-fcntl-define-_LARGEFILE64_.patch b/meta/recipes-extended/ltp/ltp/0001-testcases-kernel-syscalls-fcntl-define-_LARGEFILE64_.patch
+> deleted file mode 100644
+> index dbe63f2170..0000000000
+> --- a/meta/recipes-extended/ltp/ltp/0001-testcases-kernel-syscalls-fcntl-define-_LARGEFILE64_.patch
+> +++ /dev/null
+> @@ -1,28 +0,0 @@
+> -From f4f75ce9218b469d91b536218de3323977edc529 Mon Sep 17 00:00:00 2001
+> -From: Alexander Kanavin <alex@linutronix.de>
+> -Date: Tue, 13 Jun 2023 15:10:33 +0200
+> -Subject: [PATCH] testcases/kernel/syscalls/fcntl: define _LARGEFILE64_SOURCE
+> -
+> -This is required for off64_t to be available on musl systems.
+> -
+> -Upstream-Status: Submitted [https://github.com/linux-test-project/ltp/pull/1047]
+> -Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ----
+> - testcases/kernel/syscalls/fcntl/Makefile | 2 +-
+> - 1 file changed, 1 insertion(+), 1 deletion(-)
+> -
+> -diff --git a/testcases/kernel/syscalls/fcntl/Makefile b/testcases/kernel/syscalls/fcntl/Makefile
+> -index df663a50a..aac774111 100644
+> ---- a/testcases/kernel/syscalls/fcntl/Makefile
+> -+++ b/testcases/kernel/syscalls/fcntl/Makefile
+> -@@ -17,6 +17,6 @@ include $(abs_srcdir)/../utils/newer_64.mk
+> - 
+> - %_64: CPPFLAGS += -D_FILE_OFFSET_BITS=64
+> - 
+> --CPPFLAGS		+= -D_GNU_SOURCE
+> -+CPPFLAGS		+= -D_GNU_SOURCE -D_LARGEFILE64_SOURCE
+> - 
+> - include $(top_srcdir)/include/mk/generic_leaf_target.mk
+> --- 
+> -2.30.2
+> -
+> diff --git a/meta/recipes-extended/ltp/ltp_20230929.bb b/meta/recipes-extended/ltp/ltp_20240129.bb
+> similarity index 97%
+> rename from meta/recipes-extended/ltp/ltp_20230929.bb
+> rename to meta/recipes-extended/ltp/ltp_20240129.bb
+> index 5c43346883..5cd33bb6a3 100644
+> --- a/meta/recipes-extended/ltp/ltp_20230929.bb
+> +++ b/meta/recipes-extended/ltp/ltp_20240129.bb
+> @@ -24,12 +24,11 @@ TUNE_CCARGS:remove:x86-64 = "-mfpmath=sse"
+>  
+>  CFLAGS:append:powerpc64 = " -D__SANE_USERSPACE_TYPES__"
+>  CFLAGS:append:mipsarchn64 = " -D__SANE_USERSPACE_TYPES__"
+> -SRCREV = "110d3be6a9c58674de3e366b96a70f0129a5d299"
+> +SRCREV = "68737d20556d37364c95776044b1119c0912a36a"
+>  
+>  SRC_URI = "git://github.com/linux-test-project/ltp.git;branch=master;protocol=https \
+>             file://0001-Remove-OOM-tests-from-runtest-mm.patch \
+>             file://disable_hanging_tests.patch \
+> -           file://0001-testcases-kernel-syscalls-fcntl-define-_LARGEFILE64_.patch \
+>             "
+>  
+>  S = "${WORKDIR}/git"
+> -- 
+> 2.34.1
+> 
 
-Signed-off-by: Matt Madison <matt@madison.systems>
----
- ...orts-linux-add-wrapper-for-statvfs64.patch | 50 +++++++++++++++++++
- meta/recipes-devtools/pseudo/pseudo_git.bb    |  1 +
- 2 files changed, 51 insertions(+)
- create mode 100644 meta/recipes-devtools/pseudo/files/0001-ports-linux-add-wrapper-for-statvfs64.patch
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#194570): https://lists.openembedded.org/g/openembedded-core/message/194570
+> Mute This Topic: https://lists.openembedded.org/mt/104091613/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
-diff --git a/meta/recipes-devtools/pseudo/files/0001-ports-linux-add-wrapper-for-statvfs64.patch b/meta/recipes-devtools/pseudo/files/0001-ports-linux-add-wrapper-for-statvfs64.patch
-new file mode 100644
-index 0000000000..bf22cdeaf9
---- /dev/null
-+++ b/meta/recipes-devtools/pseudo/files/0001-ports-linux-add-wrapper-for-statvfs64.patch
-@@ -0,0 +1,50 @@
-+From e3eca18e28859b6d8a1450eac22dbb314e8e6225 Mon Sep 17 00:00:00 2001
-+From: Matt Madison <matt@madison.systems>
-+Date: Sun, 28 Jan 2024 09:49:55 -0800
-+Subject: [PATCH][pseudo] ports/linux: add wrapper for statvfs64
-+
-+rpm 4.19 now builds with LFS64 support enabled by default,
-+so it calls statvfs64() to get the space available on the
-+filesystem it is installing packages into.  Add a wrapper
-+for this call so the right filesystem is used.
-+
-+Upstream-Status: Submitted [https://lists.openembedded.org/g/openembedded-core/message/194464]
-+
-+Signed-off-by: Matt Madison <matt@madison.systems>
-+---
-+ ports/linux/statvfs/guts/statvfs64.c | 15 +++++++++++++++
-+ ports/linux/statvfs/wrapfuncs.in     |  1 +
-+ 2 files changed, 16 insertions(+)
-+ create mode 100644 ports/linux/statvfs/guts/statvfs64.c
-+
-+diff --git a/ports/linux/statvfs/guts/statvfs64.c b/ports/linux/statvfs/guts/statvfs64.c
-+new file mode 100644
-+index 0000000..856d3db
-+--- /dev/null
-++++ b/ports/linux/statvfs/guts/statvfs64.c
-+@@ -0,0 +1,15 @@
-++/*
-++ * Copyright (c) 2018 Wind River Systems; see
-++ * guts/COPYRIGHT for information.
-++ *
-++ * SPDX-License-Identifier: LGPL-2.1-only
-++ *
-++ * int statvfs64(const char *path, struct statvfs64 *buf)
-++ *	int rc = -1;
-++ */
-++
-++	rc = real_statvfs64(path, buf);
-++
-++/*	return rc;
-++ * }
-++ */
-+diff --git a/ports/linux/statvfs/wrapfuncs.in b/ports/linux/statvfs/wrapfuncs.in
-+index 1afb64d..6a59660 100644
-+--- a/ports/linux/statvfs/wrapfuncs.in
-++++ b/ports/linux/statvfs/wrapfuncs.in
-+@@ -1 +1,2 @@
-+ int statvfs(const char *path, struct statvfs *buf);
-++int statvfs64(const char *path, struct statvfs64 *buf);
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index 699cab11c6..f15fb0aaee 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -3,6 +3,7 @@ require pseudo.inc
- SRC_URI = "git://git.yoctoproject.org/pseudo;branch=master;protocol=https \
-            file://0001-configure-Prune-PIE-flags.patch \
-            file://glibc238.patch \
-+           file://0001-ports-linux-add-wrapper-for-statvfs64.patch \
-            file://fallback-passwd \
-            file://fallback-group \
-            "
+
 -- 
-2.34.1
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
