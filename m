@@ -1,183 +1,126 @@
-Return-Path: <alex.stewart@ni.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4505C48291
-	for <webhook@archiver.kernel.org>; Fri,  2 Feb 2024 15:40:19 +0000 (UTC)
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (NAM11-DM6-obe.outbound.protection.outlook.com [40.107.223.58])
- by mx.groups.io with SMTP id smtpd.web10.25798.1706888410597514202
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0919C48291
+	for <webhook@archiver.kernel.org>; Fri,  2 Feb 2024 15:57:19 +0000 (UTC)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+ by mx.groups.io with SMTP id smtpd.web10.26253.1706889433186311061
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Feb 2024 07:40:10 -0800
+ Fri, 02 Feb 2024 07:57:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ni.com header.s=selector1 header.b=fPKGxOD9;
- spf=pass (domain: ni.com, ip: 40.107.223.58, mailfrom: alex.stewart@ni.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kiNo9a/wa1a8k3ogra835Qkx1EZtUsi7TAnYUQ4LUNCUKYKoVa669qyp+/KVszCB91hcZLxxTLXuXk9KeMNT7OSzj/cmLu7NKJ0+bzCScqPKs51EWiE1KVhSpbtnPRVuh594g4KZyuKw5dBfk7Pu26MQwXHV9NEl2WwSDfOYo6BaG8Bi3xUlAPW4qe5qln4mPZCzw/KrJzV6MIi8z/TbiiWYv9msTBAL/wqnWDPnZBmHwMS8rXxwDSNa9QtzSUboIA4yZOZ4JckqD8dKz/vDCF20h6OsguXQXIjvqX9cjciYIVSxk52+02F2Ata0cA15aKsO0DDaU3ENnbeGj7mbSA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ceIZf++LQsVKF2BpaGizTwpcHuEdsI35nab5FqGcvjI=;
- b=FWgZzhq3t/nynRMu7rNwCISmOD2K8tCt7lu5r5GNKz1PxeVAiMt2a5MTdkFKFx4RKP0c/06HTrJiTpIGaizSkTXcHmSMfq1h/FcMQoEAc81o9ebf8/xzVLomzgOqtiHDGqiShEJ2jRFzuVEMwIEMT+G3KSlgj3G9ixyecIUkWLc4hDfqE+VgB+WF97wcaPRjF48onQIn1Qj+7Q5JivAwQmz87lLxeBQaqX1ENpVhEJ9iV7dt7HpnYeDC+jNUDeqcfmFA1JkuhquSeWyDwfnr5VWEaCCkj5Mz3XkKYA2z3R+I1cynrP1lZnx0F2/EMaLEpQx+Zo1TR8E8dsWgKaPTzg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=ni.com; dmarc=pass action=none header.from=ni.com; dkim=pass
- header.d=ni.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ni.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ceIZf++LQsVKF2BpaGizTwpcHuEdsI35nab5FqGcvjI=;
- b=fPKGxOD9XuOafjPctvga/uuTCv/fDQg5Q62g9TlKbPdqADCjW84IcDsKG3zMh0S+TYKtWD3JCqtL1AV4cGEr4s212XMfWnC7mc9/PBMkupfUXf8qA/GlbzUdYh3n2pFc6hJ/PJ8mrErdxBUgCTUZChllK6Pn4Wuny/9XojyQhp4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=ni.com;
-Received: from DM6PR04MB5292.namprd04.prod.outlook.com (2603:10b6:5:107::25)
- by PH8PR04MB8710.namprd04.prod.outlook.com (2603:10b6:510:252::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.30; Fri, 2 Feb
- 2024 15:40:05 +0000
-Received: from DM6PR04MB5292.namprd04.prod.outlook.com
- ([fe80::2ca6:7e51:b54d:c163]) by DM6PR04MB5292.namprd04.prod.outlook.com
- ([fe80::2ca6:7e51:b54d:c163%4]) with mapi id 15.20.7249.024; Fri, 2 Feb 2024
- 15:40:05 +0000
-Message-ID: <baca486f-589d-4246-8cbf-d42ee8dcc7ec@ni.com>
-Date: Fri, 2 Feb 2024 10:40:01 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 1/2] package_manager: ipk: add
- OPKG_MAKE_INDEX_EXTRA_PARAMS variable
-To: openembedded-core@lists.openembedded.org
-References: <20240202132434.1787053-1-martin.jansa@gmail.com>
-Content-Language: en-US
-Cc: martin.jansa@gmail.com
-From: Alex Stewart <alex.stewart@ni.com>
-Organization: National Instruments Corp.
-In-Reply-To: <20240202132434.1787053-1-martin.jansa@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: QR1P297CA0014.MEXP297.PROD.OUTLOOK.COM
- (2603:10b6:3d0:3::20) To DM6PR04MB5292.namprd04.prod.outlook.com
- (2603:10b6:5:107::25)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MAhgpbdl;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.167.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-51124d43943so3578647e87.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 02 Feb 2024 07:57:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1706889431; x=1707494231; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=p49MMz9vWEqZ6pLgIVOhb5aX4Gzo5bT32NS7oOTLVjM=;
+        b=MAhgpbdljIL8nVFpwe2YMdZTm3B1sKCdfUpHtZQGxXyF6Vv2ycdkla13I/sHj8ENzi
+         FY2xLidBA+0KVgzZPS8rgPySM4LPWPkCSO9qYPLxkl5nobwbS9TiA7Hv2DDyzrhbdhtp
+         jQnnYgOWeqKNxJ+OPHSpUYFaC3KuWDXNH4XE4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706889431; x=1707494231;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=p49MMz9vWEqZ6pLgIVOhb5aX4Gzo5bT32NS7oOTLVjM=;
+        b=KCvycWE3YMp0mXzsFcgzLCmgzwjJH7R4P0A1WHyKTews9kAqtfJ/3OU5y2u4mSDyzD
+         91NSD0OzT/Yiy1f22gvkyJNjgfdZlOSqhMaPV/WHrm4h8APDK8vGlYwGNwg66F6obn+2
+         ns8uWet11YAmPDh+wBANC/H04Mp2XHCFgIuLB8Wu2kD35NH5HAsAihm4kxg53uYFn9Hi
+         xATDpIw40zwNFpRaDjPr/QkcfM/a1ZnUtdDqaOU/zzWUI9oMdg1p0jBY1Z+EVqkIXiPY
+         zS4FVbzLxF4iiqwvAAIpnD/Lonq0ZOXebsgc8ShwBuGnOKHPuUp10D/a/ybSElEEcWPY
+         xDvQ==
+X-Gm-Message-State: AOJu0YyFCn9REQDzn7euo9KQK0hHDv3wnTG1lgLJHXkt3ZfxroYsFYsu
+	V/jN+Ah867YnWkucRMp7cG0Jb8EdYH3LatCoGmS6HOFlK+f7G3prBLvngq4trHs=
+X-Google-Smtp-Source: AGHT+IHPf8dGIDavwsLc/oOH/J2Q6+j3HYne83iy19cpx/OuZ/FiQkO3pyHWkT7UH2V4XIyHdZmQmA==
+X-Received: by 2002:a05:6512:3e16:b0:511:20e3:e44d with SMTP id i22-20020a0565123e1600b0051120e3e44dmr2072126lfv.50.1706889430720;
+        Fri, 02 Feb 2024 07:57:10 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCU7UG4TxFeC236wHHGhhwujN0pN7i1+V+dW7i4ZRCbmcNRaIGIBg+vcqNuyNg6vEepoRWtYuj5EGJAq5sGOvE2kKxyOH8cUZzWSONeQzmNDiNFu5NHWPH2w
+Received: from ?IPv6:2001:8b0:aba:5f3c:b42e:89d6:2685:5a68? ([2001:8b0:aba:5f3c:b42e:89d6:2685:5a68])
+        by smtp.gmail.com with ESMTPSA id m16-20020a05600c4f5000b0040e3635ca65sm301387wmq.2.2024.02.02.07.57.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Feb 2024 07:57:10 -0800 (PST)
+Message-ID: <a2ec9e318bc5e11b0ce42797293735db0b0819e2.camel@linuxfoundation.org>
+Subject: Re: [OE-core] Shouldn't packages for all PACKAGE_CLASSES be
+ generated?
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: michael.opdenacker@bootlin.com, OE-core
+	 <openembedded-core@lists.openembedded.org>
+Date: Fri, 02 Feb 2024 15:57:09 +0000
+In-Reply-To: <c0b1cf77-830b-4838-a92c-cd0d70c1bb05@bootlin.com>
+References: <c0b1cf77-830b-4838-a92c-cd0d70c1bb05@bootlin.com>
+Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
+ YNvg==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.0-1 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR04MB5292:EE_|PH8PR04MB8710:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0d3b3426-31f2-494f-e2d8-08dc240539fd
-x-ni-monitor: EOP Exclude NI Domains ETR True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	hrDlnuYqgblO0G6H/2V7K2LcsbfFn7H+nbz5EdNlwEb7f/bqptulkEorQwo50MDM/FtIktNhwLlnZxr1501Ji93BiHcnkhiIRP/mTMUMBaMSL/JUtWGuRuIbd6htaBXUjxVWAId0wn6J3ok3XW+Wn9TkvWKSROMDZXg71XcLaAuqfcWd2ugpTTqYBmB8rG3CqJnQYbxs6Jxk3szk4tuNV3qWchUMQp8Ni7o2SmwqCrxVzmSMd2FRmQiKgxLhO+REwOy1dFYDId+Wuom+KKGf8PDzs1Q27Y/RiktytmT07G936LYHIcRnvCNNvQRJS5W7M5LOvCRkhG5tlpMLE+aKHZmf/uGvIu85IS8olMg8/DJ/l6u7R0CbINHMVIgD95JNBMZEa6o8NZsZK91pDrFmbY5JzZLnwc5OaXWpFpjpEdE3Cxx6ukPdL1WfIzNDkaedBBhhV1PQJy88n3DwDwYrFDVauJmeTw7dG9sxmA+UuGzXOqvshxbFE5XjYyLzcL4EmVV+AIo888XBlePkGqrDnL27Rw1l4az6OCiQCd2o4t3l1RL12rSpLCN6Hc2WVZAuGVQvNjZz5xg44TQQ4gh71ruyYkZIWiQwn9GNoGdqUBkaPe6dIDf05xw/YgDZy1CqIgaOJbyfdVR57zeDis0pIg==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR04MB5292.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(346002)(39860400002)(366004)(136003)(396003)(230922051799003)(451199024)(64100799003)(186009)(1800799012)(66899024)(31686004)(2906002)(478600001)(44832011)(5660300002)(83380400001)(41300700001)(966005)(66556008)(66946007)(66476007)(316002)(6916009)(6512007)(36756003)(4326008)(6506007)(86362001)(36916002)(53546011)(8676002)(6486002)(8936002)(31696002)(6666004)(2616005)(38100700002)(26005)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?MFowdUVvME1XY3U5ZHlvWUpRSjRwR3Z5TGJPZXY2M0JqZlo2OHdoNU9YekRZ?=
- =?utf-8?B?Ni9odXVrNm9JZWozNTFMQWJmeG44b2c5TGhZbGQwTE5ENkJuS2drdFpTUkls?=
- =?utf-8?B?Y09qTFNnOHNzKzlGRkpnbk5iclQyOFIwUU1GaUlwcnJRbER4eS9YYWZNTUVF?=
- =?utf-8?B?VVVPV1NjQWRTSjl0aU5tWmI4cm5TS3ZYWWJERWNHTGIxQlE1WEx4NDY0c0Rr?=
- =?utf-8?B?VXY4Y3NxYmtQZ0xPZ29mc0NMQ3oxNUtMZS80NStXd2Q1aTBFTldwS1dnL1d5?=
- =?utf-8?B?aTNaQVNjcjc3SUhIV2pETFFzMzhkV1JIVHBYYmRCdXcxcVpLaWlzZ2VTODRk?=
- =?utf-8?B?QjBrR3dva2oyR3RWZVNFUGFTRWtrc1lrYnlmTDNjWUtqVENiY1ZYN01RNGs1?=
- =?utf-8?B?b2dYZjJVbGY4K0VRclk0ZExKaW5BenQ5c2RJK3FUUWhHZmhnbHJsU0M4VGJp?=
- =?utf-8?B?Nmg0d1VMbHVwSXcyNXlKNVVsNUtZeGV0OVVSWjV5aG52dDhJVllhbUhjdXow?=
- =?utf-8?B?YjlLU2tXRDlrVGk2YzVEOHJzOG53RnduWWNLaTVSUTZISy9KcFZ1U0JjSE1j?=
- =?utf-8?B?T1NrcjJUM2NCZitJWFo3V2U3R2haUENHS1JsWG5rYXQxem1hbWlSV0g2TXo4?=
- =?utf-8?B?aXFiQVVRTTEreU0vaXZPZmZQSGx3L0g2ZklnMTFIYXo4dnpFMnpJTi9SZ243?=
- =?utf-8?B?ZThyUVJUVUFLVDdFQW5BY3RCS1Y2WnF3eU9iY1JNdG5xZ28rUmoyUTdZaFB2?=
- =?utf-8?B?TW5ReEE1MUtpZ3FPZ012SmxsYUFoWmtIL2VTbXZmd2Z1QVZhS2tLWmdSOExW?=
- =?utf-8?B?SXdmVitLNzZTY1pxVU5yMHh0b0ZMS3UxUFVIZnNxM1VOSDhBM3ZJdWRuZTBZ?=
- =?utf-8?B?RUdoakVzOG5HT2g5dGx4ajIzZ1hKTUxFUnk0b0JZN2FvQ3UzNkFpKzdLS0tn?=
- =?utf-8?B?ODBtVDNFdW1EWEFSQ1NIYUlacjZCd1VpaDF6bitaK3FMNzY2elkvUVF5OUdW?=
- =?utf-8?B?cHFQZUNRNVVac0dRQlZHeWx1cVR2aksyQ2Q0YjM2OFFsWWIvK01uNjVQUjJG?=
- =?utf-8?B?S3BjU25PUG1BQVpScEJXa255NkRhODhkczJaTi9tMXFsZGVmaStLNFQvTkdz?=
- =?utf-8?B?aVNZRjdMMkEvRnQ2bTlCclVmTEZFcnFkNEhBV2grZzJzbXcybzlYa3NReWR2?=
- =?utf-8?B?TlhnZVlrbVV3RGljUWpmN0tSODlVaE44c1lvZytSbXR6N1ZBTEdXNG1Kc3pI?=
- =?utf-8?B?UlRVZTBjZmhjMXcySzNTVjNmMlM0NDNqM2UzcTgvT2xPMi9WdGZhSHVkWXhD?=
- =?utf-8?B?V21NSGpTNHVLQzNWeXUxWVlkYndoblk2blYwZmlBWHQrcUdZVjdUTXVLSWJi?=
- =?utf-8?B?b2FWazBBTEgxVlFYZVZnTDhvK0gvWmF3aTB5WjBNbm9JeTRxR3F6ZDB0elI5?=
- =?utf-8?B?QTNiMzlPVTZGM1RZZU1wS25RRkE2akUrWHByaDdMWGkvc0tPK2Y0VlB1Sm1r?=
- =?utf-8?B?d1FPY0tHblJGOGUrbER3L1JoNytqK1ZHWDFFQ3lqR2thTWlHWVI3TlJvNnk2?=
- =?utf-8?B?ckxXbWNEeFRLVzBSTU00bzRpZUc3U01qSmpzSENuTnB2WTR1dFYvMkJyVXZq?=
- =?utf-8?B?Z1B2cVNOT21CL09kZFpqZnZqOEVucEZJa1lxOHpOVnV1cjFnSURnSjFqbnh3?=
- =?utf-8?B?NnBBWDlxY1lwQ2NTVk5KeHRPQUFMQTNEQ2w2d2NqVyszZ05mY2VKQ2pPT3Jq?=
- =?utf-8?B?cktwbWZVSlYwTTFBUFdtTVRmaTFXUnMxLzZNMGJsLzBhYTN0VEdxbDk3SDR0?=
- =?utf-8?B?RzExS2tBTjRWajhaLzliU3hCbnVseGxPZkgrdHFwcitVdGRQL3FmRWFzRFhL?=
- =?utf-8?B?aW1nUk84NnJJMmhDbVpMM0RDN3JMLzV4Q0dBb0pUWkFDeTZnWTAyRVpVdVlV?=
- =?utf-8?B?NHBaY2RBbGxQZlJzalFmQmZYbSsyaUw5dGJ5dW1tYTBpbGFkSHNpQzNyY0Fx?=
- =?utf-8?B?NXlVem9SN3VaVG9ucmRzMys1MFhBVG5MbnhFMmcyNnhMaVNMUWRtVVM5OCt6?=
- =?utf-8?B?bkZOWlRWeFY4bUNpMjZBc1BqTW5RYlAxaXM4Z3FnT3VkOEI0WkhqeXVTZG5C?=
- =?utf-8?Q?Kkg67+PySVXqsEsnVdtMCdm0/?=
-X-OriginatorOrg: ni.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0d3b3426-31f2-494f-e2d8-08dc240539fd
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR04MB5292.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2024 15:40:05.4827
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 87ba1f9a-44cd-43a6-b008-6fdb45a5204e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1DqzwIqTwIciE09LjpRanzJQOAyA6meks1Rksw0w0xKooSh32dAA99VGE0DMbwhkhf/WeLIAZBV4uC07uCsGFg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR04MB8710
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Feb 2024 15:40:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194803
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Feb 2024 15:57:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194804
 
-ACK from me.
+On Thu, 2024-02-01 at 13:47 +0100, Michael Opdenacker via
+lists.openembedded.org wrote:
+> Greetings,
+>=20
+> I'm surprised by this behavior, which I didn't expect... I'm running=20
+> "bitbake core-image-cmdline-full; bitbake generate-index" from Poky maste=
+r.
+>=20
+> with PACKAGE_CLASSES =3D "package_ipk package_rpm package_deb"...
+>=20
+> find tmp/deploy/deb -name *.deb | wc; find tmp/deploy/rpm -name *.rpm |=
+=20
+> wc; find tmp/deploy/ipk -name *.ipk | wc
+>  =C2=A0=C2=A0 1918=C2=A0=C2=A0=C2=A0 1918=C2=A0 129927
+>  =C2=A0=C2=A0 1918=C2=A0=C2=A0=C2=A0 1918=C2=A0 135794
+>  =C2=A0=C2=A0 5404=C2=A0=C2=A0=C2=A0 5404=C2=A0 393252
+>=20
+> with PACKAGE_CLASSES =3D "package_rpm package_deb package_ipk"...
+>=20
+> find tmp/deploy/deb -name *.deb | wc; find tmp/deploy/rpm -name *.rpm |=
+=20
+> wc; find tmp/deploy/ipk -name *.ipk | wc
+>  =C2=A0=C2=A0 1918=C2=A0=C2=A0=C2=A0 1918=C2=A0 129927
+>  =C2=A0=C2=A0 5404=C2=A0=C2=A0=C2=A0 5404=C2=A0 393606
+>  =C2=A0=C2=A0 1918=C2=A0=C2=A0=C2=A0 1918=C2=A0 135584
+>=20
+> with PACKAGE_CLASSES =3D "package_deb package_ipk package_rpm"...
+>=20
+> find tmp/deploy/deb -name *.deb | wc; find tmp/deploy/rpm -name *.rpm |=
+=20
+> wc; find tmp/deploy/ipk -name *.ipk | wc
+>  =C2=A0=C2=A0 5404=C2=A0=C2=A0=C2=A0 5404=C2=A0 376187
+>  =C2=A0=C2=A0 1918=C2=A0=C2=A0=C2=A0 1918=C2=A0 135794
+>  =C2=A0=C2=A0 1918=C2=A0=C2=A0=C2=A0 1918=C2=A0 135584
+>=20
+> So, more packages are generated to the first item in PACKAGE_CLASSES.
+>=20
+> It's expected to have the first item in PACKAGE_CLASSES that is used to=
+=20
+> generate the image, but I expected all packages to be generated for all=
+=20
+> package types anyway. Isn't this the expected behavior? Otherwise, how=
+=20
+> would you generate 3 types of feeds (rpm, deb and ipk) at the same time?
 
-It's a little strange that we wouldn't just have a 
-PACKAGE_FEED_PRESERVE_USER_FIELDS variable. But I understand that 
-wouldn't work as well for how the RPM version of this parameter is defined.
+This is expected for various reasons, try adding --runall build to the
+command.
 
-On 2/2/24 08:24, Martin Jansa via lists.openembedded.org wrote:
-> * can be used to pass e.g. -f param to preserve user-defined fields
->    in the index as added in:
->    https://git.yoctoproject.org/opkg-utils/commit/opkg-make-index?id=13f6281d24e17199e0fef6c2984419372ea0f86f
->
-> * otherwise it will show a lot of messages like:
->    "Lost field Author <value>"
->    for every package in the feed
->
-> Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-> ---
->   meta/lib/oe/package_manager/ipk/__init__.py | 5 +++--
->   1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/lib/oe/package_manager/ipk/__init__.py b/meta/lib/oe/package_manager/ipk/__init__.py
-> index 8fcbad56aa..c35c90ce42 100644
-> --- a/meta/lib/oe/package_manager/ipk/__init__.py
-> +++ b/meta/lib/oe/package_manager/ipk/__init__.py
-> @@ -16,6 +16,7 @@ class OpkgIndexer(Indexer):
->                        ]
->   
->           opkg_index_cmd = bb.utils.which(os.getenv('PATH'), "opkg-make-index")
-> +        opkg_index_cmd_extra_params = self.d.getVar('OPKG_MAKE_INDEX_EXTRA_PARAMS')
->           if self.d.getVar('PACKAGE_FEED_SIGN') == '1':
->               signer = get_signer(self.d, self.d.getVar('PACKAGE_FEED_GPG_BACKEND'))
->           else:
-> @@ -41,8 +42,8 @@ class OpkgIndexer(Indexer):
->                   if not os.path.exists(pkgs_file):
->                       open(pkgs_file, "w").close()
->   
-> -                index_cmds.add('%s --checksum md5 --checksum sha256 -r %s -p %s -m %s' %
-> -                                  (opkg_index_cmd, pkgs_file, pkgs_file, pkgs_dir))
-> +                index_cmds.add('%s --checksum md5 --checksum sha256 -r %s -p %s -m %s %s' %
-> +                                  (opkg_index_cmd, pkgs_file, pkgs_file, pkgs_dir, opkg_index_cmd_extra_params))
->   
->                   index_sign_files.add(pkgs_file)
->   
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#194795): https://lists.openembedded.org/g/openembedded-core/message/194795
-> Mute This Topic: https://lists.openembedded.org/mt/104118971/3616788
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.stewart@ni.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Cheers,
 
--- 
-Alex Stewart
-Software Engineer - NI Real-Time OS
-NI (National Instruments)
-
-alex.stewart@ni.com
+Richard
 
 
