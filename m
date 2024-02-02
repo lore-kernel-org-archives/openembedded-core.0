@@ -1,219 +1,345 @@
-Return-Path: <jing.hui.tham@intel.com>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36C29C4828F
-	for <webhook@archiver.kernel.org>; Fri,  2 Feb 2024 13:51:19 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by mx.groups.io with SMTP id smtpd.web10.23007.1706881870905392954
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C11BC48294
+	for <webhook@archiver.kernel.org>; Fri,  2 Feb 2024 14:05:59 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web10.23345.1706882754911794499
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Feb 2024 05:51:11 -0800
+ Fri, 02 Feb 2024 06:05:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=Intel header.b=hZYci1Wg;
- spf=pass (domain: intel.com, ip: 192.198.163.18, mailfrom: jing.hui.tham@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706881871; x=1738417871;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=QKzqscOgbavM7zPhcRwFPeiOex9NDx6Mb2MIl/YQST4=;
-  b=hZYci1Wgo8YEKZoGZl+EGkTUsGt0t+e9niUMALJapeckNlXrbzmSI68U
-   pjQkEgtmqFVc2pUjqgJ/ZkmA09bCm/0o8dVMvNr0KWy7KVdW0DYcqJnlA
-   Yv2xiV3K68SJXiFU2NSK67Omv6j2Gd8JQnSacnqSJcQmIE+3Quw2Iog5s
-   66eLP0Q3jIeodZ+PWKCxAmHqoISUeG+03rKTrI6jzyUSD6zINs6YotM+j
-   w3IpUTJudBJ7z31diECHKWY7jLQzsIVbMXg/CjAGXgM9bzOdxdKT+IQkH
-   b93fQxhE73Kyp42EPDbGLQZEKV6pMwxtd/Jj4BMKNwBR1ui9U89kTEiPE
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="63126"
-X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
-   d="scan'208";a="63126"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2024 05:51:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,238,1701158400"; 
-   d="scan'208";a="358578"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by fmviesa006.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 02 Feb 2024 05:51:10 -0800
-Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 2 Feb 2024 05:51:09 -0800
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Fri, 2 Feb 2024 05:51:09 -0800
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.168)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Fri, 2 Feb 2024 05:51:09 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=R3xIjZxlFWgBGiH5uFOn5wqYmsOpnwrPEVD+p9G3Ou4bSvwmF6jo+mrtVk5JE+3EvEBEZcNt/WoFp2xfPk3J1WNGGzMVNQjtTucmPKCtinzZYh4lY7FfrzvzeqYE8/deF43gzOmQX1lMFKHkYLdJOVwBZP8oilNi/OLT1xA66WX4854aOanVLFFioogTRqARKhtxQnkdXPThmp4lapFR4gCa9ASK17a253KF/LSjWgL77Xf9p0EK6/oHh4zxN8om4NIYT99IehaaUaEiOEd9RGl44coffkmJ121c3FApfib3FoY3/jycGK4S+VFkJ6xt6BRfNktMytdNSLJh9o0l3w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xsD2r+wc6WOwVQa7bfrIOGBnzvRFzqrcuaULJgVtyJQ=;
- b=nbX+5oYp2fKr4hN234fhHReGPQKmxtyMybAiwFW+koHcLTaEiaesYYRCL34DZc7BOcQ2qRAihDf1MTado1pEnbQmyHFEeTBERN3e/Q3kZwiDdqkbRFQOvJZ3j0rEI+DY2hLvkSjhjducEbIGcx5FlAkPv2Z5bDtqhJsIHohESXqRT2V0l0kelYMTPIm8M0XkA2JcKOVWylxCSeXKa2w4L2NQBQMvKV+6nm4ePMoM3V/ojM61VmSiqNZWLFi00l6tlfcNzX7UZgTSrN9OnrdPo+A9qIEttrKi8CX5VlA1thwpzb6hhAGFN7BoAfMZtlFXH5xjdsupe/D7CJEvkxm3rw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM4PR11MB7760.namprd11.prod.outlook.com (2603:10b6:8:100::19)
- by DM4PR11MB6359.namprd11.prod.outlook.com (2603:10b6:8:b9::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.34; Fri, 2 Feb
- 2024 13:51:07 +0000
-Received: from DM4PR11MB7760.namprd11.prod.outlook.com
- ([fe80::1025:6d41:d45c:948c]) by DM4PR11MB7760.namprd11.prod.outlook.com
- ([fe80::1025:6d41:d45c:948c%7]) with mapi id 15.20.7249.027; Fri, 2 Feb 2024
- 13:51:07 +0000
-From: "Tham, Jing Hui" <jing.hui.tham@intel.com>
-To: "qa-build-notification@lists.yoctoproject.org"
-	<qa-build-notification@lists.yoctoproject.org>,
-	"yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [qa-build-notification] QA notification for completed autobuilder
- build (yocto-4.0.16.rc1)
-Thread-Topic: [qa-build-notification] QA notification for completed
- autobuilder build (yocto-4.0.16.rc1)
-Thread-Index: AQHaUBfkHW7ixELtiUSckp2G24Gua7D3HUlQ
-Date: Fri, 2 Feb 2024 13:51:06 +0000
-Message-ID: <DM4PR11MB776068B2B6A65039F971BC8EA1422@DM4PR11MB7760.namprd11.prod.outlook.com>
-References: <0101018d44396ab5-09abdfba-e02c-4f2e-bb9b-b00d2b98119f-000000@us-west-2.amazonses.com>
-In-Reply-To: <0101018d44396ab5-09abdfba-e02c-4f2e-bb9b-b00d2b98119f-000000@us-west-2.amazonses.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM4PR11MB7760:EE_|DM4PR11MB6359:EE_
-x-ms-office365-filtering-correlation-id: 1f9394e5-7cdd-4f9a-9f99-08dc23f6013e
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: sLyEuDiEdOGC9qzu4lYnGlbjtEjw/npr89Qz1N6mGxwCLM3u1u5lC2GmNHYRfvFvfQn4TXmFgQs896v/gfLoHOuTOxj/Q7tD78ySmxl2QkvypZVFKJnjjSXuofGl/+Zs2Qe3XqenIC5KJYVNi/piqY0YN0+KUzmd3dLS77zg1ER4anJ1lNA3fSlIZtdDxn862jYhmZ3iQpiW6TKe49eUkoEAY2gRQ1tkMp9/M1mjxWoTRIISL1/ZVl8YNRVX+MXoF8+1Gboz9qcRrYfiQkULuPWr2xieHTy0wMT4/QhOKGWVlsOSNzTfn+UpuQXEkuf/SM5HdP7WqD5+zMZW4sGvhFAc1W7lsEY/c5FH/mD9ruzP6bO3LG9cN5cP3T7KpQxzhSgC51RxUGBMwz03CDwX0EEBc7nrHqYgI7i+zm7IK8LehTwK1xWsS78i3s0gK2OpbVt6cULElc/K8y4dt5V3fGMiRWuE0xUStK40J3UiTlrw7j1ka5iEDEScIXVEj9slzT2gvlbL+pBfePyv3c8vW+mNditFW0WTWNpmlbBihRfepS42sNlaYxW/OcP92jyPZZZiMatDcMcWdQKeOzfp0GDp5N7uuOc7t/X89r41+VPJVqInNK7nvSXktSRNoSGQ2rdQYfTfW/vdAi3467zQ1g==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB7760.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(346002)(366004)(136003)(376002)(39860400002)(230922051799003)(1800799012)(64100799003)(451199024)(186009)(6506007)(8676002)(122000001)(15650500001)(33656002)(38100700002)(41300700001)(82960400001)(86362001)(110136005)(478600001)(7696005)(52536014)(966005)(316002)(8936002)(66556008)(5660300002)(66476007)(64756008)(26005)(83380400001)(2906002)(9686003)(53546011)(71200400001)(66946007)(66446008)(76116006)(38070700009)(66899024)(55016003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?am2yB8f54RZgA1vlLWInXkfsTvIeeRjI44ZypEBgmxKPgpJ0HRsyl7xm/yBQ?=
- =?us-ascii?Q?ktmCH1rF3XYt192dG9Wfg0cfVHV4d9gU+li2aH7BOEgbHy93+UDeTAJLwg28?=
- =?us-ascii?Q?6KHHUe4QokAaeg4gtRntuoXHVRxXDyWy0sR9Sa6z/xF9eXP8m1gFmXc8plXc?=
- =?us-ascii?Q?vcfF6bt5KWsrmpfYttCmXTWCNSI7FOzntgHwqqjPhr1l4BfhdSh8KPXLyVfc?=
- =?us-ascii?Q?umJURSjyus9PTyp/lS+Qvnq6H4LfcI3UEURc+m3mCqXMd5LMapM4WGGKxyTO?=
- =?us-ascii?Q?PgrG5BjoFdMdVEjlrPCAK2zDahvDLboruCrtifu4+6SsHW6y+rJLjuemdrqz?=
- =?us-ascii?Q?3qmDxDjq3WdQQ/+ZAvkQqr8jQTVtvZgwKDO4uG1ItoOe5Afjt5q+80YNGNcF?=
- =?us-ascii?Q?zARzNoNlL5V2WoVb4aseVLo73EkP1rZtd9aiooynZ/WB5pvJudj1Ri4r7/4x?=
- =?us-ascii?Q?nNi7cvzqI7F4UsiMS5zwj8yBlC0etXyYYkCTQTuqpnfSvgQ59rg77Yc+TEgd?=
- =?us-ascii?Q?6XmLtbbmgKYT3TZeh94dpk6ZdbpH8s0uS1IgLnjAvF9vLr7awtMeOU0ut2pd?=
- =?us-ascii?Q?2nVE7LABS7JACiBm+OX+twjj/710IL4pJdxvRSx+KMl5qFzr6kUwTHzMvOF1?=
- =?us-ascii?Q?kiRkAsCh7SqNbbwBZTGnUR9smbwBYEkWnHXDfjxAS3TVktUG57bPelRgYitp?=
- =?us-ascii?Q?JUkdXSGjWGvWPpAbdzbFgobgimHt92RfdDftXQdlHKNsQhw7RnCRx0xce9eZ?=
- =?us-ascii?Q?uOU1fabZbuN1k/7zzjxX3UqUmtCCQ1EWXNduLqorB9f0R7KPEclRX7K7HYAx?=
- =?us-ascii?Q?E+D6JUTZoBAeU6I5kFRedh926326LYC0wl5FuHQ6Q5vbskbNA/hs2NFZ1ZQK?=
- =?us-ascii?Q?f3TfRMl30DREwT7A6mxeyatYa99Hq2YOnlLxh8fPQ3ktMbZm5oSc1LwQ+zSG?=
- =?us-ascii?Q?9+aL7gN+hXCmLZeOVMEHUuthXPSHKTyS0VNVbO9eJYkzCcp6ApMAYE1/Iotj?=
- =?us-ascii?Q?NNEma352pBiAIv5lzXjERA7u8G1lrNYsW+HuhmmfFB3NToc3+MLDfApPBCQB?=
- =?us-ascii?Q?4HSB6UvWLyrL0qOe0RNvncZfYGE3pafH+RFe6xUIV3FrSAfQFY1fGk1pu+xt?=
- =?us-ascii?Q?cDf9THp6FQgb4NRfwUncBdzF6Y5K40YziHl+O9Lxp+3PA+ys12A+gyTLDIro?=
- =?us-ascii?Q?X8fgtjLm0rRVNGSvyuduXrzH1S5E+dDOpCVeB9hQwhN0A2M25cHrlVXyGS90?=
- =?us-ascii?Q?+F8UEH8movtcWupRnDKLUtP0nEBEVMdkIFKNe3tlzymdOUp7Ikn0HILbZkda?=
- =?us-ascii?Q?DODQN78TuzPzlqkP4PY9S7IdgoARuOLAw6tEkcn9EKHhMlIYLLpNR0XzK4ox?=
- =?us-ascii?Q?Aj5tISCh8qrWgwGOJ1scUdsbDXUX3+80ePs4X679iPe7pu6IkUWwGivN2f+P?=
- =?us-ascii?Q?tYr5mKJOe6VJJwfYkR3MpXr7JD8dA3WM0c7AgnVjK1BKbvfcbrqp2NR6D5xV?=
- =?us-ascii?Q?Y4EaaCYf5g8P3YAJKFQZSQWE/uoG7L0VXXfYUFx2UlSaHjaWrE0l2LnpXAu7?=
- =?us-ascii?Q?KHMYaHA/PbBjsRXjnOgX7XB1geYE/Opi6pNpPegh?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Zyihysv8;
+ spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-40ef6bbb61fso17854215e9.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 02 Feb 2024 06:05:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706882753; x=1707487553; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=9N3PyPYM+bRJ1s6OkK8UeQdXF8z/FXNSccjlP1VtyK0=;
+        b=Zyihysv84B8MF/9z/SULNUD0yVN+chMt9lRZy85TZxCx7lfiWFbhNgtKyAsSF+36aR
+         nSDyzRIWwIgTSxfsz1X2xMnkV5VD9XgyFuQGZ8b/a5Hl4iWtd9O/8zahivN79zXnYD7E
+         SUQyBsGROsNUc5dEee4zYpVI7brXPI19wh6W3ZPTZfqbzJBF2yfrMDQ86tc7/UK8yBJG
+         Ed7Ci6Vj0sDCovMXqr32BgEIiq7OuoLY4Bu3KRtA/2dQKvZ1uApf+fyqDPhLEv98tQN7
+         FA26dYVezZHuF3EkLGvCEffCx4DUJxytAloC18WCVRYKnJwpbtQ+O8nat7uBeMDcnXsw
+         AYxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706882753; x=1707487553;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9N3PyPYM+bRJ1s6OkK8UeQdXF8z/FXNSccjlP1VtyK0=;
+        b=VWH1/Wtf59hA43Jliv2r8cla1N5oQnyLLSbXXmNjyd0JNUQgZgIubusGzmUXyTMFtL
+         kJ7TaWoUWkcqzfTSuPmmmqUe9n0j/an4qVE/OZ2PLgAVDwVF45xXVudNfMhUQvCeazhi
+         4OPSn5QrRevwXR5JDoXzrRGXddwNOdIjk6Zinx5Nlobeugt9IHnFFfTRZwExsiO4Lx62
+         rgU20r6L4MOWPZbHD8AUH0+1aJNeHTZCEbcdGSJdVpkAv0qUAhwydk2yVBzxrJR1XODP
+         DmmcTNBWikDeCUs5ra2rp8jTiaj33YgVbTHFK2q5TWhz35Kf+DOW7sx9AZz6VmssB31q
+         jPDg==
+X-Gm-Message-State: AOJu0YwDeN7woRbZiwj6IVkjcUFn7jxkTl/dXfaDc/V0lcKjFimeVmi5
+	EdJRqFKenqpHT4DmrhPPIr8IbA73OeCdsO0gwzDghxeL3yoU5XCHo2owakNlY4//8awcwOLdf/c
+	foEQ9vsqgtyDyeNfFwO1+QiBCKHg=
+X-Google-Smtp-Source: AGHT+IEQsiIcEDKjJrVorVV9HWFm7MKSsi6WOj7vYbHjO3sCot7VpOTsHhlCPSJuoI6yVQL7Z7UGMt6y9gc4drAPlTM=
+X-Received: by 2002:a5d:4e88:0:b0:33a:e526:3a49 with SMTP id
+ e8-20020a5d4e88000000b0033ae5263a49mr1552024wru.23.1706882752972; Fri, 02 Feb
+ 2024 06:05:52 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB7760.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1f9394e5-7cdd-4f9a-9f99-08dc23f6013e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Feb 2024 13:51:06.9213
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: gWZKQ+FyneH0XzmhpInH+hJpgEsjmb1V0F/pP7RXXrH3g41RcFpllt9T06deEBXYrPWt6hbs2jykaR/ZmF/B4Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6359
-X-OriginatorOrg: intel.com
+References: <20240126233141.1589013-1-raj.khem@gmail.com>
+In-Reply-To: <20240126233141.1589013-1-raj.khem@gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Fri, 2 Feb 2024 15:05:39 +0100
+Message-ID: <CA+chaQcVxMyXLfaFzFxA1nAeWMrSFMA8SNOdBE7=yK7MO9sEfw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] armv8/armv9: Avoid using -march when -mcpu is chosen
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Ross Burton <ross.burton@arm.com>, Jon Mason <jdmason@kudzu.us>
+Content-Type: multipart/alternative; boundary="0000000000002a126d0610669c42"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Feb 2024 13:51:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194798
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Feb 2024 14:05:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194799
 
-Hi All,
-=20
-QA for yocto-4.0.16.rc1 is completed. This is the full report for this rele=
-ase: =20
-https://git.yoctoproject.org/cgit/cgit.cgi/yocto-testresults-contrib/tree/?=
-h=3Dintel-yocto-testresults
-=20
-=3D=3D=3D=3D=3D=3D=3D Summary =3D=3D=3D=3D=3D=3D=3D=3D
-No high milestone defects.
-=20
-No new issue found.=20
-=20
-Thanks,
-Jing Hui
+--0000000000002a126d0610669c42
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Sat, Jan 27, 2024 at 12:31=E2=80=AFAM Khem Raj <raj.khem@gmail.com> wrot=
+e:
 
-> -----Original Message-----
-> From: qa-build-notification@lists.yoctoproject.org <qa-build-
-> notification@lists.yoctoproject.org> On Behalf Of Pokybuild User
-> Sent: Friday, January 26, 2024 1:24 PM
-> To: yocto@lists.yoctoproject.org
-> Cc: qa-build-notification@lists.yoctoproject.org
-> Subject: [qa-build-notification] QA notification for completed autobuilde=
-r
-> build (yocto-4.0.16.rc1)
->=20
->=20
-> A build flagged for QA (yocto-4.0.16.rc1) was completed on the autobuilde=
-r
-> and is available at:
->=20
->=20
->     https://autobuilder.yocto.io/pub/releases/yocto-4.0.16.rc1
->=20
->=20
-> Build URL:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6498
->=20
-> Build hash information:
->=20
-> bitbake: ee090484cc25d760b8c20f18add17b5eff485b40
-> meta-agl: 35adadd18a6a0fabbf57cfdb2f2d72c2807375e1
-> meta-arm: b187fb9232ca0a6b5f8f90b4715958546fc41d73
-> meta-aws: cab60ff0f84b2335e933d4eac326df9fab5b9bb6
-> meta-gplv2: d2f8b5cdb285b72a4ed93450f6703ca27aa42e8a
-> meta-intel: f932ebb2544170f43edd22739f44307809bf8cfb
-> meta-mingw: f6b38ce3c90e1600d41c2ebb41e152936a0357d7
-> meta-openembedded: 730e44900a0a86265bad93a16b5a5ff344a07266
-> meta-virtualization: 88327090d26955a678c6f8bd2585aad4d802f6c4
-> oecore: a744a897f0ea7d34c31c024c13031221f9a85f24
-> poky: 54af8c5e80ebf63707ef4e51cc9d374f716da603
->=20
->=20
->=20
-> This is an automated message from the Yocto Project Autobuilder
-> Git: git://git.yoctoproject.org/yocto-autobuilder2
-> Email: richard.purdie@linuxfoundation.org
->=20
->=20
->=20
->=20
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#380): https://lists.yoctoproject.org/g/qa-build-
-> notification/message/380
-> Mute This Topic: https://lists.yoctoproject.org/mt/103971039/6424044
-> Group Owner: qa-build-notification+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/qa-build-
-> notification/leave/10762429/6424044/1746813897/xyzzy
-> [jing.hui.tham@intel.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+> Current include logic goes into generic arm v8/v9 architecture tunes and
+> adds corresponding -march option after synthesizing it from various tune
+> fragments, this is fine for a machine which is using armv8/armv9 based
+> tunes but cortex tunes are intentionally using -mcpu option based on
+> selected tune value. So when cortex based default tune is selected for a
+> machine, it will add both -mcpu and -march to the compiler commandline
+> which can result in invalid combinations for this pair in gcc's own
+> logic. This can then result in compiler warnings/errors reporting this
+>
+> e.g.
+>
+> aarch64-yoe-linux-gcc  -mcpu=3Dcortex-a72.cortex-a53
+> -march=3Darmv8-a+crc+crypto -mbranch-protection=3Dstandard
+> ...
+> cc1: error: switch '-mcpu=3Dcortex-a72.cortex-a53' conflicts with
+> '-march=3Darmv8-a+crc+crypto' switch and resulted in options '+crc+crypto=
+'
+> being added [-Werror]
+>
+> This is seen in lot of configure test results in glibc 2.39 and the
+> warning is promoted to errors by gcc in some of these checks especially
+> with gcc-14, the logs also show it as warning in other places in
+> configure checks.
+>
+> mcpu option will compute relevant march implicitly as it specifies a cpu
+> implementation and this will be the right value to use, therefore do not
+> specify -march when -mcpu is already describing the cpu.
+>
 
+I agree that keeping mapping between mcpu and march is tricky.
+
+Just in case someone else hits similar issue, here is one new failure
+caused by this change.
+
+It is reproducible in xnnpack, it used to build with:
+-march=3Darmv8-a+crc and then -march=3Darmv8.2-a+fp16+dotprod added by xnnp=
+ack
+source
+while with this change it ends with:
+-mcpu=3Dcortex-a72+crc and -march=3Darmv8.2-a+fp16+dotprod
+actually causing the issue you were trying to avoid, because tensorflow has
+in some cases different expectations that what is set in TUNE_CCARGS and
+needs to be fixed in tensorflow or worked around in metadata as before with=
+:
+https://github.com/webosose/meta-webosose/blob/master/meta-webos/recipes-up=
+streamable/xnnpack/xnnpack.bb#L70
+
+which will need to be extended to avoid:
+FAILED:
+CMakeFiles/all_microkernels.dir/src/f16-gemm/gen-inc/1x16inc-minmax-aarch64=
+-neonfp16arith-ld32.S.o
+
+TOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/recipe-sysr=
+oot-native/usr/bin/aarch64-webos-linux/aarch64-webos-linux-gcc
+--sysroot=3DTOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903=
+/recipe-sysroot
+-DFXDIV_USE_INLINE_ASSEMBLY=3D0 -DXNN_ENABLE_ARM_BF16=3D1
+-DXNN_ENABLE_ARM_DOTPROD=3D1 -DXNN_ENABLE_ARM_FP16=3D1 -DXNN_ENABLE_ASSEMBL=
+Y=3D1
+-DXNN_ENABLE_GEMM_M_SPECIALIZATION=3D1 -DXNN_ENABLE_JIT=3D0
+-DXNN_ENABLE_MEMOPT=3D1 -DXNN_ENABLE_SPARSE=3D1
+-ITOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/src
+-ITOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/pthre=
+adpool-source/include
+-ITOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/FXdiv=
+-source/include
+-ITOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/FP16-=
+source/include
+-mcpu=3Dcortex-a72+crc -mbranch-protection=3Dstandard -fstack-protector-str=
+ong
+ -O2 -D_FORTIFY_SOURCE=3D2 -Wformat -Wformat-security -Werror=3Dformat-secu=
+rity
+-Werror=3Dreturn-type
+ --sysroot=3DTOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/47588490=
+3/recipe-sysroot
+ -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map
+ -fmacro-prefix-map=3DTOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack=
+/475884903/git=3D/usr/src/debug/xnnpack/475884903
+ -fdebug-prefix-map=3DTOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack=
+/475884903/git=3D/usr/src/debug/xnnpack/475884903
+ -fmacro-prefix-map=3DTOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack=
+/475884903/build=3D/usr/src/debug/xnnpack/475884903
+ -fdebug-prefix-map=3DTOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack=
+/475884903/build=3D/usr/src/debug/xnnpack/475884903
+ -fdebug-prefix-map=3DTOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack=
+/475884903/recipe-sysroot=3D
+ -fmacro-prefix-map=3DTOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack=
+/475884903/recipe-sysroot=3D
+ -fdebug-prefix-map=3DTOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack=
+/475884903/recipe-sysroot-native=3D
+ -Wno-psabi -pthread  -fno-math-errno  -march=3Darmv8.2-a+fp16+dotprod  -O2
+-MD -MT
+CMakeFiles/all_microkernels.dir/src/f16-gemm/gen-inc/1x16inc-minmax-aarch64=
+-neonfp16arith-ld32.S.o
+-MF
+CMakeFiles/all_microkernels.dir/src/f16-gemm/gen-inc/1x16inc-minmax-aarch64=
+-neonfp16arith-ld32.S.o.d
+-o
+CMakeFiles/all_microkernels.dir/src/f16-gemm/gen-inc/1x16inc-minmax-aarch64=
+-neonfp16arith-ld32.S.o
+-c
+TOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/src/f16=
+-gemm/gen-inc/1x16inc-minmax-aarch64-neonfp16arith-ld32.S
+cc1: warning: switch '-mcpu=3Dcortex-a72+crc' conflicts with
+'-march=3Darmv8.2-a+fp16+dotprod' switch
+TOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/src/f16=
+-gemm/gen-inc/1x16inc-minmax-aarch64-neonfp16arith-ld32.S:
+Assembler messages:
+TOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/src/f16=
+-gemm/gen-inc/1x16inc-minmax-aarch64-neonfp16arith-ld32.S:64:
+Error: selected processor does not support `fmla v16.8h,v20.8h,v0.h[0]'
+TOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/src/f16=
+-gemm/gen-inc/1x16inc-minmax-aarch64-neonfp16arith-ld32.S:65:
+Error: selected processor does not support `fmla v17.8h,v21.8h,v0.h[0]'
+TOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/src/f16=
+-gemm/gen-inc/1x16inc-minmax-aarch64-neonfp16arith-ld32.S:66:
+Error: selected processor does not support `fmla v18.8h,v22.8h,v0.h[1]'
+TOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/src/f16=
+-gemm/gen-inc/1x16inc-minmax-aarch64-neonfp16arith-ld32.S:67:
+Error: selected processor does not support `fmla v19.8h,v23.8h,v0.h[1]'
+TOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/src/f16=
+-gemm/gen-inc/1x16inc-minmax-aarch64-neonfp16arith-ld32.S:75:
+Error: selected processor does not support `fadd v16.8h,v16.8h,v18.8h'
+TOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/src/f16=
+-gemm/gen-inc/1x16inc-minmax-aarch64-neonfp16arith-ld32.S:76:
+Error: selected processor does not support `fadd v17.8h,v17.8h,v19.8h'
+TOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/src/f16=
+-gemm/gen-inc/1x16inc-minmax-aarch64-neonfp16arith-ld32.S:80:
+Error: selected processor does not support `fmax v16.8h,v16.8h,v4.8h'
+TOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/src/f16=
+-gemm/gen-inc/1x16inc-minmax-aarch64-neonfp16arith-ld32.S:81:
+Error: selected processor does not support `fmax v17.8h,v17.8h,v4.8h'
+TOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/src/f16=
+-gemm/gen-inc/1x16inc-minmax-aarch64-neonfp16arith-ld32.S:82:
+Error: selected processor does not support `fmin v16.8h,v16.8h,v5.8h'
+TOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/src/f16=
+-gemm/gen-inc/1x16inc-minmax-aarch64-neonfp16arith-ld32.S:83:
+Error: selected processor does not support `fmin v17.8h,v17.8h,v5.8h'
+TOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/src/f16=
+-gemm/gen-inc/1x16inc-minmax-aarch64-neonfp16arith-ld32.S:102:
+Error: selected processor does not support `fmla v16.8h,v20.8h,v0.h[0]'
+TOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/src/f16=
+-gemm/gen-inc/1x16inc-minmax-aarch64-neonfp16arith-ld32.S:103:
+Error: selected processor does not support `fmla v17.8h,v21.8h,v0.h[0]'
+
+--0000000000002a126d0610669c42
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Sat, Jan 27, 2024 at 12:31=E2=80=AFAM =
+Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&g=
+t; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
+4);padding-left:1ex">Current include logic goes into generic arm v8/v9 arch=
+itecture tunes and<br>
+adds corresponding -march option after synthesizing it from various tune<br=
+>
+fragments, this is fine for a machine which is using armv8/armv9 based<br>
+tunes but cortex tunes are intentionally using -mcpu option based on<br>
+selected tune value. So when cortex based default tune is selected for a<br=
+>
+machine, it will add both -mcpu and -march to the compiler commandline<br>
+which can result in invalid combinations for this pair in gcc&#39;s own<br>
+logic. This can then result in compiler warnings/errors reporting this<br>
+<br>
+e.g.<br>
+<br>
+aarch64-yoe-linux-gcc=C2=A0 -mcpu=3Dcortex-a72.cortex-a53 -march=3Darmv8-a+=
+crc+crypto -mbranch-protection=3Dstandard<br>
+...<br>
+cc1: error: switch &#39;-mcpu=3Dcortex-a72.cortex-a53&#39; conflicts with &=
+#39;-march=3Darmv8-a+crc+crypto&#39; switch and resulted in options &#39;+c=
+rc+crypto&#39; being added [-Werror]<br>
+<br>
+This is seen in lot of configure test results in glibc 2.39 and the<br>
+warning is promoted to errors by gcc in some of these checks especially<br>
+with gcc-14, the logs also show it as warning in other places in<br>
+configure checks.<br>
+<br>
+mcpu option will compute relevant march implicitly as it specifies a cpu<br=
+>
+implementation and this will be the right value to use, therefore do not<br=
+>
+specify -march when -mcpu is already describing the cpu.<br></blockquote><d=
+iv><br></div><div>I agree that keeping mapping between mcpu and march is tr=
+icky.</div><div><br></div><div>Just in case someone else hits similar issue=
+, here is one new failure caused by this change.</div><div><br></div><div>I=
+t is reproducible in xnnpack, it used to build with:</div><div>-march=3Darm=
+v8-a+crc and then=C2=A0-march=3Darmv8.2-a+fp16+dotprod added by xnnpack sou=
+rce</div><div>while with this change it ends with:</div><div>-mcpu=3Dcortex=
+-a72+crc and -march=3Darmv8.2-a+fp16+dotprod<br></div><div>actually causing=
+ the issue you were trying to avoid, because tensorflow has in some cases d=
+ifferent expectations that what is set in TUNE_CCARGS and needs to be fixed=
+ in tensorflow or worked around in metadata as before with:</div><div><a hr=
+ef=3D"https://github.com/webosose/meta-webosose/blob/master/meta-webos/reci=
+pes-upstreamable/xnnpack/xnnpack.bb#L70">https://github.com/webosose/meta-w=
+ebosose/blob/master/meta-webos/recipes-upstreamable/xnnpack/xnnpack.bb#L70<=
+/a><br></div><div><br></div><div>which will need to be extended to avoid:</=
+div><div>FAILED: CMakeFiles/all_microkernels.dir/src/f16-gemm/gen-inc/1x16i=
+nc-minmax-aarch64-neonfp16arith-ld32.S.o <br>TOPDIR/BUILD/work/raspberrypi4=
+_64-webos-linux/xnnpack/475884903/recipe-sysroot-native/usr/bin/aarch64-web=
+os-linux/aarch64-webos-linux-gcc --sysroot=3DTOPDIR/BUILD/work/raspberrypi4=
+_64-webos-linux/xnnpack/475884903/recipe-sysroot -DFXDIV_USE_INLINE_ASSEMBL=
+Y=3D0 -DXNN_ENABLE_ARM_BF16=3D1 -DXNN_ENABLE_ARM_DOTPROD=3D1 -DXNN_ENABLE_A=
+RM_FP16=3D1 -DXNN_ENABLE_ASSEMBLY=3D1 -DXNN_ENABLE_GEMM_M_SPECIALIZATION=3D=
+1 -DXNN_ENABLE_JIT=3D0 -DXNN_ENABLE_MEMOPT=3D1 -DXNN_ENABLE_SPARSE=3D1 -ITO=
+PDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/src -ITOP=
+DIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/pthreadpoo=
+l-source/include -ITOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/47=
+5884903/git/FXdiv-source/include -ITOPDIR/BUILD/work/raspberrypi4_64-webos-=
+linux/xnnpack/475884903/git/FP16-source/include -mcpu=3Dcortex-a72+crc -mbr=
+anch-protection=3Dstandard -fstack-protector-strong =C2=A0-O2 -D_FORTIFY_SO=
+URCE=3D2 -Wformat -Wformat-security -Werror=3Dformat-security -Werror=3Dret=
+urn-type =C2=A0--sysroot=3DTOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xn=
+npack/475884903/recipe-sysroot =C2=A0-O2 -pipe -g -feliminate-unused-debug-=
+types -fcanon-prefix-map =C2=A0-fmacro-prefix-map=3DTOPDIR/BUILD/work/raspb=
+errypi4_64-webos-linux/xnnpack/475884903/git=3D/usr/src/debug/xnnpack/47588=
+4903 =C2=A0-fdebug-prefix-map=3DTOPDIR/BUILD/work/raspberrypi4_64-webos-lin=
+ux/xnnpack/475884903/git=3D/usr/src/debug/xnnpack/475884903 =C2=A0-fmacro-p=
+refix-map=3DTOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903=
+/build=3D/usr/src/debug/xnnpack/475884903 =C2=A0-fdebug-prefix-map=3DTOPDIR=
+/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/build=3D/usr/src/=
+debug/xnnpack/475884903 =C2=A0-fdebug-prefix-map=3DTOPDIR/BUILD/work/raspbe=
+rrypi4_64-webos-linux/xnnpack/475884903/recipe-sysroot=3D =C2=A0-fmacro-pre=
+fix-map=3DTOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/r=
+ecipe-sysroot=3D =C2=A0-fdebug-prefix-map=3DTOPDIR/BUILD/work/raspberrypi4_=
+64-webos-linux/xnnpack/475884903/recipe-sysroot-native=3D =C2=A0-Wno-psabi =
+-pthread =C2=A0-fno-math-errno =C2=A0-march=3Darmv8.2-a+fp16+dotprod =C2=A0=
+-O2 -MD -MT CMakeFiles/all_microkernels.dir/src/f16-gemm/gen-inc/1x16inc-mi=
+nmax-aarch64-neonfp16arith-ld32.S.o -MF CMakeFiles/all_microkernels.dir/src=
+/f16-gemm/gen-inc/1x16inc-minmax-aarch64-neonfp16arith-ld32.S.o.d -o CMakeF=
+iles/all_microkernels.dir/src/f16-gemm/gen-inc/1x16inc-minmax-aarch64-neonf=
+p16arith-ld32.S.o -c TOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/=
+475884903/git/src/f16-gemm/gen-inc/1x16inc-minmax-aarch64-neonfp16arith-ld3=
+2.S<br>cc1: warning: switch &#39;-mcpu=3Dcortex-a72+crc&#39; conflicts with=
+ &#39;-march=3Darmv8.2-a+fp16+dotprod&#39; switch<br>TOPDIR/BUILD/work/rasp=
+berrypi4_64-webos-linux/xnnpack/475884903/git/src/f16-gemm/gen-inc/1x16inc-=
+minmax-aarch64-neonfp16arith-ld32.S: Assembler messages:<br>TOPDIR/BUILD/wo=
+rk/raspberrypi4_64-webos-linux/xnnpack/475884903/git/src/f16-gemm/gen-inc/1=
+x16inc-minmax-aarch64-neonfp16arith-ld32.S:64: Error: selected processor do=
+es not support `fmla v16.8h,v20.8h,v0.h[0]&#39;<br>TOPDIR/BUILD/work/raspbe=
+rrypi4_64-webos-linux/xnnpack/475884903/git/src/f16-gemm/gen-inc/1x16inc-mi=
+nmax-aarch64-neonfp16arith-ld32.S:65: Error: selected processor does not su=
+pport `fmla v17.8h,v21.8h,v0.h[0]&#39;<br>TOPDIR/BUILD/work/raspberrypi4_64=
+-webos-linux/xnnpack/475884903/git/src/f16-gemm/gen-inc/1x16inc-minmax-aarc=
+h64-neonfp16arith-ld32.S:66: Error: selected processor does not support `fm=
+la v18.8h,v22.8h,v0.h[1]&#39;<br>TOPDIR/BUILD/work/raspberrypi4_64-webos-li=
+nux/xnnpack/475884903/git/src/f16-gemm/gen-inc/1x16inc-minmax-aarch64-neonf=
+p16arith-ld32.S:67: Error: selected processor does not support `fmla v19.8h=
+,v23.8h,v0.h[1]&#39;<br>TOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpa=
+ck/475884903/git/src/f16-gemm/gen-inc/1x16inc-minmax-aarch64-neonfp16arith-=
+ld32.S:75: Error: selected processor does not support `fadd v16.8h,v16.8h,v=
+18.8h&#39;<br>TOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/4758849=
+03/git/src/f16-gemm/gen-inc/1x16inc-minmax-aarch64-neonfp16arith-ld32.S:76:=
+ Error: selected processor does not support `fadd v17.8h,v17.8h,v19.8h&#39;=
+<br>TOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/src=
+/f16-gemm/gen-inc/1x16inc-minmax-aarch64-neonfp16arith-ld32.S:80: Error: se=
+lected processor does not support `fmax v16.8h,v16.8h,v4.8h&#39;<br>TOPDIR/=
+BUILD/work/raspberrypi4_64-webos-linux/xnnpack/475884903/git/src/f16-gemm/g=
+en-inc/1x16inc-minmax-aarch64-neonfp16arith-ld32.S:81: Error: selected proc=
+essor does not support `fmax v17.8h,v17.8h,v4.8h&#39;<br>TOPDIR/BUILD/work/=
+raspberrypi4_64-webos-linux/xnnpack/475884903/git/src/f16-gemm/gen-inc/1x16=
+inc-minmax-aarch64-neonfp16arith-ld32.S:82: Error: selected processor does =
+not support `fmin v16.8h,v16.8h,v5.8h&#39;<br>TOPDIR/BUILD/work/raspberrypi=
+4_64-webos-linux/xnnpack/475884903/git/src/f16-gemm/gen-inc/1x16inc-minmax-=
+aarch64-neonfp16arith-ld32.S:83: Error: selected processor does not support=
+ `fmin v17.8h,v17.8h,v5.8h&#39;<br>TOPDIR/BUILD/work/raspberrypi4_64-webos-=
+linux/xnnpack/475884903/git/src/f16-gemm/gen-inc/1x16inc-minmax-aarch64-neo=
+nfp16arith-ld32.S:102: Error: selected processor does not support `fmla v16=
+.8h,v20.8h,v0.h[0]&#39;<br>TOPDIR/BUILD/work/raspberrypi4_64-webos-linux/xn=
+npack/475884903/git/src/f16-gemm/gen-inc/1x16inc-minmax-aarch64-neonfp16ari=
+th-ld32.S:103: Error: selected processor does not support `fmla v17.8h,v21.=
+8h,v0.h[0]&#39;<br></div></div></div>
+
+--0000000000002a126d0610669c42--
 
