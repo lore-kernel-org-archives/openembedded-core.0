@@ -1,340 +1,153 @@
-Return-Path: <colin.mcallister@garmin.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1A03C4828F
-	for <webhook@archiver.kernel.org>; Fri,  2 Feb 2024 21:17:16 +0000 (UTC)
-Received: from mx0a-000eb902.pphosted.com (mx0a-000eb902.pphosted.com [205.220.165.212])
- by mx.groups.io with SMTP id smtpd.web10.4116.1706908627511896439
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 591CBC4828F
+	for <webhook@archiver.kernel.org>; Fri,  2 Feb 2024 22:58:27 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web10.6572.1706914700470907457
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Feb 2024 13:17:08 -0800
+ Fri, 02 Feb 2024 14:58:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@garmin.com header.s=pps1 header.b=SbxTKLju;
- dkim=pass header.i=@garmin.com header.s=selector2 header.b=GkaaBrNk;
- spf=pass (domain: garmin.com, ip: 205.220.165.212, mailfrom: colin.mcallister@garmin.com)
-Received: from pps.filterd (m0220296.ppops.net [127.0.0.1])
-	by mx0a-000eb902.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 412JoXn1011456
-	for <openembedded-core@lists.openembedded.org>; Fri, 2 Feb 2024 15:17:07 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garmin.com; h=
-	from:to:subject:date:message-id:references:in-reply-to
-	:content-type:mime-version; s=pps1; bh=TEXMA2xMK+x21u/kUjAEFeA7v
-	yo9J/hXnaUXq2Q1ocY=; b=SbxTKLjuC2WgxhBMLw59SFaSdh7p+l8B6UJB7GEpd
-	WJjgzA2WDg+bv3ywcNYyhkkaduQG+7Z7wWaIgELKOD2HcTEnO81mr5395Ep/OV8t
-	qOxc0j2XomfPnE9JizEgxLR7nTyomQUhki0gQPEjDKQbcwHgfnLUFoeiwViXtjdA
-	B6rTkwL1GFVAz/F6Wv7mYGSPvRhGwoSAUPwjt4mo2y7l3etJDD1IjqJPue/j2ED1
-	lphLxvbmlGIHdCG+9+Yxwb+VGuZjsEZyrgxVBjRhd329jSvI0EmvXdfWWtV8oYxq
-	qOrV9qx/IwXfJ1PvJUii5to4t7RaDw9ALMsM8aDzwD/fA==
-Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2040.outbound.protection.outlook.com [104.47.66.40])
-	by mx0a-000eb902.pphosted.com (PPS) with ESMTPS id 3w16rw040s-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 02 Feb 2024 15:17:06 -0600 (CST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=D2rKDcHU2jddj+SnwIqpPguK5nPadjVbq3uOd6bLGam+xwt57C3rj6b+uIGNrYUqQzpzk84On4M7JEtmpTPsIPbDCqCwzqqyYOYyOGSl5Y+kb01BXeIhcM789Mu6TJxF/lDCgvg2yae3xMaHcs47vIeVdXez3zXIehqpoINjqcE6lg+evfq4d1YtNfs3p0f5Ms8WjTRL4+lWYjU6qfh46LO3NvjYwCk6u5RWvnOAzMHkGXn02MXCvBMegd4B2ohZoc4aVtjODE1lx/jIdYagN71t7N4/eaIKg9LGFa6CF0tB4ekvtxU7lKoJQTO40xXgCvdIUIAop3RrpZCXXROPDQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TEXMA2xMK+x21u/kUjAEFeA7vyo9J/hXnaUXq2Q1ocY=;
- b=b4NTaaPBzsuzykVEnJezV3LNlhnJJcNQGZonlqn7yqntwtxm/26nuoBKyfhkLZTJOt8ul6erFELYZjTL11fOVDsav6sIH4CLUoJs62m33tiw6EeWhecUCGgKBXsdwKR7FImrH6u8/eGUtVh8yc3sEu3l1sIJtzFnBm9zfuypJC0UYFJHV/0sqxAmfpAJY8TTitW1JCQWa1RTTnu1aWMaztd1RSgwkXm//qIpFhFRww2RiPLHI7uD7U+xQSZ8G4kKzkocu55ErjbEbiNW+YT1QhqHMzBZYqR7B/kgDq16akxL2qYjfXOblZ13jGdw6dnIq+4YfoRHuYkVj3fybIoA3g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garmin.com; dmarc=pass action=none header.from=garmin.com;
- dkim=pass header.d=garmin.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garmin.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TEXMA2xMK+x21u/kUjAEFeA7vyo9J/hXnaUXq2Q1ocY=;
- b=GkaaBrNkUawiFge9M2AtTkUOMwyPvZKBc2joBO4AaWpOxkEi2n5XtMy9QJNcxheh4AQhaiSPArQjO/x+lEKoF76nN1gmrpgQ6eJZFNDNQEvURJTE8veGDfIxnjLGlQXNdjd1ABq20A7nmAhNCEbadPbcD+Z7Q8f1IqZjJILR/vCpz+YQYxLIUwYDU+58VO+Q4LXwJhIiPTflFvE8wIvg0snLZ9RIuNvBQ1SwTkf/CeLQFVbaLn3Rqs0l7qOokY+NVTA7tK4RC12zcu2tIoQy1L3rmyVs9YeUpi2VqSf+UgDcl94ZutM4qbDzF8TcXv2qPBkCarMEF8LPLzBPaTcw9w==
-Received: from SA2PR04MB7723.namprd04.prod.outlook.com (2603:10b6:806:137::18)
- by SJ0PR04MB7471.namprd04.prod.outlook.com (2603:10b6:a03:293::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.37; Fri, 2 Feb
- 2024 21:17:04 +0000
-Received: from SA2PR04MB7723.namprd04.prod.outlook.com
- ([fe80::8dbb:94bc:44c3:c5e5]) by SA2PR04MB7723.namprd04.prod.outlook.com
- ([fe80::8dbb:94bc:44c3:c5e5%6]) with mapi id 15.20.7249.027; Fri, 2 Feb 2024
- 21:17:04 +0000
-From: "McAllister, Colin" <Colin.McAllister@garmin.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] initscripts: Add custom mount args for /var/lib
-Thread-Topic: [PATCH] initscripts: Add custom mount args for /var/lib
-Thread-Index: AQHaUJInzNqjRG1lAkeE/gZQaQWOLbD3mOue
-Date: Fri, 2 Feb 2024 21:17:04 +0000
-Message-ID: 
- <SA2PR04MB7723F76A768DEB327E939D7EF4422@SA2PR04MB7723.namprd04.prod.outlook.com>
-References: <20240126195900.2199003-1-colin.mcallister@garmin.com>
-In-Reply-To: <20240126195900.2199003-1-colin.mcallister@garmin.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_f3ff6d80-3782-4df6-bf6c-659f84558040_Enabled=True;MSIP_Label_f3ff6d80-3782-4df6-bf6c-659f84558040_SiteId=38d0d425-ba52-4c0a-a03e-2a65c8e82e2d;MSIP_Label_f3ff6d80-3782-4df6-bf6c-659f84558040_SetDate=2024-02-02T21:17:04.149Z;MSIP_Label_f3ff6d80-3782-4df6-bf6c-659f84558040_Name=Confidential;MSIP_Label_f3ff6d80-3782-4df6-bf6c-659f84558040_ContentBits=0;MSIP_Label_f3ff6d80-3782-4df6-bf6c-659f84558040_Method=Standard;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SA2PR04MB7723:EE_|SJ0PR04MB7471:EE_
-x-ms-office365-filtering-correlation-id: f90c90b9-f6da-4748-71aa-08dc24344dee
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- KMmkVQPoPaSRVbJEybJtv01ZN9+jVWWqERBl0F2CUXFtpjSoIH+0SWQWWJvZuSRAOH5zMmcPIwrciKxVVtmW5H0iAduG1ycfTj+2n2W5l0Hbrd1Rx3ZsqW6ZUJCuRHRoEES91MwyS90W8KMdoa5qrI1/9F2+cgHX6RzQDcLBwI1lIrEdML+x2h/stuyFpJyi3sbsB4uIOvJ3vrotHr9ODkr03QqKa6xaARWngTxMeHnQauQOzwY39Qj2eKPDRGk0+TNr714FIcQHL6uJjERPQ3BEaIR/qLLC2pJmhLkt6qcRCQjBAkIWJ5T9oPkDLrgYbx1Yw/LX4NclvWLCt6Mg7jzHhTYqsVhoGjagaFdWtl2Tz8oWOxi/0+lXcT0GSm/BnHyA8FRvPDh2QW66D2V4s+1I+fg+qzFEsjsl4E481imLgx520EFPdmL9mMtiPR9DGPZYk0BTdysUEbmVt3Gk7vD80yTH9npFECuKBhnsl0G4PyJzQxJ4XN42W93jaMpaxqQ1s374Cku1VnX16JnwpnSge9o+ArACoxlRWocHVxkm5ZPXg/newX3tmFPm4FpjXEnX3BPKcuxZa+Jjs2/C3fWJkuxetDGyXgICTWbabREaeV8s3DyvQRGQPnzpe2Ua
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA2PR04MB7723.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(346002)(366004)(39860400002)(396003)(376002)(230922051799003)(64100799003)(186009)(451199024)(1800799012)(55016003)(19627405001)(83380400001)(41300700001)(38070700009)(33656002)(86362001)(52536014)(122000001)(66476007)(64756008)(6916009)(26005)(38100700002)(9686003)(76116006)(8676002)(316002)(7696005)(53546011)(71200400001)(66946007)(478600001)(2906002)(8936002)(5660300002)(66446008)(66556008)(6506007);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?JCHZ3aUz+vZAnYAZrZ8P3yQDrDPgH2eUp7ESNbiu5o5XfT/abDd+nvvJWlNP?=
- =?us-ascii?Q?2egyelgDxlWqayBVc74e82lVmCKjh4pIz/LerB0mji4/5FEiKYpeTGlDfFYJ?=
- =?us-ascii?Q?oWhG1VxKoWTAPh3ShFucAf6Kq2NZBzD3KQZtZ8eaeroHrmvk8goVR0EInJiR?=
- =?us-ascii?Q?dO/oYJS8KsY7iGkdL2MVKoW4mE8foHfXhsLU4ftKvak+QxG96ZyxWarb6lZj?=
- =?us-ascii?Q?W+nSqiM/bosIk9ov30aFP1OaYNbmTRea8LFpCyDnGNyjfSpU40fn2XkvvyD9?=
- =?us-ascii?Q?UXwkSfLUHZcxuDImwUDpPR+zt58DSGGDrOSE/GxsLWsbwDoC4tHoCnz8gfHE?=
- =?us-ascii?Q?NUIIlBzkddInbyIXFz67qvLsnlFFnl3Dx8BmqxoNbYFoda1r0gl3kmeu4Zry?=
- =?us-ascii?Q?HyBwVWHTCJAC7FBLw4c0CoMMjgUcCFVS2TGJagygbjFZEScPM8yCXaO8klc3?=
- =?us-ascii?Q?4sU7PlJpnedLpGUAMZJovhx//597LBak9KEee/pk4ycTJFi3IgUDuQlzuFwV?=
- =?us-ascii?Q?F0Jp6Izxe8SK7ZvN2Fawtyiqvq7ej1vcUo1dJ5OB6e/VXPszPhOLov/9K4ph?=
- =?us-ascii?Q?SnjYLZOB4nu50Bqm48bb9JMZlMD5EvfmSbDLSKlkAby4l2opajc7+WzMCx5M?=
- =?us-ascii?Q?FydUIcGqjMYy+YmRZbBYSgD69WQYbS8ZRKDd/k3qOITwr0Cvzca4lFL1om5Q?=
- =?us-ascii?Q?qKXk/KDYmNkILjeyprJ39jmQOZpFmfdv9e/H+VVTRSqh7CV7qEvaNJqFSI7g?=
- =?us-ascii?Q?8HjpCPyYtjq+qxAk3SaZBYZ9BfZHL2KXNs+mSvwWgdS1gMrsppuKGxzHOFeH?=
- =?us-ascii?Q?cJa7kEHcGr/qOOFgoYFBqpFQ39yZlcX1JrYeLKjxFnBSZ6ZZNcT0AY4yLvWD?=
- =?us-ascii?Q?Cs+ZB7MPtUJfW48MQeJWdAI4ZMVjkF/r/tY8mFqEYycWlOvAtlPIz4k3yxje?=
- =?us-ascii?Q?bc2rZUpSU2SLIKM34P8iIfph+c8hgSWO6EAJs2BA8Bla2c28T44yMZLgxJq5?=
- =?us-ascii?Q?BoDrkDcMK3Bu3g/w2ljbim3YFq5GdqqEzlPsggBI6JpTXu4R1Z/ILD48Ddo2?=
- =?us-ascii?Q?a7Ty9UK7mkLF7QL7tGA2+0aTmC9En0MeEIqQYNQIw2VkqShi7BaCI8fC1BtI?=
- =?us-ascii?Q?3+R6Gm0d7btXWnc1l0C2DsO8kAdPRBg3UULF6mQJ0s48dMD9utRVBLquBaTI?=
- =?us-ascii?Q?3lanPkw9+ZIANGQ25T+yuwnn0q+NjJK09QaZTh428Y0MbzmPjqA4/Y42QWH9?=
- =?us-ascii?Q?SlLYCi1qnOmIp7tjvZ2QOe1pH4NbJS8ie7uqak60hXbtepBMBOjZXC150Ivn?=
- =?us-ascii?Q?JqirwhKBBNH1J+uHLyhVDq5Yz7id8lGbZJ5bt8yEqjKXhvAojmRyS6+mWR/W?=
- =?us-ascii?Q?qLy91dwMhTlZIMJPcUmlh6wGhbDjKZmSD1uuaPsh5LmOhpzjL+z9vUVOzxG6?=
- =?us-ascii?Q?ecLwL7e7sknTxtpmAUcM7JRrasXfKDJTi0FsFtf0cSfjmCrvEkOKKM0Hlolw?=
- =?us-ascii?Q?Zxty+CxQI6RFuHs2DN64kivly8Mw7DB47oR7UAwo2XYvWEDOO0I9RnQZ1MHB?=
- =?us-ascii?Q?t/NQuykP0hoiVtA6vG3R76p1ctFH4eDDcdudiowS?=
-Content-Type: multipart/alternative;
-	boundary="_000_SA2PR04MB7723F76A768DEB327E939D7EF4422SA2PR04MB7723namp_"
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ca/UQhiQ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-40fcb6ebe24so5776285e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 02 Feb 2024 14:58:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1706914699; x=1707519499; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sLDuIhSPLCSRPchfRs2XwRZkCN9eNsa79hMzUdwtLBA=;
+        b=ca/UQhiQufdU63q5EG7M2cI//LormXzSLJqwDF9Mbj/pchdZcNSId44cefjXTsRmUN
+         4rTtTiyzodvSLSIHs4lViP7ey57Ol+A1Cz7cdhQNqpYAgxIj8ngzwRjN4F9aUBEaTuIC
+         g1AM+t0tuQwmQbIU89aEEnq87uvFoAM2f0jPU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706914699; x=1707519499;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=sLDuIhSPLCSRPchfRs2XwRZkCN9eNsa79hMzUdwtLBA=;
+        b=iM/154kDDs45Smu63iU24dOeAv//3Z+DrqCXDb3H0h4TgMoJzM+UiLi5DiCzW8Z5NY
+         cBE8hUDN98SZm+xkg/Oed1F8ZF2ynaMh18rVgv9cvmUHeggd/S/OodRuYcwA7ivNKBQl
+         3KLbtYjMfVsHtUtHNjBAVcNMDpI54RLISYtDpCrttEniR04zt3+PPDbU8DNQ8oz5c4pj
+         oJU5vte9wgerLFpWrwFlgF8nfIvpirJPNsPxyJVu5TOCvoH3kuMWbj0gTmLovSugedlK
+         AbCUDZVXjPHzpMAz8N/S3Nh+cmb9/98w5Qb+zXv8tdUj35RkVjtWL5mAua9i4I1RP5FT
+         V9/Q==
+X-Gm-Message-State: AOJu0YxU5uh9OdoohpgsdBVg97ZbVomqyOmrQeoLI12/cBce7A3sODog
+	v7cuU2vS6+aqhHn9TuNDDTtB1KzQg/HccHy6LuPTVo8JZ4TBniajjF/Yvz5YnAE=
+X-Google-Smtp-Source: AGHT+IGeH2BeASlGcaHO5U4zru1EHmK6U2d9kr7ReZXI0A1g6lvKKRJw1Uc6C+UA2Cno3IQX3w2+HA==
+X-Received: by 2002:a05:600c:4fc7:b0:40e:fb75:7598 with SMTP id o7-20020a05600c4fc700b0040efb757598mr7552934wmq.34.1706914698867;
+        Fri, 02 Feb 2024 14:58:18 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCUhKHNrHAYZzXDFcWduNegdTJ2GMhO+CZzeLH3AIusRn2J1hWkKniTyejWEvqp80dFY+yBKZ1gkH3Z0g9XmoRGuVVggFEsT8uEz65gTb4an4NHdyeJZmBQL
+Received: from ?IPv6:2001:8b0:aba:5f3c:5be5:6aa5:96ae:21ea? ([2001:8b0:aba:5f3c:5be5:6aa5:96ae:21ea])
+        by smtp.gmail.com with ESMTPSA id ju4-20020a05600c56c400b0040fc2f07ed5sm1095154wmb.27.2024.02.02.14.58.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Feb 2024 14:58:18 -0800 (PST)
+Message-ID: <ebb2eb6d1384624d6c293ce194891ee5c001da1d.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2] gcc-runtime: Move gdb pretty printer file
+ to auto-load location
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Fri, 02 Feb 2024 22:58:17 +0000
+In-Reply-To: <20240130162049.2019289-1-raj.khem@gmail.com>
+References: <20240130162049.2019289-1-raj.khem@gmail.com>
+Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
+ YNvg==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.0-1 
 MIME-Version: 1.0
-X-OriginatorOrg: garmin.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SA2PR04MB7723.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f90c90b9-f6da-4748-71aa-08dc24344dee
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Feb 2024 21:17:04.4103
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38d0d425-ba52-4c0a-a03e-2a65c8e82e2d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: yAOCUKRKIJfJMbfiGSmT2j8zZn5lB3oidhrSHz1q8wXPvDEnhd11wMVn+s4zccdHVgaXGGw9GSz/hR7oOyGA/xNR5Xej4lu03rQwWL3Sjv4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR04MB7471
-X-Proofpoint-ORIG-GUID: jLGA7Z9UfSbYq_WNo--sYybO29WX4T-T
-X-Proofpoint-GUID: jLGA7Z9UfSbYq_WNo--sYybO29WX4T-T
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-02_14,2024-01-31_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 bulkscore=0
- malwarescore=0 mlxscore=0 adultscore=0 impostorscore=0 priorityscore=1501
- mlxlogscore=999 clxscore=1015 phishscore=0 spamscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2401310000
- definitions=main-2402020157
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Feb 2024 21:17:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194817
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Feb 2024 22:58:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194818
 
---_000_SA2PR04MB7723F76A768DEB327E939D7EF4422SA2PR04MB7723namp_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+On Tue, 2024-01-30 at 08:20 -0800, Khem Raj wrote:
+> When debugging a C++ program on target using libcstdc++, gdb does not
+> find the pretty printer python support, this is because the init file is
+> installed into /usr/lib which is excluded from gdb's default list of
+> directories to load config's from, where as defaults to load from
+> datadir is still on, it therefore does not load this file
+>=20
+> warning: File "/usr/lib/libstdc++.so.6.0.33-gdb.py" auto-loading has been=
+ declined by your `auto-load safe-path' set to "$debugdir:$datadir/auto-loa=
+d".
+>=20
+> This leaves the libstdc++ pretty-printers disabled even though added via
+> IMAGE_INSTALL +=3D "gcc-runtime-dbg"
+>=20
+> Add missing runtime dependency on datetime python module for the pretty
+> printer to work/load successfully.
+>=20
+> Once the pretty-printer gdb file is moved out of libdir, it may become
+> empty therefore delete it if its empty.
+>=20
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+> v2: Fix build on mingw
+>=20
+>  meta/recipes-devtools/gcc/gcc-runtime.inc | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-dev=
+tools/gcc/gcc-runtime.inc
+> index 64b6168ba76..004deb6e41f 100644
+> --- a/meta/recipes-devtools/gcc/gcc-runtime.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
+> @@ -85,6 +85,8 @@ do_install () {
+>  		cd ${B}/${TARGET_SYS}/$d/
+>  		oe_runmake 'DESTDIR=3D${D}' MULTIBUILDTOP=3D${B}/${TARGET_SYS}/$d/ ins=
+tall
+>  	done
+> +	install -d ${D}${datadir}/gdb/auto-load/${libdir}
+> +	mv ${D}${libdir}/libstdc++*-gdb.py ${D}${datadir}/gdb/auto-load/${libdi=
+r}
+>  	if [ -d ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include ]; then
+>  		install -d ${D}${libdir}/${TARGET_SYS}/${BINV}/include=20
+>  		mv ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include/* ${D}${libdir}/${T=
+ARGET_SYS}/${BINV}/include
+> @@ -99,6 +101,9 @@ do_install () {
+>  	if [ -d ${D}${infodir} ]; then
+>  		rmdir --ignore-fail-on-non-empty -p ${D}${infodir}
+>  	fi
+> +	if [ -d ${D}${libdir} ]; then
+> +		rmdir --ignore-fail-on-non-empty -p ${D}${libdir}
+> +	fi
+>  }
+> =20
+>  do_install:append:class-target () {
+> @@ -182,9 +187,11 @@ RRECOMMENDS:${PN}-dbg =3D ""
+> =20
+>  # include python debugging scripts
+>  FILES:${PN}-dbg +=3D "\
+> -    ${libdir}/libstdc++.*-gdb.py \
+>      ${datadir}/gcc-${BINV}/python/libstdcxx \
+> +    ${datadir}/gdb/auto-load \
+>  "
+> +# Needed by libstdcxx pretty printer
+> +RDEPENDS:${PN}-dbg +=3D "python3-datetime"
+> =20
+>  FILES:libg2c =3D "${target_libdir}/libg2c.so.*"
+>  SUMMARY:libg2c =3D "Companion runtime library for g77"
 
-Is this patch an acceptable solution to add mount options for the /var/lib/=
- overlay?
+https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/6381/step=
+s/14/logs/stdio
 
-Colin
-________________________________
-From: Colin McAllister <colin.mcallister@garmin.com>
-Sent: Friday, January 26, 2024 13:57
-To: openembedded-core@lists.openembedded.org <openembedded-core@lists.opene=
-mbedded.org>
-Cc: McAllister, Colin <Colin.McAllister@garmin.com>
-Subject: [PATCH] initscripts: Add custom mount args for /var/lib
+Missing or unbuildable dependency chain was: ['selftest-ed',
+'virtual/x86_64-poky-linux-compilerlibs', 'python3-datetime', 'bash']
 
-Adds bitbake variable to set additional mount flags for the /var/lib
-overlayfs or bind mount when using a read-only root filesystem. This
-can be used to set additional options like "-o nodev".
+https://autobuilder.yoctoproject.org/typhoon/#/builders/89/builds/8533
 
-Signed-off-by: Colin McAllister <colin.mcallister@garmin.com>
----
- .../initscripts/initscripts-1.0/read-only-rootfs-hook.sh      | 4 ++--
- meta/recipes-core/initscripts/initscripts_1.0.bb              | 2 ++
- 2 files changed, 4 insertions(+), 2 deletions(-)
+Cheers,
 
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs=
--hook.sh b/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-h=
-ook.sh
-index 6706a117f7..a29773647f 100644
---- a/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.s=
-h
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.s=
-h
-@@ -37,9 +37,9 @@ if [ "$1" =3D "start" ] ; then
-                 mkdir -p /var/volatile/.lib-work
-                 # Try to mount using overlay, which is much faster than co=
-pying
-                 # files. If that fails, fallback to the slower copy
--               if ! mount -t overlay overlay -olowerdir=3D/var/lib,upperdi=
-r=3D/var/volatile/lib,workdir=3D/var/volatile/.lib-work /var/lib > /dev/nul=
-l 2>&1; then
-+               if ! mount -t overlay overlay SED_VARLIBMOUNTARGS -olowerdi=
-r=3D/var/lib,upperdir=3D/var/volatile/lib,workdir=3D/var/volatile/.lib-work=
- /var/lib > /dev/null 2>&1; then
-                         cp -a /var/lib/* /var/volatile/lib
--                       mount --bind /var/volatile/lib /var/lib
-+                       mount SED_VARLIBMOUNTARGS --bind /var/volatile/lib =
-/var/lib
-                 fi
-         fi
- fi
-diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipe=
-s-core/initscripts/initscripts_1.0.bb
-index 4b34c6a67f..e61ac554f3 100644
---- a/meta/recipes-core/initscripts/initscripts_1.0.bb
-+++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
-@@ -58,10 +58,12 @@ FILES:${PN}-functions =3D "${sysconfdir}/init.d/functio=
-ns*"
- FILES:${PN}-sushell =3D "${base_sbindir}/sushell"
+Richard
 
- HALTARGS ?=3D "-d -f"
-+VARLIBMOUNTARGS ?=3D ""
-
- do_configure() {
-         sed -i -e "s:SED_HALTARGS:${HALTARGS}:g" ${WORKDIR}/halt
-         sed -i -e "s:SED_HALTARGS:${HALTARGS}:g" ${WORKDIR}/reboot
-+       sed -i -e "s:SED_VARLIBMOUNTARGS:${VARLIBMOUNTARGS}:g" ${WORKDIR}/r=
-ead-only-rootfs-hook.sh
- }
-
- do_install () {
---
-2.43.0
-
-
---_000_SA2PR04MB7723F76A768DEB327E939D7EF4422SA2PR04MB7723namp_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-Is this patch an acceptable solution to add mount options for the /var/lib/=
- overlay?</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-Colin</div>
-<div id=3D"appendonsend"></div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Colin McAllister &lt;=
-colin.mcallister@garmin.com&gt;<br>
-<b>Sent:</b> Friday, January 26, 2024 13:57<br>
-<b>To:</b> openembedded-core@lists.openembedded.org &lt;openembedded-core@l=
-ists.openembedded.org&gt;<br>
-<b>Cc:</b> McAllister, Colin &lt;Colin.McAllister@garmin.com&gt;<br>
-<b>Subject:</b> [PATCH] initscripts: Add custom mount args for /var/lib</fo=
-nt>
-<div>&nbsp;</div>
-</div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
-">
-<div class=3D"PlainText">Adds bitbake variable to set additional mount flag=
-s for the /var/lib<br>
-overlayfs or bind mount when using a read-only root filesystem. This<br>
-can be used to set additional options like &quot;-o nodev&quot;.<br>
-<br>
-Signed-off-by: Colin McAllister &lt;colin.mcallister@garmin.com&gt;<br>
----<br>
-&nbsp;.../initscripts/initscripts-1.0/read-only-rootfs-hook.sh&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp; | 4 ++--<br>
-&nbsp;meta/recipes-core/initscripts/initscripts_1.0.bb&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 2 ++<br>
-&nbsp;2 files changed, 4 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs=
--hook.sh b/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-h=
-ook.sh<br>
-index 6706a117f7..a29773647f 100644<br>
---- a/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.s=
-h<br>
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.s=
-h<br>
-@@ -37,9 +37,9 @@ if [ &quot;$1&quot; =3D &quot;start&quot; ] ; then<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; mkdir -p /var/volatile/.lib-work<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; # Try to mount using overlay, which is much faster th=
-an copying<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; # files. If that fails, fallback to the slower copy<b=
-r>
--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp; if ! mount -t overlay overlay -olowerdir=3D/var/lib,upperdir=3D/=
-var/volatile/lib,workdir=3D/var/volatile/.lib-work /var/lib &gt; /dev/null =
-2&gt;&amp;1; then<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp; if ! mount -t overlay overlay SED_VARLIBMOUNTARGS -olowerdir=3D/=
-var/lib,upperdir=3D/var/volatile/lib,workdir=3D/var/volatile/.lib-work /var=
-/lib &gt; /dev/null 2&gt;&amp;1; then<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cp -a=
- /var/lib/* /var/volatile/lib<br>
--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mount --bind /va=
-r/volatile/lib /var/lib<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mount SED_VARLIB=
-MOUNTARGS --bind /var/volatile/lib /var/lib<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; fi<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fi<br>
-&nbsp;fi<br>
-diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipe=
-s-core/initscripts/initscripts_1.0.bb<br>
-index 4b34c6a67f..e61ac554f3 100644<br>
---- a/meta/recipes-core/initscripts/initscripts_1.0.bb<br>
-+++ b/meta/recipes-core/initscripts/initscripts_1.0.bb<br>
-@@ -58,10 +58,12 @@ FILES:${PN}-functions =3D &quot;${sysconfdir}/init.d/fu=
-nctions*&quot;<br>
-&nbsp;FILES:${PN}-sushell =3D &quot;${base_sbindir}/sushell&quot;<br>
-&nbsp;<br>
-&nbsp;HALTARGS ?=3D &quot;-d -f&quot;<br>
-+VARLIBMOUNTARGS ?=3D &quot;&quot;<br>
-&nbsp;<br>
-&nbsp;do_configure() {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sed -i -e &quot;s:SED_HALT=
-ARGS:${HALTARGS}:g&quot; ${WORKDIR}/halt<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sed -i -e &quot;s:SED_HALT=
-ARGS:${HALTARGS}:g&quot; ${WORKDIR}/reboot<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sed -i -e &quot;s:SED_VARLIBMOUNTARGS=
-:${VARLIBMOUNTARGS}:g&quot; ${WORKDIR}/read-only-rootfs-hook.sh<br>
-&nbsp;}<br>
-&nbsp;<br>
-&nbsp;do_install () {<br>
--- <br>
-2.43.0<br>
-<br>
-</div>
-</span></font></div>
-</body>
-</html>
-
---_000_SA2PR04MB7723F76A768DEB327E939D7EF4422SA2PR04MB7723namp_--
 
