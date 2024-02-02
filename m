@@ -1,128 +1,137 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18C0DC48291
-	for <webhook@archiver.kernel.org>; Fri,  2 Feb 2024 16:44:00 +0000 (UTC)
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
- by mx.groups.io with SMTP id smtpd.web11.27404.1706892238051285399
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0251C48291
+	for <webhook@archiver.kernel.org>; Fri,  2 Feb 2024 16:44:59 +0000 (UTC)
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+ by mx.groups.io with SMTP id smtpd.web10.27580.1706892299121710652
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Feb 2024 08:43:58 -0800
+ Fri, 02 Feb 2024 08:44:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=PPa5C9dz;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.46, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a35e65df2d8so314507666b.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 02 Feb 2024 08:43:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1706892236; x=1707497036; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9j2/CsEz0xge+tEFkpfyLXlNS1Jsn75+zURgrikvbcQ=;
-        b=PPa5C9dzofkyQOHX/H8MxKHLzxWdQFmu8tdIk0UXTrqSa6BHq3U0Jc6zscQrW4x/X9
-         RKt7Bnpxj5juuNker9bsrc8lQP6+nBwtk3EqSuvBuQFwChKBFeiuwY4ybgeDbHQWm+mK
-         iYjfMJCjC4yUfwA7f4xpx3OTQMaON458QoNDAxY2x9EQ5xvA3GEz9pJ8w1evfhkkomuA
-         7a7/1mgrB7UUIok6X3kCjTvfKM2txwr8ETKJzpV8AsOHZl8inMRAKmEH2O+8ylCjV0eC
-         mUHxgoWTtv4B4+/q/z3ik+GbkWkapsqlKlOoMlRNEWfmNxf9Esh2aYMAWPBGMTXiZl9i
-         1WIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706892236; x=1707497036;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9j2/CsEz0xge+tEFkpfyLXlNS1Jsn75+zURgrikvbcQ=;
-        b=Dw4kAr9tjPpy05mS/HsBsikWeBvmMvzW2yXPcUixzK8MC/jfId4kfC3hsbgGGbnoJn
-         +i93b2X8EGyEHUxtwTdQ8ACXk+JprpyxfUB5ahfYrK2MtECWMV0Zx/Y90tziczZTLvpR
-         ctk7T9SOXpOF70dj+zK9vEUzx6F/ofLDpRJtp844WyP9nh5YRThWbEz6840zpTThEFPo
-         8T6WD8nNkAJrxcmUTnbzDoZA0bIgYsoGj6RjctAhTQIRc9LPlu5xdR5RglDLDFGqslqE
-         B39XNIwfUw4IrUdXQpOmo28ab8hmIHwJh+oWZzDe3QJKfIUSezr2kVnOPRAhV9P9sn+6
-         cZvg==
-X-Gm-Message-State: AOJu0YyVh0Zfae1Kjmi9bZ7K5/oExgoBZotpMrq4eA0FSHJeT+rBZbLW
-	a8EAl0ZCmtBHG9BB/ZsxwjHu5ymOfY/2egl3XnbFJ+c5DI0MKvZpKVAhqPWiYKVBedxXJR8I+dO
-	9Aw/J+9dV260n6sEfb1AEpxHQf9yhSuV3pKtm/A==
-X-Google-Smtp-Source: AGHT+IHIQnSyEQQzkBaJq/XWTGjdfnOtGSVXw2FbBVkQ7jxICMUIe4HxEZlDRmo3MTgERQdBdCbnQd6jJ9/rOWzVK28=
-X-Received: by 2002:a17:907:36b:b0:a36:696f:3e20 with SMTP id
- rs11-20020a170907036b00b00a36696f3e20mr1806873ejb.66.1706892236383; Fri, 02
- Feb 2024 08:43:56 -0800 (PST)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=hvOWzCvZ;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 69968E000B;
+	Fri,  2 Feb 2024 16:44:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1706892296;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eRJbbbkWf1x18em/Xwh/lsPo1elc7sd8q27fU1vxrN4=;
+	b=hvOWzCvZza7s/YxSZDT8sj3Wn1Ga6Lth9WCRG6g71+T1T+ogIo8mDmZMQB+jvf/uBgu322
+	bL2V1sWGQOgrnHLkbhTl5i0uSUc48lvw4BL8JgNHDXAqNmiBcvCOgpBqC3Z0l/89I1ozH8
+	bTrnIJq3lGYeX0/jxDxYXHXE9meBPTupoOryQUUrZrf+kClef/Z9nSlAV5jYQFluTEjASU
+	0lwJWID4bFL3ZQYftlrNogHtEyo3KimOpGKcpi1myuZigg3qW0z91xS+czDqtm4Fte0OMD
+	Gj1v5Sna2rIyBSr0Qeg33iQaWffCYw4H323xK1L11DtivgNIYFiAzvMY7wcUkg==
+Date: Fri, 2 Feb 2024 17:44:56 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH 2/2] package_rpm: add RPMBUILD_EXTRA_PARAMS
+ variable
+Message-ID: <202402021644566354a6af@mail.local>
+References: <20240202132434.1787053-1-martin.jansa@gmail.com>
+ <20240202132434.1787053-2-martin.jansa@gmail.com>
 MIME-Version: 1.0
-References: <20240202120735.3742584-1-Deepthi.Hemraj@windriver.com> <06967e71-38e7-45e7-99c1-952bf1e95696@windriver.com>
-In-Reply-To: <06967e71-38e7-45e7-99c1-952bf1e95696@windriver.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Fri, 2 Feb 2024 06:43:45 -1000
-Message-ID: <CAOSpxdZ7N9Wvdk_jG5sQzweOhiQz-O1auxwmryON+E9hD1TH0w@mail.gmail.com>
-Subject: Re: [OE-core] [kirkstone][PATCH V3 1/2] gdb: Fix CVE-2023-39129
-To: randy.macleod@windriver.com
-Cc: Deepthi.Hemraj@windriver.com, openembedded-core@lists.openembedded.org, 
-	Khem Raj <raj.khem@gmail.com>, rwmacleod@gmail.com, umesh.kalappa0@gmail.com, 
-	pgowda.cve@gmail.com, shivams@gmail.com, sundeep.kokkonda@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240202132434.1787053-2-martin.jansa@gmail.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Feb 2024 16:44:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194810
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Feb 2024 16:44:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194811
 
-On Fri, Feb 2, 2024 at 6:38=E2=80=AFAM Randy MacLeod via
-lists.openembedded.org
-<randy.macleod=3Dwindriver.com@lists.openembedded.org> wrote:
->
-> On 2024-02-02 7:07 a.m., Hemraj, Deepthi via lists.openembedded.org wrote=
-:
->
-> From: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
->
-> Issue: LIN1022-4854
->
-> Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
+On 02/02/2024 14:24:34+0100, Martin Jansa wrote:
+> * e.g. for DISTROs which define extra user-defined fields with
+>   PACKAGE_ADD_METADATA/PACKAGE_ADD_METADATA_RPM
+>   as undefined fields in packagedata are fatal error for rpmbuild:
+>   "error: line 9: Unknown tag: Author: Unspecified"
+>   as shown in:
+>   http://errors.yoctoproject.org/Errors/Details/751706/
+>   with "Author" field added with:
+> 
+>   PACKAGE_CLASSES = "package_rpm"
+>   PACKAGE_ADD_AUTHOR_METADATA = "test-author"
+>   PACKAGE_ADD_METADATA = "Author: ${PACKAGE_ADD_AUTHOR_METADATA}"
+> 
+>   to fix rpm build you can use:
+>   RPMBUILD_EXTRA_PARAMS = " --define '_Author Author'"
+>   keep in mind that this doesn't cause this Author field to be
+>   added in .rpm, it just avoids the BUILDSPEC failure.
+> 
+>   and for ipk build:
+>   OPKG_MAKE_INDEX_EXTRA_PARAMS = "-f"
+> 
+>   alternatively you can avoid additional packagedata fields ending
+>   in the package manager (if you use them only with buildhistory
+>   or packagedata) with:
+>   PACKAGE_ADD_METADATA_RPM = ""
+>   PACKAGE_ADD_METADATA_IPK = ""
+>   PACKAGE_ADD_METADATA_DEP = ""
+> 
+> Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 > ---
->  .../binutils/binutils-2.38.inc                |  1 +
->  .../binutils/0035-CVE-2023-39129.patch        | 50 +++++++++++++++++++
->  2 files changed, 51 insertions(+)
->  create mode 100644 meta/recipes-devtools/binutils/binutils/0035-CVE-2023=
--39129.patch
->
-> diff --git a/meta/recipes-devtools/binutils/binutils-2.38.inc b/meta/reci=
-pes-devtools/binutils/binutils-2.38.inc
->
-> This commit fixes the version of gdb internal to binutils.
-> I had forgotten that binutils carried a copy of gdb so it's good that you=
- noticed but
-> our binutils recipe disables compiling gdb or gdb-server:
->
-> https://git.openembedded.org/openembedded-core/tree/meta/recipes-devtools=
-/binutils/binutils_2.38.bb?h=3Dkirkstone#n21
->
-> And from a mickledore build, it seems that we don't install an  binary wi=
-th gdb in it's name, as expected from the reicpe;
->
-> =E2=9D=AF fd gdb tmp-glibc/work/core2-64-wrs-linux/binutils/2.40-r0/packa=
-ges-split/
-> tmp-glibc/work/core2-64-wrs-linux/binutils/2.40-r0/packages-split/binutil=
-s-src/usr/src/debug/binutils/2.40-r0/gold/gdb-index.cc
-> tmp-glibc/work/core2-64-wrs-linux/binutils/2.40-r0/packages-split/binutil=
-s-src/usr/src/debug/binutils/2.40-r0/gold/gdb-index.h
-> tmp-glibc/work/core2-64-wrs-linux/binutils/2.40-r0/packages-split/binutil=
-s-src/usr/src/debug/binutils/2.40-r0/include/gdb
-> tmp-glibc/work/core2-64-wrs-linux/binutils/2.40-r0/packages-split/binutil=
-s-src/usr/src/debug/binutils/2.40-r0/include/gdb/gdb-index.h
->
->
-> Added Khem in case Steve isn't sure if we should be patching the internal=
- gdb in binutils.
-> I guess it won't do any harm but it is extra work that we could just avoi=
-d.
->
->
-> If you need to re-submit, please do so with a proper shortlog:
-> You have:
-> [kirkstone][PATCH V3 1/2] gdb: Fix CVE-2023-39129
->
-> It should be something like:
-> [kirkstone][PATCH V3 1/2] binutils: internal gdb: Fix CVE-2023-39129
+>  meta/classes-global/package_rpm.bbclass | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/meta/classes-global/package_rpm.bbclass b/meta/classes-global/package_rpm.bbclass
+> index 819ee50278..f932d2c928 100644
+> --- a/meta/classes-global/package_rpm.bbclass
+> +++ b/meta/classes-global/package_rpm.bbclass
+> @@ -683,6 +683,7 @@ python do_package_rpm () {
+>      # Setup the rpmbuild arguments...
+>      rpmbuild = d.getVar('RPMBUILD')
+>      rpmbuild_compmode = d.getVar('RPMBUILD_COMPMODE')
+> +    rpmbuild_extra_params = d.getVar('RPMBUILD_EXTRA_PARAMS')
+>  
+>      # Too many places in dnf stack assume that arch-independent packages are "noarch".
+>      # Let's not fight against this.
+> @@ -724,6 +725,7 @@ python do_package_rpm () {
+>      cmd = cmd + " --define '_use_weak_usergroup_deps 1'"
+>      cmd = cmd + " --define '_passwd_path " + "/completely/bogus/path" + "'"
+>      cmd = cmd + " --define '_group_path " + "/completely/bogus/path" + "'"
+> +    cmd = cmd + rpmbuild_extra_params
 
-Given the number of open issues with this patchset I'm going to drop
-this version and wait for a "V4" that addresses these issues.
 
-Steve
+File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:do_package_rpm(d)
+     0003:
+File: '/home/pokybuild/yocto-worker/meta-aws/build/meta/classes-global/package_rpm.bbclass', lineno: 728, function: do_package_rpm
+     0724:    cmd = cmd + " --define '_tmppath " + workdir + "'"
+     0725:    cmd = cmd + " --define '_use_weak_usergroup_deps 1'"
+     0726:    cmd = cmd + " --define '_passwd_path " + "/completely/bogus/path" + "'"
+     0727:    cmd = cmd + " --define '_group_path " + "/completely/bogus/path" + "'"
+ *** 0728:    cmd = cmd + rpmbuild_extra_params
+     0729:    if d.getVarFlag('ARCHIVER_MODE', 'srpm') == '1' and bb.data.inherits_class('archiver', d):
+     0730:        cmd = cmd + " --define '_sourcedir " + d.getVar('ARCHIVER_OUTDIR') + "'"
+     0731:        cmdsrpm = cmd + " --define '_srcrpmdir " + d.getVar('ARCHIVER_RPMOUTDIR') + "'"
+     0732:        cmdsrpm = cmdsrpm + " -bs " + outspecfile
+Exception: TypeError: can only concatenate str (not "NoneType") to str
+
+>      if d.getVarFlag('ARCHIVER_MODE', 'srpm') == '1' and bb.data.inherits_class('archiver', d):
+>          cmd = cmd + " --define '_sourcedir " + d.getVar('ARCHIVER_OUTDIR') + "'"
+>          cmdsrpm = cmd + " --define '_srcrpmdir " + d.getVar('ARCHIVER_RPMOUTDIR') + "'"
+> -- 
+> 2.43.0
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#194796): https://lists.openembedded.org/g/openembedded-core/message/194796
+> Mute This Topic: https://lists.openembedded.org/mt/104118974/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
