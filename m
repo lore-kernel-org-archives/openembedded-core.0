@@ -1,132 +1,98 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA2DFC48297
-	for <webhook@archiver.kernel.org>; Sat,  3 Feb 2024 00:29:47 +0000 (UTC)
-Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
- by mx.groups.io with SMTP id smtpd.web11.8374.1706920182585645304
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07FD1C48295
+	for <webhook@archiver.kernel.org>; Sat,  3 Feb 2024 00:49:58 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web11.8701.1706921388440730128
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Feb 2024 16:29:42 -0800
+ Fri, 02 Feb 2024 16:49:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=fj0SAmV0;
- spf=pass (domain: gmail.com, ip: 209.85.160.43, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-21920c78c9fso618654fac.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 02 Feb 2024 16:29:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706920181; x=1707524981; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3K9owf40hYGVgn6tkTrPW+gN2xGPsS4G7Q7hh22GIGw=;
-        b=fj0SAmV0DwD4tMZFLiiGhHe594NSNVZ9m3mq1I7g6M7KsroKeq9MjTZbFlPSsW5HVq
-         eZclAuksN2qKyrpdsd5N87bwokBHm7HAu3az47IHBbLRclVzZaMAfkj3rrejOMDO4qLP
-         mK1jirt8GRQ/6ukFucoofLW4zbgncRtrJSwjFJKBuz5/tdhyb7Dc3eRGa5KETsLpHFYL
-         xZhRhSY3d1yrYUrjVv6kQk8rueyRaoFSh3z2NBLwoVqqasJABhlG8fkYzKBxe3oZ8i2E
-         SdUpHGqED1RBuSIF7xZBuSo68o0Tj6I7NRKi8dzR1NotqGpQyA9DaX4NdAJHcqFxyWLK
-         dHnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706920181; x=1707524981;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3K9owf40hYGVgn6tkTrPW+gN2xGPsS4G7Q7hh22GIGw=;
-        b=oekAPRxMlQLbjIpJq3LpQ84xa+FxHLHP0F/5M9SJUTUmy+NCKrU0w+yJ6oAvGsuNDH
-         CDMUYU262q42v8Htu1JB8erOAAaoXAqYDFPTICUv+1Iq97ra1aoV1QWUbpWLCcOu9Njk
-         sz91FGWFR+Qk7yUOtKxuyudBf73QqDEqgfbHUmTbM0AAZB6MfHFAMRM81AI+0MhhYQ/o
-         NTSz9DqJlaWdZigUWQspDn9XGK44FKCnMR1qhFHT52AW1VxvtlUcHajcJky0mw7pl/oY
-         uwFeCAOzOiRBSyOackF1Ea0vZS97WNOlY9Se8fShlCsWbYRg3HVz+X8dlG6pHyDAwV22
-         Em/A==
-X-Gm-Message-State: AOJu0Ywd/ldAbsAP8Lzfj1fQQR1hsLaBnPHYSbgyVbAyiHulyMvkLEzC
-	cInBkGm2BaL+pISj8XEwCKQXdQvPejPxAwUtfRxq+XRP3qdHlY5PO64QemZHJ1s=
-X-Google-Smtp-Source: AGHT+IGTUy2x5/JUq0cQKeS5uwS7nqtAPgUnm8z5MiN4o9MIDlvYPVwjlAhpIisAkB7caxQcyI6/Vg==
-X-Received: by 2002:a05:6871:811:b0:219:2581:d50f with SMTP id q17-20020a056871081100b002192581d50fmr1445403oap.6.1706920181430;
-        Fri, 02 Feb 2024 16:29:41 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::f19a])
-        by smtp.gmail.com with ESMTPSA id bq16-20020a056a02045000b005d8baa3188esm2056785pgb.11.2024.02.02.16.29.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Feb 2024 16:29:40 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] pseudo: Fix build with gcc-14
-Date: Fri,  2 Feb 2024 16:29:38 -0800
-Message-ID: <20240203002938.3903103-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Zi92AXXz;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=UFa8xXyO;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018d6c71660b-a7d604c0-363b-4fa4-92c9-44a735064b44-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1706921387; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
+	bh=QYFlevcnbtz78X5UISdm5PMcXia9IsTnqwsa9GNQMBM=;
+	b=Zi92AXXzcwJ1oQRI0yttDWfDMmuJihHBvJ59/wdp0ujpVF2lAWVbxf0qB3rAECPL
+	I7NX4Eh7V3nRi9pB0PlQuvctvyxeDBT+lNOsiDWo/qwQPI1JfY8cSq/MU6LQ/HslqNb
+	ynnei64ugexWb0m8cP1ujmBJ5SZ1PC2vRnJVcLAY=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1706921387;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=QYFlevcnbtz78X5UISdm5PMcXia9IsTnqwsa9GNQMBM=;
+	b=UFa8xXyOGR10WCB0sKVgOxAEkhU8GZgIpwq6PY6eOE0FwdESYCJdFgUNQBzUscxT
+	izInJp7jjDDUBUsc6Lq2eewXe/96+2A9QVFXL41qX3nKs8fL9/DaUNV67jQO9tnTQtS
+	BwmO21xmdDOHglW4Azb6K8l9rdrqur7eaGyd5BmM=
+From: patchtest@automation.yoctoproject.org
+To: Khem Raj <raj.khem@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] pseudo: Fix build with gcc-14
+In-Reply-To: 20240203002938.3903103-1-raj.khem@gmail.com
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018d6c71660b-a7d604c0-363b-4fa4-92c9-44a735064b44-000000@us-west-2.amazonses.com>
+Date: Sat, 3 Feb 2024 00:49:47 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.02.03-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 03 Feb 2024 00:29:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194824
+ <openembedded-core@lists.openembedded.org>; Sat, 03 Feb 2024 00:49:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194825
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+--NextPart
+Content-Type: text/plain
+
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- ...-Fix-build-warnings-seen-with-gcc-14.patch | 41 +++++++++++++++++++
- meta/recipes-devtools/pseudo/pseudo_git.bb    |  1 +
- 2 files changed, 42 insertions(+)
- create mode 100644 meta/recipes-devtools/pseudo/files/0001-pseudolog.c-Fix-build-warnings-seen-with-gcc-14.patch
+Testing patch /home/patchtest/share/mboxes/pseudo-Fix-build-with-gcc-14.patch
 
-diff --git a/meta/recipes-devtools/pseudo/files/0001-pseudolog.c-Fix-build-warnings-seen-with-gcc-14.patch b/meta/recipes-devtools/pseudo/files/0001-pseudolog.c-Fix-build-warnings-seen-with-gcc-14.patch
-new file mode 100644
-index 00000000000..d727a54d98d
---- /dev/null
-+++ b/meta/recipes-devtools/pseudo/files/0001-pseudolog.c-Fix-build-warnings-seen-with-gcc-14.patch
-@@ -0,0 +1,41 @@
-+From 60af912335f9564862e9159ec21737210080e965 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Thu, 1 Feb 2024 20:19:38 -0800
-+Subject: [PATCH] pseudolog.c: Fix build warnings seen with gcc-14
-+
-+Define _XOPEN_SOURCE or we do not get strptime() signature defined
-+resulting in implicit-function-declaration which is an error in gcc-14
-+
-+Swap the parameters of calloc call to fix calloc-transposed-args warning
-+
-+pseudolog.c: In function 'plog_trait':
-+pseudolog.c:378:34: warning: 'calloc' sizes specified with 'sizeof' in the earlier argument and not in the later argument [-Wcalloc-transposed-args]
-+  378 |         new_trait = calloc(sizeof(*new_trait), 1);
-+      |                                  ^
-+pseudolog.c:378:34: note: earlier argument should specify number of elements, later size of each element
-+
-+Upstream-Status: Submitted [https://lore.kernel.org/openembedded-core/20240202043130.398590-1-raj.khem@gmail.com/T/#u]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ pseudolog.c | 5 +++--
-+ 1 file changed, 3 insertions(+), 2 deletions(-)
-+
-+--- a/pseudolog.c
-++++ b/pseudolog.c
-+@@ -9,6 +9,7 @@
-+ /* We need _XOPEN_SOURCE for strptime(), but if we define that,
-+  * we then don't get S_IFSOCK... _GNU_SOURCE turns on everything. */
-+ #define _DEFAULT_SOURCE
-++#define _XOPEN_SOURCE
-+ 
-+ #include <ctype.h>
-+ #include <limits.h>
-+@@ -374,7 +375,7 @@ plog_trait(int opt, char *string) {
-+ 		pseudo_diag("invalid empty string for -%c\n", opt);
-+ 		return 0;
-+ 	}
-+-	new_trait = calloc(sizeof(*new_trait), 1);
-++	new_trait = calloc(1, sizeof(*new_trait));
-+ 	if (!new_trait) {
-+ 		pseudo_diag("Couldn't allocate requested trait (for -%c %s)\n",
-+ 			opt, string ? string : "<nil>");
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index f15fb0aaee5..8d1160944c5 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -4,6 +4,7 @@ SRC_URI = "git://git.yoctoproject.org/pseudo;branch=master;protocol=https \
-            file://0001-configure-Prune-PIE-flags.patch \
-            file://glibc238.patch \
-            file://0001-ports-linux-add-wrapper-for-statvfs64.patch \
-+           file://0001-pseudolog.c-Fix-build-warnings-seen-with-gcc-14.patch \
-            file://fallback-passwd \
-            file://fallback-group \
-            "
--- 
-2.43.0
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
+PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
