@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 616EAC4828F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55243C4828D
 	for <webhook@archiver.kernel.org>; Sat,  3 Feb 2024 19:15:13 +0000 (UTC)
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
- by mx.groups.io with SMTP id smtpd.web10.23486.1706987712005489188
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+ by mx.groups.io with SMTP id smtpd.web10.23478.1706987704864392085
  for <openembedded-core@lists.openembedded.org>;
- Sat, 03 Feb 2024 11:15:12 -0800
+ Sat, 03 Feb 2024 11:15:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=lMVYJ/Zd;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.52, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-2954b34ddd0so2657845a91.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 03 Feb 2024 11:15:11 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=k6uCueTO;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.170, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-5dbf050821fso2406458a12.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 03 Feb 2024 11:15:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1706987711; x=1707592511; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1706987703; x=1707592503; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=tO2bo/ZyPW1CYTNJNYvOlpAYONfs08PPr6+Vwr1lSJQ=;
-        b=lMVYJ/Zd+HBS9LR+k4WFerd85XTc7zcolTjNY/AOSzVlSrgDkofQUF45XKemZ+kmC5
-         dO+L+hOoabQ1D7zQ8Dd6TnWj9xB44daRGnY+io+vr/3GExh9kb23Vy4v3tuS6/oWzW3l
-         d9R9KhzdQQqtHzvEVB6zcX5cKgYUMB6OU8ef5HZA/WcIDCmZNxp/KKFAbucJCiR/Z8G0
-         oMF1lG10O/uNfNf3Zsseg8/VxkDYOTfDiczrLpx+DSH/xpXHWEVDIo3pXn9LSr7F12XY
-         yZkAXPuoWvQJkhI+3punrI3bJP7qfy2ZgCCc1/SwiMSJ6YRt3xNsKUEZeijKS+mTQnuE
-         NSbQ==
+        bh=HVOVvy5d63L5XR1bAQZaG6ncY2gMUlkZFF0QoCPMsoI=;
+        b=k6uCueTO4ZgCxGNSDZ8Uren/rmMan1CV8pqfjA6hNNUK2yTChvgwBOClkxkEUaG3qu
+         57FgUkEGvt++Io5oulkfS3t4gceSry821X+Yii8fXMrOt60819cejWHgARL72zuf5Ddl
+         nUoTO8QNUDZGmvt3bmDIHio0mTT+yE8Vpw/g3Yt6tkXb7q+3Q2UmbdB0/VgqAtHhz6Yr
+         dmjv7gMGZvbkpnOIf7DT1u2uOzLb0aHdXFel8Fkp+PqO/odU9515bG7cFGkuuo4/dodx
+         iUI7LEEtBQnLoAaZzLgzipRn6X1nWwxY33gu94Xg7bgiEZFvnE8ApWJg+xGnteEGR357
+         XiIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706987711; x=1707592511;
+        d=1e100.net; s=20230601; t=1706987703; x=1707592503;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tO2bo/ZyPW1CYTNJNYvOlpAYONfs08PPr6+Vwr1lSJQ=;
-        b=SatuP1dq5W0Uh10TKuDxiMgrj2AecZtCu0Sg2LY8+gkgbc8BE6ghBe2bDCjYXMuqht
-         NFhgRY4xoJe2CMkQTSv9vWSvSEhwj867YyRyDeLT9cQhuwHUVtbpWVDHDSSIUdoZbNZX
-         NwIjefradOroZjag4u1k8EQIkoS80XMMIiV96MvWxKNUVPC/XKkKRNO4v/zT8k888fWx
-         CKHiTyC6nvjBP8oRpVeXWZP3W+NgcK1m/dCng5xKEyKddYo5moHlHimX85TowYCWpPA2
-         3qFS+bjtvGFt5kmPefG4zyX7DCoNWXW6CzAwxuPur1oFmGHqdCQUlV1ZEeD2BsjYPtd3
-         +HAw==
-X-Gm-Message-State: AOJu0Yyr7t1XpVYO+SkeCtUtnIJa0hGi8IRlsXTmxlXvjzWqSzXP4RV2
-	69qKxK5QYpC4W6/2419ojd5/G6tiUyRUJCVmtKJ5otM/wGg+1WkkOpaThkOPFskCZM1q7ziiwJO
-	HHAo=
-X-Google-Smtp-Source: AGHT+IHOdjX7FGTz2pVhxboLrBsqH/V70WZlh8CgURwhXdmk83iAod75Nei/2NgP/pBwzr53Fgu7CQ==
-X-Received: by 2002:a17:90a:cc04:b0:293:f16d:e53f with SMTP id b4-20020a17090acc0400b00293f16de53fmr8516298pju.0.1706987710752;
-        Sat, 03 Feb 2024 11:15:10 -0800 (PST)
+        bh=HVOVvy5d63L5XR1bAQZaG6ncY2gMUlkZFF0QoCPMsoI=;
+        b=SV/ICvpQTOvg+8/gz4L1yarWFwnzMGVjNGCzlBKSWGunOy7ftdQQdKTqsTEgk6Hnma
+         cL21lRt23tygWntgAM5ZBFqrR86h4qU2ykHpvFGzXYtXIKgyME3/n+3fPya17vC+ygvu
+         uTjpEA0MVCQ+dVP7LZJZbKhnT2XZwDqOTXCPQJMb8Opz5z0WwHPbY5ICC3Nu7ExrP4q+
+         wRgnFwHOj6tXtHkgbLqDNoUVlVfXW4Mt3wOkeAybtkp2rXAGyC8aKsMHjkuqXZB0rsUO
+         xAB+qy85UjeRuwzJuqagKcnwZIGSz7AG4S7K+EKoj7Ei1I5i677KN5APX1fZYM+jsczv
+         mHaw==
+X-Gm-Message-State: AOJu0YyJohIylhmPhpX/FTsvGKYTXPwJNfrwKYF1HskCpc5MMYrACmwx
+	e0RYw2uYpTw1wmALe24GXSd9mwwe3bH5kEn3gCow0bI6UVPjDKbTTWoNm5LPEuwFw868LeSrY8k
+	TrjM=
+X-Google-Smtp-Source: AGHT+IHLa5XBLQJad+fDCWrlPALU6Jj9bHsuzclEHKCNX3xCAfimmOrtWhnVFzcdQiwTXd4ZGFT5pQ==
+X-Received: by 2002:a05:6a21:9207:b0:19c:8cd8:305d with SMTP id tl7-20020a056a21920700b0019c8cd8305dmr6131963pzb.58.1706987703467;
+        Sat, 03 Feb 2024 11:15:03 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id w63-20020a17090a6bc500b00296443780d7sm2376863pjj.47.2024.02.03.11.15.09
+        by smtp.gmail.com with ESMTPSA id w63-20020a17090a6bc500b00296443780d7sm2376863pjj.47.2024.02.03.11.15.02
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Feb 2024 11:15:10 -0800 (PST)
+        Sat, 03 Feb 2024 11:15:03 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][nanbield 12/15] icon-naming-utils: take tarball from debian
-Date: Sat,  3 Feb 2024 09:14:39 -1000
-Message-Id: <12cb5cce1cad02125fbf695e0d94010535cf228a.1706987549.git.steve@sakoman.com>
+Subject: [OE-core][nanbield 08/15] glibc-y2038-tests: do not run tests using 32 bit time APIs
+Date: Sat,  3 Feb 2024 09:14:35 -1000
+Message-Id: <3d04849c741baeddd0677a18a468603b7112139d.1706987549.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1706987549.git.steve@sakoman.com>
 References: <cover.1706987549.git.steve@sakoman.com>
@@ -62,41 +62,44 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 03 Feb 2024 19:15:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194856
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194852
 
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-Upstream website has disappeared; the tarball can still be downloaded
-but this is probably not for long.
+I'm not sure why this was included and enabled to begin with: the tests
+predictably mass-fail if system time is set to after y2038.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit af59c518467d1174d1d63594fdd3279a2fdbd8f8)
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit c9c7ebd6e447bce19803253afd881854f686b5f6)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-sato/sato-icon-theme/icon-naming-utils_0.8.90.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-core/glibc/glibc/run-ptest | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-sato/sato-icon-theme/icon-naming-utils_0.8.90.bb b/meta/recipes-sato/sato-icon-theme/icon-naming-utils_0.8.90.bb
-index 67cbd03100..5502b66905 100644
---- a/meta/recipes-sato/sato-icon-theme/icon-naming-utils_0.8.90.bb
-+++ b/meta/recipes-sato/sato-icon-theme/icon-naming-utils_0.8.90.bb
-@@ -14,7 +14,7 @@ DEPENDS = "libxml-simple-perl-native"
+diff --git a/meta/recipes-core/glibc/glibc/run-ptest b/meta/recipes-core/glibc/glibc/run-ptest
+index c394b49866..cb71c75682 100755
+--- a/meta/recipes-core/glibc/glibc/run-ptest
++++ b/meta/recipes-core/glibc/glibc/run-ptest
+@@ -22,12 +22,12 @@ tst_time64=$(ls -r ${PWD}/tests/glibc-ptest/*-time64)
+ # related
+ tst_time_tmp=$(sed -e "s/-time64$//" <<< ${tst_time64})
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+-# Run tests supporting only 32 bit time
+-for i in ${tst_time_tmp}
+-do
+-	$i >/dev/null 2>&1
+-	output
+-done
++# Do not run tests supporting only 32 bit time
++#for i in ${tst_time_tmp}
++#do
++#	$i >/dev/null 2>&1
++#	output
++#done
  
--SRC_URI = "http://tango.freedesktop.org/releases/icon-naming-utils-${PV}.tar.gz"
-+SRC_URI = "${DEBIAN_MIRROR}/main/i/icon-naming-utils/icon-naming-utils_${PV}.orig.tar.gz"
- SRC_URI[sha256sum] = "044ab2199ed8c6a55ce36fd4fcd8b8021a5e21f5bab028c0a7cdcf52a5902e1c"
- 
- inherit autotools allarch perlnative
-@@ -26,4 +26,4 @@ do_configure:append() {
- 
- FILES:${PN} += "${datadir}/dtds"
- 
--BBCLASSEXTEND = "native"
-\ No newline at end of file
-+BBCLASSEXTEND = "native"
+ # Run tests supporting only 64 bit time
+ for i in ${tst_time64}
 -- 
 2.34.1
 
