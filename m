@@ -2,59 +2,56 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FB0BC4828D
-	for <webhook@archiver.kernel.org>; Sat,  3 Feb 2024 21:34:44 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web10.26382.1706996078421434027
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A36EC4828D
+	for <webhook@archiver.kernel.org>; Sat,  3 Feb 2024 21:38:54 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web11.26300.1706996330180739337
  for <openembedded-core@lists.openembedded.org>;
- Sat, 03 Feb 2024 13:34:38 -0800
+ Sat, 03 Feb 2024 13:38:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gP6uwnju;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-40ef6bbb61fso27301805e9.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 03 Feb 2024 13:34:38 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YGIKQDOx;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-40ef64d8955so29255425e9.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 03 Feb 2024 13:38:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1706996077; x=1707600877; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1706996328; x=1707601128; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=vOwEhMMp7Qhxnd7OFMHNb0HD1H5zLNbsMAk1gAN+U+k=;
-        b=gP6uwnjuqdS39bV5QcesyDqYgD3BoJ1wYjbZt8B1TzH8owi6W0G7RuUEAYGdY46SWT
-         29hAdA/vBshQ370GogUr840lsimQfWk7mzlSxIvtRHfAwkYwch49zxXjvYwwCRqS5rBy
-         SmJkKLxJGtl55Dr/2nXMheL64WxWF7RN7JwC8=
+         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=w+PAjoOBK5icum8O+gmeImlm4LwGAhbIvlscKCBk1HI=;
+        b=YGIKQDOxQGU+upDZt6f08g9NVvQySmXMlEISJRav5kc008kqqlrnZ2KAGC/RbIQVOv
+         Eio9l1r0Aezda/EcGhu9ZkFCxGlYJlpCtlkAC+AycaHkp0K7uWtdNKKstmVYHP+FqH3A
+         vHmargdKrBg8qvWit9jzvXkP9mmzPwaAs2A3Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706996077; x=1707600877;
+        d=1e100.net; s=20230601; t=1706996328; x=1707601128;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :references:in-reply-to:date:to:from:subject:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vOwEhMMp7Qhxnd7OFMHNb0HD1H5zLNbsMAk1gAN+U+k=;
-        b=TzKP3o4aOyb0ZiJP1JfLYgPOyIZ8KXVWQ4aCV2DVrLtCHyM1ghYGVXXV54cZcY5dbZ
-         QbLvEUr1vBqlwbhyFRiyhYzQbKjpcpxxC3lR57rgFq+3ufrb+uBfq+CJ3+9CIH6NNvHo
-         KeYTSzTKRkR4tVGd9SRkt/qvXpsrp33/t1QiIIWYAZXxzgMQzX4ZV7Gb7sMrQuhZTTaE
-         muBR6HYYneft4Czur4NBSTD0r1O9uCztYV677zajjl6C5Dre83owHXD3vLW9Eq7xNPAh
-         gkGbw30XvjjiVfHpoDeC7QlpbQMWrLs1ivTFpGtxXf0C2Ktatr1cPkRG4EJaV0ccCvLG
-         6MtQ==
-X-Gm-Message-State: AOJu0YyMHYwZp3EOoyGA9F447cYDWB3f/tmGDZHAR4AvqBP/KEnKh0Jj
-	FVjLu1hPDTBzURQyaPKULwpH04I1HJNi77ku2ndPzaPEoBN+s30qlwAI3rwYRpQ=
-X-Google-Smtp-Source: AGHT+IH9xxm255ueFUEKRm3GTELy759uD2Pu0MJ0krG6leiMkWvGa6/A7FoZ4R3L/Jxcc7LvVh9FAQ==
-X-Received: by 2002:a05:600c:458c:b0:40f:ccf7:e28a with SMTP id r12-20020a05600c458c00b0040fccf7e28amr1602345wmo.16.1706996076782;
-        Sat, 03 Feb 2024 13:34:36 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCWGBlcLnnuNvFGTtekaRjFtrGv/H+nu07a4u89vPCBfBoEnDVS8SgSHe8u6rnHepMRYQ5gyjz7gOgbUErusSlBEanJIhc5nn4tYyFPmxWa8oUogVX1weDGJit3x
+        bh=w+PAjoOBK5icum8O+gmeImlm4LwGAhbIvlscKCBk1HI=;
+        b=YtvocVmSsQhP2SI2emgMEfxERXgZLdjetLm03VEgVKwXiv3FA5yFA0732I91suRb5i
+         gAbFnDd5VM50RcYNlrvq/DnwtZwJyQDS//TiExSgIvLpPMrRyOe9PS/4hAY+N8fgp/xQ
+         lcOSBtM0zrZ8rdT/3lLGCiJ2wBD/gOznYT7+GyG2NU9wEC6kESkNSlA9avOMLaGAZehR
+         o1CIfbq/Leesq9AWd2cQR1PGlaXzKJy6fif66mteAd1b9/U+ygTMIxRNFZRxFJWfqWbo
+         UXPrZgAcmqgk48tejF1m35z4URKCNsl9GijHPlF/fFcBrcH+136c8g308T3/UcxDZSKN
+         /AZg==
+X-Gm-Message-State: AOJu0Yyx6LNLEQq73nZCwz9vgxqw1FJtvMyYoCG6wSthpRKBnnePw+ia
+	effqmnUNW9RvwaGOu76OC0EXRXIA2XJdqCYrm0fQX+9kblU5Bvc24m3de5MlGGhMJkmKdexX/j+
+	K
+X-Google-Smtp-Source: AGHT+IHejGAPpOu6H7kl5SEEeHE9AWUrqgeO/GdtN3t66FEAlA5dtiJdmsWVN6eMDL84YpX1qXWl+Q==
+X-Received: by 2002:a05:600c:154f:b0:40f:bde9:6e29 with SMTP id f15-20020a05600c154f00b0040fbde96e29mr1791709wmg.39.1706996328531;
+        Sat, 03 Feb 2024 13:38:48 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCV5DUw305FkZ9xc/Tjce5kWZwFD5TXAbsHME9AwxJnFB9tjno5Yu6W5bh/7sPCuhhGx0EF81d9zgNgEM1PCV/1OW9lbWKTonnrFE0EK9zANQVCYCp9rEO+z
 Received: from ?IPv6:2001:8b0:aba:5f3c:86d5:6d82:ba0a:f7ac? ([2001:8b0:aba:5f3c:86d5:6d82:ba0a:f7ac])
-        by smtp.gmail.com with ESMTPSA id p18-20020a5d4e12000000b0033afcb5b5d2sm4709722wrt.80.2024.02.03.13.34.36
+        by smtp.gmail.com with ESMTPSA id i18-20020a05600c355200b0040ef2e7041esm3969513wmq.6.2024.02.03.13.38.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Feb 2024 13:34:36 -0800 (PST)
-Message-ID: <3aee3f56b14fc76c2b7a1cac64e21fbd664e665f.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] python3-cryptography: upgrade 41.0.7 to 42.0.2
+        Sat, 03 Feb 2024 13:38:48 -0800 (PST)
+Message-ID: <b232edbb6b775c460ca8ce5e4f3e7233435fd871.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] valgrind: Upgrade to 3.22
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Tim Orling <ticotimo@gmail.com>, Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, Tim Orling
-	 <tim.orling@konsulko.com>
-Date: Sat, 03 Feb 2024 21:34:35 +0000
-In-Reply-To: <CANx9H-AGYVB4as6J+2hWfHfC4b_tbbidBdBZbrYQ3Z+RAK0ySA@mail.gmail.com>
-References: <20240202045933.3427847-1-tim.orling@konsulko.com>
-	 <CAMKF1srGgwi-SHJq3vsOXCJPn_qBSZBidCdTM0VTJNVWsgNsSA@mail.gmail.com>
-	 <CANx9H-AGYVB4as6J+2hWfHfC4b_tbbidBdBZbrYQ3Z+RAK0ySA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Sat, 03 Feb 2024 21:38:47 +0000
+In-Reply-To: <20240203005739.3960031-1-raj.khem@gmail.com>
+References: <20240203005739.3960031-1-raj.khem@gmail.com>
 Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
@@ -64,50 +61,112 @@ Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keyda
  kPGvi48NFq7PWaTkvG3vuSm+eApSToeyz7AVtFt8QOUnHTiNHbuiNpQsDd3y5bLLhU9mIJTbsWNP/72oXV7Tcz7w8zVh2qmuZqhu5qz9rcox3D9unGQ49N3i+CO9c7SqxcLckEjd9o62HsDDpqYv3cdtFNajNsHD8bFU9bb+swCuDMEY3VCRhYJKwYBBAHaRw8BAQdAjoQBsbbnpigttLSFJOFohHY6BGWmjCi520kt0UBBgG+JAjYEGAEKACAWIQQRclb3b/q6zLA9Fn+aUMY1GLyygAUCY3VCRgIbIAAKCRCaUMY1GLyygAQbD/0WyvGz8jA3CTAMTa8yoAlcX73+7aHQaP+DT1PaVU6W85Mm/Bv5JXJ+RWyCCa1jllAWTOhqkOXZ1lXqgislBGtpY22LdwlXW4NGETWwZb79ypR+nayuIPnjOrxkxPOFpcH+wCk9wX0qYi4/8xFTeIZtoty6ayP2bZUZL8aQ91kyUn7nrLmAymPhDq1AAjg+Dkz6DDyzkzXDsY6OY9SpKcWxLkcOm8oXn5B5K5Pl3FaRfYrmX2pAZ6DliQsvPMtXlA01qJ6W4nvRN5ROfjXefNGdyRK8LfJ8BkfDqtZ9/5UrMrW1b7CPA9/7dC5P2jfImtU6R90fz/S4ua2jzeVY2gt7olSDsBqJDOMBPwqEETDROu1+oCIXvdrrZszBu0pTCLV8r+rQqqjICZtK17CEXH3jmDeD/Q6MmAQqeyIhi3uQpGOaveP81WMiC8DDLRXmSuMYOIH/KebzgNnaCQzlQl3a+8tD2qQ48RqzR6JLcKu6h0A6KWItZScfshopNRVsm7FIWM1XUGm1nG6lmPtpVYsXF75hx+YxpAogbzm6fOnUJWFiP1/NVRgtWiii2HG8YCIrEeR3LCUQd/5aYS0CI0cy8WATg/1qkLbcr0lVaCRLT2KZd5WH7tz/4IBanSdCAj6vEfovE5ilWNThQHwg8aPQI6COaHFcTcervMD4Sy
  YNvg==
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.50.0-1 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 03 Feb 2024 21:34:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194863
+ <openembedded-core@lists.openembedded.org>; Sat, 03 Feb 2024 21:38:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194864
 
-T24gU2F0LCAyMDI0LTAyLTAzIGF0IDEzOjI3IC0wODAwLCBUaW0gT3JsaW5nIHdyb3RlOgo+IAo+
-IAo+IE9uIFNhdCwgRmViIDMsIDIwMjQgYXQgMTowN+KAr1BNIEtoZW0gUmFqIDxyYWoua2hlbUBn
-bWFpbC5jb20+IHdyb3RlOgo+ID4gVGhpcyBpcyBmYWlsaW5nIHB0ZXN0cyBvbiBtdXNsL3FlbXV4
-ODYtNjQKPiA+IAo+ID4gwqAgwqAgRmFpbGVkIHB0ZXN0czoKPiA+IMKgIMKgIHsncHl0aG9uMy1j
-cnlwdG9ncmFwaHknOiAnU1RBUlQ6IHB0ZXN0LXJ1bm5lclxuJwo+ID4gwqAgwqAgwqAgwqAgwqAg
-wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAnMjAyNC0wMi0wM1QxODo1OFxuJwo+ID4gwqAg
-wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAnRnJlZSBtZW1vcnk6IDMu
-ODk5IEdCXG4nCj4gPiAKPiA+IAo+IAo+IFRoaXMgbWVhbnMgaXQgaXMgcGFzc2luZyB0aGXCoGNo
-ZWNrLW1lbWZyZWUucHkgdGVzdCwgc28gdGhhdCBydWxlcyBvdXQgT09NICh1bmxlc3Mgd2UgbmVl
-ZCBtb3JlIHRoYW4gdGhpcy4uLgo+IG9uZSB0ZXN0IGNhc2UgZGlkIGZhaWwgZm9yIG1lIGFuZCB0
-aGVuIHBhc3NlZCB3aGVuIEkgdXNlZCAtc21wIDQgLW0gODE5Mgo+IMKgCj4gPiAnPT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PVxuJwo+ID4gwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
-wqAgwqAnVGVzdHN1aXRlIHN1bW1hcnlcbicKPiA+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
-IMKgIMKgIMKgIMKgIMKgIMKgJyMgVE9UQUw6IDBcbicKPiA+IMKgIMKgIMKgIMKgIMKgIMKgIMKg
-IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgJyMgUEFTUzogMFxuJwo+ID4gwqAgwqAgwqAgwqAgwqAg
-wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAnIyBTS0lQOiAwXG4nCj4gPiDCoCDCoCDCoCDC
-oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCcjIFhGQUlMOiAwXG4nCj4gPiDCoCDC
-oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCcjIEZBSUw6IDBcbicKPiA+
-IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgJyMgWFBBU1M6IDBc
-bicKPiA+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgJyMgRVJS
-T1I6IDBcbicKPiA+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
-J1xuJwo+ID4gwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAnRVJS
-T1I6IEV4aXQgc3RhdHVzIGlzIDJcbicKPiA+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
-IMKgIMKgIMKgIMKgIMKgJ0RVUkFUSU9OOiA2XG4nfQo+ID4gCj4gPiDCoCDCoCBwdGVzdHMgd2hp
-Y2ggaGFkIG5vIHRlc3QgcmVzdWx0czoKPiA+IMKgIMKgIFsncHl0aG9uMy1jcnlwdG9ncmFwaHkn
-XQo+ID4gCj4gPiAKPiAKPiBUaGlzIG1ha2VzIGl0IGxvb2sgbGlrZSBubyBwdGVzdHMgYXJlIGV2
-ZW4gYmVpbmcgZGV0ZWN0ZWQ/IElzIHRoZXJlIGFueSBvdGhlciBsb2cgaW5mbz8KPiAKPiAKCkl0
-IGlzbid0IGp1c3QgbXVzbCBmYWlsaW5nOgoKaHR0cHM6Ly9hdXRvYnVpbGRlci55b2N0b3Byb2pl
-Y3Qub3JnL3R5cGhvb24vIy9idWlsZGVycy84Mi9idWlsZHMvNjA0OApodHRwczovL2F1dG9idWls
-ZGVyLnlvY3RvcHJvamVjdC5vcmcvdHlwaG9vbi8jL2J1aWxkZXJzLzgxL2J1aWxkcy82MjMzCmh0
-dHBzOi8vYXV0b2J1aWxkZXIueW9jdG9wcm9qZWN0Lm9yZy90eXBob29uLyMvYnVpbGRlcnMvODEv
-YnVpbGRzLzYyMzQKCmh0dHA6Ly9hdXRvYnVpbGRlci55b2N0by5pby9wdWIvbm9uLXJlbGVhc2Uv
-MjAyNDAyMDMtMTcvdGVzdHJlc3VsdHMvcWVtdXg4Ni02NC1wdGVzdC9weXRob24zLWNyeXB0b2dy
-YXBoeS5sb2cKCndoaWNoIGFsc28gZG9lc24ndCBzaG93IGFueSB0ZXN0cyBydW5uaW5nLgoKQ2hl
-ZXJzLAoKUmljaGFyZAo=
+On Fri, 2024-02-02 at 16:57 -0800, Khem Raj wrote:
+> Changes are summarised in Release announcement [1]
+>=20
+> [1] https://sourceforge.net/p/valgrind/mailman/message/50323635/
+>=20
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  ...inux-seg_override.c-add-missing-incl.patch | 30 -------------------
+>  ...{valgrind_3.21.0.bb =3D> valgrind_3.22.0.bb} |  3 +-
+>  2 files changed, 1 insertion(+), 32 deletions(-)
+>  delete mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-none-tes=
+ts-x86-linux-seg_override.c-add-missing-incl.patch
+>  rename meta/recipes-devtools/valgrind/{valgrind_3.21.0.bb =3D> valgrind_=
+3.22.0.bb} (98%)
+>=20
+> diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-none-tests-x86-=
+linux-seg_override.c-add-missing-incl.patch b/meta/recipes-devtools/valgrin=
+d/valgrind/0001-none-tests-x86-linux-seg_override.c-add-missing-incl.patch
+> deleted file mode 100644
+> index 5e36c28523e..00000000000
+> --- a/meta/recipes-devtools/valgrind/valgrind/0001-none-tests-x86-linux-s=
+eg_override.c-add-missing-incl.patch
+> +++ /dev/null
+> @@ -1,30 +0,0 @@
+> -From 978d9ed7f857f2cdcd2a8632f3c2feb56b99c825 Mon Sep 17 00:00:00 2001
+> -From: Alexander Kanavin <alex@linutronix.de>
+> -Date: Mon, 8 May 2023 11:56:35 +0200
+> -Subject: [PATCH] none/tests/x86-linux/seg_override.c: add missing includ=
+e for
+> - musl builds
+> -
+> -Otherwise SYS_modify_ldt is undefined.
+> -
+> -Upstream-Status: Submitted [https://bugs.kde.org/show_bug.cgi?id=3D38203=
+4]
+> -Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> -
+> ----
+> - none/tests/x86-linux/seg_override.c | 4 ++++
+> - 1 file changed, 4 insertions(+)
+> -
+> -diff --git a/none/tests/x86-linux/seg_override.c b/none/tests/x86-linux/=
+seg_override.c
+> -index ca8fbfe..4ef4394 100644
+> ---- a/none/tests/x86-linux/seg_override.c
+> -+++ b/none/tests/x86-linux/seg_override.c
+> -@@ -3,6 +3,10 @@
+> - #include <errno.h>
+> - #include <string.h>
+> - #include "../../../config.h"
+> -+#if defined(MUSL_LIBC)
+> -+#include <syscall.h>
+> -+#include <unistd.h>
+> -+#endif
+> -=20
+> -=20
+> - /* Stuff from Wine. */
+> diff --git a/meta/recipes-devtools/valgrind/valgrind_3.21.0.bb b/meta/rec=
+ipes-devtools/valgrind/valgrind_3.22.0.bb
+> similarity index 98%
+> rename from meta/recipes-devtools/valgrind/valgrind_3.21.0.bb
+> rename to meta/recipes-devtools/valgrind/valgrind_3.22.0.bb
+> index 67a197c5097..85b29ca54db 100644
+> --- a/meta/recipes-devtools/valgrind/valgrind_3.21.0.bb
+> +++ b/meta/recipes-devtools/valgrind/valgrind_3.22.0.bb
+> @@ -36,9 +36,8 @@ SRC_URI =3D "https://sourceware.org/pub/valgrind/valgri=
+nd-${PV}.tar.bz2 \
+>             file://0001-none-tests-fdleak_cmsg.stderr.exp-adjust-tmp-path=
+s.patch \
+>             file://0001-memcheck-tests-Fix-timerfd-syscall-test.patch \
+>             file://0001-docs-Disable-manual-validation.patch \
+> -           file://0001-none-tests-x86-linux-seg_override.c-add-missing-i=
+ncl.patch \
+>             "
+> -SRC_URI[sha256sum] =3D "10ce1618bb3e33fad16eb79552b0a3e1211762448a0d7fce=
+11c8a6243b9ac971"
+> +SRC_URI[sha256sum] =3D "c811db5add2c5f729944caf47c4e7a65dcaabb9461e472b5=
+78765dd7bf6d2d4c"
+>  UPSTREAM_CHECK_REGEX =3D "valgrind-(?P<pver>\d+(\.\d+)+)\.tar"
+> =20
+>  COMPATIBLE_HOST =3D '(i.86|x86_64|arm|aarch64|mips|powerpc|powerpc64).*-=
+linux'
+
+This is resulting in failing ptests on arm and x86:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/6048
+https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/6233
+https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/6234
+
+e.g.:
+
+http://autobuilder.yocto.io/pub/non-release/20240203-17/testresults/qemux86=
+-64-ptest/valgrind.log
+
+Cheers,
+
+Richard
+
 
 
