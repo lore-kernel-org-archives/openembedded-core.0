@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76930C48297
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76968C4828D
 	for <webhook@archiver.kernel.org>; Sat,  3 Feb 2024 19:15:23 +0000 (UTC)
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
- by mx.groups.io with SMTP id smtpd.web10.23487.1706987713503846212
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+ by mx.groups.io with SMTP id smtpd.web11.23494.1706987717685493792
  for <openembedded-core@lists.openembedded.org>;
- Sat, 03 Feb 2024 11:15:13 -0800
+ Sat, 03 Feb 2024 11:15:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=G2AiOiJ5;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.175, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-5bdbe2de25fso3044558a12.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 03 Feb 2024 11:15:13 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=xwxccMj5;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.177, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-5cdf76cde78so2912961a12.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 03 Feb 2024 11:15:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1706987712; x=1707592512; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1706987716; x=1707592516; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=V+QMTD9Br3eXxvusQSKYHfif3ZqEJtSRaNvJzxbGGpU=;
-        b=G2AiOiJ53ZaOLutR+JUeJQ8QkS1lih/kmeiKEiXctwrjJG/ENykf8BnAyh1Zuj9l13
-         X131i7TJsTuoQ9cILAHy61f5C4POaM2G4LD44Lli4nRCtgsy6EfpBNNCIbrDhclAwa71
-         DGjCxu28aXni4cdzshmAdPdWyVXEx+z52na3FSEO/1vCyZGvlxs5jPtg+Km6kHrezP/L
-         i7XyD2V3yxwcYaqawKuHIePBeyysqDN6qmNTSeTl8q4PaNSuKu8SYjBSVTNrAjRig8J3
-         sRqOiT6JHQT0bkKsh6MilbyemHTqsTBQwiI402As2AM+xR1EN06OGlwz90zMj8gWgUI0
-         d9wg==
+        bh=aMgWiLueD846YOkZo/ZPx1QqJDE9TShR0saqLwfvgSg=;
+        b=xwxccMj5ofEpOmaGCO+RnjNNIRg/M3ybqxfwJTJmm8LbQF6B1vt9uFkT1kEQg6MGtb
+         SLovJdM9OG+mLpSlgTLEKl0Qora633R9VPz5y0Y+smnLzrIzI10I7llWeVDT2FxskN8E
+         CLmTLcLjhhi633q0tDzS11gfrBxGqcP0MiqojwlQdsmjsS1wfC8xjoptYZFL4aM2mxo1
+         w8hA9q0VVO3itL32niZOTNgkbuUyGvUs5KPA+8m94VR7ObYuwaNJMggxIoaj5nfp7ynk
+         htBmUAngMh32DrmuOy53mOKYeqkKf4UzHW6Gousjc1am52nO6vVv2K+LOqH5/AEIm4yr
+         za7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706987712; x=1707592512;
+        d=1e100.net; s=20230601; t=1706987716; x=1707592516;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=V+QMTD9Br3eXxvusQSKYHfif3ZqEJtSRaNvJzxbGGpU=;
-        b=Ouw2zR/ThPjT3nGkw6AeKZ3uzeBHr62ni8o6TUpEMGb3bPuIMgoqIbvvaeFTERKoBw
-         d55JI0+N38dZZbf52i0sc1ku+pSPQyuXGAP0mHfI25mkAfYOW85IvlsE2YmER1RpkQTZ
-         DLPtlBGeq5z1esi+XBKuS0w7vF4Xi+RA0gT7lyt3EP1/ttWzR08rXis8+UDEJ+xhqqs4
-         j7IRmwPDqTCee3l8rSxJDsGqcimF4eQxTjr1jve6wQXfbo2ndUxbWh4JcIiloye9oNJ1
-         btg1Rq0+uDQRD8J0CW75hp0gOtd+i7949hrYjp4rCY4aJGVd9DDe1iRGCK6VB8VPiF9F
-         QGag==
-X-Gm-Message-State: AOJu0YyBuJuid76X0JmdbXc55qwm/CRoDuuzDnilAu8TwxgrHUin3Amz
-	uvaL51nK4jBlJwtcbKIBTeN8nwCu/2XxxNvadPbN25SxgOzDFo1I3szMqFZfFYUXsH5KRLVBijJ
-	W69M=
-X-Google-Smtp-Source: AGHT+IHcoioiFY8bis001RvV/MzFb6/hemyEJ823QcyA+hWimGY9YsTBaejvG6WGv/DGfcOr161SmQ==
-X-Received: by 2002:a17:90a:9f88:b0:296:521c:4caf with SMTP id o8-20020a17090a9f8800b00296521c4cafmr4220325pjp.8.1706987712686;
-        Sat, 03 Feb 2024 11:15:12 -0800 (PST)
+        bh=aMgWiLueD846YOkZo/ZPx1QqJDE9TShR0saqLwfvgSg=;
+        b=LKylGtHwIujJlcQedS6NMDN4H4bXRk1C3zj5QbkqGrKegHWsdjSnXnIMErxtTL7Bss
+         oUMSG3WBuosFB9gG8uiefR3DiEjb4xo+hIlhxKSkN8NWxUoe0r9qKKXQdYY1sqA0NelF
+         1Bp2k4jgxsEwUSax/B9BrR3MDG0XYkccSt+W8z3rEMEga1Dpp2K6B+OmX1zZ4pfVN5Dz
+         9ERKCqydFcfkgOcPnqU0F5zhEORZvWwK4P9YcG4be9ZJsHoAsL4aYxamFrJyWEYSEUxo
+         /f7jyFwPxTrTMYWTunsSCV2X7eqWxraEL5UFmynsVqnAy0LirAQU02fweaBpnI647Jxm
+         UIXg==
+X-Gm-Message-State: AOJu0YyM31HuNjeLISAtZFu45Qsl+mKtyG10aXAswntDcJ2twuX1uMu3
+	AZp5E+5F0AhoKpskezy70ywVRQB+JPpUl+4FssFrDhyQWWQbQjqpuKHjDwILNRw9P3WHg6At6Xa
+	fk3g=
+X-Google-Smtp-Source: AGHT+IGzg/VTyU3vWv4DQD+mmG0ajdIG6A/ey49r+VaW5l3E3EN/MY4hkxfudfX8Ga1v3ciru3EN/g==
+X-Received: by 2002:a05:6a21:3483:b0:19c:a883:4714 with SMTP id yo3-20020a056a21348300b0019ca8834714mr4851375pzb.3.1706987716457;
+        Sat, 03 Feb 2024 11:15:16 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id w63-20020a17090a6bc500b00296443780d7sm2376863pjj.47.2024.02.03.11.15.11
+        by smtp.gmail.com with ESMTPSA id w63-20020a17090a6bc500b00296443780d7sm2376863pjj.47.2024.02.03.11.15.15
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Feb 2024 11:15:12 -0800 (PST)
+        Sat, 03 Feb 2024 11:15:16 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][nanbield 13/15] linux-firmware: Fix the linux-firmware-bcm4373 FILES variable
-Date: Sat,  3 Feb 2024 09:14:40 -1000
-Message-Id: <205b3990fe23dc05689ef619a4607e8903ebbec6.1706987549.git.steve@sakoman.com>
+Subject: [OE-core][nanbield 15/15] tcl: Fix prepending to run-ptest script
+Date: Sat,  3 Feb 2024 09:14:42 -1000
+Message-Id: <5f49d4c3f528c1e9a2884cc9cc8026b5d43517f9.1706987549.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1706987549.git.steve@sakoman.com>
 References: <cover.1706987549.git.steve@sakoman.com>
@@ -62,35 +62,34 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 03 Feb 2024 19:15:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194857
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194859
 
-From: "Rodrigo M. Duarte" <rodrigo.duarte@ossystems.com.br>
+From: Khem Raj <raj.khem@gmail.com>
 
-This commit includes the 'cyfmac4373-sdio.clm_blob' file in
-the list of files for the linux-firmware-bcm4373 package.
-Without this file, the linux-firmware package adds all
-firmware packages to the image.
+This ensures that string is prepended properly and eclosed in ''
+Fixes the ptest runs on musl
 
-Signed-off-by: Rodrigo M. Duarte <rodrigo.duarte@ossystems.com.br>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 7886d3b77200e4488393fa11c8198658fcf386cd)
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 7bb45591f9caa7ff6b065220927a26e8261e2866)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-kernel/linux-firmware/linux-firmware_20231030.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-devtools/tcltk/tcl_8.6.13.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20231030.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20231030.bb
-index 6667f00612..b1f5247975 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20231030.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20231030.bb
-@@ -1071,6 +1071,7 @@ FILES:${PN}-bcm4373 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac4373-sdio.bi
-   ${nonarch_base_libdir}/firmware/brcm/brcmfmac4373.bin \
-   ${nonarch_base_libdir}/firmware/cypress/cyfmac4373-sdio.bin \
-   ${nonarch_base_libdir}/firmware/brcm/brcmfmac4373-sdio.clm_blob \
-+  ${nonarch_base_libdir}/firmware/cypress/cyfmac4373-sdio.clm_blob \
- "
+diff --git a/meta/recipes-devtools/tcltk/tcl_8.6.13.bb b/meta/recipes-devtools/tcltk/tcl_8.6.13.bb
+index b33a78e147..bb75353a5a 100644
+--- a/meta/recipes-devtools/tcltk/tcl_8.6.13.bb
++++ b/meta/recipes-devtools/tcltk/tcl_8.6.13.bb
+@@ -88,7 +88,7 @@ do_install_ptest() {
  
- LICENSE:${PN}-bcm-0bb4-0306 = "Firmware-cypress"
+ do_install_ptest:append:libc-musl () {
+ 	# Assumes locales other than provided by musl-locales
+-	sed -i -e 's|SKIPPED_TESTS=|SKIPPED_TESTS="unixInit-3*"|' ${D}${PTEST_PATH}/run-ptest
++	sed -i -e "s|SKIPPED_TESTS='|SKIPPED_TESTS='unixInit-3* |" ${D}${PTEST_PATH}/run-ptest
+ }
+ 
+ # Fix some paths that might be used by Tcl extensions
 -- 
 2.34.1
 
