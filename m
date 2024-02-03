@@ -1,172 +1,241 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A36EC4828D
-	for <webhook@archiver.kernel.org>; Sat,  3 Feb 2024 21:38:54 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web11.26300.1706996330180739337
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F398C4828F
+	for <webhook@archiver.kernel.org>; Sat,  3 Feb 2024 21:50:34 +0000 (UTC)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
+ by mx.groups.io with SMTP id smtpd.web10.26686.1706997027509295743
  for <openembedded-core@lists.openembedded.org>;
- Sat, 03 Feb 2024 13:38:51 -0800
+ Sat, 03 Feb 2024 13:50:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YGIKQDOx;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-40ef64d8955so29255425e9.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 03 Feb 2024 13:38:49 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Yg2albh0;
+ spf=pass (domain: gmail.com, ip: 209.85.219.169, mailfrom: ticotimo@gmail.com)
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-dc6e08fde11so2774724276.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 03 Feb 2024 13:50:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1706996328; x=1707601128; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=w+PAjoOBK5icum8O+gmeImlm4LwGAhbIvlscKCBk1HI=;
-        b=YGIKQDOxQGU+upDZt6f08g9NVvQySmXMlEISJRav5kc008kqqlrnZ2KAGC/RbIQVOv
-         Eio9l1r0Aezda/EcGhu9ZkFCxGlYJlpCtlkAC+AycaHkp0K7uWtdNKKstmVYHP+FqH3A
-         vHmargdKrBg8qvWit9jzvXkP9mmzPwaAs2A3Y=
+        d=gmail.com; s=20230601; t=1706997026; x=1707601826; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=056tgxaJXeCCv9zoCxvZSIUnkXkMI6pXXBG3tpC6MCs=;
+        b=Yg2albh0Cn4vhvh6xExjcItX5+CzL59Z4gdIM9vfkUhx5VmJmgjOddtkPE6m8rW0Lz
+         2SHBNEIW0DAsRYGs6tQ/z9WbWZltb8dqsCfeZyBPoEug/YjN6mkNrPtgJDqDbfBX6huz
+         A/F2fcqhHicpPCAsaFwY302zkWn5EgZfbb1aDBiZwc6eiAKt5UuBOyGRuvx/QUA58F89
+         EqR/Ee5/g4LDmolkanhPjWRCHch6N4lZ3/rBUsdrq8ELblsvOAf+el191VwL/JxmvFdX
+         V1ozRezxSZL18Fyg1Hgh0bsBN91Jecjfj9zZvv1MaOOaNCPLBnNbxP2qW/BeyodpuhXa
+         G3yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706996328; x=1707601128;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=w+PAjoOBK5icum8O+gmeImlm4LwGAhbIvlscKCBk1HI=;
-        b=YtvocVmSsQhP2SI2emgMEfxERXgZLdjetLm03VEgVKwXiv3FA5yFA0732I91suRb5i
-         gAbFnDd5VM50RcYNlrvq/DnwtZwJyQDS//TiExSgIvLpPMrRyOe9PS/4hAY+N8fgp/xQ
-         lcOSBtM0zrZ8rdT/3lLGCiJ2wBD/gOznYT7+GyG2NU9wEC6kESkNSlA9avOMLaGAZehR
-         o1CIfbq/Leesq9AWd2cQR1PGlaXzKJy6fif66mteAd1b9/U+ygTMIxRNFZRxFJWfqWbo
-         UXPrZgAcmqgk48tejF1m35z4URKCNsl9GijHPlF/fFcBrcH+136c8g308T3/UcxDZSKN
-         /AZg==
-X-Gm-Message-State: AOJu0Yyx6LNLEQq73nZCwz9vgxqw1FJtvMyYoCG6wSthpRKBnnePw+ia
-	effqmnUNW9RvwaGOu76OC0EXRXIA2XJdqCYrm0fQX+9kblU5Bvc24m3de5MlGGhMJkmKdexX/j+
-	K
-X-Google-Smtp-Source: AGHT+IHejGAPpOu6H7kl5SEEeHE9AWUrqgeO/GdtN3t66FEAlA5dtiJdmsWVN6eMDL84YpX1qXWl+Q==
-X-Received: by 2002:a05:600c:154f:b0:40f:bde9:6e29 with SMTP id f15-20020a05600c154f00b0040fbde96e29mr1791709wmg.39.1706996328531;
-        Sat, 03 Feb 2024 13:38:48 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCV5DUw305FkZ9xc/Tjce5kWZwFD5TXAbsHME9AwxJnFB9tjno5Yu6W5bh/7sPCuhhGx0EF81d9zgNgEM1PCV/1OW9lbWKTonnrFE0EK9zANQVCYCp9rEO+z
-Received: from ?IPv6:2001:8b0:aba:5f3c:86d5:6d82:ba0a:f7ac? ([2001:8b0:aba:5f3c:86d5:6d82:ba0a:f7ac])
-        by smtp.gmail.com with ESMTPSA id i18-20020a05600c355200b0040ef2e7041esm3969513wmq.6.2024.02.03.13.38.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Feb 2024 13:38:48 -0800 (PST)
-Message-ID: <b232edbb6b775c460ca8ce5e4f3e7233435fd871.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] valgrind: Upgrade to 3.22
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Sat, 03 Feb 2024 21:38:47 +0000
-In-Reply-To: <20240203005739.3960031-1-raj.khem@gmail.com>
-References: <20240203005739.3960031-1-raj.khem@gmail.com>
-Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
- YNvg==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.0-1 
+        d=1e100.net; s=20230601; t=1706997026; x=1707601826;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=056tgxaJXeCCv9zoCxvZSIUnkXkMI6pXXBG3tpC6MCs=;
+        b=WioWbvwOKn/lLstzj9wYz3s0zZq1ykncUruLvDMSHezt7gD0CbAvR27oKWDyp5wdms
+         ZX/7T8NptJqhzijwv9vOUvFK1tV3iUGrWK7w1/LjvBfUuPCBu8fIGJFGsPZqZvo70hfR
+         mMLxP5k+Yqo5kk6YbK2G8tTrAC8BgkHMl4tSXnKkSCYazJc1/R/h6Wtz4aO0Ew+vklED
+         MEtJhwD81kEPlT26El+NX5CdQ2BVwnEL8u4hYkcpDnJtWPOGOCEJkoPYl7s7PeTbPGmZ
+         AL725mWh0RfpFmQkgkJw5rkEiP7/OmBjYUhASHDVTD6ryBAkgXQzOm4gOCRfqJrtwhI6
+         MJIA==
+X-Gm-Message-State: AOJu0Yw3a+Jzro9N80M4MD3Y657nm/sCFuQDKGD/wSwmcxDIumWJWD24
+	15bzNnT8XPrGDmeXMUo3Ijh2M0Eg7Wc0i2JWLnd9GJhG2cDFk5dXTLYY+KBdCqLTtS3alVQwJ9w
+	u/9n3dRXdbznJjVFAzy3GEnXVTuw=
+X-Google-Smtp-Source: AGHT+IEdFt971zKWzzcjle4nn1otBzwEZQjtGdoGYbvy+yfcaGR0SA//EWsPM5/04STTYrePnUAavA1SZpj437vlgSI=
+X-Received: by 2002:a25:8391:0:b0:dc6:cc63:7fff with SMTP id
+ t17-20020a258391000000b00dc6cc637fffmr10023145ybk.49.1706997026669; Sat, 03
+ Feb 2024 13:50:26 -0800 (PST)
 MIME-Version: 1.0
+References: <20240202045933.3427847-1-tim.orling@konsulko.com>
+ <CAMKF1srGgwi-SHJq3vsOXCJPn_qBSZBidCdTM0VTJNVWsgNsSA@mail.gmail.com>
+ <CANx9H-AGYVB4as6J+2hWfHfC4b_tbbidBdBZbrYQ3Z+RAK0ySA@mail.gmail.com> <3aee3f56b14fc76c2b7a1cac64e21fbd664e665f.camel@linuxfoundation.org>
+In-Reply-To: <3aee3f56b14fc76c2b7a1cac64e21fbd664e665f.camel@linuxfoundation.org>
+From: Tim Orling <ticotimo@gmail.com>
+Date: Sat, 3 Feb 2024 13:50:15 -0800
+Message-ID: <CANx9H-Dm0gu-kkVLkwgRY=c-HKf8=VW7s2_NA+mmNKNww6_WNw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] python3-cryptography: upgrade 41.0.7 to 42.0.2
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org, 
+	Tim Orling <tim.orling@konsulko.com>
+Content-Type: multipart/alternative; boundary="0000000000006848e9061081374e"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 03 Feb 2024 21:38:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194864
+ <openembedded-core@lists.openembedded.org>; Sat, 03 Feb 2024 21:50:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194865
 
-On Fri, 2024-02-02 at 16:57 -0800, Khem Raj wrote:
-> Changes are summarised in Release announcement [1]
->=20
-> [1] https://sourceforge.net/p/valgrind/mailman/message/50323635/
->=20
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  ...inux-seg_override.c-add-missing-incl.patch | 30 -------------------
->  ...{valgrind_3.21.0.bb =3D> valgrind_3.22.0.bb} |  3 +-
->  2 files changed, 1 insertion(+), 32 deletions(-)
->  delete mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-none-tes=
-ts-x86-linux-seg_override.c-add-missing-incl.patch
->  rename meta/recipes-devtools/valgrind/{valgrind_3.21.0.bb =3D> valgrind_=
-3.22.0.bb} (98%)
->=20
-> diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-none-tests-x86-=
-linux-seg_override.c-add-missing-incl.patch b/meta/recipes-devtools/valgrin=
-d/valgrind/0001-none-tests-x86-linux-seg_override.c-add-missing-incl.patch
-> deleted file mode 100644
-> index 5e36c28523e..00000000000
-> --- a/meta/recipes-devtools/valgrind/valgrind/0001-none-tests-x86-linux-s=
-eg_override.c-add-missing-incl.patch
-> +++ /dev/null
-> @@ -1,30 +0,0 @@
-> -From 978d9ed7f857f2cdcd2a8632f3c2feb56b99c825 Mon Sep 17 00:00:00 2001
-> -From: Alexander Kanavin <alex@linutronix.de>
-> -Date: Mon, 8 May 2023 11:56:35 +0200
-> -Subject: [PATCH] none/tests/x86-linux/seg_override.c: add missing includ=
-e for
-> - musl builds
-> -
-> -Otherwise SYS_modify_ldt is undefined.
-> -
-> -Upstream-Status: Submitted [https://bugs.kde.org/show_bug.cgi?id=3D38203=
-4]
-> -Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> -
-> ----
-> - none/tests/x86-linux/seg_override.c | 4 ++++
-> - 1 file changed, 4 insertions(+)
-> -
-> -diff --git a/none/tests/x86-linux/seg_override.c b/none/tests/x86-linux/=
-seg_override.c
-> -index ca8fbfe..4ef4394 100644
-> ---- a/none/tests/x86-linux/seg_override.c
-> -+++ b/none/tests/x86-linux/seg_override.c
-> -@@ -3,6 +3,10 @@
-> - #include <errno.h>
-> - #include <string.h>
-> - #include "../../../config.h"
-> -+#if defined(MUSL_LIBC)
-> -+#include <syscall.h>
-> -+#include <unistd.h>
-> -+#endif
-> -=20
-> -=20
-> - /* Stuff from Wine. */
-> diff --git a/meta/recipes-devtools/valgrind/valgrind_3.21.0.bb b/meta/rec=
-ipes-devtools/valgrind/valgrind_3.22.0.bb
-> similarity index 98%
-> rename from meta/recipes-devtools/valgrind/valgrind_3.21.0.bb
-> rename to meta/recipes-devtools/valgrind/valgrind_3.22.0.bb
-> index 67a197c5097..85b29ca54db 100644
-> --- a/meta/recipes-devtools/valgrind/valgrind_3.21.0.bb
-> +++ b/meta/recipes-devtools/valgrind/valgrind_3.22.0.bb
-> @@ -36,9 +36,8 @@ SRC_URI =3D "https://sourceware.org/pub/valgrind/valgri=
-nd-${PV}.tar.bz2 \
->             file://0001-none-tests-fdleak_cmsg.stderr.exp-adjust-tmp-path=
-s.patch \
->             file://0001-memcheck-tests-Fix-timerfd-syscall-test.patch \
->             file://0001-docs-Disable-manual-validation.patch \
-> -           file://0001-none-tests-x86-linux-seg_override.c-add-missing-i=
-ncl.patch \
->             "
-> -SRC_URI[sha256sum] =3D "10ce1618bb3e33fad16eb79552b0a3e1211762448a0d7fce=
-11c8a6243b9ac971"
-> +SRC_URI[sha256sum] =3D "c811db5add2c5f729944caf47c4e7a65dcaabb9461e472b5=
-78765dd7bf6d2d4c"
->  UPSTREAM_CHECK_REGEX =3D "valgrind-(?P<pver>\d+(\.\d+)+)\.tar"
-> =20
->  COMPATIBLE_HOST =3D '(i.86|x86_64|arm|aarch64|mips|powerpc|powerpc64).*-=
-linux'
+--0000000000006848e9061081374e
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This is resulting in failing ptests on arm and x86:
+On Sat, Feb 3, 2024 at 1:34=E2=80=AFPM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/6048
-https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/6233
-https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/6234
-
-e.g.:
-
-http://autobuilder.yocto.io/pub/non-release/20240203-17/testresults/qemux86=
--64-ptest/valgrind.log
-
-Cheers,
-
-Richard
+> On Sat, 2024-02-03 at 13:27 -0800, Tim Orling wrote:
+> >
+> >
+> > On Sat, Feb 3, 2024 at 1:07=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wr=
+ote:
+> > > This is failing ptests on musl/qemux86-64
+> > >
+> > >     Failed ptests:
+> > >     {'python3-cryptography': 'START: ptest-runner\n'
+> > >                              '2024-02-03T18:58\n'
+> > >                              'Free memory: 3.899 GB\n'
+> > >
+> > >
+> >
+> > This means it is passing the check-memfree.py test, so that rules out
+> OOM (unless we need more than this...
+> > one test case did fail for me and then passed when I used -smp 4 -m 819=
+2
+> >
+> > >
+> '=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D\n'
+> > >                              'Testsuite summary\n'
+> > >                              '# TOTAL: 0\n'
+> > >                              '# PASS: 0\n'
+> > >                              '# SKIP: 0\n'
+> > >                              '# XFAIL: 0\n'
+> > >                              '# FAIL: 0\n'
+> > >                              '# XPASS: 0\n'
+> > >                              '# ERROR: 0\n'
+> > >                              '\n'
+> > >                              'ERROR: Exit status is 2\n'
+> > >                              'DURATION: 6\n'}
+> > >
+> > >     ptests which had no test results:
+> > >     ['python3-cryptography']
+> > >
+> > >
+> >
+> > This makes it look like no ptests are even being detected? Is there any
+> other log info?
+> >
+> >
+>
+> It isn't just musl failing:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/6048
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/6233
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/6234
+>
+>
+> http://autobuilder.yocto.io/pub/non-release/20240203-17/testresults/qemux=
+86-64-ptest/python3-cryptography.log
+>
+> which also doesn't show any tests running.
+>
+>
+Ok. Maybe it is an OOM problem then for that one test or something. Time to
+dig in.
+Thank you for pointing to the builds.
 
 
+> Cheers,
+>
+> Richard
+>
+
+--0000000000006848e9061081374e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Sat, Feb 3, 2024 at 1:34=E2=80=AFP=
+M Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">=
+richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
+gb(204,204,204);padding-left:1ex">On Sat, 2024-02-03 at 13:27 -0800, Tim Or=
+ling wrote:<br>
+&gt; <br>
+&gt; <br>
+&gt; On Sat, Feb 3, 2024 at 1:07=E2=80=AFPM Khem Raj &lt;<a href=3D"mailto:=
+raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrote:<br>
+&gt; &gt; This is failing ptests on musl/qemux86-64<br>
+&gt; &gt; <br>
+&gt; &gt; =C2=A0 =C2=A0 Failed ptests:<br>
+&gt; &gt; =C2=A0 =C2=A0 {&#39;python3-cryptography&#39;: &#39;START: ptest-=
+runner\n&#39;<br>
+&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;2024-02-03T18:58\n&#39;<br>
+&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;Free memory: 3.899 GB\n&#39;<=
+br>
+&gt; &gt; <br>
+&gt; &gt; <br>
+&gt; <br>
+&gt; This means it is passing the=C2=A0check-memfree.py test, so that rules=
+ out OOM (unless we need more than this...<br>
+&gt; one test case did fail for me and then passed when I used -smp 4 -m 81=
+92<br>
+&gt; =C2=A0<br>
+&gt; &gt; &#39;=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D\n&#39;<br>
+&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;Testsuite summary\n&#39;<br>
+&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;# TOTAL: 0\n&#39;<br>
+&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;# PASS: 0\n&#39;<br>
+&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;# SKIP: 0\n&#39;<br>
+&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;# XFAIL: 0\n&#39;<br>
+&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;# FAIL: 0\n&#39;<br>
+&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;# XPASS: 0\n&#39;<br>
+&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;# ERROR: 0\n&#39;<br>
+&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;\n&#39;<br>
+&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;ERROR: Exit status is 2\n&#39=
+;<br>
+&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;DURATION: 6\n&#39;}<br>
+&gt; &gt; <br>
+&gt; &gt; =C2=A0 =C2=A0 ptests which had no test results:<br>
+&gt; &gt; =C2=A0 =C2=A0 [&#39;python3-cryptography&#39;]<br>
+&gt; &gt; <br>
+&gt; &gt; <br>
+&gt; <br>
+&gt; This makes it look like no ptests are even being detected? Is there an=
+y other log info?<br>
+&gt; <br>
+&gt; <br>
+<br>
+It isn&#39;t just musl failing:<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/82/build=
+s/6048" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
+ct.org/typhoon/#/builders/82/builds/6048</a><br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/81/build=
+s/6233" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
+ct.org/typhoon/#/builders/81/builds/6233</a><br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/81/build=
+s/6234" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
+ct.org/typhoon/#/builders/81/builds/6234</a><br>
+<br>
+<a href=3D"http://autobuilder.yocto.io/pub/non-release/20240203-17/testresu=
+lts/qemux86-64-ptest/python3-cryptography.log" rel=3D"noreferrer" target=3D=
+"_blank">http://autobuilder.yocto.io/pub/non-release/20240203-17/testresult=
+s/qemux86-64-ptest/python3-cryptography.log</a><br>
+<br>
+which also doesn&#39;t show any tests running.<br>
+<br></blockquote><div><br></div><div>Ok. Maybe it is an OOM problem then fo=
+r that one test or something. Time to dig in.</div><div>Thank you for point=
+ing to the builds.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" =
+style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
+dding-left:1ex">
+Cheers,<br>
+<br>
+Richard<br>
+</blockquote></div></div>
+
+--0000000000006848e9061081374e--
 
