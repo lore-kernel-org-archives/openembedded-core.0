@@ -2,58 +2,56 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1219DC4828D
-	for <webhook@archiver.kernel.org>; Sat,  3 Feb 2024 07:53:10 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web11.13403.1706946786351546429
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17ECBC4828F
+	for <webhook@archiver.kernel.org>; Sat,  3 Feb 2024 07:54:50 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web10.13475.1706946886981656835
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Feb 2024 23:53:06 -0800
+ Fri, 02 Feb 2024 23:54:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eDUZEByG;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-40ef6bbb61fso23363905e9.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 02 Feb 2024 23:53:05 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CBrFLRM0;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-40fb804e330so25160235e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 02 Feb 2024 23:54:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1706946784; x=1707551584; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1706946885; x=1707551685; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=yitrVTr3WpBjgYQxeNmyWtV4xdM8gEWVpTcMWUIwgNw=;
-        b=eDUZEByGHi+aYazDDfJmH8RGmVvwxjNlArEBf4lxGPW/xvPBBuKf2sQ5fTO1vlRyIF
-         qoHef4yr1TKfjwo2FdI8TFOvZ3K4BlQ91XBfZWMnRHkwRunLSY4Y9scR7LG9URdnfjBV
-         5lUPtegGp/kFcBmUZjUvaN1RX55fnsnWZTB7g=
+         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=65e1/rDfDbLcyiB2TQhUj0SCfTOaq7oMnt0QDGQ8tI0=;
+        b=CBrFLRM0VcWsLaxySAR1LMJyCJlBxXJ5bnT+Usk5HaUeg+F2DS1scwMr3vXbKLnNwD
+         VDThTmKbfarxSepzAO2wUf+zjlTWgnONl76ZsLGmJLj9l02cEuvbsJoktwHm62+4+apJ
+         JBL5GZ5ZLmDSz+lXc9k2bc5fOt3XnEizBWoK0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706946784; x=1707551584;
+        d=1e100.net; s=20230601; t=1706946885; x=1707551685;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :references:in-reply-to:date:to:from:subject:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yitrVTr3WpBjgYQxeNmyWtV4xdM8gEWVpTcMWUIwgNw=;
-        b=S7N7JTsAOIagn/XK4oC3Hb7E5tzb+nDfJ3YzHtXB9dxRY0FHm4IO5lK5niM5hLq8lF
-         mccV+0ig+Xw46WzxOPkQP/0f6RyuPwH68LBm3JWd/1dFGcoO4l7IGxp4bo8SiJVFJqsI
-         oJ59+WnXdJP8/NPaMPS1kfQSBjbJnXmlEc+jyAU0fqHMQuQh/fNYtXUEGsn5sqG865jW
-         8GfKzySELbTVtMrofRyjd51tPwKmKewksL8def9xfIbddj6LCNVnDCnkUf3xK0CmEtos
-         xNatxdteVa9WhYus41FPo0gyZ86lh395fnxqK06sXgJ7Flug/2h7JIDIK9PcZMaFJIPN
-         23Gg==
-X-Gm-Message-State: AOJu0YyvZyE5oun2hxOuKlSr1WciXzZ60QF65FVbG45avYCgs9i86YU9
-	nJdOulgbzyDSsv0puPqmesmQTJD5/0ULn/u6eyLS4VyBg9ZxNk3tRw5wEK6Guwg=
-X-Google-Smtp-Source: AGHT+IGMukBnO8CwRiwP7+H1r8e+el2+LP6zEfZHdiOHfZTWLMbDSs0C7hn4XJEfIhr2+n/6+ILeqw==
-X-Received: by 2002:a05:600c:1d02:b0:40f:c3ca:713c with SMTP id l2-20020a05600c1d0200b0040fc3ca713cmr389376wms.36.1706946784222;
-        Fri, 02 Feb 2024 23:53:04 -0800 (PST)
+        bh=65e1/rDfDbLcyiB2TQhUj0SCfTOaq7oMnt0QDGQ8tI0=;
+        b=m6W44yFT63R85JBWILtZRAu7g4Hl92Hr3F4Xl4t4hkUJrtjUO6Oc5pFJXOO/PXGJJn
+         ntJENdWAPzq8U8a/ohDRLkfx8QSdub2c5juvDR1aKbf76VfZyBXYyPvtbVH8ySosxWPb
+         JxAa59x+e8nXY6nWkrOWkfTEJoIl8qLGY9VRtk14W3F5n5H6XkDcTwMXzqKUvA3erYdF
+         t6KjPCRmh3GNaknNnJJfNpMmrx2dECjlFCK0ArK+YaFx/WTiFLlc3fQiqKOoP7WbtTp+
+         jIvn/6KK8UZZqTdx41AAvSSPTw4QmyWAlXjv/h8GtnhAOKS6aSBI8mrR+H5/84/7gKyA
+         FjQQ==
+X-Gm-Message-State: AOJu0Yy+JVEo489Ocs/WwbgwwvzdMSIbxJlrunHRy0K3ZeEzKamLBX37
+	H1oB3nkw+yblYwdW4xf8QxCpMrAsxBY0xlIx9zuNifpFg4RUuhlFcNtUpy5jRGyFRPkzAsXsK4C
+	S
+X-Google-Smtp-Source: AGHT+IFk813YnEeVC3OaiwYL8epJG6AUV/BpLdVxGekCKSSghszBOIsR3D2rYNlLCbn0wNLsxMaWCA==
+X-Received: by 2002:a05:600c:2105:b0:40e:fce3:3daf with SMTP id u5-20020a05600c210500b0040efce33dafmr449151wml.19.1706946885246;
+        Fri, 02 Feb 2024 23:54:45 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCX25tu5D1ZB5blpYHCv43Y48HI1/7anCNEsi+rcqG5LSFy/KZJLMrxY+tTQDgAqMVrPqvtAwiprQsFqxTXRYpv62tcNTjek6O992NR6g2KnwQjhsSbiKL2L
 Received: from ?IPv6:2001:8b0:aba:5f3c:5be5:6aa5:96ae:21ea? ([2001:8b0:aba:5f3c:5be5:6aa5:96ae:21ea])
-        by smtp.gmail.com with ESMTPSA id iv15-20020a05600c548f00b0040e9d507424sm2088718wmb.5.2024.02.02.23.53.03
+        by smtp.gmail.com with ESMTPSA id o13-20020a05600c4fcd00b0040fccf7e8easm1803646wmq.36.2024.02.02.23.54.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Feb 2024 23:53:03 -0800 (PST)
-Message-ID: <8fbde10440b97a7d1fae483c192b9d17c450124d.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2] gcc-runtime: Move gdb pretty printer file
- to auto-load location
+        Fri, 02 Feb 2024 23:54:44 -0800 (PST)
+Message-ID: <e490accbe222726fba2d51fadb40040b0608a172.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/2] glibc: Upgrade to 2.39
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Sat, 03 Feb 2024 07:53:02 +0000
-In-Reply-To: <CAMKF1sonSbNt3bsxBznXXTxEErULs57op81VSbyx_dHB2kPZzg@mail.gmail.com>
-References: <20240130162049.2019289-1-raj.khem@gmail.com>
-	 <ebb2eb6d1384624d6c293ce194891ee5c001da1d.camel@linuxfoundation.org>
-	 <CAMKF1sonSbNt3bsxBznXXTxEErULs57op81VSbyx_dHB2kPZzg@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Sat, 03 Feb 2024 07:54:44 +0000
+In-Reply-To: <20240201222401.565583-1-raj.khem@gmail.com>
+References: <20240201222401.565583-1-raj.khem@gmail.com>
 Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
@@ -69,104 +67,35 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 03 Feb 2024 07:53:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194830
+ <openembedded-core@lists.openembedded.org>; Sat, 03 Feb 2024 07:54:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194831
 
-On Fri, 2024-02-02 at 16:23 -0800, Khem Raj wrote:
-> On Fri, Feb 2, 2024 at 2:58=E2=80=AFPM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> >=20
-> > On Tue, 2024-01-30 at 08:20 -0800, Khem Raj wrote:
-> > > When debugging a C++ program on target using libcstdc++, gdb does not
-> > > find the pretty printer python support, this is because the init file=
- is
-> > > installed into /usr/lib which is excluded from gdb's default list of
-> > > directories to load config's from, where as defaults to load from
-> > > datadir is still on, it therefore does not load this file
-> > >=20
-> > > warning: File "/usr/lib/libstdc++.so.6.0.33-gdb.py" auto-loading has =
-been declined by your `auto-load safe-path' set to "$debugdir:$datadir/auto=
--load".
-> > >=20
-> > > This leaves the libstdc++ pretty-printers disabled even though added =
-via
-> > > IMAGE_INSTALL +=3D "gcc-runtime-dbg"
-> > >=20
-> > > Add missing runtime dependency on datetime python module for the pret=
-ty
-> > > printer to work/load successfully.
-> > >=20
-> > > Once the pretty-printer gdb file is moved out of libdir, it may becom=
-e
-> > > empty therefore delete it if its empty.
-> > >=20
-> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > > ---
-> > > v2: Fix build on mingw
-> > >=20
-> > >  meta/recipes-devtools/gcc/gcc-runtime.inc | 9 ++++++++-
-> > >  1 file changed, 8 insertions(+), 1 deletion(-)
-> > >=20
-> > > diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes=
--devtools/gcc/gcc-runtime.inc
-> > > index 64b6168ba76..004deb6e41f 100644
-> > > --- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-> > > +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-> > > @@ -85,6 +85,8 @@ do_install () {
-> > >               cd ${B}/${TARGET_SYS}/$d/
-> > >               oe_runmake 'DESTDIR=3D${D}' MULTIBUILDTOP=3D${B}/${TARG=
-ET_SYS}/$d/ install
-> > >       done
-> > > +     install -d ${D}${datadir}/gdb/auto-load/${libdir}
-> > > +     mv ${D}${libdir}/libstdc++*-gdb.py ${D}${datadir}/gdb/auto-load=
-/${libdir}
-> > >       if [ -d ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include ]; then
-> > >               install -d ${D}${libdir}/${TARGET_SYS}/${BINV}/include
-> > >               mv ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include/* ${=
-D}${libdir}/${TARGET_SYS}/${BINV}/include
-> > > @@ -99,6 +101,9 @@ do_install () {
-> > >       if [ -d ${D}${infodir} ]; then
-> > >               rmdir --ignore-fail-on-non-empty -p ${D}${infodir}
-> > >       fi
-> > > +     if [ -d ${D}${libdir} ]; then
-> > > +             rmdir --ignore-fail-on-non-empty -p ${D}${libdir}
-> > > +     fi
-> > >  }
-> > >=20
-> > >  do_install:append:class-target () {
-> > > @@ -182,9 +187,11 @@ RRECOMMENDS:${PN}-dbg =3D ""
-> > >=20
-> > >  # include python debugging scripts
-> > >  FILES:${PN}-dbg +=3D "\
-> > > -    ${libdir}/libstdc++.*-gdb.py \
-> > >      ${datadir}/gcc-${BINV}/python/libstdcxx \
-> > > +    ${datadir}/gdb/auto-load \
-> > >  "
-> > > +# Needed by libstdcxx pretty printer
-> > > +RDEPENDS:${PN}-dbg +=3D "python3-datetime"
-> > >=20
-> > >  FILES:libg2c =3D "${target_libdir}/libg2c.so.*"
-> > >  SUMMARY:libg2c =3D "Companion runtime library for g77"
-> >=20
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/6381/=
-steps/14/logs/stdio
-> >=20
-> > Missing or unbuildable dependency chain was: ['selftest-ed',
-> > 'virtual/x86_64-poky-linux-compilerlibs', 'python3-datetime', 'bash']
-> >=20
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/89/builds/8533
+On Thu, 2024-02-01 at 14:24 -0800, Khem Raj wrote:
+> License-Update: Relicenses the IBM portions of resolv/base64.c and
+> resolv/res_debug.c to a new license that does not have use-limited
+> patent language [1]
 >=20
-> Hmm, so I wonder if using RRECOMMEND is better here. Where is bash
-> being pulled from ?
+> Upgrade localdef to get glibc 2.39 build fixes
+> Details of release [2]
+>=20
+> Add fix for mips clone3 crash
+>=20
+> [1] https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3Dae49a7b29acc=
+184b03c2a6bd6ac01b5e08efd54f
+> [2] https://sourceware.org/glibc/wiki/Release/2.39
+>=20
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
 
-bash appears to be a dependency of python3-datetime. I don't think a
-RRECOMMEND will help unfortunately.
+I think we may still have an n32 mips failure:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/8562/step=
+s/27/logs/stdio
+
+#   error "_TIME_BITS=3D64 is allowed only with _FILE_OFFSET_BITS=3D64"
+
+although I haven't 100% confirmed it is this patch.
 
 Cheers,
 
 Richard
-
-
-
-
 
