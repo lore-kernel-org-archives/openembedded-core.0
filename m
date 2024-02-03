@@ -1,83 +1,99 @@
-Return-Path: <alexis.lothore@bootlin.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84088C4828F
-	for <webhook@archiver.kernel.org>; Sat,  3 Feb 2024 09:30:20 +0000 (UTC)
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
- by mx.groups.io with SMTP id smtpd.web10.14162.1706952610904350498
- for <Openembedded-core@lists.openembedded.org>;
- Sat, 03 Feb 2024 01:30:11 -0800
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F6DEC4828F
+	for <webhook@archiver.kernel.org>; Sat,  3 Feb 2024 09:34:00 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.14201.1706952835170356552
+ for <openembedded-core@lists.openembedded.org>;
+ Sat, 03 Feb 2024 01:33:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=B2xF5eeq;
- spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: alexis.lothore@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id C2121E0004;
-	Sat,  3 Feb 2024 09:30:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1706952608;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=G2640yxHJ/C9QHXFRZS6Uy7S/pMu+h7TPaiWduWU9+Q=;
-	b=B2xF5eeq5kzj9+fIYZSFQJ/pfyJ2URcAjy04nzob+dgvBAixTNgz2zAkTwxVahXke0XxzY
-	11WusV+f4ULfxpKAwIWFlWhVHcG5LcVFe0xsZ1s6RTpGLeE2m7o9DEDoCG9h/FufnSPUxO
-	+M2QggSOgmehoFOoiT/StX1Ui/xKsxshEVLvpYWRO+vC3vbHY3qan415w+UWKy9CItDRQQ
-	Yah2w07x1vWLbACVQgzlWxVmf5+dV+ymO0LhPUlmkmt1cstxvUwNv3oTgJfiDb6YSYC5/7
-	shsO/5ahphnUOXCDpzYnrFVDccqkPFAfRZGRjELsaXIVuNOZhO8RRIYsFCnHPA==
-From: =?UTF-8?q?Alexis=20Lothor=C3=A9?= <alexis.lothore@bootlin.com>
-To: <Openembedded-core@lists.openembedded.org>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [OE-Core][PATCH v2 2/2] core-image-ptest: retrieve ptests directory when ptests fail
-Date: Sat,  3 Feb 2024 10:29:58 +0100
-Message-ID: <20240203092958.6321-1-alexis.lothore@bootlin.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240203092538.5491-1-alexis.lothore@bootlin.com>
-References: <20240203092538.5491-1-alexis.lothore@bootlin.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: alexis.lothore@bootlin.com
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=QaUSSFiE;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=M2/62CEG;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018d6e513bfa-7346c1c5-e778-4c57-8aad-a9d5a7b4e053-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1706952834; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
+	bh=GPCUDX74FAgFhh0JT54CC7XNw4f6g2q77OCuXe5WBBU=;
+	b=QaUSSFiEmpXtI3cU85TsCGRM8nol9FZmaL/iOTvvveOSNgxuTv22WBrniyJy3jX8
+	ZD1r2azSIDigNNl56n8FEvM87JzQ84k0dUyXPRCiL+68+rB6VDaYzjLXoH4Gttjj+6t
+	zsUQ0WyYVjPtciSLQ19gYCvTojm23hRFbQKtjYj0=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1706952834;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=GPCUDX74FAgFhh0JT54CC7XNw4f6g2q77OCuXe5WBBU=;
+	b=M2/62CEGiQugq9NdKiD9D5HBY411ckhUkvxcdVjzkfYDH6KXxyQQlKZHTOcd1nCq
+	9B2HVU9Dgo3kcgrru1WJWrUyoNE6g3skCvp23ibQi9+dPLguJYst30pg8rabpsGFCbI
+	mEc7d+nMS7ois0HCFgTjpDI4NhBfpu83Y6uhWEDc=
+From: patchtest@automation.yoctoproject.org
+To: =?utf-8?q?Alexis_Lothor=C3=A9?= <alexis.lothore@bootlin.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-Core][PATCH v2 1/2] testimage: move TESTIMAGE_FAILED_QA_ARTIFACTS
+ default value to core-image-minimal
+In-Reply-To: 20240203092538.5491-2-alexis.lothore@bootlin.com
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018d6e513bfa-7346c1c5-e778-4c57-8aad-a9d5a7b4e053-000000@us-west-2.amazonses.com>
+Date: Sat, 3 Feb 2024 09:33:54 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.02.03-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 03 Feb 2024 09:30:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194841
+ <openembedded-core@lists.openembedded.org>; Sat, 03 Feb 2024 09:34:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194842
 
-From: Alexis Lothoré <alexis.lothore@bootlin.com>
+--NextPart
+Content-Type: text/plain
 
-TESTIMAGE_FAILED_QA_ARTIFACTS is defined in core-image-minimal with a
-minimal list of files to retrieve whenever a runtime test fails. By
-appending the ptest directory only in core-image-ptest.bb, thanks to
-multiconfig feature used in the recipe, only failing ptests will lead to
-corresponding ptest artifacts retrieval, instead of all ptests artifacts
-retrieval.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Signed-off-by: Alexis Lothoré <alexis.lothore@bootlin.com>
 ---
-This patch was present in the original artifacts series ([1])
 
-Changes since previous series:
-- use += instead of append syntax
+Testing patch /home/patchtest/share/mboxes/v2-1-2-testimage-move-TESTIMAGE_FAILED_QA_ARTIFACTS-default-value-to-core-image-minimal.patch
+FAIL: test shortlog length: Edit shortlog so that it is 90 characters or less (currently 96 characters) (test_mbox.TestMbox.test_shortlog_length)
 
-[1] https://lore.kernel.org/openembedded-core/20230609064802.11777-4-alexis.lothore@bootlin.com/
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
 ---
- meta/recipes-core/images/core-image-ptest.bb | 2 ++
- 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-core/images/core-image-ptest.bb b/meta/recipes-core/images/core-image-ptest.bb
-index b6f5c2fd6049..fb96c542c0a3 100644
---- a/meta/recipes-core/images/core-image-ptest.bb
-+++ b/meta/recipes-core/images/core-image-ptest.bb
-@@ -43,3 +43,5 @@ python () {
-         raise bb.parse.SkipRecipe("No class extension set")
- }
- 
-+# Include ptest directory in artifacts to retrieve if there is a failed test
-+TESTIMAGE_FAILED_QA_ARTIFACTS += "${libdir}/${MCNAME}/ptest"
--- 
-2.43.0
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
 
+--NextPart
+
+
+--NextPart--
 
