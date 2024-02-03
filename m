@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76968C4828D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 839FCC4828F
 	for <webhook@archiver.kernel.org>; Sat,  3 Feb 2024 19:15:23 +0000 (UTC)
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
- by mx.groups.io with SMTP id smtpd.web11.23494.1706987717685493792
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+ by mx.groups.io with SMTP id smtpd.web10.23488.1706987715947505068
  for <openembedded-core@lists.openembedded.org>;
- Sat, 03 Feb 2024 11:15:17 -0800
+ Sat, 03 Feb 2024 11:15:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=xwxccMj5;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.177, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-5cdf76cde78so2912961a12.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 03 Feb 2024 11:15:17 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=kRhuep38;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.172, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-5d4d15ec7c5so2960317a12.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 03 Feb 2024 11:15:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1706987716; x=1707592516; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1706987714; x=1707592514; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=aMgWiLueD846YOkZo/ZPx1QqJDE9TShR0saqLwfvgSg=;
-        b=xwxccMj5ofEpOmaGCO+RnjNNIRg/M3ybqxfwJTJmm8LbQF6B1vt9uFkT1kEQg6MGtb
-         SLovJdM9OG+mLpSlgTLEKl0Qora633R9VPz5y0Y+smnLzrIzI10I7llWeVDT2FxskN8E
-         CLmTLcLjhhi633q0tDzS11gfrBxGqcP0MiqojwlQdsmjsS1wfC8xjoptYZFL4aM2mxo1
-         w8hA9q0VVO3itL32niZOTNgkbuUyGvUs5KPA+8m94VR7ObYuwaNJMggxIoaj5nfp7ynk
-         htBmUAngMh32DrmuOy53mOKYeqkKf4UzHW6Gousjc1am52nO6vVv2K+LOqH5/AEIm4yr
-         za7g==
+        bh=BGoMUgeE2H1N86lzSZIlwX1TG74eWmvSjKrIf4xC8PI=;
+        b=kRhuep38RSzDaKV3pxO3sGkTDAT/FrByovUPDa9rhihTWDrnYlY3G0R/EOvLUAuavF
+         9MBy1B+z0VbFg9ra/iQbXoldksuKYyzbHVleDJ7IzaeDJ9SMj/8eU1ZuRcVAPh3g0a0w
+         1+zrHoRRy6ll1rGwjBRUr3ULgDTp0HFp4telNT/2SjW3f0uSVVFy1PdTsdKz2PYSU9rR
+         0VdhfBHoUZr1OrNVp7f9+RDq2VGHg5RN+T3IcYMH3Hc3UYMgTh+EWaNqJAOHgWJnCQCg
+         TZcKPYvsY4WVz9NqTGHremXmTFpyJF81CCAlXiyMao1/5CuTShS2aZ2PJqv2UqsFhuf/
+         e/mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706987716; x=1707592516;
+        d=1e100.net; s=20230601; t=1706987714; x=1707592514;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=aMgWiLueD846YOkZo/ZPx1QqJDE9TShR0saqLwfvgSg=;
-        b=LKylGtHwIujJlcQedS6NMDN4H4bXRk1C3zj5QbkqGrKegHWsdjSnXnIMErxtTL7Bss
-         oUMSG3WBuosFB9gG8uiefR3DiEjb4xo+hIlhxKSkN8NWxUoe0r9qKKXQdYY1sqA0NelF
-         1Bp2k4jgxsEwUSax/B9BrR3MDG0XYkccSt+W8z3rEMEga1Dpp2K6B+OmX1zZ4pfVN5Dz
-         9ERKCqydFcfkgOcPnqU0F5zhEORZvWwK4P9YcG4be9ZJsHoAsL4aYxamFrJyWEYSEUxo
-         /f7jyFwPxTrTMYWTunsSCV2X7eqWxraEL5UFmynsVqnAy0LirAQU02fweaBpnI647Jxm
-         UIXg==
-X-Gm-Message-State: AOJu0YyM31HuNjeLISAtZFu45Qsl+mKtyG10aXAswntDcJ2twuX1uMu3
-	AZp5E+5F0AhoKpskezy70ywVRQB+JPpUl+4FssFrDhyQWWQbQjqpuKHjDwILNRw9P3WHg6At6Xa
-	fk3g=
-X-Google-Smtp-Source: AGHT+IGzg/VTyU3vWv4DQD+mmG0ajdIG6A/ey49r+VaW5l3E3EN/MY4hkxfudfX8Ga1v3ciru3EN/g==
-X-Received: by 2002:a05:6a21:3483:b0:19c:a883:4714 with SMTP id yo3-20020a056a21348300b0019ca8834714mr4851375pzb.3.1706987716457;
-        Sat, 03 Feb 2024 11:15:16 -0800 (PST)
+        bh=BGoMUgeE2H1N86lzSZIlwX1TG74eWmvSjKrIf4xC8PI=;
+        b=b3PBOwwnJj32g9gUEjEd8CBLs71Saqy1T0qetB5o3p7g0zggFBBRstsiKDx33BaEaM
+         EFTmoM6m7qycYA0/GXcvN0m/sxAUTrY3BQRXszXRUZ74CgDt1fLV1J2WHA7hd9JKEGpn
+         +fo0J4QtOEdrE3AY+tNqHFCi+WBwspnBZzQxS1ZL+z/GhnkJy84DAazuQ0jESDoy8Hs/
+         OLMR15MlTMY1PTbUkoGircUMTC+sYw3inNkXXKdjcXysLVICg4r6awq4M589CI/v3r6V
+         JPFT4Ima57rDz7jYbv3mKeLse+WxGFtOWNlZ3M1xzWB9zKG5nvo3zdnMGVTDooyQiWIp
+         2g+g==
+X-Gm-Message-State: AOJu0YypIOAZZr/qTbBB8qSS7tAyU1u73CkmPuHs/q9yw3iH2OZW9dPQ
+	qR92xSsdkXZCuvIXjtm1RydfkuWLkaYIixnEjvNXiw0nlFXqqryMFh4FjSdLNXZAQWBDY3LTOkW
+	ccK8=
+X-Google-Smtp-Source: AGHT+IHwIAEuZyCC+W0XEdggboZjRmR68siYuwvkw7bI7qNmQ+cu11GnOie2jVN2t/ItYnpkZRuq+g==
+X-Received: by 2002:a17:902:e548:b0:1d8:d56e:5dee with SMTP id n8-20020a170902e54800b001d8d56e5deemr16395618plf.1.1706987714607;
+        Sat, 03 Feb 2024 11:15:14 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id w63-20020a17090a6bc500b00296443780d7sm2376863pjj.47.2024.02.03.11.15.15
+        by smtp.gmail.com with ESMTPSA id w63-20020a17090a6bc500b00296443780d7sm2376863pjj.47.2024.02.03.11.15.13
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Feb 2024 11:15:16 -0800 (PST)
+        Sat, 03 Feb 2024 11:15:14 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][nanbield 15/15] tcl: Fix prepending to run-ptest script
-Date: Sat,  3 Feb 2024 09:14:42 -1000
-Message-Id: <5f49d4c3f528c1e9a2884cc9cc8026b5d43517f9.1706987549.git.steve@sakoman.com>
+Subject: [OE-core][nanbield 14/15] rootfs.py: check depmodwrapper execution result
+Date: Sat,  3 Feb 2024 09:14:41 -1000
+Message-Id: <2d8e913e2bfbb4ccbdf3eb747aab46fc38cf23e7.1706987549.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1706987549.git.steve@sakoman.com>
 References: <cover.1706987549.git.steve@sakoman.com>
@@ -62,34 +62,37 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 03 Feb 2024 19:15:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194859
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194858
 
-From: Khem Raj <raj.khem@gmail.com>
+From: Yang Xu <yang.xu@mediatek.com>
 
-This ensures that string is prepended properly and eclosed in ''
-Fixes the ptest runs on musl
+The execution result of depmodwrapper is not checked which makes depmod
+generation failed sliently and hard to detect.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 7bb45591f9caa7ff6b065220927a26e8261e2866)
+So check exection result and stop building if depmodwrapper failed.
+
+Signed-off-by: Yang Xu <yang.xu@mediatek.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(cherry picked from commit 2f88e7d331390c6aaecc4522253e24791aec299e)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/tcltk/tcl_8.6.13.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oe/rootfs.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/tcltk/tcl_8.6.13.bb b/meta/recipes-devtools/tcltk/tcl_8.6.13.bb
-index b33a78e147..bb75353a5a 100644
---- a/meta/recipes-devtools/tcltk/tcl_8.6.13.bb
-+++ b/meta/recipes-devtools/tcltk/tcl_8.6.13.bb
-@@ -88,7 +88,7 @@ do_install_ptest() {
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index 1a48ed10b3..3f27164536 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -349,7 +349,8 @@ class Rootfs(object, metaclass=ABCMeta):
+             bb.utils.mkdirhier(versioned_modules_dir)
  
- do_install_ptest:append:libc-musl () {
- 	# Assumes locales other than provided by musl-locales
--	sed -i -e 's|SKIPPED_TESTS=|SKIPPED_TESTS="unixInit-3*"|' ${D}${PTEST_PATH}/run-ptest
-+	sed -i -e "s|SKIPPED_TESTS='|SKIPPED_TESTS='unixInit-3* |" ${D}${PTEST_PATH}/run-ptest
- }
+             bb.note("Running depmodwrapper for %s ..." % versioned_modules_dir)
+-            self._exec_shell_cmd(['depmodwrapper', '-a', '-b', self.image_rootfs, kernel_ver, kernel_package_name])
++            if self._exec_shell_cmd(['depmodwrapper', '-a', '-b', self.image_rootfs, kernel_ver, kernel_package_name]):
++                bb.fatal("Kernel modules dependency generation failed")
  
- # Fix some paths that might be used by Tcl extensions
+     """
+     Create devfs:
 -- 
 2.34.1
 
