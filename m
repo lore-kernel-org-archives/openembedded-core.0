@@ -1,122 +1,142 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <changqing.li@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84CD2C48286
-	for <webhook@archiver.kernel.org>; Sun,  4 Feb 2024 05:12:56 +0000 (UTC)
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
- by mx.groups.io with SMTP id smtpd.web11.33223.1707023573096869556
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E74BC4828F
+	for <webhook@archiver.kernel.org>; Sun,  4 Feb 2024 05:25:16 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.33567.1707024311521436087
  for <openembedded-core@lists.openembedded.org>;
- Sat, 03 Feb 2024 21:12:53 -0800
+ Sat, 03 Feb 2024 21:25:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=U7XDW/BM;
- spf=pass (domain: gmail.com, ip: 209.85.216.42, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-29658f0c034so866926a91.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 03 Feb 2024 21:12:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707023572; x=1707628372; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=iy1HtLYUbPC4id6J5wyxRfm3tjMBwV6SVMI5Xz6kHQc=;
-        b=U7XDW/BMh5ire8h3jF7t+wioOEtMXi3/9cfXGnjyYIYaR9KOaWNpdDd8A+JyDWiJmU
-         2xOHMQVKVT/OxanNjo/KRHV6XvbOcBwqZGrZHs3MqFACwyoDGc7HAIl8a0p/SABjC3AK
-         PFmdmBJVLwlL1zpQCPMNWUCmbiC7A+pGdkLVKnbZqNDNcT8OOw7Y/YY/B2oRDlMxP2L0
-         A+Mcs+dUNJiV1d/fovHN+7qxDbfNdWpDl2P2UQFa56X47z7Eb0ndUK8tdJaHHj15u0bs
-         QH06kZ5metfvXQtod9ssTn2Y1eFqq2TNgElmG1WxkmSllTLMS8Bi8ubtFMTzbW93XsEx
-         aUxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707023572; x=1707628372;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iy1HtLYUbPC4id6J5wyxRfm3tjMBwV6SVMI5Xz6kHQc=;
-        b=lhwLC0bri67gkvnFB7y0IPhr5G3P6soR8n5QrUvGHSF7PST8P/q0F7ja1RXQZq4cKj
-         K1vG2eGQBpvRhX571sfe+QZhNfko3v2F4CsvBI/I4ZNCK+cK39qHSqRpiDnR1+M+nSwZ
-         LGa2KCMSfxsGLZ8Ygq09ZFJXVRSCyuijXq/0LC/svRuT+p/Q95JgNUpfKVyCaSj/JKbI
-         Xo4s8KhgceeYPxDBEpQEyuFapRwr1g5pksuhmDg2QPHO9wev51nmRUzgDYaUn5eaJeGX
-         pW2D5CZO/rVaGEgHHg9Kr7mbTidh571RxDPjjMv+rX9Rr+KkdAhfgm9xpNDwol2M38RP
-         l8xw==
-X-Gm-Message-State: AOJu0YyLckvvDPbTZyYFzJCEMGUYeD8EukHTW8mYg0YuYB9G10AtcDUn
-	2t3IIKNE5vhlUeilTG295JrkWqgIzNnb06Ju56iW1qPY6i7oCpaSTE6n0SUEk3M=
-X-Google-Smtp-Source: AGHT+IE7/6UgfhOVxc2f8NZJ4VUjG5R9GCxgP65jMIQcVlXofQOq/XXAIL3wygeoYlFQDkMuxZjiHg==
-X-Received: by 2002:a17:902:f683:b0:1d9:9e4f:c0ba with SMTP id l3-20020a170902f68300b001d99e4fc0bamr1507239plg.22.1707023572063;
-        Sat, 03 Feb 2024 21:12:52 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCU6REmcnZ/OI/WsazQaEib5hhtMRvYwU1xaOz7AzOUpRijd2szDA5gg8LM/h6VqkDGSj+TbLZ08HEaN6HJ4Hxd+KPLb
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::d977])
-        by smtp.gmail.com with ESMTPSA id jj14-20020a170903048e00b001d958a17e07sm3994406plb.294.2024.02.03.21.12.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Feb 2024 21:12:51 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>,
-	Ross Burton <ross.burton@arm.com>
-Subject: [PATCH] sdk/assimp.py: Fix build on 32bit arches with 64bit time_t
-Date: Sat,  3 Feb 2024 21:12:49 -0800
-Message-ID: <20240204051249.903402-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=JUvSXcTr;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=2764459116=changqing.li@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4145KRB3023556
+	for <openembedded-core@lists.openembedded.org>; Sun, 4 Feb 2024 05:25:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=hl1Lx
+	DCl+MLry+ILO651hcemIeyjlfieMzQSmsl2tI8=; b=JUvSXcTrvjKAJh+FJnODY
+	Qk1L/siUDbUkeqsnNZ6TYDxcQTfS5WwaNw8r7JYnEml5SY4EBj08+0Z9Unyhz4u1
+	M7XUCuewjmHtaWYLjdxTcOLrWla75RMld8R01lCpEsCAv2hBrLiN3m7Z+a1rX7ad
+	P9bi+8eU0v72u0x0u9XxJE4N5Rmp3o8t88SrP2Db7FBmdgE3Qz72H6u2V2vCQTgn
+	ZP+I66wClReH/XiFcLVvyc56tNWihtVoyQijJDcMqmAaCQfY8lj/3PqDhvwb6yHM
+	+RyRFhlx9CBE6H2VD49G5oBxk9koCXz5cjyhJhTi7ZAEDRPVCyRZW/b89jWK6AzN
+	g==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3w1cq0gstn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Sun, 04 Feb 2024 05:25:10 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Sat, 3 Feb 2024 21:25:06 -0800
+Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.35 via Frontend Transport; Sat, 3 Feb 2024 21:25:05 -0800
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] go: revert an oe-specific patch
+Date: Sun, 4 Feb 2024 13:25:07 +0800
+Message-ID: <20240204052507.623825-1-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: O4H0Havn34F0WNYvSh10o7Wqo9PkCxgg
+X-Proofpoint-GUID: O4H0Havn34F0WNYvSh10o7Wqo9PkCxgg
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-04_02,2024-01-31_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 malwarescore=0
+ phishscore=0 mlxscore=0 impostorscore=0 adultscore=0 priorityscore=1501
+ lowpriorityscore=0 bulkscore=0 spamscore=0 mlxlogscore=999 clxscore=1015
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2401310000
+ definitions=main-2402040039
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 04 Feb 2024 05:12:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194871
+ <openembedded-core@lists.openembedded.org>; Sun, 04 Feb 2024 05:25:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194872
 
-This testcase does not work properly with 32bit systems as it houses an
-older version of zlib which needs to be patched to work with 32bit
-systems with 64bit time_t e.g. mips o32.
+From: Changqing Li <changqing.li@windriver.com>
 
-Apply a needed patch via sed logic to fix this issue.
+patch 0007-exec.go-do-not-write-linker-flags-into-buildids.patch
+removes linker flags from buildids for not breaking reproducibility,
+but it seems that this will make go not rebuild when linker flag
+changes, Refer [1]. So revert this oe-specific patch, need to find
+a more proper way to fix reproducibilities.
 
-Enable bundled zlib in build, which means we do not require zlib to be
-available in SDK and it can be built for more variety of images.
+[1] https://github.com/golang/go/issues/63760
 
-Upgrade the testcase to use 5.3.1 release of assimp and add cmake option to
-enable bundled zlib explicitly.
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Cc: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- meta/lib/oeqa/sdk/cases/assimp.py | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ meta/recipes-devtools/go/go-1.20.13.inc       |  1 -
+ ...not-write-linker-flags-into-buildids.patch | 41 -------------------
+ 2 files changed, 42 deletions(-)
+ delete mode 100644 meta/recipes-devtools/go/go/0007-exec.go-do-not-write-linker-flags-into-buildids.patch
 
-diff --git a/meta/lib/oeqa/sdk/cases/assimp.py b/meta/lib/oeqa/sdk/cases/assimp.py
-index e4c5c730037..e986838aea7 100644
---- a/meta/lib/oeqa/sdk/cases/assimp.py
-+++ b/meta/lib/oeqa/sdk/cases/assimp.py
-@@ -22,24 +22,24 @@ class BuildAssimp(OESDKTestCase):
-         if not (self.tc.hasHostPackage("nativesdk-cmake") or
-                 self.tc.hasHostPackage("cmake-native")):
-             raise unittest.SkipTest("Needs cmake")
--        if not (self.tc.hasTargetPackage("zlib", multilib=True) or \
--                self.tc.hasTargetPackage("libz1", multilib=True)):
--            raise unittest.SkipTest("Assimp test needs zlib in the SDK")
- 
-     def test_assimp(self):
-         with tempfile.TemporaryDirectory(prefix="assimp", dir=self.tc.sdk_dir) as testdir:
--            tarball = self.fetch(testdir, self.td["DL_DIR"], "https://github.com/assimp/assimp/archive/v4.1.0.tar.gz")
-+            tarball = self.fetch(testdir, self.td["DL_DIR"], "https://github.com/assimp/assimp/archive/v5.3.1.tar.gz")
- 
-             dirs = {}
--            dirs["source"] = os.path.join(testdir, "assimp-4.1.0")
-+            dirs["source"] = os.path.join(testdir, "assimp-5.3.1")
-             dirs["build"] = os.path.join(testdir, "build")
-             dirs["install"] = os.path.join(testdir, "install")
- 
-             subprocess.check_output(["tar", "xf", tarball, "-C", testdir], stderr=subprocess.STDOUT)
-             self.assertTrue(os.path.isdir(dirs["source"]))
-+            # Apply the zlib patch https://github.com/madler/zlib/commit/a566e156b3fa07b566ddbf6801b517a9dba04fa3
-+            # this sed wont be needed once assimp moves its zlib copy to v1.3.1+
-+            self._run("sed -i '/#  ifdef _FILE_OFFSET_BITS/I,+2 d' {source}/contrib/zlib/gzguts.h".format(**dirs))
-             os.makedirs(dirs["build"])
- 
--            self._run("cd {build} && cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON {source}".format(**dirs))
-+            self._run("cd {build} && cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DASSIMP_BUILD_ZLIB=ON {source}".format(**dirs))
-             self._run("cmake --build {build} -- -j".format(**dirs))
-             self._run("cmake --build {build} --target install -- DESTDIR={install}".format(**dirs))
--            self.check_elf(os.path.join(dirs["install"], "usr", "local", "lib", "libassimp.so.4.1.0"))
-+            self.check_elf(os.path.join(dirs["install"], "usr", "local", "lib", "libassimp.so.5.3.0"))
+diff --git a/meta/recipes-devtools/go/go-1.20.13.inc b/meta/recipes-devtools/go/go-1.20.13.inc
+index b6eeb651c9..3b0beb7233 100644
+--- a/meta/recipes-devtools/go/go-1.20.13.inc
++++ b/meta/recipes-devtools/go/go-1.20.13.inc
+@@ -11,7 +11,6 @@ SRC_URI += "\
+     file://0004-make.bash-override-CC-when-building-dist-and-go_boot.patch \
+     file://0005-cmd-dist-separate-host-and-target-builds.patch \
+     file://0006-cmd-go-make-GOROOT-precious-by-default.patch \
+-    file://0007-exec.go-do-not-write-linker-flags-into-buildids.patch \
+     file://0008-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
+     file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch \
+ "
+diff --git a/meta/recipes-devtools/go/go/0007-exec.go-do-not-write-linker-flags-into-buildids.patch b/meta/recipes-devtools/go/go/0007-exec.go-do-not-write-linker-flags-into-buildids.patch
+deleted file mode 100644
+index 7d9869b536..0000000000
+--- a/meta/recipes-devtools/go/go/0007-exec.go-do-not-write-linker-flags-into-buildids.patch
++++ /dev/null
+@@ -1,41 +0,0 @@
+-From 0ba747e6a4b251a0d9eed0cfd8f8c491bb508040 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Mon, 23 Nov 2020 19:22:04 +0000
+-Subject: [PATCH 7/9] exec.go: do not write linker flags into buildids
+-
+-The flags can contain build-specific paths, breaking reproducibility.
+-
+-To make this acceptable to upstream, we probably need to trim the flags,
+-removing those known to be buildhost-specific.
+-
+-Upstream-Status: Inappropriate [needs upstream discussion]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- src/cmd/go/internal/work/exec.go | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/src/cmd/go/internal/work/exec.go b/src/cmd/go/internal/work/exec.go
+-index cde867b..5cb1812 100644
+---- a/src/cmd/go/internal/work/exec.go
+-+++ b/src/cmd/go/internal/work/exec.go
+-@@ -1331,7 +1331,7 @@ func (b *Builder) linkActionID(a *Action) cache.ActionID {
+- 	}
+- 
+- 	// Toolchain-dependent configuration, shared with b.linkSharedActionID.
+--	b.printLinkerConfig(h, p)
+-+	//b.printLinkerConfig(h, p)
+- 
+- 	// Input files.
+- 	for _, a1 := range a.Deps {
+-@@ -1626,7 +1626,7 @@ func (b *Builder) linkSharedActionID(a *Action) cache.ActionID {
+- 	fmt.Fprintf(h, "goos %s goarch %s\n", cfg.Goos, cfg.Goarch)
+- 
+- 	// Toolchain-dependent configuration, shared with b.linkActionID.
+--	b.printLinkerConfig(h, nil)
+-+	//b.printLinkerConfig(h, nil)
+- 
+- 	// Input files.
+- 	for _, a1 := range a.Deps {
+--- 
+-2.30.2
+-
 -- 
-2.43.0
+2.25.1
 
 
