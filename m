@@ -1,220 +1,365 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2448DC4828D
-	for <webhook@archiver.kernel.org>; Sun,  4 Feb 2024 03:40:16 +0000 (UTC)
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
- by mx.groups.io with SMTP id smtpd.web10.32390.1707018009376026948
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 232EFC48286
+	for <webhook@archiver.kernel.org>; Sun,  4 Feb 2024 03:55:46 +0000 (UTC)
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
+ by mx.groups.io with SMTP id smtpd.web11.32343.1707018937304409779
  for <openembedded-core@lists.openembedded.org>;
- Sat, 03 Feb 2024 19:40:09 -0800
+ Sat, 03 Feb 2024 19:55:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=RbQK83qs;
- spf=pass (domain: gmail.com, ip: 209.85.160.48, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-2196dd318feso224393fac.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 03 Feb 2024 19:40:09 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=gKexaYYt;
+ spf=pass (domain: gmail.com, ip: 209.85.219.172, mailfrom: ticotimo@gmail.com)
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-dc6f6d10ea9so1404756276.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 03 Feb 2024 19:55:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707018008; x=1707622808; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8QzaEINlwFYDuFg7Lvuy39l6+pkzSiyu+GU2z0SO/PQ=;
-        b=RbQK83qsrgvA5x61moXUvlHWEVzNPgFSVtSvoWGC1GQp8DJ82OFgGuyx4SMarluBcq
-         7Ql8OTGSbOPBaTfaFBe0BlWg/Fk5lynMXASS12k9EqpITjKZ18tyjO/TEbwsFVmurwSR
-         O8t9rwkuUVcQym/X1bjzMZcmB0JIuOu75L9iteotraFJ1pnnetL8R5bB83v2GFBNSNZY
-         264voaM+vnpsZwrKwkkayLiddoIhazGRkzHK9FJpHAUUPVJylvhv3k+5op6KmWnahbmM
-         SNgk/IKl7DrHxav06PIRSyC387MzDvhn1HpBb/Z2MbK8gE7j1km4lcBCLIhd9eTZlyHp
-         fuPA==
+        d=gmail.com; s=20230601; t=1707018936; x=1707623736; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=b2pNBoeKSRkhT1d8Xe5ZVVgTyL5GXwfhgNYz/xN7os0=;
+        b=gKexaYYtt9rwGMInP+ZnsCuQPmVMCtbjTfmVZwJVbLAdqbtT3/w+6qNG9CXoLQkUxP
+         p8efWkC2BbK8irjqFYU6h5FlvQLJbYwZKwnr8mXZE+/DGshLDmOjO+OZkTD4TSp+bgSa
+         WovDhkqCT0JfPb8jz57UvFUtESDA1yhUGr7yAEBZxWJT13bT57rR8aN0vY+E6rodhJhK
+         F3wB/ezMjnkigHvL2R5fM8m3D0WoPvCAjPz3RB2aHmV1TPEfKGVQKwhmlBBWXowR0r7h
+         DQIXkS0sBDejCTTJgYFEOiXdcO1CGeipwePG26uIwtdXHpAyP8Ky+ZFN8iTioA+km+3E
+         oTDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707018008; x=1707622808;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8QzaEINlwFYDuFg7Lvuy39l6+pkzSiyu+GU2z0SO/PQ=;
-        b=EEfjz9czCif0VvbEMutiknpSwKUtMEB2DakeyfI5AlOh7bFQcbkT66Li52ZgUTSF6p
-         y1Hcfp9zI02HcMvRj3xo95GFPIfUebqGET4AOFGzg0f7pjt5tytZfgvLRU85gZNWUW6E
-         bsqtuVs0O11paeOmUG7eWJPyc80nfPXzp4JlXdtipf01KzhZUN3Ay1Yd2woH7msqH+oV
-         fBs0q4SrkAH7CHJzk6kJaFk/+FhZmOUdyz1kanci66fwkAIFMNuXQanq44aWetKMhN6O
-         5b8+KPbwy18RyZC6Q1NoK+HLO0nM55LIc++E6FhpoF1MnCF7QI+ne6+ViWe9Aiiuk+P6
-         WhxQ==
-X-Gm-Message-State: AOJu0YxrLT2j036b1PL9MT7rWpI6n0/iMQdhHW4D+SIhfu8ouRo7xNpf
-	HKKoUXMPUukuNuG11AevtNOF2LL6+8WETwQZoCvRhi56V9/c7oHleHy1t1i0ZKaYEcHtOb6HEX5
-	+pnsn8qtZZRjSVoajyQUUtGcmHiU=
-X-Google-Smtp-Source: AGHT+IGxHm1NSGwvHo2dxiHk2tl74iFNltqfz5u+GX0Spg02Llypx+a4vGs4Wq4RTxPLnYy2IFOjqy9HPfjDHX7RapY=
-X-Received: by 2002:a05:6871:b06:b0:214:fbb0:8d77 with SMTP id
- fq6-20020a0568710b0600b00214fbb08d77mr4732004oab.4.1707018008523; Sat, 03 Feb
- 2024 19:40:08 -0800 (PST)
+        d=1e100.net; s=20230601; t=1707018936; x=1707623736;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=b2pNBoeKSRkhT1d8Xe5ZVVgTyL5GXwfhgNYz/xN7os0=;
+        b=s/pC3FwZfAcxJ4a8vQISZrZjHBdnK0XYaHTs3+x7wu+2jjVSIVyfSClJ03/kuXFbz3
+         4n4PJBsh5nSWdY0FjuTu8unwXH1x5sPHkDA7BkLIuhyBddhhNi8HffUgbtgEeo7OcvQt
+         7oYRCtnc8N2BQtMKBjL4ZId3Jh4pJtQY8MZxejcXToAxF687Gh1SlJr17wUrVSMM9uAL
+         J5h61zjeVnizq8+7VKVkMXg1rsYBMhsVaCyzZ0UoEyp9F8AAXm20mwbdYBD/LjMW/hur
+         JA4WuddwJ+l7UYcV6S9sMuMFx0Xql7LO1PbxqnkyIx/41iKCcN/RB3TgN09vSPg/htPH
+         STJg==
+X-Gm-Message-State: AOJu0YyWdoydSZETIdQNe5xemxKs6HgZTdJqq7YdwtCMFdzVuYJ5UuLe
+	bESUxlOQy/gtfWuiutoHtRVXf77Mz7TK0z9X2fcLPzgDzNyQXX3GRaMBO3iNq0nxvtADAgQr3ux
+	JVQlhuFLbc7evdO23ibDxWLpy8dM=
+X-Google-Smtp-Source: AGHT+IEKmIiIgmrk7tjx/G+DZB3X0kZy8jvclZksFHBKskFmoewgaRiKsVY9jBU3Yrs0rW90lLjn7jkr39IvQBdd8bM=
+X-Received: by 2002:a25:6850:0:b0:dc6:b7e3:c193 with SMTP id
+ d77-20020a256850000000b00dc6b7e3c193mr5477554ybc.7.1707018936080; Sat, 03 Feb
+ 2024 19:55:36 -0800 (PST)
 MIME-Version: 1.0
-References: <20240105165554.1401517-1-tim.orling@konsulko.com>
- <2024020223125655b936ef@mail.local> <17B031E2E1DE7669.13964@lists.openembedded.org>
- <CANx9H-A1MwJ1crmJLJ51mrxp0oEazc7QXCqEv1VWUUKwPTuSBg@mail.gmail.com>
-In-Reply-To: <CANx9H-A1MwJ1crmJLJ51mrxp0oEazc7QXCqEv1VWUUKwPTuSBg@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 3 Feb 2024 19:39:42 -0800
-Message-ID: <CAMKF1srNM1GMm2D9dYnozm+59vV9oqBHVC7oFfOZEdwwY-rCzw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] openssh: upgrade 9.5p1 -> 9.6p1
-To: Tim Orling <ticotimo@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Tim Orling <tim.orling@konsulko.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+References: <20240130162049.2019289-1-raj.khem@gmail.com> <ebb2eb6d1384624d6c293ce194891ee5c001da1d.camel@linuxfoundation.org>
+ <CAMKF1sonSbNt3bsxBznXXTxEErULs57op81VSbyx_dHB2kPZzg@mail.gmail.com> <8fbde10440b97a7d1fae483c192b9d17c450124d.camel@linuxfoundation.org>
+In-Reply-To: <8fbde10440b97a7d1fae483c192b9d17c450124d.camel@linuxfoundation.org>
+From: Tim Orling <ticotimo@gmail.com>
+Date: Sat, 3 Feb 2024 19:55:25 -0800
+Message-ID: <CANx9H-DzH90X_tYppX4QP4NO-b0EcfnJYTCrR7zynB23nCTuzg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] gcc-runtime: Move gdb pretty printer file to
+ auto-load location
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000004f675d0610865154"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 04 Feb 2024 03:40:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194869
+ <openembedded-core@lists.openembedded.org>; Sun, 04 Feb 2024 03:55:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194870
 
-On Sat, Feb 3, 2024 at 5:20=E2=80=AFPM Tim Orling <ticotimo@gmail.com> wrot=
-e:
->
-> The errors on mips32 are internal compiler errors (ICE):
-> moduli.c:814:1: internal compiler error: in int_mode_for_mode, at stor-la=
-yout.cc:407
-> progressmeter.c:238:1: internal compiler error: in int_mode_for_mode, at =
-stor-layout.cc:407
-> clientloop.c:1699:1: internal compiler error: in int_mode_for_mode, at st=
-or-layout.cc:407
->
-> (There are also a lot of OpenSSL 3.0 deprecation warnings, but I think th=
-e ICE are what is failing the build).
->
-> Full log.do_compile attached.
->
-> There are a handful of similar bug reports like:
-> https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D104820
->
-> Any advice to help report this properly is appreciated. Any ideas to fix =
-it are even better.
+--0000000000004f675d0610865154
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Looks like gcc issue but try the patch proposed in this bug
-https://bugzilla.mindrot.org/show_bug.cgi?id=3D3645
+On Fri, Feb 2, 2024 at 11:53=E2=80=AFPM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-This patch - https://bugzilla.mindrot.org/attachment.cgi?id=3D3776&action=
-=3Ddiff
-
-See if it helps.
-
+> On Fri, 2024-02-02 at 16:23 -0800, Khem Raj wrote:
+> > On Fri, Feb 2, 2024 at 2:58=E2=80=AFPM Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> > >
+> > > On Tue, 2024-01-30 at 08:20 -0800, Khem Raj wrote:
+> > > > When debugging a C++ program on target using libcstdc++, gdb does n=
+ot
+> > > > find the pretty printer python support, this is because the init
+> file is
+> > > > installed into /usr/lib which is excluded from gdb's default list o=
+f
+> > > > directories to load config's from, where as defaults to load from
+> > > > datadir is still on, it therefore does not load this file
+> > > >
+> > > > warning: File "/usr/lib/libstdc++.so.6.0.33-gdb.py" auto-loading
+> has been declined by your `auto-load safe-path' set to
+> "$debugdir:$datadir/auto-load".
+> > > >
+> > > > This leaves the libstdc++ pretty-printers disabled even though adde=
+d
+> via
+> > > > IMAGE_INSTALL +=3D "gcc-runtime-dbg"
+> > > >
+> > > > Add missing runtime dependency on datetime python module for the
+> pretty
+> > > > printer to work/load successfully.
+> > > >
+> > > > Once the pretty-printer gdb file is moved out of libdir, it may
+> become
+> > > > empty therefore delete it if its empty.
+> > > >
+> > > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > > > ---
+> > > > v2: Fix build on mingw
+> > > >
+> > > >  meta/recipes-devtools/gcc/gcc-runtime.inc | 9 ++++++++-
+> > > >  1 file changed, 8 insertions(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc
+> b/meta/recipes-devtools/gcc/gcc-runtime.inc
+> > > > index 64b6168ba76..004deb6e41f 100644
+> > > > --- a/meta/recipes-devtools/gcc/gcc-runtime.inc
+> > > > +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
+> > > > @@ -85,6 +85,8 @@ do_install () {
+> > > >               cd ${B}/${TARGET_SYS}/$d/
+> > > >               oe_runmake 'DESTDIR=3D${D}'
+> MULTIBUILDTOP=3D${B}/${TARGET_SYS}/$d/ install
+> > > >       done
+> > > > +     install -d ${D}${datadir}/gdb/auto-load/${libdir}
+> > > > +     mv ${D}${libdir}/libstdc++*-gdb.py
+> ${D}${datadir}/gdb/auto-load/${libdir}
+> > > >       if [ -d ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include ]; th=
+en
+> > > >               install -d ${D}${libdir}/${TARGET_SYS}/${BINV}/includ=
+e
+> > > >               mv ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include/*
+> ${D}${libdir}/${TARGET_SYS}/${BINV}/include
+> > > > @@ -99,6 +101,9 @@ do_install () {
+> > > >       if [ -d ${D}${infodir} ]; then
+> > > >               rmdir --ignore-fail-on-non-empty -p ${D}${infodir}
+> > > >       fi
+> > > > +     if [ -d ${D}${libdir} ]; then
+> > > > +             rmdir --ignore-fail-on-non-empty -p ${D}${libdir}
+> > > > +     fi
+> > > >  }
+> > > >
+> > > >  do_install:append:class-target () {
+> > > > @@ -182,9 +187,11 @@ RRECOMMENDS:${PN}-dbg =3D ""
+> > > >
+> > > >  # include python debugging scripts
+> > > >  FILES:${PN}-dbg +=3D "\
+> > > > -    ${libdir}/libstdc++.*-gdb.py \
+> > > >      ${datadir}/gcc-${BINV}/python/libstdcxx \
+> > > > +    ${datadir}/gdb/auto-load \
+> > > >  "
+> > > > +# Needed by libstdcxx pretty printer
+> > > > +RDEPENDS:${PN}-dbg +=3D "python3-datetime"
+> > > >
+> > > >  FILES:libg2c =3D "${target_libdir}/libg2c.so.*"
+> > > >  SUMMARY:libg2c =3D "Companion runtime library for g77"
+> > >
+> > >
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/6381/st=
+eps/14/logs/stdio
+> > >
+> > > Missing or unbuildable dependency chain was: ['selftest-ed',
+> > > 'virtual/x86_64-poky-linux-compilerlibs', 'python3-datetime', 'bash']
+> > >
+> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/89/builds/853=
+3
+> >
+> > Hmm, so I wonder if using RRECOMMEND is better here. Where is bash
+> > being pulled from ?
 >
-> --Tim
+> bash appears to be a dependency of python3-datetime. I don't think a
+> RRECOMMEND will help unfortunately.
 >
-> On Fri, Feb 2, 2024 at 4:11=E2=80=AFPM Tim Orling via lists.openembedded.=
-org <ticotimo=3Dgmail.com@lists.openembedded.org> wrote:
->>
->>
->>
->> On Fri, Feb 2, 2024 at 3:12=E2=80=AFPM Alexandre Belloni <alexandre.bell=
-oni@bootlin.com> wrote:
->>>
->>> https://autobuilder.yoctoproject.org/typhoon/#/builders/102/builds/5751=
-/steps/13/logs/stdio
->>
->>
->> Thank you, Alexandre. I=E2=80=99ll try to find a fix for this mips issue=
-. If anyone else stumbles on it first, I=E2=80=99m happy to take guidance.
->>>
->>>
->>> On 05/01/2024 08:55:55-0800, Tim Orling wrote:
->>> > * Relocate Upstream-Status in 0001-regress-banner.sh-log-input-and-ou=
-tput-files-on-erro.patch
->>> >   so it will not throw an error in AUH
->>> >
->>> > https://www.openssh.com/txt/release-9.6
->>> > https://github.com/openssh/openssh-portable/compare/V_9_5_P1...V_9_6_=
-P1
->>> >
->>> > https://nvd.nist.gov/vuln/detail/CVE-2023-48795
->>> > https://nvd.nist.gov/vuln/detail/CVE-2023-51384
->>> > https://nvd.nist.gov/vuln/detail/CVE-2023-51385
->>> >
->>> > CVE: CVE-2023-48795
->>> > CVE: CVE-2023-51384
->>> > CVE: CVE-2023-51385
->>> >
->>> > Signed-off-by: Tim Orling <tim.orling@konsulko.com>
->>> > ---
->>> > All ptests passed on core-image-ptest-openssh on qemux86-64
->>> >
->>> >  ...regress-banner.sh-log-input-and-output-files-on-erro.patch | 4 ++=
---
->>> >  .../openssh/{openssh_9.5p1.bb =3D> openssh_9.6p1.bb}            | 2 =
-+-
->>> >  2 files changed, 3 insertions(+), 3 deletions(-)
->>> >  rename meta/recipes-connectivity/openssh/{openssh_9.5p1.bb =3D> open=
-ssh_9.6p1.bb} (98%)
->>> >
->>> > diff --git a/meta/recipes-connectivity/openssh/openssh/0001-regress-b=
-anner.sh-log-input-and-output-files-on-erro.patch b/meta/recipes-connectivi=
-ty/openssh/openssh/0001-regress-banner.sh-log-input-and-output-files-on-err=
-o.patch
->>> > index 2c14014fed8..8763f30f4b3 100644
->>> > --- a/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.s=
-h-log-input-and-output-files-on-erro.patch
->>> > +++ b/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.s=
-h-log-input-and-output-files-on-erro.patch
->>> > @@ -34,13 +34,13 @@ return value: 1
->>> >
->>> >  See: https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15178
->>> >
->>> > +Upstream-Status: Denied [https://github.com/openssh/openssh-portable=
-/pull/437]
->>> > +
->>> >  Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
->>> >  ---
->>> >   regress/banner.sh | 4 +++-
->>> >   1 file changed, 3 insertions(+), 1 deletion(-)
->>> >
->>> > -Upstream-Status: Denied [https://github.com/openssh/openssh-portable=
-/pull/437]
->>> > -
->>> >  diff --git a/regress/banner.sh b/regress/banner.sh
->>> >  index a84feb5a..de84957a 100644
->>> >  --- a/regress/banner.sh
->>> > diff --git a/meta/recipes-connectivity/openssh/openssh_9.5p1.bb b/met=
-a/recipes-connectivity/openssh/openssh_9.6p1.bb
->>> > similarity index 98%
->>> > rename from meta/recipes-connectivity/openssh/openssh_9.5p1.bb
->>> > rename to meta/recipes-connectivity/openssh/openssh_9.6p1.bb
->>> > index bbb8fb091ad..fa44eb0bd4e 100644
->>> > --- a/meta/recipes-connectivity/openssh/openssh_9.5p1.bb
->>> > +++ b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
->>> > @@ -28,7 +28,7 @@ SRC_URI =3D "http://ftp.openbsd.org/pub/OpenBSD/Ope=
-nSSH/portable/openssh-${PV}.tar
->>> >             file://0001-regress-banner.sh-log-input-and-output-files-=
-on-erro.patch \
->>> >             file://0001-systemd-Add-optional-support-for-systemd-sd_n=
-otify.patch \
->>> >             "
->>> > -SRC_URI[sha256sum] =3D "f026e7b79ba7fb540f75182af96dc8a8f1db395f922b=
-bc9f6ca603672686086b"
->>> > +SRC_URI[sha256sum] =3D "910211c07255a8c5ad654391b40ee59800710dd8119d=
-d5362de09385aa7a777c"
->>> >
->>> >  CVE_STATUS[CVE-2007-2768] =3D "not-applicable-config: This CVE is sp=
-ecific to OpenSSH with the pam opie which we don't build/use here."
->>> >
->>> > --
->>> > 2.34.1
->>> >
->>>
->>> >
->>> >
->>> >
->>>
->>>
->>> --
->>> Alexandre Belloni, co-owner and COO, Bootlin
->>> Embedded Linux and Kernel engineering
->>> https://bootlin.com
->>
->>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#194821): https://lists.openembedded.org/g/openembedd=
-ed-core/message/194821
->> Mute This Topic: https://lists.openembedded.org/mt/103546397/924729
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [t=
-icotimo@gmail.com]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
+
+It seems to be required for tests/ (test_venv.py, test_subprocess.py and
+test_zipfile/test_core.py are the obvious ones)
+https://github.com/search?q=3Drepo%3Apython%2Fcpython+%28%22bash%22+OR+%22b=
+ash+required%22%29+path%3A%2F%5ELib%5C%2Ftest%5C%2F%2F&type=3Dcode
+
+I didn=E2=80=99t see any hard requirement in Lib/datetime.py nor its test c=
+ases.
+But searching on a phone can lead to missing things=E2=80=A6
+
+
+> Cheers,
+>
+> Richard
+>
+>
+>
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#194830):
+> https://lists.openembedded.org/g/openembedded-core/message/194830
+> Mute This Topic: https://lists.openembedded.org/mt/104056687/924729
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> ticotimo@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--0000000000004f675d0610865154
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Fri, Feb 2, 2024 at 11:53=E2=80=AFPM Richard Purdie &lt;=
+<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxf=
+oundation.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:soli=
+d;padding-left:1ex;border-left-color:rgb(204,204,204)">On Fri, 2024-02-02 a=
+t 16:23 -0800, Khem Raj wrote:<br>
+&gt; On Fri, Feb 2, 2024 at 2:58=E2=80=AFPM Richard Purdie<br>
+&gt; &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_b=
+lank">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
+&gt; &gt; <br>
+&gt; &gt; On Tue, 2024-01-30 at 08:20 -0800, Khem Raj wrote:<br>
+&gt; &gt; &gt; When debugging a C++ program on target using libcstdc++, gdb=
+ does not<br>
+&gt; &gt; &gt; find the pretty printer python support, this is because the =
+init file is<br>
+&gt; &gt; &gt; installed into /usr/lib which is excluded from gdb&#39;s def=
+ault list of<br>
+&gt; &gt; &gt; directories to load config&#39;s from, where as defaults to =
+load from<br>
+&gt; &gt; &gt; datadir is still on, it therefore does not load this file<br=
+>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; warning: File &quot;/usr/lib/libstdc++.<a href=3D"http://so.=
+6.0.33-gdb.py" rel=3D"noreferrer" target=3D"_blank">so.6.0.33-gdb.py</a>&qu=
+ot; auto-loading has been declined by your `auto-load safe-path&#39; set to=
+ &quot;$debugdir:$datadir/auto-load&quot;.<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; This leaves the libstdc++ pretty-printers disabled even thou=
+gh added via<br>
+&gt; &gt; &gt; IMAGE_INSTALL +=3D &quot;gcc-runtime-dbg&quot;<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; Add missing runtime dependency on datetime python module for=
+ the pretty<br>
+&gt; &gt; &gt; printer to work/load successfully.<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; Once the pretty-printer gdb file is moved out of libdir, it =
+may become<br>
+&gt; &gt; &gt; empty therefore delete it if its empty.<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail=
+.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
+&gt; &gt; &gt; ---<br>
+&gt; &gt; &gt; v2: Fix build on mingw<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt;=C2=A0 meta/recipes-devtools/gcc/gcc-runtime.inc | 9 ++++++++=
+-<br>
+&gt; &gt; &gt;=C2=A0 1 file changed, 8 insertions(+), 1 deletion(-)<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/met=
+a/recipes-devtools/gcc/gcc-runtime.inc<br>
+&gt; &gt; &gt; index 64b6168ba76..004deb6e41f 100644<br>
+&gt; &gt; &gt; --- a/meta/recipes-devtools/gcc/gcc-runtime.inc<br>
+&gt; &gt; &gt; +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc<br>
+&gt; &gt; &gt; @@ -85,6 +85,8 @@ do_install () {<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cd ${B=
+}/${TARGET_SYS}/$d/<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0oe_run=
+make &#39;DESTDIR=3D${D}&#39; MULTIBUILDTOP=3D${B}/${TARGET_SYS}/$d/ instal=
+l<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0done<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0install -d ${D}${datadir}/gdb/auto-load=
+/${libdir}<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0mv ${D}${libdir}/libstdc++*-gdb.py ${D}=
+${datadir}/gdb/auto-load/${libdir}<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ -d ${D}${libdir}/gcc/${TARGET=
+_SYS}/${BINV}/include ]; then<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0instal=
+l -d ${D}${libdir}/${TARGET_SYS}/${BINV}/include<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mv ${D=
+}${libdir}/gcc/${TARGET_SYS}/${BINV}/include/* ${D}${libdir}/${TARGET_SYS}/=
+${BINV}/include<br>
+&gt; &gt; &gt; @@ -99,6 +101,9 @@ do_install () {<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ -d ${D}${infodir} ]; then<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rmdir =
+--ignore-fail-on-non-empty -p ${D}${infodir}<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0if [ -d ${D}${libdir} ]; then<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rmdir --ign=
+ore-fail-on-non-empty -p ${D}${libdir}<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0fi<br>
+&gt; &gt; &gt;=C2=A0 }<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt;=C2=A0 do_install:append:class-target () {<br>
+&gt; &gt; &gt; @@ -182,9 +187,11 @@ RRECOMMENDS:${PN}-dbg =3D &quot;&quot;<=
+br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt;=C2=A0 # include python debugging scripts<br>
+&gt; &gt; &gt;=C2=A0 FILES:${PN}-dbg +=3D &quot;\<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 ${libdir}/libstdc++.*-gdb.py \<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 ${datadir}/gcc-${BINV}/python/libstdcxx =
+\<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 ${datadir}/gdb/auto-load \<br>
+&gt; &gt; &gt;=C2=A0 &quot;<br>
+&gt; &gt; &gt; +# Needed by libstdcxx pretty printer<br>
+&gt; &gt; &gt; +RDEPENDS:${PN}-dbg +=3D &quot;python3-datetime&quot;<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt;=C2=A0 FILES:libg2c =3D &quot;${target_libdir}/libg2c.so.*&qu=
+ot;<br>
+&gt; &gt; &gt;=C2=A0 SUMMARY:libg2c =3D &quot;Companion runtime library for=
+ g77&quot;<br>
+&gt; &gt; <br>
+&gt; &gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builder=
+s/87/builds/6381/steps/14/logs/stdio" rel=3D"noreferrer" target=3D"_blank">=
+https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/6381/step=
+s/14/logs/stdio</a><br>
+&gt; &gt; <br>
+&gt; &gt; Missing or unbuildable dependency chain was: [&#39;selftest-ed&#3=
+9;,<br>
+&gt; &gt; &#39;virtual/x86_64-poky-linux-compilerlibs&#39;, &#39;python3-da=
+tetime&#39;, &#39;bash&#39;]<br>
+&gt; &gt; <br>
+&gt; &gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builder=
+s/89/builds/8533" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.=
+yoctoproject.org/typhoon/#/builders/89/builds/8533</a><br>
+&gt; <br>
+&gt; Hmm, so I wonder if using RRECOMMEND is better here. Where is bash<br>
+&gt; being pulled from ?<br>
+<br>
+bash appears to be a dependency of python3-datetime. I don&#39;t think a<br=
+>
+RRECOMMEND will help unfortunately.<br>
+</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">It seems to be r=
+equired for tests/ (test_venv.py, test_subprocess.py and test_zipfile/test_=
+core.py are the obvious ones)</div><div dir=3D"auto"><div><a href=3D"https:=
+//github.com/search?q=3Drepo%3Apython%2Fcpython+%28%22bash%22+OR+%22bash+re=
+quired%22%29+path%3A%2F%5ELib%5C%2Ftest%5C%2F%2F&amp;type=3Dcode">https://g=
+ithub.com/search?q=3Drepo%3Apython%2Fcpython+%28%22bash%22+OR+%22bash+requi=
+red%22%29+path%3A%2F%5ELib%5C%2Ftest%5C%2F%2F&amp;type=3Dcode</a></div><br>=
+</div><div dir=3D"auto">I didn=E2=80=99t see any hard requirement in Lib/da=
+tetime.py nor its test cases. But searching on a phone can lead to missing =
+things=E2=80=A6</div><div dir=3D"auto"><br></div><blockquote class=3D"gmail=
+_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left=
+-style:solid;padding-left:1ex;border-left-color:rgb(204,204,204)"><br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#194830): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/194830" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/194830</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/104056687/924=
+729" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/104056687/924729</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:ticotimo@gmail.com" target=
+=3D"_blank">ticotimo@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--0000000000004f675d0610865154--
 
