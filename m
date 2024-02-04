@@ -1,205 +1,157 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16BA8C4828F
-	for <webhook@archiver.kernel.org>; Sun,  4 Feb 2024 10:28:08 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web11.36043.1707042484727233270
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A11DC48286
+	for <webhook@archiver.kernel.org>; Sun,  4 Feb 2024 11:19:28 +0000 (UTC)
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+ by mx.groups.io with SMTP id smtpd.web10.36686.1707045558866555069
  for <openembedded-core@lists.openembedded.org>;
- Sun, 04 Feb 2024 02:28:05 -0800
+ Sun, 04 Feb 2024 03:19:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UruDGyr/;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-40fc52c2ae4so20435705e9.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 04 Feb 2024 02:28:04 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=idisJECB;
+ spf=softfail (domain: sakoman.com, ip: 209.85.219.44, mailfrom: steve@sakoman.com)
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-6818aa08a33so17193056d6.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 04 Feb 2024 03:19:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1707042483; x=1707647283; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=98uz44RL68mp5P8wEco3L/J0lFceDPkmZ+4zxcDf7uQ=;
-        b=UruDGyr/b85wzdsEVwMW8xpeAfhxNga8np5NJigO+qaiQDDQUM3cISrABZlG1ynwH0
-         d+RQdO0XfL/MUoMtMYOaAopcuM6g4mR1Xlt6ERQHaeHP3jdijRFDlBIux/5rbjO8DMn9
-         m0Kdlmw3aNYiSkTKOS9aTC9lCbNpdk/w0CUtE=
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1707045557; x=1707650357; darn=lists.openembedded.org;
+        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pjbzpDcrxeBR2K7/kuSJ3JzOAJW7t4rrIF2soYWYwwI=;
+        b=idisJECBzepsviAYyAwM52/jMSel1S5q1AqCw/+/OEkjfyuri1+2JUGdZWwzZqeOqt
+         DYs6z/gCvGVNuHvqF7NeoLFhhYaL9p/YcZ0wiXR7XF2oq/FJCXolTUfp7sJ0T8IKUVqk
+         otYPJ3oAFRrrQYfGv6OQ4fzdddz326/nVNGY/G8iipcUuKMoHwUCTOVO+diDyVj/+pGS
+         SKAhlqdkOWomI8vgwwLbCdFL9ENAMfl827E3Dv1HHMeUcn041pnzsnljHS8vcDnnIT+Y
+         noRdITgsy+jDXG3k1LiPF5RQp3BCZOQYyEP80d6V07BBKv9wn9V2Mp4c1PzXKqm0Yqmk
+         PwSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707042483; x=1707647283;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=98uz44RL68mp5P8wEco3L/J0lFceDPkmZ+4zxcDf7uQ=;
-        b=J8kT3WYEOZjWriH+EtFIt58THUnqehoGX2woFNisTkVBmAP/RHtqtv1ISYd6u/AK2u
-         SgA0tKHBoEkJ0mHXUDTZRsnS34FZEWZG5P57VdSwPvMUa5Rs/sagJj88p4TSkagvdfG2
-         u4WEpfm8cl7YIVDyE5FYMjZ9qxX2RYhfAVkvF/NaGqOntyw9wcFyoaudwfiBaidcVDA7
-         F/IDYgOmlx37Bq4E86mC2P1X6+Up6eEeuU07p7XEuCxv1lfGUOGwdGzfSkVCYJRsRvfu
-         f5rOhCPFje4MHpGy78npppe1jEw1HyPpgOvV+GLbPdmvfm3R7EoNGx88tvM0blFNW/su
-         lkzw==
-X-Gm-Message-State: AOJu0Yzrre4kk38/2HTOTLWmE9VdAGleSpAm36rqkaem6YmtsawGlYIR
-	wZPbGY3QM/8a1xxAsbeZ20nDU9RhBh0QFcc3sZ0vJElSboqkB0JhoNcZC81/zO2tmuy5ENqPf8M
-	N
-X-Google-Smtp-Source: AGHT+IFtSgEptj1rnuUIqSp7OesGKhzVOmDBNnQkKBR8FQwm8HPh/1vH3DH53X4elfZuDdfu6N7EIA==
-X-Received: by 2002:a05:600c:470c:b0:40f:c5df:e92e with SMTP id v12-20020a05600c470c00b0040fc5dfe92emr2625021wmo.31.1707042482828;
-        Sun, 04 Feb 2024 02:28:02 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCWIUvzdfyeDl94Yyxg7UWSBZRUVpeVrYw/QTnnUQ++/3In42mdpZRgHE6tq5G9EfR+boH/G+2h5bWURv9owyYmx5GrJUNdwLrLWb5CCEgjoIzkipxvFz1AR
-Received: from ?IPv6:2001:8b0:aba:5f3c:8ea0:9a0d:a119:2213? ([2001:8b0:aba:5f3c:8ea0:9a0d:a119:2213])
-        by smtp.gmail.com with ESMTPSA id v13-20020a05600c444d00b0040fd3056de2sm3416121wmn.31.2024.02.04.02.28.02
+        d=1e100.net; s=20230601; t=1707045557; x=1707650357;
+        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=pjbzpDcrxeBR2K7/kuSJ3JzOAJW7t4rrIF2soYWYwwI=;
+        b=EwKx+9IwGZVo/o3EwuqStbKop4mpi8m2wuu7/9diKQzwrPBTuSYkhADW8WhwpdAXOW
+         F7ojLFbYjMI9ZMRipDqJlw2FJ9b1QHjYJQuZltXg4HypOvq7BLU7qV9+E1x7yUlqYPkW
+         qJ2bX3BnpjLIvwttiEUEIbORT6Suw2S+Q36umlEHAid/JFvt6laDLSx2Jv9dnH+oQSPK
+         4IZ6K01kIazbpyz+fqU25v86YhjgJip4GxvWsI/4vV+hKK0G/40pTjgQqvCHoJWTAhi4
+         ybPSzQ2i+qGnxPKp+2Lnh8fKRJ8nMJL/MrkJFXB9thCgGQ/hy0ceph+mMC5FM8qqmDbb
+         oKdQ==
+X-Gm-Message-State: AOJu0YwpIPLxigfvnyvSk9TCUnhj7udf6TvEaJ7jSkUa+rTlXjMtwhh0
+	LzFstRxLb2uNlaKEetMD3Yr/oFKAV0awLMvfLq3Sg1xs8hq2Tw7ofDq3dMno6To2AoKf6Ay0BLi
+	pQtc=
+X-Google-Smtp-Source: AGHT+IHa79GxxAC/6BY2GrjdQhqZmpFwWwDOxROCG+GqnncsFtg8t/7ijWDSEfXFEAvie3o49XhMJQ==
+X-Received: by 2002:ad4:5bef:0:b0:68c:a3e0:14f with SMTP id k15-20020ad45bef000000b0068ca3e0014fmr181804qvc.25.1707045557094;
+        Sun, 04 Feb 2024 03:19:17 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCWnD9E2dApnu16XqCbgAgAu1Kop6JtQsMttvjwRxB5FAeSq31hPYwZMX0AQRyqRFJVyT0CCvGYM2J1XxykYhc3Qu8uwHG+rzG7MNbNPnCykP3vZ++Mp
+Received: from builder.sakoman.com ([71.19.246.55])
+        by smtp.gmail.com with ESMTPSA id x11-20020a05620a0ecb00b007837a9b3590sm2119139qkm.65.2024.02.04.03.19.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Feb 2024 02:28:02 -0800 (PST)
-Message-ID: <d6d59a9f1a93d9805f2b80b70f0558f6d8e133bb.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2] gcc-runtime: Move gdb pretty printer file
- to auto-load location
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Tim Orling <ticotimo@gmail.com>
-Cc: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Sun, 04 Feb 2024 10:28:01 +0000
-In-Reply-To: <CANx9H-DzH90X_tYppX4QP4NO-b0EcfnJYTCrR7zynB23nCTuzg@mail.gmail.com>
-References: <20240130162049.2019289-1-raj.khem@gmail.com>
-	 <ebb2eb6d1384624d6c293ce194891ee5c001da1d.camel@linuxfoundation.org>
-	 <CAMKF1sonSbNt3bsxBznXXTxEErULs57op81VSbyx_dHB2kPZzg@mail.gmail.com>
-	 <8fbde10440b97a7d1fae483c192b9d17c450124d.camel@linuxfoundation.org>
-	 <CANx9H-DzH90X_tYppX4QP4NO-b0EcfnJYTCrR7zynB23nCTuzg@mail.gmail.com>
-Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
- YNvg==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.0-1 
-MIME-Version: 1.0
+        Sun, 04 Feb 2024 03:19:16 -0800 (PST)
+Received: by builder.sakoman.com (Postfix, from userid 1001)
+	id 5CBD9106938; Sun,  4 Feb 2024 01:19:15 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 04 Feb 2024 01:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+User-Agent: mail (GNU Mailutils 3.14)
+Date: Sun,  4 Feb 2024 01:19:15 -1000
+Message-Id: <20240204111915.5CBD9106938@builder.sakoman.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 04 Feb 2024 10:28:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194883
+ <openembedded-core@lists.openembedded.org>; Sun, 04 Feb 2024 11:19:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194884
 
-On Sat, 2024-02-03 at 19:55 -0800, Tim Orling wrote:
->=20
->=20
-> On Fri, Feb 2, 2024 at 11:53=E2=80=AFPM Richard Purdie <richard.purdie@li=
-nuxfoundation.org> wrote:
-> > On Fri, 2024-02-02 at 16:23 -0800, Khem Raj wrote:
-> > > On Fri, Feb 2, 2024 at 2:58=E2=80=AFPM Richard Purdie
-> > > <richard.purdie@linuxfoundation.org> wrote:
-> > > >=20
-> > > > On Tue, 2024-01-30 at 08:20 -0800, Khem Raj wrote:
-> > > > > When debugging a C++ program on target using libcstdc++, gdb does=
- not
-> > > > > find the pretty printer python support, this is because the init =
-file is
-> > > > > installed into /usr/lib which is excluded from gdb's default list=
- of
-> > > > > directories to load config's from, where as defaults to load from
-> > > > > datadir is still on, it therefore does not load this file
-> > > > >=20
-> > > > > warning: File "/usr/lib/libstdc++.so.6.0.33-gdb.py" auto-loading =
-has been declined by your `auto-load safe-path' set to "$debugdir:$datadir/=
-auto-load".
-> > > > >=20
-> > > > > This leaves the libstdc++ pretty-printers disabled even though ad=
-ded via
-> > > > > IMAGE_INSTALL +=3D "gcc-runtime-dbg"
-> > > > >=20
-> > > > > Add missing runtime dependency on datetime python module for the =
-pretty
-> > > > > printer to work/load successfully.
-> > > > >=20
-> > > > > Once the pretty-printer gdb file is moved out of libdir, it may b=
-ecome
-> > > > > empty therefore delete it if its empty.
-> > > > >=20
-> > > > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > > > > ---
-> > > > > v2: Fix build on mingw
-> > > > >=20
-> > > > > =C2=A0 meta/recipes-devtools/gcc/gcc-runtime.inc | 9 ++++++++-
-> > > > > =C2=A0 1 file changed, 8 insertions(+), 1 deletion(-)
-> > > > >=20
-> > > > > diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/rec=
-ipes-devtools/gcc/gcc-runtime.inc
-> > > > > index 64b6168ba76..004deb6e41f 100644
-> > > > > --- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-> > > > > +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-> > > > > @@ -85,6 +85,8 @@ do_install () {
-> > > > > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cd ${B}/${=
-TARGET_SYS}/$d/
-> > > > > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0oe_runmake=
- 'DESTDIR=3D${D}' MULTIBUILDTOP=3D${B}/${TARGET_SYS}/$d/ install
-> > > > > =C2=A0 =C2=A0 =C2=A0 =C2=A0done
-> > > > > +=C2=A0 =C2=A0 =C2=A0install -d ${D}${datadir}/gdb/auto-load/${li=
-bdir}
-> > > > > +=C2=A0 =C2=A0 =C2=A0mv ${D}${libdir}/libstdc++*-gdb.py ${D}${dat=
-adir}/gdb/auto-load/${libdir}
-> > > > > =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ -d ${D}${libdir}/gcc/${TARGET_SYS=
-}/${BINV}/include ]; then
-> > > > > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0install -d=
- ${D}${libdir}/${TARGET_SYS}/${BINV}/include
-> > > > > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mv ${D}${l=
-ibdir}/gcc/${TARGET_SYS}/${BINV}/include/* ${D}${libdir}/${TARGET_SYS}/${BI=
-NV}/include
-> > > > > @@ -99,6 +101,9 @@ do_install () {
-> > > > > =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ -d ${D}${infodir} ]; then
-> > > > > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rmdir --ig=
-nore-fail-on-non-empty -p ${D}${infodir}
-> > > > > =C2=A0 =C2=A0 =C2=A0 =C2=A0fi
-> > > > > +=C2=A0 =C2=A0 =C2=A0if [ -d ${D}${libdir} ]; then
-> > > > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rmdir --ignore-f=
-ail-on-non-empty -p ${D}${libdir}
-> > > > > +=C2=A0 =C2=A0 =C2=A0fi
-> > > > > =C2=A0 }
-> > > > >=20
-> > > > > =C2=A0 do_install:append:class-target () {
-> > > > > @@ -182,9 +187,11 @@ RRECOMMENDS:${PN}-dbg =3D ""
-> > > > >=20
-> > > > > =C2=A0 # include python debugging scripts
-> > > > > =C2=A0 FILES:${PN}-dbg +=3D "\
-> > > > > -=C2=A0 =C2=A0 ${libdir}/libstdc++.*-gdb.py \
-> > > > > =C2=A0 =C2=A0 =C2=A0 ${datadir}/gcc-${BINV}/python/libstdcxx \
-> > > > > +=C2=A0 =C2=A0 ${datadir}/gdb/auto-load \
-> > > > > =C2=A0 "
-> > > > > +# Needed by libstdcxx pretty printer
-> > > > > +RDEPENDS:${PN}-dbg +=3D "python3-datetime"
-> > > > >=20
-> > > > > =C2=A0 FILES:libg2c =3D "${target_libdir}/libg2c.so.*"
-> > > > > =C2=A0 SUMMARY:libg2c =3D "Companion runtime library for g77"
-> > > >=20
-> > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/6=
-381/steps/14/logs/stdio
-> > > >=20
-> > > > Missing or unbuildable dependency chain was: ['selftest-ed',
-> > > > 'virtual/x86_64-poky-linux-compilerlibs', 'python3-datetime', 'bash=
-']
-> > > >=20
-> > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/89/builds/8=
-533
-> > >=20
-> > > Hmm, so I wonder if using RRECOMMEND is better here. Where is bash
-> > > being pulled from ?
-> >=20
-> > bash appears to be a dependency of python3-datetime. I don't think a
-> > RRECOMMEND will help unfortunately.
-> >=20
->=20
->=20
-> It seems to be required for tests/ (test_venv.py, test_subprocess.py and =
-test_zipfile/test_core.py are the obvious ones)
-> https://github.com/search?q=3Drepo%3Apython%2Fcpython+%28%22bash%22+OR+%2=
-2bash+required%22%29+path%3A%2F%5ELib%5C%2Ftest%5C%2F%2F&type=3Dcode
->=20
-> I didn=E2=80=99t see any hard requirement in Lib/datetime.py nor its test=
- cases. But searching on a phone can lead to missing things=E2=80=A6
+Branch: master
 
-The dependency is definitely coming from the python3 tests.
+New this week: 13 CVEs
+CVE-2023-3164 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3164 *
+CVE-2023-46838 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-46838 *
+CVE-2023-52355 (CVSS3: 7.5 HIGH): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52355 *
+CVE-2023-52356 (CVSS3: 7.5 HIGH): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52356 *
+CVE-2023-6200 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6200 *
+CVE-2023-6246 (CVSS3: 7.8 HIGH): glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6246 *
+CVE-2024-0727 (CVSS3: 5.5 MEDIUM): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0727 *
+CVE-2024-0841 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0841 *
+CVE-2024-23307 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23307 *
+CVE-2024-23848 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23848 *
+CVE-2024-23849 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23849 *
+CVE-2024-23850 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23850 *
+CVE-2024-23851 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23851 *
 
-It looks like whilst the python3-ptest is conditional on enabling
-ptests, the python3-tests package is not, and it is that which contains
-the bash dependency.
+Removed this week: 6 CVEs
+CVE-2023-4001 (CVSS3: 6.8 MEDIUM): grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4001 *
+CVE-2023-46407 (CVSS3: 5.5 MEDIUM): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-46407 *
+CVE-2023-6129 (CVSS3: 6.5 MEDIUM): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6129 *
+CVE-2023-6816 (CVSS3: 9.8 CRITICAL): xwayland https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6816 *
+CVE-2024-0553 (CVSS3: 7.5 HIGH): gnutls:gnutls-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0553 *
+CVE-2024-0567 (CVSS3: 7.5 HIGH): gnutls:gnutls-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0567 *
 
-Cheers,
+Full list:  Found 52 unpatched CVEs
+CVE-2019-14899 (CVSS3: 7.4 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
+CVE-2021-3714 (CVSS3: 5.9 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
+CVE-2021-3864 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
+CVE-2022-0400 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
+CVE-2022-1247 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
+CVE-2022-3219 (CVSS3: 3.3 LOW): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3219 *
+CVE-2022-36402 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-36402 *
+CVE-2022-38096 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
+CVE-2022-4543 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
+CVE-2022-46456 (CVSS3: 6.1 MEDIUM): nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46456 *
+CVE-2023-1386 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1386 *
+CVE-2023-25584 (CVSS3: 7.1 HIGH): binutils:binutils-cross-testsuite:binutils-cross-x86_64:binutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-25584 *
+CVE-2023-3019 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3019 *
+CVE-2023-3164 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3164 *
+CVE-2023-3397 (CVSS3: 6.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
+CVE-2023-3640 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
+CVE-2023-38559 (CVSS3: 5.5 MEDIUM): ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38559 *
+CVE-2023-4010 (CVSS3: 4.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
+CVE-2023-42363 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42363 *
+CVE-2023-42364 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42364 *
+CVE-2023-42365 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42365 *
+CVE-2023-42366 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42366 *
+CVE-2023-46838 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-46838 *
+CVE-2023-4692 (CVSS3: 7.8 HIGH): grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4692 *
+CVE-2023-4693 (CVSS3: 4.6 MEDIUM): grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4693 *
+CVE-2023-48795 (CVSS3: 5.9 MEDIUM): openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-48795 *
+CVE-2023-5088 (CVSS3: 7.0 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5088 *
+CVE-2023-51384 (CVSS3: 5.5 MEDIUM): openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51384 *
+CVE-2023-51385 (CVSS3: 6.5 MEDIUM): openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51385 *
+CVE-2023-51767 (CVSS3: 7.0 HIGH): openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51767 *
+CVE-2023-52355 (CVSS3: 7.5 HIGH): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52355 *
+CVE-2023-52356 (CVSS3: 7.5 HIGH): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52356 *
+CVE-2023-6200 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6200 *
+CVE-2023-6238 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
+CVE-2023-6246 (CVSS3: 7.8 HIGH): glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6246 *
+CVE-2023-6270 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6270 *
+CVE-2023-6610 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6610 *
+CVE-2023-6683 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6683 *
+CVE-2023-6693 (CVSS3: 5.3 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6693 *
+CVE-2023-6915 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6915 *
+CVE-2023-7042 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-7042 *
+CVE-2024-0565 (CVSS3: 8.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0565 *
+CVE-2024-0584 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0584 *
+CVE-2024-0607 (CVSS3: 6.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0607 *
+CVE-2024-0646 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0646 *
+CVE-2024-0727 (CVSS3: 5.5 MEDIUM): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0727 *
+CVE-2024-0841 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0841 *
+CVE-2024-23307 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23307 *
+CVE-2024-23848 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23848 *
+CVE-2024-23849 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23849 *
+CVE-2024-23850 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23850 *
+CVE-2024-23851 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23851 *
 
-Richard
+Summary of CVE counts by recipe:
+  linux-yocto: 28
+  qemu:qemu-native:qemu-system-native: 5
+  busybox: 4
+  openssh: 4
+  tiff: 3
+  grub:grub-efi:grub-native: 2
+  binutils:binutils-cross-testsuite:binutils-cross-x86_64:binutils-native: 1
+  ghostscript: 1
+  glibc: 1
+  gnupg:gnupg-native: 1
+  nasm:nasm-native: 1
+  openssl:openssl-native: 1
 
+For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
