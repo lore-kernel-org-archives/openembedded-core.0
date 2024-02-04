@@ -1,221 +1,500 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A874C48286
-	for <webhook@archiver.kernel.org>; Sun,  4 Feb 2024 14:19:19 +0000 (UTC)
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
- by mx.groups.io with SMTP id smtpd.web11.38859.1707056354857112819
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54DD6C48286
+	for <webhook@archiver.kernel.org>; Sun,  4 Feb 2024 14:48:59 +0000 (UTC)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
+ by mx.groups.io with SMTP id smtpd.web10.39740.1707058132937661005
  for <openembedded-core@lists.openembedded.org>;
- Sun, 04 Feb 2024 06:19:15 -0800
+ Sun, 04 Feb 2024 06:48:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=qCTtZ5bi;
- spf=softfail (domain: sakoman.com, ip: 209.85.160.51, mailfrom: steve@sakoman.com)
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-21433afcc53so2282322fac.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 04 Feb 2024 06:19:14 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=NlscrdMB;
+ spf=pass (domain: gmail.com, ip: 209.85.219.179, mailfrom: ticotimo@gmail.com)
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-dc6d7e3b5bfso3124815276.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 04 Feb 2024 06:48:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1707056354; x=1707661154; darn=lists.openembedded.org;
-        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vopEyx/cj2QEgQWAD1cN+jivWkQmrN4KLPDW1m7GMNw=;
-        b=qCTtZ5biZHNNfmjNSr8ETvhpFZ8BV0aZnVoIxPRVnnVNX2pFluLg9EhHPDr0CZf+T6
-         +JTyYx8KLZMQHXr5p5Mxxr/VYCImUSGpENXktvG/msseU11wR2P39GqGu35PgdaQmLO+
-         nM/T/Bi+4yQVAIN0L9bNKR49pnMIwEt+9oLW0n4LqJo+Ywt00QCumh3u1cHejCDqM4Lf
-         zYCoar1If42b/G/KcfDauxmwB506SkJAEAI2RZci1TkQ5LPiv6OD29yxmaisAflRxGQI
-         eKZNXP4RAOCbL91dLDTGU03P3LRIEaSVDU6zwci/SeY4P47/dY4NOk4udfzl3DEo6IO4
-         UGvg==
+        d=gmail.com; s=20230601; t=1707058132; x=1707662932; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=CxWCqaq/CHLQ6vqiYy/B+1QLCYfPLy4Op5GJ5TkNDPA=;
+        b=NlscrdMB19q9W0QgObhUzIrowOPIZJpy06iw6nOxEmYbw/XJxyKN8VKFNFdUDNXD5P
+         WeGlXO2TJ8fBD7VMIN+fhY47tAYA494h7LCbsCJ/p6qEQR/mmNRXtYqBhIHSZAlut5n9
+         qrrwybBz2vflN/6tIyJaUh+di2MKMeAJAKYo1a1tgDIezObRD2qW56JYZZXJiQ5uzmg+
+         mtdFG/4Op8Q8h/lU0kWFphAXGcLJtFTxUd6/fjdlvvgP92LOPeP7+gJSERsogiR8f6Lf
+         AJs1aBVMxm1R1qf2Tz/ShW41k+x2rC0p7f42XcgcNywhXxptWohYlHMyl3OTy8aLt04w
+         xcow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707056354; x=1707661154;
-        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=vopEyx/cj2QEgQWAD1cN+jivWkQmrN4KLPDW1m7GMNw=;
-        b=VFW9Adx0YlPVX5fkvyRhSQvzpepLJEsnWTMGOULbn3E8Vu9xQLxneP+NkxWFDwCyhZ
-         y0GGxfrj+N3r8tMn8s3zIG/IEJ9OrOOJ4ZZj0apnk862jv11tIWWMOf8M++M7v32xVVD
-         aaolAZQGRFhWraJu8VkhKhSu+Fntxu8oHJES2XgKO0AkEUV3pvwQbjHRTPKuEz9g+zeo
-         g8z5hx44Uf0K/NeTUQdUf2xpjvljE/F5RqpCntzvaWCUmXsGW/ZSNUGlYxl+9Xf9R2Vs
-         fVeb2j01nggO0UNbFD/23l1SNl+wDb+eUakMuTd/BE5w8xNCBySvbgTPXVIp5rDW+56r
-         7w6Q==
-X-Gm-Message-State: AOJu0YwhYoqceurqu8a+Gs6yII9m7ILkq14ygWUOgKTekJ4CCyDLtn84
-	5PioZsF8hVLJeQ4E3NwDpye4p0bo0Cq4+C4KkIGrPNHSNciaE0Xlt6Ni3FVcPswsHMixqtLfaFj
-	pSeM=
-X-Google-Smtp-Source: AGHT+IEZqWpSTAxXiFwZMUzoa878DYE4LOIIdiJ80kiTJt6xsOSwE791GQjc2oKAnc8Zt27X2LSRjA==
-X-Received: by 2002:a05:6870:b50c:b0:218:e7e2:99cf with SMTP id v12-20020a056870b50c00b00218e7e299cfmr6122391oap.2.1707056353600;
-        Sun, 04 Feb 2024 06:19:13 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCWPqk/E0iiGi6/Z9PNb3afntSCYSx33Mq5mh2oLLNraW9/46OEf0au+/Q7+oe/m1kD9b3YE77YlTn7KLKrJbAmEI3ufTwntPlfCI2EhEiJ/l0CSXkgI
-Received: from builder.sakoman.com ([71.19.246.55])
-        by smtp.gmail.com with ESMTPSA id pf2-20020a056214498200b0068c963dd12asm1265995qvb.86.2024.02.04.06.19.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Feb 2024 06:19:13 -0800 (PST)
-Received: by builder.sakoman.com (Postfix, from userid 1001)
-	id DC942106945; Sun,  4 Feb 2024 04:19:11 -1000 (HST)
-Subject: OE-core CVE metrics for nanbield on Sun 04 Feb 2024 04:00:01 AM HST
-FROM: steve@sakoman.com
-To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-User-Agent: mail (GNU Mailutils 3.14)
-Date: Sun,  4 Feb 2024 04:19:11 -1000
-Message-Id: <20240204141911.DC942106945@builder.sakoman.com>
+        d=1e100.net; s=20230601; t=1707058132; x=1707662932;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CxWCqaq/CHLQ6vqiYy/B+1QLCYfPLy4Op5GJ5TkNDPA=;
+        b=LP1xAwW0SrEF48vklTbkbKnbHzftfnBm16mvlWpXuo0RBv69IMnokEKoWqGZn//Wb+
+         d+vVHL+BqH/Mu7GLUDalcajv1WhgNf8wKCCxf7cmPJrfc+RrA6q737NswRA9dqwGiwNF
+         a43S+hm37MYeeF/lC25J7Sv3j4f8F7jkEizitaunym/R9RgFYui066RRK0WBy6X+xe99
+         JU5hElq1kM+k30pFpM1S64oqk48PkzciUZiHSYLOEHewX2CHqoAMMHuKZfGopjNWdnEG
+         ZfX2VRgGiYSMH29w5I520Ewroeqrxv1+gSr8mbqNkCtPK1UK3pb5NxLe2srZ4c6ictLl
+         rrKg==
+X-Gm-Message-State: AOJu0Ywrps68365XXssQN8AkC60uHVjEx/2GGE1Riut4aedVeacMjsZM
+	aKyhmIADv2sNSE0zetE7DdAKbcV9TlKJ3ZyRYk+UrVVlHAZYN6iF1LZGVdl4Oazms4JXJUnPPOE
+	yRc3oRzmhCqBB4GwXBbNY9tb3jxU=
+X-Google-Smtp-Source: AGHT+IEv3yjLa3HsP4GppPriRpVH2wNHeHbu6wKfvMgqqyfif80W8zpxzTYCsGMsY1B2SlHrLNs7IZYNyqOLHHVQzcM=
+X-Received: by 2002:a25:d6cb:0:b0:dc6:c367:f0e4 with SMTP id
+ n194-20020a25d6cb000000b00dc6c367f0e4mr10226071ybg.52.1707058131136; Sun, 04
+ Feb 2024 06:48:51 -0800 (PST)
+MIME-Version: 1.0
+References: <20240105165554.1401517-1-tim.orling@konsulko.com>
+ <2024020223125655b936ef@mail.local> <17B031E2E1DE7669.13964@lists.openembedded.org>
+ <CANx9H-A1MwJ1crmJLJ51mrxp0oEazc7QXCqEv1VWUUKwPTuSBg@mail.gmail.com>
+ <CAMKF1srNM1GMm2D9dYnozm+59vV9oqBHVC7oFfOZEdwwY-rCzw@mail.gmail.com> <CAMKF1spLPKYEeHR36oEMCKZA_ZFGKTR9qskm-na-Pe8saS=6nQ@mail.gmail.com>
+In-Reply-To: <CAMKF1spLPKYEeHR36oEMCKZA_ZFGKTR9qskm-na-Pe8saS=6nQ@mail.gmail.com>
+From: Tim Orling <ticotimo@gmail.com>
+Date: Sun, 4 Feb 2024 06:48:40 -0800
+Message-ID: <CANx9H-BHEFJk44naMWhqC0D2SW2rF1k0ggaNXGi36zzDAPHgyQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] openssh: upgrade 9.5p1 -> 9.6p1
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, Tim Orling <tim.orling@konsulko.com>, 
+	openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000084782d06108f71a1"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 04 Feb 2024 14:19:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194891
+ <openembedded-core@lists.openembedded.org>; Sun, 04 Feb 2024 14:48:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194892
 
-Branch: nanbield
+--00000000000084782d06108f71a1
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-New this week: 20 CVEs
-CVE-2023-3164 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3164 *
-CVE-2023-46838 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-46838 *
-CVE-2023-52355 (CVSS3: 7.5 HIGH): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52355 *
-CVE-2023-52356 (CVSS3: 7.5 HIGH): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52356 *
-CVE-2023-6200 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6200 *
-CVE-2023-6246 (CVSS3: 7.8 HIGH): glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6246 *
-CVE-2023-6531 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6531 *
-CVE-2024-0408 (CVSS3: 5.5 MEDIUM): xserver-xorg:xwayland https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0408 *
-CVE-2024-0409 (CVSS3: 7.8 HIGH): xserver-xorg:xwayland https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0409 *
-CVE-2024-0727 (CVSS3: 5.5 MEDIUM): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0727 *
-CVE-2024-0841 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0841 *
-CVE-2024-22705 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-22705 *
-CVE-2024-22860 (CVSS3: 9.8 CRITICAL): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-22860 *
-CVE-2024-22861 (CVSS3: 7.5 HIGH): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-22861 *
-CVE-2024-22862 (CVSS3: 9.8 CRITICAL): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-22862 *
-CVE-2024-23307 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23307 *
-CVE-2024-23848 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23848 *
-CVE-2024-23849 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23849 *
-CVE-2024-23850 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23850 *
-CVE-2024-23851 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23851 *
+On Sun, Feb 4, 2024 at 12:14=E2=80=AFAM Khem Raj <raj.khem@gmail.com> wrote=
+:
 
-Removed this week: 0 CVEs
+> On Sat, Feb 3, 2024 at 7:39=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wrot=
+e:
+> >
+> > On Sat, Feb 3, 2024 at 5:20=E2=80=AFPM Tim Orling <ticotimo@gmail.com> =
+wrote:
+> > >
+> > > The errors on mips32 are internal compiler errors (ICE):
+> > > moduli.c:814:1: internal compiler error: in int_mode_for_mode, at
+> stor-layout.cc:407
+> > > progressmeter.c:238:1: internal compiler error: in int_mode_for_mode,
+> at stor-layout.cc:407
+> > > clientloop.c:1699:1: internal compiler error: in int_mode_for_mode, a=
+t
+> stor-layout.cc:407
+> > >
+> > > (There are also a lot of OpenSSL 3.0 deprecation warnings, but I thin=
+k
+> the ICE are what is failing the build).
+> > >
+> > > Full log.do_compile attached.
+> > >
+> > > There are a handful of similar bug reports like:
+> > > https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D104820
+> > >
+> > > Any advice to help report this properly is appreciated. Any ideas to
+> fix it are even better.
+> >
+> > Looks like gcc issue but try the patch proposed in this bug
+> > https://bugzilla.mindrot.org/show_bug.cgi?id=3D3645
+> >
+> > This patch -
+> https://bugzilla.mindrot.org/attachment.cgi?id=3D3776&action=3Ddiff
+> >
+> > See if it helps.
+>
+> Its also applied upstream see
+>
+> https://github.com/openssh/openssh-portable/commit/1036d77b34a5fa15e56f51=
+6b81b9928006848cbd
 
-Full list:  Found 104 unpatched CVEs
-CVE-2019-14899 (CVSS3: 7.4 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
-CVE-2021-3714 (CVSS3: 5.9 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
-CVE-2021-3864 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
-CVE-2022-0400 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
-CVE-2022-1247 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
-CVE-2022-3219 (CVSS3: 3.3 LOW): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3219 *
-CVE-2022-36402 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-36402 *
-CVE-2022-38096 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
-CVE-2022-4543 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
-CVE-2022-46456 (CVSS3: 6.1 MEDIUM): nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46456 *
-CVE-2023-0687 (CVSS3: 9.8 CRITICAL): glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-0687 *
-CVE-2023-1386 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1386 *
-CVE-2023-25584 (CVSS3: 7.1 HIGH): binutils:binutils-cross-testsuite:binutils-cross-x86_64:binutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-25584 *
-CVE-2023-3019 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3019 *
-CVE-2023-3164 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3164 *
-CVE-2023-3397 (CVSS3: 6.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
-CVE-2023-3640 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
-CVE-2023-38559 (CVSS3: 5.5 MEDIUM): ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38559 *
-CVE-2023-39189 (CVSS3: 6.0 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39189 *
-CVE-2023-39192 (CVSS3: 6.0 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39192 *
-CVE-2023-39193 (CVSS3: 6.0 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39193 *
-CVE-2023-39928 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39928 *
-CVE-2023-4001 (CVSS3: 6.8 MEDIUM): grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4001 *
-CVE-2023-4010 (CVSS3: 4.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
-CVE-2023-4039 (CVSS3: 4.8 MEDIUM): gcc:gcc-cross-x86_64:gcc-runtime:gcc-sanitizers:libgcc:libgcc-initial https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4039 *
-CVE-2023-42363 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42363 *
-CVE-2023-42364 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42364 *
-CVE-2023-42365 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42365 *
-CVE-2023-42366 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42366 *
-CVE-2023-42753 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42753 *
-CVE-2023-42754 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42754 *
-CVE-2023-42756 (CVSS3: 4.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42756 *
-CVE-2023-4623 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4623 *
-CVE-2023-46407 (CVSS3: 5.5 MEDIUM): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-46407 *
-CVE-2023-46838 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-46838 *
-CVE-2023-47470 (CVSS3: 7.8 HIGH): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-47470 *
-CVE-2023-48795 (CVSS3: 5.9 MEDIUM): libssh2:libssh2-native:openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-48795 *
-CVE-2023-4921 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4921 *
-CVE-2023-49292 (CVSS3: 4.8 MEDIUM): go:go-binary-native:go-cross-core2-64:go-runtime https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-49292 *
-CVE-2023-50431 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-50431 *
-CVE-2023-5088 (CVSS3: 7.0 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5088 *
-CVE-2023-51384 (CVSS3: 5.5 MEDIUM): openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51384 *
-CVE-2023-51385 (CVSS3: 6.5 MEDIUM): openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51385 *
-CVE-2023-5156 (CVSS3: 7.5 HIGH): glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5156 *
-CVE-2023-51767 (CVSS3: 7.0 HIGH): openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51767 *
-CVE-2023-5178 (CVSS3: 9.8 CRITICAL): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5178 *
-CVE-2023-51780 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51780 *
-CVE-2023-51781 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51781 *
-CVE-2023-51782 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51782 *
-CVE-2023-5197 (CVSS3: 6.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5197 *
-CVE-2023-52355 (CVSS3: 7.5 HIGH): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52355 *
-CVE-2023-52356 (CVSS3: 7.5 HIGH): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52356 *
-CVE-2023-5345 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5345 *
-CVE-2023-5574 (CVSS3: 7.0 HIGH): xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5574 *
-CVE-2023-5633 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5633 *
-CVE-2023-5678 (CVSS3: 5.3 MEDIUM): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5678 *
-CVE-2023-5717 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5717 *
-CVE-2023-6129 (CVSS3: 6.5 MEDIUM): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6129 *
-CVE-2023-6200 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6200 *
-CVE-2023-6228 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6228 *
-CVE-2023-6238 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
-CVE-2023-6246 (CVSS3: 7.8 HIGH): glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6246 *
-CVE-2023-6270 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6270 *
-CVE-2023-6377 (CVSS3: 7.8 HIGH): xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6377 *
-CVE-2023-6478 (CVSS3: 7.5 HIGH): xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6478 *
-CVE-2023-6531 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6531 *
-CVE-2023-6560 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6560 *
-CVE-2023-6606 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6606 *
-CVE-2023-6610 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6610 *
-CVE-2023-6622 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6622 *
-CVE-2023-6679 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6679 *
-CVE-2023-6683 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6683 *
-CVE-2023-6693 (CVSS3: 5.3 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6693 *
-CVE-2023-6816 (CVSS3: 9.8 CRITICAL): xserver-xorg:xwayland https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6816 *
-CVE-2023-6817 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6817 *
-CVE-2023-6915 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6915 *
-CVE-2023-6931 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6931 *
-CVE-2023-6932 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6932 *
-CVE-2023-6992 (CVSS3: 5.5 MEDIUM): zlib:zlib-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6992 *
-CVE-2023-7042 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-7042 *
-CVE-2024-0193 (CVSS3: 6.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0193 *
-CVE-2024-0232 (CVSS3: 5.5 MEDIUM): sqlite3:sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0232 *
-CVE-2024-0408 (CVSS3: 5.5 MEDIUM): xserver-xorg:xwayland https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0408 *
-CVE-2024-0409 (CVSS3: 7.8 HIGH): xserver-xorg:xwayland https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0409 *
-CVE-2024-0553 (CVSS3: 7.5 HIGH): gnutls:gnutls-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0553 *
-CVE-2024-0565 (CVSS3: 8.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0565 *
-CVE-2024-0567 (CVSS3: 7.5 HIGH): gnutls:gnutls-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0567 *
-CVE-2024-0582 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0582 *
-CVE-2024-0584 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0584 *
-CVE-2024-0607 (CVSS3: 6.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0607 *
-CVE-2024-0641 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0641 *
-CVE-2024-0646 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0646 *
-CVE-2024-0727 (CVSS3: 5.5 MEDIUM): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0727 *
-CVE-2024-0841 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0841 *
-CVE-2024-22195 (CVSS3: 6.1 MEDIUM): python3-jinja2:python3-jinja2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-22195 *
-CVE-2024-22705 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-22705 *
-CVE-2024-22860 (CVSS3: 9.8 CRITICAL): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-22860 *
-CVE-2024-22861 (CVSS3: 7.5 HIGH): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-22861 *
-CVE-2024-22862 (CVSS3: 9.8 CRITICAL): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-22862 *
-CVE-2024-23307 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23307 *
-CVE-2024-23848 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23848 *
-CVE-2024-23849 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23849 *
-CVE-2024-23850 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23850 *
-CVE-2024-23851 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23851 *
 
-Summary of CVE counts by recipe:
-  linux-yocto: 57
-  ffmpeg: 5
-  qemu:qemu-native:qemu-system-native: 5
-  busybox: 4
-  tiff: 4
-  glibc: 3
-  openssh: 3
-  openssl:openssl-native: 3
-  xserver-xorg: 3
-  xserver-xorg:xwayland: 3
-  gnutls:gnutls-native: 2
-  binutils:binutils-cross-testsuite:binutils-cross-x86_64:binutils-native: 1
-  gcc:gcc-cross-x86_64:gcc-runtime:gcc-sanitizers:libgcc:libgcc-initial: 1
-  ghostscript: 1
-  gnupg:gnupg-native: 1
-  go:go-binary-native:go-cross-core2-64:go-runtime: 1
-  grub:grub-efi:grub-native: 1
-  libssh2:libssh2-native:openssh: 1
-  nasm:nasm-native: 1
-  python3-jinja2:python3-jinja2-native: 1
-  sqlite3:sqlite3-native: 1
-  webkitgtk: 1
-  zlib:zlib-native: 1
+And that was merged after 9.6p1
+https://github.com/openssh/openssh-portable/compare/V_9_6_P1...master
 
-For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
+<https://github.com/openssh/openssh-portable/commit/1036d77b34a5fa15e56f516=
+b81b9928006848cbd>
+>
+> >
+> > >
+> > > --Tim
+> > >
+> > > On Fri, Feb 2, 2024 at 4:11=E2=80=AFPM Tim Orling via lists.openembed=
+ded.org
+> <ticotimo=3Dgmail.com@lists.openembedded.org> wrote:
+> > >>
+> > >>
+> > >>
+> > >> On Fri, Feb 2, 2024 at 3:12=E2=80=AFPM Alexandre Belloni <
+> alexandre.belloni@bootlin.com> wrote:
+> > >>>
+> > >>>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/102/builds/5751/s=
+teps/13/logs/stdio
+> > >>
+> > >>
+> > >> Thank you, Alexandre. I=E2=80=99ll try to find a fix for this mips i=
+ssue. If
+> anyone else stumbles on it first, I=E2=80=99m happy to take guidance.
+> > >>>
+> > >>>
+> > >>> On 05/01/2024 08:55:55-0800, Tim Orling wrote:
+> > >>> > * Relocate Upstream-Status in
+> 0001-regress-banner.sh-log-input-and-output-files-on-erro.patch
+> > >>> >   so it will not throw an error in AUH
+> > >>> >
+> > >>> > https://www.openssh.com/txt/release-9.6
+> > >>> >
+> https://github.com/openssh/openssh-portable/compare/V_9_5_P1...V_9_6_P1
+> > >>> >
+> > >>> > https://nvd.nist.gov/vuln/detail/CVE-2023-48795
+> > >>> > https://nvd.nist.gov/vuln/detail/CVE-2023-51384
+> > >>> > https://nvd.nist.gov/vuln/detail/CVE-2023-51385
+> > >>> >
+> > >>> > CVE: CVE-2023-48795
+> > >>> > CVE: CVE-2023-51384
+> > >>> > CVE: CVE-2023-51385
+> > >>> >
+> > >>> > Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+> > >>> > ---
+> > >>> > All ptests passed on core-image-ptest-openssh on qemux86-64
+> > >>> >
+> > >>> >  ...regress-banner.sh-log-input-and-output-files-on-erro.patch | =
+4
+> ++--
+> > >>> >  .../openssh/{openssh_9.5p1.bb =3D> openssh_9.6p1.bb}            =
+|
+> 2 +-
+> > >>> >  2 files changed, 3 insertions(+), 3 deletions(-)
+> > >>> >  rename meta/recipes-connectivity/openssh/{openssh_9.5p1.bb =3D>
+> openssh_9.6p1.bb} (98%)
+> > >>> >
+> > >>> > diff --git
+> a/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-in=
+put-and-output-files-on-erro.patch
+> b/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-in=
+put-and-output-files-on-erro.patch
+> > >>> > index 2c14014fed8..8763f30f4b3 100644
+> > >>> > ---
+> a/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-in=
+put-and-output-files-on-erro.patch
+> > >>> > +++
+> b/meta/recipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-in=
+put-and-output-files-on-erro.patch
+> > >>> > @@ -34,13 +34,13 @@ return value: 1
+> > >>> >
+> > >>> >  See: https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15178
+> > >>> >
+> > >>> > +Upstream-Status: Denied [
+> https://github.com/openssh/openssh-portable/pull/437]
+> > >>> > +
+> > >>> >  Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+> > >>> >  ---
+> > >>> >   regress/banner.sh | 4 +++-
+> > >>> >   1 file changed, 3 insertions(+), 1 deletion(-)
+> > >>> >
+> > >>> > -Upstream-Status: Denied [
+> https://github.com/openssh/openssh-portable/pull/437]
+> > >>> > -
+> > >>> >  diff --git a/regress/banner.sh b/regress/banner.sh
+> > >>> >  index a84feb5a..de84957a 100644
+> > >>> >  --- a/regress/banner.sh
+> > >>> > diff --git a/meta/recipes-connectivity/openssh/openssh_9.5p1.bb
+> b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
+> > >>> > similarity index 98%
+> > >>> > rename from meta/recipes-connectivity/openssh/openssh_9.5p1.bb
+> > >>> > rename to meta/recipes-connectivity/openssh/openssh_9.6p1.bb
+> > >>> > index bbb8fb091ad..fa44eb0bd4e 100644
+> > >>> > --- a/meta/recipes-connectivity/openssh/openssh_9.5p1.bb
+> > >>> > +++ b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
+> > >>> > @@ -28,7 +28,7 @@ SRC_URI =3D "
+> http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
+> > >>> >
+>  file://0001-regress-banner.sh-log-input-and-output-files-on-erro.patch \
+> > >>> >
+>  file://0001-systemd-Add-optional-support-for-systemd-sd_notify.patch \
+> > >>> >             "
+> > >>> > -SRC_URI[sha256sum] =3D
+> "f026e7b79ba7fb540f75182af96dc8a8f1db395f922bbc9f6ca603672686086b"
+> > >>> > +SRC_URI[sha256sum] =3D
+> "910211c07255a8c5ad654391b40ee59800710dd8119dd5362de09385aa7a777c"
+> > >>> >
+> > >>> >  CVE_STATUS[CVE-2007-2768] =3D "not-applicable-config: This CVE i=
+s
+> specific to OpenSSH with the pam opie which we don't build/use here."
+> > >>> >
+> > >>> > --
+> > >>> > 2.34.1
+> > >>> >
+> > >>>
+> > >>> >
+> > >>> >
+> > >>> >
+> > >>>
+> > >>>
+> > >>> --
+> > >>> Alexandre Belloni, co-owner and COO, Bootlin
+> > >>> Embedded Linux and Kernel engineering
+> > >>> https://bootlin.com
+> > >>
+> > >>
+> > >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > >> Links: You receive all messages sent to this group.
+> > >> View/Reply Online (#194821):
+> https://lists.openembedded.org/g/openembedded-core/message/194821
+> > >> Mute This Topic: https://lists.openembedded.org/mt/103546397/924729
+> > >> Group Owner: openembedded-core+owner@lists.openembedded.org
+> > >> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsu=
+b
+> [ticotimo@gmail.com]
+> > >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > >>
+>
+
+--00000000000084782d06108f71a1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Sun, Feb 4, 2024 at 12:14=E2=80=AFAM Khem Raj &lt;<a hre=
+f=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br></div>=
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left-width:1px;border-left-style:solid;padding-left:1ex;border-left-color:r=
+gb(204,204,204)">On Sat, Feb 3, 2024 at 7:39=E2=80=AFPM Khem Raj &lt;<a hre=
+f=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt=
+; wrote:<br>
+&gt;<br>
+&gt; On Sat, Feb 3, 2024 at 5:20=E2=80=AFPM Tim Orling &lt;<a href=3D"mailt=
+o:ticotimo@gmail.com" target=3D"_blank">ticotimo@gmail.com</a>&gt; wrote:<b=
+r>
+&gt; &gt;<br>
+&gt; &gt; The errors on mips32 are internal compiler errors (ICE):<br>
+&gt; &gt; moduli.c:814:1: internal compiler error: in int_mode_for_mode, at=
+ stor-layout.cc:407<br>
+&gt; &gt; progressmeter.c:238:1: internal compiler error: in int_mode_for_m=
+ode, at stor-layout.cc:407<br>
+&gt; &gt; clientloop.c:1699:1: internal compiler error: in int_mode_for_mod=
+e, at stor-layout.cc:407<br>
+&gt; &gt;<br>
+&gt; &gt; (There are also a lot of OpenSSL 3.0 deprecation warnings, but I =
+think the ICE are what is failing the build).<br>
+&gt; &gt;<br>
+&gt; &gt; Full log.do_compile attached.<br>
+&gt; &gt;<br>
+&gt; &gt; There are a handful of similar bug reports like:<br>
+&gt; &gt; <a href=3D"https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D104820"=
+ rel=3D"noreferrer" target=3D"_blank">https://gcc.gnu.org/bugzilla/show_bug=
+.cgi?id=3D104820</a><br>
+&gt; &gt;<br>
+&gt; &gt; Any advice to help report this properly is appreciated. Any ideas=
+ to fix it are even better.<br>
+&gt;<br>
+&gt; Looks like gcc issue but try the patch proposed in this bug<br>
+&gt; <a href=3D"https://bugzilla.mindrot.org/show_bug.cgi?id=3D3645" rel=3D=
+"noreferrer" target=3D"_blank">https://bugzilla.mindrot.org/show_bug.cgi?id=
+=3D3645</a><br>
+&gt;<br>
+&gt; This patch - <a href=3D"https://bugzilla.mindrot.org/attachment.cgi?id=
+=3D3776&amp;action=3Ddiff" rel=3D"noreferrer" target=3D"_blank">https://bug=
+zilla.mindrot.org/attachment.cgi?id=3D3776&amp;action=3Ddiff</a><br>
+&gt;<br>
+&gt; See if it helps.<br>
+<br>
+Its also applied upstream see<br>
+<a href=3D"https://github.com/openssh/openssh-portable/commit/1036d77b34a5f=
+a15e56f516b81b9928006848cbd" rel=3D"noreferrer" target=3D"_blank">https://g=
+ithub.com/openssh/openssh-portable/commit/1036d77b34a5fa15e56f516b81b992800=
+6848cbd</a></blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">And t=
+hat was merged after 9.6p1</div><div dir=3D"auto"><div><a href=3D"https://g=
+ithub.com/openssh/openssh-portable/compare/V_9_6_P1...master">https://githu=
+b.com/openssh/openssh-portable/compare/V_9_6_P1...master</a></div><br></div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
+-left-width:1px;border-left-style:solid;padding-left:1ex;border-left-color:=
+rgb(204,204,204)" dir=3D"auto"><a href=3D"https://github.com/openssh/openss=
+h-portable/commit/1036d77b34a5fa15e56f516b81b9928006848cbd" rel=3D"noreferr=
+er" target=3D"_blank"></a><br>
+<br>
+&gt;<br>
+&gt; &gt;<br>
+&gt; &gt; --Tim<br>
+&gt; &gt;<br>
+&gt; &gt; On Fri, Feb 2, 2024 at 4:11=E2=80=AFPM Tim Orling via <a href=3D"=
+http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.o=
+penembedded.org</a> &lt;ticotimo=3D<a href=3D"mailto:gmail.com@lists.openem=
+bedded.org" target=3D"_blank">gmail.com@lists.openembedded.org</a>&gt; wrot=
+e:<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; On Fri, Feb 2, 2024 at 3:12=E2=80=AFPM Alexandre Belloni &lt;=
+<a href=3D"mailto:alexandre.belloni@bootlin.com" target=3D"_blank">alexandr=
+e.belloni@bootlin.com</a>&gt; wrote:<br>
+&gt; &gt;&gt;&gt;<br>
+&gt; &gt;&gt;&gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#=
+/builders/102/builds/5751/steps/13/logs/stdio" rel=3D"noreferrer" target=3D=
+"_blank">https://autobuilder.yoctoproject.org/typhoon/#/builders/102/builds=
+/5751/steps/13/logs/stdio</a><br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; Thank you, Alexandre. I=E2=80=99ll try to find a fix for this=
+ mips issue. If anyone else stumbles on it first, I=E2=80=99m happy to take=
+ guidance.<br>
+&gt; &gt;&gt;&gt;<br>
+&gt; &gt;&gt;&gt;<br>
+&gt; &gt;&gt;&gt; On 05/01/2024 08:55:55-0800, Tim Orling wrote:<br>
+&gt; &gt;&gt;&gt; &gt; * Relocate Upstream-Status in 0001-regress-banner.sh=
+-log-input-and-output-files-on-erro.patch<br>
+&gt; &gt;&gt;&gt; &gt;=C2=A0 =C2=A0so it will not throw an error in AUH<br>
+&gt; &gt;&gt;&gt; &gt;<br>
+&gt; &gt;&gt;&gt; &gt; <a href=3D"https://www.openssh.com/txt/release-9.6" =
+rel=3D"noreferrer" target=3D"_blank">https://www.openssh.com/txt/release-9.=
+6</a><br>
+&gt; &gt;&gt;&gt; &gt; <a href=3D"https://github.com/openssh/openssh-portab=
+le/compare/V_9_5_P1...V_9_6_P1" rel=3D"noreferrer" target=3D"_blank">https:=
+//github.com/openssh/openssh-portable/compare/V_9_5_P1...V_9_6_P1</a><br>
+&gt; &gt;&gt;&gt; &gt;<br>
+&gt; &gt;&gt;&gt; &gt; <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2023=
+-48795" rel=3D"noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/deta=
+il/CVE-2023-48795</a><br>
+&gt; &gt;&gt;&gt; &gt; <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2023=
+-51384" rel=3D"noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/deta=
+il/CVE-2023-51384</a><br>
+&gt; &gt;&gt;&gt; &gt; <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2023=
+-51385" rel=3D"noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/deta=
+il/CVE-2023-51385</a><br>
+&gt; &gt;&gt;&gt; &gt;<br>
+&gt; &gt;&gt;&gt; &gt; CVE: CVE-2023-48795<br>
+&gt; &gt;&gt;&gt; &gt; CVE: CVE-2023-51384<br>
+&gt; &gt;&gt;&gt; &gt; CVE: CVE-2023-51385<br>
+&gt; &gt;&gt;&gt; &gt;<br>
+&gt; &gt;&gt;&gt; &gt; Signed-off-by: Tim Orling &lt;<a href=3D"mailto:tim.=
+orling@konsulko.com" target=3D"_blank">tim.orling@konsulko.com</a>&gt;<br>
+&gt; &gt;&gt;&gt; &gt; ---<br>
+&gt; &gt;&gt;&gt; &gt; All ptests passed on core-image-ptest-openssh on qem=
+ux86-64<br>
+&gt; &gt;&gt;&gt; &gt;<br>
+&gt; &gt;&gt;&gt; &gt;=C2=A0 ...regress-banner.sh-log-input-and-output-file=
+s-on-erro.patch | 4 ++--<br>
+&gt; &gt;&gt;&gt; &gt;=C2=A0 .../openssh/{<a href=3D"http://openssh_9.5p1.b=
+b" rel=3D"noreferrer" target=3D"_blank">openssh_9.5p1.bb</a> =3D&gt; <a hre=
+f=3D"http://openssh_9.6p1.bb" rel=3D"noreferrer" target=3D"_blank">openssh_=
+9.6p1.bb</a>}=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
+&gt; &gt;&gt;&gt; &gt;=C2=A0 2 files changed, 3 insertions(+), 3 deletions(=
+-)<br>
+&gt; &gt;&gt;&gt; &gt;=C2=A0 rename meta/recipes-connectivity/openssh/{<a h=
+ref=3D"http://openssh_9.5p1.bb" rel=3D"noreferrer" target=3D"_blank">openss=
+h_9.5p1.bb</a> =3D&gt; <a href=3D"http://openssh_9.6p1.bb" rel=3D"noreferre=
+r" target=3D"_blank">openssh_9.6p1.bb</a>} (98%)<br>
+&gt; &gt;&gt;&gt; &gt;<br>
+&gt; &gt;&gt;&gt; &gt; diff --git a/meta/recipes-connectivity/openssh/opens=
+sh/0001-regress-banner.sh-log-input-and-output-files-on-erro.patch b/meta/r=
+ecipes-connectivity/openssh/openssh/0001-regress-banner.sh-log-input-and-ou=
+tput-files-on-erro.patch<br>
+&gt; &gt;&gt;&gt; &gt; index 2c14014fed8..8763f30f4b3 100644<br>
+&gt; &gt;&gt;&gt; &gt; --- a/meta/recipes-connectivity/openssh/openssh/0001=
+-regress-banner.sh-log-input-and-output-files-on-erro.patch<br>
+&gt; &gt;&gt;&gt; &gt; +++ b/meta/recipes-connectivity/openssh/openssh/0001=
+-regress-banner.sh-log-input-and-output-files-on-erro.patch<br>
+&gt; &gt;&gt;&gt; &gt; @@ -34,13 +34,13 @@ return value: 1<br>
+&gt; &gt;&gt;&gt; &gt;<br>
+&gt; &gt;&gt;&gt; &gt;=C2=A0 See: <a href=3D"https://bugzilla.yoctoproject.=
+org/show_bug.cgi?id=3D15178" rel=3D"noreferrer" target=3D"_blank">https://b=
+ugzilla.yoctoproject.org/show_bug.cgi?id=3D15178</a><br>
+&gt; &gt;&gt;&gt; &gt;<br>
+&gt; &gt;&gt;&gt; &gt; +Upstream-Status: Denied [<a href=3D"https://github.=
+com/openssh/openssh-portable/pull/437" rel=3D"noreferrer" target=3D"_blank"=
+>https://github.com/openssh/openssh-portable/pull/437</a>]<br>
+&gt; &gt;&gt;&gt; &gt; +<br>
+&gt; &gt;&gt;&gt; &gt;=C2=A0 Signed-off-by: Mikko Rapeli &lt;<a href=3D"mai=
+lto:mikko.rapeli@linaro.org" target=3D"_blank">mikko.rapeli@linaro.org</a>&=
+gt;<br>
+&gt; &gt;&gt;&gt; &gt;=C2=A0 ---<br>
+&gt; &gt;&gt;&gt; &gt;=C2=A0 =C2=A0regress/banner.sh | 4 +++-<br>
+&gt; &gt;&gt;&gt; &gt;=C2=A0 =C2=A01 file changed, 3 insertions(+), 1 delet=
+ion(-)<br>
+&gt; &gt;&gt;&gt; &gt;<br>
+&gt; &gt;&gt;&gt; &gt; -Upstream-Status: Denied [<a href=3D"https://github.=
+com/openssh/openssh-portable/pull/437" rel=3D"noreferrer" target=3D"_blank"=
+>https://github.com/openssh/openssh-portable/pull/437</a>]<br>
+&gt; &gt;&gt;&gt; &gt; -<br>
+&gt; &gt;&gt;&gt; &gt;=C2=A0 diff --git a/regress/banner.sh b/regress/banne=
+r.sh<br>
+&gt; &gt;&gt;&gt; &gt;=C2=A0 index a84feb5a..de84957a 100644<br>
+&gt; &gt;&gt;&gt; &gt;=C2=A0 --- a/regress/banner.sh<br>
+&gt; &gt;&gt;&gt; &gt; diff --git a/meta/recipes-connectivity/openssh/<a hr=
+ef=3D"http://openssh_9.5p1.bb" rel=3D"noreferrer" target=3D"_blank">openssh=
+_9.5p1.bb</a> b/meta/recipes-connectivity/openssh/<a href=3D"http://openssh=
+_9.6p1.bb" rel=3D"noreferrer" target=3D"_blank">openssh_9.6p1.bb</a><br>
+&gt; &gt;&gt;&gt; &gt; similarity index 98%<br>
+&gt; &gt;&gt;&gt; &gt; rename from meta/recipes-connectivity/openssh/<a hre=
+f=3D"http://openssh_9.5p1.bb" rel=3D"noreferrer" target=3D"_blank">openssh_=
+9.5p1.bb</a><br>
+&gt; &gt;&gt;&gt; &gt; rename to meta/recipes-connectivity/openssh/<a href=
+=3D"http://openssh_9.6p1.bb" rel=3D"noreferrer" target=3D"_blank">openssh_9=
+.6p1.bb</a><br>
+&gt; &gt;&gt;&gt; &gt; index bbb8fb091ad..fa44eb0bd4e 100644<br>
+&gt; &gt;&gt;&gt; &gt; --- a/meta/recipes-connectivity/openssh/<a href=3D"h=
+ttp://openssh_9.5p1.bb" rel=3D"noreferrer" target=3D"_blank">openssh_9.5p1.=
+bb</a><br>
+&gt; &gt;&gt;&gt; &gt; +++ b/meta/recipes-connectivity/openssh/<a href=3D"h=
+ttp://openssh_9.6p1.bb" rel=3D"noreferrer" target=3D"_blank">openssh_9.6p1.=
+bb</a><br>
+&gt; &gt;&gt;&gt; &gt; @@ -28,7 +28,7 @@ SRC_URI =3D &quot;<a href=3D"http:=
+//ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-$%7BPV%7D.tar" rel=
+=3D"noreferrer" target=3D"_blank">http://ftp.openbsd.org/pub/OpenBSD/OpenSS=
+H/portable/openssh-${PV}.tar</a><br>
+&gt; &gt;&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file:=
+//0001-regress-banner.sh-log-input-and-output-files-on-erro.patch \<br>
+&gt; &gt;&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file:=
+//0001-systemd-Add-optional-support-for-systemd-sd_notify.patch \<br>
+&gt; &gt;&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot=
+;<br>
+&gt; &gt;&gt;&gt; &gt; -SRC_URI[sha256sum] =3D &quot;f026e7b79ba7fb540f7518=
+2af96dc8a8f1db395f922bbc9f6ca603672686086b&quot;<br>
+&gt; &gt;&gt;&gt; &gt; +SRC_URI[sha256sum] =3D &quot;910211c07255a8c5ad6543=
+91b40ee59800710dd8119dd5362de09385aa7a777c&quot;<br>
+&gt; &gt;&gt;&gt; &gt;<br>
+&gt; &gt;&gt;&gt; &gt;=C2=A0 CVE_STATUS[CVE-2007-2768] =3D &quot;not-applic=
+able-config: This CVE is specific to OpenSSH with the pam opie which we don=
+&#39;t build/use here.&quot;<br>
+&gt; &gt;&gt;&gt; &gt;<br>
+&gt; &gt;&gt;&gt; &gt; --<br>
+&gt; &gt;&gt;&gt; &gt; 2.34.1<br>
+&gt; &gt;&gt;&gt; &gt;<br>
+&gt; &gt;&gt;&gt;<br>
+&gt; &gt;&gt;&gt; &gt;<br>
+&gt; &gt;&gt;&gt; &gt;<br>
+&gt; &gt;&gt;&gt; &gt;<br>
+&gt; &gt;&gt;&gt;<br>
+&gt; &gt;&gt;&gt;<br>
+&gt; &gt;&gt;&gt; --<br>
+&gt; &gt;&gt;&gt; Alexandre Belloni, co-owner and COO, Bootlin<br>
+&gt; &gt;&gt;&gt; Embedded Linux and Kernel engineering<br>
+&gt; &gt;&gt;&gt; <a href=3D"https://bootlin.com" rel=3D"noreferrer" target=
+=3D"_blank">https://bootlin.com</a><br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; &gt;&gt; Links: You receive all messages sent to this group.<br>
+&gt; &gt;&gt; View/Reply Online (#194821): <a href=3D"https://lists.openemb=
+edded.org/g/openembedded-core/message/194821" rel=3D"noreferrer" target=3D"=
+_blank">https://lists.openembedded.org/g/openembedded-core/message/194821</=
+a><br>
+&gt; &gt;&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt=
+/103546397/924729" rel=3D"noreferrer" target=3D"_blank">https://lists.opene=
+mbedded.org/mt/103546397/924729</a><br>
+&gt; &gt;&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@list=
+s.openembedded.org" target=3D"_blank">openembedded-core+owner@lists.openemb=
+edded.org</a><br>
+&gt; &gt;&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/open=
+embedded-core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.ope=
+nembedded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:ticotimo@gma=
+il.com" target=3D"_blank">ticotimo@gmail.com</a>]<br>
+&gt; &gt;&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; &gt;&gt;<br>
+</blockquote></div></div>
+
+--00000000000084782d06108f71a1--
 
