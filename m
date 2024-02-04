@@ -2,56 +2,57 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2154C48297
-	for <webhook@archiver.kernel.org>; Sun,  4 Feb 2024 10:11:27 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web10.36039.1707041484170603353
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 161ABC48286
+	for <webhook@archiver.kernel.org>; Sun,  4 Feb 2024 10:20:38 +0000 (UTC)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web10.36128.1707042029847552271
  for <openembedded-core@lists.openembedded.org>;
- Sun, 04 Feb 2024 02:11:24 -0800
+ Sun, 04 Feb 2024 02:20:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MPpUr6ZY;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-40fc654a56dso18382715e9.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 04 Feb 2024 02:11:23 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZEuza5qu;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3394bec856fso2769382f8f.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 04 Feb 2024 02:20:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1707041482; x=1707646282; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1707042028; x=1707646828; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=c0uQPG7ZNvirdfOX2d1bQ9wOEZSULnRjJBhlE5OocOM=;
-        b=MPpUr6ZYD6ptsPTf7DW+xKJLd9WgE0YQjnmQZw9HKgPsnPY6xhDXTHeWWHoAdGZdXQ
-         zJ6I9X9rgsN3mlJz6AKtepyLfiXdfekk0IuUXBAfzkuuE90VHOow/ef6Qcji8wEcle8l
-         2YwdeepGSyRe6j1K5K82965WTnEjJ5foNYEyo=
+        bh=HzdtRYyxuoBzVFG7gJgdw7m+C8xtRflbdEME5FhsXhY=;
+        b=ZEuza5quOmCS0ecb/jqaHqfsY798H+uO/gKn6cu/l9fp4xBV7wW10H975HUjEQv9mc
+         K52E4RVX5vWStMXgLlU+2LD5SLzOKmXDi0y3jlTDIKwYEbyFj/D5bsOZWuZAiFgZL8s9
+         KURUwKQ1tdenV4xYE0A9VUaAbodjOpBe3vGY4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707041482; x=1707646282;
+        d=1e100.net; s=20230601; t=1707042028; x=1707646828;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:to:from:subject:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=c0uQPG7ZNvirdfOX2d1bQ9wOEZSULnRjJBhlE5OocOM=;
-        b=Kfg1ZJOUOgpDji2/bpGxfDE1lLODZ5S3QryY/cFPOnmgaVRKQlCFnATVr0F4fM68Ca
-         +E+vMmCRFXl3LImn0IohdyHaJNeLzVY797hWV0MLw8lck5XCOx03+LrroDpqhOYL6a1x
-         UiG3U2ar9eREmbvm89Nn5I5PffbWKuOTg3cQmPuAKUJ7K1U8fq3JhQBzGEJV+PATUGwQ
-         3XpjjAqqvz2JYRCsmVaJDZAzbWjktIDp7IoMYip/bfsS7Aj+k0UhSam1J25axS+2AYFL
-         RNqhhmIKb8WuHRt2ayDSz604l6AwTSWhH5QRKEZApDUGouafJuqdYUfafSRy2+N/nsEn
-         /Kdg==
-X-Gm-Message-State: AOJu0Yx6WxU3UOa/yT46EH/sNSmMc6tjd0kElrmTBJm1PwdI0/JmBwhV
-	DWEi5x4LnaPyTvk+aYVuhQI/FbKMNdgt2SAfHThTlR9uORl886e7ZoHLGj2k/es=
-X-Google-Smtp-Source: AGHT+IG88gh5jpe1lWm1dJLzYeAsz606X1fsWugacF8dRMO37/cYB/fOTS403rubljhj+B9HHXF7dw==
-X-Received: by 2002:a05:600c:46d1:b0:40f:c36f:3ce5 with SMTP id q17-20020a05600c46d100b0040fc36f3ce5mr2431879wmo.16.1707041482077;
-        Sun, 04 Feb 2024 02:11:22 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCU1WZpB09etIzbD6Kqf8k3eM1GC4zRYmUHb+xd6KvI0ggptrJ0gGI5cA1ouECDUrZ0+n1I3T7pF4+JhzykCDURKJEO7fvBAAT5+D0wtDiwKsxD8j9kEkb4P
+        bh=HzdtRYyxuoBzVFG7gJgdw7m+C8xtRflbdEME5FhsXhY=;
+        b=ONQgsvLUUEQa/5B5zozF8qTQQ9lLRxNLltAOA9QWblEgwfiVIMHXpFWxo3pKUJC0yJ
+         lnoxWwO7dOZruxFFrt6m73gqmBaCd51OgUjip0yhgvo4G8Y+x9N+dsL9Z0B8Qu8dI1SY
+         Ohj8PE81KJn+1b+j/iVa6KCoi2bb1m9FOkziC8KJZ1H1ddyrqn8RGWwC65NzLXThxiW+
+         L5IQ02PlWyEMX361vI6E6Zv+9x/0w+jdwwdN/MJyGZgoA9KIqQepGtcePY2uyAqkZsV+
+         vVSiPL2br9+lcUWRUT0HaDOnaLzEO6BzR2gURKWO3ID29u/MSfZPRG4ib9tY5VA2jgT9
+         yqaQ==
+X-Gm-Message-State: AOJu0YzYN+nJ7LEQFrpQIpOjB8DQ9cDCVzpKCH7xtZJ6lSO1vOvz1Uuh
+	A4gSYSG11U2PtiyZhao/fMfmeaxdoZBg4YrmV3nyIpPvCWhmulXu11MaTk3HAr4sYs9jpUdRVW6
+	C
+X-Google-Smtp-Source: AGHT+IH49zvImQCMG7RB6Yk7IPRxY4SP/stf75+3Rp4ZreczIii5KuGf1Hwe7KlWkqRbumN7pKN1AA==
+X-Received: by 2002:a5d:5402:0:b0:33a:ead3:6438 with SMTP id g2-20020a5d5402000000b0033aead36438mr2289314wrv.33.1707042027612;
+        Sun, 04 Feb 2024 02:20:27 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCVaPU+LqFfI0THo1sLtJU7K1d5y8GKW8mCo2PVpt1zkEkq0fB45xxtM0BZ4pG+oQhNrAZsQ+WE/WTER84vnXNRu6djFURH3ghcMfOUUNLMMYOECmvGBLGCE
 Received: from ?IPv6:2001:8b0:aba:5f3c:8ea0:9a0d:a119:2213? ([2001:8b0:aba:5f3c:8ea0:9a0d:a119:2213])
-        by smtp.gmail.com with ESMTPSA id q14-20020a05600c46ce00b0040ebf603a89sm5305975wmo.11.2024.02.04.02.11.21
+        by smtp.gmail.com with ESMTPSA id r17-20020a05600c459100b0040e5945307esm5325351wmo.40.2024.02.04.02.20.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Feb 2024 02:11:21 -0800 (PST)
-Message-ID: <032ea3bb6dd9f7961239c0c51ba0e1616920835d.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] go: revert an oe-specific patch
+        Sun, 04 Feb 2024 02:20:27 -0800 (PST)
+Message-ID: <c44b506f2cf4728e05e8735c0c640e910ad01d8a.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH] kernel.bbclass: fix parsing error with
+ KERNEL_SPLIT_MODULES = '0' and multilib enabled
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Changqing Li <changqing.li@eng.windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Sun, 04 Feb 2024 10:11:20 +0000
-In-Reply-To: <20240204052507.623825-1-changqing.li@windriver.com>
-References: <20240204052507.623825-1-changqing.li@windriver.com>
+To: Qi.Chen@windriver.com, openembedded-core@lists.openembedded.org
+Date: Sun, 04 Feb 2024 10:20:26 +0000
+In-Reply-To: <20240204052826.1282577-1-Qi.Chen@windriver.com>
+References: <20240204052826.1282577-1-Qi.Chen@windriver.com>
 Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
@@ -67,55 +68,87 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 04 Feb 2024 10:11:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194881
+ <openembedded-core@lists.openembedded.org>; Sun, 04 Feb 2024 10:20:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194882
 
-On Sun, 2024-02-04 at 13:25 +0800, Changqing Li wrote:
-> From: Changqing Li <changqing.li@windriver.com>
+On Sun, 2024-02-04 at 13:28 +0800, Chen Qi via lists.openembedded.org
+wrote:
+> From: Chen Qi <Qi.Chen@windriver.com>
 >=20
-> patch 0007-exec.go-do-not-write-linker-flags-into-buildids.patch
-> removes linker flags from buildids for not breaking reproducibility,
-> but it seems that this will make go not rebuild when linker flag
-> changes, Refer [1]. So revert this oe-specific patch, need to find
-> a more proper way to fix reproducibilities.
+> The problem could be reproduced with the following settings:
+> MACHINE =3D "qemux86-64"
+> KERNEL_SPLIT_MODULES =3D "0"
+> require conf/multilib.conf
+> MULTILIBS ?=3D "multilib:lib32"
+> DEFAULTTUNE:virtclass-multilib-lib32 ?=3D "core2-32"
 >=20
-> [1] https://github.com/golang/go/issues/63760
+> The error message is as below:
+>   bb.data_smart.ExpansionError: Failure expanding variable KERNEL_VERSION=
+_PKG_NAME, expression was ${@legitimize_package_name(d.getVar('KERNEL_VERSI=
+ON'))} which triggered exception TypeError: expected string or bytes-like o=
+bject
+>   The variable dependency chain for the failure is: KERNEL_VERSION_PKG_NA=
+ME -> RPROVIDES:kernel-modules
 >=20
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> This is because multilib_virtclass_handler_global function in
+> multilib_global.bbclass deletes KERNEL_VERSION. So we need to handle
+> such situation.
+>=20
+> The KERNEL_VERSION is defined as:
+> KERNEL_VERSION =3D "${@get_kernelversion_headers('${B}')}"
+> So in a clean build directory, its initial value is "None". We should
+> sync other settings to this value. If we use '', then what we'll get
+> error like below with the above settings:
+>=20
+>   ERROR: Required build target 'core-image-minimal' has no buildable prov=
+iders.
+>   Missing or unbuildable dependency chain was: ['core-image-minimal', 'vi=
+rtual/kernel', 'kernel-modules-none']
+>=20
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 > ---
->  meta/recipes-devtools/go/go-1.20.13.inc       |  1 -
->  ...not-write-linker-flags-into-buildids.patch | 41 -------------------
->  2 files changed, 42 deletions(-)
->  delete mode 100644 meta/recipes-devtools/go/go/0007-exec.go-do-not-write=
--linker-flags-into-buildids.patch
+>  meta/classes-recipe/kernel.bbclass | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >=20
-> diff --git a/meta/recipes-devtools/go/go-1.20.13.inc b/meta/recipes-devto=
-ols/go/go-1.20.13.inc
-> index b6eeb651c9..3b0beb7233 100644
-> --- a/meta/recipes-devtools/go/go-1.20.13.inc
-> +++ b/meta/recipes-devtools/go/go-1.20.13.inc
-> @@ -11,7 +11,6 @@ SRC_URI +=3D "\
->      file://0004-make.bash-override-CC-when-building-dist-and-go_boot.pat=
-ch \
->      file://0005-cmd-dist-separate-host-and-target-builds.patch \
->      file://0006-cmd-go-make-GOROOT-precious-by-default.patch \
-> -    file://0007-exec.go-do-not-write-linker-flags-into-buildids.patch \
->      file://0008-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.pat=
-ch \
->      file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch \
->  "
+> diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/ker=
+nel.bbclass
+> index a76aaee5ba..7c1cb0ec77 100644
+> --- a/meta/classes-recipe/kernel.bbclass
+> +++ b/meta/classes-recipe/kernel.bbclass
+> @@ -44,9 +44,9 @@ INITRAMFS_MULTICONFIG ?=3D ""
+>  # number and cause kernel to be rebuilt. To avoid this, make
+>  # KERNEL_VERSION_NAME and KERNEL_VERSION_PKG_NAME depend on
+>  # LINUX_VERSION which is a constant.
+> -KERNEL_VERSION_NAME =3D "${@d.getVar('KERNEL_VERSION') or ""}"
+> +KERNEL_VERSION_NAME =3D "${@d.getVar('KERNEL_VERSION') or 'None'}"
+>  KERNEL_VERSION_NAME[vardepvalue] =3D "${LINUX_VERSION}"
+> -KERNEL_VERSION_PKG_NAME =3D "${@legitimize_package_name(d.getVar('KERNEL=
+_VERSION'))}"
+> +KERNEL_VERSION_PKG_NAME =3D "${@legitimize_package_name(d.getVar('KERNEL=
+_VERSION') or 'None')}"
+>  KERNEL_VERSION_PKG_NAME[vardepvalue] =3D "${LINUX_VERSION}"
+> =20
+>  python __anonymous () {
 
-We can't just delete this as reproducibility will then break.
+I'd prefer not to have "None" floating around as a string value since
+that will likely cause other problems, perhaps not now but in the
+future.
 
-Please find a patch to replace this which fixes the issue and allows
-reproducibility.
+Also, the kernel should have a version by the time packaging runs yet
+this seems to be avoiding that.
 
-We probably need to filter the linker flags and remove the problematic
-ones.
+The code in multilib_global only operates on a copy of the datastore
+for local expansions and the idea is that it would leave
+${KERNEL_VERSION} placeholders. Clearly this doesn't work for the avoid
+anonymous python pieces.
+
+I wonder what happens if we also delete the above two variables there?
 
 Cheers,
 
 Richard
+
+
 
 
 
