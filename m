@@ -1,157 +1,90 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <robert.joslyn@redrectangle.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0493C48286
-	for <webhook@archiver.kernel.org>; Sun,  4 Feb 2024 13:19:18 +0000 (UTC)
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
- by mx.groups.io with SMTP id smtpd.web10.38154.1707052755171852327
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1687FC48286
+	for <webhook@archiver.kernel.org>; Sun,  4 Feb 2024 14:07:19 +0000 (UTC)
+Received: from mailout-l3b-97.contactoffice.com (mailout-l3b-97.contactoffice.com [212.3.242.97])
+ by mx.groups.io with SMTP id smtpd.web10.38902.1707055636314816481
  for <openembedded-core@lists.openembedded.org>;
- Sun, 04 Feb 2024 05:19:15 -0800
+ Sun, 04 Feb 2024 06:07:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=wit9CFcw;
- spf=softfail (domain: sakoman.com, ip: 209.85.160.178, mailfrom: steve@sakoman.com)
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-42a4516ec46so22788221cf.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 04 Feb 2024 05:19:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1707052753; x=1707657553; darn=lists.openembedded.org;
-        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TmD8Ufumy0l40MpItJT/UCbSLTJ8R+omZSVTlYfvnBQ=;
-        b=wit9CFcwbAPE+vW2NiO9uyc4+hAsNzLouMxXjPYv0oB/e/bhhTWvB+gnVgr7YpAN2O
-         xuMQBI2xtVq5kBosqpv9AvIr2vRXijxhyEH2yw+URz2jZzNl+BTtRKNPdVjhyUh3UdZ1
-         k4lP7D4/zz2tvCUJL0q1vnTB5dkPirIsOqA/Okk4MYXJuaApxr4OhwMncPGw3wXmCfE8
-         o/EbvthaMgkgbuVmVfj+pyJtF8fP1g2dff6whx8jtr2xAEwyqF7ndyBedcDgaEpPOuyw
-         7THmB2qm+h+plh7IfVPANZNv01Qeq5EcABn4c7eeqZdSypb/mMacs1GgxJTHCjxRPH76
-         o5pA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707052753; x=1707657553;
-        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=TmD8Ufumy0l40MpItJT/UCbSLTJ8R+omZSVTlYfvnBQ=;
-        b=pthfLjUPPj6Qev02Kp9K8n4h3cDiVxApG2QfmkJ3XVwBg8fI0ibvN+bNChZzTT3rIr
-         Bp9yHyi/KwivHzpEgWFCAdIEcscJujRNpT1b4y6G3PVY0YWasGAJZaJ7l0HXUNBkHuNT
-         KXeDkz/UKZjHZWBOUKojXaU6SLMVWvFFtNJxTQPKim70J9yetRmmoN0uLhRQiqFHUww+
-         rK2DFSfhZ3i+bvpUwkEFuYsdmBWIYSqNq32Vu4wtFfAgbv3+S5qw9zjkpZwaCdg9/pdQ
-         mWHqCZSgM2wLUuFUUaBKqU8x+QGBEVljZ84ppL/3AQeLgFIiC7GuYGOBpRKfdSqcJdgR
-         gM1Q==
-X-Gm-Message-State: AOJu0Yyp+ijNchEW/MQfXoZ3do5rAY+uSygqIHvvrsbjJl5lzI9KfmiO
-	4BN/tZp3lDUgVh+1qCT7wqdUJAux6Ap4EVCV67MvABInxDaZgvQIMbkcvmXWm51h8NfTkv1K0SU
-	jUkY=
-X-Google-Smtp-Source: AGHT+IH2g62p5mD4PKYijjsq0Df67otxMODN2AU9U0xTB4G3WYp6h+E3l1PFlpVmoF8M6Ouj/Nqnbw==
-X-Received: by 2002:a05:622a:1009:b0:42b:f207:9fdc with SMTP id d9-20020a05622a100900b0042bf2079fdcmr5709155qte.32.1707052753387;
-        Sun, 04 Feb 2024 05:19:13 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCXO7ZWJdDa/GnDVg7K3B7xn3SZswujgPYnbZsZ9gZNF0uWONnaV26ku5W3fFkuXVQE8ottLaR82a0HsgoJfMMhfTzFYjdsTELM4G/bYQKKgBBuHiGAj
-Received: from builder.sakoman.com ([71.19.246.55])
-        by smtp.gmail.com with ESMTPSA id gd19-20020a05622a5c1300b0042992b06012sm2762145qtb.2.2024.02.04.05.19.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Feb 2024 05:19:13 -0800 (PST)
-Received: by builder.sakoman.com (Postfix, from userid 1001)
-	id DC5DB1068C3; Sun,  4 Feb 2024 03:19:11 -1000 (HST)
-Subject: OE-core CVE metrics for kirkstone on Sun 04 Feb 2024 03:00:01 AM HST
-FROM: steve@sakoman.com
-To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-User-Agent: mail (GNU Mailutils 3.14)
-Date: Sun,  4 Feb 2024 03:19:11 -1000
-Message-Id: <20240204131911.DC5DB1068C3@builder.sakoman.com>
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=robert.joslyn@redrectangle.org header.s=20230812-3u04 header.b=t1Ah+ft8;
+ spf=pass (domain: redrectangle.org, ip: 212.3.242.97, mailfrom: robert.joslyn@redrectangle.org)
+Received: from smtpauth1.co-bxl (smtpauth1.co-bxl [10.2.0.15])
+	by mailout-l3b-97.contactoffice.com (Postfix) with ESMTP id 40A0491D;
+	Sun,  4 Feb 2024 15:07:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1707055633;
+	s=20230812-3u04; d=redrectangle.org;
+	i=robert.joslyn@redrectangle.org;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Transfer-Encoding;
+	l=1504; bh=rAkbPdkIZa29w1iMsXOSO4Y+S+Erw/aZT3dKZGD3lbo=;
+	b=t1Ah+ft8xEkQc6g7mevVNcJVyTa44Of0JHcmV1SlM3j/247WsCygK1mZMx/uDG2j
+	Ej+g0NYF/SHjePnvrtYxjczMiIQd1rh6mkuJEgYZ0NlwHSYBZ5y5XpjYsqBlbqvaL5y
+	0zBTAJnT1nyCBPTU0e4D7i6kWqv7mTOdW8ZU4S+yXu7mwxtljEeTNb6gr+yRk4qv6Oh
+	zxE12sp/d/PidTv9IxW9otTjH7Mi1Uk5ATw7qCzaiUdrtyScgzbNrPXOhXs9LZi7T5/
+	qKD2YOjSp8CgY7x4+BLDsxWAauaY+W8kVCVNIX19O2CvxCyMSCJMHXSPFiyyPt18IKg
+	a+knEhYfoA==
+Received: by smtp.mailfence.com with ESMTPSA ; Sun, 4 Feb 2024 15:07:11 +0100 (CET)
+From: robert.joslyn@redrectangle.org
+To: openembedded-core@lists.openembedded.org
+Cc: Robert Joslyn <robert.joslyn@redrectangle.org>
+Subject: [PATCH] gtk: Set CVE_PRODUCT
+Date: Sun,  4 Feb 2024 06:06:59 -0800
+Message-ID: <20240204140659.805664-1-robert.joslyn@redrectangle.org>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+X-ContactOffice-Account: com:454140407
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 04 Feb 2024 13:19:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194886
+ <openembedded-core@lists.openembedded.org>; Sun, 04 Feb 2024 14:07:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194887
 
-Branch: kirkstone
+From: Robert Joslyn <robert.joslyn@redrectangle.org>
 
-New this week: 10 CVEs
-CVE-2023-3164 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3164 *
-CVE-2023-42915 (CVSS3: 7.8 HIGH): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42915 *
-CVE-2023-52355 (CVSS3: 7.5 HIGH): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52355 *
-CVE-2023-52356 (CVSS3: 7.5 HIGH): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52356 *
-CVE-2024-0408 (CVSS3: 5.5 MEDIUM): xwayland https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0408 *
-CVE-2024-0409 (CVSS3: 7.8 HIGH): xwayland https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0409 *
-CVE-2024-0727 (CVSS3: 5.5 MEDIUM): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0727 *
-CVE-2024-22860 (CVSS3: 9.8 CRITICAL): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-22860 *
-CVE-2024-22861 (CVSS3: 7.5 HIGH): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-22861 *
-CVE-2024-22862 (CVSS3: 9.8 CRITICAL): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-22862 *
+The CPE vendor is "gnome" and the CPE product is "gtk" for both gtk+3
+and gtk4 recipes. Set CVE_PRODUCT so we properly match the NVD database.
 
-Removed this week: 0 CVEs
+Signed-off-by: Robert Joslyn <robert.joslyn@redrectangle.org>
+---
+ meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb | 2 ++
+ meta/recipes-gnome/gtk+/gtk4_4.12.5.bb   | 2 ++
+ 2 files changed, 4 insertions(+)
 
-Full list:  Found 51 unpatched CVEs
-CVE-2021-35937 (CVSS3: 6.4 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35937 *
-CVE-2021-35938 (CVSS3: 6.7 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35938 *
-CVE-2021-35939 (CVSS3: 6.7 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35939 *
-CVE-2022-3219 (CVSS3: 3.3 LOW): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3219 *
-CVE-2022-3515 (CVSS3: 9.8 CRITICAL): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3515 *
-CVE-2022-36648 (CVSS3: 10.0 CRITICAL): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-36648 *
-CVE-2022-3872 (CVSS3: 8.6 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3872 *
-CVE-2023-1386 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1386 *
-CVE-2023-24532 (CVSS3: 5.3 MEDIUM): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-24532 *
-CVE-2023-27043 (CVSS3: 5.3 MEDIUM): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-27043 *
-CVE-2023-2731 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2731 *
-CVE-2023-28198 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-28198 *
-CVE-2023-29403 (CVSS3: 7.8 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-29403 *
-CVE-2023-3019 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3019 *
-CVE-2023-3164 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3164 *
-CVE-2023-32370 (CVSS3: 5.3 MEDIUM): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-32370 *
-CVE-2023-37769 (CVSS3: 6.5 MEDIUM): pixman:pixman-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-37769 *
-CVE-2023-39323 (CVSS3: 8.1 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39323 *
-CVE-2023-4001 (CVSS3: 6.8 MEDIUM): grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4001 *
-CVE-2023-4039 (CVSS3: 4.8 MEDIUM): gcc:gcc-cross-x86_64:gcc-runtime:gcc-sanitizers:libgcc:libgcc-initial https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4039 *
-CVE-2023-40397 (CVSS3: 9.8 CRITICAL): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-40397 *
-CVE-2023-42467 (CVSS3: 5.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42467 *
-CVE-2023-42915 (CVSS3: 7.8 HIGH): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42915 *
-CVE-2023-44487 (CVSS3: 7.5 HIGH): go:nghttp2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-44487 *
-CVE-2023-45285 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-45285 *
-CVE-2023-45287 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-45287 *
-CVE-2023-45803 (CVSS3: 4.2 MEDIUM): python3-urllib3 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-45803 *
-CVE-2023-46407 (CVSS3: 5.5 MEDIUM): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-46407 *
-CVE-2023-47100 (CVSS3: 9.8 CRITICAL): perl:perl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-47100 *
-CVE-2023-47470 (CVSS3: 7.8 HIGH): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-47470 *
-CVE-2023-48795 (CVSS3: 5.9 MEDIUM): libssh2:libssh2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-48795 *
-CVE-2023-49292 (CVSS3: 4.8 MEDIUM): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-49292 *
-CVE-2023-51767 (CVSS3: 7.0 HIGH): openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51767 *
-CVE-2023-52355 (CVSS3: 7.5 HIGH): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52355 *
-CVE-2023-52356 (CVSS3: 7.5 HIGH): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52356 *
-CVE-2023-5380 (CVSS3: 4.7 MEDIUM): xwayland https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5380 *
-CVE-2023-5574 (CVSS3: 7.0 HIGH): xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5574 *
-CVE-2023-6277 (CVSS3: 6.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6277 *
-CVE-2023-6377 (CVSS3: 7.8 HIGH): xwayland https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6377 *
-CVE-2023-6478 (CVSS3: 7.5 HIGH): xwayland https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6478 *
-CVE-2023-6683 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6683 *
-CVE-2023-6693 (CVSS3: 5.3 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6693 *
-CVE-2023-6816 (CVSS3: 9.8 CRITICAL): xwayland https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6816 *
-CVE-2024-0232 (CVSS3: 5.5 MEDIUM): sqlite3:sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0232 *
-CVE-2024-0408 (CVSS3: 5.5 MEDIUM): xwayland https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0408 *
-CVE-2024-0409 (CVSS3: 7.8 HIGH): xwayland https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0409 *
-CVE-2024-0727 (CVSS3: 5.5 MEDIUM): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0727 *
-CVE-2024-22195 (CVSS3: 6.1 MEDIUM): python3-jinja2:python3-jinja2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-22195 *
-CVE-2024-22860 (CVSS3: 9.8 CRITICAL): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-22860 *
-CVE-2024-22861 (CVSS3: 7.5 HIGH): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-22861 *
-CVE-2024-22862 (CVSS3: 9.8 CRITICAL): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-22862 *
+diff --git a/meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb b/meta/recipes-gnom=
+e/gtk+/gtk+3_3.24.38.bb
+index 37fa0a7290..c23c46a689 100644
+--- a/meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb
++++ b/meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb
+@@ -13,3 +13,5 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D5f30f0716dfd=
+d0d91eb439ebec522ec2 \
+                     file://gtk/gtk.h;endline=3D25;md5=3D1d8dc0fccdbfa262=
+87a271dce88af737 \
+                     file://gdk/gdk.h;endline=3D25;md5=3Dc920ce39dc88c6f0=
+6d3e7c50e08086f2 \
+                     file://tests/testgtk.c;endline=3D25;md5=3Dcb732daee1=
+d82af7a2bf953cf3cf26f1"
++
++CVE_PRODUCT =3D "gnome:gtk"
+diff --git a/meta/recipes-gnome/gtk+/gtk4_4.12.5.bb b/meta/recipes-gnome/=
+gtk+/gtk4_4.12.5.bb
+index 65ac1071f8..a418ef878f 100644
+--- a/meta/recipes-gnome/gtk+/gtk4_4.12.5.bb
++++ b/meta/recipes-gnome/gtk+/gtk4_4.12.5.bb
+@@ -41,6 +41,8 @@ SRC_URI[sha256sum] =3D "28b356d590ee68ef626e2ef9820b2dd=
+21441484a9a042a5a3f0c40e9df
+=20
+ S =3D "${WORKDIR}/gtk-${PV}"
+=20
++CVE_PRODUCT =3D "gnome:gtk"
++
+ inherit meson gettext pkgconfig gi-docgen update-alternatives gsettings =
+features_check gobject-introspection
+=20
+ # TBD: nativesdk
+--=20
+2.43.0
 
-Summary of CVE counts by recipe:
-  qemu:qemu-native:qemu-system-native: 7
-  go: 6
-  xwayland: 6
-  ffmpeg: 5
-  tiff: 5
-  rpm:rpm-native: 3
-  webkitgtk: 3
-  gnupg:gnupg-native: 2
-  curl:curl-native: 1
-  gcc:gcc-cross-x86_64:gcc-runtime:gcc-sanitizers:libgcc:libgcc-initial: 1
-  go:nghttp2: 1
-  grub:grub-efi:grub-native: 1
-  libssh2:libssh2-native: 1
-  openssh: 1
-  openssl:openssl-native: 1
-  perl:perl-native: 1
-  pixman:pixman-native: 1
-  python3:python3-native: 1
-  python3-jinja2:python3-jinja2-native: 1
-  python3-urllib3: 1
-  sqlite3:sqlite3-native: 1
-  xserver-xorg: 1
-
-For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
