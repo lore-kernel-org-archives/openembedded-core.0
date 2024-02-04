@@ -2,57 +2,62 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 161ABC48286
-	for <webhook@archiver.kernel.org>; Sun,  4 Feb 2024 10:20:38 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web10.36128.1707042029847552271
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16BA8C4828F
+	for <webhook@archiver.kernel.org>; Sun,  4 Feb 2024 10:28:08 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web11.36043.1707042484727233270
  for <openembedded-core@lists.openembedded.org>;
- Sun, 04 Feb 2024 02:20:30 -0800
+ Sun, 04 Feb 2024 02:28:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZEuza5qu;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3394bec856fso2769382f8f.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 04 Feb 2024 02:20:29 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UruDGyr/;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-40fc52c2ae4so20435705e9.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 04 Feb 2024 02:28:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1707042028; x=1707646828; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1707042483; x=1707647283; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HzdtRYyxuoBzVFG7gJgdw7m+C8xtRflbdEME5FhsXhY=;
-        b=ZEuza5quOmCS0ecb/jqaHqfsY798H+uO/gKn6cu/l9fp4xBV7wW10H975HUjEQv9mc
-         K52E4RVX5vWStMXgLlU+2LD5SLzOKmXDi0y3jlTDIKwYEbyFj/D5bsOZWuZAiFgZL8s9
-         KURUwKQ1tdenV4xYE0A9VUaAbodjOpBe3vGY4=
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=98uz44RL68mp5P8wEco3L/J0lFceDPkmZ+4zxcDf7uQ=;
+        b=UruDGyr/b85wzdsEVwMW8xpeAfhxNga8np5NJigO+qaiQDDQUM3cISrABZlG1ynwH0
+         d+RQdO0XfL/MUoMtMYOaAopcuM6g4mR1Xlt6ERQHaeHP3jdijRFDlBIux/5rbjO8DMn9
+         m0Kdlmw3aNYiSkTKOS9aTC9lCbNpdk/w0CUtE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707042028; x=1707646828;
+        d=1e100.net; s=20230601; t=1707042483; x=1707647283;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:to:from:subject:message-id
+         :references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HzdtRYyxuoBzVFG7gJgdw7m+C8xtRflbdEME5FhsXhY=;
-        b=ONQgsvLUUEQa/5B5zozF8qTQQ9lLRxNLltAOA9QWblEgwfiVIMHXpFWxo3pKUJC0yJ
-         lnoxWwO7dOZruxFFrt6m73gqmBaCd51OgUjip0yhgvo4G8Y+x9N+dsL9Z0B8Qu8dI1SY
-         Ohj8PE81KJn+1b+j/iVa6KCoi2bb1m9FOkziC8KJZ1H1ddyrqn8RGWwC65NzLXThxiW+
-         L5IQ02PlWyEMX361vI6E6Zv+9x/0w+jdwwdN/MJyGZgoA9KIqQepGtcePY2uyAqkZsV+
-         vVSiPL2br9+lcUWRUT0HaDOnaLzEO6BzR2gURKWO3ID29u/MSfZPRG4ib9tY5VA2jgT9
-         yqaQ==
-X-Gm-Message-State: AOJu0YzYN+nJ7LEQFrpQIpOjB8DQ9cDCVzpKCH7xtZJ6lSO1vOvz1Uuh
-	A4gSYSG11U2PtiyZhao/fMfmeaxdoZBg4YrmV3nyIpPvCWhmulXu11MaTk3HAr4sYs9jpUdRVW6
-	C
-X-Google-Smtp-Source: AGHT+IH49zvImQCMG7RB6Yk7IPRxY4SP/stf75+3Rp4ZreczIii5KuGf1Hwe7KlWkqRbumN7pKN1AA==
-X-Received: by 2002:a5d:5402:0:b0:33a:ead3:6438 with SMTP id g2-20020a5d5402000000b0033aead36438mr2289314wrv.33.1707042027612;
-        Sun, 04 Feb 2024 02:20:27 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCVaPU+LqFfI0THo1sLtJU7K1d5y8GKW8mCo2PVpt1zkEkq0fB45xxtM0BZ4pG+oQhNrAZsQ+WE/WTER84vnXNRu6djFURH3ghcMfOUUNLMMYOECmvGBLGCE
+        bh=98uz44RL68mp5P8wEco3L/J0lFceDPkmZ+4zxcDf7uQ=;
+        b=J8kT3WYEOZjWriH+EtFIt58THUnqehoGX2woFNisTkVBmAP/RHtqtv1ISYd6u/AK2u
+         SgA0tKHBoEkJ0mHXUDTZRsnS34FZEWZG5P57VdSwPvMUa5Rs/sagJj88p4TSkagvdfG2
+         u4WEpfm8cl7YIVDyE5FYMjZ9qxX2RYhfAVkvF/NaGqOntyw9wcFyoaudwfiBaidcVDA7
+         F/IDYgOmlx37Bq4E86mC2P1X6+Up6eEeuU07p7XEuCxv1lfGUOGwdGzfSkVCYJRsRvfu
+         f5rOhCPFje4MHpGy78npppe1jEw1HyPpgOvV+GLbPdmvfm3R7EoNGx88tvM0blFNW/su
+         lkzw==
+X-Gm-Message-State: AOJu0Yzrre4kk38/2HTOTLWmE9VdAGleSpAm36rqkaem6YmtsawGlYIR
+	wZPbGY3QM/8a1xxAsbeZ20nDU9RhBh0QFcc3sZ0vJElSboqkB0JhoNcZC81/zO2tmuy5ENqPf8M
+	N
+X-Google-Smtp-Source: AGHT+IFtSgEptj1rnuUIqSp7OesGKhzVOmDBNnQkKBR8FQwm8HPh/1vH3DH53X4elfZuDdfu6N7EIA==
+X-Received: by 2002:a05:600c:470c:b0:40f:c5df:e92e with SMTP id v12-20020a05600c470c00b0040fc5dfe92emr2625021wmo.31.1707042482828;
+        Sun, 04 Feb 2024 02:28:02 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCWIUvzdfyeDl94Yyxg7UWSBZRUVpeVrYw/QTnnUQ++/3In42mdpZRgHE6tq5G9EfR+boH/G+2h5bWURv9owyYmx5GrJUNdwLrLWb5CCEgjoIzkipxvFz1AR
 Received: from ?IPv6:2001:8b0:aba:5f3c:8ea0:9a0d:a119:2213? ([2001:8b0:aba:5f3c:8ea0:9a0d:a119:2213])
-        by smtp.gmail.com with ESMTPSA id r17-20020a05600c459100b0040e5945307esm5325351wmo.40.2024.02.04.02.20.26
+        by smtp.gmail.com with ESMTPSA id v13-20020a05600c444d00b0040fd3056de2sm3416121wmn.31.2024.02.04.02.28.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Feb 2024 02:20:27 -0800 (PST)
-Message-ID: <c44b506f2cf4728e05e8735c0c640e910ad01d8a.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH] kernel.bbclass: fix parsing error with
- KERNEL_SPLIT_MODULES = '0' and multilib enabled
+        Sun, 04 Feb 2024 02:28:02 -0800 (PST)
+Message-ID: <d6d59a9f1a93d9805f2b80b70f0558f6d8e133bb.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2] gcc-runtime: Move gdb pretty printer file
+ to auto-load location
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Qi.Chen@windriver.com, openembedded-core@lists.openembedded.org
-Date: Sun, 04 Feb 2024 10:20:26 +0000
-In-Reply-To: <20240204052826.1282577-1-Qi.Chen@windriver.com>
-References: <20240204052826.1282577-1-Qi.Chen@windriver.com>
+To: Tim Orling <ticotimo@gmail.com>
+Cc: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Sun, 04 Feb 2024 10:28:01 +0000
+In-Reply-To: <CANx9H-DzH90X_tYppX4QP4NO-b0EcfnJYTCrR7zynB23nCTuzg@mail.gmail.com>
+References: <20240130162049.2019289-1-raj.khem@gmail.com>
+	 <ebb2eb6d1384624d6c293ce194891ee5c001da1d.camel@linuxfoundation.org>
+	 <CAMKF1sonSbNt3bsxBznXXTxEErULs57op81VSbyx_dHB2kPZzg@mail.gmail.com>
+	 <8fbde10440b97a7d1fae483c192b9d17c450124d.camel@linuxfoundation.org>
+	 <CANx9H-DzH90X_tYppX4QP4NO-b0EcfnJYTCrR7zynB23nCTuzg@mail.gmail.com>
 Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
@@ -68,87 +73,133 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 04 Feb 2024 10:20:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194882
+ <openembedded-core@lists.openembedded.org>; Sun, 04 Feb 2024 10:28:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194883
 
-On Sun, 2024-02-04 at 13:28 +0800, Chen Qi via lists.openembedded.org
-wrote:
-> From: Chen Qi <Qi.Chen@windriver.com>
+On Sat, 2024-02-03 at 19:55 -0800, Tim Orling wrote:
 >=20
-> The problem could be reproduced with the following settings:
-> MACHINE =3D "qemux86-64"
-> KERNEL_SPLIT_MODULES =3D "0"
-> require conf/multilib.conf
-> MULTILIBS ?=3D "multilib:lib32"
-> DEFAULTTUNE:virtclass-multilib-lib32 ?=3D "core2-32"
 >=20
-> The error message is as below:
->   bb.data_smart.ExpansionError: Failure expanding variable KERNEL_VERSION=
-_PKG_NAME, expression was ${@legitimize_package_name(d.getVar('KERNEL_VERSI=
-ON'))} which triggered exception TypeError: expected string or bytes-like o=
-bject
->   The variable dependency chain for the failure is: KERNEL_VERSION_PKG_NA=
-ME -> RPROVIDES:kernel-modules
+> On Fri, Feb 2, 2024 at 11:53=E2=80=AFPM Richard Purdie <richard.purdie@li=
+nuxfoundation.org> wrote:
+> > On Fri, 2024-02-02 at 16:23 -0800, Khem Raj wrote:
+> > > On Fri, Feb 2, 2024 at 2:58=E2=80=AFPM Richard Purdie
+> > > <richard.purdie@linuxfoundation.org> wrote:
+> > > >=20
+> > > > On Tue, 2024-01-30 at 08:20 -0800, Khem Raj wrote:
+> > > > > When debugging a C++ program on target using libcstdc++, gdb does=
+ not
+> > > > > find the pretty printer python support, this is because the init =
+file is
+> > > > > installed into /usr/lib which is excluded from gdb's default list=
+ of
+> > > > > directories to load config's from, where as defaults to load from
+> > > > > datadir is still on, it therefore does not load this file
+> > > > >=20
+> > > > > warning: File "/usr/lib/libstdc++.so.6.0.33-gdb.py" auto-loading =
+has been declined by your `auto-load safe-path' set to "$debugdir:$datadir/=
+auto-load".
+> > > > >=20
+> > > > > This leaves the libstdc++ pretty-printers disabled even though ad=
+ded via
+> > > > > IMAGE_INSTALL +=3D "gcc-runtime-dbg"
+> > > > >=20
+> > > > > Add missing runtime dependency on datetime python module for the =
+pretty
+> > > > > printer to work/load successfully.
+> > > > >=20
+> > > > > Once the pretty-printer gdb file is moved out of libdir, it may b=
+ecome
+> > > > > empty therefore delete it if its empty.
+> > > > >=20
+> > > > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > > > > ---
+> > > > > v2: Fix build on mingw
+> > > > >=20
+> > > > > =C2=A0 meta/recipes-devtools/gcc/gcc-runtime.inc | 9 ++++++++-
+> > > > > =C2=A0 1 file changed, 8 insertions(+), 1 deletion(-)
+> > > > >=20
+> > > > > diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/rec=
+ipes-devtools/gcc/gcc-runtime.inc
+> > > > > index 64b6168ba76..004deb6e41f 100644
+> > > > > --- a/meta/recipes-devtools/gcc/gcc-runtime.inc
+> > > > > +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
+> > > > > @@ -85,6 +85,8 @@ do_install () {
+> > > > > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cd ${B}/${=
+TARGET_SYS}/$d/
+> > > > > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0oe_runmake=
+ 'DESTDIR=3D${D}' MULTIBUILDTOP=3D${B}/${TARGET_SYS}/$d/ install
+> > > > > =C2=A0 =C2=A0 =C2=A0 =C2=A0done
+> > > > > +=C2=A0 =C2=A0 =C2=A0install -d ${D}${datadir}/gdb/auto-load/${li=
+bdir}
+> > > > > +=C2=A0 =C2=A0 =C2=A0mv ${D}${libdir}/libstdc++*-gdb.py ${D}${dat=
+adir}/gdb/auto-load/${libdir}
+> > > > > =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ -d ${D}${libdir}/gcc/${TARGET_SYS=
+}/${BINV}/include ]; then
+> > > > > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0install -d=
+ ${D}${libdir}/${TARGET_SYS}/${BINV}/include
+> > > > > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mv ${D}${l=
+ibdir}/gcc/${TARGET_SYS}/${BINV}/include/* ${D}${libdir}/${TARGET_SYS}/${BI=
+NV}/include
+> > > > > @@ -99,6 +101,9 @@ do_install () {
+> > > > > =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ -d ${D}${infodir} ]; then
+> > > > > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rmdir --ig=
+nore-fail-on-non-empty -p ${D}${infodir}
+> > > > > =C2=A0 =C2=A0 =C2=A0 =C2=A0fi
+> > > > > +=C2=A0 =C2=A0 =C2=A0if [ -d ${D}${libdir} ]; then
+> > > > > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rmdir --ignore-f=
+ail-on-non-empty -p ${D}${libdir}
+> > > > > +=C2=A0 =C2=A0 =C2=A0fi
+> > > > > =C2=A0 }
+> > > > >=20
+> > > > > =C2=A0 do_install:append:class-target () {
+> > > > > @@ -182,9 +187,11 @@ RRECOMMENDS:${PN}-dbg =3D ""
+> > > > >=20
+> > > > > =C2=A0 # include python debugging scripts
+> > > > > =C2=A0 FILES:${PN}-dbg +=3D "\
+> > > > > -=C2=A0 =C2=A0 ${libdir}/libstdc++.*-gdb.py \
+> > > > > =C2=A0 =C2=A0 =C2=A0 ${datadir}/gcc-${BINV}/python/libstdcxx \
+> > > > > +=C2=A0 =C2=A0 ${datadir}/gdb/auto-load \
+> > > > > =C2=A0 "
+> > > > > +# Needed by libstdcxx pretty printer
+> > > > > +RDEPENDS:${PN}-dbg +=3D "python3-datetime"
+> > > > >=20
+> > > > > =C2=A0 FILES:libg2c =3D "${target_libdir}/libg2c.so.*"
+> > > > > =C2=A0 SUMMARY:libg2c =3D "Companion runtime library for g77"
+> > > >=20
+> > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/6=
+381/steps/14/logs/stdio
+> > > >=20
+> > > > Missing or unbuildable dependency chain was: ['selftest-ed',
+> > > > 'virtual/x86_64-poky-linux-compilerlibs', 'python3-datetime', 'bash=
+']
+> > > >=20
+> > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/89/builds/8=
+533
+> > >=20
+> > > Hmm, so I wonder if using RRECOMMEND is better here. Where is bash
+> > > being pulled from ?
+> >=20
+> > bash appears to be a dependency of python3-datetime. I don't think a
+> > RRECOMMEND will help unfortunately.
+> >=20
 >=20
-> This is because multilib_virtclass_handler_global function in
-> multilib_global.bbclass deletes KERNEL_VERSION. So we need to handle
-> such situation.
 >=20
-> The KERNEL_VERSION is defined as:
-> KERNEL_VERSION =3D "${@get_kernelversion_headers('${B}')}"
-> So in a clean build directory, its initial value is "None". We should
-> sync other settings to this value. If we use '', then what we'll get
-> error like below with the above settings:
+> It seems to be required for tests/ (test_venv.py, test_subprocess.py and =
+test_zipfile/test_core.py are the obvious ones)
+> https://github.com/search?q=3Drepo%3Apython%2Fcpython+%28%22bash%22+OR+%2=
+2bash+required%22%29+path%3A%2F%5ELib%5C%2Ftest%5C%2F%2F&type=3Dcode
 >=20
->   ERROR: Required build target 'core-image-minimal' has no buildable prov=
-iders.
->   Missing or unbuildable dependency chain was: ['core-image-minimal', 'vi=
-rtual/kernel', 'kernel-modules-none']
->=20
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->  meta/classes-recipe/kernel.bbclass | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/ker=
-nel.bbclass
-> index a76aaee5ba..7c1cb0ec77 100644
-> --- a/meta/classes-recipe/kernel.bbclass
-> +++ b/meta/classes-recipe/kernel.bbclass
-> @@ -44,9 +44,9 @@ INITRAMFS_MULTICONFIG ?=3D ""
->  # number and cause kernel to be rebuilt. To avoid this, make
->  # KERNEL_VERSION_NAME and KERNEL_VERSION_PKG_NAME depend on
->  # LINUX_VERSION which is a constant.
-> -KERNEL_VERSION_NAME =3D "${@d.getVar('KERNEL_VERSION') or ""}"
-> +KERNEL_VERSION_NAME =3D "${@d.getVar('KERNEL_VERSION') or 'None'}"
->  KERNEL_VERSION_NAME[vardepvalue] =3D "${LINUX_VERSION}"
-> -KERNEL_VERSION_PKG_NAME =3D "${@legitimize_package_name(d.getVar('KERNEL=
-_VERSION'))}"
-> +KERNEL_VERSION_PKG_NAME =3D "${@legitimize_package_name(d.getVar('KERNEL=
-_VERSION') or 'None')}"
->  KERNEL_VERSION_PKG_NAME[vardepvalue] =3D "${LINUX_VERSION}"
-> =20
->  python __anonymous () {
+> I didn=E2=80=99t see any hard requirement in Lib/datetime.py nor its test=
+ cases. But searching on a phone can lead to missing things=E2=80=A6
 
-I'd prefer not to have "None" floating around as a string value since
-that will likely cause other problems, perhaps not now but in the
-future.
+The dependency is definitely coming from the python3 tests.
 
-Also, the kernel should have a version by the time packaging runs yet
-this seems to be avoiding that.
-
-The code in multilib_global only operates on a copy of the datastore
-for local expansions and the idea is that it would leave
-${KERNEL_VERSION} placeholders. Clearly this doesn't work for the avoid
-anonymous python pieces.
-
-I wonder what happens if we also delete the above two variables there?
+It looks like whilst the python3-ptest is conditional on enabling
+ptests, the python3-tests package is not, and it is that which contains
+the bash dependency.
 
 Cheers,
 
 Richard
-
-
-
 
 
