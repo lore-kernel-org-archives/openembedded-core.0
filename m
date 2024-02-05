@@ -1,145 +1,230 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E96E4C48291
-	for <webhook@archiver.kernel.org>; Mon,  5 Feb 2024 07:12:23 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web10.58205.1707117132740287854
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3A3FC48291
+	for <webhook@archiver.kernel.org>; Mon,  5 Feb 2024 07:18:53 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.58255.1707117531024780589
  for <openembedded-core@lists.openembedded.org>;
- Sun, 04 Feb 2024 23:12:14 -0800
+ Sun, 04 Feb 2024 23:18:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=aQUCMO3z;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-33b29b5eab5so1128040f8f.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 04 Feb 2024 23:12:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1707117131; x=1707721931; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=rnCLLpor5BhSt2zuK8JxahzFS+Jt590R9nkhzKN3yEg=;
-        b=aQUCMO3z3wDmZyVgbewRFpmg0B8jrXNsNskz4XA29ska+EArRYZie50lnCtAjh8qo3
-         /FZhsGKElTZjhYYquZuI9n9LYEyzjdWwkA+nEZdQZI8KKOEWaqhAk+YEK+EgP4WPHnBi
-         iK8TSay2tSxgXJMVT5Z6SzKNKrUH4X2fUYOkM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707117131; x=1707721931;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rnCLLpor5BhSt2zuK8JxahzFS+Jt590R9nkhzKN3yEg=;
-        b=mhbnFHBMRwI1B8KoYeF+xVjnB9ZEsnE1MP55dbADAB71AayySNqpKrZVQekvrs3eHx
-         KTEjlGz+/1Ae35pmc7CkYHoll3DwOjSHs4Ivde4i13Ksb9tooWGNt/KAkHz+jfLgHOQD
-         GV45EUBOLK4sBnbQ0LfZq0hGyHNnhufYd1072jWXPHdW4h1gd+B43pxLIaZy78M0CfBa
-         lUV0SmfIYKlIdPQEbTzw6+Xlg8QpxEv/9h+i4dzmHbC5vMVPUUy3+acz5APYehFGm22N
-         jXHV3xQWWO+FhjYfqy3UnFRq4dgxLyT1uuTYCAVNTVxeTKNqyA1Za6RQ32h0mcPE9iK0
-         JDTw==
-X-Gm-Message-State: AOJu0YwecOjnZ2/ahKIswxcmjMwcUsmPi7f62gH2LVkMn0csiwIMPnJj
-	SF040i2WfXxOU7VP0EjLvRzaupkn0l8jlW4TnOWIvpKHGBnv1vROLHHAnmXc9f0=
-X-Google-Smtp-Source: AGHT+IEAFdKzS2TJmV8oTN5mUlW2niLltM9cRkv7jjpwc7y2PYVmv1vg8dNqnaGkOgFvQJzJIScvYw==
-X-Received: by 2002:adf:ee10:0:b0:33a:ecd6:1c71 with SMTP id y16-20020adfee10000000b0033aecd61c71mr7885631wrn.56.1707117131004;
-        Sun, 04 Feb 2024 23:12:11 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCVCamF8P3XcunvUj2s1EaoruRY4KOn4KORU6zI57Q9w2W3SlKqo30my13TbWtRThw/qGrbo4QAFbA/mYRJ3oS8uFkhnwHuZM1bU1ctpHUiZf6Cc3ECL+1A9naV/Sd+J5WyOnhGmk/tib0baheItayCVac7Ld+COzM3n
-Received: from ?IPv6:2001:8b0:aba:5f3c:1dd9:a716:2b89:e181? ([2001:8b0:aba:5f3c:1dd9:a716:2b89:e181])
-        by smtp.gmail.com with ESMTPSA id u3-20020adfa183000000b0033b419a17a9sm346867wru.106.2024.02.04.23.12.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Feb 2024 23:12:10 -0800 (PST)
-Message-ID: <c6b68e4d96108645ffcfdac875e6081c57bdf7a1.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/1] ltp: Update to 20240129
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Petr Vorel <petr.vorel@gmail.com>, Alexandre Belloni
-	 <alexandre.belloni@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org, Daniel =?ISO-8859-1?Q?D=EDaz?=
-	 <daniel.diaz@linaro.org>, Khem Raj <raj.khem@gmail.com>
-Date: Mon, 05 Feb 2024 07:12:09 +0000
-In-Reply-To: <20240203235247.GA163430@pevik>
-References: <20240131183243.30223-1-petr.vorel@gmail.com>
-	 <202402021507535468a87c@mail.local> <20240203235247.GA163430@pevik>
-Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
- YNvg==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.0-1 
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=cbw2J5dW;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=2765e3e443=qi.chen@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4156PWQg026472
+	for <openembedded-core@lists.openembedded.org>; Sun, 4 Feb 2024 23:18:50 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=message-id:date:subject:to:references:from:in-reply-to
+	:content-type:content-transfer-encoding:mime-version; s=
+	PPS06212021; bh=3cRWXlwxwIEthbWqVvaDuy9tom87JNvZITA7L4IsFT4=; b=
+	cbw2J5dWch7bMrQvWS85qFaPAyMcVT4lXlMwyJ4ImbKRFGTEMmBFCcQJESH8YT8P
+	GZ1a7wb1KimOLQlSiJtJ1DhndnTj2WfCl+havr1RWDBFU7sdJldSgKhtr0eaqn1E
+	yMenNziA3a2kEhEDRAJ7ZeovmrQSriN+G4G3h3PQzXUs6vwoM0++em1Q7+Keo2U7
+	n+fqwS48l2Gxq/XR9JxgL6dCLo3FurPaEed9e5sT2p/BxD+lFOi09jU4IzP/6wDW
+	R51PfJpOuq0L0YUWQ7ymklzITr59leRq9zIKScAP8UcQClbhpWFhCN/3fhF7QeJH
+	GWL3ClRi2FPx9NJPCVAWYg==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3w1hn3sbsp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Sun, 04 Feb 2024 23:18:50 -0800 (PST)
+Received: from m0250810.ppops.net (m0250810.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.24/8.17.1.24) with ESMTP id 4157InrP024237;
+	Sun, 4 Feb 2024 23:18:49 -0800
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2100.outbound.protection.outlook.com [104.47.58.100])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3w1hn3sbsn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sun, 04 Feb 2024 23:18:49 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QBvSTDrRFxer3f7PxVusND+emgLlILFYpi/I35hoSnNFCmGRZvQ3gAy20xrL07Gakxwi7Ec/jc+WywfVlWpJ1Zm3NC+85uhR7B2xTMcqKeTiGnbVJGon+elDs+JlNOLZzpXf2dmdHmhDTxpBsQK3Tc2B9007dlclrOgRm4MZMbnMHuPBk+h7L52bUl7EMk3eOOO9NRPA0oWb44cueiWdWxNHkq8eSi95oUr91lgVQkt+FE96jz8Y5h0yuc8ENsgsr17/yMkeZbZR47FQIsbQMm+J8JqMDwrO606Jn4VEIFh8Uv7tPUL4O3lJw0A9ubRaFrv2brr5Oy7vV+gQ3QGzYA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3cRWXlwxwIEthbWqVvaDuy9tom87JNvZITA7L4IsFT4=;
+ b=YNptG+6jJKdle21HXI3FgxaeCa7xMy1eqJa+38/QTYDhDCaUBmaN+GZ8aqC8SaiHE8t0uKQsq1YL6xYeOtpKoZRFP8AmgrVYxLJ+ccwUHhKqzEGhEJJAb9mumskLq9O1fUrQDdi+jWsNdCNt6aPb4IEVsMHkU7XvBJFK9rovUQd0ztJPIbcqRrWa/NbrBDrEC095het2tEdmR0x4K5DPU+xd1JwzqtWiUwy3EBW6YPd12tZt7jT54kHdcxaYj+PAEqu7jdGjviLOGeJlHOFwZaN7h2OT8TDCQ8Gf1p+R6J3HtAQ2ouf94pi9s5usq6zcwgBR+zp+m3ozUyPmExeLpw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from PH0PR11MB5611.namprd11.prod.outlook.com (2603:10b6:510:ed::9)
+ by PH0PR11MB5191.namprd11.prod.outlook.com (2603:10b6:510:3e::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.36; Mon, 5 Feb
+ 2024 07:18:45 +0000
+Received: from PH0PR11MB5611.namprd11.prod.outlook.com
+ ([fe80::c66:ddc4:3908:5994]) by PH0PR11MB5611.namprd11.prod.outlook.com
+ ([fe80::c66:ddc4:3908:5994%3]) with mapi id 15.20.7249.032; Mon, 5 Feb 2024
+ 07:18:44 +0000
+Message-ID: <f0e4d215-e8f4-2670-1586-be18b2116c21@windriver.com>
+Date: Mon, 5 Feb 2024 15:18:38 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [OE-core][PATCH] kernel.bbclass: fix parsing error with
+ KERNEL_SPLIT_MODULES = '0' and multilib enabled
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+        openembedded-core@lists.openembedded.org
+References: <20240204052826.1282577-1-Qi.Chen@windriver.com>
+ <c44b506f2cf4728e05e8735c0c640e910ad01d8a.camel@linuxfoundation.org>
+Content-Language: en-US
+From: ChenQi <Qi.Chen@windriver.com>
+In-Reply-To: <c44b506f2cf4728e05e8735c0c640e910ad01d8a.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: TYCP286CA0013.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:26c::20) To PH0PR11MB5611.namprd11.prod.outlook.com
+ (2603:10b6:510:ed::9)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR11MB5611:EE_|PH0PR11MB5191:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2ce77ac2-c8a1-4bf4-1bc7-08dc261aaf6f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	AMcOAt+QdKpwnrvsYp/J6B0bpItwJHAk97xZQ40fk7qXLxiq4V1tvf6qbAiUmqQkVuj76sV4mGH9Mfch45KVHWVGGX52kYBc8mopTICpCkG5d0KBZBz3vZT8PIlTTMNrDrQq7ZSkuDnT5P0hLMncA1pS+imxQRBQ9iCeh+6OZYc9/JBoIhJkXBLjzzZhOgOz80ryCLEn0LDHMA7LnL1M67aHKL44UmmD6SY4oGJp1rkzfyXVJyEcyX1MkZJWmdw6d0mnfvQ34ieHKTdQWShmLoNzuMz98XOAaB9Ch/z+5AXWgdAexAygTOmZSGexCleMFDZVDvE9Gru96z+3QT1sfUgydJMq1tV20zQ9BaINFZUIrNfgwmYfRP8Y9LwZSeiMB1et5OjC2Q3Zk1QuR4aT1OOU/CMPwPCJTuCPyjyiav+IaWlBSyeia+MP320S5DiucaW1ioTMNXebAe/k2xMzaknjTRE3t4Cb7YQAHyBPAYmccSXDbhgr+84/5euWiHQ+P8UnDaTHzBsPKTTdRk/JL81q0MdcEwlYj3eON7Ux8rhTx+rbY1E9c1Va8B8QPLDy3l/axHRfJwPDBXvlFv1y77W06qIYxenlmgHRRJwK0JGDry+ooFUNOgncG8x2HMTkpvKiXWOGdc7yV+BDDPfm7Q==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5611.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(396003)(366004)(346002)(39840400004)(376002)(230922051799003)(186009)(64100799003)(1800799012)(451199024)(41300700001)(2616005)(26005)(86362001)(31696002)(6486002)(5660300002)(478600001)(2906002)(66476007)(66556008)(66946007)(8936002)(8676002)(36756003)(6512007)(6506007)(53546011)(6666004)(38100700002)(31686004)(316002)(83380400001)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?TVQvYi9ucGJlTzU2UU1hNE9WNWhTV1RqeG1PSmZPeFdMTllJTFdiSDVKSE9M?=
+ =?utf-8?B?SUJMMXFtZFNTY2F4c08yNkVxYmcyblk3S2lkR3JRcWQ5YU1DUHRaazliUGdS?=
+ =?utf-8?B?cDdNMTBWZzl6dFVpOW9vZWx3S3BhNW1yOVRjZmF1ZUhSTmN0UzN1UWZXN1ZO?=
+ =?utf-8?B?L0k5YlBFNVdET0xDRUhDRjhnK241dHByUVBmaW45dUM4d1RKbERqMU9ld3hy?=
+ =?utf-8?B?MDNjd2R5MmZja0o5WXd5aEhEZEdTa2dFUlRrQ0hkakk4V3RQVzRic2JLbTFn?=
+ =?utf-8?B?a3dSUVlZMEI3QStMR2lEb2ljeUh5SFlJanN2T3U0cGpvTmFZWTRaSkZ1VUww?=
+ =?utf-8?B?dzZockhOWEYyeFlIVnRnYy9YUHZmVjhSTDV3RnlXVUJ3UVliNU5SY1ViZisr?=
+ =?utf-8?B?aUpDK0NENnd5UUx6L3A1dDRqTzh5UndiZjBQMzlmMTF6WkFjUThmaGRpSE5q?=
+ =?utf-8?B?Z2ppRGkwNUZjOVJKSW1zUGU5djFGZ3BDaDhNaHNJY0NLRTZ3MUxkbmt0UzRF?=
+ =?utf-8?B?c0R1MHN3bjkwVDh4YXFwY0ppbHRMcmRrYXJvelNrbWdoUVlqRGJqN1hwODUy?=
+ =?utf-8?B?Vmw1aUFTTU8zVEhLTGtaaVVGQ3YrU012QzBJQWxxNzM0d0EvZVZDNjFKUjNE?=
+ =?utf-8?B?VWtLYnFvTnBjT3UxRzRkVWFiVFB6TmR3Vi9Dei90eFZncTRoS296VlhNSjNr?=
+ =?utf-8?B?QmNiYmFZdEs5VGdmQWgyWmxzK0V0T0wrL21XYVFYNDVGM3ppV05QcmpqaHAv?=
+ =?utf-8?B?MmxrSGErN1pvbnByRVhmRFhlSHBva3pWbTNiS1BJN2NXMmZGUXdweG1Bc25v?=
+ =?utf-8?B?TGllRktSdjNCV095QitqWnlwelZRcTM4bUlRaXRTb0YyLzlZOWJKeDJEU3Zz?=
+ =?utf-8?B?aTkzb2M1OFJvblRtMURSb255T0xLbDdwQU8xL2IwK3NnR1RSbjE5bFIxVXRI?=
+ =?utf-8?B?N01vZE1MdHZETkVwV0NkVXpQeUtIMWV0RUxNSmFxTExwSUg4aEMrVElZZW1k?=
+ =?utf-8?B?bEJsU3VZNk13b1JuaU5pZmpzaVJnbkRJWHRoY1lLY3BpYThZRjAwYTVMMkdn?=
+ =?utf-8?B?MDNjUUl4U0hBMXBMWWRqcGtEQUVKT1JlL2xtUytsQ3U0d0ZUUTRDaFp5UjZW?=
+ =?utf-8?B?dlNNVU5XR05IN3dERldvU1NuMk1xV0lHeE5WMkFuQy9jbnIyV0xlNkszSEtn?=
+ =?utf-8?B?TmtxTmJmNzU1c014SitSejZwQUtUclJjMHZQR2V4REZFeTZGZW4xTEVPYWtJ?=
+ =?utf-8?B?SWxwNkFOemtJVDdvR1dPYnZyaE42STRRay92R1A0Yzk1c1N1TldYUW0yU3Z5?=
+ =?utf-8?B?KzhYbDAvM0licURuSDNwZTFkWG13N3R0a3lhQVljNUM2RE82T1JxUVc5SVlR?=
+ =?utf-8?B?S1k4Zk5YaW5CUXNrS3BVMVlpVmNRemlUZmxQVWZCTDRpeWxESWZldjVQUmNC?=
+ =?utf-8?B?Uk9ZSFMvNEErcWd1VnFlVDhOZ1NvbUZLaXhLTEJSZ080UnFZMmFBKyt5SHVp?=
+ =?utf-8?B?d1VBVnViU2lLNVJQWUlLd1dXUEhMSWU1blg5aWQ5TXpqR1ZOZmNyUUs5US9p?=
+ =?utf-8?B?S054eFJ6aU5xL0RiOCt1UVJ6SzFiSDdiK0NSVTFlUkt2WDJjaWsrNGlLUE9v?=
+ =?utf-8?B?L0dhUFZWRHFiTHpMSVh4eEdlaTZpQVNtS1JjeHBrendyemhxK1ZpMnZmY01U?=
+ =?utf-8?B?T2g2SlpBVVRYekJjRkFxUEdYOGZLQzVhcmpJQnBoU2NvUmFnMlVzbnFucno5?=
+ =?utf-8?B?UEhUaHh5TzJWbmVVTG9hU1E0RWxuODc1c2d5d0x4ZFd5S0RMZVRac3ZQdC9u?=
+ =?utf-8?B?VlhaYm1jMVU0czlRcXRqUjU5OTVET0h0MW12L1pMdXY3ZFlxOUF0UDNLcWMw?=
+ =?utf-8?B?RVJ5N2FaWUgzM0RVc1RsZFFLR29Uc282V3VzRmw4V0dIQWhQRE9pdWpSYXpS?=
+ =?utf-8?B?WmN0cHdzSjNYTWtzbzlqSjRETXFsR2ZZcG1ndjZnYXNhWDRlTmk1ek14RnBm?=
+ =?utf-8?B?eUJFMHVPQzhPMlA5SWZUMjZkT2pLd1lMOFdtTkY0cXNuRFhpQ1VTN2Zja2w4?=
+ =?utf-8?B?QURTZ2txZmEzdzlQY3dEVWpJR2sweUdVbk1najJnT0dOc0xiU2tKT1VIT1do?=
+ =?utf-8?Q?Pns51IF/t0F3m0GF5rXBd4wqS?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2ce77ac2-c8a1-4bf4-1bc7-08dc261aaf6f
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5611.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2024 07:18:44.5082
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: IC6Et60/sRVf6MzRRnzNNL6kwmChuM9lwiKb/kUMCR1a2UviIzFz2xaq143VstgoI+3MRVi4kAAOZDTLsMZe4w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5191
+X-Proofpoint-GUID: _np00-twV63AsJk-wVvoD6Ma8zQ-gwPC
+X-Proofpoint-ORIG-GUID: FUYD9Fx4Wf8NM_yzluziJ1_s3roP0N2s
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-05_02,2024-01-31_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
+ clxscore=1015 mlxlogscore=999 suspectscore=0 mlxscore=0 bulkscore=0
+ impostorscore=0 phishscore=0 spamscore=0 priorityscore=1501
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401310000 definitions=main-2402050054
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 Feb 2024 07:12:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194918
+ <openembedded-core@lists.openembedded.org>; Mon, 05 Feb 2024 07:18:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194919
 
-Hi Petr,
+On 2/4/24 18:20, Richard Purdie wrote:
+> On Sun, 2024-02-04 at 13:28 +0800, Chen Qi via lists.openembedded.org
+> wrote:
+>> From: Chen Qi <Qi.Chen@windriver.com>
+>>
+>> The problem could be reproduced with the following settings:
+>> MACHINE = "qemux86-64"
+>> KERNEL_SPLIT_MODULES = "0"
+>> require conf/multilib.conf
+>> MULTILIBS ?= "multilib:lib32"
+>> DEFAULTTUNE:virtclass-multilib-lib32 ?= "core2-32"
+>>
+>> The error message is as below:
+>>    bb.data_smart.ExpansionError: Failure expanding variable KERNEL_VERSION_PKG_NAME, expression was ${@legitimize_package_name(d.getVar('KERNEL_VERSION'))} which triggered exception TypeError: expected string or bytes-like object
+>>    The variable dependency chain for the failure is: KERNEL_VERSION_PKG_NAME -> RPROVIDES:kernel-modules
+>>
+>> This is because multilib_virtclass_handler_global function in
+>> multilib_global.bbclass deletes KERNEL_VERSION. So we need to handle
+>> such situation.
+>>
+>> The KERNEL_VERSION is defined as:
+>> KERNEL_VERSION = "${@get_kernelversion_headers('${B}')}"
+>> So in a clean build directory, its initial value is "None". We should
+>> sync other settings to this value. If we use '', then what we'll get
+>> error like below with the above settings:
+>>
+>>    ERROR: Required build target 'core-image-minimal' has no buildable providers.
+>>    Missing or unbuildable dependency chain was: ['core-image-minimal', 'virtual/kernel', 'kernel-modules-none']
+>>
+>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>> ---
+>>   meta/classes-recipe/kernel.bbclass | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
+>> index a76aaee5ba..7c1cb0ec77 100644
+>> --- a/meta/classes-recipe/kernel.bbclass
+>> +++ b/meta/classes-recipe/kernel.bbclass
+>> @@ -44,9 +44,9 @@ INITRAMFS_MULTICONFIG ?= ""
+>>   # number and cause kernel to be rebuilt. To avoid this, make
+>>   # KERNEL_VERSION_NAME and KERNEL_VERSION_PKG_NAME depend on
+>>   # LINUX_VERSION which is a constant.
+>> -KERNEL_VERSION_NAME = "${@d.getVar('KERNEL_VERSION') or ""}"
+>> +KERNEL_VERSION_NAME = "${@d.getVar('KERNEL_VERSION') or 'None'}"
+>>   KERNEL_VERSION_NAME[vardepvalue] = "${LINUX_VERSION}"
+>> -KERNEL_VERSION_PKG_NAME = "${@legitimize_package_name(d.getVar('KERNEL_VERSION'))}"
+>> +KERNEL_VERSION_PKG_NAME = "${@legitimize_package_name(d.getVar('KERNEL_VERSION') or 'None')}"
+>>   KERNEL_VERSION_PKG_NAME[vardepvalue] = "${LINUX_VERSION}"
+>>   
+>>   python __anonymous () {
+> I'd prefer not to have "None" floating around as a string value since
+> that will likely cause other problems, perhaps not now but in the
+> future.
+>
+> Also, the kernel should have a version by the time packaging runs yet
+> this seems to be avoiding that.
+>
+> The code in multilib_global only operates on a copy of the datastore
+> for local expansions and the idea is that it would leave
+> ${KERNEL_VERSION} placeholders. Clearly this doesn't work for the avoid
+> anonymous python pieces.
+>
+> I wonder what happens if we also delete the above two variables there?
 
-On Sun, 2024-02-04 at 00:52 +0100, Petr Vorel wrote:
-> Hi Alexandre, all,
->=20
-> > On 31/01/2024 19:32:43+0100, Petr Vorel wrote:
-> > > Removed patch accepted upstream as
-> > > 8c53cc947 ("testcases/kernel/syscalls/fcntl: define _LARGEFILE64_SOUR=
-CE")
->=20
-> > > Rebase runtest/mm patch.
->=20
-> > > Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
-> > > ---
-> > > Hi Richard, Daniel, Khem,
->=20
-> > > could anybody please test this update if build (it should).
->=20
-> > > Also, it'd be good nice to rerun proc01 -m 128 and report me with the
-> > > details, maybe we can fix it. If still problematic, it'd be nice to t=
-urn
-> > > disable_hanging_tests.patch into proper git patch (makes rebasing pat=
-ch
-> > > on new LTP version easier).
->=20
-> > This fails on the autobuilders:
->=20
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/95/builds/5957/=
-steps/12/logs/stdio
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/96/builds/5917/=
-steps/12/logs/stdio
->=20
->=20
-> Thanks for testing this, you probably mean the warning before python stac=
-k trace:
->=20
-> scp: /opt/ltp/results/connectors: No such file or directory
-> WARNING: core-image-sato-1.0-r0 do_testimage: File could not be copied. O=
-utput: scp: /opt/ltp/results/connectors: No such file or directory
->=20
-> The problem is not due packaging, but simply runtest/connectors was remov=
-ed [1],
-> thus your tooling has to be fixed not to expect it (not trying to run it)=
-.
-> I'm sorry, we sometimes do cleanup which brings incompatibility issue
-> (here it did not make sense to start SUT just for single test, thus we mo=
-ved the
-> test to runtest/kernel_misc).
+It works. Thanks. I'll send out V2.
 
-I did try again with that removed:
+Regards,
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/96/builds/5929/step=
-s/12/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/95/builds/5968/step=
-s/12/logs/stdio
+Qi
 
-which comes down to:
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+>
 
-scp: /opt/ltp/results/fsx: No such file or directory
-
-so I'll remove that and try again.
-
-Are there any additions we should be considering too? This all feels a
-little fragile so I'm wondering if we should be reworking the way we
-handle this?
-
-Cheers,
-
-Richard
 
