@@ -1,578 +1,264 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38B99C48292
-	for <webhook@archiver.kernel.org>; Mon,  5 Feb 2024 17:42:38 +0000 (UTC)
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
- by mx.groups.io with SMTP id smtpd.web10.176.1707154955174736994
- for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Feb 2024 09:42:35 -0800
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25F04C48292
+	for <webhook@archiver.kernel.org>; Mon,  5 Feb 2024 17:45:28 +0000 (UTC)
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com (EUR04-DB3-obe.outbound.protection.outlook.com [40.107.6.85])
+ by mx.groups.io with SMTP id smtpd.web11.310.1707155119430680703
+ for <Openembedded-core@lists.openembedded.org>;
+ Mon, 05 Feb 2024 09:45:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=kttM9Vy0;
- spf=pass (domain: gmail.com, ip: 209.85.160.48, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-2196dd318f5so1424564fac.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 05 Feb 2024 09:42:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707154954; x=1707759754; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zIYY2+BMiIkaRzXaA8wIbzsFOfKLqF+Zqik5kjLX39U=;
-        b=kttM9Vy0l1r2ExRYOU/I+sYO3ddNWAcw2KdItbo51itU6+36ltd0q+2v/TQvi5+ASV
-         WWVdGmNiJJgErmE0YcJ9ft1r2zk8ZjyZ69MCFw7iAmN/IIqj78hdoWYAMnCHABgQu9AI
-         hh1oFFfYCyLGbWH1owlEhxsZ4b2EOFnLrh8f3gXAYPAv7QXifLjXmzVHTby8KLoILtyN
-         VxdNWEUm1vHr+eDMOID8ZBk8NQi2sSaHDZsI6uP4cn4bC9XLXLAexgCXiDQgXoMGXDnT
-         VvG0ouN9h7YJBK7IxM9WVVIpKlZGcI64Q5FheLbAAHbyduznBVKzw4mdIla+XkousqUn
-         ebhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707154954; x=1707759754;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zIYY2+BMiIkaRzXaA8wIbzsFOfKLqF+Zqik5kjLX39U=;
-        b=IjGCfucLWEOtPgdMq84Yjkun1rnxqFBIxXp7h2hQrRg2GsUWSE/63XumlzzUPD0K0u
-         uTnKU7DWUNoE7HtlrAvuFbQfcraqVlAC+y1ibdvIqbwWeRYGbownwnjPGf6WqBzNasjX
-         ekQcWy2aXMn2SxAA/7jw17YQd+ktAAPCegSbTc1vy7HroZjv16yATUD8gyHuSLhkSgwS
-         li9FuEjhW6q4RdvhI0gQXwjYi1NZife2/7OovX+nNG/ss5vA3zOgEoWAACPc7TTYearh
-         viql8X/fIslbZTNQLEjNXs5AA6v9kgaMpuvxIWMcJnrjHwIp/2UzM5V5KGAZ48r+Su0G
-         cz1A==
-X-Gm-Message-State: AOJu0Ywlt9bKUETn2Ym35e0ku85fqQbkfv+kDugSTiKEA3ixeg3H2p0u
-	RGJeQFEE+GbB5dAD2ibrkyTVk2ha7rrbMHqhlqFlyuLBi973tOw9JZNKERkuiHCelpr/GkmyUPB
-	XFv/ekMvywh8Ho1p4La3yJ/XpqeKszqXa/Vw=
-X-Google-Smtp-Source: AGHT+IE9zf+NZvPTvBm72Li3gcQ5xsrUGBFPuYH7i24greZEvtnCVi+DZy8dojgxJaPCxrXCKZWlrjiLF7HRKL+JqVE=
-X-Received: by 2002:a05:6870:9693:b0:210:b468:6a5d with SMTP id
- o19-20020a056870969300b00210b4686a5dmr452278oaq.16.1707154954201; Mon, 05 Feb
- 2024 09:42:34 -0800 (PST)
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=ZVJb7N7v;
+ spf=pass (domain: siemens.com, ip: 40.107.6.85, mailfrom: peter.marko@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WYrEccFdRHfHbyadHN9YZqGh3a9NYlqjKwV+IqF+1AMXhL8EygodQB+6VRjBhfcYMXQCX0wQjRy98yHLP5gE2es7gcAeaLwRrHeh7XoH8Pt+MzpT90D8nNMgcTPQuqEa3s+IB4kg66wg7PXyYOGZZ8f2OjS25tfn/Zj6U/sYj/eBjq5FhesdDrX1dHV7ZfoPNDIsJypnA8BuhuScANJiKSmOZWK+ed7f/XjEP50RKcXFpHM2/+cUkgRSjIo5ZJKyzKCkEoy03AYsz1GVXM0kIGzKeCDVq+m6JFeru84U+IOp7rEtrpyCU4ne3b+Wcc8xapicmOcNmbr8SwqaxFDe+Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=E3dxlYi95Hn4igDwPJFaNMXaZodDTImXf08ERKxf2zo=;
+ b=UQJrRqf3o9O61BhXwH3DHtFr+WCZ/r660b/sA+tj7Jswa3KvomM/YbCmXzpNoHyt0Np+ciYY1nPtS6ern5QfFgjpeacCL+KPFOL80qq7PL1kQg/W9rV/OoYrP8Pfneyo3IGBR/wt9LJ9IpcWYdfbGYUa8qZYQQ1h8aYiORmUZgToakL+XnFUv2YtXEYTlF5dwHRTUKw5ISqk3JPEmSIDvjQ36Ax4ApWcVPO4s7NYawL0bwS+t6ARp2t0TjLmSDsT0jylHp/gPjenUFvITvESIggZqfzQk0UaRpgONJpwW4HdXcMO1ciNSWDB5AgXARCBd6E2HCzdnfq7gy/3Ov/q3g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=E3dxlYi95Hn4igDwPJFaNMXaZodDTImXf08ERKxf2zo=;
+ b=ZVJb7N7vpRJ7+OEzd5tHBQIx4VTpKYbycfFFhtYluT+rSgUnGXN5QW+w2zgQaHIn3KZikkgo6kz1wJ2VnmmF11cn4RJGCZFhkN6W5Ojochr07/4G4wgLNPUxn1dQvIAXkUjmD0h2FMIEbeRfXcDg36Sg9OEn4XUwL49KJXpBqqcy5GbSvRc5+4jSzsC9bNE/jyasQ0wJUqFD7g6l+zzbLTkO6pbmFG4vHJn04Mn/YVhTerxkp3WRYu2lskS+vN3oI6kB5GShhtZlmx6iaebjEVcX8zEf2nZC9JPx33AyhXaqqeohAcXEzdb0c2Yxz/wnrCKiA0vm06ZOhZSMSQMnnw==
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
+ by DU0PR10MB6804.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:47b::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.34; Mon, 5 Feb
+ 2024 17:45:16 +0000
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::c496:afda:bc34:6b5e]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::c496:afda:bc34:6b5e%7]) with mapi id 15.20.7249.032; Mon, 5 Feb 2024
+ 17:45:14 +0000
+From: "Marko, Peter" <Peter.Marko@siemens.com>
+To: "joel.winarske@gmail.com" <joel.winarske@gmail.com>
+CC: OE-core <Openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] do_unpack[depends] behavior
+Thread-Topic: [OE-core] do_unpack[depends] behavior
+Thread-Index: AQHaWFjlnvd4WLrzGEOUjyanJ2iCWbD8BK0Q
+Date: Mon, 5 Feb 2024 17:45:14 +0000
+Message-ID: 
+ <AS1PR10MB5697FD1577DCA729C3B9FB0AFD472@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+References: 
+ <CABKMkP+ZA5byxRODV+BKdr_oNy=jXZnL9EoV74bM8VOv7tJuKA@mail.gmail.com>
+In-Reply-To: 
+ <CABKMkP+ZA5byxRODV+BKdr_oNy=jXZnL9EoV74bM8VOv7tJuKA@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=ed9917b2-be69-4b42-bd54-cf8f84c84b94;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2024-02-05T17:42:28Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|DU0PR10MB6804:EE_
+x-ms-office365-filtering-correlation-id: a67c354f-639e-4bda-0c32-08dc26723570
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ d9oiX3lIUgcmsILZv2IJaB3iki+c3fygsyDMUt8cw6nT6jWLPNPxj33atgwrPnjfuARYnqFmpaFHdLaXauvFb1O33KKdjftdUqBP/oV6tZfSvloFvj93pU/K2dZsrIQWr/FQOk2kIGuOlswRLh3e+5j8vaALBQwiVQKjSGtku/S+u/FHhlf8Ddnl0BUnSOk/h3Rzx/Ty4IGoUy/nzQG88M8FLp6PbV9m+0XYd2pyiDhWcWEOq53lFve+miNsEcfBD+6rLMyW9ffMOhcoflHzc4nlOIjjEJlb/HVUbwe1pcWPe1kt1anFXzrfo6NlCcG/owfXm4cWe6uhoOFw1yYB2KMxzzbbIo+HMg8yH1mxQvBDdMQchKChIrJAVOCYUm7OEpY/06q1r6B99TBI93nEDKsSo6mda1n+AqUDIlDsIUI/AMYjzLUD9NMrpe72QNACNjZVXoqliKXMWDhE+PcllKLjpukGyqeZCFX+bc/DPR/scWof5kvfV2VqIMwDuCnh/wOIg4VlOcYYvI9ApPf6ZKeviHSTlnEteF5IdPQrG4eAB9LUlw6dkIPIoWF9uWUn/whw9fNI8pbgTE0AhHjwgpSELPFavCrvrXacscN8BMM=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(366004)(396003)(376002)(346002)(136003)(230922051799003)(1800799012)(64100799003)(186009)(451199024)(41300700001)(26005)(86362001)(966005)(5660300002)(2906002)(478600001)(38070700009)(66446008)(64756008)(66476007)(6916009)(66556008)(66946007)(76116006)(8936002)(8676002)(4326008)(52536014)(9686003)(71200400001)(6506007)(7696005)(53546011)(33656002)(55236004)(316002)(122000001)(55016003)(166002)(82960400001)(38100700002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?cjlseUZoUVBtVFduMGpqMWppVkV5SUVNU2xvQVYzREd4YlhQRWs2SFB3OS9I?=
+ =?utf-8?B?Sms2K2lLMWlIQ0ZVenJQUjVHd0R6ZXVld09xdVovRmgyYXR1cCswYzFYeFhS?=
+ =?utf-8?B?YXJkTTRMVjJodUFQcjdJK2J0MGZvUWRXaDlpODFuWEgwVnVqSkg2MUhXVjQ5?=
+ =?utf-8?B?eEdEMHh1RjRSbGpJQklYa2dMR1Q1R2FIek1PQ0xXanBUaUtRR0lydmQxYUZC?=
+ =?utf-8?B?aFBXMnRDQmIvTnMxdE03S0hFZFV5Qk96OHNQb1M5Vk5XNFprcUVnN2dkOFpN?=
+ =?utf-8?B?K1pGU2p6ZnpFQWI3b01veWQxOXJxOGJSYzdIY08xbmlsdGJ1VUdCVC9wL2FO?=
+ =?utf-8?B?bkh6N043Y21iWTM1aXN1VEN0YStIWlYyL3F3STlyT2tWZG50SEJzdnhDNlV4?=
+ =?utf-8?B?a2syVnF3M085VHoyYWZYYkErQ2xxUkc4M1NncWxlQmRGQWlNQXhyZkN0UUQx?=
+ =?utf-8?B?QjFwK3VEVy9ScnlzdENhKzlobDJPRGZ6eDdoTGZ1VVVVZE5tTGtjVDRjc0t6?=
+ =?utf-8?B?UDIwSEFiOTdRSHZJYUZIb0dwUU5oTDduek5nRzliRks1bE1DR3JOdmNuUGhQ?=
+ =?utf-8?B?M3FhNCtlZG1FZFdoTDZlQ2xxanBja3hUTmJRYnllL3I2M1RzTkRRaFA1SUxw?=
+ =?utf-8?B?akx3bEZxVmg2QmR0NVFYbHAwaXRJeXFBb25STHk3YUZrc0lmQUlYVjUrdTRp?=
+ =?utf-8?B?U0ZUc0VGL3E5dFJoWldVR0pLSU5Oc1ZPOTE4RVFINm5tb2pKVjgyeitzVUtx?=
+ =?utf-8?B?RlBITGNJQXU3Y1AvWDgyeHZVRml1RG9UcTJoRWhvUnNlSnBBM1NmdkRMUVh6?=
+ =?utf-8?B?MUttbVUxY3NITDMzOFF1Qmc3alJEWGpqVm42L01wcUZmMzY2bm1BUVhFUzlr?=
+ =?utf-8?B?cTFzSXlmSHhxZGpMcTh4L0ZSOUQ5amphMUlzejRnQklvTkNZUHVuOHBFWXBt?=
+ =?utf-8?B?V0hVSExyQi9KUTV2YURENXJ0WUYwUFVYaHpJRFZURDlwRzBSR3VnbGNKd01G?=
+ =?utf-8?B?T0hDSzliS091RDk3RHBDZmdZL3hpUnZCSGRwNXR4K2o0bnpIU1R3YSs3ZVpO?=
+ =?utf-8?B?L1NYNlRpRnUyZThDVmtTbTlVQ0h4dS9QMUdOeU5vSmFsZDU5R3NtN0pFTUtq?=
+ =?utf-8?B?U2pKQW54cGcrQW5zV1FIa0M2Q091ODROUGYzNGEzY3BiaERYSExKYlhRdWJM?=
+ =?utf-8?B?WjZ5RTJYTXcrS0oza0M1TGhZOXR2ekNJaFFQUnM0S1RaTWM4ajlBU0poTXBo?=
+ =?utf-8?B?eWszN2Y3L1l6YlV1b3FrT2pPa09GUnJXN0VZNEhpYnF2VXg4MUUzYjhaajBK?=
+ =?utf-8?B?Qy83eEpiZElaeEpYR3p6R1V5cVNjekdOTkxrR29tOEFyblFuaDlzQU9QWjla?=
+ =?utf-8?B?VHdpODVOR0cwMjAxNU5yK1JRQ3MzMjdzRmhHanhJaGM1YUN1V0pkR21TRk9T?=
+ =?utf-8?B?YzJyWkU3RGhwdUJLQTFVL21qa3gyRTUrQ0o2alE1QXgrREZ0clYzai9LZ0F6?=
+ =?utf-8?B?LzArMy9rYUpNcGRtMEF5cTVwc0VoWlVTMUV0TXJKVDljcWZHMUEwZWJVWkZn?=
+ =?utf-8?B?dkpoUVFMZ3B4SnJNczU3em5rOG1ic0tVdi9Fd0Q2ekc0L3NDSERWSm1MVllr?=
+ =?utf-8?B?WG9JeWRyVmIvTHNtZDZDbDVWVGIweWhSV1Q0Zy96Rzg3MGdieWEvYmZObHln?=
+ =?utf-8?B?aWU5aEQ4R1VuUWNZNys3QThhTTlQNVEzWE5abm1hTzlLZEdOK1FhNnJGRlk5?=
+ =?utf-8?B?NnRSeFkvdTJ1eG9oaU4rcjJtTEg4NHdRSkhFTWd0eWJuWm9wcEUwYXo4NkFk?=
+ =?utf-8?B?Y0lVa1VGUk8zRWZCVjJ3RnhYQmI2bmUwSWtwRmhqbTd4bk9TUWhkYWg4TVJw?=
+ =?utf-8?B?TEtCQWtPdWJ6amlhR2Z3eXhIV0Rsd1pSL1pvUUFBbzFoOTF0SVJzSFlrbEo4?=
+ =?utf-8?B?S0VGR2dpekwzZW9kSVd2T0ErVjhNeHcxU3pkN0QwM2FSQ21OK05DZTR4am1l?=
+ =?utf-8?B?SVA5SUNwTmFJMzlZRGppUE1CYnNxWHFTMUpDRWNoMEs0SXJLQmVBZ0JRWkVj?=
+ =?utf-8?B?aFF4ck43K1YvQlhKUVJoZGxXMnl5VWh3VTVXQzhPUXlsTUlVdEd2aHBnd1d0?=
+ =?utf-8?Q?Uuhtcv4McS38p4wmX11BAoq4F?=
+Content-Type: multipart/alternative;
+	boundary="_000_AS1PR10MB5697FD1577DCA729C3B9FB0AFD472AS1PR10MB5697EURP_"
 MIME-Version: 1.0
-References: <20240205124053.14205-1-jon.mason@arm.com> <20240205124053.14205-2-jon.mason@arm.com>
-In-Reply-To: <20240205124053.14205-2-jon.mason@arm.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 5 Feb 2024 09:42:08 -0800
-Message-ID: <CAMKF1spqPJfn1qV-Jw-ijMXx_sD9LwFcwvrTjszrHQMtyoYTyQ@mail.gmail.com>
-Subject: Re: [OE-core] [master-next PATCH 2/2] arm/armv*: add all the Arm
- tunes in GCC 13.2.0
-To: Jon Mason <jon.mason@arm.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: a67c354f-639e-4bda-0c32-08dc26723570
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Feb 2024 17:45:14.3984
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: esRiC3+/FzAxKyjiCrsMd8IU3ti7GSKPrB1tj+5f1ULaiPhmrRPNLftGVmIlFb85CGrVh+qhL9Pqp7qqDnhYkg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR10MB6804
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 Feb 2024 17:42:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194960
+ <openembedded-core@lists.openembedded.org>; Mon, 05 Feb 2024 17:45:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194961
 
-wood be good to consider gcc-14 as well while you are here as an
-incremental patch perhaps.
+--_000_AS1PR10MB5697FD1577DCA729C3B9FB0AFD472AS1PR10MB5697EURP_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Mon, Feb 5, 2024 at 4:40=E2=80=AFAM Jon Mason <jon.mason@arm.com> wrote:
->
-> Signed-off-by: Jon Mason <jon.mason@arm.com>
-> ---
->  .../machine/include/arm/arch-armv8-1a.inc     | 18 +++++++++++++++
->  .../machine/include/arm/arch-armv8-3a.inc     | 22 +++++++++++++++++++
->  .../machine/include/arm/arch-armv8-6a.inc     | 22 +++++++++++++++++++
->  .../include/arm/armv8-2a/tune-cortexa78ae.inc | 15 +++++++++++++
->  .../include/arm/armv8-2a/tune-cortexa78c.inc  | 15 +++++++++++++
->  .../include/arm/armv8-2a/tune-cortexx1.inc    | 15 +++++++++++++
->  .../include/arm/armv8-2a/tune-cortexx1c.inc   | 15 +++++++++++++
->  .../arm/armv8-4a/tune-neoverse512tvb.inc      | 15 +++++++++++++
->  .../include/arm/armv8-4a/tune-neoversev1.inc  | 15 +++++++++++++
->  .../include/arm/armv8r/tune-cortexr82.inc     | 15 +++++++++++++
->  .../include/arm/armv9a/tune-cortexa510.inc    | 15 +++++++++++++
->  .../include/arm/armv9a/tune-cortexa710.inc    | 15 +++++++++++++
->  .../include/arm/armv9a/tune-cortexa715.inc    | 15 +++++++++++++
->  .../include/arm/armv9a/tune-cortexx2.inc      | 15 +++++++++++++
->  .../include/arm/armv9a/tune-cortexx3.inc      | 15 +++++++++++++
->  .../include/arm/armv9a/tune-neoversev2.inc    | 15 +++++++++++++
->  16 files changed, 257 insertions(+)
->  create mode 100644 meta/conf/machine/include/arm/arch-armv8-1a.inc
->  create mode 100644 meta/conf/machine/include/arm/arch-armv8-3a.inc
->  create mode 100644 meta/conf/machine/include/arm/arch-armv8-6a.inc
->  create mode 100644 meta/conf/machine/include/arm/armv8-2a/tune-cortexa78=
-ae.inc
->  create mode 100644 meta/conf/machine/include/arm/armv8-2a/tune-cortexa78=
-c.inc
->  create mode 100644 meta/conf/machine/include/arm/armv8-2a/tune-cortexx1.=
-inc
->  create mode 100644 meta/conf/machine/include/arm/armv8-2a/tune-cortexx1c=
-.inc
->  create mode 100644 meta/conf/machine/include/arm/armv8-4a/tune-neoverse5=
-12tvb.inc
->  create mode 100644 meta/conf/machine/include/arm/armv8-4a/tune-neoversev=
-1.inc
->  create mode 100644 meta/conf/machine/include/arm/armv8r/tune-cortexr82.i=
-nc
->  create mode 100644 meta/conf/machine/include/arm/armv9a/tune-cortexa510.=
-inc
->  create mode 100644 meta/conf/machine/include/arm/armv9a/tune-cortexa710.=
-inc
->  create mode 100644 meta/conf/machine/include/arm/armv9a/tune-cortexa715.=
-inc
->  create mode 100644 meta/conf/machine/include/arm/armv9a/tune-cortexx2.in=
-c
->  create mode 100644 meta/conf/machine/include/arm/armv9a/tune-cortexx3.in=
-c
->  create mode 100644 meta/conf/machine/include/arm/armv9a/tune-neoversev2.=
-inc
->
-> diff --git a/meta/conf/machine/include/arm/arch-armv8-1a.inc b/meta/conf/=
-machine/include/arm/arch-armv8-1a.inc
-> new file mode 100644
-> index 000000000000..be8e814a39aa
-> --- /dev/null
-> +++ b/meta/conf/machine/include/arm/arch-armv8-1a.inc
-> @@ -0,0 +1,18 @@
-> +DEFAULTTUNE ?=3D "armv8-1a"
-> +
-> +TUNEVALID[armv8-1a] =3D "Enable instructions for ARMv8.1-a"
-> +TUNE_CCARGS_MARCH .=3D "${@bb.utils.contains('TUNE_FEATURES', 'armv8-1a'=
-, ' -march=3Darmv8.1-a', '', d)}"
-> +# TUNE crypto will be handled by arch-armv8a.inc below
-> +MACHINEOVERRIDES =3D. "${@bb.utils.contains('TUNE_FEATURES', 'armv8-1a',=
- 'armv8-1a:', '', d)}"
-> +
-> +require conf/machine/include/arm/arch-armv8a.inc
-> +
-> +AVAILTUNES                                  +=3D "armv8-1a armv8-1a-cryp=
-to"
-> +ARMPKGARCH:tune-armv8-1a                    ?=3D "armv8-1a"
-> +ARMPKGARCH:tune-armv8-1a-crypto             ?=3D "armv8-1a"
-> +TUNE_FEATURES:tune-armv8-1a                  =3D "aarch64 armv8-1a"
-> +TUNE_FEATURES:tune-armv8-1a-crypto           =3D "${TUNE_FEATURES:tune-a=
-rmv8-1a} crypto"
-> +PACKAGE_EXTRA_ARCHS:tune-armv8-1a            =3D "${PACKAGE_EXTRA_ARCHS:=
-tune-armv8a} armv8-1a"
-> +PACKAGE_EXTRA_ARCHS:tune-armv8-1a-crypto     =3D "${PACKAGE_EXTRA_ARCHS:=
-tune-armv8-1a} armv8-1a-crypto"
-> +BASE_LIB:tune-armv8-1a                       =3D "lib64"
-> +BASE_LIB:tune-armv8-1a-crypto                =3D "lib64"
-> diff --git a/meta/conf/machine/include/arm/arch-armv8-3a.inc b/meta/conf/=
-machine/include/arm/arch-armv8-3a.inc
-> new file mode 100644
-> index 000000000000..49493fb3b50e
-> --- /dev/null
-> +++ b/meta/conf/machine/include/arm/arch-armv8-3a.inc
-> @@ -0,0 +1,22 @@
-> +DEFAULTTUNE ?=3D "armv8-3a"
-> +
-> +TUNEVALID[armv8-3a] =3D "Enable instructions for ARMv8.3-a"
-> +TUNE_CCARGS_MARCH .=3D "${@bb.utils.contains('TUNE_FEATURES', 'armv8-3a'=
-, ' -march=3Darmv8.3-a', '', d)}"
-> +# TUNE crypto will be handled by arch-armv8a.inc below
-> +MACHINEOVERRIDES =3D. "${@bb.utils.contains('TUNE_FEATURES', 'armv8-3a',=
- 'armv8-3a:', '', d)}"
-> +
-> +require conf/machine/include/arm/arch-armv8a.inc
-> +
-> +AVAILTUNES                                  +=3D "armv8-3a armv8-3a-cryp=
-to armv8-3a-crypto-sve"
-> +ARMPKGARCH:tune-armv8-3a                    ?=3D "armv8-3a"
-> +ARMPKGARCH:tune-armv8-3a-crypto             ?=3D "armv8-3a"
-> +ARMPKGARCH:tune-armv8-3a-crypto-sve         ?=3D "armv8-3a"
-> +TUNE_FEATURES:tune-armv8-3a                  =3D "aarch64 armv8-3a"
-> +TUNE_FEATURES:tune-armv8-3a-crypto           =3D "${TUNE_FEATURES:tune-a=
-rmv8-3a} crypto"
-> +TUNE_FEATURES:tune-armv8-3a-crypto-sve       =3D "${TUNE_FEATURES:tune-a=
-rmv8-3a-crypto} sve"
-> +PACKAGE_EXTRA_ARCHS:tune-armv8-3a            =3D "${PACKAGE_EXTRA_ARCHS:=
-tune-armv8a} armv8-3a"
-> +PACKAGE_EXTRA_ARCHS:tune-armv8-3a-crypto     =3D "${PACKAGE_EXTRA_ARCHS:=
-tune-armv8-3a} armv8-3a-crypto"
-> +PACKAGE_EXTRA_ARCHS:tune-armv8-3a-crypto-sve =3D "${PACKAGE_EXTRA_ARCHS:=
-tune-armv8-3a-crypto} armv8-3a-crypto-sve"
-> +BASE_LIB:tune-armv8-3a                       =3D "lib64"
-> +BASE_LIB:tune-armv8-3a-crypto                =3D "lib64"
-> +BASE_LIB:tune-armv8-3a-crypto-sve            =3D "lib64"
-> diff --git a/meta/conf/machine/include/arm/arch-armv8-6a.inc b/meta/conf/=
-machine/include/arm/arch-armv8-6a.inc
-> new file mode 100644
-> index 000000000000..27f85325caf6
-> --- /dev/null
-> +++ b/meta/conf/machine/include/arm/arch-armv8-6a.inc
-> @@ -0,0 +1,22 @@
-> +DEFAULTTUNE ?=3D "armv8-6a"
-> +
-> +TUNEVALID[armv8-6a] =3D "Enable instructions for ARMv8.6-a"
-> +TUNE_CCARGS_MARCH .=3D "${@bb.utils.contains('TUNE_FEATURES', 'armv8-6a'=
-, ' -march=3Darmv8.6-a', '', d)}"
-> +# TUNE crypto will be handled by arch-armv8a.inc below
-> +MACHINEOVERRIDES =3D. "${@bb.utils.contains('TUNE_FEATURES', 'armv8-6a',=
- 'armv8-6a:', '', d)}"
-> +
-> +require conf/machine/include/arm/arch-armv8a.inc
-> +
-> +AVAILTUNES                                  +=3D "armv8-6a armv8-6a-cryp=
-to armv8-6a-crypto-sve"
-> +ARMPKGARCH:tune-armv8-6a                    ?=3D "armv8-6a"
-> +ARMPKGARCH:tune-armv8-6a-crypto             ?=3D "armv8-6a"
-> +ARMPKGARCH:tune-armv8-6a-crypto-sve         ?=3D "armv8-6a"
-> +TUNE_FEATURES:tune-armv8-6a                  =3D "aarch64 armv8-6a"
-> +TUNE_FEATURES:tune-armv8-6a-crypto           =3D "${TUNE_FEATURES:tune-a=
-rmv8-6a} crypto"
-> +TUNE_FEATURES:tune-armv8-6a-crypto-sve       =3D "${TUNE_FEATURES:tune-a=
-rmv8-6a-crypto} sve"
-> +PACKAGE_EXTRA_ARCHS:tune-armv8-6a            =3D "${PACKAGE_EXTRA_ARCHS:=
-tune-armv8a} armv8-6a"
-> +PACKAGE_EXTRA_ARCHS:tune-armv8-6a-crypto     =3D "${PACKAGE_EXTRA_ARCHS:=
-tune-armv8-6a} armv8-6a-crypto"
-> +PACKAGE_EXTRA_ARCHS:tune-armv8-6a-crypto-sve =3D "${PACKAGE_EXTRA_ARCHS:=
-tune-armv8-6a-crypto} armv8-6a-crypto-sve"
-> +BASE_LIB:tune-armv8-6a                       =3D "lib64"
-> +BASE_LIB:tune-armv8-6a-crypto                =3D "lib64"
-> +BASE_LIB:tune-armv8-6a-crypto-sve            =3D "lib64"
-> diff --git a/meta/conf/machine/include/arm/armv8-2a/tune-cortexa78ae.inc =
-b/meta/conf/machine/include/arm/armv8-2a/tune-cortexa78ae.inc
-> new file mode 100644
-> index 000000000000..fe68bda9a03c
-> --- /dev/null
-> +++ b/meta/conf/machine/include/arm/armv8-2a/tune-cortexa78ae.inc
-> @@ -0,0 +1,15 @@
-> +#
-> +# Tune Settings for cortex-a78ae
-> +#
-> +DEFAULTTUNE ?=3D "cortexa78ae"
-> +
-> +TUNEVALID[cortexa78ae] =3D "Enable cortex-a78ae specific processor optim=
-izations"
-> +TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES', 'cortexa78ae', '=
- -mcpu=3Dcortex-a78ae', '', d)}"
-> +
-> +require conf/machine/include/arm/arch-armv8-2a.inc
-> +
-> +AVAILTUNES                                           +=3D "cortexa78ae"
-> +ARMPKGARCH:tune-cortexa78ae                           =3D "cortexa78ae"
-> +TUNE_FEATURES:tune-cortexa78ae                        =3D "aarch64 crypt=
-o cortexa78ae"
-> +PACKAGE_EXTRA_ARCHS:tune-cortexa78ae                  =3D "${PACKAGE_EXT=
-RA_ARCHS:tune-armv8-2a-crypto} cortexa78ae"
-> +BASE_LIB:tune-cortexa78ae                             =3D "lib64"
-> diff --git a/meta/conf/machine/include/arm/armv8-2a/tune-cortexa78c.inc b=
-/meta/conf/machine/include/arm/armv8-2a/tune-cortexa78c.inc
-> new file mode 100644
-> index 000000000000..cb1fe91dfca5
-> --- /dev/null
-> +++ b/meta/conf/machine/include/arm/armv8-2a/tune-cortexa78c.inc
-> @@ -0,0 +1,15 @@
-> +#
-> +# Tune Settings for cortex-a78c
-> +#
-> +DEFAULTTUNE ?=3D "cortexa78c"
-> +
-> +TUNEVALID[cortexa78c] =3D "Enable cortex-a78c specific processor optimiz=
-ations"
-> +TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES', 'cortexa78c', ' =
--mcpu=3Dcortex-a78c', '', d)}"
-> +
-> +require conf/machine/include/arm/arch-armv8-2a.inc
-> +
-> +AVAILTUNES                                          +=3D "cortexa78c"
-> +ARMPKGARCH:tune-cortexa78c                           =3D "cortexa78c"
-> +TUNE_FEATURES:tune-cortexa78c                        =3D "aarch64 crypto=
- cortexa78c"
-> +PACKAGE_EXTRA_ARCHS:tune-cortexa78c                  =3D "${PACKAGE_EXTR=
-A_ARCHS:tune-armv8-2a-crypto} cortexa78c"
-> +BASE_LIB:tune-cortexa78c                             =3D "lib64"
-> diff --git a/meta/conf/machine/include/arm/armv8-2a/tune-cortexx1.inc b/m=
-eta/conf/machine/include/arm/armv8-2a/tune-cortexx1.inc
-> new file mode 100644
-> index 000000000000..0a99156e6297
-> --- /dev/null
-> +++ b/meta/conf/machine/include/arm/armv8-2a/tune-cortexx1.inc
-> @@ -0,0 +1,15 @@
-> +#
-> +# Tune Settings for cortex-x1
-> +#
-> +DEFAULTTUNE ?=3D "cortexx1"
-> +
-> +TUNEVALID[cortexx1] =3D "Enable cortex-x1 specific processor optimizatio=
-ns"
-> +TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES', 'cortexx1', ' -m=
-cpu=3Dcortex-x1', '', d)}"
-> +
-> +require conf/machine/include/arm/arch-armv8-2a.inc
-> +
-> +AVAILTUNES                                        +=3D "cortexx1"
-> +ARMPKGARCH:tune-cortexx1                           =3D "cortexx1"
-> +TUNE_FEATURES:tune-cortexx1                        =3D "aarch64 crypto c=
-ortexx1"
-> +PACKAGE_EXTRA_ARCHS:tune-cortexx1                  =3D "${PACKAGE_EXTRA_=
-ARCHS:tune-armv8-2a-crypto} cortexx1"
-> +BASE_LIB:tune-cortexx1                             =3D "lib64"
-> diff --git a/meta/conf/machine/include/arm/armv8-2a/tune-cortexx1c.inc b/=
-meta/conf/machine/include/arm/armv8-2a/tune-cortexx1c.inc
-> new file mode 100644
-> index 000000000000..2a16d1695de5
-> --- /dev/null
-> +++ b/meta/conf/machine/include/arm/armv8-2a/tune-cortexx1c.inc
-> @@ -0,0 +1,15 @@
-> +#
-> +# Tune Settings for cortex-x1c
-> +#
-> +DEFAULTTUNE ?=3D "cortexx1c"
-> +
-> +TUNEVALID[cortexx1c] =3D "Enable cortex-x1c specific processor optimizat=
-ions"
-> +TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES', 'cortexx1c', ' -=
-mcpu=3Dcortex-x1c', '', d)}"
-> +
-> +require conf/machine/include/arm/arch-armv8-2a.inc
-> +
-> +AVAILTUNES                                         +=3D "cortexx1c"
-> +ARMPKGARCH:tune-cortexx1c                           =3D "cortexx1c"
-> +TUNE_FEATURES:tune-cortexx1c                        =3D "aarch64 crypto =
-cortexx1c"
-> +PACKAGE_EXTRA_ARCHS:tune-cortexx1c                  =3D "${PACKAGE_EXTRA=
-_ARCHS:tune-armv8-2a-crypto} cortexx1c"
-> +BASE_LIB:tune-cortexx1c                             =3D "lib64"
-> diff --git a/meta/conf/machine/include/arm/armv8-4a/tune-neoverse512tvb.i=
-nc b/meta/conf/machine/include/arm/armv8-4a/tune-neoverse512tvb.inc
-> new file mode 100644
-> index 000000000000..450bf748963e
-> --- /dev/null
-> +++ b/meta/conf/machine/include/arm/armv8-4a/tune-neoverse512tvb.inc
-> @@ -0,0 +1,15 @@
-> +#
-> +# Tune Settings for neoverse-512tvb
-> +#
-> +DEFAULTTUNE ?=3D "neoverse512tvb"
-> +
-> +TUNEVALID[neoverse512tvb] =3D "Enable neoverse-512tvb specific processor=
- optimizations"
-> +TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES', 'neoverse512tvb'=
-, ' -mcpu=3Dneoverse-512tvb', '', d)}"
-> +
-> +require conf/machine/include/arm/arch-armv8-4a.inc
-> +
-> +AVAILTUNES                                              +=3D "neoverse51=
-2tvb"
-> +ARMPKGARCH:tune-neoverse512tvb                           =3D "neoverse51=
-2tvb"
-> +TUNE_FEATURES:tune-neoverse512tvb                        =3D "aarch64 cr=
-ypto neoverse512tvb"
-> +PACKAGE_EXTRA_ARCHS:tune-neoverse512tvb                  =3D "${PACKAGE_=
-EXTRA_ARCHS:tune-armv8-4a-crypto} neoverse512tvb"
-> +BASE_LIB:tune-neoverse512tvb                             =3D "lib64"
-> diff --git a/meta/conf/machine/include/arm/armv8-4a/tune-neoversev1.inc b=
-/meta/conf/machine/include/arm/armv8-4a/tune-neoversev1.inc
-> new file mode 100644
-> index 000000000000..2b4da7db3cd5
-> --- /dev/null
-> +++ b/meta/conf/machine/include/arm/armv8-4a/tune-neoversev1.inc
-> @@ -0,0 +1,15 @@
-> +#
-> +# Tune Settings for neoverse-v1
-> +#
-> +DEFAULTTUNE ?=3D "neoversev1"
-> +
-> +TUNEVALID[neoversev1] =3D "Enable neoverse-v1 specific processor optimiz=
-ations"
-> +TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES', 'neoversev1', ' =
--mcpu=3Dneoverse-v1', '', d)}"
-> +
-> +require conf/machine/include/arm/arch-armv8-4a.inc
-> +
-> +AVAILTUNES                                          +=3D "neoversev1"
-> +ARMPKGARCH:tune-neoversev1                           =3D "neoversev1"
-> +TUNE_FEATURES:tune-neoversev1                        =3D "aarch64 crypto=
- neoversev1"
-> +PACKAGE_EXTRA_ARCHS:tune-neoversev1                  =3D "${PACKAGE_EXTR=
-A_ARCHS:tune-armv8-4a-crypto} neoversev1"
-> +BASE_LIB:tune-neoversev1                             =3D "lib64"
-> diff --git a/meta/conf/machine/include/arm/armv8r/tune-cortexr82.inc b/me=
-ta/conf/machine/include/arm/armv8r/tune-cortexr82.inc
-> new file mode 100644
-> index 000000000000..84b2471c6b15
-> --- /dev/null
-> +++ b/meta/conf/machine/include/arm/armv8r/tune-cortexr82.inc
-> @@ -0,0 +1,15 @@
-> +#
-> +# Tune Settings for cortex-r82
-> +#
-> +DEFAULTTUNE ?=3D "cortexr82"
-> +
-> +TUNEVALID[cortexr82] =3D "Enable cortex-r82 specific processor optimizat=
-ions"
-> +TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES', 'cortexr82', ' -=
-mcpu=3Dcortex-r82', '', d)}"
-> +
-> +require conf/machine/include/arm/arch-armv8r.inc
-> +
-> +AVAILTUNES                                         +=3D "cortexr82"
-> +ARMPKGARCH:tune-cortexr82                           =3D "cortexr82"
-> +TUNE_FEATURES:tune-cortexr82                        =3D "${TUNE_FEATURES=
-:tune-armv8r-crc-simd} cortexr82"
-> +PACKAGE_EXTRA_ARCHS:tune-cortexr82                  =3D "${PACKAGE_EXTRA=
-_ARCHS:tune-armv8r-crc-simd} cortexr82"
-> +BASE_LIB:tune-cortexr82                             =3D "lib64"
-> diff --git a/meta/conf/machine/include/arm/armv9a/tune-cortexa510.inc b/m=
-eta/conf/machine/include/arm/armv9a/tune-cortexa510.inc
-> new file mode 100644
-> index 000000000000..09219ec7f1c1
-> --- /dev/null
-> +++ b/meta/conf/machine/include/arm/armv9a/tune-cortexa510.inc
-> @@ -0,0 +1,15 @@
-> +#
-> +# Tune Settings for cortex-a510
-> +#
-> +DEFAULTTUNE ?=3D "cortexa510"
-> +
-> +TUNEVALID[cortexa510] =3D "Enable cortex-a510 specific processor optimiz=
-ations"
-> +TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES', 'cortexa510', ' =
--mcpu=3Dcortex-a510', '', d)}"
-> +
-> +require conf/machine/include/arm/arch-armv9a.inc
-> +
-> +AVAILTUNES                                          +=3D "cortexa510"
-> +ARMPKGARCH:tune-cortexa510                           =3D "cortexa510"
-> +TUNE_FEATURES:tune-cortexa510                        =3D "aarch64 crypto=
- cortexa510"
-> +PACKAGE_EXTRA_ARCHS:tune-cortexa510                  =3D "${PACKAGE_EXTR=
-A_ARCHS:tune-armv9a-crypto} cortexa510"
-> +BASE_LIB:tune-cortexa510                             =3D "lib64"
-> diff --git a/meta/conf/machine/include/arm/armv9a/tune-cortexa710.inc b/m=
-eta/conf/machine/include/arm/armv9a/tune-cortexa710.inc
-> new file mode 100644
-> index 000000000000..19743d67db40
-> --- /dev/null
-> +++ b/meta/conf/machine/include/arm/armv9a/tune-cortexa710.inc
-> @@ -0,0 +1,15 @@
-> +#
-> +# Tune Settings for cortex-a710
-> +#
-> +DEFAULTTUNE ?=3D "cortexa710"
-> +
-> +TUNEVALID[cortexa710] =3D "Enable cortex-a710 specific processor optimiz=
-ations"
-> +TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES', 'cortexa710', ' =
--mcpu=3Dcortex-a710', '', d)}"
-> +
-> +require conf/machine/include/arm/arch-armv9a.inc
-> +
-> +AVAILTUNES                                          +=3D "cortexa710"
-> +ARMPKGARCH:tune-cortexa710                           =3D "cortexa710"
-> +TUNE_FEATURES:tune-cortexa710                        =3D "aarch64 crypto=
- cortexa710"
-> +PACKAGE_EXTRA_ARCHS:tune-cortexa710                  =3D "${PACKAGE_EXTR=
-A_ARCHS:tune-armv9a-crypto} cortexa710"
-> +BASE_LIB:tune-cortexa710                             =3D "lib64"
-> diff --git a/meta/conf/machine/include/arm/armv9a/tune-cortexa715.inc b/m=
-eta/conf/machine/include/arm/armv9a/tune-cortexa715.inc
-> new file mode 100644
-> index 000000000000..2f6d8c6f8f56
-> --- /dev/null
-> +++ b/meta/conf/machine/include/arm/armv9a/tune-cortexa715.inc
-> @@ -0,0 +1,15 @@
-> +#
-> +# Tune Settings for cortex-a715
-> +#
-> +DEFAULTTUNE ?=3D "cortexa715"
-> +
-> +TUNEVALID[cortexa715] =3D "Enable cortex-a715 specific processor optimiz=
-ations"
-> +TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES', 'cortexa715', ' =
--mcpu=3Dcortex-a715', '', d)}"
-> +
-> +require conf/machine/include/arm/arch-armv9a.inc
-> +
-> +AVAILTUNES                                          +=3D "cortexa715"
-> +ARMPKGARCH:tune-cortexa715                           =3D "cortexa715"
-> +TUNE_FEATURES:tune-cortexa715                        =3D "aarch64 crypto=
- cortexa715"
-> +PACKAGE_EXTRA_ARCHS:tune-cortexa715                  =3D "${PACKAGE_EXTR=
-A_ARCHS:tune-armv9a-crypto} cortexa715"
-> +BASE_LIB:tune-cortexa715                             =3D "lib64"
-> diff --git a/meta/conf/machine/include/arm/armv9a/tune-cortexx2.inc b/met=
-a/conf/machine/include/arm/armv9a/tune-cortexx2.inc
-> new file mode 100644
-> index 000000000000..c116e30ff591
-> --- /dev/null
-> +++ b/meta/conf/machine/include/arm/armv9a/tune-cortexx2.inc
-> @@ -0,0 +1,15 @@
-> +#
-> +# Tune Settings for cortex-x2
-> +#
-> +DEFAULTTUNE ?=3D "cortexx2"
-> +
-> +TUNEVALID[cortexx2] =3D "Enable cortex-x2 specific processor optimizatio=
-ns"
-> +TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES', 'cortexx2', ' -m=
-cpu=3Dcortex-x2', '', d)}"
-> +
-> +require conf/machine/include/arm/arch-armv9a.inc
-> +
-> +AVAILTUNES                                        +=3D "cortexx2"
-> +ARMPKGARCH:tune-cortexx2                           =3D "cortexx2"
-> +TUNE_FEATURES:tune-cortexx2                        =3D "aarch64 crypto c=
-ortexx2"
-> +PACKAGE_EXTRA_ARCHS:tune-cortexx2                  =3D "${PACKAGE_EXTRA_=
-ARCHS:tune-armv9a-crypto} cortexx2"
-> +BASE_LIB:tune-cortexx2                             =3D "lib64"
-> diff --git a/meta/conf/machine/include/arm/armv9a/tune-cortexx3.inc b/met=
-a/conf/machine/include/arm/armv9a/tune-cortexx3.inc
-> new file mode 100644
-> index 000000000000..7982079ef86e
-> --- /dev/null
-> +++ b/meta/conf/machine/include/arm/armv9a/tune-cortexx3.inc
-> @@ -0,0 +1,15 @@
-> +#
-> +# Tune Settings for cortex-x3
-> +#
-> +DEFAULTTUNE ?=3D "cortexx3"
-> +
-> +TUNEVALID[cortexx3] =3D "Enable cortex-x3 specific processor optimizatio=
-ns"
-> +TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES', 'cortexx3', ' -m=
-cpu=3Dcortex-x3', '', d)}"
-> +
-> +require conf/machine/include/arm/arch-armv9a.inc
-> +
-> +AVAILTUNES                                        +=3D "cortexx3"
-> +ARMPKGARCH:tune-cortexx3                           =3D "cortexx3"
-> +TUNE_FEATURES:tune-cortexx3                        =3D "aarch64 crypto c=
-ortexx3"
-> +PACKAGE_EXTRA_ARCHS:tune-cortexx3                  =3D "${PACKAGE_EXTRA_=
-ARCHS:tune-armv9a-crypto} cortexx3"
-> +BASE_LIB:tune-cortexx3                             =3D "lib64"
-> diff --git a/meta/conf/machine/include/arm/armv9a/tune-neoversev2.inc b/m=
-eta/conf/machine/include/arm/armv9a/tune-neoversev2.inc
-> new file mode 100644
-> index 000000000000..5d1e108468d2
-> --- /dev/null
-> +++ b/meta/conf/machine/include/arm/armv9a/tune-neoversev2.inc
-> @@ -0,0 +1,15 @@
-> +#
-> +# Tune Settings for neoverse-v2
-> +#
-> +DEFAULTTUNE ?=3D "neoversev2"
-> +
-> +TUNEVALID[neoversev2] =3D "Enable neoverse-v2 specific processor optimiz=
-ations"
-> +TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES', 'neoversev2', ' =
--mcpu=3Dneoverse-v2', '', d)}"
-> +
-> +require conf/machine/include/arm/arch-armv9a.inc
-> +
-> +AVAILTUNES                                          +=3D "neoversev2"
-> +ARMPKGARCH:tune-neoversev2                           =3D "neoversev2"
-> +TUNE_FEATURES:tune-neoversev2                        =3D "aarch64 crypto=
- neoversev2"
-> +PACKAGE_EXTRA_ARCHS:tune-neoversev2                  =3D "${PACKAGE_EXTR=
-A_ARCHS:tune-armv9a-crypto} neoversev2"
-> +BASE_LIB:tune-neoversev2                             =3D "lib64"
-> --
-> 2.39.3 (Apple Git-145)
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#194933): https://lists.openembedded.org/g/openembedde=
-d-core/message/194933
-> Mute This Topic: https://lists.openembedded.org/mt/104174754/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+WW91IG5lZWQgdG8gZGVwZW5kIG9uIGRvX3BvcHVsYXRlX3N5c3Jvb3QgdGFza3MsIG5vdCBkb19w
+cmVwYXJlX3JlY2lwZV9zeXNyb290IHRhc2tz4oCmDQpQZXRlcg0KDQpGcm9tOiBvcGVuZW1iZWRk
+ZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5v
+cGVuZW1iZWRkZWQub3JnPiBPbiBCZWhhbGYgT2YgSm9lbCBXaW5hcnNrZSB2aWEgbGlzdHMub3Bl
+bmVtYmVkZGVkLm9yZw0KU2VudDogTW9uZGF5LCBGZWJydWFyeSA1LCAyMDI0IDE4OjI5DQpUbzog
+T0UtY29yZSA8T3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4NClN1Ympl
+Y3Q6IFtPRS1jb3JlXSBkb191bnBhY2tbZGVwZW5kc10gYmVoYXZpb3INCg0KSSdtIHdvcmtpbmcg
+d2l0aCBraXJrc3RvbmUgYW5kIHNlZWluZyBzb21lIHNlZW1pbmdseSBpbmNvcnJlY3QgYmVoYXZp
+b3IuDQoNClRoZSBpc3N1ZSByZXZvbHZlcyBhcm91bmQgZG9fdW5wYWNrLg0KDQpgYGANCiAgICBk
+b191bnBhY2tbbmV0d29ya10gPSAiMSINCiAgICBweXRob24gZG9fdW5wYWNrOmFwcGVuZCgpIHt9
+DQpgYGANCg0KV2l0aCB0aGUgYWJvdmUgSSBkZXBlbmRpbmcgb24gdGhlIGhvc3QgbWFjaGluZSBj
+b3JlIGNvdW50IEkgbWF5IHNlZSBhbiBlcnJvciB3aGVyZSBvbmUgb2YgdGhlIGRlZmluZWQgREVQ
+RU5ERU5UIHJlY2lwZXMgaXMgbm90IGZvdW5kOyBjdXJsLW5hdGl2ZSBpbiB0aGlzIGNhc2UuDQoN
+CldpdGggdGhpcyBjaGFuZ2U6DQpgYGANCiAgICBkb191bnBhY2tbbmV0d29ya10gPSAiMSINCiAg
+ICBkb191bnBhY2tbZGVwZW5kc10gKz0gIiBcDQogICAgICAgIGNhLWNlcnRpZmljYXRlcy1uYXRp
+dmU6ZG9fcHJlcGFyZV9yZWNpcGVfc3lzcm9vdCBcDQogICAgICAgIGN1cmwtbmF0aXZlOmRvX3By
+ZXBhcmVfcmVjaXBlX3N5c3Jvb3QgXA0KICAgICAgICBuaW5qYS1uYXRpdmU6ZG9fcHJlcGFyZV9y
+ZWNpcGVfc3lzcm9vdCBcDQogICAgICAgIHVuemlwLW5hdGl2ZTpkb19wcmVwYXJlX3JlY2lwZV9z
+eXNyb290IFwNCiAgICAiDQogICAgcHl0aG9uIGRvX3VucGFjazphcHBlbmQoKSB7fQ0KYGBgDQpJ
+IHdvdWxkIGV4cGVjdCB0byBzZWUgY3VybC1uYXRpdmUgY29tcGxldGUgcHJpb3IgdG8gbXkgZG9f
+dW5wYWNrIHJ1bm5pbmcuICBUaGUgYXR0YWNoZWQgc2NyZWVuIGluZGljYXRlcyBvdGhlcndpc2Uu
+DQoNCklmIEkgZHJvcCB0aGUgYnVpbGQgZG93biB0byB1bmktcHJvYyB1c2luZzoNCmBgYA0KICAg
+IFBBUkFMTEVMX01BS0UgPSAiLWogMSINCiAgICBCQl9OVU1CRVJfVEhSRUFEUyA9ICIxIg0KYGBg
+DQpUaGUgcmVjaXBlcyBnZXQgc2VyaWFsaXplZCBhcyBleHBlY3RlZC4NCg0KSXMgdGhpcyBhIGJ1
+Zywgb3IgYW4gaW1wbGVtZW50YXRpb24gaXNzdWU/DQoNClJlY2lwZSBpbiBxdWVzdGlvbjoNCmh0
+dHBzOi8vZ2l0aHViLmNvbS9tZXRhLWZsdXR0ZXIvbWV0YS1mbHV0dGVyL2Jsb2Iva2lya3N0b25l
+L3JlY2lwZXMtZ3JhcGhpY3MvZmx1dHRlci1zZGsvZmx1dHRlci1zZGtfZ2l0LmJiDQoNClRoYW5r
+cywNCkpvZWwNCg0K
+
+--_000_AS1PR10MB5697FD1577DCA729C3B9FB0AFD472AS1PR10MB5697EURP_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
+
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
+IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCglmb250LXNpemU6MTEuMHB0Ow0KCWZvbnQt
+ZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsN
+Cgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0aW9u
+OnVuZGVybGluZTt9DQpzcGFuLkVtYWlsU3R5bGUxOA0KCXttc28tc3R5bGUtdHlwZTpwZXJzb25h
+bC1yZXBseTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsc2Fucy1zZXJpZjsNCgljb2xvcjp3aW5k
+b3d0ZXh0O30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHlsZS10eXBlOmV4cG9ydC1vbmx5Ow0K
+CWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0K
+CXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4gMS4waW4gMS4waW4gMS4waW47fQ0K
+ZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9uMTt9DQotLT48L3N0eWxlPjwhLS1b
+aWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0cyB2OmV4dD0iZWRpdCIgc3BpZG1h
+eD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0K
+PG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRtYXAgdjpleHQ9ImVkaXQiIGRhdGE9
+IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5kaWZdLS0+DQo8L2hlYWQ+DQo8Ym9k
+eSBsYW5nPSJFTi1VUyIgbGluaz0iYmx1ZSIgdmxpbms9InB1cnBsZSIgc3R5bGU9IndvcmQtd3Jh
+cDpicmVhay13b3JkIj4NCjxkaXYgY2xhc3M9IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNv
+Tm9ybWFsIj5Zb3UgbmVlZCB0byBkZXBlbmQgb24gZG9fcG9wdWxhdGVfc3lzcm9vdCB0YXNrcywg
+bm90IGRvX3ByZXBhcmVfcmVjaXBlX3N5c3Jvb3QgdGFza3PigKY8bzpwPjwvbzpwPjwvcD4NCjxw
+IGNsYXNzPSJNc29Ob3JtYWwiPlBldGVyPG86cD48L286cD48L3A+DQo8cCBjbGFzcz0iTXNvTm9y
+bWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRl
+ci10b3A6c29saWQgI0UxRTFFMSAxLjBwdDtwYWRkaW5nOjMuMHB0IDBpbiAwaW4gMGluIj4NCjxw
+IGNsYXNzPSJNc29Ob3JtYWwiPjxiPkZyb206PC9iPiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5v
+cGVuZW1iZWRkZWQub3JnICZsdDtvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQu
+b3JnJmd0Ow0KPGI+T24gQmVoYWxmIE9mIDwvYj5Kb2VsIFdpbmFyc2tlIHZpYSBsaXN0cy5vcGVu
+ZW1iZWRkZWQub3JnPGJyPg0KPGI+U2VudDo8L2I+IE1vbmRheSwgRmVicnVhcnkgNSwgMjAyNCAx
+ODoyOTxicj4NCjxiPlRvOjwvYj4gT0UtY29yZSAmbHQ7T3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMu
+b3BlbmVtYmVkZGVkLm9yZyZndDs8YnI+DQo8Yj5TdWJqZWN0OjwvYj4gW09FLWNvcmVdIGRvX3Vu
+cGFja1tkZXBlbmRzXSBiZWhhdmlvcjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8cCBjbGFzcz0i
+TXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9
+Ik1zb05vcm1hbCI+SSdtIHdvcmtpbmcgd2l0aCBraXJrc3RvbmUgYW5kIHNlZWluZyBzb21lIHNl
+ZW1pbmdseSBpbmNvcnJlY3QgYmVoYXZpb3IuPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+
+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRp
+dj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPlRoZSBpc3N1ZSByZXZvbHZlcyBhcm91bmQgZG9fdW5w
+YWNrLjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
+Ij5gYGA8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
+PiZuYnNwOyZuYnNwOyZuYnNwOyBkb191bnBhY2tbbmV0d29ya10gPSAmcXVvdDsxJnF1b3Q7PG86
+cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4mbmJzcDsm
+bmJzcDsmbmJzcDsgcHl0aG9uIGRvX3VucGFjazphcHBlbmQoKSB7fTxvOnA+PC9vOnA+PC9wPg0K
+PC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+YGBgPG86cD48L286cD48L3A+DQo8
+L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4N
+CjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPldpdGggdGhlIGFib3ZlIEkgZGVw
+ZW5kaW5nIG9uIHRoZSBob3N0IG1hY2hpbmUgY29yZSBjb3VudCBJIG1heSBzZWUgYW4gZXJyb3Ig
+d2hlcmUgb25lIG9mIHRoZSBkZWZpbmVkIERFUEVOREVOVCByZWNpcGVzIGlzIG5vdCBmb3VuZDsg
+Y3VybC1uYXRpdmUgaW4gdGhpcyBjYXNlLjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0K
+PHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+
+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5XaXRoIHRoaXMgY2hhbmdlOjxvOnA+PC9vOnA+PC9wPg0K
+PC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+YGBgPG86cD48L286cD48L3A+DQo8
+L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4mbmJzcDsmbmJzcDsmbmJzcDsgZG9f
+dW5wYWNrW25ldHdvcmtdID0gJnF1b3Q7MSZxdW90OzxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8
+ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Jm5ic3A7Jm5ic3A7Jm5ic3A7IGRvX3VucGFja1tk
+ZXBlbmRzXSArPSAmcXVvdDsgXDxicj4NCiZuYnNwOyZuYnNwOyZuYnNwOyAmbmJzcDsgJm5ic3A7
+IGNhLWNlcnRpZmljYXRlcy1uYXRpdmU6ZG9fcHJlcGFyZV9yZWNpcGVfc3lzcm9vdCBcPGJyPg0K
+Jm5ic3A7Jm5ic3A7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgY3VybC1uYXRpdmU6ZG9fcHJlcGFyZV9y
+ZWNpcGVfc3lzcm9vdCBcPGJyPg0KJm5ic3A7Jm5ic3A7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgbmlu
+amEtbmF0aXZlOmRvX3ByZXBhcmVfcmVjaXBlX3N5c3Jvb3QgXDxicj4NCiZuYnNwOyZuYnNwOyZu
+YnNwOyAmbmJzcDsgJm5ic3A7IHVuemlwLW5hdGl2ZTpkb19wcmVwYXJlX3JlY2lwZV9zeXNyb290
+IFw8YnI+DQombmJzcDsmbmJzcDsmbmJzcDsgJnF1b3Q7PG86cD48L286cD48L3A+DQo8L2Rpdj4N
+CjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4mbmJzcDsmbmJzcDsmbmJzcDsgcHl0aG9uIGRv
+X3VucGFjazphcHBlbmQoKSB7fTxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xh
+c3M9Ik1zb05vcm1hbCI+YGBgPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFz
+cz0iTXNvTm9ybWFsIj5JIHdvdWxkIGV4cGVjdCB0byBzZWUgY3VybC1uYXRpdmUgY29tcGxldGUg
+cHJpb3IgdG8gbXkgZG9fdW5wYWNrIHJ1bm5pbmcuJm5ic3A7IFRoZSBhdHRhY2hlZCBzY3JlZW4g
+aW5kaWNhdGVzIG90aGVyd2lzZS48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNs
+YXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAg
+Y2xhc3M9Ik1zb05vcm1hbCI+SWYgSSBkcm9wIHRoZSBidWlsZCBkb3duIHRvIHVuaS1wcm9jIHVz
+aW5nOjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29O
+b3JtYWwiPmBgYDxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05v
+cm1hbCI+Jm5ic3A7ICZuYnNwOyBQQVJBTExFTF9NQUtFID0gJnF1b3Q7LWogMSZxdW90Ozxicj4N
+CiZuYnNwOyAmbmJzcDsgQkJfTlVNQkVSX1RIUkVBRFMgPSAmcXVvdDsxJnF1b3Q7PG86cD48L286
+cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5gYGA8bzpwPjwvbzpw
+PjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPlRoZSByZWNpcGVzIGdl
+dCBzZXJpYWxpemVkIGFzIGV4cGVjdGVkLjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0K
+PHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjwvZGl2
+Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+SXMgdGhpcyBhIGJ1Zywgb3IgYW4gaW1wbGVtZW50YXRp
+b24gaXNzdWU/PG86cD48L286cD48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3Jt
+YWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNz
+PSJNc29Ob3JtYWwiPlJlY2lwZSBpbiBxdWVzdGlvbjo8YnI+DQo8YSBocmVmPSJodHRwczovL2dp
+dGh1Yi5jb20vbWV0YS1mbHV0dGVyL21ldGEtZmx1dHRlci9ibG9iL2tpcmtzdG9uZS9yZWNpcGVz
+LWdyYXBoaWNzL2ZsdXR0ZXItc2RrL2ZsdXR0ZXItc2RrX2dpdC5iYiIgdGFyZ2V0PSJfYmxhbmsi
+Pmh0dHBzOi8vZ2l0aHViLmNvbS9tZXRhLWZsdXR0ZXIvbWV0YS1mbHV0dGVyL2Jsb2Iva2lya3N0
+b25lL3JlY2lwZXMtZ3JhcGhpY3MvZmx1dHRlci1zZGsvZmx1dHRlci1zZGtfZ2l0LmJiPC9hPjxv
+OnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4m
+bmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5UaGFu
+a3MsPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5K
+b2VsPG86cD48L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1h
+cmdpbi1ib3R0b206MTIuMHB0Ij48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+
+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
+
+--_000_AS1PR10MB5697FD1577DCA729C3B9FB0AFD472AS1PR10MB5697EURP_--
 
