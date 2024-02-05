@@ -1,113 +1,173 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <petr.vorel@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50E8CC48298
-	for <webhook@archiver.kernel.org>; Mon,  5 Feb 2024 21:11:31 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web11.5852.1707167484120097225
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8545C4828D
+	for <webhook@archiver.kernel.org>; Mon,  5 Feb 2024 21:17:00 +0000 (UTC)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+ by mx.groups.io with SMTP id smtpd.web11.6003.1707167810349179234
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Feb 2024 13:11:24 -0800
+ Mon, 05 Feb 2024 13:16:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YhJrcLFJ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-33b2ee2d1d6so1541416f8f.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 05 Feb 2024 13:11:23 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=coLoSVWk;
+ spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: petr.vorel@gmail.com)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a26f73732c5so706930366b.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 05 Feb 2024 13:16:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1707167482; x=1707772282; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=tzWKevb67Q1lXAFlUUUGYltp9O8Y1FRlgoyw/l+5tis=;
-        b=YhJrcLFJLmfjxAP+8avdVuW3zsUQHC6mcZhoqYx92DKvKMjLjJLMGJbRia+S0YLr3a
-         08pht+fmdL+8AXuKd9TwyO8xthQeMdnU9M8vDyvZRw6lfY0bGynBmV8omy7D7oJyk5v1
-         88xnr2Ob/0BH/n6YbzlFwzykRSWDpeqG0OvRc=
+        d=gmail.com; s=20230601; t=1707167809; x=1707772609; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2ABI/BDR4HoxLP3HwVESNJfVuatjCmxtSdmRGYA6vUk=;
+        b=coLoSVWkeD6RnqMPTfY8PAmDYDxLYJEaE2HtERjvOJBOyUsR3asTw9uyfngbj9Cw/3
+         SaZ6pyHNUKN+0YLffUNAutPy/um9LJv7v2AC6p/HCnCg2+HxpzsMOJh3OnQ5u1gOBrGv
+         cLKttO3idg15IcaAE4pYvfgO13eRLsWcU6SvZXXXIEcI3RtCkUbHvyMBQlL9hvmO0mRx
+         IcyhQ9VFxPSdcRgZrmHpgtqypmfMAGCVNo2pbFeTHTGY8hK1oNBgqoItvsFwgQOuVPQ2
+         qTcoSUQORbkNcoC5B8AlFkGqk28kOdYpiuTelRflM6AsfuiwcP6pfoNNCGUBkh2FM71B
+         lf+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707167482; x=1707772282;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tzWKevb67Q1lXAFlUUUGYltp9O8Y1FRlgoyw/l+5tis=;
-        b=DKWCqrhW1Dfq0L1nY9XbJ/l51VaXe9HDva871FHLMmGSe43tcy6GnfsGnuVgfi4Cmn
-         p2j71dtwYYD32FMnaB/jVZKpfNCTQ2aaGOveSZ91zlkALraAVoBZVjgz+RkeYIp8Nrrc
-         K3hgAP67Zlhv/ylRDr4PjmQTBJN+lAAYGR/eLR1ewizH9fKLiugQFvSVOE1SeCYy1x5s
-         XpQQM8Q8pLJtzmxtoaLohKj5waKXsPqKN4WTHYx8zaaA1ftLY3ChD2r8CvCSkdG+voS2
-         HkL+zjAbEksULokfqVZx4N2LbExb/vh22w6EHihXk+noU30ukB56EYLmSqr/mi3cNdx9
-         2IKw==
-X-Gm-Message-State: AOJu0Ywe+GAcDai5ymZf9FrsFfNgWXbOhj6pJ6RkCsUMIfexBj4q8/rx
-	9DF6PnwJra/gsMt53FD53KF4yJtz2cCnL2PuNzY7kNKcUHOi95wKHlAZERG+gOw=
-X-Google-Smtp-Source: AGHT+IFcfxiefN5ExUo1tiavtoEK3w5TdRHRpGQO7roHikAW/QmD2zFVpI0Ld/CpdgwwDhrCjpK0jQ==
-X-Received: by 2002:a05:6000:1841:b0:33a:e38d:f944 with SMTP id c1-20020a056000184100b0033ae38df944mr598359wri.60.1707167482042;
-        Mon, 05 Feb 2024 13:11:22 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCXBiYnZir1/GmWpyOjnrx2SxbMGoLam8Pd82JXzMnxYlF3cmCTwZxKLiQvu6UUe4eocIl74B0tQDpvhcQXILgBsuIPnDGzu/qe9dflzm5lcMcE6suLK/69+4RS8GSTEjj6i3Jv9LFhwtDK2yaWxdKFFqdnW/23BhfgJb+3muCBUdxfvgWAuw3fvNHaIrIbqyOWP2/9SqLFu0h6Nbo6Du1nwOBuMB8smFw8=
-Received: from ?IPv6:2001:8b0:aba:5f3c:45c0:34a2:1eea:2530? ([2001:8b0:aba:5f3c:45c0:34a2:1eea:2530])
-        by smtp.gmail.com with ESMTPSA id i9-20020adfe489000000b0033b45bdb2a1sm205928wrm.4.2024.02.05.13.11.21
+        d=1e100.net; s=20230601; t=1707167809; x=1707772609;
+        h=in-reply-to:content-disposition:mime-version:references:reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2ABI/BDR4HoxLP3HwVESNJfVuatjCmxtSdmRGYA6vUk=;
+        b=D5qsI7nXEt/5j90lLUqnQLM46ao217w5QujHdH8OmL50oIrpk1q2F8YeZl6x/S8W5j
+         +1I9i+RMeYodgQD05t9b8TMYqDwzuUCmtqcdHqhG/eHx1ZLgZUDQVSj0zSyP+s49YFfn
+         fzIVqWt2SnKesYcuxjAC9swUIl9TBRsEzuw7sog900aYQI/hujew1ubOvo/pL3dbSVUX
+         P/1a0pHmCaBRyjyUMOg/+bxjSzNx2hWrRpiq97mt2rJsXwcjYKakV8/PhTzNVoHK5kP0
+         jWzIxslhv55JyQReX3VufeqQjZY/ZhoHxWkrwFxBIeK86Cxi0stgvYx2qArfoADse2H6
+         hg0g==
+X-Gm-Message-State: AOJu0YxlQp+PUKBXAdHfJPlv/rX8a4qt74FpN/pzmirzyRKxetkEBaHJ
+	cm0D6+9QBlyCFxSWYnQ5XQyFI+yu2NQ6RvZMxkEnCGqCj+INpOY/
+X-Google-Smtp-Source: AGHT+IG4ZCbdAduidO29R5DfdA6Faw71z7pCiIuo38EJWtInUxOernI/vK5f/e9qdiywyjl9T1V3Gw==
+X-Received: by 2002:a17:907:7810:b0:a38:14a5:31ef with SMTP id la16-20020a170907781000b00a3814a531efmr118094ejc.26.1707167807870;
+        Mon, 05 Feb 2024 13:16:47 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCVvlbx/rJXopn3eLCDkVVsJ4LX8cekmTyf5epPZOoTuyXWjSSSGqhP4lSYWjTct13kAeccqRfZEqG3WnlrnOpIGvbn2JtnLBR/nWuhzts25Vq5BR2HEHZzu0hmWIyTKB7VVpDlJzgJfIWFV7RzLwqTh6oPXBYEAfUYZyfLHViOVzzMKkLE=
+Received: from pevik (gw1.ms-free.net. [185.243.124.10])
+        by smtp.gmail.com with ESMTPSA id hu13-20020a170907a08d00b00a3819395edasm21405ejc.62.2024.02.05.13.16.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Feb 2024 13:11:21 -0800 (PST)
-Message-ID: <f1c9d0f8cbf8ea1972aafac0c29690ca400178d7.camel@linuxfoundation.org>
-Subject: Re: [OE-core] Core workflow: sstate for all, bblock/bbunlock, tools
- for why is sstate not being reused?
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, openembedded-architecture
- <openembedded-architecture@lists.openembedded.org>, Yocto-mailing-list
- <yocto@lists.yoctoproject.org>, ",openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Cc: Joshua Watt <jpewhacker@gmail.com>
-Date: Mon, 05 Feb 2024 21:11:19 +0000
-In-Reply-To: <CANNYZj9X5qRSup7i9S=rtRpwo5nCNHp8VJOZAuvu5JzqhLYD_g@mail.gmail.com>
-References: 
-	<CAK5yBb9gO+WOJrv4TArzXK_1Bxu5AORp2oi=P-v=2nn6PgJE5Q@mail.gmail.com>
-	 <CANNYZj9QpstUj_A8Vb2RbiaFGZkHkFjHkUfF=E1HR-nDJ_Vk6w@mail.gmail.com>
-	 <17ACA59E7A7FD97B.16230@lists.openembedded.org>
-	 <CANNYZj9X5qRSup7i9S=rtRpwo5nCNHp8VJOZAuvu5JzqhLYD_g@mail.gmail.com>
-Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
- YNvg==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.0-1 
+        Mon, 05 Feb 2024 13:16:47 -0800 (PST)
+Date: Mon, 5 Feb 2024 22:16:44 +0100
+From: Petr Vorel <petr.vorel@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	openembedded-core@lists.openembedded.org,
+	Daniel =?iso-8859-2?Q?D=EDaz?= <daniel.diaz@linaro.org>,
+	Khem Raj <raj.khem@gmail.com>
+Subject: Re: [OE-core] [PATCH 1/1] ltp: Update to 20240129
+Message-ID: <20240205211644.GD246472@pevik>
+Reply-To: Petr Vorel <petr.vorel@gmail.com>
+References: <20240131183243.30223-1-petr.vorel@gmail.com>
+ <202402021507535468a87c@mail.local>
+ <20240203235247.GA163430@pevik>
+ <c6b68e4d96108645ffcfdac875e6081c57bdf7a1.camel@linuxfoundation.org>
+ <20240205104342.GB166229@pevik>
+ <8d09eca8e65d69bc9d79da3a0c271a05097ebe9e.camel@linuxfoundation.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8d09eca8e65d69bc9d79da3a0c271a05097ebe9e.camel@linuxfoundation.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 Feb 2024 21:11:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194969
+ <openembedded-core@lists.openembedded.org>; Mon, 05 Feb 2024 21:17:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194970
 
-On Mon, 2024-02-05 at 21:35 +0100, Alexander Kanavin wrote:
-> 2. Something that didn't occur to me until now: simply copying over
-> sstate to another location doesn't guarantee that it's going to be
-> used, if that sstate needs to be discovered via hash equivalency
-> database. There are two options here:
->=20
-> - lock down sstate signatures to what is available (esdks take this
-> route, and get away with it because of restricted devtool-only
-> functionality and hidden layers that never change)
->=20
-> - export the hash equivalency database into something human readable,
-> and placed into the bundle, and then import it back when the bundle is
-> unpacked and set up. As far as I understand currently there's no code
-> for this. I'd find it useful in general, as effects of hash
-> equivalency can be tricky to grasp, and being able to look at the
-> database in a human readable format goes a long way towards
-> understanding how it all fits together. There may be other use cases
-> where you'd want to move the content of the database between build
-> machines. I'd like to get Joshua's take on this, did I misunderstand
-> this completely?
+> On Mon, 2024-02-05 at 11:43 +0100, Petr Vorel wrote:
+> > > Hi Petr,
 
-You don't misunderstand, this is an issue.
+> > > On Sun, 2024-02-04 at 00:52 +0100, Petr Vorel wrote:
+> > > > Hi Alexandre, all,
 
-The good news is that the hashes needed will be in
-cache/bb_unihashes.dat. The eSDK code saves and restores that to ensure
-things all work out ok.
+> > > > > On 31/01/2024 19:32:43+0100, Petr Vorel wrote:
+> > > > > > Removed patch accepted upstream as
+> > > > > > 8c53cc947 ("testcases/kernel/syscalls/fcntl: define _LARGEFILE64_SOURCE")
 
-It isn't human readable but could be translated easily enough.
+> > > > > > Rebase runtest/mm patch.
 
-Cheers,
+> > > > > > Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
+> > > > > > ---
+> > > > > > Hi Richard, Daniel, Khem,
 
-Richard
+> > > > > > could anybody please test this update if build (it should).
+
+> > > > > > Also, it'd be good nice to rerun proc01 -m 128 and report me with the
+> > > > > > details, maybe we can fix it. If still problematic, it'd be nice to turn
+> > > > > > disable_hanging_tests.patch into proper git patch (makes rebasing patch
+> > > > > > on new LTP version easier).
+
+> > > > > This fails on the autobuilders:
+
+> > > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/95/builds/5957/steps/12/logs/stdio
+> > > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/96/builds/5917/steps/12/logs/stdio
+
+
+> > > > Thanks for testing this, you probably mean the warning before python stack trace:
+
+> > > > scp: /opt/ltp/results/connectors: No such file or directory
+> > > > WARNING: core-image-sato-1.0-r0 do_testimage: File could not be copied. Output: scp: /opt/ltp/results/connectors: No such file or directory
+
+> > > > The problem is not due packaging, but simply runtest/connectors was removed [1],
+> > > > thus your tooling has to be fixed not to expect it (not trying to run it).
+> > > > I'm sorry, we sometimes do cleanup which brings incompatibility issue
+> > > > (here it did not make sense to start SUT just for single test, thus we moved the
+> > > > test to runtest/kernel_misc).
+
+> > > I did try again with that removed:
+
+> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/96/builds/5929/steps/12/logs/stdio
+> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/95/builds/5968/steps/12/logs/stdio
+
+> > > which comes down to:
+
+> > > scp: /opt/ltp/results/fsx: No such file or directory
+
+> > > so I'll remove that and try again.
+
+> > > Are there any additions we should be considering too? This all feels a
+> > > little fragile so I'm wondering if we should be reworking the way we
+> > > handle this?
+
+> > I forget that also this one was removed in fb2b6a0b3 ("fs: Remove fsx runtest
+> > suite") [1], therefore not a real error.
+
+> Thanks, with that removed we had successful runs so I've merged it.
+
+Thank you for testing and fixing these groups in
+meta/lib/oeqa/runtime/cases/ltp.py, I completely overlooked this file.
+BTW there are move groups which could be added to ltp_groups:
+
+cve, crypto, ima, net.nfs, net_stress.ipsec_icmp, net.ipv6, numa, uevent,
+ltp-aiodio.part1, ltp-aiodio.part2, ltp-aiodio.part3, ltp-aiodio.part4
+
+(There are more, thus list mostly the most important ones)
+
+> I appreciate we need to try and re-enable that test that was hanging
+> but I'm a bit stretched with other issues at the moment to dive into
+> that one unfortunately.
+
+Understand. Test has been rewritten to new API in 2017, I would expect they
+would work properly. But the patchset removal was done in 2020.
+
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=13802
+
+But looking at
+https://git.yoctoproject.org/poky/commit/?id=529bb922c786f1acd041ff9a8d2b675d067e2ae3
+linked via:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=13802#c68
+
+The tests found a real bug
+https://lore.kernel.org/lkml/20210616125157.438837-1-paul.gortmaker@windriver.com/
+
+While I understand the pain when test breaks whole testing, removing valid tests
+means the functionality is not tested and we blindly believe kernel works.
+
+Kind regards,
+Petr
+
+> Cheers,
+
+> Richard
+
+
 
