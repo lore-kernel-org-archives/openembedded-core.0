@@ -1,108 +1,113 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99D5FC48298
-	for <webhook@archiver.kernel.org>; Mon,  5 Feb 2024 20:35:40 +0000 (UTC)
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
- by mx.groups.io with SMTP id smtpd.web10.4886.1707165331313539982
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50E8CC48298
+	for <webhook@archiver.kernel.org>; Mon,  5 Feb 2024 21:11:31 +0000 (UTC)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web11.5852.1707167484120097225
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Feb 2024 12:35:31 -0800
+ Mon, 05 Feb 2024 13:11:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=DwWah5M2;
- spf=pass (domain: gmail.com, ip: 209.85.208.174, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2d09b21a8bbso943121fa.3;
-        Mon, 05 Feb 2024 12:35:31 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YhJrcLFJ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-33b2ee2d1d6so1541416f8f.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 05 Feb 2024 13:11:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707165329; x=1707770129; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Gm76o5vthT4ZCVmp/KfOXOmEVDRfwkOOhA3UihTLN9Y=;
-        b=DwWah5M2zPNjVOOe/Rf8Yq2VyBk43sjDglUeuPKQFBYDDPiq68BPk/J98aHmCMGX/0
-         +Bt6kMuAf8VVMuK6R/xH+iG517wscuVq4KRVTiq0DfLbmbCBEHGuHIjK5Ic7jVyr3Or9
-         dHxcPmCldZIJ21tD8emyxwFihhTebtKEG3oW5NaYozJb48LdwTl0aXRxbGW1Dt6CZOTv
-         KBSOziEB+qg1gbSpXOci4UkRf/xT7X515b9iY2Za9+0dACUATS5Apkz8Rhfn9M5TO+GX
-         KNicjkrZxmc0CvnGiZfQP5rQ/QpdGaqQsgkK3Flvq348tgrYKqHImi0xgYlQxqtds17Q
-         JsUQ==
+        d=linuxfoundation.org; s=google; t=1707167482; x=1707772282; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=tzWKevb67Q1lXAFlUUUGYltp9O8Y1FRlgoyw/l+5tis=;
+        b=YhJrcLFJLmfjxAP+8avdVuW3zsUQHC6mcZhoqYx92DKvKMjLjJLMGJbRia+S0YLr3a
+         08pht+fmdL+8AXuKd9TwyO8xthQeMdnU9M8vDyvZRw6lfY0bGynBmV8omy7D7oJyk5v1
+         88xnr2Ob/0BH/n6YbzlFwzykRSWDpeqG0OvRc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707165329; x=1707770129;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Gm76o5vthT4ZCVmp/KfOXOmEVDRfwkOOhA3UihTLN9Y=;
-        b=L8mEus1S5DSkQGYXVM/aNx5/vTaeyf0NaQY2KW6zo6OfLy4MNOjzAH5qY+W79OjKPN
-         qkQlSKJMKBgreARSi4BqOvVl6uiOotssHvC4V/bpjT/Y1BQsm+QfcGM5Msj6fnqRVK8E
-         mlwknyGWCZho7yvC5Bs5U1lH/8dVAQQKOvITqJyqtnW+Y6OpVAasdU4AmRX+RL3jJvZ+
-         n9GC8lIA5yyMs0vTFMtFR4L0Y5mbnA+E086Z/uaav8T88Hxup3HyNbNmgI4YlGoSFxF5
-         1o/fFUft0AQmJX2XMNxLbhl53ikU08ivMxuG6/KmnH0ffg+6+1lYVxiy5R1fuiYvL1+i
-         Cqfg==
-X-Gm-Message-State: AOJu0YzZimwAeFd+mK5Rj616uAtWPySvFAII9Ay9b9yg5WRL0WNX48+5
-	pnFFmAlASS2AtaFzXfyTYERJf4vkRx2WuYjGTp3QiSJq72Ki2PHF7LCDBwFmU0gtlzsm4p0Twoj
-	BY0uZIjDnvh7j5BPO3aHeRCPnZGsAt+QM
-X-Google-Smtp-Source: AGHT+IFgGl+Utbyz9OwZpCfAb2e2IMKtmU4I2+srvDZ1MCW1/BOgP04uFtgT8zB7zMAMPoHmqgxH5UT6R7iQXj6ZoIc=
-X-Received: by 2002:a2e:9113:0:b0:2d0:9e95:68e9 with SMTP id
- m19-20020a2e9113000000b002d09e9568e9mr563527ljg.11.1707165329172; Mon, 05 Feb
- 2024 12:35:29 -0800 (PST)
-MIME-Version: 1.0
-References: <CAK5yBb9gO+WOJrv4TArzXK_1Bxu5AORp2oi=P-v=2nn6PgJE5Q@mail.gmail.com>
- <CANNYZj9QpstUj_A8Vb2RbiaFGZkHkFjHkUfF=E1HR-nDJ_Vk6w@mail.gmail.com> <17ACA59E7A7FD97B.16230@lists.openembedded.org>
-In-Reply-To: <17ACA59E7A7FD97B.16230@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 5 Feb 2024 21:35:16 +0100
-Message-ID: <CANNYZj9X5qRSup7i9S=rtRpwo5nCNHp8VJOZAuvu5JzqhLYD_g@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1707167482; x=1707772282;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tzWKevb67Q1lXAFlUUUGYltp9O8Y1FRlgoyw/l+5tis=;
+        b=DKWCqrhW1Dfq0L1nY9XbJ/l51VaXe9HDva871FHLMmGSe43tcy6GnfsGnuVgfi4Cmn
+         p2j71dtwYYD32FMnaB/jVZKpfNCTQ2aaGOveSZ91zlkALraAVoBZVjgz+RkeYIp8Nrrc
+         K3hgAP67Zlhv/ylRDr4PjmQTBJN+lAAYGR/eLR1ewizH9fKLiugQFvSVOE1SeCYy1x5s
+         XpQQM8Q8pLJtzmxtoaLohKj5waKXsPqKN4WTHYx8zaaA1ftLY3ChD2r8CvCSkdG+voS2
+         HkL+zjAbEksULokfqVZx4N2LbExb/vh22w6EHihXk+noU30ukB56EYLmSqr/mi3cNdx9
+         2IKw==
+X-Gm-Message-State: AOJu0Ywe+GAcDai5ymZf9FrsFfNgWXbOhj6pJ6RkCsUMIfexBj4q8/rx
+	9DF6PnwJra/gsMt53FD53KF4yJtz2cCnL2PuNzY7kNKcUHOi95wKHlAZERG+gOw=
+X-Google-Smtp-Source: AGHT+IFcfxiefN5ExUo1tiavtoEK3w5TdRHRpGQO7roHikAW/QmD2zFVpI0Ld/CpdgwwDhrCjpK0jQ==
+X-Received: by 2002:a05:6000:1841:b0:33a:e38d:f944 with SMTP id c1-20020a056000184100b0033ae38df944mr598359wri.60.1707167482042;
+        Mon, 05 Feb 2024 13:11:22 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCXBiYnZir1/GmWpyOjnrx2SxbMGoLam8Pd82JXzMnxYlF3cmCTwZxKLiQvu6UUe4eocIl74B0tQDpvhcQXILgBsuIPnDGzu/qe9dflzm5lcMcE6suLK/69+4RS8GSTEjj6i3Jv9LFhwtDK2yaWxdKFFqdnW/23BhfgJb+3muCBUdxfvgWAuw3fvNHaIrIbqyOWP2/9SqLFu0h6Nbo6Du1nwOBuMB8smFw8=
+Received: from ?IPv6:2001:8b0:aba:5f3c:45c0:34a2:1eea:2530? ([2001:8b0:aba:5f3c:45c0:34a2:1eea:2530])
+        by smtp.gmail.com with ESMTPSA id i9-20020adfe489000000b0033b45bdb2a1sm205928wrm.4.2024.02.05.13.11.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Feb 2024 13:11:21 -0800 (PST)
+Message-ID: <f1c9d0f8cbf8ea1972aafac0c29690ca400178d7.camel@linuxfoundation.org>
 Subject: Re: [OE-core] Core workflow: sstate for all, bblock/bbunlock, tools
  for why is sstate not being reused?
-To: openembedded-architecture <openembedded-architecture@lists.openembedded.org>, 
-	Yocto-mailing-list <yocto@lists.yoctoproject.org>, 
-	",openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, Joshua Watt <jpewhacker@gmail.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, openembedded-architecture
+ <openembedded-architecture@lists.openembedded.org>, Yocto-mailing-list
+ <yocto@lists.yoctoproject.org>, ",openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+Cc: Joshua Watt <jpewhacker@gmail.com>
+Date: Mon, 05 Feb 2024 21:11:19 +0000
+In-Reply-To: <CANNYZj9X5qRSup7i9S=rtRpwo5nCNHp8VJOZAuvu5JzqhLYD_g@mail.gmail.com>
+References: 
+	<CAK5yBb9gO+WOJrv4TArzXK_1Bxu5AORp2oi=P-v=2nn6PgJE5Q@mail.gmail.com>
+	 <CANNYZj9QpstUj_A8Vb2RbiaFGZkHkFjHkUfF=E1HR-nDJ_Vk6w@mail.gmail.com>
+	 <17ACA59E7A7FD97B.16230@lists.openembedded.org>
+	 <CANNYZj9X5qRSup7i9S=rtRpwo5nCNHp8VJOZAuvu5JzqhLYD_g@mail.gmail.com>
+Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
+ YNvg==
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.0-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 Feb 2024 20:35:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194968
+ <openembedded-core@lists.openembedded.org>; Mon, 05 Feb 2024 21:11:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194969
 
-On Mon, 22 Jan 2024 at 11:47, Alexander Kanavin via
-lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
-wrote:
-> 3. Build replicator tool.
->
-> I've written a proof of concept:
-> https://git.yoctoproject.org/poky-contrib/commit/?h=akanavin/sstate-for-all
->
-> There was positive feedback for the idea, so next I'll add tests and
-> submit it as a proper patch aiming for inclusion.
+On Mon, 2024-02-05 at 21:35 +0100, Alexander Kanavin wrote:
+> 2. Something that didn't occur to me until now: simply copying over
+> sstate to another location doesn't guarantee that it's going to be
+> used, if that sstate needs to be discovered via hash equivalency
+> database. There are two options here:
+>=20
+> - lock down sstate signatures to what is available (esdks take this
+> route, and get away with it because of restricted devtool-only
+> functionality and hidden layers that never change)
+>=20
+> - export the hash equivalency database into something human readable,
+> and placed into the bundle, and then import it back when the bundle is
+> unpacked and set up. As far as I understand currently there's no code
+> for this. I'd find it useful in general, as effects of hash
+> equivalency can be tricky to grasp, and being able to look at the
+> database in a human readable format goes a long way towards
+> understanding how it all fits together. There may be other use cases
+> where you'd want to move the content of the database between build
+> machines. I'd like to get Joshua's take on this, did I misunderstand
+> this completely?
 
-I started working on bringing this to level suitable for proper
-submission, but quickly ran into two issues:
+You don't misunderstand, this is an issue.
 
-1. The bundle should include a local copy of all the layers so it can
-be unpacked and set up entirely offline (and not by re-fetching all
-the layers like in the proof of concept). This functionality is
-available in the esdk task, but needs to be provided in plain yocto
-builds as well. The plan is to add a 'local-copy' plugin to
-'bitbake-layers create-layers-setup' that would utilize existing code.
+The good news is that the hashes needed will be in
+cache/bb_unihashes.dat. The eSDK code saves and restores that to ensure
+things all work out ok.
 
-2. Something that didn't occur to me until now: simply copying over
-sstate to another location doesn't guarantee that it's going to be
-used, if that sstate needs to be discovered via hash equivalency
-database. There are two options here:
+It isn't human readable but could be translated easily enough.
 
-- lock down sstate signatures to what is available (esdks take this
-route, and get away with it because of restricted devtool-only
-functionality and hidden layers that never change)
+Cheers,
 
-- export the hash equivalency database into something human readable,
-and placed into the bundle, and then import it back when the bundle is
-unpacked and set up. As far as I understand currently there's no code
-for this. I'd find it useful in general, as effects of hash
-equivalency can be tricky to grasp, and being able to look at the
-database in a human readable format goes a long way towards
-understanding how it all fits together. There may be other use cases
-where you'd want to move the content of the database between build
-machines. I'd like to get Joshua's take on this, did I misunderstand
-this completely?
-
-Alex
+Richard
 
