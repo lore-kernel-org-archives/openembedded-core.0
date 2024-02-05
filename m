@@ -2,99 +2,106 @@ Return-Path: <alexis.lothore@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACCD5C4828D
-	for <webhook@archiver.kernel.org>; Mon,  5 Feb 2024 19:15:19 +0000 (UTC)
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
- by mx.groups.io with SMTP id smtpd.web10.2765.1707160512937911992
- for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Feb 2024 11:15:13 -0800
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6F15C48292
+	for <webhook@archiver.kernel.org>; Mon,  5 Feb 2024 19:22:49 +0000 (UTC)
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+ by mx.groups.io with SMTP id smtpd.web10.2963.1707160965715121989
+ for <Openembedded-core@lists.openembedded.org>;
+ Mon, 05 Feb 2024 11:22:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=N4d1miRg;
- spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: alexis.lothore@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id D92AFFF802;
-	Mon,  5 Feb 2024 19:15:10 +0000 (UTC)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Dy2B49MS;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: alexis.lothore@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id D96F41BF209;
+	Mon,  5 Feb 2024 19:22:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1707160511;
+	t=1707160963;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=41kCl6V1Qpw3J+lvSVBMwxqAduaWmIf5YgHEi9u3FwU=;
-	b=N4d1miRgoVOArCWe5kUf7/31Ilo2VpUd9veE0IULvqeuqrADji1jNcaz0ggbbY593DyeLd
-	dGCpR36nm2qpgyYHO6hl0phq70cU8vGmwsgk/HQhf14WxZBGvI3Fj2M+awf5uJb6juPFCp
-	7glkWbjagV/IHrFmK8BTWt39ebPdy9lqXS85RilR5W7lgl7plXkyfVbpcktUor57OLKmMD
-	hkltPjubBqP5WKUMi7rb1cUubzsrbDoZ4wppcw5icnabBAtEeRCne2SNNoqMlWAVBAwaXv
-	YhqFmwReCsgw1kIZhAn/NNFNROAHV1D5cqnO7WgDYVT+A4eCA0aW/6hIFajuyg==
-Message-ID: <140ad239-678d-49eb-93e0-b06802c4c3dd@bootlin.com>
-Date: Mon, 5 Feb 2024 20:15:10 +0100
+	bh=804F5cv3E1OkJ/39q7zLkEKHKMPk8LdbIZGHuzpaag0=;
+	b=Dy2B49MS81zllVHYD+ZGqY3GVPJZgopUG6ST20uJfhrcPFJIcdE550rvmw/q4rTUy+R/cW
+	pw7BlMpRDSIQloHda+pMQ0YRdBntLAz0SkytB333CoOyujfzbGPCqFQTGE+Qoe73J1kJ/E
+	2UQdlicQYiYYAYVd7s50xth5KBwT6ChV1ue9+5wO5ufPoPWn2fEgLV64D2sBLEa1XJfYqK
+	cNE309BJbqNiqHvoSrvPVyiyn+nLX3bqvhmKg/8J4uU6x/ojKFDCBwGPCIOrprEFIs1JVr
+	yCQwk18KbgIJOGVWFJVVVVcyPilMQW795iv9bIusqG5okOa/LB3j8mrwMrypbg==
+Message-ID: <93350237-c4ea-4859-93fa-113a3ccc0452@bootlin.com>
+Date: Mon, 5 Feb 2024 20:22:42 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: Patchtest results for [OE-Core][PATCH v3 1/2] testimage: move
- TESTIMAGE_FAILED_QA_ARTIFACTS default to core-image
-To: Trevor Gamblin <tgamblin@baylibre.com>,
- Patchtest <patchtest@automation.yoctoproject.org>
-Cc: openembedded-core@lists.openembedded.org
-References: <0101018d79bfe020-06f2ce89-ea19-456b-92e7-66ee1c710fd1-000000@us-west-2.amazonses.com>
- <2831a2b2-53aa-4f1b-b3e1-6d2e318ebca4@baylibre.com>
-Content-Language: en-US
 From: =?UTF-8?Q?Alexis_Lothor=C3=A9?= <alexis.lothore@bootlin.com>
-In-Reply-To: <2831a2b2-53aa-4f1b-b3e1-6d2e318ebca4@baylibre.com>
+Subject: Re: [OE-Core][PATCH v3 1/2] testimage: move
+ TESTIMAGE_FAILED_QA_ARTIFACTS default to core-image
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Openembedded-core@lists.openembedded.org
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Mikko Rapeli <mikko.rapeli@linaro.org>
+References: <20240205143757.81826-1-alexis.lothore@bootlin.com>
+ <20240205143757.81826-2-alexis.lothore@bootlin.com>
+ <5358961809135d87d89ec9004c7f4bc164c82fe2.camel@linuxfoundation.org>
+Content-Language: en-US
+In-Reply-To: <5358961809135d87d89ec9004c7f4bc164c82fe2.camel@linuxfoundation.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-GND-Sasl: alexis.lothore@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 Feb 2024 19:15:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194966
+ <openembedded-core@lists.openembedded.org>; Mon, 05 Feb 2024 19:22:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194967
 
-Hello Trevor,
+Hello Richard, thanks for the fast review
 
-On 2/5/24 20:04, Trevor Gamblin wrote:
-> 
-> On 2024-02-05 09:50, Patchtest wrote:
+On 2/5/24 16:08, Richard Purdie wrote:
+> On Mon, 2024-02-05 at 15:37 +0100, Alexis Lothoré via
+> lists.openembedded.org wrote:
 
 [...]
 
->> SKIP: pretest pylint: No python related patches, skipping test
->> (test_python_pylint.PyLint.pretest_pylint)
->> SKIP: pretest src uri left files: No modified recipes, skipping pretest
->> (test_metadata.TestMetadata.pretest_src_uri_left_files)
->> SKIP: test CVE check ignore: No modified recipes, skipping test
->> (test_metadata.TestMetadata.test_cve_check_ignore)
->> SKIP: test CVE tag format: No new CVE patches introduced
->> (test_patch.TestPatch.test_cve_tag_format)
->> SKIP: test Signed-off-by presence: No new CVE patches introduced
->> (test_patch.TestPatch.test_signed_off_by_presence)
->> SKIP: test Upstream-Status presence: No new CVE patches introduced
->> (test_patch.TestPatch.test_upstream_status_presence_format)
->> SKIP: test bugzilla entry format: No bug ID found
->> (test_mbox.TestMbox.test_bugzilla_entry_format)
->> SKIP: test lic files chksum modified not mentioned: No modified recipes,
->> skipping test
->> (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
->> SKIP: test lic files chksum presence: No added recipes, skipping test
->> (test_metadata.TestMetadata.test_lic_files_chksum_presence)
->> SKIP: test license presence: No added recipes, skipping test
->> (test_metadata.TestMetadata.test_license_presence)
->> SKIP: test pylint: No python related patches, skipping test
->> (test_python_pylint.PyLint.test_pylint)
->> SKIP: test series merge on head: Merge test is disabled for now
->> (test_mbox.TestMbox.test_series_merge_on_head)
->> SKIP: test src uri left files: No modified recipes, skipping pretest
->> (test_metadata.TestMetadata.test_src_uri_left_files)
->> SKIP: test summary presence: No added recipes, skipping test
->> (test_metadata.TestMetadata.test_summary_presence)
->> SKIP: test target mailing list: Series merged, no reason to check other
->> mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-> This is odd. I think your patch is OK - patchtest looks for "FAIL" in the patch
-> body, and must've gotten snagged on the subject line.
+>> -TESTIMAGE_FAILED_QA_ARTIFACTS ??= "\
+>> -    ${localstatedir}/log \
+>> -    ${sysconfdir}/version \
+>> -    ${sysconfdir}/os-release"
+>> -
+>>  # You can set (or append to) TEST_SUITES in local.conf to select the tests
+>>  # which you want to run for your target.
+>>  # The test names are the module names in meta/lib/oeqa/runtime/cases.
+> 
+> I can imagine why ??= breaks if you use +=.
+> 
+> Does this work if you change it from ??= to just = ?
 
-Yes, that is also my conclusion, and I have sent a small patch to address this:
+I've indeed given a try to this before moving TESTIMAGE_FAILED_QA_ARTIFACTS to
+core-image, but when using "=" instead of "?=" or "??=", I observe that the part
+affecting TESTIMAGE_FAILED_QA_ARTIFACTS in core-image-ptest is not taken, so we
+are missing the ptests artifacts (but we still get the generic artifacts defined
+in testimage.bbclass). So to summarize:
+- "??=" or "?=" : we only get ptests artifacts, not the "generic" one
+(/etc/version, /var/log, etc)
+- "=": we only get the generic artifacts, not the ptests one.
+It is not clear for me why the second one fails, and
+TESTIMAGE_FAILED_QA_ARTIFACTS does not appear at all in 'bitbake -e" output,
+which makes it even more cryptic to me.
 
-https://lore.kernel.org/openembedded-core/20240205155730.115895-1-alexis.lothore@bootlin.com/T/#t
+> I'd really prefer to keep this in testimage.bbclass.Recipes should be
+> able to use += if it is set with = and the addition is after the class
+> inherit.
 
-I realize that it would have been smart to Cc you on this patch, sorry for the miss.
+Based on my understanding of bitbake manual, I theoretically agree with you,
+yet, as mentioned above this is not the behavior I observe, so I may be missing
+something important here. Maybe the parsing order is not the one I think I am
+observing, maybe its multiconfig, maybe something else.
+I can try to dig this further and clarify why it does not work as expected with "="
+
+Alexis
+
+> 
+> Cheers,
+> 
+> Richard
+> 
+> 
 
 -- 
 Alexis Lothoré, Bootlin
