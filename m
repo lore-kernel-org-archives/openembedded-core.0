@@ -1,102 +1,139 @@
-Return-Path: <liezhi.yang@windriver.com>
+Return-Path: <petr.vorel@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12919C4828D
-	for <webhook@archiver.kernel.org>; Mon,  5 Feb 2024 09:01:55 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.58784.1707123710625305781
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 621B4C4828D
+	for <webhook@archiver.kernel.org>; Mon,  5 Feb 2024 10:43:55 +0000 (UTC)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+ by mx.groups.io with SMTP id smtpd.web10.60368.1707129826711609097
  for <openembedded-core@lists.openembedded.org>;
- Mon, 05 Feb 2024 01:01:50 -0800
+ Mon, 05 Feb 2024 02:43:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=qP+7lF5f;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=2765499117=liezhi.yang@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 415902nL002870
-	for <openembedded-core@lists.openembedded.org>; Mon, 5 Feb 2024 09:01:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding:content-type; s=
-	PPS06212021; bh=H8T2/TrvMBcBc6k5zHWWeJjjnJejvMkLQYgQdtBlVSM=; b=
-	qP+7lF5f5RF7e9/YHuCHVI77bmUlygEvW6Saqu9tC+FCuaAF5cAK+Zw7Kec1Po04
-	jhDdlHdB/bZLdqnfwaxbbTywM2ACTeS8J+QxwrzycpuQMA+6Bfi4n47a7mLL4DgT
-	5aTAy/YXt/h/uMLQzNqelWIX+q7gDfzVmp9G84zptN7vGOH40YBOgXDbLFDK3iEg
-	kl4THYGXI+HhlRxQ9EKPZHrf+SC6dspxlNRUwzUT7K5hKClZjqwSwPBfn00SJwKd
-	9QrIFzBk+D7BuBdz9WtDBGVdRJu0d0+fsLI+QPMsRB//nrdPpfOyCsFVdDgaAYNU
-	0Ad+rLAAYHo0zpf2CSUXhw==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3w1cs79m68-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 05 Feb 2024 09:01:49 +0000 (GMT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 5 Feb 2024 01:01:48 -0800
-Received: from ala-lpggp3.wrs.com (147.11.136.210) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Mon, 5 Feb 2024 01:01:48 -0800
-From: <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 1/2] gnu-config: Update to latest version
-Date: Mon, 5 Feb 2024 01:01:47 -0800
-Message-ID: <2aedff086dd65d7c237acb3fe463279f107f2f0a.1707123654.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1707123654.git.liezhi.yang@windriver.com>
-References: <cover.1707123654.git.liezhi.yang@windriver.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=IcuYsxgb;
+ spf=pass (domain: gmail.com, ip: 209.85.167.50, mailfrom: petr.vorel@gmail.com)
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5111c7d40deso6976248e87.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 05 Feb 2024 02:43:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707129825; x=1707734625; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WPYNSGAIVg5lWru+0xd+4tJCfsodY/myBptslXjTZac=;
+        b=IcuYsxgbLtRLXd9ncISjuWgls68nDhnh7xVgcgpwiNVJ/0D71pHAJ47QVJm+RH0eWx
+         O/o7ychCA8GrIuMHOuiBhJCnlwgevVzHmXSTuFJssUIj7yFD9cJ7lntaiXx2zvzwMIN2
+         5og8UYcSYFGanoIG99LnhbLqUc1YiMT/Hfbg6l9hM2sFh1fRIYefI9HFAFb8v3ms6mbe
+         dYpxLw0axeDcDrPWW9zjgQcS00hNYk8VgzUcLSD9H0p7QLwA0OKYrPdY8Zb7ApJulpol
+         IeIzKaURlwpO1+Tuy6QJ84MuZEsYSEQSErcyHJVmRhD3xKMf1IGle4gyaD9MeQTpHFEl
+         dgDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707129825; x=1707734625;
+        h=in-reply-to:content-disposition:mime-version:references:reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WPYNSGAIVg5lWru+0xd+4tJCfsodY/myBptslXjTZac=;
+        b=FzSJk2zE+MyWYE2jciRzLSxAykDRwNgq+iY5TkNCZ0UU+a7ojJNPJzgEA7RQqrGi5z
+         ZG2uhYxL5JbUBnfbiNKtuvgKZGJ3L28PUWdW4dMSeY++1zZnMm0Lmi1yhnmF9/3N0nx5
+         StyDDl6UHLpXZCXvlVH2eM8lYczDBq47d0JLJx6SlQAH7AWFBi0IE7K+BAGUcClVOFoZ
+         00fohMlCNX8D57AqZ7gQcN1nZMOi5HfTv//ADSLzsTUWV5LRn2XWVY2Q6aaXagMAA7Je
+         v59Cqy3v5TTk1hcSol1vVjDIzv+8pO1BnxyPFnqnMjwa9ZdZoxVbZsTevUHtwbqQQz0m
+         qXBw==
+X-Gm-Message-State: AOJu0YwSKMvNeBWD28CPjTlQx1twHsqvuO4ls7xvhRwC3sXTfhjHGGwz
+	AJ4pEwNTivBZV+GlJMvld3oz4Z1Y75hLzzqtQrHwEnsseAwBMAQ1
+X-Google-Smtp-Source: AGHT+IHneKY28akKgeh99hGMgqPeegi0IkCHriXda5ohhgTZXIyUj6soZR3PzKjCsPzIy1N/nVPTLg==
+X-Received: by 2002:a2e:8884:0:b0:2d0:a0be:89a3 with SMTP id k4-20020a2e8884000000b002d0a0be89a3mr2806850lji.46.1707129824659;
+        Mon, 05 Feb 2024 02:43:44 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCXUGjXreYc8x/XVDSYGGtBazxnHEQBTjsFvvN9zwYVXm/HjwpPMb+51DQ+RJIkEyQGXTy7gDLUaPXalGjM/2y9CJP3pW4KKLoN8iANConHpNlPc9A8oRuPhHMdV5XKe0G/eTTFj9gOhGM38kxt8R22MtR5ghfkwGm1X7esVrhtC7+bHtms=
+Received: from pevik (gw1.ms-free.net. [185.243.124.10])
+        by smtp.gmail.com with ESMTPSA id ck9-20020a0564021c0900b0056007548c9csm2965237edb.48.2024.02.05.02.43.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Feb 2024 02:43:44 -0800 (PST)
+Date: Mon, 5 Feb 2024 11:43:42 +0100
+From: Petr Vorel <petr.vorel@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	openembedded-core@lists.openembedded.org,
+	Daniel =?iso-8859-2?Q?D=EDaz?= <daniel.diaz@linaro.org>,
+	Khem Raj <raj.khem@gmail.com>
+Subject: Re: [OE-core] [PATCH 1/1] ltp: Update to 20240129
+Message-ID: <20240205104342.GB166229@pevik>
+Reply-To: Petr Vorel <petr.vorel@gmail.com>
+References: <20240131183243.30223-1-petr.vorel@gmail.com>
+ <202402021507535468a87c@mail.local>
+ <20240203235247.GA163430@pevik>
+ <c6b68e4d96108645ffcfdac875e6081c57bdf7a1.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: v62minD-HOWpmkrTbBPy4rKn3fINpwv7
-X-Proofpoint-GUID: v62minD-HOWpmkrTbBPy4rKn3fINpwv7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-05_04,2024-01-31_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 phishscore=0
- bulkscore=0 mlxlogscore=648 impostorscore=0 adultscore=0
- priorityscore=1501 lowpriorityscore=0 spamscore=0 mlxscore=0
- suspectscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2401310000 definitions=main-2402050068
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c6b68e4d96108645ffcfdac875e6081c57bdf7a1.camel@linuxfoundation.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 Feb 2024 09:01:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194923
+ <openembedded-core@lists.openembedded.org>; Mon, 05 Feb 2024 10:43:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194925
 
-From: Robert Yang <liezhi.yang@windriver.com>
+> Hi Petr,
 
-* Git log
-948ae97 Update copyright years
-471d814 config.sub: recognize nanoMIPS CPUs
-ee6ea2f config.guess: recognize ironclad OS
-5e2f254 config.sub: recognize ironclad OS
-0e4a5b3 config.sub: recognize *-*-uefi
-d21518c Recognize the VideoCore 4 processor
-a9a369e config.guess: detect LLVM-libc via features.h
-5b83c2f config.sub: add LLVM-libc support
+> On Sun, 2024-02-04 at 00:52 +0100, Petr Vorel wrote:
+> > Hi Alexandre, all,
 
-The PV 20240101 is from SRCREV 948ae97ca5703224bd3eada06b7a69f40dd15a02.
+> > > On 31/01/2024 19:32:43+0100, Petr Vorel wrote:
+> > > > Removed patch accepted upstream as
+> > > > 8c53cc947 ("testcases/kernel/syscalls/fcntl: define _LARGEFILE64_SOURCE")
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-devtools/gnu-config/gnu-config_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> > > > Rebase runtest/mm patch.
 
-diff --git a/meta/recipes-devtools/gnu-config/gnu-config_git.bb b/meta/recipes-devtools/gnu-config/gnu-config_git.bb
-index 718f798a00e..f9d864b9876 100644
---- a/meta/recipes-devtools/gnu-config/gnu-config_git.bb
-+++ b/meta/recipes-devtools/gnu-config/gnu-config_git.bb
-@@ -9,8 +9,8 @@ DEPENDS:class-native = "hostperl-runtime-native"
- 
- INHIBIT_DEFAULT_DEPS = "1"
- 
--SRCREV = "28ea239c53a2d5d8800c472bc2452eaa16e37af2"
--PV = "20231127+git"
-+SRCREV = "948ae97ca5703224bd3eada06b7a69f40dd15a02"
-+PV = "20240101+git"
- 
- SRC_URI = "git://git.savannah.gnu.org/git/config.git;protocol=https;branch=master \
-            file://gnu-configize.in"
--- 
-2.43.0
+> > > > Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
+> > > > ---
+> > > > Hi Richard, Daniel, Khem,
 
+> > > > could anybody please test this update if build (it should).
+
+> > > > Also, it'd be good nice to rerun proc01 -m 128 and report me with the
+> > > > details, maybe we can fix it. If still problematic, it'd be nice to turn
+> > > > disable_hanging_tests.patch into proper git patch (makes rebasing patch
+> > > > on new LTP version easier).
+
+> > > This fails on the autobuilders:
+
+> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/95/builds/5957/steps/12/logs/stdio
+> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/96/builds/5917/steps/12/logs/stdio
+
+
+> > Thanks for testing this, you probably mean the warning before python stack trace:
+
+> > scp: /opt/ltp/results/connectors: No such file or directory
+> > WARNING: core-image-sato-1.0-r0 do_testimage: File could not be copied. Output: scp: /opt/ltp/results/connectors: No such file or directory
+
+> > The problem is not due packaging, but simply runtest/connectors was removed [1],
+> > thus your tooling has to be fixed not to expect it (not trying to run it).
+> > I'm sorry, we sometimes do cleanup which brings incompatibility issue
+> > (here it did not make sense to start SUT just for single test, thus we moved the
+> > test to runtest/kernel_misc).
+
+> I did try again with that removed:
+
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/96/builds/5929/steps/12/logs/stdio
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/95/builds/5968/steps/12/logs/stdio
+
+> which comes down to:
+
+> scp: /opt/ltp/results/fsx: No such file or directory
+
+> so I'll remove that and try again.
+
+> Are there any additions we should be considering too? This all feels a
+> little fragile so I'm wondering if we should be reworking the way we
+> handle this?
+
+I forget that also this one was removed in fb2b6a0b3 ("fs: Remove fsx runtest
+suite") [1], therefore not a real error.
+
+Kind regards,
+Petr
+
+[1] https://github.com/linux-test-project/ltp/commit/fb2b6a0b3c840aa80229acf4360b7bdc3ced5edb
+
+> Cheers,
+
+> Richard
 
