@@ -1,264 +1,340 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <joel.winarske@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25F04C48292
-	for <webhook@archiver.kernel.org>; Mon,  5 Feb 2024 17:45:28 +0000 (UTC)
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com (EUR04-DB3-obe.outbound.protection.outlook.com [40.107.6.85])
- by mx.groups.io with SMTP id smtpd.web11.310.1707155119430680703
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 583DCC48292
+	for <webhook@archiver.kernel.org>; Mon,  5 Feb 2024 18:09:48 +0000 (UTC)
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+ by mx.groups.io with SMTP id smtpd.web11.1013.1707156583707949370
  for <Openembedded-core@lists.openembedded.org>;
- Mon, 05 Feb 2024 09:45:19 -0800
+ Mon, 05 Feb 2024 10:09:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=ZVJb7N7v;
- spf=pass (domain: siemens.com, ip: 40.107.6.85, mailfrom: peter.marko@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WYrEccFdRHfHbyadHN9YZqGh3a9NYlqjKwV+IqF+1AMXhL8EygodQB+6VRjBhfcYMXQCX0wQjRy98yHLP5gE2es7gcAeaLwRrHeh7XoH8Pt+MzpT90D8nNMgcTPQuqEa3s+IB4kg66wg7PXyYOGZZ8f2OjS25tfn/Zj6U/sYj/eBjq5FhesdDrX1dHV7ZfoPNDIsJypnA8BuhuScANJiKSmOZWK+ed7f/XjEP50RKcXFpHM2/+cUkgRSjIo5ZJKyzKCkEoy03AYsz1GVXM0kIGzKeCDVq+m6JFeru84U+IOp7rEtrpyCU4ne3b+Wcc8xapicmOcNmbr8SwqaxFDe+Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=E3dxlYi95Hn4igDwPJFaNMXaZodDTImXf08ERKxf2zo=;
- b=UQJrRqf3o9O61BhXwH3DHtFr+WCZ/r660b/sA+tj7Jswa3KvomM/YbCmXzpNoHyt0Np+ciYY1nPtS6ern5QfFgjpeacCL+KPFOL80qq7PL1kQg/W9rV/OoYrP8Pfneyo3IGBR/wt9LJ9IpcWYdfbGYUa8qZYQQ1h8aYiORmUZgToakL+XnFUv2YtXEYTlF5dwHRTUKw5ISqk3JPEmSIDvjQ36Ax4ApWcVPO4s7NYawL0bwS+t6ARp2t0TjLmSDsT0jylHp/gPjenUFvITvESIggZqfzQk0UaRpgONJpwW4HdXcMO1ciNSWDB5AgXARCBd6E2HCzdnfq7gy/3Ov/q3g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=E3dxlYi95Hn4igDwPJFaNMXaZodDTImXf08ERKxf2zo=;
- b=ZVJb7N7vpRJ7+OEzd5tHBQIx4VTpKYbycfFFhtYluT+rSgUnGXN5QW+w2zgQaHIn3KZikkgo6kz1wJ2VnmmF11cn4RJGCZFhkN6W5Ojochr07/4G4wgLNPUxn1dQvIAXkUjmD0h2FMIEbeRfXcDg36Sg9OEn4XUwL49KJXpBqqcy5GbSvRc5+4jSzsC9bNE/jyasQ0wJUqFD7g6l+zzbLTkO6pbmFG4vHJn04Mn/YVhTerxkp3WRYu2lskS+vN3oI6kB5GShhtZlmx6iaebjEVcX8zEf2nZC9JPx33AyhXaqqeohAcXEzdb0c2Yxz/wnrCKiA0vm06ZOhZSMSQMnnw==
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
- by DU0PR10MB6804.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:47b::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.34; Mon, 5 Feb
- 2024 17:45:16 +0000
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::c496:afda:bc34:6b5e]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::c496:afda:bc34:6b5e%7]) with mapi id 15.20.7249.032; Mon, 5 Feb 2024
- 17:45:14 +0000
-From: "Marko, Peter" <Peter.Marko@siemens.com>
-To: "joel.winarske@gmail.com" <joel.winarske@gmail.com>
-CC: OE-core <Openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] do_unpack[depends] behavior
-Thread-Topic: [OE-core] do_unpack[depends] behavior
-Thread-Index: AQHaWFjlnvd4WLrzGEOUjyanJ2iCWbD8BK0Q
-Date: Mon, 5 Feb 2024 17:45:14 +0000
-Message-ID: 
- <AS1PR10MB5697FD1577DCA729C3B9FB0AFD472@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-References: 
- <CABKMkP+ZA5byxRODV+BKdr_oNy=jXZnL9EoV74bM8VOv7tJuKA@mail.gmail.com>
-In-Reply-To: 
- <CABKMkP+ZA5byxRODV+BKdr_oNy=jXZnL9EoV74bM8VOv7tJuKA@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=ed9917b2-be69-4b42-bd54-cf8f84c84b94;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2024-02-05T17:42:28Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|DU0PR10MB6804:EE_
-x-ms-office365-filtering-correlation-id: a67c354f-639e-4bda-0c32-08dc26723570
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- d9oiX3lIUgcmsILZv2IJaB3iki+c3fygsyDMUt8cw6nT6jWLPNPxj33atgwrPnjfuARYnqFmpaFHdLaXauvFb1O33KKdjftdUqBP/oV6tZfSvloFvj93pU/K2dZsrIQWr/FQOk2kIGuOlswRLh3e+5j8vaALBQwiVQKjSGtku/S+u/FHhlf8Ddnl0BUnSOk/h3Rzx/Ty4IGoUy/nzQG88M8FLp6PbV9m+0XYd2pyiDhWcWEOq53lFve+miNsEcfBD+6rLMyW9ffMOhcoflHzc4nlOIjjEJlb/HVUbwe1pcWPe1kt1anFXzrfo6NlCcG/owfXm4cWe6uhoOFw1yYB2KMxzzbbIo+HMg8yH1mxQvBDdMQchKChIrJAVOCYUm7OEpY/06q1r6B99TBI93nEDKsSo6mda1n+AqUDIlDsIUI/AMYjzLUD9NMrpe72QNACNjZVXoqliKXMWDhE+PcllKLjpukGyqeZCFX+bc/DPR/scWof5kvfV2VqIMwDuCnh/wOIg4VlOcYYvI9ApPf6ZKeviHSTlnEteF5IdPQrG4eAB9LUlw6dkIPIoWF9uWUn/whw9fNI8pbgTE0AhHjwgpSELPFavCrvrXacscN8BMM=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(366004)(396003)(376002)(346002)(136003)(230922051799003)(1800799012)(64100799003)(186009)(451199024)(41300700001)(26005)(86362001)(966005)(5660300002)(2906002)(478600001)(38070700009)(66446008)(64756008)(66476007)(6916009)(66556008)(66946007)(76116006)(8936002)(8676002)(4326008)(52536014)(9686003)(71200400001)(6506007)(7696005)(53546011)(33656002)(55236004)(316002)(122000001)(55016003)(166002)(82960400001)(38100700002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?cjlseUZoUVBtVFduMGpqMWppVkV5SUVNU2xvQVYzREd4YlhQRWs2SFB3OS9I?=
- =?utf-8?B?Sms2K2lLMWlIQ0ZVenJQUjVHd0R6ZXVld09xdVovRmgyYXR1cCswYzFYeFhS?=
- =?utf-8?B?YXJkTTRMVjJodUFQcjdJK2J0MGZvUWRXaDlpODFuWEgwVnVqSkg2MUhXVjQ5?=
- =?utf-8?B?eEdEMHh1RjRSbGpJQklYa2dMR1Q1R2FIek1PQ0xXanBUaUtRR0lydmQxYUZC?=
- =?utf-8?B?aFBXMnRDQmIvTnMxdE03S0hFZFV5Qk96OHNQb1M5Vk5XNFprcUVnN2dkOFpN?=
- =?utf-8?B?K1pGU2p6ZnpFQWI3b01veWQxOXJxOGJSYzdIY08xbmlsdGJ1VUdCVC9wL2FO?=
- =?utf-8?B?bkh6N043Y21iWTM1aXN1VEN0YStIWlYyL3F3STlyT2tWZG50SEJzdnhDNlV4?=
- =?utf-8?B?a2syVnF3M085VHoyYWZYYkErQ2xxUkc4M1NncWxlQmRGQWlNQXhyZkN0UUQx?=
- =?utf-8?B?QjFwK3VEVy9ScnlzdENhKzlobDJPRGZ6eDdoTGZ1VVVVZE5tTGtjVDRjc0t6?=
- =?utf-8?B?UDIwSEFiOTdRSHZJYUZIb0dwUU5oTDduek5nRzliRks1bE1DR3JOdmNuUGhQ?=
- =?utf-8?B?M3FhNCtlZG1FZFdoTDZlQ2xxanBja3hUTmJRYnllL3I2M1RzTkRRaFA1SUxw?=
- =?utf-8?B?akx3bEZxVmg2QmR0NVFYbHAwaXRJeXFBb25STHk3YUZrc0lmQUlYVjUrdTRp?=
- =?utf-8?B?U0ZUc0VGL3E5dFJoWldVR0pLSU5Oc1ZPOTE4RVFINm5tb2pKVjgyeitzVUtx?=
- =?utf-8?B?RlBITGNJQXU3Y1AvWDgyeHZVRml1RG9UcTJoRWhvUnNlSnBBM1NmdkRMUVh6?=
- =?utf-8?B?MUttbVUxY3NITDMzOFF1Qmc3alJEWGpqVm42L01wcUZmMzY2bm1BUVhFUzlr?=
- =?utf-8?B?cTFzSXlmSHhxZGpMcTh4L0ZSOUQ5amphMUlzejRnQklvTkNZUHVuOHBFWXBt?=
- =?utf-8?B?V0hVSExyQi9KUTV2YURENXJ0WUYwUFVYaHpJRFZURDlwRzBSR3VnbGNKd01G?=
- =?utf-8?B?T0hDSzliS091RDk3RHBDZmdZL3hpUnZCSGRwNXR4K2o0bnpIU1R3YSs3ZVpO?=
- =?utf-8?B?L1NYNlRpRnUyZThDVmtTbTlVQ0h4dS9QMUdOeU5vSmFsZDU5R3NtN0pFTUtq?=
- =?utf-8?B?U2pKQW54cGcrQW5zV1FIa0M2Q091ODROUGYzNGEzY3BiaERYSExKYlhRdWJM?=
- =?utf-8?B?WjZ5RTJYTXcrS0oza0M1TGhZOXR2ekNJaFFQUnM0S1RaTWM4ajlBU0poTXBo?=
- =?utf-8?B?eWszN2Y3L1l6YlV1b3FrT2pPa09GUnJXN0VZNEhpYnF2VXg4MUUzYjhaajBK?=
- =?utf-8?B?Qy83eEpiZElaeEpYR3p6R1V5cVNjekdOTkxrR29tOEFyblFuaDlzQU9QWjla?=
- =?utf-8?B?VHdpODVOR0cwMjAxNU5yK1JRQ3MzMjdzRmhHanhJaGM1YUN1V0pkR21TRk9T?=
- =?utf-8?B?YzJyWkU3RGhwdUJLQTFVL21qa3gyRTUrQ0o2alE1QXgrREZ0clYzai9LZ0F6?=
- =?utf-8?B?LzArMy9rYUpNcGRtMEF5cTVwc0VoWlVTMUV0TXJKVDljcWZHMUEwZWJVWkZn?=
- =?utf-8?B?dkpoUVFMZ3B4SnJNczU3em5rOG1ic0tVdi9Fd0Q2ekc0L3NDSERWSm1MVllr?=
- =?utf-8?B?WG9JeWRyVmIvTHNtZDZDbDVWVGIweWhSV1Q0Zy96Rzg3MGdieWEvYmZObHln?=
- =?utf-8?B?aWU5aEQ4R1VuUWNZNys3QThhTTlQNVEzWE5abm1hTzlLZEdOK1FhNnJGRlk5?=
- =?utf-8?B?NnRSeFkvdTJ1eG9oaU4rcjJtTEg4NHdRSkhFTWd0eWJuWm9wcEUwYXo4NkFk?=
- =?utf-8?B?Y0lVa1VGUk8zRWZCVjJ3RnhYQmI2bmUwSWtwRmhqbTd4bk9TUWhkYWg4TVJw?=
- =?utf-8?B?TEtCQWtPdWJ6amlhR2Z3eXhIV0Rsd1pSL1pvUUFBbzFoOTF0SVJzSFlrbEo4?=
- =?utf-8?B?S0VGR2dpekwzZW9kSVd2T0ErVjhNeHcxU3pkN0QwM2FSQ21OK05DZTR4am1l?=
- =?utf-8?B?SVA5SUNwTmFJMzlZRGppUE1CYnNxWHFTMUpDRWNoMEs0SXJLQmVBZ0JRWkVj?=
- =?utf-8?B?aFF4ck43K1YvQlhKUVJoZGxXMnl5VWh3VTVXQzhPUXlsTUlVdEd2aHBnd1d0?=
- =?utf-8?Q?Uuhtcv4McS38p4wmX11BAoq4F?=
-Content-Type: multipart/alternative;
-	boundary="_000_AS1PR10MB5697FD1577DCA729C3B9FB0AFD472AS1PR10MB5697EURP_"
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=WMZTryws;
+ spf=pass (domain: gmail.com, ip: 209.85.215.170, mailfrom: joel.winarske@gmail.com)
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-5ca29c131ebso4325701a12.0
+        for <Openembedded-core@lists.openembedded.org>; Mon, 05 Feb 2024 10:09:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707156583; x=1707761383; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=PIie6bgNXFvIBfx7b/Fm/ZyOZb4RKsXvepnAhIfplC0=;
+        b=WMZTrywsyoJW5+jcG4YZAMkDGBtKcDNwMsGNezclH4ago5EI9wrPI6SIv0Ru4Od4Tm
+         a1Oh04ZAdoLysvD4dg1xEMfiOZv6oUii0Etf7/QAka18qBFy1fllvp1HMMPDv7NTVv3W
+         3qWVutOi0XaZZzMV3FGQyZTYxd2OLgxriYoK30UXuRiehbEt8MkfnZCJN7ZSJMk2s4bj
+         h/GWHAXmoKh6QqziL5y0dvllaAWoJTtcjTcgbbAAYoh9BZwUaBsQxce9h1alKp0u7Ffq
+         Ma83+H4Ua5CkxBWHVH2uO61b5/gl1y2Is1ISmr5nJV+vgkz7SO4s0RYrnuWhixZcQTvn
+         +bXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707156583; x=1707761383;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PIie6bgNXFvIBfx7b/Fm/ZyOZb4RKsXvepnAhIfplC0=;
+        b=YtFnXBIjUuFU1KdLNhhnxVQabr4Hex/aP8sTLwbqrLJbCgNYdPt7Hil/fIN0wnALpR
+         rpsRRKvTKC065ZtEE/e40JeaPpQbUaKQiDE6pHnwsjWJQOq3vgxRlKY4Tl9TCuxu+NLr
+         FZ/wNjfsUXTBR2An1qjbUHRu9a+/hNqEV+C0P7ObM+idpkRCYAS8hy5l41/WOmXjoSvX
+         1RhdAebJ1kyel5rZPqqIK/jLDcykweJcBSAh4YVmhiKNmquw0dK9fPm1GIjV3YkY/Zy3
+         mhYXOcul3IW+TEwU9Vwl2q8ZE+nfuW473iBoxsWHjzIDJF6JOAb01BTfSchr6jM/Yx79
+         rL4A==
+X-Gm-Message-State: AOJu0Yz7LWpb9zF2ze4l9iyMUCQdeRPdlFq70kPyxQCPZB7+24wwyVAN
+	Yd0bA4InRKq/47lavDbFehDdVW4B/67pykGINlgxrEx+CxsrX/6B/DPgcFlNlY5SCxj3iOnlwaQ
+	akgey0tA4vOm/6fWPY2VQN7MSxXE=
+X-Google-Smtp-Source: AGHT+IHLiQpzbMiLk0bJAEWTi1J9hJrUFVT/EUbzX7n+rFYgs+W+9Ad0n/owXMtT6EcCVBW7rXa3Cxx3YUtx8GP8q5Q=
+X-Received: by 2002:a05:6a20:9186:b0:19a:112e:89dc with SMTP id
+ v6-20020a056a20918600b0019a112e89dcmr284814pzd.62.1707156583039; Mon, 05 Feb
+ 2024 10:09:43 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: a67c354f-639e-4bda-0c32-08dc26723570
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Feb 2024 17:45:14.3984
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: esRiC3+/FzAxKyjiCrsMd8IU3ti7GSKPrB1tj+5f1ULaiPhmrRPNLftGVmIlFb85CGrVh+qhL9Pqp7qqDnhYkg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR10MB6804
+References: <CABKMkP+ZA5byxRODV+BKdr_oNy=jXZnL9EoV74bM8VOv7tJuKA@mail.gmail.com>
+ <AS1PR10MB5697FD1577DCA729C3B9FB0AFD472@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+In-Reply-To: <AS1PR10MB5697FD1577DCA729C3B9FB0AFD472@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+From: Joel Winarske <joel.winarske@gmail.com>
+Date: Mon, 5 Feb 2024 10:09:32 -0800
+Message-ID: <CABKMkP+UcA_cuTnqMyoT3e0BrHz3yA90Bcux7PzJZZQvy1pP-A@mail.gmail.com>
+Subject: Re: [OE-core] do_unpack[depends] behavior
+To: "Marko, Peter" <Peter.Marko@siemens.com>
+Cc: OE-core <Openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000b54af50610a65d2e"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 05 Feb 2024 17:45:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194961
+ <openembedded-core@lists.openembedded.org>; Mon, 05 Feb 2024 18:09:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194962
 
---_000_AS1PR10MB5697FD1577DCA729C3B9FB0AFD472AS1PR10MB5697EURP_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+--000000000000b54af50610a65d2e
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-WW91IG5lZWQgdG8gZGVwZW5kIG9uIGRvX3BvcHVsYXRlX3N5c3Jvb3QgdGFza3MsIG5vdCBkb19w
-cmVwYXJlX3JlY2lwZV9zeXNyb290IHRhc2tz4oCmDQpQZXRlcg0KDQpGcm9tOiBvcGVuZW1iZWRk
-ZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5v
-cGVuZW1iZWRkZWQub3JnPiBPbiBCZWhhbGYgT2YgSm9lbCBXaW5hcnNrZSB2aWEgbGlzdHMub3Bl
-bmVtYmVkZGVkLm9yZw0KU2VudDogTW9uZGF5LCBGZWJydWFyeSA1LCAyMDI0IDE4OjI5DQpUbzog
-T0UtY29yZSA8T3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4NClN1Ympl
-Y3Q6IFtPRS1jb3JlXSBkb191bnBhY2tbZGVwZW5kc10gYmVoYXZpb3INCg0KSSdtIHdvcmtpbmcg
-d2l0aCBraXJrc3RvbmUgYW5kIHNlZWluZyBzb21lIHNlZW1pbmdseSBpbmNvcnJlY3QgYmVoYXZp
-b3IuDQoNClRoZSBpc3N1ZSByZXZvbHZlcyBhcm91bmQgZG9fdW5wYWNrLg0KDQpgYGANCiAgICBk
-b191bnBhY2tbbmV0d29ya10gPSAiMSINCiAgICBweXRob24gZG9fdW5wYWNrOmFwcGVuZCgpIHt9
-DQpgYGANCg0KV2l0aCB0aGUgYWJvdmUgSSBkZXBlbmRpbmcgb24gdGhlIGhvc3QgbWFjaGluZSBj
-b3JlIGNvdW50IEkgbWF5IHNlZSBhbiBlcnJvciB3aGVyZSBvbmUgb2YgdGhlIGRlZmluZWQgREVQ
-RU5ERU5UIHJlY2lwZXMgaXMgbm90IGZvdW5kOyBjdXJsLW5hdGl2ZSBpbiB0aGlzIGNhc2UuDQoN
-CldpdGggdGhpcyBjaGFuZ2U6DQpgYGANCiAgICBkb191bnBhY2tbbmV0d29ya10gPSAiMSINCiAg
-ICBkb191bnBhY2tbZGVwZW5kc10gKz0gIiBcDQogICAgICAgIGNhLWNlcnRpZmljYXRlcy1uYXRp
-dmU6ZG9fcHJlcGFyZV9yZWNpcGVfc3lzcm9vdCBcDQogICAgICAgIGN1cmwtbmF0aXZlOmRvX3By
-ZXBhcmVfcmVjaXBlX3N5c3Jvb3QgXA0KICAgICAgICBuaW5qYS1uYXRpdmU6ZG9fcHJlcGFyZV9y
-ZWNpcGVfc3lzcm9vdCBcDQogICAgICAgIHVuemlwLW5hdGl2ZTpkb19wcmVwYXJlX3JlY2lwZV9z
-eXNyb290IFwNCiAgICAiDQogICAgcHl0aG9uIGRvX3VucGFjazphcHBlbmQoKSB7fQ0KYGBgDQpJ
-IHdvdWxkIGV4cGVjdCB0byBzZWUgY3VybC1uYXRpdmUgY29tcGxldGUgcHJpb3IgdG8gbXkgZG9f
-dW5wYWNrIHJ1bm5pbmcuICBUaGUgYXR0YWNoZWQgc2NyZWVuIGluZGljYXRlcyBvdGhlcndpc2Uu
-DQoNCklmIEkgZHJvcCB0aGUgYnVpbGQgZG93biB0byB1bmktcHJvYyB1c2luZzoNCmBgYA0KICAg
-IFBBUkFMTEVMX01BS0UgPSAiLWogMSINCiAgICBCQl9OVU1CRVJfVEhSRUFEUyA9ICIxIg0KYGBg
-DQpUaGUgcmVjaXBlcyBnZXQgc2VyaWFsaXplZCBhcyBleHBlY3RlZC4NCg0KSXMgdGhpcyBhIGJ1
-Zywgb3IgYW4gaW1wbGVtZW50YXRpb24gaXNzdWU/DQoNClJlY2lwZSBpbiBxdWVzdGlvbjoNCmh0
-dHBzOi8vZ2l0aHViLmNvbS9tZXRhLWZsdXR0ZXIvbWV0YS1mbHV0dGVyL2Jsb2Iva2lya3N0b25l
-L3JlY2lwZXMtZ3JhcGhpY3MvZmx1dHRlci1zZGsvZmx1dHRlci1zZGtfZ2l0LmJiDQoNClRoYW5r
-cywNCkpvZWwNCg0K
+That was it.  Thanks Peter!
 
---_000_AS1PR10MB5697FD1577DCA729C3B9FB0AFD472AS1PR10MB5697EURP_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+On Mon, Feb 5, 2024 at 9:45=E2=80=AFAM Marko, Peter <Peter.Marko@siemens.co=
+m> wrote:
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
-IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCglmb250LXNpemU6MTEuMHB0Ow0KCWZvbnQt
-ZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsN
-Cgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0aW9u
-OnVuZGVybGluZTt9DQpzcGFuLkVtYWlsU3R5bGUxOA0KCXttc28tc3R5bGUtdHlwZTpwZXJzb25h
-bC1yZXBseTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsc2Fucy1zZXJpZjsNCgljb2xvcjp3aW5k
-b3d0ZXh0O30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHlsZS10eXBlOmV4cG9ydC1vbmx5Ow0K
-CWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0K
-CXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4gMS4waW4gMS4waW4gMS4waW47fQ0K
-ZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9uMTt9DQotLT48L3N0eWxlPjwhLS1b
-aWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0cyB2OmV4dD0iZWRpdCIgc3BpZG1h
-eD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0K
-PG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRtYXAgdjpleHQ9ImVkaXQiIGRhdGE9
-IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5kaWZdLS0+DQo8L2hlYWQ+DQo8Ym9k
-eSBsYW5nPSJFTi1VUyIgbGluaz0iYmx1ZSIgdmxpbms9InB1cnBsZSIgc3R5bGU9IndvcmQtd3Jh
-cDpicmVhay13b3JkIj4NCjxkaXYgY2xhc3M9IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNv
-Tm9ybWFsIj5Zb3UgbmVlZCB0byBkZXBlbmQgb24gZG9fcG9wdWxhdGVfc3lzcm9vdCB0YXNrcywg
-bm90IGRvX3ByZXBhcmVfcmVjaXBlX3N5c3Jvb3QgdGFza3PigKY8bzpwPjwvbzpwPjwvcD4NCjxw
-IGNsYXNzPSJNc29Ob3JtYWwiPlBldGVyPG86cD48L286cD48L3A+DQo8cCBjbGFzcz0iTXNvTm9y
-bWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRl
-ci10b3A6c29saWQgI0UxRTFFMSAxLjBwdDtwYWRkaW5nOjMuMHB0IDBpbiAwaW4gMGluIj4NCjxw
-IGNsYXNzPSJNc29Ob3JtYWwiPjxiPkZyb206PC9iPiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5v
-cGVuZW1iZWRkZWQub3JnICZsdDtvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQu
-b3JnJmd0Ow0KPGI+T24gQmVoYWxmIE9mIDwvYj5Kb2VsIFdpbmFyc2tlIHZpYSBsaXN0cy5vcGVu
-ZW1iZWRkZWQub3JnPGJyPg0KPGI+U2VudDo8L2I+IE1vbmRheSwgRmVicnVhcnkgNSwgMjAyNCAx
-ODoyOTxicj4NCjxiPlRvOjwvYj4gT0UtY29yZSAmbHQ7T3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMu
-b3BlbmVtYmVkZGVkLm9yZyZndDs8YnI+DQo8Yj5TdWJqZWN0OjwvYj4gW09FLWNvcmVdIGRvX3Vu
-cGFja1tkZXBlbmRzXSBiZWhhdmlvcjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8cCBjbGFzcz0i
-TXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9
-Ik1zb05vcm1hbCI+SSdtIHdvcmtpbmcgd2l0aCBraXJrc3RvbmUgYW5kIHNlZWluZyBzb21lIHNl
-ZW1pbmdseSBpbmNvcnJlY3QgYmVoYXZpb3IuPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+
-DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRp
-dj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPlRoZSBpc3N1ZSByZXZvbHZlcyBhcm91bmQgZG9fdW5w
-YWNrLjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
-PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
-Ij5gYGA8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
-PiZuYnNwOyZuYnNwOyZuYnNwOyBkb191bnBhY2tbbmV0d29ya10gPSAmcXVvdDsxJnF1b3Q7PG86
-cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4mbmJzcDsm
-bmJzcDsmbmJzcDsgcHl0aG9uIGRvX3VucGFjazphcHBlbmQoKSB7fTxvOnA+PC9vOnA+PC9wPg0K
-PC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+YGBgPG86cD48L286cD48L3A+DQo8
-L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4N
-CjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPldpdGggdGhlIGFib3ZlIEkgZGVw
-ZW5kaW5nIG9uIHRoZSBob3N0IG1hY2hpbmUgY29yZSBjb3VudCBJIG1heSBzZWUgYW4gZXJyb3Ig
-d2hlcmUgb25lIG9mIHRoZSBkZWZpbmVkIERFUEVOREVOVCByZWNpcGVzIGlzIG5vdCBmb3VuZDsg
-Y3VybC1uYXRpdmUgaW4gdGhpcyBjYXNlLjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0K
-PHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+
-DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5XaXRoIHRoaXMgY2hhbmdlOjxvOnA+PC9vOnA+PC9wPg0K
-PC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+YGBgPG86cD48L286cD48L3A+DQo8
-L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4mbmJzcDsmbmJzcDsmbmJzcDsgZG9f
-dW5wYWNrW25ldHdvcmtdID0gJnF1b3Q7MSZxdW90OzxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8
-ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Jm5ic3A7Jm5ic3A7Jm5ic3A7IGRvX3VucGFja1tk
-ZXBlbmRzXSArPSAmcXVvdDsgXDxicj4NCiZuYnNwOyZuYnNwOyZuYnNwOyAmbmJzcDsgJm5ic3A7
-IGNhLWNlcnRpZmljYXRlcy1uYXRpdmU6ZG9fcHJlcGFyZV9yZWNpcGVfc3lzcm9vdCBcPGJyPg0K
-Jm5ic3A7Jm5ic3A7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgY3VybC1uYXRpdmU6ZG9fcHJlcGFyZV9y
-ZWNpcGVfc3lzcm9vdCBcPGJyPg0KJm5ic3A7Jm5ic3A7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgbmlu
-amEtbmF0aXZlOmRvX3ByZXBhcmVfcmVjaXBlX3N5c3Jvb3QgXDxicj4NCiZuYnNwOyZuYnNwOyZu
-YnNwOyAmbmJzcDsgJm5ic3A7IHVuemlwLW5hdGl2ZTpkb19wcmVwYXJlX3JlY2lwZV9zeXNyb290
-IFw8YnI+DQombmJzcDsmbmJzcDsmbmJzcDsgJnF1b3Q7PG86cD48L286cD48L3A+DQo8L2Rpdj4N
-CjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4mbmJzcDsmbmJzcDsmbmJzcDsgcHl0aG9uIGRv
-X3VucGFjazphcHBlbmQoKSB7fTxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xh
-c3M9Ik1zb05vcm1hbCI+YGBgPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFz
-cz0iTXNvTm9ybWFsIj5JIHdvdWxkIGV4cGVjdCB0byBzZWUgY3VybC1uYXRpdmUgY29tcGxldGUg
-cHJpb3IgdG8gbXkgZG9fdW5wYWNrIHJ1bm5pbmcuJm5ic3A7IFRoZSBhdHRhY2hlZCBzY3JlZW4g
-aW5kaWNhdGVzIG90aGVyd2lzZS48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNs
-YXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAg
-Y2xhc3M9Ik1zb05vcm1hbCI+SWYgSSBkcm9wIHRoZSBidWlsZCBkb3duIHRvIHVuaS1wcm9jIHVz
-aW5nOjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29O
-b3JtYWwiPmBgYDxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05v
-cm1hbCI+Jm5ic3A7ICZuYnNwOyBQQVJBTExFTF9NQUtFID0gJnF1b3Q7LWogMSZxdW90Ozxicj4N
-CiZuYnNwOyAmbmJzcDsgQkJfTlVNQkVSX1RIUkVBRFMgPSAmcXVvdDsxJnF1b3Q7PG86cD48L286
-cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5gYGA8bzpwPjwvbzpw
-PjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPlRoZSByZWNpcGVzIGdl
-dCBzZXJpYWxpemVkIGFzIGV4cGVjdGVkLjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0K
-PHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjwvZGl2
-Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+SXMgdGhpcyBhIGJ1Zywgb3IgYW4gaW1wbGVtZW50YXRp
-b24gaXNzdWU/PG86cD48L286cD48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3Jt
-YWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNz
-PSJNc29Ob3JtYWwiPlJlY2lwZSBpbiBxdWVzdGlvbjo8YnI+DQo8YSBocmVmPSJodHRwczovL2dp
-dGh1Yi5jb20vbWV0YS1mbHV0dGVyL21ldGEtZmx1dHRlci9ibG9iL2tpcmtzdG9uZS9yZWNpcGVz
-LWdyYXBoaWNzL2ZsdXR0ZXItc2RrL2ZsdXR0ZXItc2RrX2dpdC5iYiIgdGFyZ2V0PSJfYmxhbmsi
-Pmh0dHBzOi8vZ2l0aHViLmNvbS9tZXRhLWZsdXR0ZXIvbWV0YS1mbHV0dGVyL2Jsb2Iva2lya3N0
-b25lL3JlY2lwZXMtZ3JhcGhpY3MvZmx1dHRlci1zZGsvZmx1dHRlci1zZGtfZ2l0LmJiPC9hPjxv
-OnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4m
-bmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5UaGFu
-a3MsPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5K
-b2VsPG86cD48L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1h
-cmdpbi1ib3R0b206MTIuMHB0Ij48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+
-DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
+> You need to depend on do_populate_sysroot tasks, not
+> do_prepare_recipe_sysroot tasks=E2=80=A6
+>
+> Peter
+>
+>
+>
+> *From:* openembedded-core@lists.openembedded.org <
+> openembedded-core@lists.openembedded.org> *On Behalf Of *Joel Winarske
+> via lists.openembedded.org
+> *Sent:* Monday, February 5, 2024 18:29
+> *To:* OE-core <Openembedded-core@lists.openembedded.org>
+> *Subject:* [OE-core] do_unpack[depends] behavior
+>
+>
+>
+> I'm working with kirkstone and seeing some seemingly incorrect behavior.
+>
+>
+>
+> The issue revolves around do_unpack.
+>
+>
+>
+> ```
+>
+>     do_unpack[network] =3D "1"
+>
+>     python do_unpack:append() {}
+>
+> ```
+>
+>
+>
+> With the above I depending on the host machine core count I may see an
+> error where one of the defined DEPENDENT recipes is not found; curl-nativ=
+e
+> in this case.
+>
+>
+>
+> With this change:
+>
+> ```
+>
+>     do_unpack[network] =3D "1"
+>
+>     do_unpack[depends] +=3D " \
+>         ca-certificates-native:do_prepare_recipe_sysroot \
+>         curl-native:do_prepare_recipe_sysroot \
+>         ninja-native:do_prepare_recipe_sysroot \
+>         unzip-native:do_prepare_recipe_sysroot \
+>     "
+>
+>     python do_unpack:append() {}
+>
+> ```
+>
+> I would expect to see curl-native complete prior to my do_unpack running.
+> The attached screen indicates otherwise.
+>
+>
+>
+> If I drop the build down to uni-proc using:
+>
+> ```
+>
+>     PARALLEL_MAKE =3D "-j 1"
+>     BB_NUMBER_THREADS =3D "1"
+>
+> ```
+>
+> The recipes get serialized as expected.
+>
+>
+>
+> Is this a bug, or an implementation issue?
+>
+>
+>
+> Recipe in question:
+>
+> https://github.com/meta-flutter/meta-flutter/blob/kirkstone/recipes-graph=
+ics/flutter-sdk/flutter-sdk_git.bb
+>
+>
+>
+> Thanks,
+>
+> Joel
+>
+>
+>
 
---_000_AS1PR10MB5697FD1577DCA729C3B9FB0AFD472AS1PR10MB5697EURP_--
+--000000000000b54af50610a65d2e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>That was it.=C2=A0 Thanks Peter!</div></div><br><div =
+class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Feb 5, =
+2024 at 9:45=E2=80=AFAM Marko, Peter &lt;<a href=3D"mailto:Peter.Marko@siem=
+ens.com">Peter.Marko@siemens.com</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex"><div class=3D"msg-5356114939750004004">
+
+
+
+
+
+<div lang=3D"EN-US" style=3D"overflow-wrap: break-word;">
+<div class=3D"m_-5356114939750004004WordSection1">
+<p class=3D"MsoNormal">You need to depend on do_populate_sysroot tasks, not=
+ do_prepare_recipe_sysroot tasks=E2=80=A6<u></u><u></u></p>
+<p class=3D"MsoNormal">Peter<u></u><u></u></p>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<div style=3D"border-width:1pt medium medium;border-style:solid none none;b=
+order-color:rgb(225,225,225) currentcolor currentcolor;padding:3pt 0in 0in"=
+>
+<p class=3D"MsoNormal"><b>From:</b> <a href=3D"mailto:openembedded-core@lis=
+ts.openembedded.org" target=3D"_blank">openembedded-core@lists.openembedded=
+.org</a> &lt;<a href=3D"mailto:openembedded-core@lists.openembedded.org" ta=
+rget=3D"_blank">openembedded-core@lists.openembedded.org</a>&gt;
+<b>On Behalf Of </b>Joel Winarske via <a href=3D"http://lists.openembedded.=
+org" target=3D"_blank">lists.openembedded.org</a><br>
+<b>Sent:</b> Monday, February 5, 2024 18:29<br>
+<b>To:</b> OE-core &lt;<a href=3D"mailto:Openembedded-core@lists.openembedd=
+ed.org" target=3D"_blank">Openembedded-core@lists.openembedded.org</a>&gt;<=
+br>
+<b>Subject:</b> [OE-core] do_unpack[depends] behavior<u></u><u></u></p>
+</div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<div>
+<div>
+<p class=3D"MsoNormal">I&#39;m working with kirkstone and seeing some seemi=
+ngly incorrect behavior.<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">The issue revolves around do_unpack.<u></u><u></u></=
+p>
+</div>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">```<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0=C2=A0=C2=A0 do_unpack[network] =3D &quot;1&qu=
+ot;<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0=C2=A0=C2=A0 python do_unpack:append() {}<u></=
+u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">```<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">With the above I depending on the host machine core =
+count I may see an error where one of the defined DEPENDENT recipes is not =
+found; curl-native in this case.<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">With this change:<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">```<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0=C2=A0=C2=A0 do_unpack[network] =3D &quot;1&qu=
+ot;<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0=C2=A0=C2=A0 do_unpack[depends] +=3D &quot; \<=
+br>
+=C2=A0=C2=A0=C2=A0 =C2=A0 =C2=A0 ca-certificates-native:do_prepare_recipe_s=
+ysroot \<br>
+=C2=A0=C2=A0=C2=A0 =C2=A0 =C2=A0 curl-native:do_prepare_recipe_sysroot \<br=
+>
+=C2=A0=C2=A0=C2=A0 =C2=A0 =C2=A0 ninja-native:do_prepare_recipe_sysroot \<b=
+r>
+=C2=A0=C2=A0=C2=A0 =C2=A0 =C2=A0 unzip-native:do_prepare_recipe_sysroot \<b=
+r>
+=C2=A0=C2=A0=C2=A0 &quot;<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0=C2=A0=C2=A0 python do_unpack:append() {}<u></=
+u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">```<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">I would expect to see curl-native complete prior to =
+my do_unpack running.=C2=A0 The attached screen indicates otherwise.<u></u>=
+<u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">If I drop the build down to uni-proc using:<u></u><u=
+></u></p>
+</div>
+<div>
+<div>
+<p class=3D"MsoNormal">```<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0 =C2=A0 PARALLEL_MAKE =3D &quot;-j 1&quot;<br>
+=C2=A0 =C2=A0 BB_NUMBER_THREADS =3D &quot;1&quot;<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">```<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">The recipes get serialized as expected.<u></u><u></u=
+></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+</div>
+<p class=3D"MsoNormal">Is this a bug, or an implementation issue?<u></u><u>=
+</u></p>
+<div>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+<div>
+<div>
+<p class=3D"MsoNormal">Recipe in question:<br>
+<a href=3D"https://github.com/meta-flutter/meta-flutter/blob/kirkstone/reci=
+pes-graphics/flutter-sdk/flutter-sdk_git.bb" target=3D"_blank">https://gith=
+ub.com/meta-flutter/meta-flutter/blob/kirkstone/recipes-graphics/flutter-sd=
+k/flutter-sdk_git.bb</a><u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">Thanks,<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">Joel<u></u><u></u></p>
+<div>
+<p class=3D"MsoNormal" style=3D"margin-bottom:12pt"><u></u>=C2=A0<u></u></p=
+>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div></blockquote></div>
+
+--000000000000b54af50610a65d2e--
 
