@@ -1,99 +1,99 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A938C4829C
-	for <webhook@archiver.kernel.org>; Tue,  6 Feb 2024 19:07:35 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.1527.1707246453569708455
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A3F8C4828D
+	for <webhook@archiver.kernel.org>; Tue,  6 Feb 2024 19:11:45 +0000 (UTC)
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+ by mx.groups.io with SMTP id smtpd.web11.1636.1707246703907063631
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Feb 2024 11:07:34 -0800
+ Tue, 06 Feb 2024 11:11:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=AAlxpYI4;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=W586MoAK;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018d7fd17e31-fa3e20d7-08d6-429a-af4e-716009b42839-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1707246452; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=XN+rMyHQXYz4cPq6D1i88xdMjTAEF7RsvP8G6lME044=;
-	b=AAlxpYI4SdkkczQyadgg3h6xQTpdR1wMAcNKjf4HDSQh5FW97ReZbOmSPS7+bwPr
-	iHxUESeKIoZkVn/eyCuEHM0+T25Q8QWVpFmiDx24SKKUQydPas+TbHQyqNvuyOBHYjW
-	ECMvSKhbWaYQOapsLZl7Q9DwxzmtpOJgCHIdqIuU=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1707246452;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=XN+rMyHQXYz4cPq6D1i88xdMjTAEF7RsvP8G6lME044=;
-	b=W586MoAKTVzcVwaV3wZB0v6l+yn4DxO4B5xtz+8tvxOj0WOygO77n6mVqzVhY99H
-	8shRaViS7VhB9yrLMBzpbOKoJla9g/rVFwwZUp5CeoW5lGiBd7RshedLpZvP/HquFDD
-	g1kPXivHkPkOmPUK6AmNDhf4anzqH/oFKMw2w4PQ=
-From: patchtest@automation.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 1/3] kernel-devsrc: Add needed fixes for 6.1+ kernel build on
- target on RISCV
-In-Reply-To: 20240206184941.748116-1-raj.khem@gmail.com
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018d7fd17e31-fa3e20d7-08d6-429a-af4e-716009b42839-000000@us-west-2.amazonses.com>
-Date: Tue, 6 Feb 2024 19:07:32 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.02.06-54.240.27.193
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=AW4L3zWe;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.198, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 70C66C0008;
+	Tue,  6 Feb 2024 19:11:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1707246702;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=y4fsZH0hCYjczIj/lXizNXBAGVd/xvQ5bIhxbQ+hmgU=;
+	b=AW4L3zWep4NaRyXf3XNQUUvowkp5hV8tcVsjOxWt3We8CsFjQM/3km4OBjRYAwH356K21B
+	ms7W3zCLhPoSByHqanP2QXF9OjQtS+oZErvJT6DCGq3owtzGoWY4NocA+qkjxhzlM2kWIs
+	Ly2ysi5TxGwgOHmq/Jr95uu7kCAXm92S+k70QXRJa9NWA3BAtAdKosFLnKnk1QhAZ+9QUn
+	LrMXUtZckGwIUywu7qC+7xhHo9XNeuB5ugtg7I00XzzBwvPWgDx0Hxr5EOxQwcFCxbuwGh
+	DNwAcyfBFmTEJx/IsUSD8UE793i+1SOjIvINexh7NSpp9pp0AOzbn4Cr5PpWFw==
+Date: Tue, 6 Feb 2024 20:11:42 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: joe.slater@windriver.com
+Cc: openembedded-core@lists.openembedded.org, randy.macleod@windriver.com
+Subject: Re: [oe-core][PATCH 1/1] qemuboot: predictable network interface
+ names
+Message-ID: <202402061911421ea0ded3@mail.local>
+References: <20240205185608.1497595-1-joe.slater@windriver.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240205185608.1497595-1-joe.slater@windriver.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 19:07:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195023
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 19:11:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195024
 
---NextPart
-Content-Type: text/plain
+I'm pretty sure this is the cause of those failures:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/6396/steps/14/logs/stdio
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+On 05/02/2024 10:56:08-0800, Joe Slater via lists.openembedded.org wrote:
+> From: Joe Slater <joe.slater@windriver.com>
+> 
+> Allow interface renaming if 'pni-names' is a distro
+> feature.
+> 
+> We do not add QB_NO_PNI to QB_CMDLINE_IP_SLIRP because
+> renaming was never suppressed for slirp.
+> 
+> Signed-off-by: Joe Slater <joe.slater@windriver.com>
+> ---
+>  meta/classes-recipe/qemuboot.bbclass | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/classes-recipe/qemuboot.bbclass b/meta/classes-recipe/qemuboot.bbclass
+> index ff32aac902..4a2a6f1ef5 100644
+> --- a/meta/classes-recipe/qemuboot.bbclass
+> +++ b/meta/classes-recipe/qemuboot.bbclass
+> @@ -101,8 +101,11 @@ QB_DEFAULT_FSTYPE ?= "ext4"
+>  QB_RNG ?= "-object rng-random,filename=/dev/urandom,id=rng0 -device virtio-rng-pci,rng=rng0"
+>  QB_OPT_APPEND ?= ""
+>  QB_NETWORK_DEVICE ?= "-device virtio-net-pci,netdev=net0,mac=@MAC@"
+> +
+> +QB_NO_PNI ?= "${@bb.utils.contains('DISTRO_FEATURES', 'pni-names', '', 'net.ifnames=0', d)}"
+>  QB_CMDLINE_IP_SLIRP ?= "ip=dhcp"
+> -QB_CMDLINE_IP_TAP ?= "ip=192.168.7.@CLIENT@::192.168.7.@GATEWAY@:255.255.255.0::eth0:off:8.8.8.8 net.ifnames=0"
+> +QB_CMDLINE_IP_TAP ?= "${QB_NO_PNI} ip=192.168.7.@CLIENT@::192.168.7.@GATEWAY@:255.255.255.0::eth0:off:8.8.8.8"
+> +
+>  QB_ROOTFS_EXTRA_OPT ?= ""
+>  QB_GRAPHICS ?= ""
+>  QB_NFSROOTFS_EXTRA_OPT ?= ""
+> -- 
+> 2.25.1
+> 
 
----
-Testing patch /home/patchtest/share/mboxes/1-3-kernel-devsrc-Add-needed-fixes-for-6.1-kernel-build-on-target-on-RISCV.patch
-
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
-
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#194963): https://lists.openembedded.org/g/openembedded-core/message/194963
+> Mute This Topic: https://lists.openembedded.org/mt/104182965/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
 
---NextPart--
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
