@@ -2,153 +2,88 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 624BDC48297
-	for <webhook@archiver.kernel.org>; Tue,  6 Feb 2024 12:01:05 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web11.19763.1707220859390413879
- for <Openembedded-core@lists.openembedded.org>;
- Tue, 06 Feb 2024 04:00:59 -0800
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 635E0C48297
+	for <webhook@archiver.kernel.org>; Tue,  6 Feb 2024 12:03:25 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web11.19808.1707221002544515154
+ for <openembedded-core@lists.openembedded.org>;
+ Tue, 06 Feb 2024 04:03:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cqsGABGF;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-33b40208735so1192873f8f.3
-        for <Openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 04:00:58 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=aszepNPY;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-40ef64d8955so6565755e9.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 04:03:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1707220857; x=1707825657; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=/gmNqQyAWNQEGmGN0X7SQ3OaW/JButb5fHoF+ttCWzg=;
-        b=cqsGABGFS0m11WUuaqk7bKdrvSr4QKSvrlNh9mXX6w+Fob3msB8+q6+dz9mCOAOupk
-         qpgvTsyyIplpYwG7d7opnb+VP1q93gXZ+xoyhawcc3e8B7Rhwf1zI18YS/Sc0GiavBq6
-         M7bN3cQnBJ8SuRajmJLDLbOLSeje5AHrTLihc=
+        d=linuxfoundation.org; s=google; t=1707221001; x=1707825801; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bPsu9pjg72TseZB8PV3nTGgvbZmRq/fZxtOZjFvR5zo=;
+        b=aszepNPYEMWPcE9h+v4Sq0XkaOoHSEevdXlz7ZIMpwXPrzuRZ+uwIYJCNfpcnPS1zk
+         mAmUNLLpijLysOyr5RJ0Nx4VvHQ1Ri4iqHtUXzQsW+7YldmEJ2aSlfEZONDwYPtht6Ry
+         HpRi9jCOM5wyYfD2JCOI9vbB2zQ2M2ZNkygqc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707220857; x=1707825657;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/gmNqQyAWNQEGmGN0X7SQ3OaW/JButb5fHoF+ttCWzg=;
-        b=IJqjSH6CjHHVQCq8Knn+QY5DTJpZwqdQFep06830z3m+K3Ji82mZWv84KxPJ05MEV9
-         nM95VpYbyYUi6OZmqJW6t16F+oVYOrg3RuzEb3zT+AjV6LyU8ZlyK0ehBVFdbfA+dYaU
-         TpGjPZ3W7mcH1Vm9vXkqml/YCfqbD9lE+bhMSPJSzWc2PtEzyAhM3wqkKavaQGm8DlYr
-         IeO/NjMUGqnEQOVKAm8EBWhYrfpbSqirHQeP/gpFW9ud8Dj46K8Ys7zetaaB/j3LK6R8
-         4y2t3Qy8CanbMBinqqhNWESgThQ7sDW7wS8zU23RfCKvWeVRe+Uwkrsp3sg7zodwogjN
-         UpAA==
-X-Gm-Message-State: AOJu0YwqSpsrf81Gs86d5+tzc1f2ZWnVWSNb7rNajcrS61ehgPU+j2G0
-	XL/L8u+BDbFR20fWyq8AEFb2N/W5T6IH+lY6mkWIkpPwp86tRmaVbNY1UC2y12k=
-X-Google-Smtp-Source: AGHT+IGM5rk6SxjKgSocviMINUEOVNtVOM1TTs44mbUkA5g5IbfNm+ECGufYA86kHOepzeoXnWN5XQ==
-X-Received: by 2002:adf:f010:0:b0:33b:1575:bcd1 with SMTP id j16-20020adff010000000b0033b1575bcd1mr1108918wro.5.1707220857164;
-        Tue, 06 Feb 2024 04:00:57 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCUWqVlge9hMi5jdewIrMeV181gp76P9XZxnllOIO3YchqhUS2+5TdQyubADzVa5A5L0g8pdAN2lyTI0EGe8NFubDKPVqRx8Kf0E/M8jSJYqAxvg34LJmkGdv4KDnPS8Wx4Hh12gfjOnOmzg3L4W58Lg+gdIugNh+XqNL4b8xI6/0mbDL8RCV9wF8bqRG9RzFb8=
-Received: from ?IPv6:2001:8b0:aba:5f3c:45c0:34a2:1eea:2530? ([2001:8b0:aba:5f3c:45c0:34a2:1eea:2530])
-        by smtp.gmail.com with ESMTPSA id q11-20020adfab0b000000b0033b2276e71csm1950950wrc.62.2024.02.06.04.00.56
+        d=1e100.net; s=20230601; t=1707221001; x=1707825801;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bPsu9pjg72TseZB8PV3nTGgvbZmRq/fZxtOZjFvR5zo=;
+        b=C+sCPtWcnMdH80MpOgC5ZiYIBKJsAegNddpPzoDbUEMpbgCR674lNwIvbklw5kzByZ
+         iGdUj6EHgbie/i3lOp7AHHgKnyXaKEqKCGoelQiuLEGlHzzYerArs97MgfTzYqKI0lqI
+         2b8zw0nkmrGiZv/sgXiHtikqA93cKGXgVNs2V8tboM5uO8BNF7+6vtlT8Oix1zRb2Nou
+         uUJ46dQKozWLIZobsg8jp4HjUuWlNIniAHikPB6MPRuQPQd09qUlqYuaE5Gx9h6Y2As5
+         d3c+AU739Tz6EJlDdD1pVdJiaFIklrrwbc/vSLhY7ZVf4o/GiS8sYBvjJUoO7S2l3FhD
+         SNDQ==
+X-Gm-Message-State: AOJu0Yx89CD902EVq3rLujEom5nIMu06cuh6qGog2Qx2Rct+BGiemPee
+	zvko7abItX9zL7BhMqjum2URunZbTbPdQ52tHHVkjnywUOGxk/a7dkc6YxSb1tWZ8g7PQTkpyN4
+	R
+X-Google-Smtp-Source: AGHT+IGV4yBBmUPFDf7t5TxYzDk8QI8ZnVDLhASIRv96pWqEUGoRn0ba/spaaSNA+c/w0Tan0g4bOg==
+X-Received: by 2002:a05:600c:458d:b0:40e:fb4c:c1a4 with SMTP id r13-20020a05600c458d00b0040efb4cc1a4mr2428051wmo.21.1707221000639;
+        Tue, 06 Feb 2024 04:03:20 -0800 (PST)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:45c0:34a2:1eea:2530])
+        by smtp.gmail.com with ESMTPSA id h22-20020a05600c351600b0040eee852a3dsm1822204wmq.10.2024.02.06.04.03.20
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Feb 2024 04:00:56 -0800 (PST)
-Message-ID: <cbd17e6e8b5777ab7f926dc2af99468541f803bd.camel@linuxfoundation.org>
-Subject: Re: [OE-Core][PATCH v3 1/2] testimage: move
- TESTIMAGE_FAILED_QA_ARTIFACTS default to core-image
+        Tue, 06 Feb 2024 04:03:20 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexis =?ISO-8859-1?Q?Lothor=E9?= <alexis.lothore@bootlin.com>, 
-	Openembedded-core@lists.openembedded.org
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Alexandre Belloni
-	 <alexandre.belloni@bootlin.com>, Mikko Rapeli <mikko.rapeli@linaro.org>
-Date: Tue, 06 Feb 2024 12:00:55 +0000
-In-Reply-To: <d20952f5-2240-448b-a803-00dcc7b65575@bootlin.com>
-References: <20240205143757.81826-1-alexis.lothore@bootlin.com>
-	 <20240205143757.81826-2-alexis.lothore@bootlin.com>
-	 <5358961809135d87d89ec9004c7f4bc164c82fe2.camel@linuxfoundation.org>
-	 <93350237-c4ea-4859-93fa-113a3ccc0452@bootlin.com>
-	 <d20952f5-2240-448b-a803-00dcc7b65575@bootlin.com>
-Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
- YNvg==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.0-1 
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] mirrors: Allow shallow glibc to work correctly
+Date: Tue,  6 Feb 2024 12:03:19 +0000
+Message-Id: <20240206120319.2579571-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 12:01:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194988
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 12:03:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194989
 
-On Tue, 2024-02-06 at 12:09 +0100, Alexis Lothor=C3=A9 wrote:
-> So I've did multiple attempts to make this work, and I see no way to defi=
-ne the
-> default value in testimage.bbclass with "=3D", and add content to it in
-> core-image-ptest.bbwith "+=3D". My understanding is that testimage is alw=
-ays
-> parsed after core-image-ptest.bb, so there is no nice way to set its defa=
-ult
-> value in there:
-> - "=3D" will always overwrite ptests artifacts set with "+=3D"
-> - "?=3D" or "??=3D" will always be overwritten by ptests artifacts set wi=
-th "+=3D"
-> My configuration relies on IMAGE_CLASSES +=3D 'testimage', which is also =
-done in CI.
+The intention of the mirror code was to allow faster cloning of glibc.
+This wasn't quite working since the full clone was needed by glibc-tests
+or cross-localedef-native. I noticed this when I updated a build and it
+was trying to unpack glibc but fetch cross-localedef-native.
 
-The issue is this:
+Add entries to cover these and restore the faster cloning for glibc
+and realted recipes.
 
-classes-recipe/image.bbclass:inherit_defer ${IMGCLASSES}
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes-global/mirrors.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-since this is deferred to after the recipe is parsed.
-
-> Still, I understand your concern about keeping default value in
-> testimage.bbclass. The only compromise I see here to both keep the defaul=
-t value
-> in testimage and be able to override it at user level is not to enrich it=
- in
-> core-image-ptest but to redefine it:
->=20
-> diff --git a/meta/recipes-core/images/core-image-ptest.bb
-> b/meta/recipes-core/images/core-image-ptest.bb
-> index fb96c542c0a3..4a90181afd83 100644
-> --- a/meta/recipes-core/images/core-image-ptest.bb
-> +++ b/meta/recipes-core/images/core-image-ptest.bb
-> @@ -43,5 +43,8 @@ python () {
->          raise bb.parse.SkipRecipe("No class extension set")
->  }
->=20
-> -# Include ptest directory in artifacts to retrieve if there is a failed =
-test
-> -TESTIMAGE_FAILED_QA_ARTIFACTS +=3D "${libdir}/${MCNAME}/ptest"
-> +TESTIMAGE_FAILED_QA_ARTIFACTS =3D "\
-> +    ${localstatedir}/log \
-> +    ${sysconfdir}/version \
-> +    ${sysconfdir}/os-release \
-> +    ${libdir}/${MCNAME}/ptest"
->=20
-> That's for example what is done with TEST_SUITES. In this setup, we can k=
-eep a
-> default value in testimage, and override it as needed with append/prepend=
-/remove
-> syntax at user level.
->=20
-> I'll wait a bit in case there's any comment or concern about this approac=
-h, and
-> then send a new version.
-
-I see two options:
-
-a) Make testimage.bbclass a +=3D
-
-or
-
-b) Put the new entry into testimage.bbclass even if it is ptest
-specific.
-
-
-I'm leaning to doing both, make it a +=3D and just put it there by
-default in case someone includes ptests in a non ptest image.
-
-Cheers,
-
-Richard
-
+diff --git a/meta/classes-global/mirrors.bbclass b/meta/classes-global/mirrors.bbclass
+index cda431ce891..ad070d44911 100644
+--- a/meta/classes-global/mirrors.bbclass
++++ b/meta/classes-global/mirrors.bbclass
+@@ -92,6 +92,8 @@ BB_GIT_SHALLOW:pn-binutils-crosssdk-${SDK_SYS} = "1"
+ BB_GIT_SHALLOW:pn-binutils-native = "1"
+ BB_GIT_SHALLOW:pn-nativesdk-binutils = "1"
+ 
++BB_GIT_SHALLOW:pn-cross-localedef-native = "1"
+ BB_GIT_SHALLOW:pn-glibc = "1"
++BB_GIT_SHALLOW:pn-glibc-tests = "1"
+ PREMIRRORS += "git://sourceware.org/git/glibc.git https://downloads.yoctoproject.org/mirror/sources/ \
+               git://sourceware.org/git/binutils-gdb.git https://downloads.yoctoproject.org/mirror/sources/"
+-- 
+2.40.1
 
 
