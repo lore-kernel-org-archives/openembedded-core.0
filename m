@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC8A8C4829E
-	for <webhook@archiver.kernel.org>; Tue,  6 Feb 2024 15:47:27 +0000 (UTC)
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
- by mx.groups.io with SMTP id smtpd.web10.24765.1707234442094733437
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B01CEC4828D
+	for <webhook@archiver.kernel.org>; Tue,  6 Feb 2024 15:47:37 +0000 (UTC)
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+ by mx.groups.io with SMTP id smtpd.web11.24456.1707234449172775916
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Feb 2024 07:47:22 -0800
+ Tue, 06 Feb 2024 07:47:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=mtGyv5tW;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.42, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-29661facbd0so584102a91.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 07:47:22 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Cznt08eU;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.178, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-5ceb3fe708eso4432064a12.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 07:47:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1707234441; x=1707839241; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1707234448; x=1707839248; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=fpFpzm3RctOee82Y7PfcUxY9oke1WbFI4oWsXAbUYn8=;
-        b=mtGyv5tWyhhbCrqZ8qiutou9C+xCZ2Ir6CbbyDVqY+JL5lA1Mkdqh47D6qRKce8S8Y
-         7oIdPkSXvLCkqn/blT9dW4pS/PWE3Nj7v+Mk4k37S8XYkGTVgdDhortDONAar8mefxlG
-         wtOAux4wEXWZNECZkDjtO+xvFF7pyggVK2THX43v8xW3ZXB1s2jLUwc6GFUy8Fu/y8Wt
-         +AdCZCRtIdkJT+QTXnIVAr5igE+6yDiNkGnnU/SGlF+cwEfrC1CRcYr085pBjRRQ3VlE
-         4YJ19URbz/lIXp71REsJVmpoZBd2IPggZtOjfOyAeNKqpUapELTpagOU48Y7ecYWGhCS
-         TeOw==
+        bh=CYCKkZV+ViYG8E+2UkkJAgGJWbqLyCtFtCksgUDtPmo=;
+        b=Cznt08eUDtvvX50ou8VWu0rFbzaIGKeY6o/fojuAyUBydm9KUgv5OXAgIIbtRcp4yu
+         xMrzITp94iO4ljPjf7hC54KKDAz0ZoKXMIGzTQUQFxRrUGIPas45bYv/ew+/mpng5qfr
+         9RD1qHKdmeCpM+DsZFrNwLxQck0hvzPJ3d0juop8MEJvUoVFFcgdlfcfC1OzYK/i7+KL
+         c8ooEn3mxqkijDBazFYkgSKBN1k/ayKoMIe8kxEj13HDVeAZBgwgqp5yK+twyRZns9uN
+         7Vh+C8SsQTP3IRQRUbyp0M+ITDiUi2lMhrDo1ebdkH8s1nF1wTAP4k3+J65ud3PZBYu2
+         W9yQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707234441; x=1707839241;
+        d=1e100.net; s=20230601; t=1707234448; x=1707839248;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fpFpzm3RctOee82Y7PfcUxY9oke1WbFI4oWsXAbUYn8=;
-        b=t5NpEif6C9LLZJso4OnkwEm8J1lroS8xaZx2nmU/nHs+GZnd6Pbj8Ia3ktuyFtXk5C
-         XClmoXQbQH4rDGqi+0UwIFGNYN+C+swfgyhU7zKifUxwbe5omSgLjoJ+YdEl2K3GUrNn
-         apaSZkSNmN0Q0SJGbRaDoKl6jTi6WQ7spdghBxErXhaIABYyZzODzcOWXLYHleO2WHwu
-         bRZMNzV7dLphXy3uZWmS3hkEfRLSzkX72DF5p008zYAKuegdjE2iNIiSE8bXyBgM93Nm
-         Z40PpAZ5v6BwiJr8HGC2bQ7MoZL41k69sfAWGCpM3q/HQi2ImJBL5FhoADiSV7Z3FEm0
-         fr1Q==
-X-Gm-Message-State: AOJu0YzpuBMSKvdEq4qWHCxTm+WouIoFRKqULbUnbNgHwWDditAxk5w/
-	eC4Jy1FyoaeccdYW5CcUZwmMUcxXf3LQiZFzsJO8eMphsUBY2p/LVE7KNXNiMUXeKcKpeXcH746
-	vcRo=
-X-Google-Smtp-Source: AGHT+IFHXSpYp5403vSwpJjd7r+KqQlPzxaX4MBISPYT97wpzqMzogCfJkjTcr+QXl3tOT+pooIX8A==
-X-Received: by 2002:a17:90b:3646:b0:296:316b:9e87 with SMTP id nh6-20020a17090b364600b00296316b9e87mr13094336pjb.6.1707234440410;
-        Tue, 06 Feb 2024 07:47:20 -0800 (PST)
+        bh=CYCKkZV+ViYG8E+2UkkJAgGJWbqLyCtFtCksgUDtPmo=;
+        b=AFzHCgyfsEWsUzddmUGkNbKkoSwzFyRGGqgoBKDLszZDa8Z7vh/9us0rkxh/IFmhV7
+         fMbtYwHkhATuvBj3XN6iAzDqriDHROMY/Xtzdh0EhnJebYt6d73VjMOAw9plCYdV0jSR
+         A/1KtJiPD/3SVDFVE7WcfExblLvQ9CKtys59ZoQ5knaLjHPV42e9A3umzYhYNMJ0LKnD
+         YvUmJT6wdiMwq1w6y9T2Pe+UoKaNCgutrj/pz83rY50gpzOehI0+LagHusjBPupfD9LI
+         ahmm566osrVAx+xaTwN6h9uAKCeoWwxAjwh1iOxHt/AxxRGG3SsTfkty3vzOUc9woK7F
+         fdfw==
+X-Gm-Message-State: AOJu0YwjPJVV8BnLsmGl5LIXHU4XgL+GzSREQLGk6UpY1QvaIE9aUiov
+	Kr/hc1BaORzUR7yhAI//JyFCjWPV3OBZdSKrVmadiFMn1uyMigCAyBcr5Evarhzy9LjA7qPXT+C
+	qB7w=
+X-Google-Smtp-Source: AGHT+IHxqxsSy5kbRgHA4SLKET4SzB3wK0Eru0Il7fvD+fJOYoIleFDGH2Cg7AiYaO+y3j+KHg82sQ==
+X-Received: by 2002:a17:90a:34c2:b0:295:f30d:ae1 with SMTP id m2-20020a17090a34c200b00295f30d0ae1mr3004301pjf.8.1707234448036;
+        Tue, 06 Feb 2024 07:47:28 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id kx18-20020a17090b229200b0029454cca5c3sm1811452pjb.39.2024.02.06.07.47.19
+        by smtp.gmail.com with ESMTPSA id kx18-20020a17090b229200b0029454cca5c3sm1811452pjb.39.2024.02.06.07.47.27
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Feb 2024 07:47:20 -0800 (PST)
+        Tue, 06 Feb 2024 07:47:27 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 3/7] binutils: internal gdb: Fix CVE-2023-39130
-Date: Tue,  6 Feb 2024 05:45:21 -1000
-Message-Id: <97b5bf2505d68bea6d1c2a66318cfbc51335463a.1707234215.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 7/7] openssl: Upgrade 3.0.12 -> 3.0.13
+Date: Tue,  6 Feb 2024 05:45:25 -1000
+Message-Id: <2bdae590ab20dc4518ba247c903060fa67ed0fc4.1707234215.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1707234215.git.steve@sakoman.com>
 References: <cover.1707234215.git.steve@sakoman.com>
@@ -61,363 +61,505 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 15:47:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195002
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 15:47:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195006
 
-From: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-CVE: CVE-2023-39130
-Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
+Fixes CVE-2024-0727
+
+Removed included CVE patch backports.
+
+New module was implemented in tests and needs to be installed
+to successfully pass 04-test_provider.t test.
+
+Release information:
+https://github.com/openssl/openssl/blob/openssl-3.0/NEWS.md#major-changes-between-openssl-3012-and-openssl-3013-30-jan-2024
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../binutils/binutils-2.38.inc                |   1 +
- .../binutils/0036-CVE-2023-39130.patch        | 326 ++++++++++++++++++
- 2 files changed, 327 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/0036-CVE-2023-39130.patch
+ .../openssl/openssl/CVE-2023-5678.patch       | 180 ------------------
+ .../openssl/openssl/CVE-2023-6129.patch       | 113 -----------
+ .../openssl/openssl/CVE-2023-6237.patch       | 127 ------------
+ .../{openssl_3.0.12.bb => openssl_3.0.13.bb}  |   6 +-
+ 4 files changed, 2 insertions(+), 424 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-5678.patch
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-6129.patch
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-6237.patch
+ rename meta/recipes-connectivity/openssl/{openssl_3.0.12.bb => openssl_3.0.13.bb} (97%)
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.38.inc b/meta/recipes-devtools/binutils/binutils-2.38.inc
-index 83dff20855..bbe7bb57b2 100644
---- a/meta/recipes-devtools/binutils/binutils-2.38.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.38.inc
-@@ -70,5 +70,6 @@ SRC_URI = "\
-      file://0033-CVE-2022-47007.patch \
-      file://0034-CVE-2022-48064.patch \
-      file://0035-CVE-2023-39129.patch \
-+     file://0036-CVE-2023-39130.patch \
- "
- S  = "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/binutils/binutils/0036-CVE-2023-39130.patch b/meta/recipes-devtools/binutils/binutils/0036-CVE-2023-39130.patch
-new file mode 100644
-index 0000000000..bfd5b18d7d
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/0036-CVE-2023-39130.patch
-@@ -0,0 +1,326 @@
-+From 2db20b97f1dc3e5dce3d6ed74a8a62f0dede8c80 Mon Sep 17 00:00:00 2001
-+From: Alan Modra <amodra@gmail.com>
-+Date: Wed, 9 Aug 2023 09:58:36 +0930
-+Subject: [PATCH] gdb: warn unused result for bfd IO functions
-+
-+This fixes the compilation warnings introduced by my bfdio.c patch.
-+
-+The removed bfd_seeks in coff_symfile_read date back to 1994, commit
-+7f4c859520, prior to which the file used stdio rather than bfd to read
-+symbols.  Since it now uses bfd to read the file there should be no
-+need to synchronise to bfd's idea of the file position.  I also fixed
-+a potential uninitialised memory access.
-+
-+Approved-By: Andrew Burgess <aburgess@redhat.com>
-+
-+Upstream-Status: Backport from [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=2db20b97f1dc3e5dce3d6ed74a8a62f0dede8c80]
-+CVE: CVE-2023-39130
-+Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
-+---
-+ gdb/coff-pe-read.c | 114 +++++++++++++++++++++++++++++----------------
-+ gdb/coffread.c     |  27 ++---------
-+ gdb/dbxread.c      |   7 +--
-+ gdb/xcoffread.c    |   5 +-
-+ 4 files changed, 85 insertions(+), 68 deletions(-)
-+
-+diff --git a/gdb/coff-pe-read.c b/gdb/coff-pe-read.c
-+--- a/gdb/coff-pe-read.c
-++++ b/gdb/coff-pe-read.c
-+@@ -291,23 +291,31 @@ read_pe_truncate_name (char *dll_name)
-+ 
-+ /* Low-level support functions, direct from the ld module pe-dll.c.  */
-+ static unsigned int
-+-pe_get16 (bfd *abfd, int where)
-++pe_get16 (bfd *abfd, int where, bool *fail)
-+ {
-+   unsigned char b[2];
-+ 
-+-  bfd_seek (abfd, (file_ptr) where, SEEK_SET);
-+-  bfd_bread (b, (bfd_size_type) 2, abfd);
-++  if (bfd_seek (abfd, where, SEEK_SET) != 0
-++      || bfd_bread (b, 2, abfd) != 2)
-++    {
-++      *fail = true;
-++      return 0;
-++    }
-+   return b[0] + (b[1] << 8);
-+ }
-+ 
-+ static unsigned int
-+-pe_get32 (bfd *abfd, int where)
-++pe_get32 (bfd *abfd, int where, bool *fail)
-+ {
-+   unsigned char b[4];
-+ 
-+-  bfd_seek (abfd, (file_ptr) where, SEEK_SET);
-+-  bfd_bread (b, (bfd_size_type) 4, abfd);
-+-  return b[0] + (b[1] << 8) + (b[2] << 16) + (b[3] << 24);
-++  if (bfd_seek (abfd, where, SEEK_SET) != 0
-++      || bfd_bread (b, 4, abfd) != 4)
-++    {
-++      *fail = true;
-++      return 0;
-++    }
-++  return b[0] + (b[1] << 8) + (b[2] << 16) + ((unsigned) b[3] << 24);
-+ }
-+ 
-+ static unsigned int
-+@@ -323,7 +331,7 @@ pe_as32 (void *ptr)
-+ {
-+   unsigned char *b = (unsigned char *) ptr;
-+ 
-+-  return b[0] + (b[1] << 8) + (b[2] << 16) + (b[3] << 24);
-++  return b[0] + (b[1] << 8) + (b[2] << 16) + ((unsigned) b[3] << 24);
-+ }
-+ 
-+ /* Read the (non-debug) export symbol table from a portable
-+@@ -376,37 +384,50 @@ read_pe_exported_syms (minimal_symbol_re
-+ 	     || strcmp (target, "pei-i386") == 0
-+ 	     || strcmp (target, "pe-arm-wince-little") == 0
-+ 	     || strcmp (target, "pei-arm-wince-little") == 0);
-++
-++  /* Possibly print a debug message about DLL not having a valid format.  */
-++  auto maybe_print_debug_msg = [&] () -> void {
-++    if (debug_coff_pe_read)
-++      fprintf_unfiltered (gdb_stdlog, _("%s doesn't appear to be a DLL\n"),
-++					bfd_get_filename (dll));
-++  };
-++
-+   if (!is_pe32 && !is_pe64)
-+-    {
-+-      /* This is not a recognized PE format file.  Abort now, because
-+-	 the code is untested on anything else.  *FIXME* test on
-+-	 further architectures and loosen or remove this test.  */
-+-      return;
-+-    }
-++    return maybe_print_debug_msg ();
-+ 
-+   /* Get pe_header, optional header and numbers of export entries.  */
-+-  pe_header_offset = pe_get32 (dll, 0x3c);
-++  bool fail = false;
-++  pe_header_offset = pe_get32 (dll, 0x3c, &fail);
-++  if (fail)
-++    return maybe_print_debug_msg ();
-+   opthdr_ofs = pe_header_offset + 4 + 20;
-+   if (is_pe64)
-+-    num_entries = pe_get32 (dll, opthdr_ofs + 108);
-++    num_entries = pe_get32 (dll, opthdr_ofs + 108, &fail);
-+   else
-+-    num_entries = pe_get32 (dll, opthdr_ofs + 92);
-++    num_entries = pe_get32 (dll, opthdr_ofs + 92, &fail);
-++  if (fail)
-++    return maybe_print_debug_msg ();
-+ 
-+   if (num_entries < 1)		/* No exports.  */
-+     return;
-+   if (is_pe64)
-+     {
-+-      export_opthdrrva = pe_get32 (dll, opthdr_ofs + 112);
-+-      export_opthdrsize = pe_get32 (dll, opthdr_ofs + 116);
-++      export_opthdrrva = pe_get32 (dll, opthdr_ofs + 112, &fail);
-++      export_opthdrsize = pe_get32 (dll, opthdr_ofs + 116, &fail);
-+     }
-+   else
-+     {
-+-      export_opthdrrva = pe_get32 (dll, opthdr_ofs + 96);
-+-      export_opthdrsize = pe_get32 (dll, opthdr_ofs + 100);
-++      export_opthdrrva = pe_get32 (dll, opthdr_ofs + 96, &fail);
-++      export_opthdrsize = pe_get32 (dll, opthdr_ofs + 100, &fail);
-+     }
-+-  nsections = pe_get16 (dll, pe_header_offset + 4 + 2);
-++  if (fail)
-++    return maybe_print_debug_msg ();
-++
-++  nsections = pe_get16 (dll, pe_header_offset + 4 + 2, &fail);
-+   secptr = (pe_header_offset + 4 + 20 +
-+-	    pe_get16 (dll, pe_header_offset + 4 + 16));
-++	    pe_get16 (dll, pe_header_offset + 4 + 16, &fail));
-++  if (fail)
-++    return maybe_print_debug_msg ();
-+   expptr = 0;
-+   export_size = 0;
-+ 
-+@@ -415,12 +436,13 @@ read_pe_exported_syms (minimal_symbol_re
-+     {
-+       char sname[8];
-+       unsigned long secptr1 = secptr + 40 * i;
-+-      unsigned long vaddr = pe_get32 (dll, secptr1 + 12);
-+-      unsigned long vsize = pe_get32 (dll, secptr1 + 16);
-+-      unsigned long fptr = pe_get32 (dll, secptr1 + 20);
-+-
-+-      bfd_seek (dll, (file_ptr) secptr1, SEEK_SET);
-+-      bfd_bread (sname, (bfd_size_type) sizeof (sname), dll);
-++      unsigned long vaddr = pe_get32 (dll, secptr1 + 12, &fail);
-++      unsigned long vsize = pe_get32 (dll, secptr1 + 16, &fail);
-++      unsigned long fptr = pe_get32 (dll, secptr1 + 20, &fail);
-++
-++      if (fail
-++	  || bfd_seek (dll, secptr1, SEEK_SET) != 0
-++	  || bfd_bread (sname, sizeof (sname), dll) != sizeof (sname))
-+ 
-+       if ((strcmp (sname, ".edata") == 0)
-+ 	  || (vaddr <= export_opthdrrva && export_opthdrrva < vaddr + vsize))
-+@@ -461,16 +483,18 @@ read_pe_exported_syms (minimal_symbol_re
-+   for (i = 0; i < nsections; i++)
-+     {
-+       unsigned long secptr1 = secptr + 40 * i;
-+-      unsigned long vsize = pe_get32 (dll, secptr1 + 8);
-+-      unsigned long vaddr = pe_get32 (dll, secptr1 + 12);
-+-      unsigned long characteristics = pe_get32 (dll, secptr1 + 36);
-++      unsigned long vsize = pe_get32 (dll, secptr1 + 8, &fail);
-++      unsigned long vaddr = pe_get32 (dll, secptr1 + 12, &fail);
-++      unsigned long characteristics = pe_get32 (dll, secptr1 + 36, &fail);
-+       char sec_name[SCNNMLEN + 1];
-+       int sectix;
-+       unsigned int bfd_section_index;
-+       asection *section;
-+ 
-+-      bfd_seek (dll, (file_ptr) secptr1 + 0, SEEK_SET);
-+-      bfd_bread (sec_name, (bfd_size_type) SCNNMLEN, dll);
-++      if (fail
-++	  || bfd_seek (dll, secptr1 + 0, SEEK_SET) != 0
-++	  || bfd_bread (sec_name, SCNNMLEN, dll) != SCNNMLEN)
-++	return maybe_print_debug_msg ();
-+       sec_name[SCNNMLEN] = '\0';
-+ 
-+       sectix = read_pe_section_index (sec_name);
-+@@ -509,8 +533,9 @@ read_pe_exported_syms (minimal_symbol_re
-+   gdb::def_vector<unsigned char> expdata_storage (export_size);
-+   expdata = expdata_storage.data ();
-+ 
-+-  bfd_seek (dll, (file_ptr) expptr, SEEK_SET);
-+-  bfd_bread (expdata, (bfd_size_type) export_size, dll);
-++  if (bfd_seek (dll, expptr, SEEK_SET) != 0
-++      || bfd_bread (expdata, export_size, dll) != export_size)
-++    return maybe_print_debug_msg ();
-+   erva = expdata - export_rva;
-+ 
-+   nexp = pe_as32 (expdata + 24);
-+@@ -658,20 +683,27 @@ pe_text_section_offset (struct bfd *abfd
-+     }
-+ 
-+   /* Get pe_header, optional header and numbers of sections.  */
-+-  pe_header_offset = pe_get32 (abfd, 0x3c);
-+-  nsections = pe_get16 (abfd, pe_header_offset + 4 + 2);
-++  bool fail = false;
-++  pe_header_offset = pe_get32 (abfd, 0x3c, &fail);
-++  if (fail)
-++    return DEFAULT_COFF_PE_TEXT_SECTION_OFFSET;
-++  nsections = pe_get16 (abfd, pe_header_offset + 4 + 2, &fail);
-+   secptr = (pe_header_offset + 4 + 20 +
-+-	    pe_get16 (abfd, pe_header_offset + 4 + 16));
-++	    pe_get16 (abfd, pe_header_offset + 4 + 16, &fail));
-++  if (fail)
-++    return DEFAULT_COFF_PE_TEXT_SECTION_OFFSET;
-+ 
-+   /* Get the rva and size of the export section.  */
-+   for (i = 0; i < nsections; i++)
-+     {
-+       char sname[SCNNMLEN + 1];
-+       unsigned long secptr1 = secptr + 40 * i;
-+-      unsigned long vaddr = pe_get32 (abfd, secptr1 + 12);
-++      unsigned long vaddr = pe_get32 (abfd, secptr1 + 12, &fail);
-+ 
-+-      bfd_seek (abfd, (file_ptr) secptr1, SEEK_SET);
-+-      bfd_bread (sname, (bfd_size_type) SCNNMLEN, abfd);
-++      if (fail
-++	  || bfd_seek (abfd, secptr1, SEEK_SET) != 0
-++	  || bfd_bread (sname, SCNNMLEN, abfd) != SCNNMLEN)
-++	return DEFAULT_COFF_PE_TEXT_SECTION_OFFSET;
-+       sname[SCNNMLEN] = '\0';
-+       if (strcmp (sname, ".text") == 0)
-+ 	return vaddr;
-+diff --git a/gdb/coffread.c b/gdb/coffread.c
-+--- a/gdb/coffread.c
-++++ b/gdb/coffread.c
-+@@ -690,8 +690,6 @@ coff_symfile_read (struct objfile *objfi
-+ 
-+       /* FIXME: dubious.  Why can't we use something normal like
-+ 	 bfd_get_section_contents?  */
-+-      bfd_seek (abfd, abfd->where, 0);
-+-
-+       stabstrsize = bfd_section_size (info->stabstrsect);
-+ 
-+       coffstab_build_psymtabs (objfile,
-+@@ -780,22 +778,6 @@ coff_symtab_read (minimal_symbol_reader
-+ 
-+   scoped_free_pendings free_pending;
-+ 
-+-  /* Work around a stdio bug in SunOS4.1.1 (this makes me nervous....
-+-     it's hard to know I've really worked around it.  The fix should
-+-     be harmless, anyway).  The symptom of the bug is that the first
-+-     fread (in read_one_sym), will (in my example) actually get data
-+-     from file offset 268, when the fseek was to 264 (and ftell shows
-+-     264).  This causes all hell to break loose.  I was unable to
-+-     reproduce this on a short test program which operated on the same
-+-     file, performing (I think) the same sequence of operations.
-+-
-+-     It stopped happening when I put in this (former) rewind().
-+-
-+-     FIXME: Find out if this has been reported to Sun, whether it has
-+-     been fixed in a later release, etc.  */
-+-
-+-  bfd_seek (objfile->obfd, 0, 0);
-+-
-+   /* Position to read the symbol table.  */
-+   val = bfd_seek (objfile->obfd, symtab_offset, 0);
-+   if (val < 0)
-+@@ -1285,12 +1267,13 @@ init_stringtab (bfd *abfd, file_ptr offs
-+   if (bfd_seek (abfd, offset, 0) < 0)
-+     return -1;
-+ 
-+-  val = bfd_bread ((char *) lengthbuf, sizeof lengthbuf, abfd);
-+-  length = bfd_h_get_32 (symfile_bfd, lengthbuf);
-+-
-++  val = bfd_bread (lengthbuf, sizeof lengthbuf, abfd);
-+   /* If no string table is needed, then the file may end immediately
-+      after the symbols.  Just return with `stringtab' set to null.  */
-+-  if (val != sizeof lengthbuf || length < sizeof lengthbuf)
-++  if (val != sizeof lengthbuf)
-++    return 0;
-++  length = bfd_h_get_32 (symfile_bfd, lengthbuf);
-++  if (length < sizeof lengthbuf)
-+     return 0;
-+ 
-+   storage->reset ((char *) xmalloc (length));
-+diff --git a/gdb/dbxread.c b/gdb/dbxread.c
-+--- a/gdb/dbxread.c
-++++ b/gdb/dbxread.c
-+@@ -812,7 +812,8 @@ stabs_seek (int sym_offset)
-+       symbuf_left -= sym_offset;
-+     }
-+   else
-+-    bfd_seek (symfile_bfd, sym_offset, SEEK_CUR);
-++    if (bfd_seek (symfile_bfd, sym_offset, SEEK_CUR) != 0)
-++      perror_with_name (bfd_get_filename (symfile_bfd));
-+ }
-+ 
-+ #define INTERNALIZE_SYMBOL(intern, extern, abfd)			\
-+@@ -2095,8 +2096,8 @@ dbx_expand_psymtab (legacy_psymtab *pst,
-+       symbol_size = SYMBOL_SIZE (pst);
-+ 
-+       /* Read in this file's symbols.  */
-+-      bfd_seek (objfile->obfd, SYMBOL_OFFSET (pst), SEEK_SET);
-+-      read_ofile_symtab (objfile, pst);
-++      if (bfd_seek (objfile->obfd, SYMBOL_OFFSET (pst), SEEK_SET) == 0)
-++	read_ofile_symtab (objfile, pst);
-+     }
-+ 
-+   pst->readin = true;
-+diff --git a/gdb/xcoffread.c b/gdb/xcoffread.c
-+--- a/gdb/xcoffread.c
-++++ b/gdb/xcoffread.c
-+@@ -865,8 +865,9 @@ enter_line_range (struct subfile *subfil
-+ 
-+   while (curoffset <= limit_offset)
-+     {
-+-      bfd_seek (abfd, curoffset, SEEK_SET);
-+-      bfd_bread (ext_lnno, linesz, abfd);
-++      if (bfd_seek (abfd, curoffset, SEEK_SET) != 0
-++	  || bfd_bread (ext_lnno, linesz, abfd) != linesz)
-++	return;
-+       bfd_coff_swap_lineno_in (abfd, ext_lnno, &int_lnno);
-+ 
-+       /* Find the address this line represents.  */
-+-- 
-+2.39.3
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2023-5678.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2023-5678.patch
+deleted file mode 100644
+index 796a4f8be9..0000000000
+--- a/meta/recipes-connectivity/openssl/openssl/CVE-2023-5678.patch
++++ /dev/null
+@@ -1,180 +0,0 @@
+-From db925ae2e65d0d925adef429afc37f75bd1c2017 Mon Sep 17 00:00:00 2001
+-From: Richard Levitte <levitte@openssl.org>
+-Date: Fri, 20 Oct 2023 09:18:19 +0200
+-Subject: [PATCH] Make DH_check_pub_key() and DH_generate_key() safer yet
+-
+-We already check for an excessively large P in DH_generate_key(), but not in
+-DH_check_pub_key(), and none of them check for an excessively large Q.
+-
+-This change adds all the missing excessive size checks of P and Q.
+-
+-It's to be noted that behaviours surrounding excessively sized P and Q
+-differ.  DH_check() raises an error on the excessively sized P, but only
+-sets a flag for the excessively sized Q.  This behaviour is mimicked in
+-DH_check_pub_key().
+-
+-Reviewed-by: Tomas Mraz <tomas@openssl.org>
+-Reviewed-by: Matt Caswell <matt@openssl.org>
+-Reviewed-by: Hugo Landau <hlandau@openssl.org>
+-(Merged from https://github.com/openssl/openssl/pull/22518)
+-
+-(cherry picked from commit ddeb4b6c6d527e54ce9a99cba785c0f7776e54b6)
+-
+-Upstream-Status: Backport [https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=db925ae2e65d0d925adef429afc37f75bd1c2017]
+-CVE: CVE-2023-5678
+-Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
+----
+- crypto/dh/dh_check.c    | 12 ++++++++++++
+- crypto/dh/dh_err.c      |  3 ++-
+- crypto/dh/dh_key.c      | 12 ++++++++++++
+- crypto/err/openssl.txt  |  1 +
+- include/crypto/dherr.h  |  2 +-
+- include/openssl/dh.h    |  6 +++---
+- include/openssl/dherr.h |  3 ++-
+- 7 files changed, 33 insertions(+), 6 deletions(-)
+-
+-diff --git a/crypto/dh/dh_check.c b/crypto/dh/dh_check.c
+-index 7ba2bea..e20eb62 100644
+---- a/crypto/dh/dh_check.c
+-+++ b/crypto/dh/dh_check.c
+-@@ -249,6 +249,18 @@ int DH_check_pub_key_ex(const DH *dh, const BIGNUM *pub_key)
+-  */
+- int DH_check_pub_key(const DH *dh, const BIGNUM *pub_key, int *ret)
+- {
+-+    /* Don't do any checks at all with an excessively large modulus */
+-+    if (BN_num_bits(dh->params.p) > OPENSSL_DH_CHECK_MAX_MODULUS_BITS) {
+-+        ERR_raise(ERR_LIB_DH, DH_R_MODULUS_TOO_LARGE);
+-+        *ret = DH_MODULUS_TOO_LARGE | DH_CHECK_PUBKEY_INVALID;
+-+        return 0;
+-+    }
+-+
+-+    if (dh->params.q != NULL && BN_ucmp(dh->params.p, dh->params.q) < 0) {
+-+        *ret |= DH_CHECK_INVALID_Q_VALUE | DH_CHECK_PUBKEY_INVALID;
+-+        return 1;
+-+    }
+-+
+-     return ossl_ffc_validate_public_key(&dh->params, pub_key, ret);
+- }
+-
+-diff --git a/crypto/dh/dh_err.c b/crypto/dh/dh_err.c
+-index 4152397..f76ac0d 100644
+---- a/crypto/dh/dh_err.c
+-+++ b/crypto/dh/dh_err.c
+-@@ -1,6 +1,6 @@
+- /*
+-  * Generated by util/mkerr.pl DO NOT EDIT
+-- * Copyright 1995-2021 The OpenSSL Project Authors. All Rights Reserved.
+-+ * Copyright 1995-2023 The OpenSSL Project Authors. All Rights Reserved.
+-  *
+-  * Licensed under the Apache License 2.0 (the "License").  You may not use
+-  * this file except in compliance with the License.  You can obtain a copy
+-@@ -54,6 +54,7 @@ static const ERR_STRING_DATA DH_str_reasons[] = {
+-     {ERR_PACK(ERR_LIB_DH, 0, DH_R_PARAMETER_ENCODING_ERROR),
+-     "parameter encoding error"},
+-     {ERR_PACK(ERR_LIB_DH, 0, DH_R_PEER_KEY_ERROR), "peer key error"},
+-+    {ERR_PACK(ERR_LIB_DH, 0, DH_R_Q_TOO_LARGE), "q too large"},
+-     {ERR_PACK(ERR_LIB_DH, 0, DH_R_SHARED_INFO_ERROR), "shared info error"},
+-     {ERR_PACK(ERR_LIB_DH, 0, DH_R_UNABLE_TO_CHECK_GENERATOR),
+-     "unable to check generator"},
+-diff --git a/crypto/dh/dh_key.c b/crypto/dh/dh_key.c
+-index d84ea99..afc49f5 100644
+---- a/crypto/dh/dh_key.c
+-+++ b/crypto/dh/dh_key.c
+-@@ -49,6 +49,12 @@ int ossl_dh_compute_key(unsigned char *key, const BIGNUM *pub_key, DH *dh)
+-         goto err;
+-     }
+-
+-+    if (dh->params.q != NULL
+-+        && BN_num_bits(dh->params.q) > OPENSSL_DH_MAX_MODULUS_BITS) {
+-+        ERR_raise(ERR_LIB_DH, DH_R_Q_TOO_LARGE);
+-+        goto err;
+-+    }
+-+
+-     if (BN_num_bits(dh->params.p) < DH_MIN_MODULUS_BITS) {
+-         ERR_raise(ERR_LIB_DH, DH_R_MODULUS_TOO_SMALL);
+-         return 0;
+-@@ -267,6 +273,12 @@ static int generate_key(DH *dh)
+-         return 0;
+-     }
+-
+-+    if (dh->params.q != NULL
+-+        && BN_num_bits(dh->params.q) > OPENSSL_DH_MAX_MODULUS_BITS) {
+-+        ERR_raise(ERR_LIB_DH, DH_R_Q_TOO_LARGE);
+-+        return 0;
+-+    }
+-+
+-     if (BN_num_bits(dh->params.p) < DH_MIN_MODULUS_BITS) {
+-         ERR_raise(ERR_LIB_DH, DH_R_MODULUS_TOO_SMALL);
+-         return 0;
+-diff --git a/crypto/err/openssl.txt b/crypto/err/openssl.txt
+-index e51504b..36de321 100644
+---- a/crypto/err/openssl.txt
+-+++ b/crypto/err/openssl.txt
+-@@ -500,6 +500,7 @@ DH_R_NO_PARAMETERS_SET:107:no parameters set
+- DH_R_NO_PRIVATE_VALUE:100:no private value
+- DH_R_PARAMETER_ENCODING_ERROR:105:parameter encoding error
+- DH_R_PEER_KEY_ERROR:111:peer key error
+-+DH_R_Q_TOO_LARGE:130:q too large
+- DH_R_SHARED_INFO_ERROR:113:shared info error
+- DH_R_UNABLE_TO_CHECK_GENERATOR:121:unable to check generator
+- DSA_R_BAD_FFC_PARAMETERS:114:bad ffc parameters
+-diff --git a/include/crypto/dherr.h b/include/crypto/dherr.h
+-index bb24d13..519327f 100644
+---- a/include/crypto/dherr.h
+-+++ b/include/crypto/dherr.h
+-@@ -1,6 +1,6 @@
+- /*
+-  * Generated by util/mkerr.pl DO NOT EDIT
+-- * Copyright 2020-2021 The OpenSSL Project Authors. All Rights Reserved.
+-+ * Copyright 2020-2023 The OpenSSL Project Authors. All Rights Reserved.
+-  *
+-  * Licensed under the Apache License 2.0 (the "License").  You may not use
+-  * this file except in compliance with the License.  You can obtain a copy
+-diff --git a/include/openssl/dh.h b/include/openssl/dh.h
+-index 6533260..50e0cf5 100644
+---- a/include/openssl/dh.h
+-+++ b/include/openssl/dh.h
+-@@ -141,7 +141,7 @@ DECLARE_ASN1_ITEM(DHparams)
+- #   define DH_GENERATOR_3          3
+- #   define DH_GENERATOR_5          5
+-
+--/* DH_check error codes */
+-+/* DH_check error codes, some of them shared with DH_check_pub_key */
+- /*
+-  * NB: These values must align with the equivalently named macros in
+-  * internal/ffc.h.
+-@@ -151,10 +151,10 @@ DECLARE_ASN1_ITEM(DHparams)
+- #   define DH_UNABLE_TO_CHECK_GENERATOR    0x04
+- #   define DH_NOT_SUITABLE_GENERATOR       0x08
+- #   define DH_CHECK_Q_NOT_PRIME            0x10
+--#   define DH_CHECK_INVALID_Q_VALUE        0x20
+-+#   define DH_CHECK_INVALID_Q_VALUE        0x20 /* +DH_check_pub_key */
+- #   define DH_CHECK_INVALID_J_VALUE        0x40
+- #   define DH_MODULUS_TOO_SMALL            0x80
+--#   define DH_MODULUS_TOO_LARGE            0x100
+-+#   define DH_MODULUS_TOO_LARGE            0x100 /* +DH_check_pub_key */
+-
+- /* DH_check_pub_key error codes */
+- #   define DH_CHECK_PUBKEY_TOO_SMALL       0x01
+-diff --git a/include/openssl/dherr.h b/include/openssl/dherr.h
+-index 5d2a762..074a701 100644
+---- a/include/openssl/dherr.h
+-+++ b/include/openssl/dherr.h
+-@@ -1,6 +1,6 @@
+- /*
+-  * Generated by util/mkerr.pl DO NOT EDIT
+-- * Copyright 1995-2021 The OpenSSL Project Authors. All Rights Reserved.
+-+ * Copyright 1995-2023 The OpenSSL Project Authors. All Rights Reserved.
+-  *
+-  * Licensed under the Apache License 2.0 (the "License").  You may not use
+-  * this file except in compliance with the License.  You can obtain a copy
+-@@ -50,6 +50,7 @@
+- #  define DH_R_NO_PRIVATE_VALUE                            100
+- #  define DH_R_PARAMETER_ENCODING_ERROR                    105
+- #  define DH_R_PEER_KEY_ERROR                              111
+-+#  define DH_R_Q_TOO_LARGE                                 130
+- #  define DH_R_SHARED_INFO_ERROR                           113
+- #  define DH_R_UNABLE_TO_CHECK_GENERATOR                   121
+-
+---
+-2.40.1
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2023-6129.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2023-6129.patch
+deleted file mode 100644
+index c5749e1874..0000000000
+--- a/meta/recipes-connectivity/openssl/openssl/CVE-2023-6129.patch
++++ /dev/null
+@@ -1,113 +0,0 @@
+-From 8d847a3ffd4f0b17ee33962cf69c36224925b34f Mon Sep 17 00:00:00 2001
+-From: Rohan McLure <rmclure@linux.ibm.com>
+-Date: Thu, 4 Jan 2024 10:25:50 +0100
+-Subject: [PATCH] poly1305-ppc.pl: Fix vector register clobbering
+-
+-Fixes CVE-2023-6129
+-
+-The POLY1305 MAC (message authentication code) implementation in OpenSSL for
+-PowerPC CPUs saves the the contents of vector registers in different order
+-than they are restored. Thus the contents of some of these vector registers
+-is corrupted when returning to the caller. The vulnerable code is used only
+-on newer PowerPC processors supporting the PowerISA 2.07 instructions.
+-
+-Reviewed-by: Matt Caswell <matt@openssl.org>
+-Reviewed-by: Richard Levitte <levitte@openssl.org>
+-Reviewed-by: Tomas Mraz <tomas@openssl.org>
+-(Merged from https://github.com/openssl/openssl/pull/23200)
+-
+-Upstream-Status: Backport [https://github.com/openssl/openssl/commit/8d847a3ffd4f0b17ee33962cf69c36224925b34f]
+-CVE: CVE-2023-6129
+-Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
+----
+- crypto/poly1305/asm/poly1305-ppc.pl | 42 ++++++++++++++---------------
+- 1 file changed, 21 insertions(+), 21 deletions(-)
+-
+-diff --git a/crypto/poly1305/asm/poly1305-ppc.pl b/crypto/poly1305/asm/poly1305-ppc.pl
+-index 9f86134..2e601bb 100755
+---- a/crypto/poly1305/asm/poly1305-ppc.pl
+-+++ b/crypto/poly1305/asm/poly1305-ppc.pl
+-@@ -744,7 +744,7 @@ ___
+- my $LOCALS= 6*$SIZE_T;
+- my $VSXFRAME = $LOCALS + 6*$SIZE_T;
+-    $VSXFRAME += 128;	# local variables
+--   $VSXFRAME += 13*16;	# v20-v31 offload
+-+   $VSXFRAME += 12*16;	# v20-v31 offload
+-
+- my $BIG_ENDIAN = ($flavour !~ /le/) ? 4 : 0;
+-
+-@@ -919,12 +919,12 @@ __poly1305_blocks_vsx:
+-	addi	r11,r11,32
+-	stvx	v22,r10,$sp
+-	addi	r10,r10,32
+--	stvx	v23,r10,$sp
+--	addi	r10,r10,32
+--	stvx	v24,r11,$sp
+-+	stvx	v23,r11,$sp
+-	addi	r11,r11,32
+--	stvx	v25,r10,$sp
+-+	stvx	v24,r10,$sp
+-	addi	r10,r10,32
+-+	stvx	v25,r11,$sp
+-+	addi	r11,r11,32
+-	stvx	v26,r10,$sp
+-	addi	r10,r10,32
+-	stvx	v27,r11,$sp
+-@@ -1153,12 +1153,12 @@ __poly1305_blocks_vsx:
+-	addi	r11,r11,32
+-	stvx	v22,r10,$sp
+-	addi	r10,r10,32
+--	stvx	v23,r10,$sp
+--	addi	r10,r10,32
+--	stvx	v24,r11,$sp
+-+	stvx	v23,r11,$sp
+-	addi	r11,r11,32
+--	stvx	v25,r10,$sp
+-+	stvx	v24,r10,$sp
+-	addi	r10,r10,32
+-+	stvx	v25,r11,$sp
+-+	addi	r11,r11,32
+-	stvx	v26,r10,$sp
+-	addi	r10,r10,32
+-	stvx	v27,r11,$sp
+-@@ -1899,26 +1899,26 @@ Ldone_vsx:
+-	mtspr	256,r12				# restore vrsave
+-	lvx	v20,r10,$sp
+-	addi	r10,r10,32
+--	lvx	v21,r10,$sp
+--	addi	r10,r10,32
+--	lvx	v22,r11,$sp
+-+	lvx	v21,r11,$sp
+-	addi	r11,r11,32
+--	lvx	v23,r10,$sp
+-+	lvx	v22,r10,$sp
+-	addi	r10,r10,32
+--	lvx	v24,r11,$sp
+-+	lvx	v23,r11,$sp
+-	addi	r11,r11,32
+--	lvx	v25,r10,$sp
+-+	lvx	v24,r10,$sp
+-	addi	r10,r10,32
+--	lvx	v26,r11,$sp
+-+	lvx	v25,r11,$sp
+-	addi	r11,r11,32
+--	lvx	v27,r10,$sp
+-+	lvx	v26,r10,$sp
+-	addi	r10,r10,32
+--	lvx	v28,r11,$sp
+-+	lvx	v27,r11,$sp
+-	addi	r11,r11,32
+--	lvx	v29,r10,$sp
+-+	lvx	v28,r10,$sp
+-	addi	r10,r10,32
+--	lvx	v30,r11,$sp
+--	lvx	v31,r10,$sp
+-+	lvx	v29,r11,$sp
+-+	addi	r11,r11,32
+-+	lvx	v30,r10,$sp
+-+	lvx	v31,r11,$sp
+-	$POP	r27,`$VSXFRAME-$SIZE_T*5`($sp)
+-	$POP	r28,`$VSXFRAME-$SIZE_T*4`($sp)
+-	$POP	r29,`$VSXFRAME-$SIZE_T*3`($sp)
+---
+-2.39.3
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2023-6237.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2023-6237.patch
+deleted file mode 100644
+index 621dc6b0ab..0000000000
+--- a/meta/recipes-connectivity/openssl/openssl/CVE-2023-6237.patch
++++ /dev/null
+@@ -1,127 +0,0 @@
+-rom e09fc1d746a4fd15bb5c3d7bbbab950aadd005db Mon Sep 17 00:00:00 2001
+-From: Tomas Mraz <tomas@openssl.org>
+-Date: Fri, 22 Dec 2023 16:25:56 +0100
+-Subject: [PATCH] Limit the execution time of RSA public key check
+-
+-Fixes CVE-2023-6237
+-
+-If a large and incorrect RSA public key is checked with
+-EVP_PKEY_public_check() the computation could take very long time
+-due to no limit being applied to the RSA public key size and
+-unnecessarily high number of Miller-Rabin algorithm rounds
+-used for non-primality check of the modulus.
+-
+-Now the keys larger than 16384 bits (OPENSSL_RSA_MAX_MODULUS_BITS)
+-will fail the check with RSA_R_MODULUS_TOO_LARGE error reason.
+-Also the number of Miller-Rabin rounds was set to 5.
+-
+-Reviewed-by: Neil Horman <nhorman@openssl.org>
+-Reviewed-by: Matt Caswell <matt@openssl.org>
+-(Merged from https://github.com/openssl/openssl/pull/23243)
+-
+-Upstream-Status: Backport [https://github.com/openssl/openssl/commit/e09fc1d746a4fd15bb5c3d7bbbab950aadd005db]
+-CVE: CVE-2023-6237
+-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+----
+- crypto/rsa/rsa_sp800_56b_check.c              |  8 +++-
+- test/recipes/91-test_pkey_check.t             |  2 +-
+- .../91-test_pkey_check_data/rsapub_17k.pem    | 48 +++++++++++++++++++
+- 3 files changed, 56 insertions(+), 2 deletions(-)
+- create mode 100644 test/recipes/91-test_pkey_check_data/rsapub_17k.pem
+-
+-diff --git a/crypto/rsa/rsa_sp800_56b_check.c b/crypto/rsa/rsa_sp800_56b_check.c
+-index fc8f19b..bcbdd24 100644
+---- a/crypto/rsa/rsa_sp800_56b_check.c
+-+++ b/crypto/rsa/rsa_sp800_56b_check.c
+-@@ -289,6 +289,11 @@ int ossl_rsa_sp800_56b_check_public(const RSA *rsa)
+-         return 0;
+- 
+-     nbits = BN_num_bits(rsa->n);
+-+    if (nbits > OPENSSL_RSA_MAX_MODULUS_BITS) {
+-+        ERR_raise(ERR_LIB_RSA, RSA_R_MODULUS_TOO_LARGE);
+-+        return 0;
+-+    }
+-+
+- #ifdef FIPS_MODULE
+-     /*
+-      * (Step a): modulus must be 2048 or 3072 (caveat from SP800-56Br1)
+-@@ -324,7 +329,8 @@ int ossl_rsa_sp800_56b_check_public(const RSA *rsa)
+-         goto err;
+-     }
+- 
+--    ret = ossl_bn_miller_rabin_is_prime(rsa->n, 0, ctx, NULL, 1, &status);
+-+    /* Highest number of MR rounds from FIPS 186-5 Section B.3 Table B.1 */
+-+    ret = ossl_bn_miller_rabin_is_prime(rsa->n, 5, ctx, NULL, 1, &status);
+- #ifdef FIPS_MODULE
+-     if (ret != 1 || status != BN_PRIMETEST_COMPOSITE_NOT_POWER_OF_PRIME) {
+- #else
+-diff --git a/test/recipes/91-test_pkey_check.t b/test/recipes/91-test_pkey_check.t
+-index dc7cc64..f8088df 100644
+---- a/test/recipes/91-test_pkey_check.t
+-+++ b/test/recipes/91-test_pkey_check.t
+-@@ -70,7 +70,7 @@ push(@positive_tests, (
+-     "dhpkey.pem"
+-     )) unless disabled("dh");
+- 
+--my @negative_pubtests = ();
+-+my @negative_pubtests = ("rsapub_17k.pem");  # Too big RSA public key
+- 
+- push(@negative_pubtests, (
+-     "dsapub_noparam.der"
+-diff --git a/test/recipes/91-test_pkey_check_data/rsapub_17k.pem b/test/recipes/91-test_pkey_check_data/rsapub_17k.pem
+-new file mode 100644
+-index 0000000..9a2eaed
+---- /dev/null
+-+++ b/test/recipes/91-test_pkey_check_data/rsapub_17k.pem
+-@@ -0,0 +1,48 @@
+-+-----BEGIN PUBLIC KEY-----
+-+MIIIbzANBgkqhkiG9w0BAQEFAAOCCFwAMIIIVwKCCE4Ang+cE5H+hg3RbapDAHqR
+-+B9lUnp2MlAwsZxQ/FhYepaR60bFQeumbu7817Eo5YLMObVI99hF1C4u/qcpD4Jph
+-+gZt87/JAYDbP+DIh/5gUXCL9m5Fp4u7mvZaZdnlcftBvR1uKUTCAwc9pZ/Cfr8W2
+-+GzrRODzsNYnk2DcZMfe2vRDuDZRopE+Y+I72rom2SZLxoN547N1daM/M/CL9KVQ/
+-+XMI/YOpJrBI0jI3brMRhLkvLckwies9joufydlGbJkeil9H7/grj3fQZtFkZ2Pkj
+-+b87XDzRVX7wsEpAgPJxskL3jApokCp1kQYKG+Uc3dKM9Ade6IAPK7VKcmbAQTYw2
+-+gZxsc28dtstazmfGz0ACCTSMrmbgWAM3oPL7RRzhrXDWgmYQ0jHefGh8SNTIgtPq
+-+TuHxPYkDMQNaf0LmDGCxqlnf4b5ld3YaU8zZ/RqIRx5v/+w0rJUvU53qY1bYSnL1
+-+vbqKSnN2mip0GYyQ4AUgkS1NBV4rGYU/VTvzEjLfkg02KOtHKandvEoUjmZPzCT0
+-+V2ZhGc8K1UJNGYlIiHqCdwCBoghvly/pYajTkDXyd6BsukzA5H3IkZB1xDgl035j
+-+/0Cr7QeZLEOdi9fPdSSaBT6OmD0WFuZfJF0wMr7ucRhWzPXvSensD9v7MBE7tNfH
+-+SLeTSx8tLt8UeWriiM+0CnkPR1IOqMOxubOyf1eV8NQqEWm5wEQG/0IskbOKnaHa
+-+PqLFJZn/bvyL3XK5OxVIJG3z6bnRDOMS9SzkjqgPdIO8tkySEHVSi/6iuGUltx3Y
+-+Fmq6ye/r34ekyHPbfn6UuTON7joM6SIXb5bHM64x4iMVWx4hMvDjfy0UqfywAUyu
+-+C1o7BExSMxxFG8GJcqR0K8akpPp7EM588PC+YuItoxzXgfUJnP3BQ1Beev2Ve7/J
+-+xeGZH0N4ntfr+cuaLAakAER9zDglwChWflw3NNFgIdAgSxXv3XXx5xDXpdP4lxUo
+-+F5zAN4Mero3yV90FaJl7Vhq/UFVidbwFc15jUDwaE0mKRcsBeVd3GOhoECAgE0id
+-+aIPT20z8oVY0FyTJlRk7QSjo8WjJSrHY/Fn14gctX07ZdfkufyL6w+NijBdYluvB
+-+nIrgHEvpkDEWoIa8qcx0EppoIcmqgMV2mTShfFYSybsO33Pm8WXec2FXjwhzs1Pi
+-+R/BuIW8rHPI67xqWm0h8dEw11vtfi9a/BBBikFHe59KBjMTG+lW/gADNvRoTzGh7
+-+kN4+UVDS3jlSisRZZOn1XoeQtpubNYWgUsecjKy45IwIj8h1SHgn3wkmUesY0woN
+-+mOdoNtq+NezN4RFtbCOHhxFVpKKDi/HQP2ro0ykkXMDjwEIVf2Lii1Mg9UP8m+Ux
+-+AOqkTrIkdogkRx+70h7/wUOfDIFUq2JbKzqxJYamyEphcdAko7/B8efQKc61Z93O
+-+f2SHa4++4WI7wIIx18v5KV4M/cRmrfc8w9WRkQN3gBT5AJMuqwcSHVXBWvNQeGmi
+-+ScMh7X6cCZ0daEujqb8svq4WgsJ8UT4GaGBRIYtt7QUKEh+JQwNJzneRYZ3pzpaH
+-+UJeeoYobMlkp3rM9cYzdq90nBQiI9Jsbim9m9ggb2dMOS5CsI9S/IuG2O5uTjfxx
+-+wkwsd5nLDFtNXHYZ7W6XlVJ1Rc6zShnEmdCn3mmibb6OaMUmun2yl9ryEjVSoXLP
+-+fSA8W9K9yNhKTRkzdXJfqlC+s/ovX2xBGxsuOoUDaXhRVz0qmpKIHeSFjIP4iXq4
+-+y8gDiwvM3HbZfvVonbg6siPwpn4uvw3hesojk1DKAENS52i6U3uK2fs1ALVxsFNS
+-+Yh914rDu0Q3e4RXVhURaYzoEbLCot6WGYeCCfQOK0rkETMv+sTYYscC8/THuW7SL
+-+HG5zy9Ed95N1Xmf8J+My7gM7ZFodGdHsWvdzEmqsdOFh6IVx/VfHFX0MDBq0t6lZ
+-+eRvVgVCfu3gkYLwPScn/04E02vOom51ISKHsF/I11erC66jjNYV9BSpH8O7sAHxZ
+-+EmPT2ZVVRSgivOHdQW/FZ3UZQQhVaVSympo2Eb4yWEMFn84Q8T+9Honj6gnB5PXz
+-+chmeCsOMlcg1mwWwhn0k+OAWEZy7VRUk5Ahp0fBAGJgwBdqrZ3kM356DjUkVBiYq
+-+4eHyvafNKmjf2mnFsI3g2NKRNyl1Lh63wyCFx60yYvBUfXF/W9PFJbD9CiP83kEW
+-+gV36gxTsbOSfhpO1OXR90ODy0kx06XzWmJCUugK8u9bx4F/CjV+LIHExuNJiethC
+-+A8sIup/MT0fWp4RO/SsVblGqfoqJTaPnhptQzeH2N07pbWkxeMuL6ppPuwFmfVjK
+-+FJndqCVrAukcPEOQ16iVURuloJMudqYRc9QKkJFsnv0W/iMNbqQGmXe8Q/5qFiys
+-+26NIQBiE2ad9hNLnoccEnmYSRgnW3ZPSKuq5TDdYyDqTZH2r8cam65pr3beKw2XC
+-+xw4cc7VaxiwGC2Mg2wRmwwPaTjrcEt6sMa3RjwFEVBxBFyM26wnTEZsTBquCxV0J
+-+pgERaeplkixP2Q0m7XAdlDaob973SM2vOoUgypzDchWmpx7u775bnOfU5CihwXl+
+-+k0i09WZuT8bPmhEAiGCw5sNzMkz1BC2cCZFfJIkE2vc/wXYOrGxBTJo0EKaUFswa
+-+2dnP/u0bn+VksBUM7ywW9LJSXh4mN+tpzdeJtxEObKwX1I0dQxSPWmjd2++wMr9q
+-+Unre5fCrDToy2H7C2VKSpuOCT2/Kv4JDQRWwI4KxQOpn0UknAGNmfBoTtpIZ3LEb
+-+77oBUJdMQD7tQBBLL0a6f1TdK0dHVprWWawJ+gGFMiMQXqAqblHcxFKWuHv9bQID
+-+AQAB
+-+-----END PUBLIC KEY-----
+--- 
+-2.25.1
+-
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.0.12.bb b/meta/recipes-connectivity/openssl/openssl_3.0.13.bb
+similarity index 97%
+rename from meta/recipes-connectivity/openssl/openssl_3.0.12.bb
+rename to meta/recipes-connectivity/openssl/openssl_3.0.13.bb
+index ce0f9fa8e3..5e43fdc2de 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.0.12.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.0.13.bb
+@@ -12,16 +12,13 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+            file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
+            file://afalg.patch \
+            file://0001-Configure-do-not-tweak-mips-cflags.patch \
+-           file://CVE-2023-5678.patch \
+-           file://CVE-2023-6129.patch \
+-           file://CVE-2023-6237.patch \
+            "
+ 
+ SRC_URI:append:class-nativesdk = " \
+            file://environment.d-openssl.sh \
+            "
+ 
+-SRC_URI[sha256sum] = "f93c9e8edde5e9166119de31755fc87b4aa34863662f67ddfcba14d0b6b69b61"
++SRC_URI[sha256sum] = "88525753f79d3bec27d2fa7c66aa0b92b3aa9498dafd93d7cfa4b3780cdae313"
+ 
+ inherit lib_package multilib_header multilib_script ptest perlnative
+ MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
+@@ -188,6 +185,7 @@ PTEST_BUILD_HOST_PATTERN = "perl_version ="
+ do_install_ptest () {
+ 	install -d ${D}${PTEST_PATH}/test
+ 	install -m755 ${B}/test/p_test.so ${D}${PTEST_PATH}/test
++	install -m755 ${B}/test/p_minimal.so ${D}${PTEST_PATH}/test
+ 	install -m755 ${B}/test/provider_internal_test.cnf ${D}${PTEST_PATH}/test
+ 
+ 	# Prune the build tree
 -- 
 2.34.1
 
