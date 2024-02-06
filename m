@@ -1,92 +1,117 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <alexis.lothore@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5984AC48297
-	for <webhook@archiver.kernel.org>; Tue,  6 Feb 2024 14:54:47 +0000 (UTC)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
- by mx.groups.io with SMTP id smtpd.web10.23407.1707231280761148538
- for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Feb 2024 06:54:41 -0800
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 857ECC4828D
+	for <webhook@archiver.kernel.org>; Tue,  6 Feb 2024 15:29:27 +0000 (UTC)
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+ by mx.groups.io with SMTP id smtpd.web10.24240.1707233358977445130
+ for <Openembedded-core@lists.openembedded.org>;
+ Tue, 06 Feb 2024 07:29:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Sl90IfKj;
- spf=pass (domain: gmail.com, ip: 209.85.167.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-51149561a39so3045385e87.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 06:54:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707231279; x=1707836079; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=3R1zlFZcpoDOOCPeJLi+1jn3jIVdFTsfcmzsQfzYKD0=;
-        b=Sl90IfKjo7jSZAN1tfk6EADL2CRZU9QR4XVn3m1HicpAsFxdmq5duc7YdzVzul1uNJ
-         jyOeQLyLnd1+zjqIQyCReutNdhT2s+F9yh8Z64YXQ015VMCmulWpBV3/03ryjf1+I160
-         GX+hqMQsflDHdz04GSoBgwp2Ro7qCpbDPeOUCAzDpsGRMA9+k1rjesj+UkmXje/K8qwN
-         p3GwuBHp9idWFKcGXXjZjPJcuomMVb2r4AGIVJBuqMyKBTc0FqOsIwtMSYfmWGqWpZEZ
-         2kE0b+2i2ia144vnFKbaHjKKNBn5lcpFRAH8fRTeYxfdVHWUPt6qUM9CTEH9xXb7fc8t
-         hz6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707231279; x=1707836079;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3R1zlFZcpoDOOCPeJLi+1jn3jIVdFTsfcmzsQfzYKD0=;
-        b=GM04v5Epk63UEA19TPY/bKKR/t/YKcDvMnIhForCjL3T0gNo1HEyJ2sD89ixfN4/8/
-         1toUFJwfwYCRDZKqxkog9nbO2kqw58NXSnXvzMZoCTD/FsUNq1f6fTWPX6ppyty1a1bd
-         CZb9SivYxBce4DPm50kcZoEMAQAP/eKajKC0n71AT6xz0TTbq0w7VAuUi/RiKdO58A4A
-         xryrYJVut9QzCxIUckdimmoLSgqf0KEBFsrNYirdX+Sbw8IHjQHKiDQ6xW0zOrKq7JEt
-         T4bOfWePN5rU6t0SFRON8Dz/4tVfahwzP/znjeHm4EcEjAEmA3R3NibaIc9en+1wiaWs
-         ynQw==
-X-Gm-Message-State: AOJu0Yx2fmSCvBrtpYbT+UcMQRR6Md+Wix1+g2827tuF6fAjHX1sHP5c
-	m4k2oD45gobre5SWjgYtO0z2Z7NMRqukJnIREpvi1TBpy8JDzfX/47WUCdFHLrAnf+P9SwHQlb2
-	yDkkcDb26q3F5Q3reIKVluZrCLak=
-X-Google-Smtp-Source: AGHT+IHIsyAv5i7vEwbZ+xo8wLZNDPit19b+nKlZSh8wYjXwNi0Ue3m21qIvcW79c18WvEJuMxlgwL3V9vFvJT40tDk=
-X-Received: by 2002:a05:6512:2316:b0:511:54e5:491d with SMTP id
- o22-20020a056512231600b0051154e5491dmr2267870lfu.15.1707231278784; Tue, 06
- Feb 2024 06:54:38 -0800 (PST)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=cLcC9AWl;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: alexis.lothore@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 2EA2C1BF204;
+	Tue,  6 Feb 2024 15:29:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1707233356;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=DATRT1DITrOr/D/oqvM9iRt7OhWgc/abEgzsbtqmpa8=;
+	b=cLcC9AWlqLzFg3aXrI5saASjXE8ZOS4s2Mx83jUuaJMMSFwUOQDeG0JefJh6SC+UyuMb30
+	QELRVnACCnKnIujfxnOe5RIOWryIy95Drl7xTcMdNvOeUIKm1Vi5pMqsuL3evcc+aB7pRs
+	Tt4XDc1CSgwVRpLAv3DN0/mRF3uxPIujyYHt5i/QzKl5mDYcnQtBJ4ryNe/i8No60hC2fr
+	UA8kfV3J1QizU4NeaQGX+aYsUI37reQMzvkpQb7x/HGdNchjVk4vBubp0RBePmEi49RPiY
+	2bzI7tUeITomTTtCxpDeIBMMab9aseplhLS5dWoymQpOJqeDqSLOURjeYzJVWw==
+From: =?UTF-8?q?Alexis=20Lothor=C3=A9?= <alexis.lothore@bootlin.com>
+To: <Openembedded-core@lists.openembedded.org>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Mikko Rapeli <mikko.rapeli@linaro.org>
+Subject: [OE-Core][PATCH v4] testimage: retrieve ptests directory when ptests fail
+Date: Tue,  6 Feb 2024 16:29:10 +0100
+Message-ID: <20240206152910.436447-1-alexis.lothore@bootlin.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20231206092536.2874022-1-andrey.z@gmail.com> <CANNYZj8x2t2H9rj0jjjYW-GZqnqn_x6mNOJtydqUakO1sLU=ag@mail.gmail.com>
- <CAHtQpK69mRhcq6xMYLSgFQT7aKiXnh323AJP08noyMNX5fJMgQ@mail.gmail.com>
- <CANNYZj8-9PHqeiRuExw+kdPhCNspCERzH1zKA9O7L06F=bx27w@mail.gmail.com>
- <VI1PR10MB31822295979B4CE4CDB89E8EF784A@VI1PR10MB3182.EURPRD10.PROD.OUTLOOK.COM>
- <17AF75010791E9CF.16460@lists.openembedded.org>
-In-Reply-To: <17AF75010791E9CF.16460@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 6 Feb 2024 15:54:27 +0100
-Message-ID: <CANNYZj-zu9+a_zX21YWjN_SF0kL+rm=Fu5000s=an17r3SUaiQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] scripts/oe-setup-layers: add option to skip
- revs in json
-To: alex.kanavin@gmail.com, Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: Jermain Horsman <jermain.horsman@nedap.com>, Andrey Zhizhikin <andrey.z@gmail.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: alexis.lothore@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 14:54:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194997
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 15:29:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194998
 
-On Wed, 31 Jan 2024 at 15:30, Alexander Kanavin via
-lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
-wrote:
-> > > Look for the patchset '[RFC 0/7] bitbake-layers: Add
-> > > update-layers-setup' posted on 7 November, particularly the comments
-> > > to the individual patches, where we get to the design that should work
-> > > and cover the use cases.
-> >
-> > I had to work on some other issues that needed my attention,
-> > so not too much progress since, however, I have reserved some
-> > time this month and was planning to work on this.
->
-> The patches are now in testing so Andrey can take a look and check if
-> they handle he use case he wants to solve:
->
-> https://git.yoctoproject.org/poky-contrib/log/?h=abelloni%2Fmaster-next&qt=author&q=horsman
+From: Alexis Lothoré <alexis.lothore@bootlin.com>
 
-And now looks like they're not. Alexandre, was there some reason to drop them?
+TESTIMAGE_FAILED_QA_ARTIFACTS is set with a default, minimal list of files
+to retrieve whenever a runtime test fails.
+Add ptests directory to the list so we can get ptests artifacts (eg: logs)
+whenever a ptest fails. By appending the ptest directory with the
+multiconfig component in the path, only failing ptests will lead to
+corresponding ptest artifacts retrieval, instead of all ptests artifacts
+retrieval. While doing this addition, reinforce default value using "="
+operator to make sure to get the default list in any case.
 
-[PATCH 1/2] bitbake-layers: Add ability to update the reference of repositories
-[PATCH 2/2] bitbake-layers: Add test case layers setup for custom references
+Signed-off-by: Alexis Lothoré <alexis.lothore@bootlin.com>
+---
+This series is now self-contained in a single patch. After going back and
+forth on where and how to properly add the ptests artifacts, only testimage
+is finally affected. Additionally to Richard's suggestion in [1], the
+ptests directory is added conditionally: otherwise, non-ptests images would
+try to scp a non-existing directory (and it would fail silently)
 
+Link to v3: [1]
 
-Alex
+Changes in v4:
+- keep ptests artifacts addition in testimage.bbclass to avoid parsing
+  order issues
+- check for DISTRO_FEATURES to know if ptests artifacts should be retrieved
+  in case of failure
+
+Changes in v3:
+- slightly reword commit message body
+
+Changes in v1 (since being picked in new series)
+- use += instead of append syntax
+
+[1] https://lore.kernel.org/openembedded-core/20240205143757.81826-1-alexis.lothore@bootlin.com/
+---
+ meta/classes-recipe/testimage.bbclass        | 5 ++++-
+ meta/recipes-core/images/core-image-ptest.bb | 1 -
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-recipe/testimage.bbclass
+index f36d9418914f..281de4784f31 100644
+--- a/meta/classes-recipe/testimage.bbclass
++++ b/meta/classes-recipe/testimage.bbclass
+@@ -22,11 +22,14 @@ TESTIMAGE_AUTO ??= "0"
+ # each entry in it, if artifact pointed by path description exists on target,
+ # it will be retrieved onto host
+ 
+-TESTIMAGE_FAILED_QA_ARTIFACTS ??= "\
++TESTIMAGE_FAILED_QA_ARTIFACTS = "\
+     ${localstatedir}/log \
+     ${sysconfdir}/version \
+     ${sysconfdir}/os-release"
+ 
++# If some ptests are run and fail, retrieve corresponding directories
++TESTIMAGE_FAILED_QA_ARTIFACTS += "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', '${libdir}/${MCNAME}/ptest', '', d)}"
++
+ # You can set (or append to) TEST_SUITES in local.conf to select the tests
+ # which you want to run for your target.
+ # The test names are the module names in meta/lib/oeqa/runtime/cases.
+diff --git a/meta/recipes-core/images/core-image-ptest.bb b/meta/recipes-core/images/core-image-ptest.bb
+index b6f5c2fd6049..862e44f5e67c 100644
+--- a/meta/recipes-core/images/core-image-ptest.bb
++++ b/meta/recipes-core/images/core-image-ptest.bb
+@@ -42,4 +42,3 @@ python () {
+     if not d.getVar("MCNAME"):
+         raise bb.parse.SkipRecipe("No class extension set")
+ }
+-
+-- 
+2.43.0
+
 
