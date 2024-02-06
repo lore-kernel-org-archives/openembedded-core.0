@@ -2,56 +2,56 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3D9AC4829D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F342BC4829F
 	for <webhook@archiver.kernel.org>; Tue,  6 Feb 2024 20:53:45 +0000 (UTC)
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
- by mx.groups.io with SMTP id smtpd.web10.4388.1707252822339033806
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+ by mx.groups.io with SMTP id smtpd.web10.4386.1707252820137693191
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Feb 2024 12:53:42 -0800
+ Tue, 06 Feb 2024 12:53:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=JELa3F7p;
- spf=pass (domain: gmail.com, ip: 209.85.222.176, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-783d4b3a026so355902885a.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 12:53:42 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=I81Y2+oG;
+ spf=pass (domain: gmail.com, ip: 209.85.222.172, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-783def87c8cso352735885a.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 12:53:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707252821; x=1707857621; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1707252819; x=1707857619; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4oYeVDid580g2UNHIISWGE04ruUu5BAJklNijtR4KGA=;
-        b=JELa3F7p6VS9+d6RpPSMU8aDCxwJTG/vM8JgWdtltNtIfsklQH4UAjP6u+C5rHycxz
-         YaKbqn2xTmx0UCgtnezxXnml8t34AWhS9XLSEooF8nlAxITlZwgjute19KgcxvADbF5V
-         J4Z4CZTDL5YrQVqorbiaXwO82f74XtToDNmvTUdLpTMde/nzB7+8XYV/0I9gDj1ff3Bl
-         VlRElFf5dDvzoa4B2qNKiklcF8CrhKYukb7gIr36hEyXTJy46OEtLLLRxPvnd4uiyv83
-         SMbucfDCp/zYdESi3fksfKu6pSFBRS2UafkAiOj8RLitPs9WcG54TVj7/UZzfq7DINLx
-         IkBg==
+        bh=Giu77TqO0i55ZWKeN2MnIBnF2SlUV4aInqs+FLbcWok=;
+        b=I81Y2+oG9ZbaoEKSa1mhQafMQS00Br9I1LClj7WHKwjjnTRx30/lLr1krJYoWgARvG
+         +ebj32k5V03ITe67hO+/YrDsx/BbpLl1/jtK1FswmCKn9OJnUNV32WqF+WM9E+iMQ0h+
+         /FzObcWWzv6FrfTuonotV5rrGlAKOWqYT4CCdgPny73JLFFsFGWtl12CWN/b84vuZoEa
+         G+JtAfK8344EB8gN+wYwCNuLEMKGJ322Z5NaBT79vaynwyTqpJgmLXu222pQAkNaGaqJ
+         IJEd5Z6CZXK9xfZ3I3VKm7jGAprN7K6ZmciBi5ulGBwm2Zt/WPfT8bejY6+wO2tipBXL
+         A3ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707252821; x=1707857621;
+        d=1e100.net; s=20230601; t=1707252819; x=1707857619;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=4oYeVDid580g2UNHIISWGE04ruUu5BAJklNijtR4KGA=;
-        b=fiGiNx8F7uAlzB3r8//zIB63o1YEkJxwR3iJSFBClF9m+LuapKH7iWOztxJQJqHbNR
-         y6QfIg7uQlaXQiUmtazBdS8Wp/sOp99QqMBvITgCNnW+nGQbSYAyFNyeuZOfjK1/P6BX
-         wDYMQR4JxUS092H3KquEqVG4lLwuMpIOUdpH66X/f/X9ktr1NKQ0bewVw2J2xkIVTigg
-         ZJ0oIcMOpQDsqiqn/T2IySTZbxvVpL/6dgZQ+xTn+V44qB7axYCZCDXZoI3l4HxTulOY
-         fk9LFymHJOiY+He2+GnoZf6Z+LZ9p51OQ3+cC4bY0GRYB1gh/wxXj7E4nTF3eScvY3tk
-         OWUQ==
-X-Gm-Message-State: AOJu0Yy95/VXMdG7V4cPpAGM98RoHnkrDojYw2VuJeVbEnz63D3I9szS
-	ncy3HhEsNVwXuzgaDIe6q62Pz4tQ6p64G5foHKNU+5fD1zW2GZBuDg/sJ6eFO7jcEA==
-X-Google-Smtp-Source: AGHT+IFiVuM2+dK5n38CUm7TYAD5GiSeb+bJpIMagaMXdYGACwAmdfQ1q/h5us6X4DeiOujHFtpOig==
-X-Received: by 2002:a05:620a:22ad:b0:785:96e4:2143 with SMTP id p13-20020a05620a22ad00b0078596e42143mr1108783qkh.60.1707252821354;
-        Tue, 06 Feb 2024 12:53:41 -0800 (PST)
+        bh=Giu77TqO0i55ZWKeN2MnIBnF2SlUV4aInqs+FLbcWok=;
+        b=YqHCtuwLMDkC3E6kfezqLqoPkUKlxnBuw5HnUIVkl8u9QW5jVprUfiHUxKHLNiFU6f
+         RTpd8Z7qlXrTgZcrkcmLN0nrY8BmIpjQXRfu7ASQcaKNlO6CJftKnPMjb08dB5MAmVsc
+         oaHxICv+Mj5YFyx3jOx+Jvt6tTbROP4JfKlrmbfPjZdQsGNjZzT47ZrsXu/REtYMmLKe
+         0/4Ki9/btiTfENTKP3mq67bHuwOtilj3Tno+dYSNe+JnovVOqymiau+qQyvGETakEkJi
+         Ha4fg2BdFlSfY2R5kQx0euaWBDRAI43mVfEKh0SQn5KnreWb4V4SI2ljQenVFZQ1RLOb
+         LcXA==
+X-Gm-Message-State: AOJu0Yx8OsYNqsrkehbsS4maGbhtRxzVjKyKxSYxcX9uoV0GEGM6P+it
+	0UElrIPJCXWojTF5QFXKSfPO5nopidezCzbAzCDvgCMnZCSbMOl389abGbUdQJlDmA==
+X-Google-Smtp-Source: AGHT+IFDGGF72U0u+VA6/q5kAzCMCP68WcsR1SsNgkjRUO8CMutUbQ+AGO/OXMd216R7hf86FsRmmQ==
+X-Received: by 2002:ae9:e314:0:b0:785:9715:100a with SMTP id v20-20020ae9e314000000b007859715100amr1343474qkf.39.1707252819066;
+        Tue, 06 Feb 2024 12:53:39 -0800 (PST)
 Received: from bruce-XPS-8940.. ([174.112.183.231])
-        by smtp.gmail.com with ESMTPSA id y13-20020a05620a0e0d00b00783de6b5ccfsm1253506qkm.88.2024.02.06.12.53.40
+        by smtp.gmail.com with ESMTPSA id y13-20020a05620a0e0d00b00783de6b5ccfsm1253506qkm.88.2024.02.06.12.53.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Feb 2024 12:53:40 -0800 (PST)
+        Tue, 06 Feb 2024 12:53:38 -0800 (PST)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/7] linux-yocto/6.6: update CVE exclusions
-Date: Tue,  6 Feb 2024 15:53:31 -0500
-Message-Id: <b5e1cafbaf782e9f6e7955ed27dbfc7a46c2cb55.1707252636.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 2/7] linux-yocto/6.6: beaglebone: drop nonassignable kernel options
+Date: Tue,  6 Feb 2024 15:53:29 -0500
+Message-Id: <a9a2e468952009629ca70d9a93d1e6c703d660d4.1707252636.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1707252636.git.bruce.ashfield@gmail.com>
 References: <cover.1707252636.git.bruce.ashfield@gmail.com>
@@ -61,41 +61,75 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 20:53:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195030
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195028
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Data pulled from: https://github.com/nluedtke/linux_kernel_cves
+Integrating the following commit(s) to linux-yocto/.:
 
-    1/1 [
-        Author: Nicholas Luedtke
-        Email: nicholas.luedtke@uwalumni.com
-        Subject: Update 15Jan24
-        Date: Mon, 15 Jan 2024 12:48:45 -0500
+1/1 [
+    Author: Kevin Hao
+    Email: kexin.hao@windriver.com
+    Subject: beaglebone: Drop the nonassignable kernel options
+    Date: Sat, 20 Jan 2024 20:19:20 +0800
 
-    ]
+    These kernel options aren't assignable. In the previous version of the
+    kernel, these options were selected by DRM_FBDEV_EMULATION. But due to
+    the commit 43049f17b526 ("drm/i915: Implement dedicated fbdev I/O
+    helpers") in the new version of kernel, they are no longer enabled
+    by DRM_FBDEV_EMULATION. Then the kernel config check emits unmatch
+    warning for them. Drop all of them to fix these warnings.
+
+    Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
+    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+]
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta/recipes-kernel/linux/cve-exclusion_6.6.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb   | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_6.6.bb      | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/cve-exclusion_6.6.inc b/meta/recipes-kernel/linux/cve-exclusion_6.6.inc
-index 3a4451b6f8..9398434082 100644
---- a/meta/recipes-kernel/linux/cve-exclusion_6.6.inc
-+++ b/meta/recipes-kernel/linux/cve-exclusion_6.6.inc
-@@ -1,9 +1,9 @@
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
+index 25ff894ef2..22a93880fc 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
+@@ -15,7 +15,7 @@ python () {
+ }
  
- # Auto-generated CVE metadata, DO NOT EDIT BY HAND.
--# Generated at 2024-01-18 21:07:26.764606+00:00 for version 6.6.12
-+# Generated at 2024-01-25 01:32:27.591716+00:00 for version 6.6.13
+ SRCREV_machine ?= "59ee8cb752a7e280cfe2d480964aa5b6c74e4203"
+-SRCREV_meta ?= "80606e5b79499427524c82e4965de27e1f57c61c"
++SRCREV_meta ?= "cdacaee0449386523770415ceeded76585064265"
  
- python check_kernel_cve_status_version() {
--    this_version = "6.6.12"
-+    this_version = "6.6.13"
-     kernel_version = d.getVar("LINUX_VERSION")
-     if kernel_version != this_version:
-         bb.warn("Kernel CVE status needs updating: generated for %s but kernel is %s" % (this_version, kernel_version))
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.6;destsuffix=${KMETA};protocol=https"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
+index b530990f20..66199674a6 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
+@@ -18,7 +18,7 @@ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ SRCREV_machine ?= "195b2994f955071be3dd16ff61127dbc6b2e0069"
+-SRCREV_meta ?= "80606e5b79499427524c82e4965de27e1f57c61c"
++SRCREV_meta ?= "cdacaee0449386523770415ceeded76585064265"
+ 
+ PV = "${LINUX_VERSION}+git"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_6.6.bb b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
+index ed722f2f80..ce9169ac76 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_6.6.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
+@@ -29,7 +29,7 @@ SRCREV_machine:qemux86 ?= "195b2994f955071be3dd16ff61127dbc6b2e0069"
+ SRCREV_machine:qemux86-64 ?= "195b2994f955071be3dd16ff61127dbc6b2e0069"
+ SRCREV_machine:qemumips64 ?= "d41c8b84fcfcb4c2dd8eb856172cdc2b6a1bd342"
+ SRCREV_machine ?= "195b2994f955071be3dd16ff61127dbc6b2e0069"
+-SRCREV_meta ?= "80606e5b79499427524c82e4965de27e1f57c61c"
++SRCREV_meta ?= "cdacaee0449386523770415ceeded76585064265"
+ 
+ # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
+ # get the <version>/base branch, which is pure upstream -stable, and the same
 -- 
 2.39.2
 
