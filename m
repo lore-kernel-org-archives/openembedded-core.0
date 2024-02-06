@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA3B7C48BC0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A02D9C4829D
 	for <webhook@archiver.kernel.org>; Tue,  6 Feb 2024 15:47:27 +0000 (UTC)
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web11.24451.1707234443457907525
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web10.24764.1707234439521107393
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Feb 2024 07:47:23 -0800
+ Tue, 06 Feb 2024 07:47:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=JYxwgNNC;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1d99c5f6bfeso5511005ad.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 07:47:23 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=dRWzdGnt;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1d7393de183so45040135ad.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 07:47:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1707234442; x=1707839242; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1707234438; x=1707839238; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=J3U1zYiltrUU6a+BoXP2bl5zju9uaP+iaN5h6v7fap0=;
-        b=JYxwgNNCICNRsrie+HU+3BrAIJUEobvjK0rsHgMpYA6eaBefbll9ayUUQvjQO/MEG5
-         Xc7PYTu3sc+yiV+51szanDsCGyiT6NZU60hsSkOPkuxeQLalW9IcP19Qe26Bq/I2NlhM
-         r+dxWkk8nvyMpFU6wKsqtrL8AMQ+qNuPM9oD0e5YtD+7BIafno3wkLCRfAMeRvg45dNx
-         Oiw3/bNNhvfyRI5BoTaIWFSo09JVzOSFTQFB5qbZJ0U5bm1qW1ONCY0NucqxXnFFP1J2
-         YXu9B3eoYR7LoduLhO4yJ/7iUHZcEjEgBmNsxxuiGixKjZoJukNoqKtyhoOPohAuCLgB
-         p1NA==
+        bh=vffioXRN6sE1YLkQBRieWyIB1GOPQuRaQqdfa2ek+qY=;
+        b=dRWzdGntTy/ByHcKFpiD703ihRWrxdUsuA+ewndhv2rtlE3yr7IoDk8PNJqrJm8qWU
+         /wk3K0XZy0XmVgXQaQhKAi0n1rb9B8BNzzlR+hfI/8+WZtFS/sUUWBg0lDArtozPoUTG
+         ZptrMQMPn0dcmmLzsCuiXjIT1gsmqmyR18/kAgTVofDybMFp9sN9KISELxTlYOnREpHR
+         Z24E+VBmYUqg8rl/6MrwpU3Tt/wEIhozqMjFNX9a7mgJsh7qEwJIBb5+N7XMqjunMeVs
+         EBRfAPlw+Gs6ZrRnfNG55qc72D0X4iU3rr7eMPsZs28sqPcsN76LLntK5c3XAoVRyYzc
+         sL+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707234442; x=1707839242;
+        d=1e100.net; s=20230601; t=1707234438; x=1707839238;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=J3U1zYiltrUU6a+BoXP2bl5zju9uaP+iaN5h6v7fap0=;
-        b=s0mm8dIH0WjZirEE16xtEUR//XHP9xD8tOGM3m/4MqwW94wA1QSSblIgZc/qnSa9df
-         vVZA6vx4UZdw3enuwSL7gaPbjKdav6kFvGXqqI9gmq7XXDqqHGXJiLIZ04BRvM32LNw/
-         jfqh1dHVo9UCEFnTTH20r9soE/7rL+myM8hRCXomsTsNuAq2+a/NdK6c31IHzeHn10Ii
-         OItr3IEAmFZynrqm47GsqC8F7ZD7Q3tQdG4VgsKzaDeSs0GQCQuP3LqxBzv3SRrI3iMC
-         FaNefztmXU0ISLEvgqN8VoRJkbNMbaYKKEGB+1P4HUyvnRkVAFljYMnOe0mbxcS2hGOE
-         P8aQ==
-X-Gm-Message-State: AOJu0YwOk1/bXSg6rbnNdxZfOhQcEx//eWZsSsp3XYkX+n/RuSvw0Zkk
-	zH0TJmVdXPdyz+bY7F8LM56kN+ZUF2QreJO8M8KlpuE8eKzU9qiSbr22EM8DlHA0a+P42AvBRC6
-	GolE=
-X-Google-Smtp-Source: AGHT+IFAWMZbcxOyjxksd/gNEs6PUUSpvZXBnDzyZOtgxoJrlLVyGlxpiRzAmZFb0Djyf0DWjRoadg==
-X-Received: by 2002:a17:90b:3187:b0:296:2358:6e28 with SMTP id hc7-20020a17090b318700b0029623586e28mr13436544pjb.14.1707234442486;
-        Tue, 06 Feb 2024 07:47:22 -0800 (PST)
+        bh=vffioXRN6sE1YLkQBRieWyIB1GOPQuRaQqdfa2ek+qY=;
+        b=i3z0fH4beUidXZEBGyaPAyxQdlAtnBgTZ3D7r9mx0pk9tlEs6eZ/jORsOHo8JtYoy9
+         UIpZSO0D0aDOQytMuoIVWl3XlysDE/GrlDQyyVquGEaBnWh26uGxt9yR5viJILh4fFvI
+         r3DT7hIo7HsuhlzY6dzH0isiPsn7Yo0vR9AUgDjxOahn+s4XxVRBUuHp/53w3iyn83RI
+         UCz8BZCRMe4heBQaiXLNzdJPznfwPjqJHWSNiGwAUvyrL/QfCd2ZaRtPqIM0LdrcRBpm
+         piwQ2VRLDluW/Gk1vFVMaVF4HuMWv3ybgQ0nYMGgTy+jrmjpRbFn18maKJlb4HwZzePP
+         RTtw==
+X-Gm-Message-State: AOJu0YxvydPomp1O/qyNajADaFsbxgI2hUHaK42SlYgmTxYpBi/m8Bkw
+	BsAdYgs/pVxkluz9O/Z7gH6fc5EhYLJPrRdzuwSLrIn7F3r8bfQxMBWBNszqnssfIYdzcFs+MWg
+	NXes=
+X-Google-Smtp-Source: AGHT+IEbqQ/GryApCQsS7g2bMbWZkTx+F6dzuVKVfc3/mzTRNrwEhXT+TEbiQskWTM1npT44Ba+N3Q==
+X-Received: by 2002:a17:90b:4394:b0:295:1e7d:bc14 with SMTP id in20-20020a17090b439400b002951e7dbc14mr2844143pjb.20.1707234438546;
+        Tue, 06 Feb 2024 07:47:18 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id kx18-20020a17090b229200b0029454cca5c3sm1811452pjb.39.2024.02.06.07.47.21
+        by smtp.gmail.com with ESMTPSA id kx18-20020a17090b229200b0029454cca5c3sm1811452pjb.39.2024.02.06.07.47.17
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Feb 2024 07:47:22 -0800 (PST)
+        Tue, 06 Feb 2024 07:47:17 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 4/7] gdb: Fix CVE-2023-39129
-Date: Tue,  6 Feb 2024 05:45:22 -1000
-Message-Id: <67b62fd57d7073b42db2747227d07841d0d064e3.1707234215.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 2/7] binutils: internal gdb: Fix CVE-2023-39129
+Date: Tue,  6 Feb 2024 05:45:20 -1000
+Message-Id: <fd3f20e1e8bcd63b75e8800fe60d6194a4fd6bd4.1707234215.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1707234215.git.steve@sakoman.com>
 References: <cover.1707234215.git.steve@sakoman.com>
@@ -62,7 +62,7 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 15:47:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195003
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195001
 
 From: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
 
@@ -70,27 +70,27 @@ CVE: CVE-2023-39129
 Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/gdb/gdb.inc             |  1 +
- .../gdb/gdb/0012-CVE-2023-39129.patch         | 50 +++++++++++++++++++
+ .../binutils/binutils-2.38.inc                |  1 +
+ .../binutils/0035-CVE-2023-39129.patch        | 50 +++++++++++++++++++
  2 files changed, 51 insertions(+)
- create mode 100644 meta/recipes-devtools/gdb/gdb/0012-CVE-2023-39129.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0035-CVE-2023-39129.patch
 
-diff --git a/meta/recipes-devtools/gdb/gdb.inc b/meta/recipes-devtools/gdb/gdb.inc
-index 099bd2d8f5..ad2b3ad4b7 100644
---- a/meta/recipes-devtools/gdb/gdb.inc
-+++ b/meta/recipes-devtools/gdb/gdb.inc
-@@ -15,5 +15,6 @@ SRC_URI = "${GNU_MIRROR}/gdb/gdb-${PV}.tar.xz \
-            file://0009-Fix-invalid-sigprocmask-call.patch \
-            file://0010-gdbserver-ctrl-c-handling.patch \
-            file://0011-CVE-2023-39128.patch \
-+	   file://0012-CVE-2023-39129.patch \
-            "
- SRC_URI[sha256sum] = "1497c36a71881b8671a9a84a0ee40faab788ca30d7ba19d8463c3cc787152e32"
-diff --git a/meta/recipes-devtools/gdb/gdb/0012-CVE-2023-39129.patch b/meta/recipes-devtools/gdb/gdb/0012-CVE-2023-39129.patch
+diff --git a/meta/recipes-devtools/binutils/binutils-2.38.inc b/meta/recipes-devtools/binutils/binutils-2.38.inc
+index 3787063cba..83dff20855 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.38.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.38.inc
+@@ -69,5 +69,6 @@ SRC_URI = "\
+      file://0032-CVE-2022-47010.patch \
+      file://0033-CVE-2022-47007.patch \
+      file://0034-CVE-2022-48064.patch \
++     file://0035-CVE-2023-39129.patch \
+ "
+ S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/0035-CVE-2023-39129.patch b/meta/recipes-devtools/binutils/binutils/0035-CVE-2023-39129.patch
 new file mode 100644
 index 0000000000..63fb44d59a
 --- /dev/null
-+++ b/meta/recipes-devtools/gdb/gdb/0012-CVE-2023-39129.patch
++++ b/meta/recipes-devtools/binutils/binutils/0035-CVE-2023-39129.patch
 @@ -0,0 +1,50 @@
 +From: Keith Seitz <keiths@...>
 +Date: Wed, 2 Aug 2023 15:35:11 +0000 (-0700)
