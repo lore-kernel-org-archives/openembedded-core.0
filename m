@@ -1,98 +1,89 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <michael.opdenacker@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0DF0C4828D
-	for <webhook@archiver.kernel.org>; Tue,  6 Feb 2024 10:35:34 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web11.18598.1707215731507122761
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08E4DC4829A
+	for <webhook@archiver.kernel.org>; Tue,  6 Feb 2024 10:48:45 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+ by mx.groups.io with SMTP id smtpd.web11.18737.1707216518575144082
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Feb 2024 02:35:31 -0800
+ Tue, 06 Feb 2024 02:48:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=KHgLhNJ1;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=CmCH5hcV;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018d7dfcb71e-cf8d46b3-a4a1-4da5-a90a-ec8fe8223c3b-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1707215730; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=EQ9QRhxyOAj/W6d9B0twtffavJ5dYM61HRTUDOUWW1s=;
-	b=KHgLhNJ1rpAjH6mhPAd5x7SdBsHIsWgk74Sr9mi+zXq/f8dqt0pny+T6L+tAwg+t
-	Feh3E/j48l/UASmQ39I+LnAiq3gwATO6gjp2TqwMAyfTT/bKp8OGoBYRcz9MrR/GZWf
-	IajdggeKT5vySJ8ybdLRueig2FgDHUtzg659/zeA=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1707215730;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=EQ9QRhxyOAj/W6d9B0twtffavJ5dYM61HRTUDOUWW1s=;
-	b=CmCH5hcVY02h2HL4fjv2BnnO/0OS5LudSLzoKoHMntsHE+FdnfU56yg4K/Kp5vO8
-	lcg4YqYp/BwKaL3LOj5FY53Jg9QwzV5IdPcjYNpDAc/+kKOTPRJt0XrO/eQU/ihuT8C
-	DiSITlvVnlY438/vJWPsT83G+2IVHd/GIdM+ZvEM=
-From: patchtest@automation.yoctoproject.org
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 1/2] ltp: Enable extra test groups
-In-Reply-To: 20240206102246.2569704-1-richard.purdie@linuxfoundation.org
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018d7dfcb71e-cf8d46b3-a4a1-4da5-a90a-ec8fe8223c3b-000000@us-west-2.amazonses.com>
-Date: Tue, 6 Feb 2024 10:35:30 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.02.06-54.240.27.30
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=KCSXlnYk;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: michael.opdenacker@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 33265240007;
+	Tue,  6 Feb 2024 10:48:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1707216516;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=q7GdegtNPWsyjyT+u04LCyQVMTQI5k2O3xO7+wbbUvg=;
+	b=KCSXlnYk5DlaPw7T8Dv02k3VkBdX1D1AdHciVj1SLSV+5MqPmg5hk/0CNBRGbx3BemvC2p
+	arTh6jNzAEmJTccAu1lPBHR2MTNsqrpvh7uy53JB/RNRQppeIi23AA8QTbRC5mW1RjKv1j
+	+SzL7AsVlvAlHRN0Cz7rjwuV6lMbfIY1fdw0SvBIe0CqSjbtqPkgukZgJPSQ0X8A2wiDAu
+	b9v0E5RXcCewkCsfY98fKRomV+8KQlI/eYHvMI3Wfy22z5cgFDnK1mBf9xq8ug+e7J5jIu
+	/hVk5gX3l5I+R63lE/iyMHVZBF5AisXAg9B223B85Elu1HM0NCdoKmQbjY4cQg==
+Message-ID: <693edd04-5743-4a01-9d07-9af9097e565b@bootlin.com>
+Date: Tue, 6 Feb 2024 11:48:35 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Cc: ranjitsinh.rathod@kpit.com, Zahir Hussain <zahir.basha@kpit.com>
+Subject: Re: [OE-core][kirkstone][PATCH] alsa-lib: Enabling ptest for alsa-lib
+ component
+Content-Language: en-US
+To: aszh07 <mail2szahir@gmail.com>, openembedded-core@lists.openembedded.org
+References: <20231222060602.11124-1-mail2szahir@gmail.com>
+From: Michael Opdenacker <michael.opdenacker@bootlin.com>
+Organization: Bootlin
+In-Reply-To: <20231222060602.11124-1-mail2szahir@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-GND-Sasl: michael.opdenacker@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 10:35:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194985
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 10:48:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194986
 
---NextPart
-Content-Type: text/plain
+Hi Zahir
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
----
-Testing patch /home/patchtest/share/mboxes/1-2-ltp-Enable-extra-test-groups.patch
-
-FAIL: test max line length: Patch line too long (current length 386, maximum is 200) (test_metadata.TestMetadata.test_max_line_length)
-
-PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test pylint (test_python_pylint.PyLint.test_pylint)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
+On 12/22/23 at 07:06, aszh07 wrote:
+> From: Zahir Hussain <zahir.basha@kpit.com>
+>
+> This change adds ptest for alsa-lib.
+>
+> 1) Adding CFLAGS change for include the header file path for resolving
+>   below compilation issue;
+>          In file included from ../../../alsa-lib-1.2.1.2/test/lsb/config.c:4:
+>          ../../../alsa-lib-1.2.1.2/test/lsb/test.h:5:10: fatal error:
+>          alsa/asoundlib.h: No such file or directory
+>          5 | #include <alsa/asoundlib.h>
+>
+> 2) Removed the test suite execution 'make' call using 'sed' command.
+>
+> 3) Compiled the test directory source code using "oe_runmake check" command.
+>
+> 4) Copied all the required binaries into PTEST path using do_install_ptest()
+>   function.
+>
+> Signed-off-by: aszh07 <mail2szahir@gmail.com>
+> Signed-off-by: Zahir Hussain <zahir.basha@kpit.com>
 
 
---NextPart--
+Apologies for the late reply. Would you be interested in submitting a 
+new version against master? I'll be happy to test and review it, as 
+indeed we're missing ptests for alsa-lib and alsa-utils (see 
+https://gist.github.com/ycongal-smile/dd51b0e450a8f0083e9d5cc10eeeb060#file-unimplemented-ptests_oe-core-log).
+
+Thanks in advance
+Cheers
+Michael.
+
+-- 
+Michael Opdenacker, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
