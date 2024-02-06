@@ -1,87 +1,98 @@
-Return-Path: <peron.clem@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6618C4829B
-	for <webhook@archiver.kernel.org>; Tue,  6 Feb 2024 16:02:17 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web11.24859.1707235333086145931
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E359DC4828D
+	for <webhook@archiver.kernel.org>; Tue,  6 Feb 2024 16:09:57 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web11.25097.1707235787793589086
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Feb 2024 08:02:13 -0800
+ Tue, 06 Feb 2024 08:09:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=h+IsSEzo;
- spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: peron.clem@gmail.com)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-40ff812442aso1855555e9.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 08:02:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707235330; x=1707840130; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ra0zK/B4Ce7t9y9APAT3ZTKQbqZb/yLJkA08ezCIJ3E=;
-        b=h+IsSEzobvZH46khTeP7KZLC1Z02W+RYtdkm0e+RWmRRbyS9Pe8nMzLh0YuizrD26a
-         ny6siQ32jtF1oI3dsU4uI9CRnKSoZMoGJXSExXdZ2lPFqF7ITK7zRCVaD3Kq4xYS/8kY
-         xpggRK5bGKJviYsniM+Y46qVU0XMLiTSVVaOKKix2ZPUUCJ/cipBs8muVUmzGFOdh0G5
-         odAaptpzE1IVRIhqSSb+uLY+1Tmr5ak89fijNM4kdpZf/GFNVlCRW9JgJWhOaYoZV9hy
-         99jJ4zvrLHSG4RwdyIbqPLpggX79PJ6fvEyY591rOBqDG9QS+G+ssU9vjhK5l5qeTnCX
-         Cq/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707235330; x=1707840130;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Ra0zK/B4Ce7t9y9APAT3ZTKQbqZb/yLJkA08ezCIJ3E=;
-        b=ni7Y/naWeB4BNH7xmWO6ATHRHtfmkKXv3siiYqzPmWkvg94PKUWni8y/hTktFmCWMx
-         RgS9yI3DIoEpVijxCGkFSRZliWiIfRs25zYH+IHKg+v9d+W8w+x2jrCKo0f4n0rcOKUg
-         TA2c98113CxOALvTZWuIUrwpEsOS9KqpeTNdIs0DYjHiaG/yFXEm1p7+0pXRbCG8NfHN
-         raSNKa2dUN2M1JfwYLS8BtgKrbFgJdmzFSOxl6ff7LH+XhbbjNutWUCG12U9pbn/B+8Y
-         irjooV0mt1A1iC57y3ZX2GX4Mj32RW9A3I5cPyO1cuqcwkwhKjvZ4145lSOoBG0J3HWn
-         bf5A==
-X-Gm-Message-State: AOJu0YwWCO593JcFH1a0LhAiuLDVbnwGfwAOTUJx/43qCvp0PAKkdqOw
-	nwKmqxrtxBEaYdPyS/EqTXmOkDdUhPpPmpWKxE/+EnwopcwAoyVX4qmlBqZO
-X-Google-Smtp-Source: AGHT+IEPBB1apTF0P/yLoqnhsSVJV9e6OpiHXboxLGUsyvyZbzXdtOdPP8SuX0nx930I6RAeWoF+Iw==
-X-Received: by 2002:adf:e487:0:b0:33b:3820:e72c with SMTP id i7-20020adfe487000000b0033b3820e72cmr1636250wrm.41.1707235330062;
-        Tue, 06 Feb 2024 08:02:10 -0800 (PST)
-Received: from Clement-Blade14.outsight.local (lputeaux-656-1-11-33.w82-127.abo.wanadoo.fr. [82.127.142.33])
-        by smtp.gmail.com with ESMTPSA id t13-20020a05600001cd00b0033b4341eb78sm2469712wrx.1.2024.02.06.08.02.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Feb 2024 08:02:09 -0800 (PST)
-From: =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>
-Subject: [PATCH] libpcap: extend with nativesdk
-Date: Tue,  6 Feb 2024 17:02:08 +0100
-Message-ID: <20240206160208.725799-1-peron.clem@gmail.com>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=fahQ2tlA;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=EF17ybIh;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018d7f2ec133-95189cf4-01f8-41ff-8f24-d21b451e8778-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1707235787; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
+	bh=VuWPytkmUwXSEEAWhozQEICOF5A8weHs8+32pOmen+Y=;
+	b=fahQ2tlAnzH1hYK0heCXTsBt0YxVWAr5Q38vQIc8GKWKeVUghutDPV0E8xkDKxoU
+	U8KfUvDWvIsLoXdWFVoPA1uFpBql3daJT5TB0SC7/l5nLHtzvg02k+hW6hBEL7CiH0n
+	x5tBzDm1GYpvDZPCoTZLuSzaPUu3EWppKPer986A=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1707235787;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=VuWPytkmUwXSEEAWhozQEICOF5A8weHs8+32pOmen+Y=;
+	b=EF17ybIhpfp0nljV57AaMrYovl2rXjeVQuLnWIJO/0IMeD+BwInRy8QAdqzKXcby
+	GlF3AT17CXJbkmcP+Q7tDirKf1p31lCEBMWyjJ7qFcZEiXL7HG0RLJlejL32kPP2CX+
+	3S2mEoxxFtyDoSLim8BXSC3KQX2r9CZs/WDKpytk=
+From: patchtest@automation.yoctoproject.org
+To: Steve Sakoman <steve@sakoman.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-core][kirkstone 1/7] curl: ignore CVE-2023-42915
+In-Reply-To: 2771a1248a251650f6e2e64731f56ed928c29ce5.1707234215.git.steve@sakoman.com
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018d7f2ec133-95189cf4-01f8-41ff-8f24-d21b451e8778-000000@us-west-2.amazonses.com>
+Date: Tue, 6 Feb 2024 16:09:47 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.02.06-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 16:02:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195008
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 16:09:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195009
 
-libpcap is requirements to other recipes that could be integrated in
-a SDK.
+--NextPart
+Content-Type: text/plain
 
-Add nativesdk to BBCLASSEXTEND.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Signed-off-by: Clément Péron <peron.clem@gmail.com>
 ---
- meta/recipes-connectivity/libpcap/libpcap_1.10.4.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Testing patch /home/patchtest/share/mboxes/kirkstone-1-7-curl-ignore-CVE-2023-42915.patch
 
-diff --git a/meta/recipes-connectivity/libpcap/libpcap_1.10.4.bb b/meta/recipes-connectivity/libpcap/libpcap_1.10.4.bb
-index 27b167c21f..166654e280 100644
---- a/meta/recipes-connectivity/libpcap/libpcap_1.10.4.bb
-+++ b/meta/recipes-connectivity/libpcap/libpcap_1.10.4.bb
-@@ -40,4 +40,4 @@ do_configure:prepend () {
-     sed 's|\([ "^'\''I]\+\)/usr/include/|\1${STAGING_INCDIR}/|g' -i ${S}/configure.ac
- }
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
--- 
-2.43.0
+FAIL: test CVE check ignore: CVE_CHECK_IGNORE is deprecated and should be replaced by CVE_STATUS (test_metadata.TestMetadata.test_cve_check_ignore)
 
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
