@@ -1,91 +1,92 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26A74C48297
-	for <webhook@archiver.kernel.org>; Tue,  6 Feb 2024 14:41:47 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web11.22896.1707230498040675918
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5984AC48297
+	for <webhook@archiver.kernel.org>; Tue,  6 Feb 2024 14:54:47 +0000 (UTC)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+ by mx.groups.io with SMTP id smtpd.web10.23407.1707231280761148538
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Feb 2024 06:41:38 -0800
+ Tue, 06 Feb 2024 06:54:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=P/LoaQyu;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-40ff28388a6so2431765e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 06:41:37 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Sl90IfKj;
+ spf=pass (domain: gmail.com, ip: 209.85.167.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-51149561a39so3045385e87.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 06:54:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1707230496; x=1707835296; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=24qJEk90dFcR+SPSIuxeMg1+PbHTSePSAxVpzJgbAlA=;
-        b=P/LoaQyuU8pIMQr13O1QTg30I44+PL+/6ckMAn1a1525tTNC3k42j6OCD3q/CCS3KL
-         sZ3dRpgAviDW5IpbhKN8g257lLhl/0It5dRg7Zuh2wQ6XPU2Wf+yIh9Ltc0GEIE7j63D
-         x14NxxL43oNsJh7fdOsQEni3z0wQsNHrRISRw=
+        d=gmail.com; s=20230601; t=1707231279; x=1707836079; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=3R1zlFZcpoDOOCPeJLi+1jn3jIVdFTsfcmzsQfzYKD0=;
+        b=Sl90IfKjo7jSZAN1tfk6EADL2CRZU9QR4XVn3m1HicpAsFxdmq5duc7YdzVzul1uNJ
+         jyOeQLyLnd1+zjqIQyCReutNdhT2s+F9yh8Z64YXQ015VMCmulWpBV3/03ryjf1+I160
+         GX+hqMQsflDHdz04GSoBgwp2Ro7qCpbDPeOUCAzDpsGRMA9+k1rjesj+UkmXje/K8qwN
+         p3GwuBHp9idWFKcGXXjZjPJcuomMVb2r4AGIVJBuqMyKBTc0FqOsIwtMSYfmWGqWpZEZ
+         2kE0b+2i2ia144vnFKbaHjKKNBn5lcpFRAH8fRTeYxfdVHWUPt6qUM9CTEH9xXb7fc8t
+         hz6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707230496; x=1707835296;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1707231279; x=1707836079;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=24qJEk90dFcR+SPSIuxeMg1+PbHTSePSAxVpzJgbAlA=;
-        b=xIl9waNWIkpgDpHbHPf6yq1yp6DhOlx314xgUQH33gdZpZJvhPFynmGhCtFwXGVVTY
-         kJJcacxbGLlu6LZs76Kp9NU0DqehIvOEjWAm5JClJEqWQmYt/I72gWVgb14eQjhT7J5R
-         A/mL6idCDUepaw+SqmcX/sKB0jTIg7VacnhRTapjqRwtEMcKKHjTvgy30LMx2MzVjdD/
-         juIjYRmVt64br2qA9DZRPD82JcSmRSWLR8UA8hhB1AVTlEz6rbWlhODUAO0NAzwt07iN
-         W5wjDqOvkwqm77VzMTZUv4V8Ph0xVJWkQOrK1DjFkc4pdBZYoH/+bu9HiEjF8q/7svnO
-         hXKw==
-X-Gm-Message-State: AOJu0YwmoquMR6v0tNK+xXFio0FbuLhkl/uf/zUsMcaSBKgHIo1RQZXr
-	gLqzHny0+ax8yWvJZxkjUPF00l4iUlQsBCJ5Qd3nyAQpMBzj5GstyWcDvizb5r9FAwCvNKUtSPN
-	W
-X-Google-Smtp-Source: AGHT+IHy1X/If/5862h/M6lMBavt75zgNTFNHB8905iI5/kStd86Ndq2uZM6BPUIGuQRJy5d4tkOUA==
-X-Received: by 2002:adf:efcc:0:b0:33b:1cba:d0e6 with SMTP id i12-20020adfefcc000000b0033b1cbad0e6mr1408668wrp.37.1707230496304;
-        Tue, 06 Feb 2024 06:41:36 -0800 (PST)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:45c0:34a2:1eea:2530])
-        by smtp.gmail.com with ESMTPSA id jp10-20020a05600c558a00b0040e541ddcb1sm2162821wmb.33.2024.02.06.06.41.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Feb 2024 06:41:35 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] ptest-packagelists: Mark python3 as problematic on riscv64
-Date: Tue,  6 Feb 2024 14:41:35 +0000
-Message-Id: <20240206144135.2597050-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.40.1
+        bh=3R1zlFZcpoDOOCPeJLi+1jn3jIVdFTsfcmzsQfzYKD0=;
+        b=GM04v5Epk63UEA19TPY/bKKR/t/YKcDvMnIhForCjL3T0gNo1HEyJ2sD89ixfN4/8/
+         1toUFJwfwYCRDZKqxkog9nbO2kqw58NXSnXvzMZoCTD/FsUNq1f6fTWPX6ppyty1a1bd
+         CZb9SivYxBce4DPm50kcZoEMAQAP/eKajKC0n71AT6xz0TTbq0w7VAuUi/RiKdO58A4A
+         xryrYJVut9QzCxIUckdimmoLSgqf0KEBFsrNYirdX+Sbw8IHjQHKiDQ6xW0zOrKq7JEt
+         T4bOfWePN5rU6t0SFRON8Dz/4tVfahwzP/znjeHm4EcEjAEmA3R3NibaIc9en+1wiaWs
+         ynQw==
+X-Gm-Message-State: AOJu0Yx2fmSCvBrtpYbT+UcMQRR6Md+Wix1+g2827tuF6fAjHX1sHP5c
+	m4k2oD45gobre5SWjgYtO0z2Z7NMRqukJnIREpvi1TBpy8JDzfX/47WUCdFHLrAnf+P9SwHQlb2
+	yDkkcDb26q3F5Q3reIKVluZrCLak=
+X-Google-Smtp-Source: AGHT+IHIsyAv5i7vEwbZ+xo8wLZNDPit19b+nKlZSh8wYjXwNi0Ue3m21qIvcW79c18WvEJuMxlgwL3V9vFvJT40tDk=
+X-Received: by 2002:a05:6512:2316:b0:511:54e5:491d with SMTP id
+ o22-20020a056512231600b0051154e5491dmr2267870lfu.15.1707231278784; Tue, 06
+ Feb 2024 06:54:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231206092536.2874022-1-andrey.z@gmail.com> <CANNYZj8x2t2H9rj0jjjYW-GZqnqn_x6mNOJtydqUakO1sLU=ag@mail.gmail.com>
+ <CAHtQpK69mRhcq6xMYLSgFQT7aKiXnh323AJP08noyMNX5fJMgQ@mail.gmail.com>
+ <CANNYZj8-9PHqeiRuExw+kdPhCNspCERzH1zKA9O7L06F=bx27w@mail.gmail.com>
+ <VI1PR10MB31822295979B4CE4CDB89E8EF784A@VI1PR10MB3182.EURPRD10.PROD.OUTLOOK.COM>
+ <17AF75010791E9CF.16460@lists.openembedded.org>
+In-Reply-To: <17AF75010791E9CF.16460@lists.openembedded.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 6 Feb 2024 15:54:27 +0100
+Message-ID: <CANNYZj-zu9+a_zX21YWjN_SF0kL+rm=Fu5000s=an17r3SUaiQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] scripts/oe-setup-layers: add option to skip
+ revs in json
+To: alex.kanavin@gmail.com, Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: Jermain Horsman <jermain.horsman@nedap.com>, Andrey Zhizhikin <andrey.z@gmail.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 14:41:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194996
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 14:54:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194997
 
-Most ptests run on on riscv64 but for some reason python3 hangs. Move
-it to the problem list until this is resolved so we can establish a
-"known to work" baseline.
+On Wed, 31 Jan 2024 at 15:30, Alexander Kanavin via
+lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
+wrote:
+> > > Look for the patchset '[RFC 0/7] bitbake-layers: Add
+> > > update-layers-setup' posted on 7 November, particularly the comments
+> > > to the individual patches, where we get to the design that should work
+> > > and cover the use cases.
+> >
+> > I had to work on some other issues that needed my attention,
+> > so not too much progress since, however, I have reserved some
+> > time this month and was planning to work on this.
+>
+> The patches are now in testing so Andrey can take a look and check if
+> they handle he use case he wants to solve:
+>
+> https://git.yoctoproject.org/poky-contrib/log/?h=abelloni%2Fmaster-next&qt=author&q=horsman
 
-(was still going after 42000s, long after everything else finished)
+And now looks like they're not. Alexandre, was there some reason to drop them?
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/conf/distro/include/ptest-packagelists.inc | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+[PATCH 1/2] bitbake-layers: Add ability to update the reference of repositories
+[PATCH 2/2] bitbake-layers: Add test case layers setup for custom references
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index 68a3f63a6a5..b590640edc2 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -121,8 +121,9 @@ PTESTS_SLOW = "\
-     lz4 \
- "
- 
--PTESTS_SLOW:remove:riscv64 = "valgrind"
--PTESTS_PROBLEMS:append:riscv64 = " valgrind"
-+# python3 ptests hang on qemuriscv64
-+PTESTS_SLOW:remove:riscv64 = "valgrind python3"
-+PTESTS_PROBLEMS:append:riscv64 = " valgrind python3"
- PTESTS_SLOW:remove:riscv32 = "lttng-tools strace valgrind"
- PTESTS_PROBLEMS:append:riscv32 = " lttng-tools strace valgrind"
- PTESTS_SLOW:append:libc-musl = " libc-test"
--- 
-2.40.1
 
+Alex
 
