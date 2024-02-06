@@ -2,60 +2,62 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6316C4828D
-	for <webhook@archiver.kernel.org>; Tue,  6 Feb 2024 10:27:54 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web10.18547.1707215265434775206
- for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Feb 2024 02:27:46 -0800
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA8E4C4829A
+	for <webhook@archiver.kernel.org>; Tue,  6 Feb 2024 10:29:44 +0000 (UTC)
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+ by mx.groups.io with SMTP id smtpd.web10.18578.1707215382903403559
+ for <Openembedded-core@lists.openembedded.org>;
+ Tue, 06 Feb 2024 02:29:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hy5zNgqr;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-33b1d7f736bso3048077f8f.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 02:27:45 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=S+ABlZuw;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.208.173, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2d066b82658so80533531fa.3
+        for <Openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 02:29:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1707215264; x=1707820064; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1707215381; x=1707820181; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=muOd7XbUrl8Pd61VCxLbJ/QCuBezqGVyzqg1pCucbfI=;
-        b=hy5zNgqrz1GsHBwO7e3q8W2tsAn/mNEEBvzXjeidnl4KZ1CI4K6kkloGaAgIqN0t94
-         hzMqnyxLnU9+V6mi8e5/XFOrIfinRsaclOtqiMeq2oXKbwEfWk/uDuYQRQ3Kt0iaXRce
-         P0MYASS3l1rso67fEYj4Hb6+vcP4zg/26LaXc=
+        bh=WmW4DlLUv0fsEu5ZOzrAMsZY5FWeHiXIozni65Cm9A4=;
+        b=S+ABlZuwcLN3BOahT9/Pg6nnve7juvZCEkX20sBrnXRrbGX0H+7LBx88o/kwM5Bjlw
+         lkphHnTl/GDhwybkgsYyXPH9WbfP++mVOlWjcQ/Cd0aQN5kq5cc4n8FiDQ1B06EDpzff
+         TKoa6UT6YCU7lpQWvIl8W5tsrDqj33geuASaY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707215264; x=1707820064;
+        d=1e100.net; s=20230601; t=1707215381; x=1707820181;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=muOd7XbUrl8Pd61VCxLbJ/QCuBezqGVyzqg1pCucbfI=;
-        b=Z5ANjtJ+v0cGsOQj+zA636mIoCK4MFsTB0nNwHD4L8aZSzCbUhCNBd+Xjlsb/vHMLd
-         MZjrNPRapVDBu8YExuTyOS7zQES4+4eKZ+pt6AYV9ojoWZzPyrPPoSEbz/4RALRvi255
-         T8/n3O2cjj/EzX7WRaJuK0cgYGswFky7B5eV84t1Nf5qRQs8h4ozVWodc6DmyVMo0LNT
-         dmsntgQ7AZQ1E9YqaaYKDt+ZOFhNkX4NiuJGAad0qQPc/TZV9sMJ/flPGNzxcQy1KGCp
-         WTcWrAvkm/vJmcjSsDxi7/UIkLk6nJl/wIMuAFDgrF2yuDn63NMhX826Rmx/FvMvD6Uq
-         o4IQ==
-X-Gm-Message-State: AOJu0Yx4mlXNPiklkkBmkCq0lSlKUlbnBw2eio0VSmp8NCHU4sq7o1PG
-	qYiIksW80TK/kf+QDOnYSZ4EJsCqXHe776DsUaLATjxpNUIlhUrKOCvU0GHCE7M0+nGuYR7p7hZ
-	w
-X-Google-Smtp-Source: AGHT+IEBvyXssIuDFlMZi0XGdmXHcKpHDIFQWICb+jMcZgv59hWpqgamRvC00qKMUpwaQmOppbvN7w==
-X-Received: by 2002:a5d:4751:0:b0:33b:1aca:8c01 with SMTP id o17-20020a5d4751000000b0033b1aca8c01mr945047wrs.19.1707215263786;
-        Tue, 06 Feb 2024 02:27:43 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCVdjaV8poUqXD6r7AwjFypri+r1wQAeD4HPn1skG0et7G5MBbiG5bXwy8D8/ynaKRTDQfUtCuIy7Znninp3CgdWjFIbaZ9cb4CRLta6E2Z0MVZB/kWMYIIzqsqJp3TstubxTakzvv7hll0h6Z83FRCytTXnxA==
+        bh=WmW4DlLUv0fsEu5ZOzrAMsZY5FWeHiXIozni65Cm9A4=;
+        b=tFOrJfNh9AK2vERAD2y5g/Qe/0HTL8/8hGCM+AWqhUXKBkbwJOvEXWE3VAl0B4R7cm
+         rePMvE7YekdjF3x7w0do25VCrfLUpo16eWpC59xEIMg4imKnsqn21GtMMHPZSZG9i+aM
+         /d9Cv0QH2kNjcCPJCukvwd2SHf55Nin3jliJrJOfKMKFalvonf3llQykUhF5JsEudpUI
+         rJ4rtCOt690rPEJSzqhdzagZA7O4tJ8XVunfTtTMXSEfRIxMkoapehlASy+jl5P6Jop/
+         zHUEfejNWKobLAg26R3SCkWikH1JaZQgy2kS7g3Gz8F5ofgqxGPXLo8LvPcGaKLe5Yiq
+         K+1A==
+X-Gm-Message-State: AOJu0Yy913fCoHunByokOy2ACZUNikkpHZAUmkCGy0WAZ2OcnUth3lLn
+	kglPb1sth4BEhkFARUMEe75rY67m3NTcsBeLk/gnUElmxn3XCxP5jWvyo0h3Tm0=
+X-Google-Smtp-Source: AGHT+IGLIwhtbboilPbO/z35nAIgq9xVRrhoOdnqLJKcayKNtpakubkb2dLqPWOKyMo+zj7NJ2QXCg==
+X-Received: by 2002:a2e:9b95:0:b0:2d0:9b1c:648f with SMTP id z21-20020a2e9b95000000b002d09b1c648fmr1614894lji.24.1707215380935;
+        Tue, 06 Feb 2024 02:29:40 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCXnbgamNR4M7nD3jHs7iMhnemfVxiwdvSjrjqTfnn5NgCbiitto16tKnpikb9n7BdwVWOjpilge6AwPEi2oEPPTJYuw2rYXH7umgV3fVC5q4FjCsd4s/STPmHWkSRH49iLna4r43bcS3ft+PtvKKhjVy6OAwWc7TZq3lGclTHwo15JzwYSlXZxGueMT7yKW00g=
 Received: from ?IPv6:2001:8b0:aba:5f3c:45c0:34a2:1eea:2530? ([2001:8b0:aba:5f3c:45c0:34a2:1eea:2530])
-        by smtp.gmail.com with ESMTPSA id d1-20020adf9b81000000b0033b44b4da56sm1705195wrc.111.2024.02.06.02.27.43
+        by smtp.gmail.com with ESMTPSA id z26-20020a2e9b9a000000b002d0b07c491dsm226032lji.47.2024.02.06.02.29.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Feb 2024 02:27:43 -0800 (PST)
-Message-ID: <fac899458e20aa7cac770ce215fc7cb4bfbce513.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] usrmerge: add the distro feature to nativesdk
- builds when added to target and enable symlink creation for both
+        Tue, 06 Feb 2024 02:29:40 -0800 (PST)
+Message-ID: <78c42305df6463a2ad3c5bad47b56f4552adef4f.camel@linuxfoundation.org>
+Subject: Re: [OE-Core][PATCH v3 1/2] testimage: move
+ TESTIMAGE_FAILED_QA_ARTIFACTS default to core-image
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Maanya Goenka <maanyagoenka@linux.microsoft.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: alhe@linux.microsoft.com, Maanya Goenka <maanyagoenka@microsoft.com>
-Date: Tue, 06 Feb 2024 10:27:42 +0000
-In-Reply-To: <20240201025621.1632547-2-maanyagoenka@linux.microsoft.com>
-References: <20240201025621.1632547-1-maanyagoenka@linux.microsoft.com>
-	 <20240201025621.1632547-2-maanyagoenka@linux.microsoft.com>
+To: Alexis =?ISO-8859-1?Q?Lothor=E9?= <alexis.lothore@bootlin.com>, 
+	Openembedded-core@lists.openembedded.org
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Alexandre Belloni
+	 <alexandre.belloni@bootlin.com>, Mikko Rapeli <mikko.rapeli@linaro.org>
+Date: Tue, 06 Feb 2024 10:29:38 +0000
+In-Reply-To: <93350237-c4ea-4859-93fa-113a3ccc0452@bootlin.com>
+References: <20240205143757.81826-1-alexis.lothore@bootlin.com>
+	 <20240205143757.81826-2-alexis.lothore@bootlin.com>
+	 <5358961809135d87d89ec9004c7f4bc164c82fe2.camel@linuxfoundation.org>
+	 <93350237-c4ea-4859-93fa-113a3ccc0452@bootlin.com>
 Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
@@ -71,40 +73,68 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 10:27:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194983
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 10:29:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194984
 
-On Thu, 2024-02-01 at 02:56 +0000, Maanya Goenka wrote:
-> From: Maanya Goenka <maanyagoenka@microsoft.com>
+On Mon, 2024-02-05 at 20:22 +0100, Alexis Lothor=C3=A9 wrote:
+> Hello Richard, thanks for the fast review
 >=20
-> Add usrmerge to DISTRO_FEATURES_FILTER_NATIVESDK (and DISTRO_FEATURES_FIL=
-TER_NATIVE for consistency),
-> since we have come across cases where the distro feature would be require=
-d by both contexts.
-> As a supplement to this change, when creating the merged usr symlinks at =
-the do_populate_sdk stage,
-> these need to be created for both the target and native sysroots within t=
-he SDK.
+> On 2/5/24 16:08, Richard Purdie wrote:
+> > On Mon, 2024-02-05 at 15:37 +0100, Alexis Lothor=C3=A9 via
+> > lists.openembedded.org wrote:
 >=20
-> Signed-off-by: Maanya Goenka <maanyagoenka@microsoft.com>
-> Signed-off-by : Alejandro Hernandez Samaniego <alhe@linux.microsoft.com>
-> ---
->  meta/classes-recipe/image.bbclass | 2 ++
->  meta/conf/bitbake.conf            | 4 ++--
->  2 files changed, 4 insertions(+), 2 deletions(-)
+> [...]
+>=20
+> > > -TESTIMAGE_FAILED_QA_ARTIFACTS ??=3D "\
+> > > -    ${localstatedir}/log \
+> > > -    ${sysconfdir}/version \
+> > > -    ${sysconfdir}/os-release"
+> > > -
+> > >  # You can set (or append to) TEST_SUITES in local.conf to select the=
+ tests
+> > >  # which you want to run for your target.
+> > >  # The test names are the module names in meta/lib/oeqa/runtime/cases=
+.
+> >=20
+> > I can imagine why ??=3D breaks if you use +=3D.
+> >=20
+> > Does this work if you change it from ??=3D to just =3D ?
+>=20
+> I've indeed given a try to this before moving TESTIMAGE_FAILED_QA_ARTIFAC=
+TS to
+> core-image, but when using "=3D" instead of "?=3D" or "??=3D", I observe =
+that the part
+> affecting TESTIMAGE_FAILED_QA_ARTIFACTS in core-image-ptest is not taken,=
+ so we
+> are missing the ptests artifacts (but we still get the generic artifacts =
+defined
+> in testimage.bbclass). So to summarize:
+> - "??=3D" or "?=3D" : we only get ptests artifacts, not the "generic" one
+> (/etc/version, /var/log, etc)
+> - "=3D": we only get the generic artifacts, not the ptests one.
+> It is not clear for me why the second one fails, and
+> TESTIMAGE_FAILED_QA_ARTIFACTS does not appear at all in 'bitbake -e" outp=
+ut,
+> which makes it even more cryptic to me.
+>=20
+> > I'd really prefer to keep this in testimage.bbclass.Recipes should be
+> > able to use +=3D if it is set with =3D and the addition is after the cl=
+ass
+> > inherit.
+>=20
+> Based on my understanding of bitbake manual, I theoretically agree with y=
+ou,
+> yet, as mentioned above this is not the behavior I observe, so I may be m=
+issing
+> something important here. Maybe the parsing order is not the one I think =
+I am
+> observing, maybe its multiconfig, maybe something else.
+> I can try to dig this further and clarify why it does not work as expecte=
+d with "=3D"
 
-This doesn't quite follow. "target", "nativesdk" and "native" are all
-different separate filesystems and not connected. Yes, you can use
-usrmerge on some (or all?) of them but you don't have to have them
-match.
+I would like to better understand why this isn't doing what we
+expect...
 
-Forcing them to match is likely just working around an underlying issue
-which needs to be fixed.
-
-What were the real failures?
-
-For example, this would stop native or nativesdk sstate being reused
-between differently configured builds when it could be.
 
 Cheers,
 
