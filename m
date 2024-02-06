@@ -1,91 +1,121 @@
-Return-Path: <thakur.virendra1810@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE459C4828D
-	for <webhook@archiver.kernel.org>; Tue,  6 Feb 2024 10:02:24 +0000 (UTC)
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web10.18241.1707213736316635714
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC961C48286
+	for <webhook@archiver.kernel.org>; Tue,  6 Feb 2024 10:03:44 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+ by mx.groups.io with SMTP id smtpd.web10.18254.1707213820208687775
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Feb 2024 02:02:16 -0800
+ Tue, 06 Feb 2024 02:03:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=KKRlI77m;
- spf=pass (domain: gmail.com, ip: 209.85.214.177, mailfrom: thakur.virendra1810@gmail.com)
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1d93ddd76adso4898485ad.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 02:02:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707213735; x=1707818535; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=EzYeqZgg1gWY6TwC60aiNk71XhcV8/ICYe3tznAsGWA=;
-        b=KKRlI77m/rtcdZgm5rZK0Iw23viSaz1AtliHPazBvcDpKxzCy8s72qtV2tUoU/NJSC
-         TumnEvlX9x079wkJA6VuppGG8SNZtiOTlQW3kFLWhFtiX0DjcDBJ4zdHo6ZlTlXFUzt4
-         6vAudNoDw39qU+27GBfAzN2b5Ymvt19gJjpt0OOWYMnxG43PGVD2Wz5VErLCeFx/Jhs0
-         W6qKhfd07oDp1LMSyHhjuOlsH/wwCYIo+pURBgBpT/JutXDspI0jRsWW3n66GOu1FcDX
-         YjMqrWqykvZyUvr3Ull+uDB1tJApbA1O/ptLUl/U7GiI8QQ9pPhyzrE+BnIRG9r3onao
-         M9vQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707213735; x=1707818535;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EzYeqZgg1gWY6TwC60aiNk71XhcV8/ICYe3tznAsGWA=;
-        b=BKPnUZVvcEUyUSxpHMKSGtLuXPUQmN/vGhbV/rqC3aaWSxC/zbfw4QGSoqEzHquEo+
-         BTlvFav1m738NodRtKJCmJcxkAunxafh0Geux12GsHsIbzV3nktm49VpQluU2EV2QnQW
-         9OZzBqtgMYfUt9/ILboCcOpuODEtHT+xRMGZSpyFWoDGREqHRAlc+XQXNhSmyDhoSC1I
-         j2OYS/sReMq+dMj7sz6bgek9eJYqhJ5TL97O4JwDnCifb2/AT/DSq1ZK6Zdr5iob1Pp+
-         YQmvSm13SJPDgCIvKZaW6HrdpT3K/NXWgUqxpoeJfJok6nh0788tjTVeTjmHe4D35Ikx
-         BT2w==
-X-Gm-Message-State: AOJu0YwidOyUXTDTiUbvTk7iwBrRyhPhqD/Jk7Yjdorc6W6OsJ0nJpn8
-	tQxvFGVQIe8xLKE22ZqbuOOV3thv+IP6KBQd1TqzxKpkd+naIDm9F/wJCnZC
-X-Google-Smtp-Source: AGHT+IEs4fkVG3cyt5yQaI1wC2JTH4cmjUGouG/VN7nOMDfBn49pfJ9ctx4WmfdwOYumrOZCd3i/7g==
-X-Received: by 2002:a17:903:11c6:b0:1d9:91a0:da43 with SMTP id q6-20020a17090311c600b001d991a0da43mr1321113plh.31.1707213735157;
-        Tue, 06 Feb 2024 02:02:15 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCVnHwt1054xa08ycSjeZRFgBFCJ/MsefU/R5WOXvkh82Lc1gZ1tn83LmaT7DEpBltS3xxaoGyKnC0H1VWrqvzeRGeCOH1Oj
-Received: from L-18076.kpit.com ([2401:4900:1c45:feed:a533:3380:80c4:e8d3])
-        by smtp.gmail.com with ESMTPSA id jz15-20020a170903430f00b001d88d791eccsm1449736plb.160.2024.02.06.02.02.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Feb 2024 02:02:14 -0800 (PST)
-From: virendra thakur <thakur.virendra1810@gmail.com>
-X-Google-Original-From: virendra thakur <virendrak@kpit.com>
-To: openembedded-core@lists.openembedded.org,
-	alex.kanavin@gmail.com
-Subject: [dunfell][PATCH] perl: Whitelist CVE-2023-47039
-Date: Tue,  6 Feb 2024 15:31:58 +0530
-Message-Id: <20240206100158.69281-1-virendrak@kpit.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=oKaGYcQS;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 141356000E;
+	Tue,  6 Feb 2024 10:03:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1707213817;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xmO00KThIN1kSdZ1cyQ8EpeX6keYWtzyDm/vhZ1Wj7I=;
+	b=oKaGYcQSlmQ0bL0fU/0c8lHc4j7NE0DbWV8bfM8upKyqOjYu/25Oc+PZ4h4HklpyhTKOan
+	gAWf0YxDOeBWoGWYvqa1DcqMOjl+mUcspdT1kASQgVp581lSp8gikKHuhuJZYp49p7ulpl
+	E0h9zkp1/eLDkmr7e6m9F93lNTxDH0QLC20U4oxIP/KwcCzIuF+uknkzgdcoNuVbPPd32P
+	NioUS1i6tWGw5ysTlSxY1U5YYJrDvbe0kKLrwuekOUnd3MjNwzIfWjQrAlSVaP2aVRfjML
+	ipf1k58CkzXN2j7+kerBpXZt2tY156sV9JA+iKsmJ44UBwSL6pSN3+yE5xtXZA==
+Date: Tue, 6 Feb 2024 11:03:36 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Maanya Goenka <maanyagoenka@linux.microsoft.com>
+Cc: openembedded-core@lists.openembedded.org, alhe@linux.microsoft.com,
+	Maanya Goenka <maanyagoenka@microsoft.com>
+Subject: Re: [OE-core] [PATCH] usrmerge: add the distro feature to nativesdk
+ builds when added to target and enable symlink creation for both
+Message-ID: <20240206100336ad3509f1@mail.local>
+References: <20240201025621.1632547-1-maanyagoenka@linux.microsoft.com>
+ <20240201025621.1632547-2-maanyagoenka@linux.microsoft.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240201025621.1632547-2-maanyagoenka@linux.microsoft.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 10:02:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194978
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 10:03:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194979
 
-This CVE is related to Windows.
+Hello,
 
-Link: https://nvd.nist.gov/vuln/detail/CVE-2023-47039
+This causes failures on the autobuilders:
 
-Signed-off-by: virendra thakur <virendrak@kpit.com>
----
- meta/recipes-devtools/perl/perl_5.30.1.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/8540/steps/14/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/108/builds/5665/steps/12/logs/stdio
 
-diff --git a/meta/recipes-devtools/perl/perl_5.30.1.bb b/meta/recipes-devtools/perl/perl_5.30.1.bb
-index 4b5a4a5619..bf81a023b8 100644
---- a/meta/recipes-devtools/perl/perl_5.30.1.bb
-+++ b/meta/recipes-devtools/perl/perl_5.30.1.bb
-@@ -46,6 +46,10 @@ SRC_URI[perl-cross.sha256sum] = "edce0b0c2f725e2db3f203d6d8e9f3f7161256f5d159055
- 
- S = "${WORKDIR}/perl-${PV}"
- 
-+# This is windows only issue.
-+# https://ubuntu.com/security/CVE-2023-47039
-+CVE_CHECK_WHITELIST += "CVE-2023-47039"
-+
- inherit upstream-version-is-even update-alternatives
- 
- DEPENDS += "zlib virtual/crypt"
+
+
+On 01/02/2024 02:56:22+0000, Maanya Goenka wrote:
+> From: Maanya Goenka <maanyagoenka@microsoft.com>
+> 
+> Add usrmerge to DISTRO_FEATURES_FILTER_NATIVESDK (and DISTRO_FEATURES_FILTER_NATIVE for consistency),
+> since we have come across cases where the distro feature would be required by both contexts.
+> As a supplement to this change, when creating the merged usr symlinks at the do_populate_sdk stage,
+> these need to be created for both the target and native sysroots within the SDK.
+> 
+> Signed-off-by: Maanya Goenka <maanyagoenka@microsoft.com>
+> Signed-off-by : Alejandro Hernandez Samaniego <alhe@linux.microsoft.com>
+> ---
+>  meta/classes-recipe/image.bbclass | 2 ++
+>  meta/conf/bitbake.conf            | 4 ++--
+>  2 files changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/classes-recipe/image.bbclass b/meta/classes-recipe/image.bbclass
+> index 7231fad940..df59133f77 100644
+> --- a/meta/classes-recipe/image.bbclass
+> +++ b/meta/classes-recipe/image.bbclass
+> @@ -653,8 +653,10 @@ create_merged_usr_symlinks_rootfs() {
+>      create_merged_usr_symlinks ${IMAGE_ROOTFS}
+>  }
+>  
+> +# Create the usrmerge symlink for the host in addition to the target build
+>  create_merged_usr_symlinks_sdk() {
+>      create_merged_usr_symlinks ${SDK_OUTPUT}${SDKTARGETSYSROOT}
+> +    create_merged_usr_symlinks ${SDK_OUTPUT}${SDKPATHNATIVE}
+>  }
+>  
+>  ROOTFS_PREPROCESS_COMMAND += "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', 'create_merged_usr_symlinks_rootfs', '',d)}"
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index 6f180d18b0..ff9f7ab407 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -920,8 +920,8 @@ DISTRO_FEATURES_NATIVESDK ?= "x11"
+>  
+>  # Normally target distro features will not be applied to native builds:
+>  # Native distro features on this list will use the target feature value
+> -DISTRO_FEATURES_FILTER_NATIVE ?= "api-documentation debuginfod opengl wayland"
+> -DISTRO_FEATURES_FILTER_NATIVESDK ?= "api-documentation debuginfod opengl wayland"
+> +DISTRO_FEATURES_FILTER_NATIVE ?= "api-documentation debuginfod opengl usrmerge wayland"
+> +DISTRO_FEATURES_FILTER_NATIVESDK ?= "api-documentation debuginfod opengl usrmerge wayland"
+>  
+>  DISTRO_FEATURES_BACKFILL = "pulseaudio sysvinit gobject-introspection-data ldconfig"
+>  MACHINE_FEATURES_BACKFILL = "rtc qemu-usermode"
+> -- 
+> 2.25.1
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#194548): https://lists.openembedded.org/g/openembedded-core/message/194548
+> Mute This Topic: https://lists.openembedded.org/mt/104089708/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
 -- 
-2.25.1
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
