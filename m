@@ -1,170 +1,144 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17244C48297
-	for <webhook@archiver.kernel.org>; Tue,  6 Feb 2024 16:47:58 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web11.26198.1707238072074205830
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2699EC4828D
+	for <webhook@archiver.kernel.org>; Tue,  6 Feb 2024 17:20:48 +0000 (UTC)
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
+ by mx.groups.io with SMTP id smtpd.web11.27188.1707240038198701898
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Feb 2024 08:47:52 -0800
+ Tue, 06 Feb 2024 09:20:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile-fr.20230601.gappssmtp.com header.s=20230601 header.b=lmATYNZC;
- spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-40fe32fcbdaso6730495e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 08:47:51 -0800 (PST)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=U0m4UxJm;
+ spf=pass (domain: baylibre.com, ip: 209.85.222.46, mailfrom: tgamblin@baylibre.com)
+Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-7d5c2502ea2so2172948241.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 09:20:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1707238070; x=1707842870; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=MDNF7PyVZmK4NQDcLExhz9CQb8MBRaaKGZFhWDv5rIw=;
-        b=lmATYNZC268yFdH4g8/SWLXuDC+rvZMfjUW3HnxUEbFuYVLge94QPjw9mx217lw4yo
-         rxCxCmmSW1dcsfB1OVdEv148PXp7U5kn7McpCvTaNulel6rL6i5wAW7TA7lktFuWCsIX
-         f/Jx4MczaozLpFO8p4fYwUNX0KZZ1kq80A12yV44ayhCTjQCy+axUNHK04GHvGfu4w7T
-         EolI66uyH5vmkQctJbx9Bm/tDF8KHDrHWPoTZkOI63KH8GxwFBr7EhcTU87R8EN7PoR4
-         zRFpPc/tj1r11pbn08LlpusYA9IkXFQJuXrdchnFexM+t8fApTO0/AF9cY1EHFsSvspP
-         hn1g==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1707240036; x=1707844836; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HqltTfrvQsKgo7CNfSny5FH2kiFIMF5mVSq42PMO2YE=;
+        b=U0m4UxJmxXu07WerSnBRCPHYpsM/cYSk3mAPBgAafNRvXmk3G+s2MKK0bIaR90yLKI
+         AHdAUGi11W3dLz0dFCDs60jVzUrAAdyVCTsxrZSjk3b4/o4uyU02MbQxNdgYc1Wsr/Cv
+         hZcgtrFll4Q21PbR5Ug+ZA1e6XpFCh4yqlvve/dzeoPGEl0gm0WBcWdptffFmYrjOGeO
+         0WsKOr1jsmiRQcFl8opguaLbqQR5nhJzoOCT6eeZdbvfRPmfLurgZq8+C854e3MUpT6L
+         sC14/voXygZyEqxfac3dURSXHFVmB32HPvkT+Hpi45/OQzD+ncJGajHzhGMADsN9G3vN
+         uKKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707238070; x=1707842870;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MDNF7PyVZmK4NQDcLExhz9CQb8MBRaaKGZFhWDv5rIw=;
-        b=nt5WHpMKOXNiopJARZDmQDpM9Q6bbhfXy013c8Q8vWyW4p2IFwKBReibdsP8pjHS31
-         oQjzz7gF7P/wNl/EC2Gf0dZ0EQwR+7tylqnSRlQd3AevxLO77b0A1nrVihJ3wHL061w5
-         RwZ2lyMoFDoGOXNV//oMaQTPJ0I3BjOaukH9Xl/+hsj7JLvlArOfvY/IsavZzXpSrJbA
-         suukBVJPWauX27BpH/xNxdleA5uZJVX+ZmViTRxpcPslMP+Iyxer0QA8IYFAPzYhv7go
-         XZt4MPjQS2E37Y2Yd5IeOjJbrj3zSPYwsFoNbz53zcUxeQj9uvXXa6mrY6UtMwkKyywM
-         2kGw==
-X-Gm-Message-State: AOJu0YzK2KIVwjwYhpYFNOCDrWMCg0ZTnFWQ2CTSKqTwaz4cNcQb46Vl
-	mb0t3NfXt/tBBzK6UZrRUFmdoJkl/sfASIi27kX25XzMTc2av9tmq57MrzMnRfg=
-X-Google-Smtp-Source: AGHT+IE5G5J9XNbFi/7udKanSDwZcmoyWBdPn63QFtGzh0+tK48QSbFSs3zTkEVNOmoPmuC5E96ZTw==
-X-Received: by 2002:a05:600c:3543:b0:40f:c1fc:e5b6 with SMTP id i3-20020a05600c354300b0040fc1fce5b6mr2184524wmq.38.1707238069935;
-        Tue, 06 Feb 2024 08:47:49 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWMZm+92E8udBK4+nJR4YBLEYFaXAzGuYuepyfZepKUX278DugDp/ji46DZx2U/+8hbFG1SUpyZBA8OBbfDvi6+ZAEvYl/6ftuUQrzZ8/MYOQ7OXmMNNx79
-Received: from [192.168.0.20] ([89.159.1.53])
-        by smtp.gmail.com with ESMTPSA id u8-20020a05600c19c800b0040ffd94cd27sm101373wmq.45.2024.02.06.08.47.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Feb 2024 08:47:49 -0800 (PST)
-Message-ID: <f6747386-d8ff-4dbc-8596-1a013cae50c3@smile.fr>
-Date: Tue, 6 Feb 2024 17:47:49 +0100
+        d=1e100.net; s=20230601; t=1707240036; x=1707844836;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HqltTfrvQsKgo7CNfSny5FH2kiFIMF5mVSq42PMO2YE=;
+        b=bcyfQzLzlIF51TDmF+Bwpyg0lkHIiPz418nvRyAf9uEoJF4owijrxGatiJWg4m1OjS
+         kp06GEeLQ8L5exUt0zboD8tMvKJzZFGR8RbcqMIBNcIvKGIVYfKxZ0dvkHOcaL1SSKct
+         +OVj6QJ6JKrJATTIOrRQpkVNpSEOLLMYr/Pt7FBDM4J42FJHgCCoHtvtdVCaDFJ9pA4H
+         VDPUtf0xwLm6bNHHGnWE9mhJWWF52g5bD7Fo4kuZzj3SebeR0gqWPG/9vCjRNMx6ynZp
+         jtHpWoDEocuBSQ2jPBJbXwtk4z90nRlbYXVWVNUvMpdevHgkcrvNkUQmEiqxTODQhQgM
+         y7QQ==
+X-Gm-Message-State: AOJu0Yxm3rww8x2FIpexmTclLfPaDapwPhfPigAA7Y+hg6SglzYTye+X
+	ZlGeelO7LcI1kiaKUr5x4pAZwJC5wEOdX82hlpyVjT6hpJ0foQ3gThmOUcaEfSMr62lYa8h79nT
+	a
+X-Google-Smtp-Source: AGHT+IFlQ94EiZzIdX3CByyC8yomvJoJDk69qz+cVmWv356ZtPXtID3MqMowsKqPUqy5gUQAvkw6hg==
+X-Received: by 2002:a05:6122:308e:b0:4b7:48b9:ec12 with SMTP id cd14-20020a056122308e00b004b748b9ec12mr220433vkb.7.1707240036481;
+        Tue, 06 Feb 2024 09:20:36 -0800 (PST)
+Received: from megalith.. (d24-150-219-207.home.cgocable.net. [24.150.219.207])
+        by smtp.gmail.com with ESMTPSA id ng6-20020a0562143bc600b00685ad9090basm1199090qvb.97.2024.02.06.09.20.35
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Feb 2024 09:20:36 -0800 (PST)
+From: Trevor Gamblin <tgamblin@baylibre.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][PATCH] cmake: upgrade 3.27.7 -> 3.28.3
+Date: Tue,  6 Feb 2024 12:20:34 -0500
+Message-ID: <20240206172034.1179647-1-tgamblin@baylibre.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] tiff: fix CVE 2023-52356
-Content-Language: en-US
-To: simone.p.weiss@posteo.com, openembedded-core@lists.openembedded.org
-References: <20240206163027.2727885-1-simone.p.weiss@posteo.com>
-From: Yoann Congal <yoann.congal@smile.fr>
-Organization: Smile ECS
-In-Reply-To: <20240206163027.2727885-1-simone.p.weiss@posteo.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 16:47:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195012
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 17:20:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195013
 
-Hi,
+Changelog: https://cmake.org/cmake/help/latest/release/3.28.html
 
-Le 06/02/2024 à 17:30, simone.p.weiss@posteo.com a écrit :
-> From: Simone Weiß <simone.p.weiss@posteo.com>
-> 
-> fix CVE 2023-52356
-> A segment fault (SEGV) flaw was found in libtiff that could be triggered
-> by passing a crafted tiff file to the TIFFReadRGBATileExt() API.
-> This flaw allows a remote attacker to cause a heap-buffer overflow, leading
-> to a denial of service.
-> 
-> References:
-> https://nvd.nist.gov/vuln/detail/CVE-2023-52356
-> https://gitlab.com/libtiff/libtiff/-/commit/51558511bdbbcffdce534db21dbaf5d54b31638a
-> 
-> Signed-off-by: Simone Weiß <simone.p.weiss@posteo.com>
-> ---
->  .../libtiff/tiff/CVE-2023-52356.patch         | 50 +++++++++++++++++++
->  meta/recipes-multimedia/libtiff/tiff_4.6.0.bb |  3 +-
->  2 files changed, 52 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2023-52356.patch
+The patch 0001-CMakeLists.txt-disable-USE_NGHTTP2.patch had to be
+adjusted to apply cleanly on top of the new source version.
 
-Thanks Simone!
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+---
+ ...ake-native_3.27.7.bb => cmake-native_3.28.3.bb} |  0
+ meta/recipes-devtools/cmake/cmake.inc              |  2 +-
+ .../0001-CMakeLists.txt-disable-USE_NGHTTP2.patch  | 14 +++++++++-----
+ .../cmake/{cmake_3.27.7.bb => cmake_3.28.3.bb}     |  0
+ 4 files changed, 10 insertions(+), 6 deletions(-)
+ rename meta/recipes-devtools/cmake/{cmake-native_3.27.7.bb => cmake-native_3.28.3.bb} (100%)
+ rename meta/recipes-devtools/cmake/{cmake_3.27.7.bb => cmake_3.28.3.bb} (100%)
 
-Reviewed-by: Yoann Congal <yoann.congal@smile.fr>
-
-> 
-> diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2023-52356.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-52356.patch
-> new file mode 100644
-> index 0000000000..9a6d9a39d9
-> --- /dev/null
-> +++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2023-52356.patch
-> @@ -0,0 +1,50 @@
-> +From 51558511bdbbcffdce534db21dbaf5d54b31638a Mon Sep 17 00:00:00 2001
-> +From: Even Rouault <even.rouault@spatialys.com>
-> +Date: Tue, 31 Oct 2023 15:58:41 +0100
-> +Subject: [PATCH] TIFFReadRGBAStrip/TIFFReadRGBATile: add more validation of
-> + col/row (fixes #622)
-> +
-> +CVE: CVE-2023-52356
-> +Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff/-/commit/51558511bdbbcffdce534db21dbaf5d54b31638a]
-> +
-> +Signed-off-by: Simone Weiß <simone.p.weiss@posteo.com>
-> +
-> +---
-> + libtiff/tif_getimage.c | 15 +++++++++++++++
-> + 1 file changed, 15 insertions(+)
-> +
-> +diff --git a/libtiff/tif_getimage.c b/libtiff/tif_getimage.c
-> +index 41f7dfd77..6fee35db2 100644
-> +--- a/libtiff/tif_getimage.c
-> ++++ b/libtiff/tif_getimage.c
-> +@@ -3224,6 +3224,13 @@ int TIFFReadRGBAStripExt(TIFF *tif, uint32_t row, uint32_t *raster,
-> +     if (TIFFRGBAImageOK(tif, emsg) &&
-> +         TIFFRGBAImageBegin(&img, tif, stop_on_error, emsg))
-> +     {
-> ++        if (row >= img.height)
-> ++        {
-> ++            TIFFErrorExtR(tif, TIFFFileName(tif),
-> ++                          "Invalid row passed to TIFFReadRGBAStrip().");
-> ++            TIFFRGBAImageEnd(&img);
-> ++            return (0);
-> ++        }
-> + 
-> +         img.row_offset = row;
-> +         img.col_offset = 0;
-> +@@ -3301,6 +3308,14 @@ int TIFFReadRGBATileExt(TIFF *tif, uint32_t col, uint32_t row, uint32_t *raster,
-> +         return (0);
-> +     }
-> + 
-> ++    if (col >= img.width || row >= img.height)
-> ++    {
-> ++        TIFFErrorExtR(tif, TIFFFileName(tif),
-> ++                      "Invalid row/col passed to TIFFReadRGBATile().");
-> ++        TIFFRGBAImageEnd(&img);
-> ++        return (0);
-> ++    }
-> ++
-> +     /*
-> +      * The TIFFRGBAImageGet() function doesn't allow us to get off the
-> +      * edge of the image, even to fill an otherwise valid tile.  So we
-> +--
-> +2.40.0
-> diff --git a/meta/recipes-multimedia/libtiff/tiff_4.6.0.bb b/meta/recipes-multimedia/libtiff/tiff_4.6.0.bb
-> index eb8a096f19..ab658a2a03 100644
-> --- a/meta/recipes-multimedia/libtiff/tiff_4.6.0.bb
-> +++ b/meta/recipes-multimedia/libtiff/tiff_4.6.0.bb
-> @@ -13,7 +13,8 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
->             file://CVE-2023-6277-At-image-reading-compare-data-size-of-some-tags-data-2.patch \
->             file://CVE-2023-6277-Apply-1-suggestion-s-to-1-file-s.patch \
->             file://CVE-2023-6228.patch \
-> -           "
-> +           file://CVE-2023-52356.patch \
-> +"
->  
->  SRC_URI[sha256sum] = "88b3979e6d5c7e32b50d7ec72fb15af724f6ab2cbf7e10880c360a77e4b5d99a"
->  
-
+diff --git a/meta/recipes-devtools/cmake/cmake-native_3.27.7.bb b/meta/recipes-devtools/cmake/cmake-native_3.28.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake-native_3.27.7.bb
+rename to meta/recipes-devtools/cmake/cmake-native_3.28.3.bb
+diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
+index ecb0e487df2..ab9f459c05c 100644
+--- a/meta/recipes-devtools/cmake/cmake.inc
++++ b/meta/recipes-devtools/cmake/cmake.inc
+@@ -19,7 +19,7 @@ CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
+ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
+ "
+ 
+-SRC_URI[sha256sum] = "08f71a106036bf051f692760ef9558c0577c42ac39e96ba097e7662bd4158d8e"
++SRC_URI[sha256sum] = "72b7570e5c8593de6ac4ab433b73eab18c5fb328880460c86ce32608141ad5c1"
+ 
+ UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/cmake/cmake/0001-CMakeLists.txt-disable-USE_NGHTTP2.patch b/meta/recipes-devtools/cmake/cmake/0001-CMakeLists.txt-disable-USE_NGHTTP2.patch
+index d6486cb45fc..b2933d88be9 100644
+--- a/meta/recipes-devtools/cmake/cmake/0001-CMakeLists.txt-disable-USE_NGHTTP2.patch
++++ b/meta/recipes-devtools/cmake/cmake/0001-CMakeLists.txt-disable-USE_NGHTTP2.patch
+@@ -1,4 +1,4 @@
+-From 3fd6082c52a8140db5995afb59fb391f7d5c19d7 Mon Sep 17 00:00:00 2001
++From d33d8a5e9f3b25a80d47b72b1a8a6624a85563c1 Mon Sep 17 00:00:00 2001
+ From: Changqing Li <changqing.li@windriver.com>
+ Date: Wed, 28 Dec 2022 17:51:27 +0800
+ Subject: [PATCH] CMakeLists.txt: disable USE_NGHTTP2
+@@ -9,17 +9,21 @@ dependency, disable nghttp2.
+ Upstream-Status: Inappropriate [oe specific]
+ 
+ Signed-off-by: Changqing Li <changqing.li@windriver.com>
++
++Adjust the patch to apply on top of v3.28.3.
++
++Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+ ---
+  Utilities/cmcurl/CMakeLists.txt | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/Utilities/cmcurl/CMakeLists.txt b/Utilities/cmcurl/CMakeLists.txt
+-index f842270b..17b1ce19 100644
++index 9387247366..d3de01f4e8 100644
+ --- a/Utilities/cmcurl/CMakeLists.txt
+ +++ b/Utilities/cmcurl/CMakeLists.txt
+-@@ -68,7 +68,7 @@ set(ENABLE_UNIX_SOCKETS OFF CACHE INTERNAL "No curl Unix domain sockets support"
+- set(HTTP_ONLY OFF CACHE INTERNAL "Curl is not http-only")
++@@ -88,7 +88,7 @@ set(HTTP_ONLY OFF CACHE INTERNAL "Curl is not http-only")
+  set(PICKY_COMPILER OFF CACHE INTERNAL "Enable picky compiler options")
++ set(SHARE_LIB_OBJECT OFF)
+  set(USE_LIBIDN2 ON)
+ -set(USE_NGHTTP2 ON)
+ +set(USE_NGHTTP2 OFF)
+@@ -27,5 +31,5 @@ index f842270b..17b1ce19 100644
+  set(USE_QUICHE OFF)
+  set(USE_WIN32_IDN OFF)
+ -- 
+-2.25.1
++2.43.0
+ 
+diff --git a/meta/recipes-devtools/cmake/cmake_3.27.7.bb b/meta/recipes-devtools/cmake/cmake_3.28.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake_3.27.7.bb
+rename to meta/recipes-devtools/cmake/cmake_3.28.3.bb
 -- 
-Yoann Congal
-Smile ECS - Tech Expert
+2.43.0
+
 
