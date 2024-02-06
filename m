@@ -1,117 +1,115 @@
-Return-Path: <alexis.lothore@bootlin.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 857ECC4828D
-	for <webhook@archiver.kernel.org>; Tue,  6 Feb 2024 15:29:27 +0000 (UTC)
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
- by mx.groups.io with SMTP id smtpd.web10.24240.1707233358977445130
- for <Openembedded-core@lists.openembedded.org>;
- Tue, 06 Feb 2024 07:29:19 -0800
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97AB6C4828D
+	for <webhook@archiver.kernel.org>; Tue,  6 Feb 2024 15:47:17 +0000 (UTC)
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.web10.24761.1707234435987754888
+ for <openembedded-core@lists.openembedded.org>;
+ Tue, 06 Feb 2024 07:47:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=cLcC9AWl;
- spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: alexis.lothore@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 2EA2C1BF204;
-	Tue,  6 Feb 2024 15:29:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1707233356;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=DATRT1DITrOr/D/oqvM9iRt7OhWgc/abEgzsbtqmpa8=;
-	b=cLcC9AWlqLzFg3aXrI5saASjXE8ZOS4s2Mx83jUuaJMMSFwUOQDeG0JefJh6SC+UyuMb30
-	QELRVnACCnKnIujfxnOe5RIOWryIy95Drl7xTcMdNvOeUIKm1Vi5pMqsuL3evcc+aB7pRs
-	Tt4XDc1CSgwVRpLAv3DN0/mRF3uxPIujyYHt5i/QzKl5mDYcnQtBJ4ryNe/i8No60hC2fr
-	UA8kfV3J1QizU4NeaQGX+aYsUI37reQMzvkpQb7x/HGdNchjVk4vBubp0RBePmEi49RPiY
-	2bzI7tUeITomTTtCxpDeIBMMab9aseplhLS5dWoymQpOJqeDqSLOURjeYzJVWw==
-From: =?UTF-8?q?Alexis=20Lothor=C3=A9?= <alexis.lothore@bootlin.com>
-To: <Openembedded-core@lists.openembedded.org>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [OE-Core][PATCH v4] testimage: retrieve ptests directory when ptests fail
-Date: Tue,  6 Feb 2024 16:29:10 +0100
-Message-ID: <20240206152910.436447-1-alexis.lothore@bootlin.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=FJy5qIX6;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.47, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-296717ccc2aso577250a91.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 07:47:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1707234435; x=1707839235; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=oX8ndgsdo91QmyfZ96Ai2z6RhcfflMOsoH21fUe26s8=;
+        b=FJy5qIX6sg8z6coRywDPWnW+tR8tfPi3IUFYkVZcnzOv8xZgGHVZWivRy916UkyrUJ
+         Sed6i22I//IOkjAZKQk04B/fJimTHYcowwiJpTFEyC/l9GUMdfpyT08hbontmaEmOVvu
+         LYAy/SXBDmuowJw7YzJUYPaA09tsnyTqVcP1R3FvD2fCwHpk1ZLj5cmSa3Da10D1Ftwk
+         b5e5A6uRUwDpcZp273D/2y/QIaqAyiqKiodlPtKuPGQEVwn17+2NSFZGe1IIClu3csBa
+         ZuuVUqlLn7tsz4qZy4ZpPpFf+IlpzmdrohGnYlSgDlgyxHtreIneq8g8UntpqQsOi41L
+         zt1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707234435; x=1707839235;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oX8ndgsdo91QmyfZ96Ai2z6RhcfflMOsoH21fUe26s8=;
+        b=et00r/y/QQRcOoh9m6AbOLi/cZKtxfy5pQFawxdvU3hAOfJ3JcMVJ7z98Yrdm8+1Oh
+         zwq4l4hHw/jl1P53aLFkYdvf33lh3LsLqOOaCauVYCy1CZTVoXJLq2XKGq8tekMHu9u0
+         WmCSy7GPwv0kyevr+zMzqcagBhjkBiO+fwdNZCxHizsCtSz6p4Za5v8+c7/tKhjhk6if
+         wvHOV1vzKLwbBnaud73RO+dOhnfQ33AmwhuknCpaLIRDtuh6aW314+ji9VChQ1beKo2o
+         GAZBL2UYQvOnZp4QfsxO8TOVuC8BWI5v5ChajsQIBVrMMcB3xahnbZDf+RK9b/b112do
+         /H8Q==
+X-Gm-Message-State: AOJu0Yw2ZK2MHiMCDAyaUMVzoGpU9l1txiEdxvvKPH4MB22rmlWEn3lq
+	13iE9mkdHM1DC4/11XoX4jFA7YqBDvT7y1R9W0biZpi9LASOVnXnyZKt0u5x3dK6d16F1DLHe68
+	QgEk=
+X-Google-Smtp-Source: AGHT+IGxJwnGGAz2E3KAfCAWXOtDsNUnPHwh7Mf1LYP4ZKwdUTAOY0HSHNFEtp+StEmOHwYd1+W8XQ==
+X-Received: by 2002:a17:90b:255:b0:296:5e20:48bc with SMTP id fz21-20020a17090b025500b002965e2048bcmr4794705pjb.10.1707234434517;
+        Tue, 06 Feb 2024 07:47:14 -0800 (PST)
+Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
+        by smtp.gmail.com with ESMTPSA id kx18-20020a17090b229200b0029454cca5c3sm1811452pjb.39.2024.02.06.07.47.13
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Feb 2024 07:47:14 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][kirkstone 0/7] Patch review
+Date: Tue,  6 Feb 2024 05:45:18 -1000
+Message-Id: <cover.1707234215.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-GND-Sasl: alexis.lothore@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 15:29:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194998
+ <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 15:47:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/194999
 
-From: Alexis Lothoré <alexis.lothore@bootlin.com>
+Please review this set of changes for kirkstone and have comments back by
+end of day Thursday, February 8
 
-TESTIMAGE_FAILED_QA_ARTIFACTS is set with a default, minimal list of files
-to retrieve whenever a runtime test fails.
-Add ptests directory to the list so we can get ptests artifacts (eg: logs)
-whenever a ptest fails. By appending the ptest directory with the
-multiconfig component in the path, only failing ptests will lead to
-corresponding ptest artifacts retrieval, instead of all ptests artifacts
-retrieval. While doing this addition, reinforce default value using "="
-operator to make sure to get the default list in any case.
+Passed a-full on autobuilder:
 
-Signed-off-by: Alexis Lothoré <alexis.lothore@bootlin.com>
----
-This series is now self-contained in a single patch. After going back and
-forth on where and how to properly add the ptests artifacts, only testimage
-is finally affected. Additionally to Richard's suggestion in [1], the
-ptests directory is added conditionally: otherwise, non-ptests images would
-try to scp a non-existing directory (and it would fail silently)
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6539
 
-Link to v3: [1]
+The following changes since commit 60d88989698968c13f8e641f0ba1a82fcf700fb7:
 
-Changes in v4:
-- keep ptests artifacts addition in testimage.bbclass to avoid parsing
-  order issues
-- check for DISTRO_FEATURES to know if ptests artifacts should be retrieved
-  in case of failure
+  image-live.bbclass: LIVE_ROOTFS_TYPE support compression (2024-01-30 07:10:42 -1000)
 
-Changes in v3:
-- slightly reword commit message body
+are available in the Git repository at:
 
-Changes in v1 (since being picked in new series)
-- use += instead of append syntax
+  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
 
-[1] https://lore.kernel.org/openembedded-core/20240205143757.81826-1-alexis.lothore@bootlin.com/
----
- meta/classes-recipe/testimage.bbclass        | 5 ++++-
- meta/recipes-core/images/core-image-ptest.bb | 1 -
- 2 files changed, 4 insertions(+), 2 deletions(-)
+Deepthi Hemraj (4):
+  binutils: internal gdb: Fix CVE-2023-39129
+  binutils: internal gdb: Fix CVE-2023-39130
+  gdb: Fix CVE-2023-39129
+  gdb: Fix CVE-2023-39130
 
-diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-recipe/testimage.bbclass
-index f36d9418914f..281de4784f31 100644
---- a/meta/classes-recipe/testimage.bbclass
-+++ b/meta/classes-recipe/testimage.bbclass
-@@ -22,11 +22,14 @@ TESTIMAGE_AUTO ??= "0"
- # each entry in it, if artifact pointed by path description exists on target,
- # it will be retrieved onto host
- 
--TESTIMAGE_FAILED_QA_ARTIFACTS ??= "\
-+TESTIMAGE_FAILED_QA_ARTIFACTS = "\
-     ${localstatedir}/log \
-     ${sysconfdir}/version \
-     ${sysconfdir}/os-release"
- 
-+# If some ptests are run and fail, retrieve corresponding directories
-+TESTIMAGE_FAILED_QA_ARTIFACTS += "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', '${libdir}/${MCNAME}/ptest', '', d)}"
-+
- # You can set (or append to) TEST_SUITES in local.conf to select the tests
- # which you want to run for your target.
- # The test names are the module names in meta/lib/oeqa/runtime/cases.
-diff --git a/meta/recipes-core/images/core-image-ptest.bb b/meta/recipes-core/images/core-image-ptest.bb
-index b6f5c2fd6049..862e44f5e67c 100644
---- a/meta/recipes-core/images/core-image-ptest.bb
-+++ b/meta/recipes-core/images/core-image-ptest.bb
-@@ -42,4 +42,3 @@ python () {
-     if not d.getVar("MCNAME"):
-         raise bb.parse.SkipRecipe("No class extension set")
- }
--
+Peter Marko (3):
+  curl: ignore CVE-2023-42915
+  gcc-shared-source: ignore CVE-2023-4039
+  openssl: Upgrade 3.0.12 -> 3.0.13
+
+ .../openssl/openssl/CVE-2023-5678.patch       | 180 ----------
+ .../openssl/openssl/CVE-2023-6129.patch       | 113 ------
+ .../openssl/openssl/CVE-2023-6237.patch       | 127 -------
+ .../{openssl_3.0.12.bb => openssl_3.0.13.bb}  |   6 +-
+ .../binutils/binutils-2.38.inc                |   2 +
+ .../binutils/0035-CVE-2023-39129.patch        |  50 +++
+ .../binutils/0036-CVE-2023-39130.patch        | 326 ++++++++++++++++++
+ .../gcc/gcc-shared-source.inc                 |   3 +
+ meta/recipes-devtools/gdb/gdb.inc             |   2 +
+ .../gdb/gdb/0012-CVE-2023-39129.patch         |  50 +++
+ .../gdb/gdb/0013-CVE-2023-39130.patch         | 326 ++++++++++++++++++
+ meta/recipes-support/curl/curl_7.82.0.bb      |   3 +
+ 12 files changed, 764 insertions(+), 424 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-5678.patch
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-6129.patch
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2023-6237.patch
+ rename meta/recipes-connectivity/openssl/{openssl_3.0.12.bb => openssl_3.0.13.bb} (97%)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0035-CVE-2023-39129.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0036-CVE-2023-39130.patch
+ create mode 100644 meta/recipes-devtools/gdb/gdb/0012-CVE-2023-39129.patch
+ create mode 100644 meta/recipes-devtools/gdb/gdb/0013-CVE-2023-39130.patch
+
 -- 
-2.43.0
+2.34.1
 
 
