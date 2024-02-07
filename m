@@ -1,99 +1,124 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF874C4828D
-	for <webhook@archiver.kernel.org>; Wed,  7 Feb 2024 13:18:21 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.20054.1707311892935979416
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1640C4828F
+	for <webhook@archiver.kernel.org>; Wed,  7 Feb 2024 13:33:41 +0000 (UTC)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+ by mx.groups.io with SMTP id smtpd.web10.20344.1707312817367368463
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Feb 2024 05:18:13 -0800
+ Wed, 07 Feb 2024 05:33:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=HY9xwjpS;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=c0ma7ENn;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018d83b8062a-9e49d75a-40b3-4a6c-8d7e-e3f3f57b65be-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1707311892; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=aNXzbNxObHbjk4T81nrOLO7TPr6ckauLlSrAwcr8fJk=;
-	b=HY9xwjpSskg/rBvwLmPwKYxXH9p84n054YVlMqrRT786WjRhMmMII+aX47qlWkZC
-	b/reeuwG6U67rp9IIYMmhQsjPTTbKUMz/qejxIjLd2bOkfCRXttrVF4NtJ3b71QWv9i
-	dM6cvPftKvgEmyqATvzodrRIxsJn1lEcpeEuhcxI=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1707311892;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=aNXzbNxObHbjk4T81nrOLO7TPr6ckauLlSrAwcr8fJk=;
-	b=c0ma7ENnkv5bJeg3OCty6SD61Pj5VsOTS0PuILZqAyyuLzzcE2+oSjlhX9nUoT/b
-	JthvBhzS+CcWOwqMQd5Rlk4uoRcY5FtQaP1uZS/V1a16IM/up4BP/9jhSLU/fcp49P+
-	uex0fzzzHjZMLUz+ZX5UODCFc9gDZKhKHVBBZzQ8=
-From: patchtest@automation.yoctoproject.org
-To: ssambu <soumya.sambu@windriver.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][kirkstone][PATCH 1/1] go: Fix CVE-2023-45285 and
- CVE-2023-45287
-In-Reply-To: 20240207125913.1506713-1-soumya.sambu@windriver.com
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018d83b8062a-9e49d75a-40b3-4a6c-8d7e-e3f3f57b65be-000000@us-west-2.amazonses.com>
-Date: Wed, 7 Feb 2024 13:18:12 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.02.07-54.240.27.193
+ dkim=pass header.i=@linaro.org header.s=google header.b=slGVYXiq;
+ spf=pass (domain: linaro.org, ip: 209.85.167.50, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-511531f03f6so762126e87.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 07 Feb 2024 05:33:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1707312815; x=1707917615; darn=lists.openembedded.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=iSRGQBAU3EPM6MRKII7HTb6NP46w3QcbZMsxBIov+r8=;
+        b=slGVYXiq1Gs3MJu68rZJah9dfSkVsAtfmDYHSGws5dcbdp2573vMoxWZqm5oj5bPUj
+         /Yi2/NvzOLnnX/YYJ5pFUehTHTfCVNVzCo2BXt5DN5wzV8HQnPh82IRQFWrzVxMPLEl7
+         +wzsu1/Q/YrbymVlmq1J3ZTc3TxzoYkoxDvYAq8CvBcUJeitWK1axCtSOBtTOJYr+v9W
+         jw7JzM4JAoFUdYiBVWNErHbuatgu23MkK9EAzISDJ1PhZSH/2gZpJ80eyfEu8sb7bxM7
+         fonui5clFRLqnRwt6k9DZSmm9moB8NjgNVVDevg0VqRzms3A/z+qTnNmpQAY6bMD6mWp
+         qnSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707312815; x=1707917615;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=iSRGQBAU3EPM6MRKII7HTb6NP46w3QcbZMsxBIov+r8=;
+        b=Se6T0mXtLk3nLBCyZbfnXW6fvyaO2ixJUNw0LoKTCVEMaNCj8j59OfTwA/3lV79Lyt
+         KwNlWz/Rved9TDsWq+FiJyRXnl51ZPFTuC5yLQjJdSf3ZTN8R8i+EcKFY0gagsUuUZ3R
+         EVW+r3nPuZqn3uKDkI5nAVzAilWZylS+rDwS52Nme7EsAj9K5DXEHoeHXwxaGPLHLkgD
+         N7MRQ4ZcY/CdmUpxA8ht1SseP7817DkPee6n6tEVWdsluhdZgrA1Lz4L9s2Jb/V84QcV
+         etQyG2odDWhhggR9McIpRBqbsoRnzJRHYCQBRGKrFHRYTEp8Gk8tjqC1NQWp9p4f3plq
+         xw4A==
+X-Forwarded-Encrypted: i=1; AJvYcCU50Hxp9RILsNstag2hmg1pCf1hud24xkm1sdqEZCouXyLBZvTTbw1MwvUWKu7wrokb32zz8Tqj2USWzBKKkFw8SjYFrZ0KH27K7tpN4dhNqTpCScBgP1EO
+X-Gm-Message-State: AOJu0Yyj2L1c60nNBYki09AsR5dPMRI5IgIJTy2sr4yLHRnQ41EjsWH4
+	H7vfioIGXU1/x3j5YdDzSe7UPA7EkTCrmaQtpXX6KXOlRuCFsw59frqcWIUaHO8=
+X-Google-Smtp-Source: AGHT+IEJ85gLXT1Wiad3E7Wu12J7BCJl9Th6sZlku23dd31NrE0ltHQ3eoB1A5tWS41bkw4dNfGxlw==
+X-Received: by 2002:a05:6512:3d9f:b0:511:4fec:c374 with SMTP id k31-20020a0565123d9f00b005114fecc374mr4598173lfv.66.1707312815275;
+        Wed, 07 Feb 2024 05:33:35 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU5KvGJ4MjZRnON8DyWDllIoX80ujJVaQ4lr2fva75xob2sffNZKr/Ye/jVeVsVyPtIRggoT41lqmZSp0W33kBA5exbrHYN78zQn36WQwxkmhWThhDuIF/6pvP0XAgKpdLbz4fPwV+j5iTdsyjJ
+Received: from nuoska (87-100-245-199.bb.dnainternet.fi. [87.100.245.199])
+        by smtp.gmail.com with ESMTPSA id cf21-20020a056512281500b005114cada35esm184929lfb.147.2024.02.07.05.33.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Feb 2024 05:33:34 -0800 (PST)
+Date: Wed, 7 Feb 2024 15:33:33 +0200
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+Cc: Bruce Ashfield <bruce.ashfield@gmail.com>,
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>,
+	"oss@ew.tq-group.com" <oss@ew.tq-group.com>
+Subject: Re: [OE-core] [PATCH] kernel.bbclass: install .config to deploy dir
+Message-ID: <ZcOGrdeSLp2e_291@nuoska>
+References: <20240207102529.128369-1-matthias.schiffer@ew.tq-group.com>
+ <CADkTA4NS3=8tUYUz_SMiwfd+E=takHWEVTYi1AjuX41A0p8YOQ@mail.gmail.com>
+ <d8b9db15ae3ff57b6a34cc1a0278d208d588a773.camel@ew.tq-group.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d8b9db15ae3ff57b6a34cc1a0278d208d588a773.camel@ew.tq-group.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 Feb 2024 13:18:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195061
+ <openembedded-core@lists.openembedded.org>; Wed, 07 Feb 2024 13:33:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195062
 
---NextPart
-Content-Type: text/plain
+Hi,
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+On Wed, Feb 07, 2024 at 02:14:33PM +0100, Matthias Schiffer wrote:
+> On Wed, 2024-02-07 at 12:42 +0000, Bruce Ashfield wrote:
+> > On Wed, Feb 7, 2024 at 5:26 AM Matthias Schiffer
+> > <matthias.schiffer@ew.tq-group.com> wrote:
+> > > 
+> > > Deploy the kernel configuration with the built images, so it is easy to
+> > > check its contents, or rebuild the same configuration outside of the
+> > > Yocto build system.
+> > > 
+> > 
+> > I'm not convinced we need yet more clutter in the deploy directory, but
+> > at a minimum, this patch also needs an update to the documentation
+> > (apologies if I missed it on the docs list).
+> 
+> Sorry about the missing docs, I'll provide a patch for that as well.
+> 
+> > 
+> > One could argue that the config could be pulled out of the other
+> > packages and artifacts, and that it wouldn't be recommended to
+> > use that config for rebuilding outside of yocto, as we aren't providing
+> > the matching sources in the deploy directory.
+> 
+> There are at least some cases where the config can't be pulled out of anything else - without
+> CONFIG_IKCONFIG, the config is not embedded in the built kernel images. In constrained environments,
+> it may be desirable to disable such options to reduce the kernel size.
+> 
+> As a data point from other distros, Debian/Ubuntu disable CONFIG_IKCONFIG and instead provide the
+> config next to the kernel images in /boot.
 
----
-Testing patch /home/patchtest/share/mboxes/kirkstone-1-1-go-Fix-CVE-2023-45285-and-CVE-2023-45287.patch
+Check the kernel-dev package. The config is there.
 
-FAIL: test mbox format: Series has malformed diff lines. Create the series again using git-format-patch and ensure it applies using git am (test_mbox.TestMbox.test_mbox_format)
+> > 
+> > I would also be nice in the commit log to indicate how cleanup of the
+> > deploydir has been tested to show that we won't end up with config*
+> > files and links in the directory after their associated images have been
+> > removed. (I haven't looked at the deploy classes in quite some time,
+> > so I'm unsure if anything in particular needs to be done).
+> 
+> My understanding is that unclean deploy dir issues are pretty much a thing of the past, as
+> deploy.bbclass sets `do_deploy[cleandirs] = "${DEPLOYDIR}"` (so do_deploy always starts with
+> a pristine destination directory), and the sstate tracking takes care of the rest. 
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+I agree that deploy directories have way too many things already. And recipes often get it wrong trying
+to pass files through it from providers to users without setting task dependendencies and sstate caching
+correctly.
 
-SKIP: pretest pylint: Python-unidiff parse error (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: Parse error Hunk is shorter than expected (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: Parse error Hunk is shorter than expected (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: Parse error Hunk is shorter than expected (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: Python-unidiff parse error (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+Cheers,
 
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+-Mikko
 
