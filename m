@@ -2,47 +2,47 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CB87C4828F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A3E6C4828D
 	for <webhook@archiver.kernel.org>; Wed,  7 Feb 2024 22:24:12 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.3768.1707344645163671422
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web10.3769.1707344645650458440
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Feb 2024 14:24:06 -0800
+ Wed, 07 Feb 2024 14:24:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Xq3q75s/;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=eAgtUeVs;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018d85abc8d5-251e6c1f-0089-46e1-a2b1-568d03dd8f87-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Md2OaIJ0;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=AJczxM8d;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018d85abca85-a6de3a34-20bd-43cb-a2d2-f5e17104fd6e-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1707344644; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=aOagmc/c2nxO8X7FWy7o344PRzCV6Bx2t8QxoEXF00U=;
-	b=Xq3q75s/ghdyOyhXhbsOBPx1ObCIvGK+QVaUIQrqaeaM3ZrD1K2N+tVlvbgaLE2H
-	h4fAivWWCpBhGotmj/U6Cm1ax0MBmWhHVJwzM9AKpQbVXEi0np/QlXAj0JMczmXMoe+
-	91PRG2yUNy0JRuDJP6b0perPvq+7u2klGwvSONg8=
+	bh=8CKRCU7esZ2ROM4oZBSL/Vn1PKlPfaPBWC9Uj8UBC3c=;
+	b=Md2OaIJ08B46tX8luGl3F+xSZGZebxjCdma9H+Kba3ufzJ6cwD15mLJIYC12OuyE
+	Drk0fJJGn0D5S+btDqS/PQwmuRD510sbdgNy3KfPYoultbFWWoZkpdx+rm+GDWmv+dn
+	lHar5pswK5JgUnGMLKhxBf8LVgW9+Me6/Xj81joo=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1707344644;
 	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=aOagmc/c2nxO8X7FWy7o344PRzCV6Bx2t8QxoEXF00U=;
-	b=eAgtUeVs5BxgW8FEVxVLBS4UrhZLiV0tbJefdu3tcxiUvnECPjOSQNNEkE1Hjzih
-	wv3cHo0Mpk2uadtoU+rmHyPPoyqexwLxp4W8xCRTtAlKo85SfVbimHoxgGTncW0CSLW
-	UrCvXGmCgbbPKz719n2bW+Juq2rg1iw6cvVm0Lm4=
+	bh=8CKRCU7esZ2ROM4oZBSL/Vn1PKlPfaPBWC9Uj8UBC3c=;
+	b=AJczxM8dHTOfMJPzU1Q7FfbvAq/ovaf8/wW+dCVSa2bi/CZ85rnZG32dYK9Sx+lH
+	FOvivsi6qSZEl8+xEpzIEjsXq5Thk3Mb8zZXOmuyW4qSnPjs2Nk0n5aVvD/Sq+27s6t
+	x2WNXYbBdz3k/0YS5CT6WZmIkg+4fGoB7ImtyKaA=
 From: patchtest@automation.yoctoproject.org
 To: michael.opdenacker@bootlin.com
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH v2 2/4] alsa-tools: upgrade 1.2.5 -> 1.2.11
-In-Reply-To: 20240207215853.3605620-3-michael.opdenacker@bootlin.com
+Subject: Patchtest results for [PATCH v2 3/4] alsa-ucm-conf: upgrade 1.2.10 -> 1.2.11
+In-Reply-To: 20240207215853.3605620-4-michael.opdenacker@bootlin.com
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018d85abc8d5-251e6c1f-0089-46e1-a2b1-568d03dd8f87-000000@us-west-2.amazonses.com>
+Message-ID: <0101018d85abca85-a6de3a34-20bd-43cb-a2d2-f5e17104fd6e-000000@us-west-2.amazonses.com>
 Date: Wed, 7 Feb 2024 22:24:04 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.02.07-54.240.27.191
+X-SES-Outgoing: 2024.02.07-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 07 Feb 2024 22:24:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195093
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195092
 
 --NextPart
 Content-Type: text/plain
@@ -52,7 +52,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/v2-2-4-alsa-tools-upgrade-1.2.5---1.2.11.patch
+Testing patch /home/patchtest/share/mboxes/v2-3-4-alsa-ucm-conf-upgrade-1.2.10---1.2.11.patch
 
 FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_off_by_presence)
 
