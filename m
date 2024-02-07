@@ -1,148 +1,91 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2D1BC4828F
-	for <webhook@archiver.kernel.org>; Wed,  7 Feb 2024 20:51:21 +0000 (UTC)
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
- by mx.groups.io with SMTP id smtpd.web11.983.1707339074588226170
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0CEEC4828F
+	for <webhook@archiver.kernel.org>; Wed,  7 Feb 2024 21:03:51 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.1382.1707339824411866844
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Feb 2024 12:51:14 -0800
+ Wed, 07 Feb 2024 13:03:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=IzjG5J+U;
- spf=pass (domain: gmail.com, ip: 209.85.210.174, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-6da202aa138so739836b3a.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 07 Feb 2024 12:51:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707339074; x=1707943874; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TNOGs8NltrqZT8tupcUbmW+84QewrGOzTI62DGv/irs=;
-        b=IzjG5J+Ueahri70QBvqvYQymbOLoOSflsxVDPwW6b245pdHN+6XvHRfZqDNJMBr83j
-         CjIEcovAgHo00NFQrixNKT05BhM2l2OkI4RdR2VrH02zO0k2KckIhiXzTQlnXrgkgl7C
-         TOqTOBQPM2Cx2mtqXyH8EsuboD33KxLcErkU3LIg+06E5VyEURfDNi1usZz2BsewLVok
-         Hv5pcGGLvkK8HZBp++7MFvrfUxRqg9rI0auNlgtFP53iZiZf3G4mnzEwC6vwIypICPFU
-         bRH6gHVayvJb6cqqSUS8Q0oJFkbxd9dy/oFhhSmwa3LgPWTz9ImDcrwI6KI6utT64NGj
-         Npvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707339074; x=1707943874;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TNOGs8NltrqZT8tupcUbmW+84QewrGOzTI62DGv/irs=;
-        b=qHagRr4/6H43fLQjPIJm7rieH5O1gFDhn7W8RGNJrvEACsa/3hwWBQXaYnBr+rjBpR
-         XuEEeLCCEJcekXMgnMQVwOcCD32DQWRnnEubFIiVN9KbJUC3Mso1hIuqMjzdatNZ5wah
-         MZKyiRO+iRdViH24f3UnK8m9XVSYfJRRayif7846PYSdbMJ+UVibQ4fsiT6/doSEk3dW
-         gYXfw2Zf5PEc6pQvGfMLMT2vqpo4ngcf8w5BdrZtzSgB0OHu8bw/n+H9ixSikv20Pjid
-         nIwluOlvHgFhsZFsWdB8T87NbOYfaizAq9yGh3OU8m0VU2PKSetEdHz41SGZKmNND0fF
-         ZDwQ==
-X-Gm-Message-State: AOJu0YzAB6BDx5BlcBD2bRBov3jJWUoXrHRVBxKFE9BR4XL9QTgVOhHM
-	nmgatCgercioDh/78QPlZAEgeobpSmHEgdGfw3hwm2Cu4/qoF2ZaLiKEM36A/jk=
-X-Google-Smtp-Source: AGHT+IEtEmPV1IuQ1rMZBRmDxrBFuoTQ44HSp1YEJoYnglslemXWZGXVPipbBz1zgrsg5vZHnwQ/cA==
-X-Received: by 2002:a05:6a20:1594:b0:19c:aaee:bb1b with SMTP id h20-20020a056a20159400b0019caaeebb1bmr6887136pzj.7.1707339073514;
-        Wed, 07 Feb 2024 12:51:13 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::c29d])
-        by smtp.gmail.com with ESMTPSA id e19-20020aa79813000000b006ddcf5d5b0bsm2086243pfl.153.2024.02.07.12.51.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Feb 2024 12:51:13 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] python3: Fix ptests with expat 2.6+
-Date: Wed,  7 Feb 2024 12:51:10 -0800
-Message-ID: <20240207205110.2745784-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Wr6NCKUv;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=fY+XXT3m;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018d856238db-4d2f9011-21e8-4249-be63-a67723a9805a-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1707339823; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
+	bh=5wp6ug+Q+iYihXnHVYb1lXA9LPijhxHvSQ3Vf0U9/9A=;
+	b=Wr6NCKUvFYtt8XqWp5816RfzMlZmI446X1kvhPJznso+4RGSCv4AgGyx8JnfPhpj
+	JtJmo46dNi+y5lnQM1Kt9BxhjsyWM2PvY6jyX9Yszh/kmPoEc85HAK5dAMMcDZVJJ69
+	uLKCrUY1Tx1nbyDm8M3BVO8xLo/sHA+GoAiQOQY8=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1707339823;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=5wp6ug+Q+iYihXnHVYb1lXA9LPijhxHvSQ3Vf0U9/9A=;
+	b=fY+XXT3mHEUfywhoIemPEs/EkAkJWwWJYoYS6tywnd7n7KSg5+T6AebEyNIOiO88
+	DTU9yWhmaC06HKMFSOVKrW1qM/A38Pc8xtUVUMNO3BxkWHy7M7/SpA1zdBILhuP/zeW
+	aSdc7L9x3z9kbkgeL0SHVo3fRSqCBcTVV6I46hRU=
+From: patchtest@automation.yoctoproject.org
+To: Khem Raj <raj.khem@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] python3: Fix ptests with expat 2.6+
+In-Reply-To: 20240207205110.2745784-1-raj.khem@gmail.com
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018d856238db-4d2f9011-21e8-4249-be63-a67723a9805a-000000@us-west-2.amazonses.com>
+Date: Wed, 7 Feb 2024 21:03:43 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.02.07-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 Feb 2024 20:51:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195078
+ <openembedded-core@lists.openembedded.org>; Wed, 07 Feb 2024 21:03:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195079
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+--NextPart
+Content-Type: text/plain
+
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- ...y-Fix-for-Expat-2.6.0-with-reparse-d.patch | 57 +++++++++++++++++++
- .../recipes-devtools/python/python3_3.12.1.bb |  1 +
- 2 files changed, 58 insertions(+)
- create mode 100644 meta/recipes-devtools/python/0001-test_xml_etree.py-Fix-for-Expat-2.6.0-with-reparse-d.patch
+Testing patch /home/patchtest/share/mboxes/python3-Fix-ptests-with-expat-2.6.patch
 
-diff --git a/meta/recipes-devtools/python/0001-test_xml_etree.py-Fix-for-Expat-2.6.0-with-reparse-d.patch b/meta/recipes-devtools/python/0001-test_xml_etree.py-Fix-for-Expat-2.6.0-with-reparse-d.patch
-new file mode 100644
-index 00000000000..415db4bc5b8
---- /dev/null
-+++ b/meta/recipes-devtools/python/0001-test_xml_etree.py-Fix-for-Expat-2.6.0-with-reparse-d.patch
-@@ -0,0 +1,57 @@
-+From 51a048251c552d9ead29a2a3e4884c138fcf9c1c Mon Sep 17 00:00:00 2001
-+From: Sebastian Pipping <sebastian@pipping.org>
-+Date: Wed, 7 Feb 2024 15:32:45 +0100
-+Subject: [PATCH] test_xml_etree.py: Fix for Expat >=2.6.0 with reparse deferral
-+
-+Upstream-Status: Submitted [https://github.com/python/cpython/pull/115138]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ Lib/test/test_xml_etree.py                             | 10 ++++++----
-+ .../2024-02-07-15-49-37.gh-issue-115133.WBajNr.rst     |  1 +
-+ 2 files changed, 7 insertions(+), 4 deletions(-)
-+ create mode 100644 Misc/NEWS.d/next/Tests/2024-02-07-15-49-37.gh-issue-115133.WBajNr.rst
-+
-+diff --git a/Lib/test/test_xml_etree.py b/Lib/test/test_xml_etree.py
-+index 53a4e9f..9a0119c 100644
-+--- a/Lib/test/test_xml_etree.py
-++++ b/Lib/test/test_xml_etree.py
-+@@ -1401,6 +1401,7 @@ class XMLPullParserTest(unittest.TestCase):
-+     def test_simple_xml(self):
-+         for chunk_size in (None, 1, 5):
-+             with self.subTest(chunk_size=chunk_size):
-++                expected_events = []
-+                 parser = ET.XMLPullParser()
-+                 self.assert_event_tags(parser, [])
-+                 self._feed(parser, "<!-- comment -->\n", chunk_size)
-+@@ -1410,16 +1411,17 @@ class XMLPullParserTest(unittest.TestCase):
-+                            chunk_size)
-+                 self.assert_event_tags(parser, [])
-+                 self._feed(parser, ">\n", chunk_size)
-+-                self.assert_event_tags(parser, [('end', 'element')])
-++                expected_events += [('end', 'element')]
-+                 self._feed(parser, "<element>text</element>tail\n", chunk_size)
-+                 self._feed(parser, "<empty-element/>\n", chunk_size)
-+-                self.assert_event_tags(parser, [
-++                expected_events += [
-+                     ('end', 'element'),
-+                     ('end', 'empty-element'),
-+-                    ])
-++                    ]
-+                 self._feed(parser, "</root>\n", chunk_size)
-+-                self.assert_event_tags(parser, [('end', 'root')])
-++                expected_events += [('end', 'root')]
-+                 self.assertIsNone(parser.close())
-++                self.assert_event_tags(parser, expected_events)
-+ 
-+     def test_feed_while_iterating(self):
-+         parser = ET.XMLPullParser()
-+diff --git a/Misc/NEWS.d/next/Tests/2024-02-07-15-49-37.gh-issue-115133.WBajNr.rst b/Misc/NEWS.d/next/Tests/2024-02-07-15-49-37.gh-issue-115133.WBajNr.rst
-+new file mode 100644
-+index 0000000..4dc9c13
-+--- /dev/null
-++++ b/Misc/NEWS.d/next/Tests/2024-02-07-15-49-37.gh-issue-115133.WBajNr.rst
-+@@ -0,0 +1 @@
-++Fix etree XMLPullParser tests for Expat >=2.6.0 with reparse deferral
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-devtools/python/python3_3.12.1.bb b/meta/recipes-devtools/python/python3_3.12.1.bb
-index 1d3a4221c32..771902cd2c1 100644
---- a/meta/recipes-devtools/python/python3_3.12.1.bb
-+++ b/meta/recipes-devtools/python/python3_3.12.1.bb
-@@ -30,6 +30,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://0001-skip-no_stdout_fileno-test-due-to-load-variability.patch \
-            file://0001-test_storlines-skip-due-to-load-variability.patch \
-            file://0001-gh-114492-Initialize-struct-termios-before-calling-t.patch \
-+           file://0001-test_xml_etree.py-Fix-for-Expat-2.6.0-with-reparse-d.patch \
-            "
- 
- SRC_URI:append:class-native = " \
--- 
-2.43.0
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
+PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
