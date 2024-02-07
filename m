@@ -1,69 +1,102 @@
-Return-Path: <baruch@tkos.co.il>
+Return-Path: <matthias.schiffer@ew.tq-group.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFA7DC4828F
-	for <webhook@archiver.kernel.org>; Wed,  7 Feb 2024 09:30:50 +0000 (UTC)
-Received: from mail.tkos.co.il (mail.tkos.co.il [84.110.109.230])
- by mx.groups.io with SMTP id smtpd.web11.16713.1707298241243343942
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22580C4828F
+	for <webhook@archiver.kernel.org>; Wed,  7 Feb 2024 10:26:41 +0000 (UTC)
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by mx.groups.io with SMTP id smtpd.web10.17568.1707301590121068504
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Feb 2024 01:30:42 -0800
+ Wed, 07 Feb 2024 02:26:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@tkos.co.il header.s=default header.b=g9+OC5Jd;
- spf=pass (domain: tkos.co.il, ip: 84.110.109.230, mailfrom: baruch@tkos.co.il)
-Received: from localhost (unknown [10.0.8.2])
-	by mail.tkos.co.il (Postfix) with ESMTP id DB4DF440845;
-	Wed,  7 Feb 2024 11:30:08 +0200 (IST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tkos.co.il;
-	s=default; t=1707298208;
-	bh=tFGe0AhQx0YTyzX3WbAIC+GUZMNMoy+X2c7JlGQW/V0=;
-	h=From:To:Cc:Subject:Date:From;
-	b=g9+OC5JdjdU2rmTk9eOzlVWe9pCgqdCTfVtfSZuq4eRgaLFtK1k+3HN6gHrWvLjWz
-	 8j95YGllKCa3jB818ZrNe1IiKkY3Mqf+B8mTNvfoZ/HfZG0P0qjKKo9uAPUFe1FJid
-	 YjChOrbjuZ9xpxeAF12+tBsRuP0jn7Io3+Vm4SnwaQcZ1yVLqH9vvVxJk/DFUOco8a
-	 fq892H+Ns8i50SQ+A/r4kPYLbRH/iFjLywo+5sf2l2+RyO1WzQWZqEh/pB2VXYeIOj
-	 HEHUbfmbfUIOirFn86f+DlFojJxwj+HbON/6shCrmNDxndY/xcqk+C18RKOdjGN4nN
-	 7EJxkJj0qQg2g==
-User-agent: mu4e 1.10.8; emacs 29.1
-From: Baruch Siach <baruch@tkos.co.il>
-To: Vyacheslav Yurkov <uvv.mail@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: overlayfs-etc compatibility with volatile-bind
-Date: Wed, 07 Feb 2024 11:28:34 +0200
-Message-ID: <87sf24vcxu.fsf@tarshish>
+ dkim=pass header.i=@tq-group.com header.s=key1 header.b=hzr3ieZu;
+ spf=pass (domain: ew.tq-group.com, ip: 93.104.207.81, mailfrom: matthias.schiffer@ew.tq-group.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1707301590; x=1738837590;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=83+JSRJfXgwMguJoTyZn5zsEIu8TjY+Xc+pmQecIdRM=;
+  b=hzr3ieZuiLB5mH688YMUDLmdoYhflh3elKSLgh1WWKF0hVv359kyL79M
+   Jj2Ef0KZT+jnecQoPgHD0OJKR/TnUjDsWPNwmX/1+KnH6QYFAqVLiRktm
+   YxCODvwjuw1DhYQHEIosykDsnXd46428dyXBxgpdzKUhDBEYfz2AWugeg
+   YhEPOkk3dGBh/iLjK5LBHwX62wTK+WBx2SeVzq+cWzQRFPXOzrw2vwb6t
+   eCnwqCMzSUEF9mOH9btSampRLvLjNvnAWdwuA/+xUqeESBAT6TPPuM0cB
+   vLERw3z3lodGZRmyZ9Xyngp0Vm5kefKjLsDrxoay3w78s/YqRwxtvHCVe
+   A==;
+X-IronPort-AV: E=Sophos;i="6.05,250,1701126000"; 
+   d="scan'208";a="35291019"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 07 Feb 2024 11:26:27 +0100
+Received: from schifferm-ubuntu.tq-net.de (SCHIFFERM-M3.tq-net.de [10.121.49.135])
+	by vtuxmail01.tq-net.de (Postfix) with ESMTPA id 396DC280075;
+	Wed,  7 Feb 2024 11:26:27 +0100 (CET)
+From: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+To: openembedded-core@lists.openembedded.org
+Cc: oss@ew.tq-group.com,
+	Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+Subject: [PATCH] kernel.bbclass: install .config to deploy dir
+Date: Wed,  7 Feb 2024 11:25:29 +0100
+Message-ID: <20240207102529.128369-1-matthias.schiffer@ew.tq-group.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 Feb 2024 09:30:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195046
+ <openembedded-core@lists.openembedded.org>; Wed, 07 Feb 2024 10:26:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195047
 
-Hi Vyacheslav Yurkov,
+Deploy the kernel configuration with the built images, so it is easy to
+check its contents, or rebuild the same configuration outside of the
+Yocto build system.
 
-overlayfs-etc generates a 'preinit' script that unconditionally remounts
-root to make it writable. Later systemd-fstab-generator generates a
-mount unit (-.mount) that restores read-only as set in /etc/fstab.
+This can be particularly convenient when running a Yocto build as a CI
+job, and only the deploy dir is made available for download.
 
-I added an entry to VOLATILE_BINDS for the /home directory. The volatile-binds
-recipe creates a systemd mount unit with the condition
+Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+---
+ meta/classes-recipe/kernel-artifact-names.bbclass | 3 +++
+ meta/classes-recipe/kernel.bbclass                | 7 +++++++
+ 2 files changed, 10 insertions(+)
 
-  ConditionPathIsReadWrite=!/home
-
-The trouble is that there is no dependency between the rootfs mount unit and
-the /home unit. When the /home unit runs first, the condition is false, and
-the unit fails. If I later start the /home unit manually, it succeeds, because
-rootfs is read-only now.
-
-What is the purpose of mounting root rw in 'preinit'?
-
-Is there any other alternative to make volatile-binds do the right thing?
-
-Thanks,
-baruch
-
+diff --git a/meta/classes-recipe/kernel-artifact-names.bbclass b/meta/classes-recipe/kernel-artifact-names.bbclass
+index 1a7611a15e..8e2ef0d627 100644
+--- a/meta/classes-recipe/kernel-artifact-names.bbclass
++++ b/meta/classes-recipe/kernel-artifact-names.bbclass
+@@ -16,6 +16,9 @@ KERNEL_ARTIFACT_NAME ?= "${PKGE}-${PKGV}-${PKGR}${IMAGE_MACHINE_SUFFIX}${IMAGE_V
+ KERNEL_ARTIFACT_LINK_NAME ?= "${MACHINE}"
+ KERNEL_ARTIFACT_BIN_EXT ?= ".bin"
+ 
++KERNEL_CONFIG_NAME ?= "${KERNEL_ARTIFACT_NAME}"
++KERNEL_CONFIG_LINK_NAME ?= "${KERNEL_ARTIFACT_LINK_NAME}"
++
+ KERNEL_IMAGE_NAME ?= "${KERNEL_ARTIFACT_NAME}"
+ KERNEL_IMAGE_LINK_NAME ?= "${KERNEL_ARTIFACT_LINK_NAME}"
+ KERNEL_IMAGE_BIN_EXT ?= "${KERNEL_ARTIFACT_BIN_EXT}"
+diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
+index a76aaee5ba..8a98899e04 100644
+--- a/meta/classes-recipe/kernel.bbclass
++++ b/meta/classes-recipe/kernel.bbclass
+@@ -812,6 +812,13 @@ kernel_do_deploy() {
+ 		mkdir "$deployDir"
+ 	fi
+ 
++	if [ -n "${KERNEL_CONFIG_NAME}" ]; then
++		install -m 0644 .config $deployDir/config-${KERNEL_CONFIG_NAME}
++		if [ -n "${KERNEL_CONFIG_LINK_NAME}" ]; then
++			ln -sf config-${KERNEL_CONFIG_NAME} $deployDir/config-${KERNEL_CONFIG_LINK_NAME}
++		fi
++	fi
++
+ 	for imageType in ${KERNEL_IMAGETYPES} ; do
+ 		baseName=$imageType-${KERNEL_IMAGE_NAME}
+ 
 -- 
-                                                     ~. .~   Tk Open Systems
-=}------------------------------------------------ooO--U--Ooo------------{=
-   - baruch@tkos.co.il - tel: +972.52.368.4656, http://www.tkos.co.il -
+TQ-Systems GmbH | Mühlstraße 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht München, HRB 105018
+Geschäftsführer: Detlef Schneider, Rüdiger Stahl, Stefan Schneider
+https://www.tq-group.com/
+
 
