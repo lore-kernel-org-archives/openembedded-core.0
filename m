@@ -1,71 +1,5079 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8ABBDC4829C
-	for <webhook@archiver.kernel.org>; Wed,  7 Feb 2024 16:40:28 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.2238.1707324024506267465
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B63FAC4828F
+	for <webhook@archiver.kernel.org>; Wed,  7 Feb 2024 16:48:58 +0000 (UTC)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+ by mx.groups.io with SMTP id smtpd.web11.2522.1707324533729324790
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Feb 2024 08:40:24 -0800
+ Wed, 07 Feb 2024 08:48:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6A97C1FB
-	for <openembedded-core@lists.openembedded.org>; Wed,  7 Feb 2024 08:41:06 -0800 (PST)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 9A4AF3F64C
-	for <openembedded-core@lists.openembedded.org>; Wed,  7 Feb 2024 08:40:23 -0800 (PST)
-From: ross.burton@arm.com
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] lib/oeqa: rename assertRaisesRegexp to assertRaisesRegex
-Date: Wed,  7 Feb 2024 16:40:22 +0000
-Message-Id: <20240207164022.4037405-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@smile-fr.20230601.gappssmtp.com header.s=20230601 header.b=Sa6YWM+y;
+ spf=pass (domain: smile.fr, ip: 209.85.218.42, mailfrom: yoann.congal@smile.fr)
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a388c5542e9so102852066b.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 07 Feb 2024 08:48:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1707324532; x=1707929332; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=BRPOMgOWmWpC6OMZU0mZxsI5mxYBRibkgja7BxTzKHs=;
+        b=Sa6YWM+y99bthYFlEM1CbgmSqe7mnF2kDGRxWbb9k0DysuD9LDmG7sANhQlXPEHZiM
+         HfK7dMPE1Q6JzfhVnCxrGKWOUKTf5moqTgYoLVHhsnwE/bKC8/u34946mfZv3XnyksFa
+         oBf82QtNjJD9EDlg+UvhhXj4ci2A3SqsCdvI6ET+O/ru3acZ0i37oy0bK/6tzifQOnaX
+         6Kn6SXEWxPUDD8Up0E1xwTiuwxtY5cvDl7K3G+BCWE8vqNSPYv6lOj/6L1cOYD3L+MdK
+         0UdGotKJaeqNXcLmL33EzR1RQewv2+vB1r3CNZG5UASlPnzGs0lj7YYj8Q6H4TyYPlG1
+         UX+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707324532; x=1707929332;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BRPOMgOWmWpC6OMZU0mZxsI5mxYBRibkgja7BxTzKHs=;
+        b=jMmp46K4yRGEJxkv3Mj/jKZ1s1LOsnvqXBnzwRJDX48nKO/RquJ33SiaG71XMDXS8e
+         nD7aTC+5BtmXQx3fIR3d+2RozOl2ZLbalCKnN2tQSCB9u/r0fCyqr9LatTcK3wI+nBDW
+         KEm4vJFpBiqScOhnqAWe8mN+zcMG17vPvNUg/h8ZT6pLaunLBztf2vsibaCnetwX1GFU
+         gAQE+byn99tXuGXvLI10ZZbvph04wzXjUjFNPyT6mup+5KMlun/jk2y4cvuVhb+CyLmz
+         vPJ33Hii6ETFrNhsXlZAWx0jhpoxCaNtoCeIYEnm58zic6t/z6mFNtoVpDbjHnC4XofN
+         3Cdg==
+X-Gm-Message-State: AOJu0Yy00Q7Pj3TPN8JLcKGfujkdRnfWpxrvRw9qwz60JqLPT0VMWI1Q
+	D1raEE0DoPIbfGPsCZZ8KF0D48pxyw5bhPCBkEQ4Lqk512mp410vC3X3yqzubGAuJJa6d+4Dchg
+	64uAZ7xK+Pix43hkuq4392Fd/mmeM22ybrrUouQ==
+X-Google-Smtp-Source: AGHT+IGGWWzVDcx3oYfUWUkWOHqUKrPYWFCTGxbDPm+IHRuYUnxW97gXElnFDLX9Aw/hhDk8hJ2rqjZr8LoRk9ONwjA=
+X-Received: by 2002:a17:906:f349:b0:a23:7633:59ae with SMTP id
+ hg9-20020a170906f34900b00a23763359aemr56656ejb.9.1707324531701; Wed, 07 Feb
+ 2024 08:48:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+References: <20240207125913.1506713-1-soumya.sambu@windriver.com>
+ <CAOSpxdZ_o0K0=vS1q4xo8P1GTEH=aRK410ESuBRS8MUe0Raj=w@mail.gmail.com> <CAKzga+xg=xGuXyNjY05N8S6Z7f1YcCvnmss1FV9WCj73uCsreQ@mail.gmail.com>
+In-Reply-To: <CAKzga+xg=xGuXyNjY05N8S6Z7f1YcCvnmss1FV9WCj73uCsreQ@mail.gmail.com>
+From: Yoann CONGAL <yoann.congal@smile.fr>
+Date: Wed, 7 Feb 2024 17:48:25 +0100
+Message-ID: <CAMSfU+6=QbAdEi-HZpmN93kaVOjE2tx2O9pPHXH_8wifDb=htQ@mail.gmail.com>
+Subject: Re: [OE-core][kirkstone][PATCH 1/1] go: Fix CVE-2023-45285 and CVE-2023-45287
+To: skulkarni@mvista.com
+Cc: Steve Sakoman <steve@sakoman.com>, soumya.sambu@windriver.com, 
+	openembedded-core@lists.openembedded.org, Armin Kuster <akuster@mvista.com>, 
+	Jeremy Puhlman <jpuhlman@mvista.com>, Mahesh Mathapati <mmathapati@mvista.com>, 
+	Vijay Anusuri <vanusuri@mvista.com>
+Content-Type: multipart/alternative; boundary="0000000000003a8aa60610cd785d"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 Feb 2024 16:40:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195070
+ <openembedded-core@lists.openembedded.org>; Wed, 07 Feb 2024 16:48:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195071
 
-From: Ross Burton <ross.burton@arm.com>
+--0000000000003a8aa60610cd785d
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-TestCase.assertRaisesRegexp was renamed to assertRaisesRegex in Python
-3.2, so rename to fix a warning during test execution.
+Le mer. 7 f=C3=A9vr. 2024 =C3=A0 17:38, Shubham Kulkarni via lists.openembe=
+dded.org
+<skulkarni=3Dmvista.com@lists.openembedded.org> a =C3=A9crit :
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+> Hi,
+>
+> The problem is due to a special character present in the golang upstream
+> commit (specifically this line-
+> https://github.com/golang/go/commit/8a81fdf165facdcefa06531de5af98a4db343=
+035#diff-acaa91e0be43e9cfbb2ec7d213e5fa3fee35a94f2c1e36d690639257f4960764R2=
+33).
+> Due to this character, the patch sent to the mailing list is not reflecti=
+ng
+> properly at the patchwork and ending abruptly-
+> https://patchwork.yoctoproject.org/project/oe-core/patch/20240207125913.1=
+506713-1-soumya.sambu@windriver.com/
+>
+> Similar issue happened with me sometime back and with one of our team
+> members. Removing this character from the patch (as it's in the comment
+> section) should resolve the problem.
+>
+> Thanks,
+> Shubham Kulkarni
+>
+> On Wed, Feb 7, 2024 at 9:26=E2=80=AFPM Steve Sakoman <steve@sakoman.com> =
+wrote:
+>
+>> This patch fails to apply:
+>>
+>> Applying: go: Fix CVE-2023-45285 and CVE-2023-45287
+>> error: corrupt patch at line 1486
+>> error: could not build fake ancestor
+>> Patch failed at 0001 go: Fix CVE-2023-45285 and CVE-2023-45287
+>>
+>
+Hi,
+
+For what it's worth, it does apply correctly when pulled with "b4 shazam":
+ $ b4 shazam 20240207125913.1506713-1-soumya.sambu@windriver.com
+Grabbing thread from
+lore.kernel.org/all/20240207125913.1506713-1-soumya.sambu%40windriver.com/t=
+.mbox.gz
+Analyzing 3 messages in the thread
+Checking attestation on all messages, may take a moment...
 ---
- meta/lib/oeqa/selftest/cases/runcmd.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+  =E2=9C=97 [PATCH 1/1] go: Fix CVE-2023-45285 and CVE-2023-45287
+  ---
+  =E2=9C=97 BADSIG: DKIM/windriver.com
+---
+Total patches: 1
+---
+Application de  go: Fix CVE-2023-45285 and CVE-2023-45287
 
-diff --git a/meta/lib/oeqa/selftest/cases/runcmd.py b/meta/lib/oeqa/selft=
-est/cases/runcmd.py
-index 6fd96b84850..70047ca0caa 100644
---- a/meta/lib/oeqa/selftest/cases/runcmd.py
-+++ b/meta/lib/oeqa/selftest/cases/runcmd.py
-@@ -58,11 +58,11 @@ class RunCmdTests(OESelftestTestCase):
-         self.assertEqual(result.status, 0)
-=20
-     def test_result_assertion(self):
--        self.assertRaisesRegexp(AssertionError, "Command 'echo .* false'=
- returned non-zero exit status 1:\nfoobar",
-+        self.assertRaisesRegex(AssertionError, "Command 'echo .* false' =
-returned non-zero exit status 1:\nfoobar",
-                                 runCmd, "echo foobar >&2; false", shell=3D=
-True)
-=20
-     def test_result_exception(self):
--        self.assertRaisesRegexp(CommandError, "Command 'echo .* false' r=
-eturned non-zero exit status 1 with output: foobar",
-+        self.assertRaisesRegex(CommandError, "Command 'echo .* false' re=
-turned non-zero exit status 1 with output: foobar",
-                                 runCmd, "echo foobar >&2; false", shell=3D=
-True, assert_error=3DFalse)
-=20
-     def test_output(self):
+Regards,
+
+
+
+> Steve
+>>
+>> On Wed, Feb 7, 2024 at 2:59=E2=80=AFAM Soumya via lists.openembedded.org
+>> <soumya.sambu=3Dwindriver.com@lists.openembedded.org> wrote:
+>> >
+>> > From: Soumya Sambu <soumya.sambu@windriver.com>
+>> >
+>> > CVE-2023-45285:
+>> > Using go get to fetch a module with the ".git" suffix may unexpectedly
+>> > fallback to the insecure "git://" protocol if the module is unavailabl=
+e
+>> > via the secure "https://" and "git+ssh://" protocols, even if
+>> GOINSECURE
+>> > is not set for said module. This only affects users who are not using
+>> > the module proxy and are fetching modules directly (i.e. GOPROXY=3Doff=
+).
+>> >
+>> > CVE-2023-45287:
+>> > Before Go 1.20, the RSA based TLS key exchanges used the math/big
+>> > library, which is not constant time. RSA blinding was applied to preve=
+nt
+>> > timing attacks, but analysis shows this may not have been fully
+>> effective.
+>> > In particular it appears as if the removal of PKCS#1 padding may leak
+>> > timing information, which in turn could be used to recover session key
+>> > bits. In Go 1.20, the crypto/tls library switched to a fully constant
+>> > time RSA implementation, which we do not believe exhibits any timing
+>> > side channels.
+>> >
+>> > References:
+>> > https://nvd.nist.gov/vuln/detail/CVE-2023-45285
+>> > https://nvd.nist.gov/vuln/detail/CVE-2023-45287
+>> > https://security-tracker.debian.org/tracker/CVE-2023-45285
+>> > https://security-tracker.debian.org/tracker/CVE-2023-45287
+>> >
+>> > Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
+>> > ---
+>> >  meta/recipes-devtools/go/go-1.17.13.inc       |    2 +
+>> >  .../go/go-1.20/CVE-2023-45285.patch           |  110 ++
+>> >  .../go/go-1.20/CVE-2023-45287.patch           | 1695 ++++++++++++++++=
++
+>> >  3 files changed, 1807 insertions(+)
+>> >  create mode 100644
+>> meta/recipes-devtools/go/go-1.20/CVE-2023-45285.patch
+>> >  create mode 100644
+>> meta/recipes-devtools/go/go-1.20/CVE-2023-45287.patch
+>> >
+>> > diff --git a/meta/recipes-devtools/go/go-1.17.13.inc
+>> b/meta/recipes-devtools/go/go-1.17.13.inc
+>> > index 95c4461d3e..6fc07bb910 100644
+>> > --- a/meta/recipes-devtools/go/go-1.17.13.inc
+>> > +++ b/meta/recipes-devtools/go/go-1.17.13.inc
+>> > @@ -48,6 +48,8 @@ SRC_URI +=3D "\
+>> >      file://CVE-2023-39319.patch \
+>> >      file://CVE-2023-39318.patch \
+>> >      file://CVE-2023-39326.patch \
+>> > +    file://CVE-2023-45285.patch \
+>> > +    file://CVE-2023-45287.patch \
+>> >  "
+>> >  SRC_URI[main.sha256sum] =3D
+>> "a1a48b23afb206f95e7bbaa9b898d965f90826f6f1d1fc0c1d784ada0cd300fd"
+>> >
+>> > diff --git a/meta/recipes-devtools/go/go-1.20/CVE-2023-45285.patch
+>> b/meta/recipes-devtools/go/go-1.20/CVE-2023-45285.patch
+>> > new file mode 100644
+>> > index 0000000000..92711a9393
+>> > --- /dev/null
+>> > +++ b/meta/recipes-devtools/go/go-1.20/CVE-2023-45285.patch
+>> > @@ -0,0 +1,110 @@
+>> > +From 46bc33819ac86a9596b8059235842f0e0c7469bd Mon Sep 17 00:00:00 200=
+1
+>> > +From: Bryan C. Mills <bcmills@google.com>
+>> > +Date: Thu, 2 Nov 2023 15:06:35 -0400
+>> > +Subject: [PATCH] cmd/go/internal/vcs: error out if the requested repo
+>> does not
+>> > + support a secure protocol
+>> > +
+>> > +Updates #63845.
+>> > +Fixes #63972.
+>> > +
+>> > +Change-Id: If86d6b13d3b55877b35c087112bd76388c9404b8
+>> > +Reviewed-on: https://go-review.googlesource.com/c/go/+/539321
+>> > +Reviewed-by: Michael Matloob <matloob@golang.org>
+>> > +LUCI-TryBot-Result: Go LUCI <
+>> golang-scoped@luci-project-accounts.iam.gserviceaccount.com>
+>> > +Reviewed-by: Roland Shoemaker <roland@golang.org>
+>> > +Auto-Submit: Bryan Mills <bcmills@google.com>
+>> > +(cherry picked from commit be26ae18caf7ddffca4073333f80d0d9e76483c3)
+>> > +Reviewed-on: https://go-review.googlesource.com/c/go/+/540335
+>> > +Auto-Submit: Dmitri Shuralyov <dmitshur@google.com>
+>> > +Reviewed-by: Dmitri Shuralyov <dmitshur@google.com>
+>> > +
+>> > +CVE: CVE-2023-45285
+>> > +
+>> > +Upstream-Status: Backport [
+>> https://github.com/golang/go/commit/46bc33819ac86a9596b8059235842f0e0c74=
+69bd
+>> ]
+>> > +
+>> > +Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
+>> > +---
+>> > + src/cmd/go/internal/vcs/vcs.go                | 25 +++++++++++++----
+>> > + .../script/mod_insecure_issue63845.txt        | 28 +++++++++++++++++=
+++
+>> > + 2 files changed, 47 insertions(+), 6 deletions(-)
+>> > + create mode 100644
+>> src/cmd/go/testdata/script/mod_insecure_issue63845.txt
+>> > +
+>> > +diff --git a/src/cmd/go/internal/vcs/vcs.go
+>> b/src/cmd/go/internal/vcs/vcs.go
+>> > +index ab42424..0e2882d 100644
+>> > +--- a/src/cmd/go/internal/vcs/vcs.go
+>> > ++++ b/src/cmd/go/internal/vcs/vcs.go
+>> > +@@ -891,19 +891,32 @@ func repoRootFromVCSPaths(importPath string,
+>> security web.SecurityMode, vcsPaths
+>> > +               if !srv.schemelessRepo {
+>> > +                       repoURL =3D match["repo"]
+>> > +               } else {
+>> > +-                      scheme :=3D vcs.Scheme[0] // default to first
+>> scheme
+>> > +                       repo :=3D match["repo"]
+>> > +-                      if vcs.PingCmd !=3D "" {
+>> > +-                              // If we know how to test schemes, sca=
+n
+>> to find one.
+>> > ++                      scheme, err :=3D func() (string, error) {
+>> > +                               for _, s :=3D range vcs.Scheme {
+>> > +                                       if security =3D=3D web.SecureO=
+nly
+>> && !vcs.isSecureScheme(s) {
+>> > +                                               continue
+>> > +                                       }
+>> > +-                                      if vcs.Ping(s, repo) =3D=3D ni=
+l {
+>> > +-                                              scheme =3D s
+>> > +-                                              break
+>> > ++
+>> > ++                                      // If we know how to ping URL
+>> schemes for this VCS,
+>> > ++                                      // check that this repo works.
+>> > ++                                      // Otherwise, default to the
+>> first scheme
+>> > ++                                      // that meets the requested
+>> security level.
+>> > ++                                      if vcs.PingCmd =3D=3D "" {
+>> > ++                                              return s, nil
+>> > ++                                      }
+>> > ++                                      if err :=3D vcs.Ping(s, repo);
+>> err =3D=3D nil {
+>> > ++                                              return s, nil
+>> > +                                       }
+>> > +                               }
+>> > ++                              securityFrag :=3D ""
+>> > ++                              if security =3D=3D web.SecureOnly {
+>> > ++                                      securityFrag =3D "secure "
+>> > ++                              }
+>> > ++                              return "", fmt.Errorf("no %sprotocol
+>> found for repository", securityFrag)
+>> > ++                      }()
+>> > ++                      if err !=3D nil {
+>> > ++                              return nil, err
+>> > +                       }
+>> > +                       repoURL =3D scheme + "://" + repo
+>> > +               }
+>> > +diff --git a/src/cmd/go/testdata/script/mod_insecure_issue63845.txt
+>> b/src/cmd/go/testdata/script/mod_insecure_issue63845.txt
+>> > +new file mode 100644
+>> > +index 0000000..5fa6a4f
+>> > +--- /dev/null
+>> > ++++ b/src/cmd/go/testdata/script/mod_insecure_issue63845.txt
+>> > +@@ -0,0 +1,28 @@
+>> > ++# Regression test for https://go.dev/issue/63845:
+>> > ++# If 'git ls-remote' fails for all secure protocols,
+>> > ++# we should fail instead of falling back to an arbitrary protocol.
+>> > ++#
+>> > ++# Note that this test does not use the local vcweb test server
+>> > ++# (vcs-test.golang.org), because the hook for redirecting to that
+>> > ++# server bypasses the "ping to determine protocol" logic
+>> > ++# in cmd/go/internal/vcs.
+>> > ++
+>> > ++[!net] skip
+>> > ++[!git] skip
+>> > ++[short] skip 'tries to access a nonexistent external Git repo'
+>> > ++
+>> > ++env GOPRIVATE=3Dgolang.org
+>> > ++env CURLOPT_TIMEOUT_MS=3D100
+>> > ++env GIT_SSH_COMMAND=3Dfalse
+>> > ++
+>> > ++! go get -x golang.org/nonexist.git@latest
+>> > ++stderr '^git ls-remote https://golang.org/nonexist$'
+>> > ++stderr '^git ls-remote git\+ssh://golang.org/nonexist'
+>> > ++stderr '^git ls-remote ssh://golang.org/nonexist$'
+>> > ++! stderr 'git://'
+>> > ++stderr '^go: golang.org/nonexist.git@latest: no secure protocol
+>> found for repository$'
+>> > ++
+>> > ++-- go.mod --
+>> > ++module example
+>> > ++
+>> > ++go 1.19
+>> > +--
+>> > +2.40.0
+>> > diff --git a/meta/recipes-devtools/go/go-1.20/CVE-2023-45287.patch
+>> b/meta/recipes-devtools/go/go-1.20/CVE-2023-45287.patch
+>> > new file mode 100644
+>> > index 0000000000..b31a0f0320
+>> > --- /dev/null
+>> > +++ b/meta/recipes-devtools/go/go-1.20/CVE-2023-45287.patch
+>> > @@ -0,0 +1,1695 @@
+>> > +From 8a81fdf165facdcefa06531de5af98a4db343035 Mon Sep 17 00:00:00 200=
+1
+>> > +From: L=C3=BAc=C3=A1s Meier <cronokirby@gmail.com>
+>> > +Date: Tue Jun 8 21:36:06 2021 +0200
+>> > +Subject: [PATCH] crypto/rsa: replace big.Int for encryption and
+>> decryption
+>> > +
+>> > +Infamously, big.Int does not provide constant-time arithmetic, making
+>> > +its use in cryptographic code quite tricky. RSA uses big.Int
+>> > +pervasively, in its public API, for key generation, precomputation, a=
+nd
+>> > +for encryption and decryption. This is a known problem. One mitigatio=
+n,
+>> > +blinding, is already in place during decryption. This helps mitigate
+>> the
+>> > +very leaky exponentiation operation. Because big.Int is fundamentally
+>> > +not constant-time, it's unfortunately difficult to guarantee that
+>> > +mitigations like these are completely effective.
+>> > +
+>> > +This patch removes the use of big.Int for encryption and decryption,
+>> > +replacing it with an internal nat type instead. Signing and
+>> verification
+>> > +are also affected, because they depend on encryption and decryption.
+>> > +
+>> > +Overall, this patch degrades performance by 55% for private key
+>> > +operations, and 4-5x for (much faster) public key operations.
+>> > +(Signatures do both, so the slowdown is worse than decryption.)
+>> > +
+>> > +name                    old time/op  new time/op    delta
+>> > +DecryptPKCS1v15/2048-8  1.50ms =C2=B1 0%    2.34ms =C2=B1 0%    +56.4=
+4%
+>> (p=3D0.000 n=3D8+10)
+>> > +DecryptPKCS1v15/3072-8  4.40ms =C2=B1 0%    6.79ms =C2=B1 0%    +54.3=
+3%
+>> (p=3D0.000 n=3D10+9)
+>> > +DecryptPKCS1v15/4096-8  9.31ms =C2=B1 0%   15.14ms =C2=B1 0%    +62.6=
+0%
+>> (p=3D0.000 n=3D10+10)
+>> > +EncryptPKCS1v15/2048-8  8.16=C2=B5s =C2=B1 0%  355.58=C2=B5s =C2=B1 0=
+%  +4258.90%
+>> (p=3D0.000 n=3D10+9)
+>> > +DecryptOAEP/2048-8      1.50ms =C2=B1 0%    2.34ms =C2=B1 0%    +55.6=
+8%
+>> (p=3D0.000 n=3D10+9)
+>> > +EncryptOAEP/2048-8      8.51=C2=B5s =C2=B1 0%  355.95=C2=B5s =C2=B1 0=
+%  +4082.75%
+>> (p=3D0.000 n=3D10+9)
+>> > +SignPKCS1v15/2048-8     1.51ms =C2=B1 0%    2.69ms =C2=B1 0%    +77.9=
+4%
+>> (p=3D0.000 n=3D10+10)
+>> > +VerifyPKCS1v15/2048-8   7.25=C2=B5s =C2=B1 0%  354.34=C2=B5s =C2=B1 0=
+%  +4789.52%
+>> (p=3D0.000 n=3D9+9)
+>> > +SignPSS/2048-8          1.51ms =C2=B1 0%    2.70ms =C2=B1 0%    +78.8=
+0%
+>> (p=3D0.000 n=3D9+10)
+>> > +VerifyPSS/2048-8        8.27=C2=B5s =C2=B1 1%  355.65=C2=B5s =C2=B1 0=
+%  +4199.39%
+>> (p=3D0.000 n=3D10+10)
+>> > +
+>> > +Keep in mind that this is without any assembly at all, and that furth=
+er
+>> > +improvements are likely possible. I think having a review of the logi=
+c
+>> > +and the cryptography would be a good idea at this stage, before we
+>> > +complicate the code too much through optimization.
+>> > +
+>> > +The bulk of the work is in nat.go. This introduces two new types: nat=
+,
+>> > +representing natural numbers, and modulus, representing moduli used i=
+n
+>> > +modular arithmetic.
+>> > +
+>> > +A nat has an "announced size", which may be larger than its "true
+>> size",
+>> > +the number of bits needed to represent this number. Operations on a n=
+at
+>> > +will only ever leak its announced size, never its true size, or other
+>> > +information about its value. The size of a nat is always clear based =
+on
+>> > +how its value is set. For example, x.mod(y, m) will make the announce=
+d
+>> > +size of x match that of m, since x is reduced modulo m.
+>> > +
+>> > +Operations assume that the announced size of the operands match what'=
+s
+>> > +expected (with a few exceptions). For example, x.modAdd(y, m) assumes
+>> > +that x and y have the same announced size as m, and that they're
+>> reduced
+>> > +modulo m.
+>> > +
+>> > +Nats are represented over unsatured bits.UintSize - 1 bit limbs. This
+>> > +means that we can't reuse the assembly routines for big.Int, which us=
+e
+>> > +saturated bits.UintSize limbs. The advantage of unsaturated limbs is
+>> > +that it makes Montgomery multiplication faster, by needing fewer
+>> > +registers in a hot loop. This makes exponentiation faster, which
+>> > +consists of many Montgomery multiplications.
+>> > +
+>> > +Moduli use nat internally. Unlike nat, the true size of a modulus
+>> always
+>> > +matches its announced size. When creating a modulus, any zero padding
+>> is
+>> > +removed. Moduli will also precompute constants when created, which is
+>> > +another reason why having a separate type is desirable.
+>> > +
+>> > +Updates #20654
+>> > +
+>> > +Co-authored-by: Filippo Valsorda <filippo@golang.org>
+>> > +Change-Id: I73b61f87d58ab912e80a9644e255d552cbadcced
+>> > +Reviewed-on: https://go-review.googlesource.com/c/go/+/326012
+>> > +Run-TryBot: Filippo Valsorda <filippo@golang.org>
+>> > +TryBot-Result: Gopher Robot <gobot@golang.org>
+>> > +Reviewed-by: Roland Shoemaker <roland@golang.org>
+>> > +Reviewed-by: Joedian Reid <joedian@golang.org>
+>> > +
+>> > +CVE: CVE-2023-45287
+>> > +
+>> > +Upstream-Status: Backport [
+>> https://github.com/golang/go/commit/8a81fdf165facdcefa06531de5af98a4db34=
+3035
+>> ]
+>> > +
+>> > +Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
+>> > +---
+>> > + src/crypto/rsa/example_test.go |  21 +-
+>> > + src/crypto/rsa/nat.go          | 626 +++++++++++++++++++++++++++++++=
+++
+>> > + src/crypto/rsa/nat_test.go     | 384 ++++++++++++++++++++
+>> > + src/crypto/rsa/pkcs1v15.go     |  47 +--
+>> > + src/crypto/rsa/pss.go          |  49 ++-
+>> > + src/crypto/rsa/pss_test.go     |  10 +-
+>> > + src/crypto/rsa/rsa.go          | 172 ++++-----
+>> > + 7 files changed, 1140 insertions(+), 169 deletions(-)
+>> > + create mode 100644 src/crypto/rsa/nat.go
+>> > + create mode 100644 src/crypto/rsa/nat_test.go
+>> > +
+>> > +diff --git a/src/crypto/rsa/example_test.go
+>> b/src/crypto/rsa/example_test.go
+>> > +index ce5c2d9..52e5639 100644
+>> > +--- a/src/crypto/rsa/example_test.go
+>> > ++++ b/src/crypto/rsa/example_test.go
+>> > +@@ -12,7 +12,6 @@ import (
+>> > +       "crypto/sha256"
+>> > +       "encoding/hex"
+>> > +       "fmt"
+>> > +-      "io"
+>> > +       "os"
+>> > + )
+>> > +
+>> > +@@ -36,21 +35,17 @@ import (
+>> > + // a buffer that contains a random key. Thus, if the RSA result isn'=
+t
+>> > + // well-formed, the implementation uses a random key in constant tim=
+e.
+>> > + func ExampleDecryptPKCS1v15SessionKey() {
+>> > +-      // crypto/rand.Reader is a good source of entropy for blinding
+>> the RSA
+>> > +-      // operation.
+>> > +-      rng :=3D rand.Reader
+>> > +-
+>> > +       // The hybrid scheme should use at least a 16-byte symmetric
+>> key. Here
+>> > +       // we read the random key that will be used if the RSA
+>> decryption isn't
+>> > +       // well-formed.
+>> > +       key :=3D make([]byte, 32)
+>> > +-      if _, err :=3D io.ReadFull(rng, key); err !=3D nil {
+>> > ++      if _, err :=3D rand.Read(key); err !=3D nil {
+>> > +               panic("RNG failure")
+>> > +       }
+>> > +
+>> > +       rsaCiphertext, _ :=3D hex.DecodeString("aabbccddeeff")
+>> > +
+>> > +-      if err :=3D DecryptPKCS1v15SessionKey(rng, rsaPrivateKey,
+>> rsaCiphertext, key); err !=3D nil {
+>> > ++      if err :=3D DecryptPKCS1v15SessionKey(nil, rsaPrivateKey,
+>> rsaCiphertext, key); err !=3D nil {
+>> > +               // Any errors that result will be =E2=80=9Cpublic=E2=
+=80=9D =E2=80=93 meaning
+>> that they
+>> > +               // can be determined without any secret information.
+>> (For
+>> > +               // instance, if the length of key is impossible given
+>> the RSA
+>> > +@@ -86,10 +81,6 @@ func ExampleDecryptPKCS1v15SessionKey() {
+>> > + }
+>> > +
+>> > + func ExampleSignPKCS1v15() {
+>> > +-      // crypto/rand.Reader is a good source of entropy for blinding
+>> the RSA
+>> > +-      // operation.
+>> > +-      rng :=3D rand.Reader
+>> > +-
+>> > +       message :=3D []byte("message to be signed")
+>> > +
+>> > +       // Only small messages can be signed directly; thus the hash o=
+f
+>> a
+>> > +@@ -99,7 +90,7 @@ func ExampleSignPKCS1v15() {
+>> > +       // of writing (2016).
+>> > +       hashed :=3D sha256.Sum256(message)
+>> > +
+>> > +-      signature, err :=3D SignPKCS1v15(rng, rsaPrivateKey,
+>> crypto.SHA256, hashed[:])
+>> > ++      signature, err :=3D SignPKCS1v15(nil, rsaPrivateKey,
+>> crypto.SHA256, hashed[:])
+>> > +       if err !=3D nil {
+>> > +               fmt.Fprintf(os.Stderr, "Error from signing: %s\n", err=
+)
+>> > +               return
+>> > +@@ -151,11 +142,7 @@ func ExampleDecryptOAEP() {
+>> > +       ciphertext, _ :=3D
+>> hex.DecodeString("4d1ee10e8f286390258c51a5e80802844c3e6358ad6690b7285218=
+a7c7ed7fc3a4c7b950fbd04d4b0239cc060dcc7065ca6f84c1756deb71ca5685cadbb82be02=
+5e16449b905c568a19c088a1abfad54bf7ecc67a7df39943ec511091a34c0f2348d04e058fc=
+ff4d55644de3cd1d580791d4524b92f3e91695582e6e340a1c50b6c6d78e80b4e42c5b4d45e=
+479b492de42bbd39cc642ebb80226bb5200020d501b24a37bcc2ec7f34e596b4fd6b063de48=
+58dbf5a4e3dd18e262eda0ec2d19dbd8e890d672b63d368768360b20c0b6b8592a438fa275e=
+5fa7f60bef0dd39673fd3989cc54d2cb80c08fcd19dacbc265ee1c6014616b0e04ea0328c2a=
+04e73460")
+>> > +       label :=3D []byte("orders")
+>> > +
+>> > +-      // crypto/rand.Reader is a good source of entropy for blinding
+>> the RSA
+>> > +-      // operation.
+>> > +-      rng :=3D rand.Reader
+>> > +-
+>> > +-      plaintext, err :=3D DecryptOAEP(sha256.New(), rng, test2048Key=
+,
+>> ciphertext, label)
+>> > ++      plaintext, err :=3D DecryptOAEP(sha256.New(), nil, test2048Key=
+,
+>> ciphertext, label)
+>> > +       if err !=3D nil {
+>> > +               fmt.Fprintf(os.Stderr, "Error from decryption: %s\n",
+>> err)
+>> > +               return
+>> > +diff --git a/src/crypto/rsa/nat.go b/src/crypto/rsa/nat.go
+>> > +new file mode 100644
+>> > +index 0000000..da521c2
+>> > +--- /dev/null
+>> > ++++ b/src/crypto/rsa/nat.go
+>> > +@@ -0,0 +1,626 @@
+>> > ++// Copyright 2021 The Go Authors. All rights reserved.
+>> > ++// Use of this source code is governed by a BSD-style
+>> > ++// license that can be found in the LICENSE file.
+>> > ++
+>> > ++package rsa
+>> > ++
+>> > ++import (
+>> > ++      "math/big"
+>> > ++      "math/bits"
+>> > ++)
+>> > ++
+>> > ++const (
+>> > ++      // _W is the number of bits we use for our limbs.
+>> > ++      _W =3D bits.UintSize - 1
+>> > ++      // _MASK selects _W bits from a full machine word.
+>> > ++      _MASK =3D (1 << _W) - 1
+>> > ++)
+>> > ++
+>> > ++// choice represents a constant-time boolean. The value of choice is
+>> always
+>> > ++// either 1 or 0. We use an int instead of bool in order to make
+>> decisions in
+>> > ++// constant time by turning it into a mask.
+>> > ++type choice uint
+>> > ++
+>> > ++func not(c choice) choice { return 1 ^ c }
+>> > ++
+>> > ++const yes =3D choice(1)
+>> > ++const no =3D choice(0)
+>> > ++
+>> > ++// ctSelect returns x if on =3D=3D 1, and y if on =3D=3D 0. The exec=
+ution
+>> time of this
+>> > ++// function does not depend on its inputs. If on is any value beside=
+s
+>> 1 or 0,
+>> > ++// the result is undefined.
+>> > ++func ctSelect(on choice, x, y uint) uint {
+>> > ++      // When on =3D=3D 1, mask is 0b111..., otherwise mask is 0b000=
+...
+>> > ++      mask :=3D -uint(on)
+>> > ++      // When mask is all zeros, we just have y, otherwise, y cancel=
+s
+>> with itself.
+>> > ++      return y ^ (mask & (y ^ x))
+>> > ++}
+>> > ++
+>> > ++// ctEq returns 1 if x =3D=3D y, and 0 otherwise. The execution time=
+ of
+>> this
+>> > ++// function does not depend on its inputs.
+>> > ++func ctEq(x, y uint) choice {
+>> > ++      // If x !=3D y, then either x - y or y - x will generate a car=
+ry.
+>> > ++      _, c1 :=3D bits.Sub(x, y, 0)
+>> > ++      _, c2 :=3D bits.Sub(y, x, 0)
+>> > ++      return not(choice(c1 | c2))
+>> > ++}
+>> > ++
+>> > ++// ctGeq returns 1 if x >=3D y, and 0 otherwise. The execution time =
+of
+>> this
+>> > ++// function does not depend on its inputs.
+>> > ++func ctGeq(x, y uint) choice {
+>> > ++      // If x < y, then x - y generates a carry.
+>> > ++      _, carry :=3D bits.Sub(x, y, 0)
+>> > ++      return not(choice(carry))
+>> > ++}
+>> > ++
+>> > ++// nat represents an arbitrary natural number
+>> > ++//
+>> > ++// Each nat has an announced length, which is the number of limbs it
+>> has stored.
+>> > ++// Operations on this number are allowed to leak this length, but
+>> will not leak
+>> > ++// any information about the values contained in those limbs.
+>> > ++type nat struct {
+>> > ++      // limbs is a little-endian representation in base 2^W with
+>> > ++      // W =3D bits.UintSize - 1. The top bit is always unset betwee=
+n
+>> operations.
+>> > ++      //
+>> > ++      // The top bit is left unset to optimize Montgomery
+>> multiplication, in the
+>> > ++      // inner loop of exponentiation. Using fully saturated limbs
+>> would leave us
+>> > ++      // working with 129-bit numbers on 64-bit platforms, wasting a
+>> lot of space,
+>> > ++      // and thus time.
+>> > ++      limbs []uint
+>> > ++}
+>> > ++
+>> > ++// expand expands x to n limbs, leaving its value unchanged.
+>> > ++func (x *nat) expand(n int) *nat {
+>> > ++      for len(x.limbs) > n {
+>> > ++              if x.limbs[len(x.limbs)-1] !=3D 0 {
+>> > ++                      panic("rsa: internal error: shrinking nat")
+>> > ++              }
+>> > ++              x.limbs =3D x.limbs[:len(x.limbs)-1]
+>> > ++      }
+>> > ++      if cap(x.limbs) < n {
+>> > ++              newLimbs :=3D make([]uint, n)
+>> > ++              copy(newLimbs, x.limbs)
+>> > ++              x.limbs =3D newLimbs
+>> > ++              return x
+>> > ++      }
+>> > ++      extraLimbs :=3D x.limbs[len(x.limbs):n]
+>> > ++      for i :=3D range extraLimbs {
+>> > ++              extraLimbs[i] =3D 0
+>> > ++      }
+>> > ++      x.limbs =3D x.limbs[:n]
+>> > ++      return x
+>> > ++}
+>> > ++
+>> > ++// reset returns a zero nat of n limbs, reusing x's storage if n <=
+=3D
+>> cap(x.limbs).
+>> > ++func (x *nat) reset(n int) *nat {
+>> > ++      if cap(x.limbs) < n {
+>> > ++              x.limbs =3D make([]uint, n)
+>> > ++              return x
+>> > ++      }
+>> > ++      for i :=3D range x.limbs {
+>> > ++              x.limbs[i] =3D 0
+>> > ++      }
+>> > ++      x.limbs =3D x.limbs[:n]
+>> > ++      return x
+>> > ++}
+>> > ++
+>> > ++// clone returns a new nat, with the same value and announced length
+>> as x.
+>> > ++func (x *nat) clone() *nat {
+>> > ++      out :=3D &nat{make([]uint, len(x.limbs))}
+>> > ++      copy(out.limbs, x.limbs)
+>> > ++      return out
+>> > ++}
+>> > ++
+>> > ++// natFromBig creates a new natural number from a big.Int.
+>> > ++//
+>> > ++// The announced length of the resulting nat is based on the actual
+>> bit size of
+>> > ++// the input, ignoring leading zeroes.
+>> > ++func natFromBig(x *big.Int) *nat {
+>> > ++      xLimbs :=3D x.Bits()
+>> > ++      bitSize :=3D bigBitLen(x)
+>> > ++      requiredLimbs :=3D (bitSize + _W - 1) / _W
+>> > ++
+>> > ++      out :=3D &nat{make([]uint, requiredLimbs)}
+>> > ++      outI :=3D 0
+>> > ++      shift :=3D 0
+>> > ++      for i :=3D range xLimbs {
+>> > ++              xi :=3D uint(xLimbs[i])
+>> > ++              out.limbs[outI] |=3D (xi << shift) & _MASK
+>> > ++              outI++
+>> > ++              if outI =3D=3D requiredLimbs {
+>> > ++                      return out
+>> > ++              }
+>> > ++              out.limbs[outI] =3D xi >> (_W - shift)
+>> > ++              shift++ // this assumes bits.UintSize - _W =3D 1
+>> > ++              if shift =3D=3D _W {
+>> > ++                      shift =3D 0
+>> > ++                      outI++
+>> > ++              }
+>> > ++      }
+>> > ++      return out
+>> > ++}
+>> > ++
+>> > ++// fillBytes sets bytes to x as a zero-extended big-endian byte slic=
+e.
+>> > ++//
+>> > ++// If bytes is not long enough to contain the number or at least
+>> len(x.limbs)-1
+>> > ++// limbs, or has zero length, fillBytes will panic.
+>> > ++func (x *nat) fillBytes(bytes []byte) []byte {
+>> > ++      if len(bytes) =3D=3D 0 {
+>> > ++              panic("nat: fillBytes invoked with too small buffer")
+>> > ++      }
+>> > ++      for i :=3D range bytes {
+>> > ++              bytes[i] =3D 0
+>> > ++      }
+>> > ++      shift :=3D 0
+>> > ++      outI :=3D len(bytes) - 1
+>> > ++      for i, limb :=3D range x.limbs {
+>> > ++              remainingBits :=3D _W
+>> > ++              for remainingBits >=3D 8 {
+>> > ++                      bytes[outI] |=3D byte(limb) << shift
+>> > ++                      consumed :=3D 8 - shift
+>> > ++                      limb >>=3D consumed
+>> > ++                      remainingBits -=3D consumed
+>> > ++                      shift =3D 0
+>> > ++                      outI--
+>> > ++                      if outI < 0 {
+>> > ++                              if limb !=3D 0 || i < len(x.limbs)-1 {
+>> > ++                                      panic("nat: fillBytes invoked
+>> with too small buffer")
+>> > ++                              }
+>> > ++                              return bytes
+>> > ++                      }
+>> > ++              }
+>> > ++              bytes[outI] =3D byte(limb)
+>> > ++              shift =3D remainingBits
+>> > ++      }
+>> > ++      return bytes
+>> > ++}
+>> > ++
+>> > ++// natFromBytes converts a slice of big-endian bytes into a nat.
+>> > ++//
+>> > ++// The announced length of the output depends on the length of bytes=
+.
+>> Unlike
+>> > ++// big.Int, creating a nat will not remove leading zeros.
+>> > ++func natFromBytes(bytes []byte) *nat {
+>> > ++      bitSize :=3D len(bytes) * 8
+>> > ++      requiredLimbs :=3D (bitSize + _W - 1) / _W
+>> > ++
+>> > ++      out :=3D &nat{make([]uint, requiredLimbs)}
+>> > ++      outI :=3D 0
+>> > ++      shift :=3D 0
+>> > ++      for i :=3D len(bytes) - 1; i >=3D 0; i-- {
+>> > ++              bi :=3D bytes[i]
+>> > ++              out.limbs[outI] |=3D uint(bi) << shift
+>> > ++              shift +=3D 8
+>> > ++              if shift >=3D _W {
+>> > ++                      shift -=3D _W
+>> > ++                      out.limbs[outI] &=3D _MASK
+>> > ++                      outI++
+>> > ++                      if shift > 0 {
+>> > ++                              out.limbs[outI] =3D uint(bi) >> (8 -
+>> shift)
+>> > ++                      }
+>> > ++              }
+>> > ++      }
+>> > ++      return out
+>> > ++}
+>> > ++
+>> > ++// cmpEq returns 1 if x =3D=3D y, and 0 otherwise.
+>> > ++//
+>> > ++// Both operands must have the same announced length.
+>> > ++func (x *nat) cmpEq(y *nat) choice {
+>> > ++      // Eliminate bounds checks in the loop.
+>> > ++      size :=3D len(x.limbs)
+>> > ++      xLimbs :=3D x.limbs[:size]
+>> > ++      yLimbs :=3D y.limbs[:size]
+>> > ++
+>> > ++      equal :=3D yes
+>> > ++      for i :=3D 0; i < size; i++ {
+>> > ++              equal &=3D ctEq(xLimbs[i], yLimbs[i])
+>> > ++      }
+>> > ++      return equal
+>> > ++}
+>> > ++
+>> > ++// cmpGeq returns 1 if x >=3D y, and 0 otherwise.
+>> > ++//
+>> > ++// Both operands must have the same announced length.
+>> > ++func (x *nat) cmpGeq(y *nat) choice {
+>> > ++      // Eliminate bounds checks in the loop.
+>> > ++      size :=3D len(x.limbs)
+>> > ++      xLimbs :=3D x.limbs[:size]
+>> > ++      yLimbs :=3D y.limbs[:size]
+>> > ++
+>> > ++      var c uint
+>> > ++      for i :=3D 0; i < size; i++ {
+>> > ++              c =3D (xLimbs[i] - yLimbs[i] - c) >> _W
+>> > ++      }
+>> > ++      // If there was a carry, then subtracting y underflowed, so
+>> > ++      // x is not greater than or equal to y.
+>> > ++      return not(choice(c))
+>> > ++}
+>> > ++
+>> > ++// assign sets x <- y if on =3D=3D 1, and does nothing otherwise.
+>> > ++//
+>> > ++// Both operands must have the same announced length.
+>> > ++func (x *nat) assign(on choice, y *nat) *nat {
+>> > ++      // Eliminate bounds checks in the loop.
+>> > ++      size :=3D len(x.limbs)
+>> > ++      xLimbs :=3D x.limbs[:size]
+>> > ++      yLimbs :=3D y.limbs[:size]
+>> > ++
+>> > ++      for i :=3D 0; i < size; i++ {
+>> > ++              xLimbs[i] =3D ctSelect(on, yLimbs[i], xLimbs[i])
+>> > ++      }
+>> > ++      return x
+>> > ++}
+>> > ++
+>> > ++// add computes x +=3D y if on =3D=3D 1, and does nothing otherwise.=
+ It
+>> returns the
+>> > ++// carry of the addition regardless of on.
+>> > ++//
+>> > ++// Both operands must have the same announced length.
+>> > ++func (x *nat) add(on choice, y *nat) (c uint) {
+>> > ++      // Eliminate bounds checks in the loop.
+>> > ++      size :=3D len(x.limbs)
+>> > ++      xLimbs :=3D x.limbs[:size]
+>> > ++      yLimbs :=3D y.limbs[:size]
+>> > ++
+>> > ++      for i :=3D 0; i < size; i++ {
+>> > ++              res :=3D xLimbs[i] + yLimbs[i] + c
+>> > ++              xLimbs[i] =3D ctSelect(on, res&_MASK, xLimbs[i])
+>> > ++              c =3D res >> _W
+>> > ++      }
+>> > ++      return
+>> > ++}
+>> > ++
+>> > ++// sub computes x -=3D y if on =3D=3D 1, and does nothing otherwise.=
+ It
+>> returns the
+>> > ++// borrow of the subtraction regardless of on.
+>> > ++//
+>> > ++// Both operands must have the same announced length.
+>> > ++func (x *nat) sub(on choice, y *nat) (c uint) {
+>> > ++      // Eliminate bounds checks in the loop.
+>> > ++      size :=3D len(x.limbs)
+>> > ++      xLimbs :=3D x.limbs[:size]
+>> > ++      yLimbs :=3D y.limbs[:size]
+>> > ++
+>> > ++      for i :=3D 0; i < size; i++ {
+>> > ++              res :=3D xLimbs[i] - yLimbs[i] - c
+>> > ++              xLimbs[i] =3D ctSelect(on, res&_MASK, xLimbs[i])
+>> > ++              c =3D res >> _W
+>> > ++      }
+>> > ++      return
+>> > ++}
+>> > ++
+>> > ++// modulus is used for modular arithmetic, precomputing relevant
+>> constants.
+>> > ++//
+>> > ++// Moduli are assumed to be odd numbers. Moduli can also leak the
+>> exact
+>> > ++// number of bits needed to store their value, and are stored withou=
+t
+>> padding.
+>> > ++//
+>> > ++// Their actual value is still kept secret.
+>> > ++type modulus struct {
+>> > ++      // The underlying natural number for this modulus.
+>> > ++      //
+>> > ++      // This will be stored without any padding, and shouldn't alia=
+s
+>> with any
+>> > ++      // other natural number being used.
+>> > ++      nat     *nat
+>> > ++      leading int  // number of leading zeros in the modulus
+>> > ++      m0inv   uint // -nat.limbs[0]=E2=81=BB=C2=B9 mod _W
+>> > ++}
+>> > ++
+>> > ++// minusInverseModW computes -x=E2=81=BB=C2=B9 mod _W with x odd.
+>> > ++//
+>> > ++// This operation is used to precompute a constant involved in
+>> Montgomery
+>> > ++// multiplication.
+>> > ++func minusInverseModW(x uint) uint {
+>> > ++      // Every iteration of this loop doubles the least-significant
+>> bits of
+>> > ++      // correct inverse in y. The first three bits are already
+>> correct (1=E2=81=BB=C2=B9 =3D 1,
+>> > ++      // 3=E2=81=BB=C2=B9 =3D 3, 5=E2=81=BB=C2=B9 =3D 5, and 7=E2=81=
+=BB=C2=B9 =3D 7 mod 8), so doubling five times
+>> is enough
+>> > ++      // for 61 bits (and wastes only one iteration for 31 bits).
+>> > ++      //
+>> > ++      // See https://crypto.stackexchange.com/a/47496.
+>> > ++      y :=3D x
+>> > ++      for i :=3D 0; i < 5; i++ {
+>> > ++              y =3D y * (2 - x*y)
+>> > ++      }
+>> > ++      return (1 << _W) - (y & _MASK)
+>> > ++}
+>> > ++
+>> > ++// modulusFromNat creates a new modulus from a nat.
+>> > ++//
+>> > ++// The nat should be odd, nonzero, and the number of significant bit=
+s
+>> in the
+>> > ++// number should be leakable. The nat shouldn't be reused.
+>> > ++func modulusFromNat(nat *nat) *modulus {
+>> > ++      m :=3D &modulus{}
+>> > ++      m.nat =3D nat
+>> > ++      size :=3D len(m.nat.limbs)
+>> > ++      for m.nat.limbs[size-1] =3D=3D 0 {
+>> > ++              size--
+>> > ++      }
+>> > ++      m.nat.limbs =3D m.nat.limbs[:size]
+>> > ++      m.leading =3D _W - bitLen(m.nat.limbs[size-1])
+>> > ++      m.m0inv =3D minusInverseModW(m.nat.limbs[0])
+>> > ++      return m
+>> > ++}
+>> > ++
+>> > ++// bitLen is a version of bits.Len that only leaks the bit length of
+>> n, but not
+>> > ++// its value. bits.Len and bits.LeadingZeros use a lookup table for
+>> the
+>> > ++// low-order bits on some architectures.
+>> > ++func bitLen(n uint) int {
+>> > ++      var len int
+>> > ++      // We assume, here and elsewhere, that comparison to zero is
+>> constant time
+>> > ++      // with respect to different non-zero values.
+>> > ++      for n !=3D 0 {
+>> > ++              len++
+>> > ++              n >>=3D 1
+>> > ++      }
+>> > ++      return len
+>> > ++}
+>> > ++
+>> > ++// bigBitLen is a version of big.Int.BitLen that only leaks the bit
+>> length of x,
+>> > ++// but not its value. big.Int.BitLen uses bits.Len.
+>> > ++func bigBitLen(x *big.Int) int {
+>> > ++      xLimbs :=3D x.Bits()
+>> > ++      fullLimbs :=3D len(xLimbs) - 1
+>> > ++      topLimb :=3D uint(xLimbs[len(xLimbs)-1])
+>> > ++      return fullLimbs*bits.UintSize + bitLen(topLimb)
+>> > ++}
+>> > ++
+>> > ++// modulusSize returns the size of m in bytes.
+>> > ++func modulusSize(m *modulus) int {
+>> > ++      bits :=3D len(m.nat.limbs)*_W - int(m.leading)
+>> > ++      return (bits + 7) / 8
+>> > ++}
+>> > ++
+>> > ++// shiftIn calculates x =3D x << _W + y mod m.
+>> > ++//
+>> > ++// This assumes that x is already reduced mod m, and that y < 2^_W.
+>> > ++func (x *nat) shiftIn(y uint, m *modulus) *nat {
+>> > ++      d :=3D new(nat).resetFor(m)
+>> > ++
+>> > ++      // Eliminate bounds checks in the loop.
+>> > ++      size :=3D len(m.nat.limbs)
+>> > ++      xLimbs :=3D x.limbs[:size]
+>> > ++      dLimbs :=3D d.limbs[:size]
+>> > ++      mLimbs :=3D m.nat.limbs[:size]
+>> > ++
+>> > ++      // Each iteration of this loop computes x =3D 2x + b mod m, wh=
+ere
+>> b is a bit
+>> > ++      // from y. Effectively, it left-shifts x and adds y one bit at
+>> a time,
+>> > ++      // reducing it every time.
+>> > ++      //
+>> > ++      // To do the reduction, each iteration computes both 2x + b an=
+d
+>> 2x + b - m.
+>> > ++      // The next iteration (and finally the return line) will use
+>> either result
+>> > ++      // based on whether the subtraction underflowed.
+>> > ++      needSubtraction :=3D no
+>> > ++      for i :=3D _W - 1; i >=3D 0; i-- {
+>> > ++              carry :=3D (y >> i) & 1
+>> > ++              var borrow uint
+>> > ++              for i :=3D 0; i < size; i++ {
+>> > ++                      l :=3D ctSelect(needSubtraction, dLimbs[i],
+>> xLimbs[i])
+>> > ++
+>> > ++                      res :=3D l<<1 + carry
+>> > ++                      xLimbs[i] =3D res & _MASK
+>> > ++                      carry =3D res >> _W
+>> > ++
+>> > ++                      res =3D xLimbs[i] - mLimbs[i] - borrow
+>> > ++                      dLimbs[i] =3D res & _MASK
+>> > ++                      borrow =3D res >> _W
+>> > ++              }
+>> > ++              // See modAdd for how carry (aka overflow), borrow (ak=
+a
+>> underflow), and
+>> > ++              // needSubtraction relate.
+>> > ++              needSubtraction =3D ctEq(carry, borrow)
+>> > ++      }
+>> > ++      return x.assign(needSubtraction, d)
+>> > ++}
+>> > ++
+>> > ++// mod calculates out =3D x mod m.
+>> > ++//
+>> > ++// This works regardless how large the value of x is.
+>> > ++//
+>> > ++// The output will be resized to the size of m and overwritten.
+>> > ++func (out *nat) mod(x *nat, m *modulus) *nat {
+>> > ++      out.resetFor(m)
+>> > ++      // Working our way from the most significant to the least
+>> significant limb,
+>> > ++      // we can insert each limb at the least significant position,
+>> shifting all
+>> > ++      // previous limbs left by _W. This way each limb will get
+>> shifted by the
+>> > ++      // correct number of bits. We can insert at least N - 1 limbs
+>> without
+>> > ++      // overflowing m. After that, we need to reduce every time we
+>> shift.
+>> > ++      i :=3D len(x.limbs) - 1
+>> > ++      // For the first N - 1 limbs we can skip the actual shifting
+>> and position
+>> > ++      // them at the shifted position, which starts at min(N - 2, i)=
+.
+>> > ++      start :=3D len(m.nat.limbs) - 2
+>> > ++      if i < start {
+>> > ++              start =3D i
+>> > ++      }
+>> > ++      for j :=3D start; j >=3D 0; j-- {
+>> > ++              out.limbs[j] =3D x.limbs[i]
+>> > ++              i--
+>> > ++      }
+>> > ++      // We shift in the remaining limbs, reducing modulo m each tim=
+e.
+>> > ++      for i >=3D 0 {
+>> > ++              out.shiftIn(x.limbs[i], m)
+>> > ++              i--
+>> > ++      }
+>> > ++      return out
+>> > ++}
+>> > ++
+>> > ++// expandFor ensures out has the right size to work with operations
+>> modulo m.
+>> > ++//
+>> > ++// This assumes that out has as many or fewer limbs than m, or that
+>> the extra
+>> > ++// limbs are all zero (which may happen when decoding a value that
+>> has leading
+>> > ++// zeroes in its bytes representation that spill over the limb
+>> threshold).
+>> > ++func (out *nat) expandFor(m *modulus) *nat {
+>> > ++      return out.expand(len(m.nat.limbs))
+>> > ++}
+>> > ++
+>> > ++// resetFor ensures out has the right size to work with operations
+>> modulo m.
+>> > ++//
+>> > ++// out is zeroed and may start at any size.
+>> > ++func (out *nat) resetFor(m *modulus) *nat {
+>> > ++      return out.reset(len(m.nat.limbs))
+>> > ++}
+>> > ++
+>> > ++// modSub computes x =3D x - y mod m.
+>> > ++//
+>> > ++// The length of both operands must be the same as the modulus. Both
+>> operands
+>> > ++// must already be reduced modulo m.
+>> > ++func (x *nat) modSub(y *nat, m *modulus) *nat {
+>> > ++      underflow :=3D x.sub(yes, y)
+>> > ++      // If the subtraction underflowed, add m.
+>> > ++      x.add(choice(underflow), m.nat)
+>> > ++      return x
+>> > ++}
+>> > ++
+>> > ++// modAdd computes x =3D x + y mod m.
+>> > ++//
+>> > ++// The length of both operands must be the same as the modulus. Both
+>> operands
+>> > ++// must already be reduced modulo m.
+>> > ++func (x *nat) modAdd(y *nat, m *modulus) *nat {
+>> > ++      overflow :=3D x.add(yes, y)
+>> > ++      underflow :=3D not(x.cmpGeq(m.nat)) // x < m
+>> > ++
+>> > ++      // Three cases are possible:
+>> > ++      //
+>> > ++      //   - overflow =3D 0, underflow =3D 0
+>> > ++      //
+>> > ++      // In this case, addition fits in our limbs, but we can still
+>> subtract away
+>> > ++      // m without an underflow, so we need to perform the
+>> subtraction to reduce
+>> > ++      // our result.
+>> > ++      //
+>> > ++      //   - overflow =3D 0, underflow =3D 1
+>> > ++      //
+>> > ++      // The addition fits in our limbs, but we can't subtract m
+>> without
+>> > ++      // underflowing. The result is already reduced.
+>> > ++      //
+>> > ++      //   - overflow =3D 1, underflow =3D 1
+>> > ++      //
+>> > ++      // The addition does not fit in our limbs, and the
+>> subtraction's borrow
+>> > ++      // would cancel out with the addition's carry. We need to
+>> subtract m to
+>> > ++      // reduce our result.
+>> > ++      //
+>> > ++      // The overflow =3D 1, underflow =3D 0 case is not possible,
+>> because y is at
+>> > ++      // most m - 1, and if adding m - 1 overflows, then subtracting
+>> m must
+>> > ++      // necessarily underflow.
+>> > ++      needSubtraction :=3D ctEq(overflow, uint(underflow))
+>> > ++
+>> > ++      x.sub(needSubtraction, m.nat)
+>> > ++      return x
+>> > ++}
+>> > ++
+>> > ++// montgomeryRepresentation calculates x =3D x * R mod m, with R =3D
+>> 2^(_W * n) and
+>> > ++// n =3D len(m.nat.limbs).
+>> > ++//
+>> > ++// Faster Montgomery multiplication replaces standard modular
+>> multiplication for
+>> > ++// numbers in this representation.
+>> > ++//
+>> > ++// This assumes that x is already reduced mod m.
+>> > ++func (x *nat) montgomeryRepresentation(m *modulus) *nat {
+>> > ++      for i :=3D 0; i < len(m.nat.limbs); i++ {
+>> > ++              x.shiftIn(0, m) // x =3D x * 2^_W mod m
+>> > ++      }
+>> > ++      return x
+>> > ++}
+>> > ++
+>> > ++// montgomeryMul calculates d =3D a * b / R mod m, with R =3D 2^(_W =
+* n)
+>> and
+>> > ++// n =3D len(m.nat.limbs), using the Montgomery Multiplication
+>> technique.
+>> > ++//
+>> > ++// All inputs should be the same length, not aliasing d, and already
+>> > ++// reduced modulo m. d will be resized to the size of m and
+>> overwritten.
+>> > ++func (d *nat) montgomeryMul(a *nat, b *nat, m *modulus) *nat {
+>> > ++      // See
+>> https://bearssl.org/bigint.html#montgomery-reduction-and-multiplication
+>> > ++      // for a description of the algorithm.
+>> > ++
+>> > ++      // Eliminate bounds checks in the loop.
+>> > ++      size :=3D len(m.nat.limbs)
+>> > ++      aLimbs :=3D a.limbs[:size]
+>> > ++      bLimbs :=3D b.limbs[:size]
+>> > ++      dLimbs :=3D d.resetFor(m).limbs[:size]
+>> > ++      mLimbs :=3D m.nat.limbs[:size]
+>> > ++
+>> > ++      var overflow uint
+>> > ++      for i :=3D 0; i < size; i++ {
+>> > ++              f :=3D ((dLimbs[0] + aLimbs[i]*bLimbs[0]) * m.m0inv) &
+>> _MASK
+>> > ++              carry :=3D uint(0)
+>> > ++              for j :=3D 0; j < size; j++ {
+>> > ++                      // z =3D d[j] + a[i] * b[j] + f * m[j] + carry=
+ <=3D
+>> 2^(2W+1) - 2^(W+1) + 2^W
+>> > ++                      hi, lo :=3D bits.Mul(aLimbs[i], bLimbs[j])
+>> > ++                      z_lo, c :=3D bits.Add(dLimbs[j], lo, 0)
+>> > ++                      z_hi, _ :=3D bits.Add(0, hi, c)
+>> > ++                      hi, lo =3D bits.Mul(f, mLimbs[j])
+>> > ++                      z_lo, c =3D bits.Add(z_lo, lo, 0)
+>> > ++                      z_hi, _ =3D bits.Add(z_hi, hi, c)
+>> > ++                      z_lo, c =3D bits.Add(z_lo, carry, 0)
+>> > ++                      z_hi, _ =3D bits.Add(z_hi, 0, c)
+>> > ++                      if j > 0 {
+>> > ++                              dLimbs[j-1] =3D z_lo & _MASK
+>> > ++                      }
+>> > ++                      carry =3D z_hi<<1 | z_lo>>_W // carry <=3D 2^(=
+W+1)
+>> - 2
+>> > ++              }
+>> > ++              z :=3D overflow + carry // z <=3D 2^(W+1) - 1
+>> > ++              dLimbs[size-1] =3D z & _MASK
+>> > ++              overflow =3D z >> _W // overflow <=3D 1
+>> > ++      }
+>> > ++      // See modAdd for how overflow, underflow, and needSubtraction
+>> relate.
+>> > ++      underflow :=3D not(d.cmpGeq(m.nat)) // d < m
+>> > ++      needSubtraction :=3D ctEq(overflow, uint(underflow))
+>> > ++      d.sub(needSubtraction, m.nat)
+>> > ++
+>> > ++      return d
+>> > ++}
+>> > ++
+>> > ++// modMul calculates x *=3D y mod m.
+>> > ++//
+>> > ++// x and y must already be reduced modulo m, they must share its
+>> announced
+>> > ++// length, and they may not alias.
+>> > ++func (x *nat) modMul(y *nat, m *modulus) *nat {
+>> > ++      // A Montgomery multiplication by a value out of the Montgomer=
+y
+>> domain
+>> > ++      // takes the result out of Montgomery representation.
+>> > ++      xR :=3D x.clone().montgomeryRepresentation(m) // xR =3D x * R =
+mod m
+>> > ++      return x.montgomeryMul(xR, y, m)            // x =3D xR * y / =
+R
+>> mod m
+>> > ++}
+>> > ++
+>> > ++// exp calculates out =3D x^e mod m.
+>> > ++//
+>> > ++// The exponent e is represented in big-endian order. The output wil=
+l
+>> be resized
+>> > ++// to the size of m and overwritten. x must already be reduced modul=
+o
+>> m.
+>> > ++func (out *nat) exp(x *nat, e []byte, m *modulus) *nat {
+>> > ++      // We use a 4 bit window. For our RSA workload, 4 bit windows
+>> are faster
+>> > ++      // than 2 bit windows, but use an extra 12 nats worth of
+>> scratch space.
+>> > ++      // Using bit sizes that don't divide 8 are more complex to
+>> implement.
+>> > ++      table :=3D make([]*nat, (1<<4)-1) // table[i] =3D x ^ (i+1)
+>> > ++      table[0] =3D x.clone().montgomeryRepresentation(m)
+>> > ++      for i :=3D 1; i < len(table); i++ {
+>> > ++              table[i] =3D new(nat).expandFor(m)
+>> > ++              table[i].montgomeryMul(table[i-1], table[0], m)
+>> > ++      }
+>> > ++
+>> > ++      out.resetFor(m)
+>> > ++      out.limbs[0] =3D 1
+>> > ++      out.montgomeryRepresentation(m)
+>> > ++      t0 :=3D new(nat).expandFor(m)
+>> > ++      t1 :=3D new(nat).expandFor(m)
+>> > ++      for _, b :=3D range e {
+>> > ++              for _, j :=3D range []int{4, 0} {
+>> > ++                      // Square four times.
+>> > ++                      t1.montgomeryMul(out, out, m)
+>> > ++                      out.montgomeryMul(t1, t1, m)
+>> > ++                      t1.montgomeryMul(out, out, m)
+>> > ++                      out.montgomeryMul(t1, t1, m)
+>> > ++
+>> > ++                      // Select x^k in constant time from the table.
+>> > ++                      k :=3D uint((b >> j) & 0b1111)
+>> > ++                      for i :=3D range table {
+>> > ++                              t0.assign(ctEq(k, uint(i+1)), table[i]=
+)
+>> > ++                      }
+>> > ++
+>> > ++                      // Multiply by x^k, discarding the result if k
+>> =3D 0.
+>> > ++                      t1.montgomeryMul(out, t0, m)
+>> > ++                      out.assign(not(ctEq(k, 0)), t1)
+>> > ++              }
+>> > ++      }
+>> > ++
+>> > ++      // By Montgomery multiplying with 1 not in Montgomery
+>> representation, we
+>> > ++      // convert out back from Montgomery representation, because it
+>> works out to
+>> > ++      // dividing by R.
+>> > ++      t0.assign(yes, out)
+>> > ++      t1.resetFor(m)
+>> > ++      t1.limbs[0] =3D 1
+>> > ++      out.montgomeryMul(t0, t1, m)
+>> > ++
+>> > ++      return out
+>> > ++}
+>> > +diff --git a/src/crypto/rsa/nat_test.go b/src/crypto/rsa/nat_test.go
+>> > +new file mode 100644
+>> > +index 0000000..3e6eb10
+>> > +--- /dev/null
+>> > ++++ b/src/crypto/rsa/nat_test.go
+>> > +@@ -0,0 +1,384 @@
+>> > ++// Copyright 2021 The Go Authors. All rights reserved.
+>> > ++// Use of this source code is governed by a BSD-style
+>> > ++// license that can be found in the LICENSE file.
+>> > ++
+>> > ++package rsa
+>> > ++
+>> > ++import (
+>> > ++      "bytes"
+>> > ++      "math/big"
+>> > ++      "math/bits"
+>> > ++      "math/rand"
+>> > ++      "reflect"
+>> > ++      "testing"
+>> > ++      "testing/quick"
+>> > ++)
+>> > ++
+>> > ++// Generate generates an even nat. It's used by testing/quick to
+>> produce random
+>> > ++// *nat values for quick.Check invocations.
+>> > ++func (*nat) Generate(r *rand.Rand, size int) reflect.Value {
+>> > ++      limbs :=3D make([]uint, size)
+>> > ++      for i :=3D 0; i < size; i++ {
+>> > ++              limbs[i] =3D uint(r.Uint64()) & ((1 << _W) - 2)
+>> > ++      }
+>> > ++      return reflect.ValueOf(&nat{limbs})
+>> > ++}
+>> > ++
+>> > ++func testModAddCommutative(a *nat, b *nat) bool {
+>> > ++      mLimbs :=3D make([]uint, len(a.limbs))
+>> > ++      for i :=3D 0; i < len(mLimbs); i++ {
+>> > ++              mLimbs[i] =3D _MASK
+>> > ++      }
+>> > ++      m :=3D modulusFromNat(&nat{mLimbs})
+>> > ++      aPlusB :=3D a.clone()
+>> > ++      aPlusB.modAdd(b, m)
+>> > ++      bPlusA :=3D b.clone()
+>> > ++      bPlusA.modAdd(a, m)
+>> > ++      return aPlusB.cmpEq(bPlusA) =3D=3D 1
+>> > ++}
+>> > ++
+>> > ++func TestModAddCommutative(t *testing.T) {
+>> > ++      err :=3D quick.Check(testModAddCommutative, &quick.Config{})
+>> > ++      if err !=3D nil {
+>> > ++              t.Error(err)
+>> > ++      }
+>> > ++}
+>> > ++
+>> > ++func testModSubThenAddIdentity(a *nat, b *nat) bool {
+>> > ++      mLimbs :=3D make([]uint, len(a.limbs))
+>> > ++      for i :=3D 0; i < len(mLimbs); i++ {
+>> > ++              mLimbs[i] =3D _MASK
+>> > ++      }
+>> > ++      m :=3D modulusFromNat(&nat{mLimbs})
+>> > ++      original :=3D a.clone()
+>> > ++      a.modSub(b, m)
+>> > ++      a.modAdd(b, m)
+>> > ++      return a.cmpEq(original) =3D=3D 1
+>> > ++}
+>> > ++
+>> > ++func TestModSubThenAddIdentity(t *testing.T) {
+>> > ++      err :=3D quick.Check(testModSubThenAddIdentity, &quick.Config{=
+})
+>> > ++      if err !=3D nil {
+>> > ++              t.Error(err)
+>> > ++      }
+>> > ++}
+>> > ++
+>> > ++func testMontgomeryRoundtrip(a *nat) bool {
+>> > ++      one :=3D &nat{make([]uint, len(a.limbs))}
+>> > ++      one.limbs[0] =3D 1
+>> > ++      aPlusOne :=3D a.clone()
+>> > ++      aPlusOne.add(1, one)
+>> > ++      m :=3D modulusFromNat(aPlusOne)
+>> > ++      monty :=3D a.clone()
+>> > ++      monty.montgomeryRepresentation(m)
+>> > ++      aAgain :=3D monty.clone()
+>> > ++      aAgain.montgomeryMul(monty, one, m)
+>> > ++      return a.cmpEq(aAgain) =3D=3D 1
+>> > ++}
+>> > ++
+>> > ++func TestMontgomeryRoundtrip(t *testing.T) {
+>> > ++      err :=3D quick.Check(testMontgomeryRoundtrip, &quick.Config{})
+>> > ++      if err !=3D nil {
+>> > ++              t.Error(err)
+>> > ++      }
+>> > ++}
+>> > ++
+>> > ++func TestFromBig(t *testing.T) {
+>> > ++      expected :=3D []byte{0x01, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff}
+>> > ++      theBig :=3D new(big.Int).SetBytes(expected)
+>> > ++      actual :=3D natFromBig(theBig).fillBytes(make([]byte,
+>> len(expected)))
+>> > ++      if !bytes.Equal(actual, expected) {
+>> > ++              t.Errorf("%+x !=3D %+x", actual, expected)
+>> > ++      }
+>> > ++}
+>> > ++
+>> > ++func TestFillBytes(t *testing.T) {
+>> > ++      xBytes :=3D []byte{0xAA, 0xFF, 0x22, 0x33, 0x44, 0x55, 0x66,
+>> 0x77, 0x88}
+>> > ++      x :=3D natFromBytes(xBytes)
+>> > ++      for l :=3D 20; l >=3D len(xBytes); l-- {
+>> > ++              buf :=3D make([]byte, l)
+>> > ++              rand.Read(buf)
+>> > ++              actual :=3D x.fillBytes(buf)
+>> > ++              expected :=3D make([]byte, l)
+>> > ++              copy(expected[l-len(xBytes):], xBytes)
+>> > ++              if !bytes.Equal(actual, expected) {
+>> > ++                      t.Errorf("%d: %+v !=3D %+v", l, actual, expect=
+ed)
+>> > ++              }
+>> > ++      }
+>> > ++      for l :=3D len(xBytes) - 1; l >=3D 0; l-- {
+>> > ++              (func() {
+>> > ++                      defer func() {
+>> > ++                              if recover() =3D=3D nil {
+>> > ++                                      t.Errorf("%d: expected panic",
+>> l)
+>> > ++                              }
+>> > ++                      }()
+>> > ++                      x.fillBytes(make([]byte, l))
+>> > ++              })()
+>> > ++      }
+>> > ++}
+>> > ++
+>> > ++func TestFromBytes(t *testing.T) {
+>> > ++      f :=3D func(xBytes []byte) bool {
+>> > ++              if len(xBytes) =3D=3D 0 {
+>> > ++                      return true
+>> > ++              }
+>> > ++              actual :=3D natFromBytes(xBytes).fillBytes(make([]byte=
+,
+>> len(xBytes)))
+>> > ++              if !bytes.Equal(actual, xBytes) {
+>> > ++                      t.Errorf("%+x !=3D %+x", actual, xBytes)
+>> > ++                      return false
+>> > ++              }
+>> > ++              return true
+>> > ++      }
+>> > ++
+>> > ++      err :=3D quick.Check(f, &quick.Config{})
+>> > ++      if err !=3D nil {
+>> > ++              t.Error(err)
+>> > ++      }
+>> > ++
+>> > ++      f([]byte{0xFF, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88})
+>> > ++      f(bytes.Repeat([]byte{0xFF}, _W))
+>> > ++}
+>> > ++
+>> > ++func TestShiftIn(t *testing.T) {
+>> > ++      if bits.UintSize !=3D 64 {
+>> > ++              t.Skip("examples are only valid in 64 bit")
+>> > ++      }
+>> > ++      examples :=3D []struct {
+>> > ++              m, x, expected []byte
+>> > ++              y              uint64
+>> > ++      }{{
+>> > ++              m:        []byte{13},
+>> > ++              x:        []byte{0},
+>> > ++              y:        0x7FFF_FFFF_FFFF_FFFF,
+>> > ++              expected: []byte{7},
+>> > ++      }, {
+>> > ++              m:        []byte{13},
+>> > ++              x:        []byte{7},
+>> > ++              y:        0x7FFF_FFFF_FFFF_FFFF,
+>> > ++              expected: []byte{11},
+>> > ++      }, {
+>> > ++              m:        []byte{0x06, 0x80, 0x00, 0x00, 0x00, 0x00,
+>> 0x00, 0x00, 0x0d},
+>> > ++              x:        make([]byte, 9),
+>> > ++              y:        0x7FFF_FFFF_FFFF_FFFF,
+>> > ++              expected: []byte{0x00, 0x7f, 0xff, 0xff, 0xff, 0xff,
+>> 0xff, 0xff, 0xff},
+>> > ++      }, {
+>> > ++              m:        []byte{0x06, 0x80, 0x00, 0x00, 0x00, 0x00,
+>> 0x00, 0x00, 0x0d},
+>> > ++              x:        []byte{0x00, 0x7f, 0xff, 0xff, 0xff, 0xff,
+>> 0xff, 0xff, 0xff},
+>> > ++              y:        0,
+>> > ++              expected: []byte{0x03, 0x00, 0x00, 0x00, 0x00, 0x00,
+>> 0x00, 0x00, 0x08},
+>> > ++      }}
+>> > ++
+>> > ++      for i, tt :=3D range examples {
+>> > ++              m :=3D modulusFromNat(natFromBytes(tt.m))
+>> > ++              got :=3D
+>> natFromBytes(tt.x).expandFor(m).shiftIn(uint(tt.y), m)
+>> > ++              if got.cmpEq(natFromBytes(tt.expected).expandFor(m)) !=
+=3D
+>> 1 {
+>> > ++                      t.Errorf("%d: got %x, expected %x", i, got,
+>> tt.expected)
+>> > ++              }
+>> > ++      }
+>> > ++}
+>> > ++
+>> > ++func TestModulusAndNatSizes(t *testing.T) {
+>> > ++      // These are 126 bit (2 * _W on 64-bit architectures) values,
+>> serialized as
+>> > ++      // 128 bits worth of bytes. If leading zeroes are stripped,
+>> they fit in two
+>> > ++      // limbs, if they are not, they fit in three. This can be a
+>> problem because
+>> > ++      // modulus strips leading zeroes and nat does not.
+>> > ++      m :=3D modulusFromNat(natFromBytes([]byte{
+>> > ++              0x3f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> > ++              0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff}))
+>> > ++      x :=3D natFromBytes([]byte{
+>> > ++              0x3f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>> > ++              0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xfe})
+>> > ++      x.expandFor(m) // must not panic for shrinking
+>> > ++}
+>> > ++
+>> > ++func TestExpand(t *testing.T) {
+>> > ++      sliced :=3D []uint{1, 2, 3, 4}
+>> > ++      examples :=3D []struct {
+>> > ++              in  []uint
+>> > ++              n   int
+>> > ++              out []uint
+>> > ++      }{{
+>> > ++              []uint{1, 2},
+>> > ++              4,
+>> > ++              []uint{1, 2, 0, 0},
+>> > ++      }, {
+>> > ++              sliced[:2],
+>> > ++              4,
+>> > ++              []uint{1, 2, 0, 0},
+>> > ++      }, {
+>> > ++              []uint{1, 2},
+>> > ++              2,
+>> > ++              []uint{1, 2},
+>> > ++      }, {
+>> > ++              []uint{1, 2, 0},
+>> > ++              2,
+>> > ++              []uint{1, 2},
+>> > ++      }}
+>> > ++
+>> > ++      for i, tt :=3D range examples {
+>> > ++              got :=3D (&nat{tt.in}).expand(tt.n)
+>> > ++              if len(got.limbs) !=3D len(tt.out) ||
+>> got.cmpEq(&nat{tt.out}) !=3D 1 {
+>> > ++                      t.Errorf("%d: got %x, expected %x", i, got,
+>> tt.out)
+>> > ++              }
+>> > ++      }
+>> > ++}
+>> > ++
+>> > ++func TestMod(t *testing.T) {
+>> > ++      m :=3D modulusFromNat(natFromBytes([]byte{0x06, 0x80, 0x00, 0x=
+00,
+>> 0x00, 0x00, 0x00, 0x00, 0x0d}))
+>> > ++      x :=3D natFromBytes([]byte{0x40, 0x00, 0x00, 0x00, 0x00, 0x00,
+>> 0x00, 0x00, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01})
+>> > ++      out :=3D new(nat)
+>> > ++      out.mod(x, m)
+>> > ++      expected :=3D natFromBytes([]byte{0x04, 0x00, 0x00, 0x00, 0x00=
+,
+>> 0x00, 0x00, 0x00, 0x09})
+>> > ++      if out.cmpEq(expected) !=3D 1 {
+>> > ++              t.Errorf("%+v !=3D %+v", out, expected)
+>> > ++      }
+>> > ++}
+>> > ++
+>> > ++func TestModSub(t *testing.T) {
+>> > ++      m :=3D modulusFromNat(&nat{[]uint{13}})
+>> > ++      x :=3D &nat{[]uint{6}}
+>> > ++      y :=3D &nat{[]uint{7}}
+>> > ++      x.modSub(y, m)
+>> > ++      expected :=3D &nat{[]uint{12}}
+>> > ++      if x.cmpEq(expected) !=3D 1 {
+>> > ++              t.Errorf("%+v !=3D %+v", x, expected)
+>> > ++      }
+>> > ++      x.modSub(y, m)
+>> > ++      expected =3D &nat{[]uint{5}}
+>> > ++      if x.cmpEq(expected) !=3D 1 {
+>> > ++              t.Errorf("%+v !=3D %+v", x, expected)
+>> > ++      }
+>> > ++}
+>> > ++
+>> > ++func TestModAdd(t *testing.T) {
+>> > ++      m :=3D modulusFromNat(&nat{[]uint{13}})
+>> > ++      x :=3D &nat{[]uint{6}}
+>> > ++      y :=3D &nat{[]uint{7}}
+>> > ++      x.modAdd(y, m)
+>> > ++      expected :=3D &nat{[]uint{0}}
+>> > ++      if x.cmpEq(expected) !=3D 1 {
+>> > ++              t.Errorf("%+v !=3D %+v", x, expected)
+>> > ++      }
+>> > ++      x.modAdd(y, m)
+>> > ++      expected =3D &nat{[]uint{7}}
+>> > ++      if x.cmpEq(expected) !=3D 1 {
+>> > ++              t.Errorf("%+v !=3D %+v", x, expected)
+>> > ++      }
+>> > ++}
+>> > ++
+>> > ++func TestExp(t *testing.T) {
+>> > ++      m :=3D modulusFromNat(&nat{[]uint{13}})
+>> > ++      x :=3D &nat{[]uint{3}}
+>> > ++      out :=3D &nat{[]uint{0}}
+>> > ++      out.exp(x, []byte{12}, m)
+>> > ++      expected :=3D &nat{[]uint{1}}
+>> > ++      if out.cmpEq(expected) !=3D 1 {
+>> > ++              t.Errorf("%+v !=3D %+v", out, expected)
+>> > ++      }
+>> > ++}
+>> > ++
+>> > ++func makeBenchmarkModulus() *modulus {
+>> > ++      m :=3D make([]uint, 32)
+>> > ++      for i :=3D 0; i < 32; i++ {
+>> > ++              m[i] =3D _MASK
+>> > ++      }
+>> > ++      return modulusFromNat(&nat{limbs: m})
+>> > ++}
+>> > ++
+>> > ++func makeBenchmarkValue() *nat {
+>> > ++      x :=3D make([]uint, 32)
+>> > ++      for i :=3D 0; i < 32; i++ {
+>> > ++              x[i] =3D _MASK - 1
+>> > ++      }
+>> > ++      return &nat{limbs: x}
+>> > ++}
+>> > ++
+>> > ++func makeBenchmarkExponent() []byte {
+>> > ++      e :=3D make([]byte, 256)
+>> > ++      for i :=3D 0; i < 32; i++ {
+>> > ++              e[i] =3D 0xFF
+>> > ++      }
+>> > ++      return e
+>> > ++}
+>> > ++
+>> > ++func BenchmarkModAdd(b *testing.B) {
+>> > ++      x :=3D makeBenchmarkValue()
+>> > ++      y :=3D makeBenchmarkValue()
+>> > ++      m :=3D makeBenchmarkModulus()
+>> > ++
+>> > ++      b.ResetTimer()
+>> > ++      for i :=3D 0; i < b.N; i++ {
+>> > ++              x.modAdd(y, m)
+>> > ++      }
+>> > ++}
+>> > ++
+>> > ++func BenchmarkModSub(b *testing.B) {
+>> > ++      x :=3D makeBenchmarkValue()
+>> > ++      y :=3D makeBenchmarkValue()
+>> > ++      m :=3D makeBenchmarkModulus()
+>> > ++
+>> > ++      b.ResetTimer()
+>> > ++      for i :=3D 0; i < b.N; i++ {
+>> > ++              x.modSub(y, m)
+>> > ++      }
+>> > ++}
+>> > ++
+>> > ++func BenchmarkMontgomeryRepr(b *testing.B) {
+>> > ++      x :=3D makeBenchmarkValue()
+>> > ++      m :=3D makeBenchmarkModulus()
+>> > ++
+>> > ++      b.ResetTimer()
+>> > ++      for i :=3D 0; i < b.N; i++ {
+>> > ++              x.montgomeryRepresentation(m)
+>> > ++      }
+>> > ++}
+>> > ++
+>> > ++func BenchmarkMontgomeryMul(b *testing.B) {
+>> > ++      x :=3D makeBenchmarkValue()
+>> > ++      y :=3D makeBenchmarkValue()
+>> > ++      out :=3D makeBenchmarkValue()
+>> > ++      m :=3D makeBenchmarkModulus()
+>> > ++
+>> > ++      b.ResetTimer()
+>> > ++      for i :=3D 0; i < b.N; i++ {
+>> > ++              out.montgomeryMul(x, y, m)
+>> > ++      }
+>> > ++}
+>> > ++
+>> > ++func BenchmarkModMul(b *testing.B) {
+>> > ++      x :=3D makeBenchmarkValue()
+>> > ++      y :=3D makeBenchmarkValue()
+>> > ++      m :=3D makeBenchmarkModulus()
+>> > ++
+>> > ++      b.ResetTimer()
+>> > ++      for i :=3D 0; i < b.N; i++ {
+>> > ++              x.modMul(y, m)
+>> > ++      }
+>> > ++}
+>> > ++
+>> > ++func BenchmarkExpBig(b *testing.B) {
+>> > ++      out :=3D new(big.Int)
+>> > ++      exponentBytes :=3D makeBenchmarkExponent()
+>> > ++      x :=3D new(big.Int).SetBytes(exponentBytes)
+>> > ++      e :=3D new(big.Int).SetBytes(exponentBytes)
+>> > ++      n :=3D new(big.Int).SetBytes(exponentBytes)
+>> > ++      one :=3D new(big.Int).SetUint64(1)
+>> > ++      n.Add(n, one)
+>> > ++
+>> > ++      b.ResetTimer()
+>> > ++      for i :=3D 0; i < b.N; i++ {
+>> > ++              out.Exp(x, e, n)
+>> > ++      }
+>> > ++}
+>> > ++
+>> > ++func BenchmarkExp(b *testing.B) {
+>> > ++      x :=3D makeBenchmarkValue()
+>> > ++      e :=3D makeBenchmarkExponent()
+>> > ++      out :=3D makeBenchmarkValue()
+>> > ++      m :=3D makeBenchmarkModulus()
+>> > ++
+>> > ++      b.ResetTimer()
+>> > ++      for i :=3D 0; i < b.N; i++ {
+>> > ++              out.exp(x, e, m)
+>> > ++      }
+>> > ++}
+>> > +diff --git a/src/crypto/rsa/pkcs1v15.go b/src/crypto/rsa/pkcs1v15.go
+>> > +index 0cbd6d0..90233bb 100644
+>> > +--- a/src/crypto/rsa/pkcs1v15.go
+>> > ++++ b/src/crypto/rsa/pkcs1v15.go
+>> > +@@ -9,7 +9,6 @@ import (
+>> > +       "crypto/subtle"
+>> > +       "errors"
+>> > +       "io"
+>> > +-      "math/big"
+>> > +
+>> > +       "crypto/internal/randutil"
+>> > + )
+>> > +@@ -58,14 +57,11 @@ func EncryptPKCS1v15(rand io.Reader, pub
+>> *PublicKey, msg []byte) ([]byte, error)
+>> > +       em[len(em)-len(msg)-1] =3D 0
+>> > +       copy(mm, msg)
+>> > +
+>> > +-      m :=3D new(big.Int).SetBytes(em)
+>> > +-      c :=3D encrypt(new(big.Int), pub, m)
+>> > +-
+>> > +-      return c.FillBytes(em), nil
+>> > ++      return encrypt(pub, em), nil
+>> > + }
+>> > +
+>> > + // DecryptPKCS1v15 decrypts a plaintext using RSA and the padding
+>> scheme from PKCS #1 v1.5.
+>> > +-// If rand !=3D nil, it uses RSA blinding to avoid timing side-chann=
+el
+>> attacks.
+>> > ++// The random parameter is legacy and ignored, and it can be as nil.
+>> > + //
+>> > + // Note that whether this function returns an error or not discloses
+>> secret
+>> > + // information. If an attacker can cause this function to run
+>> repeatedly and
+>> > +@@ -76,7 +72,7 @@ func DecryptPKCS1v15(rand io.Reader, priv
+>> *PrivateKey, ciphertext []byte) ([]byt
+>> > +       if err :=3D checkPub(&priv.PublicKey); err !=3D nil {
+>> > +               return nil, err
+>> > +       }
+>> > +-      valid, out, index, err :=3D decryptPKCS1v15(rand, priv,
+>> ciphertext)
+>> > ++      valid, out, index, err :=3D decryptPKCS1v15(priv, ciphertext)
+>> > +       if err !=3D nil {
+>> > +               return nil, err
+>> > +       }
+>> > +@@ -87,7 +83,7 @@ func DecryptPKCS1v15(rand io.Reader, priv
+>> *PrivateKey, ciphertext []byte) ([]byt
+>> > + }
+>> > +
+>> > + // DecryptPKCS1v15SessionKey decrypts a session key using RSA and th=
+e
+>> padding scheme from PKCS #1 v1.5.
+>> > +-// If rand !=3D nil, it uses RSA blinding to avoid timing side-chann=
+el
+>> attacks.
+>> > ++// The random parameter is legacy and ignored, and it can be as nil.
+>> > + // It returns an error if the ciphertext is the wrong length or if t=
+he
+>> > + // ciphertext is greater than the public modulus. Otherwise, no erro=
+r
+>> is
+>> > + // returned. If the padding is valid, the resulting plaintext messag=
+e
+>> is copied
+>> > +@@ -114,7 +110,7 @@ func DecryptPKCS1v15SessionKey(rand io.Reader,
+>> priv *PrivateKey, ciphertext []by
+>> > +               return ErrDecryption
+>> > +       }
+>> > +
+>> > +-      valid, em, index, err :=3D decryptPKCS1v15(rand, priv, ciphert=
+ext)
+>> > ++      valid, em, index, err :=3D decryptPKCS1v15(priv, ciphertext)
+>> > +       if err !=3D nil {
+>> > +               return err
+>> > +       }
+>> > +@@ -130,26 +126,24 @@ func DecryptPKCS1v15SessionKey(rand io.Reader,
+>> priv *PrivateKey, ciphertext []by
+>> > +       return nil
+>> > + }
+>> > +
+>> > +-// decryptPKCS1v15 decrypts ciphertext using priv and blinds the
+>> operation if
+>> > +-// rand is not nil. It returns one or zero in valid that indicates
+>> whether the
+>> > +-// plaintext was correctly structured. In either case, the plaintext
+>> is
+>> > +-// returned in em so that it may be read independently of whether it
+>> was valid
+>> > +-// in order to maintain constant memory access patterns. If the
+>> plaintext was
+>> > +-// valid then index contains the index of the original message in em=
+.
+>> > +-func decryptPKCS1v15(rand io.Reader, priv *PrivateKey, ciphertext
+>> []byte) (valid int, em []byte, index int, err error) {
+>> > ++// decryptPKCS1v15 decrypts ciphertext using priv. It returns one or
+>> zero in
+>> > ++// valid that indicates whether the plaintext was correctly
+>> structured.
+>> > ++// In either case, the plaintext is returned in em so that it may be
+>> read
+>> > ++// independently of whether it was valid in order to maintain
+>> constant memory
+>> > ++// access patterns. If the plaintext was valid then index contains
+>> the index of
+>> > ++// the original message in em, to allow constant time padding remova=
+l.
+>> > ++func decryptPKCS1v15(priv *PrivateKey, ciphertext []byte) (valid int=
+,
+>> em []byte, index int, err error) {
+>> > +       k :=3D priv.Size()
+>> > +       if k < 11 {
+>> > +               err =3D ErrDecryption
+>> > +               return
+>> > +       }
+>> > +
+>> > +-      c :=3D new(big.Int).SetBytes(ciphertext)
+>> > +-      m, err :=3D decrypt(rand, priv, c)
+>> > ++      em, err =3D decrypt(priv, ciphertext)
+>> > +       if err !=3D nil {
+>> > +               return
+>> > +       }
+>> > +
+>> > +-      em =3D m.FillBytes(make([]byte, k))
+>> > +       firstByteIsZero :=3D subtle.ConstantTimeByteEq(em[0], 0)
+>> > +       secondByteIsTwo :=3D subtle.ConstantTimeByteEq(em[1], 2)
+>> > +
+>> > +@@ -221,8 +215,7 @@ var hashPrefixes =3D map[crypto.Hash][]byte{
+>> > + // function. If hash is zero, hashed is signed directly. This isn't
+>> > + // advisable except for interoperability.
+>> > + //
+>> > +-// If rand is not nil then RSA blinding will be used to avoid timing
+>> > +-// side-channel attacks.
+>> > ++// The random parameter is legacy and ignored, and it can be as nil.
+>> > + //
+>> > + // This function is deterministic. Thus, if the set of possible
+>> > + // messages is small, an attacker may be able to build a map from
+>> > +@@ -249,13 +242,7 @@ func SignPKCS1v15(rand io.Reader, priv
+>> *PrivateKey, hash crypto.Hash, hashed []b
+>> > +       copy(em[k-tLen:k-hashLen], prefix)
+>> > +       copy(em[k-hashLen:k], hashed)
+>> > +
+>> > +-      m :=3D new(big.Int).SetBytes(em)
+>> > +-      c, err :=3D decryptAndCheck(rand, priv, m)
+>> > +-      if err !=3D nil {
+>> > +-              return nil, err
+>> > +-      }
+>> > +-
+>> > +-      return c.FillBytes(em), nil
+>> > ++      return decryptAndCheck(priv, em)
+>> > + }
+>> > +
+>> > + // VerifyPKCS1v15 verifies an RSA PKCS #1 v1.5 signature.
+>> > +@@ -282,9 +269,7 @@ func VerifyPKCS1v15(pub *PublicKey, hash
+>> crypto.Hash, hashed []byte, sig []byte)
+>> > +               return ErrVerification
+>> > +       }
+>> > +
+>> > +-      c :=3D new(big.Int).SetBytes(sig)
+>> > +-      m :=3D encrypt(new(big.Int), pub, c)
+>> > +-      em :=3D m.FillBytes(make([]byte, k))
+>> > ++      em :=3D encrypt(pub, sig)
+>> > +       // EM =3D 0x00 || 0x01 || PS || 0x00 || T
+>> > +
+>> > +       ok :=3D subtle.ConstantTimeByteEq(em[0], 0)
+>> > +diff --git a/src/crypto/rsa/pss.go b/src/crypto/rsa/pss.go
+>> > +index 814522d..aeb6148 100644
+>> > +--- a/src/crypto/rsa/pss.go
+>> > ++++ b/src/crypto/rsa/pss.go
+>> > +@@ -12,7 +12,6 @@ import (
+>> > +       "errors"
+>> > +       "hash"
+>> > +       "io"
+>> > +-      "math/big"
+>> > + )
+>> > +
+>> > + // Per RFC 8017, Section 9.1
+>> > +@@ -207,19 +206,26 @@ func emsaPSSVerify(mHash, em []byte, emBits,
+>> sLen int, hash hash.Hash) error {
+>> > + // Note that hashed must be the result of hashing the input message
+>> using the
+>> > + // given hash function. salt is a random sequence of bytes whose
+>> length will be
+>> > + // later used to verify the signature.
+>> > +-func signPSSWithSalt(rand io.Reader, priv *PrivateKey, hash
+>> crypto.Hash, hashed, salt []byte) ([]byte, error) {
+>> > +-      emBits :=3D priv.N.BitLen() - 1
+>> > ++func signPSSWithSalt(priv *PrivateKey, hash crypto.Hash, hashed, sal=
+t
+>> []byte) ([]byte, error) {
+>> > ++      emBits :=3D bigBitLen(priv.N) - 1
+>> > +       em, err :=3D emsaPSSEncode(hashed, emBits, salt, hash.New())
+>> > +       if err !=3D nil {
+>> > +               return nil, err
+>> > +       }
+>> > +-      m :=3D new(big.Int).SetBytes(em)
+>> > +-      c, err :=3D decryptAndCheck(rand, priv, m)
+>> > +-      if err !=3D nil {
+>> > +-              return nil, err
+>> > ++      // RFC 8017: "Note that the octet length of EM will be one les=
+s
+>> than k if
+>> > ++      // modBits - 1 is divisible by 8 and equal to k otherwise,
+>> where k is the
+>> > ++      // length in octets of the RSA modulus n." =F0=9F=99=84
+>> > ++      //
+>> > ++      // This is extremely annoying, as all other encrypt and decryp=
+t
+>> inputs are
+>> > ++      // always the exact same size as the modulus. Since it only
+>> happens for
+>> > ++      // weird modulus sizes, fix it by padding inefficiently.
+>> > ++      if emLen, k :=3D len(em), priv.Size(); emLen < k {
+>> > ++              emNew :=3D make([]byte, k)
+>> > ++              copy(emNew[k-emLen:], em)
+>> > ++              em =3D emNew
+>> > +       }
+>> > +-      s :=3D make([]byte, priv.Size())
+>> > +-      return c.FillBytes(s), nil
+>> > ++
+>> > ++      return decryptAndCheck(priv, em)
+>> > + }
+>> > +
+>> > + const (
+>> > +@@ -269,7 +275,7 @@ func SignPSS(rand io.Reader, priv *PrivateKey,
+>> hash crypto.Hash, digest []byte,
+>> > +       saltLength :=3D opts.saltLength()
+>> > +       switch saltLength {
+>> > +       case PSSSaltLengthAuto:
+>> > +-              saltLength =3D (priv.N.BitLen()-1+7)/8 - 2 - hash.Size=
+()
+>> > ++              saltLength =3D (bigBitLen(priv.N)-1+7)/8 - 2 - hash.Si=
+ze()
+>> > +       case PSSSaltLengthEqualsHash:
+>> > +               saltLength =3D hash.Size()
+>> > +       }
+>> > +@@ -278,7 +284,7 @@ func SignPSS(rand io.Reader, priv *PrivateKey,
+>> hash crypto.Hash, digest []byte,
+>> > +       if _, err :=3D io.ReadFull(rand, salt); err !=3D nil {
+>> > +               return nil, err
+>> > +       }
+>> > +-      return signPSSWithSalt(rand, priv, hash, digest, salt)
+>> > ++      return signPSSWithSalt(priv, hash, digest, salt)
+>> > + }
+>> > +
+>> > + // VerifyPSS verifies a PSS signature.
+>> > +@@ -291,13 +297,22 @@ func VerifyPSS(pub *PublicKey, hash crypto.Hash=
+,
+>> digest []byte, sig []byte, opts
+>> > +       if len(sig) !=3D pub.Size() {
+>> > +               return ErrVerification
+>> > +       }
+>> > +-      s :=3D new(big.Int).SetBytes(sig)
+>> > +-      m :=3D encrypt(new(big.Int), pub, s)
+>> > +-      emBits :=3D pub.N.BitLen() - 1
+>> > ++
+>> > ++      emBits :=3D bigBitLen(pub.N) - 1
+>> > +       emLen :=3D (emBits + 7) / 8
+>> > +-      if m.BitLen() > emLen*8 {
+>> > +-              return ErrVerification
+>> > ++      em :=3D encrypt(pub, sig)
+>> > ++
+>> > ++      // Like in signPSSWithSalt, deal with mismatches between emLen
+>> and the size
+>> > ++      // of the modulus. The spec would have us wire emLen into the
+>> encoding
+>> > ++      // function, but we'd rather always encode to the size of the
+>> modulus and
+>> > ++      // then strip leading zeroes if necessary. This only happens
+>> for weird
+>> > ++      // modulus sizes anyway.
+>> > ++      for len(em) > emLen && len(em) > 0 {
+>> > ++              if em[0] !=3D 0 {
+>> > ++                      return ErrVerification
+>> > ++              }
+>> > ++              em =3D em[1:]
+>> > +       }
+>> > +-      em :=3D m.FillBytes(make([]byte, emLen))
+>> > ++
+>> > +       return emsaPSSVerify(digest, em, emBits, opts.saltLength(),
+>> hash.New())
+>> > + }
+>> > +diff --git a/src/crypto/rsa/pss_test.go b/src/crypto/rsa/pss_test.go
+>> > +index c3a6d46..d018b43 100644
+>> > +--- a/src/crypto/rsa/pss_test.go
+>> > ++++ b/src/crypto/rsa/pss_test.go
+>> > +@@ -233,7 +233,10 @@ func TestPSSSigning(t *testing.T) {
+>> > +       }
+>> > + }
+>> > +
+>> > +-func TestSignWithPSSSaltLengthAuto(t *testing.T) {
+>> > ++func TestPSS513(t *testing.T) {
+>> > ++      // See Issue 42741, and separately, RFC 8017: "Note that the
+>> octet length of
+>> > ++      // EM will be one less than k if modBits - 1 is divisible by 8
+>> and equal to
+>> > ++      // k otherwise, where k is the length in octets of the RSA
+>> modulus n."
+>> > +       key, err :=3D GenerateKey(rand.Reader, 513)
+>> > +       if err !=3D nil {
+>> > +               t.Fatal(err)
+>> > +@@ -246,8 +249,9 @@ func TestSignWithPSSSaltLengthAuto(t *testing.T) =
+{
+>> > +       if err !=3D nil {
+>> > +               t.Fatal(err)
+>> > +       }
+>> > +-      if len(signature) =3D=3D 0 {
+>> > +-              t.Fatal("empty signature returned")
+>> > ++      err =3D VerifyPSS(&key.PublicKey, crypto.SHA256, digest[:],
+>> signature, nil)
+>> > ++      if err !=3D nil {
+>> > ++              t.Error(err)
+>> > +       }
+>> > + }
+>> > +
+>> > +diff --git a/src/crypto/rsa/rsa.go b/src/crypto/rsa/rsa.go
+>> > +index 6fd59b3..20c1fe1 100644
+>> > +--- a/src/crypto/rsa/rsa.go
+>> > ++++ b/src/crypto/rsa/rsa.go
+>> > +@@ -19,13 +19,17 @@
+>> > + // over the public key primitive, the PrivateKey type implements the
+>> > + // Decrypter and Signer interfaces from the crypto package.
+>> > + //
+>> > +-// The RSA operations in this package are not implemented using
+>> constant-time algorithms.
+>> > ++// Operations in this package are implemented using constant-time
+>> algorithms,
+>> > ++// except for [GenerateKey], [PrivateKey.Precompute], and
+>> [PrivateKey.Validate].
+>> > ++// Every other operation only leaks the bit size of the involved
+>> values, which
+>> > ++// all depend on the selected key size.
+>> > + package rsa
+>> > +
+>> > + import (
+>> > +       "crypto"
+>> > +       "crypto/rand"
+>> > +       "crypto/subtle"
+>> > ++      "encoding/binary"
+>> > +       "errors"
+>> > +       "hash"
+>> > +       "io"
+>> > +@@ -35,7 +39,6 @@ import (
+>> > +       "crypto/internal/randutil"
+>> > + )
+>> > +
+>> > +-var bigZero =3D big.NewInt(0)
+>> > + var bigOne =3D big.NewInt(1)
+>> > +
+>> > + // A PublicKey represents the public part of an RSA key.
+>> > +@@ -50,7 +53,7 @@ type PublicKey struct {
+>> > + // Size returns the modulus size in bytes. Raw signatures and
+>> ciphertexts
+>> > + // for or by this public key will have the same size.
+>> > + func (pub *PublicKey) Size() int {
+>> > +-      return (pub.N.BitLen() + 7) / 8
+>> > ++      return (bigBitLen(pub.N) + 7) / 8
+>> > + }
+>> > +
+>> > + // Equal reports whether pub and x have the same value.
+>> > +@@ -384,10 +387,18 @@ func mgf1XOR(out []byte, hash hash.Hash, seed
+>> []byte) {
+>> > + // too large for the size of the public key.
+>> > + var ErrMessageTooLong =3D errors.New("crypto/rsa: message too long f=
+or
+>> RSA public key size")
+>> > +
+>> > +-func encrypt(c *big.Int, pub *PublicKey, m *big.Int) *big.Int {
+>> > +-      e :=3D big.NewInt(int64(pub.E))
+>> > +-      c.Exp(m, e, pub.N)
+>> > +-      return c
+>> > ++func encrypt(pub *PublicKey, plaintext []byte) []byte {
+>> > ++      N :=3D modulusFromNat(natFromBig(pub.N))
+>> > ++      m :=3D natFromBytes(plaintext).expandFor(N)
+>> > ++
+>> > ++      e :=3D make([]byte, 8)
+>> > ++      binary.BigEndian.PutUint64(e, uint64(pub.E))
+>> > ++      for len(e) > 1 && e[0] =3D=3D 0 {
+>> > ++              e =3D e[1:]
+>> > ++      }
+>> > ++
+>> > ++      out :=3D make([]byte, modulusSize(N))
+>> > ++      return new(nat).exp(m, e, N).fillBytes(out)
+>> > + }
+>> > +
+>> > + // EncryptOAEP encrypts the given message with RSA-OAEP.
+>> > +@@ -437,12 +448,7 @@ func EncryptOAEP(hash hash.Hash, random
+>> io.Reader, pub *PublicKey, msg []byte, l
+>> > +       mgf1XOR(db, hash, seed)
+>> > +       mgf1XOR(seed, hash, db)
+>> > +
+>> > +-      m :=3D new(big.Int)
+>> > +-      m.SetBytes(em)
+>> > +-      c :=3D encrypt(new(big.Int), pub, m)
+>> > +-
+>> > +-      out :=3D make([]byte, k)
+>> > +-      return c.FillBytes(out), nil
+>> > ++      return encrypt(pub, em), nil
+>> > + }
+>> > +
+>> > + // ErrDecryption represents a failure to decrypt a message.
+>> > +@@ -484,98 +490,70 @@ func (priv *PrivateKey) Precompute() {
+>> > +       }
+>> > + }
+>> > +
+>> > +-// decrypt performs an RSA decryption, resulting in a plaintext
+>> integer. If a
+>> > +-// random source is given, RSA blinding is used.
+>> > +-func decrypt(random io.Reader, priv *PrivateKey, c *big.Int) (m
+>> *big.Int, err error) {
+>> > +-      // TODO(agl): can we get away with reusing blinds?
+>> > +-      if c.Cmp(priv.N) > 0 {
+>> > +-              err =3D ErrDecryption
+>> > +-              return
+>> > ++// decrypt performs an RSA decryption of ciphertext into out.
+>> > ++func decrypt(priv *PrivateKey, ciphertext []byte) ([]byte, error) {
+>> > ++      N :=3D modulusFromNat(natFromBig(priv.N))
+>> > ++      c :=3D natFromBytes(ciphertext).expandFor(N)
+>> > ++      if c.cmpGeq(N.nat) =3D=3D 1 {
+>> > ++              return nil, ErrDecryption
+>> > +       }
+>> > +       if priv.N.Sign() =3D=3D 0 {
+>> > +               return nil, ErrDecryption
+>> > +       }
+>> > +
+>> > +-      var ir *big.Int
+>> > +-      if random !=3D nil {
+>> > +-              randutil.MaybeReadByte(random)
+>> > +-
+>> > +-              // Blinding enabled. Blinding involves multiplying c b=
+y
+>> r^e.
+>> > +-              // Then the decryption operation performs (m^e * r^e)^=
+d
+>> mod n
+>> > +-              // which equals mr mod n. The factor of r can then be
+>> removed
+>> > +-              // by multiplying by the multiplicative inverse of r.
+>> > +-
+>> > +-              var r *big.Int
+>> > +-              ir =3D new(big.Int)
+>> > +-              for {
+>> > +-                      r, err =3D rand.Int(random, priv.N)
+>> > +-                      if err !=3D nil {
+>> > +-                              return
+>> > +-                      }
+>> > +-                      if r.Cmp(bigZero) =3D=3D 0 {
+>> > +-                              r =3D bigOne
+>> > +-                      }
+>> > +-                      ok :=3D ir.ModInverse(r, priv.N)
+>> > +-                      if ok !=3D nil {
+>> > +-                              break
+>> > +-                      }
+>> > +-              }
+>> > +-              bigE :=3D big.NewInt(int64(priv.E))
+>> > +-              rpowe :=3D new(big.Int).Exp(r, bigE, priv.N) // N !=3D=
+ 0
+>> > +-              cCopy :=3D new(big.Int).Set(c)
+>> > +-              cCopy.Mul(cCopy, rpowe)
+>> > +-              cCopy.Mod(cCopy, priv.N)
+>> > +-              c =3D cCopy
+>> > +-      }
+>> > +-
+>> > ++      // Note that because our private decryption exponents are
+>> stored as big.Int,
+>> > ++      // we potentially leak the exact number of bits of these
+>> exponents. This
+>> > ++      // isn't great, but should be fine.
+>> > +       if priv.Precomputed.Dp =3D=3D nil {
+>> > +-              m =3D new(big.Int).Exp(c, priv.D, priv.N)
+>> > +-      } else {
+>> > +-              // We have the precalculated values needed for the CRT=
+.
+>> > +-              m =3D new(big.Int).Exp(c, priv.Precomputed.Dp,
+>> priv.Primes[0])
+>> > +-              m2 :=3D new(big.Int).Exp(c, priv.Precomputed.Dq,
+>> priv.Primes[1])
+>> > +-              m.Sub(m, m2)
+>> > +-              if m.Sign() < 0 {
+>> > +-                      m.Add(m, priv.Primes[0])
+>> > +-              }
+>> > +-              m.Mul(m, priv.Precomputed.Qinv)
+>> > +-              m.Mod(m, priv.Primes[0])
+>> > +-              m.Mul(m, priv.Primes[1])
+>> > +-              m.Add(m, m2)
+>> > +-
+>> > +-              for i, values :=3D range priv.Precomputed.CRTValues {
+>> > +-                      prime :=3D priv.Primes[2+i]
+>> > +-                      m2.Exp(c, values.Exp, prime)
+>> > +-                      m2.Sub(m2, m)
+>> > +-                      m2.Mul(m2, values.Coeff)
+>> > +-                      m2.Mod(m2, prime)
+>> > +-                      if m2.Sign() < 0 {
+>> > +-                              m2.Add(m2, prime)
+>> > +-                      }
+>> > +-                      m2.Mul(m2, values.R)
+>> > +-                      m.Add(m, m2)
+>> > +-              }
+>> > +-      }
+>> > +-
+>> > +-      if ir !=3D nil {
+>> > +-              // Unblind.
+>> > +-              m.Mul(m, ir)
+>> > +-              m.Mod(m, priv.N)
+>> > +-      }
+>> > +-
+>> > +-      return
+>> > ++              out :=3D make([]byte, modulusSize(N))
+>> > ++              return new(nat).exp(c, priv.D.Bytes(),
+>> N).fillBytes(out), nil
+>> > ++      }
+>> > ++
+>> > ++      t0 :=3D new(nat)
+>> > ++      P :=3D modulusFromNat(natFromBig(priv.Primes[0]))
+>> > ++      Q :=3D modulusFromNat(natFromBig(priv.Primes[1]))
+>> > ++      // m =3D c ^ Dp mod p
+>> > ++      m :=3D new(nat).exp(t0.mod(c, P), priv.Precomputed.Dp.Bytes(),=
+ P)
+>> > ++      // m2 =3D c ^ Dq mod q
+>> > ++      m2 :=3D new(nat).exp(t0.mod(c, Q), priv.Precomputed.Dq.Bytes()=
+, Q)
+>> > ++      // m =3D m - m2 mod p
+>> > ++      m.modSub(t0.mod(m2, P), P)
+>> > ++      // m =3D m * Qinv mod p
+>> > ++      m.modMul(natFromBig(priv.Precomputed.Qinv).expandFor(P), P)
+>> > ++      // m =3D m * q mod N
+>> > ++      m.expandFor(N).modMul(t0.mod(Q.nat, N), N)
+>> > ++      // m =3D m + m2 mod N
+>> > ++      m.modAdd(m2.expandFor(N), N)
+>> > ++
+>> > ++      for i, values :=3D range priv.Precomputed.CRTValues {
+>> > ++              p :=3D modulusFromNat(natFromBig(priv.Primes[2+i]))
+>> > ++              // m2 =3D c ^ Exp mod p
+>> > ++              m2.exp(t0.mod(c, p), values.Exp.Bytes(), p)
+>> > ++              // m2 =3D m2 - m mod p
+>> > ++              m2.modSub(t0.mod(m, p), p)
+>> > ++              // m2 =3D m2 * Coeff mod p
+>> > ++              m2.modMul(natFromBig(values.Coeff).expandFor(p), p)
+>> > ++              // m2 =3D m2 * R mod N
+>> > ++              R :=3D natFromBig(values.R).expandFor(N)
+>> > ++              m2.expandFor(N).modMul(R, N)
+>> > ++              // m =3D m + m2 mod N
+>> > ++              m.modAdd(m2, N)
+>> > ++      }
+>> > ++
+>> > ++      out :=3D make([]byte, modulusSize(N))
+>> > ++      return m.fillBytes(out), nil
+>> > + }
+>> > +
+>> > +-func decryptAndCheck(random io.Reader, priv *PrivateKey, c *big.Int)
+>> (m *big.Int, err error) {
+>> > +-      m, err =3D decrypt(random, priv, c)
+>> > ++func decryptAndCheck(priv *PrivateKey, ciphertext []byte) (m []byte,
+>> err error) {
+>> > ++      m, err =3D decrypt(priv, ciphertext)
+>> > +       if err !=3D nil {
+>> > +               return nil, err
+>> > +       }
+>> > +
+>> > +       // In order to defend against errors in the CRT computation,
+>> m^e is
+>> > +       // calculated, which should match the original ciphertext.
+>> > +-      check :=3D encrypt(new(big.Int), &priv.PublicKey, m)
+>> > +-      if c.Cmp(check) !=3D 0 {
+>> > ++      check :=3D encrypt(&priv.PublicKey, m)
+>> > ++      if subtle.ConstantTimeCompare(ciphertext, check) !=3D 1 {
+>> > +               return nil, errors.New("rsa: internal error")
+>> > +       }
+>> > +       return m, nil
+>> > +@@ -587,9 +565,7 @@ func decryptAndCheck(random io.Reader, priv
+>> *PrivateKey, c *big.Int) (m *big.Int
+>> > + // Encryption and decryption of a given message must use the same
+>> hash function
+>> > + // and sha256.New() is a reasonable choice.
+>> > + //
+>> > +-// The random parameter, if not nil, is used to blind the private-ke=
+y
+>> operation
+>> > +-// and avoid timing side-channel attacks. Blinding is purely interna=
+l
+>> to this
+>> > +-// function =E2=80=93 the random data need not match that used when
+>> encrypting.
+>> > ++// The random parameter is legacy and ignored, and it can be as nil.
+>> > + //
+>> > + // The label parameter must match the value given when encrypting. S=
+ee
+>> > + // EncryptOAEP for details.
+>> > +@@ -603,9 +579,7 @@ func DecryptOAEP(hash hash.Hash, random io.Reader=
+,
+>> priv *PrivateKey, ciphertext
+>> > +               return nil, ErrDecryption
+>> > +       }
+>> > +
+>> > +-      c :=3D new(big.Int).SetBytes(ciphertext)
+>> > +-
+>> > +-      m, err :=3D decrypt(random, priv, c)
+>> > ++      em, err :=3D decrypt(priv, ciphertext)
+>> > +       if err !=3D nil {
+>> > +               return nil, err
+>> > +       }
+>> > +@@ -614,10 +588,6 @@ func DecryptOAEP(hash hash.Hash, random
+>> io.Reader, priv *PrivateKey, ciphertext
+>> > +       lHash :=3D hash.Sum(nil)
+>> > +       hash.Reset()
+>> > +
+>> > +-      // We probably leak the number of leading zeros.
+>> > +-      // It's not clear that we can do anything about this.
+>> > +-      em :=3D m.FillBytes(make([]byte, k))
+>> > +-
+>> > +       firstByteIsZero :=3D subtle.ConstantTimeByteEq(em[0], 0)
+>> > +
+>> > +       seed :=3D em[1 : hash.Size()+1]
+>> > +--
+>> > +2.40.0
+>> > --
+>> > 2.40.0
+>> >
+>> >
+>> >
+>> >
+>>
+>>
+>>
+>>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#195069):
+> https://lists.openembedded.org/g/openembedded-core/message/195069
+> Mute This Topic: https://lists.openembedded.org/mt/104217403/4316185
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> yoann.congal@smile.fr]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
 --=20
-2.34.1
+Yoann Congal
+Smile ECS - Tech expert
 
+--0000000000003a8aa60610cd785d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0mer. 7 f=C3=A9vr. 2024 =C3=A0=
+=C2=A017:38, Shubham Kulkarni via <a href=3D"http://lists.openembedded.org"=
+>lists.openembedded.org</a> &lt;skulkarni=3D<a href=3D"mailto:mvista.com@li=
+sts.openembedded.org">mvista.com@lists.openembedded.org</a>&gt; a =C3=A9cri=
+t=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
+ 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div di=
+r=3D"ltr">Hi,<div><br></div><div>The problem is due to a special character =
+present in the golang upstream commit (specifically this line- <a href=3D"h=
+ttps://github.com/golang/go/commit/8a81fdf165facdcefa06531de5af98a4db343035=
+#diff-acaa91e0be43e9cfbb2ec7d213e5fa3fee35a94f2c1e36d690639257f4960764R233"=
+ target=3D"_blank">https://github.com/golang/go/commit/8a81fdf165facdcefa06=
+531de5af98a4db343035#diff-acaa91e0be43e9cfbb2ec7d213e5fa3fee35a94f2c1e36d69=
+0639257f4960764R233</a>). Due to this character, the patch sent to the mail=
+ing list is not reflecting properly at the patchwork and ending abruptly-=
+=C2=A0<a href=3D"https://patchwork.yoctoproject.org/project/oe-core/patch/2=
+0240207125913.1506713-1-soumya.sambu@windriver.com/" target=3D"_blank">http=
+s://patchwork.yoctoproject.org/project/oe-core/patch/20240207125913.1506713=
+-1-soumya.sambu@windriver.com/</a></div><div><br></div><div>Similar issue h=
+appened with me sometime back and with one of our team members. Removing th=
+is character from the patch (as it&#39;s in the comment section) should res=
+olve the problem.</div><div><br></div><div>Thanks,</div><div>Shubham Kulkar=
+ni</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmai=
+l_attr">On Wed, Feb 7, 2024 at 9:26=E2=80=AFPM Steve Sakoman &lt;<a href=3D=
+"mailto:steve@sakoman.com" target=3D"_blank">steve@sakoman.com</a>&gt; wrot=
+e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">This patch fa=
+ils to apply:<br>
+<br>
+Applying: go: Fix CVE-2023-45285 and CVE-2023-45287<br>
+error: corrupt patch at line 1486<br>
+error: could not build fake ancestor<br>
+Patch failed at 0001 go: Fix CVE-2023-45285 and CVE-2023-45287<br></blockqu=
+ote></div></blockquote><div><br></div><div><div>Hi,</div><div><br></div><di=
+v>For what it&#39;s worth, it does apply correctly when pulled with &quot;b=
+4 shazam&quot;:</div><div>=C2=A0$ b4 shazam <a href=3D"mailto:2024020712591=
+3.1506713-1-soumya.sambu@windriver.com">20240207125913.1506713-1-soumya.sam=
+bu@windriver.com</a><br>Grabbing thread from <a href=3D"http://lore.kernel.=
+org/all/20240207125913.1506713-1-soumya.sambu%40windriver.com/t.mbox.gz">lo=
+re.kernel.org/all/20240207125913.1506713-1-soumya.sambu%40windriver.com/t.m=
+box.gz</a><br>Analyzing 3 messages in the thread<br>Checking attestation on=
+ all messages, may take a moment...<br>---<br>=C2=A0 =E2=9C=97 [PATCH 1/1] =
+go: Fix CVE-2023-45285 and CVE-2023-45287<br>=C2=A0 ---<br>=C2=A0 =E2=9C=97=
+ BADSIG: DKIM/<a href=3D"http://windriver.com">windriver.com</a><br>---<br>=
+Total patches: 1<br>---<br>Application de =C2=A0go: Fix CVE-2023-45285 and =
+CVE-2023-45287</div><div><br></div><div>Regards,</div></div><div><br></div>=
+<div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div cla=
+ss=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+Steve<br>
+<br>
+On Wed, Feb 7, 2024 at 2:59=E2=80=AFAM Soumya via <a href=3D"http://lists.o=
+penembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.or=
+g</a><br>
+&lt;soumya.sambu=3D<a href=3D"mailto:windriver.com@lists.openembedded.org" =
+target=3D"_blank">windriver.com@lists.openembedded.org</a>&gt; wrote:<br>
+&gt;<br>
+&gt; From: Soumya Sambu &lt;<a href=3D"mailto:soumya.sambu@windriver.com" t=
+arget=3D"_blank">soumya.sambu@windriver.com</a>&gt;<br>
+&gt;<br>
+&gt; CVE-2023-45285:<br>
+&gt; Using go get to fetch a module with the &quot;.git&quot; suffix may un=
+expectedly<br>
+&gt; fallback to the insecure &quot;git://&quot; protocol if the module is =
+unavailable<br>
+&gt; via the secure &quot;https://&quot; and &quot;git+ssh://&quot; protoco=
+ls, even if GOINSECURE<br>
+&gt; is not set for said module. This only affects users who are not using<=
+br>
+&gt; the module proxy and are fetching modules directly (i.e. GOPROXY=3Doff=
+).<br>
+&gt;<br>
+&gt; CVE-2023-45287:<br>
+&gt; Before Go 1.20, the RSA based TLS key exchanges used the math/big<br>
+&gt; library, which is not constant time. RSA blinding was applied to preve=
+nt<br>
+&gt; timing attacks, but analysis shows this may not have been fully effect=
+ive.<br>
+&gt; In particular it appears as if the removal of PKCS#1 padding may leak<=
+br>
+&gt; timing information, which in turn could be used to recover session key=
+<br>
+&gt; bits. In Go 1.20, the crypto/tls library switched to a fully constant<=
+br>
+&gt; time RSA implementation, which we do not believe exhibits any timing<b=
+r>
+&gt; side channels.<br>
+&gt;<br>
+&gt; References:<br>
+&gt; <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2023-45285" rel=3D"nor=
+eferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-2023-45285<=
+/a><br>
+&gt; <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2023-45287" rel=3D"nor=
+eferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-2023-45287<=
+/a><br>
+&gt; <a href=3D"https://security-tracker.debian.org/tracker/CVE-2023-45285"=
+ rel=3D"noreferrer" target=3D"_blank">https://security-tracker.debian.org/t=
+racker/CVE-2023-45285</a><br>
+&gt; <a href=3D"https://security-tracker.debian.org/tracker/CVE-2023-45287"=
+ rel=3D"noreferrer" target=3D"_blank">https://security-tracker.debian.org/t=
+racker/CVE-2023-45287</a><br>
+&gt;<br>
+&gt; Signed-off-by: Soumya Sambu &lt;<a href=3D"mailto:soumya.sambu@windriv=
+er.com" target=3D"_blank">soumya.sambu@windriver.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/recipes-devtools/go/go-1.17.13.inc=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0|=C2=A0 =C2=A0 2 +<br>
+&gt;=C2=A0 .../go/go-1.20/CVE-2023-45285.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0|=C2=A0 110 ++<br>
+&gt;=C2=A0 .../go/go-1.20/CVE-2023-45287.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0| 1695 +++++++++++++++++<br>
+&gt;=C2=A0 3 files changed, 1807 insertions(+)<br>
+&gt;=C2=A0 create mode 100644 meta/recipes-devtools/go/go-1.20/CVE-2023-452=
+85.patch<br>
+&gt;=C2=A0 create mode 100644 meta/recipes-devtools/go/go-1.20/CVE-2023-452=
+87.patch<br>
+&gt;<br>
+&gt; diff --git a/meta/recipes-devtools/go/go-1.17.13.inc b/meta/recipes-de=
+vtools/go/go-1.17.13.inc<br>
+&gt; index 95c4461d3e..6fc07bb910 100644<br>
+&gt; --- a/meta/recipes-devtools/go/go-1.17.13.inc<br>
+&gt; +++ b/meta/recipes-devtools/go/go-1.17.13.inc<br>
+&gt; @@ -48,6 +48,8 @@ SRC_URI +=3D &quot;\<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 file://CVE-2023-39319.patch \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 file://CVE-2023-39318.patch \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 file://CVE-2023-39326.patch \<br>
+&gt; +=C2=A0 =C2=A0 file://CVE-2023-45285.patch \<br>
+&gt; +=C2=A0 =C2=A0 file://CVE-2023-45287.patch \<br>
+&gt;=C2=A0 &quot;<br>
+&gt;=C2=A0 SRC_URI[main.sha256sum] =3D &quot;a1a48b23afb206f95e7bbaa9b898d9=
+65f90826f6f1d1fc0c1d784ada0cd300fd&quot;<br>
+&gt;<br>
+&gt; diff --git a/meta/recipes-devtools/go/go-1.20/CVE-2023-45285.patch b/m=
+eta/recipes-devtools/go/go-1.20/CVE-2023-45285.patch<br>
+&gt; new file mode 100644<br>
+&gt; index 0000000000..92711a9393<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/meta/recipes-devtools/go/go-1.20/CVE-2023-45285.patch<br>
+&gt; @@ -0,0 +1,110 @@<br>
+&gt; +From 46bc33819ac86a9596b8059235842f0e0c7469bd Mon Sep 17 00:00:00 200=
+1<br>
+&gt; +From: Bryan C. Mills &lt;<a href=3D"mailto:bcmills@google.com" target=
+=3D"_blank">bcmills@google.com</a>&gt;<br>
+&gt; +Date: Thu, 2 Nov 2023 15:06:35 -0400<br>
+&gt; +Subject: [PATCH] cmd/go/internal/vcs: error out if the requested repo=
+ does not<br>
+&gt; + support a secure protocol<br>
+&gt; +<br>
+&gt; +Updates #63845.<br>
+&gt; +Fixes #63972.<br>
+&gt; +<br>
+&gt; +Change-Id: If86d6b13d3b55877b35c087112bd76388c9404b8<br>
+&gt; +Reviewed-on: <a href=3D"https://go-review.googlesource.com/c/go/+/539=
+321" rel=3D"noreferrer" target=3D"_blank">https://go-review.googlesource.co=
+m/c/go/+/539321</a><br>
+&gt; +Reviewed-by: Michael Matloob &lt;<a href=3D"mailto:matloob@golang.org=
+" target=3D"_blank">matloob@golang.org</a>&gt;<br>
+&gt; +LUCI-TryBot-Result: Go LUCI &lt;<a href=3D"mailto:golang-scoped@luci-=
+project-accounts.iam.gserviceaccount.com" target=3D"_blank">golang-scoped@l=
+uci-project-accounts.iam.gserviceaccount.com</a>&gt;<br>
+&gt; +Reviewed-by: Roland Shoemaker &lt;<a href=3D"mailto:roland@golang.org=
+" target=3D"_blank">roland@golang.org</a>&gt;<br>
+&gt; +Auto-Submit: Bryan Mills &lt;<a href=3D"mailto:bcmills@google.com" ta=
+rget=3D"_blank">bcmills@google.com</a>&gt;<br>
+&gt; +(cherry picked from commit be26ae18caf7ddffca4073333f80d0d9e76483c3)<=
+br>
+&gt; +Reviewed-on: <a href=3D"https://go-review.googlesource.com/c/go/+/540=
+335" rel=3D"noreferrer" target=3D"_blank">https://go-review.googlesource.co=
+m/c/go/+/540335</a><br>
+&gt; +Auto-Submit: Dmitri Shuralyov &lt;<a href=3D"mailto:dmitshur@google.c=
+om" target=3D"_blank">dmitshur@google.com</a>&gt;<br>
+&gt; +Reviewed-by: Dmitri Shuralyov &lt;<a href=3D"mailto:dmitshur@google.c=
+om" target=3D"_blank">dmitshur@google.com</a>&gt;<br>
+&gt; +<br>
+&gt; +CVE: CVE-2023-45285<br>
+&gt; +<br>
+&gt; +Upstream-Status: Backport [<a href=3D"https://github.com/golang/go/co=
+mmit/46bc33819ac86a9596b8059235842f0e0c7469bd" rel=3D"noreferrer" target=3D=
+"_blank">https://github.com/golang/go/commit/46bc33819ac86a9596b8059235842f=
+0e0c7469bd</a>]<br>
+&gt; +<br>
+&gt; +Signed-off-by: Soumya Sambu &lt;<a href=3D"mailto:soumya.sambu@windri=
+ver.com" target=3D"_blank">soumya.sambu@windriver.com</a>&gt;<br>
+&gt; +---<br>
+&gt; + src/cmd/go/internal/vcs/vcs.go=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 | 25 +++++++++++++----<br>
+&gt; + .../script/mod_insecure_issue63845.txt=C2=A0 =C2=A0 =C2=A0 =C2=A0 | =
+28 +++++++++++++++++++<br>
+&gt; + 2 files changed, 47 insertions(+), 6 deletions(-)<br>
+&gt; + create mode 100644 src/cmd/go/testdata/script/mod_insecure_issue6384=
+5.txt<br>
+&gt; +<br>
+&gt; +diff --git a/src/cmd/go/internal/vcs/vcs.go b/src/cmd/go/internal/vcs=
+/vcs.go<br>
+&gt; +index ab42424..0e2882d 100644<br>
+&gt; +--- a/src/cmd/go/internal/vcs/vcs.go<br>
+&gt; ++++ b/src/cmd/go/internal/vcs/vcs.go<br>
+&gt; +@@ -891,19 +891,32 @@ func repoRootFromVCSPaths(importPath string, se=
+curity web.SecurityMode, vcsPaths<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if !srv.scheme=
+lessRepo {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0repoURL =3D match[&quot;repo&quot;]<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} else {<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 scheme :=3D vcs.Scheme[0] // default to first scheme<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0repo :=3D match[&quot;repo&quot;]<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 if vcs.PingCmd !=3D &quot;&quot; {<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // If we know how to test schemes, s=
+can to find one.<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 scheme, err :=3D func() (string, error) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for _, s :=3D range vcs.Scheme {<=
+br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if se=
+curity =3D=3D web.SecureOnly &amp;&amp; !vcs.isSecureScheme(s) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0continue<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if vcs.P=
+ing(s, repo) =3D=3D nil {<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 scheme =3D s<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 break<br>
+&gt; ++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // If we=
+ know how to ping URL schemes for this VCS,<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // check=
+ that this repo works.<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // Other=
+wise, default to the first scheme<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // that =
+meets the requested security level.<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if vcs.P=
+ingCmd =3D=3D &quot;&quot; {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 return s, nil<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if err :=
+=3D vcs.Ping(s, repo); err =3D=3D nil {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 return s, nil<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 securityFrag :=3D &quot;&quot;<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if security =3D=3D web.SecureOnly {<=
+br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 security=
+Frag =3D &quot;secure &quot;<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return &quot;&quot;, fmt.Errorf(&quo=
+t;no %sprotocol found for repository&quot;, securityFrag)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 }()<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 if err !=3D nil {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return nil, err<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0}<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0repoURL =3D scheme + &quot;://&quot; + repo<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +diff --git a/src/cmd/go/testdata/script/mod_insecure_issue63845.txt b=
+/src/cmd/go/testdata/script/mod_insecure_issue63845.txt<br>
+&gt; +new file mode 100644<br>
+&gt; +index 0000000..5fa6a4f<br>
+&gt; +--- /dev/null<br>
+&gt; ++++ b/src/cmd/go/testdata/script/mod_insecure_issue63845.txt<br>
+&gt; +@@ -0,0 +1,28 @@<br>
+&gt; ++# Regression test for <a href=3D"https://go.dev/issue/63845" rel=3D"=
+noreferrer" target=3D"_blank">https://go.dev/issue/63845</a>:<br>
+&gt; ++# If &#39;git ls-remote&#39; fails for all secure protocols,<br>
+&gt; ++# we should fail instead of falling back to an arbitrary protocol.<b=
+r>
+&gt; ++#<br>
+&gt; ++# Note that this test does not use the local vcweb test server<br>
+&gt; ++# (<a href=3D"http://vcs-test.golang.org" rel=3D"noreferrer" target=
+=3D"_blank">vcs-test.golang.org</a>), because the hook for redirecting to t=
+hat<br>
+&gt; ++# server bypasses the &quot;ping to determine protocol&quot; logic<b=
+r>
+&gt; ++# in cmd/go/internal/vcs.<br>
+&gt; ++<br>
+&gt; ++[!net] skip<br>
+&gt; ++[!git] skip<br>
+&gt; ++[short] skip &#39;tries to access a nonexistent external Git repo&#3=
+9;<br>
+&gt; ++<br>
+&gt; ++env GOPRIVATE=3D<a href=3D"http://golang.org" rel=3D"noreferrer" tar=
+get=3D"_blank">golang.org</a><br>
+&gt; ++env CURLOPT_TIMEOUT_MS=3D100<br>
+&gt; ++env GIT_SSH_COMMAND=3Dfalse<br>
+&gt; ++<br>
+&gt; ++! go get -x <a href=3D"http://golang.org/nonexist.git@latest" rel=3D=
+"noreferrer" target=3D"_blank">golang.org/nonexist.git@latest</a><br>
+&gt; ++stderr &#39;^git ls-remote <a href=3D"https://golang.org/nonexist$" =
+rel=3D"noreferrer" target=3D"_blank">https://golang.org/nonexist$</a>&#39;<=
+br>
+&gt; ++stderr &#39;^git ls-remote git\+ssh://<a href=3D"http://golang.org/n=
+onexist" rel=3D"noreferrer" target=3D"_blank">golang.org/nonexist</a>&#39;<=
+br>
+&gt; ++stderr &#39;^git ls-remote ssh://<a href=3D"http://golang.org/nonexi=
+st$" rel=3D"noreferrer" target=3D"_blank">golang.org/nonexist$</a>&#39;<br>
+&gt; ++! stderr &#39;git://&#39;<br>
+&gt; ++stderr &#39;^go: <a href=3D"http://golang.org/nonexist.git@latest" r=
+el=3D"noreferrer" target=3D"_blank">golang.org/nonexist.git@latest</a>: no =
+secure protocol found for repository$&#39;<br>
+&gt; ++<br>
+&gt; ++-- go.mod --<br>
+&gt; ++module example<br>
+&gt; ++<br>
+&gt; ++go 1.19<br>
+&gt; +--<br>
+&gt; +2.40.0<br>
+&gt; diff --git a/meta/recipes-devtools/go/go-1.20/CVE-2023-45287.patch b/m=
+eta/recipes-devtools/go/go-1.20/CVE-2023-45287.patch<br>
+&gt; new file mode 100644<br>
+&gt; index 0000000000..b31a0f0320<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/meta/recipes-devtools/go/go-1.20/CVE-2023-45287.patch<br>
+&gt; @@ -0,0 +1,1695 @@<br>
+&gt; +From 8a81fdf165facdcefa06531de5af98a4db343035 Mon Sep 17 00:00:00 200=
+1<br>
+&gt; +From: L=C3=BAc=C3=A1s Meier &lt;<a href=3D"mailto:cronokirby@gmail.co=
+m" target=3D"_blank">cronokirby@gmail.com</a>&gt;<br>
+&gt; +Date: Tue Jun 8 21:36:06 2021 +0200<br>
+&gt; +Subject: [PATCH] crypto/rsa: replace big.Int for encryption and decry=
+ption<br>
+&gt; +<br>
+&gt; +Infamously, big.Int does not provide constant-time arithmetic, making=
+<br>
+&gt; +its use in cryptographic code quite tricky. RSA uses big.Int<br>
+&gt; +pervasively, in its public API, for key generation, precomputation, a=
+nd<br>
+&gt; +for encryption and decryption. This is a known problem. One mitigatio=
+n,<br>
+&gt; +blinding, is already in place during decryption. This helps mitigate =
+the<br>
+&gt; +very leaky exponentiation operation. Because big.Int is fundamentally=
+<br>
+&gt; +not constant-time, it&#39;s unfortunately difficult to guarantee that=
+<br>
+&gt; +mitigations like these are completely effective.<br>
+&gt; +<br>
+&gt; +This patch removes the use of big.Int for encryption and decryption,<=
+br>
+&gt; +replacing it with an internal nat type instead. Signing and verificat=
+ion<br>
+&gt; +are also affected, because they depend on encryption and decryption.<=
+br>
+&gt; +<br>
+&gt; +Overall, this patch degrades performance by 55% for private key<br>
+&gt; +operations, and 4-5x for (much faster) public key operations.<br>
+&gt; +(Signatures do both, so the slowdown is worse than decryption.)<br>
+&gt; +<br>
+&gt; +name=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 old time/op=C2=A0 new time/op=C2=A0 =C2=A0 delta<br>
+&gt; +DecryptPKCS1v15/2048-8=C2=A0 1.50ms =C2=B1 0%=C2=A0 =C2=A0 2.34ms =C2=
+=B1 0%=C2=A0 =C2=A0 +56.44%=C2=A0 (p=3D0.000 n=3D8+10)<br>
+&gt; +DecryptPKCS1v15/3072-8=C2=A0 4.40ms =C2=B1 0%=C2=A0 =C2=A0 6.79ms =C2=
+=B1 0%=C2=A0 =C2=A0 +54.33%=C2=A0 (p=3D0.000 n=3D10+9)<br>
+&gt; +DecryptPKCS1v15/4096-8=C2=A0 9.31ms =C2=B1 0%=C2=A0 =C2=A015.14ms =C2=
+=B1 0%=C2=A0 =C2=A0 +62.60%=C2=A0 (p=3D0.000 n=3D10+10)<br>
+&gt; +EncryptPKCS1v15/2048-8=C2=A0 8.16=C2=B5s =C2=B1 0%=C2=A0 355.58=C2=B5=
+s =C2=B1 0%=C2=A0 +4258.90%=C2=A0 (p=3D0.000 n=3D10+9)<br>
+&gt; +DecryptOAEP/2048-8=C2=A0 =C2=A0 =C2=A0 1.50ms =C2=B1 0%=C2=A0 =C2=A0 =
+2.34ms =C2=B1 0%=C2=A0 =C2=A0 +55.68%=C2=A0 (p=3D0.000 n=3D10+9)<br>
+&gt; +EncryptOAEP/2048-8=C2=A0 =C2=A0 =C2=A0 8.51=C2=B5s =C2=B1 0%=C2=A0 35=
+5.95=C2=B5s =C2=B1 0%=C2=A0 +4082.75%=C2=A0 (p=3D0.000 n=3D10+9)<br>
+&gt; +SignPKCS1v15/2048-8=C2=A0 =C2=A0 =C2=A01.51ms =C2=B1 0%=C2=A0 =C2=A0 =
+2.69ms =C2=B1 0%=C2=A0 =C2=A0 +77.94%=C2=A0 (p=3D0.000 n=3D10+10)<br>
+&gt; +VerifyPKCS1v15/2048-8=C2=A0 =C2=A07.25=C2=B5s =C2=B1 0%=C2=A0 354.34=
+=C2=B5s =C2=B1 0%=C2=A0 +4789.52%=C2=A0 (p=3D0.000 n=3D9+9)<br>
+&gt; +SignPSS/2048-8=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 1.51ms =C2=B1 0%=C2=
+=A0 =C2=A0 2.70ms =C2=B1 0%=C2=A0 =C2=A0 +78.80%=C2=A0 (p=3D0.000 n=3D9+10)=
+<br>
+&gt; +VerifyPSS/2048-8=C2=A0 =C2=A0 =C2=A0 =C2=A0 8.27=C2=B5s =C2=B1 1%=C2=
+=A0 355.65=C2=B5s =C2=B1 0%=C2=A0 +4199.39%=C2=A0 (p=3D0.000 n=3D10+10)<br>
+&gt; +<br>
+&gt; +Keep in mind that this is without any assembly at all, and that furth=
+er<br>
+&gt; +improvements are likely possible. I think having a review of the logi=
+c<br>
+&gt; +and the cryptography would be a good idea at this stage, before we<br=
+>
+&gt; +complicate the code too much through optimization.<br>
+&gt; +<br>
+&gt; +The bulk of the work is in nat.go. This introduces two new types: nat=
+,<br>
+&gt; +representing natural numbers, and modulus, representing moduli used i=
+n<br>
+&gt; +modular arithmetic.<br>
+&gt; +<br>
+&gt; +A nat has an &quot;announced size&quot;, which may be larger than its=
+ &quot;true size&quot;,<br>
+&gt; +the number of bits needed to represent this number. Operations on a n=
+at<br>
+&gt; +will only ever leak its announced size, never its true size, or other=
+<br>
+&gt; +information about its value. The size of a nat is always clear based =
+on<br>
+&gt; +how its value is set. For example, x.mod(y, m) will make the announce=
+d<br>
+&gt; +size of x match that of m, since x is reduced modulo m.<br>
+&gt; +<br>
+&gt; +Operations assume that the announced size of the operands match what&=
+#39;s<br>
+&gt; +expected (with a few exceptions). For example, x.modAdd(y, m) assumes=
+<br>
+&gt; +that x and y have the same announced size as m, and that they&#39;re =
+reduced<br>
+&gt; +modulo m.<br>
+&gt; +<br>
+&gt; +Nats are represented over unsatured bits.UintSize - 1 bit limbs. This=
+<br>
+&gt; +means that we can&#39;t reuse the assembly routines for big.Int, whic=
+h use<br>
+&gt; +saturated bits.UintSize limbs. The advantage of unsaturated limbs is<=
+br>
+&gt; +that it makes Montgomery multiplication faster, by needing fewer<br>
+&gt; +registers in a hot loop. This makes exponentiation faster, which<br>
+&gt; +consists of many Montgomery multiplications.<br>
+&gt; +<br>
+&gt; +Moduli use nat internally. Unlike nat, the true size of a modulus alw=
+ays<br>
+&gt; +matches its announced size. When creating a modulus, any zero padding=
+ is<br>
+&gt; +removed. Moduli will also precompute constants when created, which is=
+<br>
+&gt; +another reason why having a separate type is desirable.<br>
+&gt; +<br>
+&gt; +Updates #20654<br>
+&gt; +<br>
+&gt; +Co-authored-by: Filippo Valsorda &lt;<a href=3D"mailto:filippo@golang=
+.org" target=3D"_blank">filippo@golang.org</a>&gt;<br>
+&gt; +Change-Id: I73b61f87d58ab912e80a9644e255d552cbadcced<br>
+&gt; +Reviewed-on: <a href=3D"https://go-review.googlesource.com/c/go/+/326=
+012" rel=3D"noreferrer" target=3D"_blank">https://go-review.googlesource.co=
+m/c/go/+/326012</a><br>
+&gt; +Run-TryBot: Filippo Valsorda &lt;<a href=3D"mailto:filippo@golang.org=
+" target=3D"_blank">filippo@golang.org</a>&gt;<br>
+&gt; +TryBot-Result: Gopher Robot &lt;<a href=3D"mailto:gobot@golang.org" t=
+arget=3D"_blank">gobot@golang.org</a>&gt;<br>
+&gt; +Reviewed-by: Roland Shoemaker &lt;<a href=3D"mailto:roland@golang.org=
+" target=3D"_blank">roland@golang.org</a>&gt;<br>
+&gt; +Reviewed-by: Joedian Reid &lt;<a href=3D"mailto:joedian@golang.org" t=
+arget=3D"_blank">joedian@golang.org</a>&gt;<br>
+&gt; +<br>
+&gt; +CVE: CVE-2023-45287<br>
+&gt; +<br>
+&gt; +Upstream-Status: Backport [<a href=3D"https://github.com/golang/go/co=
+mmit/8a81fdf165facdcefa06531de5af98a4db343035" rel=3D"noreferrer" target=3D=
+"_blank">https://github.com/golang/go/commit/8a81fdf165facdcefa06531de5af98=
+a4db343035</a>]<br>
+&gt; +<br>
+&gt; +Signed-off-by: Soumya Sambu &lt;<a href=3D"mailto:soumya.sambu@windri=
+ver.com" target=3D"_blank">soumya.sambu@windriver.com</a>&gt;<br>
+&gt; +---<br>
+&gt; + src/crypto/rsa/example_test.go |=C2=A0 21 +-<br>
+&gt; + src/crypto/rsa/nat.go=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 626 ++++++=
++++++++++++++++++++++++++++<br>
+&gt; + src/crypto/rsa/nat_test.go=C2=A0 =C2=A0 =C2=A0| 384 ++++++++++++++++=
+++++<br>
+&gt; + src/crypto/rsa/pkcs1v15.go=C2=A0 =C2=A0 =C2=A0|=C2=A0 47 +--<br>
+&gt; + src/crypto/rsa/pss.go=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 49 +=
++-<br>
+&gt; + src/crypto/rsa/pss_test.go=C2=A0 =C2=A0 =C2=A0|=C2=A0 10 +-<br>
+&gt; + src/crypto/rsa/rsa.go=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 172 ++++--=
+---<br>
+&gt; + 7 files changed, 1140 insertions(+), 169 deletions(-)<br>
+&gt; + create mode 100644 src/crypto/rsa/nat.go<br>
+&gt; + create mode 100644 src/crypto/rsa/nat_test.go<br>
+&gt; +<br>
+&gt; +diff --git a/src/crypto/rsa/example_test.go b/src/crypto/rsa/example_=
+test.go<br>
+&gt; +index ce5c2d9..52e5639 100644<br>
+&gt; +--- a/src/crypto/rsa/example_test.go<br>
+&gt; ++++ b/src/crypto/rsa/example_test.go<br>
+&gt; +@@ -12,7 +12,6 @@ import (<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;crypto/sha256&quot;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;encoding/hex&quot;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;fmt&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 &quot;io&quot;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;os&quot;<br>
+&gt; + )<br>
+&gt; +<br>
+&gt; +@@ -36,21 +35,17 @@ import (<br>
+&gt; + // a buffer that contains a random key. Thus, if the RSA result isn&=
+#39;t<br>
+&gt; + // well-formed, the implementation uses a random key in constant tim=
+e.<br>
+&gt; + func ExampleDecryptPKCS1v15SessionKey() {<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 // crypto/rand.Reader is a good source of entro=
+py for blinding the RSA<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 // operation.<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 rng :=3D rand.Reader<br>
+&gt; +-<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0// The hybrid scheme should use at least a=
+ 16-byte symmetric key. Here<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0// we read the random key that will be use=
+d if the RSA decryption isn&#39;t<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0// well-formed.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0key :=3D make([]byte, 32)<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 if _, err :=3D io.ReadFull(rng, key); err !=3D =
+nil {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 if _, err :=3D rand.Read(key); err !=3D nil {<b=
+r>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0panic(&quot;RN=
+G failure&quot;)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0rsaCiphertext, _ :=3D hex.DecodeString(&qu=
+ot;aabbccddeeff&quot;)<br>
+&gt; +<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 if err :=3D DecryptPKCS1v15SessionKey(rng, rsaP=
+rivateKey, rsaCiphertext, key); err !=3D nil {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 if err :=3D DecryptPKCS1v15SessionKey(nil, rsaP=
+rivateKey, rsaCiphertext, key); err !=3D nil {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0// Any errors =
+that result will be =E2=80=9Cpublic=E2=80=9D =E2=80=93 meaning that they<br=
+>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0// can be dete=
+rmined without any secret information. (For<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0// instance, i=
+f the length of key is impossible given the RSA<br>
+&gt; +@@ -86,10 +81,6 @@ func ExampleDecryptPKCS1v15SessionKey() {<br>
+&gt; + }<br>
+&gt; +<br>
+&gt; + func ExampleSignPKCS1v15() {<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 // crypto/rand.Reader is a good source of entro=
+py for blinding the RSA<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 // operation.<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 rng :=3D rand.Reader<br>
+&gt; +-<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0message :=3D []byte(&quot;message to be si=
+gned&quot;)<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0// Only small messages can be signed direc=
+tly; thus the hash of a<br>
+&gt; +@@ -99,7 +90,7 @@ func ExampleSignPKCS1v15() {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0// of writing (2016).<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0hashed :=3D sha256.Sum256(message)<br>
+&gt; +<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 signature, err :=3D SignPKCS1v15(rng, rsaPrivat=
+eKey, crypto.SHA256, hashed[:])<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 signature, err :=3D SignPKCS1v15(nil, rsaPrivat=
+eKey, crypto.SHA256, hashed[:])<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if err !=3D nil {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fmt.Fprintf(os=
+.Stderr, &quot;Error from signing: %s\n&quot;, err)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return<br>
+&gt; +@@ -151,11 +142,7 @@ func ExampleDecryptOAEP() {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0ciphertext, _ :=3D hex.DecodeString(&quot;=
+4d1ee10e8f286390258c51a5e80802844c3e6358ad6690b7285218a7c7ed7fc3a4c7b950fbd=
+04d4b0239cc060dcc7065ca6f84c1756deb71ca5685cadbb82be025e16449b905c568a19c08=
+8a1abfad54bf7ecc67a7df39943ec511091a34c0f2348d04e058fcff4d55644de3cd1d58079=
+1d4524b92f3e91695582e6e340a1c50b6c6d78e80b4e42c5b4d45e479b492de42bbd39cc642=
+ebb80226bb5200020d501b24a37bcc2ec7f34e596b4fd6b063de4858dbf5a4e3dd18e262eda=
+0ec2d19dbd8e890d672b63d368768360b20c0b6b8592a438fa275e5fa7f60bef0dd39673fd3=
+989cc54d2cb80c08fcd19dacbc265ee1c6014616b0e04ea0328c2a04e73460&quot;)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0label :=3D []byte(&quot;orders&quot;)<br>
+&gt; +<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 // crypto/rand.Reader is a good source of entro=
+py for blinding the RSA<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 // operation.<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 rng :=3D rand.Reader<br>
+&gt; +-<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 plaintext, err :=3D DecryptOAEP(sha256.New(), r=
+ng, test2048Key, ciphertext, label)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 plaintext, err :=3D DecryptOAEP(sha256.New(), n=
+il, test2048Key, ciphertext, label)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if err !=3D nil {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fmt.Fprintf(os=
+.Stderr, &quot;Error from decryption: %s\n&quot;, err)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return<br>
+&gt; +diff --git a/src/crypto/rsa/nat.go b/src/crypto/rsa/nat.go<br>
+&gt; +new file mode 100644<br>
+&gt; +index 0000000..da521c2<br>
+&gt; +--- /dev/null<br>
+&gt; ++++ b/src/crypto/rsa/nat.go<br>
+&gt; +@@ -0,0 +1,626 @@<br>
+&gt; ++// Copyright 2021 The Go Authors. All rights reserved.<br>
+&gt; ++// Use of this source code is governed by a BSD-style<br>
+&gt; ++// license that can be found in the LICENSE file.<br>
+&gt; ++<br>
+&gt; ++package rsa<br>
+&gt; ++<br>
+&gt; ++import (<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 &quot;math/big&quot;<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 &quot;math/bits&quot;<br>
+&gt; ++)<br>
+&gt; ++<br>
+&gt; ++const (<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // _W is the number of bits we use for our limb=
+s.<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 _W =3D bits.UintSize - 1<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // _MASK selects _W bits from a full machine wo=
+rd.<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 _MASK =3D (1 &lt;&lt; _W) - 1<br>
+&gt; ++)<br>
+&gt; ++<br>
+&gt; ++// choice represents a constant-time boolean. The value of choice is=
+ always<br>
+&gt; ++// either 1 or 0. We use an int instead of bool in order to make dec=
+isions in<br>
+&gt; ++// constant time by turning it into a mask.<br>
+&gt; ++type choice uint<br>
+&gt; ++<br>
+&gt; ++func not(c choice) choice { return 1 ^ c }<br>
+&gt; ++<br>
+&gt; ++const yes =3D choice(1)<br>
+&gt; ++const no =3D choice(0)<br>
+&gt; ++<br>
+&gt; ++// ctSelect returns x if on =3D=3D 1, and y if on =3D=3D 0. The exec=
+ution time of this<br>
+&gt; ++// function does not depend on its inputs. If on is any value beside=
+s 1 or 0,<br>
+&gt; ++// the result is undefined.<br>
+&gt; ++func ctSelect(on choice, x, y uint) uint {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // When on =3D=3D 1, mask is 0b111..., otherwis=
+e mask is 0b000...<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 mask :=3D -uint(on)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // When mask is all zeros, we just have y, othe=
+rwise, y cancels with itself.<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return y ^ (mask &amp; (y ^ x))<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++// ctEq returns 1 if x =3D=3D y, and 0 otherwise. The execution time=
+ of this<br>
+&gt; ++// function does not depend on its inputs.<br>
+&gt; ++func ctEq(x, y uint) choice {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // If x !=3D y, then either x - y or y - x will=
+ generate a carry.<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 _, c1 :=3D bits.Sub(x, y, 0)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 _, c2 :=3D bits.Sub(y, x, 0)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return not(choice(c1 | c2))<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++// ctGeq returns 1 if x &gt;=3D y, and 0 otherwise. The execution ti=
+me of this<br>
+&gt; ++// function does not depend on its inputs.<br>
+&gt; ++func ctGeq(x, y uint) choice {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // If x &lt; y, then x - y generates a carry.<b=
+r>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 _, carry :=3D bits.Sub(x, y, 0)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return not(choice(carry))<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++// nat represents an arbitrary natural number<br>
+&gt; ++//<br>
+&gt; ++// Each nat has an announced length, which is the number of limbs it=
+ has stored.<br>
+&gt; ++// Operations on this number are allowed to leak this length, but wi=
+ll not leak<br>
+&gt; ++// any information about the values contained in those limbs.<br>
+&gt; ++type nat struct {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // limbs is a little-endian representation in b=
+ase 2^W with<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // W =3D bits.UintSize - 1. The top bit is alwa=
+ys unset between operations.<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 //<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // The top bit is left unset to optimize Montgo=
+mery multiplication, in the<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // inner loop of exponentiation. Using fully sa=
+turated limbs would leave us<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // working with 129-bit numbers on 64-bit platf=
+orms, wasting a lot of space,<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // and thus time.<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 limbs []uint<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++// expand expands x to n limbs, leaving its value unchanged.<br>
+&gt; ++func (x *nat) expand(n int) *nat {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for len(x.limbs) &gt; n {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if x.limbs[len(x.li=
+mbs)-1] !=3D 0 {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 panic(&quot;rsa: internal error: shrinking nat&quot;)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 x.limbs =3D x.limbs=
+[:len(x.limbs)-1]<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 if cap(x.limbs) &lt; n {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 newLimbs :=3D make(=
+[]uint, n)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 copy(newLimbs, x.li=
+mbs)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 x.limbs =3D newLimb=
+s<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return x<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 extraLimbs :=3D x.limbs[len(x.limbs):n]<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for i :=3D range extraLimbs {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 extraLimbs[i] =3D 0=
+<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 x.limbs =3D x.limbs[:n]<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return x<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++// reset returns a zero nat of n limbs, reusing x&#39;s storage if n=
+ &lt;=3D cap(x.limbs).<br>
+&gt; ++func (x *nat) reset(n int) *nat {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 if cap(x.limbs) &lt; n {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 x.limbs =3D make([]=
+uint, n)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return x<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for i :=3D range x.limbs {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 x.limbs[i] =3D 0<br=
+>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 x.limbs =3D x.limbs[:n]<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return x<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++// clone returns a new nat, with the same value and announced length=
+ as x.<br>
+&gt; ++func (x *nat) clone() *nat {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 out :=3D &amp;nat{make([]uint, len(x.limbs))}<b=
+r>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 copy(out.limbs, x.limbs)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return out<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++// natFromBig creates a new natural number from a big.Int.<br>
+&gt; ++//<br>
+&gt; ++// The announced length of the resulting nat is based on the actual =
+bit size of<br>
+&gt; ++// the input, ignoring leading zeroes.<br>
+&gt; ++func natFromBig(x *big.Int) *nat {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 xLimbs :=3D x.Bits()<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 bitSize :=3D bigBitLen(x)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 requiredLimbs :=3D (bitSize + _W - 1) / _W<br>
+&gt; ++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 out :=3D &amp;nat{make([]uint, requiredLimbs)}<=
+br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 outI :=3D 0<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 shift :=3D 0<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for i :=3D range xLimbs {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 xi :=3D uint(xLimbs=
+[i])<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 out.limbs[outI] |=
+=3D (xi &lt;&lt; shift) &amp; _MASK<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 outI++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if outI =3D=3D requ=
+iredLimbs {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 return out<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 out.limbs[outI] =3D=
+ xi &gt;&gt; (_W - shift)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 shift++ // this ass=
+umes bits.UintSize - _W =3D 1<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if shift =3D=3D _W =
+{<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 shift =3D 0<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 outI++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return out<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++// fillBytes sets bytes to x as a zero-extended big-endian byte slic=
+e.<br>
+&gt; ++//<br>
+&gt; ++// If bytes is not long enough to contain the number or at least len=
+(x.limbs)-1<br>
+&gt; ++// limbs, or has zero length, fillBytes will panic.<br>
+&gt; ++func (x *nat) fillBytes(bytes []byte) []byte {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 if len(bytes) =3D=3D 0 {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 panic(&quot;nat: fi=
+llBytes invoked with too small buffer&quot;)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for i :=3D range bytes {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bytes[i] =3D 0<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 shift :=3D 0<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 outI :=3D len(bytes) - 1<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for i, limb :=3D range x.limbs {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 remainingBits :=3D =
+_W<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for remainingBits &=
+gt;=3D 8 {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 bytes[outI] |=3D byte(limb) &lt;&lt; shift<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 consumed :=3D 8 - shift<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 limb &gt;&gt;=3D consumed<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 remainingBits -=3D consumed<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 shift =3D 0<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 outI--<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 if outI &lt; 0 {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if limb !=3D 0 || i &lt; len(x.limbs=
+)-1 {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 panic(&q=
+uot;nat: fillBytes invoked with too small buffer&quot;)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return bytes<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bytes[outI] =3D byt=
+e(limb)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 shift =3D remaining=
+Bits<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return bytes<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++// natFromBytes converts a slice of big-endian bytes into a nat.<br>
+&gt; ++//<br>
+&gt; ++// The announced length of the output depends on the length of bytes=
+. Unlike<br>
+&gt; ++// big.Int, creating a nat will not remove leading zeros.<br>
+&gt; ++func natFromBytes(bytes []byte) *nat {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 bitSize :=3D len(bytes) * 8<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 requiredLimbs :=3D (bitSize + _W - 1) / _W<br>
+&gt; ++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 out :=3D &amp;nat{make([]uint, requiredLimbs)}<=
+br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 outI :=3D 0<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 shift :=3D 0<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for i :=3D len(bytes) - 1; i &gt;=3D 0; i-- {<b=
+r>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bi :=3D bytes[i]<br=
+>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 out.limbs[outI] |=
+=3D uint(bi) &lt;&lt; shift<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 shift +=3D 8<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if shift &gt;=3D _W=
+ {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 shift -=3D _W<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 out.limbs[outI] &amp;=3D _MASK<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 outI++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 if shift &gt; 0 {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 out.limbs[outI] =3D uint(bi) &gt;&gt=
+; (8 - shift)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return out<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++// cmpEq returns 1 if x =3D=3D y, and 0 otherwise.<br>
+&gt; ++//<br>
+&gt; ++// Both operands must have the same announced length.<br>
+&gt; ++func (x *nat) cmpEq(y *nat) choice {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // Eliminate bounds checks in the loop.<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 size :=3D len(x.limbs)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 xLimbs :=3D x.limbs[:size]<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 yLimbs :=3D y.limbs[:size]<br>
+&gt; ++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 equal :=3D yes<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for i :=3D 0; i &lt; size; i++ {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 equal &amp;=3D ctEq=
+(xLimbs[i], yLimbs[i])<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return equal<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++// cmpGeq returns 1 if x &gt;=3D y, and 0 otherwise.<br>
+&gt; ++//<br>
+&gt; ++// Both operands must have the same announced length.<br>
+&gt; ++func (x *nat) cmpGeq(y *nat) choice {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // Eliminate bounds checks in the loop.<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 size :=3D len(x.limbs)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 xLimbs :=3D x.limbs[:size]<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 yLimbs :=3D y.limbs[:size]<br>
+&gt; ++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 var c uint<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for i :=3D 0; i &lt; size; i++ {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 c =3D (xLimbs[i] - =
+yLimbs[i] - c) &gt;&gt; _W<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // If there was a carry, then subtracting y und=
+erflowed, so<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // x is not greater than or equal to y.<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return not(choice(c))<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++// assign sets x &lt;- y if on =3D=3D 1, and does nothing otherwise.=
+<br>
+&gt; ++//<br>
+&gt; ++// Both operands must have the same announced length.<br>
+&gt; ++func (x *nat) assign(on choice, y *nat) *nat {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // Eliminate bounds checks in the loop.<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 size :=3D len(x.limbs)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 xLimbs :=3D x.limbs[:size]<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 yLimbs :=3D y.limbs[:size]<br>
+&gt; ++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for i :=3D 0; i &lt; size; i++ {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 xLimbs[i] =3D ctSel=
+ect(on, yLimbs[i], xLimbs[i])<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return x<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++// add computes x +=3D y if on =3D=3D 1, and does nothing otherwise.=
+ It returns the<br>
+&gt; ++// carry of the addition regardless of on.<br>
+&gt; ++//<br>
+&gt; ++// Both operands must have the same announced length.<br>
+&gt; ++func (x *nat) add(on choice, y *nat) (c uint) {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // Eliminate bounds checks in the loop.<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 size :=3D len(x.limbs)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 xLimbs :=3D x.limbs[:size]<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 yLimbs :=3D y.limbs[:size]<br>
+&gt; ++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for i :=3D 0; i &lt; size; i++ {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 res :=3D xLimbs[i] =
++ yLimbs[i] + c<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 xLimbs[i] =3D ctSel=
+ect(on, res&amp;_MASK, xLimbs[i])<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 c =3D res &gt;&gt; =
+_W<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++// sub computes x -=3D y if on =3D=3D 1, and does nothing otherwise.=
+ It returns the<br>
+&gt; ++// borrow of the subtraction regardless of on.<br>
+&gt; ++//<br>
+&gt; ++// Both operands must have the same announced length.<br>
+&gt; ++func (x *nat) sub(on choice, y *nat) (c uint) {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // Eliminate bounds checks in the loop.<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 size :=3D len(x.limbs)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 xLimbs :=3D x.limbs[:size]<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 yLimbs :=3D y.limbs[:size]<br>
+&gt; ++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for i :=3D 0; i &lt; size; i++ {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 res :=3D xLimbs[i] =
+- yLimbs[i] - c<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 xLimbs[i] =3D ctSel=
+ect(on, res&amp;_MASK, xLimbs[i])<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 c =3D res &gt;&gt; =
+_W<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++// modulus is used for modular arithmetic, precomputing relevant con=
+stants.<br>
+&gt; ++//<br>
+&gt; ++// Moduli are assumed to be odd numbers. Moduli can also leak the ex=
+act<br>
+&gt; ++// number of bits needed to store their value, and are stored withou=
+t padding.<br>
+&gt; ++//<br>
+&gt; ++// Their actual value is still kept secret.<br>
+&gt; ++type modulus struct {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // The underlying natural number for this modul=
+us.<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 //<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // This will be stored without any padding, and=
+ shouldn&#39;t alias with any<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // other natural number being used.<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 nat=C2=A0 =C2=A0 =C2=A0*nat<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 leading int=C2=A0 // number of leading zeros in=
+ the modulus<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 m0inv=C2=A0 =C2=A0uint // -nat.limbs[0]=E2=81=
+=BB=C2=B9 mod _W<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++// minusInverseModW computes -x=E2=81=BB=C2=B9 mod _W with x odd.<br=
+>
+&gt; ++//<br>
+&gt; ++// This operation is used to precompute a constant involved in Montg=
+omery<br>
+&gt; ++// multiplication.<br>
+&gt; ++func minusInverseModW(x uint) uint {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // Every iteration of this loop doubles the lea=
+st-significant bits of<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // correct inverse in y. The first three bits a=
+re already correct (1=E2=81=BB=C2=B9 =3D 1,<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // 3=E2=81=BB=C2=B9 =3D 3, 5=E2=81=BB=C2=B9 =3D=
+ 5, and 7=E2=81=BB=C2=B9 =3D 7 mod 8), so doubling five times is enough<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // for 61 bits (and wastes only one iteration f=
+or 31 bits).<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 //<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // See <a href=3D"https://crypto.stackexchange.=
+com/a/47496" rel=3D"noreferrer" target=3D"_blank">https://crypto.stackexcha=
+nge.com/a/47496</a>.<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 y :=3D x<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for i :=3D 0; i &lt; 5; i++ {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 y =3D y * (2 - x*y)=
+<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return (1 &lt;&lt; _W) - (y &amp; _MASK)<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++// modulusFromNat creates a new modulus from a nat.<br>
+&gt; ++//<br>
+&gt; ++// The nat should be odd, nonzero, and the number of significant bit=
+s in the<br>
+&gt; ++// number should be leakable. The nat shouldn&#39;t be reused.<br>
+&gt; ++func modulusFromNat(nat *nat) *modulus {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 m :=3D &amp;modulus{}<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 m.nat =3D nat<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 size :=3D len(m.nat.limbs)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for m.nat.limbs[size-1] =3D=3D 0 {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 size--<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 m.nat.limbs =3D m.nat.limbs[:size]<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 m.leading =3D _W - bitLen(m.nat.limbs[size-1])<=
+br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 m.m0inv =3D minusInverseModW(m.nat.limbs[0])<br=
+>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return m<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++// bitLen is a version of bits.Len that only leaks the bit length of=
+ n, but not<br>
+&gt; ++// its value. bits.Len and bits.LeadingZeros use a lookup table for =
+the<br>
+&gt; ++// low-order bits on some architectures.<br>
+&gt; ++func bitLen(n uint) int {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 var len int<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // We assume, here and elsewhere, that comparis=
+on to zero is constant time<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // with respect to different non-zero values.<b=
+r>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for n !=3D 0 {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 len++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 n &gt;&gt;=3D 1<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return len<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++// bigBitLen is a version of big.Int.BitLen that only leaks the bit =
+length of x,<br>
+&gt; ++// but not its value. big.Int.BitLen uses bits.Len.<br>
+&gt; ++func bigBitLen(x *big.Int) int {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 xLimbs :=3D x.Bits()<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 fullLimbs :=3D len(xLimbs) - 1<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 topLimb :=3D uint(xLimbs[len(xLimbs)-1])<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return fullLimbs*bits.UintSize + bitLen(topLimb=
+)<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++// modulusSize returns the size of m in bytes.<br>
+&gt; ++func modulusSize(m *modulus) int {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 bits :=3D len(m.nat.limbs)*_W - int(m.leading)<=
+br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return (bits + 7) / 8<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++// shiftIn calculates x =3D x &lt;&lt; _W + y mod m.<br>
+&gt; ++//<br>
+&gt; ++// This assumes that x is already reduced mod m, and that y &lt; 2^_=
+W.<br>
+&gt; ++func (x *nat) shiftIn(y uint, m *modulus) *nat {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 d :=3D new(nat).resetFor(m)<br>
+&gt; ++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // Eliminate bounds checks in the loop.<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 size :=3D len(m.nat.limbs)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 xLimbs :=3D x.limbs[:size]<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 dLimbs :=3D d.limbs[:size]<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 mLimbs :=3D m.nat.limbs[:size]<br>
+&gt; ++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // Each iteration of this loop computes x =3D 2=
+x + b mod m, where b is a bit<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // from y. Effectively, it left-shifts x and ad=
+ds y one bit at a time,<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // reducing it every time.<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 //<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // To do the reduction, each iteration computes=
+ both 2x + b and 2x + b - m.<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // The next iteration (and finally the return l=
+ine) will use either result<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // based on whether the subtraction underflowed=
+.<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 needSubtraction :=3D no<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for i :=3D _W - 1; i &gt;=3D 0; i-- {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 carry :=3D (y &gt;&=
+gt; i) &amp; 1<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 var borrow uint<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for i :=3D 0; i &lt=
+; size; i++ {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 l :=3D ctSelect(needSubtraction, dLimbs[i], xLimbs[i])<br>
+&gt; ++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 res :=3D l&lt;&lt;1 + carry<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 xLimbs[i] =3D res &amp; _MASK<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 carry =3D res &gt;&gt; _W<br>
+&gt; ++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 res =3D xLimbs[i] - mLimbs[i] - borrow<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 dLimbs[i] =3D res &amp; _MASK<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 borrow =3D res &gt;&gt; _W<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // See modAdd for h=
+ow carry (aka overflow), borrow (aka underflow), and<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // needSubtraction =
+relate.<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 needSubtraction =3D=
+ ctEq(carry, borrow)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return x.assign(needSubtraction, d)<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++// mod calculates out =3D x mod m.<br>
+&gt; ++//<br>
+&gt; ++// This works regardless how large the value of x is.<br>
+&gt; ++//<br>
+&gt; ++// The output will be resized to the size of m and overwritten.<br>
+&gt; ++func (out *nat) mod(x *nat, m *modulus) *nat {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 out.resetFor(m)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // Working our way from the most significant to=
+ the least significant limb,<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // we can insert each limb at the least signifi=
+cant position, shifting all<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // previous limbs left by _W. This way each lim=
+b will get shifted by the<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // correct number of bits. We can insert at lea=
+st N - 1 limbs without<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // overflowing m. After that, we need to reduce=
+ every time we shift.<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 i :=3D len(x.limbs) - 1<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // For the first N - 1 limbs we can skip the ac=
+tual shifting and position<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // them at the shifted position, which starts a=
+t min(N - 2, i).<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 start :=3D len(m.nat.limbs) - 2<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 if i &lt; start {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 start =3D i<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for j :=3D start; j &gt;=3D 0; j-- {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 out.limbs[j] =3D x.=
+limbs[i]<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 i--<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // We shift in the remaining limbs, reducing mo=
+dulo m each time.<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for i &gt;=3D 0 {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 out.shiftIn(x.limbs=
+[i], m)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 i--<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return out<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++// expandFor ensures out has the right size to work with operations =
+modulo m.<br>
+&gt; ++//<br>
+&gt; ++// This assumes that out has as many or fewer limbs than m, or that =
+the extra<br>
+&gt; ++// limbs are all zero (which may happen when decoding a value that h=
+as leading<br>
+&gt; ++// zeroes in its bytes representation that spill over the limb thres=
+hold).<br>
+&gt; ++func (out *nat) expandFor(m *modulus) *nat {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return out.expand(len(m.nat.limbs))<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++// resetFor ensures out has the right size to work with operations m=
+odulo m.<br>
+&gt; ++//<br>
+&gt; ++// out is zeroed and may start at any size.<br>
+&gt; ++func (out *nat) resetFor(m *modulus) *nat {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return out.reset(len(m.nat.limbs))<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++// modSub computes x =3D x - y mod m.<br>
+&gt; ++//<br>
+&gt; ++// The length of both operands must be the same as the modulus. Both=
+ operands<br>
+&gt; ++// must already be reduced modulo m.<br>
+&gt; ++func (x *nat) modSub(y *nat, m *modulus) *nat {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 underflow :=3D x.sub(yes, y)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // If the subtraction underflowed, add m.<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 x.add(choice(underflow), m.nat)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return x<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++// modAdd computes x =3D x + y mod m.<br>
+&gt; ++//<br>
+&gt; ++// The length of both operands must be the same as the modulus. Both=
+ operands<br>
+&gt; ++// must already be reduced modulo m.<br>
+&gt; ++func (x *nat) modAdd(y *nat, m *modulus) *nat {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 overflow :=3D x.add(yes, y)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 underflow :=3D not(x.cmpGeq(m.nat)) // x &lt; m=
+<br>
+&gt; ++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // Three cases are possible:<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 //<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 //=C2=A0 =C2=A0- overflow =3D 0, underflow =3D =
+0<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 //<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // In this case, addition fits in our limbs, bu=
+t we can still subtract away<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // m without an underflow, so we need to perfor=
+m the subtraction to reduce<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // our result.<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 //<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 //=C2=A0 =C2=A0- overflow =3D 0, underflow =3D =
+1<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 //<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // The addition fits in our limbs, but we can&#=
+39;t subtract m without<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // underflowing. The result is already reduced.=
+<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 //<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 //=C2=A0 =C2=A0- overflow =3D 1, underflow =3D =
+1<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 //<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // The addition does not fit in our limbs, and =
+the subtraction&#39;s borrow<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // would cancel out with the addition&#39;s car=
+ry. We need to subtract m to<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // reduce our result.<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 //<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // The overflow =3D 1, underflow =3D 0 case is =
+not possible, because y is at<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // most m - 1, and if adding m - 1 overflows, t=
+hen subtracting m must<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // necessarily underflow.<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 needSubtraction :=3D ctEq(overflow, uint(underf=
+low))<br>
+&gt; ++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 x.sub(needSubtraction, m.nat)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return x<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++// montgomeryRepresentation calculates x =3D x * R mod m, with R =3D=
+ 2^(_W * n) and<br>
+&gt; ++// n =3D len(m.nat.limbs).<br>
+&gt; ++//<br>
+&gt; ++// Faster Montgomery multiplication replaces standard modular multip=
+lication for<br>
+&gt; ++// numbers in this representation.<br>
+&gt; ++//<br>
+&gt; ++// This assumes that x is already reduced mod m.<br>
+&gt; ++func (x *nat) montgomeryRepresentation(m *modulus) *nat {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for i :=3D 0; i &lt; len(m.nat.limbs); i++ {<br=
+>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 x.shiftIn(0, m) // =
+x =3D x * 2^_W mod m<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return x<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++// montgomeryMul calculates d =3D a * b / R mod m, with R =3D 2^(_W =
+* n) and<br>
+&gt; ++// n =3D len(m.nat.limbs), using the Montgomery Multiplication techn=
+ique.<br>
+&gt; ++//<br>
+&gt; ++// All inputs should be the same length, not aliasing d, and already=
+<br>
+&gt; ++// reduced modulo m. d will be resized to the size of m and overwrit=
+ten.<br>
+&gt; ++func (d *nat) montgomeryMul(a *nat, b *nat, m *modulus) *nat {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // See <a href=3D"https://bearssl.org/bigint.ht=
+ml#montgomery-reduction-and-multiplication" rel=3D"noreferrer" target=3D"_b=
+lank">https://bearssl.org/bigint.html#montgomery-reduction-and-multiplicati=
+on</a><br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // for a description of the algorithm.<br>
+&gt; ++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // Eliminate bounds checks in the loop.<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 size :=3D len(m.nat.limbs)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 aLimbs :=3D a.limbs[:size]<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 bLimbs :=3D b.limbs[:size]<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 dLimbs :=3D d.resetFor(m).limbs[:size]<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 mLimbs :=3D m.nat.limbs[:size]<br>
+&gt; ++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 var overflow uint<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for i :=3D 0; i &lt; size; i++ {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f :=3D ((dLimbs[0] =
++ aLimbs[i]*bLimbs[0]) * m.m0inv) &amp; _MASK<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 carry :=3D uint(0)<=
+br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for j :=3D 0; j &lt=
+; size; j++ {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 // z =3D d[j] + a[i] * b[j] + f * m[j] + carry &lt;=3D 2^(2W+1) =
+- 2^(W+1) + 2^W<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 hi, lo :=3D bits.Mul(aLimbs[i], bLimbs[j])<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 z_lo, c :=3D bits.Add(dLimbs[j], lo, 0)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 z_hi, _ :=3D bits.Add(0, hi, c)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 hi, lo =3D bits.Mul(f, mLimbs[j])<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 z_lo, c =3D bits.Add(z_lo, lo, 0)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 z_hi, _ =3D bits.Add(z_hi, hi, c)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 z_lo, c =3D bits.Add(z_lo, carry, 0)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 z_hi, _ =3D bits.Add(z_hi, 0, c)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 if j &gt; 0 {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dLimbs[j-1] =3D z_lo &amp; _MASK<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 carry =3D z_hi&lt;&lt;1 | z_lo&gt;&gt;_W // carry &lt;=3D 2^(W+1=
+) - 2<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 z :=3D overflow + c=
+arry // z &lt;=3D 2^(W+1) - 1<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dLimbs[size-1] =3D =
+z &amp; _MASK<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 overflow =3D z &gt;=
+&gt; _W // overflow &lt;=3D 1<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // See modAdd for how overflow, underflow, and =
+needSubtraction relate.<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 underflow :=3D not(d.cmpGeq(m.nat)) // d &lt; m=
+<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 needSubtraction :=3D ctEq(overflow, uint(underf=
+low))<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 d.sub(needSubtraction, m.nat)<br>
+&gt; ++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return d<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++// modMul calculates x *=3D y mod m.<br>
+&gt; ++//<br>
+&gt; ++// x and y must already be reduced modulo m, they must share its ann=
+ounced<br>
+&gt; ++// length, and they may not alias.<br>
+&gt; ++func (x *nat) modMul(y *nat, m *modulus) *nat {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // A Montgomery multiplication by a value out o=
+f the Montgomery domain<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // takes the result out of Montgomery represent=
+ation.<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 xR :=3D x.clone().montgomeryRepresentation(m) /=
+/ xR =3D x * R mod m<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return x.montgomeryMul(xR, y, m)=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 // x =3D xR * y / R mod m<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++// exp calculates out =3D x^e mod m.<br>
+&gt; ++//<br>
+&gt; ++// The exponent e is represented in big-endian order. The output wil=
+l be resized<br>
+&gt; ++// to the size of m and overwritten. x must already be reduced modul=
+o m.<br>
+&gt; ++func (out *nat) exp(x *nat, e []byte, m *modulus) *nat {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // We use a 4 bit window. For our RSA workload,=
+ 4 bit windows are faster<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // than 2 bit windows, but use an extra 12 nats=
+ worth of scratch space.<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // Using bit sizes that don&#39;t divide 8 are =
+more complex to implement.<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 table :=3D make([]*nat, (1&lt;&lt;4)-1) // tabl=
+e[i] =3D x ^ (i+1)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 table[0] =3D x.clone().montgomeryRepresentation=
+(m)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for i :=3D 1; i &lt; len(table); i++ {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 table[i] =3D new(na=
+t).expandFor(m)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 table[i].montgomery=
+Mul(table[i-1], table[0], m)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 out.resetFor(m)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 out.limbs[0] =3D 1<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 out.montgomeryRepresentation(m)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 t0 :=3D new(nat).expandFor(m)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 t1 :=3D new(nat).expandFor(m)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for _, b :=3D range e {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for _, j :=3D range=
+ []int{4, 0} {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 // Square four times.<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 t1.montgomeryMul(out, out, m)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 out.montgomeryMul(t1, t1, m)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 t1.montgomeryMul(out, out, m)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 out.montgomeryMul(t1, t1, m)<br>
+&gt; ++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 // Select x^k in constant time from the table.<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 k :=3D uint((b &gt;&gt; j) &amp; 0b1111)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 for i :=3D range table {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 t0.assign(ctEq(k, uint(i+1)), table[=
+i])<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 }<br>
+&gt; ++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 // Multiply by x^k, discarding the result if k =3D 0.<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 t1.montgomeryMul(out, t0, m)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 out.assign(not(ctEq(k, 0)), t1)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // By Montgomery multiplying with 1 not in Mont=
+gomery representation, we<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // convert out back from Montgomery representat=
+ion, because it works out to<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // dividing by R.<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 t0.assign(yes, out)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 t1.resetFor(m)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 t1.limbs[0] =3D 1<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 out.montgomeryMul(t0, t1, m)<br>
+&gt; ++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return out<br>
+&gt; ++}<br>
+&gt; +diff --git a/src/crypto/rsa/nat_test.go b/src/crypto/rsa/nat_test.go<=
+br>
+&gt; +new file mode 100644<br>
+&gt; +index 0000000..3e6eb10<br>
+&gt; +--- /dev/null<br>
+&gt; ++++ b/src/crypto/rsa/nat_test.go<br>
+&gt; +@@ -0,0 +1,384 @@<br>
+&gt; ++// Copyright 2021 The Go Authors. All rights reserved.<br>
+&gt; ++// Use of this source code is governed by a BSD-style<br>
+&gt; ++// license that can be found in the LICENSE file.<br>
+&gt; ++<br>
+&gt; ++package rsa<br>
+&gt; ++<br>
+&gt; ++import (<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 &quot;bytes&quot;<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 &quot;math/big&quot;<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 &quot;math/bits&quot;<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 &quot;math/rand&quot;<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 &quot;reflect&quot;<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 &quot;testing&quot;<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 &quot;testing/quick&quot;<br>
+&gt; ++)<br>
+&gt; ++<br>
+&gt; ++// Generate generates an even nat. It&#39;s used by testing/quick to=
+ produce random<br>
+&gt; ++// *nat values for quick.Check invocations.<br>
+&gt; ++func (*nat) Generate(r *rand.Rand, size int) reflect.Value {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 limbs :=3D make([]uint, size)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for i :=3D 0; i &lt; size; i++ {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 limbs[i] =3D uint(r=
+.Uint64()) &amp; ((1 &lt;&lt; _W) - 2)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return reflect.ValueOf(&amp;nat{limbs})<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++func testModAddCommutative(a *nat, b *nat) bool {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 mLimbs :=3D make([]uint, len(a.limbs))<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for i :=3D 0; i &lt; len(mLimbs); i++ {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mLimbs[i] =3D _MASK=
+<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 m :=3D modulusFromNat(&amp;nat{mLimbs})<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 aPlusB :=3D a.clone()<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 aPlusB.modAdd(b, m)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 bPlusA :=3D b.clone()<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 bPlusA.modAdd(a, m)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return aPlusB.cmpEq(bPlusA) =3D=3D 1<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++func TestModAddCommutative(t *testing.T) {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 err :=3D quick.Check(testModAddCommutative, &am=
+p;quick.Config{})<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 if err !=3D nil {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 t.Error(err)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++func testModSubThenAddIdentity(a *nat, b *nat) bool {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 mLimbs :=3D make([]uint, len(a.limbs))<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for i :=3D 0; i &lt; len(mLimbs); i++ {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mLimbs[i] =3D _MASK=
+<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 m :=3D modulusFromNat(&amp;nat{mLimbs})<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 original :=3D a.clone()<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 a.modSub(b, m)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 a.modAdd(b, m)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return a.cmpEq(original) =3D=3D 1<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++func TestModSubThenAddIdentity(t *testing.T) {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 err :=3D quick.Check(testModSubThenAddIdentity,=
+ &amp;quick.Config{})<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 if err !=3D nil {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 t.Error(err)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++func testMontgomeryRoundtrip(a *nat) bool {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 one :=3D &amp;nat{make([]uint, len(a.limbs))}<b=
+r>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 one.limbs[0] =3D 1<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 aPlusOne :=3D a.clone()<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 aPlusOne.add(1, one)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 m :=3D modulusFromNat(aPlusOne)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 monty :=3D a.clone()<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 monty.montgomeryRepresentation(m)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 aAgain :=3D monty.clone()<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 aAgain.montgomeryMul(monty, one, m)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return a.cmpEq(aAgain) =3D=3D 1<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++func TestMontgomeryRoundtrip(t *testing.T) {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 err :=3D quick.Check(testMontgomeryRoundtrip, &=
+amp;quick.Config{})<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 if err !=3D nil {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 t.Error(err)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++func TestFromBig(t *testing.T) {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 expected :=3D []byte{0x01, 0xff, 0xff, 0xff, 0x=
+ff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff}=
+<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 theBig :=3D new(big.Int).SetBytes(expected)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 actual :=3D natFromBig(theBig).fillBytes(make([=
+]byte, len(expected)))<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 if !bytes.Equal(actual, expected) {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 t.Errorf(&quot;%+x =
+!=3D %+x&quot;, actual, expected)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++func TestFillBytes(t *testing.T) {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 xBytes :=3D []byte{0xAA, 0xFF, 0x22, 0x33, 0x44=
+, 0x55, 0x66, 0x77, 0x88}<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 x :=3D natFromBytes(xBytes)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for l :=3D 20; l &gt;=3D len(xBytes); l-- {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 buf :=3D make([]byt=
+e, l)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rand.Read(buf)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 actual :=3D x.fillB=
+ytes(buf)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 expected :=3D make(=
+[]byte, l)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 copy(expected[l-len=
+(xBytes):], xBytes)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if !bytes.Equal(act=
+ual, expected) {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 t.Errorf(&quot;%d: %+v !=3D %+v&quot;, l, actual, expected)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for l :=3D len(xBytes) - 1; l &gt;=3D 0; l-- {<=
+br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (func() {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 defer func() {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if recover() =3D=3D nil {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 t.Errorf=
+(&quot;%d: expected panic&quot;, l)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 }()<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 x.fillBytes(make([]byte, l))<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 })()<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++func TestFromBytes(t *testing.T) {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 f :=3D func(xBytes []byte) bool {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if len(xBytes) =3D=
+=3D 0 {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 return true<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 actual :=3D natFrom=
+Bytes(xBytes).fillBytes(make([]byte, len(xBytes)))<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if !bytes.Equal(act=
+ual, xBytes) {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 t.Errorf(&quot;%+x !=3D %+x&quot;, actual, xBytes)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 return false<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return true<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 err :=3D quick.Check(f, &amp;quick.Config{})<br=
+>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 if err !=3D nil {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 t.Error(err)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 f([]byte{0xFF, 0x22, 0x33, 0x44, 0x55, 0x66, 0x=
+77, 0x88})<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 f(bytes.Repeat([]byte{0xFF}, _W))<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++func TestShiftIn(t *testing.T) {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 if bits.UintSize !=3D 64 {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 t.Skip(&quot;exampl=
+es are only valid in 64 bit&quot;)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 examples :=3D []struct {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 m, x, expected []by=
+te<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 y=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uint64<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }{{<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 m:=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 []byte{13},<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 x:=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 []byte{0},<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 y:=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 0x7FFF_FFFF_FFFF_FFFF,<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 expected: []byte{7}=
+,<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }, {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 m:=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 []byte{13},<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 x:=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 []byte{7},<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 y:=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 0x7FFF_FFFF_FFFF_FFFF,<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 expected: []byte{11=
+},<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }, {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 m:=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 []byte{0x06, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0d},<br=
+>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 x:=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 make([]byte, 9),<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 y:=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 0x7FFF_FFFF_FFFF_FFFF,<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 expected: []byte{0x=
+00, 0x7f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff},<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }, {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 m:=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 []byte{0x06, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0d},<br=
+>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 x:=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 []byte{0x00, 0x7f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff},<br=
+>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 y:=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 0,<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 expected: []byte{0x=
+03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x08},<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }}<br>
+&gt; ++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for i, tt :=3D range examples {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 m :=3D modulusFromN=
+at(natFromBytes(tt.m))<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 got :=3D natFromByt=
+es(tt.x).expandFor(m).shiftIn(uint(tt.y), m)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if got.cmpEq(natFro=
+mBytes(tt.expected).expandFor(m)) !=3D 1 {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 t.Errorf(&quot;%d: got %x, expected %x&quot;, i, got, tt.expecte=
+d)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++func TestModulusAndNatSizes(t *testing.T) {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // These are 126 bit (2 * _W on 64-bit architec=
+tures) values, serialized as<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // 128 bits worth of bytes. If leading zeroes a=
+re stripped, they fit in two<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // limbs, if they are not, they fit in three. T=
+his can be a problem because<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // modulus strips leading zeroes and nat does n=
+ot.<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 m :=3D modulusFromNat(natFromBytes([]byte{<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x3f, 0xff, 0xff, 0=
+xff, 0xff, 0xff, 0xff, 0xff,<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0xff, 0xff, 0xff, 0=
+xff, 0xff, 0xff, 0xff, 0xff}))<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 x :=3D natFromBytes([]byte{<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x3f, 0xff, 0xff, 0=
+xff, 0xff, 0xff, 0xff, 0xff,<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0xff, 0xff, 0xff, 0=
+xff, 0xff, 0xff, 0xff, 0xfe})<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 x.expandFor(m) // must not panic for shrinking<=
+br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++func TestExpand(t *testing.T) {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 sliced :=3D []uint{1, 2, 3, 4}<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 examples :=3D []struct {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 in=C2=A0 []uint<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 n=C2=A0 =C2=A0int<b=
+r>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 out []uint<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }{{<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 []uint{1, 2},<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 4,<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 []uint{1, 2, 0, 0},=
+<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }, {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sliced[:2],<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 4,<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 []uint{1, 2, 0, 0},=
+<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }, {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 []uint{1, 2},<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 2,<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 []uint{1, 2},<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }, {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 []uint{1, 2, 0},<br=
+>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 2,<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 []uint{1, 2},<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }}<br>
+&gt; ++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for i, tt :=3D range examples {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 got :=3D (&amp;nat{=
+<a href=3D"http://tt.in" rel=3D"noreferrer" target=3D"_blank">tt.in</a>}).e=
+xpand(tt.n)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if len(got.limbs) !=
+=3D len(tt.out) || got.cmpEq(&amp;nat{tt.out}) !=3D 1 {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 t.Errorf(&quot;%d: got %x, expected %x&quot;, i, got, tt.out)<br=
+>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++func TestMod(t *testing.T) {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 m :=3D modulusFromNat(natFromBytes([]byte{0x06,=
+ 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0d}))<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 x :=3D natFromBytes([]byte{0x40, 0x00, 0x00, 0x=
+00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01}=
+)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 out :=3D new(nat)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 out.mod(x, m)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 expected :=3D natFromBytes([]byte{0x04, 0x00, 0=
+x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x09})<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 if out.cmpEq(expected) !=3D 1 {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 t.Errorf(&quot;%+v =
+!=3D %+v&quot;, out, expected)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++func TestModSub(t *testing.T) {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 m :=3D modulusFromNat(&amp;nat{[]uint{13}})<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 x :=3D &amp;nat{[]uint{6}}<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 y :=3D &amp;nat{[]uint{7}}<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 x.modSub(y, m)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 expected :=3D &amp;nat{[]uint{12}}<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 if x.cmpEq(expected) !=3D 1 {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 t.Errorf(&quot;%+v =
+!=3D %+v&quot;, x, expected)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 x.modSub(y, m)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 expected =3D &amp;nat{[]uint{5}}<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 if x.cmpEq(expected) !=3D 1 {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 t.Errorf(&quot;%+v =
+!=3D %+v&quot;, x, expected)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++func TestModAdd(t *testing.T) {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 m :=3D modulusFromNat(&amp;nat{[]uint{13}})<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 x :=3D &amp;nat{[]uint{6}}<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 y :=3D &amp;nat{[]uint{7}}<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 x.modAdd(y, m)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 expected :=3D &amp;nat{[]uint{0}}<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 if x.cmpEq(expected) !=3D 1 {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 t.Errorf(&quot;%+v =
+!=3D %+v&quot;, x, expected)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 x.modAdd(y, m)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 expected =3D &amp;nat{[]uint{7}}<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 if x.cmpEq(expected) !=3D 1 {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 t.Errorf(&quot;%+v =
+!=3D %+v&quot;, x, expected)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++func TestExp(t *testing.T) {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 m :=3D modulusFromNat(&amp;nat{[]uint{13}})<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 x :=3D &amp;nat{[]uint{3}}<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 out :=3D &amp;nat{[]uint{0}}<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 out.exp(x, []byte{12}, m)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 expected :=3D &amp;nat{[]uint{1}}<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 if out.cmpEq(expected) !=3D 1 {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 t.Errorf(&quot;%+v =
+!=3D %+v&quot;, out, expected)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++func makeBenchmarkModulus() *modulus {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 m :=3D make([]uint, 32)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for i :=3D 0; i &lt; 32; i++ {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 m[i] =3D _MASK<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return modulusFromNat(&amp;nat{limbs: m})<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++func makeBenchmarkValue() *nat {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 x :=3D make([]uint, 32)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for i :=3D 0; i &lt; 32; i++ {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 x[i] =3D _MASK - 1<=
+br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return &amp;nat{limbs: x}<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++func makeBenchmarkExponent() []byte {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 e :=3D make([]byte, 256)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for i :=3D 0; i &lt; 32; i++ {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 e[i] =3D 0xFF<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return e<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++func BenchmarkModAdd(b *testing.B) {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 x :=3D makeBenchmarkValue()<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 y :=3D makeBenchmarkValue()<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 m :=3D makeBenchmarkModulus()<br>
+&gt; ++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 b.ResetTimer()<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for i :=3D 0; i &lt; b.N; i++ {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 x.modAdd(y, m)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++func BenchmarkModSub(b *testing.B) {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 x :=3D makeBenchmarkValue()<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 y :=3D makeBenchmarkValue()<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 m :=3D makeBenchmarkModulus()<br>
+&gt; ++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 b.ResetTimer()<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for i :=3D 0; i &lt; b.N; i++ {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 x.modSub(y, m)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++func BenchmarkMontgomeryRepr(b *testing.B) {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 x :=3D makeBenchmarkValue()<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 m :=3D makeBenchmarkModulus()<br>
+&gt; ++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 b.ResetTimer()<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for i :=3D 0; i &lt; b.N; i++ {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 x.montgomeryReprese=
+ntation(m)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++func BenchmarkMontgomeryMul(b *testing.B) {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 x :=3D makeBenchmarkValue()<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 y :=3D makeBenchmarkValue()<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 out :=3D makeBenchmarkValue()<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 m :=3D makeBenchmarkModulus()<br>
+&gt; ++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 b.ResetTimer()<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for i :=3D 0; i &lt; b.N; i++ {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 out.montgomeryMul(x=
+, y, m)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++func BenchmarkModMul(b *testing.B) {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 x :=3D makeBenchmarkValue()<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 y :=3D makeBenchmarkValue()<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 m :=3D makeBenchmarkModulus()<br>
+&gt; ++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 b.ResetTimer()<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for i :=3D 0; i &lt; b.N; i++ {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 x.modMul(y, m)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++func BenchmarkExpBig(b *testing.B) {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 out :=3D new(big.Int)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 exponentBytes :=3D makeBenchmarkExponent()<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 x :=3D new(big.Int).SetBytes(exponentBytes)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 e :=3D new(big.Int).SetBytes(exponentBytes)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 n :=3D new(big.Int).SetBytes(exponentBytes)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 one :=3D new(big.Int).SetUint64(1)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 n.Add(n, one)<br>
+&gt; ++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 b.ResetTimer()<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for i :=3D 0; i &lt; b.N; i++ {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 out.Exp(x, e, n)<br=
+>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++}<br>
+&gt; ++<br>
+&gt; ++func BenchmarkExp(b *testing.B) {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 x :=3D makeBenchmarkValue()<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 e :=3D makeBenchmarkExponent()<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 out :=3D makeBenchmarkValue()<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 m :=3D makeBenchmarkModulus()<br>
+&gt; ++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 b.ResetTimer()<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for i :=3D 0; i &lt; b.N; i++ {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 out.exp(x, e, m)<br=
+>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++}<br>
+&gt; +diff --git a/src/crypto/rsa/pkcs1v15.go b/src/crypto/rsa/pkcs1v15.go<=
+br>
+&gt; +index 0cbd6d0..90233bb 100644<br>
+&gt; +--- a/src/crypto/rsa/pkcs1v15.go<br>
+&gt; ++++ b/src/crypto/rsa/pkcs1v15.go<br>
+&gt; +@@ -9,7 +9,6 @@ import (<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;crypto/subtle&quot;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;errors&quot;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;io&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 &quot;math/big&quot;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;crypto/internal/randutil&quot;<br>
+&gt; + )<br>
+&gt; +@@ -58,14 +57,11 @@ func EncryptPKCS1v15(rand io.Reader, pub *PublicK=
+ey, msg []byte) ([]byte, error)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0em[len(em)-len(msg)-1] =3D 0<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0copy(mm, msg)<br>
+&gt; +<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 m :=3D new(big.Int).SetBytes(em)<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 c :=3D encrypt(new(big.Int), pub, m)<br>
+&gt; +-<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 return c.FillBytes(em), nil<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return encrypt(pub, em), nil<br>
+&gt; + }<br>
+&gt; +<br>
+&gt; + // DecryptPKCS1v15 decrypts a plaintext using RSA and the padding sc=
+heme from PKCS #1 v1.5.<br>
+&gt; +-// If rand !=3D nil, it uses RSA blinding to avoid timing side-chann=
+el attacks.<br>
+&gt; ++// The random parameter is legacy and ignored, and it can be as nil.=
+<br>
+&gt; + //<br>
+&gt; + // Note that whether this function returns an error or not discloses=
+ secret<br>
+&gt; + // information. If an attacker can cause this function to run repeat=
+edly and<br>
+&gt; +@@ -76,7 +72,7 @@ func DecryptPKCS1v15(rand io.Reader, priv *PrivateK=
+ey, ciphertext []byte) ([]byt<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if err :=3D checkPub(&amp;priv.PublicKey);=
+ err !=3D nil {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return nil, er=
+r<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 valid, out, index, err :=3D decryptPKCS1v15(ran=
+d, priv, ciphertext)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 valid, out, index, err :=3D decryptPKCS1v15(pri=
+v, ciphertext)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if err !=3D nil {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return nil, er=
+r<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +@@ -87,7 +83,7 @@ func DecryptPKCS1v15(rand io.Reader, priv *PrivateK=
+ey, ciphertext []byte) ([]byt<br>
+&gt; + }<br>
+&gt; +<br>
+&gt; + // DecryptPKCS1v15SessionKey decrypts a session key using RSA and th=
+e padding scheme from PKCS #1 v1.5.<br>
+&gt; +-// If rand !=3D nil, it uses RSA blinding to avoid timing side-chann=
+el attacks.<br>
+&gt; ++// The random parameter is legacy and ignored, and it can be as nil.=
+<br>
+&gt; + // It returns an error if the ciphertext is the wrong length or if t=
+he<br>
+&gt; + // ciphertext is greater than the public modulus. Otherwise, no erro=
+r is<br>
+&gt; + // returned. If the padding is valid, the resulting plaintext messag=
+e is copied<br>
+&gt; +@@ -114,7 +110,7 @@ func DecryptPKCS1v15SessionKey(rand io.Reader, pr=
+iv *PrivateKey, ciphertext []by<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ErrDecr=
+yption<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 valid, em, index, err :=3D decryptPKCS1v15(rand=
+, priv, ciphertext)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 valid, em, index, err :=3D decryptPKCS1v15(priv=
+, ciphertext)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if err !=3D nil {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return err<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +@@ -130,26 +126,24 @@ func DecryptPKCS1v15SessionKey(rand io.Reader, =
+priv *PrivateKey, ciphertext []by<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0return nil<br>
+&gt; + }<br>
+&gt; +<br>
+&gt; +-// decryptPKCS1v15 decrypts ciphertext using priv and blinds the ope=
+ration if<br>
+&gt; +-// rand is not nil. It returns one or zero in valid that indicates w=
+hether the<br>
+&gt; +-// plaintext was correctly structured. In either case, the plaintext=
+ is<br>
+&gt; +-// returned in em so that it may be read independently of whether it=
+ was valid<br>
+&gt; +-// in order to maintain constant memory access patterns. If the plai=
+ntext was<br>
+&gt; +-// valid then index contains the index of the original message in em=
+.<br>
+&gt; +-func decryptPKCS1v15(rand io.Reader, priv *PrivateKey, ciphertext []=
+byte) (valid int, em []byte, index int, err error) {<br>
+&gt; ++// decryptPKCS1v15 decrypts ciphertext using priv. It returns one or=
+ zero in<br>
+&gt; ++// valid that indicates whether the plaintext was correctly structur=
+ed.<br>
+&gt; ++// In either case, the plaintext is returned in em so that it may be=
+ read<br>
+&gt; ++// independently of whether it was valid in order to maintain consta=
+nt memory<br>
+&gt; ++// access patterns. If the plaintext was valid then index contains t=
+he index of<br>
+&gt; ++// the original message in em, to allow constant time padding remova=
+l.<br>
+&gt; ++func decryptPKCS1v15(priv *PrivateKey, ciphertext []byte) (valid int=
+, em []byte, index int, err error) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0k :=3D priv.Size()<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if k &lt; 11 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0err =3D ErrDec=
+ryption<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 c :=3D new(big.Int).SetBytes(ciphertext)<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 m, err :=3D decrypt(rand, priv, c)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 em, err =3D decrypt(priv, ciphertext)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if err !=3D nil {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 em =3D m.FillBytes(make([]byte, k))<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0firstByteIsZero :=3D subtle.ConstantTimeBy=
+teEq(em[0], 0)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0secondByteIsTwo :=3D subtle.ConstantTimeBy=
+teEq(em[1], 2)<br>
+&gt; +<br>
+&gt; +@@ -221,8 +215,7 @@ var hashPrefixes =3D map[crypto.Hash][]byte{<br>
+&gt; + // function. If hash is zero, hashed is signed directly. This isn&#3=
+9;t<br>
+&gt; + // advisable except for interoperability.<br>
+&gt; + //<br>
+&gt; +-// If rand is not nil then RSA blinding will be used to avoid timing=
+<br>
+&gt; +-// side-channel attacks.<br>
+&gt; ++// The random parameter is legacy and ignored, and it can be as nil.=
+<br>
+&gt; + //<br>
+&gt; + // This function is deterministic. Thus, if the set of possible<br>
+&gt; + // messages is small, an attacker may be able to build a map from<br=
+>
+&gt; +@@ -249,13 +242,7 @@ func SignPKCS1v15(rand io.Reader, priv *PrivateK=
+ey, hash crypto.Hash, hashed []b<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0copy(em[k-tLen:k-hashLen], prefix)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0copy(em[k-hashLen:k], hashed)<br>
+&gt; +<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 m :=3D new(big.Int).SetBytes(em)<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 c, err :=3D decryptAndCheck(rand, priv, m)<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 if err !=3D nil {<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return nil, err<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; +-<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 return c.FillBytes(em), nil<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return decryptAndCheck(priv, em)<br>
+&gt; + }<br>
+&gt; +<br>
+&gt; + // VerifyPKCS1v15 verifies an RSA PKCS #1 v1.5 signature.<br>
+&gt; +@@ -282,9 +269,7 @@ func VerifyPKCS1v15(pub *PublicKey, hash crypto.H=
+ash, hashed []byte, sig []byte)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ErrVeri=
+fication<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 c :=3D new(big.Int).SetBytes(sig)<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 m :=3D encrypt(new(big.Int), pub, c)<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 em :=3D m.FillBytes(make([]byte, k))<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 em :=3D encrypt(pub, sig)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0// EM =3D 0x00 || 0x01 || PS || 0x00 || T<=
+br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0ok :=3D subtle.ConstantTimeByteEq(em[0], 0=
+)<br>
+&gt; +diff --git a/src/crypto/rsa/pss.go b/src/crypto/rsa/pss.go<br>
+&gt; +index 814522d..aeb6148 100644<br>
+&gt; +--- a/src/crypto/rsa/pss.go<br>
+&gt; ++++ b/src/crypto/rsa/pss.go<br>
+&gt; +@@ -12,7 +12,6 @@ import (<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;errors&quot;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;hash&quot;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;io&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 &quot;math/big&quot;<br>
+&gt; + )<br>
+&gt; +<br>
+&gt; + // Per RFC 8017, Section 9.1<br>
+&gt; +@@ -207,19 +206,26 @@ func emsaPSSVerify(mHash, em []byte, emBits, sL=
+en int, hash hash.Hash) error {<br>
+&gt; + // Note that hashed must be the result of hashing the input message =
+using the<br>
+&gt; + // given hash function. salt is a random sequence of bytes whose len=
+gth will be<br>
+&gt; + // later used to verify the signature.<br>
+&gt; +-func signPSSWithSalt(rand io.Reader, priv *PrivateKey, hash crypto.H=
+ash, hashed, salt []byte) ([]byte, error) {<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 emBits :=3D priv.N.BitLen() - 1<br>
+&gt; ++func signPSSWithSalt(priv *PrivateKey, hash crypto.Hash, hashed, sal=
+t []byte) ([]byte, error) {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 emBits :=3D bigBitLen(priv.N) - 1<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0em, err :=3D emsaPSSEncode(hashed, emBits,=
+ salt, hash.New())<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if err !=3D nil {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return nil, er=
+r<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 m :=3D new(big.Int).SetBytes(em)<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 c, err :=3D decryptAndCheck(rand, priv, m)<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 if err !=3D nil {<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return nil, err<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // RFC 8017: &quot;Note that the octet length o=
+f EM will be one less than k if<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // modBits - 1 is divisible by 8 and equal to k=
+ otherwise, where k is the<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // length in octets of the RSA modulus n.&quot;=
+ =F0=9F=99=84<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 //<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // This is extremely annoying, as all other enc=
+rypt and decrypt inputs are<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // always the exact same size as the modulus. S=
+ince it only happens for<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // weird modulus sizes, fix it by padding ineff=
+iciently.<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 if emLen, k :=3D len(em), priv.Size(); emLen &l=
+t; k {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 emNew :=3D make([]b=
+yte, k)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 copy(emNew[k-emLen:=
+], em)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 em =3D emNew<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 s :=3D make([]byte, priv.Size())<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 return c.FillBytes(s), nil<br>
+&gt; ++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return decryptAndCheck(priv, em)<br>
+&gt; + }<br>
+&gt; +<br>
+&gt; + const (<br>
+&gt; +@@ -269,7 +275,7 @@ func SignPSS(rand io.Reader, priv *PrivateKey, ha=
+sh crypto.Hash, digest []byte,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0saltLength :=3D opts.saltLength()<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0switch saltLength {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0case PSSSaltLengthAuto:<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 saltLength =3D (pri=
+v.N.BitLen()-1+7)/8 - 2 - hash.Size()<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 saltLength =3D (big=
+BitLen(priv.N)-1+7)/8 - 2 - hash.Size()<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0case PSSSaltLengthEqualsHash:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0saltLength =3D=
+ hash.Size()<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +@@ -278,7 +284,7 @@ func SignPSS(rand io.Reader, priv *PrivateKey, ha=
+sh crypto.Hash, digest []byte,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if _, err :=3D io.ReadFull(rand, salt); er=
+r !=3D nil {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return nil, er=
+r<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 return signPSSWithSalt(rand, priv, hash, digest=
+, salt)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return signPSSWithSalt(priv, hash, digest, salt=
+)<br>
+&gt; + }<br>
+&gt; +<br>
+&gt; + // VerifyPSS verifies a PSS signature.<br>
+&gt; +@@ -291,13 +297,22 @@ func VerifyPSS(pub *PublicKey, hash crypto.Hash=
+, digest []byte, sig []byte, opts<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if len(sig) !=3D pub.Size() {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ErrVeri=
+fication<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 s :=3D new(big.Int).SetBytes(sig)<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 m :=3D encrypt(new(big.Int), pub, s)<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 emBits :=3D pub.N.BitLen() - 1<br>
+&gt; ++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 emBits :=3D bigBitLen(pub.N) - 1<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0emLen :=3D (emBits + 7) / 8<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 if m.BitLen() &gt; emLen*8 {<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return ErrVerificat=
+ion<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 em :=3D encrypt(pub, sig)<br>
+&gt; ++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // Like in signPSSWithSalt, deal with mismatche=
+s between emLen and the size<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // of the modulus. The spec would have us wire =
+emLen into the encoding<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // function, but we&#39;d rather always encode =
+to the size of the modulus and<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // then strip leading zeroes if necessary. This=
+ only happens for weird<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // modulus sizes anyway.<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for len(em) &gt; emLen &amp;&amp; len(em) &gt; =
+0 {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if em[0] !=3D 0 {<b=
+r>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 return ErrVerification<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 em =3D em[1:]<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 em :=3D m.FillBytes(make([]byte, emLen))<br>
+&gt; ++<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0return emsaPSSVerify(digest, em, emBits, o=
+pts.saltLength(), hash.New())<br>
+&gt; + }<br>
+&gt; +diff --git a/src/crypto/rsa/pss_test.go b/src/crypto/rsa/pss_test.go<=
+br>
+&gt; +index c3a6d46..d018b43 100644<br>
+&gt; +--- a/src/crypto/rsa/pss_test.go<br>
+&gt; ++++ b/src/crypto/rsa/pss_test.go<br>
+&gt; +@@ -233,7 +233,10 @@ func TestPSSSigning(t *testing.T) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; + }<br>
+&gt; +<br>
+&gt; +-func TestSignWithPSSSaltLengthAuto(t *testing.T) {<br>
+&gt; ++func TestPSS513(t *testing.T) {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // See Issue 42741, and separately, RFC 8017: &=
+quot;Note that the octet length of<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // EM will be one less than k if modBits - 1 is=
+ divisible by 8 and equal to<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // k otherwise, where k is the length in octets=
+ of the RSA modulus n.&quot;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0key, err :=3D GenerateKey(rand.Reader, 513=
+)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if err !=3D nil {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0t.Fatal(err)<b=
+r>
+&gt; +@@ -246,8 +249,9 @@ func TestSignWithPSSSaltLengthAuto(t *testing.T) =
+{<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if err !=3D nil {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0t.Fatal(err)<b=
+r>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 if len(signature) =3D=3D 0 {<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 t.Fatal(&quot;empty=
+ signature returned&quot;)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 err =3D VerifyPSS(&amp;key.PublicKey, crypto.SH=
+A256, digest[:], signature, nil)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 if err !=3D nil {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 t.Error(err)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; + }<br>
+&gt; +<br>
+&gt; +diff --git a/src/crypto/rsa/rsa.go b/src/crypto/rsa/rsa.go<br>
+&gt; +index 6fd59b3..20c1fe1 100644<br>
+&gt; +--- a/src/crypto/rsa/rsa.go<br>
+&gt; ++++ b/src/crypto/rsa/rsa.go<br>
+&gt; +@@ -19,13 +19,17 @@<br>
+&gt; + // over the public key primitive, the PrivateKey type implements the=
+<br>
+&gt; + // Decrypter and Signer interfaces from the crypto package.<br>
+&gt; + //<br>
+&gt; +-// The RSA operations in this package are not implemented using cons=
+tant-time algorithms.<br>
+&gt; ++// Operations in this package are implemented using constant-time al=
+gorithms,<br>
+&gt; ++// except for [GenerateKey], [PrivateKey.Precompute], and [PrivateKe=
+y.Validate].<br>
+&gt; ++// Every other operation only leaks the bit size of the involved val=
+ues, which<br>
+&gt; ++// all depend on the selected key size.<br>
+&gt; + package rsa<br>
+&gt; +<br>
+&gt; + import (<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;crypto&quot;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;crypto/rand&quot;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;crypto/subtle&quot;<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 &quot;encoding/binary&quot;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;errors&quot;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;hash&quot;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;io&quot;<br>
+&gt; +@@ -35,7 +39,6 @@ import (<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;crypto/internal/randutil&quot;<br>
+&gt; + )<br>
+&gt; +<br>
+&gt; +-var bigZero =3D big.NewInt(0)<br>
+&gt; + var bigOne =3D big.NewInt(1)<br>
+&gt; +<br>
+&gt; + // A PublicKey represents the public part of an RSA key.<br>
+&gt; +@@ -50,7 +53,7 @@ type PublicKey struct {<br>
+&gt; + // Size returns the modulus size in bytes. Raw signatures and cipher=
+texts<br>
+&gt; + // for or by this public key will have the same size.<br>
+&gt; + func (pub *PublicKey) Size() int {<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 return (pub.N.BitLen() + 7) / 8<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return (bigBitLen(pub.N) + 7) / 8<br>
+&gt; + }<br>
+&gt; +<br>
+&gt; + // Equal reports whether pub and x have the same value.<br>
+&gt; +@@ -384,10 +387,18 @@ func mgf1XOR(out []byte, hash hash.Hash, seed [=
+]byte) {<br>
+&gt; + // too large for the size of the public key.<br>
+&gt; + var ErrMessageTooLong =3D errors.New(&quot;crypto/rsa: message too l=
+ong for RSA public key size&quot;)<br>
+&gt; +<br>
+&gt; +-func encrypt(c *big.Int, pub *PublicKey, m *big.Int) *big.Int {<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 e :=3D big.NewInt(int64(pub.E))<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 c.Exp(m, e, pub.N)<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 return c<br>
+&gt; ++func encrypt(pub *PublicKey, plaintext []byte) []byte {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 N :=3D modulusFromNat(natFromBig(pub.N))<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 m :=3D natFromBytes(plaintext).expandFor(N)<br>
+&gt; ++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 e :=3D make([]byte, 8)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 binary.BigEndian.PutUint64(e, uint64(pub.E))<br=
+>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for len(e) &gt; 1 &amp;&amp; e[0] =3D=3D 0 {<br=
+>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 e =3D e[1:]<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 out :=3D make([]byte, modulusSize(N))<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return new(nat).exp(m, e, N).fillBytes(out)<br>
+&gt; + }<br>
+&gt; +<br>
+&gt; + // EncryptOAEP encrypts the given message with RSA-OAEP.<br>
+&gt; +@@ -437,12 +448,7 @@ func EncryptOAEP(hash hash.Hash, random io.Reade=
+r, pub *PublicKey, msg []byte, l<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0mgf1XOR(db, hash, seed)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0mgf1XOR(seed, hash, db)<br>
+&gt; +<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 m :=3D new(big.Int)<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 m.SetBytes(em)<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 c :=3D encrypt(new(big.Int), pub, m)<br>
+&gt; +-<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 out :=3D make([]byte, k)<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 return c.FillBytes(out), nil<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return encrypt(pub, em), nil<br>
+&gt; + }<br>
+&gt; +<br>
+&gt; + // ErrDecryption represents a failure to decrypt a message.<br>
+&gt; +@@ -484,98 +490,70 @@ func (priv *PrivateKey) Precompute() {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; + }<br>
+&gt; +<br>
+&gt; +-// decrypt performs an RSA decryption, resulting in a plaintext inte=
+ger. If a<br>
+&gt; +-// random source is given, RSA blinding is used.<br>
+&gt; +-func decrypt(random io.Reader, priv *PrivateKey, c *big.Int) (m *big=
+.Int, err error) {<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 // TODO(agl): can we get away with reusing blin=
+ds?<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 if c.Cmp(priv.N) &gt; 0 {<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 err =3D ErrDecrypti=
+on<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return<br>
+&gt; ++// decrypt performs an RSA decryption of ciphertext into out.<br>
+&gt; ++func decrypt(priv *PrivateKey, ciphertext []byte) ([]byte, error) {<=
+br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 N :=3D modulusFromNat(natFromBig(priv.N))<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 c :=3D natFromBytes(ciphertext).expandFor(N)<br=
+>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 if c.cmpGeq(N.nat) =3D=3D 1 {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return nil, ErrDecr=
+yption<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if priv.N.Sign() =3D=3D 0 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return nil, Er=
+rDecryption<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 var ir *big.Int<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 if random !=3D nil {<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 randutil.MaybeReadB=
+yte(random)<br>
+&gt; +-<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // Blinding enabled=
+. Blinding involves multiplying c by r^e.<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // Then the decrypt=
+ion operation performs (m^e * r^e)^d mod n<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // which equals mr =
+mod n. The factor of r can then be removed<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // by multiplying b=
+y the multiplicative inverse of r.<br>
+&gt; +-<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 var r *big.Int<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ir =3D new(big.Int)=
+<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for {<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 r, err =3D rand.Int(random, priv.N)<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 if err !=3D nil {<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 }<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 if r.Cmp(bigZero) =3D=3D 0 {<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 r =3D bigOne<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 }<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 ok :=3D ir.ModInverse(r, priv.N)<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 if ok !=3D nil {<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 }<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bigE :=3D big.NewIn=
+t(int64(priv.E))<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rpowe :=3D new(big.=
+Int).Exp(r, bigE, priv.N) // N !=3D 0<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cCopy :=3D new(big.=
+Int).Set(c)<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cCopy.Mul(cCopy, rp=
+owe)<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cCopy.Mod(cCopy, pr=
+iv.N)<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 c =3D cCopy<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; +-<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // Note that because our private decryption exp=
+onents are stored as big.Int,<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // we potentially leak the exact number of bits=
+ of these exponents. This<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // isn&#39;t great, but should be fine.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if priv.Precomputed.Dp =3D=3D nil {<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 m =3D new(big.Int).=
+Exp(c, priv.D, priv.N)<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 } else {<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // We have the prec=
+alculated values needed for the CRT.<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 m =3D new(big.Int).=
+Exp(c, priv.Precomputed.Dp, priv.Primes[0])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 m2 :=3D new(big.Int=
+).Exp(c, priv.Precomputed.Dq, priv.Primes[1])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 m.Sub(m, m2)<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if m.Sign() &lt; 0 =
+{<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 m.Add(m, priv.Primes[0])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 m.Mul(m, priv.Preco=
+mputed.Qinv)<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 m.Mod(m, priv.Prime=
+s[0])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 m.Mul(m, priv.Prime=
+s[1])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 m.Add(m, m2)<br>
+&gt; +-<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for i, values :=3D =
+range priv.Precomputed.CRTValues {<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 prime :=3D priv.Primes[2+i]<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 m2.Exp(c, values.Exp, prime)<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 m2.Sub(m2, m)<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 m2.Mul(m2, values.Coeff)<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 m2.Mod(m2, prime)<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 if m2.Sign() &lt; 0 {<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 m2.Add(m2, prime)<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 }<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 m2.Mul(m2, values.R)<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 m.Add(m, m2)<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; +-<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 if ir !=3D nil {<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // Unblind.<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 m.Mul(m, ir)<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 m.Mod(m, priv.N)<br=
+>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; +-<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 return<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 out :=3D make([]byt=
+e, modulusSize(N))<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return new(nat).exp=
+(c, priv.D.Bytes(), N).fillBytes(out), nil<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 t0 :=3D new(nat)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 P :=3D modulusFromNat(natFromBig(priv.Primes[0]=
+))<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 Q :=3D modulusFromNat(natFromBig(priv.Primes[1]=
+))<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // m =3D c ^ Dp mod p<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 m :=3D new(nat).exp(t0.mod(c, P), priv.Precompu=
+ted.Dp.Bytes(), P)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // m2 =3D c ^ Dq mod q<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 m2 :=3D new(nat).exp(t0.mod(c, Q), priv.Precomp=
+uted.Dq.Bytes(), Q)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // m =3D m - m2 mod p<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 m.modSub(t0.mod(m2, P), P)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // m =3D m * Qinv mod p<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 m.modMul(natFromBig(priv.Precomputed.Qinv).expa=
+ndFor(P), P)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // m =3D m * q mod N<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 m.expandFor(N).modMul(t0.mod(Q.nat, N), N)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 // m =3D m + m2 mod N<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 m.modAdd(m2.expandFor(N), N)<br>
+&gt; ++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 for i, values :=3D range priv.Precomputed.CRTVa=
+lues {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 p :=3D modulusFromN=
+at(natFromBig(priv.Primes[2+i]))<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // m2 =3D c ^ Exp m=
+od p<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 m2.exp(t0.mod(c, p)=
+, values.Exp.Bytes(), p)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // m2 =3D m2 - m mo=
+d p<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 m2.modSub(t0.mod(m,=
+ p), p)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // m2 =3D m2 * Coef=
+f mod p<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 m2.modMul(natFromBi=
+g(values.Coeff).expandFor(p), p)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // m2 =3D m2 * R mo=
+d N<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 R :=3D natFromBig(v=
+alues.R).expandFor(N)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 m2.expandFor(N).mod=
+Mul(R, N)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // m =3D m + m2 mod=
+ N<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 m.modAdd(m2, N)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; ++<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 out :=3D make([]byte, modulusSize(N))<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 return m.fillBytes(out), nil<br>
+&gt; + }<br>
+&gt; +<br>
+&gt; +-func decryptAndCheck(random io.Reader, priv *PrivateKey, c *big.Int)=
+ (m *big.Int, err error) {<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 m, err =3D decrypt(random, priv, c)<br>
+&gt; ++func decryptAndCheck(priv *PrivateKey, ciphertext []byte) (m []byte,=
+ err error) {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 m, err =3D decrypt(priv, ciphertext)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if err !=3D nil {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return nil, er=
+r<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0// In order to defend against errors in th=
+e CRT computation, m^e is<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0// calculated, which should match the orig=
+inal ciphertext.<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 check :=3D encrypt(new(big.Int), &amp;priv.Publ=
+icKey, m)<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 if c.Cmp(check) !=3D 0 {<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 check :=3D encrypt(&amp;priv.PublicKey, m)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 if subtle.ConstantTimeCompare(ciphertext, check=
+) !=3D 1 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return nil, er=
+rors.New(&quot;rsa: internal error&quot;)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0return m, nil<br>
+&gt; +@@ -587,9 +565,7 @@ func decryptAndCheck(random io.Reader, priv *Priv=
+ateKey, c *big.Int) (m *big.Int<br>
+&gt; + // Encryption and decryption of a given message must use the same ha=
+sh function<br>
+&gt; + // and sha256.New() is a reasonable choice.<br>
+&gt; + //<br>
+&gt; +-// The random parameter, if not nil, is used to blind the private-ke=
+y operation<br>
+&gt; +-// and avoid timing side-channel attacks. Blinding is purely interna=
+l to this<br>
+&gt; +-// function =E2=80=93 the random data need not match that used when =
+encrypting.<br>
+&gt; ++// The random parameter is legacy and ignored, and it can be as nil.=
+<br>
+&gt; + //<br>
+&gt; + // The label parameter must match the value given when encrypting. S=
+ee<br>
+&gt; + // EncryptOAEP for details.<br>
+&gt; +@@ -603,9 +579,7 @@ func DecryptOAEP(hash hash.Hash, random io.Reader=
+, priv *PrivateKey, ciphertext<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return nil, Er=
+rDecryption<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 c :=3D new(big.Int).SetBytes(ciphertext)<br>
+&gt; +-<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 m, err :=3D decrypt(random, priv, c)<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 em, err :=3D decrypt(priv, ciphertext)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if err !=3D nil {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return nil, er=
+r<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +@@ -614,10 +588,6 @@ func DecryptOAEP(hash hash.Hash, random io.Reade=
+r, priv *PrivateKey, ciphertext<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0lHash :=3D hash.Sum(nil)<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0hash.Reset()<br>
+&gt; +<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 // We probably leak the number of leading zeros=
+.<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 // It&#39;s not clear that we can do anything a=
+bout this.<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 em :=3D m.FillBytes(make([]byte, k))<br>
+&gt; +-<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0firstByteIsZero :=3D subtle.ConstantTimeBy=
+teEq(em[0], 0)<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0seed :=3D em[1 : hash.Size()+1]<br>
+&gt; +--<br>
+&gt; +2.40.0<br>
+&gt; --<br>
+&gt; 2.40.0<br>
+&gt;<br>
+&gt;<br>
+&gt; <br>
+&gt;<br>
+<br>
+<br>
+<br>
+</blockquote></div>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#195069): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/195069" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/195069</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/104217403/431=
+6185" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/104217403/4316185</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:yoann.congal@smile.fr" tar=
+get=3D"_blank">yoann.congal@smile.fr</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><br clear=3D"all"><br><span class=3D"gmail_signature_pre=
+fix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><div dir=3D"l=
+tr"><font face=3D"Raleway, regular">Yoann Congal</font><div><font face=3D"R=
+aleway, regular">Smile ECS - Tech expert<br></font></div></div></div></div>
+
+--0000000000003a8aa60610cd785d--
 
