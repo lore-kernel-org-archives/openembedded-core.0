@@ -1,79 +1,98 @@
-Return-Path: <michael.opdenacker@bootlin.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DCA0EC4828D
-	for <webhook@archiver.kernel.org>; Wed,  7 Feb 2024 21:59:21 +0000 (UTC)
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
- by mx.groups.io with SMTP id smtpd.web11.3029.1707343152298360061
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16A97C4828F
+	for <webhook@archiver.kernel.org>; Wed,  7 Feb 2024 22:09:22 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web10.3330.1707343754626202839
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Feb 2024 13:59:12 -0800
+ Wed, 07 Feb 2024 14:09:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Ja+9Gwd1;
- spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: michael.opdenacker@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 7AE3260003;
-	Wed,  7 Feb 2024 21:59:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1707343150;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=14LE16PrGUp8EseE0tkjAStpiztI5yE0EAvWmODvZCM=;
-	b=Ja+9Gwd1d66CMzJkcp3p0R0SxmPplWiilvx3EyInVNywvyLR4l7CQbBDyZbh/nhlxuLNlo
-	86HgGwKv/qrGZoIh7IhasIf34l6b6lrfh4vSJ5V5wHQMYHbLQmZjwGVAxEbWs7WrI26lgF
-	uPp+prVmb3ylR+HrODnRKjafR27UPGqsuIHqWnV87VGH9evq0gjD4FB1TYCaRvnDp4PFUi
-	DmtkMUw65TeoqfVIbp5yShwZwwSGx1x6VdPQs4yGVIx0Dn73fANE2Nem2JF4eEF7fWN4LA
-	qR5rbQG7r8OrURenI1/GeQepMcpkwIqmORb4jpEAI2wWNDpXXpmdV35PT8Dgtg==
-From: michael.opdenacker@bootlin.com
-To: openembedded-core@lists.openembedded.org
-Cc: Michael Opdenacker <michael.opdenacker@bootlin.com>
-Subject: [PATCH v2 2/4] alsa-tools: upgrade 1.2.5 -> 1.2.11
-Date: Wed,  7 Feb 2024 22:58:51 +0100
-Message-Id: <20240207215853.3605620-3-michael.opdenacker@bootlin.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240207215853.3605620-1-michael.opdenacker@bootlin.com>
-References: <20240207215853.3605620-1-michael.opdenacker@bootlin.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: michael.opdenacker@bootlin.com
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Rg8bF7Qm;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=lE9BOJW/;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018d859e31f7-4aa30a28-4950-437d-9bcf-49adb4f212f6-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1707343753; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
+	bh=n8vImLz0ykmBszLvhOOJV8uT0s8T5O8rRgo0UBxWEIA=;
+	b=Rg8bF7Qm4U8LyiROzPQJIA5jJ4ZZPRVK/W3aGLe1+kWB7LrRksz8G73+z0UN7/JG
+	O5rLdZrDVawOwWRv5pCJdLaF93HCcPaZUwwyNfKMdu0ETaVR2xWoYkRq6PnSOC/w7OI
+	9zWza4ZTgKxdWVqqIsJt2JNy4dRAStZ4n9Zvfg6s=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1707343753;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=n8vImLz0ykmBszLvhOOJV8uT0s8T5O8rRgo0UBxWEIA=;
+	b=lE9BOJW/VGby8tvyjIlPEdMHxzVNTvZgCoXxg4k2M4+J4W25linPYEV8gDHRM9rc
+	EqSdsOEs+TD1mwKwzkr6zz3RrlwG+Y6X4LyBn4VebRpDaDau2TykRmhQydU5gKVpggo
+	84BKsmBTtYzb72PgLbH3DM+03j9tWPwztmiW4O+I=
+From: patchtest@automation.yoctoproject.org
+To: michael.opdenacker@bootlin.com
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 3/4] alsa-ucm-conf: upgrade 1.2.10 -> 1.2.11
+In-Reply-To: 20240207214507.3603517-3-michael.opdenacker@bootlin.com
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018d859e31f7-4aa30a28-4950-437d-9bcf-49adb4f212f6-000000@us-west-2.amazonses.com>
+Date: Wed, 7 Feb 2024 22:09:13 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.02.07-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 Feb 2024 21:59:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195086
+ <openembedded-core@lists.openembedded.org>; Wed, 07 Feb 2024 22:09:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195090
 
-From: Michael Opdenacker <michael.opdenacker@bootlin.com>
+--NextPart
+Content-Type: text/plain
 
-- Upstream release update
-  See https://www.alsa-project.org/wiki/Detailed_changes_v1.2.10_v1.2.11
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
+---
+Testing patch /home/patchtest/share/mboxes/3-4-alsa-ucm-conf-upgrade-1.2.10---1.2.11.patch
+
+FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_off_by_presence)
+
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
 ---
 
-Changes in V2:
-- Fix commit title, correcting updated version for alsa-tools
----
- .../alsa/{alsa-tools_1.2.5.bb => alsa-tools_1.2.11.bb}          | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/alsa/{alsa-tools_1.2.5.bb => alsa-tools_1.2.11.bb} (97%)
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-tools_1.2.5.bb b/meta/recipes-multimedia/alsa/alsa-tools_1.2.11.bb
-similarity index 97%
-rename from meta/recipes-multimedia/alsa/alsa-tools_1.2.5.bb
-rename to meta/recipes-multimedia/alsa/alsa-tools_1.2.11.bb
-index 56acc84559..53868041c0 100644
---- a/meta/recipes-multimedia/alsa/alsa-tools_1.2.5.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-tools_1.2.11.bb
-@@ -14,7 +14,7 @@ LIC_FILES_CHKSUM = "file://hdsploader/COPYING;md5=59530bdf33659b29e73d4adb9f9f65
- 
- SRC_URI = "https://www.alsa-project.org/files/pub/tools/${BP}.tar.bz2"
- 
--SRC_URI[sha256sum] = "35a71027a01f4d7de4722e223520e940de68b3c570b6c671691567ae28f9893e"
-+SRC_URI[sha256sum] = "0915c9634a502fd3655ca9c574d259bc9e79983d91d45aeacff6f3c00f8ae3e9"
- 
- inherit autotools-brokensep pkgconfig
- # brokensep as as10k1 (and probably more) fail out of tree
--- 
-2.34.1
+--NextPart
 
+
+--NextPart--
 
