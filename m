@@ -1,139 +1,662 @@
-Return-Path: <uvv.mail@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72AA5C4828D
-	for <webhook@archiver.kernel.org>; Wed,  7 Feb 2024 11:13:01 +0000 (UTC)
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
- by mx.groups.io with SMTP id smtpd.web10.18123.1707304378907898271
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B67AC4828D
+	for <webhook@archiver.kernel.org>; Wed,  7 Feb 2024 11:29:11 +0000 (UTC)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+ by mx.groups.io with SMTP id smtpd.web10.18363.1707305346379491508
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Feb 2024 03:12:59 -0800
+ Wed, 07 Feb 2024 03:29:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=mpluGxiX;
- spf=pass (domain: gmail.com, ip: 209.85.219.170, mailfrom: uvv.mail@gmail.com)
-Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-dc6db13f1abso445244276.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 07 Feb 2024 03:12:58 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Aw67olBo;
+ spf=pass (domain: gmail.com, ip: 209.85.167.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-510faac8c57so373863e87.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 07 Feb 2024 03:29:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707304378; x=1707909178; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1707305344; x=1707910144; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=zSLg25dctXY0+gmmvdSiphJmKlT00gkY5iCxIsLTkfg=;
-        b=mpluGxiXNA0EjpoT1xtWRfmnT+yc4QqlPBQKSuc8yOv9rUVVMHw2xMp/2J5rI0IHG1
-         i27GYsF/S+pM8ogWfGhhQYr84Y01X7yM8haFnwExczIVEPS5Ra5Lmvg672CY4DnkvMMl
-         /xJLV8P2cgITvc8xr2PM7Wn2BAU2bspfWgnKQqfk5/Z4O6v6h91nXiFSj0EJqbxZ4ZUu
-         8s6vPLARYaCn8FuGqSUv7aaqzkF2Wnp7yF2aulZeTI9WR1Egtu6SUjHSM7yX8tbHTTGR
-         pYW4IbXMQFPwA2oOS7VBQ1Qo9sI8+n4ZEM7uyYIAx4lfm87V2B9+VWgUku3GtcHGEqAs
-         Y2UQ==
+        bh=pGvSfsq6Sd+Az5nAOX3+ucEnbN73xgBK+JGdY5AY76g=;
+        b=Aw67olBop27Z5N/z+1szOBgUedHPy/1OGlNg+pTF4oKJKFhyP7xqD+MOTZjxH8r2lL
+         uAu+z3qC65T7e+MMuSkpIJOAwRP6f6Flw/mwpLYnQRTDBjYchjR/1zPLGbRJvNiyncE2
+         HtGN0azx2uBUfdNKTFOzsktiGSRU+NMIq9dPcQaZj6P/t/aiG6J6k3rIVJktb7jDpijJ
+         GmQB/mB4kInZRK7J/NfKrwDixykcku+hv0p2m9rc9y4eDL0Jn5ExS6tbwzXfFFVhJ8mD
+         +E7nYSiSli2TP6xQSbUUcrbgVFCkx6arP5hTzV1iiFiQPjmKclqrdLQH3dKEzqOwrvnF
+         2sig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707304378; x=1707909178;
+        d=1e100.net; s=20230601; t=1707305344; x=1707910144;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=zSLg25dctXY0+gmmvdSiphJmKlT00gkY5iCxIsLTkfg=;
-        b=rQ86xQGJ/gGImX3pg05ovNkoFxaQDkDm3ynWb47NWYoKQ273jEH+1VGzFpWoJEjN5x
-         gUmrHqNLTy+p3A8vIURSIUIrIPwhrrD5MyZAq+Mms3lvInbmlH867R1vdVYyNpq0G0GQ
-         jW1OCfO6LhKvSwTfJ2UrOTQDZk5C97au3my1+Qo9oP9rn+m4r6T+40ahiStNRe/kKKbt
-         EZ8HaFfbzdp12bguJPCbPDgm2f4phWkUVZwgF6KM/gj2VB1mwsObZb8pmEuogAZsjYUY
-         iGTrcH04SI6cYyfTI9p5pNZ5o1G73L56YRRU3ukht1FMHUqBriyDhy8hO3+YV6t3x7TL
-         LQ4w==
-X-Gm-Message-State: AOJu0YzuP9jrprQq7SttUGV06uyCSTpmUdv5vDtncEdVq7CfYFknLHhq
-	yzDJgYQz16WCw0RCEP3Yx+412FUcJJZoIQ7d769HBp1PUMXHRx2Ee5c+ePFcQl2REAanXdOqFpy
-	eHBd30Qhmo9nNmwfNw/mt3zcESciwHyaPby8=
-X-Google-Smtp-Source: AGHT+IHTGH3hISYG6iPRAwPH6PlmPsy8LEP6Q3gKiMIfQG+27pUPW7c+0Mw5vpVzSMMjMTL8v46z2w8AHfeII2QgJug=
-X-Received: by 2002:a5b:604:0:b0:dc2:5674:b408 with SMTP id
- d4-20020a5b0604000000b00dc25674b408mr4188982ybq.57.1707304377917; Wed, 07 Feb
- 2024 03:12:57 -0800 (PST)
+        bh=pGvSfsq6Sd+Az5nAOX3+ucEnbN73xgBK+JGdY5AY76g=;
+        b=j5Y99Ru2nlFTmRz1pcF1TLnSDYei3tAHg9TseF77cP+jAxmwYgAYazwG61q9tLz+tt
+         OpArTVldhuUwB7mez67kR/LfjwaidobjVTTBjG2sM1QtLhwt1tsAuj7ETd8OkXCfO0ru
+         kP9G3SilhnvUg0IpNhZYnkHwTvPx4nDwX29SlJ0nE2AUaK7X4Kj2wb15vPHQ+54fnlN6
+         EpbxEEHIAIPRAILGgfGZAYvgIUXqF9u3xJ+tWewxcX1c3P6rCLJMK1y+jukMyHglOreF
+         5iPp5So8bq/L5iP+ManZH+8D/WOwjNM61t5jqEFhyHlqRbL48gNINBqQmNnLRYGMAaGf
+         D8Kw==
+X-Forwarded-Encrypted: i=1; AJvYcCW8iCQ/4YQiTXWHF6un0p3SpTxfo/p8Lr83iX41ipJgca0IJnOzj69fXYv8b9QdbKP1XVpMmNHr91Ui66g76JXUP3QXMDkg6Nqla/P6jmAnFCjeJl+RmMmA
+X-Gm-Message-State: AOJu0YxVodYUOaYdsuV8Gwb3jd+Vx5Kt+i3l6Oh3IYi3ar1XH+BM+d7Y
+	Fi/nlz3AFZIQPXEiMlEfmkMeAu/fZck7uxgZkGJWBA2Lxytrkbo67xt9Ybivg8CuF2oZRfqsnSQ
+	VK/cC4vGA6rIorT07YrC2oLfshFU=
+X-Google-Smtp-Source: AGHT+IG0TAPE9Uv3fkyv/96quvHpvcBHOEQzA2Xuh4p+x6RPXidwvjYIqhdFFse4JmZJyWitlr5IOKMo9n6mc/Go4CE=
+X-Received: by 2002:a19:6414:0:b0:510:a6d:d48a with SMTP id
+ y20-20020a196414000000b005100a6dd48amr3558469lfb.23.1707305344201; Wed, 07
+ Feb 2024 03:29:04 -0800 (PST)
 MIME-Version: 1.0
-References: <f5c320e4510ce97bc1e346103ef3f54cb70c5c01.1707118743.git.baruch@tkos.co.il>
-In-Reply-To: <f5c320e4510ce97bc1e346103ef3f54cb70c5c01.1707118743.git.baruch@tkos.co.il>
-From: Vyacheslav Yurkov <uvv.mail@gmail.com>
-Date: Wed, 7 Feb 2024 12:12:47 +0100
-Message-ID: <CAKHfEaiWBC2nQhxTp0Xs98xWpBy_rciCxYYNxKy0bevAjY50bA@mail.gmail.com>
-Subject: Re: [PATCH] overlayfs: add missing closing parenthesis in selftest
-To: Baruch Siach <baruch@tkos.co.il>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000f825070610c8c6cd"
+References: <20240207075127.1247940-1-akash.hadke27@gmail.com>
+In-Reply-To: <20240207075127.1247940-1-akash.hadke27@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 7 Feb 2024 12:28:53 +0100
+Message-ID: <CANNYZj8MynJANdJMLC8b-xNzbuc31mVM1oC_6x8TiTsWGkcDXg@mail.gmail.com>
+Subject: Re: [oe-core][master][PATCH] busybox: Use ISO 13400 timings in zcip
+To: akash hadke <akash.hadke27@gmail.com>
+Cc: akash hadke <akash.hadke@kpit.com>, openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000090770f0610c9004b"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 Feb 2024 11:13:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195049
+ <openembedded-core@lists.openembedded.org>; Wed, 07 Feb 2024 11:29:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195050
 
---000000000000f825070610c8c6cd
+--00000000000090770f0610c9004b
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Good catch, thanks.
+This doesn=E2=80=99t look like something oe-core should carry, can you prov=
+ide
+justification if you think otherwise?
 
-Slava
+Alex
 
-On Mon, Feb 5, 2024, 08:39 Baruch Siach <baruch@tkos.co.il> wrote:
+On Wed 7. Feb 2024 at 8.51, akash hadke <akash.hadke27@gmail.com> wrote:
 
-> Cc: Vyacheslav Yurkov <uvv.mail@gmail.com>
-> Signed-off-by: Baruch Siach <baruch@tkos.co.il>
+> From: akash hadke <akash.hadke@kpit.com>
+>
+> Add below patch to support DoIP/ISO 13400 timings busybox zcip
+>
+> 0001-zcip-add-support-for-DoIP-ISO-13400-timings.patch
+>
+> DoIP requires fast IP assignment, faster than what RFC 3927 can
+> guarantee, and so it defines its' own AutoIP timing parameters
+>
+> Add a compile-time option to use DoIP timing parameters instead of
+> default RFC 3927 parameters. This option is useful for use of zcip in
+> automotive use-cases. In pratice, it decreases AutoIP allocation time
+> from ~10s to ~2s, at the expense of less resilience to collisions
+>
+> Signed-off-by: akash hadke <akash.hadke@kpit.com>
+> Signed-off-by: Akash Hadke <akash.hadke27@gmail.com>
 > ---
->  meta-selftest/recipes-test/overlayfs-user/overlayfs-user.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  ...d-support-for-DoIP-ISO-13400-timings.patch | 189 ++++++++++++++++++
+>  meta/recipes-core/busybox/busybox_1.36.1.bb   |   1 +
+>  2 files changed, 190 insertions(+)
+>  create mode 100644
+> meta/recipes-core/busybox/busybox/0001-zcip-add-support-for-DoIP-ISO-1340=
+0-timings.patch
 >
-> diff --git a/meta-selftest/recipes-test/overlayfs-user/overlayfs-user.bb
-> b/meta-selftest/recipes-test/overlayfs-user/overlayfs-user.bb
-> index 88c8998cf9ee..3b59e3761977 100644
-> --- a/meta-selftest/recipes-test/overlayfs-user/overlayfs-user.bb
-> +++ b/meta-selftest/recipes-test/overlayfs-user/overlayfs-user.bb
-> @@ -18,5 +18,5 @@ do_install() {
+> diff --git
+> a/meta/recipes-core/busybox/busybox/0001-zcip-add-support-for-DoIP-ISO-13=
+400-timings.patch
+> b/meta/recipes-core/busybox/busybox/0001-zcip-add-support-for-DoIP-ISO-13=
+400-timings.patch
+> new file mode 100644
+> index 0000000000..4625ed8b2b
+> --- /dev/null
+> +++
+> b/meta/recipes-core/busybox/busybox/0001-zcip-add-support-for-DoIP-ISO-13=
+400-timings.patch
+> @@ -0,0 +1,189 @@
+> +From 0fd26ed084f08911ec692f0007542d926d657a66 Mon Sep 17 00:00:00 2001
+> +From: akash hadke <akash.hadke@kpit.com>
+> +Date: Mon, 5 Feb 2024 14:43:55 +0530
+> +Subject: [PATCH] zcip: add support for DoIP/ISO 13400 timings
+> +
+> +DoIP requires fast IP assignment, faster than what RFC 3927 can
+> +guarantee, and so it defines its' own AutoIP timing parameters
+> +
+> +Add a compile-time option to use DoIP timing parameters instead of
+> +default RFC 3927 parameters. This option is helpful for the use of zcip =
+in
+> +automotive use cases. In practice, it decreases AutoIP allocation time
+> +from ~10s to ~2s, at the expense of less resilience to collisions
+> +
+> +Upstream-Status: Submitted [
+> http://lists.busybox.net/pipermail/busybox/2024-February/090611.html]
+> +
+> +Signed-off-by: Ricardo Leite <ricardo.leite at criticaltechworks.com>
+> +Signed-off-by: akash hadke <akash.hadke@kpit.com>
+> +Signed-off-by: Akash Hadke <akash.hadke27@gmail.com>
+> +---
+> + configs/TEST_nommu_defconfig    |  1 +
+> + configs/TEST_noprintf_defconfig |  1 +
+> + configs/TEST_rh9_defconfig      |  1 +
+> + configs/android2_defconfig      |  1 +
+> + configs/android_502_defconfig   |  1 +
+> + configs/android_defconfig       |  1 +
+> + configs/android_ndk_defconfig   |  1 +
+> + configs/cygwin_defconfig        |  1 +
+> + configs/freebsd_defconfig       |  1 +
+> + networking/zcip.c               | 23 +++++++++++++++++++++++
+> + 10 files changed, 32 insertions(+)
+> +
+> +diff --git a/configs/TEST_nommu_defconfig b/configs/TEST_nommu_defconfig
+> +index 415f5a802..3f8ca40d7 100644
+> +--- a/configs/TEST_nommu_defconfig
+> ++++ b/configs/TEST_nommu_defconfig
+> +@@ -769,6 +769,7 @@ CONFIG_FEATURE_WGET_STATUSBAR=3Dy
+> + CONFIG_FEATURE_WGET_AUTHENTICATION=3Dy
+> + CONFIG_FEATURE_WGET_LONG_OPTIONS=3Dy
+> + CONFIG_ZCIP=3Dy
+> ++# CONFIG_ZCIP_USE_ISO_13400_TIMINGS is not set
+> + CONFIG_TCPSVD=3Dy
+> + CONFIG_TUNCTL=3Dy
+> + CONFIG_FEATURE_TUNCTL_UG=3Dy
+> +diff --git a/configs/TEST_noprintf_defconfig
+> b/configs/TEST_noprintf_defconfig
+> +index 9b378fd55..5cfd5b3d7 100644
+> +--- a/configs/TEST_noprintf_defconfig
+> ++++ b/configs/TEST_noprintf_defconfig
+> +@@ -781,6 +781,7 @@ CONFIG_IFUPDOWN_UDHCPC_CMD_OPTIONS=3D""
+> + # CONFIG_FEATURE_WGET_AUTHENTICATION is not set
+> + # CONFIG_FEATURE_WGET_LONG_OPTIONS is not set
+> + # CONFIG_ZCIP is not set
+> ++# CONFIG_ZCIP_USE_ISO_13400_TIMINGS is not set
+> +
+> + #
+> + # Print Utilities
+> +diff --git a/configs/TEST_rh9_defconfig b/configs/TEST_rh9_defconfig
+> +index 4ac62b9da..1fe074e79 100644
+> +--- a/configs/TEST_rh9_defconfig
+> ++++ b/configs/TEST_rh9_defconfig
+> +@@ -791,6 +791,7 @@ CONFIG_FEATURE_WGET_AUTHENTICATION=3Dy
+> + CONFIG_FEATURE_WGET_LONG_OPTIONS=3Dy
+> + CONFIG_FEATURE_WGET_TIMEOUT=3Dy
+> + CONFIG_ZCIP=3Dy
+> ++# CONFIG_ZCIP_USE_ISO_13400_TIMINGS is not set
+> +
+> + #
+> + # Print Utilities
+> +diff --git a/configs/android2_defconfig b/configs/android2_defconfig
+> +index d4b8f1616..eceabbc20 100644
+> +--- a/configs/android2_defconfig
+> ++++ b/configs/android2_defconfig
+> +@@ -828,6 +828,7 @@ CONFIG_FEATURE_WGET_AUTHENTICATION=3Dy
+> + # CONFIG_FEATURE_WGET_LONG_OPTIONS is not set
+> + CONFIG_FEATURE_WGET_TIMEOUT=3Dy
+> + # CONFIG_ZCIP is not set
+> ++# CONFIG_ZCIP_USE_ISO_13400_TIMINGS is not set
+> +
+> + #
+> + # Print Utilities
+> +diff --git a/configs/android_502_defconfig b/configs/android_502_defconf=
+ig
+> +index 104e70f23..0ed60ae61 100644
+> +--- a/configs/android_502_defconfig
+> ++++ b/configs/android_502_defconfig
+> +@@ -968,6 +968,7 @@ CONFIG_IFUPDOWN_UDHCPC_CMD_OPTIONS=3D"-R -n"
+> + CONFIG_UDPSVD=3Dy
+> + CONFIG_VCONFIG=3Dy
+> + # CONFIG_ZCIP is not set
+> ++# CONFIG_ZCIP_USE_ISO_13400_TIMINGS is not set
+> +
+> + #
+> + # Print Utilities
+> +diff --git a/configs/android_defconfig b/configs/android_defconfig
+> +index 92a66048a..c1d38328b 100644
+> +--- a/configs/android_defconfig
+> ++++ b/configs/android_defconfig
+> +@@ -858,6 +858,7 @@ CONFIG_FEATURE_WGET_AUTHENTICATION=3Dy
+> + # CONFIG_FEATURE_WGET_LONG_OPTIONS is not set
+> + CONFIG_FEATURE_WGET_TIMEOUT=3Dy
+> + # CONFIG_ZCIP is not set
+> ++# CONFIG_ZCIP_USE_ISO_13400_TIMINGS is not set
+> +
+> + #
+> + # Print Utilities
+> +diff --git a/configs/android_ndk_defconfig b/configs/android_ndk_defconf=
+ig
+> +index 425593454..384304d46 100644
+> +--- a/configs/android_ndk_defconfig
+> ++++ b/configs/android_ndk_defconfig
+> +@@ -884,6 +884,7 @@ CONFIG_FEATURE_WGET_AUTHENTICATION=3Dy
+> + # CONFIG_FEATURE_WGET_LONG_OPTIONS is not set
+> + CONFIG_FEATURE_WGET_TIMEOUT=3Dy
+> + # CONFIG_ZCIP is not set
+> ++# CONFIG_ZCIP_USE_ISO_13400_TIMINGS is not set
+> +
+> + #
+> + # Print Utilities
+> +diff --git a/configs/cygwin_defconfig b/configs/cygwin_defconfig
+> +index 61e2c2463..6ed414b76 100644
+> +--- a/configs/cygwin_defconfig
+> ++++ b/configs/cygwin_defconfig
+> +@@ -831,6 +831,7 @@
+> + CONFIG_FEATURE_WGET_LONG_OPTIONS=3Dy
+> + CONFIG_FEATURE_WGET_TIMEOUT=3Dy
+> + # CONFIG_ZCIP is not set
+> ++# CONFIG_ZCIP_USE_ISO_13400_TIMINGS is not set
+> +
+> + #
+> + # Print Utilities
+> +diff --git a/configs/freebsd_defconfig b/configs/freebsd_defconfig
+> +index 6cbd54895..c09197be3 100644
+> +--- a/configs/freebsd_defconfig
+> ++++ b/configs/freebsd_defconfig
+> +@@ -810,6 +810,7 @@ CONFIG_FEATURE_WGET_AUTHENTICATION=3Dy
+> + CONFIG_FEATURE_WGET_LONG_OPTIONS=3Dy
+> + CONFIG_FEATURE_WGET_TIMEOUT=3Dy
+> + # CONFIG_ZCIP is not set
+> ++# CONFIG_ZCIP_USE_ISO_13400_TIMINGS is not set
+> +
+> + #
+> + # Print Utilities
+> +diff --git a/networking/zcip.c b/networking/zcip.c
+> +index 137d46e13..b955d6433 100644
+> +--- a/networking/zcip.c
+> ++++ b/networking/zcip.c
+> +@@ -24,6 +24,15 @@
+> + //config:
+> + //config:     See http://www.zeroconf.org for further details, and
+> "zcip.script"
+> + //config:     in the busybox examples.
+> ++//config:
+> ++//config:config ZCIP_USE_ISO_13400_TIMINGS
+> ++//config:     bool "Use ISO 13400 (DoIP) timings"
+> ++//config:     default y
+> ++//config:     depends on ZCIP
+> ++//config:     help
+> ++//config:     Use timings from ISO 13400-2 (for DoIP) instead of RFC
+> 3927,
+> ++//config:     which dramatically speeds up AutoIP allocation time at th=
+e
+> cost
+> ++//config:     of less resilience to collisions.
+> +
+> + //applet:IF_ZCIP(APPLET(zcip, BB_DIR_SBIN, BB_SUID_DROP))
+> +
+> +@@ -73,12 +82,26 @@ struct arp_packet {
+> + enum {
+> +       /* 0-1 seconds before sending 1st probe */
+> +       PROBE_WAIT =3D 1,
+> ++
+> ++#if ENABLE_ZCIP_USE_ISO_13400_TIMINGS
+> ++      /**
+> ++       * DoIP-specific timings, see ISO 13400-2, Section 9.1.2.2, Table
+> 15
+> ++       */
+> ++      /* 0-1 seconds between probes */
+> ++      PROBE_MIN =3D 0,
+> ++      PROBE_MAX =3D 1,
+> ++      PROBE_NUM =3D 1,          /* total probes to send */
+> ++      ANNOUNCE_INTERVAL =3D 1,  /* 1 seconds between announces */
+> ++      ANNOUNCE_NUM =3D 1,       /* announces to send */
+> ++#else
+> +       /* 1-2 seconds between probes */
+> +       PROBE_MIN =3D 1,
+> +       PROBE_MAX =3D 2,
+> +       PROBE_NUM =3D 3,          /* total probes to send */
+> +       ANNOUNCE_INTERVAL =3D 2,  /* 2 seconds between announces */
+> +       ANNOUNCE_NUM =3D 3,       /* announces to send */
+> ++#endif
+> ++
+> +       /* if probe/announce sees a conflict, multiply
+> RANDOM(NUM_CONFLICT) by... */
+> +       CONFLICT_MULTIPLIER =3D 2,
+> +       /* if we monitor and see a conflict, how long is defend state? */
+> +--
+> +2.25.1
+> +
+> diff --git a/meta/recipes-core/busybox/busybox_1.36.1.bb
+> b/meta/recipes-core/busybox/busybox_1.36.1.bb
+> index 06eb9eb999..3cc4796e05 100644
+> --- a/meta/recipes-core/busybox/busybox_1.36.1.bb
+> +++ b/meta/recipes-core/busybox/busybox_1.36.1.bb
+> @@ -50,6 +50,7 @@ SRC_URI =3D "
+> https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=3Dtarball \
 >
->  FILES:${PN} += "\
->      ${exec_prefix} \
-> -    ${sysconfdir \
-> +    ${sysconfdir} \
->  "
+> file://0001-libbb-sockaddr2str-ensure-only-printable-characters-.patch \
+>
+> file://0002-nslookup-sanitize-all-printed-strings-with-printable.patch \
+>             file://start-stop-false.patch \
+> +           file://0001-zcip-add-support-for-DoIP-ISO-13400-timings.patch=
+ \
+>             "
+>  SRC_URI:append:libc-musl =3D " file://musl.cfg "
+>  # TODO
+> http://lists.busybox.net/pipermail/busybox/2023-January/090078.html
 > --
-> 2.43.0
+> 2.25.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#195039):
+> https://lists.openembedded.org/g/openembedded-core/message/195039
+> Mute This Topic: https://lists.openembedded.org/mt/104214735/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> alex.kanavin@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
 >
 
---000000000000f825070610c8c6cd
+--00000000000090770f0610c9004b
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto"><div>Good catch, thanks.</div><div dir=3D"auto"><br></div=
-><div dir=3D"auto">Slava<br><br><div class=3D"gmail_quote" dir=3D"auto"><di=
-v dir=3D"ltr" class=3D"gmail_attr">On Mon, Feb 5, 2024, 08:39 Baruch Siach =
-&lt;<a href=3D"mailto:baruch@tkos.co.il" target=3D"_blank" rel=3D"noreferre=
-r">baruch@tkos.co.il</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
->Cc: Vyacheslav Yurkov &lt;<a href=3D"mailto:uvv.mail@gmail.com" rel=3D"nor=
-eferrer noreferrer" target=3D"_blank">uvv.mail@gmail.com</a>&gt;<br>
-Signed-off-by: Baruch Siach &lt;<a href=3D"mailto:baruch@tkos.co.il" rel=3D=
-"noreferrer noreferrer" target=3D"_blank">baruch@tkos.co.il</a>&gt;<br>
+<div dir=3D"auto">This doesn=E2=80=99t look like something oe-core should c=
+arry, can you provide justification if you think otherwise?</div><div dir=
+=3D"auto"><br></div><div dir=3D"auto">Alex</div><div><br><div class=3D"gmai=
+l_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed 7. Feb 2024 at 8.51, =
+akash hadke &lt;<a href=3D"mailto:akash.hadke27@gmail.com">akash.hadke27@gm=
+ail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;padd=
+ing-left:1ex;border-left-color:rgb(204,204,204)">From: akash hadke &lt;<a h=
+ref=3D"mailto:akash.hadke@kpit.com" target=3D"_blank">akash.hadke@kpit.com<=
+/a>&gt;<br>
+<br>
+Add below patch to support DoIP/ISO 13400 timings busybox zcip<br>
+<br>
+0001-zcip-add-support-for-DoIP-ISO-13400-timings.patch<br>
+<br>
+DoIP requires fast IP assignment, faster than what RFC 3927 can<br>
+guarantee, and so it defines its&#39; own AutoIP timing parameters<br>
+<br>
+Add a compile-time option to use DoIP timing parameters instead of<br>
+default RFC 3927 parameters. This option is useful for use of zcip in<br>
+automotive use-cases. In pratice, it decreases AutoIP allocation time<br>
+from ~10s to ~2s, at the expense of less resilience to collisions<br>
+<br>
+Signed-off-by: akash hadke &lt;<a href=3D"mailto:akash.hadke@kpit.com" targ=
+et=3D"_blank">akash.hadke@kpit.com</a>&gt;<br>
+Signed-off-by: Akash Hadke &lt;<a href=3D"mailto:akash.hadke27@gmail.com" t=
+arget=3D"_blank">akash.hadke27@gmail.com</a>&gt;<br>
 ---<br>
-=C2=A0meta-selftest/recipes-test/overlayfs-user/<a href=3D"http://overlayfs=
--user.bb" rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">overla=
-yfs-user.bb</a> | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+=C2=A0...d-support-for-DoIP-ISO-13400-timings.patch | 189 +++++++++++++++++=
++<br>
+=C2=A0meta/recipes-core/busybox/<a href=3D"http://busybox_1.36.1.bb" rel=3D=
+"noreferrer" target=3D"_blank">busybox_1.36.1.bb</a>=C2=A0 =C2=A0|=C2=A0 =
+=C2=A01 +<br>
+=C2=A02 files changed, 190 insertions(+)<br>
+=C2=A0create mode 100644 meta/recipes-core/busybox/busybox/0001-zcip-add-su=
+pport-for-DoIP-ISO-13400-timings.patch<br>
 <br>
-diff --git a/meta-selftest/recipes-test/overlayfs-user/<a href=3D"http://ov=
-erlayfs-user.bb" rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank"=
->overlayfs-user.bb</a> b/meta-selftest/recipes-test/overlayfs-user/<a href=
-=3D"http://overlayfs-user.bb" rel=3D"noreferrer noreferrer noreferrer" targ=
-et=3D"_blank">overlayfs-user.bb</a><br>
-index 88c8998cf9ee..3b59e3761977 100644<br>
---- a/meta-selftest/recipes-test/overlayfs-user/<a href=3D"http://overlayfs=
--user.bb" rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">overla=
-yfs-user.bb</a><br>
-+++ b/meta-selftest/recipes-test/overlayfs-user/<a href=3D"http://overlayfs=
--user.bb" rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">overla=
-yfs-user.bb</a><br>
-@@ -18,5 +18,5 @@ do_install() {<br>
+diff --git a/meta/recipes-core/busybox/busybox/0001-zcip-add-support-for-Do=
+IP-ISO-13400-timings.patch b/meta/recipes-core/busybox/busybox/0001-zcip-ad=
+d-support-for-DoIP-ISO-13400-timings.patch<br>
+new file mode 100644<br>
+index 0000000000..4625ed8b2b<br>
+--- /dev/null<br>
++++ b/meta/recipes-core/busybox/busybox/0001-zcip-add-support-for-DoIP-ISO-=
+13400-timings.patch<br>
+@@ -0,0 +1,189 @@<br>
++From 0fd26ed084f08911ec692f0007542d926d657a66 Mon Sep 17 00:00:00 2001<br>
++From: akash hadke &lt;<a href=3D"mailto:akash.hadke@kpit.com" target=3D"_b=
+lank">akash.hadke@kpit.com</a>&gt;<br>
++Date: Mon, 5 Feb 2024 14:43:55 +0530<br>
++Subject: [PATCH] zcip: add support for DoIP/ISO 13400 timings<br>
++<br>
++DoIP requires fast IP assignment, faster than what RFC 3927 can<br>
++guarantee, and so it defines its&#39; own AutoIP timing parameters<br>
++<br>
++Add a compile-time option to use DoIP timing parameters instead of<br>
++default RFC 3927 parameters. This option is helpful for the use of zcip in=
 <br>
-=C2=A0FILES:${PN} +=3D &quot;\<br>
-=C2=A0 =C2=A0 =C2=A0${exec_prefix} \<br>
--=C2=A0 =C2=A0 ${sysconfdir \<br>
-+=C2=A0 =C2=A0 ${sysconfdir} \<br>
-=C2=A0&quot;<br>
++automotive use cases. In practice, it decreases AutoIP allocation time<br>
++from ~10s to ~2s, at the expense of less resilience to collisions<br>
++<br>
++Upstream-Status: Submitted [<a href=3D"http://lists.busybox.net/pipermail/=
+busybox/2024-February/090611.html" rel=3D"noreferrer" target=3D"_blank">htt=
+p://lists.busybox.net/pipermail/busybox/2024-February/090611.html</a>]<br>
++<br>
++Signed-off-by: Ricardo Leite &lt;ricardo.leite at <a href=3D"http://critic=
+altechworks.com" rel=3D"noreferrer" target=3D"_blank">criticaltechworks.com=
+</a>&gt;<br>
++Signed-off-by: akash hadke &lt;<a href=3D"mailto:akash.hadke@kpit.com" tar=
+get=3D"_blank">akash.hadke@kpit.com</a>&gt;<br>
++Signed-off-by: Akash Hadke &lt;<a href=3D"mailto:akash.hadke27@gmail.com" =
+target=3D"_blank">akash.hadke27@gmail.com</a>&gt;<br>
++---<br>
++ configs/TEST_nommu_defconfig=C2=A0 =C2=A0 |=C2=A0 1 +<br>
++ configs/TEST_noprintf_defconfig |=C2=A0 1 +<br>
++ configs/TEST_rh9_defconfig=C2=A0 =C2=A0 =C2=A0 |=C2=A0 1 +<br>
++ configs/android2_defconfig=C2=A0 =C2=A0 =C2=A0 |=C2=A0 1 +<br>
++ configs/android_502_defconfig=C2=A0 =C2=A0|=C2=A0 1 +<br>
++ configs/android_defconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 1 +<br>
++ configs/android_ndk_defconfig=C2=A0 =C2=A0|=C2=A0 1 +<br>
++ configs/cygwin_defconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 1 +<br>
++ configs/freebsd_defconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 1 +<br>
++ networking/zcip.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+ 23 +++++++++++++++++++++++<br>
++ 10 files changed, 32 insertions(+)<br>
++<br>
++diff --git a/configs/TEST_nommu_defconfig b/configs/TEST_nommu_defconfig<b=
+r>
++index 415f5a802..3f8ca40d7 100644<br>
++--- a/configs/TEST_nommu_defconfig<br>
+++++ b/configs/TEST_nommu_defconfig<br>
++@@ -769,6 +769,7 @@ CONFIG_FEATURE_WGET_STATUSBAR=3Dy<br>
++ CONFIG_FEATURE_WGET_AUTHENTICATION=3Dy<br>
++ CONFIG_FEATURE_WGET_LONG_OPTIONS=3Dy<br>
++ CONFIG_ZCIP=3Dy<br>
+++# CONFIG_ZCIP_USE_ISO_13400_TIMINGS is not set<br>
++ CONFIG_TCPSVD=3Dy<br>
++ CONFIG_TUNCTL=3Dy<br>
++ CONFIG_FEATURE_TUNCTL_UG=3Dy<br>
++diff --git a/configs/TEST_noprintf_defconfig b/configs/TEST_noprintf_defco=
+nfig<br>
++index 9b378fd55..5cfd5b3d7 100644<br>
++--- a/configs/TEST_noprintf_defconfig<br>
+++++ b/configs/TEST_noprintf_defconfig<br>
++@@ -781,6 +781,7 @@ CONFIG_IFUPDOWN_UDHCPC_CMD_OPTIONS=3D&quot;&quot;<br>
++ # CONFIG_FEATURE_WGET_AUTHENTICATION is not set<br>
++ # CONFIG_FEATURE_WGET_LONG_OPTIONS is not set<br>
++ # CONFIG_ZCIP is not set<br>
+++# CONFIG_ZCIP_USE_ISO_13400_TIMINGS is not set<br>
++ <br>
++ #<br>
++ # Print Utilities<br>
++diff --git a/configs/TEST_rh9_defconfig b/configs/TEST_rh9_defconfig<br>
++index 4ac62b9da..1fe074e79 100644<br>
++--- a/configs/TEST_rh9_defconfig<br>
+++++ b/configs/TEST_rh9_defconfig<br>
++@@ -791,6 +791,7 @@ CONFIG_FEATURE_WGET_AUTHENTICATION=3Dy<br>
++ CONFIG_FEATURE_WGET_LONG_OPTIONS=3Dy<br>
++ CONFIG_FEATURE_WGET_TIMEOUT=3Dy<br>
++ CONFIG_ZCIP=3Dy<br>
+++# CONFIG_ZCIP_USE_ISO_13400_TIMINGS is not set<br>
++ <br>
++ #<br>
++ # Print Utilities<br>
++diff --git a/configs/android2_defconfig b/configs/android2_defconfig<br>
++index d4b8f1616..eceabbc20 100644<br>
++--- a/configs/android2_defconfig<br>
+++++ b/configs/android2_defconfig<br>
++@@ -828,6 +828,7 @@ CONFIG_FEATURE_WGET_AUTHENTICATION=3Dy<br>
++ # CONFIG_FEATURE_WGET_LONG_OPTIONS is not set<br>
++ CONFIG_FEATURE_WGET_TIMEOUT=3Dy<br>
++ # CONFIG_ZCIP is not set<br>
+++# CONFIG_ZCIP_USE_ISO_13400_TIMINGS is not set<br>
++ <br>
++ #<br>
++ # Print Utilities<br>
++diff --git a/configs/android_502_defconfig b/configs/android_502_defconfig=
+<br>
++index 104e70f23..0ed60ae61 100644<br>
++--- a/configs/android_502_defconfig<br>
+++++ b/configs/android_502_defconfig<br>
++@@ -968,6 +968,7 @@ CONFIG_IFUPDOWN_UDHCPC_CMD_OPTIONS=3D&quot;-R -n&quot;=
+<br>
++ CONFIG_UDPSVD=3Dy<br>
++ CONFIG_VCONFIG=3Dy<br>
++ # CONFIG_ZCIP is not set<br>
+++# CONFIG_ZCIP_USE_ISO_13400_TIMINGS is not set<br>
++ <br>
++ #<br>
++ # Print Utilities<br>
++diff --git a/configs/android_defconfig b/configs/android_defconfig<br>
++index 92a66048a..c1d38328b 100644<br>
++--- a/configs/android_defconfig<br>
+++++ b/configs/android_defconfig<br>
++@@ -858,6 +858,7 @@ CONFIG_FEATURE_WGET_AUTHENTICATION=3Dy<br>
++ # CONFIG_FEATURE_WGET_LONG_OPTIONS is not set<br>
++ CONFIG_FEATURE_WGET_TIMEOUT=3Dy<br>
++ # CONFIG_ZCIP is not set<br>
+++# CONFIG_ZCIP_USE_ISO_13400_TIMINGS is not set<br>
++ <br>
++ #<br>
++ # Print Utilities<br>
++diff --git a/configs/android_ndk_defconfig b/configs/android_ndk_defconfig=
+<br>
++index 425593454..384304d46 100644<br>
++--- a/configs/android_ndk_defconfig<br>
+++++ b/configs/android_ndk_defconfig<br>
++@@ -884,6 +884,7 @@ CONFIG_FEATURE_WGET_AUTHENTICATION=3Dy<br>
++ # CONFIG_FEATURE_WGET_LONG_OPTIONS is not set<br>
++ CONFIG_FEATURE_WGET_TIMEOUT=3Dy<br>
++ # CONFIG_ZCIP is not set<br>
+++# CONFIG_ZCIP_USE_ISO_13400_TIMINGS is not set<br>
++ <br>
++ #<br>
++ # Print Utilities<br>
++diff --git a/configs/cygwin_defconfig b/configs/cygwin_defconfig<br>
++index 61e2c2463..6ed414b76 100644<br>
++--- a/configs/cygwin_defconfig<br>
+++++ b/configs/cygwin_defconfig<br>
++@@ -831,6 +831,7 @@<br>
++ CONFIG_FEATURE_WGET_LONG_OPTIONS=3Dy<br>
++ CONFIG_FEATURE_WGET_TIMEOUT=3Dy<br>
++ # CONFIG_ZCIP is not set<br>
+++# CONFIG_ZCIP_USE_ISO_13400_TIMINGS is not set<br>
++ <br>
++ #<br>
++ # Print Utilities<br>
++diff --git a/configs/freebsd_defconfig b/configs/freebsd_defconfig<br>
++index 6cbd54895..c09197be3 100644<br>
++--- a/configs/freebsd_defconfig<br>
+++++ b/configs/freebsd_defconfig<br>
++@@ -810,6 +810,7 @@ CONFIG_FEATURE_WGET_AUTHENTICATION=3Dy<br>
++ CONFIG_FEATURE_WGET_LONG_OPTIONS=3Dy<br>
++ CONFIG_FEATURE_WGET_TIMEOUT=3Dy<br>
++ # CONFIG_ZCIP is not set<br>
+++# CONFIG_ZCIP_USE_ISO_13400_TIMINGS is not set<br>
++ <br>
++ #<br>
++ # Print Utilities<br>
++diff --git a/networking/zcip.c b/networking/zcip.c<br>
++index 137d46e13..b955d6433 100644<br>
++--- a/networking/zcip.c<br>
+++++ b/networking/zcip.c<br>
++@@ -24,6 +24,15 @@<br>
++ //config:<br>
++ //config:=C2=A0 =C2=A0 =C2=A0See <a href=3D"http://www.zeroconf.org" rel=
+=3D"noreferrer" target=3D"_blank">http://www.zeroconf.org</a> for further d=
+etails, and &quot;zcip.script&quot;<br>
++ //config:=C2=A0 =C2=A0 =C2=A0in the busybox examples.<br>
+++//config:<br>
+++//config:config ZCIP_USE_ISO_13400_TIMINGS<br>
+++//config:=C2=A0 =C2=A0 =C2=A0bool &quot;Use ISO 13400 (DoIP) timings&quot=
+;<br>
+++//config:=C2=A0 =C2=A0 =C2=A0default y<br>
+++//config:=C2=A0 =C2=A0 =C2=A0depends on ZCIP<br>
+++//config:=C2=A0 =C2=A0 =C2=A0help<br>
+++//config:=C2=A0 =C2=A0 =C2=A0Use timings from ISO 13400-2 (for DoIP) inst=
+ead of RFC 3927,<br>
+++//config:=C2=A0 =C2=A0 =C2=A0which dramatically speeds up AutoIP allocati=
+on time at the cost<br>
+++//config:=C2=A0 =C2=A0 =C2=A0of less resilience to collisions.<br>
++ <br>
++ //applet:IF_ZCIP(APPLET(zcip, BB_DIR_SBIN, BB_SUID_DROP))<br>
++ <br>
++@@ -73,12 +82,26 @@ struct arp_packet {<br>
++ enum {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0/* 0-1 seconds before sending 1st probe */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0PROBE_WAIT =3D 1,<br>
+++<br>
+++#if ENABLE_ZCIP_USE_ISO_13400_TIMINGS<br>
+++=C2=A0 =C2=A0 =C2=A0 /**<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0* DoIP-specific timings, see ISO 13400-2, Sect=
+ion 9.1.2.2, Table 15<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
+++=C2=A0 =C2=A0 =C2=A0 /* 0-1 seconds between probes */<br>
+++=C2=A0 =C2=A0 =C2=A0 PROBE_MIN =3D 0,<br>
+++=C2=A0 =C2=A0 =C2=A0 PROBE_MAX =3D 1,<br>
+++=C2=A0 =C2=A0 =C2=A0 PROBE_NUM =3D 1,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /=
+* total probes to send */<br>
+++=C2=A0 =C2=A0 =C2=A0 ANNOUNCE_INTERVAL =3D 1,=C2=A0 /* 1 seconds between =
+announces */<br>
+++=C2=A0 =C2=A0 =C2=A0 ANNOUNCE_NUM =3D 1,=C2=A0 =C2=A0 =C2=A0 =C2=A0/* ann=
+ounces to send */<br>
+++#else<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0/* 1-2 seconds between probes */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0PROBE_MIN =3D 1,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0PROBE_MAX =3D 2,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0PROBE_NUM =3D 3,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 /* total probes to send */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ANNOUNCE_INTERVAL =3D 2,=C2=A0 /* 2 seconds bet=
+ween announces */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ANNOUNCE_NUM =3D 3,=C2=A0 =C2=A0 =C2=A0 =C2=A0/=
+* announces to send */<br>
+++#endif<br>
+++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0/* if probe/announce sees a conflict, multiply =
+RANDOM(NUM_CONFLICT) by... */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0CONFLICT_MULTIPLIER =3D 2,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0/* if we monitor and see a conflict, how long i=
+s defend state? */<br>
++-- <br>
++2.25.1<br>
++<br>
+diff --git a/meta/recipes-core/busybox/<a href=3D"http://busybox_1.36.1.bb"=
+ rel=3D"noreferrer" target=3D"_blank">busybox_1.36.1.bb</a> b/meta/recipes-=
+core/busybox/<a href=3D"http://busybox_1.36.1.bb" rel=3D"noreferrer" target=
+=3D"_blank">busybox_1.36.1.bb</a><br>
+index 06eb9eb999..3cc4796e05 100644<br>
+--- a/meta/recipes-core/busybox/<a href=3D"http://busybox_1.36.1.bb" rel=3D=
+"noreferrer" target=3D"_blank">busybox_1.36.1.bb</a><br>
++++ b/meta/recipes-core/busybox/<a href=3D"http://busybox_1.36.1.bb" rel=3D=
+"noreferrer" target=3D"_blank">busybox_1.36.1.bb</a><br>
+@@ -50,6 +50,7 @@ SRC_URI =3D &quot;<a href=3D"https://busybox.net/download=
+s/busybox-$%7BPV%7D.tar.bz2;name=3Dtarball" rel=3D"noreferrer" target=3D"_b=
+lank">https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=3Dtarball</a=
+> \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-libbb-sockaddr2str-en=
+sure-only-printable-characters-.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0002-nslookup-sanitize-all=
+-printed-strings-with-printable.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://start-stop-false.patch \<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-zcip-add-support-for-=
+DoIP-ISO-13400-timings.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+=C2=A0SRC_URI:append:libc-musl =3D &quot; file://musl.cfg &quot;<br>
+=C2=A0# TODO <a href=3D"http://lists.busybox.net/pipermail/busybox/2023-Jan=
+uary/090078.html" rel=3D"noreferrer" target=3D"_blank">http://lists.busybox=
+.net/pipermail/busybox/2023-January/090078.html</a><br>
 -- <br>
-2.43.0<br>
+2.25.1<br>
 <br>
-</blockquote></div></div></div>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#195039): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/195039" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/195039</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/104214735/168=
+6489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/104214735/1686489</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
+rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
 
---000000000000f825070610c8c6cd--
+--00000000000090770f0610c9004b--
 
