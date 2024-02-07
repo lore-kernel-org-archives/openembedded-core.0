@@ -1,155 +1,131 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D699CC4828F
-	for <webhook@archiver.kernel.org>; Wed,  7 Feb 2024 18:53:19 +0000 (UTC)
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
- by mx.groups.io with SMTP id smtpd.web10.6318.1707331996495663929
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D9E8C4828F
+	for <webhook@archiver.kernel.org>; Wed,  7 Feb 2024 20:00:10 +0000 (UTC)
+Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
+ by mx.groups.io with SMTP id smtpd.web10.8165.1707336004859553394
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Feb 2024 10:53:17 -0800
+ Wed, 07 Feb 2024 12:00:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=UXX8jevG;
- spf=pass (domain: baylibre.com, ip: 209.85.219.169, mailfrom: tgamblin@baylibre.com)
-Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-dc6d8bd612dso1086092276.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 07 Feb 2024 10:53:16 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=fuQDFsD/;
+ spf=pass (domain: gmail.com, ip: 209.85.160.51, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-21920c78c9fso539239fac.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 07 Feb 2024 12:00:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1707331995; x=1707936795; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=c7yxqQeNLp/yLl6XAglMcPthiLASVUZRSmHB0IvrwVY=;
-        b=UXX8jevGAbr9atpryoSBMP0LAlzKadLQqoMcXAvxiGNMah7lc0RNNaKq6OcAMxTHaw
-         zG1dhBI9sfvCrSjuVCtZGbKuUNMpiG3ZHF6sZjYe9EfFZjSEgxHt70vXJpnBbhIpHjx3
-         hwP10PqyQPItrOwngU1Expsh+aio119wyqj+CoG0Hg55Fj037ikWUabb62tKrxF4o6sc
-         bIRmKv81mmf8YvXLpcd1S3z/W8GH57FhPDGoztIP1aD8+01uQ06+3kYtOygLTAMm7NFG
-         UQyQkNkAYsqZQJW8ASL/kaTgx8SK4coSu9i8Gg+nxkiOKvJqxxNscNJGu38T0jHUPSu8
-         RxJg==
+        d=gmail.com; s=20230601; t=1707336004; x=1707940804; darn=lists.openembedded.org;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=L3duN8bIw3vYP0hTfWIh21zEp2doQaxDAvy6aSdWJmA=;
+        b=fuQDFsD/VZSA8pJQthtOVhFth2nbh5MfmgvKISxic0B55E8U10xQ/d4kuX3ZxW3GVh
+         2rY0gM2gpIuZpPUzwIR8NqAm4TzMSKaKP5bUje+JRsYNPGy/o5QBTSvA1aSN7WYroETC
+         xG6vTk8U6nmId3FKZl3hEhwSoqd3EaFmvcD04v5PhglzBBXwI/o0g/3s66jSbwjn60Zw
+         L/rzrpdKM8JyrhONbwg66UuIKOdaXMjYpR2jmBuwLb+8y+BhbBiICUVVV6qK1yp9rwGE
+         aDxfmsagoNrTMn5957ZgG9aodLwCYm3oDImJ28ksC3W1lCp3LHQ1DDbwujmJZ9EaabTy
+         sKdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707331995; x=1707936795;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=c7yxqQeNLp/yLl6XAglMcPthiLASVUZRSmHB0IvrwVY=;
-        b=HsKYujQV6l8D0s4x2zHGf6PNn5gGGiIhx2R+iZACZuW+5ZFnxiniuF4z3ieLF1yGhz
-         ejcw5bo0fRv9Q959SLaFPDYEPj72kg/Spmy64Zlt552sBXahFneGcEZV0oQsyaeklFOD
-         HIb9XkLYu06h39nL2AzVZ25MFDKgvchskylIZJ5ZRHF7Ufg74DXkxnXv+JU1C5Iaww2S
-         TfBQz4baIzguuDAwpVRkdwmt6RHAS8+8I639dvR7aKO0htZwNy+GAN/kknLqds6UnpGc
-         Tx+5bsTW0AUmd9H2QDYe4KQYRQSg+0htr2xo8dqEdZwNeOo4ogdN4oi+hxpM3yU5V1fu
-         mf7Q==
-X-Gm-Message-State: AOJu0Yz5inXPw7XikX1ov4uXkPLuJcaTkS8kWIChl4ajZQQ+7LUyHwWZ
-	TVnfUaPbIM9SQ6duJtJ40ZlH4GkeAiWXuFBSyHidwPoHreQWwVNCBLElAOlr9TIqBy9M6E0Yr/Y
-	f
-X-Google-Smtp-Source: AGHT+IFiDS0D4UTNCDkxkJTmiy5/wM23Og0+AYy2uj2ZVx/FFKag3EK61hFQR+xJDMp0ES7K3excsg==
-X-Received: by 2002:a25:ad49:0:b0:dc6:c40d:5396 with SMTP id l9-20020a25ad49000000b00dc6c40d5396mr5338195ybe.53.1707331995334;
-        Wed, 07 Feb 2024 10:53:15 -0800 (PST)
-Received: from megalith.. (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id nh10-20020a056214390a00b0068c4d8a9dcasm824793qvb.140.2024.02.07.10.53.14
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Feb 2024 10:53:15 -0800 (PST)
-From: Trevor Gamblin <tgamblin@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] python3-numpy: upgrade 1.26.3 -> 1.26.4
-Date: Wed,  7 Feb 2024 13:53:13 -0500
-Message-ID: <20240207185313.1654134-1-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1707336004; x=1707940804;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=L3duN8bIw3vYP0hTfWIh21zEp2doQaxDAvy6aSdWJmA=;
+        b=TwoUeZKg8J3AkC4VWfCCsmhVaUvBO/loKC6dm4X5nZsz14RerFNXhL141mAEPBPSES
+         MW+rq6bV8HvpQuLL2/PKtTuP9ZaVFq/0x99pQ+krf+JrS9yWG91Ka/b+HirlLgMzIjsE
+         7/7vR7lXtIRYzQzc4XAiiOP2wMW4H1HAx59vhPD2hqezLB1QU0gnQAyk1hQCWIkD9KI8
+         3pidUgU4cAxjqNxmkmMAW/+rMaJLPblL/b05eN90ByiuX0+ZMcyEP5cIne/3JQXoLvAg
+         Kb0qbOUDsyozGS1PEk3F0VH/y67fII6VIcm1MNayD6v/w5rTGSGQfJ9AMUH4YyNKBSa0
+         tlGQ==
+X-Gm-Message-State: AOJu0YzRI2+R33gAk5Fx3h3iDAWlLR20ywIJ+Gqf0LpVy6KSpdVKrHOC
+	aSv4OeDHPUxtZgYJVJnVIxMjyR26QiMn72JVv7OH1vxumQ4NhgPQUpQZFSDY37ZzgigV7WxM6S7
+	0o4/rKLK/IapFOzg0yHitumXFf4mbZagPlRMoaw==
+X-Google-Smtp-Source: AGHT+IFvbOPIqC14llM8jP6iGSoBrvrArEqB+DBAkIuBth+FXOHXH1jxjGddzZzIkCsWvFz2ys2NyCai5+X5R/HI2yU=
+X-Received: by 2002:a05:6870:b526:b0:219:b896:ce4d with SMTP id
+ v38-20020a056870b52600b00219b896ce4dmr5773659oap.50.1707336003893; Wed, 07
+ Feb 2024 12:00:03 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240207060239.2202928-1-raj.khem@gmail.com> <20240207060239.2202928-2-raj.khem@gmail.com>
+In-Reply-To: <20240207060239.2202928-2-raj.khem@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 7 Feb 2024 11:59:38 -0800
+Message-ID: <CAMKF1sp_9TJH3mcw72qYAAKjrw1fN7pfn2RhXtG0v7x737=ScQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] expat: Upgrade to 2.6.0
+To: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 Feb 2024 18:53:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195076
+ <openembedded-core@lists.openembedded.org>; Wed, 07 Feb 2024 20:00:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195077
 
-Changelog: https://github.com/numpy/numpy/releases/tag/v1.26.4
+This will cause a cython ptest regression as reported here
 
-Upgrade to pull in a variety of bug fixes.
+https://github.com/python/cpython/issues/115133
 
-The same number of ptests (6) fail as in 1.26.3, so no regression there.
+There is a patch proposed for cython and in progress, we can hold on
+to this patch for the moment.
 
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
----
- ...le-fallocate-on-32-bit-linux-platfor.patch | 51 -------------------
- ...umpy_1.26.3.bb => python3-numpy_1.26.4.bb} |  3 +-
- 2 files changed, 1 insertion(+), 53 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3-numpy/0001-BUG-Use-large-file-fallocate-on-32-bit-linux-platfor.patch
- rename meta/recipes-devtools/python/{python3-numpy_1.26.3.bb => python3-numpy_1.26.4.bb} (92%)
-
-diff --git a/meta/recipes-devtools/python/python3-numpy/0001-BUG-Use-large-file-fallocate-on-32-bit-linux-platfor.patch b/meta/recipes-devtools/python/python3-numpy/0001-BUG-Use-large-file-fallocate-on-32-bit-linux-platfor.patch
-deleted file mode 100644
-index 0702b8499ac..00000000000
---- a/meta/recipes-devtools/python/python3-numpy/0001-BUG-Use-large-file-fallocate-on-32-bit-linux-platfor.patch
-+++ /dev/null
-@@ -1,51 +0,0 @@
--From 43b9b2626a59e8764f3bfb1d6b0d73b2d665584e Mon Sep 17 00:00:00 2001
--From: Ola x Nilsson <olani@axis.com>
--Date: Fri, 19 Jan 2024 10:26:41 +0100
--Subject: [PATCH] BUG: Use large file fallocate on 32 bit linux platforms
--
--Using a local prototype for fallocate instead of the fcntl.h header
--meant that the redirect triggered by -D_FILE_OFFSET_BITS=64 was not
--triggered.
--
--The prototypes in feature_detection_stdio.h should only be used by
--functions in setup_common.py. If they are used by the feature
--discovery code they might trigger false positives.
--
--Upstream-Status: Backport [https://github.com/numpy/numpy/commit/f49c6f9ea735cd7f718e74f8d637ffbbd3a7a03b]
--Signed-off-by: Ola x Nilsson <olani@axis.com>
--
-----
-- numpy/core/feature_detection_stdio.h | 3 +++
-- numpy/core/src/multiarray/convert.c  | 5 +++--
-- 2 files changed, 6 insertions(+), 2 deletions(-)
--
--diff --git a/numpy/core/feature_detection_stdio.h b/numpy/core/feature_detection_stdio.h
--index bc14d16..d8bbfbd 100644
----- a/numpy/core/feature_detection_stdio.h
--+++ b/numpy/core/feature_detection_stdio.h
--@@ -1,6 +1,9 @@
--+#define _GNU_SOURCE
-- #include <stdio.h>
-- #include <fcntl.h>
-- 
--+#if 0 /* Only for setup_common.py, not the C compiler */
-- off_t ftello(FILE *stream);
-- int fseeko(FILE *stream, off_t offset, int whence);
-- int fallocate(int, int, off_t, off_t);
--+#endif
--diff --git a/numpy/core/src/multiarray/convert.c b/numpy/core/src/multiarray/convert.c
--index 60c1a1b..8ec0aee 100644
----- a/numpy/core/src/multiarray/convert.c
--+++ b/numpy/core/src/multiarray/convert.c
--@@ -23,8 +23,9 @@
-- #include "array_coercion.h"
-- #include "refcount.h"
-- 
---int
---fallocate(int fd, int mode, off_t offset, off_t len);
--+#if defined(HAVE_FALLOCATE) && defined(__linux__)
--+#include <fcntl.h>
--+#endif
-- 
-- /*
--  * allocate nbytes of diskspace for file fp
-diff --git a/meta/recipes-devtools/python/python3-numpy_1.26.3.bb b/meta/recipes-devtools/python/python3-numpy_1.26.4.bb
-similarity index 92%
-rename from meta/recipes-devtools/python/python3-numpy_1.26.3.bb
-rename to meta/recipes-devtools/python/python3-numpy_1.26.4.bb
-index 326e2c35914..d11b03efc3d 100644
---- a/meta/recipes-devtools/python/python3-numpy_1.26.3.bb
-+++ b/meta/recipes-devtools/python/python3-numpy_1.26.4.bb
-@@ -12,9 +12,8 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${SRCNAME}-${PV}.tar.gz \
-            file://0001-numpy-core-Define-RISCV-32-support.patch \
-            file://fix_reproducibility.patch \
-            file://run-ptest \
--           file://0001-BUG-Use-large-file-fallocate-on-32-bit-linux-platfor.patch \
-            "
--SRC_URI[sha256sum] = "697df43e2b6310ecc9d95f05d5ef20eacc09c7c4ecc9da3f235d39e71b7da1e4"
-+SRC_URI[sha256sum] = "2a02aba9ed12e4ac4eb3ea9421c420301a0c6460d9830d74a9df87efa4912010"
- 
- GITHUB_BASE_URI = "https://github.com/numpy/numpy/releases"
- UPSTREAM_CHECK_REGEX = "releases/tag/v?(?P<pver>\d+(\.\d+)+)$"
--- 
-2.43.0
-
+On Tue, Feb 6, 2024 at 10:02=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wrote=
+:
+>
+> Package and run benchmark as part of ptest
+> This is a major release with following changes [1]
+>
+> [1] https://github.com/libexpat/libexpat/blob/R_2_6_0/expat/Changes
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/recipes-core/expat/expat/run-ptest                    | 2 +-
+>  meta/recipes-core/expat/{expat_2.5.0.bb =3D> expat_2.6.0.bb} | 5 +++--
+>  2 files changed, 4 insertions(+), 3 deletions(-)
+>  rename meta/recipes-core/expat/{expat_2.5.0.bb =3D> expat_2.6.0.bb} (82%=
+)
+>
+> diff --git a/meta/recipes-core/expat/expat/run-ptest b/meta/recipes-core/=
+expat/expat/run-ptest
+> index dbf602ca800..ff7986db3cf 100644
+> --- a/meta/recipes-core/expat/expat/run-ptest
+> +++ b/meta/recipes-core/expat/expat/run-ptest
+> @@ -5,5 +5,5 @@ TIME=3D$(which time)
+>  echo "runtests"
+>  ${TIME} -f 'Execution time: %e s' bash -c "./runtests -v"
+>  echo "runtestspp"
+> -${TIME} -f 'Execution time: %e s' bash -c "./runtestspp -v"
+> +${TIME} -f 'Execution time: %e s' bash -c "./runtests_cxx -v"
+>  echo
+> diff --git a/meta/recipes-core/expat/expat_2.5.0.bb b/meta/recipes-core/e=
+xpat/expat_2.6.0.bb
+> similarity index 82%
+> rename from meta/recipes-core/expat/expat_2.5.0.bb
+> rename to meta/recipes-core/expat/expat_2.6.0.bb
+> index aa8d439d5fb..1f9f7b269a4 100644
+> --- a/meta/recipes-core/expat/expat_2.5.0.bb
+> +++ b/meta/recipes-core/expat/expat_2.6.0.bb
+> @@ -15,7 +15,7 @@ SRC_URI =3D "${GITHUB_BASE_URI}/download/R_${VERSION_TA=
+G}/expat-${PV}.tar.bz2  \
+>  GITHUB_BASE_URI =3D "https://github.com/libexpat/libexpat/releases/"
+>  UPSTREAM_CHECK_REGEX =3D "releases/tag/R_(?P<pver>.+)"
+>
+> -SRC_URI[sha256sum] =3D "6f0e6e01f7b30025fa05c85fdad1e5d0ec7fd35d9f61b22f=
+34998de11969ff67"
+> +SRC_URI[sha256sum] =3D "ff60e6a6b6ce570ae012dc7b73169c7fdf4b6bf08c12ed0e=
+c6f55736b78d85ba"
+>
+>  EXTRA_OECMAKE:class-native +=3D "-DEXPAT_BUILD_DOCS=3DOFF"
+>
+> @@ -24,7 +24,8 @@ RDEPENDS:${PN}-ptest +=3D "bash"
+>  inherit cmake lib_package ptest github-releases
+>
+>  do_install_ptest:class-target() {
+> -       install -m 755 ${B}/tests/* ${D}${PTEST_PATH}
+> +       install -m 755 ${B}/tests/runtests* ${D}${PTEST_PATH}
+> +       install -m 755 ${B}/tests/benchmark/benchmark ${D}${PTEST_PATH}
+>  }
+>
+>  BBCLASSEXTEND +=3D "native nativesdk"
+> --
+> 2.43.0
+>
 
