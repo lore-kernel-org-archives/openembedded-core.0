@@ -2,130 +2,147 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D9E8C4828F
-	for <webhook@archiver.kernel.org>; Wed,  7 Feb 2024 20:00:10 +0000 (UTC)
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
- by mx.groups.io with SMTP id smtpd.web10.8165.1707336004859553394
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2D1BC4828F
+	for <webhook@archiver.kernel.org>; Wed,  7 Feb 2024 20:51:21 +0000 (UTC)
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+ by mx.groups.io with SMTP id smtpd.web11.983.1707339074588226170
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Feb 2024 12:00:04 -0800
+ Wed, 07 Feb 2024 12:51:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=fuQDFsD/;
- spf=pass (domain: gmail.com, ip: 209.85.160.51, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-21920c78c9fso539239fac.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 07 Feb 2024 12:00:04 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=IzjG5J+U;
+ spf=pass (domain: gmail.com, ip: 209.85.210.174, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-6da202aa138so739836b3a.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 07 Feb 2024 12:51:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707336004; x=1707940804; darn=lists.openembedded.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=L3duN8bIw3vYP0hTfWIh21zEp2doQaxDAvy6aSdWJmA=;
-        b=fuQDFsD/VZSA8pJQthtOVhFth2nbh5MfmgvKISxic0B55E8U10xQ/d4kuX3ZxW3GVh
-         2rY0gM2gpIuZpPUzwIR8NqAm4TzMSKaKP5bUje+JRsYNPGy/o5QBTSvA1aSN7WYroETC
-         xG6vTk8U6nmId3FKZl3hEhwSoqd3EaFmvcD04v5PhglzBBXwI/o0g/3s66jSbwjn60Zw
-         L/rzrpdKM8JyrhONbwg66UuIKOdaXMjYpR2jmBuwLb+8y+BhbBiICUVVV6qK1yp9rwGE
-         aDxfmsagoNrTMn5957ZgG9aodLwCYm3oDImJ28ksC3W1lCp3LHQ1DDbwujmJZ9EaabTy
-         sKdQ==
+        d=gmail.com; s=20230601; t=1707339074; x=1707943874; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TNOGs8NltrqZT8tupcUbmW+84QewrGOzTI62DGv/irs=;
+        b=IzjG5J+Ueahri70QBvqvYQymbOLoOSflsxVDPwW6b245pdHN+6XvHRfZqDNJMBr83j
+         CjIEcovAgHo00NFQrixNKT05BhM2l2OkI4RdR2VrH02zO0k2KckIhiXzTQlnXrgkgl7C
+         TOqTOBQPM2Cx2mtqXyH8EsuboD33KxLcErkU3LIg+06E5VyEURfDNi1usZz2BsewLVok
+         Hv5pcGGLvkK8HZBp++7MFvrfUxRqg9rI0auNlgtFP53iZiZf3G4mnzEwC6vwIypICPFU
+         bRH6gHVayvJb6cqqSUS8Q0oJFkbxd9dy/oFhhSmwa3LgPWTz9ImDcrwI6KI6utT64NGj
+         Npvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707336004; x=1707940804;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=L3duN8bIw3vYP0hTfWIh21zEp2doQaxDAvy6aSdWJmA=;
-        b=TwoUeZKg8J3AkC4VWfCCsmhVaUvBO/loKC6dm4X5nZsz14RerFNXhL141mAEPBPSES
-         MW+rq6bV8HvpQuLL2/PKtTuP9ZaVFq/0x99pQ+krf+JrS9yWG91Ka/b+HirlLgMzIjsE
-         7/7vR7lXtIRYzQzc4XAiiOP2wMW4H1HAx59vhPD2hqezLB1QU0gnQAyk1hQCWIkD9KI8
-         3pidUgU4cAxjqNxmkmMAW/+rMaJLPblL/b05eN90ByiuX0+ZMcyEP5cIne/3JQXoLvAg
-         Kb0qbOUDsyozGS1PEk3F0VH/y67fII6VIcm1MNayD6v/w5rTGSGQfJ9AMUH4YyNKBSa0
-         tlGQ==
-X-Gm-Message-State: AOJu0YzRI2+R33gAk5Fx3h3iDAWlLR20ywIJ+Gqf0LpVy6KSpdVKrHOC
-	aSv4OeDHPUxtZgYJVJnVIxMjyR26QiMn72JVv7OH1vxumQ4NhgPQUpQZFSDY37ZzgigV7WxM6S7
-	0o4/rKLK/IapFOzg0yHitumXFf4mbZagPlRMoaw==
-X-Google-Smtp-Source: AGHT+IFvbOPIqC14llM8jP6iGSoBrvrArEqB+DBAkIuBth+FXOHXH1jxjGddzZzIkCsWvFz2ys2NyCai5+X5R/HI2yU=
-X-Received: by 2002:a05:6870:b526:b0:219:b896:ce4d with SMTP id
- v38-20020a056870b52600b00219b896ce4dmr5773659oap.50.1707336003893; Wed, 07
- Feb 2024 12:00:03 -0800 (PST)
-MIME-Version: 1.0
-References: <20240207060239.2202928-1-raj.khem@gmail.com> <20240207060239.2202928-2-raj.khem@gmail.com>
-In-Reply-To: <20240207060239.2202928-2-raj.khem@gmail.com>
+        d=1e100.net; s=20230601; t=1707339074; x=1707943874;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TNOGs8NltrqZT8tupcUbmW+84QewrGOzTI62DGv/irs=;
+        b=qHagRr4/6H43fLQjPIJm7rieH5O1gFDhn7W8RGNJrvEACsa/3hwWBQXaYnBr+rjBpR
+         XuEEeLCCEJcekXMgnMQVwOcCD32DQWRnnEubFIiVN9KbJUC3Mso1hIuqMjzdatNZ5wah
+         MZKyiRO+iRdViH24f3UnK8m9XVSYfJRRayif7846PYSdbMJ+UVibQ4fsiT6/doSEk3dW
+         gYXfw2Zf5PEc6pQvGfMLMT2vqpo4ngcf8w5BdrZtzSgB0OHu8bw/n+H9ixSikv20Pjid
+         nIwluOlvHgFhsZFsWdB8T87NbOYfaizAq9yGh3OU8m0VU2PKSetEdHz41SGZKmNND0fF
+         ZDwQ==
+X-Gm-Message-State: AOJu0YzAB6BDx5BlcBD2bRBov3jJWUoXrHRVBxKFE9BR4XL9QTgVOhHM
+	nmgatCgercioDh/78QPlZAEgeobpSmHEgdGfw3hwm2Cu4/qoF2ZaLiKEM36A/jk=
+X-Google-Smtp-Source: AGHT+IEtEmPV1IuQ1rMZBRmDxrBFuoTQ44HSp1YEJoYnglslemXWZGXVPipbBz1zgrsg5vZHnwQ/cA==
+X-Received: by 2002:a05:6a20:1594:b0:19c:aaee:bb1b with SMTP id h20-20020a056a20159400b0019caaeebb1bmr6887136pzj.7.1707339073514;
+        Wed, 07 Feb 2024 12:51:13 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::c29d])
+        by smtp.gmail.com with ESMTPSA id e19-20020aa79813000000b006ddcf5d5b0bsm2086243pfl.153.2024.02.07.12.51.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Feb 2024 12:51:13 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 7 Feb 2024 11:59:38 -0800
-Message-ID: <CAMKF1sp_9TJH3mcw72qYAAKjrw1fN7pfn2RhXtG0v7x737=ScQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] expat: Upgrade to 2.6.0
 To: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] python3: Fix ptests with expat 2.6+
+Date: Wed,  7 Feb 2024 12:51:10 -0800
+Message-ID: <20240207205110.2745784-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 Feb 2024 20:00:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195077
+ <openembedded-core@lists.openembedded.org>; Wed, 07 Feb 2024 20:51:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195078
 
-This will cause a cython ptest regression as reported here
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...y-Fix-for-Expat-2.6.0-with-reparse-d.patch | 57 +++++++++++++++++++
+ .../recipes-devtools/python/python3_3.12.1.bb |  1 +
+ 2 files changed, 58 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/0001-test_xml_etree.py-Fix-for-Expat-2.6.0-with-reparse-d.patch
 
-https://github.com/python/cpython/issues/115133
+diff --git a/meta/recipes-devtools/python/0001-test_xml_etree.py-Fix-for-Expat-2.6.0-with-reparse-d.patch b/meta/recipes-devtools/python/0001-test_xml_etree.py-Fix-for-Expat-2.6.0-with-reparse-d.patch
+new file mode 100644
+index 00000000000..415db4bc5b8
+--- /dev/null
++++ b/meta/recipes-devtools/python/0001-test_xml_etree.py-Fix-for-Expat-2.6.0-with-reparse-d.patch
+@@ -0,0 +1,57 @@
++From 51a048251c552d9ead29a2a3e4884c138fcf9c1c Mon Sep 17 00:00:00 2001
++From: Sebastian Pipping <sebastian@pipping.org>
++Date: Wed, 7 Feb 2024 15:32:45 +0100
++Subject: [PATCH] test_xml_etree.py: Fix for Expat >=2.6.0 with reparse deferral
++
++Upstream-Status: Submitted [https://github.com/python/cpython/pull/115138]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ Lib/test/test_xml_etree.py                             | 10 ++++++----
++ .../2024-02-07-15-49-37.gh-issue-115133.WBajNr.rst     |  1 +
++ 2 files changed, 7 insertions(+), 4 deletions(-)
++ create mode 100644 Misc/NEWS.d/next/Tests/2024-02-07-15-49-37.gh-issue-115133.WBajNr.rst
++
++diff --git a/Lib/test/test_xml_etree.py b/Lib/test/test_xml_etree.py
++index 53a4e9f..9a0119c 100644
++--- a/Lib/test/test_xml_etree.py
+++++ b/Lib/test/test_xml_etree.py
++@@ -1401,6 +1401,7 @@ class XMLPullParserTest(unittest.TestCase):
++     def test_simple_xml(self):
++         for chunk_size in (None, 1, 5):
++             with self.subTest(chunk_size=chunk_size):
+++                expected_events = []
++                 parser = ET.XMLPullParser()
++                 self.assert_event_tags(parser, [])
++                 self._feed(parser, "<!-- comment -->\n", chunk_size)
++@@ -1410,16 +1411,17 @@ class XMLPullParserTest(unittest.TestCase):
++                            chunk_size)
++                 self.assert_event_tags(parser, [])
++                 self._feed(parser, ">\n", chunk_size)
++-                self.assert_event_tags(parser, [('end', 'element')])
+++                expected_events += [('end', 'element')]
++                 self._feed(parser, "<element>text</element>tail\n", chunk_size)
++                 self._feed(parser, "<empty-element/>\n", chunk_size)
++-                self.assert_event_tags(parser, [
+++                expected_events += [
++                     ('end', 'element'),
++                     ('end', 'empty-element'),
++-                    ])
+++                    ]
++                 self._feed(parser, "</root>\n", chunk_size)
++-                self.assert_event_tags(parser, [('end', 'root')])
+++                expected_events += [('end', 'root')]
++                 self.assertIsNone(parser.close())
+++                self.assert_event_tags(parser, expected_events)
++ 
++     def test_feed_while_iterating(self):
++         parser = ET.XMLPullParser()
++diff --git a/Misc/NEWS.d/next/Tests/2024-02-07-15-49-37.gh-issue-115133.WBajNr.rst b/Misc/NEWS.d/next/Tests/2024-02-07-15-49-37.gh-issue-115133.WBajNr.rst
++new file mode 100644
++index 0000000..4dc9c13
++--- /dev/null
+++++ b/Misc/NEWS.d/next/Tests/2024-02-07-15-49-37.gh-issue-115133.WBajNr.rst
++@@ -0,0 +1 @@
+++Fix etree XMLPullParser tests for Expat >=2.6.0 with reparse deferral
++-- 
++2.43.0
++
+diff --git a/meta/recipes-devtools/python/python3_3.12.1.bb b/meta/recipes-devtools/python/python3_3.12.1.bb
+index 1d3a4221c32..771902cd2c1 100644
+--- a/meta/recipes-devtools/python/python3_3.12.1.bb
++++ b/meta/recipes-devtools/python/python3_3.12.1.bb
+@@ -30,6 +30,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0001-skip-no_stdout_fileno-test-due-to-load-variability.patch \
+            file://0001-test_storlines-skip-due-to-load-variability.patch \
+            file://0001-gh-114492-Initialize-struct-termios-before-calling-t.patch \
++           file://0001-test_xml_etree.py-Fix-for-Expat-2.6.0-with-reparse-d.patch \
+            "
+ 
+ SRC_URI:append:class-native = " \
+-- 
+2.43.0
 
-There is a patch proposed for cython and in progress, we can hold on
-to this patch for the moment.
-
-On Tue, Feb 6, 2024 at 10:02=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wrote=
-:
->
-> Package and run benchmark as part of ptest
-> This is a major release with following changes [1]
->
-> [1] https://github.com/libexpat/libexpat/blob/R_2_6_0/expat/Changes
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/recipes-core/expat/expat/run-ptest                    | 2 +-
->  meta/recipes-core/expat/{expat_2.5.0.bb =3D> expat_2.6.0.bb} | 5 +++--
->  2 files changed, 4 insertions(+), 3 deletions(-)
->  rename meta/recipes-core/expat/{expat_2.5.0.bb =3D> expat_2.6.0.bb} (82%=
-)
->
-> diff --git a/meta/recipes-core/expat/expat/run-ptest b/meta/recipes-core/=
-expat/expat/run-ptest
-> index dbf602ca800..ff7986db3cf 100644
-> --- a/meta/recipes-core/expat/expat/run-ptest
-> +++ b/meta/recipes-core/expat/expat/run-ptest
-> @@ -5,5 +5,5 @@ TIME=3D$(which time)
->  echo "runtests"
->  ${TIME} -f 'Execution time: %e s' bash -c "./runtests -v"
->  echo "runtestspp"
-> -${TIME} -f 'Execution time: %e s' bash -c "./runtestspp -v"
-> +${TIME} -f 'Execution time: %e s' bash -c "./runtests_cxx -v"
->  echo
-> diff --git a/meta/recipes-core/expat/expat_2.5.0.bb b/meta/recipes-core/e=
-xpat/expat_2.6.0.bb
-> similarity index 82%
-> rename from meta/recipes-core/expat/expat_2.5.0.bb
-> rename to meta/recipes-core/expat/expat_2.6.0.bb
-> index aa8d439d5fb..1f9f7b269a4 100644
-> --- a/meta/recipes-core/expat/expat_2.5.0.bb
-> +++ b/meta/recipes-core/expat/expat_2.6.0.bb
-> @@ -15,7 +15,7 @@ SRC_URI =3D "${GITHUB_BASE_URI}/download/R_${VERSION_TA=
-G}/expat-${PV}.tar.bz2  \
->  GITHUB_BASE_URI =3D "https://github.com/libexpat/libexpat/releases/"
->  UPSTREAM_CHECK_REGEX =3D "releases/tag/R_(?P<pver>.+)"
->
-> -SRC_URI[sha256sum] =3D "6f0e6e01f7b30025fa05c85fdad1e5d0ec7fd35d9f61b22f=
-34998de11969ff67"
-> +SRC_URI[sha256sum] =3D "ff60e6a6b6ce570ae012dc7b73169c7fdf4b6bf08c12ed0e=
-c6f55736b78d85ba"
->
->  EXTRA_OECMAKE:class-native +=3D "-DEXPAT_BUILD_DOCS=3DOFF"
->
-> @@ -24,7 +24,8 @@ RDEPENDS:${PN}-ptest +=3D "bash"
->  inherit cmake lib_package ptest github-releases
->
->  do_install_ptest:class-target() {
-> -       install -m 755 ${B}/tests/* ${D}${PTEST_PATH}
-> +       install -m 755 ${B}/tests/runtests* ${D}${PTEST_PATH}
-> +       install -m 755 ${B}/tests/benchmark/benchmark ${D}${PTEST_PATH}
->  }
->
->  BBCLASSEXTEND +=3D "native nativesdk"
-> --
-> 2.43.0
->
 
