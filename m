@@ -1,98 +1,87 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 311FFC4828F
-	for <webhook@archiver.kernel.org>; Wed,  7 Feb 2024 22:34:02 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web11.4073.1707345232869294504
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DACDC4828F
+	for <webhook@archiver.kernel.org>; Wed,  7 Feb 2024 22:56:22 +0000 (UTC)
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+ by mx.groups.io with SMTP id smtpd.web11.4756.1707346581627085533
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Feb 2024 14:33:53 -0800
+ Wed, 07 Feb 2024 14:56:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=D6SJBAm6;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=rvFNJGwM;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018d85b4c0a6-9445c524-4fee-42dd-a86a-904cdf0aa7ae-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1707345232; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=GmD+juyW3lvKT+f+wz93E8GPPkTXldcVkYXlkPlw3lQ=;
-	b=D6SJBAm6NyXm0o0w4VJpZb5Y6QJyNArexts4nq0WpXU97jEGyHh5gaXAw1ZaIkz4
-	GZKe+sRtbvaMV7iKn+Ek0JPQW6U9RWv3U+yA+QhDk9vbzSrvJyEawgboND4utBl3icv
-	jorA3ZFOvHLg5Eyrhz+82nM+6Kb+2Aq9Ewq5hMck=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1707345232;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=GmD+juyW3lvKT+f+wz93E8GPPkTXldcVkYXlkPlw3lQ=;
-	b=rvFNJGwMCIzsmkQP8qXNmWSoWZmyhyuJuBiZGug07taOVuYLOQkxjnutXuETtKlK
-	sHheDFjdxY9ByI/jAHUB+4HUe69MMnAt99ieS/JSO1G+b8TdM0XkQjyftd0Jio4E74s
-	k2kmNqj7FkvAR8No2ckpN4NOhyhu3W0JHf/0dlq8=
-From: patchtest@automation.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH v2] python3: Fix ptests with expat 2.6+
-In-Reply-To: 20240207221938.2837858-1-raj.khem@gmail.com
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018d85b4c0a6-9445c524-4fee-42dd-a86a-904cdf0aa7ae-000000@us-west-2.amazonses.com>
-Date: Wed, 7 Feb 2024 22:33:52 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.02.07-54.240.27.192
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=XqNXiWrz;
+ spf=pass (domain: gmail.com, ip: 209.85.216.44, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-2907a17fa34so917334a91.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 07 Feb 2024 14:56:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707346581; x=1707951381; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=T5p/7VM3P+K2scxn+Z/Yt3oZq8xDukdAi0wL8DGlMT8=;
+        b=XqNXiWrz6q+gubdvuZiPGr02NtacedX7/lSTtghwO3LurIN8qQvzmOrOiaCTy6or4B
+         RB3AlWrOVjbQkqH6abD6A0UabSVIbv/DhPlOf3NzfwiWf/dmmRODolUZUTbUw8gvt21g
+         pcEoxcsjSX86xTUnZDd1z7np2d/qQtt/QJ0rC1aRmBcIcn0mUSnb2wP3iP8L6mSEVCtv
+         emZw+dQ6hU7CDMg5xAaS1tGNHbM2r6Xv2VflMgn6Fy18jd0JD+oyPA5uVtqHK90tUem1
+         ASvVZKcRtdpsTfjgmwExrZzYwfgj3MXe9LmFwAppWrdC6OWtTaBq6+GzcnBGu76zQJk+
+         JfEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707346581; x=1707951381;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=T5p/7VM3P+K2scxn+Z/Yt3oZq8xDukdAi0wL8DGlMT8=;
+        b=w0DrZDfZTouoyTM8K+PkMSuWu2XrFvgCUugjd8KA81cei/wNh09XQfa8tPt7aSMAT9
+         Jj2GwIG29EoKx42VdNMR25LuiogV7NoY5OkQWI3VpV7NDxalNbRr0dUFLRJV1Zwkx6pr
+         4UGwrSUkutZD4G7iuoTs/rNI5ITKmbX+y8w1lST2oH+nPxIA3vkgNJhNoO2n7o9IHLre
+         vnf2guKwM4yNT7QOgKYpttGZUGpMUwyONOE3GeLa6GWwR3hrkh5Qe5B5Vz43oPhJm6U/
+         C3RBalXwi8RqdINLbbyTK63Z7SkTWFtWXhSaR5gqheySxANJXEhBcJpbM+FUK/wKEkiA
+         mLDA==
+X-Gm-Message-State: AOJu0Yy8iBa9m9I6WC3KNrAw2bt/GMVFssEKSvKxk60W/1ei3dJCBVLO
+	A+9hU6GmtPTmL9IzbnYfjSWwQEpa7UtGNc9DrFi9P6O7OUZrGVBnyoO6TdN5y94=
+X-Google-Smtp-Source: AGHT+IEYZJjQ8TINCl+l3Urj8R3QgkE4XK5mG5fzQOqg/w3uLx2I+gyJRZ44zAh2e0mkh0nQxGvyHg==
+X-Received: by 2002:a17:90b:4b4c:b0:296:6bd5:42df with SMTP id mi12-20020a17090b4b4c00b002966bd542dfmr4042613pjb.38.1707346580746;
+        Wed, 07 Feb 2024 14:56:20 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::c29d])
+        by smtp.gmail.com with ESMTPSA id nl5-20020a17090b384500b0029658c7bd53sm4583317pjb.5.2024.02.07.14.56.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Feb 2024 14:56:20 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] glibc: Update to latest on 2.39
+Date: Wed,  7 Feb 2024 14:56:17 -0800
+Message-ID: <20240207225617.4018010-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 Feb 2024 22:34:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195094
+ <openembedded-core@lists.openembedded.org>; Wed, 07 Feb 2024 22:56:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195095
 
---NextPart
-Content-Type: text/plain
+Brings this bugfix for arm
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+63295e4fda arm: Remove wrong ldr from _dl_start_user (BZ 31339)
 
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
-Testing patch /home/patchtest/share/mboxes/v2-python3-Fix-ptests-with-expat-2.6.patch
+ meta/recipes-core/glibc/glibc-version.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
+index a35c7b28a70..0d86917f454 100644
+--- a/meta/recipes-core/glibc/glibc-version.inc
++++ b/meta/recipes-core/glibc/glibc-version.inc
+@@ -1,6 +1,6 @@
+ SRCBRANCH ?= "release/2.39/master"
+ PV = "2.39+git"
+-SRCREV_glibc ?= "6d1e3fb07b45e2e31e469b16cf21b24bccf8914c"
++SRCREV_glibc ?= "63295e4fda1f6dab4bf7442706fe303bf283036c"
+ SRCREV_localedef ?= "fab74f31b3811df543e24b6de47efdf45b538abc"
+ 
+ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git;protocol=https"
+-- 
+2.43.0
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
