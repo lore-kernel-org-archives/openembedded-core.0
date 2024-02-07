@@ -1,200 +1,98 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CCC8C4828D
-	for <webhook@archiver.kernel.org>; Wed,  7 Feb 2024 11:31:01 +0000 (UTC)
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
- by mx.groups.io with SMTP id smtpd.web10.18389.1707305457929201585
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84599C4828F
+	for <webhook@archiver.kernel.org>; Wed,  7 Feb 2024 11:48:51 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web11.18398.1707306528404698446
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Feb 2024 03:30:58 -0800
+ Wed, 07 Feb 2024 03:48:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=LDS6y4P1;
- spf=pass (domain: gmail.com, ip: 209.85.167.41, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-51032058f17so605883e87.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 07 Feb 2024 03:30:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707305456; x=1707910256; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=n0aWABCwAt1c4CKOQDx0E93JeOo+ep+Iq3IipL1GtTI=;
-        b=LDS6y4P152ZQ9e4qmg4+H3nGsUAFSjBXC7IZ7FXKSpzcwa0l4oUP0k39TXp0BlDnd0
-         Q3y8qrUh8/V3XdUanm2y444OBH5X6kYAWxk1yYvdauimbYEXE0MbawMJh0OV9L8esBLo
-         5FjnbIHEWRmKQOA6PqKGzw8Lu8rrHjMs7Xe58+vjPg3PjEdHf21ZaWnYWLH5c6/h3K9T
-         lEoN2QTnPj2DLvYCm0s+cgCvuiLVVzSZgF1cqMNVhiDdFvDHQbtTNP2Htg3xsIaIdQIv
-         AsHRfnrR/xKVziS9pFu4YTleCI38nQbUZjNPkmeyaBMtC/O9r0v4yeGJjEYkNKtMGgTr
-         VOtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707305456; x=1707910256;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=n0aWABCwAt1c4CKOQDx0E93JeOo+ep+Iq3IipL1GtTI=;
-        b=ZndglsI5O7KI+s7Uw59/KqakLtZm2uXyfjQ2cubKz/3J71EH+3i3dp6+EdLFRdNn7a
-         h9Tv2/bgLHy3StFUJMSzzWwjyZlmUkI3OIaYq0LhDAXvdsz8oS0sd8tluECyB6mbh9Cv
-         +z+WGr+35xMQIke9zdcd6/4PQzs/H+xZ0CwWYQZTrfeFyLoMJWtWDKTuDDVNBBPMyCHe
-         a4Jm09XyADR7bWWDdJIaPiJArA3F353TcsEfj3uoFc8/9uee8f2Vh8e2D/Q1ihdS1BBl
-         qCpVSdG0Gm8y7WMjc7e568tAgbpAuABYWKQd/aQZFNQsMEnXkypwE6r+xLWqZu5Qcc7j
-         QPKg==
-X-Forwarded-Encrypted: i=1; AJvYcCWFbFV1mHXkyooAovCNo/g6Ew/wXs8qvHvTCeAuFjeApiBtwvegWfWFo013vDsSqzjeiGzVyxkmlIjtFjE3H4LAkJjHUImecfjGP115iGSrOImBNhxdfdok
-X-Gm-Message-State: AOJu0YzpkMNTB0TfQNQnBIhKE18XUD9DAJQO1LiA0qZv3JAOeU/kVrT5
-	caBhxPZ9gKP2gJgDeSUmJ4UjxpNp7vZ/ysdbhd6cNM2DVFXOnapd5uBz0gWob92i+vJPe56OIJ0
-	MRMUwUJ+3/aLL9Deox6aySNhR9yEwfluu
-X-Google-Smtp-Source: AGHT+IHYD+z+7teCzAIUazccp4lb3RFOV0Qc29W1TR75yWZpKek7+BdABYkBHPNNiu6Zuc2ph9d5uo9HIen10uAN9nw=
-X-Received: by 2002:a05:6512:114e:b0:511:4b2d:d87c with SMTP id
- m14-20020a056512114e00b005114b2dd87cmr5488077lfg.49.1707305456008; Wed, 07
- Feb 2024 03:30:56 -0800 (PST)
-MIME-Version: 1.0
-References: <20240207080823.498290-1-kai.kang@windriver.com>
-In-Reply-To: <20240207080823.498290-1-kai.kang@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 7 Feb 2024 12:30:45 +0100
-Message-ID: <CANNYZj9n1DhDHfH0CQjWCyptB1aKhwS5NB55Tv=zVR+wr8e45A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] ghostscript: correct LICENSE with AGPLv3
-To: Kai Kang <kai.kang@eng.windriver.com>
-Cc: liezhi.yang@windriver.com, openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000003a844b0610c9072a"
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=RWdmCixs;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=J8fPEi30;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018d83662acd-0b22e26c-8e09-46ff-b694-a4bc24d7c7c4-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1707306527; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
+	bh=1HA1PI5hjEVZkSLjvaMy51dJWL73iY55PZ7XsHBeAGM=;
+	b=RWdmCixsTyg9BcnLB24a+qnj3bC0s30epab3GWyT5o989m5Y+npMISCjC2QZe2SV
+	KJ8QbEcaLQnZblBSeGCUJDJrD78bH1ZXirhCGGkyYZwZ7JXuoOLss0DsE+PuHZZY2Pv
+	5yP5dCbLq/PlAs++rbbrQNISPDfrZddvAg7RS0YU=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1707306527;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=1HA1PI5hjEVZkSLjvaMy51dJWL73iY55PZ7XsHBeAGM=;
+	b=J8fPEi30Ch/ezrGDZqLlrkD+zCZAbdldNcB5CiiraRX2IKs2ITgqV08Ys2H4c9cf
+	2mSHYVDmqspjqQqKhyTN1+N5TRITpxNCZC12guzybW7ZaXgP/Z7dzAtEyTPZWe4//vd
+	5m5mKjOVfj4DMGMFx1CbgodHNSIAMPT2WYNoHivE=
+From: patchtest@automation.yoctoproject.org
+To: Aleksey Smirnov <aleksey.smirnov@yadro.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] Explicitly specify tty device for serial consoles
+In-Reply-To: 20240207112814.2022696-1-aleksey.smirnov@yadro.com
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018d83662acd-0b22e26c-8e09-46ff-b694-a4bc24d7c7c4-000000@us-west-2.amazonses.com>
+Date: Wed, 7 Feb 2024 11:48:47 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.02.07-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 Feb 2024 11:31:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195052
+ <openembedded-core@lists.openembedded.org>; Wed, 07 Feb 2024 11:48:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195053
 
---0000000000003a844b0610c9072a
-Content-Type: text/plain; charset="UTF-8"
+--NextPart
+Content-Type: text/plain
 
-I think this needs additional research. Why was the license change missed
-when it happened? Do we need to adjust LIC_FILES_CHKSUM with additional
-entries?
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Alex
+---
+Testing patch /home/patchtest/share/mboxes/Explicitly-specify-tty-device-for-serial-consoles.patch
 
-On Wed 7. Feb 2024 at 9.08, Kai Kang <kai.kang@eng.windriver.com> wrote:
+FAIL: test shortlog format: Commit shortlog (first line of commit message) should follow the format "<target>: <summary>" (test_mbox.TestMbox.test_shortlog_format)
 
-> From: Kai Kang <kai.kang@windriver.com>
->
-> The license of ghostscript has switched to Affero GPL since version 9.07
-> via commit:
->
-> * 3cc5318 Switch Ghostscript/GhostPDL to Affero GPL
->
-> https://github.com/ArtifexSoftware/ghostpdl/commit/3cc5318
->
-> Correct it with `AGPL-3.0-or-later`.
->
-> Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> ---
->  meta/recipes-extended/ghostscript/ghostscript_10.02.1.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-extended/ghostscript/ghostscript_10.02.1.bb
-> b/meta/recipes-extended/ghostscript/ghostscript_10.02.1.bb
-> index 2a966afc21..2c965b6451 100644
-> --- a/meta/recipes-extended/ghostscript/ghostscript_10.02.1.bb
-> +++ b/meta/recipes-extended/ghostscript/ghostscript_10.02.1.bb
-> @@ -10,7 +10,7 @@ dot-matrix, inkjet and laser models. \
->  HOMEPAGE = "http://www.ghostscript.com"
->  SECTION = "console/utils"
->
-> -LICENSE = "GPL-3.0-only"
-> +LICENSE = "AGPL-3.0-or-later"
->  LIC_FILES_CHKSUM = "file://LICENSE;md5=f98ffa763e50cded76f49bce73aade16"
->
->  DEPENDS = "tiff jpeg fontconfig cups libpng freetype zlib"
-> --
-> 2.34.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#195040):
-> https://lists.openembedded.org/g/openembedded-core/message/195040
-> Mute This Topic: https://lists.openembedded.org/mt/104214872/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
 
---0000000000003a844b0610c9072a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
-<div dir=3D"auto">I think this needs additional research. Why was the licen=
-se change missed when it happened? Do we need to adjust LIC_FILES_CHKSUM wi=
-th additional entries?</div><div dir=3D"auto"><br></div><div dir=3D"auto">A=
-lex</div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmai=
-l_attr">On Wed 7. Feb 2024 at 9.08, Kai Kang &lt;<a href=3D"mailto:kai.kang=
-@eng.windriver.com">kai.kang@eng.windriver.com</a>&gt; wrote:<br></div><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
--width:1px;border-left-style:solid;padding-left:1ex;border-left-color:rgb(2=
-04,204,204)">From: Kai Kang &lt;<a href=3D"mailto:kai.kang@windriver.com" t=
-arget=3D"_blank">kai.kang@windriver.com</a>&gt;<br>
-<br>
-The license of ghostscript has switched to Affero GPL since version 9.07<br=
->
-via commit:<br>
-<br>
-* 3cc5318 Switch Ghostscript/GhostPDL to Affero GPL<br>
-<br>
-<a href=3D"https://github.com/ArtifexSoftware/ghostpdl/commit/3cc5318" rel=
-=3D"noreferrer" target=3D"_blank">https://github.com/ArtifexSoftware/ghostp=
-dl/commit/3cc5318</a><br>
-<br>
-Correct it with `AGPL-3.0-or-later`.<br>
-<br>
-Signed-off-by: Kai Kang &lt;<a href=3D"mailto:kai.kang@windriver.com" targe=
-t=3D"_blank">kai.kang@windriver.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-extended/ghostscript/<a href=3D"http://ghostscript_10.02=
-.1.bb" rel=3D"noreferrer" target=3D"_blank">ghostscript_10.02.1.bb</a> | 2 =
-+-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/recipes-extended/ghostscript/<a href=3D"http://ghostscrip=
-t_10.02.1.bb" rel=3D"noreferrer" target=3D"_blank">ghostscript_10.02.1.bb</=
-a> b/meta/recipes-extended/ghostscript/<a href=3D"http://ghostscript_10.02.=
-1.bb" rel=3D"noreferrer" target=3D"_blank">ghostscript_10.02.1.bb</a><br>
-index 2a966afc21..2c965b6451 100644<br>
---- a/meta/recipes-extended/ghostscript/<a href=3D"http://ghostscript_10.02=
-.1.bb" rel=3D"noreferrer" target=3D"_blank">ghostscript_10.02.1.bb</a><br>
-+++ b/meta/recipes-extended/ghostscript/<a href=3D"http://ghostscript_10.02=
-.1.bb" rel=3D"noreferrer" target=3D"_blank">ghostscript_10.02.1.bb</a><br>
-@@ -10,7 +10,7 @@ dot-matrix, inkjet and laser models. \<br>
-=C2=A0HOMEPAGE =3D &quot;<a href=3D"http://www.ghostscript.com" rel=3D"nore=
-ferrer" target=3D"_blank">http://www.ghostscript.com</a>&quot;<br>
-=C2=A0SECTION =3D &quot;console/utils&quot;<br>
-<br>
--LICENSE =3D &quot;GPL-3.0-only&quot;<br>
-+LICENSE =3D &quot;AGPL-3.0-or-later&quot;<br>
-=C2=A0LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3Df98ffa763e50cded76f49=
-bce73aade16&quot;<br>
-<br>
-=C2=A0DEPENDS =3D &quot;tiff jpeg fontconfig cups libpng freetype zlib&quot=
-;<br>
--- <br>
-2.34.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#195040): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/195040" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/195040</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/104214872/168=
-6489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/104214872/1686489</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
-rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
+---
 
---0000000000003a844b0610c9072a--
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
