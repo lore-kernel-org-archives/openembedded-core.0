@@ -1,96 +1,119 @@
-Return-Path: <kai.kang@eng.windriver.com>
+Return-Path: <changqing.li@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 739FAC4828D
-	for <webhook@archiver.kernel.org>; Wed,  7 Feb 2024 08:08:40 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.15755.1707293310896188821
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8654EC4828D
+	for <webhook@archiver.kernel.org>; Wed,  7 Feb 2024 08:33:20 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.16219.1707294798088235745
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Feb 2024 00:08:31 -0800
+ Wed, 07 Feb 2024 00:33:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=bYtx1FvA;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=2767aeb957=kai.kang@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 417594PM022452
-	for <openembedded-core@lists.openembedded.org>; Wed, 7 Feb 2024 08:08:30 GMT
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=HKAkJDsj;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=2767a3df65=changqing.li@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4177cmxk012119
+	for <openembedded-core@lists.openembedded.org>; Wed, 7 Feb 2024 00:33:17 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=hgzgw
-	GTceK+uISTcjDKZniH3xgHO76Ha/uBQAqZj3+k=; b=bYtx1FvAB21OV3TsVC+YC
-	84rR5rDEWhAMysxBl3y5ylh/VngMj78hws3CIwz8LWUnwVVeg7dfhJUTwuRCnGF/
-	Kp8kbSOPSUyF9ySbgnkLAv7ZPGTAn9iuukJtejRRjlZxn99kyM3nal8RzcrFaOIw
-	GSZAYjgfAQECvUUDk+RdjljBCiFdoBRTR+GMoQUxu/9h48Vc+qE5SuSYtAVxSrWs
-	9uD3xz2ti75ekkHnvObF0fdJdPNgFqB0o+HHA9cq2ZKHzYg3BOlobQcy26AJgzz0
-	feZY/v5ohTBt1Pzo5aU27/5RLbOSyxkqVUEdC8s4yGmzUtL445dcOubfBRwJXPGz
-	A==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3w1cs7btnv-1
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=EQgLs
+	tHIQo1MFu2f0BN9Xn0YRcGsEp4dro4VnfTXvH4=; b=HKAkJDsjqYtmrL9kI5j+9
+	npPKOjl7QRIscEDELPkNhbJJjmpHX18nGQ2BP+/8KLyUUTn5F9nS68qNakIKXjGk
+	AhAFgvj+CHvHubYPn73B93bWfIuafPtHAkxPq7L6WjjCl08z+zVovlZBJaGRBIFJ
+	j+kVam6mVD/vTSil8+xPYmOvUZc+C5CNbBwnS2oLGQOB2xZRDFm/3H9OknZrjaM8
+	yWbOZF32SDyzPLcVo+wHOMrgAGlP2VEPBZ81hi3J3NG1FJ96TUCLujfrO7X0bQiv
+	sIlz63UvLxDFaNPdgGWUyb6QZpyXUSfkvpN66kY8aXcrXDopMD43mHvDWImpLspF
+	w==
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3w1nvm3gep-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 07 Feb 2024 08:08:30 +0000 (GMT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 07 Feb 2024 00:33:17 -0800 (PST)
 Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 7 Feb 2024 00:08:28 -0800
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+ 15.1.2507.35; Wed, 7 Feb 2024 00:33:16 -0800
+Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Wed, 7 Feb 2024 00:08:28 -0800
-From: <kai.kang@windriver.com>
+ 15.1.2507.35 via Frontend Transport; Wed, 7 Feb 2024 00:33:16 -0800
+From: <changqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-CC: <liezhi.yang@windriver.com>
-Subject: [PATCH] ghostscript: correct LICENSE with AGPLv3
-Date: Wed, 7 Feb 2024 16:08:23 +0800
-Message-ID: <20240207080823.498290-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.34.1
+Subject: [PATCH V3] systemd: fix a dead link under /var/log
+Date: Wed, 7 Feb 2024 16:33:15 +0800
+Message-ID: <20240207083315.2179787-1-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: bwFKL0ehDX7fyf5M_7Gi_6WiLuzEN3P_
-X-Proofpoint-GUID: bwFKL0ehDX7fyf5M_7Gi_6WiLuzEN3P_
+X-Proofpoint-GUID: xWHl6_aqu8n7V_PfwLJXnfbgWlrS9yxd
+X-Proofpoint-ORIG-GUID: xWHl6_aqu8n7V_PfwLJXnfbgWlrS9yxd
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2024-02-07_02,2024-01-31_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 phishscore=0
- bulkscore=0 mlxlogscore=723 impostorscore=0 adultscore=0
- priorityscore=1501 lowpriorityscore=0 spamscore=0 mlxscore=0
- suspectscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2401310000 definitions=main-2402070059
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ suspectscore=0 mlxscore=0 mlxlogscore=999 clxscore=1011 impostorscore=0
+ priorityscore=1501 spamscore=0 phishscore=0 adultscore=0 malwarescore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401310000 definitions=main-2402070063
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 07 Feb 2024 08:08:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195040
+ <openembedded-core@lists.openembedded.org>; Wed, 07 Feb 2024 08:33:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195041
 
-From: Kai Kang <kai.kang@windriver.com>
+From: Changqing Li <changqing.li@windriver.com>
 
-The license of ghostscript has switched to Affero GPL since version 9.07
-via commit:
+Commit 6fe23ff31c0 changed README to a symlink to README.logs, and
+install README.logs under systemd doc dir.
 
-* 3cc5318 Switch Ghostscript/GhostPDL to Affero GPL
+But for OE, systemd doc dir is splited into package systemd-doc, when it
+is not installed on the target, there will be an dead link:
+Eg:
+root@intel-x86-64:/var/log# ls -l README
+lrwxrwxrwx 1 root root 39 Jun 20 08:57 README -> ../../usr/share/doc/systemd/README.logs
+root@intel-x86-64:/var/log# ls -l ../../usr/share/doc/systemd/README.logs
+ls: cannot access '../../usr/share/doc/systemd/README.logs': No such file or directory
 
-https://github.com/ArtifexSoftware/ghostpdl/commit/3cc5318
+Package this link into systemd-doc to fix above issue, meantime, set
+symlink according to log dir path
 
-Correct it with `AGPL-3.0-or-later`.
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- meta/recipes-extended/ghostscript/ghostscript_10.02.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/systemd/systemd_255.1.bb | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_10.02.1.bb b/meta/recipes-extended/ghostscript/ghostscript_10.02.1.bb
-index 2a966afc21..2c965b6451 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_10.02.1.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_10.02.1.bb
-@@ -10,7 +10,7 @@ dot-matrix, inkjet and laser models. \
- HOMEPAGE = "http://www.ghostscript.com"
- SECTION = "console/utils"
+diff --git a/meta/recipes-core/systemd/systemd_255.1.bb b/meta/recipes-core/systemd/systemd_255.1.bb
+index 9e09c89355..eccc916af4 100644
+--- a/meta/recipes-core/systemd/systemd_255.1.bb
++++ b/meta/recipes-core/systemd/systemd_255.1.bb
+@@ -386,6 +386,18 @@ do_install() {
+         sed -i -e 's/#RebootWatchdogSec=10min/RebootWatchdogSec=${WATCHDOG_TIMEOUT}/' \
+             ${D}/${sysconfdir}/systemd/system.conf
+     fi
++
++    if [ -f "${D}${prefix}/lib/tmpfiles.d/legacy.conf" ]; then
++        sed -i -e '/^L \/var\/log\/README/d' ${D}${prefix}/lib/tmpfiles.d/legacy.conf
++        
++        touch ${D}${prefix}/lib/tmpfiles.d/legacy-doc.conf
++        if "${@'true' if oe.types.boolean(d.getVar('VOLATILE_LOG_DIR')) else 'false'}"; then 
++            echo "L /var/log/README - - - - ../../../${datadir}/doc/systemd/README.logs" > ${D}${prefix}/lib/tmpfiles.d/legacy-doc.conf
++        else
++            echo "L /var/log/README - - - - ../../${datadir}/doc/systemd/README.logs" > ${D}${prefix}/lib/tmpfiles.d/legacy-doc.conf
++        fi
++
++    fi
+ }
  
--LICENSE = "GPL-3.0-only"
-+LICENSE = "AGPL-3.0-or-later"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=f98ffa763e50cded76f49bce73aade16"
+ python populate_packages:prepend (){
+@@ -622,6 +634,8 @@ FILES:${PN}-udev-rules = "\
+                         ${rootlibexecdir}/udev/rules.d/99-systemd.rules \
+ "
  
- DEPENDS = "tiff jpeg fontconfig cups libpng freetype zlib"
++FILES:${PN}-doc:append = " ${prefix}/lib/tmpfiles.d/legacy-doc.conf"
++
+ CONFFILES:${PN} = "${sysconfdir}/systemd/coredump.conf \
+ 	${sysconfdir}/systemd/journald.conf \
+ 	${sysconfdir}/systemd/logind.conf \
 -- 
-2.34.1
+2.25.1
 
 
