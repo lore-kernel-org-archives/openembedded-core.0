@@ -2,93 +2,116 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5F07C4828D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8239C4829A
 	for <webhook@archiver.kernel.org>; Wed,  7 Feb 2024 06:02:49 +0000 (UTC)
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
- by mx.groups.io with SMTP id smtpd.web11.14530.1707285763243293665
+Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com [209.85.161.43])
+ by mx.groups.io with SMTP id smtpd.web11.14531.1707285764276300428
  for <openembedded-core@lists.openembedded.org>;
- Tue, 06 Feb 2024 22:02:43 -0800
+ Tue, 06 Feb 2024 22:02:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ejwQEr3Y;
- spf=pass (domain: gmail.com, ip: 209.85.210.169, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-6e054f674b3so211675b3a.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 22:02:43 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=DTfpAo01;
+ spf=pass (domain: gmail.com, ip: 209.85.161.43, mailfrom: raj.khem@gmail.com)
+Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-5986d902ae6so131226eaf.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 06 Feb 2024 22:02:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707285762; x=1707890562; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=22brXw/t+guv+rrIYO8+nTfsrSmw31P9GR2kE9/nM20=;
-        b=ejwQEr3YNf7CBI0Qn9uqGxLteHVY7mQdLS5ZxfR7kpwOOvE1nr9W4B5enOL+Pa5YmB
-         afBr0PTasWGAOJ7keMWv2pGwMoMg3muvKRneONEX5DEhrDENBxT/GR+cHyB7AFzNmR/F
-         lfvrUwCUHEofMZvVDDQ4/YFPt6x/PdCdWq0D9Dn7HOFbdJVA/vxd8B7Wv9Glx3r4N1sT
-         TN942FElWYVs6uB5KumNxugH/toXqZus3zspUdIZYuUe2uE6WBvSSoXXMbE0rPUSvlzZ
-         UcajdUd3lrOrrtUFxdzgvIUVw92qkH9/5AgGt9J6PgDM9zqKbw64K3jkab3BF5PJKoKS
-         s0dA==
+        d=gmail.com; s=20230601; t=1707285763; x=1707890563; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sBmIL0nEB/AR75bxuTBts3zGSqbLEHqK7/OVl8aotXM=;
+        b=DTfpAo01cJQ5ye8CNFiXtBJKkPCcOnwXFlG64wZr2WWuxDMu6FOPnJwv1+k8hnIp5H
+         8oTiIYNjhCsuZHEDDuv1ikYMwam98wBslKtmdiPLAss9kpNVyRe9AgVh7IHegQ36MGkq
+         DYLIee89ylgkJc+wttunpIKqpuh1U8XICygqJL3YE7LkXiSKmVYXcA7sHZXdRS9RDSAk
+         m1YqfjXI16rDBQUG3AyccZw2eX6NxgdzOpycSokVwKPd26kuCNRwoZfJplZYudBD7SER
+         FsdRPyBdAmwLPDRKHm/PwsBnrCd/wL8a9YytXQWpU5IqobwM5g/QreI9Fst/+DctWMCG
+         3EpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707285762; x=1707890562;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=22brXw/t+guv+rrIYO8+nTfsrSmw31P9GR2kE9/nM20=;
-        b=pSfdkTh9IYKrBySNyA4Y0dh+/ENSn6xzR3cTI/tKxco5ZMo2KWtVBtEC4A/xKVf8Ri
-         2w+v3e8WL7v+NtOHAHVjHFXH6m4ZQ9p20hhTDiZRxVq6Kk3XDeSOmApE6O1LbSwTHKs5
-         dLfUb9ew8h/4W3sfi0UMxwN7Zd7oAKsLA8uDWkASyTfZOFTzwCM1HB2AgJDOjt6eMwUt
-         j5pw2IX4f6lhhTYlaV0BTVB7NvMxXcYUXZnGPRCvtKuUdqtfwL6gUx8hEPHKmy8FQ3/Q
-         3Vtxv8I7lpApYHF/x8a9fRo+7l5maewPcXMNIwsBksNg/ffyDMLLOPEolEh6axnvL5sW
-         uZAQ==
-X-Gm-Message-State: AOJu0Yw3ES5q7ZyZw2zedQKoViZjaiXKSpurwgaAn8qYE9szmVwwkPI8
-	dYGjOBOk+qoeStgPhzP4GCGywHoPd7FjHspLRvcSEhYvDvOI2WmILLumGGieBRU=
-X-Google-Smtp-Source: AGHT+IG/mxnTvmaghCASetntHkQpN3Z/YWyPhdiQHuRgCoRxM9SV2GNS1yxvylQBeGVlXvbxd5xyog==
-X-Received: by 2002:a05:6a00:1d86:b0:6e0:6bc7:15e8 with SMTP id z6-20020a056a001d8600b006e06bc715e8mr218902pfw.12.1707285762171;
+        d=1e100.net; s=20230601; t=1707285763; x=1707890563;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sBmIL0nEB/AR75bxuTBts3zGSqbLEHqK7/OVl8aotXM=;
+        b=BzSAdNIhYHHiO0wOO5gadjzLkVSOrxeDQT59jMmNLlnhGOeO+g+QGSsfM9QECGsLiU
+         uHC4LPJlwZsSVDbxEaidM23xR/I3J3Logxkao9rKzxfJsOe+8E2WYXx/jlW193p+Di71
+         7aLZBqAL/ipZ+XOGHIe18AKD1BGJFi04MFUFOyXkiW6ohNSGdnNq/XZxXz/ZDV9Y1yJU
+         x9WnlOY353epNlK/hyz4vVd7EVzaOYNi7Me6TD36+KKqXh0y5tPojrp+Akt2ZHkf5CEg
+         Q031PL8xeGNPwcfyZz3eFwuC6t4pPxoPAZ5LHi+El2fdT8oN2e+cv3rayvmSJqPaXrnP
+         Zfrg==
+X-Gm-Message-State: AOJu0YzUD0FJSkHKQRdqGwSQX8q99eJLq6Fdy8TUFzvgk0UuGngRV+O3
+	OX2Rr+Oq6PBFP/bProVcsNGUHtl6sMxiTsRu9uSJJE+5+PSmRDnPSut+RdBe5iI=
+X-Google-Smtp-Source: AGHT+IETIXQ/pk+885VtxVB9p/QH+E5G8EYWe440kDqNIGVNknuWbN/JPDIoKb0g+9bJf3IbjisLBg==
+X-Received: by 2002:a05:6358:224d:b0:178:9393:176b with SMTP id i13-20020a056358224d00b001789393176bmr1879050rwc.16.1707285762926;
         Tue, 06 Feb 2024 22:02:42 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::c29d])
-        by smtp.gmail.com with ESMTPSA id fb37-20020a056a002da500b006d0d90edd2csm559599pfb.42.2024.02.06.22.02.41
+        by smtp.gmail.com with ESMTPSA id fb37-20020a056a002da500b006d0d90edd2csm559599pfb.42.2024.02.06.22.02.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Feb 2024 22:02:41 -0800 (PST)
+        Tue, 06 Feb 2024 22:02:42 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 1/2] ptest.bbclass: Handle the case when Makefile does not exist in do_install_ptest_base
-Date: Tue,  6 Feb 2024 22:02:38 -0800
-Message-ID: <20240207060239.2202928-1-raj.khem@gmail.com>
+Subject: [PATCH 2/2] expat: Upgrade to 2.6.0
+Date: Tue,  6 Feb 2024 22:02:39 -0800
+Message-ID: <20240207060239.2202928-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240207060239.2202928-1-raj.khem@gmail.com>
+References: <20240207060239.2202928-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 07 Feb 2024 06:02:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195037
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195038
 
-Some recipes e.g. expant generate ninja files and no Makefile may exist,
-therefore grep -q would fail on a non-existent file, we just need the
-return code  to decide if intall-ptest target should be run or not.
+Package and run benchmark as part of ptest
+This is a major release with following changes [1]
 
-Fixes errors like
-| grep: Makefile: No such file or directory
+[1] https://github.com/libexpat/libexpat/blob/R_2_6_0/expat/Changes
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/classes-recipe/ptest.bbclass | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-core/expat/expat/run-ptest                    | 2 +-
+ meta/recipes-core/expat/{expat_2.5.0.bb => expat_2.6.0.bb} | 5 +++--
+ 2 files changed, 4 insertions(+), 3 deletions(-)
+ rename meta/recipes-core/expat/{expat_2.5.0.bb => expat_2.6.0.bb} (82%)
 
-diff --git a/meta/classes-recipe/ptest.bbclass b/meta/classes-recipe/ptest.bbclass
-index a1c3c3f1a65..348d729aef1 100644
---- a/meta/classes-recipe/ptest.bbclass
-+++ b/meta/classes-recipe/ptest.bbclass
-@@ -56,9 +56,9 @@ do_install_ptest_base() {
-     if [ -f ${WORKDIR}/run-ptest ]; then
-         install -D ${WORKDIR}/run-ptest ${D}${PTEST_PATH}/run-ptest
-     fi
--    if grep -q install-ptest: Makefile; then
--        oe_runmake DESTDIR=${D}${PTEST_PATH} install-ptest
--    fi
-+
-+    grep -q install-ptest: Makefile 2>/dev/null && oe_runmake DESTDIR=${D}${PTEST_PATH} install-ptest
-+
-     do_install_ptest
-     chown -R root:root ${D}${PTEST_PATH}
+diff --git a/meta/recipes-core/expat/expat/run-ptest b/meta/recipes-core/expat/expat/run-ptest
+index dbf602ca800..ff7986db3cf 100644
+--- a/meta/recipes-core/expat/expat/run-ptest
++++ b/meta/recipes-core/expat/expat/run-ptest
+@@ -5,5 +5,5 @@ TIME=$(which time)
+ echo "runtests"
+ ${TIME} -f 'Execution time: %e s' bash -c "./runtests -v"
+ echo "runtestspp"
+-${TIME} -f 'Execution time: %e s' bash -c "./runtestspp -v"
++${TIME} -f 'Execution time: %e s' bash -c "./runtests_cxx -v"
+ echo
+diff --git a/meta/recipes-core/expat/expat_2.5.0.bb b/meta/recipes-core/expat/expat_2.6.0.bb
+similarity index 82%
+rename from meta/recipes-core/expat/expat_2.5.0.bb
+rename to meta/recipes-core/expat/expat_2.6.0.bb
+index aa8d439d5fb..1f9f7b269a4 100644
+--- a/meta/recipes-core/expat/expat_2.5.0.bb
++++ b/meta/recipes-core/expat/expat_2.6.0.bb
+@@ -15,7 +15,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/R_${VERSION_TAG}/expat-${PV}.tar.bz2  \
+ GITHUB_BASE_URI = "https://github.com/libexpat/libexpat/releases/"
+ UPSTREAM_CHECK_REGEX = "releases/tag/R_(?P<pver>.+)"
  
+-SRC_URI[sha256sum] = "6f0e6e01f7b30025fa05c85fdad1e5d0ec7fd35d9f61b22f34998de11969ff67"
++SRC_URI[sha256sum] = "ff60e6a6b6ce570ae012dc7b73169c7fdf4b6bf08c12ed0ec6f55736b78d85ba"
+ 
+ EXTRA_OECMAKE:class-native += "-DEXPAT_BUILD_DOCS=OFF"
+ 
+@@ -24,7 +24,8 @@ RDEPENDS:${PN}-ptest += "bash"
+ inherit cmake lib_package ptest github-releases
+ 
+ do_install_ptest:class-target() {
+-	install -m 755 ${B}/tests/* ${D}${PTEST_PATH}
++	install -m 755 ${B}/tests/runtests* ${D}${PTEST_PATH}
++	install -m 755 ${B}/tests/benchmark/benchmark ${D}${PTEST_PATH}
+ }
+ 
+ BBCLASSEXTEND += "native nativesdk"
 -- 
 2.43.0
 
