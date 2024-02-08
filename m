@@ -1,105 +1,203 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D576C4828F
-	for <webhook@archiver.kernel.org>; Thu,  8 Feb 2024 15:54:28 +0000 (UTC)
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
- by mx.groups.io with SMTP id smtpd.web11.21033.1707407662272159808
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EF1FC48260
+	for <webhook@archiver.kernel.org>; Thu,  8 Feb 2024 16:26:38 +0000 (UTC)
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+ by mx.groups.io with SMTP id smtpd.web11.21877.1707409589451449712
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Feb 2024 07:54:22 -0800
+ Thu, 08 Feb 2024 08:26:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=IUkrOFnJ;
- spf=pass (domain: gmail.com, ip: 209.85.167.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-511234430a4so4053302e87.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 07:54:22 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Ldbs2w2j;
+ spf=pass (domain: gmail.com, ip: 209.85.216.54, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-290d59df3f0so1494619a91.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 08:26:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707407660; x=1708012460; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=VvEz5AOfp1EknPqfOnWbRz+hcGj7VMbC7r3mZBcZU0M=;
-        b=IUkrOFnJOFTUpn12qggfs1KR/J46BBg4qLIYiQqqkTj9yzhayfjrEAMe0hPUEgXFIc
-         r2tYjItlwlqeFpzdKQehZgkcit3Qfhze/eRATfKATEkuASsmljzsBHmCO2p4rJDblil+
-         +8PxKGD8CS4yzsT+K++GUr1CoCa77iYtK8dDGyI8wm1LKRAg/loIOKsSqcGN/X+XUp0h
-         B4XgCDhH3VCXi/oBxOhqdgwDGWjBmTpwmmzyP33vrHXPQUcCfi5BvMMlLl+zITd8OX9b
-         syaPsKXpOUO5X9Ds+Cg79tu4jUSSXFausM4kq4iQDqWa1Wdm+um2u6dZQ2A2sffx8k1B
-         vdEA==
+        d=gmail.com; s=20230601; t=1707409589; x=1708014389; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=d/qyhENH4agzxqPYzChrnII66d79th7HhfdbF8rrGe8=;
+        b=Ldbs2w2j3TmGXognvg9U7Yx+L67gQQyysaU0ejGstpTTyaP1e/FYkij9MFm6Rpk7Ul
+         BtjcrIBnhYS9liIRckMlFk7M+NKH23rL4Ba+44DgNj+7aDtRNRk+kTPlJVzvDaMO07qy
+         dES5r/qtHSdDIwplWdz4C/KW863Z0bZVG5R9YR7w0pwBZfGRvkS5y24gk0T5SIgv3bH3
+         u6fGrAiyZStOV1MDyHC2yVjw/7gfpfLINHwUXi7pRAcpWzYSjO8v0xZQfgDF6DBucypU
+         PAf24NgbwKCtC8qlnIndVK3GATkA9W9UQDMFo3FlE5g/QDyLBVchqkVFaOvigU0rG9rM
+         2vfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707407660; x=1708012460;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1707409589; x=1708014389;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=VvEz5AOfp1EknPqfOnWbRz+hcGj7VMbC7r3mZBcZU0M=;
-        b=RlnUC22ibQ7OZ23t91qo64tQktyLJpLIWhCgUVJMj5kiKd1VUxKqCAvJfLVvnNYxhG
-         r361Q2V36IBmdV/nVDfWpssWG03jn7d8ic94jRlE6cummk5HedJdYMB6Kl7E37mN1WfG
-         Yde+wHD8Ti6MiQeQgwFub9mtQ9Ys+COv4OV13y/P+XW58nHBloV9QccnDQgkAnH1JLqk
-         sY6XyvZuL0LhhBzD6ldIJ+yTD/a3DArCHfe2orjGwCBo17Ge4zPtkS4hVZONL31JKmSO
-         85uR6UUi6qpUbdT+Q/ntzxYgpNgQMNKJEzJH9jynaeNVtL+nIHBcfOINhvUXjO3xs5+C
-         wItg==
-X-Gm-Message-State: AOJu0YwWMyfY6/0f0SmO2GE08XXBdQc5+mjkpQy+Dxf4Wte0uUGG5/TP
-	UOmzLpMVFpLt34pm24jsgDLJFi/g1H9gCdTKDzrUCh3jOepofiHj4AmDXNJC4PRdY63rdOsHFJb
-	OZv9OPN8xwGYyLhSjb1KrPXdDFv8=
-X-Google-Smtp-Source: AGHT+IE+S0K1YDw51N5cZ1dAMPLzHaRIa7Q6xseYnbsofjdeFFMDV8VXZreMH2HoVyyF4ZQWDUkbdb/QbqiDG3Z79Tg=
-X-Received: by 2002:a2e:9cd5:0:b0:2d0:d5d5:4f4b with SMTP id
- g21-20020a2e9cd5000000b002d0d5d54f4bmr1427659ljj.2.1707407659821; Thu, 08 Feb
- 2024 07:54:19 -0800 (PST)
+        bh=d/qyhENH4agzxqPYzChrnII66d79th7HhfdbF8rrGe8=;
+        b=pN79pys8BeBS0E/DSFcTShcmTCOvQjEdTQJfrDgYKPeIVQmmFeIFbLFg2HRK6Kve0l
+         u3kXOl3/1/7pJ6BHBaGNeMXsxwjMHO7bER8mRFnVAL00mkJTleRRCBCIsKAJEv/6WqAq
+         rTCY6ANW1Jgyh+XMKSs+RTgy3U4AELEK31TlWoWkaDqNQkDUZaPwvjlFyoC+fy3XVL47
+         Q57kFtPK6XJVvN6Y4NAgJQ2Eotkz4cWnSGoLxgH37pRZkLK1FZmPXs3+QQNm6JSaLAN2
+         UMijlLNlygXHnCzgA/pLYgB6NRaDfoqRBDw9DIgWUcv2ucfwCjEILz6JEa+tej/IRV3J
+         d2zw==
+X-Gm-Message-State: AOJu0Yxl7oGX3Hvqszs9uquTmwuW2itBP+VE/kxgLeXCzPeWcWkOqkOA
+	i+Pz1MJZSPY5N0SOvcBtPHBSFu3qEwW3/HygJZv+wW1HlReaZggR7YnDWXTBFJQ=
+X-Google-Smtp-Source: AGHT+IH/2inHbXfZ/qHnGVwBO/tj3PzDAgyrdyQS2OFoaxpx48v601l29Ev3pYmSMhOKy+k++Y0dIw==
+X-Received: by 2002:a17:90a:9a7:b0:296:15e7:8f33 with SMTP id 36-20020a17090a09a700b0029615e78f33mr5494507pjo.3.1707409588475;
+        Thu, 08 Feb 2024 08:26:28 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::c29d])
+        by smtp.gmail.com with ESMTPSA id q2-20020a170902f78200b001d78a08e8e7sm3586825pln.250.2024.02.08.08.26.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Feb 2024 08:26:28 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH v2] python3: Fix ptests with expat 2.6+
+Date: Thu,  8 Feb 2024 08:26:25 -0800
+Message-ID: <20240208162625.2575278-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20240131123908.1098544-5-alex@linutronix.de> <28123.1707399641733383554@lists.openembedded.org>
-In-Reply-To: <28123.1707399641733383554@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 8 Feb 2024 16:54:08 +0100
-Message-ID: <CANNYZj9qhPgj_ApCfX0KDfgsYPps=0s=2HC1903--ZsQ4MrhtA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 5/5] oe-setup-build: add a tool for discovering
- config templates and setting up builds
-To: Jermain Horsman <jermain.horsman@nedap.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 15:54:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195159
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 16:26:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195160
 
-On Thu, 8 Feb 2024 at 14:40, Jermain Horsman <jermain.horsman@nedap.com> wrote:
-> >          # The revision-under-test may not necessarily be available on the
-> > remote server,
-> > -        # so replace it with a revision that has a yocto-4.0 tag.
-> > +        # so replace it with a revision that has a yocto-4.1 tag.
-> >          import json
-> >          with open(jsonfile) as f:
-> >              data = json.load(f)
-> >          for s in data['sources']:
-> > -            data['sources'][s]['git-remote']['rev'] =
-> > '00cfdde791a0176c134f31e5a09eff725e75b905'
-> > +            data['sources'][s]['git-remote']['rev'] =
-> > '5200799866b92259e855051112520006e1aaaac0'
->
-> First I got a failure here, as this is not a valid reference on oe-core, only on poky is this valid.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+v2: Replace the patch with next version of the fix from upstream PR
 
-Yes, the test is poky-specific and was before the change too.
-Something to address later on.
+ ...sts-for-XMLPullParser-with-Expat-2.6.patch | 110 ++++++++++++++++++
+ .../recipes-devtools/python/python3_3.12.1.bb |   1 +
+ 2 files changed, 111 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3/0001-gh-115133-Fix-tests-for-XMLPullParser-with-Expat-2.6.patch
 
+diff --git a/meta/recipes-devtools/python/python3/0001-gh-115133-Fix-tests-for-XMLPullParser-with-Expat-2.6.patch b/meta/recipes-devtools/python/python3/0001-gh-115133-Fix-tests-for-XMLPullParser-with-Expat-2.6.patch
+new file mode 100644
+index 00000000000..baf7776963f
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/0001-gh-115133-Fix-tests-for-XMLPullParser-with-Expat-2.6.patch
+@@ -0,0 +1,110 @@
++From f329ff6286e19aedfefd306676fe2ab0b587db5a Mon Sep 17 00:00:00 2001
++From: Serhiy Storchaka <storchaka@gmail.com>
++Date: Thu, 8 Feb 2024 14:17:04 +0200
++Subject: [PATCH] gh-115133: Fix tests for XMLPullParser with Expat 2.6.0
++
++Feeding the parser by too small chunks defers parsing to prevent
++CVE-2023-52425. Future versions of Expat may be more reactive.
++
++Upstream-Status: Submitted [https://github.com/python/cpython/pull/115164]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ Lib/test/test_xml_etree.py                    | 58 ++++++++++++-------
++ ...-02-08-14-21-28.gh-issue-115133.ycl4ko.rst |  2 +
++ 2 files changed, 38 insertions(+), 22 deletions(-)
++ create mode 100644 Misc/NEWS.d/next/Library/2024-02-08-14-21-28.gh-issue-115133.ycl4ko.rst
++
++diff --git a/Lib/test/test_xml_etree.py b/Lib/test/test_xml_etree.py
++index 53a4e9f..d406235 100644
++--- a/Lib/test/test_xml_etree.py
+++++ b/Lib/test/test_xml_etree.py
++@@ -13,6 +13,7 @@ import itertools
++ import operator
++ import os
++ import pickle
+++import pyexpat
++ import sys
++ import textwrap
++ import types
++@@ -120,6 +121,10 @@ ATTLIST_XML = """\
++ </foo>
++ """
++ 
+++fails_with_expat_2_6_0 = (unittest.expectedFailure
+++                        if pyexpat.version_info >= (2, 6, 0) else
+++                        lambda test: test)
+++
++ def checkwarnings(*filters, quiet=False):
++     def decorator(test):
++         def newtest(*args, **kwargs):
++@@ -1398,28 +1403,37 @@ class XMLPullParserTest(unittest.TestCase):
++         self.assertEqual([(action, elem.tag) for action, elem in events],
++                          expected)
++ 
++-    def test_simple_xml(self):
++-        for chunk_size in (None, 1, 5):
++-            with self.subTest(chunk_size=chunk_size):
++-                parser = ET.XMLPullParser()
++-                self.assert_event_tags(parser, [])
++-                self._feed(parser, "<!-- comment -->\n", chunk_size)
++-                self.assert_event_tags(parser, [])
++-                self._feed(parser,
++-                           "<root>\n  <element key='value'>text</element",
++-                           chunk_size)
++-                self.assert_event_tags(parser, [])
++-                self._feed(parser, ">\n", chunk_size)
++-                self.assert_event_tags(parser, [('end', 'element')])
++-                self._feed(parser, "<element>text</element>tail\n", chunk_size)
++-                self._feed(parser, "<empty-element/>\n", chunk_size)
++-                self.assert_event_tags(parser, [
++-                    ('end', 'element'),
++-                    ('end', 'empty-element'),
++-                    ])
++-                self._feed(parser, "</root>\n", chunk_size)
++-                self.assert_event_tags(parser, [('end', 'root')])
++-                self.assertIsNone(parser.close())
+++    def test_simple_xml(self, chunk_size=None):
+++        parser = ET.XMLPullParser()
+++        self.assert_event_tags(parser, [])
+++        self._feed(parser, "<!-- comment -->\n", chunk_size)
+++        self.assert_event_tags(parser, [])
+++        self._feed(parser,
+++                   "<root>\n  <element key='value'>text</element",
+++                   chunk_size)
+++        self.assert_event_tags(parser, [])
+++        self._feed(parser, ">\n", chunk_size)
+++        self.assert_event_tags(parser, [('end', 'element')])
+++        self._feed(parser, "<element>text</element>tail\n", chunk_size)
+++        self._feed(parser, "<empty-element/>\n", chunk_size)
+++        self.assert_event_tags(parser, [
+++            ('end', 'element'),
+++            ('end', 'empty-element'),
+++            ])
+++        self._feed(parser, "</root>\n", chunk_size)
+++        self.assert_event_tags(parser, [('end', 'root')])
+++        self.assertIsNone(parser.close())
+++
+++    @fails_with_expat_2_6_0
+++    def test_simple_xml_chunk_1(self):
+++        self.test_simple_xml(chunk_size=1)
+++
+++    @fails_with_expat_2_6_0
+++    def test_simple_xml_chunk_5(self):
+++        self.test_simple_xml(chunk_size=5)
+++
+++    def test_simple_xml_chunk_8(self):
+++        self.test_simple_xml(chunk_size=8)
++ 
++     def test_feed_while_iterating(self):
++         parser = ET.XMLPullParser()
++diff --git a/Misc/NEWS.d/next/Library/2024-02-08-14-21-28.gh-issue-115133.ycl4ko.rst b/Misc/NEWS.d/next/Library/2024-02-08-14-21-28.gh-issue-115133.ycl4ko.rst
++new file mode 100644
++index 0000000..6f10152
++--- /dev/null
+++++ b/Misc/NEWS.d/next/Library/2024-02-08-14-21-28.gh-issue-115133.ycl4ko.rst
++@@ -0,0 +1,2 @@
+++Fix tests for :class:`~xml.etree.ElementTree.XMLPullParser` with Expat
+++2.6.0.
++-- 
++2.43.0
++
+diff --git a/meta/recipes-devtools/python/python3_3.12.1.bb b/meta/recipes-devtools/python/python3_3.12.1.bb
+index 1d3a4221c32..f67aa195e2b 100644
+--- a/meta/recipes-devtools/python/python3_3.12.1.bb
++++ b/meta/recipes-devtools/python/python3_3.12.1.bb
+@@ -30,6 +30,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0001-skip-no_stdout_fileno-test-due-to-load-variability.patch \
+            file://0001-test_storlines-skip-due-to-load-variability.patch \
+            file://0001-gh-114492-Initialize-struct-termios-before-calling-t.patch \
++           file://0001-gh-115133-Fix-tests-for-XMLPullParser-with-Expat-2.6.patch \
+            "
+ 
+ SRC_URI:append:class-native = " \
+-- 
+2.43.0
 
-> 1. meta-default
-> This configuration does not have a description.
->
-> Re-run with 'list -v' to see additional information.
-> Running: TEMPLATECONF=/home/builder/workdir/build-st/test-layer-checkout/openembedded-core-contrib/meta/conf/templates/default . /home/builder/workdir/openembedded-core-contrib/oe-init-build-env /home/builder/workdir/build-st/build-meta-default
-> Traceback (most recent call last):
->   File "/home/builder/workdir/build-st/test-layer-checkout/setup-build", line 119, in <module>
->     args.func(args)
->   File "/home/builder/workdir/build-st/test-layer-checkout/setup-build", line 98, in setup_build_env
->     subprocess.run(cmd, shell=True, executable=os.environ['SHELL'])
->   File "/usr/lib/python3.9/os.py", line 679, in __getitem__
->     raise KeyError(key) from None
-> KeyError: 'SHELL'
->
->
-> I'm not entirely sure what was going on here, the SHELL variable was set in the shell environment, however it was not in os.environ.
-
-I ran this on two different computers now to make sure something
-didn't regress, and it passed on both. Can you try with a plain poky
-checkout?
-
-Alex
 
