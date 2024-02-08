@@ -2,35 +2,35 @@ Return-Path: <michael.opdenacker@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6838CC4828F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F6BCC4829E
 	for <webhook@archiver.kernel.org>; Thu,  8 Feb 2024 08:44:25 +0000 (UTC)
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
- by mx.groups.io with SMTP id smtpd.web10.13545.1707381855582655415
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+ by mx.groups.io with SMTP id smtpd.web11.13725.1707381858906487546
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Feb 2024 00:44:16 -0800
+ Thu, 08 Feb 2024 00:44:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=SYWNCWxN;
- spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: michael.opdenacker@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 13F6560004;
-	Thu,  8 Feb 2024 08:44:14 +0000 (UTC)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=l0M8kmMa;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: michael.opdenacker@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 0AA111BF207;
+	Thu,  8 Feb 2024 08:44:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1707381854;
+	t=1707381857;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=mfV4S9CWbHTYl+Lqbc+PPyquwHQwrn7zGb8ZJshwkCE=;
-	b=SYWNCWxNVZKzymRXkke8rrRpC6lTFcLQxpGJ/oIot9HBo1ggXreXViW/k1/T2OK2ir62Ao
-	pJ2jCveubkH3w5LvU/BT/EYpIJ1DfwJ04XPImGPfWcXiHg0U0zTAopy9krOWqDWvyM7GAL
-	Ele5e+v14LoyTH69/jOPIBWyT29Mu3vsWhNRHBH/6SRPu4e7Me7Vo9fgfX9lmapqK/IGlL
-	43/wL7B664N3glhumSEqwghNaS27CjV49w7EhSkYBfcGzxUG+azbO6pxqom2mk7w5FRfA2
-	6Lzq9bSQYZttnthnQ3ngOqtAu5qoJMfIU1fU2NwiQM3PgKVsrGQdehlum9qpjg==
+	bh=rpSNVrweZnuALMFbFs+swREpk/mOQJPfG0TVKz6G5n4=;
+	b=l0M8kmMaCm7dLaOU9nM9Zs3YSHjgJLpCBU4aE5/3FIVaP3tSLiV5uyqtjmRf69tHcnhcib
+	GNMoL960Fp4AVodfcLQbR92dm7NxSe84M17XddfILPU/AocecW4wT2nkW0dy/6WXwcnjGr
+	AZSjheDLHVs7WQHFeYJ9HyeDEfdxovdRasRWYfAq/FIH1E/Mkie/kFsQi1d5Sfc4woxLlm
+	sqlOrfgDc3Uq3KXtpCjCpS/O2gZL31Slr5aGoA/jiryQvDMZmyDuFoauV6J4L5RbWT5PAp
+	UowliXe4s8hb+Zt5IqEjmfak0aYufm8I3zfKazDoidh4R9JYAO8uKcfXEwz60g==
 From: michael.opdenacker@bootlin.com
 To: openembedded-core@lists.openembedded.org
 Cc: Michael Opdenacker <michael.opdenacker@bootlin.com>
-Subject: [PATCH v3 1/4] alsa-lib: upgrade 1.2.10 -> 1.2.11
-Date: Thu,  8 Feb 2024 09:44:03 +0100
-Message-Id: <20240208084406.3621627-2-michael.opdenacker@bootlin.com>
+Subject: [PATCH v3 4/4] alsa-utils: upgrade 1.2.10 -> 1.2.11
+Date: Thu,  8 Feb 2024 09:44:06 +0100
+Message-Id: <20240208084406.3621627-5-michael.opdenacker@bootlin.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240208084406.3621627-1-michael.opdenacker@bootlin.com>
 References: <20240208084406.3621627-1-michael.opdenacker@bootlin.com>
@@ -41,146 +41,117 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 08:44:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195115
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195118
 
 From: Michael Opdenacker <michael.opdenacker@bootlin.com>
 
-- Upstream release update
+- Upstream release upgrade
   See https://www.alsa-project.org/wiki/Detailed_changes_v1.2.10_v1.2.11
-- Remove merged patch
-- Add new patch merged after the release
+- Remove merged patches
 
 Signed-off-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
 ---
- ...STRING-macro-outside-PIC-ifdef-block.patch | 52 -------------------
- ...topology-correct-version-script-path.patch | 38 ++++++++++++++
- ...{alsa-lib_1.2.10.bb => alsa-lib_1.2.11.bb} |  4 +-
- 3 files changed, 40 insertions(+), 54 deletions(-)
- delete mode 100644 meta/recipes-multimedia/alsa/alsa-lib/0001-global.h-move-__STRING-macro-outside-PIC-ifdef-block.patch
- create mode 100644 meta/recipes-multimedia/alsa/alsa-lib/0001-topology-correct-version-script-path.patch
- rename meta/recipes-multimedia/alsa/{alsa-lib_1.2.10.bb => alsa-lib_1.2.11.bb} (89%)
+ ...nhlt-dmic-info.c-include-sys-types.h.patch | 31 -------------------
+ .../0001-topology.c-include-locale.h.patch    | 31 -------------------
+ ...a-utils_1.2.10.bb => alsa-utils_1.2.11.bb} |  4 +--
+ 3 files changed, 1 insertion(+), 65 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/alsa/alsa-utils/0001-nhlt-nhlt-dmic-info.c-include-sys-types.h.patch
+ delete mode 100644 meta/recipes-multimedia/alsa/alsa-utils/0001-topology.c-include-locale.h.patch
+ rename meta/recipes-multimedia/alsa/{alsa-utils_1.2.10.bb => alsa-utils_1.2.11.bb} (96%)
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib/0001-global.h-move-__STRING-macro-outside-PIC-ifdef-block.patch b/meta/recipes-multimedia/alsa/alsa-lib/0001-global.h-move-__STRING-macro-outside-PIC-ifdef-block.patch
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils/0001-nhlt-nhlt-dmic-info.c-include-sys-types.h.patch b/meta/recipes-multimedia/alsa/alsa-utils/0001-nhlt-nhlt-dmic-info.c-include-sys-types.h.patch
 deleted file mode 100644
-index 9a7ba0d847..0000000000
---- a/meta/recipes-multimedia/alsa/alsa-lib/0001-global.h-move-__STRING-macro-outside-PIC-ifdef-block.patch
+index 0ebf98b41e..0000000000
+--- a/meta/recipes-multimedia/alsa/alsa-utils/0001-nhlt-nhlt-dmic-info.c-include-sys-types.h.patch
 +++ /dev/null
-@@ -1,52 +0,0 @@
--From 10bd599970acc71c92f85eb08943eb8d3d702a9c Mon Sep 17 00:00:00 2001
+@@ -1,31 +0,0 @@
+-From 35a3382f3818d29b60f4c888e338189a4d93d0e5 Mon Sep 17 00:00:00 2001
 -From: Michael Opdenacker <michael.opdenacker@bootlin.com>
--Date: Wed, 6 Sep 2023 15:16:44 +0200
--Subject: [PATCH] global.h: move __STRING() macro outside !PIC ifdef block
+-Date: Tue, 19 Sep 2023 11:47:50 +0200
+-Subject: [PATCH] nhlt/nhlt-dmic-info.c: include sys/types.h
 -
--From: Jaroslav Kysela <perex@perex.cz>
+-To fix an issue compiling with the musl C library:
+-nhlt-dmic-info.c: error: unknown type name 'u_int8_t'
 -
--It solves the musl libc compilation issue.
+-https://github.com/alsa-project/alsa-utils/issues/238
 -
--control.c: In function 'snd_ctl_open_conf':
--../../include/global.h:98:36: warning: implicit declaration of function '__STRING' [-Wimplicit-function-declaratio]
--   98 | #define SND_DLSYM_VERSION(version) __STRING(version)
--      |                                    ^~~~~~~~
--
--Fixes: https://github.com/alsa-project/alsa-lib/issues/350
--Upstream-Status: Backport [https://github.com/alsa-project/alsa-lib/commit/10bd599970acc71c92f85eb08943eb8d3d702a9c]
--Signed-off-by: Jaroslav Kysela <perex@perex.cz>
+-Upstream-Status: Backport [https://github.com/alsa-project/alsa-utils/commit/0925ad7f09b2dc77015784f9ac2f5e34dd0dd5c3]
+-Signed-off-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
 ----
-- include/global.h | 10 +++++-----
-- 1 file changed, 5 insertions(+), 5 deletions(-)
+- nhlt/nhlt-dmic-info.c | 1 +
+- 1 file changed, 1 insertion(+)
 -
--diff --git a/include/global.h b/include/global.h
--index dfe9bc2b..3ecaeee8 100644
----- a/include/global.h
--+++ b/include/global.h
--@@ -51,6 +51,11 @@ const char *snd_asoundlib_version(void);
-- #define ATTRIBUTE_UNUSED __attribute__ ((__unused__))
-- #endif
+-diff --git a/nhlt/nhlt-dmic-info.c b/nhlt/nhlt-dmic-info.c
+-index 3f6c64d..331555a 100644
+---- a/nhlt/nhlt-dmic-info.c
+-+++ b/nhlt/nhlt-dmic-info.c
+-@@ -33,6 +33,7 @@
+- #include <fcntl.h>
+- #include <getopt.h>
+- #include <sys/stat.h>
+-+#include <sys/types.h>
+- #include <arpa/inet.h>
 - 
--+#ifndef __STRING
--+/** \brief Return 'x' argument as string */
--+#define __STRING(x)     #x
--+#endif
--+
-- #ifdef PIC /* dynamic build */
-- 
-- /** \hideinitializer \brief Helper macro for #SND_DLSYM_BUILD_VERSION. */
--@@ -71,11 +76,6 @@ struct snd_dlsym_link {
-- 
-- extern struct snd_dlsym_link *snd_dlsym_start;
-- 
---#ifndef __STRING
---/** \brief Return 'x' argument as string */
---#define __STRING(x)     #x
---#endif
---
-- /** \hideinitializer \brief Helper macro for #SND_DLSYM_BUILD_VERSION. */
-- #define __SND_DLSYM_VERSION(prefix, name, version) _ ## prefix ## name ## version
-- /**
+- int debug = 0;
 --- 
 -2.34.1
 -
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib/0001-topology-correct-version-script-path.patch b/meta/recipes-multimedia/alsa/alsa-lib/0001-topology-correct-version-script-path.patch
-new file mode 100644
-index 0000000000..30aeef5817
---- /dev/null
-+++ b/meta/recipes-multimedia/alsa/alsa-lib/0001-topology-correct-version-script-path.patch
-@@ -0,0 +1,38 @@
-+From 2a736a0d2543f206fd2653aaae8a08a4c42eb917 Mon Sep 17 00:00:00 2001
-+From: Michael Opdenacker <michael.opdenacker@bootlin.com>
-+Date: Tue, 30 Jan 2024 14:24:25 +0100
-+Subject: [PATCH] topology: correct version script path
-+
-+From: Jan Palus <jpalus@fastmail.com>
-+
-+contrary to libasound, version script for libatopology is a regular
-+source file. while it's often the case that $(builddir) and $(srcdir)
-+point to the same directory, they don't always have to. therefore path
-+needs to point explicitly to $(srcdir) for Versions script in topology
-+
-+Closes: https://github.com/alsa-project/alsa-lib/pull/383
-+Fixes: GH-382
-+Fixes: dc7da761f3a2 ("topology: separate Versions linker script")
-+Signed-off-by: Jan Palus <jpalus@fastmail.com>
-+Signed-off-by: Jaroslav Kysela <perex@perex.cz>
-+Upstream-Status: Backport [https://git.alsa-project.org/?p=alsa-lib.git;a=commitdiff;h=2a736a0d2543f206fd2653aaae8a08a4c42eb917]
-+---
-+ src/topology/Makefile.am | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/src/topology/Makefile.am b/src/topology/Makefile.am
-+index 04299588..e0b78373 100644
-+--- a/src/topology/Makefile.am
-++++ b/src/topology/Makefile.am
-+@@ -2,7 +2,7 @@ EXTRA_DIST = Versions
-+ COMPATNUM=@LIBTOOL_VERSION_INFO@
-+ 
-+ if VERSIONED_SYMBOLS
-+-VSYMS = -Wl,--version-script=Versions
-++VSYMS = -Wl,--version-script=$(srcdir)/Versions
-+ else
-+ VSYMS =
-+ endif
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.2.10.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.2.11.bb
-similarity index 89%
-rename from meta/recipes-multimedia/alsa/alsa-lib_1.2.10.bb
-rename to meta/recipes-multimedia/alsa/alsa-lib_1.2.11.bb
-index 83bc6877d2..c212b17aa3 100644
---- a/meta/recipes-multimedia/alsa/alsa-lib_1.2.10.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-lib_1.2.11.bb
-@@ -10,9 +10,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7 \
-                     "
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils/0001-topology.c-include-locale.h.patch b/meta/recipes-multimedia/alsa/alsa-utils/0001-topology.c-include-locale.h.patch
+deleted file mode 100644
+index e1c7470356..0000000000
+--- a/meta/recipes-multimedia/alsa/alsa-utils/0001-topology.c-include-locale.h.patch
++++ /dev/null
+@@ -1,31 +0,0 @@
+-From d8a8a9affd5726827ef3995652248595b4a8c87e Mon Sep 17 00:00:00 2001
+-From: Michael Opdenacker <michael.opdenacker@bootlin.com>
+-Date: Tue, 19 Sep 2023 11:27:46 +0200
+-Subject: [PATCH] topology.c: include locale.h
+-
+-To fix an issue compiling with the musl C library:
+-topology.c: error: 'LC_ALL' undeclared
+-
+-https://github.com/alsa-project/alsa-utils/issues/239
+-
+-Upstream-Status: Backport [https://github.com/alsa-project/alsa-utils/commit/8c229270f6bae83b705a03714c46067a7aa57b02]
+-Signed-off-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
+----
+- topology/topology.c | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/topology/topology.c b/topology/topology.c
+-index 1840ffe..5d03a8b 100644
+---- a/topology/topology.c
+-+++ b/topology/topology.c
+-@@ -32,6 +32,7 @@
+- #include <sys/stat.h>
+- #include <getopt.h>
+- #include <assert.h>
+-+#include <locale.h>
+- 
+- #include <alsa/asoundlib.h>
+- #include <alsa/topology.h>
+--- 
+-2.34.1
+-
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.2.10.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.2.11.bb
+similarity index 96%
+rename from meta/recipes-multimedia/alsa/alsa-utils_1.2.10.bb
+rename to meta/recipes-multimedia/alsa/alsa-utils_1.2.11.bb
+index 4e5ed8dfa0..e598fac9f8 100644
+--- a/meta/recipes-multimedia/alsa/alsa-utils_1.2.10.bb
++++ b/meta/recipes-multimedia/alsa/alsa-utils_1.2.11.bb
+@@ -25,10 +25,8 @@ PACKAGECONFIG[manpages] = "--enable-xmlto, --disable-xmlto, xmlto-native docbook
  
- SRC_URI = "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2 \
--           file://0001-global.h-move-__STRING-macro-outside-PIC-ifdef-block.patch \
-+           file://0001-topology-correct-version-script-path.patch \
+ # alsa-utils specified in SRC_URI due to alsa-utils-scripts recipe
+ SRC_URI = "https://www.alsa-project.org/files/pub/utils/alsa-utils-${PV}.tar.bz2 \
+-           file://0001-topology.c-include-locale.h.patch \
+-           file://0001-nhlt-nhlt-dmic-info.c-include-sys-types.h.patch \
             "
--SRC_URI[sha256sum] = "c86a45a846331b1b0aa6e6be100be2a7aef92efd405cf6bac7eef8174baa920e"
-+SRC_URI[sha256sum] = "9f3f2f69b995f9ad37359072fbc69a3a88bfba081fc83e9be30e14662795bb4d"
+-SRC_URI[sha256sum] = "104b62ec7f02a7ce16ca779f4815616df1cc21933503783a9107b5944f83063a"
++SRC_URI[sha256sum] = "9ac6ca3a883f151e568dcf979b8d2e5cbecc51b819bb0e6bb8a2e9b34cc428a7"
  
- inherit autotools pkgconfig
- 
+ # On build machines with python-docutils (not python3-docutils !!) installed
+ # rst2man (not rst2man.py) is detected and compile fails with
 -- 
 2.34.1
 
