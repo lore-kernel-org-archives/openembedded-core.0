@@ -1,113 +1,155 @@
-Return-Path: <baruch@tkos.co.il>
+Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1851C4828F
-	for <webhook@archiver.kernel.org>; Thu,  8 Feb 2024 07:23:04 +0000 (UTC)
-Received: from mail.tkos.co.il (mail.tkos.co.il [84.110.109.230])
- by mx.groups.io with SMTP id smtpd.web10.12713.1707376974871917500
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 080EEC48260
+	for <webhook@archiver.kernel.org>; Thu,  8 Feb 2024 08:29:05 +0000 (UTC)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+ by mx.groups.io with SMTP id smtpd.web11.13542.1707380936277297310
  for <openembedded-core@lists.openembedded.org>;
- Wed, 07 Feb 2024 23:22:55 -0800
+ Thu, 08 Feb 2024 00:28:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@tkos.co.il header.s=default header.b=b2AyZ+48;
- spf=pass (domain: tkos.co.il, ip: 84.110.109.230, mailfrom: baruch@tkos.co.il)
-Received: from tarshish.tkos.co.il (unknown [10.0.8.2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.tkos.co.il (Postfix) with ESMTPS id 33C56440845;
-	Thu,  8 Feb 2024 09:22:21 +0200 (IST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tkos.co.il;
-	s=default; t=1707376941;
-	bh=1ayAdLdjDsyzc5FG57GhI5xlIbhNAc3Lr8GE2HfIKcA=;
-	h=From:To:Cc:Subject:Date:From;
-	b=b2AyZ+48t3rFD7HjMkftp6l9TSShNWZ4Vau/KsecBFmYZAiri6Pg0GjdFLCi7p9L4
-	 D6SoyLzHSFu6AGutTvlVzaw6AtpM2H/N0jxgb6xcwa6WwYnHY/IGYHMV+Gq4F+0o6x
-	 a4TXsIwoEbRt8cDGRE0IHwn15eEd8f8IkqhUWtpjBwSLofUbx17kbc6vejK7EiPoEm
-	 AflRZmRC+UG/o4EhGXluQIjkQZPCvBwLf6K7Hy4rMMzygqyDEzryK893AhZEJSmpPU
-	 Y2l4szE/2JlKcBtV0A/opI/YPTEyaRZQHRhb9j3UIyAWfINtatwUxjP4v+lM+L0yyM
-	 8fF98m6Ap5YzQ==
-From: Baruch Siach <baruch@tkos.co.il>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=WZbljZ8x;
+ spf=pass (domain: gmail.com, ip: 209.85.167.43, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5116643c64eso2823884e87.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 00:28:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707380934; x=1707985734; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NMbj7B6RLXranBLPldanU/38+U7tkcqJGr2A7ZK+VKY=;
+        b=WZbljZ8xMAYs4PKSExEKDX8RxEhTNVc2/oaum3lNv58+jaTICtTlU+vfmVA2tUGUi/
+         kme0VVBgweMiEuS1G3ga6kpc11j/u3zF6yGENj6houj5HHbKMzls3RAWkHCRoiA0cJEX
+         uzk7fRtxjL0hsy5n+MjVZ7yEMO/f7wlTN1WXumze8a69T/q4tNz/kQ2+5HRlRLG5YUvN
+         MLfpsI/BrOmBO62u1UQbWR3aC6gsa6xK9VFQ0XLh76139N+DvTRxLH4gzvwyDGOA+JSa
+         t7oe8Kn/DtKOpQngtkzk4lSMxtETgqMRBOK4SVtBcDXdmnhZsPE+AkAEj1GMzR9LQiCu
+         aKxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707380934; x=1707985734;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NMbj7B6RLXranBLPldanU/38+U7tkcqJGr2A7ZK+VKY=;
+        b=nvLDbK0bXEQ60udmEYOFKmGVZNtKBf1yxV072SeUinaBhUKxO6vT+qlkcE2dPdwJZ9
+         B0u1gInA+m9aNvWDNrjulv/4wJgNZZVC3v23RHYh0XtnzzMIU+pt6ALZXhJx2tcutXDA
+         SslkN8/BucmZMKTahjJ85qS5GozmnAfyLWDjhdcrhtLpRyQtlnQBYreRHRpAZ3f7hqQI
+         A4qnC36SZbrZC+bflAGqQtCvx/odlJ/q/m8HUtesLagl8zC1ZXHbQ4f+/H2ZgSqeevu5
+         5r9AnbnrH50HsBwHyA5bUmWqTdciYPeu3Os2PuTdU2K+TnJTg/f1QLexRAOCFlhMe3Ka
+         vISw==
+X-Gm-Message-State: AOJu0Ywb/cw8MOSi7JBP1GR2J6wgkpWZMDgHpkjDTN+6Rj6qMo/7ep5S
+	PfP8OV+T99LOKiZjMlS7cexT3gWK70AbfxFfAIe8FKmDmwrPy3iojoKfncEq
+X-Google-Smtp-Source: AGHT+IF/uTcA/dOmMalGdStx+TWcradj0r2kV5ZRg4+EVfRUeghOa+NlCEg6FMuD2O9einKiFW1Zkg==
+X-Received: by 2002:a05:6512:368c:b0:511:6f2e:d23f with SMTP id d12-20020a056512368c00b005116f2ed23fmr465728lfs.43.1707380933850;
+        Thu, 08 Feb 2024 00:28:53 -0800 (PST)
+Received: from wsadrian16.fritz.box ([2a02:169:59a6:0:55c4:f628:91f3:4287])
+        by smtp.gmail.com with ESMTPSA id j12-20020a05600c190c00b0040ebf603a89sm913321wmq.11.2024.02.08.00.28.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Feb 2024 00:28:53 -0800 (PST)
+From: Adrian Freihofer <adrian.freihofer@gmail.com>
+X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Baruch Siach <baruch@tkos.co.il>,
-	Vyacheslav Yurkov <uvv.mail@gmail.com>
-Subject: [PATCH] overlayfs-etc: take read-only-rootfs into account
-Date: Thu,  8 Feb 2024 09:22:46 +0200
-Message-ID: <391a7b90f3cb6a7b276904b69a2251bf0d3849c9.1707376966.git.baruch@tkos.co.il>
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
+Subject: [PATCH 0/7] python 3.12 related fixes
+Date: Thu,  8 Feb 2024 09:27:26 +0100
+Message-ID: <20240208082821.430510-1-adrian.freihofer@siemens.com>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 07:23:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195104
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 08:29:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195105
 
-Don't remount rootfs read-write when read-only-rootfs feature is
-enabled. Assume that all mount points are in place for the read-only
-case.
+Bug fixes for host distros with Python 3.12.
 
-Cc: Vyacheslav Yurkov <uvv.mail@gmail.com>
-Signed-off-by: Baruch Siach <baruch@tkos.co.il>
----
- meta/classes-recipe/overlayfs-etc.bbclass |  4 +++-
- meta/files/overlayfs-etc-preinit.sh.in    | 16 +++++++++-------
- 2 files changed, 12 insertions(+), 8 deletions(-)
+Tested by running the oe-selftest suite like this:
+  oe-selftest -a --skip-tests distrodata.Distrodata.test_checkpkg \
+  reproducible -T yocto-mirrors -T machine -T toolchain-user \
+  -T toolchain-system -j4
 
-diff --git a/meta/classes-recipe/overlayfs-etc.bbclass b/meta/classes-rec=
-ipe/overlayfs-etc.bbclass
-index 0c7834d01f43..e695ebdcf843 100644
---- a/meta/classes-recipe/overlayfs-etc.bbclass
-+++ b/meta/classes-recipe/overlayfs-etc.bbclass
-@@ -69,7 +69,9 @@ python create_overlayfs_etc_preinit() {
-         'OVERLAYFS_ETC_FSTYPE': overlayEtcFsType,
-         'OVERLAYFS_ETC_DEVICE': overlayEtcDevice,
-         'SBIN_INIT_NAME': initBaseName + origInitNameSuffix if useOrigIn=
-it else initBaseName,
--        'OVERLAYFS_ETC_EXPOSE_LOWER': "true" if exposeLower else "false"
-+        'OVERLAYFS_ETC_EXPOSE_LOWER': "true" if exposeLower else "false"=
-,
-+        'READ_ONLY_ROOTFS': bb.utils.contains("IMAGE_FEATURES", "read-on=
-ly-rootfs",
-+                                              "true", "false", d)
-     }
-=20
-     if useOrigInit:
-diff --git a/meta/files/overlayfs-etc-preinit.sh.in b/meta/files/overlayf=
-s-etc-preinit.sh.in
-index 8db076f4ba65..79cecf8ac97d 100644
---- a/meta/files/overlayfs-etc-preinit.sh.in
-+++ b/meta/files/overlayfs-etc-preinit.sh.in
-@@ -3,12 +3,15 @@
- echo "PREINIT: Start"
-=20
- PATH=3D/sbin:/bin:/usr/sbin:/usr/bin
--mount -o remount,rw /
--
--mkdir -p /proc
--mkdir -p /sys
--mkdir -p /run
--mkdir -p /var/run
-+if ! {READ_ONLY_ROOTFS}; then
-+    mount -o remount,rw /
-+
-+    mkdir -p /proc
-+    mkdir -p /sys
-+    mkdir -p /run
-+    mkdir -p /var/run
-+    mkdir -p {OVERLAYFS_ETC_MOUNT_POINT}
-+fi
-=20
- mount -t proc proc /proc
- mount -t sysfs sysfs /sys
-@@ -20,7 +23,6 @@ UPPER_DIR=3D$BASE_OVERLAY_ETC_DIR/upper
- WORK_DIR=3D$BASE_OVERLAY_ETC_DIR/work
- LOWER_DIR=3D$BASE_OVERLAY_ETC_DIR/lower
-=20
--mkdir -p {OVERLAYFS_ETC_MOUNT_POINT}
- if mount -n -t {OVERLAYFS_ETC_FSTYPE} \
-     -o {OVERLAYFS_ETC_MOUNT_OPTIONS} \
-     {OVERLAYFS_ETC_DEVICE} {OVERLAYFS_ETC_MOUNT_POINT}
---=20
+using the default local.conf file with 3 extra lines:
+  SANITY_TESTED_DISTROS = ""
+  IMAGE_INSTALL:append = ' ssh-pregen-hostkeys'
+  QEMU_USE_KVM = 'True'
+
+Host distro: Fedora 39
+
+With this patchset the oe-selftest summary looks like this:
+- oe-selftest () - Ran 575 tests in 19413.991s
+- FAIL - Required tests failed
+         (successes=558, skipped=8, failures=8, errors=1)
+
+Failing tests are:
+- esdk.oeSDKExtSelfTest.test_image_generation_binary_feeds: ERROR
+- esdk.oeSDKExtSelfTest.test_install_libraries_headers: ERROR
+  When running bitbake core-image-minimal -c populate_sdk_ext
+  the exit values is 130 which explains why the test fails.
+  No further analysis done.
+
+- runtime_test.TestImage.test_testimage_virgl_gtk_sdl: FAILED (1454.58s)
+  No idea why this fails.
+
+- spdx.SPDXCheck.test_spdx_base_files: FAILED (21.39s)
+  AssertionError: ...base-files.spdx.json' does not exist
+  No further analysis done.
+
+All wic tests pass if executed with oe-selftest -r wic.
+Also adding e.g. -j4 works fine as well.
+However, executing the wic tests with oe-selftest -a leads to failing
+tests (more than once):
+- wic.ModifyTests.test_wic_cp: FAILED (34.47s)
+- wic.ModifyTests.test_wic_cp_ext: FAILED (57.94s)
+- wic.ModifyTests.test_wic_ls: FAILED (32.14s)
+- wic.ModifyTests.test_wic_ls_ext: FAILED (71.36s)
+- wic.ModifyTests.test_wic_rm: FAILED (32.40s)
+- wic.ModifyTests.test_wic_rm_ext: FAILED (24.41s)
+
+The last patch fixes many warnings related to invalid regex patterns.
+https://docs.python.org/3/library/re.html basically states that regular
+expressions using the backslash character like "foo\s*" should be
+written as raw strings like r"foo\s*".
+This patch does that for most but not for all regexes. Some are not easy
+to convert and/or test.
+
+Adrian Freihofer (7):
+  recipetool: cleanup imports
+  oeqa: replace deprecated assertEquals
+  selftest: replace assertRaisesRegexp
+  oeqa/selftest/oelib/buildhistory: git default branch
+  oeqa/selftest/runtime_test: allow GPLv3 for bash
+  oeqa/selftest/recipetool: fix for python 3.12
+  python 3.12 compatible regex
+
+ bitbake/lib/bs4/tests/test_tree.py            |  2 +-
+ .../feature-microblaze-versions.inc           |  2 +-
+ meta/lib/oeqa/oetest.py                       |  2 +-
+ meta/lib/oeqa/sdk/buildtools-cases/sanity.py  |  2 +-
+ meta/lib/oeqa/selftest/cases/bblayers.py      |  2 +-
+ meta/lib/oeqa/selftest/cases/devtool.py       |  2 +-
+ meta/lib/oeqa/selftest/cases/fitimage.py      |  6 +--
+ meta/lib/oeqa/selftest/cases/liboe.py         |  2 +-
+ .../oeqa/selftest/cases/oelib/buildhistory.py | 10 ++---
+ meta/lib/oeqa/selftest/cases/recipetool.py    | 18 ++++-----
+ meta/lib/oeqa/selftest/cases/runcmd.py        |  8 ++--
+ meta/lib/oeqa/selftest/cases/runtime_test.py  |  6 +++
+ meta/lib/patchtest/tests/base.py              |  4 +-
+ meta/lib/patchtest/utils.py                   |  6 +--
+ .../perf/perf/sort-pmuevents.py               |  8 ++--
+ meta/recipes-rt/rt-tests/files/rt_bmark.py    |  2 +-
+ scripts/combo-layer                           |  2 +-
+ scripts/contrib/bbvars.py                     |  6 +--
+ scripts/contrib/convert-overrides.py          |  8 ++--
+ scripts/lib/checklayer/__init__.py            |  4 +-
+ scripts/lib/recipetool/create.py              | 12 +++---
+ scripts/lib/recipetool/create_buildsys.py     | 40 +++++++++----------
+ scripts/oe-check-sstate                       |  2 +-
+ scripts/oe-pkgdata-util                       |  2 +-
+ scripts/opkg-query-helper.py                  |  2 +-
+ scripts/patchtest-get-branch                  |  2 +-
+ 26 files changed, 84 insertions(+), 78 deletions(-)
+
+-- 
 2.43.0
 
 
