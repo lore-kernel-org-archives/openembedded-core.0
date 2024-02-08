@@ -1,113 +1,164 @@
-Return-Path: <adrian.freihofer@gmail.com>
+Return-Path: <michael.opdenacker@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68BA8C48BC4
-	for <webhook@archiver.kernel.org>; Thu,  8 Feb 2024 08:29:05 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web11.13545.1707380939458433207
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AF0BC4828F
+	for <webhook@archiver.kernel.org>; Thu,  8 Feb 2024 08:37:45 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+ by mx.groups.io with SMTP id smtpd.web10.13475.1707381464449757609
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Feb 2024 00:28:59 -0800
+ Thu, 08 Feb 2024 00:37:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=bNqUDwTe;
- spf=pass (domain: gmail.com, ip: 209.85.128.51, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-41047386c8dso446535e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 00:28:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707380938; x=1707985738; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZW8o2yC/ZC2yZRT5vLU5turIhrA8VlXAtpFNwccmdaU=;
-        b=bNqUDwTeAGOebKWTRc3K2HoO9Sq6LDHoUMURugHvtUzF8V+2FqMDR154hLHcTkE1kk
-         /s+dJ4tNn3Smxe/moIYlJUodhnVdRM8n6DL7fjLiQVPPUMkcMud1scLgiWvNDY781Cyp
-         Gm3X62ApD9JuJPmiD76crhW32BhTpme88y24cJW1I9y142hQJnfsMPExs9IM3OuyP/uq
-         vnqsQpnCotHxsd2KdG59jUDCc5Sh600ZgK3JJUjXymyqarJzYHFrJo4AC/WvYMrLL6TD
-         wnwFzf6Ch4R3t7l9gLJZF0LNv0RaQFZcR2u1SwvdfXCF2PYyQemQ1I9zTr4G5kBJu9u+
-         jH5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707380938; x=1707985738;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZW8o2yC/ZC2yZRT5vLU5turIhrA8VlXAtpFNwccmdaU=;
-        b=Q4c3IAYSHHq40SA/DO/Vvc9KxdlXmxV6Vrow0yA48hF/XQWpjdvykWtXS5+hNmigpW
-         jI7TWiXOCtl87cx55pt1EcMN04ogNKfnlXJLh2xOmtBujuU0Ap8gr8F7tnDqyJs4U+ZN
-         4FFMeF8WtY8FfnAFejFGB/O61ruUpJMaIZpSSIgTXkJVa/fchg8SP0vNsfYlhf2F8VSA
-         FYMau4JaZsn4YlUY8Msicl5PR3oXiEubuyhgbwEbtVJFJ7s9hf1TeoG3EluvixrJy4b8
-         oZBnCH/cV4204oc8Hu2XGuRBFoIvPno1CLLsVPWSYOeBUpgRSQsIxcV24sgQHtekKKYP
-         6ejQ==
-X-Gm-Message-State: AOJu0YwWDnOXY0n9SyBekIVbCaUr57rVog9u/IAlO0cOS9XqNxx+FvGu
-	f6Mtz3YKet1/utE+wg1jGLgFZQx4hUxxqGLZ5wjQD7OJi7k4YcwUr0kO6YXX
-X-Google-Smtp-Source: AGHT+IGtFnGb7kU456el6w2gY7Yf6Ec66BV9esK8JWi6akEb9PPtrpxcjA6iUjbbO6g1qq3ecsoQvQ==
-X-Received: by 2002:a05:600c:4614:b0:40f:dd79:b758 with SMTP id m20-20020a05600c461400b0040fdd79b758mr5601115wmo.40.1707380937665;
-        Thu, 08 Feb 2024 00:28:57 -0800 (PST)
-Received: from wsadrian16.fritz.box ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id j12-20020a05600c190c00b0040ebf603a89sm913321wmq.11.2024.02.08.00.28.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Feb 2024 00:28:57 -0800 (PST)
-From: Adrian Freihofer <adrian.freihofer@gmail.com>
-X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 5/7] oeqa/selftest/runtime_test: allow GPLv3 for bash
-Date: Thu,  8 Feb 2024 09:27:31 +0100
-Message-ID: <20240208082821.430510-6-adrian.freihofer@siemens.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240208082821.430510-1-adrian.freihofer@siemens.com>
-References: <20240208082821.430510-1-adrian.freihofer@siemens.com>
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=PAgrVhXO;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: michael.opdenacker@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id A88D060003;
+	Thu,  8 Feb 2024 08:37:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1707381462;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eLl2Xh48JuRwAEX3T0V71ZV7jKeOyaR3aLNwoxKa/U4=;
+	b=PAgrVhXO6qTIRiAG0hRqwg0BOEpwG6Rysv8t5jv385Zt0pXTqB5ox+ZHbAhbBi1FO8CWDn
+	rkfluionE4v8TrQRTW+sdmmzM1ytu6WrbUSpOHSj8wCMaiegttaLdtCfuxlJLdgBc1IAAx
+	9DKpmmfXXbeMuG1GmhdZAl2Nx0UttYP253/GuXOg3QkOAArOC7D7XrrDWLnnEL9Xkpt3yz
+	MpnVMcKQ29/i3gNWRzKJxTTWLQTDD+cQmNuOgKNdHlhMWD8bdi0QAIGSJiSDNhy29HHdeW
+	ImWOC8OqZJ7g8/9GyjfKh1QKeUkQV6ycOZ2392GV0Atz4rC9uXICkz8Syr0GQg==
+Message-ID: <6265a583-dea3-42ad-a6b8-e8c74b7d7996@bootlin.com>
+Date: Thu, 8 Feb 2024 09:37:41 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Cc: openembedded-core@lists.openembedded.org,
+ patchtest@automation.yoctoproject.org
+Subject: Re: Patchtest results for [PATCH v2 2/4] alsa-tools: upgrade 1.2.5 ->
+ 1.2.11
+Content-Language: en-US
+To: Trevor Gamblin <tgamblin@baylibre.com>
+References: <0101018d85abc8d5-251e6c1f-0089-46e1-a2b1-568d03dd8f87-000000@us-west-2.amazonses.com>
+From: Michael Opdenacker <michael.opdenacker@bootlin.com>
+Organization: Bootlin
+In-Reply-To: <0101018d85abc8d5-251e6c1f-0089-46e1-a2b1-568d03dd8f87-000000@us-west-2.amazonses.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-GND-Sasl: michael.opdenacker@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 08:29:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195110
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 08:37:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195113
 
-Test cases failed with:
-  ERROR: core-image-full-cmdline-1.0-r0 do_rootfs: Package bash cannot
-  be installed into the image because it has incompatible license(s):
-  GPL-3.0-or-later
+Greetings,
 
-Allow GPLv3 for these tests.
+On 2/7/24 at 23:24, patchtest@automation.yoctoproject.org wrote:
+> Thank you for your submission. Patchtest identified one
+> or more issues with the patch. Please see the log below for
+> more information:
+>
+> ---
+> Testing patch /home/patchtest/share/mboxes/v2-2-4-alsa-tools-upgrade-1.2.5---1.2.11.patch
+>
+> FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_off_by_presence)
+>
+> PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+> PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+> PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+> PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+> PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+> PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+> PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+> PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+> PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+> PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+> PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+>
+> SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+> SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+> SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+> SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+> SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+> SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+> SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+> SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+> SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+> SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+> SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
-Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
----
- meta/lib/oeqa/selftest/cases/runtime_test.py | 6 ++++++
- 1 file changed, 6 insertions(+)
 
-diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
-index 12000aac16e..4277c98a39c 100644
---- a/meta/lib/oeqa/selftest/cases/runtime_test.py
-+++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
-@@ -124,6 +124,8 @@ class TestImage(OESelftestTestCase):
-         features = 'IMAGE_CLASSES += "testimage"\n'
-         features += 'IMAGE_INSTALL:append = " libssl"\n'
-         features += 'TEST_SUITES = "ping ssh selftest"\n'
-+        # core-image-full-cmdline needs bash which is GPL-3.0-or-later.
-+        features += 'INCOMPATIBLE_LICENSE:pn-core-image-full-cmdline = ""\n'
-         self.write_config(features)
- 
-         bitbake('core-image-full-cmdline socat')
-@@ -175,6 +177,8 @@ TEST_RUNQEMUPARAMS += " slirp"
-         features += 'PACKAGE_FEED_GPG_PASSPHRASE_FILE = "%s"\n' % os.path.join(signing_key_dir, 'key.passphrase')
-         features += 'GPG_PATH = "%s"\n' % self.gpg_home
-         features += 'PSEUDO_IGNORE_PATHS .= ",%s"\n' % self.gpg_home
-+        # core-image-full-cmdline needs bash which is GPL-3.0-or-later.
-+        features += 'INCOMPATIBLE_LICENSE:pn-core-image-full-cmdline = ""\n'
-         self.write_config(features)
- 
-         bitbake('core-image-full-cmdline socat')
-@@ -212,6 +216,8 @@ TEST_RUNQEMUPARAMS += " slirp"
-         features += 'PACKAGE_FEED_GPG_PASSPHRASE_FILE = "%s"\n' % os.path.join(signing_key_dir, 'key.passphrase')
-         features += 'GPG_PATH = "%s"\n' % self.gpg_home
-         features += 'PSEUDO_IGNORE_PATHS .= ",%s"\n' % self.gpg_home
-+        # core-image-full-cmdline needs bash which is GPL-3.0-or-later.
-+        features += 'INCOMPATIBLE_LICENSE:pn-core-image-full-cmdline = ""\n'
-         self.write_config(features)
- 
-         # Build core-image-sato and testimage
+Oops, that's what happens when you're rushing to send patches before you 
+go to sleep :)
+However, in good faith, I did run patchtest on my patches, in particular 
+this one:
+
+Testing patch v2-0002-alsa-tools-upgrade-1.2.5-1.2.11.patch
+Loading cache: 100% | | ETA:  --:--:--
+Loaded 0 entries from dependency cache.
+Parsing recipes: 100% 
+|#############################################################################################################################################################################| 
+Time: 0:00:13
+Parsing of 912 .bb files complete (0 cached, 912 parsed). 1849 targets, 
+47 skipped, 0 masked, 0 errors.
+SKIP: pretest src uri left files: Patch cannot be merged 
+(test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: pretest pylint: No python related patches, skipping test 
+(test_python_pylint.PyLint.pretest_pylint)
+----------------------------------------------------------------------
+Ran 2 tests in 14.104s
+
+OK
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+SKIP: test bugzilla entry format: No bug ID found 
+(test_mbox.TestMbox.test_bugzilla_entry_format)
+PASS: test commit message presence 
+(test_mbox.TestMbox.test_commit_message_presence)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+SKIP: test series merge on head: Merge test is disabled for now 
+(test_mbox.TestMbox.test_series_merge_on_head)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it 
+manually or with "git commit --amend -s" 
+(test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+Loading cache: 100% 
+|###############################################################################################################################################################################| 
+Time: 0:00:00
+Loaded 1849 entries from dependency cache.
+PASS: test CVE check ignore 
+(test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test lic files chksum modified not mentioned 
+(test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test 
+(test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test 
+(test_metadata.TestMetadata.test_license_presence)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+SKIP: test src uri left files: Patch cannot be merged 
+(test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test 
+(test_metadata.TestMetadata.test_summary_presence)
+SKIP: test CVE tag format: No new CVE patches introduced 
+(test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced 
+(test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced 
+(test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test pylint: No python related patches, skipping test 
+(test_python_pylint.PyLint.test_pylint)
+----------------------------------------------------------------------
+Ran 21 tests in 1.099s
+
+OK
+
+I just saw the "OK" result, and overlooked the "FAIL" line above.
+I'll file a bug :)
+Cheers,
+Michael.
+
 -- 
-2.43.0
+Michael Opdenacker, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
