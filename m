@@ -1,98 +1,138 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <jonathan@joggee.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2524C4828F
-	for <webhook@archiver.kernel.org>; Thu,  8 Feb 2024 16:33:54 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.83.1707410028714502657
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC548C48260
+	for <webhook@archiver.kernel.org>; Thu,  8 Feb 2024 17:06:30 +0000 (UTC)
+Received: from 14.mo584.mail-out.ovh.net (14.mo584.mail-out.ovh.net [46.105.40.29])
+ by mx.groups.io with SMTP id smtpd.web11.113.1707411989463542717
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Feb 2024 08:33:48 -0800
+ Thu, 08 Feb 2024 09:06:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=FvI76cK7;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=gfKMYuZs;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018d89917589-b4cc06af-31cc-48f8-88fe-741dd639a060-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1707410028; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=GmD+juyW3lvKT+f+wz93E8GPPkTXldcVkYXlkPlw3lQ=;
-	b=FvI76cK76zcO0h26WAqsDB2WhsPZY+//TxZZGxjDt4P2rAUA2oghuNBBhJj49TiL
-	DaeD9jY2tSv2lbS2XA7eEowmUcHiM+v2eK/LG1AqWsfp2lJOnSZQQOu6OCjL1/gNots
-	s0A9fNNg3wxdPQIiA8ob9XtV0p5UJVK85Gnu3G7s=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1707410028;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=GmD+juyW3lvKT+f+wz93E8GPPkTXldcVkYXlkPlw3lQ=;
-	b=gfKMYuZsa06qOfeV/qWfMUNuB3Z9aDLwOAOPuB9azpPd72PpCwu/Wiuf0tGuLqRx
-	rdRukMgpUu3e4uzqh6BngX8A1LD1UVx7GsSl4nuBlcEhhqKBO3PANgauocsydCqakSt
-	dIxNmQbynwD4af61uJPkFcuwn9l/G+iBpBhfPPC4=
-From: patchtest@automation.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH v2] python3: Fix ptests with expat 2.6+
-In-Reply-To: 20240208162625.2575278-1-raj.khem@gmail.com
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018d89917589-b4cc06af-31cc-48f8-88fe-741dd639a060-000000@us-west-2.amazonses.com>
-Date: Thu, 8 Feb 2024 16:33:47 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.02.08-54.240.27.45
+ dkim=none (message not signed); spf=softfail (domain: joggee.fr, ip: 46.105.40.29, mailfrom: jonathan@joggee.fr)
+Received: from director7.ghost.mail-out.ovh.net (unknown [10.109.139.212])
+	by mo584.mail-out.ovh.net (Postfix) with ESMTP id 4TW3Kv0NgXz1G1w
+	for <openembedded-core@lists.openembedded.org>; Thu,  8 Feb 2024 17:06:26 +0000 (UTC)
+Received: from ghost-submission-6684bf9d7b-b45nn (unknown [10.110.113.233])
+	by director7.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 60BE71FEA6
+	for <openembedded-core@lists.openembedded.org>; Thu,  8 Feb 2024 17:06:26 +0000 (UTC)
+Received: from joggee.fr ([37.59.142.103])
+	by ghost-submission-6684bf9d7b-b45nn with ESMTPSA
+	id 8fJtCBIKxWXuIwEAPALM2A
+	(envelope-from <jonathan@joggee.fr>)
+	for <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 17:06:26 +0000
+Authentication-Results: garm.ovh; auth=pass (GARM-103G005b71511f7-71ae-4957-bb5c-f757c4767f9b,
+                    EE0538694EAB3E5EC1512EDE8FC760BCBA2B9C5C) smtp.auth=jonathan@joggee.fr
+X-OVh-ClientIp: 209.85.161.45
+Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-59a1a03d067so13525eaf.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 09:06:26 -0800 (PST)
+X-Gm-Message-State: AOJu0YzzHtnqBt/tE3sOIYzpKaXOcUqQyaX5fKzj7meHLUHB7Mpi+O1T
+	dcml8IhRnY3gZtrJZoaSgY/u7qYSYbjVkeUr4EILloPaZZoxTkw84koUfF2E2UH3BTjAsUlw+RX
+	O0W6sT5KG5wANioRXwMs2BkGfVM0=
+X-Google-Smtp-Source: AGHT+IHqfkhxnrgD9jhLQsa47wXYqiXx0gpAU8NCgj9By2/fy0xQdvoRrsPAJW5REJ4P2Qwh+EMtXE9w5l15lnaWiic=
+X-Received: by 2002:a4a:351e:0:b0:599:f42b:9f5d with SMTP id
+ l30-20020a4a351e000000b00599f42b9f5dmr202727ooa.2.1707411984731; Thu, 08 Feb
+ 2024 09:06:24 -0800 (PST)
+MIME-Version: 1.0
+References: <CY5ZELISRCAC.YYJ5RA7Q61I0@joggee.fr> <C0719697-FF31-4FE8-A5A6-7F9BD56A96A3@arm.com>
+In-Reply-To: <C0719697-FF31-4FE8-A5A6-7F9BD56A96A3@arm.com>
+From: Jonathan GUILLOT <jonathan@joggee.fr>
+Date: Thu, 8 Feb 2024 18:06:05 +0100
+X-Gmail-Original-Message-ID: <CAA_hxbTeFg6rCW-q_PDaeiHt+QgCGexhEXG1D4oKzK9G-H1PrQ@mail.gmail.com>
+Message-ID: <CAA_hxbTeFg6rCW-q_PDaeiHt+QgCGexhEXG1D4oKzK9G-H1PrQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3 2/3] lib/oe/package: add LOCALE_EXTRA_PATHS
+ to add extra locations for locales
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000d5d4e80610e1d4c4"
+X-Ovh-Tracer-Id: 725642491420150907
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvledrtdeggdelgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeggfhgjhfffkffuvfevtgesrgdtreertddtjeenucfhrhhomheplfhonhgrthhhrghnucfifgfknffnqffvuceojhhonhgrthhhrghnsehjohhgghgvvgdrfhhrqeenucggtffrrghtthgvrhhnpeetfeejvddvtdetudejhefftdelgeejgfffueeuheeijeeuheffudduieehfeehtdenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgnecukfhppeduvdejrddtrddtrddupddvtdelrdekhedrudeiuddrgeehpdefjedrheelrddugedvrddutdefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeojhhonhgrthhhrghnsehjohhgghgvvgdrfhhrqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrghdpoffvtefjohhsthepmhhoheekgedpmhhouggvpehsmhhtphhouhht
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 16:33:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195161
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 17:06:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195162
 
---NextPart
-Content-Type: text/plain
+--000000000000d5d4e80610e1d4c4
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Hi Ross,
 
----
-Testing patch /home/patchtest/share/mboxes/v2-python3-Fix-ptests-with-expat-2.6.patch
+Thanks for your suggestions. I gave it a try and the code is indeed
+cleaner. I will send new patches soon.
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+Regards,
+Jonathan GUILLOT
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+Le ven. 26 janv. 2024 =C3=A0 18:13, Ross Burton <Ross.Burton@arm.com> a =C3=
+=A9crit :
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+> I like the idea of this patch (hardcoding behaviour is bad), but I think
+> it could be generalised some more.
+>
+> > On 6 Dec 2023, at 16:03, Jonathan GUILLOT via lists.openembedded.org
+> <jonathan=3Djoggee.fr@lists.openembedded.org> wrote:
+> > -    localedir =3D os.path.join(dvar + datadir, 'locale')
+> > +    localedirs =3D [os.path.join(dvar + datadir, 'locale')]
+> >
+> > -    if not cpath.isdir(localedir):
+> > +    for localedir in (d.getVar('LOCALE_EXTRA_PATHS') or "").split():
+> > +        localedirs.append(dvar + localedir)
+>
+> Instead of hardcoding ${datadir}/locale and then working on
+> LOCALE_EXTRA_PATHS, how about adding a new variable (LOCALE_PATHS?) which
+> is set to ${datadir}/locale by default, and the population code just work=
+s
+> on that.  The cups recipe can then LOCALE_PATHS +=3D
+> "${datadir}/cups/templates/=E2=80=9C to add in its own files.
+>
+> Cheers
+> Ross
+>
+>
 
----
+--000000000000d5d4e80610e1d4c4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
+<div dir=3D"ltr"><div>Hi Ross,</div><div><br></div><div>Thanks for your sug=
+gestions. I gave it a try and the code is indeed cleaner. I will send new p=
+atches soon.</div><div><br></div><div>Regards,</div><div>Jonathan GUILLOT<b=
+r></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmai=
+l_attr">Le=C2=A0ven. 26 janv. 2024 =C3=A0=C2=A018:13, Ross Burton &lt;<a hr=
+ef=3D"mailto:Ross.Burton@arm.com">Ross.Burton@arm.com</a>&gt; a =C3=A9crit=
+=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">I like t=
+he idea of this patch (hardcoding behaviour is bad), but I think it could b=
+e generalised some more.<br>
+<br>
+&gt; On 6 Dec 2023, at 16:03, Jonathan GUILLOT via <a href=3D"http://lists.=
+openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.o=
+rg</a> &lt;jonathan=3D<a href=3D"mailto:joggee.fr@lists.openembedded.org" t=
+arget=3D"_blank">joggee.fr@lists.openembedded.org</a>&gt; wrote:<br>
+&gt; -=C2=A0 =C2=A0 localedir =3D os.path.join(dvar + datadir, &#39;locale&=
+#39;)<br>
+&gt; +=C2=A0 =C2=A0 localedirs =3D [os.path.join(dvar + datadir, &#39;local=
+e&#39;)]<br>
+&gt; <br>
+&gt; -=C2=A0 =C2=A0 if not cpath.isdir(localedir):<br>
+&gt; +=C2=A0 =C2=A0 for localedir in (d.getVar(&#39;LOCALE_EXTRA_PATHS&#39;=
+) or &quot;&quot;).split():<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 localedirs.append(dvar + localedir)<br>
+<br>
+Instead of hardcoding ${datadir}/locale and then working on LOCALE_EXTRA_PA=
+THS, how about adding a new variable (LOCALE_PATHS?) which is set to ${data=
+dir}/locale by default, and the population code just works on that.=C2=A0 T=
+he cups recipe can then LOCALE_PATHS +=3D &quot;${datadir}/cups/templates/=
+=E2=80=9C to add in its own files.<br>
+<br>
+Cheers<br>
+Ross<br>
+<br>
+</blockquote></div>
 
---NextPart
-
-
---NextPart--
+--000000000000d5d4e80610e1d4c4--
 
