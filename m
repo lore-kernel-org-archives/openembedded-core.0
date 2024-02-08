@@ -1,143 +1,137 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <joerg.sommer@navimatix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C7CFC4829C
-	for <webhook@archiver.kernel.org>; Thu,  8 Feb 2024 13:42:17 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web11.17815.1707399734965796750
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1D40C48260
+	for <webhook@archiver.kernel.org>; Thu,  8 Feb 2024 13:54:57 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.105])
+ by mx.groups.io with SMTP id smtpd.web10.18060.1707400495782693112
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Feb 2024 05:42:15 -0800
+ Thu, 08 Feb 2024 05:54:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hn/6wu17;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-33b535c5d0fso833639f8f.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 05:42:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1707399733; x=1708004533; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=hWhfMfgFaNkmScH/J55yiPbm3GBPSWLKk26c07DrDXA=;
-        b=hn/6wu17T4uW/TqwCPwdEHlRpIcvi7jer/tqRm7vYu1rNn9BzxAI8kc2+3CpsKnSg8
-         n3hmHRYwparD08Mq/M9pPH3qLC2wvhBnD21U5ES2YK0UEZB++jB04YJO/N/O8cr/z3Z/
-         +m+WZuoHUOOx+FQUvxHET/HpCN481Ph/g/T7w=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707399733; x=1708004533;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hWhfMfgFaNkmScH/J55yiPbm3GBPSWLKk26c07DrDXA=;
-        b=M/FEp+cFf6pv2YK6UI2z+pTz6RGJx9SQnC5O4GhDoPv3TkeGg45Yq5gQQRjiSTUnWz
-         cVVvary4HZ/kuHblp1Fjww2e+RwwYVC+T0qGQk/0STtrw65+3UQ7LdRP+AWPenm+wi5v
-         ORq/Dw/AGZbLFr9NAAegMugLTmWJk4/1cfdq39yxqsLWGz38Ryp8STi793GCVJpRy6Tu
-         yx0WBXUy03kmrWsyl9jS/nnxia9uz2keGwWFh3QL+swW3uwkHeQIGeCcIGWAdIppgMOT
-         2ypZ8ouRCNo1n2OzfoauLsjOEx4cAW7AmIiCQiRxPXXV+L+B25chquEAsG9d/lFBFBSK
-         6qFw==
-X-Forwarded-Encrypted: i=1; AJvYcCWoxoEId5Dr1G5nq8fYTs7pKJnD7VksdD8OHoNEvMeLk6SqnSKr6Bciryw9VPBi2BMrjfSHzR8Xa7bmPph84L4moEfaATM7Y1rsT/35Sabv6ku8e9VbBp/s
-X-Gm-Message-State: AOJu0Yzlv9D8KAFhKW7lMR9qT0NaS78o48QlR2BEAGdqXNUwMmk0+dxu
-	2p5VDk1LG3KUNqKEUg4cf4QPOlfnNbjeQoRsaDBd0UAHohoO4FhszUtBx/9PNYY=
-X-Google-Smtp-Source: AGHT+IEJ4/dFxmgdzvZ8FLhrm53MNJ5+1phrLLSHnqSyGBDvlyOtwzQZx8W98ZMmUE/FpMlVxlFdng==
-X-Received: by 2002:a5d:5f92:0:b0:33b:2884:edf2 with SMTP id dr18-20020a5d5f92000000b0033b2884edf2mr8212316wrb.56.1707399733015;
-        Thu, 08 Feb 2024 05:42:13 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVJiMY7qShRN2ee49hd84IotPA2VVmmKHv54xhNO2p7FkwcvRnMyNkcRr0MyHFZirwQXx/qJuq77iO/M4FALSIWzdJh+04VybjdH6fIXcM7wcoAHNb3ymggVAiJ1fZzyykvmn6ZuyH0uZvjBGtztEobcS/8VkgShtJwlGHgHlm4FCU36b3VZMSQbFuXzA==
-Received: from ?IPv6:2001:8b0:aba:5f3c:c14:ae3d:85df:fff? ([2001:8b0:aba:5f3c:c14:ae3d:85df:fff])
-        by smtp.gmail.com with ESMTPSA id bv11-20020a0560001f0b00b0033b483d1abcsm1324532wrb.53.2024.02.08.05.42.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Feb 2024 05:42:12 -0800 (PST)
-Message-ID: <018185898b86e2fccabf68570a6aec6039a0c6d6.camel@linuxfoundation.org>
-Subject: Re: [OE-core] Core workflow: sstate for all, bblock/bbunlock, tools
- for why is sstate not being reused?
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-architecture
- <openembedded-architecture@lists.openembedded.org>, Yocto-mailing-list
- <yocto@lists.yoctoproject.org>, ",openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>, Joshua Watt
- <jpewhacker@gmail.com>
-Date: Thu, 08 Feb 2024 13:42:11 +0000
-In-Reply-To: <CANNYZj8tyOy=z3L=uM9L_R8uP6eZSUkYXm9BwvsU+ERpE9QcZw@mail.gmail.com>
-References: 
-	<CAK5yBb9gO+WOJrv4TArzXK_1Bxu5AORp2oi=P-v=2nn6PgJE5Q@mail.gmail.com>
-	 <CANNYZj9QpstUj_A8Vb2RbiaFGZkHkFjHkUfF=E1HR-nDJ_Vk6w@mail.gmail.com>
-	 <17ACA59E7A7FD97B.16230@lists.openembedded.org>
-	 <CANNYZj9X5qRSup7i9S=rtRpwo5nCNHp8VJOZAuvu5JzqhLYD_g@mail.gmail.com>
-	 <f1c9d0f8cbf8ea1972aafac0c29690ca400178d7.camel@linuxfoundation.org>
-	 <CANNYZj8tyOy=z3L=uM9L_R8uP6eZSUkYXm9BwvsU+ERpE9QcZw@mail.gmail.com>
-Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
- YNvg==
-Content-Type: text/plain; charset="UTF-8"
+ dkim=fail reason="dkim: body hash did not verify" header.i=@navimatix.de header.s=selector1 header.b=YfCRi5rI;
+ spf=pass (domain: navimatix.de, ip: 40.107.21.105, mailfrom: joerg.sommer@navimatix.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YbHB/UKZnkysJPaz+yiwvrSmMlCLz7P7Azy31jJ5aa23/IJKWupfRn7tLXnzrqlGmrcQItkzYBDcY2sUbnhEKt+Yv715amxUParq64iWjK0uIbU0BNFSGra66gIrJAxL7rBWDPUFgOgkWI5ymnWXPsiwFs+ZNiGSmxsTswbZxqAm2KYCInTqAxOwlPXGuFM8hdaOHddfbebEDtHdL0APfYFPJ2Fb7UM2pYzoZo8wIuFGb6h2LU73Y6VWVRayljqexxfPsevx6YW/N0LM1fEOhql6urL8X0PtZXrww4EIKbxjPB8kxt8ULs0nlVu4S2w5DXUOPC+0q7+eaZhk9+i1fg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=X7kIStvii0cpwUgJviq/NNm582rT1IGwLTPVhY5DfHo=;
+ b=GUn7Z4FQkFOy2rcnWvhK0klVjblSzyIXfKAkrJOm8lgcpiAQFJrb2053ks1eBtZNWxb44+ojwtZAFL/Ig8nYvOJkMXOsjLvN8vjDGMi33+tSly4zsXy9rjWr4AgkdU7S+EP079UVMRjXDVpMGgHZeuaWYUb/W7v+xpFSxh3vgRwANngQEKHybFiLi50l+JBJPO3tWqmP/XigNl9rYhJCKBVNTzEtNZIQZCVD5LTak6JfatVCfQhFzyktZzmahER8Q7RNZu3idGg91Znakd1vwgP7hHuuq5cxBGdveEkSYI28kUctblUJ1Yy+ShLNbtWCHnCS2xEuhlKXwiqHw27fiQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=navimatix.de; dmarc=pass action=none header.from=navimatix.de;
+ dkim=pass header.d=navimatix.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=navimatix.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=X7kIStvii0cpwUgJviq/NNm582rT1IGwLTPVhY5DfHo=;
+ b=YfCRi5rIS8wMPxFS+YaCYD4+TcYeb8ZcZUqBqtx2F9gjGonYpWEhEmmWR/rsstCAi6zerdyPx1xt91rK/SC2hvgX+dVGJmNXnQ8X3uWEfClfDj8hxk/TMUgW7yKt7/ueJsCjoOmwDfbFq+b4LtgPTXjVWCZW21k5lz2FgMQClgs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=navimatix.de;
+Received: from AM0PR01MB4627.eurprd01.prod.exchangelabs.com
+ (2603:10a6:208:ed::32) by AM9PR01MB7299.eurprd01.prod.exchangelabs.com
+ (2603:10a6:20b:2d2::24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.37; Thu, 8 Feb
+ 2024 13:54:51 +0000
+Received: from AM0PR01MB4627.eurprd01.prod.exchangelabs.com
+ ([fe80::ae81:b0ad:f122:4d00]) by AM0PR01MB4627.eurprd01.prod.exchangelabs.com
+ ([fe80::ae81:b0ad:f122:4d00%4]) with mapi id 15.20.7249.039; Thu, 8 Feb 2024
+ 13:54:51 +0000
+Message-ID: <104bcdd2-27f1-40fb-9ad0-0fd506af3041@navimatix.de>
+Date: Thu, 8 Feb 2024 14:54:49 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] kernel.bbclass: install .config to deploy dir
+Content-Language: en-US, de-DE
+To: matthias.schiffer@ew.tq-group.com,
+ openembedded-core@lists.openembedded.org
+CC: oss@ew.tq-group.com
+References: <20240207102529.128369-1-matthias.schiffer@ew.tq-group.com>
+From: =?UTF-8?Q?J=C3=B6rg_Sommer?= <joerg.sommer@navimatix.de>
+In-Reply-To: <20240207102529.128369-1-matthias.schiffer@ew.tq-group.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.0-1 
+X-ClientProxiedBy: BE1P281CA0276.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:84::15) To AM0PR01MB4627.eurprd01.prod.exchangelabs.com
+ (2603:10a6:208:ed::32)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM0PR01MB4627:EE_|AM9PR01MB7299:EE_
+X-MS-Office365-Filtering-Correlation-Id: d83c587f-2458-4448-f4d0-08dc28ad859e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	QMwPqGrKVTU4HgfAWMmGc5bG0Wmi97ETPCG5v5N4QXMYxHLv71yBqASrDlvNUu0H//YavUgJ7Hyt+aRJ+tAKsrWEgyyLRUsvXD43FpLP/rugM87mE7v6l7py/U436M5s2CVw2Stx8buLcJZa7IHVkOH2svKC4DdB9uaZzhFP6zZnY1Jpe+ZLa/ixx+PKaf4auRJ/1M/7AQlykExrIg0oXgOrSB4fl0DtiYwfybEFnZYtdEIHKTBdKhtkfMxg7c5us1gEiPmCbhwN2y7KU+Rf/c3Z2mmPq+Yt4Lr3ezN8cFfCE3caikqZcy5oFBfnPUjUTpEO2OoRBzKvLHDsTTd1BlF8JzZO9nf6nt+z15rxrhmrA47pd+TDKBYx85f+t1s99/rcjwG25+o3uge9l3jFAGTqnwIdR/9L5S4Myqrgw0scDwvKLKB4qrG2dZa8SBXEvHICsBQqhwgH+f+0Y5FdxjAsW8KHriUJvECqB/d/8SLk6zj4OE1m+pfpXz2LhD8gOEoacB8gdfnvKangiya4Xsh6g2gY7ujiCe9GV7PdK7G7HI8ixTCMkXC5p2uo8LSc
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR01MB4627.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(396003)(376002)(39840400004)(366004)(346002)(230922051799003)(451199024)(64100799003)(186009)(1800799012)(66899024)(31696002)(36756003)(86362001)(31686004)(41300700001)(2906002)(4744005)(66574015)(26005)(38100700002)(83380400001)(5660300002)(478600001)(6506007)(53546011)(2616005)(316002)(6486002)(66946007)(66556008)(66476007)(4326008)(8936002)(6512007)(8676002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?R7mZprfyiIU17MSxgpIAWJSg4MaNld2h9qUWLR0mh3jDGNtL0m4jbd7lySSC?=
+ =?us-ascii?Q?7FBD1/Detw/5SIUyhZxVHvB7VngXoIjAV3NoQHg1TibVQIap9lAqm43/Ektp?=
+ =?us-ascii?Q?NonRPHQFa1k4UGS0cvThqzH61L7bdQSTyasrQX730oidYJsUH3tRr8qTV/1B?=
+ =?us-ascii?Q?HZ7Lksx7j5sqbzUmCi6jvc/v428zrZvKURg+amClFYDfmGA5MLy77g9bOKQJ?=
+ =?us-ascii?Q?BfwjmWa1C94UFhjaTvZJhPCSIHUk5uKJG1uVU2VDOBwr2CeRXjX9ZUQ1AzMu?=
+ =?us-ascii?Q?dc7ITso0tj3TTVvEbTNtAEytNQ4TB3L5glCNr8G7o3ClCQ39du+XUC9nOVVe?=
+ =?us-ascii?Q?8EOVl9iWRUPDccTjDlBUD05lK8JpMVXpREM381o0erIA/4IQGqRwCvBcaXVQ?=
+ =?us-ascii?Q?JlTob9CDRPq1JFcE17WA9yq1GUEOVxs9Xx8xX1u1Oec6ip1um2s9iVlfwiMU?=
+ =?us-ascii?Q?nw+1SWIwHOAPcwsBtJrYw+uLrZz+colPiT3RjuQDLGf4PYpkcE279zrBArBe?=
+ =?us-ascii?Q?mL1sa4chEY6diZ8iyPfrJdnf3MxtTQkckDHeZDTP5LT3Je2pDVxHZm1YAjCU?=
+ =?us-ascii?Q?D6FanpJzxxxmtDqSIoJacEkXFsPX2K3Ktj/vBuVFMu1dzoqQ8Xp72fqS0O3B?=
+ =?us-ascii?Q?DpUbrkgYVXsqktd3yfJYJ0FVy+s9g38ABE7DmpBVSghE8ffog3ZpjKR78Iqa?=
+ =?us-ascii?Q?HQtSt442D6fKyDAQ3s0aebXhh1pMpOW9gZCR/WwH95iZoeTb+jsmznlC2obw?=
+ =?us-ascii?Q?LXnLehyLA/WD85+O5Z01S/Qan9Oq9rL6WMF9SD/lQgBmoe4yqGaAVcC82PiZ?=
+ =?us-ascii?Q?drzAu6vyeZQBfK/5r9Tq18J+97M8UCI1eSXQ1joyPaOxv1pk9S5cT0Uc7Q1l?=
+ =?us-ascii?Q?zkdGye5WjxZ0mmZrcNzHpGR3fL+1EtWyYutOSmS32d9yV5mOM7Cr/4j62zeb?=
+ =?us-ascii?Q?itEfLjU2KlBGJ9zSN/U5AT6iKgdtD63UTkEMhGd329E0fkh0AvZjvwSEO+cz?=
+ =?us-ascii?Q?u10ilrY57hgqwRjlHB/4qPdMkg8kA9NO8JR1FTd767OPqLOIsFRZefG5NS+Z?=
+ =?us-ascii?Q?swsQauG5s20VQ1F9qEvtKpvTT9VcuSxVLNQ+7RzWv2CmB5zSPP7LkAReS9Yt?=
+ =?us-ascii?Q?jYJhAkNSWgbBbG48kUpog/23CMoPXAYAMIoRXicBLi98YAunyHLnexCn5tMv?=
+ =?us-ascii?Q?dkTYnUIrRurfnkABcwq85jCTh0pbdjkdzQjcz9jEIKsYkOBKKeFDMlXOuQSZ?=
+ =?us-ascii?Q?pFISAnu4P6I+dnRb466EBSzqAjgvdNXK0vQfDWOSDZBk8TXebP4kxrbX7zPX?=
+ =?us-ascii?Q?KDZG8d/YwSLCZpPf1uj3io+14FTC8KH3HsRDeq204cvVE8acgJqeQ2LutTgC?=
+ =?us-ascii?Q?6TWF7D3QEvPFKjxH7L4U/nFdDLME4F8b6KRyRw87iKfBBOJMc4cR1aXQNx2I?=
+ =?us-ascii?Q?BMxd/VrxhGe2qo2NKsPou2bjgAPPqyGJRwThBugXdYc82o6SZGVblWe9AvCU?=
+ =?us-ascii?Q?Bpz6QhnGkhI7DYW2VHVHb65yRTfVPNuqBuNAI4444ZPFhfcb8KVG24diJXCo?=
+ =?us-ascii?Q?Mq7s3GCLz68l/N0wp404UD5CeSzyr3y7vo33Eyw3pxRaftmL9PfH5dfcRhMi?=
+ =?us-ascii?Q?UQ=3D=3D?=
+X-OriginatorOrg: navimatix.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: d83c587f-2458-4448-f4d0-08dc28ad859e
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR01MB4627.eurprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Feb 2024 13:54:51.7449
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: c87b4f54-b992-4813-8f3f-4a876324197f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: gznDpX07jMIFhlAetyLnrliSq3S329eu8zDDT3nqximPXOx2Xf8MX2SaStgX0qisV/b2LD2DJ8HrjHQcjGSC6wNnQA0xkwq1ABu9YQJ+Yx8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR01MB7299
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 13:42:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195153
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 13:54:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195154
 
-On Thu, 2024-02-08 at 14:35 +0100, Alexander Kanavin wrote:
-> On Mon, 5 Feb 2024 at 22:11, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > > - export the hash equivalency database into something human readable,
-> > > and placed into the bundle, and then import it back when the bundle i=
-s
-> > > unpacked and set up. As far as I understand currently there's no code
-> > > for this. I'd find it useful in general, as effects of hash
-> > > equivalency can be tricky to grasp, and being able to look at the
-> > > database in a human readable format goes a long way towards
-> > > understanding how it all fits together. There may be other use cases
-> > > where you'd want to move the content of the database between build
-> > > machines. I'd like to get Joshua's take on this, did I misunderstand
-> > > this completely?
-> >=20
-> > You don't misunderstand, this is an issue.
-> >=20
-> > The good news is that the hashes needed will be in
-> > cache/bb_unihashes.dat. The eSDK code saves and restores that to ensure
-> > things all work out ok.
-> >=20
-> > It isn't human readable but could be translated easily enough.
->=20
-> Right, I didn't realize bb_unihashes.dat is simply a python pickle,
-> and can be dumped to stdout with a three-liner script.
->=20
-> What I don't understand is why for each task, that file seems to
-> contain only a single pair of equivalence, and only matching the last
-> build. The complete set seems to be in hashserv.db, but I didn't yet
-> look into the structure of that or whether it's portable to other
-> locations as a file copy.
->=20
-> So how do the two files interact? Shouldn't we copy over the full
-> database rather, and have bitbake re-create the cache on the other
-> side from that?
+On 07.02.24 11:25, Matthias Schiffer via lists.openembedded.org wrote:
+> Deploy the kernel configuration with the built images, so it is easy to
+> check its contents, or rebuild the same configuration outside of the
+> Yocto build system.
 
-hashserve.db is a full hash serve database. When we run a build without
-specifying a hash serve to use, bitbake will start a local one and this
-is the file which backs it. In a build with a remote hashserve, it
-won't be present.
+Isn't the kernel already in the -dev package included?
 
-the unihashes file is bitbake's internal lookup cache. It exists so
-that if the hashserve isn't local, we have a local lookup of our "last"
-value.
-
-This means the file is good for the current (last) build not much
-beyond that.
-
-I'm not saying any of this entirely solves the problem at hand, just
-that some of the data is there.
-
-Cheers,
-
-Richard
+From a security point of view I wouldn't welcome the inclusion in the
+main package, because the config should not be deployed by default. The
+config contains many information about the available code in the kernel,
+which an attacker can only guess otherwise.
 
 
+Kind regards
 
+J=C3=B6rg Sommer
+--=20
+Navimatix GmbH
+Tatzendpromenade 2
+D-07745 Jena
+Gesch=C3=A4ftsf=C3=BChrer: Steffen Sp=C3=A4the, Jan Rommeley
+Registergericht: Amtsgericht Jena, HRB 501480
 
 
