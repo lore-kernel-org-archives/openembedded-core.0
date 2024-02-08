@@ -1,139 +1,146 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0141EC48260
-	for <webhook@archiver.kernel.org>; Thu,  8 Feb 2024 11:53:37 +0000 (UTC)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
- by mx.groups.io with SMTP id smtpd.web11.16037.1707393209095712651
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22504C48260
+	for <webhook@archiver.kernel.org>; Thu,  8 Feb 2024 11:56:27 +0000 (UTC)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web10.15949.1707393377159391458
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Feb 2024 03:53:29 -0800
+ Thu, 08 Feb 2024 03:56:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=iQqjyCZS;
- spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5116063585aso2147095e87.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 03:53:28 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dB5lDxgB;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-33b29b5ea96so439230f8f.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 03:56:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707393207; x=1707998007; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=T7+IASg6tC9/co3DyJ8tGRNmtYAClyEmaP5dRnf8mq0=;
-        b=iQqjyCZS68Of2TjvGW1At3nLykfr8hzJlJz3oJDLriXVcDdnAwdcsanru6gs41nhc8
-         8pajAI65vYwDHb++9mLh5Cq0kgx8HDgvmaZWnxxNKrfTLHl7iTZBFCGpcGrI5m6fV0gU
-         ZACZXJsYX8yRJmTOm7EsHxX9+MFQvsVwTMOnDGrLUN1iyL9Dh4dv/jTVpoIjrhU61YH0
-         2lFfsTbJkqQTMvAxwk4ulh//wYGs4C4Bo8SxjLxZUXfYiGeiaped3G+vVcFv59evh7Zg
-         IFIYD2Rt15y+4ECCHkPL1tOM5EEU5F5/jFFHl4IAXN59m77oDzs3juBbhGz0LFSsshLJ
-         rc+w==
+        d=linuxfoundation.org; s=google; t=1707393375; x=1707998175; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=XcZgFCHTRZMzrYFeGWW9Ep9Gu374kWQHfc63Qf4t/X8=;
+        b=dB5lDxgB/wzxzLtTvrWKURArTyMA/ACwFoSZIx4wacfF8MgpTyGWdQdFi7pPNublYZ
+         ideEAOucbpJfTCclJy31jS9wDHWzpfZ1ahwaPRWdRP7POu04UEJ57i2rxJ53eByN6IVF
+         0F++FWuN0unWwGUtwVl8SCtLyFJ86RZh7Ft1o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707393207; x=1707998007;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=T7+IASg6tC9/co3DyJ8tGRNmtYAClyEmaP5dRnf8mq0=;
-        b=Kh3l48qNt1nE8jJ0Se2W8AWuRVm9krNnKksGK/WB54MMZo3y0T/alOM1KCniVW/5iE
-         PDM+EqoQuXDc2F1QYQk1VczDbRlXJO6Ow2b5ezuqDBMF4Ci8q/Kymv8LJcrxDyac9I1t
-         WF/ipl0PUdlQKgTLiRYku4+j/+SDu9EzL+NfefgpHC8pGcxLdSjC6XL+tjBkRYeXhri0
-         LBtpQxXQ7I4oBQt1kutd8Db8nHErCpuW+xmVP1jbLtCHWuJCZG2Re6xZfa2ktIbR6xe1
-         Dtw2hdxXC+Gi7qFJ/KDRkORyzWHGbIzPAe7YUorxVGccvhY+haNTG50dkRNrpNxpifgm
-         H70w==
-X-Forwarded-Encrypted: i=1; AJvYcCUKc5VdZeqGAL1xG5cGaPY7vfFaAGCfZL9yzAMfWmwSzWU3we/s4/Pa1AeHFuYUNhgFyc/C0M4RgdQpWhCBbboVs/PyRDT/BmyZRdJXjsTq5GUsbHuu3eCS
-X-Gm-Message-State: AOJu0YyAypSc7ZkKqdYLp8s5Ohz8PdD66+KVjTL4Q6Zp6wJsPOoy+LaX
-	aoKX201CYeoZ3gXnIhrjDWwQkutJRfN/6DHkkLB+jsWrRAmhLyEAi0B97dwahjjF6AONLdvWvPz
-	f6U1e1tcKbvkRW6v92mgKwkhLFqw=
-X-Google-Smtp-Source: AGHT+IHJufSBGJ1Ma2YX/4rvKCWXt0n9Lo3hVnvM1MwbVTxILn6m4At5znzgwosHoZt2xRMQhB1GRonVNYmN2HCzih4=
-X-Received: by 2002:ac2:58f9:0:b0:511:4752:fbb8 with SMTP id
- v25-20020ac258f9000000b005114752fbb8mr5294432lfo.37.1707393207115; Thu, 08
- Feb 2024 03:53:27 -0800 (PST)
-MIME-Version: 1.0
-References: <20240208111737.6480-1-attila.hannibal@heitec.hu>
- <ad2c67bb503873dd90a5fb08df1c1922e6adfc17.camel@linuxfoundation.org> <CANsWD5rkpdej1QXuNBBSmaQ4cXY9p7uhYyqN=jZRB7NS_+1DCw@mail.gmail.com>
-In-Reply-To: <CANsWD5rkpdej1QXuNBBSmaQ4cXY9p7uhYyqN=jZRB7NS_+1DCw@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 8 Feb 2024 12:53:15 +0100
-Message-ID: <CANNYZj9AVBa2NBOL_DKaVgixP5wefPfZM9WCWMi4d4g92rdSew@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] gstreamer1.0-omx: remove commercial license flag
-To: Attila Hannibal <attila.hannibal@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core@lists.openembedded.org, 
-	Attila Hannibal <attila.hannibal@heitec.hu>
+        d=1e100.net; s=20230601; t=1707393375; x=1707998175;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=XcZgFCHTRZMzrYFeGWW9Ep9Gu374kWQHfc63Qf4t/X8=;
+        b=VuaFg1hdCLeh+9QJh5y1qWhPPRG1NGbaxBGzYEkJtc/DUiGBVUQet1bIQ0ehBXOIsY
+         8d5hX8LWjb56jXPDnVpysaBiGz05Y1wWkVgKQWPt49MASu0Mjo1V+nWE4VjtlRZl16fn
+         N/Fi4Iwh0mmkqWS/as0l4+jCdbSEcOvuyd4fXAgUn2UnWVEjrJ028d/cz/yKOjycel1s
+         1xAhxf+yH1UvowwBwkRsX+t33LQihzC2bb9fzpv5vxnz+xDoSLIKk65lTEwEWO1xhFhF
+         lvnnr4G6HnSMNIH/qtaZZmr6nrqZjN5diKVo2N2LAnMhMdfp0woQJ2Bg0z2tAAu6c/k5
+         H34A==
+X-Gm-Message-State: AOJu0Yz6q/fyDKU/liCBaeNlwQ2CuF0Tqtyw1vfeD9ILM5bdZ2NT9Fp6
+	mVXqH/UA/GxbLTWeZpBoN/PXcFBXU/KIa5QRF4fB+cU9vO+lWKWJhXGJZijVjWwpVodmYgxSa6k
+	Z
+X-Google-Smtp-Source: AGHT+IGk9RpjS3mnvwVR2yx+1d0q8qX7lvooJzhjWeMM5fxPOK7dvMEzwxxeah0Q4uoLJBYWTCNTHg==
+X-Received: by 2002:adf:fe08:0:b0:33b:5979:8fd5 with SMTP id n8-20020adffe08000000b0033b59798fd5mr1130334wrr.15.1707393375149;
+        Thu, 08 Feb 2024 03:56:15 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXs8Rky6RBCKo3gMxKPJYWRDJmqJxqQJISdV272NvWOcSH+E8s2mCw8D6bmDk4UaBmmRlyM4WPDkbANiRR+bXDzpsbKNriTc2XXRFVglU6/ocsetPm/9g7gNfl30EuSVdtP0hKf9E/nvfnv0TEPAuKGPXdDcuUsQkxO4lUIjJf3Y++Pi+Gnd0HU
+Received: from ?IPv6:2001:8b0:aba:5f3c:c14:ae3d:85df:fff? ([2001:8b0:aba:5f3c:c14:ae3d:85df:fff])
+        by smtp.gmail.com with ESMTPSA id i8-20020a05600011c800b0033b11e91c0bsm3421173wrx.81.2024.02.08.03.56.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Feb 2024 03:56:14 -0800 (PST)
+Message-ID: <0534096c462994b31f8e6ef02cc1b4a017a8c909.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2] wic: Configurable addressing of GPT main
+ table
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: davide.cardillo@seco.com, openembedded-core@lists.openembedded.org
+Cc: Tobias Poganiuch <tobias.poganiuch@seco.com>, Andrea Da Col
+	 <andrea.dacol@seco.com>, Daniel Rinaldi <daniel.rinaldi@seco.com>
+Date: Thu, 08 Feb 2024 11:56:14 +0000
+In-Reply-To: <20240208115017.23047-1-davide.cardillo@seco.com>
+References: <20240208115017.23047-1-davide.cardillo@seco.com>
+Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
+ YNvg==
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.0-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 11:53:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195142
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 11:56:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195143
 
-I guess it's better to be cautious here. There can be multiple
-implementations of the codecs, we can't ensure they all have the flag,
-and gstreamer1.0-omx needs one of them to function, so there's no
-scenario where the commercial flag would not apply.
+On Thu, 2024-02-08 at 12:50 +0100, Davide Cardillo via
+lists.openembedded.org wrote:
+> Issue:
+> the usage of a gpt table with i.MX processor is not compatible by default=
+.
+> This is due to a memory conflict: the main partition table is placed into
+> the same memory space used to flash the header of the U-Boot. This last
+> can not be moved since the ROM code of the i.MX6 starts to read to that
+> fixed address (0x400).
+> This problem can be solved using a feature of the GPT partition table for
+> witch the main table can be moved to a desired memory area.
+> The WIC library present in poky manages the GPT table through some
+> standard Linux commands (gdisk and sgdisk) which ones have already the
+> opportunity to perform this task.
+> This patch introduces this feature with the addition of some wic's option=
+s,
+> used also in wks file.
+>=20
+> New partition placement behavior:
+> Since now all partitions are placed after the gpt table presents into the
+> first 1KB of memory (including both the gpt header at the first byte of
+> memory and the main partition table staring at 0x400).
+> Now the main gpt table can be placed in other address spaces and a partit=
+ion
+> can be placed also before the gpt table. Recap:
+> - by default, all partitions are placed sequentially, one after the other=
+.
+> The first partition implicitly starts after the GPT partition table.
+> - adding a flag to the item of a partition into the wks file, the partiti=
+on
+> can be placed, starting from a fixed memory offset (neglecting the memory
+> space occupied by the GPT table).
+> Combining the moving of the main partition table and the absolute (not ye=
+t
+> relative) positioning of a partition, now it is possible to place one or =
+more
+> =C2=A0=C2=A0=C2=A0partitions before the GPT table.
+>=20
+> New flags:
+> - main-ptable-offset (size in KB): to add as property of the bootloader i=
+tem.
+> Specifies the main partition table location in KB.
+> - fixed-align (boolean): to add as property of a partition. Specifies tha=
+t the
+> partition must to placed with absolute offset, used in conjunction with -=
+-align
+> property
+>=20
+> Example:
+> setting used for a wic for an i.MX6 processor, where the main parttion ta=
+ble is
+> placed with absolute offset of 4MB
+>=20
+> bootloader --ptable gpt --main-ptable-offset 4096K
+> part / --source rawcopy --sourceparams=3D"file=3Du-boot.imx" --ondisk mmc=
+blk --align 1 --size 1M --no-table --fixed-align
+>=20
+> Test environment:
+> This patch is a part of Edgehog OS (https://git.seco.com/edgehog) a
+> custom Yocto distribution by SECO SpA (www.seco.com), used on multiple
+> architectures (both ARM and x86).
+> This solution is widely used by all SECO customers who use a hardware
+> solution based on NXP i.MX6 processors.
 
+This looks like something we should add some kind of test case for to
+lib/oeqa/selftest/cases/wic* ?
 
-Alex
+Cheers,
 
-On Thu, 8 Feb 2024 at 12:31, Attila Hannibal <attila.hannibal@gmail.com> wr=
-ote:
->
-> Yes, based on the Readme in the gstreamer-omx repo (https://github.com/GS=
-treamer/gst-omx/blob/master/README) it and its contents are LGPL.
->
-> In case it uses external codecs, shouldn't the external codecs recipe(s) =
-contain the commercial license flag?
->
->
->
-> Attila
->
->
-> On Thu, Feb 8, 2024 at 12:22=E2=80=AFPM Richard Purdie <richard.purdie@li=
-nuxfoundation.org> wrote:
->>
->> On Thu, 2024-02-08 at 12:17 +0100, Attila Hannibal wrote:
->> > The gstreamer OpenMAX IL plugin is completely LGPL licensed,
->> > the "commercial" marking should be removed.
->> >
->> > Signed-off-by: Attila Hannibal <attila.hannibal@heitec.hu>
->> > ---
->> >  meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.9.bb | 1 -
->> >  1 file changed, 1 deletion(-)
->> >
->> > diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.9=
-.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.9.bb
->> > index 05d64748bb..fad3714839 100644
->> > --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.9.bb
->> > +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.9.bb
->> > @@ -4,7 +4,6 @@ HOMEPAGE =3D "http://gstreamer.freedesktop.org/"
->> >  SECTION =3D "multimedia"
->> >
->> >  LICENSE =3D "LGPL-2.1-or-later"
->> > -LICENSE_FLAGS =3D "commercial"
->> >  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D4fbd65380cdd255951079008b3=
-64516c \
->> >                      file://omx/gstomx.h;beginline=3D1;endline=3D21;md=
-5=3D5c8e1fca32704488e76d2ba9ddfa935f"
->> >
->>
->> This is not about the license of the code but whether you can actually
->> use the codecs in there without some kind of license to do so.
->>
->> Even if code is open source, the algorithms it implements can have
->> other restrictions.
->>
->> Cheers,
->>
->> Richard
->>
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#195138): https://lists.openembedded.org/g/openembedde=
-d-core/message/195138
-> Mute This Topic: https://lists.openembedded.org/mt/104236817/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Richard
 
