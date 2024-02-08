@@ -1,148 +1,139 @@
-Return-Path: <andreaskleist@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1801EC4828F
-	for <webhook@archiver.kernel.org>; Thu,  8 Feb 2024 11:53:17 +0000 (UTC)
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
- by mx.groups.io with SMTP id smtpd.web10.15905.1707393195444414823
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0141EC48260
+	for <webhook@archiver.kernel.org>; Thu,  8 Feb 2024 11:53:37 +0000 (UTC)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.web11.16037.1707393209095712651
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Feb 2024 03:53:15 -0800
+ Thu, 08 Feb 2024 03:53:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=bkljH6Tl;
- spf=pass (domain: gmail.com, ip: 209.85.208.42, mailfrom: andreaskleist@gmail.com)
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-558f523c072so2258056a12.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 03:53:15 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=iQqjyCZS;
+ spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5116063585aso2147095e87.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 03:53:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707393194; x=1707997994; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=OfhZ4hEn3pu+YEqGahw06P6yiRFo9F6ywbJUrUqtJp8=;
-        b=bkljH6TlrH0fFUqe6+ptRek1FiWdVPhqobEpYITX86OkreuWGescYFJwz0WjeS0WMn
-         sxk1v2PgPfZPzyinzmMIEkzoKzBR8K3h1+ynnoD4emXZWjtqhLiaOqrwYCTJeI+bqSAE
-         WTMyvTrqA4LOfzJUjIK3FteyEMEHTEg65Thubf2KJcRSIxt3+mhifJG33dZk/LkXE2Cd
-         bCEvoBtIDlhEt1eIrtSjvjtRe9my8PMWv+334h/YR1ZNQSgtDyl8+AKAbrY8R/SExUnd
-         WRzJLwLP5PO++Hen//fpJwwoed0ERIvyTmDL8qScbLkSlFIV/kGW8c2xBqH3ymUL+CTb
-         HAkA==
+        d=gmail.com; s=20230601; t=1707393207; x=1707998007; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=T7+IASg6tC9/co3DyJ8tGRNmtYAClyEmaP5dRnf8mq0=;
+        b=iQqjyCZS68Of2TjvGW1At3nLykfr8hzJlJz3oJDLriXVcDdnAwdcsanru6gs41nhc8
+         8pajAI65vYwDHb++9mLh5Cq0kgx8HDgvmaZWnxxNKrfTLHl7iTZBFCGpcGrI5m6fV0gU
+         ZACZXJsYX8yRJmTOm7EsHxX9+MFQvsVwTMOnDGrLUN1iyL9Dh4dv/jTVpoIjrhU61YH0
+         2lFfsTbJkqQTMvAxwk4ulh//wYGs4C4Bo8SxjLxZUXfYiGeiaped3G+vVcFv59evh7Zg
+         IFIYD2Rt15y+4ECCHkPL1tOM5EEU5F5/jFFHl4IAXN59m77oDzs3juBbhGz0LFSsshLJ
+         rc+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707393194; x=1707997994;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OfhZ4hEn3pu+YEqGahw06P6yiRFo9F6ywbJUrUqtJp8=;
-        b=KXX/gPPiVtr1PxHCW4LCbRRRDQJWoXnjKhw1s+otKG2YJa9xVWDY7YiMWjRtm9hc71
-         5GEj2+qC2uDRSCO80ueiwZ5ERzNx5YTYcLeUdkdEaDFhUoygun37f+HpvwK96e/EoY+1
-         +FzPGSKtqMwOQxmH4P7yd7e99eQLmoWHiDeLORRDKyakwlUQy5iGHqkBBZeGpd2zQBoc
-         V2EtYlzdnu0euD9Dpy8J9B4GSeoAfPUzwODehKExmAzvgOUgG14T0Dso7j14Dy/UUhm5
-         m0SEK3Kay5qpCzIzXkkOcx8hvmVN6GNYhNlL1qOwF6fL92zasPWcWXLAY0EvgbT+JLy9
-         g6ZA==
-X-Gm-Message-State: AOJu0Yxwd55gJtElFsDjnCD4OMefXqViZM6JFiu/EX5mCX7nnt4zBOne
-	3y3vw+NVYw7/sOpPVGRAgusoIB/LSVNyqkrDdy/DPb6SZ518vqNbO3asHy3w
-X-Google-Smtp-Source: AGHT+IFy4DuWGlnLpcKUuUQIUGr1nRRsUnsDSlB3++ztzIodmmScerRLcwhUczLKwA6Jd7G5McZBdw==
-X-Received: by 2002:a17:906:319b:b0:a38:405c:a96 with SMTP id 27-20020a170906319b00b00a38405c0a96mr5386785ejy.64.1707393193421;
-        Thu, 08 Feb 2024 03:53:13 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCU8MGHT1U+stUDU/fu8aNlU9/0P3Y5qt1oRsbSCCZYCD2w0N+sl7gvSt/4dlBGmPNXjsWR/XlkKFDCtuDqHuLIdmrEETDFWfIAEt9f4zCBDjxK836ysAu8XxNWnqpyZFh+aydVpoX9G0ShYXg==
-Received: from localhost.localdomain ([87.62.83.1])
-        by smtp.gmail.com with ESMTPSA id x27-20020a170906135b00b00a359afad88dsm1844459ejb.10.2024.02.08.03.53.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Feb 2024 03:53:13 -0800 (PST)
-From: Andreas Helbech Kleist <andreaskleist@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Andreas Helbech Kleist <andreaskleist@gmail.com>
-Subject: [kirkstone][PATCH] kernel: fix localversion in v6.3+
-Date: Thu,  8 Feb 2024 12:52:45 +0100
-Message-ID: <20240208115245.3492168-1-andreaskleist@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1707393207; x=1707998007;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=T7+IASg6tC9/co3DyJ8tGRNmtYAClyEmaP5dRnf8mq0=;
+        b=Kh3l48qNt1nE8jJ0Se2W8AWuRVm9krNnKksGK/WB54MMZo3y0T/alOM1KCniVW/5iE
+         PDM+EqoQuXDc2F1QYQk1VczDbRlXJO6Ow2b5ezuqDBMF4Ci8q/Kymv8LJcrxDyac9I1t
+         WF/ipl0PUdlQKgTLiRYku4+j/+SDu9EzL+NfefgpHC8pGcxLdSjC6XL+tjBkRYeXhri0
+         LBtpQxXQ7I4oBQt1kutd8Db8nHErCpuW+xmVP1jbLtCHWuJCZG2Re6xZfa2ktIbR6xe1
+         Dtw2hdxXC+Gi7qFJ/KDRkORyzWHGbIzPAe7YUorxVGccvhY+haNTG50dkRNrpNxpifgm
+         H70w==
+X-Forwarded-Encrypted: i=1; AJvYcCUKc5VdZeqGAL1xG5cGaPY7vfFaAGCfZL9yzAMfWmwSzWU3we/s4/Pa1AeHFuYUNhgFyc/C0M4RgdQpWhCBbboVs/PyRDT/BmyZRdJXjsTq5GUsbHuu3eCS
+X-Gm-Message-State: AOJu0YyAypSc7ZkKqdYLp8s5Ohz8PdD66+KVjTL4Q6Zp6wJsPOoy+LaX
+	aoKX201CYeoZ3gXnIhrjDWwQkutJRfN/6DHkkLB+jsWrRAmhLyEAi0B97dwahjjF6AONLdvWvPz
+	f6U1e1tcKbvkRW6v92mgKwkhLFqw=
+X-Google-Smtp-Source: AGHT+IHJufSBGJ1Ma2YX/4rvKCWXt0n9Lo3hVnvM1MwbVTxILn6m4At5znzgwosHoZt2xRMQhB1GRonVNYmN2HCzih4=
+X-Received: by 2002:ac2:58f9:0:b0:511:4752:fbb8 with SMTP id
+ v25-20020ac258f9000000b005114752fbb8mr5294432lfo.37.1707393207115; Thu, 08
+ Feb 2024 03:53:27 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240208111737.6480-1-attila.hannibal@heitec.hu>
+ <ad2c67bb503873dd90a5fb08df1c1922e6adfc17.camel@linuxfoundation.org> <CANsWD5rkpdej1QXuNBBSmaQ4cXY9p7uhYyqN=jZRB7NS_+1DCw@mail.gmail.com>
+In-Reply-To: <CANsWD5rkpdej1QXuNBBSmaQ4cXY9p7uhYyqN=jZRB7NS_+1DCw@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 8 Feb 2024 12:53:15 +0100
+Message-ID: <CANNYZj9AVBa2NBOL_DKaVgixP5wefPfZM9WCWMi4d4g92rdSew@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] gstreamer1.0-omx: remove commercial license flag
+To: Attila Hannibal <attila.hannibal@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-core@lists.openembedded.org, 
+	Attila Hannibal <attila.hannibal@heitec.hu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 11:53:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195141
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 11:53:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195142
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+I guess it's better to be cautious here. There can be multiple
+implementations of the codecs, we can't ensure they all have the flag,
+and gstreamer1.0-omx needs one of them to function, so there's no
+scenario where the commercial flag would not apply.
 
-During testing of the v6.4 reference kernel, it was noticed that
-on-target modules no longer matched the magic value of the running
-kernel.
 
-This was due to a different localversion in the cross built kernel
-and the scripts / resources created on target.
+Alex
 
-This was due to changes in the setlocalversion script introduced
-in the v6.3 series.
-
-The .scmversion file is no longer used (or packaged) to inhibit
-the addition of a "+" (through querying of the git status of the
-kernel) or the setting of a local version.
-
-We recently introduced the KERNEL_LOCALVERSION variable to allow
-recipes to place a value in .scmversion, so we extend the use of
-that variable to kernel-arch.bbclass and use it to set the
-exported variable LOCALVERSION.
-
-We must do it at the kernel-arch level, as the variable must be
-exported in any kernel build to ensure that setlocalversion always
-correctly sets the localversion.
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-Cherry-picked from master 765b13b7305c8d2f222cfc66d77c02e6a088c691
-
-Signed-off-by: Andreas Helbech Kleist <andreaskleist@gmail.com>
----
- meta/classes/kernel-arch.bbclass |  7 +++++++
- meta/classes/kernel.bbclass      | 10 ++++++++--
- 2 files changed, 15 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/kernel-arch.bbclass b/meta/classes/kernel-arch.bbclass
-index 4cd08b96fb..0a79dea0af 100644
---- a/meta/classes/kernel-arch.bbclass
-+++ b/meta/classes/kernel-arch.bbclass
-@@ -66,3 +66,10 @@ KERNEL_LD = "${CCACHE}${HOST_PREFIX}ld.bfd ${HOST_LD_KERNEL_ARCH}"
- KERNEL_AR = "${CCACHE}${HOST_PREFIX}ar ${HOST_AR_KERNEL_ARCH}"
- TOOLCHAIN ?= "gcc"
- 
-+# 6.3+ requires the variable LOCALVERSION to be set to not get a "+" in
-+# the local version. Having it empty means nothing will be added, and any
-+# value will be appended to the local kernel version. This replaces the
-+# use of .scmversion file for setting a localversion without using
-+# the CONFIG_LOCALVERSION option.
-+KERNEL_LOCALVERSION ??= ""
-+export LOCALVERSION ?= "${KERNEL_LOCALVERSION}"
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 5951347361..940f1a3cf4 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -418,7 +418,7 @@ do_compile_kernelmodules() {
- 	if (grep -q -i -e '^CONFIG_MODULES=y$' ${B}/.config); then
- 		oe_runmake -C ${B} ${PARALLEL_MAKE} modules ${KERNEL_EXTRA_ARGS}
- 
--		# Module.symvers gets updated during the 
-+		# Module.symvers gets updated during the
- 		# building of the kernel modules. We need to
- 		# update this in the shared workdir since some
- 		# external kernel modules has a dependency on
-@@ -635,7 +635,13 @@ kernel_do_configure() {
- 	# $ scripts/setlocalversion . => +
- 	# $ make kernelversion => 2.6.37
- 	# $ make kernelrelease => 2.6.37+
--	touch ${B}/.scmversion ${S}/.scmversion
-+	# See kernel-arch.bbclass for post v6.3 removal of the extra
-+	# + in localversion. .scmversion is no longer used, and the
-+	# variable LOCALVERSION must be used
-+	if [ ! -e ${B}/.scmversion -a ! -e ${S}/.scmversion ]; then
-+		echo ${KERNEL_LOCALVERSION} > ${B}/.scmversion
-+		echo ${KERNEL_LOCALVERSION} > ${S}/.scmversion
-+	fi
- 
- 	if [ "${S}" != "${B}" ] && [ -f "${S}/.config" ] && [ ! -f "${B}/.config" ]; then
- 		mv "${S}/.config" "${B}/.config"
--- 
-2.43.0
-
+On Thu, 8 Feb 2024 at 12:31, Attila Hannibal <attila.hannibal@gmail.com> wr=
+ote:
+>
+> Yes, based on the Readme in the gstreamer-omx repo (https://github.com/GS=
+treamer/gst-omx/blob/master/README) it and its contents are LGPL.
+>
+> In case it uses external codecs, shouldn't the external codecs recipe(s) =
+contain the commercial license flag?
+>
+>
+>
+> Attila
+>
+>
+> On Thu, Feb 8, 2024 at 12:22=E2=80=AFPM Richard Purdie <richard.purdie@li=
+nuxfoundation.org> wrote:
+>>
+>> On Thu, 2024-02-08 at 12:17 +0100, Attila Hannibal wrote:
+>> > The gstreamer OpenMAX IL plugin is completely LGPL licensed,
+>> > the "commercial" marking should be removed.
+>> >
+>> > Signed-off-by: Attila Hannibal <attila.hannibal@heitec.hu>
+>> > ---
+>> >  meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.9.bb | 1 -
+>> >  1 file changed, 1 deletion(-)
+>> >
+>> > diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.9=
+.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.9.bb
+>> > index 05d64748bb..fad3714839 100644
+>> > --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.9.bb
+>> > +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.9.bb
+>> > @@ -4,7 +4,6 @@ HOMEPAGE =3D "http://gstreamer.freedesktop.org/"
+>> >  SECTION =3D "multimedia"
+>> >
+>> >  LICENSE =3D "LGPL-2.1-or-later"
+>> > -LICENSE_FLAGS =3D "commercial"
+>> >  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D4fbd65380cdd255951079008b3=
+64516c \
+>> >                      file://omx/gstomx.h;beginline=3D1;endline=3D21;md=
+5=3D5c8e1fca32704488e76d2ba9ddfa935f"
+>> >
+>>
+>> This is not about the license of the code but whether you can actually
+>> use the codecs in there without some kind of license to do so.
+>>
+>> Even if code is open source, the algorithms it implements can have
+>> other restrictions.
+>>
+>> Cheers,
+>>
+>> Richard
+>>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#195138): https://lists.openembedded.org/g/openembedde=
+d-core/message/195138
+> Mute This Topic: https://lists.openembedded.org/mt/104236817/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
+ex.kanavin@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
