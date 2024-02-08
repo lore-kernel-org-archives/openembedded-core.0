@@ -2,58 +2,59 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D979C4828F
-	for <webhook@archiver.kernel.org>; Thu,  8 Feb 2024 11:20:07 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web11.15662.1707391204635729594
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF54CC48260
+	for <webhook@archiver.kernel.org>; Thu,  8 Feb 2024 11:22:56 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web11.15699.1707391375453411009
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Feb 2024 03:20:05 -0800
+ Thu, 08 Feb 2024 03:22:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FWLpf4n3;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-40fd72f7125so14481415e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 03:20:03 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Nn0S7TUy;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4102eae7e6aso6903435e9.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 03:22:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1707391202; x=1707996002; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1707391374; x=1707996174; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ii0ZVrgQ1kJQJSsh8UnJ0DNzECUUglxLXJUeZXmqfXk=;
-        b=FWLpf4n3m9RARakq6fYMxyic4RL5k3wWf8s4xv592pV49heWwj2pdtDjUKC1PUn7IB
-         mzQBliV0T/XewDdq2zqSIr0WQD3TCcp3++ZXZioj8oESCNLnk2zDxeE9y6o0S+ZerJqT
-         8BHjd4hglla5beIRLTlW3m2c0eVP8XsFmLHEM=
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=PHXa2NZnp67FF8zTml4t/AStmBtx1Poz2ujGO8PNOXM=;
+        b=Nn0S7TUyaUW94uy9auT2YeT3X/nbXvGcHdX7YRQDiHDd8Mqmhxqdx0VoqZhMx0cwSv
+         OZdO7nHzyaz6IxUVScVDpJFUiChfmopGgiDC+YmWrVtRJ3I5zhRJh5pBCGDGejZXW+LE
+         8+oGx7ScXFX7OiCqlbPGU33ftHcn808gvJWGE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707391202; x=1707996002;
+        d=1e100.net; s=20230601; t=1707391374; x=1707996174;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:to:from:subject:message-id
+         :references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ii0ZVrgQ1kJQJSsh8UnJ0DNzECUUglxLXJUeZXmqfXk=;
-        b=F+WoMfGqop9UxlDMsCxf4nxUJnrRvLUrzy0b10GoqUrKbXk3O0u1+sj1hl9bH3CPeI
-         HC2WFgcKtLl+lgKrZm2LrU7dKM+DoJwTzgqKMSV45qjAba8B4yaoiAHSjzeN1TCA7PHQ
-         cwP3Xjv+DixaM8qNjIwDqSIoI1YcM0pLRzTakzFCvY/u4XB3puHzv+4JSOeIgRpZmTV3
-         0oCFJ3OD18WpVO8+eYHvRXqxqpaivd93ph35anD9sYvtsdSO1XlRF0Nl2hhCZ2VEyXnw
-         Xi6p8ShN54K0I5Nl3yNpaCRPKfDfMURnx9ndm1gR0oiT1cFJnnVss6D7ihE//5gX6uZp
-         YVoA==
-X-Forwarded-Encrypted: i=1; AJvYcCV0Ud/QfggE3oYF0IlxJE7ZSoobtDZsxuTsSV3b5NKTK4Chn3qIGd8fhzKMHIjVyAzv7U7wIzJF0STGlTYfPX9VsuWzHwm0tZnhRsw2oGHoxi+kYIskEwEi
-X-Gm-Message-State: AOJu0YzGZo6ZACmnVbBMbEn6bif8rzprOwPOTvR+G7trOA/+biPOGVm1
-	2tgY7ELChF+NBP+X5XeVd8IsTOXH7z7hojDHKaJ5vDFTNRXyU8WnvpQyOQGbr+g=
-X-Google-Smtp-Source: AGHT+IF99uI9/WBzByhERTxYmY6azeuJkp8+v86GxGjFReEJwCzUIKwOZTYFZxYJh5SuR4CkMD56Uw==
-X-Received: by 2002:a05:600c:2255:b0:40e:fa6b:f355 with SMTP id a21-20020a05600c225500b0040efa6bf355mr7166064wmm.41.1707391202405;
-        Thu, 08 Feb 2024 03:20:02 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUSgM9oTUo5uiiqqGIArpeKj6E6CcdScdjKH68jBxvFM1kfyb0l6RBy5rVEIMRXujSiQkpX/K1llXScPnWSp1VHRzTZLTxijKf99eZnr1sJQ+vk9HujieP0
+        bh=PHXa2NZnp67FF8zTml4t/AStmBtx1Poz2ujGO8PNOXM=;
+        b=ARMoy+SAlmN/AqJUiG+r8b4z2c0gHrdtWhDbtPvYEGw1MPp4N39mG6Ndku7/oLC97K
+         Ta/4ixjaKoAXp9H29QkgycKR47i5YRIhnMK3hxrRzu9m2juPjPf8GVns5i5ybBrzeyZ1
+         cOQVxGN/83/nma6vuAR9QrB1GCLl++dSe4qbY9+37F5LkZsMsc6+bTF332TnbJ5UmMYa
+         IuU2t6nlE0rATO0IT8E7xmelmZVpjvrwqGcz7NRqSpW5/rAgd1svt58L5ObnZzXdOLxm
+         tolB+Wraem4OS2njayXmLMTV6ge8m5ekTfW0XABgn8XSAaqkCnzVsRslHMSLZJjthpkh
+         4v3Q==
+X-Gm-Message-State: AOJu0YxmrWIixZxRjhzvbv0v0McGhq5t/mULkBXLElakQ8QVZm1lWoCU
+	Xhboyr1vwhTAiaewRwWK58TjZ66MrCWB8XlsWdY8Wdc44HlcujeKsWvFyBupbc8bh18bVn/AEi5
+	m
+X-Google-Smtp-Source: AGHT+IFpCrFc+CFo9+2uX3p6yAYdYgoq+qXXXmxK1Ut+I6LQ7UlTWuhpDIWtCFQlJ0pli9WIKGiBCQ==
+X-Received: by 2002:a05:600c:1991:b0:410:2ab8:d16b with SMTP id t17-20020a05600c199100b004102ab8d16bmr1782779wmq.26.1707391373826;
+        Thu, 08 Feb 2024 03:22:53 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVkBy9Ipb5ggeONDS1CBbDNbAn2N8ryC//zR7BprNSpQ92sjmobFj0NdBaLvFUPGb74kYC73+mZsyHmCBItKcEaXlphYit3AfJ3telLEVyD7+O3FjM6Ubv8
 Received: from ?IPv6:2001:8b0:aba:5f3c:c14:ae3d:85df:fff? ([2001:8b0:aba:5f3c:c14:ae3d:85df:fff])
-        by smtp.gmail.com with ESMTPSA id u12-20020a05600c138c00b004100c0882fdsm1332081wmf.31.2024.02.08.03.20.01
+        by smtp.gmail.com with ESMTPSA id u7-20020a05600c19c700b004101e93d276sm1321242wmq.14.2024.02.08.03.22.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Feb 2024 03:20:01 -0800 (PST)
-Message-ID: <f33b3247e9eddcbadf09b85af0efd642926945cf.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] configuration: add Power8 tune to PowerPC
- architecture
+        Thu, 08 Feb 2024 03:22:53 -0800 (PST)
+Message-ID: <ad2c67bb503873dd90a5fb08df1c1922e6adfc17.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] gstreamer1.0-omx: remove commercial license
+ flag
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Aleksey Smirnov <aleksey.smirnov@yadro.com>, 
+To: Attila Hannibal <attila.hannibal@gmail.com>, 
 	openembedded-core@lists.openembedded.org
-Date: Thu, 08 Feb 2024 11:20:01 +0000
-In-Reply-To: <20240208101156.735389-1-aleksey.smirnov@yadro.com>
-References: <20240208101156.735389-1-aleksey.smirnov@yadro.com>
+Cc: Attila Hannibal <attila.hannibal@heitec.hu>
+Date: Thu, 08 Feb 2024 11:22:52 +0000
+In-Reply-To: <20240208111737.6480-1-attila.hannibal@heitec.hu>
+References: <20240208111737.6480-1-attila.hannibal@heitec.hu>
 Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
@@ -69,32 +70,42 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 11:20:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195134
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 11:22:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195135
 
-On Thu, 2024-02-08 at 13:11 +0300, Aleksey Smirnov wrote:
-> Description: now we can tune our build only for power7 or power9
-> processor for PowerPC arch, this patch add posibility to choose power8 tu=
-ne.
+On Thu, 2024-02-08 at 12:17 +0100, Attila Hannibal wrote:
+> The gstreamer OpenMAX IL plugin is completely LGPL licensed,
+> the "commercial" marking should be removed.
 >=20
-> Signed-off-by: Aleksey Smirnov <aleksey.smirnov@yadro.com>
+> Signed-off-by: Attila Hannibal <attila.hannibal@heitec.hu>
 > ---
->  .../machine/include/powerpc/tune-power8.inc   | 31 +++++++++++++++++++
->  1 file changed, 31 insertions(+)
->  create mode 100644 meta/conf/machine/include/powerpc/tune-power8.inc
+>  meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.9.bb | 1 -
+>  1 file changed, 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.9.bb=
+ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.9.bb
+> index 05d64748bb..fad3714839 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.9.bb
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.22.9.bb
+> @@ -4,7 +4,6 @@ HOMEPAGE =3D "http://gstreamer.freedesktop.org/"
+>  SECTION =3D "multimedia"
+> =20
+>  LICENSE =3D "LGPL-2.1-or-later"
+> -LICENSE_FLAGS =3D "commercial"
+>  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D4fbd65380cdd255951079008b3645=
+16c \
+>                      file://omx/gstomx.h;beginline=3D1;endline=3D21;md5=
+=3D5c8e1fca32704488e76d2ba9ddfa935f"
+> =20
 
-The patch is probably fine but I do have to ask, are you actively using
-Power8 based devices? Are these current/new designs or old ones for
-compatibility?
+This is not about the license of the code but whether you can actually
+use the codecs in there without some kind of license to do so.
 
-I ask since I get a lot of questions about dropping mips and power
-support so it would be useful for me to be able to point to users.
-
-Mips and power are also not represented at the membership level in the
-Yocto Project, unlike the other architectures which does make
-maintaining all the testing a bit tricky to justify.
+Even if code is open source, the algorithms it implements can have
+other restrictions.
 
 Cheers,
 
-Richard=20
+Richard
+
 
