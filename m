@@ -2,57 +2,57 @@ Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B828C48BC0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FE03C48BC1
 	for <webhook@archiver.kernel.org>; Thu,  8 Feb 2024 08:29:05 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web10.13377.1707380938581574137
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web11.13543.1707380937714382466
  for <openembedded-core@lists.openembedded.org>;
  Thu, 08 Feb 2024 00:28:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=lbAxbuk+;
- spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4101d4c5772so3449575e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 00:28:58 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=b7iudeIv;
+ spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-410219f18f9so8257135e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 00:28:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707380937; x=1707985737; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1707380936; x=1707985736; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yvyDOOSP/lWOMWhJXJdFeYOuuWd14pv1eA6T0A74dnU=;
-        b=lbAxbuk+wnFmGMI/Cn4UV64rXbqmBxBMBoujeEHKIrTE4ng2MT3ShHG/5Jpry4IX6q
-         Wtz3q+Vuf+MnsPN2S+ueuV96XUqGFOk27SspyHrou6UqXFdZZETicpDLd9lvSEsiDf5w
-         EZ18mcOVeTVqZu65a6aDjd6F1MMh2jjtKP/o3DlJv7q/WpCwsvp2mAr6UJyuaBc2nsQb
-         sdVpDGpt7+zWE8E2TM6y3oowvVkcy3AZ6YuhpqOYpqsLf67p1FcNZ1x5brzYodOM1jg6
-         EdDhD/o3dq+aLK5JsfZVhiBh+yU0aB1WgZ1vUpg0kYD9ssVHqv/9PuNVEyRVNJ39Gvkl
-         qtmA==
+        bh=z2mYxW0kZcfYPQT96gsUycGldYhtDPiRemUUrl+zBhE=;
+        b=b7iudeIvKSIisZCkpc2RhQ2t3/ZzjddxVw6KzaIl7POOCY/5s2N2o66/EvuZEY93Mw
+         +UJD4mJGk9fJYp7JJWooTX3/mc0ugesMdaIEhjE1qrASNlGBNBBbw5ZfDauqPrL9Wkra
+         IdY9qXLmQZHuk2Dq/tSTG34vpzu5vRG03Y/uuGsodmwxtwOtbNmwyK+LhrNecWAyemXf
+         hPJZX8lGVF9FJ6m1gNKLGwy8eSD9ZsXty7SNkLqCJAKElKbZ5KX2FqM8ltPkEWD0EP2N
+         0ocDw0XFJPOd9fjh2z7wJB4MEth8B4LO7N8t3pzYBlfqTksGnrHmmYdBcp3GuyZDwYJM
+         L7Gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707380937; x=1707985737;
+        d=1e100.net; s=20230601; t=1707380936; x=1707985736;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=yvyDOOSP/lWOMWhJXJdFeYOuuWd14pv1eA6T0A74dnU=;
-        b=sxgEGTKpwhh70fmh5JYD5icUmimzNtBPnY2428vA7RDcVJmMcYFbwW4h5zRa7g3Uv4
-         rnZHTxe1HDofY6S+Z5r1/c7KaMlDSOzDJYzcIvZ0q+0L4BN5SOy4mf7DjczSuP0qnf1L
-         DOWAuNKNvq/OUkzyZlxKJn8F+0Zg6kaXeochmMUYBM+/Ysli4fn2E7sgzb8I8ja1raAy
-         cqcLgg6l4Z/5MkiLds+28IsBYNUk2HuN2qMwaL2uW7AxEOTvUx6SEDYeTDHIdknBb6fq
-         m+E0RXp/VHyTXkXM3G3V0WD+y9nzBqxC+oFTtKbse536KlXQGVKlBCFKJSW1wuCB/RQr
-         h2IQ==
-X-Gm-Message-State: AOJu0YwJIKYiPdxUT9g0H7eADFopBi/wZUOwnlPujO2N6OFs05LBf7k3
-	k6/vgZXl5hBEl5Pu16ccY1QI76oxK8YrCeQaduAH+IHfM/dDWUd0RoHIDqn6
-X-Google-Smtp-Source: AGHT+IHjCgB6mt1+zazrHGNDvKNwUd7hVpWbcLhgSQ4ve/SOJFsbVmpO3l+lVdWG7u/vvVz+xt7m7Q==
-X-Received: by 2002:a05:600c:4e91:b0:40f:fd74:9893 with SMTP id f17-20020a05600c4e9100b0040ffd749893mr1378891wmq.5.1707380936703;
-        Thu, 08 Feb 2024 00:28:56 -0800 (PST)
+        bh=z2mYxW0kZcfYPQT96gsUycGldYhtDPiRemUUrl+zBhE=;
+        b=kq/9S/3YwvpaYvywOG2/fiwS1OWqg3rzZHeyobRlcuBJ6uUggKMtYaxtgg7X0qw9dw
+         /NIACVdWoDfyOHNb1StY0icXGFGbBYXE5tqGeLyUo3mgjn4DRFcYHTjXg73+SsgEAEKD
+         G8W074Vu3vqC41WXDJbLvfNxDP9VFXhCV9HQJZOwZU7BJnqePUNKEx5tfKFTdcZBX13z
+         GH0RX8OqDG0nar/Bc5u48Q2xby4iWBN8tHGKrhRCGnS9UjiTpLi2IHfqgh9LVjcIhgrM
+         nYcKRDaoR3SkVfxrAP77qEdZk7YaFbtjafk8jiM0kZGUvSDbbvo3cVAFRrUE+HIPRV1o
+         geMA==
+X-Gm-Message-State: AOJu0Yz2vdyJH5bNlPzTme8S5+qjD4kdRMA4kjAH/WJxkK49K4oXLTB5
+	ppG+6h75nsOxfKdL9RasXUQllL9mw0vftggmpfg6dXt9p+eUEJR8sYB/nuNP
+X-Google-Smtp-Source: AGHT+IGtzxpWUueihKahysu/IiosFDAWGCZ54sJ0vymiRH9SYb+5UeC4gcsgTf0qPIBIlhc/uv1B/w==
+X-Received: by 2002:a05:600c:3b03:b0:410:2b60:930d with SMTP id m3-20020a05600c3b0300b004102b60930dmr1578395wms.30.1707380935922;
+        Thu, 08 Feb 2024 00:28:55 -0800 (PST)
 Received: from wsadrian16.fritz.box ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id j12-20020a05600c190c00b0040ebf603a89sm913321wmq.11.2024.02.08.00.28.56
+        by smtp.gmail.com with ESMTPSA id j12-20020a05600c190c00b0040ebf603a89sm913321wmq.11.2024.02.08.00.28.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Feb 2024 00:28:56 -0800 (PST)
+        Thu, 08 Feb 2024 00:28:55 -0800 (PST)
 From: Adrian Freihofer <adrian.freihofer@gmail.com>
 X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 4/7] oeqa/selftest/oelib/buildhistory: git default branch
-Date: Thu,  8 Feb 2024 09:27:30 +0100
-Message-ID: <20240208082821.430510-5-adrian.freihofer@siemens.com>
+Subject: [PATCH 3/7] selftest: replace assertRaisesRegexp
+Date: Thu,  8 Feb 2024 09:27:29 +0100
+Message-ID: <20240208082821.430510-4-adrian.freihofer@siemens.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240208082821.430510-1-adrian.freihofer@siemens.com>
 References: <20240208082821.430510-1-adrian.freihofer@siemens.com>
@@ -62,56 +62,38 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 08:29:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195109
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195108
 
-Define the git default branch to main and use it for all test cases.
-This is also in line with what the build history does in practice with
-newer Git versions.
+assertRaisesRegexp has been renamed to assertRaisesRegex().
+assertRaisesRegexp is deprecated since version 3.2:
+https://docs.python.org/3.2/library/unittest.html#deprecated-aliases
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/lib/oeqa/selftest/cases/oelib/buildhistory.py | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ meta/lib/oeqa/selftest/cases/runcmd.py | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/oelib/buildhistory.py b/meta/lib/oeqa/selftest/cases/oelib/buildhistory.py
-index c3c15d83c0f..762c0d47bff 100644
---- a/meta/lib/oeqa/selftest/cases/oelib/buildhistory.py
-+++ b/meta/lib/oeqa/selftest/cases/oelib/buildhistory.py
-@@ -19,7 +19,7 @@ class TestBlobParsing(OESelftestTestCase):
+diff --git a/meta/lib/oeqa/selftest/cases/runcmd.py b/meta/lib/oeqa/selftest/cases/runcmd.py
+index 6fd96b84850..65f7ffa4968 100644
+--- a/meta/lib/oeqa/selftest/cases/runcmd.py
++++ b/meta/lib/oeqa/selftest/cases/runcmd.py
+@@ -58,12 +58,12 @@ class RunCmdTests(OESelftestTestCase):
+         self.assertEqual(result.status, 0)
  
-         try:
-             from git import Repo
--            self.repo = Repo.init(self.repo_path)
-+            self.repo = Repo.init(self.repo_path, initial_branch='main')
-         except ImportError as e:
-             self.skipTest('Python module GitPython is not present (%s)  (%s)' % (e, sys.path))
+     def test_result_assertion(self):
+-        self.assertRaisesRegexp(AssertionError, "Command 'echo .* false' returned non-zero exit status 1:\nfoobar",
+-                                runCmd, "echo foobar >&2; false", shell=True)
++        self.assertRaisesRegex(AssertionError, "Command 'echo .* false' returned non-zero exit status 1:\nfoobar",
++                               runCmd, "echo foobar >&2; false", shell=True)
  
-@@ -67,10 +67,10 @@ class TestBlobParsing(OESelftestTestCase):
-         changesmap = { "foo-2" : ("2", "8"), "bar" : ("","4"), "bar-2" : ("","5")}
+     def test_result_exception(self):
+-        self.assertRaisesRegexp(CommandError, "Command 'echo .* false' returned non-zero exit status 1 with output: foobar",
+-                                runCmd, "echo foobar >&2; false", shell=True, assert_error=False)
++        self.assertRaisesRegex(CommandError, "Command 'echo .* false' returned non-zero exit status 1 with output: foobar",
++                               runCmd, "echo foobar >&2; false", shell=True, assert_error=False)
  
-         self.commit_vars(to_add = { "foo" : "1", "foo-2" : "2", "foo-3" : "3" })
--        blob1 = self.repo.heads.master.commit.tree.blobs[0]
-+        blob1 = self.repo.heads.main.commit.tree.blobs[0]
- 
-         self.commit_vars(to_add = { "foo-2" : "8", "bar" : "4", "bar-2" : "5" })
--        blob2 = self.repo.heads.master.commit.tree.blobs[0]
-+        blob2 = self.repo.heads.main.commit.tree.blobs[0]
- 
-         change_records = compare_dict_blobs(os.path.join(self.repo_path, self.test_file),
-             blob1, blob2, False, False)
-@@ -86,10 +86,10 @@ class TestBlobParsing(OESelftestTestCase):
-         defaultmap = { x : ("default", "1")  for x in ["PKG", "PKGE", "PKGV", "PKGR"]}
- 
-         self.commit_vars(to_add = { "foo" : "1" })
--        blob1 = self.repo.heads.master.commit.tree.blobs[0]
-+        blob1 = self.repo.heads.main.commit.tree.blobs[0]
- 
-         self.commit_vars(to_add = { "PKG" : "1", "PKGE" : "1", "PKGV" : "1", "PKGR" : "1" })
--        blob2 = self.repo.heads.master.commit.tree.blobs[0]
-+        blob2 = self.repo.heads.main.commit.tree.blobs[0]
- 
-         change_records = compare_dict_blobs(os.path.join(self.repo_path, self.test_file),
-             blob1, blob2, False, False)
+     def test_output(self):
+         result = runCmd("echo stdout; echo stderr >&2", shell=True, sync=False)
 -- 
 2.43.0
 
