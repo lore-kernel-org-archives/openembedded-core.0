@@ -1,98 +1,115 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <jermain.horsman@nedap.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AE3AC48260
-	for <webhook@archiver.kernel.org>; Thu,  8 Feb 2024 08:59:46 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.13862.1707382783807300613
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C322C48260
+	for <webhook@archiver.kernel.org>; Thu,  8 Feb 2024 09:12:16 +0000 (UTC)
+Received: from mail-io1-f42.google.com (mail-io1-f42.google.com [209.85.166.42])
+ by mx.groups.io with SMTP id smtpd.web10.14053.1707383531077110234
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Feb 2024 00:59:43 -0800
+ Thu, 08 Feb 2024 01:12:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=a8kpcglu;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=XhiHy5D4;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018d87f1bb58-65cbb36e-d322-4328-af15-c5477996a10c-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1707382783; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=GMFapf0IZr1KdnftArTKeFvQv/t7/7q8TrCMFATIt8E=;
-	b=a8kpcglurWTG/5NBNYlKqoO1hUp8uuvEJ+7/f8d+9aFA9lZmSXhvUzTysXk/d6cM
-	c9WN/W1TeZqcAO7g5+rsn2gqIodhLHjkyJXLp3tRVT6w/ErOLV+iH1TleH837kKgrQC
-	tG2RlO9DMEYmEX0Rb5vDxN3NjeKtecnGdq6WjOWM=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1707382783;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=GMFapf0IZr1KdnftArTKeFvQv/t7/7q8TrCMFATIt8E=;
-	b=XhiHy5D4EJAZdiK5oLEqOv65d3AiQIlJ15ePZ20x7cCX5bknu6VnsVWnL7jUgMtS
-	lpnl8KpwejTqiCz9QGAIT0iSLqVm7V3ltP5Dvatzc8NK8Dq5cSEiQXrCrDZ0SZdzXex
-	JRyJDo0QCybgy8yNZwTcxxAGpkTVx3k63Qc7xhUU=
-From: patchtest@automation.yoctoproject.org
-To: Adrian Freihofer <adrian.freihofer@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 7/7] python 3.12 compatible regex
-In-Reply-To: 20240208082821.430510-8-adrian.freihofer@siemens.com
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018d87f1bb58-65cbb36e-d322-4328-af15-c5477996a10c-000000@us-west-2.amazonses.com>
-Date: Thu, 8 Feb 2024 08:59:42 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.02.08-54.240.27.45
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Xs2fN4th;
+ spf=pass (domain: gmail.com, ip: 209.85.166.42, mailfrom: jhatnedap@gmail.com)
+Received: by mail-io1-f42.google.com with SMTP id ca18e2360f4ac-7bc332d49f6so72648639f.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 01:12:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707383530; x=1707988330; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HvmxRgQSv2hvHqBdiebqU3ylt7/ylIvBzHRBXGsllRk=;
+        b=Xs2fN4thmGETSr0blW33UuVAXsSWupZ+UAlzfO6gJdjPALvBA/RodZ5Wr+lFf1Sv78
+         xGw9bZgM8+Mwlp4A4sR1O5aefWLB2G8UYThLU3Zx785uSpkK3Tr4HG5y5qM7XpjHhnd+
+         OdeaRdfvu9ki75aLxM6vjJVRDP046ZbocLATpg0KgRFrp+SFVzJy21DLZL/ZW+X7/KEz
+         Sc9KGZrzmuI28lXNvvw+Ke/K29j+KH5xT30rqAzlKymrxV6G+owlcDwY7Gxnv9OcJaC/
+         FrywQvGvoYQx+C3lF8oHljBbBURxXz+PwsfnwzKLA7AvbQFFDCkVujLCiT73NN2UC0Oq
+         aPXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707383530; x=1707988330;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HvmxRgQSv2hvHqBdiebqU3ylt7/ylIvBzHRBXGsllRk=;
+        b=vpiWMsvS/9JPVNCoj7bQ4RGNlHeEqpJig29k0YNbSVm5d+F42VIoarFIqhN8DjNr1O
+         Q6Gy2v+Dkr0SI0PdtLQe8WBqurlWKe/AQ/8E86ILx7wsZ1fDgmYvN7G3QRiYj8w2HVnZ
+         6RfSxQ8qqLQYPdFvrn7+PjzPuAs1xNpQOPD9OL+KC75EtngvxIgwyb3uUS+JjegVG76q
+         zn57VhreIvokufAMOFdMySaSMraXsORh1waccpQPz2p1swnC9SqvJFZbRvb/jhr5MBQM
+         IriVupkGsgqQTflJOC4xCkIeWOf3S6oaNyWuZkna6YuV3tnAzt7OQi5u1XT3kQw3Sm80
+         L8Vg==
+X-Gm-Message-State: AOJu0YyrMI7VXxQgxYRcCWGMxdppDjGxa/Ludn1PL2JhOE+6ii8+5Z6T
+	5T0sPbfi2QowEwlyTVqNg4ZoFyyoEf90GKrQm8v9qegOBjfx5gIUD8Ku+dH1
+X-Google-Smtp-Source: AGHT+IEZvU2Rnm1Q6ltZ3h8G0AquvJggHQYWIsLYKk29448YC+GQmlAk7tDa3qWePJSfWx70knxMAg==
+X-Received: by 2002:a92:c008:0:b0:363:81b8:bb1a with SMTP id q8-20020a92c008000000b0036381b8bb1amr8039121ild.22.1707383530214;
+        Thu, 08 Feb 2024 01:12:10 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWS4Nahmam4gYLZHuZ5TcoX4d6M9Ak6kxVlxeN9C+HbHqU0kHSc9SUfs6sn60B0kVkYzIXx1eUt9er+0YnUj9ZUZFG48jM=
+Received: from NVC4181.nedap.local ([149.3.168.10])
+        by smtp.gmail.com with ESMTPSA id cw20-20020a05663849d400b0047110577c08sm795844jab.87.2024.02.08.01.12.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Feb 2024 01:12:09 -0800 (PST)
+From: jhatnedap@gmail.com
+X-Google-Original-From: jermain.horsman@nedap.com
+To: openembedded-core@lists.openembedded.org
+Cc: Jermain Horsman <jermain.horsman@nedap.com>,
+	Chen Qi <Qi.Chen@windriver.com>
+Subject: [kirkstone][PATCH] systemd: Only add myhostname to nsswitch.conf if in PACKAGECONFIG
+Date: Thu,  8 Feb 2024 10:11:28 +0100
+Message-ID: <20240208091128.592-2-jermain.horsman@nedap.com>
+X-Mailer: git-send-email 2.43.0.windows.1
+Reply-To: jermain.horsman@nedap.com
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 08:59:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195121
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 09:12:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195122
 
---NextPart
-Content-Type: text/plain
+From: Jermain Horsman <jermain.horsman@nedap.com>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Currently myhostname is always added to nsswitch.conf even if it is
+not included in PACKAGECONFIG.
 
+This is based on changes made in OE-core rev:
+ba3a78c08cb0ce08afde049610d3172b9e3b0695
+
+Cc: Chen Qi <Qi.Chen@windriver.com>
+
+Signed-off-by: Jermain Horsman <jermain.horsman@nedap.com>
 ---
-Testing patch /home/patchtest/share/mboxes/7-7-python-3.12-compatible-regex.patch
+ meta/recipes-core/systemd/systemd_250.5.bb | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
-FAIL: test shortlog format: Commit shortlog (first line of commit message) should follow the format "<target>: <summary>" (test_mbox.TestMbox.test_shortlog_format)
+diff --git a/meta/recipes-core/systemd/systemd_250.5.bb b/meta/recipes-core/systemd/systemd_250.5.bb
+index 889473ee1f..80a797cf2c 100644
+--- a/meta/recipes-core/systemd/systemd_250.5.bb
++++ b/meta/recipes-core/systemd/systemd_250.5.bb
+@@ -776,15 +776,19 @@ ALTERNATIVE_LINK_NAME[runlevel] = "${base_sbindir}/runlevel"
+ ALTERNATIVE_PRIORITY[runlevel] ?= "300"
+ 
+ pkg_postinst:${PN}:libc-glibc () {
+-	sed -e '/^hosts:/s/\s*\<myhostname\>//' \
+-		-e 's/\(^hosts:.*\)\(\<files\>\)\(.*\)\(\<dns\>\)\(.*\)/\1\2 myhostname \3\4\5/' \
+-		-i $D${sysconfdir}/nsswitch.conf
++	if ${@bb.utils.contains('PACKAGECONFIG', 'myhostname', 'true', 'false', d)}; then
++		sed -e '/^hosts:/s/\s*\<myhostname\>//' \
++			-e 's/\(^hosts:.*\)\(\<files\>\)\(.*\)\(\<dns\>\)\(.*\)/\1\2 myhostname \3\4\5/' \
++			-i $D${sysconfdir}/nsswitch.conf
++	fi
+ }
+ 
+ pkg_prerm:${PN}:libc-glibc () {
+-	sed -e '/^hosts:/s/\s*\<myhostname\>//' \
+-		-e '/^hosts:/s/\s*myhostname//' \
+-		-i $D${sysconfdir}/nsswitch.conf
++	if ${@bb.utils.contains('PACKAGECONFIG', 'myhostname', 'true', 'false', d)}; then
++		sed -e '/^hosts:/s/\s*\<myhostname\>//' \
++			-e '/^hosts:/s/\s*myhostname//' \
++			-i $D${sysconfdir}/nsswitch.conf
++	fi
+ }
+ 
+ PACKAGE_WRITE_DEPS += "qemu-native"
+-- 
+2.43.0.windows.1
 
-PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test pylint (test_python_pylint.PyLint.test_pylint)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
