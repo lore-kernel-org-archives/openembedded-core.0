@@ -1,113 +1,98 @@
-Return-Path: <matthias.schiffer@ew.tq-group.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB7C3C48260
-	for <webhook@archiver.kernel.org>; Thu,  8 Feb 2024 08:50:25 +0000 (UTC)
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by mx.groups.io with SMTP id smtpd.web10.13599.1707382222306375016
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AE3AC48260
+	for <webhook@archiver.kernel.org>; Thu,  8 Feb 2024 08:59:46 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web11.13862.1707382783807300613
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Feb 2024 00:50:23 -0800
+ Thu, 08 Feb 2024 00:59:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@tq-group.com header.s=key1 header.b=fEj65wEF;
- spf=pass (domain: ew.tq-group.com, ip: 93.104.207.81, mailfrom: matthias.schiffer@ew.tq-group.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1707382222; x=1738918222;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:content-transfer-encoding:mime-version;
-  bh=U7x5tcNjcUvI1Kw9yoDhDGtFV72F0HpBiJrQdhOOebc=;
-  b=fEj65wEFAHm5/6/+U6S/LuVVfk6cnqXnBXPT1hjRpXWQChdgJ/vDe0UI
-   8/td9aEBAY8u8g5ATwHvvTSI2vrN5LOV3QE/R0pVWZD+3yA9DV/YSZMJF
-   VAUCF3azbdmIOKMS8mWhJ38hJHFeBduB//ZJ6MP2aGfxIKtzoWosXrgrr
-   6qTRsNAvf22kbhBbqFH4qkqhTy2SexEue3m4gC3UUxmK4jAHIsrWVaI+Q
-   fMsaM0bw9Hekai9U7vMYG+j6uLNmQZOz2dJmLhzKyC8hzGmGSsgr4gG1I
-   rRuW+cMJSGEClQnsSHMxuXrV27zYJCwk4TKbVjKkQ5H7HYP4zBUwfcTFc
-   Q==;
-X-IronPort-AV: E=Sophos;i="6.05,253,1701126000"; 
-   d="scan'208";a="35309328"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 08 Feb 2024 09:50:20 +0100
-Received: from [192.168.153.128] (SCHIFFERM-M3.tq-net.de [10.121.49.135])
-	by vtuxmail01.tq-net.de (Postfix) with ESMTPA id 086B1280075;
-	Thu,  8 Feb 2024 09:50:20 +0100 (CET)
-Message-ID: <4584b21bd67a1819159926b5331120a796f216a6.camel@ew.tq-group.com>
-Subject: Re: [OE-core] [PATCH] kernel.bbclass: install .config to deploy dir
-From: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>, 
-	"oss@ew.tq-group.com"
-	 <oss@ew.tq-group.com>
-Date: Thu, 08 Feb 2024 09:50:20 +0100
-In-Reply-To: <4021EB06-42BE-45D5-9F7A-EE0F63F8EA30@arm.com>
-References: <20240207102529.128369-1-matthias.schiffer@ew.tq-group.com>
-	 <4021EB06-42BE-45D5-9F7A-EE0F63F8EA30@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu2 
-MIME-Version: 1.0
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=a8kpcglu;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=XhiHy5D4;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018d87f1bb58-65cbb36e-d322-4328-af15-c5477996a10c-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1707382783; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
+	bh=GMFapf0IZr1KdnftArTKeFvQv/t7/7q8TrCMFATIt8E=;
+	b=a8kpcglurWTG/5NBNYlKqoO1hUp8uuvEJ+7/f8d+9aFA9lZmSXhvUzTysXk/d6cM
+	c9WN/W1TeZqcAO7g5+rsn2gqIodhLHjkyJXLp3tRVT6w/ErOLV+iH1TleH837kKgrQC
+	tG2RlO9DMEYmEX0Rb5vDxN3NjeKtecnGdq6WjOWM=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1707382783;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=GMFapf0IZr1KdnftArTKeFvQv/t7/7q8TrCMFATIt8E=;
+	b=XhiHy5D4EJAZdiK5oLEqOv65d3AiQIlJ15ePZ20x7cCX5bknu6VnsVWnL7jUgMtS
+	lpnl8KpwejTqiCz9QGAIT0iSLqVm7V3ltP5Dvatzc8NK8Dq5cSEiQXrCrDZ0SZdzXex
+	JRyJDo0QCybgy8yNZwTcxxAGpkTVx3k63Qc7xhUU=
+From: patchtest@automation.yoctoproject.org
+To: Adrian Freihofer <adrian.freihofer@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 7/7] python 3.12 compatible regex
+In-Reply-To: 20240208082821.430510-8-adrian.freihofer@siemens.com
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018d87f1bb58-65cbb36e-d322-4328-af15-c5477996a10c-000000@us-west-2.amazonses.com>
+Date: Thu, 8 Feb 2024 08:59:42 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.02.08-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 08:50:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195120
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 08:59:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195121
 
-On Wed, 2024-02-07 at 15:58 +0000, Ross Burton wrote:
-> ********************
-> Achtung externe E-Mail: =C3=96ffnen Sie Anh=C3=A4nge und Links nur, wenn =
-Sie wissen, dass diese aus einer sicheren Quelle stammen und sicher sind. L=
-eiten Sie die E-Mail im Zweifelsfall zur Pr=C3=BCfung an den IT-Helpdesk we=
-iter.
-> Attention external email: Open attachments and links only if you know tha=
-t they are from a secure source and are safe. In doubt forward the email to=
- the IT-Helpdesk to check it.
-> ********************
->=20
-> On 7 Feb 2024, at 10:25, Matthias Schiffer via lists.openembedded.org <ma=
-tthias.schiffer=3Dew.tq-group.com@lists.openembedded.org> wrote:
-> >=20
-> > Deploy the kernel configuration with the built images, so it is easy to
-> > check its contents, or rebuild the same configuration outside of the
-> > Yocto build system.
->=20
-> For what it's worth, I added a task quite recently to tell you where the =
-config file is (and generate it, if needed), so for =E2=80=9Cwhat did this =
-kernel I just built have as the config=E2=80=9D that is potentially more us=
-eful than deploying as it works even when the compile fails, or if it hasn=
-=E2=80=99t finished yet:
->=20
-> $ bitbake virtual/kernel -c showconfig
-> =E2=80=A6
-> Config file written to /yocto/ross/build/tmp/work/qemuarm64-poky-linux/li=
-nux-yocto/6.6.12+git/linux-qemuarm64-standard-build/.config
+--NextPart
+Content-Type: text/plain
 
-Hmm, I *think* this will not help our particular usecase, as our CI jobs al=
-ways run with `INHERIT +=3D
-"rm_work"`, so I'd assume that the kernel build dir is deleted between bitb=
-ake calls - but I might
-be wrong about the exact point where "rm_work" runs.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
->=20
->=20
-> > This can be particularly convenient when running a Yocto build as a CI
-> > job, and only the deploy dir is made available for download.
->=20
-> I=E2=80=99m wondering if the kernel-dev package should split the config o=
-ut into a subpackage, so it can be installed or examined separately.
+---
+Testing patch /home/patchtest/share/mboxes/7-7-python-3.12-compatible-regex.patch
 
-In any case, we can update our CI to save the kernel-dev package or its con=
-tents, so I'm fine with
-this patch being dropped. Thanks!
+FAIL: test shortlog format: Commit shortlog (first line of commit message) should follow the format "<target>: <summary>" (test_mbox.TestMbox.test_shortlog_format)
 
-Regards,
-Matthias
+PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test pylint (test_python_pylint.PyLint.test_pylint)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
 
 
---=20
-TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, Germ=
-any
-Amtsgericht M=C3=BCnchen, HRB 105018
-Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan Sch=
-neider
-https://www.tq-group.com/
+--NextPart--
 
