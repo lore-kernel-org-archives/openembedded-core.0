@@ -1,160 +1,862 @@
-Return-Path: <Joakim.Tjernlund@infinera.com>
+Return-Path: <uvv.mail@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0475DC4828F
-	for <webhook@archiver.kernel.org>; Thu,  8 Feb 2024 11:57:27 +0000 (UTC)
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (NAM02-SN1-obe.outbound.protection.outlook.com [40.107.96.90])
- by mx.groups.io with SMTP id smtpd.web11.16073.1707393438881696530
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D6E4C4828F
+	for <webhook@archiver.kernel.org>; Thu,  8 Feb 2024 12:11:17 +0000 (UTC)
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+ by mx.groups.io with SMTP id smtpd.web11.16289.1707394267860070050
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Feb 2024 03:57:19 -0800
+ Thu, 08 Feb 2024 04:11:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@infinera.com header.s=selector2 header.b=CpOiyR0u;
- spf=pass (domain: infinera.com, ip: 40.107.96.90, mailfrom: joakim.tjernlund@infinera.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nWC6krCQSpqc9EpPq8ehaXZzDX7Kc+g5R3JeXQFgK+DNP+qhTTs0wrOS8zN7R2mxNO8VvjAn9Eg5DhvXt55SHVnHsJM8XYlryTNeZdZC7UcPd8pkQFE97QnwZlyFWt7mGWkXMtKYdNf/3wP07TZQhD4yVqahb0ym18BzPvHjetwwiqdW3iJ0d/4SuHIk/WIfTAFQbLDmc98iZd3QXl5K4ipdKZ78pgLsnkDB1bTHdRvuOz22kR92A6jkHF4Iup1WiPfwh+idDAD11VHdUuMHHws20rd66D0MtbZapLjkGvvQ/vXdG5Iiy1Atwp9iQPE5JUPITjs/H5NCdNIrYQaXHA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yaX7MH9f0ROFcbm6aD8gLu/AYDuwRS6xVZvOTB4Y0QQ=;
- b=dTjkqrfHv6xgg6vBq6czNLcj2YHX1zw+dvqU2eb9BguO6IKK5uX3a2/nRDhw+bKwnu7H6Qulxyx8BoeGKoP5rnw9Hpddbv9hbVdyuq2lenDzqms92ymAxprCYjqa5z1VoGJGcH0PXFWOZM3JXb4g26NJo6XbDcyTl0M7WyFLkhaBT2TY+S1VTpK1Ste12G+tni+frVvVdbm5Xy+hh5AI9wGO94Ki0H1wtzoDzarNGdVdUvj3cEtHNB+v07UgrpxPC3Fhe+SBieZcoueyHf9RncrDrVXBnbMW/8Nh68ZmNLmVSgkOFPIYWUO0/VBsYzP4H4SHxSBGTZ//jX5H8Z4H8Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=infinera.com; dmarc=pass action=none header.from=infinera.com;
- dkim=pass header.d=infinera.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=infinera.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yaX7MH9f0ROFcbm6aD8gLu/AYDuwRS6xVZvOTB4Y0QQ=;
- b=CpOiyR0uvLVWCrPVhe3UG7fIn4NSVxvRn7JWTap4DceXgvxRiF9RnOBwYo4w94HVfJGhWgwz09lOXeCfdINe6+uZWTPF4qFQRwa4WQqXZBabE/2DfjQClmI6RjGLs3SaqA7oPXg7mL8q91daC7jHWDCDMQIVryuwAjvRO7ONyIW2mwaD8Ab3FLytWZTHxVXIUpFUtZNz5Yq+v9wyjUMYb5OcVoGLq52oBtjaHgFhI/1WH7oJtxlO14M8o3QBBYW5d586INWebc6D0fxgm4j0/QiO8wzzkRxs2KWkFbhVt1w2AXaC21vlA7XEOuEbi4hcDA9UTrIhKllmg7WBRZpldw==
-Received: from PH0PR10MB4615.namprd10.prod.outlook.com (2603:10b6:510:36::24)
- by IA0PR10MB6746.namprd10.prod.outlook.com (2603:10b6:208:43e::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.34; Thu, 8 Feb
- 2024 11:57:15 +0000
-Received: from PH0PR10MB4615.namprd10.prod.outlook.com
- ([fe80::4d76:4230:708c:9eea]) by PH0PR10MB4615.namprd10.prod.outlook.com
- ([fe80::4d76:4230:708c:9eea%7]) with mapi id 15.20.7249.038; Thu, 8 Feb 2024
- 11:57:15 +0000
-From: Joakim Tjernlund <Joakim.Tjernlund@infinera.com>
-To: openembedded-core <openembedded-core@lists.openembedded.org>, Denys
- Dmytriyenko <denis@denix.org>
-Subject: Re: patch: grpc: point to the native protobuf compiler binary now
- fails
-Thread-Topic: patch: grpc: point to the native protobuf compiler binary now
- fails
-Thread-Index: AQHaWoPQtsKWVpjrA0q1H/dGQtb02rEAVd8R
-Date: Thu, 8 Feb 2024 11:57:15 +0000
-Message-ID: 
- <PH0PR10MB4615FC516BFA9CB8AB982F4AF4442@PH0PR10MB4615.namprd10.prod.outlook.com>
-References: 
- <PH0PR10MB461540FA7C12FFEA23710637F4442@PH0PR10MB4615.namprd10.prod.outlook.com>
-In-Reply-To: 
- <PH0PR10MB461540FA7C12FFEA23710637F4442@PH0PR10MB4615.namprd10.prod.outlook.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-GB
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=infinera.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH0PR10MB4615:EE_|IA0PR10MB6746:EE_
-x-ms-office365-filtering-correlation-id: 76154f3a-70b1-4119-8d0c-08dc289d17bd
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- OPbxNSRF0xsWcM/Tsq8TEcOgi06TnU7FY+6hj1hDJ/6l713X8HdiJAuZjWH02En6fime+Y/z7PAGiRiN1ImxEgTC5A4qtTdzObcWjMfDZCpUiKgGRfutrps6AAqm2/1B0fqnq+Q+tNkWS8XduGSqEbIRnwjeKu6yUl3oDt4wzHFSPCgGzhcPJD8eG+mYbFBkEnx9w+RusL93yjqrtXHt4UMNTGxa20HGlClkVn+3eQUkSSTTZnXjOjz1nmjcMrXc/OntWFpQOtYKXkIwM/X/tSVDfd6HnkKl9viDDaXC6MAomegbRktkpKsAhnniyuw3HHFgP7F2PtsYORwAB8WbHRnmKOndJLUW4/y6MVPIdb9YzVEMsV8q/dYpJvCUDvizNmmdgw4SLHndS6Y6EdYYuMKh2KaweRyITWsxpEF1U/pOuU2a3tBaLGA1FZ/FSC1R28tTWfOG2wyUW+XaHu8f9WxiJAoMFC+t+NsK0pOXwahfxKdEtBwZIg5cbs/ba0jGbMungyc+PVP4WXudfKIqlixOcCSAYs5z4jbZZU93sB2f12cZMir8CqaDZxyK+0ozcx5n4ZfUwTs9jZv1gH1wO6iM2sukMD94LflDbew6RLaRhCGMsMrJAModgOuLtMw/
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB4615.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(396003)(39860400002)(136003)(346002)(376002)(230922051799003)(186009)(451199024)(64100799003)(1800799012)(5660300002)(2906002)(52536014)(55016003)(26005)(122000001)(66946007)(41300700001)(83380400001)(38100700002)(86362001)(66446008)(71200400001)(53546011)(8676002)(110136005)(66476007)(64756008)(66556008)(9686003)(91956017)(6506007)(7696005)(478600001)(33656002)(76116006)(316002)(2940100002)(8936002)(38070700009);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?iso-8859-1?Q?oq2ZFhD5jqVmIHxcu7m7Sd4MHu1w5tpSt820iZyYevtBfY2OxxHyUSiIiU?=
- =?iso-8859-1?Q?tino3Jm3rnR9011NjBfgyeZha5WHAr0yRe9qcngjnurgaqZq1oja/glEaE?=
- =?iso-8859-1?Q?P11zYDij3WFVIQzyBlpij9Z6qNsJwzmOB/Tf6cvXtIwK3JituaCMCj+sTc?=
- =?iso-8859-1?Q?qmt63u2x7ko9SofSFT/1NEg7OQT/DdQkbOeizve/GXDn5anxezyNCq6Dnx?=
- =?iso-8859-1?Q?OSOpTKwpC3jOVQZo0/VPzh/WUmzS9Er/qWqHzYc8OJ6tJ5cu6rErFpQd5U?=
- =?iso-8859-1?Q?c6wYkTiYyrDdksImGWpUH0aWevwGHaOCZj2a8C0fxd9vBnYkDiDbq+pOkz?=
- =?iso-8859-1?Q?zTK+Mr29ZMRiP7XV9XLa/qCrX6G8RWH9jdGJoaE0qWXQTkG2SaoFJwrOlA?=
- =?iso-8859-1?Q?JUbQp7U+62w0rOSFEA4KG7MOMiRXDv3HFePv592PrqVDpYYqAgj2a0C6pg?=
- =?iso-8859-1?Q?pjQc3lW3DUEX66T45fmOq+NuNsuPJ+2T4a/mVCtojtcwPfBEYHPtwdYnIT?=
- =?iso-8859-1?Q?EvEIUDhSzlh1SEWV6myfdZSyrXippjr7YwHVWOt/zFP7nD4IlLdls6Qfbh?=
- =?iso-8859-1?Q?jsTGZ6grHosdA7I/mRy8qAqYm1T9MX50G72/JFmcozr/xsbvnP6gDLaYGT?=
- =?iso-8859-1?Q?nkGUYHN7I5+GOl28nDuGZGPK3Fm9bxAVrqcTID3Az9jzAHoyy4Yah9owPu?=
- =?iso-8859-1?Q?xq4+udcaXllNY/s7EMCS7J1UBUFQ2rdyY6iw7K25iKHeN0J+LpXed53llf?=
- =?iso-8859-1?Q?hjEM5wPwp5M8uTtFBGH6OVAsnTxOinWhUqBAw3E3if9ApibvYvY3TQ4Jb/?=
- =?iso-8859-1?Q?gieoueURuT7rcfPIK3p5Zk22SRc3lqw45JjMCiFBvGJtGMmA0/0zJBKwIt?=
- =?iso-8859-1?Q?Ic/AapjN14m6T42tg/gqq/xiOPg1Nr7LsnQCdPMBy3TgIqlDCpaZ17lqHd?=
- =?iso-8859-1?Q?UguV02odas1QsGa/RXjKObNbPxSU6V/xa3uyzhtI2KJvOJhxgyN/QLdZvr?=
- =?iso-8859-1?Q?Bjst6Sckhp9j6G1y4cm2IfDZQbmvs9onITb8YEHTJe0Wjx7r629fAEtdMl?=
- =?iso-8859-1?Q?8wCzSK4DFeiBibk9PNIR83SK89DXO3wo1ywFOvVuiB3T8R+hBRsb1tq+H1?=
- =?iso-8859-1?Q?oLR8HdQTSqCRUWaLuty/2jQnrRIHojhXP3Jk/Jg+lPEZLTD7ngX0UkXBl1?=
- =?iso-8859-1?Q?Reac+1q0U7wv2fI0qEvXIDWFdK5f1wVSe9vM89ByxfGj3jz5h+qefezi6J?=
- =?iso-8859-1?Q?FaOuEv1/dPXEQETjcaObx8x3Guwn4R/hAoagaqphQb7LvtRFYM6YU6/LFP?=
- =?iso-8859-1?Q?qyzPsfoFNgnycUPX5wEvssaaGPRrKslUmjLu+YaG/0dYGGG16mCrCuRuRB?=
- =?iso-8859-1?Q?y6B/8gXg8mqmi55Z3E8zrJ1xjtMYZMPWuJpgFqyzm7jZ7sR5x7WnDKoXUX?=
- =?iso-8859-1?Q?arJnYLAkOqneohV6ubmNJeBgVtB+B/OE5/oMCWyb3Fzo9oEAPmSJyHnBpf?=
- =?iso-8859-1?Q?V6fqtjBNsBZVD/4zH7SCA5tN+g1cBymFhUU6oEivxP8xpCxO5fh6mhpxHM?=
- =?iso-8859-1?Q?+HNtGuTtplWWEMzp64Qdmu+MrvBC9Lc4OnI4oxeFCvL54rS6aWmzjoaGu2?=
- =?iso-8859-1?Q?jzYdHCfhaEs1ZnUMPf7cnRQPIDk/3nghsj?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=YwxIrYzY;
+ spf=pass (domain: gmail.com, ip: 209.85.208.173, mailfrom: uvv.mail@gmail.com)
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2d0a96bad85so25759961fa.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 04:11:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707394266; x=1707999066; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=DdDvY5y0ZEcykSWPFplr7fjZiEI+0Pfjb+/YtZppN7E=;
+        b=YwxIrYzY21ZJzBP/4vQIMq6lbUgpqDpPy54NRUj9147JPeWx3oO/Ka6YZJKRHM3mVF
+         mLM+JtC4ctkVXaGJ+dXnSzrsJRSnwFz65kYAHBib1kXPGuzbqSFh+hDylsZKz2RBgB7T
+         qLMjt6YqHEb6SENS1/Cn0t41rZLvGiYYt9tHdjwov6pk6A+tKTx1gq/9GteZvyhXuWCJ
+         9ySxro2dCgvdvGaHHgm5ZvlSfRxf+pwd2TqLGZEXiibTC18INEFCs4OgdMe8LkTB2mxz
+         oeZzFr4NXx3+jTpN52u0mzIXWYtn9QGrHN55hoNLjsswBS8H7hJHpuHqsNT5eg1BLHBW
+         MqUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707394266; x=1707999066;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DdDvY5y0ZEcykSWPFplr7fjZiEI+0Pfjb+/YtZppN7E=;
+        b=f5jHa2xXApdQwbgngKawCtQ6/NcNyP4nyajQCfbUHhweZPfztDaUczeFv5Y9UMpZ5h
+         yq3VOBU0aK/Ovbwdy/Nq+3aY4lDg0qmjIBZ7uYjlwz4aRHRGWBL9uYsZzXWLAKgmHVnY
+         +QUUVxH+BC3U0VfwZIhl0OP7CtkN6iwcm/IVviqwv1psHOEscI7IvkWhIUAHPo0Ng/OV
+         0aV32lCBkFtO7iDpHv8yZHsOexkpO5qO+3taYvx34I6fu8qnPIuVizMfhJiTnpJ0vVKs
+         DO+ocCyFK7Qcyth11anblnQucVbOlvrYbrnAFUBKE+ry7ZOIhGXQb3wHaVkIHlPiviZ5
+         cUCg==
+X-Gm-Message-State: AOJu0YxcC5DeO9WVITyGMZONxnqgQcBuBIPEg7tuLuANUQPENv0e2nRh
+	Z2/608Wi2xW8fqHo0oY0yYNAeUx80OazisQfabdcHNMdKC6XK9Rs
+X-Google-Smtp-Source: AGHT+IHuUVnsBbHq/Yz8ZFFcelWfhYZU3pKmnDisBeUqs0XZavGRUdkBIZ89UBxkI455YSldK9LzoQ==
+X-Received: by 2002:a2e:bc28:0:b0:2d0:b3c3:d8f3 with SMTP id b40-20020a2ebc28000000b002d0b3c3d8f3mr8123607ljf.41.1707394265421;
+        Thu, 08 Feb 2024 04:11:05 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCX+L9jva5gYewCYUyC3P1pV4B80PS5Kerg4eq5WxcdW1Cm3NM3fBWceuAeELiK81txh1lPak/J5vRiWWR9C0TZ+p4vaSxTho07nk2ydlBReItswwFHziKl+NU3wZtViw3bbiEkNZH0moSkXxao=
+Received: from [10.139.2.160] ([154.47.27.145])
+        by smtp.gmail.com with ESMTPSA id v14-20020a056402174e00b0055f4fbc32ccsm746139edx.89.2024.02.08.04.11.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Feb 2024 04:11:04 -0800 (PST)
+Message-ID: <9c50fcac-5993-4293-a794-422fe8ec5e5c@gmail.com>
+Date: Thu, 8 Feb 2024 13:11:03 +0100
 MIME-Version: 1.0
-X-OriginatorOrg: infinera.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4615.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 76154f3a-70b1-4119-8d0c-08dc289d17bd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Feb 2024 11:57:15.3000
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 285643de-5f5b-4b03-a153-0ae2dc8aaf77
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: hWF2YQbNx1s4oCLWB3NAa9KDZZ0w9kk9x18rEVfNS31N45cFxtOkgGQD+zFwMjLbkaqTMs5reb6b5JfIOfOhxA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR10MB6746
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH v3 1/2] shadow: update 4.13 -> 4.14.2
+Content-Language: en-US
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: "Chen, Qi" <Qi.Chen@windriver.com>,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>,
+ Alexander Kanavin <alex@linutronix.de>
+References: <20240111131521.2305172-1-alex@linutronix.de>
+ <51ee1c53-0687-22a5-ec9b-88c2ecd2bc66@windriver.com>
+ <CANNYZj8Wqm1NNx0VuxOU7sxoxsKcKh+vG-3WrkKiDqQVGSDNsg@mail.gmail.com>
+ <CO6PR11MB56024A3C9C403E77C038F106ED702@CO6PR11MB5602.namprd11.prod.outlook.com>
+ <CANNYZj-A5mfTyDSU0JzSpD_y29ByQrSbM=DupDWDFtMaDjtwEg@mail.gmail.com>
+ <28d1f2fe-18fc-48a2-98a3-d6c4b84a242e@gmail.com>
+ <CANNYZj_4rwjT5+Q4+Nm5czUPXiQG1gCzcnROj5cUVmQsG0Bt2g@mail.gmail.com>
+ <17B1DDC9333F50F1.20876@lists.openembedded.org>
+From: Vyacheslav Yurkov <uvv.mail@gmail.com>
+In-Reply-To: <17B1DDC9333F50F1.20876@lists.openembedded.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 11:57:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195144
+ <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 12:11:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195145
 
-oops, built in wrong window. Removing the line does not help=0A=
-I get the same error:=0A=
-/home/jocke/yocto-xr/build/infn-xr/gmcu/tmp/work/x86_64-nativesdk-xrsdk-lin=
-ux/nativesdk-grpc/1.56.2/recipe-sysroot/opt/infn-xr/1.0/sysroots/x86_64-xrs=
-dk-linux/usr/bin/protoc-23.4.0 does not exist=0A=
-=0A=
-Using nanbield =0A=
-=0A=
-Joakim=0A=
-=0A=
-________________________________________=0A=
-From: Joakim Tjernlund=0A=
-Sent: 08 February 2024 12:45=0A=
-To: openembedded-core; Denys Dmytriyenko=0A=
-Subject: patch: grpc: point to the native protobuf compiler binary now fail=
-s=0A=
-=0A=
-The patch now fail to build sdk for grpc_1.56.2.bb for me.=0A=
-Removing this line makes it build.=0A=
-Please advise=0A=
-=0A=
-   Joakim=0A=
-=0A=
-commit 54885a5af2da26d7c84f8aff6fc845c2681b2890=0A=
-Author: Denys Dmytriyenko <denis@denix.org>=0A=
-Date:   Fri Jun 9 04:37:15 2023=0A=
-=0A=
-    grpc: point to the native protobuf compiler binary=0A=
-=0A=
-    Latest version of grpc fails to build nativesdk variant since it finds=
-=0A=
-    and tries to execute protoc binary from nativesdk-protobuf instead of=
-=0A=
-    protobuf-native. Shortcut the detection logic by pointing to the correc=
-t=0A=
-    version of protoc binary in native sysroot.=0A=
-=0A=
-    Signed-off-by: Denys Dmytriyenko <denys@konsulko.com>=0A=
-    Signed-off-by: Denys Dmytriyenko <denis@denix.org>=0A=
-    Signed-off-by: Khem Raj <raj.khem@gmail.com>=0A=
+FTR, reverting the last 3 patches to shadow fixed the build of 
+shadow-native for me.
+We still consider 20.04 to be a "supported" distribution, right?
+
+Slava
+
+On 08.02.2024 11:52, Vyacheslav Yurkov via lists.openembedded.org wrote:
+> I only ran 'oe-selftest -r overlayfs.OverlayFSEtcRunTimeTest' on a 
+> fresh poky clone with SANITY_TESTED_DISTROS = "" set in local.conf.
+>
+> I'm trying now the build with this commit reverted.
+>
+> Slava
+>
+> On 08.02.2024 11:45, Alexander Kanavin wrote:
+>> First you need to show how to reproduce it with plain poky.
+>>
+>> Alex
+>>
+>> On Thu, 8 Feb 2024 at 11:40, Vyacheslav Yurkov <uvv.mail@gmail.com> 
+>> wrote:
+>>> I'm getting the same "parameter name omitted" error with today's master
+>>> of poky on Ubuntu-20.04 machine. Is there a fix for that?
+>>>
+>>> Slava
+>>>
+>>> On 19.01.2024 13:24, Alexander Kanavin wrote:
+>>>> I've seen issues where static libraries built on one host were not
+>>>> usable on a different host with default compiler options. This may be
+>>>> another one of these.
+>>>>
+>>>> We're reverting to dynamic linking with libraries in a custom
+>>>> directory in sysroot that would be bundled together with shadow-native
+>>>> proper. Patch is coming.
+>>>>
+>>>> Alex
+>>>>
+>>>> On Fri, 19 Jan 2024 at 13:13, Chen, Qi <Qi.Chen@windriver.com> wrote:
+>>>>> I didn't do anything particular, but as several people are sharing 
+>>>>> the server, it's possible that its environment is somewhat messed 
+>>>>> up. I'll check more and fix the environment. Thanks for your 
+>>>>> double check.
+>>>>>
+>>>>> Regards,
+>>>>> Qi
+>>>>>
+>>>>> -----Original Message-----
+>>>>> From: Alexander Kanavin <alex.kanavin@gmail.com>
+>>>>> Sent: Friday, January 19, 2024 6:12 PM
+>>>>> To: Chen, Qi <Qi.Chen@windriver.com>
+>>>>> Cc: openembedded-core@lists.openembedded.org; Alexander Kanavin 
+>>>>> <alex@linutronix.de>
+>>>>> Subject: Re: [OE-core] [PATCH v3 1/2] shadow: update 4.13 -> 4.14.2
+>>>>>
+>>>>> I just tried poky master on ubuntu 20.04, and the issues do not 
+>>>>> appear. Do you have a custom setup?
+>>>>>
+>>>>> Alex
+>>>>>
+>>>>> On Fri, 19 Jan 2024 at 04:06, ChenQi <Qi.Chen@windriver.com> wrote:
+>>>>>> I'm seeing build failures on Ubuntu 20.04.
+>>>>>> GCC version: 9.4.0
+>>>>>>
+>>>>>> 1. error: parameter name omitted
+>>>>>> The problem is that the active_sessions_count function's definition
+>>>>>> lacks parameter. I did change like below:
+>>>>>> -unsigned long active_sessions_count(const char *name, unsigned long
+>>>>>> unused)
+>>>>>> +unsigned long active_sessions_count(const char *name, unsigned long
+>>>>>> unused unused_parameter)
+>>>>>> But then I observed another error, as shown below.
+>>>>>>
+>>>>>> 2. undefined reference to `dlsym'.
+>>>>>> | /ala-lpggp72/qichen/Yocto/builds/build-master/tmp/hosttools/ld:
+>>>>>> ../lib/.libs/libshadow.a(libshadow_la-nss.o): in function 
+>>>>>> `nss_exit':
+>>>>>> | nss.c:(.text+0x32): undefined reference to `dlclose'
+>>>>>> | /ala-lpggp72/qichen/Yocto/builds/build-master/tmp/hosttools/ld:
+>>>>>> ../lib/.libs/libshadow.a(libshadow_la-nss.o): in function 
+>>>>>> `nss_init':
+>>>>>> | nss.c:(.text+0x1dd): undefined reference to `dlopen'
+>>>>>> | /ala-lpggp72/qichen/Yocto/builds/build-master/tmp/hosttools/ld:
+>>>>>> nss.c:(.text+0x21c): undefined reference to `dlsym'
+>>>>>> | /ala-lpggp72/qichen/Yocto/builds/build-master/tmp/hosttools/ld:
+>>>>>> nss.c:(.text+0x237): undefined reference to `dlsym'
+>>>>>> | /ala-lpggp72/qichen/Yocto/builds/build-master/tmp/hosttools/ld:
+>>>>>> nss.c:(.text+0x253): undefined reference to `dlsym'
+>>>>>> | /ala-lpggp72/qichen/Yocto/builds/build-master/tmp/hosttools/ld:
+>>>>>> nss.c:(.text+0x365): undefined reference to `dlclose'
+>>>>>> | /ala-lpggp72/qichen/Yocto/builds/build-master/tmp/hosttools/ld:
+>>>>>> nss.c:(.text+0x3b2): undefined reference to `dlerror'
+>>>>>> | collect2: error: ld returned 1 exit status
+>>>>>> | make[2]: *** [Makefile:1130: su] Error 1
+>>>>>>
+>>>>>> On Ubuntu22.04, there's no such issue.
+>>>>>>
+>>>>>> Regards,
+>>>>>> Qi
+>>>>>>
+>>>>>> On 1/11/24 21:15, Alexander Kanavin wrote:
+>>>>>>> License-Update: formatting, spdx conversion
+>>>>>>>
+>>>>>>> Drop:
+>>>>>>> 0001-Disable-use-of-syslog-for-sysroot.patch
+>>>>>>> (issue fixed upstream)
+>>>>>>>
+>>>>>>> 0001-Fix-can-not-print-full-login.patch
+>>>>>>> 0001-Overhaul-valid_field.patch
+>>>>>>> CVE-2023-29383.patch
+>>>>>>> (backports)
+>>>>>>>
+>>>>>>> libbsd is a new native dependency, as otherwise glibc >= 2.38 is
+>>>>>>> needed.
+>>>>>>>
+>>>>>>> A similar fix is added to musl in order to define non-standard 
+>>>>>>> __BEGIN_DECLS/__END_DECLS.
+>>>>>>>
+>>>>>>> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+>>>>>>> ---
+>>>>>>>     ...01-Disable-use-of-syslog-for-sysroot.patch | 52 -------
+>>>>>>>     .../0001-Fix-can-not-print-full-login.patch   | 41 -----
+>>>>>>>     .../files/0001-Overhaul-valid_field.patch     | 65 --------
+>>>>>>>     .../shadow/files/CVE-2023-29383.patch         | 53 -------
+>>>>>>>     .../shadow/files/CVE-2023-4641.patch          | 147 
+>>>>>>> ------------------
+>>>>>>>     ...nexpected-open-failure-in-chroot-env.patch | 16 +-
+>>>>>>>     meta/recipes-extended/shadow/shadow.inc       | 20 +--
+>>>>>>>     .../{shadow_4.13.bb => shadow_4.14.2.bb} |   0
+>>>>>>>     8 files changed, 16 insertions(+), 378 deletions(-)
+>>>>>>>     delete mode 100644 
+>>>>>>> meta/recipes-extended/shadow/files/0001-Disable-use-of-syslog-for-sysroot.patch
+>>>>>>>     delete mode 100644 
+>>>>>>> meta/recipes-extended/shadow/files/0001-Fix-can-not-print-full-login.patch
+>>>>>>>     delete mode 100644 
+>>>>>>> meta/recipes-extended/shadow/files/0001-Overhaul-valid_field.patch
+>>>>>>>     delete mode 100644 
+>>>>>>> meta/recipes-extended/shadow/files/CVE-2023-29383.patch
+>>>>>>>     delete mode 100644 
+>>>>>>> meta/recipes-extended/shadow/files/CVE-2023-4641.patch
+>>>>>>>     rename meta/recipes-extended/shadow/{shadow_4.13.bb =>
+>>>>>>> shadow_4.14.2.bb} (100%)
+>>>>>>>
+>>>>>>> diff --git
+>>>>>>> a/meta/recipes-extended/shadow/files/0001-Disable-use-of-syslog-for- 
+>>>>>>>
+>>>>>>> sysroot.patch
+>>>>>>> b/meta/recipes-extended/shadow/files/0001-Disable-use-of-syslog-for- 
+>>>>>>>
+>>>>>>> sysroot.patch
+>>>>>>> deleted file mode 100644
+>>>>>>> index fa1532c8317..00000000000
+>>>>>>> ---
+>>>>>>> a/meta/recipes-extended/shadow/files/0001-Disable-use-of-syslog-for- 
+>>>>>>>
+>>>>>>> sysroot.patch
+>>>>>>> +++ /dev/null
+>>>>>>> @@ -1,52 +0,0 @@
+>>>>>>> -From 85d0444229ee3d14fefcf10d093f49c862826f82 Mon Sep 17 00:00:00
+>>>>>>> 2001
+>>>>>>> -From: Richard Purdie <richard.purdie@linuxfoundation.org>
+>>>>>>> -Date: Thu, 14 Apr 2022 23:11:53 +0000
+>>>>>>> -Subject: [PATCH] Disable use of syslog for shadow-native tools
+>>>>>>> -
+>>>>>>> -Disable use of syslog to prevent sysroot user and group additions
+>>>>>>> from -writing entries to the host's syslog. This patch should only
+>>>>>>> be used -with the shadow-native recipe.
+>>>>>>> -
+>>>>>>> -Upstream-Status: Inappropriate [OE specific configuration]
+>>>>>>> -Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>>>>>>> -Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+>>>>>>> -
+>>>>>>> ----
+>>>>>>> - configure.ac      | 2 +-
+>>>>>>> - src/login_nopam.c | 3 ++-
+>>>>>>> - 2 files changed, 3 insertions(+), 2 deletions(-)
+>>>>>>> -
+>>>>>>> -diff --git a/configure.ac b/configure.ac -index 924254a..603af81
+>>>>>>> 100644
+>>>>>>> ---- a/configure.ac
+>>>>>>> -+++ b/configure.ac
+>>>>>>> -@@ -191,7 +191,7 @@ AC_DEFINE_UNQUOTED(PASSWD_PROGRAM, 
+>>>>>>> "$shadow_cv_passwd_dir/passwd",
+>>>>>>> -     [Path to passwd program.])
+>>>>>>> -
+>>>>>>> - dnl XXX - quick hack, should disappear before anyone notices :).
+>>>>>>> --AC_DEFINE(USE_SYSLOG, 1, [Define to use syslog().])
+>>>>>>> -+#AC_DEFINE(USE_SYSLOG, 1, [Define to use syslog().])
+>>>>>>> - if test "$ac_cv_func_ruserok" = "yes"; then
+>>>>>>> -     AC_DEFINE(RLOGIN, 1, [Define if login should support the 
+>>>>>>> -r flag for rlogind.])
+>>>>>>> -     AC_DEFINE(RUSEROK, 0, [Define to the ruserok() "success" 
+>>>>>>> return value (0 or 1).])
+>>>>>>> -diff --git a/src/login_nopam.c b/src/login_nopam.c -index
+>>>>>>> df6ba88..fc24e13 100644
+>>>>>>> ---- a/src/login_nopam.c
+>>>>>>> -+++ b/src/login_nopam.c
+>>>>>>> -@@ -29,7 +29,6 @@
+>>>>>>> - #ifndef USE_PAM
+>>>>>>> - #ident "$Id$"
+>>>>>>> -
+>>>>>>> --#include "prototypes.h"
+>>>>>>> -     /*
+>>>>>>> -      * This module implements a simple but effective form of 
+>>>>>>> login access
+>>>>>>> -      * control based on login names and on host (or domain) 
+>>>>>>> names, internet
+>>>>>>> -@@ -57,6 +56,8 @@
+>>>>>>> - #include <netinet/in.h>
+>>>>>>> - #include <arpa/inet.h>              /* for inet_ntoa() */
+>>>>>>> -
+>>>>>>> -+#include "prototypes.h"
+>>>>>>> -+
+>>>>>>> - #if !defined(MAXHOSTNAMELEN) || (MAXHOSTNAMELEN < 64)
+>>>>>>> - #undef MAXHOSTNAMELEN
+>>>>>>> - #define MAXHOSTNAMELEN 256
+>>>>>>> diff --git
+>>>>>>> a/meta/recipes-extended/shadow/files/0001-Fix-can-not-print-full-log 
+>>>>>>>
+>>>>>>> in.patch
+>>>>>>> b/meta/recipes-extended/shadow/files/0001-Fix-can-not-print-full-log 
+>>>>>>>
+>>>>>>> in.patch
+>>>>>>> deleted file mode 100644
+>>>>>>> index 89f9c05c8d3..00000000000
+>>>>>>> ---
+>>>>>>> a/meta/recipes-extended/shadow/files/0001-Fix-can-not-print-full-log 
+>>>>>>>
+>>>>>>> in.patch
+>>>>>>> +++ /dev/null
+>>>>>>> @@ -1,41 +0,0 @@
+>>>>>>> -commit 670cae834827a8f794e6f7464fa57790d911b63c
+>>>>>>> -Author: SoumyaWind <121475834+SoumyaWind@users.noreply.github.com>
+>>>>>>> -Date:   Tue Dec 27 17:40:17 2022 +0530
+>>>>>>> -
+>>>>>>> -    shadow: Fix can not print full login timeout message
+>>>>>>> -
+>>>>>>> -    Login timed out message prints only first few bytes when 
+>>>>>>> write is immediately followed by exit.
+>>>>>>> -    Calling exit from new handler provides enough time to 
+>>>>>>> display full message.
+>>>>>>> -
+>>>>>>> -Upstream-Status: Backport
+>>>>>>> [https://github.com/shadow-maint/shadow/commit/670cae834827a8f794e6f 
+>>>>>>>
+>>>>>>> 7464fa57790d911b63c]
+>>>>>>> -
+>>>>>>> -diff --git a/src/login.c b/src/login.c -index 116e2cb3..c55f4de0
+>>>>>>> 100644
+>>>>>>> ---- a/src/login.c
+>>>>>>> -+++ b/src/login.c
+>>>>>>> -@@ -120,6 +120,7 @@ static void get_pam_user (char 
+>>>>>>> **ptr_pam_user);
+>>>>>>> -
+>>>>>>> - static void init_env (void);
+>>>>>>> - static void alarm_handler (int);
+>>>>>>> -+static void exit_handler (int);
+>>>>>>> -
+>>>>>>> - /*
+>>>>>>> -  * usage - print login command usage and exit -@@ -391,11 +392,16
+>>>>>>> @@ static void init_env (void)
+>>>>>>> - #endif                              /* !USE_PAM */
+>>>>>>> - }
+>>>>>>> -
+>>>>>>> -+static void exit_handler (unused int sig) {
+>>>>>>> -+    _exit (0);
+>>>>>>> -+}
+>>>>>>> -
+>>>>>>> - static void alarm_handler (unused int sig)
+>>>>>>> - {
+>>>>>>> -     write (STDERR_FILENO, tmsg, strlen (tmsg));
+>>>>>>> --    _exit (0);
+>>>>>>> -+    signal(SIGALRM, exit_handler);
+>>>>>>> -+    alarm(2);
+>>>>>>> - }
+>>>>>>> -
+>>>>>>> - #ifdef USE_PAM
+>>>>>>> diff --git
+>>>>>>> a/meta/recipes-extended/shadow/files/0001-Overhaul-valid_field.patch 
+>>>>>>>
+>>>>>>> b/meta/recipes-extended/shadow/files/0001-Overhaul-valid_field.patch 
+>>>>>>>
+>>>>>>> deleted file mode 100644
+>>>>>>> index ac08be515bf..00000000000
+>>>>>>> ---
+>>>>>>> a/meta/recipes-extended/shadow/files/0001-Overhaul-valid_field.patch 
+>>>>>>>
+>>>>>>> +++ /dev/null
+>>>>>>> @@ -1,65 +0,0 @@
+>>>>>>> -From 2eaea70111f65b16d55998386e4ceb4273c19eb4 Mon Sep 17 00:00:00
+>>>>>>> 2001
+>>>>>>> -From: =?UTF-8?q?Christian=20G=C3=B6ttsche?=
+>>>>>>> <cgzones@googlemail.com>
+>>>>>>> -Date: Fri, 31 Mar 2023 14:46:50 +0200
+>>>>>>> -Subject: [PATCH] Overhaul valid_field()
+>>>>>>> -
+>>>>>>> -e5905c4b ("Added control character check") introduced checking for
+>>>>>>> -control characters but had the logic inverted, so it rejects all
+>>>>>>> -characters that are not control ones.
+>>>>>>> -
+>>>>>>> -Cast the character to `unsigned char` before passing to the
+>>>>>>> character -checking functions to avoid UB.
+>>>>>>> -
+>>>>>>> -Use strpbrk(3) for the illegal character test and return early.
+>>>>>>> -
+>>>>>>> -Upstream-Status: Backport
+>>>>>>> [https://github.com/shadow-maint/shadow/commit/2eaea70111f65b16d5599 
+>>>>>>>
+>>>>>>> 8386e4ceb4273c19eb4]
+>>>>>>> -
+>>>>>>> -Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+>>>>>>> ----
+>>>>>>> - lib/fields.c | 24 ++++++++++--------------
+>>>>>>> - 1 file changed, 10 insertions(+), 14 deletions(-)
+>>>>>>> -
+>>>>>>> -diff --git a/lib/fields.c b/lib/fields.c -index fb51b582..53929248
+>>>>>>> 100644
+>>>>>>> ---- a/lib/fields.c
+>>>>>>> -+++ b/lib/fields.c
+>>>>>>> -@@ -37,26 +37,22 @@ int valid_field (const char *field, const char
+>>>>>>> *illegal)
+>>>>>>> -
+>>>>>>> -     /* For each character of field, search if it appears in 
+>>>>>>> the list
+>>>>>>> -      * of illegal characters. */
+>>>>>>> -+    if (illegal && NULL != strpbrk (field, illegal)) {
+>>>>>>> -+            return -1;
+>>>>>>> -+    }
+>>>>>>> -+
+>>>>>>> -+    /* Search if there are non-printable or control characters */
+>>>>>>> -     for (cp = field; '\0' != *cp; cp++) {
+>>>>>>> --            if (strchr (illegal, *cp) != NULL) {
+>>>>>>> -+            unsigned char c = *cp;
+>>>>>>> -+            if (!isprint (c)) {
+>>>>>>> -+                    err = 1;
+>>>>>>> -+            }
+>>>>>>> -+            if (iscntrl (c)) {
+>>>>>>> -                     err = -1;
+>>>>>>> -                     break;
+>>>>>>> -             }
+>>>>>>> -     }
+>>>>>>> -
+>>>>>>> --    if (0 == err) {
+>>>>>>> --            /* Search if there are non-printable or control 
+>>>>>>> characters */
+>>>>>>> --            for (cp = field; '\0' != *cp; cp++) {
+>>>>>>> --                    if (!isprint (*cp)) {
+>>>>>>> --                            err = 1;
+>>>>>>> --                    }
+>>>>>>> --                    if (!iscntrl (*cp)) {
+>>>>>>> --                            err = -1;
+>>>>>>> --                            break;
+>>>>>>> --                    }
+>>>>>>> --            }
+>>>>>>> --    }
+>>>>>>> -- 
+>>>>>>> -     return err;
+>>>>>>> - }
+>>>>>>> -
+>>>>>>> ---
+>>>>>>> -2.34.1
+>>>>>>> -
+>>>>>>> diff --git 
+>>>>>>> a/meta/recipes-extended/shadow/files/CVE-2023-29383.patch
+>>>>>>> b/meta/recipes-extended/shadow/files/CVE-2023-29383.patch
+>>>>>>> deleted file mode 100644
+>>>>>>> index f53341d3fc2..00000000000
+>>>>>>> --- a/meta/recipes-extended/shadow/files/CVE-2023-29383.patch
+>>>>>>> +++ /dev/null
+>>>>>>> @@ -1,53 +0,0 @@
+>>>>>>> -From e5905c4b84d4fb90aefcd96ee618411ebfac663d Mon Sep 17 00:00:00
+>>>>>>> 2001
+>>>>>>> -From: tomspiderlabs
+>>>>>>> <128755403+tomspiderlabs@users.noreply.github.com>
+>>>>>>> -Date: Thu, 23 Mar 2023 23:39:38 +0000
+>>>>>>> -Subject: [PATCH] Added control character check
+>>>>>>> -
+>>>>>>> -Added control character check, returning -1 (to "err") if 
+>>>>>>> control characters are present.
+>>>>>>> -
+>>>>>>> -CVE: CVE-2023-29383
+>>>>>>> -Upstream-Status: Backport
+>>>>>>> -
+>>>>>>> -Reference to upstream:
+>>>>>>> -https://github.com/shadow-maint/shadow/commit/e5905c4b84d4fb90aefcd 
+>>>>>>>
+>>>>>>> 96ee618411ebfac663d
+>>>>>>> -
+>>>>>>> -Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+>>>>>>> ----
+>>>>>>> - lib/fields.c | 11 +++++++----
+>>>>>>> - 1 file changed, 7 insertions(+), 4 deletions(-)
+>>>>>>> -
+>>>>>>> -diff --git a/lib/fields.c b/lib/fields.c -index 640be931..fb51b582
+>>>>>>> 100644
+>>>>>>> ---- a/lib/fields.c
+>>>>>>> -+++ b/lib/fields.c
+>>>>>>> -@@ -21,9 +21,9 @@
+>>>>>>> -  *
+>>>>>>> -  * The supplied field is scanned for non-printable and other
+>>>>>>> illegal
+>>>>>>> -  * characters.
+>>>>>>> -- *  + -1 is returned if an illegal character is present.
+>>>>>>> -- *  +  1 is returned if no illegal characters are present, but 
+>>>>>>> the field
+>>>>>>> -- *       contains a non-printable character.
+>>>>>>> -+ *  + -1 is returned if an illegal or control character is 
+>>>>>>> present.
+>>>>>>> -+ *  +  1 is returned if no illegal or control characters are 
+>>>>>>> present,
+>>>>>>> -+ *       but the field contains a non-printable character.
+>>>>>>> -  *  +  0 is returned otherwise.
+>>>>>>> -  */
+>>>>>>> - int valid_field (const char *field, const char *illegal) -@@
+>>>>>>> -45,10 +45,13 @@ int valid_field (const char *field, const char 
+>>>>>>> *illegal)
+>>>>>>> -     }
+>>>>>>> -
+>>>>>>> -     if (0 == err) {
+>>>>>>> --            /* Search if there are some non-printable 
+>>>>>>> characters */
+>>>>>>> -+            /* Search if there are non-printable or control
+>>>>>>> -+ characters */
+>>>>>>> -             for (cp = field; '\0' != *cp; cp++) {
+>>>>>>> -                     if (!isprint (*cp)) {
+>>>>>>> -                             err = 1;
+>>>>>>> -+                    }
+>>>>>>> -+                    if (!iscntrl (*cp)) {
+>>>>>>> -+                            err = -1;
+>>>>>>> -                             break;
+>>>>>>> -                     }
+>>>>>>> -             }
+>>>>>>> ---
+>>>>>>> -2.34.1
+>>>>>>> -
+>>>>>>> diff --git a/meta/recipes-extended/shadow/files/CVE-2023-4641.patch
+>>>>>>> b/meta/recipes-extended/shadow/files/CVE-2023-4641.patch
+>>>>>>> deleted file mode 100644
+>>>>>>> index 1fabfe928e4..00000000000
+>>>>>>> --- a/meta/recipes-extended/shadow/files/CVE-2023-4641.patch
+>>>>>>> +++ /dev/null
+>>>>>>> @@ -1,147 +0,0 @@
+>>>>>>> -From 25dbe2ce166a13322b7536ff2f738786ea2e61e7 Mon Sep 17 00:00:00
+>>>>>>> 2001
+>>>>>>> -From: Alejandro Colomar <alx@kernel.org>
+>>>>>>> -Date: Sat, 10 Jun 2023 16:20:05 +0200
+>>>>>>> -Subject: [PATCH] gpasswd(1): Fix password leak
+>>>>>>> -
+>>>>>>> -How to trigger this password leak?
+>>>>>>> -~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>>>>>> -
+>>>>>>> -When gpasswd(1) asks for the new password, it asks twice (as is
+>>>>>>> usual -for confirming the new password).  Each of those 2 password
+>>>>>>> prompts -uses agetpass() to get the password.  If the second
+>>>>>>> agetpass() fails, -the first password, which has been copied into
+>>>>>>> the 'static' buffer -'pass' via STRFCPY(), wasn't being zeroed.
+>>>>>>> -
+>>>>>>> -agetpass() is defined in <./libmisc/agetpass.c> (around line 91),
+>>>>>>> and -can fail for any of the following reasons:
+>>>>>>> -
+>>>>>>> --  malloc(3) or readpassphrase(3) failure.
+>>>>>>> -
+>>>>>>> -   These are going to be difficult to trigger.  Maybe getting 
+>>>>>>> the system
+>>>>>>> -   to the limits of memory utilization at that exact point, so 
+>>>>>>> that the
+>>>>>>> -   next malloc(3) gets ENOMEM, and possibly even the OOM is 
+>>>>>>> triggered.
+>>>>>>> -   About readpassphrase(3), ENFILE and EINTR seem the only 
+>>>>>>> plausible
+>>>>>>> -   ones, and EINTR probably requires privilege or being the 
+>>>>>>> same user;
+>>>>>>> -   but I wouldn't discard ENFILE so easily, if a process starts 
+>>>>>>> opening
+>>>>>>> -   files.
+>>>>>>> -
+>>>>>>> --  The password is longer than PASS_MAX.
+>>>>>>> -
+>>>>>>> -   The is plausible with physical access.  However, at that 
+>>>>>>> point, a
+>>>>>>> -   keylogger will be a much simpler attack.
+>>>>>>> -
+>>>>>>> -And, the attacker must be able to know when the second password is
+>>>>>>> being -introduced, which is not going to be easy.
+>>>>>>> -
+>>>>>>> -How to read the password after the leak?
+>>>>>>> -~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>>>>>> -
+>>>>>>> -Provoking the leak yourself at the right point by entering a very
+>>>>>>> long -password is easy, and inspecting the process stack at that
+>>>>>>> point should -be doable.  Try to find some consistent patterns.
+>>>>>>> -
+>>>>>>> -Then, search for those patterns in free memory, right after the
+>>>>>>> victim -leaks their password.
+>>>>>>> -
+>>>>>>> -Once you get the leak, a program should read all the free memory
+>>>>>>> -searching for patterns that gpasswd(1) leaves nearby the leaked
+>>>>>>> -password.
+>>>>>>> -
+>>>>>>> -On 6/10/23 03:14, Seth Arnold wrote:
+>>>>>>> -> An attacker process wouldn't be able to use malloc(3) for 
+>>>>>>> this task.
+>>>>>>> -> There's a handful of tools available for userspace to 
+>>>>>>> allocate memory:
+>>>>>>> ->
+>>>>>>> -> -  brk / sbrk
+>>>>>>> -> -  mmap MAP_ANONYMOUS
+>>>>>>> -> -  mmap /dev/zero
+>>>>>>> -> -  mmap some other file
+>>>>>>> -> -  shm_open
+>>>>>>> -> -  shmget
+>>>>>>> ->
+>>>>>>> -> Most of these return only pages of zeros to a process.  Using
+>>>>>>> -> mmap of an existing file, you can get some of the contents of 
+>>>>>>> the
+>>>>>>> -> file demand-loaded into the memory space on the first use.
+>>>>>>> ->
+>>>>>>> -> The MAP_UNINITIALIZED flag only works if the kernel was compiled
+>>>>>>> -> with CONFIG_MMAP_ALLOW_UNINITIALIZED.  This is rare.
+>>>>>>> ->
+>>>>>>> -> malloc(3) doesn't zero memory, to our collective frustration, 
+>>>>>>> but
+>>>>>>> -> all the garbage in the allocations is from previous allocations
+>>>>>>> -> in the current process.  It isn't leftover from other processes.
+>>>>>>> ->
+>>>>>>> -> The avenues available for reading the memory:
+>>>>>>> -> -  /dev/mem and /dev/kmem (requires root, not available with
+>>>>>>> -> Secure Boot)
+>>>>>>> -> -  /proc/pid/mem (requires ptrace privileges, mediated by YAMA)
+>>>>>>> -> -  ptrace (requires ptrace privileges, mediated by YAMA)
+>>>>>>> -> -  causing memory to be swapped to disk, and then inspecting the
+>>>>>>> -> swap
+>>>>>>> ->
+>>>>>>> -> These all require a certain amount of privileges.
+>>>>>>> -
+>>>>>>> -How to fix it?
+>>>>>>> -~~~~~~~~~~~~~~
+>>>>>>> -
+>>>>>>> -memzero(), which internally calls explicit_bzero(3), or whatever
+>>>>>>> -alternative the system provides with a slightly different name,
+>>>>>>> will -make sure that the buffer is zeroed in memory, and
+>>>>>>> optimizations are not -allowed to impede this zeroing.
+>>>>>>> -
+>>>>>>> -This is not really 100% effective, since compilers may place 
+>>>>>>> copies
+>>>>>>> of -the string somewhere hidden in the stack.  Those copies won't
+>>>>>>> get zeroed -by explicit_bzero(3).  However, that's arguably a
+>>>>>>> compiler bug, since -compilers should make everything possible to
+>>>>>>> avoid optimizing strings -that are later passed to
+>>>>>>> explicit_bzero(3).  But we all know that -sometimes it's impossible
+>>>>>>> to have perfect knowledge in the compiler, so -this is plausible.
+>>>>>>> Nevertheless, there's nothing we can do against such -issues, 
+>>>>>>> except
+>>>>>>> minimizing the time such passwords are stored in plain -text.
+>>>>>>> -
+>>>>>>> -Security concerns
+>>>>>>> -~~~~~~~~~~~~~~~~~
+>>>>>>> -
+>>>>>>> -We believe this isn't easy to exploit.  Nevertheless, and since 
+>>>>>>> the
+>>>>>>> fix -is trivial, this fix should probably be applied soon, and
+>>>>>>> backported to -all supported distributions, to prevent someone else
+>>>>>>> having more -imagination than us to find a way.
+>>>>>>> -
+>>>>>>> -Affected versions
+>>>>>>> -~~~~~~~~~~~~~~~~~
+>>>>>>> -
+>>>>>>> -All.  Bug introduced in shadow 19990709.  That's the second commit
+>>>>>>> in -the git history.
+>>>>>>> -
+>>>>>>> -Fixes: 45c6603cc86c ("[svn-upgrade] Integrating new upstream
+>>>>>>> version, shadow (19990709)")
+>>>>>>> -
+>>>>>>> -CVE: CVE-2023-4641
+>>>>>>> -Upstream-Status: Backport
+>>>>>>> [https://github.com/shadow-maint/shadow/commit/65c88a43a23c2391dcc90 
+>>>>>>>
+>>>>>>> c0abda3e839e9c57904]
+>>>>>>> -
+>>>>>>> -Reported-by: Alejandro Colomar <alx@kernel.org>
+>>>>>>> -Cc: Serge Hallyn <serge@hallyn.com>
+>>>>>>> -Cc: Iker Pedrosa <ipedrosa@redhat.com>
+>>>>>>> -Cc: Seth Arnold <seth.arnold@canonical.com>
+>>>>>>> -Cc: Christian Brauner <christian@brauner.io>
+>>>>>>> -Cc: Balint Reczey <rbalint@debian.org>
+>>>>>>> -Cc: Sam James <sam@gentoo.org>
+>>>>>>> -Cc: David Runge <dvzrv@archlinux.org>
+>>>>>>> -Cc: Andreas Jaeger <aj@suse.de>
+>>>>>>> -Cc: <~hallyn/shadow@lists.sr.ht>
+>>>>>>> -Signed-off-by: Alejandro Colomar <alx@kernel.org>
+>>>>>>> -Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+>>>>>>> ----
+>>>>>>> - src/gpasswd.c | 1 +
+>>>>>>> - 1 file changed, 1 insertion(+)
+>>>>>>> -
+>>>>>>> -diff --git a/src/gpasswd.c b/src/gpasswd.c -index
+>>>>>>> 5983f787..2d8869ef 100644
+>>>>>>> ---- a/src/gpasswd.c
+>>>>>>> -+++ b/src/gpasswd.c
+>>>>>>> -@@ -896,6 +896,7 @@ static void change_passwd (struct group *gr)
+>>>>>>> -             strzero (cp);
+>>>>>>> -             cp = getpass (_("Re-enter new password: "));
+>>>>>>> -             if (NULL == cp) {
+>>>>>>> -+                    memzero (pass, sizeof pass);
+>>>>>>> -                     exit (1);
+>>>>>>> -             }
+>>>>>>> -
+>>>>>>> ---
+>>>>>>> -2.34.1
+>>>>>>> -
+>>>>>>> diff --git
+>>>>>>> a/meta/recipes-extended/shadow/files/commonio.c-fix-unexpected-open- 
+>>>>>>>
+>>>>>>> failure-in-chroot-env.patch
+>>>>>>> b/meta/recipes-extended/shadow/files/commonio.c-fix-unexpected-open- 
+>>>>>>>
+>>>>>>> failure-in-chroot-env.patch index 85d91751056..4a932d2dbb1 100644
+>>>>>>> ---
+>>>>>>> a/meta/recipes-extended/shadow/files/commonio.c-fix-unexpected-open- 
+>>>>>>>
+>>>>>>> failure-in-chroot-env.patch
+>>>>>>> +++ 
+>>>>>>> b/meta/recipes-extended/shadow/files/commonio.c-fix-unexpected-o
+>>>>>>> +++ pen-failure-in-chroot-env.patch
+>>>>>>> @@ -1,4 +1,4 @@
+>>>>>>> -From 21583da072aa66901d859ac00ce209bac87ddecc Mon Sep 17 00:00:00
+>>>>>>> 2001
+>>>>>>> +From a773c6b240d27e23d6be41decef0edf24fcee523 Mon Sep 17 00:00:00
+>>>>>>> +2001
+>>>>>>>     From: Chen Qi <Qi.Chen@windriver.com>
+>>>>>>>     Date: Thu, 17 Jul 2014 15:53:34 +0800
+>>>>>>>     Subject: [PATCH]
+>>>>>>> commonio.c-fix-unexpected-open-failure-in-chroot-env
+>>>>>>> @@ -15,35 +15,37 @@ Note that this patch doesn't change the 
+>>>>>>> logic in the code, it just expands
+>>>>>>>     the codes.
+>>>>>>>
+>>>>>>>     Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>>>>>>> -
+>>>>>>>     ---
+>>>>>>>      lib/commonio.c | 16 ++++++++++++----
+>>>>>>>      1 file changed, 12 insertions(+), 4 deletions(-)
+>>>>>>>
+>>>>>>>     diff --git a/lib/commonio.c b/lib/commonio.c -index
+>>>>>>> 9a02ce1..61384ec 100644
+>>>>>>> +index 73fdb3a..d1231e9 100644
+>>>>>>>     --- a/lib/commonio.c
+>>>>>>>     +++ b/lib/commonio.c
+>>>>>>> -@@ -616,10 +616,18 @@ int commonio_open (struct commonio_db *db,
+>>>>>>> int mode)
+>>>>>>> +@@ -606,10 +606,18 @@ int commonio_open (struct commonio_db *db,
+>>>>>>> +int mode)
+>>>>>>>         db->cursor = NULL;
+>>>>>>>         db->changed = false;
+>>>>>>>
+>>>>>>>     -   fd = open (db->filename,
+>>>>>>>     -                (db->readonly ? O_RDONLY : O_RDWR)
+>>>>>>> --               | O_NOCTTY | O_NONBLOCK | O_NOFOLLOW);
+>>>>>>> +-               | O_NOCTTY | O_NONBLOCK | O_NOFOLLOW | O_CLOEXEC);
+>>>>>>>     -   saved_errno = errno;
+>>>>>>>     +   if (db->readonly) {
+>>>>>>>     +           fd = open (db->filename,
+>>>>>>>     +                      (true ? O_RDONLY : O_RDWR)
+>>>>>>> -+                       | O_NOCTTY | O_NONBLOCK | O_NOFOLLOW);
+>>>>>>> ++                       | O_NOCTTY | O_NONBLOCK | O_NOFOLLOW |
+>>>>>>> ++ O_CLOEXEC);
+>>>>>>>     +           saved_errno = errno;
+>>>>>>>     +   } else {
+>>>>>>>     +           fd = open (db->filename,
+>>>>>>>     +                      (false ? O_RDONLY : O_RDWR)
+>>>>>>> -+                       | O_NOCTTY | O_NONBLOCK | O_NOFOLLOW);
+>>>>>>> ++                       | O_NOCTTY | O_NONBLOCK | O_NOFOLLOW|
+>>>>>>> ++ O_CLOEXEC);
+>>>>>>>     +           saved_errno = errno;
+>>>>>>>     +   }
+>>>>>>>     +
+>>>>>>>         db->fp = NULL;
+>>>>>>>         if (fd >= 0) {
+>>>>>>>      #ifdef WITH_TCB
+>>>>>>> +--
+>>>>>>> +2.30.2
+>>>>>>> +
+>>>>>>> diff --git a/meta/recipes-extended/shadow/shadow.inc
+>>>>>>> b/meta/recipes-extended/shadow/shadow.inc
+>>>>>>> index ce3ce627156..c024746d4ff 100644
+>>>>>>> --- a/meta/recipes-extended/shadow/shadow.inc
+>>>>>>> +++ b/meta/recipes-extended/shadow/shadow.inc
+>>>>>>> @@ -5,7 +5,7 @@ BUGTRACKER = 
+>>>>>>> "http://github.com/shadow-maint/shadow/issues"
+>>>>>>>     SECTION = "base/utils"
+>>>>>>>     LICENSE = "BSD-3-Clause"
+>>>>>>>     LIC_FILES_CHKSUM = 
+>>>>>>> "file://COPYING;md5=c9a450b7be84eac23e6353efecb60b5b \
+>>>>>>> - 
+>>>>>>> file://src/passwd.c;beginline=2;endline=30;md5=758c26751513b6795395275969dd3be1 
+>>>>>>> \
+>>>>>>> +
+>>>>>>> + 
+>>>>>>> file://src/passwd.c;beginline=2;endline=7;md5=67bcf314687820b2f010
+>>>>>>> + d4863fce3fc5 \
+>>>>>>>                         "
+>>>>>>>
+>>>>>>>     DEPENDS = "virtual/crypt"
+>>>>>>> @@ -14,10 +14,6 @@ GITHUB_BASE_URI = 
+>>>>>>> "https://github.com/shadow-maint/shadow/releases"
+>>>>>>>     SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BP}.tar.gz \
+>>>>>>>                ${@bb.utils.contains('PACKAGECONFIG', 'pam', 
+>>>>>>> '${PAM_SRC_URI}', '', d)} \
+>>>>>>>                file://useradd \
+>>>>>>> - file://0001-Fix-can-not-print-full-login.patch \
+>>>>>>> -           file://CVE-2023-29383.patch \
+>>>>>>> -           file://0001-Overhaul-valid_field.patch \
+>>>>>>> -           file://CVE-2023-4641.patch \
+>>>>>>>                "
+>>>>>>>
+>>>>>>>     SRC_URI:append:class-target = " \
+>>>>>>> @@ -26,14 +22,9 @@ SRC_URI:append:class-target = " \
+>>>>>>>                "
+>>>>>>>
+>>>>>>>     SRC_URI:append:class-native = " \
+>>>>>>> - file://0001-Disable-use-of-syslog-for-sysroot.patch \
+>>>>>>> file://commonio.c-fix-unexpected-open-failure-in-chroot-env.patch \
+>>>>>>>                "
+>>>>>>> -SRC_URI:append:class-nativesdk = " \
+>>>>>>> - file://0001-Disable-use-of-syslog-for-sysroot.patch \
+>>>>>>> -           "
+>>>>>>> -SRC_URI[sha256sum] = 
+>>>>>>> "813057047499c7fe81108adcf0cffa3ad4ec75e19a80151f9cbaa458ff2e86cd"
+>>>>>>> -
+>>>>>>> +SRC_URI[sha256sum] = 
+>>>>>>> "a305edf5d19bddbdf5e836d2d609fa8bff2d35458819de4d9f06306a1cf24342"
+>>>>>>>
+>>>>>>>     # Additional Policy files for PAM
+>>>>>>>     PAM_SRC_URI = "file://pam.d/chfn \ @@ -44,7 +35,7 @@ 
+>>>>>>> PAM_SRC_URI =
+>>>>>>> "file://pam.d/chfn \
+>>>>>>>                    file://pam.d/passwd \
+>>>>>>>                    file://pam.d/su"
+>>>>>>>
+>>>>>>> -inherit autotools gettext github-releases
+>>>>>>> +inherit autotools gettext github-releases pkgconfig
+>>>>>>>
+>>>>>>>     export CONFIG_SHELL="/bin/sh"
+>>>>>>>
+>>>>>>> @@ -54,6 +45,8 @@ EXTRA_OECONF += "--without-libcrack \
+>>>>>>>                      --without-sssd \
+>>>>>>>                      ${NSCDOPT}"
+>>>>>>>
+>>>>>>> +CFLAGS:append:libc-musl = " -DLIBBSD_OVERLAY"
+>>>>>>> +
+>>>>>>>     NSCDOPT = ""
+>>>>>>>     NSCDOPT:class-native = "--without-nscd"
+>>>>>>>     NSCDOPT:class-nativesdk = "--without-nscd"
+>>>>>>> @@ -73,13 +66,14 @@ PAM_PLUGINS = "libpam-runtime \
+>>>>>>>
+>>>>>>>     PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 
+>>>>>>> 'pam', d)} \
+>>>>>>> ${@bb.utils.contains('DISTRO_FEATURES', 'xattr', 'attr', '', d)}"
+>>>>>>> -PACKAGECONFIG:class-native ??= 
+>>>>>>> "${@bb.utils.contains('DISTRO_FEATURES', 'xattr', 'attr', '', d)}"
+>>>>>>> +PACKAGECONFIG:class-native ??= 
+>>>>>>> "${@bb.utils.contains('DISTRO_FEATURES', 'xattr', 'attr', '', 
+>>>>>>> d)} libbsd"
+>>>>>>>     PACKAGECONFIG:class-nativesdk = ""
+>>>>>>>     PACKAGECONFIG[pam] = 
+>>>>>>> "--with-libpam,--without-libpam,libpam,${PAM_PLUGINS}"
+>>>>>>>     PACKAGECONFIG[attr] = "--with-attr,--without-attr,attr"
+>>>>>>>     PACKAGECONFIG[acl] = "--with-acl,--without-acl,acl"
+>>>>>>>     PACKAGECONFIG[audit] = "--with-audit,--without-audit,audit"
+>>>>>>>     PACKAGECONFIG[selinux] = 
+>>>>>>> "--with-selinux,--without-selinux,libselinux libsemanage"
+>>>>>>> +PACKAGECONFIG[libbsd] = "--with-libbsd,--without-libbsd,libbsd"
+>>>>>>>
+>>>>>>>     RDEPENDS:${PN} = "shadow-securetty \
+>>>>>>>                       base-passwd \
+>>>>>>> diff --git a/meta/recipes-extended/shadow/shadow_4.13.bb
+>>>>>>> b/meta/recipes-extended/shadow/shadow_4.14.2.bb
+>>>>>>> similarity index 100%
+>>>>>>> rename from meta/recipes-extended/shadow/shadow_4.13.bb
+>>>>>>> rename to meta/recipes-extended/shadow/shadow_4.14.2.bb
+>>>>>>>
+>>>>>>>
+>>>>>>>
+
 
