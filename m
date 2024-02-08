@@ -2,57 +2,57 @@ Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26C96C4828F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B828C48BC0
 	for <webhook@archiver.kernel.org>; Thu,  8 Feb 2024 08:29:05 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web10.13378.1707380940388178187
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web10.13377.1707380938581574137
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Feb 2024 00:29:00 -0800
+ Thu, 08 Feb 2024 00:28:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=axS931K4;
- spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-41008ab427fso14124085e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 00:29:00 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=lbAxbuk+;
+ spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4101d4c5772so3449575e9.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 00:28:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707380938; x=1707985738; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1707380937; x=1707985737; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=oe9Z2U9DcvcflSlZeeEhTxcjSjvzGiiNoR1nokMzKrI=;
-        b=axS931K4Dx0rmeNta9qRhq+CKFiOYAwd4OI6h4EvPmLOMUvxzz8Dt7FBjeDm6Q87KC
-         7fE4kYoHhNEcevRkbVV8Bh8jJGZL16QlVlkkhkWmKDKXZo6nJkNTwiU9hNqAxIDyt417
-         BGW+2ehH6iBjaKHl7droHo+Eq5h8Gq9SPaYA/IY85m/CRB7gkozWhnJUD3yWdAgzGk/A
-         VTIDAwXOmyqorJBOFoC6fQ2sL2sxK+l49kcypzppa3aA/XhqAKJZHfYtmXJMdAdGswcW
-         1wnp9M7kqHYgW3ysYMcJC9D2/St92o2bjiof4qYfjHs3tkhGPNVCSwcEIlXkHh3aD1tP
-         9eyA==
+        bh=yvyDOOSP/lWOMWhJXJdFeYOuuWd14pv1eA6T0A74dnU=;
+        b=lbAxbuk+wnFmGMI/Cn4UV64rXbqmBxBMBoujeEHKIrTE4ng2MT3ShHG/5Jpry4IX6q
+         Wtz3q+Vuf+MnsPN2S+ueuV96XUqGFOk27SspyHrou6UqXFdZZETicpDLd9lvSEsiDf5w
+         EZ18mcOVeTVqZu65a6aDjd6F1MMh2jjtKP/o3DlJv7q/WpCwsvp2mAr6UJyuaBc2nsQb
+         sdVpDGpt7+zWE8E2TM6y3oowvVkcy3AZ6YuhpqOYpqsLf67p1FcNZ1x5brzYodOM1jg6
+         EdDhD/o3dq+aLK5JsfZVhiBh+yU0aB1WgZ1vUpg0kYD9ssVHqv/9PuNVEyRVNJ39Gvkl
+         qtmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707380938; x=1707985738;
+        d=1e100.net; s=20230601; t=1707380937; x=1707985737;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=oe9Z2U9DcvcflSlZeeEhTxcjSjvzGiiNoR1nokMzKrI=;
-        b=CJOaub87D438eaHpR51fyEF1cjwD8CzYVzvBT6WSXYS31Tc8IxDQIrGPndh8UvU2uS
-         Faquu5i8Bhab9EbgPtWeQuCwJ3vclqpl/3OlShANnNMyF8y1U5lnrL0Vvl1UZj2X38eT
-         1krpR85cPKdrUaNWBo6esAz5GMVsbINTBce/b0hEEHhPF6340wKERm86E6eFMuNl6DCZ
-         Fqvn3aGQzCVfegRcvBa3mzE8V8FEL5YUrr0yrSmTc2g8lamyBs2xr8WdOygHDFYQRkqo
-         LCiNaGPzrLILnHEgaNiP99h3nJ78HkOJ8eMwKdbROMjVkcBTBHrKcymSE/JVSQKNDJNB
-         flWw==
-X-Gm-Message-State: AOJu0YzcCnCZFpiRgefsswc7jXBnV9B5fxUBW1Uyi+g7UU1vXkJC5OJk
-	rvsek8xLsUXeFfq4YS+XJxKNJiX5K84xmpmA/QLPS8qDJ0bW5PqKakZyuLv2
-X-Google-Smtp-Source: AGHT+IHGKvaEsxdBmWgnl82UwZHGYLfArcQybiZMk6jCJT5JX1ozKDYgHCtt31fpnGf+Hc6gX7hOJQ==
-X-Received: by 2002:a05:600c:3581:b0:40f:de6a:2a27 with SMTP id p1-20020a05600c358100b0040fde6a2a27mr5730648wmq.40.1707380938422;
-        Thu, 08 Feb 2024 00:28:58 -0800 (PST)
+        bh=yvyDOOSP/lWOMWhJXJdFeYOuuWd14pv1eA6T0A74dnU=;
+        b=sxgEGTKpwhh70fmh5JYD5icUmimzNtBPnY2428vA7RDcVJmMcYFbwW4h5zRa7g3Uv4
+         rnZHTxe1HDofY6S+Z5r1/c7KaMlDSOzDJYzcIvZ0q+0L4BN5SOy4mf7DjczSuP0qnf1L
+         DOWAuNKNvq/OUkzyZlxKJn8F+0Zg6kaXeochmMUYBM+/Ysli4fn2E7sgzb8I8ja1raAy
+         cqcLgg6l4Z/5MkiLds+28IsBYNUk2HuN2qMwaL2uW7AxEOTvUx6SEDYeTDHIdknBb6fq
+         m+E0RXp/VHyTXkXM3G3V0WD+y9nzBqxC+oFTtKbse536KlXQGVKlBCFKJSW1wuCB/RQr
+         h2IQ==
+X-Gm-Message-State: AOJu0YwJIKYiPdxUT9g0H7eADFopBi/wZUOwnlPujO2N6OFs05LBf7k3
+	k6/vgZXl5hBEl5Pu16ccY1QI76oxK8YrCeQaduAH+IHfM/dDWUd0RoHIDqn6
+X-Google-Smtp-Source: AGHT+IHjCgB6mt1+zazrHGNDvKNwUd7hVpWbcLhgSQ4ve/SOJFsbVmpO3l+lVdWG7u/vvVz+xt7m7Q==
+X-Received: by 2002:a05:600c:4e91:b0:40f:fd74:9893 with SMTP id f17-20020a05600c4e9100b0040ffd749893mr1378891wmq.5.1707380936703;
+        Thu, 08 Feb 2024 00:28:56 -0800 (PST)
 Received: from wsadrian16.fritz.box ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id j12-20020a05600c190c00b0040ebf603a89sm913321wmq.11.2024.02.08.00.28.57
+        by smtp.gmail.com with ESMTPSA id j12-20020a05600c190c00b0040ebf603a89sm913321wmq.11.2024.02.08.00.28.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Feb 2024 00:28:58 -0800 (PST)
+        Thu, 08 Feb 2024 00:28:56 -0800 (PST)
 From: Adrian Freihofer <adrian.freihofer@gmail.com>
 X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 6/7] oeqa/selftest/recipetool: fix for python 3.12
-Date: Thu,  8 Feb 2024 09:27:32 +0100
-Message-ID: <20240208082821.430510-7-adrian.freihofer@siemens.com>
+Subject: [PATCH 4/7] oeqa/selftest/oelib/buildhistory: git default branch
+Date: Thu,  8 Feb 2024 09:27:30 +0100
+Message-ID: <20240208082821.430510-5-adrian.freihofer@siemens.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240208082821.430510-1-adrian.freihofer@siemens.com>
 References: <20240208082821.430510-1-adrian.freihofer@siemens.com>
@@ -62,71 +62,56 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 08:29:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195111
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195109
 
-test_recipetool_create_github and test_recipetool_create_github_tarball
-fail because the old meson version used by these tests cases does not
-run on Python 3.12. The issue is in the dependencies.py which comes with
-meson:
-ERROR: build/tmp/work/recipetool-3z4osyl7/source/git/mesonbuild/
-       dependencies.py:777: SyntaxWarning: invalid escape sequence '\.'
-
-Use meson 1.3.1 (what is currently also used on master) as a reference
-for these tests.
-
-With this version of meson, recipetool creates recipes named
-meson_git.bb or meson_1.3.1.bb. Since this looks more reasonable than
-e.g. python3-meson_git.bb the test gets adapted.
+Define the git default branch to main and use it for all test cases.
+This is also in line with what the build history does in practice with
+newer Git versions.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/lib/oeqa/selftest/cases/recipetool.py | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ meta/lib/oeqa/selftest/cases/oelib/buildhistory.py | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/recipetool.py b/meta/lib/oeqa/selftest/cases/recipetool.py
-index 0c296875b23..39114c67622 100644
---- a/meta/lib/oeqa/selftest/cases/recipetool.py
-+++ b/meta/lib/oeqa/selftest/cases/recipetool.py
-@@ -444,14 +444,14 @@ class RecipetoolCreateTests(RecipetoolBase):
-         # Basic test to see if github URL mangling works
-         temprecipe = os.path.join(self.tempdir, 'recipe')
-         os.makedirs(temprecipe)
--        recipefile = os.path.join(temprecipe, 'python3-meson_git.bb')
--        srcuri = 'https://github.com/mesonbuild/meson;rev=0.32.0'
-+        recipefile = os.path.join(temprecipe, 'meson_git.bb')
-+        srcuri = 'https://github.com/mesonbuild/meson;rev=1.3.1'
-         result = runCmd(['recipetool', 'create', '-o', temprecipe, srcuri])
-         self.assertTrue(os.path.isfile(recipefile))
-         checkvars = {}
--        checkvars['LICENSE'] = set(['Apache-2.0'])
--        checkvars['SRC_URI'] = 'git://github.com/mesonbuild/meson;protocol=https;branch=master'
--        inherits = ['setuptools3']
-+        checkvars['LICENSE'] = set(['Apache-2.0', 'Proprietary', 'Unknown'])
-+        checkvars['SRC_URI'] = 'git://github.com/mesonbuild/meson;protocol=https;branch=1.3'
-+        inherits = ['python_setuptools_build_meta']
-         self._test_recipe_contents(recipefile, checkvars, inherits)
+diff --git a/meta/lib/oeqa/selftest/cases/oelib/buildhistory.py b/meta/lib/oeqa/selftest/cases/oelib/buildhistory.py
+index c3c15d83c0f..762c0d47bff 100644
+--- a/meta/lib/oeqa/selftest/cases/oelib/buildhistory.py
++++ b/meta/lib/oeqa/selftest/cases/oelib/buildhistory.py
+@@ -19,7 +19,7 @@ class TestBlobParsing(OESelftestTestCase):
  
-     def test_recipetool_create_python3_setuptools(self):
-@@ -703,15 +703,15 @@ class RecipetoolCreateTests(RecipetoolBase):
-         # Basic test to ensure github URL mangling doesn't apply to release tarballs
-         temprecipe = os.path.join(self.tempdir, 'recipe')
-         os.makedirs(temprecipe)
--        pv = '0.32.0'
--        recipefile = os.path.join(temprecipe, 'python3-meson_%s.bb' % pv)
-+        pv = '1.3.1'
-+        recipefile = os.path.join(temprecipe, 'meson_%s.bb' % pv)
-         srcuri = 'https://github.com/mesonbuild/meson/releases/download/%s/meson-%s.tar.gz' % (pv, pv)
-         result = runCmd('recipetool create -o %s %s' % (temprecipe, srcuri))
-         self.assertTrue(os.path.isfile(recipefile))
-         checkvars = {}
--        checkvars['LICENSE'] = set(['Apache-2.0'])
-+        checkvars['LICENSE'] = set(['Apache-2.0', 'Proprietary', 'Unknown'])
-         checkvars['SRC_URI'] = 'https://github.com/mesonbuild/meson/releases/download/${PV}/meson-${PV}.tar.gz'
--        inherits = ['setuptools3']
-+        inherits = ['python_setuptools_build_meta']
-         self._test_recipe_contents(recipefile, checkvars, inherits)
+         try:
+             from git import Repo
+-            self.repo = Repo.init(self.repo_path)
++            self.repo = Repo.init(self.repo_path, initial_branch='main')
+         except ImportError as e:
+             self.skipTest('Python module GitPython is not present (%s)  (%s)' % (e, sys.path))
  
-     def _test_recipetool_create_git(self, srcuri, branch=None):
+@@ -67,10 +67,10 @@ class TestBlobParsing(OESelftestTestCase):
+         changesmap = { "foo-2" : ("2", "8"), "bar" : ("","4"), "bar-2" : ("","5")}
+ 
+         self.commit_vars(to_add = { "foo" : "1", "foo-2" : "2", "foo-3" : "3" })
+-        blob1 = self.repo.heads.master.commit.tree.blobs[0]
++        blob1 = self.repo.heads.main.commit.tree.blobs[0]
+ 
+         self.commit_vars(to_add = { "foo-2" : "8", "bar" : "4", "bar-2" : "5" })
+-        blob2 = self.repo.heads.master.commit.tree.blobs[0]
++        blob2 = self.repo.heads.main.commit.tree.blobs[0]
+ 
+         change_records = compare_dict_blobs(os.path.join(self.repo_path, self.test_file),
+             blob1, blob2, False, False)
+@@ -86,10 +86,10 @@ class TestBlobParsing(OESelftestTestCase):
+         defaultmap = { x : ("default", "1")  for x in ["PKG", "PKGE", "PKGV", "PKGR"]}
+ 
+         self.commit_vars(to_add = { "foo" : "1" })
+-        blob1 = self.repo.heads.master.commit.tree.blobs[0]
++        blob1 = self.repo.heads.main.commit.tree.blobs[0]
+ 
+         self.commit_vars(to_add = { "PKG" : "1", "PKGE" : "1", "PKGV" : "1", "PKGR" : "1" })
+-        blob2 = self.repo.heads.master.commit.tree.blobs[0]
++        blob2 = self.repo.heads.main.commit.tree.blobs[0]
+ 
+         change_records = compare_dict_blobs(os.path.join(self.repo_path, self.test_file),
+             blob1, blob2, False, False)
 -- 
 2.43.0
 
