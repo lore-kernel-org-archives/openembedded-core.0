@@ -2,58 +2,58 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3E38C4828F
-	for <webhook@archiver.kernel.org>; Fri,  9 Feb 2024 16:44:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0733C4828F
+	for <webhook@archiver.kernel.org>; Fri,  9 Feb 2024 16:57:07 +0000 (UTC)
 Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web11.16598.1707497075878887816
+ by mx.groups.io with SMTP id smtpd.web11.17000.1707497825251329553
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Feb 2024 08:44:36 -0800
+ Fri, 09 Feb 2024 08:57:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QxH4dkUD;
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VZmDZCq8;
  spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-40efcb37373so9851745e9.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 Feb 2024 08:44:35 -0800 (PST)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4105a6be071so7185105e9.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 Feb 2024 08:57:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1707497074; x=1708101874; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1707497823; x=1708102623; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EEmr5zm2YhpT2i2Nv+3vnOMJuL25eK1VTvvrlICIVuk=;
-        b=QxH4dkUDUFNPK3/gb4Yq9Ab/X9muSSx3GY1bgdELTjvb/q2hmIYlONYF8QkFIlFMAw
-         kTQGUmRJSAMQQVo9qPZjpBGnaDx+E0ZdVO7edirvGgXWMg28pT0SVEWCIMWEu82llH1S
-         EJ2LoG7w8OUrJrKRd8xmIfuFebJxZjBEIzt/g=
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=pG2QdDHuPgPuSWkhxmVm9Gj9M4u/eWrxZUC3OE6J9gc=;
+        b=VZmDZCq8J4nLTV2pJDLzeFUtYorfqMyOD01tNO9G7MHLiAFGHmcRRM1gSenu8lUXC+
+         iAsdCRlcFOjcj5ejf/4zrs8BTfvgXc/znSgoQb5cA4JIbC6CZ4vVJZ/l0WKMfVVIfr1e
+         SljeIEsLXooY5j27KYyELTmBS8658pr93cE1Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707497074; x=1708101874;
+        d=1e100.net; s=20230601; t=1707497823; x=1708102623;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:to:from:subject:message-id
+         :references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EEmr5zm2YhpT2i2Nv+3vnOMJuL25eK1VTvvrlICIVuk=;
-        b=fK6qeMzviKYQhgbC5rst9h5blHyy6lfr8tHUI3zxqliuP2xm1ouMQP4uz4AHmITbDz
-         jzltOFvn444ZRI0XG4lBbjE/P7QdebAYRSLxi6MafOZL2qcUWoBsfWBstDMJVToFAX9P
-         b4uVBmiiG6dPpk6Sd9Jpu5xX8fJquIH0E3JBq4nlUg/EqFsM+Dv4tsCB6JXfrrFyJqtS
-         pKxNfyXawwjMFMGdury+O0mgtw2ZxiqtlPqilr9Bm1aQ0ayd3wubByTovoPoHDbuY0+L
-         /KRRWyYyw5SMZPolavael6nEALP/FhTNhLgbOnqhiy2nn6OysNAqcHtOepH7c7MYqTsx
-         XtpA==
-X-Forwarded-Encrypted: i=1; AJvYcCVyPvciHuf50sySN8xqy9h6mzlZ4ThvqreTTYxbowSQaNVzBjZi2r3+NLBnJ/tPAzwR20gZg7qK0tJ7HAoDeHHxvRTs9hw+J0DN7kfFfng+g1Yd/UTjB+fy
-X-Gm-Message-State: AOJu0YxG7KDXQ8TAbkmkBB9KpmF1g4ACFLCs6CVZp1bCchGHsURvO6iY
-	guVoWJxLnGoKNcKbkNQkQ1WV3lzdAuxYxp56TVBqK7aib0g/0ZLh9o4hfF/UpLc=
-X-Google-Smtp-Source: AGHT+IHTLCpNoExpWpsW75mY6kT7fqCNOKkZpEShYLknm30Ietb1/hOpNpHSVEesxQ6nRkyYD7eaPA==
-X-Received: by 2002:adf:fa8a:0:b0:33b:6411:1feb with SMTP id h10-20020adffa8a000000b0033b64111febmr1619743wrr.18.1707497073920;
-        Fri, 09 Feb 2024 08:44:33 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCV2fA81hcFwjnPt8SCNTH/Esy7ET6ZatmlkowHfY8lxAFoLdXtuGfEJiEmcHlHTaSMHystsVpVhGLn4cM6aEh3wOohpOjarm3Atn2V1OBkHDBVY/1sxJ4h1
+        bh=pG2QdDHuPgPuSWkhxmVm9Gj9M4u/eWrxZUC3OE6J9gc=;
+        b=DNGRhrTMyafeEtDwgSfE/cjuUjJDjF+FlsxOu5sUe+/Lq2dYJehKI0K1yrsE01j/kH
+         cXfo1wSwDNW2e7ABCsyQTj4zqUGVSkbb7KJhvF3KeEi+8QDjxAqv6h2RwYCIlKp5wPBg
+         jGIaKkW8+U1wtjKsSWbOJrfFV5zh0417aoeg5SfXfedMdOX+Cci16y4IctdmbMRVNvkD
+         mGTkL2Gv6zJQlUimSdAFquQa9px23Q07mEnqkLgUppmlzZO1k27vIkQyy6A6haHaSb98
+         RVBxtsjRXumauRoeJCy2yHo/elf0wEBjQckPzwSDlR1SaEx0HdAYTeg4U4ggBKjvwf/f
+         BVVg==
+X-Gm-Message-State: AOJu0YwMlZwC1XmARW6lMoVRzMUdmh/85DVqgXA6lYHJ5ysUK+HUP7l2
+	prPMhbAmw1L1l7NzEXBAFJnIG647HQDzxwjmYOnIYaqVVVzoFS0zaQQSMAturqc=
+X-Google-Smtp-Source: AGHT+IFL2NAkGWJKw7jZfGffao99PaoZUQKYt4uWpIzZpisnYsuWHXf1mDHhE+S6bTJzuOS8yN7NWw==
+X-Received: by 2002:a05:600c:4f07:b0:410:41ae:220a with SMTP id l7-20020a05600c4f0700b0041041ae220amr1768241wmq.16.1707497823584;
+        Fri, 09 Feb 2024 08:57:03 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWOYQQVRtZLzCAum0wh7jfCWBHa9r0YoSR13GBJaUl0folwaHFLCjy0vnB6+fsJEcfwS7S6jzFpUEee4qHGIsu5CbtPRCrW
 Received: from ?IPv6:2001:8b0:aba:5f3c:47e1:ee11:154c:e6b3? ([2001:8b0:aba:5f3c:47e1:ee11:154c:e6b3])
-        by smtp.gmail.com with ESMTPSA id bv7-20020a0560001f0700b0033b1277e95dsm2256912wrb.77.2024.02.09.08.44.33
+        by smtp.gmail.com with ESMTPSA id g17-20020a7bc4d1000000b00410141aa57csm1139144wmk.15.2024.02.09.08.57.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Feb 2024 08:44:33 -0800 (PST)
-Message-ID: <15817651ba1ade33b769061f772cfab961aba996.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH] lttng-tools: skip lttng kernel related test if
- lttng kernel modules not present
+        Fri, 09 Feb 2024 08:57:03 -0800 (PST)
+Message-ID: <c5fc39dd2e0081a621b8e8568c18dec188bdbf2b.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/1] bmap-tools: Add missing runtime dependency
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Xiangyu Chen <xiangyu.chen@eng.windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Fri, 09 Feb 2024 16:44:32 +0000
-In-Reply-To: <20240131034036.3161817-1-xiangyu.chen@eng.windriver.com>
-References: <20240131034036.3161817-1-xiangyu.chen@eng.windriver.com>
+To: Tim Orling <ticotimo@gmail.com>, vikas.katariya@arm.com
+Cc: openembedded-core@lists.openembedded.org
+Date: Fri, 09 Feb 2024 16:57:02 +0000
+In-Reply-To: <CANx9H-BnSFGhJLCWgof7mCLfTPMBWn9rdVRYb2vtuoTnmAWc-w@mail.gmail.com>
+References: <20240207165219.825246-1-vikas.katariya@arm.com>
+	 <20240207165219.825246-2-vikas.katariya@arm.com>
+	 <CANx9H-BnSFGhJLCWgof7mCLfTPMBWn9rdVRYb2vtuoTnmAWc-w@mail.gmail.com>
 Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
@@ -69,40 +69,33 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Feb 2024 16:44:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195234
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Feb 2024 16:57:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195235
 
-On Wed, 2024-01-31 at 11:40 +0800, Xiangyu Chen wrote:
-> From: Xiangyu Chen <xiangyu.chen@windriver.com>
+On Wed, 2024-02-07 at 20:00 -0800, Tim Orling wrote:
 >=20
-> The current tests will run both userspace and kernel testing. Some of use=
- cases only
-> use lttng for one kind of tracing (e.g. userspace). If the lttng modules(=
-.ko files)
-> is not present during the test,it would end up with lots of failing.
 >=20
-> Add a check in ptest script, if current system doesn't contain lttng kern=
-el modules,
-> passing LTTNG_TOOLS_DISABLE_KERNEL_TESTS=3D1 to make to skip all lttng ke=
-rnel related testing.
+> On Wed, Feb 7, 2024 at 8:52=E2=80=AFAM <vikas.katariya@arm.com> wrote:
+> > From: Vikas Katariya <vikas.katariya@arm.com>
+> >=20
+> > Python3 module netrc is required by bmap-tools (v3.7), therefore add
+> > `python3-misc` as runtime dependency.
+> >=20
 >=20
-> Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
-> ---
->  ...skip_kernel_test-to-check-root-user-.patch | 1307 +++++++++++++++++
->  .../lttng/lttng-tools/run-ptest               |   25 +
->  .../lttng/lttng-tools_2.13.11.bb              |    1 +
->  3 files changed, 1333 insertions(+)
->  create mode 100644 meta/recipes-kernel/lttng/lttng-tools/0001-tests-add-=
-check_skip_kernel_test-to-check-root-user-.patch
+>=20
+> https://github.com/search?q=3Drepo%3Aintel%2Fbmap-tools%20netrc&type=3Dco=
+de
+>=20
+> We could arguably create a python3-netrc sub package to minimize the adde=
+d files.
 
-This is a complex patch and I don't really want to carry this until
-something merges upstream or ideally makes it into a released version.
+I don't want to add python-misc dependencies like this. Please can we
+tweak the python module splitting to have a separate package for this,
+then we can depend upon that.
 
-We simply don't have the maintainer capacity to carry large patches
-like this unfortunately and the number of people who need it isn't
-clear.
-
-Cheers,
+Thanks,
 
 Richard
+
+
 
