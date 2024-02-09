@@ -1,77 +1,115 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA00DC48297
-	for <webhook@archiver.kernel.org>; Fri,  9 Feb 2024 14:13:56 +0000 (UTC)
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
- by mx.groups.io with SMTP id smtpd.web10.12503.1707488033893749724
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1C60C4828F
+	for <webhook@archiver.kernel.org>; Fri,  9 Feb 2024 14:17:26 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web10.12581.1707488236791594892
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Feb 2024 06:13:54 -0800
+ Fri, 09 Feb 2024 06:17:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=CoYgyzCX;
- spf=pass (domain: gmail.com, ip: 209.85.208.173, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2d0cd9871b3so19208541fa.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 Feb 2024 06:13:53 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZvI+shkY;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-410708db221so4252475e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 Feb 2024 06:17:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707488032; x=1708092832; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Okfkn8DejA9EhGOH4zNdqn6YawVwGWDnuMQ41qyWZO0=;
-        b=CoYgyzCXy2OKcuUtDbpITipXI8sdpLhpAklTEZ5B7Y4A0mk4DP+6TpVfJm7ZKirC/G
-         veRVtG5gI3gIwwSGSfwUPsqGVzf/w9jvAJ+Efjqlt1csmrkA4fQ2kYO6jdfF4N7thbs/
-         X5NGxpL6S3sXboayihNKsSwkNwTWdIu8k8aHUTgZHVTOCllZqzR9wnCvfkHfoxjzVbXK
-         Cf1c3Z8l9nerzodYdl358N2ss3mmWTrqp6YviSFjzR3OqDFBfwzRXKZD8pBwYAQ7Vllr
-         PUdAb5Fk0P1P/G3Ui/5qqL+FaXAK2QgaAA2efRn3zik+fKMsJaRtJWEyikjUA17XfzBe
-         TGGg==
+        d=linuxfoundation.org; s=google; t=1707488235; x=1708093035; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Hq3Xjt3xoU5II3J2zOmT6Rq1GSN+DcLJBsgizTgoxbs=;
+        b=ZvI+shkY6v71sPrY1kYGpWX+a23eKFnpexDv48Go3WKyPje5RXTrbsMw/dRBw9wT5c
+         PhS6dmxawdcMxr7iE8jdxSRbEL8PwJvPvRUvN3syGQewP4HvT4nh77nhQYIvLDd50VjF
+         1dzqExCVG6rX4JAkfBCIOC2mydg+Rxo8cfcFE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707488032; x=1708092832;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Okfkn8DejA9EhGOH4zNdqn6YawVwGWDnuMQ41qyWZO0=;
-        b=jmY287EkaIAw/NCKfEHZjNpOolZQ2La8bnI2mgvYE4GR4lZwyfoA6QJeyICTtbf8nf
-         wc8rSGu/dmYJBzP27SRiy9jt1blRcRV4GSxlCbRojxb5yTg9Yxd4K2mNZDzyhbZTjkcP
-         wwbIOQlkNerDIl2NSEHwHWilvYzIJW8yh2baqPjlnGqoIuBzp1aBrylz3a45MhPfu44R
-         xDa9Y2uC1URX4O6xMxOKY/E32JtuoxAaLV+m3RhUjY95bHKXEQwyY5bAmxkR2Kfs3Y8i
-         +j1u4p7uZQX/C1lmZPt+UTSiEqAogU0eXHNrR4ZmB774R9mrnT+6eCPmMXPzGpsb6RYl
-         hinA==
-X-Forwarded-Encrypted: i=1; AJvYcCUKH+pfk8xt8m106zxaGqJVF5b9eetIwqW+Hrd6050oECOSo5YqbkBZbzfuBgNRaPE0IJ/c7aoIKrrTqckTovpC8oxuZ/flqb3TaSuF6sFVPCzbHqXcoJJX
-X-Gm-Message-State: AOJu0YxqERn1tS+lbcgIjb9fz4YUCNpEqG83Y/veCFFWDTJtondGmWGG
-	Rx3sSHjsmPSoo5rXnM3FaRgryEmiPRxH6UNPpILh3ily1mJ9DjBHl44NeivqkKot817vISgverV
-	TtryAHhnvHtwVYUVl79+vlqIKfn0=
-X-Google-Smtp-Source: AGHT+IHItkipTx1mwceb7bsqlnMjWB1ZhEzJtj3MYFHmeUWKYNeo9JrZ6EpOVAxjUodM9+m47uVKNJyPtZDtxTbh/z8=
-X-Received: by 2002:a05:651c:211d:b0:2cf:2c84:bcd7 with SMTP id
- a29-20020a05651c211d00b002cf2c84bcd7mr651558ljq.18.1707488031879; Fri, 09 Feb
- 2024 06:13:51 -0800 (PST)
-MIME-Version: 1.0
-References: <20240208185641.2969396-1-alex@linutronix.de> <C6BC277B-9507-40DF-94BC-3B71E06CFEB6@arm.com>
- <CANNYZj9uH+0Uhj9GN6wxKHXuZzGvnkzjydUJ4eD1xu_mi4V_WA@mail.gmail.com> <QJDL8S.L5SFWUB1B9X8@t-online.de>
-In-Reply-To: <QJDL8S.L5SFWUB1B9X8@t-online.de>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 9 Feb 2024 15:13:40 +0100
-Message-ID: <CANNYZj_Ludt4Cr68KnVCDz-U51WvpyE1qLFwhM10ePAXR7zKkw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] shadow: add a packageconfig for logind support
-To: f_l_k@t-online.de
-Cc: Ross Burton <Ross.Burton@arm.com>, openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>
+        d=1e100.net; s=20230601; t=1707488235; x=1708093035;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Hq3Xjt3xoU5II3J2zOmT6Rq1GSN+DcLJBsgizTgoxbs=;
+        b=khoVJDRV+DmnMa96QR/B8s0SOflf88lbmNMBOqdjPubsS35plFKu7jngrwYaXhmyRX
+         6wxCNCvo7gfwQnjZ+Crb0hpas4IXsHwcY21VSJsWapJUjvNnTXeadhAUJ+nPxNKPH/lQ
+         JIr46DsRmk1bCfGshiEBy/pZcvp0h0qalc5U6DYRw90P7tjBrKwIUAaa+j5VXRore9XT
+         96GZ33SzmoR5Xv88ce6xZa5VvTYYtlTjWnTSUet+FhhJqq4dZ+Dn8N3lCWU+uJuwee54
+         8al2G02qet4Y+linE2HWdRA7WQQD+ubvCu1Jy+ehL6UsAS4BD8bVrvwPq2QzAGUr912J
+         uqUQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUkBwR1IbHZlu8O1UUPZTeoiKmbLtNZg2XSCjYmRMf+OzuOwqrJFLhzelaVTOFdHtG0vY9qnuT20AOuolo12OAGf2GnaO/rsIbHAd2J2u+FzM/TNWcy8nHw
+X-Gm-Message-State: AOJu0YygPxNjUml3tn6UNDDSopMzy+FqEbH1jpDTMoFg3U89AV/wdKTQ
+	WpL8GmC/Vt+umhtlX8H+TIO5n4K+YHh2aTV12DUE+QQM1paR1iG9cLLwBnp06+4=
+X-Google-Smtp-Source: AGHT+IERtlOCQkdpPO5hWe++LBtflxFbEKm+axTA/QrkchsCBzrFVyGnpp1sS4ifmZdDG8ohKcFmVg==
+X-Received: by 2002:a05:600c:4688:b0:40f:ddc8:f283 with SMTP id p8-20020a05600c468800b0040fddc8f283mr1464480wmo.38.1707488235216;
+        Fri, 09 Feb 2024 06:17:15 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVOPe9SmbL3FNrWwa1AVlU+n7atKG+BCaL914Oajo+CICRwcRuYflBonXSSj2RefSpKBgFOW+Tf3pi84F/uHfdqWbf7BxAIYb9VbM6kI6t/jeSVEIR3zNjM1n9OqowhZ0yIqrypjzDdEf9aPRJRmTsyVggtVB5FEA==
+Received: from ?IPv6:2001:8b0:aba:5f3c:47e1:ee11:154c:e6b3? ([2001:8b0:aba:5f3c:47e1:ee11:154c:e6b3])
+        by smtp.gmail.com with ESMTPSA id m17-20020a7bcb91000000b0041031b4190csm763708wmi.18.2024.02.09.06.17.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Feb 2024 06:17:14 -0800 (PST)
+Message-ID: <3b81b9891249e88e27daddffbb6f126ceb8f4dd3.camel@linuxfoundation.org>
+Subject: Re: [oe-core][master][PATCH] busybox: Use ISO 13400 timings in zcip
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: akash hadke <akash.hadke27@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: akash hadke <akash.hadke@kpit.com>, Jan-Simon =?ISO-8859-1?Q?M=F6ller?=
+	 <jsmoeller@linuxfoundation.org>
+Date: Fri, 09 Feb 2024 14:17:13 +0000
+In-Reply-To: <20240207075127.1247940-1-akash.hadke27@gmail.com>
+References: <20240207075127.1247940-1-akash.hadke27@gmail.com>
+Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
+ YNvg==
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.0-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Feb 2024 14:13:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195217
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Feb 2024 14:17:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195218
 
-On Fri, 9 Feb 2024 at 14:59, <f_l_k@t-online.de> wrote:
-> It's a new feature in 4.14. If someone wants it, they should find out what it does and whether we want it enabled in systemd builds.
->
->
-> configure.ac states, that it is needed for systemd session support:
-> https://github.com/shadow-maint/shadow/blob/3e59e9613ec40c51c19c7bb5c28468e33a4529d5/configure.ac#L403
+On Wed, 2024-02-07 at 13:21 +0530, akash hadke wrote:
+> From: akash hadke <akash.hadke@kpit.com>
+>=20
+> Add below patch to support DoIP/ISO 13400 timings busybox zcip
+>=20
+> 0001-zcip-add-support-for-DoIP-ISO-13400-timings.patch
+>=20
+> DoIP requires fast IP assignment, faster than what RFC 3927 can
+> guarantee, and so it defines its' own AutoIP timing parameters
+>=20
+> Add a compile-time option to use DoIP timing parameters instead of
+> default RFC 3927 parameters. This option is useful for use of zcip in
+> automotive use-cases. In pratice, it decreases AutoIP allocation time
+> from ~10s to ~2s, at the expense of less resilience to collisions
+>=20
+> Signed-off-by: akash hadke <akash.hadke@kpit.com>
+> Signed-off-by: Akash Hadke <akash.hadke27@gmail.com>
+> ---
+>  ...d-support-for-DoIP-ISO-13400-timings.patch | 189 ++++++++++++++++++
+>  meta/recipes-core/busybox/busybox_1.36.1.bb   |   1 +
+>  2 files changed, 190 insertions(+)
+>  create mode 100644 meta/recipes-core/busybox/busybox/0001-zcip-add-suppo=
+rt-for-DoIP-ISO-13400-timings.patch
 
-You also need to check how it worked in previous versions. Why would
-we want to enable it, if it wasn't even available previously, and
-things were still working well?
+I think a few of us are torn on this. If it were accepted upstream, I'd
+probably take it. Whilst it is still pending, I'm less sure.
 
-Alex
+Having "embedded" targeted features in OE-Core is desirable in many
+ways. In this case the target usage is probably quite niche.
+
+I'd like to see if anyone else would find this useful? Does AGL want to
+use this for example?
+
+If so, I'd probably merge, if not, it is probably something for your
+layer. I am happy to see it submitted to upstream though.
+
+Cheers,
+
+Richard
 
