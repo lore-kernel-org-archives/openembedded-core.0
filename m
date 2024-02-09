@@ -1,95 +1,91 @@
-Return-Path: <kai.kang@eng.windriver.com>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F15EC48260
-	for <webhook@archiver.kernel.org>; Fri,  9 Feb 2024 02:13:23 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.2283.1707444795305360737
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CC0CC4828F
+	for <webhook@archiver.kernel.org>; Fri,  9 Feb 2024 02:19:43 +0000 (UTC)
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.web11.2391.1707445181080935796
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Feb 2024 18:13:15 -0800
+ Thu, 08 Feb 2024 18:19:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=fFCJcKiY;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=2769543367=kai.kang@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4191tXwN010553
-	for <openembedded-core@lists.openembedded.org>; Thu, 8 Feb 2024 18:13:15 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=G0/X8
-	5RAeO4mygWhoT+krjnmFj02vgck0zJioe8E1WA=; b=fFCJcKiYSWKFjrhvMMO7P
-	PaFttt9Ud8uVhd9sm57Sg5qtciBlxAso0xNbQbl5gV31FJnBwRy522jbl+gySCax
-	wIaDdVqsmm44yNsreIX/gFPv0cqCVlf6pmvCYds+YDHpwenvSPn6RaSd4gvfYqWO
-	jdQIzs+N1gUstpFLBytcYlGPMwteobiJZGw9NWf1yEHJIaduwZQzDTNgFJEAv2p1
-	RG8eYRWYDHG4EVsyaIgx//L4qLnUE6bsLnznpFLb+7ZlygvZJPpq3oxVIQWmI8Cz
-	Zb9pFwoLm+WCVenI4UtE2OQEioSUZC1C15V/Vn/thjbqxE6S2bC5era6t9HneRK3
-	g==
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3w1hn3wm0c-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 18:13:14 -0800 (PST)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 8 Feb 2024 18:13:14 -0800
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Thu, 8 Feb 2024 18:13:13 -0800
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <liezhi.yang@windriver.com>
-Subject: [kirkstone][PATCH] ghostscript: correct LICENSE with AGPLv3
-Date: Fri, 9 Feb 2024 10:13:10 +0800
-Message-ID: <20240209021310.3000995-1-kai.kang@windriver.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=IaYobjOG;
+ spf=pass (domain: gmail.com, ip: 209.85.216.47, mailfrom: ticotimo@gmail.com)
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-296717ccc2aso1189843a91.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 18:19:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707445180; x=1708049980; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FWb9an7e7mBBzf7KfKvFmcCZK2sa55U61WWo1cYZgds=;
+        b=IaYobjOGyU7vHiNufINpqiUNgDw0Df7KbhNqdRuzBbmxpez1b3yjT1hjvqh5HZgmyX
+         4uGganttVIz/orC5kQBL4x4xb4k3XFc0zTydloxatSVjg/bldcFyzYHCUB6JBTS33lXd
+         zK3eG55EjKlZrgd8rmh7bhMJwIR8QbwV4EVaEs97GofjLy+ECH5ZUeTrHE+qZtTOxoqm
+         vO4WPE6I5b8L/ztgbba5FPX756WpHktEDzBoLb4z22zpZ+rbY5gp5iAfHbVSyv6UbQkS
+         g+Tjr2auvYyX7lI3KYyfRvySNPp23ey8CDsy+5c8I+rjEPGVq6kYSz4VjDZ/JMGzJ22Q
+         vRBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707445180; x=1708049980;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FWb9an7e7mBBzf7KfKvFmcCZK2sa55U61WWo1cYZgds=;
+        b=TafGnT3nEYsRCi2EUrakvMrGRLICIKutC8VKOcJ1tgAJQWwKQ3AEBVHlgw//XGGvqX
+         C+QX0nlgk5sWgT9k1DuIKo5YonCgNOuURMhCgk7xUp1RVj4qPJWEx7o7S5MgroO9TAvf
+         L+ktTUwyKpqYmeke2QWN3r7+yBPzSV68/a3+OHwbUZT702/n7fJxg40n+WNoXjsDAIDO
+         iBUEUsiabN88SxAeb1P3m8sZGBdm0FJzL2S4T8g9KDb/cGGyRJkAeszOXl91wszoBj7G
+         KpEUqiwHmV4Rxlq2AiXizGCB6bgF7f9ISJYFoAo283Ai0qt/3vuR6yJuSLfhYMItrzcQ
+         UUoQ==
+X-Gm-Message-State: AOJu0YycHoB9H8JsCDzX945NeHVXxy/bC7UbHQCt/LAVNcQAkstHoAwI
+	QWQJYubQjkJNGTPtsfIJbkVU4IXIURY1GTmdHfMAKFGUOBDHuO+OJdClqOBa
+X-Google-Smtp-Source: AGHT+IGSfnSiJ5rLtGT9G86s4SkqnZNsWDfNcZ+SsIphtxVHuL9oni/xZnN4ogZ5rNPGBSd8KWqJ+g==
+X-Received: by 2002:a17:90a:fc96:b0:296:2865:cc17 with SMTP id ci22-20020a17090afc9600b002962865cc17mr812060pjb.20.1707445179917;
+        Thu, 08 Feb 2024 18:19:39 -0800 (PST)
+Received: from chiron.hsd1.or.comcast.net ([2601:1c0:ca01:19f0:8cbe:e895:b511:86c6])
+        by smtp.gmail.com with ESMTPSA id ft10-20020a17090b0f8a00b00296a6175fc5sm498490pjb.36.2024.02.08.18.19.39
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Feb 2024 18:19:39 -0800 (PST)
+From: Tim Orling <ticotimo@gmail.com>
+X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/2] python3-pyyaml fix libyaml detection and enable ptest
+Date: Thu,  8 Feb 2024 18:18:54 -0800
+Message-Id: <cover.1707444824.git.tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: nMHW8Gt9OPmKOuDH3G50_11ziDrE-Ac0
-X-Proofpoint-ORIG-GUID: nMHW8Gt9OPmKOuDH3G50_11ziDrE-Ac0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-08_13,2024-02-08_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
- clxscore=1015 mlxlogscore=692 suspectscore=0 mlxscore=0 bulkscore=0
- impostorscore=0 phishscore=0 spamscore=0 priorityscore=1501
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2401310000 definitions=main-2402090013
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Feb 2024 02:13:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195183
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Feb 2024 02:19:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195184
 
-From: Kai Kang <kai.kang@windriver.com>
+As pointed out by jdiez in #yocto IRC, python3-pyyaml will "helpfully" detect
+libyaml in the build environment and compile with Python bindings for the C
+library. This is non-deterministic and can result in host contamination (pulling
+in the host's libyaml). Add a PACKAGECONFIG to make compiling with the faster
+libyaml bindings as the default. Add very basic ptest to ensure the runtime is
+viable.
 
-The license of ghostscript has switched to Affero GPL since version 9.07
-via commit:
+The following changes since commit 71ac318a830b37f55cbd63794c55c6adc1904f1f:
 
-* 3cc5318 Switch Ghostscript/GhostPDL to Affero GPL
+  yocto-bsp: update reference boards to v6.6.15 (2024-02-08 23:15:18 +0000)
 
-https://github.com/ArtifexSoftware/ghostpdl/commit/3cc5318
+are available in the Git repository at:
 
-Correct it with `AGPL-3.0-or-later`.
+  https://git.yoctoproject.org/poky-contrib timo/python3-pyyaml-libyaml-ptest
+  https://git.yoctoproject.org/poky-contrib/log/?h=timo/python3-pyyaml-libyaml-ptest
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Tim Orling (2):
+  python3-pyyaml: add PACKAGECONFIG for libyaml
+  python3-pyyaml: enable ptest
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb b/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
-index e0d1e4618f..e99c740685 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
-@@ -10,7 +10,7 @@ dot-matrix, inkjet and laser models. \
- HOMEPAGE = "http://www.ghostscript.com"
- SECTION = "console/utils"
- 
--LICENSE = "GPL-3.0-only"
-+LICENSE = "AGPL-3.0-or-later"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=f98ffa763e50cded76f49bce73aade16"
- 
- DEPENDS = "ghostscript-native tiff jpeg fontconfig cups libpng"
+ .../distro/include/ptest-packagelists.inc     |  1 +
+ .../python/python3-pyyaml/run-ptest           |  3 +++
+ .../python/python3-pyyaml_6.0.1.bb            | 20 +++++++++++++++++++
+ 3 files changed, 24 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-pyyaml/run-ptest
+
 -- 
 2.34.1
 
