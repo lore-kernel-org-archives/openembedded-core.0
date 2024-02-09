@@ -1,184 +1,149 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <joerg.sommer@navimatix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35B64C48297
-	for <webhook@archiver.kernel.org>; Fri,  9 Feb 2024 04:45:54 +0000 (UTC)
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
- by mx.groups.io with SMTP id smtpd.web10.4380.1707453945097142337
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32B74C4828F
+	for <webhook@archiver.kernel.org>; Fri,  9 Feb 2024 07:25:35 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.123])
+ by mx.groups.io with SMTP id smtpd.web11.6611.1707463528334546495
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Feb 2024 20:45:45 -0800
+ Thu, 08 Feb 2024 23:25:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=dKjV1nbK;
- spf=pass (domain: gmail.com, ip: 209.85.160.54, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-218eea4f1a7so262678fac.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 20:45:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707453944; x=1708058744; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=KphWtw5M8/2L5pDoLW8Ld92aPtYKEzvdaQOBarri1ZA=;
-        b=dKjV1nbKixqfas++vUS0jj9HjiZnd1UZTBJ1RrVDT/FZRbjoVEvvQwTZ3tazYr4dE1
-         yfjcSbT24gqDrd4Ch/XJXToEINsmJIRJmFkOUa58F+pbips/GypmdJi5xkBG5rJMWuL2
-         d/7ZTov8niAlfDWcuEoVy02LTmzhKA/2xZkzU0oy8GIBy4PsRRofs3vUNEI0YbwfZIzK
-         EBEIuUv3xorI/XtSLfTdZDK64X3cZVJNSvx5UNYNBSv5/HdUopZOAXpReJIJwV2BpA8L
-         IR1BBYoD0FpFizUg1azmIsEZpn07nqWvi0CkKy8URsG1zdz2sxbUiY8m9dnPv2af7yOJ
-         Kxeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707453944; x=1708058744;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KphWtw5M8/2L5pDoLW8Ld92aPtYKEzvdaQOBarri1ZA=;
-        b=MNWXuJfa+haMOiMsjW7B1bmqT0IilwrkeMyPuE3pg3prBPTVexwLkGZV+ro6S0lxmL
-         AcaXtOtuINQn41gmfUa35akS50JEHVz+5P4yjFxFvPM4Ln/WzSYy0o/WFeMolQUG+l2S
-         wN7Ihqcps6ayfXS03JIPOO9h4URsGCJKT4qZNTX6ELkF3+maHg2Q/VHcDRPx9qyyM4OC
-         pUT3KyQbOkUKCv/tYwO4xW7nd+evNeRebe4jxfS+9DbMxMuTyMsqU0bmRfaFbNZ/OwWB
-         te/Z4Hsfg5J9qgeHXQFS1Jlbg2d/tCWnmlJwWukleKBuHpCUJqcROanWa9O57JYVDQC5
-         /eSQ==
-X-Gm-Message-State: AOJu0Yw5BnTcK2Lz6Mvol2kZCYYQb5wNe9X7RgHg2emkLhXAVARNiwY6
-	lgsGN6EUeG1JxfVhdloYaxrsQI7u6mquyRW04a08XXBf9YI35uqJx2LxX3BqLUvIs1zLF8Lf2SE
-	F0QYzFSfjAa0ZMRXVgeY5AmZMz38=
-X-Google-Smtp-Source: AGHT+IHgrlJzxbzJ68eAVcerFw+TvC88UUAnp8q9F2Rt0J9ox2kK8wiU20QLQfub8vfVSGtiveHL0S1bRZf8jFLu6gM=
-X-Received: by 2002:a05:6870:ac2c:b0:219:57d1:b6c8 with SMTP id
- kw44-20020a056870ac2c00b0021957d1b6c8mr521999oab.4.1707453944186; Thu, 08 Feb
- 2024 20:45:44 -0800 (PST)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@navimatix.de header.s=selector1 header.b=QQeFhyNK;
+ spf=pass (domain: navimatix.de, ip: 40.107.21.123, mailfrom: joerg.sommer@navimatix.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dTFfNpgrBrXkMNyrhkabkg/mL2ZVoyO9UySzpJjP0G7tPMf+utemlWeZEGV8yxTwgYAj3OAVmNIBTtd1k+t4OJmG5WJSIMCwXJz7ksYYybjlzocKj54E8t7POrCH9Wxvk6pfOAtUyRA1TgCiEjR8kNkJ1RcEI54q8qbWKISsO8twNiLy4lZ0FoqNeVaJb18fu+45ogisRkNy9NgjII6pL2Kpg00VO9CtZV+NOR/NqfZFW9fmT28VMU8LtF9cjW18nGBbj3YRGEE9Gy8Aq3syXpOMdquQRZgAZix/DSXP6AwmBGd0imaab+tBKzRaQbZuqCcEpIazjs6ERYVKGsrl6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/jk1k0+kcNDguAmHNwScSZS4snDaadV7qvk+1tMph4w=;
+ b=ODx4EpwvXyhNr91wm5Z7BUDglhWUgRWo6KzT7MsoICyCvL582PRQT/NrVjgl53hwcpZGBdPlXmwOBbdqClQhRV2wx8f335g2gUa4RnYbCcX36K5l904W7ZYB1EymFCvt2Sukldb43HzqPhBr3eVmcV2LSNFSz0DDCxXP5G7PNoJSm/Pu8Ju749Ec5xQiYLwafZ7x92rK4rUL2xuxs8dMIeHOaz3nr5m/EelY2p/DwuhRAeWtAbcGSxw0k2+beoaeJYbXtzxQaaESeOvfoa+E15WsB6pd6MKqTqJbRYdVja35IGVocJ0afUj23hSl0xrw5l+BcBImwy2bXG78jCaA6Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=navimatix.de; dmarc=pass action=none header.from=navimatix.de;
+ dkim=pass header.d=navimatix.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=navimatix.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/jk1k0+kcNDguAmHNwScSZS4snDaadV7qvk+1tMph4w=;
+ b=QQeFhyNKianqStGbOVTnxbWAOHPJ5z4L8HRSdT7u+gK3bb/EsoPvO2ZieE89jD3Int/WNaIS+ZIUMtN7+/RLqHFyYKBaEjkCX3WFVYSKkhOIt4vEusGfciqupql9yMajhX6ixxQapAokAQzu78Z16TF5GBelZVB8WIN0r2ZWud0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=navimatix.de;
+Received: from AM0PR01MB4627.eurprd01.prod.exchangelabs.com
+ (2603:10a6:208:ed::32) by DB9PR01MB7227.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:21d::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7270.26; Fri, 9 Feb
+ 2024 07:25:23 +0000
+Received: from AM0PR01MB4627.eurprd01.prod.exchangelabs.com
+ ([fe80::ae81:b0ad:f122:4d00]) by AM0PR01MB4627.eurprd01.prod.exchangelabs.com
+ ([fe80::ae81:b0ad:f122:4d00%4]) with mapi id 15.20.7249.039; Fri, 9 Feb 2024
+ 07:25:23 +0000
+Message-ID: <067cd3b2-fa69-4353-ac86-7b112fc97b6b@navimatix.de>
+Date: Fri, 9 Feb 2024 08:25:21 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] kernel.bbclass: install .config to deploy dir
+Content-Language: en-US, de-DE
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+CC: matthias.schiffer@ew.tq-group.com,
+ openembedded-core@lists.openembedded.org, oss@ew.tq-group.com
+References: <20240207102529.128369-1-matthias.schiffer@ew.tq-group.com>
+ <104bcdd2-27f1-40fb-9ad0-0fd506af3041@navimatix.de>
+ <20240208231633e8d8b5ad@mail.local>
+From: =?UTF-8?Q?J=C3=B6rg_Sommer?= <joerg.sommer@navimatix.de>
+In-Reply-To: <20240208231633e8d8b5ad@mail.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: BE1P281CA0443.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:81::16) To AM0PR01MB4627.eurprd01.prod.exchangelabs.com
+ (2603:10a6:208:ed::32)
 MIME-Version: 1.0
-References: <20240208185641.2969396-1-alex@linutronix.de>
-In-Reply-To: <20240208185641.2969396-1-alex@linutronix.de>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 8 Feb 2024 20:45:33 -0800
-Message-ID: <CAMKF1soOPZBoaks_LFCAoaMqdu+pY8v-arh58gmBUbndE4=cVg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] shadow: add a packageconfig for logind support
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Alexander Kanavin <alex@linutronix.de>, openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000d0757e0610eb9935"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM0PR01MB4627:EE_|DB9PR01MB7227:EE_
+X-MS-Office365-Filtering-Correlation-Id: 811543ab-254d-4506-666a-08dc29404749
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	A6hnuAFSg6I3W5JbBh39C5GXiEgCrolNlSUybEgyzCLgh9zfaD2ATLKJgmiRgt8PaTeiH/+TsDvPLqSK+fHdjiVSFX7uhuBV7cok1/9gdIKCfALqsdLK1+1W2zlEzTbh9Ri9Ij4WJqKE7o5odKWcpS83dT9o0sLDyUFvj4+68uhQHhnZ6Ne66Qt/XqFClZ7otzCKNLMxEhF2q2p6iepx0gqHVbTUfZFhXvpAd3sXtpw9vHAdj42UyjIMrXlSRxsAqN62xnhw5GGFPw2y9vEk7fHxcTjYqErMCaUJSie2HbHIvLqQIaeQ79m5Mrgc00dy0D83ejLwhfL+eeaANgFcMAFDn323yl6H7IbNJgWgDvuGpJdarJjdNQM/VhK5+5+KHzGPoEKO3fUGu9u2etfdYvJpN8EnrRJEQm/TqlQrGHZLflHUBI7ZMxY085xdnDioP2A+ql/vpfnansb8qvSJeJ++Mo2NmrLObXTT4z+D5fOtlCApwPZdwbB0nulMulsBwdEf/wnOzwD02+A/bMBXKGIgjiwGOI15XzENlpR7MT2NGiqyrzSRA7xgd38Z1Rl3
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR01MB4627.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230031)(39840400004)(346002)(136003)(366004)(396003)(376002)(230922051799003)(1800799012)(186009)(64100799003)(451199024)(86362001)(31696002)(38100700002)(31686004)(41300700001)(2906002)(6512007)(316002)(66899024)(478600001)(6486002)(53546011)(26005)(66574015)(83380400001)(6506007)(2616005)(36756003)(8676002)(4326008)(8936002)(6916009)(5660300002)(66946007)(66556008)(66476007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?XIoTuDGajr5QgnBXxCICjvBI/6uyuPJ3R7ZeKm2d8Q2Zux5TGdrJTU1V9GiB?=
+ =?us-ascii?Q?GaF16PKuxLjKrHbqoQUwXkugv4+nrHYslSuEgyYqwKjZhDizuTfnUBZmkK97?=
+ =?us-ascii?Q?HIWRt3cZ+W+1nSwPVRqEbTj9+dO7fp3QTxbAWpyIhNBOaKLXtjU+P8tXkIxq?=
+ =?us-ascii?Q?wVEouFijdAVfMHYzOerYsTaIdd6ced393NIkJhEK4INHT/rbeUv2W7mrP7mN?=
+ =?us-ascii?Q?tM/orrFKul7/QGhqeM8pxsrewAINHO31eUn3Rj2HxU7riv+R2ddI46udG9wU?=
+ =?us-ascii?Q?1JA23Emzte1gOlrRPlhWGb9/E6SS4G9tUkN2QGxctao7VvPB/Z25fSbaCEvb?=
+ =?us-ascii?Q?jY0JC/aNXKofjWCeRf0TXSvqy+yBUwqJ2J9BKtawOq6LG+i3+kf2zcxvtl4+?=
+ =?us-ascii?Q?xG5NBmfktpZ9lKdTu+tAoGCHSjSU1Bpsa44K8yQ0Axt1xoBw2Xz/eyMuuwxN?=
+ =?us-ascii?Q?ao8URN1acRprlxB2XSlXhZr8kZR0ORn/qQedVBnfNRvmg2QiAitnMD+S3KNd?=
+ =?us-ascii?Q?faOxNaTllcl6aHsXM9P80pC4u4ujh52rHElEfne+B2sVJ1pQnpNVC5EtfClI?=
+ =?us-ascii?Q?9aO/y7qNjGEclEVUSlJ30DBVA0IhjAX/xxzfaRiC2vCx6CYd9gBq0X07frQW?=
+ =?us-ascii?Q?eZsEdix/ARQqt32I82hlbq3S7d+aX9DWviAFDjSOua3j3TN5d8z2Dz8sti2s?=
+ =?us-ascii?Q?7Tnxa5iJuiLbBD/4Xh/oAYVE25tM8TL2VNyJBNauUjeQ8Mm7seW+63nsVT9T?=
+ =?us-ascii?Q?5/FaYQvz8gEgUU5mc0+54ZUfIxjNOlAyoV11BRCHJEE07bhh/5jTnWrKraus?=
+ =?us-ascii?Q?GRd2VS4uzexYQ0WB4cw5YQsOYX8s8Pq81Xpq3Nq94o7R7SZ5WkctwJATvY0k?=
+ =?us-ascii?Q?rjrFvEcxxkXCLr63Qzi9bbZJNPGFwBUs/VWAgrJ7PHhvB5qN1vGAj0Su/aub?=
+ =?us-ascii?Q?Sb+9Pjn0Lr75eJyOYLE8n1pK4oGgjELXsDLlJBGBA/i4F9TjaLDfX783fscU?=
+ =?us-ascii?Q?Aq2NmYNhqNWlsbkk+v8xWGze9brGSoaMtXadveQwhTZdV3jru8Edcd8rFnaS?=
+ =?us-ascii?Q?NYWjdSmc/hzuy/tWocw78WYIZyyS9FCfSpg60Jp+cF9KDpPyHjw9CW9+SS05?=
+ =?us-ascii?Q?qbLyMGFt7m8rbM/NVtS7ihontBFmdKlVWgP9lv+qWrR1+W9O42kgQRbXcH1D?=
+ =?us-ascii?Q?ybbmNP8LnkVIbQ+2FCa/tZ31ai8hq2DdBRalVN6v9fEnXRRDw7ZTajy1vpWC?=
+ =?us-ascii?Q?fZj4IDqSrT/pM8PRZODe9Y83E3FNt9BbEi1f1XeyNnPFFh5swWi1oeVHiNBb?=
+ =?us-ascii?Q?MZqmvkvb0E0uUhLLTSmOqHqcocbQzVODs9mcokDS5FwWgqFslr2U5Z1vKMzA?=
+ =?us-ascii?Q?sKpGiBN9VUuIiDpyRtDrkIiOXkZvl4SMaSC7W0peJFvls5jXKpK3H1GcTTyW?=
+ =?us-ascii?Q?OqnIinOTuGz3fUXQDi3LAuTSkuWzrSQGu1C5GM24rxIDnHGfAg6osdXUxUYq?=
+ =?us-ascii?Q?rYPsbzIwRX2kL9eIjJYCMHoi2a0dWR2zSkgknmYYy63aslU29kc3YO+8iDNq?=
+ =?us-ascii?Q?jVgYVweGN2YpGbAF29V+2osczS/Vcl73brIEax4uNFAS7AmL8tSmxDNepBFA?=
+ =?us-ascii?Q?yg=3D=3D?=
+X-OriginatorOrg: navimatix.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 811543ab-254d-4506-666a-08dc29404749
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR01MB4627.eurprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Feb 2024 07:25:23.4626
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: c87b4f54-b992-4813-8f3f-4a876324197f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0vhapchCDnrQwLWAT4FeIaOFdmUjoNu9SQoLuqEbNCIP3nI7HkZJ4REPDa6rQn+oPsWwtRW/K1G4zktXaamwWBCZ7v1uxEo2WTtBNqbhuQc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR01MB7227
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Feb 2024 04:45:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195189
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Feb 2024 07:25:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195190
 
---000000000000d0757e0610eb9935
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Feb 8, 2024 at 10:56=E2=80=AFAM Alexander Kanavin <alex.kanavin@gma=
-il.com>
+On 09.02.24 00:16, Alexandre Belloni wrote:
+> On 08/02/2024 14:54:49+0100, J=C3=B6rg Sommer via lists.openembedded.org =
 wrote:
+>> On 07.02.24 11:25, Matthias Schiffer via lists.openembedded.org wrote:
+>>> Deploy the kernel configuration with the built images, so it is easy to
+>>> check its contents, or rebuild the same configuration outside of the
+>>> Yocto build system.
+>>
+>> Isn't the kernel already in the -dev package included?
+>>
+>> From a security point of view I wouldn't welcome the inclusion in the
+>> main package, because the config should not be deployed by default. The
+>> config contains many information about the available code in the kernel,
+>> which an attacker can only guess otherwise.
+>=20
+> However, as per the GPL, you will have to provide the kernel
+> configuration to the recipients of the product upon request which can be
+> any attacker.
 
-> This was causing host contamination in particular, where
-> libsystemd was installed on the host.
->
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> ---
->  meta/recipes-extended/shadow/shadow.inc | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/recipes-extended/shadow/shadow.inc
-> b/meta/recipes-extended/shadow/shadow.inc
-> index b8e5e285c45..16b99a0b60e 100644
-> --- a/meta/recipes-extended/shadow/shadow.inc
-> +++ b/meta/recipes-extended/shadow/shadow.inc
-> @@ -74,6 +74,7 @@ PACKAGECONFIG[acl] =3D "--with-acl,--without-acl,acl"
->  PACKAGECONFIG[audit] =3D "--with-audit,--without-audit,audit"
->  PACKAGECONFIG[selinux] =3D "--with-selinux,--without-selinux,libselinux
-> libsemanage"
->  PACKAGECONFIG[libbsd] =3D "--with-libbsd,--without-libbsd,libbsd"
-> +PACKAGECONFIG[logind] =3D "--enable-logind,--disable-logind,systemd"
+But that's upon request. That raises the bar for an attacker and doesn't
+delivers all information for free.
 
 
-In general it=E2=80=99s ok
-I think there is elogind recipe somewhere which
-Will be at disadvantage since someone might be able to use logind with
-non-systemd system too
+Kind regards
 
->
->
->  RDEPENDS:${PN} =3D "shadow-securetty \
->                    base-passwd \
-> --
-> 2.39.2
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#195172):
-> https://lists.openembedded.org/g/openembedded-core/message/195172
-> Mute This Topic: https://lists.openembedded.org/mt/104244839/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> raj.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+J=C3=B6rg Sommer
+--=20
+Navimatix GmbH
+Tatzendpromenade 2
+D-07745 Jena
+Gesch=C3=A4ftsf=C3=BChrer: Steffen Sp=C3=A4the, Jan Rommeley
+Registergericht: Amtsgericht Jena, HRB 501480
 
---000000000000d0757e0610eb9935
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Thu, Feb 8, 2024 at 10:56=E2=80=AFAM Alexander Kanavin &=
-lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt;=
- wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left-width:1px;border-left-style:solid;padding-left:1ex;bo=
-rder-left-color:rgb(204,204,204)">This was causing host contamination in pa=
-rticular, where<br>
-libsystemd was installed on the host.<br>
-<br>
-Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex@linutronix.de" =
-target=3D"_blank">alex@linutronix.de</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-extended/shadow/shadow.inc | 1 +<br>
-=C2=A01 file changed, 1 insertion(+)<br>
-<br>
-diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extende=
-d/shadow/shadow.inc<br>
-index b8e5e285c45..16b99a0b60e 100644<br>
---- a/meta/recipes-extended/shadow/shadow.inc<br>
-+++ b/meta/recipes-extended/shadow/shadow.inc<br>
-@@ -74,6 +74,7 @@ PACKAGECONFIG[acl] =3D &quot;--with-acl,--without-acl,acl=
-&quot;<br>
-=C2=A0PACKAGECONFIG[audit] =3D &quot;--with-audit,--without-audit,audit&quo=
-t;<br>
-=C2=A0PACKAGECONFIG[selinux] =3D &quot;--with-selinux,--without-selinux,lib=
-selinux libsemanage&quot;<br>
-=C2=A0PACKAGECONFIG[libbsd] =3D &quot;--with-libbsd,--without-libbsd,libbsd=
-&quot;<br>
-+PACKAGECONFIG[logind] =3D &quot;--enable-logind,--disable-logind,systemd&q=
-uot;</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">In general i=
-t=E2=80=99s ok=C2=A0</div><div dir=3D"auto">I think there is elogind recipe=
- somewhere which</div><div dir=3D"auto">Will be at disadvantage since someo=
-ne might be able to use logind with non-systemd system too=C2=A0</div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-=
-width:1px;border-left-style:solid;padding-left:1ex;border-left-color:rgb(20=
-4,204,204)" dir=3D"auto"><br>
-<br>
-=C2=A0RDEPENDS:${PN} =3D &quot;shadow-securetty \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0base-p=
-asswd \<br>
--- <br>
-2.39.2<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#195172): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/195172" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/195172</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/104244839/199=
-7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/104244839/1997914</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
-=3D"_blank">raj.khem@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---000000000000d0757e0610eb9935--
 
