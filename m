@@ -1,169 +1,96 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <kai.kang@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 233A9C48260
-	for <webhook@archiver.kernel.org>; Fri,  9 Feb 2024 00:59:23 +0000 (UTC)
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
- by mx.groups.io with SMTP id smtpd.web11.1066.1707440355312343358
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F15EC48260
+	for <webhook@archiver.kernel.org>; Fri,  9 Feb 2024 02:13:23 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.2283.1707444795305360737
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Feb 2024 16:59:15 -0800
+ Thu, 08 Feb 2024 18:13:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=lMmh9zcb;
- spf=pass (domain: gmail.com, ip: 209.85.210.45, mailfrom: raj.khem@gmail.com)
-Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-6e2babefbc8so201208a34.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 16:59:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707440354; x=1708045154; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=sH7/I1P9gwC/UJxQLSTNvtU8r9aXP7csUnX/yImgBeQ=;
-        b=lMmh9zcbav8yEi9xYZjLcQ1BNL+EeCNFEEbNB/QNys8DLwy8rgIxMsOpS9UpQPcFZG
-         HtAYxAWPif74W2dw0OxI+hUsKIBAzKgjxcbs7Pnfr+R9s8oKr/64XWQLsV6/n+aUx9E9
-         gyLP5WApeP8UAEeUlGWX+CtDYIfrG4bnd/w/J02Dj4qbyaAVR2TLnAJGOgOfKZtBZU9j
-         Rhr5ayBIZa/te4uoH44viJiDqAY0PzS1iuJaTbninNldbpWvVICe45qzIWGpcNPd8b91
-         ybrT5aeqph+ZX181EccQTGNYSpp0k/MsaJMmlXtwclJ9LxLn8NA08EC4QHQIAqBnit1s
-         O2cA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707440354; x=1708045154;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sH7/I1P9gwC/UJxQLSTNvtU8r9aXP7csUnX/yImgBeQ=;
-        b=bxEzqcPlbLOEW3hLbhIU5HFuaCkK+8fAVVUfhcEXokwn7ZDVXPSpXGTQlAKf1EILLF
-         twnLqUizR05co3k1pslc2bwsgRWgN1yK4B4osjpmO4Pn32iifMP5oNJXBOsKJKrH8uV5
-         KXb99vbhaZCjSkIFurtmXL4bNR6SqCJbTGzfd1k5Pr7rKqxtj4zXmIUOt0hNI2VWrK48
-         NZGFhIFDPZ2rITIahuRoc/T6xJ9c/4uqYt101DymU1/l4tksxf6IayQZC7EcCBs1mqBl
-         8156/eLXdDGrWPXlIpLbwvDIYfLENqbQBkoRO8UJZKjyuDaDJioP2oy0sM8ptpyhj4Pv
-         QIkg==
-X-Forwarded-Encrypted: i=1; AJvYcCW2Y2scFsB5UHHEpT5oY66P0YoQWP9QOZyXzMSwHTpHNmcjsOFD11ZTj8gXY+tk5M88n8ztooBNFz7r1aewBjO7MtdkF8Owj94TSpUoOtXuuZSjmanZ8KXq
-X-Gm-Message-State: AOJu0YyOtNGoXzzKjhym7Rbbvs3FB3z5IYtm7Pssz9/mdf0bLTwdeALE
-	wnU89BsYlVvx2IKGj5L3C+rcjZW1QhRW7qWlHyK1fw8Lmx4Qt9ctuL0YsA6ZEYqfFFrM9BMAsHk
-	woQyaH1DbmsXu+deiPGU2V2d/C08=
-X-Google-Smtp-Source: AGHT+IHfGKn6maSoer2QQTTvH8kvip4rERK1NqRKn445ZfJG2XrFsCFJzJzgat1MjIswfWM5EwspMRRyTKpEPE2liEk=
-X-Received: by 2002:a05:6870:330b:b0:219:f071:416c with SMTP id
- x11-20020a056870330b00b00219f071416cmr104780oae.16.1707440354364; Thu, 08 Feb
- 2024 16:59:14 -0800 (PST)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=fFCJcKiY;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=2769543367=kai.kang@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4191tXwN010553
+	for <openembedded-core@lists.openembedded.org>; Thu, 8 Feb 2024 18:13:15 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=G0/X8
+	5RAeO4mygWhoT+krjnmFj02vgck0zJioe8E1WA=; b=fFCJcKiYSWKFjrhvMMO7P
+	PaFttt9Ud8uVhd9sm57Sg5qtciBlxAso0xNbQbl5gV31FJnBwRy522jbl+gySCax
+	wIaDdVqsmm44yNsreIX/gFPv0cqCVlf6pmvCYds+YDHpwenvSPn6RaSd4gvfYqWO
+	jdQIzs+N1gUstpFLBytcYlGPMwteobiJZGw9NWf1yEHJIaduwZQzDTNgFJEAv2p1
+	RG8eYRWYDHG4EVsyaIgx//L4qLnUE6bsLnznpFLb+7ZlygvZJPpq3oxVIQWmI8Cz
+	Zb9pFwoLm+WCVenI4UtE2OQEioSUZC1C15V/Vn/thjbqxE6S2bC5era6t9HneRK3
+	g==
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3w1hn3wm0c-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 08 Feb 2024 18:13:14 -0800 (PST)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Thu, 8 Feb 2024 18:13:14 -0800
+Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.35 via Frontend Transport; Thu, 8 Feb 2024 18:13:13 -0800
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <liezhi.yang@windriver.com>
+Subject: [kirkstone][PATCH] ghostscript: correct LICENSE with AGPLv3
+Date: Fri, 9 Feb 2024 10:13:10 +0800
+Message-ID: <20240209021310.3000995-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20240208101156.735389-1-aleksey.smirnov@yadro.com>
- <f33b3247e9eddcbadf09b85af0efd642926945cf.camel@linuxfoundation.org> <CANNYZj9AZ5OiUXy-GTM5qUcE-TefdB3Fq=HKWQ3nrOc4HkBkWg@mail.gmail.com>
-In-Reply-To: <CANNYZj9AZ5OiUXy-GTM5qUcE-TefdB3Fq=HKWQ3nrOc4HkBkWg@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 8 Feb 2024 16:59:03 -0800
-Message-ID: <CAMKF1spG_9DskG=92hdoB3ww00pqSubHhJ0FBFq0Y5-OkRR9mw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] configuration: add Power8 tune to PowerPC architecture
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Aleksey Smirnov <aleksey.smirnov@yadro.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000cc125b0610e86fde"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: nMHW8Gt9OPmKOuDH3G50_11ziDrE-Ac0
+X-Proofpoint-ORIG-GUID: nMHW8Gt9OPmKOuDH3G50_11ziDrE-Ac0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-08_13,2024-02-08_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
+ clxscore=1015 mlxlogscore=692 suspectscore=0 mlxscore=0 bulkscore=0
+ impostorscore=0 phishscore=0 spamscore=0 priorityscore=1501
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401310000 definitions=main-2402090013
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Feb 2024 00:59:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195182
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Feb 2024 02:13:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195183
 
---000000000000cc125b0610e86fde
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Kai Kang <kai.kang@windriver.com>
 
-On Thu, Feb 8, 2024 at 3:30=E2=80=AFAM Alexander Kanavin <alex.kanavin@gmai=
-l.com>
-wrote:
+The license of ghostscript has switched to Affero GPL since version 9.07
+via commit:
 
-> On Thu, 8 Feb 2024 at 12:20, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > The patch is probably fine but I do have to ask, are you actively using
-> > Power8 based devices? Are these current/new designs or old ones for
-> > compatibility?
-> >
-> > I ask since I get a lot of questions about dropping mips and power
-> > support so it would be useful for me to be able to point to users.
-> >
-> > Mips and power are also not represented at the membership level in the
-> > Yocto Project, unlike the other architectures which does make
-> > maintaining all the testing a bit tricky to justify.
->
-> I think we're testing only 32 bit ppc, and this is for the purpose of
-> building for 64 bit ppc designs? Then dropping the former won't affect
-> the latter.
+* 3cc5318 Switch Ghostscript/GhostPDL to Affero GPL
 
+https://github.com/ArtifexSoftware/ghostpdl/commit/3cc5318
 
-Testing matrix is one of them but there are other concerns like multilib
-support. So knowing this is quite helpful on decision making
+Correct it with `AGPL-3.0-or-later`.
 
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->
-> Alex
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#195137):
-> https://lists.openembedded.org/g/openembedded-core/message/195137
-> Mute This Topic: https://lists.openembedded.org/mt/104236370/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> raj.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb b/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
+index e0d1e4618f..e99c740685 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
+@@ -10,7 +10,7 @@ dot-matrix, inkjet and laser models. \
+ HOMEPAGE = "http://www.ghostscript.com"
+ SECTION = "console/utils"
+ 
+-LICENSE = "GPL-3.0-only"
++LICENSE = "AGPL-3.0-or-later"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=f98ffa763e50cded76f49bce73aade16"
+ 
+ DEPENDS = "ghostscript-native tiff jpeg fontconfig cups libpng"
+-- 
+2.34.1
 
---000000000000cc125b0610e86fde
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Thu, Feb 8, 2024 at 3:30=E2=80=AFAM Alexander Kanavin &l=
-t;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; =
-wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
-x;border-left:1px #ccc solid;padding-left:1ex">On Thu, 8 Feb 2024 at 12:20,=
- Richard Purdie<br>
-&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank"=
->richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
-&gt; The patch is probably fine but I do have to ask, are you actively usin=
-g<br>
-&gt; Power8 based devices? Are these current/new designs or old ones for<br=
->
-&gt; compatibility?<br>
-&gt;<br>
-&gt; I ask since I get a lot of questions about dropping mips and power<br>
-&gt; support so it would be useful for me to be able to point to users.<br>
-&gt;<br>
-&gt; Mips and power are also not represented at the membership level in the=
-<br>
-&gt; Yocto Project, unlike the other architectures which does make<br>
-&gt; maintaining all the testing a bit tricky to justify.<br>
-<br>
-I think we&#39;re testing only 32 bit ppc, and this is for the purpose of<b=
-r>
-building for 64 bit ppc designs? Then dropping the former won&#39;t affect<=
-br>
-the latter.</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Testi=
-ng matrix is one=C2=A0of them but there are other concerns like multilib su=
-pport. So knowing this is quite helpful on decision making=C2=A0</div><div =
-dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex" dir=3D"auto"><br>
-<br>
-Alex<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#195137): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/195137" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/195137</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/104236370/199=
-7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/104236370/1997914</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
-=3D"_blank">raj.khem@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---000000000000cc125b0610e86fde--
 
