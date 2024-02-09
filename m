@@ -1,89 +1,107 @@
-Return-Path: <rs@ti.com>
+Return-Path: <pavel@zhukoff.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B078C4828F
-	for <webhook@archiver.kernel.org>; Fri,  9 Feb 2024 19:16:58 +0000 (UTC)
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by mx.groups.io with SMTP id smtpd.web10.21627.1707506208001667549
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6644FC4828F
+	for <webhook@archiver.kernel.org>; Fri,  9 Feb 2024 19:27:58 +0000 (UTC)
+Received: from fout4-smtp.messagingengine.com (fout4-smtp.messagingengine.com [103.168.172.147])
+ by mx.groups.io with SMTP id smtpd.web10.21897.1707506871907256802
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Feb 2024 11:16:48 -0800
+ Fri, 09 Feb 2024 11:27:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=Y0Fy8Rh8;
- spf=pass (domain: ti.com, ip: 198.47.23.248, mailfrom: rs@ti.com)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 419JGifA105824;
-	Fri, 9 Feb 2024 13:16:44 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1707506204;
-	bh=KF3RZMjXpfwvF5yOAi2q9VXR+mCiqyDt9rSUwdY3Bco=;
-	h=From:To:CC:Subject:Date;
-	b=Y0Fy8Rh8jVnS2uaf8oy0u20Z6F1uA1kAQfowORx89JwOl0loiCzkbVxKYvd1wC9fx
-	 Lz0smPiqCJXgGtIGqlGhUHPlPIiQi6l80idd4fp1axpEP98TQiTdcz6L+1KeiAvHAw
-	 QyRZ9RZbixE7Hp/2jkrkNr2zGTnmrBtktQoSPjhI=
-Received: from DLEE106.ent.ti.com (dlee106.ent.ti.com [157.170.170.36])
-	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 419JGitl128122
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 9 Feb 2024 13:16:44 -0600
-Received: from DLEE105.ent.ti.com (157.170.170.35) by DLEE106.ent.ti.com
- (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 9
- Feb 2024 13:16:44 -0600
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Fri, 9 Feb 2024 13:16:43 -0600
-Received: from rs-desk.dhcp.ti.com (rs-desk.dhcp.ti.com [128.247.81.144])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 419JGhs2020049;
-	Fri, 9 Feb 2024 13:16:43 -0600
-From: <rs@ti.com>
-To: <c-shilwant@ti.com>, <denis@denix.org>, <reatmon@ti.com>
-CC: <praneeth@ti.com>, <openembedded-core@lists.openembedded.org>
-Subject: [oe-core][PATCH] mirrors.bbclass: add infraroot as an https mirror
-Date: Fri, 9 Feb 2024 13:16:43 -0600
-Message-ID: <20240209191643.2898642-1-rs@ti.com>
+ dkim=pass header.i=@zhukoff.net header.s=fm3 header.b=ivaqWjy0;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=gFOg7Q7u;
+ spf=pass (domain: zhukoff.net, ip: 103.168.172.147, mailfrom: pavel@zhukoff.net)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfout.nyi.internal (Postfix) with ESMTP id 001B413800A6;
+	Fri,  9 Feb 2024 14:27:50 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Fri, 09 Feb 2024 14:27:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zhukoff.net; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm3; t=1707506870; x=1707593270; bh=DCTzelxJNLPhXnUjQ+gqj
+	MmTAkAglJ15sFaXgjvCSD4=; b=ivaqWjy0Sq4W2dqoe9rdO32SnNolrF7DKdYhJ
+	0QNNWQUbWk3iXQotnMv5e6bvta6LN3IShwj4grItlpZXFZ0wQ2u07X9MH9EjABcG
+	+DTQzjRXPiaBssB+k22LgnpLX5cg9UOM43LmKRFWpRCeI5TiPrLRCg6KkP5R1mFq
+	WyBd80fjA3DwWnEpKrMiePDWMPI0oMlhQ54Qul9kiR0L3bbxgHQZcIyqmZEP8bZH
+	Bnc4QDzSSPcqRsqu+87NKhNyzBdXp7TTshWsNSt0zkhx+M6X5nFpzLUMqFtVLC/p
+	OqWmWJ9PXlXpUALGwgACvrdeuZ5WWEu1XaoTr0ftpw1EAfT1A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1707506870; x=1707593270; bh=DCTzelxJNLPhXnUjQ+gqjMmTAkAg
+	lJ15sFaXgjvCSD4=; b=gFOg7Q7uK6w8uRCn6aQ0eAAlHh3VXgpHFX/JCsg0Hc+E
+	mBCYgfAO1yiPzoopzPsMrswT9eYFOA+rVI46gjn9M/hHjKUjpKMmbc/n4iy+fXUa
+	oWTaVT7PmC52/ZS9bcNldmYxWLDA5jf5dkTtB+TT/QmIY686hhXVkC2834+O6dM8
+	2/llgPupMQCMlNfkUOn03r3X6Tt7QMo7JmKvGPbjDUUDJ7YPbzpDOPCZq1n4+hoD
+	kXJnCfaDgi/HNitUOjMVMbOH3BjvpfZb2dsOWJ2IwWGlvZ5B7xGTD4n3srhCg/c+
+	Sj7hVcdA1+BuRTuWcO/N3NSErB9cc2a/Prg0Wm7aKw==
+X-ME-Sender: <xms:tnzGZRRC0MkcSkpLbFMKmpJbHKE1UOe0tcoDrAQgH3Hhlbnugnebiw>
+    <xme:tnzGZaw2cJPtsmngY_7apjFNMUOWyLZrlriteKBprjt6y5ivr68ANPP_LbFaGeUwh
+    S0Zd_MBvyJq7y1mLeY>
+X-ME-Received: <xmr:tnzGZW0n1h1Z_lib7TBE6dr5iHPxzni2ZhSJ9tb6aJIUlKZr0TGo6FNozx_WiChly_Pf2cFczORcFHz6k6y30H_Z>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrtdeigdduvdefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
+    ertddtnecuhfhrohhmpefrrghvvghlucgkhhhukhhovhcuoehprghvvghlseiihhhukhho
+    fhhfrdhnvghtqeenucggtffrrghtthgvrhhnpeevfeejkeejudegledtkeejhfettdefje
+    euffehieekvddugfdtffffledvvdefhfenucevlhhushhtvghrufhiiigvpedtnecurfgr
+    rhgrmhepmhgrihhlfhhrohhmpehprghvvghlseiihhhukhhofhhfrdhnvght
+X-ME-Proxy: <xmx:tnzGZZAj-j78oHLPxHebmbl6XUTl-zu17194YuUoj3u0bqWnMUUDig>
+    <xmx:tnzGZahIeHExI2zhRVTgQzbxG3KvANAxnjxta4ixtiU5HSgqgNynsA>
+    <xmx:tnzGZdp7RI3Pv8XHO6e0prYzt11W40opqkNxYSDS3oqTnGu8qxMvLA>
+    <xmx:tnzGZdvCtOrWueQDkvRYQTjh7zckwTdP1LpLEOj6RQ6lGG7PrnTFiw>
+Feedback-ID: ib94946c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 9 Feb 2024 14:27:50 -0500 (EST)
+From: Pavel Zhukov <pavel@zhukoff.net>
+To: openembedded-core@lists.openembedded.org
+Cc: Pavel Zhukov <pavel@zhukoff.net>
+Subject: [PATCH] systemd.bbclass: Check for existence of the symlink too
+Date: Fri,  9 Feb 2024 20:27:28 +0100
+Message-ID: <20240209192727.4041133-2-pavel@zhukoff.net>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Feb 2024 19:16:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195244
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Feb 2024 19:27:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195245
 
-From: Randolph Sapp <rs@ti.com>
+If the packages' service file is a link to parameterized service file
+provided by different package [1] then link is dangling link at
+do_package stage and os.path.exists(path) returns False even if the link
+exists. Replace os.path.exists with lexists to fix this issue.
 
-Add the new infraroot.at mirror to the MIRRORS string for https sources
-since infradead.org does not support https and certain proxy configs
-cause this fetch to fail.
+[1]
+An example:
+  Package A provides myservice@.service
 
-Mirror info fetched from the following announcement:
-https://lists.infradead.org/pipermail/linux-mtd/2023-August/100922.html
+  Package B depends and rdepends on A and provides:
+  myservice@B.service -> myservice@.service
 
-Signed-off-by: Randolph Sapp <rs@ti.com>
+Signed-off-by: Pavel Zhukov <pavel@zhukoff.net>
 ---
+ meta/classes-recipe/systemd.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I've got a second version of this patch that applies the mirror explicitly to
-the 2 recipes currently using infradead.org as a source. Let me know if that is
-preferred.
-
- meta/classes-global/mirrors.bbclass | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/classes-global/mirrors.bbclass b/meta/classes-global/mirrors.bbclass
-index ad070d44911..af66fb1832f 100644
---- a/meta/classes-global/mirrors.bbclass
-+++ b/meta/classes-global/mirrors.bbclass
-@@ -78,6 +78,7 @@ https?://downloads.yoctoproject.org/mirror/sources/ https://mirrors.kernel.org/y
- MIRRORS += "\
- git://salsa.debian.org/.*     git://salsa.debian.org/PATH;protocol=https \
- git://git.gnome.org/.*        git://gitlab.gnome.org/GNOME/PATH;protocol=https \
-+git://git.infradead.org/.*    git://git.infraroot.at/PATH;protocol=https \
- git://.*/.*                   git://HOST/PATH;protocol=https \
- git://.*/.*                   git://HOST/git/PATH;protocol=https \
- "
+diff --git a/meta/classes-recipe/systemd.bbclass b/meta/classes-recipe/systemd.bbclass
+index 9a16babe43..48b364c1d4 100644
+--- a/meta/classes-recipe/systemd.bbclass
++++ b/meta/classes-recipe/systemd.bbclass
+@@ -170,7 +170,7 @@ python systemd_populate_packages() {
+                     base = service[:at] + '@' + service[ext:]
+ 
+                 for path in searchpaths:
+-                    if os.path.exists(oe.path.join(d.getVar("D"), path, service)):
++                    if os.path.lexists(oe.path.join(d.getVar("D"), path, service)):
+                         path_found = path
+                         break
+                     elif base is not None:
 -- 
 2.43.0
 
