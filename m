@@ -2,47 +2,47 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9148BC48260
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92C98C4829A
 	for <webhook@archiver.kernel.org>; Fri,  9 Feb 2024 02:36:43 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.2627.1707446198432071508
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.2648.1707446199194517031
  for <openembedded-core@lists.openembedded.org>;
- Thu, 08 Feb 2024 18:36:38 -0800
+ Thu, 08 Feb 2024 18:36:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=ePeKwMOG;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Q31OMSJ7;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018d8bb95d41-67086b6f-f715-4c90-8ecc-4f8cce3dea9b-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=KhP1vRz1;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=NlQwFl9V;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018d8bb96008-a02920a2-4c52-4279-a4d1-3c0d5dba7153-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1707446197; i=@automation.yoctoproject.org;
+	t=1707446198; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=WQkfhh6MwpEm57asIsl6+DBCGbQcVrPD0tZSAiQP5vA=;
-	b=ePeKwMOG3uEd2V78AxN9Zewhg0VOJ3bXfXt6JqY88cwy2gZl6k5fJnazp0RJNiYb
-	35ZAxW+TUaTq8k0Pty706JUNNeidNtowWndIZWJ0hYJz/1sHFNAe5ZXlbXAoOVj+PC9
-	edqmnfnlacEf+lN6OZ3szidaWippijEv9LCQLcsc=
+	bh=du950BzUYWQvKuwttcEOr3yg9uFmoAL0gJoB+PnPky8=;
+	b=KhP1vRz1vbfMi9xY+JQpa7nfwqA7NOVw/8u4YfSUVZSqEjgDZnOpGRvfC1gGpbci
+	3PgBbSHNkcIEjKYF33QqEH45SdPO4uNqwMHLKAKDYNC+0wQs2Gzs7EOclS6shf2/irc
+	RkhuSwxSInK3Oe+MQVyWUaiyucHujpnnsJjtJ7SM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1707446197;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1707446198;
 	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=WQkfhh6MwpEm57asIsl6+DBCGbQcVrPD0tZSAiQP5vA=;
-	b=Q31OMSJ7iYbm95F3hHT0lBriFwacv0fQAnhSfjUqI9CRp7vFck6Nm8Exbuq9sLUZ
-	mLBx4BptzbrZRCbAsKj98B6WF8P9S3/To+JYs0SuBjmLYvwLvcylM85EJbmXu/LCLS2
-	BzRgNmMgSX+AD2o+P5VEUytI3gpTPrg0KXKawwL8=
+	bh=du950BzUYWQvKuwttcEOr3yg9uFmoAL0gJoB+PnPky8=;
+	b=NlQwFl9VB12iI9ydCvoPOa6NsoXAS6thvQq0+jTxY99grlSP9ROdjzXshA/Wrat4
+	QePJDnAHANoBxTG1TOPot15UNRUWxNoCSTHBcECQzl+qB9Q9xr3k8RyND3y2N0RTTKp
+	HRStM99S+w7DUkuGzrCVjsU0lMETVpIpn3gupoeU=
 From: patchtest@automation.yoctoproject.org
-To: Tim Orling <ticotimo@gmail.com>
+To: kai.kang@windriver.com
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 1/2] python3-pyyaml: add PACKAGECONFIG for libyaml
-In-Reply-To: 788a989e8ec584cfffcb2b505972c43b2205a8ad.1707444824.git.tim.orling@konsulko.com
+Subject: Patchtest results for [kirkstone][PATCH] ghostscript: correct LICENSE with AGPLv3
+In-Reply-To: 20240209021310.3000995-1-kai.kang@windriver.com
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018d8bb95d41-67086b6f-f715-4c90-8ecc-4f8cce3dea9b-000000@us-west-2.amazonses.com>
-Date: Fri, 9 Feb 2024 02:36:37 +0000
+Message-ID: <0101018d8bb96008-a02920a2-4c52-4279-a4d1-3c0d5dba7153-000000@us-west-2.amazonses.com>
+Date: Fri, 9 Feb 2024 02:36:38 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.02.09-54.240.27.191
+X-SES-Outgoing: 2024.02.09-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 09 Feb 2024 02:36:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195187
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195188
 
 --NextPart
 Content-Type: text/plain
@@ -52,12 +52,12 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/1-2-python3-pyyaml-add-PACKAGECONFIG-for-libyaml.patch
+Testing patch /home/patchtest/share/mboxes/kirkstone-ghostscript-correct-LICENSE-with-AGPLv3.patch
 
-FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_off_by_presence)
+FAIL: test CVE check ignore: CVE_CHECK_IGNORE is deprecated and should be replaced by CVE_STATUS (test_metadata.TestMetadata.test_cve_check_ignore)
 
 PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
 PASS: test author valid (test_mbox.TestMbox.test_author_valid)
 PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
 PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
