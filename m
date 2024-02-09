@@ -1,98 +1,122 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F671C4828F
-	for <webhook@archiver.kernel.org>; Fri,  9 Feb 2024 11:33:56 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web11.9109.1707478427528111470
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F034C4828F
+	for <webhook@archiver.kernel.org>; Fri,  9 Feb 2024 12:07:06 +0000 (UTC)
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+ by mx.groups.io with SMTP id smtpd.web11.9612.1707480421940556758
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Feb 2024 03:33:47 -0800
+ Fri, 09 Feb 2024 04:07:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=hzMNBWew;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=dydghGmS;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018d8da523ab-ee95f497-d76d-4afa-b142-2fcc3df055fc-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1707478426; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
-	bh=Y9d1OD7WLJnKzfgWOiPYcicVZmr8+D2X2iabsaqZrdU=;
-	b=hzMNBWewv5S1hwmVPZDLPut6I8bn4ZHRhGWO69ek9bT/2hpirmLWkKYdYGd5p+XR
-	z4iD266ridhj5DGkDmYMJx+bWjN+p2aabNmD4AAIYtkhF6s3rNdeYUmuBJbXo2LfB9M
-	1gdj1TxvOivIlH/a0E5MugTg+PiRmjwaKGlsGTxY=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1707478426;
-	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=Y9d1OD7WLJnKzfgWOiPYcicVZmr8+D2X2iabsaqZrdU=;
-	b=dydghGmSapJA/2f2ncnIVgsetYlcIaeYBBkwN0pcjrYprUR/v0FLL50czeJNeR4l
-	g4ljwgoY+MD0zna2OHjUe4U4ueDAZ+EOJv9iMQd7YxMIZ/GOcTk3U9R79IxF+z6nvbs
-	WT7yNZQo+sahiCw0crhLdFwGKYVBq1yMybwTsjg4=
-From: patchtest@automation.yoctoproject.org
-To: chenheyun <chen_heyun@163.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] Add user space utility:dropwatch
-In-Reply-To: 20240209112421.45771-1-chen_heyun@163.com
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018d8da523ab-ee95f497-d76d-4afa-b142-2fcc3df055fc-000000@us-west-2.amazonses.com>
-Date: Fri, 9 Feb 2024 11:33:46 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.02.09-54.240.27.29
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=QZam1Bbu;
+ spf=pass (domain: gmail.com, ip: 209.85.208.176, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2d0cd9871b3so18093061fa.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 Feb 2024 04:07:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707480420; x=1708085220; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=bK7MVUnIwxOr0sh5MuSsyR+oKbqKRuCh+JQN6tgodrY=;
+        b=QZam1BbuOjQqqkzQsNhG6vtxaGGF+Ne+LqHDP5dxpiy8bsWMMYrI5d8ZRpQhjmypgd
+         BwpUfVQbC2PCxoObrTqEl7GIfDEPTYhMDUErJzNByi7QmEWCBLdb+0eWUmJptL3WwpE7
+         a0vUQsq4Zojcxo0WTG+oIuiK4L6A+/EGI8RALkNU2TVlJv7UmgoWMYBYEQPC9tFw29Wz
+         GUtiRkxdagwku4By082DdcbgvXQAmenNJ/J+3VEjK5KtNFUg7K4jGyoHZussEAnF9aG1
+         gHeJ9MoSdQKA/b2HmSbkeeDcSicstccgqy8LqOwm/84lHRuJ9jP+Tlnp0fAekVt7M5Wl
+         4AIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707480420; x=1708085220;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bK7MVUnIwxOr0sh5MuSsyR+oKbqKRuCh+JQN6tgodrY=;
+        b=k4jilo9jo/KUhZqAT1TcC9fY1PzoxLTk02oLckMACyQpUaWPChM5Jj7p1pCq6XKSgd
+         rc0k3tjgOTgEbkhy2fA0KC0xvAJqKW2HcLl2g6S1VaGKFYBwmHSfWmwee8jib1sEjwFS
+         kWEsCLjszENHfLWsJgJShFDy8I2zDOm9SU5i94kZdK4EmwTrgK8lSdpiOmSxK2bEEFRA
+         rlwRZyK08MOG4zfTk+0pzSN5rLx1qqD37a92UxEfnEbnPdDQLd+8b0uiJVQIaQOMgke3
+         Z3rW0VJiP0W0PCipMrJ8CS90MD+Xo/wcrKniApj7eZeks+QlDpXokQ4OdwHshUcwwMCp
+         TXRA==
+X-Gm-Message-State: AOJu0Ywvk9NBLmar4cGn4S7/pJJPL/w5JkNUsxa9cRGKPefjY+Dmif3p
+	eMKSVJMDOjCl9elziBaly7ddvy5VaR/C3PMuIPTqTZMazxO2+wrdpAqCUaCziAWC3dp5VyQbEa7
+	JQG4Bp8yHv5OgWpiPxGJRd/Ya380=
+X-Google-Smtp-Source: AGHT+IFaBJsDoYcASzEaIZI4wmfhR1jtwrPzaRoXT9TyqlGzZJ2GoxiEhxDW9d53eLqe/boK05KxL6N5vP4aOxJHrxM=
+X-Received: by 2002:a05:651c:603:b0:2d0:bda3:aa6c with SMTP id
+ k3-20020a05651c060300b002d0bda3aa6cmr309343lje.13.1707480419750; Fri, 09 Feb
+ 2024 04:06:59 -0800 (PST)
+MIME-Version: 1.0
+References: <20240209113035.3372683-1-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20240209113035.3372683-1-richard.purdie@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 9 Feb 2024 13:06:47 +0100
+Message-ID: <CANNYZj8xOso7+5Kv9Hx4=+abLmVeaKq9RiJwZwOiCu4Cz2Lg0A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] no-gplv3: Add workarounds for
+ update-alternatives and ptest
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Feb 2024 11:33:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195202
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Feb 2024 12:07:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195203
 
---NextPart
-Content-Type: text/plain
+I find DISTRO_FEATURES:remove = "ptest" item problematic. Ptests
+dependencies do not cause trouble if license restrictions are
+per-image, and I had long advocated placing the restrictions there,
+and not globally like was done previously in meta-gpl2 times.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+So let's clarify: is no-gplv3.inc meant for the global license
+restriction, per image restriction or both?  Should we rather have two
+files, where one includes the other and adds additional restrictions?
 
----
-Testing patch /home/patchtest/share/mboxes/Add-user-space-utility-dropwatch.patch
+Alex
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
-
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test lic files chksum presence (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-PASS: test license presence (test_metadata.TestMetadata.test_license_presence)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test summary presence (test_metadata.TestMetadata.test_summary_presence)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+On Fri, 9 Feb 2024 at 12:30, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> Document the tribal knowledge that we have to disable ptests for gplv3.
+>
+> Also document the workaround for update-alternatives issues with bash
+> and opkg-utils.
+>
+> As with anything in this file, the exclusions come at a cost.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/conf/distro/include/no-gplv3.inc | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/meta/conf/distro/include/no-gplv3.inc b/meta/conf/distro/include/no-gplv3.inc
+> index bb2e836f982..571e7f882d9 100644
+> --- a/meta/conf/distro/include/no-gplv3.inc
+> +++ b/meta/conf/distro/include/no-gplv3.inc
+> @@ -5,6 +5,9 @@
+>  # The intent is to allow some images/configurations to build, not everything. There
+>  # will be a cost in reduced functionality.
+>
+> +# Many ptests are problematic due to bash dependencies, need to disable
+> +DISTRO_FEATURES:remove = "ptest"
+> +
+>  # Settings for full-cmdline
+>  RDEPENDS:packagegroup-core-full-cmdline-utils:remove = "bash bc coreutils cpio ed findutils gawk grep mc mc-fish mc-helpers mc-helpers-perl sed tar time"
+>  RDEPENDS:packagegroup-core-full-cmdline-dev-utils:remove = "diffutils m4 make patch"
+> @@ -26,3 +29,6 @@ CORE_IMAGE_BASE_INSTALL:remove:pn-core-image-weston = "matchbox-terminal"
+>  # Some python-tests use bash outside of ptest
+>  RDEPENDS:${PN}-tests:remove:class-target:pn-python3 = "${MLPREFIX}bash"
+>  INSANE_SKIP:${PN}-tests:pn-python3 = "file-rdeps"
+> +
+> +# Assume opkg-utils is only for update-alternatives
+> +RDEPENDS:${PN}:remove:pn-opkg-utils = "bash"
+> --
+> 2.40.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#195200): https://lists.openembedded.org/g/openembedded-core/message/195200
+> Mute This Topic: https://lists.openembedded.org/mt/104256940/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
