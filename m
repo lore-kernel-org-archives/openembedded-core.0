@@ -1,214 +1,122 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FC73C4828F
-	for <webhook@archiver.kernel.org>; Fri,  9 Feb 2024 21:40:59 +0000 (UTC)
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com (EUR04-DB3-obe.outbound.protection.outlook.com [40.107.6.66])
- by mx.groups.io with SMTP id smtpd.web11.25108.1707514855934814495
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD5CCC4829B
+	for <webhook@archiver.kernel.org>; Fri,  9 Feb 2024 23:43:57 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web11.2805.1707522232672693181
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Feb 2024 13:40:56 -0800
+ Fri, 09 Feb 2024 15:43:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=selector1 header.b=LI+dG8Hw;
- spf=pass (domain: axis.com, ip: 40.107.6.66, mailfrom: peter.kjellerstedt@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=T8EKibEfRwLmR6ti7EYU/ZsaoRWSeAxuWr6qdO3eViC3FzhXDlea1Yn0VZ7p104cyC9DPenixzAQF2wYu1rx/NmTkX6ApUqJfu7ECbg5TS0Q4u/Prsdb+tgT4voihmwY2ITc8ne6ECA3WNflGx5EfUfMgrH1kBQIoCQE8wJilDOi22DSbCVRU66HlZjzQBrvn6KubEsu9c7sBH9kHnL8gmVRYbcj+tQyXfWnouVIze2IIjnQywQitSoq+qhsshoB3JwwKEzxyLavm87TONGkXhUOsVByREY3x1rPK+135559NEDaEeJrSm19ilgUq2vEJTs3CzPULtXEpy83rFTokw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gOds0KV/4lo4jp/We3ggxkbsjwPsdyC6EUmWicaQo/o=;
- b=U/j/GVOE/TRrPzyXvp7XtHbBBctRs1nZlFrqdSiw4ibi4U8fOlI83oU6pfOVngnTq5TPDmrE3mBdpc6L45mq4okzTm9/60eXNHxj+EhF1qQ1lmW94/WnS2tgcQJvg3EWoC1SuekJs4/BYIEwya4DHaBP67PE91UdyrpYsDtUdWhS7vlWNfEGzZxYROPKZ6ex/vF5uxEprmk2QkPuJP3UTmsxzsrt88ZNc8e+XzLNcFfzKN6EbYFcbw9l2baZhvTl7pr6q+kz3KSWlHrxUnZUhsSK/qpbaraVPmpC8fn0icPV+R979y9/esa42P2J9F1xn8alb+nzKuyLmihigzhweQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
- dkim=pass header.d=axis.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gOds0KV/4lo4jp/We3ggxkbsjwPsdyC6EUmWicaQo/o=;
- b=LI+dG8Hwly8hBku9HPibDYFh20fBPMOAPUcMrPTCSP26uWPP0bbPf4HnwZduirkULMZk0Wu27yhP8nLDiUjMvbYX5YL+8OSE7XOVvSzhtSVdtcllcQRm7ZC0gpGDbWws44y7sTP08y7oTw45Du3jzm0jv9gaf9BGIzZ3hPsGTVI=
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com (2603:10a6:10:4a8::17)
- by PAVPR02MB9620.eurprd02.prod.outlook.com (2603:10a6:102:30f::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.36; Fri, 9 Feb
- 2024 21:40:51 +0000
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::5b1d:259f:4ba1:8906]) by DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::5b1d:259f:4ba1:8906%2]) with mapi id 15.20.7249.027; Fri, 9 Feb 2024
- 21:40:51 +0000
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Changqing Li <changqing.li@eng.windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH V3] systemd: fix a dead link under /var/log
-Thread-Topic: [OE-core] [PATCH V3] systemd: fix a dead link under /var/log
-Thread-Index: AQHaWaBd1hlu/ERgeUqQVBJuphFqjLECdcJw
-Date: Fri, 9 Feb 2024 21:40:51 +0000
-Message-ID: 
- <DB5PR02MB10213E702244E4060D157880EEF4B2@DB5PR02MB10213.eurprd02.prod.outlook.com>
-References: <20240207083337.2180157-1-changqing.li@windriver.com>
-In-Reply-To: <20240207083337.2180157-1-changqing.li@windriver.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=axis.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|PAVPR02MB9620:EE_
-x-ms-office365-filtering-correlation-id: d13fabcc-48b5-4063-f661-08dc29b7c975
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- OFubVA3YV4M0qmUPBiQGrLqTZBq92fNPOMeRzfopMDxZNnUNUCBBvQ1tcQ1evxSutnng5X679NBmevVBecNFAtOGifTiOK4NCMV/yWC2P4jX0OBSFUZha4ziGfiNCy8WnqLYyCHB7c2KRmbmVUrl8NKOUx62+7aEh4zkp4jmj42yliNJF3o15pTM+VewYNqCdmqupSZHHJ1DfCpAA5zOn2D/KhCMPEZ9vNMaxSd+4m1XT4rVLXNdSd3+6zsTibRQ6o1cFv0HqxHnS/fI/ZD2O71rK62MTJKkH0bhXIvqXlkPLyddStbhEeIOPQX5u/mepwtkn5z4Dd5b/dItgWawdaaf/7sEOp59tf7BUrQlZp5ADnksA3jqLjCyHOPqxnhZYzUvNJ5iZAFMMTWa1rR4orLCwZLMVTAGCyKdElRQZVcklJWXcGJ2o+kWQdJwmUnXcx0F+5eOlYz3HXww825N1CtpyvB77L8/SONA80di154rIYXNPW00GN9dKsiBCC9ykVLuuDC3cNbtKicw79520qlIaOit2fslF3cwTtDzXmgIz66Uh3XYRqtF9+Z9Qsh6dXFIBDo3u+1qyWo+y5hARuACWqM0D9ikCJDcxyFrxsZtw71cbHr8gMGcpF5zGJWU
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39850400004)(396003)(366004)(136003)(376002)(346002)(230922051799003)(186009)(64100799003)(451199024)(1800799012)(86362001)(41300700001)(110136005)(9686003)(5660300002)(478600001)(64756008)(2906002)(44832011)(66946007)(66446008)(66476007)(38070700009)(316002)(76116006)(66556008)(26005)(52536014)(8936002)(8676002)(71200400001)(33656002)(7696005)(122000001)(55016003)(6506007)(53546011)(38100700002)(83380400001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?iv0q7+Ag6YFoj7xeWeDSTDZCt5wA9uXFxvQx42soQr1N4EA13LUEY1pxVKU8?=
- =?us-ascii?Q?Sr+Haj68TOfy/SQuRn8PC/cJkotSzJYeHbQMYN9hAAnEwcvBl01THR6VBDkK?=
- =?us-ascii?Q?FF9ZYMmh8NkgtyhUVE/JnsAIZLywqvvd8B8Df+UH3kvjT3l6xuuxoYslskOa?=
- =?us-ascii?Q?RlzoYadkLptcjSQfiVTZQBonImSEOWRFKTl2hVszRUNl/5sHVTF+agB+3JNq?=
- =?us-ascii?Q?jFCGi+qih26mrYP/yGNDkjkqhfShNamXCs8tdjQof18ZUNgpsC9wmlXdiASd?=
- =?us-ascii?Q?vi5xHZ0eng+P9FLKlsEBQmIGQwuui3wrq0KKCZmtCjNQw2UZbtUUjrDoSisV?=
- =?us-ascii?Q?gLBY/S7Cd/YOiONHEljfrUYO7SlJiPn964CtjYPPfuaS9UHUxDR2w863i11J?=
- =?us-ascii?Q?JhtIAT2tr5l2QjQFkdfjgggUBbMxkT+8XAAf9H9pr2wj4RRcFWHir1/JsRc5?=
- =?us-ascii?Q?O1yCcsbMsSY2dOyDTWw6j4GastEOxa+8yvRIkEglpxhqqmyfOUzArtcciZbB?=
- =?us-ascii?Q?O8Tw8Psm9WCvOl3MD0de4eIGFz59Pj4E8mc9HnFlB5ChhFoZZnY8BjE1nUT6?=
- =?us-ascii?Q?K3mCW5JdiSUjrmrcza9wAvlBVBje2ZaMP1s/QkDCQ4c5A0AN9wUyf3Y6lrdx?=
- =?us-ascii?Q?W+PVr8R1FF5dY8VET9/2A8GC8mkMK3BOF59JfbPFsxxiRmgDrm85fqL2sHzB?=
- =?us-ascii?Q?GPN5U2HiAu2+QdzlbDjK/2RkNZEok+Tfybd55oaI+GmsCX8FY782PHHrkHNB?=
- =?us-ascii?Q?6l+mKvsBdMJoX2mySpgeiokUunQ9DTvOPMZ7bPEm59wKBd2OIVo4rcmpXx8q?=
- =?us-ascii?Q?66H+ObOu+KbhcirXKcMW6xL/N9vFWmhy4Io82l1Z6XPmE/U3+ze/ZLaN6yGQ?=
- =?us-ascii?Q?c/BxYPCTP21cj/CdjsVkjdc6kOCHEuXMpVOrqlp5kw9XyvacxBNKKrNng6jz?=
- =?us-ascii?Q?yYdbCudG7sxnO1seVxoZNVQdsTdn1mOvctQHvxHPth3UmMZf6trMGMz5ac9I?=
- =?us-ascii?Q?4e372kAr7lQ2pkaUBd2ApjIGWabaN3U9AYg3hDAKYyLDp6UMLyU3cYgov5W2?=
- =?us-ascii?Q?eygq13jq6O7zG0tkwNV5nb3YV/wzjdwfADf1LnubgB02TkjfRsvWYRoI5lJT?=
- =?us-ascii?Q?giI6w9oLNzWIZsw7IAccxlJzA4fZ91+X6nSDZBNDiryJk4tzXllv0Y0Nn4/M?=
- =?us-ascii?Q?yospqxEcCNG7TNGAixUfYDRf5JRAEKSbiw74rxcOrbzWNjw4Pzha55hHoUc/?=
- =?us-ascii?Q?E6GRuB82dfhoxQHg4/kpNnUPftJilKNP29Wwh+zpkFleAYhYzGjGUAEXJL3r?=
- =?us-ascii?Q?t/9mZzHBKzajxI9+zGXpGcjsjMFDdzRIHainAdnzy6CWMtBPNVfTf270DTqS?=
- =?us-ascii?Q?iZNzTWUnTLL9zeatFFId1GzPcIo9vnwPL5QXZAbYFwdkD5hHM3cHjsL3sE0T?=
- =?us-ascii?Q?cCiv2SgY7knY2oTbWAGQfs5cx+k9KM+JBAhwCPCfESj7OphcnRphpvA+/LLc?=
- =?us-ascii?Q?t5+lXyaNCdSdmROVt9dVq6VlmgAFzcG8yXTsU7pEV9xUxCHG3m3HdDj2PRqq?=
- =?us-ascii?Q?false+FWDRdYnc7+YXQ=3D?=
-Content-Type: text/plain; charset="us-ascii"
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=E9uwBFsl;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4108842369eso2090465e9.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 Feb 2024 15:43:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1707522231; x=1708127031; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Nw77HnqjKMh2fA76xG67n6AtU3W2o312fign9Ge4jeo=;
+        b=E9uwBFslhBywyRO509SCoVNMTPzASoq+Yjo5ftLTdRR184+jt5zDlZ19DXfxGeDdD5
+         AdpWo4E8NIAD7Ci0njP/TLTsBI0WNvilHQiwsRlm4L3VC6QCz4zcL4PuEtskZp8B/9X3
+         UGhPRNE/eF8/HeQbZGjtjzhW7qo69kq80tICM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707522231; x=1708127031;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Nw77HnqjKMh2fA76xG67n6AtU3W2o312fign9Ge4jeo=;
+        b=piBF+sk52qaeHtoDGFT9oqNkg/u3Ng0yK5OYFG9sO2xr5x8WiqemDDCo6siTkVp0Fb
+         Q4XnfPsoBiAN/cFBbxWxbMGn/7/0y+hMXO7CTQQxxXDuUEc7TdAnjNg/H3lV/34JT3+5
+         03zC1+hoqdTyIB+eUh5306ikQ5UKhIP8kVrgwdxMUVDIgJYJedrIrFJVm4RaHBrh3AeL
+         Rp1g7/XA/EmhT+ZzNIM+KWdALqJxr3ItFpUPPe0dU29fPCYX/zvIb7DUs/HWI7Hqz2U8
+         8nRb8cD4NP4HWc/Iz9TpHnfMoSdMpwoc2jUvjeJNXi4CEj2Wxt8AehmdQ31OQdSgRIE9
+         s0Gw==
+X-Forwarded-Encrypted: i=1; AJvYcCWaGwZq1qricXLxs3787eTLs7jbPZF25SksAItqv3pB7b5wOGeHh5VDnbekG2XMxV7s2y02snJX2fk55i5rG2c4LWP+hEBr8a5M4JT2zjlvG856UTTAXoV6
+X-Gm-Message-State: AOJu0YwNuZlDhyQocaP4ES3Ca4htKn3MTLvdEdYNz2fN0xdojtCchw5f
+	8HB0WzsSELJsjamyGBQzGXd+46G2EQm1jYJm+fQaMXfzjGHUtfiEjsHod40VqAI=
+X-Google-Smtp-Source: AGHT+IFGBnd5l9p4cz0aoR1KdylqZxvo67LUqK31Y7RdA4l67BjtqN8NoNuTytuKTsLqPjDYd1azJw==
+X-Received: by 2002:a05:600c:a003:b0:410:6344:8c44 with SMTP id jg3-20020a05600ca00300b0041063448c44mr550258wmb.16.1707522230885;
+        Fri, 09 Feb 2024 15:43:50 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWNABdVev0c8Y8FLmqeDuHtpRjfETGw+wOtr8JnbD56r134B3yNe+nPGjZQlkKaj46Vr/MmkW/0egUJpYr/klUv+FUSDcphsO9/ygW0JZVJrjw+2xJ7mJNXbzA+Icemt012MGSgGg/RWAsRgyvqhrkNJPwwFV5kIOolY0LMtK9cS0rabDvbcZQXeS8yLJgvcSSs
+Received: from ?IPv6:2001:8b0:aba:5f3c:c350:b3c8:3bca:cef1? ([2001:8b0:aba:5f3c:c350:b3c8:3bca:cef1])
+        by smtp.gmail.com with ESMTPSA id r17-20020a05600c35d100b004106c2278eesm1986438wmq.0.2024.02.09.15.43.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Feb 2024 15:43:50 -0800 (PST)
+Message-ID: <7bfdb37aa85722d20776c58b4d8a61233f5ae23a.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] vscode: improve settings for new yocto plugin
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Adrian Freihofer <adrian.freihofer@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>, Ross Burton
+	 <ross.burton@arm.com>, Mohammed Raza <mohammed.raza@savoirfairelinux.com>
+Date: Fri, 09 Feb 2024 23:43:49 +0000
+In-Reply-To: <20240209203029.3801065-1-adrian.freihofer@siemens.com>
+References: <20240209203029.3801065-1-adrian.freihofer@siemens.com>
+Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
+ YNvg==
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.0-1 
 MIME-Version: 1.0
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d13fabcc-48b5-4063-f661-08dc29b7c975
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Feb 2024 21:40:51.4945
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 26wNLhvLbTicnzW/fRRnnV3NHfpSG5JZJuOMbXcgSDihkiQ7u7esOlaj2NyoH75w
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAVPR02MB9620
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Feb 2024 21:40:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195248
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Feb 2024 23:43:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195249
 
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
-penembedded.org> On Behalf Of Changqing Li
-> Sent: den 7 februari 2024 09:34
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH V3] systemd: fix a dead link under /var/log
+On Fri, 2024-02-09 at 21:30 +0100, Adrian Freihofer wrote:
+> There is a new official bitbake plugin:
+> https://marketplace.visualstudio.com/items?itemName=3Dyocto-project.yocto=
+-bitbake
 >=20
-> From: Changqing Li <changqing.li@windriver.com>
+> This plugin automatically updates the .vscode/settings.json file.
 >=20
-> Commit 6fe23ff31c0 changed README to a symlink to README.logs, and
-> install README.logs under systemd doc dir.
+> Having the settings.json file in git and a plugin which modifies this
+> file is not ideal. It can lead to anoying situations especially when
+> working with git. For example a git stash reverts the settings which are
+> automatically applied by the plugin. While git stashed the settings.json
+> file the plugin immediately changes the file again and tries to run
+> bitbake based on the newly generated settings. When git does a stash pop
+> the restored settings.json file conflicts with the new settigns.json
+> file which has been generated while the git stash took place.
 >=20
-> But for OE, systemd doc dir is splited into package systemd-doc, when it
-> is not installed on the target, there will be an dead link:
-> Eg:
-> root@intel-x86-64:/var/log# ls -l README
-> lrwxrwxrwx 1 root root 39 Jun 20 08:57 README ->
-> ../../usr/share/doc/systemd/README.logs
-> root@intel-x86-64:/var/log# ls -l ../../usr/share/doc/systemd/README.logs
-> ls: cannot access '../../usr/share/doc/systemd/README.logs': No such file
-> or directory
+> Removing the settings.json from git would lead to other issues as
+> already described in the commit message of 5ff688fe29. Until VSCode or
+> the plugin supports multiple config files like bitbake does with the
+> site.conf and the local.conf files, there are probably some use cases
+> and workflows where the plugin needs to be disabled.
 >=20
-> Package this link into systemd-doc to fix above issue, meantime, set
-> symlink according to log dir path
+> This commit aligns the default settings.json file with the default
+> settings.json which gets generated by the plugin. This is a workaround
+> for the issue described above. But it works only for the default build
+> configuration with one build folder named "build".
 >=20
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> Discussion is here:
+> https://github.com/yoctoproject/vscode-bitbake/issues/95
 > ---
->  meta/recipes-core/systemd/systemd_255.1.bb | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
->=20
-> diff --git a/meta/recipes-core/systemd/systemd_255.1.bb b/meta/recipes-co=
-re/systemd/systemd_255.1.bb
-> index 9e09c89355..eccc916af4 100644
-> --- a/meta/recipes-core/systemd/systemd_255.1.bb
-> +++ b/meta/recipes-core/systemd/systemd_255.1.bb
-> @@ -386,6 +386,18 @@ do_install() {
->          sed -i -e 's/#RebootWatchdogSec=3D10min/RebootWatchdogSec=3D${WA=
-TCHDOG_TIMEOUT}/' \
->              ${D}/${sysconfdir}/systemd/system.conf
->      fi
+>  .gitignore            |  4 ++--
+>  .vscode/settings.json | 28 +++++++++++++++++++++++++++-
+>  2 files changed, 29 insertions(+), 3 deletions(-)
 
-While here, please correct the indentation of the above if statement=20
-to use tabs like the rest of the do_install() function does.
+I am very worried about this as we can't mandate a layout. There are
+many people who use different locations for bitbake and others who use
+different directories for builds. Even our own test runs do change the
+build directories.
 
-> +
-> +    if [ -f "${D}${prefix}/lib/tmpfiles.d/legacy.conf" ]; then
-> +        sed -i -e '/^L \/var\/log\/README/d' ${D}${prefix}/lib/tmpfiles.=
-d/legacy.conf
-> +
-> +        touch ${D}${prefix}/lib/tmpfiles.d/legacy-doc.conf
-> +        if "${@'true' if oe.types.boolean(d.getVar('VOLATILE_LOG_DIR')) =
-else 'false'}"; then
-> +            echo "L /var/log/README - - - - ../../../${datadir}/doc/syst=
-emd/README.logs" > ${D}${prefix}/lib/tmpfiles.d/legacy-doc.conf
-> +        else
-> +            echo "L /var/log/README - - - - ../../${datadir}/doc/systemd=
-/README.logs" > ${D}${prefix}/lib/tmpfiles.d/legacy-doc.conf
-> +        fi
-> +
-> +    fi
+I don't think we can solve this like this unfortunately.
 
-The above solution is error prone as VOLATILE_LOG_DIR may have been=20
-redefined in a way that does not meet the expectations above. It is=20
-better to reuse what systemd's build system produced. You should also=20
-use ${nonarch_libdir} instead of ${prefix}/lib. Taken together:
+Can we inject something into build directories when we create them?
 
-	entry=3D$(grep '^L /var/log/README' ${D}${nonarch_libdir}/tmpfiles.d/legac=
-y.conf 2>/dev/null)
-	if [ "$entry" ]; then
-		echo "$entry" > ${D}${nonarch_libdir}/tmpfiles.d/legacy-doc.conf
-		sed -i -e '\%^L /var/log/README%d' ${D}${nonarch_libdir}/tmpfiles.d/legac=
-y.conf
-	fi
+Cheers,
 
-That way the link will only be setup via legacy-doc.conf if it was=20
-present in legacy.conf in the first place.
-
->  }
->=20
->  python populate_packages:prepend (){
-> @@ -622,6 +634,8 @@ FILES:${PN}-udev-rules =3D "\
->                          ${rootlibexecdir}/udev/rules.d/99-systemd.rules =
-\
->  "
->=20
-> +FILES:${PN}-doc:append =3D " ${prefix}/lib/tmpfiles.d/legacy-doc.conf"
-
-There should be no need to use :append here:
-
-FILES:${PN}-doc +=3D "${nonarch_libdir}/tmpfiles.d/legacy-doc.conf"
-
-> +
->  CONFFILES:${PN} =3D "${sysconfdir}/systemd/coredump.conf \
->  	${sysconfdir}/systemd/journald.conf \
->  	${sysconfdir}/systemd/logind.conf \
-> --
-> 2.25.1
-
-//Peter
-
+Richard
 
