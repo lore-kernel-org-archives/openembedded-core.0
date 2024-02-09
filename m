@@ -1,103 +1,94 @@
-Return-Path: <michalwsieron@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF608C4828F
-	for <webhook@archiver.kernel.org>; Fri,  9 Feb 2024 14:10:06 +0000 (UTC)
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
- by mx.groups.io with SMTP id smtpd.web10.12421.1707487802484043111
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF9C6C4828F
+	for <webhook@archiver.kernel.org>; Fri,  9 Feb 2024 14:13:26 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web10.12492.1707487995415817515
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Feb 2024 06:10:02 -0800
+ Fri, 09 Feb 2024 06:13:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=l0o1cLOx;
- spf=pass (domain: gmail.com, ip: 209.85.208.48, mailfrom: michalwsieron@gmail.com)
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-55f50cf2021so1485065a12.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 Feb 2024 06:10:02 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=e6AvcTe7;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-33b0ecb1965so488832f8f.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 Feb 2024 06:13:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707487801; x=1708092601; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7Zm/m/mtH0YFc0+Y5GB5DSaOXeX9UDDmSvfVe8pFKf0=;
-        b=l0o1cLOxkPNpWiXNi6Ai+owy56OWd+nYEWfk6fgUcLeBN9EvLmL9+NcFEw4sANuscK
-         DeeShKC7N8K8pIfrQpYL1NyP0zRLUs1YKkY8AZfP2zYPFjxb0hrpPWlVAqM7EVn3f+cp
-         tya3pdYm3OdUPeQBByQpNdLpvk9k2gOpQ/g5IzYjyfbNkQyxq3krCUlz9HGOAUZsDNaI
-         Y7WcmllhQqPAeRAv2hxNY9R9i6wqsC8SvOM9v3pnenRkf6bjd87dX6hfu8axG7IXdVLe
-         Vm4hANkP7cMnyjd5v2VAuHcpMz1/CHWWzgDSt2FYjabXQq0OqVLC3qpXouEOcp5s9qA6
-         rpgw==
+        d=linuxfoundation.org; s=google; t=1707487993; x=1708092793; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NkMhXLEfHNCj5+wCvKoxyooy8+E8jQM4T+RCbQgjiys=;
+        b=e6AvcTe7keAtw7xGB0PhRJRdzINWcjkaF4eNSQ9PJibjPwUJFIFi/7tFdQflRUCrcR
+         /O+SFQNYeW4H5PGUj2JUiyoNBPeXN41X7EFoHozDYo/gWZorsnBozjTD94Ozzw6/EDYX
+         I/J2Do4ssB8rEKfVn3BoKWiwUT9HkrEFDqr/0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707487801; x=1708092601;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7Zm/m/mtH0YFc0+Y5GB5DSaOXeX9UDDmSvfVe8pFKf0=;
-        b=stoAN3cUXJSwr0yLiS4kHH1GAlYurXXXpK8Dqf6/DwaqcYIhr8cDCBGWEWuCQnw+Pp
-         cKUewvc6nkmInQxfvqjUpwc0IjrgE+iLLiW/0kmtncS30v11uN9QiuNZO7qS6dLje9s/
-         eFl7y4T2UA3itn4w2TPOtRYrJvGqZ2K36lRZSwGJqM2r+CW4YXV8IUUi8fbyWPcGl0pi
-         FgnSaNYNLY0KlE9uIbErKBh6pPbg1b4YGHu/xpdOBC/x5yYP0eGJKUT5pbnpDHDDBYjF
-         EH6xuPeeadg6ysC+MQBSIRhmrh9PTef97S3MAq+253D3AkY34tSksfkzIbdSrPmhjM2C
-         OKqw==
-X-Gm-Message-State: AOJu0YxQbH3AmfFOIq6xpdMm0vx6IiovoWSrH+EogzRxLgkECw4eranO
-	UcO7P1ELHDVOgUTkM/69lOZURJvULZ+G/vM2dAWfF/tmFvKMej8oPrX8QKNc
-X-Google-Smtp-Source: AGHT+IHbJsLjYzDLlWpU7j0vQ/nwiKNsDT32MU/oUmod+W2pI0q0762mplA9mvyvtD6u7TIWEe/9XQ==
-X-Received: by 2002:a17:906:46cb:b0:a3c:660:6a52 with SMTP id k11-20020a17090646cb00b00a3c06606a52mr546418ejs.51.1707487800736;
-        Fri, 09 Feb 2024 06:10:00 -0800 (PST)
-Received: from elitebook.emea.nsn-net.net (178-36-244-127.dynamic.inetia.pl. [178.36.244.127])
-        by smtp.gmail.com with ESMTPSA id st11-20020a170907c08b00b00a3843b13729sm794039ejc.35.2024.02.09.06.09.59
+        d=1e100.net; s=20230601; t=1707487993; x=1708092793;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NkMhXLEfHNCj5+wCvKoxyooy8+E8jQM4T+RCbQgjiys=;
+        b=Gp9NsPJY0sID9UzB6oL0Bj5m9fI9I1Zc3lcmnVWSgjItxvXXrijSLIN4LIyrGfo6Qg
+         n377caHDHtdPlIQ1nY/e81UyD/bY7u5npZRs5dL2Q5y+p4OkWmBiFkU9AT7EW43EtdZP
+         uSA0YkC2yES+wzoTLYA57zBQ4K536mCTYzvPX1IV6YL5C0c2MP9OkJcdKXED1ZjLqHlD
+         MhcP1DohipVN3bKloYkD97x0NQOnYWig50bb5ob2yNzngev3B10ad4E0+DaaltVC9PPv
+         w5S7K5k8h2FxYF7SAixix4d8aSMGUOlA5GwMvoFtN8QdQMct/2Ma0HOaIXb+lbts8IHL
+         zdeA==
+X-Gm-Message-State: AOJu0Yxg+MZNHmEsZzxqTPVHotW17Yqe/m6Uv7PrfkZL1tp3+1wXhqJS
+	MGbRVoRALabhAch/ffVZexm8+jLjDcuMmieQ1wsraT/eRFFMXvp6aEhZKN7hFM9+4ajWhB7y/Uh
+	A
+X-Google-Smtp-Source: AGHT+IHcAI3bGZzNiA/fxFR6MQ/kc1E03XAefYU3us6D6ARlYQ0yYIM4B6vye8AyJx9mhUQmgl7BUw==
+X-Received: by 2002:adf:9d89:0:b0:33b:12eb:f09d with SMTP id p9-20020adf9d89000000b0033b12ebf09dmr1420108wre.34.1707487993382;
+        Fri, 09 Feb 2024 06:13:13 -0800 (PST)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:47e1:ee11:154c:e6b3])
+        by smtp.gmail.com with ESMTPSA id w5-20020adfcd05000000b0033b1b01e4fcsm1907925wrm.96.2024.02.09.06.13.12
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Feb 2024 06:10:00 -0800 (PST)
-From: Michal Sieron <michalwsieron@gmail.com>
+        Fri, 09 Feb 2024 06:13:13 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Michal Sieron <michalwsieron@gmail.com>
-Subject: [PATCH] sanity.bbclass: raise_sanity_error if /tmp is noexec
-Date: Fri,  9 Feb 2024 15:09:39 +0100
-Message-ID: <20240209140939.186588-1-michalwsieron@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Subject: [PATCH] shadow: Improve connection to systemd DISTRO_FEATURES
+Date: Fri,  9 Feb 2024 14:13:12 +0000
+Message-Id: <20240209141312.3397368-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Feb 2024 14:10:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195215
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Feb 2024 14:13:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195216
 
-meson saves its temporary scripts in /tmp.
-Similarly some recipies also do that (e.g. ccan in sbsigntool).
+The logind feature is effectively tied to systemd, rename since it was
+just added and make it configured from the main systemd DISTRO_FEATURES
+in the target case.
 
-As this can lead to unexpected build failures with no simple way
-to workaround, make such setup a fatal error.
-
-Signed-off-by: Michal Sieron <michalwsieron@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes-global/sanity.bbclass | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ meta/recipes-extended/shadow/shadow.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes-global/sanity.bbclass b/meta/classes-global/sanity.bbclass
-index 1bd74e1935..205516bf6a 100644
---- a/meta/classes-global/sanity.bbclass
-+++ b/meta/classes-global/sanity.bbclass
-@@ -840,6 +840,21 @@ def check_sanity_everybuild(status, d):
-         status.addresult("Please use a umask which allows a+rx and u+rwx\n")
-     os.umask(omask)
+diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
+index 16b99a0b60e..79df440b1ff 100644
+--- a/meta/recipes-extended/shadow/shadow.inc
++++ b/meta/recipes-extended/shadow/shadow.inc
+@@ -64,7 +64,7 @@ PAM_PLUGINS = "libpam-runtime \
+                pam-plugin-shells \
+                pam-plugin-rootok"
  
-+    # Ensure /tmp is NOT mounted with noexec
-+    with open("/proc/mounts", "r") as f:
-+        for line in f:
-+            # format is described in fstab(5)
-+            _, fs_file, _, fs_mntops, *_ = line.split()
-+
-+            # we only want to check /tmp
-+            if fs_file != "/tmp":
-+                continue
-+
-+            # iterate through the options from the end
-+            for opt in reversed(fs_mntops.split(",")):
-+                if opt == "noexec":
-+                    raise_sanity_error("/tmp shouldn't be mounted with noexec.", d)
-+
-     if d.getVar('TARGET_ARCH') == "arm":
-         # This path is no longer user-readable in modern (very recent) Linux
-         try:
+-PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)} \
++PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'pam systemd', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'xattr', 'attr', '', d)}"
+ PACKAGECONFIG:class-native ??= "${@bb.utils.contains('DISTRO_FEATURES', 'xattr', 'attr', '', d)} libbsd"
+ PACKAGECONFIG:class-nativesdk = ""
+@@ -74,7 +74,7 @@ PACKAGECONFIG[acl] = "--with-acl,--without-acl,acl"
+ PACKAGECONFIG[audit] = "--with-audit,--without-audit,audit"
+ PACKAGECONFIG[selinux] = "--with-selinux,--without-selinux,libselinux libsemanage"
+ PACKAGECONFIG[libbsd] = "--with-libbsd,--without-libbsd,libbsd"
+-PACKAGECONFIG[logind] = "--enable-logind,--disable-logind,systemd"
++PACKAGECONFIG[systemd] = "--enable-logind,--disable-logind,systemd"
+ 
+ RDEPENDS:${PN} = "shadow-securetty \
+                   base-passwd \
 -- 
-2.43.0
+2.40.1
 
 
