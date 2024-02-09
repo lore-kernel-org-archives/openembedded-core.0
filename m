@@ -1,81 +1,127 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15C9DC4828F
-	for <webhook@archiver.kernel.org>; Fri,  9 Feb 2024 14:41:27 +0000 (UTC)
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
- by mx.groups.io with SMTP id smtpd.web10.13215.1707489684085192038
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29E36C48297
+	for <webhook@archiver.kernel.org>; Fri,  9 Feb 2024 15:01:37 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web11.13884.1707490890184183029
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Feb 2024 06:41:24 -0800
+ Fri, 09 Feb 2024 07:01:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=aefbTjf4;
- spf=pass (domain: gmail.com, ip: 209.85.208.178, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2d0d799b55cso14707451fa.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 Feb 2024 06:41:23 -0800 (PST)
+ dkim=pass header.i=@smile-fr.20230601.gappssmtp.com header.s=20230601 header.b=cH6keWw2;
+ spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4101fc00832so8896195e9.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 Feb 2024 07:01:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707489682; x=1708094482; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=4xMyjLP2Pk6IW7DwYd8EsI31SDBCQkrSr8G3QE8saec=;
-        b=aefbTjf4a5gU2JAdz/XxVscUjo+LOjRsXp5EAeHVzehTbej18OiipBHD9OK5RKKWio
-         vo+WPQkfY7t8SY+Gml2dh2Z6vRSKtXGCuV0/hO7R7Y1gv782DDZhubcuSBjNRKuCoilw
-         HUn8z8LhxJ7mZjF10otOVDf87ALej1x09l9awRuILKlcbyZrZLYX8NNJyyU4DvjPqIu/
-         3oW6o3An2b+8haJHS0eesqQ7L26pXwwnczW1Cmk3Ymr9zJkDfYSBZHJJna8v8u1181W3
-         rSOn6DC201BM30VV9itmTElE3vuXwrwGFisdA0MGBvtrZSmMqolhjyGkG69CZgFvJOQF
-         eelQ==
+        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1707490887; x=1708095687; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:organization:from
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=0CUQG0pwqCLGlZHWxsFgg1CUkvJO7+mZ0s4VLwGSdQ4=;
+        b=cH6keWw2/n71MJ2NfXgV+0eKaVXMTfyAy1LJgqahBYQybxz8Bc5O3K3Wn1F/Qol+Oa
+         ni7/Nzvnx0tGWUjRs72kplEmqjyWXzFPxP0BmMzM9hO5gVnw8GfsAb1kHjcnY68TFI6W
+         jCalBT510AM/xwIenfFIFiNBmSw753bhu97AG20fm2B3BD48N9o4OA4JmJ9FCPo7j3dU
+         bzkTW7DHCMi0JoLzLknF4m4CguZ6FzXivQa3E7hnLStCPhxNP3O/Nljm5oRb0hhFI5bQ
+         PO7lB9w08P6U0aIlNZH/SqIH6XqjXBryf8IO4IT37NEZRHveJXoKU4SjEeaIWFMACjMN
+         G7FA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707489682; x=1708094482;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1707490887; x=1708095687;
+        h=content-transfer-encoding:in-reply-to:organization:from
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=4xMyjLP2Pk6IW7DwYd8EsI31SDBCQkrSr8G3QE8saec=;
-        b=rtKvA2L9wev9YYa7VkaD6KhPQ72z8H6WqcT/5bxCuBBwgcT4LtdjbGZEU1Zz4YaKGY
-         AtFO6eYQiZX2KWtbwyE9wsiNIgKFdEFl/hu6O59/p+rBpqJ2orGJj16JUEPVcCWYtMfj
-         mK9AsajPB8Td3xmGempcBEGL2ZNc80eZDXdktXfLy+O1o/ibSjG+owO40ZyRYoYLWc/z
-         XkNAmnPHdWZ+lvCICLzepPu98EHol1qB3T54VPC9/G4D0C1Kp5GXxteO8AuADsMkyBAW
-         kv/+AFnN3AtHqh8KkByuVg8jggmK8fhye6aNK1oMo6IRUkQLxlutiUU3plZ52IFcucs6
-         8S/g==
-X-Forwarded-Encrypted: i=1; AJvYcCV1pJWO8KVZmXL4aW0dYZ3noOQsh0LaBPNhkpmrT5aGNgxwN6lUjYzTysEUe2Yod+d4PiCt9U3TB76qNIFtXw4sGvxdqu7zus0PEJmcWA5en15lKxfxDWhj
-X-Gm-Message-State: AOJu0YxTe5I284ztuyof9jLyyVyo5dWN5/RmC+YdMueJudTEoaLarjWt
-	/j6z77Fxs00GHw3/9Yy6hZn6ztEMuk62tEXkGFM5YsXhBWjaxEGBnXhTk2Sh/03SKJJKFb7JyJX
-	KP1GLVOdf3+wIINmrLtNwyknoykU=
-X-Google-Smtp-Source: AGHT+IFfBrEZO8te0xnj95mPpbJ7yX6PrBT+xOshtHL5N71WjOf5/paHVfiixyMY/EtECl4XRGQvayo8tkT33gdNgrM=
-X-Received: by 2002:a2e:3505:0:b0:2d0:4c41:695 with SMTP id
- z5-20020a2e3505000000b002d04c410695mr1518109ljz.37.1707489682045; Fri, 09 Feb
- 2024 06:41:22 -0800 (PST)
+        bh=0CUQG0pwqCLGlZHWxsFgg1CUkvJO7+mZ0s4VLwGSdQ4=;
+        b=n8KwLKI6Z/upN440zFCBfDbfS8bg59Jg2YQtqI8UwHKhsTb43CCOLhoR4t5nMzj0DD
+         TC76gfTZfTZRO0S1mZ5xBogHK8a0VfSNZHxXprO5rBwDtzZjFcgNTNCuRVvEi8Bpa/qV
+         EEXUDs+4Q3XAdXFJFscEXnoTzAmoODJAoHEVfHpiPl4d5O+37LlUlfvtiNxcZvcW8+n5
+         We/XbPMOuWg9SBcXlR7lYBcXXC7Qp1Dhq+frBA/2+7JqMmNj0HxKNlhIlJdzksYjF3Tv
+         Ta3DFREDy6wIZpxDOUtCS0ITv+LvLOZVO8/cf9UDYDE0cGB0ScmUilPuSnbO+rvsOqii
+         3BJg==
+X-Gm-Message-State: AOJu0YzLO+HoqeccLBAs/t9DvlE+nXzpO1xsiO7NZuFJNiPDDwUaRh69
+	jyuPmYLqh4V7h0uQ7csPZm+ciRQ+w9mc7Pe079DCRQcQlUJ3wRxXO/BLiNZM8YPszoaORfIYVa9
+	niXo=
+X-Google-Smtp-Source: AGHT+IHcxcbFlWCg/pU5fyWF6Yc0jXxVK//KnrIS5tOjxgYkSQVCKqxWQY4Thz5trsa3XkomW4FDfw==
+X-Received: by 2002:a05:600c:46c8:b0:410:774f:b9e0 with SMTP id q8-20020a05600c46c800b00410774fb9e0mr967618wmo.4.1707490885103;
+        Fri, 09 Feb 2024 07:01:25 -0800 (PST)
+Received: from [192.168.0.20] ([89.159.1.53])
+        by smtp.gmail.com with ESMTPSA id l7-20020a056000022700b0033b13922263sm2021999wrz.60.2024.02.09.07.01.24
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 09 Feb 2024 07:01:24 -0800 (PST)
+Message-ID: <d69df613-7175-419d-8b5a-e9b48c604fb8@smile.fr>
+Date: Fri, 9 Feb 2024 16:01:24 +0100
 MIME-Version: 1.0
-References: <20240208185641.2969396-1-alex@linutronix.de> <C6BC277B-9507-40DF-94BC-3B71E06CFEB6@arm.com>
- <CANNYZj9uH+0Uhj9GN6wxKHXuZzGvnkzjydUJ4eD1xu_mi4V_WA@mail.gmail.com>
- <QJDL8S.L5SFWUB1B9X8@t-online.de> <CANNYZj_Ludt4Cr68KnVCDz-U51WvpyE1qLFwhM10ePAXR7zKkw@mail.gmail.com>
- <CEFL8S.5THERGNQN4KV3@t-online.de>
-In-Reply-To: <CEFL8S.5THERGNQN4KV3@t-online.de>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 9 Feb 2024 15:41:10 +0100
-Message-ID: <CANNYZj-jPcpUqr6YSABTMj9K8PKMpJxyUwyQ=6VCrXO6r1Ax7g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] shadow: add a packageconfig for logind support
-To: f_l_k@t-online.de
-Cc: Ross Burton <Ross.Burton@arm.com>, openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] Add user space utility:dropwatch
+To: openembedded-core@lists.openembedded.org
+References: <20240209112421.45771-1-chen_heyun@163.com>
+Content-Language: en-US
+From: Yoann Congal <yoann.congal@smile.fr>
+Organization: Smile ECS
+In-Reply-To: <20240209112421.45771-1-chen_heyun@163.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Feb 2024 14:41:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195224
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Feb 2024 15:01:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195225
 
-On Fri, 9 Feb 2024 at 15:39, <f_l_k@t-online.de> wrote:
->
-> On Fri, Feb 9 2024 at 03:13:40 PM +01:00:00, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
->
-> You also need to check how it worked in previous versions. Why would we want to enable it, if it wasn't even available previously, and things were still working well?
->
->
-> According to the documentation it will read from logind instead of utmp if enabled.  This is also set to be default.
-> https://github.com/shadow-maint/shadow/commit/fb35ad15aef6190914a939b299e10c343e3e4c2a
-> https://github.com/shadow-maint/shadow/issues/674
 
-Thanks. RP already sent a patch.
 
-Alex
+Le 09/02/2024 à 12:24, chenheyun a écrit :
+> Signed-off-by: chenheyun <chen_heyun@163.com>
+> ---
+>  .../dropwatch/dropwatch_git.bb                | 22 +++++++++++++++++++
+>  1 file changed, 22 insertions(+)
+>  create mode 100755 meta/recipes-extended/dropwatch/dropwatch_git.bb
+> 
+> diff --git a/meta/recipes-extended/dropwatch/dropwatch_git.bb b/meta/recipes-extended/dropwatch/dropwatch_git.bb
+> new file mode 100755
+> index 0000000000..62a1eab777
+> --- /dev/null
+> +++ b/meta/recipes-extended/dropwatch/dropwatch_git.bb
+> @@ -0,0 +1,22 @@
+> +# Copyright (C) 2024 chenheyun <chen_heyun@163.com>
+> +# Released under the MIT license (see COPYING.MIT for the terms)
+> +
+> +SUMMARY  = "User space utility to diagnose to NetWorking packets are getting dropped"
+> +DESCRIPTION = "Dropwatch is an utility to interface to the kernel to monitor for dropped \
+> +               network packets"
+> +                   
+> +HOMEPAGE = "https://github.com/nhorman/dropwatch/"
+> +LICENSE = "GPLv2+"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a"
+> +DEPENDS = "libnl readline libpcap binutils"
+> +
+> +PV = "1.0.0"
+> +
+> +SRC_URI = "git://github.com/nhorman/dropwatch/;branch=master;protocol=https"
+> +SRCREV = "853457b77dbc3d6665a379f3fe31ec53f11b6f61"
+> +
+> +S = "${WORKDIR}/git"
+> +
+> +inherit autotools pkgconfig gettext
+> +
+> +BBCLASSEXTEND = "native nativesdk"
+
+
+Happy to see this tool packaged, but, as Ross said, maybe not in OE-Core but in meta-openembedded instead.
+
+That said, neither nativesdk-dropwatch nor dropwatch-native build:
+  ERROR: Nothing PROVIDES 'nativesdk-libpcap' (but virtual:nativesdk:/home/yocon/Documents/projets/yocto/poky/meta/recipes-extended/dropwatch/dropwatch_git.bb DEPENDS on or otherwise requires it). Close matches:
+    [...]
+  ERROR: Required build target 'nativesdk-dropwatch' has no buildable providers.
+  Missing or unbuildable dependency chain was: ['nativesdk-dropwatch', 'nativesdk-libpcap']
+
+for dropwatch-native, logs are here: https://pastebin.com/Z6qEATiE
+
+=> You need to drop the "native nativesdk" in BBCLASSEXTEND (or fix the build problem but I don't see the point of having this tool on the build/native host) 
+
+Regards,
+
+-- 
+Yoann Congal
+Smile ECS - Tech Expert
 
