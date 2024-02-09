@@ -1,100 +1,115 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AC06C4828F
-	for <webhook@archiver.kernel.org>; Fri,  9 Feb 2024 14:30:47 +0000 (UTC)
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
- by mx.groups.io with SMTP id smtpd.web10.12940.1707489043621355895
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BEF3C4828F
+	for <webhook@archiver.kernel.org>; Fri,  9 Feb 2024 14:32:27 +0000 (UTC)
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+ by mx.groups.io with SMTP id smtpd.web11.12655.1707489146392717245
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Feb 2024 06:30:44 -0800
+ Fri, 09 Feb 2024 06:32:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=094ECGsO;
- spf=pass (domain: baylibre.com, ip: 209.85.219.48, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-680b1335af6so17551916d6.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 Feb 2024 06:30:43 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Ba81oLN9;
+ spf=pass (domain: gmail.com, ip: 209.85.208.178, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2d066b532f0so14346271fa.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 Feb 2024 06:32:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1707489042; x=1708093842; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sJv+qN5/4C6bmudwo9rsf/w0nHajsYg58K5ijXY1KCw=;
-        b=094ECGsOjUFzR4UuKTn5BWYTCiEfPQrU/oG+OG0xsXiRnvkxwkHQwxR7nw5BrhImp0
-         dOoCpM+vAxs/yQu8GXEoaUXMlQdxIGtZAil9YeGKa7kDiyDhf0CpSCXEyT+b4JVXfjWI
-         9RZUnhzJZ2euJ3c+52zZ+hsaVRjchYpi5D1e9rQg+N9nBUHSMFDFV57uT3oaNTjy86KZ
-         jGNb+Koh+4TJEA4aIXaJzAcAGQs7QB5wq/DJlAgjPdtW2Sm8/ejZcntLorRRW5gsAdeT
-         zy29sI6mzU4AUg1ZupN6lf1WEG4LzKlwNZnhOJr92Xaah7h0BAyMYNc58W8mYvYyXHBS
-         LH4Q==
+        d=gmail.com; s=20230601; t=1707489144; x=1708093944; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=hgj+wYoAI23CjPKfsbF7adjXtZ9Qck7WPvgeSOkQzRY=;
+        b=Ba81oLN9kKK2aRXiRuMvcMyGDGBUpoebgP08VDvp5Q/Rs2n92nZLa8ukMKhRzEMjQ7
+         spoP/9tPu7LfwkHJjsCEkD00p3odaD7WoCEkO6W0OqnHQyf43rywWDlPfwa6CUEh35/U
+         WZPXso4Rw71d5Jdtd6O85g4YDiKiTkxvrXwaWV9p9d5oi1Z9DsHCievNTEe7b/K1H7zT
+         4fqy2vLMwROoJit0R2ewOfOiVCDvcVtfLP1do60P0ECSklHFIa0Zg0HmuAuFaZJGO6By
+         RD59z0Pmew7CzwGJl3t0wwYl1lSddnpN+6JCvljUig5d0jCH5o7ziBVvELcTedj9OpSi
+         XrgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707489042; x=1708093842;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sJv+qN5/4C6bmudwo9rsf/w0nHajsYg58K5ijXY1KCw=;
-        b=weKpNKzJfdsiTMHqYgJ2q+zIyppwfrUtJLp1gFBYNfZAWFKrwZQAhnK/i0s0A44UeI
-         r7QQQKykgbcMNcJVakaqi1rbj4WRxecGcdnLibbphzmQLy1wkokItYHHA5kP/iXMg6bo
-         qGAn5sKhTLDq67FsGgb49f9Jw5Pgfx4WMYFS46ODq3apX2nMTg74BDjCSSdzNXRct728
-         IkFHyWNDIWCC9fiEkB0X+XeJC8/WpmQIhc7ykmJKQ8Bb9s+d48ldHhTWmffvRnTJO55v
-         VF0efH+S3GcHeBVkNxsiv99YPbDBD8EBBmHkSooi6r9kWJGGek1gUW5ZKvB4F5PTou73
-         KmEQ==
-X-Gm-Message-State: AOJu0YzrZBJq5ttVpH5RqQ1n5c6ogcs7I9k6x/jMXa90zW2jDupQec3e
-	P3GDswm4WYoZLd5EFzr/4EApFfFWVaTLcMFzDks5ZSKa/HSJmrb0WPiflFYmn0AHPyHkbRiTo0a
-	o
-X-Google-Smtp-Source: AGHT+IH73F+QFLRKlzwi6GrNkUVFIyENId80LNxwdQ/ZjTyA4pWvlofzuTx5lzp3ac8khjWNAddWFQ==
-X-Received: by 2002:a05:6214:5092:b0:686:9e8a:a695 with SMTP id kk18-20020a056214509200b006869e8aa695mr2015048qvb.17.1707489042467;
-        Fri, 09 Feb 2024 06:30:42 -0800 (PST)
-Received: from megalith.oryx-coho.ts.net (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id da20-20020a05621408d400b0068c4d8a9dcasm857334qvb.140.2024.02.09.06.30.41
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Feb 2024 06:30:42 -0800 (PST)
-From: Trevor Gamblin <tgamblin@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] patchtest-send-results: Add 'References' header
-Date: Fri,  9 Feb 2024 09:30:41 -0500
-Message-ID: <20240209143041.1688862-1-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1707489144; x=1708093944;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hgj+wYoAI23CjPKfsbF7adjXtZ9Qck7WPvgeSOkQzRY=;
+        b=kM9LR4Lu/uZp7MxXJh0uRA9okiJWwlbr/2Xrjv1SuxT6M9VTLpn1asjMfon8gbpYDV
+         N4TFNI+6ZCzsgq0b1lOx2dhkgp6BdK/CUzujUqQu7B+5C4aPm6FGGm8/MeaDIvin9tg8
+         sMp+LxrhXxUp6LWy2ckWQSbKf+KP+rnJvUJ0jMbppCS+J95JrZbXGuCsc0r9ej3gsOX6
+         DGmyMnpqoV7tnxLPAt+fqE9jl0F3sEINkyfgzE3jisPsqrkDdHoCD3gYN/0OKz7YmA+c
+         3LZJppvVVH/aMieHuATedNdYyKBt6V061sGOQaUA/75ywScu2FO+a8xQfaSuaJHA6nN2
+         FXeQ==
+X-Gm-Message-State: AOJu0Yx4JhWTvO8fDQFT+KwMpdM0FR+ba9sDQt7K3p6y2Ji42P7c1ctF
+	HMtLYS6/p3ZpGpWws2FiPQvqvCcon3rSsQwrhXNoAtHEXWeXGSvykWp9zSU1efNvShIwjwuLh5o
+	gARnvlYGiAxwiVbV20pXK/0brwn4=
+X-Google-Smtp-Source: AGHT+IHzbLbRsWaqeWFdlpYGzkO3albfXq3TsonEvOf06fkBZSuazXRaAMFRFnAIB93ZTbOyryj8JJqICj23wJiF89Y=
+X-Received: by 2002:a05:651c:381:b0:2d0:b0f9:26db with SMTP id
+ e1-20020a05651c038100b002d0b0f926dbmr1319941ljp.37.1707489144041; Fri, 09 Feb
+ 2024 06:32:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240209143041.1688862-1-tgamblin@baylibre.com>
+In-Reply-To: <20240209143041.1688862-1-tgamblin@baylibre.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 9 Feb 2024 15:32:12 +0100
+Message-ID: <CANNYZj97v=L+SJeKKfdxcf8HxFa+LV7Poo5Y+8gzsLMht=qmmw@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] patchtest-send-results: Add 'References' header
+To: Trevor Gamblin <tgamblin@baylibre.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Feb 2024 14:30:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195220
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Feb 2024 14:32:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195221
 
-Based on https://www.rfc-editor.org/rfc/rfc2822#section-3.6.4, to get
-proper threading there should be a 'References' field defined in
-Patchtest's response headers if its replies are going to thread properly
-on Patchwork. This wasn't there before, hence why were were seeing the
-responses in the right place on the mailing list but not Patchwork.
+I'm also seeing in google mail web client that patchtest responses
+aren't threaded with the original patch; will this address it?
 
-Since we only want Patchtest to reply directly to the tested patch,
-the 'References' field should only need to contain the same ID as the
-'In-Reply-To' one.
+Alex
 
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
----
- scripts/patchtest-send-results | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/scripts/patchtest-send-results b/scripts/patchtest-send-results
-index 075b60d8f7d..9fd24c9b959 100755
---- a/scripts/patchtest-send-results
-+++ b/scripts/patchtest-send-results
-@@ -81,9 +81,14 @@ if has_a_failed_test(testresult):
-         reply_contents = greeting + testresult + suggestions
- 
-     ses_client = boto3.client('ses', region_name='us-west-2')
-+
-+    # Construct the headers for the email. We only want to reply
-+    # directly to the tested patch, so make In-Reply-To and References
-+    # the same value.
-     raw_data = 'From: ' + from_address + '\nTo: ' + reply_address + \
-         '\nCC: ' + cc_address + '\nSubject:' + subject_line + \
-         '\nIn-Reply-To:' + in_reply_to + \
-+        '\nReferences:' + in_reply_to + \
-         '\nMIME-Version: 1.0" + \
-         "\nContent-type: Multipart/Mixed;boundary="NextPart"\n\n--NextPart\nContent-Type: text/plain\n\n' + \
-         reply_contents + '\n\n--NextPart'
--- 
-2.43.0
-
+On Fri, 9 Feb 2024 at 15:30, Trevor Gamblin <tgamblin@baylibre.com> wrote:
+>
+> Based on https://www.rfc-editor.org/rfc/rfc2822#section-3.6.4, to get
+> proper threading there should be a 'References' field defined in
+> Patchtest's response headers if its replies are going to thread properly
+> on Patchwork. This wasn't there before, hence why were were seeing the
+> responses in the right place on the mailing list but not Patchwork.
+>
+> Since we only want Patchtest to reply directly to the tested patch,
+> the 'References' field should only need to contain the same ID as the
+> 'In-Reply-To' one.
+>
+> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+> ---
+>  scripts/patchtest-send-results | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/scripts/patchtest-send-results b/scripts/patchtest-send-results
+> index 075b60d8f7d..9fd24c9b959 100755
+> --- a/scripts/patchtest-send-results
+> +++ b/scripts/patchtest-send-results
+> @@ -81,9 +81,14 @@ if has_a_failed_test(testresult):
+>          reply_contents = greeting + testresult + suggestions
+>
+>      ses_client = boto3.client('ses', region_name='us-west-2')
+> +
+> +    # Construct the headers for the email. We only want to reply
+> +    # directly to the tested patch, so make In-Reply-To and References
+> +    # the same value.
+>      raw_data = 'From: ' + from_address + '\nTo: ' + reply_address + \
+>          '\nCC: ' + cc_address + '\nSubject:' + subject_line + \
+>          '\nIn-Reply-To:' + in_reply_to + \
+> +        '\nReferences:' + in_reply_to + \
+>          '\nMIME-Version: 1.0" + \
+>          "\nContent-type: Multipart/Mixed;boundary="NextPart"\n\n--NextPart\nContent-Type: text/plain\n\n' + \
+>          reply_contents + '\n\n--NextPart'
+> --
+> 2.43.0
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#195220): https://lists.openembedded.org/g/openembedded-core/message/195220
+> Mute This Topic: https://lists.openembedded.org/mt/104259219/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
