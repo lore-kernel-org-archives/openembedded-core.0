@@ -1,118 +1,121 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA988C48297
-	for <webhook@archiver.kernel.org>; Fri,  9 Feb 2024 17:36:37 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web10.18551.1707500188877149084
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EDF88C48297
+	for <webhook@archiver.kernel.org>; Fri,  9 Feb 2024 17:50:37 +0000 (UTC)
+Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
+ by mx.groups.io with SMTP id smtpd.web10.18922.1707501028670077451
  for <openembedded-core@lists.openembedded.org>;
- Fri, 09 Feb 2024 09:36:29 -0800
+ Fri, 09 Feb 2024 09:50:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=c8PDr/t9;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4107ed0c536so3511235e9.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 09 Feb 2024 09:36:28 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ImHeNUFd;
+ spf=pass (domain: gmail.com, ip: 209.85.160.54, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-21a01c100a3so422516fac.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 Feb 2024 09:50:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1707500187; x=1708104987; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=GGaI4DUtd/COyC37XmU43IqYsf6Oc5j5AwYcK7gKRlY=;
-        b=c8PDr/t9dkY1hiZXN+AfsEuxqGv+Qrgviwun7DuDrlWZYIjI41hKFH2y6z1151+/Xc
-         371YhPiakAoTTqZynaMx4WldH8+JWi9xL7aBPAyZusnSOY7SGt/7h4/FHbKz7XXdQfLV
-         06D/VlcFVwqdaaVMbKLe6oA0VbpB/4+1kV4dk=
+        d=gmail.com; s=20230601; t=1707501028; x=1708105828; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3YfXSiUpGbs6T72Rc9day1zpHuii8f03Khgj7QF4lR0=;
+        b=ImHeNUFdIdzwMtLjaPTSww2NghL66FTgfmblrCqK76IEmStPwdi/RnERC9keA03l4F
+         FOi87ErbYwgswHTMLSWQ20Ne9IVo+ePm63Qc3J6ytVeLztitrghLw2fqMDp4nUyJJUMB
+         1sknEMtgNlZRLCLAyKhez2kkrAFeupL/2aPvfq6GXwmAwoeJd0Y5qHATyFXxgWBgGbrJ
+         kJdrJ+61Ahmw8qvgWbVYlSTg+MKz8lzKnZvKO7CqxJEvxu/070zRjktgqdufh6qEVtfc
+         q8PNSiNDuHfnRVjtooyu6Jc/MysZHgdnVprR4s+rz4zPMRJWvJlMfGaWReCNbw9+sQGn
+         p5Yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707500187; x=1708104987;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GGaI4DUtd/COyC37XmU43IqYsf6Oc5j5AwYcK7gKRlY=;
-        b=YVnFIrQCoL4CwNVBvNu0EF+cr0UYrsfwjup4qC5MEdGP91lOVxWmk3XdX6lqyE/PLN
-         wJFO3nD91Ajf/tOCHu5w4c6Hvj3ggHjvMJdLmDGi4CLAUUZ02x5mVYxDL/PsAw0cbEPQ
-         G5eCN8qb5n3knxtYahgHJLath/x+hV4n+AUqcOoTDYE5Oi74lQPru6CCb7F19FKnjSSf
-         RTRobISkMWGTpWo529r5A5IXDhSkcNp+dWdTLeQaRykS6WeKSBK+8fUBjhZj9LGibJP2
-         pYxCTCw9AVSTdz6Muoa8pVkuXnJEU9KoWlRSq+WcPHNr9vF5yoGpEiR9zqpGxgLny+YE
-         K67w==
-X-Gm-Message-State: AOJu0YxgH3BNe2y2oCjvkTVA29GJGmpUPun2uPD+D0mBUrwY0Y6wSbn8
-	fvzrXtSi5rSy9O+1VoHM4xP7u+7sxXCRQNUjkWKZNKA5lPs2ArxKTD5jXbyTtcQ=
-X-Google-Smtp-Source: AGHT+IG2mqj5f5snE2p7IB9BbLvzU4sIyfzP9q5KVn401MqEBGPgzl2xCW/saRLzdXZdkEC73D4aPQ==
-X-Received: by 2002:a05:600c:aca:b0:410:82f4:5032 with SMTP id c10-20020a05600c0aca00b0041082f45032mr10668wmr.20.1707500186615;
-        Fri, 09 Feb 2024 09:36:26 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXJe7q10LG+F6gue1/dRPrT2ycKWo6Yek2aMUQvpO2/fkfF+LuZHnYchJmQoFFRoxsFm3DNOkEvbi1DEdGB3Y9rnSAqLpsRNeKOXG1XqRWGN3/HlnCqxvUD
-Received: from ?IPv6:2001:8b0:aba:5f3c:47e1:ee11:154c:e6b3? ([2001:8b0:aba:5f3c:47e1:ee11:154c:e6b3])
-        by smtp.gmail.com with ESMTPSA id bq1-20020a5d5a01000000b0033b684d6d5csm910152wrb.20.2024.02.09.09.36.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Feb 2024 09:36:26 -0800 (PST)
-Message-ID: <73130ae89b57e6af9749dbead7dc3f42894e04e7.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH v5] kernel.bbclass: make do_symlink_kernelsrc
- reentrant
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: ecordonnier@snap.com, openembedded-core@lists.openembedded.org
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 09 Feb 2024 17:36:25 +0000
-In-Reply-To: <CAHUKmYaFA8_eHrSCqknXqDfPfkwySdjqxWKvo6thuAAmD4guNw@mail.gmail.com>
-References: 
-	<CAHUKmYaFA8_eHrSCqknXqDfPfkwySdjqxWKvo6thuAAmD4guNw@mail.gmail.com>
-Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=mQINBGN1PzgBEADqZynxX+ivalgYtZ+AoHoGynCiJw0lR+H9rC83sj9z38nlKHBCuh8r8KOqelDUf1B73E9oCLjZQVwqKLmao6ZDQYt7utG+h6qGLEgyDfeochYkLwElvRtjhTp0Ks5WPIHUgE4lwfqmsLrHbkEfRYui9eSd+zJpPKTRgQ7WhTGfRaXPEVYn24fWEo637biLyoEop1qaZMoY/mPsflDYDISWgAeunFx63oL9zNAhOWbLIy2uicKq2GyS56CooPzQkpUv7ssQBOqXp/FSuGJ49RV7Npj/eXyEepAh3BtMliJF08rAj07Hpywp3skXku8YcwUAD7TqOnJ4Wr6G8vpJlQKSITIGMBqtq3f8+SwImWEMRVXxDzrmznihOC7qEUWH4tN/AEkz2BJQbGYnp3iQjZqsoqKblyC83/5MCCUHHpDg20HooEWVNTUxUa8dGWaJehKC5fX1276Sm4WLaoqbQwSGCmwS1e+LjO9lFT80WHIELw07iDhQxshNqVLIxCt3pZfWRlf9fHCtxStiQIRrQLAKN7ze+//YjExjkDOt1ZFIsgMmKIQmJ6b8kRAAmQUraTcn4E/hy0mArFLmROyPSc1nD8hQMeELDcjyjEmo7j3qQCsU464v4tcvJVXyqPc4TU1GDQdZBaKP0/jR68aR3ZOvzx99jdocPdHNW4Kpbv6PnQARAQABtDNSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz6JAlcEEwEKAEECGwEFCQPCZwAFCwkIBwIGFQoJCAsCBBYCAwECHgECF4AWIQQRclb3b/q6zLA9Fn+aUMY1GLyygAUCY3VBgQIZAQAKCRCaUMY1GLyygAtOEADglyjAhkCSGGetbs40FJ4
- xdHKck7aaB1FgbpGn9e9/WAeAPC722eJsxhujxgKaS9b7mHcTcWeMP7KFut4yKTDHovt4VbQOd PGqwyUmi8z0yd2ORlT9E3RjEEllpj/Z2Wfzs3H4qR5wz3Rij1BCirDH8LD5yAO8PpIW2N1Y4VbzFDTPX2KtLGQYIraOHZQQe8XjAJnXflVQbzSIbNw14IlVWnF94UwkamxRhhCVAdA4139ebU+R0inaVsG0Bb7GP3KiED4C1I/tj171G4bOsyz3zYkpuV64yuq5pVevLBuCJv1Z/yiBdbB02B+FkosKLWRvoZFa2gqK2xpZT8RvDdkBQTmZTs/hP59mh1QSt4d2p1KsBu7cx2fjRBuf9XVG+uR/XnbD5T1BQRVV641ZNzPTjtE3rEZzR1nsUv+vcFYv0V/FPcLg5f3Ui+4cuYj/xDykMKZlrBIVGExBOJr7Anbzwq8o4nYUsrbFE3Fu88l8/mWrQCkAIZqc2NRyuXplZrDanB9Abi2XmZO0B3Q9wKvzmH0yJyLfswmzrejf3oVOJNEKJP5acPnXfQqAr5F7gdeLvdHbOAtg1iU8GujkOvRA7ad5ahT/1mDzKlkjaf36p4jodsGzPydOks2/jbVZxbZsR1il3BuDXb0agChNXJH4IpcnrjAliBtTKwnEYuLQeLQsUmljaGFyZCBQdXJkaWUgPHJwdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz6JAlQEEwEKAD4WIQQRclb3b/q6zLA9Fn+aUMY1GLyygAUCY3VBEAIbAQUJA8JnAAULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRCaUMY1GLyygA0tD/4l5GVZ1OTKoCsHzQuSUVnyzmSwYmJD7W7E1VeVVvVk5bfFf/w6p3dXfGjhZ8zFackE+RmT3//8kQ+Zs68csd0wjX8klyFXgA5PWP3DxNkejnHCq7wiLouOGC/E9RSUULn1DYb68yPzvdGQBooqPQZORtXzNgM
- NuWDKH+9uvhGbdvURJHCRPTpgcdCo64d+IMzA+XmZUg0P722IyVmB+I2TgjaIRr/NsbsGP4x3u8 TVfJPXmE1IS9nrKEm023ntuy1AH9JlACLZ4LGvpxf8x7ZVKaXXqWOQ1aQ5BCQoOc41AiVUyeiq2wdLRQaNOxbb8+ED34BYLyMjZdII9eovZMbMt7kLSjkbOs/k3s7wtQ2eY7QnSggf8/MWUSUaJzLKHnOBRcqGjdFdlZ0BKXL+v9NrpjcUBsG1TY5XORIahk6Pt1+cPyIsKdycKU4RHtNfwX5fidE8AhU97U04z3tIYs121J4M/EG3bEfOtwDaH7BRTZHK5B05Mks/kX608CwLSJSbX2dSENInh5+dSVQ0egbFbXQGcHFmCCMjYH09hcNUSEyI4OUQHVu8HHQIfvutPqIsZEtJ1K/s3ZD3Zyq35UUiwnCu5hYohX9B0o0TwgDaI85dS2edHy2bnM3a9yuTPiwNYpfR6dp6cg8BM+9qqkJvwp5LiMcZcJC8S5xR3U0FtbQiUmljaGFyZCBQdXJkaWUgPHJwdXJkaWVAcnBzeXMubmV0PokCVAQTAQoAPhYhBBFyVvdv+rrMsD0Wf5pQxjUYvLKABQJjdUEhAhsBBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEJpQxjUYvLKA/iUQAJJkVW2yDzxrH/5szOuG0ZDDH6X6Yrdp+m+F4hHHJQkTYgdRPeoHYKyXNOettdVKrZyEDkztBWkB7Sd7zuVHR3Q4PVTsEh09ZzkqBgN8OevMA7RPHZOa2PYJ8pAx7eTah1whM2eOf+VZGKrW1R9ouTluV7/c4o5loaKuh+t61W2nH6E+lQt3/gKnwj4QmUb5V957ZSHO1cnjtHrd4FFmkYQOCbolEfC25lT9vh4ldY+dILQPcq4at/LEABp4xEgS6R7K4E3cDnjWogrZTiniAUrR7P0SNYv7WCpAbvk4Z9DGCHXpKod
- KjTi3em7xDpqA1Rxd/rV4z9VQJrbpL/oiPCnTW/iCx+eMH70dRk+gHxSU8FWVf+CucFZprvO9UMi tGHLvfpBxfnGDT2EOqOoFOYgYHq7MfSDZT+zM/gBWfHXbyz6W9RYqycwWCIhG5jhMhT2sEWr4FlwmXfogvSqxvKondwPfXsgNT1MdBqa0Hhm0pIJYs4ovKWnvymTraziqSWI2C9X5lPmf6ugNiuzJt5BqlilNHxsej9OC53HfBbkgDONdcJbduW9nrJlIl9OLanB4/fvuqG1ZIS/eFFAkb2YnBBuS2TNz3aPd7vFkOoMU7VegDic/sH23eZPGQm3XWcTYwIY2djBU8Jzyy4mRIOQZMGXb/ygrGXAuIxL2R2O1uFYEY3VB1RIIKoZIzj0DAQcCAwQzkAYGjbS/m2SeumSYfDZKeazIkOpwUxpTQ7kPxz0ijiquKSsEZzlPMFzhA+iBJh2jdCyabi5K+8+v3VZZglbWAwEIB4kCNgQYAQoAIBYhBBFyVvdv+rrMsD0Wf5pQxjUYvLKABQJjdUHVAhsMAAoJEJpQxjUYvLKAr6UQAMyaDatvvCkxvOyFgO6jxLLzbkwl40hTNB/TsG5RdwL6FXnBMzkIa5lEfgV1u2zwu0p7SKWH9J3DSNqYKjUCAfwDEv6aDKrFYqGQZMuke1ZAfKqmWTIYOKYG4vRgvvF1u0aCOrRJiipjEPnrw1LC6eaqpnI3WGJyy8Wgr8aO0RBUO93ax/+Mpw3QG+jQqZjuomBWGvUwsjRtzE9j2QUcGxjyTrocVsR2qjK0boE4jLGJWNreSIgs5Nllww++3l0pabmXhyXqDdoYE1U0WkI/yemsc8ydDtjpeG4uzv9rfd5VUqHoZpuYZ1sc4DTGFrEAoght/9FXWsOFOtX8vZprLFFi7iFNSDChIFEsyuizHOW5wl/PYkGCCMZvwPK61IvCARKwevdnSrle9omYEqjnU/HjVZ/kvtKxn1VN15j1NNF
- 0zgmm+/RfbZFHbeuea/lVInXpNBMDj+pl3VyygUae65DMFWgYVSLtXPTRLVMb2mIxiNpk3T2UcuVW 1XC9LWup6h8jHEJ0zBCPjPyd1tFQ9hHVOJnwRthV+VG3zuBf8sri1TPnz5XjNpu3Q3r/6turvh+Khal2itb980tITH5fDbLUewPiA2jCAgZCkVMQcvYTS4rZCC+hpHSMte4m1n7AcmF9ohhw6tt41AEhwbMh+nRkyjDkY+k/vivg0obC2JpruDMEY3VCGBYJKwYBBAHaRw8BAQdArl5/9Fe2aA9JEc+HRm2rnCl6NMb7DZJLnM0xmQg1ouyJAq0EGAEKACAWIQQRclb3b/q6zLA9Fn+aUMY1GLyygAUCY3VCGAIbAgCBCRCaUMY1GLyygHYgBBkWCAAdFiEEHKt8QO5c0zRDdmiGodJewzbIKeYFAmN1QhgACgkQodJewzbIKeawUgEAzEwjSYf8lXVNcZVYL/4SLX9FEop83Q8+WmwT2rGhA+MBAKga5Fl8afYVHuPlPOxB/M7aQdP8vfYEx/cWmHmQEUICQxQQAJd85C4//BU0FOUPlEQ1vofZGNC1wTzVA7cQtYlIRrgQOmjR4tOFTxEzusA8QvXxOYkMkDlaa/Ai4/nicMqadnWPQ37BmTAW3/O5PVA22mWaC/ZVeG6DGBGVWb/OAwZe9KMxOR6say+bEIM6B6iDgc3V/HNsLWYYPHaj5HebHOKAJ7dqGGUlFV02OrVW5yAaOUEI61cKw0QuwoN1fZgih94EvFicNaLnDVDV64cbOnNyxGlJhbv4WMErtU4RVD3tT1soESmDB4jS2v49reBpsVVXg2G/M1xFO3sUcczHeo5LRaKtXpkXNh4WO3HDT/eb/IWP8Me2YKpwa5dzlrUz0AYi2s+h+LGclOP0Mls0tgS8sQSVdTj/feLk1FSSQGhSKdHMMGTlSsqj7XjToTAnIheq+5sdaY8UCEYu4s6jDiKu6G02HlF
- WpERQ9FmtGo2PVqnMaZy2w9lkNNn8ccyMWpP2EwGuCxONQrc22a7WnCYLTpOukLUSD7ApH7M2Jk8on
- kPGvi48NFq7PWaTkvG3vuSm+eApSToeyz7AVtFt8QOUnHTiNHbuiNpQsDd3y5bLLhU9mIJTbsWNP/72oXV7Tcz7w8zVh2qmuZqhu5qz9rcox3D9unGQ49N3i+CO9c7SqxcLckEjd9o62HsDDpqYv3cdtFNajNsHD8bFU9bb+swCuDMEY3VCRhYJKwYBBAHaRw8BAQdAjoQBsbbnpigttLSFJOFohHY6BGWmjCi520kt0UBBgG+JAjYEGAEKACAWIQQRclb3b/q6zLA9Fn+aUMY1GLyygAUCY3VCRgIbIAAKCRCaUMY1GLyygAQbD/0WyvGz8jA3CTAMTa8yoAlcX73+7aHQaP+DT1PaVU6W85Mm/Bv5JXJ+RWyCCa1jllAWTOhqkOXZ1lXqgislBGtpY22LdwlXW4NGETWwZb79ypR+nayuIPnjOrxkxPOFpcH+wCk9wX0qYi4/8xFTeIZtoty6ayP2bZUZL8aQ91kyUn7nrLmAymPhDq1AAjg+Dkz6DDyzkzXDsY6OY9SpKcWxLkcOm8oXn5B5K5Pl3FaRfYrmX2pAZ6DliQsvPMtXlA01qJ6W4nvRN5ROfjXefNGdyRK8LfJ8BkfDqtZ9/5UrMrW1b7CPA9/7dC5P2jfImtU6R90fz/S4ua2jzeVY2gt7olSDsBqJDOMBPwqEETDROu1+oCIXvdrrZszBu0pTCLV8r+rQqqjICZtK17CEXH3jmDeD/Q6MmAQqeyIhi3uQpGOaveP81WMiC8DDLRXmSuMYOIH/KebzgNnaCQzlQl3a+8tD2qQ48RqzR6JLcKu6h0A6KWItZScfshopNRVsm7FIWM1XUGm1nG6lmPtpVYsXF75hx+YxpAogbzm6fOnUJWFiP1/NVRgtWiii2HG8YCIrEeR3LCUQd/5aYS0CI0cy8WATg/1qkLbcr0lVaCRLT2KZd5WH7tz/4IBanSdCAj6vEfovE5ilWNThQHwg8aPQI6COaHFcTcervMD4Sy
- YNvg==
+        d=1e100.net; s=20230601; t=1707501028; x=1708105828;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3YfXSiUpGbs6T72Rc9day1zpHuii8f03Khgj7QF4lR0=;
+        b=awImhHgG7l4WlphrMgP5Z4QGNzg11+ogKq25/vRcj5vnTMyZOI5TIuUtQvW0hUqEPR
+         avEl3tmlFr6KAfuOtpmGU2FoQcAG5a1gMSPu99hTDGo3dyna+DlE+nt1x+fNAji+yRjI
+         VyD4RG2/9zOFuvLFDfPJYrOQoP5GYzIUiupmEuxn4/A5A62GxsKdfKC8iAGgD9eubQnt
+         lxucxF0Un9/B+9wpbEPG/GeUYUbmdPh3+PfeiL4MyoVBGBLIZ7x5W1B38VyP5svZtOdc
+         n4UGOGPCu07y/FUb57pyqFvH5rHzMUH1QY/qsSPCLjUAy4JmnGO+x5Zhn3t6cPZYkAbq
+         AMzA==
+X-Gm-Message-State: AOJu0YwDK8uVZ6KZYSCa6AJaKTxYlzah5KspEQicoYpA5EQJnwNlBG4t
+	SuqI0XfVs7xRYlmr7X+KyoyjWzYbGzs5WoQCkXfS2OvjkqqS8XXW7zY3CFAJc2EnH3/fBBvS54j
+	vT6ic/eT5aAhxEgYLoIZXQ9875bU=
+X-Google-Smtp-Source: AGHT+IEO7NmzfFhzDEQ1z89xs5d05kBQQYE97g4w8BjOysvlG6UZtIABG+/i9nd7P3QpT8bjSHIrG8xXjCiY9+zcTig=
+X-Received: by 2002:a05:6871:b0b:b0:214:d3ae:d47c with SMTP id
+ fq11-20020a0568710b0b00b00214d3aed47cmr2677346oab.0.1707501027846; Fri, 09
+ Feb 2024 09:50:27 -0800 (PST)
+MIME-Version: 1.0
+References: <20240208185641.2969396-1-alex@linutronix.de> <CAMKF1sr8rx9Mcm40KCFJxu1S5546tQGD=d8ox1Kh74uKScFk1A@mail.gmail.com>
+In-Reply-To: <CAMKF1sr8rx9Mcm40KCFJxu1S5546tQGD=d8ox1Kh74uKScFk1A@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 9 Feb 2024 09:50:01 -0800
+Message-ID: <CAMKF1so3xAO2OMnurrUf+BBE+VKhbxNSzXnDL9zYyB+tguYMyA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] shadow: add a packageconfig for logind support
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Alexander Kanavin <alex@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.0-1 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 09 Feb 2024 17:36:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195238
+ <openembedded-core@lists.openembedded.org>; Fri, 09 Feb 2024 17:50:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195239
 
-On Thu, 2023-12-21 at 22:49 +0100, Etienne Cordonnier via
-lists.openembedded.org wrote:
-> From: Etienne Cordonnier <ecordonnier@snap.com>
->=20
-> The function do_symlink_kernsrc is not reentrant in the case where S is d=
-efined
-> to a non-default value. This causes build-failures e.g. when building lin=
-ux-yocto, then updating
-> poky to a commit which modifies kernel.bbclass, and then building linux-y=
-octo again.
->=20
-> Bugzilla: https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15325
->=20
-> Tested with a recipe "my-custom-linux" which unpacks sources to a custom =
-${S} directory
-> and ran symlink_kernsrc several times:
-> $ bitbake -f -c symlink_kernsrc my-custom-linux
+On Fri, Feb 9, 2024 at 9:24=E2=80=AFAM Khem Raj <raj.khem@gmail.com> wrote:
+>
+> On Thu, Feb 8, 2024 at 10:56=E2=80=AFAM Alexander Kanavin
+> <alex.kanavin@gmail.com> wrote:
+> >
+> > This was causing host contamination in particular, where
+> > libsystemd was installed on the host.
+> >
+> > Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> > ---
+> >  meta/recipes-extended/shadow/shadow.inc | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-ext=
+ended/shadow/shadow.inc
+> > index b8e5e285c45..16b99a0b60e 100644
+> > --- a/meta/recipes-extended/shadow/shadow.inc
+> > +++ b/meta/recipes-extended/shadow/shadow.inc
+> > @@ -74,6 +74,7 @@ PACKAGECONFIG[acl] =3D "--with-acl,--without-acl,acl"
+> >  PACKAGECONFIG[audit] =3D "--with-audit,--without-audit,audit"
+> >  PACKAGECONFIG[selinux] =3D "--with-selinux,--without-selinux,libselinu=
+x libsemanage"
+> >  PACKAGECONFIG[libbsd] =3D "--with-libbsd,--without-libbsd,libbsd"
+> > +PACKAGECONFIG[logind] =3D "--enable-logind,--disable-logind,systemd"
+> >
+>
+> have we tried it with systemd in distro features ? In my distro
+> settings its causing a dependency loop. see
+> https://snips.sh/f/GkrM4zsDk1
 
-Sorry for the delay in getting back to review this patch. I'm extremely
-worried about adding complexity into this function, particularly as
-that complexity is now adding in significant overhead.
+shadow is added to taget dependencies via useradd bbclass see
 
-Firstly, can I ask why you're using a non-default directory for ${S}?
-Is this as a way of doing a kind of external source usage?
+https://git.yoctoproject.org/poky/tree/meta/classes/useradd.bbclass#n12
 
-Having spent time looking at what this code is doing, in normal usage,
-S gets set to STAGING_KERNEL_DIR, the source is unpacked there and none
-of this code triggers.
+so a simple packageconfig with a dependency on systemd is not going to cut =
+it
+it will work for non-systemd cases perhaps fine but not systemd based syste=
+ms.
 
-For EXTERNALSRC, a symlink is put in place. The code should remove a
-symlink if present and create it with the current setup. In that sense,
-this patch isn't doing the right thing.
-
-I'm very tempted to say the "using a non default S value" just error
-out.
-
-Whilst I understand how we got to this level of complexity, I think it
-will just end up causing us pain in the long run and I'd rather just
-not support it.
-
-Cheers,
-
-Richard
+>
+> >  RDEPENDS:${PN} =3D "shadow-securetty \
+> >                    base-passwd \
+> > --
+> > 2.39.2
+> >
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#195172): https://lists.openembedded.org/g/openembed=
+ded-core/message/195172
+> > Mute This Topic: https://lists.openembedded.org/mt/104244839/1997914
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
+raj.khem@gmail.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
 
