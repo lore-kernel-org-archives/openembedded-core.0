@@ -1,118 +1,98 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2DFEC4829A
-	for <webhook@archiver.kernel.org>; Sat, 10 Feb 2024 16:13:02 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web11.16592.1707581578685710879
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1D0DC4829A
+	for <webhook@archiver.kernel.org>; Sat, 10 Feb 2024 16:33:12 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web10.17146.1707582784759638581
  for <openembedded-core@lists.openembedded.org>;
- Sat, 10 Feb 2024 08:12:58 -0800
+ Sat, 10 Feb 2024 08:33:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=QBDj0KFI;
- spf=pass (domain: gmail.com, ip: 209.85.128.50, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4108db2ded5so3491365e9.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 10 Feb 2024 08:12:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707581576; x=1708186376; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=CObw94ZDynBmaDdE9g2BDFMWvwSHlmM29Xg0ZQdG9Xw=;
-        b=QBDj0KFI6NNsKDglEjZDAcO5lNBtTofQh+GkhdraNPl5smw21g1GJYOPZ8wvUcDHFr
-         T6vYTAXWOwSYT448Z0FA0K7a8UnQTQ3fSwy63oOwg/pNo6TfgrQuFSc4VJzDM4yZPPEC
-         nEo/RpAu6t9xQ4L0mWjwO6OFctdoWwhl76xsT/fncgW7pI1v2KSegCUTfXpk7sYfwkil
-         y94e6LYhJF1D8QmkdxKmcoadGAQ8bAqFm3k34RbZuW1LbwGIFVON0sOLSES8rBdQr33u
-         xUrKeEQzi30HQ63dhg6KGgzOWdl8I9+dHTOBjWFFNyP3heV46sfuOiQvhlYLE12mcPuF
-         5D6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707581576; x=1708186376;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CObw94ZDynBmaDdE9g2BDFMWvwSHlmM29Xg0ZQdG9Xw=;
-        b=u5e5KTBrN6EDS7j4BzCvreLMFhEHvTjQ/BxUen63W97g8tUkLnxvVrpLJtrMgY2ldF
-         TVnyLc9nmB1NlrDyvkNPn7+pkhnaEdfeOSqjlWpRdVNP1cfsRuE5rpDXnczwuH6ruWG2
-         hBHC06VlsI2qu4Vez8uCw3iUJ0SpuO26Rgtu02aQ67EvESmvKJAmGsnc8HBu0pX0HRbO
-         HhaCOl7Gn5e+e02cByt/tju+bsqoK0S/F30KaySjdA9LDtGU+pyM+QyUB9Uwn33F5uks
-         1pSj/M6m5zABOgDbCyl3gXnY5kMUrOM7Ul68Yp59R+lJDU/ZTmMcASxEOmUCitb6110x
-         XkHw==
-X-Gm-Message-State: AOJu0YzjpxMz9cEln2Ap1xcHnMMO+5kGkjB2RfJTLBEU96U7KuEWmRQj
-	DhDFShVQ+uE1BMs25PfCyFxmuxLMcP5dgyFaJCAF9Ujy1eIcDJDBZqJNEWCP
-X-Google-Smtp-Source: AGHT+IEUimeiAeEHm3aHl1eg07k8evHEmG4SbSDFcNz3ptvbQZbsPD3eVtSxVZm30u3PiTRbfqrLvA==
-X-Received: by 2002:a05:600c:198d:b0:410:72e0:d391 with SMTP id t13-20020a05600c198d00b0041072e0d391mr2265079wmq.6.1707581576035;
-        Sat, 10 Feb 2024 08:12:56 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWkBosq39yOK9eRXK+sKLtB0mI1twUCFkMcDlGNCR7cDs+mqfBXI5NpZkHKO4TmksZBxn/cMe/BUtgkRAod5BChUEe97/s9SJxrAPIql2TJJP/TuKfLNx+0cFc2ZLibzEVqCRX2dasFFEp8JxILTA397RmLfX0DQLG/Xf6eEurt3OEjoHvzoak0nQ==
-Received: from Zuma-000004PC.lan ([2a02:390:9c57:0:d016:9a35:28cd:913d])
-        by smtp.gmail.com with ESMTPSA id n11-20020a05600c3b8b00b004105017f83fsm3774956wms.31.2024.02.10.08.12.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Feb 2024 08:12:55 -0800 (PST)
-From: Alex Kiernan <alex.kiernan@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Ross Burton <ross.burton@arm.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Alex Kiernan <alex.kiernan@gmail.com>
-Subject: [OE-Core][kirkstone][PATCH] curl: don't enable debug builds
-Date: Sat, 10 Feb 2024 16:12:34 +0000
-Message-Id: <20240210161234.12849-1-alex.kiernan@gmail.com>
-X-Mailer: git-send-email 2.39.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=B4QiIkVj;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=IJnj7D+R;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018d93dd81a4-0099bd71-a0eb-4f94-8ca3-51d9a9f2d323-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1707582784; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date;
+	bh=4tf9JyYM7j168xLmwNj4WzZPvsKPrhQc6Gpd77+zD6I=;
+	b=B4QiIkVjTIeczMaiVjM7T3WDNlkwQVQExgkOfCwr6+/OMniRkNLEwMM8DLdVN2SU
+	Kmt2BMZtlgVBD8c7OolnBCSv/9TwjExPVOwDbLcq1dcMi64AeuOgOq4IqjtrJUyDtIr
+	229Kby6Bq+jNFfvZI7jn0C6mSnkOUlj787P/pGdI=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1707582784;
+	h=From:To:CC:Subject:In-Reply-To:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=4tf9JyYM7j168xLmwNj4WzZPvsKPrhQc6Gpd77+zD6I=;
+	b=IJnj7D+RPAvv9pxX/RFE3g+oJrXmxr1Sfex0wob+8qBIbMmHlJOz1lKe81cVfxlU
+	dvUWUIS9AXBADd183hmVRmooBc5KVvqKc1PeFBDUen6WZ6t0uk1OBNf3puWCoTEnjz7
+	BP9P/DMb1N1HRmL+NJFQEEQN+LvzZsTFGBUHLXPg=
+From: patchtest@automation.yoctoproject.org
+To: Alex Kiernan <alex.kiernan@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-Core][kirkstone][PATCH] curl: don't enable debug builds
+In-Reply-To: 20240210161234.12849-1-alex.kiernan@gmail.com
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018d93dd81a4-0099bd71-a0eb-4f94-8ca3-51d9a9f2d323-000000@us-west-2.amazonses.com>
+Date: Sat, 10 Feb 2024 16:33:03 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.02.10-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 10 Feb 2024 16:13:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195277
+ <openembedded-core@lists.openembedded.org>; Sat, 10 Feb 2024 16:33:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195278
 
-From: Ross Burton <ross.burton@arm.com>
+--NextPart
+Content-Type: text/plain
 
-In oe-core 27824261 --enable-debug was added to the configure arguments
-to turn on debugging symbols.  However, enabling debug mode does more
-than turn on debugging symbols and introduces some codepaths that can be
-controlled with environment variables.  Bluntly, the curl maintainer
-says that --enable-debug should not be used in production:
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-https://curl.se/mail/lib-2023-01/0039.html
+---
+Testing patch /home/patchtest/share/mboxes/kirkstone-curl-don-t-enable-debug-builds.patch
 
-I did a build and verified that the curl-dbg package doesn't massively
-shrink, so the debug symbols are still being built.
+FAIL: test CVE check ignore: CVE_CHECK_IGNORE is deprecated and should be replaced by CVE_STATUS (test_metadata.TestMetadata.test_cve_check_ignore)
 
-Remove the debug options and hide them behind a PACKAGECONFIG, with a
-comment that it should not be used in production.
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
 ---
 
- meta/recipes-support/curl/curl_7.82.0.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
 
-diff --git a/meta/recipes-support/curl/curl_7.82.0.bb b/meta/recipes-support/curl/curl_7.82.0.bb
-index 965f05bc9812..b2efbd6172a7 100644
---- a/meta/recipes-support/curl/curl_7.82.0.bb
-+++ b/meta/recipes-support/curl/curl_7.82.0.bb
-@@ -76,6 +76,8 @@ PACKAGECONFIG:class-nativesdk = "ipv6 openssl proxy random threaded-resolver ver
- PACKAGECONFIG[ares] = "--enable-ares,--disable-ares,c-ares,,,threaded-resolver"
- PACKAGECONFIG[brotli] = "--with-brotli,--without-brotli,brotli"
- PACKAGECONFIG[builtinmanual] = "--enable-manual,--disable-manual"
-+# Don't use this in production
-+PACKAGECONFIG[debug] = "--enable-debug,--disable-debug"
- PACKAGECONFIG[dict] = "--enable-dict,--disable-dict,"
- PACKAGECONFIG[gnutls] = "--with-gnutls,--without-gnutls,gnutls"
- PACKAGECONFIG[gopher] = "--enable-gopher,--disable-gopher,"
-@@ -112,9 +114,7 @@ EXTRA_OECONF = " \
-     --enable-crypto-auth \
-     --with-ca-bundle=${sysconfdir}/ssl/certs/ca-certificates.crt \
-     --without-libpsl \
--    --enable-debug \
-     --enable-optimize \
--    --disable-curldebug \
-     ${@'--without-ssl' if (bb.utils.filter('PACKAGECONFIG', 'gnutls mbedtls nss openssl', d) == '') else ''} \
- "
- 
--- 
-2.39.0
+--NextPart
 
+
+--NextPart--
 
