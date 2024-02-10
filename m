@@ -1,67 +1,97 @@
-Return-Path: <chen_heyun@163.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76917C48260
-	for <webhook@archiver.kernel.org>; Sat, 10 Feb 2024 05:33:59 +0000 (UTC)
-Subject: Re: [PATCH] Add user space utility:dropwatch
-To: openembedded-core@lists.openembedded.org
-From: "chenheyun" <chen_heyun@163.com>
-X-Originating-Location: Chongqing, CN (119.86.46.22)
-X-Originating-Platform: Windows Chrome 121
-User-Agent: GROUPS.IO Web Poster
-MIME-Version: 1.0
-Date: Fri, 09 Feb 2024 21:33:50 -0800
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11A8BC4829A
+	for <webhook@archiver.kernel.org>; Sat, 10 Feb 2024 07:40:30 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web11.9895.1707550820438236174
+ for <openembedded-core@lists.openembedded.org>;
+ Fri, 09 Feb 2024 23:40:21 -0800
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=H1iJxhUz;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-410708db221so9658875e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 09 Feb 2024 23:40:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1707550819; x=1708155619; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IUgMx7EIZp/5HK6qWtdhhighcxultLbSV2VdGjIy0HI=;
+        b=H1iJxhUzKhFhjXUTlkOTW6QLlUdHt+L2WbhNbItmpU3l4YGmCmGzRXnBuuuZ+k2zGk
+         Rmi6Ve+4hVYpzgGrWNHPuJ13hirlNTEwbKm840LayIbOvL6RFGRo4N3JJaMfin4sQ4S5
+         k9MhfRZjjET8o04jzDFPyUenlFbwyhjB+MDz0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707550819; x=1708155619;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IUgMx7EIZp/5HK6qWtdhhighcxultLbSV2VdGjIy0HI=;
+        b=cDKcjaRhIWlps72zUC+BZuiDYp171tAMfakiLWoNeP2AfSWoA2eFA6EZ3XrlDCPFC6
+         VfF8bGyBMJVuKnnijLEDzDSj867KIhmy4jj6g77qSjunrWbOqNnPJQ+HYA86617TJequ
+         JiYML3hWSFoL00Fb+3BsxNZoDzS/dVdJIY0pNFZny3OL3eDXwbPIysOkdXOoGBMmA3/Y
+         wiDo6Zsrk3+OTganG/FHPELphzHtQwm9GFt8wHBjrNuhibVMcDmNEwLoVbxT8Wbv+LQW
+         bkkZcCcSOfAqZjzfAA7ud4wKHIs/fM6QhBv7Km0mVvAcgeK1CXhzrlpXp+K2IgucCV2Q
+         SV0A==
+X-Gm-Message-State: AOJu0Yw1rlRiPzUt8tGsWYxof+7nWAg0+ewhkaO8lc5GBb9/ARAIlBvH
+	IL2Rje0b5nsKXAdTEFrcHSvNNBjhcWAMStSLlfpMtI9jTGrZRW0issV2/ofhlLo=
+X-Google-Smtp-Source: AGHT+IHnmgWrbtOqM59HEq+Li72GKRUEIXO9BnV7jZk4ziaEJSerDd9f5bTw4QLHeqjTyRNwmqSwbw==
+X-Received: by 2002:a05:600c:1c1d:b0:410:2496:ccdd with SMTP id j29-20020a05600c1c1d00b004102496ccddmr1315465wms.27.1707550818898;
+        Fri, 09 Feb 2024 23:40:18 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVmhl0qA3/nQWxoGptSWvGLeAcTfZRT/Uq8y++QS0hBJUAULYA6EkuAp9VvZ9CQCi4/uzgH/pSU3v09TgzHQyikkDgfejdKMTBxUzN8OTsPdOPD8Rsu9D4U
+Received: from ?IPv6:2001:8b0:aba:5f3c:c350:b3c8:3bca:cef1? ([2001:8b0:aba:5f3c:c350:b3c8:3bca:cef1])
+        by smtp.gmail.com with ESMTPSA id h17-20020a05600c315100b0041087022567sm1655075wmo.34.2024.02.09.23.40.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Feb 2024 23:40:18 -0800 (PST)
+Message-ID: <95196f90dcbc7e45dbfe46a1fe9f2d67a87b5118.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] Add user space utility:dropwatch
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: chenheyun <chen_heyun@163.com>, openembedded-core@lists.openembedded.org
+Date: Sat, 10 Feb 2024 07:40:17 +0000
+In-Reply-To: <29551.1707543230425939565@lists.openembedded.org>
 References: <d69df613-7175-419d-8b5a-e9b48c604fb8@smile.fr>
-In-Reply-To: <d69df613-7175-419d-8b5a-e9b48c604fb8@smile.fr>
-Message-ID: <29551.1707543230425939565@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="ykGI0c5Rb8F3D8BN3dd0"
+	 <29551.1707543230425939565@lists.openembedded.org>
+Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
+ YNvg==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.0-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 10 Feb 2024 05:33:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195252
+ <openembedded-core@lists.openembedded.org>; Sat, 10 Feb 2024 07:40:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195253
 
---ykGI0c5Rb8F3D8BN3dd0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Feb 9, 2024 at 11:01 PM, Yoann Congal wrote:
-
+On Fri, 2024-02-09 at 21:33 -0800, chenheyun wrote:
+> On Fri, Feb 9, 2024 at 11:01 PM, Yoann Congal wrote:
+> > meta-openembedde
+> Hi=EF=BC=8C
+> =C2=A0 =C2=A0i am doubt with=C2=A0OE-Core and meta-openembedded=E3=80=82
+> i am sure that OE-Core means=EF=BC=9Ahttps://git.openembedded.org/openemb=
+edded-core/
+> meta-openembedded means what? like https://git.openembedded.org/openembed=
+ded/?=C2=A0
+> but https://git.openembedded.org/openembedded/ say "it has been replaced =
+by=C2=A0
+> a new model based upon OpenEmbedded-Core (OE-Core)"
 >=20
-> meta-openembedde
+> what should i do?=20
+> please help me. thanks.
 
-Hi=EF=BC=8C
-i am doubt with OE-Core and meta-openembedded=E3=80=82
-i am sure that OE-Core means=EF=BC=9A https://git.openembedded.org/openembe=
-dded-core/
-meta-openembedded means what? like https://git.openembedded.org/openembedde=
-d/? ( https://git.openembedded.org/openembedded/ ) but https://git.openembe=
-dded.org/openembedded/ say "it has been replaced by a new model based upon =
-OpenEmbedded-Core (OE-Core)"
+This is meta-openembedded:
 
-what should i do?
-please help me. thanks.
+https://git.openembedded.org/meta-openembedded/
 
---ykGI0c5Rb8F3D8BN3dd0
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Cheers,
 
-On Fri, Feb 9, 2024 at 11:01 PM, Yoann Congal wrote:<br />
-<blockquote>meta-openembedde</blockquote>
-Hi=EF=BC=8C<br />&nbsp; &nbsp;i am doubt with&nbsp;<span style=3D"white-spa=
-ce-collapse: preserve;">OE-Core and meta-openembedded=E3=80=82<br />i am su=
-re that </span><span style=3D"white-space-collapse: preserve;">OE-Core mean=
-s=EF=BC=9A<a href=3D"https://git.openembedded.org/openembedded-core/" targe=
-t=3D"_blank" rel=3D"noopener">https://git.openembedded.org/openembedded-cor=
-e/</a><br /></span><span style=3D"white-space-collapse: preserve;">meta-ope=
-nembedded means what? like <a href=3D"https://git.openembedded.org/openembe=
-dded/" target=3D"_blank" rel=3D"noopener">https://git.openembedded.org/open=
-embedded/?</a> but <a href=3D"https://git.openembedded.org/openembedded/" t=
-arget=3D"_blank" rel=3D"noopener">https://git.openembedded.org/openembedded=
-/</a> say "it has been replaced by a new model based upon OpenEmbedded-Core=
- (OE-Core)"<br /><br />what should i do? <br />please help me. thanks.<br /=
-><br /></span>
+Richard
 
---ykGI0c5Rb8F3D8BN3dd0--
 
