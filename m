@@ -1,146 +1,101 @@
-Return-Path: <adrian.freihofer@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47C65C4829A
-	for <webhook@archiver.kernel.org>; Sun, 11 Feb 2024 15:25:09 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web10.39088.1707665101399649386
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DB2AC4829A
+	for <webhook@archiver.kernel.org>; Sun, 11 Feb 2024 16:25:29 +0000 (UTC)
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+ by mx.groups.io with SMTP id smtpd.web10.40241.1707668727548898779
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 Feb 2024 07:25:01 -0800
+ Sun, 11 Feb 2024 08:25:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=C0P0EMPm;
- spf=pass (domain: gmail.com, ip: 209.85.221.47, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3394bec856fso2067629f8f.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 11 Feb 2024 07:25:01 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=nCkJov8Q;
+ spf=pass (domain: gmail.com, ip: 209.85.210.174, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-6e0a4823881so437476b3a.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 11 Feb 2024 08:25:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707665099; x=1708269899; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=EK5pJofR8O+8VjdiGGDQ2Un/kr1KozUT+xptJ8gSdeY=;
-        b=C0P0EMPmKWpoTcTcnP1DF2Z1Y37JyncMIvdS62e+2ozXFHzoat3dou1U/Maz6f8cLm
-         txQsI0/jXAZ0cVVAx93Gyg4B0i/oV+E7vviARQ+jJ6of4uiG99VFHV1KR0ThY0wUJl/3
-         JFKm9bvq4xI1H/f63SevEZiwBfqnRNLr6SuHLxU7zYgI0vb1kJ8WfENDrizZVrFFA1Of
-         ORfsEWfTv3KPuMngy3PVWo5BnDuejg0c2Wv/BdDYt+SyKnu9fzj03lYdehQIsRp1Nbw9
-         6pciOyvBCC2DankUsfI6umm8mbLlXtTNklS/36aUNOQkCAO3FgoP2B4O4+ZdSztuC8rE
-         lr9Q==
+        d=gmail.com; s=20230601; t=1707668727; x=1708273527; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Stu7Da5gvD/JtZbVuGQfsZm5Zw144aOjyf7MQ82LI1I=;
+        b=nCkJov8QW/FrtLE2JQIi38IHV1VxlbzR9B/rNgM3q7ftJYL8smA41gQMXBFYm+tTvV
+         O0k69vKFnAVIZhIoC26xCI6lhytGdqKWgK5j5/ZQ2/tCfDj2yiyI5GoYWIBzPc8YrnjW
+         AAr4F2UO7WinT+R6RHM4hdUknK1mKguULbc+K9OXHKnG+Au8N5eoKMs8O2zVas/VzxZ8
+         hee+z9l4Crr3f6mohl8OmqhGUZ796M+AfmNAvOLuXj4rURQSyFqg8eEwSwqtNP/xv1bn
+         YbDKiIUrzLqK+3O84JFBrk4f6hU1bZaE8uXwJIhzstCCdpT4B09RfeUzDtZfv7OzFVk4
+         PoVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707665099; x=1708269899;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=EK5pJofR8O+8VjdiGGDQ2Un/kr1KozUT+xptJ8gSdeY=;
-        b=ldpXPbMgyZ4zFoe2zI12aKU9KEwZFfChTLlS8C8ZNJaafP/tjNok6RulJjctk7szre
-         XeNbjStoNJJmk7wblqO1uTmVxR7/PT5cufLWJwbXrBIMqgDm+IkgN7vbzS1UD55Q/ofe
-         RaPWHAK5YeOQiYFLABBZq6NeYPQUmf5zVLcgumHbXMhZtiaMjjEC0VO2E11x1UkE0sAQ
-         PU9Yg6E7K0okpw/zVgmjPUFeHCoJyE5Kv3l3Kpn08ev8YgTho3icwdWaDxrELSnmcbw+
-         SogtbXbHGoS1yei3xjasvK1qnxGC1wse9V5INdC3XifgDjbEYIIuOL3mrn2Lmao4nbSJ
-         PAQQ==
-X-Gm-Message-State: AOJu0Yw0SNKtwgJKLgxN6iiR+08ZaWR9Rg6jtWBYSuMxX8WWWsGuFN7T
-	7TuxHw2lE3U9Go36ZSr0plDNuVNayw/Q7p4timsc+sNQ2eI2QYRN354JGND7C8M=
-X-Google-Smtp-Source: AGHT+IGbUYZ83ct1wRfjsdh8V47XZyvL23URTnxFhvIbdPaHx6v+LDr1isPTRslIngetKqgF/wFyjQ==
-X-Received: by 2002:adf:ce92:0:b0:33b:5ee1:92d3 with SMTP id r18-20020adfce92000000b0033b5ee192d3mr5229578wrn.9.1707665099396;
-        Sun, 11 Feb 2024 07:24:59 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUAUYm8NT+DrdgH9sj3M68P/ftZmr03/dQ7GqJ9prCy+xkx1IhCN+3JLX/lS23m4oHUGu44W5+WX3hyKQ/Wv0EqofxjK+yl4QH7dF657/FTZw2yu/NqZwkXuPNGOrLzLfvlR9kWSnlhjI+GLyREMidiPF4dMbshBLkTiwkjQCkCTb+rwv2cjdoN3ucB8wVKAzLHrpN6whg=
-Received: from ?IPv6:2a02:169:59a6:0:55c4:f628:91f3:4287? ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id jx6-20020a05600c578600b0040ffd94cd27sm5976684wmb.45.2024.02.11.07.24.58
+        d=1e100.net; s=20230601; t=1707668727; x=1708273527;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Stu7Da5gvD/JtZbVuGQfsZm5Zw144aOjyf7MQ82LI1I=;
+        b=X3j/ndTysLeBbvm1B/IT0pJU2E1LAhoCZbabYgfoU7WSLCcDuYwpq5BzcpeZ2HMyx2
+         E3E0izhJPjnzZKBBX8Gi7fHiAYSsP0+z/sGg7jnGaLM3ENcHEhgsJunqy9nfLVatxPgb
+         6FYdvFmeRAwNAeDoR9qqJjMHHv5i15DAHtxSiepK+fb7MQAFFo9akJFSOVyS4Sje08V7
+         SVS+y2+dWhKf3zQh6zZkISt6XL5qpYMmspHcpF5ShZkfykkFJOjjJ/ijd3+d2416qnQ8
+         YUXHRqVJXc5SFZTJ8WRdECV9Zp57M+fDHTnPZyqGQFap1I2j/RaefnCCHsS3vxD07zNA
+         SDIA==
+X-Gm-Message-State: AOJu0YzxYZ58FVbU7NJV+1d+3ZWJVHD2lfK43YaD3VohlhPmSrFltSk8
+	PkbCFe+UU3X9piaS2qOW9d2MFIdG6LlBR2+ckYoahvnrPeMRjy6euFeRUzxXRck=
+X-Google-Smtp-Source: AGHT+IFm/DORB3B6EwVYiO9Z1eEPDYJITDINpk2MY/yGw/rRGTtfEG43Q2CL7g0VY3/U9escv/KQcg==
+X-Received: by 2002:a05:6a20:d809:b0:19c:b40a:d8ab with SMTP id iv9-20020a056a20d80900b0019cb40ad8abmr4618779pzb.4.1707668726567;
+        Sun, 11 Feb 2024 08:25:26 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWdIqCK9+LwE69B69n3nbl23k1vKmYN1xbZ3XvjAyAb9Fik5n7bCuCUKFhgxorlfs6z51DyH5rgPIhFIv4o7QwaoTrH
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::fffa])
+        by smtp.gmail.com with ESMTPSA id z6-20020aa79906000000b006e0ad616be3sm2388930pff.110.2024.02.11.08.25.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Feb 2024 07:24:58 -0800 (PST)
-Message-ID: <40d4cf0612a459eb5405a802aebb0fb09fbb5b8a.camel@gmail.com>
-Subject: Re: [OE-core] [PATCH] vscode: improve settings for new yocto plugin
-From: adrian.freihofer@gmail.com
-To: openembedded-core@lists.openembedded.org, 
-	enguerrand.de-ribaucourt@savoirfairelinux.com
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, Ross Burton
-	 <ross.burton@arm.com>, Mohammed Raza <mohammed.raza@savoirfairelinux.com>
-Date: Sun, 11 Feb 2024 16:24:58 +0100
-In-Reply-To: <7bfdb37aa85722d20776c58b4d8a61233f5ae23a.camel@linuxfoundation.org>
-References: <20240209203029.3801065-1-adrian.freihofer@siemens.com>
-	 <7bfdb37aa85722d20776c58b4d8a61233f5ae23a.camel@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.module_f38+17164+63eeee4a) 
+        Sun, 11 Feb 2024 08:25:26 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>,
+	Ross Burton <ross.burton@arm.com>
+Subject: [PATCH] tcmode-default: Do not define LLVMVERSION
+Date: Sun, 11 Feb 2024 08:25:23 -0800
+Message-ID: <20240211162523.387646-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 11 Feb 2024 15:25:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195294
+ <openembedded-core@lists.openembedded.org>; Sun, 11 Feb 2024 16:25:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195295
 
-On Fri, 2024-02-09 at 23:43 +0000, Richard Purdie wrote:
-> On Fri, 2024-02-09 at 21:30 +0100, Adrian Freihofer wrote:
-> > There is a new official bitbake plugin:
-> > https://marketplace.visualstudio.com/items?itemName=3Dyocto-project.yoc=
-to-bitbake
-> >=20
-> > This plugin automatically updates the .vscode/settings.json file.
-> >=20
-> > Having the settings.json file in git and a plugin which modifies
-> > this
-> > file is not ideal. It can lead to anoying situations especially
-> > when
-> > working with git. For example a git stash reverts the settings
-> > which are
-> > automatically applied by the plugin. While git stashed the
-> > settings.json
-> > file the plugin immediately changes the file again and tries to run
-> > bitbake based on the newly generated settings. When git does a
-> > stash pop
-> > the restored settings.json file conflicts with the new
-> > settigns.json
-> > file which has been generated while the git stash took place.
-> >=20
-> > Removing the settings.json from git would lead to other issues as
-> > already described in the commit message of 5ff688fe29. Until VSCode
-> > or
-> > the plugin supports multiple config files like bitbake does with
-> > the
-> > site.conf and the local.conf files, there are probably some use
-> > cases
-> > and workflows where the plugin needs to be disabled.
-> >=20
-> > This commit aligns the default settings.json file with the default
-> > settings.json which gets generated by the plugin. This is a
-> > workaround
-> > for the issue described above. But it works only for the default
-> > build
-> > configuration with one build folder named "build".
-> >=20
-> > Discussion is here:
-> > https://github.com/yoctoproject/vscode-bitbake/issues/95
-> > ---
-> > =C2=A0.gitignore=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |=C2=A0 4 ++--
-> > =C2=A0.vscode/settings.json | 28 +++++++++++++++++++++++++++-
-> > =C2=A02 files changed, 29 insertions(+), 3 deletions(-)
->=20
-> I am very worried about this as we can't mandate a layout. There are
-> many people who use different locations for bitbake and others who
-> use
-> different directories for builds. Even our own test runs do change
-> the
-> build directories.
->=20
-> I don't think we can solve this like this unfortunately.
->=20
-> Can we inject something into build directories when we create them?
->=20
+There is a single version of llvm in core these days, furthermore the
+version is no longer asked for by recipes such as mesa, which would use
+llvm-config tool according to version of llvm found.
 
-Here are some patches:
-https://git.yoctoproject.org/poky-contrib/log/?h=3Dadrianf/vscode-yocto-plu=
-gin
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Ross Burton <ross.burton@arm.com>
+---
+ meta/conf/distro/include/tcmode-default.inc | 5 -----
+ 1 file changed, 5 deletions(-)
 
-I will send them as V2 after I have tested them some more. (There are
-already oe-selftest)
-
-@Enguerrand your review would be appreciated.
-
-Regards,
-Adrian
-
-> Cheers,
->=20
-> Richard
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+index e0319394f02..192a4e0bb2b 100644
+--- a/meta/conf/distro/include/tcmode-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -24,7 +24,6 @@ GLIBCVERSION ?= "2.39%"
+ LINUXLIBCVERSION ?= "6.6%"
+ QEMUVERSION ?= "8.2%"
+ GOVERSION ?= "1.20%"
+-LLVMVERSION ?= "17.%"
+ RUSTVERSION ?= "1.74%"
+ 
+ PREFERRED_VERSION_gcc ?= "${GCCVERSION}"
+@@ -77,10 +76,6 @@ PREFERRED_VERSION_go-runtime ?= "${GOVERSION}"
+ PREFERRED_VERSION_nativesdk-go ?= "${GOVERSION}"
+ PREFERRED_VERSION_nativesdk-go-runtime ?= "${GOVERSION}"
+ 
+-PREFERRED_VERSION_llvm = "${LLVMVERSION}"
+-PREFERRED_VERSION_llvm-native = "${LLVMVERSION}"
+-PREFERRED_VERSION_nativesdk-llvm = "${LLVMVERSION}"
+-
+ # Rust toolchain preferred versions:
+ 
+ PREFERRED_VERSION_cargo ?= "${RUSTVERSION}"
+-- 
+2.43.0
 
 
