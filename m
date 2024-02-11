@@ -1,146 +1,294 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <sundeep.kokkonda@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF520C48260
-	for <webhook@archiver.kernel.org>; Sat, 10 Feb 2024 23:57:44 +0000 (UTC)
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com (EUR04-VI1-obe.outbound.protection.outlook.com [40.107.8.75])
- by mx.groups.io with SMTP id smtpd.web10.27666.1707609455848281598
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FA1CC4829C
+	for <webhook@archiver.kernel.org>; Sun, 11 Feb 2024 02:30:35 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.29820.1707618630014912759
  for <openembedded-core@lists.openembedded.org>;
- Sat, 10 Feb 2024 15:57:36 -0800
+ Sat, 10 Feb 2024 18:30:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=selector1 header.b=HVUb62M+;
- spf=pass (domain: axis.com, ip: 40.107.8.75, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=h/gLnzTO;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=277125336e=sundeep.kokkonda@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41B2U9nN023402
+	for <openembedded-core@lists.openembedded.org>; Sun, 11 Feb 2024 02:30:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=message-id:date:subject:to:references:from:in-reply-to
+	:content-type:content-transfer-encoding:mime-version; s=
+	PPS06212021; bh=y3nT8n9d7TKGHgjo0Nitj4qdZQ5ISRHFkAXNCX2Yjp8=; b=
+	h/gLnzTOET5LtFjF4qBqMX3cZwl/wHJODPfW/HUMbMPft9mDDW56OUSzQl+kPf9S
+	C1v3dmgjy7b+ycxVee3DHAG2s5j9hh5Mfn6KGnrp9BiqZwV61QeYWbOtSCic+Ozc
+	OciGPuP40gIFJTHI3FTO1lwoltWReliP8ubULJRDwYBryhZytfMjfAf9d+gcXtjn
+	6NITkP3kdZqvqBnECU7mPYNf0/625Xw3THXMENIcR7ee9J+uK2giG4MLIXW0kaFJ
+	vO0MlO7zhC3bI2Ps/H1hoJAS3oR0if9Jk5mEP5dfuJaajoTPg5v6oCtSQMBVbwnD
+	UNXCvFe6MOwWSI+Nq/SFzw==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3w5xbxrqff-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Sun, 11 Feb 2024 02:30:28 +0000 (GMT)
+Received: from m0250811.ppops.net (m0250811.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.24/8.17.1.24) with ESMTP id 41B2USu6023531;
+	Sun, 11 Feb 2024 02:30:28 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2168.outbound.protection.outlook.com [104.47.55.168])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3w5xbxrqfe-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sun, 11 Feb 2024 02:30:28 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GDHd1c7JjiIWooy5bygGFVR8djufNrGBVFKJMhq48bHvHaO8ZFv1raMEYWchLEIHPsA6pPgbeoBXi7paadZ7Mbo9bM29xl6kuUy2dT+P8Jp3E5USFlnCcbMnFsKzW5E57qN+z5WHxJdG9NBwiXEUVUSmscAZ0qD2v48SmFDnAbb7heGtQTj+VKh0Fdf44Aiay8X8gknWEm0Hhb7gshGNkWvk+OCf3/MwDX22VFk82zf9/nwBxk7fLHbX/qO7hrYn2Ekzk8YA+/DwGGIqNp4/N14M5K1fI6OZxQdyLpsVNI5WhEEKd8Ld2A8g3BeVV93RpH59aWk31l3kWE0lhRnITQ==
+ b=VtPFDQqjhE5PO1T5UQQ2RiS5z/yw48+rcHd8jjB0ZZt9VpMj/ljg20HBz5tEEjTM/nJzXCHymXZ4fG+ZASEvBV7roaekPzsiYkmcFx7awYVRhNwuLBcpk9mrulIysaFy3ZwqIMtmxxAC/JSVRSGuSWeSmCrbDLYiIwnb7Vg3E/EjhLt8q8qdeTORzbmWtxSYRFeKHAZgGYAQmKE7kEfFcWQrTQl3u1jpqOLhxmWSI+ofnAc+2hN05jYorxqyZM0m0pBG858uXfr6Uvhgad5rVmsih6KzVsYO1m6+CxeG7hBOhSdRekCCUI8wqhBIc7yKWVWtxdHq3aorepFjTBsEIQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=t4aHPJonhw7JG7bdGFBg2u3RpQM2Zmg2v8c3VapzuTg=;
- b=FO9F4yZVuz93b4JMuKi5bu7BT2mb8WnYFv/4qtPVyZbzZJqzmRDLBxT81zz2WALALX5bXYQpCzhLROsRYfA/1V/rxbUBZd2b5nRc+V2m1z6UZWxVZ09Umt2ykXe64H4OFV9NJrURp2p5DdRU8hMIZ00kI1NkDD4cwsDhHK8irOJ0soEAjDwFv2xXwiDYoBNHgXFYvIlAYNbAaG6lVRa01+7o+BiVJ3WrZNHCicmxmMmvZHE3zXULb+V5mcrpghgsbVgxgmkE3RbDa5DKfi6bMRFRSG+aCuynRjeTDFQJRsL1UNxmuQ56O0W3RsT1qITB93+0uLkb/yhhdDqSVm5Fig==
+ bh=y3nT8n9d7TKGHgjo0Nitj4qdZQ5ISRHFkAXNCX2Yjp8=;
+ b=OtvDvfaaJeUHg+OYoex+XlfArDNaOVXY3YPemmPz/92o6aenZFvMZonpFTr8rUS4LYlBcwvrZmqlJMmDjwJYVg1PFXORmOV+RmIxvQKw6pw3iWzq6tfOMcJDJOuCInmL+ODT6OQLm+ogj/5nV2AhdBGRwo05g39+zRcpDr9JrJHZtLi703Rl6IkOQNrnk2moefufFyQAirSnyBFkR3dG0LJOa82RZws3s/hWIxNHLhpB7qucbLxy1ov+7K+tjTIZXSNldVQZ2Djhy2fxhdXoZBxXvJAnZhKSlKrGkKCHXr5ASS1Iq16FA3h5EFyZIDgr7kJSp9Mb8q3avRqVq26RMg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
- dkim=pass header.d=axis.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t4aHPJonhw7JG7bdGFBg2u3RpQM2Zmg2v8c3VapzuTg=;
- b=HVUb62M+hwfwtfR4PVEPZIupKpBlDSjtqbR+PpSFs1E8kTPwrsXRPWBL+2kkBE+hEjNUPy0zgQAeTPc+VdjgUEmukb+5Q8aAxt9CN2MYRDxnAArysWXIEpcSTQ9TtvPCfMWQ1+Zu2oCG9WuTjSDfOm3EtJiax2lzsccXSGeobJM=
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com (2603:10a6:10:4a8::17)
- by PAVPR02MB9722.eurprd02.prod.outlook.com (2603:10a6:102:318::19) with
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from BYAPR11MB3063.namprd11.prod.outlook.com (2603:10b6:a03:89::11)
+ by SA1PR11MB8473.namprd11.prod.outlook.com (2603:10b6:806:3a7::6) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7270.35; Sat, 10 Feb
- 2024 23:57:31 +0000
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::546:7e4f:ddb1:92d7]) by DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::546:7e4f:ddb1:92d7%7]) with mapi id 15.20.7270.033; Sat, 10 Feb 2024
- 23:57:31 +0000
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Patchtest <patchtest@automation.yoctoproject.org>, Trevor Gamblin
-	<tgamblin@baylibre.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: Patchtest results for [OE-Core][kirkstone][PATCH] curl: don't
- enable debug builds
-Thread-Topic: Patchtest results for [OE-Core][kirkstone][PATCH] curl: don't
- enable debug builds
-Thread-Index: AQHaXD7cCdPoViKA+Uam2aIGpbjaP7EEPstg
-Date: Sat, 10 Feb 2024 23:57:31 +0000
-Message-ID: 
- <DB5PR02MB102136AE90A908156D2BE5464EF4A2@DB5PR02MB10213.eurprd02.prod.outlook.com>
-References: 20240210161234.12849-1-alex.kiernan@gmail.com
- <0101018d93dd81a4-0099bd71-a0eb-4f94-8ca3-51d9a9f2d323-000000@us-west-2.amazonses.com>
-In-Reply-To: 
- <0101018d93dd81a4-0099bd71-a0eb-4f94-8ca3-51d9a9f2d323-000000@us-west-2.amazonses.com>
-Accept-Language: en-US
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7270.27; Sun, 11 Feb
+ 2024 02:30:26 +0000
+Received: from BYAPR11MB3063.namprd11.prod.outlook.com
+ ([fe80::6d54:dbbc:e339:ade7]) by BYAPR11MB3063.namprd11.prod.outlook.com
+ ([fe80::6d54:dbbc:e339:ade7%4]) with mapi id 15.20.7270.028; Sun, 11 Feb 2024
+ 02:30:26 +0000
+Message-ID: <34f1ca06-e471-47c7-9eb5-597e98c06ca7@windriver.com>
+Date: Sun, 11 Feb 2024 08:00:19 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH 4/4] rust: Upgrade 1.74.1 -> 1.75.0
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=axis.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|PAVPR02MB9722:EE_
-x-ms-office365-filtering-correlation-id: cd439a02-d7d6-4b22-059b-08dc2a940b9a
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- BTK4jmh8POn2iyufJpPQjnRVkHydpffMenU/+dem/28qmzXaIkEwbyVVzatu3tfe8dQweoxWCGwLOS8mMxPVXgME0oSoqtlsdZOdeeOV4cBjYjxgL299XSrIK+syxjpuEadQraCnKoK1CDnzdInximQqQIO/WhhpMp9OkdbRuyu6+UcZ4Esi/0ZJD0G/ZcdZc+bUGGXSy70n6ugUoe+YHvp89vgdxH4uXiZVxS2tRky93uC6IHEYBmhjZ8wGsePMWliN+KRQ2ko6n2Lvufmpe+EMY++tBcyyj+/xLTQh2kPAjqO434CLggsrGPI6vj2/Eb1ac1tPIFmijX/HLu5WKodRm4BIkHpjXAkPwSPYgvkRH861sj6nMj4+K6zrvv+gvF4CEajSYpjFIy3uO8ic8zZ/4Vn4bMSBe7ak9p8KRamfmg+2u8GEVtMj1TKp2lTTLMPG3lZZb7kbALVbEiXGJuBoT01KWggUIYtzXMS8/IVxvETnSMLCd4jdAGuzRlto+eQ0d+eopQSyWnUpUzFWWFMolRxfiva5aBNBNS+Z3doXDcwC0AaUHpRoDAl3jsocA/8gkw0svZ/g150bcgAL2tC/bm8dlsKtUVe5Y2+0svQ7/rzXcS3pB2cCFe8vUw5S
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(346002)(366004)(136003)(39850400004)(376002)(230922051799003)(451199024)(64100799003)(1800799012)(186009)(33656002)(44832011)(2906002)(7696005)(38070700009)(9686003)(6506007)(71200400001)(53546011)(316002)(110136005)(478600001)(26005)(41300700001)(83380400001)(8936002)(8676002)(4326008)(52536014)(66556008)(66476007)(66446008)(64756008)(86362001)(66946007)(76116006)(5660300002)(4744005)(38100700002)(122000001)(55016003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?vOCtUPaH/lj/QNfGunIte513jaev8tZu34ZGZPReMPdQ6UMSh9fElW4+bm3Z?=
- =?us-ascii?Q?qQMuSQ8+tiPk8jNbAH7zfz3IpulpYD8ft1hdJPNkeE1W2+VFuMNrIn1sh3sq?=
- =?us-ascii?Q?fOC7upEeKdMOFpGDvBqXwTkas40ZZNimatzd1TI9Rp8Ad0kb6ib+STagu07N?=
- =?us-ascii?Q?N+WrQo8JUqz5SdI0HfVW0uyQ6oeyMuFv6/M5vikSCYQd9gGZZcxwMRbtgkFx?=
- =?us-ascii?Q?d77pVAZkZW9DUJ65BQ7nmogGatdRysPOLb1p3QJUeg5ga9eHmi8G0CFuieh3?=
- =?us-ascii?Q?g95CWqdby7PKXGcD0kzNF8rOAz2HrfGnlyKL+EjLLSZOpfbgHRRHGR2Bo0rO?=
- =?us-ascii?Q?2FlXAGTj/fM2qNWfEpRBv58sGzLSDDWWI4S+rxsa4GYB7FKrDRrn7qRY1kO7?=
- =?us-ascii?Q?2o5lrcNqV9LjydBQPEqNzywVU1zIpppV7VkQD7tNSLR5v59y5d4lzybvuTjA?=
- =?us-ascii?Q?qGg5GuN0ZWLBI9elEit0nGvH8FLc/URmAUm1BRma4Io7hOpmVDF8DpN+f5Om?=
- =?us-ascii?Q?hD/QmD8mcR6XLPxIVUd+ZCmeYuB3YLJ76GBMf1P6+SuWQJDOTx9JqE6smbgU?=
- =?us-ascii?Q?3gJuqvkpv2gNvoihdYAomqYOfn3mXox6o2RUV+QP2aDMy0nwLF1Jd+LUtSj9?=
- =?us-ascii?Q?9tYofaXzEtXLhYgsLKmLxAbfuEiM7BNV3dcSKMHCT8GrK/emO4JoTE0eWcoD?=
- =?us-ascii?Q?6Mqz+uQ/i1l4AAMeiLyw2OU56WBtUJTOSMhbGeagGFgD8r9ZdwbM/mXLd4yY?=
- =?us-ascii?Q?BCqU3j3McKKYm7cYL4WmbV2q3hLnK6DDhVB0p8XFB7Tdater1dNSqXT7DYp+?=
- =?us-ascii?Q?0Ox5jNtYQb+zMLvQQM2pf7R54SOOZReDBpukMJueyEnwvMjklirKQTDEI6oj?=
- =?us-ascii?Q?XXiSOebyyuc1DfvsYpUxKSkkCKw7kQFAEQdpXRXss3X59j2tveWD7FweWaEA?=
- =?us-ascii?Q?3t4yIIP9fgbBcFCqhh/J7lTIPnJ3SmsmHUAXqgjz182zDSWsZ0ct2Lvq3JGR?=
- =?us-ascii?Q?+sIjGD2TDm0Q9FUunkjrCtUIL8M2NWf3rkI7EE/0kqrBvxKKE5rW3oFGEpG7?=
- =?us-ascii?Q?j92KdbWXqv4zlnzxXksU9OiVxUZIjpfSBaIDetIZtQCzDOz05WO4D07O/2sk?=
- =?us-ascii?Q?zEzc+cLsO8y58whK+YUzNI4PPYfehKjurLL5cdeJ8wzl2jAtFycaiWTGh8XY?=
- =?us-ascii?Q?rrKYpw4ZCzmBgawoK0v5pN3z/iHECbYIVGeXwEazY/HM2vcP7XXikWdwfXfT?=
- =?us-ascii?Q?6EEenQ1lFJdStBFnaAhgWt483CET78s3lM8U7l0o7ka7TVa//LjjncBI8qG6?=
- =?us-ascii?Q?OV6gHvDIq7VzW8SXLDF+nWjzPnpEamo1PYSjpDcXBJ0Jh0mfsqp2uavZsyj5?=
- =?us-ascii?Q?jZfnXhdu19brrnqbOeiy9TWxJos+xDQsz3etNLhrloVSzBExlKC8CtVVwE1B?=
- =?us-ascii?Q?Sb1JnYueIjPvqvnnfdr9GYmri2TqsBie0Kb4+0Hqkrf4ScY8DBt+156Lifu7?=
- =?us-ascii?Q?lnAmDjvFdEDG6tHEC74ir+E7rqbAV689neicXgBoYUD7gzhBJMEpGknV0oyl?=
- =?us-ascii?Q?Zdahg+izlgq37spEPjA=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+To: Alex Kiernan <alex.kiernan@gmail.com>,
+        Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+References: <CAO5Uq5TfNcuKkYX2krym5uN5t+ThbQ29Y8gfhq9kmLwYyHXfjQ@mail.gmail.com>
+ <26286.1704984874999023341@lists.openembedded.org>
+ <17AA2B18BB6DAD55.13033@lists.openembedded.org>
+ <CAO5Uq5QnLcc54Hu4_hEtcxgAO9ap-82caQMpWoFBCj_rbJbdVg@mail.gmail.com>
+From: Sundeep KOKKONDA <Sundeep.Kokkonda@windriver.com>
+In-Reply-To: <CAO5Uq5QnLcc54Hu4_hEtcxgAO9ap-82caQMpWoFBCj_rbJbdVg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-ClientProxiedBy: MA0PR01CA0113.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:11d::14) To BYAPR11MB3063.namprd11.prod.outlook.com
+ (2603:10b6:a03:89::11)
 MIME-Version: 1.0
-X-OriginatorOrg: axis.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR11MB3063:EE_|SA1PR11MB8473:EE_
+X-MS-Office365-Filtering-Correlation-Id: df6e2c1b-48e6-499e-8a63-08dc2aa967c6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	FisnJypSDykaAtmLGirh1/nmy79ao+u4T6GgQSW0QrxBolP1ZQXK8f7Md8UC2URrBIDPBKUisB6e/hyebFjtAMfAjaEqh/BrLJ9R4U3nXBvWkfNkVFWytkom9joWD51/Q/B0i/JDBB2CWzXtn7TXJ5tMwqDlwE3bBDtR17PfI9APpovq5m0ohLR6IPYywYM8J2NU7uMaCdhHuqlQ691GmpHRTrac8Z291yFgN1JcdE+WkHWODcODP9Rmeb6uHIRCcXG23IauKaQvL/xtWBfB47cqKqNW/Hi5TT8I7SlKweCeqL3DGGvv9vXOunRrJ14x2QHvy8+B5cTbGRc2lJMFwDhr3pghhFHX5FZoi7mMXgPi7nazfCDChChbNDWDFqefbWfML/uzNjKupS1zG9DC0cYrVSBdGjroDqnVKgUtmdo0Y3k4D+7seT7kQA/SXdsrD7MdPeDPayNz6mofDppKiglX0CFGOytNzZUSu/BzP4yfhXUqsKfqXawb6sRq4R8EHTYS9vBx75hGciLdodpo3PK0u6IccA3XihswaiX8zfg=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3063.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39830400003)(136003)(376002)(366004)(396003)(346002)(230273577357003)(230922051799003)(186009)(64100799003)(1800799012)(451199024)(31686004)(41300700001)(66899024)(5660300002)(31696002)(110136005)(86362001)(2906002)(38100700002)(478600001)(66476007)(6486002)(8676002)(966005)(66946007)(36756003)(316002)(8936002)(66556008)(2616005)(83380400001)(6506007)(6666004)(52116002)(53546011)(6512007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?eU55Y2JyLzFGbENiSlNtcEdmcEhKQnhmQzJQSHZLbGVtemViWlZaSGQvcGtp?=
+ =?utf-8?B?d1VnRHRvcGFoOXEyWUd5Y2x2cG0zNlVmRDAxSlJPL0RNM2NSc3NjSkUvWE1Z?=
+ =?utf-8?B?VHdSUXRMUU8rbjZoMUpwaWVjWUxZMHBwWkhaeWoyaVk4M2hCMy9uWVNXbkhu?=
+ =?utf-8?B?Mk40ZGZRMlRnZzhzQXVRc3hBN3RsQ3VmYzZHckhTMlJzSlJscFNVYWNUaExu?=
+ =?utf-8?B?K0twQmswSHV2Y1R3V1hiTDZna2lwTmp1NkM4c0pVbXBPWkNZRGcvbUQ5cjJu?=
+ =?utf-8?B?WUYzQy9McmFCSDNFU3Q3ZFp2Wk5vRFp5N1ZWSjVKdzNqKzU2YU1sY0ZyVVk3?=
+ =?utf-8?B?TnQ3V1gyT3MwUmpDTHhvRHRFSW5id1BHMkNLOHdyZWwyb0dyRnZKWlkzY09Y?=
+ =?utf-8?B?dFk2Z3IyemNoUjhwQ2FiSWFsMllnTkVaV3J5YmZ5Rk5xWGJxdVUySGFBUFpL?=
+ =?utf-8?B?NVd5bVcvNmFMOUwrU3pXcjJ0MlZFUE9oNFd2SzBOaW80aDdOb0VScGM5RWJo?=
+ =?utf-8?B?MFpTZmx0bE1EdHRUR3hrUjM0dUQrcUJrVmwwNmMvZmwzc2tua0tlV3FCaEJE?=
+ =?utf-8?B?bzFLZW5nUktnODQ5Qkl0UGZmTHc3K2Q0bWxoTUNoRWFGSktVQkthak5xZHJT?=
+ =?utf-8?B?N1U2SzI5L09FVzdNNE9VZ1VFb3BFSytYVGxyQmQyU0xTbFZRRmtLNmV0WEVu?=
+ =?utf-8?B?NFR0ZFB6Zm1HVytNbjRiOFNNalZjQzlHV3ExV09FUnhDMm5oeG1oWklnN2ZZ?=
+ =?utf-8?B?Wm4yWUtvTHVjdFdTS2NnMTRtcFMzZXhaUzk1cEtRbXFwT1hEZmFTdXR5NkJ1?=
+ =?utf-8?B?NkhZUXQzZGJVdVEwOC9IZk9HSWF0YUE3ZFlqcmJxMTJqeWkxd0p4OHZNS09s?=
+ =?utf-8?B?OTU1bUQrMTF2a0x5Z3N3aTFtNm1OZE12UW1KYTVSRHBHanJZOEFNN2srelVS?=
+ =?utf-8?B?bVpwNlBhZlNiZVRnZHpkY00rVGRHYzUwMmprL21rSGxsVVhXd0U5QkpZQUNG?=
+ =?utf-8?B?UkR1bVllVG9tSHVlOFhNTCtkU2J4WVRKZHpkbnlBZ29oVklZWlByU1o3ay8w?=
+ =?utf-8?B?NXkzWld6NjRZZ21DeDJ2L0hMaDdWNHFjVng2QVBSRHl1cXk2NnV0L2srRUY5?=
+ =?utf-8?B?MHdQRU8zMTV1Mmk1M1BVemxXNCtuaHJPWjYwc2lTVnJ4VDR2YTJ5VU5FN2xQ?=
+ =?utf-8?B?NSt3cG94K0ErK0dqTjdFTXFldThER1FwR0ErektPdnBtOFZPNWRkb0REV2ZK?=
+ =?utf-8?B?Uzl4YkJOeThWMlo2VmtyWlBYSzZSVHM5YTZiVThXOEF1VnUzNGMvbGJwK0t6?=
+ =?utf-8?B?VTBTR2tOeGFkbUcvTVdiSmkxcnhoenVEMXU1MlYyWHFieG9kQ1o5NlF0NkRU?=
+ =?utf-8?B?TGNhZFpPamQzdHZFMWZKU01VMzFZMTZoUjZnY1VOVDF5Ly9zMnFDZ1pGTE0y?=
+ =?utf-8?B?NDV5cUlIaENUbzZOK3UzRWNYNGc4NGlBbEd3KzFycy8zNW92VjNRUnlQRUZ0?=
+ =?utf-8?B?UFExNWdZYXpWd3k1VTlKUVNGaHN4M2NOREtVS1RySWoxRlFKU09PRWwxVDkx?=
+ =?utf-8?B?NjVLRUsyNWJjVTZTd0dKN0pUNjY4ZCtjR00zbFVtTUIyWVY2ZElXNDliYXQr?=
+ =?utf-8?B?YzREdW81MXVwNU14cHM3OVVCYlFwc20wdkVJREJhYWJ6eWwvdlJFZ3RwcmdT?=
+ =?utf-8?B?emlScDhKcGhUTVZROUpHRjdvNDRrajR5bXhMSC9ESlRvSm5RbjZSbVpTZ256?=
+ =?utf-8?B?dkR6N2kzaG9VcEwvN2tja21TY3A2T1U2VVVmbDgwYks1NzF0MUdSNDUwY255?=
+ =?utf-8?B?Sy9rTlo1RURqMlRteGxwTnFuaTRERElkUjBOdWI1L3FsWFJhVlcySktoYmty?=
+ =?utf-8?B?SUROVVkySmZjdkhvMU5lbWFibzFBeE81TzFhQVZsL0d4MGNtbC93aGRjdlhr?=
+ =?utf-8?B?RXM5Q3NOeGVQL0JFdmVhb0ZNd01oSEpKTEh6VXBUSXBkNm9uak5SUk5YV1d1?=
+ =?utf-8?B?VEEzbFg4T1pBQjd6N2dFT2Y2VTlCcFVQQ1ZGTnZVU21tSkdpTEpreGFoT3Iw?=
+ =?utf-8?B?UTU3b1RNQ1U5NTltOFRsQnFWWkxIb0MzaytLdFV4bUkrK3dYNkVaZ1ZDYWlL?=
+ =?utf-8?B?N2tHT1N6Q3c2V0ppTUl6bkQwbG1qRWU3eDE3TzhXKzZQSlAwbUtxdTZldUs5?=
+ =?utf-8?B?WllWSEtHdmQxd0RlUUZDWmtJd3h2SXZTMVpFaVlkcW9PdWdBM3k0OFRCbVJD?=
+ =?utf-8?B?aUdhQ3hOaGtPOHZWQjFqclQyOWhBPT0=?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: df6e2c1b-48e6-499e-8a63-08dc2aa967c6
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3063.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cd439a02-d7d6-4b22-059b-08dc2a940b9a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Feb 2024 23:57:31.7801
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2024 02:30:26.1565
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: VDVrxPgq1fvFy8Pqe6roJWkUDf+/gpwPuBAy3CHkWaGW4vBsVptOwZqKCxjpbfUT
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAVPR02MB9722
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: p8NSDmPCMYwFp3rlfpnHWNrOeb7Z8gfIwzJfQfXpjxzbqISbx8vhk7qoT+9Dy0CzL47IvYMBQK+VAiWfjLn/Ieg1jlc1lftUSTmaJJCrvG8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8473
+X-Proofpoint-ORIG-GUID: SFbp439omIf5nJzZAXUPkyjLiRy1dFeN
+X-Proofpoint-GUID: zmzaJMU_xB1nG5oaUU7kGspc34RlIMG8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-11_01,2024-02-08_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ impostorscore=0 clxscore=1011 bulkscore=0 mlxlogscore=999 malwarescore=0
+ mlxscore=0 phishscore=0 priorityscore=1501 suspectscore=0 spamscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401310000 definitions=main-2402110020
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 41B2U9nN023402
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 10 Feb 2024 23:57:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195280
+ <openembedded-core@lists.openembedded.org>; Sun, 11 Feb 2024 02:30:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195281
 
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-
-> core@lists.openembedded.org> On Behalf Of Patchtest
-> Sent: den 10 februari 2024 17:33
-> To: Alex Kiernan <alex.kiernan@gmail.com>
-> Cc: openembedded-core@lists.openembedded.org
-> Subject: Patchtest results for [OE-Core][kirkstone][PATCH] curl: don't
-> enable debug builds
->=20
-> Thank you for your submission. Patchtest identified one
-> or more issues with the patch. Please see the log below for
-> more information:
->=20
-> ---
-> Testing patch /home/patchtest/share/mboxes/kirkstone-curl-don-t-enable-
-> debug-builds.patch
->=20
-> FAIL: test CVE check ignore: CVE_CHECK_IGNORE is deprecated and should be
-> replaced by CVE_STATUS (test_metadata.TestMetadata.test_cve_check_ignore)
 
-Would it be possible to disable this test for patches that are aimed for=20
-Kirkstone or Dunfell? They still use CVE_CHECK_IGNORE, and at least Kirksto=
-ne=20
-will be around for another two years...
+On 10-Feb-24 17:33, Alex Kiernan wrote:
+> CAUTION: This email comes from a non Wind River email account!
+> Do not click links or open attachments unless you recognize the sender =
+and know the content is safe.
+>
+> On Sun, Jan 14, 2024 at 9:00=E2=80=AFAM Alex Kiernan via
+> lists.openembedded.org <alex.kiernan=3Dgmail.com@lists.openembedded.org=
+>
+> wrote:
+>>
+>>
+>> On Thu, Jan 11, 2024 at 2:54=E2=80=AFPM Sundeep KOKKONDA via lists.ope=
+nembedded.org <sundeep.kokkonda=3Dwindriver.com@lists.openembedded.org> w=
+rote:
+>>> On Tue, Jan 2, 2024 at 02:54 PM, Alex Kiernan wrote:
+>>>
+>>> Closing this off - for whatever reason the buildpaths check wasn't
+>>> getting run when I was testing stuff, so what I thought was a fix,
+>>> wasn't.
+>>>
+>>> Hello Alex,
+>>>
+>>> Are you working on fixing this issue?
+>>>
+>> I'm not at the moment and I don't think I've anything useful as a dire=
+ction at this point.
+>>
+> FWIW I pulled in 1.76.0, we're still seeing the same reproducibility is=
+sues:
+>
+> WARNING: rust-1.76.0-r0 do_package_qa: QA Issue: File
+> /usr/lib/libderive_more-1faee1ce80838df0.so in package rust contains
+> reference to TMPDIR
+> File /usr/lib/libdisplaydoc-c60c5da2941c7f1c.so in package rust
+> contains reference to TMPDIR
+> File /usr/lib/libicu_provider_macros-503ba5e62e8977cc.so in package
+> rust contains reference to TMPDIR
+> File /usr/lib/libzerovec_derive-02237fc3421c90c4.so in package rust
+> contains reference to TMPDIR
+> File /usr/lib/libderivative-58d493bafc99c13f.so in package rust
+> contains reference to TMPDIR
+> File /usr/lib/libserde_derive-a1b27683d4bd4bd3.so in package rust
+> contains reference to TMPDIR
+> File /usr/lib/libproc_macro_hack-f0b1af1c81588855.so in package rust
+> contains reference to TMPDIR
+> File /usr/lib/libyoke_derive-c488be35990c06f4.so in package rust
+> contains reference to TMPDIR
+> File /usr/lib/libunic_langid_macros_impl-01f309d5ed553f7b.so in
+> package rust contains reference to TMPDIR
+> File /usr/lib/librustc_fluent_macro-3554f4fe539dac9e.so in package
+> rust contains reference to TMPDIR
+> File /usr/lib/libthiserror_impl-d74aaa58e138729b.so in package rust
+> contains reference to TMPDIR
+> File /usr/lib/librustc_index_macros-4bc894c1875c7c9b.so in package
+> rust contains reference to TMPDIR
+> File /usr/lib/libtracing_attributes-7e254d62927f0d68.so in package
+> rust contains reference to TMPDIR
+> File /usr/lib/libthiserror_core_impl-f6328e975dbf41e3.so in package
+> rust contains reference to TMPDIR
+> File /usr/lib/libderive_setters-095386c54d928d42.so in package rust
+> contains reference to TMPDIR
+> File /usr/lib/libzerofrom_derive-23d9112afea1dfeb.so in package rust
+> contains reference to TMPDIR
+> File /usr/lib/librustc_macros-66ca7e6161e7a266.so in package rust
+> contains reference to TMPDIR
+> File /usr/lib/libdarling_macro-11d884e730198868.so in package rust
+> contains reference to TMPDIR [buildpaths]
+> WARNING: rust-1.76.0-r0 do_package_qa: QA Issue: File
+> /usr/lib/.debug/libderive_more-1faee1ce80838df0.so in package rust-dbg
+> contains reference to TMPDIR
+> File /usr/lib/.debug/libdisplaydoc-c60c5da2941c7f1c.so in package
+> rust-dbg contains reference to TMPDIR
+> File /usr/lib/.debug/libicu_provider_macros-503ba5e62e8977cc.so in
+> package rust-dbg contains reference to TMPDIR
+> File /usr/lib/.debug/libzerovec_derive-02237fc3421c90c4.so in package
+> rust-dbg contains reference to TMPDIR
+> File /usr/lib/.debug/libderivative-58d493bafc99c13f.so in package
+> rust-dbg contains reference to TMPDIR
+> File /usr/lib/.debug/libserde_derive-a1b27683d4bd4bd3.so in package
+> rust-dbg contains reference to TMPDIR
+> File /usr/lib/.debug/libproc_macro_hack-f0b1af1c81588855.so in package
+> rust-dbg contains reference to TMPDIR
+> File /usr/lib/.debug/libyoke_derive-c488be35990c06f4.so in package
+> rust-dbg contains reference to TMPDIR
+> File /usr/lib/.debug/libunic_langid_macros_impl-01f309d5ed553f7b.so in
+> package rust-dbg contains reference to TMPDIR
+> File /usr/lib/.debug/librustc_fluent_macro-3554f4fe539dac9e.so in
+> package rust-dbg contains reference to TMPDIR
+> File /usr/lib/.debug/libthiserror_impl-d74aaa58e138729b.so in package
+> rust-dbg contains reference to TMPDIR
+> File /usr/lib/.debug/librustc_index_macros-4bc894c1875c7c9b.so in
+> package rust-dbg contains reference to TMPDIR
+> File /usr/lib/.debug/libtracing_attributes-7e254d62927f0d68.so in
+> package rust-dbg contains reference to TMPDIR
+> File /usr/lib/.debug/libthiserror_core_impl-f6328e975dbf41e3.so in
+> package rust-dbg contains reference to TMPDIR
+> File /usr/lib/.debug/libderive_setters-095386c54d928d42.so in package
+> rust-dbg contains reference to TMPDIR
+> File /usr/lib/.debug/libzerofrom_derive-23d9112afea1dfeb.so in package
+> rust-dbg contains reference to TMPDIR
+> File /usr/lib/.debug/librustc_macros-66ca7e6161e7a266.so in package
+> rust-dbg contains reference to TMPDIR
+> File /usr/lib/.debug/libdarling_macro-11d884e730198868.so in package
+> rust-dbg contains reference to TMPDIR [buildpaths]
+>
+> Tree is here https://github.com/akiernan/poky though I'm not able to
+> look at it more at the the moment.
 
-//Peter
+Hi Alex,
 
+I also observed such warnings in the rust build. Raised a bug &=20
+discussing with upstream on the same.
+
+https://github.com/rust-lang/rust/issues/120825
+
+https://internals.rust-lang.org/t/rust-libs-are-not-reproducible-from-1-7=
+5/20290
+
+
+
+Thanks,
+
+Sundeep K.
+
+>
+> --
+> Alex Kiernan
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#195263): https://lists.openembedded.org/g/openembed=
+ded-core/message/195263
+> Mute This Topic: https://lists.openembedded.org/mt/103433093/7677583
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
+sundeep.kokkonda@eng.windriver.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
