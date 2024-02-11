@@ -1,150 +1,165 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <baruch@tkos.co.il>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA534C4829B
-	for <webhook@archiver.kernel.org>; Sun, 11 Feb 2024 13:18:38 +0000 (UTC)
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
- by mx.groups.io with SMTP id smtpd.web10.36963.1707657512227799729
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0770C4829A
+	for <webhook@archiver.kernel.org>; Sun, 11 Feb 2024 13:39:48 +0000 (UTC)
+Received: from mail.tkos.co.il (mail.tkos.co.il [84.110.109.230])
+ by mx.groups.io with SMTP id smtpd.web11.36998.1707658785666779438
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 Feb 2024 05:18:32 -0800
+ Sun, 11 Feb 2024 05:39:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=jR2Hw3Np;
- spf=softfail (domain: sakoman.com, ip: 209.85.222.182, mailfrom: steve@sakoman.com)
-Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-785d5705681so8729585a.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 11 Feb 2024 05:18:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1707657511; x=1708262311; darn=lists.openembedded.org;
-        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PoXrthgPuzkcW6NbkkdSWKQfi2DnAZ/uICLqAQTJB1Y=;
-        b=jR2Hw3NppEpaEUOQKNypM6+R9FdzDCX4LGMiDYWaPVhxfe22NVtsDMojYTbM1J/WFo
-         kXTG6ADoDYU68J2MZf+Vn2zeiwhDpxj29yu1sZonGOVmWNgomSDX9fsuCeJs1jjrsoO5
-         V/niXspaXrOnILRoyotHnvE5C1BHr2lhUqf/+mJEKd71wwCE8/5S4sMfO1ktgOWGFiz3
-         pDIn+DNaC66xNtcti68NnCjSdcDBKG2uuWrbORe9PP5CEdeVqjIGWgqTnob+1/kS2lSf
-         0wN3Y24upzeXmqgCczXUXubd/WqBYEbDVMC4cYmiDdrD6WbVvv/X+sGeofNhyvymBXPf
-         /1yA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707657511; x=1708262311;
-        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=PoXrthgPuzkcW6NbkkdSWKQfi2DnAZ/uICLqAQTJB1Y=;
-        b=G8++F2uJZS5LKCc0y2DBfbWm0s8SQrNAmS6n2Bet7y7/0Iv21/RqwOiT90WU9nD29f
-         GC2KGjVm9nllx9PfCQbV+mVE2ffc8b2P5THwe5gIZIkX3LKx1VwJelGMsFzC0X1OEcD8
-         fGPU6KD99eDt49vZW7QSnb5+R+exzgiS9lpRMrrwzKbEWG1GG8wxopGpSQh3Xn0PDxv8
-         juNoFFW1du8AM1LfdjDvkeD0OfgjHncaQjvH8oTkoKVpHCh1wzyIaoRR23ccGreGOja7
-         sBhzszwkBlgl7wlltqNQsfl+A3+341UoB/kIKsBsMA0keU0o+Me4FeGyAJo/51Dyw57F
-         XrQA==
-X-Gm-Message-State: AOJu0YxdIP7uGjIUixUMxZ7GIyhfR8jIee5eGxVdHIuGguVRnq1cgpBM
-	/qeIJssB1+5tAP88GhCD2rr3BboLRQkZtloSFHdeFuwYJR50aCi1lybMne5zSAU537bPiTYPiA4
-	E6Wo=
-X-Google-Smtp-Source: AGHT+IEhSVORUquPuDwHYvsUGSoP2/SHK+JJ8G9NjTX8asvcCQ5TXtIfJ+Wh8f8Ip+aWYRauaEZcpw==
-X-Received: by 2002:ae9:f405:0:b0:785:c298:3eec with SMTP id y5-20020ae9f405000000b00785c2983eecmr6063836qkl.14.1707657511080;
-        Sun, 11 Feb 2024 05:18:31 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXS1OLECvvcuXVsq6yY7JB6ySsJNiwIUxD7FvZR5ZJImB/vbAyRGLwe6gv6dbvn9VeTapShomDZbtUUIeJsnWoHcm++DsQydHmMO924jrLp+Dp2/+cf
-Received: from builder.sakoman.com ([71.19.246.55])
-        by smtp.gmail.com with ESMTPSA id m16-20020a05620a221000b007858e7b4279sm1285962qkh.83.2024.02.11.05.18.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Feb 2024 05:18:30 -0800 (PST)
-Received: by builder.sakoman.com (Postfix, from userid 1001)
-	id BD4B21068C2; Sun, 11 Feb 2024 03:18:29 -1000 (HST)
-Subject: OE-core CVE metrics for kirkstone on Sun 11 Feb 2024 03:00:01 AM HST
-FROM: steve@sakoman.com
-To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-User-Agent: mail (GNU Mailutils 3.14)
-Date: Sun, 11 Feb 2024 03:18:29 -1000
-Message-Id: <20240211131829.BD4B21068C2@builder.sakoman.com>
+ dkim=pass header.i=@tkos.co.il header.s=default header.b=iKEUzVST;
+ spf=pass (domain: tkos.co.il, ip: 84.110.109.230, mailfrom: baruch@tkos.co.il)
+Received: from localhost (unknown [10.0.8.2])
+	by mail.tkos.co.il (Postfix) with ESMTP id 0765144053D;
+	Sun, 11 Feb 2024 15:39:08 +0200 (IST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tkos.co.il;
+	s=default; t=1707658748;
+	bh=+ERFzgNojAdvram11XNgIKMWMs72AERWzoGhpArYIRc=;
+	h=References:From:To:Cc:Subject:Date:In-reply-to:From;
+	b=iKEUzVSTxIIraGKgFV3fdutmqPjNl5vKxsPkoGI7p/oSJcPpCv/0UpBTHZdeMjOIt
+	 eW01avzzfgjcYHEZ71RaXhepoZUVvtATEubWp5nPfFzSjKqELJ7ijhdw1ol1hMmZvO
+	 dIjs+McURO1311+8GTfOyoZgMxFzlydiUgek71YMC1ZSu+6hEzjKhOHjSbaLIZyi+q
+	 m5d1uYvlgVP64t4yGIq/xS4a1KGYqxxmVhkDxRFQLE73Xkdr/bffkv3qGcnNSaRRNk
+	 Nu/U5Dy5pGVJKn927mxb/d+nEenRTeNMOCIfTeWMO2h+cenWdz50JX7s+NOl0hh20W
+	 Izr0e+TEoDUQA==
+References: <391a7b90f3cb6a7b276904b69a2251bf0d3849c9.1707376966.git.baruch@tkos.co.il>
+ <5066577e-7447-4f4f-8212-7729a3ada8ba@gmail.com>
+User-agent: mu4e 1.10.8; emacs 29.1
+From: Baruch Siach <baruch@tkos.co.il>
+To: Vyacheslav Yurkov <uvv.mail@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] overlayfs-etc: take read-only-rootfs into account
+Date: Sun, 11 Feb 2024 15:23:55 +0200
+In-reply-to: <5066577e-7447-4f4f-8212-7729a3ada8ba@gmail.com>
+Message-ID: <87cyt35dcy.fsf@tarshish>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 11 Feb 2024 13:18:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195291
+ <openembedded-core@lists.openembedded.org>; Sun, 11 Feb 2024 13:39:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195292
 
-Branch: kirkstone
+Hi Slava,
 
-New this week: 3 CVEs
-CVE-2023-52425 (CVSS3: 7.5 HIGH): expat:expat-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52425 *
-CVE-2023-52426 (CVSS3: 5.5 MEDIUM): expat:expat-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52426 *
-CVE-2023-6779 (CVSS3: 7.5 HIGH): glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6779 *
+On Thu, Feb 08 2024, Vyacheslav Yurkov wrote:
+> On 08.02.2024 08:22, Baruch Siach wrote:
+>> Don't remount rootfs read-write when read-only-rootfs feature is
+>> enabled. Assume that all mount points are in place for the read-only
+>> case.
+>>
+>> Cc: Vyacheslav Yurkov <uvv.mail@gmail.com>
+>> Signed-off-by: Baruch Siach <baruch@tkos.co.il>
+>> ---
+>>   meta/classes-recipe/overlayfs-etc.bbclass |  4 +++-
+>>   meta/files/overlayfs-etc-preinit.sh.in    | 16 +++++++++-------
+>>   2 files changed, 12 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/meta/classes-recipe/overlayfs-etc.bbclass b/meta/classes-re=
+cipe/overlayfs-etc.bbclass
+>> index 0c7834d01f43..e695ebdcf843 100644
+>> --- a/meta/classes-recipe/overlayfs-etc.bbclass
+>> +++ b/meta/classes-recipe/overlayfs-etc.bbclass
+>> @@ -69,7 +69,9 @@ python create_overlayfs_etc_preinit() {
+>>           'OVERLAYFS_ETC_FSTYPE': overlayEtcFsType,
+>>           'OVERLAYFS_ETC_DEVICE': overlayEtcDevice,
+>>           'SBIN_INIT_NAME': initBaseName + origInitNameSuffix if useOrig=
+Init else initBaseName,
+>> -        'OVERLAYFS_ETC_EXPOSE_LOWER': "true" if exposeLower else "false"
+>> +        'OVERLAYFS_ETC_EXPOSE_LOWER': "true" if exposeLower else "false=
+",
+>> +        'READ_ONLY_ROOTFS': bb.utils.contains("IMAGE_FEATURES", "read-o=
+nly-rootfs",
+>> +                                              "true", "false", d)
+>>       }
+>>         if useOrigInit:
+>> diff --git a/meta/files/overlayfs-etc-preinit.sh.in b/meta/files/overlay=
+fs-etc-preinit.sh.in
+>> index 8db076f4ba65..79cecf8ac97d 100644
+>> --- a/meta/files/overlayfs-etc-preinit.sh.in
+>> +++ b/meta/files/overlayfs-etc-preinit.sh.in
+>> @@ -3,12 +3,15 @@
+>>   echo "PREINIT: Start"
+>>     PATH=3D/sbin:/bin:/usr/sbin:/usr/bin
+>> -mount -o remount,rw /
+>> -
+>> -mkdir -p /proc
+>> -mkdir -p /sys
+>> -mkdir -p /run
+>> -mkdir -p /var/run
+>> +if ! {READ_ONLY_ROOTFS}; then
+>> +    mount -o remount,rw /
+>> +
+>> +    mkdir -p /proc
+>> +    mkdir -p /sys
+>> +    mkdir -p /run
+>> +    mkdir -p /var/run
+>> +    mkdir -p {OVERLAYFS_ETC_MOUNT_POINT}
+>> +fi
+>
+> I don't think this would be a correct approach. You probably should only
+> remount to ro after all mount points are created.
 
-Removed this week: 7 CVEs
-CVE-2023-4039 (CVSS3: 4.8 MEDIUM): gcc:gcc-cross-x86_64:gcc-runtime:gcc-sanitizers:libgcc:libgcc-initial https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4039 *
-CVE-2023-42915 (CVSS3: 7.8 HIGH): curl:curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42915 *
-CVE-2023-6377 (CVSS3: 7.8 HIGH): xwayland https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6377 *
-CVE-2023-6478 (CVSS3: 7.5 HIGH): xwayland https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6478 *
-CVE-2024-0232 (CVSS3: 5.5 MEDIUM): sqlite3:sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0232 *
-CVE-2024-0727 (CVSS3: 5.5 MEDIUM): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0727 *
-CVE-2024-22195 (CVSS3: 6.1 MEDIUM): python3-jinja2:python3-jinja2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-22195 *
+As I understand, the point of read-only-rootfs feature is to keep rootfs
+intact. Filesystems like squashfs or erofs don't support rw mount at
+all. How can we support this use case?
 
-Full list:  Found 47 unpatched CVEs
-CVE-2021-35937 (CVSS3: 6.4 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35937 *
-CVE-2021-35938 (CVSS3: 6.7 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35938 *
-CVE-2021-35939 (CVSS3: 6.7 MEDIUM): rpm:rpm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-35939 *
-CVE-2022-3219 (CVSS3: 3.3 LOW): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3219 *
-CVE-2022-3515 (CVSS3: 9.8 CRITICAL): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3515 *
-CVE-2022-36648 (CVSS3: 10.0 CRITICAL): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-36648 *
-CVE-2022-3872 (CVSS3: 8.6 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3872 *
-CVE-2023-1386 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1386 *
-CVE-2023-24532 (CVSS3: 5.3 MEDIUM): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-24532 *
-CVE-2023-27043 (CVSS3: 5.3 MEDIUM): python3:python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-27043 *
-CVE-2023-2731 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-2731 *
-CVE-2023-28198 (CVSS3: 8.8 HIGH): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-28198 *
-CVE-2023-29403 (CVSS3: 7.8 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-29403 *
-CVE-2023-3019 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3019 *
-CVE-2023-3164 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3164 *
-CVE-2023-32370 (CVSS3: 5.3 MEDIUM): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-32370 *
-CVE-2023-37769 (CVSS3: 6.5 MEDIUM): pixman:pixman-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-37769 *
-CVE-2023-39323 (CVSS3: 8.1 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-39323 *
-CVE-2023-4001 (CVSS3: 6.8 MEDIUM): grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4001 *
-CVE-2023-40397 (CVSS3: 9.8 CRITICAL): webkitgtk https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-40397 *
-CVE-2023-42467 (CVSS3: 5.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42467 *
-CVE-2023-44487 (CVSS3: 7.5 HIGH): go:nghttp2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-44487 *
-CVE-2023-45285 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-45285 *
-CVE-2023-45287 (CVSS3: 7.5 HIGH): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-45287 *
-CVE-2023-45803 (CVSS3: 4.2 MEDIUM): python3-urllib3 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-45803 *
-CVE-2023-46407 (CVSS3: 5.5 MEDIUM): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-46407 *
-CVE-2023-47100 (CVSS3: 9.8 CRITICAL): perl:perl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-47100 *
-CVE-2023-47470 (CVSS3: 7.8 HIGH): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-47470 *
-CVE-2023-48795 (CVSS3: 5.9 MEDIUM): libssh2:libssh2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-48795 *
-CVE-2023-49292 (CVSS3: 4.8 MEDIUM): go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-49292 *
-CVE-2023-51767 (CVSS3: 7.0 HIGH): openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51767 *
-CVE-2023-52355 (CVSS3: 7.5 HIGH): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52355 *
-CVE-2023-52356 (CVSS3: 7.5 HIGH): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52356 *
-CVE-2023-52425 (CVSS3: 7.5 HIGH): expat:expat-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52425 *
-CVE-2023-52426 (CVSS3: 5.5 MEDIUM): expat:expat-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52426 *
-CVE-2023-5380 (CVSS3: 4.7 MEDIUM): xwayland https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5380 *
-CVE-2023-5574 (CVSS3: 7.0 HIGH): xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5574 *
-CVE-2023-6277 (CVSS3: 6.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6277 *
-CVE-2023-6683 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6683 *
-CVE-2023-6693 (CVSS3: 5.3 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6693 *
-CVE-2023-6779 (CVSS3: 7.5 HIGH): glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6779 *
-CVE-2023-6816 (CVSS3: 9.8 CRITICAL): xwayland https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6816 *
-CVE-2024-0408 (CVSS3: 5.5 MEDIUM): xwayland https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0408 *
-CVE-2024-0409 (CVSS3: 7.8 HIGH): xwayland https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0409 *
-CVE-2024-22860 (CVSS3: 9.8 CRITICAL): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-22860 *
-CVE-2024-22861 (CVSS3: 7.5 HIGH): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-22861 *
-CVE-2024-22862 (CVSS3: 9.8 CRITICAL): ffmpeg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-22862 *
+> With this patch overlayfs.OverlayFSEtcRunTimeTests.test_sbin_init_preinit
+> fails:
+>
+> 2024-02-08 21:12:40,616 - oe-selftest - INFO - Traceback (most recent call
+> last):
+> =C2=A0 File
+> "/home/uvv/projects/upstream/poky/meta/lib/oeqa/core/decorator/__init__.p=
+y",
+> line 35, in wrapped_f
+> =C2=A0=C2=A0=C2=A0 return func(*args, **kwargs)
+> =C2=A0 File
+> "/home/uvv/projects/upstream/poky/meta/lib/oeqa/selftest/cases/overlayfs.=
+py",
+> line 370, in test_sbin_init_preinit
+> =C2=A0=C2=A0=C2=A0 self.run_sbin_init(False)
+> =C2=A0 File
+> "/home/uvv/projects/upstream/poky/meta/lib/oeqa/selftest/cases/overlayfs.=
+py",
+> line 399, in run_sbin_init
+> =C2=A0=C2=A0=C2=A0 self.assertTrue("/data" in output, msg=3Doutput)
+> AssertionError: False is not true : /dev/sda2 on / type ext4 (ro,relatime)
 
-Summary of CVE counts by recipe:
-  qemu:qemu-native:qemu-system-native: 7
-  go: 6
-  ffmpeg: 5
-  tiff: 5
-  xwayland: 4
-  rpm:rpm-native: 3
-  webkitgtk: 3
-  expat:expat-native: 2
-  gnupg:gnupg-native: 2
-  glibc: 1
-  go:nghttp2: 1
-  grub:grub-efi:grub-native: 1
-  libssh2:libssh2-native: 1
-  openssh: 1
-  perl:perl-native: 1
-  pixman:pixman-native: 1
-  python3:python3-native: 1
-  python3-urllib3: 1
-  xserver-xorg: 1
+Where is this /dev/sda2 coming from? I have also seen it in my
+/etc/fstab once I enabled the overlayfs-etc feature. I see no mention of
+sda2 in meta/lib/oeqa/selftest/cases/overlayfs.py.
 
-For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
+> The test is not really explicit, but it looks like overlay is not mounted=
+. We
+> could also add a generic test to search for "PREINIT" done/failed.
+
+How can I run this test?
+
+Thanks,
+baruch
+
+>
+>>   mount -t proc proc /proc
+>>   mount -t sysfs sysfs /sys
+>> @@ -20,7 +23,6 @@ UPPER_DIR=3D$BASE_OVERLAY_ETC_DIR/upper
+>>   WORK_DIR=3D$BASE_OVERLAY_ETC_DIR/work
+>>   LOWER_DIR=3D$BASE_OVERLAY_ETC_DIR/lower
+>>   -mkdir -p {OVERLAYFS_ETC_MOUNT_POINT}
+>>   if mount -n -t {OVERLAYFS_ETC_FSTYPE} \
+>>       -o {OVERLAYFS_ETC_MOUNT_OPTIONS} \
+>>       {OVERLAYFS_ETC_DEVICE} {OVERLAYFS_ETC_MOUNT_POINT}
+>
+> Thanks,
+> Slava
+
+
+--=20
+                                                     ~. .~   Tk Open Systems
+=3D}------------------------------------------------ooO--U--Ooo------------=
+{=3D
+   - baruch@tkos.co.il - tel: +972.52.368.4656, http://www.tkos.co.il -
 
