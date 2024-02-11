@@ -1,151 +1,164 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <andrej.v@skyrain.eu>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2444CC4829E
-	for <webhook@archiver.kernel.org>; Sun, 11 Feb 2024 11:18:08 +0000 (UTC)
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
- by mx.groups.io with SMTP id smtpd.web10.35614.1707650286113077826
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AA9BC4829A
+	for <webhook@archiver.kernel.org>; Sun, 11 Feb 2024 11:46:08 +0000 (UTC)
+Received: from h3.cmg2.smtp.forpsi.com (h3.cmg2.smtp.forpsi.com [185.129.138.188])
+ by mx.groups.io with SMTP id smtpd.web10.35877.1707651961717371646
  for <openembedded-core@lists.openembedded.org>;
- Sun, 11 Feb 2024 03:18:06 -0800
+ Sun, 11 Feb 2024 03:46:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=KDenPp8r;
- spf=softfail (domain: sakoman.com, ip: 209.85.219.50, mailfrom: steve@sakoman.com)
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-68d0bcb4a46so2502726d6.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 11 Feb 2024 03:18:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1707650285; x=1708255085; darn=lists.openembedded.org;
-        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9z+XCfecKkmgL6t741YdG/4D4mhOS2ES9YnZ9IbRHrc=;
-        b=KDenPp8rqwIgYaluJgux2kjP7l9TO/NQBF0asUR4BdNqW3gqbm+iau3757l3P4hnXL
-         snLegIflKBLhjduT+6FIbd4g6YH5TsqJEnLiKi+hpI9mCELZJpFKgY1h6i5kh79y0pcL
-         wLhHgEHKVHO5pEfisbRk5PyL0Jvt8Y2b1esDyMV4UKVouAXhAhxEX821DGeitaoEc/Ev
-         cOHVmTqnai2O7D6D37XwTzJN3GW+o/kxWCBNmf0dlPnigPkkMIpvc1yZiZtY45zETq++
-         9gteJI9DN6I/j9P1FZbNSidMwyfVZSlqbSUtpegYs0OLCMYpOOhWQ5qBTwHPIJfila4T
-         kbhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707650285; x=1708255085;
-        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=9z+XCfecKkmgL6t741YdG/4D4mhOS2ES9YnZ9IbRHrc=;
-        b=SFi6LwgBoGEV1Sp8R4epKtvjrN0cs82Zgxh4B8vr3lXGs1CNIFcCcoYWTiQmewnYG9
-         mcHfcOo5ieGiRJiEpvFIPTwPu+FfwZoN5JGXZOMomp4JtFp8NjpP4PurM4iap1UzAEcx
-         S8NQ7/blwBwc3YOZJ68+MNkblbD2sHyIcltwoXzjvfaz+6pPMF3Xn+anxFRbblHofDSf
-         jl+Ecb0qOjU4IfcgX3V8/YMsnGK3GgldbOdd1R2lZBoL9JwwtAmkkPwjq/8OjrrcKQjb
-         T5Ab/kAvI8si9RI0kC+jsNNmZS2j0qYptzJ9bdMul5s29P6gm77BR74i0X9BaEGNZY+e
-         Ze/Q==
-X-Gm-Message-State: AOJu0Yzvredv7DrKefSVwes78RYPyxBOYv7iFqr1nwiLPcVGu8TgpBkC
-	7K2pM159lk56VcEPMcNmf7Tz9Fe8QAZeHzgMd1SGUYf6zTMRjUJ7gJIsKQ9k7uzjKKLleU7dso1
-	2wPM=
-X-Google-Smtp-Source: AGHT+IHsOuKk/ofS+IkeFuyEtNCbiaIwNwO6c4Xa6PboaFfdcHyae/pnimQDVfdN3kycXusl7oCUaw==
-X-Received: by 2002:a05:6214:410e:b0:68c:5a4d:35ac with SMTP id kc14-20020a056214410e00b0068c5a4d35acmr5481742qvb.1.1707650284949;
-        Sun, 11 Feb 2024 03:18:04 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUyNjtb77QfVSjSWHL6DCsFOaXiS6t2/qJzt0/98t8v6rOzI3Hwrgjp3T1ZlRvsXV0FBLzuaNUsM6K9owKK9cKNS2qZU4S653jOtOBI0heyISyCoTkg
-Received: from builder.sakoman.com ([71.19.246.55])
-        by smtp.gmail.com with ESMTPSA id oq4-20020a056214460400b0068ce94675d0sm1378053qvb.36.2024.02.11.03.18.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Feb 2024 03:18:04 -0800 (PST)
-Received: by builder.sakoman.com (Postfix, from userid 1001)
-	id 59692106928; Sun, 11 Feb 2024 01:18:03 -1000 (HST)
-Subject: OE-core CVE metrics for master on Sun 11 Feb 2024 01:00:01 AM HST
-FROM: steve@sakoman.com
-To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-User-Agent: mail (GNU Mailutils 3.14)
-Date: Sun, 11 Feb 2024 01:18:03 -1000
-Message-Id: <20240211111803.59692106928@builder.sakoman.com>
+ dkim=pass header.i=@skyrain.eu header.s=f2022 header.b=nWF+88f+;
+ dkim=pass header.i=@skyrain.eu header.s=f2022 header.b=nWF+88f+;
+ spf=none, err=permanent DNS error (domain: skyrain.eu, ip: 185.129.138.188, mailfrom: andrej.v@skyrain.eu)
+Received: from [192.168.10.90] ([62.197.243.174])
+	by cmgsmtp with ESMTPSA
+	id Z8HWrKHxGSqGRZ8HWrbqGh; Sun, 11 Feb 2024 12:45:59 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=skyrain.eu; s=f2022;
+	t=1707651959; bh=ncHht0DtDhrtwAphK5sttUEM37ZCl/VKR4esITnJOX4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	b=nWF+88f+eZBH3FRVtRn5D2robupi/0SIZ+dViQ5vu7EUL0PhPSI+8dUdoRYekCVt5
+	 R0mGzlltkL9QQ9QONZrWEfcH2hMLfgjeZqHBrPUjtY6F0H7V7Y10bhyNnwj2Bf8rTJ
+	 bH2xdm2k87Jq29sZQFl1vEzIvVBqdKXbPnWT5iUBIzQmBX3Uo1iUADA9iHGqPUoexn
+	 3ecpAJDupPM/bzQzx6wghlR5jm0qN1wj5anPg0NgEPMLErg+QzoVY+HNjMfkzY0uUx
+	 R1hTIITY6C7ouGocUujAOxAeLd7P5SL331hD/0i9iYya21fhHPnLEOljNWCxncrDvy
+	 3OoOwzBXfGJag==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=skyrain.eu; s=f2022;
+	t=1707651959; bh=ncHht0DtDhrtwAphK5sttUEM37ZCl/VKR4esITnJOX4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	b=nWF+88f+eZBH3FRVtRn5D2robupi/0SIZ+dViQ5vu7EUL0PhPSI+8dUdoRYekCVt5
+	 R0mGzlltkL9QQ9QONZrWEfcH2hMLfgjeZqHBrPUjtY6F0H7V7Y10bhyNnwj2Bf8rTJ
+	 bH2xdm2k87Jq29sZQFl1vEzIvVBqdKXbPnWT5iUBIzQmBX3Uo1iUADA9iHGqPUoexn
+	 3ecpAJDupPM/bzQzx6wghlR5jm0qN1wj5anPg0NgEPMLErg+QzoVY+HNjMfkzY0uUx
+	 R1hTIITY6C7ouGocUujAOxAeLd7P5SL331hD/0i9iYya21fhHPnLEOljNWCxncrDvy
+	 3OoOwzBXfGJag==
+Message-ID: <c7d59770-b975-4608-ae0d-0ac8dd1531d9@skyrain.eu>
+Date: Sun, 11 Feb 2024 12:45:58 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] patchtest: Add selftest for test
+ cve_check_ignore
+To: =?UTF-8?Q?Simone_Wei=C3=9F?= <simone.p.weiss@posteo.com>
+References: <20240210135259.563083-1-simone.p.weiss@posteo.com>
+Content-Language: en-US
+Cc: openembedded-core@lists.openembedded.org,
+ richard.purdie@linuxfoundation.org
+From: Andrej Valek <andrej.v@skyrain.eu>
+In-Reply-To: <20240210135259.563083-1-simone.p.weiss@posteo.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfMnP5vNW7L0cUgIHhTI0ySKmOd1D76+9AmRB0ZdLSqHy5o5p38alBboZCgmX+/G6SlUuauhr8cc1xNF5YVJ8hc4urZVXSpOp79ItC46TdRFVGgbtT4UB
+ QDsYeNtkQogx++J+8WG/qfmKWI3ql075wBgc2KJ7yr+5EZQHICtej8FI7ynopkmtN9SJhIYbI4d//1Jot3qyxsuV/3uBaV0q7X9JLLMJ4klKuX1jlri03jQ7
+ VQOIFPqhsnATVRYB4ZTkLLO0OthEpgFhQJVIE9xV0IIaZonIsGyFDswi/0PulxY7
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 11 Feb 2024 11:18:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195284
+ <openembedded-core@lists.openembedded.org>; Sun, 11 Feb 2024 11:46:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195285
 
-Branch: master
+Hi Simone,
 
-New this week: 7 CVEs
-CVE-2023-6780 (CVSS3: 9.8 CRITICAL): glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6780 *
-CVE-2024-21803 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-21803 *
-CVE-2024-24857 (CVSS3: 6.8 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24857 *
-CVE-2024-24858 (CVSS3: 5.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24858 *
-CVE-2024-24859 (CVSS3: 4.8 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24859 *
-CVE-2024-24861 (CVSS3: 6.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24861 *
-CVE-2024-24864 (CVSS3: 4.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24864 *
+Is there a special reason, why you're adding already removed feature 
+https://lists.openembedded.org/g/openembedded-core/message/189917 ?
 
-Removed this week: 13 CVEs
-CVE-2022-36402 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-36402 *
-CVE-2023-46838 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-46838 *
-CVE-2023-52355 (CVSS3: 7.5 HIGH): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52355 *
-CVE-2023-52356 (CVSS3: 7.5 HIGH): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52356 *
-CVE-2023-6200 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6200 *
-CVE-2023-6246 (CVSS3: 7.8 HIGH): glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6246 *
-CVE-2023-6610 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6610 *
-CVE-2023-6915 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6915 *
-CVE-2024-0565 (CVSS3: 7.4 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0565 *
-CVE-2024-0584 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0584 *
-CVE-2024-0607 (CVSS3: 6.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0607 *
-CVE-2024-0646 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0646 *
-CVE-2024-0727 (CVSS3: 5.5 MEDIUM): openssl:openssl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0727 *
+Regards,
+Andrej
 
-Full list:  Found 46 unpatched CVEs
-CVE-2019-14899 (CVSS3: 7.4 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
-CVE-2021-3714 (CVSS3: 5.9 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
-CVE-2021-3864 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
-CVE-2022-0400 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
-CVE-2022-1247 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
-CVE-2022-3219 (CVSS3: 3.3 LOW): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3219 *
-CVE-2022-38096 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
-CVE-2022-4543 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
-CVE-2022-46456 (CVSS3: 6.1 MEDIUM): nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46456 *
-CVE-2023-1386 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1386 *
-CVE-2023-25584 (CVSS3: 7.1 HIGH): binutils:binutils-cross-testsuite:binutils-cross-x86_64:binutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-25584 *
-CVE-2023-3019 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3019 *
-CVE-2023-3164 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3164 *
-CVE-2023-3397 (CVSS3: 6.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
-CVE-2023-3640 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
-CVE-2023-38559 (CVSS3: 5.5 MEDIUM): ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38559 *
-CVE-2023-4010 (CVSS3: 4.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
-CVE-2023-42363 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42363 *
-CVE-2023-42364 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42364 *
-CVE-2023-42365 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42365 *
-CVE-2023-42366 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42366 *
-CVE-2023-4692 (CVSS3: 7.8 HIGH): grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4692 *
-CVE-2023-4693 (CVSS3: 4.6 MEDIUM): grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4693 *
-CVE-2023-48795 (CVSS3: 5.9 MEDIUM): openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-48795 *
-CVE-2023-5088 (CVSS3: 7.0 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5088 *
-CVE-2023-51384 (CVSS3: 5.5 MEDIUM): openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51384 *
-CVE-2023-51385 (CVSS3: 6.5 MEDIUM): openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51385 *
-CVE-2023-51767 (CVSS3: 7.0 HIGH): openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51767 *
-CVE-2023-6238 (CVSS3: 6.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
-CVE-2023-6270 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6270 *
-CVE-2023-6683 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6683 *
-CVE-2023-6693 (CVSS3: 5.3 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6693 *
-CVE-2023-6780 (CVSS3: 9.8 CRITICAL): glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6780 *
-CVE-2023-7042 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-7042 *
-CVE-2024-0841 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0841 *
-CVE-2024-21803 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-21803 *
-CVE-2024-23307 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23307 *
-CVE-2024-23848 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23848 *
-CVE-2024-23849 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23849 *
-CVE-2024-23850 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23850 *
-CVE-2024-23851 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23851 *
-CVE-2024-24857 (CVSS3: 6.8 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24857 *
-CVE-2024-24858 (CVSS3: 5.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24858 *
-CVE-2024-24859 (CVSS3: 4.8 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24859 *
-CVE-2024-24861 (CVSS3: 6.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24861 *
-CVE-2024-24864 (CVSS3: 4.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24864 *
+On 10.02.2024 14:52, Simone Weiß wrote:
+> From: Simone Weiß <simone.p.weiss@posteo.com>
+>
+> Add a selftest for the recently introduced check for CVE_CHECK_IGNORE.
+>
+> Signed-off-by: Simone Weiß <simone.p.weiss@posteo.com>
+> ---
+>   .../TestMetadata.test_cve_check_ignore.fail   | 30 ++++++++++++++++++
+>   .../TestMetadata.test_cve_check_ignore.pass   | 31 +++++++++++++++++++
+>   2 files changed, 61 insertions(+)
+>   create mode 100644 meta/lib/patchtest/selftest/files/TestMetadata.test_cve_check_ignore.fail
+>   create mode 100644 meta/lib/patchtest/selftest/files/TestMetadata.test_cve_check_ignore.pass
+>
+> diff --git a/meta/lib/patchtest/selftest/files/TestMetadata.test_cve_check_ignore.fail b/meta/lib/patchtest/selftest/files/TestMetadata.test_cve_check_ignore.fail
+> new file mode 100644
+> index 0000000000..3574463ade
+> --- /dev/null
+> +++ b/meta/lib/patchtest/selftest/files/TestMetadata.test_cve_check_ignore.fail
+> @@ -0,0 +1,30 @@
+> +From c4ca86b9cca3643097db0328e2f34dccffbba309 Mon Sep 17 00:00:00 2001
+> +From: =?UTF-8?q?Simone=20Wei=C3=9F?= <simone.p.weiss@posteo.com>
+> +Date: Sat, 10 Feb 2024 13:18:44 +0100
+> +Subject: [PATCH] selftest-hello: add CVE_CHECK_IGNORE
+> +MIME-Version: 1.0
+> +Content-Type: text/plain; charset=UTF-8
+> +Content-Transfer-Encoding: 8bit
+> +
+> +This should fail the test_cve_tag_format selftest.
+> +
+> +Signed-off-by: Simone Weiß <simone.p.weiss@posteo.com>
+> +---
+> + .../recipes-test/selftest-hello/selftest-hello_1.0.bb          | 3 ++-
+> + 1 file changed, 2 insertions(+), 1 deletion(-)
+> +
+> +diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
+> +index 547587bef4..3ef9b87c34 100644
+> +--- a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
+> ++++ b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
+> +@@ -16,4 +16,5 @@ do_install() {
+> + 	install -m 0755 helloworld ${D}${bindir}
+> + }
+> +
+> +-BBCLASSEXTEND = "native nativesdk"
+> +\ No newline at end of file
+> ++CVE_CHECK_IGNORE = "CVE-2024-12345"
+> ++BBCLASSEXTEND = "native nativesdk"
+> +--
+> +2.39.2
+> +
+> diff --git a/meta/lib/patchtest/selftest/files/TestMetadata.test_cve_check_ignore.pass b/meta/lib/patchtest/selftest/files/TestMetadata.test_cve_check_ignore.pass
+> new file mode 100644
+> index 0000000000..10f942a6eb
+> --- /dev/null
+> +++ b/meta/lib/patchtest/selftest/files/TestMetadata.test_cve_check_ignore.pass
+> @@ -0,0 +1,31 @@
+> +From 7d4d3fee0c7111830ee9b2b049ae3ce265b26030 Mon Sep 17 00:00:00 2001
+> +From: =?UTF-8?q?Simone=20Wei=C3=9F?= <simone.p.weiss@posteo.com>
+> +Date: Sat, 10 Feb 2024 13:23:56 +0100
+> +Subject: [PATCH] selftest-hello: add CVE_STATUS
+> +MIME-Version: 1.0
+> +Content-Type: text/plain; charset=UTF-8
+> +Content-Transfer-Encoding: 8bit
+> +
+> +This should pass the test_cve_tag_format selftest.
+> +
+> +Signed-off-by: Simone Weiß <simone.p.weiss@posteo.com>
+> +---
+> + .../recipes-test/selftest-hello/selftest-hello_1.0.bb         | 4 +++-
+> + 1 file changed, 3 insertions(+), 1 deletion(-)
+> +
+> +diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
+> +index 547587bef4..9908b3b417 100644
+> +--- a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
+> ++++ b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
+> +@@ -16,4 +16,6 @@ do_install() {
+> + 	install -m 0755 helloworld ${D}${bindir}
+> + }
+> +
+> +-BBCLASSEXTEND = "native nativesdk"
+> +\ No newline at end of file
+> ++CVE_STATUS[CVE-2024-12345] = "not-applicable-platform: Issue only applies on Windows"
+> ++
+> ++BBCLASSEXTEND = "native nativesdk"
+> +--
+> +2.39.2
+> +
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#195273): https://lists.openembedded.org/g/openembedded-core/message/195273
+> Mute This Topic: https://lists.openembedded.org/mt/104277396/3619876
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [andrej.v@skyrain.eu]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
-Summary of CVE counts by recipe:
-  linux-yocto: 25
-  qemu:qemu-native:qemu-system-native: 5
-  busybox: 4
-  openssh: 4
-  grub:grub-efi:grub-native: 2
-  binutils:binutils-cross-testsuite:binutils-cross-x86_64:binutils-native: 1
-  ghostscript: 1
-  glibc: 1
-  gnupg:gnupg-native: 1
-  nasm:nasm-native: 1
-  tiff: 1
-
-For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
