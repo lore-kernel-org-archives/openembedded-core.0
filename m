@@ -1,188 +1,157 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <ppjadhav456@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3140AC48297
-	for <webhook@archiver.kernel.org>; Mon, 12 Feb 2024 10:04:48 +0000 (UTC)
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
- by mx.groups.io with SMTP id smtpd.web10.3450.1707732279327726186
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6395CC48297
+	for <webhook@archiver.kernel.org>; Mon, 12 Feb 2024 10:47:18 +0000 (UTC)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web11.3957.1707734835167257998
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Feb 2024 02:04:39 -0800
+ Mon, 12 Feb 2024 02:47:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=BqIi4mYu;
- spf=pass (domain: gmail.com, ip: 209.85.208.179, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2d0b4ea773eso39545491fa.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 Feb 2024 02:04:39 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=PaUzInwI;
+ spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: ppjadhav456@gmail.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1d76671e5a4so25038115ad.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 12 Feb 2024 02:47:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707732277; x=1708337077; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=eTEiC8gS4qCQ6NGDDgtQkMCt+bz3Pnw8eAqvnzfJkmM=;
-        b=BqIi4mYuHw8P6NqU8wR6zdVmMx7LeUT4VX+MUPJ4gFdNTfh4iuTg06uUXPa37Ln2UK
-         UOiRcplhAP+ahBZ0t2qxtmA/FVH0hZazGfkqav4ANmXzCcRKv41RkfQZph+htYQXzJcC
-         3Y9jjEh9DNjcPJBvp5xul0xuD+AXp1rkT5o5G8CxlmKifnUJCZPGz8ghEVVpP+H8AMBR
-         ggemtyKe0xZm9govxSKMq0KioRhSlX4SZjEItk6xGhrUncdoL0rft/rRLN69Os+cG3mD
-         VKvl2Czx95HfcFPS0q5i/98xfR5sOOFaKvlK8AVQy0/tp3+d4PP1UgKeAFMhai60/UMd
-         bYOw==
+        d=gmail.com; s=20230601; t=1707734834; x=1708339634; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9xmfBw2zxluvWVmLe9XROWse0ks0Fo6vsX5K3UQY3Qk=;
+        b=PaUzInwI5gCsnOKtYwI3BYtS2evIrJNMwQ4li638RXPJbcINwHMutfukQTBSpBz+6t
+         s9pRmZ2Bztcy+GicVPzGrmRelSiqlsoecS07CQqCL3WIotCSL922hPT+FhKAHj9KZCET
+         liKazpy8Y+4B3JUXBs11JMNOZ96VDet4QGT692haqDlKW7mZjNtKW66KTAlVW+oeHA8q
+         Ahb04VwHKZU4ZejxSmiOgSemOj2mmEFXHhMvTQf0NGG+Mp838kHYcVyJoKkI/rAdmPsh
+         BhFs+C4PH95Fv6xVZ6iIoZ0gJardAfXimgCC2H0XqY6XEhkwN8ZbBBnkwHk76PRjwBgv
+         XjnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707732277; x=1708337077;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1707734834; x=1708339634;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=eTEiC8gS4qCQ6NGDDgtQkMCt+bz3Pnw8eAqvnzfJkmM=;
-        b=wQoeQ2ez/dJFWuFhu9FVQvLKre7NGWQKA3XeVdr43eBD5FU1F5BdP5D1k6jCxZrso9
-         E80NFZuKuAIuCdWti6wKmREzORIcDxfHqQBzpe7cS58yPfWAQc6PadbnKRM6xIi6i1Dv
-         LlhbIQ1OED007dTeMI4pSOYJHYPJDmeLFCQSFhSGdABlpOxlQCP1egkbLhIMZbiVvr13
-         6aQ1vRqs7/HysGYKfazFJl7FvKG+4PRJxrnZNNtGZq0R7+1OjDaqDtkaXunfh9MobbqR
-         ZI3zLcbQzlQOW30dmxZ7tytnqas9qQavHHq5FhAJjqM1RPI0WI694DOhFHEKbyNnVPqU
-         Qo3A==
-X-Gm-Message-State: AOJu0YyyYthl+It8CtKR48DTSL9mSlBcyL/ki4enEw+f0Hdyi4d0rdKt
-	EGpl6b+B5nnENC2WsyC6yMCWu1+8In15CxVQ5fy3Ds4h4VpnElUgIHrLaS6OvArb47yt35HU/mX
-	zrxjm2XG6CKN/BVVqnLyxG/rBpiM=
-X-Google-Smtp-Source: AGHT+IGKh4gv52GAeRQD/DeZC5ImmVtF/XIQw7mjsApnz4Bi/xtxC8N1/YXyA5I0HvfaDTxDvU5Y6PbXhLdST+8zYeY=
-X-Received: by 2002:a05:6512:1196:b0:511:944f:de5b with SMTP id
- g22-20020a056512119600b00511944fde5bmr10008lfr.38.1707732276586; Mon, 12 Feb
- 2024 02:04:36 -0800 (PST)
+        bh=9xmfBw2zxluvWVmLe9XROWse0ks0Fo6vsX5K3UQY3Qk=;
+        b=nwXY5maIjRwUcw8A0wZ/ILHltiSbJI/9oAptRXhMkeAilR4QTAillk2nwmzheLGXbf
+         WqCTywR3jp/KdxvZZbQsAF9m8+nKBkImyl9y9XhFfDOUMmvA+JqzfLYU7P7L4EBAXPUR
+         AtFiOT1dqKAA07UU6XZ53U7prJ8X+w3mnM/obWN8DYtCHXripxj3g56ynqO5O+jHxu44
+         HveCTyB1LbbTyXgreuMRLsVkRGNCOy07sz59naXfkY3VYS77wfh2afTh5LcaYjezDk1S
+         M8zhgG1o+cArIO1wri0/6cVMfQFe9Uq9MTVMgGIAQ8wXJOusMquN1kBImpAYQZltX1K0
+         mILA==
+X-Gm-Message-State: AOJu0YySEG1/dUildM9nG7xtlK/U1opcUw2BtYtsufiZ5dNhPtIRshMr
+	Y3igatuKm4bgupmfRcS8oCcRQbG0qycF3MF3rksBdJZ+/deqP8Nu//Z2qn0I
+X-Google-Smtp-Source: AGHT+IEJh9N4CYJ4yeyAAdorBRGblu6IvbkG9oERUkhXtzDz2BPx1S6mHQUb0aa8TVjGvt3YjTZ8tA==
+X-Received: by 2002:a17:902:b589:b0:1da:1daa:e2bd with SMTP id a9-20020a170902b58900b001da1daae2bdmr6560056pls.19.1707734834245;
+        Mon, 12 Feb 2024 02:47:14 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXkQKnzzAMtalndqeR0QTAx/OnZe84D7R+OP4hy3J5xGxMivWKGyzQdTWXWWdhtGZ1ioCPjLmqZR+/J9cKpRalTmnJhu8Mx
+Received: from L-14805.kpit.com ([43.231.237.204])
+        by smtp.gmail.com with ESMTPSA id iw11-20020a170903044b00b001d986ce6893sm95746plb.198.2024.02.12.02.47.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Feb 2024 02:47:13 -0800 (PST)
+From: Poonam Jadhav <ppjadhav456@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	poonam.jadhav@kpit.com
+Cc: virendra.thakur@kpit.com
+Subject: [OE-core][kirkstone][PATCH 1/3] scsi-disk: allow MODE SELECT block descriptor to set the block size
+Date: Mon, 12 Feb 2024 16:16:45 +0530
+Message-Id: <20240212104647.376386-1-ppjadhav456@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <8d71c0f-9120-85b7-80ce-d985aa557f8@crashcourse.ca> <53fb346e-af6-36cc-3a17-d062a8fcefce@crashcourse.ca>
-In-Reply-To: <53fb346e-af6-36cc-3a17-d062a8fcefce@crashcourse.ca>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 12 Feb 2024 11:04:25 +0100
-Message-ID: <CANNYZj_ZH1zr35eEJtc8_XBrrytQokLozS-B+Y5YBQ0+ZbhHyA@mail.gmail.com>
-Subject: Re: [OE-core] more ptest pedantry: why conditionally include
- "run-ptest" in SRC_URI?
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000b7ad6606112c6765"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 Feb 2024 10:04:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195306
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Feb 2024 10:47:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195307
 
---000000000000b7ad6606112c6765
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Poonam Jadhav <poonam.jadhav@kpit.com>
 
-Don=E2=80=99t assume intent where mindless copy paste would suffice Robert.=
- :)
+The MODE SELECT command can contain an optional block descriptor that can be used
+to set the device block size. If the block descriptor is present then update the
+block size on the SCSI device accordingly.
 
-Alex
+This allows CDROMs to be used with A/UX which requires a CDROM drive which is
+capable of switching from a 2048 byte sector size to a 512 byte sector size.
+Link: https://github.com/qemu/qemu/commit/356c4c441ec01910314c5867c680bef80d1dd373
 
-On Mon 12. Feb 2024 at 7.48, Robert P. J. Day <rpjday@crashcourse.ca> wrote=
-:
+Signed-off-by: Poonam Jadhav <poonam.jadhav@kpit.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ ...lock-desriptor-to-set-the-block-size.patch | 54 +++++++++++++++++++
+ 2 files changed, 55 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/scsi-disk-allow-MODE-SELECT-block-desriptor-to-set-the-block-size.patch
 
-> On Mon, 12 Feb 2024, Robert P. J. Day wrote:
->
-> >
-> >   more annoying nitpickery ... here:
-> >
-> >
-> https://git.openembedded.org/openembedded-core/tree/meta/recipes-extended=
-/xz/xz_5.4.5.bb#n28
-> >
-> > it's not clear why someone would go to the trouble of conditionally
-> > including run-ptest in SRC_URI as i would have thought the only
-> > benefit would be to avoid the triviality of copying run-ptest into
-> > WORKDIR, but beyond that, i don't see what the point is, and that's
-> > the only recipe i've run across that bothers to do that.
-> >
-> >   is there something more subtle happening here?
->
->   just for fun, tripped over a number of recipes in meta-openembedded
-> that do the same thing, like this:
->
->
-> https://git.openembedded.org/meta-openembedded/tree/meta-oe/recipes-suppo=
-rt/re2/re2_2023.03.01.bb#n10
->
-> https://git.openembedded.org/meta-openembedded/tree/meta-networking/recip=
-es-protocols/freediameter/freediameter_1.4.0.bb#n21
->
-> and more. i'm *guessing* that's not necessary, but it doesn't hurt.
->
-> rday
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#195301):
-> https://lists.openembedded.org/g/openembedded-core/message/195301
-> Mute This Topic: https://lists.openembedded.org/mt/104307351/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> alex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index c5fb9b1eab..13355238e8 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -103,6 +103,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+ 	   file://CVE-2021-3638.patch \
+ 	   file://CVE-2023-1544.patch \
+ 	   file://CVE-2023-5088.patch \
++           file://scsi-disk-allow-MODE-SELECT-block-desriptor-to-set-the-block-size.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu/scsi-disk-allow-MODE-SELECT-block-desriptor-to-set-the-block-size.patch b/meta/recipes-devtools/qemu/qemu/scsi-disk-allow-MODE-SELECT-block-desriptor-to-set-the-block-size.patch
+new file mode 100644
+index 0000000000..d8e48d07dd
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/scsi-disk-allow-MODE-SELECT-block-desriptor-to-set-the-block-size.patch
+@@ -0,0 +1,54 @@
++From 356c4c441ec01910314c5867c680bef80d1dd373 Mon Sep 17 00:00:00 2001
++From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
++Date: Wed, 22 Jun 2022 11:53:12 +0100
++Subject: [PATCH] scsi-disk: allow MODE SELECT block descriptor to set the
++ block size
++
++The MODE SELECT command can contain an optional block descriptor that can be used
++to set the device block size. If the block descriptor is present then update the
++block size on the SCSI device accordingly.
++
++This allows CDROMs to be used with A/UX which requires a CDROM drive which is
++capable of switching from a 2048 byte sector size to a 512 byte sector size.
++
++Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
++Message-Id: <20220622105314.802852-13-mark.cave-ayland@ilande.co.uk>
++Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
++
++Comment: Patch is refreshed
++Upstream-Status: Backport [https://github.com/qemu/qemu/commit/356c4c441ec01910314c5867c680bef80d1dd373]
++Signed-off-by: Poonam Jadhav <poonam.jadhav@kpit.com>
++---
++ hw/scsi/scsi-disk.c  | 6 ++++++
++ hw/scsi/trace-events | 1 +
++ 2 files changed, 7 insertions(+)
++
++diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
++index db27e834dae3..f5cdb9ad4b54 100644
++--- a/hw/scsi/scsi-disk.c
+++++ b/hw/scsi/scsi-disk.c
++@@ -1616,6 +1616,12 @@ static void scsi_disk_emulate_mode_select(SCSIDiskReq *r, uint8_t *inbuf)
++         goto invalid_param;
++     }
++ 
+++    /* Allow changing the block size */
+++    if (bd_len && p[6] != (s->qdev.blocksize >> 8)) {
+++        s->qdev.blocksize = p[6] << 8;
+++        trace_scsi_disk_mode_select_set_blocksize(s->qdev.blocksize);
+++    }
+++
++     len -= bd_len;
++     p += bd_len;
++ 
++diff --git a/hw/scsi/trace-events b/hw/scsi/trace-events
++index 8e927ff62de1..ab238293f0da 100644
++--- a/hw/scsi/trace-events
+++++ b/hw/scsi/trace-events
++@@ -338,6 +338,7 @@scsi_disk_dma_command_READ(uint64_t lba, uint32_t len) "Read (sector %" PRId64 ", count %u)"
++ scsi_disk_dma_command_WRITE(const char *cmd, uint64_t lba, int len) "Write %s(sector %" PRId64 ", count %u)"
++ scsi_disk_new_request(uint32_t lun, uint32_t tag, const char *line) "Command: lun=%d tag=0x%x data=%s"
++ scsi_disk_aio_sgio_command(uint32_t tag, uint8_t cmd, uint64_t lba, int len, uint32_t timeout) "disk aio sgio: tag=0x%x cmd=0x%x (sector %" PRId64 ", count %d) timeout=%u"
+++scsi_disk_mode_select_set_blocksize(int blocksize) "set block size to %d"
++ 
++ # scsi-generic.c
++ scsi_generic_command_complete_noio(void *req, uint32_t tag, int statuc) "Command complete %p tag=0x%x status=%d"
+-- 
+2.25.1
 
---000000000000b7ad6606112c6765
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Don=E2=80=99t assume intent where mindless copy paste wou=
-ld suffice Robert. :)</div><div dir=3D"auto"><br></div><div dir=3D"auto">Al=
-ex=C2=A0</div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
-"gmail_attr">On Mon 12. Feb 2024 at 7.48, Robert P. J. Day &lt;<a href=3D"m=
-ailto:rpjday@crashcourse.ca">rpjday@crashcourse.ca</a>&gt; wrote:<br></div>=
-<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left-width:1px;border-left-style:solid;padding-left:1ex;border-left-color:r=
-gb(204,204,204)">On Mon, 12 Feb 2024, Robert P. J. Day wrote:<br>
-<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0more annoying nitpickery ... here:<br>
-&gt;<br>
-&gt; <a href=3D"https://git.openembedded.org/openembedded-core/tree/meta/re=
-cipes-extended/xz/xz_5.4.5.bb#n28" rel=3D"noreferrer" target=3D"_blank">htt=
-ps://git.openembedded.org/openembedded-core/tree/meta/recipes-extended/xz/x=
-z_5.4.5.bb#n28</a><br>
-&gt;<br>
-&gt; it&#39;s not clear why someone would go to the trouble of conditionall=
-y<br>
-&gt; including run-ptest in SRC_URI as i would have thought the only<br>
-&gt; benefit would be to avoid the triviality of copying run-ptest into<br>
-&gt; WORKDIR, but beyond that, i don&#39;t see what the point is, and that&=
-#39;s<br>
-&gt; the only recipe i&#39;ve run across that bothers to do that.<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0is there something more subtle happening here?<br>
-<br>
-=C2=A0 just for fun, tripped over a number of recipes in meta-openembedded<=
-br>
-that do the same thing, like this:<br>
-<br>
-<a href=3D"https://git.openembedded.org/meta-openembedded/tree/meta-oe/reci=
-pes-support/re2/re2_2023.03.01.bb#n10" rel=3D"noreferrer" target=3D"_blank"=
->https://git.openembedded.org/meta-openembedded/tree/meta-oe/recipes-suppor=
-t/re2/re2_2023.03.01.bb#n10</a><br>
-<a href=3D"https://git.openembedded.org/meta-openembedded/tree/meta-network=
-ing/recipes-protocols/freediameter/freediameter_1.4.0.bb#n21" rel=3D"norefe=
-rrer" target=3D"_blank">https://git.openembedded.org/meta-openembedded/tree=
-/meta-networking/recipes-protocols/freediameter/freediameter_1.4.0.bb#n21</=
-a><br>
-<br>
-and more. i&#39;m *guessing* that&#39;s not necessary, but it doesn&#39;t h=
-urt.<br>
-<br>
-rday<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#195301): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/195301" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/195301</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/104307351/168=
-6489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/104307351/1686489</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
-rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---000000000000b7ad6606112c6765--
 
