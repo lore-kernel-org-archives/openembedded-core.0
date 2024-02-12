@@ -1,209 +1,99 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C55CC4829B
-	for <webhook@archiver.kernel.org>; Mon, 12 Feb 2024 14:06:39 +0000 (UTC)
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
- by mx.groups.io with SMTP id smtpd.web11.7099.1707746790477206253
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66F03C4829B
+	for <webhook@archiver.kernel.org>; Mon, 12 Feb 2024 14:11:59 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web11.7221.1707747109251744373
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Feb 2024 06:06:30 -0800
+ Mon, 12 Feb 2024 06:11:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=0eyWI/eo;
- spf=softfail (domain: sakoman.com, ip: 209.85.160.53, mailfrom: steve@sakoman.com)
-Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-2191b085639so1239084fac.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 Feb 2024 06:06:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1707746790; x=1708351590; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zkNZnIK3f1I3cuqqi9RoJbWLPlAmQ6gzGgj8Cg+c3Uo=;
-        b=0eyWI/eo9vSNLzoCrgQnfD1WUjtyTbMwj/ItTEdO7WhHmDpQc2tHeWnuNCIFQHGEzT
-         XdLoRSYxshfl6jtjt1b6VlGqlbz6NFBvNd/GstswovDuH49he5P8DNTnSVjrZMcwPHp0
-         0a0KiwssAFsQFojlovQW/ALXvf7ErCqj3uGnowpWv6JXunVTA8vfwnYpIhQROVQ6FR9C
-         2USst8zZUY2LVGwr6tii7DdNuzAR9mz+RnLMT2T3ITqGBsS87RMAQWiEPZeHkSVVKZCi
-         LqXjkx3nXz636swkDjGzFhy/aSWEx/QlPNrDwkd3X2l9tHn+iJb9XUyIwBN6kTUNCCxw
-         hJ6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707746790; x=1708351590;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zkNZnIK3f1I3cuqqi9RoJbWLPlAmQ6gzGgj8Cg+c3Uo=;
-        b=SHyzGzu+K5TuIkrgta4KUIV9EeoYEqcDMSdomaWJ7vbQDG1QX927PBR1gcKL882TdH
-         YgzIqKQQEw8ePH4hRgyXBdQBPtHCqwm6NLppkvonCKHX9xSBY1lVjC7Q20A64GMp66nC
-         FhYSOnpqbdUjBS/sC4x3rQVnStaswd0kdKSvwWF5z0C1PS2O7a8LpZoKdsUifwvr5Dzt
-         JSQw/oYf91jWp4PtIbaJuNKZpRTW3SMtXMyVaMObGhQ89vAPi9QOeVCGXAPiTrYv4Wny
-         MAnYZl/dHHlhGmJ9bI0mtUoLIpM5TQZltPyZ3qS6KCOX/oQd5S0/9STkm1VK090vc9U3
-         dS3w==
-X-Gm-Message-State: AOJu0YzosRqETe2VMWrZScLG/cyf0Pmv//D7D3c8VL65qdO12H37uWEl
-	Gh/86ri67GfhyVM0HX4z8MbgFgDjLwWthMEk5+86PwgRJmVMonoV3Q2lAYLzWpHYxa7mZG/ablK
-	VvDhz7Q6s891kRzgCd6MpZOzndZOI8mLdqa0YEw==
-X-Google-Smtp-Source: AGHT+IFlVAnD7gOCI1TZ/G9pktGwNwKU2O/Qz3L6qNdhe28Vymupq7K/LKwJzBMdcqMPGHbb2zlQc/ZcHwvguhYFHVQ=
-X-Received: by 2002:a05:6358:760e:b0:176:8263:9a71 with SMTP id
- r14-20020a056358760e00b0017682639a71mr12047328rwg.13.1707746789642; Mon, 12
- Feb 2024 06:06:29 -0800 (PST)
-MIME-Version: 1.0
-References: <20240212104647.376386-1-ppjadhav456@gmail.com>
-In-Reply-To: <20240212104647.376386-1-ppjadhav456@gmail.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Mon, 12 Feb 2024 04:06:18 -1000
-Message-ID: <CAOSpxdbaZBcMLiPbPr5TZArDfEV04HQmeoGXnd=eSX8gGP2nQA@mail.gmail.com>
-Subject: Re: [OE-core][kirkstone][PATCH 1/3] scsi-disk: allow MODE SELECT
- block descriptor to set the block size
-To: Poonam Jadhav <ppjadhav456@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, poonam.jadhav@kpit.com, 
-	virendra.thakur@kpit.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=KUAnX+dq;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=pHJlSyF6;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018d9da8e5e4-3b805ec4-cf83-4171-b8d9-b96b8e2851c0-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1707747108; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=V36v4WQu21+ylxegMgxWtC9XV29f0w+UEjtTwegmTTw=;
+	b=KUAnX+dqZminZdFUxSzWXEeGrN91oXwQ1HvqRyZERmDuHh4hZUCq1HNI9xHc2YRe
+	1O9rahxv5yH49PN0H/1A0ZWn1r50LR64d6+byne51lDxGQo/YxvBnce+TyJo+GSg0HR
+	eq3Ata8i6MXrsikNiFL8NLb0Z3eaPV3DKtXvqFf0=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1707747108;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=V36v4WQu21+ylxegMgxWtC9XV29f0w+UEjtTwegmTTw=;
+	b=pHJlSyF6N76O9zwYLgWPAXX/a2hEWi9J0ITGsm5R6XVd/jwOe9qGyxqJiEm51Okq
+	4z3ncRq8900ILzlId5ogO//BQpDIeUhC7/+FIERTL3ux9DvVgAxGhJo/giMn4wEY/IL
+	xBZYzKZTK8Xv+QU8bDx3Nt8wrAJ8+N1Sqh1MuutE=
+From: patchtest@automation.yoctoproject.org
+To: Steve Sakoman <steve@sakoman.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-core][kirkstone 3/8] curl: Fix CVE-2023-46219
+In-Reply-To: e0f503594e7bc0da9771b69ca7243a34dcadbdde.1707745886.git.steve@sakoman.com
+References: e0f503594e7bc0da9771b69ca7243a34dcadbdde.1707745886.git.steve@sakoman.com
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018d9da8e5e4-3b805ec4-cf83-4171-b8d9-b96b8e2851c0-000000@us-west-2.amazonses.com>
+Date: Mon, 12 Feb 2024 14:11:48 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.02.12-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 Feb 2024 14:06:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195331
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Feb 2024 14:11:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195332
 
-I assume that patches 1 and 2 in this series are necessary for the CVE
-fix in patch 3?
+--NextPart
+Content-Type: text/plain
 
-If so, could you please squash this series into a single CVE fix
-commit and include the reasons for the prerequisite patches in the
-commit log?
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Thanks!
+---
+Testing patch /home/patchtest/share/mboxes/kirkstone-3-8-curl-Fix-CVE-2023-46219.patch
 
-Steve
+FAIL: test CVE check ignore: CVE_CHECK_IGNORE is deprecated and should be replaced by CVE_STATUS (test_metadata.TestMetadata.test_cve_check_ignore)
 
-On Mon, Feb 12, 2024 at 12:47=E2=80=AFAM Poonam Jadhav <ppjadhav456@gmail.c=
-om> wrote:
->
-> From: Poonam Jadhav <poonam.jadhav@kpit.com>
->
-> The MODE SELECT command can contain an optional block descriptor that can=
- be used
-> to set the device block size. If the block descriptor is present then upd=
-ate the
-> block size on the SCSI device accordingly.
->
-> This allows CDROMs to be used with A/UX which requires a CDROM drive whic=
-h is
-> capable of switching from a 2048 byte sector size to a 512 byte sector si=
-ze.
-> Link: https://github.com/qemu/qemu/commit/356c4c441ec01910314c5867c680bef=
-80d1dd373
->
-> Signed-off-by: Poonam Jadhav <poonam.jadhav@kpit.com>
-> ---
->  meta/recipes-devtools/qemu/qemu.inc           |  1 +
->  ...lock-desriptor-to-set-the-block-size.patch | 54 +++++++++++++++++++
->  2 files changed, 55 insertions(+)
->  create mode 100644 meta/recipes-devtools/qemu/qemu/scsi-disk-allow-MODE-=
-SELECT-block-desriptor-to-set-the-block-size.patch
->
-> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/=
-qemu/qemu.inc
-> index c5fb9b1eab..13355238e8 100644
-> --- a/meta/recipes-devtools/qemu/qemu.inc
-> +++ b/meta/recipes-devtools/qemu/qemu.inc
-> @@ -103,6 +103,7 @@ SRC_URI =3D "https://download.qemu.org/${BPN}-${PV}.t=
-ar.xz \
->            file://CVE-2021-3638.patch \
->            file://CVE-2023-1544.patch \
->            file://CVE-2023-5088.patch \
-> +           file://scsi-disk-allow-MODE-SELECT-block-desriptor-to-set-the=
--block-size.patch \
->             "
->  UPSTREAM_CHECK_REGEX =3D "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
->
-> diff --git a/meta/recipes-devtools/qemu/qemu/scsi-disk-allow-MODE-SELECT-=
-block-desriptor-to-set-the-block-size.patch b/meta/recipes-devtools/qemu/qe=
-mu/scsi-disk-allow-MODE-SELECT-block-desriptor-to-set-the-block-size.patch
-> new file mode 100644
-> index 0000000000..d8e48d07dd
-> --- /dev/null
-> +++ b/meta/recipes-devtools/qemu/qemu/scsi-disk-allow-MODE-SELECT-block-d=
-esriptor-to-set-the-block-size.patch
-> @@ -0,0 +1,54 @@
-> +From 356c4c441ec01910314c5867c680bef80d1dd373 Mon Sep 17 00:00:00 2001
-> +From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> +Date: Wed, 22 Jun 2022 11:53:12 +0100
-> +Subject: [PATCH] scsi-disk: allow MODE SELECT block descriptor to set th=
-e
-> + block size
-> +
-> +The MODE SELECT command can contain an optional block descriptor that ca=
-n be used
-> +to set the device block size. If the block descriptor is present then up=
-date the
-> +block size on the SCSI device accordingly.
-> +
-> +This allows CDROMs to be used with A/UX which requires a CDROM drive whi=
-ch is
-> +capable of switching from a 2048 byte sector size to a 512 byte sector s=
-ize.
-> +
-> +Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> +Message-Id: <20220622105314.802852-13-mark.cave-ayland@ilande.co.uk>
-> +Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> +
-> +Comment: Patch is refreshed
-> +Upstream-Status: Backport [https://github.com/qemu/qemu/commit/356c4c441=
-ec01910314c5867c680bef80d1dd373]
-> +Signed-off-by: Poonam Jadhav <poonam.jadhav@kpit.com>
-> +---
-> + hw/scsi/scsi-disk.c  | 6 ++++++
-> + hw/scsi/trace-events | 1 +
-> + 2 files changed, 7 insertions(+)
-> +
-> +diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-> +index db27e834dae3..f5cdb9ad4b54 100644
-> +--- a/hw/scsi/scsi-disk.c
-> ++++ b/hw/scsi/scsi-disk.c
-> +@@ -1616,6 +1616,12 @@ static void scsi_disk_emulate_mode_select(SCSIDis=
-kReq *r, uint8_t *inbuf)
-> +         goto invalid_param;
-> +     }
-> +
-> ++    /* Allow changing the block size */
-> ++    if (bd_len && p[6] !=3D (s->qdev.blocksize >> 8)) {
-> ++        s->qdev.blocksize =3D p[6] << 8;
-> ++        trace_scsi_disk_mode_select_set_blocksize(s->qdev.blocksize);
-> ++    }
-> ++
-> +     len -=3D bd_len;
-> +     p +=3D bd_len;
-> +
-> +diff --git a/hw/scsi/trace-events b/hw/scsi/trace-events
-> +index 8e927ff62de1..ab238293f0da 100644
-> +--- a/hw/scsi/trace-events
-> ++++ b/hw/scsi/trace-events
-> +@@ -338,6 +338,7 @@scsi_disk_dma_command_READ(uint64_t lba, uint32_t len=
-) "Read (sector %" PRId64 ", count %u)"
-> + scsi_disk_dma_command_WRITE(const char *cmd, uint64_t lba, int len) "Wr=
-ite %s(sector %" PRId64 ", count %u)"
-> + scsi_disk_new_request(uint32_t lun, uint32_t tag, const char *line) "Co=
-mmand: lun=3D%d tag=3D0x%x data=3D%s"
-> + scsi_disk_aio_sgio_command(uint32_t tag, uint8_t cmd, uint64_t lba, int=
- len, uint32_t timeout) "disk aio sgio: tag=3D0x%x cmd=3D0x%x (sector %" PR=
-Id64 ", count %d) timeout=3D%u"
-> ++scsi_disk_mode_select_set_blocksize(int blocksize) "set block size to %=
-d"
-> +
-> + # scsi-generic.c
-> + scsi_generic_command_complete_noio(void *req, uint32_t tag, int statuc)=
- "Command complete %p tag=3D0x%x status=3D%d"
-> --
-> 2.25.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#195307): https://lists.openembedded.org/g/openembedde=
-d-core/message/195307
-> Mute This Topic: https://lists.openembedded.org/mt/104309090/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
-eve@sakoman.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
+PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
