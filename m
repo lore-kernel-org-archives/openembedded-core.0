@@ -1,89 +1,115 @@
-Return-Path: <philip@balister.org>
+Return-Path: <rpjday@crashcourse.ca>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 857ADC4829B
-	for <webhook@archiver.kernel.org>; Mon, 12 Feb 2024 14:40:59 +0000 (UTC)
-Received: from esa14.hc324-48.eu.iphmx.com (esa14.hc324-48.eu.iphmx.com [207.54.69.24])
- by mx.groups.io with SMTP id smtpd.web11.6159.1707744037104535632
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B32D3C48297
+	for <webhook@archiver.kernel.org>; Mon, 12 Feb 2024 14:46:19 +0000 (UTC)
+Received: from cpanel10.indieserve.net (cpanel10.indieserve.net [199.212.143.9])
+ by mx.groups.io with SMTP id smtpd.web10.7995.1707749176199372641
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Feb 2024 05:20:38 -0800
+ Mon, 12 Feb 2024 06:46:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bmw.de header.s=mailing1 header.b=Tcpkg9Ap;
- spf=pass (domain: bmw.de, ip: 207.54.69.24, mailfrom: prvs=765aedbf5=philip.lorenz@bmw.de)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1707744037; x=1739280037;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=BaelqI2FhP3gcSNXP/o3tS+PLDmabcD35w8Dafs7E0M=;
-  b=Tcpkg9ApxdBnz+pf+oLm4AGVdio4qx3tSCh7arTmmCnpMFM0iidftHsb
-   5GL7YvPohxJD0RCDaLr7e/0LNx81itFYRDMLI2K5b960WQSGj9ioPXGdZ
-   la5uxZr28LQrJHAUEDBxmeiP2OWivhp2n19EoAwJ+oJlb6QooH2MVUmBr
-   o=;
-X-CSE-ConnectionGUID: uOhVYlOnQKm6Z+nfqnGY2g==
-X-CSE-MsgGUID: qLBedvkdTaKnrZE377UIAg==
-Received: from esagw2.bmwgroup.com (HELO esagw2.muc) ([160.46.252.38]) by
- esa14.hc324-48.eu.iphmx.com with ESMTP/TLS; 12 Feb 2024 14:20:34 +0100
-Received: from esabb1.muc ([160.50.100.31])  by esagw2.muc with ESMTP/TLS;
- 12 Feb 2024 14:20:34 +0100
-Received: from smucmp10e.bmwgroup.net (HELO SMUCMP10E.europe.bmw.corp) ([10.30.13.87])
- by esabb1.muc with ESMTP/TLS; 12 Feb 2024 14:20:34 +0100
-Received: from localhost.localdomain (10.30.85.209) by SMUCMP10E.europe.bmw.corp
- (2a03:1e80:a15:58f::2027) with Microsoft SMTP Server (version=TLS;
- Mon, 12 Feb 2024 14:20:34 +0100
-From: "Philip Lorenz" <philip.lorenz@bmw.de>
-To: <openembedded-core@lists.openembedded.org>
-CC: Philip Lorenz <philip.lorenz@bmw.de>
-Subject: [PATCH] ipk: Remove temporary package lists during SDK creation
-Date: Mon, 12 Feb 2024 14:19:49 +0100
-Message-ID: <20240212131949.141493-1-philip.lorenz@bmw.de>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@crashcourse.ca header.s=default header.b=IEFZtXzm;
+ spf=pass (domain: crashcourse.ca, ip: 199.212.143.9, mailfrom: rpjday@crashcourse.ca)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=crashcourse.ca; s=default; h=Content-Type:MIME-Version:References:
+	Message-ID:In-Reply-To:Subject:cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=bWoB2jrOWc4u6s1TOnyokNbxV8tl20jnK4gFBrm7unc=; b=IEFZtXzmNEkxR2uDfDlnwmc45m
+	BU5salZ+8dhoJnyBkd43/1SzAagEKN0/SZOkSxgANCEieg4B0E7PFxg9et8rAvZLEScr+nCRidQQ4
+	EDZTta44rDtCjah6WvsNE4YfNNO7ZgREVkinTk4nLhWWugjhw2QNCsmATjDSeuOe77obJgwjLL2wn
+	FXFZuikexDNEm7f61HH7fZuxkwwhJ/YpwYuTL6bgNrDFEnWI1megziCkW/RhlQyaDNs/1cMs7n+Mo
+	TLEIJ3mmBsC0sd6crM03dcmCDBgb1BO06sEgHkX19VhPGykpqeFrrX3RL1KRRC8IKO2kJEg4GAUso
+	wzvg+a6g==;
+Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.102.5]:41490 helo=fedora)
+	by cpanel10.indieserve.net with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <rpjday@crashcourse.ca>)
+	id 1rZXZT-00CFZv-04;
+	Mon, 12 Feb 2024 09:46:14 -0500
+Date: Mon, 12 Feb 2024 09:46:05 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+To: Alex Kiernan <alex.kiernan@gmail.com>
+cc: Ross Burton <Ross.Burton@arm.com>, 
+    OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] more ptest pedantry: why conditionally include
+ "run-ptest" in SRC_URI?
+In-Reply-To: <CAO5Uq5Qyr7ca2rcVtRs4seSyKid58J3ZGhRHuynm-AFYgM1PXw@mail.gmail.com>
+Message-ID: <ac14ca2-ef63-6ee-d01b-c4ed4b65d78@crashcourse.ca>
+References: <8d71c0f-9120-85b7-80ce-d985aa557f8@crashcourse.ca> <8C7A9199-D49B-4190-9D96-F060CD858C71@arm.com> <bef4a38f-aa1e-d57b-e23-f3a059ebe313@crashcourse.ca> <CAO5Uq5Qyr7ca2rcVtRs4seSyKid58J3ZGhRHuynm-AFYgM1PXw@mail.gmail.com>
 MIME-Version: 1.0
-X-ClientProxiedBy: smucmp10d.europe.bmw.corp (2a03:1e80:a15:58f::2005) To
- SMUCMP10E.europe.bmw.corp (2a03:1e80:a15:58f::2027)
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: multipart/mixed; boundary="8323328-35461672-1707749171=:392286"
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel10.indieserve.net
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Get-Message-Sender-Via: cpanel10.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: cpanel10.indieserve.net: rpjday@crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 Feb 2024 14:40:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195337
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Feb 2024 14:46:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195338
 
-The temporary package lists used during SDK creation should not be
-shipped as part of the SDK (in particular because due to the opkg local
-file download optimization they are actually symlinks into the build
-directory). Remove them by calling the respective helper method during
-the SDK build.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Signed-off-by: Philip Lorenz <philip.lorenz@bmw.de>
----
- meta/lib/oe/package_manager/ipk/sdk.py | 4 ++++
- 1 file changed, 4 insertions(+)
+--8323328-35461672-1707749171=:392286
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 
-diff --git a/meta/lib/oe/package_manager/ipk/sdk.py b/meta/lib/oe/package_manager/ipk/sdk.py
-index cc7a7ede54..3acd55f548 100644
---- a/meta/lib/oe/package_manager/ipk/sdk.py
-+++ b/meta/lib/oe/package_manager/ipk/sdk.py
-@@ -74,6 +74,8 @@ class PkgSdk(Sdk):
- 
-         if not bb.utils.contains("SDKIMAGE_FEATURES", "package-management", True, False, self.d):
-             self.target_pm.remove_packaging_data()
-+        else:
-+            self.target_pm.remove_lists()
- 
-         bb.note("Installing NATIVESDK packages")
-         self._populate_sysroot(self.host_pm, self.host_manifest)
-@@ -85,6 +87,8 @@ class PkgSdk(Sdk):
- 
-         if not bb.utils.contains("SDKIMAGE_FEATURES", "package-management", True, False, self.d):
-             self.host_pm.remove_packaging_data()
-+        else:
-+            self.host_pm.remove_lists()
- 
-         target_sysconfdir = os.path.join(self.sdk_target_sysroot, self.sysconfdir)
-         host_sysconfdir = os.path.join(self.sdk_host_sysroot, self.sysconfdir)
--- 
-2.43.0
+On Mon, 12 Feb 2024, Alex Kiernan wrote:
 
+> On Mon, Feb 12, 2024 at 12:17 PM Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+> >
+> > On Mon, 12 Feb 2024, Ross Burton wrote:
+> >
+> > > On 12 Feb 2024, at 06:39, Robert P. J. Day via lists.openembedded.org <rpjday=crashcourse.ca@lists.openembedded.org> wrote:
+> > > >  more annoying nitpickery ... here:
+> > > >
+> > > > https://git.openembedded.org/openembedded-core/tree/meta/recipes-extended/xz/xz_5.4.5.bb#n28
+> > > >
+> > > > it's not clear why someone would go to the trouble of conditionally
+> > > > including run-ptest in SRC_URI as i would have thought the only
+> > > > benefit would be to avoid the triviality of copying run-ptest into
+> > > > WORKDIR, but beyond that, i don't see what the point is, and that's
+> > > > the only recipe i've run across that bothers to do that.
+> > > >
+> > > >  is there something more subtle happening here?
+> > >
+> > > No good reason, and I’d approve a patch that removed the
+> > > conditionals on the grounds of cleaning up the recipe and ensuring
+> > > that there’s less conditional paths through the recipe.
+> >
+> >   it gets even stranger when you have a conditional to apply a test
+> > patch, like here:
+> >
+> > https://git.openembedded.org/meta-openembedded/tree/meta-networking/recipes-protocols/freediameter/freediameter_1.4.0.bb#n21
+> >
+> >   i am also assuming that it's cleaner to conditionally check for
+> > ptest assignment for stuff like SRC_URI and DEPENDS, not with:
+> >
+> >   ${@bb.utils.contains('DISTRO_FEATURES', 'ptest' ...
+> >
+> > but with the more intuitive:
+> >
+> >   ${@bb.utils.contains('PTEST_ENABLED', '1', ...
+> >
+>
+> The PTEST_ENABLED version has the advantage that disabling ptest for a
+> single recipe is much easier. I guess you could manipulate
+> DISTRO_FEATURES on a per-recipe basis, but that feels awful.
+
+  so you're confirming that the second form is equivalent, and more
+intuitive? i just wanted to make sure (again) that there was no
+subtlety i was overlooking.
+
+rday
+--8323328-35461672-1707749171=:392286--
 
