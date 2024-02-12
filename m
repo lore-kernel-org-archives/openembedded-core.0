@@ -1,170 +1,218 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <liu.ming50@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE9CEC4829B
-	for <webhook@archiver.kernel.org>; Mon, 12 Feb 2024 11:48:38 +0000 (UTC)
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.77])
- by mx.groups.io with SMTP id smtpd.web10.4704.1707738515274204402
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE82BC48297
+	for <webhook@archiver.kernel.org>; Mon, 12 Feb 2024 12:15:28 +0000 (UTC)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+ by mx.groups.io with SMTP id smtpd.web11.5134.1707740120589182664
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Feb 2024 03:48:36 -0800
+ Mon, 12 Feb 2024 04:15:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=rTY21Dst;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=rTY21Dst;
- spf=pass (domain: arm.com, ip: 40.107.21.77, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
- b=GixrXdIkWZ1ZN4WHVFLAgzaWiugnLnczegozJN8v3/Be4xins2zBuhLyVFyrAdbf87Y8xz5EbtUFvfTfqx2FlTynSBSc05Z7cfC8wH5hm71n+vpPuldWLGLq1FduEB50NWd3zGvHMydF8JMfDW9Es16A/MxOC6CnJyz34QeGLFnAd05FRcCxkShsE8Y4hxBUnkWNyTQtluw5B20EJR2xW50PLoqiQiw3cfgIf+GB81ON6V33e2ZqtY/EuregIOQKzcLH2vSUgb7f71UJQpzHEmkfVks/87OjO08i6D+2UHY+sum5SJy7Eiicr/pd1Hs4CT2NgwX4G3uWoFZjFZLzSg==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pMwUwowgQgObEdJireK8UJua6jdhM2KBfrW4oJxjDIM=;
- b=SO6E0P9ZzW0Ghw6XMFNnyp9YlwMWKbs9pDdWVxedSRyOgEK+qmsIlEwgA7SfVLv8oRpskN8QcS2nogZaEIjatbQfPM1hlZt3DioTzldbeRPsh0Et01B+/GfkTmfANHjug/KGkLFducDujFEkXqrqWy246jLxlhnsb7KHqrLaTMsRO1iYDkk1IrWVetSbt9n38PAoSvlg2xelo2kmevw1GAtj+xBVvw+dVn2LPZIvvUdqvErsUwtYjiLwun6kOPerVpgvt6fvtXGDn4asiBOCFyTHHSiVA4ZNesYbwOccRiI6TnQRh/grYgFsEiFNK5JoderJenuBQMsNQOlKgWlO+g==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 63.35.35.123) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=armh.onmicrosoft.com; arc=pass (0
- oda=1 ltdi=1 spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pMwUwowgQgObEdJireK8UJua6jdhM2KBfrW4oJxjDIM=;
- b=rTY21Dst+uZ6pTEYEJ8zXTugWRLOPwiDdJMLuALSSho1+wl6DDqeKBZ8f4yUBH9LbSXXEc+PeYwGwqoj3dwH+2Q99sRwZuCe/D00/RxMzcwYziHl98Xtu+D38ciziPfjqbfhJPEo0PkFKqndf9yNs8FIFoMboh0xP+MkgjmTuDo=
-Received: from DB8PR09CA0019.eurprd09.prod.outlook.com (2603:10a6:10:a0::32)
- by AS2PR08MB10376.eurprd08.prod.outlook.com (2603:10a6:20b:545::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7270.27; Mon, 12 Feb
- 2024 11:48:31 +0000
-Received: from DU2PEPF00028D07.eurprd03.prod.outlook.com
- (2603:10a6:10:a0:cafe::5f) by DB8PR09CA0019.outlook.office365.com
- (2603:10a6:10:a0::32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7270.38 via Frontend
- Transport; Mon, 12 Feb 2024 11:48:31 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- DU2PEPF00028D07.mail.protection.outlook.com (10.167.242.167) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7249.19 via Frontend Transport; Mon, 12 Feb 2024 11:48:30 +0000
-Received: ("Tessian outbound 94d82ba85b1d:v228"); Mon, 12 Feb 2024 11:48:30 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 412abe964d3cce12
-X-CR-MTA-TID: 64aa7808
-Received: from c2bb42f32c3a.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 7994891C-D1A9-4E8D-8315-38A55E9D8C21.1;
-	Mon, 12 Feb 2024 11:48:25 +0000
-Received: from EUR03-AM7-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id c2bb42f32c3a.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Mon, 12 Feb 2024 11:48:25 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Hnm+zvqolkRsph/vk4dcIr+Ylal8Qos1gxUXQGF6HFhjM51tW4zQl7tQu1LESIPY2JrtYJCWU6JNkV5eMpOJdic3uCj8Ub1gZyJvxXSMmBD5vV7gp9FlGzVQGE1qcWWzIMNxjJf4a/jsn632Zq9aAAEVBktmHZeyAgFYhxiusiI+9cph3djyuwOdEr21LsuNIz9pFx6hF6njWD4pA+TYaOPAmdUo2DM14WI1rJMdtXQjiyqFhdr2DvdBm4TwxDEyf+A/55rnONLouUYMoxsWm0WnhRKDR6jSV1Tww7944HARsm+HPSJ+rBrhcnmPQ2XrcFHHZrZElP+00bDJoXG7Vg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pMwUwowgQgObEdJireK8UJua6jdhM2KBfrW4oJxjDIM=;
- b=K8DZn3W82I4h2O/JqiG1pTwHW7fQNivxSmOhF3J7U1MyIBLPJu+aQH3uy3Vpa1teS/4cdw4kgjMmFHzcOT2wd0viGknpp9sodBDIQMdzCKQDjD+hMUonEA3i+70BvMKH2XNFaMFt6Epo5+dERDDVKctWkUIAQS7diO3QsTYGLIbXzEeT7etK4twuqISZm9R4muagMi34bA6Vh4oz08SS3Ba7pBZzCXH4xd6CRPQLR1MurwONGqswuEqVH4QsDXVku4VMoUmZGQVIrUKKlwAzMwdrwVk6ymfUldAQ0pz9gicgeR6Hf4zQPDyqYZPy1h19JqYTvUxBhhChgzXA2rdqgw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pMwUwowgQgObEdJireK8UJua6jdhM2KBfrW4oJxjDIM=;
- b=rTY21Dst+uZ6pTEYEJ8zXTugWRLOPwiDdJMLuALSSho1+wl6DDqeKBZ8f4yUBH9LbSXXEc+PeYwGwqoj3dwH+2Q99sRwZuCe/D00/RxMzcwYziHl98Xtu+D38ciziPfjqbfhJPEo0PkFKqndf9yNs8FIFoMboh0xP+MkgjmTuDo=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by DBBPR08MB6236.eurprd08.prod.outlook.com (2603:10a6:10:20c::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7270.37; Mon, 12 Feb
- 2024 11:48:23 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::740e:ab01:e66a:61c9]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::740e:ab01:e66a:61c9%3]) with mapi id 15.20.7270.024; Mon, 12 Feb 2024
- 11:48:22 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "rpjday@crashcourse.ca" <rpjday@crashcourse.ca>
-CC: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] more ptest pedantry: why conditionally include
- "run-ptest" in SRC_URI?
-Thread-Topic: [OE-core] more ptest pedantry: why conditionally include
- "run-ptest" in SRC_URI?
-Thread-Index: AQHaXX5EMrr/sTK0LE+qmnXyzK6NNLEGl7iA
-Date: Mon, 12 Feb 2024 11:48:22 +0000
-Message-ID: <8C7A9199-D49B-4190-9D96-F060CD858C71@arm.com>
-References: <8d71c0f-9120-85b7-80ce-d985aa557f8@crashcourse.ca>
-In-Reply-To: <8d71c0f-9120-85b7-80ce-d985aa557f8@crashcourse.ca>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3774.400.31)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|DBBPR08MB6236:EE_|DU2PEPF00028D07:EE_|AS2PR08MB10376:EE_
-X-MS-Office365-Filtering-Correlation-Id: 14cd096b-2c62-4abc-f8eb-08dc2bc088d4
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- kX6MfH1p6Sp7nQggfBkZrAnrH2lAX+7mxl6gOG7Z9pgI+3wsHn6QKEtsqojvYhNGwfT5yAxnZNU7GzyDrscFIi0qR5yppFJKg5Un/5SE1Zq1SUrAzLxd94oPLVyJ/C6MIItOeEWJAOxho9XL6iJhwHSrixsa0hKYIvH1d3ZlcDIvcmbMSc/sBYISNTS1W5buMGBCDk/nfSPZKgUCvAXMsiShJiECHs+tUa9NLR59kHIvwfOEEtzIyiS8E9Y3d1VmHuzInkYacfEo7yRWp/B10nRbBOU0QWJV91IxKLDy3QuyHRxiZ8stHWic2q5+5DfCx++8uAoJVo8TJGJOSUbUwctSv1RpxIGgr8W6ge47J04J6CeQdCjNldSie7EWWw0w1CEK793jKbQJLiInEeK76dTWEbaBAgkDa8vvCXTQfJ/IcYHtyxCKUgSaK61XWdYoK2Mwf6yGO6CTfRB++/u1X5dXdGxVWGURpluDwK6CzL7MvyyVWoB6snTpZjPdq6k5YqZKD4hucjJSWjlWuU2iedMp6b8mZ2zFPNMOBE7iYn4OlyoiOlGSOZcYuTPlOBksaknUvNXUF1Gg0b92uH8eI/nobh0h2mtU/ytSxsB4kzY=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(346002)(396003)(39860400002)(136003)(376002)(230922051799003)(451199024)(64100799003)(1800799012)(186009)(86362001)(64756008)(66556008)(66446008)(66476007)(966005)(6916009)(316002)(76116006)(66946007)(6486002)(6506007)(71200400001)(478600001)(2906002)(4744005)(5660300002)(4326008)(8936002)(8676002)(122000001)(38100700002)(2616005)(26005)(53546011)(6512007)(33656002)(38070700009)(36756003)(41300700001);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <9E7B9042C43CAA4ABC45302A33EF14F2@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=jo/fGVF+;
+ spf=pass (domain: gmail.com, ip: 209.85.167.42, mailfrom: liu.ming50@gmail.com)
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5116588189aso5468813e87.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 12 Feb 2024 04:15:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707740118; x=1708344918; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uPq3kt5PcdqdLYaf6QcvqV4wq/Z9tYs4ZXYZsuCUPJY=;
+        b=jo/fGVF+fJx9TIMX4112mOhRTYbV2AGrOckz65X8aZVWRgsXUtvO6FT+bjFdbv4q04
+         ZjKCltbDtOUbI/hXxILeHntqT3b1xN5cqYyeEm8hNomiITS0GuLGKa5U4x0sj2LMDIdI
+         utmXsTYXaB8IFz5z5l8FGl6sFUSFM8vC22iONsju/lKGHcHQDlpNNoVcCiVhtUH1JlZ3
+         TkJr7d9hI/cBCIiPwrWDOkNDK3HCfBzdKPLjrW9nGdbYGhfGhO08yVro/uagVvpNVlQH
+         iqdIyKEmGiTYgQBX7pTbkWLBQ2MHXsWeTs/5LcS97ACnyAMKul5Ot5daFHMsLduE8nr1
+         51yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707740118; x=1708344918;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uPq3kt5PcdqdLYaf6QcvqV4wq/Z9tYs4ZXYZsuCUPJY=;
+        b=buqW5SZV1Tg5jxcbTnuQQuxRkiEa4Nap3bwbqdTQWQ/pun0mvMyw1oecp6svLe0rMS
+         Xe/7Oyiak1vlTHucd+9ftEfhrwtHlzZ1DCa9RKA+6lRKAyNFt/oCYF3HEMa/C4Ny/adW
+         vQKDUxkv//IgIRi/4mHncJ1m5SeHMbjvQT6I9ZZNhWnKxuwclhnQ7XWtglba0mhbHtlm
+         /XEedlbZOE5btwNt7Xdhs3wa1ObgYhUcVxIwLxIsU2+rE9r0lbIvsp5dLuP+R1JiE5iB
+         Hfm2/saLDS7zQMGbej3zEevlezlOYU6CjfTu0chbEXzfpx8VzbWZg8J/dgP19qnmrlLm
+         jgpA==
+X-Gm-Message-State: AOJu0YyPzrmApaftfCGHJw9ZDT4lp7fByQ2rPBgU3CKSJdOQQhSeccaE
+	Ts4mZ5wa9siVoppWKXgmKCGg0Wlc2VNAWpjKnxrKIgQ0lIhX7F8HqYCHnQsP
+X-Google-Smtp-Source: AGHT+IEH+aNwYv/7kTvQNb2XZi+pPI+43RDij807vkVvkAlfvStdorQ0CCVngH32/yll7n92qCzRlg==
+X-Received: by 2002:a05:6512:7a:b0:511:7a74:16af with SMTP id i26-20020a056512007a00b005117a7416afmr4252252lfo.15.1707740117736;
+        Mon, 12 Feb 2024 04:15:17 -0800 (PST)
+Received: from peterliu-Precision-7530.. (customer-212-100-112-191.stosn.net. [212.100.112.191])
+        by smtp.gmail.com with ESMTPSA id z1-20020ac24181000000b00511898b5e4csm544350lfh.221.2024.02.12.04.15.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Feb 2024 04:15:17 -0800 (PST)
+From: liu.ming50@gmail.com
+To: openembedded-core@lists.openembedded.org
+Cc: Ming Liu <liu.ming50@gmail.com>
+Subject: [OE-core] [dunfell] [PATCH] go: add a complementary fix for CVE-2023-29406
+Date: Mon, 12 Feb 2024 13:15:11 +0100
+Message-Id: <20240212121511.721914-1-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR08MB6236
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- DU2PEPF00028D07.eurprd03.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	a39d1435-c805-4be6-89a7-08dc2bc083aa
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	w2qAjNn5P8zwajXLJBwZby/ybq6JElaw/ct4w8G6LO7Zw9AcDg/foGZJp7qorqqn0wYDrS3WYrzR7A+3FlbLeaICNY8XKTZG/bOcNHDq6hZROVk7pz7bxvEIFJCFNFgqHKvmVhN3i65Tqz1Q1bebxmuk8ZzE9lKWj2A83iwz65+22dxpLgvjLq/8mKtg2xEw+ypng6tE8tJZG/4YQuG2Mn2BviZf3Sf3iF+C/XoCD1u300w0vFc4qvKRoBs9eYNWmKULJGAEbFHPNoeYCq18vWhjfYdgUA4mUrhZ7WMJDnB8OolnQiVqe12vaF/16p+iHJJAGfp8aPBQb5nBFqvI4yY3QwvjcbTepxToPXZ7Y5YYGKogcRrcARnv6te5sFkOVjcSNgCOjX5FJFdr8uExaYoZFc6J0r9vTAg+JlcjNwd/xGJ5e3NY0056Ex7n8mPZAzK5zPKqdNoIF0o3dPbS+Sk26RRgBYXQdcYrJh5WX20Pe5vTiqNLNDNWxQvpEGgfe79o3yK4//VVA8ws3xnawAyKcVNpkCwhY7lXRTZwnf33FwQynmlxW6o8RIFb3zM5T2erjgVMjPW+qbkt1fdXhw==
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230031)(4636009)(136003)(39860400002)(346002)(396003)(376002)(230922051799003)(186009)(451199024)(64100799003)(1800799012)(82310400011)(46966006)(40470700004)(36840700001)(6506007)(6512007)(478600001)(53546011)(2616005)(41300700001)(26005)(2906002)(336012)(5660300002)(6486002)(966005)(70206006)(316002)(70586007)(8676002)(6862004)(8936002)(4326008)(33656002)(36756003)(4744005)(81166007)(82740400003)(86362001)(356005);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Feb 2024 11:48:30.9141
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 14cd096b-2c62-4abc-f8eb-08dc2bc088d4
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DU2PEPF00028D07.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB10376
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 Feb 2024 11:48:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195312
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Feb 2024 12:15:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195313
 
-T24gMTIgRmViIDIwMjQsIGF0IDA2OjM5LCBSb2JlcnQgUC4gSi4gRGF5IHZpYSBsaXN0cy5vcGVu
-ZW1iZWRkZWQub3JnIDxycGpkYXk9Y3Jhc2hjb3Vyc2UuY2FAbGlzdHMub3BlbmVtYmVkZGVkLm9y
-Zz4gd3JvdGU6DQo+ICBtb3JlIGFubm95aW5nIG5pdHBpY2tlcnkgLi4uIGhlcmU6DQo+IA0KPiBo
-dHRwczovL2dpdC5vcGVuZW1iZWRkZWQub3JnL29wZW5lbWJlZGRlZC1jb3JlL3RyZWUvbWV0YS9y
-ZWNpcGVzLWV4dGVuZGVkL3h6L3h6XzUuNC41LmJiI24yOA0KPiANCj4gaXQncyBub3QgY2xlYXIg
-d2h5IHNvbWVvbmUgd291bGQgZ28gdG8gdGhlIHRyb3VibGUgb2YgY29uZGl0aW9uYWxseQ0KPiBp
-bmNsdWRpbmcgcnVuLXB0ZXN0IGluIFNSQ19VUkkgYXMgaSB3b3VsZCBoYXZlIHRob3VnaHQgdGhl
-IG9ubHkNCj4gYmVuZWZpdCB3b3VsZCBiZSB0byBhdm9pZCB0aGUgdHJpdmlhbGl0eSBvZiBjb3B5
-aW5nIHJ1bi1wdGVzdCBpbnRvDQo+IFdPUktESVIsIGJ1dCBiZXlvbmQgdGhhdCwgaSBkb24ndCBz
-ZWUgd2hhdCB0aGUgcG9pbnQgaXMsIGFuZCB0aGF0J3MNCj4gdGhlIG9ubHkgcmVjaXBlIGkndmUg
-cnVuIGFjcm9zcyB0aGF0IGJvdGhlcnMgdG8gZG8gdGhhdC4NCj4gDQo+ICBpcyB0aGVyZSBzb21l
-dGhpbmcgbW9yZSBzdWJ0bGUgaGFwcGVuaW5nIGhlcmU/DQoNCk5vIGdvb2QgcmVhc29uLCBhbmQg
-SeKAmWQgYXBwcm92ZSBhIHBhdGNoIHRoYXQgcmVtb3ZlZCB0aGUgY29uZGl0aW9uYWxzIG9uIHRo
-ZSBncm91bmRzIG9mIGNsZWFuaW5nIHVwIHRoZSByZWNpcGUgYW5kIGVuc3VyaW5nIHRoYXQgdGhl
-cmXigJlzIGxlc3MgY29uZGl0aW9uYWwgcGF0aHMgdGhyb3VnaCB0aGUgcmVjaXBlLg0KDQpSb3Nz
+From: Ming Liu <liu.ming50@gmail.com>
+
+The original CVE-2023-29406.patch is not complete, causing docker
+failures at runtime, backport a complementary fix from golang upstream.
+
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+---
+ meta/recipes-devtools/go/go-1.14.inc          |   3 +-
+ ...023-29406.patch => CVE-2023-29406-1.patch} |   0
+ .../go/go-1.14/CVE-2023-29406-2.patch         | 114 ++++++++++++++++++
+ 3 files changed, 116 insertions(+), 1 deletion(-)
+ rename meta/recipes-devtools/go/go-1.14/{CVE-2023-29406.patch => CVE-2023-29406-1.patch} (100%)
+ create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2023-29406-2.patch
+
+diff --git a/meta/recipes-devtools/go/go-1.14.inc b/meta/recipes-devtools/go/go-1.14.inc
+index 42a9ac8435..4fbf9d7590 100644
+--- a/meta/recipes-devtools/go/go-1.14.inc
++++ b/meta/recipes-devtools/go/go-1.14.inc
+@@ -71,7 +71,8 @@ SRC_URI += "\
+     file://CVE-2023-29402.patch \
+     file://CVE-2023-29404.patch \
+     file://CVE-2023-29400.patch \
+-    file://CVE-2023-29406.patch \
++    file://CVE-2023-29406-1.patch \
++    file://CVE-2023-29406-2.patch \
+     file://CVE-2023-29409.patch \
+     file://CVE-2022-41725-pre1.patch \
+     file://CVE-2022-41725-pre2.patch \
+diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2023-29406.patch b/meta/recipes-devtools/go/go-1.14/CVE-2023-29406-1.patch
+similarity index 100%
+rename from meta/recipes-devtools/go/go-1.14/CVE-2023-29406.patch
+rename to meta/recipes-devtools/go/go-1.14/CVE-2023-29406-1.patch
+diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2023-29406-2.patch b/meta/recipes-devtools/go/go-1.14/CVE-2023-29406-2.patch
+new file mode 100644
+index 0000000000..637f46a537
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.14/CVE-2023-29406-2.patch
+@@ -0,0 +1,114 @@
++From c08a5fa413a34111c9a37fd9e545de27ab0978b1 Mon Sep 17 00:00:00 2001
++From: Damien Neil <dneil@google.com>
++Date: Wed, 19 Jul 2023 10:30:46 -0700
++Subject: [PATCH] [release-branch.go1.19] net/http: permit requests with
++ invalid Host headers
++
++Historically, the Transport has silently truncated invalid
++Host headers at the first '/' or ' ' character. CL 506996 changed
++this behavior to reject invalid Host headers entirely.
++Unfortunately, Docker appears to rely on the previous behavior.
++
++When sending a HTTP/1 request with an invalid Host, send an empty
++Host header. This is safer than truncation: If you care about the
++Host, then you should get the one you set; if you don't care,
++then an empty Host should be fine.
++
++Continue to fully validate Host headers sent to a proxy,
++since proxies generally can't productively forward requests
++without a Host.
++
++For #60374
++Fixes #61431
++Fixes #61825
++
++Change-Id: If170c7dd860aa20eb58fe32990fc93af832742b6
++Reviewed-on: https://go-review.googlesource.com/c/go/+/511155
++TryBot-Result: Gopher Robot <gobot@golang.org>
++Reviewed-by: Roland Shoemaker <roland@golang.org>
++Run-TryBot: Damien Neil <dneil@google.com>
++(cherry picked from commit b9153f6ef338baee5fe02a867c8fbc83a8b29dd1)
++Reviewed-on: https://go-review.googlesource.com/c/go/+/518855
++Auto-Submit: Dmitri Shuralyov <dmitshur@google.com>
++Run-TryBot: Roland Shoemaker <roland@golang.org>
++Reviewed-by: Russ Cox <rsc@golang.org>
++
++Upstream-Status: Backport [https://github.com/golang/go/commit/c08a5fa413a34111c9a37fd9e545de27ab0978b1]
++CVE: CVE-2023-29406
++Signed-off-by: Ming Liu <liu.ming50@gmail.com>
++---
++ src/net/http/request.go      | 23 ++++++++++++++++++++++-
++ src/net/http/request_test.go | 17 ++++++++++++-----
++ 2 files changed, 34 insertions(+), 6 deletions(-)
++
++diff --git a/src/net/http/request.go b/src/net/http/request.go
++index 3100037386..91cb8a66b9 100644
++--- a/src/net/http/request.go
+++++ b/src/net/http/request.go
++@@ -582,8 +582,29 @@ func (r *Request) write(w io.Writer, usingProxy bool, extraHeaders Header, waitF
++ 	if err != nil {
++ 		return err
++ 	}
+++	// Validate that the Host header is a valid header in general,
+++	// but don't validate the host itself. This is sufficient to avoid
+++	// header or request smuggling via the Host field.
+++	// The server can (and will, if it's a net/http server) reject
+++	// the request if it doesn't consider the host valid.
++ 	if !httpguts.ValidHostHeader(host) {
++-		return errors.New("http: invalid Host header")
+++		// Historically, we would truncate the Host header after '/' or ' '.
+++		// Some users have relied on this truncation to convert a network
+++		// address such as Unix domain socket path into a valid, ignored
+++		// Host header (see https://go.dev/issue/61431).
+++		//
+++		// We don't preserve the truncation, because sending an altered
+++		// header field opens a smuggling vector. Instead, zero out the
+++		// Host header entirely if it isn't valid. (An empty Host is valid;
+++		// see RFC 9112 Section 3.2.)
+++		//
+++		// Return an error if we're sending to a proxy, since the proxy
+++		// probably can't do anything useful with an empty Host header.
+++		if !usingProxy {
+++			host = ""
+++		} else {
+++			return errors.New("http: invalid Host header")
+++		}
++ 	}
++ 
++ 	// According to RFC 6874, an HTTP client, proxy, or other
++diff --git a/src/net/http/request_test.go b/src/net/http/request_test.go
++index fddc85d6a9..dd1e2dc2a1 100644
++--- a/src/net/http/request_test.go
+++++ b/src/net/http/request_test.go
++@@ -770,16 +770,23 @@ func TestRequestWriteBufferedWriter(t *testing.T) {
++ 	}
++ }
++ 
++-func TestRequestBadHost(t *testing.T) {
+++func TestRequestBadHostHeader(t *testing.T) {
++ 	got := []string{}
++ 	req, err := NewRequest("GET", "http://foo/after", nil)
++ 	if err != nil {
++ 		t.Fatal(err)
++ 	}
++-	req.Host = "foo.com with spaces"
++-	req.URL.Host = "foo.com with spaces"
++-	if err := req.Write(logWrites{t, &got}); err == nil {
++-		t.Errorf("Writing request with invalid Host: succeded, want error")
+++	req.Host = "foo.com\nnewline"
+++	req.URL.Host = "foo.com\nnewline"
+++	req.Write(logWrites{t, &got})
+++	want := []string{
+++		"GET /after HTTP/1.1\r\n",
+++		"Host: \r\n",
+++		"User-Agent: " + DefaultUserAgent + "\r\n",
+++		"\r\n",
+++	}
+++	if !reflect.DeepEqual(got, want) {
+++		t.Errorf("Writes = %q\n  Want = %q", got, want)
++ 	}
++ }
++ 
++-- 
++2.34.1
++
+-- 
+2.34.1
+
 
