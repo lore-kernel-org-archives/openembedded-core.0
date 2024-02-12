@@ -1,142 +1,253 @@
-Return-Path: <Joakim.Tjernlund@infinera.com>
+Return-Path: <simone.weiss@posteo.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8259CC48297
-	for <webhook@archiver.kernel.org>; Mon, 12 Feb 2024 17:09:20 +0000 (UTC)
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (NAM12-BN8-obe.outbound.protection.outlook.com [40.107.237.118])
- by mx.groups.io with SMTP id smtpd.web10.11853.1707757757819144586
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87E30C4829C
+	for <webhook@archiver.kernel.org>; Mon, 12 Feb 2024 17:15:00 +0000 (UTC)
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+ by mx.groups.io with SMTP id smtpd.web11.12179.1707758092470636880
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Feb 2024 09:09:18 -0800
+ Mon, 12 Feb 2024 09:14:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@infinera.com header.s=selector2 header.b=LVB6qWEU;
- spf=pass (domain: infinera.com, ip: 40.107.237.118, mailfrom: joakim.tjernlund@infinera.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BUJbpDyiODo8Vc3RrqA3CC4xZyUQkbugLviQ1NXqMDySsMSTBA2DjPBwbDws68mX5hpqb2d80ijPUVifvm8kCng8OIpC+iICPv1osNHyftQlTB+/fD1F37JNkhx/53+iPmHiuqfKP9pwDNETMt0QGP36RJKeuWgCzbUaeF3EGeSgWHHdnus2kGcuiAJJSXETJEetiATZ8sI186EX7QU+BppkZNZCFuzIFwW+nuRhRLZf4QWQF/GJRCIwTMYHN5CZhBmkyIbgHLj6vss2Vqc0FaXgU5Qxy3tYKOpfEpihwYX5f5VyIF68rcgEMTVD4vyJvelqf5lVcnm+q95dEhk9cg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pBvvNrjcHp16DqConP6antI5kfRqtooKbf5cFDYy4sg=;
- b=HyJdl2CpCpOEDeVcrUnUNE2My6X8cSGpTCbDtGx069zuPLatcP5dYDVuCWnik3COxAZAQM4fQeQncdxP2mU1zrfahayydWy8CAZ8hvV4acKVyiZkCkqYjrQE/u19qCqd2Lm8b8ZFVZiPIGODhwJf8UJvFhiY4PX5YEdi7+92dDF6jipeJhdMo0hHm3qZkli5yCLCexD3i5XEcl7byAEo3B9s4VW7yelSTAcTcaY5GeahRc10caSUidolVmrmpvm/HOTF9OJxHXIPNlpWgCR8jyjEqBF0uT8bjlk4NNZIQ3pQ6/E/QeWQ+S+ZMprlbqVc4ltHreNjDpCwIJUyIUS7Jg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=infinera.com; dmarc=pass action=none header.from=infinera.com;
- dkim=pass header.d=infinera.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=infinera.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pBvvNrjcHp16DqConP6antI5kfRqtooKbf5cFDYy4sg=;
- b=LVB6qWEUU8zEbGi+NUutsene/aMGb+74SqmP4gTN4Ic8qNeT8Isr6prUluPryBGQ6acTzMUntZc7Ksi6uBiIPLVH/62n235pWE92d3ijYPnmbss4xckvd2nQ1nSf2kWciIPDbGXCSDm5WIBg/cGadDX2j7XVd8MottfH/KpNaUXQecvpUN/Cjwr2j3yrFoXW8arm588XTPi7FCQxdrwe31EBX98Toq+G4pNY6ijfUvAtqCsmCAuvvIEtZBELTj3cQZ8eMsvB1fwXdqSd2UKzux0yLd525lfG2P61tJenGkD4rSBfNHghHAmDMMPZT/C82hxNpuaWWavcX2YYdFK/5g==
-Received: from PH0PR10MB4615.namprd10.prod.outlook.com (2603:10b6:510:36::24)
- by IA1PR10MB7360.namprd10.prod.outlook.com (2603:10b6:208:3d8::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7270.27; Mon, 12 Feb
- 2024 17:09:14 +0000
-Received: from PH0PR10MB4615.namprd10.prod.outlook.com
- ([fe80::4d76:4230:708c:9eea]) by PH0PR10MB4615.namprd10.prod.outlook.com
- ([fe80::4d76:4230:708c:9eea%7]) with mapi id 15.20.7270.036; Mon, 12 Feb 2024
- 17:09:14 +0000
-From: Joakim Tjernlund <Joakim.Tjernlund@infinera.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: own class import fails in nanbeild
-Thread-Topic: own class import fails in nanbeild
-Thread-Index: AQHaXdY0UQUR5UwFCkaI3o9PRGH5SQ==
-Date: Mon, 12 Feb 2024 17:09:14 +0000
-Message-ID: <9aaeb9e948caa2285b16f15003bab3cc8f348ade.camel@infinera.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.50.3 
-autocrypt: addr=joakim.tjernlund@infinera.com; prefer-encrypt=mutual;
- keydata=mQENBFp0f28BCADPn4XzN2HEzkY4BZKE6/T/S4M/Qjlf01K6gmECJZi5LQgOt0jOUAdvsXVd8yKYeqCq+eWvlfrLU9OXPGoCqwj95P2YjMsttqaPBEAnf4XyBs67Snz2wHyBDONoRxGoyq2Ondy+TPicWEm0mh404h9EzKxRNxwrRyKhsjWoVeaucuybAiGbJvqQj0CLmuMCl4PUBYDmXFzt3yx0g54z8E9/8ON+z0J7yZbA0aftZAjFLv6nn0Th/2dpD8d3vWtkJw4yBjLX2KFvlzJfQqkd6RI4Cn1OP9sguXDob123dMiMk/5XbjXz+0C21QFxejxt3HGisvKes+8swplyni7KdiDtABEBAAG0MEpvYWtpbSBUamVybmx1bmQgPGpvYWtpbS50amVybmx1bmRAaW5maW5lcmEuY29tPokBVAQTAQgAPhYhBFtMG/jmfqy7x0aBp4VMQ6CbDpcaBQJadH9vAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEIVMQ6CbDpcasFAH/j64dpHpjY55tVoUg5yK8hcmxS/buKQQP9H3e2DdHeYrK0qeQ97AXiWTh63UvzvEXchiKjua6kYhUUkDObaltmwkKgPv0qb9lP6yfFBzvllriS6LrdIMCOLgtnQW2x28m5mC1hYT08jlqEXluYDoj2dTll9HGMsqn0JkhRjBsuzTXq8VyJjjnNLpzsAlTOGEQoAi7SqtDHs9PSNyOAKH5jRjATdNbPAsTKuI1veJf7Zzyc98yG0ya43Hqal1scoa+9GJZXNQPRaMVkyxKGbEEncdtnQl9e/DUMH4SUQ5vbM/+U4WvkX5Cvc+KwI6JAm1PhrAaVHSkDNAU5LqUqEbbHY=
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=infinera.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH0PR10MB4615:EE_|IA1PR10MB7360:EE_
-x-ms-office365-filtering-correlation-id: 023f89b4-2d43-4d04-2d38-08dc2bed56b5
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- xEDAHnR9SFxJ2YbvwzX/KrsGFYhgZWSvxnVeZ8yul2O76qJzdMYCeV9vDJr81CJqI3xgS9Z3/yYGMRiDm9jXspwsYMuBbwPkUw29Ba7Vy2TTIdXDCrnqfq8E3lerdDQbSyibgpiIwPNn73KoHJDXtF2GhWcsWWqnsWkiu5L4Qlw6HEskuH30vFLMqm8bNWhb4QGhS3e/+tbq1yGvTIYgm9vqV+9iIdrVNYNL6RHLANo45qvS9HY3+6ogTFt2XjqNP0aAL5mnJ/PIPNM8EEEf9Zcn+UeTEXk8qOFu2vKequDcWHAPLmJBAiI34mf/tzmOtePOyK0Hz/qg1GZVIjnqBJpcJf+6cn6Rge+rXnaKTlaP8NXRqthnebq6VtGcyPj4CpskUkw2qSkUYd0FmfOB4faPMoTT9E0A80M6ix92oSygAQ8SiUjeSkNrOMVYRcy7rP1SmwCj5kEMZkkHE5soc9o/dGEfknhg03cZ9zrMhArYBNA+OSSpOoxcwJuzYqjyvwonvN852zqrSqgFlSgyS32SBRQDAQnwerbWAqtQqp/bF3EhCqswSy/KaMHbZc5CHHQGLHrnQKjYHuLSkOa3fvoRsk8gnuXjKKUcQYrGgtjAZMgb633cB6KQDSh5PGt6
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB4615.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(346002)(396003)(366004)(376002)(136003)(230922051799003)(186009)(64100799003)(451199024)(1800799012)(86362001)(122000001)(38100700002)(41300700001)(4744005)(2906002)(316002)(6512007)(6486002)(478600001)(71200400001)(6506007)(2616005)(38070700009)(36756003)(8676002)(8936002)(5660300002)(6916009)(66946007)(76116006)(66446008)(64756008)(66556008)(66476007);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?Mitrc0JEczAvTXVCR1V1dGRaUU1LR1FsWHgwWEEydVE2cDAyRDg4a2h0TWlj?=
- =?utf-8?B?d2x1QWNQRHh5bkkwRTN4RzhJc1VIV3NkMkQxaHQySVc0NThqRHdHS0UzeWZJ?=
- =?utf-8?B?RDJtcldxck9iWERNcGFwWUMydStubHRLc01TM2VpalBwcmJiSXJlMCt6U1p4?=
- =?utf-8?B?bWRzSVZGSWpoSlVEKzlyNFY0anFWK2ZQZHljdGtXYlhOOFJ1RDVHdnVlTkt4?=
- =?utf-8?B?ZEVTV0VMQTM3a2FSSEdQV2hUcUZ0b0JoamdHUytCcTlrRHJTNTIraXBFOCsx?=
- =?utf-8?B?WTRKTEloSm9STytqMmQxR2dkTXJlOTlqeWU1a1F3ZVA5STFhRndLc0RXM1hL?=
- =?utf-8?B?YTgrYWxBYVRuWm9UMnJnSlR6M25GQTFjWEN5MTRtOHRwbXUzQmtpREV4TUN4?=
- =?utf-8?B?dzhpYUVYeXJReFNFM0pLUytOdlN6TkgvWFp6VU5hVmlIQzNXZlNXanNsOGov?=
- =?utf-8?B?R0k2NkpnMUdBWDVoR2V2RldZb0Z4Ym1PWm9tRi9SdUpqZ3BGY2VnVDl0Rm85?=
- =?utf-8?B?TXpURi9wKzZDWFpvODl5ZitYNk9Yb3EySk52dmI1TWVzWTEvZTQvSDVLcTEv?=
- =?utf-8?B?WnR4UE9hdHd1aG5vaXRwZk5Zb1RycW1sR0V0ZXdDVzdEdUt3UGhmZEVPL2s0?=
- =?utf-8?B?YW5kUVNjOEFQQlI3R1NxUS8wY0d4cGc5ZUFCSkJnNHNlNFg4MXhoaE1kMWpp?=
- =?utf-8?B?MEIvMkpBZGFIdkVSaWcwTHpEZEF3Z2l4YlJLU1pUQW5HVzdweXlnQUpPYUtt?=
- =?utf-8?B?S1VGUGM2RnErYW1iS3V5dXJTamZUb0RwNEg3WklLTXBvMC9SVTIzWDJhbEtV?=
- =?utf-8?B?dmd3UnllN3FqYXg2L1dMeEJieTlpUjhnWlY2TlZ0SW5aMnpLTXhhSmhTQ1NC?=
- =?utf-8?B?SUtXVEVwVGdWWVJSQnhIZUxmSWtFbDUranhZNEZhS2JPSXhIcjZybEJiR2Nr?=
- =?utf-8?B?eEFsdTVIS1F4KzFnL3ZzL241ZDdxbzFHOXI0bkhEVGNwMFZ4U0pWa3JiRUN4?=
- =?utf-8?B?NGxCZkh0NEU1VUU1ZDZJVmNzckpsZEdaLzNqYy92VGFYQUdUdUNVd252b0xF?=
- =?utf-8?B?Z0FKS01EYUFoVEM3ZmFzWEdZNVRxYmEvZEQwU01zMnRaK0RxQkovcjYxa2lJ?=
- =?utf-8?B?U3JGdnVWMnY5Ung4aWZMdmIvUWdiUHNNTmlOT0UrYXhLR2pPeUxINGdCVWxt?=
- =?utf-8?B?ZHJIWkg5eEJRUW03RDlHeVZwQzNxL1hMU2kwSUZsbUxzTHlHZmRZQzZyUURT?=
- =?utf-8?B?eVdzM1doSW1HYWU4R2lHMXg3WDJYZUh3Uk1VdnVMQ1F0c0RJNHNRN2k2UElR?=
- =?utf-8?B?ckNxdDNzVmw1aVFIUzVmRm9BTkJOek5QZUI0eFh5ZjF1ZnY5bjJRY1MzeFVz?=
- =?utf-8?B?VEVwcmJTMEtUSGYvL1lJb0w0SVdTRFplYUcwMmNLaWlRem4wbmlDbFcvRWJB?=
- =?utf-8?B?Mko5bjBvVCtSaFVnaERMRmV5WTZDN0RRQ3lPb0JzaWRxOW5IeU1oSngwN2M1?=
- =?utf-8?B?Nk43STVQWnhhOFJ3RVV5ZDRMNXUzQzZHeXoydzVhZWpLRzFDc3FuMWcrNm5F?=
- =?utf-8?B?OWZ5aXNiRnJTOEJCYUs3VGRtSjZWL0JwbFpQcG9jVlZPRkNBV0RHNE9ZRDBy?=
- =?utf-8?B?S21FUHFrcHpjWWFGaFFLdzNyK3RnUFR5TDkxNDR6Nk5icjZWdi82a3FERkJY?=
- =?utf-8?B?WnJIbUNEUE9icVFwUmp1Njl3NTJyeU1LNk1jbkdOclRzNnNuU0tEMlczR2R3?=
- =?utf-8?B?cGhUbkNuQk93dG5PbDhmeCs1SGNLdTA5WEdDNUYvOTQzZUZlR0kxaDUwUDdx?=
- =?utf-8?B?LzJSa3VRRmJhNHdhK1owKzFtdzc0K0VNUHRFRHR6Qkc5bXo3NGNjeFNpdldh?=
- =?utf-8?B?TUJtdjhlSUZ6L2Q2OUR3VGtvZEZ5UDllMU9mbXB5UGdUdldacTduL3ptWThC?=
- =?utf-8?B?WDNvTWlrdVJuT1FvM0d0TkN3MnNoamJBVldOU2ZKdXc1ZDdia2dYRCtKZk5P?=
- =?utf-8?B?WTV0dGVQOW9vemc5MUVwVGJZTnArZWx6bmxkU0JIM0NVRXUxbTNlV205eS9X?=
- =?utf-8?B?em1vNzlKQlV1ZncwbUtGQjB1UEYxMUJxa3NmcG93WnRobEpzSjFCaUFxZVR0?=
- =?utf-8?B?RVVleFZTczk0ZlJlNEhBblVnYVNMZzhWbjNEK2VtWFZ4VUM2cUVaVTM3MW8v?=
- =?utf-8?Q?CExUcxCNXwL5oCGdv/iP5EFrPiAt3/pX5UKZftIJhOm5?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <7955B23EAA47CF4DAD736B6AF798A77B@namprd10.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@posteo.net header.s=2017 header.b=dff+ClB9;
+ spf=pass (domain: posteo.net, ip: 185.67.36.66, mailfrom: simone.weiss@posteo.net)
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout02.posteo.de (Postfix) with ESMTPS id 8F1D9240105
+	for <openembedded-core@lists.openembedded.org>; Mon, 12 Feb 2024 18:14:50 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
+	t=1707758090; bh=/GjPMHrFKpBSqsic8ILNCI7b1Qjyt0IJBd1GnWqE+dg=;
+	h=Message-ID:Subject:From:To:Cc:Date:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version:From;
+	b=dff+ClB9lE7MXVshWZjRNaAbNu7yuYfhXNaYcxCmlMGNcIukMiIIJlQkD/61J0YrA
+	 EaNfJCmSFZfNgmRW9kOBabRjXvCT3DZVN/MiEq0SJQe7AwFCV5d4RiLFWhLKmc+oxz
+	 qNIvNk5jTxs9sGlZCmDx+kgd3PRlexGswTzH0Tf8NK7OW1XznFYE7mPsPFPi9Vmwno
+	 1xA2F5/IotGnOvqtOIaoNgn2nduMDJOSI+naJxBiSF4oe5aqjkTQq299kAPpHX6Pyu
+	 nInZ8ydrlOxG/Fn/TCzH1EhAuDhD1AIUKGILAGc2bYMuYMR8HuXEaCwh3iP6LJyGbA
+	 EBAP5RtVD3BqA==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4TYWKj1Zp7z6tyn;
+	Mon, 12 Feb 2024 18:14:48 +0100 (CET)
+Message-ID: <cdf7b4b84b5167d8e2c95e49fc941356d3e77547.camel@posteo.net>
+Subject: Re: [OE-core] [PATCH] patchtest: Add selftest for test
+ cve_check_ignore
+From: Simone =?ISO-8859-1?Q?Wei=DF?= <simone.weiss@posteo.net>
+To: Andrej Valek <andrej.v@skyrain.eu>, Simone =?ISO-8859-1?Q?Wei=DF?=
+	 <simone.p.weiss@posteo.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	richard.purdie@linuxfoundation.org
+Date: Mon, 12 Feb 2024 17:14:48 +0000
+In-Reply-To: <4609194f-c7b5-49bd-a607-f602797f0334@skyrain.eu>
+References: <20240210135259.563083-1-simone.p.weiss@posteo.com>
+	 <c7d59770-b975-4608-ae0d-0ac8dd1531d9@skyrain.eu>
+	 <051501a2118aa94251de40fbaee00f424ff4c6f7.camel@posteo.net>
+	 <4609194f-c7b5-49bd-a607-f602797f0334@skyrain.eu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-OriginatorOrg: infinera.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4615.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 023f89b4-2d43-4d04-2d38-08dc2bed56b5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Feb 2024 17:09:14.1558
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 285643de-5f5b-4b03-a153-0ae2dc8aaf77
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: yNUuhGSgQu0cBQ9qiLoFHnNc02edadL5rzTwfl/lNQ+NYlWYH7uEgyeE9jctJvfFowfv/hlKS3yZwap9OCtJiQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR10MB7360
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 Feb 2024 17:09:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195347
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Feb 2024 17:15:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195348
 
-VGhpcyB3b3JrcyBpbiBraXJrc3RvbmUgYnV0IG5vdyBpdCBmYWlscywgSSBnb3Q6DQoNCmNhdCBt
-ZXRhLXhyL2NsYXNzZXMveHJfbGljLmJiY2xhc3MNCnB5dGhvbiB4cl9saWNfYnVpbGRfcmVwb3J0
-KCkgew0KICAgIGZyb20geHJfbGljIGltcG9ydCBtYWluDQogICAgbWFpbi5idWlsZF9yZXBvcnQo
-ZCkNCn0NCg0KSU1BR0VfUE9TVFBST0NFU1NfQ09NTUFORCArPSAieHJfbGljX2J1aWxkX3JlcG9y
-dDsgIg0KDQphbmQ6IA0KbHMgbWV0YS14ci9saWIveHJfbGljLw0KLi8gICBhZ2dyZWdhdG9yLnB5
-CQkgZXh0cmFfbGljZW5zZS5tYW5pZmVzdCAgaHRtbC5weSAgICBtYWluLnB5CSAgICB1dGlsLnB5
-DQouLi8gIGV4Y2x1ZGVfeW9jdG9fcGFja2FnZXMudHh0ICAuZ2l0aWdub3JlCQkgbGljZW5zZXMv
-ICBzdGF0aWNfaW5mby5weQ0KDQpidWlsZGluZyB0aGUgaW1hZ2UgSSBnZXQgdGhpcyBlcnJvcjoN
-CkZpbGU6ICcvaG9tZS9qb2NrZS95b2N0by14ci9tZXRhLXhyL2NsYXNzZXMveHJfbGljLmJiY2xh
-c3MnLCBsaW5lbm86IDIsIGZ1bmN0aW9uOiB4cl9saWNfYnVpbGRfcmVwb3J0DQogICAgIDAwMDE6
-cHl0aG9uIHhyX2xpY19idWlsZF9yZXBvcnQoKSB7DQogKioqIDAwMDI6ICAgIGZyb20geHJfbGlj
-IGltcG9ydCBtYWluDQogICAgIDAwMDM6ICAgIG1haW4uYnVpbGRfcmVwb3J0KGQpDQogICAgIDAw
-MDQ6fQ0KICAgICAwMDA1Og0KICAgICAwMDA2OklNQUdFX1BPU1RQUk9DRVNTX0NPTU1BTkQgKz0g
-InhyX2xpY19idWlsZF9yZXBvcnQ7ICINCkV4Y2VwdGlvbjogTW9kdWxlTm90Rm91bmRFcnJvcjog
-Tm8gbW9kdWxlIG5hbWVkICd4cl9saWMnDQoNCm5vdyBiaXRiYWtlIGNhbm5vdCBmaW5kIHRoZSB4
-cl9saWMgcHl0aG9uIG1vZHVsZS4NCkFueSBwb2ludGVycyB3aGF0IEkgbWlzc2VkID8NCg0KICBK
-b2FraW0NCg0K
+On Mon, 2024-02-12 at 07:43 +0100, Andrej Valek wrote:
+> Hi Simone,
+>=20
+> OK, looks fine, but... what is the difference between=20
+> https://github.com/openembedded/openembedded-core/blob/master/meta/lib/oe=
+qa/selftest/cases/cve_check.py#L224
+> =C2=A0
+> ? I added a small test there, while we were adding this feature. Does it
+> mean, that is not sufficient?
+>=20
+> Regards,
+> Andrej
+Hi Andrej,
+It is just a very different thing. This tests checks if patches use
+CVE_STATUS correctly when handing in patches.
+
+Cheers
+Simone
+>=20
+> On 11.02.2024 13:33, Simone Wei=C3=9F wrote:
+> > On Sun, 2024-02-11 at 12:45 +0100, Andrej Valek wrote:
+> > > Hi Simone,
+> > >=20
+> > > Is there a special reason, why you're adding already removed feature
+> > > https://lists.openembedded.org/g/openembedded-core/message/189917=C2=
+=A0?
+> > >=20
+> > > Regards,
+> > > Andrej
+> > >=20
+> > Hi Andrej,
+> >=20
+> > I am not adding an already removed feature here:)
+> >=20
+> > - This is a selftest, so it is used to test patchtest itself and not
+> > patches with patchtest.
+> > - The test from patchtest tested is also not
+> > test_cve_presence_in_commit_message, which deals with the commit
+> > message
+> > of a patch, but one dealing with the use of CVE_STATUS in the meta
+> > data of
+> > a recipe test_cve_check_ignore.
+> >=20
+> > Cheers,
+> > Simone
+> > > On 10.02.2024 14:52, Simone Wei=C3=9F wrote:
+> > > > From: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
+> > > >=20
+> > > > Add a selftest for the recently introduced check for
+> > > > CVE_CHECK_IGNORE.
+> > > >=20
+> > > > Signed-off-by: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
+> > > > ---
+> > > > =C2=A0=C2=A0 .../TestMetadata.test_cve_check_ignore.fail=C2=A0=C2=
+=A0 | 30
+> > > > ++++++++++++++++++
+> > > > =C2=A0=C2=A0 .../TestMetadata.test_cve_check_ignore.pass=C2=A0=C2=
+=A0 | 31
+> > > > +++++++++++++++++++
+> > > > =C2=A0=C2=A0 2 files changed, 61 insertions(+)
+> > > > =C2=A0=C2=A0 create mode 100644
+> > > > meta/lib/patchtest/selftest/files/TestMetadata.test_cve_check_igno
+> > > > re.f
+> > > > ail
+> > > > =C2=A0=C2=A0 create mode 100644
+> > > > meta/lib/patchtest/selftest/files/TestMetadata.test_cve_check_igno
+> > > > re.p
+> > > > ass
+> > > >=20
+> > > > diff --git
+> > > > a/meta/lib/patchtest/selftest/files/TestMetadata.test_cve_check_ig
+> > > > nore
+> > > > .fail
+> > > > b/meta/lib/patchtest/selftest/files/TestMetadata.test_cve_check_ig
+> > > > nore
+> > > > .fail
+> > > > new file mode 100644
+> > > > index 0000000000..3574463ade
+> > > > --- /dev/null
+> > > > +++
+> > > > b/meta/lib/patchtest/selftest/files/TestMetadata.test_cve_check_ig
+> > > > nore
+> > > > .fail
+> > > > @@ -0,0 +1,30 @@
+> > > > +From c4ca86b9cca3643097db0328e2f34dccffbba309 Mon Sep 17 00:00:00
+> > > > 2001
+> > > > +From: =3D?UTF-8?q?Simone=3D20Wei=3DC3=3D9F?=3D <simone.p.weiss@pos=
+teo.com>
+> > > > +Date: Sat, 10 Feb 2024 13:18:44 +0100
+> > > > +Subject: [PATCH] selftest-hello: add CVE_CHECK_IGNORE
+> > > > +MIME-Version: 1.0
+> > > > +Content-Type: text/plain; charset=3DUTF-8
+> > > > +Content-Transfer-Encoding: 8bit
+> > > > +
+> > > > +This should fail the test_cve_tag_format selftest.
+> > > > +
+> > > > +Signed-off-by: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
+> > > > +---
+> > > > + .../recipes-test/selftest-hello/selftest-hello_1.0.bb=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |
+> > > > 3
+> > > > ++-
+> > > > + 1 file changed, 2 insertions(+), 1 deletion(-)
+> > > > +
+> > > > +diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-
+> > > > hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-
+> > > > hello_1.0.bb
+> > > > +index 547587bef4..3ef9b87c34 100644
+> > > > +--- a/meta-selftest/recipes-test/selftest-hello/selftest-
+> > > > hello_1.0.bb
+> > > > ++++ b/meta-selftest/recipes-test/selftest-hello/selftest-
+> > > > hello_1.0.bb
+> > > > +@@ -16,4 +16,5 @@ do_install() {
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0install -m 0755 hellowor=
+ld ${D}${bindir}
+> > > > + }
+> > > > +
+> > > > +-BBCLASSEXTEND =3D "native nativesdk"
+> > > > +\ No newline at end of file
+> > > > ++CVE_CHECK_IGNORE =3D "CVE-2024-12345"
+> > > > ++BBCLASSEXTEND =3D "native nativesdk"
+> > > > +--
+> > > > +2.39.2
+> > > > +
+> > > > diff --git
+> > > > a/meta/lib/patchtest/selftest/files/TestMetadata.test_cve_check_ig
+> > > > nore
+> > > > .pass
+> > > > b/meta/lib/patchtest/selftest/files/TestMetadata.test_cve_check_ig
+> > > > nore
+> > > > .pass
+> > > > new file mode 100644
+> > > > index 0000000000..10f942a6eb
+> > > > --- /dev/null
+> > > > +++
+> > > > b/meta/lib/patchtest/selftest/files/TestMetadata.test_cve_check_ig
+> > > > nore
+> > > > .pass
+> > > > @@ -0,0 +1,31 @@
+> > > > +From 7d4d3fee0c7111830ee9b2b049ae3ce265b26030 Mon Sep 17 00:00:00
+> > > > 2001
+> > > > +From: =3D?UTF-8?q?Simone=3D20Wei=3DC3=3D9F?=3D <simone.p.weiss@pos=
+teo.com>
+> > > > +Date: Sat, 10 Feb 2024 13:23:56 +0100
+> > > > +Subject: [PATCH] selftest-hello: add CVE_STATUS
+> > > > +MIME-Version: 1.0
+> > > > +Content-Type: text/plain; charset=3DUTF-8
+> > > > +Content-Transfer-Encoding: 8bit
+> > > > +
+> > > > +This should pass the test_cve_tag_format selftest.
+> > > > +
+> > > > +Signed-off-by: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
+> > > > +---
+> > > > + .../recipes-test/selftest-hello/selftest-hello_1.0.bb=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |
+> > > > 4
+> > > > +++-
+> > > > + 1 file changed, 3 insertions(+), 1 deletion(-)
+> > > > +
+> > > > +diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-
+> > > > hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-
+> > > > hello_1.0.bb
+> > > > +index 547587bef4..9908b3b417 100644
+> > > > +--- a/meta-selftest/recipes-test/selftest-hello/selftest-
+> > > > hello_1.0.bb
+> > > > ++++ b/meta-selftest/recipes-test/selftest-hello/selftest-
+> > > > hello_1.0.bb
+> > > > +@@ -16,4 +16,6 @@ do_install() {
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0install -m 0755 hellowor=
+ld ${D}${bindir}
+> > > > + }
+> > > > +
+> > > > +-BBCLASSEXTEND =3D "native nativesdk"
+> > > > +\ No newline at end of file
+> > > > ++CVE_STATUS[CVE-2024-12345] =3D "not-applicable-platform: Issue
+> > > > only
+> > > > applies on Windows"
+> > > > ++
+> > > > ++BBCLASSEXTEND =3D "native nativesdk"
+> > > > +--
+> > > > +2.39.2
+> > > > +
+> > > >=20
+> > > >=20
+> > > >=20
+>=20
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#195300):
+> https://lists.openembedded.org/g/openembedded-core/message/195300
+> Mute This Topic: https://lists.openembedded.org/mt/104277396/8052774
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe:
+> https://lists.openembedded.org/g/openembedded-core/unsub=C2=A0[simone.p.w=
+eiss@posteo.com
+> ]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
+
 
