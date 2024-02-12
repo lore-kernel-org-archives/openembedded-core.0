@@ -1,80 +1,126 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <mail2szahir@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 267DEC48297
-	for <webhook@archiver.kernel.org>; Mon, 12 Feb 2024 13:18:59 +0000 (UTC)
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
- by mx.groups.io with SMTP id smtpd.web11.6136.1707743929835649832
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4898AC4829B
+	for <webhook@archiver.kernel.org>; Mon, 12 Feb 2024 13:47:39 +0000 (UTC)
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+ by mx.groups.io with SMTP id smtpd.web10.6648.1707745653767357223
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Feb 2024 05:18:50 -0800
+ Mon, 12 Feb 2024 05:47:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=UhSD/3/h;
- spf=pass (domain: gmail.com, ip: 209.85.167.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-51182ece606so1245516e87.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 Feb 2024 05:18:49 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=MzYeE3hN;
+ spf=pass (domain: gmail.com, ip: 209.85.215.172, mailfrom: mail2szahir@gmail.com)
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-5cddc5455aeso2228612a12.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 12 Feb 2024 05:47:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707743928; x=1708348728; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=V2oYngVEi3nh5ALzwbkOurIguM7UUQHC6AJV76yZVqg=;
-        b=UhSD/3/hEbt5c0Xxr9ZjDSfElCv6Pu7Kmg7IV0WhSkBJOD3u7qdkt5hTSslixmsSBN
-         3wNMhZ7Dnt027rKVE0drIlj56fGtRs/LMvUaU+/h/lYfAix8yx2zKAEdgApc4Hjn4lj6
-         6zXBTWU0qGYTTq8IdrrBZrt+6GDq+SKV6tQnRKtWGpKjRdZyv9qWuc/gBeVV2VPDadn9
-         Z07JQs1ztV15RGgRK/WaKncr0rBgJ9dFy24KyDOaHiHqRBlCHCoAylDLrksqEEZiYeIY
-         6ZaUY1UHBZmT0XzZAGlZfXKOiMsq0ZFnOX2gtDV8Nog67hVszL4Tvzf/q0D+vyDdnvso
-         H64g==
+        d=gmail.com; s=20230601; t=1707745653; x=1708350453; darn=lists.openembedded.org;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0RbpbHb+FrDaqJhosnc+MUQ9LYgSj+oXB7EeDp7T+cQ=;
+        b=MzYeE3hNORcot4lDZWg8lxvp1kE8w89x7RFBIe5LW0ToVGl26WLE9QpfTRI1NdZyYN
+         lpzBI//uyQaR52tuS/W7bhLWiI5sND5PT0RhVEpK+EG5v4DzTAI9hXUfgTJF2LSU5z3a
+         xr1HAZCqPJqWqeHlka3192FXB+AD4lmoI19mju5Y2bUmC8QOVcA6KPuGxxBVBzCBYtOj
+         YX1Wa/vmKLDBooomTbPc14HyDMfxIWgU8JNkCZLPSVjxohP+XS8qkaA0eDJ/5+Max4m9
+         QRdV37HSnHpskjIcA8tN4iq/ppYob94/3b+nz5QnO9dVnsZQw6rorkZNBSxz5uuLbpLs
+         GEnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707743928; x=1708348728;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=V2oYngVEi3nh5ALzwbkOurIguM7UUQHC6AJV76yZVqg=;
-        b=wHkalrdAfuD9ue9uGGsqJcFZUIQnQO/dsuALguSMlle7g0tcDPrRmRY9zd+tlKBmrx
-         FBMjX5m1iJBjIB8+17L5ATDkmX8mxrfzbM4i47cwcgzsGfBAqDWoEw0OhIpR0XM6+32a
-         jzoUEkNIR+x7TGa3lXB3xYID0Tl9iHmQRJK1hFy8h3nRb33d4Hugw7KZgaa59GWPloDr
-         7Ud4IAC6n22NnSr6IQVKqaOQ2VUnSf0NPVRlgLoqCfpaPaiJyN1uF0EDM1PT2HqX+/zu
-         6mhXvE8i3NtRxAgImzxgmcoCpDnNQ6g4fymRLZHPTIGjyzH5d/0tRIBATR5CV5vOZoTd
-         dGXg==
-X-Gm-Message-State: AOJu0YxH0iNnWMyguryDko8/vVMLS9lhX1Bf5vjTqMUdUtqxLeKbFExm
-	DZw5V2yEn02l9nuyGxdhMt+UwPqkT/1MsB9ON+VMbZ/THwrOyzlZ+ZBPi0NgSkxBjgN1KaTmHBR
-	xRu1s7Ddz81s16gQL6xdmoLdjCMQ=
-X-Google-Smtp-Source: AGHT+IEQwjP0Yl8zTeq2xd1DKyhRs9M7t0ONlmOJRxE7fNuKUPh2iuU2q10y+pxHpkO1aQkzGYDtvynpEFLiBIEkpc0=
-X-Received: by 2002:a05:6512:ba4:b0:511:947f:7eec with SMTP id
- b36-20020a0565120ba400b00511947f7eecmr141813lfv.7.1707743927716; Mon, 12 Feb
- 2024 05:18:47 -0800 (PST)
-MIME-Version: 1.0
-References: <19b4555c2cc17fca8f53064fc7e77a50e14d9e47.camel@ew.tq-group.com>
-In-Reply-To: <19b4555c2cc17fca8f53064fc7e77a50e14d9e47.camel@ew.tq-group.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 12 Feb 2024 14:18:36 +0100
-Message-ID: <CANNYZj9nSGUMTgh4VpCLpy736hKvfjtOpRJnZSbh4ZYb1QQbtQ@mail.gmail.com>
-Subject: Re: [OE-core] populate_sdk_ext.bbclass: include files for auto.conf
- are not handled
-To: Markus Niebel <Markus.Niebel@ew.tq-group.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+        d=1e100.net; s=20230601; t=1707745653; x=1708350453;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0RbpbHb+FrDaqJhosnc+MUQ9LYgSj+oXB7EeDp7T+cQ=;
+        b=a1GlqWFinMKDla44BnEgoqhZmLjhaHDU0Qkf6F3FgdEgIHQ9ZEz1OpZIBv5ZIq3aN5
+         uknzAcgdkOR+fDX1I+qhuOQ96TeqNdz8NJYL0b4a8ujqhBgXf4tlLtv5XH77DpPo43BR
+         FQYUjsHWzGsyB4NEm5PZuhdszXlCahbt73VZdVEypYPonb7QCLcXnyNuhokQ7rpWZPzn
+         WCr/iu1scIT51ynkvrf7aGiSaciDJ7nv0Ba3npQOACBapxNT9o7bx8KxZcT7XMIabYfG
+         /0Lh59I1hcpHIFXNgkF3J9955nm3S1wv03XalwG/MtLzg3KqzPPveTDFFGtjzy7L5oXJ
+         4Mpw==
+X-Gm-Message-State: AOJu0Yx1fJkuxb9KTx0rbL7adSbrUDzR8Mecscob6ji+de53GEtdC+P7
+	yKGPrneD10rrFa3CJsO/oq34GZVDrxlzIr28sm/mahO0IiSlMkzPqsF8hsQZ
+X-Google-Smtp-Source: AGHT+IFum5vUYlS3x+Lza70oNr6wtQGMZ/Q36CJv7VlkLmo5p6TRoHEZcYbPyQCPHo4trW57MKRixA==
+X-Received: by 2002:a17:90b:4f84:b0:297:b67:e5a8 with SMTP id qe4-20020a17090b4f8400b002970b67e5a8mr3354418pjb.40.1707745652811;
+        Mon, 12 Feb 2024 05:47:32 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVOAIVY1iuwGDxLFGa65lwMDP9cSblLYj1JdmaUTvjjRtATOCgOYxL/VPPGKMrcPkC8u50E8mUpENlL7Oun6Hk4ZTHci4k=
+Received: from localhost.localdomain ([2405:201:e02e:c09b:b92a:92ea:d205:2f9c])
+        by smtp.gmail.com with ESMTPSA id sl15-20020a17090b2e0f00b0029732fc0154sm536511pjb.3.2024.02.12.05.47.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Feb 2024 05:47:32 -0800 (PST)
+From: aszh07 <mail2szahir@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	mail2szahir@gmail.com
+Cc: ranjitsinh.rathod@kpit.com
+Subject: [OE-core][master][PATCH] alsa-lib: Enabling ptest for alsa-lib component
+Date: Mon, 12 Feb 2024 19:16:45 +0530
+Message-Id: <20240212134645.7972-1-mail2szahir@gmail.com>
+X-Mailer: git-send-email 2.17.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 Feb 2024 13:18:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195319
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Feb 2024 13:47:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195320
 
-On Mon, 12 Feb 2024 at 14:06, Markus Niebel
-<Markus.Niebel@ew.tq-group.com> wrote:
-> just a question because I'm not sure if this is an error / issue or if I missed a piece of documentation:
->
-> Part of populate_sdk_ext.bbclass is assembling of the current configuration from the conf directory. When files like auto.conf use the 'include' statement the files to be included are not copied.
-> This will lead to an error in do_populate_sdk_ext.
->
-> Question: Is this intended, e.g. 'include' shall not be used for files under 'conf' or should this work?
->
-> Use case: separation of configurations sharing most things and bring in slightly differences via includes.
+This change adds ptest for alsa-lib.
 
-There is nothing in code that indicates it is expected to work. So I
-believe build/conf/ should not contain anything except .conf files. If
-you include things in them, the include files should be placed in a
-layer, and eSDK task copies layers wholesale.
+1) Adding CFLAGS change for include the header file path for resolving
+ below compilation issue;
+        In file included from ../../../alsa-lib-1.2.1.2/test/lsb/config.c:4:
+        ../../../alsa-lib-1.2.1.2/test/lsb/test.h:5:10: fatal error:
+        alsa/asoundlib.h: No such file or directory
+        5 | #include <alsa/asoundlib.h>
 
-Alex
+2) Removed the test suite execution 'make' call using 'sed' command.
+
+3) Compiled the test directory source code using "oe_runmake check" command.
+
+4) Copied all the required binaries into PTEST path using do_install_ptest()
+ function.
+
+Signed-off-by: aszh07 <mail2szahir@gmail.com>
+---
+ .../distro/include/ptest-packagelists.inc     |  1 +
+ .../alsa/alsa-lib_1.2.10.bb                   | 19 +++++++++++++++++++
+ 2 files changed, 20 insertions(+)
+
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
+index 9057c12b09..78b4920996 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -5,6 +5,7 @@
+ #
+ PTESTS_FAST = "\
+     acl \
++    alsa-lib-ptest \
+     apr-util \
+     attr \
+     babeltrace \
+diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.2.10.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.2.10.bb
+index 83bc6877d2..f3a4693a45 100644
+--- a/meta/recipes-multimedia/alsa/alsa-lib_1.2.10.bb
++++ b/meta/recipes-multimedia/alsa/alsa-lib_1.2.10.bb
+@@ -44,3 +44,22 @@ RREPLACES:alsa-conf = "alsa-conf-base"
+ RCONFLICTS:alsa-conf = "alsa-conf-base"
+ 
+ BBCLASSEXTEND = "native nativesdk"
++
++EXTRA_OEMAKE:append = " AM_CPPFLAGS=-I${S}/include"
++
++do_compile:append() {
++        sed -i 's/^.*$(MAKE) $(AM_MAKEFLAGS) check-TESTS.*$/ /' ${S}/test/lsb/Makefile.in
++        oe_runmake check
++}
++
++do_install_ptest:append() {
++    for f in control client_event_filter namehint
++    do
++        install -m 0755 "${B}/test/.libs/$f" "${D}${PTEST_PATH}";
++    done
++
++    for f in config midi_event
++    do
++        install -m 0755 "${B}/test/lsb/.libs/$f" "${D}${PTEST_PATH}";
++    done
++}
+-- 
+2.17.1
+
 
