@@ -1,266 +1,142 @@
-Return-Path: <enguerrand.de-ribaucourt@savoirfairelinux.com>
+Return-Path: <Joakim.Tjernlund@infinera.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F7B0C48297
-	for <webhook@archiver.kernel.org>; Mon, 12 Feb 2024 16:58:40 +0000 (UTC)
-Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [208.88.110.44])
- by mx.groups.io with SMTP id smtpd.web11.11693.1707757110321942065
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8259CC48297
+	for <webhook@archiver.kernel.org>; Mon, 12 Feb 2024 17:09:20 +0000 (UTC)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (NAM12-BN8-obe.outbound.protection.outlook.com [40.107.237.118])
+ by mx.groups.io with SMTP id smtpd.web10.11853.1707757757819144586
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Feb 2024 08:58:30 -0800
+ Mon, 12 Feb 2024 09:09:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@savoirfairelinux.com header.s=DFC430D2-D198-11EC-948E-34200CB392D2 header.b=XKLKux+z;
- spf=pass (domain: savoirfairelinux.com, ip: 208.88.110.44, mailfrom: enguerrand.de-ribaucourt@savoirfairelinux.com)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id ED0219C44A2;
-	Mon, 12 Feb 2024 11:58:28 -0500 (EST)
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
- by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10032)
- with ESMTP id tHjD2m56MJFZ; Mon, 12 Feb 2024 11:58:27 -0500 (EST)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 02DEC9C44B0;
-	Mon, 12 Feb 2024 11:58:27 -0500 (EST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com 02DEC9C44B0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=savoirfairelinux.com; s=DFC430D2-D198-11EC-948E-34200CB392D2;
-	t=1707757107; bh=HvUpw7jl5wwZtD317tGRgsaOQIcgLZ7cXJDvpS++tzQ=;
-	h=Message-ID:Date:MIME-Version:To:From;
-	b=XKLKux+zHFhq7gZm+sazHM+bQF14hpZpiWK95lD8h8WXGKVDYaTax/RDimMaQcddt
-	 U7ROBhvBoQtaMRQCfHZzVrn0Pn+QfzRMT8Fy/nxb3jE9D/muI649Rt9hyZWFnai/2R
-	 pbH3lcJ6hPq0kGPKpwhynVFsXNdg324LkE3E2uCgNnjAE/eIlZsC9jzwYh/bF+dK23
-	 jj0iGpvQjrWhVx9zzi7oqp97EVXo4YBdaJaYT+GdzoAVP7RvL1dDJ/ZR7ATOtBX1UM
-	 /DSbxuih4eeLC6ewBqt/mvfIa4l8JL6HWiciJDL0Iv4K9/acsI6UAfHHxDnXPdTana
-	 y50tzrNFTNUAQ==
-X-Virus-Scanned: amavis at mail.savoirfairelinux.com
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
- by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10026)
- with ESMTP id xaOhZ7JkRnUT; Mon, 12 Feb 2024 11:58:26 -0500 (EST)
-Received: from [192.168.216.123] (lmontsouris-657-1-69-118.w80-15.abo.wanadoo.fr [80.15.101.118])
-	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id 8DD709C44A2;
-	Mon, 12 Feb 2024 11:58:26 -0500 (EST)
-Message-ID: <62436f79-ff09-4084-8e94-55e055198b6a@savoirfairelinux.com>
-Date: Mon, 12 Feb 2024 17:58:25 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] vscode: improve settings for new yocto plugin
+ dkim=pass header.i=@infinera.com header.s=selector2 header.b=LVB6qWEU;
+ spf=pass (domain: infinera.com, ip: 40.107.237.118, mailfrom: joakim.tjernlund@infinera.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BUJbpDyiODo8Vc3RrqA3CC4xZyUQkbugLviQ1NXqMDySsMSTBA2DjPBwbDws68mX5hpqb2d80ijPUVifvm8kCng8OIpC+iICPv1osNHyftQlTB+/fD1F37JNkhx/53+iPmHiuqfKP9pwDNETMt0QGP36RJKeuWgCzbUaeF3EGeSgWHHdnus2kGcuiAJJSXETJEetiATZ8sI186EX7QU+BppkZNZCFuzIFwW+nuRhRLZf4QWQF/GJRCIwTMYHN5CZhBmkyIbgHLj6vss2Vqc0FaXgU5Qxy3tYKOpfEpihwYX5f5VyIF68rcgEMTVD4vyJvelqf5lVcnm+q95dEhk9cg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pBvvNrjcHp16DqConP6antI5kfRqtooKbf5cFDYy4sg=;
+ b=HyJdl2CpCpOEDeVcrUnUNE2My6X8cSGpTCbDtGx069zuPLatcP5dYDVuCWnik3COxAZAQM4fQeQncdxP2mU1zrfahayydWy8CAZ8hvV4acKVyiZkCkqYjrQE/u19qCqd2Lm8b8ZFVZiPIGODhwJf8UJvFhiY4PX5YEdi7+92dDF6jipeJhdMo0hHm3qZkli5yCLCexD3i5XEcl7byAEo3B9s4VW7yelSTAcTcaY5GeahRc10caSUidolVmrmpvm/HOTF9OJxHXIPNlpWgCR8jyjEqBF0uT8bjlk4NNZIQ3pQ6/E/QeWQ+S+ZMprlbqVc4ltHreNjDpCwIJUyIUS7Jg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=infinera.com; dmarc=pass action=none header.from=infinera.com;
+ dkim=pass header.d=infinera.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=infinera.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pBvvNrjcHp16DqConP6antI5kfRqtooKbf5cFDYy4sg=;
+ b=LVB6qWEUU8zEbGi+NUutsene/aMGb+74SqmP4gTN4Ic8qNeT8Isr6prUluPryBGQ6acTzMUntZc7Ksi6uBiIPLVH/62n235pWE92d3ijYPnmbss4xckvd2nQ1nSf2kWciIPDbGXCSDm5WIBg/cGadDX2j7XVd8MottfH/KpNaUXQecvpUN/Cjwr2j3yrFoXW8arm588XTPi7FCQxdrwe31EBX98Toq+G4pNY6ijfUvAtqCsmCAuvvIEtZBELTj3cQZ8eMsvB1fwXdqSd2UKzux0yLd525lfG2P61tJenGkD4rSBfNHghHAmDMMPZT/C82hxNpuaWWavcX2YYdFK/5g==
+Received: from PH0PR10MB4615.namprd10.prod.outlook.com (2603:10b6:510:36::24)
+ by IA1PR10MB7360.namprd10.prod.outlook.com (2603:10b6:208:3d8::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7270.27; Mon, 12 Feb
+ 2024 17:09:14 +0000
+Received: from PH0PR10MB4615.namprd10.prod.outlook.com
+ ([fe80::4d76:4230:708c:9eea]) by PH0PR10MB4615.namprd10.prod.outlook.com
+ ([fe80::4d76:4230:708c:9eea%7]) with mapi id 15.20.7270.036; Mon, 12 Feb 2024
+ 17:09:14 +0000
+From: Joakim Tjernlund <Joakim.Tjernlund@infinera.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: own class import fails in nanbeild
+Thread-Topic: own class import fails in nanbeild
+Thread-Index: AQHaXdY0UQUR5UwFCkaI3o9PRGH5SQ==
+Date: Mon, 12 Feb 2024 17:09:14 +0000
+Message-ID: <9aaeb9e948caa2285b16f15003bab3cc8f348ade.camel@infinera.com>
+Accept-Language: en-GB, en-US
 Content-Language: en-US
-To: adrian.freihofer@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-References: <20240209203029.3801065-1-adrian.freihofer@siemens.com>
- <7bfdb37aa85722d20776c58b4d8a61233f5ae23a.camel@linuxfoundation.org>
- <40d4cf0612a459eb5405a802aebb0fb09fbb5b8a.camel@gmail.com>
- <5acae196-d10c-42e3-b201-e4acc61e55c5@savoirfairelinux.com>
- <8ed89336017da50392be926a152a10901c8ceea7.camel@gmail.com>
-From: Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
-In-Reply-To: <8ed89336017da50392be926a152a10901c8ceea7.camel@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.50.3 
+autocrypt: addr=joakim.tjernlund@infinera.com; prefer-encrypt=mutual;
+ keydata=mQENBFp0f28BCADPn4XzN2HEzkY4BZKE6/T/S4M/Qjlf01K6gmECJZi5LQgOt0jOUAdvsXVd8yKYeqCq+eWvlfrLU9OXPGoCqwj95P2YjMsttqaPBEAnf4XyBs67Snz2wHyBDONoRxGoyq2Ondy+TPicWEm0mh404h9EzKxRNxwrRyKhsjWoVeaucuybAiGbJvqQj0CLmuMCl4PUBYDmXFzt3yx0g54z8E9/8ON+z0J7yZbA0aftZAjFLv6nn0Th/2dpD8d3vWtkJw4yBjLX2KFvlzJfQqkd6RI4Cn1OP9sguXDob123dMiMk/5XbjXz+0C21QFxejxt3HGisvKes+8swplyni7KdiDtABEBAAG0MEpvYWtpbSBUamVybmx1bmQgPGpvYWtpbS50amVybmx1bmRAaW5maW5lcmEuY29tPokBVAQTAQgAPhYhBFtMG/jmfqy7x0aBp4VMQ6CbDpcaBQJadH9vAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEIVMQ6CbDpcasFAH/j64dpHpjY55tVoUg5yK8hcmxS/buKQQP9H3e2DdHeYrK0qeQ97AXiWTh63UvzvEXchiKjua6kYhUUkDObaltmwkKgPv0qb9lP6yfFBzvllriS6LrdIMCOLgtnQW2x28m5mC1hYT08jlqEXluYDoj2dTll9HGMsqn0JkhRjBsuzTXq8VyJjjnNLpzsAlTOGEQoAi7SqtDHs9PSNyOAKH5jRjATdNbPAsTKuI1veJf7Zzyc98yG0ya43Hqal1scoa+9GJZXNQPRaMVkyxKGbEEncdtnQl9e/DUMH4SUQ5vbM/+U4WvkX5Cvc+KwI6JAm1PhrAaVHSkDNAU5LqUqEbbHY=
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=infinera.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PH0PR10MB4615:EE_|IA1PR10MB7360:EE_
+x-ms-office365-filtering-correlation-id: 023f89b4-2d43-4d04-2d38-08dc2bed56b5
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ xEDAHnR9SFxJ2YbvwzX/KrsGFYhgZWSvxnVeZ8yul2O76qJzdMYCeV9vDJr81CJqI3xgS9Z3/yYGMRiDm9jXspwsYMuBbwPkUw29Ba7Vy2TTIdXDCrnqfq8E3lerdDQbSyibgpiIwPNn73KoHJDXtF2GhWcsWWqnsWkiu5L4Qlw6HEskuH30vFLMqm8bNWhb4QGhS3e/+tbq1yGvTIYgm9vqV+9iIdrVNYNL6RHLANo45qvS9HY3+6ogTFt2XjqNP0aAL5mnJ/PIPNM8EEEf9Zcn+UeTEXk8qOFu2vKequDcWHAPLmJBAiI34mf/tzmOtePOyK0Hz/qg1GZVIjnqBJpcJf+6cn6Rge+rXnaKTlaP8NXRqthnebq6VtGcyPj4CpskUkw2qSkUYd0FmfOB4faPMoTT9E0A80M6ix92oSygAQ8SiUjeSkNrOMVYRcy7rP1SmwCj5kEMZkkHE5soc9o/dGEfknhg03cZ9zrMhArYBNA+OSSpOoxcwJuzYqjyvwonvN852zqrSqgFlSgyS32SBRQDAQnwerbWAqtQqp/bF3EhCqswSy/KaMHbZc5CHHQGLHrnQKjYHuLSkOa3fvoRsk8gnuXjKKUcQYrGgtjAZMgb633cB6KQDSh5PGt6
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB4615.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(346002)(396003)(366004)(376002)(136003)(230922051799003)(186009)(64100799003)(451199024)(1800799012)(86362001)(122000001)(38100700002)(41300700001)(4744005)(2906002)(316002)(6512007)(6486002)(478600001)(71200400001)(6506007)(2616005)(38070700009)(36756003)(8676002)(8936002)(5660300002)(6916009)(66946007)(76116006)(66446008)(64756008)(66556008)(66476007);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?Mitrc0JEczAvTXVCR1V1dGRaUU1LR1FsWHgwWEEydVE2cDAyRDg4a2h0TWlj?=
+ =?utf-8?B?d2x1QWNQRHh5bkkwRTN4RzhJc1VIV3NkMkQxaHQySVc0NThqRHdHS0UzeWZJ?=
+ =?utf-8?B?RDJtcldxck9iWERNcGFwWUMydStubHRLc01TM2VpalBwcmJiSXJlMCt6U1p4?=
+ =?utf-8?B?bWRzSVZGSWpoSlVEKzlyNFY0anFWK2ZQZHljdGtXYlhOOFJ1RDVHdnVlTkt4?=
+ =?utf-8?B?ZEVTV0VMQTM3a2FSSEdQV2hUcUZ0b0JoamdHUytCcTlrRHJTNTIraXBFOCsx?=
+ =?utf-8?B?WTRKTEloSm9STytqMmQxR2dkTXJlOTlqeWU1a1F3ZVA5STFhRndLc0RXM1hL?=
+ =?utf-8?B?YTgrYWxBYVRuWm9UMnJnSlR6M25GQTFjWEN5MTRtOHRwbXUzQmtpREV4TUN4?=
+ =?utf-8?B?dzhpYUVYeXJReFNFM0pLUytOdlN6TkgvWFp6VU5hVmlIQzNXZlNXanNsOGov?=
+ =?utf-8?B?R0k2NkpnMUdBWDVoR2V2RldZb0Z4Ym1PWm9tRi9SdUpqZ3BGY2VnVDl0Rm85?=
+ =?utf-8?B?TXpURi9wKzZDWFpvODl5ZitYNk9Yb3EySk52dmI1TWVzWTEvZTQvSDVLcTEv?=
+ =?utf-8?B?WnR4UE9hdHd1aG5vaXRwZk5Zb1RycW1sR0V0ZXdDVzdEdUt3UGhmZEVPL2s0?=
+ =?utf-8?B?YW5kUVNjOEFQQlI3R1NxUS8wY0d4cGc5ZUFCSkJnNHNlNFg4MXhoaE1kMWpp?=
+ =?utf-8?B?MEIvMkpBZGFIdkVSaWcwTHpEZEF3Z2l4YlJLU1pUQW5HVzdweXlnQUpPYUtt?=
+ =?utf-8?B?S1VGUGM2RnErYW1iS3V5dXJTamZUb0RwNEg3WklLTXBvMC9SVTIzWDJhbEtV?=
+ =?utf-8?B?dmd3UnllN3FqYXg2L1dMeEJieTlpUjhnWlY2TlZ0SW5aMnpLTXhhSmhTQ1NC?=
+ =?utf-8?B?SUtXVEVwVGdWWVJSQnhIZUxmSWtFbDUranhZNEZhS2JPSXhIcjZybEJiR2Nr?=
+ =?utf-8?B?eEFsdTVIS1F4KzFnL3ZzL241ZDdxbzFHOXI0bkhEVGNwMFZ4U0pWa3JiRUN4?=
+ =?utf-8?B?NGxCZkh0NEU1VUU1ZDZJVmNzckpsZEdaLzNqYy92VGFYQUdUdUNVd252b0xF?=
+ =?utf-8?B?Z0FKS01EYUFoVEM3ZmFzWEdZNVRxYmEvZEQwU01zMnRaK0RxQkovcjYxa2lJ?=
+ =?utf-8?B?U3JGdnVWMnY5Ung4aWZMdmIvUWdiUHNNTmlOT0UrYXhLR2pPeUxINGdCVWxt?=
+ =?utf-8?B?ZHJIWkg5eEJRUW03RDlHeVZwQzNxL1hMU2kwSUZsbUxzTHlHZmRZQzZyUURT?=
+ =?utf-8?B?eVdzM1doSW1HYWU4R2lHMXg3WDJYZUh3Uk1VdnVMQ1F0c0RJNHNRN2k2UElR?=
+ =?utf-8?B?ckNxdDNzVmw1aVFIUzVmRm9BTkJOek5QZUI0eFh5ZjF1ZnY5bjJRY1MzeFVz?=
+ =?utf-8?B?VEVwcmJTMEtUSGYvL1lJb0w0SVdTRFplYUcwMmNLaWlRem4wbmlDbFcvRWJB?=
+ =?utf-8?B?Mko5bjBvVCtSaFVnaERMRmV5WTZDN0RRQ3lPb0JzaWRxOW5IeU1oSngwN2M1?=
+ =?utf-8?B?Nk43STVQWnhhOFJ3RVV5ZDRMNXUzQzZHeXoydzVhZWpLRzFDc3FuMWcrNm5F?=
+ =?utf-8?B?OWZ5aXNiRnJTOEJCYUs3VGRtSjZWL0JwbFpQcG9jVlZPRkNBV0RHNE9ZRDBy?=
+ =?utf-8?B?S21FUHFrcHpjWWFGaFFLdzNyK3RnUFR5TDkxNDR6Nk5icjZWdi82a3FERkJY?=
+ =?utf-8?B?WnJIbUNEUE9icVFwUmp1Njl3NTJyeU1LNk1jbkdOclRzNnNuU0tEMlczR2R3?=
+ =?utf-8?B?cGhUbkNuQk93dG5PbDhmeCs1SGNLdTA5WEdDNUYvOTQzZUZlR0kxaDUwUDdx?=
+ =?utf-8?B?LzJSa3VRRmJhNHdhK1owKzFtdzc0K0VNUHRFRHR6Qkc5bXo3NGNjeFNpdldh?=
+ =?utf-8?B?TUJtdjhlSUZ6L2Q2OUR3VGtvZEZ5UDllMU9mbXB5UGdUdldacTduL3ptWThC?=
+ =?utf-8?B?WDNvTWlrdVJuT1FvM0d0TkN3MnNoamJBVldOU2ZKdXc1ZDdia2dYRCtKZk5P?=
+ =?utf-8?B?WTV0dGVQOW9vemc5MUVwVGJZTnArZWx6bmxkU0JIM0NVRXUxbTNlV205eS9X?=
+ =?utf-8?B?em1vNzlKQlV1ZncwbUtGQjB1UEYxMUJxa3NmcG93WnRobEpzSjFCaUFxZVR0?=
+ =?utf-8?B?RVVleFZTczk0ZlJlNEhBblVnYVNMZzhWbjNEK2VtWFZ4VUM2cUVaVTM3MW8v?=
+ =?utf-8?Q?CExUcxCNXwL5oCGdv/iP5EFrPiAt3/pX5UKZftIJhOm5?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <7955B23EAA47CF4DAD736B6AF798A77B@namprd10.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: infinera.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4615.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 023f89b4-2d43-4d04-2d38-08dc2bed56b5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Feb 2024 17:09:14.1558
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 285643de-5f5b-4b03-a153-0ae2dc8aaf77
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: yNUuhGSgQu0cBQ9qiLoFHnNc02edadL5rzTwfl/lNQ+NYlWYH7uEgyeE9jctJvfFowfv/hlKS3yZwap9OCtJiQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR10MB7360
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 12 Feb 2024 16:58:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195346
+ <openembedded-core@lists.openembedded.org>; Mon, 12 Feb 2024 17:09:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195347
 
-
-On 12/02/2024 16:48, adrian.freihofer@gmail.com wrote:
-> Hi Enguerrand
->>
->> The extension's users have wildly varying setups for running bitbake.
->> They have divers sources and build directories layouts. They can open
->> each layer in a VSCode workspace separately, while other open a
->> parent
->> directory with everything in it. Some users will use wrapper scripts
->> like kas, or custom crops docker containers. There is currently no
->> initiative to automatically provide initial configurations for the
->> extension for these reasons.
-> 
-> But all users who have the build folder in the scope of VSCode have the
-> same need for a settings.json that prevents VSCode from indexing the
-> build folder and configures the yocto-bitbake plugin correctly.
-> 
->>
->> I'm not sure to understand the application of the poky/.vscode
->> configuration now. I used to see it as a way to quickly demo the
->> VSCode
->> functionalities for poky developers or beginners who have just the
->> poky
->> layer. The new patch which updated poky/.vscode was properly doing
->> that
->> IMO. A new user who downloads poky to get started with Yocto will
->> directly get a .vscode to play around with the various machines and
->> recipes in poky.
-> 
-> Since the plugin changes the settings.json file, the settings.json file
-> cannot be in Git. The problem starts at the latest when working with
-> git. git and VSCode fight against each other in a very problematic way.
-> I was not able to solve this while the plugin was still active.
-The plugin does modify .vscode/settings.json but it tries to use 
-relative paths and settings that can be versioned. It should put back 
-the file as it was once it's done. I haven't produced a workflow on my 
-end that led to git conflicts or errors when commiting or rebasing. If 
-you happen to know a reproducible workflow that does produce such 
-errors, I'd be very interested in trying to fix them!
-
-Untill then I currently don't understand the limitation of versioning 
-the new settings.json you proposed some days ago.
-> 
->>
->> The majority of users who are using multiple layers and all the
->> various
->> configurations I mentioned will have to configure their own .vscode
->> but
->> I don't think they will be mislead into using poky's example
->> configuration.
-> 
-> The quick start guide from
-> https://docs.yoctoproject.org/brief-yoctoprojectqs/index.html#building-your-image
-> recommends
->    git clone git://git.yoctoproject.org/poky
->    cd poky
->    source oe-init-build-env
-> 
-> I think just starting code like "code ." from poky or "code .." from
-> the build folder is the next logical step which should just work. The
-> Yocto/OE reference setup should also be the reference setup for the
-> Yocto-bitbake plugin.
-Before discussing what the VSCode quick start should be, here's a 
-summary the current one:
-
-The documentation for setting up the extension is hosted on it's 
-marketplace frontpage. It explains how to point to an oe-init-build-env 
-script, and how to prevent CPU overload by excluding the build folder. 
-There are now links to it across the Yocto reference manuals in several 
-places, next to Crops and Toaster: 
-https://github.com/yoctoproject/vscode-bitbake/blob/staging/client/README.md#configuration
-
-Currently the poky quick start guide is IDE agnostic. Users using VSCode 
-will stumble upon the link across the Yocto docs, which provides the 
-configuration guide. If they install the plugin directly, they'll also 
-be prompted with the configuration guide several times. There's 
-currently no mention of the poky/.vscode example configuration and we 
-rely on the extension's documentation.
-
-Similarly, the plugin guide is agnostic to the repositories setup tool 
-(repo, kas, git submodules, oe-layer-setup), and build environments 
-(oe-init-build-env, kas, crops, cqfd). We support all of them, the 
-documentation explains how to align with them, but none is official or 
-has automated setup tools.
-
- From what I understand, your script extends the previous setup for the 
-specific case of `git clone poky` + `oe-init-build-env`. Currently this 
-poky quick start, and associated config is not documented and assumes 
-the user guesses where to open VSCode on their own.
-
-The larger underlying question is, do we need to improve the quick start 
-experience for VSCode users? Should we integrate the example poky VSCode 
-configuration in the current documentation flow? Should VSCode be a 
-reference IDE in the poky quick start guide?
-> 
-> 
->>  From the user feedback we've had with the extension, I've
->> never heard of users opening poky as their workspace, since most of
->> them should not be editing poky in the first place.
-> 
-> All users who work on poky itself need to modify poky. I think
-> developing Yocto/OE is a viable use case for Yocto/OE.
-> 
-> But also all the other uses cases I'm aware of use one VSCode instance
-> to edit or browse all the layers in a very similar way like the quick
-> start suggest that.
-> 
-> 
-> 
-> Anyway, having the settings.json in git does no longer work. Otherwise
-> working with git in a layer directory is impossible.
-> But leaving the user without any kind of configuration leads to a user
-> experience like this:
-> 
->    git clone git://git.yoctoproject.org/poky
->    cd poky
->    source oe-init-build-env
->    bitbake core-image-minimal
->    cd ..
->    code .
-> 
-> - VSCode starts indexing the build folder at full CPU speed until an
-> OOM occurs.
-> - The default configuration uses the wrong build folder and other
-> invalid settings. The plugin is not usable without configuring many
-> details.
-Yes it's not ideal that when opening a plain poky, the default 
-configuration won't be compatible out of the box. However changing it 
-now would break users' configs which rely on it. It can be done though, 
-with a warning of some sort if necessary for old users.
-
-We could also automatically add settings.json lines to ignore the build 
-folders for CPU overload from the plugin. But I'm not sure editing 
-settings.json more than we absolutely need is a good idea?
-
-We'd also really like to have configuration snippets like you mentionned 
-and stop touching settings.json. But the VSCode team has still not 
-prioritized this in years.
-> 
-> With my patches all the issues would be addressed. The plugin just
-> starts showing its real potential with the default configuration.
-> 
-> It also works for more complicated setups. I'm using it for example
-> with these lines in a oe-init-build-env from a custom layer:
-> 
-> ...
-> if command -v code > /dev/null; then
->      OEINITDIR=$(dirname "$THIS_SCRIPT")
->      OEINITDIR=$(readlink -f "$OEINITDIR")
->      OEINITDIR="$OEINITDIR" \
->      VSCODE_EXCLUDE_DIRS="**/a-big-folder/**" \
->      "$OEROOT"/scripts/contrib/oe-init-build-vscode.py || {
->          unset OEROOT
->          return 1
->      }
-> fi
-> ...
-What I like with your new script is that it produces a seamless 
-equivalent to the previous static config. If the static config cannot be 
-versioned (I still didn't understand why), then yes, creating the file 
-seems like the way to go. However, I have a few concerns with the 
-current implementation:
-  1. If the user has different settings, they may be corrupted by the 
-script when running oe-init-build-env. My suggestion would be to not 
-generate anything if a settings.json is already present.
-  2. Would just having the static file somewhere and simply copying it 
-work rather than assembling it? What other dynamic configurations are 
-addressed with your script?
-
-I'm not sure I understand what kind of users and workflows are targeted 
-by this script and how it connects with the documentation guiding flows. 
-Should we rather edit the plugin's guide example configurations for poky?
-> 
-> 
-> Thank you and best regards,
-> Adrian
-> 
-> 
->>>
->>> Here are some patches:
->>> https://git.yoctoproject.org/poky-contrib/log/?h=adrianf/vscode-yocto-plugin
->>>
->>> I will send them as V2 after I have tested them some more. (There
->>> are
->>> already oe-selftest)
->>>
->>> @Enguerrand your review would be appreciated.
->>>
->>> Regards,
->>> Adrian
->>>
->>>> Cheers,
->>>>
->>>> Richard
->>>
->>
->> Thanks!
->> Enguerrand de Ribaucourt
-> 
-
-Best regards,
-Enguerrand de Ribaucourt
+VGhpcyB3b3JrcyBpbiBraXJrc3RvbmUgYnV0IG5vdyBpdCBmYWlscywgSSBnb3Q6DQoNCmNhdCBt
+ZXRhLXhyL2NsYXNzZXMveHJfbGljLmJiY2xhc3MNCnB5dGhvbiB4cl9saWNfYnVpbGRfcmVwb3J0
+KCkgew0KICAgIGZyb20geHJfbGljIGltcG9ydCBtYWluDQogICAgbWFpbi5idWlsZF9yZXBvcnQo
+ZCkNCn0NCg0KSU1BR0VfUE9TVFBST0NFU1NfQ09NTUFORCArPSAieHJfbGljX2J1aWxkX3JlcG9y
+dDsgIg0KDQphbmQ6IA0KbHMgbWV0YS14ci9saWIveHJfbGljLw0KLi8gICBhZ2dyZWdhdG9yLnB5
+CQkgZXh0cmFfbGljZW5zZS5tYW5pZmVzdCAgaHRtbC5weSAgICBtYWluLnB5CSAgICB1dGlsLnB5
+DQouLi8gIGV4Y2x1ZGVfeW9jdG9fcGFja2FnZXMudHh0ICAuZ2l0aWdub3JlCQkgbGljZW5zZXMv
+ICBzdGF0aWNfaW5mby5weQ0KDQpidWlsZGluZyB0aGUgaW1hZ2UgSSBnZXQgdGhpcyBlcnJvcjoN
+CkZpbGU6ICcvaG9tZS9qb2NrZS95b2N0by14ci9tZXRhLXhyL2NsYXNzZXMveHJfbGljLmJiY2xh
+c3MnLCBsaW5lbm86IDIsIGZ1bmN0aW9uOiB4cl9saWNfYnVpbGRfcmVwb3J0DQogICAgIDAwMDE6
+cHl0aG9uIHhyX2xpY19idWlsZF9yZXBvcnQoKSB7DQogKioqIDAwMDI6ICAgIGZyb20geHJfbGlj
+IGltcG9ydCBtYWluDQogICAgIDAwMDM6ICAgIG1haW4uYnVpbGRfcmVwb3J0KGQpDQogICAgIDAw
+MDQ6fQ0KICAgICAwMDA1Og0KICAgICAwMDA2OklNQUdFX1BPU1RQUk9DRVNTX0NPTU1BTkQgKz0g
+InhyX2xpY19idWlsZF9yZXBvcnQ7ICINCkV4Y2VwdGlvbjogTW9kdWxlTm90Rm91bmRFcnJvcjog
+Tm8gbW9kdWxlIG5hbWVkICd4cl9saWMnDQoNCm5vdyBiaXRiYWtlIGNhbm5vdCBmaW5kIHRoZSB4
+cl9saWMgcHl0aG9uIG1vZHVsZS4NCkFueSBwb2ludGVycyB3aGF0IEkgbWlzc2VkID8NCg0KICBK
+b2FraW0NCg0K
 
