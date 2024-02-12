@@ -2,134 +2,131 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5072DC4829B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 506F5C48297
 	for <webhook@archiver.kernel.org>; Mon, 12 Feb 2024 13:54:39 +0000 (UTC)
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
- by mx.groups.io with SMTP id smtpd.web11.6801.1707746071691425054
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web11.6803.1707746073748105990
  for <openembedded-core@lists.openembedded.org>;
- Mon, 12 Feb 2024 05:54:31 -0800
+ Mon, 12 Feb 2024 05:54:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=FolPjeeM;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.175, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-5cf2d73a183so2832516a12.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 12 Feb 2024 05:54:31 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=mJYHXe4P;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.173, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-6e09a890341so1154328b3a.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 12 Feb 2024 05:54:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1707746071; x=1708350871; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cwZTdDj9Pc3Ke6s8QtTOCVby/FM9QRHH7qdyvQY2aGA=;
-        b=FolPjeeMAMXqoTbzlzOla4qoObp/CWgAQOWRsgeDebo8EMhXmc7pRTspzDHOd1Doiz
-         Uar5tiTdGabWNi1hKAHv/mfH8FGDxye8SHXuxvkrOWLNIOtIWucJnj3F/ogBidH+RCO6
-         edpOUvfNVceK1cRYNpeL2C8Em/nbU7mr0EZn4LEixx8TfakvaW1/8lmf0CP76PMNq3H/
-         voBajx+8F3//vfDWGbFxbJhO17g5OZ/sj+Sjdz3BAdxXdBYdrCpm7ir1ma9eXIN5gTum
-         2bSWNlndHlw86138yK2l2EiCRrQBlxOtRTxyfda/tSp+xxO1522Dxwk0LIpFSoxUHeIE
-         Ay0w==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1707746073; x=1708350873; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jYJDBnIMq/LIaC3QEZA1K2gLt/fUNq7hFR7jqGaRrYU=;
+        b=mJYHXe4Psf7ZyBaElVSh+N3DbO+E1h28oPtN+ETjjFrYg7q5SjYqHb6PELOANvsHto
+         sgiL8yh8UaaV0ND/KLs4p9N6oS/lOV/QEJ1/qn5F2LHzFg1kGDIcv1lueSj7yWk4kJq7
+         gofw2Xex7kqq+AhXM8481bX3le/OgGOR7YyygJT2y7fxCmy97gwWv8M79OOtEt0Xyt7F
+         YBclHctpyq+OiEBTTzZyLaIRQIK8ByuzGnq1myX0fPU/QmM3fW0lEi/Nzx/ht5A5vQZ7
+         r9cZk6uQYZNxkegqYQfPo4OGpYHuvsVyYUxSsZdXEa/N4tBEiSK9ZNCXEL7HFt6fmfRe
+         6pIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707746071; x=1708350871;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cwZTdDj9Pc3Ke6s8QtTOCVby/FM9QRHH7qdyvQY2aGA=;
-        b=qAZGMj2k2Hr7csIy0meIVHhv6guyYLuF8ZOo2TYqzy27xnZK8g4YTYIbeNaFCkzn65
-         JxSjWg68qLcQduEoCc2YY99QXKkxWOSCkOFeMnxGt2AaTHdUEXidM9dU5USiI2CwB9z6
-         PVsyEQaLtUaGiHBa1nZYNqD6u6hnkSB5lgMPki0OOQF84uUOd/6p5HvIHhRhC3O2Amyp
-         LNEJxTT+Ev4+aEodD5nOiUxQ7gluQwZu50BL4wa2vW/h1vRtGzyUoUpnpWdO2WZSTYlC
-         Kh5x9I2o7nehAJ4QyvIOamoDmw4x4cFFONTsSuCYFYT/EVRQWL3ZAzQSDeWUvKyOYF3/
-         69+A==
-X-Gm-Message-State: AOJu0YwuHzF986eJixQD3NacKsjbgCs7uz9xAUjv0vDU7DRLLB+tHg9H
-	6AmLDoo7t9kDfs7JlBux4+iUlcaVJUh74mmBIEZsGlRTn6RX+tZX2ANQeU8Q8nKy/Z1qXzweRJj
-	DnyE=
-X-Google-Smtp-Source: AGHT+IEL2UcEYoTjP/IZRedvJecZHFAiMCBkqisxbSlEoDoqYdFkZOAQgKGsRMHs0aHBWLC/oIY22g==
-X-Received: by 2002:a17:90a:948b:b0:296:2358:6e28 with SMTP id s11-20020a17090a948b00b0029623586e28mr11833391pjo.14.1707746070858;
-        Mon, 12 Feb 2024 05:54:30 -0800 (PST)
+        d=1e100.net; s=20230601; t=1707746073; x=1708350873;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jYJDBnIMq/LIaC3QEZA1K2gLt/fUNq7hFR7jqGaRrYU=;
+        b=CEqzqambODg6t63HGsjw7LoJtso9FUNhp0a2v7mA7PMX88zKYG2lZ53XUeekxLQsWw
+         u3yDyqZr9zdM5NxmwlLuJfeNz571g1AMQAW0gDIbk7obyYKYOP6qQuM8PwkU1V6MmOGt
+         sxqE9+ATpIj/1UUXeBy1V6AebVUrNdpwO83SpdFQEY5L5k53Mzfg6g/sCfsvjgj5fhRw
+         NY8zYO6QSU/SdWu0de/2DV0UmGTe+BnPQA7DC3tKsjBvfgBajwaZSHk4Hp8DYNjBtKVM
+         a+lyNumZe0vxYV3fa1mTHBgw1MXxlwpIQmTczT2WrpBZOSsI99qQ1yJxk+nhXNhDatD+
+         HCuQ==
+X-Gm-Message-State: AOJu0Yz16OSsByCDUFq249Zq99LJ6xzCPt0iAVPO1h5IoGcD/GiJ2GhI
+	rRHNDSdgy52q7XBC7eJ01n4pUfeu0iWp3U7gy/ACB8QKcrQUwfOpPvHSxnGFijOrkfh/sEy9wt0
+	xjWk=
+X-Google-Smtp-Source: AGHT+IHl3kmSHj+J8kxl+UjmBb6T+FEnSRWP+YnviXquQ4/3eXsafH6tYlA1szjoaB1PWefhOCoKlg==
+X-Received: by 2002:a05:6a20:9d94:b0:19e:a1a1:5360 with SMTP id mu20-20020a056a209d9400b0019ea1a15360mr5047908pzb.23.1707746072857;
+        Mon, 12 Feb 2024 05:54:32 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id k69-20020a638448000000b005dc421f8889sm439889pgd.26.2024.02.12.05.54.29
+        by smtp.gmail.com with ESMTPSA id k69-20020a638448000000b005dc421f8889sm439889pgd.26.2024.02.12.05.54.32
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Feb 2024 05:54:30 -0800 (PST)
+        Mon, 12 Feb 2024 05:54:32 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 0/8] Patch review
-Date: Mon, 12 Feb 2024 03:54:11 -1000
-Message-Id: <cover.1707745886.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 1/8] libxml2: Fix for CVE-2024-25062
+Date: Mon, 12 Feb 2024 03:54:12 -1000
+Message-Id: <55027bc882cf6cab830f4e4f21fa9a2ffb4ad72e.1707745886.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1707745886.git.steve@sakoman.com>
+References: <cover.1707745886.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 12 Feb 2024 13:54:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195321
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195322
 
-Please review this set of changes for kirkstone and have comments back by
-end of day Wednesday, February 14
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Passed a-full on autobuilder:
+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/2b0aac140d739905c7848a42efc60bfe783a39b7]
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6556
-
-The following changes since commit 2bdae590ab20dc4518ba247c903060fa67ed0fc4:
-
-  openssl: Upgrade 3.0.12 -> 3.0.13 (2024-02-05 03:56:38 -1000)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
-
-Archana Polampalli (1):
-  curl: Fix CVE-2023-46219
-
-Bruce Ashfield (1):
-  kernel: fix localversion in v6.3+
-
-Jermain Horsman (1):
-  systemd: Only add myhostname to nsswitch.conf if in PACKAGECONFIG
-
-Kai Kang (1):
-  ghostscript: correct LICENSE with AGPLv3
-
-Narpat Mali (1):
-  python3-pycryptodome: Fix CVE-2023-52323
-
-Soumya Sambu (2):
-  go: Fix CVE-2023-45285 and CVE-2023-45287
-  libgit2: Fix CVE-2024-24575 and CVE-2024-24577
-
-Vijay Anusuri (1):
-  libxml2: Fix for CVE-2024-25062
-
- meta/classes/kernel-arch.bbclass              |    7 +
- meta/classes/kernel.bbclass                   |   10 +-
- .../libxml/libxml2/CVE-2024-25062.patch       |   33 +
- meta/recipes-core/libxml/libxml2_2.9.14.bb    |    1 +
- meta/recipes-core/systemd/systemd_250.5.bb    |   16 +-
- meta/recipes-devtools/go/go-1.17.13.inc       |    2 +
- .../go/go-1.20/CVE-2023-45285.patch           |  110 ++
- .../go/go-1.20/CVE-2023-45287.patch           | 1695 +++++++++++++++++
- .../python3-pycryptodome/CVE-2023-52323.patch |  436 +++++
- .../python/python3-pycryptodome_3.14.1.bb     |    1 +
- .../CVE-2023-52323.patch                      |  436 +++++
- .../python/python3-pycryptodomex_3.14.1.bb    |    2 +
- .../ghostscript/ghostscript_9.55.0.bb         |    2 +-
- .../curl/curl/CVE-2023-46219-0001.patch       |   42 +
- .../curl/curl/CVE-2023-46219-0002.patch       |  133 ++
- .../curl/curl/CVE-2023-46219-0003.patch       |   81 +
- meta/recipes-support/curl/curl_7.82.0.bb      |    3 +
- .../libgit2/libgit2/CVE-2024-24575.patch      |   56 +
- .../libgit2/libgit2/CVE-2024-24577.patch      |   52 +
- meta/recipes-support/libgit2/libgit2_1.4.5.bb |    5 +-
- 20 files changed, 3113 insertions(+), 10 deletions(-)
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../libxml/libxml2/CVE-2024-25062.patch       | 33 +++++++++++++++++++
+ meta/recipes-core/libxml/libxml2_2.9.14.bb    |  1 +
+ 2 files changed, 34 insertions(+)
  create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2024-25062.patch
- create mode 100644 meta/recipes-devtools/go/go-1.20/CVE-2023-45285.patch
- create mode 100644 meta/recipes-devtools/go/go-1.20/CVE-2023-45287.patch
- create mode 100644 meta/recipes-devtools/python/python3-pycryptodome/CVE-2023-52323.patch
- create mode 100644 meta/recipes-devtools/python/python3-pycryptodomex/CVE-2023-52323.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2023-46219-0001.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2023-46219-0002.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2023-46219-0003.patch
- create mode 100644 meta/recipes-support/libgit2/libgit2/CVE-2024-24575.patch
- create mode 100644 meta/recipes-support/libgit2/libgit2/CVE-2024-24577.patch
 
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2024-25062.patch b/meta/recipes-core/libxml/libxml2/CVE-2024-25062.patch
+new file mode 100644
+index 0000000000..5365d5546a
+--- /dev/null
++++ b/meta/recipes-core/libxml/libxml2/CVE-2024-25062.patch
+@@ -0,0 +1,33 @@
++From 2b0aac140d739905c7848a42efc60bfe783a39b7 Mon Sep 17 00:00:00 2001
++From: Nick Wellnhofer <wellnhofer@aevum.de>
++Date: Sat, 14 Oct 2023 22:45:54 +0200
++Subject: [PATCH] [CVE-2024-25062] xmlreader: Don't expand XIncludes when
++ backtracking
++
++Fixes a use-after-free if XML Reader if used with DTD validation and
++XInclude expansion.
++
++Fixes #604.
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/2b0aac140d739905c7848a42efc60bfe783a39b7]
++CVE: CVE-2024-25062
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ xmlreader.c | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/xmlreader.c b/xmlreader.c
++index 979385a13..fefd68e0b 100644
++--- a/xmlreader.c
+++++ b/xmlreader.c
++@@ -1443,6 +1443,7 @@ node_found:
++      * Handle XInclude if asked for
++      */
++     if ((reader->xinclude) && (reader->in_xinclude == 0) &&
+++        (reader->state != XML_TEXTREADER_BACKTRACK) &&
++         (reader->node != NULL) &&
++ 	(reader->node->type == XML_ELEMENT_NODE) &&
++ 	(reader->node->ns != NULL) &&
++-- 
++GitLab
++
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.14.bb b/meta/recipes-core/libxml/libxml2_2.9.14.bb
+index 533a6dae01..2b7e9999d9 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.14.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.14.bb
+@@ -31,6 +31,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar;subdir=${BP};name=testt
+            file://CVE-2023-39615-0002.patch \
+            file://CVE-2023-45322-1.patch \
+            file://CVE-2023-45322-2.patch \
++           file://CVE-2024-25062.patch \
+            "
+ 
+ SRC_URI[archive.sha256sum] = "60d74a257d1ccec0475e749cba2f21559e48139efba6ff28224357c7c798dfee"
 -- 
 2.34.1
 
