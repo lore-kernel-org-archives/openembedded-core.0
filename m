@@ -1,140 +1,500 @@
-Return-Path: <uvv.mail@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EC59C48BC1
-	for <webhook@archiver.kernel.org>; Tue, 13 Feb 2024 14:14:15 +0000 (UTC)
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
- by mx.groups.io with SMTP id smtpd.web11.12529.1707833650293363281
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41DACC4829A
+	for <webhook@archiver.kernel.org>; Tue, 13 Feb 2024 14:22:15 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web10.12409.1707834133746588461
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Feb 2024 06:14:10 -0800
+ Tue, 13 Feb 2024 06:22:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=CD5Q//lA;
- spf=pass (domain: gmail.com, ip: 209.85.167.51, mailfrom: uvv.mail@gmail.com)
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-51186925925so3057527e87.0;
-        Tue, 13 Feb 2024 06:14:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707833648; x=1708438448; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:cc:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=RzXhHih3QOIiq2YzFwVuy9GGmBK1Y+3nzCML3q5KxMw=;
-        b=CD5Q//lAhEX09F9ZxVfYHohJrBVQ3yFp6LSTCfkZAaAu/vWuSN/9nzc5V+rNlfe2Rc
-         5wnkNDTOTNWsgpX9upI1IowPL4wnCOdFhSx7OjopbU8ArD3hnTi0/rD5LQG6JjcqEWmC
-         gvwwO38g9s8HBQQBq/C32ao+Jrs5HWrBB4NguwQAMv6SijaqA5BW2wXTnAKX+1lQe3iT
-         3fuRVbfOZ+KqIuYSyyFm4CBl6+X53sG/ufWS43JkttuTP02LW5eTnP2YUDTYkCKhRnVq
-         UvHvu58ORH+5MjjDv9ADHE67X2NMmD2KazDhNt4xwrZHBpgqFwt4WdoLks3bZfNsgZKB
-         ZP/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707833648; x=1708438448;
-        h=content-transfer-encoding:in-reply-to:from:cc:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RzXhHih3QOIiq2YzFwVuy9GGmBK1Y+3nzCML3q5KxMw=;
-        b=R436pSLHSIlJtoM1AzrZBiPuK1wnx6If1+Y1KXXxo04HF+FKtshl8F7ZeZPyoDp7DU
-         H81fdzdI9X+o2TBQzX/+I/7tLc72CbtuNFG78uUXi2Lqfmwwn3UX9JDdKABw8QOEbOLs
-         hQYcEPIlMmyd0d90oEzjF4olR8SrxmQb+S+TvFs97ZZYZHHW8Gt3QSZWqK9EQXT8B/kt
-         Hmguhw1Vi7Ghw1cCYrO19wSkwpzvkmDJck+/Ycd434sLhmXeSnpbg804qHeQupPcRRiP
-         gzWRuNN8PfaVNKVapSSo3twQxE6YCzeUhm53cN60k3IrTNriZRMrYDKnahQg2em/2YHC
-         +BtA==
-X-Forwarded-Encrypted: i=1; AJvYcCW+gROWbOf3Yu8fm4mdfCnpRhKlH5zSQg7s24PdIkmLS8kAVzR1mG6zEMWm8yav21/df9UEOW/0oSROsRBGPCbkXUgzhD/44V5BzQh2GI2X2iDRjxZkaZpU
-X-Gm-Message-State: AOJu0YzMSTCWIgnT5QcWVPba0SfAR5/LZY/2YpxQVnD6uAnZXX/YW4vd
-	/f156FirPTbOOh10cFwt0qWpHapQzAf8L4bfFtrVsNypmW4JKf/u
-X-Google-Smtp-Source: AGHT+IFGnsNMsMwrgQVb3iG9lET1Kp/AXyE19wom3tN2J9USJ2HwA/lGjFAHgMo7defpaXMk4f9Nbw==
-X-Received: by 2002:a05:6512:ea7:b0:511:8617:276e with SMTP id bi39-20020a0565120ea700b005118617276emr6852335lfb.40.1707833648176;
-        Tue, 13 Feb 2024 06:14:08 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCU0oNH71L4uz+uOLIkhK8gUJZI4IzOxapZyL1L2Gm57BpsgP+uWtI8ei0sb/ricnxsiWE4du7GGMaXhbQtRhgKt6V8mcpvPbEAi8TgMEV9AOufH5xSlFqrzJGUYLlKYuTTavm6OgAHQBne6iA==
-Received: from [10.139.2.183] ([154.47.27.145])
-        by smtp.gmail.com with ESMTPSA id br18-20020a170906d15200b00a38a868bcf7sm1323522ejb.41.2024.02.13.06.14.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Feb 2024 06:14:07 -0800 (PST)
-Message-ID: <12d6aaa8-1f7d-4da9-985a-8ebb2a51ebc0@gmail.com>
-Date: Tue, 13 Feb 2024 15:14:06 +0100
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8EDEBDA7
+	for <openembedded-core@lists.openembedded.org>; Tue, 13 Feb 2024 06:22:54 -0800 (PST)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id DA8A13F762
+	for <openembedded-core@lists.openembedded.org>; Tue, 13 Feb 2024 06:22:12 -0800 (PST)
+From: ross.burton@arm.com
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] glib-2.0: backport memory monitor test fixes
+Date: Tue, 13 Feb 2024 14:22:11 +0000
+Message-Id: <20240213142211.3517035-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] nanbield: grpc_1.56.2 fails nativesdk build
-Content-Language: en-US
-To: Joakim.Tjernlund@infinera.com,
- "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>,
- "steve@sakoman.com" <steve@sakoman.com>
-References: <17B23A54B6BB5F11.15017@lists.openembedded.org>
- <5009ff89147eb81e88005c6b6f76d195bf010edb.camel@infinera.com>
-Cc: openembedded-devel@lists.openembedded.org
-From: Vyacheslav Yurkov <uvv.mail@gmail.com>
-In-Reply-To: <5009ff89147eb81e88005c6b6f76d195bf010edb.camel@infinera.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Feb 2024 14:14:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195403
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Feb 2024 14:22:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195404
 
-Joakim,
-I answered you last week on the this topic. Quoting it again:
+From: Ross Burton <ross.burton@arm.com>
 
-Could this 
-https://git.openembedded.org/meta-openembedded/commit/meta-oe/recipes-devtools/protobuf?id=b1deec0de476d8f0a0c6427919f57ee5f681ea0e 
-fix your failure?
+We've been seeing the memory-monitor-dbus test case fail occasionally
+on the autobuilder.  Luckily there have been a series of fixes upstream
+to fix races in the test case, so backport these and hopefully they
+fix the issue.
 
-Note, oe-core is a wrong list for this discussion, I changed the CC 
-accordingly.
+[ YOCTO #15362 ]
 
-Slava
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ .../glib-2.0/glib-2.0/memory-monitor.patch    | 364 ++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.78.3.bb |   1 +
+ 2 files changed, 365 insertions(+)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/memory-monitor.pa=
+tch
 
-On 13.02.2024 15:08, Joakim Tjernlund via lists.openembedded.org wrote:
-> On Fri, 2024-02-09 at 15:09 +0000, Joakim Tjernlund via lists.openembedded.org wrote:
->> Whatever I try I always get:
->>>    The imported target "protobuf::protoc" references the file
->>>
->>>       "/home/jocke/yocto-xr/build/infn-xr/gmcu/tmp/work/x86_64-nativesdk-xrsdk-linux/nativesdk-grpc/1.56.2/recipe-sysroot/opt/infn-xr/1.0/sysroots/x86_64-xrsdk-linux/usr/bin/protoc-23.4.0"
->>>
->>>    but this file does not exist.  Possible reasons include:
->>>
->>>    * The file was deleted, renamed, or moved to another location.
->>>
->>>    * An install or uninstall procedure did not complete successfully.
->>>
->>>    * The installation package was faulty and contained
->>>
->>>       "/home/jocke/yocto-xr/build/infn-xr/gmcu/tmp/work/x86_64-nativesdk-xrsdk-linux/nativesdk-grpc/1.56.2/recipe-sysroot/opt/infn-xr/1.0/sysroots/x86_64-xrsdk-linux/usr/lib/cmake/protobuf/protobuf-targets.cmake"
->>>
->>>    but not all the files it references.
->> Looking at failing path:
->> s /home/jocke/yocto-xr/build/infn-xr/gmcu/tmp/work/x86_64-nativesdk-xrsdk-linux/nativesdk-grpc/1.56.2/recipe-sysroot/opt/infn-xr/1.0/sysroots/x86_64-xrsdk-linux/usr/
->> ./  ../  include/  lib/  share/
->>
->> There in no bin dir at all. In lib there are lots of libs, including libprotobuf-c.so
->> To me it feels like bitbake somehow failed to install  required bin/protoc-23.4.0 files
->> but misses the bin files as these are normally not needed when building.
->>
->> or perhaps it is rewriting  the passed path? What is passed to cmake is:
->> "/home/jocke/yocto-xr/build/infn-xr/gmcu/tmp/work/x86_64-nativesdk-xrsdk-linux/nativesdk-grpc/1.56.2/recipe-sysroot-native/usr/bin/protoc"
->>
->> but bitbake somehow rewrite this to:
->>
->> "/home/jocke/yocto-xr/build/infn-xr/gmcu/tmp/work/x86_64-nativesdk-xrsdk-linux/nativesdk-grpc/1.56.2/recipe-sysroot/opt/infn-xr/1.0/sysroots/x86_64-xrsdk-linux/usr/bin/protoc-23.4.0"
->>
->> Notice the change to "recipe-sysroot/opt/infn-xr/1.0/sysroots/x86_64-xrsdk-linux/" in the middle.
->>
->>   Joakim
-> FYI, this works around the problem:
-> cat ./meta-xr/recipes-devtools/grpc/grpc_%.bbappend
-> #Hack the nativesdk-grpc, copy protobuf's protoc* from sysroot to ${SDKPATHNATIVE}
-> #For some reason nativesdk-grpc will not find it and build fails otherwise.
-> #Unclear what the bug is but suspect upstream bug
->
-> do_configure:prepend:class-nativesdk () {
->      MY_PREFIX="${TOPDIR}/tmp/work/x86_64-nativesdk-xrsdk-linux/nativesdk-grpc/${PV}"
->      MY_FROM="/recipe-sysroot-native/usr/bin/"
->      MY_TO="/recipe-sysroot/${SDKPATHNATIVE}/usr/bin/"
->      mkdir -p "${MY_PREFIX}${MY_TO}" # Create missing DEST dir
->      cp -ap "${MY_PREFIX}${MY_FROM}"protoc* "${MY_PREFIX}${MY_TO}"
-> }
->
-> CCing you Steve should you have missed this report.
->
->   Joakim
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/memory-monitor.patch b/m=
+eta/recipes-core/glib-2.0/glib-2.0/memory-monitor.patch
+new file mode 100644
+index 00000000000..f9dfc5bb05e
+--- /dev/null
++++ b/meta/recipes-core/glib-2.0/glib-2.0/memory-monitor.patch
+@@ -0,0 +1,364 @@
++From df7506918efc8748dac8b8398021e1b79d694ba4 Mon Sep 17 00:00:00 2001
++From: Philip Withnall <philip@tecnocode.co.uk>
++Date: Tue, 23 Jan 2024 11:16:52 +0000
++Subject: [PATCH] Merge branch '2887-memory-monitor-tests' into 'main'
++
++tests: Fix race condition in memory-monitor-dbus.test
++
++Closes #2887
++
++See merge request GNOME/glib!3844
++
++Hopefully these commits fix the occasional failures we've been seeing:
++https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15362
++
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++---
++ gio/tests/memory-monitor-dbus.py.in          | 64 +++++++++++++-------
++ gio/tests/memory-monitor-portal.py.in        | 54 ++++++++++-------
++ gio/tests/power-profile-monitor-dbus.py.in   | 35 ++++++-----
++ gio/tests/power-profile-monitor-portal.py.in | 34 ++++++-----
++ 4 files changed, 113 insertions(+), 74 deletions(-)
++
++diff --git a/gio/tests/memory-monitor-dbus.py.in b/gio/tests/memory-moni=
+tor-dbus.py.in
++index bf3291847..7aae01e70 100755
++--- a/gio/tests/memory-monitor-dbus.py.in
+++++ b/gio/tests/memory-monitor-dbus.py.in
++@@ -16,7 +16,6 @@ import sys
++ import subprocess
++ import fcntl
++ import os
++-import time
++=20
++ import taptestrunner
++=20
++@@ -57,53 +56,74 @@ try:
++             fcntl.fcntl(self.p_mock.stdout, fcntl.F_SETFL, flags | os.O=
+_NONBLOCK)
++             self.last_warning =3D -1
++             self.dbusmock =3D dbus.Interface(self.obj_lmm, dbusmock.MOC=
+K_IFACE)
+++
+++            try:
+++                self.wait_for_bus_object('org.freedesktop.LowMemoryMoni=
+tor',
+++                                        '/org/freedesktop/LowMemoryMoni=
+tor',
+++                                        system_bus=3DTrue)
+++            except:
+++                raise
+++
++             self.memory_monitor =3D Gio.MemoryMonitor.dup_default()
+++            assert("GMemoryMonitorDBus" in str(self.memory_monitor))
++             self.memory_monitor.connect("low-memory-warning", self.memo=
+ry_warning_cb)
++             self.mainloop =3D GLib.MainLoop()
++             self.main_context =3D self.mainloop.get_context()
++=20
+++            # The LowMemoryMonitor API is stateless: it doesn=E2=80=99t=
+ expose any
+++            # properties, just a warning signal. Emit the signal in a l=
+oop until
+++            # the GMemoryMonitor instance has initialised and synchroni=
+sed to
+++            # the right state.
+++            def emit_warning(level):
+++                self.dbusmock.EmitWarning(level)
+++                return GLib.SOURCE_CONTINUE
+++
+++            idle_id =3D GLib.idle_add(emit_warning, 0)
+++            while self.last_warning !=3D 0:
+++                self.main_context.iteration(True)
+++            GLib.source_remove(idle_id)
+++
++         def tearDown(self):
++             self.p_mock.terminate()
++             self.p_mock.wait()
++=20
++-        def assertEventually(self, condition, message=3DNone, timeout=3D=
+50):
+++        def assertEventually(self, condition, message=3DNone, timeout=3D=
+5):
++             '''Assert that condition function eventually returns True.
++=20
++-            Timeout is in deciseconds, defaulting to 50 (5 seconds). me=
+ssage is
+++            Timeout is in seconds, defaulting to 5 seconds. message is
++             printed on failure.
++             '''
++-            while timeout >=3D 0:
++-                context =3D GLib.MainContext.default()
++-                while context.iteration(False):
++-                    pass
++-                if condition():
++-                    break
++-                timeout -=3D 1
++-                time.sleep(0.1)
++-            else:
++-                self.fail(message or 'timed out waiting for ' + str(con=
+dition))
+++            if not message:
+++                message =3D 'timed out waiting for ' + str(condition)
+++
+++            def timed_out_cb(message):
+++                self.fail(message)
+++                return GLib.SOURCE_REMOVE
+++
+++            timeout_source =3D GLib.timeout_source_new_seconds(timeout)
+++            timeout_source.set_callback(timed_out_cb, message)
+++            timeout_source.attach(self.main_context)
+++
+++            while not condition():
+++                self.main_context.iteration(True)
+++
+++            timeout_source.destroy()
++=20
++         def memory_warning_cb(self, monitor, level):
+++            print("Received memory warning signal, level", level)
++             self.last_warning =3D level
++             self.main_context.wakeup()
++=20
++         def test_low_memory_warning_signal(self):
++             '''LowMemoryWarning signal'''
++=20
++-            # Wait 2 seconds
++-            timeout =3D 2
++-            while timeout > 0:
++-                time.sleep(0.5)
++-                timeout -=3D 0.5
++-                self.main_context.iteration(False)
++-
++             self.dbusmock.EmitWarning(100)
++             # Wait 2 seconds or until warning
++-            self.assertEventually(lambda: self.last_warning =3D=3D 100,=
+ "'100' low-memory warning not received", 20)
+++            self.assertEventually(lambda: self.last_warning =3D=3D 100,=
+ "'100' low-memory warning not received", 2)
++=20
++             self.dbusmock.EmitWarning(255)
++             # Wait 2 seconds or until warning
++-            self.assertEventually(lambda: self.last_warning =3D=3D 255,=
+ "'255' low-memory warning not received", 20)
+++            self.assertEventually(lambda: self.last_warning =3D=3D 255,=
+ "'255' low-memory warning not received", 2)
++=20
++ except ImportError as e:
++     @unittest.skip("Cannot import %s" % e.name)
++diff --git a/gio/tests/memory-monitor-portal.py.in b/gio/tests/memory-mo=
+nitor-portal.py.in
++index 748cee850..f570508f9 100755
++--- a/gio/tests/memory-monitor-portal.py.in
+++++ b/gio/tests/memory-monitor-portal.py.in
++@@ -16,7 +16,6 @@ import sys
++ import subprocess
++ import fcntl
++ import os
++-import time
++=20
++ import taptestrunner
++=20
++@@ -80,26 +79,44 @@ try:
++             self.mainloop =3D GLib.MainLoop()
++             self.main_context =3D self.mainloop.get_context()
++=20
+++            # The LowMemoryMonitor API is stateless: it doesn=E2=80=99t=
+ expose any
+++            # properties, just a warning signal. Emit the signal in a l=
+oop until
+++            # the GMemoryMonitor instance has initialised and synchroni=
+sed to
+++            # the right state.
+++            def emit_warning(level):
+++                self.dbusmock.EmitWarning(level)
+++                return GLib.SOURCE_CONTINUE
+++
+++            idle_id =3D GLib.idle_add(self.emit_warning, 0)
+++            while self.last_warning !=3D 0:
+++                self.main_context.iteration(True)
+++            GLib.source_remove(idle_id)
+++
++         def tearDown(self):
++             self.p_mock.terminate()
++             self.p_mock.wait()
++=20
++-        def assertEventually(self, condition, message=3DNone, timeout=3D=
+50):
+++        def assertEventually(self, condition, message=3DNone, timeout=3D=
+5):
++             '''Assert that condition function eventually returns True.
++=20
++-            Timeout is in deciseconds, defaulting to 50 (5 seconds). me=
+ssage is
+++            Timeout is in seconds, defaulting to 5 seconds. message is
++             printed on failure.
++             '''
++-            while timeout >=3D 0:
++-                context =3D GLib.MainContext.default()
++-                while context.iteration(False):
++-                    pass
++-                if condition():
++-                    break
++-                timeout -=3D 1
++-                time.sleep(0.1)
++-            else:
++-                self.fail(message or 'timed out waiting for ' + str(con=
+dition))
+++            if not message:
+++                message =3D 'timed out waiting for ' + str(condition)
+++
+++            def timed_out_cb(message):
+++                self.fail(message)
+++                return GLib.SOURCE_REMOVE
+++
+++            timeout_source =3D GLib.timeout_source_new_seconds(timeout)
+++            timeout_source.set_callback(timed_out_cb, message)
+++            timeout_source.attach(self.main_context)
+++
+++            while not condition():
+++                self.main_context.iteration(True)
+++
+++            timeout_source.destroy()
++=20
++         def portal_memory_warning_cb(self, monitor, level):
++             self.last_warning =3D level
++@@ -108,20 +125,13 @@ try:
++         def test_low_memory_warning_portal_signal(self):
++             '''LowMemoryWarning signal'''
++=20
++-            # Wait 2 seconds
++-            timeout =3D 2
++-            while timeout > 0:
++-                time.sleep(0.5)
++-                timeout -=3D 0.5
++-                self.main_context.iteration(False)
++-
++             self.dbusmock.EmitWarning(100)
++             # Wait 2 seconds or until warning
++-            self.assertEventually(lambda: self.last_warning =3D=3D 100,=
+ "'100' low-memory warning not received", 20)
+++            self.assertEventually(lambda: self.last_warning =3D=3D 100,=
+ "'100' low-memory warning not received", 2)
++=20
++             self.dbusmock.EmitWarning(255)
++             # Wait 2 seconds or until warning
++-            self.assertEventually(lambda: self.last_warning =3D=3D 255,=
+ "'255' low-memory warning not received", 20)
+++            self.assertEventually(lambda: self.last_warning =3D=3D 255,=
+ "'255' low-memory warning not received", 2)
++=20
++ except ImportError as e:
++     @unittest.skip("Cannot import %s" % e.name)
++diff --git a/gio/tests/power-profile-monitor-dbus.py.in b/gio/tests/powe=
+r-profile-monitor-dbus.py.in
++index 06e594f4a..f955afc80 100755
++--- a/gio/tests/power-profile-monitor-dbus.py.in
+++++ b/gio/tests/power-profile-monitor-dbus.py.in
++@@ -16,7 +16,6 @@ import sys
++ import subprocess
++ import fcntl
++ import os
++-import time
++=20
++ import taptestrunner
++=20
++@@ -58,6 +57,7 @@ try:
++             self.power_saver_enabled =3D False
++             self.dbus_props =3D dbus.Interface(self.obj_ppd, dbus.PROPE=
+RTIES_IFACE)
++             self.power_profile_monitor =3D Gio.PowerProfileMonitor.dup_=
+default()
+++            assert("GPowerProfileMonitorDBus" in str(self.power_profile=
+_monitor))
++             self.power_profile_monitor.connect("notify::power-saver-ena=
+bled", self.power_saver_enabled_cb)
++             self.mainloop =3D GLib.MainLoop()
++             self.main_context =3D self.mainloop.get_context()
++@@ -66,22 +66,27 @@ try:
++             self.p_mock.terminate()
++             self.p_mock.wait()
++=20
++-        def assertEventually(self, condition, message=3DNone, timeout=3D=
+50):
+++        def assertEventually(self, condition, message=3DNone, timeout=3D=
+5):
++             '''Assert that condition function eventually returns True.
++=20
++-            Timeout is in deciseconds, defaulting to 50 (5 seconds). me=
+ssage is
+++            Timeout is in seconds, defaulting to 5 seconds. message is
++             printed on failure.
++             '''
++-            while timeout >=3D 0:
++-                context =3D GLib.MainContext.default()
++-                while context.iteration(False):
++-                    pass
++-                if condition():
++-                    break
++-                timeout -=3D 1
++-                time.sleep(0.1)
++-            else:
++-                self.fail(message or 'timed out waiting for ' + str(con=
+dition))
+++            if not message:
+++                message =3D 'timed out waiting for ' + str(condition)
+++
+++            def timed_out_cb(message):
+++                self.fail(message)
+++                return GLib.SOURCE_REMOVE
+++
+++            timeout_source =3D GLib.timeout_source_new_seconds(timeout)
+++            timeout_source.set_callback(timed_out_cb, message)
+++            timeout_source.attach(self.main_context)
+++
+++            while not condition():
+++                self.main_context.iteration(True)
+++
+++            timeout_source.destroy()
++=20
++         def power_saver_enabled_cb(self, spec, data):
++             self.power_saver_enabled =3D self.power_profile_monitor.get=
+_power_saver_enabled()
++@@ -92,10 +97,10 @@ try:
++=20
++             self.assertEqual(self.power_profile_monitor.get_power_saver=
+_enabled(), False)
++             self.dbus_props.Set('net.hadess.PowerProfiles', 'ActiveProf=
+ile', dbus.String('power-saver', variant_level=3D1))
++-            self.assertEventually(lambda: self.power_saver_enabled =3D=3D=
+ True, "power-saver didn't become enabled", 10)
+++            self.assertEventually(lambda: self.power_saver_enabled =3D=3D=
+ True, "power-saver didn't become enabled", 1)
++=20
++             self.dbus_props.Set('net.hadess.PowerProfiles', 'ActiveProf=
+ile', dbus.String('balanced', variant_level=3D1))
++-            self.assertEventually(lambda: self.power_saver_enabled =3D=3D=
+ False, "power-saver didn't become disabled", 10)
+++            self.assertEventually(lambda: self.power_saver_enabled =3D=3D=
+ False, "power-saver didn't become disabled", 1)
++=20
++ except ImportError as e:
++     @unittest.skip("Cannot import %s" % e.name)
++diff --git a/gio/tests/power-profile-monitor-portal.py.in b/gio/tests/po=
+wer-profile-monitor-portal.py.in
++index 09e9a450d..ad2abf621 100755
++--- a/gio/tests/power-profile-monitor-portal.py.in
+++++ b/gio/tests/power-profile-monitor-portal.py.in
++@@ -16,7 +16,6 @@ import sys
++ import subprocess
++ import fcntl
++ import os
++-import time
++=20
++ import taptestrunner
++=20
++@@ -90,22 +89,27 @@ try:
++             self.p_mock.terminate()
++             self.p_mock.wait()
++=20
++-        def assertEventually(self, condition, message=3DNone, timeout=3D=
+50):
+++        def assertEventually(self, condition, message=3DNone, timeout=3D=
+5):
++             '''Assert that condition function eventually returns True.
++=20
++-            Timeout is in deciseconds, defaulting to 50 (5 seconds). me=
+ssage is
+++            Timeout is in seconds, defaulting to 5 seconds. message is
++             printed on failure.
++             '''
++-            while timeout >=3D 0:
++-                context =3D GLib.MainContext.default()
++-                while context.iteration(False):
++-                    pass
++-                if condition():
++-                    break
++-                timeout -=3D 1
++-                time.sleep(0.1)
++-            else:
++-                self.fail(message or 'timed out waiting for ' + str(con=
+dition))
+++            if not message:
+++                message =3D 'timed out waiting for ' + str(condition)
+++
+++            def timed_out_cb(message):
+++                self.fail(message)
+++                return GLib.SOURCE_REMOVE
+++
+++            timeout_source =3D GLib.timeout_source_new_seconds(timeout)
+++            timeout_source.set_callback(timed_out_cb, message)
+++            timeout_source.attach(self.main_context)
+++
+++            while not condition():
+++                self.main_context.iteration(True)
+++
+++            timeout_source.destroy()
++=20
++         def power_saver_enabled_cb(self, spec, data):
++             self.power_saver_enabled =3D self.power_profile_monitor.get=
+_power_saver_enabled()
++@@ -116,10 +120,10 @@ try:
++=20
++             self.assertEqual(self.power_profile_monitor.get_power_saver=
+_enabled(), False)
++             self.dbus_props.Set('net.hadess.PowerProfiles', 'ActiveProf=
+ile', dbus.String('power-saver', variant_level=3D1))
++-            self.assertEventually(lambda: self.power_saver_enabled =3D=3D=
+ True, "power-saver didn't become enabled", 10)
+++            self.assertEventually(lambda: self.power_saver_enabled =3D=3D=
+ True, "power-saver didn't become enabled", 1)
++=20
++             self.dbus_props.Set('net.hadess.PowerProfiles', 'ActiveProf=
+ile', dbus.String('balanced', variant_level=3D1))
++-            self.assertEventually(lambda: self.power_saver_enabled =3D=3D=
+ False, "power-saver didn't become disabled", 10)
+++            self.assertEventually(lambda: self.power_saver_enabled =3D=3D=
+ False, "power-saver didn't become disabled", 1)
++=20
++         def test_power_profile_power_saver_enabled_portal_default(self)=
+:
++             '''power-saver-enabled property default value'''
++--=20
++2.34.1
++
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.78.3.bb b/meta/recipes=
+-core/glib-2.0/glib-2.0_2.78.3.bb
+index 2729b2a5963..42814ba5441 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.78.3.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.78.3.bb
+@@ -14,6 +14,7 @@ SRC_URI =3D "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV=
+}.tar.xz \
+            file://0001-Do-not-write-bindir-into-pkg-config-files.patch \
+            file://0001-meson-Run-atomics-test-on-clang-as-well.patch \
+            file://0001-gio-tests-resources.c-comment-out-a-build-host-on=
+ly-.patch \
++           file://memory-monitor.patch \
+            file://native-gtkdoc.patch \
+            "
+ SRC_URI:append:class-native =3D " file://relocate-modules.patch \=20
+--=20
+2.34.1
 
 
