@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E5E6C48BEC
-	for <webhook@archiver.kernel.org>; Tue, 13 Feb 2024 21:43:47 +0000 (UTC)
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.web10.26110.1707860624175489214
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93574C4829A
+	for <webhook@archiver.kernel.org>; Tue, 13 Feb 2024 21:43:57 +0000 (UTC)
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+ by mx.groups.io with SMTP id smtpd.web10.26115.1707860628733275509
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Feb 2024 13:43:44 -0800
+ Tue, 13 Feb 2024 13:43:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=13SpVHcT;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.178, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-6e08dd0c7eeso995499b3a.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 13 Feb 2024 13:43:44 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=oZXShYzu;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.171, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-53fbf2c42bfso3610102a12.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 13 Feb 2024 13:43:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1707860623; x=1708465423; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1707860628; x=1708465428; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=YW+eITsfCeD/Giu+ZojRZdfndphKc+gx3nmZ5CAPBhg=;
-        b=13SpVHcTDxr3tdZaO9eXJCtTecgIG5a+QVRCb9Uf8kR6dQofIrK2IjBQFhZ73kNCBf
-         DOUG3uJJYyJPVcHvraBTBx6GV3JjD+TV6TGcgOosBO2JAZS+tJo8Yg6AOj9WtjXdR1pi
-         SO4+s1BZwkFwXRXuxhboVhMMtOxNnpaQcs71ejSHFZB1Le0Dfm18kRdEfAXy3MgO7AQH
-         uWQ/GVZ0lq3l0eeMqTLy6GrH2HLw2lexe3+YewnI9kNULE8rrslaYYaBHcwLhw/tZ+MF
-         1u79CrbH8e1CU1rRD56tORYFoI/ayZ24wo/vQqbEybT8UJCS1EndxGgvGxVkyKcM6FGv
-         TpAQ==
+        bh=T8D0jCGwzeuNwf68ZYCz2O3SADzT0hxa0Ml9kpp5ySQ=;
+        b=oZXShYzuiK/lqNp+XCBnzIzjqjjp24qUicNPFHViIHBkmvUnmzB23iQOU6qMsbiBtG
+         cVyBpVj4/t7ga519J4zdQqc56hAMmlwnJgyere4Or9keNz4D6dcuItM5Q5nfd96wmul3
+         c3gkfz69/B+F6wpEHLpmd1Mj1nvoF8wyZOocmwJoVCO9e8Q9Q5ttz7m6OLhKIpJQg7wQ
+         nbE7Ro7JY00jkUR08nqAV+WJs15PsmptsEG9fN+Gnlhiy42gTV0DSCXn9Sd2heEIkiu3
+         QGJbEj9ptEEpJlufsRuhDClZha42zZmJAnCpsub3yzrq4TLfrJvZflFfYaOyVwk4mrlK
+         WTGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707860623; x=1708465423;
+        d=1e100.net; s=20230601; t=1707860628; x=1708465428;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YW+eITsfCeD/Giu+ZojRZdfndphKc+gx3nmZ5CAPBhg=;
-        b=QTv514Uyl1fVIrLi2LRIVcOwMpduf1uSbsvEPH/X/YzdYxrNNRV6UsxUtR+4R0hk2a
-         LXggZtDNTNOj/UKOKvIlxNdQAnhbtU8FCQbx8sCeHmLxpBUeext9Mu1j+qKKzv9wumA2
-         Ea8LNQMmzwGhZ2KP3YYU9+sfFnnrOt6XNI3JtxV9ftjesO3IGyS4DrAthXQ0ILIQSUuK
-         +NW2zKt5fhx8yKQbyfyPCLp04sF8+HQ5op/X15aCjL9dkXpoKYMfXoCLHyglVNDH36bv
-         oTSBN1HBrMMlA22uysz4iJpTeAmV19q5YPgQAjQq+mMCGWFLmNhIjPOHWjzNIk3xjofU
-         kXxg==
-X-Gm-Message-State: AOJu0Yy2nl6k67685HXfpo02OFRWXgpGaFVgDHXPLVb8YHFnRr5wvwZN
-	hu59nkdCw5MZqxo+BsdTnBWLBoVjxQVhJlBA4uAvVaL2ukL8xnaG29GLbD4lgx0mKARGHXWHkFX
-	X
-X-Google-Smtp-Source: AGHT+IFND0nofKE16t55aEIlrmrLRuhya9yXpROXip0l2cLEepFRf405ZcqG3mUhW+jY9wtt2WIxgw==
-X-Received: by 2002:a05:6a00:d48:b0:6e0:326f:30b1 with SMTP id n8-20020a056a000d4800b006e0326f30b1mr417934pfv.27.1707860623444;
-        Tue, 13 Feb 2024 13:43:43 -0800 (PST)
+        bh=T8D0jCGwzeuNwf68ZYCz2O3SADzT0hxa0Ml9kpp5ySQ=;
+        b=MscQ2xbyvV/mf10rB/37LoxC8c7NIC9bQTSkifXkLJmPn4kbk1qmZEnPtkpSmbWzjU
+         dPhpmYJATuxTVVRR3C8vYlMIAZLRUDmzwWtq+r216bHvKTw0k1Vc7SME+cYZSr+1n7va
+         t9kZk/7MzsQpnn1AOAV+ATZ4VbcHEcLP8ewTtfv/SFmKP3WFsmsYKLPZQvdqJdCvyqdd
+         GGrTA9P6BIcHxX36l9/H4TlY/2KvkWne/8t1+cqFJIpxQiwvtyMhjV/fnzg1X+Xu3xU7
+         Cf0y5a6GFIcwRdCzSRVsT5Mg9k4/ERG6Z65P+cK8xQCyf0NYmtJEY9ji95lQlRQhWANG
+         hr3A==
+X-Gm-Message-State: AOJu0Yy1f1TNntJVx9xPchm2TFGFy4Yk1Szd+CwFeAt9Mo4LzUfc+sEw
+	xy22+pT6EERpMCvWoKHQpnj/h/COE81KC4FmavAhqmOgTplYwHWysvpFiOJd8gl4m6zVYiG7l2M
+	s
+X-Google-Smtp-Source: AGHT+IE4g1wnOI5Q1iCiHvUjnm4+Chztu9b1pgAFaJOe620dqAzHiQXNqzj0eOn29UJDLMYzn7XygA==
+X-Received: by 2002:a05:6a00:1d0b:b0:6e0:7f22:81bd with SMTP id a11-20020a056a001d0b00b006e07f2281bdmr609591pfx.20.1707860627921;
+        Tue, 13 Feb 2024 13:43:47 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id x37-20020a056a0018a500b006e04efcfbc2sm7767327pfh.74.2024.02.13.13.43.42
+        by smtp.gmail.com with ESMTPSA id x37-20020a056a0018a500b006e04efcfbc2sm7767327pfh.74.2024.02.13.13.43.47
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Feb 2024 13:43:43 -0800 (PST)
+        Tue, 13 Feb 2024 13:43:47 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 4/7] go: add a complementary fix for CVE-2023-29406
-Date: Tue, 13 Feb 2024 11:43:24 -1000
-Message-Id: <bff621d5399e5ff2930d21f403bb2f274febd2e4.1707860435.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 7/7] cmake: Unset CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES
+Date: Tue, 13 Feb 2024 11:43:27 -1000
+Message-Id: <7ab6087536bc67c63094f08f863dcd3d5e35b8e7.1707860435.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1707860435.git.steve@sakoman.com>
 References: <cover.1707860435.git.steve@sakoman.com>
@@ -61,162 +61,50 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Feb 2024 21:43:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195433
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Feb 2024 21:43:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195436
 
-From: Ming Liu <liu.ming50@gmail.com>
+From: Zahir Hussain <zahir.basha@kpit.com>
 
-The original CVE-2023-29406.patch is not complete, causing docker
-failures at runtime, backport a complementary fix from golang upstream.
+As discussion in [YOCTO #14717] cmake contains a OEToolchainConfig.cmake
+file to configure the toolchain correctly in cross-compile build for recipes
+using cmake.
 
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+The variable CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES value updates incorrectly
+during do_compile the code. Due to this getting sporadic error like below,
+
+fatal error: stdlib.h: No such file or directory
+|    75 | #include_next <stdlib.h>
+|       |               ^~~~~~~~~~
+| compilation terminated.
+| ninja: build stopped: subcommand failed.
+| WARNING: exit code 1 from a shell command.
+
+As cmake already correctly initializes the variable from environment,
+So we have to unset it in the toolchain file to avoid overwriting the
+variable definition again.
+
+Signed-off-by: aszh07 <mail2szahir@gmail.com>
+Signed-off-by: Zahir Hussain <zahir.basha@kpit.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 5aeada5793af53e8c93940952d4f314474dca4c2)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/go/go-1.14.inc          |   3 +-
- ...023-29406.patch => CVE-2023-29406-1.patch} |   0
- .../go/go-1.14/CVE-2023-29406-2.patch         | 114 ++++++++++++++++++
- 3 files changed, 116 insertions(+), 1 deletion(-)
- rename meta/recipes-devtools/go/go-1.14/{CVE-2023-29406.patch => CVE-2023-29406-1.patch} (100%)
- create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2023-29406-2.patch
+ meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-devtools/go/go-1.14.inc b/meta/recipes-devtools/go/go-1.14.inc
-index 42a9ac8435..4fbf9d7590 100644
---- a/meta/recipes-devtools/go/go-1.14.inc
-+++ b/meta/recipes-devtools/go/go-1.14.inc
-@@ -71,7 +71,8 @@ SRC_URI += "\
-     file://CVE-2023-29402.patch \
-     file://CVE-2023-29404.patch \
-     file://CVE-2023-29400.patch \
--    file://CVE-2023-29406.patch \
-+    file://CVE-2023-29406-1.patch \
-+    file://CVE-2023-29406-2.patch \
-     file://CVE-2023-29409.patch \
-     file://CVE-2022-41725-pre1.patch \
-     file://CVE-2022-41725-pre2.patch \
-diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2023-29406.patch b/meta/recipes-devtools/go/go-1.14/CVE-2023-29406-1.patch
-similarity index 100%
-rename from meta/recipes-devtools/go/go-1.14/CVE-2023-29406.patch
-rename to meta/recipes-devtools/go/go-1.14/CVE-2023-29406-1.patch
-diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2023-29406-2.patch b/meta/recipes-devtools/go/go-1.14/CVE-2023-29406-2.patch
-new file mode 100644
-index 0000000000..637f46a537
---- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.14/CVE-2023-29406-2.patch
-@@ -0,0 +1,114 @@
-+From c08a5fa413a34111c9a37fd9e545de27ab0978b1 Mon Sep 17 00:00:00 2001
-+From: Damien Neil <dneil@google.com>
-+Date: Wed, 19 Jul 2023 10:30:46 -0700
-+Subject: [PATCH] [release-branch.go1.19] net/http: permit requests with
-+ invalid Host headers
+diff --git a/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake b/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake
+index a7020da9c7..870009c2ba 100644
+--- a/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake
++++ b/meta/recipes-devtools/cmake/cmake/OEToolchainConfig.cmake
+@@ -19,3 +19,6 @@ file( GLOB toolchain_config_files "${CMAKE_TOOLCHAIN_FILE}.d/*.cmake" )
+ foreach(config ${toolchain_config_files})
+     include(${config})
+ endforeach()
 +
-+Historically, the Transport has silently truncated invalid
-+Host headers at the first '/' or ' ' character. CL 506996 changed
-+this behavior to reject invalid Host headers entirely.
-+Unfortunately, Docker appears to rely on the previous behavior.
-+
-+When sending a HTTP/1 request with an invalid Host, send an empty
-+Host header. This is safer than truncation: If you care about the
-+Host, then you should get the one you set; if you don't care,
-+then an empty Host should be fine.
-+
-+Continue to fully validate Host headers sent to a proxy,
-+since proxies generally can't productively forward requests
-+without a Host.
-+
-+For #60374
-+Fixes #61431
-+Fixes #61825
-+
-+Change-Id: If170c7dd860aa20eb58fe32990fc93af832742b6
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/511155
-+TryBot-Result: Gopher Robot <gobot@golang.org>
-+Reviewed-by: Roland Shoemaker <roland@golang.org>
-+Run-TryBot: Damien Neil <dneil@google.com>
-+(cherry picked from commit b9153f6ef338baee5fe02a867c8fbc83a8b29dd1)
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/518855
-+Auto-Submit: Dmitri Shuralyov <dmitshur@google.com>
-+Run-TryBot: Roland Shoemaker <roland@golang.org>
-+Reviewed-by: Russ Cox <rsc@golang.org>
-+
-+Upstream-Status: Backport [https://github.com/golang/go/commit/c08a5fa413a34111c9a37fd9e545de27ab0978b1]
-+CVE: CVE-2023-29406
-+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
-+---
-+ src/net/http/request.go      | 23 ++++++++++++++++++++++-
-+ src/net/http/request_test.go | 17 ++++++++++++-----
-+ 2 files changed, 34 insertions(+), 6 deletions(-)
-+
-+diff --git a/src/net/http/request.go b/src/net/http/request.go
-+index 3100037386..91cb8a66b9 100644
-+--- a/src/net/http/request.go
-++++ b/src/net/http/request.go
-+@@ -582,8 +582,29 @@ func (r *Request) write(w io.Writer, usingProxy bool, extraHeaders Header, waitF
-+ 	if err != nil {
-+ 		return err
-+ 	}
-++	// Validate that the Host header is a valid header in general,
-++	// but don't validate the host itself. This is sufficient to avoid
-++	// header or request smuggling via the Host field.
-++	// The server can (and will, if it's a net/http server) reject
-++	// the request if it doesn't consider the host valid.
-+ 	if !httpguts.ValidHostHeader(host) {
-+-		return errors.New("http: invalid Host header")
-++		// Historically, we would truncate the Host header after '/' or ' '.
-++		// Some users have relied on this truncation to convert a network
-++		// address such as Unix domain socket path into a valid, ignored
-++		// Host header (see https://go.dev/issue/61431).
-++		//
-++		// We don't preserve the truncation, because sending an altered
-++		// header field opens a smuggling vector. Instead, zero out the
-++		// Host header entirely if it isn't valid. (An empty Host is valid;
-++		// see RFC 9112 Section 3.2.)
-++		//
-++		// Return an error if we're sending to a proxy, since the proxy
-++		// probably can't do anything useful with an empty Host header.
-++		if !usingProxy {
-++			host = ""
-++		} else {
-++			return errors.New("http: invalid Host header")
-++		}
-+ 	}
-+ 
-+ 	// According to RFC 6874, an HTTP client, proxy, or other
-+diff --git a/src/net/http/request_test.go b/src/net/http/request_test.go
-+index fddc85d6a9..dd1e2dc2a1 100644
-+--- a/src/net/http/request_test.go
-++++ b/src/net/http/request_test.go
-+@@ -770,16 +770,23 @@ func TestRequestWriteBufferedWriter(t *testing.T) {
-+ 	}
-+ }
-+ 
-+-func TestRequestBadHost(t *testing.T) {
-++func TestRequestBadHostHeader(t *testing.T) {
-+ 	got := []string{}
-+ 	req, err := NewRequest("GET", "http://foo/after", nil)
-+ 	if err != nil {
-+ 		t.Fatal(err)
-+ 	}
-+-	req.Host = "foo.com with spaces"
-+-	req.URL.Host = "foo.com with spaces"
-+-	if err := req.Write(logWrites{t, &got}); err == nil {
-+-		t.Errorf("Writing request with invalid Host: succeded, want error")
-++	req.Host = "foo.com\nnewline"
-++	req.URL.Host = "foo.com\nnewline"
-++	req.Write(logWrites{t, &got})
-++	want := []string{
-++		"GET /after HTTP/1.1\r\n",
-++		"Host: \r\n",
-++		"User-Agent: " + DefaultUserAgent + "\r\n",
-++		"\r\n",
-++	}
-++	if !reflect.DeepEqual(got, want) {
-++		t.Errorf("Writes = %q\n  Want = %q", got, want)
-+ 	}
-+ }
-+ 
-+-- 
-+2.34.1
-+
++unset(CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES)
++unset(CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES)
 -- 
 2.34.1
 
