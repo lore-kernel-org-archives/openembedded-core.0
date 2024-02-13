@@ -1,293 +1,178 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF56BC48260
-	for <webhook@archiver.kernel.org>; Tue, 13 Feb 2024 16:26:15 +0000 (UTC)
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
- by mx.groups.io with SMTP id smtpd.web10.15817.1707841565629287693
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD748C48260
+	for <webhook@archiver.kernel.org>; Tue, 13 Feb 2024 16:32:35 +0000 (UTC)
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web10.16001.1707841945843836875
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Feb 2024 08:26:06 -0800
+ Tue, 13 Feb 2024 08:32:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=V9PU2i8e;
- spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-51176eb6a4bso4644520e87.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 13 Feb 2024 08:26:05 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=geoyyjRO;
+ spf=pass (domain: gmail.com, ip: 209.85.210.175, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-6e09ea155c5so2454084b3a.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 13 Feb 2024 08:32:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707841564; x=1708446364; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3JO6BAsAnArtoa+b/4WKpfznrVBZcWe1bSa4JLb9uCU=;
-        b=V9PU2i8eqNkVtU+KNHXKv46au1QWbfHYlgU4y7IsLzQQ4OpWaoKNZ2sEPhMRraaoni
-         yUM7ZQCikWGn8vYE1VqmVJB3SrlYONkCT3vrxL20rqaDbXOEcihCWvneemkSfHx9PMd0
-         k9LkkX4XY7r3RwfAlrz2p4ukbIWj+wNrGDCo5dwkUgIOdGkQq/ZQIMzxn7+1StLlC/QL
-         ikxuwQzes5oABgKZoy41xo4DRyOt8KmcY6jGcIXApMnb5tKvDuQWc6hu3PdRSbqb5B1H
-         I7QWnBl1d9yPVd3y35KWbr+ekcLNS3ub5fBnuJwHbEDo8hbHV9Gs1BSOJY2boXt0zk7x
-         APdw==
+        d=gmail.com; s=20230601; t=1707841945; x=1708446745; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WI9mr+u4jR660ATBT5EG9/an3q/Y//P/BBFyiD/A3Cc=;
+        b=geoyyjRO5/2snAhqpZPYRhVldSx9youTAtlI6WFnECEwe5jl7bXtHjvjFbufwvilsa
+         0aJXwVr5aGkOd48DKW3FaT1kfJaOP4u8cQ6zUkqKbA0hZahj2qwr0zUzG+7ltPYAekTk
+         sXIElq0zPkxdRimCMnCaqkNTLEDk0XCN5ymRqHLBPLBkMzuSdnqIpw10LsK12UZ/YHHe
+         VZcg4oyitTIypuSBOvbJ54lC1gAvoCGCqfV3FMM5gb9A0gzu8Dbsl/GxLr001zCBXRdF
+         /7lDRaECjYyUlhc3Mkbhn4ICpy/XbGjADMPpGhMymys0YaMNdxrHhZYRpInSOCzlbYJr
+         KMBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707841564; x=1708446364;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3JO6BAsAnArtoa+b/4WKpfznrVBZcWe1bSa4JLb9uCU=;
-        b=I00/Yz+mc/TsXN90LsvoX0BPFcL7xSjddf4MX1CCDAcTPwZhzxME+RFXXn6shFV6p7
-         T9VWjJp8Se8jHFQZuVx0hvKLfF5kRLGMfcsjUurkQV8YZ1sA0pBhTHvaFXaeatTbteYM
-         Cne8HMNDj6xHSbNA8NYUFSS9LZoxd2By5Bi4BDxw+mZGNx/+FKlnPzMPRfhsVwBpZvuQ
-         DMJaXhlq1hYro8YaiYj1UNClMgIR3pimHOvgamTqYdOv1wHjtYGO/QqTqnaeEinrJLnC
-         CeXketOXXYRqy/zqx2ZUlIR+vtVEmNFuvtJWhVJrVnk2KY8TWrJv4XPYPhpis4p7Itye
-         ZkSA==
-X-Forwarded-Encrypted: i=1; AJvYcCXM+hSXNDXbg7odVzjzHtmSGT9xo6HJpXCvGKrQS7aWVOSWrmjThQPHXVFmI8Xauka877CXPJ3/Wbrk4VImH4ASWEAe26xbsIvsPdYcnc2JdfXOoHIwy5J+
-X-Gm-Message-State: AOJu0Yy2Ye/FZtsIy92gSqSgUFEcHf9nGZ94jylJbtwjbw9SOZIZU/iy
-	pcsFAuW3+fiHrIi7yh1HM5P7VregCf2jFA0uuwqiJWlBd+8gltfPoihaq2p+6Zaxmy0UJHkc6ML
-	2odcB4Xe1tXMcmBoJ3cWex0bwGps=
-X-Google-Smtp-Source: AGHT+IHV3S3bjO1xN7cNI3L4s5UNzpjFMp/QDio5WcA9TfCoF60sBpthR10REI/jdsaUSgex2ijAjdAay2FNAbtglyw=
-X-Received: by 2002:ac2:4303:0:b0:511:974a:3cb with SMTP id
- l3-20020ac24303000000b00511974a03cbmr16524lfh.67.1707841562747; Tue, 13 Feb
- 2024 08:26:02 -0800 (PST)
+        d=1e100.net; s=20230601; t=1707841945; x=1708446745;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WI9mr+u4jR660ATBT5EG9/an3q/Y//P/BBFyiD/A3Cc=;
+        b=GBNczPHv6YffhntOZoONXAzL7BbD7gOvaWQ/pKgPn+1fTFfrXUhBLKD05B3eEaXfqk
+         SG6XGgvmVQ80Mho1MXKIA24deaM3q+fzKYZOs32CasMVbV3HbKR8b2xRhnzBppT5hXwW
+         xpmZ9CdpD5ymcg0+CGhvfIaD2+TD0mqiAJlhszjHBGWH4sCZrF+gOZ5igiooMtAEQNoh
+         stufdQtADHPVF8+lx+NdKrqVSm4EqGOHdz5EhMgFPXgc3qjiZCUai4MsiJp7AalOXzhT
+         tKYXpCl6sBsPAca97VW9As1BRZMz3PAlR9RC0KHLlZ69/lhxpEP8IzjpgD71Bik22JlP
+         LQFg==
+X-Gm-Message-State: AOJu0YxqEfWdRw6aJ8Bxwx5c3lOh2UoACREa/AHrFfmXl32RKPHFi9kg
+	w4L2CiMD6BXjFXclvljdF64iyUGfqTfu+yNqBtX4/K/bLPawUgeejdxgsw+pze4=
+X-Google-Smtp-Source: AGHT+IEQaIRqtlR3NVWFjU74gSp02kChg6K81UFb3hIpH23UEEJhLiuaF8yde6rUHvYCHtlFHvuLBw==
+X-Received: by 2002:a05:6a21:8cc6:b0:19a:508a:7f70 with SMTP id ta6-20020a056a218cc600b0019a508a7f70mr77641pzb.30.1707841944910;
+        Tue, 13 Feb 2024 08:32:24 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::130a])
+        by smtp.gmail.com with ESMTPSA id l10-20020a170902d04a00b001da2951a788sm2287528pll.304.2024.02.13.08.32.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Feb 2024 08:32:24 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] glibc: Update to bring mips32/clone3 fix
+Date: Tue, 13 Feb 2024 08:32:22 -0800
+Message-ID: <20240213163222.141399-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.43.1
 MIME-Version: 1.0
-References: <8d71c0f-9120-85b7-80ce-d985aa557f8@crashcourse.ca>
- <8C7A9199-D49B-4190-9D96-F060CD858C71@arm.com> <bef4a38f-aa1e-d57b-e23-f3a059ebe313@crashcourse.ca>
- <CAO5Uq5Qyr7ca2rcVtRs4seSyKid58J3ZGhRHuynm-AFYgM1PXw@mail.gmail.com>
- <ac14ca2-ef63-6ee-d01b-c4ed4b65d78@crashcourse.ca> <CAO5Uq5TYipCFncPuQFBXOr4BtLUDnsXGNr5w5OsyWjxXMpEZsQ@mail.gmail.com>
- <F448E74E-3EF8-4AED-B7C9-C61F300C0C44@arm.com> <fcc9143-8ba4-7f-f9bd-b059c774d8c6@crashcourse.ca>
-In-Reply-To: <fcc9143-8ba4-7f-f9bd-b059c774d8c6@crashcourse.ca>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Tue, 13 Feb 2024 16:25:48 +0000
-Message-ID: <CAO5Uq5RPHi_z72j74L+h0p1MMpSCEVVPOvsZDrAyVdmW8201Dg@mail.gmail.com>
-Subject: Re: [OE-core] more ptest pedantry: why conditionally include
- "run-ptest" in SRC_URI?
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Cc: Ross Burton <Ross.Burton@arm.com>, 
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Feb 2024 16:26:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195416
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Feb 2024 16:32:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195417
 
-On Tue, Feb 13, 2024 at 11:21=E2=80=AFAM Robert P. J. Day <rpjday@crashcour=
-se.ca> wrote:
->
->
-> On Mon, 12 Feb 2024, Ross Burton wrote:
->
-> > On 12 Feb 2024, at 15:00, Alex Kiernan <alex.kiernan@gmail.com> wrote:
-> > > PTEST_ENABLED is just set in ptest.bbclass:
-> > >
-> > > PTEST_ENABLED =3D "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', '=
-1', '0', d)}"
-> > > PTEST_ENABLED:class-native =3D ""
-> > > PTEST_ENABLED:class-nativesdk =3D ""
-> > > PTEST_ENABLED:class-cross-canadian =3D ""
-> > >
-> > > I'd argue checking PTEST_ENABLED is the right way.
-> >
-> > Agreed, I=E2=80=99ve done exactly what you said before: ptest globally =
-is
-> > off, but I can turn it on for specific recipes.  Or turn it on
-> > globally but then off for specific recipes.
-> >
-> > Ross
->
->   here's just a first pass through oe-core, want to make sure this is
-> the first stage of cleanup people are talking about. if so, will
-> submit officially (straightforward replacement):
->
-> diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/ins=
-ane.bbclass
-> index 828f618cda..e6240430db 100644
-> --- a/meta/classes-global/insane.bbclass
-> +++ b/meta/classes-global/insane.bbclass
-> @@ -1371,7 +1371,7 @@ python do_qa_patch() {
->          return False
->
->      srcdir =3D d.getVar('S')
-> -    if not bb.utils.contains('DISTRO_FEATURES', 'ptest', True, False, d)=
-:
-> +    if not bb.utils.contains('PTEST_ENABLED', '1', True, False, d):
->          pass
->      elif bb.data.inherits_class('ptest', d):
->          bb.note("Package %s QA: skipping unimplemented-ptest: ptest impl=
-ementation detected" % d.getVar('PN'))
-> diff --git a/meta/classes-recipe/packagegroup.bbclass b/meta/classes-reci=
-pe/packagegroup.bbclass
-> index cf6fc354a8..742fb99953 100644
-> --- a/meta/classes-recipe/packagegroup.bbclass
-> +++ b/meta/classes-recipe/packagegroup.bbclass
-> @@ -32,7 +32,7 @@ python () {
->      packages =3D d.getVar('PACKAGES').split()
->      if d.getVar('PACKAGEGROUP_DISABLE_COMPLEMENTARY') !=3D '1':
->          types =3D ['', '-dbg', '-dev']
-> -        if bb.utils.contains('DISTRO_FEATURES', 'ptest', True, False, d)=
-:
-> +        if bb.utils.contains('PTEST_ENABLED', '1', True, False, d):
->              types.append('-ptest')
->          packages =3D [pkg + suffix for pkg in packages
->                      for suffix in types]
-> diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-recipe/=
-testimage.bbclass
-> index 281de4784f..3834b9b9bc 100644
-> --- a/meta/classes-recipe/testimage.bbclass
-> +++ b/meta/classes-recipe/testimage.bbclass
-> @@ -28,7 +28,7 @@ TESTIMAGE_FAILED_QA_ARTIFACTS =3D "\
->      ${sysconfdir}/os-release"
->
->  # If some ptests are run and fail, retrieve corresponding directories
-> -TESTIMAGE_FAILED_QA_ARTIFACTS +=3D "${@bb.utils.contains('DISTRO_FEATURE=
-S', 'ptest', '${libdir}/${MCNAME}/ptest', '', d)}"
-> +TESTIMAGE_FAILED_QA_ARTIFACTS +=3D "${@bb.utils.contains('PTEST_ENABLED'=
-, '1', '${libdir}/${MCNAME}/ptest', '', d)}"
->
->  # You can set (or append to) TEST_SUITES in local.conf to select the tes=
-ts
->  # which you want to run for your target.
+This patch is the only change applied with this update
 
-Just reading over the classes, I wonder if this change makes sense for
-them, or if the DISTRO_FEATURES dance is more appropriate.
+* 312e159626 mips: FIx clone3 implementation (BZ 31325)
 
-> diff --git a/meta/recipes-devtools/lua/lua_5.4.6.bb b/meta/recipes-devtoo=
-ls/lua/lua_5.4.6.bb
-> index eabfc89575..6420b2231b 100644
-> --- a/meta/recipes-devtools/lua/lua_5.4.6.bb
-> +++ b/meta/recipes-devtools/lua/lua_5.4.6.bb
-> @@ -6,7 +6,7 @@ HOMEPAGE =3D "http://www.lua.org/"
->
->  SRC_URI =3D "http://www.lua.org/ftp/lua-${PV}.tar.gz;name=3Dtarballsrc \
->             file://lua.pc.in \
-> -           ${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'http://www.=
-lua.org/tests/lua-${PV_testsuites}-tests.tar.gz;name=3Dtarballtest file://r=
-un-ptest ', '', d)} \
-> +           ${@bb.utils.contains('PTEST_ENABLED', '1', 'http://www.lua.or=
-g/tests/lua-${PV_testsuites}-tests.tar.gz;name=3Dtarballtest file://run-pte=
-st ', '', d)} \
->             "
->
->  # if no test suite matches PV release of Lua exactly, download the suite=
- for the closest Lua release.
-> diff --git a/meta/recipes-devtools/perl/perl-ptest.inc b/meta/recipes-dev=
-tools/perl/perl-ptest.inc
-> index e07355d3f5..98d7b1c2a2 100644
-> --- a/meta/recipes-devtools/perl/perl-ptest.inc
-> +++ b/meta/recipes-devtools/perl/perl-ptest.inc
-> @@ -51,7 +51,7 @@ python populate_packages:prepend() {
->      # Put all *.t files from the lib dir in the ptest package
->      # do_split_packages requires a pair of () in the regex, but we have =
-nothing
->      # to match, so use an empty pair.
-> -    if bb.utils.contains('DISTRO_FEATURES', 'ptest', True, False, d):
-> +    if bb.utils.contains('PTEST_ENABLED', '1', True, False, d):
->          do_split_packages(d, d.expand('${libdir}/perl/${PV}'), r'.*\.t()=
-',
->              '${PN}-ptest%s', '%s', recursive=3DTrue, match_path=3DTrue)
->  }
-> diff --git a/meta/recipes-devtools/python/python3-bcrypt_4.1.2.bb b/meta/=
-recipes-devtools/python/python3-bcrypt_4.1.2.bb
-> index 860f291476..f7a184be9a 100644
-> --- a/meta/recipes-devtools/python/python3-bcrypt_4.1.2.bb
-> +++ b/meta/recipes-devtools/python/python3-bcrypt_4.1.2.bb
-> @@ -4,7 +4,7 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D8f7bb094c7232b=
-058c7e9f2e431f389c"
->  HOMEPAGE =3D "https://pypi.org/project/bcrypt/"
->
->  DEPENDS +=3D "${PYTHON_PN}-cffi-native"
-> -LDFLAGS:append =3D "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', ' -=
-fuse-ld=3Dbfd', '', d)}"
-> +LDFLAGS:append =3D "${@bb.utils.contains('PTEST_ENABLED', '1', ' -fuse-l=
-d=3Dbfd', '', d)}"
->
->  SRC_URI[sha256sum] =3D "33313a1200a3ae90b75587ceac502b048b840fc69e7f7a09=
-05b5f87fac7a1258"
->
-> diff --git a/meta/recipes-devtools/valgrind/valgrind_3.21.0.bb b/meta/rec=
-ipes-devtools/valgrind/valgrind_3.21.0.bb
-> index 67a197c509..47a873df31 100644
-> --- a/meta/recipes-devtools/valgrind/valgrind_3.21.0.bb
-> +++ b/meta/recipes-devtools/valgrind/valgrind_3.21.0.bb
-> @@ -9,7 +9,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db234ee4d69f5fc=
-e4486a80fdaf4a4263 \
->                      file://COPYING.DOCS;md5=3D24ea4c7092233849b439469933=
-3b5c56"
->
->  DEPENDS =3D " \
-> -           ${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'boost', '',=
- d)} \
-> +           ${@bb.utils.contains('PTEST_ENABLED', '1', 'boost', '', d)} \
->          "
->
->  SRC_URI =3D "https://sourceware.org/pub/valgrind/valgrind-${PV}.tar.bz2 =
-\
-> diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/recipes-=
-kernel/linux/linux-yocto-dev.bb
-> index c91aa073e8..6490a95c67 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
-> @@ -60,7 +60,7 @@ KERNEL_FEATURES:append:qemuall=3D" cfg/virtio.scc featu=
-res/drm-bochs/drm-bochs.scc
->  KERNEL_FEATURES:append:qemux86=3D" cfg/sound.scc cfg/paravirt_kvm.scc"
->  KERNEL_FEATURES:append:qemux86-64=3D" cfg/sound.scc cfg/paravirt_kvm.scc=
-"
->  KERNEL_FEATURES:append =3D " ${@bb.utils.contains("TUNE_FEATURES", "mx32=
-", " cfg/x32.scc", "", d)}"
-> -KERNEL_FEATURES:append =3D " ${@bb.utils.contains("DISTRO_FEATURES", "pt=
-est", " features/scsi/scsi-debug.scc", "", d)}"
-> -KERNEL_FEATURES:append =3D " ${@bb.utils.contains("DISTRO_FEATURES", "pt=
-est", " features/gpio/mockup.scc", "", d)}"
-> +KERNEL_FEATURES:append =3D " ${@bb.utils.contains("PTEST_ENABLED", "1", =
-" features/scsi/scsi-debug.scc", "", d)}"
-> +KERNEL_FEATURES:append =3D " ${@bb.utils.contains("PTEST_ENABLED", "1", =
-" features/gpio/mockup.scc", "", d)}"
->
->  KERNEL_VERSION_SANITY_SKIP =3D "1"
-> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb b/meta/recip=
-es-kernel/linux/linux-yocto-rt_6.6.bb
-> index af8027c51a..441415f9de 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
-> @@ -44,5 +44,5 @@ KERNEL_FEATURES:append =3D " ${KERNEL_EXTRA_FEATURES}"
->  KERNEL_FEATURES:append:qemuall=3D" cfg/virtio.scc features/drm-bochs/drm=
--bochs.scc"
->  KERNEL_FEATURES:append:qemux86=3D" cfg/sound.scc cfg/paravirt_kvm.scc"
->  KERNEL_FEATURES:append:qemux86-64=3D" cfg/sound.scc cfg/paravirt_kvm.scc=
-"
-> -KERNEL_FEATURES:append =3D "${@bb.utils.contains("DISTRO_FEATURES", "pte=
-st", " features/scsi/scsi-debug.scc", "", d)}"
-> -KERNEL_FEATURES:append =3D "${@bb.utils.contains("DISTRO_FEATURES", "pte=
-st", " features/gpio/mockup.scc", "", d)}"
-> +KERNEL_FEATURES:append =3D "${@bb.utils.contains("PTEST_ENABLED", "1", "=
- features/scsi/scsi-debug.scc", "", d)}"
-> +KERNEL_FEATURES:append =3D "${@bb.utils.contains("PTEST_ENABLED", "1", "=
- features/gpio/mockup.scc", "", d)}"
-> diff --git a/meta/recipes-kernel/linux/linux-yocto_6.6.bb b/meta/recipes-=
-kernel/linux/linux-yocto_6.6.bb
-> index 7a47bac057..154cf37bf3 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto_6.6.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
-> @@ -62,8 +62,8 @@ KERNEL_FEATURES:append:qemuall=3D" cfg/virtio.scc featu=
-res/drm-bochs/drm-bochs.scc
->  KERNEL_FEATURES:append:qemux86=3D" cfg/sound.scc cfg/paravirt_kvm.scc"
->  KERNEL_FEATURES:append:qemux86-64=3D" cfg/sound.scc cfg/paravirt_kvm.scc=
-"
->  KERNEL_FEATURES:append =3D " ${@bb.utils.contains("TUNE_FEATURES", "mx32=
-", " cfg/x32.scc", "", d)}"
-> -KERNEL_FEATURES:append =3D " ${@bb.utils.contains("DISTRO_FEATURES", "pt=
-est", " features/scsi/scsi-debug.scc", "", d)}"
-> -KERNEL_FEATURES:append =3D " ${@bb.utils.contains("DISTRO_FEATURES", "pt=
-est", " features/gpio/mockup.scc", "", d)}"
-> +KERNEL_FEATURES:append =3D " ${@bb.utils.contains("PTEST_ENABLED", "1", =
-" features/scsi/scsi-debug.scc", "", d)}"
-> +KERNEL_FEATURES:append =3D " ${@bb.utils.contains("PTEST_ENABLED", "1", =
-" features/gpio/mockup.scc", "", d)}"
->  KERNEL_FEATURES:append:powerpc =3D" arch/powerpc/powerpc-debug.scc"
->  KERNEL_FEATURES:append:powerpc64 =3D" arch/powerpc/powerpc-debug.scc"
->  KERNEL_FEATURES:append:powerpc64le =3D" arch/powerpc/powerpc-debug.scc"
->
-> rday
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-core/glibc/glibc-version.inc     |  2 +-
+ ...s-FIx-clone3-implementation-BZ-31325.patch | 83 -------------------
+ 2 files changed, 1 insertion(+), 84 deletions(-)
+ delete mode 100644 meta/recipes-core/glibc/glibc/0024-mips-FIx-clone3-implementation-BZ-31325.patch
 
+diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
+index 0d86917f454..5b0705f6960 100644
+--- a/meta/recipes-core/glibc/glibc-version.inc
++++ b/meta/recipes-core/glibc/glibc-version.inc
+@@ -1,6 +1,6 @@
+ SRCBRANCH ?= "release/2.39/master"
+ PV = "2.39+git"
+-SRCREV_glibc ?= "63295e4fda1f6dab4bf7442706fe303bf283036c"
++SRCREV_glibc ?= "312e159626b67fe11f39e83e222cf4348a3962f3"
+ SRCREV_localedef ?= "fab74f31b3811df543e24b6de47efdf45b538abc"
+ 
+ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git;protocol=https"
+diff --git a/meta/recipes-core/glibc/glibc/0024-mips-FIx-clone3-implementation-BZ-31325.patch b/meta/recipes-core/glibc/glibc/0024-mips-FIx-clone3-implementation-BZ-31325.patch
+deleted file mode 100644
+index b391c609582..00000000000
+--- a/meta/recipes-core/glibc/glibc/0024-mips-FIx-clone3-implementation-BZ-31325.patch
++++ /dev/null
+@@ -1,83 +0,0 @@
+-From b471cadd57e3fc1fce74b33fcf75c6844cfd68b3 Mon Sep 17 00:00:00 2001
+-From: Adhemerval Zanella <adhemerval.zanella@linaro.org>
+-Date: Thu, 1 Feb 2024 14:41:03 -0300
+-Subject: [PATCH] mips: FIx clone3 implementation (BZ 31325)
+-
+-For o32 we need to setup a minimal stack frame to allow cprestore
+-on __thread_start_clone3 (which instruct the linker to save the
+-gp for PIC).  Also, there is no guarantee by kABI that $8 will be
+-preserved after syscall execution, so we need to save it on the
+-provided stack.
+-
+-Checked on mipsel-linux-gnu.
+-
+-Upstream-Status: Submitted [https://patchwork.sourceware.org/project/glibc/patch/20240201174103.798138-1-adhemerval.zanella@linaro.org/]
+-Reported-by: Khem Raj <raj.khem@gmail.com>
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- sysdeps/unix/sysv/linux/mips/clone3.S | 32 ++++++++++++++++++++++-----
+- 1 file changed, 27 insertions(+), 5 deletions(-)
+-
+-diff --git a/sysdeps/unix/sysv/linux/mips/clone3.S b/sysdeps/unix/sysv/linux/mips/clone3.S
+-index e9fec2fa47..481b8ae963 100644
+---- a/sysdeps/unix/sysv/linux/mips/clone3.S
+-+++ b/sysdeps/unix/sysv/linux/mips/clone3.S
+-@@ -37,11 +37,6 @@
+- 
+- 	.text
+- 	.set		nomips16
+--#if _MIPS_SIM == _ABIO32
+--# define EXTRA_LOCALS 1
+--#else
+--# define EXTRA_LOCALS 0
+--#endif
+- #define FRAMESZ ((NARGSAVE*SZREG)+ALSZ)&ALMASK
+- GPOFF= FRAMESZ-(1*SZREG)
+- NESTED(__clone3, SZREG, sp)
+-@@ -68,8 +63,31 @@ NESTED(__clone3, SZREG, sp)
+- 	beqz	a0, L(error)	/* No NULL cl_args pointer.  */
+- 	beqz	a2, L(error)	/* No NULL function pointer.  */
+- 
+-+#if _MIPS_SIM == _ABIO32
+-+	/* Both stack and stack_size on clone_args are defined as uint64_t, and
+-+	   there is no need to handle values larger than to 32 bits for o32.  */
+-+# if __BYTE_ORDER == __BIG_ENDIAN
+-+#  define CL_STACKPOINTER_OFFSET  44
+-+#  define CL_STACKSIZE_OFFSET     52
+-+# else
+-+#  define CL_STACKPOINTER_OFFSET  40
+-+#  define CL_STACKSIZE_OFFSET     48
+-+# endif
+-+
+-+	/* For o32 we need to setup a minimal stack frame to allow cprestore
+-+	   on __thread_start_clone3.  Also there is no guarantee by kABI that
+-+	   $8 will be preserved after syscall execution (so we need to save it
+-+	   on the provided stack).  */
+-+	lw	t0, CL_STACKPOINTER_OFFSET(a0)	/* Load the stack pointer.  */
+-+	lw	t1, CL_STACKSIZE_OFFSET(a0)	/* Load the stack_size.  */
+-+	addiu	t1, -32				/* Update the stack size.  */
+-+	addu	t2, t1, t0			/* Calculate the thread stack.  */
+-+	sw	a3, 0(t2)			/* Save argument pointer.  */
+-+	sw	t1, CL_STACKSIZE_OFFSET(a0)	/* Save the new stack size.  */
+-+#else
+- 	move	$8, a3		/* a3 is set to 0/1 for syscall success/error
+- 				   while a4/$8 is returned unmodified.  */
+-+#endif
+- 
+- 	/* Do the system call, the kernel expects:
+- 	   v0: system call number
+-@@ -125,7 +143,11 @@ L(thread_start_clone3):
+- 
+- 	/* Restore the arg for user's function.  */
+- 	move		t9, a2		/* Function pointer.  */
+-+#if _MIPS_SIM == _ABIO32
+-+	PTR_L		a0, 0(sp)
+-+#else
+- 	move		a0, $8		/* Argument pointer.  */
+-+#endif
+- 
+- 	/* Call the user's function.  */
+- 	jal		t9
+--- 
+-2.43.0
+-
+-- 
+2.43.1
 
-
---
-Alex Kiernan
 
