@@ -1,177 +1,140 @@
-Return-Path: <Joakim.Tjernlund@infinera.com>
+Return-Path: <uvv.mail@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30F08C4829A
-	for <webhook@archiver.kernel.org>; Tue, 13 Feb 2024 14:08:35 +0000 (UTC)
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (NAM11-DM6-obe.outbound.protection.outlook.com [40.107.223.96])
- by mx.groups.io with SMTP id smtpd.web10.12094.1707833314392011404
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EC59C48BC1
+	for <webhook@archiver.kernel.org>; Tue, 13 Feb 2024 14:14:15 +0000 (UTC)
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+ by mx.groups.io with SMTP id smtpd.web11.12529.1707833650293363281
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Feb 2024 06:08:34 -0800
+ Tue, 13 Feb 2024 06:14:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@infinera.com header.s=selector2 header.b=I9tuq3x7;
- spf=pass (domain: infinera.com, ip: 40.107.223.96, mailfrom: joakim.tjernlund@infinera.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XbW82JFLuTxXQZECmWkxmMfo3DMGkFR7jZV9bMJYO7ifa1kuVuyi4Eh7mZw9TxHQMdMgnu/7Mx+MzEby4A+m9MPn/A15xZixwu4Bpv+IW7QbJ06TNYxX2qOuzC3lPn0zJujzuedjYP0KHEqxMYlvnd1hvButjDzwFCiYjZPGgKKniTavffxRgcNT8H32UGKGVbukk3YQ/y5O+04X5GDGG5t/1eZoiTjkUP/LvqOwfcCNhTV6ukJp1gDoP+ckW8+Xs2zHPWbXDfgTbKDattpH1Py2oWqzlM9C5R1EO5RnQbs/WBW/1vY7qJkJs35SzKZWhHIkHyvJFGPOh8Y5eT7Rjw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vGrY63OnMnZvsYL2WsMWxAlzYv9X2HdcK5K/A+vMYEU=;
- b=OIPbEkSHcrKPYRRwm2iihFQhLWWQk2A64+irrty/3nYIBVGnkDTpbZWGw74/dimei+Y+CS5lFS+/TAIY3TETUILlLIKz0w6mkRb8zWmQZQ04QQsjlmPQgETKoTjMYcEj4nE3kwcag1uiRX9Hkr6A4XNZjeYS4UBWeWx/jw0fPeFY/DfOvR1mcnc7c4Ipd6eRHkDbaERqp2nh3ZvUjjxWeJHsqEOLQWCyQ2ZVjslMVSdKQe5gJEMF+dfyQ9Y4vYap+ZH5I1ODTcJAsLaOKm6ssIvL+N0qWG048vHncXDDN4gPZP86GJ9fLmYghEuZZDO9HLu/jsNUZm+BjhxyfMJOaA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=infinera.com; dmarc=pass action=none header.from=infinera.com;
- dkim=pass header.d=infinera.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=infinera.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vGrY63OnMnZvsYL2WsMWxAlzYv9X2HdcK5K/A+vMYEU=;
- b=I9tuq3x7i7NTMtNpZXHS4oa98XlzLP1o/klgISPtKK2sd8sNykYtGPGpt/BYnv3x5KBW6l1OSv8wFK1uKY3r83+xkeSH9MkLDLqDF4o6vg16xxFTB0sMh/LdcZzMYjdKhLWICzHyMook+0zReCWWPJbrygoJSxuVirv6n5p8ibINvBCoXMdKM8osFVQzTV/zE8UhjPjIB2lucCO9GPPb68VxeAK0oILRo3HWJ2mi5sPR7rkTf/vWPfmF78YUaLN/jE4M2kbQN3P9BfmKLy8s8nmqaX6eXQfCOZoGAXE47XUJThSPQhcJuhQUzkjPiL/eMz9IXNzfaP2JxjfP8UrUHA==
-Received: from PH0PR10MB4615.namprd10.prod.outlook.com (2603:10b6:510:36::24)
- by IA0PR10MB7304.namprd10.prod.outlook.com (2603:10b6:208:40e::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.36; Tue, 13 Feb
- 2024 14:08:30 +0000
-Received: from PH0PR10MB4615.namprd10.prod.outlook.com
- ([fe80::4d76:4230:708c:9eea]) by PH0PR10MB4615.namprd10.prod.outlook.com
- ([fe80::4d76:4230:708c:9eea%7]) with mapi id 15.20.7270.036; Tue, 13 Feb 2024
- 14:08:30 +0000
-From: Joakim Tjernlund <Joakim.Tjernlund@infinera.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "steve@sakoman.com"
-	<steve@sakoman.com>
-Subject: Re: [OE-core] nanbield: grpc_1.56.2 fails nativesdk build
-Thread-Topic: [OE-core] nanbield: grpc_1.56.2 fails nativesdk build
-Thread-Index: AQHaW2H7nw8tDhqAGESfJbXCj/WL3LEIVXiA
-Date: Tue, 13 Feb 2024 14:08:30 +0000
-Message-ID: <5009ff89147eb81e88005c6b6f76d195bf010edb.camel@infinera.com>
-References: <17B23A54B6BB5F11.15017@lists.openembedded.org>
-In-Reply-To: <17B23A54B6BB5F11.15017@lists.openembedded.org>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.50.3 
-autocrypt: addr=joakim.tjernlund@infinera.com; prefer-encrypt=mutual;
- keydata=mQENBFp0f28BCADPn4XzN2HEzkY4BZKE6/T/S4M/Qjlf01K6gmECJZi5LQgOt0jOUAdvsXVd8yKYeqCq+eWvlfrLU9OXPGoCqwj95P2YjMsttqaPBEAnf4XyBs67Snz2wHyBDONoRxGoyq2Ondy+TPicWEm0mh404h9EzKxRNxwrRyKhsjWoVeaucuybAiGbJvqQj0CLmuMCl4PUBYDmXFzt3yx0g54z8E9/8ON+z0J7yZbA0aftZAjFLv6nn0Th/2dpD8d3vWtkJw4yBjLX2KFvlzJfQqkd6RI4Cn1OP9sguXDob123dMiMk/5XbjXz+0C21QFxejxt3HGisvKes+8swplyni7KdiDtABEBAAG0MEpvYWtpbSBUamVybmx1bmQgPGpvYWtpbS50amVybmx1bmRAaW5maW5lcmEuY29tPokBVAQTAQgAPhYhBFtMG/jmfqy7x0aBp4VMQ6CbDpcaBQJadH9vAhsDBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEIVMQ6CbDpcasFAH/j64dpHpjY55tVoUg5yK8hcmxS/buKQQP9H3e2DdHeYrK0qeQ97AXiWTh63UvzvEXchiKjua6kYhUUkDObaltmwkKgPv0qb9lP6yfFBzvllriS6LrdIMCOLgtnQW2x28m5mC1hYT08jlqEXluYDoj2dTll9HGMsqn0JkhRjBsuzTXq8VyJjjnNLpzsAlTOGEQoAi7SqtDHs9PSNyOAKH5jRjATdNbPAsTKuI1veJf7Zzyc98yG0ya43Hqal1scoa+9GJZXNQPRaMVkyxKGbEEncdtnQl9e/DUMH4SUQ5vbM/+U4WvkX5Cvc+KwI6JAm1PhrAaVHSkDNAU5LqUqEbbHY=
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=infinera.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH0PR10MB4615:EE_|IA0PR10MB7304:EE_
-x-ms-office365-filtering-correlation-id: 406dee7e-69bc-4a41-9a4e-08dc2c9d41cd
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- ZtefS3Ail7x+xIF0KSx3ITTMQkkjX7x5wguUTUu2zgk6t5RDeSMHbj6kaY75QEZXNsXFUfq+/biYJpG8AhytZjyr1WhsgPlFtch5LLo2qAFhO2wuprqi+6SN3fXbdlz3oc/7ewErbohfazvIlw1Xpji9vVx5/JJypqqLAA+P6BQbsT0cNjYbDEsFCbD0NQ8x510RaMmEkWT8c3m4P5llZ/cNMJGX8t9LUqTMQpQYVRKKlXrYGqmta/NkR+r33xqPvyccYo1TMyE+0OX+aoYYhgspv8MazRl+9Ci5lMCr7oT8UYfJKtsHXinON2WIl2UCDmkuRJJdJ/sJShw0BubxWbdmjv56GOvCl/NoPdLfWRoYRKKJDwrf+4sXp2tRCyfzB0noLStz18dIUATiUYHn5X7GvubmFQN0Hcnb9/1Aepcaockpjy1VluEIEbm38VyjAphhpffvnjV93MycnbUjf+2LebXdnNkfeXO8qKK72PkWW6tltg/rOsiEPWJK4z63DIb90uL9TPsMtnzEDaBCSGEtnGMaq6b4gLS7bcRGf+xbP8uDFn7To2X5///c3m25Ij5HRwLaNLHa0QOJKvKtzcxiefGUWLwXdhu6Kprz2wIu57Gs2cJEj1sltHTrpxeZ
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB4615.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(366004)(396003)(136003)(376002)(39860400002)(230922051799003)(451199024)(186009)(1800799012)(64100799003)(6512007)(478600001)(6486002)(71200400001)(41300700001)(8936002)(8676002)(5660300002)(2906002)(110136005)(6506007)(66446008)(64756008)(66556008)(316002)(76116006)(66476007)(66946007)(2616005)(83380400001)(86362001)(122000001)(38070700009)(36756003)(38100700002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?Q1d6U0w0VUNnK1E5SUlRZGxXaVJUNWpwM1RzcFI5TXczZzZxWWY5R0FqWENr?=
- =?utf-8?B?L1dOc0p0OWhZeGo1SXJTODJmRGUvd1B5TWhKWTNOOTNFc2oxWDRySXZwV0Vh?=
- =?utf-8?B?UnJXOFdsRGRid1RTQkZQSlAzMmUwYjJ0WkVQTHNqVGRmUFhCNmxsQm5iSUl1?=
- =?utf-8?B?eGFxdFhubG5EWVJubUFQTGhLNWlmZFBZdkt0TVZkaU5TaFNCdGkxMGM1VmFZ?=
- =?utf-8?B?S1NTSHFmdHFlWHg4M2kxMFZRWlFqR1hDRHgyN2FzY3l2cHcxMTlzQ054QnZo?=
- =?utf-8?B?RHBIUGw5Sk1HTGVmYnN6US9Ca1RsMWs1OXZER040elE4UFlFYU5Eek0zVXhp?=
- =?utf-8?B?VXc5VTRIMGlTZ1dnOVVwWm5Rc2tabVVyRDNjUGt6V0ZnYWNnNG9MUFppQjZR?=
- =?utf-8?B?TTQ5NXJSWmNPYW1OTGxPUWtMczVSc3VLT3NJZUd5TTVaNExEK2lybDNNckkv?=
- =?utf-8?B?M3NURWlyUFVrTE5pRjNPNVZrRE1jR20wK1AxQURMT204aEt5azVWMnFEWC9B?=
- =?utf-8?B?WHhieHQ5cElBSXNzMkhJUHhzYzM3RTZQWmNISnJJNTJtTzBJNmZvMGI3cHgw?=
- =?utf-8?B?dDdoUlZSNTYzZ3E0WlE4d1V4bUw1ekhIUk9xNS8ySmQ4MEZ4ZytpUTJSUHhh?=
- =?utf-8?B?T2x2R3VyVml5bEgvdnB6OW5aNEtmaG5HQ3lqSjFlVnhGRU03QUdVUlI2MlJu?=
- =?utf-8?B?cUE1V2ZPOE5SUkwvdTQwNy85bTRUejdGVDRGWjVLRDlsTHRsTTg3RGVUZkU1?=
- =?utf-8?B?Tk5mbHM4WkRFclB2cC9CdWtMc2xrZGZ5SHpVS3JUcmEvZW5adldlMHVReHND?=
- =?utf-8?B?ZGdxZzhkWmN6eERiWHRrb010RkUzK2hTT1dBYzFDREI0SHA1RzdRcWkxbXhX?=
- =?utf-8?B?eHFlU2NLUFBNMjdTWCtoZ2R6NW9lVmJJZGtJTXUvNWZyelMvZkZ4S0JTUFBY?=
- =?utf-8?B?UHpBL1JlUVJON1RCNnNrbGc4UzFpemZmTkFLKzFQdXJVd0c2S3V2TXQwYUpD?=
- =?utf-8?B?Tlp6emNBRU9rQ294MTBDb1c3SjkwaW5rZWxYaVN3R2g3b0h5cHFhdnViRU9W?=
- =?utf-8?B?U3NoYUdSc3U1Qk83UXUrQXhBMnZlRWtkUW9uWG85MFVjNkl0dC9lQTZmVE1v?=
- =?utf-8?B?QUg3Rkwzais4YlIyZG1GTTNMMmNGSnVmdVgzakdQSExrS0E1aFdXM2hyODds?=
- =?utf-8?B?NXU3SThlQnpjY0t1QVNhcTdJR0hXN2YrTHN1WEVMR3N4UXdmWnYzS0pkMUlW?=
- =?utf-8?B?TXpDbGI2ZG5OQUozeGZ6WWxacHhnOEE1bTE4OWVtb3pNdmZhVjlDYmc5QkJ3?=
- =?utf-8?B?ZTRjT3IwekZNcXVSaCtyanhILzJLcnJxMVdoRGVncjhDc0l6bncwaFJhYmhv?=
- =?utf-8?B?VVl5Z1RzVVlQb0swQVdqcW9qL0czUmY1R0ZXa1dGajYzYkl5anhieGR4dGdr?=
- =?utf-8?B?bVp6WDVRSWdrTG5ldDhHa2phNFlOaDJ5UTE3M2pkUnZ1dFhqUWpSVFNiVk5a?=
- =?utf-8?B?UlVyOHY1dmhDQUVFZFhlYWcxV2crTzRLZkJwWHBDZm5ma0NVUWhYdi9KaFFp?=
- =?utf-8?B?dFpiQ2hKa3JYbVEwZkIxb1ZJVVFjK3NZRGFVWWR3dTNIZVhqWFhjRVgrN1lp?=
- =?utf-8?B?RnMwS2IwSllHQjhiVTdWSlJqQldnNDM4bkpTdVdReWZlSENjVVY5S256Nkc4?=
- =?utf-8?B?eGtybDVqTlZEM3E2QUtRcjRYL2lMSVJlVlhtTDdYc3g4QmhiS3pGZ3IrT2Zr?=
- =?utf-8?B?YWRrdUE5RXlSOXZiOUVNZk5sWXEyelVnMC9hNWxXY1ZZbFVhcnhvSTF3eXZx?=
- =?utf-8?B?Z2NOSmpQanE4SjhBNVRabC9IU1RvV2hSN2FZbGMwaXZuUGhMOVFzc093Q2JG?=
- =?utf-8?B?bWFEVFJLQTZMVWxiZGgxSEgxa1h0R0NoOVk1N0t2Q2JjK1hWU09PQVg3eGFZ?=
- =?utf-8?B?QzNmOXVpemxYaVFFcUh2d2VwNDRVNk1XUWNrTURLZS9oQm83UWdCMUhrdXJy?=
- =?utf-8?B?ditWeGFhUmFHYTdsRzhuL1FxTmdWV3R5Rll6QTdvRVZSN3NieXFudWtrNmxK?=
- =?utf-8?B?Y0ExS3pscS8rU0R1M08zcmY4Umsvci80QTY3VnVTNnVpWk5xRWN4cUNPTHFD?=
- =?utf-8?B?WDl3MkN1VmMrOXZ6aWFiL2pUZUVYOEVLNXNvOG15S1Nqeis1THhFSUtBMjI2?=
- =?utf-8?Q?BDVu/wwWphgljfDBkfTyjCivo94laTsEnCvYrYd1lbQW?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <E45D223E6544804C9BFC0784E43A7B70@namprd10.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=CD5Q//lA;
+ spf=pass (domain: gmail.com, ip: 209.85.167.51, mailfrom: uvv.mail@gmail.com)
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-51186925925so3057527e87.0;
+        Tue, 13 Feb 2024 06:14:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707833648; x=1708438448; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:cc:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=RzXhHih3QOIiq2YzFwVuy9GGmBK1Y+3nzCML3q5KxMw=;
+        b=CD5Q//lAhEX09F9ZxVfYHohJrBVQ3yFp6LSTCfkZAaAu/vWuSN/9nzc5V+rNlfe2Rc
+         5wnkNDTOTNWsgpX9upI1IowPL4wnCOdFhSx7OjopbU8ArD3hnTi0/rD5LQG6JjcqEWmC
+         gvwwO38g9s8HBQQBq/C32ao+Jrs5HWrBB4NguwQAMv6SijaqA5BW2wXTnAKX+1lQe3iT
+         3fuRVbfOZ+KqIuYSyyFm4CBl6+X53sG/ufWS43JkttuTP02LW5eTnP2YUDTYkCKhRnVq
+         UvHvu58ORH+5MjjDv9ADHE67X2NMmD2KazDhNt4xwrZHBpgqFwt4WdoLks3bZfNsgZKB
+         ZP/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707833648; x=1708438448;
+        h=content-transfer-encoding:in-reply-to:from:cc:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=RzXhHih3QOIiq2YzFwVuy9GGmBK1Y+3nzCML3q5KxMw=;
+        b=R436pSLHSIlJtoM1AzrZBiPuK1wnx6If1+Y1KXXxo04HF+FKtshl8F7ZeZPyoDp7DU
+         H81fdzdI9X+o2TBQzX/+I/7tLc72CbtuNFG78uUXi2Lqfmwwn3UX9JDdKABw8QOEbOLs
+         hQYcEPIlMmyd0d90oEzjF4olR8SrxmQb+S+TvFs97ZZYZHHW8Gt3QSZWqK9EQXT8B/kt
+         Hmguhw1Vi7Ghw1cCYrO19wSkwpzvkmDJck+/Ycd434sLhmXeSnpbg804qHeQupPcRRiP
+         gzWRuNN8PfaVNKVapSSo3twQxE6YCzeUhm53cN60k3IrTNriZRMrYDKnahQg2em/2YHC
+         +BtA==
+X-Forwarded-Encrypted: i=1; AJvYcCW+gROWbOf3Yu8fm4mdfCnpRhKlH5zSQg7s24PdIkmLS8kAVzR1mG6zEMWm8yav21/df9UEOW/0oSROsRBGPCbkXUgzhD/44V5BzQh2GI2X2iDRjxZkaZpU
+X-Gm-Message-State: AOJu0YzMSTCWIgnT5QcWVPba0SfAR5/LZY/2YpxQVnD6uAnZXX/YW4vd
+	/f156FirPTbOOh10cFwt0qWpHapQzAf8L4bfFtrVsNypmW4JKf/u
+X-Google-Smtp-Source: AGHT+IFGnsNMsMwrgQVb3iG9lET1Kp/AXyE19wom3tN2J9USJ2HwA/lGjFAHgMo7defpaXMk4f9Nbw==
+X-Received: by 2002:a05:6512:ea7:b0:511:8617:276e with SMTP id bi39-20020a0565120ea700b005118617276emr6852335lfb.40.1707833648176;
+        Tue, 13 Feb 2024 06:14:08 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU0oNH71L4uz+uOLIkhK8gUJZI4IzOxapZyL1L2Gm57BpsgP+uWtI8ei0sb/ricnxsiWE4du7GGMaXhbQtRhgKt6V8mcpvPbEAi8TgMEV9AOufH5xSlFqrzJGUYLlKYuTTavm6OgAHQBne6iA==
+Received: from [10.139.2.183] ([154.47.27.145])
+        by smtp.gmail.com with ESMTPSA id br18-20020a170906d15200b00a38a868bcf7sm1323522ejb.41.2024.02.13.06.14.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 13 Feb 2024 06:14:07 -0800 (PST)
+Message-ID: <12d6aaa8-1f7d-4da9-985a-8ebb2a51ebc0@gmail.com>
+Date: Tue, 13 Feb 2024 15:14:06 +0100
 MIME-Version: 1.0
-X-OriginatorOrg: infinera.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4615.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 406dee7e-69bc-4a41-9a4e-08dc2c9d41cd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Feb 2024 14:08:30.4973
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 285643de-5f5b-4b03-a153-0ae2dc8aaf77
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: YGy5RrdiHgnOgGm1hmrJ+ZJB+iA/6w9K8NMGur/gTvh2kFG7dEI8PsYk9AVClAHeMrBKruffNBDFh6cNB9i7IA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR10MB7304
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] nanbield: grpc_1.56.2 fails nativesdk build
+Content-Language: en-US
+To: Joakim.Tjernlund@infinera.com,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>,
+ "steve@sakoman.com" <steve@sakoman.com>
+References: <17B23A54B6BB5F11.15017@lists.openembedded.org>
+ <5009ff89147eb81e88005c6b6f76d195bf010edb.camel@infinera.com>
+Cc: openembedded-devel@lists.openembedded.org
+From: Vyacheslav Yurkov <uvv.mail@gmail.com>
+In-Reply-To: <5009ff89147eb81e88005c6b6f76d195bf010edb.camel@infinera.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Feb 2024 14:08:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195402
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Feb 2024 14:14:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195403
 
-T24gRnJpLCAyMDI0LTAyLTA5IGF0IDE1OjA5ICswMDAwLCBKb2FraW0gVGplcm5sdW5kIHZpYSBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnIHdyb3RlOg0KPiBXaGF0ZXZlciBJIHRyeSBJIGFsd2F5cyBn
-ZXQ6DQo+ID4gICBUaGUgaW1wb3J0ZWQgdGFyZ2V0ICJwcm90b2J1Zjo6cHJvdG9jIiByZWZlcmVu
-Y2VzIHRoZSBmaWxlDQo+ID4gDQo+ID4gICAgICAiL2hvbWUvam9ja2UveW9jdG8teHIvYnVpbGQv
-aW5mbi14ci9nbWN1L3RtcC93b3JrL3g4Nl82NC1uYXRpdmVzZGsteHJzZGstbGludXgvbmF0aXZl
-c2RrLWdycGMvMS41Ni4yL3JlY2lwZS1zeXNyb290L29wdC9pbmZuLXhyLzEuMC9zeXNyb290cy94
-ODZfNjQteHJzZGstbGludXgvdXNyL2Jpbi9wcm90b2MtMjMuNC4wIg0KPiA+IA0KPiA+ICAgYnV0
-IHRoaXMgZmlsZSBkb2VzIG5vdCBleGlzdC4gIFBvc3NpYmxlIHJlYXNvbnMgaW5jbHVkZToNCj4g
-PiANCj4gPiAgICogVGhlIGZpbGUgd2FzIGRlbGV0ZWQsIHJlbmFtZWQsIG9yIG1vdmVkIHRvIGFu
-b3RoZXIgbG9jYXRpb24uDQo+ID4gDQo+ID4gICAqIEFuIGluc3RhbGwgb3IgdW5pbnN0YWxsIHBy
-b2NlZHVyZSBkaWQgbm90IGNvbXBsZXRlIHN1Y2Nlc3NmdWxseS4NCj4gPiANCj4gPiAgICogVGhl
-IGluc3RhbGxhdGlvbiBwYWNrYWdlIHdhcyBmYXVsdHkgYW5kIGNvbnRhaW5lZA0KPiA+IA0KPiA+
-ICAgICAgIi9ob21lL2pvY2tlL3lvY3RvLXhyL2J1aWxkL2luZm4teHIvZ21jdS90bXAvd29yay94
-ODZfNjQtbmF0aXZlc2RrLXhyc2RrLWxpbnV4L25hdGl2ZXNkay1ncnBjLzEuNTYuMi9yZWNpcGUt
-c3lzcm9vdC9vcHQvaW5mbi14ci8xLjAvc3lzcm9vdHMveDg2XzY0LXhyc2RrLWxpbnV4L3Vzci9s
-aWIvY21ha2UvcHJvdG9idWYvcHJvdG9idWYtdGFyZ2V0cy5jbWFrZSINCj4gPiANCj4gPiAgIGJ1
-dCBub3QgYWxsIHRoZSBmaWxlcyBpdCByZWZlcmVuY2VzLg0KPiANCj4gTG9va2luZyBhdCBmYWls
-aW5nIHBhdGg6DQo+IHMgL2hvbWUvam9ja2UveW9jdG8teHIvYnVpbGQvaW5mbi14ci9nbWN1L3Rt
-cC93b3JrL3g4Nl82NC1uYXRpdmVzZGsteHJzZGstbGludXgvbmF0aXZlc2RrLWdycGMvMS41Ni4y
-L3JlY2lwZS1zeXNyb290L29wdC9pbmZuLXhyLzEuMC9zeXNyb290cy94ODZfNjQteHJzZGstbGlu
-dXgvdXNyLw0KPiAuLyAgLi4vICBpbmNsdWRlLyAgbGliLyAgc2hhcmUvDQo+IA0KPiBUaGVyZSBp
-biBubyBiaW4gZGlyIGF0IGFsbC4gSW4gbGliIHRoZXJlIGFyZSBsb3RzIG9mIGxpYnMsIGluY2x1
-ZGluZyBsaWJwcm90b2J1Zi1jLnNvDQo+IFRvIG1lIGl0IGZlZWxzIGxpa2UgYml0YmFrZSBzb21l
-aG93IGZhaWxlZCB0byBpbnN0YWxsICByZXF1aXJlZCBiaW4vcHJvdG9jLTIzLjQuMCBmaWxlcw0K
-PiBidXQgbWlzc2VzIHRoZSBiaW4gZmlsZXMgYXMgdGhlc2UgYXJlIG5vcm1hbGx5IG5vdCBuZWVk
-ZWQgd2hlbiBidWlsZGluZy4NCj4gDQo+IG9yIHBlcmhhcHMgaXQgaXMgcmV3cml0aW5nICB0aGUg
-cGFzc2VkIHBhdGg/IFdoYXQgaXMgcGFzc2VkIHRvIGNtYWtlIGlzOg0KPiAiL2hvbWUvam9ja2Uv
-eW9jdG8teHIvYnVpbGQvaW5mbi14ci9nbWN1L3RtcC93b3JrL3g4Nl82NC1uYXRpdmVzZGsteHJz
-ZGstbGludXgvbmF0aXZlc2RrLWdycGMvMS41Ni4yL3JlY2lwZS1zeXNyb290LW5hdGl2ZS91c3Iv
-YmluL3Byb3RvYyINCj4gDQo+IGJ1dCBiaXRiYWtlIHNvbWVob3cgcmV3cml0ZSB0aGlzIHRvOg0K
-PiANCj4gIi9ob21lL2pvY2tlL3lvY3RvLXhyL2J1aWxkL2luZm4teHIvZ21jdS90bXAvd29yay94
-ODZfNjQtbmF0aXZlc2RrLXhyc2RrLWxpbnV4L25hdGl2ZXNkay1ncnBjLzEuNTYuMi9yZWNpcGUt
-c3lzcm9vdC9vcHQvaW5mbi14ci8xLjAvc3lzcm9vdHMveDg2XzY0LXhyc2RrLWxpbnV4L3Vzci9i
-aW4vcHJvdG9jLTIzLjQuMCINCj4gDQo+IE5vdGljZSB0aGUgY2hhbmdlIHRvICJyZWNpcGUtc3lz
-cm9vdC9vcHQvaW5mbi14ci8xLjAvc3lzcm9vdHMveDg2XzY0LXhyc2RrLWxpbnV4LyIgaW4gdGhl
-IG1pZGRsZS4NCj4gDQo+ICBKb2FraW0NCg0KRllJLCB0aGlzIHdvcmtzIGFyb3VuZCB0aGUgcHJv
-YmxlbToNCmNhdCAuL21ldGEteHIvcmVjaXBlcy1kZXZ0b29scy9ncnBjL2dycGNfJS5iYmFwcGVu
-ZA0KI0hhY2sgdGhlIG5hdGl2ZXNkay1ncnBjLCBjb3B5IHByb3RvYnVmJ3MgcHJvdG9jKiBmcm9t
-IHN5c3Jvb3QgdG8gJHtTREtQQVRITkFUSVZFfQ0KI0ZvciBzb21lIHJlYXNvbiBuYXRpdmVzZGst
-Z3JwYyB3aWxsIG5vdCBmaW5kIGl0IGFuZCBidWlsZCBmYWlscyBvdGhlcndpc2UuDQojVW5jbGVh
-ciB3aGF0IHRoZSBidWcgaXMgYnV0IHN1c3BlY3QgdXBzdHJlYW0gYnVnDQoNCmRvX2NvbmZpZ3Vy
-ZTpwcmVwZW5kOmNsYXNzLW5hdGl2ZXNkayAoKSB7DQogICAgTVlfUFJFRklYPSIke1RPUERJUn0v
-dG1wL3dvcmsveDg2XzY0LW5hdGl2ZXNkay14cnNkay1saW51eC9uYXRpdmVzZGstZ3JwYy8ke1BW
-fSINCiAgICBNWV9GUk9NPSIvcmVjaXBlLXN5c3Jvb3QtbmF0aXZlL3Vzci9iaW4vIg0KICAgIE1Z
-X1RPPSIvcmVjaXBlLXN5c3Jvb3QvJHtTREtQQVRITkFUSVZFfS91c3IvYmluLyINCiAgICBta2Rp
-ciAtcCAiJHtNWV9QUkVGSVh9JHtNWV9UT30iICMgQ3JlYXRlIG1pc3NpbmcgREVTVCBkaXINCiAg
-ICBjcCAtYXAgIiR7TVlfUFJFRklYfSR7TVlfRlJPTX0icHJvdG9jKiAiJHtNWV9QUkVGSVh9JHtN
-WV9UT30iDQp9DQoNCkNDaW5nIHlvdSBTdGV2ZSBzaG91bGQgeW91IGhhdmUgbWlzc2VkIHRoaXMg
-cmVwb3J0Lg0KDQogSm9ha2ltDQo=
+Joakim,
+I answered you last week on the this topic. Quoting it again:
+
+Could this 
+https://git.openembedded.org/meta-openembedded/commit/meta-oe/recipes-devtools/protobuf?id=b1deec0de476d8f0a0c6427919f57ee5f681ea0e 
+fix your failure?
+
+Note, oe-core is a wrong list for this discussion, I changed the CC 
+accordingly.
+
+Slava
+
+On 13.02.2024 15:08, Joakim Tjernlund via lists.openembedded.org wrote:
+> On Fri, 2024-02-09 at 15:09 +0000, Joakim Tjernlund via lists.openembedded.org wrote:
+>> Whatever I try I always get:
+>>>    The imported target "protobuf::protoc" references the file
+>>>
+>>>       "/home/jocke/yocto-xr/build/infn-xr/gmcu/tmp/work/x86_64-nativesdk-xrsdk-linux/nativesdk-grpc/1.56.2/recipe-sysroot/opt/infn-xr/1.0/sysroots/x86_64-xrsdk-linux/usr/bin/protoc-23.4.0"
+>>>
+>>>    but this file does not exist.  Possible reasons include:
+>>>
+>>>    * The file was deleted, renamed, or moved to another location.
+>>>
+>>>    * An install or uninstall procedure did not complete successfully.
+>>>
+>>>    * The installation package was faulty and contained
+>>>
+>>>       "/home/jocke/yocto-xr/build/infn-xr/gmcu/tmp/work/x86_64-nativesdk-xrsdk-linux/nativesdk-grpc/1.56.2/recipe-sysroot/opt/infn-xr/1.0/sysroots/x86_64-xrsdk-linux/usr/lib/cmake/protobuf/protobuf-targets.cmake"
+>>>
+>>>    but not all the files it references.
+>> Looking at failing path:
+>> s /home/jocke/yocto-xr/build/infn-xr/gmcu/tmp/work/x86_64-nativesdk-xrsdk-linux/nativesdk-grpc/1.56.2/recipe-sysroot/opt/infn-xr/1.0/sysroots/x86_64-xrsdk-linux/usr/
+>> ./  ../  include/  lib/  share/
+>>
+>> There in no bin dir at all. In lib there are lots of libs, including libprotobuf-c.so
+>> To me it feels like bitbake somehow failed to install  required bin/protoc-23.4.0 files
+>> but misses the bin files as these are normally not needed when building.
+>>
+>> or perhaps it is rewriting  the passed path? What is passed to cmake is:
+>> "/home/jocke/yocto-xr/build/infn-xr/gmcu/tmp/work/x86_64-nativesdk-xrsdk-linux/nativesdk-grpc/1.56.2/recipe-sysroot-native/usr/bin/protoc"
+>>
+>> but bitbake somehow rewrite this to:
+>>
+>> "/home/jocke/yocto-xr/build/infn-xr/gmcu/tmp/work/x86_64-nativesdk-xrsdk-linux/nativesdk-grpc/1.56.2/recipe-sysroot/opt/infn-xr/1.0/sysroots/x86_64-xrsdk-linux/usr/bin/protoc-23.4.0"
+>>
+>> Notice the change to "recipe-sysroot/opt/infn-xr/1.0/sysroots/x86_64-xrsdk-linux/" in the middle.
+>>
+>>   Joakim
+> FYI, this works around the problem:
+> cat ./meta-xr/recipes-devtools/grpc/grpc_%.bbappend
+> #Hack the nativesdk-grpc, copy protobuf's protoc* from sysroot to ${SDKPATHNATIVE}
+> #For some reason nativesdk-grpc will not find it and build fails otherwise.
+> #Unclear what the bug is but suspect upstream bug
+>
+> do_configure:prepend:class-nativesdk () {
+>      MY_PREFIX="${TOPDIR}/tmp/work/x86_64-nativesdk-xrsdk-linux/nativesdk-grpc/${PV}"
+>      MY_FROM="/recipe-sysroot-native/usr/bin/"
+>      MY_TO="/recipe-sysroot/${SDKPATHNATIVE}/usr/bin/"
+>      mkdir -p "${MY_PREFIX}${MY_TO}" # Create missing DEST dir
+>      cp -ap "${MY_PREFIX}${MY_FROM}"protoc* "${MY_PREFIX}${MY_TO}"
+> }
+>
+> CCing you Steve should you have missed this report.
+>
+>   Joakim
+
 
