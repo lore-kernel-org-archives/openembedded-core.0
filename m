@@ -1,100 +1,161 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <enguerrand.de-ribaucourt@savoirfairelinux.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59585C4829A
-	for <webhook@archiver.kernel.org>; Tue, 13 Feb 2024 09:03:03 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.7486.1707814973925565680
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 813DDC48260
+	for <webhook@archiver.kernel.org>; Tue, 13 Feb 2024 09:23:03 +0000 (UTC)
+Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [208.88.110.44])
+ by mx.groups.io with SMTP id smtpd.web11.7939.1707816176433496847
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Feb 2024 01:02:54 -0800
+ Tue, 13 Feb 2024 01:22:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=WMKqzpzL;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=YMreSFol;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018da1b46e3f-3a825124-966a-4fbb-870f-9e269a790100-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1707814973; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=kEEnOC+olAZuxTS7NIhi4S7QfHWnfXrRnic0BRyA6Pk=;
-	b=WMKqzpzLcDar2TZdqmg5hVwVb/GYoVbTvzlITD56u7XzUkukBUm3gXNvd3yHTXL1
-	UV51mdu+ebTlRGWvEqy/oReURZ6txb7PI7Dl6FzB3DfipUATxhwoqvhJfWB/PKHFC7V
-	q0UU6Lp+Zl9wlD9v3/5AoOT22UoAkcuctyhsqqFY=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1707814973;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=kEEnOC+olAZuxTS7NIhi4S7QfHWnfXrRnic0BRyA6Pk=;
-	b=YMreSFolIq7u/CK1i/+ggPzmDWwthPk3h8KFgBsv4frkuwqvElGGmfyShY0RhTif
-	7x1lspO3UDf4S1n8meZe51Agc4ut/tNslNmi0dMXQxH9bZMBoElYbVcUTMTnfIr2kWd
-	AUeq5fqs52/ZvNNdVmq89btLMhdIrndewgMC1mAM=
-From: patchtest@automation.yoctoproject.org
-To: Johannes Schneider <johannes.schneider@leica-geosystems.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH v1 1/3] image.bbclass/rootfs: archive and deploy opkg package
- database
-In-Reply-To: 20240213085658.170917-2-johannes.schneider@leica-geosystems.com
-References: 20240213085658.170917-2-johannes.schneider@leica-geosystems.com
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018da1b46e3f-3a825124-966a-4fbb-870f-9e269a790100-000000@us-west-2.amazonses.com>
-Date: Tue, 13 Feb 2024 09:02:52 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.02.13-54.240.27.191
+ dkim=pass header.i=@savoirfairelinux.com header.s=DFC430D2-D198-11EC-948E-34200CB392D2 header.b=hXJOSoQX;
+ spf=pass (domain: savoirfairelinux.com, ip: 208.88.110.44, mailfrom: enguerrand.de-ribaucourt@savoirfairelinux.com)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 95A589C4408;
+	Tue, 13 Feb 2024 04:22:55 -0500 (EST)
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+ by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10032)
+ with ESMTP id r31MwH0GmmtY; Tue, 13 Feb 2024 04:22:54 -0500 (EST)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 7CD819C44B0;
+	Tue, 13 Feb 2024 04:22:54 -0500 (EST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com 7CD819C44B0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=savoirfairelinux.com; s=DFC430D2-D198-11EC-948E-34200CB392D2;
+	t=1707816174; bh=p77hVepSxRa+h3NSutDWXHHlDZSxDM0OcrutZqnPHps=;
+	h=Message-ID:Date:MIME-Version:To:From;
+	b=hXJOSoQXbgD2K2D7M/1vfWYBEB0xBAkWbPY4ny2yJMCaGnu6ctfdTxl6DQc8XtwVY
+	 HVEHBlK8ImWwqA9Uyfe+lXA79+57xXyEXurAjHeha3UJRpPGK7V+fOgQXiE3Ma7aDk
+	 imDkuAbX9gXd1OHNWJNHkBIikHHOpUZvbFB6zL7XlbxCy2rsTGCWQLdoYSSnJ6WOGz
+	 tuOAK5QHzqo5zecf4opOmTicUc82lZ4CuT0q8zl6obCl2nSdTgbb2RdX+8DlLmG8Xt
+	 i4/5WacaeB8bBPXMtFETyTmSuLWMLr6H9CSlk2zkSi6w91HWVuIWmzNhB2va3YbKsg
+	 789pd3cfJpkHA==
+X-Virus-Scanned: amavis at mail.savoirfairelinux.com
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+ by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10026)
+ with ESMTP id ef5U3kBAfVA4; Tue, 13 Feb 2024 04:22:54 -0500 (EST)
+Received: from [192.168.216.123] (lmontsouris-657-1-69-118.w80-15.abo.wanadoo.fr [80.15.101.118])
+	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id 22EB79C4408;
+	Tue, 13 Feb 2024 04:22:54 -0500 (EST)
+Message-ID: <6b9ae9b0-980a-4beb-9daf-c6272662825b@savoirfairelinux.com>
+Date: Tue, 13 Feb 2024 10:22:52 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] vscode: improve settings for new yocto plugin
+To: adrian.freihofer@gmail.com
+Cc: openembedded-core@lists.openembedded.org
+References: <20240209203029.3801065-1-adrian.freihofer@siemens.com>
+ <7bfdb37aa85722d20776c58b4d8a61233f5ae23a.camel@linuxfoundation.org>
+ <40d4cf0612a459eb5405a802aebb0fb09fbb5b8a.camel@gmail.com>
+ <5acae196-d10c-42e3-b201-e4acc61e55c5@savoirfairelinux.com>
+ <8ed89336017da50392be926a152a10901c8ceea7.camel@gmail.com>
+ <62436f79-ff09-4084-8e94-55e055198b6a@savoirfairelinux.com>
+ <41652303df50bbbe33931faf78515af5a8667993.camel@gmail.com>
+Content-Language: en-US
+From: Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
+In-Reply-To: <41652303df50bbbe33931faf78515af5a8667993.camel@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Feb 2024 09:03:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195377
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Feb 2024 09:23:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195378
 
---NextPart
-Content-Type: text/plain
+Hello Adrian,
+> Hi Enguerrand
+>>
+>=20
+>=20
+> My first solution was too complicated. After re-thinking it, I replaced
+> it by a much simpler implementation: The new implementation is about
+> extending the templates which are already in poky.
+The new template mechanic is neat!
+  - It provides a new way for layer maintainers to share VSCode=20
+configuration, including when setting up multi-layer workspaces.
+  - It can be used for other build tools like kas, crops... (which I test=
+ed)
+  - It works better than the previous config for plain poky. The config=20
+will be valid, whether the user creates the build directory inside poky=20
+or in a parent directory.
+  - It won't corrupt existing manual settings
+>=20
+>> What I like with your new script is that it produces a seamless
+>> equivalent to the previous static config. If the static config cannot
+>> be
+>> versioned (I still didn't understand why), then yes, creating the
+Make sure to notify us on GitHub if you come with git conflicts or=20
+errors, or versioning problems with the way the extension edits=20
+settings.json ;)
+>> file
+>> seems like the way to go. However, I have a few concerns with the
+>> current implementation:
+>>  =C2=A0 1. If the user has different settings, they may be corrupted b=
+y the
+>> script when running oe-init-build-env. My suggestion would be to not
+>> generate anything if a settings.json is already present.
+>=20
+> Yes, that's simple and exactly what the new implementation does.
+>=20
+>>  =C2=A0 2. Would just having the static file somewhere and simply copy=
+ing
+>> it
+>> work rather than assembling it? What other dynamic configurations are
+>> addressed with your script?
+>>
+> Yes, that's more or less what the template does.
+It is much simpler now indeed!
+>=20
+>> I'm not sure I understand what kind of users and workflows are
+>> targeted
+>> by this script and how it connects with the documentation guiding
+>> flows.
+>> Should we rather edit the plugin's guide example configurations for
+>> poky?
+>=20
+> I think it should just work out of the box at least for the default use
+> case which is also documented in the Yocto quick setup guide. And
+> that's what it does with the few lines of code which I just pushed to
+> https://git.yoctoproject.org/poky-contrib/log/?h=3Dadrianf/vscode-yocto=
+-plugin
+>=20
+> What do you think?
+I think the current approach follows the traditional VSCode=20
+configuration experience:
+  - How to configure the extension should be explained in the=20
+extension's README (we already have that)
+  - There should be a mechanism to share .vscode settings for=20
+developers. Usually this is through having .vscode at the root of the=20
+git folder. But as you have explained, this is not the best solution for=20
+Yocto because we may have multi-layers workspaces, and also the=20
+settings.json edits. Your template approach satisfies both and follows=20
+the existing templateconf mechanic.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+I'm very happy with this iteration!
 
----
-Testing patch /home/patchtest/share/mboxes/v1-1-3-image.bbclass-rootfs-archive-and-deploy-opkg-package-database.patch
+Just a few minor remarks on the code:
+	if command -v code > /dev/null; then
+In the experience I describe just above, developers usually clone the=20
+.vscode settings even if they don't use them. I think we could remove=20
+this condition and always produce the VSCode settings. It will also=20
+encourage new users to try out the VSCode extension if they weren't=20
+aware of it, which will also be helpful to them.
 
-FAIL: test max line length: Patch line too long (current length 206, maximum is 200) (test_metadata.TestMetadata.test_max_line_length)
+You should remove the indentation in the messages "You had no=20
+.vscode/*.json file". cat heredocs will keep the indentation so the=20
+message appears indented in the output.
 
-PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test pylint (test_python_pylint.PyLint.test_pylint)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+You also removed some the editor settings the extension edits from the=20
+template. I'm ok with this since the file is no longer versioned. You=20
+could also remove the Python analysis paths which are inserted by the=20
+extension. (Also it uses ${workspaceFolder} relative paths which are=20
+portable.)
 
-SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+Thanks,
+>=20
+> Thank you and best regards,
+> Adrian
+>=20
+Enguerrand de Ribaucourt
 
