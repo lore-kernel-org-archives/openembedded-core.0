@@ -1,200 +1,193 @@
-Return-Path: <simone.weiss@posteo.net>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED0ACC48260
-	for <webhook@archiver.kernel.org>; Tue, 13 Feb 2024 16:49:15 +0000 (UTC)
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
- by mx.groups.io with SMTP id smtpd.web10.16505.1707842955217459184
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07206C4829A
+	for <webhook@archiver.kernel.org>; Tue, 13 Feb 2024 17:01:06 +0000 (UTC)
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+ by mx.groups.io with SMTP id smtpd.web10.16915.1707843656509075116
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Feb 2024 08:49:15 -0800
+ Tue, 13 Feb 2024 09:00:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@posteo.net header.s=2017 header.b=CiiiktI+;
- spf=pass (domain: posteo.net, ip: 185.67.36.65, mailfrom: simone.weiss@posteo.net)
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id 5D4AF240029
-	for <openembedded-core@lists.openembedded.org>; Tue, 13 Feb 2024 17:49:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
-	t=1707842953; bh=c5I7WblsCjGmAlSFPrYg9TGtu4IngR7HKeTjY5wBJ7A=;
-	h=Message-ID:Subject:From:To:Date:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version:From;
-	b=CiiiktI+d1CEPnvS5Tb7zFk9Bpo7YnRYAdBPgeQ4V1joPvabjR6337c8FG9U1G+R0
-	 H2UWSbp3sjhy6fa22+C8i8Pyld7cAk3/djcv3n26RJcTebatj+tdjvUV35CyYp7Yl7
-	 pQYPWGKt7rU5v8A6FoOuqK3R+zyrXmvmjLNrm42JUOYvH5ZWWBDovtRM+jxE06oJUi
-	 QgbvaLdz57GIwLSnlKEqyu7zn4uD/Zfk+pPYYX6NqitCwBlWSAzINSmfF9yfNj8TO/
-	 eMqwz5g0ZEm0A7D94DtCvBbEu72hnowoAIia8WB0RpPih3UN4MGA1t8yywkoMY7FUm
-	 to8+bda9oPeJg==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4TZ6jh0dv6z6txv;
-	Tue, 13 Feb 2024 17:49:11 +0100 (CET)
-Message-ID: <c5c04be0fd22c12cb14aa3cc9c44341a775e4ff9.camel@posteo.net>
-Subject: Re: [OE-core] [PATCH] patchtest: Add selftest for test
- cve_check_ignore
-From: Simone =?ISO-8859-1?Q?Wei=DF?= <simone.weiss@posteo.net>
-To: Trevor Gamblin <tgamblin@baylibre.com>, Simone =?ISO-8859-1?Q?Wei=DF?=
-	 <simone.p.weiss@posteo.com>, openembedded-core@lists.openembedded.org
-Date: Tue, 13 Feb 2024 16:49:11 +0000
-In-Reply-To: <cf013188-f838-4d44-ae15-21f2d6fc4e5b@baylibre.com>
-References: <20240210135259.563083-1-simone.p.weiss@posteo.com>
-	 <cf013188-f838-4d44-ae15-21f2d6fc4e5b@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=IpTbPvoV;
+ spf=pass (domain: gmail.com, ip: 209.85.210.174, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-6e0f5934813so895410b3a.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 13 Feb 2024 09:00:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707843655; x=1708448455; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MwzMslZdTG/qNv4lOOktUclygY9thJWrhCUyGAyt9XU=;
+        b=IpTbPvoVFvG/O7WPRamGLFmo9LciKN7GdSH2VZO9dLO9WArn18XihNxdmBKmgJmIZp
+         AMpkfPPE/GI/e12fLw+Oq6KHt+aFYGdPcbo90RJ+zhfv0t4tiMmdEYnuMvnTkxBOsJah
+         N1G1zyNWO5xlsvBOumm5UFDM7wF1AhdrSMvoUREJqIXvSnnrUks1UVlY2FSFmBGLLJxy
+         XozbMpVhqTR+Jv/cNPbVSVJy3nv6YDn2a+TkdZtm9uH0+DtjUZN/f8PErTxJH4BAENCj
+         mIajDSVdQQk/0Qa60afCeej1eA8FX0ss3MlORnRVIS9DabMkn2nonCOEXMTNSHmGEyzf
+         I9oQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707843655; x=1708448455;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MwzMslZdTG/qNv4lOOktUclygY9thJWrhCUyGAyt9XU=;
+        b=uqTcmBy9GUveEAlZRk/Llf4DUlwb3fe393fX6SJ/6mUx1wmXY1bCZWXYF1kcCSi0ld
+         JXXtJAtVsLyGhAz8x8b+eOIh0mPuZ+EJTu8PcuZcz6GDymqr/GAx1k3wi2Bb9+guLghW
+         ufXIRyPWm4F9wuKhRM4O5YAsifGYP9pKPpn18FWl0UgMuT7qeuvm39NCehnYrBe+4xsg
+         4BBcoXfotoS29unjLuCN8wOC9VhdfhgXJXXHgXj0mfh7BY4RTXRft9nFlV1jQrrRlUAg
+         jY2mDSGSFFXkT+UbeFbYiFPYAwJ0eORTwjWCp+XJxBXZTditNGravNhx6MI4x2lUnfaQ
+         X3AA==
+X-Gm-Message-State: AOJu0YzdC/sfoDhGTtchMeAzud1lq46wEzdQCuG2AQrHWMFg6Vy7mtI/
+	Ef4nANTUYNnnt+UBHs6GdfUWA8ugmh5zynfGmxZKdkxrswGmly9vp2V1/rasvN8=
+X-Google-Smtp-Source: AGHT+IEUYVdQV5nz7GzEgGs/6STWqwqMeDzNMijVxl2yx90Pb0u655wEm37whAUwgjvSBxTPZlhUPg==
+X-Received: by 2002:a05:6a20:d489:b0:19c:ac7f:c3e4 with SMTP id im9-20020a056a20d48900b0019cac7fc3e4mr117405pzb.42.1707843655166;
+        Tue, 13 Feb 2024 09:00:55 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::130a])
+        by smtp.gmail.com with ESMTPSA id l8-20020a63ba48000000b005dc5129ba9dsm2281100pgu.72.2024.02.13.09.00.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Feb 2024 09:00:54 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH v2] glibc: Update to bring mips32/clone3 fix
+Date: Tue, 13 Feb 2024 09:00:52 -0800
+Message-ID: <20240213170052.191495-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.43.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Feb 2024 16:49:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195419
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Feb 2024 17:01:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195420
 
-On Tue, 2024-02-13 at 09:55 -0500, Trevor Gamblin wrote:
->=20
-> On 2024-02-10 08:52, Simone Wei=C3=9F wrote:
-> > From: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
-> >=20
-> > Add a selftest for the recently introduced check for CVE_CHECK_IGNORE.
-> Hi, sorry for the late reply. Were you able to test this successfully=20
-> using the patchtest selftest run (or by manually running patchtest on=20
-> the test patches)? I am seeing both cases skip on my end.
+This patch is the only change applied with this update
 
-Hi Trevor,
+* 312e159626 mips: FIx clone3 implementation (BZ 31325)
 
-Yes both were fine e.g.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+v2: Add missing file in commit
 
-FAIL: test CVE check ignore: CVE_CHECK_IGNORE is deprecated and should be
-replaced by CVE_STATUS (test_metadata.TestMetadata.test_cve_check_ignore).
+ meta/recipes-core/glibc/glibc-version.inc     |  2 +-
+ ...s-FIx-clone3-implementation-BZ-31325.patch | 83 -------------------
+ meta/recipes-core/glibc/glibc_2.39.bb         |  1 -
+ 3 files changed, 1 insertion(+), 85 deletions(-)
+ delete mode 100644 meta/recipes-core/glibc/glibc/0024-mips-FIx-clone3-implementation-BZ-31325.patch
 
-As data for checking for modified files is constructed based on the
-included layers, a quick suspicion did you nor add meta-selftest before
-you tried?
-
-Cheers,
-Simone
-> >=20
-> > Signed-off-by: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
-> > ---
-> > =C2=A0 .../TestMetadata.test_cve_check_ignore.fail=C2=A0=C2=A0 | 30
-> > ++++++++++++++++++
-> > =C2=A0 .../TestMetadata.test_cve_check_ignore.pass=C2=A0=C2=A0 | 31
-> > +++++++++++++++++++
-> > =C2=A0 2 files changed, 61 insertions(+)
-> > =C2=A0 create mode 100644
-> > meta/lib/patchtest/selftest/files/TestMetadata.test_cve_check_ignore.f
-> > ail
-> > =C2=A0 create mode 100644
-> > meta/lib/patchtest/selftest/files/TestMetadata.test_cve_check_ignore.p
-> > ass
-> >=20
-> > diff --git
-> > a/meta/lib/patchtest/selftest/files/TestMetadata.test_cve_check_ignore
-> > .fail
-> > b/meta/lib/patchtest/selftest/files/TestMetadata.test_cve_check_ignore
-> > .fail
-> > new file mode 100644
-> > index 0000000000..3574463ade
-> > --- /dev/null
-> > +++
-> > b/meta/lib/patchtest/selftest/files/TestMetadata.test_cve_check_ignore
-> > .fail
-> > @@ -0,0 +1,30 @@
-> > +From c4ca86b9cca3643097db0328e2f34dccffbba309 Mon Sep 17 00:00:00
-> > 2001
-> > +From: =3D?UTF-8?q?Simone=3D20Wei=3DC3=3D9F?=3D <simone.p.weiss@posteo.=
-com>
-> > +Date: Sat, 10 Feb 2024 13:18:44 +0100
-> > +Subject: [PATCH] selftest-hello: add CVE_CHECK_IGNORE
-> > +MIME-Version: 1.0
-> > +Content-Type: text/plain; charset=3DUTF-8
-> > +Content-Transfer-Encoding: 8bit
-> > +
-> > +This should fail the test_cve_tag_format selftest.
-> > +
-> > +Signed-off-by: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
-> > +---
-> > + .../recipes-test/selftest-hello/selftest-hello_1.0.bb=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 3
-> > ++-
-> > + 1 file changed, 2 insertions(+), 1 deletion(-)
-> > +
-> > +diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-
-> > hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-
-> > hello_1.0.bb
-> > +index 547587bef4..3ef9b87c34 100644
-> > +--- a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-> > ++++ b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-> > +@@ -16,4 +16,5 @@ do_install() {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0install -m 0755 helloworld $=
-{D}${bindir}
-> > + }
-> > +
-> > +-BBCLASSEXTEND =3D "native nativesdk"
-> > +\ No newline at end of file
-> > ++CVE_CHECK_IGNORE =3D "CVE-2024-12345"
-> > ++BBCLASSEXTEND =3D "native nativesdk"
-> > +--
-> > +2.39.2
-> > +
-> > diff --git
-> > a/meta/lib/patchtest/selftest/files/TestMetadata.test_cve_check_ignore
-> > .pass
-> > b/meta/lib/patchtest/selftest/files/TestMetadata.test_cve_check_ignore
-> > .pass
-> > new file mode 100644
-> > index 0000000000..10f942a6eb
-> > --- /dev/null
-> > +++
-> > b/meta/lib/patchtest/selftest/files/TestMetadata.test_cve_check_ignore
-> > .pass
-> > @@ -0,0 +1,31 @@
-> > +From 7d4d3fee0c7111830ee9b2b049ae3ce265b26030 Mon Sep 17 00:00:00
-> > 2001
-> > +From: =3D?UTF-8?q?Simone=3D20Wei=3DC3=3D9F?=3D <simone.p.weiss@posteo.=
-com>
-> > +Date: Sat, 10 Feb 2024 13:23:56 +0100
-> > +Subject: [PATCH] selftest-hello: add CVE_STATUS
-> > +MIME-Version: 1.0
-> > +Content-Type: text/plain; charset=3DUTF-8
-> > +Content-Transfer-Encoding: 8bit
-> > +
-> > +This should pass the test_cve_tag_format selftest.
-> > +
-> > +Signed-off-by: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
-> > +---
-> > + .../recipes-test/selftest-hello/selftest-hello_1.0.bb=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 4
-> > +++-
-> > + 1 file changed, 3 insertions(+), 1 deletion(-)
-> > +
-> > +diff --git a/meta-selftest/recipes-test/selftest-hello/selftest-
-> > hello_1.0.bb b/meta-selftest/recipes-test/selftest-hello/selftest-
-> > hello_1.0.bb
-> > +index 547587bef4..9908b3b417 100644
-> > +--- a/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-> > ++++ b/meta-selftest/recipes-test/selftest-hello/selftest-hello_1.0.bb
-> > +@@ -16,4 +16,6 @@ do_install() {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0install -m 0755 helloworld $=
-{D}${bindir}
-> > + }
-> > +
-> > +-BBCLASSEXTEND =3D "native nativesdk"
-> > +\ No newline at end of file
-> > ++CVE_STATUS[CVE-2024-12345] =3D "not-applicable-platform: Issue only
-> > applies on Windows"
-> > ++
-> > ++BBCLASSEXTEND =3D "native nativesdk"
-> > +--
-> > +2.39.2
-> > +
-> >=20
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#195273):
-> > https://lists.openembedded.org/g/openembedded-core/message/195273
-> > Mute This Topic: https://lists.openembedded.org/mt/104277396/7611679
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe:
-> > https://lists.openembedded.org/g/openembedded-core/unsub=C2=A0[
-> > tgamblin@baylibre.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >=20
+diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
+index 0d86917f454..5b0705f6960 100644
+--- a/meta/recipes-core/glibc/glibc-version.inc
++++ b/meta/recipes-core/glibc/glibc-version.inc
+@@ -1,6 +1,6 @@
+ SRCBRANCH ?= "release/2.39/master"
+ PV = "2.39+git"
+-SRCREV_glibc ?= "63295e4fda1f6dab4bf7442706fe303bf283036c"
++SRCREV_glibc ?= "312e159626b67fe11f39e83e222cf4348a3962f3"
+ SRCREV_localedef ?= "fab74f31b3811df543e24b6de47efdf45b538abc"
+ 
+ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git;protocol=https"
+diff --git a/meta/recipes-core/glibc/glibc/0024-mips-FIx-clone3-implementation-BZ-31325.patch b/meta/recipes-core/glibc/glibc/0024-mips-FIx-clone3-implementation-BZ-31325.patch
+deleted file mode 100644
+index b391c609582..00000000000
+--- a/meta/recipes-core/glibc/glibc/0024-mips-FIx-clone3-implementation-BZ-31325.patch
++++ /dev/null
+@@ -1,83 +0,0 @@
+-From b471cadd57e3fc1fce74b33fcf75c6844cfd68b3 Mon Sep 17 00:00:00 2001
+-From: Adhemerval Zanella <adhemerval.zanella@linaro.org>
+-Date: Thu, 1 Feb 2024 14:41:03 -0300
+-Subject: [PATCH] mips: FIx clone3 implementation (BZ 31325)
+-
+-For o32 we need to setup a minimal stack frame to allow cprestore
+-on __thread_start_clone3 (which instruct the linker to save the
+-gp for PIC).  Also, there is no guarantee by kABI that $8 will be
+-preserved after syscall execution, so we need to save it on the
+-provided stack.
+-
+-Checked on mipsel-linux-gnu.
+-
+-Upstream-Status: Submitted [https://patchwork.sourceware.org/project/glibc/patch/20240201174103.798138-1-adhemerval.zanella@linaro.org/]
+-Reported-by: Khem Raj <raj.khem@gmail.com>
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- sysdeps/unix/sysv/linux/mips/clone3.S | 32 ++++++++++++++++++++++-----
+- 1 file changed, 27 insertions(+), 5 deletions(-)
+-
+-diff --git a/sysdeps/unix/sysv/linux/mips/clone3.S b/sysdeps/unix/sysv/linux/mips/clone3.S
+-index e9fec2fa47..481b8ae963 100644
+---- a/sysdeps/unix/sysv/linux/mips/clone3.S
+-+++ b/sysdeps/unix/sysv/linux/mips/clone3.S
+-@@ -37,11 +37,6 @@
+- 
+- 	.text
+- 	.set		nomips16
+--#if _MIPS_SIM == _ABIO32
+--# define EXTRA_LOCALS 1
+--#else
+--# define EXTRA_LOCALS 0
+--#endif
+- #define FRAMESZ ((NARGSAVE*SZREG)+ALSZ)&ALMASK
+- GPOFF= FRAMESZ-(1*SZREG)
+- NESTED(__clone3, SZREG, sp)
+-@@ -68,8 +63,31 @@ NESTED(__clone3, SZREG, sp)
+- 	beqz	a0, L(error)	/* No NULL cl_args pointer.  */
+- 	beqz	a2, L(error)	/* No NULL function pointer.  */
+- 
+-+#if _MIPS_SIM == _ABIO32
+-+	/* Both stack and stack_size on clone_args are defined as uint64_t, and
+-+	   there is no need to handle values larger than to 32 bits for o32.  */
+-+# if __BYTE_ORDER == __BIG_ENDIAN
+-+#  define CL_STACKPOINTER_OFFSET  44
+-+#  define CL_STACKSIZE_OFFSET     52
+-+# else
+-+#  define CL_STACKPOINTER_OFFSET  40
+-+#  define CL_STACKSIZE_OFFSET     48
+-+# endif
+-+
+-+	/* For o32 we need to setup a minimal stack frame to allow cprestore
+-+	   on __thread_start_clone3.  Also there is no guarantee by kABI that
+-+	   $8 will be preserved after syscall execution (so we need to save it
+-+	   on the provided stack).  */
+-+	lw	t0, CL_STACKPOINTER_OFFSET(a0)	/* Load the stack pointer.  */
+-+	lw	t1, CL_STACKSIZE_OFFSET(a0)	/* Load the stack_size.  */
+-+	addiu	t1, -32				/* Update the stack size.  */
+-+	addu	t2, t1, t0			/* Calculate the thread stack.  */
+-+	sw	a3, 0(t2)			/* Save argument pointer.  */
+-+	sw	t1, CL_STACKSIZE_OFFSET(a0)	/* Save the new stack size.  */
+-+#else
+- 	move	$8, a3		/* a3 is set to 0/1 for syscall success/error
+- 				   while a4/$8 is returned unmodified.  */
+-+#endif
+- 
+- 	/* Do the system call, the kernel expects:
+- 	   v0: system call number
+-@@ -125,7 +143,11 @@ L(thread_start_clone3):
+- 
+- 	/* Restore the arg for user's function.  */
+- 	move		t9, a2		/* Function pointer.  */
+-+#if _MIPS_SIM == _ABIO32
+-+	PTR_L		a0, 0(sp)
+-+#else
+- 	move		a0, $8		/* Argument pointer.  */
+-+#endif
+- 
+- 	/* Call the user's function.  */
+- 	jal		t9
+--- 
+-2.43.0
+-
+diff --git a/meta/recipes-core/glibc/glibc_2.39.bb b/meta/recipes-core/glibc/glibc_2.39.bb
+index 577ff1ad2c4..b2030600642 100644
+--- a/meta/recipes-core/glibc/glibc_2.39.bb
++++ b/meta/recipes-core/glibc/glibc_2.39.bb
+@@ -49,7 +49,6 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0021-fix-create-thread-failed-in-unprivileged-process-BZ-.patch \
+            file://0022-Avoid-hardcoded-build-time-paths-in-the-output-binar.patch \
+            file://0023-aarch64-configure-Pass-mcpu-along-with-march-to-dete.patch \
+-           file://0024-mips-FIx-clone3-implementation-BZ-31325.patch \
+ "
+ S = "${WORKDIR}/git"
+ B = "${WORKDIR}/build-${TARGET_SYS}"
+-- 
+2.43.1
 
 
