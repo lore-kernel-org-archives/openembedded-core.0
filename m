@@ -1,163 +1,232 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <scott.murray@konsulko.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E3CAC4829A
-	for <webhook@archiver.kernel.org>; Tue, 13 Feb 2024 15:23:45 +0000 (UTC)
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com (EUR04-DB3-obe.outbound.protection.outlook.com [40.107.6.58])
- by mx.groups.io with SMTP id smtpd.web10.14002.1707837815777569227
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 897A9C48260
+	for <webhook@archiver.kernel.org>; Tue, 13 Feb 2024 15:25:45 +0000 (UTC)
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+ by mx.groups.io with SMTP id smtpd.web10.14047.1707837942127986204
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Feb 2024 07:23:36 -0800
+ Tue, 13 Feb 2024 07:25:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=selector1 header.b=YFmg0zYR;
- spf=pass (domain: axis.com, ip: 40.107.6.58, mailfrom: peter.kjellerstedt@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oTSOz7aivV+nSrU2ZSpcfA8GHY7+4V3nvTaWmofUqLr5S+9VfPa9KUyRP6x/r89edLn8X+awaEHpat5n88vYIQrhQ1W5RUaYhV8Ej/Gu51TJKuMtPM8uUuBkOI9Eu61taiKhbMcN+4P7XvFumeQdz/RL1TZ7Q6kiQh6iaC6u6L7KDrHH8+gqDfvEB714UjuKQ6iPs5U3dcJpxtkGh6yeY+gbTs7jLsRPZM66hFBEJrERhNLPT3gOZr7gJzOgj/v4eXiOh6CiyvznBkgzghJHlzvomzElILETOqt+6s31nqpA7l9HzVrEcqYPZYRHEM5t7LtJ9m9ICXLGLZhiAc6jxA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uag5+sCX0dXk/M7gzTPNslE+chXJM/YOS/oA2IyJ4TY=;
- b=ma95QE25kykL1sFKkoXLO3MbMg0qpFttfcC/Robp07FDBcPA6HjpEbhXacXproc7p7c4duoIyFd8lrd2007IPQtAA6Q7ktebgpbfXEXBpAjmyStLNQItg5y4jvUQsxfgNFXnEMj15EAnnkN7P8b9Y1FDTv0skLYnx8LAMbH4bWxgwbCmF5EbLzx/yZumdXu2pyB/mwGe9o29IDfcZZEKqTcPKpt0jr+HbzBbj0XR93sUzhf1BQJqOLaxR0jKhoKr+SmNbEZDYv8rAdaGnRyOUAKQ1z4tEWVFkWd7TvRssBPE1wDkFE1CpMJpUqBy9tFmpSl9G6VsbzVT25kmeZO1rg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
- dkim=pass header.d=axis.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uag5+sCX0dXk/M7gzTPNslE+chXJM/YOS/oA2IyJ4TY=;
- b=YFmg0zYR7u78M+G1QaoahoGUSuBkKti9l1wHMDVUumIMysqS7Vu5WbToPfwNJKbeeKORmMNaEbks0yG2RHNRYvEJuhDozlAToU/MfEPrAKVtsyhml6oVj2j9hqYT3KU1LcNA62N8TiPdPtZD+pB3c+7BW4RgZQNmrr+jQFmph8U=
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com (2603:10a6:10:4a8::17)
- by PA4PR02MB7038.eurprd02.prod.outlook.com (2603:10a6:102:bc::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7270.39; Tue, 13 Feb
- 2024 15:23:32 +0000
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::546:7e4f:ddb1:92d7]) by DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::546:7e4f:ddb1:92d7%7]) with mapi id 15.20.7270.036; Tue, 13 Feb 2024
- 15:23:32 +0000
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>, Ross Burton
-	<Ross.Burton@arm.com>
-CC: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] more ptest pedantry: why conditionally include
- "run-ptest" in SRC_URI?
-Thread-Topic: [OE-core] more ptest pedantry: why conditionally include
- "run-ptest" in SRC_URI?
-Thread-Index: AQHaXX4+Ckx7VR50KkaGtkLrINzr67EGl8UAgAGOmwCAAD9WAA==
-Date: Tue, 13 Feb 2024 15:23:32 +0000
-Message-ID: 
- <DB5PR02MB1021399439F1D4166CDDF6BA4EF4F2@DB5PR02MB10213.eurprd02.prod.outlook.com>
-References: <8d71c0f-9120-85b7-80ce-d985aa557f8@crashcourse.ca>
- <8C7A9199-D49B-4190-9D96-F060CD858C71@arm.com>
- <6c701a47-f76-e3d0-3ea8-1b44ec7617c0@crashcourse.ca>
-In-Reply-To: <6c701a47-f76-e3d0-3ea8-1b44ec7617c0@crashcourse.ca>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=axis.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|PA4PR02MB7038:EE_
-x-ms-office365-filtering-correlation-id: f3ae1113-281f-4671-8d34-08dc2ca7bd5f
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- xr5despD2YXXCO77CwlefTrtDsniQk6hvt/21B47na99Y1NEsvZNxcGIr6kq3r70fVDMINsAW7MpOjYbMtvYRRd0+Pjd0ZNONn0IjcQWGuw1ScvnNt5tL36QNXNSYfBq3YiWYUZVKUfCLbo7q9rWX46ovzr9Bg9KBfD+di3DGjqjjLa7LF6K3Tvb0QFnWhj3BOFA/TyufC1sHZ025yeBB+GpFeL27Kyjld0D4JwMlrah1jRuqOzoY4IgGZaXAItmFQ+vn+Mz6L+q+EPGJAGGFhlSoiaRmagpN8+06IdVIXL/VMNc4wc3VupTVYTAQVTXkdZmBGUdtlUKP6TkVgDoladS6l0CXtfWmoYyoJC/wJ/0DgBjuKna+VjQ3Ke4tijXiC3w/bCRomlPzBnO/+8X383r8p7IKl8gTv1PiuUT47qrg6Ipv1xUgP7XMQ6dnTThAnjaetbAAoRCDTg5ETcLB0juBvZNKhEO2bMMsnHDHRlCbP1DnULEbFOxjiPOEiCG5ZFRBlCRYl3IcQpviXBwreq2hbjK0z9DQn5W5R2sukk6tEAoMCto5hLogCk3pqux43tEMNOk2KVclRvuLMfYE2KSS1g0v0kqyqIuxCuISIk=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(396003)(366004)(346002)(136003)(376002)(230922051799003)(451199024)(186009)(64100799003)(1800799012)(33656002)(122000001)(86362001)(64756008)(66476007)(76116006)(71200400001)(9686003)(66446008)(966005)(6506007)(4326008)(66556008)(8676002)(8936002)(66946007)(53546011)(478600001)(26005)(7696005)(38100700002)(83380400001)(38070700009)(316002)(52536014)(5660300002)(44832011)(110136005)(55016003)(41300700001)(2906002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?OXBBQTN0QjIwTFphN1cvMFBROUQ4Qi94N0tHSnlSOUZaWWZFYWlSLzBxZVR5?=
- =?utf-8?B?OGc4VGtmbDd5T2Y3MjA4VXg5VmVrcVR5S1VTWEp2cFkrUlBwQ0tLUWJFaC9V?=
- =?utf-8?B?R1VpTUdQbXZ3YnFteGJIY05zOW9GVk1sNk45OUx4U2JCcGJjeTFTOW9Ob1N0?=
- =?utf-8?B?SllJZVdLenBjY29pRmZWWjlqVVNQQXpFZTM1VUZUN3oyNlg0K25oT1FzeE5E?=
- =?utf-8?B?cDhXL2Y0ZUorZk5SbVMwR1FYbGtubW5qenJSbktURVN0R2tXVkJxblZhTmpT?=
- =?utf-8?B?d0hPVHc1VkltOWxUaTU3Q25OT1dBRFdZbFFtYkIvd2JSdTRvMVhlMzdRTS8r?=
- =?utf-8?B?bzk3VmQzYVN5dEpHL1RqRGtrOFBlNzlKTkxCeDNTRjY4U1FSWXBveURRN0VI?=
- =?utf-8?B?NmIwTE5GVis0bk9QbFoyZjZ4NWRSTEJzT3BXd1JNZVVGSk9QczlId3M2ZDda?=
- =?utf-8?B?N3dCMkoxcTV5THJFWmtNbDNuN2VGZmVXOE1MRkhYMC9ybTMxR3V5REI0VHBF?=
- =?utf-8?B?U1Evcm42S1hrdFpmYlozWjEvU21DZU9wcEFTK2I0SDQvaGRFWWZVUHBvNEZ1?=
- =?utf-8?B?S2Y4cW9OWWZmUVRtc21CNTVpUzJtbG9XRTkzTDBlOENxeWplaTVSR0xnRXM0?=
- =?utf-8?B?WUhFU0JmcEVpR1prRTM4NTFTRU1QdjgxdGhaSzFxcHlpWVdsblhEdktCWlFW?=
- =?utf-8?B?bElEMkdwcFFPL2xQNWxxNHpUZkpkSi81eVRvczBPU3Y0T281bnBqdnFtTEpG?=
- =?utf-8?B?WmhRS1RCMDg5S1poUS9BMFdwOS9PSkQ4Um85YWwxcHNJUCtPOGZPTW14TjlF?=
- =?utf-8?B?YjlkUFJxbFVRbzd3NWVzS0Q3TGd0eUFkQ2FjSlVZMG9ZOURPUHdLRS9kTTBu?=
- =?utf-8?B?bC9MVG4xbEpWRnNNMk1LK0FxV0tOWVRnN2lrWXZReDRKM1NKOUZYeEhTOWMr?=
- =?utf-8?B?UXR3b1VITkVpekxLcExxK0ZCa0x0ZlFXckphQUhpaElZMGNTYk5LaCtlN3Vj?=
- =?utf-8?B?alZ6U1BkZEEvZTVMbE9yK3dHS2tUdmhqWmFLQVAwSUZmV2F4azVNYTZZVUlU?=
- =?utf-8?B?WVRTWHZaS3ZaM2Y3MFFjTnpLb2tQM0VtdkduZDVzMFRYTGZtM2N2VGJCVUF0?=
- =?utf-8?B?TSs5aGwzcEF5c3RzT0ZCYVkvZ2lIMzc0Y2hEMEIvQmJ0YlhYNm9ncEpCY0RC?=
- =?utf-8?B?RmNsMjlyK1Y5cVlZYS9lQm5INzRWYzNKUWVhUDJtRWJ1WVE0bmdRS1ZUckhj?=
- =?utf-8?B?a3pLRkpXeGovR3E5WHg0b2lQNCs5bTBqZ1MvR2JqNFU2ZXZlZnJEWEludG0y?=
- =?utf-8?B?dUZOMEozdzRHV25Zdkh0QUVlYjFJSU1pbEpHMStGSDFEK3U1eFBRaElQMy84?=
- =?utf-8?B?QytTQUhTRzk1VHFPbkZpc3JWR1V4SmFiS29hTnA0UW5hcGpxVms5Rkt2NUhU?=
- =?utf-8?B?VkJzU084MmFNZlFzdVBueHcwTkpSKzc4RHhsdng2QXpVeDdpaUs0aG03akVX?=
- =?utf-8?B?WURIS1dpeDZ6R05LckVNL1dORUhMT1lWcmdNUGFhaGxrT21wWkVWVmo0RHQz?=
- =?utf-8?B?eHdoaVY5a0ZDa2FVQnVqQUVncGlXaE5ZdURVbGNvVklFdGNwWGhJZnFQY1NW?=
- =?utf-8?B?QXRzb3JBdzd1Y2ZOY0N3RVdhK0JuQzRNdW5GZm82clhWZlVMYTAyM3hWYnFw?=
- =?utf-8?B?VTRjeDZwK0k3UHZXaUh6Q2RHMVk3dUhmbXhSaHJ3ODE1aGRHQ01Zc251Qlkr?=
- =?utf-8?B?OFJxbkYwalNmMkVxaHJtNDh3ZGNld2FKZldzUWFxc0pRSDVIR0t1VGZ5cmQw?=
- =?utf-8?B?ODZyZm9Va3NscHJTekM2cE5zMTJ1cHE5QVFydUpJUGdMN3BsT0lMSTV4R0xK?=
- =?utf-8?B?YkNpbnFteVdFOTFvWXJxUGVmRTJKM1dkYXNRQlJRVDNGY3JvZEVRR2xGbEdr?=
- =?utf-8?B?MGxTU3plZ1N4WmYxL0lzRm8wcFpJV3dsVHJDZHNXYzZFV1RHMkpJZE5Ldk54?=
- =?utf-8?B?aTN4MTdRSTIrK05TdzhJM2pwNXhDSUpqdEZLaTlLaFdhckJhdEthQjFHVjlZ?=
- =?utf-8?B?YmZRVVRWV0s0SHdkUXF4S3pNZDA0emhteUozL1dNRTJHVFFaSE02Y01VR09P?=
- =?utf-8?Q?wZ10=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@konsulko.com header.s=google header.b=rhBXsraP;
+ spf=pass (domain: konsulko.com, ip: 209.85.219.50, mailfrom: scott.murray@konsulko.com)
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-68cc9061c73so21730086d6.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 13 Feb 2024 07:25:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google; t=1707837941; x=1708442741; darn=lists.openembedded.org;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=OoWymj11G182S6n5kx6gJmWhskao5uu66a31Dgm/Yr0=;
+        b=rhBXsraP8YoqOI8o/ioBc1xqTnuz5frRt0nInJ4OwKOnxzrAJPDu62oboBMMPu0J+r
+         2k1PToksarU4R267lTAAhF/BN7o8v16XP0lcmcuL6K6Mky/FIsS2yX0ROisIwS+2dmjC
+         DDZgQZzMIC1LKfz32PiSqonHzZaeBZQyqZ+ms=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707837941; x=1708442741;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OoWymj11G182S6n5kx6gJmWhskao5uu66a31Dgm/Yr0=;
+        b=ai1rKdmrOOMcM4A37D3TRjtOgu1S+CPR+lhtJD3Z8u+KBXO2kzxZ0e9dyE8yNYat6a
+         SGlwtINlYAlg4y+pKZECo1flLtm0D92E8WqfXtYUjJXzfs9U3PQx59w+suSaEk/780TJ
+         S+B5LD1Qrw3tsk9CB/XcRmEX5vAbwQRqIC+dsn9IZXz/9UOC9uECdpNjLgeH8KifogPD
+         sZ326DiGB0W7CihFEbqqd99xMK7xoVao4f4C3rbx7GJHA5k4rboym+SWX+HhqqV84QV8
+         TICAWTqEWuGoU63fQNilOJeWSEOMpouWMJ043gCOQmdagQd5pETmHMoknnAAv8l2ArHJ
+         1hXQ==
+X-Gm-Message-State: AOJu0YzBxTYVBI5e/8YW/hCVn4BPB8eqa2suWnFprPPM2MUU3lNwRz0D
+	fxGRrk4bFTEeMEiqvgOuVMrUyclHev8Gbpq4dQmRZrK0mV2I0og6hi0HVFEwvVg=
+X-Google-Smtp-Source: AGHT+IGVbgQ9tsUqHAxE9vLAMMu09kXO741UYD6oS6rmzNt6JEJNFkwTeviZj60j+55RoXFbwnaFNQ==
+X-Received: by 2002:a0c:d993:0:b0:68c:933c:e7f9 with SMTP id y19-20020a0cd993000000b0068c933ce7f9mr9672500qvj.17.1707837941067;
+        Tue, 13 Feb 2024 07:25:41 -0800 (PST)
+Received: from godzilla (107-179-213-3.cpe.teksavvy.com. [107.179.213.3])
+        by smtp.gmail.com with ESMTPSA id lz9-20020a0562145c4900b0068d1cb18b9bsm1287619qvb.26.2024.02.13.07.25.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Feb 2024 07:25:40 -0800 (PST)
+Date: Tue, 13 Feb 2024 10:25:28 -0500 (EST)
+From: Scott Murray <scott.murray@konsulko.com>
+To: randy.macleod@windriver.com
+cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] rng-tools: move to meta-oe
+In-Reply-To: <55fa276d-e6e2-4cc1-b4fa-660356889665@windriver.com>
+Message-ID: <277ec088-9dfa-c2c5-b03c-21e03b969ab9@konsulko.com>
+References: <20240110202501.1554379-1-Randy.MacLeod@windriver.com> <20240115165859d332c9cb@mail.local> <cfa90344-0753-4ae1-9979-2c0f12a33d50@windriver.com> <b8554634-5da9-9872-660a-5e94a62c765e@konsulko.com>
+ <55fa276d-e6e2-4cc1-b4fa-660356889665@windriver.com>
 MIME-Version: 1.0
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f3ae1113-281f-4671-8d34-08dc2ca7bd5f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Feb 2024 15:23:32.7732
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: wkkga60uhqDl9p3IDTdrLjrAatzUl+0uVTiXP9KAwmQZN2KY4PeKPGO4h7ddpM61
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR02MB7038
+Content-Type: multipart/mixed; boundary="-1463811583-630062803-1707837940=:4367"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Feb 2024 15:23:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195412
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Feb 2024 15:25:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195413
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVt
-YmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIFJvYmVydCBQLiBKLiBEYXkNCj4gU2VudDogZGVuIDEz
-IGZlYnJ1YXJpIDIwMjQgMTI6MzUNCj4gVG86IFJvc3MgQnVydG9uIDxSb3NzLkJ1cnRvbkBhcm0u
-Y29tPg0KPiBDYzogT0UgQ29yZSBtYWlsaW5nIGxpc3QgPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3Rz
-Lm9wZW5lbWJlZGRlZC5vcmc+DQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gbW9yZSBwdGVzdCBw
-ZWRhbnRyeTogd2h5IGNvbmRpdGlvbmFsbHkgaW5jbHVkZQ0KPiAicnVuLXB0ZXN0IiBpbiBTUkNf
-VVJJPw0KPiANCj4gT24gTW9uLCAxMiBGZWIgMjAyNCwgUm9zcyBCdXJ0b24gd3JvdGU6DQo+IA0K
-PiA+IE9uIDEyIEZlYiAyMDI0LCBhdCAwNjozOSwgUm9iZXJ0IFAuIEouIERheSB2aWEgbGlzdHMu
-b3BlbmVtYmVkZGVkLm9yZw0KPiA8cnBqZGF5PWNyYXNoY291cnNlLmNhQGxpc3RzLm9wZW5lbWJl
-ZGRlZC5vcmc+IHdyb3RlOg0KPiA+ID4gIG1vcmUgYW5ub3lpbmcgbml0cGlja2VyeSAuLi4gaGVy
-ZToNCj4gPiA+DQo+ID4gPiBodHRwczovL2dpdC5vcGVuZW1iZWRkZWQub3JnL29wZW5lbWJlZGRl
-ZC1jb3JlL3RyZWUvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3h6L3h6XzUuNC41LmJiI24yOA0KPiA+
-ID4NCj4gPiA+IGl0J3Mgbm90IGNsZWFyIHdoeSBzb21lb25lIHdvdWxkIGdvIHRvIHRoZSB0cm91
-YmxlIG9mIGNvbmRpdGlvbmFsbHkNCj4gPiA+IGluY2x1ZGluZyBydW4tcHRlc3QgaW4gU1JDX1VS
-SSBhcyBpIHdvdWxkIGhhdmUgdGhvdWdodCB0aGUgb25seQ0KPiA+ID4gYmVuZWZpdCB3b3VsZCBi
-ZSB0byBhdm9pZCB0aGUgdHJpdmlhbGl0eSBvZiBjb3B5aW5nIHJ1bi1wdGVzdCBpbnRvDQo+ID4g
-PiBXT1JLRElSLCBidXQgYmV5b25kIHRoYXQsIGkgZG9uJ3Qgc2VlIHdoYXQgdGhlIHBvaW50IGlz
-LCBhbmQgdGhhdCdzDQo+ID4gPiB0aGUgb25seSByZWNpcGUgaSd2ZSBydW4gYWNyb3NzIHRoYXQg
-Ym90aGVycyB0byBkbyB0aGF0Lg0KPiA+ID4NCj4gPiA+ICBpcyB0aGVyZSBzb21ldGhpbmcgbW9y
-ZSBzdWJ0bGUgaGFwcGVuaW5nIGhlcmU/DQo+ID4NCj4gPiBObyBnb29kIHJlYXNvbiwgYW5kIEni
-gJlkIGFwcHJvdmUgYSBwYXRjaCB0aGF0IHJlbW92ZWQgdGhlDQo+ID4gY29uZGl0aW9uYWxzIG9u
-IHRoZSBncm91bmRzIG9mIGNsZWFuaW5nIHVwIHRoZSByZWNpcGUgYW5kIGVuc3VyaW5nDQo+ID4g
-dGhhdCB0aGVyZeKAmXMgbGVzcyBjb25kaXRpb25hbCBwYXRocyB0aHJvdWdoIHRoZSByZWNpcGUu
-DQo+IA0KPiAgIGFkZGl0aW9uYWwgbm90ZSBpbiB0aGF0LCBpZiBhIHJlY2lwZSBpbmhlcml0cyBw
-dGV4dCwgdGhlbiBpdCdzIHNpbGx5DQo+IHRvIGNvbmRpdGlvbmFsbHkgaW5jbHVkZSAicnVuLXB0
-ZXN0IiBpbiBTUkNfVVJJLiBidXQgaXQncyB0cmlja2llciBpZg0KPiBzb21ldGhpbmcgZWxzZSBp
-biBTUkNfVVJJIGlzIGluY2x1ZGVkIGNvbmRpdGlvbmFsbHk6DQo+IA0KPiBodHRwczovL2dpdC5v
-cGVuZW1iZWRkZWQub3JnL29wZW5lbWJlZGRlZC1jb3JlL3RyZWUvbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL2ZsZXgvZmxleF8yLjYuNC5iYiNuMTgNCj4gDQo+IHdpdGhvdXQga25vd2luZyB3aGF0IHRo
-YXQgcGF0Y2ggZG9lcywgaXQgc2VlbXMgbGlrZSB5b3Uga2luZCBvZiBoYXZlDQo+IHRvIGxlYXZl
-IGl0IGFzIGNvbmRpdGlvbmFsLiBtYXliZSBvdGhlciBleGFtcGxlcyBhcmUgbW9yZSBvYnZpb3Vz
-Lg0KPiANCj4gcmRheQ0KDQpMb29raW5nIGF0IHRoZSBwYXRjaCwgaXQgc3RhdGVzIHRoYXQgdGhl
-IHJlYXNvbiB0byBhcHBseSBpdCB3aGVuIHB0ZXN0IGlzIA0Kbm90IGVuYWJsZWQgaXMgdG8gYXZv
-aWQgdW5uZWNlc3NhcnkgZGVwZW5kZW5jaWVzIG9uIGJpc29uLW5hdGl2ZSBhbmQgDQpmbGV4LW5h
-dGl2ZS4NCg0KLy9QZXRlcg0KDQo=
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+---1463811583-630062803-1707837940=:4367
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+
+On Thu, 8 Feb 2024, Randy MacLeod via lists.openembedded.org wrote:
+
+> On 2024-01-15 4:50 p.m., Scott Murray wrote:
+> > On Mon, 15 Jan 2024, Randy MacLeod via lists.openembedded.org wrote:
+> >
+> >> On 2024-01-15 11:58 a.m., Alexandre Belloni via lists.openembedded.org
+> >> wrote:
+> >>> This is breaking meta-agl-core until this gets into meta-oe:
+> >>>
+> >>> https://autobuilder.yoctoproject.org/typhoon/#/builders/120/builds/3849/steps/14/logs/stdio
+> >> Thanks Alexandre.
+> >>
+> >>
+> >> Stephane, Jan-Simon,
+> >>
+> >> Is rng-tools actually still a requirement for meta-agl ?
+> >> It was added back in 2018 but the kernel algorithm improved as of 5.6:
+> >> https://lists.openembedded.org/g/openembedded-core/message/178518
+> > The kernel no longer blocking does mean things won't get stuck on boot,
+> > but it seems like any distro with an eye towards security still needs
+> > either rngd or haveged present to feed in entropy on hardware that does
+> > not have a hardware RNG (and potentially even when there is a hardware
+> > RNG to improve the quality of the pool).  We definitely support some
+> > platforms in AGL that do not have a hardware RNG, so we'll have to work
+> > out whether we're going to need to eat making meta-oe a hard requirement
+> > for using meta-agl-core or do something else.
+>
+> For anyone who missed it...
+>
+> We restored rng-tools in oe-core as described here:
+> https://git.openembedded.org/openembedded-core/commit/?id=828afafb3bff54079fcba9bdab2ec87ac13e4ce6
+>
+>
+> Scott,
+>
+> Any news on a qemu/HW boot test case?
+
+Not really.  Both Jan-Simon and myself have looked into it some, but as
+you've seen, characterizing the Linux RNG behavior is not simple, and it
+is not obvious that even a particularly convoluted test environment (i.e.
+without passing a RNG via QEMU, trying to minimize I/O by avoiding disk
+boot, etc.) can yield a simple yes/no without running a perhaps lengthy
+test to that tries to quantify the RNG quality with an exhausted entropy
+pool.
+
+> Testing randomness is a little different as described in my notes below.
+> If anyone has some expertise in this area, please help!
+>
+>
+> There are a few tests in rng-tools, that could be wrapped in ptest:
+> ❯ ls tests/
+> Makefile.am  rngtestjitter.sh  rngtesturandom.sh  rngtestzero.sh
+>
+> I haven't played with rngtest much but I was wondering how we'd even construct
+> a test of randomness that would *always* pass.
+>
+> The example below shows that if you run runtest with a blockcount of 10,000,
+> and do that 10 times, you get failures some of the time:
+>
+> ❯ for i in `seq 10`; do cat /dev/urandom | rngtest -c 10000 --pipe 2>&1
+> >/dev/null |rg failures; done
+> rngtest: FIPS 140-2 failures: 6
+> rngtest: FIPS 140-2 failures: 5
+> rngtest: FIPS 140-2 failures: 9
+> rngtest: FIPS 140-2 failures: 4
+> rngtest: FIPS 140-2 failures: 6
+> rngtest: FIPS 140-2 failures: 8
+> rngtest: FIPS 140-2 failures: 9
+> rngtest: FIPS 140-2 failures: 11
+> rngtest: FIPS 140-2 failures: 9
+> rngtest: FIPS 140-2 failures: 5
+>
+>
+> We could say that we accept up to 20 failures but even then, there would be a
+> chance that the YP AB would
+> occasionally see that fail due the the inherit randomness being tested.
+>
+> If I run the test 1000 times  you can see that on my laptop (6.6.10), 20
+> failures never happens:
+> ❯ cut -d":" -f3 /tmp/rt.log | sort -n | uniq -c
+>       3  1
+>       7  2
+>      34  3
+>      54  4
+>     101  5
+>     131  6
+>     138  7
+>     124  8
+>     114  9
+>     101  10
+>      75  11
+>      48  12
+>      36  13
+>      16  14
+>      10  15
+>       6  16
+>       1  17
+>       1  19
+>
+> and on an older headless server running 5.15 with fewer process and likely
+> less entropy available:
+>       2  1
+>      12  2
+>      29  3
+>      60  4
+>      95  5
+>     117  6
+>     133  7
+>     121  8
+>     139  9
+>      99  10
+>      81  11
+>      50  12
+>      28  13
+>      14  14
+>       9  15
+>       5  16
+>       4  17
+>       2  20
+>
+>
+> I guess we could raise the limit to ~30 (42!) and failures would be extremely
+> unlikely.
+
+I have seen anecdotal statements that seeing significantly more than
+10 failures from "rngtest -c 1000" is a sign of not enough entropy,
+so booting with the QEMU RNG disabled and checking for <= 20 with a
+single "rng-test -c 1000" is probably a test that is unlikely to fail.
+That's perhaps true even without running rngd since booting from a
+disk image is possibly likely to seed the entropy pool enough for it.
+That's what I've seen here on the hardware platform's I have that do
+not have a h/w RNG.  I did start looking at what the dieharder utility
+measures (see https://webhome.phy.duke.edu/~rgb/General/dieharder.php),
+but then we're well and truly outside of the realm of a simple ptest.
+
+> We would have a similar problem with measuring the boot time that is dependent
+> on the entropy pool not being depleted
+> since we can't completely rule out a boot sequence taking 3x as long as the
+> average time
+> and it would be worse in qemu given that it's competing with other processes
+> on the YP AB machines!
+
+I suspect a useful boot time test is infeasible, especially with newer
+kernels.  In addition to the non-blocking /dev/random changed in 5.10,
+there was a significant redo of the entropy pool mixing scheme in 5.18.
+Together, I suspect it's unlikely the entropy pool will be particularly
+low on boot without going to significant lengths.  Overall, with modern
+kernels the need for running rngd seems to now be more about handling a
+quite significant demand for true random numbers in server usecases.
+That does circle back around to whether it's worth keeping in oe-core or
+not.  Since there still are < 5.10 LTS kernels that have EOLs in the
+Scarthgap timeframe (e.g. 5.4 is Dec 2025), it does seem worth keeping it
+for users potentially stuck with BSPs with those kernels.  If keeping it
+absolutely requires a test, we'll likely have to try to experiment with
+what behavior looks like when running inside QEMU on the AB per your
+experiments...
+
+> ../Randy "It's a good day because I made some graphs to understand a
+> problem."  MacLeod
+
+;)
+
+Scott
+---1463811583-630062803-1707837940=:4367--
 
