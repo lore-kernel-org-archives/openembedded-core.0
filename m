@@ -1,210 +1,99 @@
-Return-Path: <adrian.freihofer@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA5DFC4829F
-	for <webhook@archiver.kernel.org>; Tue, 13 Feb 2024 22:19:17 +0000 (UTC)
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
- by mx.groups.io with SMTP id smtpd.web11.27672.1707862749205914141
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0222C4829F
+	for <webhook@archiver.kernel.org>; Tue, 13 Feb 2024 22:38:37 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web11.28228.1707863911382463746
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Feb 2024 14:19:09 -0800
+ Tue, 13 Feb 2024 14:38:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=K1ybpzu1;
- spf=pass (domain: gmail.com, ip: 209.85.208.49, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-56001b47285so2059068a12.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 13 Feb 2024 14:19:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707862747; x=1708467547; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VS+n4/G2yNK/ICtCRJSV/+fAaVHaZWznyr39Q2sLUdY=;
-        b=K1ybpzu1hCjjKepSv6wrtlwG79uot2ko8eT+3Rt3NaT6IOAJ91ZJOOjJn94NTuFNTv
-         qCr6RpW9/BosPhBDBcjxLmEWUuc/JSajgDK/qmpMFSb9Jmnj2py6sTmdjzsMVFx/uUOf
-         kZHUGyX4tJgyaPOHh1z41uh4cPG9wDGAGBwVgSE4QUFnW8dUR/tmsEUWSV/Oik1HOQ6j
-         D9pszRgVkSZbgJlOqpjOyIc3k3VqRSAywPdEmv2xoQzGqfgFXvkPunT3PpGmkEQkT7y1
-         tL0ZcEWWvxq7bwF6VAKMFG02O88eH7WgtIjafqQayNM3T7dKWb8eGFTPyMuySPquZPgQ
-         0Spw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707862747; x=1708467547;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VS+n4/G2yNK/ICtCRJSV/+fAaVHaZWznyr39Q2sLUdY=;
-        b=VPD+RWwTLEiVY9cwmE2zxOg3nlJJYW8zmjDUnRHxV0Fc/tu/t9xhYgDWUh7o1Wujb6
-         YWGN5A932gdHwsyj3YTr8p36imfIsH3oLD8LJx9GHkamBbWIegfyM9xRZKQcHevCnjUG
-         b7u2pBu65bg6DK89PpkQKAHFuYVAZ3MqWIOpcZpGvVDcoYJXuVeTKRksr7Ic83Ld4mV0
-         9fAMQtMwfpe98MX+hwRv3LuXf727Fb0/6WNlHti2N0OQK3ogbNk9ECBx9RTuqkAFOmAe
-         1XsYjM7Wast0uBTO3646/QtN70iOvu3kfKOHUBvfmHbEUhi4mgwMnR9cLr7M2kE/b7Hs
-         O5Og==
-X-Gm-Message-State: AOJu0YynqKjDBdLlnA4lIrnVCRtmnjYMa1j05pM2DYNVh3p0igbXjrwU
-	o67P4WsbeA0t013zchyC4xzoADxZSbUy6HdQPUmIvv7zkyNjOWkrQPouT3xa
-X-Google-Smtp-Source: AGHT+IGkdAoUQvYk7k1n0oh/q6DVItApVlRSFFbWbi8pe+i1xorTN1NhXFGZ/RVerZT16O7X+1O5zA==
-X-Received: by 2002:aa7:da0e:0:b0:561:f768:e286 with SMTP id r14-20020aa7da0e000000b00561f768e286mr657384eds.3.1707862745189;
-        Tue, 13 Feb 2024 14:19:05 -0800 (PST)
-Received: from wsadrian16.fritz.box ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id k23-20020a05640212d700b005612987a525sm4027137edx.89.2024.02.13.14.19.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Feb 2024 14:19:04 -0800 (PST)
-From: Adrian Freihofer <adrian.freihofer@gmail.com>
-X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v2 3/4] oe-init-build-env: generate .vscode from template
-Date: Tue, 13 Feb 2024 23:18:07 +0100
-Message-ID: <20240213221846.109260-4-adrian.freihofer@siemens.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240213221846.109260-1-adrian.freihofer@siemens.com>
-References: <20240213221846.109260-1-adrian.freihofer@siemens.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=XMc7eRnf;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Kw9N2V/Z;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018da49f26e5-d08dbc79-cc8a-4dfa-85d8-d1fb33d07959-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1707863910; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=A8J42piAztjy6vNlBtuxczESrY2cwXxQbLBxZjyo8xM=;
+	b=XMc7eRnfgXVAQLsfCxGcBgNBxxxvNnY3BIMh3s0MhLoZ2Pda9/Pf0rJPQI2rXVFu
+	sT/rem1hEhdMtVg4kErSwPm6BDDvWVzATWTJDvOZRHYsBrwev+Fe8Sv+BwDMiMyCRuC
+	i6369nqHDHygsMHIvYz9cTCHT2uRiHYq88G9Bgxo=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1707863910;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=A8J42piAztjy6vNlBtuxczESrY2cwXxQbLBxZjyo8xM=;
+	b=Kw9N2V/ZY6hrz/iAql8y4cCH6waY2sEYjI+qs+bIkYZgrR/J/pMnCWmUpFAhEOxN
+	FqXXFFAbm/twFQ9SW4Am98ONWNy4bBj6dzmJ2YsLyYzUhseLKSFfCi+34twY4ES+k1I
+	pzrA9EwRLLhqDjja3xzCnU0a0i4FKAIfOSuLRAu4=
+From: patchtest@automation.yoctoproject.org
+To: Adrian Freihofer <adrian.freihofer@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH v2 3/4] oe-init-build-env: generate .vscode from template
+In-Reply-To: 20240213221846.109260-4-adrian.freihofer@siemens.com
+References: 20240213221846.109260-4-adrian.freihofer@siemens.com
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018da49f26e5-d08dbc79-cc8a-4dfa-85d8-d1fb33d07959-000000@us-west-2.amazonses.com>
+Date: Tue, 13 Feb 2024 22:38:30 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.02.13-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Feb 2024 22:19:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195442
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Feb 2024 22:38:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195444
 
-Provide a reasonable default configuration for VSCode and the
-yocto.bitbake extension as it is provided by templates.
+--NextPart
+Content-Type: text/plain
 
-The configuration is only generated if VSCode is installed. Currently,
-VSCode is one of many popular editors for Yocto/OE. Removing the check
-for code would result in the .vscode configuration being generated by
-e.g. oe-selftest or for users not using VSCode. If it should prove
-useful, the check can be removed later.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Supporting different layers and build folder structures is supported
-e.g. by overriding the oe-init-build-env script and the templates in
-a custom layer.
-
-Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- .../default/vscode/settings.json.sample       | 47 +++++++++++++++++++
- scripts/oe-setup-builddir                     | 43 +++++++++++++++++
- 2 files changed, 90 insertions(+)
- create mode 100644 meta-poky/conf/templates/default/vscode/settings.json.sample
+Testing patch /home/patchtest/share/mboxes/v2-3-4-oe-init-build-env-generate-.vscode-from-template.patch
 
-diff --git a/meta-poky/conf/templates/default/vscode/settings.json.sample b/meta-poky/conf/templates/default/vscode/settings.json.sample
-new file mode 100644
-index 00000000000..4439f5f5c5c
---- /dev/null
-+++ b/meta-poky/conf/templates/default/vscode/settings.json.sample
-@@ -0,0 +1,47 @@
-+{
-+    "bitbake.pathToBitbakeFolder": "##OEROOT##/bitbake",
-+    "bitbake.pathToBuildFolder": "##BUILDDIR##",
-+    "bitbake.pathToEnvScript": "##OEINIT##/oe-init-build-env",
-+    "files.exclude": {
-+        "**/.git/**": true,
-+        "**/_build/**": true,
-+        "**/buildhistory/**": true,
-+        "**/cache/**": true,
-+        "**/downloads/**": true,
-+        "**/node_modules/**": true,
-+        "**/oe-logs/**": true,
-+        "**/oe-workdir/**": true,
-+        "**/sstate-cache/**": true,
-+        "**/tmp*/**": true,
-+        "**/workspace/attic/**": true,
-+        "**/workspace/sources/**": true
-+    },
-+    "files.watcherExclude": {
-+        "**/.git/**": true,
-+        "**/_build/**": true,
-+        "**/buildhistory/**": true,
-+        "**/cache/**": true,
-+        "**/downloads/**": true,
-+        "**/node_modules/**": true,
-+        "**/oe-logs/**": true,
-+        "**/oe-workdir/**": true,
-+        "**/sstate-cache/**": true,
-+        "**/tmp*/**": true,
-+        "**/workspace/attic/**": true,
-+        "**/workspace/sources/**": true
-+    },
-+    "python.analysis.exclude": [
-+        "**/_build/**",
-+        "**/.git/**",
-+        "**/buildhistory/**",
-+        "**/cache/**",
-+        "**/downloads/**",
-+        "**/node_modules/**",
-+        "**/oe-logs/**",
-+        "**/oe-workdir/**",
-+        "**/sstate-cache/**",
-+        "**/tmp*/**",
-+        "**/workspace/attic/**",
-+        "**/workspace/sources/**"
-+    ]
-+}
-\ No newline at end of file
-diff --git a/scripts/oe-setup-builddir b/scripts/oe-setup-builddir
-index dfd9acbb2cf..10c813788d2 100755
---- a/scripts/oe-setup-builddir
-+++ b/scripts/oe-setup-builddir
-@@ -59,6 +59,8 @@ if [ -n "$TEMPLATECONF" ]; then
-     OECORELOCALCONF="$TEMPLATECONF/local.conf.sample"
-     OECOREDESCRCONF="$TEMPLATECONF/conf-description.txt"
-     OECORENOTESCONF="$TEMPLATECONF/conf-notes.txt"
-+    VSCODE_SETTINGS_CONF="$TEMPLATECONF/vscode/settings.json.sample"
-+    VSCODE_EXTENSIONS_CONF="$TEMPLATECONF/vscode/extensions.json"
- fi
- 
- unset SHOWYPDOC
-@@ -114,11 +116,52 @@ if [ ! -r "$BUILDDIR/conf/conf-notes.txt" ]; then
-     [ ! -r "$OECORENOTESCONF" ] || cp "$OECORENOTESCONF" "$BUILDDIR/conf/conf-notes.txt"
- fi
- 
-+# If VSCode is installed generate a reasonable configuration
-+if command -v code > /dev/null; then
-+    # Ensure VSCode does not try to index $BUILDDIR and ends up with an OOM exception.
-+    # Configure also the yocto-bitbake extension to work.
-+    if [ -z "$VSCODE_SETTINGS_CONF" ]; then
-+        VSCODE_SETTINGS_CONF="$OEROOT/meta/conf/templates/default/vscode/settings.json.sample"
-+    fi
-+    if [ ! -r "$OEINIT/.vscode/settings.json" ] && [ -f "$VSCODE_SETTINGS_CONF" ]; then
-+        cat <<EOM
-+You had no .vscode/settings.json file. This configuration file has therefore been
-+created for you from $VSCODE_SETTINGS_CONF.
-+
-+EOM
-+        mkdir -p "$OEINIT/.vscode"
-+        sed -e "s|##OEINIT##|$OEINIT|g" \
-+            -e "s|##OEROOT##|$OEROOT|g" \
-+            -e "s|##BUILDDIR##|$BUILDDIR|g" \
-+            \
-+            -e "s|\"$OEINIT|\"\${workspaceFolder}|g" \
-+            "$VSCODE_SETTINGS_CONF" > "$OEINIT/.vscode/settings.json"
-+        SHOWYPDOC=yes
-+    fi
-+
-+    # Support also recommending extensions for VSCode.
-+    if [ -z "$VSCODE_EXTENSIONS_CONF" ]; then
-+        VSCODE_EXTENSIONS_CONF="$OEROOT/meta/conf/templates/default/vscode/extensions.json"
-+    fi
-+    if [ ! -r "$OEINIT/.vscode/extensions.json" ] && [ -f "$VSCODE_EXTENSIONS_CONF" ]; then
-+        cat <<EOM
-+You had no .vscode/extensions.json file. This configuration file has therefore been
-+created for you from $VSCODE_EXTENSIONS_CONF.
-+
-+EOM
-+        mkdir -p "$OEINIT/.vscode"
-+        cp "$VSCODE_EXTENSIONS_CONF" "$OEINIT/.vscode"
-+        SHOWYPDOC=yes
-+    fi
-+fi
-+
- # Prevent disturbing a new GIT clone in same console
- unset OECORELOCALCONF
- unset OECORELAYERCONF
- unset OECOREDESCRCONF
- unset OECORENOTESCONF
-+unset VSCODE_SETTINGS_CONF
-+unset VSCODE_EXTENSIONS_CONF
- 
- # Ending the first-time run message. Show the YP Documentation banner.
- if [ -n "$SHOWYPDOC" ]; then
--- 
-2.43.0
+FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
