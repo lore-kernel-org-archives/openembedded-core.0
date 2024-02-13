@@ -1,166 +1,212 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <uvv.mail@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61AE5C48260
-	for <webhook@archiver.kernel.org>; Tue, 13 Feb 2024 18:21:56 +0000 (UTC)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
- by mx.groups.io with SMTP id smtpd.web10.20341.1707848512986521250
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 760DEC48260
+	for <webhook@archiver.kernel.org>; Tue, 13 Feb 2024 18:41:06 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web10.21190.1707849660653578646
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Feb 2024 10:21:53 -0800
+ Tue, 13 Feb 2024 10:41:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=A1iwedm9;
- spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-51183b02564so1577427e87.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 13 Feb 2024 10:21:52 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=D9+fOh0R;
+ spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: uvv.mail@gmail.com)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-411c93e1cd8so209765e9.0;
+        Tue, 13 Feb 2024 10:41:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707848511; x=1708453311; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=dxTp9hSJVjlwWqCWVsagRb732N5mtgnPLF6Dr5XdsPo=;
-        b=A1iwedm9jwAuruNFCOOXVMRHluAKnBGavLuFbeIRr0gzUXXNpduUtpB8k93xAib3hg
-         dblVMVxv4N49PyuaFIeuuI77v6myCw4pvPciIMPt9anPQlccgoglxJVpxAbAy/GWNfVw
-         XIL8u87Q/FDa6oL7f7u8GSlJPtv4ogeDpWJR2sUp5C+/662kLb6Vm6r6wDpsBDO6GYnb
-         I7LD8R+yII/FoyUun1EhuyF/OHbcuRShqjMwBT49uL6bTJJTVK/qXjM7eG7QyiQVO7Sl
-         FsmUFPlhE/RC+wZ1t8lyGEb0R89DzbvPfUNm0nCzQOgINrxTsTFRDR8bw/YeenQFN1xd
-         9NPA==
+        d=gmail.com; s=20230601; t=1707849659; x=1708454459; darn=lists.openembedded.org;
+        h=in-reply-to:from:references:cc:to:content-language:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3up+viFEUTsGS0fPrx5+jiYpUuMkqDrTW2f/W2hTG/Q=;
+        b=D9+fOh0RhUpRExV6aSqC1/ln7pch/8qeAqGt+h1Gtify2pVXoj7uNPl8wRZ3sX2l0P
+         N50PofIBcP2vYB3jcQeFKbywvwYur8jil9nDY83rlz1u1yo/urApZHYSz0/N/plESaGs
+         ap9vHBVUWo5wyDT9YGiuepNEKzAD4VrBE1hoecJKbCi8aopy0voDmgX45hiKi1At7uVG
+         hpIn3MmaGC19TT5MACykw3MoPgzyBY8NH8dcGEnoOjCOFVMMCeUaiJKVfkAC38KWILD+
+         CBIeZ7LD60Vud/E4ikOdMieq3/N2d8bjMwMj2pebuEHimVVcxw55Yjkg3egbjr6WVd63
+         j1uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707848511; x=1708453311;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dxTp9hSJVjlwWqCWVsagRb732N5mtgnPLF6Dr5XdsPo=;
-        b=mUBtPct9QAnugsithKZ7zbKgOYEMgO4A/lfYM/Wi/vAUoK9z/xIxo6/NRTXjHmRZVO
-         nMPWfrhnDS3ph4zvyRrT4V5s66pRabigNkqIWHv4AoUfnW1eyx/kfTyj0uXRzVk3BdBi
-         nhqvQnkqDgkIr6RUkxfzxMTSpfJt2B078ixwPAVpgHijBDljlR9OfuUJPuL+vlXRKL8W
-         frfhmaNtOaXlZPANaFq8TaS+avkAOJTyz6rDacbqQrJXYQGMs1cbkbSDUdjPExVLQj6o
-         BOpB5ySUTL1cLI8d97Ya4aP3w+Gwjm2F4NgNUEVd730k34yQujUDEm3CfaJTqUX9hdRN
-         tx/A==
-X-Forwarded-Encrypted: i=1; AJvYcCVFWJB5D3sxOWqGFnZnwwAmdppas5Sg+CUZj9e9xW5s9CIgdUROa0howNRUk40rmS64YYs8BECicneVtWE87Cmv6WJRcJWCaIjF12VsFkl75O0NIACXXblJ
-X-Gm-Message-State: AOJu0Yylpi2M9M6uLIY2hSHyd/rwpOMB7XC3bhNu5qubKGPkW+xDoehF
-	KByx6oL/BnjpCxUNUKnRaSevlMOMuYQOkGOAqXQwvndymPXsotX0y1egy//dcLFu1671A7OQocZ
-	iRbTUZukq1iLoHGCLRn1lJYAhVz0=
-X-Google-Smtp-Source: AGHT+IE/KVrADcN7TIdxkElGbjUTc2Exgd/e4iM8MoHGcqCsiGvzR2WABuAVyRpeWV6mY9aSMdHjwb7uA+W1mgO+obI=
-X-Received: by 2002:a05:6512:1382:b0:511:81da:87d with SMTP id
- fc2-20020a056512138200b0051181da087dmr289001lfb.39.1707848510744; Tue, 13 Feb
- 2024 10:21:50 -0800 (PST)
+        d=1e100.net; s=20230601; t=1707849659; x=1708454459;
+        h=in-reply-to:from:references:cc:to:content-language:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=3up+viFEUTsGS0fPrx5+jiYpUuMkqDrTW2f/W2hTG/Q=;
+        b=cBy7f7ayXTb5Q60Jds3bGvPguTMDq0EmLDP22uLGioDcFsmI2r0JwZWUV6RFz1lHZL
+         GkJRlr7xe1g0RLKzl5NaRRyEDLETiW6oBhLzMaXnsIw7tKdoayVJtXKk+nnJxP9zg7SQ
+         omXvIJgyYvCEAsV/lzXos9nmsrz6YyNCnUUKK+Ak8ekl3MjClKIc9mQU8Qh86guAY4Wa
+         h4e9m5IjbhzW8cShuIf0hzobCZ4Dzi++yiG90KVesR7/gBWXv5a4jatCAKhUlvSh0lNi
+         bxsgVwgYxu9MO8yPFjvR1ipxpQZwnFUuX0cM+ykUPxSVblKR/W6+c4Ji80lhOHYarRWZ
+         nBlw==
+X-Forwarded-Encrypted: i=1; AJvYcCWZ7PVV7vucv6TjZh+Q00TsHdIZ8vRjI9Cz6Z6a3yCyb58XgYLy5+fLis6b3EENOQEdDhlg1VaSoIsRfs0mc4vR5RCfjKvbWrsfkyiYDaR5+zx74zrgdO1L
+X-Gm-Message-State: AOJu0YyuiCG3wGsJniVZ9YbP+blMTwzvGtwwWSb59w3tBuXFRicHAqml
+	2Fr0g2TB4+Szug5QaK5VTKDj+wFg+EX0W92dhMLMfIbdskJn6jqN
+X-Google-Smtp-Source: AGHT+IFWGwpeIPjrPhzksvqQ5qYbK9cmswbu+nXVzz7FkN24hvUdtxTu/kvf7Ohwo4ol1VXEwwoczQ==
+X-Received: by 2002:a05:600c:1c8b:b0:411:aa3c:128d with SMTP id k11-20020a05600c1c8b00b00411aa3c128dmr3196247wms.15.1707849658698;
+        Tue, 13 Feb 2024 10:40:58 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXyMEosZoLuEmEfoVLCqyAO636LiTWZmcfNhln+GNL4XULq6WGpixYgzdnzQwpc/MNLYGirE1myN18CpD15zOuQOQpqeQiZYPDAqwBgYV0VvN8HshmxcBTzbmAws7rBJXxk9SNRwHcruTvL7g==
+Received: from [10.139.5.195] ([154.47.27.146])
+        by smtp.gmail.com with ESMTPSA id x5-20020a05600c21c500b00410d897765asm6410539wmj.17.2024.02.13.10.40.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 13 Feb 2024 10:40:58 -0800 (PST)
+Content-Type: multipart/alternative;
+ boundary="------------ai3UGdqIusetmyIVDjUV7Rct"
+Message-ID: <90a1eab2-8deb-4f6a-8f0d-e6fc910c10d7@gmail.com>
+Date: Tue, 13 Feb 2024 19:40:56 +0100
 MIME-Version: 1.0
-References: <20240213130404.3285564-1-Yash.Shinde@windriver.com> <0a8900ca-34e0-4c2d-af94-bf6b54f18956@windriver.com>
-In-Reply-To: <0a8900ca-34e0-4c2d-af94-bf6b54f18956@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 13 Feb 2024 19:21:39 +0100
-Message-ID: <CANNYZj8bSQCrF5c09mfYQWNKuQKwyEJqjZo6J3H2C79d7GgLSw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] rust: Oe-selftest error log on console when it fails.
-To: randy.macleod@windriver.com
-Cc: Yash.Shinde@windriver.com, openembedded-core@lists.openembedded.org, 
-	Umesh.Kallapa@windriver.com, Naveen.Gowda@windriver.com, 
-	Sundeep.Kokkonda@windriver.com, Shivaprasad.Moodalappa@windriver.com, 
-	Joshua Watt <JPEWhacker@gmail.com>, Richard Purdie <richard.purdie@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] nanbield: grpc_1.56.2 fails nativesdk build
+Content-Language: en-US
+To: Joakim Tjernlund <Joakim.Tjernlund@infinera.com>,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>,
+ "steve@sakoman.com" <steve@sakoman.com>
+Cc: "openembedded-devel@lists.openembedded.org"
+ <openembedded-devel@lists.openembedded.org>
+References: <17B23A54B6BB5F11.15017@lists.openembedded.org>
+ <5009ff89147eb81e88005c6b6f76d195bf010edb.camel@infinera.com>
+ <12d6aaa8-1f7d-4da9-985a-8ebb2a51ebc0@gmail.com>
+ <7b7a5dddfe76a38a74a2df0c441af7bfc4dd19af.camel@infinera.com>
+ <ade3562aea69ab37a64d0bdf82a8bd95e97a3679.camel@infinera.com>
+From: Vyacheslav Yurkov <uvv.mail@gmail.com>
+In-Reply-To: <ade3562aea69ab37a64d0bdf82a8bd95e97a3679.camel@infinera.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Feb 2024 18:21:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195425
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Feb 2024 18:41:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195426
 
-It's not difficult to see that runCmd() captures and returns both
-stdout and stderr in an object, so rather than redirecting things to a
-file, the code should actually assign the return value to a variable
-and do useful things with it.
+This is a multi-part message in MIME format.
+--------------ai3UGdqIusetmyIVDjUV7Rct
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Alex
+On 13.02.2024 16:19, Joakim Tjernlund wrote:
+> Tested and works too, but I see this patch was reverted:
+>
+>
+> Revert "protobuf: stage protoc binary to sysroot"
+>
+>      This reverts commit a0557fe5433620717eeb00d3b16801711337b1a4.
+>
+>      As said by Ross[Ø]:
+>      "Putting the _target_ protoc into the sysroot for executation at _build_
+>      time isn't useful because even if it has the right architecture, the
+>      tune might be incompatible.  Recipes which want protoc should just depend
+>      on protobuf-native."
+>
+>      This has been reverted recently by Samuli[1]:
+>      "If protoc is enabled for the build, recipes using protobuf will
+>      fail when protoc is not available in the recipe sysroot"
+>
+>      Be the revert is incorret as This is an issue coming from qtgrpc
+>      other recipes that use protobuf or gRPC compiler, proplery looks for
+>      the binary in the correct sysroot folder.
+>
+>      Qtgrpc recipe should fix this issue at the recipe level, for example this
+>      is what I've done for "etcd-cpp-apiv3" recipe[2] that doesn't need this
+>      patch to properly compile.
+>
+>      So keeping this hack doesn't seems to be a correct fix.
+>
+>      Note that qtgrpc recipe isn't available on meta-oe nor any other public
+>      layers.
+>
+>      0:https://patchwork.yoctoproject.org/project/oe/patch/20230904161230.377450-1-ross.burton@arm.com/
+>      1:https://patchwork.yoctoproject.org/project/oe/patch/20230927051101.3088498-1-samuli.piippo@qt.io/
+>      2:https://github.com/etcd-cpp-apiv3/etcd-cpp-apiv3/commit/47f0d9e0326f3cc31c801a0ecf7312d1049ece3e
+>
+>      CC: Samuli Piippo<samuli.piippo@gmail.com>
+>      CC: Ross Burton<ross.burton@arm.com>
+>      Signed-off-by: Clément Péron<peron.clem@gmail.com>
+>      Signed-off-by: Khem Raj<raj.khem@gmail.com>
+>      (cherry picked from commit bfb626a23022d871ce3c0c64cb9e5d1cc17c737e)
+>      Signed-off-by: Armin Kuster<akuster808@gmail.com>
+>
+> So then what is the correct fix for grpc ?
+>
+>   Joakim
+>
 
-On Tue, 13 Feb 2024 at 19:12, Randy MacLeod via lists.openembedded.org
-<randy.macleod=windriver.com@lists.openembedded.org> wrote:
->
-> On 2024-02-13 8:04 a.m., Yash.Shinde@windriver.com wrote:
->
-> From: Yash Shinde <Yash.Shinde@windriver.com>
->
-> The rust oe-selftest output error log doesn't show any information on console when it fails.
-> The following changes emit stderr logs in terminal along with re-directing stdout and stderr to "summary.txt" file.
->
-> Changes made::
-> - cmd = cmd + " cd %s; python3 src/bootstrap/bootstrap.py test %s --target %s > summary.txt 2>&1;" % (builddir, testargs, targetsys)
-> + cmd = cmd + " cd %s; python3 src/bootstrap/bootstrap.py test %s --target %s  > summary.txt 2> >(tee summary.txt >&2);" % (builddir, testargs, targetsys)
->
-> summary.txt:                  Redirects the standard output (stdout) of the command to a file 'summary.txt'
->
-> 2> >(tee summary.txt >&2):      Redirects stderr & stdout to summary.txt & writes stderr on terminal
->
-> The overall effect is that both stdout and stderr are captured in the summary.txt file, while stderr still being displayed in the terminal.
->
-> Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
-> ---
->  meta/lib/oeqa/selftest/cases/rust.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/lib/oeqa/selftest/cases/rust.py b/meta/lib/oeqa/selftest/cases/rust.py
-> index 164ad11ecd..07f1b5706c 100644
-> --- a/meta/lib/oeqa/selftest/cases/rust.py
-> +++ b/meta/lib/oeqa/selftest/cases/rust.py
-> @@ -213,7 +213,7 @@ class RustSelfTestSystemEmulated(OESelftestTestCase, OEPTestResultTestCase):
->              cmd = cmd + " export RUST_TARGET_PATH=%s/rust-targets;" % rustlibpath
->              # Trigger testing.
->              cmd = cmd + " export TEST_DEVICE_ADDR=\"%s:12345\";" % qemu.ip
-> -            cmd = cmd + " cd %s; python3 src/bootstrap/bootstrap.py test %s --target %s > summary.txt 2>&1;" % (builddir, testargs, targetsys)
-> +            cmd = cmd + " cd %s; python3 src/bootstrap/bootstrap.py test %s --target %s  > summary.txt 2> >(tee summary.txt >&2);" % (builddir, testargs, targetsys)
->              runCmd(cmd)
->              end_time = time.time()
->
->
-> Hi Yash,
->
-> We talked about this change and decided that it's just too odd a shell pipeline to merge!
->
-> Also, it depends on the bash shell as you can tell by pasting:
->
->    #!/bin/sh
->    python3 src/bootstrap/bootstrap.py test %s --target %s  > summary.txt 2> >(tee summary.txt >&2);
->
-> into https://www.shellcheck.net/ . You'll see the following log and error:
->
-> $ shellcheck myscript
->
-> Line 2:
-> python3 src/bootstrap/bootstrap.py test %s --target %s  > summary.txt 2> >(tee summary.txt >&2);
->                                                           ^-- SC2094 (info): Make sure not to read and write the same file in the same pipeline.
-> >>                                                                       ^-- SC3001 (warning): In POSIX sh, process substitution is undefined.
-> >>                                                                             ^-- SC2094 (info): Make sure not to read and write the same file in the same pipeline.
->
->
-> The YP goal / requirement is to avoid bash dependencies since user may be using dash or some other shell for /bin/sh.
->
->
-> I think that the command is being run locally (not on target), and we are already in a python context so
-> it seems that we would have a simpler solution if we handle the IO redirection from python.
->
-> Perhaps Richard or Joshua can recommend some code that you can reference when making this change.
->
-> Did you have time to look at the log file handling in runCmd()
->
-> https://git.openembedded.org/openembedded-core/tree/meta/lib/oeqa/utils/commands.py#n168
->
-> Please do some analysis and reply here every day or so as  you learn things or have questions.
->
->
-> Thanks,
->
-> ../Randy
->
->
->
-> --
-> # Randy MacLeod
-> # Wind River Linux
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#195424): https://lists.openembedded.org/g/openembedded-core/message/195424
-> Mute This Topic: https://lists.openembedded.org/mt/104331501/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Reverted and then applied again :)
+
+If you are interested, see the full discussion here 
+https://lists.openembedded.org/g/openembedded-devel/topic/101679410#105284
+
+Slava
+--------------ai3UGdqIusetmyIVDjUV7Rct
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <div class="moz-cite-prefix">On 13.02.2024 16:19, Joakim Tjernlund
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:ade3562aea69ab37a64d0bdf82a8bd95e97a3679.camel@infinera.com"><span
+      style="white-space: pre-wrap">
+</span>
+      <pre class="moz-quote-pre" wrap="">
+Tested and works too, but I see this patch was reverted:
+
+
+Revert "protobuf: stage protoc binary to sysroot"
+
+    This reverts commit a0557fe5433620717eeb00d3b16801711337b1a4.
+
+    As said by Ross[Ø]:
+    "Putting the _target_ protoc into the sysroot for executation at _build_
+    time isn't useful because even if it has the right architecture, the
+    tune might be incompatible.  Recipes which want protoc should just depend
+    on protobuf-native."
+
+    This has been reverted recently by Samuli[1]:
+    "If protoc is enabled for the build, recipes using protobuf will
+    fail when protoc is not available in the recipe sysroot"
+
+    Be the revert is incorret as This is an issue coming from qtgrpc
+    other recipes that use protobuf or gRPC compiler, proplery looks for
+    the binary in the correct sysroot folder.
+
+    Qtgrpc recipe should fix this issue at the recipe level, for example this
+    is what I've done for "etcd-cpp-apiv3" recipe[2] that doesn't need this
+    patch to properly compile.
+
+    So keeping this hack doesn't seems to be a correct fix.
+
+    Note that qtgrpc recipe isn't available on meta-oe nor any other public
+    layers.
+
+    0: <a class="moz-txt-link-freetext" href="https://patchwork.yoctoproject.org/project/oe/patch/20230904161230.377450-1-ross.burton@arm.com/">https://patchwork.yoctoproject.org/project/oe/patch/20230904161230.377450-1-ross.burton@arm.com/</a>
+    1: <a class="moz-txt-link-freetext" href="https://patchwork.yoctoproject.org/project/oe/patch/20230927051101.3088498-1-samuli.piippo@qt.io/">https://patchwork.yoctoproject.org/project/oe/patch/20230927051101.3088498-1-samuli.piippo@qt.io/</a>
+    2: <a class="moz-txt-link-freetext" href="https://github.com/etcd-cpp-apiv3/etcd-cpp-apiv3/commit/47f0d9e0326f3cc31c801a0ecf7312d1049ece3e">https://github.com/etcd-cpp-apiv3/etcd-cpp-apiv3/commit/47f0d9e0326f3cc31c801a0ecf7312d1049ece3e</a>
+
+    CC: Samuli Piippo <a class="moz-txt-link-rfc2396E" href="mailto:samuli.piippo@gmail.com">&lt;samuli.piippo@gmail.com&gt;</a>
+    CC: Ross Burton <a class="moz-txt-link-rfc2396E" href="mailto:ross.burton@arm.com">&lt;ross.burton@arm.com&gt;</a>
+    Signed-off-by: Clément Péron <a class="moz-txt-link-rfc2396E" href="mailto:peron.clem@gmail.com">&lt;peron.clem@gmail.com&gt;</a>
+    Signed-off-by: Khem Raj <a class="moz-txt-link-rfc2396E" href="mailto:raj.khem@gmail.com">&lt;raj.khem@gmail.com&gt;</a>
+    (cherry picked from commit bfb626a23022d871ce3c0c64cb9e5d1cc17c737e)
+    Signed-off-by: Armin Kuster <a class="moz-txt-link-rfc2396E" href="mailto:akuster808@gmail.com">&lt;akuster808@gmail.com&gt;</a>
+
+So then what is the correct fix for grpc ?
+
+ Joakim
+
+</pre>
+    </blockquote>
+    <br>
+    Reverted and then applied again :)<br>
+    <br>
+    If you are interested, see the full discussion here
+<a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-devel/topic/101679410#105284">https://lists.openembedded.org/g/openembedded-devel/topic/101679410#105284</a><br>
+    <br>
+    Slava<br>
+  </body>
+</html>
+
+--------------ai3UGdqIusetmyIVDjUV7Rct--
 
