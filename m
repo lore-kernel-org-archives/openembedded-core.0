@@ -1,232 +1,113 @@
-Return-Path: <scott.murray@konsulko.com>
+Return-Path: <enguerrand.de-ribaucourt@savoirfairelinux.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 897A9C48260
-	for <webhook@archiver.kernel.org>; Tue, 13 Feb 2024 15:25:45 +0000 (UTC)
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
- by mx.groups.io with SMTP id smtpd.web10.14047.1707837942127986204
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92852C48260
+	for <webhook@archiver.kernel.org>; Tue, 13 Feb 2024 15:27:55 +0000 (UTC)
+Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [208.88.110.44])
+ by mx.groups.io with SMTP id smtpd.web10.14099.1707838064846608151
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Feb 2024 07:25:42 -0800
+ Tue, 13 Feb 2024 07:27:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=rhBXsraP;
- spf=pass (domain: konsulko.com, ip: 209.85.219.50, mailfrom: scott.murray@konsulko.com)
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-68cc9061c73so21730086d6.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 13 Feb 2024 07:25:42 -0800 (PST)
+ dkim=pass header.i=@savoirfairelinux.com header.s=DFC430D2-D198-11EC-948E-34200CB392D2 header.b=ZwrhWGQi;
+ spf=pass (domain: savoirfairelinux.com, ip: 208.88.110.44, mailfrom: enguerrand.de-ribaucourt@savoirfairelinux.com)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id B791F9C162B;
+	Tue, 13 Feb 2024 10:27:43 -0500 (EST)
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+ by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10032)
+ with ESMTP id 3QBhrearqS32; Tue, 13 Feb 2024 10:27:42 -0500 (EST)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id B07309C334C;
+	Tue, 13 Feb 2024 10:27:42 -0500 (EST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com B07309C334C
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1707837941; x=1708442741; darn=lists.openembedded.org;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=OoWymj11G182S6n5kx6gJmWhskao5uu66a31Dgm/Yr0=;
-        b=rhBXsraP8YoqOI8o/ioBc1xqTnuz5frRt0nInJ4OwKOnxzrAJPDu62oboBMMPu0J+r
-         2k1PToksarU4R267lTAAhF/BN7o8v16XP0lcmcuL6K6Mky/FIsS2yX0ROisIwS+2dmjC
-         DDZgQZzMIC1LKfz32PiSqonHzZaeBZQyqZ+ms=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707837941; x=1708442741;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OoWymj11G182S6n5kx6gJmWhskao5uu66a31Dgm/Yr0=;
-        b=ai1rKdmrOOMcM4A37D3TRjtOgu1S+CPR+lhtJD3Z8u+KBXO2kzxZ0e9dyE8yNYat6a
-         SGlwtINlYAlg4y+pKZECo1flLtm0D92E8WqfXtYUjJXzfs9U3PQx59w+suSaEk/780TJ
-         S+B5LD1Qrw3tsk9CB/XcRmEX5vAbwQRqIC+dsn9IZXz/9UOC9uECdpNjLgeH8KifogPD
-         sZ326DiGB0W7CihFEbqqd99xMK7xoVao4f4C3rbx7GJHA5k4rboym+SWX+HhqqV84QV8
-         TICAWTqEWuGoU63fQNilOJeWSEOMpouWMJ043gCOQmdagQd5pETmHMoknnAAv8l2ArHJ
-         1hXQ==
-X-Gm-Message-State: AOJu0YzBxTYVBI5e/8YW/hCVn4BPB8eqa2suWnFprPPM2MUU3lNwRz0D
-	fxGRrk4bFTEeMEiqvgOuVMrUyclHev8Gbpq4dQmRZrK0mV2I0og6hi0HVFEwvVg=
-X-Google-Smtp-Source: AGHT+IGVbgQ9tsUqHAxE9vLAMMu09kXO741UYD6oS6rmzNt6JEJNFkwTeviZj60j+55RoXFbwnaFNQ==
-X-Received: by 2002:a0c:d993:0:b0:68c:933c:e7f9 with SMTP id y19-20020a0cd993000000b0068c933ce7f9mr9672500qvj.17.1707837941067;
-        Tue, 13 Feb 2024 07:25:41 -0800 (PST)
-Received: from godzilla (107-179-213-3.cpe.teksavvy.com. [107.179.213.3])
-        by smtp.gmail.com with ESMTPSA id lz9-20020a0562145c4900b0068d1cb18b9bsm1287619qvb.26.2024.02.13.07.25.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Feb 2024 07:25:40 -0800 (PST)
-Date: Tue, 13 Feb 2024 10:25:28 -0500 (EST)
-From: Scott Murray <scott.murray@konsulko.com>
-To: randy.macleod@windriver.com
-cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] rng-tools: move to meta-oe
-In-Reply-To: <55fa276d-e6e2-4cc1-b4fa-660356889665@windriver.com>
-Message-ID: <277ec088-9dfa-c2c5-b03c-21e03b969ab9@konsulko.com>
-References: <20240110202501.1554379-1-Randy.MacLeod@windriver.com> <20240115165859d332c9cb@mail.local> <cfa90344-0753-4ae1-9979-2c0f12a33d50@windriver.com> <b8554634-5da9-9872-660a-5e94a62c765e@konsulko.com>
- <55fa276d-e6e2-4cc1-b4fa-660356889665@windriver.com>
+	d=savoirfairelinux.com; s=DFC430D2-D198-11EC-948E-34200CB392D2;
+	t=1707838062; bh=DcUzFW4wVtNNphs7BLD4mAuHoBXeKQLU+hHeX203meg=;
+	h=Message-ID:Date:MIME-Version:To:From;
+	b=ZwrhWGQiAhyOuikMx37kXZciSbUeEAJ4VtaLFs/vwY2XDnwgalwNP0xwqZvH0M4wo
+	 57cvWntQh1qK8PaSps83FgSQicsQ6Ou9Uk/rS3zS0tcjmZq07oalLNVYOTwldkQQBv
+	 kCw2Qw3dX76QcUmer9nwY/hT5UyEiFlaV8yunwsiF0gfECY/eawXgBbd0wSZQAyPEx
+	 9k6NPSJy7EwHlbn0Mo94Cbofwk37N6yRjA2cl0D0sbYkyJzm8BbO9Su2pr2Ly6cIsy
+	 6EGVpD2pqx2Hb00VsuZWnVYKG+XGcGNQfrkCteGf5lqEV6S4Q/oS6l8qB3DJ9oLf9T
+	 hJShI2YLYji0g==
+X-Virus-Scanned: amavis at mail.savoirfairelinux.com
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+ by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10026)
+ with ESMTP id lwJoGO8dLZv4; Tue, 13 Feb 2024 10:27:42 -0500 (EST)
+Received: from [192.168.216.123] (lmontsouris-657-1-69-118.w80-15.abo.wanadoo.fr [80.15.101.118])
+	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id 07DD89C162B;
+	Tue, 13 Feb 2024 10:27:41 -0500 (EST)
+Message-ID: <3a0bb821-e692-4256-ab7b-95716f2e5896@savoirfairelinux.com>
+Date: Tue, 13 Feb 2024 16:27:40 +0100
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="-1463811583-630062803-1707837940=:4367"
+User-Agent: Mozilla Thunderbird
+Subject: Re: VS Code plugin and multiple build directories
+Content-Language: en-US
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+ "adrian.freihofer@gmail.com" <adrian.freihofer@gmail.com>
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>, Ross Burton
+ <Ross.Burton@arm.com>, Mohammed Raza <mohammed.raza@savoirfairelinux.com>
+References: <DB5PR02MB10213FA30B1A62CEA61B98E02EF4F2@DB5PR02MB10213.eurprd02.prod.outlook.com>
+From: Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
+In-Reply-To: <DB5PR02MB10213FA30B1A62CEA61B98E02EF4F2@DB5PR02MB10213.eurprd02.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 13 Feb 2024 15:25:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195413
+ <openembedded-core@lists.openembedded.org>; Tue, 13 Feb 2024 15:27:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195414
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Thanks for your feedback!
+> I normally do not use VS Code, but I actually had a reason to do so the
+> other day. After having installed the new bitbake plugin, I noticed two
+> things related to the settings. One is the odd defaults where I would
+> have expected something that matches the default Poky configuration
+> (which I guess is part of Adrian's changes). The other is that the
+Adrian's change will indeed produce better defaults for poky.
 
----1463811583-630062803-1707837940=:4367
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+We could consider changing the extension's defaults if they really don't 
+work for most users. It currently assumes poky is in `sources/poky`. 
+Cloning just poky would result in just `.`. While multi layered projects 
+will often put it in `poky` or `sources/poky`. I'd rather wait for an 
+official oe-layer-setup like tool and structure to be wildly used and 
+align with it rather than guessing the default configuration another 
+way. Changing the default will break some users configs, so I'm also 
+being conservative.
 
-On Thu, 8 Feb 2024, Randy MacLeod via lists.openembedded.org wrote:
-
-> On 2024-01-15 4:50 p.m., Scott Murray wrote:
-> > On Mon, 15 Jan 2024, Randy MacLeod via lists.openembedded.org wrote:
-> >
-> >> On 2024-01-15 11:58 a.m., Alexandre Belloni via lists.openembedded.org
-> >> wrote:
-> >>> This is breaking meta-agl-core until this gets into meta-oe:
-> >>>
-> >>> https://autobuilder.yoctoproject.org/typhoon/#/builders/120/builds/3849/steps/14/logs/stdio
-> >> Thanks Alexandre.
-> >>
-> >>
-> >> Stephane, Jan-Simon,
-> >>
-> >> Is rng-tools actually still a requirement for meta-agl ?
-> >> It was added back in 2018 but the kernel algorithm improved as of 5.6:
-> >> https://lists.openembedded.org/g/openembedded-core/message/178518
-> > The kernel no longer blocking does mean things won't get stuck on boot,
-> > but it seems like any distro with an eye towards security still needs
-> > either rngd or haveged present to feed in entropy on hardware that does
-> > not have a hardware RNG (and potentially even when there is a hardware
-> > RNG to improve the quality of the pool).  We definitely support some
-> > platforms in AGL that do not have a hardware RNG, so we'll have to work
-> > out whether we're going to need to eat making meta-oe a hard requirement
-> > for using meta-agl-core or do something else.
->
-> For anyone who missed it...
->
-> We restored rng-tools in oe-core as described here:
-> https://git.openembedded.org/openembedded-core/commit/?id=828afafb3bff54079fcba9bdab2ec87ac13e4ce6
->
->
-> Scott,
->
-> Any news on a qemu/HW boot test case?
-
-Not really.  Both Jan-Simon and myself have looked into it some, but as
-you've seen, characterizing the Linux RNG behavior is not simple, and it
-is not obvious that even a particularly convoluted test environment (i.e.
-without passing a RNG via QEMU, trying to minimize I/O by avoiding disk
-boot, etc.) can yield a simple yes/no without running a perhaps lengthy
-test to that tries to quantify the RNG quality with an exhausted entropy
-pool.
-
-> Testing randomness is a little different as described in my notes below.
-> If anyone has some expertise in this area, please help!
->
->
-> There are a few tests in rng-tools, that could be wrapped in ptest:
-> ❯ ls tests/
-> Makefile.am  rngtestjitter.sh  rngtesturandom.sh  rngtestzero.sh
->
-> I haven't played with rngtest much but I was wondering how we'd even construct
-> a test of randomness that would *always* pass.
->
-> The example below shows that if you run runtest with a blockcount of 10,000,
-> and do that 10 times, you get failures some of the time:
->
-> ❯ for i in `seq 10`; do cat /dev/urandom | rngtest -c 10000 --pipe 2>&1
-> >/dev/null |rg failures; done
-> rngtest: FIPS 140-2 failures: 6
-> rngtest: FIPS 140-2 failures: 5
-> rngtest: FIPS 140-2 failures: 9
-> rngtest: FIPS 140-2 failures: 4
-> rngtest: FIPS 140-2 failures: 6
-> rngtest: FIPS 140-2 failures: 8
-> rngtest: FIPS 140-2 failures: 9
-> rngtest: FIPS 140-2 failures: 11
-> rngtest: FIPS 140-2 failures: 9
-> rngtest: FIPS 140-2 failures: 5
->
->
-> We could say that we accept up to 20 failures but even then, there would be a
-> chance that the YP AB would
-> occasionally see that fail due the the inherit randomness being tested.
->
-> If I run the test 1000 times  you can see that on my laptop (6.6.10), 20
-> failures never happens:
-> ❯ cut -d":" -f3 /tmp/rt.log | sort -n | uniq -c
->       3  1
->       7  2
->      34  3
->      54  4
->     101  5
->     131  6
->     138  7
->     124  8
->     114  9
->     101  10
->      75  11
->      48  12
->      36  13
->      16  14
->      10  15
->       6  16
->       1  17
->       1  19
->
-> and on an older headless server running 5.15 with fewer process and likely
-> less entropy available:
->       2  1
->      12  2
->      29  3
->      60  4
->      95  5
->     117  6
->     133  7
->     121  8
->     139  9
->      99  10
->      81  11
->      50  12
->      28  13
->      14  14
->       9  15
->       5  16
->       4  17
->       2  20
->
->
-> I guess we could raise the limit to ~30 (42!) and failures would be extremely
-> unlikely.
-
-I have seen anecdotal statements that seeing significantly more than
-10 failures from "rngtest -c 1000" is a sign of not enough entropy,
-so booting with the QEMU RNG disabled and checking for <= 20 with a
-single "rng-test -c 1000" is probably a test that is unlikely to fail.
-That's perhaps true even without running rngd since booting from a
-disk image is possibly likely to seed the entropy pool enough for it.
-That's what I've seen here on the hardware platform's I have that do
-not have a h/w RNG.  I did start looking at what the dieharder utility
-measures (see https://webhome.phy.duke.edu/~rgb/General/dieharder.php),
-but then we're well and truly outside of the realm of a simple ptest.
-
-> We would have a similar problem with measuring the boot time that is dependent
-> on the entropy pool not being depleted
-> since we can't completely rule out a boot sequence taking 3x as long as the
-> average time
-> and it would be worse in qemu given that it's competing with other processes
-> on the YP AB machines!
-
-I suspect a useful boot time test is infeasible, especially with newer
-kernels.  In addition to the non-blocking /dev/random changed in 5.10,
-there was a significant redo of the entropy pool mixing scheme in 5.18.
-Together, I suspect it's unlikely the entropy pool will be particularly
-low on boot without going to significant lengths.  Overall, with modern
-kernels the need for running rngd seems to now be more about handling a
-quite significant demand for true random numbers in server usecases.
-That does circle back around to whether it's worth keeping in oe-core or
-not.  Since there still are < 5.10 LTS kernels that have EOLs in the
-Scarthgap timeframe (e.g. 5.4 is Dec 2025), it does seem worth keeping it
-for users potentially stuck with BSPs with those kernels.  If keeping it
-absolutely requires a test, we'll likely have to try to experiment with
-what behavior looks like when running inside QEMU on the AB per your
-experiments...
-
-> ../Randy "It's a good day because I made some graphs to understand a
-> problem."  MacLeod
-
-;)
-
-Scott
----1463811583-630062803-1707837940=:4367--
+I'm really open to suggestions on this.
+> plugin seems to make a hard assumption that you only have a single build
+> directory within a workspace. In our case we typically setup the
+> environment with one build directory per machine and/or use case, e.g.,
+> rather than a `build` directory, I have `builds/foo`, `builds/bar` and
+> `builds/bar-selftest`. And while I of course can configure the plugin to
+> use one of the build directories, in a typical session I regularly switch
+> between the build directories depending on what I am doing at the moment
+> and it seems awkward to have to have one VS Code configuration per build
+> directory when the source files are the same in all cases. Now, I am a
+> total VS Code novice so maybe there are better ways to do it, but for
+> now I just configured the plugin to create its own build directory in
+> `.VS Code/build` and forgot about it.
+> 
+> I have no idea what is possible to do with a VS Code extension, but would
+> it be possible to make the plugin support multiple build directories for
+> one workspace, e.g., by allowing multiple build directories and/or
+> patterns to be specified? I.e., in our case I would like to be able to
+> configure the build directories as `${workspaceFolder}/builds/*` and
+> then choose which is currently active from with the VS Code UI.Yes currently, the extension only manages one build directory and 
+machine/distro config. This is a feature that has been requested quite 
+often. My plan would be to rely on Yocto's multiconfigs since it is the 
+official tool to manage multiple configurations. I prefer multiconfigs 
+rather than an array of bitbake settings.json and different build 
+directories (like you describe). We'd add a picker in the bottom status 
+bar to select the configuration and prefix all bitbake commands with the 
+appropriate "mc:" config.
+> 
+> //Peter
+> 
+> 
+Regards
+Enguerrand de Ribaucourt
 
