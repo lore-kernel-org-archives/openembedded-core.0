@@ -2,57 +2,57 @@ Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63D39C48BEC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DDE0C48BED
 	for <webhook@archiver.kernel.org>; Wed, 14 Feb 2024 17:39:33 +0000 (UTC)
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
- by mx.groups.io with SMTP id smtpd.web10.47208.1707932368124085067
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+ by mx.groups.io with SMTP id smtpd.web10.47206.1707932366525431424
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Feb 2024 09:39:28 -0800
+ Wed, 14 Feb 2024 09:39:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=QrjB6Xvw;
- spf=pass (domain: gmail.com, ip: 209.85.208.181, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2d0d7985dfdso81727271fa.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 14 Feb 2024 09:39:27 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=SFPkpW0b;
+ spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a34c5ca2537so744274666b.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 Feb 2024 09:39:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707932366; x=1708537166; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1707932365; x=1708537165; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+YuO42yZa6l4ZAIW+zaL+5rflb2G4qGTsiLe+iuNU60=;
-        b=QrjB6XvwF0TP9B3JzS1y80Z7wuvWtGj5asCSWd6s2wAHhDLTtdWgQdecZJJFdbMqq+
-         cHjJG0spvDvnQmDhsWOUcCi7ky8ZEU8b8yB0aHVSS97euv4VRH+TyoW/mClyFkge9bQT
-         qwy6kY05Qlgn8f5Bs7cd4FdInpOtBjIoVlRmQ4d7mcR2Yg1ItLhMGb6iXeAo8IAa9hfT
-         3FY1Vn2SYlFRAedFSaFeIROFceoDmiM/cKQwd2mGdyOQnE0J3Vwv1GC7YzIGEpdxM4d9
-         M/nFHuOXfMPOpCFBkwRO3AXWzV9Rp7Duvu/3Z1NUE6hatw/RaSFeae3SaDFdk+sHftRT
-         lz9g==
+        bh=kW7RF5+tUIR7tQtpfsI/n7U8l/cBXYZtWq1OuhWhGTE=;
+        b=SFPkpW0bz0JCJSh/7181GC0tjssy3HRQHPiWtkWKGXLYXeYwexKz6l4LHLAMR9dqgm
+         E2C1IVhoGgNdg+2AnfP+mJPSJK60ZX9Co13XtvAbKc9Bzhx5BW3rb++/ltSRT+SC7aR4
+         O7bKQka6bc+FFrjX1/c/3MOHm6YMtld/9O/tnDK8JFiRupW/p3Nmt1WEUz8Alyur4RMA
+         0tuRmAz7KCPzxOW/KsZPtol0hivdrIWmzl3TYEGBPlKGVmnzi8YP7X1rNeTfeHd/ZoGF
+         R86DKK973Giz+4GmXgk8nUZp/Vv3lqmwGpSndUZgB4CogqHrNhPhc6x1l32EQaV2S2J2
+         tmzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707932366; x=1708537166;
+        d=1e100.net; s=20230601; t=1707932365; x=1708537165;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+YuO42yZa6l4ZAIW+zaL+5rflb2G4qGTsiLe+iuNU60=;
-        b=Iyw8JFEzOp/NQU4baq8ZPmhbACmILtSLBPmi06Bvuu+GzLqQpycNjakupwSKSYNw67
-         aheMdH1Sa7z6N6XrYygMlJO1zQo+CMbDMN6hklSE/Pteaw4b2Uh7r8uwi7ImqmMQSttY
-         eekakBOzww8aJO7USGA8xdo6xOYJeHGlStjf/SeKyajde/NtUoKcp+e6kiL08d6uf5Dw
-         +/0TyZlFdSdEzXPzMBlT9xLBuuOBlwZ08bEZ6RQvGCRuyQVyZActC27u0ugA/CpmLi30
-         Rwz8QtFa5kcKN0cvkqzDtAiebu8uDTRrz2GqdvGOmddeU7gnh0SlMkSHimk2ycrHrl+k
-         pbhA==
-X-Gm-Message-State: AOJu0YwETgkAqircXx6JwkEFPBI6GXEtOWi8dBbyDfu4nxqXBMZMxRqg
-	NI7qZLB2JiIlHLKXP7FLSFMtIXzx68zxleHYMcjVjq3QBq/2vqnKlB1TaPIC
-X-Google-Smtp-Source: AGHT+IHUcZhv2ruNQoKhaV5uG4ZOEJlm/KdmstwkmFtFNLCXzbDu0cgd4QUUZidui4YaEi2BlQIgYg==
-X-Received: by 2002:a19:385c:0:b0:511:8125:2333 with SMTP id d28-20020a19385c000000b0051181252333mr2117372lfj.39.1707932365529;
-        Wed, 14 Feb 2024 09:39:25 -0800 (PST)
+        bh=kW7RF5+tUIR7tQtpfsI/n7U8l/cBXYZtWq1OuhWhGTE=;
+        b=ZnEM0SORULDKQJk+KMqGrpIaiXaGuZ+TZN7BNMOd40R9uX2XIS2R7BPPanCTS56zpO
+         cvaGqbujOD8AiGSGWCbzdoect00DAprfKbFRYjl7ttZsGA2mbLMcRuYXjj/41joDGOLp
+         sbjQEi/rvGWARusO1+H41pReGk0qROEYTAsDmXsbOtxu9Iw3ZoP3rmZH3fmteNsYgEj0
+         j9qZbJf5QcUBwvXBKcgA3Yh/KbGldXxq1VkW60PlYxT38MavaTn9QDvy+la4Cn6EkDCS
+         o7jbz1aTil9YqeYZuXe7CPwRMJ3o6WiQ9dtT3yREdkIRCAM5M1ZfTmh57l3McnnBJyNe
+         V9XQ==
+X-Gm-Message-State: AOJu0Yyh/zuV0ZyO4Gc2XXW6saTvJ3Ka/FvyhhvVrkie9JBw5W4i1QAk
+	/8MriSQLH4iGD3iPGXNxJo2M8zkbvjiaA49fDPeCcuvEjLDN8l0LjdL5pxSd
+X-Google-Smtp-Source: AGHT+IHPxff00aHoGTJpqQ0Pkc+YPBC/pp74hFnEOYFOsFOC1Z5ac8HbRp5Dh2AZaHfsgZXVmjGMTg==
+X-Received: by 2002:a17:906:fb1b:b0:a31:3f4f:bea7 with SMTP id lz27-20020a170906fb1b00b00a313f4fbea7mr2316651ejb.39.1707932364797;
+        Wed, 14 Feb 2024 09:39:24 -0800 (PST)
 Received: from wsadrian16.fritz.box ([2a02:169:59a6:0:55c4:f628:91f3:4287])
         by smtp.gmail.com with ESMTPSA id sn24-20020a170906629800b00a3d11feb32esm1616403ejc.186.2024.02.14.09.39.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Feb 2024 09:39:25 -0800 (PST)
+        Wed, 14 Feb 2024 09:39:24 -0800 (PST)
 From: Adrian Freihofer <adrian.freihofer@gmail.com>
 X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v3 2/2] oe-init-build-env: generate .vscode from template
-Date: Wed, 14 Feb 2024 18:36:59 +0100
-Message-ID: <20240214173914.136799-3-adrian.freihofer@siemens.com>
+Subject: [PATCH v3 1/2] vscode: drop .vscode folder
+Date: Wed, 14 Feb 2024 18:36:58 +0100
+Message-ID: <20240214173914.136799-2-adrian.freihofer@siemens.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240214173914.136799-1-adrian.freihofer@siemens.com>
 References: <20240214173914.136799-1-adrian.freihofer@siemens.com>
@@ -62,147 +62,86 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 14 Feb 2024 17:39:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195488
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195487
 
-Provide a reasonable default configuration for VSCode and the
-yocto.bitbake extension.
-The generated default configuration is generic and minimal. It's mostly
-supposed to prevent VSCode from OOM exceptions if the build directory is
-in the scope of the indexer plugins of VSCode.
-But it also configures the yocto-bitbake plugin to just work without
-manual user interaction.
+There is a new official bitbake plugin:
+https://marketplace.visualstudio.com/items?itemName=yocto-project.yocto-bitbake
 
-The configuration is only generated if VSCode is installed. Currently,
-VSCode is one of many popular editors for Yocto/OE. Removing the check
-would mean that the configuration would be generated by e.g. oe-selftest
-or for users not using VSCode. If it should prove useful, the check can
-be removed later.
+This plugin automatically updates the .vscode/settings.json file.
+Having the settings.json file in git and a plugin which modifies this
+file is not ideal. It can lead to anoying situations especially when
+working with git. For example a git stash reverts the settings which are
+automatically applied by the plugin. While git stashed the settings.json
+file the plugin immediately changes the file again and tries to run
+bitbake based on the newly generated settings. When git does a stash pop
+the restored settings.json file conflicts with the new settigns.json
+file which has been generated while the git stash took place.
 
-Customization for other layers is possible. A layer might provide it's
-own oe-setup-build-env script which calls the oe-setup-vscode script
-from poky with different folders. But it's also possible to override the
-oe-setup-vscode script by another layer with a custom implementation.
+Therefore this patch removes the .vscode folder from git.
+
+Removing the settings.json leads to other issues as already described
+in the commit message of 5ff688fe29. But we still need another solution
+where the settings.json file is not in Git.
+
+Discussion is here:
+https://github.com/yoctoproject/vscode-bitbake/issues/95
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- oe-init-build-env       |  6 +++
- scripts/oe-setup-vscode | 90 +++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 96 insertions(+)
- create mode 100755 scripts/oe-setup-vscode
+ .gitignore            |  3 +--
+ .vscode/settings.json | 32 --------------------------------
+ 2 files changed, 1 insertion(+), 34 deletions(-)
+ delete mode 100644 .vscode/settings.json
 
-diff --git a/oe-init-build-env b/oe-init-build-env
-index 38333ab8582..82382f27078 100755
---- a/oe-init-build-env
-+++ b/oe-init-build-env
-@@ -47,6 +47,12 @@ export OEROOT
-     unset OEROOT
-     return 1
- }
-+
-+# Generate an initial configuration for VSCode and the yocto-bitbake plugin.
-+if command -v code > /dev/null && [ ! -d "$OEROOT/.vscode" ]; then
-+    oe-setup-vscode "$OEROOT" "$BUILDDIR"
-+fi
-+
- unset OEROOT
- 
- [ -z "$BUILDDIR" ] || cd "$BUILDDIR"
-diff --git a/scripts/oe-setup-vscode b/scripts/oe-setup-vscode
-new file mode 100755
-index 00000000000..db1cde4ffb6
---- /dev/null
-+++ b/scripts/oe-setup-vscode
-@@ -0,0 +1,90 @@
-+#!/bin/sh
-+
-+usage() {
-+    echo "$0 <OEINIT> <BUILDDIR>"
-+    echo "  OEINIT:   path to directory where the .vscode folder is"
-+    echo "  BUILDDIR: directory passed to the oe-init-setup-env script"
-+}
-+
-+if [ "$#" -ne 2 ]; then
-+    usage
-+    exit 1
-+fi
-+
-+OEINIT=$(readlink -f "$1")
-+BUILDDIR=$(readlink -f "$2")
-+VSCODEDIR=$OEINIT/.vscode
-+
-+if [ ! -d "$OEINIT" ] || [ ! -d "$BUILDDIR" ]; then
-+    echo "$OEINIT and/or $BUILDDIR directories are not present."
-+    exit 1
-+fi
-+
-+VSCODE_SETTINGS=$VSCODEDIR/settings.json
-+ws_builddir="$(echo "$BUILDDIR" | sed -e "s|$OEINIT|\${workspaceFolder}|g")"
-+
-+# If BUILDDIR is in scope of VSCode ensure VSCode does not try to index the build folder.
-+# This would lead to a busy CPU and finally to an OOM exception.
-+mkdir -p "$VSCODEDIR"
-+cat <<EOMsettings > "$VSCODE_SETTINGS"
-+{
-+    "bitbake.pathToBuildFolder": "$ws_builddir",
-+    "bitbake.pathToEnvScript": "\${workspaceFolder}/oe-init-build-env",
-+    "files.exclude": {
-+        "**/.git/**": true,
-+        "**/_build/**": true,
-+        "**/buildhistory/**": true,
-+        "**/cache/**": true,
-+        "**/downloads/**": true,
-+        "**/node_modules/**": true,
-+        "**/oe-logs/**": true,
-+        "**/oe-workdir/**": true,
-+        "**/sstate-cache/**": true,
-+        "**/tmp*/**": true,
-+        "**/workspace/attic/**": true,
-+        "**/workspace/sources/**": true
-+    },
-+    "files.watcherExclude": {
-+        "**/.git/**": true,
-+        "**/_build/**": true,
-+        "**/buildhistory/**": true,
-+        "**/cache/**": true,
-+        "**/downloads/**": true,
-+        "**/node_modules/**": true,
-+        "**/oe-logs/**": true,
-+        "**/oe-workdir/**": true,
-+        "**/sstate-cache/**": true,
-+        "**/tmp*/**": true,
-+        "**/workspace/attic/**": true,
-+        "**/workspace/sources/**": true
-+    },
-+    "python.analysis.exclude": [
-+        "**/_build/**",
-+        "**/.git/**",
-+        "**/buildhistory/**",
-+        "**/cache/**",
-+        "**/downloads/**",
-+        "**/node_modules/**",
-+        "**/oe-logs/**",
-+        "**/oe-workdir/**",
-+        "**/sstate-cache/**",
-+        "**/tmp*/**",
-+        "**/workspace/attic/**",
-+        "**/workspace/sources/**"
-+    ]
-+}
-+EOMsettings
-+
-+
-+# Ask the user if the yocto-bitbake extension should be installed
-+VSCODE_EXTENSIONS=$VSCODEDIR/extensions.json
-+cat <<EOMextensions > "$VSCODE_EXTENSIONS"
-+{
-+    "recommendations": [
-+        "yocto-project.yocto-bitbake"
-+    ]
-+}
-+EOMextensions
-+
-+echo "You had no $VSCODEDIR configuration."
-+echo "These configuration files have therefore been created for you."
+diff --git a/.gitignore b/.gitignore
+index f6ce090b5fc..ca9b5c8f515 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -36,5 +36,4 @@ _toaster_clones/
+ downloads/
+ sstate-cache/
+ toaster.sqlite
+-.vscode/
+-vscode-bitbake-build/
++.vscode/*
+diff --git a/.vscode/settings.json b/.vscode/settings.json
+deleted file mode 100644
+index 517a86d1bfa..00000000000
+--- a/.vscode/settings.json
++++ /dev/null
+@@ -1,32 +0,0 @@
+-{
+-    "files.watcherExclude": {
+-        "**/.git/**": true,
+-        "**/cache/**": true,
+-        "**/tmp*/**": true,
+-        "**/downloads/**": true,
+-        "**/sstate-cache/**": true,
+-        "**/vscode-bitbake-build/**": true,
+-        "**/workspace/sources/**": true,
+-        "**/workspace/attic/**": true
+-    },
+-    "files.exclude": {
+-        "**/.git/**": true,
+-        "**/cache/**": true,
+-        "**/tmp*/**": true,
+-        "**/downloads/**": true,
+-        "**/sstate-cache/**": true,
+-        "**/vscode-bitbake-build/**": true,
+-        "**/workspace/sources/**": true,
+-        "**/workspace/attic/**": true
+-    },
+-    "python.analysis.exclude": [
+-        "**/.git/**",
+-        "**/cache/**",
+-        "**/tmp*/**",
+-        "**/downloads/**",
+-        "**/sstate-cache/**",
+-        "**/vscode-bitbake-build/**",
+-        "**/workspace/sources/**",
+-        "**/workspace/attic/**"
+-    ]
+-}
 -- 
 2.43.0
 
