@@ -1,85 +1,105 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 726CCC48BC4
-	for <webhook@archiver.kernel.org>; Wed, 14 Feb 2024 11:02:01 +0000 (UTC)
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
- by mx.groups.io with SMTP id smtpd.web10.38837.1707908514087918917
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79A07C48BC4
+	for <webhook@archiver.kernel.org>; Wed, 14 Feb 2024 11:04:41 +0000 (UTC)
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+ by mx.groups.io with SMTP id smtpd.web11.39283.1707908676007122375
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Feb 2024 03:01:54 -0800
+ Wed, 14 Feb 2024 03:04:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ddJsaPhl;
- spf=pass (domain: gmail.com, ip: 209.85.167.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-51197ca63f5so2480310e87.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 14 Feb 2024 03:01:53 -0800 (PST)
+ dkim=pass header.i=@linaro.org header.s=google header.b=w+lTPlrA;
+ spf=pass (domain: linaro.org, ip: 209.85.208.181, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2d09cf00214so70367291fa.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 Feb 2024 03:04:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707908512; x=1708513312; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ohnK7FrVM1Uz59D1mbIUM9DoR6POPqGjVKfBd5uNrd4=;
-        b=ddJsaPhl6xj/UgYcr5ywJ1dFstjuCkMxy8EzXUthnlgvY9cb6aqCKXkaP782lmWooP
-         gP4PkD2NBepeUV0/+h1ACRtAjNwU236iimu06EhhUb1AFZgGCidVloPjjZe5/iBqOuua
-         NN8/58nvt9yDV8919Zapjkfh4MzYCQCwE6Zxo1UwsqNgIVHspecXgRLbDgoIsbP0XsKF
-         1nR0/D7VHGKb117JlRZECpvmp8mW8RobUsxPuEuESxS86UDgpml5cGviLV7F1T2EJ0Pn
-         2+eKB96LtEKE6JKC0Id5WNXYJrtHiKD550rK6uP1kYD824O7xjE9dRYZ94OCRsJcU5qp
-         SDTg==
+        d=linaro.org; s=google; t=1707908674; x=1708513474; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=B72z1/jWYRPXJjJ2wgFCF3Z7sDNsCTha6iAykG1Sxus=;
+        b=w+lTPlrAXExjGejYZhggpdEWeLFPnIvR/aTKDgdaHDjzl0/Kuj2qIzUTCRVhNV/Cxz
+         nJENHrIlDBMrLubFAOE1xMH3D8iSO3rax9+rtN0E1ab+50IKf77GA3NBwGshwSCuD90T
+         7CIQwqGPfYKVhevStM5VLt+N4OYZKy1TvfTZS4BvuA5AyXll6DcvY13rmw8W/OHf+97l
+         nUzmUys8aays0LdNLcQ08luLesIqO0vHqt/exFkyg1dccFQ3TyR6Ao+232JD7g8rWLBp
+         TXzK33BtyxJ032KL0et6tlxYd8Lvw82WY6BHG3BsYf/Hm3H5/QaDP268b478Q/lgma0E
+         bw2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707908512; x=1708513312;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ohnK7FrVM1Uz59D1mbIUM9DoR6POPqGjVKfBd5uNrd4=;
-        b=O/EieQSW9jS0jBSjp8n01nFQQHyV/eOy8pVYtBLtBkk1cyvcqGrNbgNSrs0cxIle+d
-         t2q0gnYsQUPbIruwBE4RhzRGupEY0ukPDKw5q16cM1pOTOqH5tM91jsN36xN9VwBr2JA
-         JsmdwmIihc767NeqzvGAeVFVS+/2t+36p4xLsIL4OD9nmrwQdHU1d0QueHs9Wol0BZyp
-         EtiKWJ+fclMeFl3nu3Ina4VGGs5XoyZk3ZaeN/C9nqWROq22EYtzOXLv8VX6N3yBpuji
-         L6jf5V1SwEPg/vzR/7s3cexetm/OYvbjTcQhc3jK1ocuC5QbT4AufH/ZzSIGQ4QmVXtg
-         Dvyw==
-X-Forwarded-Encrypted: i=1; AJvYcCW1IsJbCzX94gp5Dxzvudxj8nhzzx56V1O6Bo/8psd37IKpbwKsNZUutCZ+6XQ61+KZw+7o0MMFSW4rK9xQ/SbAxsYiwU+MwUSuhJQHa2jmN7gzlR1qQLuQ
-X-Gm-Message-State: AOJu0Yz9bz9y8FT8CeEjGS0DS7vpCjtvwxhurW2bCPOqDVfwdr7/phnd
-	f12RfBa1FnYwqgEy6LzJHeVy/rRbjW3WqNNnlmT39SArpPCd6yJqSn2RcoOAEpNCJesvCg1JYSu
-	NH+TcAklKQpAA2tV5WpWOC+KwXXI=
-X-Google-Smtp-Source: AGHT+IGQtmf20KpxYAeZmmmc7hqTyDIHcZd0HhsQzqtJ1dO7v8DmJDy7/juEMFI05+8WdFnl4SjBavgAQcDw5Qiaz1A=
-X-Received: by 2002:ac2:5a01:0:b0:511:577d:10de with SMTP id
- q1-20020ac25a01000000b00511577d10demr1631406lfn.37.1707908512038; Wed, 14 Feb
- 2024 03:01:52 -0800 (PST)
+        d=1e100.net; s=20230601; t=1707908674; x=1708513474;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=B72z1/jWYRPXJjJ2wgFCF3Z7sDNsCTha6iAykG1Sxus=;
+        b=jTZeAbMhC51tWOR2YHTG04KcV+ywljEagwzwCdnZEBVt4p1kaZtW6xARAjJ7ddBTjl
+         qFKMNB1JIlD0OQRYNzmWdoQXuW4fz5n3BuJ8cnRVJ4yi3c+tt77AKl+0DGI0nuOCtSIp
+         1DxQxvDMpsHhL/GtuQUDUW23hAqMoDf4nOiSOahz3juaoIjL7SI+XWof908qxoWKaPaF
+         fe22JuDhlJysQE2o0KDXlAw8eC67Rkr97srzy+gQTEewVsbOf+gF1Ca2nt4h6D/8RRBT
+         cLA2P5ExuzSpU5a3aH8PAtu2h2kdsKqw8z5H5q48XiXhsSuXKqgPNHAQxTpITvFUloT3
+         VBRQ==
+X-Gm-Message-State: AOJu0Yw1BBz2IMjYdAjZqMuAssZ1rprbUONCUN4A7qXyQU+daXgOWpfg
+	WOXbkDOTQUHc6hZdZeSD8k9edyxushD9NFBHXAJb0ZNe8qbaf5ZydlrTeVIM38s=
+X-Google-Smtp-Source: AGHT+IHt9eJD9JgNjZ36Cn7apBoQDpDTYAHBLlYXddXOYIqsGChCYlIPI+tS103oXw+00bkGsP1/ow==
+X-Received: by 2002:a2e:8752:0:b0:2d0:e5d8:d33d with SMTP id q18-20020a2e8752000000b002d0e5d8d33dmr1543231ljj.30.1707908674044;
+        Wed, 14 Feb 2024 03:04:34 -0800 (PST)
+Received: from nuoska (87-100-245-199.bb.dnainternet.fi. [87.100.245.199])
+        by smtp.gmail.com with ESMTPSA id j15-20020a2e6e0f000000b002d0c639e0cesm817551ljc.6.2024.02.14.03.04.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Feb 2024 03:04:33 -0800 (PST)
+Date: Wed, 14 Feb 2024 13:04:31 +0200
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: Ross Burton <ross.burton@arm.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] qemuarm64: maximise the emulated CPU
+ capabilities
+Message-ID: <ZcyeP_-leKRqfafa@nuoska>
+References: <20240213164223.263232-1-ross.burton@arm.com>
 MIME-Version: 1.0
-References: <DB5PR02MB10213FA30B1A62CEA61B98E02EF4F2@DB5PR02MB10213.eurprd02.prod.outlook.com>
- <3a0bb821-e692-4256-ab7b-95716f2e5896@savoirfairelinux.com>
- <3c844a195548fa8d0352bfc469996f3077eb5a0a.camel@gmail.com>
- <33e57963-8887-4c95-ad8f-654afcea5e74@savoirfairelinux.com>
- <14a1b53384f2901878d7b4ed225edf8254af07f9.camel@gmail.com>
- <CANNYZj9UxD9-Owt6H1OouZXu4WYWOoUnh77g10Cihj5nLjoAPw@mail.gmail.com> <4582012f-7518-462b-bee4-5777f28cb28d@savoirfairelinux.com>
-In-Reply-To: <4582012f-7518-462b-bee4-5777f28cb28d@savoirfairelinux.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 14 Feb 2024 12:01:40 +0100
-Message-ID: <CANNYZj8GvH4RKa9phsQ7oSv2b0604DtLa09W1Fndm-bA3KANVg@mail.gmail.com>
-Subject: Re: [OE-core] VS Code plugin and multiple build directories
-To: Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
-Cc: Adrian Freihofer <adrian.freihofer@gmail.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	Ross Burton <Ross.Burton@arm.com>, Mohammed Raza <mohammed.raza@savoirfairelinux.com>, 
-	peter.kjellerstedt@axis.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240213164223.263232-1-ross.burton@arm.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 Feb 2024 11:02:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195465
+ <openembedded-core@lists.openembedded.org>; Wed, 14 Feb 2024 11:04:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195466
 
-On Wed, 14 Feb 2024 at 11:56, Enguerrand de Ribaucourt
-<enguerrand.de-ribaucourt@savoirfairelinux.com> wrote:
->      "bitbake.pathToBitbakeFolder": "${workspaceFolder}/poky/bitbake",
+Hi,
 
-I asked this in a different thread, but perhaps could ask here too:
-how is this setting used? If vscode needs to run bitbake executable,
-it can do so directly as that is placed in PATH by oe-init-buildenv,
-no?
+On Tue, Feb 13, 2024 at 04:42:23PM +0000, Ross Burton wrote:
+> From: Ross Burton <ross.burton@arm.com>
+> 
+> Instead of emulating a Cortex-A57, just ask qemu to emulate everything
+> it knows how to (apart from Pointer Authentication, where we use qemu's
+> implementation-defined algorithm which is vastly faster to emulate).
+> 
+> This does not change the tune, so the generated code is identical. The
+> advantage of doing this is that it lets us verify that features such as
+> Branch Target Indentification, which requires hardware support, is
+> actually functional.
+> 
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+>  meta/conf/machine/qemuarm64.conf | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm64.conf
+> index a096d964db5..63af4cd346d 100644
+> --- a/meta/conf/machine/qemuarm64.conf
+> +++ b/meta/conf/machine/qemuarm64.conf
+> @@ -14,7 +14,7 @@ SERIAL_CONSOLES ?= "115200;ttyAMA0 115200;hvc0"
+>  # For runqemu
+>  QB_SYSTEM_NAME = "qemu-system-aarch64"
+>  QB_MACHINE = "-machine virt"
+> -QB_CPU = "-cpu cortex-a57"
+> +QB_CPU = "-cpu max,pauth-impdef=on"
 
-The reason bitbake location is complicated to set, is that not all
-setups use bitbake copy contained in poky; some use separate clones of
-standalone bitbake repository that can be anywhere.
+FWIW, this can also be risky and cause instabilities. We've seen boot hangs
+at least with old qemu 7.2 and kernel 4.xy where serial console detection
+did not correctly work on every boot.
 
-Alex
+If things work now, then great!
+
+Cheers,
+
+-Mikko
 
