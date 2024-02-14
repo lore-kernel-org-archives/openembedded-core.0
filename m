@@ -1,103 +1,106 @@
-Return-Path: <anibal@limonsoftware.com>
+Return-Path: <simone.p.weiss@posteo.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4C9CC48BC1
-	for <webhook@archiver.kernel.org>; Wed, 14 Feb 2024 18:35:23 +0000 (UTC)
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
- by mx.groups.io with SMTP id smtpd.web11.68.1707935717037352382
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83382C48BC1
+	for <webhook@archiver.kernel.org>; Wed, 14 Feb 2024 19:11:59 +0000 (UTC)
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
+ by mx.groups.io with SMTP id smtpd.web10.1445.1707937909896952809
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Feb 2024 10:35:17 -0800
+ Wed, 14 Feb 2024 11:11:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@limonsoftware-com.20230601.gappssmtp.com header.s=20230601 header.b=uvw5o2nc;
- spf=pass (domain: limonsoftware.com, ip: 209.85.160.48, mailfrom: anibal@limonsoftware.com)
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-21cab5e5528so58542fac.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 14 Feb 2024 10:35:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=limonsoftware-com.20230601.gappssmtp.com; s=20230601; t=1707935716; x=1708540516; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zxAH5LEvy6l6Yr0gfkPnQBpbNtT1Q200Zrv8EfS78yI=;
-        b=uvw5o2ncp784QblxcZCU+9FLZ9+PsaubYkksfoSPdFtlO6vJ6ixfrfwMSxQwhqr1dV
-         gi6rFQLn5shqsugUNfIiQfXpszJMBVurB1q/UTO7VukGh6FfMoOOyrnRt1kj1HA0ksU7
-         +I077WlpcD6Kjb9WO5I20fVGdAS+fkhjh58l+2RVB2NPqEr8XX5xHcLm6DEfcGNxFPAK
-         aVcmn4bvKwQuiyfRlH9RmwuVZi0tbfjTeW+q8QegFovzDZWO39P3NC6dcBivawdTFYeZ
-         MpwE9QaWwXn7/Jx4Cu9aTB9jVjtrjbUa2kJsDH6me6X3Rm+orCFruLkS+EwpvDHQhVuh
-         nYXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707935716; x=1708540516;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zxAH5LEvy6l6Yr0gfkPnQBpbNtT1Q200Zrv8EfS78yI=;
-        b=SACEUMXnyrwXX+xPQvZlXTSGgByLNh9D84iChKcMbT6EafwBumgFlqXQDhQTAPRykj
-         UmrwkpForFvrpx7BYIdMszrkNItkqNZyrUEf8tXY8se1ToKuMeHkoa+KL3clCDmftfbg
-         BZYYSz9/ri9GDF2q/mB4jYxI2inQJVeL9w1/45rioxiFhLk3FtueklF6yF3ldW3Ltg3n
-         xtaUNioX7UhMCMUs1nbnYJMXiIs4+yndBt2+ah9BmE0PXw1kpeWwukhznhTL+CMy62/C
-         eI6uhP+VFEBIBl8k24l+I7ll9IGa/s7O+6ECYRvNx1tCo1orKGV6Nj8N7+LEu2UFCDb8
-         o38w==
-X-Gm-Message-State: AOJu0Yx4T3us5PYXH5ZTPuTMsuWn10A2vuEf42/hn+Wrdj3ewxG2YMnT
-	19/9KwYM1rM2KWaXPILYJtuGVwDjNxzAOrCobvvHejm8I59o7LKxsTrDYKFIebVsDtgWBPx86gD
-	M
-X-Google-Smtp-Source: AGHT+IHRuLf2BHOo9QPt0yaHhfS8mncbIo9oTwdxrQj8dbfNOKhRjOpfqdb5som/PHRvmHmHyZ0/GA==
-X-Received: by 2002:a05:6871:5827:b0:214:e186:4d3f with SMTP id oj39-20020a056871582700b00214e1864d3fmr3542202oac.26.1707935714954;
-        Wed, 14 Feb 2024 10:35:14 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCU31omWZsxq3j7JWE8bayYpjecH/J/sllwXFr7LR4K4yXhTkq+xfpt63XUFuV7vJQrXKnnx6SAVB3ZiCiXV/as3LpYdW1n1pUsqdP9Kt1UOZXem+VRRfo4/fXYcuS5a
-Received: from blackbox.wild-bonito.ts.net (fixed-189-203-87-105.totalplay.net. [189.203.87.105])
-        by smtp.gmail.com with ESMTPSA id qb15-20020a056871e78f00b0021a6a09ee38sm1358942oac.1.2024.02.14.10.35.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Feb 2024 10:35:14 -0800 (PST)
-From: Anibal Limon <anibal@limonsoftware.com>
-To: openembedded-core@lists.openembedded.org
-Cc: richard.purdie@linuxfoundation.org,
-	JPEWhacker@gmail.com,
-	Anibal Limon <anibal@limonsoftware.com>
-Subject: [PATCH] ptest-runner: Bump to 2.4.3 (92c1b97)
-Date: Wed, 14 Feb 2024 12:35:03 -0600
-Message-ID: <20240214183503.878993-1-anibal@limonsoftware.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=fail reason="dkim: body hash did not verify" header.i=@posteo.com header.s=2017 header.b=X31ja4Vv;
+ spf=pass (domain: posteo.com, ip: 185.67.36.65, mailfrom: simone.p.weiss@posteo.com)
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id 2F216240027
+	for <openembedded-core@lists.openembedded.org>; Wed, 14 Feb 2024 20:11:47 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.com; s=2017;
+	t=1707937908; bh=KFTBF37fpAHKZBRswVYFTd0Wp4SiOWDxbuG3huEZ11Q=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:From;
+	b=X31ja4Vve1BsLX9iSHO81ECHKYth1na1sc94tEJuH9PZEVJX9kw3Hzi9MerrjH58y
+	 Dz2Dfb4CPfWnqIHp+AJbjZEp/LSaI0YAIpypZCUVwODBBhpgGPnCrqiw5pYnm+BHI0
+	 Yn8mdChUZbmHOYLmUiTZAd+O7p5Se73orADU/+V8YJ+/AOgXRCYFrcxOkZrkQpgR5G
+	 Ig91N5TLgMS5HjidnI3MVfOFbLNs+1x/jNaKP7nTwXHC4PaRF+SSI9SKjfU+AoOhCz
+	 JF+Jg7l7qGxvqVfVNqxZ7esrgAgo3wX1oqs97gnRXdOWu8TO582+0UXhU7Nk7xi746
+	 7FCC0B0UFAI5g==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4TZnqk4zvhz9rxX;
+	Wed, 14 Feb 2024 20:11:46 +0100 (CET)
+From: simone.p.weiss@posteo.com
+To: tgammblin@baylibre.org,
+	openembedded-core@lists.openembedded.org
+Cc: =?UTF-8?q?Simone=20Wei=C3=9F?= <simone.p.weiss@posteo.com>
+Subject: [PATCH v2] patchtest: log errors and failures at end
+Date: Wed, 14 Feb 2024 19:03:02 +0000
+Message-Id: <20240214190302.8994-1-simone.p.weiss@posteo.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 Feb 2024 18:35:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195493
+ <openembedded-core@lists.openembedded.org>; Wed, 14 Feb 2024 19:11:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195494
 
-Pull small fixed related to secure builds, handling of rc in every ptest
-and better tests output when timeout.
+From: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
 
-Changes,
+At the moment, running patchtest locally will only print failures and err=
+ors
+to the log when the not passing test case is executed. This might lead to
+people overlooking issues with their patches, so print a log line at the
+end if testcases showed issues. This should make it more easy to spot the=
+n
+before.
 
-92c1b97 Do not reset error counter before each test
-7de7e2b utils: run_child fix security flags build
-6a9fba2 utils.c: get_available_ptests fix security flags compilation
-5b8ad9a tests: Ensure that timeouts still print ERROR
-d939217 SECURITY.md: Add file
+Fixes [YOCTO #15389]
 
-Signed-off-by: Anibal Limon <anibal@limonsoftware.com>
+Signed-off-by: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
 ---
- .../{ptest-runner_2.4.2.bb => ptest-runner_2.4.3.bb}            | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/ptest-runner/{ptest-runner_2.4.2.bb => ptest-runner_2.4.3.bb} (95%)
 
-diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.4.3.bb
-similarity index 95%
-rename from meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb
-rename to meta/recipes-support/ptest-runner/ptest-runner_2.4.3.bb
-index ff336b3820..e6668da01f 100644
---- a/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb
-+++ b/meta/recipes-support/ptest-runner/ptest-runner_2.4.3.bb
-@@ -7,7 +7,7 @@ HOMEPAGE = "http://git.yoctoproject.org/cgit/cgit.cgi/ptest-runner2/about/"
- LICENSE = "GPL-2.0-or-later"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=751419260aa954499f7abaabaa882bbe"
- 
--SRCREV = "4148e75284e443fc8ffaef425c467aa5523528ff"
-+SRCREV = "92c1b97bfdb4a94acc1cabcaf97eef52dc29144c"
- PV .= "+git"
- 
- SRC_URI = "git://git.yoctoproject.org/ptest-runner2;branch=master;protocol=https \
--- 
-2.43.0
+Changes in v2:
+- Adapt error message to not contail FAIL/PASS as this string is used to
+  check for individual failed testcases.
+
+ scripts/patchtest | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/patchtest b/scripts/patchtest
+index a1c824f7b7..8c9a73e1db 100755
+--- a/scripts/patchtest
++++ b/scripts/patchtest
+@@ -142,6 +142,8 @@ def _runner(resultklass, prefix=3DNone):
+         logger.error(traceback.print_exc())
+         logger.error('patchtest: something went wrong')
+         return 1
++    if result.test_failure or result.test_error:
++        return 1=20
+=20
+     return 0
+=20
+@@ -158,9 +160,14 @@ def run(patch, logfile=3DNone):
+     postmerge_resultklass =3D getResult(patch, True, logfile)
+     postmerge_result =3D _runner(postmerge_resultklass, 'test')
+=20
++    print('-------------------------------------------------------------=
+---------\n')
+     if premerge_result =3D=3D 2 and postmerge_result =3D=3D 2:
+-        logger.error('patchtest: any test cases found - did you specify =
+the correct suite directory?')
+-
++        logger.error('patchtest: Not any test cases found - did you spec=
+ify the correct suite directory?')
++    if premerge_result =3D=3D 1 or postmerge_result =3D=3D 1:
++        logger.error('patchtest: At least one patchtest caused a failure=
+ or an error - please check')
++    else:
++        logger.error('patchtest: All patchtests passed')
++    print('-------------------------------------------------------------=
+---------\n')
+     return premerge_result or postmerge_result
+=20
+ def main():
+--=20
+2.39.2
 
 
