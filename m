@@ -1,169 +1,103 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <anibal@limonsoftware.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C57AC48BC3
-	for <webhook@archiver.kernel.org>; Wed, 14 Feb 2024 18:14:53 +0000 (UTC)
-Received: from mailout01.t-online.de (mailout01.t-online.de [194.25.134.80])
- by mx.groups.io with SMTP id smtpd.web11.49937.1707934490927572033
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4C9CC48BC1
+	for <webhook@archiver.kernel.org>; Wed, 14 Feb 2024 18:35:23 +0000 (UTC)
+Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
+ by mx.groups.io with SMTP id smtpd.web11.68.1707935717037352382
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Feb 2024 10:14:51 -0800
+ Wed, 14 Feb 2024 10:35:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.80, mailfrom: f_l_k@t-online.de)
-Received: from fwd88.aul.t-online.de (fwd88.aul.t-online.de [10.223.144.114])
-	by mailout01.t-online.de (Postfix) with SMTP id E3D0DFEC
-	for <openembedded-core@lists.openembedded.org>; Wed, 14 Feb 2024 19:14:48 +0100 (CET)
-Received: from intel-corei7-64.fritz.box ([84.163.35.212]) by fwd88.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1raJmP-0p8owz0; Wed, 14 Feb 2024 19:14:45 +0100
-From: Markus Volk <f_l_k@t-online.de>
+ dkim=pass header.i=@limonsoftware-com.20230601.gappssmtp.com header.s=20230601 header.b=uvw5o2nc;
+ spf=pass (domain: limonsoftware.com, ip: 209.85.160.48, mailfrom: anibal@limonsoftware.com)
+Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-21cab5e5528so58542fac.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 Feb 2024 10:35:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=limonsoftware-com.20230601.gappssmtp.com; s=20230601; t=1707935716; x=1708540516; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zxAH5LEvy6l6Yr0gfkPnQBpbNtT1Q200Zrv8EfS78yI=;
+        b=uvw5o2ncp784QblxcZCU+9FLZ9+PsaubYkksfoSPdFtlO6vJ6ixfrfwMSxQwhqr1dV
+         gi6rFQLn5shqsugUNfIiQfXpszJMBVurB1q/UTO7VukGh6FfMoOOyrnRt1kj1HA0ksU7
+         +I077WlpcD6Kjb9WO5I20fVGdAS+fkhjh58l+2RVB2NPqEr8XX5xHcLm6DEfcGNxFPAK
+         aVcmn4bvKwQuiyfRlH9RmwuVZi0tbfjTeW+q8QegFovzDZWO39P3NC6dcBivawdTFYeZ
+         MpwE9QaWwXn7/Jx4Cu9aTB9jVjtrjbUa2kJsDH6me6X3Rm+orCFruLkS+EwpvDHQhVuh
+         nYXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707935716; x=1708540516;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zxAH5LEvy6l6Yr0gfkPnQBpbNtT1Q200Zrv8EfS78yI=;
+        b=SACEUMXnyrwXX+xPQvZlXTSGgByLNh9D84iChKcMbT6EafwBumgFlqXQDhQTAPRykj
+         UmrwkpForFvrpx7BYIdMszrkNItkqNZyrUEf8tXY8se1ToKuMeHkoa+KL3clCDmftfbg
+         BZYYSz9/ri9GDF2q/mB4jYxI2inQJVeL9w1/45rioxiFhLk3FtueklF6yF3ldW3Ltg3n
+         xtaUNioX7UhMCMUs1nbnYJMXiIs4+yndBt2+ah9BmE0PXw1kpeWwukhznhTL+CMy62/C
+         eI6uhP+VFEBIBl8k24l+I7ll9IGa/s7O+6ECYRvNx1tCo1orKGV6Nj8N7+LEu2UFCDb8
+         o38w==
+X-Gm-Message-State: AOJu0Yx4T3us5PYXH5ZTPuTMsuWn10A2vuEf42/hn+Wrdj3ewxG2YMnT
+	19/9KwYM1rM2KWaXPILYJtuGVwDjNxzAOrCobvvHejm8I59o7LKxsTrDYKFIebVsDtgWBPx86gD
+	M
+X-Google-Smtp-Source: AGHT+IHRuLf2BHOo9QPt0yaHhfS8mncbIo9oTwdxrQj8dbfNOKhRjOpfqdb5som/PHRvmHmHyZ0/GA==
+X-Received: by 2002:a05:6871:5827:b0:214:e186:4d3f with SMTP id oj39-20020a056871582700b00214e1864d3fmr3542202oac.26.1707935714954;
+        Wed, 14 Feb 2024 10:35:14 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU31omWZsxq3j7JWE8bayYpjecH/J/sllwXFr7LR4K4yXhTkq+xfpt63XUFuV7vJQrXKnnx6SAVB3ZiCiXV/as3LpYdW1n1pUsqdP9Kt1UOZXem+VRRfo4/fXYcuS5a
+Received: from blackbox.wild-bonito.ts.net (fixed-189-203-87-105.totalplay.net. [189.203.87.105])
+        by smtp.gmail.com with ESMTPSA id qb15-20020a056871e78f00b0021a6a09ee38sm1358942oac.1.2024.02.14.10.35.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Feb 2024 10:35:14 -0800 (PST)
+From: Anibal Limon <anibal@limonsoftware.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][PATCH] mesa: update 23.3.5 -> 24.0.0
-Date: Wed, 14 Feb 2024 19:14:53 +0100
-Message-ID: <20240214181453.795654-1-f_l_k@t-online.de>
+Cc: richard.purdie@linuxfoundation.org,
+	JPEWhacker@gmail.com,
+	Anibal Limon <anibal@limonsoftware.com>
+Subject: [PATCH] ptest-runner: Bump to 2.4.3 (92c1b97)
+Date: Wed, 14 Feb 2024 12:35:03 -0600
+Message-ID: <20240214183503.878993-1-anibal@limonsoftware.com>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1707934485-D8F62DC7-EF68BC53/0/0 CLEAN NORMAL
-X-TOI-MSGID: fe3296ab-5cf4-4f69-aa63-4b959168b156
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 Feb 2024 18:14:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195492
+ <openembedded-core@lists.openembedded.org>; Wed, 14 Feb 2024 18:35:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195493
 
-- refresh 0001-meson.build-check-for-all-linux-host_os-combinations.patch
-- rework VIDEO_CODECS. mesa now provides options for 'all' and 'all_free'
-  Adjust accordingly.
-  Free codecs are built by default:
-    Codecs                       : av1dec av1enc vp9dec
-  If LICENSE_FLAGS_ACCEPTED contains 'commercial' all supported codecs ar=
-e built:
-    Codecs                       : vc1dec h264dec h264enc h265dec h265enc
-                                   av1dec av1enc vp9dec
+Pull small fixed related to secure builds, handling of rc in every ptest
+and better tests output when timeout.
 
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
+Changes,
+
+92c1b97 Do not reset error counter before each test
+7de7e2b utils: run_child fix security flags build
+6a9fba2 utils.c: get_available_ptests fix security flags compilation
+5b8ad9a tests: Ensure that timeouts still print ERROR
+d939217 SECURITY.md: Add file
+
+Signed-off-by: Anibal Limon <anibal@limonsoftware.com>
 ---
- ...ld-check-for-all-linux-host_os-combinations.patch | 12 ++++++------
- .../mesa/{mesa-gl_23.3.5.bb =3D> mesa-gl_24.0.0.bb}    |  0
- meta/recipes-graphics/mesa/mesa.inc                  |  8 ++++----
- .../mesa/{mesa_23.3.5.bb =3D> mesa_24.0.0.bb}          |  0
- 4 files changed, 10 insertions(+), 10 deletions(-)
- rename meta/recipes-graphics/mesa/{mesa-gl_23.3.5.bb =3D> mesa-gl_24.0.0=
-.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_23.3.5.bb =3D> mesa_24.0.0.bb} (=
-100%)
+ .../{ptest-runner_2.4.2.bb => ptest-runner_2.4.3.bb}            | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/ptest-runner/{ptest-runner_2.4.2.bb => ptest-runner_2.4.3.bb} (95%)
 
-diff --git a/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-=
-all-linux-host_os-combinations.patch b/meta/recipes-graphics/mesa/files/0=
-001-meson.build-check-for-all-linux-host_os-combinations.patch
-index fadd6ee201..b0be8d0feb 100644
---- a/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-lin=
-ux-host_os-combinations.patch
-+++ b/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-lin=
-ux-host_os-combinations.patch
-@@ -23,21 +23,21 @@ diff --git a/meson.build b/meson.build
- index 35cc5f1..9a49c0d 100644
- --- a/meson.build
- +++ b/meson.build
--@@ -121,7 +121,7 @@ with_any_opengl =3D with_opengl or with_gles1 or wit=
-h_gles2
-+@@ -128,7 +128,7 @@
-  # Only build shared_glapi if at least one OpenGL API is enabled
-  with_shared_glapi =3D with_shared_glapi and with_any_opengl
- =20
---system_has_kms_drm =3D ['openbsd', 'netbsd', 'freebsd', 'gnu/kfreebsd',=
- 'dragonfly', 'linux', 'sunos', 'android'].contains(host_machine.system()=
-)
--+system_has_kms_drm =3D ['openbsd', 'netbsd', 'freebsd', 'gnu/kfreebsd',=
- 'dragonfly', 'linux', 'sunos', 'android'].contains(host_machine.system()=
-) or host_machine.system().startswith('linux')
-+-system_has_kms_drm =3D ['openbsd', 'netbsd', 'freebsd', 'gnu/kfreebsd',=
- 'dragonfly', 'linux', 'sunos', 'android', 'managarm'].contains(host_mach=
-ine.system())
-++system_has_kms_drm =3D ['openbsd', 'netbsd', 'freebsd', 'gnu/kfreebsd',=
- 'dragonfly', 'linux', 'sunos', 'android', 'managarm'].contains(host_mach=
-ine.system()) or host_machine.system().startswith('linux')
- =20
-  gallium_drivers =3D get_option('gallium-drivers')
-  if gallium_drivers.contains('auto')
--@@ -956,7 +956,7 @@ if cc.has_function('fmemopen')
-+@@ -998,7 +998,7 @@
-  endif
- =20
-  # TODO: this is very incomplete
---if ['linux', 'cygwin', 'gnu', 'freebsd', 'gnu/kfreebsd', 'haiku', 'andr=
-oid'].contains(host_machine.system())
--+if ['linux', 'cygwin', 'gnu', 'freebsd', 'gnu/kfreebsd', 'haiku'].conta=
-ins(host_machine.system()) or host_machine.system().startswith('linux')
-+-if ['linux', 'cygwin', 'gnu', 'freebsd', 'gnu/kfreebsd', 'haiku', 'andr=
-oid', 'managarm'].contains(host_machine.system())
-++if ['linux', 'cygwin', 'gnu', 'freebsd', 'gnu/kfreebsd', 'haiku', 'andr=
-oid', 'managarm'].contains(host_machine.system()) or host_machine.system(=
-).startswith('linux')
-    pre_args +=3D '-D_GNU_SOURCE'
-  elif host_machine.system() =3D=3D 'sunos'
-    pre_args +=3D '-D__EXTENSIONS__'
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_23.3.5.bb b/meta/recipes-=
-graphics/mesa/mesa-gl_24.0.0.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_23.3.5.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_24.0.0.bb
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/=
-mesa/mesa.inc
-index 3a7b91f637..fabc52f0e7 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -20,7 +20,7 @@ SRC_URI =3D "https://mesa.freedesktop.org/archive/mesa-=
-${PV}.tar.xz \
-            file://0001-gallium-Fix-build-with-llvm-17.patch \
- "
-=20
--SRC_URI[sha256sum] =3D "69ccb1278641ff5bad71ca0f866188aeb1a92aadc4dbb9d3=
-5f50aebec5b8b50f"
-+SRC_URI[sha256sum] =3D "dc7e8c077bc5884df95478263b34bdebb7e88e600689cb56=
-fb07be2b8c304c36"
-=20
- UPSTREAM_CHECK_GITTAGREGEX =3D "mesa-(?P<pver>\d+(\.\d+)+)"
-=20
-@@ -81,12 +81,12 @@ def strip_comma(s):
-=20
- PACKAGECONFIG =3D " \
- 	gallium \
-+	video-codecs \
- 	${@bb.utils.filter('DISTRO_FEATURES', 'x11 vulkan wayland', d)} \
- 	${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'opengl egl gles gbm =
-virgl', '', d)} \
- 	${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'dri3', '', d)} \
- 	${@bb.utils.contains('DISTRO_FEATURES', 'x11 vulkan', 'dri3', '', d)} \
- 	${@bb.utils.contains('DISTRO_FEATURES', 'vulkan', 'zink', '', d)} \
--	${@bb.utils.contains('LICENSE_FLAGS_ACCEPTED', 'commercial', 'video-cod=
-ecs', '', d)} \
- "
-=20
- PACKAGECONFIG:append:class-native =3D "gallium-llvm r600"
-@@ -203,8 +203,8 @@ PACKAGECONFIG[unwind] =3D "-Dlibunwind=3Denabled,-Dli=
-bunwind=3Ddisabled,libunwind"
-=20
- PACKAGECONFIG[lmsensors] =3D "-Dlmsensors=3Denabled,-Dlmsensors=3Ddisabl=
-ed,lmsensors"
-=20
--VIDEO_CODECS =3D "vc1dec,h264dec,h264enc,h265dec,h265enc"
--PACKAGECONFIG[video-codecs] =3D "-Dvideo-codecs=3D${@strip_comma('${VIDE=
-O_CODECS}')}, -Dvideo-codecs=3D''"
-+VIDEO_CODECS ?=3D "${@bb.utils.contains('LICENSE_FLAGS_ACCEPTED', 'comme=
-rcial', 'all', 'all_free', d)}"
-+PACKAGECONFIG[video-codecs] =3D "-Dvideo-codecs=3D${VIDEO_CODECS}, -Dvid=
-eo-codecs=3D''"
-=20
- # llvmpipe is slow if compiled with -fomit-frame-pointer (e.g. -O2)
- FULL_OPTIMIZATION:append =3D " -fno-omit-frame-pointer"
-diff --git a/meta/recipes-graphics/mesa/mesa_23.3.5.bb b/meta/recipes-gra=
-phics/mesa/mesa_24.0.0.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa_23.3.5.bb
-rename to meta/recipes-graphics/mesa/mesa_24.0.0.bb
---=20
+diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.4.3.bb
+similarity index 95%
+rename from meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb
+rename to meta/recipes-support/ptest-runner/ptest-runner_2.4.3.bb
+index ff336b3820..e6668da01f 100644
+--- a/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb
++++ b/meta/recipes-support/ptest-runner/ptest-runner_2.4.3.bb
+@@ -7,7 +7,7 @@ HOMEPAGE = "http://git.yoctoproject.org/cgit/cgit.cgi/ptest-runner2/about/"
+ LICENSE = "GPL-2.0-or-later"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=751419260aa954499f7abaabaa882bbe"
+ 
+-SRCREV = "4148e75284e443fc8ffaef425c467aa5523528ff"
++SRCREV = "92c1b97bfdb4a94acc1cabcaf97eef52dc29144c"
+ PV .= "+git"
+ 
+ SRC_URI = "git://git.yoctoproject.org/ptest-runner2;branch=master;protocol=https \
+-- 
 2.43.0
 
 
