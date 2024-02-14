@@ -1,102 +1,95 @@
-Return-Path: <enguerrand.de-ribaucourt@savoirfairelinux.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B0F5C48BC3
-	for <webhook@archiver.kernel.org>; Wed, 14 Feb 2024 12:49:42 +0000 (UTC)
-Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [208.88.110.44])
- by mx.groups.io with SMTP id smtpd.web10.40329.1707914979548871931
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12FA2C48BC3
+	for <webhook@archiver.kernel.org>; Wed, 14 Feb 2024 13:43:42 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web10.41222.1707918217470429245
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Feb 2024 04:49:40 -0800
+ Wed, 14 Feb 2024 05:43:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@savoirfairelinux.com header.s=DFC430D2-D198-11EC-948E-34200CB392D2 header.b=Aqb5GGCq;
- spf=pass (domain: savoirfairelinux.com, ip: 208.88.110.44, mailfrom: enguerrand.de-ribaucourt@savoirfairelinux.com)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id C8BF69C3311;
-	Wed, 14 Feb 2024 07:49:37 -0500 (EST)
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
- by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10032)
- with ESMTP id y6_rKCOENF5I; Wed, 14 Feb 2024 07:49:37 -0500 (EST)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 2C0889C45A3;
-	Wed, 14 Feb 2024 07:49:37 -0500 (EST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com 2C0889C45A3
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Eq70a7mz;
+ spf=pass (domain: gmail.com, ip: 209.85.221.46, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-33b29b5ea96so411413f8f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 Feb 2024 05:43:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=savoirfairelinux.com; s=DFC430D2-D198-11EC-948E-34200CB392D2;
-	t=1707914977; bh=9DyPrRP2aKX9hHZkr+jAkrrF7oN5DY/yzN7q/lSaimI=;
-	h=Message-ID:Date:MIME-Version:To:From;
-	b=Aqb5GGCquX6vnLmnXSPUDY7ujGELpt6nmVaXQunzQF+dcVqV/bX4qVv8zFFmgiu9+
-	 AXMlXMkVKK94/Xz55ishp6BDXNk+hQTD9z5SPVuPUuhuh37AJjY+oeyfBMC6u/3EUJ
-	 bctYLGDIJmoKGILTe5jtPLJ+eENYPzSzpTApTWdalizN50AbVc9cNOVmhzZT+Ysa0d
-	 h+N0hKOa88LR509a07C2m/ME0UWe4eHxITB7R4U/hJf2yqHSPNEWo3506fIDWC9+Dn
-	 GSYdMMm5pJRy5lbgz6pKqLS3KxOIJEXGNJBuHKfI4v2G3q781PmYjTeHMMzgwKXL4l
-	 4NLIEuVg5W3Gw==
-X-Virus-Scanned: amavis at mail.savoirfairelinux.com
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
- by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10026)
- with ESMTP id yH-jZO5I1yoP; Wed, 14 Feb 2024 07:49:37 -0500 (EST)
-Received: from [192.168.216.123] (lmontsouris-657-1-69-118.w80-15.abo.wanadoo.fr [80.15.101.118])
-	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id 61EEB9C3311;
-	Wed, 14 Feb 2024 07:49:36 -0500 (EST)
-Message-ID: <71696e62-8d1f-43b4-8277-7a6619a20d73@savoirfairelinux.com>
-Date: Wed, 14 Feb 2024 13:49:35 +0100
+        d=gmail.com; s=20230601; t=1707918215; x=1708523015; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=P3j7n0uL2n+LAo0o2PE14JYZN6RcS5VbZedUJrwIv9k=;
+        b=Eq70a7mzf9k5DlDpeKhsqRP3nRgpkzjfyBnFQZgSZrq761t3KYS77NBK5YTNzIhOIt
+         8x4EKot85U6H/B/DShCTqKXlqgpqykSkcoodc44d3jlk0tL3rzlNC8vJhKimLuy13jEN
+         bxIZ5/z49Hgol90bJdhyfqmYtuZj47ipRRKEORoNOcXZIcZA0iRFe2sV02DI6t5InTs/
+         y7N7dZw7X8l4XKqGZqqkNIIEw0v/P7f7KCSU126EpKz94Myrw4d/9bGOeYTu6UhEPJx6
+         nBVPURJlBrrrgrvfkdTX94H+jynKOU5DLCM2k+m8356PLnJOxHq6GG6u8sHdE0qKcToz
+         6i5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707918215; x=1708523015;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=P3j7n0uL2n+LAo0o2PE14JYZN6RcS5VbZedUJrwIv9k=;
+        b=SoodX7Q7U5hMJXFT9OU/jUOjMorsCZUtU1YzplCgvUgsaFNoNRHVSDWXPPrW9uzeaX
+         G7mD+BBnH3QCGB9ZKGUjyAFmRFXaDmer1GOKBd1+4bca5gXE/1vd6Fi1Lc6ivP62sSy0
+         GlcjPmVhsA2RfhLeVkrU9OAPpegfrFxGgEiouzWIsEPL3Ri/NYjCrqGIMLYxmMHzAzpB
+         kof6SmRNNH7IQYWtH3lhJytXQnQLmySiRwumxzWRjbE0NAMNtL5EMQmY8DfDkxlUhJ8O
+         Gj6RQn+/YiWkx1FPthsgvbHc0V8SQuLY50oYdH/fkf8dSP8QajTKJnaF+uYXNjxfyo4W
+         J9WQ==
+X-Gm-Message-State: AOJu0YxrTf+46c8PX27Ue7QjALKP52jQq4cp/fKIuDw1YfceAJ4dZ+tw
+	+S00vNPB7XnXMteWH3T1KsCXPDmURuCP7VOHx2ltHewrwBpH3QdDJPo0CIRA
+X-Google-Smtp-Source: AGHT+IGi4eC/tm9+jneSrwrlTPfDII/yO9Qg6jR2hRKO4XJP5dmaTdsbR8Njz8ZvimTdE+tP9cDxuw==
+X-Received: by 2002:adf:ebc1:0:b0:33b:1b10:7ea3 with SMTP id v1-20020adfebc1000000b0033b1b107ea3mr1643367wrn.9.1707918215423;
+        Wed, 14 Feb 2024 05:43:35 -0800 (PST)
+Received: from toster.lan (bl23-106-114.dsl.telepac.pt. [144.64.106.114])
+        by smtp.gmail.com with ESMTPSA id u14-20020a056000038e00b0033ce40eee9fsm2548613wrf.58.2024.02.14.05.43.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Feb 2024 05:43:35 -0800 (PST)
+From: Jose Quaresma <quaresma.jose@gmail.com>
+X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
+To: openembedded-core@lists.openembedded.org
+Cc: Jose Quaresma <jose.quaresma@foundries.io>
+Subject: [OE-core][PATCH] qemu: disbale AF_XDP network backend support
+Date: Wed, 14 Feb 2024 13:43:24 +0000
+Message-ID: <20240214134324.2439400-1-jose.quaresma@foundries.io>
+X-Mailer: git-send-email 2.43.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] VS Code plugin and multiple build directories
-Content-Language: en-US
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Adrian Freihofer <adrian.freihofer@gmail.com>,
- "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>, Ross Burton
- <Ross.Burton@arm.com>, Mohammed Raza <mohammed.raza@savoirfairelinux.com>,
- peter.kjellerstedt@axis.com
-References: <DB5PR02MB10213FA30B1A62CEA61B98E02EF4F2@DB5PR02MB10213.eurprd02.prod.outlook.com>
- <3a0bb821-e692-4256-ab7b-95716f2e5896@savoirfairelinux.com>
- <3c844a195548fa8d0352bfc469996f3077eb5a0a.camel@gmail.com>
- <33e57963-8887-4c95-ad8f-654afcea5e74@savoirfairelinux.com>
- <14a1b53384f2901878d7b4ed225edf8254af07f9.camel@gmail.com>
- <CANNYZj9UxD9-Owt6H1OouZXu4WYWOoUnh77g10Cihj5nLjoAPw@mail.gmail.com>
- <4582012f-7518-462b-bee4-5777f28cb28d@savoirfairelinux.com>
- <CANNYZj8GvH4RKa9phsQ7oSv2b0604DtLa09W1Fndm-bA3KANVg@mail.gmail.com>
-From: Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
-In-Reply-To: <CANNYZj8GvH4RKa9phsQ7oSv2b0604DtLa09W1Fndm-bA3KANVg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 Feb 2024 12:49:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195473
+ <openembedded-core@lists.openembedded.org>; Wed, 14 Feb 2024 13:43:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195475
 
-On 14/02/2024 12:01, Alexander Kanavin wrote:
-> On Wed, 14 Feb 2024 at 11:56, Enguerrand de Ribaucourt
-> <enguerrand.de-ribaucourt@savoirfairelinux.com> wrote:
->>       "bitbake.pathToBitbakeFolder": "${workspaceFolder}/poky/bitbake",
-> 
-> I asked this in a different thread, but perhaps could ask here too:
-> how is this setting used? If vscode needs to run bitbake executable,
-> it can do so directly as that is placed in PATH by oe-init-buildenv,
-> no?
-This setting is inherited from Eugen's version. It's not used to start 
-bitbake any more.
+This fix some host contaminations issues:
+| /poky/build/tmp/hosttools/ld.bfd: libcommon.fa.p/net_af-xdp.c.o: undefined reference to symbol 'bpf_xdp_detach@@LIBBPF_0.7.0'
+| /poky/build/tmp/hosttools/ld.bfd: /usr/lib/libbpf.so.1: error adding symbols: DSO missing from command line
+| collect2: error: ld returned 1 exit status
 
-The shell invocations for Yocto are built in the following format:
+The AF_XDP network backend support [1] requires the libxdp that is not
+available in any layer, otherwise you can configure this option:
+| PACKAGECONFIG[af-xdp] = "--enable-af-xdp,--disable-af-xdp,libxdp"
 
-	[commandWrapper "]. [pathToEnvScript] [pathToBuildFolder] && bitbake 
-<recipe>["]
+[1] https://github.com/qemu/qemu/commit/cb039ef3d9e3112da01e1ecd9b136ac9809ef733
 
-We test this in CI against typical configurations for kas, plain poky 
-native, docker run with crops, which addresses probably 90% of our users.
-> 
-> The reason bitbake location is complicated to set, is that not all
-> setups use bitbake copy contained in poky; some use separate clones of
-> standalone bitbake repository that can be anywhere.
-Today pathToBitbakeFolder is only used to configure the parsing of 
-Python segments by importing the modules in the poky Python librarie. So 
-the setting expects that this bitbake path is inside poky actually (and 
-doesn't use anything inside bitbake). I could deprecate it and replace 
-it with a path to poky to be more accurate.
-> 
-> Alex
-Enguerrand de Ribaucourt
+Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+---
+ meta/recipes-devtools/qemu/qemu.inc | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 2a81870151..5d953e5ef5 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -126,6 +126,7 @@ EXTRA_OECONF = " \
+     --disable-download \
+     --disable-docs \
+     --host-cc='${BUILD_CC}' \
++    --disable-af-xdp \
+     ${PACKAGECONFIG_CONFARGS} \
+     "
+ 
+-- 
+2.43.1
+
 
