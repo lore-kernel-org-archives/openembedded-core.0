@@ -1,152 +1,123 @@
-Return-Path: <baruch@tkos.co.il>
+Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5785FC4829F
-	for <webhook@archiver.kernel.org>; Wed, 14 Feb 2024 07:02:40 +0000 (UTC)
-Received: from mail.tkos.co.il (mail.tkos.co.il [84.110.109.230])
- by mx.groups.io with SMTP id smtpd.web11.36799.1707894158817976887
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF4B3C48BEB
+	for <webhook@archiver.kernel.org>; Wed, 14 Feb 2024 09:02:00 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web11.37940.1707901313472417280
  for <openembedded-core@lists.openembedded.org>;
- Tue, 13 Feb 2024 23:02:39 -0800
+ Wed, 14 Feb 2024 01:01:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@tkos.co.il header.s=default header.b=i6dG2IkA;
- spf=pass (domain: tkos.co.il, ip: 84.110.109.230, mailfrom: baruch@tkos.co.il)
-Received: from localhost (unknown [10.0.8.2])
-	by mail.tkos.co.il (Postfix) with ESMTP id 4ACA444053D;
-	Wed, 14 Feb 2024 09:01:58 +0200 (IST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tkos.co.il;
-	s=default; t=1707894118;
-	bh=YnQJrrQ1luPKdj93szvru25FMKUfxzdx7X0sajbOrMg=;
-	h=References:From:To:Cc:Subject:Date:In-reply-to:From;
-	b=i6dG2IkAPXQmUFCkolpAH4m9qEJIUG/6CIF1RZ/49dxzNLU2ps7OauzgmLXFigtmA
-	 VlAEMFd6GB+2YlXwnP+1qc4EXG5LsRH4YhIFlciFk7CXPqvMXNVXftLHrnu/NMzA+F
-	 +ymHj6+oJROTQ9jHROIvJfmdadm+NTIBZoa1HWXnzDvCYzl+6/trh/qghjcC0yfKTP
-	 qX1cjJafXm98i4M69YEooS8L1cNLkFJj0Ve9aPO8v0RrlyHHRFMXGSm/Y4ZRC3vbqB
-	 7YF6fhmFR2rk8wgfd64Kquc7L//lgnSWGBQ4U659oidxoZjrKS5PrtE9YiRBaRJONm
-	 9tyFoFw5Ji96A==
-References: <ed5d6a8c842319c81026bb4aab7e2a9de3c13189.1707762606.git.baruch@tkos.co.il>
- <8f1c6048-235b-4786-811c-50e79c806da4@gmail.com>
-User-agent: mu4e 1.10.8; emacs 29.1
-From: Baruch Siach <baruch@tkos.co.il>
-To: Vyacheslav Yurkov <uvv.mail@gmail.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=NW/22c+a;
+ spf=pass (domain: gmail.com, ip: 209.85.128.44, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-411ea1ccb6fso2433135e9.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 Feb 2024 01:01:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707901312; x=1708506112; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Muh+hs/TTt54HkLOorkuhHQvVGG+ryiI4XmlV94H730=;
+        b=NW/22c+aMZOziQIk362FU27r86j0tgEMj3ppuptk9NmRNBtUZHl2JKuN/Ae/T0SHST
+         M5shy4/Vd25bJSCrT7g0zt6wdXrB70kmZev5CSMXwWqhTAqfk5JJ3K+MgY9BJmwvu2uj
+         VWvzX4qBQjoZBKr34MX8p3snLMuI01SUXSoaM/j6dIpt58skY/1QBpUXEI5vl/Zt0xmF
+         7oekF4e8lOGsmlK9vxkYtNC7OyqiYHBMCnrEqC/huHVSHXO75k6ZdrOcZJpiO0KQAdX8
+         bHrxDeIzlB3GZvVz5MjTja8mEaXIwoYkWx48m+cy7Tl9dGMDh4ice4P2TlpXT2+r/xlE
+         uuxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707901312; x=1708506112;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Muh+hs/TTt54HkLOorkuhHQvVGG+ryiI4XmlV94H730=;
+        b=MElcVfjLGvYTUusafJf/60eac3ctYXtkIXdg8+3mf1kO4/1O0vpBI1ThXtf/c5F0GQ
+         67Vpy/pHiF0fQjH+7kyaurxsJhzcVXKvHOIzfQ2SJYJR1duBS5omuX3pyjtFIVPVGoJz
+         nDr16ofyI58ayuXF9lQ6hM66IWfv3d0wHyNlXY1/+hpOkKkAcrqTFWYU04z9a88BgGii
+         H8LQKOXsl23uithVJMqk1sMHBfgTEND/09u9ELJTeXK+VkSKv00gq5ayxheb9dmtGfxQ
+         I28WA8zrPS4BniahcptGn9BbcPOOsfyfFefcoLnfTYBqU/6tma/oyPnF6gtx3hNf8jNc
+         r7Yg==
+X-Gm-Message-State: AOJu0Yyu1YVpDA6FZcjIvLocjoKanVnuJkNyVlisXd8Ri2tqLWu2Ypfv
+	JqLkbljk2XIQDLcHSiej5YFBgcsrzXkh/NJCegD8MgToeXAKJH/+
+X-Google-Smtp-Source: AGHT+IHPW9GFq6QHGJ6PbQP3f58S0feD98OS52/I6oddTPFzwieDDh3hFTadcGJl53h24j2T+pHrzQ==
+X-Received: by 2002:a05:600c:510f:b0:411:c329:6515 with SMTP id o15-20020a05600c510f00b00411c3296515mr1731511wms.24.1707901311670;
+        Wed, 14 Feb 2024 01:01:51 -0800 (PST)
+Received: from ?IPv6:2a02:169:59a6:0:55c4:f628:91f3:4287? ([2a02:169:59a6:0:55c4:f628:91f3:4287])
+        by smtp.gmail.com with ESMTPSA id p15-20020a05600c1d8f00b0040ecdd672fasm1314998wms.13.2024.02.14.01.01.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Feb 2024 01:01:51 -0800 (PST)
+Message-ID: <7d610cea521ca639e50f3a7a3f49be91587c3368.camel@gmail.com>
+Subject: Re: [OE-core] [PATCH v2 2/4] oe-init-build-env: add OEINIT variable
+From: adrian.freihofer@gmail.com
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] overlayfs-etc: add option to skip creation of mount
- dirs
-Date: Wed, 14 Feb 2024 08:54:47 +0200
-In-reply-to: <8f1c6048-235b-4786-811c-50e79c806da4@gmail.com>
-Message-ID: <8734tv34vo.fsf@tarshish>
+Date: Wed, 14 Feb 2024 10:01:50 +0100
+In-Reply-To: <CANNYZj-mMv2miTA8fMBU9fJydCupT2eg8Y+thFVjfzfQW40TZQ@mail.gmail.com>
+References: <20240213221846.109260-1-adrian.freihofer@siemens.com>
+	 <20240213221846.109260-3-adrian.freihofer@siemens.com>
+	 <CANNYZj-mMv2miTA8fMBU9fJydCupT2eg8Y+thFVjfzfQW40TZQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.module_f38+17164+63eeee4a) 
 MIME-Version: 1.0
-Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 Feb 2024 07:02:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195454
+ <openembedded-core@lists.openembedded.org>; Wed, 14 Feb 2024 09:02:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195455
 
-Hi Slava,
+On Wed, 2024-02-14 at 07:37 +0100, Alexander Kanavin wrote:
+> On Tue, 13 Feb 2024 at 23:19, Adrian Freihofer
+> <adrian.freihofer@gmail.com> wrote:
+> > If more layers are used or a different folder structure is used the
+> > build folder and the .vscode folder should probably be at a
+> > different
+> > location, where the OEINIT variable is required.
+> > One use case is a layer structure like this:
+> >=20
+> > my-top-dir=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 <-- OEINIT
+> > =C2=A0 build=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 <-- BUILDDIR (=3DBBPATH=
+)
+> > =C2=A0 .vscode
+> > =C2=A0=C2=A0=C2=A0 settings.json
+> > =C2=A0 oe-init-build-env
+> > =C2=A0 my-layer
+> > =C2=A0 meta-oe
+> > =C2=A0 poky=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 <-- OEROOT
+> > =C2=A0=C2=A0=C2=A0 oe-buildenv-internal
+> > =C2=A0=C2=A0=C2=A0 oe-setup-builddir
+>=20
+> I don't understand. When and how this situation would occur? Why
+> would
+> it be set this way?
 
-On Mon, Feb 12 2024, Vyacheslav Yurkov wrote:
-> On 12.02.2024 19:30, Baruch Siach wrote:
->> The 'preinit' script can't create mount directories when rootfs is
->> read-only. Add an option to skip this step. The user must make sure that
->> all required directories are already in the rootfs directory layout.
->>
->> Cc: Vyacheslav Yurkov <uvv.mail@gmail.com>
->> Signed-off-by: Baruch Siach <baruch@tkos.co.il>
->> ---
->> v2: Add a user selectable option. Don't skip mkdir automatically when
->>      read-only-rootfs feature is enabled.
->> ---
->>   meta/classes-recipe/overlayfs-etc.bbclass |  5 ++++-
->>   meta/files/overlayfs-etc-preinit.sh.in    | 16 +++++++++-------
->>   2 files changed, 13 insertions(+), 8 deletions(-)
->>
->> diff --git a/meta/classes-recipe/overlayfs-etc.bbclass b/meta/classes-recipe/overlayfs-etc.bbclass
->> index 0c7834d01f43..d339fbbeee9f 100644
->> --- a/meta/classes-recipe/overlayfs-etc.bbclass
->> +++ b/meta/classes-recipe/overlayfs-etc.bbclass
->> @@ -41,6 +41,7 @@ OVERLAYFS_ETC_USE_ORIG_INIT_NAME ??= "1"
->>   OVERLAYFS_ETC_MOUNT_OPTIONS ??= "defaults"
->>   OVERLAYFS_ETC_INIT_TEMPLATE ??= "${COREBASE}/meta/files/overlayfs-etc-preinit.sh.in"
->>   OVERLAYFS_ETC_EXPOSE_LOWER ??= "0"
->> +OVERLAYFS_ETC_CREATE_MOUNT_DIRS ??= "1"
->>     python create_overlayfs_etc_preinit() {
->>       overlayEtcMountPoint = d.getVar("OVERLAYFS_ETC_MOUNT_POINT")
->> @@ -62,6 +63,7 @@ python create_overlayfs_etc_preinit() {
->>       initBaseName = oe.path.join(d.getVar("base_sbindir"), "init")
->>       origInitNameSuffix = ".orig"
->>       exposeLower = oe.types.boolean(d.getVar('OVERLAYFS_ETC_EXPOSE_LOWER'))
->> +    createMoundDirs = oe.types.boolean(d.getVar('OVERLAYFS_ETC_CREATE_MOUNT_DIRS'))
->>         args = {
->>           'OVERLAYFS_ETC_MOUNT_POINT': overlayEtcMountPoint,
->> @@ -69,7 +71,8 @@ python create_overlayfs_etc_preinit() {
->>           'OVERLAYFS_ETC_FSTYPE': overlayEtcFsType,
->>           'OVERLAYFS_ETC_DEVICE': overlayEtcDevice,
->>           'SBIN_INIT_NAME': initBaseName + origInitNameSuffix if useOrigInit else initBaseName,
->> -        'OVERLAYFS_ETC_EXPOSE_LOWER': "true" if exposeLower else "false"
->> +        'OVERLAYFS_ETC_EXPOSE_LOWER': "true" if exposeLower else "false",
->> +        'CREATE_MOUNT_DIRS': "true" if createMoundDirs else "false"
->>       }
->>         if useOrigInit:
->> diff --git a/meta/files/overlayfs-etc-preinit.sh.in b/meta/files/overlayfs-etc-preinit.sh.in
->> index 8db076f4ba65..b05e3957a382 100644
->> --- a/meta/files/overlayfs-etc-preinit.sh.in
->> +++ b/meta/files/overlayfs-etc-preinit.sh.in
->> @@ -3,12 +3,15 @@
->>   echo "PREINIT: Start"
->>     PATH=/sbin:/bin:/usr/sbin:/usr/bin
->> -mount -o remount,rw /
->> -
->> -mkdir -p /proc
->> -mkdir -p /sys
->> -mkdir -p /run
->> -mkdir -p /var/run
->> +if {CREATE_MOUNT_DIRS}; then
->> +    mount -o remount,rw /
->> +
->> +    mkdir -p /proc
->> +    mkdir -p /sys
->> +    mkdir -p /run
->> +    mkdir -p /var/run
->> +    mkdir -p {OVERLAYFS_ETC_MOUNT_POINT}
->> +fi
->>     mount -t proc proc /proc
->>   mount -t sysfs sysfs /sys
->> @@ -20,7 +23,6 @@ UPPER_DIR=$BASE_OVERLAY_ETC_DIR/upper
->>   WORK_DIR=$BASE_OVERLAY_ETC_DIR/work
->>   LOWER_DIR=$BASE_OVERLAY_ETC_DIR/lower
->>   -mkdir -p {OVERLAYFS_ETC_MOUNT_POINT}
->>   if mount -n -t {OVERLAYFS_ETC_FSTYPE} \
->>       -o {OVERLAYFS_ETC_MOUNT_OPTIONS} \
->>       {OVERLAYFS_ETC_DEVICE} {OVERLAYFS_ETC_MOUNT_POINT}
->
-> Hi Baruch,
-> Thanks for the v2. Looks good now. Could you please also add a test case to
-> cover the new option?
->
-> You saw from the test that mount output is parsed to confirm whether overlay
-> is actually mounted. sda3 is a 3rd partition from
-> https://git.openembedded.org/openembedded-core/tree/meta-selftest/wic/overlayfs_etc.wks.in
-> . We could change rootfs (2nd partition) in the file to substitute the fs type
-> (ext4/squashfs) from the test and then check that everything is mounted
-> correctly. Does it make sense?
+Probably always when working for a project which uses more than only
+poky itself. It's just one example for a directory structure where the
+build folder is not inside of the poky directory.
 
-Makes sense.
+The purpose of the OEINIT variable is to support templates which need
+to know where the folder with the oe-init-build-env script is. This
+folder is considered as the current working directory of the user's
+editor, IDE, terminal or what ever is used to work on the layers.
 
-I added mkdirhier of OVERLAYFS_ETC_MOUNT_POINT for the case of
-OVERLAYFS_ETC_CREATE_MOUNT_DIRS == 0. Let me know if there is a better
-solution for read-only filesystems.
+Do you have a better proposal how I could generate a config file which
+is located in the directory where the user's editor is running?
 
-The trouble with testing is that I could not find any existing feature
-in yocto-kernel-cache that enables either CONFIG_SQUASHFS or
-CONFIG_EROFS_FS. Is there another way to enable kernel features for the
-test?
+>=20
+> I really don't want to add more variables into core scripts for
+> something that looks marginal at best.
 
-Thanks,
-baruch
+I'm not sure if this patch here is more marginal than adding a conf-
+description.txt. The conf-description.txt could almost be considered a
+copy of the conf-notes.txt. I am not against the conf-description.txt.
+But to call my patch marginal in comparison seems a bit extreme to me.
 
--- 
-                                                     ~. .~   Tk Open Systems
-=}------------------------------------------------ooO--U--Ooo------------{=
-   - baruch@tkos.co.il - tel: +972.52.368.4656, http://www.tkos.co.il -
+Adrian
+
+
+> Alex
+
 
