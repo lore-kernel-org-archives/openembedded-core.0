@@ -2,121 +2,220 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A16AC48BC3
-	for <webhook@archiver.kernel.org>; Wed, 14 Feb 2024 17:43:23 +0000 (UTC)
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
- by mx.groups.io with SMTP id smtpd.web11.47870.1707932597250123032
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C22EC48BC3
+	for <webhook@archiver.kernel.org>; Wed, 14 Feb 2024 17:50:03 +0000 (UTC)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+ by mx.groups.io with SMTP id smtpd.web10.47545.1707932998419325459
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Feb 2024 09:43:17 -0800
+ Wed, 14 Feb 2024 09:49:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=DSmG4DxF;
- spf=pass (domain: gmail.com, ip: 209.85.167.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-50eac018059so7522395e87.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 14 Feb 2024 09:43:16 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=YgkAcfLe;
+ spf=pass (domain: gmail.com, ip: 209.85.167.44, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-51181d8f52fso3178141e87.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 14 Feb 2024 09:49:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707932595; x=1708537395; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1707932996; x=1708537796; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=dLUA1ucRtKw2LUS303mrYxh8MM+d396P638xPaeKH1I=;
-        b=DSmG4DxFz7BDqBJneE1+qmV+5N0Rfr3MVhHgbdK8YSd/oGBPkjF3u6m3IdRpW98unO
-         UJmbjqrFN2Z8pTW0qt1FPVJc5dnSx9veUQluXKCjK/asQmPudCxjZ13V+W62s3HopAId
-         OVKIeHCPwtuCl7f/esYx9yL2jhjCDKxTlEyRQ80FCU/FWz6XZHPV1qV6II9Tf0xDvZgb
-         O4LEamTCB2D8ol/oJVVdOVO1A3MxC3ymIqEhuTwVW7CZkT4vs4wonhxjceCaycrRcC4u
-         /XKsqcKVRIzDg2fhyEPmRHwsLVXJGlGCeb9kWV8H8mHSjb6/Xiw/Xe+EeEAxMmSpK5OE
-         FLYQ==
+        bh=MoB2BIppWOUo8Xx6WCB72ksg+vBMERL1nyC99rp88mc=;
+        b=YgkAcfLeYfG02Fp9dLPWklOLtOow+rKlLquTPNYihdR4akScQlvbT9wPNzwBaDx0Yp
+         RrcaDE8uV85LYVjMkDbsE6TCtvSAbd+jkaJneC+GBZIqz9Haq82/wvRi5QH1bhQbtVST
+         5I/dBV4WWtyyffFfJV/wklKDjyH0i1n0lhUXi/5ZoU9aj9jOUb//bJodRq9HrgIICsJ1
+         XGc43fO6tCYSESQtok+Qo8G+5Z4jwcbQpoXPYr0bgXe8OQSk8f9QaAy1FLe2nXODaCmX
+         ux7ixUK/95bjJt8ZSVfSqD7vdXv4FJYI9vp83JCyBnKm9tnlad65MEfw/hyGhr7std5X
+         Z11Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707932595; x=1708537395;
+        d=1e100.net; s=20230601; t=1707932996; x=1708537796;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=dLUA1ucRtKw2LUS303mrYxh8MM+d396P638xPaeKH1I=;
-        b=TqadULVUPJCXexqHDX0HSIcfUR5E5OpTJEsV6OhE8gTiIcPNfhNuL2F58gnxCsb+hO
-         OiU5cmbdiY9rcjILCGk776S2rcSj/ywoBNXwbrUxwmslDkUF6jODvhPptBK4z/J5mgn0
-         m2n2J3G7qFFvyjbE9T7joUdUBPcIa+YJ27EiO2Qzj3qGOk8VwEDXvcOy87n3WcMPOf+l
-         k4KpGZLf0TRCbI9N4sG90NbA+GcFyrZZ2nzkZsb2Z2iHqr4eKhdo7F5SCzY4EaMQPUik
-         xxJBnaPZ0FFLUDA4JdZ689QZT7B1NejU75/uM1QebLAI8q+Nfyl7dRra18s1SHyvKTzH
-         eYSQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVkQrhUVM1OgkHXXKQXrsW9hAgEXWMrkR7AVRr198E90lQIAxtLwjCxN4A/oB2lSam3LOIjbK4RTr7E6DgA/pDAujhB60lgAirDKePdRSRtC9uPBACx1+JP
-X-Gm-Message-State: AOJu0YwZ/A3xCGPVenoEmgsOkUfTrU865ZcZObbPW6nkRdeF35Bh0zX1
-	OVJb3N3h/18RNtMbrvSvrZlEqpbnDahcwqg9l2P4yfYMtrsA3XNvLCrFDvRN1mdV/Ce+DR4mVWL
-	AyiCyyAzAsT9tGumyNsqSGXRniRhGhP+LeYc=
-X-Google-Smtp-Source: AGHT+IFAZNOGyet9zzF4WF6NJRViuHznl+lojuZoiFgbOINKavyV6WQAs9pH9slyJw2jy6gXZpctkp+vmTNVw2X4Sy0=
-X-Received: by 2002:a05:6512:102a:b0:511:ae1b:eea4 with SMTP id
- r10-20020a056512102a00b00511ae1beea4mr823664lfr.60.1707932595121; Wed, 14 Feb
- 2024 09:43:15 -0800 (PST)
+        bh=MoB2BIppWOUo8Xx6WCB72ksg+vBMERL1nyC99rp88mc=;
+        b=kBSXDSF5l7LC5kbuvdfU+3HWgNFVlmqrq3kMy3u+T48iP/eFEIK70KC3zsCkd6xbbE
+         mtjUsFyjO2uBa8J1N7wmiotf/lJqJ2WYK7uhzZtp0PBAjJpFllfbh3dsSBU1YIcnfKpf
+         PYMC9wDq1lVzarh9ub8I5MbxZFE4Et1KxT3/5AiqfejY2A+sLt2DvfKfVMn/mgJP+pk8
+         lPMVzD6E3Y/MlOqE3xC4JsXnYuVo5fLiMKIW26qHCZdTDXzPBaK71an80gD3eu8Yv14r
+         WAw9ceMYi5fqV4wLfMRD62vp9k+9AXOnweIxBQgtOIkWxmsZUulykFWcHxtfrRXA5bdt
+         lDHw==
+X-Gm-Message-State: AOJu0YzGTvyiP7ZwBpMkvDKZv1DXiPWJNtyUAOSvlnIEB1SCAxjttPKy
+	+jAXeueGrF7M8osldTgEpww7Mqt+GiP2ylUOi0oEiObflOLBO5bs00kM1zjdwYjDU0xl+7ryilL
+	CDU050/e1qQs5TZabLG8iS4DwKho=
+X-Google-Smtp-Source: AGHT+IHyDKNotyLnq94GvNU4evgvCpMRGrwnGu+avxMw3YD050K4cWNfaglqCAIG8jbkomWyB0EPXboavKdHR18BTAY=
+X-Received: by 2002:a05:6512:684:b0:511:a810:4826 with SMTP id
+ t4-20020a056512068400b00511a8104826mr2042318lfe.11.1707932996430; Wed, 14 Feb
+ 2024 09:49:56 -0800 (PST)
 MIME-Version: 1.0
-References: <DB5PR02MB10213FA30B1A62CEA61B98E02EF4F2@DB5PR02MB10213.eurprd02.prod.outlook.com>
- <3a0bb821-e692-4256-ab7b-95716f2e5896@savoirfairelinux.com>
- <3c844a195548fa8d0352bfc469996f3077eb5a0a.camel@gmail.com>
- <33e57963-8887-4c95-ad8f-654afcea5e74@savoirfairelinux.com>
- <14a1b53384f2901878d7b4ed225edf8254af07f9.camel@gmail.com>
- <CANNYZj9UxD9-Owt6H1OouZXu4WYWOoUnh77g10Cihj5nLjoAPw@mail.gmail.com>
- <4582012f-7518-462b-bee4-5777f28cb28d@savoirfairelinux.com>
- <2ec56f88fc1b7afd00d1dabcf818b56d92f9cffb.camel@gmail.com>
- <CANNYZj_wbPa9UEKPXmhcg_QZ2tfvYDOcf-jT_+L=EC5eZqHxpg@mail.gmail.com> <AS1PR10MB5697F8B9B490FD7E9A3484B8FD4E2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-In-Reply-To: <AS1PR10MB5697F8B9B490FD7E9A3484B8FD4E2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+References: <20240214173914.136799-1-adrian.freihofer@siemens.com> <20240214173914.136799-3-adrian.freihofer@siemens.com>
+In-Reply-To: <20240214173914.136799-3-adrian.freihofer@siemens.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 14 Feb 2024 18:43:03 +0100
-Message-ID: <CANNYZj-mdjC_Kg3mETBfueSuzRhunsxg6K6_FpXscCXmAyA35w@mail.gmail.com>
-Subject: Re: [OE-core] VS Code plugin and multiple build directories
-To: "Marko, Peter" <Peter.Marko@siemens.com>
-Cc: "adrian.freihofer@gmail.com" <adrian.freihofer@gmail.com>, 
-	Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	Ross Burton <Ross.Burton@arm.com>, Mohammed Raza <mohammed.raza@savoirfairelinux.com>, 
-	"peter.kjellerstedt@axis.com" <peter.kjellerstedt@axis.com>
+Date: Wed, 14 Feb 2024 18:49:45 +0100
+Message-ID: <CANNYZj-m61r+uHvu+Op5XmeVEgbZmvxY_XdPpmhyRN3wXTssZA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3 2/2] oe-init-build-env: generate .vscode from template
+To: Adrian Freihofer <adrian.freihofer@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Adrian Freihofer <adrian.freihofer@siemens.com>
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 Feb 2024 17:43:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195489
+ <openembedded-core@lists.openembedded.org>; Wed, 14 Feb 2024 17:50:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195490
 
-On Wed, 14 Feb 2024 at 16:30, Marko, Peter <Peter.Marko@siemens.com> wrote:
-> But when migrating from Kirkstone to Scarthgap https://git.openembedded.org/openembedded-core/commit/?id=bcfaeb8ed503ce1a5add3ec882f0e0c3bccfd3d2 hit me hard.
-> Instead of short and comfortable ". oe-init-build-env" which I just do in fraction of second via ". oe<tab><enter>" as it's already in my "muscle-memory",
-> I have to do long and cryptic "TEMPLATECONF=meta-<product>/conf/templates/default . poky/oe-init-build-env"...
-> Or when I have multiple configs, then it's "TEMPLATECONF=meta-<product>/conf/templates/<config> . poky/oe-init-build-env"
-> instead of nice ". oe-init-build-env build-<config>"
-> Yes, it's maybe nice when you use oe-setup-layers, but with layers as git submodules...
->
-> Two things we add already in kirkstone are:
-> * BB_ENV_PASSTHROUGH_ADDITIONS: concurrency level and credentials; maybe I can change this variable is distro, I didn't check yet
-> * PS1: to indicate the build configuration in active shell, this cannot be set in distro nor in the template, so it's would be a lost feature for us
->
-> Noe that we're not really using a special/custom script, we're just adding two exports at the end of the original one (of course it's a copy in reality).
->
-> Any hints how can I manage this with a default script?
-
-Thanks, there's definitely food for thought in here.
-
-1. I agree that TEMPLATECONF prefix is annoying and unfriendly; but
-it's also impossible to change anything in how oe-init-build-env takes
-its command line parameters, including that. It's partly because of
-it, that I'd like to have oe-setup-build as the primary entry point to
-yocto builds: there's a lot more freedom in how it can operate, and
-what it can do because it's a new thing:
-https://git.yoctoproject.org/poky-contrib/commit/?h=akanavin/setup-layers-tweaks
-
-I make no secret of it: environment variables or magic optional files
-as a mechanism to set behavior are best avoided because they're
-undiscoverable and difficult to debug. Everything is best set as
-explicit command line options or required default files. Meson
-approach convinced me :)
-
-2. How to add more exports to the environment? There are two options here:
-
-- do the additional exports and anything else in a wrapper script to
-oe-init-build-env (no need to copy and tweak oe-init-build-env). This
-is the same custom script stuff, but at least it does use the original
-oe-init-build-env.
-
-- insert hooks into oe-init-build-env. For example it could run '.
-TEMPLATECONF/extra-exports'
-
-3. Concurrency levels and credentials should be going to
-build/conf/site.conf I think? It's made exactly for that purpose:
-site-specific settings.
+Thanks, I have no objections to this version.
 
 Alex
+
+On Wed, 14 Feb 2024 at 18:39, Adrian Freihofer
+<adrian.freihofer@gmail.com> wrote:
+>
+> Provide a reasonable default configuration for VSCode and the
+> yocto.bitbake extension.
+> The generated default configuration is generic and minimal. It's mostly
+> supposed to prevent VSCode from OOM exceptions if the build directory is
+> in the scope of the indexer plugins of VSCode.
+> But it also configures the yocto-bitbake plugin to just work without
+> manual user interaction.
+>
+> The configuration is only generated if VSCode is installed. Currently,
+> VSCode is one of many popular editors for Yocto/OE. Removing the check
+> would mean that the configuration would be generated by e.g. oe-selftest
+> or for users not using VSCode. If it should prove useful, the check can
+> be removed later.
+>
+> Customization for other layers is possible. A layer might provide it's
+> own oe-setup-build-env script which calls the oe-setup-vscode script
+> from poky with different folders. But it's also possible to override the
+> oe-setup-vscode script by another layer with a custom implementation.
+>
+> Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+> ---
+>  oe-init-build-env       |  6 +++
+>  scripts/oe-setup-vscode | 90 +++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 96 insertions(+)
+>  create mode 100755 scripts/oe-setup-vscode
+>
+> diff --git a/oe-init-build-env b/oe-init-build-env
+> index 38333ab8582..82382f27078 100755
+> --- a/oe-init-build-env
+> +++ b/oe-init-build-env
+> @@ -47,6 +47,12 @@ export OEROOT
+>      unset OEROOT
+>      return 1
+>  }
+> +
+> +# Generate an initial configuration for VSCode and the yocto-bitbake plugin.
+> +if command -v code > /dev/null && [ ! -d "$OEROOT/.vscode" ]; then
+> +    oe-setup-vscode "$OEROOT" "$BUILDDIR"
+> +fi
+> +
+>  unset OEROOT
+>
+>  [ -z "$BUILDDIR" ] || cd "$BUILDDIR"
+> diff --git a/scripts/oe-setup-vscode b/scripts/oe-setup-vscode
+> new file mode 100755
+> index 00000000000..db1cde4ffb6
+> --- /dev/null
+> +++ b/scripts/oe-setup-vscode
+> @@ -0,0 +1,90 @@
+> +#!/bin/sh
+> +
+> +usage() {
+> +    echo "$0 <OEINIT> <BUILDDIR>"
+> +    echo "  OEINIT:   path to directory where the .vscode folder is"
+> +    echo "  BUILDDIR: directory passed to the oe-init-setup-env script"
+> +}
+> +
+> +if [ "$#" -ne 2 ]; then
+> +    usage
+> +    exit 1
+> +fi
+> +
+> +OEINIT=$(readlink -f "$1")
+> +BUILDDIR=$(readlink -f "$2")
+> +VSCODEDIR=$OEINIT/.vscode
+> +
+> +if [ ! -d "$OEINIT" ] || [ ! -d "$BUILDDIR" ]; then
+> +    echo "$OEINIT and/or $BUILDDIR directories are not present."
+> +    exit 1
+> +fi
+> +
+> +VSCODE_SETTINGS=$VSCODEDIR/settings.json
+> +ws_builddir="$(echo "$BUILDDIR" | sed -e "s|$OEINIT|\${workspaceFolder}|g")"
+> +
+> +# If BUILDDIR is in scope of VSCode ensure VSCode does not try to index the build folder.
+> +# This would lead to a busy CPU and finally to an OOM exception.
+> +mkdir -p "$VSCODEDIR"
+> +cat <<EOMsettings > "$VSCODE_SETTINGS"
+> +{
+> +    "bitbake.pathToBuildFolder": "$ws_builddir",
+> +    "bitbake.pathToEnvScript": "\${workspaceFolder}/oe-init-build-env",
+> +    "files.exclude": {
+> +        "**/.git/**": true,
+> +        "**/_build/**": true,
+> +        "**/buildhistory/**": true,
+> +        "**/cache/**": true,
+> +        "**/downloads/**": true,
+> +        "**/node_modules/**": true,
+> +        "**/oe-logs/**": true,
+> +        "**/oe-workdir/**": true,
+> +        "**/sstate-cache/**": true,
+> +        "**/tmp*/**": true,
+> +        "**/workspace/attic/**": true,
+> +        "**/workspace/sources/**": true
+> +    },
+> +    "files.watcherExclude": {
+> +        "**/.git/**": true,
+> +        "**/_build/**": true,
+> +        "**/buildhistory/**": true,
+> +        "**/cache/**": true,
+> +        "**/downloads/**": true,
+> +        "**/node_modules/**": true,
+> +        "**/oe-logs/**": true,
+> +        "**/oe-workdir/**": true,
+> +        "**/sstate-cache/**": true,
+> +        "**/tmp*/**": true,
+> +        "**/workspace/attic/**": true,
+> +        "**/workspace/sources/**": true
+> +    },
+> +    "python.analysis.exclude": [
+> +        "**/_build/**",
+> +        "**/.git/**",
+> +        "**/buildhistory/**",
+> +        "**/cache/**",
+> +        "**/downloads/**",
+> +        "**/node_modules/**",
+> +        "**/oe-logs/**",
+> +        "**/oe-workdir/**",
+> +        "**/sstate-cache/**",
+> +        "**/tmp*/**",
+> +        "**/workspace/attic/**",
+> +        "**/workspace/sources/**"
+> +    ]
+> +}
+> +EOMsettings
+> +
+> +
+> +# Ask the user if the yocto-bitbake extension should be installed
+> +VSCODE_EXTENSIONS=$VSCODEDIR/extensions.json
+> +cat <<EOMextensions > "$VSCODE_EXTENSIONS"
+> +{
+> +    "recommendations": [
+> +        "yocto-project.yocto-bitbake"
+> +    ]
+> +}
+> +EOMextensions
+> +
+> +echo "You had no $VSCODEDIR configuration."
+> +echo "These configuration files have therefore been created for you."
+> --
+> 2.43.0
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#195488): https://lists.openembedded.org/g/openembedded-core/message/195488
+> Mute This Topic: https://lists.openembedded.org/mt/104357383/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
