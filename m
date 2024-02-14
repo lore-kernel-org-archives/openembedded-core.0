@@ -1,177 +1,181 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03BFDC48BC3
-	for <webhook@archiver.kernel.org>; Wed, 14 Feb 2024 16:20:13 +0000 (UTC)
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
- by mx.groups.io with SMTP id smtpd.web11.45579.1707927604277522447
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 100AEC48BC3
+	for <webhook@archiver.kernel.org>; Wed, 14 Feb 2024 16:28:53 +0000 (UTC)
+Received: from EUR01-VE1-obe.outbound.protection.outlook.com (EUR01-VE1-obe.outbound.protection.outlook.com [40.107.14.42])
+ by mx.groups.io with SMTP id smtpd.web11.45821.1707928128277637087
  for <openembedded-core@lists.openembedded.org>;
- Wed, 14 Feb 2024 08:20:04 -0800
+ Wed, 14 Feb 2024 08:28:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=PaWW3ZPI;
- spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 8822B6000E;
-	Wed, 14 Feb 2024 16:20:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1707927601;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fkXk3bp50K8AOxI5iZEoCHmD0dAACNXRss2EmzB7eQk=;
-	b=PaWW3ZPIN5W82USXfF1HazmCrXIgEAm+p38Cjz1pimZ5HBWVvv84IIUCzC30rWwuEHeAyw
-	IdcCdpajPExbxKs2WtKNg/fwIItl7EOwBv+3v7TQrMw7iBvDSbTPw4UGmbHK0TXRI5WRF0
-	bpiDMEyjawWrZJcqbK0nLoPGt8rR4/V3h9Vgj4B+4dZxkWyBaDRrageQrIl49KZQsZwvwo
-	HfgNRzjjbmfwSDgDaGJp9N6Xy9OOLWPywr0kCtdXVYCVAK0CfcFPoBoiVhx6M66u+uCd3d
-	wM7QUF1D02oBdXwGgTjtJEcymVnTxTMlf1N+dEjYsHCpKDX5v5uEA0CvvELiqg==
-Date: Wed, 14 Feb 2024 17:20:00 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Changqing Li <changqing.li@eng.windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH V5] rxvt-unicode: install terminfo on target env
-Message-ID: <20240214162000da6873c0@mail.local>
-References: <20240207084341.2196110-1-changqing.li@windriver.com>
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=RuIytbGG;
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=RuIytbGG;
+ spf=pass (domain: arm.com, ip: 40.107.14.42, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
+ b=dTmnZcNE2Lmzhdh1EfY+pI1pw1dL9keUzmLAgBWhxxiMsMim6fcgLf+uW8O7dfUsZ175XkCM1TjG9Q8cWK/VztmmOGZ5SKuxN1PH0c+w0ctxKbimSRhGI0haFaqLzwxGTUNNZYOkP+33HRCiRLq1eYRQthw87HCQgyRr6Nqoel4W8j+SUu9kSZvO5GOvJLlmN311S5U/uL2LHVA3pchn3i0wyegv8EToaSsyIJJ4WnOBomcIWoo15QgwCD3/ADGq12qjy8GLi4Ywum4TasdBBLqLTIb9T+Iq8JRu0dawiZFcHK1izVaR3ValrCoHEJGT3NityTqK1PhwmAlq9UjUAw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iNc01XsV9gp9mlT+29+2ifnTzle+2Tb2CpUAjdxe/rQ=;
+ b=TyHJ5bqvZxlcCsrE3PQpLPKp6xigIKZ1nKmnTwNrWziKXeLzoppPtM+dTDHupHROn40mXGvK6p1ilrrVHmYEWc0dAK3bDWRQT7GbUAU+SrpQ8tYa+/k/F2XMHzjo4/qvJTARod8A1Mof3oFSYcW8zQbbu9YRRxeDIn07wIoYfNhlXm+BJu4YNkyVIxLiBSeQJVJ39rdmSZ7CFxTGVR1UKNrm6En0DYpnCspwMl1usRnHgULjlxztKt0Fhj05NekcAegWIziW4XggjUsZaDhW6lW7gVBFB0B/bezyeUnb/G5Inqa0gLR3kZo+7enEudHNdB306UvJBLYFaA1mT6+9Lw==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 63.35.35.123) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=armh.onmicrosoft.com; arc=pass (0
+ oda=1 ltdi=1 spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iNc01XsV9gp9mlT+29+2ifnTzle+2Tb2CpUAjdxe/rQ=;
+ b=RuIytbGG7w4p/rUwA1dRXdgGhhSW2m5ren0apq3+gIQ6MYCpOwBPoAh4EiWEl42TxxqIr/xPyxCAuY77Fh45s8o6SA6Wmpq0GSDMyihjhjnrjgnA5bLfyciCKUOrLasYNdEP36GqhkSWfJWjzLJ8oEjPMOS/bQEL0uVYTLkr2+8=
+Received: from AM0PR05CA0096.eurprd05.prod.outlook.com (2603:10a6:208:136::36)
+ by DB9PR08MB6570.eurprd08.prod.outlook.com (2603:10a6:10:251::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.26; Wed, 14 Feb
+ 2024 16:28:44 +0000
+Received: from AM4PEPF00027A69.eurprd04.prod.outlook.com
+ (2603:10a6:208:136:cafe::41) by AM0PR05CA0096.outlook.office365.com
+ (2603:10a6:208:136::36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7270.39 via Frontend
+ Transport; Wed, 14 Feb 2024 16:28:44 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ AM4PEPF00027A69.mail.protection.outlook.com (10.167.16.87) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7292.25 via Frontend Transport; Wed, 14 Feb 2024 16:28:43 +0000
+Received: ("Tessian outbound e358842a0ad8:v228"); Wed, 14 Feb 2024 16:28:43 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 99617d58be9e461c
+X-CR-MTA-TID: 64aa7808
+Received: from 23330eb66f2c.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id FFB1469E-E0CB-48B7-8690-2E6D1F6ED164.1;
+	Wed, 14 Feb 2024 16:28:36 +0000
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 23330eb66f2c.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Wed, 14 Feb 2024 16:28:36 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=H8reotCTYP/OV11+cIS02s6WdZjQOnQQsFLlIuOsiMGnVOr/pgFcG3+D1kqTnH5ixqS5n89bVqjArmeqY1kYx8VPnjm5KL22HC5Y+pqz+frRmxKxq2W1zWzBT0LU+oAiovC+uMVad42wkI40plaEAoyumYkIpYybDy79blhE4SJQ1tXlnXO9ejFYcNKwBKfhe/N0qYeS/ZgRLr6IAbXD6XKcpWIDotYfvmfatJi2uNzdSRYX/MrPUpgGi8WJl7b78LiuHttNJXZdTbMzqVTigqWEfOcZy+L4JnZMpP4+dZlTgITwin7C7w/UfVhB+zThB1RlfSoRpE61WDpuS0Lqbw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iNc01XsV9gp9mlT+29+2ifnTzle+2Tb2CpUAjdxe/rQ=;
+ b=fS83an+BWGjM2bhOpPw1ZgE5rR1pKj3xpm/OW7+EQ1vMEfpZovMWOUwxdcM0SbR/iYm6P7xdGIZikIhVvOUT9IO+jyYa8DL6bDstevdN4QQdEQQzBBmUF7vA0dde2x0A+MkBercnQW7Q7bw9cqYEQt83HHsvImsFuC2xCE8/3jhxTkgnf3JrG8vK/lWMTwxTbNDQaOuB0bd7XGMPsYRPOLd3I+U7CmK44E64OKkDaDXMampgThM8elx2bV0ReevPokGBEhL26tsDPzAsjIs6PzJWKH7/rSd7Dcuva2V9gGFCZWUrqYaC51XPLYNLBzZN5IHaSu4R7RzmvPhOCTmqfw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iNc01XsV9gp9mlT+29+2ifnTzle+2Tb2CpUAjdxe/rQ=;
+ b=RuIytbGG7w4p/rUwA1dRXdgGhhSW2m5ren0apq3+gIQ6MYCpOwBPoAh4EiWEl42TxxqIr/xPyxCAuY77Fh45s8o6SA6Wmpq0GSDMyihjhjnrjgnA5bLfyciCKUOrLasYNdEP36GqhkSWfJWjzLJ8oEjPMOS/bQEL0uVYTLkr2+8=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by AS2PR08MB9762.eurprd08.prod.outlook.com (2603:10a6:20b:605::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7270.39; Wed, 14 Feb
+ 2024 16:28:35 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::740e:ab01:e66a:61c9]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::740e:ab01:e66a:61c9%3]) with mapi id 15.20.7270.036; Wed, 14 Feb 2024
+ 16:28:34 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "belouargamohamed@gmail.com" <belouargamohamed@gmail.com>
+CC: OE Core mailing list <openembedded-core@lists.openembedded.org>,
+	"f.lahoudere@technologyandstrategy.com"
+	<f.lahoudere@technologyandstrategy.com>, BELOUARGA Mohamed
+	<m.belouarga@technologyandstrategy.com>
+Subject: Re: [OE-core] [PATCH] create-spdx-2.2: Correct the default value of
+ SPDX_NAMESPACE_PREFIX
+Thread-Topic: [OE-core] [PATCH] create-spdx-2.2: Correct the default value of
+ SPDX_NAMESPACE_PREFIX
+Thread-Index: AQHaXuXaNqDxZpSFgkaLzYLGMzYuVrEKB90A
+Date: Wed, 14 Feb 2024 16:28:34 +0000
+Message-ID: <FC76BB9B-9244-42A9-9779-FD70A9E9E0D7@arm.com>
+References: <20240214013316.127190-1-m.belouarga@technologyandstrategy.com>
+In-Reply-To: <20240214013316.127190-1-m.belouarga@technologyandstrategy.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3774.400.31)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|AS2PR08MB9762:EE_|AM4PEPF00027A69:EE_|DB9PR08MB6570:EE_
+X-MS-Office365-Filtering-Correlation-Id: fa2696e8-8f77-4824-1596-08dc2d7a030f
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ 2sPjlMYZ31mavuLxsqLjSNu2PAf11R7ihSIiNvtcI4qcjuCRWBBRoDinCj2KawTqaL3boToe47TEuQj5pmc662TpZmZeJ/eR8wh7SfjnAL5eeqnHYzcd/WY35+sSnhCKGd3znD/zf5O9ljlySeqgaw8qNb3bYHT/dBVB9WwtJ6FFFyWYkI/jCb7x3pUKDvfiU9aRC4kBSlWOjPy3ISo2L4OFQvZ0FEud6WzCKduHAbQB8WZV72gtZCh8LxDpvQVITYJCU757zithUAzFnKsnrRyEwc6UGGaboBurlx+8CI0ko0CzAjbTnQy1j0Juh6U2smqTH5tZwJLzAA/lQ4KUOtW+vLQX8Nxv78nU2gKdKqvnu0MTcUgK/NS6ZxmZGGN5Ox+8L2XyGAj6sPZnucl23sVraidQ/0qbuMv+DbMohukVskEVRgWMNS5cXnWEAsWXTDuKOhIqvviQc880PrbJjO/JjjR5hqs4y9/VJD0t+6EwbeyFaLQei+yNd06QJ+Tx8Cpo6iw6P5fJyQWqvizfWFApLQqPh6vYj/Ww/ZX4Vp3FWVOWScqDFRiWNX3nZy9EoBWlg3B2I504OLNlfgiJL1U+ckGuSF3iKFQ/FMMub6c=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(346002)(376002)(396003)(136003)(366004)(230922051799003)(186009)(1800799012)(451199024)(64100799003)(2906002)(5660300002)(83380400001)(4744005)(86362001)(38100700002)(53546011)(64756008)(36756003)(26005)(6512007)(33656002)(2616005)(6506007)(71200400001)(38070700009)(478600001)(122000001)(66556008)(66446008)(54906003)(8676002)(4326008)(8936002)(66476007)(316002)(66946007)(6916009)(966005)(76116006)(41300700001)(6486002);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <0947938026735143815F23BFCBC552D4@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240207084341.2196110-1-changqing.li@windriver.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB9762
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ AM4PEPF00027A69.eurprd04.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	cb37476b-838a-4c36-4b77-08dc2d79fda7
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	HYIbopXvWRS/lKyX4vXZ6zi+417z/6mfop+6PKTo3nOcX+hvvnqXD9Y2qUkF0fbBCHeGCcKFnRcVgaGdfx4yLRacfwYXSUlwa2uxHFlL0AwYkiNJaDxtj64cfbx88DNj50yqwtFhTb90NKP70zCVtYZiYy512ThcQMGtr8wSwbHOESBELjLfU09FUmtH2l6pYtselOUCfm2umjsmO0VsRVl5eRojanugaoNdAiqz43821w+9dCWqmGoCcZqS5nh0FutazMDobhwk8twMgcm2w+biZ16qQir/2rXnXSrLg9AW6Co2QXuNjROSnb86Pnx+vrKt7fUNxCIeF+Puyz4sR1wbKzQK9whFTB5dXyjVCax/9skVVml1/uy53bsKVVL/nwdlfUjRfnxez+HLx7y8QdP/GcLfsMKspvUm6NqQZP6UR8J2TJ1NeqcUHM0ZmkpZ/jYkuer9wYE3oJrVWPP21sVaHRYoZhVgz26bdX8GYmxASw+8+uIgOa0x4AauIis4nZI/+QZdyNBadJyJFk8+m/XEAtVdInTFjZZWVErCD0IELX8y7IsBpas6XCV7E1RLomTp/yGVxAxrEYG33lD8cQ==
+X-Forefront-Antispam-Report: 
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230031)(4636009)(376002)(39860400002)(346002)(136003)(396003)(230922051799003)(64100799003)(82310400011)(1800799012)(451199024)(186009)(40470700004)(36840700001)(46966006)(33656002)(86362001)(83380400001)(356005)(81166007)(82740400003)(36756003)(2906002)(4744005)(5660300002)(70206006)(70586007)(41300700001)(8676002)(4326008)(6862004)(8936002)(54906003)(316002)(336012)(6486002)(6512007)(478600001)(966005)(6506007)(26005)(2616005)(107886003);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Feb 2024 16:28:43.9723
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: fa2696e8-8f77-4824-1596-08dc2d7a030f
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AM4PEPF00027A69.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB6570
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 14 Feb 2024 16:20:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195484
+ <openembedded-core@lists.openembedded.org>; Wed, 14 Feb 2024 16:28:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195485
 
-Hello,
+On 14 Feb 2024, at 01:33, belouargamohamed via lists.openembedded.org <belo=
+uargamohamed=3Dgmail.com@lists.openembedded.org> wrote:
+> This patch can also be linked to the bug: https://bugzilla.yoctoproject.o=
+rg/show_bug.cgi?id=3D15398
 
-This causes the following failure:
+The usual format for this is to just put this in the message:
 
-FAIL: buildoptions.ImageOptionsTests.test_read_only_image (subunit.RemotedTestCase)
+[ YOCTO #15398 ]
 
-ERROR: core-image-sato-1.0-r0 do_rootfs: The following packages could not be configured offline and rootfs is read-only: ['100-rxvt-unicode']
-NOTE: Pressure status changed to CPU: True, IO: False, Mem: None (CPU: 159586.0/20000.0, IO: 18717.0/20000.0, Mem: 0.0/None) - using 1/16 bitbake threads
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/oe-selftest-fedora/build/build-st-4135593/tmp/work/qemux86_64-poky-linux/core-image-sato/1.0/temp/log.do_rootfs.3644854
-NOTE: recipe core-image-sato-1.0-r0: task do_rootfs: Failed
-ERROR: Task (/home/pokybuild/yocto-worker/oe-selftest-fedora/build/meta/recipes-sato/images/core-image-sato.bb:do_rootfs) failed with exit code '1'
-NOTE: Tasks Summary: Attempted 9655 tasks of which 9620 didn't need to be rerun and 1 failed.
-NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/oe-selftest-fedora/build/build-st-4135593/tmp/log/error-report/error_report_20240213234815.txt
-You can send the errors to a reports server by running:
-  send-error-report /home/pokybuild/yocto-worker/oe-selftest-fedora/build/build-st-4135593/tmp/log/error-report/error_report_20240213234815.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+> documentation/ref-manual/variables.rst | 5 +++++
+> meta/classes/create-spdx-2.2.bbclass   | 2 +-
 
+These two files are actually in separate repositories, as poky is a generat=
+ed repository built from yocto-docs + openembedded-core.
 
-On 07/02/2024 16:43:41+0800, Changqing Li wrote:
-> From: Changqing Li <changqing.li@windriver.com>
-> 
-> For cross compile, TIC will be native tic in recipe-sysroot-native, and
-> the terminfo path will be native path, the rxvt-unicode terminfo will be
-> installed to native path.
-> 
-> disable the terminfo installation by setting TIC to :, and install
-> terminfo on target env to make sure ncurses on target env use the
-> correct terminfo
-> 
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> ---
->  .../rxvt-unicode/rxvt-unicode.inc             | 16 +++++++-
->  ...ble-the-terminfo-installation-by-set.patch | 37 +++++++++++++++++++
->  2 files changed, 52 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-sato/rxvt-unicode/rxvt-unicode/0001-Makefile.in-disable-the-terminfo-installation-by-set.patch
-> 
-> diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc b/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc
-> index e7d520ebef..988e8c7404 100644
-> --- a/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc
-> +++ b/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc
-> @@ -11,7 +11,9 @@ DEPENDS = "virtual/libx11 libxt libxft gdk-pixbuf libxmu libptytty"
->  SRC_URI = "http://dist.schmorp.de/rxvt-unicode/Attic/rxvt-unicode-${PV}.tar.bz2 \
->  	   file://xwc.patch \
->  	   file://rxvt.desktop \
-> -	   file://rxvt.png"
-> +	   file://rxvt.png \
-> +	   file://0001-Makefile.in-disable-the-terminfo-installation-by-set.patch \
-> +"
->  
->  inherit autotools pkgconfig update-alternatives
->  
-> @@ -53,6 +55,18 @@ do_install:append () {
->  
->  	install -m 0644 ${WORKDIR}/rxvt.png ${D}/${datadir}/pixmaps
->  	install -m 0644 ${WORKDIR}/rxvt.desktop ${D}/${datadir}/applications
-> +
-> +	install -d ${D}/${sysconfdir}
-> +	install -m 0644 ${S}/doc/etc/rxvt-unicode.terminfo ${D}/${sysconfdir}/rxvt-unicode.terminfo
-> +}
-> +
-> +RDEPENDS:${PN} = "ncurses-tools"
-> +
-> +pkg_postinst_ontarget:${PN} () {
-> +	if test -x ${bindir}/tic
-> +	then
-> +		${bindir}/tic -x ${sysconfdir}/rxvt-unicode.terminfo
-> +	fi
->  }
->  
->  FILES:${PN} += "${datadir}/applications/rxvt.desktop ${datadir}/pixmaps/rxvt.png"
-> diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode/0001-Makefile.in-disable-the-terminfo-installation-by-set.patch b/meta/recipes-sato/rxvt-unicode/rxvt-unicode/0001-Makefile.in-disable-the-terminfo-installation-by-set.patch
-> new file mode 100644
-> index 0000000000..6bdbedb3c4
-> --- /dev/null
-> +++ b/meta/recipes-sato/rxvt-unicode/rxvt-unicode/0001-Makefile.in-disable-the-terminfo-installation-by-set.patch
-> @@ -0,0 +1,37 @@
-> +From ff5c75995485ee9c5331e52bb9bf3aa5db6d8837 Mon Sep 17 00:00:00 2001
-> +From: Changqing Li <changqing.li@windriver.com>
-> +Date: Wed, 7 Feb 2024 10:35:23 +0800
-> +Subject: [PATCH] Makefile.in: disable the terminfo installation by setting TIC
-> + to :
-> +
-> +For cross compile, TIC will be native tic in recipe-sysroot-native, and
-> +the terminfo path will be native path, the rxvt-unicode terminfo will be
-> +installed to native path.
-> +
-> +disable the terminfo installation by setting TIC to :
-> +
-> +Upstream-Status: Inappropriate [ oe specific ]
-> +
-> +Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> +---
-> + doc/Makefile.in | 4 ++--
-> + 1 file changed, 2 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/doc/Makefile.in b/doc/Makefile.in
-> +index e3d1fe8..1961c93 100644
-> +--- a/doc/Makefile.in
-> ++++ b/doc/Makefile.in
-> +@@ -100,8 +100,8 @@ install: all
-> + 	$(INSTALL_DATA) rxvtd.1.man   $(DESTDIR)$(man1dir)/$(RXVTNAME)d.$(man1ext)
-> + 	$(INSTALL_DATA) rxvt.7.man    $(DESTDIR)$(man7dir)/$(RXVTNAME).$(man7ext)
-> + 	$(INSTALL_DATA) rclock.1.man  $(DESTDIR)$(man1dir)/urclock.$(man1ext)
-> +-	@TIC@ -x $(srcdir)/etc/rxvt-unicode.terminfo || \
-> +-           @TIC@ $(srcdir)/etc/rxvt-unicode.terminfo
-> ++	: -x $(srcdir)/etc/rxvt-unicode.terminfo || \
-> ++           : $(srcdir)/etc/rxvt-unicode.terminfo
-> + 
-> + distdepend: alldoc
-> + 
-> +-- 
-> +2.25.1
-> +
-> -- 
-> 2.25.1
-> 
+Can you split this commit into two, and send the meta/ change to openembedd=
+ed-core@lists.openembedded.org <mailto:openembedded-core@lists.openembedded=
+.org> and the documentation/ change to docs@lists.yoctoproject.org <mailto:=
+docs@lists.yoctoproject.org>?
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#195044): https://lists.openembedded.org/g/openembedded-core/message/195044
-> Mute This Topic: https://lists.openembedded.org/mt/104215096/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+Thanks,
+Ross
 
-
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
 
