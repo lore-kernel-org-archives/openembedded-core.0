@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44F37C48BF6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A433C48BF7
 	for <webhook@archiver.kernel.org>; Thu, 15 Feb 2024 17:32:30 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.20152.1708018343881316405
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.20327.1708018344756167160
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Feb 2024 09:32:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=CtihYA2b;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=bwdD3H6b;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018dadd3adb7-da3b6484-a2e4-4a64-b9d2-2cb92ebe4283-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=fSFtOQmo;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Lwl6kJR6;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018dadd3ad3e-a1d960e2-b20b-4668-b6d9-d2e79194aa61-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1708018347;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=B3q28mOXcLJNhYRjA22DTMUKg0qdvL/JNB6ubNvd9es=;
-	b=CtihYA2bToLBJ2W6wV0SqyZZBzPLGNcDq20BAMepgst2gzVX0SeJHBGd1UB5Rh4D
-	no0AV2LhtB6DhYewgmB1OqOJvCelnKBS+Z4hG4RKBL/jqjTdYAA/yR01sHWaZzZoosh
-	gaWD2zXe5YM7B3TJl3PuBngkI1UluZI//a1Twhs8=
+	bh=dkoOMj4G9ABHQGh0YEerM9lPlLqjhtKX4//nVTJyT4g=;
+	b=fSFtOQmo23b4FnMrn65JeXOEuhs14dx741q0Veu5+NyC0JBELuAinnPYQw0Aylzc
+	lj2ar+2xvNNnBoKN1IT0BPnKN5L8/VJRX+hWEKSc7X++nU4ODihIXZJ94YEZQKuNb3E
+	tQt9jAH0C/TO4k/czW2z9qzAJ8xClrk5wTQ02Eq4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1708018347;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=B3q28mOXcLJNhYRjA22DTMUKg0qdvL/JNB6ubNvd9es=;
-	b=bwdD3H6bcsgEd4nM88AFHLcwEXx0+WEkoA7jUgPoFiOIzRH/aIvnE5qmC2KuT9c/
-	eZqJrj2jl+a8Gd9/W8eyrfggWZ0Va4R9K1oJ/g3H+kLuDLSPJ7utk9RgC+J8tQKrNxB
-	KShP9S7K+fnxJYx+q8zuaz+UuNi3ioayCHLE0hGI=
-Content-Type: multipart/mixed; boundary="===============6414156979483500185=="
+	bh=dkoOMj4G9ABHQGh0YEerM9lPlLqjhtKX4//nVTJyT4g=;
+	b=Lwl6kJR6pkbFhCzH0n+smQ+Xh5QFLARraUtWYIGVUbErAd3Y7gV8awnL6lKk0oW7
+	fYkbg9yYdwQxYxFWSD37jSA6l79n1uOMFUf9Eb4xiaQ8JoBH+CaLKV7QHoY7109PqtM
+	+qO2N/Z3Pa849GKNfXCVsXVj6k/ahLiaQSoXTZg0=
+Content-Type: multipart/mixed; boundary="===============0956293124113124636=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] ptest-runner: upgrading to 2.4.3 SUCCEEDED
-Message-ID: <0101018dadd3adb7-da3b6484-a2e4-4a64-b9d2-2cb92ebe4283-000000@us-west-2.amazonses.com>
+Subject: [AUH] libmicrohttpd: upgrading to 1.0.0 SUCCEEDED
+Message-ID: <0101018dadd3ad3e-a1d960e2-b20b-4668-b6d9-d2e79194aa61-000000@us-west-2.amazonses.com>
 Date: Thu, 15 Feb 2024 17:32:27 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.02.15-54.240.27.191
+X-SES-Outgoing: 2024.02.15-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 17:32:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195680
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195678
 
---===============6414156979483500185==
+--===============0956293124113124636==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *ptest-runner* to *2.4.3* has Succeeded.
+that the automatic attempt to upgrade the recipe *libmicrohttpd* to *1.0.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-ptest-runner-upgrade-2.4.2-2.4.3.patch
+    - apply the patch: git am 0001-libmicrohttpd-upgrade-0.9.77-1.0.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,63 +72,108 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 2481a7515fa92a5b9a30bfab147372359efb4343 Mon Sep 17 00:00:00 2001
+From eca163ba579c93e38f1e5833c93014373d978cf6 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 15 Feb 2024 17:23:57 +0000
-Subject: [PATCH] ptest-runner: upgrade 2.4.2 -> 2.4.3
+Date: Thu, 15 Feb 2024 17:14:43 +0000
+Subject: [PATCH] libmicrohttpd: upgrade 0.9.77 -> 1.0.0
 
 ---
- meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ .../{libmicrohttpd_0.9.77.bb => libmicrohttpd_1.0.0.bb}         | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/libmicrohttpd/{libmicrohttpd_0.9.77.bb => libmicrohttpd_1.0.0.bb} (90%)
 
-diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb
-index ff336b3820..c6328a0df3 100644
---- a/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb
-+++ b/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb
-@@ -7,7 +7,7 @@ HOMEPAGE = "http://git.yoctoproject.org/cgit/cgit.cgi/ptest-runner2/about/"
- LICENSE = "GPL-2.0-or-later"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=751419260aa954499f7abaabaa882bbe"
+diff --git a/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.77.bb b/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.0.bb
+similarity index 90%
+rename from meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.77.bb
+rename to meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.0.bb
+index 792ac24726..8ef5251e1a 100644
+--- a/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.77.bb
++++ b/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.0.bb
+@@ -7,7 +7,7 @@ SECTION = "net"
+ DEPENDS = "file"
  
--SRCREV = "4148e75284e443fc8ffaef425c467aa5523528ff"
-+SRCREV = "92c1b97bfdb4a94acc1cabcaf97eef52dc29144c"
- PV .= "+git"
+ SRC_URI = "${GNU_MIRROR}/libmicrohttpd/${BPN}-${PV}.tar.gz"
+-SRC_URI[sha256sum] = "9e7023a151120060d2806a6ea4c13ca9933ece4eacfc5c9464d20edddb76b0a0"
++SRC_URI[sha256sum] = "a02792d3cd1520e2ecfed9df642079d44a36ed87167442b28d7ed19e906e3e96"
  
- SRC_URI = "git://git.yoctoproject.org/ptest-runner2;branch=master;protocol=https \
-@@ -37,3 +37,5 @@ RDEPENDS:${PN}:append = " pstree"
- inherit useradd
- USERADD_PACKAGES = "${PN}"
- USERADD_PARAM:${PN} = "--system --no-create-home --home / --user-group ptest"
-+
-+PV = "2.4.3"
+ inherit autotools lib_package pkgconfig gettext
+ 
 -- 
 2.42.0
 
 
---===============6414156979483500185==
+--===============0956293124113124636==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-libmicrohttpd-upgrade-0.9.77-1.0.0.patch"
+
+RnJvbSBlY2ExNjNiYTU3OWM5M2UzOGYxZTU4MzNjOTMwMTQzNzNkOTc4Y2Y2IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMTUgRmViIDIwMjQgMTc6MTQ6NDMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJtaWNyb2h0dHBkOiB1cGdyYWRlIDAuOS43NyAtPiAxLjAuMAoKLS0tCiAuLi4ve2xpYm1pY3Jv
+aHR0cGRfMC45Ljc3LmJiID0+IGxpYm1pY3JvaHR0cGRfMS4wLjAuYmJ9ICAgICAgICAgfCAyICst
+CiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBt
+ZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJtaWNyb2h0dHBkL3tsaWJtaWNyb2h0dHBkXzAuOS43Ny5i
+YiA9PiBsaWJtaWNyb2h0dHBkXzEuMC4wLmJifSAoOTAlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVj
+aXBlcy1zdXBwb3J0L2xpYm1pY3JvaHR0cGQvbGlibWljcm9odHRwZF8wLjkuNzcuYmIgYi9tZXRh
+L3JlY2lwZXMtc3VwcG9ydC9saWJtaWNyb2h0dHBkL2xpYm1pY3JvaHR0cGRfMS4wLjAuYmIKc2lt
+aWxhcml0eSBpbmRleCA5MCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlibWlj
+cm9odHRwZC9saWJtaWNyb2h0dHBkXzAuOS43Ny5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLXN1
+cHBvcnQvbGlibWljcm9odHRwZC9saWJtaWNyb2h0dHBkXzEuMC4wLmJiCmluZGV4IDc5MmFjMjQ3
+MjYuLjhlZjUyNTFlMWEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYm1pY3Jv
+aHR0cGQvbGlibWljcm9odHRwZF8wLjkuNzcuYmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQv
+bGlibWljcm9odHRwZC9saWJtaWNyb2h0dHBkXzEuMC4wLmJiCkBAIC03LDcgKzcsNyBAQCBTRUNU
+SU9OID0gIm5ldCIKIERFUEVORFMgPSAiZmlsZSIKIAogU1JDX1VSSSA9ICIke0dOVV9NSVJST1J9
+L2xpYm1pY3JvaHR0cGQvJHtCUE59LSR7UFZ9LnRhci5neiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9
+ICI5ZTcwMjNhMTUxMTIwMDYwZDI4MDZhNmVhNGMxM2NhOTkzM2VjZTRlYWNmYzVjOTQ2NGQyMGVk
+ZGRiNzZiMGEwIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImEwMjc5MmQzY2QxNTIwZTJlY2ZlZDlk
+ZjY0MjA3OWQ0NGEzNmVkODcxNjc0NDJiMjhkN2VkMTllOTA2ZTNlOTYiCiAKIGluaGVyaXQgYXV0
+b3Rvb2xzIGxpYl9wYWNrYWdlIHBrZ2NvbmZpZyBnZXR0ZXh0CiAKLS0gCjIuNDIuMAoK
+
+--===============0956293124113124636==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/ptest-runner: PKGV changed from 2.4.2+git [default] to 2.4.3 [default]
-packages/core2-64-poky-linux/ptest-runner: PV changed from "2.4.2+git" to "2.4.3"
-packages/core2-64-poky-linux/ptest-runner/ptest-runner-dbg: PKGV changed from 2.4.2+git0+4148e75284 to 2.4.3 [default]
-packages/core2-64-poky-linux/ptest-runner/ptest-runner-dbg: PV changed from "2.4.2+git" to "2.4.3"
-packages/core2-64-poky-linux/ptest-runner/ptest-runner-dbg: PKGSIZE changed from 59672 to 60128 (+1%)
-packages/core2-64-poky-linux/ptest-runner/ptest-runner-dev: PKGV changed from 2.4.2+git0+4148e75284 to 2.4.3 [default]
-packages/core2-64-poky-linux/ptest-runner/ptest-runner-dev: PV changed from "2.4.2+git" to "2.4.3"
-packages/core2-64-poky-linux/ptest-runner/ptest-runner-doc: PKGV changed from 2.4.2+git0+4148e75284 to 2.4.3 [default]
-packages/core2-64-poky-linux/ptest-runner/ptest-runner-doc: PV changed from "2.4.2+git" to "2.4.3"
-packages/core2-64-poky-linux/ptest-runner/ptest-runner-locale: PKGV changed from 2.4.2+git0+4148e75284 to 2.4.3 [default]
-packages/core2-64-poky-linux/ptest-runner/ptest-runner-locale: PV changed from "2.4.2+git" to "2.4.3"
-packages/core2-64-poky-linux/ptest-runner/ptest-runner-src: PKGV changed from 2.4.2+git0+4148e75284 to 2.4.3 [default]
-packages/core2-64-poky-linux/ptest-runner/ptest-runner-src: PV changed from "2.4.2+git" to "2.4.3"
-packages/core2-64-poky-linux/ptest-runner/ptest-runner-src: PKGSIZE changed from 28286 to 28528 (+1%)
-packages/core2-64-poky-linux/ptest-runner/ptest-runner-staticdev: PKGV changed from 2.4.2+git0+4148e75284 to 2.4.3 [default]
-packages/core2-64-poky-linux/ptest-runner/ptest-runner-staticdev: PV changed from "2.4.2+git" to "2.4.3"
-packages/core2-64-poky-linux/ptest-runner/ptest-runner: PKGV changed from 2.4.2+git0+4148e75284 to 2.4.3 [default]
-packages/core2-64-poky-linux/ptest-runner/ptest-runner: PV changed from "2.4.2+git" to "2.4.3"
-packages/core2-64-poky-linux/ptest-runner/ptest-runner: PKGSIZE changed from 26770 to 30866 (+15%)
+packages/core2-64-poky-linux/curl/curl-ptest: PKGSIZE changed from 18557642 to 18556678 (-0%)
+packages/core2-64-poky-linux/libmicrohttpd: PV changed from "0.9.77" to "1.0.0"
+packages/core2-64-poky-linux/libmicrohttpd: SRC_URI changed from "https://ftp.gnu.org/gnu/libmicrohttpd/libmicrohttpd-0.9.77.tar.gz" to "https://ftp.gnu.org/gnu/libmicrohttpd/libmicrohttpd-1.0.0.tar.gz"
+packages/core2-64-poky-linux/libmicrohttpd: PKGV changed from 0.9.77 [default] to 1.0.0 [default]
+packages/core2-64-poky-linux/libmicrohttpd/libmicrohttpd-bin: PV changed from "0.9.77" to "1.0.0"
+packages/core2-64-poky-linux/libmicrohttpd/libmicrohttpd-bin: PKGV changed from 0.9.77 [default] to 1.0.0 [default]
+packages/core2-64-poky-linux/libmicrohttpd/libmicrohttpd-dbg: PV changed from "0.9.77" to "1.0.0"
+packages/core2-64-poky-linux/libmicrohttpd/libmicrohttpd-dbg: PKGSIZE changed from 533936 to 831536 (+56%)
+packages/core2-64-poky-linux/libmicrohttpd/libmicrohttpd-dbg: PKGV changed from 0.9.77 [default] to 1.0.0 [default]
+packages/core2-64-poky-linux/libmicrohttpd/libmicrohttpd-dbg: FILELIST: removed "/usr/lib/.debug/libmicrohttpd.so.12.61.0", added "/usr/lib/.debug/libmicrohttpd.so.12.62.0"
+packages/core2-64-poky-linux/libmicrohttpd/libmicrohttpd-dev: PV changed from "0.9.77" to "1.0.0"
+packages/core2-64-poky-linux/libmicrohttpd/libmicrohttpd-dev: PKGSIZE changed from 174542 to 253070 (+45%)
+packages/core2-64-poky-linux/libmicrohttpd/libmicrohttpd-dev: PKGV changed from 0.9.77 [default] to 1.0.0 [default]
+packages/core2-64-poky-linux/libmicrohttpd/libmicrohttpd-doc: PV changed from "0.9.77" to "1.0.0"
+packages/core2-64-poky-linux/libmicrohttpd/libmicrohttpd-doc: PKGSIZE changed from 507940 to 513575 (+1%)
+packages/core2-64-poky-linux/libmicrohttpd/libmicrohttpd-doc: PKGV changed from 0.9.77 [default] to 1.0.0 [default]
+packages/core2-64-poky-linux/libmicrohttpd/libmicrohttpd-locale: PV changed from "0.9.77" to "1.0.0"
+packages/core2-64-poky-linux/libmicrohttpd/libmicrohttpd-locale: PKGV changed from 0.9.77 [default] to 1.0.0 [default]
+packages/core2-64-poky-linux/libmicrohttpd/libmicrohttpd-src: PV changed from "0.9.77" to "1.0.0"
+packages/core2-64-poky-linux/libmicrohttpd/libmicrohttpd-src: PKGSIZE changed from 1162124 to 1674624 (+44%)
+packages/core2-64-poky-linux/libmicrohttpd/libmicrohttpd-src: PKGV changed from 0.9.77 [default] to 1.0.0 [default]
+packages/core2-64-poky-linux/libmicrohttpd/libmicrohttpd-src: FILELIST: directory renamed /usr/src/debug/libmicrohttpd/0.9.77/src/include -> /usr/src/debug/libmicrohttpd/1.0.0/src/include, removed "/usr/src/debug/libmicrohttpd/0.9.77/src/microhttpd/mhd_sockets.c /usr/src/debug/libmicrohttpd/0.9.77/src/microhttpd/mhd_locks.h /usr/src/debug/libmicrohttpd/0.9.77/src/microhttpd/mhd_send.h /usr/src/debug/libmicrohttpd/0.9.77/src/microhttpd/mhd_sockets.h /usr/src/debug/libmicrohttpd/0.9.77/src/microhttpd/mhd_send.c /usr/src/debug/libmicrohttpd/0.9.77/src/microhttpd/basicauth.c /usr/src/debug/libmicrohttpd/0.9.77/src/microhttpd/connection.c /usr/src/debug/libmicrohttpd/0.9.77/src/microhttpd/memorypool.c /usr/src/debug/libmicrohttpd/0.9.77/src/microhttpd/memorypool.h /usr/src/debug/libmicrohttpd/0.9.77/src/microhttpd/connection.h /usr/src/debug/libmicrohttpd/0.9.77/src/microhttpd/mhd_str.c /usr/src/debug/libmicrohttpd/0.9.77/src/microhttpd/sysfdsetsize.c /usr/src/debug/libmicrohttpd/0.9.77/s
+ rc/microhttpd/mhd_str.h /usr/src/debug/libmicrohttpd/0.9.77/src/microhttpd/reason_phrase.c /usr/src/debug/libmicrohttpd/0.9.77/src/microhttpd/mhd_mono_clock.c /usr/src/debug/libmicrohttpd/0.9.77/src/microhttpd/mhd_threads.h /usr/src/debug/libmicrohttpd/0.9.77/src/microhttpd/mhd_mono_clock.h /usr/src/debug/libmicrohttpd/0.9.77/src/microhttpd/mhd_threads.c /usr/src/debug/libmicrohttpd/0.9.77/src/microhttpd/digestauth.c /usr/src/debug/libmicrohttpd/0.9.77/src/microhttpd/internal.h /usr/src/debug/libmicrohttpd/0.9.77/src/microhttpd/response.c /usr/src/debug/libmicrohttpd/0.9.77/src/microhttpd/internal.c /usr/src/debug/libmicrohttpd/0.9.77/src/microhttpd/daemon.c /usr/src/debug/libmicrohttpd/0.9.77/src/microhttpd/response.h /usr/src/debug/libmicrohttpd/0.9.77/src/microhttpd/sha256.c /usr/src/debug/libmicrohttpd/0.9.77/src/microhttpd/md5.c /usr/src/debug/libmicrohttpd/0.9.77/src/microhttpd/sha256.h /usr/src/debug/libmicrohttpd/0.9.77/src/microhttpd/md5.h /usr/src/debug/libmicrohttpd/0.9.7
+ 7/src/microhttpd/mhd_bithelpers.h /usr/src/debug/libmicrohttpd/0.9.77/src/microhttpd/postprocessor.c /usr/src/debug/libmicrohttpd/0.9.77/src/microhttpd/mhd_itc_types.h /usr/src/debug/libmicrohttpd/0.9.77/src/microhttpd/connection_https.c /usr/src/debug/libmicrohttpd/0.9.77/src/microhttpd/connection_https.h", added "/usr/src/debug/libmicrohttpd/1.0.0/src/microhttpd/mhd_locks.h /usr/src/debug/libmicrohttpd/1.0.0/src/microhttpd/connection_https.h /usr/src/debug/libmicrohttpd/1.0.0/src/microhttpd/digestauth.c /usr/src/debug/libmicrohttpd/1.0.0/src/microhttpd/reason_phrase.c /usr/src/debug/libmicrohttpd/1.0.0/src/microhttpd/connection_https.c /usr/src/debug/libmicrohttpd/1.0.0/src/microhttpd/postprocessor.h /usr/src/debug/libmicrohttpd/1.0.0/src/microhttpd/basicauth.h /usr/src/debug/libmicrohttpd/1.0.0/src/microhttpd/postprocessor.c /usr/src/debug/libmicrohttpd/1.0.0/src/microhttpd/basicauth.c /usr/src/debug/libmicrohttpd/1.0.0/src/microhttpd/memorypool.h /usr/src/debug/libmicrohttpd/1.0
+ .0/src/microhttpd/mhd_panic.c /usr/src/debug/libmicrohttpd/1.0.0/src/microhttpd/memorypool.c /usr/src/debug/libmicrohttpd/1.0.0/src/microhttpd/mhd_panic.h /usr/src/debug/libmicrohttpd/1.0.0/src/microhttpd/connection.h /usr/src/debug/libmicrohttpd/1.0.0/src/microhttpd/response.h /usr/src/debug/libmicrohttpd/1.0.0/src/microhttpd/mhd_itc_types.h /usr/src/debug/libmicrohttpd/1.0.0/src/microhttpd/sha512_256.h /usr/src/debug/libmicrohttpd/1.0.0/src/microhttpd/connection.c /usr/src/debug/libmicrohttpd/1.0.0/src/microhttpd/response.c /usr/src/debug/libmicrohttpd/1.0.0/src/microhttpd/mhd_str_types.h /usr/src/debug/libmicrohttpd/1.0.0/src/microhttpd/internal.c /usr/src/debug/libmicrohttpd/1.0.0/src/microhttpd/sha512_256.c /usr/src/debug/libmicrohttpd/1.0.0/src/microhttpd/mhd_sockets.c /usr/src/debug/libmicrohttpd/1.0.0/src/microhttpd/internal.h /usr/src/debug/libmicrohttpd/1.0.0/src/microhttpd/mhd_bithelpers.h /usr/src/debug/libmicrohttpd/1.0.0/src/microhttpd/mhd_sockets.h /usr/src/debug/libm
+ icrohttpd/1.0.0/src/microhttpd/mhd_send.c /usr/src/debug/libmicrohttpd/1.0.0/src/microhttpd/md5.h /usr/src/debug/libmicrohttpd/1.0.0/src/microhttpd/mhd_str.c /usr/src/debug/libmicrohttpd/1.0.0/src/microhttpd/md5.c /usr/src/debug/libmicrohttpd/1.0.0/src/microhttpd/mhd_str.h /usr/src/debug/libmicrohttpd/1.0.0/src/microhttpd/mhd_send.h /usr/src/debug/libmicrohttpd/1.0.0/src/microhttpd/mhd_mono_clock.h /usr/src/debug/libmicrohttpd/1.0.0/src/microhttpd/gen_auth.c /usr/src/debug/libmicrohttpd/1.0.0/src/microhttpd/sha256.h /usr/src/debug/libmicrohttpd/1.0.0/src/microhttpd/mhd_mono_clock.c /usr/src/debug/libmicrohttpd/1.0.0/src/microhttpd/daemon.c /usr/src/debug/libmicrohttpd/1.0.0/src/microhttpd/gen_auth.h /usr/src/debug/libmicrohttpd/1.0.0/src/microhttpd/sha256.c /usr/src/debug/libmicrohttpd/1.0.0/src/microhttpd/mhd_threads.h /usr/src/debug/libmicrohttpd/1.0.0/src/microhttpd/mhd_threads.c"
+packages/core2-64-poky-linux/libmicrohttpd/libmicrohttpd-staticdev: PV changed from "0.9.77" to "1.0.0"
+packages/core2-64-poky-linux/libmicrohttpd/libmicrohttpd-staticdev: PKGV changed from 0.9.77 [default] to 1.0.0 [default]
+packages/core2-64-poky-linux/libmicrohttpd/libmicrohttpd: PV changed from "0.9.77" to "1.0.0"
+packages/core2-64-poky-linux/libmicrohttpd/libmicrohttpd: PKGSIZE changed from 174088 to 235528 (+35%)
+packages/core2-64-poky-linux/libmicrohttpd/libmicrohttpd: PKGV changed from 0.9.77 [default] to 1.0.0 [default]
+packages/core2-64-poky-linux/libmicrohttpd/libmicrohttpd: FILELIST: removed "/usr/lib/libmicrohttpd.so.12.61.0", added "/usr/lib/libmicrohttpd.so.12.62.0"
+Changes to packages/core2-64-poky-linux/libmicrohttpd (sysroot):
+  /usr/lib/libmicrohttpd.so.12 changed symlink target from libmicrohttpd.so.12.61.0 to libmicrohttpd.so.12.62.0
+  /usr/lib/libmicrohttpd.so changed symlink target from libmicrohttpd.so.12.61.0 to libmicrohttpd.so.12.62.0
+  /usr/lib/libmicrohttpd.so.12.61.0 moved to /usr/lib/libmicrohttpd.so.12.62.0
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -1512,21 +1557,26 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
+Changes to packages/x86_64-linux/libmicrohttpd-native (sysroot):
+  /usr/lib/libmicrohttpd.so.12 changed symlink target from libmicrohttpd.so.12.61.0 to libmicrohttpd.so.12.62.0
+  /usr/lib/libmicrohttpd.so changed symlink target from libmicrohttpd.so.12.61.0 to libmicrohttpd.so.12.62.0
+  /usr/lib/libmicrohttpd.so.12.61.0 moved to /usr/lib/libmicrohttpd.so.12.62.0
 
---===============6414156979483500185==
+--===============0956293124113124636==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/ptest-runner/ptest-runner-dbg: PKGV changed from 2.4.2+git0+4148e75284 to 2.4.3 [default]
-packages/core2-64-poky-linux/ptest-runner/ptest-runner-dev: PKGV changed from 2.4.2+git0+4148e75284 to 2.4.3 [default]
-packages/core2-64-poky-linux/ptest-runner/ptest-runner-doc: PKGV changed from 2.4.2+git0+4148e75284 to 2.4.3 [default]
-packages/core2-64-poky-linux/ptest-runner/ptest-runner-locale: PKGV changed from 2.4.2+git0+4148e75284 to 2.4.3 [default]
-packages/core2-64-poky-linux/ptest-runner/ptest-runner-src: PKGV changed from 2.4.2+git0+4148e75284 to 2.4.3 [default]
-packages/core2-64-poky-linux/ptest-runner/ptest-runner-staticdev: PKGV changed from 2.4.2+git0+4148e75284 to 2.4.3 [default]
-packages/core2-64-poky-linux/ptest-runner/ptest-runner: PKGSIZE changed from 26770 to 30866 (+15%)
-packages/core2-64-poky-linux/ptest-runner/ptest-runner: PKGV changed from 2.4.2+git0+4148e75284 to 2.4.3 [default]
+packages/core2-64-poky-linux/libmicrohttpd/libmicrohttpd-dbg: PKGSIZE changed from 533936 to 831536 (+56%)
+packages/core2-64-poky-linux/libmicrohttpd/libmicrohttpd-dev: PKGSIZE changed from 174542 to 253070 (+45%)
+packages/core2-64-poky-linux/libmicrohttpd/libmicrohttpd-src: PKGSIZE changed from 1162124 to 1674624 (+44%)
+packages/core2-64-poky-linux/libmicrohttpd/libmicrohttpd: FILELIST: removed "/usr/lib/libmicrohttpd.so.12.61.0", added "/usr/lib/libmicrohttpd.so.12.62.0"
+packages/core2-64-poky-linux/libmicrohttpd/libmicrohttpd: PKGSIZE changed from 174088 to 235528 (+35%)
+Changes to packages/core2-64-poky-linux/libmicrohttpd (sysroot):
+  /usr/lib/libmicrohttpd.so.12 changed symlink target from libmicrohttpd.so.12.61.0 to libmicrohttpd.so.12.62.0
+  /usr/lib/libmicrohttpd.so changed symlink target from libmicrohttpd.so.12.61.0 to libmicrohttpd.so.12.62.0
+  /usr/lib/libmicrohttpd.so.12.61.0 moved to /usr/lib/libmicrohttpd.so.12.62.0
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -2910,36 +2960,10 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
+Changes to packages/x86_64-linux/libmicrohttpd-native (sysroot):
+  /usr/lib/libmicrohttpd.so.12 changed symlink target from libmicrohttpd.so.12.61.0 to libmicrohttpd.so.12.62.0
+  /usr/lib/libmicrohttpd.so changed symlink target from libmicrohttpd.so.12.61.0 to libmicrohttpd.so.12.62.0
+  /usr/lib/libmicrohttpd.so.12.61.0 moved to /usr/lib/libmicrohttpd.so.12.62.0
 
---===============6414156979483500185==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-ptest-runner-upgrade-2.4.2-2.4.3.patch"
-
-RnJvbSAyNDgxYTc1MTVmYTkyYTViOWEzMGJmYWIxNDczNzIzNTllZmI0MzQzIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgRmViIDIwMjQgMTc6MjM6NTcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-dGVzdC1ydW5uZXI6IHVwZ3JhZGUgMi40LjIgLT4gMi40LjMKCi0tLQogbWV0YS9yZWNpcGVzLXN1
-cHBvcnQvcHRlc3QtcnVubmVyL3B0ZXN0LXJ1bm5lcl8yLjQuMi5iYiB8IDQgKysrLQogMSBmaWxl
-IGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL21l
-dGEvcmVjaXBlcy1zdXBwb3J0L3B0ZXN0LXJ1bm5lci9wdGVzdC1ydW5uZXJfMi40LjIuYmIgYi9t
-ZXRhL3JlY2lwZXMtc3VwcG9ydC9wdGVzdC1ydW5uZXIvcHRlc3QtcnVubmVyXzIuNC4yLmJiCmlu
-ZGV4IGZmMzM2YjM4MjAuLmM2MzI4YTBkZjMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBw
-b3J0L3B0ZXN0LXJ1bm5lci9wdGVzdC1ydW5uZXJfMi40LjIuYmIKKysrIGIvbWV0YS9yZWNpcGVz
-LXN1cHBvcnQvcHRlc3QtcnVubmVyL3B0ZXN0LXJ1bm5lcl8yLjQuMi5iYgpAQCAtNyw3ICs3LDcg
-QEAgSE9NRVBBR0UgPSAiaHR0cDovL2dpdC55b2N0b3Byb2plY3Qub3JnL2NnaXQvY2dpdC5jZ2kv
-cHRlc3QtcnVubmVyMi9hYm91dC8iCiBMSUNFTlNFID0gIkdQTC0yLjAtb3ItbGF0ZXIiCiBMSUNf
-RklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT03NTE0MTkyNjBhYTk1NDQ5OWY3YWJh
-YWJhYTg4MmJiZSIKIAotU1JDUkVWID0gIjQxNDhlNzUyODRlNDQzZmM4ZmZhZWY0MjVjNDY3YWE1
-NTIzNTI4ZmYiCitTUkNSRVYgPSAiOTJjMWI5N2JmZGI0YTk0YWNjMWNhYmNhZjk3ZWVmNTJkYzI5
-MTQ0YyIKIFBWIC49ICIrZ2l0IgogCiBTUkNfVVJJID0gImdpdDovL2dpdC55b2N0b3Byb2plY3Qu
-b3JnL3B0ZXN0LXJ1bm5lcjI7YnJhbmNoPW1hc3Rlcjtwcm90b2NvbD1odHRwcyBcCkBAIC0zNywz
-ICszNyw1IEBAIFJERVBFTkRTOiR7UE59OmFwcGVuZCA9ICIgcHN0cmVlIgogaW5oZXJpdCB1c2Vy
-YWRkCiBVU0VSQUREX1BBQ0tBR0VTID0gIiR7UE59IgogVVNFUkFERF9QQVJBTToke1BOfSA9ICIt
-LXN5c3RlbSAtLW5vLWNyZWF0ZS1ob21lIC0taG9tZSAvIC0tdXNlci1ncm91cCBwdGVzdCIKKwor
-UFYgPSAiMi40LjMiCi0tIAoyLjQyLjAKCg==
-
---===============6414156979483500185==--
+--===============0956293124113124636==--
 
