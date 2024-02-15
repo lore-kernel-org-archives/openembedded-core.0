@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 552B7C48BF3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 242F5C48BC4
 	for <webhook@archiver.kernel.org>; Thu, 15 Feb 2024 16:18:28 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web11.18118.1708013904159971627
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web11.18123.1708013907691612261
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Feb 2024 08:18:24 -0800
+ Thu, 15 Feb 2024 08:18:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=TbLVz8yD;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1d94b222a3aso9579425ad.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 08:18:24 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=h3dHpeY+;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1d911c2103aso6670385ad.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 08:18:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1708013903; x=1708618703; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1708013907; x=1708618707; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=4boQPIRK1J2pp8nsopD9uWd8tfzQKOWT1EKWfEUlOxM=;
-        b=TbLVz8yDl1/rN+GXgyGKbNO1+dqV6Ne79z3f/QZWrw3Q2fZS2K9zVk7GvRv7dt3vho
-         jWU4lQUe+6T6lvsgsR49HBnOoSQ9UdNMf0bzqcRtKRIV0w+Us2dQPq+RgJL20ET6gt21
-         OMRVDUZ923AIU1JWOEAs6BBEUiRtOhcLfenVhBC28dekMyyJKoVEHz3IxW4O+ANJFORZ
-         m/lxjaXxWu66jo9dJNr+oIe5XoLybD8sbI4KmD0vci7DDVGK2sI13SSigdWAEi2+JccU
-         leWG4zlmgdt6FfAODbQocseguxy+QIBbVPhIIr3h0HlzmXjJOREyduQ9v0FixgfRhSHq
-         B+/A==
+        bh=B0plenJxBJyqCsH1zjoU79VrMryGYSA+Ug5Olg6AnRo=;
+        b=h3dHpeY+GeuhRemZhGtCGgxkp9bmNqvTqWFe7gx/LbdslqXjPRp2pL5+Ku8YK3Y5Qe
+         wJHVIl3TfYDgWi3geHpHiqfhkqAPl5CnpaJ0U11IAbaXxw9zlsLOuMgRk2kFS7/Bv7Ht
+         06FXGCtpabABY+yCOTGncsBiEPhQAI4G8nH4zbL+YtOrkZNRE99EoutmSjepEAA4JaJ6
+         Uv7oYxb4Uu/WCgva/ym/93yacP3edhPWC3I4IaQfM0rJ2WMy4+UrpeNEXL3cHuFhqPhx
+         sASUSenfVE4wXq8+lL1blDYoUYNn+aBXeVNSqZY9DWKeFU1KVM8B2QnZHJ2xazKJIi2J
+         cx5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708013903; x=1708618703;
+        d=1e100.net; s=20230601; t=1708013907; x=1708618707;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=4boQPIRK1J2pp8nsopD9uWd8tfzQKOWT1EKWfEUlOxM=;
-        b=QyqHEgBZTzR0cDFOdcFUrJPQlZZgcUJsnNoT+IBSk3TdFAbBH+PJnVUXpdzIpXby1b
-         3gYZjyNts7lC43QMlvUNHoGtF3kXBRXpldmScLM0QSq494mKppI3vhaWQXWsaQo5SoJo
-         P54pLFlZ08wVl4+IcfBMpeBgEwgJzaefoCOjUMTcEnH/PXpvgK3bLMBWPOVKRj0Cm5Qn
-         WypRegXrcc7dQHFflkJH1aEE0nAlv3AOxcBzuyVpUOu1T871d6NipoG+bjl0APT/XYYr
-         ioOCzf7AMnbQuhSW7UObhg4o7BsX7m+LgbxMDohCnJUcY0TQoScOnh80+/7HWNl/Wx7J
-         TDqg==
-X-Gm-Message-State: AOJu0YxZFZRzTTFDulMbTHxEv6+aers+wi3Rwe0OqPw+Ar6dhoPn+hYA
-	3XUNzmayXVo9aO8YwWFbQ3cG+qOgpzP6pFkhZFBMInoO1avgBzVuRRk9KZ7sSiHfHcHMmNkn4MX
-	/v88=
-X-Google-Smtp-Source: AGHT+IFS1crCNVPKFxfBYtJe7pi3SF7+Ynl09waxCXocqhZ8mkT9ZfYsKkhEuf6Zz1VduRErI4a4LA==
-X-Received: by 2002:a17:902:f812:b0:1db:466d:f309 with SMTP id ix18-20020a170902f81200b001db466df309mr1800500plb.49.1708013903466;
-        Thu, 15 Feb 2024 08:18:23 -0800 (PST)
+        bh=B0plenJxBJyqCsH1zjoU79VrMryGYSA+Ug5Olg6AnRo=;
+        b=gBPlokRXYXURo7qkNy2tP5xpLjB+3mUgdo9freksrz2msbzPCLw8AVpDXPwSNNTxze
+         qNe7LvrrDPv1nCEgZkTaLm5k66jRe3AjeUSHLMACL0CIyI05vNAQnqCKFVx5Jerruvqt
+         xfeMpHZLCXeH66NAHZTPiKMAafGkACrWh6SQYvP5hAnTLw+7zD//S/xytI617dKb+hTQ
+         Xnb+RUYtooCN4VpnqqLRfRCg4egTrERkFIrZiuaBovQuVfXEukpXNSHOVLCUdtbOKWCP
+         KH8TFaURe+7h0g6eiJfY7tR0fRVT5/9p7l1UISFZ8j/Ixr1I8U57XbAb3idBTbc4KlfA
+         H8bw==
+X-Gm-Message-State: AOJu0YxABCZnW8I+TC4+Yw4+c0CuTuKPu46m+E0egfiyEP3U8fx0CgIN
+	McNrjSXyt74ZQT6JbxppQELPN86IYtQo4Iv04mfPXU92FIYi6rv3mdddujUNkIt2/sFttqvWJab
+	cgTk=
+X-Google-Smtp-Source: AGHT+IEMnLGQ5ZEmKGw7xQlaqte0lYJh3iYQ9Dmg5amsY5RF0MhYAGV37MR7wLg2uR+vcMBTt7SUkg==
+X-Received: by 2002:a17:903:2289:b0:1d9:8e37:56d6 with SMTP id b9-20020a170903228900b001d98e3756d6mr3064195plh.40.1708013907029;
+        Thu, 15 Feb 2024 08:18:27 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id l17-20020a170902d05100b001db66f3748bsm1445683pll.121.2024.02.15.08.18.22
+        by smtp.gmail.com with ESMTPSA id l17-20020a170902d05100b001db66f3748bsm1445683pll.121.2024.02.15.08.18.26
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Feb 2024 08:18:23 -0800 (PST)
+        Thu, 15 Feb 2024 08:18:26 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][nanbield 06/21] cve_check: handle CVE_STATUS being set to the empty string
-Date: Thu, 15 Feb 2024 06:17:49 -1000
-Message-Id: <a8ccf2abdc89cf4ae3dce1fed4163e3c1399e528.1708012696.git.steve@sakoman.com>
+Subject: [OE-core][nanbield 08/21] gtk: Set CVE_PRODUCT
+Date: Thu, 15 Feb 2024 06:17:51 -1000
+Message-Id: <e1bab7d2f5a885f2e4fd0332599edb8bfa55be45.1708012696.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1708012696.git.steve@sakoman.com>
 References: <cover.1708012696.git.steve@sakoman.com>
@@ -62,46 +62,45 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 16:18:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195525
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195528
 
-From: Ross Burton <ross.burton@arm.com>
+From: Robert Joslyn <robert.joslyn@redrectangle.org>
 
-Handle CVE_STATUS[...] being set to an empty string just as if it was
-not set at all.
+The CPE vendor is "gnome" and the CPE product is "gtk" for both gtk+3
+and gtk4 recipes. Set CVE_PRODUCT so we properly match the NVD database.
 
-This is needed for evaluated CVE_STATUS values to work, i.e. when
-setting not-applicable-config if a PACKAGECONFIG is disabled.
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Robert Joslyn <robert.joslyn@redrectangle.org>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 2c9f20f746251505d9d09262600199ffa87731a2)
+(cherry picked from commit 253f5f745d66acefcc739f1c9ad2dd46be630e47)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oe/cve_check.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb | 2 ++
+ meta/recipes-gnome/gtk+/gtk4_4.12.3.bb   | 2 ++
+ 2 files changed, 4 insertions(+)
 
-diff --git a/meta/lib/oe/cve_check.py b/meta/lib/oe/cve_check.py
-index 3fa77bf9a7..b5fc5364dc 100644
---- a/meta/lib/oe/cve_check.py
-+++ b/meta/lib/oe/cve_check.py
-@@ -231,7 +231,7 @@ def decode_cve_status(d, cve):
-     Convert CVE_STATUS into status, detail and description.
-     """
-     status = d.getVarFlag("CVE_STATUS", cve)
--    if status is None:
-+    if not status:
-         return ("", "", "")
+diff --git a/meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb b/meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb
+index 37fa0a7290..c23c46a689 100644
+--- a/meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb
++++ b/meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb
+@@ -13,3 +13,5 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2 \
+                     file://gtk/gtk.h;endline=25;md5=1d8dc0fccdbfa26287a271dce88af737 \
+                     file://gdk/gdk.h;endline=25;md5=c920ce39dc88c6f06d3e7c50e08086f2 \
+                     file://tests/testgtk.c;endline=25;md5=cb732daee1d82af7a2bf953cf3cf26f1"
++
++CVE_PRODUCT = "gnome:gtk"
+diff --git a/meta/recipes-gnome/gtk+/gtk4_4.12.3.bb b/meta/recipes-gnome/gtk+/gtk4_4.12.3.bb
+index 001b06934e..2c85e7e75f 100644
+--- a/meta/recipes-gnome/gtk+/gtk4_4.12.3.bb
++++ b/meta/recipes-gnome/gtk+/gtk4_4.12.3.bb
+@@ -41,6 +41,8 @@ SRC_URI[sha256sum] = "148ce262f6c86487455fb1d9793c3f58bc3e1da477a29617fadb0420f5
  
-     status_split = status.split(':', 1)
-@@ -240,7 +240,7 @@ def decode_cve_status(d, cve):
+ S = "${WORKDIR}/gtk-${PV}"
  
-     status_mapping = d.getVarFlag("CVE_CHECK_STATUSMAP", detail)
-     if status_mapping is None:
--        bb.warn('Invalid detail %s for CVE_STATUS[%s] = "%s", fallback to Unpatched' % (detail, cve, status))
-+        bb.warn('Invalid detail "%s" for CVE_STATUS[%s] = "%s", fallback to Unpatched' % (detail, cve, status))
-         status_mapping = "Unpatched"
++CVE_PRODUCT = "gnome:gtk"
++
+ inherit meson gettext pkgconfig gi-docgen update-alternatives gsettings features_check gobject-introspection
  
-     return (status_mapping, detail, description)
+ # TBD: nativesdk
 -- 
 2.34.1
 
