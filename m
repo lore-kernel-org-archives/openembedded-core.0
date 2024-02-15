@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92131C54E69
-	for <webhook@archiver.kernel.org>; Thu, 15 Feb 2024 17:32:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04330C54E73
+	for <webhook@archiver.kernel.org>; Thu, 15 Feb 2024 17:32:35 +0000 (UTC)
 Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web11.20342.1708018346896567258
+ by mx.groups.io with SMTP id smtpd.web10.20176.1708018346289396399
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Feb 2024 09:32:27 -0800
+ Thu, 15 Feb 2024 09:32:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Z4sCWyQy;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=kjj14Qmz;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018dadd3a999-df2c89f6-1f9e-4059-8553-57a6e541717a-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=N7F3ZtRT;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=D1dO06W/;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018dadd3a68b-187868e9-cf5f-472b-b7ac-a44a097a852c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1708018346;
+	t=1708018345;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=UjzAZy8e6CcEcCpN0VHdGYk8+H4K55GAC0wIPqIf+kM=;
-	b=Z4sCWyQyzkh5NzuAr65kN8NuIJ7W9mb7NnQwtTd98Xu3B09HBncrklLWLPZUZL9s
-	nzRsV2Q1BUcb/okSVUOuYy93a2HugKLoNHHKcOCEgZQID36hv2XMRhX5Eq+TvaQpB14
-	tvB9whV+N8Rb6qFtzZfCdfZldjp/aGcvHWf1xWHg=
+	bh=phJoqGsOc1h8cbsEJsMm9ocSarP1tra7b2eixAXW8X8=;
+	b=N7F3ZtRTUW4BBeLf6MHGdJ/Q+2borK68IMLE8tqpDAEOo6gCkQq8FIvy6/pKAjKe
+	iQOPTdGow/ilTKP2f8xA2T9OKcpXfCj8KjipFb3Lp8exTwKzt0rNyYwY06tcuoyT4f7
+	phCWa2TvVoSjX9xqoPxvXRrAS0214+RT/qvbZrSk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1708018346;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1708018345;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=UjzAZy8e6CcEcCpN0VHdGYk8+H4K55GAC0wIPqIf+kM=;
-	b=kjj14Qmz3XYp422FqzRrb6teSWreIMtD8e0p1brQxRKRzyv6FN/JmZrmXCqBohJW
-	Dcegsc73shLt4L50fpxLt17TtdY1QS2rGDpIwL7lmIEMkrmrke4vP3z4DE67DQSyIoP
-	EH8Krl+SpK6y0w20iCkJkQX4GHLZPDoQnxV67Fdk=
-Content-Type: multipart/mixed; boundary="===============8023090383003799530=="
+	bh=phJoqGsOc1h8cbsEJsMm9ocSarP1tra7b2eixAXW8X8=;
+	b=D1dO06W/iVEw3pWgidrw4UIIduUbZatgRYOOiULiVNas1e+JQsRxArzU1ix8fYqv
+	dMZww9ONswjyRWa15HXqGCtmrBofcjb1VMNFihX0HvAJLPJbtK2SRAoBGFDm8W7P6LG
+	G46tBp46MSHBMaroVZcjEwJkR7IxvZi/WtzNg8F0=
+Content-Type: multipart/mixed; boundary="===============3381378867261212916=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] vulkan-utility-libraries: upgrading to 1.3.275.0 FAILED
-Message-ID: <0101018dadd3a999-df2c89f6-1f9e-4059-8553-57a6e541717a-000000@us-west-2.amazonses.com>
-Date: Thu, 15 Feb 2024 17:32:26 +0000
+Subject: [AUH] stress-ng: upgrading to 0.17.05 SUCCEEDED
+Message-ID: <0101018dadd3a68b-187868e9-cf5f-472b-b7ac-a44a097a852c-000000@us-west-2.amazonses.com>
+Date: Thu, 15 Feb 2024 17:32:25 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2024.02.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 17:32:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195630
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 17:32:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195625
 
---===============8023090383003799530==
+--===============3381378867261212916==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *vulkan-utility-libraries* to *1.3.275.0* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *stress-ng* to *0.17.05* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-vulkan-utility-libraries-upgrade-1.3.268.0-1.3.275.0.patch
+    - apply the patch: git am 0001-stress-ng-upgrade-0.17.04-0.17.05.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,586 +72,136 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 0d58ee560a2344b56b328cc6185f38809917242e Mon Sep 17 00:00:00 2001
+From 335f1157f467d76b979bd2db09073845f0dc1d46 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 15 Feb 2024 14:04:29 +0000
-Subject: [PATCH] vulkan-utility-libraries: upgrade 1.3.268.0 -> 1.3.275.0
+Date: Thu, 15 Feb 2024 11:53:47 +0000
+Subject: [PATCH] stress-ng: upgrade 0.17.04 -> 0.17.05
 
 ---
- ...aries_1.3.268.0.bb => vulkan-utility-libraries_1.3.275.0.bb} | 2 +-
+ .../stress-ng/{stress-ng_0.17.04.bb => stress-ng_0.17.05.bb}    | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/vulkan/{vulkan-utility-libraries_1.3.268.0.bb => vulkan-utility-libraries_1.3.275.0.bb} (95%)
+ rename meta/recipes-extended/stress-ng/{stress-ng_0.17.04.bb => stress-ng_0.17.05.bb} (94%)
 
-diff --git a/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.268.0.bb b/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.275.0.bb
-similarity index 95%
-rename from meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.268.0.bb
-rename to meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.275.0.bb
-index fee4ba6cc9..759a03926b 100644
---- a/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.268.0.bb
-+++ b/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.275.0.bb
-@@ -10,7 +10,7 @@ LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE.md;md5=4ca2d6799091aaa98a8520f1b793939b"
+diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.17.04.bb b/meta/recipes-extended/stress-ng/stress-ng_0.17.05.bb
+similarity index 94%
+rename from meta/recipes-extended/stress-ng/stress-ng_0.17.04.bb
+rename to meta/recipes-extended/stress-ng/stress-ng_0.17.05.bb
+index fde51f67ac..d4a427f89d 100644
+--- a/meta/recipes-extended/stress-ng/stress-ng_0.17.04.bb
++++ b/meta/recipes-extended/stress-ng/stress-ng_0.17.05.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
  
- SRC_URI = "git://github.com/KhronosGroup/Vulkan-Utility-Libraries.git;branch=main;protocol=https"
--SRCREV = "c9ca4ac620a238a93c65d864f2eaa33954d74509"
-+SRCREV = "4cfc176e3242b4dbdfd3f6c5680c5d8f2cb7db45"
- 
+ SRC_URI = "git://github.com/ColinIanKing/stress-ng.git;protocol=https;branch=master \
+            "
+-SRCREV = "2f22ad595f067aa940cfe4f64107e10872c2f7b5"
++SRCREV = "4e68895f4fe68863b360ab4a6a57e2dfcff85d60"
  S = "${WORKDIR}/git"
  
+ DEPENDS = "coreutils-native libbsd"
 -- 
 2.42.0
 
 
---===============8023090383003799530==
+--===============3381378867261212916==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/stress-ng: PV changed from "0.17.04" to "0.17.05"
+packages/core2-64-poky-linux/stress-ng: PKGV changed from 0.17.04 [default] to 0.17.05 [default]
+packages/core2-64-poky-linux/stress-ng/stress-ng-bash-completion: PV changed from "0.17.04" to "0.17.05"
+packages/core2-64-poky-linux/stress-ng/stress-ng-bash-completion: PKGV changed from 0.17.04 [default] to 0.17.05 [default]
+packages/core2-64-poky-linux/stress-ng/stress-ng-dbg: PV changed from "0.17.04" to "0.17.05"
+packages/core2-64-poky-linux/stress-ng/stress-ng-dbg: PKGV changed from 0.17.04 [default] to 0.17.05 [default]
+packages/core2-64-poky-linux/stress-ng/stress-ng-dbg: PKGSIZE changed from 18575424 to 18752968 (+1%)
+packages/core2-64-poky-linux/stress-ng/stress-ng-dev: PV changed from "0.17.04" to "0.17.05"
+packages/core2-64-poky-linux/stress-ng/stress-ng-dev: PKGV changed from 0.17.04 [default] to 0.17.05 [default]
+packages/core2-64-poky-linux/stress-ng/stress-ng-doc: PV changed from "0.17.04" to "0.17.05"
+packages/core2-64-poky-linux/stress-ng/stress-ng-doc: PKGV changed from 0.17.04 [default] to 0.17.05 [default]
+packages/core2-64-poky-linux/stress-ng/stress-ng-doc: PKGSIZE changed from 81049 to 83159 (+3%)
+packages/core2-64-poky-linux/stress-ng/stress-ng-locale: PV changed from "0.17.04" to "0.17.05"
+packages/core2-64-poky-linux/stress-ng/stress-ng-locale: PKGV changed from 0.17.04 [default] to 0.17.05 [default]
+packages/core2-64-poky-linux/stress-ng/stress-ng-src: PV changed from "0.17.04" to "0.17.05"
+packages/core2-64-poky-linux/stress-ng/stress-ng-src: FILELIST: removed "/usr/src/debug/stress-ng/0.17.04/stress-ioprio.c /usr/src/debug/stress-ng/0.17.04/stress-sigpending.c /usr/src/debug/stress-ng/0.17.04/stress-led.c /usr/src/debug/stress-ng/0.17.04/core-mincore.c /usr/src/debug/stress-ng/0.17.04/stress-peterson.c /usr/src/debug/stress-ng/0.17.04/core-mincore.h /usr/src/debug/stress-ng/0.17.04/stress-rlimit.c /usr/src/debug/stress-ng/0.17.04/stress-regs.c /usr/src/debug/stress-ng/0.17.04/stress-fcntl.c /usr/src/debug/stress-ng/0.17.04/stress-tlb-shootdown.c /usr/src/debug/stress-ng/0.17.04/stress-judy.c /usr/src/debug/stress-ng/0.17.04/stress-remap.c /usr/src/debug/stress-ng/0.17.04/core-asm-x86.h /usr/src/debug/stress-ng/0.17.04/stress-fifo.c /usr/src/debug/stress-ng/0.17.04/stress-procfs.c /usr/src/debug/stress-ng/0.17.04/stress-fiemap.c /usr/src/debug/stress-ng/0.17.04/stress-msg.c /usr/src/debug/stress-ng/0.17.04/stress-schedmix.c /usr/src/debug/stress-ng/0.17.04/stress-skipl
+ ist.c /usr/src/debug/stress-ng/0.17.04/stress-exit-group.c /usr/src/debug/stress-ng/0.17.04/stress-fpunch.c /usr/src/debug/stress-ng/0.17.04/core-nt-store.h /usr/src/debug/stress-ng/0.17.04/stress-ring-pipe.c /usr/src/debug/stress-ng/0.17.04/stress-tee.c /usr/src/debug/stress-ng/0.17.04/stress-chown.c /usr/src/debug/stress-ng/0.17.04/stress-bad-ioctl.c /usr/src/debug/stress-ng/0.17.04/stress-cgroup.c /usr/src/debug/stress-ng/0.17.04/stress-mlockmany.c /usr/src/debug/stress-ng/0.17.04/stress-touch.c /usr/src/debug/stress-ng/0.17.04/stress-funcret.c /usr/src/debug/stress-ng/0.17.04/stress-netlink-proc.c /usr/src/debug/stress-ng/0.17.04/stress-list.c /usr/src/debug/stress-ng/0.17.04/stress-idle-page.c /usr/src/debug/stress-ng/0.17.04/stress-memcpy.c /usr/src/debug/stress-ng/0.17.04/stress-pidfd.c /usr/src/debug/stress-ng/0.17.04/stress-mlock.c /usr/src/debug/stress-ng/0.17.04/stress-mpfr.c /usr/src/debug/stress-ng/0.17.04/stress-opcode.c /usr/src/debug/stress-ng/0.17.04/stress-jpeg.c /
+ usr/src/debug/stress-ng/0.17.04/stress-sigfpe.c /usr/src/debug/stress-ng/0.17.04/stress-rawudp.c /usr/src/debug/stress-ng/0.17.04/stress-mcontend.c /usr/src/debug/stress-ng/0.17.04/stress-madvise.c /usr/src/debug/stress-ng/0.17.04/stress-mincore.c /usr/src/debug/stress-ng/0.17.04/stress-sock.c /usr/src/debug/stress-ng/0.17.04/stress-sparsematrix.c /usr/src/debug/stress-ng/0.17.04/stress-qsort.c /usr/src/debug/stress-ng/0.17.04/stress-sigbus.c /usr/src/debug/stress-ng/0.17.04/stress-mergesort.c /usr/src/debug/stress-ng/0.17.04/stress-fault.c /usr/src/debug/stress-ng/0.17.04/stress-sysfs.c /usr/src/debug/stress-ng/0.17.04/stress-seek.c /usr/src/debug/stress-ng/0.17.04/stress-full.c /usr/src/debug/stress-ng/0.17.04/stress-numa.c /usr/src/debug/stress-ng/0.17.04/stress-ng.c /usr/src/debug/stress-ng/0.17.04/stress-ng.h /usr/src/debug/stress-ng/0.17.04/stress-prctl.c /usr/src/debug/stress-ng/0.17.04/stress-dirdeep.c /usr/src/debug/stress-ng/0.17.04/stress-dirmany.c /usr/src/debug/stress-n
+ g/0.17.04/stress-readahead.c /usr/src/debug/stress-ng/0.17.04/stress-x86syscall.c /usr/src/debug/stress-ng/0.17.04/stress-cap.c /usr/src/debug/stress-ng/0.17.04/stress-alarm.c /usr/src/debug/stress-ng/0.17.04/stress-rtc.c /usr/src/debug/stress-ng/0.17.04/stress-exec.c /usr/src/debug/stress-ng/0.17.04/stress-lsearch.c /usr/src/debug/stress-ng/0.17.04/stress-switch.c /usr/src/debug/stress-ng/0.17.04/stress-lease.c /usr/src/debug/stress-ng/0.17.04/stress-null.c /usr/src/debug/stress-ng/0.17.04/stress-aio.c /usr/src/debug/stress-ng/0.17.04/stress-memfd.c /usr/src/debug/stress-ng/0.17.04/core-resources.h /usr/src/debug/stress-ng/0.17.04/core-resources.c /usr/src/debug/stress-ng/0.17.04/core-asm-ret.h /usr/src/debug/stress-ng/0.17.04/stress-revio.c /usr/src/debug/stress-ng/0.17.04/core-asm-ret.c /usr/src/debug/stress-ng/0.17.04/stress-mmapfixed.c /usr/src/debug/stress-ng/0.17.04/stress-wcs.c /usr/src/debug/stress-ng/0.17.04/stress-tmpfs.c /usr/src/debug/stress-ng/0.17.04/stress-shm.c /usr
+ /src/debug/stress-ng/0.17.04/stress-dev.c /usr/src/debug/stress-ng/0.17.04/stress-rawsock.c /usr/src/debug/stress-ng/0.17.04/stress-memthrash.c /usr/src/debug/stress-ng/0.17.04/stress-hash.c /usr/src/debug/stress-ng/0.17.04/core-hash.h /usr/src/debug/stress-ng/0.17.04/core-builtin.h /usr/src/debug/stress-ng/0.17.04/core-hash.c /usr/src/debug/stress-ng/0.17.04/core-config-check.c /usr/src/debug/stress-ng/0.17.04/stress-copy-file.c /usr/src/debug/stress-ng/0.17.04/stress-lockf.c /usr/src/debug/stress-ng/0.17.04/core-config-check.h /usr/src/debug/stress-ng/0.17.04/core-mounts.h /usr/src/debug/stress-ng/0.17.04/core-thermal-zone.h /usr/src/debug/stress-ng/0.17.04/stress-hdd.c /usr/src/debug/stress-ng/0.17.04/stress-pci.c /usr/src/debug/stress-ng/0.17.04/core-mounts.c /usr/src/debug/stress-ng/0.17.04/core-thermal-zone.c /usr/src/debug/stress-ng/0.17.04/stress-mmap.c /usr/src/debug/stress-ng/0.17.04/stress-env.c /usr/src/debug/stress-ng/0.17.04/stress-llc-affinity.c /usr/src/debug/stress-
+ ng/0.17.04/stress-chroot.c /usr/src/debug/stress-ng/0.17.04/stress-verity.c /usr/src/debug/stress-ng/0.17.04/stress-netlink-task.c /usr/src/debug/stress-ng/0.17.04/stress-aiol.c /usr/src/debug/stress-ng/0.17.04/stress-shellsort.c /usr/src/debug/stress-ng/0.17.04/stress-hsearch.c /usr/src/debug/stress-ng/0.17.04/stress-branch.c /usr/src/debug/stress-ng/0.17.04/stress-zero.c /usr/src/debug/stress-ng/0.17.04/core-io-priority.c /usr/src/debug/stress-ng/0.17.04/core-processes.h /usr/src/debug/stress-ng/0.17.04/stress-open.c /usr/src/debug/stress-ng/0.17.04/core-io-priority.h /usr/src/debug/stress-ng/0.17.04/core-processes.c /usr/src/debug/stress-ng/0.17.04/core-opts.h /usr/src/debug/stress-ng/0.17.04/stress-sigxfsz.c /usr/src/debug/stress-ng/0.17.04/stress-link.c /usr/src/debug/stress-ng/0.17.04/core-opts.c /usr/src/debug/stress-ng/0.17.04/stress-sem-sysv.c /usr/src/debug/stress-ng/0.17.04/stress-sendfile.c /usr/src/debug/stress-ng/0.17.04/stress-personality.c /usr/src/debug/stress-ng/0.
+ 17.04/stress-set.c /usr/src/debug/stress-ng/0.17.04/stress-icache.c /usr/src/debug/stress-ng/0.17.04/stress-dekker.c /usr/src/debug/stress-ng/0.17.04/stress-sigq.c /usr/src/debug/stress-ng/0.17.04/stress-wait.c /usr/src/debug/stress-ng/0.17.04/stress-enosys.c /usr/src/debug/stress-ng/0.17.04/stress-vm.c /usr/src/debug/stress-ng/0.17.04/core-mlock.h /usr/src/debug/stress-ng/0.17.04/stress-race-sched.c /usr/src/debug/stress-ng/0.17.04/stress-chattr.c /usr/src/debug/stress-ng/0.17.04/stress-sigfd.c /usr/src/debug/stress-ng/0.17.04/core-mlock.c /usr/src/debug/stress-ng/0.17.04/stress-cache.c /usr/src/debug/stress-ng/0.17.04/stress-str.c /usr/src/debug/stress-ng/0.17.04/stress-mmapaddr.c /usr/src/debug/stress-ng/0.17.04/stress-mmapfork.c /usr/src/debug/stress-ng/0.17.04/stress-mmaphuge.c /usr/src/debug/stress-ng/0.17.04/stress-mmapmany.c /usr/src/debug/stress-ng/0.17.04/stress-timer.c /usr/src/debug/stress-ng/0.17.04/stress-msync.c /usr/src/debug/stress-ng/0.17.04/stress-nanosleep.c /usr
+ /src/debug/stress-ng/0.17.04/stress-vm-rw.c /usr/src/debug/stress-ng/0.17.04/stress-membarrier.c /usr/src/debug/stress-ng/0.17.04/stress-randlist.c /usr/src/debug/stress-ng/0.17.04/stress-eigen.c /usr/src/debug/stress-ng/0.17.04/stress-tree.c /usr/src/debug/stress-ng/0.17.04/stress-landlock.c /usr/src/debug/stress-ng/0.17.04/stress-pipe.c /usr/src/debug/stress-ng/0.17.04/stress-memhotplug.c /usr/src/debug/stress-ng/0.17.04/stress-key.c /usr/src/debug/stress-ng/0.17.04/core-lock.h /usr/src/debug/stress-ng/0.17.04/stress-flushcache.c /usr/src/debug/stress-ng/0.17.04/core-lock.c /usr/src/debug/stress-ng/0.17.04/stress-chmod.c /usr/src/debug/stress-ng/0.17.04/stress-xattr.c /usr/src/debug/stress-ng/0.17.04/stress-daemon.c /usr/src/debug/stress-ng/0.17.04/stress-tsearch.c /usr/src/debug/stress-ng/0.17.04/stress-plugin.c /usr/src/debug/stress-ng/0.17.04/stress-binderfs.c /usr/src/debug/stress-ng/0.17.04/core-smart.h /usr/src/debug/stress-ng/0.17.04/stress-l1cache.c /usr/src/debug/stress-n
+ g/0.17.04/core-smart.c /usr/src/debug/stress-ng/0.17.04/stress-fallocate.c /usr/src/debug/stress-ng/0.17.04/core-ignite-cpu.h /usr/src/debug/stress-ng/0.17.04/core-ignite-cpu.c /usr/src/debug/stress-ng/0.17.04/stress-resources.c /usr/src/debug/stress-ng/0.17.04/stress-fanotify.c /usr/src/debug/stress-ng/0.17.04/stress-filename.c /usr/src/debug/stress-ng/0.17.04/stress-module.c /usr/src/debug/stress-ng/0.17.04/stress-seccomp.c /usr/src/debug/stress-ng/0.17.04/stress-session.c /usr/src/debug/stress-ng/0.17.04/stress-swap.c /usr/src/debug/stress-ng/0.17.04/stress-udp.c /usr/src/debug/stress-ng/0.17.04/stress-mremap.c /usr/src/debug/stress-ng/0.17.04/stress-dynlib.c /usr/src/debug/stress-ng/0.17.04/stress-ioport.c /usr/src/debug/stress-ng/0.17.04/stress-vm-splice.c /usr/src/debug/stress-ng/0.17.04/stress-bsearch.c /usr/src/debug/stress-ng/0.17.04/stress-sigsuspend.c /usr/src/debug/stress-ng/0.17.04/stress-icmp-flood.c /usr/src/debug/stress-ng/0.17.04/core-killpid.c /usr/src/debug/stress
+ -ng/0.17.04/core-killpid.h /usr/src/debug/stress-ng/0.17.04/stress-chdir.c /usr/src/debug/stress-ng/0.17.04/stress-acl.c /usr/src/debug/stress-ng/0.17.04/stress-atomic.c /usr/src/debug/stress-ng/0.17.04/stress-iomix.c /usr/src/debug/stress-ng/0.17.04/stress-vforkmany.c /usr/src/debug/stress-ng/0.17.04/stress-eventfd.c /usr/src/debug/stress-ng/0.17.04/stress-rmap.c /usr/src/debug/stress-ng/0.17.04/stress-urandom.c /usr/src/debug/stress-ng/0.17.04/stress-dup.c /usr/src/debug/stress-ng/0.17.04/stress-fp.c /usr/src/debug/stress-ng/0.17.04/stress-getrandom.c /usr/src/debug/stress-ng/0.17.04/stress-zlib.c /usr/src/debug/stress-ng/0.17.04/stress-radixsort.c /usr/src/debug/stress-ng/0.17.04/stress-zombie.c /usr/src/debug/stress-ng/0.17.04/core-net.h /usr/src/debug/stress-ng/0.17.04/core-put.h /usr/src/debug/stress-ng/0.17.04/core-net.c /usr/src/debug/stress-ng/0.17.04/stress-mutex.c /usr/src/debug/stress-ng/0.17.04/stress-sysbadaddr.c /usr/src/debug/stress-ng/0.17.04/stress-pagemove.c /usr/
+ src/debug/stress-ng/0.17.04/stress-pageswap.c /usr/src/debug/stress-ng/0.17.04/stress-pipeherd.c /usr/src/debug/stress-ng/0.17.04/stress-cyclic.c /usr/src/debug/stress-ng/0.17.04/stress-rawdev.c /usr/src/debug/stress-ng/0.17.04/core-job.h /usr/src/debug/stress-ng/0.17.04/stress-signal.c /usr/src/debug/stress-ng/0.17.04/core-job.c /usr/src/debug/stress-ng/0.17.04/stress-kvm.c /usr/src/debug/stress-ng/0.17.04/stress-sync-file.c /usr/src/debug/stress-ng/0.17.04/stress-spawn.c /usr/src/debug/stress-ng/0.17.04/stress-rawpkt.c /usr/src/debug/stress-ng/0.17.04/stress-cpu.c /usr/src/debug/stress-ng/0.17.04/stress-fp-error.c /usr/src/debug/stress-ng/0.17.04/stress-epoll.c /usr/src/debug/stress-ng/0.17.04/stress-fork.c /usr/src/debug/stress-ng/0.17.04/stress-io-uring.c /usr/src/debug/stress-ng/0.17.04/stress-sockdiag.c /usr/src/debug/stress-ng/0.17.04/stress-sockmany.c /usr/src/debug/stress-ng/0.17.04/stress-sockpair.c /usr/src/debug/stress-ng/0.17.04/stress-priv-instr.c /usr/src/debug/stress
+ -ng/0.17.04/stress-af-alg.c /usr/src/debug/stress-ng/0.17.04/stress-flock.c /usr/src/debug/stress-ng/0.17.04/stress-workload.c /usr/src/debug/stress-ng/0.17.04/stress-stream.c /usr/src/debug/stress-ng/0.17.04/stress-vm-segv.c /usr/src/debug/stress-ng/0.17.04/stress-vecmath.c /usr/src/debug/stress-ng/0.17.04/stress-vecshuf.c /usr/src/debug/stress-ng/0.17.04/stress-vecwide.c /usr/src/debug/stress-ng/0.17.04/stress-vm-addr.c /usr/src/debug/stress-ng/0.17.04/stress-smi.c /usr/src/debug/stress-ng/0.17.04/stress-trig.c /usr/src/debug/stress-ng/0.17.04/core-klog.c /usr/src/debug/stress-ng/0.17.04/stress-munmap.c /usr/src/debug/stress-ng/0.17.04/stress-inode-flags.c /usr/src/debug/stress-ng/0.17.04/core-klog.h /usr/src/debug/stress-ng/0.17.04/stress-tsc.c /usr/src/debug/stress-ng/0.17.04/core-sched.c /usr/src/debug/stress-ng/0.17.04/core-shared-heap.h /usr/src/debug/stress-ng/0.17.04/stress-memrate.c /usr/src/debug/stress-ng/0.17.04/stress-metamix.c /usr/src/debug/stress-ng/0.17.04/core-sha
+ red-heap.c /usr/src/debug/stress-ng/0.17.04/core-sched.h /usr/src/debug/stress-ng/0.17.04/stress-clock.c /usr/src/debug/stress-ng/0.17.04/stress-bind-mount.c /usr/src/debug/stress-ng/0.17.04/core-parse-opts.c /usr/src/debug/stress-ng/0.17.04/stress-io.c /usr/src/debug/stress-ng/0.17.04/stress-sigrt.c /usr/src/debug/stress-ng/0.17.04/core-parse-opts.h /usr/src/debug/stress-ng/0.17.04/stress-far-branch.c /usr/src/debug/stress-ng/0.17.04/stress-sleep.c /usr/src/debug/stress-ng/0.17.04/stress-oom-pipe.c /usr/src/debug/stress-ng/0.17.04/stress-seal.c /usr/src/debug/stress-ng/0.17.04/stress-malloc.c /usr/src/debug/stress-ng/0.17.04/stress-fma.c /usr/src/debug/stress-ng/0.17.04/stress-x86cpuid.c /usr/src/debug/stress-ng/0.17.04/core-vmstat.c /usr/src/debug/stress-ng/0.17.04/stress-physpage.c /usr/src/debug/stress-ng/0.17.04/core-vmstat.h /usr/src/debug/stress-ng/0.17.04/stress-softlockup.c /usr/src/debug/stress-ng/0.17.04/stress-dev-shm.c /usr/src/debug/stress-ng/0.17.04/core-madvise.h /us
+ r/src/debug/stress-ng/0.17.04/stress-sctp.c /usr/src/debug/stress-ng/0.17.04/core-madvise.c /usr/src/debug/stress-ng/0.17.04/stress-stack.c /usr/src/debug/stress-ng/0.17.04/stress-timerfd.c /usr/src/debug/stress-ng/0.17.04/core-shim.h /usr/src/debug/stress-ng/0.17.04/stress-klog.c /usr/src/debug/stress-ng/0.17.04/core-affinity.c /usr/src/debug/stress-ng/0.17.04/core-numa.c /usr/src/debug/stress-ng/0.17.04/stress-userfaultfd.c /usr/src/debug/stress-ng/0.17.04/stress-loadavg.c /usr/src/debug/stress-ng/0.17.04/stress-lockbus.c /usr/src/debug/stress-ng/0.17.04/core-numa.h /usr/src/debug/stress-ng/0.17.04/core-shim.c /usr/src/debug/stress-ng/0.17.04/core-affinity.h /usr/src/debug/stress-ng/0.17.04/stress-lockofd.c /usr/src/debug/stress-ng/0.17.04/stress-longjmp.c /usr/src/debug/stress-ng/0.17.04/core-ftrace.c /usr/src/debug/stress-ng/0.17.04/stress-file-ioctl.c /usr/src/debug/stress-ng/0.17.04/core-ftrace.h /usr/src/debug/stress-ng/0.17.04/stress-vdso.c /usr/src/debug/stress-ng/0.17.04/s
+ tress-pthread.c /usr/src/debug/stress-ng/0.17.04/core-time.c /usr/src/debug/stress-ng/0.17.04/stress-context.c /usr/src/debug/stress-ng/0.17.04/stress-udp-flood.c /usr/src/debug/stress-ng/0.17.04/core-time.h /usr/src/debug/stress-ng/0.17.04/stress-sem.c /usr/src/debug/stress-ng/0.17.04/stress-mq.c /usr/src/debug/stress-ng/0.17.04/stress-netdev.c /usr/src/debug/stress-ng/0.17.04/stress-reboot.c /usr/src/debug/stress-ng/0.17.04/core-helper.c /usr/src/debug/stress-ng/0.17.04/core-helper.h /usr/src/debug/stress-ng/0.17.04/core-config.c /usr/src/debug/stress-ng/0.17.04/stress-stackmmap.c /usr/src/debug/stress-ng/0.17.04/stress-crypt.c /usr/src/debug/stress-ng/0.17.04/stress-matrix-3d.c /usr/src/debug/stress-ng/0.17.04/stress-dccp.c /usr/src/debug/stress-ng/0.17.04/stress-bigheap.c /usr/src/debug/stress-ng/0.17.04/stress-resched.c /usr/src/debug/stress-ng/0.17.04/stress-utime.c /usr/src/debug/stress-ng/0.17.04/stress-access.c /usr/src/debug/stress-ng/0.17.04/core-bitops.h /usr/src/debug/s
+ tress-ng/0.17.04/stress-splice.c /usr/src/debug/stress-ng/0.17.04/stress-forkheavy.c /usr/src/debug/stress-ng/0.17.04/stress-hrtimers.c /usr/src/debug/stress-ng/0.17.04/stress-umount.c /usr/src/debug/stress-ng/0.17.04/stress-affinity.c /usr/src/debug/stress-ng/0.17.04/stress-vnni.c /usr/src/debug/stress-ng/0.17.04/stress-pty.c /usr/src/debug/stress-ng/0.17.04/stress-handle.c /usr/src/debug/stress-ng/0.17.04/stress-rotate.c /usr/src/debug/stress-ng/0.17.04/stress-dnotify.c /usr/src/debug/stress-ng/0.17.04/stress-get.c /usr/src/debug/stress-ng/0.17.04/stress-sockabuse.c /usr/src/debug/stress-ng/0.17.04/core-asm-generic.h /usr/src/debug/stress-ng/0.17.04/stress-getdent.c /usr/src/debug/stress-ng/0.17.04/stress-bad-altstack.c /usr/src/debug/stress-ng/0.17.04/stress-syncload.c /usr/src/debug/stress-ng/0.17.04/stress-sysinval.c /usr/src/debug/stress-ng/0.17.04/core-out-of-memory.h /usr/src/debug/stress-ng/0.17.04/stress-waitcpu.c /usr/src/debug/stress-ng/0.17.04/core-out-of-memory.c /usr/
+ src/debug/stress-ng/0.17.04/stress-clone.c /usr/src/debug/stress-ng/0.17.04/stress-yield.c /usr/src/debug/stress-ng/0.17.04/stress-gpu.c /usr/src/debug/stress-ng/0.17.04/stress-nice.c /usr/src/debug/stress-ng/0.17.04/stress-watchdog.c /usr/src/debug/stress-ng/0.17.04/stress-misaligned.c /usr/src/debug/stress-ng/0.17.04/stress-rseq.c /usr/src/debug/stress-ng/0.17.04/stress-loop.c /usr/src/debug/stress-ng/0.17.04/stress-vecfp.c /usr/src/debug/stress-ng/0.17.04/stress-quota.c /usr/src/debug/stress-ng/0.17.04/core-mmap.c /usr/src/debug/stress-ng/0.17.04/stress-usersyscall.c /usr/src/debug/stress-ng/0.17.04/core-limit.h /usr/src/debug/stress-ng/0.17.04/core-mmap.h /usr/src/debug/stress-ng/0.17.04/stress-heapsort.c /usr/src/debug/stress-ng/0.17.04/core-limit.c /usr/src/debug/stress-ng/0.17.04/core-cpu-cache.c /usr/src/debug/stress-ng/0.17.04/core-sort.c /usr/src/debug/stress-ng/0.17.04/stress-cpu-online.c /usr/src/debug/stress-ng/0.17.04/stress-schedpolicy.c /usr/src/debug/stress-ng/0.17.
+ 04/core-cpu-cache.h /usr/src/debug/stress-ng/0.17.04/core-sort.h /usr/src/debug/stress-ng/0.17.04/stress-inotify.c /usr/src/debug/stress-ng/0.17.04/stress-locka.c /usr/src/debug/stress-ng/0.17.04/stress-dir.c /usr/src/debug/stress-ng/0.17.04/core-interrupts.c /usr/src/debug/stress-ng/0.17.04/stress-mknod.c /usr/src/debug/stress-ng/0.17.04/stress-prefetch.c /usr/src/debug/stress-ng/0.17.04/stress-vma.c /usr/src/debug/stress-ng/0.17.04/core-interrupts.h /usr/src/debug/stress-ng/0.17.04/stress-brk.c /usr/src/debug/stress-ng/0.17.04/stress-secretmem.c /usr/src/debug/stress-ng/0.17.04/core-setting.c /usr/src/debug/stress-ng/0.17.04/core-thrash.h /usr/src/debug/stress-ng/0.17.04/core-thrash.c /usr/src/debug/stress-ng/0.17.04/core-setting.h /usr/src/debug/stress-ng/0.17.04/stress-funccall.c /usr/src/debug/stress-ng/0.17.04/stress-sigio.c /usr/src/debug/stress-ng/0.17.04/stress-ipsec-mb.c /usr/src/debug/stress-ng/0.17.04/stress-shm-sysv.c /usr/src/debug/stress-ng/0.17.04/stress-syscall.c /u
+ sr/src/debug/stress-ng/0.17.04/stress-sysinfo.c /usr/src/debug/stress-ng/0.17.04/stress-sigabrt.c /usr/src/debug/stress-ng/0.17.04/stress-sigchld.c /usr/src/debug/stress-ng/0.17.04/stress-signest.c /usr/src/debug/stress-ng/0.17.04/stress-sigpipe.c /usr/src/debug/stress-ng/0.17.04/stress-sigsegv.c /usr/src/debug/stress-ng/0.17.04/stress-goto.c /usr/src/debug/stress-ng/0.17.04/stress-sigtrap.c /usr/src/debug/stress-ng/0.17.04/stress-sigxcpu.c /usr/src/debug/stress-ng/0.17.04/core-cpuidle.c /usr/src/debug/stress-ng/0.17.04/stress-sockfd.c /usr/src/debug/stress-ng/0.17.04/stress-uprobe.c /usr/src/debug/stress-ng/0.17.04/stress-itimer.c /usr/src/debug/stress-ng/0.17.04/core-cpuidle.h /usr/src/debug/stress-ng/0.17.04/stress-ping-sock.c /usr/src/debug/stress-ng/0.17.04/stress-rename.c /usr/src/debug/stress-ng/0.17.04/core-cpu.c /usr/src/debug/stress-ng/0.17.04/stress-msyncmany.c /usr/src/debug/stress-ng/0.17.04/core-cpu.h /usr/src/debug/stress-ng/0.17.04/stress-kill.c /usr/src/debug/stress
+ -ng/0.17.04/stress-tun.c /usr/src/debug/stress-ng/0.17.04/stress-matrix.c /usr/src/debug/stress-ng/0.17.04/stress-efivar.c /usr/src/debug/stress-ng/0.17.04/core-mwc.h /usr/src/debug/stress-ng/0.17.04/core-mwc.c /usr/src/debug/stress-ng/0.17.04/stress-close.c /usr/src/debug/stress-ng/0.17.04/core-try-open.c /usr/src/debug/stress-ng/0.17.04/stress-mprotect.c /usr/src/debug/stress-ng/0.17.04/core-log.c /usr/src/debug/stress-ng/0.17.04/stress-ptrace.c /usr/src/debug/stress-ng/0.17.04/stress-ramfs.c /usr/src/debug/stress-ng/0.17.04/core-try-open.h /usr/src/debug/stress-ng/0.17.04/stress-fsize.c /usr/src/debug/stress-ng/0.17.04/core-log.h /usr/src/debug/stress-ng/0.17.04/stress-fstat.c /usr/src/debug/stress-ng/0.17.04/stress-futex.c /usr/src/debug/stress-ng/0.17.04/core-clocksource.h /usr/src/debug/stress-ng/0.17.04/stress-dentry.c /usr/src/debug/stress-ng/0.17.04/core-clocksource.c /usr/src/debug/stress-ng/0.17.04/stress-pkey.c /usr/src/debug/stress-ng/0.17.04/stress-apparmor.c /usr/src/
+ debug/stress-ng/0.17.04/stress-unshare.c /usr/src/debug/stress-ng/0.17.04/stress-rdrand.c /usr/src/debug/stress-ng/0.17.04/core-perf.c /usr/src/debug/stress-ng/0.17.04/stress-poll.c /usr/src/debug/stress-ng/0.17.04/stress-cacheline.c /usr/src/debug/stress-ng/0.17.04/core-perf.h /usr/src/debug/stress-ng/0.17.04/core-module.c /usr/src/debug/stress-ng/0.17.04/stress-nop.c /usr/src/debug/stress-ng/0.17.04/core-module.h /usr/src/debug/stress-ng/0.17.04/core-pthread.h /usr/src/debug/stress-ng/0.17.04/stress-kcmp.c", added "/usr/src/debug/stress-ng/0.17.05/stress-ioprio.c /usr/src/debug/stress-ng/0.17.05/stress-sigpending.c /usr/src/debug/stress-ng/0.17.05/stress-led.c /usr/src/debug/stress-ng/0.17.05/core-mincore.c /usr/src/debug/stress-ng/0.17.05/stress-peterson.c /usr/src/debug/stress-ng/0.17.05/core-mincore.h /usr/src/debug/stress-ng/0.17.05/stress-rlimit.c /usr/src/debug/stress-ng/0.17.05/stress-regs.c /usr/src/debug/stress-ng/0.17.05/stress-fcntl.c /usr/src/debug/stress-ng/0.17.05/st
+ ress-tlb-shootdown.c /usr/src/debug/stress-ng/0.17.05/stress-judy.c /usr/src/debug/stress-ng/0.17.05/stress-remap.c /usr/src/debug/stress-ng/0.17.05/core-asm-x86.h /usr/src/debug/stress-ng/0.17.05/stress-fifo.c /usr/src/debug/stress-ng/0.17.05/stress-procfs.c /usr/src/debug/stress-ng/0.17.05/stress-fiemap.c /usr/src/debug/stress-ng/0.17.05/stress-msg.c /usr/src/debug/stress-ng/0.17.05/stress-schedmix.c /usr/src/debug/stress-ng/0.17.05/stress-skiplist.c /usr/src/debug/stress-ng/0.17.05/stress-exit-group.c /usr/src/debug/stress-ng/0.17.05/stress-fpunch.c /usr/src/debug/stress-ng/0.17.05/core-nt-store.h /usr/src/debug/stress-ng/0.17.05/stress-ring-pipe.c /usr/src/debug/stress-ng/0.17.05/stress-tee.c /usr/src/debug/stress-ng/0.17.05/stress-chown.c /usr/src/debug/stress-ng/0.17.05/stress-bad-ioctl.c /usr/src/debug/stress-ng/0.17.05/stress-cgroup.c /usr/src/debug/stress-ng/0.17.05/stress-mlockmany.c /usr/src/debug/stress-ng/0.17.05/stress-touch.c /usr/src/debug/stress-ng/0.17.05/stress-fu
+ ncret.c /usr/src/debug/stress-ng/0.17.05/stress-netlink-proc.c /usr/src/debug/stress-ng/0.17.05/stress-list.c /usr/src/debug/stress-ng/0.17.05/stress-idle-page.c /usr/src/debug/stress-ng/0.17.05/stress-memcpy.c /usr/src/debug/stress-ng/0.17.05/stress-pidfd.c /usr/src/debug/stress-ng/0.17.05/stress-mlock.c /usr/src/debug/stress-ng/0.17.05/stress-mpfr.c /usr/src/debug/stress-ng/0.17.05/stress-opcode.c /usr/src/debug/stress-ng/0.17.05/stress-jpeg.c /usr/src/debug/stress-ng/0.17.05/stress-sigfpe.c /usr/src/debug/stress-ng/0.17.05/stress-rawudp.c /usr/src/debug/stress-ng/0.17.05/stress-mcontend.c /usr/src/debug/stress-ng/0.17.05/stress-madvise.c /usr/src/debug/stress-ng/0.17.05/stress-mincore.c /usr/src/debug/stress-ng/0.17.05/stress-sock.c /usr/src/debug/stress-ng/0.17.05/stress-sparsematrix.c /usr/src/debug/stress-ng/0.17.05/stress-qsort.c /usr/src/debug/stress-ng/0.17.05/stress-sigbus.c /usr/src/debug/stress-ng/0.17.05/stress-mergesort.c /usr/src/debug/stress-ng/0.17.05/stress-fault.c
+  /usr/src/debug/stress-ng/0.17.05/stress-sysfs.c /usr/src/debug/stress-ng/0.17.05/stress-seek.c /usr/src/debug/stress-ng/0.17.05/stress-full.c /usr/src/debug/stress-ng/0.17.05/stress-numa.c /usr/src/debug/stress-ng/0.17.05/stress-ng.c /usr/src/debug/stress-ng/0.17.05/stress-ng.h /usr/src/debug/stress-ng/0.17.05/stress-prctl.c /usr/src/debug/stress-ng/0.17.05/stress-dirdeep.c /usr/src/debug/stress-ng/0.17.05/stress-dirmany.c /usr/src/debug/stress-ng/0.17.05/stress-readahead.c /usr/src/debug/stress-ng/0.17.05/stress-x86syscall.c /usr/src/debug/stress-ng/0.17.05/stress-cap.c /usr/src/debug/stress-ng/0.17.05/stress-alarm.c /usr/src/debug/stress-ng/0.17.05/stress-rtc.c /usr/src/debug/stress-ng/0.17.05/stress-exec.c /usr/src/debug/stress-ng/0.17.05/stress-lsearch.c /usr/src/debug/stress-ng/0.17.05/stress-switch.c /usr/src/debug/stress-ng/0.17.05/stress-lease.c /usr/src/debug/stress-ng/0.17.05/stress-null.c /usr/src/debug/stress-ng/0.17.05/stress-aio.c /usr/src/debug/stress-ng/0.17.05/stre
+ ss-memfd.c /usr/src/debug/stress-ng/0.17.05/core-resources.h /usr/src/debug/stress-ng/0.17.05/core-resources.c /usr/src/debug/stress-ng/0.17.05/core-asm-ret.h /usr/src/debug/stress-ng/0.17.05/stress-revio.c /usr/src/debug/stress-ng/0.17.05/core-asm-ret.c /usr/src/debug/stress-ng/0.17.05/stress-mmapfixed.c /usr/src/debug/stress-ng/0.17.05/stress-wcs.c /usr/src/debug/stress-ng/0.17.05/stress-tmpfs.c /usr/src/debug/stress-ng/0.17.05/stress-shm.c /usr/src/debug/stress-ng/0.17.05/stress-dev.c /usr/src/debug/stress-ng/0.17.05/stress-rawsock.c /usr/src/debug/stress-ng/0.17.05/stress-memthrash.c /usr/src/debug/stress-ng/0.17.05/stress-hash.c /usr/src/debug/stress-ng/0.17.05/core-hash.h /usr/src/debug/stress-ng/0.17.05/core-builtin.h /usr/src/debug/stress-ng/0.17.05/core-hash.c /usr/src/debug/stress-ng/0.17.05/core-config-check.c /usr/src/debug/stress-ng/0.17.05/stress-copy-file.c /usr/src/debug/stress-ng/0.17.05/stress-lockf.c /usr/src/debug/stress-ng/0.17.05/core-config-check.h /usr/src/de
+ bug/stress-ng/0.17.05/core-mounts.h /usr/src/debug/stress-ng/0.17.05/core-thermal-zone.h /usr/src/debug/stress-ng/0.17.05/stress-hdd.c /usr/src/debug/stress-ng/0.17.05/stress-pci.c /usr/src/debug/stress-ng/0.17.05/core-mounts.c /usr/src/debug/stress-ng/0.17.05/core-thermal-zone.c /usr/src/debug/stress-ng/0.17.05/stress-mmap.c /usr/src/debug/stress-ng/0.17.05/stress-env.c /usr/src/debug/stress-ng/0.17.05/stress-llc-affinity.c /usr/src/debug/stress-ng/0.17.05/stress-chroot.c /usr/src/debug/stress-ng/0.17.05/stress-verity.c /usr/src/debug/stress-ng/0.17.05/stress-netlink-task.c /usr/src/debug/stress-ng/0.17.05/stress-aiol.c /usr/src/debug/stress-ng/0.17.05/stress-shellsort.c /usr/src/debug/stress-ng/0.17.05/stress-hsearch.c /usr/src/debug/stress-ng/0.17.05/stress-branch.c /usr/src/debug/stress-ng/0.17.05/stress-zero.c /usr/src/debug/stress-ng/0.17.05/core-io-priority.c /usr/src/debug/stress-ng/0.17.05/core-processes.h /usr/src/debug/stress-ng/0.17.05/stress-open.c /usr/src/debug/stress
+ -ng/0.17.05/core-io-priority.h /usr/src/debug/stress-ng/0.17.05/core-processes.c /usr/src/debug/stress-ng/0.17.05/core-opts.h /usr/src/debug/stress-ng/0.17.05/stress-sigxfsz.c /usr/src/debug/stress-ng/0.17.05/stress-link.c /usr/src/debug/stress-ng/0.17.05/core-opts.c /usr/src/debug/stress-ng/0.17.05/stress-sem-sysv.c /usr/src/debug/stress-ng/0.17.05/stress-sendfile.c /usr/src/debug/stress-ng/0.17.05/stress-personality.c /usr/src/debug/stress-ng/0.17.05/stress-set.c /usr/src/debug/stress-ng/0.17.05/stress-icache.c /usr/src/debug/stress-ng/0.17.05/stress-dekker.c /usr/src/debug/stress-ng/0.17.05/stress-sigq.c /usr/src/debug/stress-ng/0.17.05/stress-wait.c /usr/src/debug/stress-ng/0.17.05/stress-enosys.c /usr/src/debug/stress-ng/0.17.05/stress-vm.c /usr/src/debug/stress-ng/0.17.05/core-mlock.h /usr/src/debug/stress-ng/0.17.05/stress-race-sched.c /usr/src/debug/stress-ng/0.17.05/stress-chattr.c /usr/src/debug/stress-ng/0.17.05/stress-sigfd.c /usr/src/debug/stress-ng/0.17.05/core-mlock.c
+  /usr/src/debug/stress-ng/0.17.05/stress-cache.c /usr/src/debug/stress-ng/0.17.05/stress-str.c /usr/src/debug/stress-ng/0.17.05/stress-mmapaddr.c /usr/src/debug/stress-ng/0.17.05/stress-mmapfork.c /usr/src/debug/stress-ng/0.17.05/stress-mmaphuge.c /usr/src/debug/stress-ng/0.17.05/stress-mmapmany.c /usr/src/debug/stress-ng/0.17.05/stress-timer.c /usr/src/debug/stress-ng/0.17.05/stress-msync.c /usr/src/debug/stress-ng/0.17.05/stress-nanosleep.c /usr/src/debug/stress-ng/0.17.05/stress-vm-rw.c /usr/src/debug/stress-ng/0.17.05/stress-membarrier.c /usr/src/debug/stress-ng/0.17.05/stress-randlist.c /usr/src/debug/stress-ng/0.17.05/stress-eigen.c /usr/src/debug/stress-ng/0.17.05/stress-tree.c /usr/src/debug/stress-ng/0.17.05/stress-landlock.c /usr/src/debug/stress-ng/0.17.05/stress-pipe.c /usr/src/debug/stress-ng/0.17.05/stress-memhotplug.c /usr/src/debug/stress-ng/0.17.05/stress-key.c /usr/src/debug/stress-ng/0.17.05/core-lock.h /usr/src/debug/stress-ng/0.17.05/stress-flushcache.c /usr/src
+ /debug/stress-ng/0.17.05/core-lock.c /usr/src/debug/stress-ng/0.17.05/stress-chmod.c /usr/src/debug/stress-ng/0.17.05/stress-xattr.c /usr/src/debug/stress-ng/0.17.05/stress-daemon.c /usr/src/debug/stress-ng/0.17.05/stress-tsearch.c /usr/src/debug/stress-ng/0.17.05/stress-plugin.c /usr/src/debug/stress-ng/0.17.05/stress-binderfs.c /usr/src/debug/stress-ng/0.17.05/core-smart.h /usr/src/debug/stress-ng/0.17.05/stress-l1cache.c /usr/src/debug/stress-ng/0.17.05/core-smart.c /usr/src/debug/stress-ng/0.17.05/stress-fallocate.c /usr/src/debug/stress-ng/0.17.05/core-ignite-cpu.h /usr/src/debug/stress-ng/0.17.05/core-ignite-cpu.c /usr/src/debug/stress-ng/0.17.05/stress-resources.c /usr/src/debug/stress-ng/0.17.05/stress-fanotify.c /usr/src/debug/stress-ng/0.17.05/stress-filename.c /usr/src/debug/stress-ng/0.17.05/stress-module.c /usr/src/debug/stress-ng/0.17.05/stress-seccomp.c /usr/src/debug/stress-ng/0.17.05/stress-session.c /usr/src/debug/stress-ng/0.17.05/stress-swap.c /usr/src/debug/stre
+ ss-ng/0.17.05/stress-udp.c /usr/src/debug/stress-ng/0.17.05/stress-mremap.c /usr/src/debug/stress-ng/0.17.05/stress-dynlib.c /usr/src/debug/stress-ng/0.17.05/stress-ioport.c /usr/src/debug/stress-ng/0.17.05/stress-vm-splice.c /usr/src/debug/stress-ng/0.17.05/stress-monte-carlo.c /usr/src/debug/stress-ng/0.17.05/stress-bsearch.c /usr/src/debug/stress-ng/0.17.05/stress-sigsuspend.c /usr/src/debug/stress-ng/0.17.05/stress-icmp-flood.c /usr/src/debug/stress-ng/0.17.05/core-killpid.c /usr/src/debug/stress-ng/0.17.05/core-killpid.h /usr/src/debug/stress-ng/0.17.05/stress-chdir.c /usr/src/debug/stress-ng/0.17.05/stress-acl.c /usr/src/debug/stress-ng/0.17.05/stress-atomic.c /usr/src/debug/stress-ng/0.17.05/stress-iomix.c /usr/src/debug/stress-ng/0.17.05/stress-vforkmany.c /usr/src/debug/stress-ng/0.17.05/stress-time-warp.c /usr/src/debug/stress-ng/0.17.05/stress-eventfd.c /usr/src/debug/stress-ng/0.17.05/stress-rmap.c /usr/src/debug/stress-ng/0.17.05/stress-urandom.c /usr/src/debug/stress-n
+ g/0.17.05/stress-dup.c /usr/src/debug/stress-ng/0.17.05/stress-fp.c /usr/src/debug/stress-ng/0.17.05/stress-getrandom.c /usr/src/debug/stress-ng/0.17.05/stress-zlib.c /usr/src/debug/stress-ng/0.17.05/stress-radixsort.c /usr/src/debug/stress-ng/0.17.05/stress-zombie.c /usr/src/debug/stress-ng/0.17.05/core-net.h /usr/src/debug/stress-ng/0.17.05/core-put.h /usr/src/debug/stress-ng/0.17.05/core-net.c /usr/src/debug/stress-ng/0.17.05/stress-mutex.c /usr/src/debug/stress-ng/0.17.05/stress-sysbadaddr.c /usr/src/debug/stress-ng/0.17.05/stress-pagemove.c /usr/src/debug/stress-ng/0.17.05/stress-pageswap.c /usr/src/debug/stress-ng/0.17.05/stress-pipeherd.c /usr/src/debug/stress-ng/0.17.05/stress-cyclic.c /usr/src/debug/stress-ng/0.17.05/stress-rawdev.c /usr/src/debug/stress-ng/0.17.05/core-job.h /usr/src/debug/stress-ng/0.17.05/stress-signal.c /usr/src/debug/stress-ng/0.17.05/core-job.c /usr/src/debug/stress-ng/0.17.05/stress-kvm.c /usr/src/debug/stress-ng/0.17.05/stress-sync-file.c /usr/src/d
+ ebug/stress-ng/0.17.05/stress-spawn.c /usr/src/debug/stress-ng/0.17.05/stress-rawpkt.c /usr/src/debug/stress-ng/0.17.05/stress-cpu.c /usr/src/debug/stress-ng/0.17.05/stress-fp-error.c /usr/src/debug/stress-ng/0.17.05/stress-epoll.c /usr/src/debug/stress-ng/0.17.05/stress-fork.c /usr/src/debug/stress-ng/0.17.05/stress-io-uring.c /usr/src/debug/stress-ng/0.17.05/stress-sockdiag.c /usr/src/debug/stress-ng/0.17.05/stress-sockmany.c /usr/src/debug/stress-ng/0.17.05/stress-sockpair.c /usr/src/debug/stress-ng/0.17.05/stress-priv-instr.c /usr/src/debug/stress-ng/0.17.05/stress-af-alg.c /usr/src/debug/stress-ng/0.17.05/stress-flock.c /usr/src/debug/stress-ng/0.17.05/stress-workload.c /usr/src/debug/stress-ng/0.17.05/stress-stream.c /usr/src/debug/stress-ng/0.17.05/stress-vm-segv.c /usr/src/debug/stress-ng/0.17.05/stress-vecmath.c /usr/src/debug/stress-ng/0.17.05/stress-vecshuf.c /usr/src/debug/stress-ng/0.17.05/stress-vecwide.c /usr/src/debug/stress-ng/0.17.05/stress-vm-addr.c /usr/src/debug
+ /stress-ng/0.17.05/stress-smi.c /usr/src/debug/stress-ng/0.17.05/stress-trig.c /usr/src/debug/stress-ng/0.17.05/core-klog.c /usr/src/debug/stress-ng/0.17.05/stress-munmap.c /usr/src/debug/stress-ng/0.17.05/stress-inode-flags.c /usr/src/debug/stress-ng/0.17.05/core-klog.h /usr/src/debug/stress-ng/0.17.05/stress-tsc.c /usr/src/debug/stress-ng/0.17.05/core-sched.c /usr/src/debug/stress-ng/0.17.05/core-shared-heap.h /usr/src/debug/stress-ng/0.17.05/stress-memrate.c /usr/src/debug/stress-ng/0.17.05/stress-metamix.c /usr/src/debug/stress-ng/0.17.05/core-shared-heap.c /usr/src/debug/stress-ng/0.17.05/core-sched.h /usr/src/debug/stress-ng/0.17.05/stress-clock.c /usr/src/debug/stress-ng/0.17.05/stress-bind-mount.c /usr/src/debug/stress-ng/0.17.05/core-parse-opts.c /usr/src/debug/stress-ng/0.17.05/stress-io.c /usr/src/debug/stress-ng/0.17.05/stress-sigrt.c /usr/src/debug/stress-ng/0.17.05/core-parse-opts.h /usr/src/debug/stress-ng/0.17.05/stress-far-branch.c /usr/src/debug/stress-ng/0.17.05/s
+ tress-sleep.c /usr/src/debug/stress-ng/0.17.05/stress-oom-pipe.c /usr/src/debug/stress-ng/0.17.05/stress-seal.c /usr/src/debug/stress-ng/0.17.05/stress-malloc.c /usr/src/debug/stress-ng/0.17.05/stress-fma.c /usr/src/debug/stress-ng/0.17.05/stress-x86cpuid.c /usr/src/debug/stress-ng/0.17.05/core-vmstat.c /usr/src/debug/stress-ng/0.17.05/stress-physpage.c /usr/src/debug/stress-ng/0.17.05/core-vmstat.h /usr/src/debug/stress-ng/0.17.05/stress-softlockup.c /usr/src/debug/stress-ng/0.17.05/stress-dev-shm.c /usr/src/debug/stress-ng/0.17.05/core-madvise.h /usr/src/debug/stress-ng/0.17.05/stress-sctp.c /usr/src/debug/stress-ng/0.17.05/core-madvise.c /usr/src/debug/stress-ng/0.17.05/stress-stack.c /usr/src/debug/stress-ng/0.17.05/stress-timerfd.c /usr/src/debug/stress-ng/0.17.05/core-shim.h /usr/src/debug/stress-ng/0.17.05/stress-klog.c /usr/src/debug/stress-ng/0.17.05/core-affinity.c /usr/src/debug/stress-ng/0.17.05/core-numa.c /usr/src/debug/stress-ng/0.17.05/stress-userfaultfd.c /usr/src/d
+ ebug/stress-ng/0.17.05/stress-loadavg.c /usr/src/debug/stress-ng/0.17.05/stress-lockbus.c /usr/src/debug/stress-ng/0.17.05/core-numa.h /usr/src/debug/stress-ng/0.17.05/core-shim.c /usr/src/debug/stress-ng/0.17.05/core-affinity.h /usr/src/debug/stress-ng/0.17.05/stress-lockofd.c /usr/src/debug/stress-ng/0.17.05/stress-longjmp.c /usr/src/debug/stress-ng/0.17.05/core-ftrace.c /usr/src/debug/stress-ng/0.17.05/stress-file-ioctl.c /usr/src/debug/stress-ng/0.17.05/core-ftrace.h /usr/src/debug/stress-ng/0.17.05/stress-vdso.c /usr/src/debug/stress-ng/0.17.05/stress-pthread.c /usr/src/debug/stress-ng/0.17.05/stress-factor.c /usr/src/debug/stress-ng/0.17.05/core-time.c /usr/src/debug/stress-ng/0.17.05/stress-context.c /usr/src/debug/stress-ng/0.17.05/stress-udp-flood.c /usr/src/debug/stress-ng/0.17.05/core-time.h /usr/src/debug/stress-ng/0.17.05/stress-sem.c /usr/src/debug/stress-ng/0.17.05/stress-mq.c /usr/src/debug/stress-ng/0.17.05/stress-netdev.c /usr/src/debug/stress-ng/0.17.05/stress-reb
+ oot.c /usr/src/debug/stress-ng/0.17.05/core-helper.c /usr/src/debug/stress-ng/0.17.05/core-helper.h /usr/src/debug/stress-ng/0.17.05/core-config.c /usr/src/debug/stress-ng/0.17.05/stress-stackmmap.c /usr/src/debug/stress-ng/0.17.05/stress-crypt.c /usr/src/debug/stress-ng/0.17.05/stress-matrix-3d.c /usr/src/debug/stress-ng/0.17.05/stress-dccp.c /usr/src/debug/stress-ng/0.17.05/stress-bigheap.c /usr/src/debug/stress-ng/0.17.05/stress-resched.c /usr/src/debug/stress-ng/0.17.05/stress-utime.c /usr/src/debug/stress-ng/0.17.05/stress-access.c /usr/src/debug/stress-ng/0.17.05/core-bitops.h /usr/src/debug/stress-ng/0.17.05/stress-splice.c /usr/src/debug/stress-ng/0.17.05/stress-forkheavy.c /usr/src/debug/stress-ng/0.17.05/stress-hrtimers.c /usr/src/debug/stress-ng/0.17.05/stress-umount.c /usr/src/debug/stress-ng/0.17.05/stress-affinity.c /usr/src/debug/stress-ng/0.17.05/stress-vnni.c /usr/src/debug/stress-ng/0.17.05/stress-pty.c /usr/src/debug/stress-ng/0.17.05/stress-handle.c /usr/src/debu
+ g/stress-ng/0.17.05/stress-rotate.c /usr/src/debug/stress-ng/0.17.05/stress-dnotify.c /usr/src/debug/stress-ng/0.17.05/stress-get.c /usr/src/debug/stress-ng/0.17.05/stress-sockabuse.c /usr/src/debug/stress-ng/0.17.05/core-asm-generic.h /usr/src/debug/stress-ng/0.17.05/stress-getdent.c /usr/src/debug/stress-ng/0.17.05/stress-bad-altstack.c /usr/src/debug/stress-ng/0.17.05/stress-syncload.c /usr/src/debug/stress-ng/0.17.05/stress-sysinval.c /usr/src/debug/stress-ng/0.17.05/core-out-of-memory.h /usr/src/debug/stress-ng/0.17.05/stress-waitcpu.c /usr/src/debug/stress-ng/0.17.05/core-out-of-memory.c /usr/src/debug/stress-ng/0.17.05/stress-mmapfiles.c /usr/src/debug/stress-ng/0.17.05/stress-clone.c /usr/src/debug/stress-ng/0.17.05/stress-yield.c /usr/src/debug/stress-ng/0.17.05/stress-gpu.c /usr/src/debug/stress-ng/0.17.05/stress-nice.c /usr/src/debug/stress-ng/0.17.05/stress-watchdog.c /usr/src/debug/stress-ng/0.17.05/stress-misaligned.c /usr/src/debug/stress-ng/0.17.05/stress-rseq.c /usr
+ /src/debug/stress-ng/0.17.05/stress-loop.c /usr/src/debug/stress-ng/0.17.05/stress-vecfp.c /usr/src/debug/stress-ng/0.17.05/stress-quota.c /usr/src/debug/stress-ng/0.17.05/core-mmap.c /usr/src/debug/stress-ng/0.17.05/stress-usersyscall.c /usr/src/debug/stress-ng/0.17.05/core-limit.h /usr/src/debug/stress-ng/0.17.05/core-mmap.h /usr/src/debug/stress-ng/0.17.05/stress-heapsort.c /usr/src/debug/stress-ng/0.17.05/core-limit.c /usr/src/debug/stress-ng/0.17.05/core-cpu-cache.c /usr/src/debug/stress-ng/0.17.05/core-sort.c /usr/src/debug/stress-ng/0.17.05/stress-cpu-online.c /usr/src/debug/stress-ng/0.17.05/stress-schedpolicy.c /usr/src/debug/stress-ng/0.17.05/core-cpu-cache.h /usr/src/debug/stress-ng/0.17.05/core-sort.h /usr/src/debug/stress-ng/0.17.05/stress-inotify.c /usr/src/debug/stress-ng/0.17.05/stress-locka.c /usr/src/debug/stress-ng/0.17.05/stress-dir.c /usr/src/debug/stress-ng/0.17.05/core-interrupts.c /usr/src/debug/stress-ng/0.17.05/stress-mknod.c /usr/src/debug/stress-ng/0.17.0
+ 5/stress-prefetch.c /usr/src/debug/stress-ng/0.17.05/stress-prio-inv.c /usr/src/debug/stress-ng/0.17.05/stress-vma.c /usr/src/debug/stress-ng/0.17.05/core-interrupts.h /usr/src/debug/stress-ng/0.17.05/stress-brk.c /usr/src/debug/stress-ng/0.17.05/stress-secretmem.c /usr/src/debug/stress-ng/0.17.05/core-setting.c /usr/src/debug/stress-ng/0.17.05/core-thrash.h /usr/src/debug/stress-ng/0.17.05/core-thrash.c /usr/src/debug/stress-ng/0.17.05/core-setting.h /usr/src/debug/stress-ng/0.17.05/stress-funccall.c /usr/src/debug/stress-ng/0.17.05/stress-sigio.c /usr/src/debug/stress-ng/0.17.05/stress-ipsec-mb.c /usr/src/debug/stress-ng/0.17.05/stress-shm-sysv.c /usr/src/debug/stress-ng/0.17.05/stress-syscall.c /usr/src/debug/stress-ng/0.17.05/stress-sysinfo.c /usr/src/debug/stress-ng/0.17.05/stress-sigabrt.c /usr/src/debug/stress-ng/0.17.05/stress-sigchld.c /usr/src/debug/stress-ng/0.17.05/stress-signest.c /usr/src/debug/stress-ng/0.17.05/stress-sigpipe.c /usr/src/debug/stress-ng/0.17.05/stress-
+ sigsegv.c /usr/src/debug/stress-ng/0.17.05/stress-goto.c /usr/src/debug/stress-ng/0.17.05/stress-sigtrap.c /usr/src/debug/stress-ng/0.17.05/stress-sigxcpu.c /usr/src/debug/stress-ng/0.17.05/core-cpuidle.c /usr/src/debug/stress-ng/0.17.05/stress-sockfd.c /usr/src/debug/stress-ng/0.17.05/stress-uprobe.c /usr/src/debug/stress-ng/0.17.05/stress-itimer.c /usr/src/debug/stress-ng/0.17.05/core-cpuidle.h /usr/src/debug/stress-ng/0.17.05/stress-ping-sock.c /usr/src/debug/stress-ng/0.17.05/stress-rename.c /usr/src/debug/stress-ng/0.17.05/core-cpu.c /usr/src/debug/stress-ng/0.17.05/stress-msyncmany.c /usr/src/debug/stress-ng/0.17.05/core-cpu.h /usr/src/debug/stress-ng/0.17.05/stress-kill.c /usr/src/debug/stress-ng/0.17.05/stress-tun.c /usr/src/debug/stress-ng/0.17.05/stress-matrix.c /usr/src/debug/stress-ng/0.17.05/stress-efivar.c /usr/src/debug/stress-ng/0.17.05/core-mwc.h /usr/src/debug/stress-ng/0.17.05/core-mwc.c /usr/src/debug/stress-ng/0.17.05/stress-close.c /usr/src/debug/stress-ng/0.17
+ .05/core-try-open.c /usr/src/debug/stress-ng/0.17.05/stress-mprotect.c /usr/src/debug/stress-ng/0.17.05/core-log.c /usr/src/debug/stress-ng/0.17.05/stress-ptrace.c /usr/src/debug/stress-ng/0.17.05/stress-ramfs.c /usr/src/debug/stress-ng/0.17.05/core-try-open.h /usr/src/debug/stress-ng/0.17.05/stress-fsize.c /usr/src/debug/stress-ng/0.17.05/core-log.h /usr/src/debug/stress-ng/0.17.05/stress-fstat.c /usr/src/debug/stress-ng/0.17.05/stress-futex.c /usr/src/debug/stress-ng/0.17.05/core-clocksource.h /usr/src/debug/stress-ng/0.17.05/stress-dentry.c /usr/src/debug/stress-ng/0.17.05/core-clocksource.c /usr/src/debug/stress-ng/0.17.05/stress-pkey.c /usr/src/debug/stress-ng/0.17.05/stress-apparmor.c /usr/src/debug/stress-ng/0.17.05/stress-unshare.c /usr/src/debug/stress-ng/0.17.05/stress-rdrand.c /usr/src/debug/stress-ng/0.17.05/core-perf.c /usr/src/debug/stress-ng/0.17.05/stress-poll.c /usr/src/debug/stress-ng/0.17.05/stress-cacheline.c /usr/src/debug/stress-ng/0.17.05/core-perf.h /usr/src/
+ debug/stress-ng/0.17.05/core-module.c /usr/src/debug/stress-ng/0.17.05/stress-nop.c /usr/src/debug/stress-ng/0.17.05/core-module.h /usr/src/debug/stress-ng/0.17.05/core-pthread.h /usr/src/debug/stress-ng/0.17.05/stress-kcmp.c"
+packages/core2-64-poky-linux/stress-ng/stress-ng-src: PKGV changed from 0.17.04 [default] to 0.17.05 [default]
+packages/core2-64-poky-linux/stress-ng/stress-ng-src: PKGSIZE changed from 5129630 to 5209668 (+2%)
+packages/core2-64-poky-linux/stress-ng/stress-ng-staticdev: PV changed from "0.17.04" to "0.17.05"
+packages/core2-64-poky-linux/stress-ng/stress-ng-staticdev: PKGV changed from 0.17.04 [default] to 0.17.05 [default]
+packages/core2-64-poky-linux/stress-ng/stress-ng: PV changed from "0.17.04" to "0.17.05"
+packages/core2-64-poky-linux/stress-ng/stress-ng: PKGV changed from 0.17.04 [default] to 0.17.05 [default]
+packages/core2-64-poky-linux/stress-ng/stress-ng: PKGSIZE changed from 9720116 to 9767156 (+0%)
+
+--===============3381378867261212916==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-vulkan-utility-libraries-upgrade-1.3.268.0-1.3.275.0.patch"
+ filename="0001-stress-ng-upgrade-0.17.04-0.17.05.patch"
 
-RnJvbSAwZDU4ZWU1NjBhMjM0NGI1NmIzMjhjYzYxODVmMzg4MDk5MTcyNDJlIE1vbiBTZXAgMTcg
+RnJvbSAzMzVmMTE1N2Y0NjdkNzZiOTc5YmQyZGIwOTA3Mzg0NWYwZGMxZDQ2IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgRmViIDIwMjQgMTQ6MDQ6MjkgKzAwMDAKU3ViamVjdDogW1BBVENIXSB2
-dWxrYW4tdXRpbGl0eS1saWJyYXJpZXM6IHVwZ3JhZGUgMS4zLjI2OC4wIC0+IDEuMy4yNzUuMAoK
-LS0tCiAuLi5hcmllc18xLjMuMjY4LjAuYmIgPT4gdnVsa2FuLXV0aWxpdHktbGlicmFyaWVzXzEu
-My4yNzUuMC5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVs
-ZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3t2dWxrYW4tdXRp
-bGl0eS1saWJyYXJpZXNfMS4zLjI2OC4wLmJiID0+IHZ1bGthbi11dGlsaXR5LWxpYnJhcmllc18x
-LjMuMjc1LjAuYmJ9ICg5NSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1
-bGthbi92dWxrYW4tdXRpbGl0eS1saWJyYXJpZXNfMS4zLjI2OC4wLmJiIGIvbWV0YS9yZWNpcGVz
-LWdyYXBoaWNzL3Z1bGthbi92dWxrYW4tdXRpbGl0eS1saWJyYXJpZXNfMS4zLjI3NS4wLmJiCnNp
-bWlsYXJpdHkgaW5kZXggOTUlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGljcy92dWxr
-YW4vdnVsa2FuLXV0aWxpdHktbGlicmFyaWVzXzEuMy4yNjguMC5iYgpyZW5hbWUgdG8gbWV0YS9y
-ZWNpcGVzLWdyYXBoaWNzL3Z1bGthbi92dWxrYW4tdXRpbGl0eS1saWJyYXJpZXNfMS4zLjI3NS4w
-LmJiCmluZGV4IGZlZTRiYTZjYzkuLjc1OWEwMzkyNmIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBl
-cy1ncmFwaGljcy92dWxrYW4vdnVsa2FuLXV0aWxpdHktbGlicmFyaWVzXzEuMy4yNjguMC5iYgor
-KysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi11dGlsaXR5LWxpYnJhcmll
-c18xLjMuMjc1LjAuYmIKQEAgLTEwLDcgKzEwLDcgQEAgTElDRU5TRSA9ICJBcGFjaGUtMi4wIgog
-TElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRS5tZDttZDU9NGNhMmQ2Nzk5MDkxYWFh
-OThhODUyMGYxYjc5MzkzOWIiCiAKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0aHViLmNvbS9LaHJvbm9z
-R3JvdXAvVnVsa2FuLVV0aWxpdHktTGlicmFyaWVzLmdpdDticmFuY2g9bWFpbjtwcm90b2NvbD1o
-dHRwcyIKLVNSQ1JFViA9ICJjOWNhNGFjNjIwYTIzOGE5M2M2NWQ4NjRmMmVhYTMzOTU0ZDc0NTA5
-IgorU1JDUkVWID0gIjRjZmMxNzZlMzI0MmI0ZGJkZmQzZjZjNTY4MGM1ZDhmMmNiN2RiNDUiCiAK
-IFMgPSAiJHtXT1JLRElSfS9naXQiCiAKLS0gCjIuNDIuMAoK
+CkRhdGU6IFRodSwgMTUgRmViIDIwMjQgMTE6NTM6NDcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBz
+dHJlc3Mtbmc6IHVwZ3JhZGUgMC4xNy4wNCAtPiAwLjE3LjA1CgotLS0KIC4uLi9zdHJlc3Mtbmcv
+e3N0cmVzcy1uZ18wLjE3LjA0LmJiID0+IHN0cmVzcy1uZ18wLjE3LjA1LmJifSAgICB8IDIgKy0K
+IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
+dGEvcmVjaXBlcy1leHRlbmRlZC9zdHJlc3Mtbmcve3N0cmVzcy1uZ18wLjE3LjA0LmJiID0+IHN0
+cmVzcy1uZ18wLjE3LjA1LmJifSAoOTQlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRl
+bmRlZC9zdHJlc3Mtbmcvc3RyZXNzLW5nXzAuMTcuMDQuYmIgYi9tZXRhL3JlY2lwZXMtZXh0ZW5k
+ZWQvc3RyZXNzLW5nL3N0cmVzcy1uZ18wLjE3LjA1LmJiCnNpbWlsYXJpdHkgaW5kZXggOTQlCnJl
+bmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9zdHJlc3Mtbmcvc3RyZXNzLW5nXzAuMTcu
+MDQuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9zdHJlc3Mtbmcvc3RyZXNzLW5n
+XzAuMTcuMDUuYmIKaW5kZXggZmRlNTFmNjdhYy4uZDRhNDI3Zjg5ZCAxMDA2NDQKLS0tIGEvbWV0
+YS9yZWNpcGVzLWV4dGVuZGVkL3N0cmVzcy1uZy9zdHJlc3MtbmdfMC4xNy4wNC5iYgorKysgYi9t
+ZXRhL3JlY2lwZXMtZXh0ZW5kZWQvc3RyZXNzLW5nL3N0cmVzcy1uZ18wLjE3LjA1LmJiCkBAIC03
+LDcgKzcsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT1iMjM0ZWU0
+ZDY5ZjVmY2U0NDg2YTgwZmRhZjRhNDI2MyIKIAogU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29t
+L0NvbGluSWFuS2luZy9zdHJlc3MtbmcuZ2l0O3Byb3RvY29sPWh0dHBzO2JyYW5jaD1tYXN0ZXIg
+XAogICAgICAgICAgICAiCi1TUkNSRVYgPSAiMmYyMmFkNTk1ZjA2N2FhOTQwY2ZlNGY2NDEwN2Ux
+MDg3MmMyZjdiNSIKK1NSQ1JFViA9ICI0ZTY4ODk1ZjRmZTY4ODYzYjM2MGFiNGE2YTU3ZTJkZmNm
+Zjg1ZDYwIgogUyA9ICIke1dPUktESVJ9L2dpdCIKIAogREVQRU5EUyA9ICJjb3JldXRpbHMtbmF0
+aXZlIGxpYmJzZCIKLS0gCjIuNDIuMAoK
 
---===============8023090383003799530==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1857 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 914 .bb files complete (913 cached, 1 parsed). 1857 targets, 35 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.7.2"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-760e9878e2889dea9c2269e1dd9bba5aba3a5be8"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:760e9878e2889dea9c2269e1dd9bba5aba3a5be8"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 106 Local 97 Mirrors 0 Missed 9 Current 202 (91% match, 97% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 236 of 308 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.275.0.bb:do_populate_lic_setscene)
-NOTE: Running setscene task 238 of 308 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.275.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_populate_lic_setscene: Started
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_populate_lic_setscene: Succeeded
-NOTE: Running setscene task 308 of 308 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.275.0.bb:do_recipe_qa_setscene)
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 903 of 923 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.275.0.bb:do_fetch)
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_fetch: Started
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_fetch: Succeeded
-NOTE: Running task 904 of 923 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.275.0.bb:do_unpack)
-NOTE: Running task 905 of 923 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.275.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_unpack: Started
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_unpack: Succeeded
-NOTE: Running task 906 of 923 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.275.0.bb:do_patch)
-NOTE: Running task 907 of 923 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.275.0.bb:do_collect_spdx_deps)
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_patch: Started
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_patch: Succeeded
-NOTE: Running task 909 of 923 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.275.0.bb:do_generate_toolchain_file)
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_generate_toolchain_file: Started
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_generate_toolchain_file: Succeeded
-NOTE: Running task 911 of 923 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.275.0.bb:do_configure)
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_configure: Started
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_configure: Succeeded
-NOTE: Running task 912 of 923 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.275.0.bb:do_compile)
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_compile: Started
-Log data follows:
-| DEBUG: Executing shell function do_compile
-| NOTE: VERBOSE=1 cmake --build /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/build --target all --
-| Change Dir: '/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/build'
-| 
-| Run Build Command(s): ninja -v -j 16 all
-| [1/5] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git=/usr/src/debug/vulkan-utility-libraries/1.
- 3.275.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/build=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/build=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot-na
- tive=  -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wpedantic -Wunreachable-code -Wunused-function -Wall -Wextra -Wpointer-arith -Wextra-semi -MD -MT src/layer/CMakeFiles/VulkanLayerSettings.dir/vk_layer_settings_helper.cpp.o -MF src/layer/CMakeFiles/VulkanLayerSettings.dir/vk_layer_settings_helper.cpp.o.d -o src/layer/CMakeFiles/VulkanLayerSettings.dir/vk_layer_settings_helper.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings_helper.cpp
-| FAILED: src/layer/CMakeFiles/VulkanLayerSettings.dir/vk_layer_settings_helper.cpp.o
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git=/usr/src/debug/vulkan-utility-libraries/1.3.275.
- 0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/build=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/build=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot-native= 
-  -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wpedantic -Wunreachable-code -Wunused-function -Wall -Wextra -Wpointer-arith -Wextra-semi -MD -MT src/layer/CMakeFiles/VulkanLayerSettings.dir/vk_layer_settings_helper.cpp.o -MF src/layer/CMakeFiles/VulkanLayerSettings.dir/vk_layer_settings_helper.cpp.o.d -o src/layer/CMakeFiles/VulkanLayerSettings.dir/vk_layer_settings_helper.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings_helper.cpp
-| In file included from /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.hpp:12,
-|                  from /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings_helper.cpp:9:
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:19:37: error: 'VK_LAYER_SETTING_TYPE_BOOL32_EXT' was not declared in this scope
-|    19 |     VKU_LAYER_SETTING_TYPE_BOOL32 = VK_LAYER_SETTING_TYPE_BOOL32_EXT,
-|       |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:20:36: error: 'VK_LAYER_SETTING_TYPE_INT32_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_BOOL32'?
-|    20 |     VKU_LAYER_SETTING_TYPE_INT32 = VK_LAYER_SETTING_TYPE_INT32_EXT,
-|       |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                    VKU_LAYER_SETTING_TYPE_BOOL32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:21:36: error: 'VK_LAYER_SETTING_TYPE_INT64_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_INT32'?
-|    21 |     VKU_LAYER_SETTING_TYPE_INT64 = VK_LAYER_SETTING_TYPE_INT64_EXT,
-|       |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                    VKU_LAYER_SETTING_TYPE_INT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:22:37: error: 'VK_LAYER_SETTING_TYPE_UINT32_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_INT32'?
-|    22 |     VKU_LAYER_SETTING_TYPE_UINT32 = VK_LAYER_SETTING_TYPE_UINT32_EXT,
-|       |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                     VKU_LAYER_SETTING_TYPE_INT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:23:37: error: 'VK_LAYER_SETTING_TYPE_UINT64_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_INT64'?
-|    23 |     VKU_LAYER_SETTING_TYPE_UINT64 = VK_LAYER_SETTING_TYPE_UINT64_EXT,
-|       |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                     VKU_LAYER_SETTING_TYPE_INT64
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:24:38: error: 'VK_LAYER_SETTING_TYPE_FLOAT32_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_UINT32'?
-|    24 |     VKU_LAYER_SETTING_TYPE_FLOAT32 = VK_LAYER_SETTING_TYPE_FLOAT32_EXT,
-|       |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                      VKU_LAYER_SETTING_TYPE_UINT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:25:38: error: 'VK_LAYER_SETTING_TYPE_FLOAT64_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_FLOAT32'?
-|    25 |     VKU_LAYER_SETTING_TYPE_FLOAT64 = VK_LAYER_SETTING_TYPE_FLOAT64_EXT,
-|       |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                      VKU_LAYER_SETTING_TYPE_FLOAT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:26:37: error: 'VK_LAYER_SETTING_TYPE_STRING_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_UINT64'?
-|    26 |     VKU_LAYER_SETTING_TYPE_STRING = VK_LAYER_SETTING_TYPE_STRING_EXT,
-|       |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                     VKU_LAYER_SETTING_TYPE_UINT64
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:50:65: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    50 | VkResult vkuCreateLayerSettingSet(const char *pLayerName, const VkLayerSettingsCreateInfoEXT *pFirstCreateInfo,
-|       |                                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                                                 VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:67:7: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    67 | const VkLayerSettingsCreateInfoEXT *vkuFindLayerSettingsCreateInfo(const VkInstanceCreateInfo *pCreateInfo);
-|       |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |       VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:70:7: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    70 | const VkLayerSettingsCreateInfoEXT *vkuNextLayerSettingsCreateInfo(const VkLayerSettingsCreateInfoEXT *pCreateInfo);
-|       |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |       VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:73:38: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    73 | VkResult vkuGetUnknownSettings(const VkLayerSettingsCreateInfoEXT *pFirstCreateInfo, uint32_t settingsCount, const char **pSettings,
-|       |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                      VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.hpp:61:38: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    61 | VkResult vkuGetUnknownSettings(const VkLayerSettingsCreateInfoEXT *pFirstCreateInfo, uint32_t settingsCount, const char **pSettings,
-|       |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                      VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings_helper.cpp:200:38: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|   200 | VkResult vkuGetUnknownSettings(const VkLayerSettingsCreateInfoEXT *pFirstCreateInfo, uint32_t settingsCount, const char **pSettings,
-|       |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                      VkImageViewMinLodCreateInfoEXT
-| [2/5] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git=/usr/src/debug/vulkan-utility-libraries/1.
- 3.275.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/build=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/build=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot-na
- tive=  -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wpedantic -Wunreachable-code -Wunused-function -Wall -Wextra -Wpointer-arith -Wextra-semi -MD -MT src/layer/CMakeFiles/VulkanLayerSettings.dir/layer_settings_manager.cpp.o -MF src/layer/CMakeFiles/VulkanLayerSettings.dir/layer_settings_manager.cpp.o.d -o src/layer/CMakeFiles/VulkanLayerSettings.dir/layer_settings_manager.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.cpp
-| FAILED: src/layer/CMakeFiles/VulkanLayerSettings.dir/layer_settings_manager.cpp.o
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git=/usr/src/debug/vulkan-utility-libraries/1.3.275.
- 0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/build=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/build=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot-native= 
-  -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wpedantic -Wunreachable-code -Wunused-function -Wall -Wextra -Wpointer-arith -Wextra-semi -MD -MT src/layer/CMakeFiles/VulkanLayerSettings.dir/layer_settings_manager.cpp.o -MF src/layer/CMakeFiles/VulkanLayerSettings.dir/layer_settings_manager.cpp.o.d -o src/layer/CMakeFiles/VulkanLayerSettings.dir/layer_settings_manager.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.cpp
-| In file included from /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.hpp:11,
-|                  from /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.cpp:9:
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:19:37: error: 'VK_LAYER_SETTING_TYPE_BOOL32_EXT' was not declared in this scope
-|    19 |     VKU_LAYER_SETTING_TYPE_BOOL32 = VK_LAYER_SETTING_TYPE_BOOL32_EXT,
-|       |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:20:36: error: 'VK_LAYER_SETTING_TYPE_INT32_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_BOOL32'?
-|    20 |     VKU_LAYER_SETTING_TYPE_INT32 = VK_LAYER_SETTING_TYPE_INT32_EXT,
-|       |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                    VKU_LAYER_SETTING_TYPE_BOOL32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:21:36: error: 'VK_LAYER_SETTING_TYPE_INT64_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_INT32'?
-|    21 |     VKU_LAYER_SETTING_TYPE_INT64 = VK_LAYER_SETTING_TYPE_INT64_EXT,
-|       |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                    VKU_LAYER_SETTING_TYPE_INT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:22:37: error: 'VK_LAYER_SETTING_TYPE_UINT32_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_INT32'?
-|    22 |     VKU_LAYER_SETTING_TYPE_UINT32 = VK_LAYER_SETTING_TYPE_UINT32_EXT,
-|       |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                     VKU_LAYER_SETTING_TYPE_INT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:23:37: error: 'VK_LAYER_SETTING_TYPE_UINT64_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_INT64'?
-|    23 |     VKU_LAYER_SETTING_TYPE_UINT64 = VK_LAYER_SETTING_TYPE_UINT64_EXT,
-|       |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                     VKU_LAYER_SETTING_TYPE_INT64
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:24:38: error: 'VK_LAYER_SETTING_TYPE_FLOAT32_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_UINT32'?
-|    24 |     VKU_LAYER_SETTING_TYPE_FLOAT32 = VK_LAYER_SETTING_TYPE_FLOAT32_EXT,
-|       |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                      VKU_LAYER_SETTING_TYPE_UINT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:25:38: error: 'VK_LAYER_SETTING_TYPE_FLOAT64_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_FLOAT32'?
-|    25 |     VKU_LAYER_SETTING_TYPE_FLOAT64 = VK_LAYER_SETTING_TYPE_FLOAT64_EXT,
-|       |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                      VKU_LAYER_SETTING_TYPE_FLOAT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:26:37: error: 'VK_LAYER_SETTING_TYPE_STRING_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_UINT64'?
-|    26 |     VKU_LAYER_SETTING_TYPE_STRING = VK_LAYER_SETTING_TYPE_STRING_EXT,
-|       |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                     VKU_LAYER_SETTING_TYPE_UINT64
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:50:65: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    50 | VkResult vkuCreateLayerSettingSet(const char *pLayerName, const VkLayerSettingsCreateInfoEXT *pFirstCreateInfo,
-|       |                                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                                                 VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:67:7: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    67 | const VkLayerSettingsCreateInfoEXT *vkuFindLayerSettingsCreateInfo(const VkInstanceCreateInfo *pCreateInfo);
-|       |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |       VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:70:7: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    70 | const VkLayerSettingsCreateInfoEXT *vkuNextLayerSettingsCreateInfo(const VkLayerSettingsCreateInfoEXT *pCreateInfo);
-|       |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |       VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:73:38: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    73 | VkResult vkuGetUnknownSettings(const VkLayerSettingsCreateInfoEXT *pFirstCreateInfo, uint32_t settingsCount, const char **pSettings,
-|       |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                      VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.hpp:21:49: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    21 |     LayerSettings(const char *pLayerName, const VkLayerSettingsCreateInfoEXT *pFirstCreateInfo,
-|       |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                                 VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.hpp:39:11: error: 'VkLayerSettingEXT' does not name a type; did you mean 'VkuLayerSettingSet'?
-|    39 |     const VkLayerSettingEXT *GetAPISetting(const char *pSettingName);
-|       |           ^~~~~~~~~~~~~~~~~
-|       |           VkuLayerSettingSet
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.hpp:46:11: error: 'VkLayerSettingEXT' does not name a type; did you mean 'VkuLayerSettingSet'?
-|    46 |     const VkLayerSettingEXT *FindLayerSettingValue(const char *pSettingName);
-|       |           ^~~~~~~~~~~~~~~~~
-|       |           VkuLayerSettingSet
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.hpp:60:11: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    60 |     const VkLayerSettingsCreateInfoEXT *first_create_info{nullptr};
-|       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |           VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.hpp:60:67: warning: extra ';' [-Wpedantic]
-|    60 |     const VkLayerSettingsCreateInfoEXT *first_create_info{nullptr};
-|       |                                                                   ^
-|       |                                                                   -
-| In file included from /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.cpp:10:
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_util.hpp:19:7: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    19 | const VkLayerSettingsCreateInfoEXT *FindSettingsInChain(const void *next);
-|       |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |       VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.cpp:113:60: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|   113 | LayerSettings::LayerSettings(const char *pLayerName, const VkLayerSettingsCreateInfoEXT *pFirstCreateInfo,
-|       |                                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                                            VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.cpp: In constructor 'vl::LayerSettings::LayerSettings(const char*, const int*, const VkAllocationCallbacks*, VkuLayerSettingLogCallback)':
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.cpp:115:31: error: class 'vl::LayerSettings' does not have any field named 'first_create_info'
-|   115 |     : layer_name(pLayerName), first_create_info(pFirstCreateInfo), pCallback(pCallback) {
-|       |                               ^~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.cpp: At global scope:
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.cpp:227:7: error: 'VkLayerSettingEXT' does not name a type; did you mean 'VkuLayerSettingSet'?
-|   227 | const VkLayerSettingEXT *LayerSettings::FindLayerSettingValue(const char *pSettingName) {
-|       |       ^~~~~~~~~~~~~~~~~
-|       |       VkuLayerSettingSet
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.cpp: In member function 'bool vl::LayerSettings::HasAPISetting(const char*)':
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.cpp:293:18: error: 'class vl::LayerSettings' has no member named 'FindLayerSettingValue'
-|   293 |     return this->FindLayerSettingValue(pSettingName) != nullptr;
-|       |                  ^~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.cpp: At global scope:
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.cpp:342:7: error: 'VkLayerSettingEXT' does not name a type; did you mean 'VkuLayerSettingSet'?
-|   342 | const VkLayerSettingEXT *LayerSettings::GetAPISetting(const char *pSettingName) {
-|       |       ^~~~~~~~~~~~~~~~~
-|       |       VkuLayerSettingSet
-| [3/5] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git=/usr/src/debug/vulkan-utility-libraries/1.
- 3.275.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/build=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/build=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot-na
- tive=  -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wpedantic -Wunreachable-code -Wunused-function -Wall -Wextra -Wpointer-arith -Wextra-semi -MD -MT src/layer/CMakeFiles/VulkanLayerSettings.dir/layer_settings_util.cpp.o -MF src/layer/CMakeFiles/VulkanLayerSettings.dir/layer_settings_util.cpp.o.d -o src/layer/CMakeFiles/VulkanLayerSettings.dir/layer_settings_util.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_util.cpp
-| FAILED: src/layer/CMakeFiles/VulkanLayerSettings.dir/layer_settings_util.cpp.o
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git=/usr/src/debug/vulkan-utility-libraries/1.3.275.
- 0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/build=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/build=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot-native= 
-  -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wpedantic -Wunreachable-code -Wunused-function -Wall -Wextra -Wpointer-arith -Wextra-semi -MD -MT src/layer/CMakeFiles/VulkanLayerSettings.dir/layer_settings_util.cpp.o -MF src/layer/CMakeFiles/VulkanLayerSettings.dir/layer_settings_util.cpp.o.d -o src/layer/CMakeFiles/VulkanLayerSettings.dir/layer_settings_util.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_util.cpp
-| In file included from /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_util.hpp:11,
-|                  from /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_util.cpp:9:
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:19:37: error: 'VK_LAYER_SETTING_TYPE_BOOL32_EXT' was not declared in this scope
-|    19 |     VKU_LAYER_SETTING_TYPE_BOOL32 = VK_LAYER_SETTING_TYPE_BOOL32_EXT,
-|       |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:20:36: error: 'VK_LAYER_SETTING_TYPE_INT32_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_BOOL32'?
-|    20 |     VKU_LAYER_SETTING_TYPE_INT32 = VK_LAYER_SETTING_TYPE_INT32_EXT,
-|       |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                    VKU_LAYER_SETTING_TYPE_BOOL32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:21:36: error: 'VK_LAYER_SETTING_TYPE_INT64_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_INT32'?
-|    21 |     VKU_LAYER_SETTING_TYPE_INT64 = VK_LAYER_SETTING_TYPE_INT64_EXT,
-|       |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                    VKU_LAYER_SETTING_TYPE_INT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:22:37: error: 'VK_LAYER_SETTING_TYPE_UINT32_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_INT32'?
-|    22 |     VKU_LAYER_SETTING_TYPE_UINT32 = VK_LAYER_SETTING_TYPE_UINT32_EXT,
-|       |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                     VKU_LAYER_SETTING_TYPE_INT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:23:37: error: 'VK_LAYER_SETTING_TYPE_UINT64_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_INT64'?
-|    23 |     VKU_LAYER_SETTING_TYPE_UINT64 = VK_LAYER_SETTING_TYPE_UINT64_EXT,
-|       |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                     VKU_LAYER_SETTING_TYPE_INT64
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:24:38: error: 'VK_LAYER_SETTING_TYPE_FLOAT32_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_UINT32'?
-|    24 |     VKU_LAYER_SETTING_TYPE_FLOAT32 = VK_LAYER_SETTING_TYPE_FLOAT32_EXT,
-|       |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                      VKU_LAYER_SETTING_TYPE_UINT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:25:38: error: 'VK_LAYER_SETTING_TYPE_FLOAT64_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_FLOAT32'?
-|    25 |     VKU_LAYER_SETTING_TYPE_FLOAT64 = VK_LAYER_SETTING_TYPE_FLOAT64_EXT,
-|       |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                      VKU_LAYER_SETTING_TYPE_FLOAT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:26:37: error: 'VK_LAYER_SETTING_TYPE_STRING_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_UINT64'?
-|    26 |     VKU_LAYER_SETTING_TYPE_STRING = VK_LAYER_SETTING_TYPE_STRING_EXT,
-|       |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                     VKU_LAYER_SETTING_TYPE_UINT64
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:50:65: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    50 | VkResult vkuCreateLayerSettingSet(const char *pLayerName, const VkLayerSettingsCreateInfoEXT *pFirstCreateInfo,
-|       |                                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                                                 VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:67:7: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    67 | const VkLayerSettingsCreateInfoEXT *vkuFindLayerSettingsCreateInfo(const VkInstanceCreateInfo *pCreateInfo);
-|       |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |       VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:70:7: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    70 | const VkLayerSettingsCreateInfoEXT *vkuNextLayerSettingsCreateInfo(const VkLayerSettingsCreateInfoEXT *pCreateInfo);
-|       |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |       VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:73:38: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    73 | VkResult vkuGetUnknownSettings(const VkLayerSettingsCreateInfoEXT *pFirstCreateInfo, uint32_t settingsCount, const char **pSettings,
-|       |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                      VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_util.hpp:19:7: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    19 | const VkLayerSettingsCreateInfoEXT *FindSettingsInChain(const void *next);
-|       |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |       VkImageViewMinLodCreateInfoEXT
-| [4/5] /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git=/usr/src/debug/vulkan-utility-libraries/1.
- 3.275.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/build=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/build=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot-na
- tive=  -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wpedantic -Wunreachable-code -Wunused-function -Wall -Wextra -Wpointer-arith -Wextra-semi -MD -MT src/layer/CMakeFiles/VulkanLayerSettings.dir/vk_layer_settings.cpp.o -MF src/layer/CMakeFiles/VulkanLayerSettings.dir/vk_layer_settings.cpp.o.d -o src/layer/CMakeFiles/VulkanLayerSettings.dir/vk_layer_settings.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp
-| FAILED: src/layer/CMakeFiles/VulkanLayerSettings.dir/vk_layer_settings.cpp.o
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -I/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot  -O2 -pipe -g -feliminate-unused-debug-types -fcanon-prefix-map  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git=/usr/src/debug/vulkan-utility-libraries/1.3.275.
- 0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/build=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/build=/usr/src/debug/vulkan-utility-libraries/1.3.275.0  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot=  -fmacro-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot=  -fdebug-prefix-map=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/recipe-sysroot-native= 
-  -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wpedantic -Wunreachable-code -Wunused-function -Wall -Wextra -Wpointer-arith -Wextra-semi -MD -MT src/layer/CMakeFiles/VulkanLayerSettings.dir/vk_layer_settings.cpp.o -MF src/layer/CMakeFiles/VulkanLayerSettings.dir/vk_layer_settings.cpp.o.d -o src/layer/CMakeFiles/VulkanLayerSettings.dir/vk_layer_settings.cpp.o -c /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp
-| In file included from /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:9:
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:19:37: error: 'VK_LAYER_SETTING_TYPE_BOOL32_EXT' was not declared in this scope
-|    19 |     VKU_LAYER_SETTING_TYPE_BOOL32 = VK_LAYER_SETTING_TYPE_BOOL32_EXT,
-|       |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:20:36: error: 'VK_LAYER_SETTING_TYPE_INT32_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_BOOL32'?
-|    20 |     VKU_LAYER_SETTING_TYPE_INT32 = VK_LAYER_SETTING_TYPE_INT32_EXT,
-|       |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                    VKU_LAYER_SETTING_TYPE_BOOL32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:21:36: error: 'VK_LAYER_SETTING_TYPE_INT64_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_INT32'?
-|    21 |     VKU_LAYER_SETTING_TYPE_INT64 = VK_LAYER_SETTING_TYPE_INT64_EXT,
-|       |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                    VKU_LAYER_SETTING_TYPE_INT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:22:37: error: 'VK_LAYER_SETTING_TYPE_UINT32_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_INT32'?
-|    22 |     VKU_LAYER_SETTING_TYPE_UINT32 = VK_LAYER_SETTING_TYPE_UINT32_EXT,
-|       |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                     VKU_LAYER_SETTING_TYPE_INT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:23:37: error: 'VK_LAYER_SETTING_TYPE_UINT64_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_INT64'?
-|    23 |     VKU_LAYER_SETTING_TYPE_UINT64 = VK_LAYER_SETTING_TYPE_UINT64_EXT,
-|       |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                     VKU_LAYER_SETTING_TYPE_INT64
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:24:38: error: 'VK_LAYER_SETTING_TYPE_FLOAT32_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_UINT32'?
-|    24 |     VKU_LAYER_SETTING_TYPE_FLOAT32 = VK_LAYER_SETTING_TYPE_FLOAT32_EXT,
-|       |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                      VKU_LAYER_SETTING_TYPE_UINT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:25:38: error: 'VK_LAYER_SETTING_TYPE_FLOAT64_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_FLOAT32'?
-|    25 |     VKU_LAYER_SETTING_TYPE_FLOAT64 = VK_LAYER_SETTING_TYPE_FLOAT64_EXT,
-|       |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                      VKU_LAYER_SETTING_TYPE_FLOAT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:26:37: error: 'VK_LAYER_SETTING_TYPE_STRING_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_UINT64'?
-|    26 |     VKU_LAYER_SETTING_TYPE_STRING = VK_LAYER_SETTING_TYPE_STRING_EXT,
-|       |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                     VKU_LAYER_SETTING_TYPE_UINT64
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:50:65: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    50 | VkResult vkuCreateLayerSettingSet(const char *pLayerName, const VkLayerSettingsCreateInfoEXT *pFirstCreateInfo,
-|       |                                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                                                 VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:67:7: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    67 | const VkLayerSettingsCreateInfoEXT *vkuFindLayerSettingsCreateInfo(const VkInstanceCreateInfo *pCreateInfo);
-|       |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |       VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:70:7: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    70 | const VkLayerSettingsCreateInfoEXT *vkuNextLayerSettingsCreateInfo(const VkLayerSettingsCreateInfoEXT *pCreateInfo);
-|       |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |       VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/include/vulkan/layer/vk_layer_settings.h:73:38: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    73 | VkResult vkuGetUnknownSettings(const VkLayerSettingsCreateInfoEXT *pFirstCreateInfo, uint32_t settingsCount, const char **pSettings,
-|       |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                      VkImageViewMinLodCreateInfoEXT
-| In file included from /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:10:
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_util.hpp:19:7: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    19 | const VkLayerSettingsCreateInfoEXT *FindSettingsInChain(const void *next);
-|       |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |       VkImageViewMinLodCreateInfoEXT
-| In file included from /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:11:
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.hpp:21:49: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    21 |     LayerSettings(const char *pLayerName, const VkLayerSettingsCreateInfoEXT *pFirstCreateInfo,
-|       |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                                 VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.hpp:39:11: error: 'VkLayerSettingEXT' does not name a type; did you mean 'VkuLayerSettingSet'?
-|    39 |     const VkLayerSettingEXT *GetAPISetting(const char *pSettingName);
-|       |           ^~~~~~~~~~~~~~~~~
-|       |           VkuLayerSettingSet
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.hpp:46:11: error: 'VkLayerSettingEXT' does not name a type; did you mean 'VkuLayerSettingSet'?
-|    46 |     const VkLayerSettingEXT *FindLayerSettingValue(const char *pSettingName);
-|       |           ^~~~~~~~~~~~~~~~~
-|       |           VkuLayerSettingSet
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.hpp:60:11: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    60 |     const VkLayerSettingsCreateInfoEXT *first_create_info{nullptr};
-|       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |           VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/layer_settings_manager.hpp:60:67: warning: extra ';' [-Wpedantic]
-|    60 |     const VkLayerSettingsCreateInfoEXT *first_create_info{nullptr};
-|       |                                                                   ^
-|       |                                                                   -
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:34:65: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|    34 | VkResult vkuCreateLayerSettingSet(const char *pLayerName, const VkLayerSettingsCreateInfoEXT *pFirstCreateInfo,
-|       |                                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                                                 VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp: In function 'VkResult vkuGetLayerSettingValues(VkuLayerSettingSet, const char*, VkuLayerSettingType, uint32_t*, void*)':
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:98:11: error: 'VkLayerSettingEXT' does not name a type; did you mean 'VkuLayerSettingSet'?
-|    98 |     const VkLayerSettingEXT *api_setting = layer_setting_set->GetAPISetting(pSettingName);
-|       |           ^~~~~~~~~~~~~~~~~
-|       |           VkuLayerSettingSet
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:103:33: error: 'api_setting' was not declared in this scope
-|   103 |     if (setting_list.empty() && api_setting == nullptr) {
-|       |                                 ^~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:146:24: error: 'api_setting' was not declared in this scope
-|   146 |             } else if (api_setting != nullptr) {  // From Vulkan Layer Setting API
-|       |                        ^~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:191:24: error: 'api_setting' was not declared in this scope
-|   191 |             } else if (api_setting != nullptr) {  // From Vulkan Layer Setting API
-|       |                        ^~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:245:24: error: 'api_setting' was not declared in this scope
-|   245 |             } else if (api_setting != nullptr) {  // From Vulkan Layer Setting API
-|       |                        ^~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:299:24: error: 'api_setting' was not declared in this scope
-|   299 |             } else if (api_setting != nullptr) {  // From Vulkan Layer Setting API
-|       |                        ^~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:353:24: error: 'api_setting' was not declared in this scope
-|   353 |             } else if (api_setting != nullptr) {  // From Vulkan Layer Setting API
-|       |                        ^~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:398:24: error: 'api_setting' was not declared in this scope
-|   398 |             } else if (api_setting != nullptr) {  // From Vulkan Layer Setting API
-|       |                        ^~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:443:24: error: 'api_setting' was not declared in this scope
-|   443 |             } else if (api_setting != nullptr) {  // From Vulkan Layer Setting API
-|       |                        ^~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:488:24: error: 'api_setting' was not declared in this scope
-|   488 |             } else if (api_setting != nullptr) {  // From Vulkan Layer Setting API
-|       |                        ^~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:491:42: error: 'VK_LAYER_SETTING_TYPE_UINT32_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_UINT32'?
-|   491 |                 if (api_setting->type != VK_LAYER_SETTING_TYPE_UINT32_EXT) {
-|       |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                          VKU_LAYER_SETTING_TYPE_UINT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:526:24: error: 'api_setting' was not declared in this scope
-|   526 |             } else if (api_setting != nullptr) {  // From Vulkan Layer Setting API
-|       |                        ^~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:535:30: error: 'VK_LAYER_SETTING_TYPE_STRING_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_STRING'?
-|   535 |                         case VK_LAYER_SETTING_TYPE_STRING_EXT:
-|       |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                              VKU_LAYER_SETTING_TYPE_STRING
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:540:30: error: 'VK_LAYER_SETTING_TYPE_BOOL32_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_BOOL32'?
-|   540 |                         case VK_LAYER_SETTING_TYPE_BOOL32_EXT:
-|       |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                              VKU_LAYER_SETTING_TYPE_BOOL32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:546:30: error: 'VK_LAYER_SETTING_TYPE_INT32_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_INT32'?
-|   546 |                         case VK_LAYER_SETTING_TYPE_INT32_EXT:
-|       |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                              VKU_LAYER_SETTING_TYPE_INT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:551:30: error: 'VK_LAYER_SETTING_TYPE_INT64_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_INT64'?
-|   551 |                         case VK_LAYER_SETTING_TYPE_INT64_EXT:
-|       |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                              VKU_LAYER_SETTING_TYPE_INT64
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:556:30: error: 'VK_LAYER_SETTING_TYPE_UINT32_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_UINT32'?
-|   556 |                         case VK_LAYER_SETTING_TYPE_UINT32_EXT:
-|       |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                              VKU_LAYER_SETTING_TYPE_UINT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:561:30: error: 'VK_LAYER_SETTING_TYPE_UINT64_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_UINT64'?
-|   561 |                         case VK_LAYER_SETTING_TYPE_UINT64_EXT:
-|       |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                              VKU_LAYER_SETTING_TYPE_UINT64
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:567:30: error: 'VK_LAYER_SETTING_TYPE_FLOAT32_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_FLOAT32'?
-|   567 |                         case VK_LAYER_SETTING_TYPE_FLOAT32_EXT:
-|       |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                              VKU_LAYER_SETTING_TYPE_FLOAT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:572:30: error: 'VK_LAYER_SETTING_TYPE_FLOAT64_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_FLOAT64'?
-|   572 |                         case VK_LAYER_SETTING_TYPE_FLOAT64_EXT:
-|       |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                              VKU_LAYER_SETTING_TYPE_FLOAT64
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:609:24: error: 'api_setting' was not declared in this scope
-|   609 |             } else if (api_setting != nullptr) {  // From Vulkan Layer Setting API
-|       |                        ^~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:621:30: error: 'VK_LAYER_SETTING_TYPE_STRING_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_STRING'?
-|   621 |                         case VK_LAYER_SETTING_TYPE_STRING_EXT:
-|       |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                              VKU_LAYER_SETTING_TYPE_STRING
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:626:30: error: 'VK_LAYER_SETTING_TYPE_UINT32_EXT' was not declared in this scope; did you mean 'VKU_LAYER_SETTING_TYPE_UINT32'?
-|   626 |                         case VK_LAYER_SETTING_TYPE_UINT32_EXT:
-|       |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                              VKU_LAYER_SETTING_TYPE_UINT32
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp: At global scope:
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:653:7: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|   653 | const VkLayerSettingsCreateInfoEXT *vkuFindLayerSettingsCreateInfo(const VkInstanceCreateInfo *pCreateInfo) {
-|       |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |       VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:667:7: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|   667 | const VkLayerSettingsCreateInfoEXT *vkuNextLayerSettingsCreateInfo(const VkLayerSettingsCreateInfoEXT *pCreateInfo) {
-|       |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |       VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:691:38: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|   691 | VkResult vkuGetUnknownSettings(const VkLayerSettingsCreateInfoEXT *pCreateInfo, uint32_t settingsCount, const char **pSettings,
-|       |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |                                      VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp: In function 'VkResult vkuGetUnknownSettings(const int*, uint32_t, const char**, uint32_t*, const char**)':
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:695:11: error: 'VkLayerSettingsCreateInfoEXT' does not name a type; did you mean 'VkImageViewMinLodCreateInfoEXT'?
-|   695 |     const VkLayerSettingsCreateInfoEXT *current_create_info = pCreateInfo;
-|       |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|       |           VkImageViewMinLodCreateInfoEXT
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:698:12: error: 'current_create_info' was not declared in this scope; did you mean 'VkEventCreateInfo'?
-|   698 |     while (current_create_info != nullptr) {
-|       |            ^~~~~~~~~~~~~~~~~~~
-|       |            VkEventCreateInfo
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:710:31: error: 'vkuNextLayerSettingsCreateInfo' was not declared in this scope
-|   710 |         current_create_info = vkuNextLayerSettingsCreateInfo(current_create_info);
-|       |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/git/src/layer/vk_layer_settings.cpp:691:68: warning: unused parameter 'pCreateInfo' [-Wunused-parameter]
-|   691 | VkResult vkuGetUnknownSettings(const VkLayerSettingsCreateInfoEXT *pCreateInfo, uint32_t settingsCount, const char **pSettings,
-|       |                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
-| ninja: build stopped: subcommand failed.
-| 
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/temp/run.do_compile.3748266:153 exit 1 from 'eval ${DESTDIR:+DESTDIR=${DESTDIR} }VERBOSE=1 cmake --build '/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/build' "$@" -- ${EXTRA_OECMAKE_BUILD}'
-| WARNING: Backtrace (BB generated script):
-| 	#1: cmake_runcmake_build, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/temp/run.do_compile.3748266, line 153
-| 	#2: cmake_do_compile, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/temp/run.do_compile.3748266, line 147
-| 	#3: do_compile, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/temp/run.do_compile.3748266, line 142
-| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/temp/run.do_compile.3748266, line 166
-NOTE: recipe vulkan-utility-libraries-1.3.275.0-r0: task do_compile: Failed
-NOTE: Tasks Summary: Attempted 912 tasks of which 904 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240215140414.txt
-You can send the errors to a reports server by running:
-  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240215140414.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.275.0.bb:do_compile
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: vulkan-utility-libraries-1.3.275.0-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/temp/run.do_compile.3748266', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-utility-libraries/1.3.275.0/temp/log.do_compile.3748266
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-utility-libraries_1.3.275.0.bb:do_compile) failed with exit code '1'
-
---===============8023090383003799530==--
+--===============3381378867261212916==--
 
