@@ -1,156 +1,114 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8CBCC48BC4
-	for <webhook@archiver.kernel.org>; Thu, 15 Feb 2024 22:38:45 +0000 (UTC)
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com (EUR01-DB5-obe.outbound.protection.outlook.com [40.107.15.80])
- by mx.groups.io with SMTP id smtpd.web11.5431.1708036724720184971
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19ED4C4829E
+	for <webhook@archiver.kernel.org>; Thu, 15 Feb 2024 22:55:56 +0000 (UTC)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web10.5840.1708037755149654732
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Feb 2024 14:38:45 -0800
+ Thu, 15 Feb 2024 14:55:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=selector1 header.b=KlDhs+1r;
- spf=pass (domain: axis.com, ip: 40.107.15.80, mailfrom: peter.kjellerstedt@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JIeQGQykUEGcd7mKNwEhpFbDa0Bl89HBom1K+h9ugZN3/ag/XIwg2dFFkB5yVZW7uM7EsbFEgLcHbxSDUha8eFh6vOong11w/6NWldCccNjMqkjgAVY+Upye8TCltcLmEFtg6J4TFJUX0uynX022TJDee/0hennUnY9ng6wNc3s38MjxhtwfWm4rWRk29ES9dj6kuOFc8wVsygJCFpNdnxkuGrJSdF0VJsjdtbLePqF2cwi+8Xs59yYD3HToMxZAv5YuyryUbdeC62UY8fjXRW+h+F00y16A/pufKKwRpXdZTzci3Hfp5rKR0I/RbU6We3EjnjdiusBBnrVRUFyzLQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bSWs7usK18k3qDDB3CcZ2amz3585e/4WkICyj/fqFAc=;
- b=m5osaJ0ytNLmYW7t0mv1V984tTmtf8k0lVKQ5hKfEpJVMaguFskHiMVKS05WljjNQDUseteagO9087mIpKmCStkYJEt4VFjNiFRMsOwCJs1vjfEMfSoUT8aLX3aiaL87ozdiOGbfO1wvEH+sJX/XWRWkYy72wz+rQd8tXTxvttIQnkXNIfCwRivugQ0wwPbC/npYc3Ahq7vPum1Qf858986fCXKbzjUFby5LFss+Uemdw6DdUeWCKi6K7AKLpT3InRzcj0+E9oL5QAeOuiBcqFhspW7YaAPnSaNkg2zatvAQHdUOWpXauo1lwymeW8Bm6oCtvA5pMA8raXPlg5714A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
- dkim=pass header.d=axis.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bSWs7usK18k3qDDB3CcZ2amz3585e/4WkICyj/fqFAc=;
- b=KlDhs+1rzjCiMwTCB7LxwnVTJcX1/RO053v1L6zQ1KzkyaR/SDc8+Yg+3PEEaEn8FivGMrs1oo/jF7Zp+oE1LIY+HrOPRVTc7NiPr5LGUidMAXPKQGp/iG1yEWFILfOfYxiDFW9LnqVFoiLrlMejserszoWxQRROiN/iDqV91mo=
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com (2603:10a6:10:4a8::17)
- by DB4PR02MB8509.eurprd02.prod.outlook.com (2603:10a6:10:38f::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7270.44; Thu, 15 Feb
- 2024 22:38:41 +0000
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::546:7e4f:ddb1:92d7]) by DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::546:7e4f:ddb1:92d7%7]) with mapi id 15.20.7292.029; Thu, 15 Feb 2024
- 22:38:41 +0000
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Trevor Gamblin
-	<tgamblin@baylibre.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH 0/6] devtool: ide: Improve VSCode support
-Thread-Topic: [OE-core] [PATCH 0/6] devtool: ide: Improve VSCode support
-Thread-Index: AQHaYDEPGxqWBrepBESao6wPpbIyRLELo5eAgABalKA=
-Date: Thu, 15 Feb 2024 22:38:41 +0000
-Message-ID: 
- <DB5PR02MB10213665A16E557F6C5C6EFF2EF4D2@DB5PR02MB10213.eurprd02.prod.outlook.com>
-References: 
- <20240215170422.659073-1-enguerrand.de-ribaucourt@savoirfairelinux.com>
- <a23568b22a49469e65a2ad94dd6a4db3d54fb265.camel@linuxfoundation.org>
-In-Reply-To: 
- <a23568b22a49469e65a2ad94dd6a4db3d54fb265.camel@linuxfoundation.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=axis.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|DB4PR02MB8509:EE_
-x-ms-office365-filtering-correlation-id: cb9e47d1-bc5c-4cdc-d51d-08dc2e76dc24
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- yDpzuOCJ2VnYwWqa5n8arpMjOM4l9kpF0AVvN7GJjylQbmRl6rVQcd88o0sIA1kqzvf7sORym3PpxnODdlZqCpB/caHQOQGt3/e77EltkBWStkv2wdQO5TfQb8ljxRFHmtW4wsq4ybjwjpUWybaq9TSrsuDY7ik1eQNsGUknN3i9HhkrL6v3DWlNhms7NNgIteJUCmpRnhbTteWvve3hG1eE2r/MmPgP+ooedJNe9oF6WL/svEJhW6ash1g8/ajEAiDyJc0yqTYtJWLZZvMKp5aU/sxh1n9Prg5U105fpZj7AW9MVT/tq4d/yo4MCdt/PCXgd70rkfpzdE0EoquJwBUMQMSimsYZI8s1GHQyB9vuutLIhoczyveQr8UMVSmrLL+24JsIWpwfU3/gz2/etjHmBh01Z/+nRcqrwUyLuZIu4pJWxst2VQ/p9a/ALN530Z3+Rglh9I2CGyo/Ksvip/g6tNn0h90XvziNbbN2Bb7xeCv9SAxPIQWu9RRNuvw6AN46+OOhwvjXvt/E8ZSH0ZVut2JVDJLX/hvLIN7nzRMxtKy6uz5kA6rKow4laXV43+Tx6rXVn1kE7FIT5kAceafx4aNpT0VR+9nG8nFnDJp4Lo280vS0UX3KX1c+ZODu
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(376002)(39860400002)(396003)(366004)(136003)(230922051799003)(1800799012)(451199024)(186009)(64100799003)(122000001)(2906002)(33656002)(110136005)(44832011)(316002)(52536014)(38100700002)(41300700001)(5660300002)(8936002)(26005)(478600001)(38070700009)(8676002)(76116006)(66946007)(66476007)(66446008)(66556008)(64756008)(83380400001)(4326008)(7696005)(53546011)(6506007)(9686003)(71200400001)(86362001)(55016003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?UFhXcFJWZytCNndOYlZodXdCcmdqR083SVRlUzhIUXdsWnY0MHNlQSs2Z1Ir?=
- =?utf-8?B?T1l3cVp0MEFpL0Z2TTY0TXlnVTFuTHV4d21uV29Vb0FVUzhvb21vNC83Ukds?=
- =?utf-8?B?dGk4VFlmMW83QXZ0UmFaQVV5RWtsZGZJazV6Yy8zYXN2VS8yemVLd1RwU3NN?=
- =?utf-8?B?em82dlM3TlN5Q2xpYktYOUdESlR3a1NIQmV0SjM4Q2Y4aFBsWFJpeDl3Mk95?=
- =?utf-8?B?cTVSZUgxSFZyRE0rTW51V281U092ZU56R2ZUSFFwbnFzUyt6REJMeTVVY0Rp?=
- =?utf-8?B?UVNVSlFWOGhkZXp0SXpXMXVMWDVSaTUzMTgyMjNhemZETENMSzJDamZ1OGJS?=
- =?utf-8?B?M2JqS1BMenBiZUNxUHFVbFpRSi9HcnIxN05XN1B2YVBwcjVHeDdOWE55d0JC?=
- =?utf-8?B?U3NUZXA5WGx0K1JoSDlmd0VybjQvK2lSRlg0SzltNVNIQkJ6Tnltcm5QUDdO?=
- =?utf-8?B?KzRBS25tNFY5aEVraDVoOE5MeXB2WStDb2hOTTNkdTg0NmM3RnFteDhoTG5G?=
- =?utf-8?B?QWFOM2JOL0JBTTZxcjJXTmtNNWNBN1c3WEoweWVPYjZnVm85UGFzZnUzS3RW?=
- =?utf-8?B?V1hacGxFQ2RIUGd3RU5sVjdpYXRrbGtMVEpKbldwd2dvZnAvS1hpNHRBRXAr?=
- =?utf-8?B?dmxOci9lYTFZcGxhZU1KTnBEYWs1SVZrdzBkZmpaVGlSN3VCaW4rTWJJWkJR?=
- =?utf-8?B?ZjQyR2NJQkZaYzFkNEtqWkloQTVMRDl3aVRzTC9sS3FZQmNRNmVSMGVLalRB?=
- =?utf-8?B?dG9JUmpUa3hyMm9uSXorMy85UnBJZDlNZHNUWXlBMG9EbC9YekRRcVJDaGNB?=
- =?utf-8?B?eGd4bHJ4b0FKdW1oWjhtaG1RZGpyb3dkWkYzMTdZT1Z6Z0JvWXFFeGltenJl?=
- =?utf-8?B?VFVDai9OUmFSWWQzSmFRQVNlYm83RklTek5lMWtyd29SZ2NYSlh4VFRVaE1B?=
- =?utf-8?B?ZnA1SkNjcXZrUlpEejlaL2VVVmtFVnFmcll1WHBDQzBCNXRSSE92UDhLTUFQ?=
- =?utf-8?B?MVpNUVNJQWpxalBuVlhxZUQwNEVJZ1VuUTN1MVpUcCtYd1cyRU5SM3Y4OG41?=
- =?utf-8?B?ejlkM3ZFSDhqM1pmUFo3akcvV0krOTBwd0VEb1R4c0JiSE9ia0JJTHpVVGRm?=
- =?utf-8?B?Y3FGY29YUlptalJpZlhtdmV0dVc1anFLazl4aXBxM2R5eE8vWlRCTDNWVm9l?=
- =?utf-8?B?djNsaEt3dWVGZFMrOTRsR2Y1SndsTWVXNkJjdEV2QjBiSnZrcHJraGQybUF6?=
- =?utf-8?B?UTI5ZXgrUHBmSUdYbHF4dldtRUZIY2FiczgyZTRxdkZUVjVhNmdTRHVTd0VP?=
- =?utf-8?B?dnJzZWtHdGI0U0dMT0NHdkFtaGNITm16d202TTJUS0tXanFIU3dTdkFHdmg5?=
- =?utf-8?B?UlFBZG5PUE8vUVo4UGF1RzZSSGIxckpBU0E0MW1xZmhRU0V0MStBaEpBVWRB?=
- =?utf-8?B?V3oxNVY2SDFpaGMzekg1RzNBSUloNTZ1dk5zYmxsbjI2KzZJNjQydFNDbVoy?=
- =?utf-8?B?SGFPbExSMlhwdW9xYmlZZ0NSdnh3bnd1dGQzdTZ4QTFoYTU5RjMzTG00K3dO?=
- =?utf-8?B?L2xoUENXek9rdkFaWmxiVkNsVkFBeEp1S3lyQndtMXZlUnJaei9EZzBFcmdi?=
- =?utf-8?B?V0xVOE5ibXNOQXU5ZFZXSDY1eStodGhab1hOMVNkZ3c3amJzM3pydG9BWTA1?=
- =?utf-8?B?dWtzYUdpS0JTaExZZjc3emdWL0NPOTVhWFJ3OEgvb0p1amtHT3NLaldCYzlV?=
- =?utf-8?B?emt6VlJISG5sSmhaMzZjaWZMbTI5elhWZ3dGMlNtUVg2eTNzb21rYnFkWmRu?=
- =?utf-8?B?NjF6NHRMYlJOOTByV2Z6bmh1aVhKbGRXN0dkMTVyOXhYL3hNZ0o3NFg4NGhB?=
- =?utf-8?B?SXJxSW9KcHhSckx6ZGJ1QWt1K1VqYWFFVXE3RFhwbmhiTUg0RUorbTg1U0ZX?=
- =?utf-8?B?dkNkQWRmTUNXbDBOQmthcjJiL0V0em9sV0V0UGc1NCtlZlNOdk53dWlNakFJ?=
- =?utf-8?B?M3pQalg5OGw3VU9aeERZYTBrc0hIOWRLVmh6MmczN3FlUzcxalpnZjBpYTBx?=
- =?utf-8?B?cEUxeE13TVFleUI1elBBWDA1QnJ5OWlMbVN1MGg3QW5hT29rZHYrTVBXano3?=
- =?utf-8?Q?zoJU=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=mmdSmQr8;
+ spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-33b66a7f859so490342f8f.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 14:55:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708037753; x=1708642553; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YUhe4CcgvKavqOr4QbLBKqc/kYYfGHJkc1cdLmOWZ/E=;
+        b=mmdSmQr8PFna+JVp/XXA+OM+pK3LcnPlJvWOgq2XHJGUzOC4FcHGDkHjSBx+gH9+5y
+         Uq/HoDbRekv0ZkyPh1AWj7apCNh2JGz1po/78m4AJYohDAAZQpUV0RaMkkRYydPAMnIG
+         Xl4VG/1P+QDGwXM38H3JX60+4JJLDYNM3jKGLXjZEi3VLSeoPlVZOKoBv3uszsLjOfdM
+         AG5MuLqX9VdIU5b2+pq6H/u2CObgqpsPvj2llauOyGHKSpa0IhDCwyzfd7VkoRSB0Hi0
+         FBLnjM6qd52UFtMIKHDXj2dPVUrdtQazKS0PQW9aUDVVApvniIKLpeIO29EMS/6MWlLJ
+         Oo3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708037753; x=1708642553;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YUhe4CcgvKavqOr4QbLBKqc/kYYfGHJkc1cdLmOWZ/E=;
+        b=NRJ+JOpn38XorlTPeCoC+Ya4in3iA0gNRJqHs4RWQkRseDw4mXJo0PH224suzNceue
+         fmP/bmq4BwaAbi3/N5Fc69pX777/ahz+B21gUs0gAqp2IEopZm4keK4gSi0aN6qOZ+ET
+         +pTlbgjVI2R3D6hIb8H0WRufp4deiFzG1C61aNnL7+zVO1kdnfw7bXbHtkOv9LhhTYHB
+         2CpkXOGs22+lVZH370mQLHznEWYuc1NcEaoPnKUNVQOa49EgTD7DF/x7kKhN6nlZV28x
+         YwCOFnOEG+6We4GvAZLqfQ4DWiVP2cSPYx1tOErqOGoBwFQfHwTIvTqxROBBF7JVHo7K
+         z0fA==
+X-Gm-Message-State: AOJu0YxxHQKVdlmabXbZYuAIJBPkx7mAb26+2G/LzHW/KdjoP3JZ0V3K
+	JhzZ+JX9qyLcEpeHnABxws47ZKdy24L4cqjEcKVo87IMwXesqAUsHlHlpH5qUaU=
+X-Google-Smtp-Source: AGHT+IH18iIc4ENPb406N+ePiehnR/8xQnMlFQ6Lu1rieoVgSOOeyxfcSQwLXbcVB3waWpU53qbA3w==
+X-Received: by 2002:a5d:430d:0:b0:33b:65b3:e51b with SMTP id h13-20020a5d430d000000b0033b65b3e51bmr2514391wrq.48.1708037753142;
+        Thu, 15 Feb 2024 14:55:53 -0800 (PST)
+Received: from wsadrian16.fritz.box ([2a02:169:59a6:0:55c4:f628:91f3:4287])
+        by smtp.gmail.com with ESMTPSA id b10-20020a5d40ca000000b0033ceca3a3dbsm419778wrq.2.2024.02.15.14.55.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Feb 2024 14:55:52 -0800 (PST)
+From: Adrian Freihofer <adrian.freihofer@gmail.com>
+X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
+Subject: [PATCH v4 0/2] oe-init-build-env: generate .vscode from template
+Date: Thu, 15 Feb 2024 23:53:31 +0100
+Message-ID: <20240215225542.337490-1-adrian.freihofer@siemens.com>
+X-Mailer: git-send-email 2.43.1
 MIME-Version: 1.0
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cb9e47d1-bc5c-4cdc-d51d-08dc2e76dc24
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Feb 2024 22:38:41.3665
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: wePNd+e5efvHScrZQI2IkiDiBd52sRd7BbYJ+mdjLMKrcxpaDhZnmJdY1sXGf3oP
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB4PR02MB8509
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 22:38:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195724
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 22:55:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195725
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRk
-ZWQub3JnPiBPbiBCZWhhbGYgT2YgUmljaGFyZCBQdXJkaWUNCj4gU2VudDogZGVuIDE1IGZlYnJ1
-YXJpIDIwMjQgMTg6MTENCj4gVG86IEVuZ3VlcnJhbmQgZGUgUmliYXVjb3VydCA8ZW5ndWVycmFu
-ZC5kZS1yaWJhdWNvdXJ0QHNhdm9pcmZhaXJlbGludXguY29tPjsgb3BlbmVtYmVkZGVkLWNvcmVA
-bGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBDYzogYWRyaWFuLmZyZWlob2ZlckBnbWFpbC5jb207
-IFJvc3MuQnVydG9uQGFybS5jb207IG1vaGFtbWVkLnJhemFAc2F2b2lyZmFpcmVsaW51eC5jb20N
-Cj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggMC82XSBkZXZ0b29sOiBpZGU6IEltcHJv
-dmUgVlNDb2RlIHN1cHBvcnQNCj4gDQo+IE9uIFRodSwgMjAyNC0wMi0xNSBhdCAxODowNCArMDEw
-MCwgRW5ndWVycmFuZCBkZSBSaWJhdWNvdXJ0IHdyb3RlOg0KPiA+IFRoZXNlIHBhdGNoZXMgaW1w
-cm92ZSB0aGUgVlNDb2RlIHN1cHBvcnQgaW4gZGV2dG9vbCBpZGUtc2RrIGZyb20NCj4gPiBBZHJp
-YW4gRnJlaWhvZmVyLg0KPiA+DQo+ID4gSSBhZGRlZCBhIGdlbmVyaWMgQysrIGNvbmZpZ3VyYXRp
-b24gZm9yIHRoZSBWU2NvZGUNCj4gPiBleHRlbnNpb24gd2hpbGUgYXdhaXRpbmcgZm9yIGF1dG90
-b29scyBzdXBwb3J0Lg0KPiA+DQo+ID4gQSByZWZhY3RvcmluZyBpcyBwcm9wb3NlZCBmb3IgdGhl
-IG1lc29uIGNsYXNzLiBXaXRob3V0IGFic29sdXRlIGNvbXBpbGVyDQo+ID4gcGF0aHMsIHRoZSBs
-aW50ZXIgaW5zaWRlIFZTQ29kZSB3aWxsIG5vdCBiZSBhYmxlIHRvIGZpbmQgdGhlDQo+ID4gY3Jv
-c3MtY29tcGlsZXIuIExldCBtZSBrbm93IGlmIHlvdSBoYXZlIGFueSBjb25jZXJucyBhYm91dCB0
-aGlzDQo+ID4gcmVmYWN0b3JpbmcuDQo+ID4NCj4gPiBUaGUgb3RoZXIgYnVnIGZpeGVzIGFyZSBy
-ZWxhdGl2ZWx5IG1pbm9yIGFuZCBtYWtlIHRoZSB0b29sIHdvcmsgZm9yIHNvbWUgZWRnZQ0KPiA+
-IGNhc2VzLg0KPiANCj4gSSBub3RpY2VkIG5vbmUgb2YgdGhlIHBhdGNoZXMgaW4gdGhpcyBzZXJp
-ZXMgaGF2ZSBTaWduZWQtb2ZmLWJ5IGxpbmVzDQo+IHdoaWNoIG5lZWRzIHRvIGJlIGZpeGVkIGJl
-Zm9yZSB3ZSBjYW4gbWVyZ2UgdGhlbS4gUGF0Y2h0ZXN0IHNob3VsZCBiZQ0KPiBhbG9uZyBzaG9y
-dGx5IHRvIHNheSB0aGF0IHRvbyENCg0KQWN0dWFsbHksIHRoZXJlIGRvZXMgbm90IHNlZW0gdG8g
-YmUgYW55IG1lc3NhZ2VzIGFib3V0IHRoaXMgZnJvbSBwYXRjaHRlc3QuIA0KVGhlcmUgaGF2ZSBi
-ZWVuIG90aGVyIGluY29uc2lzdGVuY2llcyByZXBvcnRlZCBieSBpdCBzaW5jZSwgYnV0IG5vdCB0
-aGVzZS4uLg0KDQo+IA0KPiBJIG5lZWQgdG8gdGhpbmsgYWJvdXQgYW5kIHRlc3QgdGhlIG1lc29u
-IG9uZSBhIGJpdCBtb3JlIGFzIGFic29sdXRlDQo+IHBhdGhzIGNhbiBiZSBhIHNvdXJjZSBvZiBw
-cm9ibGVtcy4gSSd2ZSBub3QgbG9va2VkIGludG8gdGhlIG90aGVycyBpbg0KPiBkZXRhaWwgeWV0
-Lg0KPiANCj4gQ2hlZXJzLA0KPiANCj4gUmljaGFyZA0KDQovL1BldGVyDQoNCg==
+Changes in comparison to v3:
+- Add more plugin settings as suggested by Enguerrand
+  https://lists.openembedded.org/g/openembedded-core/message/195505
+
+Changes in comparison to v2:
+- Do not integrate with the oe-setup-build or templating infrastrucutre.
+  Provide a minimalistic script which is just good enough to generate a
+  configuration which fits for poky.
+- Some details will be fixed on the plugin side which allows to simplify
+  the generated bitbake plugin configuration to a minimum.
+
+With these patches, VSCode and the new plugin from
+https://marketplace.visualstudio.com/items?itemName=yocto-project.yocto-bitbake
+should work without any manual configuration once the oe-init-build-env
+script has been sourced. VSCode is also configured to not index the
+build folder and finally crash with an OOM exception.
+
+Without these patches, the issue is that the plugin automatically
+updates the .vscode/settings.json file. Having the settings.json file
+in git and a plugin which modifies this file is not ideal. It can lead
+to anoying situations especially when working with git. For example a
+git stash reverts the settings which are automatically applied by the
+plugin. While git stashed the settings.json file the plugin immediately
+changes the file again and tries to run bitbake based on the newly
+generated settings. When git does a stash pop the restored settings.json
+file conflicts with the new settigns.json file which has been generated
+while the git stash took place.
+
+Just removing the settings.json from git would lead to other issues as
+already described in the commit message of 5ff688fe29. And the plugin
+needs manual configuration.
+
+Discussion is here:
+https://github.com/yoctoproject/vscode-bitbake/issues/95
+
+Adrian Freihofer (2):
+  vscode: drop .vscode folder
+  oe-init-build-env: generate .vscode from template
+
+ .gitignore              |  1 -
+ .vscode/settings.json   | 32 --------------
+ oe-init-build-env       |  6 +++
+ scripts/oe-setup-vscode | 93 +++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 99 insertions(+), 33 deletions(-)
+ delete mode 100644 .vscode/settings.json
+ create mode 100755 scripts/oe-setup-vscode
+
+-- 
+2.43.1
+
 
