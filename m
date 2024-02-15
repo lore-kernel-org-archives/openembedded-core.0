@@ -2,61 +2,58 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7C33C4829E
-	for <webhook@archiver.kernel.org>; Thu, 15 Feb 2024 14:49:47 +0000 (UTC)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
- by mx.groups.io with SMTP id smtpd.web11.15688.1708008581670715378
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B279AC4829E
+	for <webhook@archiver.kernel.org>; Thu, 15 Feb 2024 15:00:27 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web11.15987.1708009222823625893
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Feb 2024 06:49:42 -0800
+ Thu, 15 Feb 2024 07:00:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QBVVxfTJ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.208.172, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2d10d2da73dso12342911fa.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 06:49:41 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YRi2ONO7;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4121a8635a2so5237375e9.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 07:00:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1708008580; x=1708613380; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1708009221; x=1708614021; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=ncSF6ogzJS7JqEhw8uhydc0Zgqw//+KcK5XxA69FHCI=;
-        b=QBVVxfTJPDuAkmCKac25u9A/kg/3bL6v41z6lvPofBGGxlflK6G+M8YBliAZtwWbLH
-         ynsX+/VA+R+0118HJnAgm8dUamDs7Ti72t5XuaJJJiamJzIPqLbZ2OcAEUaMyxVKbksk
-         eEUkVpcqQrI5+mH/mgT4zELFj07mQ1QvN6yd0=
+        bh=EYYff29ys0kdaMYuq0vVP72Wx8iQC/5lv3B3BTgXuH8=;
+        b=YRi2ONO7XsmrHElGhqdQ0KfeAVne/cWM+LH9WU59O7+vGNP/iLkoSR+LgIVPo5fsmQ
+         d65JsmF5jkQ9oEyPPwERnWQ3TPWsumj4ImmLk7S10q57o2lfDFfzQPcFXimvq5luX2aK
+         P07SMS5TU98SXASVGdof+DAwge2wX/0KFRts8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708008580; x=1708613380;
+        d=1e100.net; s=20230601; t=1708009221; x=1708614021;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ncSF6ogzJS7JqEhw8uhydc0Zgqw//+KcK5XxA69FHCI=;
-        b=KFvA92wXSO0HIYDMCqQhHV/FS9YajGiMXEUjTHc+xBh5GK0tDWQhmJ/NPgWzsJ1xYz
-         nCaTE8DQYpG+SpliUXygkgJpEhc+9wTZTByK+wOPzA3yCtfpVXSurQnpa6nA5SZIhtKT
-         2O6pPGwC5oiZUkTw4PrvCJl2T8Qedt14hxR30vn+6ZjarWtJTEbm6IkHZh60UQWFikuA
-         AwssTDJ+F8eNLdGnEgrnzNzz9fbBD5uEaNubyA5pJWv2fezadi7k8SUjimfLrUkYfxQY
-         OkMpPm+B5Er4ELDY4iuoNCf6+GFOIQd83xPHrxUvgMU5d2I/nc0/6MDCAPqN1RGVBuJ0
-         68dA==
-X-Forwarded-Encrypted: i=1; AJvYcCVH5T1/gKoENc2JqXvGN+Tgj/V1JSXXTyrdO6dhu6yflGH/ezfeKO9BlJjajx47pt4umb1oCtkI//drUUgYB+3mUKd5YevXMyGGG/mrq1672gIFpwLHdez2
-X-Gm-Message-State: AOJu0YyT/25jGkThxnNhiKSNGpy03WQGa1BSXH/mOkwW2Wk+737R1PIc
-	o2yfWpXcSIT80gk2uQwvzRTsZNU/b7eKNzqJ/eRl9mKOgK50FSWYzDGhq6Z6Mqw=
-X-Google-Smtp-Source: AGHT+IGBRLIIwUPdC5dJ7oqg+riSN9SsgkE+6Dt7b6HqOelwoubcdATvk/rarL169nVNL5DnOtZQng==
-X-Received: by 2002:a2e:b70e:0:b0:2d0:e666:5b4d with SMTP id j14-20020a2eb70e000000b002d0e6665b4dmr1687340ljo.21.1708008579676;
-        Thu, 15 Feb 2024 06:49:39 -0800 (PST)
+        bh=EYYff29ys0kdaMYuq0vVP72Wx8iQC/5lv3B3BTgXuH8=;
+        b=HT2w08r9PgW6NJ9r7BZIqdxTZefDMqrMxc7n/9ir7EbA6uXIdRTrMhFL+UfoDIe3f7
+         Sa6vpuLZPtG6oJ5ihMI0HpKnAYgPOCoFb4E8mvrqcmbeqcVuwTNydi1c9/R2PQi64klI
+         bwm2DN1RGmGfxdVeSaKbaploGJVBmv4v2jtscBtf9AHK8Y0VTmSuijjQRDzmEqGPFRri
+         igE8fukmskAFXfoDCDlepGxkN9EVJl8RvP4VI8vINrFFRrRTPxpFNwnFwfpl+cOr8pNG
+         88B1+adNleA395s1+znx5ZWemEf+LXpRmLUah9+9S5lYoP2lzMdZj1nrGkRqHm0iQQjF
+         SoJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVqboGYfmgIolrssQAVBlxUK5C+S2rr8PBcW+EUWsURtpRwqhn5UZRnG0BOlMjcSwYu6NKetCr7tcHTy8cnpxyAJBhtAvjDEl4JRCJLK2rksrv0VorUBhb3
+X-Gm-Message-State: AOJu0Yyjg4WS242WpRHiZKzgW9XD+hffbFD//JyM6eNO6RDIwPpUIWrl
+	O5ewQJqC/66ie6MY9g0MfdX+EX9+FaViqg2q50cZsC2YEdG2Q4IL2e3IOMAnSH8=
+X-Google-Smtp-Source: AGHT+IH8EEcIOoMoxV0SoWESQwHsaQO91U0DW4WvLOd+6cFB7QFe1rxNy4Ji9UfImPB1IFt6+kW7YQ==
+X-Received: by 2002:a05:600c:b87:b0:410:1da3:2ccf with SMTP id fl7-20020a05600c0b8700b004101da32ccfmr1576772wmb.21.1708009220287;
+        Thu, 15 Feb 2024 07:00:20 -0800 (PST)
 Received: from ?IPv6:2001:8b0:aba:5f3c:506:d04:fb88:63ff? ([2001:8b0:aba:5f3c:506:d04:fb88:63ff])
-        by smtp.gmail.com with ESMTPSA id co14-20020a0560000a0e00b00337d5cd0d8asm333602wrb.90.2024.02.15.06.49.38
+        by smtp.gmail.com with ESMTPSA id 1-20020a05600c22c100b0041044e130bfsm5240503wmg.33.2024.02.15.07.00.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Feb 2024 06:49:39 -0800 (PST)
-Message-ID: <3e2be36df5700bcc5c72e494b50a8ad5114c75d8.camel@linuxfoundation.org>
-Subject: Re: [OE-core] gcc: Oe-selftest failures analysis - x86-64
+        Thu, 15 Feb 2024 07:00:19 -0800 (PST)
+Message-ID: <851124e8284547ec3e9ab47b8bf78d114a0be766.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/5]
+ meta/conf/templates/default/conf-description.txt: add a template description
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Harish.Sadineni@windriver.com, Patches and discussions about the
-	oe-core layer <openembedded-core@lists.openembedded.org>
-Cc: "Kokkonda, Sundeep" <Sundeep.Kokkonda@windriver.com>, "MacLeod, Randy"
- <Randy.MacLeod@windriver.com>, "Moodalappa, Shivaprasad"
- <Shivaprasad.Moodalappa@windriver.com>, "Kallapa, Umesh"
- <Umesh.Kallapa@windriver.com>, "Gowda, Naveen" <Naveen.Gowda@windriver.com>
-Date: Thu, 15 Feb 2024 14:49:38 +0000
-In-Reply-To: <PH0PR11MB565801BE2CF2136D644719F9EF4D2@PH0PR11MB5658.namprd11.prod.outlook.com>
-References: 
-	<PH0PR11MB565801BE2CF2136D644719F9EF4D2@PH0PR11MB5658.namprd11.prod.outlook.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Date: Thu, 15 Feb 2024 15:00:18 +0000
+In-Reply-To: <20240131123908.1098544-1-alex@linutronix.de>
+References: <20240131123908.1098544-1-alex@linutronix.de>
 Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
@@ -72,97 +69,65 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 14:49:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195516
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 15:00:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195517
 
-On Thu, 2024-02-15 at 10:29 +0000, Sadineni, Harish via
-lists.openembedded.org wrote:
+On Wed, 2024-01-31 at 13:39 +0100, Alexander Kanavin wrote:
+> Existing conf-notes.txt is not adequate in situations where the user
+> needs to select a config template from several, or get an overview of the=
+m and
+> is interested only in a brief explanation of what the template is for,
+> but not extended multi-paragraph instructions for how to use it.
 >=20
-> Hi all,
+> Such descriptions can be provided via conf-description.txt and
+> this patch adds such a description for the oe-core default template.
 >=20
-> We are analysing the test failures reported by the autobilder athttps://a=
-utobuilder.yocto.io/pub/non-release/20240204-3/testresults/qemux86-64-tc/te=
-stresults.json
-> The autobuilder result summary as follows:
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> qemux86-64 PTest Result Summary
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> -----------------------------------------------------------------------
-> Recipe=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | Passed=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | Failed=C2=A0=C2=A0=C2=A0 | Skipped=
-=C2=A0 |
-> -----------------------------------------------------------------------
-> gcc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 124420=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 | 37=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 23809=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |
-> gcc-g++=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 196231=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 | 39=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1=
-7314=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |
-> gcc-libatomic=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 27=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 1=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0| 27=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |
-> gcc-libgomp=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 3407=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 16=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-| 1981=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0 |
-> gcc-libitm=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | =C2=A0 24=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0| 1=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 24=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |
-> gcc-libstdc++-v3=C2=A0 =C2=A0| 9705=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 | 32=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 5464=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |
-> =C2=A0
-> We started with 'gcc.dg' module failures(13 failues, listed below) report=
-ed inhttps://autobuilder.yocto.io/pub/non-release/20240204-3/testresults/te=
-stresult-report.txt.
-> =C2=A0=C2=A0=C2=A0 ptestresult.gcc.gcc.dg/analyzer/data-model-4.c (test f=
-or excess errors)
-> =C2=A0=C2=A0=C2=A0 ptestresult.gcc.gcc.dg/analyzer/torture/conftest-1.c=
-=C2=A0=C2=A0 -O0=C2=A0 (test for excess errors)
-> =C2=A0=C2=A0=C2=A0 ptestresult.gcc.gcc.dg/analyzer/torture/conftest-1.c=
-=C2=A0=C2=A0 -O1=C2=A0 (test for excess errors)
-> =C2=A0=C2=A0=C2=A0 ptestresult.gcc.gcc.dg/analyzer/torture/conftest-1.c=
-=C2=A0=C2=A0 -O2=C2=A0 (test for excess errors)
-> =C2=A0=C2=A0=C2=A0 ptestresult.gcc.gcc.dg/analyzer/torture/conftest-1.c=
-=C2=A0=C2=A0 -O2 -flto -fno-use-linker-plugin -flto-partition=3Dnone=C2=A0 =
-(test for excess errors)
-> =C2=A0=C2=A0=C2=A0 ptestresult.gcc.gcc.dg/analyzer/torture/conftest-1.c=
-=C2=A0=C2=A0 -O3 -g=C2=A0 (test for excess errors)
-> =C2=A0=C2=A0=C2=A0 ptestresult.gcc.gcc.dg/analyzer/torture/conftest-1.c=
-=C2=A0=C2=A0 -Os=C2=A0 (test for excess errors)
-> =C2=A0=C2=A0=C2=A0 ptestresult.gcc.gcc.dg/pr56837.c scan-tree-dump-times =
-optimized "memset ..c, 68, 16384.;" 1
-> =C2=A0=C2=A0=C2=A0 ptestresult.gcc.gcc.dg/vect/vect-ifcvt-18.c scan-tree-=
-dump vect "vectorized 3 loops"
-> =C2=A0=C2=A0=C2=A0 ptestresult.gcc.gcc.dg/vect/vect-simd-clone-10.c (test=
- for excess errors)
-> =C2=A0=C2=A0=C2=A0 ptestresult.gcc.gcc.dg/vect/vect-simd-clone-16f.c scan=
--tree-dump-times vect "[\\n\\r] [^\\n]* =3D foo\\.simdclone" 2
-> =C2=A0=C2=A0=C2=A0 ptestresult.gcc.gcc.dg/vect/vect-simd-clone-17f.c scan=
--tree-dump-times vect "[\\n\\r] [^\\n]* =3D foo\\.simdclone" 2
-> =C2=A0=C2=A0=C2=A0 ptestresult.gcc.gcc.dg/vect/vect-simd-clone-18f.c scan=
--tree-dump-times vect "[\\n\\r] [^\\n]* =3D foo\\.simdclone" 2
-> =C2=A0
-> Out of these, except 'gcc.gcc.dg/vect/vect-simd-clone-10.c' all others ar=
-e fialed in gcc upstream.
+> Updates to the tools and a tool for selecting templates which
+> will make specific use of the description will follow.
 >=20
-> We've analyzed the failed case 'vect-simd-clone-10.c' and find the root c=
-ause, it is the bug is in gcc test suite.
-> GCC Bug raised -https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D113899
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ---
+>  meta/conf/templates/default/conf-description.txt | 1 +
+>  1 file changed, 1 insertion(+)
+>  create mode 100644 meta/conf/templates/default/conf-description.txt
 >=20
-> We are working on other module failures (g++,libatomic...), keep you post=
-ed here.
+> diff --git a/meta/conf/templates/default/conf-description.txt b/meta/conf=
+/templates/default/conf-description.txt
+> new file mode 100644
+> index 00000000000..e49172fa0ce
+> --- /dev/null
+> +++ b/meta/conf/templates/default/conf-description.txt
+> @@ -0,0 +1 @@
+> +This is the default build configuration for the openembedded-core layer.
 
-This looks like a good start, thanks for working on this!
+I know this feedback is long delayed so my apologies for that.
 
-Cheers,
+I think I'm ok with the idea of this but I believe the naming isn't
+quite right.
+
+"notes" does suggest something longer, so that is fine. My worry is
+that in the metadata we have the SUMMARY and DESCRIPTION variables. The
+former is the short one, the latter is the longer.
+
+If developers see:
+
+conf-notes.txt
+conf-description.txt
+
+then they don't know which is the "short" one.
+
+If you however you have:
+
+conf-notes.txt
+conf-summary.txt
+
+then I think that is much clearer?
+
+I think I'm therefore ok with the idea but I'd like to suggest using
+"summary" instead of "description"...
+
+Cheers
 
 Richard
+
 
