@@ -1,115 +1,93 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02FE5C48BC4
-	for <webhook@archiver.kernel.org>; Thu, 15 Feb 2024 21:29:05 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web10.3728.1708032539553556099
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A8F0C4829E
+	for <webhook@archiver.kernel.org>; Thu, 15 Feb 2024 21:37:15 +0000 (UTC)
+Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
+ by mx.groups.io with SMTP id smtpd.web11.3962.1708033027470270625
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Feb 2024 13:28:59 -0800
+ Thu, 15 Feb 2024 13:37:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=J1tlJRXP;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-412345cca4eso3029725e9.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 13:28:59 -0800 (PST)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=Sl+pQm0O;
+ spf=pass (domain: baylibre.com, ip: 209.85.221.180, mailfrom: tgamblin@baylibre.com)
+Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-4c0232861afso397550e0c.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 13:37:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1708032538; x=1708637338; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3NaVU6Dj9zugNRVDZjp9LGDCXkLMD1aTZti50JDbhsY=;
-        b=J1tlJRXP51pCo86sCFQEMkdbvtmI7APv7Tn9ZEZzlBYbVNfrbF/8MIJiItpSullyvc
-         whGzjjgwxmvXmQj03c7HRLbYUWKS1Kt9sNVNC0YTEG/UOM4P3asvTwAj5xSn2nQ5du8Y
-         znUbVSh/AVDQ4E9LjvFsK5sqs1rFz0hN2PtIA=
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1708033026; x=1708637826; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jDiONfPaQ0Cl7W6Qjcn9KhFejvm8VYAL8JFYQaYB4XY=;
+        b=Sl+pQm0OUoctNAx4LB1w02Sd6LibS4pUHPNVg5Nbej526T91iiX8UKXDpBdLKxAyd1
+         57Yf3u/gvfaP57pqkmZUAvelS10n0aaUKPsbTBcYN5fFPzF4wKunT5724gFbccizkzVX
+         a5/hOjfTUnMy1iimCwmcMkoA4gwE7gsvHKUPWzP9rc+o0koZtCApZ0t+TH10Cz+XCJcn
+         rfvBd/Z8C6r0kqST4jguLYVWF8x2jczo2gs/ZOtekWMZNRfRBuHxZsy80Ksu1MLU1vaw
+         hWAdG3LuncC3SlD6X240N/jnhIIqSNv5JR7J27o0a2PK0ewysOIlsJ2F91yv2316VXkN
+         Y3sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708032538; x=1708637338;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3NaVU6Dj9zugNRVDZjp9LGDCXkLMD1aTZti50JDbhsY=;
-        b=ZXWjDrYq3c9u8ZKH3DnqTxc7hIdgwlSs2urSFEh/3zAWw9FbPjX4GyYqM730g8SyB4
-         NhhyFVgneteCOJNULgjqoKZUzer9pnyMvTm8qKFBjf3RepNQJyo/P7/kyRDGPu8em5FJ
-         j5wO9O8zlSGhpRNQ/xfvhhdeyGDBG2PSKttGace8w1E9L1Zge5kIUui6GRWESLbnTfCi
-         zhSHcq/+lSOpMBpeHK5GBANHwre2JWHGsj6SFVq956SPS1zsW0tq7dn9DdB4LethFWSk
-         BaRMSpXGvZOa/3Yjw8aRJ1+RuwVlY6c1BCOy2N5cNU1nHsBKPMtgLJ+VCnJgsBsPbLbG
-         0rtg==
-X-Gm-Message-State: AOJu0YyEQqpA5qWRk9EFLJAViQ9DKzbTEfSVjQkh3+rzEOwVD1D5W4rk
-	6nLom82AliMT70aiswkNMg6jsAejT2yY0G06yq8w69E0kEzaQgWnVp5RncbOeCLJeBGlBImYuDr
-	p
-X-Google-Smtp-Source: AGHT+IE9nC9dxFN26tQU0RNeiFVheT0x/qTsJKa3nPCIx9GMF7C31s8EyxirGhbxqpHyJWJSWgQEPA==
-X-Received: by 2002:a5d:6882:0:b0:33b:4443:46cd with SMTP id h2-20020a5d6882000000b0033b444346cdmr2264898wru.0.1708032537759;
-        Thu, 15 Feb 2024 13:28:57 -0800 (PST)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:fd13:6695:6348:c567])
-        by smtp.gmail.com with ESMTPSA id bh12-20020a05600c3d0c00b0041207e096b2sm340738wmb.1.2024.02.15.13.28.57
+        d=1e100.net; s=20230601; t=1708033026; x=1708637826;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jDiONfPaQ0Cl7W6Qjcn9KhFejvm8VYAL8JFYQaYB4XY=;
+        b=AqD1w0be3UUwnW9mu5jsFHsGc88dlljoQ0rHHW/TFUH0K1i44+jYmGAZesiiCYPxMo
+         +2P9tXAOoeQFwn4J/mX6mMiYpqGvY72EC3w4jcVVddIglgOG9laz7+fErjvBU1iFXxZK
+         60us3LTiXqhQ68KLGGcoeFfLXqRE454X4Q7/6l+jrbT6wZZ7wtwV4VFpqwB2DnjR7b0O
+         KpyzuSNUhyEpzYAdJoW6LKG/OJiAjn7Z2dxTJeXzTYWvdvgv0dV+gNEsBbyDx8ZSeBwy
+         zfnfK5kCyBD968dZnS/SpoH52/zhjJD2uG1erS7ImfwM8C49j2wcIz7uUZ4eODkvf/1q
+         CDFQ==
+X-Gm-Message-State: AOJu0YxMPwkxMFqiJEdzjr/fY9udOeS8gjxea3b9Xap5SxhWhLht/OGx
+	roL6UfzViOB8jSA1es+2XFbq18IMoBglK7J2RdMeff2g3MoD8G9nXYn84cX6vhAEFPKAdM6X1tU
+	O
+X-Google-Smtp-Source: AGHT+IGBcE9JUL/XXv30cEguMDnxN9Q68kKXxS3vWKPArF/fq0CYVWCCBmQLkUO0YnCjIBySuKfHhg==
+X-Received: by 2002:a1f:e744:0:b0:4c0:2416:6fc2 with SMTP id e65-20020a1fe744000000b004c024166fc2mr2820204vkh.5.1708033026280;
+        Thu, 15 Feb 2024 13:37:06 -0800 (PST)
+Received: from megalith.oryx-coho.ts.net (d24-150-219-207.home.cgocable.net. [24.150.219.207])
+        by smtp.gmail.com with ESMTPSA id na4-20020a0562142d4400b0068ef8c3a138sm1064410qvb.9.2024.02.15.13.37.05
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Feb 2024 13:28:57 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+        Thu, 15 Feb 2024 13:37:06 -0800 (PST)
+From: Trevor Gamblin <tgamblin@baylibre.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH v3] openssh: Add a work around for ICE on mips/mips64
-Date: Thu, 15 Feb 2024 21:28:56 +0000
-Message-Id: <20240215212856.47492-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.40.1
+Subject: [OE-core][PATCH] patchtest-send-results: use Message-ID directly
+Date: Thu, 15 Feb 2024 16:37:05 -0500
+Message-ID: <20240215213705.3315438-1-tgamblin@baylibre.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 21:29:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195704
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 21:37:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195705
 
-Unfortunately the new openssh version has an ICE on mips. This looks similar to:
+There's no need to use regex for extracting the Message-ID field from
+the patch email and mangle it by removing the angle brackets in the
+process. Pull it directly from the mbox so that Patchtest's replies have
+even fewer differences when compared to other replies. Also add a TODO
+so that it's clear this needs adjustment when full series support is
+added.
 
-https://gcc.gnu.org/bugzilla/show_bug.cgi?id=104817
-https://gcc.gnu.org/bugzilla/show_bug.cgi?id=104820
-
-Given how long these have been open, workaround the issue by disabling the compiler
-hardening options on mips.
-
-It is likely better to do this than have the open CVEs for everyone
-as we can't upgrade.
-
-An example:
-
-| during RTL pass: zero_call_used_regs
-| clientloop.c: In function 'client_loop':
-| clientloop.c:1699:1: internal compiler error: in int_mode_for_mode, at stor-layout.cc:407
-|  1699 | }
-|       | ^
-| 0x14d0acc internal_error(char const*, ...)
-| 	???:0
-| 0x5cf765 fancy_abort(char const*, int, char const*)
-| 	???:0
-| 0x826f1f emit_move_insn_1(rtx_def*, rtx_def*)
-| 	???:0
-| 0x8270c5 emit_move_insn(rtx_def*, rtx_def*)
-| 	???:0
-| 0xb7b994 default_zero_call_used_regs(HARD_REG_SET)
-| 	???:0
-| Please submit a full bug report, with preprocessed source (by using -freport-bug).
-| Please include the complete backtrace with any bug report.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
- meta/recipes-connectivity/openssh/openssh_9.6p1.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ scripts/patchtest-send-results | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
-index 6366cefdf96..1fd36a266fd 100644
---- a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
-@@ -81,6 +81,10 @@ EXTRA_OECONF = "'LOGIN_PROGRAM=${base_bindir}/login' \
- # musl doesn't implement wtmp/utmp and logwtmp
- EXTRA_OECONF:append:libc-musl = " --disable-wtmp --disable-lastlog"
+diff --git a/scripts/patchtest-send-results b/scripts/patchtest-send-results
+index 8190fe86c32..8a3dadbd111 100755
+--- a/scripts/patchtest-send-results
++++ b/scripts/patchtest-send-results
+@@ -65,7 +65,9 @@ subject_line = f"Patchtest results for {mbox_subject}"
+ reply_address = mbox[0]['from']
  
-+# Work around ICE on mips/mips64 starting in 9.6p1
-+EXTRA_OECONF:append:mips = " --without-hardening"
-+EXTRA_OECONF:append:mips64 = " --without-hardening"
-+
- # Since we do not depend on libbsd, we do not want configure to use it
- # just because it finds libutil.h.  But, specifying --disable-libutil
- # causes compile errors, so...
+ # extract the message ID and use that as the in-reply-to address
+-in_reply_to = re.findall("<(.*)>", mbox[0]['Message-ID'])[0]
++# TODO: This will need to change again when patchtest can handle a whole
++# series at once
++in_reply_to = mbox[0]['Message-ID']
+ 
+ # the address the results email is sent from
+ from_address = "patchtest@automation.yoctoproject.org"
 -- 
-2.40.1
+2.43.0
 
 
