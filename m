@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF6CDC54ECB
-	for <webhook@archiver.kernel.org>; Thu, 15 Feb 2024 17:32:37 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web11.20319.1708018343339854461
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BF07C54ED6
+	for <webhook@archiver.kernel.org>; Thu, 15 Feb 2024 17:32:38 +0000 (UTC)
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.20333.1708018345287244750
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Feb 2024 09:32:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=GYDIoxyM;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=jnitosDM;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018dadd3a41a-294d9c3c-9cc7-48af-8428-72f98d9ed5b9-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Xti8U0c8;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=athF9Nmo;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018dadd3a206-ae3f1320-0f78-4190-b139-6797e20af682-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1708018345;
+	t=1708018344;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Pp8nYVGbpwhRVkTwClkpyrVCTzls+oaAZrwENw/NVpw=;
-	b=GYDIoxyMwS70xpyiQVh8vY6nLP8CUbOWB9J4HFPitaWUFb8lLJZcvWkw/oLyeRTY
-	glKGCgr90s1NhyoQWfGlK3ElYkOAoI66xL0pSyvPiDFClnIRJFASDV5RMJSDb9+Brxm
-	h8yJh27TdQM36rNy5wVp1GaSX0Bhqt5qNbbzlPMA=
+	bh=SwnJLK/F7qqfLthnSyPqKOPI4eoKY2g1/asKWJnbcXA=;
+	b=Xti8U0c8QeSzC71hFB1B41t5/hWcYF07Meq9EECGYFFzMpQMF7ulULpY8WBi6GhI
+	BNb2CTE1a0AVcMJ1BspNxXUkHabx8pAsbXRlFGh8fyX6RLWIUxK8XBYcfv4okjvryMp
+	VEmhSVMEHIv2slS4Va5tAAGTUQU22A0wiH7LO/8U=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1708018345;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1708018344;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Pp8nYVGbpwhRVkTwClkpyrVCTzls+oaAZrwENw/NVpw=;
-	b=jnitosDMbBTxyXv/GqwYxWA56v4sJu8p84vEDM+y54ZiptmMiryJAdY4wlSo4NMQ
-	UnQBMW79ZGOW+pzSHMl4z9m5p0EQsfo6/DAo34+hUlO+Y1DHUeZ0Rf7LbVhq1VJWlkn
-	A65wgNVID6lFR1KG+17/AoH01KmkgISkWzo3Qruo=
-Content-Type: multipart/mixed; boundary="===============5864327109512028929=="
+	bh=SwnJLK/F7qqfLthnSyPqKOPI4eoKY2g1/asKWJnbcXA=;
+	b=athF9Nmo0AQjShRXCYZTIxaZV/R02oFdPfcPHoflFfKGye0xb6L8Vk7qROHpC7kp
+	FKneiVc32mTRwSOfen53wbUN9oGc1I3OqgJg+S0BgvIZb9u+7ZGxsqHdlKVP6N80xXl
+	xp9xd/j4/u8/NC+MsB2sojPnNWeTU+XBuxGBERMo=
+Content-Type: multipart/mixed; boundary="===============2433813796903792943=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-unittest-automake-output: upgrading to 0.2 SUCCEEDED
-Message-ID: <0101018dadd3a41a-294d9c3c-9cc7-48af-8428-72f98d9ed5b9-000000@us-west-2.amazonses.com>
-Date: Thu, 15 Feb 2024 17:32:25 +0000
+Subject: [AUH] orc: upgrading to 0.4.37 SUCCEEDED
+Message-ID: <0101018dadd3a206-ae3f1320-0f78-4190-b139-6797e20af682-000000@us-west-2.amazonses.com>
+Date: Thu, 15 Feb 2024 17:32:24 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.02.15-54.240.27.192
+X-SES-Outgoing: 2024.02.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 17:32:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195597
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 17:32:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195591
 
---===============5864327109512028929==
+--===============2433813796903792943==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-unittest-automake-output* to *0.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *orc* to *0.4.37* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-unittest-automake-output-upgrade-0.1-0.2.patch
+    - apply the patch: git am 0001-orc-upgrade-0.4.36-0.4.37.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,59 +72,80 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From ef6462029baecc7690c20143c4d89de032113eac Mon Sep 17 00:00:00 2001
+From daa65912bb1b8cb5ef755b679cd19a1d3755966d Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 15 Feb 2024 08:34:48 +0000
-Subject: [PATCH] python3-unittest-automake-output: upgrade 0.1 -> 0.2
+Date: Thu, 15 Feb 2024 07:48:43 +0000
+Subject: [PATCH] orc: upgrade 0.4.36 -> 0.4.37
 
 ---
- ...ke-output_0.1.bb => python3-unittest-automake-output_0.2.bb} | 2 +-
+ meta/recipes-devtools/orc/{orc_0.4.36.bb => orc_0.4.37.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-unittest-automake-output_0.1.bb => python3-unittest-automake-output_0.2.bb} (89%)
+ rename meta/recipes-devtools/orc/{orc_0.4.36.bb => orc_0.4.37.bb} (92%)
 
-diff --git a/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb b/meta/recipes-devtools/python/python3-unittest-automake-output_0.2.bb
-similarity index 89%
-rename from meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb
-rename to meta/recipes-devtools/python/python3-unittest-automake-output_0.2.bb
-index ba58c18df0..1fc6180d0e 100644
---- a/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb
-+++ b/meta/recipes-devtools/python/python3-unittest-automake-output_0.2.bb
-@@ -4,7 +4,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=f6f16008d9fb7349f06609329f1ab93b"
+diff --git a/meta/recipes-devtools/orc/orc_0.4.36.bb b/meta/recipes-devtools/orc/orc_0.4.37.bb
+similarity index 92%
+rename from meta/recipes-devtools/orc/orc_0.4.36.bb
+rename to meta/recipes-devtools/orc/orc_0.4.37.bb
+index b191367eaf..9985204d74 100644
+--- a/meta/recipes-devtools/orc/orc_0.4.36.bb
++++ b/meta/recipes-devtools/orc/orc_0.4.37.bb
+@@ -5,7 +5,7 @@ LICENSE = "BSD-2-Clause & BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=1400bd9d09e8af56b9ec982b3d85797e"
  
- SRC_URI = "git://gitlab.com/rossburton/python-unittest-automake-output;protocol=https;branch=main"
--SRCREV = "06537edb18f3641c70bce25256f6ecf5f5164ead"
-+SRCREV = "aebdfb188e368c690ea55cf6c9c9ffa1a52def65"
+ SRC_URI = "http://gstreamer.freedesktop.org/src/orc/orc-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "83b074cb67317d58bef1e8d0cc862f7ae8a77a45bbff056a1f987c6488b2f5fd"
++SRC_URI[sha256sum] = "85638c0d447d989cd0d7e03406adbfbc380e67db2a622a4727a0ce3d440b2974"
  
- S = "${WORKDIR}/git"
+ inherit meson pkgconfig gtk-doc
  
 -- 
 2.42.0
 
 
---===============5864327109512028929==
+--===============2433813796903792943==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-unittest-automake-output: PKGV changed from 0.1 [default] to 0.2 [default]
-packages/core2-64-poky-linux/python3-unittest-automake-output: PV changed from "0.1" to "0.2"
-packages/core2-64-poky-linux/python3-unittest-automake-output/python3-unittest-automake-output-dbg: PKGV changed from 0.1 [default] to 0.2 [default]
-packages/core2-64-poky-linux/python3-unittest-automake-output/python3-unittest-automake-output-dbg: PV changed from "0.1" to "0.2"
-packages/core2-64-poky-linux/python3-unittest-automake-output/python3-unittest-automake-output-dev: PKGV changed from 0.1 [default] to 0.2 [default]
-packages/core2-64-poky-linux/python3-unittest-automake-output/python3-unittest-automake-output-dev: PV changed from "0.1" to "0.2"
-packages/core2-64-poky-linux/python3-unittest-automake-output/python3-unittest-automake-output-doc: PKGV changed from 0.1 [default] to 0.2 [default]
-packages/core2-64-poky-linux/python3-unittest-automake-output/python3-unittest-automake-output-doc: PV changed from "0.1" to "0.2"
-packages/core2-64-poky-linux/python3-unittest-automake-output/python3-unittest-automake-output-locale: PKGV changed from 0.1 [default] to 0.2 [default]
-packages/core2-64-poky-linux/python3-unittest-automake-output/python3-unittest-automake-output-locale: PV changed from "0.1" to "0.2"
-packages/core2-64-poky-linux/python3-unittest-automake-output/python3-unittest-automake-output-src: PKGV changed from 0.1 [default] to 0.2 [default]
-packages/core2-64-poky-linux/python3-unittest-automake-output/python3-unittest-automake-output-src: PV changed from "0.1" to "0.2"
-packages/core2-64-poky-linux/python3-unittest-automake-output/python3-unittest-automake-output-staticdev: PKGV changed from 0.1 [default] to 0.2 [default]
-packages/core2-64-poky-linux/python3-unittest-automake-output/python3-unittest-automake-output-staticdev: PV changed from "0.1" to "0.2"
-packages/core2-64-poky-linux/python3-unittest-automake-output/python3-unittest-automake-output: PKGV changed from 0.1 [default] to 0.2 [default]
-packages/core2-64-poky-linux/python3-unittest-automake-output/python3-unittest-automake-output: PKGSIZE changed from 15548 to 16058 (+3%)
-packages/core2-64-poky-linux/python3-unittest-automake-output/python3-unittest-automake-output: PV changed from "0.1" to "0.2"
+packages/core2-64-poky-linux/orc: PV changed from "0.4.36" to "0.4.37"
+packages/core2-64-poky-linux/orc: SRC_URI changed from "http://gstreamer.freedesktop.org/src/orc/orc-0.4.36.tar.xz" to "http://gstreamer.freedesktop.org/src/orc/orc-0.4.37.tar.xz"
+packages/core2-64-poky-linux/orc: PKGV changed from 0.4.36 [default] to 0.4.37 [default]
+packages/core2-64-poky-linux/orc/liborc-0.4: PV changed from "0.4.36" to "0.4.37"
+packages/core2-64-poky-linux/orc/liborc-0.4: PKGSIZE changed from 738548 to 734452 (-1%)
+packages/core2-64-poky-linux/orc/liborc-0.4: FILES: removed "/usr/lib/liborc-0.4.so.0.36.0", added "/usr/lib/liborc-0.4.so.0.37.0"
+packages/core2-64-poky-linux/orc/liborc-0.4: FILELIST: removed "/usr/lib/liborc-0.4.so.0.36.0", added "/usr/lib/liborc-0.4.so.0.37.0"
+packages/core2-64-poky-linux/orc/liborc-0.4: PKGV changed from 0.4.36 [default] to 0.4.37 [default]
+packages/core2-64-poky-linux/orc/liborc-test-0.4: PV changed from "0.4.36" to "0.4.37"
+packages/core2-64-poky-linux/orc/liborc-test-0.4: FILES: removed "/usr/lib/liborc-test-0.4.so.0.36.0", added "/usr/lib/liborc-test-0.4.so.0.37.0"
+packages/core2-64-poky-linux/orc/liborc-test-0.4: FILELIST: removed "/usr/lib/liborc-test-0.4.so.0.36.0", added "/usr/lib/liborc-test-0.4.so.0.37.0"
+packages/core2-64-poky-linux/orc/liborc-test-0.4: PKGV changed from 0.4.36 [default] to 0.4.37 [default]
+packages/core2-64-poky-linux/orc/orc-dbg: PV changed from "0.4.36" to "0.4.37"
+packages/core2-64-poky-linux/orc/orc-dbg: PKGSIZE changed from 2099184 to 2093904 (-0%)
+packages/core2-64-poky-linux/orc/orc-dbg: FILELIST: removed "/usr/lib/.debug/liborc-0.4.so.0.36.0 /usr/lib/.debug/liborc-test-0.4.so.0.36.0", added "/usr/lib/.debug/liborc-0.4.so.0.37.0 /usr/lib/.debug/liborc-test-0.4.so.0.37.0"
+packages/core2-64-poky-linux/orc/orc-dbg: PKGV changed from 0.4.36 [default] to 0.4.37 [default]
+packages/core2-64-poky-linux/orc/orc-dev: PV changed from "0.4.36" to "0.4.37"
+packages/core2-64-poky-linux/orc/orc-dev: PKGSIZE changed from 241237 to 239268 (-1%)
+packages/core2-64-poky-linux/orc/orc-dev: PKGV changed from 0.4.36 [default] to 0.4.37 [default]
+packages/core2-64-poky-linux/orc/orc-doc: PV changed from "0.4.36" to "0.4.37"
+packages/core2-64-poky-linux/orc/orc-doc: PKGV changed from 0.4.36 [default] to 0.4.37 [default]
+packages/core2-64-poky-linux/orc/orc-examples: PV changed from "0.4.36" to "0.4.37"
+packages/core2-64-poky-linux/orc/orc-examples: PKGV changed from 0.4.36 [default] to 0.4.37 [default]
+packages/core2-64-poky-linux/orc/orc-locale: PV changed from "0.4.36" to "0.4.37"
+packages/core2-64-poky-linux/orc/orc-locale: PKGV changed from 0.4.36 [default] to 0.4.37 [default]
+packages/core2-64-poky-linux/orc/orc-src: PV changed from "0.4.36" to "0.4.37"
+packages/core2-64-poky-linux/orc/orc-src: PKGSIZE changed from 1742523 to 1746273 (+0%)
+packages/core2-64-poky-linux/orc/orc-src: PKGV changed from 0.4.36 [default] to 0.4.37 [default]
+packages/core2-64-poky-linux/orc/orc-staticdev: PV changed from "0.4.36" to "0.4.37"
+packages/core2-64-poky-linux/orc/orc-staticdev: PKGV changed from 0.4.36 [default] to 0.4.37 [default]
+packages/core2-64-poky-linux/orc/orc: PV changed from "0.4.36" to "0.4.37"
+packages/core2-64-poky-linux/orc/orc: PKGSIZE changed from 66416 to 66408 (-0%)
+packages/core2-64-poky-linux/orc/orc: PKGV changed from 0.4.36 [default] to 0.4.37 [default]
+Changes to packages/core2-64-poky-linux/orc (sysroot):
+  /usr/lib/liborc-0.4.so.0 changed symlink target from liborc-0.4.so.0.36.0 to liborc-0.4.so.0.37.0
+  /usr/lib/liborc-test-0.4.so.0 changed symlink target from liborc-test-0.4.so.0.36.0 to liborc-test-0.4.so.0.37.0
+  /usr/lib/liborc-0.4.so.0.36.0 moved to /usr/lib/liborc-0.4.so.0.37.0
+  /usr/lib/liborc-test-0.4.so.0.36.0 moved to /usr/lib/liborc-test-0.4.so.0.37.0
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1764,44 +1785,48 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============5864327109512028929==
+--===============2433813796903792943==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-unittest-automake-output-upgrade-0.1-0.2.patch"
+ filename="0001-orc-upgrade-0.4.36-0.4.37.patch"
 
-RnJvbSBlZjY0NjIwMjliYWVjYzc2OTBjMjAxNDNjNGQ4OWRlMDMyMTEzZWFjIE1vbiBTZXAgMTcg
+RnJvbSBkYWE2NTkxMmJiMWI4Y2I1ZWY3NTViNjc5Y2QxOWExZDM3NTU5NjZkIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgRmViIDIwMjQgMDg6MzQ6NDggKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXVuaXR0ZXN0LWF1dG9tYWtlLW91dHB1dDogdXBncmFkZSAwLjEgLT4gMC4yCgotLS0K
-IC4uLmtlLW91dHB1dF8wLjEuYmIgPT4gcHl0aG9uMy11bml0dGVzdC1hdXRvbWFrZS1vdXRwdXRf
-MC4yLmJifSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlv
-bigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtdW5pdHRl
-c3QtYXV0b21ha2Utb3V0cHV0XzAuMS5iYiA9PiBweXRob24zLXVuaXR0ZXN0LWF1dG9tYWtlLW91
-dHB1dF8wLjIuYmJ9ICg4OSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
-dGhvbi9weXRob24zLXVuaXR0ZXN0LWF1dG9tYWtlLW91dHB1dF8wLjEuYmIgYi9tZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdW5pdHRlc3QtYXV0b21ha2Utb3V0cHV0XzAuMi5i
-YgpzaW1pbGFyaXR5IGluZGV4IDg5JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-cHl0aG9uL3B5dGhvbjMtdW5pdHRlc3QtYXV0b21ha2Utb3V0cHV0XzAuMS5iYgpyZW5hbWUgdG8g
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXVuaXR0ZXN0LWF1dG9tYWtlLW91
-dHB1dF8wLjIuYmIKaW5kZXggYmE1OGMxOGRmMC4uMWZjNjE4MGQwZSAxMDA2NDQKLS0tIGEvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXVuaXR0ZXN0LWF1dG9tYWtlLW91dHB1
-dF8wLjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXVuaXR0
-ZXN0LWF1dG9tYWtlLW91dHB1dF8wLjIuYmIKQEAgLTQsNyArNCw3IEBAIExJQ0VOU0UgPSAiTUlU
-IgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9ZjZmMTYwMDhkOWZiNzM0
-OWYwNjYwOTMyOWYxYWI5M2IiCiAKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0bGFiLmNvbS9yb3NzYnVy
-dG9uL3B5dGhvbi11bml0dGVzdC1hdXRvbWFrZS1vdXRwdXQ7cHJvdG9jb2w9aHR0cHM7YnJhbmNo
-PW1haW4iCi1TUkNSRVYgPSAiMDY1MzdlZGIxOGYzNjQxYzcwYmNlMjUyNTZmNmVjZjVmNTE2NGVh
-ZCIKK1NSQ1JFViA9ICJhZWJkZmIxODhlMzY4YzY5MGVhNTVjZjZjOWM5ZmZhMWE1MmRlZjY1Igog
-CiBTID0gIiR7V09SS0RJUn0vZ2l0IgogCi0tIAoyLjQyLjAKCg==
+CkRhdGU6IFRodSwgMTUgRmViIDIwMjQgMDc6NDg6NDMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBv
+cmM6IHVwZ3JhZGUgMC40LjM2IC0+IDAuNC4zNwoKLS0tCiBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+b3JjL3tvcmNfMC40LjM2LmJiID0+IG9yY18wLjQuMzcuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5n
+ZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL29yYy97b3JjXzAuNC4zNi5iYiA9PiBvcmNfMC40LjM3LmJifSAoOTIlKQoKZGlmZiAt
+LWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9vcmMvb3JjXzAuNC4zNi5iYiBiL21ldGEvcmVj
+aXBlcy1kZXZ0b29scy9vcmMvb3JjXzAuNC4zNy5iYgpzaW1pbGFyaXR5IGluZGV4IDkyJQpyZW5h
+bWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvb3JjL29yY18wLjQuMzYuYmIKcmVuYW1lIHRv
+IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9vcmMvb3JjXzAuNC4zNy5iYgppbmRleCBiMTkxMzY3ZWFm
+Li45OTg1MjA0ZDc0IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvb3JjL29yY18w
+LjQuMzYuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL29yYy9vcmNfMC40LjM3LmJiCkBA
+IC01LDcgKzUsNyBAQCBMSUNFTlNFID0gIkJTRC0yLUNsYXVzZSAmIEJTRC0zLUNsYXVzZSIKIExJ
+Q19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PTE0MDBiZDlkMDllOGFmNTZiOWVj
+OTgyYjNkODU3OTdlIgogCiBTUkNfVVJJID0gImh0dHA6Ly9nc3RyZWFtZXIuZnJlZWRlc2t0b3Au
+b3JnL3NyYy9vcmMvb3JjLSR7UFZ9LnRhci54eiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI4M2Iw
+NzRjYjY3MzE3ZDU4YmVmMWU4ZDBjYzg2MmY3YWU4YTc3YTQ1YmJmZjA1NmExZjk4N2M2NDg4YjJm
+NWZkIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjg1NjM4YzBkNDQ3ZDk4OWNkMGQ3ZTAzNDA2YWRi
+ZmJjMzgwZTY3ZGIyYTYyMmE0NzI3YTBjZTNkNDQwYjI5NzQiCiAKIGluaGVyaXQgbWVzb24gcGtn
+Y29uZmlnIGd0ay1kb2MKIAotLSAKMi40Mi4wCgo=
 
---===============5864327109512028929==
+--===============2433813796903792943==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
+packages/core2-64-poky-linux/orc/liborc-0.4: FILELIST: removed "/usr/lib/liborc-0.4.so.0.36.0", added "/usr/lib/liborc-0.4.so.0.37.0"
+packages/core2-64-poky-linux/orc/liborc-test-0.4: FILELIST: removed "/usr/lib/liborc-test-0.4.so.0.36.0", added "/usr/lib/liborc-test-0.4.so.0.37.0"
+Changes to packages/core2-64-poky-linux/orc (sysroot):
+  /usr/lib/liborc-0.4.so.0 changed symlink target from liborc-0.4.so.0.36.0 to liborc-0.4.so.0.37.0
+  /usr/lib/liborc-test-0.4.so.0 changed symlink target from liborc-test-0.4.so.0.36.0 to liborc-test-0.4.so.0.37.0
+  /usr/lib/liborc-0.4.so.0.36.0 moved to /usr/lib/liborc-0.4.so.0.37.0
+  /usr/lib/liborc-test-0.4.so.0.36.0 moved to /usr/lib/liborc-test-0.4.so.0.37.0
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3441,5 +3466,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============5864327109512028929==--
+--===============2433813796903792943==--
 
