@@ -1,108 +1,120 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <randy.macleod@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94AADC48BC4
-	for <webhook@archiver.kernel.org>; Thu, 15 Feb 2024 16:18:58 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web10.17948.1708013930688345776
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0129C4829E
+	for <webhook@archiver.kernel.org>; Thu, 15 Feb 2024 16:21:48 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.18050.1708014102297609195
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Feb 2024 08:18:50 -0800
+ Thu, 15 Feb 2024 08:21:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=le6pfBt8;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1d95d67ff45so8112135ad.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 08:18:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1708013930; x=1708618730; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VlRDkwEfao+zHfAAkg8Pr/uGOuDVJAnm+AjZ4eJu1iM=;
-        b=le6pfBt8LtmYnL2+pLFxgdLzy/pZhqqsWIML1jZz0QFad8vaAhopRtLAZEgly6FT+T
-         O6XVrmpPI+AA17432HnzHNd5Mxx0kw8wHzT1ealTIORF1hvrfDmVy85LlUben8RObxV3
-         xlGQ1xAtmVa1XtnXVM9zfrRJHACHchtTnQlqEOd6PUqQsA5V5JTU8LyTFFJWFvWgv9UP
-         T8QSAuz4Qmx5ViZPiWpAuwtgJvrW0TRSCcw1qdEmHYhmUkI7j2XItQ1EfBC6FSZ+dmkM
-         0VTmDONyE9W66yk6bn0WluPZOogLfBF41SnTTMVeJ5ONOyJfVxrqNXklnFSyKaWYZDaZ
-         ZnVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708013930; x=1708618730;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VlRDkwEfao+zHfAAkg8Pr/uGOuDVJAnm+AjZ4eJu1iM=;
-        b=H/y/IUwHLvzDeiW+4QNuAej0LbFb05f7vVGdGxApVSlB5Hp3mbLlj8u8zW8L1LEtjM
-         DHV9XKF6gFi/DLdPDWOJzdc6+419kOtIZkUm59HMrQqYrrNFCBCx7iRX33jEQKyJ6VQx
-         cyRVI12oAXUPBBzhqqhfUzQVzRCcFZDLROxWU6na+/np52tcwguTI6StDvWSV0mp1Pvr
-         qwuOmbMg8fvw8izhFMgjMBCwFWYByBqpaZdO+Sm1draeMuTfncTxIDRYumOZa8huTndM
-         2mG4cCNKubncEy+kymDgIhDa72E2Mbj0kMoKEXA3FIYjAwP1exjhO3dCRHpjmZVni4zX
-         9qHA==
-X-Gm-Message-State: AOJu0YyLaz7jbarz1A89eBt93jJXAaOnHN9XO1tRDkDxlXAK2bmeeIIp
-	oDM6cpMS5Q4/Ob4ZM65lYpPGNxR60LtErRD+ogeOASDDcQgCGmRAmjj3Pnd1SEC1Gkjo6y909gf
-	W/g4=
-X-Google-Smtp-Source: AGHT+IGNY33yz5ySKCE/M5HKE9AtcbhF87Ldj0jGKKRmNydbG1C/VUVmQMQMrUvpdreL0+nEmFkDVg==
-X-Received: by 2002:a17:902:e551:b0:1d9:5ef2:abdd with SMTP id n17-20020a170902e55100b001d95ef2abddmr2916127plf.0.1708013929980;
-        Thu, 15 Feb 2024 08:18:49 -0800 (PST)
-Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id l17-20020a170902d05100b001db66f3748bsm1445683pll.121.2024.02.15.08.18.49
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Feb 2024 08:18:49 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][nanbield 21/21] multilib_global.bbclass: fix parsing error with no kernel module split
-Date: Thu, 15 Feb 2024 06:18:04 -1000
-Message-Id: <82dd61aade02456621cd2958b2fbb56236062789.1708012696.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1708012696.git.steve@sakoman.com>
-References: <cover.1708012696.git.steve@sakoman.com>
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=WjBRviO7;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=277593d998=randy.macleod@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41F5o3cN028366;
+	Thu, 15 Feb 2024 16:21:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=BgyOJ
+	7KqAG3OZ3eTcGzc9h4RSlK9tA24j3cr8FgZ8xY=; b=WjBRviO7mI7leV05SDx9A
+	gfB1OQNz0jybURKGa9WvrUgIK5GWXw6Hyez/waDnyIC1AnijAyeRjzBbzIStsN+h
+	T8pBdLkHW5cK4341GFSujiHESVXUQzlIL130jZvtWYhHY2Qil6QvAxVKNkEabGsC
+	IRnVCVqb6PtElASI137LBvl9ZKVdq7J0POufKddQXR/WFBHBiEkAE3YUzzN/FC/U
+	/UmLLdPnZxM6cms41j/wDFj2iTAib1cl9QDzznlAkMIpPiR2IrSuygdc8jFb5zRN
+	dEeFSz/v66UV/x0gVQKRdrS/rgWeWimUNjzBOzL9DtOqvVzfqD3T+qNgm4dnkrIA
+	A==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3w5xbxw0j2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 15 Feb 2024 16:21:41 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Thu, 15 Feb 2024 08:21:39 -0800
+Received: from ala-lpggp3.wrs.com (147.11.105.124) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.35 via Frontend Transport; Thu, 15 Feb 2024 08:21:39 -0800
+From: <Randy.MacLeod@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <raj.khem@gmail.com>
+Subject: [PATCH] valgrind: Skip 22 arm64 ptests
+Date: Thu, 15 Feb 2024 08:21:39 -0800
+Message-ID: <20240215162139.4134937-1-Randy.MacLeod@windriver.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: GhZyoq5RpCT-nnvzbiTiBg30AhfPzvjp
+X-Proofpoint-GUID: GhZyoq5RpCT-nnvzbiTiBg30AhfPzvjp
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-15_15,2024-02-14_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ impostorscore=0 clxscore=1015 bulkscore=0 mlxlogscore=999 malwarescore=0
+ mlxscore=0 phishscore=0 priorityscore=1501 suspectscore=0 spamscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401310000 definitions=main-2402150131
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 16:18:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195541
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 16:21:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195542
 
-From: Chen Qi <Qi.Chen@windriver.com>
+From: Randy MacLeod <Randy.MacLeod@windriver.com>
 
-The problem could be reproduced with the following settings:
-MACHINE = "qemux86-64"
-KERNEL_SPLIT_MODULES = "0"
-require conf/multilib.conf
-MULTILIBS ?= "multilib:lib32"
-DEFAULTTUNE:virtclass-multilib-lib32 ?= "core2-32"
+With the 3.22 upgrade 21 additional tests fail on qemuarm64.
+Skip them until the problems are resolved. Tracked by:
+   https://bugzilla.yoctoproject.org/show_bug.cgi?id=15399
 
-The error message is as below:
-  bb.data_smart.ExpansionError: Failure expanding variable KERNEL_VERSION_PKG_NAME, expression was ${@legitimize_package_name(d.getVar('KERNEL_VERSION'))} which triggered exception TypeError: expected string or bytes-like object
-  The variable dependency chain for the failure is: KERNEL_VERSION_PKG_NAME -> RPROVIDES:kernel-modules
-
-This is because multilib_virtclass_handler_global function in
-multilib_global.bbclass deletes KERNEL_VERSION. So we need to handle
-such situation. We'll also need to delete KERNEL_VERSION_PKG_NAME
-to avoid this parsing error.
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 43dd497bc161ac44faecfdff052db03679dbb4f8)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
 ---
- meta/classes/multilib_global.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ .../valgrind/valgrind/remove-for-aarch64      | 27 ++++++++++++++++---
+ 1 file changed, 24 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/multilib_global.bbclass b/meta/classes/multilib_global.bbclass
-index dcd89b2f63..6095d278dd 100644
---- a/meta/classes/multilib_global.bbclass
-+++ b/meta/classes/multilib_global.bbclass
-@@ -195,6 +195,7 @@ python multilib_virtclass_handler_global () {
-             # from a copy of the datastore
-             localdata = bb.data.createCopy(d)
-             localdata.delVar("KERNEL_VERSION")
-+            localdata.delVar("KERNEL_VERSION_PKG_NAME")
- 
-             variants = (e.data.getVar("MULTILIB_VARIANTS") or "").split()
- 
+diff --git a/meta/recipes-devtools/valgrind/valgrind/remove-for-aarch64 b/meta/recipes-devtools/valgrind/valgrind/remove-for-aarch64
+index 4477f39132..04f159d701 100644
+--- a/meta/recipes-devtools/valgrind/valgrind/remove-for-aarch64
++++ b/meta/recipes-devtools/valgrind/valgrind/remove-for-aarch64
+@@ -1,7 +1,9 @@
++drd/tests/annotate_sem
+ drd/tests/boost_thread
+ gdbserver_tests/hgtls
++helgrind/tests/hg05_race2
++helgrind/tests/tc20_verifywrap
+ memcheck/tests/dw4
+-memcheck/tests/leak_cpp_interior
+ memcheck/tests/varinfo1
+ memcheck/tests/varinfo2
+ memcheck/tests/varinfo3
+@@ -9,5 +11,24 @@ memcheck/tests/varinfo4
+ memcheck/tests/varinfo5
+ memcheck/tests/varinfo6
+ memcheck/tests/varinforestrict
+-helgrind/tests/hg05_race2
+-helgrind/tests/tc20_verifywrap
++memcheck/tests/atomic_incs
++memcheck/tests/bug464969_d_demangle
++memcheck/tests/cxx17_aligned_new
++memcheck/tests/demangle
++memcheck/tests/linux/timerfd-syscall
++memcheck/tests/long_namespace_xml
++memcheck/tests/mismatches
++memcheck/tests/mismatches_xml
++memcheck/tests/new_aligned_delete_default
++memcheck/tests/new_delete_mismatch_size
++memcheck/tests/new_nothrow
++memcheck/tests/realloc_size_zero_mismatch
++memcheck/tests/sized_aligned_new_delete_args
++memcheck/tests/sized_aligned_new_delete_misaligned1
++memcheck/tests/sized_aligned_new_delete_misaligned1_xml
++memcheck/tests/sized_aligned_new_delete_misaligned2
++memcheck/tests/sized_aligned_new_delete_misaligned2_xml
++memcheck/tests/sized_aligned_new_delete_misaligned3
++memcheck/tests/sized_aligned_new_delete_misaligned3_xml
++memcheck/tests/sized_delete
++none/tests/bigcode
 -- 
-2.34.1
+2.43.0
 
 
