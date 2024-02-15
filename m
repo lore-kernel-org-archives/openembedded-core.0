@@ -1,176 +1,104 @@
-Return-Path: <enguerrand.de-ribaucourt@savoirfairelinux.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF081C48BEB
-	for <webhook@archiver.kernel.org>; Thu, 15 Feb 2024 17:04:38 +0000 (UTC)
-Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [208.88.110.44])
- by mx.groups.io with SMTP id smtpd.web11.19506.1708016675280777884
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4249BC4829E
+	for <webhook@archiver.kernel.org>; Thu, 15 Feb 2024 17:11:29 +0000 (UTC)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+ by mx.groups.io with SMTP id smtpd.web10.19510.1708017080822870430
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Feb 2024 09:04:35 -0800
+ Thu, 15 Feb 2024 09:11:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@savoirfairelinux.com header.s=DFC430D2-D198-11EC-948E-34200CB392D2 header.b=Pfk4HrX2;
- spf=pass (domain: savoirfairelinux.com, ip: 208.88.110.44, mailfrom: enguerrand.de-ribaucourt@savoirfairelinux.com)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 972449C2A5D;
-	Thu, 15 Feb 2024 12:04:34 -0500 (EST)
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
- by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10032)
- with ESMTP id HjiMKARcl8mf; Thu, 15 Feb 2024 12:04:33 -0500 (EST)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 7CFBE9C45E9;
-	Thu, 15 Feb 2024 12:04:33 -0500 (EST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com 7CFBE9C45E9
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bvLp8mG+;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.167.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5101cd91017so1384673e87.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 09:11:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=savoirfairelinux.com; s=DFC430D2-D198-11EC-948E-34200CB392D2;
-	t=1708016673; bh=CXXvJd5HHbC0gDE9wLGWx/hgBkC90z5ByyIHwG1Mq0U=;
-	h=From:To:Date:Message-Id:MIME-Version;
-	b=Pfk4HrX2vZw5rZxmv4OAAyvqOpdUllr3qs6KJ+bfi4Rw7HR4UzyYWBwD/7gE0r85d
-	 DWw6IuDvqtvzLxV/QxYOTofFESE63WcMU1ynS8VvaI+aCMYMX0CaQF4/tlY5DplTfx
-	 dbPZy1JS+vy/RTPS4gMgGeM9sokAdnIFvHt8Sgh/kCNlpuMB9vtJFkkcbzgG0WDqGF
-	 iYw+d0UokKmBL/svMQ5tekGReYxItwD7dqqX23hiaBkjztUkc2u2+SnQCsv/vWkpKL
-	 Wqj+xYJp74fhiHXrIxzzd+3vJOXQkwjP7ZgzAbrtqqsGGx2bGyrMdHXFnIj380DyrF
-	 +hdBJDWyeSTVw==
-X-Virus-Scanned: amavis at mail.savoirfairelinux.com
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
- by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10026)
- with ESMTP id uMvDwO7ldaGW; Thu, 15 Feb 2024 12:04:33 -0500 (EST)
-Received: from sfl-deribaucourt.rennes.sfl (lmontsouris-657-1-69-118.w80-15.abo.wanadoo.fr [80.15.101.118])
-	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id A10E79C3381;
-	Thu, 15 Feb 2024 12:04:32 -0500 (EST)
-From: Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
-To: openembedded-core@lists.openembedded.org
-Cc: adrian.freihofer@gmail.com,
-	Ross.Burton@arm.com,
-	mohammed.raza@savoirfairelinux.com,
-	Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
-Subject: [PATCH 6/6] devtool: code: Provide a generic C++ configuration
-Date: Thu, 15 Feb 2024 18:04:22 +0100
-Message-Id: <20240215170422.659073-7-enguerrand.de-ribaucourt@savoirfairelinux.com>
-X-Mailer: git-send-email 2.34.1
+        d=linuxfoundation.org; s=google; t=1708017079; x=1708621879; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=KxxCIQCQzS3DGLyifjivivSEfhG69qvWhj61s6c6DDE=;
+        b=bvLp8mG+kM4aKIJwqcGFtM5xoCnvtQKVjxnfxJ2mbHUNbnkP6K8xGNlDt3Dmm0HiIM
+         19zwJZWu4srbPfvJzZ59jBRi6ehorCj6E5CE+Zwex5aGsSMSrG614fLcDzAarcsT7ZDT
+         upT/qbTS/YxJ9bLI+zXpRuCg73I0u6IRP7WSI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708017079; x=1708621879;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KxxCIQCQzS3DGLyifjivivSEfhG69qvWhj61s6c6DDE=;
+        b=Iv4ahp+WyTW8p6c8To2xSJdQLP34+2Y2eBfVecOx7LVX9VzFs2Z0/sIJCSgfvsg4zv
+         F0XS1EhmaXprMOwqbxPaBrWQkgTWBl8JqEIkhrUkfhU5SVK7wBSb0ouyosIkv5dpKlxc
+         p3WBUSnale1RIoE6XC4qVe9pHWL8y0KBSL4xXiFQVX3duVTmwAqFlOPRTcWCvOFm2T62
+         rHSk5w+7QKx+rrcio4JNp4G7vGWe7c2/i5RqJdEnn0raoBUe8V5DfKWGzOTZYCNUT+K4
+         447nQqAVqp8JVQQ9MlQFcYJT7irwSey9gUNGM9VMhsplVip9IskeNdBKVDOfjtcZ5DmE
+         EnYA==
+X-Forwarded-Encrypted: i=1; AJvYcCXEX8sL67KrN0WBlj3eB6Yd+NXAuVOqUt9/I77oUI9v/hJ78A5pcUSZRacrK3lwWw0K7wht+RzQy2s05FcyJY3yboxmZla1c1hqGudnxNJDghyCXRe/g3uV
+X-Gm-Message-State: AOJu0YwjxtwM3j8JqjZBviTEB0MSxEjgpUnpfruJcs22x0VUntrh9FBs
+	uok2kHOLW7PlhvT+OoCBr0eCCurPJYOAiIkbqCw2okPk4+Z4SeLgeC9xvKOrGjQ=
+X-Google-Smtp-Source: AGHT+IF9cVhDGyhYW2PCQKflYxRXHD09DnbyAGckJpf+mwz9B5hxlAumr0VTp3LadvQ/aZp7EhOpPA==
+X-Received: by 2002:ac2:4824:0:b0:511:b44b:8052 with SMTP id 4-20020ac24824000000b00511b44b8052mr1566562lft.65.1708017079000;
+        Thu, 15 Feb 2024 09:11:19 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:506:d04:fb88:63ff? ([2001:8b0:aba:5f3c:506:d04:fb88:63ff])
+        by smtp.gmail.com with ESMTPSA id r15-20020a5d4e4f000000b0033cf2063052sm2322810wrt.111.2024.02.15.09.11.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Feb 2024 09:11:18 -0800 (PST)
+Message-ID: <a23568b22a49469e65a2ad94dd6a4db3d54fb265.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 0/6] devtool: ide: Improve VSCode support
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Enguerrand de Ribaucourt
+ <enguerrand.de-ribaucourt@savoirfairelinux.com>, 
+ openembedded-core@lists.openembedded.org
+Cc: adrian.freihofer@gmail.com, Ross.Burton@arm.com, 
+	mohammed.raza@savoirfairelinux.com
+Date: Thu, 15 Feb 2024 17:11:17 +0000
 In-Reply-To: <20240215170422.659073-1-enguerrand.de-ribaucourt@savoirfairelinux.com>
-References: <20240215170422.659073-1-enguerrand.de-ribaucourt@savoirfairelinux.com>
-MIME-Version: 1.0
+References: 
+	<20240215170422.659073-1-enguerrand.de-ribaucourt@savoirfairelinux.com>
+Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
+ YNvg==
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.0-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 17:04:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195554
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 17:11:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195555
 
-By default, the cpptools VSCode extension will use the host's headers
-and flags for linting. This results in a lot of include errors and
-misleading definitions. Even though this generic configuration doesn't
-include all the depenendencies, it is a proper fallback for recipe
-classes we do not accurately cover, with at least the right sysroot.
+On Thu, 2024-02-15 at 18:04 +0100, Enguerrand de Ribaucourt wrote:
+> These patches improve the VSCode support in devtool ide-sdk from
+> Adrian Freihofer.
+>=20
+> I added a generic C++ configuration for the VScode
+> extension while awaiting for autotools support.
+>=20
+> A refactoring is proposed for the meson class. Without absolute compiler
+> paths, the linter inside VSCode will not be able to find the
+> cross-compiler. Let me know if you have any concerns about this
+> refactoring.
+>=20
+> The other bug fixes are relatively minor and make the tool work for some =
+edge
+> cases.
 
-Additionally, ide-sdk automatically detects and provides a launch.json
-configuration for autotools recipes so we should recommend the C++
-extensions for them.
+I noticed none of the patches in this series have Signed-off-by lines
+which needs to be fixed before we can merge them. Patchtest should be
+along shortly to say that too!
 
-If the recipe is of another class (like Python), then the configuration
-will be generated but probably useless to the user. We'd need a mecanism
-to know if the recipe contains C/C++ but I'm not aware of any
-class-agnostic way to do it.
----
- scripts/lib/devtool/ide_plugins/ide_code.py | 25 ++++++++++++---------
- scripts/lib/devtool/ide_sdk.py              |  3 +++
- 2 files changed, 18 insertions(+), 10 deletions(-)
+I need to think about and test the meson one a bit more as absolute
+paths can be a source of problems. I've not looked into the others in
+detail yet.
 
-diff --git a/scripts/lib/devtool/ide_plugins/ide_code.py b/scripts/lib/de=
-vtool/ide_plugins/ide_code.py
-index 7b683c74086..51cf2c8a736 100644
---- a/scripts/lib/devtool/ide_plugins/ide_code.py
-+++ b/scripts/lib/devtool/ide_plugins/ide_code.py
-@@ -157,31 +157,33 @@ class IdeVSCode(IdeBase):
-         IdeBase.update_json_file(
-             self.dot_code_dir(modified_recipe), settings_file, settings_=
-dict)
-=20
-+    def __vscode_extensions_generic(self, modified_recipe, recommendatio=
-ns):
-+        recommendations +=3D [
-+            "ms-vscode.cpptools",
-+            "ms-vscode.cpptools-extension-pack",
-+            "ms-vscode.cpptools-themes"
-+        ]
-+
-     def __vscode_extensions_cmake(self, modified_recipe, recommendations=
-):
-         if modified_recipe.build_tool is not BuildTool.CMAKE:
-             return
-         recommendations +=3D [
-             "twxs.cmake",
--            "ms-vscode.cmake-tools",
--            "ms-vscode.cpptools",
--            "ms-vscode.cpptools-extension-pack",
--            "ms-vscode.cpptools-themes"
-+            "ms-vscode.cmake-tools"
-         ]
-=20
-     def __vscode_extensions_meson(self, modified_recipe, recommendations=
-):
-         if modified_recipe.build_tool is not BuildTool.MESON:
-             return
-         recommendations +=3D [
--            'mesonbuild.mesonbuild',
--            "ms-vscode.cpptools",
--            "ms-vscode.cpptools-extension-pack",
--            "ms-vscode.cpptools-themes"
-+            'mesonbuild.mesonbuild'
-         ]
-=20
-     def vscode_extensions(self, modified_recipe):
-         recommendations =3D []
-         self.__vscode_extensions_cmake(modified_recipe, recommendations)
-         self.__vscode_extensions_meson(modified_recipe, recommendations)
-+        self.__vscode_extensions_generic(modified_recipe, recommendation=
-s)
-         extensions_file =3D 'extensions.json'
-         IdeBase.update_json_file(
-             self.dot_code_dir(modified_recipe), extensions_file, {"recom=
-mendations": recommendations})
-@@ -194,8 +196,11 @@ class IdeVSCode(IdeBase):
-             properties_dict["configurationProvider"] =3D "ms-vscode.cmak=
-e-tools"
-         elif modified_recipe.build_tool is BuildTool.MESON:
-             properties_dict["configurationProvider"] =3D "mesonbuild.mes=
-onbuild"
--        else:  # no C/C++ build
--            return
-+        else: =20
-+            # Provide a generic linting configuration
-+            # We provide a C++ configuration with the proper sysroot
-+            properties_dict["compilerPath"] =3D os.path.join(modified_re=
-cipe.staging_bindir_toolchain, modified_recipe.cxx.split()[0])
-+            properties_dict["compilerArgs"] =3D modified_recipe.cxx.spli=
-t()[1:]
-=20
-         properties_dicts =3D {
-             "configurations": [
-diff --git a/scripts/lib/devtool/ide_sdk.py b/scripts/lib/devtool/ide_sdk=
-.py
-index 1e36f2b2093..c82b150a83e 100755
---- a/scripts/lib/devtool/ide_sdk.py
-+++ b/scripts/lib/devtool/ide_sdk.py
-@@ -345,6 +345,7 @@ class RecipeModified:
-         self.base_libdir =3D recipe_d.getVar('base_libdir')
-         self.bblayers =3D recipe_d.getVar('BBLAYERS').split()
-         self.bpn =3D recipe_d.getVar('BPN')
-+        self.cxx =3D recipe_d.getVar('CXX')
-         self.d =3D recipe_d.getVar('D')
-         self.fakerootcmd =3D recipe_d.getVar('FAKEROOTCMD')
-         self.fakerootenv =3D recipe_d.getVar('FAKEROOTENV')
-@@ -361,6 +362,8 @@ class RecipeModified:
-             recipe_d.getVar('RECIPE_SYSROOT'))
-         self.recipe_sysroot_native =3D os.path.realpath(
-             recipe_d.getVar('RECIPE_SYSROOT_NATIVE'))
-+        self.staging_bindir_toolchain =3D os.path.realpath(
-+            recipe_d.getVar('STAGING_BINDIR_TOOLCHAIN'))
-         self.staging_incdir =3D os.path.realpath(
-             recipe_d.getVar('STAGING_INCDIR'))
-         self.strip_cmd =3D recipe_d.getVar('STRIP')
---=20
-2.34.1
+Cheers,
 
+Richard
 
