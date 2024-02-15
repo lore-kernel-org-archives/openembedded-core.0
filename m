@@ -1,102 +1,142 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6DF1C4829E
-	for <webhook@archiver.kernel.org>; Thu, 15 Feb 2024 15:21:57 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web11.16510.1708010512744535090
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3CD6C4829E
+	for <webhook@archiver.kernel.org>; Thu, 15 Feb 2024 15:48:37 +0000 (UTC)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+ by mx.groups.io with SMTP id smtpd.web11.17215.1708012113265182355
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Feb 2024 07:21:53 -0800
+ Thu, 15 Feb 2024 07:48:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=V4wDDWMS;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4122acb7e56so2880495e9.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 07:21:52 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=moP4udXP;
+ spf=pass (domain: gmail.com, ip: 209.85.208.169, mailfrom: jpewhacker@gmail.com)
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2d109e7bed2so13374151fa.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 07:48:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1708010511; x=1708615311; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=su4y3/f/e1meviXJT3d/1oL9YWKDqnk+oNWXZzCmsnE=;
-        b=V4wDDWMSZsAGbdLZkjxkioP4EtYIz2Dtdm+2Tr3Jl9vx3Ho3aBbMtRA5O0Mf0R9ipw
-         1EQPu8JNspwj7oRSxGDkQfUkg1P+wsHl9O672lgj8kNvf40w7KKmM+q3SRuO5tiHIa/I
-         4LlWqHAivMmvjsge9NLluuN1xj/nec1kbHiF8=
+        d=gmail.com; s=20230601; t=1708012111; x=1708616911; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RPBeTXIdjEYomDBfsc9LrtQLtuGZh572H42HP7RDP2Q=;
+        b=moP4udXPmaFjy7DTmh1zifl0AHQREV6v0KhhZI6Il6jcnVDZo4codauCUe/1BN+55Y
+         AFlyFGw/w9sT1edwFr5x/IBRhh1j37E+Y4tEgbXF1IkmJ3a6CXCxvb2reyJpf+geYAE7
+         Dei/q/synFhEYk0Mnp/T4h5iIQ5nXszm+ilpAMrHe0fSFSN81qttj7jFHL7SfCPGCgct
+         03WlOBqu1ax554ySRq8G5WKOYxW88AZ7aCGfXsAZOt9f5WBtfV4A22TD7rZDZStUzRxp
+         Ep8Ehpsz3XZqMXgzKc85hLAL1kqhebiBtaTBOrRWaHUGUKSCDaGVVSKBis7hf+DMivPH
+         sHYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708010511; x=1708615311;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=su4y3/f/e1meviXJT3d/1oL9YWKDqnk+oNWXZzCmsnE=;
-        b=fN27o7xnE5OfPuL+P1wgI50U4Tk9OMs27sRqgTdKjcNl10md6ff7xCi65wPJ3SLMUO
-         BdeX23QxryRH+cLMSi/thYa5NsNsNI/tkDt7KAz1TzPq42C2dhcoJhlFDYolQouUrdCV
-         tp40AmmidcPttcK+nI+JRzs93gf1gl6laz5kTQF96VIMKxx/vB/oK6m7jKNkC6e3PfI2
-         ST8BgRZO5CmpQdIeCvt34sxJ7oZkMm1cwvNNgA9YrVu6DGAQoVbopyyEF+SX2+yO1ocT
-         Jco77lMugC+/KHCQqZr+7V1kjEDnxW2Y0OEgYpDuROgobKzL1rD1vVUUHPMZ5FicrzAR
-         Vubw==
-X-Forwarded-Encrypted: i=1; AJvYcCU+5btTXwMcPZ+/LeZkR2En6auW8v/upkelB3k6o71saE0P4OBy5io6BuGs0Le//69FXKKbu4fJTtSz/x95TgOiB4uOv5rnkZZ3ejtauspDRGKUaRQbRrw/
-X-Gm-Message-State: AOJu0YxYCekztXi17ZWjx2DktFrkc7VWWHta6Hjy3oAKDnfP/HSHbNC2
-	vi/owJfZxqjgXq9vYkJSPLJ83AYnobLWgsumP5UHCuLXRg+3X9pjwdwIpmg1hvE=
-X-Google-Smtp-Source: AGHT+IGJDEww6bc5gk497vliAC5qVpCyuxT/0SBpUxvpK1s406rqgIyzvIt5Oc76dbIsZDCDtiYuzA==
-X-Received: by 2002:a05:600c:4446:b0:40f:d25c:41d0 with SMTP id v6-20020a05600c444600b0040fd25c41d0mr1761041wmn.29.1708010511221;
-        Thu, 15 Feb 2024 07:21:51 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:506:d04:fb88:63ff? ([2001:8b0:aba:5f3c:506:d04:fb88:63ff])
-        by smtp.gmail.com with ESMTPSA id bg38-20020a05600c3ca600b0040f0219c371sm2420159wmb.19.2024.02.15.07.21.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Feb 2024 07:21:50 -0800 (PST)
-Message-ID: <6aafdf6c32502cc814d08437da838790dfbe5e28.camel@linuxfoundation.org>
-Subject: Re: [oe-core][master][PATCH] busybox: Use ISO 13400 timings in zcip
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jan-Simon =?ISO-8859-1?Q?M=F6ller?= <jsmoeller@linuxfoundation.org>, 
- akash hadke <akash.hadke27@gmail.com>,
- openembedded-core@lists.openembedded.org
-Cc: akash hadke <akash.hadke@kpit.com>
-Date: Thu, 15 Feb 2024 15:21:50 +0000
-In-Reply-To: <2143322.9o76ZdvQCi@arbeit>
-References: <20240207075127.1247940-1-akash.hadke27@gmail.com>
-	 <3b81b9891249e88e27daddffbb6f126ceb8f4dd3.camel@linuxfoundation.org>
-	 <2143322.9o76ZdvQCi@arbeit>
-Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
- YNvg==
+        d=1e100.net; s=20230601; t=1708012111; x=1708616911;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RPBeTXIdjEYomDBfsc9LrtQLtuGZh572H42HP7RDP2Q=;
+        b=JVyxZRLVrWSvo71DsEPo2/1Qo5Kd0BN4Q0A2+eeIjPkh5IwocRbCaVkKDsJR9TmRCK
+         QsBD1G+0pucdJjWjeuahBxdgC9CKBWeg5SOCSRhKwl6hR+m7n4dfScpcPaGazEHFwbN4
+         NJwTefVpDX08Tv1ffbBFMoW6fqmBmykG+bigmNf9YhF86lMLHjol3IMG697YCR8P3VDI
+         iV0fNV0n+MvCH5l4yyS/0BQKRe9f5shgRXJjiCOpg9k4lKcI1/scMOM/ZHma0Dh1mEn1
+         cw/x1mIM+MLdmIcF4qPZuK7xmTqnPc/lzSJywFlibva8u4yhZ4pKONQYnPNo3PQfBSX5
+         4sUA==
+X-Gm-Message-State: AOJu0YxFQb1wjAjUgrZvP0ZetwZ1dIET7FwKBHs0WvoIMLxe5sGxNhkv
+	GUbWSwKiJYjbD3AWMxSrk72Tr3lodB4ny9xZstiw46UXpyv7t2GNcIIf2gTh0DOfGA6+N59B+Rt
+	CqnQYy6K6wESG09ZErSqcSdUXczQ=
+X-Google-Smtp-Source: AGHT+IErBhPrRkI6jXGnQY7k3gzdADHJvn6w2SLEPRWlU+4t5gI6Athhw+/az+eQ5tsYqYiFWjKCFxkMGT0Yu5aTD2w=
+X-Received: by 2002:a2e:8919:0:b0:2d1:1d21:147e with SMTP id
+ d25-20020a2e8919000000b002d11d21147emr1609082lji.4.1708012111148; Thu, 15 Feb
+ 2024 07:48:31 -0800 (PST)
+MIME-Version: 1.0
+References: <20240214013316.127190-1-m.belouarga@technologyandstrategy.com>
+In-Reply-To: <20240214013316.127190-1-m.belouarga@technologyandstrategy.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Thu, 15 Feb 2024 08:48:18 -0700
+Message-ID: <CAJdd5GYmR9iPOeWji5YpbZQVb_eDi_7g7KiUWZaNR2eVV9QYKg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] create-spdx-2.2: Correct the default value of SPDX_NAMESPACE_PREFIX
+To: belouargamohamed@gmail.com
+Cc: openembedded-core@lists.openembedded.org, 
+	f.lahoudere@technologyandstrategy.com, 
+	BELOUARGA Mohamed <m.belouarga@technologyandstrategy.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.0-1 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 15:21:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195518
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 15:48:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195519
 
-On Thu, 2024-02-15 at 16:06 +0100, Jan-Simon M=C3=B6ller wrote:
-> Am Freitag, 9. Februar 2024, 15:17:13 CET schrieb Richard Purdie via=20
-> lists.openembedded.org:
-> > On Wed, 2024-02-07 at 13:21 +0530, akash hadke wrote:
-> >=20
-> > I think a few of us are torn on this. If it were accepted upstream, I'd
-> > probably take it. Whilst it is still pending, I'm less sure.
-> >=20
-> > Having "embedded" targeted features in OE-Core is desirable in many
-> > ways. In this case the target usage is probably quite niche.
-> >=20
-> > I'd like to see if anyone else would find this useful? Does AGL want to
-> > use this for example?
->=20
-> We (AGL) would wait for upstream busybox feedback to=20
-> http://lists.busybox.net/pipermail/busybox/2024-February/090611.html=20
->=20
-> And go from there.
+On Tue, Feb 13, 2024 at 6:33=E2=80=AFPM <belouargamohamed@gmail.com> wrote:
+>
+> From: BELOUARGA Mohamed <m.belouarga@technologyandstrategy.com>
+>
+> This patch corrects the default value of SPDX_NAMESPACE_PREFIX as the pre=
+vious
+> value is not expected to exist.
+> It adds also the documentation of the variable SPDX_NAMESPACE_PREFIX.
+> This patch can also be linked to the bug: https://bugzilla.yoctoproject.o=
+rg/show_bug.cgi?id=3D15398
+>
+> Signed-off-by: BELOUARGA Mohamed <m.belouarga@technologyandstrategy.com>
+> ---
+>  documentation/ref-manual/variables.rst | 5 +++++
+>  meta/classes/create-spdx-2.2.bbclass   | 2 +-
+>  2 files changed, 6 insertions(+), 1 deletion(-)
+>
+> diff --git a/documentation/ref-manual/variables.rst b/documentation/ref-m=
+anual/variables.rst
+> index 6f7d6ff01e..907575ba82 100644
+> --- a/documentation/ref-manual/variables.rst
+> +++ b/documentation/ref-manual/variables.rst
+> @@ -7913,6 +7913,11 @@ system and gives an overview of their function and=
+ contents.
+>        image), compared to just using the :ref:`ref-classes-create-spdx` =
+class
+>        with no option.
+>
+> +   :term:`SPDX_NAMESPACE_PREFIX`
+> +      This option could be used in order to change the prefix of ``spdxD=
+ocument``
+> +      and the prefix of ``documentNamespace``. It is set by default to:
+> +      ``https://spdx.org/spdxdocs`` .
+> +
+>     :term:`SPDX_PRETTY`
+>        This option makes the SPDX output more human-readable, using
+>        identation and newlines, instead of the default output in a
+> diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/create-s=
+pdx-2.2.bbclass
+> index 486efadba9..dedaffc043 100644
+> --- a/meta/classes/create-spdx-2.2.bbclass
+> +++ b/meta/classes/create-spdx-2.2.bbclass
+> @@ -28,7 +28,7 @@ SPDX_ARCHIVE_SOURCES ??=3D "0"
+>  SPDX_ARCHIVE_PACKAGED ??=3D "0"
+>
+>  SPDX_UUID_NAMESPACE ??=3D "sbom.openembedded.org"
+> -SPDX_NAMESPACE_PREFIX ??=3D "http://spdx.org/spdxdoc"
+> +SPDX_NAMESPACE_PREFIX ??=3D "https://spdx.org/spdxdocs"
 
-Thanks, in that case I think OE-Core will follow on that as I don't
-think this is going to be enabled to tested in most of our userbase.
+Per the spec [1], the recommended form is
+"http://[CreatorWebsite]/[pathToSpdx]/[DocumentName]-[UUID]". If a
+creator doesn't own a website for publishing, "spdx.org/spdxdocs" can
+used for CreatorWebsite. Therefore, while the "spdxdocs" is required,
+https:// isn't. I'd prefer to keep it that way in case anyone wants to
+use that prefix to decide if the document can be downloaded or not.
 
-Cheers,
+[1]: https://spdx.github.io/spdx-spec/v2.2.2/document-creation-information/=
+#652-intent
 
-Richard
+>  SPDX_PRETTY ??=3D "0"
+>
+>  SPDX_LICENSES ??=3D "${COREBASE}/meta/files/spdx-licenses.json"
+> --
+> 2.25.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#195450): https://lists.openembedded.org/g/openembedde=
+d-core/message/195450
+> Mute This Topic: https://lists.openembedded.org/mt/104345729/3616693
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [JP=
+EWhacker@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
