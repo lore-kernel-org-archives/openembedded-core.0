@@ -2,177 +2,141 @@ Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CC2CC4829E
-	for <webhook@archiver.kernel.org>; Thu, 15 Feb 2024 23:16:06 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web10.6279.1708038960542913605
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BA03C4829E
+	for <webhook@archiver.kernel.org>; Thu, 15 Feb 2024 23:21:16 +0000 (UTC)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web10.6726.1708039271986567441
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Feb 2024 15:16:00 -0800
+ Thu, 15 Feb 2024 15:21:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=AmSjml93;
- spf=pass (domain: gmail.com, ip: 209.85.221.43, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-33b29b5ea96so708648f8f.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 15:16:00 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=LzZtvJao;
+ spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-33b401fd72bso130980f8f.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 15:21:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708038959; x=1708643759; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1708039270; x=1708644070; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Rg0BoQKJoAdkXSf7tHN0/0r2ilFrErylQku/8ifWv0Q=;
-        b=AmSjml9346DpsZftKXtoNstVdw4wYkiTKGPE3AqnKxIt8QYAm3LQ3tvwnhjJkoJYju
-         9fNC9nZlAJfbAkolUBus+419bjgVIwg1fbFThVosw8EqSgOOj4n/9vsR3e19tS4lN6hT
-         6gsCVmouDXG2YuhUzFTc3NEX2k1X47uK7lKAtyiaxHuU6W0fRwOsdQ/2BsQIguarzt2/
-         YlIlqaqd824N++YBKstuA2oqeOncfcqwt25QL3gav65b+n6VBFw70N34413FDyw2nHuG
-         vcE04JLLHgF1WkcIYqzchQvJJJkxeDRosGaiGN37WsboTA0GQOyNiwKnkelVsh6+s6PD
-         6R6g==
+        bh=yaL2pZrznx1qs4WV4KDvsj7B78gESua/nKOXRQndI0A=;
+        b=LzZtvJaotpsXZZO1qCsd9OjczZS/+KLtEJ9HktstjSBzZ+AKB5CCSDq+0Z/k6CsR70
+         VLeQa+loWgNmaUVskM+mRXLRRSn6Hr8/67y3G47A9Uu0KE2On+cAOs01chnpDNIcHB0c
+         xgk6Pay+Pj/efhDyjoUG99h541YInmSWlDnSDWgM2RprKlsUVYdIX7DJiIaC61WYOIJd
+         MML5Lg46IX3KNyfK5cL+irWho+TJ3S1QTA43ptxjtdcrboGHKQYMqPrkZws9sQedUo6h
+         W4XLFlLkezGazA8dvcdXryVIcUBA8P/BKMD6Xug2icrGJCrcCX/mS+GNkL7k0enrjbdK
+         osEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708038959; x=1708643759;
+        d=1e100.net; s=20230601; t=1708039270; x=1708644070;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Rg0BoQKJoAdkXSf7tHN0/0r2ilFrErylQku/8ifWv0Q=;
-        b=iILJi8c/wuUjH1vWCRx6zzdn7YZjphNBDCSLSyKqrrXk/xv+/yeiYcpIcLGS+MRGqW
-         q1Rmn6kSvVlGoxr0lz1iCgLn9vw/8IE0bogbvoEZ0YvC+XyudxVSbGFPOpSJKK1VTVvH
-         /MDW1FSeakCJcGTiFhn08COCK9JeOFJY2KYE09LBlpYwNrn3mjLPmNl9akZgFkR28t3b
-         vsuO22WLHqFs++AjcpqSKJ3aJY64XYsstrEjLCQrJgq+sfxv1/N40VOHeY0Zz8RIE7ef
-         i2PwwHm4aiKqSZXQrRTmSsXJhaiLikNQwUELrBreIKIUp69ndKgx++SopzcMunhUZ/3p
-         +iYw==
-X-Forwarded-Encrypted: i=1; AJvYcCVPWqTx2W4UeNpoLTFaC+zF37UDYqwNMFIwYZtIT+I/Qfemu9IaxnhxQ4iAL3k0WZlZQLFGNlZYK44Km1gKTdlQNcJmkKIfBr6QOVCx8WEzKBbpQgrFS0AS
-X-Gm-Message-State: AOJu0YyIlG3+GeTTARQHylN3Uf/8DtvkHzEjS9GhnzwhppaYtGLR0OwW
-	VUbwH+0GIiWDP58zFKGTttDsN6lGMgbk5AacDvcFmoXPfIL1rmmW1Dcz529ltk4=
-X-Google-Smtp-Source: AGHT+IFYViDw3X4rNCav72xjt9+UIj122sUyirKEAH11h0YDMd+h5WmMdK/aJX1gWbXumhDMKcxWEQ==
-X-Received: by 2002:a05:6000:dd0:b0:33a:fb49:d955 with SMTP id dw16-20020a0560000dd000b0033afb49d955mr2897706wrb.22.1708038958883;
-        Thu, 15 Feb 2024 15:15:58 -0800 (PST)
+        bh=yaL2pZrznx1qs4WV4KDvsj7B78gESua/nKOXRQndI0A=;
+        b=RYyKS/Px+9ONxRHzYf2KDJjH7sPRDaexGjMnHM0ogfP+L2TzbyqRt9PX46NqLS/jCw
+         7iJKB3WLROW8B3i5Cx/CbXayiOWss++xBD8Ry0KH8UyTU+K0pQW5cOslNd9EZBpeGWHc
+         6KsGESHcvL02C0/qMxJXTDedQfFcOxYQBNRqMMwBLI8tXEXF3jopy5uZpyS2CEPbQSYB
+         W2VBOVu7a7mxWJcZdGOGoqqM8NddX8z4Cx+EIoWhQgWE3yCIinHE2eG81cj+rjfTkT57
+         lijnz1PpA1cM4lTBXaMX8PHXtB8kH6tOCRl74fmRMWvH2mL+73VDRwPWsiC+exyGLJX6
+         fqwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW4m/VT1vRxyuAE4kcTyHbewMYhioh9owu4l18PBgMFTULfw4/h3bbwU4chfPfIiern/10V31QlDteUvi8GXTF+mJHAqMt3CwyqT7o+oJRLtcV54dQ5uIA4
+X-Gm-Message-State: AOJu0YzpIxAUI1zF+VOSNShGve1i6JF34B/qs3b7T0H2PooTJRGORn+e
+	wPr4BvL+m3GRiSpIv64naKuvmRbxNI5fcwa4jEQZ5SP4jIf4c+2F4+odo3opY9s=
+X-Google-Smtp-Source: AGHT+IFwgBjOuJG24eEpvXkp8+wKFj4ST6SEga9bC2O6cBqFHgyl1+nedJEk5LTF3eknq0OdECIDxg==
+X-Received: by 2002:a5d:4a11:0:b0:33a:eb25:31a2 with SMTP id m17-20020a5d4a11000000b0033aeb2531a2mr1855354wrq.67.1708039270339;
+        Thu, 15 Feb 2024 15:21:10 -0800 (PST)
 Received: from ?IPv6:2a02:169:59a6:0:55c4:f628:91f3:4287? ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id j18-20020a5d6192000000b0033b6e26f0f9sm444056wru.42.2024.02.15.15.15.58
+        by smtp.gmail.com with ESMTPSA id e5-20020adffd05000000b0033cf0f5a01fsm457072wrr.33.2024.02.15.15.21.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Feb 2024 15:15:58 -0800 (PST)
-Message-ID: <f7c4c010962369b7199921c975792a658bd8c439.camel@gmail.com>
-Subject: Re: [PATCH 6/6] devtool: code: Provide a generic C++ configuration
+        Thu, 15 Feb 2024 15:21:09 -0800 (PST)
+Message-ID: <0238d631c170a7fb72457dec62405c882551cfd6.camel@gmail.com>
+Subject: Re: [PATCH 3/6] devtool: code: Add source mapping for debug source
+ files
 From: adrian.freihofer@gmail.com
 To: Enguerrand de Ribaucourt
  <enguerrand.de-ribaucourt@savoirfairelinux.com>, 
  openembedded-core@lists.openembedded.org
-Date: Fri, 16 Feb 2024 00:15:57 +0100
-In-Reply-To: <20240215170422.659073-7-enguerrand.de-ribaucourt@savoirfairelinux.com>
+Date: Fri, 16 Feb 2024 00:21:09 +0100
+In-Reply-To: <20240215170422.659073-4-enguerrand.de-ribaucourt@savoirfairelinux.com>
 References: 
 	<20240215170422.659073-1-enguerrand.de-ribaucourt@savoirfairelinux.com>
-	 <20240215170422.659073-7-enguerrand.de-ribaucourt@savoirfairelinux.com>
+	 <20240215170422.659073-4-enguerrand.de-ribaucourt@savoirfairelinux.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.48.4 (3.48.4-1.module_f38+17164+63eeee4a) 
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 23:16:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195729
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 23:21:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195730
 
-T24gVGh1LCAyMDI0LTAyLTE1IGF0IDE4OjA0ICswMTAwLCBFbmd1ZXJyYW5kIGRlIFJpYmF1Y291
-cnQgd3JvdGU6Cj4gQnkgZGVmYXVsdCwgdGhlIGNwcHRvb2xzIFZTQ29kZSBleHRlbnNpb24gd2ls
-bCB1c2UgdGhlIGhvc3QncyBoZWFkZXJzCj4gYW5kIGZsYWdzIGZvciBsaW50aW5nLiBUaGlzIHJl
-c3VsdHMgaW4gYSBsb3Qgb2YgaW5jbHVkZSBlcnJvcnMgYW5kCj4gbWlzbGVhZGluZyBkZWZpbml0
-aW9ucy4gRXZlbiB0aG91Z2ggdGhpcyBnZW5lcmljIGNvbmZpZ3VyYXRpb24KPiBkb2Vzbid0Cj4g
-aW5jbHVkZSBhbGwgdGhlIGRlcGVuZW5kZW5jaWVzLCBpdCBpcyBhIHByb3BlciBmYWxsYmFjayBm
-b3IgcmVjaXBlCj4gY2xhc3NlcyB3ZSBkbyBub3QgYWNjdXJhdGVseSBjb3Zlciwgd2l0aCBhdCBs
-ZWFzdCB0aGUgcmlnaHQgc3lzcm9vdC4KPiAKPiBBZGRpdGlvbmFsbHksIGlkZS1zZGsgYXV0b21h
-dGljYWxseSBkZXRlY3RzIGFuZCBwcm92aWRlcyBhCj4gbGF1bmNoLmpzb24KPiBjb25maWd1cmF0
-aW9uIGZvciBhdXRvdG9vbHMgcmVjaXBlcyBzbyB3ZSBzaG91bGQgcmVjb21tZW5kIHRoZSBDKysK
-PiBleHRlbnNpb25zIGZvciB0aGVtLgo+IAo+IElmIHRoZSByZWNpcGUgaXMgb2YgYW5vdGhlciBj
-bGFzcyAobGlrZSBQeXRob24pLCB0aGVuIHRoZQo+IGNvbmZpZ3VyYXRpb24KPiB3aWxsIGJlIGdl
-bmVyYXRlZCBidXQgcHJvYmFibHkgdXNlbGVzcyB0byB0aGUgdXNlci4gV2UnZCBuZWVkIGEKPiBt
-ZWNhbmlzbQo+IHRvIGtub3cgaWYgdGhlIHJlY2lwZSBjb250YWlucyBDL0MrKyBidXQgSSdtIG5v
-dCBhd2FyZSBvZiBhbnkKPiBjbGFzcy1hZ25vc3RpYyB3YXkgdG8gZG8gaXQuCj4gLS0tCj4gwqBz
-Y3JpcHRzL2xpYi9kZXZ0b29sL2lkZV9wbHVnaW5zL2lkZV9jb2RlLnB5IHwgMjUgKysrKysrKysr
-KysrLS0tLS0tLQo+IC0tCj4gwqBzY3JpcHRzL2xpYi9kZXZ0b29sL2lkZV9zZGsucHnCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCB8wqAgMyArKysKPiDCoDIgZmlsZXMgY2hhbmdlZCwgMTggaW5z
-ZXJ0aW9ucygrKSwgMTAgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL3NjcmlwdHMvbGli
-L2RldnRvb2wvaWRlX3BsdWdpbnMvaWRlX2NvZGUucHkKPiBiL3NjcmlwdHMvbGliL2RldnRvb2wv
-aWRlX3BsdWdpbnMvaWRlX2NvZGUucHkKPiBpbmRleCA3YjY4M2M3NDA4Ni4uNTFjZjJjOGE3MzYg
-MTAwNjQ0Cj4gLS0tIGEvc2NyaXB0cy9saWIvZGV2dG9vbC9pZGVfcGx1Z2lucy9pZGVfY29kZS5w
-eQo+ICsrKyBiL3NjcmlwdHMvbGliL2RldnRvb2wvaWRlX3BsdWdpbnMvaWRlX2NvZGUucHkKPiBA
-QCAtMTU3LDMxICsxNTcsMzMgQEAgY2xhc3MgSWRlVlNDb2RlKElkZUJhc2UpOgo+IMKgwqDCoMKg
-wqDCoMKgwqAgSWRlQmFzZS51cGRhdGVfanNvbl9maWxlKAo+IMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCBzZWxmLmRvdF9jb2RlX2Rpcihtb2RpZmllZF9yZWNpcGUpLCBzZXR0aW5nc19maWxlLAo+
-IHNldHRpbmdzX2RpY3QpCj4gwqAKPiArwqDCoMKgIGRlZiBfX3ZzY29kZV9leHRlbnNpb25zX2dl
-bmVyaWMoc2VsZiwgbW9kaWZpZWRfcmVjaXBlLAo+IHJlY29tbWVuZGF0aW9ucyk6CkhlcmUgaXMg
-YSBjb25kaXRpb24gbmVlZGVkLiBUaGlzIGlzIG9ubHkgdmFsaWQgZm9yIHNvbWUgQy9DKysgcmVj
-aXBlcy4KQnV0IG5vdyB0aGVzZSBleHRlbnNpb25zIGFyZSBhbHNvIGluc3RhbGxlZCBlLmcuIGZv
-ciBSdXN0LCBHbywgUHl0aG9uCndoaWNoIGlzIHdyb25nLgoKPiArwqDCoMKgwqDCoMKgwqAgcmVj
-b21tZW5kYXRpb25zICs9IFsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAibXMtdnNjb2RlLmNw
-cHRvb2xzIiwKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAibXMtdnNjb2RlLmNwcHRvb2xzLWV4
-dGVuc2lvbi1wYWNrIiwKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAibXMtdnNjb2RlLmNwcHRv
-b2xzLXRoZW1lcyIKPiArwqDCoMKgwqDCoMKgwqAgXQo+ICsKPiDCoMKgwqDCoCBkZWYgX192c2Nv
-ZGVfZXh0ZW5zaW9uc19jbWFrZShzZWxmLCBtb2RpZmllZF9yZWNpcGUsCj4gcmVjb21tZW5kYXRp
-b25zKToKPiDCoMKgwqDCoMKgwqDCoMKgIGlmIG1vZGlmaWVkX3JlY2lwZS5idWlsZF90b29sIGlz
-IG5vdCBCdWlsZFRvb2wuQ01BS0U6Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybgo+
-IMKgwqDCoMKgwqDCoMKgwqAgcmVjb21tZW5kYXRpb25zICs9IFsKPiDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgInR3eHMuY21ha2UiLAo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgICJtcy12c2Nv
-ZGUuY21ha2UtdG9vbHMiLAo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgICJtcy12c2NvZGUuY3Bw
-dG9vbHMiLAo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgICJtcy12c2NvZGUuY3BwdG9vbHMtZXh0
-ZW5zaW9uLXBhY2siLAo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgICJtcy12c2NvZGUuY3BwdG9v
-bHMtdGhlbWVzIgo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICJtcy12c2NvZGUuY21ha2UtdG9v
-bHMiCj4gwqDCoMKgwqDCoMKgwqDCoCBdCj4gwqAKPiDCoMKgwqDCoCBkZWYgX192c2NvZGVfZXh0
-ZW5zaW9uc19tZXNvbihzZWxmLCBtb2RpZmllZF9yZWNpcGUsCj4gcmVjb21tZW5kYXRpb25zKToK
-PiDCoMKgwqDCoMKgwqDCoMKgIGlmIG1vZGlmaWVkX3JlY2lwZS5idWlsZF90b29sIGlzIG5vdCBC
-dWlsZFRvb2wuTUVTT046Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybgo+IMKgwqDC
-oMKgwqDCoMKgwqAgcmVjb21tZW5kYXRpb25zICs9IFsKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oCAnbWVzb25idWlsZC5tZXNvbmJ1aWxkJywKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAibXMt
-dnNjb2RlLmNwcHRvb2xzIiwKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAibXMtdnNjb2RlLmNw
-cHRvb2xzLWV4dGVuc2lvbi1wYWNrIiwKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAibXMtdnNj
-b2RlLmNwcHRvb2xzLXRoZW1lcyIKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAnbWVzb25idWls
-ZC5tZXNvbmJ1aWxkJwo+IMKgwqDCoMKgwqDCoMKgwqAgXQo+IMKgCj4gwqDCoMKgwqAgZGVmIHZz
-Y29kZV9leHRlbnNpb25zKHNlbGYsIG1vZGlmaWVkX3JlY2lwZSk6Cj4gwqDCoMKgwqDCoMKgwqDC
-oCByZWNvbW1lbmRhdGlvbnMgPSBbXQo+IMKgwqDCoMKgwqDCoMKgwqAgc2VsZi5fX3ZzY29kZV9l
-eHRlbnNpb25zX2NtYWtlKG1vZGlmaWVkX3JlY2lwZSwKPiByZWNvbW1lbmRhdGlvbnMpCj4gwqDC
-oMKgwqDCoMKgwqDCoCBzZWxmLl9fdnNjb2RlX2V4dGVuc2lvbnNfbWVzb24obW9kaWZpZWRfcmVj
-aXBlLAo+IHJlY29tbWVuZGF0aW9ucykKPiArwqDCoMKgwqDCoMKgwqAgc2VsZi5fX3ZzY29kZV9l
-eHRlbnNpb25zX2dlbmVyaWMobW9kaWZpZWRfcmVjaXBlLAo+IHJlY29tbWVuZGF0aW9ucykKPiDC
-oMKgwqDCoMKgwqDCoMKgIGV4dGVuc2lvbnNfZmlsZSA9ICdleHRlbnNpb25zLmpzb24nCj4gwqDC
-oMKgwqDCoMKgwqDCoCBJZGVCYXNlLnVwZGF0ZV9qc29uX2ZpbGUoCj4gwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgIHNlbGYuZG90X2NvZGVfZGlyKG1vZGlmaWVkX3JlY2lwZSksIGV4dGVuc2lvbnNf
-ZmlsZSwKPiB7InJlY29tbWVuZGF0aW9ucyI6IHJlY29tbWVuZGF0aW9uc30pCj4gQEAgLTE5NCw4
-ICsxOTYsMTEgQEAgY2xhc3MgSWRlVlNDb2RlKElkZUJhc2UpOgo+IMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCBwcm9wZXJ0aWVzX2RpY3RbImNvbmZpZ3VyYXRpb25Qcm92aWRlciJdID0gIm1zLQo+
-IHZzY29kZS5jbWFrZS10b29scyIKPiDCoMKgwqDCoMKgwqDCoMKgIGVsaWYgbW9kaWZpZWRfcmVj
-aXBlLmJ1aWxkX3Rvb2wgaXMgQnVpbGRUb29sLk1FU09OOgo+IMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCBwcm9wZXJ0aWVzX2RpY3RbImNvbmZpZ3VyYXRpb25Qcm92aWRlciJdID0KPiAibWVzb25i
-dWlsZC5tZXNvbmJ1aWxkIgo+IC3CoMKgwqDCoMKgwqDCoCBlbHNlOsKgICMgbm8gQy9DKysgYnVp
-bGQKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4KU2FtZSBpc3N1ZSBhcyBhYm92ZTog
-VGhlcmUgYXJlIG1hbnkgcmVjaXBlcyB3ZXJlIGEgQy9DKysgY29tcGlsZXIKY29uZmlndXJhdGlv
-biBpcyB3cm9uZy4gQXMgYSBuZXh0IHN0ZXAgd2UgbWlnaHQgYWRkIGUuZy4KICBlbGlmIGF1dG90
-b29scwogICAgLi4uCiAgZWxzZQogICAgcmV0dXJuCmJ1dCB3ZSBjYW5ub3QgYWRkIGEgZ2VuZXJh
-bCBlbHNlIHN0YXRlbWVudCBoZXJlLgoKPiArwqDCoMKgwqDCoMKgwqAgZWxzZTrCoCAKPiArwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCAjIFByb3ZpZGUgYSBnZW5lcmljIGxpbnRpbmcgY29uZmlndXJh
-dGlvbgo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICMgV2UgcHJvdmlkZSBhIEMrKyBjb25maWd1
-cmF0aW9uIHdpdGggdGhlIHByb3BlciBzeXNyb290Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-cHJvcGVydGllc19kaWN0WyJjb21waWxlclBhdGgiXSA9Cj4gb3MucGF0aC5qb2luKG1vZGlmaWVk
-X3JlY2lwZS5zdGFnaW5nX2JpbmRpcl90b29sY2hhaW4sCj4gbW9kaWZpZWRfcmVjaXBlLmN4eC5z
-cGxpdCgpWzBdKQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHByb3BlcnRpZXNfZGljdFsiY29t
-cGlsZXJBcmdzIl0gPQo+IG1vZGlmaWVkX3JlY2lwZS5jeHguc3BsaXQoKVsxOl0KPiDCoAo+IMKg
-wqDCoMKgwqDCoMKgwqAgcHJvcGVydGllc19kaWN0cyA9IHsKPiDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgImNvbmZpZ3VyYXRpb25zIjogWwo+IGRpZmYgLS1naXQgYS9zY3JpcHRzL2xpYi9kZXZ0
-b29sL2lkZV9zZGsucHkKPiBiL3NjcmlwdHMvbGliL2RldnRvb2wvaWRlX3Nkay5weQo+IGluZGV4
-IDFlMzZmMmIyMDkzLi5jODJiMTUwYTgzZSAxMDA3NTUKPiAtLS0gYS9zY3JpcHRzL2xpYi9kZXZ0
-b29sL2lkZV9zZGsucHkKPiArKysgYi9zY3JpcHRzL2xpYi9kZXZ0b29sL2lkZV9zZGsucHkKPiBA
-QCAtMzQ1LDYgKzM0NSw3IEBAIGNsYXNzIFJlY2lwZU1vZGlmaWVkOgo+IMKgwqDCoMKgwqDCoMKg
-wqAgc2VsZi5iYXNlX2xpYmRpciA9IHJlY2lwZV9kLmdldFZhcignYmFzZV9saWJkaXInKQo+IMKg
-wqDCoMKgwqDCoMKgwqAgc2VsZi5iYmxheWVycyA9IHJlY2lwZV9kLmdldFZhcignQkJMQVlFUlMn
-KS5zcGxpdCgpCj4gwqDCoMKgwqDCoMKgwqDCoCBzZWxmLmJwbiA9IHJlY2lwZV9kLmdldFZhcign
-QlBOJykKPiArwqDCoMKgwqDCoMKgwqAgc2VsZi5jeHggPSByZWNpcGVfZC5nZXRWYXIoJ0NYWCcp
-Cj4gwqDCoMKgwqDCoMKgwqDCoCBzZWxmLmQgPSByZWNpcGVfZC5nZXRWYXIoJ0QnKQo+IMKgwqDC
-oMKgwqDCoMKgwqAgc2VsZi5mYWtlcm9vdGNtZCA9IHJlY2lwZV9kLmdldFZhcignRkFLRVJPT1RD
-TUQnKQo+IMKgwqDCoMKgwqDCoMKgwqAgc2VsZi5mYWtlcm9vdGVudiA9IHJlY2lwZV9kLmdldFZh
-cignRkFLRVJPT1RFTlYnKQo+IEBAIC0zNjEsNiArMzYyLDggQEAgY2xhc3MgUmVjaXBlTW9kaWZp
-ZWQ6Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJlY2lwZV9kLmdldFZhcignUkVDSVBFX1NZ
-U1JPT1QnKSkKPiDCoMKgwqDCoMKgwqDCoMKgIHNlbGYucmVjaXBlX3N5c3Jvb3RfbmF0aXZlID0g
-b3MucGF0aC5yZWFscGF0aCgKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmVjaXBlX2QuZ2V0
-VmFyKCdSRUNJUEVfU1lTUk9PVF9OQVRJVkUnKSkKPiArwqDCoMKgwqDCoMKgwqAgc2VsZi5zdGFn
-aW5nX2JpbmRpcl90b29sY2hhaW4gPSBvcy5wYXRoLnJlYWxwYXRoKAo+ICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgIHJlY2lwZV9kLmdldFZhcignU1RBR0lOR19CSU5ESVJfVE9PTENIQUlOJykpCj4g
-wqDCoMKgwqDCoMKgwqDCoCBzZWxmLnN0YWdpbmdfaW5jZGlyID0gb3MucGF0aC5yZWFscGF0aCgK
-PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmVjaXBlX2QuZ2V0VmFyKCdTVEFHSU5HX0lOQ0RJ
-UicpKQo+IMKgwqDCoMKgwqDCoMKgwqAgc2VsZi5zdHJpcF9jbWQgPSByZWNpcGVfZC5nZXRWYXIo
-J1NUUklQJykKCg==
+On Thu, 2024-02-15 at 18:04 +0100, Enguerrand de Ribaucourt wrote:
+> When launching the debug configuration, the source files from the
+> debug
+> rootfs were openened in the editor instead of the local workspace
+> files.
+> We add an exception to properly map them to the file being developed
+> and
+> compiled by the IDE integration. This also more closely matches what
+> the
+> user would expect compared to native development.
+>=20
+> This is also true for the devtool fallback mode.
+
+This sounds a little bit unexpected to me. With devtool deploy-target
+the binaries which are copied to the target device have still the
+absolute rpath from the real build host. The are not packaged.
+
+I would expect something like this when a packaged binary would be
+debugged. But I'm not sure if that would make sense and should be
+supported.
+
+> ---
+> =C2=A0scripts/lib/devtool/ide_plugins/ide_code.py | 1 +
+> =C2=A0scripts/lib/devtool/ide_sdk.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1 +
+> =C2=A02 files changed, 2 insertions(+)
+>=20
+> diff --git a/scripts/lib/devtool/ide_plugins/ide_code.py
+> b/scripts/lib/devtool/ide_plugins/ide_code.py
+> index b2193130d2e..c063b7d0590 100644
+> --- a/scripts/lib/devtool/ide_plugins/ide_code.py
+> +++ b/scripts/lib/devtool/ide_plugins/ide_code.py
+> @@ -234,6 +234,7 @@ class IdeVSCode(IdeBase):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if gdb_cross_config.imag=
+e_recipe.rootfs_dbg:
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+launch_config['additionalSOLibSearchPath'] =3D
+> modified_recipe.solib_search_path_str(
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 gdb_cross_config.image_recipe)
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 src_f=
+ile_map[os.path.join("/usr/src/debug",
+> modified_recipe.pn, modified_recipe.pv)] =3D "${workspaceFolder}"
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+src_file_map["/usr/src/debug"] =3D os.path.join(
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 gdb_cross_config.image_recipe.rootfs_dbg, "usr",
+> "src", "debug")
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 else:
+> diff --git a/scripts/lib/devtool/ide_sdk.py
+> b/scripts/lib/devtool/ide_sdk.py
+> index a82ab572998..1e36f2b2093 100755
+> --- a/scripts/lib/devtool/ide_sdk.py
+> +++ b/scripts/lib/devtool/ide_sdk.py
+> @@ -356,6 +356,7 @@ class RecipeModified:
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+'PACKAGE_DEBUG_SPLIT_STYLE')
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.path =3D recipe_d.g=
+etVar('PATH')
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.pn =3D recipe_d.get=
+Var('PN')
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.pv =3D recipe_d.getVar('=
+PV')
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.recipe_sysroot =3D =
+os.path.realpath(
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+recipe_d.getVar('RECIPE_SYSROOT'))
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.recipe_sysroot_nati=
+ve =3D os.path.realpath(
 
 
