@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 669CEC48BEB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F161C48BF0
 	for <webhook@archiver.kernel.org>; Thu, 15 Feb 2024 16:18:38 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web11.18128.1708013910887103464
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web11.18130.1708013914615357329
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Feb 2024 08:18:30 -0800
+ Thu, 15 Feb 2024 08:18:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=hnrPlJbn;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1d91397bd22so8206825ad.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 08:18:30 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=gLW4RSrz;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1d70b0e521eso8309775ad.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 08:18:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1708013910; x=1708618710; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1708013914; x=1708618714; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=kDFFDgWBzesqFYwKTMeADQwjdU5MCVCJAkFJi9PNso0=;
-        b=hnrPlJbnWExsUivflD+06d+SKk6SOgtXESouQRXBdHSlsRnD2gGvTfqXbaSbJq7JnL
-         Kd2TCzIUFDxxirwVJeT2iVzYRiUXiaKvE8lVQq7AUIP/+bLC+op0TQHFNt0qDijcDP4S
-         7mSuHqWbJHqv3RCorPw3NZJe5zDwy0Hypbq1ZLZDPe5eHSdwq3ksLAP7VFZqpykN5hKT
-         Y0yYb4oSoXeIcnDLZRXdkjPeSq3+wesEEE/M4qOeXXZdwn3BxWePvNkChvTwAyWDZTdo
-         GC+yRbfJXfccEjQ+0FJajbaaz+M6NLw9sORbLeFOagISjb9AxNpVyY/RY7+pSxZ9T/yx
-         PIWA==
+        bh=s+ytji5JAhKAjL8rE+ej4yrdyRzmUZ4bj5SmxjQ8yic=;
+        b=gLW4RSrz51gP07Hgk6G8BFqNpZ+d/j8xdutYMLtNcRVE68pRXgzIj/6ExiFzeAwIeM
+         YMpa5BMnij+dUXUj192CYP133bS1U6MFh/gvl4L/6WT6beMbmF+lEWuzlG5yW4S/J2XC
+         yvUiX9s/2K1vjDPvPCpua+nkEWT1SPApG71YmR1vzVW8BUzc3lyD6fIaHm7sNbArnpVs
+         awg+HHqRDtTCU+jcOf3XTKEvp+2oO9J+Tk+Hmil+/psFB3SqylsI7otnZFbPJ4oC+6mM
+         U/+6REEZsXTQhf/uYgSwFxPbGhbmvKqS+LaUPW81lvBR+8nlNa7+wMt8aPF5xwxm1OLr
+         78nQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708013910; x=1708618710;
+        d=1e100.net; s=20230601; t=1708013914; x=1708618714;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=kDFFDgWBzesqFYwKTMeADQwjdU5MCVCJAkFJi9PNso0=;
-        b=UJvd12rg9q4+tKw73+ZuYBec2pq+WRUM0Ph1vcvJd0aJJA01lQBMGgAFRyCNb8BHd0
-         taKy6n2/rlshBZcn++l37bCpX6q8HnwN0+qGQd/pnfjs1ZmlRm06KDEHq6XgPqkELMwU
-         UQPJHyxLhFaaPM31yz4hk7Ny2lWoSxaIgHpkn75FK7iWt1ydVZ8Rq4/zoKMulZnlbXQe
-         Bcq/pS5/ydBlajW1MHjYlERNdHSwDcq4IazftTf0SrPd8zeAk4ccL7478SVRJsMyO8QL
-         6IWhIaIa80uV9kraSAA8XumMpDPwJkKIJApqelKWzbzIoNoJjaQRzHv4YeEL23RjGe3m
-         Okpw==
-X-Gm-Message-State: AOJu0YxfyuRmco1PpZTVdWPw6JIZ4GADx7Xlle7WO5iTlg4YRHAtu5DF
-	Rt2fnngXDsaKzhCso/wvhhvyizLWd10pfqrGjV98Xt2FEsy6SsRwU2tmfVQCzXNanFLx61S6FNi
-	VE+Y=
-X-Google-Smtp-Source: AGHT+IGkVXnAItF/PEBNoKml/8J4T76qXoLZ6g0TFfhsRFcugzxg6l5JFg1eoCgxMmRLcJFOq6APmg==
-X-Received: by 2002:a17:902:9304:b0:1db:3618:fed5 with SMTP id bc4-20020a170902930400b001db3618fed5mr2023520plb.53.1708013910276;
-        Thu, 15 Feb 2024 08:18:30 -0800 (PST)
+        bh=s+ytji5JAhKAjL8rE+ej4yrdyRzmUZ4bj5SmxjQ8yic=;
+        b=Hm0HfYsCc5wvxePtojPKzDaHEOgmCBXVjb9OYpuXBHpPaV7lNhQQYB3YSeeMTdqQnG
+         aYFWhOmcyJlG+GGlVfVx7rpNIA8NgKyHr1LCJ4X1uZa8hFmsBDd6Qrq/CCGg6pXG8Sed
+         SywMCpWfcPrcs/XztuvO0J4J3CIGhP386ZejQfpcLlSaU+YRhmsP82O0tEXH3irgE+Zf
+         PdoSRWRDruh5hr40Ck/Q6+D6rzAPw51GJx76MxnXvXqNFwe9bi7knuPqaQmeynaB2XMT
+         jJozCKavxu7sOrEFLrykM73yUJKiy8sLeToD0B2yzbfiAk9oyIJ6qpErpm0HyT2LVrtp
+         L6Aw==
+X-Gm-Message-State: AOJu0Yy069Bxf9rinuX7YL8HIgKsNRGkoW/pesnXpfkw45HQDagqJY18
+	W40VR4/gyq5I2c35itC34ZmPjqtkI2fwBIqQoDKJq1FxTZHvCI7JtyfE5yalXQaA08vTYA5WHiU
+	EVOc=
+X-Google-Smtp-Source: AGHT+IEykFay9CQqq7fKnKxeN2nGx9BIpUBwGHsYGiS6otAVuxx41pTnYa7cwHrej6t80SRML0qYAg==
+X-Received: by 2002:a17:903:32d0:b0:1d9:ec0e:2db2 with SMTP id i16-20020a17090332d000b001d9ec0e2db2mr1897631plr.3.1708013913945;
+        Thu, 15 Feb 2024 08:18:33 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id l17-20020a170902d05100b001db66f3748bsm1445683pll.121.2024.02.15.08.18.29
+        by smtp.gmail.com with ESMTPSA id l17-20020a170902d05100b001db66f3748bsm1445683pll.121.2024.02.15.08.18.33
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Feb 2024 08:18:30 -0800 (PST)
+        Thu, 15 Feb 2024 08:18:33 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][nanbield 10/21] linux-firmware: upgrade 20231030 -> 20231211
-Date: Thu, 15 Feb 2024 06:17:53 -1000
-Message-Id: <0569b19936d20acc77a3f11d1033fc7ae5e8f331.1708012696.git.steve@sakoman.com>
+Subject: [OE-core][nanbield 12/21] at-spi2-core: upgrade 2.50.0 -> 2.50.1
+Date: Thu, 15 Feb 2024 06:17:55 -1000
+Message-Id: <e742e3bdfbcb7cbbc7c4a3e26151b5ee3aa291e2.1708012696.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1708012696.git.steve@sakoman.com>
 References: <cover.1708012696.git.steve@sakoman.com>
@@ -62,55 +62,39 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 16:18:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195530
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195532
 
-From: Alexander Sverdlin <alexander.sverdlin@siemens.com>
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-Signed-off-by: Alexander Sverdlin <alexander.sverdlin@siemens.com>
+Changelog:
+ atk-adaptor: Fix critical when no table cell array is returned.
+
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 0caafdbbf4e7dc84b919afe14f7cb8c46a9e4ac2)
+(cherry picked from commit 9bed9f07aea6c425748c8908641ce8a99fd5162f)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...nux-firmware_20231030.bb => linux-firmware_20231211.bb} | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20231030.bb => linux-firmware_20231211.bb} (99%)
+ .../atk/{at-spi2-core_2.50.0.bb => at-spi2-core_2.50.1.bb}      | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/atk/{at-spi2-core_2.50.0.bb => at-spi2-core_2.50.1.bb} (95%)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20231030.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20231211.bb
-similarity index 99%
-rename from meta/recipes-kernel/linux-firmware/linux-firmware_20231030.bb
-rename to meta/recipes-kernel/linux-firmware/linux-firmware_20231211.bb
-index b1f5247975..0ed4d91f8a 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20231030.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20231211.bb
-@@ -151,7 +151,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     "
- # WHENCE checksum is defined separately to ease overriding it if
- # class-devupstream is selected.
--WHENCE_CHKSUM  = "ceb5248746d24d165b603e71b288cf75"
-+WHENCE_CHKSUM  = "3113c4ea08e5171555f3bf49eceb5b07"
+diff --git a/meta/recipes-support/atk/at-spi2-core_2.50.0.bb b/meta/recipes-support/atk/at-spi2-core_2.50.1.bb
+similarity index 95%
+rename from meta/recipes-support/atk/at-spi2-core_2.50.0.bb
+rename to meta/recipes-support/atk/at-spi2-core_2.50.1.bb
+index 57958fb7f5..6996ebebcd 100644
+--- a/meta/recipes-support/atk/at-spi2-core_2.50.0.bb
++++ b/meta/recipes-support/atk/at-spi2-core_2.50.1.bb
+@@ -11,7 +11,7 @@ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
  
- # These are not common licenses, set NO_GENERIC_LICENSE for them
- # so that the license files will be copied from fetched source
-@@ -237,7 +237,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
- # Pin this to the 20220509 release, override this in local.conf
- SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
+ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz"
  
--SRC_URI[sha256sum] = "c98d200fc4a3120de1a594713ce34e135819dff23e883a4ed387863ba25679c7"
-+SRC_URI[sha256sum] = "96af7e4b5eabd37869cdb3dcbb7ab36911106d39b76e799fa1caab16a9dbe8bb"
+-SRC_URI[sha256sum] = "e9f5a8c8235c9dd963b2171de9120301129c677dde933955e1df618b949c4adc"
++SRC_URI[sha256sum] = "5727b5c0687ac57ba8040e79bd6731b714a36b8fcf32190f236b8fb3698789e7"
  
- inherit allarch
- 
-@@ -248,7 +248,8 @@ do_compile() {
- }
- 
- do_install() {
--        oe_runmake 'DESTDIR=${D}' 'FIRMWAREDIR=${nonarch_base_libdir}/firmware' install
-+        # install-nodedup avoids rdfind dependency
-+        oe_runmake 'DESTDIR=${D}' 'FIRMWAREDIR=${nonarch_base_libdir}/firmware' install-nodedup
-         cp GPL-2 LICEN[CS]E.* WHENCE ${D}${nonarch_base_libdir}/firmware/
- }
- 
+ DEPENDS = " \
+ 	dbus \
 -- 
 2.34.1
 
