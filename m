@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B295C54ED3
-	for <webhook@archiver.kernel.org>; Thu, 15 Feb 2024 17:32:38 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web10.20161.1708018344815458554
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF6CDC54ECB
+	for <webhook@archiver.kernel.org>; Thu, 15 Feb 2024 17:32:37 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web11.20319.1708018343339854461
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Feb 2024 09:32:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Ynb13/tD;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=faMk+aD+;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018dadd3a43b-45e7ba1d-5024-4ab1-b64b-0477eb783258-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=GYDIoxyM;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=jnitosDM;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018dadd3a41a-294d9c3c-9cc7-48af-8428-72f98d9ed5b9-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1708018345;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=JMyeDQl0r4C7wZ2djBbpyVz7CZoWF6ALqLA/GLUqurs=;
-	b=Ynb13/tD2tSCdph/EuWuPKEI9zPcQbBFokN3KZwSdYRokQ9MiSD8ZlVwtjrMwldY
-	+hZCuWKwhCUaxaYU8thTB/UfwBYnSjvu5UWW+l/QwRu53pbGjKkokNm6iH1Fbbu5hxu
-	QoXbAxQEIFHz4MlfgnAgchVypBVj37gPdxrn55aU=
+	bh=Pp8nYVGbpwhRVkTwClkpyrVCTzls+oaAZrwENw/NVpw=;
+	b=GYDIoxyMwS70xpyiQVh8vY6nLP8CUbOWB9J4HFPitaWUFb8lLJZcvWkw/oLyeRTY
+	glKGCgr90s1NhyoQWfGlK3ElYkOAoI66xL0pSyvPiDFClnIRJFASDV5RMJSDb9+Brxm
+	h8yJh27TdQM36rNy5wVp1GaSX0Bhqt5qNbbzlPMA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1708018345;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=JMyeDQl0r4C7wZ2djBbpyVz7CZoWF6ALqLA/GLUqurs=;
-	b=faMk+aD+1vIxP+K3WXnjGKBXxhwj8YZSPxiDNsIGPx8GNm4fRGkIU8xXxbbGgN8Q
-	Cm1g6Mng9wHgT7QHckmk9TDKyWNze/UHD9GKmN+RknDoN7CSp5YYVdR6Fb6PBW0YMoS
-	raQGDo58rn4iELRMihTeywU67f7jfkoaTjgNrVYk=
-Content-Type: multipart/mixed; boundary="===============0876129626516724535=="
+	bh=Pp8nYVGbpwhRVkTwClkpyrVCTzls+oaAZrwENw/NVpw=;
+	b=jnitosDMbBTxyXv/GqwYxWA56v4sJu8p84vEDM+y54ZiptmMiryJAdY4wlSo4NMQ
+	UnQBMW79ZGOW+pzSHMl4z9m5p0EQsfo6/DAo34+hUlO+Y1DHUeZ0Rf7LbVhq1VJWlkn
+	A65wgNVID6lFR1KG+17/AoH01KmkgISkWzo3Qruo=
+Content-Type: multipart/mixed; boundary="===============5864327109512028929=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-wcwidth: upgrading to 0.2.13 SUCCEEDED
-Message-ID: <0101018dadd3a43b-45e7ba1d-5024-4ab1-b64b-0477eb783258-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-unittest-automake-output: upgrading to 0.2 SUCCEEDED
+Message-ID: <0101018dadd3a41a-294d9c3c-9cc7-48af-8428-72f98d9ed5b9-000000@us-west-2.amazonses.com>
 Date: Thu, 15 Feb 2024 17:32:25 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.02.15-54.240.27.23
+X-SES-Outgoing: 2024.02.15-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 17:32:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195595
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 17:32:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195597
 
---===============0876129626516724535==
+--===============5864327109512028929==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-wcwidth* to *0.2.13* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-unittest-automake-output* to *0.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-wcwidth-upgrade-0.2.12-0.2.13.patch
+    - apply the patch: git am 0001-python3-unittest-automake-output-upgrade-0.1-0.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,97 +72,59 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From f9034b754e3992f4a0706f70f9537f5e12a83f28 Mon Sep 17 00:00:00 2001
+From ef6462029baecc7690c20143c4d89de032113eac Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 15 Feb 2024 08:40:26 +0000
-Subject: [PATCH] python3-wcwidth: upgrade 0.2.12 -> 0.2.13
+Date: Thu, 15 Feb 2024 08:34:48 +0000
+Subject: [PATCH] python3-unittest-automake-output: upgrade 0.1 -> 0.2
 
 ---
- .../{python3-wcwidth_0.2.12.bb => python3-wcwidth_0.2.13.bb}    | 2 +-
+ ...ke-output_0.1.bb => python3-unittest-automake-output_0.2.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-wcwidth_0.2.12.bb => python3-wcwidth_0.2.13.bb} (87%)
+ rename meta/recipes-devtools/python/{python3-unittest-automake-output_0.1.bb => python3-unittest-automake-output_0.2.bb} (89%)
 
-diff --git a/meta/recipes-devtools/python/python3-wcwidth_0.2.12.bb b/meta/recipes-devtools/python/python3-wcwidth_0.2.13.bb
-similarity index 87%
-rename from meta/recipes-devtools/python/python3-wcwidth_0.2.12.bb
-rename to meta/recipes-devtools/python/python3-wcwidth_0.2.13.bb
-index ae845a39a7..320a34a5f5 100644
---- a/meta/recipes-devtools/python/python3-wcwidth_0.2.12.bb
-+++ b/meta/recipes-devtools/python/python3-wcwidth_0.2.13.bb
-@@ -4,7 +4,7 @@ HOMEPAGE = "https://github.com/jquast/wcwidth"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=b15979c39a2543892fca8cd86b4b52cb"
+diff --git a/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb b/meta/recipes-devtools/python/python3-unittest-automake-output_0.2.bb
+similarity index 89%
+rename from meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb
+rename to meta/recipes-devtools/python/python3-unittest-automake-output_0.2.bb
+index ba58c18df0..1fc6180d0e 100644
+--- a/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb
++++ b/meta/recipes-devtools/python/python3-unittest-automake-output_0.2.bb
+@@ -4,7 +4,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=f6f16008d9fb7349f06609329f1ab93b"
  
--SRC_URI[sha256sum] = "f01c104efdf57971bcb756f054dd58ddec5204dd15fa31d6503ea57947d97c02"
-+SRC_URI[sha256sum] = "72ea0c06399eb286d978fdedb6923a9eb47e1c486ce63e9b4e64fc18303972b5"
+ SRC_URI = "git://gitlab.com/rossburton/python-unittest-automake-output;protocol=https;branch=main"
+-SRCREV = "06537edb18f3641c70bce25256f6ecf5f5164ead"
++SRCREV = "aebdfb188e368c690ea55cf6c9c9ffa1a52def65"
  
- inherit pypi setuptools3 ptest
+ S = "${WORKDIR}/git"
  
 -- 
 2.42.0
 
 
---===============0876129626516724535==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-wcwidth-upgrade-0.2.12-0.2.13.patch"
-
-RnJvbSBmOTAzNGI3NTRlMzk5MmY0YTA3MDZmNzBmOTUzN2Y1ZTEyYTgzZjI4IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgRmViIDIwMjQgMDg6NDA6MjYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXdjd2lkdGg6IHVwZ3JhZGUgMC4yLjEyIC0+IDAuMi4xMwoKLS0tCiAuLi4ve3B5dGhv
-bjMtd2N3aWR0aF8wLjIuMTIuYmIgPT4gcHl0aG9uMy13Y3dpZHRoXzAuMi4xMy5iYn0gICAgfCAy
-ICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFt
-ZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXdjd2lkdGhfMC4yLjEyLmJi
-ID0+IHB5dGhvbjMtd2N3aWR0aF8wLjIuMTMuYmJ9ICg4NyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXdjd2lkdGhfMC4yLjEyLmJiIGIvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXdjd2lkdGhfMC4yLjEzLmJiCnNpbWlsYXJp
-dHkgaW5kZXggODclCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0
-aG9uMy13Y3dpZHRoXzAuMi4xMi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
-dGhvbi9weXRob24zLXdjd2lkdGhfMC4yLjEzLmJiCmluZGV4IGFlODQ1YTM5YTcuLjMyMGEzNGE1
-ZjUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy13Y3dp
-ZHRoXzAuMi4xMi5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMt
-d2N3aWR0aF8wLjIuMTMuYmIKQEAgLTQsNyArNCw3IEBAIEhPTUVQQUdFID0gImh0dHBzOi8vZ2l0
-aHViLmNvbS9qcXVhc3Qvd2N3aWR0aCIKIExJQ0VOU0UgPSAiTUlUIgogTElDX0ZJTEVTX0NIS1NV
-TSA9ICJmaWxlOi8vTElDRU5TRTttZDU9YjE1OTc5YzM5YTI1NDM4OTJmY2E4Y2Q4NmI0YjUyY2Ii
-CiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJmMDFjMTA0ZWZkZjU3OTcxYmNiNzU2ZjA1NGRkNThk
-ZGVjNTIwNGRkMTVmYTMxZDY1MDNlYTU3OTQ3ZDk3YzAyIgorU1JDX1VSSVtzaGEyNTZzdW1dID0g
-IjcyZWEwYzA2Mzk5ZWIyODZkOTc4ZmRlZGI2OTIzYTllYjQ3ZTFjNDg2Y2U2M2U5YjRlNjRmYzE4
-MzAzOTcyYjUiCiAKIGluaGVyaXQgcHlwaSBzZXR1cHRvb2xzMyBwdGVzdAogCi0tIAoyLjQyLjAK
-Cg==
-
---===============0876129626516724535==
+--===============5864327109512028929==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-wcwidth: PV changed from "0.2.12" to "0.2.13"
-packages/core2-64-poky-linux/python3-wcwidth: SRC_URI changed from "https://files.pythonhosted.org/packages/source/w/wcwidth/wcwidth-0.2.12.tar.gz;downloadfilename=wcwidth-0.2.12.tar.gz file://run-ptest" to "https://files.pythonhosted.org/packages/source/w/wcwidth/wcwidth-0.2.13.tar.gz;downloadfilename=wcwidth-0.2.13.tar.gz file://run-ptest"
-packages/core2-64-poky-linux/python3-wcwidth: PKGV changed from 0.2.12 [default] to 0.2.13 [default]
-packages/core2-64-poky-linux/python3-wcwidth/python3-wcwidth-dbg: PV changed from "0.2.12" to "0.2.13"
-packages/core2-64-poky-linux/python3-wcwidth/python3-wcwidth-dbg: PKGV changed from 0.2.12 [default] to 0.2.13 [default]
-packages/core2-64-poky-linux/python3-wcwidth/python3-wcwidth-dev: PV changed from "0.2.12" to "0.2.13"
-packages/core2-64-poky-linux/python3-wcwidth/python3-wcwidth-dev: PKGV changed from 0.2.12 [default] to 0.2.13 [default]
-packages/core2-64-poky-linux/python3-wcwidth/python3-wcwidth-doc: PV changed from "0.2.12" to "0.2.13"
-packages/core2-64-poky-linux/python3-wcwidth/python3-wcwidth-doc: PKGV changed from 0.2.12 [default] to 0.2.13 [default]
-packages/core2-64-poky-linux/python3-wcwidth/python3-wcwidth-locale: PV changed from "0.2.12" to "0.2.13"
-packages/core2-64-poky-linux/python3-wcwidth/python3-wcwidth-locale: PKGV changed from 0.2.12 [default] to 0.2.13 [default]
-packages/core2-64-poky-linux/python3-wcwidth/python3-wcwidth-ptest: PKGSIZE changed from 315079 to 317340 (+1%)
-packages/core2-64-poky-linux/python3-wcwidth/python3-wcwidth-ptest: PV changed from "0.2.12" to "0.2.13"
-packages/core2-64-poky-linux/python3-wcwidth/python3-wcwidth-ptest: FILELIST: added "/usr/lib/python3-wcwidth/ptest/tests/test_table_integrity.py"
-packages/core2-64-poky-linux/python3-wcwidth/python3-wcwidth-ptest: PKGV changed from 0.2.12 [default] to 0.2.13 [default]
-packages/core2-64-poky-linux/python3-wcwidth/python3-wcwidth-src: PV changed from "0.2.12" to "0.2.13"
-packages/core2-64-poky-linux/python3-wcwidth/python3-wcwidth-src: PKGV changed from 0.2.12 [default] to 0.2.13 [default]
-packages/core2-64-poky-linux/python3-wcwidth/python3-wcwidth-staticdev: PV changed from "0.2.12" to "0.2.13"
-packages/core2-64-poky-linux/python3-wcwidth/python3-wcwidth-staticdev: PKGV changed from 0.2.12 [default] to 0.2.13 [default]
-packages/core2-64-poky-linux/python3-wcwidth/python3-wcwidth: PKGSIZE changed from 543734 to 547814 (+1%)
-packages/core2-64-poky-linux/python3-wcwidth/python3-wcwidth: PV changed from "0.2.12" to "0.2.13"
-packages/core2-64-poky-linux/python3-wcwidth/python3-wcwidth: PKGV changed from 0.2.12 [default] to 0.2.13 [default]
-Changes to packages/core2-64-poky-linux/python3-wcwidth (sysroot):
-  /usr/lib/python3.12/site-packages/wcwidth-0.2.12.dist-info moved to /usr/lib/python3.12/site-packages/wcwidth-0.2.13.dist-info
+packages/core2-64-poky-linux/python3-unittest-automake-output: PKGV changed from 0.1 [default] to 0.2 [default]
+packages/core2-64-poky-linux/python3-unittest-automake-output: PV changed from "0.1" to "0.2"
+packages/core2-64-poky-linux/python3-unittest-automake-output/python3-unittest-automake-output-dbg: PKGV changed from 0.1 [default] to 0.2 [default]
+packages/core2-64-poky-linux/python3-unittest-automake-output/python3-unittest-automake-output-dbg: PV changed from "0.1" to "0.2"
+packages/core2-64-poky-linux/python3-unittest-automake-output/python3-unittest-automake-output-dev: PKGV changed from 0.1 [default] to 0.2 [default]
+packages/core2-64-poky-linux/python3-unittest-automake-output/python3-unittest-automake-output-dev: PV changed from "0.1" to "0.2"
+packages/core2-64-poky-linux/python3-unittest-automake-output/python3-unittest-automake-output-doc: PKGV changed from 0.1 [default] to 0.2 [default]
+packages/core2-64-poky-linux/python3-unittest-automake-output/python3-unittest-automake-output-doc: PV changed from "0.1" to "0.2"
+packages/core2-64-poky-linux/python3-unittest-automake-output/python3-unittest-automake-output-locale: PKGV changed from 0.1 [default] to 0.2 [default]
+packages/core2-64-poky-linux/python3-unittest-automake-output/python3-unittest-automake-output-locale: PV changed from "0.1" to "0.2"
+packages/core2-64-poky-linux/python3-unittest-automake-output/python3-unittest-automake-output-src: PKGV changed from 0.1 [default] to 0.2 [default]
+packages/core2-64-poky-linux/python3-unittest-automake-output/python3-unittest-automake-output-src: PV changed from "0.1" to "0.2"
+packages/core2-64-poky-linux/python3-unittest-automake-output/python3-unittest-automake-output-staticdev: PKGV changed from 0.1 [default] to 0.2 [default]
+packages/core2-64-poky-linux/python3-unittest-automake-output/python3-unittest-automake-output-staticdev: PV changed from "0.1" to "0.2"
+packages/core2-64-poky-linux/python3-unittest-automake-output/python3-unittest-automake-output: PKGV changed from 0.1 [default] to 0.2 [default]
+packages/core2-64-poky-linux/python3-unittest-automake-output/python3-unittest-automake-output: PKGSIZE changed from 15548 to 16058 (+3%)
+packages/core2-64-poky-linux/python3-unittest-automake-output/python3-unittest-automake-output: PV changed from "0.1" to "0.2"
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1802,15 +1764,44 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============0876129626516724535==
+--===============5864327109512028929==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-unittest-automake-output-upgrade-0.1-0.2.patch"
+
+RnJvbSBlZjY0NjIwMjliYWVjYzc2OTBjMjAxNDNjNGQ4OWRlMDMyMTEzZWFjIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMTUgRmViIDIwMjQgMDg6MzQ6NDggKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXVuaXR0ZXN0LWF1dG9tYWtlLW91dHB1dDogdXBncmFkZSAwLjEgLT4gMC4yCgotLS0K
+IC4uLmtlLW91dHB1dF8wLjEuYmIgPT4gcHl0aG9uMy11bml0dGVzdC1hdXRvbWFrZS1vdXRwdXRf
+MC4yLmJifSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlv
+bigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtdW5pdHRl
+c3QtYXV0b21ha2Utb3V0cHV0XzAuMS5iYiA9PiBweXRob24zLXVuaXR0ZXN0LWF1dG9tYWtlLW91
+dHB1dF8wLjIuYmJ9ICg4OSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
+dGhvbi9weXRob24zLXVuaXR0ZXN0LWF1dG9tYWtlLW91dHB1dF8wLjEuYmIgYi9tZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdW5pdHRlc3QtYXV0b21ha2Utb3V0cHV0XzAuMi5i
+YgpzaW1pbGFyaXR5IGluZGV4IDg5JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cHl0aG9uL3B5dGhvbjMtdW5pdHRlc3QtYXV0b21ha2Utb3V0cHV0XzAuMS5iYgpyZW5hbWUgdG8g
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXVuaXR0ZXN0LWF1dG9tYWtlLW91
+dHB1dF8wLjIuYmIKaW5kZXggYmE1OGMxOGRmMC4uMWZjNjE4MGQwZSAxMDA2NDQKLS0tIGEvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXVuaXR0ZXN0LWF1dG9tYWtlLW91dHB1
+dF8wLjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXVuaXR0
+ZXN0LWF1dG9tYWtlLW91dHB1dF8wLjIuYmIKQEAgLTQsNyArNCw3IEBAIExJQ0VOU0UgPSAiTUlU
+IgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9ZjZmMTYwMDhkOWZiNzM0
+OWYwNjYwOTMyOWYxYWI5M2IiCiAKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0bGFiLmNvbS9yb3NzYnVy
+dG9uL3B5dGhvbi11bml0dGVzdC1hdXRvbWFrZS1vdXRwdXQ7cHJvdG9jb2w9aHR0cHM7YnJhbmNo
+PW1haW4iCi1TUkNSRVYgPSAiMDY1MzdlZGIxOGYzNjQxYzcwYmNlMjUyNTZmNmVjZjVmNTE2NGVh
+ZCIKK1NSQ1JFViA9ICJhZWJkZmIxODhlMzY4YzY5MGVhNTVjZjZjOWM5ZmZhMWE1MmRlZjY1Igog
+CiBTID0gIiR7V09SS0RJUn0vZ2l0IgogCi0tIAoyLjQyLjAKCg==
+
+--===============5864327109512028929==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/python3-wcwidth/python3-wcwidth-ptest: FILELIST: added "/usr/lib/python3-wcwidth/ptest/tests/test_table_integrity.py"
-Changes to packages/core2-64-poky-linux/python3-wcwidth (sysroot):
-  /usr/lib/python3.12/site-packages/wcwidth-0.2.12.dist-info moved to /usr/lib/python3.12/site-packages/wcwidth-0.2.13.dist-info
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3450,5 +3441,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============0876129626516724535==--
+--===============5864327109512028929==--
 
