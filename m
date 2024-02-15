@@ -2,48 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A70DCC54766
-	for <webhook@archiver.kernel.org>; Thu, 15 Feb 2024 17:32:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F955C54EFA
+	for <webhook@archiver.kernel.org>; Thu, 15 Feb 2024 17:32:41 +0000 (UTC)
 Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web11.20324.1708018344476467899
+ by mx.groups.io with SMTP id smtpd.web11.20319.1708018343339854461
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Feb 2024 09:32:25 -0800
+ Thu, 15 Feb 2024 09:32:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=GL5dWsJM;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=ZSsKdCcW;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018dadd3a251-ac576b41-f7c8-4ece-abf4-94201c8e3798-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=fVM9SSaE;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=escx9fPo;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018dadd39a85-2a38887b-d7cb-4b46-a228-e99e9c0cd828-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1708018344;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=SLuZ9pi9PpJscdT8nqI2dUvOTtzvGjIqoEfkmW7wNgE=;
-	b=GL5dWsJM/TcBtbldf1bExAxJe2pHMqAGPymd9NeSKdYJMrlwWekednGDbRsklCGc
-	GjGlyfF2G3VTa0KvaAL0hOXQq5A/rnyh1Svwk127ijZGurhrQz0viuhRjPIszsah33U
-	jqDeEotvBJGTsb+5MqCtH5HE2LU+I+wvpSdLTSc8=
+	t=1708018342;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=42p8JZGWUE5tcvge+861fOdAffi/Wi9BbwmoqjhqmSs=;
+	b=fVM9SSaEmAUdFjMfjptOsLwJffbuQm3cVoew+C4fige99bGqg9c3RKP5je68w58L
+	TzF7otnOZmiRUb/F44lmlaV+UAcOa/LBJk/6xjQnTrSIM3bNIoyY+3Y6FEVgq6WekIv
+	1RfpzLKklVgPQjeVkiH83PyVpoJWgDONJwmBZCJo=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1708018344;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=SLuZ9pi9PpJscdT8nqI2dUvOTtzvGjIqoEfkmW7wNgE=;
-	b=ZSsKdCcWFXwXif5OwKHH9lKESFniEHhlMfx6lquOsd5hb8xZ6z6lAMjz7ts8IxMC
-	usbJaZWJseOgcIizwXPUuxpLQ3aJ3keQD5yBaID23dfZA/mpv6wQOiud/4sSTUus8rt
-	bBlXJ5UrYON0A0fc/MWIC3hhK6LLG5S+1UjejFlk=
-Content-Type: multipart/mixed; boundary="===============2518595161615101481=="
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1708018342;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=42p8JZGWUE5tcvge+861fOdAffi/Wi9BbwmoqjhqmSs=;
+	b=escx9fPoRyLf5C6754gyE6vcxqB1aBJz0ZrXHylXbISntaSWrQRSKsH8BkpT+ZAv
+	cyFPxjF/1NB5+FmybVpZXVtoejjLck/j4nG25HAkypLKG9s84erieEhcJyFOHyJt+Iq
+	kPnRa8nUb0OlOkvxYSnBA65yzsoRD1x6OkZhqpxY=
+Content-Type: multipart/mixed; boundary="===============4809228609353158688=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-jsonschema: upgrading to 4.21.1 SUCCEEDED
-Message-ID: <0101018dadd3a251-ac576b41-f7c8-4ece-abf4-94201c8e3798-000000@us-west-2.amazonses.com>
-Date: Thu, 15 Feb 2024 17:32:24 +0000
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] libuv: upgrading to 1.48.0 SUCCEEDED
+Message-ID: <0101018dadd39a85-2a38887b-d7cb-4b46-a228-e99e9c0cd828-000000@us-west-2.amazonses.com>
+Date: Thu, 15 Feb 2024 17:32:22 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2024.02.15-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 17:32:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195589
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 17:32:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195557
 
---===============2518595161615101481==
+--===============4809228609353158688==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-jsonschema* to *4.21.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *libuv* to *1.48.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-jsonschema-upgrade-4.17.3-4.21.1.patch
+    - apply the patch: git am 0001-libuv-upgrade-1.47.0-1.48.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,148 +71,65 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 730a6a2db77059f447686d427372255703f8d6c1 Mon Sep 17 00:00:00 2001
+From 3c226201961e052cf06a4a92e611f020414e76ac Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 15 Feb 2024 08:07:07 +0000
-Subject: [PATCH] python3-jsonschema: upgrade 4.17.3 -> 4.21.1
+Date: Thu, 15 Feb 2024 05:21:59 +0000
+Subject: [PATCH] libuv: upgrade 1.47.0 -> 1.48.0
 
 ---
- ...ython3-jsonschema_4.17.3.bb => python3-jsonschema_4.21.1.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-jsonschema_4.17.3.bb => python3-jsonschema_4.21.1.bb} (93%)
+ .../libuv/{libuv_1.47.0.bb => libuv_1.48.0.bb}                | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/libuv/{libuv_1.47.0.bb => libuv_1.48.0.bb} (85%)
 
-diff --git a/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb b/meta/recipes-devtools/python/python3-jsonschema_4.21.1.bb
-similarity index 93%
-rename from meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb
-rename to meta/recipes-devtools/python/python3-jsonschema_4.21.1.bb
-index 77f94924f9..9474d73751 100644
---- a/meta/recipes-devtools/python/python3-jsonschema_4.17.3.bb
-+++ b/meta/recipes-devtools/python/python3-jsonschema_4.21.1.bb
-@@ -4,7 +4,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=7a60a81c146ec25599a3e1dabb8610a8 \
-                     file://json/LICENSE;md5=9d4de43111d33570c8fe49b4cb0e01af"
+diff --git a/meta/recipes-connectivity/libuv/libuv_1.47.0.bb b/meta/recipes-connectivity/libuv/libuv_1.48.0.bb
+similarity index 85%
+rename from meta/recipes-connectivity/libuv/libuv_1.47.0.bb
+rename to meta/recipes-connectivity/libuv/libuv_1.48.0.bb
+index 50ad6ba5eb..28c17839ae 100644
+--- a/meta/recipes-connectivity/libuv/libuv_1.47.0.bb
++++ b/meta/recipes-connectivity/libuv/libuv_1.48.0.bb
+@@ -6,8 +6,8 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=74b6f2f7818a4e3a80d03556f71b129b \
+                     file://LICENSE-extra;md5=f9307417749e19bd1d6d68a394b49324"
  
--SRC_URI[sha256sum] = "0f864437ab8b6076ba6707453ef8f98a6a0d512a80e93f8abdb676f737ecb60d"
-+SRC_URI[sha256sum] = "85727c00279f5fa6bedbe6238d2aa6403bedd8b4864ab11207d07df3cc1b2ee5"
+-SRCREV = "be6b81a352d17513c95be153afcb3148f1a451cd"
+-SRC_URI = "git://github.com/libuv/libuv.git;branch=v1.x;protocol=https"
++SRCREV = "e9f29cb984231524e3931aa0ae2c5dae1a32884e"
++SRC_URI = "git://github.com/libuv/libuv.git;branch=master;protocol=https"
+ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
  
- inherit pypi python_hatchling
- 
+ S = "${WORKDIR}/git"
 -- 
 2.42.0
 
 
---===============2518595161615101481==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-jsonschema-upgrade-4.17.3-4.21.1.patch"
-
-RnJvbSA3MzBhNmEyZGI3NzA1OWY0NDc2ODZkNDI3MzcyMjU1NzAzZjhkNmMxIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgRmViIDIwMjQgMDg6MDc6MDcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWpzb25zY2hlbWE6IHVwZ3JhZGUgNC4xNy4zIC0+IDQuMjEuMQoKLS0tCiAuLi55dGhv
-bjMtanNvbnNjaGVtYV80LjE3LjMuYmIgPT4gcHl0aG9uMy1qc29uc2NoZW1hXzQuMjEuMS5iYn0g
-fCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJl
-bmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWpzb25zY2hlbWFfNC4x
-Ny4zLmJiID0+IHB5dGhvbjMtanNvbnNjaGVtYV80LjIxLjEuYmJ9ICg5MyUpCgpkaWZmIC0tZ2l0
-IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWpzb25zY2hlbWFfNC4xNy4z
-LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWpzb25zY2hlbWFfNC4y
-MS4xLmJiCnNpbWlsYXJpdHkgaW5kZXggOTMlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0
-b29scy9weXRob24vcHl0aG9uMy1qc29uc2NoZW1hXzQuMTcuMy5iYgpyZW5hbWUgdG8gbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWpzb25zY2hlbWFfNC4yMS4xLmJiCmluZGV4
-IDc3Zjk0OTI0ZjkuLjk0NzRkNzM3NTEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9weXRob24vcHl0aG9uMy1qc29uc2NoZW1hXzQuMTcuMy5iYgorKysgYi9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtanNvbnNjaGVtYV80LjIxLjEuYmIKQEAgLTQsNyArNCw3
-IEBAIExJQ0VOU0UgPSAiTUlUIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORztt
-ZDU9N2E2MGE4MWMxNDZlYzI1NTk5YTNlMWRhYmI4NjEwYTggXAogICAgICAgICAgICAgICAgICAg
-ICBmaWxlOi8vanNvbi9MSUNFTlNFO21kNT05ZDRkZTQzMTExZDMzNTcwYzhmZTQ5YjRjYjBlMDFh
-ZiIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjBmODY0NDM3YWI4YjYwNzZiYTY3MDc0NTNlZjhm
-OThhNmEwZDUxMmE4MGU5M2Y4YWJkYjY3NmY3MzdlY2I2MGQiCitTUkNfVVJJW3NoYTI1NnN1bV0g
-PSAiODU3MjdjMDAyNzlmNWZhNmJlZGJlNjIzOGQyYWE2NDAzYmVkZDhiNDg2NGFiMTEyMDdkMDdk
-ZjNjYzFiMmVlNSIKIAogaW5oZXJpdCBweXBpIHB5dGhvbl9oYXRjaGxpbmcKIAotLSAKMi40Mi4w
-Cgo=
-
---===============2518595161615101481==
+--===============4809228609353158688==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-jsonschema: PV changed from "4.17.3" to "4.21.1"
-packages/core2-64-poky-linux/python3-jsonschema: SRC_URI changed from "https://files.pythonhosted.org/packages/source/j/jsonschema/jsonschema-4.17.3.tar.gz;downloadfilename=jsonschema-4.17.3.tar.gz" to "https://files.pythonhosted.org/packages/source/j/jsonschema/jsonschema-4.21.1.tar.gz;downloadfilename=jsonschema-4.21.1.tar.gz"
-packages/core2-64-poky-linux/python3-jsonschema: PKGV changed from 4.17.3 [default] to 4.21.1 [default]
-packages/core2-64-poky-linux/python3-jsonschema/python3-jsonschema-dbg: PV changed from "4.17.3" to "4.21.1"
-packages/core2-64-poky-linux/python3-jsonschema/python3-jsonschema-dbg: PKGV changed from 4.17.3 [default] to 4.21.1 [default]
-packages/core2-64-poky-linux/python3-jsonschema/python3-jsonschema-dev: PV changed from "4.17.3" to "4.21.1"
-packages/core2-64-poky-linux/python3-jsonschema/python3-jsonschema-dev: PKGV changed from 4.17.3 [default] to 4.21.1 [default]
-packages/core2-64-poky-linux/python3-jsonschema/python3-jsonschema-doc: PV changed from "4.17.3" to "4.21.1"
-packages/core2-64-poky-linux/python3-jsonschema/python3-jsonschema-doc: PKGV changed from 4.17.3 [default] to 4.21.1 [default]
-packages/core2-64-poky-linux/python3-jsonschema/python3-jsonschema-locale: PV changed from "4.17.3" to "4.21.1"
-packages/core2-64-poky-linux/python3-jsonschema/python3-jsonschema-locale: PKGV changed from 4.17.3 [default] to 4.21.1 [default]
-packages/core2-64-poky-linux/python3-jsonschema/python3-jsonschema-src: PV changed from "4.17.3" to "4.21.1"
-packages/core2-64-poky-linux/python3-jsonschema/python3-jsonschema-src: PKGV changed from 4.17.3 [default] to 4.21.1 [default]
-packages/core2-64-poky-linux/python3-jsonschema/python3-jsonschema-staticdev: PV changed from "4.17.3" to "4.21.1"
-packages/core2-64-poky-linux/python3-jsonschema/python3-jsonschema-staticdev: PKGV changed from 4.17.3 [default] to 4.21.1 [default]
-packages/core2-64-poky-linux/python3-jsonschema/python3-jsonschema-tests: PV changed from "4.17.3" to "4.21.1"
-packages/core2-64-poky-linux/python3-jsonschema/python3-jsonschema-tests: PKGV changed from 4.17.3 [default] to 4.21.1 [default]
-packages/core2-64-poky-linux/python3-jsonschema/python3-jsonschema-tests: PKGSIZE changed from 431400 to 453513 (+5%)
-packages/core2-64-poky-linux/python3-jsonschema/python3-jsonschema-tests: FILELIST: removed "/usr/lib/python3.12/site-packages/jsonschema/tests/__pycache__/_helpers.cpython-312.pyc /usr/lib/python3.12/site-packages/jsonschema/tests/_helpers.py"
-packages/core2-64-poky-linux/python3-jsonschema/python3-jsonschema: PV changed from "4.17.3" to "4.21.1"
-packages/core2-64-poky-linux/python3-jsonschema/python3-jsonschema: PKGV changed from 4.17.3 [default] to 4.21.1 [default]
-packages/core2-64-poky-linux/python3-jsonschema/python3-jsonschema: PKGSIZE changed from 452272 to 460085 (+2%)
-packages/core2-64-poky-linux/python3-jsonschema/python3-jsonschema: FILELIST: directory renamed /usr/lib/python3.12/site-packages/jsonschema-4.17.3.dist-info/licenses -> /usr/lib/python3.12/site-packages/jsonschema-4.21.1.dist-info/licenses, directory renamed /usr/lib/python3.12/site-packages/jsonschema-4.17.3.dist-info -> /usr/lib/python3.12/site-packages/jsonschema-4.21.1.dist-info, removed "/usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2020-12/format-annotation /usr/lib/python3.12/site-packages/jsonschema/_validators.py /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2020-12/format /usr/lib/python3.12/site-packages/jsonschema/schemas/draft4.json /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2019-09/applicator /usr/lib/python3.12/site-packages/jsonschema/schemas/draft7.json /usr/lib/python3.12/site-packages/jsonschema/schemas/draft2019-09.json /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/d
- raft2020-12/unevaluated /usr/lib/python3.12/site-packages/jsonschema/schemas/draft6.json /usr/lib/python3.12/site-packages/jsonschema/schemas/draft3.json /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2019-09/core /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2019-09/meta-data /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2020-12/core /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2020-12/meta-data /usr/lib/python3.12/site-packages/jsonschema/_legacy_validators.py /usr/lib/python3.12/site-packages/jsonschema/schemas/draft2020-12.json /usr/lib/python3.12/site-packages/jsonschema/__pycache__/_legacy_validators.cpython-312.pyc /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2019-09/content /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2020-12/content /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2019-09/validation /us
- r/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2020-12/validation /usr/lib/python3.12/site-packages/jsonschema/__pycache__/_validators.cpython-312.pyc /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2020-12/applicator /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2020-12/format-assertion", added "/usr/lib/python3.12/site-packages/jsonschema/__pycache__/_typing.cpython-312.pyc /usr/lib/python3.12/site-packages/jsonschema/_typing.py /usr/lib/python3.12/site-packages/jsonschema/benchmarks/validator_creation.py /usr/lib/python3.12/site-packages/jsonschema/benchmarks/__pycache__/validator_creation.cpython-312.pyc /usr/lib/python3.12/site-packages/jsonschema/benchmarks/__pycache__/unused_registry.cpython-312.pyc /usr/lib/python3.12/site-packages/jsonschema/_legacy_keywords.py /usr/lib/python3.12/site-packages/jsonschema/benchmarks/nested_schemas.py /usr/lib/python3.12/site-packages/jsonschema/benchmarks/contains.py /usr/
- lib/python3.12/site-packages/jsonschema/benchmarks/subcomponents.py /usr/lib/python3.12/site-packages/jsonschema/__pycache__/_keywords.cpython-312.pyc /usr/lib/python3.12/site-packages/jsonschema/benchmarks/__pycache__/contains.cpython-312.pyc /usr/lib/python3.12/site-packages/jsonschema/__pycache__/_legacy_keywords.cpython-312.pyc /usr/lib/python3.12/site-packages/jsonschema/benchmarks/__pycache__/nested_schemas.cpython-312.pyc /usr/lib/python3.12/site-packages/jsonschema/_keywords.py /usr/lib/python3.12/site-packages/jsonschema/benchmarks/unused_registry.py /usr/lib/python3.12/site-packages/jsonschema/benchmarks/__pycache__/subcomponents.cpython-312.pyc"
-Changes to packages/core2-64-poky-linux/python3-jsonschema (sysroot):
-  /usr/lib/python3.12/site-packages/jsonschema-4.17.3.dist-info moved to /usr/lib/python3.12/site-packages/jsonschema-4.21.1.dist-info
-  /usr/lib/python3.12/site-packages/jsonschema/benchmarks/contains.py was added
-  /usr/lib/python3.12/site-packages/jsonschema/benchmarks/nested_schemas.py was added
-  /usr/lib/python3.12/site-packages/jsonschema/benchmarks/__pycache__/contains.cpython-312.pyc was added
-  /usr/lib/python3.12/site-packages/jsonschema/benchmarks/__pycache__/nested_schemas.cpython-312.pyc was added
-  /usr/lib/python3.12/site-packages/jsonschema/benchmarks/__pycache__/subcomponents.cpython-312.pyc was added
-  /usr/lib/python3.12/site-packages/jsonschema/benchmarks/__pycache__/unused_registry.cpython-312.pyc was added
-  /usr/lib/python3.12/site-packages/jsonschema/benchmarks/__pycache__/validator_creation.cpython-312.pyc was added
-  /usr/lib/python3.12/site-packages/jsonschema/benchmarks/subcomponents.py was added
-  /usr/lib/python3.12/site-packages/jsonschema/benchmarks/unused_registry.py was added
-  /usr/lib/python3.12/site-packages/jsonschema/benchmarks/validator_creation.py was added
-  /usr/lib/python3.12/site-packages/jsonschema/_keywords.py was added
-  /usr/lib/python3.12/site-packages/jsonschema/_legacy_keywords.py was added
-  /usr/lib/python3.12/site-packages/jsonschema/__pycache__/_keywords.cpython-312.pyc was added
-  /usr/lib/python3.12/site-packages/jsonschema/__pycache__/_legacy_keywords.cpython-312.pyc was added
-  /usr/lib/python3.12/site-packages/jsonschema/__pycache__/_typing.cpython-312.pyc was added
-  /usr/lib/python3.12/site-packages/jsonschema/_typing.py was added
-  /usr/lib/python3.12/site-packages/jsonschema/_legacy_validators.py was removed
-  /usr/lib/python3.12/site-packages/jsonschema/__pycache__/_legacy_validators.cpython-312.pyc was removed
-  /usr/lib/python3.12/site-packages/jsonschema/__pycache__/_validators.cpython-312.pyc was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/draft2019-09.json was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/draft2020-12.json was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/draft3.json was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/draft4.json was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/draft6.json was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/draft7.json was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2019-09 was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2019-09/applicator was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2019-09/content was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2019-09/core was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2019-09/meta-data was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2019-09/validation was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2020-12 was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2020-12/applicator was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2020-12/content was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2020-12/core was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2020-12/format was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2020-12/format-annotation was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2020-12/format-assertion was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2020-12/meta-data was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2020-12/unevaluated was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2020-12/validation was removed
-  /usr/lib/python3.12/site-packages/jsonschema/tests/_helpers.py was removed
-  /usr/lib/python3.12/site-packages/jsonschema/tests/__pycache__/_helpers.cpython-312.pyc was removed
-  /usr/lib/python3.12/site-packages/jsonschema/_validators.py was removed
+packages/core2-64-poky-linux/libuv: PKGV changed from 1.47.0 [default] to 1.48.0 [default]
+packages/core2-64-poky-linux/libuv: SRC_URI changed from "git://github.com/libuv/libuv.git;branch=v1.x;protocol=https" to "git://github.com/libuv/libuv.git;branch=master;protocol=https"
+packages/core2-64-poky-linux/libuv: PV changed from "1.47.0" to "1.48.0"
+packages/core2-64-poky-linux/libuv/libuv-dbg: PKGV changed from 1.47.0 [default] to 1.48.0 [default]
+packages/core2-64-poky-linux/libuv/libuv-dbg: PV changed from "1.47.0" to "1.48.0"
+packages/core2-64-poky-linux/libuv/libuv-dbg: PKGSIZE changed from 770736 to 777072 (+1%)
+packages/core2-64-poky-linux/libuv/libuv-dev: PKGV changed from 1.47.0 [default] to 1.48.0 [default]
+packages/core2-64-poky-linux/libuv/libuv-dev: PV changed from "1.47.0" to "1.48.0"
+packages/core2-64-poky-linux/libuv/libuv-dev: PKGSIZE changed from 105970 to 106843 (+1%)
+packages/core2-64-poky-linux/libuv/libuv-doc: PKGV changed from 1.47.0 [default] to 1.48.0 [default]
+packages/core2-64-poky-linux/libuv/libuv-doc: PV changed from "1.47.0" to "1.48.0"
+packages/core2-64-poky-linux/libuv/libuv-locale: PKGV changed from 1.47.0 [default] to 1.48.0 [default]
+packages/core2-64-poky-linux/libuv/libuv-locale: PV changed from "1.47.0" to "1.48.0"
+packages/core2-64-poky-linux/libuv/libuv-src: PKGV changed from 1.47.0 [default] to 1.48.0 [default]
+packages/core2-64-poky-linux/libuv/libuv-src: PV changed from "1.47.0" to "1.48.0"
+packages/core2-64-poky-linux/libuv/libuv-src: PKGSIZE changed from 616870 to 626232 (+2%)
+packages/core2-64-poky-linux/libuv/libuv-staticdev: PKGV changed from 1.47.0 [default] to 1.48.0 [default]
+packages/core2-64-poky-linux/libuv/libuv-staticdev: PV changed from "1.47.0" to "1.48.0"
+packages/core2-64-poky-linux/libuv/libuv: PKGV changed from 1.47.0 [default] to 1.48.0 [default]
+packages/core2-64-poky-linux/libuv/libuv: PV changed from "1.47.0" to "1.48.0"
+packages/core2-64-poky-linux/libuv/libuv: PKGSIZE changed from 202750 to 210942 (+4%)
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1853,716 +1769,12 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============2518595161615101481==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 914 .bb files complete (0 cached, 914 parsed). 1858 targets, 46 skipped, 0 masked, 0 errors.
-Removing 31 recipes from the core2-64 sysroot...done.
-Removing 70 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.7.2"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux-musl"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-030bbd05087c8a6f22a79842add47027526ef318"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:030bbd05087c8a6f22a79842add47027526ef318"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 582 Local 570 Mirrors 0 Missed 12 Current 237 (97% match, 98% complete)
-Removing 5 stale sstate objects for arch x86_64...done.
-Removing 2 stale sstate objects for arch qemux86_64...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 243 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-attrs_23.2.0.bb:do_package_write_deb_setscene)
-NOTE: Running setscene task 244 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-attrs_23.2.0.bb:do_package_write_ipk_setscene)
-NOTE: Running setscene task 245 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-attrs_23.2.0.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 246 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-idna_3.6.bb:do_package_write_deb_setscene)
-NOTE: Running setscene task 247 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-idna_3.6.bb:do_package_write_ipk_setscene)
-NOTE: Running setscene task 248 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-idna_3.6.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 249 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-importlib-metadata_7.0.1.bb:do_package_write_deb_setscene)
-NOTE: Running setscene task 250 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-importlib-metadata_7.0.1.bb:do_package_write_ipk_setscene)
-NOTE: Running setscene task 251 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-importlib-metadata_7.0.1.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 252 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_package_write_deb_setscene)
-NOTE: Running setscene task 253 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_package_write_ipk_setscene)
-NOTE: Running setscene task 254 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 256 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-attrs_23.2.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 257 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-idna_3.6.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 258 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-importlib-metadata_7.0.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 259 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_create_spdx_setscene)
-NOTE: recipe python3-idna-3.6-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe python3-attrs-23.2.0-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe python3-idna-3.6-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe python3-idna-3.6-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe python3-attrs-23.2.0-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe python3-importlib-metadata-7.0.1-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe python3-attrs-23.2.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe python3-importlib-metadata-7.0.1-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe python3-importlib-metadata-7.0.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe python3-jsonpointer-2.4-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe python3-idna-3.6-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-importlib-metadata-7.0.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-jsonpointer-2.4-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe python3-jsonpointer-2.4-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe python3-attrs-23.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-jsonpointer-2.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-idna-3.6-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe python3-idna-3.6-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: Running setscene task 267 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-jsonschema_4.21.1.bb:do_populate_lic_setscene)
-NOTE: Running setscene task 269 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-jsonschema_4.21.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe python3-attrs-23.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe python3-importlib-metadata-7.0.1-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: recipe python3-jsonpointer-2.4-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: Running setscene task 270 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pyrsistent_0.20.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 271 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pyrsistent_0.20.0.bb:do_package_write_deb_setscene)
-NOTE: recipe python3-importlib-metadata-7.0.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 272 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pyrsistent_0.20.0.bb:do_package_write_ipk_setscene)
-NOTE: recipe python3-idna-3.6-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: Running setscene task 273 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pyrsistent_0.20.0.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 274 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_create_spdx_setscene)
-NOTE: recipe python3-idna-3.6-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe python3-importlib-metadata-7.0.1-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: Running setscene task 275 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-idna_3.6.bb:do_packagedata_setscene)
-NOTE: recipe python3-jsonpointer-2.4-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: recipe python3-attrs-23.2.0-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: Running setscene task 276 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pathlib2_2.3.7.bb:do_packagedata_setscene)
-NOTE: Running setscene task 277 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_package_write_deb_setscene)
-NOTE: recipe python3-jsonpointer-2.4-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 278 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_package_write_ipk_setscene)
-NOTE: recipe python3-attrs-23.2.0-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: Running setscene task 279 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 280 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_create_spdx_setscene)
-NOTE: recipe python3-jsonpointer-2.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 281 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-jsonpointer_2.4.bb:do_packagedata_setscene)
-NOTE: recipe python3-importlib-metadata-7.0.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 282 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-importlib-metadata_7.0.1.bb:do_packagedata_setscene)
-NOTE: recipe python3-attrs-23.2.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 283 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-attrs_23.2.0.bb:do_packagedata_setscene)
-NOTE: recipe python3-jsonschema-4.21.1-r0: task do_populate_lic_setscene: Started
-NOTE: recipe python3-pyrsistent-0.20.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-jsonschema-4.21.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe python3-pyrsistent-0.20.0-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe python3-pyrsistent-0.20.0-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe python3-pyrsistent-0.20.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-idna-3.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe python3-rfc3987-1.3.8-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-importlib-metadata-7.0.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-jsonpointer-2.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe python3-pathlib2-2.3.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-attrs-23.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-jsonschema-4.21.1-r0: task do_populate_lic_setscene: Succeeded
-NOTE: Running setscene task 284 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-hypothesis_6.97.3.bb:do_packagedata_setscene)
-NOTE: recipe python3-jsonschema-4.21.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe python3-pyrsistent-0.20.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 285 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-jsonschema_4.21.1.bb:do_recipe_qa_setscene)
-NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 286 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_package_write_deb_setscene)
-NOTE: Running setscene task 287 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_package_write_ipk_setscene)
-NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe python3-idna-3.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 288 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 292 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 293 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_package_write_deb_setscene)
-NOTE: recipe python3-rfc3987-1.3.8-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 294 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_package_write_ipk_setscene)
-NOTE: recipe python3-pyrsistent-0.20.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 295 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_package_write_rpm_setscene)
-NOTE: recipe python3-pyrsistent-0.20.0-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: recipe python3-jsonpointer-2.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: Running setscene task 296 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.17.0.bb:do_create_spdx_setscene)
-NOTE: recipe python3-pyrsistent-0.20.0-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: recipe python3-pathlib2-2.3.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 300 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pyrsistent_0.20.0.bb:do_packagedata_setscene)
-NOTE: recipe python3-importlib-metadata-7.0.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 301 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 302 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-six_1.16.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 309 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.17.0.bb:do_package_write_deb_setscene)
-NOTE: Running setscene task 310 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.17.0.bb:do_package_write_ipk_setscene)
-NOTE: recipe python3-attrs-23.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 314 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.17.0.bb:do_package_write_rpm_setscene)
-NOTE: recipe python3-hypothesis-6.97.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-jsonschema-4.21.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-rfc3987-1.3.8-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe python3-rfc3987-1.3.8-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe python3-rfc3987-1.3.8-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe python3-webcolors-1.13-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-webcolors-1.13-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe python3-webcolors-1.13-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe python3-zipp-3.17.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-webcolors-1.13-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe python3-pyrsistent-0.20.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-six-1.16.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-zipp-3.17.0-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe python3-zipp-3.17.0-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe python3-jsonschema-4.21.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 315 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.1.bb:do_package_write_deb_setscene)
-NOTE: recipe python3-zipp-3.17.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe python3-rfc3987-1.3.8-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: Running setscene task 316 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.1.bb:do_package_write_ipk_setscene)
-NOTE: recipe python3-rfc3987-1.3.8-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: Running setscene task 317 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.1.bb:do_package_write_rpm_setscene)
-NOTE: recipe python3-webcolors-1.13-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe python3-rfc3987-1.3.8-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 325 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-rfc3987_1.3.8.bb:do_packagedata_setscene)
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/python3-hypothesis/6.97.3/temp/log.do_packagedata_setscene.2534580
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-hypothesis_6.97.3.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 340 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-hypothesis_6.97.3.bb:do_package_setscene)
-NOTE: recipe python3-webcolors-1.13-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: recipe python3-webcolors-1.13-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: recipe python3-zipp-3.17.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe python3-webcolors-1.13-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe python3-zipp-3.17.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe python3-zipp-3.17.0-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: Running setscene task 341 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pytest_7.4.4.bb:do_packagedata_setscene)
-NOTE: recipe python3-zipp-3.17.0-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: recipe python3-pyrsistent-0.20.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-rfc3339-validator-0.1.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-six-1.16.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-3.12.1-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe python3-rfc3987-1.3.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-3.12.1-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe python3-3.12.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe python3-rfc3987-1.3.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 342 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-more-itertools_10.2.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 355 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-unittest-automake-output_0.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 356 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-webcolors_1.13.bb:do_packagedata_setscene)
-NOTE: Running setscene task 357 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-zipp_3.17.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 358 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.1.bb:do_create_spdx_setscene)
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-more-itertools-10.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-zipp-3.17.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-pytest-7.4.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-webcolors-1.13-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-3.12.1-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: recipe python3-3.12.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe python3-3.12.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe python3-unittest-automake-output-0.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-pytest-7.4.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-more-itertools-10.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-3.12.1-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: recipe python3-webcolors-1.13-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-zipp-3.17.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 468 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/coreutils/coreutils_9.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 469 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl-locales_git.bb:do_packagedata_setscene)
-NOTE: Running setscene task 470 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils_2.42.bb:do_packagedata_setscene)
-NOTE: Running setscene task 471 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc_13.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 475 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.21.bb:do_packagedata_setscene)
-NOTE: Running setscene task 479 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/sed/sed_4.9.bb:do_packagedata_setscene)
-NOTE: Running setscene task 480 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/timezone/tzdata.bb:do_packagedata_setscene)
-NOTE: Running setscene task 481 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/unzip/unzip_6.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 482 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/ca-certificates/ca-certificates_20211016.bb:do_packagedata_setscene)
-NOTE: Running setscene task 483 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.2.bb:do_packagedata_setscene)
-NOTE: recipe python3-3.12.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 499 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_create_spdx_setscene)
-NOTE: recipe tzdata-2023d-r0: task do_packagedata_setscene: Started
-NOTE: recipe ca-certificates-20211016-r0: task do_packagedata_setscene: Started
-NOTE: recipe unzip-1_6.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe musl-locales-1.0+git-r0: task do_packagedata_setscene: Started
-NOTE: recipe ptest-runner-2.4.2+git-r0: task do_packagedata_setscene: Started
-NOTE: recipe binutils-2.42-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-13.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-5.2.21-r0: task do_packagedata_setscene: Started
-NOTE: recipe coreutils-9.4-r0: task do_packagedata_setscene: Started
-NOTE: Running task 824 of 2288 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-jsonschema_4.21.1.bb:do_fetch)
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe ca-certificates-20211016-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe unzip-1_6.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe ptest-runner-2.4.2+git-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe tzdata-2023d-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 511 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 512 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-passwd/base-passwd_3.6.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 516 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.14.2.bb:do_packagedata_setscene)
-NOTE: recipe python3-jsonschema-4.21.1-r0: task do_fetch: Started
-NOTE: recipe python3-hypothesis-6.97.3-r0: task do_package_setscene: Started
-NOTE: recipe python3-jsonschema-4.21.1-r0: task do_fetch: Succeeded
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 527 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
-NOTE: Running task 963 of 2288 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-jsonschema_4.21.1.bb:do_unpack)
-NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe base-passwd-3.6.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe shadow-4.14.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe binutils-2.42-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 531 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/elfutils/elfutils_0.189.bb:do_packagedata_setscene)
-NOTE: recipe musl-locales-1.0+git-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe musl-1.2.4+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gcc-13.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-jsonschema-4.21.1-r0: task do_unpack: Started
-NOTE: Running setscene task 542 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libmpc/libmpc_1.3.1.bb:do_packagedata_setscene)
-NOTE: recipe bash-5.2.21-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 547 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_recipe_qa_setscene)
-NOTE: recipe python3-jsonschema-4.21.1-r0: task do_unpack: Succeeded
-NOTE: Running task 987 of 2288 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-jsonschema_4.21.1.bb:do_patch)
-NOTE: recipe coreutils-9.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe musl-1.2.4+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 554 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_create_spdx_setscene)
-NOTE: recipe base-passwd-3.6.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe elfutils-0.189-r0: task do_packagedata_setscene: Started
-NOTE: recipe libmpc-1.3.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-jsonschema-4.21.1-r0: task do_patch: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 999 of 2288 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_fetch)
-NOTE: recipe libmpc-1.3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 562 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/mpfr/mpfr_4.2.1.bb:do_packagedata_setscene)
-NOTE: recipe shadow-4.14.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-hypothesis-6.97.3-r0: task do_package_setscene: Succeeded
-NOTE: recipe python3-jsonschema-4.21.1-r0: task do_patch: Succeeded
-NOTE: Running setscene task 568 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-hypothesis_6.97.3.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 569 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 570 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe elfutils-0.189-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 578 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/fts/fts_1.2.7.bb:do_packagedata_setscene)
-NOTE: Running setscene task 580 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl-legacy-error.bb:do_packagedata_setscene)
-NOTE: Running setscene task 582 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl-obstack.bb:do_packagedata_setscene)
-NOTE: Running setscene task 586 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libarchive/libarchive_3.7.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 588 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/argp-standalone/argp-standalone_1.4.1.bb:do_packagedata_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_fetch: Started
-NOTE: Running setscene task 590 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.77.bb:do_packagedata_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_fetch: Succeeded
-NOTE: recipe mpfr-4.2.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-hypothesis-6.97.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe musl-legacy-error-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe fts-1.2.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe musl-obstack-1.2.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe argp-standalone-1.4.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libarchive-3.7.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libmicrohttpd-0.9.77-r0: task do_packagedata_setscene: Started
-NOTE: Running task 1289 of 2288 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_unpack)
-NOTE: Running task 1290 of 2288 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-3.12.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-3.12.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-hypothesis-6.97.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe mpfr-4.2.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_unpack: Started
-NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe musl-legacy-error-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe musl-obstack-1.2.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe fts-1.2.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe argp-standalone-1.4.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libmicrohttpd-0.9.77-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 608 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/file/file_5.45.bb:do_packagedata_setscene)
-NOTE: recipe libarchive-3.7.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 610 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/curl/curl_8.6.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 612 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/gnutls_3.8.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 614 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgcrypt/libgcrypt_1.10.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 621 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/acl_2.3.1.bb:do_packagedata_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_unpack: Succeeded
-NOTE: Running task 1367 of 2288 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_patch)
-NOTE: recipe file-5.45-r0: task do_packagedata_setscene: Started
-NOTE: recipe curl-8.6.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcrypt-1.10.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe acl-2.3.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe gnutls-3.8.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_patch: Started
-NOTE: recipe base-files-3.0.14-r0: task do_patch: Succeeded
-NOTE: Running task 1369 of 2288 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_configure)
-NOTE: recipe file-5.45-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 626 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/lzip/lzlib_1.14.bb:do_packagedata_setscene)
-NOTE: Running setscene task 628 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/zstd/zstd_1.5.5.bb:do_packagedata_setscene)
-NOTE: recipe libgcrypt-1.10.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 631 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap/libcap_2.69.bb:do_packagedata_setscene)
-NOTE: Running setscene task 635 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgpg-error/libgpg-error_1.47.bb:do_packagedata_setscene)
-NOTE: recipe curl-8.6.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe acl-2.3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 643 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/attr_2.5.1.bb:do_packagedata_setscene)
-NOTE: recipe python3-3.12.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 646 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.2.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 647 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 648 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 649 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20230828-3.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 650 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 651 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata_setscene)
-NOTE: Running setscene task 652 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 653 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.23.bb:do_packagedata_setscene)
-NOTE: recipe python3-3.12.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 654 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.2.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_configure: Started
-NOTE: recipe zstd-1.5.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe lzlib-1.14-r0: task do_packagedata_setscene: Started
-NOTE: recipe libcap-2.69-r0: task do_packagedata_setscene: Started
-NOTE: recipe gnutls-3.8.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 655 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe libgpg-error-1.47-r0: task do_packagedata_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_configure: Succeeded
-NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 656 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libnsl2-2.0.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libedit-20230828-3.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe openssl-3.2.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe expat-2.6.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Started
-NOTE: recipe xz-5.4.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe openssl-3.2.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe lzlib-1.14-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 657 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20230828-3.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe expat-2.6.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libcap-2.69-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe zstd-1.5.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 659 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.1.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 660 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
-NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libedit-20230828-3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 662 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.4.bb:do_packagedata_setscene)
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 665 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_git.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 666 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 671 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.5.bb:do_populate_sysroot_setscene)
-NOTE: recipe expat-2.6.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libedit-20230828-3.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 676 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.23.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 681 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libidn/libidn2_2.3.7.bb:do_packagedata_setscene)
-NOTE: recipe libgpg-error-1.47-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe openssl-3.2.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 685 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/libtasn1_4.19.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 689 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.5.3.bb:do_packagedata_setscene)
-NOTE: recipe expat-2.6.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 691 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 696 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.4.bb:do_packagedata_setscene)
-NOTE: recipe xz-5.4.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 698 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe libnsl2-2.0.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libtirpc-1.3.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe openssl-3.2.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 700 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.2.1.bb:do_recipe_qa_setscene)
-NOTE: recipe python3-3.12.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xz-5.4.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libidn2-2.3.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 702 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb:do_recipe_qa_setscene)
-NOTE: recipe libtasn1-4.19.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libedit-20230828-3.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 703 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe libpam-1.5.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe expat-2.6.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 705 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20230828-3.1.bb:do_recipe_qa_setscene)
-NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-3.12.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 707 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_recipe_qa_setscene)
-NOTE: recipe libtirpc-1.3.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe openssl-3.2.1-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 712 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libseccomp/libseccomp_2.5.5.bb:do_packagedata_setscene)
-NOTE: recipe libnsl2-2.0.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 714 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_git.bb:do_recipe_qa_setscene)
-NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xz-5.4.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe expat-2.6.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gdbm-1.23-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe ncurses-6.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 715 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe libtasn1-4.19.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 717 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.5.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 719 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.23.bb:do_recipe_qa_setscene)
-NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 722 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 726 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/nettle/nettle_3.9.1.bb:do_packagedata_setscene)
-NOTE: recipe libedit-20230828-3.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libffi-3.4.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe openssl-3.2.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 729 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.44.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 730 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.44.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libseccomp-2.5.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libffi-3.4.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libidn2-2.3.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.1-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 735 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.4.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 736 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libunistring/libunistring_1.1.bb:do_packagedata_setscene)
-NOTE: recipe libtirpc-1.3.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libedit-20230828-3.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe opkg-utils-0.6.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe xz-5.4.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gdbm-1.23-r0: task do_recipe_qa_setscene: Started
-NOTE: Running task 1456 of 2288 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_compile)
-NOTE: recipe nettle-3.9.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.44.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe sqlite3-3_3.44.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libnsl2-2.0.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe ncurses-6.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 739 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.4.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 740 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe libunistring-1.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libffi-3.4.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libseccomp-2.5.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xz-5.4.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gdbm-1.23-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_compile: Started
-NOTE: recipe opkg-utils-0.6.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 746 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb:do_recipe_qa_setscene)
-NOTE: recipe sqlite3-3_3.44.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe opkg-utils-0.6.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_compile: Succeeded
-NOTE: recipe nettle-3.9.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libffi-3.4.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 749 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gmp/gmp_6.3.0.bb:do_packagedata_setscene)
-NOTE: Running task 1492 of 2288 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
-NOTE: recipe ncurses-6.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe sqlite3-3_3.44.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 754 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.44.2.bb:do_recipe_qa_setscene)
-NOTE: recipe libunistring-1.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe ncurses-6.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_install: Started
-NOTE: recipe sqlite3-3_3.44.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe opkg-utils-0.6.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 759 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb:do_recipe_qa_setscene)
-NOTE: recipe libtirpc-1.3.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.44.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe opkg-utils-0.6.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpam-1.5.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 764 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_packagedata_setscene)
-NOTE: recipe opkg-utils-0.6.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_install: Succeeded
-NOTE: Running task 1528 of 2288 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
-NOTE: recipe base-files-3.0.14-r0: task do_package: Started
-NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 769 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 770 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe zlib-1.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe zlib-1.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe zlib-1.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 777 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_packagedata_setscene)
-NOTE: recipe zlib-1.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 779 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 780 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe zlib-1.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe zlib-1.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 782 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_packagedata_setscene)
-NOTE: recipe libgcc-13.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 784 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 785 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libgcc-13.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 787 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
-NOTE: recipe libgcc-13.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe musl-1.2.4+git-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libgcc-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 788 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 790 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_recipe_qa_setscene)
-NOTE: recipe musl-1.2.4+git-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 792 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
-NOTE: Running setscene task 793 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
-NOTE: Running setscene task 794 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb:do_packagedata_setscene)
-NOTE: recipe musl-1.2.4+git-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libgcc-13.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe linux-libc-headers-6.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe musl-1.2.4+git-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 798 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 799 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 801 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe musl-1.2.4+git-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe musl-1.2.4+git-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 806 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 808 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 809 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_package: Succeeded
-NOTE: Running task 1555 of 2288 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to e644ec3722734ea60494db1182afab8d0334f493c3dc1fb845b731f7ca727b46
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 812 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 814 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe linux-libc-headers-6.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 815 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.42.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 817 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb:do_recipe_qa_setscene)
-NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-6.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe linux-libc-headers-6.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 819 of 819 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.42.bb:do_recipe_qa_setscene)
-NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 2010 of 2288 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-jsonschema_4.21.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2217 of 2288 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-hypothesis_6.97.3.bb:do_packagedata)
-NOTE: Running task 2227 of 2288 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-jsonschema_4.21.1.bb:do_collect_spdx_deps)
-NOTE: recipe python3-jsonschema-4.21.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-hypothesis-6.97.3-r0: task do_packagedata: Started
-NOTE: recipe python3-jsonschema-4.21.1-r0: task do_collect_spdx_deps: Started
-NOTE: recipe python3-hypothesis-6.97.3-r0: task do_packagedata: Succeeded
-NOTE: recipe python3-jsonschema-4.21.1-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe python3-jsonschema-4.21.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 2276 of 2288 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-jsonschema_4.21.1.bb:do_configure)
-NOTE: recipe python3-jsonschema-4.21.1-r0: task do_configure: Started
-NOTE: recipe python3-jsonschema-4.21.1-r0: task do_configure: Succeeded
-NOTE: Running task 2277 of 2288 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-jsonschema_4.21.1.bb:do_compile)
-NOTE: recipe python3-jsonschema-4.21.1-r0: task do_compile: Started
-NOTE: recipe python3-jsonschema-4.21.1-r0: task do_compile: Succeeded
-NOTE: Running task 2278 of 2288 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-jsonschema_4.21.1.bb:do_install)
-NOTE: recipe python3-jsonschema-4.21.1-r0: task do_install: Started
-NOTE: recipe python3-jsonschema-4.21.1-r0: task do_install: Succeeded
-NOTE: Running task 2279 of 2288 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-jsonschema_4.21.1.bb:do_package)
-NOTE: Running task 2280 of 2288 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-jsonschema_4.21.1.bb:do_populate_sysroot)
-NOTE: recipe python3-jsonschema-4.21.1-r0: task do_populate_sysroot: Started
-NOTE: recipe python3-jsonschema-4.21.1-r0: task do_package: Started
-NOTE: recipe python3-jsonschema-4.21.1-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe python3-jsonschema-4.21.1-r0: task do_package: Succeeded
-NOTE: Running task 2281 of 2288 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-jsonschema_4.21.1.bb:do_packagedata)
-NOTE: recipe python3-jsonschema-4.21.1-r0: task do_packagedata: Started
-NOTE: recipe python3-jsonschema-4.21.1-r0: task do_packagedata: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-jsonschema_4.21.1.bb:do_packagedata unihash changed to 253bbcfc42c4a8d5c434aefe83601234c6570daf0d0453933596213de0b94ced
-NOTE: Setscene tasks completed
-NOTE: Running task 2282 of 2288 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-jsonschema_4.21.1.bb:do_create_spdx)
-NOTE: Running task 2283 of 2288 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-jsonschema_4.21.1.bb:do_package_write_ipk)
-NOTE: Running task 2284 of 2288 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-jsonschema_4.21.1.bb:do_package_write_deb)
-NOTE: Running task 2285 of 2288 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-jsonschema_4.21.1.bb:do_package_write_rpm)
-NOTE: Running task 2286 of 2288 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-jsonschema_4.21.1.bb:do_package_qa)
-NOTE: recipe python3-jsonschema-4.21.1-r0: task do_create_spdx: Started
-NOTE: recipe python3-jsonschema-4.21.1-r0: task do_package_write_ipk: Started
-NOTE: recipe python3-jsonschema-4.21.1-r0: task do_package_write_deb: Started
-NOTE: recipe python3-jsonschema-4.21.1-r0: task do_package_write_rpm: Started
-NOTE: recipe python3-jsonschema-4.21.1-r0: task do_package_qa: Started
-NOTE: recipe python3-jsonschema-4.21.1-r0: task do_create_spdx: Succeeded
-NOTE: Running task 2287 of 2288 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-jsonschema_4.21.1.bb:do_create_runtime_spdx)
-NOTE: recipe python3-jsonschema-4.21.1-r0: task do_package_qa: Succeeded
-NOTE: recipe python3-jsonschema-4.21.1-r0: task do_create_runtime_spdx: Started
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-jsonschema_4.21.1.bb:do_package_qa unihash changed to b0d2c3c93980c9218deb0388e3a485bb59edd202c2228101961ae21d34f32bab
-NOTE: recipe python3-jsonschema-4.21.1-r0: task do_package_write_deb: Succeeded
-NOTE: recipe python3-jsonschema-4.21.1-r0: task do_create_runtime_spdx: Succeeded
-NOTE: recipe python3-jsonschema-4.21.1-r0: task do_package_write_ipk: Succeeded
-NOTE: recipe python3-jsonschema-4.21.1-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 2288 of 2288 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-jsonschema_4.21.1.bb:do_build)
-NOTE: Tasks Summary: Attempted 2288 tasks of which 2260 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-Summary: There were 9 ERROR messages, returning a non-zero exit code.
-ERROR: python3-hypothesis-6.97.3-r0 do_packagedata_setscene: QA Issue: Package version for package python3-hypothesis-src went backwards which would break package feeds (from 0:6.98.5-r0 to 0:6.97.3-r0) [version-going-backwards]
-ERROR: python3-hypothesis-6.97.3-r0 do_packagedata_setscene: QA Issue: Package version for package python3-hypothesis-dbg went backwards which would break package feeds (from 0:6.98.5-r0 to 0:6.97.3-r0) [version-going-backwards]
-ERROR: python3-hypothesis-6.97.3-r0 do_packagedata_setscene: QA Issue: Package version for package python3-hypothesis-ptest went backwards which would break package feeds (from 0:6.98.5-r0 to 0:6.97.3-r0) [version-going-backwards]
-ERROR: python3-hypothesis-6.97.3-r0 do_packagedata_setscene: QA Issue: Package version for package python3-hypothesis-staticdev went backwards which would break package feeds (from 0:6.98.5-r0 to 0:6.97.3-r0) [version-going-backwards]
-ERROR: python3-hypothesis-6.97.3-r0 do_packagedata_setscene: QA Issue: Package version for package python3-hypothesis-dev went backwards which would break package feeds (from 0:6.98.5-r0 to 0:6.97.3-r0) [version-going-backwards]
-ERROR: python3-hypothesis-6.97.3-r0 do_packagedata_setscene: QA Issue: Package version for package python3-hypothesis-doc went backwards which would break package feeds (from 0:6.98.5-r0 to 0:6.97.3-r0) [version-going-backwards]
-ERROR: python3-hypothesis-6.97.3-r0 do_packagedata_setscene: QA Issue: Package version for package python3-hypothesis-locale went backwards which would break package feeds (from 0:6.98.5-r0 to 0:6.97.3-r0) [version-going-backwards]
-ERROR: python3-hypothesis-6.97.3-r0 do_packagedata_setscene: QA Issue: Package version for package python3-hypothesis went backwards which would break package feeds (from 0:6.98.5-r0 to 0:6.97.3-r0) [version-going-backwards]
-ERROR: python3-hypothesis-6.97.3-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============2518595161615101481==
+--===============4809228609353158688==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/python3-jsonschema/python3-jsonschema-tests: FILELIST: removed "/usr/lib/python3.12/site-packages/jsonschema/tests/_helpers.py /usr/lib/python3.12/site-packages/jsonschema/tests/__pycache__/_helpers.cpython-312.pyc"
-packages/core2-64-poky-linux/python3-jsonschema/python3-jsonschema: FILELIST: directory renamed /usr/lib/python3.12/site-packages/jsonschema-4.17.3.dist-info/licenses -> /usr/lib/python3.12/site-packages/jsonschema-4.21.1.dist-info/licenses, directory renamed /usr/lib/python3.12/site-packages/jsonschema-4.17.3.dist-info -> /usr/lib/python3.12/site-packages/jsonschema-4.21.1.dist-info, removed "/usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2019-09/content /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2020-12/applicator /usr/lib/python3.12/site-packages/jsonschema/schemas/draft2019-09.json /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2019-09/applicator /usr/lib/python3.12/site-packages/jsonschema/__pycache__/_validators.cpython-312.pyc /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2020-12/content /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2019-09/validation /
- usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2020-12/validation /usr/lib/python3.12/site-packages/jsonschema/schemas/draft3.json /usr/lib/python3.12/site-packages/jsonschema/schemas/draft2020-12.json /usr/lib/python3.12/site-packages/jsonschema/__pycache__/_legacy_validators.cpython-312.pyc /usr/lib/python3.12/site-packages/jsonschema/_validators.py /usr/lib/python3.12/site-packages/jsonschema/schemas/draft4.json /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2020-12/format-assertion /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2020-12/format-annotation /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2020-12/format /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2019-09/core /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2019-09/meta-data /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2020-12/core /usr/lib/python3.12
- /site-packages/jsonschema/schemas/vocabularies/draft2020-12/meta-data /usr/lib/python3.12/site-packages/jsonschema/schemas/draft6.json /usr/lib/python3.12/site-packages/jsonschema/schemas/draft7.json /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2020-12/unevaluated /usr/lib/python3.12/site-packages/jsonschema/_legacy_validators.py", added "/usr/lib/python3.12/site-packages/jsonschema/_keywords.py /usr/lib/python3.12/site-packages/jsonschema/benchmarks/__pycache__/validator_creation.cpython-312.pyc /usr/lib/python3.12/site-packages/jsonschema/__pycache__/_legacy_keywords.cpython-312.pyc /usr/lib/python3.12/site-packages/jsonschema/benchmarks/subcomponents.py /usr/lib/python3.12/site-packages/jsonschema/benchmarks/nested_schemas.py /usr/lib/python3.12/site-packages/jsonschema/benchmarks/__pycache__/contains.cpython-312.pyc /usr/lib/python3.12/site-packages/jsonschema/benchmarks/__pycache__/unused_registry.cpython-312.pyc /usr/lib/python3.12/site-packages/jsons
- chema/__pycache__/_keywords.cpython-312.pyc /usr/lib/python3.12/site-packages/jsonschema/benchmarks/contains.py /usr/lib/python3.12/site-packages/jsonschema/benchmarks/unused_registry.py /usr/lib/python3.12/site-packages/jsonschema/_typing.py /usr/lib/python3.12/site-packages/jsonschema/benchmarks/__pycache__/subcomponents.cpython-312.pyc /usr/lib/python3.12/site-packages/jsonschema/__pycache__/_typing.cpython-312.pyc /usr/lib/python3.12/site-packages/jsonschema/_legacy_keywords.py /usr/lib/python3.12/site-packages/jsonschema/benchmarks/validator_creation.py /usr/lib/python3.12/site-packages/jsonschema/benchmarks/__pycache__/nested_schemas.cpython-312.pyc"
-Changes to packages/core2-64-poky-linux/python3-jsonschema (sysroot):
-  /usr/lib/python3.12/site-packages/jsonschema-4.17.3.dist-info moved to /usr/lib/python3.12/site-packages/jsonschema-4.21.1.dist-info
-  /usr/lib/python3.12/site-packages/jsonschema/benchmarks/contains.py was added
-  /usr/lib/python3.12/site-packages/jsonschema/benchmarks/nested_schemas.py was added
-  /usr/lib/python3.12/site-packages/jsonschema/benchmarks/__pycache__/contains.cpython-312.pyc was added
-  /usr/lib/python3.12/site-packages/jsonschema/benchmarks/__pycache__/nested_schemas.cpython-312.pyc was added
-  /usr/lib/python3.12/site-packages/jsonschema/benchmarks/__pycache__/subcomponents.cpython-312.pyc was added
-  /usr/lib/python3.12/site-packages/jsonschema/benchmarks/__pycache__/unused_registry.cpython-312.pyc was added
-  /usr/lib/python3.12/site-packages/jsonschema/benchmarks/__pycache__/validator_creation.cpython-312.pyc was added
-  /usr/lib/python3.12/site-packages/jsonschema/benchmarks/subcomponents.py was added
-  /usr/lib/python3.12/site-packages/jsonschema/benchmarks/unused_registry.py was added
-  /usr/lib/python3.12/site-packages/jsonschema/benchmarks/validator_creation.py was added
-  /usr/lib/python3.12/site-packages/jsonschema/_keywords.py was added
-  /usr/lib/python3.12/site-packages/jsonschema/_legacy_keywords.py was added
-  /usr/lib/python3.12/site-packages/jsonschema/__pycache__/_keywords.cpython-312.pyc was added
-  /usr/lib/python3.12/site-packages/jsonschema/__pycache__/_legacy_keywords.cpython-312.pyc was added
-  /usr/lib/python3.12/site-packages/jsonschema/__pycache__/_typing.cpython-312.pyc was added
-  /usr/lib/python3.12/site-packages/jsonschema/_typing.py was added
-  /usr/lib/python3.12/site-packages/jsonschema/_legacy_validators.py was removed
-  /usr/lib/python3.12/site-packages/jsonschema/__pycache__/_legacy_validators.cpython-312.pyc was removed
-  /usr/lib/python3.12/site-packages/jsonschema/__pycache__/_validators.cpython-312.pyc was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/draft2019-09.json was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/draft2020-12.json was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/draft3.json was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/draft4.json was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/draft6.json was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/draft7.json was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2019-09 was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2019-09/applicator was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2019-09/content was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2019-09/core was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2019-09/meta-data was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2019-09/validation was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2020-12 was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2020-12/applicator was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2020-12/content was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2020-12/core was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2020-12/format was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2020-12/format-annotation was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2020-12/format-assertion was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2020-12/meta-data was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2020-12/unevaluated was removed
-  /usr/lib/python3.12/site-packages/jsonschema/schemas/vocabularies/draft2020-12/validation was removed
-  /usr/lib/python3.12/site-packages/jsonschema/tests/_helpers.py was removed
-  /usr/lib/python3.12/site-packages/jsonschema/tests/__pycache__/_helpers.cpython-312.pyc was removed
-  /usr/lib/python3.12/site-packages/jsonschema/_validators.py was removed
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -4202,5 +3414,37 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============2518595161615101481==--
+--===============4809228609353158688==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-libuv-upgrade-1.47.0-1.48.0.patch"
+
+RnJvbSAzYzIyNjIwMTk2MWUwNTJjZjA2YTRhOTJlNjExZjAyMDQxNGU3NmFjIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMTUgRmViIDIwMjQgMDU6MjE6NTkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJ1djogdXBncmFkZSAxLjQ3LjAgLT4gMS40OC4wCgotLS0KIC4uLi9saWJ1di97bGlidXZfMS40
+Ny4wLmJiID0+IGxpYnV2XzEuNDguMC5iYn0gICAgICAgICAgICAgICAgfCA0ICsrLS0KIDEgZmls
+ZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9y
+ZWNpcGVzLWNvbm5lY3Rpdml0eS9saWJ1di97bGlidXZfMS40Ny4wLmJiID0+IGxpYnV2XzEuNDgu
+MC5iYn0gKDg1JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2xpYnV2
+L2xpYnV2XzEuNDcuMC5iYiBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvbGlidXYvbGlidXZf
+MS40OC4wLmJiCnNpbWlsYXJpdHkgaW5kZXggODUlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1j
+b25uZWN0aXZpdHkvbGlidXYvbGlidXZfMS40Ny4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMt
+Y29ubmVjdGl2aXR5L2xpYnV2L2xpYnV2XzEuNDguMC5iYgppbmRleCA1MGFkNmJhNWViLi4yOGMx
+NzgzOWFlIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2xpYnV2L2xpYnV2
+XzEuNDcuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2xpYnV2L2xpYnV2XzEu
+NDguMC5iYgpAQCAtNiw4ICs2LDggQEAgTElDRU5TRSA9ICJNSVQiCiBMSUNfRklMRVNfQ0hLU1VN
+ID0gImZpbGU6Ly9MSUNFTlNFO21kNT03NGI2ZjJmNzgxOGE0ZTNhODBkMDM1NTZmNzFiMTI5YiBc
+CiAgICAgICAgICAgICAgICAgICAgIGZpbGU6Ly9MSUNFTlNFLWV4dHJhO21kNT1mOTMwNzQxNzc0
+OWUxOWJkMWQ2ZDY4YTM5NGI0OTMyNCIKIAotU1JDUkVWID0gImJlNmI4MWEzNTJkMTc1MTNjOTVi
+ZTE1M2FmY2IzMTQ4ZjFhNDUxY2QiCi1TUkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20vbGlidXYv
+bGlidXYuZ2l0O2JyYW5jaD12MS54O3Byb3RvY29sPWh0dHBzIgorU1JDUkVWID0gImU5ZjI5Y2I5
+ODQyMzE1MjRlMzkzMWFhMGFlMmM1ZGFlMWEzMjg4NGUiCitTUkNfVVJJID0gImdpdDovL2dpdGh1
+Yi5jb20vbGlidXYvbGlidXYuZ2l0O2JyYW5jaD1tYXN0ZXI7cHJvdG9jb2w9aHR0cHMiCiBVUFNU
+UkVBTV9DSEVDS19HSVRUQUdSRUdFWCA9ICJ2KD9QPHB2ZXI+XGQrKFwuXGQrKSspIgogCiBTID0g
+IiR7V09SS0RJUn0vZ2l0IgotLSAKMi40Mi4wCgo=
+
+--===============4809228609353158688==--
 
