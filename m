@@ -1,104 +1,234 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4249BC4829E
-	for <webhook@archiver.kernel.org>; Thu, 15 Feb 2024 17:11:29 +0000 (UTC)
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
- by mx.groups.io with SMTP id smtpd.web10.19510.1708017080822870430
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 668EEC4829E
+	for <webhook@archiver.kernel.org>; Thu, 15 Feb 2024 17:32:29 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web11.20318.1708018343323299541
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Feb 2024 09:11:21 -0800
+ Thu, 15 Feb 2024 09:32:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bvLp8mG+;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.167.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5101cd91017so1384673e87.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 09:11:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1708017079; x=1708621879; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=KxxCIQCQzS3DGLyifjivivSEfhG69qvWhj61s6c6DDE=;
-        b=bvLp8mG+kM4aKIJwqcGFtM5xoCnvtQKVjxnfxJ2mbHUNbnkP6K8xGNlDt3Dmm0HiIM
-         19zwJZWu4srbPfvJzZ59jBRi6ehorCj6E5CE+Zwex5aGsSMSrG614fLcDzAarcsT7ZDT
-         upT/qbTS/YxJ9bLI+zXpRuCg73I0u6IRP7WSI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708017079; x=1708621879;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KxxCIQCQzS3DGLyifjivivSEfhG69qvWhj61s6c6DDE=;
-        b=Iv4ahp+WyTW8p6c8To2xSJdQLP34+2Y2eBfVecOx7LVX9VzFs2Z0/sIJCSgfvsg4zv
-         F0XS1EhmaXprMOwqbxPaBrWQkgTWBl8JqEIkhrUkfhU5SVK7wBSb0ouyosIkv5dpKlxc
-         p3WBUSnale1RIoE6XC4qVe9pHWL8y0KBSL4xXiFQVX3duVTmwAqFlOPRTcWCvOFm2T62
-         rHSk5w+7QKx+rrcio4JNp4G7vGWe7c2/i5RqJdEnn0raoBUe8V5DfKWGzOTZYCNUT+K4
-         447nQqAVqp8JVQQ9MlQFcYJT7irwSey9gUNGM9VMhsplVip9IskeNdBKVDOfjtcZ5DmE
-         EnYA==
-X-Forwarded-Encrypted: i=1; AJvYcCXEX8sL67KrN0WBlj3eB6Yd+NXAuVOqUt9/I77oUI9v/hJ78A5pcUSZRacrK3lwWw0K7wht+RzQy2s05FcyJY3yboxmZla1c1hqGudnxNJDghyCXRe/g3uV
-X-Gm-Message-State: AOJu0YwjxtwM3j8JqjZBviTEB0MSxEjgpUnpfruJcs22x0VUntrh9FBs
-	uok2kHOLW7PlhvT+OoCBr0eCCurPJYOAiIkbqCw2okPk4+Z4SeLgeC9xvKOrGjQ=
-X-Google-Smtp-Source: AGHT+IF9cVhDGyhYW2PCQKflYxRXHD09DnbyAGckJpf+mwz9B5hxlAumr0VTp3LadvQ/aZp7EhOpPA==
-X-Received: by 2002:ac2:4824:0:b0:511:b44b:8052 with SMTP id 4-20020ac24824000000b00511b44b8052mr1566562lft.65.1708017079000;
-        Thu, 15 Feb 2024 09:11:19 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:506:d04:fb88:63ff? ([2001:8b0:aba:5f3c:506:d04:fb88:63ff])
-        by smtp.gmail.com with ESMTPSA id r15-20020a5d4e4f000000b0033cf2063052sm2322810wrt.111.2024.02.15.09.11.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Feb 2024 09:11:18 -0800 (PST)
-Message-ID: <a23568b22a49469e65a2ad94dd6a4db3d54fb265.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 0/6] devtool: ide: Improve VSCode support
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Enguerrand de Ribaucourt
- <enguerrand.de-ribaucourt@savoirfairelinux.com>, 
- openembedded-core@lists.openembedded.org
-Cc: adrian.freihofer@gmail.com, Ross.Burton@arm.com, 
-	mohammed.raza@savoirfairelinux.com
-Date: Thu, 15 Feb 2024 17:11:17 +0000
-In-Reply-To: <20240215170422.659073-1-enguerrand.de-ribaucourt@savoirfairelinux.com>
-References: 
-	<20240215170422.659073-1-enguerrand.de-ribaucourt@savoirfairelinux.com>
-Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
- YNvg==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.0-1 
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=GgapB6S+;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=IsGVfjrt;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018dadd39a4e-4d9f1f85-e949-4c09-9242-8a3482fe5b2f-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1708018342;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=Wh8/vCO5mDZLkQCBB5dNcEkstgqUmqRjZwvkokCqRyM=;
+	b=GgapB6S+C1t2KS0oM1onru9FRtJGHV1fjejXIR1y+kfo46QfXj7kSDXXsNaYV36W
+	F/V/3xb6E3XrTwSzt7vZt2cKBKXakYiFQaCWs3VQ1ru/0N7VNehxXwZ8lciASOvsV8P
+	5+xlOok6ujUkUVH30KQ/YyuVNnWUFiF2RKG35hZs=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1708018342;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=Wh8/vCO5mDZLkQCBB5dNcEkstgqUmqRjZwvkokCqRyM=;
+	b=IsGVfjrt0s3g2y5Lkoi9aqwc0Rr0zN75tFvn6xZNwIxPMEaO9biylaE3IHb4rAgx
+	aFszGda4tGA9c9tYdbfW8I5YvMaD23pCUmvj/PsY60Bppql30NE7DNyPQdeajxwbujH
+	q+7slqfINYGrTjd2BgS5baND9RBthQFkK9XtPako=
+Content-Type: multipart/mixed; boundary="===============6119917042226099233=="
 MIME-Version: 1.0
+From: auh@yoctoproject.org
+To: Ross Burton <ross.burton@arm.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] efivar: upgrading to 39 SUCCEEDED
+Message-ID: <0101018dadd39a4e-4d9f1f85-e949-4c09-9242-8a3482fe5b2f-000000@us-west-2.amazonses.com>
+Date: Thu, 15 Feb 2024 17:32:22 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.02.15-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 17:11:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195555
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 17:32:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195556
 
-On Thu, 2024-02-15 at 18:04 +0100, Enguerrand de Ribaucourt wrote:
-> These patches improve the VSCode support in devtool ide-sdk from
-> Adrian Freihofer.
->=20
-> I added a generic C++ configuration for the VScode
-> extension while awaiting for autotools support.
->=20
-> A refactoring is proposed for the meson class. Without absolute compiler
-> paths, the linter inside VSCode will not be able to find the
-> cross-compiler. Let me know if you have any concerns about this
-> refactoring.
->=20
-> The other bug fixes are relatively minor and make the tool work for some =
-edge
-> cases.
+--===============6119917042226099233==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-I noticed none of the patches in this series have Signed-off-by lines
-which needs to be fixed before we can merge them. Patchtest should be
-along shortly to say that too!
+Hello,
 
-I need to think about and test the meson one a bit more as absolute
-paths can be a source of problems. I've not looked into the others in
-detail yet.
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe *efivar* to *39* has Succeeded.
 
-Cheers,
+Next steps:
+    - apply the patch: git am 0001-efivar-upgrade-38-39.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Richard
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From 1d7faf19be309858a8ab481285f1810fdb1775a5 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Thu, 15 Feb 2024 05:07:14 +0000
+Subject: [PATCH] efivar: upgrade 38 -> 39
+
+---
+ .../efivar/0001-docs-do-not-build-efisecdb-manpage.patch      | 3 ++-
+ meta/recipes-bsp/efivar/efivar_38.bb                          | 4 +++-
+ 2 files changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-bsp/efivar/efivar/0001-docs-do-not-build-efisecdb-manpage.patch b/meta/recipes-bsp/efivar/efivar/0001-docs-do-not-build-efisecdb-manpage.patch
+index cb30d3c430..af82513b21 100644
+--- a/meta/recipes-bsp/efivar/efivar/0001-docs-do-not-build-efisecdb-manpage.patch
++++ b/meta/recipes-bsp/efivar/efivar/0001-docs-do-not-build-efisecdb-manpage.patch
+@@ -1,4 +1,4 @@
+-From f39a1481a9e465387901d52b07ae56dedcc3838b Mon Sep 17 00:00:00 2001
++From f81093c62b76b1626fc09a858964b72cb6404fc1 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Sun, 16 Jan 2022 18:25:33 +0100
+ Subject: [PATCH] docs: do not build efisecdb manpage
+@@ -7,6 +7,7 @@ It requires mandoc, which oe-core does not have.
+ 
+ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
++
+ ---
+  docs/Makefile | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/meta/recipes-bsp/efivar/efivar_38.bb b/meta/recipes-bsp/efivar/efivar_38.bb
+index d88eb3fef5..3500acf88b 100644
+--- a/meta/recipes-bsp/efivar/efivar_38.bb
++++ b/meta/recipes-bsp/efivar/efivar_38.bb
+@@ -10,7 +10,7 @@ COMPATIBLE_HOST = "(i.86|x86_64|arm|aarch64).*-linux"
+ SRC_URI = "git://github.com/rhinstaller/efivar.git;branch=main;protocol=https \
+            file://0001-docs-do-not-build-efisecdb-manpage.patch \
+            "
+-SRCREV = "90e88b221e8bc60dc50f3246051369b8f580c0d0"
++SRCREV = "c47820c37ac26286559ec004de07d48d05f3308c"
+ PV .= "+39+git"
+ 
+ S = "${WORKDIR}/git"
+@@ -32,3 +32,5 @@ BBCLASSEXTEND = "native"
+ RRECOMMENDS:${PN}:class-target = "kernel-module-efivarfs"
+ 
+ CLEANBROKEN = "1"
++
++PV = "39"
+-- 
+2.42.0
+
+
+--===============6119917042226099233==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="0001-efivar-upgrade-38-39.patch"
+
+RnJvbSAxZDdmYWYxOWJlMzA5ODU4YThhYjQ4MTI4NWYxODEwZmRiMTc3NWE1IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMTUgRmViIDIwMjQgMDU6MDc6MTQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBl
+Zml2YXI6IHVwZ3JhZGUgMzggLT4gMzkKCi0tLQogLi4uL2VmaXZhci8wMDAxLWRvY3MtZG8tbm90
+LWJ1aWxkLWVmaXNlY2RiLW1hbnBhZ2UucGF0Y2ggICAgICB8IDMgKystCiBtZXRhL3JlY2lwZXMt
+YnNwL2VmaXZhci9lZml2YXJfMzguYmIgICAgICAgICAgICAgICAgICAgICAgICAgIHwgNCArKyst
+CiAyIGZpbGVzIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKCmRpZmYg
+LS1naXQgYS9tZXRhL3JlY2lwZXMtYnNwL2VmaXZhci9lZml2YXIvMDAwMS1kb2NzLWRvLW5vdC1i
+dWlsZC1lZmlzZWNkYi1tYW5wYWdlLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWJzcC9lZml2YXIvZWZp
+dmFyLzAwMDEtZG9jcy1kby1ub3QtYnVpbGQtZWZpc2VjZGItbWFucGFnZS5wYXRjaAppbmRleCBj
+YjMwZDNjNDMwLi5hZjgyNTEzYjIxIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtYnNwL2VmaXZh
+ci9lZml2YXIvMDAwMS1kb2NzLWRvLW5vdC1idWlsZC1lZmlzZWNkYi1tYW5wYWdlLnBhdGNoCisr
+KyBiL21ldGEvcmVjaXBlcy1ic3AvZWZpdmFyL2VmaXZhci8wMDAxLWRvY3MtZG8tbm90LWJ1aWxk
+LWVmaXNlY2RiLW1hbnBhZ2UucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGYzOWExNDgxYTll
+NDY1Mzg3OTAxZDUyYjA3YWU1NmRlZGNjMzgzOGIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitG
+cm9tIGY4MTA5M2M2MmI3NmIxNjI2ZmMwOWE4NTg5NjRiNzJjYjY0MDRmYzEgTW9uIFNlcCAxNyAw
+MDowMDowMCAyMDAxCiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleEBsaW51dHJvbml4LmRl
+PgogRGF0ZTogU3VuLCAxNiBKYW4gMjAyMiAxODoyNTozMyArMDEwMAogU3ViamVjdDogW1BBVENI
+XSBkb2NzOiBkbyBub3QgYnVpbGQgZWZpc2VjZGIgbWFucGFnZQpAQCAtNyw2ICs3LDcgQEAgSXQg
+cmVxdWlyZXMgbWFuZG9jLCB3aGljaCBvZS1jb3JlIGRvZXMgbm90IGhhdmUuCiAKIFVwc3RyZWFt
+LVN0YXR1czogSW5hcHByb3ByaWF0ZSBbb2UtY29yZSBzcGVjaWZpY10KIFNpZ25lZC1vZmYtYnk6
+IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4QGxpbnV0cm9uaXguZGU+CisKIC0tLQogIGRvY3MvTWFr
+ZWZpbGUgfCAyICstCiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9u
+KC0pCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtYnNwL2VmaXZhci9lZml2YXJfMzguYmIgYi9t
+ZXRhL3JlY2lwZXMtYnNwL2VmaXZhci9lZml2YXJfMzguYmIKaW5kZXggZDg4ZWIzZmVmNS4uMzUw
+MGFjZjg4YiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWJzcC9lZml2YXIvZWZpdmFyXzM4LmJi
+CisrKyBiL21ldGEvcmVjaXBlcy1ic3AvZWZpdmFyL2VmaXZhcl8zOC5iYgpAQCAtMTAsNyArMTAs
+NyBAQCBDT01QQVRJQkxFX0hPU1QgPSAiKGkuODZ8eDg2XzY0fGFybXxhYXJjaDY0KS4qLWxpbnV4
+IgogU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL3JoaW5zdGFsbGVyL2VmaXZhci5naXQ7YnJh
+bmNoPW1haW47cHJvdG9jb2w9aHR0cHMgXAogICAgICAgICAgICBmaWxlOi8vMDAwMS1kb2NzLWRv
+LW5vdC1idWlsZC1lZmlzZWNkYi1tYW5wYWdlLnBhdGNoIFwKICAgICAgICAgICAgIgotU1JDUkVW
+ID0gIjkwZTg4YjIyMWU4YmM2MGRjNTBmMzI0NjA1MTM2OWI4ZjU4MGMwZDAiCitTUkNSRVYgPSAi
+YzQ3ODIwYzM3YWMyNjI4NjU1OWVjMDA0ZGUwN2Q0OGQwNWYzMzA4YyIKIFBWIC49ICIrMzkrZ2l0
+IgogCiBTID0gIiR7V09SS0RJUn0vZ2l0IgpAQCAtMzIsMyArMzIsNSBAQCBCQkNMQVNTRVhURU5E
+ID0gIm5hdGl2ZSIKIFJSRUNPTU1FTkRTOiR7UE59OmNsYXNzLXRhcmdldCA9ICJrZXJuZWwtbW9k
+dWxlLWVmaXZhcmZzIgogCiBDTEVBTkJST0tFTiA9ICIxIgorCitQViA9ICIzOSIKLS0gCjIuNDIu
+MAoK
+
+--===============6119917042226099233==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/efivar/efivar-dbg: PV changed from "38+39+git" to "39"
+packages/core2-64-poky-linux/efivar/efivar-dbg: PKGSIZE changed from 1144568 to 1141256 (-0%)
+packages/core2-64-poky-linux/efivar/efivar-dbg: FILELIST: removed "/usr/lib/.debug/libefisec.so.1.38 /usr/lib/.debug/libefiboot.so.1.38 /usr/lib/.debug/libefivar.so.1.38", added "/usr/lib/.debug/libefisec.so.1.39 /usr/lib/.debug/libefiboot.so.1.39 /usr/lib/.debug/libefivar.so.1.39"
+packages/core2-64-poky-linux/efivar/efivar-dbg: PKGV changed from 38+39+git0+90e88b221e to 39 [default]
+packages/core2-64-poky-linux/efivar/efivar-dev: PV changed from "38+39+git" to "39"
+packages/core2-64-poky-linux/efivar/efivar-dev: PKGSIZE changed from 67885 to 67853 (-0%)
+packages/core2-64-poky-linux/efivar/efivar-dev: PKGV changed from 38+39+git0+90e88b221e to 39 [default]
+packages/core2-64-poky-linux/efivar/efivar-doc: PV changed from "38+39+git" to "39"
+packages/core2-64-poky-linux/efivar/efivar-doc: PKGV changed from 38+39+git0+90e88b221e to 39 [default]
+packages/core2-64-poky-linux/efivar/efivar-locale: PV changed from "38+39+git" to "39"
+packages/core2-64-poky-linux/efivar/efivar-locale: PKGV changed from 38+39+git0+90e88b221e to 39 [default]
+packages/core2-64-poky-linux/efivar/efivar-src: PV changed from "38+39+git" to "39"
+packages/core2-64-poky-linux/efivar/efivar-src: PKGSIZE changed from 490931 to 490953 (+0%)
+packages/core2-64-poky-linux/efivar/efivar-src: PKGV changed from 38+39+git0+90e88b221e to 39 [default]
+packages/core2-64-poky-linux/efivar/efivar-staticdev: PV changed from "38+39+git" to "39"
+packages/core2-64-poky-linux/efivar/efivar-staticdev: PKGV changed from 38+39+git0+90e88b221e to 39 [default]
+packages/core2-64-poky-linux/efivar/efivar: PV changed from "38+39+git" to "39"
+packages/core2-64-poky-linux/efivar/efivar: FILELIST: removed "/usr/lib/libefisec.so.1.38 /usr/lib/libefiboot.so.1.38 /usr/lib/libefivar.so.1.38", added "/usr/lib/libefisec.so.1.39 /usr/lib/libefiboot.so.1.39 /usr/lib/libefivar.so.1.39"
+packages/core2-64-poky-linux/efivar/efivar: PKGV changed from 38+39+git0+90e88b221e to 39 [default]
+packages/core2-64-poky-linux/efivar: PV changed from "38+39+git" to "39"
+packages/core2-64-poky-linux/efivar: PKGV changed from 38+39+git [default] to 39 [default]
+Changes to packages/core2-64-poky-linux/efivar (sysroot):
+  /usr/lib/libefiboot.so.1 changed symlink target from libefiboot.so.1.38 to libefiboot.so.1.39
+  /usr/lib/libefiboot.so changed symlink target from libefiboot.so.1.38 to libefiboot.so.1.39
+  /usr/lib/libefisec.so.1 changed symlink target from libefisec.so.1.38 to libefisec.so.1.39
+  /usr/lib/libefisec.so changed symlink target from libefisec.so.1.38 to libefisec.so.1.39
+  /usr/lib/libefivar.so.1 changed symlink target from libefivar.so.1.38 to libefivar.so.1.39
+  /usr/lib/libefivar.so changed symlink target from libefivar.so.1.38 to libefivar.so.1.39
+  /usr/lib/libefiboot.so.1.38 moved to /usr/lib/libefiboot.so.1.39
+  /usr/lib/libefisec.so.1.38 moved to /usr/lib/libefisec.so.1.39
+  /usr/lib/libefivar.so.1.38 moved to /usr/lib/libefivar.so.1.39
+
+--===============6119917042226099233==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-64-poky-linux/efivar/efivar-dbg: PKGV changed from 38+39+git0+90e88b221e to 39 [default]
+packages/core2-64-poky-linux/efivar/efivar-dev: PKGV changed from 38+39+git0+90e88b221e to 39 [default]
+packages/core2-64-poky-linux/efivar/efivar-doc: PKGV changed from 38+39+git0+90e88b221e to 39 [default]
+packages/core2-64-poky-linux/efivar/efivar-locale: PKGV changed from 38+39+git0+90e88b221e to 39 [default]
+packages/core2-64-poky-linux/efivar/efivar-src: PKGV changed from 38+39+git0+90e88b221e to 39 [default]
+packages/core2-64-poky-linux/efivar/efivar-staticdev: PKGV changed from 38+39+git0+90e88b221e to 39 [default]
+packages/core2-64-poky-linux/efivar/efivar: FILELIST: removed "/usr/lib/libefiboot.so.1.38 /usr/lib/libefisec.so.1.38 /usr/lib/libefivar.so.1.38", added "/usr/lib/libefiboot.so.1.39 /usr/lib/libefisec.so.1.39 /usr/lib/libefivar.so.1.39"
+packages/core2-64-poky-linux/efivar/efivar: PKGV changed from 38+39+git0+90e88b221e to 39 [default]
+Changes to packages/core2-64-poky-linux/efivar (sysroot):
+  /usr/lib/libefiboot.so.1 changed symlink target from libefiboot.so.1.38 to libefiboot.so.1.39
+  /usr/lib/libefiboot.so changed symlink target from libefiboot.so.1.38 to libefiboot.so.1.39
+  /usr/lib/libefisec.so.1 changed symlink target from libefisec.so.1.38 to libefisec.so.1.39
+  /usr/lib/libefisec.so changed symlink target from libefisec.so.1.38 to libefisec.so.1.39
+  /usr/lib/libefivar.so.1 changed symlink target from libefivar.so.1.38 to libefivar.so.1.39
+  /usr/lib/libefivar.so changed symlink target from libefivar.so.1.38 to libefivar.so.1.39
+  /usr/lib/libefiboot.so.1.38 moved to /usr/lib/libefiboot.so.1.39
+  /usr/lib/libefisec.so.1.38 moved to /usr/lib/libefisec.so.1.39
+  /usr/lib/libefivar.so.1.38 moved to /usr/lib/libefivar.so.1.39
+
+--===============6119917042226099233==--
 
