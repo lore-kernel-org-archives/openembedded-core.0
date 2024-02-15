@@ -2,137 +2,136 @@ Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6040DC48BEC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D538C4829E
 	for <webhook@archiver.kernel.org>; Thu, 15 Feb 2024 22:17:25 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web11.4904.1708035442166007475
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web11.4906.1708035443814259821
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Feb 2024 14:17:22 -0800
+ Thu, 15 Feb 2024 14:17:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=X0OqPKgt;
- spf=pass (domain: gmail.com, ip: 209.85.128.46, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-411e5f21c0bso11839895e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 14:17:21 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=GZuPuAwT;
+ spf=pass (domain: gmail.com, ip: 209.85.221.47, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3394bec856fso1522924f8f.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 14:17:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708035440; x=1708640240; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1708035442; x=1708640242; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kmL470n1WLDbhnyqzyBwLr3jSk5trh2U4t5zpynb0vw=;
-        b=X0OqPKgtB/dRhcIZzY95brphG3ReBA3yJyJ/OhMzOepKqTLh6Zq2s70eVW3Ol4qruM
-         xBhiiUSez05spQUM3PxvS+ZXVBAKJP//hyQw6ZfuVhsh/LeaQ+3gb2qHYg2WesDqBNAD
-         IPkZgzqWVAgEMRQWYGaxOWnZE6cEoWNbUAIoNj3dAFq8Tn3iu3xS6CZ62i4BaHUqTxk3
-         KZX9gAcru1A4nknZBJKdR9ib8APxOOdgr0AM4CHIb1uLqDUBJSl8DdfUeeCRzQwHJV6m
-         DztZiRxFbmIyyd/UvBQnqApF6WF+YdyZBw/KUzHTa/PCj6l8fJcIj7bHAsXh7qFBvAvi
-         y7HQ==
+        bh=suLHWl9GSRGMw4awROsfkgEvzIn5iBeK/oebUguDTTE=;
+        b=GZuPuAwTi4y4IiLzgUCKNh0xjQe1Eo/KxIiki5MXKmbLy0reax0k3LtGLfBPLldccm
+         FFNeCk8xnxkG3m/aDNqGnr3OrXlUOXa4g9Wpps6WNEWoGc1jpmrJulpFtnw7m64xIYhA
+         eFEEu2PvMZ4HKnO6Eik2zc3Dkbxfdui5m5roCwbWgv0lMrCk0lsVMYOyIrs/bpES/7Py
+         nJGs4R8tfG5aXzR94qNakHb3B53DpdURPczkJ9TmmVULWmt5WKMl2oj5JVUufVZqHEYc
+         FLftTQR7ewEUHQkbpuSaPmA8HLSU6w8qXoLx/ZbTeceWg7Jtd+669gZ15Nb6hLj9cmu6
+         WIkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708035440; x=1708640240;
+        d=1e100.net; s=20230601; t=1708035442; x=1708640242;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=kmL470n1WLDbhnyqzyBwLr3jSk5trh2U4t5zpynb0vw=;
-        b=GddNvhfMbgixq89i0Gvq/DUiB9AZreWdRKLAKtNJ2OflLzHUVj2F83DGwse+fyZare
-         1A65qGeIdd6tNVJ9oprJtBUGDeGtGgMcrN7qocmlSVX9H7tUr2wT2IBWQRr1x6e1AloV
-         mSJZJ6auVm8Mv0OhHlE8WuYTXgf+cOkkk4lwt9QHMkFgF6DEQ41yW0nIMkJ7NJdtj6kU
-         CXYCAJ6O8WLoAfOHFGI1ACnizr+qY4Lxhya0mvGewCHe2qP196oifz5k2rauj5eHlzeb
-         XdHoZqpfg8L0apFKDnQYwPQzZ66ioRkg3p9GJQG+sgpqsfTbOVxhn9QAE66TodGnthf3
-         U18g==
-X-Gm-Message-State: AOJu0YwQphHJyutxukQYFWAQAt2MKCkHOn7JbkETR+sdRLcqg3sOh5Ap
-	tzUZPRXkm+esFXk4udUK02nG4R3QxgfYYwBNVzHM3/lzC0KjpXeMqwcZj5VIrJ0=
-X-Google-Smtp-Source: AGHT+IHWt3Y/0/szDmEkVeGJpDZ5piYehHfJ75Bzoh+k/+N7+GhGTPX6AhCi4WJNz+frNDIvyHf5Jw==
-X-Received: by 2002:adf:9bd9:0:b0:33d:1412:41b5 with SMTP id e25-20020adf9bd9000000b0033d141241b5mr956298wrc.71.1708035440343;
-        Thu, 15 Feb 2024 14:17:20 -0800 (PST)
+        bh=suLHWl9GSRGMw4awROsfkgEvzIn5iBeK/oebUguDTTE=;
+        b=AuNvd/iT/gKZgSOjTAyhWBhqlNAOWHTCBgwAOZoSqEFDhZ2iK0XoK8pSKQPyDFJq79
+         /PydTMC4ncNUT6xlaSlNlCHx9lIZ/cQooXZCGBQGhh+rk7d3a7NPRzeZW3QNoYISIGAl
+         4M3oOR7Y5aACX6QHnKsNqrUwgTIM6oz1jEki5wzLJLPIwyHGKwICgb8qOORFxbqGPlcc
+         uO1q7r+kx92g/sjv+cxIKpqNgITviJrTNSimHjgAgu41Gl5NbWmtW+rGvzOA9dCWtuFQ
+         X/gUX5vvtJYkDYJihVfACMHnLLAA6cDFCifbbS8cAnJBR5lzdPyRkPcF+xRabllyOqKZ
+         O3IA==
+X-Gm-Message-State: AOJu0YymAfPQoAQ9fwckZW0CI7oi5IeQ70bNe28Ty+Xwv8sIuVHgx5YE
+	fz7mrVR+r87yqG7ABsWEUFC3WAptfwc9FDuGmTzkN5P6dQ+IMC5OBHyqGEYsp0c=
+X-Google-Smtp-Source: AGHT+IE/9YYGNSqMeJzDxScqEho89VApIgNzClTPDeZB1UTkisUvmpRkwbhCcuTNfHHkmItH8wgaVQ==
+X-Received: by 2002:a5d:474d:0:b0:33c:e2de:acbe with SMTP id o13-20020a5d474d000000b0033ce2deacbemr2735987wrs.17.1708035442103;
+        Thu, 15 Feb 2024 14:17:22 -0800 (PST)
 Received: from wsadrian16.fritz.box ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id e5-20020a5d65c5000000b0033cda3d3916sm335334wrw.88.2024.02.15.14.17.19
+        by smtp.gmail.com with ESMTPSA id e5-20020a5d65c5000000b0033cda3d3916sm335334wrw.88.2024.02.15.14.17.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Feb 2024 14:17:19 -0800 (PST)
+        Thu, 15 Feb 2024 14:17:21 -0800 (PST)
 From: Adrian Freihofer <adrian.freihofer@gmail.com>
 X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Ross Burton <ross.burton@arm.com>,
+Cc: Adrian Freihofer <adrian.freihofer@gmail.com>,
 	Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [kirkstone][PATCH 04/12] runqemu: add qmp socket support
-Date: Thu, 15 Feb 2024 23:13:50 +0100
-Message-ID: <20240215221711.332614-5-adrian.freihofer@siemens.com>
+Subject: [kirkstone][PATCH 06/12] oeqa/selftest/recipetool: fix for python 3.12
+Date: Thu, 15 Feb 2024 23:13:52 +0100
+Message-ID: <20240215221711.332614-7-adrian.freihofer@siemens.com>
 X-Mailer: git-send-email 2.43.1
 In-Reply-To: <20240215221711.332614-1-adrian.freihofer@siemens.com>
 References: <20240215221711.332614-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 22:17:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195715
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195717
 
-From: Ross Burton <ross.burton@arm.com>
+From: Adrian Freihofer <adrian.freihofer@gmail.com>
 
-Add support for qmp sockets and defaults to unix:qmp.sock if unspecified
+test_recipetool_create_github and test_recipetool_create_github_tarball
+fail because the old meson version used by these tests cases does not
+run on Python 3.12. The issue is in the dependencies.py which comes with
+meson:
+ERROR: build/tmp/work/recipetool-3z4osyl7/source/git/mesonbuild/
+       dependencies.py:777: SyntaxWarning: invalid escape sequence '\.'
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Eilís 'pidge' Ní Fhlannagáin <pidge@baylibre.com>
+Use meson 1.3.1 (what is currently also used on master) as a reference
+for these tests.
+
+With this version of meson, recipetool creates recipes named
+meson_git.bb or meson_1.3.1.bb. Since this looks more reasonable than
+e.g. python3-meson_git.bb the test gets adapted.
+
+Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Backported from master: 380631797f0d63124a8c21efa93ab672dbd79283
-Qemu throws many warnings without qmp and many runtime tests fail
-without this patch also on kirkstone.
+Backported from master: 7374a8a2810a6cf027bfefefe87691a3529123ff
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- scripts/runqemu | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ meta/lib/oeqa/selftest/cases/recipetool.py | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index b7d7c7b4e7..b8c5adcbec 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -82,6 +82,7 @@ of the following environment variables (in any order):
-     kvm-vhost - enable KVM with vhost when running x86/x86_64 (VT-capable CPU required)
-     publicvnc - enable a VNC server open to all hosts
-     audio - enable audio
-+    qmp=<path> - create a QMP socket (defaults to unix:qmp.sock if unspecified)
-     [*/]ovmf* - OVMF firmware file or base name for booting with UEFI
-   tcpserial=<port> - specify tcp serial port number
-   qemuparams=<xyz> - specify custom parameters to QEMU
-@@ -216,6 +217,7 @@ class BaseConfig(object):
-         self.cleaned = False
-         # Files to cleanup after run
-         self.cleanup_files = []
-+        self.qmp = None
+diff --git a/meta/lib/oeqa/selftest/cases/recipetool.py b/meta/lib/oeqa/selftest/cases/recipetool.py
+index db8790b57b..db21325155 100644
+--- a/meta/lib/oeqa/selftest/cases/recipetool.py
++++ b/meta/lib/oeqa/selftest/cases/recipetool.py
+@@ -444,13 +444,13 @@ class RecipetoolCreateTests(RecipetoolBase):
+         temprecipe = os.path.join(self.tempdir, 'recipe')
+         os.makedirs(temprecipe)
+         recipefile = os.path.join(temprecipe, 'meson_git.bb')
+-        srcuri = 'https://github.com/mesonbuild/meson;rev=0.32.0'
++        srcuri = 'https://github.com/mesonbuild/meson;rev=1.3.1'
+         result = runCmd(['recipetool', 'create', '-o', temprecipe, srcuri])
+         self.assertTrue(os.path.isfile(recipefile))
+         checkvars = {}
+-        checkvars['LICENSE'] = set(['Apache-2.0'])
+-        checkvars['SRC_URI'] = 'git://github.com/mesonbuild/meson;protocol=https;branch=master'
+-        inherits = ['setuptools3']
++        checkvars['LICENSE'] = set(['Apache-2.0', 'Proprietary', 'Unknown'])
++        checkvars['SRC_URI'] = 'git://github.com/mesonbuild/meson;protocol=https;branch=1.3'
++        inherits = ['python_setuptools_build_meta']
+         self._test_recipe_contents(recipefile, checkvars, inherits)
  
-     def acquire_taplock(self, error=True):
-         logger.debug("Acquiring lockfile %s..." % self.taplock)
-@@ -526,6 +528,10 @@ class BaseConfig(object):
-             elif arg == 'publicvnc':
-                 self.publicvnc = True
-                 self.qemu_opt_script += ' -vnc :0'
-+            elif arg == "qmp":
-+                self.qmp = "unix:qmp.sock"
-+            elif arg.startswith("qmp="):
-+                self.qmp = arg[len('qmp='):]
-             elif arg.startswith('tcpserial='):
-                 self.tcpserial_portnum = '%s' % arg[len('tcpserial='):]
-             elif arg.startswith('qemuparams='):
-@@ -1346,6 +1352,10 @@ class BaseConfig(object):
-             raise RunQemuError("Failed to boot, QB_SYSTEM_NAME is NULL!")
-         self.qemu_system = qemu_system
+     def test_recipetool_create_python3_setuptools(self):
+@@ -476,15 +476,15 @@ class RecipetoolCreateTests(RecipetoolBase):
+         # Basic test to ensure github URL mangling doesn't apply to release tarballs
+         temprecipe = os.path.join(self.tempdir, 'recipe')
+         os.makedirs(temprecipe)
+-        pv = '0.32.0'
++        pv = '1.3.1'
+         recipefile = os.path.join(temprecipe, 'meson_%s.bb' % pv)
+         srcuri = 'https://github.com/mesonbuild/meson/releases/download/%s/meson-%s.tar.gz' % (pv, pv)
+         result = runCmd('recipetool create -o %s %s' % (temprecipe, srcuri))
+         self.assertTrue(os.path.isfile(recipefile))
+         checkvars = {}
+-        checkvars['LICENSE'] = set(['Apache-2.0'])
++        checkvars['LICENSE'] = set(['Apache-2.0', 'Proprietary', 'Unknown'])
+         checkvars['SRC_URI'] = 'https://github.com/mesonbuild/meson/releases/download/${PV}/meson-${PV}.tar.gz'
+-        inherits = ['setuptools3']
++        inherits = ['python_setuptools_build_meta']
+         self._test_recipe_contents(recipefile, checkvars, inherits)
  
-+    def setup_qmp(self):
-+        if self.qmp:
-+            self.qemu_opt += " -qmp %s,server,nowait" % self.qmp
-+
-     def setup_vga(self):
-         if self.nographic == True:
-             if self.sdl == True:
-@@ -1476,6 +1486,7 @@ class BaseConfig(object):
-         if self.snapshot:
-             self.qemu_opt += " -snapshot"
- 
-+        self.setup_qmp()
-         self.setup_serial()
-         self.setup_vga()
- 
+     def _test_recipetool_create_git(self, srcuri, branch=None):
 -- 
 2.43.1
 
