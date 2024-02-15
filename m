@@ -2,47 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D956C54E58
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FEDCC4829E
 	for <webhook@archiver.kernel.org>; Thu, 15 Feb 2024 17:32:33 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.20344.1708018346947489622
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.20183.1708018346910558543
  for <openembedded-core@lists.openembedded.org>;
  Thu, 15 Feb 2024 09:32:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=e2BqqiXt;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=he/mrtaD;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018dadd3a9eb-c31a72d1-96ea-4e0f-9957-e488be377751-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=dw5voQRU;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=EjofeJmW;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018dadd3a7b6-f8aa59e9-4532-467f-b0b5-aef83fd955c4-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1708018346;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=6V/77jM7MKJ++Dl5XrYCjy+I5DRBxzYc7fKuGf7H4qs=;
-	b=e2BqqiXtcoDMwTI7+5hs5ZcyVoyYG122ltBx3bnXVpWXIF7zaYpHnR8pUQnz1o9S
-	SOh1kH1fF34DhzKP6JkdbnIHRhHu3ijHy49LKi7kLDrcyW7aA6wLaY7+LUqyLTlnRHf
-	DafLFG2cbA/1Zww13w7ThUlma1g43aXnEONlBA5E=
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=7zI21H4kEVb04vpazTNin5eoVwXTIz5387uihHojDvU=;
+	b=dw5voQRUYkKhBWDAABbZkiiVi8veTEzxEL83i4nVXKwx8+DhWM1wK1aYzJLs7ZxT
+	LOjFJdNLieUspE5h9f8CRdf7QkUjGSfHpyZ5fAPvpLLeK7263LjV1hV65LRjL3J0OuP
+	C4HhPPXboDrfMePY5LRv7fh3G+IL/wqfhOMbWOJg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1708018346;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=6V/77jM7MKJ++Dl5XrYCjy+I5DRBxzYc7fKuGf7H4qs=;
-	b=he/mrtaD+kZQCQHpaTEf91LbuP2urenvImPIcM8HrfrT+ORs/Jo5eQssda2mAAC5
-	ppabQcZH5SrzCZ4tcl6bHxb7QRLRznC5jIoRcn8Ff70BcUiktUDZHEqXhQrrXx0FNwd
-	AquWhtzOG8YmmKvxwNxryoLKSZqMwqZiOtqI7+tw=
-Content-Type: multipart/mixed; boundary="===============8786181614919899775=="
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=7zI21H4kEVb04vpazTNin5eoVwXTIz5387uihHojDvU=;
+	b=EjofeJmWi5xiZK6gp1J0MKD+89u+7bXBvc9BaKK93dB58XbdqcueObPjpegvqoKY
+	LPiGJGqkdBWcLJtJ3rBrUYoJI5ctxCRpnlSyQViux10/rWeNEdoFbtTOMPv0JktysB1
+	BflbT3tA8RJB+4dDdIqFnkiHehh2HBRfDXLhHAVc=
+Content-Type: multipart/mixed; boundary="===============8782909506385475337=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] xprop: upgrading to 1.2.7 SUCCEEDED
-Message-ID: <0101018dadd3a9eb-c31a72d1-96ea-4e0f-9957-e488be377751-000000@us-west-2.amazonses.com>
-Date: Thu, 15 Feb 2024 17:32:26 +0000
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] libsecret: upgrading to 0.21.3 SUCCEEDED
+Message-ID: <0101018dadd3a7b6-f8aa59e9-4532-467f-b0b5-aef83fd955c4-000000@us-west-2.amazonses.com>
+Date: Thu, 15 Feb 2024 17:32:25 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.02.15-54.240.27.23
+X-SES-Outgoing: 2024.02.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 17:32:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195646
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195647
 
---===============8786181614919899775==
+--===============8782909506385475337==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *xprop* to *1.2.7* has Succeeded.
+that the automatic attempt to upgrade the recipe *libsecret* to *0.21.3* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-xprop-upgrade-1.2.6-1.2.7.patch
+    - apply the patch: git am 0001-libsecret-upgrade-0.21.2-0.21.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -71,84 +72,206 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 48e0253043f0ae5731cb83e0ddc619b579e73b22 Mon Sep 17 00:00:00 2001
+From 8232cfe971ac0e2fad1fb336356022c818f1ebae Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 15 Feb 2024 14:17:17 +0000
-Subject: [PATCH] xprop: upgrade 1.2.6 -> 1.2.7
+Date: Thu, 15 Feb 2024 13:00:25 +0000
+Subject: [PATCH] libsecret: upgrade 0.21.2 -> 0.21.3
 
 ---
- .../xorg-app/{xprop_1.2.6.bb => xprop_1.2.7.bb}                 | 2 +-
+ .../libsecret/{libsecret_0.21.2.bb => libsecret_0.21.3.bb}      | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-app/{xprop_1.2.6.bb => xprop_1.2.7.bb} (86%)
+ rename meta/recipes-gnome/libsecret/{libsecret_0.21.2.bb => libsecret_0.21.3.bb} (91%)
 
-diff --git a/meta/recipes-graphics/xorg-app/xprop_1.2.6.bb b/meta/recipes-graphics/xorg-app/xprop_1.2.7.bb
-similarity index 86%
-rename from meta/recipes-graphics/xorg-app/xprop_1.2.6.bb
-rename to meta/recipes-graphics/xorg-app/xprop_1.2.7.bb
-index 438a897f1e..96e364b2b3 100644
---- a/meta/recipes-graphics/xorg-app/xprop_1.2.6.bb
-+++ b/meta/recipes-graphics/xorg-app/xprop_1.2.7.bb
-@@ -15,4 +15,4 @@ DEPENDS += "libxmu"
- PE = "1"
+diff --git a/meta/recipes-gnome/libsecret/libsecret_0.21.2.bb b/meta/recipes-gnome/libsecret/libsecret_0.21.3.bb
+similarity index 91%
+rename from meta/recipes-gnome/libsecret/libsecret_0.21.2.bb
+rename to meta/recipes-gnome/libsecret/libsecret_0.21.3.bb
+index 2d8ea952c5..66c522021e 100644
+--- a/meta/recipes-gnome/libsecret/libsecret_0.21.2.bb
++++ b/meta/recipes-gnome/libsecret/libsecret_0.21.3.bb
+@@ -13,7 +13,7 @@ inherit gnomebase gi-docgen vala gobject-introspection manpages
  
- SRC_URI_EXT = "xz"
--SRC_URI[sha256sum] = "580b8525b12ecc0144aa16c88b0aafa76d2e799b44c8c6c50f9ce92788b5586e"
-+SRC_URI[sha256sum] = "4436e3148bb91a162406230d9f736a49ca8b50b74790015dc15d78d6ce8e825f"
+ DEPENDS += "glib-2.0 libgcrypt gettext-native"
+ 
+-SRC_URI[archive.sha256sum] = "e4a341496a0815e64c8d3b8fabab33d7bae7efdeab77b843669731d5b181dcee"
++SRC_URI[archive.sha256sum] = "9a3e2571f1048035d80238f52c8760125884a43baf8a580fedb7250c1ad0a9e7"
+ 
+ GTKDOC_MESON_OPTION = 'gtk_doc'
+ 
 -- 
 2.42.0
 
 
---===============8786181614919899775==
+--===============8782909506385475337==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/xprop: SRC_URI changed from "https://www.x.org/releases//individual/app/xprop-1.2.6.tar.xz" to "https://www.x.org/releases//individual/app/xprop-1.2.7.tar.xz"
-packages/core2-64-poky-linux/xprop: PV changed from "1.2.6" to "1.2.7"
-packages/core2-64-poky-linux/xprop: PKGV changed from 1.2.6 [default] to 1.2.7 [default]
-packages/core2-64-poky-linux/xprop/xprop-dbg: PV changed from "1.2.6" to "1.2.7"
-packages/core2-64-poky-linux/xprop/xprop-dbg: PKGV changed from 1.2.6 [default] to 1.2.7 [default]
-packages/core2-64-poky-linux/xprop/xprop-dev: PV changed from "1.2.6" to "1.2.7"
-packages/core2-64-poky-linux/xprop/xprop-dev: PKGV changed from 1.2.6 [default] to 1.2.7 [default]
-packages/core2-64-poky-linux/xprop/xprop-doc: PV changed from "1.2.6" to "1.2.7"
-packages/core2-64-poky-linux/xprop/xprop-doc: PKGV changed from 1.2.6 [default] to 1.2.7 [default]
-packages/core2-64-poky-linux/xprop/xprop-locale: PV changed from "1.2.6" to "1.2.7"
-packages/core2-64-poky-linux/xprop/xprop-locale: PKGV changed from 1.2.6 [default] to 1.2.7 [default]
-packages/core2-64-poky-linux/xprop/xprop-src: PKGSIZE changed from 71371 to 71380 (+0%)
-packages/core2-64-poky-linux/xprop/xprop-src: PV changed from "1.2.6" to "1.2.7"
-packages/core2-64-poky-linux/xprop/xprop-src: PKGV changed from 1.2.6 [default] to 1.2.7 [default]
-packages/core2-64-poky-linux/xprop/xprop-staticdev: PV changed from "1.2.6" to "1.2.7"
-packages/core2-64-poky-linux/xprop/xprop-staticdev: PKGV changed from 1.2.6 [default] to 1.2.7 [default]
-packages/core2-64-poky-linux/xprop/xprop: PV changed from "1.2.6" to "1.2.7"
-packages/core2-64-poky-linux/xprop/xprop: PKGV changed from 1.2.6 [default] to 1.2.7 [default]
+packages/core2-64-poky-linux/libsecret: SRC_URI changed from "https://download.gnome.org/sources//libsecret/0.21/libsecret-0.21.2.tar.xz;name=archive" to "https://download.gnome.org/sources//libsecret/0.21/libsecret-0.21.3.tar.xz;name=archive"
+packages/core2-64-poky-linux/libsecret: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-dbg: PKGSIZE changed from 1185368 to 1185240 (-0%)
+packages/core2-64-poky-linux/libsecret/libsecret-dbg: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-dbg: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-dev: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-dev: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-doc: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-doc: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ab: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ab: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-an: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-an: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ar: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ar: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-as: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-as: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-be: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-be: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-bg: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-bg: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-bs: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-bs: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ca+valencia: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ca+valencia: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ca: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ca: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ckb: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ckb: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-cs: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-cs: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-da: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-da: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-de: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-de: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-el: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-el: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-en-gb: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-en-gb: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-eo: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-eo: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-es: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-es: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-eu: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-eu: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-fa: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-fa: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-fi: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-fi: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-fr: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-fr: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-fur: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-fur: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-gl: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-gl: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-he: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-he: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-hr: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-hr: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-hu: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-hu: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-id: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-id: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ie: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ie: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-it: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-it: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ja: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ja: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ka: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ka: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-kk: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-kk: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ko: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ko: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-lt: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-lt: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-lv: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-lv: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ml: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ml: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ms: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ms: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-nb: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-nb: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ne: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ne: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-nl: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-nl: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-oc: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-oc: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-pa: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-pa: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-pl: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-pl: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-pt-br: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-pt-br: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-pt: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-pt: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ro: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ro: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ru: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-ru: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-sk: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-sk: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-sl: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-sl: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-sr+latin: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-sr+latin: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-sr: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-sr: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-sv: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-sv: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-tg: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-tg: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-tr: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-tr: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-uk: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-uk: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-vi: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-vi: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-zh-cn: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-zh-cn: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-zh-hk: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-zh-hk: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-locale-zh-tw: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-locale-zh-tw: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-src: PKGSIZE changed from 1177829 to 1178066 (+0%)
+packages/core2-64-poky-linux/libsecret/libsecret-src: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-src: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret-staticdev: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret-staticdev: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
+packages/core2-64-poky-linux/libsecret/libsecret: PV changed from "0.21.2" to "0.21.3"
+packages/core2-64-poky-linux/libsecret/libsecret: PKGV changed from 0.21.2 [default] to 0.21.3 [default]
 
---===============8786181614919899775==
+--===============8782909506385475337==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-xprop-upgrade-1.2.6-1.2.7.patch"
+ filename="0001-libsecret-upgrade-0.21.2-0.21.3.patch"
 
-RnJvbSA0OGUwMjUzMDQzZjBhZTU3MzFjYjgzZTBkZGM2MTliNTc5ZTczYjIyIE1vbiBTZXAgMTcg
+RnJvbSA4MjMyY2ZlOTcxYWMwZTJmYWQxZmIzMzYzNTYwMjJjODE4ZjFlYmFlIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgRmViIDIwMjQgMTQ6MTc6MTcgKzAwMDAKU3ViamVjdDogW1BBVENIXSB4
-cHJvcDogdXBncmFkZSAxLjIuNiAtPiAxLjIuNwoKLS0tCiAuLi4veG9yZy1hcHAve3hwcm9wXzEu
-Mi42LmJiID0+IHhwcm9wXzEuMi43LmJifSAgICAgICAgICAgICAgICAgfCAyICstCiAxIGZpbGUg
-Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lw
-ZXMtZ3JhcGhpY3MveG9yZy1hcHAve3hwcm9wXzEuMi42LmJiID0+IHhwcm9wXzEuMi43LmJifSAo
-ODYlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWFwcC94cHJvcF8x
-LjIuNi5iYiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWFwcC94cHJvcF8xLjIuNy5iYgpz
-aW1pbGFyaXR5IGluZGV4IDg2JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9y
-Zy1hcHAveHByb3BfMS4yLjYuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1ncmFwaGljcy94b3Jn
-LWFwcC94cHJvcF8xLjIuNy5iYgppbmRleCA0MzhhODk3ZjFlLi45NmUzNjRiMmIzIDEwMDY0NAot
-LS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1hcHAveHByb3BfMS4yLjYuYmIKKysrIGIv
-bWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctYXBwL3hwcm9wXzEuMi43LmJiCkBAIC0xNSw0ICsx
-NSw0IEBAIERFUEVORFMgKz0gImxpYnhtdSIKIFBFID0gIjEiCiAKIFNSQ19VUklfRVhUID0gInh6
-IgotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjU4MGI4NTI1YjEyZWNjMDE0NGFhMTZjODhiMGFhZmE3
-NmQyZTc5OWI0NGM4YzZjNTBmOWNlOTI3ODhiNTU4NmUiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAi
-NDQzNmUzMTQ4YmI5MWExNjI0MDYyMzBkOWY3MzZhNDljYThiNTBiNzQ3OTAwMTVkYzE1ZDc4ZDZj
-ZThlODI1ZiIKLS0gCjIuNDIuMAoK
+CkRhdGU6IFRodSwgMTUgRmViIDIwMjQgMTM6MDA6MjUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJzZWNyZXQ6IHVwZ3JhZGUgMC4yMS4yIC0+IDAuMjEuMwoKLS0tCiAuLi4vbGlic2VjcmV0L3ts
+aWJzZWNyZXRfMC4yMS4yLmJiID0+IGxpYnNlY3JldF8wLjIxLjMuYmJ9ICAgICAgfCAyICstCiAx
+IGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRh
+L3JlY2lwZXMtZ25vbWUvbGlic2VjcmV0L3tsaWJzZWNyZXRfMC4yMS4yLmJiID0+IGxpYnNlY3Jl
+dF8wLjIxLjMuYmJ9ICg5MSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdub21lL2xpYnNl
+Y3JldC9saWJzZWNyZXRfMC4yMS4yLmJiIGIvbWV0YS9yZWNpcGVzLWdub21lL2xpYnNlY3JldC9s
+aWJzZWNyZXRfMC4yMS4zLmJiCnNpbWlsYXJpdHkgaW5kZXggOTElCnJlbmFtZSBmcm9tIG1ldGEv
+cmVjaXBlcy1nbm9tZS9saWJzZWNyZXQvbGlic2VjcmV0XzAuMjEuMi5iYgpyZW5hbWUgdG8gbWV0
+YS9yZWNpcGVzLWdub21lL2xpYnNlY3JldC9saWJzZWNyZXRfMC4yMS4zLmJiCmluZGV4IDJkOGVh
+OTUyYzUuLjY2YzUyMjAyMWUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1nbm9tZS9saWJzZWNy
+ZXQvbGlic2VjcmV0XzAuMjEuMi5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ25vbWUvbGlic2VjcmV0
+L2xpYnNlY3JldF8wLjIxLjMuYmIKQEAgLTEzLDcgKzEzLDcgQEAgaW5oZXJpdCBnbm9tZWJhc2Ug
+Z2ktZG9jZ2VuIHZhbGEgZ29iamVjdC1pbnRyb3NwZWN0aW9uIG1hbnBhZ2VzCiAKIERFUEVORFMg
+Kz0gImdsaWItMi4wIGxpYmdjcnlwdCBnZXR0ZXh0LW5hdGl2ZSIKIAotU1JDX1VSSVthcmNoaXZl
+LnNoYTI1NnN1bV0gPSAiZTRhMzQxNDk2YTA4MTVlNjRjOGQzYjhmYWJhYjMzZDdiYWU3ZWZkZWFi
+NzdiODQzNjY5NzMxZDViMTgxZGNlZSIKK1NSQ19VUklbYXJjaGl2ZS5zaGEyNTZzdW1dID0gIjlh
+M2UyNTcxZjEwNDgwMzVkODAyMzhmNTJjODc2MDEyNTg4NGE0M2JhZjhhNTgwZmVkYjcyNTBjMWFk
+MGE5ZTciCiAKIEdUS0RPQ19NRVNPTl9PUFRJT04gPSAnZ3RrX2RvYycKIAotLSAKMi40Mi4wCgo=
 
---===============8786181614919899775==--
+--===============8782909506385475337==--
 
