@@ -2,58 +2,58 @@ Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B534CC48BF0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7C7EC48BEC
 	for <webhook@archiver.kernel.org>; Thu, 15 Feb 2024 22:17:35 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web10.4922.1708035447253226455
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web11.4912.1708035448005407965
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Feb 2024 14:17:27 -0800
+ Thu, 15 Feb 2024 14:17:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZTI/18eb;
- spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-411d76c9ce3so11514685e9.3
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=LK+zL93U;
+ spf=pass (domain: gmail.com, ip: 209.85.221.45, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-33cf6266c76so813096f8f.1
         for <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 14:17:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708035445; x=1708640245; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1708035446; x=1708640246; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=oL5bbV6PegO7Hw/DFKm3cHodje+2IMFbVortKt1eA+Y=;
-        b=ZTI/18ebyrzys5nFTENWCCjQV9dz94Z62EJNhg5maLrS33fKbE+ajCnNQMP1K/Fo6M
-         ZkwwSbjTmKHibthQHuV2gitQN8uzcBMm+4ypgC6mPsY5inDmAGj6JaYeOB/hzXbYHwLK
-         T0aSbBu8zqhqEZI/Bd8HP1ZWLPspFb/ZWyOU1dozlt1bw43Mtj5WzjzhdYfim/0EuoZ8
-         60X9BlnX42EW5GyMUM8BZZcPT4nG7QykB1rqhR405Ae7kmS8VzW7D8XtiMMGL8Q5Vm3F
-         xdPq6ldEpwtBLfzVOzQ11xk9OwX6VGPdam9RY+GaJMe0okQ66APo0ki8avhZkPh3YtfU
-         a/gA==
+        bh=Gz+Ij36rz0RUxKYzdXcOPNd9A/cwq/xRSzZzA3m5oG8=;
+        b=LK+zL93U2G0taXq5SOKQw9/WcmMrYf9dXiCC52WIEVEwnZKhlWd9TTkXC6PLl4Ibae
+         auj5Yh6ppxblBJZbE/JY3b2R03VU/IAxbzmF1fo9o1Gu0i5WQvHHUT6rYq/LR8Yt9jZ/
+         YiS1e7he4t+oRtcFrY09WcRHzf4ZNRzuhS71Q70ICBC7KOZ7p+ef5hP6OCvd60LHCVIf
+         fhAAsUKUUupNyvpCQdoICHT6O7N9FP6s5K5/fqYyA0hhLwqiqVb2A8jPBNTqu78UGf3+
+         jw3Wat6vOp8/ms9yVZnP05+Yg9op1P9zCSqAZr/z1dPRGbESf5CYdUCj53M1Cy+jaYfo
+         QPCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708035445; x=1708640245;
+        d=1e100.net; s=20230601; t=1708035446; x=1708640246;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=oL5bbV6PegO7Hw/DFKm3cHodje+2IMFbVortKt1eA+Y=;
-        b=Gok5yN1U8luktkuSR+00TvbwfQFAsOFj0XuOixaVT9HvEn13ngA27VSnF5Kqo4bmHF
-         amQ7ygsUkx2ZsB5mOG5dGHQ6Ppue0jZKPJgW2zKp5ypbrxc2XtD7fcRDbvYJSmJSdp/E
-         XZjESwFhb1o8MYsnOb/N4oIwyN0uAU8mtAnh3vNZb8ZxmkIEw8cV3LEjfTnXwhpbU7AE
-         UDmL6d/tEe2Cm3Bkb6h+zqoepmquHY+Jnj/tbiMaNle/o5BMz2IqV8PxxxNjf4xlQuH5
-         /VB9vZC0lsPIV8u5cabpRiKjx+TQA/qtd7uOnqbKhujd8ClGRrEpPRhv82BpaEPhpiAU
-         PVCA==
-X-Gm-Message-State: AOJu0Yzp1BirHrRCH1MIlIL7NqfGf3cgYQ4qC+Wll9sdRiIUIZwOVaH9
-	mSK7y+aLYcFJZ6BFH69+sHkJR/vbEfLZp2wg8AWZ6iJj/Uva8My2YoC+0R2dAdA=
-X-Google-Smtp-Source: AGHT+IHWQxVsP+K25CUPhDFqjnqC1WQWqJYCisfxVNYerkQQsrzX1XhxMcg57lfFDdTQd6aIng7iIg==
-X-Received: by 2002:adf:e450:0:b0:33b:60ca:269f with SMTP id t16-20020adfe450000000b0033b60ca269fmr2108777wrm.43.1708035445384;
-        Thu, 15 Feb 2024 14:17:25 -0800 (PST)
+        bh=Gz+Ij36rz0RUxKYzdXcOPNd9A/cwq/xRSzZzA3m5oG8=;
+        b=bbz2INbY6rl7Ku4clhy27tq9bYuCeRhhmGoKSRZIr2M+DfvcW9fNPuvNwqJ1uJprC9
+         SccHGZU0okxcacy6gJHk9BIqpEqg058dlZxPfT9HnW3EprdU8JawKgZ/uznbxsI+CMxM
+         /Lr8pgZ2zLrBjv5pVQpFOm+Q4yZ97PuZ2aEqIQRMecttSI4MsQvw1O4KVglvdf4a4E6d
+         aIn6c/yLZg+3wU94+izXNhoyZtiF04DYZN7zjHyio6NC2yG8l9mF8plctxOkQTLsGEw6
+         Yl7YkS4GTkTIHOiEF0AzB7Pb4ilORMKD2r+tVG7g+xq4NGCc/ysTrvR3Oz14eBXSGsJW
+         mGMA==
+X-Gm-Message-State: AOJu0Yy74i0KaYub5rBYKlX2WZp3wk8UpeANJBytlPx8GpidxecrIAt2
+	thVFl6mdAHXsS7YzAur9CT88bIWeaFjmDzk75/FLKcL3Kzf5U17aos7GDmjZ0Zg=
+X-Google-Smtp-Source: AGHT+IELCNwAbvWIZdYE1OtyCt5tuclVV6VWDNX3352cV0MnfJqu0X7q/+Lsmdn/m+zxWdgcSHLT2A==
+X-Received: by 2002:adf:a199:0:b0:33b:353f:6b8f with SMTP id u25-20020adfa199000000b0033b353f6b8fmr2246912wru.20.1708035446330;
+        Thu, 15 Feb 2024 14:17:26 -0800 (PST)
 Received: from wsadrian16.fritz.box ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id e5-20020a5d65c5000000b0033cda3d3916sm335334wrw.88.2024.02.15.14.17.24
+        by smtp.gmail.com with ESMTPSA id e5-20020a5d65c5000000b0033cda3d3916sm335334wrw.88.2024.02.15.14.17.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Feb 2024 14:17:24 -0800 (PST)
+        Thu, 15 Feb 2024 14:17:25 -0800 (PST)
 From: Adrian Freihofer <adrian.freihofer@gmail.com>
 X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@gmail.com>,
 	Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [kirkstone][PATCH 10/12] meta/lib/oeqa: python 3.12 regex
-Date: Thu, 15 Feb 2024 23:13:56 +0100
-Message-ID: <20240215221711.332614-11-adrian.freihofer@siemens.com>
+Subject: [kirkstone][PATCH 11/12] meta/recipes: python 3.12 regex
+Date: Thu, 15 Feb 2024 23:13:57 +0100
+Message-ID: <20240215221711.332614-12-adrian.freihofer@siemens.com>
 X-Mailer: git-send-email 2.43.1
 In-Reply-To: <20240215221711.332614-1-adrian.freihofer@siemens.com>
 References: <20240215221711.332614-1-adrian.freihofer@siemens.com>
@@ -63,7 +63,7 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 22:17:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195721
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195722
 
 From: Adrian Freihofer <adrian.freihofer@gmail.com>
 
@@ -75,72 +75,46 @@ required for Python 3.
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Cherry-picked from master: 9002850f0c2e409d3bc629e36bb360b96326bb64
+Cherry-picked from master: f2d80817baea298b953d6e14daad65087b3b50c9
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/lib/oeqa/oetest.py                  | 2 +-
- meta/lib/oeqa/selftest/cases/bblayers.py | 2 +-
- meta/lib/oeqa/selftest/cases/fitimage.py | 6 +++---
- 3 files changed, 5 insertions(+), 5 deletions(-)
+ meta/recipes-kernel/perf/perf/sort-pmuevents.py | 8 ++++----
+ meta/recipes-rt/rt-tests/files/rt_bmark.py      | 2 +-
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
-index 9c84466dd0..b53c611062 100644
---- a/meta/lib/oeqa/oetest.py
-+++ b/meta/lib/oeqa/oetest.py
-@@ -256,7 +256,7 @@ class TestContext(object):
+diff --git a/meta/recipes-kernel/perf/perf/sort-pmuevents.py b/meta/recipes-kernel/perf/perf/sort-pmuevents.py
+index 0362f2d8fa..0a87e553ab 100755
+--- a/meta/recipes-kernel/perf/perf/sort-pmuevents.py
++++ b/meta/recipes-kernel/perf/perf/sort-pmuevents.py
+@@ -36,10 +36,10 @@ with open(infile, 'r') as file:
+ preamble_regex = re.compile( '^(.*?)^(struct|const struct|static struct|static const struct)', re.MULTILINE | re.DOTALL )
  
-         modules = []
-         for test in self.testslist:
--            if re.search("\w+\.\w+\.test_\S+", test):
-+            if re.search(r"\w+\.\w+\.test_\S+", test):
-                 test = '.'.join(t.split('.')[:3])
-             module = pkgutil.get_loader(test)
-             modules.append(module)
-diff --git a/meta/lib/oeqa/selftest/cases/bblayers.py b/meta/lib/oeqa/selftest/cases/bblayers.py
-index 7d74833f61..0b9f16eeae 100644
---- a/meta/lib/oeqa/selftest/cases/bblayers.py
-+++ b/meta/lib/oeqa/selftest/cases/bblayers.py
-@@ -46,7 +46,7 @@ class BitbakeLayers(OESelftestTestCase):
-         bb_file = os.path.join(testoutdir, recipe_path, recipe_file)
-         self.assertTrue(os.path.isfile(bb_file), msg = "Cannot find xcursor-transparent-theme_0.1.1.bb in the test_bitbakelayers_flatten local dir.")
-         contents = ftools.read_file(bb_file)
--        find_in_contents = re.search("##### bbappended from meta-selftest #####\n(.*\n)*include test_recipe.inc", contents)
-+        find_in_contents = re.search(r"##### bbappended from meta-selftest #####\n(.*\n)*include test_recipe.inc", contents)
-         self.assertTrue(find_in_contents, msg = "Flattening layers did not work. bitbake-layers flatten output: %s" % result.output)
+ preamble = re.search( preamble_regex, data )
+-struct_block_regex = re.compile( '^(struct|const struct|static struct|static const struct).*?(\w+) (.*?)\[\] = {(.*?)^};', re.MULTILINE | re.DOTALL )
+-field_regex =  re.compile( '{.*?},', re.MULTILINE | re.DOTALL )
+-cpuid_regex = re.compile( '\.cpuid = (.*?),', re.MULTILINE | re.DOTALL )
+-name_regex = re.compile( '\.name = (.*?),', re.MULTILINE | re.DOTALL )
++struct_block_regex = re.compile(r'^(struct|const struct|static struct|static const struct).*?(\w+) (.*?)\[\] = {(.*?)^};', re.MULTILINE | re.DOTALL )
++field_regex =  re.compile(r'{.*?},', re.MULTILINE | re.DOTALL )
++cpuid_regex = re.compile(r'\.cpuid = (.*?),', re.MULTILINE | re.DOTALL )
++name_regex = re.compile(r'\.name = (.*?),', re.MULTILINE | re.DOTALL )
  
-     def test_bitbakelayers_add_remove(self):
-diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
-index d732a9020d..4d820faf92 100644
---- a/meta/lib/oeqa/selftest/cases/fitimage.py
-+++ b/meta/lib/oeqa/selftest/cases/fitimage.py
-@@ -202,7 +202,7 @@ UBOOT_MKIMAGE_SIGN_ARGS = "-c 'a smart comment'"
-         signed_sections = {}
-         for line in result.output.splitlines():
-             if line.startswith((' Configuration', ' Image')):
--                in_signed = re.search('\((.*)\)', line).groups()[0]
-+                in_signed = re.search(r'\((.*)\)', line).groups()[0]
-             elif re.match('^ *', line) in (' ', ''):
-                 in_signed = None
-             elif in_signed:
-@@ -521,7 +521,7 @@ UBOOT_FIT_HASH_ALG = "sha256"
-         signed_sections = {}
-         for line in result.output.splitlines():
-             if line.startswith((' Image')):
--                in_signed = re.search('\((.*)\)', line).groups()[0]
-+                in_signed = re.search(r'\((.*)\)', line).groups()[0]
-             elif re.match(' \w', line):
-                 in_signed = None
-             elif in_signed:
-@@ -675,7 +675,7 @@ FIT_SIGN_INDIVIDUAL = "1"
-         signed_sections = {}
-         for line in result.output.splitlines():
-             if line.startswith((' Image')):
--                in_signed = re.search('\((.*)\)', line).groups()[0]
-+                in_signed = re.search(r'\((.*)\)', line).groups()[0]
-             elif re.match(' \w', line):
-                 in_signed = None
-             elif in_signed:
+ # create a dictionary structure to store all the structs, their
+ # types and then their fields.
+diff --git a/meta/recipes-rt/rt-tests/files/rt_bmark.py b/meta/recipes-rt/rt-tests/files/rt_bmark.py
+index 3b84447a0f..2a4eed412f 100755
+--- a/meta/recipes-rt/rt-tests/files/rt_bmark.py
++++ b/meta/recipes-rt/rt-tests/files/rt_bmark.py
+@@ -265,7 +265,7 @@ cmd = ("cyclictest",
+        "-d", str(interval_delta),
+        "-l", str(loop_count)
+        )
+-rex = re.compile(b"C:\s*(\d+).*Min:\s*(\d+).*Avg:\s*(\d+).*Max:\s*(\d+)")
++rex = re.compile(r"C:\s*(\d+).*Min:\s*(\d+).*Avg:\s*(\d+).*Max:\s*(\d+)")
+ 
+ def run_cyclictest_once():
+         res = subprocess.check_output(cmd)
 -- 
 2.43.1
 
