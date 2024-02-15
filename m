@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86D18C54F20
-	for <webhook@archiver.kernel.org>; Thu, 15 Feb 2024 17:32:41 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.20320.1708018343443766229
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76DBEC54EF3
+	for <webhook@archiver.kernel.org>; Thu, 15 Feb 2024 17:32:40 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web11.20323.1708018344292847941
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Feb 2024 09:32:23 -0800
+ Thu, 15 Feb 2024 09:32:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=L8Ah7eSe;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=E1u2T9WJ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018dadd39a7c-ea0ec342-2944-4ee7-b79a-bc1b11492c05-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=fQq5FojA;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=PCamCEvY;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018dadd39dc2-7bd35ade-d76d-4913-b94c-9b92a1f73b85-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1708018342;
+	t=1708018343;
 	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=su5R5OzcrhdyVY4JxSxyOt7CGIDE1PR2HLYmmDPJfwQ=;
-	b=L8Ah7eSezRCwejCmSGe3EjWSaCuEMhEYAji+hW2dyly3lqyExsOZw4C/j88aQDXs
-	GPQen6KGiWYnZY/4Oxk24pC2b7rFQgsOw4xx+fFZ9KtMUW0EBlR0lDBWOWXsfBKcSTB
-	jjHCiRgqd22+GutYyvVLHksdEiOLYbyOkqMXiTCk=
+	bh=syHVOsyMAn7ILw6Yc6EDYqFuai5t8VSSQ+Z5abbfUTU=;
+	b=fQq5FojA7hddHzubWZLg38x2/RM4XodW+tzeasu/0/koa+sIFslTqNVvsQQnYpXW
+	B+ro8rCXINdYP9dWPN7wShXw6m21tDs/GP4p3snUyo9QahJb+giMpOku0qWrHc+JqK3
+	pbg2wb54qvxwkVtgTR2ztUVMXcl+8+npy0fnZR/I=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1708018342;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1708018343;
 	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=su5R5OzcrhdyVY4JxSxyOt7CGIDE1PR2HLYmmDPJfwQ=;
-	b=E1u2T9WJ/dFXdh6A4gHfaiMekWyEy4oeYGHuB7IbktQujDDEiLgP1L0z/VQ7rVZ5
-	aUd1J8YEOUILTktGHQQAE9n5cH1aZJSeOoT+RhiJEozo5X6sUP4QnfIGQgkkv7FMc9L
-	kYIFj6IdJb4EkeT0hbQ+GxQXnx4Pg2AaDE0SGFlQ=
-Content-Type: multipart/mixed; boundary="===============1238124274318838013=="
+	bh=syHVOsyMAn7ILw6Yc6EDYqFuai5t8VSSQ+Z5abbfUTU=;
+	b=PCamCEvYMR5mXHj9Bd+z8R5VO+B+RZvHaFwaeQVUFzlsrqdU63RQlDSWkj7Fokjy
+	NmEJGhQbBuc5aESCohHDFP5wFoi4dXZGhxDXTT2j1MsbqEkFENx+o29D+DD79E9wb+Z
+	doRz3ehXTJ0R7VEtAGHcNLlxEdX4AcYApnVq1xsY=
+Content-Type: multipart/mixed; boundary="===============5779449725200873520=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
-Subject: [AUH] bind: upgrading to 9.18.24 SUCCEEDED
-Message-ID: <0101018dadd39a7c-ea0ec342-2944-4ee7-b79a-bc1b11492c05-000000@us-west-2.amazonses.com>
-Date: Thu, 15 Feb 2024 17:32:22 +0000
+Subject: [AUH] ovmf: upgrading to edk2-stable202311 FAILED
+Message-ID: <0101018dadd39dc2-7bd35ade-d76d-4913-b94c-9b92a1f73b85-000000@us-west-2.amazonses.com>
+Date: Thu, 15 Feb 2024 17:32:23 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.02.15-54.240.27.45
+X-SES-Outgoing: 2024.02.15-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 17:32:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195558
+ <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 17:32:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195567
 
---===============1238124274318838013==
+--===============5779449725200873520==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *bind* to *9.18.24* has Succeeded.
+that the automatic attempt to upgrade the recipe *ovmf* to *edk2-stable202311* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-bind-upgrade-9.18.21-9.18.24.patch
+    - apply the patch: git am 0001-ovmf-upgrade-edk2-stable202308-edk2-stable202311.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -71,783 +77,759 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 082de050671d3212eb50df1125ff3fda485bd971 Mon Sep 17 00:00:00 2001
+From 7955af7c496836e1f077ab349e6a96a06ec7b103 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 15 Feb 2024 05:19:07 +0000
-Subject: [PATCH] bind: upgrade 9.18.21 -> 9.18.24
+Date: Thu, 15 Feb 2024 06:20:16 +0000
+Subject: [PATCH] ovmf: upgrade edk2-stable202308 -> edk2-stable202311
 
 ---
- ...1-avoid-start-failure-with-bind-user.patch |   8 +-
- ...d-V-and-start-log-hide-build-options.patch |   4 +-
- ...ching-for-json-headers-searches-sysr.patch |   4 +-
- .../recipes-connectivity/bind/bind/conf.patch | 138 ++++++++++++------
- ...t.d-add-support-for-read-only-rootfs.patch |  13 +-
- .../bind/make-etc-initd-bind-stop-work.patch  |  20 +--
- .../bind/{bind_9.18.21.bb => bind_9.18.24.bb} |   2 +-
- 7 files changed, 120 insertions(+), 69 deletions(-)
- rename meta/recipes-connectivity/bind/{bind_9.18.21.bb => bind_9.18.24.bb} (97%)
+ ...ovmf-update-path-to-native-BaseTools.patch | 10 ++-
+ ...ile-adjust-to-build-in-under-bitbake.patch |  6 +-
+ .../ovmf/ovmf/0003-debug-prefix-map.patch     | 24 ++++---
+ .../ovmf/ovmf/0004-reproducible.patch         | 18 +++---
+ ...005-Committing-changes-from-do_patch.patch | 64 +++++++++++++++++++
+ meta/recipes-core/ovmf/ovmf_git.bb            |  5 +-
+ 6 files changed, 92 insertions(+), 35 deletions(-)
+ create mode 100644 meta/recipes-core/ovmf/ovmf/0005-Committing-changes-from-do_patch.patch
 
-diff --git a/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bind-user.patch b/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bind-user.patch
-index ec1bc7b567..c45da02ac0 100644
---- a/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bind-user.patch
-+++ b/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bind-user.patch
-@@ -1,4 +1,4 @@
--From 31dde3562f287429eea94b77250d184818b49063 Mon Sep 17 00:00:00 2001
-+From dbbb43ee107b2a614104b6880bf8557ed73dc577 Mon Sep 17 00:00:00 2001
- From: Chen Qi <Qi.Chen@windriver.com>
- Date: Mon, 15 Oct 2018 16:55:09 +0800
- Subject: [PATCH] avoid start failure with bind user
-@@ -6,12 +6,13 @@ Subject: [PATCH] avoid start failure with bind user
- Upstream-Status: Pending
+diff --git a/meta/recipes-core/ovmf/ovmf/0001-ovmf-update-path-to-native-BaseTools.patch b/meta/recipes-core/ovmf/ovmf/0001-ovmf-update-path-to-native-BaseTools.patch
+index 490d9e8046..ffae28b271 100644
+--- a/meta/recipes-core/ovmf/ovmf/0001-ovmf-update-path-to-native-BaseTools.patch
++++ b/meta/recipes-core/ovmf/ovmf/0001-ovmf-update-path-to-native-BaseTools.patch
+@@ -1,7 +1,7 @@
+-From d8df6b6433351763e1db791dd84d432983d2b249 Mon Sep 17 00:00:00 2001
++From e99b283d0ef0f05319a6b63d935b882111c6fe8f Mon Sep 17 00:00:00 2001
+ From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+ Date: Thu, 9 Jun 2016 02:23:01 -0700
+-Subject: [PATCH 1/4] ovmf: update path to native BaseTools
++Subject: [PATCH] ovmf: update path to native BaseTools
  
- Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+ BaseTools is a set of utilities to build EDK-based firmware. These utilities
+ are used during the build process. Thus, they need to be built natively.
+@@ -11,12 +11,13 @@ with the appropriate location before building.
+ 
+ Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+ Upstream-Status: Inappropriate [oe-core cross compile specific]
 +
  ---
-  init.d | 1 +
-  1 file changed, 1 insertion(+)
+  OvmfPkg/build.sh | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
- diff --git a/init.d b/init.d
--index b2eec60..6e03936 100644
-+index 95e8909..771d349 100644
- --- a/init.d
- +++ b/init.d
- @@ -57,6 +57,7 @@ case "$1" in
-@@ -22,6 +23,3 @@ index b2eec60..6e03936 100644
-  	    chmod 0640 /etc/bind/rndc.key
-  	fi
-  	if [ -f /var/run/named/named.pid ]; then
+ diff --git a/OvmfPkg/build.sh b/OvmfPkg/build.sh
+-index b0334fb76e..094f86f096 100755
++index 279f0d099a..285f061bf4 100755
+ --- a/OvmfPkg/build.sh
+ +++ b/OvmfPkg/build.sh
+ @@ -24,7 +24,7 @@ then
+@@ -28,6 +29,3 @@ index b0334fb76e..094f86f096 100755
+    echo $EDK_TOOLS_PATH
+    source edksetup.sh BaseTools
+  else
 --- 
--2.7.4
+-2.30.2
 -
-diff --git a/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-index 4c10f33f04..057540df74 100644
---- a/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-+++ b/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+diff --git a/meta/recipes-core/ovmf/ovmf/0002-BaseTools-makefile-adjust-to-build-in-under-bitbake.patch b/meta/recipes-core/ovmf/ovmf/0002-BaseTools-makefile-adjust-to-build-in-under-bitbake.patch
+index eeedc9e20f..f4852369c4 100644
+--- a/meta/recipes-core/ovmf/ovmf/0002-BaseTools-makefile-adjust-to-build-in-under-bitbake.patch
++++ b/meta/recipes-core/ovmf/ovmf/0002-BaseTools-makefile-adjust-to-build-in-under-bitbake.patch
 @@ -1,4 +1,4 @@
--From 4e83392e840fa7b05e778710b8c202d102477a13 Mon Sep 17 00:00:00 2001
-+From 65650ece1254e4f4ce92f17a6e078924fcea31e9 Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Mon, 27 Aug 2018 21:24:20 +0800
- Subject: [PATCH] `named/lwresd -V' and start log hide build options
-@@ -21,7 +21,7 @@ Signed-off-by: Armin Kuster <akuster@mvista.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
+-From ac9df4fb92965f1f95a5bdbde5f2f86d0c569711 Mon Sep 17 00:00:00 2001
++From 3812bc4c45e826f313c93e24039b2795875564f3 Mon Sep 17 00:00:00 2001
+ From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+ Date: Fri, 26 Jul 2019 17:34:26 -0400
+ Subject: [PATCH] BaseTools: makefile: adjust to build in under bitbake
+@@ -13,6 +13,7 @@ to fight against how upstream wants to configure the build.
  
- diff --git a/configure.ac b/configure.ac
--index bf20690..c5d330f 100644
-+index d8bfd85..d3be5a0 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -35,7 +35,7 @@ AC_DEFINE([PACKAGE_VERSION_EXTRA], ["][bind_VERSION_EXTRA]["], [BIND 9 Extra par
-diff --git a/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch
-index 38d07cae39..462418810c 100644
---- a/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch
-+++ b/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch
-@@ -1,4 +1,4 @@
--From 5ae30329f168c1e8d2e0c3831988a4f3e9096e39 Mon Sep 17 00:00:00 2001
-+From ca74b2646432db9993c6ac659726dcea135ceaf3 Mon Sep 17 00:00:00 2001
- From: Paul Gortmaker <paul.gortmaker@windriver.com>
- Date: Tue, 9 Jun 2015 11:22:00 -0400
- Subject: [PATCH] bind: ensure searching for json headers searches sysroot
-@@ -33,7 +33,7 @@ Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/configure.ac b/configure.ac
--index 2ab8ddd..92fe983 100644
-+index 8aa7a90..d8bfd85 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -761,7 +761,7 @@ AS_CASE([$with_lmdb],
-diff --git a/meta/recipes-connectivity/bind/bind/conf.patch b/meta/recipes-connectivity/bind/bind/conf.patch
-index aa3642acec..99bdda97c4 100644
---- a/meta/recipes-connectivity/bind/bind/conf.patch
-+++ b/meta/recipes-connectivity/bind/bind/conf.patch
-@@ -1,12 +1,44 @@
-+From 77bf9cc217ecf43ca7d1d1ac070d0bd09c34e13e Mon Sep 17 00:00:00 2001
-+From: Qing He <qing.he@intel.com>
-+Date: Tue, 30 Nov 2010 13:35:42 +0800
-+Subject: [PATCH] bind: add new recipe
-+
- Upstream-Status: Inappropriate [configuration]
- 
- the patch is imported from openembedded project
- 
- 11/30/2010 - Qing He <qing.he@intel.com>
- 
--diff -urN bind-9.3.1.orig/conf/db.0 bind-9.3.1/conf/db.0
----- bind-9.3.1.orig/conf/db.0	1970-01-01 01:00:00.000000000 +0100
--+++ bind-9.3.1/conf/db.0	2005-07-10 22:14:00.000000000 +0200
-+---
-+ conf/db.0               | 12 +++++++
-+ conf/db.127             | 13 ++++++++
-+ conf/db.255             | 12 +++++++
-+ conf/db.empty           | 14 +++++++++
-+ conf/db.local           | 13 ++++++++
-+ conf/db.root            | 45 ++++++++++++++++++++++++++
-+ conf/named.conf         | 49 +++++++++++++++++++++++++++++
-+ conf/named.conf.local   |  8 +++++
-+ conf/named.conf.options | 24 ++++++++++++++
-+ conf/zones.rfc1918      | 20 ++++++++++++
-+ init.d                  | 70 +++++++++++++++++++++++++++++++++++++++++
-+ 11 files changed, 280 insertions(+)
-+ create mode 100644 conf/db.0
-+ create mode 100644 conf/db.127
-+ create mode 100644 conf/db.255
-+ create mode 100644 conf/db.empty
-+ create mode 100644 conf/db.local
-+ create mode 100644 conf/db.root
-+ create mode 100644 conf/named.conf
-+ create mode 100644 conf/named.conf.local
-+ create mode 100644 conf/named.conf.options
-+ create mode 100644 conf/zones.rfc1918
-+ create mode 100644 init.d
-+
-+diff --git a/conf/db.0 b/conf/db.0
-+new file mode 100644
-+index 0000000..e3aabdb
-+--- /dev/null
-++++ b/conf/db.0
- @@ -0,0 +1,12 @@
- +;
- +; BIND reverse data file for broadcast zone
-@@ -20,9 +52,11 @@ diff -urN bind-9.3.1.orig/conf/db.0 bind-9.3.1/conf/db.0
- +			 604800 )	; Negative Cache TTL
- +;
- +@	IN	NS	localhost.
--diff -urN bind-9.3.1.orig/conf/db.127 bind-9.3.1/conf/db.127
----- bind-9.3.1.orig/conf/db.127	1970-01-01 01:00:00.000000000 +0100
--+++ bind-9.3.1/conf/db.127	2005-07-10 22:14:00.000000000 +0200
-+diff --git a/conf/db.127 b/conf/db.127
-+new file mode 100644
-+index 0000000..cd05bef
-+--- /dev/null
-++++ b/conf/db.127
- @@ -0,0 +1,13 @@
- +;
- +; BIND reverse data file for local loopback interface
-@@ -37,43 +71,49 @@ diff -urN bind-9.3.1.orig/conf/db.127 bind-9.3.1/conf/db.127
- +;
- +@	IN	NS	localhost.
- +1.0.0	IN	PTR	localhost.
--diff -urN bind-9.3.1.orig/conf/db.empty bind-9.3.1/conf/db.empty
----- bind-9.3.1.orig/conf/db.empty	1970-01-01 01:00:00.000000000 +0100
--+++ bind-9.3.1/conf/db.empty	2005-07-10 22:14:00.000000000 +0200
--@@ -0,0 +1,14 @@
--+; BIND reverse data file for empty rfc1918 zone
-+diff --git a/conf/db.255 b/conf/db.255
-+new file mode 100644
-+index 0000000..16cd819
-+--- /dev/null
-++++ b/conf/db.255
-+@@ -0,0 +1,12 @@
- +;
--+; DO NOT EDIT THIS FILE - it is used for multiple zones.
--+; Instead, copy it, edit named.conf, and use that copy.
-++; BIND reserve data file for broadcast zone
- +;
--+$TTL	86400
-++$TTL	604800
- +@	IN	SOA	localhost. root.localhost. (
- +			      1		; Serial
- +			 604800		; Refresh
- +			  86400		; Retry
- +			2419200		; Expire
--+			  86400 )	; Negative Cache TTL
-++			 604800 )	; Negative Cache TTL
- +;
- +@	IN	NS	localhost.
--diff -urN bind-9.3.1.orig/conf/db.255 bind-9.3.1/conf/db.255
----- bind-9.3.1.orig/conf/db.255	1970-01-01 01:00:00.000000000 +0100
--+++ bind-9.3.1/conf/db.255	2005-07-10 22:14:00.000000000 +0200
--@@ -0,0 +1,12 @@
-+diff --git a/conf/db.empty b/conf/db.empty
-+new file mode 100644
-+index 0000000..8a12858
-+--- /dev/null
-++++ b/conf/db.empty
-+@@ -0,0 +1,14 @@
-++; BIND reverse data file for empty rfc1918 zone
- +;
--+; BIND reserve data file for broadcast zone
-++; DO NOT EDIT THIS FILE - it is used for multiple zones.
-++; Instead, copy it, edit named.conf, and use that copy.
- +;
--+$TTL	604800
-++$TTL	86400
- +@	IN	SOA	localhost. root.localhost. (
- +			      1		; Serial
- +			 604800		; Refresh
- +			  86400		; Retry
- +			2419200		; Expire
--+			 604800 )	; Negative Cache TTL
-++			  86400 )	; Negative Cache TTL
- +;
- +@	IN	NS	localhost.
--diff -urN bind-9.3.1.orig/conf/db.local bind-9.3.1/conf/db.local
----- bind-9.3.1.orig/conf/db.local	1970-01-01 01:00:00.000000000 +0100
--+++ bind-9.3.1/conf/db.local	2005-07-10 22:14:00.000000000 +0200
-+diff --git a/conf/db.local b/conf/db.local
-+new file mode 100644
-+index 0000000..66b4892
-+--- /dev/null
-++++ b/conf/db.local
- @@ -0,0 +1,13 @@
- +;
- +; BIND data file for local loopback interface
-@@ -88,9 +128,11 @@ diff -urN bind-9.3.1.orig/conf/db.local bind-9.3.1/conf/db.local
- +;
- +@	IN	NS	localhost.
- +@	IN	A	127.0.0.1
--diff -urN bind-9.3.1.orig/conf/db.root bind-9.3.1/conf/db.root
----- bind-9.3.1.orig/conf/db.root	1970-01-01 01:00:00.000000000 +0100
--+++ bind-9.3.1/conf/db.root	2005-07-10 22:14:00.000000000 +0200
-+diff --git a/conf/db.root b/conf/db.root
-+new file mode 100644
-+index 0000000..01c20f0
-+--- /dev/null
-++++ b/conf/db.root
- @@ -0,0 +1,45 @@
- +
- +; <<>> DiG 9.2.3 <<>> ns . @a.root-servers.net.
-@@ -137,9 +179,11 @@ diff -urN bind-9.3.1.orig/conf/db.root bind-9.3.1/conf/db.root
- +;; WHEN: Sun Feb  1 11:27:14 2004
- +;; MSG SIZE  rcvd: 436
- +
--diff -urN bind-9.3.1.orig/conf/named.conf bind-9.3.1/conf/named.conf
----- bind-9.3.1.orig/conf/named.conf	1970-01-01 01:00:00.000000000 +0100
--+++ bind-9.3.1/conf/named.conf	2005-07-10 22:33:46.000000000 +0200
-+diff --git a/conf/named.conf b/conf/named.conf
-+new file mode 100644
-+index 0000000..95829cf
-+--- /dev/null
-++++ b/conf/named.conf
- @@ -0,0 +1,49 @@
- +// This is the primary configuration file for the BIND DNS server named.
- +//
-@@ -190,9 +234,11 @@ diff -urN bind-9.3.1.orig/conf/named.conf bind-9.3.1/conf/named.conf
- +// root-delegation-only exclude { "DE"; "MUSEUM"; };
- +
- +include "/etc/bind/named.conf.local";
--diff -urN bind-9.3.1.orig/conf/named.conf.local bind-9.3.1/conf/named.conf.local
----- bind-9.3.1.orig/conf/named.conf.local	1970-01-01 01:00:00.000000000 +0100
--+++ bind-9.3.1/conf/named.conf.local	2005-07-10 22:14:06.000000000 +0200
-+diff --git a/conf/named.conf.local b/conf/named.conf.local
-+new file mode 100644
-+index 0000000..7a57b10
-+--- /dev/null
-++++ b/conf/named.conf.local
- @@ -0,0 +1,8 @@
- +//
- +// Do any local configuration here
-@@ -202,9 +248,11 @@ diff -urN bind-9.3.1.orig/conf/named.conf.local bind-9.3.1/conf/named.conf.local
- +// organization
- +//include "/etc/bind/zones.rfc1918";
- +
--diff -urN bind-9.3.1.orig/conf/named.conf.options bind-9.3.1/conf/named.conf.options
----- bind-9.3.1.orig/conf/named.conf.options	1970-01-01 01:00:00.000000000 +0100
--+++ bind-9.3.1/conf/named.conf.options	2005-07-10 22:14:06.000000000 +0200
-+diff --git a/conf/named.conf.options b/conf/named.conf.options
-+new file mode 100644
-+index 0000000..813193d
-+--- /dev/null
-++++ b/conf/named.conf.options
- @@ -0,0 +1,24 @@
- +options {
- +	directory "/var/cache/bind";
-@@ -230,9 +278,11 @@ diff -urN bind-9.3.1.orig/conf/named.conf.options bind-9.3.1/conf/named.conf.opt
- +
- +};
- +
--diff -urN bind-9.3.1.orig/conf/zones.rfc1918 bind-9.3.1/conf/zones.rfc1918
----- bind-9.3.1.orig/conf/zones.rfc1918	1970-01-01 01:00:00.000000000 +0100
--+++ bind-9.3.1/conf/zones.rfc1918	2005-07-10 22:14:10.000000000 +0200
-+diff --git a/conf/zones.rfc1918 b/conf/zones.rfc1918
-+new file mode 100644
-+index 0000000..03b5546
-+--- /dev/null
-++++ b/conf/zones.rfc1918
- @@ -0,0 +1,20 @@
- +zone "10.in-addr.arpa"      { type master; file "/etc/bind/db.empty"; };
- + 
-@@ -254,9 +304,11 @@ diff -urN bind-9.3.1.orig/conf/zones.rfc1918 bind-9.3.1/conf/zones.rfc1918
- +zone "31.172.in-addr.arpa"  { type master; file "/etc/bind/db.empty"; };
- +
- +zone "168.192.in-addr.arpa" { type master; file "/etc/bind/db.empty"; };
--diff -urN bind-9.3.1.orig/init.d bind-9.3.1/init.d
----- bind-9.3.1.orig/init.d	1970-01-01 01:00:00.000000000 +0100
--+++ bind-9.3.1/init.d	2005-07-10 23:09:58.000000000 +0200
-+diff --git a/init.d b/init.d
-+new file mode 100644
-+index 0000000..2ef2277
-+--- /dev/null
-++++ b/init.d
- @@ -0,0 +1,70 @@
- +#!/bin/sh
- +
-diff --git a/meta/recipes-connectivity/bind/bind/init.d-add-support-for-read-only-rootfs.patch b/meta/recipes-connectivity/bind/bind/init.d-add-support-for-read-only-rootfs.patch
-index 11db95ede1..40040be8b0 100644
---- a/meta/recipes-connectivity/bind/bind/init.d-add-support-for-read-only-rootfs.patch
-+++ b/meta/recipes-connectivity/bind/bind/init.d-add-support-for-read-only-rootfs.patch
-@@ -1,14 +1,18 @@
--Subject: init.d: add support for read-only rootfs
-+From 9ccb0c9322b47374daaa13c792eb0af97037d397 Mon Sep 17 00:00:00 2001
-+From: Chen Qi <Qi.Chen@windriver.com>
-+Date: Thu, 27 Mar 2014 02:34:41 +0000
-+Subject: [PATCH] init.d: add support for read-only rootfs
- 
- Upstream-Status: Inappropriate [oe specific]
- 
- Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+ Signed-off-by: Ricardo Neri <ricardo.neri@linux.intel.com>
+ Upstream-Status: Inappropriate [needs to be converted to in-recipe fixups]
 +
  ---
-- init.d |   40 ++++++++++++++++++++++++++++++++++++++++
-+ init.d | 40 ++++++++++++++++++++++++++++++++++++++++
-  1 file changed, 40 insertions(+)
+  BaseTools/Source/C/Makefiles/header.makefile | 15 +++++++--------
+  1 file changed, 7 insertions(+), 8 deletions(-)
+@@ -64,6 +65,3 @@ index d369908a09..22c670f316 100644
+  ifeq ($(HOST_ARCH), IA32)
+  #
+  # Snow Leopard  is a 32-bit and 64-bit environment. uname -m returns i386, but gcc defaults
+--- 
+-2.30.2
+-
+diff --git a/meta/recipes-core/ovmf/ovmf/0003-debug-prefix-map.patch b/meta/recipes-core/ovmf/ovmf/0003-debug-prefix-map.patch
+index c0c763c1cf..86361c5b7d 100644
+--- a/meta/recipes-core/ovmf/ovmf/0003-debug-prefix-map.patch
++++ b/meta/recipes-core/ovmf/ovmf/0003-debug-prefix-map.patch
+@@ -1,7 +1,7 @@
+-From 03e536b20d0b72cf078052f6748de8df3836625c Mon Sep 17 00:00:00 2001
++From 9f1d683e53a9e4c7745d525cddf5cbf462e09ef8 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Mon, 14 Jun 2021 19:56:28 +0200
+-Subject: [PATCH 3/4] debug prefix map
++Subject: [PATCH] debug prefix map
  
- diff --git a/init.d b/init.d
--index 0111ed4..24677c8 100644
-+index 2ef2277..95e8909 100644
- --- a/init.d
- +++ b/init.d
- @@ -6,8 +6,48 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin
-@@ -60,6 +64,3 @@ index 0111ed4..24677c8 100644
-  test -x /usr/sbin/rndc || exit 0
+ We want to pass ${DEBUG_PREFIX_MAP} to gcc commands and also pass in
+  --debug-prefix-map to nasm (we carry a patch to nasm for this). The
+@@ -17,12 +17,13 @@ the case if the size of the debug symbols varies.
+ Upstream-Status: Submitted [https://github.com/tianocore/edk2/pull/2202]
+ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++
+ ---
+  BaseTools/Conf/tools_def.template | 18 +++++++++---------
+  1 file changed, 9 insertions(+), 9 deletions(-)
+ 
+ diff --git a/BaseTools/Conf/tools_def.template b/BaseTools/Conf/tools_def.template
+-index 503a6687c1..10ac38ef9e 100755
++index c34ecfd557..c17c87d683 100755
+ --- a/BaseTools/Conf/tools_def.template
+ +++ b/BaseTools/Conf/tools_def.template
+ @@ -739,7 +739,7 @@ NOOPT_*_*_OBJCOPY_ADDDEBUGFLAG     = --add-gnu-debuglink="$(DEBUG_DIR)/$(MODULE_
+@@ -34,7 +35,7 @@ index 503a6687c1..10ac38ef9e 100755
+  DEFINE GCC_ARM_CC_FLAGS            = DEF(GCC_ALL_CC_FLAGS) -mlittle-endian -mabi=aapcs -fno-short-enums -funsigned-char -ffunction-sections -fdata-sections -fomit-frame-pointer -Wno-address -mthumb -fno-pic -fno-pie
+  DEFINE GCC_LOONGARCH64_CC_FLAGS    = DEF(GCC_ALL_CC_FLAGS) -mabi=lp64d -fno-asynchronous-unwind-tables -fno-plt -Wno-address -fno-short-enums -fsigned-char -ffunction-sections -fdata-sections
+  DEFINE GCC_ARM_CC_XIPFLAGS         = -mno-unaligned-access
+-@@ -759,8 +759,8 @@ DEFINE GCC_ARM_ASLDLINK_FLAGS      = DEF(GCC_ARM_DLINK_FLAGS) -Wl,--entry,Refere
++@@ -760,8 +760,8 @@ DEFINE GCC_ARM_ASLDLINK_FLAGS      = DEF(GCC_ARM_DLINK_FLAGS) -Wl,--entry,Refere
+  DEFINE GCC_AARCH64_ASLDLINK_FLAGS  = DEF(GCC_AARCH64_DLINK_FLAGS) -Wl,--entry,ReferenceAcpiTable -u $(IMAGE_ENTRY_POINT) DEF(GCC_ARM_AARCH64_ASLDLINK_FLAGS)
+  DEFINE GCC_LOONGARCH64_ASLDLINK_FLAGS = DEF(GCC_LOONGARCH64_DLINK_FLAGS) -Wl,--entry,ReferenceAcpiTable -u $(IMAGE_ENTRY_POINT)
+  DEFINE GCC_IA32_X64_DLINK_FLAGS    = DEF(GCC_IA32_X64_DLINK_COMMON) --entry _$(IMAGE_ENTRY_POINT) --file-alignment 0x20 --section-alignment 0x20 -Map $(DEST_DIR_DEBUG)/$(BASE_NAME).map
+@@ -45,7 +46,7 @@ index 503a6687c1..10ac38ef9e 100755
+  DEFINE GCC_VFRPP_FLAGS             = -x c -E -P -DVFRCOMPILE --include $(MODULE_NAME)StrDefs.h
+  DEFINE GCC_ASLPP_FLAGS             = -x c -E -include AutoGen.h
+  DEFINE GCC_ASLCC_FLAGS             = -x c
+-@@ -913,7 +913,7 @@ DEFINE GCC5_LOONGARCH64_PP_FLAGS           = -mabi=lp64d -march=loongarch64 DEF(
++@@ -914,7 +914,7 @@ DEFINE GCC5_LOONGARCH64_PP_FLAGS           = -mabi=lp64d -march=loongarch64 DEF(
+  *_GCC48_IA32_DLINK2_FLAGS         = DEF(GCC48_IA32_DLINK2_FLAGS)
+  *_GCC48_IA32_RC_FLAGS             = DEF(GCC_IA32_RC_FLAGS)
+  *_GCC48_IA32_OBJCOPY_FLAGS        =
+@@ -54,7 +55,7 @@ index 503a6687c1..10ac38ef9e 100755
   
-  case "$1" in
+    DEBUG_GCC48_IA32_CC_FLAGS       = DEF(GCC48_IA32_CC_FLAGS)
+  RELEASE_GCC48_IA32_CC_FLAGS       = DEF(GCC48_IA32_CC_FLAGS) -Wno-unused-but-set-variable
+-@@ -941,7 +941,7 @@ RELEASE_GCC48_IA32_CC_FLAGS       = DEF(GCC48_IA32_CC_FLAGS) -Wno-unused-but-set
++@@ -942,7 +942,7 @@ RELEASE_GCC48_IA32_CC_FLAGS       = DEF(GCC48_IA32_CC_FLAGS) -Wno-unused-but-set
+  *_GCC48_X64_DLINK2_FLAGS         = DEF(GCC48_X64_DLINK2_FLAGS)
+  *_GCC48_X64_RC_FLAGS             = DEF(GCC_X64_RC_FLAGS)
+  *_GCC48_X64_OBJCOPY_FLAGS        =
+@@ -63,7 +64,7 @@ index 503a6687c1..10ac38ef9e 100755
+  
+    DEBUG_GCC48_X64_CC_FLAGS       = DEF(GCC48_X64_CC_FLAGS)
+  RELEASE_GCC48_X64_CC_FLAGS       = DEF(GCC48_X64_CC_FLAGS) -Wno-unused-but-set-variable
+-@@ -1050,7 +1050,7 @@ RELEASE_GCC48_AARCH64_CC_FLAGS   = DEF(GCC48_AARCH64_CC_FLAGS) -Wno-unused-but-s
++@@ -1051,7 +1051,7 @@ RELEASE_GCC48_AARCH64_CC_FLAGS   = DEF(GCC48_AARCH64_CC_FLAGS) -Wno-unused-but-s
+  *_GCC49_IA32_DLINK2_FLAGS         = DEF(GCC49_IA32_DLINK2_FLAGS)
+  *_GCC49_IA32_RC_FLAGS             = DEF(GCC_IA32_RC_FLAGS)
+  *_GCC49_IA32_OBJCOPY_FLAGS        =
+@@ -72,7 +73,7 @@ index 503a6687c1..10ac38ef9e 100755
+  
+    DEBUG_GCC49_IA32_CC_FLAGS       = DEF(GCC49_IA32_CC_FLAGS)
+  RELEASE_GCC49_IA32_CC_FLAGS       = DEF(GCC49_IA32_CC_FLAGS) -Wno-unused-but-set-variable -Wno-unused-const-variable
+-@@ -1078,7 +1078,7 @@ RELEASE_GCC49_IA32_CC_FLAGS       = DEF(GCC49_IA32_CC_FLAGS) -Wno-unused-but-set
++@@ -1079,7 +1079,7 @@ RELEASE_GCC49_IA32_CC_FLAGS       = DEF(GCC49_IA32_CC_FLAGS) -Wno-unused-but-set
+  *_GCC49_X64_DLINK2_FLAGS         = DEF(GCC49_X64_DLINK2_FLAGS)
+  *_GCC49_X64_RC_FLAGS             = DEF(GCC_X64_RC_FLAGS)
+  *_GCC49_X64_OBJCOPY_FLAGS        =
+@@ -81,7 +82,7 @@ index 503a6687c1..10ac38ef9e 100755
+  
+    DEBUG_GCC49_X64_CC_FLAGS       = DEF(GCC49_X64_CC_FLAGS)
+  RELEASE_GCC49_X64_CC_FLAGS       = DEF(GCC49_X64_CC_FLAGS) -Wno-unused-but-set-variable -Wno-unused-const-variable
+-@@ -1337,7 +1337,7 @@ RELEASE_GCCNOLTO_AARCH64_DLINK_XIPFLAGS = -z common-page-size=0x20
++@@ -1338,7 +1338,7 @@ RELEASE_GCCNOLTO_AARCH64_DLINK_XIPFLAGS = -z common-page-size=0x20
+  *_GCC5_IA32_DLINK2_FLAGS         = DEF(GCC5_IA32_DLINK2_FLAGS) -no-pie
+  *_GCC5_IA32_RC_FLAGS             = DEF(GCC_IA32_RC_FLAGS)
+  *_GCC5_IA32_OBJCOPY_FLAGS        =
+@@ -90,7 +91,7 @@ index 503a6687c1..10ac38ef9e 100755
+  
+    DEBUG_GCC5_IA32_CC_FLAGS       = DEF(GCC5_IA32_CC_FLAGS) -flto
+    DEBUG_GCC5_IA32_DLINK_FLAGS    = DEF(GCC5_IA32_X64_DLINK_FLAGS) -flto -Os -Wl,-m,elf_i386,--oformat=elf32-i386
+-@@ -1369,7 +1369,7 @@ RELEASE_GCC5_IA32_DLINK_FLAGS    = DEF(GCC5_IA32_X64_DLINK_FLAGS) -flto -Os -Wl,
++@@ -1370,7 +1370,7 @@ RELEASE_GCC5_IA32_DLINK_FLAGS    = DEF(GCC5_IA32_X64_DLINK_FLAGS) -flto -Os -Wl,
+  *_GCC5_X64_DLINK2_FLAGS          = DEF(GCC5_X64_DLINK2_FLAGS)
+  *_GCC5_X64_RC_FLAGS              = DEF(GCC_X64_RC_FLAGS)
+  *_GCC5_X64_OBJCOPY_FLAGS         =
+@@ -99,6 +100,3 @@ index 503a6687c1..10ac38ef9e 100755
+  
+    DEBUG_GCC5_X64_CC_FLAGS        = DEF(GCC5_X64_CC_FLAGS) -flto -DUSING_LTO
+    DEBUG_GCC5_X64_DLINK_FLAGS     = DEF(GCC5_X64_DLINK_FLAGS) -flto -Os
 --- 
--1.7.9.5
+-2.30.2
 -
-diff --git a/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.patch b/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.patch
-index 146f3e35db..553f0a14fb 100644
---- a/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.patch
-+++ b/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.patch
-@@ -1,4 +1,7 @@
--bind: make "/etc/init.d/bind stop" work
-+From aa163490b961b8ba9e099140c89e7f5797093726 Mon Sep 17 00:00:00 2001
-+From: Roy Li <rongqing.li@windriver.com>
-+Date: Thu, 15 Nov 2012 02:27:54 +0000
-+Subject: [PATCH] bind: make "/etc/init.d/bind stop" work
+diff --git a/meta/recipes-core/ovmf/ovmf/0004-reproducible.patch b/meta/recipes-core/ovmf/ovmf/0004-reproducible.patch
+index c3fdc3d863..6e221a8971 100644
+--- a/meta/recipes-core/ovmf/ovmf/0004-reproducible.patch
++++ b/meta/recipes-core/ovmf/ovmf/0004-reproducible.patch
+@@ -1,7 +1,7 @@
+-From c59850367a190d70dec43e0a66f399a4d8a5ffed Mon Sep 17 00:00:00 2001
++From a47499700412d86a533c7a4ee28ae2392f37762f Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Mon, 14 Jun 2021 19:57:30 +0200
+-Subject: [PATCH 4/4] reproducible
++Subject: [PATCH] reproducible
  
- Upstream-Status: Inappropriate [configuration]
- 
-@@ -6,14 +9,15 @@ Add some configurations, make rndc command be able to controls
- the named daemon.
- 
- Signed-off-by: Roy Li <rongqing.li@windriver.com>
+ This patch fixes various things which make the build more reproducible. Some changes
+ here only change intermediate artefacts but that means when you have two build trees
+@@ -27,6 +27,7 @@ The patch specifically:
+ Upstream-Status: Submitted [https://github.com/tianocore/edk2/pull/2176]
+ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 +
  ---
-- conf/named.conf |    5 +++++
-- conf/rndc.conf  |    5 +++++
-- 2 files changed, 10 insertions(+), 0 deletions(-)
-+ conf/named.conf | 5 +++++
-+ conf/rndc.conf  | 5 +++++
-+ 2 files changed, 10 insertions(+)
-  create mode 100644 conf/rndc.conf
+  BaseTools/Source/C/GenFw/Elf64Convert.c       |  8 ++++---
+  .../Source/Python/AutoGen/BuildEngine.py      |  3 +++
+@@ -35,10 +36,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  4 files changed, 24 insertions(+), 16 deletions(-)
  
- diff --git a/conf/named.conf b/conf/named.conf
--index 95829cf..c8899e7 100644
-+index 95829cf..021dbca 100644
- --- a/conf/named.conf
- +++ b/conf/named.conf
- @@ -47,3 +47,8 @@ zone "255.in-addr.arpa" {
-@@ -27,7 +31,7 @@ index 95829cf..c8899e7 100644
- +};
- diff --git a/conf/rndc.conf b/conf/rndc.conf
- new file mode 100644
--index 0000000..a0b481d
-+index 0000000..4b43a3d
- --- /dev/null
- +++ b/conf/rndc.conf
- @@ -0,0 +1,5 @@
-@@ -36,7 +40,3 @@ index 0000000..a0b481d
- +	default-server  localhost;
- +	default-key     rndc-key;
- +};
--
+ diff --git a/BaseTools/Source/C/GenFw/Elf64Convert.c b/BaseTools/Source/C/GenFw/Elf64Convert.c
+-index 9c17c90b16..fcc7864141 100644
++index 9911db65af..bd87909066 100644
+ --- a/BaseTools/Source/C/GenFw/Elf64Convert.c
+ +++ b/BaseTools/Source/C/GenFw/Elf64Convert.c
+-@@ -15,6 +15,8 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
++@@ -13,6 +13,8 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
+  #ifndef __GNUC__
+  #include <windows.h>
+  #include <io.h>
+@@ -47,7 +48,7 @@ index 9c17c90b16..fcc7864141 100644
+  #endif
+  #include <assert.h>
+  #include <stdio.h>
+-@@ -990,7 +992,7 @@ ScanSections64 (
++@@ -988,7 +990,7 @@ ScanSections64 (
+    }
+    mCoffOffset = mDebugOffset + sizeof(EFI_IMAGE_DEBUG_DIRECTORY_ENTRY) +
+                  sizeof(EFI_IMAGE_DEBUG_CODEVIEW_NB10_ENTRY) +
+@@ -56,7 +57,7 @@ index 9c17c90b16..fcc7864141 100644
+  
+    //
+    // Add more space in the .debug data region for the DllCharacteristicsEx
+-@@ -2261,7 +2263,7 @@ WriteDebug64 (
++@@ -2279,7 +2281,7 @@ WriteDebug64 (
+    EFI_IMAGE_DEBUG_CODEVIEW_NB10_ENTRY         *Nb10;
+    EFI_IMAGE_DEBUG_EX_DLLCHARACTERISTICS_ENTRY *DllEntry;
+  
+@@ -65,7 +66,7 @@ index 9c17c90b16..fcc7864141 100644
+  
+    NtHdr = (EFI_IMAGE_OPTIONAL_HEADER_UNION *)(mCoffFile + mNtHdrOffset);
+    DataDir = &NtHdr->Pe32Plus.OptionalHeader.DataDirectory[EFI_IMAGE_DIRECTORY_ENTRY_DEBUG];
+-@@ -2294,7 +2296,7 @@ WriteDebug64 (
++@@ -2312,7 +2314,7 @@ WriteDebug64 (
+  
+    Nb10 = (EFI_IMAGE_DEBUG_CODEVIEW_NB10_ENTRY*)(Dir + 1);
+    Nb10->Signature = CODEVIEW_SIGNATURE_NB10;
+@@ -175,6 +176,3 @@ index d05410b329..99b3f64aba 100755
+  
+          # Ignore generating makefile when it is a binary module
+          if self.IsBinaryModule:
 --- 
--1.7.5.4
+-2.30.2
 -
-diff --git a/meta/recipes-connectivity/bind/bind_9.18.21.bb b/meta/recipes-connectivity/bind/bind_9.18.24.bb
-similarity index 97%
-rename from meta/recipes-connectivity/bind/bind_9.18.21.bb
-rename to meta/recipes-connectivity/bind/bind_9.18.24.bb
-index f5fb4bd1e5..2874990320 100644
---- a/meta/recipes-connectivity/bind/bind_9.18.21.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.18.24.bb
-@@ -20,7 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
-            file://0001-avoid-start-failure-with-bind-user.patch \
+diff --git a/meta/recipes-core/ovmf/ovmf/0005-Committing-changes-from-do_patch.patch b/meta/recipes-core/ovmf/ovmf/0005-Committing-changes-from-do_patch.patch
+new file mode 100644
+index 0000000000..70464e1339
+--- /dev/null
++++ b/meta/recipes-core/ovmf/ovmf/0005-Committing-changes-from-do_patch.patch
+@@ -0,0 +1,64 @@
++From d2443d4a55465db44791e5f2435163b62e6fd604 Mon Sep 17 00:00:00 2001
++From: OpenEmbedded <oe.patch@oe>
++Date: Thu, 15 Feb 2024 06:19:01 +0000
++Subject: [PATCH] Committing changes from do_patch
++
++---
++ BaseTools/Source/C/Makefiles/app.makefile |  6 ++++++
++ BaseTools/Source/C/VfrCompile/GNUmakefile | 10 ++++++++++
++ OvmfPkg/build.sh                          |  2 +-
++ 3 files changed, 17 insertions(+), 1 deletion(-)
++
++diff --git a/BaseTools/Source/C/Makefiles/app.makefile b/BaseTools/Source/C/Makefiles/app.makefile
++index 506343a6e0..3f9d38f3a9 100644
++--- a/BaseTools/Source/C/Makefiles/app.makefile
+++++ b/BaseTools/Source/C/Makefiles/app.makefile
++@@ -10,6 +10,12 @@ MAKEROOT ?= ../..
++ include $(MAKEROOT)/Makefiles/header.makefile
++ 
++ APPLICATION = $(MAKEROOT)/bin/$(APPNAME)
+++CC = x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ovmf/edk2-stable202308/devtooltmp-8o5zaxoy/workdir/recipe-sysroot
+++CXX = x86_64-poky-linux-g++  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ovmf/edk2-stable202308/devtooltmp-8o5zaxoy/workdir/recipe-sysroot
+++AS = x86_64-poky-linux-as  
+++AR = x86_64-poky-linux-gcc-ar
+++LD = x86_64-poky-linux-ld --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ovmf/edk2-stable202308/devtooltmp-8o5zaxoy/workdir/recipe-sysroot  
+++LINKER = $(CC)
++ 
++ .PHONY:all
++ all: $(MAKEROOT)/bin $(APPLICATION)
++diff --git a/BaseTools/Source/C/VfrCompile/GNUmakefile b/BaseTools/Source/C/VfrCompile/GNUmakefile
++index 7d5976649d..a14ddb58ed 100644
++--- a/BaseTools/Source/C/VfrCompile/GNUmakefile
+++++ b/BaseTools/Source/C/VfrCompile/GNUmakefile
++@@ -19,8 +19,18 @@ OBJECTS = AParser.o DLexerBase.o ATokenBuffer.o EfiVfrParser.o VfrLexer.o VfrSyn
++ CLANG:=$(shell $(CC) --version | grep clang)
++ ifneq ($(CLANG),)
++ VFR_CPPFLAGS = -Wno-deprecated-register -std=c++14 -DPCCTS_USE_NAMESPACE_STD $(CPPFLAGS)
+++CC = x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ovmf/edk2-stable202308/devtooltmp-8o5zaxoy/workdir/recipe-sysroot
+++CXX = x86_64-poky-linux-g++  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ovmf/edk2-stable202308/devtooltmp-8o5zaxoy/workdir/recipe-sysroot
+++AS = x86_64-poky-linux-as  
+++AR = x86_64-poky-linux-gcc-ar
+++LD = x86_64-poky-linux-ld --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ovmf/edk2-stable202308/devtooltmp-8o5zaxoy/workdir/recipe-sysroot  
++ else
++ VFR_CPPFLAGS = -DPCCTS_USE_NAMESPACE_STD $(CPPFLAGS)
+++CC = x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ovmf/edk2-stable202308/devtooltmp-8o5zaxoy/workdir/recipe-sysroot
+++CXX = x86_64-poky-linux-g++  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ovmf/edk2-stable202308/devtooltmp-8o5zaxoy/workdir/recipe-sysroot
+++AS = x86_64-poky-linux-as  
+++AR = x86_64-poky-linux-gcc-ar
+++LD = x86_64-poky-linux-ld --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ovmf/edk2-stable202308/devtooltmp-8o5zaxoy/workdir/recipe-sysroot  
++ endif
++ # keep BUILD_OPTFLAGS last
++ VFR_CXXFLAGS = $(BUILD_OPTFLAGS)
++diff --git a/OvmfPkg/build.sh b/OvmfPkg/build.sh
++index 285f061bf4..689070958e 100755
++--- a/OvmfPkg/build.sh
+++++ b/OvmfPkg/build.sh
++@@ -24,7 +24,7 @@ then
++ # this assumes svn pulls have the same root dir
++ #  export EDK_TOOLS_PATH=`pwd`/../BaseTools
++ # This version is for the tools source in edk2
++-  export EDK_TOOLS_PATH=BBAKE_EDK_TOOLS_PATH/BaseTools
+++  export EDK_TOOLS_PATH=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ovmf/edk2-stable202308/devtooltmp-8o5zaxoy/workdir/recipe-sysroot-native/usr/bin/edk2_basetools/BaseTools
++   echo $EDK_TOOLS_PATH
++   source edksetup.sh BaseTools
++ else
+diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ovmf_git.bb
+index 3dc031d3b6..dcb29c3b14 100644
+--- a/meta/recipes-core/ovmf/ovmf_git.bb
++++ b/meta/recipes-core/ovmf/ovmf_git.bb
+@@ -24,10 +24,11 @@ SRC_URI = "gitsm://github.com/tianocore/edk2.git;branch=master;protocol=https \
+            file://0002-BaseTools-makefile-adjust-to-build-in-under-bitbake.patch \
+            file://0003-debug-prefix-map.patch \
+            file://0004-reproducible.patch \
++           file://0005-Committing-changes-from-do_patch.patch \
             "
  
--SRC_URI[sha256sum] = "a556be22505d9ea4f9c6717aee9c549739c68498aff3ca69035787ecc648fec5"
-+SRC_URI[sha256sum] = "709d73023c9115ddad3bab65b6c8c79a590196d0d114f5d0ca2533dbd52ddf66"
+-PV = "edk2-stable202308"
+-SRCREV = "819cfc6b42a68790a23509e4fcc58ceb70e1965e"
++PV = "edk2-stable202311"
++SRCREV = "8736b8fdca85e02933cdb0a13309de14c9799ece"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>edk2-stable.*)"
  
- UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
- # follow the ESV versions divisible by 2
+ inherit deploy
 -- 
 2.42.0
 
 
---===============1238124274318838013==
+--===============5779449725200873520==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-bind-upgrade-9.18.21-9.18.24.patch"
+ filename="0001-ovmf-upgrade-edk2-stable202308-edk2-stable202311.patch"
 
-RnJvbSAwODJkZTA1MDY3MWQzMjEyZWI1MGRmMTEyNWZmM2ZkYTQ4NWJkOTcxIE1vbiBTZXAgMTcg
+RnJvbSA3OTU1YWY3YzQ5NjgzNmUxZjA3N2FiMzQ5ZTZhOTZhMDZlYzdiMTAzIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTUgRmViIDIwMjQgMDU6MTk6MDcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBi
-aW5kOiB1cGdyYWRlIDkuMTguMjEgLT4gOS4xOC4yNAoKLS0tCiAuLi4xLWF2b2lkLXN0YXJ0LWZh
-aWx1cmUtd2l0aC1iaW5kLXVzZXIucGF0Y2ggfCAgIDggKy0KIC4uLmQtVi1hbmQtc3RhcnQtbG9n
-LWhpZGUtYnVpbGQtb3B0aW9ucy5wYXRjaCB8ICAgNCArLQogLi4uY2hpbmctZm9yLWpzb24taGVh
-ZGVycy1zZWFyY2hlcy1zeXNyLnBhdGNoIHwgICA0ICstCiAuLi4vcmVjaXBlcy1jb25uZWN0aXZp
-dHkvYmluZC9iaW5kL2NvbmYucGF0Y2ggfCAxMzggKysrKysrKysrKysrLS0tLS0tCiAuLi50LmQt
-YWRkLXN1cHBvcnQtZm9yLXJlYWQtb25seS1yb290ZnMucGF0Y2ggfCAgMTMgKy0KIC4uLi9iaW5k
-L21ha2UtZXRjLWluaXRkLWJpbmQtc3RvcC13b3JrLnBhdGNoICB8ICAyMCArLS0KIC4uLi9iaW5k
-L3tiaW5kXzkuMTguMjEuYmIgPT4gYmluZF85LjE4LjI0LmJifSB8ICAgMiArLQogNyBmaWxlcyBj
-aGFuZ2VkLCAxMjAgaW5zZXJ0aW9ucygrKSwgNjkgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9y
-ZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5kL3tiaW5kXzkuMTguMjEuYmIgPT4gYmluZF85LjE4LjI0
-LmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9i
-aW5kLzAwMDEtYXZvaWQtc3RhcnQtZmFpbHVyZS13aXRoLWJpbmQtdXNlci5wYXRjaCBiL21ldGEv
-cmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kLzAwMDEtYXZvaWQtc3RhcnQtZmFpbHVyZS13
-aXRoLWJpbmQtdXNlci5wYXRjaAppbmRleCBlYzFiYzdiNTY3Li5jNDVkYTAyYWMwIDEwMDY0NAot
-LS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZC8wMDAxLWF2b2lkLXN0YXJ0
-LWZhaWx1cmUtd2l0aC1iaW5kLXVzZXIucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rp
-dml0eS9iaW5kL2JpbmQvMDAwMS1hdm9pZC1zdGFydC1mYWlsdXJlLXdpdGgtYmluZC11c2VyLnBh
-dGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAzMWRkZTM1NjJmMjg3NDI5ZWVhOTRiNzcyNTBkMTg0
-ODE4YjQ5MDYzIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBkYmJiNDNlZTEwN2IyYTYx
-NDEwNGI2ODgwYmY4NTU3ZWQ3M2RjNTc3IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTog
-Q2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogRGF0ZTogTW9uLCAxNSBPY3QgMjAxOCAx
-Njo1NTowOSArMDgwMAogU3ViamVjdDogW1BBVENIXSBhdm9pZCBzdGFydCBmYWlsdXJlIHdpdGgg
-YmluZCB1c2VyCkBAIC02LDEyICs2LDEzIEBAIFN1YmplY3Q6IFtQQVRDSF0gYXZvaWQgc3RhcnQg
-ZmFpbHVyZSB3aXRoIGJpbmQgdXNlcgogVXBzdHJlYW0tU3RhdHVzOiBQZW5kaW5nCiAKIFNpZ25l
-ZC1vZmYtYnk6IENoZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4KKwogLS0tCiAgaW5pdC5k
-IHwgMSArCiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspCiAKIGRpZmYgLS1naXQgYS9p
-bml0LmQgYi9pbml0LmQKLWluZGV4IGIyZWVjNjAuLjZlMDM5MzYgMTAwNjQ0CitpbmRleCA5NWU4
-OTA5Li43NzFkMzQ5IDEwMDY0NAogLS0tIGEvaW5pdC5kCiArKysgYi9pbml0LmQKIEBAIC01Nyw2
-ICs1Nyw3IEBAIGNhc2UgIiQxIiBpbgpAQCAtMjIsNiArMjMsMyBAQCBpbmRleCBiMmVlYzYwLi42
-ZTAzOTM2IDEwMDY0NAogIAkgICAgY2htb2QgMDY0MCAvZXRjL2JpbmQvcm5kYy5rZXkKICAJZmkK
-ICAJaWYgWyAtZiAvdmFyL3J1bi9uYW1lZC9uYW1lZC5waWQgXTsgdGhlbgotLS0gCi0yLjcuNAot
-CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZC8wMDAxLW5h
-bWVkLWx3cmVzZC1WLWFuZC1zdGFydC1sb2ctaGlkZS1idWlsZC1vcHRpb25zLnBhdGNoIGIvbWV0
-YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5kL2JpbmQvMDAwMS1uYW1lZC1sd3Jlc2QtVi1hbmQt
-c3RhcnQtbG9nLWhpZGUtYnVpbGQtb3B0aW9ucy5wYXRjaAppbmRleCA0YzEwZjMzZjA0Li4wNTc1
-NDBkZjc0IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZC8w
-MDAxLW5hbWVkLWx3cmVzZC1WLWFuZC1zdGFydC1sb2ctaGlkZS1idWlsZC1vcHRpb25zLnBhdGNo
-CisrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kLzAwMDEtbmFtZWQtbHdy
-ZXNkLVYtYW5kLXN0YXJ0LWxvZy1oaWRlLWJ1aWxkLW9wdGlvbnMucGF0Y2gKQEAgLTEsNCArMSw0
-IEBACi1Gcm9tIDRlODMzOTJlODQwZmE3YjA1ZTc3ODcxMGI4YzIwMmQxMDI0NzdhMTMgTW9uIFNl
-cCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDY1NjUwZWNlMTI1NGU0ZjRjZTkyZjE3YTZlMDc4OTI0
-ZmNlYTMxZTkgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBIb25neHUgSmlhIDxob25n
-eHUuamlhQHdpbmRyaXZlci5jb20+CiBEYXRlOiBNb24sIDI3IEF1ZyAyMDE4IDIxOjI0OjIwICsw
-ODAwCiBTdWJqZWN0OiBbUEFUQ0hdIGBuYW1lZC9sd3Jlc2QgLVYnIGFuZCBzdGFydCBsb2cgaGlk
-ZSBidWlsZCBvcHRpb25zCkBAIC0yMSw3ICsyMSw3IEBAIFNpZ25lZC1vZmYtYnk6IEFybWluIEt1
-c3RlciA8YWt1c3RlckBtdmlzdGEuY29tPgogIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigr
-KSwgMSBkZWxldGlvbigtKQogCiBkaWZmIC0tZ2l0IGEvY29uZmlndXJlLmFjIGIvY29uZmlndXJl
-LmFjCi1pbmRleCBiZjIwNjkwLi5jNWQzMzBmIDEwMDY0NAoraW5kZXggZDhiZmQ4NS4uZDNiZTVh
-MCAxMDA2NDQKIC0tLSBhL2NvbmZpZ3VyZS5hYwogKysrIGIvY29uZmlndXJlLmFjCiBAQCAtMzUs
-NyArMzUsNyBAQCBBQ19ERUZJTkUoW1BBQ0tBR0VfVkVSU0lPTl9FWFRSQV0sIFsiXVtiaW5kX1ZF
-UlNJT05fRVhUUkFdWyJdLCBbQklORCA5IEV4dHJhIHBhcgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
-cGVzLWNvbm5lY3Rpdml0eS9iaW5kL2JpbmQvYmluZC1lbnN1cmUtc2VhcmNoaW5nLWZvci1qc29u
-LWhlYWRlcnMtc2VhcmNoZXMtc3lzci5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkv
-YmluZC9iaW5kL2JpbmQtZW5zdXJlLXNlYXJjaGluZy1mb3ItanNvbi1oZWFkZXJzLXNlYXJjaGVz
-LXN5c3IucGF0Y2gKaW5kZXggMzhkMDdjYWUzOS4uNDYyNDE4ODEwYyAxMDA2NDQKLS0tIGEvbWV0
-YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5kL2JpbmQvYmluZC1lbnN1cmUtc2VhcmNoaW5nLWZv
-ci1qc29uLWhlYWRlcnMtc2VhcmNoZXMtc3lzci5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtY29u
-bmVjdGl2aXR5L2JpbmQvYmluZC9iaW5kLWVuc3VyZS1zZWFyY2hpbmctZm9yLWpzb24taGVhZGVy
-cy1zZWFyY2hlcy1zeXNyLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA1YWUzMDMyOWYxNjhj
-MWU4ZDJlMGMzODMxOTg4YTRmM2U5MDk2ZTM5IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJv
-bSBjYTc0YjI2NDY0MzJkYjk5OTNjNmFjNjU5NzI2ZGNlYTEzNWNlYWYzIE1vbiBTZXAgMTcgMDA6
-MDA6MDAgMjAwMQogRnJvbTogUGF1bCBHb3J0bWFrZXIgPHBhdWwuZ29ydG1ha2VyQHdpbmRyaXZl
-ci5jb20+CiBEYXRlOiBUdWUsIDkgSnVuIDIwMTUgMTE6MjI6MDAgLTA0MDAKIFN1YmplY3Q6IFtQ
-QVRDSF0gYmluZDogZW5zdXJlIHNlYXJjaGluZyBmb3IganNvbiBoZWFkZXJzIHNlYXJjaGVzIHN5
-c3Jvb3QKQEAgLTMzLDcgKzMzLDcgQEAgU2lnbmVkLW9mZi1ieTogUGF1bCBHb3J0bWFrZXIgPHBh
-dWwuZ29ydG1ha2VyQHdpbmRyaXZlci5jb20+CiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9u
-KCspLCAxIGRlbGV0aW9uKC0pCiAKIGRpZmYgLS1naXQgYS9jb25maWd1cmUuYWMgYi9jb25maWd1
-cmUuYWMKLWluZGV4IDJhYjhkZGQuLjkyZmU5ODMgMTAwNjQ0CitpbmRleCA4YWE3YTkwLi5kOGJm
-ZDg1IDEwMDY0NAogLS0tIGEvY29uZmlndXJlLmFjCiArKysgYi9jb25maWd1cmUuYWMKIEBAIC03
-NjEsNyArNzYxLDcgQEAgQVNfQ0FTRShbJHdpdGhfbG1kYl0sCmRpZmYgLS1naXQgYS9tZXRhL3Jl
-Y2lwZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZC9jb25mLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNv
-bm5lY3Rpdml0eS9iaW5kL2JpbmQvY29uZi5wYXRjaAppbmRleCBhYTM2NDJhY2VjLi45OWJkZGE5
-N2M0IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZC9jb25m
-LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kL2NvbmYucGF0
-Y2gKQEAgLTEsMTIgKzEsNDQgQEAKK0Zyb20gNzdiZjljYzIxN2VjZjQzY2E3ZDFkMWFjMDcwZDBi
-ZDA5YzM0ZTEzZSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb206IFFpbmcgSGUgPHFpbmcu
-aGVAaW50ZWwuY29tPgorRGF0ZTogVHVlLCAzMCBOb3YgMjAxMCAxMzozNTo0MiArMDgwMAorU3Vi
-amVjdDogW1BBVENIXSBiaW5kOiBhZGQgbmV3IHJlY2lwZQorCiBVcHN0cmVhbS1TdGF0dXM6IElu
-YXBwcm9wcmlhdGUgW2NvbmZpZ3VyYXRpb25dCiAKIHRoZSBwYXRjaCBpcyBpbXBvcnRlZCBmcm9t
-IG9wZW5lbWJlZGRlZCBwcm9qZWN0CiAKIDExLzMwLzIwMTAgLSBRaW5nIEhlIDxxaW5nLmhlQGlu
-dGVsLmNvbT4KIAotZGlmZiAtdXJOIGJpbmQtOS4zLjEub3JpZy9jb25mL2RiLjAgYmluZC05LjMu
-MS9jb25mL2RiLjAKLS0tLSBiaW5kLTkuMy4xLm9yaWcvY29uZi9kYi4wCTE5NzAtMDEtMDEgMDE6
-MDA6MDAuMDAwMDAwMDAwICswMTAwCi0rKysgYmluZC05LjMuMS9jb25mL2RiLjAJMjAwNS0wNy0x
-MCAyMjoxNDowMC4wMDAwMDAwMDAgKzAyMDAKKy0tLQorIGNvbmYvZGIuMCAgICAgICAgICAgICAg
-IHwgMTIgKysrKysrKworIGNvbmYvZGIuMTI3ICAgICAgICAgICAgIHwgMTMgKysrKysrKysKKyBj
-b25mL2RiLjI1NSAgICAgICAgICAgICB8IDEyICsrKysrKysKKyBjb25mL2RiLmVtcHR5ICAgICAg
-ICAgICB8IDE0ICsrKysrKysrKworIGNvbmYvZGIubG9jYWwgICAgICAgICAgIHwgMTMgKysrKysr
-KysKKyBjb25mL2RiLnJvb3QgICAgICAgICAgICB8IDQ1ICsrKysrKysrKysrKysrKysrKysrKysr
-KysrCisgY29uZi9uYW1lZC5jb25mICAgICAgICAgfCA0OSArKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKworIGNvbmYvbmFtZWQuY29uZi5sb2NhbCAgIHwgIDggKysrKysKKyBjb25mL25hbWVk
-LmNvbmYub3B0aW9ucyB8IDI0ICsrKysrKysrKysrKysrCisgY29uZi96b25lcy5yZmMxOTE4ICAg
-ICAgfCAyMCArKysrKysrKysrKysKKyBpbml0LmQgICAgICAgICAgICAgICAgICB8IDcwICsrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrCisgMTEgZmlsZXMgY2hhbmdlZCwg
-MjgwIGluc2VydGlvbnMoKykKKyBjcmVhdGUgbW9kZSAxMDA2NDQgY29uZi9kYi4wCisgY3JlYXRl
-IG1vZGUgMTAwNjQ0IGNvbmYvZGIuMTI3CisgY3JlYXRlIG1vZGUgMTAwNjQ0IGNvbmYvZGIuMjU1
-CisgY3JlYXRlIG1vZGUgMTAwNjQ0IGNvbmYvZGIuZW1wdHkKKyBjcmVhdGUgbW9kZSAxMDA2NDQg
-Y29uZi9kYi5sb2NhbAorIGNyZWF0ZSBtb2RlIDEwMDY0NCBjb25mL2RiLnJvb3QKKyBjcmVhdGUg
-bW9kZSAxMDA2NDQgY29uZi9uYW1lZC5jb25mCisgY3JlYXRlIG1vZGUgMTAwNjQ0IGNvbmYvbmFt
-ZWQuY29uZi5sb2NhbAorIGNyZWF0ZSBtb2RlIDEwMDY0NCBjb25mL25hbWVkLmNvbmYub3B0aW9u
-cworIGNyZWF0ZSBtb2RlIDEwMDY0NCBjb25mL3pvbmVzLnJmYzE5MTgKKyBjcmVhdGUgbW9kZSAx
-MDA2NDQgaW5pdC5kCisKK2RpZmYgLS1naXQgYS9jb25mL2RiLjAgYi9jb25mL2RiLjAKK25ldyBm
-aWxlIG1vZGUgMTAwNjQ0CitpbmRleCAwMDAwMDAwLi5lM2FhYmRiCistLS0gL2Rldi9udWxsCisr
-KysgYi9jb25mL2RiLjAKIEBAIC0wLDAgKzEsMTIgQEAKICs7CiArOyBCSU5EIHJldmVyc2UgZGF0
-YSBmaWxlIGZvciBicm9hZGNhc3Qgem9uZQpAQCAtMjAsOSArNTIsMTEgQEAgZGlmZiAtdXJOIGJp
-bmQtOS4zLjEub3JpZy9jb25mL2RiLjAgYmluZC05LjMuMS9jb25mL2RiLjAKICsJCQkgNjA0ODAw
-ICkJOyBOZWdhdGl2ZSBDYWNoZSBUVEwKICs7CiArQAlJTglOUwlsb2NhbGhvc3QuCi1kaWZmIC11
-ck4gYmluZC05LjMuMS5vcmlnL2NvbmYvZGIuMTI3IGJpbmQtOS4zLjEvY29uZi9kYi4xMjcKLS0t
-LSBiaW5kLTkuMy4xLm9yaWcvY29uZi9kYi4xMjcJMTk3MC0wMS0wMSAwMTowMDowMC4wMDAwMDAw
-MDAgKzAxMDAKLSsrKyBiaW5kLTkuMy4xL2NvbmYvZGIuMTI3CTIwMDUtMDctMTAgMjI6MTQ6MDAu
-MDAwMDAwMDAwICswMjAwCitkaWZmIC0tZ2l0IGEvY29uZi9kYi4xMjcgYi9jb25mL2RiLjEyNwor
-bmV3IGZpbGUgbW9kZSAxMDA2NDQKK2luZGV4IDAwMDAwMDAuLmNkMDViZWYKKy0tLSAvZGV2L251
-bGwKKysrKyBiL2NvbmYvZGIuMTI3CiBAQCAtMCwwICsxLDEzIEBACiArOwogKzsgQklORCByZXZl
-cnNlIGRhdGEgZmlsZSBmb3IgbG9jYWwgbG9vcGJhY2sgaW50ZXJmYWNlCkBAIC0zNyw0MyArNzEs
-NDkgQEAgZGlmZiAtdXJOIGJpbmQtOS4zLjEub3JpZy9jb25mL2RiLjEyNyBiaW5kLTkuMy4xL2Nv
-bmYvZGIuMTI3CiArOwogK0AJSU4JTlMJbG9jYWxob3N0LgogKzEuMC4wCUlOCVBUUglsb2NhbGhv
-c3QuCi1kaWZmIC11ck4gYmluZC05LjMuMS5vcmlnL2NvbmYvZGIuZW1wdHkgYmluZC05LjMuMS9j
-b25mL2RiLmVtcHR5Ci0tLS0gYmluZC05LjMuMS5vcmlnL2NvbmYvZGIuZW1wdHkJMTk3MC0wMS0w
-MSAwMTowMDowMC4wMDAwMDAwMDAgKzAxMDAKLSsrKyBiaW5kLTkuMy4xL2NvbmYvZGIuZW1wdHkJ
-MjAwNS0wNy0xMCAyMjoxNDowMC4wMDAwMDAwMDAgKzAyMDAKLUBAIC0wLDAgKzEsMTQgQEAKLSs7
-IEJJTkQgcmV2ZXJzZSBkYXRhIGZpbGUgZm9yIGVtcHR5IHJmYzE5MTggem9uZQorZGlmZiAtLWdp
-dCBhL2NvbmYvZGIuMjU1IGIvY29uZi9kYi4yNTUKK25ldyBmaWxlIG1vZGUgMTAwNjQ0CitpbmRl
-eCAwMDAwMDAwLi4xNmNkODE5CistLS0gL2Rldi9udWxsCisrKysgYi9jb25mL2RiLjI1NQorQEAg
-LTAsMCArMSwxMiBAQAogKzsKLSs7IERPIE5PVCBFRElUIFRISVMgRklMRSAtIGl0IGlzIHVzZWQg
-Zm9yIG11bHRpcGxlIHpvbmVzLgotKzsgSW5zdGVhZCwgY29weSBpdCwgZWRpdCBuYW1lZC5jb25m
-LCBhbmQgdXNlIHRoYXQgY29weS4KKys7IEJJTkQgcmVzZXJ2ZSBkYXRhIGZpbGUgZm9yIGJyb2Fk
-Y2FzdCB6b25lCiArOwotKyRUVEwJODY0MDAKKyskVFRMCTYwNDgwMAogK0AJSU4JU09BCWxvY2Fs
-aG9zdC4gcm9vdC5sb2NhbGhvc3QuICgKICsJCQkgICAgICAxCQk7IFNlcmlhbAogKwkJCSA2MDQ4
-MDAJCTsgUmVmcmVzaAogKwkJCSAgODY0MDAJCTsgUmV0cnkKICsJCQkyNDE5MjAwCQk7IEV4cGly
-ZQotKwkJCSAgODY0MDAgKQk7IE5lZ2F0aXZlIENhY2hlIFRUTAorKwkJCSA2MDQ4MDAgKQk7IE5l
-Z2F0aXZlIENhY2hlIFRUTAogKzsKICtACUlOCU5TCWxvY2FsaG9zdC4KLWRpZmYgLXVyTiBiaW5k
-LTkuMy4xLm9yaWcvY29uZi9kYi4yNTUgYmluZC05LjMuMS9jb25mL2RiLjI1NQotLS0tIGJpbmQt
-OS4zLjEub3JpZy9jb25mL2RiLjI1NQkxOTcwLTAxLTAxIDAxOjAwOjAwLjAwMDAwMDAwMCArMDEw
-MAotKysrIGJpbmQtOS4zLjEvY29uZi9kYi4yNTUJMjAwNS0wNy0xMCAyMjoxNDowMC4wMDAwMDAw
-MDAgKzAyMDAKLUBAIC0wLDAgKzEsMTIgQEAKK2RpZmYgLS1naXQgYS9jb25mL2RiLmVtcHR5IGIv
-Y29uZi9kYi5lbXB0eQorbmV3IGZpbGUgbW9kZSAxMDA2NDQKK2luZGV4IDAwMDAwMDAuLjhhMTI4
-NTgKKy0tLSAvZGV2L251bGwKKysrKyBiL2NvbmYvZGIuZW1wdHkKK0BAIC0wLDAgKzEsMTQgQEAK
-Kys7IEJJTkQgcmV2ZXJzZSBkYXRhIGZpbGUgZm9yIGVtcHR5IHJmYzE5MTggem9uZQogKzsKLSs7
-IEJJTkQgcmVzZXJ2ZSBkYXRhIGZpbGUgZm9yIGJyb2FkY2FzdCB6b25lCisrOyBETyBOT1QgRURJ
-VCBUSElTIEZJTEUgLSBpdCBpcyB1c2VkIGZvciBtdWx0aXBsZSB6b25lcy4KKys7IEluc3RlYWQs
-IGNvcHkgaXQsIGVkaXQgbmFtZWQuY29uZiwgYW5kIHVzZSB0aGF0IGNvcHkuCiArOwotKyRUVEwJ
-NjA0ODAwCisrJFRUTAk4NjQwMAogK0AJSU4JU09BCWxvY2FsaG9zdC4gcm9vdC5sb2NhbGhvc3Qu
-ICgKICsJCQkgICAgICAxCQk7IFNlcmlhbAogKwkJCSA2MDQ4MDAJCTsgUmVmcmVzaAogKwkJCSAg
-ODY0MDAJCTsgUmV0cnkKICsJCQkyNDE5MjAwCQk7IEV4cGlyZQotKwkJCSA2MDQ4MDAgKQk7IE5l
-Z2F0aXZlIENhY2hlIFRUTAorKwkJCSAgODY0MDAgKQk7IE5lZ2F0aXZlIENhY2hlIFRUTAogKzsK
-ICtACUlOCU5TCWxvY2FsaG9zdC4KLWRpZmYgLXVyTiBiaW5kLTkuMy4xLm9yaWcvY29uZi9kYi5s
-b2NhbCBiaW5kLTkuMy4xL2NvbmYvZGIubG9jYWwKLS0tLSBiaW5kLTkuMy4xLm9yaWcvY29uZi9k
-Yi5sb2NhbAkxOTcwLTAxLTAxIDAxOjAwOjAwLjAwMDAwMDAwMCArMDEwMAotKysrIGJpbmQtOS4z
-LjEvY29uZi9kYi5sb2NhbAkyMDA1LTA3LTEwIDIyOjE0OjAwLjAwMDAwMDAwMCArMDIwMAorZGlm
-ZiAtLWdpdCBhL2NvbmYvZGIubG9jYWwgYi9jb25mL2RiLmxvY2FsCituZXcgZmlsZSBtb2RlIDEw
-MDY0NAoraW5kZXggMDAwMDAwMC4uNjZiNDg5MgorLS0tIC9kZXYvbnVsbAorKysrIGIvY29uZi9k
-Yi5sb2NhbAogQEAgLTAsMCArMSwxMyBAQAogKzsKICs7IEJJTkQgZGF0YSBmaWxlIGZvciBsb2Nh
-bCBsb29wYmFjayBpbnRlcmZhY2UKQEAgLTg4LDkgKzEyOCwxMSBAQCBkaWZmIC11ck4gYmluZC05
-LjMuMS5vcmlnL2NvbmYvZGIubG9jYWwgYmluZC05LjMuMS9jb25mL2RiLmxvY2FsCiArOwogK0AJ
-SU4JTlMJbG9jYWxob3N0LgogK0AJSU4JQQkxMjcuMC4wLjEKLWRpZmYgLXVyTiBiaW5kLTkuMy4x
-Lm9yaWcvY29uZi9kYi5yb290IGJpbmQtOS4zLjEvY29uZi9kYi5yb290Ci0tLS0gYmluZC05LjMu
-MS5vcmlnL2NvbmYvZGIucm9vdAkxOTcwLTAxLTAxIDAxOjAwOjAwLjAwMDAwMDAwMCArMDEwMAot
-KysrIGJpbmQtOS4zLjEvY29uZi9kYi5yb290CTIwMDUtMDctMTAgMjI6MTQ6MDAuMDAwMDAwMDAw
-ICswMjAwCitkaWZmIC0tZ2l0IGEvY29uZi9kYi5yb290IGIvY29uZi9kYi5yb290CituZXcgZmls
-ZSBtb2RlIDEwMDY0NAoraW5kZXggMDAwMDAwMC4uMDFjMjBmMAorLS0tIC9kZXYvbnVsbAorKysr
-IGIvY29uZi9kYi5yb290CiBAQCAtMCwwICsxLDQ1IEBACiArCiArOyA8PD4+IERpRyA5LjIuMyA8
-PD4+IG5zIC4gQGEucm9vdC1zZXJ2ZXJzLm5ldC4KQEAgLTEzNyw5ICsxNzksMTEgQEAgZGlmZiAt
-dXJOIGJpbmQtOS4zLjEub3JpZy9jb25mL2RiLnJvb3QgYmluZC05LjMuMS9jb25mL2RiLnJvb3QK
-ICs7OyBXSEVOOiBTdW4gRmViICAxIDExOjI3OjE0IDIwMDQKICs7OyBNU0cgU0laRSAgcmN2ZDog
-NDM2CiArCi1kaWZmIC11ck4gYmluZC05LjMuMS5vcmlnL2NvbmYvbmFtZWQuY29uZiBiaW5kLTku
-My4xL2NvbmYvbmFtZWQuY29uZgotLS0tIGJpbmQtOS4zLjEub3JpZy9jb25mL25hbWVkLmNvbmYJ
-MTk3MC0wMS0wMSAwMTowMDowMC4wMDAwMDAwMDAgKzAxMDAKLSsrKyBiaW5kLTkuMy4xL2NvbmYv
-bmFtZWQuY29uZgkyMDA1LTA3LTEwIDIyOjMzOjQ2LjAwMDAwMDAwMCArMDIwMAorZGlmZiAtLWdp
-dCBhL2NvbmYvbmFtZWQuY29uZiBiL2NvbmYvbmFtZWQuY29uZgorbmV3IGZpbGUgbW9kZSAxMDA2
-NDQKK2luZGV4IDAwMDAwMDAuLjk1ODI5Y2YKKy0tLSAvZGV2L251bGwKKysrKyBiL2NvbmYvbmFt
-ZWQuY29uZgogQEAgLTAsMCArMSw0OSBAQAogKy8vIFRoaXMgaXMgdGhlIHByaW1hcnkgY29uZmln
-dXJhdGlvbiBmaWxlIGZvciB0aGUgQklORCBETlMgc2VydmVyIG5hbWVkLgogKy8vCkBAIC0xOTAs
-OSArMjM0LDExIEBAIGRpZmYgLXVyTiBiaW5kLTkuMy4xLm9yaWcvY29uZi9uYW1lZC5jb25mIGJp
-bmQtOS4zLjEvY29uZi9uYW1lZC5jb25mCiArLy8gcm9vdC1kZWxlZ2F0aW9uLW9ubHkgZXhjbHVk
-ZSB7ICJERSI7ICJNVVNFVU0iOyB9OwogKwogK2luY2x1ZGUgIi9ldGMvYmluZC9uYW1lZC5jb25m
-LmxvY2FsIjsKLWRpZmYgLXVyTiBiaW5kLTkuMy4xLm9yaWcvY29uZi9uYW1lZC5jb25mLmxvY2Fs
-IGJpbmQtOS4zLjEvY29uZi9uYW1lZC5jb25mLmxvY2FsCi0tLS0gYmluZC05LjMuMS5vcmlnL2Nv
-bmYvbmFtZWQuY29uZi5sb2NhbAkxOTcwLTAxLTAxIDAxOjAwOjAwLjAwMDAwMDAwMCArMDEwMAot
-KysrIGJpbmQtOS4zLjEvY29uZi9uYW1lZC5jb25mLmxvY2FsCTIwMDUtMDctMTAgMjI6MTQ6MDYu
-MDAwMDAwMDAwICswMjAwCitkaWZmIC0tZ2l0IGEvY29uZi9uYW1lZC5jb25mLmxvY2FsIGIvY29u
-Zi9uYW1lZC5jb25mLmxvY2FsCituZXcgZmlsZSBtb2RlIDEwMDY0NAoraW5kZXggMDAwMDAwMC4u
-N2E1N2IxMAorLS0tIC9kZXYvbnVsbAorKysrIGIvY29uZi9uYW1lZC5jb25mLmxvY2FsCiBAQCAt
-MCwwICsxLDggQEAKICsvLwogKy8vIERvIGFueSBsb2NhbCBjb25maWd1cmF0aW9uIGhlcmUKQEAg
-LTIwMiw5ICsyNDgsMTEgQEAgZGlmZiAtdXJOIGJpbmQtOS4zLjEub3JpZy9jb25mL25hbWVkLmNv
-bmYubG9jYWwgYmluZC05LjMuMS9jb25mL25hbWVkLmNvbmYubG9jYWwKICsvLyBvcmdhbml6YXRp
-b24KICsvL2luY2x1ZGUgIi9ldGMvYmluZC96b25lcy5yZmMxOTE4IjsKICsKLWRpZmYgLXVyTiBi
-aW5kLTkuMy4xLm9yaWcvY29uZi9uYW1lZC5jb25mLm9wdGlvbnMgYmluZC05LjMuMS9jb25mL25h
-bWVkLmNvbmYub3B0aW9ucwotLS0tIGJpbmQtOS4zLjEub3JpZy9jb25mL25hbWVkLmNvbmYub3B0
-aW9ucwkxOTcwLTAxLTAxIDAxOjAwOjAwLjAwMDAwMDAwMCArMDEwMAotKysrIGJpbmQtOS4zLjEv
-Y29uZi9uYW1lZC5jb25mLm9wdGlvbnMJMjAwNS0wNy0xMCAyMjoxNDowNi4wMDAwMDAwMDAgKzAy
-MDAKK2RpZmYgLS1naXQgYS9jb25mL25hbWVkLmNvbmYub3B0aW9ucyBiL2NvbmYvbmFtZWQuY29u
-Zi5vcHRpb25zCituZXcgZmlsZSBtb2RlIDEwMDY0NAoraW5kZXggMDAwMDAwMC4uODEzMTkzZAor
-LS0tIC9kZXYvbnVsbAorKysrIGIvY29uZi9uYW1lZC5jb25mLm9wdGlvbnMKIEBAIC0wLDAgKzEs
-MjQgQEAKICtvcHRpb25zIHsKICsJZGlyZWN0b3J5ICIvdmFyL2NhY2hlL2JpbmQiOwpAQCAtMjMw
-LDkgKzI3OCwxMSBAQCBkaWZmIC11ck4gYmluZC05LjMuMS5vcmlnL2NvbmYvbmFtZWQuY29uZi5v
-cHRpb25zIGJpbmQtOS4zLjEvY29uZi9uYW1lZC5jb25mLm9wdAogKwogK307CiArCi1kaWZmIC11
-ck4gYmluZC05LjMuMS5vcmlnL2NvbmYvem9uZXMucmZjMTkxOCBiaW5kLTkuMy4xL2NvbmYvem9u
-ZXMucmZjMTkxOAotLS0tIGJpbmQtOS4zLjEub3JpZy9jb25mL3pvbmVzLnJmYzE5MTgJMTk3MC0w
-MS0wMSAwMTowMDowMC4wMDAwMDAwMDAgKzAxMDAKLSsrKyBiaW5kLTkuMy4xL2NvbmYvem9uZXMu
-cmZjMTkxOAkyMDA1LTA3LTEwIDIyOjE0OjEwLjAwMDAwMDAwMCArMDIwMAorZGlmZiAtLWdpdCBh
-L2NvbmYvem9uZXMucmZjMTkxOCBiL2NvbmYvem9uZXMucmZjMTkxOAorbmV3IGZpbGUgbW9kZSAx
-MDA2NDQKK2luZGV4IDAwMDAwMDAuLjAzYjU1NDYKKy0tLSAvZGV2L251bGwKKysrKyBiL2NvbmYv
-em9uZXMucmZjMTkxOAogQEAgLTAsMCArMSwyMCBAQAogK3pvbmUgIjEwLmluLWFkZHIuYXJwYSIg
-ICAgICB7IHR5cGUgbWFzdGVyOyBmaWxlICIvZXRjL2JpbmQvZGIuZW1wdHkiOyB9OwogKyAKQEAg
-LTI1NCw5ICszMDQsMTEgQEAgZGlmZiAtdXJOIGJpbmQtOS4zLjEub3JpZy9jb25mL3pvbmVzLnJm
-YzE5MTggYmluZC05LjMuMS9jb25mL3pvbmVzLnJmYzE5MTgKICt6b25lICIzMS4xNzIuaW4tYWRk
-ci5hcnBhIiAgeyB0eXBlIG1hc3RlcjsgZmlsZSAiL2V0Yy9iaW5kL2RiLmVtcHR5IjsgfTsKICsK
-ICt6b25lICIxNjguMTkyLmluLWFkZHIuYXJwYSIgeyB0eXBlIG1hc3RlcjsgZmlsZSAiL2V0Yy9i
-aW5kL2RiLmVtcHR5IjsgfTsKLWRpZmYgLXVyTiBiaW5kLTkuMy4xLm9yaWcvaW5pdC5kIGJpbmQt
-OS4zLjEvaW5pdC5kCi0tLS0gYmluZC05LjMuMS5vcmlnL2luaXQuZAkxOTcwLTAxLTAxIDAxOjAw
-OjAwLjAwMDAwMDAwMCArMDEwMAotKysrIGJpbmQtOS4zLjEvaW5pdC5kCTIwMDUtMDctMTAgMjM6
-MDk6NTguMDAwMDAwMDAwICswMjAwCitkaWZmIC0tZ2l0IGEvaW5pdC5kIGIvaW5pdC5kCituZXcg
-ZmlsZSBtb2RlIDEwMDY0NAoraW5kZXggMDAwMDAwMC4uMmVmMjI3NworLS0tIC9kZXYvbnVsbAor
-KysrIGIvaW5pdC5kCiBAQCAtMCwwICsxLDcwIEBACiArIyEvYmluL3NoCiArCmRpZmYgLS1naXQg
-YS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZC9pbml0LmQtYWRkLXN1cHBvcnQt
-Zm9yLXJlYWQtb25seS1yb290ZnMucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2Jp
-bmQvYmluZC9pbml0LmQtYWRkLXN1cHBvcnQtZm9yLXJlYWQtb25seS1yb290ZnMucGF0Y2gKaW5k
-ZXggMTFkYjk1ZWRlMS4uNDAwNDBiZThiMCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvbm5l
-Y3Rpdml0eS9iaW5kL2JpbmQvaW5pdC5kLWFkZC1zdXBwb3J0LWZvci1yZWFkLW9ubHktcm9vdGZz
-LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvYmluZC9iaW5kL2luaXQuZC1h
-ZGQtc3VwcG9ydC1mb3ItcmVhZC1vbmx5LXJvb3Rmcy5wYXRjaApAQCAtMSwxNCArMSwxOCBAQAot
-U3ViamVjdDogaW5pdC5kOiBhZGQgc3VwcG9ydCBmb3IgcmVhZC1vbmx5IHJvb3RmcworRnJvbSA5
-Y2NiMGM5MzIyYjQ3Mzc0ZGFhYTEzYzc5MmViMGFmOTcwMzdkMzk3IE1vbiBTZXAgMTcgMDA6MDA6
-MDAgMjAwMQorRnJvbTogQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgorRGF0ZTogVGh1
-LCAyNyBNYXIgMjAxNCAwMjozNDo0MSArMDAwMAorU3ViamVjdDogW1BBVENIXSBpbml0LmQ6IGFk
-ZCBzdXBwb3J0IGZvciByZWFkLW9ubHkgcm9vdGZzCiAKIFVwc3RyZWFtLVN0YXR1czogSW5hcHBy
-b3ByaWF0ZSBbb2Ugc3BlY2lmaWNdCiAKIFNpZ25lZC1vZmYtYnk6IENoZW4gUWkgPFFpLkNoZW5A
-d2luZHJpdmVyLmNvbT4KKwogLS0tCi0gaW5pdC5kIHwgICA0MCArKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKysrKysrCisgaW5pdC5kIHwgNDAgKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKysrKwogIDEgZmlsZSBjaGFuZ2VkLCA0MCBpbnNlcnRpb25zKCspCiAK
-IGRpZmYgLS1naXQgYS9pbml0LmQgYi9pbml0LmQKLWluZGV4IDAxMTFlZDQuLjI0Njc3YzggMTAw
-NjQ0CitpbmRleCAyZWYyMjc3Li45NWU4OTA5IDEwMDY0NAogLS0tIGEvaW5pdC5kCiArKysgYi9p
-bml0LmQKIEBAIC02LDggKzYsNDggQEAgUEFUSD0vc2JpbjovYmluOi91c3Ivc2JpbjovdXNyL2Jp
-bgpAQCAtNjAsNiArNjQsMyBAQCBpbmRleCAwMTExZWQ0Li4yNDY3N2M4IDEwMDY0NAogIHRlc3Qg
-LXggL3Vzci9zYmluL3JuZGMgfHwgZXhpdCAwCiAgCiAgY2FzZSAiJDEiIGluCi0tLSAKLTEuNy45
-LjUKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9iaW5kL2JpbmQvbWFr
-ZS1ldGMtaW5pdGQtYmluZC1zdG9wLXdvcmsucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2
-aXR5L2JpbmQvYmluZC9tYWtlLWV0Yy1pbml0ZC1iaW5kLXN0b3Atd29yay5wYXRjaAppbmRleCAx
-NDZmM2UzNWRiLi41NTNmMGExNGZiIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2
-aXR5L2JpbmQvYmluZC9tYWtlLWV0Yy1pbml0ZC1iaW5kLXN0b3Atd29yay5wYXRjaAorKysgYi9t
-ZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZC9tYWtlLWV0Yy1pbml0ZC1iaW5kLXN0
-b3Atd29yay5wYXRjaApAQCAtMSw0ICsxLDcgQEAKLWJpbmQ6IG1ha2UgIi9ldGMvaW5pdC5kL2Jp
-bmQgc3RvcCIgd29yaworRnJvbSBhYTE2MzQ5MGI5NjFiOGJhOWUwOTkxNDBjODllN2Y1Nzk3MDkz
-NzI2IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbTogUm95IExpIDxyb25ncWluZy5saUB3
-aW5kcml2ZXIuY29tPgorRGF0ZTogVGh1LCAxNSBOb3YgMjAxMiAwMjoyNzo1NCArMDAwMAorU3Vi
-amVjdDogW1BBVENIXSBiaW5kOiBtYWtlICIvZXRjL2luaXQuZC9iaW5kIHN0b3AiIHdvcmsKIAog
-VXBzdHJlYW0tU3RhdHVzOiBJbmFwcHJvcHJpYXRlIFtjb25maWd1cmF0aW9uXQogCkBAIC02LDE0
-ICs5LDE1IEBAIEFkZCBzb21lIGNvbmZpZ3VyYXRpb25zLCBtYWtlIHJuZGMgY29tbWFuZCBiZSBh
-YmxlIHRvIGNvbnRyb2xzCiB0aGUgbmFtZWQgZGFlbW9uLgogCiBTaWduZWQtb2ZmLWJ5OiBSb3kg
-TGkgPHJvbmdxaW5nLmxpQHdpbmRyaXZlci5jb20+CisKIC0tLQotIGNvbmYvbmFtZWQuY29uZiB8
-ICAgIDUgKysrKysKLSBjb25mL3JuZGMuY29uZiAgfCAgICA1ICsrKysrCi0gMiBmaWxlcyBjaGFu
-Z2VkLCAxMCBpbnNlcnRpb25zKCspLCAwIGRlbGV0aW9ucygtKQorIGNvbmYvbmFtZWQuY29uZiB8
-IDUgKysrKysKKyBjb25mL3JuZGMuY29uZiAgfCA1ICsrKysrCisgMiBmaWxlcyBjaGFuZ2VkLCAx
-MCBpbnNlcnRpb25zKCspCiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGNvbmYvcm5kYy5jb25mCiAKIGRp
-ZmYgLS1naXQgYS9jb25mL25hbWVkLmNvbmYgYi9jb25mL25hbWVkLmNvbmYKLWluZGV4IDk1ODI5
-Y2YuLmM4ODk5ZTcgMTAwNjQ0CitpbmRleCA5NTgyOWNmLi4wMjFkYmNhIDEwMDY0NAogLS0tIGEv
-Y29uZi9uYW1lZC5jb25mCiArKysgYi9jb25mL25hbWVkLmNvbmYKIEBAIC00NywzICs0Nyw4IEBA
-IHpvbmUgIjI1NS5pbi1hZGRyLmFycGEiIHsKQEAgLTI3LDcgKzMxLDcgQEAgaW5kZXggOTU4Mjlj
-Zi4uYzg4OTllNyAxMDA2NDQKICt9OwogZGlmZiAtLWdpdCBhL2NvbmYvcm5kYy5jb25mIGIvY29u
-Zi9ybmRjLmNvbmYKIG5ldyBmaWxlIG1vZGUgMTAwNjQ0Ci1pbmRleCAwMDAwMDAwLi5hMGI0ODFk
-CitpbmRleCAwMDAwMDAwLi40YjQzYTNkCiAtLS0gL2Rldi9udWxsCiArKysgYi9jb25mL3JuZGMu
-Y29uZgogQEAgLTAsMCArMSw1IEBACkBAIC0zNiw3ICs0MCwzIEBAIGluZGV4IDAwMDAwMDAuLmEw
-YjQ4MWQKICsJZGVmYXVsdC1zZXJ2ZXIgIGxvY2FsaG9zdDsKICsJZGVmYXVsdC1rZXkgICAgIHJu
-ZGMta2V5OwogK307Ci0KLS0tIAotMS43LjUuNAotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
-Y29ubmVjdGl2aXR5L2JpbmQvYmluZF85LjE4LjIxLmJiIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rp
-dml0eS9iaW5kL2JpbmRfOS4xOC4yNC5iYgpzaW1pbGFyaXR5IGluZGV4IDk3JQpyZW5hbWUgZnJv
-bSBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZF85LjE4LjIxLmJiCnJlbmFtZSB0
-byBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JpbmQvYmluZF85LjE4LjI0LmJiCmluZGV4IGY1
-ZmI0YmQxZTUuLjI4NzQ5OTAzMjAgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZp
-dHkvYmluZC9iaW5kXzkuMTguMjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9i
-aW5kL2JpbmRfOS4xOC4yNC5iYgpAQCAtMjAsNyArMjAsNyBAQCBTUkNfVVJJID0gImh0dHBzOi8v
-ZnRwLmlzYy5vcmcvaXNjL2JpbmQ5LyR7UFZ9LyR7QlBOfS0ke1BWfS50YXIueHogXAogICAgICAg
-ICAgICBmaWxlOi8vMDAwMS1hdm9pZC1zdGFydC1mYWlsdXJlLXdpdGgtYmluZC11c2VyLnBhdGNo
-IFwKICAgICAgICAgICAgIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiYTU1NmJlMjI1MDVkOWVh
-NGY5YzY3MTdhZWU5YzU0OTczOWM2ODQ5OGFmZjNjYTY5MDM1Nzg3ZWNjNjQ4ZmVjNSIKK1NSQ19V
-Uklbc2hhMjU2c3VtXSA9ICI3MDlkNzMwMjNjOTExNWRkYWQzYmFiNjViNmM4Yzc5YTU5MDE5NmQw
-ZDExNGY1ZDBjYTI1MzNkYmQ1MmRkZjY2IgogCiBVUFNUUkVBTV9DSEVDS19VUkkgPSAiaHR0cHM6
-Ly9mdHAuaXNjLm9yZy9pc2MvYmluZDkvIgogIyBmb2xsb3cgdGhlIEVTViB2ZXJzaW9ucyBkaXZp
-c2libGUgYnkgMgotLSAKMi40Mi4wCgo=
+CkRhdGU6IFRodSwgMTUgRmViIDIwMjQgMDY6MjA6MTYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBv
+dm1mOiB1cGdyYWRlIGVkazItc3RhYmxlMjAyMzA4IC0+IGVkazItc3RhYmxlMjAyMzExCgotLS0K
+IC4uLm92bWYtdXBkYXRlLXBhdGgtdG8tbmF0aXZlLUJhc2VUb29scy5wYXRjaCB8IDEwICsrLQog
+Li4uaWxlLWFkanVzdC10by1idWlsZC1pbi11bmRlci1iaXRiYWtlLnBhdGNoIHwgIDYgKy0KIC4u
+Li9vdm1mL292bWYvMDAwMy1kZWJ1Zy1wcmVmaXgtbWFwLnBhdGNoICAgICB8IDI0ICsrKystLS0K
+IC4uLi9vdm1mL292bWYvMDAwNC1yZXByb2R1Y2libGUucGF0Y2ggICAgICAgICB8IDE4ICsrKy0t
+LQogLi4uMDA1LUNvbW1pdHRpbmctY2hhbmdlcy1mcm9tLWRvX3BhdGNoLnBhdGNoIHwgNjQgKysr
+KysrKysrKysrKysrKysrKwogbWV0YS9yZWNpcGVzLWNvcmUvb3ZtZi9vdm1mX2dpdC5iYiAgICAg
+ICAgICAgIHwgIDUgKy0KIDYgZmlsZXMgY2hhbmdlZCwgOTIgaW5zZXJ0aW9ucygrKSwgMzUgZGVs
+ZXRpb25zKC0pCiBjcmVhdGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWNvcmUvb3ZtZi9vdm1m
+LzAwMDUtQ29tbWl0dGluZy1jaGFuZ2VzLWZyb20tZG9fcGF0Y2gucGF0Y2gKCmRpZmYgLS1naXQg
+YS9tZXRhL3JlY2lwZXMtY29yZS9vdm1mL292bWYvMDAwMS1vdm1mLXVwZGF0ZS1wYXRoLXRvLW5h
+dGl2ZS1CYXNlVG9vbHMucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29yZS9vdm1mL292bWYvMDAwMS1v
+dm1mLXVwZGF0ZS1wYXRoLXRvLW5hdGl2ZS1CYXNlVG9vbHMucGF0Y2gKaW5kZXggNDkwZDllODA0
+Ni4uZmZhZTI4YjI3MSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUvb3ZtZi9vdm1mLzAw
+MDEtb3ZtZi11cGRhdGUtcGF0aC10by1uYXRpdmUtQmFzZVRvb2xzLnBhdGNoCisrKyBiL21ldGEv
+cmVjaXBlcy1jb3JlL292bWYvb3ZtZi8wMDAxLW92bWYtdXBkYXRlLXBhdGgtdG8tbmF0aXZlLUJh
+c2VUb29scy5wYXRjaApAQCAtMSw3ICsxLDcgQEAKLUZyb20gZDhkZjZiNjQzMzM1MTc2M2UxZGI3
+OTFkZDg0ZDQzMjk4M2QyYjI0OSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gZTk5YjI4
+M2QwZWYwZjA1MzE5YTZiNjNkOTM1Yjg4MjExMWM2ZmU4ZiBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
+MDEKIEZyb206IFJpY2FyZG8gTmVyaSA8cmljYXJkby5uZXJpLWNhbGRlcm9uQGxpbnV4LmludGVs
+LmNvbT4KIERhdGU6IFRodSwgOSBKdW4gMjAxNiAwMjoyMzowMSAtMDcwMAotU3ViamVjdDogW1BB
+VENIIDEvNF0gb3ZtZjogdXBkYXRlIHBhdGggdG8gbmF0aXZlIEJhc2VUb29scworU3ViamVjdDog
+W1BBVENIXSBvdm1mOiB1cGRhdGUgcGF0aCB0byBuYXRpdmUgQmFzZVRvb2xzCiAKIEJhc2VUb29s
+cyBpcyBhIHNldCBvZiB1dGlsaXRpZXMgdG8gYnVpbGQgRURLLWJhc2VkIGZpcm13YXJlLiBUaGVz
+ZSB1dGlsaXRpZXMKIGFyZSB1c2VkIGR1cmluZyB0aGUgYnVpbGQgcHJvY2Vzcy4gVGh1cywgdGhl
+eSBuZWVkIHRvIGJlIGJ1aWx0IG5hdGl2ZWx5LgpAQCAtMTEsMTIgKzExLDEzIEBAIHdpdGggdGhl
+IGFwcHJvcHJpYXRlIGxvY2F0aW9uIGJlZm9yZSBidWlsZGluZy4KIAogU2lnbmVkLW9mZi1ieTog
+UmljYXJkbyBOZXJpIDxyaWNhcmRvLm5lcmktY2FsZGVyb25AbGludXguaW50ZWwuY29tPgogVXBz
+dHJlYW0tU3RhdHVzOiBJbmFwcHJvcHJpYXRlIFtvZS1jb3JlIGNyb3NzIGNvbXBpbGUgc3BlY2lm
+aWNdCisKIC0tLQogIE92bWZQa2cvYnVpbGQuc2ggfCAyICstCiAgMSBmaWxlIGNoYW5nZWQsIDEg
+aW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiAKIGRpZmYgLS1naXQgYS9Pdm1mUGtnL2J1aWxk
+LnNoIGIvT3ZtZlBrZy9idWlsZC5zaAotaW5kZXggYjAzMzRmYjc2ZS4uMDk0Zjg2ZjA5NiAxMDA3
+NTUKK2luZGV4IDI3OWYwZDA5OWEuLjI4NWYwNjFiZjQgMTAwNzU1CiAtLS0gYS9Pdm1mUGtnL2J1
+aWxkLnNoCiArKysgYi9Pdm1mUGtnL2J1aWxkLnNoCiBAQCAtMjQsNyArMjQsNyBAQCB0aGVuCkBA
+IC0yOCw2ICsyOSwzIEBAIGluZGV4IGIwMzM0ZmI3NmUuLjA5NGY4NmYwOTYgMTAwNzU1CiAgICBl
+Y2hvICRFREtfVE9PTFNfUEFUSAogICAgc291cmNlIGVka3NldHVwLnNoIEJhc2VUb29scwogIGVs
+c2UKLS0tIAotMi4zMC4yCi0KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL292bWYvb3Zt
+Zi8wMDAyLUJhc2VUb29scy1tYWtlZmlsZS1hZGp1c3QtdG8tYnVpbGQtaW4tdW5kZXItYml0YmFr
+ZS5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb3JlL292bWYvb3ZtZi8wMDAyLUJhc2VUb29scy1tYWtl
+ZmlsZS1hZGp1c3QtdG8tYnVpbGQtaW4tdW5kZXItYml0YmFrZS5wYXRjaAppbmRleCBlZWVkYzll
+MjBmLi5mNDg1MjM2OWM0IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9vdm1mL292bWYv
+MDAwMi1CYXNlVG9vbHMtbWFrZWZpbGUtYWRqdXN0LXRvLWJ1aWxkLWluLXVuZGVyLWJpdGJha2Uu
+cGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvb3ZtZi9vdm1mLzAwMDItQmFzZVRvb2xzLW1h
+a2VmaWxlLWFkanVzdC10by1idWlsZC1pbi11bmRlci1iaXRiYWtlLnBhdGNoCkBAIC0xLDQgKzEs
+NCBAQAotRnJvbSBhYzlkZjRmYjkyOTY1ZjFmOTVhNWJkYmRlNWYyZjg2ZDBjNTY5NzExIE1vbiBT
+ZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAzODEyYmM0YzQ1ZTgyNmYzMTNjOTNlMjQwMzliMjc5
+NTg3NTU2NGYzIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogUmljYXJkbyBOZXJpIDxy
+aWNhcmRvLm5lcmktY2FsZGVyb25AbGludXguaW50ZWwuY29tPgogRGF0ZTogRnJpLCAyNiBKdWwg
+MjAxOSAxNzozNDoyNiAtMDQwMAogU3ViamVjdDogW1BBVENIXSBCYXNlVG9vbHM6IG1ha2VmaWxl
+OiBhZGp1c3QgdG8gYnVpbGQgaW4gdW5kZXIgYml0YmFrZQpAQCAtMTMsNiArMTMsNyBAQCB0byBm
+aWdodCBhZ2FpbnN0IGhvdyB1cHN0cmVhbSB3YW50cyB0byBjb25maWd1cmUgdGhlIGJ1aWxkLgog
+CiBTaWduZWQtb2ZmLWJ5OiBSaWNhcmRvIE5lcmkgPHJpY2FyZG8ubmVyaUBsaW51eC5pbnRlbC5j
+b20+CiBVcHN0cmVhbS1TdGF0dXM6IEluYXBwcm9wcmlhdGUgW25lZWRzIHRvIGJlIGNvbnZlcnRl
+ZCB0byBpbi1yZWNpcGUgZml4dXBzXQorCiAtLS0KICBCYXNlVG9vbHMvU291cmNlL0MvTWFrZWZp
+bGVzL2hlYWRlci5tYWtlZmlsZSB8IDE1ICsrKysrKystLS0tLS0tLQogIDEgZmlsZSBjaGFuZ2Vk
+LCA3IGluc2VydGlvbnMoKyksIDggZGVsZXRpb25zKC0pCkBAIC02NCw2ICs2NSwzIEBAIGluZGV4
+IGQzNjk5MDhhMDkuLjIyYzY3MGYzMTYgMTAwNjQ0CiAgaWZlcSAoJChIT1NUX0FSQ0gpLCBJQTMy
+KQ0KICAjDQogICMgU25vdyBMZW9wYXJkICBpcyBhIDMyLWJpdCBhbmQgNjQtYml0IGVudmlyb25t
+ZW50LiB1bmFtZSAtbSByZXR1cm5zIGkzODYsIGJ1dCBnY2MgZGVmYXVsdHMNCi0tLSAKLTIuMzAu
+MgotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9vdm1mL292bWYvMDAwMy1kZWJ1Zy1w
+cmVmaXgtbWFwLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvcmUvb3ZtZi9vdm1mLzAwMDMtZGVidWct
+cHJlZml4LW1hcC5wYXRjaAppbmRleCBjMGM3NjNjMWNmLi44NjM2MWM1YjdkIDEwMDY0NAotLS0g
+YS9tZXRhL3JlY2lwZXMtY29yZS9vdm1mL292bWYvMDAwMy1kZWJ1Zy1wcmVmaXgtbWFwLnBhdGNo
+CisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL292bWYvb3ZtZi8wMDAzLWRlYnVnLXByZWZpeC1tYXAu
+cGF0Y2gKQEAgLTEsNyArMSw3IEBACi1Gcm9tIDAzZTUzNmIyMGQwYjcyY2YwNzgwNTJmNjc0OGRl
+OGRmMzgzNjYyNWMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDlmMWQ2ODNlNTNhOWU0
+Yzc3NDVkNTI1Y2RkZjVjYmY0NjJlMDllZjggTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9t
+OiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KIERhdGU6IE1vbiwg
+MTQgSnVuIDIwMjEgMTk6NTY6MjggKzAyMDAKLVN1YmplY3Q6IFtQQVRDSCAzLzRdIGRlYnVnIHBy
+ZWZpeCBtYXAKK1N1YmplY3Q6IFtQQVRDSF0gZGVidWcgcHJlZml4IG1hcAogCiBXZSB3YW50IHRv
+IHBhc3MgJHtERUJVR19QUkVGSVhfTUFQfSB0byBnY2MgY29tbWFuZHMgYW5kIGFsc28gcGFzcyBp
+bgogIC0tZGVidWctcHJlZml4LW1hcCB0byBuYXNtICh3ZSBjYXJyeSBhIHBhdGNoIHRvIG5hc20g
+Zm9yIHRoaXMpLiBUaGUKQEAgLTE3LDEyICsxNywxMyBAQCB0aGUgY2FzZSBpZiB0aGUgc2l6ZSBv
+ZiB0aGUgZGVidWcgc3ltYm9scyB2YXJpZXMuCiBVcHN0cmVhbS1TdGF0dXM6IFN1Ym1pdHRlZCBb
+aHR0cHM6Ly9naXRodWIuY29tL3RpYW5vY29yZS9lZGsyL3B1bGwvMjIwMl0KIFNpZ25lZC1vZmYt
+Ynk6IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnPgog
+U2lnbmVkLW9mZi1ieTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+
+CisKIC0tLQogIEJhc2VUb29scy9Db25mL3Rvb2xzX2RlZi50ZW1wbGF0ZSB8IDE4ICsrKysrKysr
+Ky0tLS0tLS0tLQogIDEgZmlsZSBjaGFuZ2VkLCA5IGluc2VydGlvbnMoKyksIDkgZGVsZXRpb25z
+KC0pCiAKIGRpZmYgLS1naXQgYS9CYXNlVG9vbHMvQ29uZi90b29sc19kZWYudGVtcGxhdGUgYi9C
+YXNlVG9vbHMvQ29uZi90b29sc19kZWYudGVtcGxhdGUKLWluZGV4IDUwM2E2Njg3YzEuLjEwYWMz
+OGVmOWUgMTAwNzU1CitpbmRleCBjMzRlY2ZkNTU3Li5jMTdjODdkNjgzIDEwMDc1NQogLS0tIGEv
+QmFzZVRvb2xzL0NvbmYvdG9vbHNfZGVmLnRlbXBsYXRlCiArKysgYi9CYXNlVG9vbHMvQ29uZi90
+b29sc19kZWYudGVtcGxhdGUKIEBAIC03MzksNyArNzM5LDcgQEAgTk9PUFRfKl8qX09CSkNPUFlf
+QUREREVCVUdGTEFHICAgICA9IC0tYWRkLWdudS1kZWJ1Z2xpbms9IiQoREVCVUdfRElSKS8kKE1P
+RFVMRV8KQEAgLTM0LDcgKzM1LDcgQEAgaW5kZXggNTAzYTY2ODdjMS4uMTBhYzM4ZWY5ZSAxMDA3
+NTUKICBERUZJTkUgR0NDX0FSTV9DQ19GTEFHUyAgICAgICAgICAgID0gREVGKEdDQ19BTExfQ0Nf
+RkxBR1MpIC1tbGl0dGxlLWVuZGlhbiAtbWFiaT1hYXBjcyAtZm5vLXNob3J0LWVudW1zIC1mdW5z
+aWduZWQtY2hhciAtZmZ1bmN0aW9uLXNlY3Rpb25zIC1mZGF0YS1zZWN0aW9ucyAtZm9taXQtZnJh
+bWUtcG9pbnRlciAtV25vLWFkZHJlc3MgLW10aHVtYiAtZm5vLXBpYyAtZm5vLXBpZQ0KICBERUZJ
+TkUgR0NDX0xPT05HQVJDSDY0X0NDX0ZMQUdTICAgID0gREVGKEdDQ19BTExfQ0NfRkxBR1MpIC1t
+YWJpPWxwNjRkIC1mbm8tYXN5bmNocm9ub3VzLXVud2luZC10YWJsZXMgLWZuby1wbHQgLVduby1h
+ZGRyZXNzIC1mbm8tc2hvcnQtZW51bXMgLWZzaWduZWQtY2hhciAtZmZ1bmN0aW9uLXNlY3Rpb25z
+IC1mZGF0YS1zZWN0aW9ucw0KICBERUZJTkUgR0NDX0FSTV9DQ19YSVBGTEFHUyAgICAgICAgID0g
+LW1uby11bmFsaWduZWQtYWNjZXNzDQotQEAgLTc1OSw4ICs3NTksOCBAQCBERUZJTkUgR0NDX0FS
+TV9BU0xETElOS19GTEFHUyAgICAgID0gREVGKEdDQ19BUk1fRExJTktfRkxBR1MpIC1XbCwtLWVu
+dHJ5LFJlZmVyZQorQEAgLTc2MCw4ICs3NjAsOCBAQCBERUZJTkUgR0NDX0FSTV9BU0xETElOS19G
+TEFHUyAgICAgID0gREVGKEdDQ19BUk1fRExJTktfRkxBR1MpIC1XbCwtLWVudHJ5LFJlZmVyZQog
+IERFRklORSBHQ0NfQUFSQ0g2NF9BU0xETElOS19GTEFHUyAgPSBERUYoR0NDX0FBUkNINjRfRExJ
+TktfRkxBR1MpIC1XbCwtLWVudHJ5LFJlZmVyZW5jZUFjcGlUYWJsZSAtdSAkKElNQUdFX0VOVFJZ
+X1BPSU5UKSBERUYoR0NDX0FSTV9BQVJDSDY0X0FTTERMSU5LX0ZMQUdTKQ0KICBERUZJTkUgR0ND
+X0xPT05HQVJDSDY0X0FTTERMSU5LX0ZMQUdTID0gREVGKEdDQ19MT09OR0FSQ0g2NF9ETElOS19G
+TEFHUykgLVdsLC0tZW50cnksUmVmZXJlbmNlQWNwaVRhYmxlIC11ICQoSU1BR0VfRU5UUllfUE9J
+TlQpDQogIERFRklORSBHQ0NfSUEzMl9YNjRfRExJTktfRkxBR1MgICAgPSBERUYoR0NDX0lBMzJf
+WDY0X0RMSU5LX0NPTU1PTikgLS1lbnRyeSBfJChJTUFHRV9FTlRSWV9QT0lOVCkgLS1maWxlLWFs
+aWdubWVudCAweDIwIC0tc2VjdGlvbi1hbGlnbm1lbnQgMHgyMCAtTWFwICQoREVTVF9ESVJfREVC
+VUcpLyQoQkFTRV9OQU1FKS5tYXANCkBAIC00NSw3ICs0Niw3IEBAIGluZGV4IDUwM2E2Njg3YzEu
+LjEwYWMzOGVmOWUgMTAwNzU1CiAgREVGSU5FIEdDQ19WRlJQUF9GTEFHUyAgICAgICAgICAgICA9
+IC14IGMgLUUgLVAgLURWRlJDT01QSUxFIC0taW5jbHVkZSAkKE1PRFVMRV9OQU1FKVN0ckRlZnMu
+aA0KICBERUZJTkUgR0NDX0FTTFBQX0ZMQUdTICAgICAgICAgICAgID0gLXggYyAtRSAtaW5jbHVk
+ZSBBdXRvR2VuLmgNCiAgREVGSU5FIEdDQ19BU0xDQ19GTEFHUyAgICAgICAgICAgICA9IC14IGMN
+Ci1AQCAtOTEzLDcgKzkxMyw3IEBAIERFRklORSBHQ0M1X0xPT05HQVJDSDY0X1BQX0ZMQUdTICAg
+ICAgICAgICA9IC1tYWJpPWxwNjRkIC1tYXJjaD1sb29uZ2FyY2g2NCBERUYoCitAQCAtOTE0LDcg
+KzkxNCw3IEBAIERFRklORSBHQ0M1X0xPT05HQVJDSDY0X1BQX0ZMQUdTICAgICAgICAgICA9IC1t
+YWJpPWxwNjRkIC1tYXJjaD1sb29uZ2FyY2g2NCBERUYoCiAgKl9HQ0M0OF9JQTMyX0RMSU5LMl9G
+TEFHUyAgICAgICAgID0gREVGKEdDQzQ4X0lBMzJfRExJTksyX0ZMQUdTKQ0KICAqX0dDQzQ4X0lB
+MzJfUkNfRkxBR1MgICAgICAgICAgICAgPSBERUYoR0NDX0lBMzJfUkNfRkxBR1MpDQogICpfR0ND
+NDhfSUEzMl9PQkpDT1BZX0ZMQUdTICAgICAgICA9DQpAQCAtNTQsNyArNTUsNyBAQCBpbmRleCA1
+MDNhNjY4N2MxLi4xMGFjMzhlZjllIDEwMDc1NQogIA0KICAgIERFQlVHX0dDQzQ4X0lBMzJfQ0Nf
+RkxBR1MgICAgICAgPSBERUYoR0NDNDhfSUEzMl9DQ19GTEFHUykNCiAgUkVMRUFTRV9HQ0M0OF9J
+QTMyX0NDX0ZMQUdTICAgICAgID0gREVGKEdDQzQ4X0lBMzJfQ0NfRkxBR1MpIC1Xbm8tdW51c2Vk
+LWJ1dC1zZXQtdmFyaWFibGUNCi1AQCAtOTQxLDcgKzk0MSw3IEBAIFJFTEVBU0VfR0NDNDhfSUEz
+Ml9DQ19GTEFHUyAgICAgICA9IERFRihHQ0M0OF9JQTMyX0NDX0ZMQUdTKSAtV25vLXVudXNlZC1i
+dXQtc2V0CitAQCAtOTQyLDcgKzk0Miw3IEBAIFJFTEVBU0VfR0NDNDhfSUEzMl9DQ19GTEFHUyAg
+ICAgICA9IERFRihHQ0M0OF9JQTMyX0NDX0ZMQUdTKSAtV25vLXVudXNlZC1idXQtc2V0CiAgKl9H
+Q0M0OF9YNjRfRExJTksyX0ZMQUdTICAgICAgICAgPSBERUYoR0NDNDhfWDY0X0RMSU5LMl9GTEFH
+UykNCiAgKl9HQ0M0OF9YNjRfUkNfRkxBR1MgICAgICAgICAgICAgPSBERUYoR0NDX1g2NF9SQ19G
+TEFHUykNCiAgKl9HQ0M0OF9YNjRfT0JKQ09QWV9GTEFHUyAgICAgICAgPQ0KQEAgLTYzLDcgKzY0
+LDcgQEAgaW5kZXggNTAzYTY2ODdjMS4uMTBhYzM4ZWY5ZSAxMDA3NTUKICANCiAgICBERUJVR19H
+Q0M0OF9YNjRfQ0NfRkxBR1MgICAgICAgPSBERUYoR0NDNDhfWDY0X0NDX0ZMQUdTKQ0KICBSRUxF
+QVNFX0dDQzQ4X1g2NF9DQ19GTEFHUyAgICAgICA9IERFRihHQ0M0OF9YNjRfQ0NfRkxBR1MpIC1X
+bm8tdW51c2VkLWJ1dC1zZXQtdmFyaWFibGUNCi1AQCAtMTA1MCw3ICsxMDUwLDcgQEAgUkVMRUFT
+RV9HQ0M0OF9BQVJDSDY0X0NDX0ZMQUdTICAgPSBERUYoR0NDNDhfQUFSQ0g2NF9DQ19GTEFHUykg
+LVduby11bnVzZWQtYnV0LXMKK0BAIC0xMDUxLDcgKzEwNTEsNyBAQCBSRUxFQVNFX0dDQzQ4X0FB
+UkNINjRfQ0NfRkxBR1MgICA9IERFRihHQ0M0OF9BQVJDSDY0X0NDX0ZMQUdTKSAtV25vLXVudXNl
+ZC1idXQtcwogICpfR0NDNDlfSUEzMl9ETElOSzJfRkxBR1MgICAgICAgICA9IERFRihHQ0M0OV9J
+QTMyX0RMSU5LMl9GTEFHUykNCiAgKl9HQ0M0OV9JQTMyX1JDX0ZMQUdTICAgICAgICAgICAgID0g
+REVGKEdDQ19JQTMyX1JDX0ZMQUdTKQ0KICAqX0dDQzQ5X0lBMzJfT0JKQ09QWV9GTEFHUyAgICAg
+ICAgPQ0KQEAgLTcyLDcgKzczLDcgQEAgaW5kZXggNTAzYTY2ODdjMS4uMTBhYzM4ZWY5ZSAxMDA3
+NTUKICANCiAgICBERUJVR19HQ0M0OV9JQTMyX0NDX0ZMQUdTICAgICAgID0gREVGKEdDQzQ5X0lB
+MzJfQ0NfRkxBR1MpDQogIFJFTEVBU0VfR0NDNDlfSUEzMl9DQ19GTEFHUyAgICAgICA9IERFRihH
+Q0M0OV9JQTMyX0NDX0ZMQUdTKSAtV25vLXVudXNlZC1idXQtc2V0LXZhcmlhYmxlIC1Xbm8tdW51
+c2VkLWNvbnN0LXZhcmlhYmxlDQotQEAgLTEwNzgsNyArMTA3OCw3IEBAIFJFTEVBU0VfR0NDNDlf
+SUEzMl9DQ19GTEFHUyAgICAgICA9IERFRihHQ0M0OV9JQTMyX0NDX0ZMQUdTKSAtV25vLXVudXNl
+ZC1idXQtc2V0CitAQCAtMTA3OSw3ICsxMDc5LDcgQEAgUkVMRUFTRV9HQ0M0OV9JQTMyX0NDX0ZM
+QUdTICAgICAgID0gREVGKEdDQzQ5X0lBMzJfQ0NfRkxBR1MpIC1Xbm8tdW51c2VkLWJ1dC1zZXQK
+ICAqX0dDQzQ5X1g2NF9ETElOSzJfRkxBR1MgICAgICAgICA9IERFRihHQ0M0OV9YNjRfRExJTksy
+X0ZMQUdTKQ0KICAqX0dDQzQ5X1g2NF9SQ19GTEFHUyAgICAgICAgICAgICA9IERFRihHQ0NfWDY0
+X1JDX0ZMQUdTKQ0KICAqX0dDQzQ5X1g2NF9PQkpDT1BZX0ZMQUdTICAgICAgICA9DQpAQCAtODEs
+NyArODIsNyBAQCBpbmRleCA1MDNhNjY4N2MxLi4xMGFjMzhlZjllIDEwMDc1NQogIA0KICAgIERF
+QlVHX0dDQzQ5X1g2NF9DQ19GTEFHUyAgICAgICA9IERFRihHQ0M0OV9YNjRfQ0NfRkxBR1MpDQog
+IFJFTEVBU0VfR0NDNDlfWDY0X0NDX0ZMQUdTICAgICAgID0gREVGKEdDQzQ5X1g2NF9DQ19GTEFH
+UykgLVduby11bnVzZWQtYnV0LXNldC12YXJpYWJsZSAtV25vLXVudXNlZC1jb25zdC12YXJpYWJs
+ZQ0KLUBAIC0xMzM3LDcgKzEzMzcsNyBAQCBSRUxFQVNFX0dDQ05PTFRPX0FBUkNINjRfRExJTktf
+WElQRkxBR1MgPSAteiBjb21tb24tcGFnZS1zaXplPTB4MjAKK0BAIC0xMzM4LDcgKzEzMzgsNyBA
+QCBSRUxFQVNFX0dDQ05PTFRPX0FBUkNINjRfRExJTktfWElQRkxBR1MgPSAteiBjb21tb24tcGFn
+ZS1zaXplPTB4MjAKICAqX0dDQzVfSUEzMl9ETElOSzJfRkxBR1MgICAgICAgICA9IERFRihHQ0M1
+X0lBMzJfRExJTksyX0ZMQUdTKSAtbm8tcGllDQogICpfR0NDNV9JQTMyX1JDX0ZMQUdTICAgICAg
+ICAgICAgID0gREVGKEdDQ19JQTMyX1JDX0ZMQUdTKQ0KICAqX0dDQzVfSUEzMl9PQkpDT1BZX0ZM
+QUdTICAgICAgICA9DQpAQCAtOTAsNyArOTEsNyBAQCBpbmRleCA1MDNhNjY4N2MxLi4xMGFjMzhl
+ZjllIDEwMDc1NQogIA0KICAgIERFQlVHX0dDQzVfSUEzMl9DQ19GTEFHUyAgICAgICA9IERFRihH
+Q0M1X0lBMzJfQ0NfRkxBR1MpIC1mbHRvDQogICAgREVCVUdfR0NDNV9JQTMyX0RMSU5LX0ZMQUdT
+ICAgID0gREVGKEdDQzVfSUEzMl9YNjRfRExJTktfRkxBR1MpIC1mbHRvIC1PcyAtV2wsLW0sZWxm
+X2kzODYsLS1vZm9ybWF0PWVsZjMyLWkzODYNCi1AQCAtMTM2OSw3ICsxMzY5LDcgQEAgUkVMRUFT
+RV9HQ0M1X0lBMzJfRExJTktfRkxBR1MgICAgPSBERUYoR0NDNV9JQTMyX1g2NF9ETElOS19GTEFH
+UykgLWZsdG8gLU9zIC1XbCwKK0BAIC0xMzcwLDcgKzEzNzAsNyBAQCBSRUxFQVNFX0dDQzVfSUEz
+Ml9ETElOS19GTEFHUyAgICA9IERFRihHQ0M1X0lBMzJfWDY0X0RMSU5LX0ZMQUdTKSAtZmx0byAt
+T3MgLVdsLAogICpfR0NDNV9YNjRfRExJTksyX0ZMQUdTICAgICAgICAgID0gREVGKEdDQzVfWDY0
+X0RMSU5LMl9GTEFHUykNCiAgKl9HQ0M1X1g2NF9SQ19GTEFHUyAgICAgICAgICAgICAgPSBERUYo
+R0NDX1g2NF9SQ19GTEFHUykNCiAgKl9HQ0M1X1g2NF9PQkpDT1BZX0ZMQUdTICAgICAgICAgPQ0K
+QEAgLTk5LDYgKzEwMCwzIEBAIGluZGV4IDUwM2E2Njg3YzEuLjEwYWMzOGVmOWUgMTAwNzU1CiAg
+DQogICAgREVCVUdfR0NDNV9YNjRfQ0NfRkxBR1MgICAgICAgID0gREVGKEdDQzVfWDY0X0NDX0ZM
+QUdTKSAtZmx0byAtRFVTSU5HX0xUTw0KICAgIERFQlVHX0dDQzVfWDY0X0RMSU5LX0ZMQUdTICAg
+ICA9IERFRihHQ0M1X1g2NF9ETElOS19GTEFHUykgLWZsdG8gLU9zDQotLS0gCi0yLjMwLjIKLQpk
+aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvb3ZtZi9vdm1mLzAwMDQtcmVwcm9kdWNpYmxl
+LnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvcmUvb3ZtZi9vdm1mLzAwMDQtcmVwcm9kdWNpYmxlLnBh
+dGNoCmluZGV4IGMzZmRjM2Q4NjMuLjZlMjIxYTg5NzEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBl
+cy1jb3JlL292bWYvb3ZtZi8wMDA0LXJlcHJvZHVjaWJsZS5wYXRjaAorKysgYi9tZXRhL3JlY2lw
+ZXMtY29yZS9vdm1mL292bWYvMDAwNC1yZXByb2R1Y2libGUucGF0Y2gKQEAgLTEsNyArMSw3IEBA
+Ci1Gcm9tIGM1OTg1MDM2N2ExOTBkNzBkZWM0M2UwYTY2ZjM5OWE0ZDhhNWZmZWQgTW9uIFNlcCAx
+NyAwMDowMDowMCAyMDAxCitGcm9tIGE0NzQ5OTcwMDQxMmQ4NmE1MzNjN2E0ZWUyOGFlMjM5MmYz
+Nzc2MmYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8
+YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KIERhdGU6IE1vbiwgMTQgSnVuIDIwMjEgMTk6NTc6MzAg
+KzAyMDAKLVN1YmplY3Q6IFtQQVRDSCA0LzRdIHJlcHJvZHVjaWJsZQorU3ViamVjdDogW1BBVENI
+XSByZXByb2R1Y2libGUKIAogVGhpcyBwYXRjaCBmaXhlcyB2YXJpb3VzIHRoaW5ncyB3aGljaCBt
+YWtlIHRoZSBidWlsZCBtb3JlIHJlcHJvZHVjaWJsZS4gU29tZSBjaGFuZ2VzCiBoZXJlIG9ubHkg
+Y2hhbmdlIGludGVybWVkaWF0ZSBhcnRlZmFjdHMgYnV0IHRoYXQgbWVhbnMgd2hlbiB5b3UgaGF2
+ZSB0d28gYnVpbGQgdHJlZXMKQEAgLTI3LDYgKzI3LDcgQEAgVGhlIHBhdGNoIHNwZWNpZmljYWxs
+eToKIFVwc3RyZWFtLVN0YXR1czogU3VibWl0dGVkIFtodHRwczovL2dpdGh1Yi5jb20vdGlhbm9j
+b3JlL2VkazIvcHVsbC8yMTc2XQogU2lnbmVkLW9mZi1ieTogUmljaGFyZCBQdXJkaWUgPHJpY2hh
+cmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+CiBTaWduZWQtb2ZmLWJ5OiBBbGV4YW5kZXIg
+S2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KKwogLS0tCiAgQmFzZVRvb2xzL1NvdXJj
+ZS9DL0dlbkZ3L0VsZjY0Q29udmVydC5jICAgICAgIHwgIDggKysrKy0tLQogIC4uLi9Tb3VyY2Uv
+UHl0aG9uL0F1dG9HZW4vQnVpbGRFbmdpbmUucHkgICAgICB8ICAzICsrKwpAQCAtMzUsMTAgKzM2
+LDEwIEBAIFNpZ25lZC1vZmYtYnk6IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21h
+aWwuY29tPgogIDQgZmlsZXMgY2hhbmdlZCwgMjQgaW5zZXJ0aW9ucygrKSwgMTYgZGVsZXRpb25z
+KC0pCiAKIGRpZmYgLS1naXQgYS9CYXNlVG9vbHMvU291cmNlL0MvR2VuRncvRWxmNjRDb252ZXJ0
+LmMgYi9CYXNlVG9vbHMvU291cmNlL0MvR2VuRncvRWxmNjRDb252ZXJ0LmMKLWluZGV4IDljMTdj
+OTBiMTYuLmZjYzc4NjQxNDEgMTAwNjQ0CitpbmRleCA5OTExZGI2NWFmLi5iZDg3OTA5MDY2IDEw
+MDY0NAogLS0tIGEvQmFzZVRvb2xzL1NvdXJjZS9DL0dlbkZ3L0VsZjY0Q29udmVydC5jCiArKysg
+Yi9CYXNlVG9vbHMvU291cmNlL0MvR2VuRncvRWxmNjRDb252ZXJ0LmMKLUBAIC0xNSw2ICsxNSw4
+IEBAIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBCU0QtMi1DbGF1c2UtUGF0ZW50CitAQCAtMTMs
+NiArMTMsOCBAQCBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogQlNELTItQ2xhdXNlLVBhdGVudAog
+ICNpZm5kZWYgX19HTlVDX18NCiAgI2luY2x1ZGUgPHdpbmRvd3MuaD4NCiAgI2luY2x1ZGUgPGlv
+Lmg+DQpAQCAtNDcsNyArNDgsNyBAQCBpbmRleCA5YzE3YzkwYjE2Li5mY2M3ODY0MTQxIDEwMDY0
+NAogICNlbmRpZg0KICAjaW5jbHVkZSA8YXNzZXJ0Lmg+DQogICNpbmNsdWRlIDxzdGRpby5oPg0K
+LUBAIC05OTAsNyArOTkyLDcgQEAgU2NhblNlY3Rpb25zNjQgKAorQEAgLTk4OCw3ICs5OTAsNyBA
+QCBTY2FuU2VjdGlvbnM2NCAoCiAgICB9DQogICAgbUNvZmZPZmZzZXQgPSBtRGVidWdPZmZzZXQg
+KyBzaXplb2YoRUZJX0lNQUdFX0RFQlVHX0RJUkVDVE9SWV9FTlRSWSkgKw0KICAgICAgICAgICAg
+ICAgICAgc2l6ZW9mKEVGSV9JTUFHRV9ERUJVR19DT0RFVklFV19OQjEwX0VOVFJZKSArDQpAQCAt
+NTYsNyArNTcsNyBAQCBpbmRleCA5YzE3YzkwYjE2Li5mY2M3ODY0MTQxIDEwMDY0NAogIA0KICAg
+IC8vDQogICAgLy8gQWRkIG1vcmUgc3BhY2UgaW4gdGhlIC5kZWJ1ZyBkYXRhIHJlZ2lvbiBmb3Ig
+dGhlIERsbENoYXJhY3RlcmlzdGljc0V4DQotQEAgLTIyNjEsNyArMjI2Myw3IEBAIFdyaXRlRGVi
+dWc2NCAoCitAQCAtMjI3OSw3ICsyMjgxLDcgQEAgV3JpdGVEZWJ1ZzY0ICgKICAgIEVGSV9JTUFH
+RV9ERUJVR19DT0RFVklFV19OQjEwX0VOVFJZICAgICAgICAgKk5iMTA7DQogICAgRUZJX0lNQUdF
+X0RFQlVHX0VYX0RMTENIQVJBQ1RFUklTVElDU19FTlRSWSAqRGxsRW50cnk7DQogIA0KQEAgLTY1
+LDcgKzY2LDcgQEAgaW5kZXggOWMxN2M5MGIxNi4uZmNjNzg2NDE0MSAxMDA2NDQKICANCiAgICBO
+dEhkciA9IChFRklfSU1BR0VfT1BUSU9OQUxfSEVBREVSX1VOSU9OICopKG1Db2ZmRmlsZSArIG1O
+dEhkck9mZnNldCk7DQogICAgRGF0YURpciA9ICZOdEhkci0+UGUzMlBsdXMuT3B0aW9uYWxIZWFk
+ZXIuRGF0YURpcmVjdG9yeVtFRklfSU1BR0VfRElSRUNUT1JZX0VOVFJZX0RFQlVHXTsNCi1AQCAt
+MjI5NCw3ICsyMjk2LDcgQEAgV3JpdGVEZWJ1ZzY0ICgKK0BAIC0yMzEyLDcgKzIzMTQsNyBAQCBX
+cml0ZURlYnVnNjQgKAogIA0KICAgIE5iMTAgPSAoRUZJX0lNQUdFX0RFQlVHX0NPREVWSUVXX05C
+MTBfRU5UUlkqKShEaXIgKyAxKTsNCiAgICBOYjEwLT5TaWduYXR1cmUgPSBDT0RFVklFV19TSUdO
+QVRVUkVfTkIxMDsNCkBAIC0xNzUsNiArMTc2LDMgQEAgaW5kZXggZDA1NDEwYjMyOS4uOTliM2Y2
+NGFiYSAxMDA3NTUKICANCiAgICAgICAgICAjIElnbm9yZSBnZW5lcmF0aW5nIG1ha2VmaWxlIHdo
+ZW4gaXQgaXMgYSBiaW5hcnkgbW9kdWxlDQogICAgICAgICAgaWYgc2VsZi5Jc0JpbmFyeU1vZHVs
+ZToNCi0tLSAKLTIuMzAuMgotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9vdm1mL292
+bWYvMDAwNS1Db21taXR0aW5nLWNoYW5nZXMtZnJvbS1kb19wYXRjaC5wYXRjaCBiL21ldGEvcmVj
+aXBlcy1jb3JlL292bWYvb3ZtZi8wMDA1LUNvbW1pdHRpbmctY2hhbmdlcy1mcm9tLWRvX3BhdGNo
+LnBhdGNoCm5ldyBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDAwMDAwMDAwMDAuLjcwNDY0ZTEzMzkK
+LS0tIC9kZXYvbnVsbAorKysgYi9tZXRhL3JlY2lwZXMtY29yZS9vdm1mL292bWYvMDAwNS1Db21t
+aXR0aW5nLWNoYW5nZXMtZnJvbS1kb19wYXRjaC5wYXRjaApAQCAtMCwwICsxLDY0IEBACitGcm9t
+IGQyNDQzZDRhNTU0NjVkYjQ0NzkxZTVmMjQzNTE2M2I2MmU2ZmQ2MDQgTW9uIFNlcCAxNyAwMDow
+MDowMCAyMDAxCitGcm9tOiBPcGVuRW1iZWRkZWQgPG9lLnBhdGNoQG9lPgorRGF0ZTogVGh1LCAx
+NSBGZWIgMjAyNCAwNjoxOTowMSArMDAwMAorU3ViamVjdDogW1BBVENIXSBDb21taXR0aW5nIGNo
+YW5nZXMgZnJvbSBkb19wYXRjaAorCistLS0KKyBCYXNlVG9vbHMvU291cmNlL0MvTWFrZWZpbGVz
+L2FwcC5tYWtlZmlsZSB8ICA2ICsrKysrKworIEJhc2VUb29scy9Tb3VyY2UvQy9WZnJDb21waWxl
+L0dOVW1ha2VmaWxlIHwgMTAgKysrKysrKysrKworIE92bWZQa2cvYnVpbGQuc2ggICAgICAgICAg
+ICAgICAgICAgICAgICAgIHwgIDIgKy0KKyAzIGZpbGVzIGNoYW5nZWQsIDE3IGluc2VydGlvbnMo
+KyksIDEgZGVsZXRpb24oLSkKKworZGlmZiAtLWdpdCBhL0Jhc2VUb29scy9Tb3VyY2UvQy9NYWtl
+ZmlsZXMvYXBwLm1ha2VmaWxlIGIvQmFzZVRvb2xzL1NvdXJjZS9DL01ha2VmaWxlcy9hcHAubWFr
+ZWZpbGUKK2luZGV4IDUwNjM0M2E2ZTAuLjNmOWQzOGYzYTkgMTAwNjQ0CistLS0gYS9CYXNlVG9v
+bHMvU291cmNlL0MvTWFrZWZpbGVzL2FwcC5tYWtlZmlsZQorKysrIGIvQmFzZVRvb2xzL1NvdXJj
+ZS9DL01ha2VmaWxlcy9hcHAubWFrZWZpbGUKK0BAIC0xMCw2ICsxMCwxMiBAQCBNQUtFUk9PVCA/
+PSAuLi8uLgorIGluY2x1ZGUgJChNQUtFUk9PVCkvTWFrZWZpbGVzL2hlYWRlci5tYWtlZmlsZQ0K
+KyANCisgQVBQTElDQVRJT04gPSAkKE1BS0VST09UKS9iaW4vJChBUFBOQU1FKQ0KKytDQyA9IHg4
+Nl82NC1wb2t5LWxpbnV4LWdjYyAgLW02NCAtbWFyY2g9Y29yZTIgLW10dW5lPWNvcmUyIC1tc3Nl
+MyAtbWZwbWF0aD1zc2UgLWZzdGFjay1wcm90ZWN0b3Itc3Ryb25nICAtTzIgLURfRk9SVElGWV9T
+T1VSQ0U9MiAtV2Zvcm1hdCAtV2Zvcm1hdC1zZWN1cml0eSAtV2Vycm9yPWZvcm1hdC1zZWN1cml0
+eSAtLXN5c3Jvb3Q9L2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQv
+dG1wL3dvcmsvY29yZTItNjQtcG9reS1saW51eC9vdm1mL2VkazItc3RhYmxlMjAyMzA4L2RldnRv
+b2x0bXAtOG81emF4b3kvd29ya2Rpci9yZWNpcGUtc3lzcm9vdAorK0NYWCA9IHg4Nl82NC1wb2t5
+LWxpbnV4LWcrKyAgLW02NCAtbWFyY2g9Y29yZTIgLW10dW5lPWNvcmUyIC1tc3NlMyAtbWZwbWF0
+aD1zc2UgLWZzdGFjay1wcm90ZWN0b3Itc3Ryb25nICAtTzIgLURfRk9SVElGWV9TT1VSQ0U9MiAt
+V2Zvcm1hdCAtV2Zvcm1hdC1zZWN1cml0eSAtV2Vycm9yPWZvcm1hdC1zZWN1cml0eSAtLXN5c3Jv
+b3Q9L2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVpbGQvdG1wL3dvcmsv
+Y29yZTItNjQtcG9reS1saW51eC9vdm1mL2VkazItc3RhYmxlMjAyMzA4L2RldnRvb2x0bXAtOG81
+emF4b3kvd29ya2Rpci9yZWNpcGUtc3lzcm9vdAorK0FTID0geDg2XzY0LXBva3ktbGludXgtYXMg
+IAorK0FSID0geDg2XzY0LXBva3ktbGludXgtZ2NjLWFyCisrTEQgPSB4ODZfNjQtcG9reS1saW51
+eC1sZCAtLXN5c3Jvb3Q9L2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9hdWgvYnVpbGQvYnVp
+bGQvdG1wL3dvcmsvY29yZTItNjQtcG9reS1saW51eC9vdm1mL2VkazItc3RhYmxlMjAyMzA4L2Rl
+dnRvb2x0bXAtOG81emF4b3kvd29ya2Rpci9yZWNpcGUtc3lzcm9vdCAgCisrTElOS0VSID0gJChD
+QykKKyANCisgLlBIT05ZOmFsbA0KKyBhbGw6ICQoTUFLRVJPT1QpL2JpbiAkKEFQUExJQ0FUSU9O
+KQ0KK2RpZmYgLS1naXQgYS9CYXNlVG9vbHMvU291cmNlL0MvVmZyQ29tcGlsZS9HTlVtYWtlZmls
+ZSBiL0Jhc2VUb29scy9Tb3VyY2UvQy9WZnJDb21waWxlL0dOVW1ha2VmaWxlCitpbmRleCA3ZDU5
+NzY2NDlkLi5hMTRkZGI1OGVkIDEwMDY0NAorLS0tIGEvQmFzZVRvb2xzL1NvdXJjZS9DL1ZmckNv
+bXBpbGUvR05VbWFrZWZpbGUKKysrKyBiL0Jhc2VUb29scy9Tb3VyY2UvQy9WZnJDb21waWxlL0dO
+VW1ha2VmaWxlCitAQCAtMTksOCArMTksMTggQEAgT0JKRUNUUyA9IEFQYXJzZXIubyBETGV4ZXJC
+YXNlLm8gQVRva2VuQnVmZmVyLm8gRWZpVmZyUGFyc2VyLm8gVmZyTGV4ZXIubyBWZnJTeW4KKyBD
+TEFORzo9JChzaGVsbCAkKENDKSAtLXZlcnNpb24gfCBncmVwIGNsYW5nKQ0KKyBpZm5lcSAoJChD
+TEFORyksKQ0KKyBWRlJfQ1BQRkxBR1MgPSAtV25vLWRlcHJlY2F0ZWQtcmVnaXN0ZXIgLXN0ZD1j
+KysxNCAtRFBDQ1RTX1VTRV9OQU1FU1BBQ0VfU1REICQoQ1BQRkxBR1MpDQorK0NDID0geDg2XzY0
+LXBva3ktbGludXgtZ2NjICAtbTY0IC1tYXJjaD1jb3JlMiAtbXR1bmU9Y29yZTIgLW1zc2UzIC1t
+ZnBtYXRoPXNzZSAtZnN0YWNrLXByb3RlY3Rvci1zdHJvbmcgIC1PMiAtRF9GT1JUSUZZX1NPVVJD
+RT0yIC1XZm9ybWF0IC1XZm9ybWF0LXNlY3VyaXR5IC1XZXJyb3I9Zm9ybWF0LXNlY3VyaXR5IC0t
+c3lzcm9vdD0vaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC90bXAv
+d29yay9jb3JlMi02NC1wb2t5LWxpbnV4L292bWYvZWRrMi1zdGFibGUyMDIzMDgvZGV2dG9vbHRt
+cC04bzV6YXhveS93b3JrZGlyL3JlY2lwZS1zeXNyb290CisrQ1hYID0geDg2XzY0LXBva3ktbGlu
+dXgtZysrICAtbTY0IC1tYXJjaD1jb3JlMiAtbXR1bmU9Y29yZTIgLW1zc2UzIC1tZnBtYXRoPXNz
+ZSAtZnN0YWNrLXByb3RlY3Rvci1zdHJvbmcgIC1PMiAtRF9GT1JUSUZZX1NPVVJDRT0yIC1XZm9y
+bWF0IC1XZm9ybWF0LXNlY3VyaXR5IC1XZXJyb3I9Zm9ybWF0LXNlY3VyaXR5IC0tc3lzcm9vdD0v
+aG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC90bXAvd29yay9jb3Jl
+Mi02NC1wb2t5LWxpbnV4L292bWYvZWRrMi1zdGFibGUyMDIzMDgvZGV2dG9vbHRtcC04bzV6YXhv
+eS93b3JrZGlyL3JlY2lwZS1zeXNyb290CisrQVMgPSB4ODZfNjQtcG9reS1saW51eC1hcyAgCisr
+QVIgPSB4ODZfNjQtcG9reS1saW51eC1nY2MtYXIKKytMRCA9IHg4Nl82NC1wb2t5LWxpbnV4LWxk
+IC0tc3lzcm9vdD0vaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC90
+bXAvd29yay9jb3JlMi02NC1wb2t5LWxpbnV4L292bWYvZWRrMi1zdGFibGUyMDIzMDgvZGV2dG9v
+bHRtcC04bzV6YXhveS93b3JrZGlyL3JlY2lwZS1zeXNyb290ICAKKyBlbHNlDQorIFZGUl9DUFBG
+TEFHUyA9IC1EUENDVFNfVVNFX05BTUVTUEFDRV9TVEQgJChDUFBGTEFHUykNCisrQ0MgPSB4ODZf
+NjQtcG9reS1saW51eC1nY2MgIC1tNjQgLW1hcmNoPWNvcmUyIC1tdHVuZT1jb3JlMiAtbXNzZTMg
+LW1mcG1hdGg9c3NlIC1mc3RhY2stcHJvdGVjdG9yLXN0cm9uZyAgLU8yIC1EX0ZPUlRJRllfU09V
+UkNFPTIgLVdmb3JtYXQgLVdmb3JtYXQtc2VjdXJpdHkgLVdlcnJvcj1mb3JtYXQtc2VjdXJpdHkg
+LS1zeXNyb290PS9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3Rt
+cC93b3JrL2NvcmUyLTY0LXBva3ktbGludXgvb3ZtZi9lZGsyLXN0YWJsZTIwMjMwOC9kZXZ0b29s
+dG1wLThvNXpheG95L3dvcmtkaXIvcmVjaXBlLXN5c3Jvb3QKKytDWFggPSB4ODZfNjQtcG9reS1s
+aW51eC1nKysgIC1tNjQgLW1hcmNoPWNvcmUyIC1tdHVuZT1jb3JlMiAtbXNzZTMgLW1mcG1hdGg9
+c3NlIC1mc3RhY2stcHJvdGVjdG9yLXN0cm9uZyAgLU8yIC1EX0ZPUlRJRllfU09VUkNFPTIgLVdm
+b3JtYXQgLVdmb3JtYXQtc2VjdXJpdHkgLVdlcnJvcj1mb3JtYXQtc2VjdXJpdHkgLS1zeXNyb290
+PS9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxkL3RtcC93b3JrL2Nv
+cmUyLTY0LXBva3ktbGludXgvb3ZtZi9lZGsyLXN0YWJsZTIwMjMwOC9kZXZ0b29sdG1wLThvNXph
+eG95L3dvcmtkaXIvcmVjaXBlLXN5c3Jvb3QKKytBUyA9IHg4Nl82NC1wb2t5LWxpbnV4LWFzICAK
+KytBUiA9IHg4Nl82NC1wb2t5LWxpbnV4LWdjYy1hcgorK0xEID0geDg2XzY0LXBva3ktbGludXgt
+bGQgLS1zeXNyb290PS9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYXVoL2J1aWxkL2J1aWxk
+L3RtcC93b3JrL2NvcmUyLTY0LXBva3ktbGludXgvb3ZtZi9lZGsyLXN0YWJsZTIwMjMwOC9kZXZ0
+b29sdG1wLThvNXpheG95L3dvcmtkaXIvcmVjaXBlLXN5c3Jvb3QgIAorIGVuZGlmDQorICMga2Vl
+cCBCVUlMRF9PUFRGTEFHUyBsYXN0DQorIFZGUl9DWFhGTEFHUyA9ICQoQlVJTERfT1BURkxBR1Mp
+DQorZGlmZiAtLWdpdCBhL092bWZQa2cvYnVpbGQuc2ggYi9Pdm1mUGtnL2J1aWxkLnNoCitpbmRl
+eCAyODVmMDYxYmY0Li42ODkwNzA5NThlIDEwMDc1NQorLS0tIGEvT3ZtZlBrZy9idWlsZC5zaAor
+KysrIGIvT3ZtZlBrZy9idWlsZC5zaAorQEAgLTI0LDcgKzI0LDcgQEAgdGhlbgorICMgdGhpcyBh
+c3N1bWVzIHN2biBwdWxscyBoYXZlIHRoZSBzYW1lIHJvb3QgZGlyCisgIyAgZXhwb3J0IEVES19U
+T09MU19QQVRIPWBwd2RgLy4uL0Jhc2VUb29scworICMgVGhpcyB2ZXJzaW9uIGlzIGZvciB0aGUg
+dG9vbHMgc291cmNlIGluIGVkazIKKy0gIGV4cG9ydCBFREtfVE9PTFNfUEFUSD1CQkFLRV9FREtf
+VE9PTFNfUEFUSC9CYXNlVG9vbHMKKysgIGV4cG9ydCBFREtfVE9PTFNfUEFUSD0vaG9tZS9wb2t5
+YnVpbGQveW9jdG8td29ya2VyL2F1aC9idWlsZC9idWlsZC90bXAvd29yay9jb3JlMi02NC1wb2t5
+LWxpbnV4L292bWYvZWRrMi1zdGFibGUyMDIzMDgvZGV2dG9vbHRtcC04bzV6YXhveS93b3JrZGly
+L3JlY2lwZS1zeXNyb290LW5hdGl2ZS91c3IvYmluL2VkazJfYmFzZXRvb2xzL0Jhc2VUb29scwor
+ICAgZWNobyAkRURLX1RPT0xTX1BBVEgKKyAgIHNvdXJjZSBlZGtzZXR1cC5zaCBCYXNlVG9vbHMK
+KyBlbHNlCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9vdm1mL292bWZfZ2l0LmJiIGIv
+bWV0YS9yZWNpcGVzLWNvcmUvb3ZtZi9vdm1mX2dpdC5iYgppbmRleCAzZGMwMzFkM2I2Li5kY2Iy
+OWMzYjE0IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9vdm1mL292bWZfZ2l0LmJiCisr
+KyBiL21ldGEvcmVjaXBlcy1jb3JlL292bWYvb3ZtZl9naXQuYmIKQEAgLTI0LDEwICsyNCwxMSBA
+QCBTUkNfVVJJID0gImdpdHNtOi8vZ2l0aHViLmNvbS90aWFub2NvcmUvZWRrMi5naXQ7YnJhbmNo
+PW1hc3Rlcjtwcm90b2NvbD1odHRwcyBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAyLUJhc2VUb29s
+cy1tYWtlZmlsZS1hZGp1c3QtdG8tYnVpbGQtaW4tdW5kZXItYml0YmFrZS5wYXRjaCBcCiAgICAg
+ICAgICAgIGZpbGU6Ly8wMDAzLWRlYnVnLXByZWZpeC1tYXAucGF0Y2ggXAogICAgICAgICAgICBm
+aWxlOi8vMDAwNC1yZXByb2R1Y2libGUucGF0Y2ggXAorICAgICAgICAgICBmaWxlOi8vMDAwNS1D
+b21taXR0aW5nLWNoYW5nZXMtZnJvbS1kb19wYXRjaC5wYXRjaCBcCiAgICAgICAgICAgICIKIAot
+UFYgPSAiZWRrMi1zdGFibGUyMDIzMDgiCi1TUkNSRVYgPSAiODE5Y2ZjNmI0MmE2ODc5MGEyMzUw
+OWU0ZmNjNThjZWI3MGUxOTY1ZSIKK1BWID0gImVkazItc3RhYmxlMjAyMzExIgorU1JDUkVWID0g
+Ijg3MzZiOGZkY2E4NWUwMjkzM2NkYjBhMTMzMDlkZTE0Yzk3OTllY2UiCiBVUFNUUkVBTV9DSEVD
+S19HSVRUQUdSRUdFWCA9ICIoP1A8cHZlcj5lZGsyLXN0YWJsZS4qKSIKIAogaW5oZXJpdCBkZXBs
+b3kKLS0gCjIuNDIuMAoK
 
---===============1238124274318838013==
+--===============5779449725200873520==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
-packages/core2-64-poky-linux/bind/bind-dbg: PKGV changed from 9.18.21 [default] to 9.18.24 [default]
-packages/core2-64-poky-linux/bind/bind-dbg: PKGSIZE changed from 13329080 to 13349408 (+0%)
-packages/core2-64-poky-linux/bind/bind-dbg: PV changed from "9.18.21" to "9.18.24"
-packages/core2-64-poky-linux/bind/bind-dbg: FILELIST: removed "/usr/lib/.debug/libbind9-9.18.21.so /usr/lib/.debug/libdns-9.18.21.so /usr/lib/.debug/libisc-9.18.21.so /usr/lib/.debug/libirs-9.18.21.so /usr/lib/.debug/libns-9.18.21.so /usr/lib/.debug/libisccc-9.18.21.so /usr/lib/.debug/libisccfg-9.18.21.so", added "/usr/lib/.debug/libbind9-9.18.24.so /usr/lib/.debug/libdns-9.18.24.so /usr/lib/.debug/libisc-9.18.24.so /usr/lib/.debug/libirs-9.18.24.so /usr/lib/.debug/libns-9.18.24.so /usr/lib/.debug/libisccc-9.18.24.so /usr/lib/.debug/libisccfg-9.18.24.so"
-packages/core2-64-poky-linux/bind/bind-dev: PKGV changed from 9.18.21 [default] to 9.18.24 [default]
-packages/core2-64-poky-linux/bind/bind-dev: PKGSIZE changed from 1458404 to 1457787 (-0%)
-packages/core2-64-poky-linux/bind/bind-dev: PV changed from "9.18.21" to "9.18.24"
-packages/core2-64-poky-linux/bind/bind-doc: PKGV changed from 9.18.21 [default] to 9.18.24 [default]
-packages/core2-64-poky-linux/bind/bind-doc: PV changed from "9.18.21" to "9.18.24"
-packages/core2-64-poky-linux/bind/bind-libs: PKGV changed from 9.18.21 [default] to 9.18.24 [default]
-packages/core2-64-poky-linux/bind/bind-libs: PKGSIZE changed from 3333608 to 3333768 (+0%)
-packages/core2-64-poky-linux/bind/bind-libs: PV changed from "9.18.21" to "9.18.24"
-packages/core2-64-poky-linux/bind/bind-libs: FILES: removed "/usr/lib/*-9.18.21.so", added "/usr/lib/*-9.18.24.so"
-packages/core2-64-poky-linux/bind/bind-libs: FILELIST: removed "/usr/lib/libirs-9.18.21.so /usr/lib/libdns-9.18.21.so /usr/lib/libns-9.18.21.so /usr/lib/libisccfg-9.18.21.so /usr/lib/libisccc-9.18.21.so /usr/lib/libisc-9.18.21.so /usr/lib/libbind9-9.18.21.so", added "/usr/lib/libisc-9.18.24.so /usr/lib/libdns-9.18.24.so /usr/lib/libns-9.18.24.so /usr/lib/libbind9-9.18.24.so /usr/lib/libisccfg-9.18.24.so /usr/lib/libirs-9.18.24.so /usr/lib/libisccc-9.18.24.so"
-packages/core2-64-poky-linux/bind/bind-locale: PKGV changed from 9.18.21 [default] to 9.18.24 [default]
-packages/core2-64-poky-linux/bind/bind-locale: PV changed from "9.18.21" to "9.18.24"
-packages/core2-64-poky-linux/bind/bind-src: PKGV changed from 9.18.21 [default] to 9.18.24 [default]
-packages/core2-64-poky-linux/bind/bind-src: PKGSIZE changed from 9622747 to 9630613 (+0%)
-packages/core2-64-poky-linux/bind/bind-src: PV changed from "9.18.21" to "9.18.24"
-packages/core2-64-poky-linux/bind/bind-staticdev: PKGV changed from 9.18.21 [default] to 9.18.24 [default]
-packages/core2-64-poky-linux/bind/bind-staticdev: PV changed from "9.18.21" to "9.18.24"
-packages/core2-64-poky-linux/bind/bind-utils: PKGV changed from 9.18.21 [default] to 9.18.24 [default]
-packages/core2-64-poky-linux/bind/bind-utils: PKGSIZE changed from 475376 to 475416 (+0%)
-packages/core2-64-poky-linux/bind/bind-utils: PV changed from "9.18.21" to "9.18.24"
-packages/core2-64-poky-linux/bind/bind: PKGV changed from 9.18.21 [default] to 9.18.24 [default]
-packages/core2-64-poky-linux/bind/bind: PV changed from "9.18.21" to "9.18.24"
-packages/core2-64-poky-linux/bind: PKGV changed from 9.18.21 [default] to 9.18.24 [default]
-packages/core2-64-poky-linux/bind: SRC_URI changed from "https://ftp.isc.org/isc/bind9/9.18.21/bind-9.18.21.tar.xz file://conf.patch file://named.service file://bind9 file://generate-rndc-key.sh file://make-etc-initd-bind-stop-work.patch file://init.d-add-support-for-read-only-rootfs.patch file://bind-ensure-searching-for-json-headers-searches-sysr.patch file://0001-named-lwresd-V-and-start-log-hide-build-options.patch file://0001-avoid-start-failure-with-bind-user.patch" to "https://ftp.isc.org/isc/bind9/9.18.24/bind-9.18.24.tar.xz file://conf.patch file://named.service file://bind9 file://generate-rndc-key.sh file://make-etc-initd-bind-stop-work.patch file://init.d-add-support-for-read-only-rootfs.patch file://bind-ensure-searching-for-json-headers-searches-sysr.patch file://0001-named-lwresd-V-and-start-log-hide-build-options.patch file://0001-avoid-start-failure-with-bind-user.patch"
-packages/core2-64-poky-linux/bind: PV changed from "9.18.21" to "9.18.24"
-Changes to packages/core2-64-poky-linux/bind (sysroot):
-  /usr/lib/libbind9.so changed symlink target from libbind9-9.18.21.so to libbind9-9.18.24.so
-  /usr/lib/libdns.so changed symlink target from libdns-9.18.21.so to libdns-9.18.24.so
-  /usr/lib/libirs.so changed symlink target from libirs-9.18.21.so to libirs-9.18.24.so
-  /usr/lib/libisccc.so changed symlink target from libisccc-9.18.21.so to libisccc-9.18.24.so
-  /usr/lib/libisccfg.so changed symlink target from libisccfg-9.18.21.so to libisccfg-9.18.24.so
-  /usr/lib/libisc.so changed symlink target from libisc-9.18.21.so to libisc-9.18.24.so
-  /usr/lib/libns.so changed symlink target from libns-9.18.21.so to libns-9.18.24.so
-  /usr/lib/libbind9-9.18.21.so moved to /usr/lib/libbind9-9.18.24.so
-  /usr/lib/libdns-9.18.21.so moved to /usr/lib/libdns-9.18.24.so
-  /usr/lib/libirs-9.18.21.so moved to /usr/lib/libirs-9.18.24.so
-  /usr/lib/libisc-9.18.21.so moved to /usr/lib/libisc-9.18.24.so
-  /usr/lib/libisccc-9.18.21.so moved to /usr/lib/libisccc-9.18.24.so
-  /usr/lib/libisccfg-9.18.21.so moved to /usr/lib/libisccfg-9.18.24.so
-  /usr/lib/libns-9.18.21.so moved to /usr/lib/libns-9.18.24.so
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1857 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 914 .bb files complete (913 cached, 1 parsed). 1857 targets, 35 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
 
---===============1238124274318838013==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+Build Configuration:
+BB_VERSION           = "2.7.2"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.3+snapshot-6e4dc8e5387917df46e45bc161cbe192525e3f09"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:6e4dc8e5387917df46e45bc161cbe192525e3f09"
 
-packages/core2-64-poky-linux/bind/bind-libs: FILELIST: removed "/usr/lib/libbind9-9.18.21.so /usr/lib/libdns-9.18.21.so /usr/lib/libirs-9.18.21.so /usr/lib/libisc-9.18.21.so /usr/lib/libisccfg-9.18.21.so /usr/lib/libisccc-9.18.21.so /usr/lib/libns-9.18.21.so", added "/usr/lib/libbind9-9.18.24.so /usr/lib/libirs-9.18.24.so /usr/lib/libisc-9.18.24.so /usr/lib/libisccfg-9.18.24.so /usr/lib/libdns-9.18.24.so /usr/lib/libisccc-9.18.24.so /usr/lib/libns-9.18.24.so"
-Changes to packages/core2-64-poky-linux/bind (sysroot):
-  /usr/lib/libbind9.so changed symlink target from libbind9-9.18.21.so to libbind9-9.18.24.so
-  /usr/lib/libdns.so changed symlink target from libdns-9.18.21.so to libdns-9.18.24.so
-  /usr/lib/libirs.so changed symlink target from libirs-9.18.21.so to libirs-9.18.24.so
-  /usr/lib/libisccc.so changed symlink target from libisccc-9.18.21.so to libisccc-9.18.24.so
-  /usr/lib/libisccfg.so changed symlink target from libisccfg-9.18.21.so to libisccfg-9.18.24.so
-  /usr/lib/libisc.so changed symlink target from libisc-9.18.21.so to libisc-9.18.24.so
-  /usr/lib/libns.so changed symlink target from libns-9.18.21.so to libns-9.18.24.so
-  /usr/lib/libbind9-9.18.21.so moved to /usr/lib/libbind9-9.18.24.so
-  /usr/lib/libdns-9.18.21.so moved to /usr/lib/libdns-9.18.24.so
-  /usr/lib/libirs-9.18.21.so moved to /usr/lib/libirs-9.18.24.so
-  /usr/lib/libisc-9.18.21.so moved to /usr/lib/libisc-9.18.24.so
-  /usr/lib/libisccc-9.18.21.so moved to /usr/lib/libisccc-9.18.24.so
-  /usr/lib/libisccfg-9.18.21.so moved to /usr/lib/libisccfg-9.18.24.so
-  /usr/lib/libns-9.18.21.so moved to /usr/lib/libns-9.18.24.so
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 213 Local 197 Mirrors 0 Missed 16 Current 317 (92% match, 96% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 334 of 530 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ovmf/ovmf_git.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 373 of 530 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ovmf/ovmf_git.bb:do_recipe_qa_setscene)
+NOTE: recipe ovmf-edk2-stable202311-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe ovmf-native-edk2-stable202311-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe ovmf-edk2-stable202311-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 1621 of 1654 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ovmf/ovmf_git.bb:do_fetch)
+NOTE: recipe ovmf-native-edk2-stable202311-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1623 of 1654 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ovmf/ovmf_git.bb:do_fetch)
+NOTE: recipe ovmf-edk2-stable202311-r0: task do_fetch: Started
+NOTE: recipe ovmf-native-edk2-stable202311-r0: task do_fetch: Started
+NOTE: recipe ovmf-edk2-stable202311-r0: task do_fetch: Succeeded
+NOTE: Running task 1624 of 1654 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ovmf/ovmf_git.bb:do_unpack)
+NOTE: recipe ovmf-edk2-stable202311-r0: task do_unpack: Started
+NOTE: recipe ovmf-native-edk2-stable202311-r0: task do_fetch: Succeeded
+NOTE: Running task 1625 of 1654 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ovmf/ovmf_git.bb:do_unpack)
+NOTE: Running task 1626 of 1654 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ovmf/ovmf_git.bb:do_prepare_recipe_sysroot)
+NOTE: recipe ovmf-native-edk2-stable202311-r0: task do_unpack: Started
+NOTE: recipe ovmf-native-edk2-stable202311-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe ovmf-native-edk2-stable202311-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe ovmf-edk2-stable202311-r0: task do_unpack: Succeeded
+NOTE: Running task 1627 of 1654 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ovmf/ovmf_git.bb:do_patch)
+NOTE: recipe ovmf-edk2-stable202311-r0: task do_patch: Started
+NOTE: recipe ovmf-edk2-stable202311-r0: task do_patch: Failed
+NOTE: recipe ovmf-native-edk2-stable202311-r0: task do_unpack: Succeeded
+NOTE: Tasks Summary: Attempted 1627 tasks of which 1621 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240215061928.txt
+You can send the errors to a reports server by running:
+  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240215061928.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
 
---===============1238124274318838013==--
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ovmf/ovmf_git.bb:do_patch
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: ovmf-edk2-stable202311-r0 do_patch: QA Issue: Missing Upstream-Status in patch
+/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ovmf/ovmf/0005-Committing-changes-from-do_patch.patch
+Please add according to https://docs.yoctoproject.org/contributor-guide/recipe-style-guide.html#patch-upstream-status . [patch-status]
+ERROR: ovmf-edk2-stable202311-r0 do_patch: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/ovmf/edk2-stable202311/temp/log.do_patch.2146547
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ovmf/ovmf_git.bb:do_patch) failed with exit code '1'
+
+--===============5779449725200873520==--
 
