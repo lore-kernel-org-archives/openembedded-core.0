@@ -1,107 +1,143 @@
-Return-Path: <jatedev@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48BD6C48BC4
-	for <webhook@archiver.kernel.org>; Fri, 16 Feb 2024 00:12:36 +0000 (UTC)
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
- by mx.groups.io with SMTP id smtpd.web11.7779.1708042349522525154
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0665C4829E
+	for <webhook@archiver.kernel.org>; Fri, 16 Feb 2024 01:12:06 +0000 (UTC)
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+ by mx.groups.io with SMTP id smtpd.web11.8820.1708045920596129573
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Feb 2024 16:12:29 -0800
+ Thu, 15 Feb 2024 17:12:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZK6oVEa3;
- spf=pass (domain: gmail.com, ip: 209.85.219.173, mailfrom: jatedev@gmail.com)
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-dcd7c526cc0so1561234276.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 16:12:29 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=gDNqamPk;
+ spf=pass (domain: gmail.com, ip: 209.85.210.50, mailfrom: raj.khem@gmail.com)
+Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-6e2f12059f4so710945a34.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 15 Feb 2024 17:12:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708042348; x=1708647148; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=a6POaMK1RCkCCb/Li7a4iDtkT6EECcAuf4vspi+BX0c=;
-        b=ZK6oVEa38u6vHT0ST13VoJvmnQ7zRf4oP/MemGEGML8IQBLxnvfS/70dphsl6rPAut
-         wawOfvevpvNtV+7zJHsL5pnGxeJeS0UmC92yiAWUEfmPC0vpEIc9gNfBfCkJltk26aoC
-         TBoBcTuAS6oOhHoMpCTyL6uQE57r0Aa/be/z4Z0zo0pzJeIicPjgeP6E+6ZTz6rJaM+M
-         dT1AW/Z+uM62PhJn+zK7tIdUqI8q/NZH7OHLBt4dRIomAFb8Fe7V5rzXMQeQKfXtwv0u
-         SkwSzdL3cJtOx0IOdyRdsjOJ6eUeDIPwBLFw/JZve6mOkHVNuFHt7XzhmgWhwuA3AWEU
-         OQKw==
+        d=gmail.com; s=20230601; t=1708045920; x=1708650720; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8SS/ya8qZASjdVXBWUsTUyRObc7+7Aju3zc7GN2Do8s=;
+        b=gDNqamPkY4P2nUoddE5Q0vuxhf1jzGoC1/aVM2L9qsapUBRCs85fhZ8bnTiKtVEohA
+         TYE8i1OG383eOfPL3b12gU4uz9ttoSuuPJQlzwZGBInDM2vl7Tavr5xM4pk/sByrijYe
+         /xGbJqdu/VqTvmzKoFG0wnazFQrxFOw2etm6R0SbeX88BPA0XTYbYTQfyIxFrUFXUnGa
+         L7mQbDgx4fDpy6oARXC4wF44Y1gPE/9uk8jQYjxV/7cxmD2S68AZAY5LpVyP+5jVMwr/
+         k7POtRrx/BQdTQnYjqfXC8bvDn/3453pQcI52eymmFEB1telgD4C8GvHn1rOQgT5aUG1
+         A9sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708042348; x=1708647148;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=a6POaMK1RCkCCb/Li7a4iDtkT6EECcAuf4vspi+BX0c=;
-        b=JmUVOmvd/tog7M/mfogh8Bgvn2+xfR/js/EO0AwuHCDWNlO1KROhvfRrlaOd1O6jv7
-         RIHglgv3EJRyLW/RTEISrpV/9VykdMayvI5+RpYzVBAkhUOn/0mhVYimQjjOMCyMFKnA
-         AdtoWH1b47f5zit01SxvZfULQ8zqwWa+r6Xt+rzIelL91yzZFgsi1eE9drL3PnduUCV4
-         PjN3i6QWJWgt2bioM2K11zFdjnOuk0nO9iSo8mKTqFbEE7ZtZfsBt5SGmnfgQAMD6TN+
-         QhBVxroZPx60HilJoktHVxVf2dZC2Dyj5IXTkl4L401KLuaP/g/9VGbUlAXVCVy487//
-         Msyg==
-X-Gm-Message-State: AOJu0Yy2kK0pVcJQkbDptwH8nSZX0eL+I0rjz2Hb5FvNyIugZwhB8EaB
-	rXXk0yjUHdv7R20tas6ZoLSxLphlZafpv87pr2Ks0j9ZyyzrWLu8m87QPCci
-X-Google-Smtp-Source: AGHT+IGd4aSIhUx9qZRgS3MSpFl7yH1VBg6IkdJAHPQNWY1TQIIXavXE4cVlCrs7uD8HRJw2LwSFpw==
-X-Received: by 2002:a25:b904:0:b0:dc7:8c3a:4e42 with SMTP id x4-20020a25b904000000b00dc78c3a4e42mr3039946ybj.30.1708042347900;
-        Thu, 15 Feb 2024 16:12:27 -0800 (PST)
-Received: from localhost.localdomain ([63.148.217.19])
-        by smtp.gmail.com with ESMTPSA id e193-20020a25d3ca000000b00dcd307dc310sm94931ybf.56.2024.02.15.16.12.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Feb 2024 16:12:27 -0800 (PST)
-From: Jate Sujjavanich <jatedev@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Jate Sujjavanich <jatedev@gmail.com>
-Subject: [OE-core][dunfell][PATCH 1/1] sstatesig: Allow exclusion of the root directory for do_package
-Date: Fri, 16 Feb 2024 00:12:25 +0000
-Message-Id: <20240216001225.3744-1-jatedev@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        d=1e100.net; s=20230601; t=1708045920; x=1708650720;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8SS/ya8qZASjdVXBWUsTUyRObc7+7Aju3zc7GN2Do8s=;
+        b=qKtOiChFg0fG9s9A4FuFdZqoDK0b2mgA3h3KG9JTh84KNypk8/KrL3mGiv+H8239aO
+         bOxP3hoWazyX3AoaaSoLPzYr+Q1+YjsI8IGzmGi772ldgGXw7tAyv8j7n1niFVz859Hr
+         emQFNTbJyGa06I38oY19phaTOqTtC3yN0CmdQCJyQw2ROUc2RLi7M+NuySt6JJ20PJuA
+         SN5MZw5jjbAj9k/3PQJyh7tX3uou/NOxSh2J2V9m46Y6iNJesc8PJ6qzUw7Gg/yzmZDb
+         EChSPMDQK922mDywVePrbFqo555r6EYB243ELo6N8s3iC2Q3+R/ATuPVKpS0TdXHlw92
+         l4vQ==
+X-Gm-Message-State: AOJu0Yz1JZqT4jd91cbKPX/9dogkmxmmDdW6ph70kldzgnhbZLp+bjxW
+	/GbCppde6POL4CX9vDCetryLZUphtBs/0+vwXGPJW2lMYwBnfexVUJV+gurEzwGGBMjRD+sgfxu
+	6koSEkiu5ezg1osbYeWUzkJvkqRw=
+X-Google-Smtp-Source: AGHT+IH7tpiTYU/OsYJp70+8gWlRtVrAqskG30d7/MhB8oBGwDSXWUifWDr7pxWr2uMhvXrBLQYihP+5fLGRaYw0pTI=
+X-Received: by 2002:a05:6870:4728:b0:214:fcc4:e384 with SMTP id
+ b40-20020a056870472800b00214fcc4e384mr3598617oaq.15.1708045919587; Thu, 15
+ Feb 2024 17:11:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240215212856.47492-1-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20240215212856.47492-1-richard.purdie@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 15 Feb 2024 17:11:33 -0800
+Message-ID: <CAMKF1spSaVrb5c2Cnm_2t=-rB0EbV57BkK22v=pfMsnOm1gsKg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3] openssh: Add a work around for ICE on mips/mips64
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org, 
+	Tim Orling <tim.orling@konsulko.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 16 Feb 2024 00:12:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195732
+ <openembedded-core@lists.openembedded.org>; Fri, 16 Feb 2024 01:12:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195733
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+On Thu, Feb 15, 2024 at 1:29=E2=80=AFPM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> Unfortunately the new openssh version has an ICE on mips. This looks simi=
+lar to:
+>
+> https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D104817
+> https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D104820
+>
+> Given how long these have been open, workaround the issue by disabling th=
+e compiler
+> hardening options on mips.
+>
+> It is likely better to do this than have the open CVEs for everyone
+> as we can't upgrade.
+>
+> An example:
+>
+> | during RTL pass: zero_call_used_regs
+> | clientloop.c: In function 'client_loop':
+> | clientloop.c:1699:1: internal compiler error: in int_mode_for_mode, at =
+stor-layout.cc:407
+> |  1699 | }
+> |       | ^
+> | 0x14d0acc internal_error(char const*, ...)
+> |       ???:0
+> | 0x5cf765 fancy_abort(char const*, int, char const*)
+> |       ???:0
+> | 0x826f1f emit_move_insn_1(rtx_def*, rtx_def*)
+> |       ???:0
+> | 0x8270c5 emit_move_insn(rtx_def*, rtx_def*)
+> |       ???:0
+> | 0xb7b994 default_zero_call_used_regs(HARD_REG_SET)
+> |       ???:0
+> | Please submit a full bug report, with preprocessed source (by using -fr=
+eport-bug).
+> | Please include the complete backtrace with any bug report.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/recipes-connectivity/openssh/openssh_9.6p1.bb | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb b/meta/re=
+cipes-connectivity/openssh/openssh_9.6p1.bb
+> index 6366cefdf96..1fd36a266fd 100644
+> --- a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
+> +++ b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
+> @@ -81,6 +81,10 @@ EXTRA_OECONF =3D "'LOGIN_PROGRAM=3D${base_bindir}/logi=
+n' \
+>  # musl doesn't implement wtmp/utmp and logwtmp
+>  EXTRA_OECONF:append:libc-musl =3D " --disable-wtmp --disable-lastlog"
+>
+> +# Work around ICE on mips/mips64 starting in 9.6p1
+> +EXTRA_OECONF:append:mips =3D " --without-hardening"
+> +EXTRA_OECONF:append:mips64 =3D " --without-hardening"
 
-The package task references WORKDIR at it's top level and we can't
-easily make the timestamp for that determnistic due to writes to files
-there and in other subdirs. We could try and force it to a specific value
-but it is easier to just remove it from the package task, we don't need
-it there or care about it in this case.
+Perhaps just use mipsarch override since I imagine it will impact all
+kinds of mips.
 
-Signed-off-by: Jate Sujjavanich <jatedev@gmail.com>
-(cherry picked from commit 9cceeb906527f90d8dd3aad75aa3a8805e2a1df5)
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/lib/oe/sstatesig.py | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index aeceb100d7..65bb4efe25 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -480,8 +480,10 @@ def OEOuthashBasic(path, sigfile, task, d):
-     if "package_write_" in task or task == "package_qa":
-         include_owners = False
-     include_timestamps = False
-+    include_root = True
-     if task == "package":
-         include_timestamps = d.getVar('BUILD_REPRODUCIBLE_BINARIES') == '1'
-+        include_root = False
-     extra_content = d.getVar('HASHEQUIV_HASH_VERSION')
- 
-     try:
-@@ -592,7 +594,8 @@ def OEOuthashBasic(path, sigfile, task, d):
-                 update_hash("\n")
- 
-             # Process this directory and all its child files
--            process(root)
-+            if include_root or root != ".":
-+                process(root)
-             for f in files:
-                 if f == 'fixmepath':
-                     continue
--- 
-2.25.1
-
+> +
+>  # Since we do not depend on libbsd, we do not want configure to use it
+>  # just because it finds libutil.h.  But, specifying --disable-libutil
+>  # causes compile errors, so...
+> --
+> 2.40.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#195704): https://lists.openembedded.org/g/openembedde=
+d-core/message/195704
+> Mute This Topic: https://lists.openembedded.org/mt/104381904/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
