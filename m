@@ -2,57 +2,57 @@ Return-Path: <andre.draszik@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64BA3C48BF5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AF2EC48BEF
 	for <webhook@archiver.kernel.org>; Fri, 16 Feb 2024 16:31:20 +0000 (UTC)
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
- by mx.groups.io with SMTP id smtpd.web10.1207.1708101078904366807
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+ by mx.groups.io with SMTP id smtpd.web10.1205.1708101078581661280
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Feb 2024 08:31:19 -0800
+ Fri, 16 Feb 2024 08:31:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=N2x8zcLe;
- spf=pass (domain: linaro.org, ip: 209.85.208.52, mailfrom: andre.draszik@linaro.org)
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-55c2cf644f3so2877385a12.1
+ dkim=pass header.i=@linaro.org header.s=google header.b=yHHuLVxJ;
+ spf=pass (domain: linaro.org, ip: 209.85.208.47, mailfrom: andre.draszik@linaro.org)
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-55ee686b5d5so1177302a12.0
         for <openembedded-core@lists.openembedded.org>; Fri, 16 Feb 2024 08:31:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google; t=1708101077; x=1708705877; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=cLuMwH/ZxvXi9DjEmiKpIdK2asOJ1vwq7qd2hGWUoT8=;
-        b=N2x8zcLe78ynMhhNr3WQdLuiH/igM0nzaMhLDpFLvygqM57jblUdFO5xH9/lQAJWls
-         uyOcDG5o7k7t2xftvDB/YOX/4hp6afsDYb795bNhTESZmEqhM7fZSFyKsXo6reavFquy
-         W5HcH2TcSfSU4fwtBG9xNUBm+NDJqpnbt6lQXj0ANt1jwq5485UVnBeQDBKLQd0KpZuI
-         +BgGgSoRDGKPLhnPeYGppTknQTaDNkrL+707TOY72Fs4U1YyNOZBylnxQ9rOWSpZgW37
-         1WElFrPPZifpIej1A7wf+3Wl9dYerfv+Q4mRfv7turrlYBVHVV/z1poe5zLMg02zWGca
-         Uwfg==
+        bh=eHxRjCBK/uR7HGwSQJcVv1v+JPepSpJd1dpfiJsPRbY=;
+        b=yHHuLVxJVCbK5I1Jwk1NLgNC98ZPW1SSFsrYlC06geCgs+zIY/jxzgTF7FjSwHuJlj
+         6CtJFm+2C+9nxI3SyfchpTn7jTRjkFwk4juR/oQ21cq7d9O/6Xb8YYRqDK63E7RjhyGl
+         SCH1qTpBnqJg7cczjrAmKM4cptmO9awiztB2ZliSNH0zaFYyTQt3AcgCE9LVXzMpcLiK
+         ZZRXOgYLlyilNcXArx+pmNtVYEJfWGOvigjHE4Sxugk6xuCUZS6vNJQ8ZkgKGx1UExxS
+         Z3TrgISU4xMNpfN8YGy5ztqWCZoWMYfseKrmzqRYyPeGLz+jSu/v3tli+3gQvDtl6YlH
+         7GMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1708101077; x=1708705877;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=cLuMwH/ZxvXi9DjEmiKpIdK2asOJ1vwq7qd2hGWUoT8=;
-        b=MwpKcdv6Dkx0ShC6SppjAdCGjLHoiOJIeelKytFIxmos/012WGGrLS8LutH5MXjrbP
-         NU3PHEdhAnwkvkkoSQwtY03QImgU1Pqyzk4wmUsHz42Ze+ZMpngmPT3zapGg+A/Yj3A5
-         rdseqyxAuZ0lZAUovZ1dch1eDRiKVrx31CYHl4voWQBHXW5otmB02bm1Z3BH3FKPafuS
-         4TORQPxmjyj/gNlO4ICJiJYd+zA4gDH2xzBF/JJtDb0Jgx/drSk0NKPlXoDB7aHIqi4I
-         7EAVPUyNEaOVukIst0xe08drEB3XkcHzb0aB40y/4OpQk0JCwiafFNrBo4VQmxqzFcMQ
-         lnxw==
-X-Gm-Message-State: AOJu0Yz+XI1kefkmSmo+b1ivIzfcI3Wy4YEOJwjXoXzXLwTGfem/jeLR
-	JOapelEu+7iFQEz5nxlJHcMQAPLKOrM93ofIjlp4H8cqCqv1TsLMJapUEsI7NhaVjUpTg/FTxwf
-	ISMMaYQ==
-X-Google-Smtp-Source: AGHT+IG8S7K5yR9XlnIB5nDrwSu3jnRvzju1tuwayRCopJkKKvxBvb0MCM+Ce7qT3ElX7j2O4wWNWg==
-X-Received: by 2002:a05:6402:214a:b0:563:bd95:4ef8 with SMTP id bq10-20020a056402214a00b00563bd954ef8mr3503503edb.23.1708101077464;
+        bh=eHxRjCBK/uR7HGwSQJcVv1v+JPepSpJd1dpfiJsPRbY=;
+        b=vMWJ8P4YzFZkPDhXklHIYrL/7DH1bYdk2ifjVifkCWHFL+aAGM2zotm2TpuBd1hDBn
+         hI6Z9DF/Jz7+zkLW718JtXtxndduPBrULn9cVrkGjX3bNHHFTRewqi/SGK0OjED3446K
+         5nhWyu/UFOeaR9wogaFYIwqOvK5UpQoKRPW1mGmewlQWxCFDg1kA462HoXkvSKU6wKTc
+         624tt/OGarCBZLDWMNcfPJryyo0n6d+/pldHHqDeg+GAeq6CvZU5x8YEfxxO7M0NchdE
+         oK6WnriC1LXOpr0YbzlOresYvAgqL5FbX1rhs/1OqfCGd7k7Dv9CG2J4HoBIruAsIhSZ
+         im2Q==
+X-Gm-Message-State: AOJu0YwLLMbVDgyojZiN/VKYNIIhDJQXAKT++xC/B4vzuJ6dtSmGbdKF
+	e+yeMTvvnJDW8Gc3p2ylrwC0KH+01chl6fZEV9PDFiundsR3YaOL0cI2fnrtSkZ2A/SNLk63c+V
+	zjZ7SWg==
+X-Google-Smtp-Source: AGHT+IEktSqDoIQ/kqKLNW+UXekO+VbkZAQmHtrqAICJM+MFJCbYtdl9mS0kenGn4MWCCFmiOYFmRQ==
+X-Received: by 2002:aa7:d403:0:b0:564:1004:42ac with SMTP id z3-20020aa7d403000000b00564100442acmr354955edq.4.1708101077050;
         Fri, 16 Feb 2024 08:31:17 -0800 (PST)
 Received: from puffmais.c.googlers.com.com (68.57.204.35.bc.googleusercontent.com. [35.204.57.68])
-        by smtp.gmail.com with ESMTPSA id n9-20020aa7c449000000b0055ef4a779d9sm133632edr.34.2024.02.16.08.31.17
+        by smtp.gmail.com with ESMTPSA id n9-20020aa7c449000000b0055ef4a779d9sm133632edr.34.2024.02.16.08.31.16
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Feb 2024 08:31:17 -0800 (PST)
+        Fri, 16 Feb 2024 08:31:16 -0800 (PST)
 From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <andre.draszik@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH 2/3] bitbake: tests/fetch: support git's safe.bareRepository
-Date: Fri, 16 Feb 2024 16:25:00 +0000
-Message-ID: <20240216163113.2751935-3-andre.draszik@linaro.org>
+Subject: [OE-core][PATCH 1/3] bitbake: fetch/git2: support git's safe.bareRepository
+Date: Fri, 16 Feb 2024 16:24:59 +0000
+Message-ID: <20240216163113.2751935-2-andre.draszik@linaro.org>
 X-Mailer: git-send-email 2.44.0.rc0.258.g7320e95886-goog
 In-Reply-To: <20240216163113.2751935-1-andre.draszik@linaro.org>
 References: <20240216163113.2751935-1-andre.draszik@linaro.org>
@@ -63,10 +63,10 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 16 Feb 2024 16:31:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195783
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195782
 
 When git is configured with safe.bareRepository=explicit [1], the
-bitbake selftests fail miserably. LWN has an article about the
+bitbake git fetcher fails miserably. LWN has an article about the
 problem that this configuration option addresses and why it is useful
 in [2].
 
@@ -81,29 +81,38 @@ The alternative, implemented here, is to forcibly turn off that option
 for all git operations. In the future, we could look into converting
 these to using the --git-dir= command line argument instead.
 
+While at it, fix one open-coded invocation of git that wasn't using
+ud.basecmd
+
 Link: https://git.kernel.org/pub/scm/git/git.git/tree/Documentation/config/safe.txt#n1 [1]
 Link: https://lwn.net/Articles/892755/ [2]
 Signed-off-by: André Draszik <andre.draszik@linaro.org>
 ---
- bitbake/lib/bb/tests/fetch.py | 4 ++--
+ bitbake/lib/bb/fetch2/git.py | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/bitbake/lib/bb/tests/fetch.py b/bitbake/lib/bb/tests/fetch.py
-index 41e1d8cf107c..bb30ed651313 100644
---- a/bitbake/lib/bb/tests/fetch.py
-+++ b/bitbake/lib/bb/tests/fetch.py
-@@ -416,9 +416,9 @@ class FetcherTest(unittest.TestCase):
+diff --git a/bitbake/lib/bb/fetch2/git.py b/bitbake/lib/bb/fetch2/git.py
+index 0deeb5cee1f2..842f1c689697 100644
+--- a/bitbake/lib/bb/fetch2/git.py
++++ b/bitbake/lib/bb/fetch2/git.py
+@@ -258,7 +258,7 @@ class Git(FetchMethod):
+             for name in ud.names:
+                 ud.unresolvedrev[name] = 'HEAD'
  
-     def git(self, cmd, cwd=None):
-         if isinstance(cmd, str):
--            cmd = 'git ' + cmd
-+            cmd = 'git -c safe.bareRepository=all ' + cmd
-         else:
--            cmd = ['git'] + cmd
-+            cmd = ['git', '-c', 'safe.bareRepository=all'] + cmd
-         if cwd is None:
-             cwd = self.gitdir
-         return bb.process.run(cmd, cwd=cwd)[0]
+-        ud.basecmd = d.getVar("FETCHCMD_git") or "git -c gc.autoDetach=false -c core.pager=cat"
++        ud.basecmd = d.getVar("FETCHCMD_git") or "git -c gc.autoDetach=false -c core.pager=cat -c safe.bareRepository=all"
+ 
+         write_tarballs = d.getVar("BB_GENERATE_MIRROR_TARBALLS") or "0"
+         ud.write_tarballs = write_tarballs != "0" or ud.rebaseable
+@@ -514,7 +514,7 @@ class Git(FetchMethod):
+ 
+             logger.info("Creating tarball of git repository")
+             with create_atomic(ud.fullmirror) as tfile:
+-                mtime = runfetchcmd("git log --all -1 --format=%cD", d,
++                mtime = runfetchcmd("{} log --all -1 --format=%cD".format(ud.basecmd), d,
+                         quiet=True, workdir=ud.clonedir)
+                 runfetchcmd("tar -czf %s --owner oe:0 --group oe:0 --mtime \"%s\" ."
+                         % (tfile, mtime), d, workdir=ud.clonedir)
 -- 
 2.44.0.rc0.258.g7320e95886-goog
 
