@@ -1,148 +1,87 @@
-Return-Path: <simone.weiss@posteo.net>
+Return-Path: <simone.p.weiss@posteo.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D17FEC48260
-	for <webhook@archiver.kernel.org>; Fri, 16 Feb 2024 20:26:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9D23C48295
+	for <webhook@archiver.kernel.org>; Fri, 16 Feb 2024 21:00:41 +0000 (UTC)
 Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
- by mx.groups.io with SMTP id smtpd.web11.8655.1708115181866152399
+ by mx.groups.io with SMTP id smtpd.web10.9282.1708117238407153938
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Feb 2024 12:26:22 -0800
+ Fri, 16 Feb 2024 13:00:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@posteo.net header.s=2017 header.b=GEzR/Mi8;
- spf=pass (domain: posteo.net, ip: 185.67.36.66, mailfrom: simone.weiss@posteo.net)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@posteo.com header.s=2017 header.b=G0djbtwN;
+ spf=pass (domain: posteo.com, ip: 185.67.36.66, mailfrom: simone.p.weiss@posteo.com)
 Received: from submission (posteo.de [185.67.36.169]) 
-	by mout02.posteo.de (Postfix) with ESMTPS id 1A59B240101
-	for <openembedded-core@lists.openembedded.org>; Fri, 16 Feb 2024 21:26:19 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
-	t=1708115180; bh=nR0zhLj5zSr0YDVUgUPvQuZOeOvRQQK1dpp2m8VU6s8=;
-	h=Message-ID:Subject:From:To:Date:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version:From;
-	b=GEzR/Mi84nRZNLiwJbOlmPjdPj+z3IJWtjauKMPtXzrLLUfzkR39M7d5ss4wEQQ4a
-	 gxksm6LeAF8ASHqJFYzpvc7WeWvKg/GPGEH+BG4m+dZlscTws+W255GkmZXWLyUYMB
-	 tieRmOonJyTo2oZlgUq0Z8SOCZ9MgZbABBch4DmK+k0too2VHcafHu29tFFvEtkbDe
-	 B+XFNlT42ttHell6ZLURQ3jYUjC1U0Zs33q7lQnv7HPUKxqBKgu4EqyPL6Ky6YwAlO
-	 TAAltNIoLFwhclturED16IQOq7og2EZ7kvKapRXe9TRB2O7+2JoQZM3vtYEj1+WVV0
-	 7N1qUE9UaECZA==
+	by mout02.posteo.de (Postfix) with ESMTPS id 9DE99240105
+	for <openembedded-core@lists.openembedded.org>; Fri, 16 Feb 2024 22:00:35 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.com; s=2017;
+	t=1708117236; bh=DrZrwEA6brVkBMD99ShOAfH+lsw15SThNBwTG7O5m3g=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:From;
+	b=G0djbtwNZgTbCwvgfBb/5OgrgNj9vDnQEj7nggy0RLuwQlYSVPeibUMld8bpAPuDe
+	 46afQO9tGF8QEokEEt7TmpW9LmxD4rU4UWFVAf3s4HD+bZdBZ97VbxtugHtBPwr9pc
+	 4pJgTyvNjsEbuR7STHLk3HgTvkLgU6zY4aywl1SyxUKGBNSHAeucQ4xGxjeQHPYmfX
+	 8zRPowS9zXvRFMANTb3f+yUWrpKr8jUGn9xSKeT90AWIIH3AG85rikKOjKHux//2e9
+	 DT/eye0ZrRGyQq2tRISSO/vQnLTAltx4dOsBSZmg81YuIZIO2uVrUWDeEfK7g5Mv8Q
+	 FyPb/MqikCq0Q==
 Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4Tc3Np0p4bz9rxL;
-	Fri, 16 Feb 2024 21:26:18 +0100 (CET)
-Message-ID: <ce777723a70167104ed2b23777591c4ed5ad815a.camel@posteo.net>
-Subject: Re: [OE-core] [PATCH] patchtest: Add further information for failed
- testcases
-From: Simone =?ISO-8859-1?Q?Wei=DF?= <simone.weiss@posteo.net>
-To: Trevor Gamblin <tgamblin@baylibre.com>, Richard Purdie
-	 <richard.purdie@linuxfoundation.org>, Simone =?ISO-8859-1?Q?Wei=DF?=
-	 <simone.p.weiss@posteo.com>, openembedded-core@lists.openembedded.org
-Date: Fri, 16 Feb 2024 20:26:17 +0000
-In-Reply-To: <e29e5a3c-d4a7-4f6f-9b72-df4372dc7c4f@baylibre.com>
-References: <20240215213932.245929-1-simone.p.weiss@posteo.com>
-	 <ccccce2389cda121cfc5cef4c87b7edf63d6a41b.camel@linuxfoundation.org>
-	 <ee91117924cca38a5bfc5d345da269d89a03670e.camel@posteo.net>
-	 <e29e5a3c-d4a7-4f6f-9b72-df4372dc7c4f@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	by submission (posteo.de) with ESMTPSA id 4Tc48M4L34z9rxM;
+	Fri, 16 Feb 2024 22:00:34 +0100 (CET)
+From: simone.p.weiss@posteo.com
+To: openembedded-core@lists.openembedded.org
+Cc: =?UTF-8?q?Simone=20Wei=C3=9F?= <simone.p.weiss@posteo.com>
+Subject: [PATCH] patchtest: add stronger indication for failed tests
+Date: Fri, 16 Feb 2024 21:00:28 +0000
+Message-Id: <20240216210028.16028-1-simone.p.weiss@posteo.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 16 Feb 2024 20:26:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195806
+ <openembedded-core@lists.openembedded.org>; Fri, 16 Feb 2024 21:00:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195807
 
-On Fri, 2024-02-16 at 11:43 -0500, Trevor Gamblin wrote:
->=20
-> On 2024-02-16 11:19, Simone Wei=C3=9F wrote:
-> > On Thu, 2024-02-15 at 22:10 +0000, Richard Purdie wrote:
-> > > On Thu, 2024-02-15 at 21:39 +0000, Simone Wei=C3=9F wrote:
-> > > > From: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
-> > > >=20
-> > > > Add more information to log messages when a test case fails.
-> > > > Still keep it short and mostly reference the documentation.
-> > > > Reasson is
-> > > > that
-> > > > documentation should already contain the needed information, do
-> > > > not
-> > > > duplicate
-> > > > it here, so we also do not need to update here should the
-> > > > doc/policy
-> > > > change.
-> > > >=20
-> > > > Signed-off-by: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
-> > > This does get a little tricky since the responses from patchtest on
-> > > our
-> > > test infrastructure has a character limit for security reasons.
-> > >=20
-> > > I have wondered if we do need to change it to some kind of code
-> > > response which can then be translated back into real text.
-> > >=20
-> > What could be easily done is also to remove some kind of information
-> > that
-> > is kinda duplicated from the logs: e.g.
-> >=20
-> > FAIL: test commit message presence: Please include a commit message on
-> > your patch explaining the change
-> > (test_mbox.TestMbox.test_commit_message_presence)
-> >=20
-> > basically duplicates test_commit_message_presence (with and w/o _),
-> > that
-> > is not really needed IMO.
-> >=20
-> > Also the reference links could be given instead - if any testcases
-> > failed
-> > - in=C2=A0 a bundled fashion by adopting the suggestions in patchtest-s=
-end-
-> > result and for local runs in patchtest's run function
->=20
-> We could reference the wiki page:=20
-> https://wiki.yoctoproject.org/wiki/Patchtest
->=20
-> We'll need to update it too, though. I put it together to have=20
-> *something* when patchtest was brought back online, but there's=20
-> definitely room for improvement.
->=20
-> I think a combination of both suggestions, i.e. a much shorter "FAIL:=20
-> test commit message presence (code: 1234)" sort of approach along with a
-> link to the wiki page is the best here.
->=20
-> What are your thoughts?
-I would also combine all proposals:
-- Update the wikipage, but where possible cross reference the
-documentation to avoid duplications. This we can do anyhow.
-- shorten the general test logs (remove duplications of test name)
-- Add the link to the wikipage in patchtest-send-result or for local runs
-at the end of a test run.
+From: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
 
-Do we really need the code 1234 approach if we just log=20
+Do not only log that there has been an issue but add WARNING before for l=
+ocal
+runs. Hopefully this helps to avoid that people reading the log to quickl=
+y miss
+issues.
 
-FAIL: testcase_name
+Fixes [YOCTO #15389]
 
-and the map the names in the wikipage to the needed info?
+Signed-off-by: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
 
-> >=20
-> > Cheers,
-> > Simone
-> > > The reason for the character limit is to stop abuse of the VMs that
-> > > run
-> > > the tests, you can't mine bitcoin and pass them out as the failure
-> > > message for example.
-> > >=20
-> > > Cheers,
-> > >=20
-> > > Richard
-> > >=20
-> > >=20
-> > >=20
-> >=20
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#195780):
-> > https://lists.openembedded.org/g/openembedded-core/message/195780
-> > Mute This Topic: https://lists.openembedded.org/mt/104382125/7611679
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe:
-> > https://lists.openembedded.org/g/openembedded-core/unsub=C2=A0[
-> > tgamblin@baylibre.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >=20
+sfdf
+
+Signed-off-by: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
+---
+ scripts/patchtest | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/patchtest b/scripts/patchtest
+index d0dc6e8fac..3163420220 100755
+--- a/scripts/patchtest
++++ b/scripts/patchtest
+@@ -164,9 +164,9 @@ def run(patch, logfile=3DNone):
+     if premerge_result =3D=3D 2 and postmerge_result =3D=3D 2:
+         logger.error('patchtest: No test cases found - did you specify t=
+he correct suite directory?')
+     if premerge_result =3D=3D 1 or postmerge_result =3D=3D 1:
+-        logger.error('patchtest: At least one patchtest caused a failure=
+ or an error - please check')
++        logger.error('WARNING: patchtest: At least one patchtest caused =
+a failure or an error - please check')
+     else:
+-        logger.error('patchtest: All patchtests passed')
++        logger.error('OK: patchtest: All patchtests passed')
+     print('-------------------------------------------------------------=
+---------\n')
+     return premerge_result or postmerge_result
+=20
+--=20
+2.39.2
 
 
