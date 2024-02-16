@@ -1,139 +1,148 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <simone.weiss@posteo.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0D79C48BF3
-	for <webhook@archiver.kernel.org>; Fri, 16 Feb 2024 20:05:31 +0000 (UTC)
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
- by mx.groups.io with SMTP id smtpd.web10.8034.1708113922277250515
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D17FEC48260
+	for <webhook@archiver.kernel.org>; Fri, 16 Feb 2024 20:26:31 +0000 (UTC)
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+ by mx.groups.io with SMTP id smtpd.web11.8655.1708115181866152399
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Feb 2024 12:05:22 -0800
+ Fri, 16 Feb 2024 12:26:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=f3Xzpnuj;
- spf=pass (domain: gmail.com, ip: 209.85.222.179, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-785d954b236so146433985a.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 16 Feb 2024 12:05:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708113921; x=1708718721; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uMtN4YG9VVlKC1qnDomJ6gpNSGv71Xt4joJl+F30AJk=;
-        b=f3XzpnujhQDUvdbKkObH+w+xcEha7JphM7dLD3T5AtQAp6yOWfuet7bicKDSTEY0a/
-         ZbghqdKZVC/J2ZTSlvC3wZlt0pons5pI3iA1hjmihey1pB2+aaaIu9sXrrLWh+jfJg5X
-         NVeYKgNFwXASOIYpC4gAFmzOiXezEdVqVr/uMe5vvJkhVXkb1tYwLBPdmQDcE8rfng+b
-         f0FIoLMWpf8fVjrebWjq5oD7DLEbyEJh3xIYo0iThWMjVqbUvGZwUEfgVnWWbhQBUGe7
-         NbdGccweOKpF4SgTqlj5eHY1K7NqX9L2H8C/xLf1RIoa09bmhPRt/m342NiFMeJZMVmb
-         YyPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708113921; x=1708718721;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uMtN4YG9VVlKC1qnDomJ6gpNSGv71Xt4joJl+F30AJk=;
-        b=a0MhdYeq15mVC1n5k7LLdC97Evq27lE9AZqQbz3VkUw1igcYnwyDDsabW540gHcSw6
-         rFKQxc7HxV/biX3FlKWoJOLv9FkSfr1ayrTbe1P3FtYngitLbNHXHVSMSjH6TBQaF5aU
-         19XFUfq1lZ2kG2v7RNAM9diXvkoWTzALap3docPxJweE0UXcX2hQnr5xKdozcKsqMs3X
-         M+vzDgy007TAvEWpoC+8LlShVatW1L3C50rNren+xa2d83h1MIX6LnDbX8oS+o8dTclw
-         SfweU7dKWP5/e1aJs4loS/r9baq+opN9W2uJ4IPq8ijnCJNoZ1L6PHgE9sI//pRfzOh+
-         Kadg==
-X-Gm-Message-State: AOJu0YwDHmkpU+jLddwZ9iNWBDgMaW64Kjs2ZZ4/JjjKQ8kCNfc9Tmq/
-	bEKzgCo4mXiRC5YoZMGF92nMWM9hPWChNVf/4uP6lz0r7a8XAWOsYFToQTsUF/4=
-X-Google-Smtp-Source: AGHT+IEUL2kJPN3broVi0NocFPDfzLRuiIkt/raSUM0kQfrwW80e40Zy9OEHrI6skiI1uv4go8AXgA==
-X-Received: by 2002:a05:620a:8d4:b0:787:32a4:84e9 with SMTP id z20-20020a05620a08d400b0078732a484e9mr5976411qkz.68.1708113921208;
-        Fri, 16 Feb 2024 12:05:21 -0800 (PST)
-Received: from bruce-XPS-8940.localdomain ([174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id vu21-20020a05620a561500b007872e92ff64sm246046qkn.63.2024.02.16.12.05.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Feb 2024 12:05:20 -0800 (PST)
-From: bruce.ashfield@gmail.com
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/3] linux-yocto/6.6: qemuriscv: enable goldfish RTC
-Date: Fri, 16 Feb 2024 15:05:16 -0500
-Message-Id: <5aa28c9a970219afca08cce557d4d3c2b0b9df09.1708113821.git.bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <cover.1708113821.git.bruce.ashfield@gmail.com>
-References: <cover.1708113821.git.bruce.ashfield@gmail.com>
+ dkim=pass header.i=@posteo.net header.s=2017 header.b=GEzR/Mi8;
+ spf=pass (domain: posteo.net, ip: 185.67.36.66, mailfrom: simone.weiss@posteo.net)
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout02.posteo.de (Postfix) with ESMTPS id 1A59B240101
+	for <openembedded-core@lists.openembedded.org>; Fri, 16 Feb 2024 21:26:19 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
+	t=1708115180; bh=nR0zhLj5zSr0YDVUgUPvQuZOeOvRQQK1dpp2m8VU6s8=;
+	h=Message-ID:Subject:From:To:Date:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version:From;
+	b=GEzR/Mi84nRZNLiwJbOlmPjdPj+z3IJWtjauKMPtXzrLLUfzkR39M7d5ss4wEQQ4a
+	 gxksm6LeAF8ASHqJFYzpvc7WeWvKg/GPGEH+BG4m+dZlscTws+W255GkmZXWLyUYMB
+	 tieRmOonJyTo2oZlgUq0Z8SOCZ9MgZbABBch4DmK+k0too2VHcafHu29tFFvEtkbDe
+	 B+XFNlT42ttHell6ZLURQ3jYUjC1U0Zs33q7lQnv7HPUKxqBKgu4EqyPL6Ky6YwAlO
+	 TAAltNIoLFwhclturED16IQOq7og2EZ7kvKapRXe9TRB2O7+2JoQZM3vtYEj1+WVV0
+	 7N1qUE9UaECZA==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4Tc3Np0p4bz9rxL;
+	Fri, 16 Feb 2024 21:26:18 +0100 (CET)
+Message-ID: <ce777723a70167104ed2b23777591c4ed5ad815a.camel@posteo.net>
+Subject: Re: [OE-core] [PATCH] patchtest: Add further information for failed
+ testcases
+From: Simone =?ISO-8859-1?Q?Wei=DF?= <simone.weiss@posteo.net>
+To: Trevor Gamblin <tgamblin@baylibre.com>, Richard Purdie
+	 <richard.purdie@linuxfoundation.org>, Simone =?ISO-8859-1?Q?Wei=DF?=
+	 <simone.p.weiss@posteo.com>, openembedded-core@lists.openembedded.org
+Date: Fri, 16 Feb 2024 20:26:17 +0000
+In-Reply-To: <e29e5a3c-d4a7-4f6f-9b72-df4372dc7c4f@baylibre.com>
+References: <20240215213932.245929-1-simone.p.weiss@posteo.com>
+	 <ccccce2389cda121cfc5cef4c87b7edf63d6a41b.camel@linuxfoundation.org>
+	 <ee91117924cca38a5bfc5d345da269d89a03670e.camel@posteo.net>
+	 <e29e5a3c-d4a7-4f6f-9b72-df4372dc7c4f@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 16 Feb 2024 20:05:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195805
+ <openembedded-core@lists.openembedded.org>; Fri, 16 Feb 2024 20:26:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195806
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+On Fri, 2024-02-16 at 11:43 -0500, Trevor Gamblin wrote:
+>=20
+> On 2024-02-16 11:19, Simone Wei=C3=9F wrote:
+> > On Thu, 2024-02-15 at 22:10 +0000, Richard Purdie wrote:
+> > > On Thu, 2024-02-15 at 21:39 +0000, Simone Wei=C3=9F wrote:
+> > > > From: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
+> > > >=20
+> > > > Add more information to log messages when a test case fails.
+> > > > Still keep it short and mostly reference the documentation.
+> > > > Reasson is
+> > > > that
+> > > > documentation should already contain the needed information, do
+> > > > not
+> > > > duplicate
+> > > > it here, so we also do not need to update here should the
+> > > > doc/policy
+> > > > change.
+> > > >=20
+> > > > Signed-off-by: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
+> > > This does get a little tricky since the responses from patchtest on
+> > > our
+> > > test infrastructure has a character limit for security reasons.
+> > >=20
+> > > I have wondered if we do need to change it to some kind of code
+> > > response which can then be translated back into real text.
+> > >=20
+> > What could be easily done is also to remove some kind of information
+> > that
+> > is kinda duplicated from the logs: e.g.
+> >=20
+> > FAIL: test commit message presence: Please include a commit message on
+> > your patch explaining the change
+> > (test_mbox.TestMbox.test_commit_message_presence)
+> >=20
+> > basically duplicates test_commit_message_presence (with and w/o _),
+> > that
+> > is not really needed IMO.
+> >=20
+> > Also the reference links could be given instead - if any testcases
+> > failed
+> > - in=C2=A0 a bundled fashion by adopting the suggestions in patchtest-s=
+end-
+> > result and for local runs in patchtest's run function
+>=20
+> We could reference the wiki page:=20
+> https://wiki.yoctoproject.org/wiki/Patchtest
+>=20
+> We'll need to update it too, though. I put it together to have=20
+> *something* when patchtest was brought back online, but there's=20
+> definitely room for improvement.
+>=20
+> I think a combination of both suggestions, i.e. a much shorter "FAIL:=20
+> test commit message presence (code: 1234)" sort of approach along with a
+> link to the wiki page is the best here.
+>=20
+> What are your thoughts?
+I would also combine all proposals:
+- Update the wikipage, but where possible cross reference the
+documentation to avoid duplications. This we can do anyhow.
+- shorten the general test logs (remove duplications of test name)
+- Add the link to the wikipage in patchtest-send-result or for local runs
+at the end of a test run.
 
-Integrating the following commit(s) to linux-yocto/.:
+Do we really need the code 1234 approach if we just log=20
 
-1/1 [
-    Author: Khem Raj
-    Email: raj.khem@gmail.com
-    Subject: qemuriscv32/qemuriscv64: Enable Goldfish RTC
-    Date: Fri, 16 Feb 2024 01:05:51 -0800
+FAIL: testcase_name
 
-    This is required for the qemu based riscv system to set system time
-    correctly. Otherwise, it falls back to defaults in /etc/timestamp which
-    is set at image build time and is not current.
+and the map the names in the wikipage to the needed info?
 
-    Fixes
-    hwclock: can't open '/dev/misc/rtc': No such file or directory
-    Fri Mar  9 12:34:56 UTC 2018
-    hwclock: can't open '/dev/misc/rtc': No such file or directory
-    hwclock: can't open '/dev/misc/rtc': No such file or directory
-
-    Signed-off-by: Khem Raj <raj.khem@gmail.com>
-    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-]
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb   | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto_6.6.bb      | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
-index 0030be98ce..a516404d88 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
-@@ -15,7 +15,7 @@ python () {
- }
- 
- SRCREV_machine ?= "4076926df2ff94dd0b990acba799e95de5fb1c53"
--SRCREV_meta ?= "9b93e812d98c4709146f8f8fa24855a23ebbccb9"
-+SRCREV_meta ?= "301db0019eb67dd500919a201eaf49a6690b9c55"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.6;destsuffix=${KMETA};protocol=https"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
-index 511f2761c3..2073a4b036 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
-@@ -18,7 +18,7 @@ KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
- SRCREV_machine ?= "fe5ec7bef162341ff0fbcef6996df5090a07aee1"
--SRCREV_meta ?= "9b93e812d98c4709146f8f8fa24855a23ebbccb9"
-+SRCREV_meta ?= "301db0019eb67dd500919a201eaf49a6690b9c55"
- 
- PV = "${LINUX_VERSION}+git"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_6.6.bb b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
-index 594bee645e..4fa6eca8aa 100644
---- a/meta/recipes-kernel/linux/linux-yocto_6.6.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
-@@ -29,7 +29,7 @@ SRCREV_machine:qemux86 ?= "fe5ec7bef162341ff0fbcef6996df5090a07aee1"
- SRCREV_machine:qemux86-64 ?= "fe5ec7bef162341ff0fbcef6996df5090a07aee1"
- SRCREV_machine:qemumips64 ?= "d764bf0df085f9901e4466eec99442b5c48aa814"
- SRCREV_machine ?= "fe5ec7bef162341ff0fbcef6996df5090a07aee1"
--SRCREV_meta ?= "9b93e812d98c4709146f8f8fa24855a23ebbccb9"
-+SRCREV_meta ?= "301db0019eb67dd500919a201eaf49a6690b9c55"
- 
- # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
- # get the <version>/base branch, which is pure upstream -stable, and the same
--- 
-2.39.2
+> >=20
+> > Cheers,
+> > Simone
+> > > The reason for the character limit is to stop abuse of the VMs that
+> > > run
+> > > the tests, you can't mine bitcoin and pass them out as the failure
+> > > message for example.
+> > >=20
+> > > Cheers,
+> > >=20
+> > > Richard
+> > >=20
+> > >=20
+> > >=20
+> >=20
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#195780):
+> > https://lists.openembedded.org/g/openembedded-core/message/195780
+> > Mute This Topic: https://lists.openembedded.org/mt/104382125/7611679
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe:
+> > https://lists.openembedded.org/g/openembedded-core/unsub=C2=A0[
+> > tgamblin@baylibre.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >=20
 
 
