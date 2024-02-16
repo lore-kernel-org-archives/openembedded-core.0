@@ -1,108 +1,85 @@
-Return-Path: <simone.weiss@posteo.net>
+Return-Path: <andre.draszik@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BB1FC48260
-	for <webhook@archiver.kernel.org>; Fri, 16 Feb 2024 16:20:00 +0000 (UTC)
-Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
- by mx.groups.io with SMTP id smtpd.web11.869.1708100393435736980
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4ACE4C48260
+	for <webhook@archiver.kernel.org>; Fri, 16 Feb 2024 16:31:20 +0000 (UTC)
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+ by mx.groups.io with SMTP id smtpd.web11.1157.1708101078376251712
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Feb 2024 08:19:53 -0800
+ Fri, 16 Feb 2024 08:31:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@posteo.net header.s=2017 header.b=cyoOqLIU;
- spf=pass (domain: posteo.net, ip: 185.67.36.66, mailfrom: simone.weiss@posteo.net)
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout02.posteo.de (Postfix) with ESMTPS id A3D3A240101
-	for <openembedded-core@lists.openembedded.org>; Fri, 16 Feb 2024 17:19:50 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
-	t=1708100391; bh=yIwCaapNasxh1a78GWWFVqfSshVBYWvlmGAB7oeOjI4=;
-	h=Message-ID:Subject:From:To:Date:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version:From;
-	b=cyoOqLIUZsuSp1TtHBmRCIwfyGkh2K0KoMT/w8ykO0Y3i0/U+ZEcC+YvC4M6wRPUd
-	 50zAFb2wldn5gsFCEbvMnv3jZvZGcoKfyfca0ov68XKlc2jhta/NOyqdhj27rmkRyN
-	 a+XCIlMLrVPuFbwhToc+/WfYDQ2EhP1rYYCDgMZ/E6Uek7KFNbUObdEGPo+mgNsHY4
-	 dooc4VUYeiZQ+6B+9zVMGzYLdWq5kQW79vPvvx5qAgIIk/qLniMLYEfVmyYOOQkTUW
-	 bn9TBW/SVu+X99/pedz4EzjuMy3sYkMSb3UpdPEC7Q3ovUiVi2f3Foa3G/z1ysea+a
-	 lz8p0XM4tXanQ==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4TbxwQ0pG6z9rxB;
-	Fri, 16 Feb 2024 17:19:49 +0100 (CET)
-Message-ID: <ee91117924cca38a5bfc5d345da269d89a03670e.camel@posteo.net>
-Subject: Re: [OE-core] [PATCH] patchtest: Add further information for failed
- testcases
-From: Simone =?ISO-8859-1?Q?Wei=DF?= <simone.weiss@posteo.net>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Simone
- =?ISO-8859-1?Q?Wei=DF?= <simone.p.weiss@posteo.com>,
- openembedded-core@lists.openembedded.org
-Date: Fri, 16 Feb 2024 16:19:49 +0000
-In-Reply-To: <ccccce2389cda121cfc5cef4c87b7edf63d6a41b.camel@linuxfoundation.org>
-References: <20240215213932.245929-1-simone.p.weiss@posteo.com>
-	 <ccccce2389cda121cfc5cef4c87b7edf63d6a41b.camel@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@linaro.org header.s=google header.b=vzmH+9xL;
+ spf=pass (domain: linaro.org, ip: 209.85.208.48, mailfrom: andre.draszik@linaro.org)
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5639c8cc449so1264718a12.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 16 Feb 2024 08:31:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1708101077; x=1708705877; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PhW9Hplv3gpjs68p1h4XkFthqpTRS8woIJTI9S6a850=;
+        b=vzmH+9xLhsj2QSYWplubBvqUC1X1cRm/vNhFEkfuHgMOY3bmEDoJHq/MHmweoShRyJ
+         FrsLWGdyYdzv0UMtJv6Gqycf/jA8Dt3C59RqZAkeHJ0RmfFp6izNpv7dwiWz9wYDxrj1
+         iuwKFbClPGkrN84KlwCrM+Z0cpvv+NJSOQM7rb6pk1dU6jsvjWCLMmnOEQ3ILBeW3SK3
+         HWA/T8PNgrpXIWWDprqo/pQV2SGiw4S29qEroUcxrlK4LY2QSW4ImADYfjug+MJ4dmy7
+         6u2/bAS9LF9FPVvDzpla7P484Z3eNigRKCd7bu714xTQWCeeUi336DB/BWz+gt0KGTAA
+         9g4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708101077; x=1708705877;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PhW9Hplv3gpjs68p1h4XkFthqpTRS8woIJTI9S6a850=;
+        b=C06KsFbl3DHmCQt58jSuwlHhklc+Vp9I8XWXgWpppBtvq+g/HhKX4FHPCPmDVBiaII
+         FtOY99r07WvZgHAuIB+XEDinciC6u34n87Qx5EpfJerSga/Ua580l9ZeiqbK78oCqiBa
+         15/RqQdqNMdINyhxdIT9YFxRAHdvFZ7MquVR1XXfRgWFT2KY8UTh/LcYtFJrKvo9blQD
+         qSaSVnb+AeP1ZLhgvhZbg8CylumMyEKXFyi1ilvdK0wA2UG0Qrbra4G00JE7Yw7T4+Yh
+         kj4i+YBxKUI4yddFp27J24PlUGel07ZziuEhEr3M95iMsncKaoC5KG5H2aH20aD2ZvLW
+         fGOA==
+X-Gm-Message-State: AOJu0YzOIjwjTp2M2wjD4LkTTdkURQwr5QgTycpnsX0LKz4LS4uWa2Gq
+	wJaw1hrPbrNAA+PgBuosmpC8Q4r7iS45nqF1tpfg4fi4Sqpt5uYD28g7T2JOQnpiMCPmdfpOFHB
+	WA0f2IQ==
+X-Google-Smtp-Source: AGHT+IGkA3ptxku0z8SMp2ojJ8ydHT5lQ0NFEviSyTtDItKR8qNmmkvcRhVaUr2YROwNCGUu+QMnkw==
+X-Received: by 2002:aa7:c655:0:b0:561:548e:e4c4 with SMTP id z21-20020aa7c655000000b00561548ee4c4mr4111592edr.19.1708101076622;
+        Fri, 16 Feb 2024 08:31:16 -0800 (PST)
+Received: from puffmais.c.googlers.com.com (68.57.204.35.bc.googleusercontent.com. [35.204.57.68])
+        by smtp.gmail.com with ESMTPSA id n9-20020aa7c449000000b0055ef4a779d9sm133632edr.34.2024.02.16.08.31.16
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Feb 2024 08:31:16 -0800 (PST)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <andre.draszik@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][PATCH 0/3] support git's safe.bareRepository=explicit
+Date: Fri, 16 Feb 2024 16:24:58 +0000
+Message-ID: <20240216163113.2751935-1-andre.draszik@linaro.org>
+X-Mailer: git-send-email 2.44.0.rc0.258.g7320e95886-goog
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 16 Feb 2024 16:20:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195780
+ <openembedded-core@lists.openembedded.org>; Fri, 16 Feb 2024 16:31:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195781
 
-On Thu, 2024-02-15 at 22:10 +0000, Richard Purdie wrote:
-> On Thu, 2024-02-15 at 21:39 +0000, Simone Wei=C3=9F wrote:
-> > From: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
-> >=20
-> > Add more information to log messages when a test case fails.
-> > Still keep it short and mostly reference the documentation. Reasson is
-> > that
-> > documentation should already contain the needed information, do not
-> > duplicate
-> > it here, so we also do not need to update here should the doc/policy
-> > change.
-> >=20
-> > Signed-off-by: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
->=20
-> This does get a little tricky since the responses from patchtest on our
-> test infrastructure has a character limit for security reasons.
->=20
+Hi,
 
-> I have wondered if we do need to change it to some kind of code
-> response which can then be translated back into real text.
->=20
-What could be easily done is also to remove some kind of information that
-is kinda duplicated from the logs: e.g.=20
+When git is configured with safe.bareRepository=explicit [1], various pieces
+here just fail. LWN has an article about the problem that this configuration
+option addresses and why it is useful in [2].
 
-FAIL: test commit message presence: Please include a commit message on
-your patch explaining the change
-(test_mbox.TestMbox.test_commit_message_presence)
+To test, simply run
+    git config --global safe.bareRepository explicit
+to add safe.bareRepository=explicit to your ~/.gitconfig, and see things
+fail without these patches.
 
-basically duplicates test_commit_message_presence (with and w/o _), that
-is not really needed IMO.
+These patches are the first stop-gap step to make bitbake/OE work with this
+configuration option enabled. I believe in the future, these should be
+converted to invoking git with the --git-dir= option explicitly.
 
-Also the reference links could be given instead - if any testcases failed
-- in  a bundled fashion by adopting the suggestions in patchtest-send-
-result and for local runs in patchtest's run function
+Link: https://git.kernel.org/pub/scm/git/git.git/tree/Documentation/config/safe.txt#n1 [1]
+Link: https://lwn.net/Articles/892755/ [2]
 
 Cheers,
-Simone
-> The reason for the character limit is to stop abuse of the VMs that run
-> the tests, you can't mine bitcoin and pass them out as the failure
-> message for example.
->=20
-> Cheers,
->=20
-> Richard
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#195707):
-> https://lists.openembedded.org/g/openembedded-core/message/195707
-> Mute This Topic: https://lists.openembedded.org/mt/104382125/8052774
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe:
-> https://lists.openembedded.org/g/openembedded-core/unsub=C2=A0[simone.p.w=
-eiss@posteo.com
-> ]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+Andre'
+
 
 
