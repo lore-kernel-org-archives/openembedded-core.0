@@ -2,89 +2,161 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12085C48260
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26AAAC48BF5
 	for <webhook@archiver.kernel.org>; Fri, 16 Feb 2024 11:52:40 +0000 (UTC)
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
- by mx.groups.io with SMTP id smtpd.web11.16960.1708084355468293304
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+ by mx.groups.io with SMTP id smtpd.web11.16963.1708084357321522010
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Feb 2024 03:52:35 -0800
+ Fri, 16 Feb 2024 03:52:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=jP3vMj9g;
- spf=pass (domain: gmail.com, ip: 209.85.218.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a293f2280c7so271844466b.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 16 Feb 2024 03:52:35 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ajA7YC5m;
+ spf=pass (domain: gmail.com, ip: 209.85.167.53, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-51182ece518so2331748e87.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 16 Feb 2024 03:52:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708084354; x=1708689154; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UvYRXNxLcVS3kULtzyErY8vzRoUEx8cd4VPvNizIwzo=;
-        b=jP3vMj9gq5TN+vfwT49es0gyCsmlWokxjTiH4xPxjrN2XGZ8O6M3TE4FZfOYQX6CQs
-         DtreWDaW1KrIiH3sJb3r28e4L8Ou1fu/o5qaaMBWRLnae2FlP/3GEZ3JIIm+vaQ8clZh
-         wPDWU0o8OBK/PnhYscQLoa+blF+2m/xmenor6UO2DoG1fdVgg7ohnLzREwH4CLbzXW+f
-         PV40zep1nbypbUkkE1+8vgSSywbfw7pNqJY0KV8dXuLfZ8BpV3UEao66IA2oIOIn9wFm
-         wTCQFFMb7/pKj8ve54NGDnxIBxYDO+twf7gOkMIyuPJWjq+ZQzjmbkFclf9e6GtLrviC
-         NH+Q==
+        d=gmail.com; s=20230601; t=1708084355; x=1708689155; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=751Itbck1egTL1dbNxM2i5lUEdCPwCMYZOLd8dGDclI=;
+        b=ajA7YC5mxsHo5FWQZVjwSdLpxUy0Fh9fxSIuwaUTQhcViZ72yFz5K5eecS3jTdc6vm
+         MHTlCqDUlHQIG+6UNE8OhG2BA3JS/2Z0LhDOHI0zz3xuXn/H7jxLeg+zQbQYFwUXr6t0
+         c6eqwjfoKrZQlMbloXldIak01no23Pp9Se/Lt/0AQDv7bYtgZ1gtyKWwtZFAmVzqvutY
+         3Gitz/+cJEHNRkFjfxclL/TOcUFVtjOIcRMI/B/KDBHErUQvLXMq7HQCSDsheesJJVA/
+         QbmyNc4XPRJ+2//zI2Qa+PoewjWEFEdQ/HI2Grwf8gkzx+wjTIBWCu6g2gcyU97QBPKt
+         vLpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708084354; x=1708689154;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UvYRXNxLcVS3kULtzyErY8vzRoUEx8cd4VPvNizIwzo=;
-        b=YKxuhGJ2uHBtePSIcxujZEktD5vyjvzVWxFZxMxueU8frOPPPr/uUMiNwwy4kgujtv
-         O+9vEgOmKZ31WJ9mWYvyaftXwYrTVn2GchDTVWi2l8KAhg89MzlQNmFDJHZ1TCI8kGgr
-         1Cy3GdegxSopDpLiYhxJVCNc11QowmTHaiJcKDQOtFgxe03CTtSweq03sGE7NMfETsxx
-         gRHSMha1zWAawo+on5m9cXO/g/PbvBbonhWHpOFar7oFdkvgDgZfPMl9gWFWlpCX02dO
-         KYhza6z3qgJ8GkeUaBC+NGwmmBCwfxZ4U7KVyqtK+i9oSDEKZ+3CwYuiTmZIFd7fzhH1
-         U0aA==
-X-Gm-Message-State: AOJu0YyIjWa5zA/RX2D9DW6lFobOmXxFN+qPlLCSm9yV+0NrLgsYt/fY
-	MqLKWKNF2tNeTya5noAqtczf/n3Z/28gqKH6r+B4PvwA7XaP3EvJtVmt5jyY
-X-Google-Smtp-Source: AGHT+IHFMC/xtcbaGh282MOkWW2am12Jrgxr8T5K1Sutj8IFe/8tYrvBP/IRBs5ggzXO/V+EdPz3wQ==
-X-Received: by 2002:a17:906:2a97:b0:a3d:83e2:bc9 with SMTP id l23-20020a1709062a9700b00a3d83e20bc9mr3336002eje.50.1708084353699;
-        Fri, 16 Feb 2024 03:52:33 -0800 (PST)
+        d=1e100.net; s=20230601; t=1708084355; x=1708689155;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=751Itbck1egTL1dbNxM2i5lUEdCPwCMYZOLd8dGDclI=;
+        b=rh+pySTo2WmixBYH0dfmkULMBLTpIEudJVLc/84Mtr1otqEze/1MLStBMWcnrb7Zg9
+         52HaULRv11fWiWTJCX4GtvciCn4zbNqArjgG0h2k270lsIp6uOwT+tI+2PVT/64fjOXn
+         z8cfRDXoLTOKDQlK5YXc0hGk+1yDHn9SN1+bowdwh6VQIJ9O6yYRb+p4a2VIytVcn13D
+         97/FzC9ER2NWwKbwPvxiNn3hIvmH1C6O8AM6wi21LOA1TFc8GUgjxMUmJaNZ9ihidvJB
+         e23TRA6lPO94HWU8LUAv5mvBvFMSFxESbInbRP5TNhrKcyIedrAawTfJkrLQECcmAXoA
+         MYAA==
+X-Gm-Message-State: AOJu0YzkUPJ5TaHMjeadaQV+CJPC60Gf5azkoAaa2xgrzr4qo4eoV7Ss
+	rZS0A3KO3tHzKbdQatJigu/fF7JqLBoiYG6/HqKtVaS9KORAIExLIeOiR3Gs
+X-Google-Smtp-Source: AGHT+IGkXl5wA6oWyhUqvTKYGlW+T0Lo8oiaufD360p0xcN87ZMBbvSsa5zewHjVLcKlgXMm8cTa+g==
+X-Received: by 2002:a19:7008:0:b0:511:a4fd:fc1a with SMTP id h8-20020a197008000000b00511a4fdfc1amr3115483lfc.47.1708084355219;
+        Fri, 16 Feb 2024 03:52:35 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id b16-20020a170906d11000b00a3dbd16d1b0sm845788ejz.54.2024.02.16.03.52.33
+        by smtp.gmail.com with ESMTPSA id b16-20020a170906d11000b00a3dbd16d1b0sm845788ejz.54.2024.02.16.03.52.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Feb 2024 03:52:33 -0800 (PST)
+        Fri, 16 Feb 2024 03:52:34 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 1/5] meta/conf/templates/default/conf-summary.txt: add a template summary
-Date: Fri, 16 Feb 2024 12:52:18 +0100
-Message-Id: <20240216115222.3545462-1-alex@linutronix.de>
+Subject: [PATCH 4/5] scripts/oe-setup-layers: write a list of layer paths into the checkout's top dir
+Date: Fri, 16 Feb 2024 12:52:21 +0100
+Message-Id: <20240216115222.3545462-4-alex@linutronix.de>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240216115222.3545462-1-alex@linutronix.de>
+References: <20240216115222.3545462-1-alex@linutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 16 Feb 2024 11:52:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195758
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195761
 
-Existing conf-notes.txt is not adequate in situations where the user
-needs to select a config template from several, or get an overview of them and
-is interested only in a brief explanation of what the template is for,
-but not extended multi-paragraph instructions for how to use it.
+This is beneficial for setting up builds, as this list can be used
+to determine reliably where the actual layers are, and discover
+available configurations from them.
 
-Such summaries can be provided via conf-summary.txt and
-this patch adds such a summary for the oe-core default template.
+Also adjust the selftest to check the presence of that file rather
+than any specific layer in a hardcoded location.
 
-Updates to the tools and a tool for selecting templates which
-will make specific use of the summary will follow.
+Sample output (paths are written relative to the file for relocatability
+and ease of reading):
+
+{
+    "layers": [
+        "meta-openembedded/meta-filesystems",
+        "meta-openembedded/meta-gnome",
+        "meta-openembedded/meta-initramfs",
+        "meta-openembedded/meta-multimedia",
+        "meta-openembedded/meta-networking",
+        "meta-openembedded/meta-oe",
+        "meta-openembedded/meta-perl",
+        "meta-openembedded/meta-python",
+        "meta-openembedded/meta-webserver",
+        "meta-openembedded/meta-xfce",
+        "poky/bitbake/lib/layerindexlib/tests/testdata/layer1",
+        "poky/bitbake/lib/layerindexlib/tests/testdata/layer2",
+        "poky/bitbake/lib/layerindexlib/tests/testdata/layer3",
+        "poky/bitbake/lib/layerindexlib/tests/testdata/layer4",
+        "poky/meta-poky",
+        "poky/meta-selftest",
+        "poky/meta-skeleton",
+        "poky/meta-yocto-bsp",
+        "poky/meta"
+    ],
+    "version": "1.0"
+}
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/conf/templates/default/conf-summary.txt | 1 +
- 1 file changed, 1 insertion(+)
- create mode 100644 meta/conf/templates/default/conf-summary.txt
+ meta/lib/oeqa/selftest/cases/bblayers.py |  6 ++----
+ scripts/oe-setup-layers                  | 15 +++++++++++++++
+ 2 files changed, 17 insertions(+), 4 deletions(-)
 
-diff --git a/meta/conf/templates/default/conf-summary.txt b/meta/conf/templates/default/conf-summary.txt
-new file mode 100644
-index 00000000000..e49172fa0ce
---- /dev/null
-+++ b/meta/conf/templates/default/conf-summary.txt
-@@ -0,0 +1 @@
-+This is the default build configuration for the openembedded-core layer.
+diff --git a/meta/lib/oeqa/selftest/cases/bblayers.py b/meta/lib/oeqa/selftest/cases/bblayers.py
+index ca1470ced0a..f2460cb451b 100644
+--- a/meta/lib/oeqa/selftest/cases/bblayers.py
++++ b/meta/lib/oeqa/selftest/cases/bblayers.py
+@@ -163,7 +163,5 @@ class BitbakeLayers(OESelftestTestCase):
+ 
+         testcheckoutdir = os.path.join(self.builddir, 'test-layer-checkout')
+         result = runCmd('{}/setup-layers --destdir {}'.format(self.testlayer_path, testcheckoutdir))
+-        # May not necessarily be named 'poky' or 'openembedded-core'
+-        oecoredir = os.listdir(testcheckoutdir)[0]
+-        testcheckoutfile = os.path.join(testcheckoutdir, oecoredir, "oe-init-build-env")
+-        self.assertTrue(os.path.exists(testcheckoutfile), "File {} not found in test layer checkout".format(testcheckoutfile))
++        layers_json = os.path.join(testcheckoutdir, ".oe-layers.json")
++        self.assertTrue(os.path.exists(layers_json), "File {} not found in test layer checkout".format(layers_json))
+diff --git a/scripts/oe-setup-layers b/scripts/oe-setup-layers
+index 6d49688a32c..bee4ef0fec8 100755
+--- a/scripts/oe-setup-layers
++++ b/scripts/oe-setup-layers
+@@ -49,11 +49,24 @@ def _is_repo_at_remote_uri(repodir, remote, uri):
+ def _contains_submodules(repodir):
+     return os.path.exists(os.path.join(repodir,".gitmodules"))
+ 
++def _write_layer_list(dest, repodirs):
++    layers = []
++    for r in repodirs:
++        for root, dirs, files in os.walk(r):
++            if os.path.basename(root) == 'conf' and 'layer.conf' in files:
++                layers.append(os.path.relpath(os.path.dirname(root), dest))
++    layers_f = os.path.join(dest, ".oe-layers.json")
++    print("Writing list of layers into {}".format(layers_f))
++    with open(layers_f, 'w') as f:
++        json.dump({"version":"1.0","layers":layers}, f, sort_keys=True, indent=4)
++
+ def _do_checkout(args, json):
+     repos = json['sources']
++    repodirs = []
+     for r_name in repos:
+         r_data = repos[r_name]
+         repodir = os.path.abspath(os.path.join(args['destdir'], r_data['path']))
++        repodirs.append(repodir)
+ 
+         if 'contains_this_file' in r_data.keys():
+             force_arg = 'force_bootstraplayer_checkout'
+@@ -96,6 +109,8 @@ def _do_checkout(args, json):
+             if _contains_submodules(repodir):
+                 print("Repo {} contains submodules, use 'git submodule update' to ensure they are up to date".format(repodir))
+ 
++    _write_layer_list(args['destdir'], repodirs)
++
+ parser = argparse.ArgumentParser(description="A self contained python script that fetches all the needed layers and sets them to correct revisions using data in a json format from a separate file. The json data can be created from an active build directory with 'bitbake-layers create-layers-setup destdir' and there's a sample file and a schema in meta/files/")
+ 
+ parser.add_argument('--force-bootstraplayer-checkout', action='store_true',
 -- 
 2.39.2
 
