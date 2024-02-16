@@ -1,98 +1,107 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9727C48260
-	for <webhook@archiver.kernel.org>; Fri, 16 Feb 2024 18:07:10 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web11.3883.1708106823102801368
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE39FC48260
+	for <webhook@archiver.kernel.org>; Fri, 16 Feb 2024 18:10:50 +0000 (UTC)
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+ by mx.groups.io with SMTP id smtpd.web11.3993.1708107042699154369
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Feb 2024 10:07:03 -0800
+ Fri, 16 Feb 2024 10:10:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HGgnPBEN;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-411d3c75026so18046815e9.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 16 Feb 2024 10:07:02 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=U21Q6n+s;
+ spf=pass (domain: gmail.com, ip: 209.85.215.173, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-5dbcfa0eb5dso2095546a12.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 16 Feb 2024 10:10:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1708106821; x=1708711621; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=TxiOof+blrhBj/Mpe7lODM2kMFYEGi9UIGTpFtGD6MM=;
-        b=HGgnPBEN4OVCI49rfrvpPcecNRRwZ98TN9s891S7GV43dIQHXanBX8N3T1m9Tq/0E6
-         0zqk76S5caUUEDRZTw1xOdK7Fw/x7+yFGvDQ2CPT4qItelG7qXhATbmtLRGB7kN/I1KF
-         csq+jNXnFdcz22fuoiOnJHBo8SD7XM2YFlURQ=
+        d=gmail.com; s=20230601; t=1708107042; x=1708711842; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qbVm2yssZYciW8W4qrOF9SRADAh9q/zvmCL5GDb0yoc=;
+        b=U21Q6n+s/Or+5yfUVpw+c7WX3mSgTwSjByLv2ciFRkXGTpdCwNVxHVglr1t8hUziHK
+         MvutJzZOj6lbgScGYBRyeVRZFdPjPyII1G1xoYm0WSX+E8POHGt7ad+7C2Vub15omZSW
+         affacZaN8Uh7LGIIDd2IHtCrf+YGOr8UL4AAkAmbb+T6YMc2sxR9UIP9oJ5pvOLn/1ZU
+         LiucD/mjfo/ZVHC1dNsOLIUVhvRnsRoEr92s+eEd7awql0nqZBxdtSAYccbQhMXKnh68
+         eiLx9BD31jnCrAQyd2Vk8C0NFGPtqatnyJHMPgsdsbATrMXNre0+LssToW74EYy6BmoN
+         wH+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708106821; x=1708711621;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TxiOof+blrhBj/Mpe7lODM2kMFYEGi9UIGTpFtGD6MM=;
-        b=AVt8UshNW0n+vGf0vq32BhEkAnlgPTV5R0poGzNcZi1bnVaPyJ3sS/XhfqXvQxWETh
-         iVeyzuO1x4gOncTzm0DwDRfBNpHTC4YFth780C5uqQEgFYnl+VVt+jxj2/d3ZVhsU99F
-         l3wHNPqZrECCTWodGPP2qjNY4YULeY+XcaNo6iPGDM/+gudew6LCq6pm3QANxP9Vf4SB
-         7pvFho6Ll/y4wyfAXs9odZetu1zs1jKq9Q9gXowLSNtvEVnQSbSLrwjvuEc6TsXOOqaX
-         REzWVLlEZ51mCTokHB2U74em/ZEw/jENNsvI/GuubkXhMVQL21eireC8IBIoeP1/2+Bw
-         8AEw==
-X-Forwarded-Encrypted: i=1; AJvYcCW1nAUwrAGhbHlAei1NTP/QxrAYi7yBmIJjWtXCV9sd/QQsAl15NETyxL3clfDYluFOX2s8nDwQ/92ZsJ3XXIRhaw4Ij5CEHRo/4CZCc4LsaHTnV1/Sssi+
-X-Gm-Message-State: AOJu0YwIRy0l5yJuuLolFNu3A6GF7Pf/+b3hFx3yYn7fp2dX3uxw4HOM
-	2D/EGtZ7UX2zyaZTw8AltSH9beC4dGfB0a8cn/r7Utfw+tza2SdjIM1H6FSwc+E=
-X-Google-Smtp-Source: AGHT+IEu2IZVAc00ZoX66ab6gRvBUu1W8jz0FynVyB5VfaWoYR4bE+w2pXrUCDbiZSmzsYBLxAFL6Q==
-X-Received: by 2002:a05:6000:4027:b0:33d:7c5:d522 with SMTP id cp39-20020a056000402700b0033d07c5d522mr4790386wrb.10.1708106821262;
-        Fri, 16 Feb 2024 10:07:01 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:fd13:6695:6348:c567? ([2001:8b0:aba:5f3c:fd13:6695:6348:c567])
-        by smtp.gmail.com with ESMTPSA id m2-20020a5d6a02000000b0033d071c0477sm2775821wru.59.2024.02.16.10.07.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Feb 2024 10:07:00 -0800 (PST)
-Message-ID: <2dee65ad9c885772ddcfd2d7cb58a7b24bc97c07.camel@linuxfoundation.org>
+        d=1e100.net; s=20230601; t=1708107042; x=1708711842;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qbVm2yssZYciW8W4qrOF9SRADAh9q/zvmCL5GDb0yoc=;
+        b=dfxIuNwoVWsACTyuu6ZAvVxsMjnAucch027CzyLOUGrkYnufaby3HZw0HTEl3Kijtf
+         EcI0YknrMOp9wrAtLHGEY0wU6d4LydrEbHPBY8uceWbWry8lfXh70udwwpfIl6zYxp5L
+         cGRySuwdg0xWxDe7kc5ODPHtoC62ZW56vBMWE4rghov2yLPkOHMrziDFpvqTi2AX+trE
+         mC5+nYlxzp8UkK4vvEkWCNzhAMe/+n7FHYZFBmQe7h7xQLjZobBJAOCrUtSuwJk4UVpv
+         63z7AJQ7pxJx69n1yTQbJa3QUr3RoZ48Z0WaihP98+E5u1g9tVmH/fby+XOLAus1FK9c
+         ej0g==
+X-Forwarded-Encrypted: i=1; AJvYcCXBOFjTL8RftrLmmDcG4AOr3l0seFXuDfz3AONmZ3ehpRn4VVkX4bLWXnyHQDaAX0mutJJat3zL75rBwk2u2mHHdax9xinEcOdOnfDqHFt7obacdpsWP8Fw
+X-Gm-Message-State: AOJu0YwAkR5jBL/peisZBEkjnpGz8qiiuWlP1ELoCSzzKB7SMcTbjYhq
+	uKHr7oM8D5ZC6SNR1BLJbZTtppQOyBap08tQMnb8z4l+qRmM04F2ZBP599/nx+E1cI5aTHRiKYB
+	I7JUkbT1oqB0Pf7yJ9tSFMb1DkuA=
+X-Google-Smtp-Source: AGHT+IEIZbrKo2j/y3UNC3nyDPIFd3SpHfSLG9wKykxIXaiiyZlJypKMyGtWlrQBdecxRKPlHQzXNOKZRo/Fs8F5Wqw=
+X-Received: by 2002:a17:90b:20c:b0:299:3b7b:abac with SMTP id
+ fy12-20020a17090b020c00b002993b7babacmr1582990pjb.7.1708107042070; Fri, 16
+ Feb 2024 10:10:42 -0800 (PST)
+MIME-Version: 1.0
+References: <PAXPR10MB5541F7BBD51B807EF3A1634EA84C2@PAXPR10MB5541.EURPRD10.PROD.OUTLOOK.COM>
+ <2dee65ad9c885772ddcfd2d7cb58a7b24bc97c07.camel@linuxfoundation.org>
+In-Reply-To: <2dee65ad9c885772ddcfd2d7cb58a7b24bc97c07.camel@linuxfoundation.org>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Fri, 16 Feb 2024 13:10:29 -0500
+Message-ID: <CADkTA4NF5t=fc-JbMixgs36bj7+G_PO1sDoQhqbiC2RM0vN9iQ@mail.gmail.com>
 Subject: Re: [OE-core] linux-yocto: Enable goldfish RTC for qemuriscv
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Konrad Weihmann <kweihmann@outlook.com>, OE-core
-	 <openembedded-core@lists.openembedded.org>
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>, Khem Raj
- <Khem_Raj@comcast.com>
-Date: Fri, 16 Feb 2024 18:07:00 +0000
-In-Reply-To: <PAXPR10MB5541F7BBD51B807EF3A1634EA84C2@PAXPR10MB5541.EURPRD10.PROD.OUTLOOK.COM>
-References: 
-	<PAXPR10MB5541F7BBD51B807EF3A1634EA84C2@PAXPR10MB5541.EURPRD10.PROD.OUTLOOK.COM>
-Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
- YNvg==
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Konrad Weihmann <kweihmann@outlook.com>, 
+	OE-core <openembedded-core@lists.openembedded.org>, Khem Raj <Khem_Raj@comcast.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.0-1 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 16 Feb 2024 18:07:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195790
+ <openembedded-core@lists.openembedded.org>; Fri, 16 Feb 2024 18:10:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195791
 
-On Fri, 2024-02-16 at 18:29 +0100, Konrad Weihmann wrote:
-> I disagree with the proposed change, as this is unconditional, even=20
-> though the commit message claims otherwise.
-> It would be better to have it limited to qemuriscv as the commit
-> message=20
-> proposes.
->=20
-> Fun fact: I can't find this message on the web interface of=20
-> https://lists.openembedded.org/g/openembedded-core
+On Fri, Feb 16, 2024 at 1:07=E2=80=AFPM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Fri, 2024-02-16 at 18:29 +0100, Konrad Weihmann wrote:
+> > I disagree with the proposed change, as this is unconditional, even
+> > though the commit message claims otherwise.
+> > It would be better to have it limited to qemuriscv as the commit
+> > message
+> > proposes.
+> >
+> > Fun fact: I can't find this message on the web interface of
+> > https://lists.openembedded.org/g/openembedded-core
+>
+> The change was not posted as it isn't how we plan to finally fix this.
+> It is just a patch that Khem/I are using to verify whether this fixes
+> the issue or not. It is only in master-next and will not merge to
+> master.
+>
+> Bruce (cc'd) has a patch for the proper kernel config fragment change
+> from Khem which I'm hoping we can quickly waterfall in to address this
+> properly.
 
-The change was not posted as it isn't how we plan to finally fix this.
-It is just a patch that Khem/I are using to verify whether this fixes
-the issue or not. It is only in master-next and will not merge to
-master.
+Indeed yes.
 
-Bruce (cc'd) has a patch for the proper kernel config fragment change
-from Khem which I'm hoping we can quickly waterfall in to address this
-properly.
+I'm doing kernel merges and testing over the next few hours and will
+send SRCREV bumps shortly there after.
 
-Cheers,
+Bruce
 
-Richard
+>
+> Cheers,
+>
+> Richard
+
+
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
