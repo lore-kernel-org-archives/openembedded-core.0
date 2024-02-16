@@ -2,56 +2,53 @@ Return-Path: <anuj.mittal@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16F0BC48BF3
-	for <webhook@archiver.kernel.org>; Fri, 16 Feb 2024 11:41:00 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by mx.groups.io with SMTP id smtpd.web10.16724.1708083641400806033
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34A44C48260
+	for <webhook@archiver.kernel.org>; Fri, 16 Feb 2024 11:44:20 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by mx.groups.io with SMTP id smtpd.web10.16801.1708083849683567357
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Feb 2024 03:40:51 -0800
+ Fri, 16 Feb 2024 03:44:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=Intel header.b=L6Gn+/L3;
- spf=pass (domain: intel.com, ip: 192.198.163.16, mailfrom: anuj.mittal@intel.com)
+ dkim=pass header.i=@intel.com header.s=Intel header.b=GH6gIV9W;
+ spf=pass (domain: intel.com, ip: 198.175.65.14, mailfrom: anuj.mittal@intel.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708083652; x=1739619652;
+  t=1708083850; x=1739619850;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=DdmlKbseIOZ2wkBuvGYfNGBmaAtgLmoxEGPZBSzOxjE=;
-  b=L6Gn+/L3dmt4SSHjM0+WGJ9Q0m1kxIWiCUg9POmBOyHc84CExxb3wNfI
-   myn7sKM2zOuwIFHpJ+Rzz/Aww2+b8FjibZSO40/zok1fKo3ni2+9vokA4
-   R5CM1Xc3MCPm3yipsrUtWMszVJyaokgPYADjy6A4iHzgMbZxcsUyHXBGV
-   U59/jOatjcEnUDSGNbdxqNlC6lul7eB1olraYprp/iFpfrxONWHD7xsGw
-   i66SHvLQDQ8EQR/w9fGOJrfILfeQs3rX56dum7qsvCVAX7ZSMHE3ITb2P
-   UDHQO/184X1X8/ArwrhvaSI6F1oaMYQSrrOr5kn9l0/tw4HPtj01OIOKm
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="2612868"
+  bh=TaqN0I13usp7zU6x/skuX0w6Aty4CA9sVWPq9mwIqf4=;
+  b=GH6gIV9WWa+ivygJlFydAXVeomiVS7qrDfYEPDi/n1Rp3dHF8YHpSQD0
+   mEjTUaNgkTm2lN95g7GiiKzsf5VOqjS1E3e4rKV9xcChtn+FbZNCGc78t
+   Q7a3fALPP6b5Xu3cpza+SuURrAWZRsUbqIBnl1VZTqXoUV7vcwyMFRTh8
+   ORUarhvg4PmpgLESNfrFYeX1C0/OQK8Ci6WmMx3avGOX+NglCLdZGD2rA
+   qTO4mP2AFIaTlAJo8PoQQpbMYyNh/6L22v7mQy0tmDWAFCtaiC1oaeAO6
+   nQAbcQCjDsKwi7uogvk7qCgAKXYWgqEuL1Y3k9JhGKs4Z913Pg55EzWQr
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="6018333"
 X-IronPort-AV: E=Sophos;i="6.06,164,1705392000"; 
-   d="scan'208";a="2612868"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2024 03:40:51 -0800
+   d="scan'208";a="6018333"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2024 03:44:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="912349738"
 X-IronPort-AV: E=Sophos;i="6.06,164,1705392000"; 
-   d="scan'208";a="912349738"
+   d="scan'208";a="3786996"
 Received: from anmitta2-mobl3.gar.corp.intel.com (HELO anmitta2-mobl3.intel.com) ([10.247.118.3])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2024 03:40:49 -0800
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2024 03:44:07 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 8/9] gstreamer1.0: upgrade 1.22.9 -> 1.22.10
-Date: Fri, 16 Feb 2024 19:40:33 +0800
-Message-ID: <20240216114034.109257-8-anuj.mittal@intel.com>
+Subject: [PATCH v2] gstreamer1.0: upgrade 1.22.9 -> 1.22.10
+Date: Fri, 16 Feb 2024 19:43:52 +0800
+Message-ID: <20240216114352.109711-1-anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.43.2
-In-Reply-To: <20240216114034.109257-1-anuj.mittal@intel.com>
-References: <20240216114034.109257-1-anuj.mittal@intel.com>
+In-Reply-To: <17B4550819426AC1.23024@lists.openembedded.org>
+References: <17B4550819426AC1.23024@lists.openembedded.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 16 Feb 2024 11:41:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195755
-
-From: Upgrade Helper <auh@yoctoproject.org>
+ <openembedded-core@lists.openembedded.org>; Fri, 16 Feb 2024 11:44:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195757
 
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
