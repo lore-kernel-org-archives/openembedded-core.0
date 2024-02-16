@@ -1,132 +1,108 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <simone.weiss@posteo.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E112C48BEF
-	for <webhook@archiver.kernel.org>; Fri, 16 Feb 2024 16:17:10 +0000 (UTC)
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.web11.806.1708100225385185573
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BB1FC48260
+	for <webhook@archiver.kernel.org>; Fri, 16 Feb 2024 16:20:00 +0000 (UTC)
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+ by mx.groups.io with SMTP id smtpd.web11.869.1708100393435736980
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Feb 2024 08:17:05 -0800
+ Fri, 16 Feb 2024 08:19:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=D/2ZerW9;
- spf=pass (domain: gmail.com, ip: 209.85.216.45, mailfrom: ticotimo@gmail.com)
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-296dcd75be7so1814134a91.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 16 Feb 2024 08:17:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708100224; x=1708705024; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EKymF1tnbOFjYo1S3h+eVOF9vuTYx0NNK7/OcCzAvJ8=;
-        b=D/2ZerW9csCK0MzP6PWKWz3SSMoSjCg9t5mW89C3E8w4klVo0dcT9GH3ZA1p0eEwSi
-         tx/L9QAdgjbSexhMiVqp8LyAFIk44eCJh+W3uK3xpx2aE73qglKxpEs20xvlRqL1dMww
-         UEihl5yToCAWdML0wh4XkpnZvZEMbeFMH/RlgrOM+pjHCrAkFBcBfVXJdaZ0vWfMdlbJ
-         x6ONeP7bhT8a6k1GjnkT+Qvl1YekyGT/p4lKq+hVHMTWO8rBNhyzoxOcf3iarJAeObtV
-         SAE1JLuGBep58NJQdtEENxQZw2q0tvx6uRjA0AgWRqik2x/dpadGew958AbCuUgC+iqN
-         8nGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708100224; x=1708705024;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EKymF1tnbOFjYo1S3h+eVOF9vuTYx0NNK7/OcCzAvJ8=;
-        b=hel8BdXxTkwHprZM7pBAme4CvrnhlhkUXxDYPRvMtXJfzrJHGRMoIST66MuNHWmUBK
-         bBL3G+rtjmEao1c2EbH3vB1QaTHJCnZcxlz0X+rm/tZxcTVp9F0AsMlNlAZi+VfD73nv
-         V4L9V6i9pNWeIJ8DYqQqyHGPOewCqwenR/0JYMFT2OXdS5la7060zHkBnzkWNQdjtxwZ
-         dqZiu+H+DdIZoVdbVzksfKEaXP5GrmID6anVpYcBZudhD2D9TAFXXVTcLxsFSggD19T8
-         +X/wI47561EB4Vw/x9DHv/LPG4SNeUM5x/fmmu3ADpEVCF+xdWE0J9pSQG1lOnZWPebB
-         ByCA==
-X-Gm-Message-State: AOJu0Yw5KksBy+Yygf5VQoM/tWGPX1QRtV2kcmHz6Hghl4jQjeYsN1Eh
-	nYIYaRi6D7JCxIthtRQkTQgvlv3/2OAhljUKiH9gEsBwbH15/4Uw8qmSqIEu
-X-Google-Smtp-Source: AGHT+IHeNv+E9sE+7fdRMhfPlO6VW+u7apTq4svRdTcij1RNnk2uUL478dcNXc8gEwO9I4VG5z6byg==
-X-Received: by 2002:a17:90a:3ee2:b0:299:2434:e4b1 with SMTP id k89-20020a17090a3ee200b002992434e4b1mr3710688pjc.2.1708100224362;
-        Fri, 16 Feb 2024 08:17:04 -0800 (PST)
-Received: from chiron.hsd1.or.comcast.net ([2601:1c0:ca01:19f0:ef9e:327e:12eb:73bf])
-        by smtp.gmail.com with ESMTPSA id w3-20020a17090a528300b002990d91d31dsm198925pjh.15.2024.02.16.08.17.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Feb 2024 08:17:04 -0800 (PST)
-From: Tim Orling <ticotimo@gmail.com>
-X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH 2/2] python3-attrs: skip test failing with pytest-8
-Date: Fri, 16 Feb 2024 08:15:56 -0800
-Message-Id: <20240216161553.3217554-3-tim.orling@konsulko.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240216161553.3217554-1-tim.orling@konsulko.com>
-References: <20240216161553.3217554-1-tim.orling@konsulko.com>
+ dkim=pass header.i=@posteo.net header.s=2017 header.b=cyoOqLIU;
+ spf=pass (domain: posteo.net, ip: 185.67.36.66, mailfrom: simone.weiss@posteo.net)
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout02.posteo.de (Postfix) with ESMTPS id A3D3A240101
+	for <openembedded-core@lists.openembedded.org>; Fri, 16 Feb 2024 17:19:50 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
+	t=1708100391; bh=yIwCaapNasxh1a78GWWFVqfSshVBYWvlmGAB7oeOjI4=;
+	h=Message-ID:Subject:From:To:Date:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version:From;
+	b=cyoOqLIUZsuSp1TtHBmRCIwfyGkh2K0KoMT/w8ykO0Y3i0/U+ZEcC+YvC4M6wRPUd
+	 50zAFb2wldn5gsFCEbvMnv3jZvZGcoKfyfca0ov68XKlc2jhta/NOyqdhj27rmkRyN
+	 a+XCIlMLrVPuFbwhToc+/WfYDQ2EhP1rYYCDgMZ/E6Uek7KFNbUObdEGPo+mgNsHY4
+	 dooc4VUYeiZQ+6B+9zVMGzYLdWq5kQW79vPvvx5qAgIIk/qLniMLYEfVmyYOOQkTUW
+	 bn9TBW/SVu+X99/pedz4EzjuMy3sYkMSb3UpdPEC7Q3ovUiVi2f3Foa3G/z1ysea+a
+	 lz8p0XM4tXanQ==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4TbxwQ0pG6z9rxB;
+	Fri, 16 Feb 2024 17:19:49 +0100 (CET)
+Message-ID: <ee91117924cca38a5bfc5d345da269d89a03670e.camel@posteo.net>
+Subject: Re: [OE-core] [PATCH] patchtest: Add further information for failed
+ testcases
+From: Simone =?ISO-8859-1?Q?Wei=DF?= <simone.weiss@posteo.net>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Simone
+ =?ISO-8859-1?Q?Wei=DF?= <simone.p.weiss@posteo.com>,
+ openembedded-core@lists.openembedded.org
+Date: Fri, 16 Feb 2024 16:19:49 +0000
+In-Reply-To: <ccccce2389cda121cfc5cef4c87b7edf63d6a41b.camel@linuxfoundation.org>
+References: <20240215213932.245929-1-simone.p.weiss@posteo.com>
+	 <ccccce2389cda121cfc5cef4c87b7edf63d6a41b.camel@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 16 Feb 2024 16:17:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195779
+ <openembedded-core@lists.openembedded.org>; Fri, 16 Feb 2024 16:20:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195780
 
-tests/test_funcs.py test_unknown test case is failing with
-pytest 8. Skip it for now until upstream has a fix.
+On Thu, 2024-02-15 at 22:10 +0000, Richard Purdie wrote:
+> On Thu, 2024-02-15 at 21:39 +0000, Simone Wei=C3=9F wrote:
+> > From: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
+> >=20
+> > Add more information to log messages when a test case fails.
+> > Still keep it short and mostly reference the documentation. Reasson is
+> > that
+> > documentation should already contain the needed information, do not
+> > duplicate
+> > it here, so we also do not need to update here should the doc/policy
+> > change.
+> >=20
+> > Signed-off-by: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
+>=20
+> This does get a little tricky since the responses from patchtest on our
+> test infrastructure has a character limit for security reasons.
+>=20
 
-https://github.com/python-attrs/attrs/issues/1233
+> I have wondered if we do need to change it to some kind of code
+> response which can then be translated back into real text.
+>=20
+What could be easily done is also to remove some kind of information that
+is kinda duplicated from the logs: e.g.=20
 
-Signed-off-by: Tim Orling <tim.orling@konsulko.com>
----
-Tested with core-image-ptest-python3-attrs on qemux86-64.
+FAIL: test commit message presence: Please include a commit message on
+your patch explaining the change
+(test_mbox.TestMbox.test_commit_message_presence)
 
- ...funcs-skip-test_unknown-for-pytest-8.patch | 30 +++++++++++++++++++
- .../python/python3-attrs_23.2.0.bb            |  1 +
- 2 files changed, 31 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-attrs/0001-test_funcs-skip-test_unknown-for-pytest-8.patch
+basically duplicates test_commit_message_presence (with and w/o _), that
+is not really needed IMO.
 
-diff --git a/meta/recipes-devtools/python/python3-attrs/0001-test_funcs-skip-test_unknown-for-pytest-8.patch b/meta/recipes-devtools/python/python3-attrs/0001-test_funcs-skip-test_unknown-for-pytest-8.patch
-new file mode 100644
-index 00000000000..bb69c0f1573
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-attrs/0001-test_funcs-skip-test_unknown-for-pytest-8.patch
-@@ -0,0 +1,30 @@
-+From cbe95e1aa6d95195dce13406a6f0522b2964babc Mon Sep 17 00:00:00 2001
-+From: Tim Orling <tim.orling@konsulko.com>
-+Date: Fri, 16 Feb 2024 07:17:19 -0800
-+Subject: [PATCH] test_funcs: skip test_unknown for pytest 8
-+
-+https://github.com/python-attrs/attrs/issues/1233
-+
-+Upstream-Status: Inappropriate [Test case needs to be properly fixed upstream]
-+
-+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
-+---
-+ tests/test_funcs.py | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/tests/test_funcs.py b/tests/test_funcs.py
-+index 044aaab..0872c31 100644
-+--- a/tests/test_funcs.py
-++++ b/tests/test_funcs.py
-+@@ -593,7 +593,7 @@ class TestAssoc:
-+         for k, v in change_dict.items():
-+             assert getattr(changed, k) == v
-+ 
-+-    @given(simple_classes())
-++    @pytest.mark.skip('Broken with pytest 8. See https://github.com/python-attrs/attrs/issues/1233')
-+     def test_unknown(self, C):
-+         """
-+         Wanting to change an unknown attribute raises an
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-devtools/python/python3-attrs_23.2.0.bb b/meta/recipes-devtools/python/python3-attrs_23.2.0.bb
-index 7b6a6bd94c9..cdd78c2bd9d 100644
---- a/meta/recipes-devtools/python/python3-attrs_23.2.0.bb
-+++ b/meta/recipes-devtools/python/python3-attrs_23.2.0.bb
-@@ -8,6 +8,7 @@ SRC_URI[sha256sum] = "935dc3b529c262f6cf76e50877d35a4bd3c1de194fd41f47a2b7ae8f19
- inherit pypi ptest python_hatchling
- 
- SRC_URI += " \
-+	file://0001-test_funcs-skip-test_unknown-for-pytest-8.patch \
- 	file://run-ptest \
- "
- 
--- 
-2.34.1
+Also the reference links could be given instead - if any testcases failed
+- in  a bundled fashion by adopting the suggestions in patchtest-send-
+result and for local runs in patchtest's run function
+
+Cheers,
+Simone
+> The reason for the character limit is to stop abuse of the VMs that run
+> the tests, you can't mine bitcoin and pass them out as the failure
+> message for example.
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#195707):
+> https://lists.openembedded.org/g/openembedded-core/message/195707
+> Mute This Topic: https://lists.openembedded.org/mt/104382125/8052774
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe:
+> https://lists.openembedded.org/g/openembedded-core/unsub=C2=A0[simone.p.w=
+eiss@posteo.com
+> ]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
 
 
