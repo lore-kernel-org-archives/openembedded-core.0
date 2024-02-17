@@ -1,97 +1,122 @@
-Return-Path: <simone.weiss@posteo.net>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E376FC48260
-	for <webhook@archiver.kernel.org>; Fri, 16 Feb 2024 21:11:21 +0000 (UTC)
-Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
- by mx.groups.io with SMTP id smtpd.web11.9675.1708117873555590146
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A63BCC48BF5
+	for <webhook@archiver.kernel.org>; Sat, 17 Feb 2024 00:20:54 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+ by mx.groups.io with SMTP id smtpd.web10.688.1708129248060205649
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Feb 2024 13:11:13 -0800
+ Fri, 16 Feb 2024 16:20:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@posteo.net header.s=2017 header.b=Sd/8kYwL;
- spf=pass (domain: posteo.net, ip: 185.67.36.66, mailfrom: simone.weiss@posteo.net)
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout02.posteo.de (Postfix) with ESMTPS id A3D31240103
-	for <openembedded-core@lists.openembedded.org>; Fri, 16 Feb 2024 22:11:11 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
-	t=1708117871; bh=grUqVMPgL0NGX49wSJqMkJORc2/5Al47e5b6gw6O/h4=;
-	h=Message-ID:Subject:From:To:Date:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version:From;
-	b=Sd/8kYwLhgO5+flA/49XrTnwbdQ7y+Su/wPnKQ96lJm4tHEhjLlHqlOgpgDFhKblU
-	 RcTv0s4wLMrNnANK8nJolTcvptbGfWUiAboe9TjKD+HrOD+Oi9K2S8AG5rJayR1wSS
-	 uUK1rfwvU+uHF6+Eh32GzU+xLIHUKEZ/quOGp7F1Lx7pYG8BJwbNyWhPUGfb9AHuqh
-	 A/ylaWpeo5EQ4fF3CpHoYQT9iJLMUh7nLhmjh+dspNb2dFZlgNvZ2WB182dlcWLp8C
-	 nFSW2GEvFSUvHAQh7FmK2T6f8OlWvmwv+e+Bf7FDwPHmchUX+fvqn89GepvQTKoydd
-	 68KBICw8ZSDow==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4Tc4NZ5TNwz9rxF;
-	Fri, 16 Feb 2024 22:11:10 +0100 (CET)
-Message-ID: <833fd8bc41ee867a8cd8b80ea849f57275b0c706.camel@posteo.net>
-Subject: Re: [PATCH] patchtest: add stronger indication for failed tests
-From: Simone =?ISO-8859-1?Q?Wei=DF?= <simone.weiss@posteo.net>
-To: simone.p.weiss@posteo.com, openembedded-core@lists.openembedded.org
-Date: Fri, 16 Feb 2024 21:11:10 +0000
-In-Reply-To: <20240216210028.16028-1-simone.p.weiss@posteo.com>
-References: <20240216210028.16028-1-simone.p.weiss@posteo.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=S3EVTRfy;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id D8588240004;
+	Sat, 17 Feb 2024 00:20:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1708129246;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3GqKtASmyF0KgaWcnjtWCLHf1QxWeUgT7fsPpMdtfKI=;
+	b=S3EVTRfyUUpMl76ISMAFWA6L9WkH5ZA0OQVN/ODacF4wPsQ0U6sXAVHsysMhjxP1AkWPHX
+	WECVu8oko9QYvLy/YrV5M7jo6+gLhlWeszBCIwj1mMOLwA+bU35v33FWQOF80Z0dZL7nPd
+	tUVmzfEvSQ+B44IuHSyyPSfxqaLY2/F+TshXaj8IWgIP3Qr1+RcfM7We7Eaed8Wv3i6llE
+	zoChDQkpSt0z9ovqOR6ZnHyGKOq6fKO/1wcTWDUBRDSrGDx8rdZIdr5k02jvgQfOPWwE1N
+	YFoKDaZjzr1Un/DI+KpIK6h7jNKS5CZLTAJ6chOs/VH8JRU39YMKjnIkcd975A==
+Date: Sat, 17 Feb 2024 01:20:45 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Trevor Gamblin <tgamblin@baylibre.com>
+Cc: Patchtest <patchtest@automation.yoctoproject.org>,
+	Alexander Kanavin <alex.kanavin@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] Patchtest results for [PATCH 2/5]
+ meta/lib/bblayers/buildconf.py: add support for configuration summaries
+Message-ID: <2024021700204545550301@mail.local>
+References: <20240216115222.3545462-2-alex@linutronix.de>
+ <0101018db234cd8f-ecc9d987-2098-4b79-904c-1224c0737462-000000@us-west-2.amazonses.com>
+ <0b77dcfb-392c-4c7f-82ee-1d95eac727e0@baylibre.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0b77dcfb-392c-4c7f-82ee-1d95eac727e0@baylibre.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 16 Feb 2024 21:11:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195809
+ <openembedded-core@lists.openembedded.org>; Sat, 17 Feb 2024 00:20:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195810
 
-Please ignore this, v2 is already sent...
+On 16/02/2024 09:26:18-0500, Trevor Gamblin wrote:
+> 
+> On 2024-02-16 08:57, Patchtest wrote:
+> > Thank you for your submission. Patchtest identified one
+> > or more issues with the patch. Please see the log below for
+> > more information:
+> Alright, so it's still not working properly. Short of changing the subject
+> line, I'm not sure what else can be done on our end, unless there's a
+> problem with the mailer itself - but that should show up in the headers if
+> that's the case.
 
-On Fri, 2024-02-16 at 21:00 +0000, simone.p.weiss@posteo.com wrote:
-> From: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
->=20
-> Do not only log that there has been an issue but add WARNING before for
-> local
-> runs. Hopefully this helps to avoid that people reading the log to
-> quickly miss
-> issues.
->=20
-> Fixes [YOCTO #15389]
->=20
-> Signed-off-by: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
->=20
-> sfdf
->=20
-> Signed-off-by: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
-> ---
-> =C2=A0scripts/patchtest | 4 ++--
-> =C2=A01 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/scripts/patchtest b/scripts/patchtest
-> index d0dc6e8fac..3163420220 100755
-> --- a/scripts/patchtest
-> +++ b/scripts/patchtest
-> @@ -164,9 +164,9 @@ def run(patch, logfile=3DNone):
-> =C2=A0=C2=A0=C2=A0=C2=A0 if premerge_result =3D=3D 2 and postmerge_result=
- =3D=3D 2:
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 logger.error('patchtest:=
- No test cases found - did you specify
-> the correct suite directory?')
-> =C2=A0=C2=A0=C2=A0=C2=A0 if premerge_result =3D=3D 1 or postmerge_result =
-=3D=3D 1:
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 logger.error('patchtest: At l=
-east one patchtest caused a
-> failure or an error - please check')
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 logger.error('WARNING: patcht=
-est: At least one patchtest caused
-> a failure or an error - please check')
-> =C2=A0=C2=A0=C2=A0=C2=A0 else:
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 logger.error('patchtest: All =
-patchtests passed')
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 logger.error('OK: patchtest: =
-All patchtests passed')
-> =C2=A0=C2=A0=C2=A0=C2=A0 print('-----------------------------------------=
--------------------
-> ----------\n')
-> =C2=A0=C2=A0=C2=A0=C2=A0 return premerge_result or postmerge_result
-> =C2=A0
+It is threaded properly for me.
 
+> > 
+> > ---
+> > Testing patch /home/patchtest/share/mboxes/2-5-meta-lib-bblayers-buildconf.py-add-support-for-configuration-summaries.patch
+> > 
+> > FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+> > 
+> > PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
+> > PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+> > PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+> > PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+> > PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+> > PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+> > PASS: test pylint (test_python_pylint.PyLint.test_pylint)
+> > PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+> > PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+> > 
+> > SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+> > SKIP: test CVE check ignore: No modified recipes, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+> > SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+> > SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+> > SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+> > SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+> > SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+> > SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+> > SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+> > SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+> > SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+> > SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+> > SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+> > 
+> > ---
+> > 
+> > Please address the issues identified and
+> > submit a new revision of the patch, or alternatively, reply to this
+> > email with an explanation of why the patch should be accepted. If you
+> > believe these results are due to an error in patchtest, please submit a
+> > bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+> > under 'Yocto Project Subprojects'). For more information on specific
+> > failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+> > you!
+> > 
+> > 
+> > 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#195774): https://lists.openembedded.org/g/openembedded-core/message/195774
+> Mute This Topic: https://lists.openembedded.org/mt/104392578/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
