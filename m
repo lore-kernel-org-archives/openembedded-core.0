@@ -2,58 +2,58 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23241C48BC3
-	for <webhook@archiver.kernel.org>; Sat, 17 Feb 2024 08:52:57 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web11.6701.1708159973996520497
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2119DC48BC4
+	for <webhook@archiver.kernel.org>; Sat, 17 Feb 2024 12:34:18 +0000 (UTC)
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+ by mx.groups.io with SMTP id smtpd.web11.8894.1708173249619450036
  for <openembedded-core@lists.openembedded.org>;
- Sat, 17 Feb 2024 00:52:54 -0800
+ Sat, 17 Feb 2024 04:34:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Pb9zfJ46;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4125e946c43so598145e9.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 17 Feb 2024 00:52:53 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=azvAHnc7;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.208.176, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2d21e2b2245so16346541fa.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 17 Feb 2024 04:34:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1708159972; x=1708764772; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1708173247; x=1708778047; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=W4CgqIwXq8A1u3rVq0rVXuZ8IOSJULxCPNPk0BqgbI0=;
-        b=Pb9zfJ46TlCzuMta+thIfneldq/OLKIu3rii3z0M38jdy3kbc/JheECGbLQlztCWHh
-         4KeBusQfnKWsZC4WgxJ7hKaV2WZTg3HO169QmzuzWv5IYo0fZR09NNZ7UdsoM2J16Kss
-         lp+tKDybY/2LS5AdMOpbeqn33eTuEcFn2egS0=
+        bh=ldRIefL5tNZ2SrqjppcvKmYWswSknrCtwfVvVuXYzNM=;
+        b=azvAHnc774XWkwdCi1hDpqfn5TSSPgv7Ns57zrAgIJzY4ukghXjm5YuJ2gn+Ce1/zR
+         jg/m6U0ESWPx5pQoQnHLxMMuTfoX8/4IeZ00Pexigbgfk4DQmybnVyAqTLKHpDMMvm4j
+         o+QPteJDL+B2IcQFKuqkLTRhfevAAGs9+fUp4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708159972; x=1708764772;
+        d=1e100.net; s=20230601; t=1708173247; x=1708778047;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:to:from:subject:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=W4CgqIwXq8A1u3rVq0rVXuZ8IOSJULxCPNPk0BqgbI0=;
-        b=Ic2zFzwZmrFqRm/zPcI3y2ewWDWyWqA3gJW4OlkCbSU4q++BRS0ldIfiJrdB/LwInP
-         3JpteblSwE4+9cTnkebRYVEdeWHkHVKwOMDDRY9FDMtCmrwCD4Fi5ieoNM0CevZGtxCp
-         Y3ZufVPIJL7z/txIYIkT6/jkXhJ9A/2wGkTLxN3V0gAB63ZL9YFcB1wDRvBgq263+kV7
-         WNBhrRFYXjK+WRkLwT+lghM5tjYzwpWZjurF0IUCWzyvF5nTOzZM1jFct+jqxYKTsLWV
-         FtoIkyoEg4EoWmUBBQF45j9b67flXoOvRiGOhHVs27CX5dZMCB1OMPHETDkpCZfntWnI
-         Z8yg==
-X-Forwarded-Encrypted: i=1; AJvYcCVvhUKrFXXf7UpbhTevJIFZei3/kNcMtzP7hpubOGyuqKV0JJN0Mb2/IUpRjZMDJPXt3YY/2Pq4qcLhuQ5qerf+V4r2YbDbpI+vLOHnGqIAdirBnZkM7bHu
-X-Gm-Message-State: AOJu0YzoGtqU3iu9C575PuGBU/RG1TcNV9tUEq2rOprHJilLWST3S851
-	yVIgTvIX/ia8ZZBnuI4x3w5PpUIF9ehj6bfC0Emuj9ueoF/vUXOwCNbGlB2aR+8=
-X-Google-Smtp-Source: AGHT+IEVaQCROCqDecq7BQMyUwHuWVds/x6faABFRm7lb5DNi/jwuDPCOt0IOPU0cfTIjc17wax98Q==
-X-Received: by 2002:adf:e19e:0:b0:33d:1d7a:fc7a with SMTP id az30-20020adfe19e000000b0033d1d7afc7amr4046205wrb.16.1708159971597;
-        Sat, 17 Feb 2024 00:52:51 -0800 (PST)
+        bh=ldRIefL5tNZ2SrqjppcvKmYWswSknrCtwfVvVuXYzNM=;
+        b=WEpKyg3ZyoMP4CLomU/5kKRP10zIgg3cnDFRUeeUqytfoa5MviT4THo7h/Ndo20I45
+         lbLIstl8TKnPIMKdLfgindESdTMqy5v54eUGWm+E7ljZsEykglkc6QBNCPVwYptBOana
+         DYRf4lLqzbUGsOhv9LHo1cuDUbOVfXlICGKXoeZHbAHgCrTFP4eAV/vl1NE1qoHVJatf
+         Y/UbnVk9JPyIA8LT+3fwDSuUkiEuyc49Tu9oZadgEkWEkcwESavSJIdcikDglEP5usk9
+         ZWecmyr4cNsqB2E6LLb8Z3rL6Qu9nfNcJ9dvcDnoYuyvEVWC90L0i5nnMJUH4k6N/jw2
+         LD0A==
+X-Forwarded-Encrypted: i=1; AJvYcCX5YZJU90DqZdAx1S/FJzwoJ/7vdgYNsi3yrlHkUhFGy6CElzAw8ssmq6rgOilUGQf4yyZ46oBfBJB613aSj3R+Oai3ZQUiJgx0LJBWtqTJVzN/ZLJt3UJd
+X-Gm-Message-State: AOJu0Ywommn+MMsFEjBur9AFVb56eHfFUlwhKnNoVZtK4j3ABGszES37
+	Vsgl9Ha0cDsH5vX5himgqKFXVzZTGXukWMRghXpesL/Yk/0T58gdJs8+xq/36TE=
+X-Google-Smtp-Source: AGHT+IFI6tOd2FTPgf1gAD1uu6TN3RmYAiN/Y+uoTN4wYsQa7TCOK6U5xHNic/ISSp2QD/3ZXy5wVQ==
+X-Received: by 2002:a2e:9959:0:b0:2d0:dfad:2863 with SMTP id r25-20020a2e9959000000b002d0dfad2863mr4619817ljj.46.1708173247326;
+        Sat, 17 Feb 2024 04:34:07 -0800 (PST)
 Received: from ?IPv6:2001:8b0:aba:5f3c:3666:ec64:7355:426b? ([2001:8b0:aba:5f3c:3666:ec64:7355:426b])
-        by smtp.gmail.com with ESMTPSA id i13-20020a5d55cd000000b0033b198efbedsm4306309wrw.15.2024.02.17.00.52.50
+        by smtp.gmail.com with ESMTPSA id i5-20020a05600c290500b00410ebcf8180sm5074959wmd.43.2024.02.17.04.34.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Feb 2024 00:52:51 -0800 (PST)
-Message-ID: <abcece2e903abb308dc1f09880bfc1127b308a50.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 3/7] lib/oe/patch: Make extractPatches() not
- extract ignored commits
+        Sat, 17 Feb 2024 04:34:06 -0800 (PST)
+Message-ID: <1913878c922f5791522efce3a9fb31e55ed01988.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 7/7] lib/oe/patch: Use git notes to store the
+ filenames for the patches
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
 	openembedded-core@lists.openembedded.org
-Date: Sat, 17 Feb 2024 08:52:50 +0000
-In-Reply-To: <20240216185956.2606978-3-pkj@axis.com>
+Date: Sat, 17 Feb 2024 12:34:05 +0000
+In-Reply-To: <20240216185956.2606978-7-pkj@axis.com>
 References: <20240216185956.2606978-1-pkj@axis.com>
-	 <20240216185956.2606978-3-pkj@axis.com>
+	 <20240216185956.2606978-7-pkj@axis.com>
 Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
@@ -69,126 +69,66 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 17 Feb 2024 08:52:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195812
+ <openembedded-core@lists.openembedded.org>; Sat, 17 Feb 2024 12:34:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195813
 
 On Fri, 2024-02-16 at 19:59 +0100, Peter Kjellerstedt wrote:
-> If a commit is marked with "%% ignore" it means it is used by devtool to
-> keep track of changes to the source code that are not the result of
-> running do_patch(). These changes need to actually be ignored when
-> extracting the patches as they typically make no sense as actual patches
-> in a recipe.
+> The old way of keeping track of the filenames for the patches that
+> correspond to the commits was to add a special comment line to the end
+> of the commit message, e.g., "%% original patch: <filename>", using a
+> temporary git hook. This method had some drawbacks, e.g.:
 >=20
-> This also adds a new test for oe-selftest that verifies that there are
-> no patches generated from ignored commits.
+> * It caused problems if one wanted to push the commits upstream as the
+> =C2=A0 comment line had to be manually removed.
+> * The comment line would end up in patches if someone used git
+> =C2=A0 format-path rather than devtool finish to generate the patches.
+> * The comment line could interfere with global Git hooks used to
+> =C2=A0 validate the format of the Git commit message.
+> * When regenerating patches with `devtool finish --force-patch-refresh`,
+> =C2=A0 the process typically resulted in adding empty lines to the end of=
+ the
+> =C2=A0 commit messages in the updated patches.
+>=20
+> A better way of keeping track of the patch filenames is to use Git
+> notes. This way the commit messages remain unaffected, but the
+> information is still shown when, e.g., doing `git log`. A special Git
+> notes space, refs/notes/devtool, is used to not intefere with the
+> default Git notes. It is configured to be shown in, e.g., `git log` and
+> to survive rewrites (i.e., `git commit --amend` and `git rebase`).
+>=20
+> Since there is no longer any need for a temporary Git hook, the code
+> that manipulated the .git/hooks directory has also been removed. To
+> avoid potential problems due to global Git hooks, --no-verify was added
+> to the `git commit` command.
+>=20
+> To not cause troubles for those who have done `devtool modify` for a
+> recipe with the old solution and then do `devtool finish` with the new
+> solution, the code will fall back to look for the old strings in the
+> commit message if no Git note can be found.
+>=20
+> While not technically motivated like above, the way to keep track of
+> ignored commits is also changed to use Git notes to avoid having
+> different methods to store similar information.
 >=20
 > Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-[...]
+> ---
+> =C2=A0meta/lib/oe/patch.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 105=
+ +++++++++++++++---------
+> =C2=A0meta/lib/oeqa/selftest/cases/devtool.py |=C2=A0=C2=A0 9 +-
+> =C2=A0scripts/lib/devtool/standard.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 |=C2=A0 15 ++--
+> =C2=A03 files changed, 78 insertions(+), 51 deletions(-)
 
-> diff --git a/meta-selftest/recipes-extended/sysdig/sysdig-selftest_0.28.0=
-.bb b/meta-selftest/recipes-extended/sysdig/sysdig-selftest_0.28.0.bb
-> new file mode 100644
-> index 0000000000..e114f465a0
-> --- /dev/null
-> +++ b/meta-selftest/recipes-extended/sysdig/sysdig-selftest_0.28.0.bb
-> @@ -0,0 +1,64 @@
-> +SUMMARY =3D "A New System Troubleshooting Tool Built for the Way You Wor=
-k"
-> +DESCRIPTION =3D "Sysdig is open source, system-level exploration: captur=
-e \
-> +system state and activity from a running Linux instance, then save, \
-> +filter and analyze."
-> +HOMEPAGE =3D "http://www.sysdig.org/"
-> +LICENSE =3D "Apache-2.0 & (MIT | GPL-2.0-only)"
-> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Df8fee3d59797546cffab04f3b88b2=
-d44"
-> +
-> +inherit cmake pkgconfig
-> +
-> +#OECMAKE_GENERATOR =3D "Unix Makefiles"
-> +JIT ?=3D "jit"
-> +JIT:mipsarchn32 =3D ""
-> +JIT:mipsarchn64 =3D ""
-> +JIT:riscv64 =3D ""
-> +JIT:riscv32 =3D ""
-> +JIT:powerpc =3D ""
-> +JIT:powerpc64le =3D ""
-> +JIT:powerpc64 =3D ""
-> +
-> +#DEPENDS +=3D "libb64 lua${JIT} zlib c-ares grpc-native grpc curl ncurse=
-s jsoncpp \
-> +#=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tbb =
-jq openssl elfutils protobuf protobuf-native jq-native valijson"
-> +RDEPENDS:${PN} =3D "bash"
-> +
-> +SRC_URI =3D "git://github.com/draios/sysdig.git;branch=3Ddev;protocol=3D=
-https;name=3Dsysdig \
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 git://githu=
-b.com/falcosecurity/libs;protocol=3Dhttps;branch=3Dmaster;name=3Dfalco;subd=
-ir=3Dgit/falcosecurity-libs \
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file://0055=
--Add-cstdint-for-uintXX_t-types.patch;patchdir=3D./falcosecurity-libs=C2=A0=
-\
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file://0099=
--cmake-Pass-PROBE_NAME-via-CFLAGS.patch=C2=A0\
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "
-> +SRCREV_sysdig =3D "4fb6288275f567f63515df0ff0a6518043ecfa9b"
-> +SRCREV_falco=3D "caa0e4d0044fdaaebab086592a97f0c7f32aeaa9"
-> +
-> +SRCREV_FORMAT =3D "sysdig_falco"
-> +
-> +S =3D "${WORKDIR}/git"
-> +
-> +EXTRA_OECMAKE =3D "\
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 -DBUILD_DRIVER=3DOFF \
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 -DMINIMAL_BUILD=3DON \
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 -DUSE_BUNDLED_DEPS=3DOFF \
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 -DCREATE_TEST_TARGETS=3DOFF \
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 -DDIR_ETC=3D${sysconfdir} \
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 -DLUA_INCLUDE_DIR=3D${STAGING_INCDIR}/luajit-2.1 \
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 -DFALCOSECURITY_LIBS_SOURCE_DIR=3D${S}/falcosecurity-lib=
-s \
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 -DVALIJSON_INCLUDE=3D${STAGING_INCDIR}/valijson \
-> +"
-> +
-> +#CMAKE_VERBOSE =3D "VERBOSE=3D1"
-> +
-> +FILES:${PN} +=3D " \
-> +=C2=A0=C2=A0=C2=A0 ${DIR_ETC}/* \
-> +=C2=A0=C2=A0=C2=A0 ${datadir}/zsh/* \
-> +=C2=A0=C2=A0=C2=A0 ${prefix}/src/*=C2=A0 \
-> +"
-> +# Use getaddrinfo_a is a GNU extension in libsinsp
-> +# It should be fixed in sysdig, until then disable
-> +# on musl
-> +# Something like this https://code.videolan.org/ePirat/vlc/-/commit/01fd=
-9fe4c7f6c5558f7345f38abf0152e17853ab=C2=A0 is needed to fix it
-> +COMPATIBLE_HOST:libc-musl =3D "null"
-> +COMPATIBLE_HOST:mips =3D "null"
-> +COMPATIBLE_HOST:riscv64 =3D "null"
-> +COMPATIBLE_HOST:riscv32 =3D "null"
-> +COMPATIBLE_HOST:powerpc =3D "null"
-> +COMPATIBLE_HOST:powerpc64le =3D "null"
+I've tweaked the EXCLUDE_FROM_WORLD issue and I can squash that in but
+with that we still saw:
 
+https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/6433/step=
+s/14/logs/stdio
 
-This needs an EXCLUDE_FROM_WORLD =3D "1" else we see:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/4386/ste=
-ps/13/logs/stdio
-
-It took me far too long to realise what was going wrong and where that reci=
-pe came from :/
+which I think is from this patch.
 
 Cheers,
 
 Richard
-
 
