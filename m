@@ -1,99 +1,96 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A72FDC48BF6
-	for <webhook@archiver.kernel.org>; Sun, 18 Feb 2024 19:18:54 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.24595.1708283930976590974
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA934C48BF6
+	for <webhook@archiver.kernel.org>; Sun, 18 Feb 2024 19:49:14 +0000 (UTC)
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+ by mx.groups.io with SMTP id smtpd.web11.25266.1708285752994165367
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 Feb 2024 11:18:51 -0800
+ Sun, 18 Feb 2024 11:49:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=DP+wO0VY;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=I4r1FsXy;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018dbda82625-2b9c38a8-8ea2-47ef-9988-562780917283-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1708283930; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=7provmd1DYDghnU/ye3soRdd5uaxwlyX1dCMi6A80bA=;
-	b=DP+wO0VYKRLTCIZGUqTH5on1ya+sibtaqD/NWT7W1Xq6dqr5pA0EoBw92/qWA1wE
-	uT4RZcik6bMwR5hvmpeSPmB+Qbmw3thCfu4w0QuuLxRI2/rewnWiBeOwfoughbPfhnG
-	FFz1FvcQfRdJYjBtaVEOET/LavN5dBtrdJlz27B4=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1708283930;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=7provmd1DYDghnU/ye3soRdd5uaxwlyX1dCMi6A80bA=;
-	b=I4r1FsXye+cocFtQwQIg7+XHlhFpdFVvd4NbLO/mxYUYEHpmj2lre1HHWydQgb+C
-	9rqk6ijsSHp5wxbpF91CfzCwU4cjKfuMeY1YjjBwjKhY+otVktYVZDNt5Wun4rxRngD
-	vvvYZ4MSkCqNrf2ofNUKWGh0dPIVDiIRF6PTHLR0=
-From: patchtest@automation.yoctoproject.org
-To: Siong <wslim87@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] useradd.bbclass: Fix missing space when appending vardeps.
-In-Reply-To: <20240218191131.182790-1-wslim87@gmail.com>
-References: <20240218191131.182790-1-wslim87@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018dbda82625-2b9c38a8-8ea2-47ef-9988-562780917283-000000@us-west-2.amazonses.com>
-Date: Sun, 18 Feb 2024 19:18:50 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.02.18-54.240.27.191
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Vpf4lQ6o;
+ spf=pass (domain: gmail.com, ip: 209.85.167.181, mailfrom: ticotimo@gmail.com)
+Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-3c132695f1bso2894039b6e.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 18 Feb 2024 11:49:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708285752; x=1708890552; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=sfxWdC34UqyflgR1hhFaOkMnMlFLHJSbrVtOrVPG/s4=;
+        b=Vpf4lQ6o+LT0Kas5WrMjeMV/OS0hnkoTA1WQfq8nAwBxYbM/5ID4TydVUNhSsIo4S8
+         ab2qEA3SZBWHaWexYFqcJd2CxK7VSiirIWwyj3wviZsH6CepzpLNu5N0Gz6OF9276tlQ
+         QylvXT6ggI3jN+R5lnR++Y9P58u7tlMgtjKzI8h2M89RZbpXp8fwvd8T4WH3ri4GV5ad
+         kGndbpHI/v3O8zQGeSXqAv3UHk1qu3pOpyDl3tfLkJvxbsW8CIyGzpi2DjZzaBHamCgm
+         RG/7IIFCv/RbJKT+V/DSdax9waNbg08fjL4+aybdNAXVFD8czukl9GBfXeiHvHNRlWM/
+         CPxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708285752; x=1708890552;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sfxWdC34UqyflgR1hhFaOkMnMlFLHJSbrVtOrVPG/s4=;
+        b=qk0gSBt8ns9kRhmt5URxs0CJ/D133U3xFe0Baoa8G3nc1g/T79+FV6LD0s4f1nCZNM
+         XB2lbt1C/aimxYqwXejBQxIZUrK/a9KiNQR91x8666r8TPYj6mpUjUO+y1Ez44afQz0Z
+         bZixyHm9FlZZ2LlpIozw+W+h+DlgPxrDeDhXI2et6g/ZdiRKkGfvdbXEEGXAORyDyR8f
+         0RaD7jYopL5pZEbq+VjC+d/fDx7xA9OHroo0B8peKvaGg3CADI+UjcX0aTbLUV0d2GnA
+         R74+D9YHMeiCcKqfL1YqBr9V9lq7nadKTepQrgiT/32b0D74UohcrcRc87hwQ5RIUkix
+         HtUw==
+X-Gm-Message-State: AOJu0Yym7q1RUEzf1r7OcYn1Q7tmO0E7vVJhQczM+WhlKLd5psQY6eJM
+	14UiZrBaWAC9itLwuXhHdzmBq+gMxs+jHB3yaUYX/eUpdASN/4P4GGn+vBCo
+X-Google-Smtp-Source: AGHT+IH8zwT3SRqieRj1GeSc/aFwWFIb1Osd1wVuyMIbIXsRATcBKRALHLFN5tWa49iWUFUyLLVNaQ==
+X-Received: by 2002:a05:6808:1205:b0:3bf:e15d:a6b5 with SMTP id a5-20020a056808120500b003bfe15da6b5mr15443870oil.13.1708285751817;
+        Sun, 18 Feb 2024 11:49:11 -0800 (PST)
+Received: from chiron.hsd1.or.comcast.net ([2601:1c0:ca01:19f0:b5ac:91fa:12f2:46aa])
+        by smtp.gmail.com with ESMTPSA id je13-20020a170903264d00b001db40c0ed33sm3036499plb.61.2024.02.18.11.49.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 18 Feb 2024 11:49:11 -0800 (PST)
+From: Tim Orling <ticotimo@gmail.com>
+X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Tim Orling <tim.orling@konsulko.com>
+Subject: [dunfell][kirkstone][nanbield][PATCH] vim: upgrade v9.0.2130 -> v9.0.2190
+Date: Sun, 18 Feb 2024 11:48:50 -0800
+Message-Id: <20240218194849.705593-1-tim.orling@konsulko.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 18 Feb 2024 19:18:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195847
+ <openembedded-core@lists.openembedded.org>; Sun, 18 Feb 2024 19:49:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195848
 
---NextPart
-Content-Type: text/plain
+This is the latest/last of the 9.0.z upgrades, since 9.1 is now
+released.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+CVE: CVE-2024-22667
+(includes the patch for .2142 https://github.com/vim/vim/commit/b39b240c386a5a29241415541f1c99e2e6b8ce47)
 
+Changes:
+https://github.com/vim/vim/compare/v9.0.2130...v9.0.2190
+
+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
-Testing patch /home/patchtest/share/mboxes/useradd.bbclass-Fix-missing-space-when-appending-vardeps..patch
+ meta/recipes-support/vim/vim.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index 6b440d89472..906aa53a163 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -19,8 +19,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://no-path-adjust.patch \
+            "
+ 
+-PV .= ".2130"
+-SRCREV = "075ad7047457debfeef13442c01e74088b461092"
++PV .= ".2190"
++SRCREV = "6a950da86d7a6eb09d5ebeab17657986420d07ac"
+ 
+ # Do not consider .z in x.y.z, as that is updated with every commit
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+)\.0"
+-- 
+2.34.1
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
