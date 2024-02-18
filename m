@@ -1,95 +1,98 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA934C48BF6
-	for <webhook@archiver.kernel.org>; Sun, 18 Feb 2024 19:49:14 +0000 (UTC)
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
- by mx.groups.io with SMTP id smtpd.web11.25266.1708285752994165367
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECAF6C48BF6
+	for <webhook@archiver.kernel.org>; Sun, 18 Feb 2024 20:08:44 +0000 (UTC)
+Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
+ by mx.groups.io with SMTP id smtpd.web10.25571.1708286917716647408
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 Feb 2024 11:49:13 -0800
+ Sun, 18 Feb 2024 12:08:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Vpf4lQ6o;
- spf=pass (domain: gmail.com, ip: 209.85.167.181, mailfrom: ticotimo@gmail.com)
-Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-3c132695f1bso2894039b6e.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 18 Feb 2024 11:49:12 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=CfNU2AZ9;
+ spf=pass (domain: gmail.com, ip: 209.85.166.45, mailfrom: jpewhacker@gmail.com)
+Received: by mail-io1-f45.google.com with SMTP id ca18e2360f4ac-7c00128de31so102600839f.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 18 Feb 2024 12:08:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708285752; x=1708890552; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1708286916; x=1708891716; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sfxWdC34UqyflgR1hhFaOkMnMlFLHJSbrVtOrVPG/s4=;
-        b=Vpf4lQ6o+LT0Kas5WrMjeMV/OS0hnkoTA1WQfq8nAwBxYbM/5ID4TydVUNhSsIo4S8
-         ab2qEA3SZBWHaWexYFqcJd2CxK7VSiirIWwyj3wviZsH6CepzpLNu5N0Gz6OF9276tlQ
-         QylvXT6ggI3jN+R5lnR++Y9P58u7tlMgtjKzI8h2M89RZbpXp8fwvd8T4WH3ri4GV5ad
-         kGndbpHI/v3O8zQGeSXqAv3UHk1qu3pOpyDl3tfLkJvxbsW8CIyGzpi2DjZzaBHamCgm
-         RG/7IIFCv/RbJKT+V/DSdax9waNbg08fjL4+aybdNAXVFD8czukl9GBfXeiHvHNRlWM/
-         CPxw==
+        bh=PXnQ19LhRy2RdPxFuGK8dxmgumMbkFd00mIbk7kABqk=;
+        b=CfNU2AZ9GSs6Cxoi91t4/Eiha3BXqubLMdKI9/gK+JT3bcMqdnckGDeidKPDT7hrYW
+         FR50UekbEyoFNc1hYUv00aMWTZmq47NxFGXZBFBHEhRFgSFVE4dtnZOBYl/tMqXWEcag
+         F1DZv+rm1J6dYG4RXOMHlWnlhPFa4UoP6voVhnK0BEriQnpQz/nB9Z8csiUAlpBrtSAx
+         Q3n2nTEU5dCxmzVrOlzrqXnAdXbn86/NQO0cNJEXdConhozNhPKtX/zdJWsQtNDnfeIe
+         2BXXvnBTHtFWcJHTl7MZZT3GbHvVVqlpsbhVlXFCozKYfNWnEReHGPxFAYrOdIr2HpA1
+         lW7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708285752; x=1708890552;
+        d=1e100.net; s=20230601; t=1708286916; x=1708891716;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=sfxWdC34UqyflgR1hhFaOkMnMlFLHJSbrVtOrVPG/s4=;
-        b=qk0gSBt8ns9kRhmt5URxs0CJ/D133U3xFe0Baoa8G3nc1g/T79+FV6LD0s4f1nCZNM
-         XB2lbt1C/aimxYqwXejBQxIZUrK/a9KiNQR91x8666r8TPYj6mpUjUO+y1Ez44afQz0Z
-         bZixyHm9FlZZ2LlpIozw+W+h+DlgPxrDeDhXI2et6g/ZdiRKkGfvdbXEEGXAORyDyR8f
-         0RaD7jYopL5pZEbq+VjC+d/fDx7xA9OHroo0B8peKvaGg3CADI+UjcX0aTbLUV0d2GnA
-         R74+D9YHMeiCcKqfL1YqBr9V9lq7nadKTepQrgiT/32b0D74UohcrcRc87hwQ5RIUkix
-         HtUw==
-X-Gm-Message-State: AOJu0Yym7q1RUEzf1r7OcYn1Q7tmO0E7vVJhQczM+WhlKLd5psQY6eJM
-	14UiZrBaWAC9itLwuXhHdzmBq+gMxs+jHB3yaUYX/eUpdASN/4P4GGn+vBCo
-X-Google-Smtp-Source: AGHT+IH8zwT3SRqieRj1GeSc/aFwWFIb1Osd1wVuyMIbIXsRATcBKRALHLFN5tWa49iWUFUyLLVNaQ==
-X-Received: by 2002:a05:6808:1205:b0:3bf:e15d:a6b5 with SMTP id a5-20020a056808120500b003bfe15da6b5mr15443870oil.13.1708285751817;
-        Sun, 18 Feb 2024 11:49:11 -0800 (PST)
-Received: from chiron.hsd1.or.comcast.net ([2601:1c0:ca01:19f0:b5ac:91fa:12f2:46aa])
-        by smtp.gmail.com with ESMTPSA id je13-20020a170903264d00b001db40c0ed33sm3036499plb.61.2024.02.18.11.49.11
+        bh=PXnQ19LhRy2RdPxFuGK8dxmgumMbkFd00mIbk7kABqk=;
+        b=nbyoM3hhVhD3XfibWHueI0+Pn/aTB/s2KrSOtHpI5QW69hZVgUR5pCYLYtIcGg+Uom
+         4YftuEBdES36h6VsfLUUPVo0fnVz68VyjjdKAEC6UaOITD4suC1YoKpKAECFwSLCBcFS
+         44xljs4FhIoEExcFpXrT7/4OdsBpsa1mvnyHGQjYnqtQ0FGI6f0q+WgyFYl8DJeK5GMd
+         I5upraP6xTo7s/psgt0veNtupswMdgALNtC1t/aHrg7Y/AY16hO9HckyE9Ca6uBE3gmm
+         PvDetA+X6SHgIlUCZlhhvbfuCn7qNhN17s8x/uCbMpZ+lxTzLbcX+dGDoYQ7AwMOWnku
+         Zw0Q==
+X-Gm-Message-State: AOJu0YzRaQU/WiRoNpj2IpJrTlUwCF1u2iIjYNZloDfixWcKwCUjJntU
+	7R/nigzhVwC9Ak1e0vSh8Dvjeee93tD0rBIpiWnTLxtGoD6BfupkoKPcpPPH
+X-Google-Smtp-Source: AGHT+IGWub1cSHqlLUqJhxak+OEvvqukftQhKF8lTNhvfxWaCcMMN+5Zswm8L1+ZvVy7IVB1lBePcw==
+X-Received: by 2002:a05:6602:3fd1:b0:7c7:397c:6690 with SMTP id fc17-20020a0566023fd100b007c7397c6690mr6778608iob.17.1708286915986;
+        Sun, 18 Feb 2024 12:08:35 -0800 (PST)
+Received: from localhost.localdomain ([2601:282:4300:19e0::44fb])
+        by smtp.gmail.com with ESMTPSA id x9-20020a056638160900b0047131c78ce3sm1135370jas.4.2024.02.18.12.08.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Feb 2024 11:49:11 -0800 (PST)
-From: Tim Orling <ticotimo@gmail.com>
-X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
+        Sun, 18 Feb 2024 12:08:35 -0800 (PST)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [dunfell][kirkstone][nanbield][PATCH] vim: upgrade v9.0.2130 -> v9.0.2190
-Date: Sun, 18 Feb 2024 11:48:50 -0800
-Message-Id: <20240218194849.705593-1-tim.orling@konsulko.com>
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH] sstatesig: Implement new siggen API
+Date: Sun, 18 Feb 2024 13:08:30 -0700
+Message-Id: <20240218200830.2983352-1-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 18 Feb 2024 19:49:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195848
+ <openembedded-core@lists.openembedded.org>; Sun, 18 Feb 2024 20:08:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195849
 
-This is the latest/last of the 9.0.z upgrades, since 9.1 is now
-released.
+Implements the new API required for querying unihashes in parallel
 
-CVE: CVE-2024-22667
-(includes the patch for .2142 https://github.com/vim/vim/commit/b39b240c386a5a29241415541f1c99e2e6b8ce47)
-
-Changes:
-https://github.com/vim/vim/compare/v9.0.2130...v9.0.2190
-
-Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/recipes-support/vim/vim.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/lib/oe/sstatesig.py | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 6b440d89472..906aa53a163 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -19,8 +19,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://no-path-adjust.patch \
-            "
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index 1b4380f21bc..aa891ecf0a0 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -205,10 +205,10 @@ class SignatureGeneratorOEBasicHashMixIn(object):
+             return self.lockedhashes[tid]
+         return super().get_stampfile_hash(tid)
  
--PV .= ".2130"
--SRCREV = "075ad7047457debfeef13442c01e74088b461092"
-+PV .= ".2190"
-+SRCREV = "6a950da86d7a6eb09d5ebeab17657986420d07ac"
+-    def get_unihash(self, tid):
++    def get_cached_unihash(self, tid):
+         if tid in self.lockedhashes and self.lockedhashes[tid] and not self._internal:
+             return self.lockedhashes[tid]
+-        return super().get_unihash(tid)
++        return super().get_cached_unihash(tid)
  
- # Do not consider .z in x.y.z, as that is updated with every commit
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+)\.0"
+     def dump_sigtask(self, fn, task, stampbase, runtime):
+         tid = fn + ":" + task
+@@ -326,6 +326,7 @@ class SignatureGeneratorOEEquivHash(SignatureGeneratorOEBasicHashMixIn, bb.sigge
+         self.method = data.getVar('SSTATE_HASHEQUIV_METHOD')
+         if not self.method:
+             bb.fatal("OEEquivHash requires SSTATE_HASHEQUIV_METHOD to be set")
++        self.max_parallel = int(data.getVar('BB_HASHSERVE_MAX_PARALLEL') or 1)
+ 
+ # Insert these classes into siggen's namespace so it can see and select them
+ bb.siggen.SignatureGeneratorOEBasicHash = SignatureGeneratorOEBasicHash
 -- 
 2.34.1
 
