@@ -1,80 +1,84 @@
-Return-Path: <simone.p.weiss@posteo.com>
+Return-Path: <wslim87@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61A18C48BC4
-	for <webhook@archiver.kernel.org>; Sun, 18 Feb 2024 18:43:24 +0000 (UTC)
-Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
- by mx.groups.io with SMTP id smtpd.web10.23850.1708281795108374682
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97A45C48BF6
+	for <webhook@archiver.kernel.org>; Sun, 18 Feb 2024 19:11:44 +0000 (UTC)
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+ by mx.groups.io with SMTP id smtpd.web10.24455.1708283502553300479
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 Feb 2024 10:43:15 -0800
+ Sun, 18 Feb 2024 11:11:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@posteo.com header.s=2017 header.b=DByE7Y2d;
- spf=pass (domain: posteo.com, ip: 185.67.36.66, mailfrom: simone.p.weiss@posteo.com)
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout02.posteo.de (Postfix) with ESMTPS id 42209240104
-	for <openembedded-core@lists.openembedded.org>; Sun, 18 Feb 2024 19:43:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.com; s=2017;
-	t=1708281793; bh=G/1GvQql2N8StuxMeju+QCyaBHv0BSGLDnsw60OQD5c=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:From;
-	b=DByE7Y2ddP/VswjIz8o6O2Kcbum8d3krwmw4MxZp1MbqLbSxtUaVe1LURi+inTzqN
-	 Z7wK4gmXGBCXfvkEUiG2ZgCoyASGw+h4ZDBauLfepkyYsk4v9BO6uOpHT5wy/vobSO
-	 5V3s1CqmzMnHPViQKu41q1q4rnZvkdjjDkMPnrLf3agD7c75vtZ/W3/RpCkHJ42uTb
-	 AfZCdGnqtQPvkeZb+nuN14qhtbSw+MClyAinn323gaHCrFPpjhOApJHaQUtivbJ2Lr
-	 wLugaSuwASVz6h/BNR1tRsvAkTA0JZ+Rhdz5gxcRyJKjtTE4+gvRvtua6UVprQ1297
-	 gBb88MwUV17FA==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4TdF0w2wprz6tyZ;
-	Sun, 18 Feb 2024 19:43:12 +0100 (CET)
-From: simone.p.weiss@posteo.com
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=aw15yBsr;
+ spf=pass (domain: gmail.com, ip: 209.85.210.172, mailfrom: wslim87@gmail.com)
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-6e45c92a199so237367b3a.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 18 Feb 2024 11:11:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708283501; x=1708888301; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PXUVAxB88sAutgE3pvZAz1woZB5/HfAWz/VBLaYmotc=;
+        b=aw15yBsrqYDYSu1b3tig6WFbq1JfYn+7jSN/LYcEkknsxQu/HffTUwEgu7Un14qUEP
+         Ip00x62cg9oPfFJbjvrcu412/mbIXJ4KhkN/KkT0LFliG0ckNB2GCDpMxVas23VFFwrr
+         1+3FqXgfRsAjHLAmszTMingX/jArZOSX0wqm3OhFheyL5wb6ao6ZLrByl9F2MFaFvUW8
+         ovhzf1th3DuKXs85oukcHeJEx1Y8Yxdk1/ekqCZtOYvHzIcOlgbd1dlVjkYOoAWhgs76
+         LeP7IHhcPFevHpkxiQs9xiMl9IzWTDTbRj7U+NHi+/rnzTUYzFcvkK6B/74QkHhehEo2
+         XhTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708283501; x=1708888301;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PXUVAxB88sAutgE3pvZAz1woZB5/HfAWz/VBLaYmotc=;
+        b=WmEvFELafmowHpRpi6a0rRv6ihY9WaVfyPAfoWJDsnMo5vbcftpbxmEfdgCjCHX0BP
+         8jbc7m+Ca3SUrlTq29vIn9RAgCcoZSILZwuGrYjMdu6zpSW3mlZ6TEWZH2XIFolZEYlT
+         tbezBbJ3XeDwMjdjJhrzva956NBjGrBr/BRQMz3HKVm9/lZNyhRpI+WC1oclYYAwiLtL
+         BYZ5VW+lVBrgzFbzzNp2bXVLDP5D0YyYezq2mUWehD2eWN/dz/1g74ReYgW+brAxKBEN
+         9wrPVr6z1CPcFbY0f7bXpLq8FaVzpq619uqo/R0wxFKtTPYNXTgQ4dhT4wDOfjnLbScP
+         O3oA==
+X-Gm-Message-State: AOJu0YyZKenT0CJJ9z99ZmYgnvnK6+yFK2chMm/BKqZ9a42aPUS/bdnn
+	mLKNJ8fCcu8zWPSWYEJNiCUJXfDKDe+Nkun3Ul95+fim9C9Ca1HmPW6+gGSF3HLW5g==
+X-Google-Smtp-Source: AGHT+IEb1UmbiPtqpzP7PJs905QgrQgxTd2WB6Wu4uc2YaGPaHWDQE/4Od3ubsC99gHatvSivky73A==
+X-Received: by 2002:a05:6a20:4f05:b0:19e:8b31:f1ae with SMTP id gi5-20020a056a204f0500b0019e8b31f1aemr10365802pzb.29.1708283501049;
+        Sun, 18 Feb 2024 11:11:41 -0800 (PST)
+Received: from archlinux.. ([2001:d08:d9:e466:be54:85da:1506:26fa])
+        by smtp.gmail.com with ESMTPSA id c5-20020a63d505000000b005cf5bf78b74sm3264636pgg.17.2024.02.18.11.11.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 18 Feb 2024 11:11:40 -0800 (PST)
+From: Siong <wslim87@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Simone=20Wei=C3=9F?= <simone.p.weiss@posteo.com>
-Subject: [PATCH v2] qemu: Set CVE_STATUS for wrong CVEs
-Date: Sun, 18 Feb 2024 18:42:59 +0000
-Message-Id: <20240218184259.2930941-1-simone.p.weiss@posteo.com>
+Cc: Siong <wslim87@gmail.com>
+Subject: [PATCH] useradd.bbclass: Fix missing space when appending vardeps.
+Date: Mon, 19 Feb 2024 03:11:31 +0800
+Message-ID: <20240218191131.182790-1-wslim87@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 18 Feb 2024 18:43:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195845
+ <openembedded-core@lists.openembedded.org>; Sun, 18 Feb 2024 19:11:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195846
 
-From: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
-
-All are already fixed in 8.2.1, NVD was informed that cpes are wrong.
-
-Signed-off-by: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
+Signed-off-by: Siong <wslim87@gmail.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc | 6 ++++++
- 1 file changed, 6 insertions(+)
+ meta/classes/useradd.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/=
-qemu/qemu.inc
-index 5d953e5ef5..d16d5e76c8 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -68,6 +68,12 @@ CVE_STATUS[CVE-2023-0664] =3D "not-applicable-platform=
-: Issue only applies on Wind
- # As per https://bugzilla.redhat.com/show_bug.cgi?id=3D2203387
- CVE_STATUS[CVE-2023-2680] =3D "not-applicable-platform: RHEL specific is=
-sue."
-=20
-+CVE_STATUS[CVE-2023-3019] =3D "cpe-incorrect: Applies only against versi=
-ons before 8.2.0"
-+
-+CVE_STATUS[CVE-2023-5088] =3D "cpe-incorrect: Applies only against versi=
-on 8.2.0 and earlier"
-+
-+CVE_STATUS[CVE-2023-6693] =3D "cpe-incorrect: Applies only against versi=
-on 8.2.0 and earlier"
-+
- COMPATIBLE_HOST:mipsarchn32 =3D "null"
- COMPATIBLE_HOST:mipsarchn64 =3D "null"
- COMPATIBLE_HOST:riscv32 =3D "null"
---=20
-2.39.2
+diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
+index a58f8287c9..f0ec080920 100644
+--- a/meta/classes/useradd.bbclass
++++ b/meta/classes/useradd.bbclass
+@@ -196,7 +196,7 @@ def update_useradd_after_parse(d):
+         bb.fatal("%s inherits useradd but doesn't set USERADD_PACKAGES" % d.getVar('FILE', False))
+ 
+     for pkg in useradd_packages.split():
+-        d.appendVarFlag("do_populate_sysroot", "vardeps", "USERADD_PARAM:%s GROUPADD_PARAM:%s GROUPMEMS_PARAM:%s" % (pkg, pkg, pkg))
++        d.appendVarFlag("do_populate_sysroot", "vardeps", " USERADD_PARAM:%s GROUPADD_PARAM:%s GROUPMEMS_PARAM:%s" % (pkg, pkg, pkg))
+         if not d.getVar('USERADD_PARAM:%s' % pkg) and not d.getVar('GROUPADD_PARAM:%s' % pkg) and not d.getVar('GROUPMEMS_PARAM:%s' % pkg):
+             bb.fatal("%s inherits useradd but doesn't set USERADD_PARAM, GROUPADD_PARAM or GROUPMEMS_PARAM for package %s" % (d.getVar('FILE', False), pkg))
+ 
+-- 
+2.43.0
 
 
