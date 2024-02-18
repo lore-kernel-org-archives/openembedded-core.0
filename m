@@ -1,157 +1,227 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C785FC48BC3
-	for <webhook@archiver.kernel.org>; Sun, 18 Feb 2024 02:57:39 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.11888.1708225049587754581
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDD5DC48BC4
+	for <webhook@archiver.kernel.org>; Sun, 18 Feb 2024 03:01:59 +0000 (UTC)
+Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
+ by mx.groups.io with SMTP id smtpd.web11.11958.1708225314898313370
  for <openembedded-core@lists.openembedded.org>;
- Sat, 17 Feb 2024 18:57:29 -0800
+ Sat, 17 Feb 2024 19:01:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=hsqixa0u;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=2778647e52=qi.chen@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41I2opSm025201
-	for <openembedded-core@lists.openembedded.org>; Sat, 17 Feb 2024 18:57:29 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:subject:date:message-id:content-transfer-encoding
-	:content-type:mime-version; s=PPS06212021; bh=cKp459UFLU4qXc0yJq
-	qmFF92nHLOWVNZ13Gn18pTpDI=; b=hsqixa0uuHO6ryFW3B5tCueLZm9aQ5iEvX
-	toJA2ReheA12yUFOpyL9VuCNH0nEnjqKxf4LXCfzW9eyQTfDa8wQfDEZKLIujUzn
-	kiyQ8wpyMOldK7CWGD7e5r2kolKL0Dsu9USjlt2c/2n/s6Ml7Ee4rf5f8+rgMraL
-	8mQZrzfKbZ3Ra7YNjdR7FrHOJEzXYiThe2G5cVfQEOare41izFeVEC/IrIt79LUD
-	mo657f4mm7+NzDcv5nEPY5GWVP0+5H9a0y93Hybb5ct1sD1OMHCX9G9MKxLO2JcV
-	b8z8fWEVbItVpCOqEk+OFoIB9y236/DHHpZdi2kDYiqMbsMxe5Gg==
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2168.outbound.protection.outlook.com [104.47.59.168])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3wary48gg2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Sat, 17 Feb 2024 18:57:29 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ScCvwRbmZOSPznSQOZw4ooNucWGBsxqvvGkJ/He6V79GLpKLJXZamxNd1iley0mheKuo0g7xvbpq7fWlCs/mnGhOYx5V+6j+exP+qBLDIZZzgXMFkImorrtmguuIJ6qaD0dFDBqTP+xlNan6MlaLlbbLNWzN5cPZNSd1Wml2Q+xYrDCFui89eGfLC9hQVi6LRUjw75TNiZs3kQIgCS/SqOgslb40YujZDQMB5uLbtxdEmVMxcwoHAL+3E1q1sfg2RLozBVXDxjxUZ5GwdFeIiNX71snIrU7HgkEr2dWJeu4ktx88uAJ0xyA3EDWRKDOeO92YB7tDi8X43uVKD6Ngvw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cKp459UFLU4qXc0yJqqmFF92nHLOWVNZ13Gn18pTpDI=;
- b=XayVq8y7N4J+BgAbzRLQzR1VdZEERuAUvxlTUWX+T/NoVGnU0MflYDkhdj3lvLaUD7eeiMTc93BHqVltwIz1oy9J9c5w+mK1GtcmEJyHmA8rdUOc/+edmZHai17pOA4VSWQ50NfgjNj9zUvHPzQWd0EhCwJcQh3SAiAQlMb8sFP4ivzfOxr44E5sp3np4P6o0FeVUH2hUTwQTwSHe+c93Oc/pfcLbT+Ue7XLi8mP2oq9Op1Uz2gWt+RxBzoKjNxH9CyzubeUSl8n2I15T4HvRsb3GDJNdPlPMIMSCVKKP9FgrIYwlnD4Kt1r73c3xplJlotOImRlZF5ExddcSR8XMw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
- by MN2PR11MB4533.namprd11.prod.outlook.com (2603:10b6:208:264::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.34; Sun, 18 Feb
- 2024 02:57:24 +0000
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::5d84:2b01:5029:9315]) by CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::5d84:2b01:5029:9315%7]) with mapi id 15.20.7292.029; Sun, 18 Feb 2024
- 02:57:23 +0000
-From: Qi.Chen@windriver.com
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] gnupg: disable tests to avoid running target binaries at build time
-Date: Sun, 18 Feb 2024 10:57:08 +0800
-Message-Id: <20240218025708.3343647-1-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TYCP286CA0279.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:3c9::6) To CO6PR11MB5602.namprd11.prod.outlook.com
- (2603:10b6:303:13a::5)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Oq8F8g4d;
+ spf=pass (domain: gmail.com, ip: 209.85.160.45, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-214410e969cso1864969fac.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 17 Feb 2024 19:01:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708225314; x=1708830114; darn=lists.openembedded.org;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iTWch8PdPvAxFKMAkMwUzlXuPXY8gEKajNHhtw6gdpI=;
+        b=Oq8F8g4d7k3c47iNAhNoDjN4sEa3JhWWyhzFxfWpIqj8sfhzyxjRbiqOIRqjYVit5W
+         qsre0TaEMxAIUJallkZ35JuyHR9RjA/gJZklLpmYzJEES/vH8QLBsLdPz1pLPVI6ggKq
+         VH4sCJBMT7uDpU76Ltt/jAwmGQ2ewDlLZtcEdCuHLOcHkEGGFtjn7BjSdNxbTiKVfXbs
+         4wMohxrDE6/bZ5PZYhiK8I+MzlZWjpS7Rl+2Ro6yCJrK6/I6+UEBiFX3H6W7XdzckZ0K
+         LXfXgKzi8s4iYJp3Cwu3j1nmhb+REpt/zlSPe7rQkMSzbVw4XDIXFkVPQzqIiOYqK7at
+         NTPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708225314; x=1708830114;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iTWch8PdPvAxFKMAkMwUzlXuPXY8gEKajNHhtw6gdpI=;
+        b=YMm5no222K9gav0UEc/pFxKf8yxOS7J/9zBWjffW6k5d4TKu3kso8fBnbjEUL9vvuq
+         i+6G9cM7fL25SEviWpcahy8Sy9BJXAUNqor1Owmm7LDKdsLJCPe3cCQC1pppRhLCTpTq
+         54O87QWx740D8VddlC/7Yh9X8Ja38J8bSJNOXIcHPxzBtgCnQwyLiaH1XsTIW0aWXI8U
+         fS4BDrHPROW60YlongV9lKgLoXrkx90vfsnqFgWgxTruI3AKr2GA2afewh2A6+iMyhvL
+         HEGtLW71vHhdi/lyBJazx/rsFPNnAdN55seCECIAS2UuXwMpN54Ym8mQlNwP8VjP4TYz
+         Bl3w==
+X-Forwarded-Encrypted: i=1; AJvYcCVYBQ0XovuAKKLOauJ/EN/xIsRQaMM17byZvd3vFkHEhw3ydHAm/OVrvzOnLY0BKvM8/DfiCAQKm635eGlGTS0iQBL3ReXsXVqyGJL1Bz9KrIZOxdUd/MYS
+X-Gm-Message-State: AOJu0Yyz4+jYm1s9qLyxzl/56URnxV2KWydIKcLA+H3jNep7aap2xA/G
+	xVKESaanXrjoAevgLG8531SJYHNvAJRDpPd2UAGuQIUAWqazlCI1VAlPavcbDzGrFGuJ64puzDT
+	FS5t5jLNHm5faLkEw1wtk/iZ+9cU=
+X-Google-Smtp-Source: AGHT+IGxVzvyUAUfHd6XERWWMYqi4uP7T0ZXblaeZx7VRunN6SOw3m8OtzXvVz5fDt8hGkCRDkVYen/hhqaOsiDX1PM=
+X-Received: by 2002:a05:6870:2c87:b0:21e:bc6d:fcb3 with SMTP id
+ oh7-20020a0568702c8700b0021ebc6dfcb3mr227137oab.5.1708225314059; Sat, 17 Feb
+ 2024 19:01:54 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|MN2PR11MB4533:EE_
-X-MS-Office365-Filtering-Correlation-Id: ba122ae7-24a6-4c30-62d1-08dc302d549c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	EuKWJMtZDjCFwIEEOxiqVFb1T6xUt1WApW0qDl4WMcmKAGvs94GYkRGu/cMzuWYzRynQPX9xAdKxxdoyoWUOiPvGKMFctgZjf7PM0DIA+njroVcYtw7iIYZlJHi7jTdtfjwbKmYmGLKuigtBes8Wyal096AxfRGP52821pV6yt1XvP28oX0RnkAy4B8x1+w5BO6n2iidj5rtv8q6nWWr/ltLjFcUsR0E4//FVKlPAG6mRK3lxQUByzo3lHqrwPzjWb1/g1GCqdXqYzVCSVy5LXCWlEGVxVefT6xcvdIWTGwBZBolIdP3SWu4l9nrpg8b4p48eh/vtydCEn4aAhXsJxtzK6XlOVpgRIsKy9kWntncIUgeb3d20wO1X/5r3tJ7Zw5IwiVe2P1IriWq4v7z/9I/q9HRrg6cLLDsU04dwqAwkHu+m+XidNqyE5V2lE3mY0lOw9oKC9asiKCJBzr1ziQoTTD14a7RQAmlfw2pJAajIoGCDAvCcgVuiNGKubxkqzGRpcLx4VzlptLbANavaNbso1rRlUo01vHK/VUFyV++mXe2zaADrwDfh3Tyi3tn19tbBxZaZ2iHdp23iiOwI5niAKtBGa8KATzJmlr64NwK+ky9HfjsZyAw5bu3AT95
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(39850400004)(346002)(136003)(366004)(396003)(230922051799003)(451199024)(64100799003)(186009)(1800799012)(86362001)(36756003)(2616005)(38350700005)(6666004)(41300700001)(316002)(52116002)(6506007)(6512007)(6486002)(9686003)(2906002)(478600001)(5660300002)(66556008)(66946007)(66476007)(8936002)(1076003)(8676002)(6916009)(26005)(38100700002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?OQDrwq7me63SGOJ+jg7saMWit1hhmdQRDaxHKqw9eZSwGeBZNR+YmZpxh/7t?=
- =?us-ascii?Q?yf3kHmqIw7eda20Q1fe+TPEWTfKPRbjNFyAe7hVH/2uh4Ut1UoRcKkuYpYx+?=
- =?us-ascii?Q?frcq2EXjnuhwOTjJkqjlmT6eqsDnycjTQK4SK/rG+69uDlU+9qKPWsMcjcIq?=
- =?us-ascii?Q?q3P/E+DIV2YMUGsZnZeqDO9dn80BhHoL8mwP66n5vZXD8vBWqUyDw3JPxpdp?=
- =?us-ascii?Q?+G3Fiuqp11NszjQFqnTy6E6zbuHBA0gAZ1u6niR+E0PcbPZlZer92ckvUxkj?=
- =?us-ascii?Q?wbJuD6a2LkS6setLiGWUlR0BPnvqDbFRNlJ063PmGr9PZaD2PxpbZmp3Z3Ie?=
- =?us-ascii?Q?lTX2v8fAWCi9NuAT+BrSprjLod2s76XVi58B/TUtpO9lQT3K1ZNVJAekg4KJ?=
- =?us-ascii?Q?PZ3fSTvahoHcbIr3OHUXmqnIC1Esm/SF4bimY0Qy8LUeh4PlimfGiKJYAL7Z?=
- =?us-ascii?Q?slbOh4DhJiuc5ZsCrz0sUA36B/hT/+GgiwFKOafTFnZkQluJGSDnlA/LaGch?=
- =?us-ascii?Q?l/Zulq9hlcq55IXK0PWKYJZhXis7sOcNUs36kqGwlKwU3pqLSKBSZRkMMDkH?=
- =?us-ascii?Q?I4OLcVje/B03k5hPYvYT7Lw2YwzDMAdklEgjovadjPmnTFAlwrzicJB/iDgf?=
- =?us-ascii?Q?XkILD77TGpyrlnB6TYohwwKDYtWTERyou8n7FbgmPxqIVB9R6dYnRX5+Pv0e?=
- =?us-ascii?Q?gjFjS16/OJc5b1IPNaNh/JnQTuNsGDnEzIZGm/b9X5z4ewKcFbi67kjSFO+m?=
- =?us-ascii?Q?Lrc00pWDEn23y9xjuYeYgxuaZE/XXga40KwZpqOOdfLa+DH7aHYM5gFDzvu1?=
- =?us-ascii?Q?cXsnEZoOhNZabb8PCKo5LikANzyGkrvT72HQdV9Z78XrPogMxYM1o8imQ9Ix?=
- =?us-ascii?Q?Xbo2Fa3rNaBi2es/SR+P6FToFC52gHDDZIGEsHB9ptC9A/T7vzWdibizGKhq?=
- =?us-ascii?Q?+DJUe+M5A0Z+NmQjSvaSX4d4mIxVeF8Q7ZBRo9juBg8Hwi+IsiQZ9XTds8ZO?=
- =?us-ascii?Q?n5JRx98B683CJIqQHR39bBsqtyDC2xHzrcvZhYKO5XACCGjU1Z3FuOEcS4UK?=
- =?us-ascii?Q?uUog8Tm8fA9a3zLtut5sGLsuDB8+Aab/6aoKQ+06Nw4xC3Cu2fV0UfYCTcMV?=
- =?us-ascii?Q?tPHqyqq02eX9EdEu8xGnR4AB/DcE9mAERTp8xsM7hof6l8LS7l0brcWKdJf/?=
- =?us-ascii?Q?irwq+v5mAqxv+bcc9crQoN9hAjfjBLbXLndQxluZsyiPTqqUnfw/XRz84126?=
- =?us-ascii?Q?zHYS+YybyG82+D2LYnb/a/0R6bR+2QonKUxHxUp4VIWSbJh4z2cgbq3S0EAl?=
- =?us-ascii?Q?PPnKR0261pApZVhs4lOkjc3hOv4RU6aVlB9l8TI0lhujg1+nkoR+M92gclyc?=
- =?us-ascii?Q?dWu3iLiJV/cMIPieeGpaX5AjfbJMgXhnJTsakRZYe3dnkkLl7kDgfXy4kHBd?=
- =?us-ascii?Q?kaHrzj7HjDi7hCeUe+BWIbAwR7AphMur5vCb77Y+VPE95R5ocHR3UaxxSg3r?=
- =?us-ascii?Q?84QcCz8miWwoKkgA8jM2HHZAcZu5fpJ7yNBSMkjsUT5yc49NqjoWsrS+2foW?=
- =?us-ascii?Q?TfFISMlPxGe19rdZKeQLp1MqqqG+UfU0NL9mD/ZZ?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ba122ae7-24a6-4c30-62d1-08dc302d549c
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2024 02:57:23.3168
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BlAgCR17cDqKMWnb3cH5pqm5hF6m0f9zrNhCSUMLEHp4Wmhl/bLo9rm8DyW5KAywLsgjT7LU2kYDeYVoUIvERQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4533
-X-Proofpoint-ORIG-GUID: -HiISLwsQRlE57iaMddOeqiCsx3ROzp6
-X-Proofpoint-GUID: -HiISLwsQRlE57iaMddOeqiCsx3ROzp6
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-17_23,2024-02-16_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 clxscore=1015
- phishscore=0 impostorscore=0 suspectscore=0 priorityscore=1501 bulkscore=0
- mlxscore=0 lowpriorityscore=0 spamscore=0 mlxlogscore=854 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2401310000
- definitions=main-2402180019
+References: <20240216114034.109257-1-anuj.mittal@intel.com>
+ <20240216114034.109257-7-anuj.mittal@intel.com> <33de869a-1a09-41c9-be4b-6de1d0c29417@gmail.com>
+In-Reply-To: <33de869a-1a09-41c9-be4b-6de1d0c29417@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 17 Feb 2024 19:01:27 -0800
+Message-ID: <CAMKF1sqQAXDDbrQA8QOvYvgrkxEjOp=MiJBeWdz8=wo6BpyFeg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 7/9] swig: upgrade 4.1.1 -> 4.2.0
+To: Anuj Mittal <anuj.mittal@intel.com>, openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 18 Feb 2024 02:57:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195819
+ <openembedded-core@lists.openembedded.org>; Sun, 18 Feb 2024 03:01:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195820
 
-From: Chen Qi <Qi.Chen@windriver.com>
+here is one failure due to this upgrade -
+https://errors.yoctoproject.org/Errors/Details/753587/
 
-By default, the tests are built and run at do_compile and we can see
-errors like below in log.do_compile:
-
-  gnupg-2.4.4/tests/cms/inittests: line 99: ../../sm/gpgsm: cannot execute binary file: Exec format error
-
-Note that the do_compile process still succeeds. However, we'd better avoid
-executing these target binaries at build time.
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-support/gnupg/gnupg_2.4.4.bb | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-support/gnupg/gnupg_2.4.4.bb b/meta/recipes-support/gnupg/gnupg_2.4.4.bb
-index 5b9869b4f3..fff7d8c6da 100644
---- a/meta/recipes-support/gnupg/gnupg_2.4.4.bb
-+++ b/meta/recipes-support/gnupg/gnupg_2.4.4.bb
-@@ -32,6 +32,7 @@ EXTRA_OECONF = "--disable-ldap \
- 		--with-readline=${STAGING_LIBDIR}/.. \
- 		--with-mailprog=${sbindir}/sendmail \
- 		--enable-gpg-is-gpg2 \
-+		--disable-tests \
-                "
- # yat2m can be found from recipe-sysroot-native non-deterministically with different versioning otherwise
- CACHED_CONFIGUREVARS += "ac_cv_path_YAT2M=./yat2m"
--- 
-2.34.1
-
+On Fri, Feb 16, 2024 at 6:59=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wrote=
+:
+>
+> this can be tricky for many apps depend on it subtly might fail. Perhaps
+> doing an extended world build with this might be good.
+>
+> On 2/16/24 3:40 AM, Anuj Mittal wrote:
+> > Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+> > ---
+> >   ...self-exe-for-swig-swiglib-on-non-Win32-plat.patch | 10 ++++++----
+> >   ...configure-use-pkg-config-for-pcre-detection.patch |  6 +++---
+> >   meta/recipes-devtools/swig/swig/determinism.patch    | 12 +++++++++++=
+-
+> >   .../swig/{swig_4.1.1.bb =3D> swig_4.2.0.bb}            |  2 +-
+> >   4 files changed, 21 insertions(+), 9 deletions(-)
+> >   rename meta/recipes-devtools/swig/{swig_4.1.1.bb =3D> swig_4.2.0.bb} =
+(72%)
+> >
+> > diff --git a/meta/recipes-devtools/swig/swig/0001-Use-proc-self-exe-for=
+-swig-swiglib-on-non-Win32-plat.patch b/meta/recipes-devtools/swig/swig/000=
+1-Use-proc-self-exe-for-swig-swiglib-on-non-Win32-plat.patch
+> > index f27f80ea184..9c6ae389be2 100644
+> > --- a/meta/recipes-devtools/swig/swig/0001-Use-proc-self-exe-for-swig-s=
+wiglib-on-non-Win32-plat.patch
+> > +++ b/meta/recipes-devtools/swig/swig/0001-Use-proc-self-exe-for-swig-s=
+wiglib-on-non-Win32-plat.patch
+> > @@ -1,4 +1,4 @@
+> > -From a4a0440a644c6c5e5da096efe3cf05ba309a284f Mon Sep 17 00:00:00 2001
+> > +From ab0ab5e685bd9077c44fdca5c1a27b0f477444d7 Mon Sep 17 00:00:00 2001
+> >   From: "NODA, Kai" <nodakai@gmail.com>
+> >   Date: Sun, 22 Apr 2012 17:01:02 +0900
+> >   Subject: [PATCH] Use /proc/self/exe for "swig -swiglib" on non-Win32
+> > @@ -10,9 +10,11 @@ Upstream-Status: Submitted
+> >   http://sourceforge.net/mailarchive/message.php?msg_id=3D29179733
+> >
+> >   ---
+> > - Source/Modules/main.cxx |   24 ++++++++++++++++++++++--
+> > + Source/Modules/main.cxx | 24 ++++++++++++++++++++++--
+> >    1 file changed, 22 insertions(+), 2 deletions(-)
+> >
+> > +diff --git a/Source/Modules/main.cxx b/Source/Modules/main.cxx
+> > +index 8a44921..8250dee 100644
+> >   --- a/Source/Modules/main.cxx
+> >   +++ b/Source/Modules/main.cxx
+> >   @@ -25,6 +25,11 @@
+> > @@ -27,7 +29,7 @@ http://sourceforge.net/mailarchive/message.php?msg_id=
+=3D29179733
+> >
+> >    // Global variables
+> >
+> > -@@ -934,9 +939,9 @@ int SWIG_main(int argc, char *argv[], co
+> > +@@ -886,9 +891,9 @@ int SWIG_main(int argc, char *argv[], const Target=
+LanguageModule *tlm) {
+> >
+> >      // Check for SWIG_LIB environment variable
+> >      if ((c =3D getenv("SWIG_LIB")) =3D=3D (char *) 0) {
+> > @@ -38,7 +40,7 @@ http://sourceforge.net/mailarchive/message.php?msg_id=
+=3D29179733
+> >        if (!(GetModuleFileName(0, buf, MAX_PATH) =3D=3D 0 || (p =3D str=
+rchr(buf, '\\')) =3D=3D 0)) {
+> >          *(p + 1) =3D '\0';
+> >          SwigLib =3D NewStringf("%sLib", buf); // Native windows instal=
+lation path
+> > -@@ -946,7 +951,22 @@ int SWIG_main(int argc, char *argv[], co
+> > +@@ -898,7 +903,22 @@ int SWIG_main(int argc, char *argv[], const Targe=
+tLanguageModule *tlm) {
+> >        if (Len(SWIG_LIB_WIN_UNIX) > 0)
+> >          SwigLibWinUnix =3D NewString(SWIG_LIB_WIN_UNIX); // Unix insta=
+llation path using a drive letter (for msys/mingw)
+> >    #else
+> > diff --git a/meta/recipes-devtools/swig/swig/0001-configure-use-pkg-con=
+fig-for-pcre-detection.patch b/meta/recipes-devtools/swig/swig/0001-configu=
+re-use-pkg-config-for-pcre-detection.patch
+> > index cfcbd8c73ae..9e16caecca1 100644
+> > --- a/meta/recipes-devtools/swig/swig/0001-configure-use-pkg-config-for=
+-pcre-detection.patch
+> > +++ b/meta/recipes-devtools/swig/swig/0001-configure-use-pkg-config-for=
+-pcre-detection.patch
+> > @@ -1,4 +1,4 @@
+> > -From ffb785ed8d3cac3c28e014b1238d93e2bc1f0c01 Mon Sep 17 00:00:00 2001
+> > +From 57a15651b46a0f1f84a4dd15d67d104fbfbe3f6e Mon Sep 17 00:00:00 2001
+> >   From: Koen Kooi <koen.kooi@linaro.org>
+> >   Date: Tue, 17 Jun 2014 08:18:17 +0200
+> >   Subject: [PATCH] configure: use pkg-config for pcre detection
+> > @@ -11,10 +11,10 @@ Upstream-Status: Pending
+> >    1 file changed, 7 insertions(+), 32 deletions(-)
+> >
+> >   diff --git a/configure.ac b/configure.ac
+> > -index f88004a..3a2b47c 100644
+> > +index c060028..a330266 100644
+> >   --- a/configure.ac
+> >   +++ b/configure.ac
+> > -@@ -57,39 +57,14 @@ AC_MSG_RESULT([$with_pcre])
+> > +@@ -49,39 +49,14 @@ AC_MSG_RESULT([$with_pcre])
+> >
+> >    dnl To make configuring easier, check for a locally built PCRE using=
+ the Tools/pcre-build.sh script
+> >    if test x"${with_pcre}" =3D xyes ; then
+> > diff --git a/meta/recipes-devtools/swig/swig/determinism.patch b/meta/r=
+ecipes-devtools/swig/swig/determinism.patch
+> > index 84c399182a4..417f0c43178 100644
+> > --- a/meta/recipes-devtools/swig/swig/determinism.patch
+> > +++ b/meta/recipes-devtools/swig/swig/determinism.patch
+> > @@ -1,13 +1,23 @@
+> > +From 25bf9893ec1f557781eb241508ea1bec959061fe Mon Sep 17 00:00:00 2001
+> > +From: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > +Date: Mon, 1 Mar 2021 00:11:10 +0000
+> > +Subject: [PATCH] swig: Fix reproducibility issue
+> > +
+> >   Remove the compiler commandline/platform from the compiled binary as =
+this
+> >   breaks reproducibilty.
+> >
+> >   Upstream-Status: Inappropriate [OE reproducibiity fix upstream unlike=
+ly to take]
+> >   RP 2021/3/1
+> >
+> > +---
+> > + Source/Modules/main.cxx | 1 -
+> > + 1 file changed, 1 deletion(-)
+> >
+> > +diff --git a/Source/Modules/main.cxx b/Source/Modules/main.cxx
+> > +index 8250dee..415761d 100644
+> >   --- a/Source/Modules/main.cxx
+> >   +++ b/Source/Modules/main.cxx
+> > -@@ -642,7 +642,6 @@ static void getoptions(int argc, char *a
+> > +@@ -629,7 +629,6 @@ static void getoptions(int argc, char *argv[]) {
+> >       }
+> >          } else if (strcmp(argv[i], "-version") =3D=3D 0) {
+> >       fprintf(stdout, "\nSWIG Version %s\n", Swig_package_version());
+> > diff --git a/meta/recipes-devtools/swig/swig_4.1.1.bb b/meta/recipes-de=
+vtools/swig/swig_4.2.0.bb
+> > similarity index 72%
+> > rename from meta/recipes-devtools/swig/swig_4.1.1.bb
+> > rename to meta/recipes-devtools/swig/swig_4.2.0.bb
+> > index b9e01752993..2ab4ed006c6 100644
+> > --- a/meta/recipes-devtools/swig/swig_4.1.1.bb
+> > +++ b/meta/recipes-devtools/swig/swig_4.2.0.bb
+> > @@ -4,4 +4,4 @@ SRC_URI +=3D "file://0001-Use-proc-self-exe-for-swig-sw=
+iglib-on-non-Win32-plat.pat
+> >               file://0001-configure-use-pkg-config-for-pcre-detection.p=
+atch \
+> >               file://determinism.patch \
+> >              "
+> > -SRC_URI[sha256sum] =3D "2af08aced8fcd65cdb5cc62426768914bedc735b1c2503=
+25203716f78e39ac9b"
+> > +SRC_URI[sha256sum] =3D "261ca2d7589e260762817b912c075831572b72ff271794=
+2f75b3e51244829c97"
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#195754): https://lists.openembedded.org/g/openembed=
+ded-core/message/195754
+> > Mute This Topic: https://lists.openembedded.org/mt/104390933/1997914
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
+raj.khem@gmail.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
 
