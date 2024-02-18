@@ -1,86 +1,90 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <simone.p.weiss@posteo.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E08DC48BC4
-	for <webhook@archiver.kernel.org>; Sun, 18 Feb 2024 15:18:33 +0000 (UTC)
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
- by mx.groups.io with SMTP id smtpd.web11.19460.1708269507266823687
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81E73C48BF6
+	for <webhook@archiver.kernel.org>; Sun, 18 Feb 2024 15:42:53 +0000 (UTC)
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
+ by mx.groups.io with SMTP id smtpd.web10.19839.1708270969575396061
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 Feb 2024 07:18:27 -0800
+ Sun, 18 Feb 2024 07:42:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=H9yryDJe;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.208.181, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2d23700df18so4920601fa.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 18 Feb 2024 07:18:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1708269505; x=1708874305; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XrjVDt4b3avAZtvNrgsAmQeE54/7UlCh66wtH930ldY=;
-        b=H9yryDJeb+jFT0cEv7otXb2g57yrVE/v0js5v2Iy9V1ZhsYGbK7Q+d/Po8ABMgYqb8
-         gtZtnUizxXyiHVMKGefAcErcws2Fv3aLCPIc30g6WCdVnMgzQSZwjPXJc94WT4EwR7vV
-         qZTs/VNyrCw0ivjMLbkqyPbg7sSl1lC4OYNbg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708269505; x=1708874305;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XrjVDt4b3avAZtvNrgsAmQeE54/7UlCh66wtH930ldY=;
-        b=kBnVof9mZY9jRoE3hQq4GV8HaEsRivQTaEPI34TEX/vHtb55aBC7miS1a6h9G84xAk
-         E30wxYzwjvSk5ucTKLj0vKXOXdo3/K+gMvJYFNyTqa6gGM3dxG3IB+PbUlSd3oBnfFEh
-         bbRLIebicHNfeqdHOFnX2PzFXfur8sjGgsmmfeJLqobIrEQUhrC4EkKuT5XSgC8qrZrQ
-         +BT4o7K0g43s2DWqMWOwkbWGFTBnbWRV86UI1TFm5ucZmFx4+S6nWfx8Ae1/RsdmWdCF
-         XSaPDWEEE8PhALbAyBoOkU+whr6Rm5B2Hx6peb7VXHSDoNC57nSw8PQStCP6r+uNT0rv
-         Ayig==
-X-Gm-Message-State: AOJu0YzsDDrBPDLcH7B8qUnx7HsHqR6kQWPda+jeBHJFNnf5tMbtS9rs
-	5VQmEX5Cs1URJ8iy99TL135gYpIpvGTlEEPm+g7MCMACp8L1HaDsl4WucBP9FTkZaly3eq+AuKi
-	R
-X-Google-Smtp-Source: AGHT+IEQ2W5vl5KprwxdI0XkFtBsk8qniUrRP3bcUkwUPtptalJpqPmItxaNidGSrDyyDkcbI4+Gvg==
-X-Received: by 2002:a2e:7206:0:b0:2d2:284d:3ae5 with SMTP id n6-20020a2e7206000000b002d2284d3ae5mr3383892ljc.45.1708269504824;
-        Sun, 18 Feb 2024 07:18:24 -0800 (PST)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:3d44:5cd8:cef2:3070])
-        by smtp.gmail.com with ESMTPSA id r2-20020a05600c35c200b004123b049f86sm8473124wmq.37.2024.02.18.07.18.24
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Feb 2024 07:18:24 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@posteo.com header.s=2017 header.b=nHjiV8c3;
+ spf=pass (domain: posteo.com, ip: 185.67.36.65, mailfrom: simone.p.weiss@posteo.com)
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id 528AC240028
+	for <openembedded-core@lists.openembedded.org>; Sun, 18 Feb 2024 16:42:47 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.com; s=2017;
+	t=1708270967; bh=CQnO3YLsm/lJlwFC8EtVhDop34bm/iOQL0cdLvrMDXs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:From;
+	b=nHjiV8c3YE1ytVQeKiE5Ig+8YJgtpSlC0Tbf9YD99TTqF8cFULsVzd7VfLJsWlsON
+	 DtHa5w+h6lEVKgy/EOAf/04+DTk/0Q5GDhMRWVDw9NlX4BZKIlqdamIZtqfHXPxffZ
+	 WDyY4/s9lhvx+/KeA0l1CrSD3bKiF0uhzJqDgILOdEigpIQwqAAiyGtQ+xgyU5cXCs
+	 odwYEJmQRtv6tKllO7b94B+B62rqCDW1lcQQ5PD4EtgZGeX0eaClERbJGAQT9D9DNd
+	 rmRNaqNO5CRGWTkC9up0JwqS15nV4GzKP84Z/spq3E8aWh9ypG3M+86aiNfxuAMS6Y
+	 AMSIrnINP0WNw==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4Td90k551yz9rxB;
+	Sun, 18 Feb 2024 16:42:46 +0100 (CET)
+From: simone.p.weiss@posteo.com
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] oeqa/selftest/rust: Exclude failing riscv tests
-Date: Sun, 18 Feb 2024 15:18:23 +0000
-Message-Id: <20240218151823.355687-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.40.1
+Cc: =?UTF-8?q?Simone=20Wei=C3=9F?= <simone.p.weiss@posteo.com>
+Subject: [PATCH 1/2] libgit2: update 1.7.1 -> 1.7.2
+Date: Sun, 18 Feb 2024 15:42:40 +0000
+Message-Id: <20240218154240.1650484-1-simone.p.weiss@posteo.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 18 Feb 2024 15:18:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195833
+ <openembedded-core@lists.openembedded.org>; Sun, 18 Feb 2024 15:42:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195834
 
-The rust tests nearly pass for qemurisv64, add the remaining ones to the
-exclusion list so it matches everythig else in exlcuding all the know
-to break cases.
+From: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Update libgit2 to pull in securtiy fixes.
+
+Changelog summary:
+- A bug in git_revparse_single is fixed that could cause a Denial of
+  Service attack. This fixes CVE-2024-24575
+
+ - A bug in git_index_add is fixed that could lead to arbitrary code exec=
+ution.
+   This fixes CVE-2024-24577
+
+ - A bug in the smart transport negotiation could have caused an out-of-b=
+ounds
+   read.
+
+Signed-off-by: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
 ---
- meta/lib/oeqa/selftest/cases/rust.py | 3 +++
- 1 file changed, 3 insertions(+)
+ .../libgit2/{libgit2_1.7.1.bb =3D> libgit2_1.7.2.bb}              | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/libgit2/{libgit2_1.7.1.bb =3D> libgit2_1.7.2=
+.bb} (92%)
 
-diff --git a/meta/lib/oeqa/selftest/cases/rust.py b/meta/lib/oeqa/selftest/cases/rust.py
-index 164ad11ecd1..120be6454fa 100644
---- a/meta/lib/oeqa/selftest/cases/rust.py
-+++ b/meta/lib/oeqa/selftest/cases/rust.py
-@@ -102,6 +102,9 @@ class RustSelfTestSystemEmulated(OESelftestTestCase, OEPTestResultTestCase):
-                             'tests/codegen/non-terminate/nonempty-infinite-loop.rs',
-                             'tests/codegen/noreturn-uninhabited.rs',
-                             'tests/codegen/repr-transparent-aggregates-3.rs',
-+                            'tests/codegen/riscv-abi/call-llvm-intrinsics.rs',
-+                            'tests/codegen/riscv-abi/riscv64-lp64f-lp64d-abi.rs',
-+                            'tests/codegen/riscv-abi/riscv64-lp64d-abi.rs',
-                             'tests/codegen/sse42-implies-crc32.rs',
-                             'tests/codegen/thread-local.rs',
-                             'tests/codegen/uninit-consts.rs',
--- 
-2.40.1
+diff --git a/meta/recipes-support/libgit2/libgit2_1.7.1.bb b/meta/recipes=
+-support/libgit2/libgit2_1.7.2.bb
+similarity index 92%
+rename from meta/recipes-support/libgit2/libgit2_1.7.1.bb
+rename to meta/recipes-support/libgit2/libgit2_1.7.2.bb
+index 92af0b8454..d1629c0c0b 100644
+--- a/meta/recipes-support/libgit2/libgit2_1.7.1.bb
++++ b/meta/recipes-support/libgit2/libgit2_1.7.2.bb
+@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D5bdf47bbc9a39d=
+c6ce076d59e322dc17"
+ DEPENDS =3D "curl openssl zlib libssh2 libgcrypt libpcre2"
+=20
+ SRC_URI =3D "git://github.com/libgit2/libgit2.git;branch=3Dmaint/v1.7;pr=
+otocol=3Dhttps"
+-SRCREV =3D "a2bde63741977ca0f4ef7db2f609df320be67a08"
++SRCREV =3D "a418d9d4ab87bae16b87d8f37143a4687ae0e4b2"
+=20
+ S =3D "${WORKDIR}/git"
+=20
+--=20
+2.39.2
 
 
