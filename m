@@ -1,202 +1,223 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AA92C48BF6
-	for <webhook@archiver.kernel.org>; Sun, 18 Feb 2024 15:02:03 +0000 (UTC)
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
- by mx.groups.io with SMTP id smtpd.web11.19162.1708268514908211833
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E4A0C48BF6
+	for <webhook@archiver.kernel.org>; Sun, 18 Feb 2024 15:12:03 +0000 (UTC)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web11.19351.1708269115251100051
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 Feb 2024 07:01:55 -0800
+ Sun, 18 Feb 2024 07:11:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=D/vvfvy2;
- spf=pass (domain: gmail.com, ip: 209.85.128.177, mailfrom: ticotimo@gmail.com)
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-60821136c5aso2336627b3.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 18 Feb 2024 07:01:54 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=DPmcnL+V;
+ spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-33d4c11bd34so200405f8f.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 18 Feb 2024 07:11:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708268514; x=1708873314; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1708269114; x=1708873914; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=obd3rpLfHn6zwp4DdrKNFtGq4UNYs0sRnOV3djtdnLo=;
-        b=D/vvfvy2ORFW7H2xEDYs46VCNQ+bVhjTPUHi9pRIfmOMDaftV4WEib4qz0AM/OZbAs
-         /6RVTbJeJw67idleBykRZuf52gx0wrGyiVu28NsK6S1BGufkJ7SThipAsqrhzEKJFhfv
-         yuuatNAeoudOzQWVnNTD6Dny1vVho1OHAxppS69hYgHMbvwmPGEuudsAgu5VtO8GKUXm
-         VyWoqNof0Wx53hKNp4OIYJ8xiQNlfhNyeCizzz3OdjvH6yz9UDkMZ7KeZVltJDxd1mN6
-         tXx2BxPtJ+n6A2p5OetCD6fn5Gm1jzi9mDMvwYG/lv+w/uOu+m94F1ose/tQnQQ7rJAT
-         DCyw==
+        bh=1BK0DVSxTmUDSlqbzw3Kr8dV0vYyL84+ge1o+IZUTFI=;
+        b=DPmcnL+Vd0EzYX1kYcirgAGkDBaFJ0AcPzDzE3o7sJuPSZNTZMZSBfwQLnDvfRLenR
+         /AvFTWv8Zbo0CSYi10uH+HeCU0h8ybGbQQKLfxzRV+1pUdckex8VR07uOXH0m0DwTppO
+         00nKf9/8dg1MD+2j0v0IE0LnHs9+Kc3Foe7DTnHHx8/J99tLIGRdE4rpf7XaD625apoI
+         PqMKSXYzVAFoxU8Q7pt0uGxA+YODQOeaWq48l+J+LF/6PFuI2Qz6A+Ffn+liRer//NYW
+         mmyGl7xTKFR9FTPpEPeVc9T7y3Nb3qxrdThhLJjwTs3iP/JzVnqDMtwLAbgC08Y3aSKU
+         zyQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708268514; x=1708873314;
+        d=1e100.net; s=20230601; t=1708269114; x=1708873914;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=obd3rpLfHn6zwp4DdrKNFtGq4UNYs0sRnOV3djtdnLo=;
-        b=Yv8aCDG4dLo4rM4pmMWAgzVeFR5u+/uq8Njf9ngl4rZYjQImdfmduwhmgJ/RuQcAh7
-         jSDDFyb2dofapbLRcvdxeLihizKxMxGRae4ggAVdPPFnK07i0ZnUbHsX80ekQU+fHRU9
-         Dmb/+3dGc75fAKsJK1Lsbw9P+43/pLazj9S2nDirePgrZCtIaIyqgW2NS38g/K/AuNBb
-         LkgcLdEjSnt672zcp3g8KtneIV4J5C5hqEYwyr6bZDjbHgQrRaopPEkbSo6RWoVM22Fm
-         6zeCBHuhoCMrWqUOwk61qPqazkqTbZQ69vuDgBPrB+zmlVNJdWCq28Q2bmN9bDhnsMiA
-         dO1A==
-X-Gm-Message-State: AOJu0YzycvoOMN7gMgXEL4Cvn/a/nwBBPjvFscxtoJn74f83KIfsUfFq
-	a+1KjUwBVOJNrtpdC0nwpnqtqHMT1HXj3S/P5CtzPC9pTb61ov6njOyJZWSmrAEBIbrcxcUyYtL
-	8sbLPzamIABG1Nj91amejupX5MP4=
-X-Google-Smtp-Source: AGHT+IFyHZ39Bc2XNqe7DOo6fatl9ASeBYbE3aSyzfitu8Y98hbwE+jKHygGDkcDQx+B1cH9gQSwn8iNJBgjKfX9qiQ=
-X-Received: by 2002:a81:b71b:0:b0:604:3ee2:f258 with SMTP id
- v27-20020a81b71b000000b006043ee2f258mr9171780ywh.45.1708268513941; Sun, 18
- Feb 2024 07:01:53 -0800 (PST)
+        bh=1BK0DVSxTmUDSlqbzw3Kr8dV0vYyL84+ge1o+IZUTFI=;
+        b=P42JsfuOEgkqOTW5+5LEUFjRD9dDHB3uEivPTfwjwu3D+ZpkRMRLaMskBoie3SoCUM
+         iVYGIfAZPdu3Ah4Cqsp7TDB172BkJ0uwQbg35hzW7eF4Rw62zHNzE8apXG7S3SkJ7xkD
+         TYlI22IOCXNy5R4ich1XJVyN/Gvi7CLk3u/jWTmw045H/9ZzxQzF07QhsHYDvezo9lcU
+         4YXQQ+tmo+Z6RhOJTOgNv0VMJDW3P2eIzxqLWWU+rp0IKfK6JtDie3RnQ7YYP4qlCeL1
+         zFlYkkNoOQfzXTWD9Dg1amYzj0C3/pdZiP7kHErViSjxI/RHs687tvI2NkGWbynUR2tb
+         EN5w==
+X-Gm-Message-State: AOJu0YwHnNm4L7kmS8pwxk5IZmA5PT3XbmarfI64xgcmEr8uNBcfKtY5
+	Az5oLdb7I4ulgpV9KrZBLluGO6x72q8xZ5GE9Cs/Z2YyTumDTXGAgE/LakLLlDFyXX7WAZ58mgz
+	nvxm4M7YA68NwJxbw4LNVNr+9Vi0=
+X-Google-Smtp-Source: AGHT+IGxubxsKZDdMbVna4ROU+dYroEjmaFtPJRSOVg/zhAyzfWPahkSZlCrdfptbTqKG1kIr+Ryo9UYzgg6pAouGJg=
+X-Received: by 2002:a5d:5f96:0:b0:33d:2065:c6d7 with SMTP id
+ dr22-20020a5d5f96000000b0033d2065c6d7mr6463235wrb.43.1708269113454; Sun, 18
+ Feb 2024 07:11:53 -0800 (PST)
 MIME-Version: 1.0
-References: <20240218123250.1516996-1-simone.p.weiss@posteo.com>
-In-Reply-To: <20240218123250.1516996-1-simone.p.weiss@posteo.com>
-From: Tim Orling <ticotimo@gmail.com>
-Date: Sun, 18 Feb 2024 07:01:42 -0800
-Message-ID: <CANx9H-AfpAq7A6-kWjYhQEcByop69ziqgRiTw99nGhsvgEmkrA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] vim: upgrade 9.0.2130 -> 9.0.2142
-To: =?UTF-8?B?U2ltb25lIFdlacOf?= <simone.p.weiss@posteo.com>
+References: <20231107152641.1043-2-jermain.horsman@nedap.com> <20231107152641.1043-7-jermain.horsman@nedap.com>
+In-Reply-To: <20231107152641.1043-7-jermain.horsman@nedap.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Sun, 18 Feb 2024 16:11:42 +0100
+Message-ID: <CA+chaQfBEOr+NTjD=7d07xieHPfn=AOrnr2K2XTSnz0-qRT3LQ@mail.gmail.com>
+Subject: Re: [OE-core] [RFC 5/7] lib/oe/buildcfg.py: Add additional git functions
+To: jermain.horsman@nedap.com
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000f45f610611a9413c"
+Content-Type: multipart/alternative; boundary="000000000000b034620611a96553"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 18 Feb 2024 15:02:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195831
+ <openembedded-core@lists.openembedded.org>; Sun, 18 Feb 2024 15:12:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195832
 
---000000000000f45f610611a9413c
+--000000000000b034620611a96553
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Feb 18, 2024 at 4:33=E2=80=AFAM Simone Wei=C3=9F <simone.p.weiss@po=
-steo.com>
+Was there a reason why this wasn't merged in the end (other than being sent
+as RFC)?
+
+We're using git describe in webOS for long time (through our bbclass:
+https://github.com/webosose/meta-webosose/blob/master/meta-webos/classes/we=
+bos_base.bbclass#L114
+)
+
+I would be happy to drop it from our bbclass to use this shared function.
+
+Regards,
+
+On Tue, Nov 7, 2023 at 4:27=E2=80=AFPM Jermain Horsman <jermain.horsman@ned=
+ap.com>
 wrote:
 
-> From: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
+> From: Jermain Horsman <jermain.horsman@nedap.com>
 >
-> Changes:
-> https://github.com/vim/vim/compare/v9.0.2130...v9.0.2142
+> Includes a function to determine the default remote.
 >
-> This fixes CVE-2024-22667
->
-> Signed-off-by: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
+> Signed-off-by: Jermain Horsman <jermain.horsman@nedap.com>
 > ---
->  meta/recipes-support/vim/vim.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  meta/lib/oe/buildcfg.py | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
 >
-> diff --git a/meta/recipes-support/vim/vim.inc
-> b/meta/recipes-support/vim/vim.inc
-> index 6b440d8947..84af72472a 100644
-> --- a/meta/recipes-support/vim/vim.inc
-> +++ b/meta/recipes-support/vim/vim.inc
-> @@ -19,7 +19,7 @@ SRC_URI =3D "git://
-> github.com/vim/vim.git;branch=3Dmaster;protocol=3Dhttps \
->             file://no-path-adjust.patch \
->             "
+> diff --git a/meta/lib/oe/buildcfg.py b/meta/lib/oe/buildcfg.py
+> index f9cb0cc74c..2ca654e56e 100644
+> --- a/meta/lib/oe/buildcfg.py
+> +++ b/meta/lib/oe/buildcfg.py
+> @@ -50,6 +50,22 @@ def get_metadata_git_remote_url(path, remote):
+>          uri =3D ''
+>      return uri.strip()
 >
-> -PV .=3D ".2130"
-> +PV .=3D ".2142"
->  SRCREV =3D "075ad7047457debfeef13442c01e74088b461092"
->
-You need to actually change the SRCREV to point to .2142
-
-https://github.com/vim/vim/commits/v9.0.2142
-
-b39b240c386a5a29241415541f1c99e2e6b8ce47
-
-
-And then ask yourself if we should take an even more recent version:
-
-https://github.com/vim/vim/commits/v9.1.0114
-
-
->  # Do not consider .z in x.y.z, as that is updated with every commit
+> +def get_metadata_git_default_remote(path):
+> +    remotes =3D get_metadata_git_remotes(path)
+> +    if len(remotes) =3D=3D 1:
+> +        default_remote =3D remotes[0]
+> +    else:
+> +        try:
+> +            default_remote, _ =3D bb.process.run('git config --local
+> checkout.defaultRemote', cwd=3Dpath)
+> +        except bb.process.ExecutionError:
+> +            default_remote =3D ""
+> +        if not default_remote:
+> +            try:
+> +                default_remote, _ =3D bb.process.run('git config
+> checkout.defaultRemote', cwd=3Dpath)
+> +            except bb.process.ExecutionError:
+> +                default_remote =3D ""
+> +    return default_remote.strip()
+> +
+>  def get_metadata_git_describe(path):
+>      try:
+>          describe, _ =3D bb.process.run('git describe --tags', cwd=3Dpath=
+)
 > --
-> 2.39.2
+> 2.42.0.windows.2
 >
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#195828):
-> https://lists.openembedded.org/g/openembedded-core/message/195828
-> Mute This Topic: https://lists.openembedded.org/mt/104426571/924729
+> View/Reply Online (#190295):
+> https://lists.openembedded.org/g/openembedded-core/message/190295
+> Mute This Topic: https://lists.openembedded.org/mt/102444609/3617156
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> ticotimo@gmail.com]
+> martin.jansa@gmail.com]
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
 >
 
---000000000000f45f610611a9413c
+--000000000000b034620611a96553
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Sun, Feb 18, 2024 at 4:33=E2=80=AFAM Simone Wei=C3=9F &l=
-t;<a href=3D"mailto:simone.p.weiss@posteo.com">simone.p.weiss@posteo.com</a=
->&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;padding-left:1=
-ex;border-left-color:rgb(204,204,204)">From: Simone Wei=C3=9F &lt;<a href=
-=3D"mailto:simone.p.weiss@posteo.com" target=3D"_blank">simone.p.weiss@post=
-eo.com</a>&gt;<br>
+<div dir=3D"ltr">Was there a reason why this wasn&#39;t merged in the end (=
+other than being sent as RFC)?<div><br></div><div>We&#39;re using git descr=
+ibe in webOS for long time (through our bbclass:</div><div><a href=3D"https=
+://github.com/webosose/meta-webosose/blob/master/meta-webos/classes/webos_b=
+ase.bbclass#L114">https://github.com/webosose/meta-webosose/blob/master/met=
+a-webos/classes/webos_base.bbclass#L114</a><br></div><div>)</div><div><br><=
+/div><div>I would be happy to drop it from our bbclass to use this shared f=
+unction.</div><div><br></div><div>Regards,</div></div><br><div class=3D"gma=
+il_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Nov 7, 2023 at 4:27=
+=E2=80=AFPM Jermain Horsman &lt;<a href=3D"mailto:jermain.horsman@nedap.com=
+">jermain.horsman@nedap.com</a>&gt; wrote:<br></div><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
+204,204);padding-left:1ex">From: Jermain Horsman &lt;<a href=3D"mailto:jerm=
+ain.horsman@nedap.com" target=3D"_blank">jermain.horsman@nedap.com</a>&gt;<=
+br>
 <br>
-Changes:<br>
-<a href=3D"https://github.com/vim/vim/compare/v9.0.2130...v9.0.2142" rel=3D=
-"noreferrer" target=3D"_blank">https://github.com/vim/vim/compare/v9.0.2130=
-...v9.0.2142</a><br>
+Includes a function to determine the default remote.<br>
 <br>
-This fixes CVE-2024-22667<br>
-<br>
-Signed-off-by: Simone Wei=C3=9F &lt;<a href=3D"mailto:simone.p.weiss@posteo=
-.com" target=3D"_blank">simone.p.weiss@posteo.com</a>&gt;<br>
+Signed-off-by: Jermain Horsman &lt;<a href=3D"mailto:jermain.horsman@nedap.=
+com" target=3D"_blank">jermain.horsman@nedap.com</a>&gt;<br>
 ---<br>
-=C2=A0meta/recipes-support/vim/vim.inc | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+=C2=A0meta/lib/oe/buildcfg.py | 16 ++++++++++++++++<br>
+=C2=A01 file changed, 16 insertions(+)<br>
 <br>
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vi=
-m.inc<br>
-index 6b440d8947..84af72472a 100644<br>
---- a/meta/recipes-support/vim/vim.inc<br>
-+++ b/meta/recipes-support/vim/vim.inc<br>
-@@ -19,7 +19,7 @@ SRC_URI =3D &quot;git://<a href=3D"http://github.com/vim/=
-vim.git;branch=3Dmaster;protocol=3Dhttps" rel=3D"noreferrer" target=3D"_bla=
-nk">github.com/vim/vim.git;branch=3Dmaster;protocol=3Dhttps</a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://no-path-adjust.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+diff --git a/meta/lib/oe/buildcfg.py b/meta/lib/oe/buildcfg.py<br>
+index f9cb0cc74c..2ca654e56e 100644<br>
+--- a/meta/lib/oe/buildcfg.py<br>
++++ b/meta/lib/oe/buildcfg.py<br>
+@@ -50,6 +50,22 @@ def get_metadata_git_remote_url(path, remote):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uri =3D &#39;&#39;<br>
+=C2=A0 =C2=A0 =C2=A0return uri.strip()<br>
 <br>
--PV .=3D &quot;.2130&quot;<br>
-+PV .=3D &quot;.2142&quot;<br>
-=C2=A0SRCREV =3D &quot;075ad7047457debfeef13442c01e74088b461092&quot;<br>
-</blockquote><div dir=3D"auto">You need to actually change the SRCREV to po=
-int to .2142</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div><a hre=
-f=3D"https://github.com/vim/vim/commits/v9.0.2142">https://github.com/vim/v=
-im/commits/v9.0.2142</a></div><br></div><div dir=3D"auto"><div><div>b39b240=
-c386a5a29241415541f1c99e2e6b8ce47</div><br></div></div><div dir=3D"auto"><b=
-r></div><div dir=3D"auto">And then ask yourself if we should take an even m=
-ore recent version:</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div=
-><a href=3D"https://github.com/vim/vim/commits/v9.1.0114">https://github.co=
-m/vim/vim/commits/v9.1.0114</a></div><br></div><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-s=
-tyle:solid;padding-left:1ex;border-left-color:rgb(204,204,204)"><br>
-=C2=A0# Do not consider .z in x.y.z, as that is updated with every commit<b=
-r>
++def get_metadata_git_default_remote(path):<br>
++=C2=A0 =C2=A0 remotes =3D get_metadata_git_remotes(path)<br>
++=C2=A0 =C2=A0 if len(remotes) =3D=3D 1:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 default_remote =3D remotes[0]<br>
++=C2=A0 =C2=A0 else:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 default_remote, _ =3D bb.process=
+.run(&#39;git config --local checkout.defaultRemote&#39;, cwd=3Dpath)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 except bb.process.ExecutionError:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 default_remote =3D &quot;&quot;<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not default_remote:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 default_remote, _ =
+=3D bb.process.run(&#39;git config checkout.defaultRemote&#39;, cwd=3Dpath)=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 except bb.process.ExecutionError=
+:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 default_remote =3D=
+ &quot;&quot;<br>
++=C2=A0 =C2=A0 return default_remote.strip()<br>
++<br>
+=C2=A0def get_metadata_git_describe(path):<br>
+=C2=A0 =C2=A0 =C2=A0try:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0describe, _ =3D bb.process.run(&#39;git d=
+escribe --tags&#39;, cwd=3Dpath)<br>
 -- <br>
-2.39.2<br>
+2.42.0.windows.2<br>
 <br>
 <br>
 -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
 Links: You receive all messages sent to this group.<br>
-View/Reply Online (#195828): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/195828" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/195828</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/104426571/924=
-729" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/104426571/924729</a><br>
+View/Reply Online (#190295): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/190295" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/190295</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/102444609/361=
+7156" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/102444609/3617156</a><br>
 Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
 .org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
 br>
 Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
 unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:ticotimo@gmail.com" target=
-=3D"_blank">ticotimo@gmail.com</a>]<br>
+g/openembedded-core/unsub</a> [<a href=3D"mailto:martin.jansa@gmail.com" ta=
+rget=3D"_blank">martin.jansa@gmail.com</a>]<br>
 -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
 <br>
-</blockquote></div></div>
+</blockquote></div>
 
---000000000000f45f610611a9413c--
+--000000000000b034620611a96553--
 
