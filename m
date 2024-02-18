@@ -1,227 +1,131 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <changqing.li@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CDD5DC48BC4
-	for <webhook@archiver.kernel.org>; Sun, 18 Feb 2024 03:01:59 +0000 (UTC)
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
- by mx.groups.io with SMTP id smtpd.web11.11958.1708225314898313370
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 985B8C4829E
+	for <webhook@archiver.kernel.org>; Sun, 18 Feb 2024 05:41:20 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.13485.1708234876316743776
  for <openembedded-core@lists.openembedded.org>;
- Sat, 17 Feb 2024 19:01:55 -0800
+ Sat, 17 Feb 2024 21:41:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Oq8F8g4d;
- spf=pass (domain: gmail.com, ip: 209.85.160.45, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-214410e969cso1864969fac.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 17 Feb 2024 19:01:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708225314; x=1708830114; darn=lists.openembedded.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iTWch8PdPvAxFKMAkMwUzlXuPXY8gEKajNHhtw6gdpI=;
-        b=Oq8F8g4d7k3c47iNAhNoDjN4sEa3JhWWyhzFxfWpIqj8sfhzyxjRbiqOIRqjYVit5W
-         qsre0TaEMxAIUJallkZ35JuyHR9RjA/gJZklLpmYzJEES/vH8QLBsLdPz1pLPVI6ggKq
-         VH4sCJBMT7uDpU76Ltt/jAwmGQ2ewDlLZtcEdCuHLOcHkEGGFtjn7BjSdNxbTiKVfXbs
-         4wMohxrDE6/bZ5PZYhiK8I+MzlZWjpS7Rl+2Ro6yCJrK6/I6+UEBiFX3H6W7XdzckZ0K
-         LXfXgKzi8s4iYJp3Cwu3j1nmhb+REpt/zlSPe7rQkMSzbVw4XDIXFkVPQzqIiOYqK7at
-         NTPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708225314; x=1708830114;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iTWch8PdPvAxFKMAkMwUzlXuPXY8gEKajNHhtw6gdpI=;
-        b=YMm5no222K9gav0UEc/pFxKf8yxOS7J/9zBWjffW6k5d4TKu3kso8fBnbjEUL9vvuq
-         i+6G9cM7fL25SEviWpcahy8Sy9BJXAUNqor1Owmm7LDKdsLJCPe3cCQC1pppRhLCTpTq
-         54O87QWx740D8VddlC/7Yh9X8Ja38J8bSJNOXIcHPxzBtgCnQwyLiaH1XsTIW0aWXI8U
-         fS4BDrHPROW60YlongV9lKgLoXrkx90vfsnqFgWgxTruI3AKr2GA2afewh2A6+iMyhvL
-         HEGtLW71vHhdi/lyBJazx/rsFPNnAdN55seCECIAS2UuXwMpN54Ym8mQlNwP8VjP4TYz
-         Bl3w==
-X-Forwarded-Encrypted: i=1; AJvYcCVYBQ0XovuAKKLOauJ/EN/xIsRQaMM17byZvd3vFkHEhw3ydHAm/OVrvzOnLY0BKvM8/DfiCAQKm635eGlGTS0iQBL3ReXsXVqyGJL1Bz9KrIZOxdUd/MYS
-X-Gm-Message-State: AOJu0Yyz4+jYm1s9qLyxzl/56URnxV2KWydIKcLA+H3jNep7aap2xA/G
-	xVKESaanXrjoAevgLG8531SJYHNvAJRDpPd2UAGuQIUAWqazlCI1VAlPavcbDzGrFGuJ64puzDT
-	FS5t5jLNHm5faLkEw1wtk/iZ+9cU=
-X-Google-Smtp-Source: AGHT+IGxVzvyUAUfHd6XERWWMYqi4uP7T0ZXblaeZx7VRunN6SOw3m8OtzXvVz5fDt8hGkCRDkVYen/hhqaOsiDX1PM=
-X-Received: by 2002:a05:6870:2c87:b0:21e:bc6d:fcb3 with SMTP id
- oh7-20020a0568702c8700b0021ebc6dfcb3mr227137oab.5.1708225314059; Sat, 17 Feb
- 2024 19:01:54 -0800 (PST)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=JT5v94JU;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=27787d4edb=changqing.li@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41I5U2mR017137
+	for <openembedded-core@lists.openembedded.org>; Sun, 18 Feb 2024 05:41:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=GYCDP
+	ze6Ma6yLYXJitTtWxnP4l7a6ovLucFyyE1Hv7Y=; b=JT5v94JU/83Vd6WV/bt6w
+	vHjOzt8iSnb09d5lgKF4c4JUmtZiTa46ObuOe0LTcqnXkwI0eB43nNW7xRjsjZtT
+	QhtzyBAaeO26ziUFN7VEpRXiC4Wm4bMsWfA20ult0Vw9MPA1IF6S3psuHnaktBpa
+	amQTQKraIZNIpyv7m5xdkTn8GhKRDNBN91z2Xbahs7ndZMZlOleHYqKGujvyuWdw
+	27ibZK4fl8u98uL0TGdkxQRG8iAhnAHAO7NoTofS6XRUWHUvKdio/lMgZeLu3re5
+	GxDo8xqZ3qDNtZ1FYl2eXQJDItGub8auskySrOFQxLTJpRczld3TINQ3dmtdVG6/
+	Q==
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3waj0y0tet-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Sun, 18 Feb 2024 05:41:15 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Sat, 17 Feb 2024 21:41:13 -0800
+Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.35 via Frontend Transport; Sat, 17 Feb 2024 21:41:12 -0800
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH V4] systemd: fix a dead link under /var/log
+Date: Sun, 18 Feb 2024 13:41:12 +0800
+Message-ID: <20240218054112.3637709-1-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20240216114034.109257-1-anuj.mittal@intel.com>
- <20240216114034.109257-7-anuj.mittal@intel.com> <33de869a-1a09-41c9-be4b-6de1d0c29417@gmail.com>
-In-Reply-To: <33de869a-1a09-41c9-be4b-6de1d0c29417@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 17 Feb 2024 19:01:27 -0800
-Message-ID: <CAMKF1sqQAXDDbrQA8QOvYvgrkxEjOp=MiJBeWdz8=wo6BpyFeg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 7/9] swig: upgrade 4.1.1 -> 4.2.0
-To: Anuj Mittal <anuj.mittal@intel.com>, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: jszMGGGrVU-BgV1JJeP5G-GsKnOHnw51
+X-Proofpoint-ORIG-GUID: jszMGGGrVU-BgV1JJeP5G-GsKnOHnw51
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-18_03,2024-02-16_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 mlxscore=0
+ malwarescore=0 phishscore=0 mlxlogscore=999 adultscore=0
+ priorityscore=1501 suspectscore=0 impostorscore=0 spamscore=0 bulkscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401310000 definitions=main-2402180040
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 18 Feb 2024 03:01:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195820
+ <openembedded-core@lists.openembedded.org>; Sun, 18 Feb 2024 05:41:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195821
 
-here is one failure due to this upgrade -
-https://errors.yoctoproject.org/Errors/Details/753587/
+From: Changqing Li <changqing.li@windriver.com>
 
-On Fri, Feb 16, 2024 at 6:59=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wrote=
-:
->
-> this can be tricky for many apps depend on it subtly might fail. Perhaps
-> doing an extended world build with this might be good.
->
-> On 2/16/24 3:40 AM, Anuj Mittal wrote:
-> > Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-> > ---
-> >   ...self-exe-for-swig-swiglib-on-non-Win32-plat.patch | 10 ++++++----
-> >   ...configure-use-pkg-config-for-pcre-detection.patch |  6 +++---
-> >   meta/recipes-devtools/swig/swig/determinism.patch    | 12 +++++++++++=
--
-> >   .../swig/{swig_4.1.1.bb =3D> swig_4.2.0.bb}            |  2 +-
-> >   4 files changed, 21 insertions(+), 9 deletions(-)
-> >   rename meta/recipes-devtools/swig/{swig_4.1.1.bb =3D> swig_4.2.0.bb} =
-(72%)
-> >
-> > diff --git a/meta/recipes-devtools/swig/swig/0001-Use-proc-self-exe-for=
--swig-swiglib-on-non-Win32-plat.patch b/meta/recipes-devtools/swig/swig/000=
-1-Use-proc-self-exe-for-swig-swiglib-on-non-Win32-plat.patch
-> > index f27f80ea184..9c6ae389be2 100644
-> > --- a/meta/recipes-devtools/swig/swig/0001-Use-proc-self-exe-for-swig-s=
-wiglib-on-non-Win32-plat.patch
-> > +++ b/meta/recipes-devtools/swig/swig/0001-Use-proc-self-exe-for-swig-s=
-wiglib-on-non-Win32-plat.patch
-> > @@ -1,4 +1,4 @@
-> > -From a4a0440a644c6c5e5da096efe3cf05ba309a284f Mon Sep 17 00:00:00 2001
-> > +From ab0ab5e685bd9077c44fdca5c1a27b0f477444d7 Mon Sep 17 00:00:00 2001
-> >   From: "NODA, Kai" <nodakai@gmail.com>
-> >   Date: Sun, 22 Apr 2012 17:01:02 +0900
-> >   Subject: [PATCH] Use /proc/self/exe for "swig -swiglib" on non-Win32
-> > @@ -10,9 +10,11 @@ Upstream-Status: Submitted
-> >   http://sourceforge.net/mailarchive/message.php?msg_id=3D29179733
-> >
-> >   ---
-> > - Source/Modules/main.cxx |   24 ++++++++++++++++++++++--
-> > + Source/Modules/main.cxx | 24 ++++++++++++++++++++++--
-> >    1 file changed, 22 insertions(+), 2 deletions(-)
-> >
-> > +diff --git a/Source/Modules/main.cxx b/Source/Modules/main.cxx
-> > +index 8a44921..8250dee 100644
-> >   --- a/Source/Modules/main.cxx
-> >   +++ b/Source/Modules/main.cxx
-> >   @@ -25,6 +25,11 @@
-> > @@ -27,7 +29,7 @@ http://sourceforge.net/mailarchive/message.php?msg_id=
-=3D29179733
-> >
-> >    // Global variables
-> >
-> > -@@ -934,9 +939,9 @@ int SWIG_main(int argc, char *argv[], co
-> > +@@ -886,9 +891,9 @@ int SWIG_main(int argc, char *argv[], const Target=
-LanguageModule *tlm) {
-> >
-> >      // Check for SWIG_LIB environment variable
-> >      if ((c =3D getenv("SWIG_LIB")) =3D=3D (char *) 0) {
-> > @@ -38,7 +40,7 @@ http://sourceforge.net/mailarchive/message.php?msg_id=
-=3D29179733
-> >        if (!(GetModuleFileName(0, buf, MAX_PATH) =3D=3D 0 || (p =3D str=
-rchr(buf, '\\')) =3D=3D 0)) {
-> >          *(p + 1) =3D '\0';
-> >          SwigLib =3D NewStringf("%sLib", buf); // Native windows instal=
-lation path
-> > -@@ -946,7 +951,22 @@ int SWIG_main(int argc, char *argv[], co
-> > +@@ -898,7 +903,22 @@ int SWIG_main(int argc, char *argv[], const Targe=
-tLanguageModule *tlm) {
-> >        if (Len(SWIG_LIB_WIN_UNIX) > 0)
-> >          SwigLibWinUnix =3D NewString(SWIG_LIB_WIN_UNIX); // Unix insta=
-llation path using a drive letter (for msys/mingw)
-> >    #else
-> > diff --git a/meta/recipes-devtools/swig/swig/0001-configure-use-pkg-con=
-fig-for-pcre-detection.patch b/meta/recipes-devtools/swig/swig/0001-configu=
-re-use-pkg-config-for-pcre-detection.patch
-> > index cfcbd8c73ae..9e16caecca1 100644
-> > --- a/meta/recipes-devtools/swig/swig/0001-configure-use-pkg-config-for=
--pcre-detection.patch
-> > +++ b/meta/recipes-devtools/swig/swig/0001-configure-use-pkg-config-for=
--pcre-detection.patch
-> > @@ -1,4 +1,4 @@
-> > -From ffb785ed8d3cac3c28e014b1238d93e2bc1f0c01 Mon Sep 17 00:00:00 2001
-> > +From 57a15651b46a0f1f84a4dd15d67d104fbfbe3f6e Mon Sep 17 00:00:00 2001
-> >   From: Koen Kooi <koen.kooi@linaro.org>
-> >   Date: Tue, 17 Jun 2014 08:18:17 +0200
-> >   Subject: [PATCH] configure: use pkg-config for pcre detection
-> > @@ -11,10 +11,10 @@ Upstream-Status: Pending
-> >    1 file changed, 7 insertions(+), 32 deletions(-)
-> >
-> >   diff --git a/configure.ac b/configure.ac
-> > -index f88004a..3a2b47c 100644
-> > +index c060028..a330266 100644
-> >   --- a/configure.ac
-> >   +++ b/configure.ac
-> > -@@ -57,39 +57,14 @@ AC_MSG_RESULT([$with_pcre])
-> > +@@ -49,39 +49,14 @@ AC_MSG_RESULT([$with_pcre])
-> >
-> >    dnl To make configuring easier, check for a locally built PCRE using=
- the Tools/pcre-build.sh script
-> >    if test x"${with_pcre}" =3D xyes ; then
-> > diff --git a/meta/recipes-devtools/swig/swig/determinism.patch b/meta/r=
-ecipes-devtools/swig/swig/determinism.patch
-> > index 84c399182a4..417f0c43178 100644
-> > --- a/meta/recipes-devtools/swig/swig/determinism.patch
-> > +++ b/meta/recipes-devtools/swig/swig/determinism.patch
-> > @@ -1,13 +1,23 @@
-> > +From 25bf9893ec1f557781eb241508ea1bec959061fe Mon Sep 17 00:00:00 2001
-> > +From: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > +Date: Mon, 1 Mar 2021 00:11:10 +0000
-> > +Subject: [PATCH] swig: Fix reproducibility issue
-> > +
-> >   Remove the compiler commandline/platform from the compiled binary as =
-this
-> >   breaks reproducibilty.
-> >
-> >   Upstream-Status: Inappropriate [OE reproducibiity fix upstream unlike=
-ly to take]
-> >   RP 2021/3/1
-> >
-> > +---
-> > + Source/Modules/main.cxx | 1 -
-> > + 1 file changed, 1 deletion(-)
-> >
-> > +diff --git a/Source/Modules/main.cxx b/Source/Modules/main.cxx
-> > +index 8250dee..415761d 100644
-> >   --- a/Source/Modules/main.cxx
-> >   +++ b/Source/Modules/main.cxx
-> > -@@ -642,7 +642,6 @@ static void getoptions(int argc, char *a
-> > +@@ -629,7 +629,6 @@ static void getoptions(int argc, char *argv[]) {
-> >       }
-> >          } else if (strcmp(argv[i], "-version") =3D=3D 0) {
-> >       fprintf(stdout, "\nSWIG Version %s\n", Swig_package_version());
-> > diff --git a/meta/recipes-devtools/swig/swig_4.1.1.bb b/meta/recipes-de=
-vtools/swig/swig_4.2.0.bb
-> > similarity index 72%
-> > rename from meta/recipes-devtools/swig/swig_4.1.1.bb
-> > rename to meta/recipes-devtools/swig/swig_4.2.0.bb
-> > index b9e01752993..2ab4ed006c6 100644
-> > --- a/meta/recipes-devtools/swig/swig_4.1.1.bb
-> > +++ b/meta/recipes-devtools/swig/swig_4.2.0.bb
-> > @@ -4,4 +4,4 @@ SRC_URI +=3D "file://0001-Use-proc-self-exe-for-swig-sw=
-iglib-on-non-Win32-plat.pat
-> >               file://0001-configure-use-pkg-config-for-pcre-detection.p=
-atch \
-> >               file://determinism.patch \
-> >              "
-> > -SRC_URI[sha256sum] =3D "2af08aced8fcd65cdb5cc62426768914bedc735b1c2503=
-25203716f78e39ac9b"
-> > +SRC_URI[sha256sum] =3D "261ca2d7589e260762817b912c075831572b72ff271794=
-2f75b3e51244829c97"
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#195754): https://lists.openembedded.org/g/openembed=
-ded-core/message/195754
-> > Mute This Topic: https://lists.openembedded.org/mt/104390933/1997914
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-raj.khem@gmail.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
+Commit 6fe23ff31c0 changed README to a symlink to README.logs, and
+install README.logs under systemd doc dir.
+
+But for OE, systemd doc dir is splited into package systemd-doc, when it
+is not installed on the target, there will be an dead link:
+Eg:
+root@intel-x86-64:/var/log# ls -l README
+lrwxrwxrwx 1 root root 39 Jun 20 08:57 README -> ../../usr/share/doc/systemd/README.logs
+root@intel-x86-64:/var/log# ls -l ../../usr/share/doc/systemd/README.logs
+ls: cannot access '../../usr/share/doc/systemd/README.logs': No such file or directory
+
+First, package this link into systemd-doc to fix above issue.  Second,
+create the symlink according to the value of VOLATILE_LOG_DIR, when
+VOLATILE_LOG_DIR is true,  /var/log is a link to /var/volatile/log, so
+/var/log/README need link to ../../../usr/share/doc/systemd/README.logs,
+while VOLATILE_LOG_DIR is false, /var/log is a dir, so /var/log/README
+need link to ../../usr/share/doc/systemd/README.logs.
+
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ meta/recipes-core/systemd/systemd_255.1.bb | 22 ++++++++++++++++++----
+ 1 file changed, 18 insertions(+), 4 deletions(-)
+
+diff --git a/meta/recipes-core/systemd/systemd_255.1.bb b/meta/recipes-core/systemd/systemd_255.1.bb
+index 9e09c89355..db21b70718 100644
+--- a/meta/recipes-core/systemd/systemd_255.1.bb
++++ b/meta/recipes-core/systemd/systemd_255.1.bb
+@@ -382,10 +382,22 @@ do_install() {
+ 	# add a profile fragment to disable systemd pager with busybox less
+ 	install -Dm 0644 ${WORKDIR}/systemd-pager.sh ${D}${sysconfdir}/profile.d/systemd-pager.sh
+ 
+-    if [ -n "${WATCHDOG_TIMEOUT}" ]; then
+-        sed -i -e 's/#RebootWatchdogSec=10min/RebootWatchdogSec=${WATCHDOG_TIMEOUT}/' \
+-            ${D}/${sysconfdir}/systemd/system.conf
+-    fi
++	if [ -n "${WATCHDOG_TIMEOUT}" ]; then
++		sed -i -e 's/#RebootWatchdogSec=10min/RebootWatchdogSec=${WATCHDOG_TIMEOUT}/' \
++			${D}/${sysconfdir}/systemd/system.conf
++	fi
++
++	if [ -f "${D}${nonarch_libdir}/tmpfiles.d/legacy.conf" ] \
++		&& grep -q '^L \/var\/log\/README' ${D}${nonarch_libdir}/tmpfiles.d/legacy.conf 2>/dev/null; then
++
++		sed -i -e '/^L \/var\/log\/README/d' ${D}${nonarch_libdir}/tmpfiles.d/legacy.conf
++		touch ${D}${nonarch_libdir}/tmpfiles.d/legacy-doc.conf
++		if "${@'true' if oe.types.boolean(d.getVar('VOLATILE_LOG_DIR')) else 'false'}"; then
++			echo "L /var/log/README - - - - ../../../${datadir}/doc/systemd/README.logs" > ${D}${nonarch_libdir}/tmpfiles.d/legacy-doc.conf
++		else
++			echo "L /var/log/README - - - - ../../${datadir}/doc/systemd/README.logs" > ${D}${nonarch_libdir}/tmpfiles.d/legacy-doc.conf
++		fi
++	fi
+ }
+ 
+ python populate_packages:prepend (){
+@@ -622,6 +634,8 @@ FILES:${PN}-udev-rules = "\
+                         ${rootlibexecdir}/udev/rules.d/99-systemd.rules \
+ "
+ 
++FILES:${PN}-doc  += "${nonarch_libdir}/tmpfiles.d/legacy-doc.conf"
++
+ CONFFILES:${PN} = "${sysconfdir}/systemd/coredump.conf \
+ 	${sysconfdir}/systemd/journald.conf \
+ 	${sysconfdir}/systemd/logind.conf \
+-- 
+2.25.1
+
 
