@@ -1,67 +1,99 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B106C48BC4
-	for <webhook@archiver.kernel.org>; Sun, 18 Feb 2024 18:16:44 +0000 (UTC)
-Received: from mailout04.t-online.de (mailout04.t-online.de [194.25.134.18])
- by mx.groups.io with SMTP id smtpd.web11.23366.1708280194705690373
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EF33C48BF6
+	for <webhook@archiver.kernel.org>; Sun, 18 Feb 2024 18:33:54 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.23643.1708281232664759622
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 Feb 2024 10:16:35 -0800
+ Sun, 18 Feb 2024 10:33:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.18, mailfrom: f_l_k@t-online.de)
-Received: from fwd85.aul.t-online.de (fwd85.aul.t-online.de [10.223.144.111])
-	by mailout04.t-online.de (Postfix) with SMTP id 6B1D1213AD
-	for <openembedded-core@lists.openembedded.org>; Sun, 18 Feb 2024 19:16:31 +0100 (CET)
-Received: from intel-corei7-64.fritz.box ([84.163.34.235]) by fwd85.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1rbliI-0xKABV0; Sun, 18 Feb 2024 19:16:30 +0100
-From: Markus Volk <f_l_k@t-online.de>
-To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][PATCH] wayland-protocols: update 1.32 -> 1.33
-Date: Sun, 18 Feb 2024 19:16:44 +0100
-Message-ID: <20240218181644.36495-1-f_l_k@t-online.de>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1708280190-8CB04383-1FD5FEAC/0/0 CLEAN NORMAL
-X-TOI-MSGID: 31f7ff4e-1996-4c0f-9e59-32b49c4520b4
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=ajWyWPYr;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=CjtbsF0t;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018dbd7ef9c6-9e3da9aa-b30d-461f-bca4-36aa3f182025-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1708281232; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=/sgAxoTCRu+ZMpOSKzSrNHwsXzJ9xKbYQANT44FKMOA=;
+	b=ajWyWPYr6cbNP9JSH0fCoeMyvgqhfvdimbFCuq+WCSmPDg/ESoGvXz0nKC25emS0
+	MmWSCt4HPEN7tGRPYcFldeBQBHjI4P6T1el7lOEyP9zp1HC4dfbzytFkx/wlyoozyH9
+	sjxSdxEzyfBEfQli+xyUktmPIf0ahHnuO3ea1Fc4=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1708281232;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=/sgAxoTCRu+ZMpOSKzSrNHwsXzJ9xKbYQANT44FKMOA=;
+	b=CjtbsF0t/u3oKo6yDN++JivYglNILvj7zImcInP/FJjURc7zbUy0+QD8F42UyVmJ
+	lZOu5oR0L079kwNqfjwGCvZy0ODNQACOr7TozFdEVn5wfSk3ZzXe/70C4TwazC6/z93
+	oUcP4wjJeS3XJovKVed7Z1C/J2fgvVDebLsKbA4w=
+From: patchtest@automation.yoctoproject.org
+To: Markus Volk <f_l_k@t-online.de>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [oe-core][PATCH] wayland-protocols: update 1.32 -> 1.33
+In-Reply-To: <20240218181644.36495-1-f_l_k@t-online.de>
+References: <20240218181644.36495-1-f_l_k@t-online.de>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018dbd7ef9c6-9e3da9aa-b30d-461f-bca4-36aa3f182025-000000@us-west-2.amazonses.com>
+Date: Sun, 18 Feb 2024 18:33:51 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.02.18-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 18 Feb 2024 18:16:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195842
+ <openembedded-core@lists.openembedded.org>; Sun, 18 Feb 2024 18:33:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195843
 
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
+--NextPart
+Content-Type: text/plain
+
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- .../{wayland-protocols_1.32.bb =3D> wayland-protocols_1.33.bb}    | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/wayland/{wayland-protocols_1.32.bb =3D> way=
-land-protocols_1.33.bb} (91%)
+Testing patch /home/patchtest/share/mboxes/wayland-protocols-update-1.32---1.33.patch
 
-diff --git a/meta/recipes-graphics/wayland/wayland-protocols_1.32.bb b/me=
-ta/recipes-graphics/wayland/wayland-protocols_1.33.bb
-similarity index 91%
-rename from meta/recipes-graphics/wayland/wayland-protocols_1.32.bb
-rename to meta/recipes-graphics/wayland/wayland-protocols_1.33.bb
-index 05943bc388..c8875cc3cb 100644
---- a/meta/recipes-graphics/wayland/wayland-protocols_1.32.bb
-+++ b/meta/recipes-graphics/wayland/wayland-protocols_1.33.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dc7b12b6702da=
-38ca028ace54aae3d484 \
-                     file://stable/presentation-time/presentation-time.xm=
-l;endline=3D26;md5=3D4646cd7d9edc9fa55db941f2d3a7dc53"
-=20
- SRC_URI =3D "https://gitlab.freedesktop.org/wayland/wayland-protocols/-/=
-releases/${PV}/downloads/wayland-protocols-${PV}.tar.xz"
--SRC_URI[sha256sum] =3D "7459799d340c8296b695ef857c07ddef24c5a09b09ab6a74=
-f7b92640d2b1ba11"
-+SRC_URI[sha256sum] =3D "94f0c50b090d6e61a03f62048467b19abbe851be4e11ae7b=
-36f65f8b98c3963a"
-=20
- UPSTREAM_CHECK_URI =3D "https://wayland.freedesktop.org/releases.html"
-=20
---=20
-2.43.0
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
