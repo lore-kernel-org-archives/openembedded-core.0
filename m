@@ -1,288 +1,101 @@
-Return-Path: <fabien.mahot@smile.fr>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94980C48BF8
-	for <webhook@archiver.kernel.org>; Mon, 19 Feb 2024 17:35:16 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web11.218.1708364113785315716
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE82EC48BC3
+	for <webhook@archiver.kernel.org>; Mon, 19 Feb 2024 17:54:56 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web10.668.1708365291351452327
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Feb 2024 09:35:14 -0800
+ Mon, 19 Feb 2024 09:54:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile-fr.20230601.gappssmtp.com header.s=20230601 header.b=ISlbs7Zn;
- spf=pass (domain: smile.fr, ip: 209.85.221.48, mailfrom: fabien.mahot@smile.fr)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3392b12dd21so2670502f8f.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 19 Feb 2024 09:35:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1708364112; x=1708968912; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=fDG7gIX/uUU4dN3PrEC+BMktRgHHTskFrAGKsN613JU=;
-        b=ISlbs7ZnGY1xBSaGsresdmTgtIIhbVKwE6S8/8B4/4IyKDBD4loqZyoGwkkQG/jibT
-         3D5KZs3LUWYF8MlJlwJ7iPjFmXOOe+sMjjex08zDbG+Ehwr24X225bIJ2j6KqgJ+ZOMG
-         rrpo/57xaE9vr9XEWVPTVu9QrGUG6NUhddVoiZD/o/EhNEB9ari5RJ4bkfWSerCto2/W
-         rBEGZHvj0LR72Sbxvpsn8jXjIBV/yZlE1dK1fS7MfdpNvX3/bKbtELimqpgxg/CkrfH1
-         3jLd+HlqmjHqESJ4WyBTBJCBpIJ9n88MsUDapOnytFPDAWJiZ1GpCfPx+QxZuINyMa7b
-         Ie0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708364112; x=1708968912;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fDG7gIX/uUU4dN3PrEC+BMktRgHHTskFrAGKsN613JU=;
-        b=RKGdmaVu+5OYYoOmqtx6k61wXY5yp0FomXtmh8yIfqKVkhYjuHSP0MER7dI97tR1fp
-         rhRm3n/V37L2TNO7cAnU9Eh4gCIXAH1pyfbq+2+bz4VEHDUOgnmn7GRhzlginjI6UMNy
-         vqaOe7RHbLO98sor2uQjVmkqB94R+V5nzqdUabL0EJ5Mp2s0Ws/PYSCvB0JBeJag/wcZ
-         A+s6AlNFmDwS4MnnK7mYx94QCvpGWusHTY0jd0RBKEJ/p2s7l/EM81EfvOe9mnrAnJtr
-         YtUV9Kic0PsxGUW9ZnSUi9mBGnO479W6/Du0iw5gDDPJNBqkjbVrlhWzCBTnqnMtXPbZ
-         AXNw==
-X-Gm-Message-State: AOJu0Ywu4oWzb8OPDTS9WEF//lMXKF3vo3AndxS3yuk7fuB+nf8n6bsP
-	mpjreDYER3ESiwTLfHN08WDVRqRi6mVszgBo6Vno1WJkaKao5LnGGAfF5wM2+n05/15lCpoaTib
-	2lDg=
-X-Google-Smtp-Source: AGHT+IHycaU+9aULO9L+/VTa/3O7LynTXzI2+dLGXc2ZevaccCs+XvFQ2QKXjANrFnU48x5Zik9CEg==
-X-Received: by 2002:a5d:63ca:0:b0:33d:4f6d:de84 with SMTP id c10-20020a5d63ca000000b0033d4f6dde84mr2036554wrw.6.1708364111636;
-        Mon, 19 Feb 2024 09:35:11 -0800 (PST)
-Received: from P-NAN-AMETHYSTE.. (2a01cb06a02ce931f668133d2b8d6042.ipv6.abo.wanadoo.fr. [2a01:cb06:a02c:e931:f668:133d:2b8d:6042])
-        by smtp.gmail.com with ESMTPSA id h5-20020a05600016c500b0033d60cba289sm1550328wrf.68.2024.02.19.09.35.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Feb 2024 09:35:11 -0800 (PST)
-From: Fabien Mahot <fabien.mahot@smile.fr>
-To: openembedded-core@lists.openembedded.org
-Cc: Steve Sakoman <steve@sakoman.com>,
-	Fabien Mahot <fabien.mahot@external.desouttertools.com>,
-	Yoann Congal <yoann.congal@smile.fr>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [kirkstone][PATCH] ldconfig-native: Fix to point correctly on the DT_NEEDED entries in an ELF file
-Date: Mon, 19 Feb 2024 18:35:01 +0100
-Message-Id: <20240219173501.31954-1-fabien.mahot@smile.fr>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=eJjz8OcM;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=K2Z/ERRc;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018dc2819bf4-6c9e3ac3-8f11-4374-b1ff-761774929ffc-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1708365290; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=boYA4QNETHrA7UFU0jJuwqjNDKdXC5QxV1WXMYYBN8I=;
+	b=eJjz8OcMVhS1NbyZ5SkfQy8U1pXX5+gDYKRsygSa5cvPJ3CHI19vkCUwHj55hn9p
+	eJgQpRAVRUx1SQ/pBv9j3sl5dnMsUV06WExL93TnydMpBi6GB6yPa4P8HPxAPwhgc8B
+	uTzuLg3JQtcbu3gkf35AQUeHG5SqPls6L6Vaqn4g=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1708365290;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=boYA4QNETHrA7UFU0jJuwqjNDKdXC5QxV1WXMYYBN8I=;
+	b=K2Z/ERRcxdrr4x3/zFBB3CdaUgcITQfj07yCWz+4arNLaahrw7ALFv26Pstw/akU
+	UHa5ydWwvbEIXIATPzzvLnQIOKDM1eCgWT1f0938ZYJQzc/oVpr8vXxLBxUVBbWBMgU
+	otmH1ZR+inY6s4BVbA8ZLm1VoXheyXpY/ENXkN/c=
+From: patchtest@automation.yoctoproject.org
+To: Tim Orling <ticotimo@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 4/4] recipetool; add support for python_mesonpy class
+In-Reply-To: 
+ <90d06d324635b0439b4f5d31b525d3eabfac5d96.1708363628.git.tim.orling@konsulko.com>
+References: 
+ <90d06d324635b0439b4f5d31b525d3eabfac5d96.1708363628.git.tim.orling@konsulko.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018dc2819bf4-6c9e3ac3-8f11-4374-b1ff-761774929ffc-000000@us-west-2.amazonses.com>
+Date: Mon, 19 Feb 2024 17:54:50 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.02.19-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 19 Feb 2024 17:35:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195896
+ <openembedded-core@lists.openembedded.org>; Mon, 19 Feb 2024 17:54:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195897
 
-From: Fabien Mahot <fabien.mahot@external.desouttertools.com>
+--NextPart
+Content-Type: text/plain
 
-When ldconfig-native reads an ELF file, it computes an offset from a LOAD
-segment, to point on DT NEEDED entries of dynstr section.
-Without this patch, ldconfig-native uses only the first LOAD segment, even if
-the offset is incorrect.
-This patch adds conditions to compute the offset by parsing all LOAD segments,
-one by one.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-This is a backport from [0], ported to support endianness and 32/64 bits.
-
-[0]: https://sourceware.org/git/?p=glibc.git;a=commitdiff;h=58e8f5fd2ba47b6dc47fd4d0a35e4175c7c87aaa
-
-Signed-off-by: Fabien Mahot <fabien.mahot@external.desouttertools.com>
-Reviewed-by: Yoann Congal <yoann.congal@smile.fr>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- ...-.dynstr-located-in-separate-segment.patch | 178 ++++++++++++++++++
- .../glibc/ldconfig-native_2.12.1.bb           |   1 +
- 2 files changed, 179 insertions(+)
- create mode 100644 meta/recipes-core/glibc/ldconfig-native-2.12.1/ldconfig-handle-.dynstr-located-in-separate-segment.patch
+Testing patch /home/patchtest/share/mboxes/4-4-recipetool-add-support-for-python_mesonpy-class.patch
 
-diff --git a/meta/recipes-core/glibc/ldconfig-native-2.12.1/ldconfig-handle-.dynstr-located-in-separate-segment.patch b/meta/recipes-core/glibc/ldconfig-native-2.12.1/ldconfig-handle-.dynstr-located-in-separate-segment.patch
-new file mode 100644
-index 0000000000..36f04adfde
---- /dev/null
-+++ b/meta/recipes-core/glibc/ldconfig-native-2.12.1/ldconfig-handle-.dynstr-located-in-separate-segment.patch
-@@ -0,0 +1,178 @@
-+From 864054a6cb971688a181316b8227ae0361b4d69e Mon Sep 17 00:00:00 2001
-+From: Andreas Schwab <schwab@suse.de>
-+Date: Wed, 9 Oct 2019 17:46:47 +0200
-+Subject: [PATCH] ldconfig: handle .dynstr located in separate segment (bug
-+ 25087)
-+
-+To determine the load offset of the DT_STRTAB section search for the
-+segment containing it, instead of using the load offset of the first
-+segment.
-+
-+Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commitdiff;h=58e8f5fd2ba47b6dc47fd4d0a35e4175c7c87aaa]
-+
-+Backported: ported to support endianness and 32/64 bits.
-+Signed-off-by: Fabien Mahot <fabien.mahot@external.desouttertools.com>
-+---
-+ readelflib.c | 86 +++++++++++++++++++++++++++++++---------------------
-+ 1 file changed, 52 insertions(+), 34 deletions(-)
-+
-+diff --git a/readelflib.c b/readelflib.c
-+index a01e1cede3..380aed563d 100644
-+--- a/readelflib.c
-++++ b/readelflib.c
-+@@ -80,7 +80,6 @@ process_elf_file32 (const char *file_name, const char *lib, int *flag,
-+ {
-+   int i;
-+   unsigned int j;
-+-  Elf32_Addr loadaddr;
-+   unsigned int dynamic_addr;
-+   size_t dynamic_size;
-+   char *program_interpreter;
-+@@ -110,7 +109,6 @@ process_elf_file32 (const char *file_name, const char *lib, int *flag,
-+      libc5/libc6.  */
-+   *flag = FLAG_ELF;
-+ 
-+-  loadaddr = -1;
-+   dynamic_addr = 0;
-+   dynamic_size = 0;
-+   program_interpreter = NULL;
-+@@ -121,11 +119,6 @@ process_elf_file32 (const char *file_name, const char *lib, int *flag,
-+ 
-+       switch (read32(segment->p_type, be))
-+ 	{
-+-	case PT_LOAD:
-+-	  if (loadaddr == (Elf32_Addr) -1)
-+-	    loadaddr = read32(segment->p_vaddr, be) - read32(segment->p_offset, be);
-+-	  break;
-+-
-+ 	case PT_DYNAMIC:
-+ 	  if (dynamic_addr)
-+ 	    error (0, 0, _("more than one dynamic segment\n"));
-+@@ -188,11 +181,6 @@ process_elf_file32 (const char *file_name, const char *lib, int *flag,
-+ 	}
-+ 
-+     }
-+-  if (loadaddr == (Elf32_Addr) -1)
-+-    {
-+-      /* Very strange. */
-+-      loadaddr = 0;
-+-    }
-+ 
-+   /* Now we can read the dynamic sections.  */
-+   if (dynamic_size == 0)
-+@@ -208,11 +196,32 @@ process_elf_file32 (const char *file_name, const char *lib, int *flag,
-+     {
-+       check_ptr (dyn_entry);
-+       if (read32(dyn_entry->d_tag, be) == DT_STRTAB)
-+-	{
-+-	  dynamic_strings = (char *) (file_contents + read32(dyn_entry->d_un.d_val, be) - loadaddr);
-+-	  check_ptr (dynamic_strings);
-+-	  break;
-+-	}
-++        {
-++          /* Find the file offset of the segment containing the dynamic
-++             string table.  */
-++          Elf32_Off loadoff = -1;
-++          for (i = 0, segment = elf_pheader;
-++               i < read16(elf_header->e_phnum, be); i++, segment++)
-++            {
-++              if (read32(segment->p_type, be) == PT_LOAD
-++                  && read32(dyn_entry->d_un.d_val, be) >= read32(segment->p_vaddr, be)
-++                  && (read32(dyn_entry->d_un.d_val, be) - read32(segment->p_vaddr, be)
-++                      < read32(segment->p_filesz, be)))
-++                {
-++                  loadoff = read32(segment->p_vaddr, be) - read32(segment->p_offset, be);
-++                  break;
-++                }
-++            }
-++          if (loadoff == (Elf32_Off) -1)
-++            {
-++              /* Very strange. */
-++              loadoff = 0;
-++            }
-++
-++          dynamic_strings = (char *) (file_contents + read32(dyn_entry->d_un.d_val, be) - loadoff);
-++          check_ptr (dynamic_strings);
-++          break;
-++        }
-+     }
-+ 
-+   if (dynamic_strings == NULL)
-+@@ -269,7 +278,6 @@ process_elf_file64 (const char *file_name, const char *lib, int *flag,
-+ {
-+   int i;
-+   unsigned int j;
-+-  Elf64_Addr loadaddr;
-+   Elf64_Addr dynamic_addr;
-+   Elf64_Xword dynamic_size;
-+   char *program_interpreter;
-+@@ -347,7 +355,6 @@ process_elf_file64 (const char *file_name, const char *lib, int *flag,
-+       break;
-+     }
-+ 
-+-  loadaddr = -1;
-+   dynamic_addr = 0;
-+   dynamic_size = 0;
-+   program_interpreter = NULL;
-+@@ -358,11 +365,6 @@ process_elf_file64 (const char *file_name, const char *lib, int *flag,
-+ 
-+       switch (read32(segment->p_type, be))
-+ 	{
-+-	case PT_LOAD:
-+-	  if (loadaddr == (Elf64_Addr) -1)
-+-	    loadaddr = read64(segment->p_vaddr, be) - read64(segment->p_offset, be);
-+-	  break;
-+-
-+ 	case PT_DYNAMIC:
-+ 	  if (dynamic_addr)
-+ 	    error (0, 0, _("more than one dynamic segment\n"));
-+@@ -426,11 +428,6 @@ process_elf_file64 (const char *file_name, const char *lib, int *flag,
-+ 	}
-+ 
-+     }
-+-  if (loadaddr == (Elf64_Addr) -1)
-+-    {
-+-      /* Very strange. */
-+-      loadaddr = 0;
-+-    }
-+ 
-+   /* Now we can read the dynamic sections.  */
-+   if (dynamic_size == 0)
-+@@ -446,11 +443,32 @@ process_elf_file64 (const char *file_name, const char *lib, int *flag,
-+     {
-+       check_ptr (dyn_entry);
-+       if (read64(dyn_entry->d_tag, be) == DT_STRTAB)
-+-	{
-+-	  dynamic_strings = (char *) (file_contents + read64(dyn_entry->d_un.d_val, be) - loadaddr);
-+-	  check_ptr (dynamic_strings);
-+-	  break;
-+-	}
-++        {
-++          /* Find the file offset of the segment containing the dynamic
-++             string table.  */
-++          Elf64_Off loadoff = -1;
-++          for (i = 0, segment = elf_pheader;
-++               i < read16(elf_header->e_phnum, be); i++, segment++)
-++            {
-++              if (read64(segment->p_type, be) == PT_LOAD
-++                  && read64(dyn_entry->d_un.d_val, be) >= read64(segment->p_vaddr, be)
-++                  && (read64(dyn_entry->d_un.d_val, be) - read64(segment->p_vaddr, be)
-++                      < read64(segment->p_filesz, be)))
-++                {
-++                  loadoff = read64(segment->p_vaddr, be) - read64(segment->p_offset, be);
-++                  break;
-++                }
-++            }
-++          if (loadoff == (Elf32_Off) -1)
-++            {
-++              /* Very strange. */
-++              loadoff = 0;
-++            }
-++
-++          dynamic_strings = (char *) (file_contents + read64(dyn_entry->d_un.d_val, be) - loadoff);
-++          check_ptr (dynamic_strings);
-++          break;
-++        }
-+     }
-+ 
-+   if (dynamic_strings == NULL)
-diff --git a/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb b/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb
-index e867ceb3ec..665a3d324c 100644
---- a/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb
-+++ b/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb
-@@ -16,6 +16,7 @@ SRC_URI = "file://ldconfig-native-2.12.1.tar.bz2 \
-            file://add-64-bit-flag-for-ELF64-entries.patch \
-            file://no-aux-cache.patch \
-            file://add-riscv-support.patch \
-+           file://ldconfig-handle-.dynstr-located-in-separate-segment.patch \
- "
- 
- PR = "r2"
--- 
-2.34.1
+FAIL: test shortlog format: Commit shortlog (first line of commit message) should follow the format "<target>: <summary>" (test_mbox.TestMbox.test_shortlog_format)
 
+PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test pylint (test_python_pylint.PyLint.test_pylint)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
