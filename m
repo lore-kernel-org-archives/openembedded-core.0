@@ -1,226 +1,270 @@
-Return-Path: <jing.hui.tham@intel.com>
+Return-Path: <Qi.Chen@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45E40C48BC4
-	for <webhook@archiver.kernel.org>; Mon, 19 Feb 2024 02:05:47 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by mx.groups.io with SMTP id smtpd.web11.32882.1708308343634252799
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 732FAC48BF6
+	for <webhook@archiver.kernel.org>; Mon, 19 Feb 2024 02:46:07 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.33489.1708310758427204304
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 Feb 2024 18:05:43 -0800
+ Sun, 18 Feb 2024 18:45:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=Intel header.b=ZXiwHMHS;
- spf=pass (domain: intel.com, ip: 198.175.65.15, mailfrom: jing.hui.tham@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708308344; x=1739844344;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=k1cHuaCiaRqQZMOOz85FTK+drPggMFXcBAoY9o/JwUc=;
-  b=ZXiwHMHS995hULzNWtUPC0MzX+xF2jbzF+kcp1gcP39bY7XuYXrkw2Sp
-   vnDhfMmG/CAADx+DHh354I4ZcCbkddW/qZwfRgm9HMotvFCIQhMX2WmLe
-   k8mH4jHTGLWcrAGPO0hOTbhQS6t0MIOC2692q/TuC+tAO9bNy+dnoteJa
-   5WYFils0lCohX+M06TIwWZSFrOHK+73LLvHOqkOdbUZnl2wbYcxzpHYtt
-   KAdpD7Bgc0M1rUR2TCV6vzRL0+ntzksReiSx5KwgNpuIowd85mru3H+rx
-   P94Iq6yIRBH8XJrLo6m7sY1fCMrcd5i3KQSzkVf1dGBlXdFqTkmASQvas
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10988"; a="6197297"
-X-IronPort-AV: E=Sophos;i="6.06,170,1705392000"; 
-   d="scan'208";a="6197297"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2024 18:05:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,170,1705392000"; 
-   d="scan'208";a="9020275"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by orviesa005.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 18 Feb 2024 18:05:43 -0800
-Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Sun, 18 Feb 2024 18:05:42 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Sun, 18 Feb 2024 18:05:42 -0800
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.169)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Sun, 18 Feb 2024 18:05:42 -0800
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=QryEIp0d;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=27791b0084=qi.chen@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41J1e26m002596
+	for <openembedded-core@lists.openembedded.org>; Sun, 18 Feb 2024 18:45:58 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-type:message-id:date:subject:to:references:from
+	:in-reply-to:mime-version; s=PPS06212021; bh=w1P2kO/k2dLOdWRAyQI
+	GL6ii7GQDAPuQtNg5rDoQf5Y=; b=QryEIp0duJbCeDLn86Q5S5gieC0uFV2iS2Q
+	zZcvTpEVqfHDg5sjFWyNLsCH1PMch6u75hE0akQkgw2yaKi37uXnCwZbFKS2xKqO
+	vwMf2pzrBg2AyrBBIxe9r+8eXWJf2EKqNy7NrMRB813gnbPu27I5bvRjldfxpmXB
+	QHeE7LbFJCM9TJz6svYN67kp5sAAkjnar1flvNUCb3OB+BPnt0CMbynG33E5oxgB
+	ojgCSmhgxn0aGbcadrs+DfvXt3eGLoBJ2Dcrry1ZVW1IGwupKrYMnQgEnRhH/zIY
+	Rpp9AuvzENDcIhnW0qX6hD/wmXncDJtxwlBp/ztgrHwTloQVCsg==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3waw6kh0xv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Sun, 18 Feb 2024 18:45:57 -0800 (PST)
+Received: from m0250809.ppops.net (m0250809.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.24/8.17.1.24) with ESMTP id 41J2jv09028817;
+	Sun, 18 Feb 2024 18:45:57 -0800
+Received: from nam02-sn1-obe.outbound.protection.outlook.com (mail-sn1nam02lp2040.outbound.protection.outlook.com [104.47.57.40])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3waw6kh0xu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sun, 18 Feb 2024 18:45:57 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Fk8VuFbsmXT9xzQlXZKgJI4nehv4FndlIWN5I76yoAINUzosbWHN5TaLbopAY2D4e4yoxhIMXs7KFiZXlEuer0rSVUJLRB8vo20p1y9v6BCCv+XDWyorEf1dQQHjjHMce9qiqVPJLscKCYewLut5eH194/asCVsP1vp03U9kYAH0MMSQNdUCSHKiQUALSNftT13kmY8GJNFnbQUOcdkzzMjkdBCkmyZWwrFFYoMDBvFS/RQUSfG36PxGwj1SGoENfAq+oeq6lCES9eD7FJ+K/27x2f5j38u651wQpCq4ziWx7KApYeUyJP+i9kcpKYrDN0Gohx2kvJQyzP+SIvViOQ==
+ b=Q/BpRguM/J4TXnhmYSK151uDfkVlKR2WbNh7DLsE3o399kdZS3LV7bQE4JhgJbVbDeA+zUaBhFnGvq6KezU4qAkh9gQahmJ6MsW3kDfd/Zu1IGLVz4+RU/R6A+mVtljxx9lB+fz/oKfhGVJVfYUNK8Nl7VACTVqacNyIMvxLZvhEmLHcX6wz1to3OjS3Tad73pT/7XeKhK0uU9ZFfcYKz5iSjgoJ3Z3H0mgX48kK7D624suoEuPxtp0cy52A6C3I+2dne0EqkB1ek/qFHOgR4MhG4dFvTToiu/LA25LvLdSlCjQEvlIh/WuSMr0Yo5Efj7dqY1RXweQx42rZkS+pgA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=b4UZ5RdZ7rLO+et3I1qQ9LHDdkqUg6uDRJojLs9MnMQ=;
- b=XKvUXjUzgSvn1jfEUCg3N8I9QTTMLSesJ8pF7RBQ8qjY+lBjU0Q39CAcCKwWPosEATNwjJHNsIezy+lmDQIrumef/Y4NIFSJefm8huRAL1WKXPUQlkNhmkkrb/2qTz3W/fJ1JSKJ7WRlRjMu3wBY3iADhshLYCfaEUSVf1WgbjP3n+3yi1mpYEcgjk+YkOz57h4RcgMK+czkOrPj97z9HmZcc7vq9h3MSc4/A6BbtInT9anbePB8+3ltq0kKjqn1WG+ELvXfJ4EvThNKsLyMsGSOLGg9z8QmVofOxv+YJPJp0UqKQnmfbZT/wRmNAYR68u0ZGSXFLm/zr+30HdMGlA==
+ bh=w1P2kO/k2dLOdWRAyQIGL6ii7GQDAPuQtNg5rDoQf5Y=;
+ b=NsCjK/H+omRt+slRNe2P2adRKLxBSI2i6UpxYWxWdfIy5JyBuAwlgT2cwCAD+XYkNKfBAjZZdCYIiLMT8RgRrFAkGH9znBW1V5IQXc4UurPxFfnmo7/iEn+scp6vj/be5DPp88jzwAB/7vmxadmCsYqTVmOdLtZmMBPSKnOjWQZStAxYyUziR6c5xwP1lZ0hT267R3bIkSCF84y9qmQTl6U9eMaHm2FR/F5zuQk7F/EXCJXRnfLkZc+oD6H9VEPWnF130RtEpdLee80Uc5fty2ZqAPeOqaZRdYULCin6tfu38AzP+GXRAsg6EJAqRCrN8xkxALeLzEjGyvRvkinV6A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM4PR11MB7760.namprd11.prod.outlook.com (2603:10b6:8:100::19)
- by SA1PR11MB8476.namprd11.prod.outlook.com (2603:10b6:806:3af::20) with
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
+ by SJ2PR11MB8470.namprd11.prod.outlook.com (2603:10b6:a03:56f::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.32; Mon, 19 Feb
- 2024 02:05:40 +0000
-Received: from DM4PR11MB7760.namprd11.prod.outlook.com
- ([fe80::1025:6d41:d45c:948c]) by DM4PR11MB7760.namprd11.prod.outlook.com
- ([fe80::1025:6d41:d45c:948c%7]) with mapi id 15.20.7292.027; Mon, 19 Feb 2024
- 02:05:39 +0000
-From: "Tham, Jing Hui" <jing.hui.tham@intel.com>
-To: "qa-build-notification@lists.yoctoproject.org"
-	<qa-build-notification@lists.yoctoproject.org>,
-	"yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>, Pokybuild User
-	<pokybuild@yoctoproject.org>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [qa-build-notification] QA notification for completed autobuilder
- build (yocto-4.3.3.rc1)
-Thread-Topic: [qa-build-notification] QA notification for completed
- autobuilder build (yocto-4.3.3.rc1)
-Thread-Index: AQHaW8XhdmR1+XWAm0WqpxGkHnsR17EQ9G0w
-Date: Mon, 19 Feb 2024 02:05:39 +0000
-Message-ID: <DM4PR11MB7760A0A6A92BAB370BAE0B31A1512@DM4PR11MB7760.namprd11.prod.outlook.com>
-References: <0101018d90c4ca55-6841b832-b832-45c0-9d4b-dc21e42261c5-000000@us-west-2.amazonses.com>
-In-Reply-To: <0101018d90c4ca55-6841b832-b832-45c0-9d4b-dc21e42261c5-000000@us-west-2.amazonses.com>
-Accept-Language: en-US
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.38; Mon, 19 Feb
+ 2024 02:45:53 +0000
+Received: from CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::5d84:2b01:5029:9315]) by CO6PR11MB5602.namprd11.prod.outlook.com
+ ([fe80::5d84:2b01:5029:9315%7]) with mapi id 15.20.7292.036; Mon, 19 Feb 2024
+ 02:45:52 +0000
+Content-Type: multipart/alternative;
+ boundary="------------Z4eoCkPSH6gPm9PMM4QjfYle"
+Message-ID: <88c97c1c-fc32-b5b4-aa84-42576c02b48c@windriver.com>
+Date: Mon, 19 Feb 2024 10:45:47 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [OE-core] systemd-firstboot not triggered on read/write /etc
+ folder
+To: dave.elek.96@gmail.com, openembedded-core@lists.openembedded.org
+References: <vkHb.1708249394873752860.quep@lists.openembedded.org>
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM4PR11MB7760:EE_|SA1PR11MB8476:EE_
-x-ms-office365-filtering-correlation-id: c1599bf2-0a36-42b9-7061-08dc30ef4551
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 0eLpCSVPfGf1Rt7/17TpNy3MQrWYIxBfz11A4RNLOlwsK5nwBPtEJK+sZWWgVU0XmX/PjRvB+3+OXxZ/DQ0HDV78lxlUGE45zUWETAsvO4DF0S2HQSl9K55J8eawrmwLK05nUIeBtpn/vkiUbUZXork8+QluumNCdQcAi+HTLp3AwQjAep8k9+M6Mj8M7k2Y9tcfNVHAa9o/h44OOJkvc4QAZmY1X7Wkzk0IiIrfTxBzSb4bSt2hPBObCsLRhhTa8/bEP4Bx0jUjKzXrcpj/bizn6C7NZhyHlp3ERDpWZbHNQ0+IxYFFxixSCphL8Ovay4QAcycN0FHmVK9dKV0MXOiMtOn/CjT8cI5RlwxmEDb7LcOx2N3gCjyudPgxTESiSHsPRp9rA80nZUijg+Gv1Fcn1Vj1326AQlhralzGeOFClpfKpjQ5KiDUTnN9NgLSa9wvYdbo4R7oR5bUMse3+ynaXelBNeSfjhjWP6VvJ0kxzMkDjtuy69ApPC+pY3hAwMliiDyesghuNSpLn0QNjlxub0ggM4YgOEKequlUuBDAk3yxL+E3ZRL7n983pwJwbcNqtgyzS/Yt3hA9hYuvVwL8ziO9PrK90693cySgOJ4=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB7760.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(376002)(346002)(136003)(39860400002)(396003)(230922051799003)(451199024)(64100799003)(186009)(1800799012)(33656002)(83380400001)(66899024)(86362001)(38070700009)(110136005)(41300700001)(71200400001)(316002)(53546011)(6506007)(7696005)(9686003)(15650500001)(5660300002)(2906002)(478600001)(64756008)(52536014)(66556008)(66946007)(76116006)(66476007)(66446008)(8676002)(966005)(8936002)(26005)(55016003)(122000001)(82960400001)(38100700002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?nBdirlYvd6FSry8d8eGZZrcGqFb/bI4HOAfi0eb8HAArjZbril2Rgwnf4EPY?=
- =?us-ascii?Q?IInjzC/HyMxVB8bg2W9F/FJMk2sAw4FIaMd+orbOSdr11GntPufjk/+HHQlr?=
- =?us-ascii?Q?hMeNL28T//RWXYwwtmmO2Zg8BifNNR5HuYI2Mka8FYuUm3ewV8gP7MTxFKhk?=
- =?us-ascii?Q?5DwpoVL+gkbrtoDUbnAAaEdSCcvAZJq6YppjhH/tR1sG2+C1sVzNscJAKOkv?=
- =?us-ascii?Q?5AXmabZMNtFh6Jbzrf+MKuLMI2ocfAy7DZa6usMrp+KFeoDSo0hu7WfITyDC?=
- =?us-ascii?Q?O9fqL00AvaSLPfiyi+N2UCDKwgWbdQhM1LFGdWlGhLbH2XAfh68FaDWThcvU?=
- =?us-ascii?Q?J8pq/qx6bLi+NpIVoaNoXf06y/loq7PQ7rnXBmIhF9exWZrTChEylI/uEcPC?=
- =?us-ascii?Q?dVYgPsFiPtFfagKd/Ag92VXHsW2YqRrPd829ZGIL4fY1U2FP3mmsGyUMgPYx?=
- =?us-ascii?Q?sfLi38xTFFEH9QjGPY40VmDosKnqhoUSV8NPCQpXGFz0u5gk4YtTSkppqvYP?=
- =?us-ascii?Q?XRo1PxRdto3L3UYWRVDDC/jxmDVI4KusVEvAam9msvR4b62uddHfmD+e48CH?=
- =?us-ascii?Q?sAqJQjGfqvs4jsxWuB14IGlgf4ZAo9pIPSRgwmysBFj46ovf83CgLt2c4SQ2?=
- =?us-ascii?Q?065FevGXaA6VvVA7ytc882YryR0ieYZfY08QH+Du1shs+WUzi65yBoBVokKx?=
- =?us-ascii?Q?oRqAjLcF1MVnWB+WLf4p+OaGq1XHEjz8i7SPUOGxDi8G9SECJcsTpBTXYdmJ?=
- =?us-ascii?Q?u15LfhQaDvpGhue45DZq3uIe+OjfuYL1xRmfhFgv/B43Wp3ilmPn2OsN1TZY?=
- =?us-ascii?Q?f7CgI7H3F1GmSRRqKDD0ZxEoHTqdZM1e9tKLG9fNzJ93lxMDoMCK9m/EvX+e?=
- =?us-ascii?Q?ZpF+p/0oG364C7vVKl6VKBllFbgq0Me2kZAIENdhqEb1g4XKKd5+Pt/I8LJm?=
- =?us-ascii?Q?LyqhU3agFZ4QGE6Pt3rJpMsco79uxD99B6WYvp2u2lhV7QTAGeB19g9exSSO?=
- =?us-ascii?Q?YyFK7Ou3frxRne33zWAKHQfiNx2HsiYvg4c7j7/gI57qPuclJULoufRsK//h?=
- =?us-ascii?Q?0wetnSxpcstEQAVeUf0zwiJXFSeDnP44bhqH66YJv+I8SutcNAXGBUyI3L/R?=
- =?us-ascii?Q?NRv5SFnlPq4kUuWTZ29r6fIhEkP56XWkK1wZnyfPpaAcbjUMx43uPezDSs+z?=
- =?us-ascii?Q?ux2qS/kH3hsLHtUCxSMmHh7pS8xPz+wZg+X88i58vwJMfV8aQpY3FoRbzY92?=
- =?us-ascii?Q?njkpZTDikYZYph28LSDCwd6RtqJse5WqNi1rYOkOJ5ulbVH4ZrRvcXsfTyfF?=
- =?us-ascii?Q?+Oqg2q51S2q2E1D1HPdOB2LzspMPo7xEX6VZN+6n+sskuFZgkvd23Xj1zbnY?=
- =?us-ascii?Q?6E2i8v6TTGHMttx+otmv555MqvDA/n4nCzHk05WPV9ii6foDaxZha2DADtJj?=
- =?us-ascii?Q?nz/VTWYQ5DfIGf/o5G8imdkURwiInAnS3enpimX7mowpliFDriIk4d9lweaY?=
- =?us-ascii?Q?Qz6ROYcsKqVUyiv2tarBF2yBE0bF7gsJLL0Ti1GjHVOZIoGHITvPTQZkoW+o?=
- =?us-ascii?Q?nNPX8WWZbiopHOL9q7XqfoZv53fsjqsZnZYmQot+?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+From: ChenQi <Qi.Chen@windriver.com>
+In-Reply-To: <vkHb.1708249394873752860.quep@lists.openembedded.org>
+X-ClientProxiedBy: SI1PR02CA0036.apcprd02.prod.outlook.com
+ (2603:1096:4:1f6::20) To CO6PR11MB5602.namprd11.prod.outlook.com
+ (2603:10b6:303:13a::5)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|SJ2PR11MB8470:EE_
+X-MS-Office365-Filtering-Correlation-Id: 040f3bb6-5c7c-48c5-9377-08dc30f4e341
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	U+4X/o8wHZ/X/I//yn18Q0vEulMZmZZp9XMKz3KsTDkBaJChoNSSNiJdqM/vH4LbX330g9Az9ikJ7NEZGLvjj2yPDvx+qoIzodjoJvU3AmsJJXOYI3bJRbaHJeJPhHcxLc7WfOGtBd2hiY+nufHh318v6uYYILTQ4HwIAPHAIDhcFHd9YzZWBcAkYU//WX8HgdTH2uE1bJasHIZRhKm8mZ/JTH4uhvxmw3JF7CJCzpbM75uFlphFYeBMmC4OsA7OBeBwkHKmU0sHdWpFMNbXNX7XCxqthqvD4klv/jONA7ipWrINDkdkOy5REJSx6CevW0m0Lld5N2HqSGGlqfy+VnaFtdwXlnIMDCw0hPsFgZkoxcmWl1+aeGG8+Y9UicYfpnqf4IxKZ09HlO4MBWlDIOesL5uRBgIEP8q03tvym4ju3pxOLOs99EE13m+5KKkzH9wJ6+hccA4b5QTqVGSViytmx0dRTJDlYZ3QcWnaQIiUwngICeVQ0laQtv2UcocOjuec2ZncCXXNROUEBMQww6bW8ew1AaOCFRLEvax0bIU=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(376002)(39850400004)(136003)(346002)(396003)(230922051799003)(451199024)(1800799012)(186009)(64100799003)(26005)(41300700001)(2616005)(83380400001)(8936002)(66476007)(66946007)(8676002)(66556008)(316002)(33964004)(53546011)(478600001)(6666004)(966005)(6486002)(6506007)(6512007)(36756003)(166002)(31696002)(86362001)(38100700002)(66899024)(5660300002)(2906002)(31686004);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?UmFtalJuZDN5MFJXSGVzTnhiUnhaV2VTSFpHMFdLUlZvSVFTNjhnWVNGZjNl?=
+ =?utf-8?B?MEkzUXBEdDVvWVFhamsyeGlucDl1K2d4YU12MllrQjdXQnVFelFrOUFRcGZQ?=
+ =?utf-8?B?OGdzSk54N2gwRTBwY2cxSXdRYW51eWJoTnlSMjBwbG9hTDd6TFVBN3NRRGtQ?=
+ =?utf-8?B?T1R0OXkvc2JXWDM3QTBHYXJHVEtrMDNqUkc4MC9NSU5mNlFaRE9yNWRmNkto?=
+ =?utf-8?B?SHlDSFNueC9ISno0U1lDUVl4UjZYeTJ3aFNCN1RtamFYRVkvYnFYU2dlUnFG?=
+ =?utf-8?B?WjlGaG9GRy91dDRpeDdSdUhrQzZPaTkyT1ZJM0hYWnNyT0d4WGVMVXB1dTdh?=
+ =?utf-8?B?cDdzMVlIa2R1ME1KejhtRngzWXd2M055OGEwMFFpV0VoOGJ0UkMrOVRBeE1z?=
+ =?utf-8?B?YXlnMEhoSEdDWmxibFdDUlZ1UnZmMEJuMjF2MWlxTjk3QnV5dFJDV3NoZVl5?=
+ =?utf-8?B?aHlXR2g2UEhHTVVGeFJ4dUF0b2xGVUR3dXF5Q3ZSRFZJd25BcFVJQmpUTlEy?=
+ =?utf-8?B?Z082U1RUUmdYcTJ0aTlWMWZTVjhNOVE5WnFuREMxRkdsV0ZsVGFNQk1uaFVP?=
+ =?utf-8?B?U1owUnFzZHBQZS9td3h3dzVCTmxPMEdJK3NVbndqbDRrS3dnWkdRQWduY1R3?=
+ =?utf-8?B?bUFIZ3VQcG9aWGRkR1JlYUhzR1haWGNIR0gzUjN5VERuSWdYa2dJVUw3eWdW?=
+ =?utf-8?B?TmMva3NLcG1xalNMNWcxWWdvZmo1dFNNWnFjS3JwL0FSSUI0MDBUL2dMeVpV?=
+ =?utf-8?B?V284cE5ZMlk5R0JIN1NzYnFtYUhiVTl1RDgyYlV5b1B1VjU4Mmk5cVp1LzhE?=
+ =?utf-8?B?LzZKWmlzdU1obE9nQUhiZGdtNWIwNWs5NXlzSXVUdzlpTTB5ZkdhMTFIWXZI?=
+ =?utf-8?B?cS9wc0VHWkdwbytXNzF1aHNyQUw0TVk2TVNOQmhvdWc4cmZxSTBLSFFRQUlQ?=
+ =?utf-8?B?L2cyZ3VHTTZsQmZzbTJaQS91eVRrRzlhNTU3NklqVEZZb3ZlSjM4bTdPSFFX?=
+ =?utf-8?B?cmR1NWdjRWdhcW1nY3QvdHVEMEZrdnJod2JMWERqdGtNZTVMdjRqSDE1QlN2?=
+ =?utf-8?B?TDJQVVhONGhoNDRoWHhtSkFQdW42MmwwV3pYMmVyTysrUFdPS2pueFhLV0U5?=
+ =?utf-8?B?NzNVajVVZGpIcUg2V3NXcytDUzh1dmhuNXlsMkRGUktGT1BIamhQNVp2c2hS?=
+ =?utf-8?B?U0lqMndQR0NFaHJ1bEhSNmRKWUZzZGk5dkpOOHVOWHFhdUQ2ZW1CcVdDeFNz?=
+ =?utf-8?B?eWdaVFpTT3JiQU1wL2R0OFlENlNzZHMzclE2TkpoWWd3M1F3TktyZllXT3pZ?=
+ =?utf-8?B?dkR5NXR3cmNvTkFPMmR5aEtZWVROdWVuVXRXU3d0RHRaVEM0bmE4N3Q4VTND?=
+ =?utf-8?B?UG4rUVFpcmRHNGRzMjk1TVFka3FpSFFnLzVMcEJqQTZLc3pBYzB2WXlKRXpN?=
+ =?utf-8?B?QVhtd01qaUJJQmNLS2VjRDhFV3h3VGF3engxNjg5UnRSaFI1ckRXUHVqaHR4?=
+ =?utf-8?B?SXJiTlFmZ05qeWJiK1FqM3dhYTMxdm1HWUUyQ3Axc0NQTkhQdk9hVjZrRTFU?=
+ =?utf-8?B?Ym1yVkdmNCtueGZkVTB4YU1EbU1WaFlya09JRFVsVkpKeXVURjRvd3M1dmVK?=
+ =?utf-8?B?N3ltMDFiR05wSFZDZTJxeU5vclU5N2w0b3Jia2lRY0QzMVRTN0pzMjJOTk9n?=
+ =?utf-8?B?dW9MM3pFdHlMcG41blFUa2k3bHBFdmJWYmJ4aGc2LzFnZHNXM2lSZjBXdnJq?=
+ =?utf-8?B?U25XZmJYeHovTkN1RjJwQ3AyblhVWTU5RzRGU21WR2pPTUlmRDUvalY1UkJo?=
+ =?utf-8?B?OFFETTRtSHAwK2dVOThkU1lvdmpwSWlkdVNFdWdmak5zek1ZQjV0NDkra2JH?=
+ =?utf-8?B?YXp3Z2NBTHZVSHFpaFAvUXJOM3VkQkNXQ0JDbE5GRlhwejVRT0k0bHlSQjRv?=
+ =?utf-8?B?OXJWaUlET2tYSGFCTlF2bUxTVXU1T2RDdi9HR3drSThvY0hEcXJqeDVpVisv?=
+ =?utf-8?B?bXVvQWhiTmc5K3U1eUlZT2sxeVY4VjlhSFBaT2R0Z3krTkZOL3NiZmp4Ulgy?=
+ =?utf-8?B?Z1Brb0xsUFpDZmtPMllqQndya21tRVd3K3ZBdjZ4alRjZm1HZDFtYUZuTjE3?=
+ =?utf-8?Q?AhQAK3ThOj+on3LZvLpiAibP+?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 040f3bb6-5c7c-48c5-9377-08dc30f4e341
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB7760.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c1599bf2-0a36-42b9-7061-08dc30ef4551
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Feb 2024 02:05:39.7752
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Feb 2024 02:45:52.7016
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: F6FERYUCR+Dl7p4fXdDr3iFsQ0a7QoFGBAvoS9M6CvuhowTJcV9RbWg9oA1oYDFY0C+eSo0870TEo05XLo/gdA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8476
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bqFFmOBnuDi5kK0O7dKlgWIhKViLECxk7shcJyM/VoRP87UFUfmIEm340SwqV3IIY8Dyc26BomsimEwsWG+BXQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB8470
+X-Proofpoint-ORIG-GUID: WBRVEuM6gpXzDWh7Dfzby7vpUNgaMLLs
+X-Proofpoint-GUID: MiaUmVE07Yld5tPZAASc47E53eKFzZ9e
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-18_21,2024-02-16_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ impostorscore=0 mlxlogscore=655 malwarescore=0 lowpriorityscore=0
+ phishscore=0 adultscore=0 mlxscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2401310000 definitions=main-2402190020
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 19 Feb 2024 02:05:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195860
+ <openembedded-core@lists.openembedded.org>; Mon, 19 Feb 2024 02:46:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195861
 
-Hi all,
-=20
-Intel and WR YP QA is planning for QA execution for YP build yocto-4.3.3.rc=
-1. We are planning to execute following tests for this cycle:
-=20
-OEQA-manual tests for following module:
-1. OE-Core
-2. BSP-hw
-=20
-Runtime auto test for following platforms:
-	1. MinnowBoard Turbot - 32bit
-	2. Kaby Lake (7th Generation Intel(r) Core(tm) Processors)
-	3. Tiger Lake (11th Generation Intel(r) Core(tm) Processors)
-	4. Alder Lake-S (12th Generation Intel(r) Core(tm) Processors)
-	5. Raptor Lake-P (13th Generation Intel(r) Core(tm) Processors)
-	6. Beaglebone
+--------------Z4eoCkPSH6gPm9PMM4QjfYle
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-=20
-ETA for completion Wednesday, 21 February 2024.
-=20
-Best regards,
-Jing Hui
+Does adding 'stateless-rootfs' to IMAGE_FEATURES work for you?
 
+meta/classes-recipe/image.bbclass:IMAGE_PREPROCESS_COMMAND:append = " 
+${@ 'systemd_preset_all systemd_disable_units' if 
+bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d) and not 
+bb.utils.contains('IMAGE_FEATURES', 'stateless-rootfs', True, False, d) 
+else ''} reproducible_final_image_task "
 
-> -----Original Message-----
-> From: qa-build-notification@lists.yoctoproject.org <qa-build-
-> notification@lists.yoctoproject.org> On Behalf Of Pokybuild User
-> Sent: Saturday, February 10, 2024 10:07 AM
-> To: yocto@lists.yoctoproject.org
-> Cc: qa-build-notification@lists.yoctoproject.org
-> Subject: [qa-build-notification] QA notification for completed autobuilde=
-r
-> build (yocto-4.3.3.rc1)
->=20
->=20
->     A build flagged for QA (yocto-4.3.3.rc1) was completed on the autobui=
-lder
-> and is available at:
->=20
->=20
->         https://autobuilder.yocto.io/pub/releases/yocto-4.3.3.rc1
->=20
->=20
->     Build URL:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6552
->=20
->     Build hash information:
->=20
->     bitbake: 380a9ac97de5774378ded5e37d40b79b96761a0c
-> meta-agl: 54333533f293cae29cf00948862ae86c8c814197
-> meta-arm: 6bfd024269c3888dffef7540b0618b04ee3308ea
-> meta-aws: af73d3c35933988ce286c49696827ffe63e5785b
-> meta-intel: 8d633bd01e20e31c0dae58cf3cd41eddb2f712c7
-> meta-mingw: 49617a253e09baabbf0355bc736122e9549c8ab2
-> meta-openembedded: da9063bdfbe130f424ba487f167da68e0ce90e7d
-> meta-virtualization: ac125d881f34ff356390e19e02964f8980d4ec38
-> oecore: 0584d01f623e1f9b0fef4dfa95dd66de6cbfb7b3
-> poky: d3b27346c3a4a7ef7ec517e9d339d22bda74349d
->=20
->=20
->=20
-> This is an automated message from the Yocto Project Autobuilder
-> Git: git://git.yoctoproject.org/yocto-autobuilder2
-> Email: richard.purdie@linuxfoundation.org
->=20
->=20
->=20
->=20
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+Regards,
+Qi
+
+On 2/18/24 17:43, dave.elek.96@gmail.com wrote:
+> Hi!
+>
+> In the systemd-systemctl there is a *systemctl* script used for some 
+> configuration/settings for the systemd services (e.g. enabling services).
+>
+> In this script if we call the *preset_all* command, it will create an 
+> empty //etc/machine-id/ file. This is required on read-only //etc/ 
+> folder, otherwise the systemd will fail to boot. However on read-write 
+> /etc folder this file is still created, which prevents systemd to 
+> satisfy the ConditionFirstBoot condition. This is used in systemd 
+> services, for example for systemd-firstboot, where you can configure 
+> the root password, localization, hostname, etc.
+>
+> The preset_all command is triggered from the /image.bbclass/ file. A 
+> quick solution in my case was to add a task in my own layer, which 
+> deletes the //etc/machine-id/ file, but I think it would be great, to 
+> prevent others from the headache it can cause to investigate/fix this.
+>
+> I attached the patch file about my proposed solution.
+>
+> Waiting for you reply soon,
+> David
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#384): https://lists.yoctoproject.org/g/qa-build-
-> notification/message/384
-> Mute This Topic: https://lists.yoctoproject.org/mt/104272169/6424044
-> Group Owner: qa-build-notification+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/qa-build-
-> notification/leave/10762429/6424044/1746813897/xyzzy
-> [jing.hui.tham@intel.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+> View/Reply Online (#195823):https://lists.openembedded.org/g/openembedded-core/message/195823
+> Mute This Topic:https://lists.openembedded.org/mt/104425254/7304865
+> Group Owner:openembedded-core+owner@lists.openembedded.org
+> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub  [Qi.Chen@eng.windriver.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
+--------------Z4eoCkPSH6gPm9PMM4QjfYle
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <div class="moz-cite-prefix">Does adding 'stateless-rootfs' to
+      IMAGE_FEATURES work for you?<br>
+    </div>
+    <div class="moz-cite-prefix"><br>
+    </div>
+    <div class="moz-cite-prefix">meta/classes-recipe/image.bbclass:IMAGE_PREPROCESS_COMMAND:append
+      = &quot; ${@ 'systemd_preset_all systemd_disable_units' if
+      bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d)
+      and not bb.utils.contains('IMAGE_FEATURES', 'stateless-rootfs',
+      True, False, d) else ''} reproducible_final_image_task &quot;</div>
+    <div class="moz-cite-prefix"><br>
+    </div>
+    <div class="moz-cite-prefix">Regards,</div>
+    <div class="moz-cite-prefix">Qi<br>
+    </div>
+    <div class="moz-cite-prefix"><br>
+    </div>
+    <div class="moz-cite-prefix">On 2/18/24 17:43,
+      <a class="moz-txt-link-abbreviated" href="mailto:dave.elek.96@gmail.com">dave.elek.96@gmail.com</a> wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:vkHb.1708249394873752860.quep@lists.openembedded.org">
+      
+      Hi!<br>
+      <br>
+      In the systemd-systemctl there is a <strong>systemctl</strong>
+      script used for some configuration/settings for the systemd
+      services (e.g. enabling services).<br>
+      <br>
+      In this script if we call the <strong>preset_all</strong>
+      command, it will create an empty <em>/etc/machine-id</em> file.
+      This is required on read-only <em>/etc</em> folder, otherwise the
+      systemd will fail to boot. However on read-write /etc folder this
+      file is still created, which prevents systemd to satisfy the
+      ConditionFirstBoot condition. This is used in systemd services,
+      for example for systemd-firstboot, where you can configure the
+      root password, localization, hostname, etc.<br>
+      <br>
+      The preset_all command is triggered from the <em>image.bbclass</em>
+      file. A quick solution in my case was to add a task in my own
+      layer, which deletes the <em>/etc/machine-id</em> file, but I
+      think it would be great, to prevent others from the headache it
+      can cause to investigate/fix this.<br>
+      <br>
+      I attached the patch file about my proposed solution.<br>
+      <br>
+      Waiting for you reply soon,<br>
+      David
+      <br>
+      <fieldset class="moz-mime-attachment-header"></fieldset>
+      <pre class="moz-quote-pre" wrap="">
+-=-=-=-=-=-=-=-=-=-=-=-
+Links: You receive all messages sent to this group.
+View/Reply Online (#195823): <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/message/195823">https://lists.openembedded.org/g/openembedded-core/message/195823</a>
+Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/mt/104425254/7304865">https://lists.openembedded.org/mt/104425254/7304865</a>
+Group Owner: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
+Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a class="moz-txt-link-abbreviated" href="mailto:Qi.Chen@eng.windriver.com">Qi.Chen@eng.windriver.com</a>]
+-=-=-=-=-=-=-=-=-=-=-=-
+
+</pre>
+    </blockquote>
+    <p><br>
+    </p>
+  </body>
+</html>
+
+--------------Z4eoCkPSH6gPm9PMM4QjfYle--
 
