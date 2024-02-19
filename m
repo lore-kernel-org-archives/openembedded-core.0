@@ -1,193 +1,315 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <hsimeliere.opensource@witekio.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F78EC48BF8
-	for <webhook@archiver.kernel.org>; Mon, 19 Feb 2024 12:56:31 +0000 (UTC)
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.42])
- by mx.groups.io with SMTP id smtpd.web11.40681.1708347388178590673
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9525C48BF8
+	for <webhook@archiver.kernel.org>; Mon, 19 Feb 2024 13:53:01 +0000 (UTC)
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com (EUR01-DB5-obe.outbound.protection.outlook.com [40.107.15.138])
+ by mx.groups.io with SMTP id smtpd.web11.41720.1708350772766561163
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Feb 2024 04:56:28 -0800
+ Mon, 19 Feb 2024 05:52:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=purTerrI;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=purTerrI;
- spf=pass (domain: arm.com, ip: 40.107.21.42, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=pass;
- b=K0jv9/jbrfCCzEWRfVYr049Oo0hRNdTnnv7NiDPrc9T1mVbO2JoXZlCcraVaw4L8YCd/VbQ8tQp/ltr6iRTxHmvnGrjrkWldMq75a0A9xbQZmHfxYqTa8dhokvz3ArftWoQubS6xLn7NNaiRqMnhZtbcpH//raRtES3a2I/jXnae0y57QUcDI7pSQHFmEPnMuPfQQzVTXnUr29/SJTmu1rjoQiPXaH0ZrV4uKDPsr6y4Du6TJTdyf08e3OK//2pRj9EqD3EIQ2HB5+1g0PplZOrhgM8kxmchBfj9hOKGQCplF40CIz2hM0PmitscyFguhY0DX/4+9X79f71/hpSENQ==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bl7viU7B1+KJwl8L3gIEHRk7OOoatRa6wXqPMZBssXA=;
- b=C+RrTt5bJmxtw/XLitoz1BRxAF5yr2aeiFgPSdDEM8Tpesnl/bmTUFiv3iGxSj/snJTrxvLYDQV1eg14vgSKu53wFdxOUFUmV8+hU8Sny3Q1xOVULKJDieLUtXdnyqU0DRrNvAQG/GcBEUtwZaOn9LEbVGHuaWmG7h0N30m4/ecSdyChs8gGPht4HGqySH0w/PAYqs3nrkv2XkKM5NOuj3lkDREWVLUdRcb12pKRk1zP/eQ1COPlalLA6h+JkjRr4oR8FK/OYOVL4K5vcOAi/gf9xJgkEJfqffgbLmCL0ESEEWtrQKEk+eNzAZ0nFWyBzsYKyz7eVqubIu5+ykYLHA==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 63.35.35.123) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=armh.onmicrosoft.com; arc=pass (0
- oda=1 ltdi=1 spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bl7viU7B1+KJwl8L3gIEHRk7OOoatRa6wXqPMZBssXA=;
- b=purTerrIHKo/P9k/HMruWTR+LqdgA51wYtUt1xx7qGUmiNfQAtDdGHo/qThiLOArGLx6s5NCfkREpKDh4VtJluUSPPFpq6NQXnz7hkF5beu2WhYoU+X0jOvgykr0jXZOkXx3nMdF5bqtShKKejnvA0P7lT2B44SMv+4wjPJvnts=
-Received: from DB9PR06CA0010.eurprd06.prod.outlook.com (2603:10a6:10:1db::15)
- by AS8PR08MB6358.eurprd08.prod.outlook.com (2603:10a6:20b:337::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.37; Mon, 19 Feb
- 2024 12:56:24 +0000
-Received: from DU2PEPF0001E9BF.eurprd03.prod.outlook.com
- (2603:10a6:10:1db:cafe::6a) by DB9PR06CA0010.outlook.office365.com
- (2603:10a6:10:1db::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.38 via Frontend
- Transport; Mon, 19 Feb 2024 12:56:24 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- DU2PEPF0001E9BF.mail.protection.outlook.com (10.167.8.68) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7249.19 via Frontend Transport; Mon, 19 Feb 2024 12:56:24 +0000
-Received: ("Tessian outbound e358842a0ad8:v228"); Mon, 19 Feb 2024 12:56:24 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 8cea51ae9504325d
-X-CR-MTA-TID: 64aa7808
-Received: from b7eb576ba768.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id DC9752F6-46BA-426E-90AF-3254FDE9C9D4.1;
-	Mon, 19 Feb 2024 12:56:17 +0000
-Received: from EUR01-HE1-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id b7eb576ba768.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Mon, 19 Feb 2024 12:56:17 +0000
+ dkim=fail reason="dkim: body hash did not verify" header.i=@witekio.com header.s=selector2 header.b=XwrK8zFH;
+ spf=pass (domain: witekio.com, ip: 40.107.15.138, mailfrom: hsimeliere@witekio.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fG+GsXKnu1Sl/IaU80zbiXStVbUBSJPFrn6SnyP4kUTpv0Q+f9bdNzhxSBodHXGuhV2Q3R2gh1h3p7Wz4U9j6Y5IRVC6lpLuY5zzSv2tYmtyBp31binYhKQLaI7k/8QmNRf+AFhxKL2rmKQXH6t9mmzMJkNUDNhnoa7dtZSxB/4B4yQ46DmlC73UGUScHvGm8iUncBSr1l75RO1bIwRPvotySdPQSSJH90IPSHHXNfLYVIyChvFuH2b22gpu2yM2AMmdpj/ZWVZaHq/54Wwkx2XoQO62luLgHIUsmYdQ727dcK8aigHJfjYDoBBYC/My9PoGVVNDLkUdVV/TSBr8ow==
+ b=Itm1FsJxVH/sedzPLMPXK3855RpTo34l4Q0APRaO176dP9HpWvmdomDAVjS6XxMi6Bsel1A5wRnzMVpaNJl4SiTGrWSbZQ+Ka7AId38WQA1wA69YbNt1TPdQElsMtVb1vpnavEvGq9naQ4mEowwAy+bnBcg4WKG1VptUhWVkUUl6qBjJAFLVR9qrufkpgCaFPkLKC6dRtehwvrqYLJ7zer5atsX0a8va+dNzssGTEBE6fIPvNnCc2DoL2yrDiPEYOrsXN3OOprMBTpSJWf7YsY0Ux0aAs3bk1V5WmaOceUud7YTyJVyRoORVEucG5gjUYqVmJA47djG0TnZaq2MICw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bl7viU7B1+KJwl8L3gIEHRk7OOoatRa6wXqPMZBssXA=;
- b=Ntpg+7evJ5/VcSQJW60ivFhVLEuFgs+2G1CKOa2AUx7PDO6sQ0WZqViD3RRF6F+G5aWoOAc0k8B3KsCTCScyDONuu7WcL72zVfMuR60ewyWIN3QIi8kkvkqypUGVv0pvywKiSGgj1kG1vWiuLSkN+q/qt7Irev9vlnFRJOYgspAdwUF/mWdhysmvUjpPR5iU3+7PJkcnnk2b93zzWOI59Xjpqr3GpGEPGeS9XcJ9CJiS/V8AnpXufdoZFCn+6iBQ+Xlq2mcZFL3DskGrpDp00bZU563ktWImqI1fDmNECHaihYw+k19kcIY66wEaZXWyI8PCZhlo9YxrSGcHbvaD5A==
+ bh=7u7Kl1qgEaVv7ZGQMYL3pr97w5+3uG+IoLEI+Iyf1Wc=;
+ b=U254LViTH0ei4RMlcyrCN6TE+dJX9mq7Mm8ZQFL6r32AIQpIGEGytRb0DPM8tx7pRdDZSD4/DUnBo0b04fskXsqfpPZAMUUk/azuZes18K8WD11ljNuIL+rIcHWTEDGQfQfaz233lw3LJDW2Mlbfa+Bjtu3L335mHXvxN0qQ8VoQgGcoQNt7rj4E8ndGnkL1kqwMvvJO2iXnOa2+JT1c7J4Pi/CbLeVw1hsNf3iaHaIbOx6SL02N9Vvla+4kDdarOpKefUpVcR9mF/COqyaN1nAtKmRGRVvWNx8VL06SEZkWBr16O0Yo1uOHZADz2XliZnBAakjjUD4WzK5f2gHhKg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
+ smtp.mailfrom=witekio.com; dmarc=pass action=none header.from=witekio.com;
+ dkim=pass header.d=witekio.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=witekio.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bl7viU7B1+KJwl8L3gIEHRk7OOoatRa6wXqPMZBssXA=;
- b=purTerrIHKo/P9k/HMruWTR+LqdgA51wYtUt1xx7qGUmiNfQAtDdGHo/qThiLOArGLx6s5NCfkREpKDh4VtJluUSPPFpq6NQXnz7hkF5beu2WhYoU+X0jOvgykr0jXZOkXx3nMdF5bqtShKKejnvA0P7lT2B44SMv+4wjPJvnts=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by GVXPR08MB8212.eurprd08.prod.outlook.com (2603:10a6:150:16::21) with
+ bh=7u7Kl1qgEaVv7ZGQMYL3pr97w5+3uG+IoLEI+Iyf1Wc=;
+ b=XwrK8zFHKdCioI0Vm1YwrY/t7NOxKCuuKuoclVu1yaJeAoq113aPm+uF5WcAc6U3Eb9/trLhJfrRbaULE5haEv4E2Tgk/O/yPJ7kEVtE8LjusXEiExIONa4T93/S+Y3m1NhL59GsdM6amgcrIuDU1Seud8fg3RkOTWhNsdSE7+UEP4aDJ4WRLDeNWjlRdQ4IDLJHn/X4FGnk4GAx6lfJza7wv9KjgwwXocKdSGgBx3bFZxmWVqXnV3M1FtndNiR3YWlfWyiuUXtzu/ZEqjV27tgnsnAPamdI1Fm6uNDTDHhnbqZfpqunSk18qqhYziZB6uT72b870QEj6N0nU8ASYA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=witekio.com;
+Received: from PR3P192MB0714.EURP192.PROD.OUTLOOK.COM (2603:10a6:102:48::10)
+ by PR3P192MB1103.EURP192.PROD.OUTLOOK.COM (2603:10a6:102:95::12) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.38; Mon, 19 Feb
- 2024 12:56:15 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::740e:ab01:e66a:61c9]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::740e:ab01:e66a:61c9%3]) with mapi id 15.20.7292.029; Mon, 19 Feb 2024
- 12:56:15 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "peter.kjellerstedt@axis.com" <peter.kjellerstedt@axis.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCHv2 5/5] lib/oe/patch: Use git notes to store the
- filenames for the patches
-Thread-Topic: [OE-core] [PATCHv2 5/5] lib/oe/patch: Use git notes to store the
- filenames for the patches
-Thread-Index: AQHaYtMihucQswB/UkKpI9uGDA3vErERoFmA
-Date: Mon, 19 Feb 2024 12:56:15 +0000
-Message-ID: <58D334B2-076D-4140-B948-7AE0A52931F3@arm.com>
-References: <20240219012832.3090768-1-pkj@axis.com>
- <20240219012832.3090768-5-pkj@axis.com>
-In-Reply-To: <20240219012832.3090768-5-pkj@axis.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3774.400.31)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|GVXPR08MB8212:EE_|DU2PEPF0001E9BF:EE_|AS8PR08MB6358:EE_
-X-MS-Office365-Filtering-Correlation-Id: 991c3f6c-8d77-4982-49bc-08dc314a2dba
-x-checkrecipientrouted: true
-nodisclaimer: true
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.31; Mon, 19 Feb
+ 2024 13:52:48 +0000
+Received: from PR3P192MB0714.EURP192.PROD.OUTLOOK.COM
+ ([fe80::f0ac:ede:a6e1:17e8]) by PR3P192MB0714.EURP192.PROD.OUTLOOK.COM
+ ([fe80::f0ac:ede:a6e1:17e8%4]) with mapi id 15.20.7292.036; Mon, 19 Feb 2024
+ 13:52:48 +0000
+From: hsimeliere.opensource@witekio.com
+To: openembedded-core@lists.openembedded.org
+CC: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
+Subject: [OE-core][kirkstone][PATCH v2] libuv: fix CVE-2024-24806
+Date: Mon, 19 Feb 2024 13:09:02 +0100
+Message-ID: <20240219120902.6354-1-hsimeliere.opensource@witekio.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240219115859.5389-1-hsimeliere.opensource@witekio.com>
+References: <20240219115859.5389-1-hsimeliere.opensource@witekio.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: PA7P264CA0270.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:102:375::8) To PR3P192MB0714.EURP192.PROD.OUTLOOK.COM
+ (2603:10a6:102:48::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PR3P192MB0714:EE_|PR3P192MB1103:EE_
+X-MS-Office365-Filtering-Correlation-Id: 37bf05b3-c2a6-414f-3031-08dc31520eb2
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- 3HGM0ZRqhNxn3jZGUXhPd/AAHVaaFTrC1boFJVQrzO1pGEZwLPjyML6JmLdxGEjedXJkeOOPZAJyiV2ALWtiFEwPnSRCX6yflIfX8Fs6w8vX0llWX+QbmjKIO2ZxCdtW4UcF+SxEl3yRrW6Nu7Zb+oLOHoUx+TA241XlqFmsV6Al7R+n7HlpagvTW+r2wyMN0Eq2F3YgZILdT8lbT/4OE5LxUdBTDGeNuQ3ilpfHpoZzCs1MWbCriBtDak/qUOzTuHwarYH6DFHk+qKX4iZ8zro0FASMspYVpthoxsGNAhYGwV2fuxHtMziUVrEdCbPOZucFT+PrdRhrhS8FcIaLGIN6XdSb8uKGMUm1TpB3QQ1VssPCW6aB75YgBCbQAdM5ep33frPOLm7hwMtN41RYeDgKwGoP+ySAAnd89+ax4iDVCCKpHCMBopPzVjxjjru0TnBc9sZU3T28XgL/GN3roBh6RBGdAy7G1Zlbho7xy3JPjgVrHdx+Qw5F8v9eLCdPG8hGJqNXfYCVn6P1+ssl2bndr1BPVXkSRQw+noVMp2om01r+wa1YwCH/EmyeWOG+L8gACLsvhu0Wor2glav23RQt0iRLVmr9heIS5g3mnSNmuEQ6Q7p1rBRetD03EsuB
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(38070700009);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <25294BBC24CBF149895406233293B3EA@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR08MB8212
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- DU2PEPF0001E9BF.eurprd03.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	d28186d8-5d63-4cca-2395-08dc314a285d
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	3HyrdyIUYBYelRzqtT9FRRIIXc8ZKPtIp4wyXzYArrhMveT/uZoYnBFmpCdzoLANqMhK4QNxuGpIOn04Jk9wn7T47BL9lVNOpG2ogJ7cpwNP4eyzJv/Pi7/rtdCYG/vmFDHtzbwlv4HNka3j/Wq4/9CSUDAvJ5JSs7BJzXgeSGCnO/VPZ9C8RA7vmw/vaQR7CL3elp2JgU1ICfaOcs1Y6eXAYYLtyZB0noeACc/bAWG03KTHbriLgdzea75IC6kKc8xAHPd7aPvPBs/oDJSZwiEkiH75XBnLkezBJV73aV+1ZmEYrXNUj3+G7mKtjj/h1hOTGcz+CeBO0fTiBsob6kHiz13HUjeeo4u4qRBYw5Za0OHBnP+oQ3Uyopaw28oYIOEc8IzLPj8qSDaz6d5NSRPrx60WwoOyyTkjKUtnNeFlEs/jhEQJWyhB0K9D5puN3sQatk1v0iWkqjX0Teifmoftqlsj5poKqSbF+ZepsfQXdKd9mHv1TF7CzxGO/YYkOSEeW1lI5wKFOgho6KHJGmQH0650Sl2J6eagXGwBcJ+8HSoYVGtOze0/S8xwKj6owtwKoHogGnDRo66IuJKO0Zc4RyFDUHm+jpUa3wh6FOHrGpV4zRxThsWY8zx4nY3xs3VMxja/U03Al1BIoujDe7d86Mey+G3oQMh6mwi/U9A=
+	WlXdLMpIOOCF/G0JJNl9T4FTtfbIocONkgyWu0HBemkPnNJ6YtUhCDyArpk50GMBPvIvLZgaIoquN4BxmvOCUlHYGtY5zqbaCX14eNGbtCv/rtJ8BkG0Shs517rwehzpaPwKCtE9eHeRpiJDiLmI7sRK8iSmUhQe+ch7Z48SbctxOR/aYIb2SxamT4FddsyFzdwQ2MS1gW8Aj8VH/Q1Ns4Miu06cNffaHqkOyFjypbEEIpU/PgRrEnFKRDPx6+c6KXM/5wTCX8UJwmUsOTe+VT3e0+RYsY09VM5RBTtNKC08z2JxkCYdGkstoHCJx9coC7FYkgJdqf+pwHfwpcHW9jyspundBfxaBDoYr8d3Rfj6XNZ/trVl4sLz/wGRUyIY4sipK7lVLIVc4h4GDqTGMsYWjcVlXOJI+8vSYDN9FO1s0YtEOk2NGLhLdb7Wq7rB3ZAVxWSSOOAxyX1X7rRq2iytRkZNufCOaoVIhfb9rtk5pOLQ85y72bq532UW7OFfa6QaA5+MjjmyRU492IQhOj3rq6sKFJynJ/PZR8AWRjyYNcOEhHhJZBBnrMOZB0hy7TvOi08+yLgZWsY3SutpUCyA2PmG01/apFiOrT/Lc0g=
 X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230031)(36860700004)(40470700004)(46966006);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Feb 2024 12:56:24.4292
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PR3P192MB0714.EURP192.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(38350700005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?bPHPOjpm4TDYa/XaiZuLeVruqNypZAJq0cNyYK4jmCex/oHBZNKlOyYdnE9C?=
+ =?us-ascii?Q?kSxQ7cQiRUvfo43N24vANlT5cYxtZV7Z1VlI/XTlhLywA3qTIfsioxHuWd0Y?=
+ =?us-ascii?Q?Rpj03/atRTIgtd+K5eLYY/nydUmC0+F9fwcnNWUQ3mujTKti5XU0PKQ63v/w?=
+ =?us-ascii?Q?HSn3Iof9KWVAaLD3Uf5DMJnqkif1uMKxyVV2O3Wtx2m5I0euuXHOO4eeVod7?=
+ =?us-ascii?Q?ajRME3IItYUJJW1ydyi4SyHR66l/e7Tt6kwsk8KD5kyanplfOUW83EoWsiV3?=
+ =?us-ascii?Q?oc10+/UGZieW23ndX6MpYqxJi9+DSwYLqWT3zLyjuodXxr2IFb1LAOSJJx4T?=
+ =?us-ascii?Q?KKtKZvhIQ8o33D713tdg4/8Mgws5Va+Nc4d8/Z62mBQVS/FFjCq4BgclRWJN?=
+ =?us-ascii?Q?DaqFyxdAt2tkaOhYBmow19v4sf1quOTDxjSSSRGOT1oMNUQNDEbRZWqOjYvT?=
+ =?us-ascii?Q?bpz1cVD2ZhJH+p4rLdFGQKplG3herLk75lUhjf2JBLkM25vGeLCKNPJhmlEW?=
+ =?us-ascii?Q?VdfduB6EYu68XSNnGMjNjyj2IF9bBznbaw4mJ+lqRIt2gGeoKdL5yEx1Zuqn?=
+ =?us-ascii?Q?1F7+OGX/NAXYuIh81Cmbbn8P+lzTx00P25uleRa7hWcyMDkeesqHGlzopZ7T?=
+ =?us-ascii?Q?n8+Ic8rppkGNdTbVAifgVEH7fE06fXTkFq9CR2gaUaCrWpqBhKEgeghARUs/?=
+ =?us-ascii?Q?UlMcJPLDBRXSULtSK+8iXP8MpdQq8lpmSWp8HNFjj0VW+ar/6SmNmM9I5aMZ?=
+ =?us-ascii?Q?ZFM2/uAJwfAV5xsYM78YZyF/iDv2Ml80fblCVi+547sGhgBu61aWogBeJquI?=
+ =?us-ascii?Q?tNRyo+PdRKPMEYcYTwmLjHsc0XkkgJCNNwif0OfJX5/plPvsEO6W+bfuDmik?=
+ =?us-ascii?Q?KaKclBt3Bbh1KKQfiPtMadV4lQ4BM3JYk5gxTy/QOjxWfO8R3lia2tqU2cRB?=
+ =?us-ascii?Q?esyRLth2Bbp3fwvFrUFmcMbxbaxhXE/uXXYyFcAxkHtCzvFTQ6sgWXQ6wjrI?=
+ =?us-ascii?Q?QaW1+Vpk6bjd1vjpoRyK5LrogAuZO/cJuu+hTacZRrPTd1r7Mvz3j0EvINV1?=
+ =?us-ascii?Q?VVPTewzm2J68jj8/RFDCer1AcD4ySXfRoFzSyT71z1jTqtYML/shuZR1YZN9?=
+ =?us-ascii?Q?dJ3Lu1QwObfAvHX8gCZKCJ5y/DGYjCP7IlulI+PQ65NE8Y4U8Ty9ZlBsC8PU?=
+ =?us-ascii?Q?W08Ide3s0lelczCM/7tTjZ3Jv38gYiqxgMyhY2IrE51nqCCA/TWMZ0FYdTLC?=
+ =?us-ascii?Q?QLva2C246g/ZvHaFwY1GiH/4MlFQp1KQAEter0SN8uK9i+VviMQ1JmCOO2EY?=
+ =?us-ascii?Q?z8MadhIrwJhH+ErjjteJtnQlwjRgMkjY7yiauiS15cQ0Rs42rhBSBgYdBtdD?=
+ =?us-ascii?Q?VoQ0NYCvv/H9tiwdoKsE/4VBKaNL7HvCvcUAVwlZ9CDAX1w1kCo6ZDcYsF5V?=
+ =?us-ascii?Q?URsvNm9OxVUnvWOzjfQJUF8O1nn8ZWAW7ZkVkvKWu0v2oUUx3vBYmCvgoDVZ?=
+ =?us-ascii?Q?AiUztI9xCJGNE5W2SuxoxkwokBQ1+BimjyaKCMUVCFgGf5Ip3RhMnezjUneN?=
+ =?us-ascii?Q?LDJlNj4ZbDpOZdEt05PRWCecG/xAiMtQb1jFPIKB?=
+X-OriginatorOrg: witekio.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 37bf05b3-c2a6-414f-3031-08dc31520eb2
+X-MS-Exchange-CrossTenant-AuthSource: PR3P192MB0714.EURP192.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Feb 2024 13:52:48.4640
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 991c3f6c-8d77-4982-49bc-08dc314a2dba
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DU2PEPF0001E9BF.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6358
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 317e086a-301a-49af-9ea4-48a1c458b903
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: XSLRYuzKX/1eKuDv/08wzQY+A9E9VFVTBXE1YKL6wiFVKsDIacGgpgP4nyGRen2LcrjShDvmRSbzoxpnTbbSxA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3P192MB1103
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 19 Feb 2024 12:56:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195873
+ <openembedded-core@lists.openembedded.org>; Mon, 19 Feb 2024 13:53:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195874
 
-On 19 Feb 2024, at 01:28, Peter Kjellerstedt via lists.openembedded.org <pe=
-ter.kjellerstedt=3Daxis.com@lists.openembedded.org> wrote:
-> +    @staticmethod
-> +    def addNote(repo, ref, key, value=3DNone):
-> +        note =3D key + (": %s" % value if value else "")
-> +        notes_ref =3D GitApplyTree.notes_ref
-> +        runcmd(["git", "config", "notes.rewriteMode", "ignore"], repo)
-> +        runcmd(["git", "config", "notes.displayRef", notes_ref, notes_re=
-f], repo)
-> +        runcmd(["git", "config", "notes.rewriteRef", notes_ref, notes_re=
-f], repo)
-> +        runcmd(["git", "notes", "--ref", notes_ref, "append", "-m", note=
-, ref], repo)
+From: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
 
-It feels like the config calls could be done once when setting up the repos=
-itory somehow?
+Upstream-Status: Backport [https://github.com/libuv/libuv/commit/0f2d7e784a=
+256b54b2385043438848047bc2a629]
+Upstream-Status: Backport [https://github.com/libuv/libuv/commit/3530bcc303=
+50d4a6ccf35d2f7b33e23292b9de70]
+Upstream-Status: Backport [https://github.com/libuv/libuv/commit/e0327e1d50=
+8b8207c9150b6e582f0adf26213c39]
 
-> +                        # This loop, which is used to remove any line th=
-at
-> +                        # starts with "%% original patch", is kept for b=
-ackwards
-> +                        # compatibility. If/when that compatibility is d=
-ropped,
-> +                        # it can be replaced with code to just read the =
-first
-> +                        # line of the patch file to get the SHA-1, and t=
-he code
-> +                        # below that writes the modified patch file can =
-be
-> +                        # replaced with a simple file move.
+Signed-off-by: Hugo SIMELIERE <hsimeliere.opensource@witekio.com>
+---
+ .../libuv/libuv/CVE-2024-24806-1.patch        | 55 +++++++++++++++++++
+ .../libuv/libuv/CVE-2024-24806-2.patch        | 43 +++++++++++++++
+ .../libuv/libuv/CVE-2024-24806-3.patch        | 30 ++++++++++
+ .../libuv/libuv_1.44.2.bb                     |  6 +-
+ 4 files changed, 133 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-connectivity/libuv/libuv/CVE-2024-24806-1.=
+patch
+ create mode 100644 meta/recipes-connectivity/libuv/libuv/CVE-2024-24806-2.=
+patch
+ create mode 100644 meta/recipes-connectivity/libuv/libuv/CVE-2024-24806-3.=
+patch
 
-This is all that is needed for the new code to work correctly with an old w=
-orktree, right?
-
-Ross
+diff --git a/meta/recipes-connectivity/libuv/libuv/CVE-2024-24806-1.patch b=
+/meta/recipes-connectivity/libuv/libuv/CVE-2024-24806-1.patch
+new file mode 100644
+index 0000000000..cd74047631
+--- /dev/null
++++ b/meta/recipes-connectivity/libuv/libuv/CVE-2024-24806-1.patch
+@@ -0,0 +1,55 @@
++From b8ee33667d265b936d60ee7f0ba0b22463ccb019 Mon Sep 17 00:00:00 2001
++From: Ben Noordhuis <info@bnoordhuis.nl>
++Date: Thu, 18 Jan 2024 14:51:40 +0100
++Subject: [PATCH] fix: always zero-terminate idna output
++
++Upstream-Status: Backport [https://github.com/libuv/libuv/commit/0f2d7e784=
+a256b54b2385043438848047bc2a629]
++CVE: CVE-2024-24806
++
++Fixes: https://github.com/libuv/libuv/security/advisories/GHSA-f74f-cvh7-c=
+6q6
++---
++ src/idna.c       | 5 +++--
++ test/test-idna.c | 4 ++++
++ 2 files changed, 7 insertions(+), 2 deletions(-)
++
++diff --git a/src/idna.c b/src/idna.c
++index 93d982ca..ce7f2746 100644
++--- a/src/idna.c
+++++ b/src/idna.c
++@@ -308,8 +308,9 @@ long uv__idna_toascii(const char* s, const char* se, c=
+har* d, char* de) {
++       return rc;
++   }
++=20
++-  if (d < de)
++-    *d++ =3D '\0';
+++  if (d >=3D de)
+++    return UV_EINVAL;
++=20
+++  *d++ =3D '\0';
++   return d - ds;  /* Number of bytes written. */
++ }
++diff --git a/test/test-idna.c b/test/test-idna.c
++index f4fad965..d079be55 100644
++--- a/test/test-idna.c
+++++ b/test/test-idna.c
++@@ -99,6 +99,7 @@ TEST_IMPL(utf8_decode1) {
++ TEST_IMPL(utf8_decode1_overrun) {
++   const char* p;
++   char b[1];
+++  char c[1];
++=20
++   /* Single byte. */
++   p =3D b;
++@@ -112,6 +113,9 @@ TEST_IMPL(utf8_decode1_overrun) {
++   ASSERT_EQ((unsigned) -1, uv__utf8_decode1(&p, b + 1));
++   ASSERT_EQ(p, b + 1);
++=20
+++  b[0] =3D 0x7F;
+++  ASSERT_EQ(UV_EINVAL, uv__idna_toascii(b, b + 1, c, c + 1));
+++
++   return 0;
++ }
++=20
++--=20
++2.43.0
++
+diff --git a/meta/recipes-connectivity/libuv/libuv/CVE-2024-24806-2.patch b=
+/meta/recipes-connectivity/libuv/libuv/CVE-2024-24806-2.patch
+new file mode 100644
+index 0000000000..c1a33274c5
+--- /dev/null
++++ b/meta/recipes-connectivity/libuv/libuv/CVE-2024-24806-2.patch
+@@ -0,0 +1,43 @@
++From 96f881c8f600da33ec4ecec450ec491990ce613b Mon Sep 17 00:00:00 2001
++From: Ben Noordhuis <info@bnoordhuis.nl>
++Date: Thu, 18 Jan 2024 14:52:38 +0100
++Subject: [PATCH] fix: reject zero-length idna inputs
++
++Upstream-Status: Backport [https://github.com/libuv/libuv/commit/3530bcc30=
+350d4a6ccf35d2f7b33e23292b9de70]
++CVE: CVE-2024-24806
++
++Fixes: https://github.com/libuv/libuv/security/advisories/GHSA-f74f-cvh7-c=
+6q6
++---
++ src/idna.c       | 3 +++
++ test/test-idna.c | 1 +
++ 2 files changed, 4 insertions(+)
++
++diff --git a/src/idna.c b/src/idna.c
++index ce7f2746..858b19d0 100644
++--- a/src/idna.c
+++++ b/src/idna.c
++@@ -274,6 +274,9 @@ long uv__idna_toascii(const char* s, const char* se, c=
+har* d, char* de) {
++   char* ds;
++   int rc;
++=20
+++  if (s =3D=3D se)
+++    return UV_EINVAL;
+++
++   ds =3D d;
++=20
++   si =3D s;
++diff --git a/test/test-idna.c b/test/test-idna.c
++index d079be55..d59b521e 100644
++--- a/test/test-idna.c
+++++ b/test/test-idna.c
++@@ -114,6 +114,7 @@ TEST_IMPL(utf8_decode1_overrun) {
++   ASSERT_EQ(p, b + 1);
++=20
++   b[0] =3D 0x7F;
+++  ASSERT_EQ(UV_EINVAL, uv__idna_toascii(b, b + 0, c, c + 1));
++   ASSERT_EQ(UV_EINVAL, uv__idna_toascii(b, b + 1, c, c + 1));
++=20
++   return 0;
++--=20
++2.43.0
++
+diff --git a/meta/recipes-connectivity/libuv/libuv/CVE-2024-24806-3.patch b=
+/meta/recipes-connectivity/libuv/libuv/CVE-2024-24806-3.patch
+new file mode 100644
+index 0000000000..56213573f7
+--- /dev/null
++++ b/meta/recipes-connectivity/libuv/libuv/CVE-2024-24806-3.patch
+@@ -0,0 +1,30 @@
++From a7443ee6b3b3c6a12708148aa9bb001b7782905c Mon Sep 17 00:00:00 2001
++From: Santiago Gimeno <santiago.gimeno@gmail.com>
++Date: Wed, 7 Feb 2024 20:27:58 +0100
++Subject: [PATCH] test: empty strings are not valid IDNA
++
++Upstream-Status: Backport [https://github.com/libuv/libuv/commit/e0327e1d5=
+08b8207c9150b6e582f0adf26213c39]
++CVE: CVE-2024-24806
++
++Fixes: https://github.com/libuv/libuv/security/advisories/GHSA-f74f-cvh7-c=
+6q6
++---
++ test/test-idna.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/test/test-idna.c b/test/test-idna.c
++index d59b521e..37da38de 100644
++--- a/test/test-idna.c
+++++ b/test/test-idna.c
++@@ -150,8 +150,8 @@ TEST_IMPL(idna_toascii) {
++   /* Illegal inputs. */
++   F("\xC0\x80\xC1\x80", UV_EINVAL);  /* Overlong UTF-8 sequence. */
++   F("\xC0\x80\xC1\x80.com", UV_EINVAL);  /* Overlong UTF-8 sequence. */
+++  F("", UV_EINVAL);
++   /* No conversion. */
++-  T("", "");
++   T(".", ".");
++   T(".com", ".com");
++   T("example", "example");
++--=20
++2.43.0
++
+diff --git a/meta/recipes-connectivity/libuv/libuv_1.44.2.bb b/meta/recipes=
+-connectivity/libuv/libuv_1.44.2.bb
+index 27e79276b5..e2cd3c3247 100644
+--- a/meta/recipes-connectivity/libuv/libuv_1.44.2.bb
++++ b/meta/recipes-connectivity/libuv/libuv_1.44.2.bb
+@@ -6,7 +6,11 @@ LICENSE =3D "MIT"
+ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Dad93ca1fffe931537fcf64f6fcce084=
+d"
+=20
+ SRCREV =3D "0c1fa696aa502eb749c2c4735005f41ba00a27b8"
+-SRC_URI =3D "git://github.com/libuv/libuv.git;branch=3Dv1.x;protocol=3Dhtt=
+ps"
++SRC_URI =3D "git://github.com/libuv/libuv.git;branch=3Dv1.x;protocol=3Dhtt=
+ps \
++           file://CVE-2024-24806-1.patch \
++           file://CVE-2024-24806-2.patch \
++           file://CVE-2024-24806-3.patch \
++          "
+ UPSTREAM_CHECK_GITTAGREGEX =3D "v(?P<pver>\d+(\.\d+)+)"
+=20
+ S =3D "${WORKDIR}/git"
+--=20
+2.25.1
 
 
