@@ -2,57 +2,57 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99674C48BF8
-	for <webhook@archiver.kernel.org>; Mon, 19 Feb 2024 17:30:56 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web11.82.1708363855214948524
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72889C54764
+	for <webhook@archiver.kernel.org>; Mon, 19 Feb 2024 17:31:06 +0000 (UTC)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web11.84.1708363858442442616
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Feb 2024 09:30:55 -0800
+ Mon, 19 Feb 2024 09:30:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=dTBrqhjt;
- spf=pass (domain: gmail.com, ip: 209.85.214.182, mailfrom: ticotimo@gmail.com)
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1dbf1fe91fcso9820825ad.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 19 Feb 2024 09:30:55 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=NSNEvZXG;
+ spf=pass (domain: gmail.com, ip: 209.85.214.178, mailfrom: ticotimo@gmail.com)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1d731314e67so31803025ad.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 19 Feb 2024 09:30:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708363854; x=1708968654; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1708363857; x=1708968657; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=v3kZVyRFDEYRz6XY10W86nABiQe8s4y7ht3sMyisbVs=;
-        b=dTBrqhjts7Ondu3kzqi7YzLHPCVA3XaZ5tI1gAU9TxaIylSM7WijnyWx8Iclmgqq0Z
-         vT0bd5KvoV0TX8sIuRDuS8W+S6v0LhEjApGo6iD2Fp2IIsjxDycAhKgbIjjzqzgi8JnY
-         yDaw5NWrBfhPOYEoUsGTdzOK+OWoZLiX52HI0wicOFNHC/ylqFUhm4lT9qASDcj/SA0Q
-         UpTusb+gD36Hu9hQJttial0UxqTfdkvXb4GQPG9C3Q54pfVJ6NibkpyhMV8hDK0ngOWH
-         g6GL28RITXH1MFAXYu5SbQ0+6hjC6ErOQqPaMZM4hx6GPhbaLar/JP7T6h2bHNekG/vv
-         nG4w==
+        bh=4Jj7O0PQTcwnnjLmMcHYD555sADhopHJCguYmiVwmBI=;
+        b=NSNEvZXGdi35zk43OXriYFKGqc1mirXYSJ4a4Exaw7NdPPlqt4coEXevRP+EqWyJUc
+         XiBkoP5Sw0oAOKZ0Y/ubeDsMoT1EQUSa1mPCVF0+e6Cj/kXXLU5IMzmLY7acVwsOP2sa
+         Nf2NL5II00hwxMJNv3quF8zqvwli1sNW5CYfIZIPBSWjMYwbcDpzzOGTIvoJJcrkEG8Q
+         92C+632qFDNu7FhbemwHpKIus/YWZMJ682G/+XYn20rvTaTYBNn8P7FqjwL1jHMaI6Rm
+         o675HxyiHiKnvqdjwhDxZuiqI6Kc0FZhSu2Vel6ggDQFjpiKGpCn8Wuj17gobK8yzUxY
+         saJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708363854; x=1708968654;
+        d=1e100.net; s=20230601; t=1708363857; x=1708968657;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=v3kZVyRFDEYRz6XY10W86nABiQe8s4y7ht3sMyisbVs=;
-        b=pQQofkH/PADLN6npOv/woePTmq0pEuD/+iBu0DG9xc6bRhsMVMCeksAF9sNl2nIRrn
-         U85hH+edv5PgAxSknQVAn04ry0KlTThF+fWfk5R3jPM5FXx/wB3ENogxi8eo949cesQk
-         yi8bRG9qxFT0PBBzmGLTTukjzEk5VzFcdLc1JHI4ka/5Odm+LFntq2lhAA8aPkEjGKlJ
-         g9wa+xL+OgVSGC5H8dJX5jQwPdjew34/ywjqc/wRAjUMHRIHnHQJjUe0P++tv3+r8nzy
-         SEPcM0eqZTTZ+Z2Vm2SNfqXaV6zbPSUrd6waI0OTGpN8DBHRiO3ZJIUQ4KvVP9LnMuuL
-         F12A==
-X-Gm-Message-State: AOJu0Yy8MZPNM7cHQOrF1z3z4JAQIb9SMefxIjxMX8iayEcqMXrUExxW
-	NoqkGjaXSfDiHynDNg5RB8CnVSSaumcArtHsr1j5LcLZ/hFmlTwHVdTmqHEe
-X-Google-Smtp-Source: AGHT+IEvB93j/NESHwOHoG4PVvoY1OQasjV4syaU6lhKjJ8vSerKO3+30sCMe8yn4A41CYp8eOBU5w==
-X-Received: by 2002:a17:902:ecc9:b0:1db:b69a:3fb9 with SMTP id a9-20020a170902ecc900b001dbb69a3fb9mr12144320plh.25.1708363854266;
-        Mon, 19 Feb 2024 09:30:54 -0800 (PST)
+        bh=4Jj7O0PQTcwnnjLmMcHYD555sADhopHJCguYmiVwmBI=;
+        b=m5vOtHJTGT89YZqn31/vSsoU+qwmF9DG33qV96silyQ55vqZxC+M5/8uXNfHYo8ouL
+         M9sAVSjij+G4+zYeOVJaKI9mE2A3x3akL2peyhbrAC3FAbf9GkXRUob+39Tb16R+PTz5
+         RFWwyCYC1UcbE5KcjtLN0oWURVtUhQqYeAxyNDKUgjNJjLhJlSrISTGZYlG4aPzXozQW
+         pTw6UAphCMGCNQgm1a90UQqQ+sS3dCI8NXSWWOvsOXPCBbT/ghwpiMqGnoCQToU+tzJH
+         z5XDkUWH4y/38PX5C130QDgsUqjBYnf/+A4bAFPlAUu3UKN8vRr87u8OXQduYJngFksi
+         FRdQ==
+X-Gm-Message-State: AOJu0YzEphfASSmOAymufxHaUJIs1Ww7z8OofWaMyhSlg7HU5FKto1td
+	bqW8v2NnEunwaZr682BJtGxwJAJBk5eXYASg8ep3+DRwcUTZy7jpEaq11YMO
+X-Google-Smtp-Source: AGHT+IGMw5Ecm5V//4NPWFPZeMP61S4CPdXfaK5sVmrpDbj5CvmVNJAJXKpvHINotwQn3BIL6jCaMA==
+X-Received: by 2002:a17:903:2445:b0:1db:f965:470d with SMTP id l5-20020a170903244500b001dbf965470dmr3088476pls.24.1708363857304;
+        Mon, 19 Feb 2024 09:30:57 -0800 (PST)
 Received: from chiron.hsd1.or.comcast.net ([2601:1c0:ca01:19f0:7caf:da97:8daf:f655])
-        by smtp.gmail.com with ESMTPSA id w3-20020a170903310300b001d965e737f2sm4630428plc.268.2024.02.19.09.30.53
+        by smtp.gmail.com with ESMTPSA id w3-20020a170903310300b001d965e737f2sm4630428plc.268.2024.02.19.09.30.56
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Feb 2024 09:30:53 -0800 (PST)
+        Mon, 19 Feb 2024 09:30:56 -0800 (PST)
 From: Tim Orling <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/4] python_mesonpy.bbclass: move from meta-python
-Date: Mon, 19 Feb 2024 09:30:22 -0800
-Message-Id: <bbd4321b0196dc3f301f6260bd6cd9419580c97d.1708363628.git.tim.orling@konsulko.com>
+Subject: [PATCH 4/4] recipetool; add support for python_mesonpy class
+Date: Mon, 19 Feb 2024 09:30:24 -0800
+Message-Id: <90d06d324635b0439b4f5d31b525d3eabfac5d96.1708363628.git.tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1708363628.git.tim.orling@konsulko.com>
 References: <cover.1708363628.git.tim.orling@konsulko.com>
@@ -61,81 +61,84 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 19 Feb 2024 17:30:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195893
+ <openembedded-core@lists.openembedded.org>; Mon, 19 Feb 2024 17:31:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195895
 
-Move the PEP-517 back-end bbclass from meta-python to support:
+* Add support to detect the "mesonpy" build-backend for recipetool create.
+* Add oe-selftest case for creating a recipe for "siphash24" from pypi.
+  https://pypi.org/project/siphash24/
 
-[build-system]
-build-backend = "mesonpy"
+This is by far the simplest recipe using the mesonpy build backend.
 
-This is the declared backend in python3-numpy since:
-https://github.com/numpy/numpy/commit/942fb8caf33a65e449fbf198ecf1cd39be953248
+Upstream does not provide LICENSE file(s) and we do not detect the
+LICENSE so don't check for that result in the test. Likewise, upstream
+does not define HOMEPAGE, so skip that result.
 
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- meta/classes-recipe/python_mesonpy.bbclass | 52 ++++++++++++++++++++++
- 1 file changed, 52 insertions(+)
- create mode 100644 meta/classes-recipe/python_mesonpy.bbclass
+ meta/lib/oeqa/selftest/cases/recipetool.py    | 19 +++++++++++++++++++
+ .../lib/recipetool/create_buildsys_python.py  |  4 ++++
+ 2 files changed, 23 insertions(+)
 
-diff --git a/meta/classes-recipe/python_mesonpy.bbclass b/meta/classes-recipe/python_mesonpy.bbclass
-new file mode 100644
-index 00000000000..131fa74bede
---- /dev/null
-+++ b/meta/classes-recipe/python_mesonpy.bbclass
-@@ -0,0 +1,52 @@
-+#
-+# Copyright OpenEmbedded Contributors
-+#
-+# SPDX-License-Identifier: MIT
-+#
+diff --git a/meta/lib/oeqa/selftest/cases/recipetool.py b/meta/lib/oeqa/selftest/cases/recipetool.py
+index 83361814dfd..2eca1800de1 100644
+--- a/meta/lib/oeqa/selftest/cases/recipetool.py
++++ b/meta/lib/oeqa/selftest/cases/recipetool.py
+@@ -676,6 +676,25 @@ class RecipetoolCreateTests(RecipetoolBase):
+ 
+         self._test_recipe_contents(recipefile, checkvars, inherits)
+ 
++    def test_recipetool_create_python3_pep517_mesonpy(self):
++        # This test require python 3.11 or above for the tomllib module or tomli module to be installed
++        needTomllib(self)
 +
-+inherit meson setuptools3-base python3targetconfig python_pep517
++        # Test creating python3 package from tarball (using mesonpy class)
++        temprecipe = os.path.join(self.tempdir, 'recipe')
++        os.makedirs(temprecipe)
++        pn = 'siphash24'
++        pv = '1.4'
++        recipefile = os.path.join(temprecipe, 'python3-%s_%s.bb' % (pn, pv))
++        srcuri = 'https://files.pythonhosted.org/packages/c2/32/b934a70592f314afcfa86c7f7e388804a8061be65b822e2aa07e573b6477/%s-%s.tar.gz' % (pn, pv)
++        result = runCmd('recipetool create -o %s %s' % (temprecipe, srcuri))
++        self.assertTrue(os.path.isfile(recipefile))
++        checkvars = {}
++        checkvars['SRC_URI[sha256sum]'] = '7fd65e39b2a7c8c4ddc3a168a687f4610751b0ac2ebb518783c0cdfc30bec4a0'
++        inherits = ['python_mesonpy', 'pypi']
 +
-+# meson_do_qa_configure does the wrong thing here because
-+# mesonpy runs "meson setup ..." in do_compile context.
-+# Make it a dummy function.
-+meson_do_qa_configure () {
-+    :
-+}
++        self._test_recipe_contents(recipefile, checkvars, inherits)
 +
-+# This prevents the meson error:
-+# ERROR: Got argument buildtype as both -Dbuildtype and --buildtype. Pick one.
-+MESONOPTS:remove = "--buildtype ${MESON_BUILDTYPE}"
-+
-+CONFIGURE_FILES = "pyproject.toml"
-+
-+DEPENDS += "python3-wheel-native python3-meson-python-native"
-+
-+def mesonpy_get_args(d):
-+    vars = ['MESONOPTS', 'MESON_CROSS_FILE', 'EXTRA_OEMESON']
-+    varlist = []
-+    for var in vars:
-+        value = d.getVar(var)
-+        vallist = value.split()
-+        for elem in vallist:
-+            varlist.append("-Csetup-args=" + elem)
-+    return ' '.join(varlist)
-+
-+PEP517_BUILD_OPTS = "-Cbuilddir='${B}' ${@mesonpy_get_args(d)}"
-+
-+# Python pyx -> c -> so build leaves absolute build paths in the code
-+INSANE_SKIP:${PN} += "buildpaths"
-+INSANE_SKIP:${PN}-src += "buildpaths"
-+
-+python_mesonpy_do_configure () {
-+    python_pep517_do_configure
-+}
-+
-+python_mesonpy_do_compile () {
-+    python_pep517_do_compile
-+}
-+
-+python_mesonpy_do_install () {
-+    python_pep517_do_install
-+}
-+
-+EXPORT_FUNCTIONS do_configure do_compile do_install
+     def test_recipetool_create_github_tarball(self):
+         # Basic test to ensure github URL mangling doesn't apply to release tarballs.
+         # Deliberately use an older release of Meson at present so we don't need a toml parser.
+diff --git a/scripts/lib/recipetool/create_buildsys_python.py b/scripts/lib/recipetool/create_buildsys_python.py
+index a589343cfbf..a807dafae52 100644
+--- a/scripts/lib/recipetool/create_buildsys_python.py
++++ b/scripts/lib/recipetool/create_buildsys_python.py
+@@ -739,6 +739,7 @@ class PythonPyprojectTomlRecipeHandler(PythonRecipeHandler):
+         "flit_core.buildapi": "python_flit_core",
+         "hatchling.build": "python_hatchling",
+         "maturin": "python_maturin",
++        "mesonpy": "python_mesonpy",
+     }
+ 
+     # setuptools.build_meta and flit declare project metadata into the "project" section of pyproject.toml
+@@ -779,6 +780,8 @@ class PythonPyprojectTomlRecipeHandler(PythonRecipeHandler):
+         "python3-poetry-core-native",
+         # already provided by python_flit_core.bbclass
+         "python3-flit-core-native",
++        # already provided by python_mesonpy
++        "python3-meson-python-native",
+     ]
+ 
+     # add here a list of known and often used packages and the corresponding bitbake package
+@@ -790,6 +793,7 @@ class PythonPyprojectTomlRecipeHandler(PythonRecipeHandler):
+         "setuptools-scm": "python3-setuptools-scm",
+         "hatchling": "python3-hatchling",
+         "hatch-vcs": "python3-hatch-vcs",
++        "meson-python" : "python3-meson-python",
+     }
+ 
+     def __init__(self):
 -- 
 2.34.1
 
