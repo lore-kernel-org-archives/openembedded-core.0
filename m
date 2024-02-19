@@ -2,57 +2,57 @@ Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72889C54764
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 724A7C48BC3
 	for <webhook@archiver.kernel.org>; Mon, 19 Feb 2024 17:31:06 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web11.84.1708363858442442616
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web11.83.1708363856543318597
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Feb 2024 09:30:58 -0800
+ Mon, 19 Feb 2024 09:30:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=NSNEvZXG;
- spf=pass (domain: gmail.com, ip: 209.85.214.178, mailfrom: ticotimo@gmail.com)
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1d731314e67so31803025ad.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 19 Feb 2024 09:30:58 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=lUkqNTSz;
+ spf=pass (domain: gmail.com, ip: 209.85.214.174, mailfrom: ticotimo@gmail.com)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1dba94f9201so27125015ad.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 19 Feb 2024 09:30:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708363857; x=1708968657; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1708363856; x=1708968656; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=4Jj7O0PQTcwnnjLmMcHYD555sADhopHJCguYmiVwmBI=;
-        b=NSNEvZXGdi35zk43OXriYFKGqc1mirXYSJ4a4Exaw7NdPPlqt4coEXevRP+EqWyJUc
-         XiBkoP5Sw0oAOKZ0Y/ubeDsMoT1EQUSa1mPCVF0+e6Cj/kXXLU5IMzmLY7acVwsOP2sa
-         Nf2NL5II00hwxMJNv3quF8zqvwli1sNW5CYfIZIPBSWjMYwbcDpzzOGTIvoJJcrkEG8Q
-         92C+632qFDNu7FhbemwHpKIus/YWZMJ682G/+XYn20rvTaTYBNn8P7FqjwL1jHMaI6Rm
-         o675HxyiHiKnvqdjwhDxZuiqI6Kc0FZhSu2Vel6ggDQFjpiKGpCn8Wuj17gobK8yzUxY
-         saJg==
+        bh=1YTmZGWOTnFyRjXPYOkzeUO3R5BmPHncErhbvG0nmUA=;
+        b=lUkqNTSzbIN/VygjQFcJGjKtVzayl6EOcjJzVUbjcZfALwbTsqjxJhPAysQpj2Bp8k
+         AI5/90x5FRe2BRjYK2RFSeMhHspUR6PTlyrKHZnu+ypBkrJwGu3G9bU1RbUQkmU+6aOk
+         WxQwEvQbgyeZUlidEGqq49RCX57JqTQWIDzzone8yb+UVTN2Uzr3awTlYxsnCVEzZ2iQ
+         E3gW/MufuodXyUpoYYuAFSeGvYjhl4a9zyOTGk7pF2qh84hT/mFjuODUrv9LcvGBnvXe
+         I2J+wsyYmHS/C9Ud1jLyr250ReZimCr4z2q1iBPsl2wQtwqboMXo55mMaAP0QvyIvKrw
+         Rh0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708363857; x=1708968657;
+        d=1e100.net; s=20230601; t=1708363856; x=1708968656;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=4Jj7O0PQTcwnnjLmMcHYD555sADhopHJCguYmiVwmBI=;
-        b=m5vOtHJTGT89YZqn31/vSsoU+qwmF9DG33qV96silyQ55vqZxC+M5/8uXNfHYo8ouL
-         M9sAVSjij+G4+zYeOVJaKI9mE2A3x3akL2peyhbrAC3FAbf9GkXRUob+39Tb16R+PTz5
-         RFWwyCYC1UcbE5KcjtLN0oWURVtUhQqYeAxyNDKUgjNJjLhJlSrISTGZYlG4aPzXozQW
-         pTw6UAphCMGCNQgm1a90UQqQ+sS3dCI8NXSWWOvsOXPCBbT/ghwpiMqGnoCQToU+tzJH
-         z5XDkUWH4y/38PX5C130QDgsUqjBYnf/+A4bAFPlAUu3UKN8vRr87u8OXQduYJngFksi
-         FRdQ==
-X-Gm-Message-State: AOJu0YzEphfASSmOAymufxHaUJIs1Ww7z8OofWaMyhSlg7HU5FKto1td
-	bqW8v2NnEunwaZr682BJtGxwJAJBk5eXYASg8ep3+DRwcUTZy7jpEaq11YMO
-X-Google-Smtp-Source: AGHT+IGMw5Ecm5V//4NPWFPZeMP61S4CPdXfaK5sVmrpDbj5CvmVNJAJXKpvHINotwQn3BIL6jCaMA==
-X-Received: by 2002:a17:903:2445:b0:1db:f965:470d with SMTP id l5-20020a170903244500b001dbf965470dmr3088476pls.24.1708363857304;
-        Mon, 19 Feb 2024 09:30:57 -0800 (PST)
+        bh=1YTmZGWOTnFyRjXPYOkzeUO3R5BmPHncErhbvG0nmUA=;
+        b=vG1x1xnnHniz2F+sQSEdH9F4yWVQ3rSvgjGukxxmekIcKl/40YxBrR581Qveur5YZO
+         NRLBPWgzVq7U0pUG1wNgCIbx6v3N6MciWtyXlU+YPNoJNla78MRPFGgCxlPgGFA5/T0c
+         AjenfcattH8JsId9n+qnfPloQXQfmJO8slXqQYD/nHYOb9qErbiPjWHlGSwlC4xr58Jd
+         aGPBaR0XI6YDgzeup0AFo4YSHNoAuA7NJloBVnv+waPTwTqhxZ+raxzE3KtQwK1Blccz
+         ormJZV5Xfr/zNKcbdJ0eysfPg3qOOcMVPex4YxAV3hPjHMnPCZKSwO9w7l6k+BK5Fisp
+         wOZA==
+X-Gm-Message-State: AOJu0YwXo7DZceLWCKG10PG0bja7WieE2TIsvY5OpnJ1TvNqGqoWGDVH
+	P1lgxNB8oSqGKfBnVGWQxGM85B+Py+8zgIqHBENsbudt0T0didl8s2wK8goX
+X-Google-Smtp-Source: AGHT+IGVgC2HeDn8nqKEWG60nh+d4HTdu9LvQS1kaRrbGSWIWtiLQkfwfoLWM3e9SIk74KIeTmPhUw==
+X-Received: by 2002:a17:902:ecc1:b0:1dc:673:1932 with SMTP id a1-20020a170902ecc100b001dc06731932mr1991640plh.38.1708363855690;
+        Mon, 19 Feb 2024 09:30:55 -0800 (PST)
 Received: from chiron.hsd1.or.comcast.net ([2601:1c0:ca01:19f0:7caf:da97:8daf:f655])
-        by smtp.gmail.com with ESMTPSA id w3-20020a170903310300b001d965e737f2sm4630428plc.268.2024.02.19.09.30.56
+        by smtp.gmail.com with ESMTPSA id w3-20020a170903310300b001d965e737f2sm4630428plc.268.2024.02.19.09.30.55
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Feb 2024 09:30:56 -0800 (PST)
+        Mon, 19 Feb 2024 09:30:55 -0800 (PST)
 From: Tim Orling <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/4] recipetool; add support for python_mesonpy class
-Date: Mon, 19 Feb 2024 09:30:24 -0800
-Message-Id: <90d06d324635b0439b4f5d31b525d3eabfac5d96.1708363628.git.tim.orling@konsulko.com>
+Subject: [PATCH 3/4] python3-numpy: inherit python_mesonpy
+Date: Mon, 19 Feb 2024 09:30:23 -0800
+Message-Id: <c57f8a02b11dd08758cb9881ae82db985dbe5ee4.1708363628.git.tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1708363628.git.tim.orling@konsulko.com>
 References: <cover.1708363628.git.tim.orling@konsulko.com>
@@ -62,83 +62,101 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 19 Feb 2024 17:31:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195895
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195894
 
-* Add support to detect the "mesonpy" build-backend for recipetool create.
-* Add oe-selftest case for creating a recipe for "siphash24" from pypi.
-  https://pypi.org/project/siphash24/
+Replace the deprecated setuptools3 bbclass with python_mesonpy.
 
-This is by far the simplest recipe using the mesonpy build backend.
+The build-backend has been defined as "mesonpy" since:
+https://github.com/numpy/numpy/commit/942fb8caf33a65e449fbf198ecf1cd39be953248
 
-Upstream does not provide LICENSE file(s) and we do not detect the
-LICENSE so don't check for that result in the test. Likewise, upstream
-does not define HOMEPAGE, so skip that result.
+The vendored meson-python was dropped in:
+https://github.com/numpy/numpy/commit/6544e33ac7a3a600c2fb565401c811a17ecdb3d5
+
+While we are at it:
+* Drop ${PYTHON_PN} and use python3 instead
+* Sort RDEPENDS alphabetically
+
+The ptests run, but we still have issues with sufficient memory and
+free disk space (the reason python3-numpy is in PTEST_PROBLEMS).
 
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- meta/lib/oeqa/selftest/cases/recipetool.py    | 19 +++++++++++++++++++
- .../lib/recipetool/create_buildsys_python.py  |  4 ++++
- 2 files changed, 23 insertions(+)
+ .../python/python3-numpy_1.26.4.bb            | 54 ++++++++++---------
+ 1 file changed, 28 insertions(+), 26 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/recipetool.py b/meta/lib/oeqa/selftest/cases/recipetool.py
-index 83361814dfd..2eca1800de1 100644
---- a/meta/lib/oeqa/selftest/cases/recipetool.py
-+++ b/meta/lib/oeqa/selftest/cases/recipetool.py
-@@ -676,6 +676,25 @@ class RecipetoolCreateTests(RecipetoolBase):
+diff --git a/meta/recipes-devtools/python/python3-numpy_1.26.4.bb b/meta/recipes-devtools/python/python3-numpy_1.26.4.bb
+index d11b03efc3d..402d74db72d 100644
+--- a/meta/recipes-devtools/python/python3-numpy_1.26.4.bb
++++ b/meta/recipes-devtools/python/python3-numpy_1.26.4.bb
+@@ -20,7 +20,7 @@ UPSTREAM_CHECK_REGEX = "releases/tag/v?(?P<pver>\d+(\.\d+)+)$"
  
-         self._test_recipe_contents(recipefile, checkvars, inherits)
+ DEPENDS += "python3-cython-native"
  
-+    def test_recipetool_create_python3_pep517_mesonpy(self):
-+        # This test require python 3.11 or above for the tomllib module or tomli module to be installed
-+        needTomllib(self)
-+
-+        # Test creating python3 package from tarball (using mesonpy class)
-+        temprecipe = os.path.join(self.tempdir, 'recipe')
-+        os.makedirs(temprecipe)
-+        pn = 'siphash24'
-+        pv = '1.4'
-+        recipefile = os.path.join(temprecipe, 'python3-%s_%s.bb' % (pn, pv))
-+        srcuri = 'https://files.pythonhosted.org/packages/c2/32/b934a70592f314afcfa86c7f7e388804a8061be65b822e2aa07e573b6477/%s-%s.tar.gz' % (pn, pv)
-+        result = runCmd('recipetool create -o %s %s' % (temprecipe, srcuri))
-+        self.assertTrue(os.path.isfile(recipefile))
-+        checkvars = {}
-+        checkvars['SRC_URI[sha256sum]'] = '7fd65e39b2a7c8c4ddc3a168a687f4610751b0ac2ebb518783c0cdfc30bec4a0'
-+        inherits = ['python_mesonpy', 'pypi']
-+
-+        self._test_recipe_contents(recipefile, checkvars, inherits)
-+
-     def test_recipetool_create_github_tarball(self):
-         # Basic test to ensure github URL mangling doesn't apply to release tarballs.
-         # Deliberately use an older release of Meson at present so we don't need a toml parser.
-diff --git a/scripts/lib/recipetool/create_buildsys_python.py b/scripts/lib/recipetool/create_buildsys_python.py
-index a589343cfbf..a807dafae52 100644
---- a/scripts/lib/recipetool/create_buildsys_python.py
-+++ b/scripts/lib/recipetool/create_buildsys_python.py
-@@ -739,6 +739,7 @@ class PythonPyprojectTomlRecipeHandler(PythonRecipeHandler):
-         "flit_core.buildapi": "python_flit_core",
-         "hatchling.build": "python_hatchling",
-         "maturin": "python_maturin",
-+        "mesonpy": "python_mesonpy",
-     }
+-inherit ptest setuptools3 github-releases
++inherit ptest python_mesonpy github-releases
  
-     # setuptools.build_meta and flit declare project metadata into the "project" section of pyproject.toml
-@@ -779,6 +780,8 @@ class PythonPyprojectTomlRecipeHandler(PythonRecipeHandler):
-         "python3-poetry-core-native",
-         # already provided by python_flit_core.bbclass
-         "python3-flit-core-native",
-+        # already provided by python_mesonpy
-+        "python3-meson-python-native",
-     ]
+ S = "${WORKDIR}/numpy-${PV}"
  
-     # add here a list of known and often used packages and the corresponding bitbake package
-@@ -790,6 +793,7 @@ class PythonPyprojectTomlRecipeHandler(PythonRecipeHandler):
-         "setuptools-scm": "python3-setuptools-scm",
-         "hatchling": "python3-hatchling",
-         "hatch-vcs": "python3-hatch-vcs",
-+        "meson-python" : "python3-meson-python",
-     }
+@@ -33,32 +33,34 @@ do_compile:prepend() {
+ FILES:${PN}-staticdev += "${PYTHON_SITEPACKAGES_DIR}/numpy/core/lib/*.a ${PYTHON_SITEPACKAGES_DIR}/numpy/random/lib/*.a"
  
-     def __init__(self):
+ # install what is needed for numpy.test()
+-RDEPENDS:${PN} = "${PYTHON_PN}-unittest \
+-                  ${PYTHON_PN}-difflib \
+-                  ${PYTHON_PN}-pprint \
+-                  ${PYTHON_PN}-pickle \
+-                  ${PYTHON_PN}-shell \
+-                  ${PYTHON_PN}-doctest \
+-                  ${PYTHON_PN}-datetime \
+-                  ${PYTHON_PN}-misc \
+-                  ${PYTHON_PN}-mmap \
+-                  ${PYTHON_PN}-netclient \
+-                  ${PYTHON_PN}-numbers \
+-                  ${PYTHON_PN}-pydoc \
+-                  ${PYTHON_PN}-pkgutil \
+-                  ${PYTHON_PN}-email \
+-                  ${PYTHON_PN}-compression \
+-                  ${PYTHON_PN}-ctypes \
+-                  ${PYTHON_PN}-threading \
+-                  ${PYTHON_PN}-multiprocessing \
+-                  ${PYTHON_PN}-json \
++RDEPENDS:${PN} = "\
++    python3-compression \
++    python3-ctypes \
++    python3-datetime \
++    python3-difflib \
++    python3-doctest \
++    python3-email \
++    python3-json \
++    python3-misc \
++    python3-mmap \
++    python3-multiprocessing \
++    python3-netclient \
++    python3-numbers \
++    python3-pickle \
++    python3-pkgutil \
++    python3-pprint \
++    python3-pydoc \
++    python3-shell \
++    python3-threading \
++    python3-unittest \
+ "
+-RDEPENDS:${PN}-ptest += "${PYTHON_PN}-pytest \
+-                         ${PYTHON_PN}-hypothesis \
+-                         ${PYTHON_PN}-sortedcontainers \
+-                         ${PYTHON_PN}-resource \
+-                         ${PYTHON_PN}-typing-extensions \
+-                         ldd \
++RDEPENDS:${PN}-ptest += "\
++    ldd \
++    python3-hypothesis \
++    python3-pytest \
++    python3-resource \
++    python3-sortedcontainers \
++    python3-typing-extensions \
+ "
+ 
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 2.34.1
 
