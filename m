@@ -2,51 +2,51 @@ Return-Path: <enguerrand.de-ribaucourt@savoirfairelinux.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7DBEC48BF8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE6D5C48BC3
 	for <webhook@archiver.kernel.org>; Mon, 19 Feb 2024 16:55:42 +0000 (UTC)
 Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [208.88.110.44])
- by mx.groups.io with SMTP id smtpd.web11.46412.1708361735567545142
+ by mx.groups.io with SMTP id smtpd.web10.45897.1708361737965588344
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Feb 2024 08:55:35 -0800
+ Mon, 19 Feb 2024 08:55:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@savoirfairelinux.com header.s=DFC430D2-D198-11EC-948E-34200CB392D2 header.b=RPZIVnP6;
+ dkim=pass header.i=@savoirfairelinux.com header.s=DFC430D2-D198-11EC-948E-34200CB392D2 header.b=e3cw/d78;
  spf=pass (domain: savoirfairelinux.com, ip: 208.88.110.44, mailfrom: enguerrand.de-ribaucourt@savoirfairelinux.com)
 Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id E2C399C4B16;
-	Mon, 19 Feb 2024 11:55:34 -0500 (EST)
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 5A4689C2AE3;
+	Mon, 19 Feb 2024 11:55:37 -0500 (EST)
 Received: from mail.savoirfairelinux.com ([127.0.0.1])
  by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10032)
- with ESMTP id gweErc3HqfEf; Mon, 19 Feb 2024 11:55:34 -0500 (EST)
+ with ESMTP id Xi5LsCwqXEry; Mon, 19 Feb 2024 11:55:36 -0500 (EST)
 Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 3ED8A9C4B13;
-	Mon, 19 Feb 2024 11:55:34 -0500 (EST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com 3ED8A9C4B13
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id EACBF9C34C2;
+	Mon, 19 Feb 2024 11:55:35 -0500 (EST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com EACBF9C34C2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=savoirfairelinux.com; s=DFC430D2-D198-11EC-948E-34200CB392D2;
-	t=1708361734; bh=HyvSBjrry93ilY5b8144GXeAAo7617Q8fVvZ3SOXfHg=;
+	t=1708361735; bh=Ly35v5bBAcJ73H9hZFzKVTM406eYkbkMLV35UytpXEQ=;
 	h=From:To:Date:Message-Id:MIME-Version;
-	b=RPZIVnP6RkFlRhVUaC1wOuQ/xysNiyCehcy0mUBFmB4/ATrTe185AInw/s0FK5u7U
-	 otkkR78oA7tZ0IpnaFAUjvJE4Sjgh9vuPo+rXjd/Y9E6Laae7T8azKnzU1YLcyTQfU
-	 68prV4ZqLHbqFJfjmUnN8U01I/ax7oFd37whLAim0pXTu0ETdRuFhyFjEv/b0UddNZ
-	 t1Gtu2mtdV5vgzlgBmZQNX08FnlAmKuI2d8mM3OX5WmXiQB9aNodP3kyEclg37P9hE
-	 gFs8DbFZ2yD/O8+TTU6DMON2SWi5wPCN+Tz+NhJHS7lkJADqtiiFjMz/ZxjQP5TRtL
-	 e06XOj4AUNTVQ==
+	b=e3cw/d78E+56NLGBnuVkIvUfwzDI5POdcGAGCYTeWbq2xzNx1peSFbGX2fyfb+Wke
+	 xqKtGOhxXAbqJjySuq6fYh8RKjgJQtGwat4dbt4pX6nS1vJCe2E4dcKcnuW/joXrJi
+	 UjTKDmBYt2BPQFv2JOg+oiUtxBjxNqy7SmJdxSxMY5ogU24biH7hQCuJE1Rr4t2v8G
+	 OZIEmqxbX6McBBZrWM30NYrt/MQAVLFUPpvX5dwA8nUMFgBUZdiamisTYBttmsVuFi
+	 Z2NbnG0VHjqnNKJWdPh+XHS+cTWeNTRlRHErZGS7ZDJN2miYDp6XmrfOFsWi+0qfTG
+	 6ZUc3wLMHH+6w==
 X-Virus-Scanned: amavis at mail.savoirfairelinux.com
 Received: from mail.savoirfairelinux.com ([127.0.0.1])
  by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10026)
- with ESMTP id TR1-45U7iefO; Mon, 19 Feb 2024 11:55:34 -0500 (EST)
+ with ESMTP id Hwm7Egds0JgA; Mon, 19 Feb 2024 11:55:35 -0500 (EST)
 Received: from sfl-deribaucourt.rennes.sfl (lmontsouris-657-1-69-118.w80-15.abo.wanadoo.fr [80.15.101.118])
-	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id 84AF59C4B10;
-	Mon, 19 Feb 2024 11:55:33 -0500 (EST)
+	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id 39C0D9C3372;
+	Mon, 19 Feb 2024 11:55:35 -0500 (EST)
 From: Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
 To: openembedded-core@lists.openembedded.org
 Cc: adrian.freihofer@gmail.com,
 	Ross.Burton@arm.com,
 	mohammed.raza@savoirfairelinux.com,
 	Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
-Subject: [PATCH v2 2/5] devtool: code: Add source mapping for debug source files
-Date: Mon, 19 Feb 2024 17:55:22 +0100
-Message-Id: <20240219165525.714512-3-enguerrand.de-ribaucourt@savoirfairelinux.com>
+Subject: [PATCH v2 4/5] meson: use absolute cross-compiler paths
+Date: Mon, 19 Feb 2024 17:55:24 +0100
+Message-Id: <20240219165525.714512-5-enguerrand.de-ribaucourt@savoirfairelinux.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240219165525.714512-1-enguerrand.de-ribaucourt@savoirfairelinux.com>
 References: <20240219165525.714512-1-enguerrand.de-ribaucourt@savoirfairelinux.com>
@@ -56,52 +56,87 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 19 Feb 2024 16:55:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195887
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195889
 
-When launching the debug configuration, the source files from the debug
-rootfs were openened in the editor instead of the local workspace files.
-We add an exception to properly map them to the file being developed and
-compiled by the IDE integration. This also more closely matches what the
-user would expect compared to native development.
+Among the files generated by meson is compile_commands.json. It is not
+used by bitbake during the build. However, if the devtool workspace is
+opened inside an IDE, that IDE can use compile_commands.json to
+configure linting and code completion. This is notably relied on by the
+new devtool ide-sdk command.
 
-This is also true for the devtool fallback mode.
+The problem is that the IDE using compile_commands.json does not know
+the $PATH set-up by bitbake, so it won't find the compiler. This results
+in linting errors, like missing headers. We can fix this by expliciting
+the absolute compiler paths in meson.cross.
+
+The compile_commands.json specification expressly states:
+"All paths specified in the command or file fields must be either
+absolute or relative to this directory."
+Link: https://clang.llvm.org/docs/JSONCompilationDatabase.html
+
+An alternative way to implement this is to directly change CXX inside
+bitbake.conf to make all recipes use absolute compiler paths.Since this
+would affect all recipes, so I would like to have the maintainers'
+opinion on this. It could make sense to use absolute compiler paths for
+all toolchain binaries, we already do so for the sysroot
+TOOLCHAIN_OPTIONS.
+
+Discussions have been opened with meson/ninja maintainers to implement
+this at their level:
+ - https://github.com/ninja-build/ninja/issues/2383
+ - https://github.com/mesonbuild/meson/issues/12834
+These tools have even less information on the environment so it makes
+sense for Yocto to provide the absolute paths.
 
 Signed-off-by: Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirf=
 airelinux.com>
 ---
- scripts/lib/devtool/ide_plugins/ide_code.py | 1 +
- scripts/lib/devtool/ide_sdk.py              | 1 +
- 2 files changed, 2 insertions(+)
+ meta/classes-recipe/meson-routines.bbclass | 6 ++++++
+ meta/classes-recipe/meson.bbclass          | 7 +++++--
+ 2 files changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/lib/devtool/ide_plugins/ide_code.py b/scripts/lib/de=
-vtool/ide_plugins/ide_code.py
-index b2193130d2e..c063b7d0590 100644
---- a/scripts/lib/devtool/ide_plugins/ide_code.py
-+++ b/scripts/lib/devtool/ide_plugins/ide_code.py
-@@ -234,6 +234,7 @@ class IdeVSCode(IdeBase):
-         if gdb_cross_config.image_recipe.rootfs_dbg:
-             launch_config['additionalSOLibSearchPath'] =3D modified_reci=
-pe.solib_search_path_str(
-                 gdb_cross_config.image_recipe)
-+            src_file_map[os.path.join("/usr/src/debug", modified_recipe.=
-pn, modified_recipe.pv)] =3D "${workspaceFolder}"
-             src_file_map["/usr/src/debug"] =3D os.path.join(
-                 gdb_cross_config.image_recipe.rootfs_dbg, "usr", "src", =
-"debug")
-         else:
-diff --git a/scripts/lib/devtool/ide_sdk.py b/scripts/lib/devtool/ide_sdk=
-.py
-index 14679744807..f292edbe25c 100755
---- a/scripts/lib/devtool/ide_sdk.py
-+++ b/scripts/lib/devtool/ide_sdk.py
-@@ -356,6 +356,7 @@ class RecipeModified:
-             'PACKAGE_DEBUG_SPLIT_STYLE')
-         self.path =3D recipe_d.getVar('PATH')
-         self.pn =3D recipe_d.getVar('PN')
-+        self.pv =3D recipe_d.getVar('PV')
-         self.recipe_sysroot =3D os.path.realpath(
-             recipe_d.getVar('RECIPE_SYSROOT'))
-         self.recipe_sysroot_native =3D os.path.realpath(
+diff --git a/meta/classes-recipe/meson-routines.bbclass b/meta/classes-re=
+cipe/meson-routines.bbclass
+index a944a8fff1c..9925465ed8f 100644
+--- a/meta/classes-recipe/meson-routines.bbclass
++++ b/meta/classes-recipe/meson-routines.bbclass
+@@ -10,6 +10,12 @@ def meson_array(var, d):
+     items =3D d.getVar(var).split()
+     return repr(items[0] if len(items) =3D=3D 1 else items)
+=20
++def meson_array_abspath(var, d):
++    import shutil
++    items =3D d.getVar(var).split()
++    items[0] =3D shutil.which(items[0]) or items[0]
++    return repr(items[0] if len(items) =3D=3D 1 else items)
++
+ # Map our ARCH values to what Meson expects:
+ # http://mesonbuild.com/Reference-tables.html#cpu-families
+ def meson_cpu_family(var, d):
+diff --git a/meta/classes-recipe/meson.bbclass b/meta/classes-recipe/meso=
+n.bbclass
+index 03fa2c06eb4..31675cf42d1 100644
+--- a/meta/classes-recipe/meson.bbclass
++++ b/meta/classes-recipe/meson.bbclass
+@@ -64,10 +64,13 @@ addtask write_config before do_configure
+ do_write_config[vardeps] +=3D "CC CXX AR NM STRIP READELF OBJCOPY CFLAGS=
+ CXXFLAGS LDFLAGS RUSTC RUSTFLAGS EXEWRAPPER_ENABLED"
+ do_write_config() {
+     # This needs to be Py to split the args into single-element lists
++    # The generated compile_commands.json file can be used by external I=
+DEs
++    # which do not know the $PATH set-up by bitbake. They need the absol=
+ute
++    # compiler paths.
+     cat >${WORKDIR}/meson.cross <<EOF
+ [binaries]
+-c =3D ${@meson_array('CC', d)}
+-cpp =3D ${@meson_array('CXX', d)}
++c =3D ${@meson_array_abspath('CC', d)}
++cpp =3D ${@meson_array_abspath('CXX', d)}
+ cython =3D 'cython3'
+ ar =3D ${@meson_array('AR', d)}
+ nm =3D ${@meson_array('NM', d)}
 --=20
 2.34.1
 
