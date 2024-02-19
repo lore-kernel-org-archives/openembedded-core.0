@@ -1,310 +1,597 @@
-Return-Path: <anuj.mittal@intel.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 790A1C48BC4
-	for <webhook@archiver.kernel.org>; Mon, 19 Feb 2024 02:51:07 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by mx.groups.io with SMTP id smtpd.web11.33561.1708311064007437952
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4D40C48260
+	for <webhook@archiver.kernel.org>; Mon, 19 Feb 2024 04:19:37 +0000 (UTC)
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
+ by mx.groups.io with SMTP id smtpd.web11.34717.1708316368789884744
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 Feb 2024 18:51:04 -0800
+ Sun, 18 Feb 2024 20:19:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=Intel header.b=npyocs/X;
- spf=pass (domain: intel.com, ip: 192.198.163.15, mailfrom: anuj.mittal@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708311064; x=1739847064;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-id:content-transfer-encoding:mime-version;
-  bh=fXJLI95SPPWt3E0T1vjQptpMtDJ2/gsOMsALYl7tU4Q=;
-  b=npyocs/XYoETQWgNGVsa4B0s38/ADCpkJso89dWr53/wCgd1GveGxA9z
-   Vt1gcHRT0ou4E4j9dqP4v+aAlW/5YaPIRL0qw4LVBdVqLnIhfjeox2G3i
-   dvkaXr+S8+Ip6UypbsIqETZm7tZWUHAYvtCepZ38JYNBLDzTthLD/r4Kc
-   2wXCtZDw5xvrrRNf21MtlahVtS1dJRFLAJXU7lEuIfNwVyXof71f/OnEB
-   8wnlKbZ6MX/XXQq5x/NKAmMCPIU31QF3LFAzImGJe2PwUT2yqenW5ZZQP
-   6RJ6mBjjErriG/q+tQNVSHrfZvzsdRet0KNkxuX5fvVQCFRz4AFmj6SD+
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10988"; a="2502711"
-X-IronPort-AV: E=Sophos;i="6.06,170,1705392000"; 
-   d="scan'208";a="2502711"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2024 18:51:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,170,1705392000"; 
-   d="scan'208";a="8957225"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by fmviesa003.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 18 Feb 2024 18:51:03 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Sun, 18 Feb 2024 18:51:03 -0800
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Sun, 18 Feb 2024 18:51:02 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Sun, 18 Feb 2024 18:51:02 -0800
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.41) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Sun, 18 Feb 2024 18:51:02 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Dxv5KX7XVTtt7cU4BeZIvnMHB4DlrR2MvD3/udIZ9XGLStL04QOBoB2XIywftqXMC4u+IJHyMRrFhAzD9vv5S7NnZRronYWIlztrPhpl7WTFn/C4rJQsXFVq+GHDyi9mprRxsG9zwA6c407swKJBcIIqw4TJBlSRMfzWgeXcPAGbSx5hJO8gpWXob7hjyAoxnmgLtSZuGm2eQOnu56ayXILxab6luFNtKukNWVUeH8xrzUIP5EunC4lPNvz0e7nfv2uVedsxHTYYk3gI2q2dCAQZOcEpq9UnOsVuP1VfLxbBjLRarv1kLMx32QvNN0u7bw2AIrbSMScjEwI71Ul+rw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fXJLI95SPPWt3E0T1vjQptpMtDJ2/gsOMsALYl7tU4Q=;
- b=H5ccf9lNXtDY6mKDAc6kj4mRQESIwOTv0N8piFQREKCWd0gwS3r+ZPcvXT0+PBXj6sm5c1JppS5eU+8MxnhJJTymJZkuDIBJpkKkIWWdYrdixudhbZarS2Hao1498ywlM5JufjParM20n6uDWEDPKgFnSp0XmYUGgL5WmMxEWCpPAW+WaGmFjTa6LYkbQjec9r1PkILLkieP0n6P9tnXNb2ZWTmeOA6NtUo9VhCd1NzvIdkfgeEp9MOplNzrZCNiQjAOYlpamXfD8JBEMQwZIXhEXoWjZnurj/syxEXIPWf9Bbg+UcdHQJb6TePu55cKbFqANju/OAfJvck9zWfPyQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from IA1SPRMB0011.namprd11.prod.outlook.com (2603:10b6:208:389::10)
- by SA2PR11MB4891.namprd11.prod.outlook.com (2603:10b6:806:11e::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.38; Mon, 19 Feb
- 2024 02:51:00 +0000
-Received: from IA1SPRMB0011.namprd11.prod.outlook.com
- ([fe80::8129:68a0:671d:2925]) by IA1SPRMB0011.namprd11.prod.outlook.com
- ([fe80::8129:68a0:671d:2925%4]) with mapi id 15.20.7292.033; Mon, 19 Feb 2024
- 02:50:59 +0000
-From: "Mittal, Anuj" <anuj.mittal@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "raj.khem@gmail.com"
-	<raj.khem@gmail.com>
-Subject: Re: [OE-core] [PATCH 7/9] swig: upgrade 4.1.1 -> 4.2.0
-Thread-Topic: [OE-core] [PATCH 7/9] swig: upgrade 4.1.1 -> 4.2.0
-Thread-Index: AQHaYU1YsTNE9y8eukKBIzcy8hOb97EPauyAgAGPZwA=
-Date: Mon, 19 Feb 2024 02:50:59 +0000
-Message-ID: <75f9de29128444bd08ff36628be4c0f2e364a417.camel@intel.com>
-References: <20240216114034.109257-1-anuj.mittal@intel.com>
-	 <20240216114034.109257-7-anuj.mittal@intel.com>
-	 <33de869a-1a09-41c9-be4b-6de1d0c29417@gmail.com>
-	 <CAMKF1sqQAXDDbrQA8QOvYvgrkxEjOp=MiJBeWdz8=wo6BpyFeg@mail.gmail.com>
-In-Reply-To: <CAMKF1sqQAXDDbrQA8QOvYvgrkxEjOp=MiJBeWdz8=wo6BpyFeg@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.50.3 (3.50.3-1.fc39) 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: IA1SPRMB0011:EE_|SA2PR11MB4891:EE_
-x-ms-office365-filtering-correlation-id: 72eb195c-603f-4b48-e501-08dc30f59a96
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 7cpWeoDCmNd3D4V0t/PvXrL94z/ZjnQxFPpqWUIbOBmAeOSYxE6OU5bABXLMHDOE0E0+5vVwT1OFzCzbzs7FJQH02QfwtGMPW7fpa4GukEXssloOXeQ8A8WMFqkwjJVG4c/dBxOLluJn/7p199O6Tvkn/aJ/zR4CfJCqQUTcRKXczhHPDwK4Fj1JqF307H4Aotg+TRRgJ/90DFy6K2VcC/idRa81UTAgFMvB13iBFHS2oIKaNDO9QIBA2+rcsUNozcTL2KnGGhJOZ4iKTKwK/VR1EOrCQzd5vgsImH0q5YE8t5uiyWv/+juuYa1tK6AZyaEXb3pPr5GBBz4DdPDy5xTflYFTuLMqs59UftlyZ38V65JFFc3N4bT40lS11+tV9vAaXmfxmjRZcX/CsApD2z/ezuBImNItdyM3MUh9ND/Phab8OhLyDad8hdbyjam9/YXmoBdlMFwJ4hTYrQbpFMBD2UwHaHLRXKGyYXRhK6biuCflsikcHthDDN3t096miumqrN/SczowZF21QIVc0GRrV4uA/7g58DV+p50eqJZqr4JKlRcrfPkJLJs/ZPZBwEAq6DSR9wMHWLnDcnREK1Wdr3+iri7GFA3V6cnoB0c=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1SPRMB0011.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(346002)(376002)(136003)(39860400002)(396003)(230922051799003)(186009)(1800799012)(451199024)(64100799003)(38070700009)(41300700001)(2616005)(83380400001)(8936002)(8676002)(64756008)(66446008)(66476007)(76116006)(66556008)(66946007)(316002)(53546011)(478600001)(71200400001)(110136005)(966005)(6486002)(6506007)(6512007)(15188155005)(36756003)(16799955002)(82960400001)(122000001)(86362001)(38100700002)(66899024)(5660300002)(2906002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?NE1LVm1Ia2libmtqdHJtdlJZNzBMSStTZy92RW5TWFpqMEdPa29pdUNVaHJ0?=
- =?utf-8?B?aFVpMmdzRWtPTVJYY3N0NjVhbklHR1E3azNNTjFuc3N3WjZPa0JJdFhQanNE?=
- =?utf-8?B?Z3BtZmtNeXk1Qlc0N0pZS2NLRENQTHdEQ0lrTkJDWXl6WDVOSUpQNm1uMVJt?=
- =?utf-8?B?enpoYU9jYmlGWUNMbkdvb2lWNTE4ZnZiVUlNaFJuakVsaE1oeVRmTkFEL21B?=
- =?utf-8?B?bzFqY0lTaURWZDduMklrMTlieW9id0NyV3l6Y0wwZEZRQ2pFbm54N0tudERC?=
- =?utf-8?B?VDJnWnVtVHAwMFl3R0JpcnJYdUVnVHBxaHNyM1d2N2NzZWl3RmVkRnFmSG9N?=
- =?utf-8?B?Yk5ISWxqRWhYbC9yQ1Q4dU5heURqTjNmMkVjcWhIaFl6N2pleld1S1M4enhG?=
- =?utf-8?B?YzQ1MHprQXVkMFZScXBIcWx2ODh5SlB6NG56aFdIZmEwdFJCMDdyTDhzQjZu?=
- =?utf-8?B?RWwrQjhiaGtTeFQrWnRYOENJamRKK1hncWMxNmM2cmFWSXdqNjM5a25jZ2s4?=
- =?utf-8?B?YXlxVExGdE50MGpYUnZJVEdlTzZXaUVhbGRYWUUzZnJ2UzZaMmtjSUYwREc0?=
- =?utf-8?B?dGUyZEQzVzM3Q01lSU05MUxGMiswK0R6cGk5TmJqNnlUQ21RVXlyWFFxaWtv?=
- =?utf-8?B?Q1NERkFZNCs3N3NTTVM2L091UXhHSmp2RDNDMFlwWkJNaUZMbzBJYmltRXhj?=
- =?utf-8?B?VlZvOGxQaUFNd1hUdGMwbDNoZHZiMGpVeFFsSnJBTHI0OGZNMXFPYTlFM1hq?=
- =?utf-8?B?dTFCTmpPSkwzcmdLRXlqVE00RHdacDJzL2F0enVaSk0rQ0lsN0k2NFdpU0VH?=
- =?utf-8?B?MXFidG5VT2FXTkhablIwK2d0cHcyTG9ZcjlST1Q1NitINWhuVUkzZE1EYTRv?=
- =?utf-8?B?cG1nOXpqZFJJRzQ4ZTVvaG1SV25iVUM4b2pDOXdvMG9zZS9pTlRSTFh5bytq?=
- =?utf-8?B?U2QyRzd3K3N6cHhqbHhkZnRrMm5lYkFtenpITS9PeVZEVDZaeXNocmpVZnYz?=
- =?utf-8?B?QjlBak1MNkVwRnBjUjl4OFQ0YkNCaW94QThqNHRJRUc4M2FqUUEzSXVhZFZy?=
- =?utf-8?B?c3l2WDV2bnhaR05UUjU5Z3EwNWVJOGZCaElNNGdHdkxCVjZOUFFpL3h3Skhv?=
- =?utf-8?B?YkI4VnVBTFFVWEhVVEpzNWdULy9Lc1d5NGtFQXRwNmUxSjRpK0tMdHh3aFJ6?=
- =?utf-8?B?anhtbkJWb0sxeXk0VERGOHQyZGdsOUg4a1FnN1RXOHlHbFJDTks5VlIwTTM5?=
- =?utf-8?B?NDV3VVZ6cmxsVEVrRkdTZXlwcndsdXVMOEd5NHF5L2w0NlBLU0tKQlRiNi9t?=
- =?utf-8?B?TkM1SkVlMmR5WnlFOWNnNXh6UzRlbFYxemp3UjVQMnRscE1CTm11RXlYamJo?=
- =?utf-8?B?ZG5uR2xzNytiRmozV3h0RDVwQzlZdFFNOUh1TWZ0b0xWaGtyaEFkOC9qYTFB?=
- =?utf-8?B?bGwrclNhU1NhT0cvYVR6YlJVbDNJNUMyQWIwazNNQlZUV3dnNlNtUzdzQmhh?=
- =?utf-8?B?Y05VNXAxMHBJeGViYjlEZVpKMHpiNnYreThMREl6S0IzOHhxd1RZRVRnTnNO?=
- =?utf-8?B?V2NKS1YyWVlJcGF3RkoyTk1Ud0FtNFM4VHhiWWJ6WDFWM3kyVzRobWh1L01n?=
- =?utf-8?B?TThSZXV3eWQ5YTJLMUthTGRrbkhEWmpSM1RZMGdCQjJWVi9SWUxtMjM3MGo0?=
- =?utf-8?B?SzkveGtURVVLL0YxbjRTdm12YTRXWFFqcm5mT3Q2SDFjK05JUmxMS08yNjY2?=
- =?utf-8?B?V1pSSVhFTUpSMEpFVTN6aW1QbjIyZmR4QlphVzRwTldUWmhra05sMHlvNjJQ?=
- =?utf-8?B?Q0NEYktiaHJ0RVcxZDI3dUdnU3kwK09wY2U1b2x3dWJIWW1pcjVadklnYnM3?=
- =?utf-8?B?aWJhRnZkT3NKZEd1NFljSHljQnJLTXRRczNzdW9uUzRwQ0FndlZpYTdFc1BK?=
- =?utf-8?B?N1J2cThkQmRVREZGT3o0LzUwYm1Zay96c2xlUDdGMUhLMExob3E2elgrTEQ3?=
- =?utf-8?B?VTZJWU9oYURNQUJwVkQ0Mkc1TXR4dG5RUWI5M1Nmb253WEtRZWJDSTkrb1VI?=
- =?utf-8?B?R1FXL3RDbmx4dHNIMms5YnM2K0VtZlUyYUJTTy8wZGFOVEM3QStXWnc2Y2U3?=
- =?utf-8?B?SkdaOVdieUEvdzBqQWNPRTZhUmxiaG5ZUjAwNUg3Nzk1U0tuQ0JWbm5FT08z?=
- =?utf-8?B?aU5QTEJVb2RwQ2liN2pBVW10Nnp4Tks4djN4TXlKSlN5N0o5cDh2K2M2SHY0?=
- =?utf-8?B?eHBhb2krQmlTWlJ3K2dVR0NXck5RPT0=?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <7D475DAA79669B43AD3B7C9E44D70340@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ihT8gUpq;
+ spf=pass (domain: gmail.com, ip: 209.85.160.49, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-214def5da12so1706733fac.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 18 Feb 2024 20:19:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708316368; x=1708921168; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=LiRdx25sx5n3m4LNbGe5gxy0Rb2i0rBAO5csbGkz5eg=;
+        b=ihT8gUpqeBuK5q5TfD6G65x+ipTn//Z0v+9nGxaeneO97wr56P6CBPDQGADodxr5qk
+         pPEF5sckoNtYat/nEk+vGLEuNpshaVmsA6klo1XLFL0FbBgcccMGzpcs5zi0FuJ/ic5I
+         90cnkSCSZ7bV+x6UbbsR5zv9oiUxuzb7BW0Yt+sdzcr6OEApkEI2yZoySoKIIs4PBrU5
+         eg0XuQZDsks0S2LUHTQLNluf0+XOhwQii8pmVQYslwkJzrIscFvXA/lylcZpK1kmPNOF
+         al0E2iYwT1RuYUEEG7Pg4Rk/mrKHXuiOwpI6x8Y29faLCqyYM+fNic2zEhnVOhwnQwvw
+         wLOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708316368; x=1708921168;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LiRdx25sx5n3m4LNbGe5gxy0Rb2i0rBAO5csbGkz5eg=;
+        b=TAJiQAjJSnx5Ya285iZvs1+HEX2NH3FZIvvcwjT5P+fwTNOtRQiSVprb3TVGsweRzP
+         ABA6CkybZKUdi/WDPayUM2Nkbog0oRHsiV1evhzt0NyDQ6MGR+rgfOfcSiWokBxneiCA
+         mFNUeqZ0kFz1K/t/o2lH6AgnBaFSI0eT2/oN7wWVFOtU4310xdNmMh/LUG7IQTKmJ2I9
+         ZVnvxLWFmgGRPySZwS8FE5s7smz7yx0ZG7B6R6Lth40oItYRn2SYa5NlThkQE8Ba02iw
+         bHHMlUa4qcxgJ1DCzaoun6HWTJwxD2zqaGp1NlouGk8+vjGOmzjZvPcs3ogc64bWVV/I
+         CQPg==
+X-Gm-Message-State: AOJu0YwqqJM3j9XcBZ+NrlAB5TYwxPbp/o2EjFIAee0GTT/ne8GIG45K
+	+UhMGXqW6Lpv12RBR+IK07kaxtQgrBXIoPuEoQNeuKw7G3Uf5HMF/F99zVDTj5nPuEX4/EN8Lu8
+	OpONv+A7uOeVHtB2ugGPejzja+Gw=
+X-Google-Smtp-Source: AGHT+IFqYSIC9zBZEJMUqyNUxStd/WnuMiGH67FHJ2vqhoyqYhD8CtLFx+gTSX6hng5LiZqZ/lwstcRENnu0YTrmpLE=
+X-Received: by 2002:a05:6870:93c3:b0:21e:d763:f5f1 with SMTP id
+ c3-20020a05687093c300b0021ed763f5f1mr2107433oal.42.1708316367750; Sun, 18 Feb
+ 2024 20:19:27 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: IA1SPRMB0011.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 72eb195c-603f-4b48-e501-08dc30f59a96
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Feb 2024 02:50:59.8318
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: RHvWLIoSEs9mIEIaS0rBKX9dKmwmUCO7bmrVKG4vvS6kwQUdC42Sh8rrAOA4FCLbIH8eCVJq0tUYKnWo4F4ONQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB4891
-X-OriginatorOrg: intel.com
+References: <20240216114034.109257-1-anuj.mittal@intel.com>
+ <20240216114034.109257-7-anuj.mittal@intel.com> <33de869a-1a09-41c9-be4b-6de1d0c29417@gmail.com>
+ <CAMKF1sqQAXDDbrQA8QOvYvgrkxEjOp=MiJBeWdz8=wo6BpyFeg@mail.gmail.com> <75f9de29128444bd08ff36628be4c0f2e364a417.camel@intel.com>
+In-Reply-To: <75f9de29128444bd08ff36628be4c0f2e364a417.camel@intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 18 Feb 2024 20:19:16 -0800
+Message-ID: <CAMKF1sr5etVYGje4EkEn+vZdoUQw7x-wC3RKy3T3s1PMogopRQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 7/9] swig: upgrade 4.1.1 -> 4.2.0
+To: "Mittal, Anuj" <anuj.mittal@intel.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000043899a0611b466d7"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 19 Feb 2024 02:51:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195862
+ <openembedded-core@lists.openembedded.org>; Mon, 19 Feb 2024 04:19:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195863
 
-T24gU2F0LCAyMDI0LTAyLTE3IGF0IDE5OjAxIC0wODAwLCBLaGVtIFJhaiB3cm90ZToNCj4gaGVy
-ZSBpcyBvbmUgZmFpbHVyZSBkdWUgdG8gdGhpcyB1cGdyYWRlIC0NCj4gaHR0cHM6Ly9lcnJvcnMu
-eW9jdG9wcm9qZWN0Lm9yZy9FcnJvcnMvRGV0YWlscy83NTM1ODcvDQoNClRoYW5rcyBmb3IgY2hl
-Y2tpbmcuIFRoaXMgcHJvamVjdCBhbmQgaXRzIGRlcGVuZGVuY2llcyB0aGF0IGFyZSBnaXZpbmcN
-CmVycm9yIGFyZW4ndCBtYWludGFpbmVkIGFueSBtb3JlLg0KDQpodHRwczovL2dpdGh1Yi5jb20v
-YmFtYm9jaGVyL3BvY2tldHNwaGlueC1weXRob24vY29tbWl0LzczYjdlNmRhNTRmNTdiODJkNTBh
-YjI3OGFkNjFmMmNmYTliNGRjNGINCg0KaHR0cHM6Ly9naXRodWIuY29tL2NtdXNwaGlueC9zcGhp
-bnhiYXNlL3RyZWUvYTc0YTExZGYzYTAyMWU5YTI2YjBkMjBjM2RlOTk5YjhlYjBhZmNlZg0KIA0K
-VGhlIHJlY2lwZSBzaG91bGQgYmUgZGVsZXRlZCBvciByZXBsYWNlZCBieSBiaW5kaW5ncyBmcm9t
-Og0KDQpodHRwczovL2dpdGh1Yi5jb20vY211c3BoaW54L3BvY2tldHNwaGlueA0KDQpUaGFua3Ms
-DQoNCkFudWoNCg0KPiANCj4gT24gRnJpLCBGZWIgMTYsIDIwMjQgYXQgNjo1OeKAr1BNIEtoZW0g
-UmFqIDxyYWoua2hlbUBnbWFpbC5jb20+IHdyb3RlOg0KPiA+IA0KPiA+IHRoaXMgY2FuIGJlIHRy
-aWNreSBmb3IgbWFueSBhcHBzIGRlcGVuZCBvbiBpdCBzdWJ0bHkgbWlnaHQgZmFpbC4NCj4gPiBQ
-ZXJoYXBzDQo+ID4gZG9pbmcgYW4gZXh0ZW5kZWQgd29ybGQgYnVpbGQgd2l0aCB0aGlzIG1pZ2h0
-IGJlIGdvb2QuDQo+ID4gDQo+ID4gT24gMi8xNi8yNCAzOjQwIEFNLCBBbnVqIE1pdHRhbCB3cm90
-ZToNCj4gPiA+IFNpZ25lZC1vZmYtYnk6IEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5j
-b20+DQo+ID4gPiAtLS0NCj4gPiA+IMKgIC4uLnNlbGYtZXhlLWZvci1zd2lnLXN3aWdsaWItb24t
-bm9uLVdpbjMyLXBsYXQucGF0Y2ggfCAxMA0KPiA+ID4gKysrKysrLS0tLQ0KPiA+ID4gwqAgLi4u
-Y29uZmlndXJlLXVzZS1wa2ctY29uZmlnLWZvci1wY3JlLWRldGVjdGlvbi5wYXRjaCB8wqAgNiAr
-KystLQ0KPiA+ID4gLQ0KPiA+ID4gwqAgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N3aWcvc3dpZy9k
-ZXRlcm1pbmlzbS5wYXRjaMKgwqDCoCB8IDEyDQo+ID4gPiArKysrKysrKysrKy0NCj4gPiA+IMKg
-IC4uLi9zd2lnL3tzd2lnXzQuMS4xLmJiID0+IHN3aWdfNC4yLjAuYmJ9wqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCB8wqAgMiArLQ0KPiA+ID4gwqAgNCBmaWxlcyBjaGFuZ2VkLCAyMSBpbnNlcnRpb25z
-KCspLCA5IGRlbGV0aW9ucygtKQ0KPiA+ID4gwqAgcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9zd2lnL3tzd2lnXzQuMS4xLmJiID0+DQo+ID4gPiBzd2lnXzQuMi4wLmJifSAoNzIlKQ0KPiA+
-ID4gDQo+ID4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N3aWcvc3dpZy8w
-MDAxLVVzZS1wcm9jLXNlbGYtDQo+ID4gPiBleGUtZm9yLXN3aWctc3dpZ2xpYi1vbi1ub24tV2lu
-MzItcGxhdC5wYXRjaCBiL21ldGEvcmVjaXBlcy0NCj4gPiA+IGRldnRvb2xzL3N3aWcvc3dpZy8w
-MDAxLVVzZS1wcm9jLXNlbGYtZXhlLWZvci1zd2lnLXN3aWdsaWItb24tDQo+ID4gPiBub24tV2lu
-MzItcGxhdC5wYXRjaA0KPiA+ID4gaW5kZXggZjI3ZjgwZWExODQuLjljNmFlMzg5YmUyIDEwMDY0
-NA0KPiA+ID4gLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N3aWcvc3dpZy8wMDAxLVVzZS1w
-cm9jLXNlbGYtZXhlLWZvci0NCj4gPiA+IHN3aWctc3dpZ2xpYi1vbi1ub24tV2luMzItcGxhdC5w
-YXRjaA0KPiA+ID4gKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N3aWcvc3dpZy8wMDAxLVVz
-ZS1wcm9jLXNlbGYtZXhlLWZvci0NCj4gPiA+IHN3aWctc3dpZ2xpYi1vbi1ub24tV2luMzItcGxh
-dC5wYXRjaA0KPiA+ID4gQEAgLTEsNCArMSw0IEBADQo+ID4gPiAtRnJvbSBhNGEwNDQwYTY0NGM2
-YzVlNWRhMDk2ZWZlM2NmMDViYTMwOWEyODRmIE1vbiBTZXAgMTcNCj4gPiA+IDAwOjAwOjAwIDIw
-MDENCj4gPiA+ICtGcm9tIGFiMGFiNWU2ODViZDkwNzdjNDRmZGNhNWMxYTI3YjBmNDc3NDQ0ZDcg
-TW9uIFNlcCAxNw0KPiA+ID4gMDA6MDA6MDAgMjAwMQ0KPiA+ID4gwqAgRnJvbTogIk5PREEsIEth
-aSIgPG5vZGFrYWlAZ21haWwuY29tPg0KPiA+ID4gwqAgRGF0ZTogU3VuLCAyMiBBcHIgMjAxMiAx
-NzowMTowMiArMDkwMA0KPiA+ID4gwqAgU3ViamVjdDogW1BBVENIXSBVc2UgL3Byb2Mvc2VsZi9l
-eGUgZm9yICJzd2lnIC1zd2lnbGliIiBvbiBub24tDQo+ID4gPiBXaW4zMg0KPiA+ID4gQEAgLTEw
-LDkgKzEwLDExIEBAIFVwc3RyZWFtLVN0YXR1czogU3VibWl0dGVkDQo+ID4gPiDCoCBodHRwOi8v
-c291cmNlZm9yZ2UubmV0L21haWxhcmNoaXZlL21lc3NhZ2UucGhwP21zZ19pZD0yOTE3OTczMw0K
-PiA+ID4gDQo+ID4gPiDCoCAtLS0NCj4gPiA+IC0gU291cmNlL01vZHVsZXMvbWFpbi5jeHggfMKg
-wqAgMjQgKysrKysrKysrKysrKysrKysrKysrKy0tDQo+ID4gPiArIFNvdXJjZS9Nb2R1bGVzL21h
-aW4uY3h4IHwgMjQgKysrKysrKysrKysrKysrKysrKysrKy0tDQo+ID4gPiDCoMKgIDEgZmlsZSBj
-aGFuZ2VkLCAyMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQ0KPiA+ID4gDQo+ID4gPiAr
-ZGlmZiAtLWdpdCBhL1NvdXJjZS9Nb2R1bGVzL21haW4uY3h4IGIvU291cmNlL01vZHVsZXMvbWFp
-bi5jeHgNCj4gPiA+ICtpbmRleCA4YTQ0OTIxLi44MjUwZGVlIDEwMDY0NA0KPiA+ID4gwqAgLS0t
-IGEvU291cmNlL01vZHVsZXMvbWFpbi5jeHgNCj4gPiA+IMKgICsrKyBiL1NvdXJjZS9Nb2R1bGVz
-L21haW4uY3h4DQo+ID4gPiDCoCBAQCAtMjUsNiArMjUsMTEgQEANCj4gPiA+IEBAIC0yNyw3ICsy
-OSw3IEBADQo+ID4gPiBodHRwOi8vc291cmNlZm9yZ2UubmV0L21haWxhcmNoaXZlL21lc3NhZ2Uu
-cGhwP21zZ19pZD0yOTE3OTczMw0KPiA+ID4gDQo+ID4gPiDCoMKgIC8vIEdsb2JhbCB2YXJpYWJs
-ZXMNCj4gPiA+IA0KPiA+ID4gLUBAIC05MzQsOSArOTM5LDkgQEAgaW50IFNXSUdfbWFpbihpbnQg
-YXJnYywgY2hhciAqYXJndltdLCBjbw0KPiA+ID4gK0BAIC04ODYsOSArODkxLDkgQEAgaW50IFNX
-SUdfbWFpbihpbnQgYXJnYywgY2hhciAqYXJndltdLCBjb25zdA0KPiA+ID4gVGFyZ2V0TGFuZ3Vh
-Z2VNb2R1bGUgKnRsbSkgew0KPiA+ID4gDQo+ID4gPiDCoMKgwqDCoCAvLyBDaGVjayBmb3IgU1dJ
-R19MSUIgZW52aXJvbm1lbnQgdmFyaWFibGUNCj4gPiA+IMKgwqDCoMKgIGlmICgoYyA9IGdldGVu
-digiU1dJR19MSUIiKSkgPT0gKGNoYXIgKikgMCkgew0KPiA+ID4gQEAgLTM4LDcgKzQwLDcgQEAN
-Cj4gPiA+IGh0dHA6Ly9zb3VyY2Vmb3JnZS5uZXQvbWFpbGFyY2hpdmUvbWVzc2FnZS5waHA/bXNn
-X2lkPTI5MTc5NzMzDQo+ID4gPiDCoMKgwqDCoMKgwqAgaWYgKCEoR2V0TW9kdWxlRmlsZU5hbWUo
-MCwgYnVmLCBNQVhfUEFUSCkgPT0gMCB8fCAocCA9DQo+ID4gPiBzdHJyY2hyKGJ1ZiwgJ1xcJykp
-ID09IDApKSB7DQo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgICoocCArIDEpID0gJ1wwJzsNCj4gPiA+
-IMKgwqDCoMKgwqDCoMKgwqAgU3dpZ0xpYiA9IE5ld1N0cmluZ2YoIiVzTGliIiwgYnVmKTsgLy8g
-TmF0aXZlIHdpbmRvd3MNCj4gPiA+IGluc3RhbGxhdGlvbiBwYXRoDQo+ID4gPiAtQEAgLTk0Niw3
-ICs5NTEsMjIgQEAgaW50IFNXSUdfbWFpbihpbnQgYXJnYywgY2hhciAqYXJndltdLCBjbw0KPiA+
-ID4gK0BAIC04OTgsNyArOTAzLDIyIEBAIGludCBTV0lHX21haW4oaW50IGFyZ2MsIGNoYXIgKmFy
-Z3ZbXSwgY29uc3QNCj4gPiA+IFRhcmdldExhbmd1YWdlTW9kdWxlICp0bG0pIHsNCj4gPiA+IMKg
-wqDCoMKgwqDCoCBpZiAoTGVuKFNXSUdfTElCX1dJTl9VTklYKSA+IDApDQo+ID4gPiDCoMKgwqDC
-oMKgwqDCoMKgIFN3aWdMaWJXaW5Vbml4ID0gTmV3U3RyaW5nKFNXSUdfTElCX1dJTl9VTklYKTsg
-Ly8gVW5peA0KPiA+ID4gaW5zdGFsbGF0aW9uIHBhdGggdXNpbmcgYSBkcml2ZSBsZXR0ZXIgKGZv
-ciBtc3lzL21pbmd3KQ0KPiA+ID4gwqDCoCAjZWxzZQ0KPiA+ID4gZGlmZiAtLWdpdCBhL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9zd2lnL3N3aWcvMDAwMS1jb25maWd1cmUtdXNlLQ0KPiA+ID4gcGtn
-LWNvbmZpZy1mb3ItcGNyZS1kZXRlY3Rpb24ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtDQo+ID4gPiBk
-ZXZ0b29scy9zd2lnL3N3aWcvMDAwMS1jb25maWd1cmUtdXNlLXBrZy1jb25maWctZm9yLXBjcmUt
-DQo+ID4gPiBkZXRlY3Rpb24ucGF0Y2gNCj4gPiA+IGluZGV4IGNmY2JkOGM3M2FlLi45ZTE2Y2Fl
-Y2NhMSAxMDA2NDQNCj4gPiA+IC0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9zd2lnL3N3aWcv
-MDAwMS1jb25maWd1cmUtdXNlLXBrZy0NCj4gPiA+IGNvbmZpZy1mb3ItcGNyZS1kZXRlY3Rpb24u
-cGF0Y2gNCj4gPiA+ICsrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9zd2lnL3N3aWcvMDAwMS1j
-b25maWd1cmUtdXNlLXBrZy0NCj4gPiA+IGNvbmZpZy1mb3ItcGNyZS1kZXRlY3Rpb24ucGF0Y2gN
-Cj4gPiA+IEBAIC0xLDQgKzEsNCBAQA0KPiA+ID4gLUZyb20gZmZiNzg1ZWQ4ZDNjYWMzYzI4ZTAx
-NGIxMjM4ZDkzZTJiYzFmMGMwMSBNb24gU2VwIDE3DQo+ID4gPiAwMDowMDowMCAyMDAxDQo+ID4g
-PiArRnJvbSA1N2ExNTY1MWI0NmEwZjFmODRhNGRkMTVkNjdkMTA0ZmJmYmUzZjZlIE1vbiBTZXAg
-MTcNCj4gPiA+IDAwOjAwOjAwIDIwMDENCj4gPiA+IMKgIEZyb206IEtvZW4gS29vaSA8a29lbi5r
-b29pQGxpbmFyby5vcmc+DQo+ID4gPiDCoCBEYXRlOiBUdWUsIDE3IEp1biAyMDE0IDA4OjE4OjE3
-ICswMjAwDQo+ID4gPiDCoCBTdWJqZWN0OiBbUEFUQ0hdIGNvbmZpZ3VyZTogdXNlIHBrZy1jb25m
-aWcgZm9yIHBjcmUgZGV0ZWN0aW9uDQo+ID4gPiBAQCAtMTEsMTAgKzExLDEwIEBAIFVwc3RyZWFt
-LVN0YXR1czogUGVuZGluZw0KPiA+ID4gwqDCoCAxIGZpbGUgY2hhbmdlZCwgNyBpbnNlcnRpb25z
-KCspLCAzMiBkZWxldGlvbnMoLSkNCj4gPiA+IA0KPiA+ID4gwqAgZGlmZiAtLWdpdCBhL2NvbmZp
-Z3VyZS5hYyBiL2NvbmZpZ3VyZS5hYw0KPiA+ID4gLWluZGV4IGY4ODAwNGEuLjNhMmI0N2MgMTAw
-NjQ0DQo+ID4gPiAraW5kZXggYzA2MDAyOC4uYTMzMDI2NiAxMDA2NDQNCj4gPiA+IMKgIC0tLSBh
-L2NvbmZpZ3VyZS5hYw0KPiA+ID4gwqAgKysrIGIvY29uZmlndXJlLmFjDQo+ID4gPiAtQEAgLTU3
-LDM5ICs1NywxNCBAQCBBQ19NU0dfUkVTVUxUKFskd2l0aF9wY3JlXSkNCj4gPiA+ICtAQCAtNDks
-MzkgKzQ5LDE0IEBAIEFDX01TR19SRVNVTFQoWyR3aXRoX3BjcmVdKQ0KPiA+ID4gDQo+ID4gPiDC
-oMKgIGRubCBUbyBtYWtlIGNvbmZpZ3VyaW5nIGVhc2llciwgY2hlY2sgZm9yIGEgbG9jYWxseSBi
-dWlsdCBQQ1JFDQo+ID4gPiB1c2luZyB0aGUgVG9vbHMvcGNyZS1idWlsZC5zaCBzY3JpcHQNCj4g
-PiA+IMKgwqAgaWYgdGVzdCB4IiR7d2l0aF9wY3JlfSIgPSB4eWVzIDsgdGhlbg0KPiA+ID4gZGlm
-ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9zd2lnL3N3aWcvZGV0ZXJtaW5pc20ucGF0
-Y2gNCj4gPiA+IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N3aWcvc3dpZy9kZXRlcm1pbmlzbS5w
-YXRjaA0KPiA+ID4gaW5kZXggODRjMzk5MTgyYTQuLjQxN2YwYzQzMTc4IDEwMDY0NA0KPiA+ID4g
-LS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N3aWcvc3dpZy9kZXRlcm1pbmlzbS5wYXRjaA0K
-PiA+ID4gKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N3aWcvc3dpZy9kZXRlcm1pbmlzbS5w
-YXRjaA0KPiA+ID4gQEAgLTEsMTMgKzEsMjMgQEANCj4gPiA+ICtGcm9tIDI1YmY5ODkzZWMxZjU1
-Nzc4MWViMjQxNTA4ZWExYmVjOTU5MDYxZmUgTW9uIFNlcCAxNw0KPiA+ID4gMDA6MDA6MDAgMjAw
-MQ0KPiA+ID4gK0Zyb206IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5k
-YXRpb24ub3JnPg0KPiA+ID4gK0RhdGU6IE1vbiwgMSBNYXIgMjAyMSAwMDoxMToxMCArMDAwMA0K
-PiA+ID4gK1N1YmplY3Q6IFtQQVRDSF0gc3dpZzogRml4IHJlcHJvZHVjaWJpbGl0eSBpc3N1ZQ0K
-PiA+ID4gKw0KPiA+ID4gwqAgUmVtb3ZlIHRoZSBjb21waWxlciBjb21tYW5kbGluZS9wbGF0Zm9y
-bSBmcm9tIHRoZSBjb21waWxlZA0KPiA+ID4gYmluYXJ5IGFzIHRoaXMNCj4gPiA+IMKgIGJyZWFr
-cyByZXByb2R1Y2liaWx0eS4NCj4gPiA+IA0KPiA+ID4gwqAgVXBzdHJlYW0tU3RhdHVzOiBJbmFw
-cHJvcHJpYXRlIFtPRSByZXByb2R1Y2liaWl0eSBmaXggdXBzdHJlYW0NCj4gPiA+IHVubGlrZWx5
-IHRvIHRha2VdDQo+ID4gPiDCoCBSUCAyMDIxLzMvMQ0KPiA+ID4gDQo+ID4gPiArLS0tDQo+ID4g
-PiArIFNvdXJjZS9Nb2R1bGVzL21haW4uY3h4IHwgMSAtDQo+ID4gPiArIDEgZmlsZSBjaGFuZ2Vk
-LCAxIGRlbGV0aW9uKC0pDQo+ID4gPiANCj4gPiA+ICtkaWZmIC0tZ2l0IGEvU291cmNlL01vZHVs
-ZXMvbWFpbi5jeHggYi9Tb3VyY2UvTW9kdWxlcy9tYWluLmN4eA0KPiA+ID4gK2luZGV4IDgyNTBk
-ZWUuLjQxNTc2MWQgMTAwNjQ0DQo+ID4gPiDCoCAtLS0gYS9Tb3VyY2UvTW9kdWxlcy9tYWluLmN4
-eA0KPiA+ID4gwqAgKysrIGIvU291cmNlL01vZHVsZXMvbWFpbi5jeHgNCj4gPiA+IC1AQCAtNjQy
-LDcgKzY0Miw2IEBAIHN0YXRpYyB2b2lkIGdldG9wdGlvbnMoaW50IGFyZ2MsIGNoYXIgKmENCj4g
-PiA+ICtAQCAtNjI5LDcgKzYyOSw2IEBAIHN0YXRpYyB2b2lkIGdldG9wdGlvbnMoaW50IGFyZ2Ms
-IGNoYXINCj4gPiA+ICphcmd2W10pIHsNCj4gPiA+IMKgwqDCoMKgwqAgfQ0KPiA+ID4gwqDCoMKg
-wqDCoMKgwqDCoCB9IGVsc2UgaWYgKHN0cmNtcChhcmd2W2ldLCAiLXZlcnNpb24iKSA9PSAwKSB7
-DQo+ID4gPiDCoMKgwqDCoMKgIGZwcmludGYoc3Rkb3V0LCAiXG5TV0lHIFZlcnNpb24gJXNcbiIs
-DQo+ID4gPiBTd2lnX3BhY2thZ2VfdmVyc2lvbigpKTsNCj4gPiA+IGRpZmYgLS1naXQgYS9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvc3dpZy9zd2lnXzQuMS4xLmJiDQo+ID4gPiBiL21ldGEvcmVjaXBl
-cy1kZXZ0b29scy9zd2lnL3N3aWdfNC4yLjAuYmINCj4gPiA+IHNpbWlsYXJpdHkgaW5kZXggNzIl
-DQo+ID4gPiByZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvc3dpZy9zd2lnXzQuMS4x
-LmJiDQo+ID4gPiByZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N3aWcvc3dpZ180LjIu
-MC5iYg0KPiA+ID4gaW5kZXggYjllMDE3NTI5OTMuLjJhYjRlZDAwNmM2IDEwMDY0NA0KPiA+ID4g
-LS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N3aWcvc3dpZ180LjEuMS5iYg0KPiA+ID4gKysr
-IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3N3aWcvc3dpZ180LjIuMC5iYg0KPiA+ID4gQEAgLTQs
-NCArNCw0IEBAIFNSQ19VUkkgKz0NCj4gPiA+ICJmaWxlOi8vMDAwMS1Vc2UtcHJvYy1zZWxmLWV4
-ZS1mb3Itc3dpZy1zd2lnbGliLW9uLW5vbi1XaW4zMi1wbGF0DQo+ID4gPiAucGF0DQo+ID4gPiDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoA0KPiA+ID4gZmlsZTovLzAwMDEtY29uZmlndXJlLXVz
-ZS1wa2ctY29uZmlnLWZvci1wY3JlLWRldGVjdGlvbi5wYXRjaMKgXA0KPiA+ID4gwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgZmlsZTovL2RldGVybWluaXNtLnBhdGNowqBcDQo+ID4gPiDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgIg0KPiA+ID4gLVNSQ19VUklbc2hhMjU2c3VtXSA9DQo+ID4g
-PiAiMmFmMDhhY2VkOGZjZDY1Y2RiNWNjNjI0MjY3Njg5MTRiZWRjNzM1YjFjMjUwMzI1MjAzNzE2
-Zjc4ZTM5YWM5Yg0KPiA+ID4gIg0KPiA+ID4gK1NSQ19VUklbc2hhMjU2c3VtXSA9DQo+ID4gPiAi
-MjYxY2EyZDc1ODllMjYwNzYyODE3YjkxMmMwNzU4MzE1NzJiNzJmZjI3MTc5NDJmNzViM2U1MTI0
-NDgyOWM5Nw0KPiA+ID4gIg0KPiA+ID4gDQo+ID4gPiAtPS09LT0tPS09LT0tPS09LT0tPS09LQ0K
-PiA+ID4gTGlua3M6IFlvdSByZWNlaXZlIGFsbCBtZXNzYWdlcyBzZW50IHRvIHRoaXMgZ3JvdXAu
-DQo+ID4gPiBWaWV3L1JlcGx5IE9ubGluZSAoIzE5NTc1NCk6DQo+ID4gPiBodHRwczovL2xpc3Rz
-Lm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS9tZXNzYWdlLzE5NTc1NA0KPiA+
-ID4gTXV0ZSBUaGlzIFRvcGljOg0KPiA+ID4gaHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3Jn
-L210LzEwNDM5MDkzMy8xOTk3OTE0DQo+ID4gPiBHcm91cCBPd25lcjogb3BlbmVtYmVkZGVkLWNv
-cmUrb3duZXJAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiA+ID4gVW5zdWJzY3JpYmU6DQo+ID4g
-PiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS91bnN1
-YsKgWw0KPiA+ID4gcmFqLmtoZW1AZ21haWwuY29tXQ0KPiA+ID4gLT0tPS09LT0tPS09LT0tPS09
-LT0tPS0NCj4gPiA+IA0KDQo=
+--00000000000043899a0611b466d7
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Sun, Feb 18, 2024 at 6:51=E2=80=AFPM Mittal, Anuj <anuj.mittal@intel.com=
+> wrote:
+
+> On Sat, 2024-02-17 at 19:01 -0800, Khem Raj wrote:
+> > here is one failure due to this upgrade -
+> > https://errors.yoctoproject.org/Errors/Details/753587/
+>
+> Thanks for checking. This project and its dependencies that are giving
+> error aren't maintained any more.
+>
+>
+> https://github.com/bambocher/pocketsphinx-python/commit/73b7e6da54f57b82d=
+50ab278ad61f2cfa9b4dc4b
+>
+>
+> https://github.com/cmusphinx/sphinxbase/tree/a74a11df3a021e9a26b0d20c3de9=
+99b8eb0afcef
+>
+> The recipe should be deleted or replaced by bindings from:
+>
+> https://github.com/cmusphinx/pocketsphinx
+
+
+I am fine with either. If deletion is easy so be it
+Please send a patch
+
+<https://github.com/cmusphinx/pocketsphinx>
+>
+> Thanks,
+>
+> Anuj
+>
+> >
+> > On Fri, Feb 16, 2024 at 6:59=E2=80=AFPM Khem Raj <raj.khem@gmail.com> w=
+rote:
+> > >
+> > > this can be tricky for many apps depend on it subtly might fail.
+> > > Perhaps
+> > > doing an extended world build with this might be good.
+> > >
+> > > On 2/16/24 3:40 AM, Anuj Mittal wrote:
+> > > > Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+> > > > ---
+> > > >   ...self-exe-for-swig-swiglib-on-non-Win32-plat.patch | 10
+> > > > ++++++----
+> > > >   ...configure-use-pkg-config-for-pcre-detection.patch |  6 +++--
+> > > > -
+> > > >   meta/recipes-devtools/swig/swig/determinism.patch    | 12
+> > > > +++++++++++-
+> > > >   .../swig/{swig_4.1.1.bb =3D> swig_4.2.0.bb}            |  2 +-
+> > > >   4 files changed, 21 insertions(+), 9 deletions(-)
+> > > >   rename meta/recipes-devtools/swig/{swig_4.1.1.bb =3D>
+> > > > swig_4.2.0.bb} (72%)
+> > > >
+> > > > diff --git a/meta/recipes-devtools/swig/swig/0001-Use-proc-self-
+> > > > exe-for-swig-swiglib-on-non-Win32-plat.patch b/meta/recipes-
+> > > > devtools/swig/swig/0001-Use-proc-self-exe-for-swig-swiglib-on-
+> > > > non-Win32-plat.patch
+> > > > index f27f80ea184..9c6ae389be2 100644
+> > > > --- a/meta/recipes-devtools/swig/swig/0001-Use-proc-self-exe-for-
+> > > > swig-swiglib-on-non-Win32-plat.patch
+> > > > +++ b/meta/recipes-devtools/swig/swig/0001-Use-proc-self-exe-for-
+> > > > swig-swiglib-on-non-Win32-plat.patch
+> > > > @@ -1,4 +1,4 @@
+> > > > -From a4a0440a644c6c5e5da096efe3cf05ba309a284f Mon Sep 17
+> > > > 00:00:00 2001
+> > > > +From ab0ab5e685bd9077c44fdca5c1a27b0f477444d7 Mon Sep 17
+> > > > 00:00:00 2001
+> > > >   From: "NODA, Kai" <nodakai@gmail.com>
+> > > >   Date: Sun, 22 Apr 2012 17:01:02 +0900
+> > > >   Subject: [PATCH] Use /proc/self/exe for "swig -swiglib" on non-
+> > > > Win32
+> > > > @@ -10,9 +10,11 @@ Upstream-Status: Submitted
+> > > >   http://sourceforge.net/mailarchive/message.php?msg_id=3D29179733
+> > > >
+> > > >   ---
+> > > > - Source/Modules/main.cxx |   24 ++++++++++++++++++++++--
+> > > > + Source/Modules/main.cxx | 24 ++++++++++++++++++++++--
+> > > >    1 file changed, 22 insertions(+), 2 deletions(-)
+> > > >
+> > > > +diff --git a/Source/Modules/main.cxx b/Source/Modules/main.cxx
+> > > > +index 8a44921..8250dee 100644
+> > > >   --- a/Source/Modules/main.cxx
+> > > >   +++ b/Source/Modules/main.cxx
+> > > >   @@ -25,6 +25,11 @@
+> > > > @@ -27,7 +29,7 @@
+> > > > http://sourceforge.net/mailarchive/message.php?msg_id=3D29179733
+> > > >
+> > > >    // Global variables
+> > > >
+> > > > -@@ -934,9 +939,9 @@ int SWIG_main(int argc, char *argv[], co
+> > > > +@@ -886,9 +891,9 @@ int SWIG_main(int argc, char *argv[], const
+> > > > TargetLanguageModule *tlm) {
+> > > >
+> > > >      // Check for SWIG_LIB environment variable
+> > > >      if ((c =3D getenv("SWIG_LIB")) =3D=3D (char *) 0) {
+> > > > @@ -38,7 +40,7 @@
+> > > > http://sourceforge.net/mailarchive/message.php?msg_id=3D29179733
+> > > >        if (!(GetModuleFileName(0, buf, MAX_PATH) =3D=3D 0 || (p =3D
+> > > > strrchr(buf, '\\')) =3D=3D 0)) {
+> > > >          *(p + 1) =3D '\0';
+> > > >          SwigLib =3D NewStringf("%sLib", buf); // Native windows
+> > > > installation path
+> > > > -@@ -946,7 +951,22 @@ int SWIG_main(int argc, char *argv[], co
+> > > > +@@ -898,7 +903,22 @@ int SWIG_main(int argc, char *argv[], const
+> > > > TargetLanguageModule *tlm) {
+> > > >        if (Len(SWIG_LIB_WIN_UNIX) > 0)
+> > > >          SwigLibWinUnix =3D NewString(SWIG_LIB_WIN_UNIX); // Unix
+> > > > installation path using a drive letter (for msys/mingw)
+> > > >    #else
+> > > > diff --git a/meta/recipes-devtools/swig/swig/0001-configure-use-
+> > > > pkg-config-for-pcre-detection.patch b/meta/recipes-
+> > > > devtools/swig/swig/0001-configure-use-pkg-config-for-pcre-
+> > > > detection.patch
+> > > > index cfcbd8c73ae..9e16caecca1 100644
+> > > > --- a/meta/recipes-devtools/swig/swig/0001-configure-use-pkg-
+> > > > config-for-pcre-detection.patch
+> > > > +++ b/meta/recipes-devtools/swig/swig/0001-configure-use-pkg-
+> > > > config-for-pcre-detection.patch
+> > > > @@ -1,4 +1,4 @@
+> > > > -From ffb785ed8d3cac3c28e014b1238d93e2bc1f0c01 Mon Sep 17
+> > > > 00:00:00 2001
+> > > > +From 57a15651b46a0f1f84a4dd15d67d104fbfbe3f6e Mon Sep 17
+> > > > 00:00:00 2001
+> > > >   From: Koen Kooi <koen.kooi@linaro.org>
+> > > >   Date: Tue, 17 Jun 2014 08:18:17 +0200
+> > > >   Subject: [PATCH] configure: use pkg-config for pcre detection
+> > > > @@ -11,10 +11,10 @@ Upstream-Status: Pending
+> > > >    1 file changed, 7 insertions(+), 32 deletions(-)
+> > > >
+> > > >   diff --git a/configure.ac b/configure.ac
+> > > > -index f88004a..3a2b47c 100644
+> > > > +index c060028..a330266 100644
+> > > >   --- a/configure.ac
+> > > >   +++ b/configure.ac
+> > > > -@@ -57,39 +57,14 @@ AC_MSG_RESULT([$with_pcre])
+> > > > +@@ -49,39 +49,14 @@ AC_MSG_RESULT([$with_pcre])
+> > > >
+> > > >    dnl To make configuring easier, check for a locally built PCRE
+> > > > using the Tools/pcre-build.sh script
+> > > >    if test x"${with_pcre}" =3D xyes ; then
+> > > > diff --git a/meta/recipes-devtools/swig/swig/determinism.patch
+> > > > b/meta/recipes-devtools/swig/swig/determinism.patch
+> > > > index 84c399182a4..417f0c43178 100644
+> > > > --- a/meta/recipes-devtools/swig/swig/determinism.patch
+> > > > +++ b/meta/recipes-devtools/swig/swig/determinism.patch
+> > > > @@ -1,13 +1,23 @@
+> > > > +From 25bf9893ec1f557781eb241508ea1bec959061fe Mon Sep 17
+> > > > 00:00:00 2001
+> > > > +From: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > > > +Date: Mon, 1 Mar 2021 00:11:10 +0000
+> > > > +Subject: [PATCH] swig: Fix reproducibility issue
+> > > > +
+> > > >   Remove the compiler commandline/platform from the compiled
+> > > > binary as this
+> > > >   breaks reproducibilty.
+> > > >
+> > > >   Upstream-Status: Inappropriate [OE reproducibiity fix upstream
+> > > > unlikely to take]
+> > > >   RP 2021/3/1
+> > > >
+> > > > +---
+> > > > + Source/Modules/main.cxx | 1 -
+> > > > + 1 file changed, 1 deletion(-)
+> > > >
+> > > > +diff --git a/Source/Modules/main.cxx b/Source/Modules/main.cxx
+> > > > +index 8250dee..415761d 100644
+> > > >   --- a/Source/Modules/main.cxx
+> > > >   +++ b/Source/Modules/main.cxx
+> > > > -@@ -642,7 +642,6 @@ static void getoptions(int argc, char *a
+> > > > +@@ -629,7 +629,6 @@ static void getoptions(int argc, char
+> > > > *argv[]) {
+> > > >       }
+> > > >          } else if (strcmp(argv[i], "-version") =3D=3D 0) {
+> > > >       fprintf(stdout, "\nSWIG Version %s\n",
+> > > > Swig_package_version());
+> > > > diff --git a/meta/recipes-devtools/swig/swig_4.1.1.bb
+> > > > b/meta/recipes-devtools/swig/swig_4.2.0.bb
+> > > > similarity index 72%
+> > > > rename from meta/recipes-devtools/swig/swig_4.1.1.bb
+> > > > rename to meta/recipes-devtools/swig/swig_4.2.0.bb
+> > > > index b9e01752993..2ab4ed006c6 100644
+> > > > --- a/meta/recipes-devtools/swig/swig_4.1.1.bb
+> > > > +++ b/meta/recipes-devtools/swig/swig_4.2.0.bb
+> > > > @@ -4,4 +4,4 @@ SRC_URI +=3D
+> > > > "file://0001-Use-proc-self-exe-for-swig-swiglib-on-non-Win32-plat
+> > > > .pat
+> > > >
+> > > > file://0001-configure-use-pkg-config-for-pcre-detection.patch \
+> > > >               file://determinism.patch \
+> > > >              "
+> > > > -SRC_URI[sha256sum] =3D
+> > > > "2af08aced8fcd65cdb5cc62426768914bedc735b1c250325203716f78e39ac9b
+> > > > "
+> > > > +SRC_URI[sha256sum] =3D
+> > > > "261ca2d7589e260762817b912c075831572b72ff2717942f75b3e51244829c97
+> > > > "
+> > > >
+> > > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > > > Links: You receive all messages sent to this group.
+> > > > View/Reply Online (#195754):
+> > > > https://lists.openembedded.org/g/openembedded-core/message/195754
+> > > > Mute This Topic:
+> > > > https://lists.openembedded.org/mt/104390933/1997914
+> > > > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > > > Unsubscribe:
+> > > > https://lists.openembedded.org/g/openembedded-core/unsub [
+> > > > raj.khem@gmail.com]
+> > > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > > >
+>
+>
+
+--00000000000043899a0611b466d7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Sun, Feb 18, 2024 at 6:51=E2=80=AFPM Mittal, Anuj &lt;<a=
+ href=3D"mailto:anuj.mittal@intel.com">anuj.mittal@intel.com</a>&gt; wrote:=
+<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
+ex;border-left-width:1px;border-left-style:solid;padding-left:1ex;border-le=
+ft-color:rgb(204,204,204)">On Sat, 2024-02-17 at 19:01 -0800, Khem Raj wrot=
+e:<br>
+&gt; here is one failure due to this upgrade -<br>
+&gt; <a href=3D"https://errors.yoctoproject.org/Errors/Details/753587/" rel=
+=3D"noreferrer" target=3D"_blank">https://errors.yoctoproject.org/Errors/De=
+tails/753587/</a><br>
+<br>
+Thanks for checking. This project and its dependencies that are giving<br>
+error aren&#39;t maintained any more.<br>
+<br>
+<a href=3D"https://github.com/bambocher/pocketsphinx-python/commit/73b7e6da=
+54f57b82d50ab278ad61f2cfa9b4dc4b" rel=3D"noreferrer" target=3D"_blank">http=
+s://github.com/bambocher/pocketsphinx-python/commit/73b7e6da54f57b82d50ab27=
+8ad61f2cfa9b4dc4b</a><br>
+<br>
+<a href=3D"https://github.com/cmusphinx/sphinxbase/tree/a74a11df3a021e9a26b=
+0d20c3de999b8eb0afcef" rel=3D"noreferrer" target=3D"_blank">https://github.=
+com/cmusphinx/sphinxbase/tree/a74a11df3a021e9a26b0d20c3de999b8eb0afcef</a><=
+br>
+<br>
+The recipe should be deleted or replaced by bindings from:<br>
+<br>
+<a href=3D"https://github.com/cmusphinx/pocketsphinx" rel=3D"noreferrer" ta=
+rget=3D"_blank">https://github.com/cmusphinx/pocketsphinx</a></blockquote><=
+div dir=3D"auto"><br></div><div dir=3D"auto">I am fine with either. If dele=
+tion is easy so be it=C2=A0</div><div dir=3D"auto">Please send a patch=C2=
+=A0</div><div dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid=
+;padding-left:1ex;border-left-color:rgb(204,204,204)" dir=3D"auto"><a href=
+=3D"https://github.com/cmusphinx/pocketsphinx" rel=3D"noreferrer" target=3D=
+"_blank"></a><br>
+<br>
+Thanks,<br>
+<br>
+Anuj<br>
+<br>
+&gt; <br>
+&gt; On Fri, Feb 16, 2024 at 6:59=E2=80=AFPM Khem Raj &lt;<a href=3D"mailto=
+:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrote:<br=
+>
+&gt; &gt; <br>
+&gt; &gt; this can be tricky for many apps depend on it subtly might fail.<=
+br>
+&gt; &gt; Perhaps<br>
+&gt; &gt; doing an extended world build with this might be good.<br>
+&gt; &gt; <br>
+&gt; &gt; On 2/16/24 3:40 AM, Anuj Mittal wrote:<br>
+&gt; &gt; &gt; Signed-off-by: Anuj Mittal &lt;<a href=3D"mailto:anuj.mittal=
+@intel.com" target=3D"_blank">anuj.mittal@intel.com</a>&gt;<br>
+&gt; &gt; &gt; ---<br>
+&gt; &gt; &gt; =C2=A0 ...self-exe-for-swig-swiglib-on-non-Win32-plat.patch =
+| 10<br>
+&gt; &gt; &gt; ++++++----<br>
+&gt; &gt; &gt; =C2=A0 ...configure-use-pkg-config-for-pcre-detection.patch =
+|=C2=A0 6 +++--<br>
+&gt; &gt; &gt; -<br>
+&gt; &gt; &gt; =C2=A0 meta/recipes-devtools/swig/swig/determinism.patch=C2=
+=A0=C2=A0=C2=A0 | 12<br>
+&gt; &gt; &gt; +++++++++++-<br>
+&gt; &gt; &gt; =C2=A0 .../swig/{<a href=3D"http://swig_4.1.1.bb" rel=3D"nor=
+eferrer" target=3D"_blank">swig_4.1.1.bb</a> =3D&gt; <a href=3D"http://swig=
+_4.2.0.bb" rel=3D"noreferrer" target=3D"_blank">swig_4.2.0.bb</a>}=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-<br>
+&gt; &gt; &gt; =C2=A0 4 files changed, 21 insertions(+), 9 deletions(-)<br>
+&gt; &gt; &gt; =C2=A0 rename meta/recipes-devtools/swig/{<a href=3D"http://=
+swig_4.1.1.bb" rel=3D"noreferrer" target=3D"_blank">swig_4.1.1.bb</a> =3D&g=
+t;<br>
+&gt; &gt; &gt; <a href=3D"http://swig_4.2.0.bb" rel=3D"noreferrer" target=
+=3D"_blank">swig_4.2.0.bb</a>} (72%)<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; diff --git a/meta/recipes-devtools/swig/swig/0001-Use-proc-s=
+elf-<br>
+&gt; &gt; &gt; exe-for-swig-swiglib-on-non-Win32-plat.patch b/meta/recipes-=
+<br>
+&gt; &gt; &gt; devtools/swig/swig/0001-Use-proc-self-exe-for-swig-swiglib-o=
+n-<br>
+&gt; &gt; &gt; non-Win32-plat.patch<br>
+&gt; &gt; &gt; index f27f80ea184..9c6ae389be2 100644<br>
+&gt; &gt; &gt; --- a/meta/recipes-devtools/swig/swig/0001-Use-proc-self-exe=
+-for-<br>
+&gt; &gt; &gt; swig-swiglib-on-non-Win32-plat.patch<br>
+&gt; &gt; &gt; +++ b/meta/recipes-devtools/swig/swig/0001-Use-proc-self-exe=
+-for-<br>
+&gt; &gt; &gt; swig-swiglib-on-non-Win32-plat.patch<br>
+&gt; &gt; &gt; @@ -1,4 +1,4 @@<br>
+&gt; &gt; &gt; -From a4a0440a644c6c5e5da096efe3cf05ba309a284f Mon Sep 17<br=
+>
+&gt; &gt; &gt; 00:00:00 2001<br>
+&gt; &gt; &gt; +From ab0ab5e685bd9077c44fdca5c1a27b0f477444d7 Mon Sep 17<br=
+>
+&gt; &gt; &gt; 00:00:00 2001<br>
+&gt; &gt; &gt; =C2=A0 From: &quot;NODA, Kai&quot; &lt;<a href=3D"mailto:nod=
+akai@gmail.com" target=3D"_blank">nodakai@gmail.com</a>&gt;<br>
+&gt; &gt; &gt; =C2=A0 Date: Sun, 22 Apr 2012 17:01:02 +0900<br>
+&gt; &gt; &gt; =C2=A0 Subject: [PATCH] Use /proc/self/exe for &quot;swig -s=
+wiglib&quot; on non-<br>
+&gt; &gt; &gt; Win32<br>
+&gt; &gt; &gt; @@ -10,9 +10,11 @@ Upstream-Status: Submitted<br>
+&gt; &gt; &gt; =C2=A0 <a href=3D"http://sourceforge.net/mailarchive/message=
+.php?msg_id=3D29179733" rel=3D"noreferrer" target=3D"_blank">http://sourcef=
+orge.net/mailarchive/message.php?msg_id=3D29179733</a><br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; =C2=A0 ---<br>
+&gt; &gt; &gt; - Source/Modules/main.cxx |=C2=A0=C2=A0 24 +++++++++++++++++=
++++++--<br>
+&gt; &gt; &gt; + Source/Modules/main.cxx | 24 ++++++++++++++++++++++--<br>
+&gt; &gt; &gt; =C2=A0=C2=A0 1 file changed, 22 insertions(+), 2 deletions(-=
+)<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; +diff --git a/Source/Modules/main.cxx b/Source/Modules/main.=
+cxx<br>
+&gt; &gt; &gt; +index 8a44921..8250dee 100644<br>
+&gt; &gt; &gt; =C2=A0 --- a/Source/Modules/main.cxx<br>
+&gt; &gt; &gt; =C2=A0 +++ b/Source/Modules/main.cxx<br>
+&gt; &gt; &gt; =C2=A0 @@ -25,6 +25,11 @@<br>
+&gt; &gt; &gt; @@ -27,7 +29,7 @@<br>
+&gt; &gt; &gt; <a href=3D"http://sourceforge.net/mailarchive/message.php?ms=
+g_id=3D29179733" rel=3D"noreferrer" target=3D"_blank">http://sourceforge.ne=
+t/mailarchive/message.php?msg_id=3D29179733</a><br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; =C2=A0=C2=A0 // Global variables<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; -@@ -934,9 +939,9 @@ int SWIG_main(int argc, char *argv[], c=
+o<br>
+&gt; &gt; &gt; +@@ -886,9 +891,9 @@ int SWIG_main(int argc, char *argv[], c=
+onst<br>
+&gt; &gt; &gt; TargetLanguageModule *tlm) {<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; =C2=A0=C2=A0=C2=A0=C2=A0 // Check for SWIG_LIB environment v=
+ariable<br>
+&gt; &gt; &gt; =C2=A0=C2=A0=C2=A0=C2=A0 if ((c =3D getenv(&quot;SWIG_LIB&qu=
+ot;)) =3D=3D (char *) 0) {<br>
+&gt; &gt; &gt; @@ -38,7 +40,7 @@<br>
+&gt; &gt; &gt; <a href=3D"http://sourceforge.net/mailarchive/message.php?ms=
+g_id=3D29179733" rel=3D"noreferrer" target=3D"_blank">http://sourceforge.ne=
+t/mailarchive/message.php?msg_id=3D29179733</a><br>
+&gt; &gt; &gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!(GetModuleFileName=
+(0, buf, MAX_PATH) =3D=3D 0 || (p =3D<br>
+&gt; &gt; &gt; strrchr(buf, &#39;\\&#39;)) =3D=3D 0)) {<br>
+&gt; &gt; &gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *(p + 1) =
+=3D &#39;\0&#39;;<br>
+&gt; &gt; &gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 SwigLib =3D=
+ NewStringf(&quot;%sLib&quot;, buf); // Native windows<br>
+&gt; &gt; &gt; installation path<br>
+&gt; &gt; &gt; -@@ -946,7 +951,22 @@ int SWIG_main(int argc, char *argv[], =
+co<br>
+&gt; &gt; &gt; +@@ -898,7 +903,22 @@ int SWIG_main(int argc, char *argv[], =
+const<br>
+&gt; &gt; &gt; TargetLanguageModule *tlm) {<br>
+&gt; &gt; &gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (Len(SWIG_LIB_WIN_UN=
+IX) &gt; 0)<br>
+&gt; &gt; &gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 SwigLibWinU=
+nix =3D NewString(SWIG_LIB_WIN_UNIX); // Unix<br>
+&gt; &gt; &gt; installation path using a drive letter (for msys/mingw)<br>
+&gt; &gt; &gt; =C2=A0=C2=A0 #else<br>
+&gt; &gt; &gt; diff --git a/meta/recipes-devtools/swig/swig/0001-configure-=
+use-<br>
+&gt; &gt; &gt; pkg-config-for-pcre-detection.patch b/meta/recipes-<br>
+&gt; &gt; &gt; devtools/swig/swig/0001-configure-use-pkg-config-for-pcre-<b=
+r>
+&gt; &gt; &gt; detection.patch<br>
+&gt; &gt; &gt; index cfcbd8c73ae..9e16caecca1 100644<br>
+&gt; &gt; &gt; --- a/meta/recipes-devtools/swig/swig/0001-configure-use-pkg=
+-<br>
+&gt; &gt; &gt; config-for-pcre-detection.patch<br>
+&gt; &gt; &gt; +++ b/meta/recipes-devtools/swig/swig/0001-configure-use-pkg=
+-<br>
+&gt; &gt; &gt; config-for-pcre-detection.patch<br>
+&gt; &gt; &gt; @@ -1,4 +1,4 @@<br>
+&gt; &gt; &gt; -From ffb785ed8d3cac3c28e014b1238d93e2bc1f0c01 Mon Sep 17<br=
+>
+&gt; &gt; &gt; 00:00:00 2001<br>
+&gt; &gt; &gt; +From 57a15651b46a0f1f84a4dd15d67d104fbfbe3f6e Mon Sep 17<br=
+>
+&gt; &gt; &gt; 00:00:00 2001<br>
+&gt; &gt; &gt; =C2=A0 From: Koen Kooi &lt;<a href=3D"mailto:koen.kooi@linar=
+o.org" target=3D"_blank">koen.kooi@linaro.org</a>&gt;<br>
+&gt; &gt; &gt; =C2=A0 Date: Tue, 17 Jun 2014 08:18:17 +0200<br>
+&gt; &gt; &gt; =C2=A0 Subject: [PATCH] configure: use pkg-config for pcre d=
+etection<br>
+&gt; &gt; &gt; @@ -11,10 +11,10 @@ Upstream-Status: Pending<br>
+&gt; &gt; &gt; =C2=A0=C2=A0 1 file changed, 7 insertions(+), 32 deletions(-=
+)<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; =C2=A0 diff --git a/<a href=3D"http://configure.ac" rel=3D"n=
+oreferrer" target=3D"_blank">configure.ac</a> b/<a href=3D"http://configure=
+.ac" rel=3D"noreferrer" target=3D"_blank">configure.ac</a><br>
+&gt; &gt; &gt; -index f88004a..3a2b47c 100644<br>
+&gt; &gt; &gt; +index c060028..a330266 100644<br>
+&gt; &gt; &gt; =C2=A0 --- a/<a href=3D"http://configure.ac" rel=3D"noreferr=
+er" target=3D"_blank">configure.ac</a><br>
+&gt; &gt; &gt; =C2=A0 +++ b/<a href=3D"http://configure.ac" rel=3D"noreferr=
+er" target=3D"_blank">configure.ac</a><br>
+&gt; &gt; &gt; -@@ -57,39 +57,14 @@ AC_MSG_RESULT([$with_pcre])<br>
+&gt; &gt; &gt; +@@ -49,39 +49,14 @@ AC_MSG_RESULT([$with_pcre])<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; =C2=A0=C2=A0 dnl To make configuring easier, check for a loc=
+ally built PCRE<br>
+&gt; &gt; &gt; using the Tools/pcre-build.sh script<br>
+&gt; &gt; &gt; =C2=A0=C2=A0 if test x&quot;${with_pcre}&quot; =3D xyes ; th=
+en<br>
+&gt; &gt; &gt; diff --git a/meta/recipes-devtools/swig/swig/determinism.pat=
+ch<br>
+&gt; &gt; &gt; b/meta/recipes-devtools/swig/swig/determinism.patch<br>
+&gt; &gt; &gt; index 84c399182a4..417f0c43178 100644<br>
+&gt; &gt; &gt; --- a/meta/recipes-devtools/swig/swig/determinism.patch<br>
+&gt; &gt; &gt; +++ b/meta/recipes-devtools/swig/swig/determinism.patch<br>
+&gt; &gt; &gt; @@ -1,13 +1,23 @@<br>
+&gt; &gt; &gt; +From 25bf9893ec1f557781eb241508ea1bec959061fe Mon Sep 17<br=
+>
+&gt; &gt; &gt; 00:00:00 2001<br>
+&gt; &gt; &gt; +From: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@l=
+inuxfoundation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a=
+>&gt;<br>
+&gt; &gt; &gt; +Date: Mon, 1 Mar 2021 00:11:10 +0000<br>
+&gt; &gt; &gt; +Subject: [PATCH] swig: Fix reproducibility issue<br>
+&gt; &gt; &gt; +<br>
+&gt; &gt; &gt; =C2=A0 Remove the compiler commandline/platform from the com=
+piled<br>
+&gt; &gt; &gt; binary as this<br>
+&gt; &gt; &gt; =C2=A0 breaks reproducibilty.<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; =C2=A0 Upstream-Status: Inappropriate [OE reproducibiity fix=
+ upstream<br>
+&gt; &gt; &gt; unlikely to take]<br>
+&gt; &gt; &gt; =C2=A0 RP 2021/3/1<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; +---<br>
+&gt; &gt; &gt; + Source/Modules/main.cxx | 1 -<br>
+&gt; &gt; &gt; + 1 file changed, 1 deletion(-)<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; +diff --git a/Source/Modules/main.cxx b/Source/Modules/main.=
+cxx<br>
+&gt; &gt; &gt; +index 8250dee..415761d 100644<br>
+&gt; &gt; &gt; =C2=A0 --- a/Source/Modules/main.cxx<br>
+&gt; &gt; &gt; =C2=A0 +++ b/Source/Modules/main.cxx<br>
+&gt; &gt; &gt; -@@ -642,7 +642,6 @@ static void getoptions(int argc, char *=
+a<br>
+&gt; &gt; &gt; +@@ -629,7 +629,6 @@ static void getoptions(int argc, char<b=
+r>
+&gt; &gt; &gt; *argv[]) {<br>
+&gt; &gt; &gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }<br>
+&gt; &gt; &gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else if (=
+strcmp(argv[i], &quot;-version&quot;) =3D=3D 0) {<br>
+&gt; &gt; &gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fprintf(stdout, &quot;\nSWIG =
+Version %s\n&quot;,<br>
+&gt; &gt; &gt; Swig_package_version());<br>
+&gt; &gt; &gt; diff --git a/meta/recipes-devtools/swig/<a href=3D"http://sw=
+ig_4.1.1.bb" rel=3D"noreferrer" target=3D"_blank">swig_4.1.1.bb</a><br>
+&gt; &gt; &gt; b/meta/recipes-devtools/swig/<a href=3D"http://swig_4.2.0.bb=
+" rel=3D"noreferrer" target=3D"_blank">swig_4.2.0.bb</a><br>
+&gt; &gt; &gt; similarity index 72%<br>
+&gt; &gt; &gt; rename from meta/recipes-devtools/swig/<a href=3D"http://swi=
+g_4.1.1.bb" rel=3D"noreferrer" target=3D"_blank">swig_4.1.1.bb</a><br>
+&gt; &gt; &gt; rename to meta/recipes-devtools/swig/<a href=3D"http://swig_=
+4.2.0.bb" rel=3D"noreferrer" target=3D"_blank">swig_4.2.0.bb</a><br>
+&gt; &gt; &gt; index b9e01752993..2ab4ed006c6 100644<br>
+&gt; &gt; &gt; --- a/meta/recipes-devtools/swig/<a href=3D"http://swig_4.1.=
+1.bb" rel=3D"noreferrer" target=3D"_blank">swig_4.1.1.bb</a><br>
+&gt; &gt; &gt; +++ b/meta/recipes-devtools/swig/<a href=3D"http://swig_4.2.=
+0.bb" rel=3D"noreferrer" target=3D"_blank">swig_4.2.0.bb</a><br>
+&gt; &gt; &gt; @@ -4,4 +4,4 @@ SRC_URI +=3D<br>
+&gt; &gt; &gt; &quot;file://0001-Use-proc-self-exe-for-swig-swiglib-on-non-=
+Win32-plat<br>
+&gt; &gt; &gt; .pat<br>
+&gt; &gt; &gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0<br>
+&gt; &gt; &gt; file://0001-configure-use-pkg-config-for-pcre-detection.patc=
+h=C2=A0\<br>
+&gt; &gt; &gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 file://determinism.patch=C2=A0\<br>
+&gt; &gt; &gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 &quot;<br>
+&gt; &gt; &gt; -SRC_URI[sha256sum] =3D<br>
+&gt; &gt; &gt; &quot;2af08aced8fcd65cdb5cc62426768914bedc735b1c250325203716=
+f78e39ac9b<br>
+&gt; &gt; &gt; &quot;<br>
+&gt; &gt; &gt; +SRC_URI[sha256sum] =3D<br>
+&gt; &gt; &gt; &quot;261ca2d7589e260762817b912c075831572b72ff2717942f75b3e5=
+1244829c97<br>
+&gt; &gt; &gt; &quot;<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; &gt; &gt; Links: You receive all messages sent to this group.<br>
+&gt; &gt; &gt; View/Reply Online (#195754):<br>
+&gt; &gt; &gt; <a href=3D"https://lists.openembedded.org/g/openembedded-cor=
+e/message/195754" rel=3D"noreferrer" target=3D"_blank">https://lists.openem=
+bedded.org/g/openembedded-core/message/195754</a><br>
+&gt; &gt; &gt; Mute This Topic:<br>
+&gt; &gt; &gt; <a href=3D"https://lists.openembedded.org/mt/104390933/19979=
+14" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt/=
+104390933/1997914</a><br>
+&gt; &gt; &gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lis=
+ts.openembedded.org" target=3D"_blank">openembedded-core+owner@lists.openem=
+bedded.org</a><br>
+&gt; &gt; &gt; Unsubscribe:<br>
+&gt; &gt; &gt; <a href=3D"https://lists.openembedded.org/g/openembedded-cor=
+e/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.or=
+g/g/openembedded-core/unsub</a>=C2=A0[<br>
+&gt; &gt; &gt; <a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.=
+khem@gmail.com</a>]<br>
+&gt; &gt; &gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; &gt; &gt; <br>
+<br>
+</blockquote></div></div>
+
+--00000000000043899a0611b466d7--
 
