@@ -1,118 +1,97 @@
-Return-Path: <enguerrand.de-ribaucourt@savoirfairelinux.com>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C821EC54788
-	for <webhook@archiver.kernel.org>; Mon, 19 Feb 2024 16:55:42 +0000 (UTC)
-Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [208.88.110.44])
- by mx.groups.io with SMTP id smtpd.web10.45895.1708361736400788172
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E642C54764
+	for <webhook@archiver.kernel.org>; Mon, 19 Feb 2024 17:30:56 +0000 (UTC)
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web11.80.1708363851885830685
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Feb 2024 08:55:36 -0800
+ Mon, 19 Feb 2024 09:30:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@savoirfairelinux.com header.s=DFC430D2-D198-11EC-948E-34200CB392D2 header.b=WzKYCWQh;
- spf=pass (domain: savoirfairelinux.com, ip: 208.88.110.44, mailfrom: enguerrand.de-ribaucourt@savoirfairelinux.com)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id C508C9C45BF;
-	Mon, 19 Feb 2024 11:55:35 -0500 (EST)
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
- by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10032)
- with ESMTP id MnPea4TDW3kg; Mon, 19 Feb 2024 11:55:35 -0500 (EST)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 1B6F89C4B13;
-	Mon, 19 Feb 2024 11:55:35 -0500 (EST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com 1B6F89C4B13
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=m3DrKhUF;
+ spf=pass (domain: gmail.com, ip: 209.85.214.179, mailfrom: ticotimo@gmail.com)
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1dc0e5b223eso3070435ad.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 19 Feb 2024 09:30:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=savoirfairelinux.com; s=DFC430D2-D198-11EC-948E-34200CB392D2;
-	t=1708361735; bh=6vOZ+v0HROnD2sbq9Mv9EDm+GWBCeDD7PDVqZDZUlY8=;
-	h=From:To:Date:Message-Id:MIME-Version;
-	b=WzKYCWQhdDUS00oPJ9FZZm0/GY/eTGibKOdhuyqir8HiKuQgfhtmRS9ZzGz/7YojT
-	 h1fmY5xsYc+kpibABr0Ma5A1RrmceZ8T3bmI8IgVrQi/F1G9kGAXD8zdjczftxSdeY
-	 GZ+lGekqMwa7OlsJBrED8Wvo27MHmw05MZ/WRfI9aePOaJK4yztNqzuL+kaohHIsA8
-	 CW/r+9ghg9eXBMX+FK156Ui/LsZGeZI+Oon44Ysfl4EajRjYrQ8g8hSEQsiZ+lg0kz
-	 B3o3B3vVZEcV/WZb3qhQov0V1jE5jt8flHSpwxFUDOnINUfOr0XYE+69icZvPCY4pZ
-	 IiJDtBDc7ZHZw==
-X-Virus-Scanned: amavis at mail.savoirfairelinux.com
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
- by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10026)
- with ESMTP id fCVql8moKlFb; Mon, 19 Feb 2024 11:55:35 -0500 (EST)
-Received: from sfl-deribaucourt.rennes.sfl (lmontsouris-657-1-69-118.w80-15.abo.wanadoo.fr [80.15.101.118])
-	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id 5F1F09C4B10;
-	Mon, 19 Feb 2024 11:55:34 -0500 (EST)
-From: Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
+        d=gmail.com; s=20230601; t=1708363851; x=1708968651; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=oXe+FFAoxSccZpp+GjLO4NJfLFrkHuxL/9JdO6yh9As=;
+        b=m3DrKhUFGPoFxz6kux90B7jje4NJwFEiY206wsEuHNieR5bthqI6v9O3S+KgKWciZ2
+         bKFIs9GGenIkE4U/Fo8R2Hr5E4sxnhMXcy4Oz1EIOE9e569P4KQw24tU8n6NlPmehdWQ
+         GR68RsMMcpQKcKyfvmMaGQ0B8J51+CLNADmAj14stGJN5j+iRwrixgAWJGBfhzjkw8l0
+         5IrPzMUssu9gT0Hf3UWT0xtz8W6zP+TdmVb2xoU4y4Lfy8ayzymLMtkbADFtRn3/DVX8
+         EZH5+PdpSCP5y+qzvtSnbpohwlWQ3IeWvGp/m3Qs9/qnYGZpXJlRRHHSsWC/o5H0rNCp
+         eUtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708363851; x=1708968651;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oXe+FFAoxSccZpp+GjLO4NJfLFrkHuxL/9JdO6yh9As=;
+        b=aJXWq7fG/fdRruDPhD+qKEbte1V+J4g0lR4lkRKty5X05r6lOfPEOFmTB5IQClkLP+
+         foAYGThFV+dWW+GO7XYNRC08M+Ve2XYH3QGs0RPTZfRzVRXrrZsKITpnQ+ge7xSMobI6
+         3CEHJYWBlWNEMeVzLwunsqEsfuQYrxOiNtqLePLAa1MMil32HBeqx/+lEJk+e5615Ur7
+         AkBhPOPd9gu4AyOxGjFfGNxHATCtfoXrhSFor9aaiie9WJQ8CukYXE8tx31qTlReA61z
+         yg9XX/ZOUBW1kk04TncRkXbk71mW12NMqiwl0v2xioZo/SLKJrsFlhyp+uGSCLPcq7YN
+         ZL6Q==
+X-Gm-Message-State: AOJu0Yx7sIvmmuDo9MRi4khD5p7eAaJJ4+gWBS1W0rRgNnG/6T87W22j
+	/2vfVULT3QkwS8MMbTGFNBdB6cCIzKJ57DMOCiilftASCY7EAI12maFwE9Sn
+X-Google-Smtp-Source: AGHT+IG+XaEnlqpj4PYTIRKXiGmjSoBfLTS5tvx8i2ZEKYu+0gYr+/lQIY0noP4ea7TmeAMCYzLRmg==
+X-Received: by 2002:a17:902:9302:b0:1d8:cd7b:85fa with SMTP id bc2-20020a170902930200b001d8cd7b85famr11229174plb.68.1708363850699;
+        Mon, 19 Feb 2024 09:30:50 -0800 (PST)
+Received: from chiron.hsd1.or.comcast.net ([2601:1c0:ca01:19f0:7caf:da97:8daf:f655])
+        by smtp.gmail.com with ESMTPSA id w3-20020a170903310300b001d965e737f2sm4630428plc.268.2024.02.19.09.30.50
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Feb 2024 09:30:50 -0800 (PST)
+From: Tim Orling <ticotimo@gmail.com>
+X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: openembedded-core@lists.openembedded.org
-Cc: adrian.freihofer@gmail.com,
-	Ross.Burton@arm.com,
-	mohammed.raza@savoirfairelinux.com,
-	Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
-Subject: [PATCH v2 3/5] devtool: ide: vscode: Configure read-only files
-Date: Mon, 19 Feb 2024 17:55:23 +0100
-Message-Id: <20240219165525.714512-4-enguerrand.de-ribaucourt@savoirfairelinux.com>
+Subject: [PATCH 0/4] Add python_mesonpy ("mesonpy") PEP-517 backend support
+Date: Mon, 19 Feb 2024 09:30:20 -0800
+Message-Id: <cover.1708363628.git.tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240219165525.714512-1-enguerrand.de-ribaucourt@savoirfairelinux.com>
-References: <20240219165525.714512-1-enguerrand.de-ribaucourt@savoirfairelinux.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 19 Feb 2024 16:55:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195888
+ <openembedded-core@lists.openembedded.org>; Mon, 19 Feb 2024 17:30:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195891
 
-When debugging or browsing files, the user may fall into external
-sources from other packages in the sysroot or dbg-rootfs. Modifying them
-will only lead to confusion since they will be overwritten by Yocto. The
-user should open them in a separate devtool modify session if they want
-to make changes. Meanwhile, we should prevent write access to them.
+Move the python_mesonpy bbclass and python3-meson-python recipe from meta-python.
 
-Signed-off-by: Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirf=
-airelinux.com>
----
- scripts/lib/devtool/ide_plugins/ide_code.py | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+https://meson-python.readthedocs.io/en/latest/
 
-diff --git a/scripts/lib/devtool/ide_plugins/ide_code.py b/scripts/lib/de=
-vtool/ide_plugins/ide_code.py
-index c063b7d0590..7b683c74086 100644
---- a/scripts/lib/devtool/ide_plugins/ide_code.py
-+++ b/scripts/lib/devtool/ide_plugins/ide_code.py
-@@ -125,7 +125,7 @@ class IdeVSCode(IdeBase):
-         settings_dict["cmake.configureOnOpen"] =3D True
-         settings_dict["cmake.sourceDirectory"] =3D modified_recipe.real_=
-srctree
-=20
--    def vscode_settings(self, modified_recipe):
-+    def vscode_settings(self, modified_recipe, image_recipe):
-         files_excludes =3D {
-             "**/.git/**": True,
-             "**/oe-logs/**": True,
-@@ -138,9 +138,16 @@ class IdeVSCode(IdeBase):
-             "**/oe-workdir/**",
-             "**/source-date-epoch/**"
-         ]
-+        files_readonly =3D {
-+            modified_recipe.recipe_sysroot + '/**': True,
-+            modified_recipe.recipe_sysroot_native + '/**': True,
-+        }
-+        if image_recipe.rootfs_dbg is not None:
-+            files_readonly[image_recipe.rootfs_dbg + '/**'] =3D True
-         settings_dict =3D {
-             "files.watcherExclude": files_excludes,
-             "files.exclude": files_excludes,
-+            "files.readonlyInclude": files_readonly,
-             "python.analysis.exclude": python_exclude
-         }
-         self.__vscode_settings_cmake(settings_dict, modified_recipe)
-@@ -425,7 +432,7 @@ class IdeVSCode(IdeBase):
-             self.vscode_tasks_fallback(args, modified_recipe)
-=20
-     def setup_modified_recipe(self, args, image_recipe, modified_recipe)=
-:
--        self.vscode_settings(modified_recipe)
-+        self.vscode_settings(modified_recipe, image_recipe)
-         self.vscode_extensions(modified_recipe)
-         self.vscode_c_cpp_properties(modified_recipe)
-         if args.target:
---=20
+This is the declared backend for python-numpy, so it is time to move it to oe-core.
+
+The following changes since commit 4cfd0f7e4e2db19344677999572e5b71ae97dfc4:
+
+  lib/oe/patch: Use git notes to store the filenames for the patches (2024-02-19 16:03:22 +0000)
+
+are available in the Git repository at:
+
+  https://git.yoctoproject.org/poky-contrib timo/python_mesonpy
+  https://git.yoctoproject.org/poky-contrib/log/?h=timo/python_mesonpy
+
+Tim Orling (4):
+  python3-meson-python: move from meta-python
+  python_mesonpy.bbclass: move from meta-python
+  python3-numpy: inherit python_mesonpy
+  recipetool; add support for python_mesonpy class
+
+ meta/classes-recipe/python_mesonpy.bbclass    | 52 ++++++++++++++++++
+ meta/conf/distro/include/maintainers.inc      |  1 +
+ meta/lib/oeqa/selftest/cases/recipetool.py    | 19 +++++++
+ .../python/python3-meson-python_0.15.0.bb     | 27 ++++++++++
+ .../python/python3-numpy_1.26.4.bb            | 54 ++++++++++---------
+ .../lib/recipetool/create_buildsys_python.py  |  4 ++
+ 6 files changed, 131 insertions(+), 26 deletions(-)
+ create mode 100644 meta/classes-recipe/python_mesonpy.bbclass
+ create mode 100644 meta/recipes-devtools/python/python3-meson-python_0.15.0.bb
+
+-- 
 2.34.1
 
 
