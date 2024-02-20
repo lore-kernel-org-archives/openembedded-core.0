@@ -1,144 +1,172 @@
-Return-Path: <xiangyu.chen@eng.windriver.com>
+Return-Path: <yi.zhao@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46814C48BC3
-	for <webhook@archiver.kernel.org>; Tue, 20 Feb 2024 03:07:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6612C48BC3
+	for <webhook@archiver.kernel.org>; Tue, 20 Feb 2024 04:41:01 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.5318.1708398457553861402
+ by mx.groups.io with SMTP id smtpd.web10.6569.1708404059514895813
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Feb 2024 19:07:37 -0800
+ Mon, 19 Feb 2024 20:40:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=27803fe644=xiangyu.chen@windriver.com)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=cW/M1uxF;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=27800a1259=yi.zhao@windriver.com)
 Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41K0sT5p001200
-	for <openembedded-core@lists.openembedded.org>; Mon, 19 Feb 2024 19:07:37 -0800
-Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2168.outbound.protection.outlook.com [104.47.56.168])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3wary4a47e-1
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41K4VPUc008528
+	for <openembedded-core@lists.openembedded.org>; Mon, 19 Feb 2024 20:40:59 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:content-transfer-encoding
+	:content-type:mime-version; s=PPS06212021; bh=/TY3fcfiHzFvmJ7YrO
+	yMu3LjTZiWYAPtjnAgEJ+osRI=; b=cW/M1uxFqTkgHJnpZ7/O/fcp12+FRADAd2
+	nPSwGL05/8/M4T82ZJ97qHJEb9TQ0n8PfwFX88u6527K+upWKIDSuI+U8rDA/pPt
+	vMiTOKx7KzPy7OHOMviPR4rLsQtuRmiHKApc5RnZ7xgNphYBez4VyY8hGAY1vmkn
+	53ID/YNX7SPWhGfas73kI7pvV5rJSpF9Qbtp/MdlkB56WZ0lu4yzxqsVmmmF4zVr
+	Tc3GtAsXQ9jvLNf844hl5CJn+uxKmkoHNjFBEp+u7vDwAtpxV/QA7PfkCSb/zhaJ
+	XRrA4fNGU6hvesu1RE1BFtLVk2eXtMH8ds92e6pJ05RwVfGbxnzg==
+Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2100.outbound.protection.outlook.com [104.47.55.100])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3wary4a60w-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 19 Feb 2024 19:07:36 -0800 (PST)
+	for <openembedded-core@lists.openembedded.org>; Mon, 19 Feb 2024 20:40:58 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HS233c1VeKQKBYbdOpRw1X+RpysvbL0CqhEoGSPdW5Cd7c9cAlSq7Y81kZB6ex5zzWDfcYBsCuA2RgmIPUw/vqcxXjcw9iFCe5ERxbhAarNDr1AP75tpgVaNWf306l2q8y6Bj7x1CLjO681h1HF0tGHMy3c4dkUFPmkqgl0RXYAlA9lvTz2m9uZXrw0qBZIRsbSiJ2va+G2zvbWtT9oNQabslUpJYcEw3NSTWc5icU/p0sos0sGDAVTHuWaf2mV+2sqhu/7y1cvCZKwgZWX7SNy9jFgxGAz5KfbGhdJZG5cbWO+rZT2Mjs3YClykMnVS7XJvRwNxpDeKa6Y9/c+X1Q==
+ b=QEir+l3p+ZFwFIrvdUx+Oma6DA+h+tDuRMRiSwFjASRNpK/pH+I+RNeeYGxVkzXcWsZtYP6EJ3FoOlrRvGElqxOINTQJMaLPvp8xnC+zfQfGYwQbZ/KeXGjr3UO9A9AFzCi86EoXjx9mN/1BuOM3SXRUWqzwz0gX4iKOhWDSE9AjxKcIDPaPWvRtf+3BklN3DyQo6rGlUInQQtr+CkVEPgNSuBxGyp4x9NiblTXQjHWuiO4kHB0+GJomGFMT0eDkttfsWdXNFSA6yP676I9L0gMfEpodtJ1m1Vd/dc3q1KTxkiz+4u+xZ5e3NLyH/4q0wI1XsgqeIaQV5SSpxQlbNA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=T18WMsb8t5bTqQb8dLyixrIBijfWfCEM84VzacSKf4I=;
- b=HFOIfjfPVWLpbnH3HxVHukZkTbOJ9iuQDp3Xf/QioGP1lR7mTxNxW4xaoX4+2BLfGVdTqO+9xA7c1MbarixJPSo3Kdy92VzRzLywH1jCFXnO5R+638f6TQT0MqputTR3E9EXXXdwUNHOZP82ri7aeViSL4GCvMo6oLknpEoZVbrlX79kz3Phql57gM6JSIlTJ0mcKSl9Qx6kkTWw81CmLCwDRAhmVyPgyomBQxwosfdKUyGuCD0HHP8+8JUR4O8moc5mTKXrKwjuV14aOYfq4/2YE7jRKuHKjSHZz9nDWaE54VbztKclU12uPjktuNSfhwaA9rJtitVdAWHvrhcf8g==
+ bh=/TY3fcfiHzFvmJ7YrOyMu3LjTZiWYAPtjnAgEJ+osRI=;
+ b=Tjq3wIYmL+q66OEO5XNSUDdm8j9KrjYxNiBd3ROhoPffKt0C7WzrGNdP1fVrJ8lgsypMk5nAsN/8kcNwexhtKIJQazEH1+uccW0jP6/B1oBFhezMpkf9JFDVSjhXTVTj/fRxXAoPHvVBSrqWOV8Kg1v9yqqgA57Er/DMjP/911zEqZ5X83+F2Z19Q936gHvMCvNkYO58m3AC8CnlbbvjnWuIH5b2m7i8drzmmmInXALRLGOr8TF2eESDvjzqANSs9a6YBye7R93cu3Kytkg7rwC9JZImEY557c0q+0YFvwEKPBf2X1j3qeere1sKfll31/DCbeeooDQoPoQgiruoDA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=eng.windriver.com; dkim=pass header.d=eng.windriver.com; arc=none
-Received: from MW4PR11MB5824.namprd11.prod.outlook.com (2603:10b6:303:187::19)
- by CO1PR11MB4897.namprd11.prod.outlook.com (2603:10b6:303:97::20) with
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DS0PR11MB7484.namprd11.prod.outlook.com (2603:10b6:8:14c::10)
+ by DS7PR11MB6149.namprd11.prod.outlook.com (2603:10b6:8:9e::19) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.39; Tue, 20 Feb
- 2024 03:07:31 +0000
-Received: from MW4PR11MB5824.namprd11.prod.outlook.com
- ([fe80::f816:c534:1377:b673]) by MW4PR11MB5824.namprd11.prod.outlook.com
- ([fe80::f816:c534:1377:b673%4]) with mapi id 15.20.7292.036; Tue, 20 Feb 2024
- 03:07:31 +0000
-From: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.32; Tue, 20 Feb
+ 2024 04:40:56 +0000
+Received: from DS0PR11MB7484.namprd11.prod.outlook.com
+ ([fe80::3639:15d2:da14:44b9]) by DS0PR11MB7484.namprd11.prod.outlook.com
+ ([fe80::3639:15d2:da14:44b9%7]) with mapi id 15.20.7292.036; Tue, 20 Feb 2024
+ 04:40:56 +0000
+From: Yi Zhao <yi.zhao@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] bash: rebase the patch to fix ptest failure
-Date: Tue, 20 Feb 2024 11:46:48 +0800
-Message-Id: <20240220034648.3450003-1-xiangyu.chen@eng.windriver.com>
+Subject: [PATCH] libsdl2: upgrade 2.28.5 -> 2.30.0
+Date: Tue, 20 Feb 2024 12:40:45 +0800
+Message-Id: <20240220044045.1822354-1-yi.zhao@windriver.com>
 X-Mailer: git-send-email 2.25.1
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: SG2PR04CA0155.apcprd04.prod.outlook.com (2603:1096:4::17)
- To MW4PR11MB5824.namprd11.prod.outlook.com (2603:10b6:303:187::19)
+X-ClientProxiedBy: SG2PR02CA0095.apcprd02.prod.outlook.com
+ (2603:1096:4:90::35) To DS0PR11MB7484.namprd11.prod.outlook.com
+ (2603:10b6:8:14c::10)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW4PR11MB5824:EE_|CO1PR11MB4897:EE_
-X-MS-Office365-Filtering-Correlation-Id: 24aafaea-24b1-459d-81ab-08dc31c11415
+X-MS-TrafficTypeDiagnostic: DS0PR11MB7484:EE_|DS7PR11MB6149:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3336daae-a0a6-40d1-9ef0-08dc31ce2100
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	NdNKSWliSHByWpHKBNP9GmvTMAof6QXAVreN2oU65gBImJRR5nrhoxmSMwqicZgonacUVh6OnTQGasyskuEbIPEZHhgDbc4bM+iWg0+0foTpuXSfuiNLubqoXqs7OP39rVIXB/Lq9BSly1YTEIjlpU/6zbtRTzQtBec0fcdMIBsIoM1JNg6378a1KcrdlBmWUKw4dMNTffjVdsARkLLlyV5ejuLstbQ0xkdFjQ6yNESsq7H3gSo3RoN6013sWM0GR709OtPnDCBVVLB+Z53KirIlEH5hU2yIEXPSu1uqZJND29A8Ah6ur5Adfft0S2O+nVQ8jX5AIGyu30wqrJOFpj93GE0A8DQwBUi3Sw7qXWcDiXpXWugs6EdNrGNMZ0KFQmOJeow5Jmq0B4CaeGm/UL70EUA932sl0xhnx3ey81LOunw6ENDriMauNC4AQY3Vm3y0MukL+La+sZEh7MLMVQYlxjXcf1hBy/uF5ntMc/0P4XatFrnEDnd35nOQ0dIYViKgaSGIyZnjshU2agwsAm9EiJ+tnARLPK6GclfrGmsGquXZCx78q7ImFI7ts+MhkBgSf7LFvDes0HEXXZkuECddcGhzv3k9NhVml+7uuDfuBsiYMQJSaPSWZMIccHJk
+	160UMQ9KlSfbNRQhWLpcsHFEJV8leClp5hjRRAWcC3sWtm4YlraS/4SET8bJsNjRg1DjAisG5g0Q0hUpQDoywmCNh+9RyxPuhEBiRbfN9cNabX0uN61HB1CEwr2Ac6GaGZJE7NUiWCtgXjSA2zJ9YIyzEF/+uyaXL4LR1nFTppNbMJ/ErN8VRTC7wbLaDy+D8yVRfS04/LOw7RrugK+q/FImGStvdiutg8mLP4Llj9+/EZv645ZyEtFOhVHBaHtLTU91+6M21Y/OPTagBRAhdXeNEFuhqLNSGLkMmFTJhtibjg0Fpz08v6+wdiNnzp8zvy5JgHeAvoZwt83MVztGUIm4nGsIuPVvPWkOnApQqD3ADKDOJcy2a53eniktdZDFGDeFXtoqati5nhn5iNGNhIfhWQy8iIywyz6PYZbMdLWIKSl2gr+kb+7hy1GjrdhMeayAYufFzaceaEpaVrvzMT6ZTaTjgrUe8X8z9OcEEw1w4bfybeJtoDjvR3QT2Mwd+g46Fj/WhONSwWFQN6j7XIiDAXXrcVCiwz1DzHlQBWwAQmOaYXNiBiZoC20Jp7lwkBMeXZOJvs546+Ig/mew4kaymC7GZJjXLIUjvJ032zc=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR11MB5824.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(38350700005);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7484.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(38350700005);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?HHKZ4LNZx1OA4BX1KCqs49/CA/etFzFdPtD3JGKRrbXU7ryHsZ1/gZ2XIyql?=
- =?us-ascii?Q?j9RJW0j+v25JeSX+g+6lv31tRhjaFYbMHrdTjBbvO3pKWY+Ps6QVDbjKI0f0?=
- =?us-ascii?Q?lE5cYd3QlyXlIMb1KIXtEQ66437r4gXVBUphJ0MScCyM5fufzMp6a7MwwMDM?=
- =?us-ascii?Q?JucO2xthB8loNGsunRggE1oiC+gl8JEeW46psqk6udsqbivNDik/Op9mv/Ek?=
- =?us-ascii?Q?rA5wOaeeLP33dWosFiPw/dwM0xP7eYIxDLTYmtg3pIDEtUfk+fNA93gbuCRK?=
- =?us-ascii?Q?JXfePd5c29GckquBGSLFhpMoZ6njSpqCxhjoHvfvZ1eKom1L1QHg5H5R8156?=
- =?us-ascii?Q?IXsKEPBSpu9aXD5zTEX4RIREYpKMx5D2YeSZasCYRV5Nd15/XITKV+pN3nW+?=
- =?us-ascii?Q?AXLWefJRRr1mbbToIujwJ4MPVGHL5CwCkpbFJWOH1v4s255RtDSX0oZ9Kn5/?=
- =?us-ascii?Q?jdnLF+VdFnWT+HNkvMZKyF8sMwgRo2vS4SGL9mUbTDq0pclXP3JMok9rAMsl?=
- =?us-ascii?Q?FoJ5XRaWhUb6oED6Plaoh+1nnv2MeQv8psvifmoC6g4RiGUtMNO4JTkhAq1d?=
- =?us-ascii?Q?0eGTchXM+4GaHZ20wsjTif9qDIaymgZNGsA6mrf2MxTJgFDls2zXbw6LHEfP?=
- =?us-ascii?Q?5Xl2WmsW7Om0GH/gNeedGWvOHL38PiHWVJdy5QJN9x/scg2QnKysZLVbIbNG?=
- =?us-ascii?Q?2jren5ODyRKXxmtDSoDECbQXJG5rYHBnk/3m9mAuENrePQDvW0TJb4hSvW9m?=
- =?us-ascii?Q?NDjxtHMLQBIIaD+oJ0z1VcHVWbhnbnDnPLrDtIHhQgCyj4BMo5XK5OMPT6T8?=
- =?us-ascii?Q?hLp6xetb35zRAXu3eeu4+gqQAwjSNyWEkLNaGAE0JdxgY52D1Ee4B+9epb9W?=
- =?us-ascii?Q?IfqRKidJj7V8uun+5OBHXW/uDU0TbiacBzRvr/w0HZhrqt73BzdrqUHOmA65?=
- =?us-ascii?Q?XCyXQSyMUW6UAaCwP/gPmRpvYK1nCKV71/MFCtASwHb+XewcDk3ugWUMnnmI?=
- =?us-ascii?Q?ugOuAqxrA+5NNtb5srLD/Ippw3rC0/s4C/kBu1jg06Fiv9Dr6h3rpKzWM0Dg?=
- =?us-ascii?Q?0Eb/eioUGE7Fhck10v3Y2loCLTQXbdIetMX3dQvi+92zDPDL69no24GZbKrW?=
- =?us-ascii?Q?afY8d4+SLP1UM9Wd1dt36KCc+S5IpTQfhrS3j/y5qrrzVf4vs3qWvt5tjqFD?=
- =?us-ascii?Q?tU06eGyB478DBEGdfhFpaVt1DvFRVVnl1DehoFFOuXDjCvS49IJktXs0sHlz?=
- =?us-ascii?Q?PrmRPQGH4uFl04GsfW8/Gbi3I4Jx8PrB/kRQSiZ64ofycg5cB7abtNaaQ9L5?=
- =?us-ascii?Q?eaxki2z+teJ4lw8fXMndZb3eyZEEgA1TcKq1umsU4LW0nykbA5LE3aTGO9Ov?=
- =?us-ascii?Q?YkKIW8Flj3eUSC2ezGRH2ktmvmJgIIow0z5wawYuENqrK3NRzgLf2b5L/GrD?=
- =?us-ascii?Q?8fqAYnp5xYrUEI8F9zpC6jIpu+Ne9fPyCwuS3xqiZOsbSw8jIt6K8cPPh7QU?=
- =?us-ascii?Q?q0nVS2YtV56cnswlFEv18LelezrUP64mKARCqnKBx6qqvQey7PZmGk5XS/Qk?=
- =?us-ascii?Q?155m0Sl1vjXUJVKtNJqVf0E7kcoJx3cOAVZvTPQdf/L+9RSIY7ykHo2s6SrN?=
- =?us-ascii?Q?qQ=3D=3D?=
-X-OriginatorOrg: eng.windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 24aafaea-24b1-459d-81ab-08dc31c11415
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR11MB5824.namprd11.prod.outlook.com
+	=?us-ascii?Q?lnlqb5LivHNDzHIP3vZGRSHThBAciaYwmUE/Xu4PMFA2Skm60GQgpKMGvuo6?=
+ =?us-ascii?Q?hweXxB82V6DNXl1CEOdt8MT7YXXdyntbdbbksLrNuuE0Wg8jC4Gs5rUcanTw?=
+ =?us-ascii?Q?LQ2fcmYPtKiGTxNSl5TUyAH3OljXeOj9pIZlFJFKl9DN3acRazo3Djo03ti5?=
+ =?us-ascii?Q?kQ1i3AkJY6hji17p9mFD5uciKTTCYz5yYQsqigCRj6yVlIsgCbHdF547uvGZ?=
+ =?us-ascii?Q?YG0cdEYI997DLA2FzeZr6KIXEY8f3szK+YBdDQIYhWpEz9Z+2KnWzN5VxINJ?=
+ =?us-ascii?Q?nBjcIAeqSQbpn/L/iWNtNtOIG33BWejPWFYiHq7QzvRjv01rt24wmS1vQSH7?=
+ =?us-ascii?Q?Kojs7o1pq6yKRMdutZA9xWwPx/K2OFJLhFo73W2X577VYrnLJfZ1dJUD3rbW?=
+ =?us-ascii?Q?2KRBI167qcYavXarhrteoT8hPlEmJ/ADYlWYiFJICLKu0nUTIlsqnVUKNutE?=
+ =?us-ascii?Q?wsX+rVTUN99/CEqbLRnJxjr79pAGrEsiuLROGQeqEB3sc7rkNcMNmzh+CLYF?=
+ =?us-ascii?Q?y5YluJWZFoQZ6RVJeQwVjwnQpHI7u+LjYw0gQTQGTTpqGNza7Qqenx8yGrIr?=
+ =?us-ascii?Q?+635sYrGrDfkzwAAlkvmjcfLMPRlz2AybvfO8guxXgOF7V1SshhOd5UGecQ6?=
+ =?us-ascii?Q?r5xCzjkrsJ+uvu13yVIjd7w2RpXVTDYr4chcSHGf37ivLzwii3Z9l9DTcr+w?=
+ =?us-ascii?Q?9AzsQxK93Gd8FwNQazURw1+KXvaIAIUGD6QwtiOT18dauhf8rBFvijyvDYr+?=
+ =?us-ascii?Q?sYqrETTLCaDp/lpL99x1+wIRt8JlNbE4sntTlgRBZIaMy+w0J5Oo5txX7nNN?=
+ =?us-ascii?Q?g60jV5A4ZwUoCaU0PHT+yJypxGWvaxz5wrEQZG9nmi9eT48yJw7jzgx1fDYg?=
+ =?us-ascii?Q?nkat28mjhI2i7uph2JTOi14/syXROGDNofaxhUFOb6HFsKbAisv0unQaZM2l?=
+ =?us-ascii?Q?C+1aW2Ztm6dNwsFUj+ef8UC2rfuw7d+kX3416vFXnQJILXmSAor966lHvmF3?=
+ =?us-ascii?Q?KRBlPWX+qWBpe6+JHfGbuhm681jMGfrHAqIkuZ8fRzLQlYP+Y8aDrzJea3UN?=
+ =?us-ascii?Q?IAArkCHK5FsjLFM5PMc+VaTnzCmVfsgtxlNrd5vndE+2UwQxXhpzpWzxfiBa?=
+ =?us-ascii?Q?sr5YnkUmvMKvxe3t4eWikryJYHLV0RKb3lPIqVX+gyf0LAfZfspGgX3zEnd/?=
+ =?us-ascii?Q?TkZGTnhpZHyj5qwlZ/pN3kPb/qmrHYTFVipGzzpv4ddNbeG0mMNlwwy/q1A6?=
+ =?us-ascii?Q?qurXCdi/etOoLozbrD/h7wfmsxGlJsYgZV3RvBwQfytR2io+MxI/ITIT88mF?=
+ =?us-ascii?Q?qx8WJ/aualrskxTwDMsTPWNhKv+uyMUwoL/EnvJfnOTH4cRzTjaoQTMVBc39?=
+ =?us-ascii?Q?De4L1xCgRMF+WGwByFHUuf8EfdPh5mZ0nf8JpCyq2DYlgwZkY5k1EE/lINYD?=
+ =?us-ascii?Q?VGxa+iDDdX+fiTUXiqeowV9cSH9u63QPI0U7w6EmGDtZH7hkrb5tDvi3JpKD?=
+ =?us-ascii?Q?ore8v7J3hZGsjsr3SvrcDCaXUtnB5zs9JPVt+mo4S26I+HSMVgBUmwCRm5Eb?=
+ =?us-ascii?Q?X1SZ2lHK/rYpIpOj+yqAit2zUGJ3OrAUb8fsoDGM?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3336daae-a0a6-40d1-9ef0-08dc31ce2100
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7484.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2024 03:07:31.7979
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2024 04:40:56.7993
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Q6mv2FSo/1pHhe1YT9xmEyteWEZte0Q6EoKbL638LtzFfhmJHQHMDuQDr3llFabLcsPtAiVb/0spAoyzy4broweeKVl0BRnoEVDK+rvoNf8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4897
-X-Proofpoint-ORIG-GUID: x6tnrh9dOuaOJekmdibxSwHeA5-fFXV9
-X-Proofpoint-GUID: x6tnrh9dOuaOJekmdibxSwHeA5-fFXV9
+X-MS-Exchange-CrossTenant-UserPrincipalName: FHN4rbSy4dAOdZ9Ni8c+QUXPpIHo5IxTdsy3KHGv6xK9royfLkx7X7nWbKTCbVWFYlZ+VyVHtM7S0M2267ASRw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB6149
+X-Proofpoint-ORIG-GUID: RxDSKmyuLQXXslLH6lmnSxVyLH64rxRF
+X-Proofpoint-GUID: RxDSKmyuLQXXslLH6lmnSxVyLH64rxRF
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-20_02,2024-02-19_01,2023-05-22_02
+ definitions=2024-02-20_03,2024-02-19_01,2023-05-22_02
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 clxscore=1015
  phishscore=0 impostorscore=0 suspectscore=0 priorityscore=1501 bulkscore=0
- mlxscore=0 lowpriorityscore=0 spamscore=0 mlxlogscore=636 adultscore=0
+ mlxscore=0 lowpriorityscore=0 spamscore=0 mlxlogscore=999 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2401310000
- definitions=main-2402200021
+ definitions=main-2402200031
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 20 Feb 2024 03:07:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195900
+ <openembedded-core@lists.openembedded.org>; Tue, 20 Feb 2024 04:41:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195901
 
-From: Xiangyu Chen <xiangyu.chen@windriver.com>
+License-Update: Copyright year updated to 2024.
 
-This fix commit oe-core: 1b69769b -- bash: changes to SIGINT handler while waiting for a child
+ChangeLog (https://github.com/libsdl-org/SDL/releases/tag/release-2.30.0):
+* Added support for 2 bits-per-pixel indexed surface formats
+* Added the function SDL_GameControllerGetSteamHandle() to get the Steam
+  API handle for a controller, if available
+* Added the event SDL_CONTROLLERSTEAMHANDLEUPDATED which is sent when
+  the Steam API handle for a controller changes. This could also change
+  the name, VID, and PID of the controller.
+* Added the environment variable SDL_LOGGING to control default log
+  output
 
-Due to the patch adjust and drop some codes to be applicable the tree,
-the line number has been changed, that cause test case "run-type" fail.
-
-Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
- ...1-changes-to-SIGINT-handler-while-waiting-for-a-child-.patch | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../libsdl2/{libsdl2_2.28.5.bb => libsdl2_2.30.0.bb}          | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/libsdl2/{libsdl2_2.28.5.bb => libsdl2_2.30.0.bb} (96%)
 
-diff --git a/meta/recipes-extended/bash/bash/0001-changes-to-SIGINT-handler-while-waiting-for-a-child-.patch b/meta/recipes-extended/bash/bash/0001-changes-to-SIGINT-handler-while-waiting-for-a-child-.patch
-index df92c2475d..77d770b364 100644
---- a/meta/recipes-extended/bash/bash/0001-changes-to-SIGINT-handler-while-waiting-for-a-child-.patch
-+++ b/meta/recipes-extended/bash/bash/0001-changes-to-SIGINT-handler-while-waiting-for-a-child-.patch
-@@ -147,7 +147,7 @@ index bbc228e8..e0a66745 100644
- -alias m='more'
- -alias m='more'
- -m is aliased to `more'
--+./type.tests: line 59: type: morealias: not found
-++./type.tests: line 56: type: morealias: not found
- +alias morealias='more'
- +alias morealias='more'
- +morealias is aliased to `more'
+diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.28.5.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.30.0.bb
+similarity index 96%
+rename from meta/recipes-graphics/libsdl2/libsdl2_2.28.5.bb
+rename to meta/recipes-graphics/libsdl2/libsdl2_2.30.0.bb
+index fd876df0ad..99dbf36477 100644
+--- a/meta/recipes-graphics/libsdl2/libsdl2_2.28.5.bb
++++ b/meta/recipes-graphics/libsdl2/libsdl2_2.30.0.bb
+@@ -9,7 +9,7 @@ SECTION = "libs"
+ 
+ LICENSE = "Zlib & BSD-2-Clause"
+ LIC_FILES_CHKSUM = "\
+-    file://LICENSE.txt;md5=31f575634fd56b27fc6b6cbe8dc9bd38 \
++    file://LICENSE.txt;md5=25231a5b96ccdd8f39eb53c07717be64 \
+     file://src/hidapi/LICENSE.txt;md5=7c3949a631240cb6c31c50f3eb696077 \
+     file://src/hidapi/LICENSE-bsd.txt;md5=b5fa085ce0926bb50d0621620a82361f \
+     file://src/video/yuv2rgb/LICENSE;md5=79f8f3418d91531e05f0fc94ca67e071 \
+@@ -25,7 +25,7 @@ SRC_URI = "http://www.libsdl.org/release/SDL2-${PV}.tar.gz"
+ 
+ S = "${WORKDIR}/SDL2-${PV}"
+ 
+-SRC_URI[sha256sum] = "332cb37d0be20cb9541739c61f79bae5a477427d79ae85e352089afdaf6666e4"
++SRC_URI[sha256sum] = "36e2e41557e0fa4a1519315c0f5958a87ccb27e25c51776beb6f1239526447b0"
+ 
+ inherit cmake lib_package binconfig-disabled pkgconfig upstream-version-is-even
+ 
 -- 
 2.25.1
 
