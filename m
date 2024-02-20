@@ -1,116 +1,105 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 540DEC5475B
-	for <webhook@archiver.kernel.org>; Tue, 20 Feb 2024 18:10:57 +0000 (UTC)
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
- by mx.groups.io with SMTP id smtpd.web11.20427.1708452654852149847
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18B09C48BC4
+	for <webhook@archiver.kernel.org>; Tue, 20 Feb 2024 19:55:18 +0000 (UTC)
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+ by mx.groups.io with SMTP id smtpd.web10.22818.1708458914928511147
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Feb 2024 10:10:55 -0800
+ Tue, 20 Feb 2024 11:55:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=TTVBCXAu;
- spf=pass (domain: baylibre.com, ip: 209.85.219.50, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-68f41af71ebso38525516d6.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Feb 2024 10:10:54 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=bAPztL7D;
+ spf=pass (domain: gmail.com, ip: 209.85.218.50, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a3eafbcb1c5so261237266b.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 Feb 2024 11:55:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1708452654; x=1709057454; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=vWEZZaftsnIQtnqexhli+tUIfZwnGkTAPbzxdj4GIEY=;
-        b=TTVBCXAu8xI/5C94vKCCGad4sdTPF+xrHGGPgPuu5TYnoSuckD64/dsZJsClc5+ei9
-         pRv7Irt76NvPzV98PtP2NuqMjB8mt+iCBTJPUFjWuWmiIv35b/wlsW2xe7JkunJ9GI/o
-         IscvfNM+vy7E8pqJ4wsLmjkJrOFmsEiURhYimx7TzRJO1ZkdsBG1rsoFHLHGX0ahn+PI
-         wSyDqFyvp3hZbQWWzO5lxE3nA5Sat+ijxQ478oNg3K8dZLvdSAE9uZGzUFh9jH1CWAPD
-         a8WdnXmT4evMQOvH8KONAUMzeOyo1KDDyOm0XMa7lXxPHxmpyiSqi3SLFBZL3GdKtoSG
-         Vqow==
+        d=gmail.com; s=20230601; t=1708458913; x=1709063713; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4ZeIfSEIIpmsbMrwsP6nR7jZ+X5pfzZ8vA9y0sYf084=;
+        b=bAPztL7Dq9Qyv2AMMz0OYDXHmWAMRuAnUtptsW+/QQFVBii7fd/yyPj68HNRonf3Th
+         ZnIGsXLVICwG057jA2QvqZvQWAzoblGlZIGA/QP3WN0V25YgCZd9o499/blfaD10SrVD
+         h3Y2CKZSFFXmx6fM59XEl/eJgU+lQMB3vuAPXtHL2pWSfbqnAP7k2TKjL3pecIvl0lX0
+         d/Yqv1wK5z+qAWWEdrS7rSh9w+6eV1YVDZRxZvLAQNQy7VXgr+fj9DBwUcdTUQoVPQ2a
+         mRDalS/Mvnpr7UYNYyb86ZF/9gZWesaMbu4uHLko9N4tHtxl1AqvSeIKZcVqnh8UEfoC
+         Ir1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708452654; x=1709057454;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vWEZZaftsnIQtnqexhli+tUIfZwnGkTAPbzxdj4GIEY=;
-        b=F1NEgHa2EiPIjGqjluTpGpuaLc0wB2mrZaRF1RngffVopZlsEG6+Krqk7tvNdA4cnT
-         yBdn6Gj4iIWkg3dnN+8iQyUgCgtmmTxwIPs3QfJ1W2w1VmzeQT1rqXEuqsAm2kKi2sB5
-         ukk6Uo+uqu+Rcyv45d6WIcKHJZBMcgtRdXH/lwi1P1tLDxVF1qTFtkmIPxrWJye/Lwau
-         ZeiuPEBTDDVyWjzs44nFTNm2P5sP0IWuHh9CN70rVnrqUXs7/CyixExm8LqAxCf6DfDO
-         gEWBQasH7Uno/+xaeihImtQeAvZAoRC9wTb9BkssXJhXvRyhBXTRKJYjt6mGwo4U1IcW
-         lHAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCViPqY8mPn0arlkGGG4S7FvhMWUDSO/a01OqQfRJfg/Tx+mraVpgqdTExQatlU90C4kuZMcVJre44vGGPfAJ0augN4V/TgcNkZrzCDuLfpIzv6pbpfkZU1L
-X-Gm-Message-State: AOJu0Yye3MN0WO9ODlkqnPLEnqrisRonRI82Lgr6ZBc7bCKNmAbgNW4/
-	IsGov5ypfiO+Rb2uLE6b58g2HjOXex4M7PjO+27UDa8dJbGkTr/qEK4GeZItz2c=
-X-Google-Smtp-Source: AGHT+IGNLLCev9OjVTD3fxkVaxrdwC2G5/QI4JeRCRFiDtZ7rltOeaTpluh24TEnJMz/rE0jjVGbfA==
-X-Received: by 2002:a0c:e3cb:0:b0:68f:8c18:42a7 with SMTP id e11-20020a0ce3cb000000b0068f8c1842a7mr3075643qvl.32.1708452653950;
-        Tue, 20 Feb 2024 10:10:53 -0800 (PST)
-Received: from [192.168.40.12] (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id ol16-20020a0562143d1000b0068f92234e2fsm813795qvb.109.2024.02.20.10.10.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Feb 2024 10:10:53 -0800 (PST)
-Message-ID: <41f0a202-1259-49bf-8260-d3c2b5944eae@baylibre.com>
-Date: Tue, 20 Feb 2024 13:10:52 -0500
+        d=1e100.net; s=20230601; t=1708458913; x=1709063713;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4ZeIfSEIIpmsbMrwsP6nR7jZ+X5pfzZ8vA9y0sYf084=;
+        b=dPUJS3FgzibA4Bbm3quCkxhqHMy6PurKIaOrmkO/4CQSBS/dOcz8Q8EYfNTD1wWq5Q
+         tTsdbwY5D6fXTcxsIPtQ5ckZU40o+Jg5FrTZRkLs9oiPvRvoCglZbhAYjf+WU1zP8uwg
+         9QpcV4L8/MXxCgdYmJ6ZeMmg+zvxnuVjADjiMVqusAfnImHBQqZUzJ2C5mSFoIDqXES9
+         ui9g6INTDVHzNAqocgouBeNk2sa1BpptOz06W6/Y0m4shHdLigZY6ck2B+5/ZRz9qVGP
+         gYeYyI77pqviv2VZ8xhNzywZ7KQ3GJLUFU/MemxuYHW4XOgPKKvlnvqLZpSAcgQLBken
+         kZiQ==
+X-Gm-Message-State: AOJu0YwxVq6N/Zf5vrBH+/pMfbAYj+beN/O4MG12mXtb2980goHa15GY
+	YLNdsx9s/XA8Mez1H6TZX2xI6xHmBtxhZ9OJi64J0NxeHJnizr2EI+8fOPn2
+X-Google-Smtp-Source: AGHT+IHBl+DCx53ONsjDmEBXooOctYdbJc1ReQzGrO9k46EkWPOVVYkhrlngrd4ojoSB5wQiYzla8Q==
+X-Received: by 2002:a17:906:af09:b0:a3e:d515:cdf3 with SMTP id lx9-20020a170906af0900b00a3ed515cdf3mr3722196ejb.27.1708458913077;
+        Tue, 20 Feb 2024 11:55:13 -0800 (PST)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id s14-20020a17090699ce00b00a3f218aed03sm278060ejn.120.2024.02.20.11.55.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Feb 2024 11:55:12 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH] dbus: disable assertions and enable only modular tests
+Date: Tue, 20 Feb 2024 20:55:04 +0100
+Message-Id: <20240220195504.4137637-1-alex@linutronix.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 3/4] python3-numpy: inherit python_mesonpy
-Content-Language: en-US
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- Tim Orling <ticotimo@gmail.com>, openembedded-core@lists.openembedded.org
-References: <cover.1708363628.git.tim.orling@konsulko.com>
- <c57f8a02b11dd08758cb9881ae82db985dbe5ee4.1708363628.git.tim.orling@konsulko.com>
- <9ce2c246e5de18f1ce8fe2c81d42c20a3f87b480.camel@linuxfoundation.org>
-From: Trevor Gamblin <tgamblin@baylibre.com>
-In-Reply-To: <9ce2c246e5de18f1ce8fe2c81d42c20a3f87b480.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 20 Feb 2024 18:10:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195922
+ <openembedded-core@lists.openembedded.org>; Tue, 20 Feb 2024 19:55:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195923
 
+There was a report that enabling assertions and all tests results in
+notices in log.do_configure:
 
-On 2024-02-20 06:33, Richard Purdie wrote:
-> On Mon, 2024-02-19 at 09:30 -0800, Tim Orling wrote:
->> Replace the deprecated setuptools3 bbclass with python_mesonpy.
->>
->> The build-backend has been defined as "mesonpy" since:
->> https://github.com/numpy/numpy/commit/942fb8caf33a65e449fbf198ecf1cd39be953248
->>
->> The vendored meson-python was dropped in:
->> https://github.com/numpy/numpy/commit/6544e33ac7a3a600c2fb565401c811a17ecdb3d5
->>
->> While we are at it:
->> * Drop ${PYTHON_PN} and use python3 instead
->> * Sort RDEPENDS alphabetically
->>
->> The ptests run, but we still have issues with sufficient memory and
->> free disk space (the reason python3-numpy is in PTEST_PROBLEMS).
->>
->> Signed-off-by: Tim Orling <tim.orling@konsulko.com>
-> This looks to introduce a reproducibility issue:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/117/builds/4399
+NOTE: building with unit tests increases the size of the installed library and renders it insecure.
+NOTE: building with assertions increases library size and decreases performance.
 
-Hi,
+This was overlooked when dbus and dbus-tests recipes were merged;
+enabling all tests and assertions still requires a special, separate
+build of dbus. If those tests are useful this could be revisited.
+Until then, we should use productions settings for the main recipe.
 
-I've filed a bug for this: 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=15406
+Buildhistory-diff:
+packages/core2-64-poky-linux/dbus/dbus-dbg: PKGSIZE changed from 9958176 to 8627824 (-13%)
+packages/core2-64-poky-linux/dbus/dbus-lib: PKGSIZE changed from 544347 to 346339 (-36%)
+packages/core2-64-poky-linux/dbus/dbus-ptest: PKGSIZE changed from 3524983 to 3116951 (-12%)
+packages/core2-64-poky-linux/dbus/dbus-ptest: FILELIST: removed "/usr/share/installed-tests/dbus/test-dbus-launch-eval.sh_with_config.test /usr/share/installed-tests/dbus/test-counter_with_config.test /usr/libexec/installed-tests/dbus/test-dbus-launch-eval.sh /usr/libexec/installed-tests/dbus/test-dbus-launch-x11.sh /usr/share/installed-tests/dbus/test-counter.test /usr/libexec/installed-tests/dbus/test-counter /usr/share/installed-tests/dbus/test-dbus-launch-x11.sh.test /usr/share/installed-tests/dbus/test-dbus-launch-x11.sh_with_config.test /usr/share/installed-tests/dbus/test-dbus-launch-eval.sh.test"
+packages/core2-64-poky-linux/dbus/dbus: PKGSIZE changed from 510939 to 350331 (-31%)
 
-Let's stick with the existing backend for now and I'll fix it ASAP.
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ meta/recipes-core/dbus/dbus_1.14.10.bb | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Trevor
+diff --git a/meta/recipes-core/dbus/dbus_1.14.10.bb b/meta/recipes-core/dbus/dbus_1.14.10.bb
+index 2a256beabff..4fe7af7512b 100644
+--- a/meta/recipes-core/dbus/dbus_1.14.10.bb
++++ b/meta/recipes-core/dbus/dbus_1.14.10.bb
+@@ -22,9 +22,8 @@ EXTRA_OECONF = "--disable-xml-docs \
+                 --disable-doxygen-docs \
+                 --enable-largefile \
+                 --with-system-socket=/run/dbus/system_bus_socket \
+-                --enable-tests \
++                --enable-modular-tests \
+                 --enable-checks \
+-                --enable-asserts \
+                 --runstatedir=/run \
+                 "
+ EXTRA_OECONF:append:class-target = " SYSTEMCTL=${base_bindir}/systemctl"
+-- 
+2.39.2
 
->
-> Cheers,
->
-> Richard
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#195913): https://lists.openembedded.org/g/openembedded-core/message/195913
-> Mute This Topic: https://lists.openembedded.org/mt/104451074/7611679
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [tgamblin@baylibre.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
 
