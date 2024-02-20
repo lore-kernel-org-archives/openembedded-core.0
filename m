@@ -2,104 +2,75 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18B09C48BC4
-	for <webhook@archiver.kernel.org>; Tue, 20 Feb 2024 19:55:18 +0000 (UTC)
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
- by mx.groups.io with SMTP id smtpd.web10.22818.1708458914928511147
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20430C48BC3
+	for <webhook@archiver.kernel.org>; Tue, 20 Feb 2024 19:59:28 +0000 (UTC)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+ by mx.groups.io with SMTP id smtpd.web11.23105.1708459166987790362
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Feb 2024 11:55:15 -0800
+ Tue, 20 Feb 2024 11:59:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=bAPztL7D;
- spf=pass (domain: gmail.com, ip: 209.85.218.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a3eafbcb1c5so261237266b.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Feb 2024 11:55:14 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=CybPQWtc;
+ spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2d109e7bed2so77473361fa.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 Feb 2024 11:59:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708458913; x=1709063713; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4ZeIfSEIIpmsbMrwsP6nR7jZ+X5pfzZ8vA9y0sYf084=;
-        b=bAPztL7Dq9Qyv2AMMz0OYDXHmWAMRuAnUtptsW+/QQFVBii7fd/yyPj68HNRonf3Th
-         ZnIGsXLVICwG057jA2QvqZvQWAzoblGlZIGA/QP3WN0V25YgCZd9o499/blfaD10SrVD
-         h3Y2CKZSFFXmx6fM59XEl/eJgU+lQMB3vuAPXtHL2pWSfbqnAP7k2TKjL3pecIvl0lX0
-         d/Yqv1wK5z+qAWWEdrS7rSh9w+6eV1YVDZRxZvLAQNQy7VXgr+fj9DBwUcdTUQoVPQ2a
-         mRDalS/Mvnpr7UYNYyb86ZF/9gZWesaMbu4uHLko9N4tHtxl1AqvSeIKZcVqnh8UEfoC
-         Ir1Q==
+        d=gmail.com; s=20230601; t=1708459165; x=1709063965; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=0cQhKOwgDhbXJBY98h6qARBYS3RrFx6wJYqNH4wpu88=;
+        b=CybPQWtcP9TQO2t4ptsCV62tVKk0EGBCzdVwe1E9iGPC55tYCQKm2i+PhfXg5twFzT
+         BjSWC+jA8qWd9J8o9QNibNeZJVK2ALWfj25xnOFqgutUSIpTZYLusjBGM1lR4VgbfTwc
+         UTXfMMFvUtJgiOZDzsKYpv8eltqALDrIeNHNzOaSroBGaIUyjDcFaKGdu/1L5hXxVlRd
+         NC8rCC4BvG+PMU4NZyv8zHeWWWYhI8JE6/O+rfWzMQ9lQW7A03Oo43gDIoZ790aZ8ltr
+         71prkqSMHkUPC1DIHG3jj3e7iIVadJSiNKJ+lhzJvLfPqehzgtYF9AHmKlfshBt0uj4u
+         sYCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708458913; x=1709063713;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1708459165; x=1709063965;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=4ZeIfSEIIpmsbMrwsP6nR7jZ+X5pfzZ8vA9y0sYf084=;
-        b=dPUJS3FgzibA4Bbm3quCkxhqHMy6PurKIaOrmkO/4CQSBS/dOcz8Q8EYfNTD1wWq5Q
-         tTsdbwY5D6fXTcxsIPtQ5ckZU40o+Jg5FrTZRkLs9oiPvRvoCglZbhAYjf+WU1zP8uwg
-         9QpcV4L8/MXxCgdYmJ6ZeMmg+zvxnuVjADjiMVqusAfnImHBQqZUzJ2C5mSFoIDqXES9
-         ui9g6INTDVHzNAqocgouBeNk2sa1BpptOz06W6/Y0m4shHdLigZY6ck2B+5/ZRz9qVGP
-         gYeYyI77pqviv2VZ8xhNzywZ7KQ3GJLUFU/MemxuYHW4XOgPKKvlnvqLZpSAcgQLBken
-         kZiQ==
-X-Gm-Message-State: AOJu0YwxVq6N/Zf5vrBH+/pMfbAYj+beN/O4MG12mXtb2980goHa15GY
-	YLNdsx9s/XA8Mez1H6TZX2xI6xHmBtxhZ9OJi64J0NxeHJnizr2EI+8fOPn2
-X-Google-Smtp-Source: AGHT+IHBl+DCx53ONsjDmEBXooOctYdbJc1ReQzGrO9k46EkWPOVVYkhrlngrd4ojoSB5wQiYzla8Q==
-X-Received: by 2002:a17:906:af09:b0:a3e:d515:cdf3 with SMTP id lx9-20020a170906af0900b00a3ed515cdf3mr3722196ejb.27.1708458913077;
-        Tue, 20 Feb 2024 11:55:13 -0800 (PST)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id s14-20020a17090699ce00b00a3f218aed03sm278060ejn.120.2024.02.20.11.55.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Feb 2024 11:55:12 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH] dbus: disable assertions and enable only modular tests
-Date: Tue, 20 Feb 2024 20:55:04 +0100
-Message-Id: <20240220195504.4137637-1-alex@linutronix.de>
-X-Mailer: git-send-email 2.39.2
+        bh=0cQhKOwgDhbXJBY98h6qARBYS3RrFx6wJYqNH4wpu88=;
+        b=ZneIbV3mLY7lRlTOLSmVmM3aUP12JmqSxl/pTiH5yPVYN6fsyc423AbvUBCT3MDm9W
+         fP44LBt91cTakMdA58Hq17ph8GGGozfVttnlEoVx4JgkkKef2oY4kGf9EKOLv5+j7gQI
+         drKN6VVzjfUl9B6gzIte5dbQcovGSj1jEHtAeafpPGcnNFpPLn8LmRbhwAPjIbZbF2Xg
+         o7OIAt+eCOQyu2+iw4ZhYBO138nT8r+uz0CREvIs6hPLmRFqSA/oJeTitui2JudEzd4a
+         FOZBM13w68QDlf6CtB4ECMx3v016FaD1aF50bDh5Xy5ukpIRIpyo3e93HNIiP5O359la
+         4+Cw==
+X-Forwarded-Encrypted: i=1; AJvYcCUVMQOo84WMXrF+K0xFRJl+U+PxkbyggCrt1vcAMg13FC42AYqnxXeJMuT5CwBAuffZVNRS+IGrfW3sjerVD6NUtSLjF8Q851ln51lhELC+Mz72CpxZ2kVa
+X-Gm-Message-State: AOJu0Yw1hOcx8xHHdTx5CWM4V4adHXunaXH1RGITrH1qwNJeelZEqNpl
+	DVOl5luo/RCrAPpqJK5jpVmq+pfSoIcfhKm/xYMjyFchqC/SEIcaSR7VSxzsLSo0joeq18riHUH
+	AVDU+4sUCWzpy70vZeQ9Y0kg/y3iP7U8S
+X-Google-Smtp-Source: AGHT+IHicW5C+TmucliBlCgx2tDwymA9S79MHfMA5WW/WmHErkSM+v4orFbCgQlN1J5lFpL/5g1QtV66duK4wzmzR/Y=
+X-Received: by 2002:a05:651c:104c:b0:2d2:2cff:fc49 with SMTP id
+ x12-20020a05651c104c00b002d22cfffc49mr5919958ljm.18.1708459164910; Tue, 20
+ Feb 2024 11:59:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <PsPw.1708432537487658267.ZIry@lists.openembedded.org> <17B59473B9744748.436@lists.openembedded.org>
+In-Reply-To: <17B59473B9744748.436@lists.openembedded.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 20 Feb 2024 20:59:13 +0100
+Message-ID: <CANNYZj_xuMw0h1H5qEm=63xGrGcXtmGTOkV7FuTZXjCMLnTQPw@mail.gmail.com>
+Subject: Re: [OE-core] Dbus EXTRA_OECONF
+To: alex.kanavin@gmail.com
+Cc: Steffen Olsen <steffen.olsen@gmail.com>, openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 20 Feb 2024 19:55:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195923
+ <openembedded-core@lists.openembedded.org>; Tue, 20 Feb 2024 19:59:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195924
 
-There was a report that enabling assertions and all tests results in
-notices in log.do_configure:
+On Tue, 20 Feb 2024 at 14:14, Alexander Kanavin via
+lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
+wrote:
 
-NOTE: building with unit tests increases the size of the installed library and renders it insecure.
-NOTE: building with assertions increases library size and decreases performance.
+> As far as I understand it's only those embedded tests that are
+> problematic, and other kinds of tests (e.g. modular tests) don't
+> affect how the library is built. So perhaps you can make a patch that
+> passes in (or removes) the respective autoconf options, so that the
+> above conditions no longer are true?
 
-This was overlooked when dbus and dbus-tests recipes were merged;
-enabling all tests and assertions still requires a special, separate
-build of dbus. If those tests are useful this could be revisited.
-Until then, we should use productions settings for the main recipe.
+I have now sent this patch.
 
-Buildhistory-diff:
-packages/core2-64-poky-linux/dbus/dbus-dbg: PKGSIZE changed from 9958176 to 8627824 (-13%)
-packages/core2-64-poky-linux/dbus/dbus-lib: PKGSIZE changed from 544347 to 346339 (-36%)
-packages/core2-64-poky-linux/dbus/dbus-ptest: PKGSIZE changed from 3524983 to 3116951 (-12%)
-packages/core2-64-poky-linux/dbus/dbus-ptest: FILELIST: removed "/usr/share/installed-tests/dbus/test-dbus-launch-eval.sh_with_config.test /usr/share/installed-tests/dbus/test-counter_with_config.test /usr/libexec/installed-tests/dbus/test-dbus-launch-eval.sh /usr/libexec/installed-tests/dbus/test-dbus-launch-x11.sh /usr/share/installed-tests/dbus/test-counter.test /usr/libexec/installed-tests/dbus/test-counter /usr/share/installed-tests/dbus/test-dbus-launch-x11.sh.test /usr/share/installed-tests/dbus/test-dbus-launch-x11.sh_with_config.test /usr/share/installed-tests/dbus/test-dbus-launch-eval.sh.test"
-packages/core2-64-poky-linux/dbus/dbus: PKGSIZE changed from 510939 to 350331 (-31%)
-
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- meta/recipes-core/dbus/dbus_1.14.10.bb | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/meta/recipes-core/dbus/dbus_1.14.10.bb b/meta/recipes-core/dbus/dbus_1.14.10.bb
-index 2a256beabff..4fe7af7512b 100644
---- a/meta/recipes-core/dbus/dbus_1.14.10.bb
-+++ b/meta/recipes-core/dbus/dbus_1.14.10.bb
-@@ -22,9 +22,8 @@ EXTRA_OECONF = "--disable-xml-docs \
-                 --disable-doxygen-docs \
-                 --enable-largefile \
-                 --with-system-socket=/run/dbus/system_bus_socket \
--                --enable-tests \
-+                --enable-modular-tests \
-                 --enable-checks \
--                --enable-asserts \
-                 --runstatedir=/run \
-                 "
- EXTRA_OECONF:append:class-target = " SYSTEMCTL=${base_bindir}/systemctl"
--- 
-2.39.2
-
+Alex
 
