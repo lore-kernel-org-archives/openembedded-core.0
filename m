@@ -2,192 +2,129 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37171C5475B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38740C54787
 	for <webhook@archiver.kernel.org>; Tue, 20 Feb 2024 15:20:56 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web11.15688.1708442452350695634
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web11.15687.1708442452023658176
  for <openembedded-core@lists.openembedded.org>;
  Tue, 20 Feb 2024 07:20:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=PuklzBEO;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-412698cdd77so11019795e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Feb 2024 07:20:52 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HO7ZTbhq;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-33d4c11bd34so1774293f8f.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 20 Feb 2024 07:20:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google; t=1708442450; x=1709047250; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ejkE6C6pwD1MkmY3qghxjyELimdOB5uTESunHqOfGKI=;
-        b=PuklzBEORstYT3Kbx3P8Jlc5kVb8dsC86SDPslpXt0XBW6u+3MZgyTU3S2kXaPdyPX
-         Zm/ybnOTa8uSMHZu5AlMRjLvXJ6uNIxWrLXpCGKq6Cq8TjT4fEK5XAWNt8vvV3ixzKlL
-         4v4gu2Vt+0M/adoWx4rLzGM4ULmE7Qcvvj5JI=
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rMLby4SJj374VD0mcWQtPgp5ebVV8G5arlLb+qyd8AY=;
+        b=HO7ZTbhqFbVj6iZ8LLK/RgG4aLhXE+Hrd7ocHmCQCVuMBF7RYuPVq18XY0s1pL+IzL
+         I7rKtpn7N14W8ZWYX4LstO+HFT5orHxYTGTeNSJLkw8BzD8uLsX4/WpssNDi4RniReGb
+         NC0eTnoI+TP0EPRLZ5sHj/JlXmzgoeqDI4ahA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1708442450; x=1709047250;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ejkE6C6pwD1MkmY3qghxjyELimdOB5uTESunHqOfGKI=;
-        b=NKWJktmp83UEwZdGQ/WBcvjuI6yR7ZeAZpD1rIkzlyVAOUZNQM4sZwK+LcPSB3aszJ
-         Qa/1TBWhpPf0Xtek6nzOnmP5oXDVxrXOKhsQ7ykvh03/OBGSK1e0mBEA7MgyWFDkWeI9
-         3f40cWLmRx8X2cqAwVjt9XUoppUDPl0EjWbxvdwc4a3wgFaC+mz3XAxAFzKSLFGMvyhs
-         1g+g1ag1ZRfbM6W4idSpuWsBdv7/NQ1exe1Ji+XFQ8VS/o1XssIJogCQjKtVvYla5Ovz
-         6wXq9ia+Uj0C3IhWssLjhqZvdrMmMi+kKYsaYR601lkwYsJLXLxgKrLY4tPvkKZRJpXX
-         cgHg==
-X-Gm-Message-State: AOJu0YwV5TQlbdj4KPBN7zHvvnt+uHjAwQdYy+KPum4olBvdGUNyNiD9
-	d5fEocwtzKVMVHhc6szBkOJEnlvww51ioVPLKzJFBORd0Lx9ErVbeDFvNAZhv2bzIsTlIxRhCh8
-	R
-X-Google-Smtp-Source: AGHT+IExePvfze+m8yIMjfIzpvvzXoaow0cbIJvT7mAC0DoACI+ihiMnNi6Iwi9VtSN9EHPn5Cybhw==
-X-Received: by 2002:a05:600c:1d1a:b0:411:db41:687c with SMTP id l26-20020a05600c1d1a00b00411db41687cmr15231841wms.13.1708442450500;
-        Tue, 20 Feb 2024 07:20:50 -0800 (PST)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rMLby4SJj374VD0mcWQtPgp5ebVV8G5arlLb+qyd8AY=;
+        b=raE1qmZ5wPkVrgN3LinK3bzpsmMFYrRIs/ytE+kplT8wN3DAS68Rxo75hJt77sB8ft
+         o/tKSl/7Rc2MYe5ByytEs+/jYFKN3x+kBhhAo5D+lm/JqoVM2hJhygrV5db6fPO/RZ5G
+         N1kv9lOw0Q4J58S6i6IWiFLAr8nuVzNrPYp/5KO5hnNw/vmTYxh9AZra39zQCziEH20n
+         55QZC0elGfvCJB/MHva7VC9T3tEr8CQFQcn5qBBG53T9Ibdj8/pVGqHH6sTSzRzB7T4Z
+         ku9pNktOYb1TnXpUf7xTo5xVtTGYL2N4hOsjgRFwIqE5nZnx+Kma01ySIy+6T+iqc4LH
+         +osw==
+X-Gm-Message-State: AOJu0YwWeygjYdE08KEEkxGOEkDiepYb0MuPEN/p+TRNjTcyYkQchaY/
+	ktgocENqFRAa5yMUQcl/CPgOeleW4iImNG/9lyi3JzfGncS8GamWVlOFmWGTCrSJ4ZYr+mbb8j1
+	/
+X-Google-Smtp-Source: AGHT+IG25RKZJvpQ3Wz5fHx1d9sFhw5mxswQ+Gv3xBqh9gIIC6IH9uTsm75UPgSBDjkuIKO/1UNbPg==
+X-Received: by 2002:a05:6000:2c2:b0:33d:6fe4:21a5 with SMTP id o2-20020a05600002c200b0033d6fe421a5mr1712233wry.28.1708442449919;
+        Tue, 20 Feb 2024 07:20:49 -0800 (PST)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:b883:fc21:a202:c294])
-        by smtp.gmail.com with ESMTPSA id r17-20020a05600c459100b004124907f43fsm14374151wmo.12.2024.02.20.07.20.50
+        by smtp.gmail.com with ESMTPSA id r17-20020a05600c459100b004124907f43fsm14374151wmo.12.2024.02.20.07.20.49
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Feb 2024 07:20:50 -0800 (PST)
+        Tue, 20 Feb 2024 07:20:49 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] lttng-ust: Upgrade 2.13.6 -> 2.13.7
-Date: Tue, 20 Feb 2024 15:20:48 +0000
-Message-Id: <20240220152048.683706-2-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 1/2] numactl: Upgrade 2.0.17 -> 2.0.18
+Date: Tue, 20 Feb 2024 15:20:47 +0000
+Message-Id: <20240220152048.683706-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20240220152048.683706-1-richard.purdie@linuxfoundation.org>
-References: <20240220152048.683706-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 20 Feb 2024 15:20:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195919
-
-Update one of the patches to account for upstream changes.
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195918
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../0001-Makefile.am-update-rpath-link.patch       | 12 +++++-------
- ...g-ust-common-link-with-liburcu-explicitly.patch |  7 ++++---
- ...gust-Makefile.am-Add-install-lib-to-setup.patch | 14 +++++++-------
- .../{lttng-ust_2.13.6.bb => lttng-ust_2.13.7.bb}   |  2 +-
- 4 files changed, 17 insertions(+), 18 deletions(-)
- rename meta/recipes-kernel/lttng/{lttng-ust_2.13.6.bb => lttng-ust_2.13.7.bb} (95%)
+ .../numactl/numactl/0001-define-run-test-target.patch     | 8 ++++++--
+ .../numactl/numactl/Fix-the-test-output-format.patch      | 3 ++-
+ meta/recipes-support/numactl/numactl_git.bb               | 4 ++--
+ 3 files changed, 10 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-ust/0001-Makefile.am-update-rpath-link.patch b/meta/recipes-kernel/lttng/lttng-ust/0001-Makefile.am-update-rpath-link.patch
-index cbbf1df812a..6aca8f85faa 100644
---- a/meta/recipes-kernel/lttng/lttng-ust/0001-Makefile.am-update-rpath-link.patch
-+++ b/meta/recipes-kernel/lttng/lttng-ust/0001-Makefile.am-update-rpath-link.patch
-@@ -1,4 +1,4 @@
--From 06279f50e924d1d55b43eb3b299f6633ecb1f7a4 Mon Sep 17 00:00:00 2001
-+From 7d053804ab3823d40ae10d90f4efc49dbfb4cb66 Mon Sep 17 00:00:00 2001
- From: Changqing Li <changqing.li@windriver.com>
- Date: Wed, 22 Sep 2021 16:33:10 +0800
- Subject: [PATCH] Makefile.am: update rpath link
-@@ -13,15 +13,16 @@ ld: warning: liblttng-ust-tracepoint.so.1, needed by ../../../src/lib/lttng-ust/
- Upstream-Status: Submitted [https://github.com/lttng/lttng-ust/pull/61]
+diff --git a/meta/recipes-support/numactl/numactl/0001-define-run-test-target.patch b/meta/recipes-support/numactl/numactl/0001-define-run-test-target.patch
+index 185dcb3e2d3..68b3e2491ff 100644
+--- a/meta/recipes-support/numactl/numactl/0001-define-run-test-target.patch
++++ b/meta/recipes-support/numactl/numactl/0001-define-run-test-target.patch
+@@ -1,4 +1,7 @@
+-rename test target as run-test
++From a5e1fa272f294e739d6caaf629968478796ca53a Mon Sep 17 00:00:00 2001
++From: Roy Li <rongqing.li@windriver.com>
++Date: Mon, 19 Oct 2020 14:42:11 -0700
++Subject: [PATCH] rename test target as run-test
  
- Signed-off-by: Changqing Li <changqing.li@windriver.com>
+ Upstream-Status: Pending
+ 
+@@ -8,12 +11,13 @@ not suitable for cross-compile environment, so rename it as run-test.
+ and define test target to compile the test files.
+ 
+ Signed-off-by: Roy Li <rongqing.li@windriver.com>
 +
  ---
-  doc/examples/Makefile.am | 2 +-
-- 1 file changed, 1 insertions(+), 1 deletions(-)
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
+  Makefile.am | 4 +++-
+  1 file changed, 3 insertions(+), 1 deletion(-)
  
- diff --git a/doc/examples/Makefile.am b/doc/examples/Makefile.am
--index 8ee0564..20d246c 100644
-+index 57782cc..d46caa6 100644
- --- a/doc/examples/Makefile.am
- +++ b/doc/examples/Makefile.am
--@@ -142,7 +142,7 @@ all-local:
-+@@ -167,7 +167,7 @@ all-local:
-  				CFLAGS='$(CFLAGS)' \
-  				AM_CFLAGS='$(AM_CFLAGS)' \
-  				LDFLAGS="$(LDFLAGS)" \
-@@ -30,6 +31,3 @@ index 8ee0564..20d246c 100644
-  				LTTNG_GEN_TP_PATH="$$rel_src_subdir$(top_srcdir)/tools/" \
-  				AM_V_P="$(AM_V_P)" \
-  				AM_V_at="$(AM_V_at)" \
---- 
--2.17.1
--
-diff --git a/meta/recipes-kernel/lttng/lttng-ust/0001-lttng-ust-common-link-with-liburcu-explicitly.patch b/meta/recipes-kernel/lttng/lttng-ust/0001-lttng-ust-common-link-with-liburcu-explicitly.patch
-index d3c451fd2bc..e85dbdb4398 100644
---- a/meta/recipes-kernel/lttng/lttng-ust/0001-lttng-ust-common-link-with-liburcu-explicitly.patch
-+++ b/meta/recipes-kernel/lttng/lttng-ust/0001-lttng-ust-common-link-with-liburcu-explicitly.patch
+ diff --git a/Makefile.am b/Makefile.am
+-index e84b21e..94a8bff 100644
++index da01d27..c738b93 100644
+ --- a/Makefile.am
+ +++ b/Makefile.am
+ @@ -126,7 +126,9 @@ regress2: $(check_PROGRAMS)
+diff --git a/meta/recipes-support/numactl/numactl/Fix-the-test-output-format.patch b/meta/recipes-support/numactl/numactl/Fix-the-test-output-format.patch
+index 00c4f9dfcbc..8345f71d72b 100644
+--- a/meta/recipes-support/numactl/numactl/Fix-the-test-output-format.patch
++++ b/meta/recipes-support/numactl/numactl/Fix-the-test-output-format.patch
 @@ -1,4 +1,4 @@
--From 2058584b7e87d6bd9d1765577766e0df7752232c Mon Sep 17 00:00:00 2001
-+From 27402453f25fbdb5a9fb1a1b88d1c4d9852187d2 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
- Date: Sun, 5 Sep 2021 10:44:19 +0200
- Subject: [PATCH] lttng-ust-common: link with liburcu explicitly
-@@ -7,15 +7,16 @@ Otherwise linking errors are seen on x86-32.
- 
- Upstream-Status: Submitted [by email to lttng-dev, Francis, Jonathan]
- Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+-From 59fd750a84bbe5874dec936d2bee9ef11a1b6505 Mon Sep 17 00:00:00 2001
++From 29f811d9d381f2ab54b3c8cef77334e32970ef09 Mon Sep 17 00:00:00 2001
+ From: Li xin <lixin.fnst@cn.fujitsu.com>
+ Date: Tue, 21 Jul 2015 02:01:22 +0900
+ Subject: [PATCH] Fix the test output format
+@@ -8,6 +8,7 @@ Upstream-Status: Pending
+ Signed-off-by: Roy Li <rongqing.li@windriver.com>
+ Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
+ Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
 +
  ---
-  src/lib/lttng-ust-common/Makefile.am | 1 +
-  1 file changed, 1 insertion(+)
+  test/regress  |  6 +++---
+  test/regress2 | 11 +++++------
+diff --git a/meta/recipes-support/numactl/numactl_git.bb b/meta/recipes-support/numactl/numactl_git.bb
+index bc5b09fc82e..bd16df91ecb 100644
+--- a/meta/recipes-support/numactl/numactl_git.bb
++++ b/meta/recipes-support/numactl/numactl_git.bb
+@@ -10,8 +10,8 @@ inherit autotools-brokensep ptest
  
- diff --git a/src/lib/lttng-ust-common/Makefile.am b/src/lib/lttng-ust-common/Makefile.am
--index caeea2b..30febf0 100644
-+index 1ccc290..6531fa0 100644
- --- a/src/lib/lttng-ust-common/Makefile.am
- +++ b/src/lib/lttng-ust-common/Makefile.am
--@@ -15,6 +15,7 @@ liblttng_ust_common_la_SOURCES = \
-+@@ -16,6 +16,7 @@ liblttng_ust_common_la_SOURCES = \
-  
-  liblttng_ust_common_la_LIBADD = \
-  	$(top_builddir)/src/common/libcommon.la \
-diff --git a/meta/recipes-kernel/lttng/lttng-ust/0001-python-lttngust-Makefile.am-Add-install-lib-to-setup.patch b/meta/recipes-kernel/lttng/lttng-ust/0001-python-lttngust-Makefile.am-Add-install-lib-to-setup.patch
-index fd9b6ea7ff8..7c49583e0dc 100644
---- a/meta/recipes-kernel/lttng/lttng-ust/0001-python-lttngust-Makefile.am-Add-install-lib-to-setup.patch
-+++ b/meta/recipes-kernel/lttng/lttng-ust/0001-python-lttngust-Makefile.am-Add-install-lib-to-setup.patch
-@@ -1,6 +1,6 @@
--From dd1fdc841d069dbd4e284f430a88af79de951124 Mon Sep 17 00:00:00 2001
--From: Robert Yang <liezhi.yang@windriver.com>
--Date: Thu, 26 Sep 2019 17:54:00 +0800
-+From f65efd963e52de51d35e2e03fb773f33dd64f565 Mon Sep 17 00:00:00 2001
-+From: Richard Purdie <richard.purdie@linuxfoundation.org>
-+Date: Tue, 20 Feb 2024 12:19:06 +0000
- Subject: [PATCH] python-lttngust/Makefile.am: Add --install-lib to setup.py
+ LIC_FILES_CHKSUM = "file://README.md;beginline=19;endline=32;md5=9f34c3af4ed6f3f5df0da5f3c0835a43"
  
- Otherwise it may install to /usr/lib, but should be /usr/lib64 when cross
-@@ -15,15 +15,15 @@ Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
+-SRCREV = "c1165896572b74e971d817909bf652066ddf801a"
+-PV = "2.0.17"
++SRCREV = "3871b1c42fc71bceadafd745d2eff5dddfc2d67e"
++PV = "2.0.18"
  
- diff --git a/src/python-lttngust/Makefile.am b/src/python-lttngust/Makefile.am
--index f95482d..f76d95b 100644
-+index d53e21d..283901e 100644
- --- a/src/python-lttngust/Makefile.am
- +++ b/src/python-lttngust/Makefile.am
--@@ -32,7 +32,7 @@ install-exec-local: build-python-bindings.stamp
-+@@ -45,7 +45,7 @@ install-exec-local: build-python-bindings.stamp
-  	if [ "$(DESTDIR)" != "" ]; then \
-  		opts="$$opts --root=$(DESTDIR)"; \
-  	fi; \
---	$(PYTHON) $(builddir)/setup.py install $$opts;
--+	$(PYTHON) $(builddir)/setup.py install $$opts --install-lib=$(pythondir);
-+-	$(PYTHON) $(builddir)/setup.py install $(PY_INSTALL_OPTS) $$opts;
-++	$(PYTHON) $(builddir)/setup.py install $(PY_INSTALL_OPTS) $$opts --install-lib=$(pythondir);
-  
-  clean-local:
-  	rm -rf $(builddir)/build
-diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.13.6.bb b/meta/recipes-kernel/lttng/lttng-ust_2.13.7.bb
-similarity index 95%
-rename from meta/recipes-kernel/lttng/lttng-ust_2.13.6.bb
-rename to meta/recipes-kernel/lttng/lttng-ust_2.13.7.bb
-index 424b0fa645f..9509185badd 100644
---- a/meta/recipes-kernel/lttng/lttng-ust_2.13.6.bb
-+++ b/meta/recipes-kernel/lttng/lttng-ust_2.13.7.bb
-@@ -34,7 +34,7 @@ SRC_URI = "https://lttng.org/files/lttng-ust/lttng-ust-${PV}.tar.bz2 \
-            file://0001-Makefile.am-update-rpath-link.patch \
-            "
- 
--SRC_URI[sha256sum] = "e7e04596dd73ac7aa99e27cd000f949dbb0fed51bd29099f9b08a25c1df0ced5"
-+SRC_URI[sha256sum] = "5fb4f17c307c8c1b79c68561e89be9562d07e7425bf40e728c4d66755342a5eb"
- 
- CVE_PRODUCT = "ust"
- 
+ SRC_URI = "git://github.com/numactl/numactl;branch=master;protocol=https \
+            file://Fix-the-test-output-format.patch \
 -- 
 2.40.1
 
