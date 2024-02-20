@@ -1,105 +1,92 @@
-Return-Path: <jonathan@joggee.fr>
+Return-Path: <christoph.vogtlaender@loewensteinmedical.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A217EC48BC4
-	for <webhook@archiver.kernel.org>; Tue, 20 Feb 2024 09:45:44 +0000 (UTC)
-Received: from 11.mo583.mail-out.ovh.net (11.mo583.mail-out.ovh.net [46.105.47.167])
- by mx.groups.io with SMTP id smtpd.web11.9892.1708422334557585127
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1ECC8C48BC4
+	for <webhook@archiver.kernel.org>; Tue, 20 Feb 2024 11:31:55 +0000 (UTC)
+Received: from mailout01.de1.retarus.com (mailout01.de1.retarus.com [94.199.92.161])
+ by mx.groups.io with SMTP id smtpd.web10.11113.1708428704969380737
  for <openembedded-core@lists.openembedded.org>;
- Tue, 20 Feb 2024 01:45:35 -0800
+ Tue, 20 Feb 2024 03:31:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=softfail (domain: joggee.fr, ip: 46.105.47.167, mailfrom: jonathan@joggee.fr)
-Received: from director6.ghost.mail-out.ovh.net (unknown [10.109.148.65])
-	by mo583.mail-out.ovh.net (Postfix) with ESMTP id 4TfDzc3G2mz1HCY
-	for <openembedded-core@lists.openembedded.org>; Tue, 20 Feb 2024 09:45:32 +0000 (UTC)
-Received: from ghost-submission-6684bf9d7b-bwdjn (unknown [10.110.178.134])
-	by director6.ghost.mail-out.ovh.net (Postfix) with ESMTPS id DEC6B1FEE3
-	for <openembedded-core@lists.openembedded.org>; Tue, 20 Feb 2024 09:45:31 +0000 (UTC)
-Received: from joggee.fr ([37.59.142.98])
-	by ghost-submission-6684bf9d7b-bwdjn with ESMTPSA
-	id z1nzIbt01GXFbgAAeJ6SKA
-	(envelope-from <jonathan@joggee.fr>)
-	for <openembedded-core@lists.openembedded.org>; Tue, 20 Feb 2024 09:45:31 +0000
-Authentication-Results: garm.ovh; auth=pass (GARM-98R0028088bc4e-b90d-4875-a7ca-c42524b8f8c3,
-                    1B5120BAC2DE0071621613A3459913DB1EC03C29) smtp.auth=jonathan@joggee.fr
-X-OVh-ClientIp: 209.85.161.54
-Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-59ff33f1018so557561eaf.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 20 Feb 2024 01:45:31 -0800 (PST)
-X-Gm-Message-State: AOJu0YyPBtV4JFGY+EV3RAspn4j/6N52q+87+YY61jzi+QRtETZfXUSy
-	K+oCg7BTxIXwZcdinYAXCD3OQfqfw6eoUyC8GxXdYPZI17wku+2euBk1StQLqo3oomtV3u2yvNG
-	Eqrfb2d5T1kRkCW2tRVhlm/JFOfY=
-X-Google-Smtp-Source: AGHT+IHO6IlHBjVXUwOGvAAmK0eJbYLGvdRDDlbqiPdB0EsOljcr9Dpvxpsb0XALZFuwN/dAV92xp0SkXeuk1tbZdOU=
-X-Received: by 2002:a4a:ea1a:0:b0:59f:f789:203a with SMTP id
- x26-20020a4aea1a000000b0059ff789203amr2152767ood.5.1708422330255; Tue, 20 Feb
- 2024 01:45:30 -0800 (PST)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@loewensteinmedical.com header.s=lmdkim header.b=h0+s32U8;
+ spf=pass (domain: loewensteinmedical.com, ip: 94.199.92.161, mailfrom: christoph.vogtlaender@loewensteinmedical.com)
+Received: from mailout01.rmx.fraix1.retloc (localhost [127.0.0.1])
+	by mailout01.de1.retarus.com (Postfix) with ESMTP id 4TfHL604K3z1T5Cv
+	for <openembedded-core@lists.openembedded.org>; Tue, 20 Feb 2024 12:31:42 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout01.de1.retarus.com 4TfHL604K3z1T5Cv
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=loewensteinmedical.com; s=lmdkim; t=1708428702;
+	bh=DJuwp/ZnD2WVwDT8kw1YQu5uGi+ev8bm0CDmw2Dekck=;
+	h=From:To:CC:Subject:Date:From;
+	b=h0+s32U8k4CHb1rT3B8Nor1wE1x0zxfgppHKzGTPDedE7y+MyHOwf8XUFK5XoxkDU
+	 Wun2GlKyZZbbUmh/lApKftBxvBa1RmKt73diFc7b/5fJqk9dpXortyDNDNn/AC8uhd
+	 B2vEGt8zDwtS8R6bfF64WT24AcfDbu7K5vQj7ZjC9N3PGDep+shkfz9+3NY24LUEXe
+	 htm0vvTwKogp0a+7uvpfDmFNuZWB3elq2cAyi1gaowDBDVUtXs8SroiGVGebYK0fIy
+	 KxUEtiwBSQ/kT+ARf6Y4YAKoBavKmRIT21T9kOXJ2cHDxFRoV9tEj8ApJGt5iUKbWf
+	 Fv4C8yIdyXYcw==
+Received: from outlook.salvia-medical.de (unknown [212.211.225.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by kdin03.de1.retarus.com (Postfix) with ESMTPS id 4TfHL56RHtzyhC
+	for <openembedded-core@lists.openembedded.org>; Tue, 20 Feb 2024 12:31:41 +0100 (CET)
+Received: from mgmt01.inh.lmi-dev.de (192.168.202.8) by
+ LMI-EX02.Salvia-Lifetec.inh (192.168.202.2) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Tue, 20 Feb 2024 12:31:41 +0100
+Received: from lmi-nb49.salvia-lifetec.inh (unknown [10.2.1.93])
+	by mgmt01.inh.lmi-dev.de (Postfix) with ESMTPA id 951A82337C9;
+	Tue, 20 Feb 2024 12:31:41 +0100 (CET)
+From: =?UTF-8?q?Christoph=20Vogtl=C3=A4nder?=
+	<christoph.vogtlaender@loewensteinmedical.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: =?UTF-8?q?Christoph=20Vogtl=C3=A4nder?=
+	<christoph.vogtlaender@loewensteinmedical.com>
+Subject: [PATCH] overlayfs: add missing vardeps
+Date: Tue, 20 Feb 2024 12:28:26 +0100
+Message-ID: <20240220112826.36625-1-christoph.vogtlaender@loewensteinmedical.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <CZ977GGGE9KN.16KHH2G2CQ1NJ@joggee.fr> <d3665f861467336a8c697f7994336de892a4192b.camel@linuxfoundation.org>
-In-Reply-To: <d3665f861467336a8c697f7994336de892a4192b.camel@linuxfoundation.org>
-From: Jonathan GUILLOT <jonathan@joggee.fr>
-Date: Tue, 20 Feb 2024 10:45:08 +0100
-X-Gmail-Original-Message-ID: <CAA_hxbT3dpkX0yxEiwvnvZuT3CBEZ9xQ+Q6HmeN=_YtYXq-3Kg@mail.gmail.com>
-Message-ID: <CAA_hxbT3dpkX0yxEiwvnvZuT3CBEZ9xQ+Q6HmeN=_YtYXq-3Kg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] lib/oe/package: fix LOCALE_PATHS scan to create
- locale packages
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000001f0e230611cd12d6"
-X-Ovh-Tracer-Id: 8411598208078253179
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvledrfedtgddtkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeggfhgjhfffkffuvfevtgesrgdtreertddtjeenucfhrhhomheplfhonhgrthhhrghnucfifgfknffnqffvuceojhhonhgrthhhrghnsehjohhgghgvvgdrfhhrqeenucggtffrrghtthgvrhhnpeehffevvefgudefvedvjefgvefgteduteejheefffdtgfehhfekhfekueeggffhieenucffohhmrghinheprghlihgrshdrihhtnecukfhppeduvdejrddtrddtrddupddvtdelrdekhedrudeiuddrheegpdefjedrheelrddugedvrdelkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepjhhonhgrthhhrghnsehjohhgghgvvgdrfhhrpdhnsggprhgtphhtthhopedupdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhgpdfovfetjfhoshhtpehmohehkeefpdhmohguvgepshhmthhpohhuth
+Content-Type: text/plain; charset="UTF-8"
+X-ClientProxiedBy: LMI-EX02.Salvia-Lifetec.inh (192.168.202.2) To
+ LMI-EX02.Salvia-Lifetec.inh (192.168.202.2)
+X-RMX-ID: 20240220-123141-lcctzxJrbJSM-0@out03.fraix1
+X-RMX-SOURCE: 212.211.225.55
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 20 Feb 2024 09:45:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195911
+ <openembedded-core@lists.openembedded.org>; Tue, 20 Feb 2024 11:31:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195912
 
---0000000000001f0e230611cd12d6
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Fixes [YOCTO #15120]
 
-Without any of my modifications, it seems that glibc-locale recipe creates
-a glibc-locale-locale.alias package containing only the file
-/usr/share/locale/locale.alias. It looks like the same issue revealed with
-the CUPS recipe. Do you know in which package locale.alias file is expected
-to be located?
+Consider OVERLAYFS_WRITABLE_PATHS as dependecy of do_create_overlayfs_uni=
+ts() in
+order to rebuild the recipe when changing the used mount point.
 
-Regards,
-Jonathan
+Tested in a local recipe by changing the used mount point and verified th=
+at the
+recipe was re-build: passed
 
-Le mar. 20 f=C3=A9vr. 2024 =C3=A0 08:42, Richard Purdie <
-richard.purdie@linuxfoundation.org> a =C3=A9crit :
+Signed-off-by: Christoph Vogtl=C3=A4nder <christoph.vogtlaender@loewenste=
+inmedical.com>
+---
+ meta/classes-recipe/overlayfs.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-> ERROR: glibc-locale-2.39+git-r0 do_package: QA Issue: glibc-locale:
-> Files/directories were installed but not shipped in any package:
->   /usr/share/locale/locale.alias
-> Please set FILES such that these items are packaged. Alternatively if the=
-y
-> are unneeded, avoid installing them or delete them within do_install.
->
+diff --git a/meta/classes-recipe/overlayfs.bbclass b/meta/classes-recipe/=
+overlayfs.bbclass
+index 53d65d7531..a82763ec10 100644
+--- a/meta/classes-recipe/overlayfs.bbclass
++++ b/meta/classes-recipe/overlayfs.bbclass
+@@ -138,4 +138,5 @@ do_install:append() {
+     done
+ }
+=20
++do_create_overlayfs_units[vardeps] +=3D "OVERLAYFS_WRITABLE_PATHS"
+ addtask create_overlayfs_units before do_install
+--=20
+2.34.1
 
---0000000000001f0e230611cd12d6
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Without any of my modifications, it seems that glibc-=
-locale recipe creates a glibc-locale-locale.alias package containing only t=
-he file /usr/share/locale/locale.alias. It looks like the same issue reveal=
-ed with the CUPS recipe. Do you know in which package locale.alias file is =
-expected to be located?<br></div><div><br></div><div>Regards,</div><div>Jon=
-athan<br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gma=
-il_attr">Le=C2=A0mar. 20 f=C3=A9vr. 2024 =C3=A0=C2=A008:42, Richard Purdie =
-&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@li=
-nuxfoundation.org</a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D=
-"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
-04,204,204);padding-left:1ex">
-ERROR: glibc-locale-2.39+git-r0 do_package: QA Issue: glibc-locale: Files/d=
-irectories were installed but not shipped in any package:<br>
-=C2=A0 /usr/share/locale/locale.alias<br>
-Please set FILES such that these items are packaged. Alternatively if they =
-are unneeded, avoid installing them or delete them within do_install.<br>
-</blockquote></div></div>
-
---0000000000001f0e230611cd12d6--
 
