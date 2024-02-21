@@ -2,57 +2,61 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7C91C54787
-	for <webhook@archiver.kernel.org>; Wed, 21 Feb 2024 11:21:46 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web11.10692.1708514502170116068
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26E60C48BF6
+	for <webhook@archiver.kernel.org>; Wed, 21 Feb 2024 12:21:17 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web10.11662.1708518072585475516
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 Feb 2024 03:21:42 -0800
+ Wed, 21 Feb 2024 04:21:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=AZ/Rqctu;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4127188dd5cso9958945e9.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 21 Feb 2024 03:21:41 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RAzWJhR0;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-33d568fbf62so1753469f8f.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 21 Feb 2024 04:21:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1708514500; x=1709119300; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1708518071; x=1709122871; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=LWTPtGwt5a5s3mQtbr16/O89nAa1TmOrURD2qQMiXrc=;
-        b=AZ/RqctuuozFnwvtFqalulF4Bv9NmcgYuP9Ndi5LP8rwOuiTiP2SR3tcyNqGgNZBqj
-         T2pCpxcQUJERHBgEBMBjPoR6l1zPbXAX2oxARbJtiex7TWuZrv69nl9MkZZG6T8AZOyn
-         e5jVAy3e5Nrub7+/BlJY1HE2aZerbPjYl/Zio=
+        bh=StwpiRK5p0aD0Lm6o7RoDJNW6kezSuymEdYR1G65e+4=;
+        b=RAzWJhR0lHe6PtYurKrbirmm6S7daRBZXci42RIHgotcYE4mFcMXnj7RlVhr9HeyYW
+         nxSd5eYNmwFg2XXNNbwqkTxji6RItoZ0mDjEfut76wIffH7ITTLzcO14kFNWQKCwuf9x
+         uXCxWP7CvXomCP5D0RjPbCA4uGKK/z1d4T10I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708514500; x=1709119300;
+        d=1e100.net; s=20230601; t=1708518071; x=1709122871;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LWTPtGwt5a5s3mQtbr16/O89nAa1TmOrURD2qQMiXrc=;
-        b=Z7nlpr56VckRQHjmQhqqGFpK1xOuSGz2YmDvtqyfKROK089UTFQHnjmwl/3d8JHdKs
-         +UXYWucqF0E37BrMzFvQXV/I3SlAEhzEsXuUjzp7Z27HSXycDlFPE6otqjIPF13vMT0U
-         /HCoBiNbZe4sc3GAprA1rWdR07LPe6N39Fkdcm3tFPSj762nOE7JZZ7nYQjtEXKFw3Iw
-         q0zrGmWlQsUQL2VuDMbeyhGw4k3ec/YmADLNrehGqjlpQpHAWEFAXHcDEXRpsL9I0C6h
-         81miATvIsJZHZGrZaAWf3EsJ/+2HgpsAHQDQWrXIjhaaoh+69/NnB+YvI9Tnuw+stYio
-         Dpfw==
-X-Gm-Message-State: AOJu0YzCiD7r40PpOT996kDnIBwl993wkEHMtxSjpzxS6oMs8nnrNy/o
-	nnvCWs3dK51+UmDf4WOdg6rVqo25U07aAu1jrTBiugl1bY+BUuncV1DHJIKZdBo=
-X-Google-Smtp-Source: AGHT+IHuurVBaKvqYX8ynm5Q3tIz5puyQyeRqT7njMAVlcQY/ZJoeGCyaMvRPKe3Gq3M90eIDtD9cw==
-X-Received: by 2002:a05:600c:4688:b0:412:3b33:d130 with SMTP id p8-20020a05600c468800b004123b33d130mr9817476wmo.25.1708514500542;
-        Wed, 21 Feb 2024 03:21:40 -0800 (PST)
+        bh=StwpiRK5p0aD0Lm6o7RoDJNW6kezSuymEdYR1G65e+4=;
+        b=wWVpLYl13mH9zv8G+IL7KOmk8Qf6+kQNr6axCRBRV+GcYNit7haX6HdTOSFyltNRcO
+         rE6zv/qD2v1hdrjmB32OtcaBJgyNJ/1aM7ihlPxIlJkHwKe7XK1u9LmsN1icUrUEqYtg
+         LVmE0g8kxmlXgNpPdbVhYNpzhlv+eQIKc01AG7+i2zA4HEHzmpN4aFyLmx1akDMjwDlY
+         x/Cn8T7O64peNV5VfZlf5BA8WTlFo7an3iP2NVDSpNFUOW+zr3Sw+JqzwnVcl3Tr9c+d
+         z67zr+Xej1/JiyIu6lg7Er4LYQ1vcSdw8yzsOYscuU/EvkT6bJwMH4STOT6Z1h/K7Q9V
+         rPUQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWTUAWcAtRJ7mdKpA4JVeyMrGybKlk4uWbsHpAT/U4mmwocHcAJ+DEQ5K1ZOaIHXn5sL1wUg/fqIfXCCT2NbCeyKl9YCshtwSIUoiheG4XkdW76SJooMV8X
+X-Gm-Message-State: AOJu0YyLQVtPCOsZKZWo6qlbTgj1+yWc6fgmGgvL6HsayvgoC9qeOc9Q
+	CxDgWv/X6hN3hDsgku22qoNnrj3bWhuh45FFhcmGQQA8X+i5jKzUn1ZcXBVDNgQ=
+X-Google-Smtp-Source: AGHT+IHxAQtYdP5VKP3oClo6W7pkRwq7HSM10QlZ9+NspXMunCSzrsXipGy7GsNzdtWLWn9WDyhUzg==
+X-Received: by 2002:adf:cb05:0:b0:33d:3896:be5f with SMTP id u5-20020adfcb05000000b0033d3896be5fmr6998010wrh.54.1708518070963;
+        Wed, 21 Feb 2024 04:21:10 -0800 (PST)
 Received: from ?IPv6:2001:8b0:aba:5f3c:f7eb:cc84:5778:9052? ([2001:8b0:aba:5f3c:f7eb:cc84:5778:9052])
-        by smtp.gmail.com with ESMTPSA id t11-20020a05600c198b00b0041270c2b95esm4364471wmq.29.2024.02.21.03.21.39
+        by smtp.gmail.com with ESMTPSA id ba1-20020a0560001c0100b0033d67bdce97sm5980861wrb.84.2024.02.21.04.21.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Feb 2024 03:21:40 -0800 (PST)
-Message-ID: <ee6a686362c533dc70c442b64c96ca23b8bde45c.camel@linuxfoundation.org>
-Subject: Re: [Openembedded-architecture] [RFC PATCH] Add genericarm64
- MACHINE using upstream defconfig
+        Wed, 21 Feb 2024 04:21:10 -0800 (PST)
+Message-ID: <1af50ab4ad85f2298641c88f6d96d342cc0c2565.camel@linuxfoundation.org>
+Subject: Re: [PATCH] rust: Oe-selftest error log on console when it fails.
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ross Burton <ross.burton@arm.com>, poky@lists.yoctoproject.org
-Cc: openembedded-core@lists.openembedded.org, 
-	openembedded-architecture@lists.openembedded.org
-Date: Wed, 21 Feb 2024 11:21:39 +0000
-In-Reply-To: <20240221105723.1501833-1-ross.burton@arm.com>
-References: <20240221105723.1501833-1-ross.burton@arm.com>
+To: Yash Shinde <Yash.Shinde@windriver.com>, Randy MacLeod
+	 <randy.macleod@windriver.com>, openembedded-core@lists.openembedded.org
+Cc: Umesh.Kallapa@windriver.com, Naveen.Gowda@windriver.com, 
+ Sundeep.Kokkonda@windriver.com, Shivaprasad.Moodalappa@windriver.com,
+ Joshua Watt <JPEWhacker@gmail.com>
+Date: Wed, 21 Feb 2024 12:21:09 +0000
+In-Reply-To: <3e26d31e-b8bd-4549-8c04-540dd36c2f69@windriver.com>
+References: <20240213130404.3285564-1-Yash.Shinde@windriver.com>
+	 <0a8900ca-34e0-4c2d-af94-bf6b54f18956@windriver.com>
+	 <3e26d31e-b8bd-4549-8c04-540dd36c2f69@windriver.com>
 Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
@@ -68,96 +72,92 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 21 Feb 2024 11:21:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195968
+ <openembedded-core@lists.openembedded.org>; Wed, 21 Feb 2024 12:21:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195969
 
-On Wed, 2024-02-21 at 10:57 +0000, Ross Burton wrote:
-> From: Ross Burton <ross.burton@arm.com>
+On Wed, 2024-02-21 at 13:30 +0530, Yash Shinde wrote:
 >=20
-> This is a new 64-bit "generic" Arm machine, that expects the hardware to
-> be SystemReady IR compatible. This is slightly forward-leaning as there's
-> not a _lot_ of SystemReady hardware in the wild, but most modern boards
-> are and the number will only grow.=C2=A0 Also, this is the only way to ha=
-ve a
-> 'generic' machine as without standardised bootloaders and firmware it
-> would be impossible.
+> =C2=A0The runCmd() returns the 'Result' object containing information abo=
+ut the command execution. It has the following attributes:
+> =C2=A0=C2=A0=C2=A0 result.command =3D command
+> =C2=A0=C2=A0=C2=A0 result.status =3D cmd.status
+> =C2=A0=C2=A0=C2=A0 result.output =3D cmd.output
+> =C2=A0=C2=A0=C2=A0 result.error =3D cmd.error
+> =C2=A0=C2=A0=C2=A0 result.pid =3D cmd.process.pid
+> =C2=A0https://git.openembedded.org/openembedded-core/tree/meta/lib/oeqa/u=
+tils/commands.py#n198
+> =C2=A0=C2=A0
+> =C2=A0I tried to capture the return object value (stderr i.e result.error=
+) and print it to the terminal, but that didn't work as expected.
+> =C2=A0Even I tried to print some debug statements in rust.py file and it =
+also didn't show up in the terminal or in the summary.txt file.
+> =C2=A0I assume there's something in oe-selftest framework that doesn't pr=
+int statements directly.
+> =C2=A0=C2=A0
+> =C2=A0Also, I see there's a "output_log" parameter in the runCmd function=
+ parameters, which I understand is used to redirect stdout of the
+> =C2=A0command being executed. Currently, I am checking with different val=
+ues by referring to other oe-selftests and their corresponding behavior wit=
+h it.
+> =C2=A0
 >=20
-> The base machine configuration isn't that exciting: it's a fully featured
-> machine that supports most things, booting via UEFI and an initramfs.
 >=20
-> However, the kernel is more interesting.=C2=A0 This RFC uses the upstream=
- defconfig
-> because unlike some other platforms, the arm64 defconfig is actively
-> maintained with the goal of being a 'boots on most hardware' configuratio=
-n.
-> My argument is: why would we duplicate that effort?
-
-Can you point at the policy/process which decides how a config option
-makes it in there?
-
-> The "linux-yocto way" is configuration fragments and after a week of
-> hair-pulling I do actually have fragments that boot on a BeaglePlay, but
-> to say this was a tiresome and frustrating exercise would be understating=
- it.
 >=20
-> So, a request for comments: is it acceptable to use the upstream defconfi=
-g in
-> a reference BSP?=C2=A0 Personally I'm torn: the Yocto way is fragments no=
-t monolithic
-> configs, but repeating the effort to fragmentise the configuration and th=
-en
-> also have it sufficiently modular that it can be used in pieces - instead=
- of
-> just being a large file split up into smaller files - is a lot of effort =
-for
-> what might end up being minimal gain.=C2=A0 My fear is we end up with a f=
-ragmented
-> configuration that can't be easily modified without breaking some platfor=
-ms,
-> and badly copies what the defconfig already does.
+> =C2=A0I am checking with some functions and procedures from unittest and =
+subprocess.Popen frameworks to get the error logs:
+> =C2=A0
+>=20
+>=20
+>=20
+> =C2=A0https://docs.python.org/3/library/unittest.html
+> =C2=A0https://docs.python.org/3/library/subprocess.html#subprocess.Popen
+> =C2=A0
 
-Let me play devils advocate.
 
-I do understand it is a pain, equally, once you do have it working, it
-is something you rarely have to touch again for a given board.
+I had a look at this and tried an experiment locally. This seemed to
+work:
 
-In the context of linux-yocto, I suspect we'd end up with a few board
-specific lists of config options (fragments) that board *really* needs.
-genericarm64 would end up as the sum of all those configs, plus any
-other bits which you really want in a generic machine, presumably the
-genericx86 machines have an idea of that.
+diff --git a/meta/lib/oeqa/selftest/cases/rust.py b/meta/lib/oeqa/selftest/=
+cases/rust.py
+index 120be6454fa..ad14189c6df 100644
+--- a/meta/lib/oeqa/selftest/cases/rust.py
++++ b/meta/lib/oeqa/selftest/cases/rust.py
+@@ -216,13 +216,16 @@ class RustSelfTestSystemEmulated(OESelftestTestCase, =
+OEPTestResultTestCase):
+             cmd =3D cmd + " export RUST_TARGET_PATH=3D%s/rust-targets;" % =
+rustlibpath
+             # Trigger testing.
+             cmd =3D cmd + " export TEST_DEVICE_ADDR=3D\"%s:12345\";" % qem=
+u.ip
+-            cmd =3D cmd + " cd %s; python3 src/bootstrap/bootstrap.py test=
+ %s --target %s > summary.txt 2>&1;" % (builddir, testargs, targetsys)
+-            runCmd(cmd)
++            cmd =3D cmd + " cd %s; python3 src/bootstrap/bootstrap.py test=
+ %s --target %s" % (builddir, testargs, targetsys)
++            retval =3D runCmd(cmd)
+             end_time =3D time.time()
+=20
++            resultlog =3D rustlibpath + "/results-log.txt"
++            with open(resultlog, "w") as f:
++                f.write(retval.output)
++
+             ptestsuite =3D "rust"
+-            self.ptest_section(ptestsuite, duration =3D int(end_time - sta=
+rt_time), logfile =3D builddir + "/summary.txt")
+-            filename =3D builddir + "/summary.txt"
+-            test_results =3D parse_results(filename)
++            self.ptest_section(ptestsuite, duration =3D int(end_time - sta=
+rt_time), logfile=3Dresultlog)
++            test_results =3D parse_results(resultlog)
+             for test in test_results:
+                 self.ptest_result(ptestsuite, test, test_results[test])
 
-The advantage here is that you give the users three options:
 
-a) the kitchen sink upstream "systemready" defconfig
-b) the genericarm64 machine defconfig which works most places and=C2=A0
-   is=C2=A0'guaranteed' on our target test platforms
-c) a machine targeted defconfig with only what a board needs
-
-Developers/users end up in different places at different points in
-there lifecycles.=C2=A0
-
-For in depth development, you might like to be able to cut the kernel
-down so you'd not rebuilding tons of stuff you don't need/use/care
-about each time, nor transferring it to a device during updates.
-
-For a specific product release, you again might want to trim it down to
-what it needs.
-
-If you're shipping demo software, a full systemready image would be
-much more appropriate.
-
-I think it comes down to whether the fragments are usable and testable.
-We have a list of targets we want this new machine to run on so lets
-start with those, define genericarm64 as that set of fragments combined
-plus the generic pieces linux-yocto adds, then go from there. If you
-add a new machine to the test matrix, we add a new fragment. If someone
-wants to add new config, they need to show a machine using it.
+I'm fairly sure we could improve it further but this does start that
+process.
 
 Cheers,
 
 Richard
-
-
 
 
