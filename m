@@ -1,216 +1,99 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4777C48BC3
-	for <webhook@archiver.kernel.org>; Wed, 21 Feb 2024 10:57:36 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.10328.1708513051731427281
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9223C48BF6
+	for <webhook@archiver.kernel.org>; Wed, 21 Feb 2024 11:03:56 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web11.10403.1708513431351390085
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 Feb 2024 02:57:32 -0800
+ Wed, 21 Feb 2024 03:03:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D1BD7FEC;
-	Wed, 21 Feb 2024 02:58:09 -0800 (PST)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id C0D273F73F;
-	Wed, 21 Feb 2024 02:57:30 -0800 (PST)
-From: ross.burton@arm.com
-To: poky@lists.yoctoproject.org
-Cc: openembedded-core@lists.openembedded.org,
-	openembedded-architecture@lists.openembedded.org
-Subject: [RFC PATCH] Add genericarm64 MACHINE using upstream defconfig
-Date: Wed, 21 Feb 2024 10:57:23 +0000
-Message-Id: <20240221105723.1501833-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=ZMFJcYS9;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=aiYZvF4T;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018dcb560b0e-9762c84e-7b96-4ff0-a78f-ae3c024cc445-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1708513430; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=VmJEL4I2xZyBCBa2TDcEf3Ck3HGEX9qaF8pFF0iIVvQ=;
+	b=ZMFJcYS9M0BhIVOkMPyorq77OPPiPafHrH3kXMx9uYQpJTqFYM/BTw0F755g03Va
+	ai7uvi64o1jwSsuEPGwVMyhx3mUoBDo7O08kkCfLkf1M1fFnKYs3zffLpWZiRH8N65s
+	ysBuYt1jMxYbzEHUFGVVOiOyXMl+QaVWzzMmVLIA=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1708513430;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=VmJEL4I2xZyBCBa2TDcEf3Ck3HGEX9qaF8pFF0iIVvQ=;
+	b=aiYZvF4TALLQ/leyDWi54yTqh9CTSSxGmoAMci7VOSVa6BaIfYsu9VyDVB3zM90W
+	CJX8DmVqfHYFCg1Tf7C1nnjKSmDatJgi1W8/61Fn6H1b/nCho8pUCfMDlYJtd/xF+LU
+	UpaXagDalmHmRijRT9s6ksMakR3WSZBBwmgX0Zmc=
+From: patchtest@automation.yoctoproject.org
+To: ross.burton@arm.com
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [RFC PATCH] Add genericarm64 MACHINE using upstream defconfig
+In-Reply-To: <20240221105723.1501833-1-ross.burton@arm.com>
+References: <20240221105723.1501833-1-ross.burton@arm.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018dcb560b0e-9762c84e-7b96-4ff0-a78f-ae3c024cc445-000000@us-west-2.amazonses.com>
+Date: Wed, 21 Feb 2024 11:03:50 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.02.21-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 21 Feb 2024 10:57:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195966
+ <openembedded-core@lists.openembedded.org>; Wed, 21 Feb 2024 11:03:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195967
 
-From: Ross Burton <ross.burton@arm.com>
+--NextPart
+Content-Type: text/plain
 
-This is a new 64-bit "generic" Arm machine, that expects the hardware to
-be SystemReady IR compatible. This is slightly forward-leaning as there's
-not a _lot_ of SystemReady hardware in the wild, but most modern boards
-are and the number will only grow.  Also, this is the only way to have a
-'generic' machine as without standardised bootloaders and firmware it
-would be impossible.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-The base machine configuration isn't that exciting: it's a fully featured
-machine that supports most things, booting via UEFI and an initramfs.
-
-However, the kernel is more interesting.  This RFC uses the upstream defc=
-onfig
-because unlike some other platforms, the arm64 defconfig is actively
-maintained with the goal of being a 'boots on most hardware' configuratio=
-n.
-My argument is: why would we duplicate that effort?
-
-The "linux-yocto way" is configuration fragments and after a week of
-hair-pulling I do actually have fragments that boot on a BeaglePlay, but
-to say this was a tiresome and frustrating exercise would be understating=
- it.
-
-So, a request for comments: is it acceptable to use the upstream defconfi=
-g in
-a reference BSP?  Personally I'm torn: the Yocto way is fragments not mon=
-olithic
-configs, but repeating the effort to fragmentise the configuration and th=
-en
-also have it sufficiently modular that it can be used in pieces - instead=
- of
-just being a large file split up into smaller files - is a lot of effort =
-for
-what might end up being minimal gain.  My fear is we end up with a fragme=
-nted
-configuration that can't be easily modified without breaking some platfor=
-ms,
-and badly copies what the defconfig already does.
-
-Ross
 ---
- meta-yocto-bsp/README.hardware.md             |  7 +++++
- meta-yocto-bsp/conf/machine/genericarm64.conf | 26 +++++++++++++++++++
- .../linux/linux-yocto_6.6.bbappend            |  9 +++++++
- meta-yocto-bsp/wic/genericarm64.wks.in        | 11 ++++++++
- 4 files changed, 53 insertions(+)
- create mode 100644 meta-yocto-bsp/conf/machine/genericarm64.conf
- create mode 100644 meta-yocto-bsp/wic/genericarm64.wks.in
+Testing patch /home/patchtest/share/mboxes/RFC-Add-genericarm64-MACHINE-using-upstream-defconfig.patch
 
-diff --git a/meta-yocto-bsp/README.hardware.md b/meta-yocto-bsp/README.ha=
-rdware.md
-index a8f38cb21a6..58ebc328b56 100644
---- a/meta-yocto-bsp/README.hardware.md
-+++ b/meta-yocto-bsp/README.hardware.md
-@@ -29,6 +29,7 @@ The following boards are supported by the meta-yocto-bs=
-p layer:
-=20
-   * Texas Instruments Beaglebone (beaglebone-yocto)
-   * General IA platforms (genericx86 and genericx86-64)
-+  * General 64-bit Arm SystemReady platforms (genericarm64)
-=20
- For more information see the board's section below. The appropriate MACH=
-INE
- variable value corresponding to the board is given in brackets.
-@@ -126,6 +127,12 @@ USB Device:
-        dd command to write the image to a USB stick.
-=20
-=20
-+SystemReady Arm Platforms
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D
-+
-+TODO
-+
-+
- Texas Instruments Beaglebone (beaglebone-yocto)
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-=20
-diff --git a/meta-yocto-bsp/conf/machine/genericarm64.conf b/meta-yocto-b=
-sp/conf/machine/genericarm64.conf
-new file mode 100644
-index 00000000000..2ea270d8b06
---- /dev/null
-+++ b/meta-yocto-bsp/conf/machine/genericarm64.conf
-@@ -0,0 +1,26 @@
-+#@TYPE: Machine
-+#@NAME: genericarm64
-+#@DESCRIPTION: Generic Arm64 machine for typical SystemReady platforms, =
-which
-+#have working firmware and boot via EFI.
-+
-+require conf/machine/include/arm/arch-armv8a.inc
-+
-+# Arm Base System Architecture says v8.0+ is allowed, but FEAT_CRC32 is =
-required
-+DEFAULTTUNE =3D "armv8a-crc"
-+
-+MACHINE_FEATURES =3D "acpi alsa bluetooth efi keyboard pci qemu-usermode=
- rtc screen usbhost vfat wifi"
-+
-+# Install all the kernel modules and all the firmware
-+MACHINE_EXTRA_RRECOMMENDS +=3D "kernel-modules linux-firmware"
-+
-+KERNEL_IMAGETYPE =3D "Image"
-+PREFERRED_PROVIDER_virtual/kernel ?=3D "linux-yocto"
-+INITRAMFS_IMAGE ?=3D "core-image-initramfs-boot"
-+
-+IMAGE_FSTYPES ?=3D "wic"
-+WKS_FILE ?=3D "genericarm64.wks.in"
-+
-+EFI_PROVIDER ?=3D "${@bb.utils.contains("DISTRO_FEATURES", "systemd", "s=
-ystemd-boot", "grub-efi", d)}"
-+
-+# Try to bring up one physical serial console, or a virtualized serial c=
-onsole
-+SERIAL_CONSOLES ?=3D "115200;ttyAMA0 115200;hvc0"
-diff --git a/meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.6.bbappend=
- b/meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.6.bbappend
-index 8e465c241e8..18f95de348f 100644
---- a/meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.6.bbappend
-+++ b/meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.6.bbappend
-@@ -1,19 +1,28 @@
- KBRANCH:genericx86  =3D "v6.6/standard/base"
-+KBRANCH:genericarm64  =3D "v6.6/standard/base"
- KBRANCH:genericx86-64  =3D "v6.6/standard/base"
- KBRANCH:beaglebone-yocto =3D "v6.6/standard/beaglebone"
-=20
-+KMACHINE:genericarm64 ?=3D "genericarm64"
- KMACHINE:genericx86 ?=3D "common-pc"
- KMACHINE:genericx86-64 ?=3D "common-pc-64"
- KMACHINE:beaglebone-yocto ?=3D "beaglebone"
-=20
-+SRCREV_machine:genericarm64 ?=3D "332d4668fcc32826907d4f3c49388452060060=
-89"
- SRCREV_machine:genericx86 ?=3D "332d4668fcc32826907d4f3c4938845206006089=
-"
- SRCREV_machine:genericx86-64 ?=3D "332d4668fcc32826907d4f3c4938845206006=
-089"
- SRCREV_machine:beaglebone-yocto ?=3D "332d4668fcc32826907d4f3c4938845206=
-006089"
-=20
-+COMPATIBLE_MACHINE:genericarm64 =3D "genericarm64"
- COMPATIBLE_MACHINE:genericx86 =3D "genericx86"
- COMPATIBLE_MACHINE:genericx86-64 =3D "genericx86-64"
- COMPATIBLE_MACHINE:beaglebone-yocto =3D "beaglebone-yocto"
-=20
-+LINUX_VERSION:genericarm64 =3D "6.6.15"
- LINUX_VERSION:genericx86 =3D "6.6.15"
- LINUX_VERSION:genericx86-64 =3D "6.6.15"
- LINUX_VERSION:beaglebone-yocto =3D "6.6.15"
-+
-+# Use upstream defconfig for genericarm64
-+KBUILD_DEFCONFIG:genericarm64 =3D "defconfig"
-+KCONFIG_MODE:genericarm64 =3D "--alldefconfig"
-diff --git a/meta-yocto-bsp/wic/genericarm64.wks.in b/meta-yocto-bsp/wic/=
-genericarm64.wks.in
-new file mode 100644
-index 00000000000..417d4d88104
---- /dev/null
-+++ b/meta-yocto-bsp/wic/genericarm64.wks.in
-@@ -0,0 +1,11 @@
-+# short-description: Create an EFI disk image
-+# long-description: Creates a partitioned EFI disk image that the user
-+# can directly dd to boot media.
-+
-+part /boot --source bootimg-efi --sourceparams=3D"loader=3D${EFI_PROVIDE=
-R},initrd=3D${INITRAMFS_IMAGE}-${MACHINE}.${INITRAMFS_FSTYPES}" --label b=
-oot --active --align 1024 --use-uuid
-+
-+part / --source rootfs --fstype=3Dext4 --label root --align 1024 --use-u=
-uid
-+
-+part swap --size 44 --label swap --fstype=3Dswap --use-uuid
-+
-+bootloader --ptable gpt --timeout=3D5 --append=3D"rootwait rootfstype=3D=
-ext4"
---=20
-2.34.1
+FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_off_by_presence)
+FAIL: test shortlog format: Commit shortlog (first line of commit message) should follow the format "<target>: <summary>" (test_mbox.TestMbox.test_shortlog_format)
 
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
