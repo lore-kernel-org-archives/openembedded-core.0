@@ -1,301 +1,172 @@
-Return-Path: <reatmon@ti.com>
+Return-Path: <enguerrand.de-ribaucourt@savoirfairelinux.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA5D2C48BF6
-	for <webhook@archiver.kernel.org>; Wed, 21 Feb 2024 14:40:57 +0000 (UTC)
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- by mx.groups.io with SMTP id smtpd.web10.14524.1708526454884862836
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBC75C48BC3
+	for <webhook@archiver.kernel.org>; Wed, 21 Feb 2024 14:57:07 +0000 (UTC)
+Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [208.88.110.44])
+ by mx.groups.io with SMTP id smtpd.web11.14820.1708527418578012963
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 Feb 2024 06:40:55 -0800
+ Wed, 21 Feb 2024 06:56:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ti.com header.s=ti-com-17Q1 header.b=DgaBoCJe;
- spf=pass (domain: ti.com, ip: 198.47.23.249, mailfrom: reatmon@ti.com)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 41LEern8016416;
-	Wed, 21 Feb 2024 08:40:53 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1708526453;
-	bh=Ks7jpkCt4/ARsgQA6UOeSVBe9qnbtga4ZtAVp+/hZ58=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=DgaBoCJeIvLS72J3P0XQBe6Wp08liez84erQlA9C5xET4QL5sk1RlEDxHKMiC99SA
-	 Zeg5SSajYtUfM01P4opdd2RnJSSNDp4tT9Y0cwq+8Z6PWIrx9jUPN5V/MhcHLyJpwc
-	 qCTVZhMoHjJ09h92ME0l4e0gizj7oQBoMiG4e9XE=
-Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 41LEercT041566
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Wed, 21 Feb 2024 08:40:53 -0600
-Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE113.ent.ti.com
- (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 21
- Feb 2024 08:40:53 -0600
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Wed, 21 Feb 2024 08:40:53 -0600
-Received: from [10.249.39.53] ([10.249.39.53])
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 41LEeruu085996;
-	Wed, 21 Feb 2024 08:40:53 -0600
-Message-ID: <f232c109-3b18-44a9-913a-3a8b10f69e04@ti.com>
-Date: Wed, 21 Feb 2024 08:40:53 -0600
+ dkim=pass header.i=@savoirfairelinux.com header.s=DFC430D2-D198-11EC-948E-34200CB392D2 header.b=O4whr1ux;
+ spf=pass (domain: savoirfairelinux.com, ip: 208.88.110.44, mailfrom: enguerrand.de-ribaucourt@savoirfairelinux.com)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 88C249C10F6;
+	Wed, 21 Feb 2024 09:56:57 -0500 (EST)
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+ by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10032)
+ with ESMTP id HAHECHjH9_Nw; Wed, 21 Feb 2024 09:56:56 -0500 (EST)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 66BA99C4694;
+	Wed, 21 Feb 2024 09:56:56 -0500 (EST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com 66BA99C4694
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=savoirfairelinux.com; s=DFC430D2-D198-11EC-948E-34200CB392D2;
+	t=1708527416; bh=DuDdI0d8ycTfSTbykM8YP8+ki1fpkxjeJ/iJHo/dczg=;
+	h=Message-ID:Date:MIME-Version:From:To;
+	b=O4whr1uxCzrPhvmy0etZowWCK6vs0M61wRi7KibGsHEWr+ehwYp5tNQcKJNl8VB/a
+	 6kxUjYJ1htXV2M92rpeCVKLGIFZNzMWr1+FVnRzMjNYLqskzD39NLatZPRG/v23f7B
+	 +8mN82N1tJVH10gWCr3eXvRZEvitloBCdraKAT6eG7aCYt9t5a31sw0SwFhaJzlw0M
+	 3jUPtxwYkxJ3odwKmLjg0/u9lqKzAe58Bh5gC7QVrHHTkMqWQrh20k1W46irJwoqiY
+	 KjgpCY1lOibLn/ZnXv3RanY91wcWE1EwWCbTKJ6XmGHYqTlj1G6seZzaI5K4chiicj
+	 oS+Tc/qoyHftQ==
+X-Virus-Scanned: amavis at mail.savoirfairelinux.com
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+ by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10026)
+ with ESMTP id b0GKvmrmT5Qg; Wed, 21 Feb 2024 09:56:56 -0500 (EST)
+Received: from [192.168.216.123] (lmontsouris-657-1-69-118.w80-15.abo.wanadoo.fr [80.15.101.118])
+	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id CEDEC9C10F6;
+	Wed, 21 Feb 2024 09:56:55 -0500 (EST)
+Message-ID: <fd2771f5-f50b-4da9-a90c-204e2356085d@savoirfairelinux.com>
+Date: Wed, 21 Feb 2024 15:56:54 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core][kirkstone 7/8] kernel: fix localversion in v6.3+
+Subject: Re: [PATCH v2 2/5] devtool: code: Add source mapping for debug source
+ files
 Content-Language: en-US
-To: Andreas Helbech Kleist <andreaskleist@gmail.com>,
-        Steve Sakoman
-	<steve@sakoman.com>
-CC: <openembedded-core@lists.openembedded.org>
-References: <cover.1707745886.git.steve@sakoman.com>
- <d9273edae80978c34f8426f34f991b9598828aa9.1707745886.git.steve@sakoman.com>
- <6fc21e62-f75e-4bd7-bf61-5d86efa05854@ti.com>
- <CAOSpxdb85tHCEWMQkJ5eMPQJ=Tb+KKVEBHqAFVFA+9TOc3-_tg@mail.gmail.com>
- <ca451d91-e029-4913-9404-98cd1c6fe415@ti.com>
- <0b450e8bcb3caf34fe2ef3e2737af6f4e62a63bc.camel@gmail.com>
- <bc5ae7215cb00d5f61e2c9870a5f4c9ec0b2854d.camel@gmail.com>
-From: Ryan Eatmon <reatmon@ti.com>
-In-Reply-To: <bc5ae7215cb00d5f61e2c9870a5f4c9ec0b2854d.camel@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+From: Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
+To: adrian.freihofer@gmail.com, openembedded-core@lists.openembedded.org
+Cc: Ross.Burton@arm.com, mohammed.raza@savoirfairelinux.com
+References: <20240219165525.714512-1-enguerrand.de-ribaucourt@savoirfairelinux.com>
+ <20240219165525.714512-3-enguerrand.de-ribaucourt@savoirfairelinux.com>
+ <4a89e1327bf1595361c98d200f15a36daefca0a6.camel@gmail.com>
+ <ba386157-4ef6-4d83-a1a8-95aff41a92d4@savoirfairelinux.com>
+In-Reply-To: <ba386157-4ef6-4d83-a1a8-95aff41a92d4@savoirfairelinux.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by lelv0142.ext.ti.com id 41LEern8016416
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 21 Feb 2024 14:40:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195977
+ <openembedded-core@lists.openembedded.org>; Wed, 21 Feb 2024 14:57:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195978
 
 
 
-On 2/16/2024 7:51 AM, Andreas Helbech Kleist wrote:
-> On Fri, 2024-02-16 at 09:11 +0100, Andreas Helbech Kleist wrote:
->> On Thu, 2024-02-15 at 19:45 -0600, Ryan Eatmon via
->> lists.openembedded.org wrote:
+On 21/02/2024 15:12, Enguerrand de Ribaucourt wrote:
+>=20
+>=20
+> On 20/02/2024 10:01, adrian.freihofer@gmail.com wrote:
+>> On Mon, 2024-02-19 at 17:55 +0100, Enguerrand de Ribaucourt wrote:
+>>> When launching the debug configuration, the source files from the
+>>> debug
+>>> rootfs were openened in the editor instead of the local workspace
+>>> files.
+>>> We add an exception to properly map them to the file being developed
+>>> and
+>>> compiled by the IDE integration. This also more closely matches what
+>>> the
+>>> user would expect compared to native development.
 >>>
->>> On 2/15/2024 7:43 PM, Steve Sakoman wrote:
->>>> On Thu, Feb 15, 2024 at 3:20=E2=80=AFPM Ryan Eatmon <reatmon@ti.com>=
- wrote:
->>>>>
->>>>>
->>>>> With this patch in place we are seeing a breakage on our kernel bui=
-lds.
->>>>> This patch was cherry picked from master, but the next patch on thi=
-s
->>>>> file in master removes the LOCALVERSION setting...
->>>>>
->>>>> https://git.openembedded.org/openembedded-core/commit/meta/classes-=
-recipe/kernel-arch.bbclass?h=3Dmaster-next&id=3Db378eec156998eea55ba61e59=
-103cb34fab0d07c
->>>>>
->>>>>
->>>>> There is a disconnect here.  Why did we change kirkstone, a stable =
-LTS
->>>>> version with a partial patch series based on master?
->>>>
->>>> The original kirkstone backport request for this patch was sent to t=
-he
->>>> list for review on February 9.
->>>>
->>>> There were no comments or objections, so I added it to the patch tes=
-t
->>>> queue.  No issues were encountered on the autobuilder, so I sent thi=
-s
->>>> patch (along with the rest of the patch queue) to the list for a
->>>> second review opportunity on February 12.  Once again there were no
->>>> comments or objections, so it was merged today February 15.
->>>>
->>>> I follow this process because I'm not smart enough, nor do I have ti=
-me
->>>> enough to thoroughly research all implications of every patch.  I re=
-ly
->>>> on autobuilder testing and community review to minimize breakage.
->>>>
->>>> This normally works quite well, but this time it didn't.  I'll rever=
-t
->>>> this patch and if someone would like to resubmit a proper series to
->>>> deal with the issue it is trying to fix I will consider it and run i=
-t
->>>> through the same process.
->>>
->>> I can appreciate that.  My comment was more for the person who sent t=
-he
->>> patch in the first place.  You are doing a great job.  I will try and
->>> pay attention for a replacement patch coming in and review as well.
+>>> This is also true for the devtool fallback mode.
 >>
->> I'm sorry about that. I need to use a 6.6 kernel on kirkstone, and thi=
-s
->> patch fixed my usecase. It looked like a simple bugfix, and I was not
->> aware that there was a later fix for this change.
+>> This looks still wrong to me. If files from the rootfs are openend for
+>> a recipe which is in the workspace, the SDK is broken and we need to
+>> understand and fix that. This patch does not solve that, but will make
+>> it much harder to find the right solution for this issue.
+> Hi Adrian,
+>=20
+> This is affecting essentially the devtool fallback mode. Since it's=20
+> compiled through devtool, it's using the bitbake packaging information.
+>=20
+> Steps to reproduce:
+>  =C2=A0- devtool modify powertop (autotools recipe, currently fallback)
+>  =C2=A0- devtool ide-sdk powertop [args...]
+>  =C2=A0- open the powertop sources workspace
+>  =C2=A0- run the debug launch configuration
+>  =C2=A0- initial breakpoint opens the rootfs-dbg main.cpp instead of th=
+e=20
+> current workspace
+>=20
+> This probably will get fixed for autotools with your specific class=20
+> support, but will remain for the fallback mode.
+>=20
+> Do we want to keep this source map, but only for the fallback mode? Lik=
+e=20
+> you say, it's kinda "cheating" the debug information, but since we are=20
+> in fallback mode, the devtool packaging is supposed to be using the=20
+> sources from the workspace, so it's more like "hinting" at the proper=20
+> source.
+It also affects more meson projects like lighttpd. The "hint" would=20
+still be valid given how it's built and deployed now. If you are still=20
+working on an alternative tinfoil deploy method, maybe it's not affected.
 >>
->> Is there any way I can reproduce the error you saw Ryan?
->>
->> And would it make sense to add an automated test for this usecase?
->>
->> I'll test my usecase with both patches backported and re-submit.
->=20
-> I've now looked into it and can make it work in my setup by backporting
-> these three commits from master:
->=20
->    kernel.bbclass: introduce KERNEL_LOCALVERSION
->  =20
-> https://git.openembedded.org/openembedded-core/commit/?h=3Dmaster-next&=
-id=3D229435a52f36ddec5f85fb6d5ccd42044b688397
->=20
->    kernel: fix localversion in v6.3+
->  =20
-> https://git.openembedded.org/openembedded-core/commit/?h=3Dmaster-next&=
-id=3D765b13b7305c8d2f222cfc66d77c02e6a088c691
->=20
->    kernel: make LOCALVERSION consistent between recipes
->  =20
-> https://git.openembedded.org/openembedded-core/commit/?h=3Dmaster-next&=
-id=3Db378eec156998eea55ba61e59103cb34fab0d07c
->=20
-> The cherry-pick's apply cleanly without any conflicts.
->=20
-> Would they be appropriate for kirkstone? I'm wondering if there would
-> be any issue with backporting the KERNEL_LOCALVERSION variable
-> specifically.
->=20
-> If I hear nothing before the middle of next week, I'll submit the patch
-> series (CC'ing you Ryan).
->=20
-
-Can you send me the patch series that you want to want to send in=20
-against kirkstone?  I'll apply them locally and run some tests on our=20
-setup to make sure they don't cause an issue.  I don't foresee them=20
-being a problem, but I'm more than happy to verify.
-
-
-> /Andreas
->>
->> PS: This is my first submission to oe-core, so I'm just starting to
->> learn. I have no idea what or how the autobuilder tests, but I'm
->> willing to learn.
+>> Adrian
 >>
 >>>
+>>> Signed-off-by: Enguerrand de Ribaucourt
+>>> <enguerrand.de-ribaucourt@savoirfairelinux.com>
+>>> ---
+>>> =C2=A0=C2=A0scripts/lib/devtool/ide_plugins/ide_code.py | 1 +
+>>> =C2=A0=C2=A0scripts/lib/devtool/ide_sdk.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1 +
+>>> =C2=A0=C2=A02 files changed, 2 insertions(+)
 >>>
->>>> Steve
->>>>
->>>>
->>>>> On 2/12/2024 7:54 AM, Steve Sakoman wrote:
->>>>>> From: Bruce Ashfield <bruce.ashfield@gmail.com>
->>>>>>
->>>>>> During testing of the v6.4 reference kernel, it was noticed that
->>>>>> on-target modules no longer matched the magic value of the running
->>>>>> kernel.
->>>>>>
->>>>>> This was due to a different localversion in the cross built kernel
->>>>>> and the scripts / resources created on target.
->>>>>>
->>>>>> This was due to changes in the setlocalversion script introduced
->>>>>> in the v6.3 series.
->>>>>>
->>>>>> The .scmversion file is no longer used (or packaged) to inhibit
->>>>>> the addition of a "+" (through querying of the git status of the
->>>>>> kernel) or the setting of a local version.
->>>>>>
->>>>>> We recently introduced the KERNEL_LOCALVERSION variable to allow
->>>>>> recipes to place a value in .scmversion, so we extend the use of
->>>>>> that variable to kernel-arch.bbclass and use it to set the
->>>>>> exported variable LOCALVERSION.
->>>>>>
->>>>>> We must do it at the kernel-arch level, as the variable must be
->>>>>> exported in any kernel build to ensure that setlocalversion always
->>>>>> correctly sets the localversion.
->>>>>>
->>>>>> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
->>>>>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->>>>>>
->>>>>> Cherry-picked from master 765b13b7305c8d2f222cfc66d77c02e6a088c691
->>>>>>
->>>>>> Signed-off-by: Andreas Helbech Kleist <andreaskleist@gmail.com>
->>>>>> Signed-off-by: Steve Sakoman <steve@sakoman.com>
->>>>>> ---
->>>>>>     meta/classes/kernel-arch.bbclass |  7 +++++++
->>>>>>     meta/classes/kernel.bbclass      | 10 ++++++++--
->>>>>>     2 files changed, 15 insertions(+), 2 deletions(-)
->>>>>>
->>>>>> diff --git a/meta/classes/kernel-arch.bbclass b/meta/classes/kerne=
-l-arch.bbclass
->>>>>> index 4cd08b96fb..0a79dea0af 100644
->>>>>> --- a/meta/classes/kernel-arch.bbclass
->>>>>> +++ b/meta/classes/kernel-arch.bbclass
->>>>>> @@ -66,3 +66,10 @@ KERNEL_LD =3D "${CCACHE}${HOST_PREFIX}ld.bfd ${=
-HOST_LD_KERNEL_ARCH}"
->>>>>>     KERNEL_AR =3D "${CCACHE}${HOST_PREFIX}ar ${HOST_AR_KERNEL_ARCH=
-}"
->>>>>>     TOOLCHAIN ?=3D "gcc"
->>>>>>
->>>>>> +# 6.3+ requires the variable LOCALVERSION to be set to not get a =
-"+" in
->>>>>> +# the local version. Having it empty means nothing will be added,=
- and any
->>>>>> +# value will be appended to the local kernel version. This replac=
-es the
->>>>>> +# use of .scmversion file for setting a localversion without usin=
-g
->>>>>> +# the CONFIG_LOCALVERSION option.
->>>>>> +KERNEL_LOCALVERSION ??=3D ""
->>>>>> +export LOCALVERSION ?=3D "${KERNEL_LOCALVERSION}"
->>>>>> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbc=
-lass
->>>>>> index 5951347361..940f1a3cf4 100644
->>>>>> --- a/meta/classes/kernel.bbclass
->>>>>> +++ b/meta/classes/kernel.bbclass
->>>>>> @@ -418,7 +418,7 @@ do_compile_kernelmodules() {
->>>>>>         if (grep -q -i -e '^CONFIG_MODULES=3Dy$' ${B}/.config); th=
-en
->>>>>>                 oe_runmake -C ${B} ${PARALLEL_MAKE} modules ${KERN=
-EL_EXTRA_ARGS}
->>>>>>
->>>>>> -             # Module.symvers gets updated during the
->>>>>> +             # Module.symvers gets updated during the
->>>>>>                 # building of the kernel modules. We need to
->>>>>>                 # update this in the shared workdir since some
->>>>>>                 # external kernel modules has a dependency on
->>>>>> @@ -635,7 +635,13 @@ kernel_do_configure() {
->>>>>>         # $ scripts/setlocalversion . =3D> +
->>>>>>         # $ make kernelversion =3D> 2.6.37
->>>>>>         # $ make kernelrelease =3D> 2.6.37+
->>>>>> -     touch ${B}/.scmversion ${S}/.scmversion
->>>>>> +     # See kernel-arch.bbclass for post v6.3 removal of the extra
->>>>>> +     # + in localversion. .scmversion is no longer used, and the
->>>>>> +     # variable LOCALVERSION must be used
->>>>>> +     if [ ! -e ${B}/.scmversion -a ! -e ${S}/.scmversion ]; then
->>>>>> +             echo ${KERNEL_LOCALVERSION} > ${B}/.scmversion
->>>>>> +             echo ${KERNEL_LOCALVERSION} > ${S}/.scmversion
->>>>>> +     fi
->>>>>>
->>>>>>         if [ "${S}" !=3D "${B}" ] && [ -f "${S}/.config" ] && [ ! =
--f "${B}/.config" ]; then
->>>>>>                 mv "${S}/.config" "${B}/.config"
->>>>>>
->>>>>>
->>>>>>
->>>>>>
->>>>>>
->>>>>
->>>>> --
->>>>> Ryan Eatmon                reatmon@ti.com
->>>>> -----------------------------------------
->>>>> Texas Instruments, Inc.  -  LCPD  -  MGTS
->>>
->>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>> Links: You receive all messages sent to this group.
->>> View/Reply Online (#195736): https://lists.openembedded.org/g/openemb=
-edded-core/message/195736
->>> Mute This Topic: https://lists.openembedded.org/mt/104311283/7501392
->>> Group Owner: openembedded-core+owner@lists.openembedded.org
->>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub=
- [andreaskleist@gmail.com]
->>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>>
+>>> diff --git a/scripts/lib/devtool/ide_plugins/ide_code.py
+>>> b/scripts/lib/devtool/ide_plugins/ide_code.py
+>>> index b2193130d2e..c063b7d0590 100644
+>>> --- a/scripts/lib/devtool/ide_plugins/ide_code.py
+>>> +++ b/scripts/lib/devtool/ide_plugins/ide_code.py
+>>> @@ -234,6 +234,7 @@ class IdeVSCode(IdeBase):
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if gdb_cross_c=
+onfig.image_recipe.rootfs_dbg:
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 launch_config['additionalSOLibSearchPath'] =3D
+>>> modified_recipe.solib_search_path_str(
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gdb_cross_config.image_recipe)
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 s=
+rc_file_map[os.path.join("/usr/src/debug",
+>>> modified_recipe.pn, modified_recipe.pv)] =3D "${workspaceFolder}"
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 src_file_map["/usr/src/debug"] =3D os.path.join(
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gdb_cross_config.image_recipe.rootfs_db=
+g, "usr",
+>>> "src", "debug")
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 else:
+>>> diff --git a/scripts/lib/devtool/ide_sdk.py
+>>> b/scripts/lib/devtool/ide_sdk.py
+>>> index 14679744807..f292edbe25c 100755
+>>> --- a/scripts/lib/devtool/ide_sdk.py
+>>> +++ b/scripts/lib/devtool/ide_sdk.py
+>>> @@ -356,6 +356,7 @@ class RecipeModified:
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 'PACKAGE_DEBUG_SPLIT_STYLE')
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.path =3D =
+recipe_d.getVar('PATH')
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.pn =3D re=
+cipe_d.getVar('PN')
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.pv =3D recipe_d.getV=
+ar('PV')
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.recipe_sy=
+sroot =3D os.path.realpath(
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 recipe_d.getVar('RECIPE_SYSROOT'))
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.recipe_sy=
+sroot_native =3D os.path.realpath(
 >>
+> Enguerrand de Ribaucourt
 >=20
-
---=20
-Ryan Eatmon                reatmon@ti.com
------------------------------------------
-Texas Instruments, Inc.  -  LCPD  -  MGTS
+Enguerrand de Ribaucourt
 
