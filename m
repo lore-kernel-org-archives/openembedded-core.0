@@ -2,122 +2,146 @@ Return-Path: <adrian.freihofer@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70F7CC5478A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FD85C48BEB
 	for <webhook@archiver.kernel.org>; Wed, 21 Feb 2024 19:40:52 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web10.456.1708544444138156589
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web10.454.1708544443416317268
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 Feb 2024 11:40:44 -0800
+ Wed, 21 Feb 2024 11:40:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=GMtB0UDr;
- spf=pass (domain: gmail.com, ip: 209.85.221.46, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-33d118a181fso3714639f8f.1
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=aW5rNgoZ;
+ spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-41274cada64so8417265e9.1
         for <openembedded-core@lists.openembedded.org>; Wed, 21 Feb 2024 11:40:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708544442; x=1709149242; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XVL8wByLrW6dg1mHYJG3likhEODBdq7COnQlgST22uo=;
-        b=GMtB0UDrbUgblpX7XwdBNQ3LXxsAYYS1n4LMTM0cyuYH86YfKt4Z49BSdw+Ajh7NaN
-         bji4sTOxDwnsaKZVrD9hd+I5gOlRMfqNebWnQuUvG7DjlIB0TH+xeH1vXvPCRBy4UBvl
-         kC4kwnFnxA+UO7u1FwqhrWCjwJkEncIRMfoD/kh34keEwcIkxBX/FEX+jAAt/9Tfk1GC
-         yxwHl4Ll05N+myXEFI+yrh1cIFGHuI3bHH9zJSG6rEAjyfA/5ikBdQwMAO5GUajBgBSn
-         bMkq1jHKAXLOhJkSd56HrJ8+JE8URfs1nZWQkPZsK3wGwbeMNscBbb7rTtEnZ3EgsSgr
-         pmHQ==
+        d=gmail.com; s=20230601; t=1708544441; x=1709149241; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=g9YLwrDtkXW6VllpEUfYcPjaS7FabxvyaB9C5xcz3+s=;
+        b=aW5rNgoZ5GsZ+iP9K3d825K85saMXJXLksCy3WxictykA0W7sXajJ3Hmq5ix7xT+/P
+         ZJYH6D3sqrdl0mnRzpDeLpx9rXpLNP536gbwvSmA3UsWu5AFivVMw4L4UxtamB9ZQvo6
+         m06MbDb0CYKd+v76c1KdqWDtYyeehLtT3rYMPpStullF0/I7xZtyc/Y3L11plltj9fvw
+         Oxll3SGHuxInNn0dNU5ds0tvnmO5Tl/hCIEgalZ0mV4+HKHHnbGjuKTiQdyY0D/RMgRg
+         8bWNpWNGxJcTHR9afy91pAIVmPM9UUIydD7bdswItmZqnlHwsBG3OZzPDoZQd/ijKHBP
+         Qo8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708544442; x=1709149242;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XVL8wByLrW6dg1mHYJG3likhEODBdq7COnQlgST22uo=;
-        b=EFBc7ALTtyI5zhGdGzaxSfcHPauJNS2EjaDtrgYkJ3HLMiQWkuuWE9/VkMgg5yp0ye
-         7oSa9y7jyRa+IgyqORUCdjbFLXULNtnupwEItbVkpEFbOahX6rI1uKzx1LkMmw+eQvRy
-         VM4Q0obblidTrJAHg5YfmFCn+UBkSwE6tjwdR6V7SKsoH1lAEnz5n8odHeiAamVx8CRf
-         ap04iekXuGf8Li9l1AJ6Mli4bzibhhIO2nC/sVok0aI8TGzAYZ5iIdqz0f0/qUpriQVE
-         ZJow4OUy0GzHlItc8HdS5SY7LQtb1Own3g3R4+HtuMd/aCEh6i1BBmBieCGaMUgRHmIc
-         aJyQ==
-X-Gm-Message-State: AOJu0Yzob9J620JwZjs+Gpxiu4TZsNaac0VEsmRbSWnup6cN1lEXId3B
-	007COo2Qy4t/dMavfGysFr7WB/OeiluOhBKF646uFQrZ0JAkuwXt1qd5+Ele
-X-Google-Smtp-Source: AGHT+IHWHbolLa8ZMHyx08jTZWEGtmOXvssuf9rdrFqPQKrzWkHqXU7HEhW1/XmF7FBSofPmdZ33pw==
-X-Received: by 2002:a5d:4ac9:0:b0:33d:679d:a033 with SMTP id y9-20020a5d4ac9000000b0033d679da033mr3841042wrs.36.1708544442357;
-        Wed, 21 Feb 2024 11:40:42 -0800 (PST)
+        d=1e100.net; s=20230601; t=1708544441; x=1709149241;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=g9YLwrDtkXW6VllpEUfYcPjaS7FabxvyaB9C5xcz3+s=;
+        b=ISzrkKTY254TPF0Tj5+ewFXKNwjU26Gpw0byIKkzRUCFz5eYTXHQIWWCg6Ag6dhD4D
+         J2D0Jt5uOff2z4+k2kD+J2nl4mS+5pX87cs+yj3/e9qTh1elz7rEoC8cOWbt0SaOauvw
+         Xiriu3f4U0cvYnyjuuJDaqkBA9pvbI0QOnaDnBTHq8cPbAFFF//WvAI0/OBEtJeCQFDb
+         0ElQ3DksI3vIfaadPgdzzqKjLDj9h85Z5smjhaEPYrkTfgTRIedY2h0pOF1/XMIMwCoI
+         qV+y/HaTYOOgeIC1LGPYO2aoQ2ihPI+keqmvQrzZplPgFPzhz0PmfzecMQEdPQ4iG9vX
+         k2ug==
+X-Gm-Message-State: AOJu0YxJiqIvf5JBQidt+WqP9Hl6fdcwhiSfk3p6RO6aKdSbYAK6mBBj
+	yaIVMGL/U+hNgbsnAQT6zc0eQ+Xyuw2sc2skLMk4ENXBtO+SKLRidJNQ6FyD
+X-Google-Smtp-Source: AGHT+IEY8SjJbv04XmESGmcYCjsV6WrjyhRg7EKZPXCUQ7yfrwb34LhIUXCavZUUAqGiMwRyoMEVQA==
+X-Received: by 2002:a05:600c:3b26:b0:412:5db5:c0e1 with SMTP id m38-20020a05600c3b2600b004125db5c0e1mr8679959wms.25.1708544441021;
+        Wed, 21 Feb 2024 11:40:41 -0800 (PST)
 Received: from wsadrian16.fritz.box ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id h5-20020a05600016c500b0033d60cba289sm8764686wrf.68.2024.02.21.11.40.41
+        by smtp.gmail.com with ESMTPSA id h5-20020a05600016c500b0033d60cba289sm8764686wrf.68.2024.02.21.11.40.40
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Feb 2024 11:40:42 -0800 (PST)
+        Wed, 21 Feb 2024 11:40:40 -0800 (PST)
 From: Adrian Freihofer <adrian.freihofer@gmail.com>
 X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [kirkstone][PATCH v2 02/13] scripts/runqemu: fix regex escape sequences
-Date: Wed, 21 Feb 2024 20:36:54 +0100
-Message-ID: <20240221194036.1804463-3-adrian.freihofer@siemens.com>
+Subject: [kirkstone][PATCH v2 00/13] python 3.12 related fixes
+Date: Wed, 21 Feb 2024 20:36:52 +0100
+Message-ID: <20240221194036.1804463-1-adrian.freihofer@siemens.com>
 X-Mailer: git-send-email 2.43.1
-In-Reply-To: <20240221194036.1804463-1-adrian.freihofer@siemens.com>
-References: <20240221194036.1804463-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 21 Feb 2024 19:40:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195986
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/195984
 
-From: Trevor Gamblin <tgamblin@baylibre.com>
 
-When invoking runqemu with Python 3.12, the following warning is
-encountered:
+Changes in comparison to v2:
+Fix oe-selftest errors
+- https://errors.yoctoproject.org/Errors/Details/753468/
+- https://errors.yoctoproject.org/Errors/Details/753470/
+by adding one more commit: "oeqa/selftest/recipetool: expect meson.bb"
 
-|SyntaxWarning: invalid escape sequence '\.'
+oe-selftest -a
+Required tests failed (successes=502, skipped=6, failures=7, errors=3)
 
-This is because the interpreter scans the string before it is processed
-by the regex module, and it interprets the backslash as part of an
-escape sequence, but not a standard one. This will be registered as an
-error rather than a warning in future Python versions. To avoid the it,
-simply add an extra backslash so that Python doesn't misinterpret the
-string, while the regex parser still sees an escaped '.' character.
+eSDK.oeSDKExtSelfTest.test_image_generation_binary_feeds: ERROR
+eSDK.oeSDKExtSelfTest.test_install_libraries_headers: ERROR
+runcmd.RunCmdTests.test_result_assertion: ERROR (0.01s)
+runcmd.RunCmdTests.test_result_exception: ERROR (0.02s)
+distrodata.Distrodata.test_checkpkg: FAILED (132.52s)
+incompatible_lic.NoGPL3InImagesTests.test_core_image_full_cmdline_weston: FAILED (215.33s)
+runtime_test.TestImage.test_testimage_apt: FAILED (807.54s)
+runtime_test.TestImage.test_testimage_dnf: FAILED (1032.04s)
+runtime_test.TestImage.test_testimage_install: FAILED (110.76s)
+runtime_test.TestImage.test_testimage_virgl_gtk_sdl: FAILED (724.11s)
+runtime_test.TestImage.test_testimage_virgl_headless: FAILED (0.04s)
 
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Note: Some opengl/weston tests are currently also failing on master
+on my setup. Not sure why. Lets wait for the opinion of the official
+Fedora 39 runner.
 
-Backported from master: 0e8a4142bb90a92d175df6b2537d24a372356f98
+For what ever reason recipetool seams to work differently on my machine.
+  recipetool create -o https://github.com/mesonbuild/meson;rev=0.52.1
+creates a recipe named meson.bb, not a recipe pyhton3-meson.bb.
+Not sure if another is a patch required which fixes two test cases:
+  test_recipetool_create_github
+  test_recipetool_create_github_tarball
+or if this depends on the host machine.
 
-Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
----
- scripts/runqemu | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Adrian Freihofer (8):
+  oeqa: replace deprecated assertEquals
+  oeqa/selftest/recipetool: fix for python 3.12
+  oeqa/selftest/recipetool: expect meson.bb
+  oeqa/selftest/oelib/buildhistory: git default branch
+  feature-microblaze-versions.inc: python 3.12 regex
+  meta/lib/oeqa: python 3.12 regex
+  meta/recipes: python 3.12 regex
+  scripts: python 3.12 regex
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 729b067a9f..b7d7c7b4e7 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -362,7 +362,7 @@ class BaseConfig(object):
-         if p.endswith('.qemuboot.conf'):
-             self.qemuboot = p
-             self.qbconfload = True
--        elif re.search('\.bin$', p) or re.search('bzImage', p) or \
-+        elif re.search('\\.bin$', p) or re.search('bzImage', p) or \
-              re.search('zImage', p) or re.search('vmlinux', p) or \
-              re.search('fitImage', p) or re.search('uImage', p):
-             self.kernel =  p
-@@ -376,13 +376,13 @@ class BaseConfig(object):
-                     fst = t
-                     break
-             if not fst:
--                m = re.search('.*\.(.*)$', self.rootfs)
-+                m = re.search('.*\\.(.*)$', self.rootfs)
-                 if m:
-                     fst =  m.group(1)
-             if fst:
-                 self.check_arg_fstype(fst)
--                qb = re.sub('\.' + fst + "$", '', self.rootfs)
--                qb = '%s%s' % (re.sub('\.rootfs$', '', qb), '.qemuboot.conf')
-+                qb = re.sub('\\.' + fst + "$", '', self.rootfs)
-+                qb = '%s%s' % (re.sub('\\.rootfs$', '', qb), '.qemuboot.conf')
-                 if os.path.exists(qb):
-                     self.qemuboot = qb
-                     self.qbconfload = True
+Chris Laplante (1):
+  recipetool/create_buildsys_python: use importlib instead of imp
+
+Ross Burton (3):
+  populate_sdk_ext: use ConfigParser instead of SafeConfigParser
+  runqemu: add qmp socket support
+  oeqa/selftest/recipetool: downgrade meson version to not use
+    pyproject.toml
+
+Trevor Gamblin (1):
+  scripts/runqemu: fix regex escape sequences
+
+ meta/classes/populate_sdk_ext.bbclass         |  2 +-
+ .../feature-microblaze-versions.inc           |  2 +-
+ meta/lib/oeqa/oetest.py                       |  2 +-
+ meta/lib/oeqa/sdk/buildtools-cases/sanity.py  |  2 +-
+ meta/lib/oeqa/selftest/cases/bblayers.py      |  2 +-
+ meta/lib/oeqa/selftest/cases/devtool.py       |  2 +-
+ meta/lib/oeqa/selftest/cases/fitimage.py      |  6 +--
+ meta/lib/oeqa/selftest/cases/liboe.py         |  2 +-
+ .../oeqa/selftest/cases/oelib/buildhistory.py | 18 +++++++--
+ meta/lib/oeqa/selftest/cases/recipetool.py    | 19 ++++++----
+ .../perf/perf/sort-pmuevents.py               |  8 ++--
+ meta/recipes-rt/rt-tests/files/rt_bmark.py    |  2 +-
+ scripts/combo-layer                           |  2 +-
+ scripts/contrib/bbvars.py                     |  6 +--
+ scripts/contrib/convert-overrides.py          |  8 ++--
+ scripts/lib/checklayer/__init__.py            |  4 +-
+ scripts/lib/recipetool/create.py              | 12 +++---
+ scripts/lib/recipetool/create_buildsys.py     | 38 +++++++++----------
+ .../lib/recipetool/create_buildsys_python.py  |  5 +--
+ scripts/oe-check-sstate                       |  2 +-
+ scripts/oe-pkgdata-util                       |  2 +-
+ scripts/opkg-query-helper.py                  |  2 +-
+ scripts/runqemu                               | 19 ++++++++--
+ 23 files changed, 95 insertions(+), 72 deletions(-)
+
 -- 
 2.43.1
 
