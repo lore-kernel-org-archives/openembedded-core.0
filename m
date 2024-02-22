@@ -2,66 +2,123 @@ Return-Path: <enguerrand.de-ribaucourt@savoirfairelinux.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6F12C5478C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5ABAC48BEB
 	for <webhook@archiver.kernel.org>; Thu, 22 Feb 2024 10:30:26 +0000 (UTC)
 Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [208.88.110.44])
- by mx.groups.io with SMTP id smtpd.web10.9901.1708597817408732835
+ by mx.groups.io with SMTP id smtpd.web11.9925.1708597818647570412
  for <openembedded-core@lists.openembedded.org>;
  Thu, 22 Feb 2024 02:30:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@savoirfairelinux.com header.s=DFC430D2-D198-11EC-948E-34200CB392D2 header.b=wR+ub3uU;
+ dkim=pass header.i=@savoirfairelinux.com header.s=DFC430D2-D198-11EC-948E-34200CB392D2 header.b=BUUzRmFh;
  spf=pass (domain: savoirfairelinux.com, ip: 208.88.110.44, mailfrom: enguerrand.de-ribaucourt@savoirfairelinux.com)
 Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id C630A9C45BF;
-	Thu, 22 Feb 2024 05:30:15 -0500 (EST)
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id EA7219C4A0F;
+	Thu, 22 Feb 2024 05:30:17 -0500 (EST)
 Received: from mail.savoirfairelinux.com ([127.0.0.1])
  by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10032)
- with ESMTP id jQB9M7IvrHC4; Thu, 22 Feb 2024 05:30:15 -0500 (EST)
+ with ESMTP id 31cUg8lebQun; Thu, 22 Feb 2024 05:30:17 -0500 (EST)
 Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 3BA039C489C;
-	Thu, 22 Feb 2024 05:30:15 -0500 (EST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com 3BA039C489C
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 1E7F29C489C;
+	Thu, 22 Feb 2024 05:30:17 -0500 (EST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com 1E7F29C489C
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=savoirfairelinux.com; s=DFC430D2-D198-11EC-948E-34200CB392D2;
-	t=1708597815; bh=WQ9u4J40Mq8ChFsEajT/cADULlhQasmSgS59EF/6t6c=;
+	t=1708597817; bh=iByMOLODXm3ztf0jeiY04S/A2R9sTfn9dUsyvVs7oXE=;
 	h=From:To:Date:Message-Id:MIME-Version;
-	b=wR+ub3uUb9hr6a4ixjX2QOsisOqaB1RF1GAgY+KheuwpkDSwXVejW7z1V0OqTC91Z
-	 LDZN8iVDUIc1p1z6UUwpVPdONfzEvIX0bCzxwa58WfQK/8xvx7hvmzdFIJuDXu0PF/
-	 1NSc6+EB2fizz7e2SbwPinzV5DpICBvtUGfI5rhQ6cJ7Bm32fR6c/c9p1jbG1XIbyT
-	 L7MrB56PMVoPYHMF05ppzKwYTKncxh/zMHpoK4lrroQkz6QyXBc6fLShV66OwHhS19
-	 UieGB4Ql4lvB5QfYzarBpVeCWM6stMCYWLHeQOYAED/BwEirP31nQezTwE0nsWcbIB
-	 4iKmQrymZdGnA==
+	b=BUUzRmFhPvdfO8LK/tuJZb82tXi58d+TTQqQ93Gy0ZQdxRhBNpPNxbZXj0kKDw9P+
+	 VX7sOlMon7/fc0h6YO/P7HIdTAnn/cS/W0dhcX9lzDyPlt9NB6/purq5ijIuRiSYiq
+	 F7Lffj/WWvjvOoM0KO0XUtcQm15tPKPJpY70I0L4Bw/BWEyw0VJTWpdqtItPYqgXAl
+	 UT6fwRLWX6JrqtcYtkLqCzLtP2pW8Ndo+zSRUrSEOH9EfJOaU7lljnSiBHRg5faGJe
+	 JoyPwEVX5pu3Pkav/wKudWNdeS8q1saEQGefpEhLHOocD28iVBkTlA68DqeTYubrZp
+	 QAYqSh7vtM3hw==
 X-Virus-Scanned: amavis at mail.savoirfairelinux.com
 Received: from mail.savoirfairelinux.com ([127.0.0.1])
  by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10026)
- with ESMTP id M4RgKhXwexz0; Thu, 22 Feb 2024 05:30:15 -0500 (EST)
+ with ESMTP id 9W0pl4nZ-T0W; Thu, 22 Feb 2024 05:30:17 -0500 (EST)
 Received: from sfl-deribaucourt.rennes.sfl (lmontsouris-657-1-69-118.w80-15.abo.wanadoo.fr [80.15.101.118])
-	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id 69CAF9C45BF;
-	Thu, 22 Feb 2024 05:30:14 -0500 (EST)
+	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id 4A7919C4A0F;
+	Thu, 22 Feb 2024 05:30:16 -0500 (EST)
 From: Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
 To: openembedded-core@lists.openembedded.org
 Cc: adrian.freihofer@gmail.com,
 	Ross.Burton@arm.com,
 	mohammed.raza@savoirfairelinux.com,
-	richard.purdie@linuxfoundation.org
-Subject: [PATCH 0/2] devtool: ide: define compilerPath instead of using absolute paths for meson
-Date: Thu, 22 Feb 2024 11:29:54 +0100
-Message-Id: <20240222102956.346542-1-enguerrand.de-ribaucourt@savoirfairelinux.com>
+	richard.purdie@linuxfoundation.org,
+	Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
+Subject: [PATCH 2/2] Revert "meson: use absolute cross-compiler paths"
+Date: Thu, 22 Feb 2024 11:29:56 +0100
+Message-Id: <20240222102956.346542-3-enguerrand.de-ribaucourt@savoirfairelinux.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240222102956.346542-1-enguerrand.de-ribaucourt@savoirfairelinux.com>
+References: <20240222102956.346542-1-enguerrand.de-ribaucourt@savoirfairelinux.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 22 Feb 2024 10:30:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196008
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196010
 
-A feature in vscode-cpptools was just added that allow us to pass the abs=
-olute
-compiler path through the devtool ide-sdk generated configuration. We can
-revert the meson.bbclass modification to avoid any potential issues with =
-using
-absolute paths in meson.cross.
+This reverts commit fc8e5d7c13f62e987b76971116cf290fd01a0c8f.
 
+We need to use the absolute path to the compiler so that the VSCode
+configuration generated by devtool ide-sdk could lint meson projects.
+
+A feature was just added to vscode-cpptools to support conveying the
+compilerPath in addition to the compile_commands.json. The next
+commits adds the necessary configuration. We can revert this one and
+keep the meson paths as they were.
+
+Signed-off-by: Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirf=
+airelinux.com>
+---
+ meta/classes-recipe/meson-routines.bbclass | 6 ------
+ meta/classes-recipe/meson.bbclass          | 7 ++-----
+ 2 files changed, 2 insertions(+), 11 deletions(-)
+
+diff --git a/meta/classes-recipe/meson-routines.bbclass b/meta/classes-re=
+cipe/meson-routines.bbclass
+index 9925465ed8f..a944a8fff1c 100644
+--- a/meta/classes-recipe/meson-routines.bbclass
++++ b/meta/classes-recipe/meson-routines.bbclass
+@@ -10,12 +10,6 @@ def meson_array(var, d):
+     items =3D d.getVar(var).split()
+     return repr(items[0] if len(items) =3D=3D 1 else items)
+=20
+-def meson_array_abspath(var, d):
+-    import shutil
+-    items =3D d.getVar(var).split()
+-    items[0] =3D shutil.which(items[0]) or items[0]
+-    return repr(items[0] if len(items) =3D=3D 1 else items)
+-
+ # Map our ARCH values to what Meson expects:
+ # http://mesonbuild.com/Reference-tables.html#cpu-families
+ def meson_cpu_family(var, d):
+diff --git a/meta/classes-recipe/meson.bbclass b/meta/classes-recipe/meso=
+n.bbclass
+index 31675cf42d1..03fa2c06eb4 100644
+--- a/meta/classes-recipe/meson.bbclass
++++ b/meta/classes-recipe/meson.bbclass
+@@ -64,13 +64,10 @@ addtask write_config before do_configure
+ do_write_config[vardeps] +=3D "CC CXX AR NM STRIP READELF OBJCOPY CFLAGS=
+ CXXFLAGS LDFLAGS RUSTC RUSTFLAGS EXEWRAPPER_ENABLED"
+ do_write_config() {
+     # This needs to be Py to split the args into single-element lists
+-    # The generated compile_commands.json file can be used by external I=
+DEs
+-    # which do not know the $PATH set-up by bitbake. They need the absol=
+ute
+-    # compiler paths.
+     cat >${WORKDIR}/meson.cross <<EOF
+ [binaries]
+-c =3D ${@meson_array_abspath('CC', d)}
+-cpp =3D ${@meson_array_abspath('CXX', d)}
++c =3D ${@meson_array('CC', d)}
++cpp =3D ${@meson_array('CXX', d)}
+ cython =3D 'cython3'
+ ar =3D ${@meson_array('AR', d)}
+ nm =3D ${@meson_array('NM', d)}
+--=20
+2.34.1
 
 
