@@ -2,60 +2,61 @@ Return-Path: <johannes.schneider@leica-geosystems.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8674C48BF6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95AECC48BEB
 	for <webhook@archiver.kernel.org>; Thu, 22 Feb 2024 00:34:53 +0000 (UTC)
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.78])
- by mx.groups.io with SMTP id smtpd.web11.2442.1708562087891704048
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com (EUR01-DB5-obe.outbound.protection.outlook.com [40.107.15.50])
+ by mx.groups.io with SMTP id smtpd.web10.2447.1708562087757387267
  for <openembedded-core@lists.openembedded.org>;
  Wed, 21 Feb 2024 16:34:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@leica-geosystems.com header.s=selector1 header.b=ulqKTpFa;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: leica-geosystems.com, ip: 40.107.21.78, mailfrom: johannes.schneider@leica-geosystems.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@leica-geosystems.com header.s=selector1 header.b=l1MuFt+m;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: leica-geosystems.com, ip: 40.107.15.50, mailfrom: johannes.schneider@leica-geosystems.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=k2UCwZ/qDe2Ohb0VGwBlj4+K1jJh2YBkcn7xcq+5KyBpjiuUOIEqWOsmcfIwOSQ8qafpbvfsE26sUKEHwtva8dzUCzeGaGZ0Y1LfrGlTmSFUvV2NEJXVFUctk9ssvpjSjEIOfd3RqJDPl/A1VxBtJVJktsu9FQtQjVD3x6cdTdcC35tQDz1wo1xpOOfWy2zsovACXbbpQdRK7bhcHsF6zx6gCBPpVW0X2LI0E4fEhXFZpNBtp0QissdW6/jdcJE2xd5Rg2LDS8ZjSF+FySt7cCFwLEDCEoawSS74W+hu5FYQor+eA05qwE07IXHdZaFWFS9aLy3CPDDsb+R/pL9EpQ==
+ b=TRd0kWWEOyegL6Z2epCI3vT2+bmxpN+WACugrxzH/1TL5bt6Vl7LX1rOG45Z0bzQWelhF3bL87x196Bww/Q4hsezRReiu+9QdIhBcZWql+FK4RAMYfCuNQtbJw4T6IHCZ6VC8pWPV2bcN3kvP+EMyjvenn2x3oQ3ZGVP+rm5FLhs6LGmrIElWgsk2sraHgbZmlm22FokYPkKU6dLMkouRsst36zuRPIdmPN1agoqNYdcfIu2A4Sr6U6Ve+Vfyw4+MuitC4taJV0mbliMKQMf6XXh7Wi9rb7p+c8MXv3j13H0BD0VTOtdDZurzwI7iiSuJBx4JpuM2Ymz/hxqgOWg1Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
  bh=VT/bLJqgmzWv6IKJfMdQ7qXWSVAqP3YMv5nVxTLSqjg=;
- b=SfP1BErr7dcmhvWp28glMz31YdSKVVHiVCFFvQLBgHayoMhLnHiPfZj2OjjdNxhKx9QWGJafeBT/Dgxhx6Uk66R7AMy6+cRLJ5GpAiU42XfIamgKYTB+WdEA0ewKtnmVQ9gZPlsncSRsbSneX8vtSj5Jub6slx+SjG37NqAIYIqge0EPLmMoxKirlP0pLdaCgJclX3qiaqtGGMi5o4sUiegMzozGSMdOL/tOSCM9HcpATxbu7zpO6V48kFeH2g+a5FV1X5eJzLuWPeCQGqMSbuKP8U8CDUQueSxyqk6NCvDDT68BNs6kLMddO5fRpj4LEUy+eGhSkNCA8LHT3XGifQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=temperror (sender ip
- is 193.8.40.94) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=leica-geosystems.com; dmarc=temperror action=none
- header.from=leica-geosystems.com; dkim=none (message not signed); arc=none
- (0)
+ b=ch9soyhTuRDQVHpbkAJH7ET1ziCatL+VRcyPblgnqoMwtKGXAcYBxBDU53WqnJtCaoqSxBRnKafy45VugJKrIjHjaFFYMTcp+4QFND5ybKR7etYBo5jBzW1RwZ+jxxIyuzXObsZ9GLFd7RpCf0gHCMXDGbn74wX8Oa7aATdiJIq6ADCvsbtbQ0ywPYlcCgCEOFlma5Dh3vXpl6WxjQEsGARPdA92XJwYWL+NerkX875OA8EzgloPQnJ5od7nHRPxgU7vnn64dw7rbxolUdaSTInqaXg0aUnRgB5ihfUGH/tq8mSO/I9dj6+CCMqDpP2SGLaSnwVCyBkrw3VvvDXKPA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 193.8.40.94) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=leica-geosystems.com; dmarc=pass (p=reject sp=reject pct=100)
+ action=none header.from=leica-geosystems.com; dkim=none (message not signed);
+ arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=leica-geosystems.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
  bh=VT/bLJqgmzWv6IKJfMdQ7qXWSVAqP3YMv5nVxTLSqjg=;
- b=ulqKTpFaqJ76aTR9DBcY1f03WAOCXpW0H9fr5bI6Bjj0QS53yHgzVCgc5TjuPR4Rp3izM1RWkP5s+LmwIC+WVnMQgv1mJOoMVFnjzTQ1c/xnOGbzpDM/s5SBNKmQI69Qa6sDCjDZOwNeqIbZ82uDK0hEkGOB35bjH++r8v6ncQQ=
-Received: from AS4PR09CA0024.eurprd09.prod.outlook.com (2603:10a6:20b:5d4::12)
- by AM8PR06MB7666.eurprd06.prod.outlook.com (2603:10a6:20b:360::6) with
+ b=l1MuFt+mGnicPKGBn4qWwTKb+qrrGOoRyCGC+ZX3SYNHN+YMfJJanmplENCCLime4fJdDlcBz3sTkp6gxAgN5uiOzijyCPBrkP6zGyBvdvfC/m8z4m7DEvg2G4rxNe7PJVvlfJq9Hl0iAFvN4LOK9gX6gumN0M8e8ZAgIirG2Hs=
+Received: from AS4PR09CA0028.eurprd09.prod.outlook.com (2603:10a6:20b:5d4::16)
+ by AM0PR06MB6532.eurprd06.prod.outlook.com (2603:10a6:208:19f::8) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.22; Thu, 22 Feb
- 2024 00:34:44 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.10; Thu, 22 Feb
+ 2024 00:34:45 +0000
 Received: from AM3PEPF00009B9E.eurprd04.prod.outlook.com
- (2603:10a6:20b:5d4:cafe::1b) by AS4PR09CA0024.outlook.office365.com
- (2603:10a6:20b:5d4::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.43 via Frontend
- Transport; Thu, 22 Feb 2024 00:34:44 +0000
-X-MS-Exchange-Authentication-Results: spf=temperror (sender IP is 193.8.40.94)
+ (2603:10a6:20b:5d4:cafe::63) by AS4PR09CA0028.outlook.office365.com
+ (2603:10a6:20b:5d4::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.39 via Frontend
+ Transport; Thu, 22 Feb 2024 00:34:45 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 193.8.40.94)
  smtp.mailfrom=leica-geosystems.com; dkim=none (message not signed)
- header.d=none;dmarc=temperror action=none header.from=leica-geosystems.com;
-Received-SPF: TempError (protection.outlook.com: error in processing during
- lookup of leica-geosystems.com: DNS Timeout)
+ header.d=none;dmarc=pass action=none header.from=leica-geosystems.com;
+Received-SPF: Pass (protection.outlook.com: domain of leica-geosystems.com
+ designates 193.8.40.94 as permitted sender) receiver=protection.outlook.com;
+ client-ip=193.8.40.94; helo=hexagon.com; pr=C
 Received: from hexagon.com (193.8.40.94) by
  AM3PEPF00009B9E.mail.protection.outlook.com (10.167.16.23) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7292.25 via Frontend Transport; Thu, 22 Feb 2024 00:34:43 +0000
+ 15.20.7292.25 via Frontend Transport; Thu, 22 Feb 2024 00:34:45 +0000
 Received: from aherlnxbspsrv01.lgs-net.com ([10.60.34.116]) by hexagon.com with Microsoft SMTPSVC(10.0.17763.1697);
 	 Thu, 22 Feb 2024 01:34:39 +0100
 From: Johannes Schneider <johannes.schneider@leica-geosystems.com>
 To: openembedded-core@lists.openembedded.org,
 	richard.purdie@linuxfoundation.org
 CC: Johannes Schneider <johannes.schneider@leica-geosystems.com>
-Subject: [PATCH v3 3/3] classes: add a systemd-sysext image class
-Date: Thu, 22 Feb 2024 01:34:27 +0100
-Message-ID: <20240222003428.1585775-4-johannes.schneider@leica-geosystems.com>
+Subject: [PATCH] classes: add a systemd-sysext image class
+Date: Thu, 22 Feb 2024 01:34:28 +0100
+Message-ID: <20240222003428.1585775-5-johannes.schneider@leica-geosystems.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240222003428.1585775-1-johannes.schneider@leica-geosystems.com>
 References: <20240222003428.1585775-1-johannes.schneider@leica-geosystems.com>
@@ -64,33 +65,33 @@ Content-Transfer-Encoding: quoted-printable
 X-OriginalArrivalTime: 22 Feb 2024 00:34:39.0453 (UTC) FILETIME=[EB7818D0:01DA6526]
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM3PEPF00009B9E:EE_|AM8PR06MB7666:EE_
+X-MS-TrafficTypeDiagnostic: AM3PEPF00009B9E:EE_|AM0PR06MB6532:EE_
 Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: aea21e3c-31d7-4532-d3ab-08dc333e1020
+X-MS-Office365-Filtering-Correlation-Id: ecbe85e7-6752-4887-da2a-08dc333e114a
 X-SET-LOWER-SCL-SCANNER: YES
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	EMhtw3u3sjtOjfsm7jTACwb3IYAGBmE1exIWEGSTAzsxMMrsWQU0aL6AiGIyq2WLhn/8FajIcyqZKbYm//YvFvt8fQPV/RB+8W7Xnvf94qS1IR6MgZ9RVC5kwsQ4aO8xodZuu0WICWcjHpHmIQFyOGsoJg19jh+74b3AxV4WbublKtUZ44xkNM4n2yioeJD/J0Iukx5KLgpl2CT+PMh7m7oZPmUGDUAIxBNYhxfyEc4SHtePPVYtRHWYGiyH9NzGBAn0UMaq6Ut1WJvOWHwwKgYQ/nKvfzMJUFMMOylQhjOkDVTv/hhkLcRpT5WtfTFxwvp4KWkJi/80QFiGxLhVX0/IjdQ/FPxv/nNfWGnSHLpnM7Tdn2Qfpuk8ej6vU9z5PJjj/bd/t5s46eeMHN4F6l55rJAL/4KrVAbZRTjlgN4g5bOWmkU48qHx/I9yj6DvmyUnkH31Z7Jhbp2XT+W0Tr5pbBFqNCqFlexoFKleba96VHUB7VD6ApniYeetmglQxTXXEkIrgeDzsoyjozBXoWGpswLUVYp7kHx7CCnxa3eeyKWDQeDWAwAY2icvagUVtrYEBoiW2FNZTXktdIrJht8mMG/qnMl6VzQ70RBAGwbH1afCyLjR5A2CFVTTgUvj9T89R1fY3sfrBnoy5mqVgA==
+	mhQ2gB/BFQKI7pkRgpDyS1NC/uEV+IAL1zJmTHVmeJqp+NjxRfCo9o2A+gQJm9OyHedq7BbGpehA4wRsQl2Q9umsRScqugOCKZ03d9xpQRlkr6uoyvcSt978KcZ2h0GnEE0zQoJlm7zIAm5uVwjH9TzT0w61esxvdRM3FFdaGTBTasfLPWNhXtj5Axy3t2dIHNnPOiqipjeW4b/tcKrAA4hZOw4CM8W7lrxrXXZXLzDpUwPLi4nspL3bOagnzHPnLErrWaaqAW61XwPy0BLfOQG8p5qul9/0iy7qZcyUt4rwR0mxMpg506nSN/FRszErGVDfewXouaqgg2JLIWvg+Z9yHtWgodO3lTtmxKuvNAD/7aNaT8eqHHDTSAA988+M/jLxx5xH22lFpjQtO+iEqu+yLCi9wrAq70CEsKJHuo6yoFswZuA/t1R2hxjN8EWN8GSpdIsHty6GtXBwtP1fU3wXA06P6wuD2YYs5py07LmXE1D9PCtEehHI5KhBDFjhAP/Sf31F2JYvKEZEwWWW7IZQNvQ3WmkkJnGan7qyFmUDktDUivFzh26ctF4asXtzcraWmAIH6vNJYsUefLvo6lulEMPaogNJ1SyZDBouAFbWrGjivvv4BVCDOkdCr+RI2KAX92fQ6Q8LYtfNPp8kDA==
 X-Forefront-Antispam-Report: 
 	CIP:193.8.40.94;CTRY:CH;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:hexagon.com;PTR:ahersrvdom50.leica-geosystems.com;CAT:NONE;SFS:(13230031)(36860700004)(40470700004)(46966006);DIR:OUT;SFP:1101;
 X-OriginatorOrg: leica-geosystems.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Feb 2024 00:34:43.1031
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Feb 2024 00:34:45.0562
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: aea21e3c-31d7-4532-d3ab-08dc333e1020
+X-MS-Exchange-CrossTenant-Network-Message-Id: ecbe85e7-6752-4887-da2a-08dc333e114a
 X-MS-Exchange-CrossTenant-Id: 1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a;Ip=[193.8.40.94];Helo=[hexagon.com]
 X-MS-Exchange-CrossTenant-AuthSource: 
 	AM3PEPF00009B9E.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR06MB7666
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR06MB6532
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 22 Feb 2024 00:34:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196003
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196002
 
 systemd-sysext can load a raw-image containing usr/ and opt/ folders
 to mount them as RO overlay over the rootfs, to "extend" the systems.
