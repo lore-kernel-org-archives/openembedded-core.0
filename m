@@ -1,219 +1,113 @@
-Return-Path: <p.lobacz@welotec.com>
+Return-Path: <enguerrand.de-ribaucourt@savoirfairelinux.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 914B1C54788
-	for <webhook@archiver.kernel.org>; Thu, 22 Feb 2024 15:05:28 +0000 (UTC)
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.120])
- by mx.groups.io with SMTP id smtpd.web10.14936.1708614323951740748
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E55EC48BF8
+	for <webhook@archiver.kernel.org>; Thu, 22 Feb 2024 15:22:08 +0000 (UTC)
+Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [208.88.110.44])
+ by mx.groups.io with SMTP id smtpd.web10.15350.1708615323182678248
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Feb 2024 07:05:24 -0800
+ Thu, 22 Feb 2024 07:22:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@welotec.com header.s=selector1 header.b=V+wYBDui;
- spf=pass (domain: welotec.com, ip: 40.107.21.120, mailfrom: p.lobacz@welotec.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RfnGBDDfOEqR/1cVk81pJe6ZQ+1U1W6GrcQ8jl0529RYetDOtRbjdxeN8w7ZQ1Mjk9LNd0lVMuI05iG9h5Y4UMZYIilAY2RmmrVHiM27Iw7SCzq3VrcDpKFFK+Fb7dE7q9WXMey9pvtm0pHsGzXnCX3aAUYJQ1tvyZKZeI0iku7fpA9j2DMES11AHd7mFCVVVR8M8lKlSz8cH+jbGSxrHFfNPvLa0k7kynzm2RHKsFv18hlvSsgXNHwL5PBOGYWYHuGnwGUFTtyUmqHNkfdCYt7bpvpaAyxKJSUGQGVlxop0zzg8a3hUIURAgAS9dCbdpMc/obatKgHoslBrd2M5iw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wWIaWyrhb6fDCdISaCVsUPE9a/tCnUg42juRXyMQ9Rs=;
- b=AWgW9S+iPdQ+Xwdk/DlcUoo5u9o9/N9Q7Kjf0cKKZXVpEsJ86tC7pvv93+i9T76+RRE6Wgr8TJdr5xpYwBiK7q+3R4F406rMo7PNn5N8jr7AxWqPK6T34YqyLRsfomysXQBmcqgiEl7HHdm80X52lDDt5kut2NS11lBQwgsK+V2RgRuDHHhX+A5PDo9BM5k8jRHxjPp9UTjo0ft3KwDkrdMyTZs+AX5E+8JL9WHZDGsveJ8rXugcjHD0dYHJYP2EPd/ggySgZoY7SkqJDi/qYNbEYCcSv2qx+TWHL4Cx86iyFtTTpOiHJuYxRpjJKhW/P1rQH406mh/BUBDfKUN8kg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=welotec.com; dmarc=pass action=none header.from=welotec.com;
- dkim=pass header.d=welotec.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=welotec.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wWIaWyrhb6fDCdISaCVsUPE9a/tCnUg42juRXyMQ9Rs=;
- b=V+wYBDuieJ9xjfdMqvw2RUvvrgvrnkmbmIGd8jbuYQ+JFAIDS1SNwCj61KUrTOmaBW+TE/skBNdoO+F8PKBynbgAGRZn6MDRzMOC1tl93K/1H/gjGDcSwtgLB19LAlFDY8Vd8oTv5nD+HP/VCjkEJoSgKLQeNpv8NibWlFi+/9uF/xCIYnf+nlY+U260txZ3w/MLqk8SGwG+2+kEPQBo3GWcYguVQY0MSdUku+yHWLvqBnswOGdYobBN2kLU742YXelbq/VkiOn1HZ18fPyUWPQbHm6D9Tg9SF2Kbr20zDpHxA9tz/35zxVUqL2Qqxwui5keNNZDpxJZPCOTnl8S7A==
-Received: from DB6PR04MB2998.eurprd04.prod.outlook.com (2603:10a6:6:4::22) by
- AM8PR04MB7826.eurprd04.prod.outlook.com (2603:10a6:20b:234::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.39; Thu, 22 Feb
- 2024 15:05:19 +0000
-Received: from DB6PR04MB2998.eurprd04.prod.outlook.com
- ([fe80::d5d:d74f:9666:ea69]) by DB6PR04MB2998.eurprd04.prod.outlook.com
- ([fe80::d5d:d74f:9666:ea69%4]) with mapi id 15.20.7316.018; Thu, 22 Feb 2024
- 15:05:19 +0000
-From: =?utf-8?B?UGlvdHIgxYFvYmFjeg==?= <p.lobacz@welotec.com>
-To: =?utf-8?B?RWlsw61zICdwaWRnZScgTsOtIEZobGFubmFnw6Fpbg==?=
-	<pidge@baylibre.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>, =?utf-8?B?SmFuIEfDs3Jza2k=?=
-	<j.gorski@welotec.com>
-Subject: Re: [OE-core] [PATCH 1/3] useradd.bbclass: Fix order of
- postinst-useradd-*
-Thread-Topic: [OE-core] [PATCH 1/3] useradd.bbclass: Fix order of
- postinst-useradd-*
-Thread-Index: AQHaZZ8AKhjKlQftGkqpI0eZ7Y32tbEWdSaAgAAAtAA=
-Date: Thu, 22 Feb 2024 15:05:19 +0000
-Message-ID: <13895208.RDIVbhacDa@latitude>
-References: <cover.1708613381.git.pidge@baylibre.com>
- <5eb199fe11d71f598726b75808b3330cd3efd2e5.1708613381.git.pidge@baylibre.com>
- <3d551ef80a4bbb3ec8c5ef1c26e8e6e16cf1dd98.camel@linuxfoundation.org>
-In-Reply-To: 
- <3d551ef80a4bbb3ec8c5ef1c26e8e6e16cf1dd98.camel@linuxfoundation.org>
-Accept-Language: pl-PL, en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=welotec.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB6PR04MB2998:EE_|AM8PR04MB7826:EE_
-x-ms-office365-filtering-correlation-id: f7f47819-80a2-4c3d-fa5b-08dc33b7af70
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- VZwN18YZnhldgjXPcDM1s6cVVjZf3JArKhi76WV9QDDceJXN4O1qIuSxJpCTXe9q1KWeVyZR9I7Tb650M5ImBiJO4zeqALsrUHjcV0TWeFKpljStZ4CCWuGL1sEW1ve2cJthDZhbG5j8cLnJljyv2kHRV5p9fp+DBSMsnQoSmgBdI7f4kUBK3g1kiWdI6mtFux3UHnmqGx+4d1RsjHwMiDbgoOnc0H0mhUlCYpzbkzEikkA9h7YPWoW9pdooWtF8bN8hsIhEO2sQj7Yry5xrNSsucJh42cjnZSfvCPWUQ7LPtKV1HVeHHP8hx8NHOm3JP7ebBMdQDRfv/WjJrcJsd7ETl+Q8PtB3UvyqvcODiY4XLWHlNKxV4pNi+3aSKm3tuYLeKKtIT6XYz3CxanJptm5NCjpBHWQGg3lAiY+Pxz/9o341Gw1laLeil7T3miQyfFTbZJaKzZ2RP45BDeBKSekOJ0FXel9jeL5qKiOBekQsk1iTCJ4779+acBxMs8F5ASx9HqHb8ybWIw9JX6XbO98mY3360vkM1EqdRfbVkFJHiea309PlNBqbck0GTqjMe/g2eRROWfAx/OBkEDHGpRbBubm9Y0FllV+szvMWLz5yUfsUlDyHmBA6cYXSjgtx
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB6PR04MB2998.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(38070700009);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?MjdzcjVTWlR5MFJLemowYUlQc082S1ZrRDRRSU8wWC9jeFVKc2dpVmNpdWov?=
- =?utf-8?B?VkJiN3V0bE00MTA2NVdpRGU2WWszbmVKNG8rMkFiWEk3WWFydVVqSER2SFdq?=
- =?utf-8?B?QTZGczFKSVhDVWJWNFVYSFZ6VGR0cXpSWFhsNzU1bXQvK1I3cHh6aHJVQVFp?=
- =?utf-8?B?bDN0OHpWamswUk5XSzVnWUhsTVJwWndaek9GMVZxK2RJN3lzSytxOVI1OU11?=
- =?utf-8?B?N0RmNmhnb213aE0rNHoxK29Nby94bTVVRWUvekF1c3BGbjZZc29QVjQvZWpO?=
- =?utf-8?B?VEVuZVhmSWhWRnhNNFg3RGdaRGkzd3F6OGNkdjBYRTUzcjk3cHNoRk9OcDk0?=
- =?utf-8?B?L3JQQlBSbE9oNklRRk83Z0pNVmRJdGwranc1VHVQdjBSV0lsMCtJWWE3QTMr?=
- =?utf-8?B?c1MrRjFBeXNBVU5SMXhYUTRHclpmaDM2NTJNMVRUcHFCRWVTNC8vWTV1QzdW?=
- =?utf-8?B?TExkVU1qVFl5eWdDT3M3YmZDL04xOG94NGFjTnBIV1RhU2M2UCtlQ2dSL0RE?=
- =?utf-8?B?bHdjekZFZ2NwVzJ6V1ZMaC91aStML3FTTE5HbTEvZG9yeURuMFFZcDVSaEY4?=
- =?utf-8?B?bWp5SHFkWHlBQWJNbmxvdW4yQVNhc2pHbmlkWGRsWURObktzd05BQmxLbEVY?=
- =?utf-8?B?QUkxQTE2MWtjSmNHVitadjdhZ1Z2T3ZSdTZHTEpHUXlsT1V1V0lFaEhvNXFY?=
- =?utf-8?B?dElJUW00eC95bFVvbDZTRkNLZUZnckllc1NJOXJtRkFiemNwRUFMTmRZMzV0?=
- =?utf-8?B?SHllcXk3N0p5U3ptUHVpcGhrQnQzM0FRV1dJMS83ZkZnZTA0aGEyS0F4QU9m?=
- =?utf-8?B?bUcvdllqWnduM1lxeWZuMExGbTFRZ2FPcjFJVk0ySGdBcXZtbzV0US9VZDlX?=
- =?utf-8?B?QzFrRnFLK2N0ZzBQcEIwMzA5Vlg4NWFuTCtWTkh0d0tJTGpUdnVUbDhhVHZR?=
- =?utf-8?B?RUpRQnFSMjJBdE5UUFl3c21QWmlrWXNCV2NXRy9WcElXMjluY1ZWTkY0RFFi?=
- =?utf-8?B?Rk9YalhhZHFnVmJHY2JrWHdWYkczVVdyNUtvSFNCL2ZaVWpBVXlQM3RMT2FW?=
- =?utf-8?B?THJsYUxHak1la2ZGRm8xQnFzZXdnRFhNQUNNenRhV2d2QUJ0c2t2VlpFekt2?=
- =?utf-8?B?bEJUMlBORVBmWEVIYkQ0L1JtNmR5Z09ocTVwalliZnNpeG9MSkFOajkwZHBO?=
- =?utf-8?B?ejl2WHJMNlYxWG4yTzhKYTlpWXJIWFFxT2NOSHhsODFrb0N6MzVNc2tiZEMy?=
- =?utf-8?B?dm1jOTBVaDViOGlSenNUME91LzBBRW9xMFc5RE1qVGFIUDdESHhFbnhTNnZl?=
- =?utf-8?B?VkJ2cVFQdTdRUEZzcDJYOE5Ya1FkTXpKYW12Q2lZb2pVZS9VN1hBeUJCNlBO?=
- =?utf-8?B?WW9zM2NENHFvTSthYnVQYmdDRm5VQ1VKd0sySGo3dzUvTCtwMENUTFhNdnJN?=
- =?utf-8?B?TStSSWQrak85c0JLamIyU0JhVWJ0TWhQeDhCU1RWWjhVRk0raW1iWnJNUkQ1?=
- =?utf-8?B?TnhGSzBmM3FJWFlDMDY0QzMrUExydGNlK1dNanVoQlJLUmszVWd3VmxWZ1lR?=
- =?utf-8?B?Zk1ncUo5L2F6U2dTVzJBYWFOMndEb21hcXBrNHhQSENHUFBObTJXb2lNSXpw?=
- =?utf-8?B?NndONEsraEtkdnRlYi9NeFgzUHFjWHZEZ3B4WUpCZnpiSlp1OFNSVjJHWktY?=
- =?utf-8?B?U3YxUTFvcGtxZDl6WHI1enJoa3hheWU1b2RuSzdQZVJ3S2J5OVoxS0YrdTdp?=
- =?utf-8?B?YklHTDIzV1Y5Z21KVmN6VFRBRjdNbjF1dW5acE9VaVJmMCt3Ky9id2kyRHJm?=
- =?utf-8?B?UnhUVGpyUmJtRURMRmdQeE5Td0ZNcm9IbmpLYjBUUXEyVlNFSmRqaCtXSzB6?=
- =?utf-8?B?RHg5OXZrSzVJNnNnandZODliSUI1VnI2Q1lORWdmUDNQS0k3KzFJRWZ6OGQ2?=
- =?utf-8?B?bGRDbkU0ZDRXbmxaYzkrUmhkMUQ0Qk9nZDZvKzNXQzM3TkE1QWJzdy9pa1hR?=
- =?utf-8?B?ZGFqSGZJTmt0NXc3bjZ1MXNoU29UZEdZODFpZGRpV0d0MWlVNitPWGprSjFw?=
- =?utf-8?B?bVR6ek1DRXcycnBoQWNJbDA3Q1U3Z21nNW1TMjFIQit5SzFNU0x1VE92WUtz?=
- =?utf-8?B?ZGtwSFAzTW5rcW1TUDdDcUFHOTR1cmZIYkV3cHd6Ulh3d2dqdmJ5ZXBtbG9K?=
- =?utf-8?B?Unc9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <C0830543EAF33943BE185339C640CF5C@eurprd04.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@savoirfairelinux.com header.s=DFC430D2-D198-11EC-948E-34200CB392D2 header.b=vJ4AieSU;
+ spf=pass (domain: savoirfairelinux.com, ip: 208.88.110.44, mailfrom: enguerrand.de-ribaucourt@savoirfairelinux.com)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 194FB9C4789;
+	Thu, 22 Feb 2024 10:22:02 -0500 (EST)
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+ by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10032)
+ with ESMTP id n1XB0opKAwe8; Thu, 22 Feb 2024 10:22:01 -0500 (EST)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 4E4C39C460D;
+	Thu, 22 Feb 2024 10:22:01 -0500 (EST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.savoirfairelinux.com 4E4C39C460D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=savoirfairelinux.com; s=DFC430D2-D198-11EC-948E-34200CB392D2;
+	t=1708615321; bh=SilSXEc+1Twac2IhFMSkAgZJDROwdgCMoKJEPD/S+V8=;
+	h=From:To:Date:Message-Id:MIME-Version;
+	b=vJ4AieSUKWdUDUN+vS0YdxCaWO9pVN39JnOG1CeSrWgOyN10RyvgKNXF+6I0iU3O1
+	 TWtWKxrhAV0ecuG4A4Ww4f8HLTv1gt3IU5MTNv185fuXJ0pg8sqAdImgOn2UZtPrCv
+	 1NsKCe5UZlcGVEZFiBcCP7t8qlQGmB1wrmwcAaG/kjyhspaJuhgYifomGGeXSWvRvw
+	 MmtoICB6vLmilS0F/k7NuUUvOZ0z5wpAj7WKGaJhbEOPbZG/2Fcvfmh6aMxjCRRGrF
+	 aJShq0DrlAeW/+c/X69rVoL12SygBqKIHN1Yf5ZIeTvTWW48BNapvlecxbNQFw7KXv
+	 kOEmd9k9o/PDg==
+X-Virus-Scanned: amavis at mail.savoirfairelinux.com
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+ by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavis, port 10026)
+ with ESMTP id lU0-emqmZTjz; Thu, 22 Feb 2024 10:22:01 -0500 (EST)
+Received: from sfl-deribaucourt.rennes.sfl (lmontsouris-657-1-69-118.w80-15.abo.wanadoo.fr [80.15.101.118])
+	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id 89B2D9C4232;
+	Thu, 22 Feb 2024 10:22:00 -0500 (EST)
+From: Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
+To: openembedded-core@lists.openembedded.org
+Cc: mohammed.raza@savoirfairelinux.com,
+	richard.purdie@linuxfoundation.org,
+	paul.eggleton@linux.intel.com,
+	Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirfairelinux.com>
+Subject: [PATCH] bitbake: progressbar: accept value over initial maxval
+Date: Thu, 22 Feb 2024 16:21:53 +0100
+Message-Id: <20240222152153.769675-1-enguerrand.de-ribaucourt@savoirfairelinux.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-OriginatorOrg: welotec.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB6PR04MB2998.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f7f47819-80a2-4c3d-fa5b-08dc33b7af70
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Feb 2024 15:05:19.5182
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 25111a7f-1d5a-4c51-a4ca-7f8e44011b39
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: /t3qbO1loRTXNfjI8DDSai5i0H+rD+nArIJgiJs3V0q3BYU8s1F81FnywfMH29SQYmzAtR7OMDgTuYwPrSdgTg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR04MB7826
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 22 Feb 2024 15:05:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196035
+ <openembedded-core@lists.openembedded.org>; Thu, 22 Feb 2024 15:22:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196036
 
-RG5pYSBjendhcnRlaywgMjIgbHV0ZWdvIDIwMjQgMTY6MDI6NDcgQ0VUIFJpY2hhcmQgUHVyZGll
-IHBpc3plOgo+IE9uIFRodSwgMjAyNC0wMi0yMiBhdCAxNDo1MyArMDAwMCwgRWlsw61zICdwaWRn
-ZScgTsOtIEZobGFubmFnw6FpbiB3cm90ZToKPiA+IEZyb206IFBpb3RyIMWBb2JhY3ogPHAubG9i
-YWN6QHdlbG90ZWMuY29tPgo+ID4gCj4gPiBwb3N0aW5zdC11c2VyYWRkLSogaGF2ZW4ndCBiZWVu
-IHJ1bm5pbmcgaW4gb3JkZXIgb2YgZGVwZW5kZW5jeS4KPiA+IAo+ID4gVGhpcyBwYXRjaCBpcyBy
-ZXdvcmtlZCBmcm9tIFBpb3RyIMWBb2JhY3oncyBwYXRjaCBhbmQgZml4ZXM6Cj4gPiAKPiA+IGh0
-dHBzOi8vZXVyMDQuc2FmZWxpbmtzLnByb3RlY3Rpb24ub3V0bG9vay5jb20vP3VybD1odHRwcyUz
-QSUyRiUyRmJ1Z3ppbGxhCj4gPiAueW9jdG9wcm9qZWN0Lm9yZyUyRnNob3dfYnVnLmNnaSUzRmlk
-JTNEMTUwODQmZGF0YT0wNSU3QzAyJTdDcC5sb2JhY3olNDB3ZQo+ID4gbG90ZWMuY29tJTdDNzFl
-NTg0MDJjMmYyNDA5ZjU2YmIwOGRjMzNiNzU1YjMlN0MyNTExMWE3ZjFkNWE0YzUxYTRjYTdmOGU0
-NDAKPiA+IDExYjM5JTdDMCU3QzAlN0M2Mzg0NDIxMDk3MzE3MDMwMTAlN0NVbmtub3duJTdDVFdG
-cGJHWnNiM2Q4ZXlKV0lqb2lNQzR3TGpBCj4gPiB3TURBaUxDSlFJam9pVjJsdU16SWlMQ0pCVGlJ
-NklrMWhhV3dpTENKWFZDSTZNbjAlM0QlN0MwJTdDJTdDJTdDJnNkYXRhPSUyQgo+ID4gVTJjZzZF
-c21lM1FoeEl3aktXNDE3RE1uY00lMkZ3V2pFQ2had3JCTnVsbEElM0QmcmVzZXJ2ZWQ9MAo+ID4g
-aHR0cHM6Ly9ldXIwNC5zYWZlbGlua3MucHJvdGVjdGlvbi5vdXRsb29rLmNvbS8/dXJsPWh0dHBz
-JTNBJTJGJTJGYnVnemlsbAo+ID4gYS55b2N0b3Byb2plY3Qub3JnJTJGc2hvd19idWcuY2dpJTNG
-aWQlM0QxMzkwNCZkYXRhPTA1JTdDMDIlN0NwLmxvYmFjeiU0MHcKPiA+IGVsb3RlYy5jb20lN0M3
-MWU1ODQwMmMyZjI0MDlmNTZiYjA4ZGMzM2I3NTViMyU3QzI1MTExYTdmMWQ1YTRjNTFhNGNhN2Y4
-ZTQ0Cj4gPiAwMTFiMzklN0MwJTdDMCU3QzYzODQ0MjEwOTczMTcxMDUxMyU3Q1Vua25vd24lN0NU
-V0ZwYkdac2IzZDhleUpXSWpvaU1DNHdMago+ID4gQXdNREFpTENKUUlqb2lWMmx1TXpJaUxDSkJU
-aUk2SWsxaGFXd2lMQ0pYVkNJNk1uMCUzRCU3QzAlN0MlN0MlN0Mmc2RhdGE9czMKPiA+ICUyQjls
-MGYxY3I3SktqY2c5UjlhcnpaSEFuQlBPek90ZWNXVUdqMXZCRjQlM0QmcmVzZXJ2ZWQ9MAo+ID4g
-Cj4gPiBJdCBlbnN1cmVzIHRoYXQgZ3JvdXBzLCB1c2VycyBhbmQgZ3JvdXBtZW1zIGFyZSBhbGwg
-cnVuIGluIHRoZSBjb3JyZWN0Cj4gPiBvcmRlci4KPiBJIHRoaW5rIHRoaXMgbmVlZHMgYSBsaXR0
-bGUgYml0IG1vcmUgZXhwbGFuYXRpb24gaW4gdGhlIGNvbW1pdCBtZXNzYWdlLgo+IFdoYXQgaXMg
-dGhlIGlzc3VlLCB3aHkgZG8gd2UgbmVlZCB0byBzb2x2ZSBpdCBsaWtlIHRoaXMgZXRjLgoKQWNj
-dHVhbHksIHRoZSBpc3N1ZSB3YXMgZGlzY292ZXJlZCBieSBtZSBhbmQgdGhlIHBhdGNoIGdpdmVu
-IGJ5IG1lIHdhcyBjcmVhdGVkIApieSBKYW4gc28gSSB0aGluayBoZSBjYW4gcHV0IGhpcyBjb21t
-ZW50cyBvbiB0aGF0LiBUaGF0IHdvdWxkIGJlIHRoZSBiZXN0IEkgCnRoaW5rLgoKPiA+IFNpZ25l
-ZC1vZmYtYnk6IEVpbMOtcyAncGlkZ2UnIE7DrSBGaGxhbm5hZ8OhaW4gPHBpZGdlQGJheWxpYnJl
-LmNvbT4KPiA+IC0tLQo+ID4gIG1ldGEvY2xhc3Nlcy1nbG9iYWwvc3RhZ2luZy5iYmNsYXNzIHwg
-IDcgKy0tCj4gPiAgbWV0YS9jbGFzc2VzL3VzZXJhZGQuYmJjbGFzcyAgICAgICAgfCA3MiArKysr
-KysrKysrKysrKysrKystLS0tLS0tLS0tLQo+ID4gIDIgZmlsZXMgY2hhbmdlZCwgNDkgaW5zZXJ0
-aW9ucygrKSwgMzAgZGVsZXRpb25zKC0pCj4gPiAKPiA+IGRpZmYgLS1naXQgYS9tZXRhL2NsYXNz
-ZXMtZ2xvYmFsL3N0YWdpbmcuYmJjbGFzcwo+ID4gYi9tZXRhL2NsYXNzZXMtZ2xvYmFsL3N0YWdp
-bmcuYmJjbGFzcyBpbmRleCBhYjNlMWQ3MWI1Li42YzIxNTEwMzc3IDEwMDY0NAo+ID4gLS0tIGEv
-bWV0YS9jbGFzc2VzLWdsb2JhbC9zdGFnaW5nLmJiY2xhc3MKPiA+ICsrKyBiL21ldGEvY2xhc3Nl
-cy1nbG9iYWwvc3RhZ2luZy5iYmNsYXNzCj4gPiBAQCAtMjQ1LDggKzI0NSw5IEBAIGRlZiBzdGFn
-aW5nX3BvcHVsYXRlX3N5c3Jvb3RfZGlyKHRhcmdldHN5c3Jvb3QsCj4gPiBuYXRpdmVzeXNyb290
-LCBuYXRpdmUsIGQpOiBjb250aW51ZQo+ID4gIAo+ID4gICAgICBzdGFnaW5nX3Byb2Nlc3NmaXht
-ZShmaXhtZSwgdGFyZ2V0ZGlyLCB0YXJnZXRzeXNyb290LCBuYXRpdmVzeXNyb290LAo+ID4gZCkg
-LSAgICBmb3IgcCBpbiBwb3N0aW5zdHM6Cj4gPiAtICAgICAgICBiYi5ub3RlKCJSdW5uaW5nIHBv
-c3RpbnN0IHt9LCBvdXRwdXQ6XG57fSIuZm9ybWF0KHAsCj4gPiBzdWJwcm9jZXNzLmNoZWNrX291
-dHB1dChwLCBzaGVsbD1UcnVlLCBzdGRlcnI9c3VicHJvY2Vzcy5TVERPVVQpKSkKPiA+IAo+ID4g
-Cj4gPiArICAgIGJiLndhcm4oc29ydGVkKHBvc3RpbnN0cykpCj4gCj4gQ29tZSBvbiwgcGxlYXNl
-ISA6KQo+IAo+ID4gKyAgICBmb3IgcCBpbiBzb3J0ZWQocG9zdGluc3RzKToKPiA+ICsgICAgICAg
-IGJiLndhcm4oIlJ1bm5pbmcgcG9zdGluc3Qge30sIG91dHB1dDpcbnt9Ii5mb3JtYXQocCwKPiA+
-IHN1YnByb2Nlc3MuY2hlY2tfb3V0cHV0KHAsIHNoZWxsPVRydWUsIHN0ZGVycj1zdWJwcm9jZXNz
-LlNURE9VVCkpKSAKPiA+ICAjCj4gPiAgIyBNYW5pZmVzdHMgaGVyZSBhcmUgY29tcGxpY2F0ZWQu
-IFRoZSBtYWluIHN5c3Jvb3QgYXJlYSBoYXMgdGhlIHVucGFja2VkCj4gPiBzc3RhdGUgQEAgLTYy
-OSw3ICs2MzAsNyBAQCBweXRob24gZXh0ZW5kX3JlY2lwZV9zeXNyb290KCkgewo+ID4gICAgICBm
-b3IgZiBpbiBmaXhtZToKPiA+ICAgICAgICAgIHN0YWdpbmdfcHJvY2Vzc2ZpeG1lKGZpeG1lW2Zd
-LCBmLCByZWNpcGVzeXNyb290LAo+ID4gcmVjaXBlc3lzcm9vdG5hdGl2ZSwgZCkgCj4gPiAtICAg
-IGZvciBwIGluIHBvc3RpbnN0czoKPiA+ICsgICAgZm9yIHAgaW4gc29ydGVkKHBvc3RpbnN0cyk6
-Cj4gPiAgICAgICAgICBiYi5ub3RlKCJSdW5uaW5nIHBvc3RpbnN0IHt9LCBvdXRwdXQ6XG57fSIu
-Zm9ybWF0KHAsCj4gPiBzdWJwcm9jZXNzLmNoZWNrX291dHB1dChwLCBzaGVsbD1UcnVlLCBzdGRl
-cnI9c3VicHJvY2Vzcy5TVERPVVQpKSkgCj4gPiAgICAgIGZvciBkZXAgaW4gbWFuaWZlc3RzOgo+
-ID4gZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nlcy91c2VyYWRkLmJiY2xhc3MgYi9tZXRhL2NsYXNz
-ZXMvdXNlcmFkZC5iYmNsYXNzCj4gPiBpbmRleCBhNThmODI4N2M5Li45MjRlZWFkZjljIDEwMDY0
-NAo+ID4gLS0tIGEvbWV0YS9jbGFzc2VzL3VzZXJhZGQuYmJjbGFzcwo+ID4gKysrIGIvbWV0YS9j
-bGFzc2VzL3VzZXJhZGQuYmJjbGFzcwo+ID4gQEAgLTEwMyw2ICsxMDMsMTggQEAgZmkKPiA+ICB9
-Cj4gPiAgCj4gPiAgdXNlcmFkZF9zeXNyb290ICgpIHsKPiA+ICsJdXNlcl9ncm91cF9ncm91cG1l
-bXNfYWRkX3N5c3Jvb3QgdXNlcgo+ID4gK30KPiA+ICsKPiA+ICtncm91cGFkZF9zeXNyb290ICgp
-IHsKPiA+ICsJdXNlcl9ncm91cF9ncm91cG1lbXNfYWRkX3N5c3Jvb3QgZ3JvdXAKPiA+ICt9Cj4g
-PiArCj4gPiArZ3JvdXBtZW1zYWRkX3N5c3Jvb3QgKCkgewo+ID4gKwl1c2VyX2dyb3VwX2dyb3Vw
-bWVtc19hZGRfc3lzcm9vdCBncm91cG1lbXMKPiA+ICt9Cj4gPiArCj4gPiArdXNlcl9ncm91cF9n
-cm91cG1lbXNfYWRkX3N5c3Jvb3QgKCkgewo+ID4gIAkjIFBzZXVkbyBtYXkgKGRvX3ByZXBhcmVf
-cmVjaXBlX3N5c3Jvb3QpIG9yIG1heSBub3QKPiA+IChkb19wb3B1bGF0ZV9zeXNyb290X3NldHNj
-ZW5lKSBiZSBydW5uaW5nICMgYXQgdGhpcyBwb2ludCBzbyB3ZSdyZQo+ID4gZXhwbGljaXQgYWJv
-dXQgdGhlIGVudmlyb25tZW50IHNvIHBzZXVkbyBjYW4gbG9hZCBpZiAjIG5vdCBhbHJlYWR5Cj4g
-PiBwcmVzZW50Lgo+ID4gQEAgLTEzMCwxMCArMTQyLDE5IEBAIHVzZXJhZGRfc3lzcm9vdCAoKSB7
-Cj4gPiAgCQlleGl0IDAKPiA+ICAJZmkKPiA+ICAKPiA+IC0JIyBBZGQgZ3JvdXBzIGFuZCB1c2Vy
-cyBkZWZpbmVkIGZvciBhbGwgcmVjaXBlIHBhY2thZ2VzCj4gPiAtCUdST1VQQUREX1BBUkFNPSIk
-e0BnZXRfYWxsX2NtZF9wYXJhbXMoZCwgJ2dyb3VwYWRkJyl9Igo+ID4gLQlVU0VSQUREX1BBUkFN
-PSIke0BnZXRfYWxsX2NtZF9wYXJhbXMoZCwgJ3VzZXJhZGQnKX0iCj4gPiAtCUdST1VQTUVNU19Q
-QVJBTT0iJHtAZ2V0X2FsbF9jbWRfcGFyYW1zKGQsICdncm91cG1lbXMnKX0iCj4gPiArIAkjIEFk
-ZCBncm91cHMgYW5kIHVzZXJzIGRlZmluZWQgZm9yIGFsbCByZWNpcGUgcGFja2FnZXMKPiA+ICsJ
-aWYgdGVzdCAieCQxIiA9ICJ4Z3JvdXAiOyB0aGVuCj4gPiArCQlHUk9VUEFERF9QQVJBTT0iJHtA
-Z2V0X2FsbF9jbWRfcGFyYW1zKGQsICdncm91cGFkZCcpfSIKPiA+ICsJZmkKPiA+ICsJaWYgdGVz
-dCAieCQxIiA9ICJ4dXNlciI7IHRoZW4KPiA+ICsJCVVTRVJBRERfUEFSQU09IiR7QGdldF9hbGxf
-Y21kX3BhcmFtcyhkLCAndXNlcmFkZCcpfSIKPiA+ICsJZmkKPiA+ICsJaWYgdGVzdCAieCQxIiA9
-ICJ4Z3JvdXBtZW1zIjsgdGhlbgo+ID4gKwkJR1JPVVBNRU1TX1BBUkFNPSIke0BnZXRfYWxsX2Nt
-ZF9wYXJhbXMoZCwgCidncm91cG1lbXMnKX0iCj4gPiArCWZpCj4gPiArCWlmIHRlc3QgIngkMSIg
-PSAieCI7IHRoZW4KPiA+ICsJCWJid2FybiAibWlzc2luZyB0eXBlIG9mIHBhc3N3ZCBkYiBhY3Rp
-b24iCj4gPiArICAgIGZpCj4gCj4gd2hpdGVzcGFjZS4uLgo+IAo+IAo+IAo+IENoZWVycywKPiAK
-PiBSaWNoYXJkCgpCUgpQaW90cgoK
+There is a very rare case where the maxval is improperly computed
+initially for cache loading progress, and the value will go over.
+
+Explanation from bitbake/lib/bb/cache.py:736 in MulticonfigCache:__init__=
+:progress()
+    # we might have calculated incorrect total size because a file
+    # might've been written out just after we checked its size
+
+In that case, progressbar will receive a value over the initial maxval.
+This results in a ValueError stack trace as well as bitbake returning 1.
+    Traceback (most recent call last):
+    File ".../poky/bitbake/lib/bb/ui/knotty.py", line 736, in main
+        cacheprogress.update(event.current)
+    File ".../poky/bitbake/lib/progressbar/progressbar.py", line 256, in =
+update
+        raise ValueError('Value out of range')
+    ValueError: Value out of range
+
+This fix mirrors the behavior of MulticonfigCache and accepts the new
+value as the new maxval. This is also what the percentage printout
+is doing in bitbake/lib/progressbar/progressbar.py:191 in ProgressBar:per=
+centage()
+
+I encountered this issue randomly while working on a project with
+VSCode saving files while commands where fired.
+
+Note: This file is a fork from python-progressbar. It hasn't been
+refreshed in 8 years. We did only two commits, 5 years ago with minor
+modifications. This new change is also not how the upstream project is
+behaving.
+
+Signed-off-by: Enguerrand de Ribaucourt <enguerrand.de-ribaucourt@savoirf=
+airelinux.com>
+---
+ bitbake/lib/progressbar/progressbar.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/bitbake/lib/progressbar/progressbar.py b/bitbake/lib/progres=
+sbar/progressbar.py
+index e2b6ba10836..d4da10ab755 100644
+--- a/bitbake/lib/progressbar/progressbar.py
++++ b/bitbake/lib/progressbar/progressbar.py
+@@ -253,7 +253,7 @@ class ProgressBar(object):
+             if (self.maxval is not UnknownLength
+                 and not 0 <=3D value <=3D self.maxval):
+=20
+-                raise ValueError('Value out of range')
++                self.maxval =3D value
+=20
+             self.currval =3D value
+=20
+--=20
+2.34.1
+
 
