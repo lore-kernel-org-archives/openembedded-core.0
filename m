@@ -2,182 +2,430 @@ Return-Path: <johannes.schneider@leica-geosystems.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95AECC48BEB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7567C54798
 	for <webhook@archiver.kernel.org>; Thu, 22 Feb 2024 00:34:53 +0000 (UTC)
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com (EUR01-DB5-obe.outbound.protection.outlook.com [40.107.15.50])
- by mx.groups.io with SMTP id smtpd.web10.2447.1708562087757387267
+Received: from EUR03-DBA-obe.outbound.protection.outlook.com (EUR03-DBA-obe.outbound.protection.outlook.com [40.107.104.69])
+ by mx.groups.io with SMTP id smtpd.web10.2446.1708562086457510853
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 Feb 2024 16:34:48 -0800
+ Wed, 21 Feb 2024 16:34:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@leica-geosystems.com header.s=selector1 header.b=l1MuFt+m;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: leica-geosystems.com, ip: 40.107.15.50, mailfrom: johannes.schneider@leica-geosystems.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@leica-geosystems.com header.s=selector1 header.b=ZX1luUva;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: leica-geosystems.com, ip: 40.107.104.69, mailfrom: johannes.schneider@leica-geosystems.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TRd0kWWEOyegL6Z2epCI3vT2+bmxpN+WACugrxzH/1TL5bt6Vl7LX1rOG45Z0bzQWelhF3bL87x196Bww/Q4hsezRReiu+9QdIhBcZWql+FK4RAMYfCuNQtbJw4T6IHCZ6VC8pWPV2bcN3kvP+EMyjvenn2x3oQ3ZGVP+rm5FLhs6LGmrIElWgsk2sraHgbZmlm22FokYPkKU6dLMkouRsst36zuRPIdmPN1agoqNYdcfIu2A4Sr6U6Ve+Vfyw4+MuitC4taJV0mbliMKQMf6XXh7Wi9rb7p+c8MXv3j13H0BD0VTOtdDZurzwI7iiSuJBx4JpuM2Ymz/hxqgOWg1Q==
+ b=Ak/P2WSZCynLqPI8NqR7e4xbIiYSVGuyJCBSbdsG+oBH9/D5ydYj5OfVk+xBDD+FtcZAnGTvXfDvWc7MvYhbi8pMnFVZW5MJ0S35+eJt1fLyWALQvkmSnG9S98ldW7sMbdKhABPHbrcJizr2M+zAcTD8H5U5LBxs4BYgNtDAwLwxGvgtGDXVOjugfz7qt0CocMyH+1S2CzXISQ7m2ML6QLrjwm8SD+enjc/Ua5uHKDwpbvT7BWqBOXbvqXoe25Jbvd/EcjQs6wTmsQKyim5Fg0AIcbhLCTr72Ze13FqnrUTc3ggQ31Gr5ZVR4lgjX9gZ1Qayb4ZJ/oXaP7pSIcXibw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VT/bLJqgmzWv6IKJfMdQ7qXWSVAqP3YMv5nVxTLSqjg=;
- b=ch9soyhTuRDQVHpbkAJH7ET1ziCatL+VRcyPblgnqoMwtKGXAcYBxBDU53WqnJtCaoqSxBRnKafy45VugJKrIjHjaFFYMTcp+4QFND5ybKR7etYBo5jBzW1RwZ+jxxIyuzXObsZ9GLFd7RpCf0gHCMXDGbn74wX8Oa7aATdiJIq6ADCvsbtbQ0ywPYlcCgCEOFlma5Dh3vXpl6WxjQEsGARPdA92XJwYWL+NerkX875OA8EzgloPQnJ5od7nHRPxgU7vnn64dw7rbxolUdaSTInqaXg0aUnRgB5ihfUGH/tq8mSO/I9dj6+CCMqDpP2SGLaSnwVCyBkrw3VvvDXKPA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 193.8.40.94) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=leica-geosystems.com; dmarc=pass (p=reject sp=reject pct=100)
- action=none header.from=leica-geosystems.com; dkim=none (message not signed);
- arc=none (0)
+ bh=DvNWfx+GQ+KJBtHGrnPPikfqCDSSWamZ3Xoc6CxT3E0=;
+ b=f5BBq7k3q8ditthjSw/l1nazdhZRJ/RcFo37lkH5Q0Iax36gIxNaXoBtxmWX/q71yM3wkTVK9N6cali1aysG6VqRiE9fX4/vUZmesrYZffVBU7Vh0lZKxu82VxMpkQGc/bmy9q6cF2WBxk4yRJ1B9ivaZjrVSNcO7Z9WTYWKXKQVTaNSPtoyoFf8EMaM1l1mmtc7unBvwQ9X1/iB+e/k8CJ9VFbJOFLDEl2lXhnmqcZqtxFHmvolwCbT8mKMVBXqwwhhFo+cHlkNuWajERzW+LKtB/V9ZJMSnQDyQ5sF4KlHFtYXrZwWa51muvSnNhssKEQclOTA5OVmjfpuMAVK6A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=temperror (sender ip
+ is 193.8.40.94) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=leica-geosystems.com; dmarc=temperror action=none
+ header.from=leica-geosystems.com; dkim=none (message not signed); arc=none
+ (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=leica-geosystems.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VT/bLJqgmzWv6IKJfMdQ7qXWSVAqP3YMv5nVxTLSqjg=;
- b=l1MuFt+mGnicPKGBn4qWwTKb+qrrGOoRyCGC+ZX3SYNHN+YMfJJanmplENCCLime4fJdDlcBz3sTkp6gxAgN5uiOzijyCPBrkP6zGyBvdvfC/m8z4m7DEvg2G4rxNe7PJVvlfJq9Hl0iAFvN4LOK9gX6gumN0M8e8ZAgIirG2Hs=
-Received: from AS4PR09CA0028.eurprd09.prod.outlook.com (2603:10a6:20b:5d4::16)
- by AM0PR06MB6532.eurprd06.prod.outlook.com (2603:10a6:208:19f::8) with
+ bh=DvNWfx+GQ+KJBtHGrnPPikfqCDSSWamZ3Xoc6CxT3E0=;
+ b=ZX1luUvaXg0PXTgwHlOHRubzrH8VpsoC7slvtvbF/bbb5YfHMhP74O+NrE2cyb4FQEd9HRwsncfw5dwCQmkt7Wp8e39wxbIJi5ycdfVEoBReJAfqHqQRTAlI1xsjrxq6KH2Q2NVVr13h5FBdTAInQ86tVfxzVWbcf3vz8bMd51g=
+Received: from AS4PR09CA0020.eurprd09.prod.outlook.com (2603:10a6:20b:5d4::7)
+ by AM7PR06MB6389.eurprd06.prod.outlook.com (2603:10a6:20b:115::12) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.10; Thu, 22 Feb
- 2024 00:34:45 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.39; Thu, 22 Feb
+ 2024 00:34:42 +0000
 Received: from AM3PEPF00009B9E.eurprd04.prod.outlook.com
- (2603:10a6:20b:5d4:cafe::63) by AS4PR09CA0028.outlook.office365.com
- (2603:10a6:20b:5d4::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.39 via Frontend
- Transport; Thu, 22 Feb 2024 00:34:45 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 193.8.40.94)
+ (2603:10a6:20b:5d4:cafe::13) by AS4PR09CA0020.outlook.office365.com
+ (2603:10a6:20b:5d4::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.41 via Frontend
+ Transport; Thu, 22 Feb 2024 00:34:42 +0000
+X-MS-Exchange-Authentication-Results: spf=temperror (sender IP is 193.8.40.94)
  smtp.mailfrom=leica-geosystems.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=leica-geosystems.com;
-Received-SPF: Pass (protection.outlook.com: domain of leica-geosystems.com
- designates 193.8.40.94 as permitted sender) receiver=protection.outlook.com;
- client-ip=193.8.40.94; helo=hexagon.com; pr=C
+ header.d=none;dmarc=temperror action=none header.from=leica-geosystems.com;
+Received-SPF: TempError (protection.outlook.com: error in processing during
+ lookup of leica-geosystems.com: DNS Timeout)
 Received: from hexagon.com (193.8.40.94) by
  AM3PEPF00009B9E.mail.protection.outlook.com (10.167.16.23) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7292.25 via Frontend Transport; Thu, 22 Feb 2024 00:34:45 +0000
+ 15.20.7292.25 via Frontend Transport; Thu, 22 Feb 2024 00:34:41 +0000
 Received: from aherlnxbspsrv01.lgs-net.com ([10.60.34.116]) by hexagon.com with Microsoft SMTPSVC(10.0.17763.1697);
 	 Thu, 22 Feb 2024 01:34:39 +0100
 From: Johannes Schneider <johannes.schneider@leica-geosystems.com>
 To: openembedded-core@lists.openembedded.org,
 	richard.purdie@linuxfoundation.org
 CC: Johannes Schneider <johannes.schneider@leica-geosystems.com>
-Subject: [PATCH] classes: add a systemd-sysext image class
-Date: Thu, 22 Feb 2024 01:34:28 +0100
-Message-ID: <20240222003428.1585775-5-johannes.schneider@leica-geosystems.com>
+Subject: [PATCH v3 2/3] image.bbclass/rootfs: set and unpack package-database
+Date: Thu, 22 Feb 2024 01:34:26 +0100
+Message-ID: <20240222003428.1585775-3-johannes.schneider@leica-geosystems.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240222003428.1585775-1-johannes.schneider@leica-geosystems.com>
 References: <20240222003428.1585775-1-johannes.schneider@leica-geosystems.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-OriginalArrivalTime: 22 Feb 2024 00:34:39.0453 (UTC) FILETIME=[EB7818D0:01DA6526]
+X-OriginalArrivalTime: 22 Feb 2024 00:34:39.0438 (UTC) FILETIME=[EB75CEE0:01DA6526]
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM3PEPF00009B9E:EE_|AM0PR06MB6532:EE_
+X-MS-TrafficTypeDiagnostic: AM3PEPF00009B9E:EE_|AM7PR06MB6389:EE_
 Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: ecbe85e7-6752-4887-da2a-08dc333e114a
+X-MS-Office365-Filtering-Correlation-Id: 96411337-3337-4615-6a98-08dc333e0ef4
 X-SET-LOWER-SCL-SCANNER: YES
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	mhQ2gB/BFQKI7pkRgpDyS1NC/uEV+IAL1zJmTHVmeJqp+NjxRfCo9o2A+gQJm9OyHedq7BbGpehA4wRsQl2Q9umsRScqugOCKZ03d9xpQRlkr6uoyvcSt978KcZ2h0GnEE0zQoJlm7zIAm5uVwjH9TzT0w61esxvdRM3FFdaGTBTasfLPWNhXtj5Axy3t2dIHNnPOiqipjeW4b/tcKrAA4hZOw4CM8W7lrxrXXZXLzDpUwPLi4nspL3bOagnzHPnLErrWaaqAW61XwPy0BLfOQG8p5qul9/0iy7qZcyUt4rwR0mxMpg506nSN/FRszErGVDfewXouaqgg2JLIWvg+Z9yHtWgodO3lTtmxKuvNAD/7aNaT8eqHHDTSAA988+M/jLxx5xH22lFpjQtO+iEqu+yLCi9wrAq70CEsKJHuo6yoFswZuA/t1R2hxjN8EWN8GSpdIsHty6GtXBwtP1fU3wXA06P6wuD2YYs5py07LmXE1D9PCtEehHI5KhBDFjhAP/Sf31F2JYvKEZEwWWW7IZQNvQ3WmkkJnGan7qyFmUDktDUivFzh26ctF4asXtzcraWmAIH6vNJYsUefLvo6lulEMPaogNJ1SyZDBouAFbWrGjivvv4BVCDOkdCr+RI2KAX92fQ6Q8LYtfNPp8kDA==
+	JvoXZT4DJ9Iq+voARwtm0TQWx/rUHJhfLWkc1RYAzihmFv7zAeTWWu0j5ITBxAjHQ9pqCK0rly+Egl1Z7iHK7U/Isl0yoItBmd+bF6rqJYWYl0DuLoOYMCE6Hy682RETnbmTBt5N+jS0kzF0YdPDoVKXIMZBoKr2qZkfanSIoEUjt7NI6SZOoFsuV7jKVRgZyrFOQVmcORjKFk7IFOWE3lxWkqwGE2hEe9Dxd8RYpmJ5VZxCJ2u4wh0BaSt+qwH5rJx0+6iHw76T2HZjoNcnnyEjriXQPcEhIX/HV2lq/+N9aRL5XjXmKUp2u9L9wFbOyzM1LpM8CwckCZRkBZtbSJ8lekZVcB//VJvaE4MjthQJGgGBJZ8erB2MGgpxB6jfV/sJVV4jxDSthWZJfubi/8expddvAYnK1OYhFaq2+cv6v+LxojVNwnqQg9Px2lEV6W2Mvo9ZdDZAnD//O22dr1JPQ+CyMQQaWbTjKzbCc0MURv1rcSwNJbHw2DEt0GTOmQu+0kC1FZbRc4UXfXM7Q0iw5PertmHMLryLR9iWHK3RxUert+kcF/ExE8LVgj1kpsZkxyE37m1gPWN2PfpSxy3fOu1bRqhsI1djnZywjc0zwjZML1ZIOG3rzV0MCAblkPbkXeg3V/7SC/qYUFwQJA==
 X-Forefront-Antispam-Report: 
-	CIP:193.8.40.94;CTRY:CH;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:hexagon.com;PTR:ahersrvdom50.leica-geosystems.com;CAT:NONE;SFS:(13230031)(36860700004)(40470700004)(46966006);DIR:OUT;SFP:1101;
+	CIP:193.8.40.94;CTRY:CH;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:hexagon.com;PTR:ahersrvdom50.leica-geosystems.com;CAT:NONE;SFS:(13230031)(36860700004)(46966006)(40470700004);DIR:OUT;SFP:1101;
 X-OriginatorOrg: leica-geosystems.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Feb 2024 00:34:45.0562
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Feb 2024 00:34:41.1343
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ecbe85e7-6752-4887-da2a-08dc333e114a
+X-MS-Exchange-CrossTenant-Network-Message-Id: 96411337-3337-4615-6a98-08dc333e0ef4
 X-MS-Exchange-CrossTenant-Id: 1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a;Ip=[193.8.40.94];Helo=[hexagon.com]
 X-MS-Exchange-CrossTenant-AuthSource: 
 	AM3PEPF00009B9E.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR06MB6532
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR06MB6389
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 22 Feb 2024 00:34:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196002
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196001
 
-systemd-sysext can load a raw-image containing usr/ and opt/ folders
-to mount them as RO overlay over the rootfs, to "extend" the systems.
+set the package-database of a "lower image" to unpack and build upon
+when installing packages for the current image. This way a lean image
+will be created, which only holds the packages that are not already
+present in the lower image.
 
-This class provides the necessary changes/additions to the enclosed
-file-system so that systemd-sysext accepts the extension for "merge"
-into the rootfs.
+An image build such could then be used with overlayfs or systemd-
+sysext to extend the "lower image" on demand; for development purposes
+on a device running the "lower image" in RO mode for example.
 
-With such an created image, placed into the correct folder (see [1]),
-`systemd-sysext list` should be able to list the "extension" and
-`systemd-sysext merge` should enable the overlay. On both commands a
-preceding "SYSTEMD_LOG_LEVEL=3Ddebug" can aide in figuring out what is
-amiss.
+A configuration could look as follows:
+  some-core-image.bb
+    inherit image
+    IMAGE_GEN_PKGDBFS =3D "1"
 
-The strict name checking systemd-sysext does against the name of
-extension-release.NAME file, is disabled, as there is only one such in
-the resulting image. This is done to allow a user to freely rename the
-resulting image file.
-Note that for e.g. squashfs, the kernel needs CONFIG_SQUASHFS_XATTR=3Dy
+  extending-image.bb
+    inherit image
+    IMAGE_BASE_PKGDB =3D "some-core-image"
 
-Link: https://www.freedesktop.org/software/systemd/man/latest/systemd-sysex=
-t.html
-Link: https://0pointer.net/blog/testing-my-system-code-in-usr-without-modif=
-ying-usr.html
 Signed-off-by: Johannes Schneider <johannes.schneider@leica-geosystems.com>
 ---
- meta/classes-recipe/image-sysext.bbclass | 42 ++++++++++++++++++++++++
- 1 file changed, 42 insertions(+)
- create mode 100644 meta/classes-recipe/image-sysext.bbclass
+ meta/classes-recipe/image.bbclass             | 23 ++++++++--
+ meta/conf/documentation.conf                  |  3 +-
+ meta/lib/oe/package_manager/deb/rootfs.py     |  2 +
+ meta/lib/oe/package_manager/ipk/rootfs.py     |  6 ++-
+ meta/lib/oe/package_manager/rpm/rootfs.py     |  7 ++-
+ meta/lib/oe/rootfs.py                         | 18 ++++++++
+ meta/lib/oeqa/selftest/cases/imagefeatures.py | 46 +++++++++++++++++++
+ 7 files changed, 97 insertions(+), 8 deletions(-)
 
-diff --git a/meta/classes-recipe/image-sysext.bbclass b/meta/classes-recipe=
-/image-sysext.bbclass
-new file mode 100644
-index 0000000000..012db83353
---- /dev/null
-+++ b/meta/classes-recipe/image-sysext.bbclass
-@@ -0,0 +1,42 @@
-+# SPDX-License-Identifier: MIT
-+#
-+# Copyright Leica Geosystems AG
-+#
-+
-+# systemd-sysext [1] has a simple mechanism for version compatibility:
-+# the extension to be loaded has to contain a
-+# /usr/lib/extension-release.d/extension-release.NAME
-+# with "NAME" *exactly* matching the filename of the extensions
-+# raw-device filename/
-+#
-+# from the extension-release file the "ID" and "VERSION_ID" fields are
-+# matched against the etc/os-release and the extension is only "merged"
-+# if no mismatches between NAME, ID, and VERSION_ID.
-+#
-+# Link: https://www.freedesktop.org/software/systemd/man/latest/systemd-sy=
-sext.html
-+
-+inherit image
-+
-+IMAGE_NAME_SUFFIX =3D ".sysext"
-+EXTENSION_NAME =3D "${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${IMAGE_FSTYPES}"
-+
-+DEPENDS +=3D " os-release"
-+
-+sysext_image_mangle_rootfs() {
-+    R=3D${IMAGE_ROOTFS}
-+
-+    # pull a copy of the rootfs version information, which systemd-sysext =
-matches against
-+    cp -av ${RECIPE_SYSROOT}/${nonarch_libdir}/os-release ${WORKDIR}/exten=
-sion-release.base
-+
-+    echo 'EXTENSION_RELOAD_MANAGER=3D1' >> ${WORKDIR}/extension-release.ba=
-se
-+
-+    install -d $R${nonarch_libdir}/extension-release.d
-+    install -m 0644 ${WORKDIR}/extension-release.base \
-+        $R${nonarch_libdir}/extension-release.d/extension-release.${EXTENS=
-ION_NAME}
-+
-+    # disable systemd-sysext's strict name checking, so that the image fil=
-e can be renamed, while still being 'merge'-able
-+    setfattr -n user.extension-release.strict -v false \
-+        $R${nonarch_libdir}/extension-release.d/extension-release.${EXTENS=
-ION_NAME}
+diff --git a/meta/classes-recipe/image.bbclass b/meta/classes-recipe/image.=
+bbclass
+index 3ccaaa17b8..c573c37cd8 100644
+--- a/meta/classes-recipe/image.bbclass
++++ b/meta/classes-recipe/image.bbclass
+@@ -42,8 +42,16 @@ IMAGE_FEATURES ?=3D ""
+ IMAGE_FEATURES[type] =3D "list"
+ IMAGE_FEATURES[validitems] +=3D "debug-tweaks read-only-rootfs read-only-r=
+ootfs-delayed-postinsts stateless-rootfs empty-root-password allow-empty-pa=
+ssword allow-root-login serial-autologin-root post-install-logging overlayf=
+s-etc"
+=20
+-# Generate snapshot of the package database?
++# Image layering:
++# a "base image" would create a snapshot of the package-database after the
++# installation of all packages into the rootfs is done. The next/other ima=
+ge
++# "layered on-top" of the former would then import that database and insta=
+ll
++# further packages; without reinstalling packages/dependencies that are al=
+ready
++# installed in the layer below.
++# Set to '1' in a "base image" recipe, to preserve a snapshot of the packa=
+ge database.
+ IMAGE_GEN_PKGDBFS ?=3D "0"
++# "PN" of a "base image", upon which the current image is to be built upon=
+.
++IMAGE_BASE_PKGDB ?=3D ""
+=20
+ # Generate companion debugfs?
+ IMAGE_GEN_DEBUGFS ?=3D "0"
+@@ -118,6 +126,15 @@ do_rootfs[depends] +=3D " \
+ "
+ do_rootfs[recrdeptask] +=3D "do_packagedata"
+=20
++python () {
++    # make sure that the 'base image' has been queued in before this
++    # image wants to unpack and build upon the formers pgkdb
++    base_image =3D d.getVar('IMAGE_BASE_PKGDB')
++    pn =3D d.getVar('PN')
++    if base_image and base_image !=3D pn:
++        d.appendVarFlag("do_rootfs", 'depends', ' '+ base_image + ':do_ima=
+ge_complete')
 +}
 +
-+ROOTFS_POSTPROCESS_COMMAND +=3D " sysext_image_mangle_rootfs; "
+ def rootfs_command_variables(d):
+     return ['ROOTFS_POSTPROCESS_COMMAND','ROOTFS_PREPROCESS_COMMAND','ROOT=
+FS_POSTINSTALL_COMMAND','ROOTFS_POSTUNINSTALL_COMMAND','OPKG_PREPROCESS_COM=
+MANDS','OPKG_POSTPROCESS_COMMANDS','IMAGE_POSTPROCESS_COMMAND',
+             'IMAGE_PREPROCESS_COMMAND','RPM_PREPROCESS_COMMANDS','RPM_POST=
+PROCESS_COMMANDS','DEB_PREPROCESS_COMMANDS','DEB_POSTPROCESS_COMMANDS']
+@@ -134,8 +151,8 @@ def rootfs_variables(d):
+                  'IMAGE_ROOTFS_MAXSIZE','IMAGE_NAME','IMAGE_LINK_NAME','IM=
+AGE_MANIFEST','DEPLOY_DIR_IMAGE','IMAGE_FSTYPES','IMAGE_INSTALL_COMPLEMENTA=
+RY','IMAGE_LINGUAS', 'IMAGE_LINGUAS_COMPLEMENTARY', 'IMAGE_LOCALES_ARCHIVE'=
+,
+                  'MULTILIBRE_ALLOW_REP','MULTILIB_TEMP_ROOTFS','MULTILIB_V=
+ARIANTS','MULTILIBS','ALL_MULTILIB_PACKAGE_ARCHS','MULTILIB_GLOBAL_VARIANTS=
+','BAD_RECOMMENDATIONS','NO_RECOMMENDATIONS',
+                  'PACKAGE_ARCHS','PACKAGE_CLASSES','TARGET_VENDOR','TARGET=
+_ARCH','TARGET_OS','OVERRIDES','BBEXTENDVARIANT','FEED_DEPLOYDIR_BASE_URI',=
+'INTERCEPT_DIR','USE_DEVFS',
+-                 'CONVERSIONTYPES', 'IMAGE_GEN_PKGDBFS', 'IMAGE_GEN_DEBUGF=
+S', 'ROOTFS_RO_UNNEEDED', 'IMGDEPLOYDIR', 'PACKAGE_EXCLUDE_COMPLEMENTARY', =
+'REPRODUCIBLE_TIMESTAMP_ROOTFS',
+-                 'IMAGE_INSTALL_DEBUGFS']
++                 'CONVERSIONTYPES', 'IMAGE_GEN_PKGDBFS', 'IMAGE_BASE_PKGDB=
+', 'IMAGE_GEN_DEBUGFS', 'ROOTFS_RO_UNNEEDED', 'IMGDEPLOYDIR', 'PACKAGE_EXCL=
+UDE_COMPLEMENTARY',
++                 'REPRODUCIBLE_TIMESTAMP_ROOTFS', 'IMAGE_INSTALL_DEBUGFS']
+     variables.extend(rootfs_command_variables(d))
+     variables.extend(variable_depends(d))
+     return " ".join(variables)
+diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+index 7ec6f07dfc..9013556c04 100644
+--- a/meta/conf/documentation.conf
++++ b/meta/conf/documentation.conf
+@@ -208,6 +208,7 @@ ICECC_PATH[doc] =3D "The location of the icecc binary."
+ ICECC_CLASS_DISABLE[doc] =3D "Identifies user classes that you do not want=
+ the Icecream distributed compile support to consider."
+ ICECC_RECIPE_DISABLE[doc] =3D "Identifies user recipes that you do not wan=
+t the Icecream distributed compile support to consider."
+ ICECC_RECIPE_ENABLE[doc] =3D "Identifies user recipes that use an empty PA=
+RALLEL_MAKE variable that you want to force remote distributed compilation =
+on using the Icecream distributed compile support."
++IMAGE_BASE_PKGDB[doc] =3D "Set to the PN of a base-image name, which was b=
+uilt with IMAGE_GEN_PKGDBFS enabled; Then this image will only add/install =
+packages into its rootfs that are not already in the base-image."
+ IMAGE_BASENAME[doc] =3D "The base name of image output files."
+ IMAGE_BOOT_FILES[doc] =3D "Whitespace separated list of files from ${DEPLO=
+Y_DIR_IMAGE} to place in boot partition. Entries will be installed under a =
+same name as the source file. To change the destination file name, pass a d=
+esired name after a semicolon (eg. u-boot.img;uboot)."
+ IMAGE_CLASSES[doc] =3D "A list of classes that all images should inherit."
+@@ -215,7 +216,7 @@ IMAGE_FEATURES[doc] =3D "The primary list of features t=
+o include in an image. Conf
+ IMAGE_FSTYPES[doc] =3D "Formats of root filesystem images that you want to=
+ have created."
+ IMAGE_FSTYPES_DEBUGFS[doc] =3D "Formats of the debug root filesystem image=
+s that you want to have created."
+ IMAGE_GEN_DEBUGFS[doc] =3D "When set to '1', generate a companion debug ob=
+ject/source filesystem image."
+-IMAGE_GEN_PKGDBFS[doc] =3D "When set to '1', create a snapshot of the pack=
+age-manager state after the rootfs has been assembled."
++IMAGE_GEN_PKGDBFS[doc] =3D "When set to '1', create a snapshot of the pack=
+age-manager state after the rootfs has been assembled; This snapshot can th=
+en be used in a different image recipe, that sets IMAGE_BASE_PKGDB to this =
+images PN."
+ IMAGE_INSTALL[doc] =3D "Specifies the packages to install into an image. I=
+mage recipes set IMAGE_INSTALL to specify the packages to install into an i=
+mage through image.bbclass."
+ IMAGE_LINGUAS[doc] =3D "Specifies the list of locales to install into the =
+image during the root filesystem construction process."
+ IMAGE_NAME[doc] =3D "The name of the output image files minus the extensio=
+n."
+diff --git a/meta/lib/oe/package_manager/deb/rootfs.py b/meta/lib/oe/packag=
+e_manager/deb/rootfs.py
+index 43107c8663..71a21df09b 100644
+--- a/meta/lib/oe/package_manager/deb/rootfs.py
++++ b/meta/lib/oe/package_manager/deb/rootfs.py
+@@ -152,6 +152,8 @@ class PkgRootfs(DpkgOpkgRootfs):
+=20
+         execute_pre_post_process(self.d, deb_pre_process_cmds)
+=20
++        self._unpack_pkg_db_rootfs(['/var/lib/dpkg'])
++
+         if self.progress_reporter:
+             self.progress_reporter.next_stage()
+             # Don't support incremental, so skip that
+diff --git a/meta/lib/oe/package_manager/ipk/rootfs.py b/meta/lib/oe/packag=
+e_manager/ipk/rootfs.py
+index 64d9bc7969..408faa8030 100644
+--- a/meta/lib/oe/package_manager/ipk/rootfs.py
++++ b/meta/lib/oe/package_manager/ipk/rootfs.py
+@@ -276,12 +276,16 @@ class PkgRootfs(DpkgOpkgRootfs):
+         pkgs_to_install =3D self.manifest.parse_initial_manifest()
+         opkg_pre_process_cmds =3D self.d.getVar('OPKG_PREPROCESS_COMMANDS'=
+)
+         opkg_post_process_cmds =3D self.d.getVar('OPKG_POSTPROCESS_COMMAND=
+S')
++        opkg_lib_dir =3D self.d.getVar('OPKGLIBDIR')
++        opkg_dir =3D os.path.join(opkg_lib_dir, 'opkg')
+=20
+         # update PM index files
+         self.pm.write_index()
+=20
+         execute_pre_post_process(self.d, opkg_pre_process_cmds)
+=20
++        self._unpack_pkg_db_rootfs([opkg_dir])
++
+         if self.progress_reporter:
+             self.progress_reporter.next_stage()
+             # Steps are a bit different in order, skip next
+@@ -317,8 +321,6 @@ class PkgRootfs(DpkgOpkgRootfs):
+         if self.progress_reporter:
+             self.progress_reporter.next_stage()
+=20
+-        opkg_lib_dir =3D self.d.getVar('OPKGLIBDIR')
+-        opkg_dir =3D os.path.join(opkg_lib_dir, 'opkg')
+         self._setup_pkg_db_rootfs([opkg_dir])
+         self._setup_dbg_rootfs([opkg_dir])
+=20
+diff --git a/meta/lib/oe/package_manager/rpm/rootfs.py b/meta/lib/oe/packag=
+e_manager/rpm/rootfs.py
+index 673006c131..9986b13b5f 100644
+--- a/meta/lib/oe/package_manager/rpm/rootfs.py
++++ b/meta/lib/oe/package_manager/rpm/rootfs.py
+@@ -67,12 +67,15 @@ class PkgRootfs(Rootfs):
+         pkgs_to_install =3D self.manifest.parse_initial_manifest()
+         rpm_pre_process_cmds =3D self.d.getVar('RPM_PREPROCESS_COMMANDS')
+         rpm_post_process_cmds =3D self.d.getVar('RPM_POSTPROCESS_COMMANDS'=
+)
++        package_paths =3D ['/etc/rpm', '/etc/rpmrc', '/etc/dnf', '/var/lib=
+/rpm', '/var/cache/dnf', '/var/lib/dnf']
+=20
+         # update PM index files
+         self.pm.write_index()
+=20
+         execute_pre_post_process(self.d, rpm_pre_process_cmds)
+=20
++        self._unpack_pkg_db_rootfs(package_paths)
++
+         if self.progress_reporter:
+             self.progress_reporter.next_stage()
+=20
+@@ -110,8 +113,8 @@ class PkgRootfs(Rootfs):
+         if self.progress_reporter:
+             self.progress_reporter.next_stage()
+=20
+-        self._setup_pkg_db_rootfs(['/etc/rpm', '/etc/rpmrc', '/etc/dnf', '=
+/var/lib/rpm', '/var/cache/dnf', '/var/lib/dnf'])
+-        self._setup_dbg_rootfs(['/etc/rpm', '/etc/rpmrc', '/etc/dnf', '/va=
+r/lib/rpm', '/var/cache/dnf', '/var/lib/dnf'])
++        self._setup_pkg_db_rootfs(package_paths)
++        self._setup_dbg_rootfs(package_paths)
+=20
+         execute_pre_post_process(self.d, rpm_post_process_cmds)
+=20
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index 6d6e888a30..9d691c58cd 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -106,6 +106,24 @@ class Rootfs(object, metaclass=3DABCMeta):
+     def _cleanup(self):
+         pass
+=20
++    def _unpack_pkg_db_rootfs(self, package_paths):
++        import tarfile
++        pn =3D self.d.getVar('PN')
++        base_pkgdb =3D self.d.getVar('IMAGE_BASE_PKGDB')
++        if not base_pkgdb or pn =3D=3D base_pkgdb:
++            return
++
++        fname =3D self.d.getVar('DEPLOY_DIR_IMAGE') + '/' + self.d.getVar(=
+'IMAGE_BASE_PKGDB') + '-' + self.d.getVar('MACHINE')  + '.rootfs-pkgdb.tar.=
+gz'
++        if not os.path.exists(fname):
++            bb.fatal("PKGDB for '%s' does not exist,\n\texpected: %s\n\tth=
+e recipe for '%s' should set: IMAGE_GEN_PKGDBFS=3D'1'" % (base_pkgdb, fname=
+, base_pkgdb))
++            return
++
++        bb.note("  unpacking base image package database...")
++        if fname.endswith("tar.gz"):
++            tar =3D tarfile.open(fname, "r:gz")
++            tar.extractall(path=3Dself.image_rootfs)
++            tar.close()
++
+     def _setup_pkg_db_rootfs(self, package_paths):
+         gen_pkg_db_fs =3D bb.utils.to_boolean(self.d.getVar('IMAGE_GEN_PKG=
+DBFS'))
+         if not gen_pkg_db_fs:
+diff --git a/meta/lib/oeqa/selftest/cases/imagefeatures.py b/meta/lib/oeqa/=
+selftest/cases/imagefeatures.py
+index 4d4005e00c..aa5c7c7ccc 100644
+--- a/meta/lib/oeqa/selftest/cases/imagefeatures.py
++++ b/meta/lib/oeqa/selftest/cases/imagefeatures.py
+@@ -349,6 +349,52 @@ SKIP_RECIPE[busybox] =3D "Don't build this"
+         # check for a common base package, a random library for example:
+         self.assertTrue("libc6" in result.output, msg=3D'Failed query inst=
+alled packages')
+=20
++    def test_image_use_pkgdbfs(self):
++        """
++        Summary:     Check pkgdb snapshot
++        Expected:    1. core-image-minimal is built with IMAGE_GEN_PKGDBFS=
+ variable set
++                     2. core-image-minimal-mtdutils is built with:
++                        IMAGE_BASE_PKGDB pointing to the former, to build =
+upon it
++                     3. the rootfs of both images is checked, and there sh=
+ould be no file
++                        from any of the installed packages that shows up i=
+n both images
++        """
++
++        base_image =3D 'core-image-minimal'
++        extension_image =3D 'core-image-minimal-mtdutils'
++
++        features =3D 'IMAGE_FSTYPES =3D "tar.bz2"\n'
++        # enable usrmerge so that all relevant pieces are in one place =3D=
+ /usr
++        features +=3D 'DISTRO_FEATURES +=3D "usrmerge"\n'
++        features +=3D 'IMAGE_GEN_PKGDBFS =3D "1"\n'
++        features +=3D 'IMAGE_BASE_PKGDB =3D "%s"\n' % base_image
++        self.write_config(features)
++
++        # through task dependencies the base_image should automagically be=
+ built
++        bitbake(extension_image)
++
++        # collect image content of both images
++        img_vars =3D get_bb_vars(['DEPLOY_DIR_IMAGE', 'IMAGE_LINK_NAME'], =
+base_image)
++        img_file =3D os.path.join(img_vars['DEPLOY_DIR_IMAGE'], "%s.%s" % =
+(img_vars['IMAGE_LINK_NAME'], 'tar.bz2'))
++        self.logger.debug("base image: %s" % img_file)
++        img_content =3D runCmd('tar -tf %s' % img_file)
++
++        ext_vars =3D get_bb_vars(['DEPLOY_DIR_IMAGE', 'IMAGE_LINK_NAME'], =
+extension_image)
++        ext_file =3D os.path.join(ext_vars['DEPLOY_DIR_IMAGE'], "%s.%s" % =
+(ext_vars['IMAGE_LINK_NAME'], 'tar.bz2'))
++        self.logger.debug("extension image: %s" % ext_file)
++        ext_content =3D runCmd('tar -tf %s' % ext_file)
++
++        # filter out folders and anything outside of /usr
++        img_files =3D [ x for x in img_content.output.splitlines() if not =
+x.endswith('/') and x.startswith('./usr/') ]
++        self.logger.debug("image files:\n%s" % img_files)
++        ext_files =3D [ x for x in ext_content.output.splitlines() if not =
+x.endswith('/') and x.startswith('./usr/') ]
++
++        # check mutual exclusive content listing
++        self.logger.debug("extension files:\n%s" % ext_files)
++        for i in img_files:
++            self.assertTrue(i not in ext_files, "found %s in extension" % =
+i)
++        for e in ext_files:
++            self.assertTrue(e not in img_files, "found %s in base-image" %=
+ e)
++
+     def test_empty_image(self):
+         """Test creation of image with no packages"""
+         image =3D 'test-empty-image'
 --=20
 2.34.1
 
