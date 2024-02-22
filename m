@@ -1,160 +1,91 @@
-Return-Path: <jonathan@joggee.fr>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0837BC48BF8
-	for <webhook@archiver.kernel.org>; Thu, 22 Feb 2024 10:57:07 +0000 (UTC)
-Received: from 9.mo576.mail-out.ovh.net (9.mo576.mail-out.ovh.net [46.105.56.78])
- by mx.groups.io with SMTP id smtpd.web10.10225.1708599421930396080
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 935F3C48BEB
+	for <webhook@archiver.kernel.org>; Thu, 22 Feb 2024 12:37:37 +0000 (UTC)
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+ by mx.groups.io with SMTP id smtpd.web11.11674.1708605448178655078
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Feb 2024 02:57:02 -0800
+ Thu, 22 Feb 2024 04:37:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=softfail (domain: joggee.fr, ip: 46.105.56.78, mailfrom: jonathan@joggee.fr)
-Received: from director2.ghost.mail-out.ovh.net (unknown [10.108.9.167])
-	by mo576.mail-out.ovh.net (Postfix) with ESMTP id 4TgVT75syGz12Cv
-	for <openembedded-core@lists.openembedded.org>; Thu, 22 Feb 2024 10:56:59 +0000 (UTC)
-Received: from ghost-submission-6684bf9d7b-8lkbc (unknown [10.111.174.164])
-	by director2.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 158891FDED
-	for <openembedded-core@lists.openembedded.org>; Thu, 22 Feb 2024 10:56:58 +0000 (UTC)
-Received: from joggee.fr ([37.59.142.109])
-	by ghost-submission-6684bf9d7b-8lkbc with ESMTPSA
-	id YZUXK3oo12VsXwAAXHu1FA
-	(envelope-from <jonathan@joggee.fr>)
-	for <openembedded-core@lists.openembedded.org>; Thu, 22 Feb 2024 10:56:58 +0000
-Authentication-Results: garm.ovh; auth=pass (GARM-109S003d87a43ad-8b67-4ac0-a257-24d5571267a4,
-                    E407E47ED49E569083FEF8E37332128B6290E831) smtp.auth=jonathan@joggee.fr
-X-OVh-ClientIp: 209.85.161.49
-Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-59fe5b77c0cso850411eaf.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Feb 2024 02:56:58 -0800 (PST)
-X-Gm-Message-State: AOJu0YygENByJiYHh4iaTjbFrWjeTo3vwCZbyfXlgN6ZbMsyN9oz7OyS
-	ZMJRRRDEamCKHCF2Vt+fORJrb4rUZGMpBs9D1d3A8E1jYi9fw/G6gcoRrbw/7heLAk4dSqBTh1o
-	R2H5YRlwRbeoPgxKdUbJ41YenBt4=
-X-Google-Smtp-Source: AGHT+IHpX/uTT2WzK/xGoDyZJ9BkId9Xq6XzHTrlYsPnzzEK4Eal+TB/JMcshsxARJCJD8tVSJmnGjmU/hLpJvqZs3Y=
-X-Received: by 2002:a4a:9bde:0:b0:5a0:395a:2127 with SMTP id
- b30-20020a4a9bde000000b005a0395a2127mr51473ook.5.1708599417002; Thu, 22 Feb
- 2024 02:56:57 -0800 (PST)
-MIME-Version: 1.0
-References: <CZ977GGGE9KN.16KHH2G2CQ1NJ@joggee.fr> <d3665f861467336a8c697f7994336de892a4192b.camel@linuxfoundation.org>
- <CAA_hxbT3dpkX0yxEiwvnvZuT3CBEZ9xQ+Q6HmeN=_YtYXq-3Kg@mail.gmail.com>
-In-Reply-To: <CAA_hxbT3dpkX0yxEiwvnvZuT3CBEZ9xQ+Q6HmeN=_YtYXq-3Kg@mail.gmail.com>
-From: Jonathan GUILLOT <jonathan@joggee.fr>
-Date: Thu, 22 Feb 2024 11:56:47 +0100
-X-Gmail-Original-Message-ID: <CAA_hxbQgEHtG1qTwTeOTRqHq8c9+zyJej3BH9Z8Bb=tw1ynL7A@mail.gmail.com>
-Message-ID: <CAA_hxbQgEHtG1qTwTeOTRqHq8c9+zyJej3BH9Z8Bb=tw1ynL7A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] lib/oe/package: fix LOCALE_PATHS scan to create
- locale packages
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YzBM1amp;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.208.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-563b7b3e3ecso9797781a12.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Feb 2024 04:37:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1708605446; x=1709210246; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=8PPo0eTHP7cIurU1ANXYuLe77aUOGj+GaKwGIC8BcP4=;
+        b=YzBM1ampDJgzo5+QwVWk8GiCha25ArcJi5d0q44DmLOrzAGRcWuVVJNwzmI+jzRD/Y
+         1OtQkyfdsA2AvCZfxKrTQFC8ypSUuRy8ZvO/e2b48U2riBPlrAYVLBIa1pFlnYnHdiFG
+         CwYBXqJYjMH4JhSeXaWoXoljbjl+a8CUIPEyg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708605446; x=1709210246;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8PPo0eTHP7cIurU1ANXYuLe77aUOGj+GaKwGIC8BcP4=;
+        b=njidlYTDIIAjriiq+wg90I57WOy+Cs3yPi2JEsCV544DJ82wOZPve0lyAZdJ/VluB1
+         I8WYcNevOePNR80MZlsVJ2owEpEFVAxgs6KTJi2/UN0qM8fiGY8LHtC7isAQm3qg2hG3
+         sH2B3oiYIzmYO0gnoe8mOhO6iMislHEqv1wOeIRNcb5iQ5TLw7zV3GwQF7E6XLGFoYE3
+         ZU2cccSlAnm6MxPNaMA9WUeFHU4Vo3sHUDVCLJt73n1wpZIMmmhH+HC2YTrSP1+fGr8x
+         t7yjV5+Mv+mW79mei6yjgi6zMi7T9yaQgwtF6uEFasxGcfstqiJt0M1w0kbtQL3F2jcF
+         6Akw==
+X-Gm-Message-State: AOJu0YxMUl3w+dPhevArE6+cEHADDQZHist0TBSfQBTV7ybUl54lYjPf
+	SWdE7IE4827GkBKlzMoCYHgpU9tLYizPeJwdLBiGD3Z0FWvJKTSc3+vokK80Yu4=
+X-Google-Smtp-Source: AGHT+IHg4s/SeCRhGn9+JX2BE8/yTOe0fyKzA7SQ7Z9amg3cOQ+cB3aW6BT6nc+BV3ALVHL8ypBNlQ==
+X-Received: by 2002:a17:907:20fa:b0:a3e:bcd9:2745 with SMTP id rh26-20020a17090720fa00b00a3ebcd92745mr6942357ejb.74.1708605446475;
+        Thu, 22 Feb 2024 04:37:26 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:8f5d:31cd:fc70:366c? ([2001:8b0:aba:5f3c:8f5d:31cd:fc70:366c])
+        by smtp.gmail.com with ESMTPSA id js1-20020a170906ca8100b00a3ec3390ea1sm3446846ejb.25.2024.02.22.04.37.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Feb 2024 04:37:26 -0800 (PST)
+Message-ID: <19ac64ffc33efbeb05a1498ad2a84dff37078454.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] lib/oe/package: fix LOCALE_PATHS scan to
+ create locale packages
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Jonathan GUILLOT <jonathan@joggee.fr>
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/mixed; boundary="0000000000005084df0611f64d4d"
-X-Ovh-Tracer-Id: 2916925187532917883
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvledrfeeggddvtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeggfhgjhfffkffuvfevtgesmhdtreertddtjeenucfhrhhomheplfhonhgrthhhrghnucfifgfknffnqffvuceojhhonhgrthhhrghnsehjohhgghgvvgdrfhhrqeenucggtffrrghtthgvrhhnpeeggeeuvdeifeetjeeikeekgefgueeltdelgfefleejveettedttdekgfdvveefieenucffohhmrghinheprghlihgrshdrihhtnecukfhppeduvdejrddtrddtrddupddvtdelrdekhedrudeiuddrgeelpdefjedrheelrddugedvrddutdelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpehjohhnrghthhgrnhesjhhoghhgvggvrdhfrhdpnhgspghrtghpthhtohepuddprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrghdpoffvtefjohhsthepmhhoheejiedpmhhouggvpehsmhhtphhouhht
+Date: Thu, 22 Feb 2024 12:37:25 +0000
+In-Reply-To: <CAA_hxbQgEHtG1qTwTeOTRqHq8c9+zyJej3BH9Z8Bb=tw1ynL7A@mail.gmail.com>
+References: <CZ977GGGE9KN.16KHH2G2CQ1NJ@joggee.fr>
+	 <d3665f861467336a8c697f7994336de892a4192b.camel@linuxfoundation.org>
+	 <CAA_hxbT3dpkX0yxEiwvnvZuT3CBEZ9xQ+Q6HmeN=_YtYXq-3Kg@mail.gmail.com>
+	 <CAA_hxbQgEHtG1qTwTeOTRqHq8c9+zyJej3BH9Z8Bb=tw1ynL7A@mail.gmail.com>
+Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
+ YNvg==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.0-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 22 Feb 2024 10:57:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196016
+ <openembedded-core@lists.openembedded.org>; Thu, 22 Feb 2024 12:37:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196017
 
---0000000000005084df0611f64d4d
-Content-Type: multipart/alternative; boundary="0000000000005084de0611f64d4b"
+On Thu, 2024-02-22 at 11:56 +0100, Jonathan GUILLOT wrote:
+> I have attached a patch (as an example) recreating the same glibc-
+> locale-locale.alias package but it is really weird to me. Is there a
+> glibc locale expert to help?
 
---0000000000005084de0611f64d4b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I had a look at the situation and I think the best thing to do is
+package this into a "glibc-locale-alias" package. I think the file
+itself is obsolete and not really used so moving to a more logically
+named package just in case anyone needs it is probably the bets way
+forward.
 
-I have attached a patch (as an example) recreating the same
-glibc-locale-locale.alias package but it is really weird to me. Is there a
-glibc locale expert to help?
+Cheers,
 
-Regards,
-Jonathan
+Richard
 
-Le mar. 20 f=C3=A9vr. 2024 =C3=A0 10:45, Jonathan GUILLOT <jonathan@joggee.=
-fr> a
-=C3=A9crit :
-
-> Without any of my modifications, it seems that glibc-locale recipe create=
-s
-> a glibc-locale-locale.alias package containing only the file
-> /usr/share/locale/locale.alias. It looks like the same issue revealed wit=
-h
-> the CUPS recipe. Do you know in which package locale.alias file is expect=
-ed
-> to be located?
->
-> Regards,
-> Jonathan
->
-> Le mar. 20 f=C3=A9vr. 2024 =C3=A0 08:42, Richard Purdie <
-> richard.purdie@linuxfoundation.org> a =C3=A9crit :
->
->> ERROR: glibc-locale-2.39+git-r0 do_package: QA Issue: glibc-locale:
->> Files/directories were installed but not shipped in any package:
->>   /usr/share/locale/locale.alias
->> Please set FILES such that these items are packaged. Alternatively if
->> they are unneeded, avoid installing them or delete them within do_instal=
-l.
->>
->
-
---0000000000005084de0611f64d4b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>I have attached a patch (as an example) recreating th=
-e same=20
- glibc-locale-locale.alias package but it is really weird to me. Is there a=
- glibc locale expert to help?</div><div><br></div><div>Regards,</div><div>J=
-onathan<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" clas=
-s=3D"gmail_attr">Le=C2=A0mar. 20 f=C3=A9vr. 2024 =C3=A0=C2=A010:45, Jonatha=
-n GUILLOT &lt;<a href=3D"mailto:jonathan@joggee.fr">jonathan@joggee.fr</a>&=
-gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
-ft:1ex"><div dir=3D"ltr"><div>Without any of my modifications, it seems tha=
-t glibc-locale recipe creates a glibc-locale-locale.alias package containin=
-g only the file /usr/share/locale/locale.alias. It looks like the same issu=
-e revealed with the CUPS recipe. Do you know in which package locale.alias =
-file is expected to be located?<br></div><div><br></div><div>Regards,</div>=
-<div>Jonathan<br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" clas=
-s=3D"gmail_attr">Le=C2=A0mar. 20 f=C3=A9vr. 2024 =C3=A0=C2=A008:42, Richard=
- Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D=
-"_blank">richard.purdie@linuxfoundation.org</a>&gt; a =C3=A9crit=C2=A0:<br>=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
-order-left:1px solid rgb(204,204,204);padding-left:1ex">
-ERROR: glibc-locale-2.39+git-r0 do_package: QA Issue: glibc-locale: Files/d=
-irectories were installed but not shipped in any package:<br>
-=C2=A0 /usr/share/locale/locale.alias<br>
-Please set FILES such that these items are packaged. Alternatively if they =
-are unneeded, avoid installing them or delete them within do_install.<br>
-</blockquote></div></div>
-</blockquote></div>
-
---0000000000005084de0611f64d4b--
-
---0000000000005084df0611f64d4d
-Content-Type: application/octet-stream; name="glibc-locale.patch"
-Content-Disposition: attachment; filename="glibc-locale.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_lsx3wcio0>
-X-Attachment-Id: f_lsx3wcio0
-
-ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL2dsaWJjL2dsaWJjLWxvY2FsZS5pbmMgYi9t
-ZXRhL3JlY2lwZXMtY29yZS9nbGliYy9nbGliYy1sb2NhbGUuaW5jCmluZGV4IDI4OWY1OGQ0ZGYu
-LjVlN2FiYWExYzYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL2dsaWJjL2dsaWJjLWxv
-Y2FsZS5pbmMKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYmMvZ2xpYmMtbG9jYWxlLmluYwpA
-QCAtMjgsNyArMjgsNyBAQCBMT0NBTEVfR0VORVJBVElPTl9XSVRIX0NST1NTLUxPQ0FMRURFRiA9
-ICIxIgogCiBQUk9WSURFUyA9ICJ2aXJ0dWFsL2xpYmMtbG9jYWxlIgogCi1QQUNLQUdFUyA9ICJs
-b2NhbGVkZWYgJHtQTn0tZGJnIgorUEFDS0FHRVMgPSAibG9jYWxlZGVmICR7UE59LWRiZyAke1BO
-fS1sb2NhbGUtbG9jYWxlLmFsaWFzIgogCiBQQUNLQUdFU19EWU5BTUlDID0gIl5sb2NhbGUtYmFz
-ZS0uKiBcCiAgICAgICAgICAgICAgICAgICAgIF5nbGliYy1nY29udi0uKiBeZ2xpYmMtY2hhcm1h
-cC0uKiBeZ2xpYmMtbG9jYWxlZGF0YS0uKiBeZ2xpYmMtYmluYXJ5LWxvY2FsZWRhdGEtLiogXApA
-QCAtNjEsNiArNjEsNyBAQCBERVNDUklQVElPTjpsb2NhbGVkZWYgPSAiZ2xpYmM6IGNvbXBpbGUg
-bG9jYWxlIGRlZmluaXRpb24gZmlsZXMiCiAjIEV4cGxpY2l0bHkgYWRkICR7TUxQUkVGSVh9IGZv
-ciBGSUxFUzpnbGliYy1nY29udi4KIEZJTEVTOiR7TUxQUkVGSVh9Z2xpYmMtZ2NvbnYgPSAiJHts
-aWJkaXJ9L2djb252LyoiCiBGSUxFUzpsb2NhbGVkZWYgPSAiJHtiaW5kaXJ9L2xvY2FsZWRlZiIK
-K0ZJTEVTOiR7UE59LWxvY2FsZS1sb2NhbGUuYWxpYXMgPSAiJHtkYXRhZGlyfS9sb2NhbGUvbG9j
-YWxlLmFsaWFzIgogCiBMT0NBTEVUUkVFU1JDID0gIiR7Q09NUE9ORU5UU19ESVJ9LyR7UEFDS0FH
-RV9BUkNIfS9nbGliYy1zdGFzaC1sb2NhbGUiCiAK
---0000000000005084df0611f64d4d--
 
