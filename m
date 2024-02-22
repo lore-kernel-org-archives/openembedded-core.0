@@ -1,123 +1,89 @@
-Return-Path: <mark.hatle@kernel.crashing.org>
+Return-Path: <pdoshi@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96260C48BEB
-	for <webhook@archiver.kernel.org>; Thu, 22 Feb 2024 03:22:34 +0000 (UTC)
-Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
- by mx.groups.io with SMTP id smtpd.web10.5331.1708572152453500268
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED118C48BEB
+	for <webhook@archiver.kernel.org>; Thu, 22 Feb 2024 04:25:54 +0000 (UTC)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web11.6255.1708575949821425301
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 Feb 2024 19:22:32 -0800
+ Wed, 21 Feb 2024 20:25:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
-Received: from [192.168.2.236] ([70.99.78.137])
-	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 41M3LQjU024953;
-	Wed, 21 Feb 2024 21:21:26 -0600
-Message-ID: <08d73f7d-2b5e-4f04-a00c-9c57c32e622f@kernel.crashing.org>
-Date: Wed, 21 Feb 2024 21:21:25 -0600
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [poky] [Openembedded-architecture] [RFC PATCH] Add genericarm64
- MACHINE using upstream defconfig
-Content-Language: en-US
-To: Paul Barker <pbarker.renesas@gmail.com>,
-        Ross Burton
- <ross.burton@arm.com>, poky@lists.yoctoproject.org
-Cc: openembedded-core@lists.openembedded.org,
-        openembedded-architecture@lists.openembedded.org
-References: <20240221105723.1501833-1-ross.burton@arm.com>
- <95d22879-3f51-466c-a544-91db3fff6dcd@bp.renesas.com>
-From: Mark Hatle <mark.hatle@kernel.crashing.org>
-In-Reply-To: <95d22879-3f51-466c-a544-91db3fff6dcd@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ dkim=pass header.i=@mvista.com header.s=google header.b=gzNUfDZ7;
+ spf=pass (domain: mvista.com, ip: 209.85.214.175, mailfrom: pdoshi@mvista.com)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1d93edfa76dso48684005ad.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 21 Feb 2024 20:25:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1708575949; x=1709180749; darn=lists.openembedded.org;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=L9B3tojdL4JJd15ZfuLcNRUkm8WZSj+2Y5TOfarHnqg=;
+        b=gzNUfDZ7c6TM164O0bTeozJsN2z0l8s0ATXEGdgBZbtJjCwVBDAbj+9Y8DzB3kFICp
+         vi+V9gQsjdx/iK09Z/4Vu83o64MKMgzDVbldIakr7v700UejBesxvWgTPB8+2pNRlak8
+         vM/Yvwx76L7gi1/pWZxr2AtCnoEIyNL2cxudk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708575949; x=1709180749;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=L9B3tojdL4JJd15ZfuLcNRUkm8WZSj+2Y5TOfarHnqg=;
+        b=AfZwT6UpRoiCyFFySCzACBWMgwmnKvAulz0dgtzADCm3m7wYEANQJoYdPu2Oq7Y5DR
+         3cU5JZZEvs+PJq5t100OhF7nOLs8IUTamFRFNGd7S6t4eZD13QmRR6+h9LWqaRX62lYB
+         B+wrQvE+BIVkIn6vKX6aWc574WK700zpE8LqgdXHEafSqvydPRzwHYWmVGY3qsyRx5f8
+         00MaCtBEZi1YVvvQ/2bC9yrs2OJaXD5uj1RwfytfWLV0mfjfAt7+mtrLX8wwLUMpBXef
+         gdl5kJ+qWTbypNzfgqdF649ovuxj1fOeOHY2Mf/wIhnEo1DRqsF+94ojPLymOxWnYPU3
+         xMew==
+X-Gm-Message-State: AOJu0YzhPyq5lYNb82FBegchlWgHLskNrPqKi5BeVdHh2YZhnVFuE0c+
+	oN8x8i+8uSJn42LZhMH+diB3B+xoaJYHiivysGhlyJQOSLY6lcpH1ExbK1jtPKrbIbTcCfrCfY5
+	o
+X-Google-Smtp-Source: AGHT+IHWaQgemfj80NORgQR4RrIphojHA3YPEZI75/RLsCuzx4M1R+0RI99NKLLsYdJlwmopSIA+sg==
+X-Received: by 2002:a17:902:e94d:b0:1db:8eae:b98e with SMTP id b13-20020a170902e94d00b001db8eaeb98emr25070920pll.38.1708575948820;
+        Wed, 21 Feb 2024 20:25:48 -0800 (PST)
+Received: from localhost.localdomain ([182.74.28.237])
+        by smtp.gmail.com with ESMTPSA id h18-20020a170902f2d200b001d913992d8csm8923051plc.242.2024.02.21.20.25.47
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 21 Feb 2024 20:25:48 -0800 (PST)
+From: pdoshi@mvista.com
+To: openembedded-core@lists.openembedded.org
+Cc: Priyal Doshi <pdoshi@mvista.com>
+Subject: [OE-core][dunfell][PATCH] tzdata: Upgrade to 2024a
+Date: Thu, 22 Feb 2024 09:55:41 +0530
+Message-Id: <1708575941-18696-1-git-send-email-pdoshi@mvista.com>
+X-Mailer: git-send-email 2.7.4
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 22 Feb 2024 03:22:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196005
+ <openembedded-core@lists.openembedded.org>; Thu, 22 Feb 2024 04:25:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196006
 
+From: Priyal Doshi <pdoshi@mvista.com>
 
+Signed-off-by: Priyal Doshi <pdoshi@mvista.com>
+---
+ meta/recipes-extended/timezone/timezone.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-On 2/21/24 9:06 AM, Paul Barker wrote:
-> On 21/02/2024 10:57, Ross Burton wrote:
->> From: Ross Burton <ross.burton@arm.com>
->>
->> This is a new 64-bit "generic" Arm machine, that expects the hardware to
->> be SystemReady IR compatible. This is slightly forward-leaning as there's
->> not a _lot_ of SystemReady hardware in the wild, but most modern boards
->> are and the number will only grow.  Also, this is the only way to have a
->> 'generic' machine as without standardised bootloaders and firmware it
->> would be impossible.
->>
->> The base machine configuration isn't that exciting: it's a fully featured
->> machine that supports most things, booting via UEFI and an initramfs.
->>
->> However, the kernel is more interesting.  This RFC uses the upstream defconfig
->> because unlike some other platforms, the arm64 defconfig is actively
->> maintained with the goal of being a 'boots on most hardware' configuration.
->> My argument is: why would we duplicate that effort?
->>
->> The "linux-yocto way" is configuration fragments and after a week of
->> hair-pulling I do actually have fragments that boot on a BeaglePlay, but
->> to say this was a tiresome and frustrating exercise would be understating it.
->>
->> So, a request for comments: is it acceptable to use the upstream defconfig in
->> a reference BSP?  Personally I'm torn: the Yocto way is fragments not monolithic
->> configs, but repeating the effort to fragmentise the configuration and then
->> also have it sufficiently modular that it can be used in pieces - instead of
->> just being a large file split up into smaller files - is a lot of effort for
->> what might end up being minimal gain.  My fear is we end up with a fragmented
->> configuration that can't be easily modified without breaking some platforms,
->> and badly copies what the defconfig already does.
-> 
-> I am in favour of this - I think the "genericarm64" machine should use
-> the in-tree defconfig so that it can support the widest array of
-> hardware. If someone wants to trim down the kernel for a particular
-> platform then they should probably create a specific MACHINE anyway.
-> 
-> If we take the other approach of building up the kernel config from
-> fragments, how would we know that all SystemReady IR capable systems
-> will be supported? Yocto Project doesn't have the resources to test
-> every platform.
+diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
+index 75f13cf..46bc1b7 100644
+--- a/meta/recipes-extended/timezone/timezone.inc
++++ b/meta/recipes-extended/timezone/timezone.inc
+@@ -6,7 +6,7 @@ SECTION = "base"
+ LICENSE = "PD & BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
+ 
+-PV = "2023d"
++PV = "2024a"
+ 
+ SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode \
+            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata \
+@@ -14,5 +14,5 @@ SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz
+ 
+ UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
+ 
+-SRC_URI[tzcode.sha256sum] = "e9a5f9e118886d2de92b62bb05510a28cc6c058d791c93bd6b84d3292c3c161e"
+-SRC_URI[tzdata.sha256sum] = "dbca21970b0a8b8c0ceceec1d7b91fa903be0f6eca5ae732b5329672232a08f3"
++SRC_URI[tzcode.sha256sum] = "80072894adff5a458f1d143e16e4ca1d8b2a122c9c5399da482cb68cba6a1ff8"
++SRC_URI[tzdata.sha256sum] = "0d0434459acbd2059a7a8da1f3304a84a86591f6ed69c6248fffa502b6edffe3"
+-- 
+2.7.4
 
-I disagree here.  I think it would be MUCH better to have a 'SystemReady IR' 
-hardware configuration.  So if SystemReady IR is desired, it is something that 
-anyone can enable (starting with genericarm64).  Remember the defconfig is going 
-to have more then hardware configs in it.  Will it have the right systemd 
-configurations?  Will is have the magic filesystem a random user wants?  Will 
-avoid having some other filesystem type that another user doesn't want?
-
-Building up the kernel, and considering SystemReady IR as a 'hardware feature', 
-and then add in the additional things that are needed for whatever reason is a 
-much more reasonable way to do this and make it useful to otthers.
-
-> For the Renesas RZ SoCs I work on these days, the in-tree defconfig is
-> the configuration we test with the mainline kernel.
-
-AMD does the same thing, for the kernel development it makes sense.  Kernel is 
-built and tested standalone from userspace.
-
-But with that said, I think it's the wrong way to do Yocto Project development. 
-Yocto Project development needs further control and the separation of hardware 
-and software configurations is pretty essential to having a system that can be 
-customized appropriately.
-
-The defconfig can be used as a guide to the other configurations, but separating 
-hardware and software configs is a necessary first step in my opinion.
-
---Mark
-
-> Thanks,
-> 
-> 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#13264): https://lists.yoctoproject.org/g/poky/message/13264
-> Mute This Topic: https://lists.yoctoproject.org/mt/104489783/3616948
-> Group Owner: poky+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/poky/unsub [mark.hatle@kernel.crashing.org]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
 
