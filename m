@@ -1,224 +1,110 @@
-Return-Path: <adrian.freihofer@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94B4FC48BF8
-	for <webhook@archiver.kernel.org>; Thu, 22 Feb 2024 13:00:27 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web11.12048.1708606824257433727
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CD1BC54788
+	for <webhook@archiver.kernel.org>; Thu, 22 Feb 2024 14:30:58 +0000 (UTC)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web10.14007.1708612248152916272
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Feb 2024 05:00:24 -0800
+ Thu, 22 Feb 2024 06:30:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=T3vWNHDn;
- spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4128e15d5e5so1055935e9.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Feb 2024 05:00:24 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=JCQxpOwh;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1dc0e5b223eso32421565ad.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Feb 2024 06:30:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708606823; x=1709211623; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YzJWoY0HwIFblLvyUer2LC3LP4+kfI51es9YeWzx/t0=;
-        b=T3vWNHDna38onQdCH9rf7YoysKZdmjSNjbWIW9RwZxe8VVI/8FHEsIBaBpRm0fVEjv
-         JPgGS/rOrH/VC9KU4Zk/gWlsVVgPd/vqaylvMWPO0QzmtkJZCF+gVV9kIYG93xs1+NM+
-         HxWhmzhgErH2TPNxfFJtooNE3W64M6LdBo2QvEwf8L/+4X1RtRpbIaoeOvGU8yZAab0w
-         j3dRKYyweclxi6Hqw7vVvHhYSdofarYF29TI0U2JHgjiVxc+Cg81+0Y316Tft1F2LKp4
-         FTc+4YES7ZR4QhzjsBblYjLZyK9/oOJSZwdr9SAvNGmBRqMpdsIPNSWJusQgAwytW97Y
-         kj7w==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1708612247; x=1709217047; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NU70jRxkzXLop4+pYUssSSE73qiIzFS8UK67RyEYO2U=;
+        b=JCQxpOwhwAIj3T8pWuwmpUYI2noXB3xR50DGySyjfzx3O10qasRo3ahEkQ6EKi0oIu
+         uGHYgub9vYKOooMOadxy3+UbSxW/oNhtftoPhnIOEzdE9HoF93dV0pr9rtR0csQt1mNy
+         g/6gtu7ca/TBdxoW7R0p6fcrcrNr3v2yCz8FerS9YdLNQBa52EfRULlShTHarBRmKXXX
+         +w4dz+78t/9dRjQ7Jr6Xiw6MWrXvS64SRZWdQAW7dxgtfgPex1uBV8qV8NMYIuPMicN9
+         PBZlVmdgAlR7GUcmu6nWR0mDkiWyDIxYelQiZJpRUup7gJc+zlFc0douSDFx1hNUIEDh
+         vWxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708606823; x=1709211623;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=YzJWoY0HwIFblLvyUer2LC3LP4+kfI51es9YeWzx/t0=;
-        b=muJY5F57dctvCS9JF/Mp8P7P5RyV/4dpyZFo9kD4vtb0e3i8o5djFBqV9Y2HdDDYXP
-         iYPy7K6Tl73VfdbeEZHfdaFr1MoOkEf2OOtpySMTWw9EWsBn8R90dgyEzke61HmJwMaE
-         9r4xVScv1iPby256gRauln94y+nrYf6AWE1X97If0MB9ekhNICGqaaEaxwjMe9HBtfr5
-         I1pcdzFtQVbGqhLFeSzbPrXty80vgFvPtCn0Yj+hE4QeEL2TpY8xjOF8TO8ss6LJwebb
-         D5n2UcSU471VhLNmiwIDBFyGdMPyRlAYsTi6xMnAN/ECOyr999bQFIrIKVb1OJknuT7A
-         3Qrw==
-X-Forwarded-Encrypted: i=1; AJvYcCVr6qK/Ie6zhIlAN7CwrBuIxjvgXGt3r88rHLW/OcwobwD9x41+5qvJNOqvmmqJ8VAqjBlQNGeNaXtaP7XBM73AFIcIu3GJJsxdMWkBTXwZ5Sv7CEoV9ki0
-X-Gm-Message-State: AOJu0YxrbN1YNjd5IKzojIfuv0g68n/gRTSPl3kz37SgxB0+zpD2fvdU
-	5hp1gJirSEcE3RirRdN6BWHdS9zAXzA0ncar1Medl963TmTkOUVCBxl9uXrn
-X-Google-Smtp-Source: AGHT+IHyNP80RBLzl2TjIdkuXq6NjlP2n1gLyy7sUarCBi8+Yq1MCvzdQORB1yLzy+hnrM9ebyywPQ==
-X-Received: by 2002:a05:600c:4f04:b0:412:8816:fd5f with SMTP id l4-20020a05600c4f0400b004128816fd5fmr859912wmq.39.1708606822271;
-        Thu, 22 Feb 2024 05:00:22 -0800 (PST)
-Received: from ?IPv6:2a02:169:59a6:0:55c4:f628:91f3:4287? ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id bi21-20020a05600c3d9500b004128808db91sm1871972wmb.23.2024.02.22.05.00.21
+        d=1e100.net; s=20230601; t=1708612247; x=1709217047;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NU70jRxkzXLop4+pYUssSSE73qiIzFS8UK67RyEYO2U=;
+        b=bmKDyEouxBno/Xm2bcCed84Nb8EJ+mpHqVCtGUEQ8kM23ySGrkVKiL0ZnS5jklmfXa
+         5Ozxh3jFqAm/+OGZXhCFNl/TGJUet3TkiN/Qbkl/kIGbATxZNOfG3er3KcdSQnCW3WGe
+         /O3jyAXrugF3dTSNrWRSLZx3L7Vh+7zgc9uDOTJvat88kSR5gZBKRQORXP92rTecnFR+
+         ihFp/6wNnx7MrsAG26tZKgKt5cOj8/eN3xCNhNEleYVq0cnOlhHHlnZqilukYoBBaTx6
+         JZFNdZMvNbULeXytowkCbzhNULH3kE7uJTeUw1dKpz97wI0KrskdWNDz5RKHY1TKPKnb
+         J8WQ==
+X-Gm-Message-State: AOJu0YzshgmL1B7f8FBXtdGfGKDgrpXedcKR99sbLLIuJhDW2Jr7ggwH
+	wVg0SsfivYFxWQStgJ9x47dQjKEk1C4qT9Sn/2zEcBsHFEgq34EXx3MXI9yubhm2Ua7aCe2ItXE
+	AO7I=
+X-Google-Smtp-Source: AGHT+IGxmZuel8avfU/6RN64Ai0gU7CO7kqEzvrs5vwdCYKL62Z4ge/e7+YzrdO9GuNQ0VWqbO02WQ==
+X-Received: by 2002:a17:902:a3cc:b0:1db:ed54:a732 with SMTP id q12-20020a170902a3cc00b001dbed54a732mr9360757plb.4.1708612247089;
+        Thu, 22 Feb 2024 06:30:47 -0800 (PST)
+Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
+        by smtp.gmail.com with ESMTPSA id k13-20020a170902f28d00b001dbcf653024sm9364558plc.293.2024.02.22.06.30.46
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Feb 2024 05:00:21 -0800 (PST)
-Message-ID: <0eb9dfcfce7449a97b68e17d29c2e671b4dbc06d.camel@gmail.com>
-Subject: Re: [PATCH v2 2/5] devtool: code: Add source mapping for debug
- source files
-From: adrian.freihofer@gmail.com
-To: Enguerrand de Ribaucourt
- <enguerrand.de-ribaucourt@savoirfairelinux.com>, 
- openembedded-core@lists.openembedded.org
-Date: Thu, 22 Feb 2024 14:00:21 +0100
-In-Reply-To: <fd2771f5-f50b-4da9-a90c-204e2356085d@savoirfairelinux.com>
-References: 
-	<20240219165525.714512-1-enguerrand.de-ribaucourt@savoirfairelinux.com>
-	 <20240219165525.714512-3-enguerrand.de-ribaucourt@savoirfairelinux.com>
-	 <4a89e1327bf1595361c98d200f15a36daefca0a6.camel@gmail.com>
-	 <ba386157-4ef6-4d83-a1a8-95aff41a92d4@savoirfairelinux.com>
-	 <fd2771f5-f50b-4da9-a90c-204e2356085d@savoirfairelinux.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.module_f38+17164+63eeee4a) 
+        Thu, 22 Feb 2024 06:30:46 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 0/9] Patch review
+Date: Thu, 22 Feb 2024 04:30:31 -1000
+Message-Id: <cover.1708612053.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 22 Feb 2024 13:00:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196018
+ <openembedded-core@lists.openembedded.org>; Thu, 22 Feb 2024 14:30:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196019
 
-On Wed, 2024-02-21 at 15:56 +0100, Enguerrand de Ribaucourt wrote:
->=20
->=20
-> On 21/02/2024 15:12, Enguerrand de Ribaucourt wrote:
-> >=20
-> >=20
-> > On 20/02/2024 10:01, adrian.freihofer@gmail.com=C2=A0wrote:
-> > > On Mon, 2024-02-19 at 17:55 +0100, Enguerrand de Ribaucourt
-> > > wrote:
-> > > > When launching the debug configuration, the source files from
-> > > > the
-> > > > debug
-> > > > rootfs were openened in the editor instead of the local
-> > > > workspace
-> > > > files.
-> > > > We add an exception to properly map them to the file being
-> > > > developed
-> > > > and
-> > > > compiled by the IDE integration. This also more closely matches
-> > > > what
-> > > > the
-> > > > user would expect compared to native development.
-> > > >=20
-> > > > This is also true for the devtool fallback mode.
-> > >=20
-> > > This looks still wrong to me. If files from the rootfs are
-> > > openend for
-> > > a recipe which is in the workspace, the SDK is broken and we need
-> > > to
-> > > understand and fix that. This patch does not solve that, but will
-> > > make
-> > > it much harder to find the right solution for this issue.
-> > Hi Adrian,
-> >=20
-> > This is affecting essentially the devtool fallback mode. Since it's
-> > compiled through devtool, it's using the bitbake packaging
-> > information.
-> >=20
-> > Steps to reproduce:
-> > =C2=A0=C2=A0- devtool modify powertop (autotools recipe, currently fall=
-back)
-> > =C2=A0=C2=A0- devtool ide-sdk powertop [args...]
-> > =C2=A0=C2=A0- open the powertop sources workspace
-> > =C2=A0=C2=A0- run the debug launch configuration
-> > =C2=A0=C2=A0- initial breakpoint opens the rootfs-dbg main.cpp instead =
-of the
-> > current workspace
-> >=20
-> > This probably will get fixed for autotools with your specific class
-> > support, but will remain for the fallback mode.
-> >=20
-> > Do we want to keep this source map, but only for the fallback mode?
-> > Like=20
-> > you say, it's kinda "cheating" the debug information, but since we
-> > are=20
-> > in fallback mode, the devtool packaging is supposed to be using the
-> > sources from the workspace, so it's more like "hinting" at the
-> > proper=20
-> > source.
-> It also affects more meson projects like lighttpd. The "hint" would=20
-> still be valid given how it's built and deployed now. If you are
-> still=20
-> working on an alternative tinfoil deploy method, maybe it's not
-> affected.
+Please review this set of changes for dunfell and have comments back by
+end of day Monday, February 26
 
-It looks like the devtool deploy-target step is missing. If you debug
-packaged files this would behave like this. It's important to over
-write the packaged files with the not packaged file from the image
-folder. This is what the devtool deploy-target command does. It's
-expected that this just happens, probably there is a bug in the
-dependencies. Could you please try to run it explicit? Something like
-this:
+Passed a-full on autobuilder:
 
-- devtool modify powertop (autotools recipe, currently fallback)
-- devtool ide-sdk powertop [args...]
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6590
 
-- devtool build powertop
-- devtool deploy-target powertop
+The following changes since commit 7ab6087536bc67c63094f08f863dcd3d5e35b8e7:
 
-- open the powertop sources workspace
-- run the debug launch configuration
+  cmake: Unset CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES (2024-02-12 17:13:14 -1000)
 
-I guess this would work as expected. The question is then: Why is the
-deploy not executed?
+are available in the Git repository at:
 
-Adrian
+  https://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
 
+Bruce Ashfield (5):
+  linux-yocto/5.4: update to v5.4.264
+  linux-yocto/5.4: update to v5.4.265
+  linux-yocto/5.4: update to v5.4.266
+  linux-yocto/5.4: update to v5.4.267
+  linux-yocto/5.4: update to v5.4.268
 
-> > >=20
-> > > Adrian
-> > >=20
-> > > >=20
-> > > > Signed-off-by: Enguerrand de Ribaucourt
-> > > > <enguerrand.de-ribaucourt@savoirfairelinux.com>
-> > > > ---
-> > > > =C2=A0=C2=A0scripts/lib/devtool/ide_plugins/ide_code.py | 1 +
-> > > > =C2=A0=C2=A0scripts/lib/devtool/ide_sdk.py=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1 +
-> > > > =C2=A0=C2=A02 files changed, 2 insertions(+)
-> > > >=20
-> > > > diff --git a/scripts/lib/devtool/ide_plugins/ide_code.py
-> > > > b/scripts/lib/devtool/ide_plugins/ide_code.py
-> > > > index b2193130d2e..c063b7d0590 100644
-> > > > --- a/scripts/lib/devtool/ide_plugins/ide_code.py
-> > > > +++ b/scripts/lib/devtool/ide_plugins/ide_code.py
-> > > > @@ -234,6 +234,7 @@ class IdeVSCode(IdeBase):
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if gdb_cross=
-_config.image_recipe.rootfs_dbg:
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 launch_config['additionalSOLibSearchPath'] =3D
-> > > > modified_recipe.solib_search_path_str(
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gdb_cross_config.image_recipe)
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- src_file_map[os.path.join("/usr/src/debug",
-> > > > modified_recipe.pn, modified_recipe.pv)] =3D "${workspaceFolder}"
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 src_file_map["/usr/src/debug"] =3D os.path.join(
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gdb_cross_config.image_recipe.rootfs_d=
-bg,
-> > > > "usr",
-> > > > "src", "debug")
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 else:
-> > > > diff --git a/scripts/lib/devtool/ide_sdk.py
-> > > > b/scripts/lib/devtool/ide_sdk.py
-> > > > index 14679744807..f292edbe25c 100755
-> > > > --- a/scripts/lib/devtool/ide_sdk.py
-> > > > +++ b/scripts/lib/devtool/ide_sdk.py
-> > > > @@ -356,6 +356,7 @@ class RecipeModified:
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 'PACKAGE_DEBUG_SPLIT_STYLE')
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.path =
-=3D recipe_d.getVar('PATH')
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.pn =3D =
-recipe_d.getVar('PN')
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.pv =3D recipe_d.ge=
-tVar('PV')
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.recipe_=
-sysroot =3D os.path.realpath(
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 recipe_d.getVar('RECIPE_SYSROOT'))
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.recipe_=
-sysroot_native =3D os.path.realpath(
-> > >=20
-> > Enguerrand de Ribaucourt
-> >=20
-> Enguerrand de Ribaucourt
+Peter Marko (1):
+  gcc-shared-source: whitelist CVE-2023-4039
+
+Richard Purdie (1):
+  sstatesig: Allow exclusion of the root directory for do_package
+
+Steve Sakoman (1):
+  cve-exclusion_5.4.inc: update for 5.4.268
+
+Tim Orling (1):
+  vim: upgrade v9.0.2130 -> v9.0.2190
+
+ meta/lib/oe/sstatesig.py                      |   5 +-
+ .../gcc/gcc-shared-source.inc                 |   3 +
+ .../linux/cve-exclusion_5.4.inc               | 199 +++++++++++++++++-
+ .../linux/linux-yocto-rt_5.4.bb               |   6 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +-
+ meta/recipes-support/vim/vim.inc              |   4 +-
+ 7 files changed, 215 insertions(+), 32 deletions(-)
+
+-- 
+2.34.1
 
 
