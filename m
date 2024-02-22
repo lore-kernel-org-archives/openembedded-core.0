@@ -1,92 +1,94 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <pidge@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81F50C48BF8
-	for <webhook@archiver.kernel.org>; Thu, 22 Feb 2024 14:47:58 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.14438.1708613272093565958
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8542CC48BF8
+	for <webhook@archiver.kernel.org>; Thu, 22 Feb 2024 14:54:08 +0000 (UTC)
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+ by mx.groups.io with SMTP id smtpd.web10.14596.1708613646781258977
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Feb 2024 06:47:52 -0800
+ Thu, 22 Feb 2024 06:54:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=WiMBSpU8;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=nkE3nMDo;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018dd1497eb6-ae74386a-87d6-4692-83de-3cb51c9110a3-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1708613271; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=ARihma2+GuRp4TkLCdjVAW9V4Wt9SkffwPHPWT03p+4=;
-	b=WiMBSpU8BnbyJuk+z9hMHnIyPuTBlRQmB+2YpfJRv6KtEubbc3+s34WGYUYt6yCp
-	CLqpErArX29Cnqfy2DE2CSWiLNO8eanEgmSd9BOiGjEXLPUWbYAWjJzCA0LuBw2DGcQ
-	fEu+OPccqYe2BaiRYtdXnzm8TU4buk7XwWsxDb+M=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1708613271;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=ARihma2+GuRp4TkLCdjVAW9V4Wt9SkffwPHPWT03p+4=;
-	b=nkE3nMDowky9YHGjqn3ccn+cm9C70MCL47ZXRMigiTqqQ5TEE8g0oGhTCa8BPNiL
-	KwUAKWIl+EXy5xna5M7hMaBy/KpkNH5iiII/YE1cipKlGw6r9baVgnUfvXkOqgtmtCb
-	RIC3I6sUz8JYCvVgwKEDFdXskuKCxsSLc+mp+dfg=
-From: patchtest@automation.yoctoproject.org
-To: Steve Sakoman <steve@sakoman.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][dunfell 8/9] cve-exclusion_5.4.inc: update for 5.4.268
-In-Reply-To: 
- <7360603c50ca61ec9d6a49798ec6b67a80e93c69.1708612053.git.steve@sakoman.com>
-References: 
- <7360603c50ca61ec9d6a49798ec6b67a80e93c69.1708612053.git.steve@sakoman.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018dd1497eb6-ae74386a-87d6-4692-83de-3cb51c9110a3-000000@us-west-2.amazonses.com>
-Date: Thu, 22 Feb 2024 14:47:51 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.02.22-54.240.27.33
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=SPkEwd8i;
+ spf=pass (domain: baylibre.com, ip: 209.85.215.176, mailfrom: pidge@baylibre.com)
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-5d3912c9a83so5998129a12.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Feb 2024 06:54:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1708613646; x=1709218446; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4mYgDw89AsCtvmBdpx5T3YwT+w17n0gS9ZJNN/MbQyo=;
+        b=SPkEwd8i9Z4/APXh7He+nEdT8i3EFEtoU1PQjV7bJQ3loyIpOKdshKzNTYS/58PLMx
+         OhOIY5ChHG3YEtKjsJI2B5Yi/VYmmjcfCeTm4RuHCd2YjGNIAbaLVSSuqZtek1JlqszP
+         bik//XAssWxrPgGWTIQkqBTRVIl443f4iK/UyfW0lI+IK3HxT50Hs59Nt1cDOPVaCwQh
+         KiZiM9Iq52XfoAD2JHu8AK4O7pfLiZNSDZCjnfKX7fzuIighijS+LUFzQcdQh4YX9E2/
+         esgTIghQ5g9F8xXLpaBUhcEkt7lyz/rOzpCdNZKVVoniB9reJ1EQc2GolCX+vx7NxT9C
+         hZDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708613646; x=1709218446;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4mYgDw89AsCtvmBdpx5T3YwT+w17n0gS9ZJNN/MbQyo=;
+        b=VkHOfsRq6lt+AuZhdDiq1GfpUc4Ddzyhykm1j9CmemgZKcm7W6oHm28Pq+0alOrxOy
+         6BigdrJSX7wuIi68YlCtxPZLeO+WyxuobGzJ7lOCFXgUjSh66r45+IwMDspjIF0/TxRG
+         PY6JXqjw3ERxoWvkJWI2ge6ACArmLSZdYHfZqZOV8ESXNPMjmqrPAgWjBTmgqhtpdYRw
+         r/p6YHSwH7wm4uD5SgKSC1vy/IWP4d4e7A8wqgYw88lXIascVNQ/+0l4KyUB0p7t5Ahx
+         9nLne1kqLsw/ZuNZjyXZxsKOkHC1hy9DR3rErW3CBBybQuTB4UfVIDIGnLCrcbMSxa7g
+         +VwA==
+X-Gm-Message-State: AOJu0YwlhTxjJRSEPp0t9P19IdovgsLWHFffF1vtSST8WiZ5dwMlutr/
+	mn1LUM9jryInF6fl0zDD4yal++l43byTHW97fsoDlt13NG8gwB7YznIGvfWdDYWtKsClDJqhwSi
+	NWj0=
+X-Google-Smtp-Source: AGHT+IHs1yTuBe74WO9jwCVXzJxMHRM5inhO80bk+h3qICiakWJae6TFf+KsUp7600p3s9ji8K8wig==
+X-Received: by 2002:a05:6a21:3184:b0:19e:cc0c:dc44 with SMTP id za4-20020a056a21318400b0019ecc0cdc44mr20091284pzb.58.1708613646122;
+        Thu, 22 Feb 2024 06:54:06 -0800 (PST)
+Received: from orm.fritz.box ([194.110.145.164])
+        by smtp.gmail.com with ESMTPSA id sz5-20020a17090b2d4500b00298cc4c56cdsm4067410pjb.22.2024.02.22.06.54.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Feb 2024 06:54:05 -0800 (PST)
+From: =?UTF-8?q?Eil=C3=ADs=20=27pidge=27=20N=C3=AD=20Fhlannag=C3=A1in?= <pidge@baylibre.com>
+To: openembedded-core@lists.openembedded.org
+Cc: =?UTF-8?q?Piotr=20=C5=81obacz?= <p.lobacz@welotec.com>,
+	=?UTF-8?q?Eil=C3=ADs=20=27pidge=27=20N=C3=AD=20Fhlannag=C3=A1in?= <pidge@baylibre.com>
+Subject: [PATCH 0/3] Useradd postinstall fixes and tests
+Date: Thu, 22 Feb 2024 14:53:53 +0000
+Message-Id: <cover.1708613381.git.pidge@baylibre.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 22 Feb 2024 14:47:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196029
+ <openembedded-core@lists.openembedded.org>; Thu, 22 Feb 2024 14:54:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196030
 
---NextPart
-Content-Type: text/plain
+These commits fix #13904 and #15084, adds a test for it and adds a minor fix for
+the creategroup tests
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Eilís 'pidge' Ní Fhlannagáin (2):
+  selftest-users: Convoluted selftest for USERADD_DEPENDS
+  creategroup*: Remove coreutils-native as a DEPENDS
 
----
-Testing patch /home/patchtest/share/mboxes/dunfell-8-9-cve-exclusion_5.4.inc-update-for-5.4.268.patch
+Piotr Łobacz (1):
+  useradd.bbclass: Fix order of postinst-useradd-*
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+ .../selftest-users/acreategroup.bb            | 32 +++++++++
+ .../selftest-users/bcreategroup.bb            | 37 ++++++++++
+ .../selftest-users/ccreategroup.bb            | 34 +++++++++
+ .../selftest-users/creategroup1.bb            |  2 -
+ .../selftest-users/creategroup2.bb            |  1 -
+ .../selftest-users/dcreategroup.bb            | 33 +++++++++
+ meta/classes-global/staging.bbclass           |  7 +-
+ meta/classes/useradd.bbclass                  | 72 ++++++++++++-------
+ .../lib/oeqa/selftest/cases/usergrouptests.py |  4 ++
+ 9 files changed, 189 insertions(+), 33 deletions(-)
+ create mode 100644 meta-selftest/recipes-test/selftest-users/acreategroup.bb
+ create mode 100644 meta-selftest/recipes-test/selftest-users/bcreategroup.bb
+ create mode 100644 meta-selftest/recipes-test/selftest-users/ccreategroup.bb
+ create mode 100644 meta-selftest/recipes-test/selftest-users/dcreategroup.bb
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+-- 
+2.34.1
 
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
