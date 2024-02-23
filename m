@@ -2,39 +2,36 @@ Return-Path: <alexis.lothore@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0ED08C5478C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DA01C54798
 	for <webhook@archiver.kernel.org>; Fri, 23 Feb 2024 14:03:58 +0000 (UTC)
 Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
- by mx.groups.io with SMTP id smtpd.web10.11209.1708697032768060865
+ by mx.groups.io with SMTP id smtpd.web11.11141.1708697032171496138
  for <Openembedded-core@lists.openembedded.org>;
- Fri, 23 Feb 2024 06:03:53 -0800
+ Fri, 23 Feb 2024 06:03:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=d4rPe0nB;
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=PffyHB3x;
  spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: alexis.lothore@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 44AD920014;
-	Fri, 23 Feb 2024 14:03:51 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 234FA2000F;
+	Fri, 23 Feb 2024 14:03:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1708697031;
+	t=1708697030;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2gZl/CX2XdTl9L5zW6yK1ki4i4/oUog+WKw64t/cC68=;
-	b=d4rPe0nB32kxHISLEZXAAHpSFDufq/xIoQpanJgSQTTJGXPBAJ7t+gRzDQPS/tEO9NfqDf
-	svwp9RoM+LfgJ+xUUZe4DH4JfeqOoCdgs3dEyy+SwvSJTelwU8beE28OZd1yXdoAi3y2hZ
-	sAEIf3JSRUAFyXJYgnfZ2KfklN1EcEFZBPONG3bxpC20oG3oppmGstAlTs5BOZNHwuu7uR
-	pZR8BUsB4XlcP0JYVHT4tvvvN0nq4DKjZo9oZaxR1YQOQMkON0Sr/RYVy3mlX6PhRviUYS
-	8JNzfS5zJL1AU5+noUI3XD/HIfCnwuXLnBkGaHbwUHGtY1DUGivFnUJA05N6Zw==
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=AFDHPSW87cdWZC/ESXUnN2D1uOsfYunpo99cHXZwEig=;
+	b=PffyHB3xMRmu+jHgDvQpj1qGDMrkYELQmGlhd72d6wGdtJkWwwZYnSFPn6ULheqjUcAWJx
+	eHeEri8y+qv+DQBDEYuO/xNqh27KcipxrZqwdtI3VfDRsF5VSddJn8cvuquw5TW9jPpxY6
+	iP9PeE1MbbOfI9JAQtBNz7RXJYAjSFOofKx0jKygnKNCGXSeMpJZN0SlhJYrqMnhY/LwtD
+	2DD76uH1alQRLwxsxdZYH97JYqFnNdq+x+3nJ6dUdlwjaOzr3OMGyCBbqKxEkcNuaa34I7
+	Vzfv6l9/86/HrCQ8nQffYJZ7mdxnvhMZywwRD4lARZcbO25nsVQiLbwmQbwjQQ==
 From: =?UTF-8?q?Alexis=20Lothor=C3=A9?= <alexis.lothore@bootlin.com>
 To: <Openembedded-core@lists.openembedded.org>
 Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
 	Alexandre Belloni <alexandre.belloni@bootlin.com>
-Subject: [OE-Core][PATCH v2 4/5] oeqa/utils/postactions: add target disk usage stat as post action
-Date: Fri, 23 Feb 2024 15:03:44 +0100
-Message-ID: <20240223140345.1362972-5-alexis.lothore@bootlin.com>
+Subject: [OE-Core][PATCH v2 0/5] testimage: add failed test post actions and fetch more data
+Date: Fri, 23 Feb 2024 15:03:40 +0100
+Message-ID: <20240223140345.1362972-1-alexis.lothore@bootlin.com>
 X-Mailer: git-send-email 2.43.1
-In-Reply-To: <20240223140345.1362972-1-alexis.lothore@bootlin.com>
-References: <20240223140345.1362972-1-alexis.lothore@bootlin.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -43,59 +40,38 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 23 Feb 2024 14:03:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196089
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196085
 
-From: Alexis Lothoré <alexis.lothore@bootlin.com>
+Hello,
+this small series is related to some disk space issue observed by the SWAT
+team (see [1]) which eventually leads to tests failure. In order to help
+diagnose those issues, I propose to enrich the retrieved artifacts with
+some additional data, like disk usage on target and on host (in case the
+target is a virtualized guest)
 
-In order to debug issues related to disk space (see [1]),  add a failed
-tests post action to retrieve disk usage on the target. Rely on the test
-context object to run the corresponding command onto the target
+This v2 is mostly about creating a python module instead of a bbclass.
+Link to v1: [2]
 
 [1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=15220
+[2] https://lore.kernel.org/openembedded-core/20240220200159.13419-1-alexis.lothore@bootlin.com/
 
 Signed-off-by: Alexis Lothoré <alexis.lothore@bootlin.com>
----
-Changes in v2:
-- - use new shared helper get_json_result_dir()
----
- meta/lib/oeqa/utils/postactions.py | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/utils/postactions.py b/meta/lib/oeqa/utils/postactions.py
-index 7014b2830a9c..008968b56a3f 100644
---- a/meta/lib/oeqa/utils/postactions.py
-+++ b/meta/lib/oeqa/utils/postactions.py
-@@ -18,6 +18,20 @@ def create_artifacts_directory(d, tc):
- 
-     os.makedirs(local_artifacts_dir)
- 
-+##################################################################
-+# Host/target statistics
-+##################################################################
-+
-+def get_target_disk_usage(d, tc):
-+    output_file = os.path.join(get_json_result_dir(d), "artifacts", "target_disk_usage.txt")
-+    try:
-+        (status, output) = tc.target.run('df -hl')
-+        with open(output_file, 'w') as f:
-+            f.write(output)
-+            f.write("\n")
-+    except Exception as e:
-+        bb.warn(f"Can not get target disk usage: {e}")
-+
- ##################################################################
- # Artifacts retrieval
- ##################################################################
-@@ -65,7 +79,8 @@ def list_and_fetch_failed_tests_artifacts(d, tc):
- def run_failed_tests_post_actions(d, tc):
-     post_actions=[
-         create_artifacts_directory,
--        list_and_fetch_failed_tests_artifacts
-+        list_and_fetch_failed_tests_artifacts,
-+        get_target_disk_usage
-     ]
- 
-     for action in post_actions:
+Alexis Lothoré (5):
+  lib/oeqa: share get_json_result_dir helper
+  testimage: create a list of failed test post actions
+  oeqa/utils/postactions: isolate directory creation in dedicated action
+  oeqa/utils/postactions: add target disk usage stat as post action
+  oeqa/utils/postactions: testimage: add host disk usage stat as post
+    action
+
+ meta/classes-recipe/testimage.bbclass | 54 ++-------------
+ meta/lib/oeqa/sdk/testsdk.py          | 11 +--
+ meta/lib/oeqa/utils/__init__.py       |  7 ++
+ meta/lib/oeqa/utils/postactions.py    | 98 +++++++++++++++++++++++++++
+ 4 files changed, 112 insertions(+), 58 deletions(-)
+ create mode 100644 meta/lib/oeqa/utils/postactions.py
+
 -- 
 2.43.1
 
