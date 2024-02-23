@@ -1,183 +1,88 @@
-Return-Path: <jpuhlman@mvista.com>
+Return-Path: <simone.p.weiss@posteo.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 341B5C5478C
-	for <webhook@archiver.kernel.org>; Fri, 23 Feb 2024 20:33:58 +0000 (UTC)
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
- by mx.groups.io with SMTP id smtpd.web11.5422.1708720435586206169
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 568A3C5478C
+	for <webhook@archiver.kernel.org>; Fri, 23 Feb 2024 20:56:58 +0000 (UTC)
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
+ by mx.groups.io with SMTP id smtpd.web11.5908.1708721813013186227
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 Feb 2024 12:33:55 -0800
+ Fri, 23 Feb 2024 12:56:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=UAKVfgBt;
- spf=pass (domain: mvista.com, ip: 209.85.210.181, mailfrom: jpuhlman@mvista.com)
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-6e3ffafa708so1296632b3a.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 23 Feb 2024 12:33:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1708720434; x=1709325234; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=XS3xGUhnibIvvX7vqums7FP08UebNFeHLZBILcNkLdY=;
-        b=UAKVfgBtKotGMD43bH8y8r2HXF6vN4gmzgA+1KSHZccmui24UJizPX6K/XFsq2uPmY
-         r9cmZndgvPLTDmwsLJWX9I61xxqadPE7az5BQeqMVl8sccKk8yKK8vRmRr8KGVW+Tia4
-         KmTYtp+wLEYji2/fGIujmLYWlgu8Fs7vv/DQY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708720434; x=1709325234;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XS3xGUhnibIvvX7vqums7FP08UebNFeHLZBILcNkLdY=;
-        b=AAQaDYEn15KAXAu8VnVNSPau2imoTWxFMrMktvjJHa4XCH0vZyez4NGbUicaEZ0xwr
-         iiecTSDi2eIqUbcaxaxBDlxc5qmkwDBRMmsf0aC2FhOj8sJCF0I85FsJCNrOAr0Aay42
-         qrk8OfpAqq59jFPH8adzNEkUv+F39GZjvGn6Kd/SIgVTd1/kjb8eJRTj+6X2w3xWjaIG
-         TgeNe1nGGVibCBjmty8TLqzenfcgXBHDAXhCGpcQV7TeSR0C9ap/oFMWOlxUIyinxMB1
-         8v5/gaV5labgF5OBHw2f1mh6lAHyhqu12z0hs4T0Tztws3uKFndck6E3CMy+FQ99fA8P
-         +JvQ==
-X-Gm-Message-State: AOJu0Ywv2rfMSVNaJZakDRYEVaeV3Wj3ZR+ZD01i8xZ55XFVJ81pB0qX
-	8oUdJ2qKI6e4XGz6MrDyugruF6Q0FMhQkizLl+k0p+WCLoet1RGbqOFegWWbrfxMx/Yo2h95HR8
-	g
-X-Google-Smtp-Source: AGHT+IF6LIENUxDZ1K2iHZefuAnCjl86EWWeVEYcz4UUL+Lsr9gqID4zM1IaSX/y4TtR5NFtLV3How==
-X-Received: by 2002:a05:6a21:1014:b0:1a0:e4ae:34c2 with SMTP id nk20-20020a056a21101400b001a0e4ae34c2mr944208pzb.50.1708720433852;
-        Fri, 23 Feb 2024 12:33:53 -0800 (PST)
-Received: from [192.168.1.9] (99-14-97-149.lightspeed.frokca.sbcglobal.net. [99.14.97.149])
-        by smtp.gmail.com with ESMTPSA id a2-20020aa78642000000b006e34008d0c3sm12557464pfo.100.2024.02.23.12.33.52
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 Feb 2024 12:33:53 -0800 (PST)
-Message-ID: <ba284035-ee83-42d0-be21-a6f31532f9cb@mvista.com>
-Date: Fri, 23 Feb 2024 12:33:52 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] package_rpm: Fix backtrace on missing
- directory.
-Content-Language: en-US
+ dkim=fail reason="dkim: body hash did not verify" header.i=@posteo.com header.s=2017 header.b=H94v1mjW;
+ spf=pass (domain: posteo.com, ip: 185.67.36.65, mailfrom: simone.p.weiss@posteo.com)
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id E9D49240028
+	for <openembedded-core@lists.openembedded.org>; Fri, 23 Feb 2024 21:56:50 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.com; s=2017;
+	t=1708721810; bh=X2rQ8hGsL1JfA+xSnvqrxPs2YmcmYi7wNXScXb+vEnc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:From;
+	b=H94v1mjW8HMF/UR75sJY3lfalSHc8etRutrhBRrOw5yu5X/0YscIwsQsnwxep/rAD
+	 9x1NiCY0zIsY3FgsxH0Ib5bcA5PxHXO8xXwH6jVZuBYh3WSODpxEaMkyKaNMfEh0qX
+	 lzi0/SFOLOjOwoG7YTar2pfjAlYEHzRTYfFVq+UhB9Xj4uQlE34tX0e/FHTYJPfyGO
+	 i4IRcHYagTFm+d3jPwluzHc6D30DMr3E41o7IaiWe5dZyVT+jzhnAeeB+6aazRqqfh
+	 yPcttVjE7FSjplR+QJC4Grhlg8MUJFE0j6s4kyNoqwgKN7LnmOMxAV0jVHq6AF9Sri
+	 YGO4pK7xKvE1g==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4ThMkp1jhYz6tvt;
+	Fri, 23 Feb 2024 21:56:49 +0100 (CET)
+From: simone.p.weiss@posteo.com
 To: openembedded-core@lists.openembedded.org
-References: <17B69806B1DEE2BA.25421@lists.openembedded.org>
-From: Jeremy Puhlman <jpuhlman@mvista.com>
-In-Reply-To: <17B69806B1DEE2BA.25421@lists.openembedded.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Cc: =?UTF-8?q?Simone=20Wei=C3=9F?= <simone.p.weiss@posteo.com>
+Subject: [PATCH v3] patchtest: provide further guidance for failed testcases
+Date: Fri, 23 Feb 2024 20:56:39 +0000
+Message-Id: <20240223205639.19766-1-simone.p.weiss@posteo.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 23 Feb 2024 20:33:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196110
+ <openembedded-core@lists.openembedded.org>; Fri, 23 Feb 2024 20:56:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196111
 
-It says usr//usr in the comment, but when I ran on a clean build it
-started complaining about opt//opt as well. Its not really clear why
-it is looking for those directories, and I am sure this is not likely
-the correct solution, but I wanted to get it out here so someone who
-has kicked this area of code might know what may be happening.
+From: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
 
-On 2/23/2024 12:30 PM, Jeremy Puhlman via lists.openembedded.org wrote:
-> From: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
->
-> This seems to work around the following issue. The recipe in quesiton
-> places all of its content in /opt, and we turn on license collection
-> globally. Systemd is turned on so usrmerge is also on. I doubt this
-> is the correct way to deal with this as it is not clear why it is
-> looking for /usr//usr in the first place. Not sure if its just a
-> wierd edge case or what.
->
-> File:
-> '/build/../layers/poky/meta/classes-global/package_rpm.bbclass',
-> lineno: 527, function: write_specfile
->       0523:            spec_scriptlets_bottom.append('')
->       0524:
->       0525:        # Now process files
->       0526:        file_list = []
->   *** 0527:        walk_files(root, file_list, conffiles, dirfiles)
->       0528:        if not file_list and localdata.getVar('ALLOW_EMPTY',
-> False) != "1":
->       0529:            bb.note("Not creating empty RPM package for %s" %
-> splitname)
->       0530:        else:
->       0531:            spec_files_bottom.append('%%files -n %s' %
-> splitname)
-> File:
-> '/build/../layers/poky/meta/classes-global/package_rpm.bbclass',
-> lineno: 249, function: walk_files
->       0245:                    target.append(get_attr(dir) + '%dir "' +
-> escape_chars(p) + '"')
->       0246:            else:
->       0247:                # packages own only empty directories or
-> explict directory.
->       0248:                # This will prevent the overlapping of
-> security permission.
->   *** 0249:                attr = get_attr(path)
->       0250:                if path and not files and not dirs:
->       0251:                    target.append(attr + '%dir "' +
-> escape_chars(path) + '"')
->       0252:                elif path and path in dirfiles:
->       0253:                    target.append(attr + '%dir "' +
-> escape_chars(path) + '"')
-> File:
-> '/build/../layers/poky/meta/classes-global/package_rpm.bbclass',
-> lineno: 203, function: get_attr
->       0199:        # of the walk, the isdir() test would then fail and
-> the walk code would assume its a file
->       0200:        # hence we check for the names in files too.
->       0201:        for rootpath, dirs, files in os.walk(walkpath):
->       0202:            def get_attr(path):
->   *** 0203:                stat_f = os.stat(rootpath + "/" + path,
-> follow_symlinks=False)
->       0204:                mode = stat.S_IMODE(stat_f.st_mode)
->       0205:                try:
->       0206:                    owner =
-> pwd.getpwuid(stat_f.st_uid).pw_name
->       0207:                except Exception as e:
-> Exception: FileNotFoundError: [Errno 2] No such file or directory:
-> '/build/tmp/work/corei7-64-montavista-linux/mvtest/2.0/packages-split/mvtest-lic/opt//opt'
->
-> Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
-> ---
->   meta/classes-global/package_rpm.bbclass | 6 ++++--
->   1 file changed, 4 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/classes-global/package_rpm.bbclass b/meta/classes-global/package_rpm.bbclass
-> index 2e3e4e8c79..a6885ac74e 100644
-> --- a/meta/classes-global/package_rpm.bbclass
-> +++ b/meta/classes-global/package_rpm.bbclass
-> @@ -200,6 +200,8 @@ python write_specfile () {
->           # hence we check for the names in files too.
->           for rootpath, dirs, files in os.walk(walkpath):
->               def get_attr(path):
-> +                if not os.path.exists(rootpath + "/" + path):
-> +                   return ""
->                   stat_f = os.stat(rootpath + "/" + path, follow_symlinks=False)
->                   mode = stat.S_IMODE(stat_f.st_mode)
->                   try:
-> @@ -243,7 +245,7 @@ python write_specfile () {
->                       p = path + '/' + dir
->                       # All packages own the directories their files are in...
->                       target.append(get_attr(dir) + '%dir "' + escape_chars(p) + '"')
-> -            elif path:
-> +            elif path and os.path.exists(path):
->                   # packages own only empty directories or explict directory.
->                   # This will prevent the overlapping of security permission.
->                   attr = get_attr(path)
-> @@ -257,7 +259,7 @@ python write_specfile () {
->                   p = path + '/' + file
->                   if conffiles.count(p):
->                       target.append(attr + '%config "' + escape_chars(p) + '"')
-> -                else:
-> +                elif attr:
->                       target.append(attr + '"' + escape_chars(p) + '"')
->   
->       # Prevent the prerm/postrm scripts from being run during an upgrade
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#196109): https://lists.openembedded.org/g/openembedded-core/message/196109
-> Mute This Topic: https://lists.openembedded.org/mt/104536226/2167262
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [jpuhlman@mvista.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Cross-reference the wiki page on patchtest now that it is updated and con=
+tains
+more information how to address failed testcases. Adding it in patchtest =
+only
+is enough as patchtest-send-result already points to the wikipage for fai=
+lures.
 
--- 
-Jeremy Puhlman
-jpuhlman@mvista.com
+Signed-off-by: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
+---
+v2: Instead of prodvidng the infos in the log point to the now updated wi=
+ki to
+avoid issues with autobuilder when adding more lines.
+
+v3: fix typo
+ scripts/patchtest | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/patchtest b/scripts/patchtest
+index 3163420220..0be7062dc2 100755
+--- a/scripts/patchtest
++++ b/scripts/patchtest
+@@ -164,9 +164,9 @@ def run(patch, logfile=3DNone):
+     if premerge_result =3D=3D 2 and postmerge_result =3D=3D 2:
+         logger.error('patchtest: No test cases found - did you specify t=
+he correct suite directory?')
+     if premerge_result =3D=3D 1 or postmerge_result =3D=3D 1:
+-        logger.error('WARNING: patchtest: At least one patchtest caused =
+a failure or an error - please check')
++        logger.error('WARNING: patchtest: At least one patchtest caused =
+a failure or an error - please check https://wiki.yoctoproject.org/wiki/P=
+atchtest for further guidance')
+     else:
+-        logger.error('OK: patchtest: All patchtests passed')
++        logger.info('OK: patchtest: All patchtests passed')
+     print('-------------------------------------------------------------=
+---------\n')
+     return premerge_result or postmerge_result
+=20
+--=20
+2.39.2
 
 
