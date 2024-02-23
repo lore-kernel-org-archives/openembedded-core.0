@@ -1,154 +1,216 @@
-Return-Path: <simone.p.weiss@posteo.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75E73C54798
-	for <webhook@archiver.kernel.org>; Fri, 23 Feb 2024 21:31:18 +0000 (UTC)
-Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
- by mx.groups.io with SMTP id smtpd.web10.6674.1708723871936311571
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EEB6C5478C
+	for <webhook@archiver.kernel.org>; Fri, 23 Feb 2024 21:53:18 +0000 (UTC)
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+ by mx.groups.io with SMTP id smtpd.web10.7158.1708725188932092411
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 Feb 2024 13:31:12 -0800
+ Fri, 23 Feb 2024 13:53:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@posteo.com header.s=2017 header.b=e9EHpANI;
- spf=pass (domain: posteo.com, ip: 185.67.36.66, mailfrom: simone.p.weiss@posteo.com)
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout02.posteo.de (Postfix) with ESMTPS id B9DC9240101
-	for <openembedded-core@lists.openembedded.org>; Fri, 23 Feb 2024 22:31:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.com; s=2017;
-	t=1708723869; bh=2EscP4v9aqD3OHUG0ns2SZ3oWxRF7pN0QhoEOuH9d3k=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:From;
-	b=e9EHpANIdGPF5zfnt0e0iht32F0LXKa2pDRDM/EECzFWnvoOGvLobEdgZw5DMkNsB
-	 AqWjXlj1P3dcqAExFno/VM0PXnhFo9DHyreLgQ7bhpGb6UqodddfF0hxdzfkOpj63e
-	 uRI1Zkj4dOY9MdCtpdA0mQSTgpWdL18mH4VHZrUqadWsSWKDER32wy3JeWBIbQHKLy
-	 NA73eyhAw2Qecy+lMHfydjmRWgRlXGPq4bGwT/vdMJBxOQECsKR/CMZPT0s2Ly/uyJ
-	 ykLmklhlRNZvwJSPFEpeIE7CRgZc7gsGDXDJ/HBrSMUf/MMeriZy8ZCZmwDDqEodht
-	 E+ofJVtHAzf6w==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4ThNVP00D0z9rxQ;
-	Fri, 23 Feb 2024 22:31:08 +0100 (CET)
-From: simone.p.weiss@posteo.com
-To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Simone=20Wei=C3=9F?= <simone.p.weiss@posteo.com>
-Subject: [PATCH] meta: Remove some not needed CVE_STATUS
-Date: Fri, 23 Feb 2024 21:31:01 +0000
-Message-Id: <20240223213101.35576-1-simone.p.weiss@posteo.com>
+ dkim=pass header.i=@smile-fr.20230601.gappssmtp.com header.s=20230601 header.b=eiYVnVhG;
+ spf=pass (domain: smile.fr, ip: 209.85.208.50, mailfrom: yoann.congal@smile.fr)
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-56566dfeb3bso1341393a12.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 23 Feb 2024 13:53:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1708725187; x=1709329987; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=2p+J/YQMrjg8vI4ba/5R6gZWrtJheZ79Ue/aEtTJXY8=;
+        b=eiYVnVhGr/o1pqNCJPvnaRj8Fam8GAIjfWTpykbVaOAfccSOcOex6lB8rTwq1gHozv
+         JYbkQT7AP0l7ZdKVOC0+fJJW18tA6uZtbsI+bOtnZk8pUrDci4fTWklJam3Q2Tg0G3XQ
+         IJ6cS4JUARc28GYXdTwBXEldujuqv2wi6axoDa6oIEMReqEa9YYEyxt+LIYjbDAIl+Yw
+         uyKoGwG7MEO7y2+ofX6584narYF3dmW8Dq1hrk4X+2EaTFCsOd7nARWV0ZD6xQmUcEMV
+         bpv7zeTI3ndmVxPstLAuCoYOSk7TE6mctuyvcLyNleWiFzQAnAt5ikPOIMXR0fmUkahG
+         fFNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708725187; x=1709329987;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2p+J/YQMrjg8vI4ba/5R6gZWrtJheZ79Ue/aEtTJXY8=;
+        b=jCNLfnsMyiNU4xUBxrM4tUenrJrJGYXCiQPxd1NunsIWelBVLhUOwbsL5H2xj8uk2Q
+         qOXqcWCsTsqhZejUD1xKcZmxdUlBP6hOZz3RnArKAPPvazjOFjFJG3knHAOfuglQaxAK
+         B8jslG/46+KaBlG1mWF6bYcwpznyDhHo0BDpFy4/pW+ZyrxXQnGxwMyH3Wzkvg9ipEBp
+         UesEE9KFYC21h6kjGdwfHe6AlRHaNPS4Y2MjfFCOvUm+pqY5EBWFWTswxgNQ2bTER74T
+         cnPq933YAAHvXN7IqGXaKcvTxRa2dk9hRZWv/jl0yrWddQHZ9elEcJBI93T3FCSKOInf
+         uAYw==
+X-Gm-Message-State: AOJu0Yx5cz8YxI2ggzo4HTQY6SGpwSTTttEVlCfwOYEHoEMUDoR1itHJ
+	Ct+0y9SBW8YBVGN7MtGjZnLt/bbUW/vbhDO6mJ0pD2h7eet4t68UpT7/C3GGH+XN26Zn8Req4Tf
+	XEBvM3TUxusXVCZq2Ixg2BfgADdjrqYRLgA3Uqw==
+X-Google-Smtp-Source: AGHT+IEFBwEqNHtne66WcWqfXDMGag0AcjVsBDWrzReMgRxh5XbomKtbAw8fhQVwOPBZHC/1ddgQvCT2bNzNLJguWoo=
+X-Received: by 2002:a17:906:150b:b0:a3f:20b9:2b68 with SMTP id
+ b11-20020a170906150b00b00a3f20b92b68mr608965ejd.10.1708725186835; Fri, 23 Feb
+ 2024 13:53:06 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+References: <20240223210848.21731-1-simone.p.weiss@posteo.com>
+In-Reply-To: <20240223210848.21731-1-simone.p.weiss@posteo.com>
+From: Yoann CONGAL <yoann.congal@smile.fr>
+Date: Fri, 23 Feb 2024 22:52:41 +0100
+Message-ID: <CAMSfU+4zeAm-BKwqw_vE2RTTmCBoCEAuYyoxm4_KXH7j_mDQqg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] cve-check: Log if CVE_STATUS set but not
+ reported for component
+To: =?UTF-8?B?U2ltb25lIFdlacOf?= <simone.p.weiss@posteo.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000c7c677061213957d"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 23 Feb 2024 21:31:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196115
+ <openembedded-core@lists.openembedded.org>; Fri, 23 Feb 2024 21:53:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196116
 
-From: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
+--000000000000c7c677061213957d
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-CVE_STATUS was set for those components, but meanwhile databases are upda=
-ted
-with corrected information, so setting the CVE_STATUS is not needed anymo=
-re.
+Le ven. 23 f=C3=A9vr. 2024 =C3=A0 22:09, Simone Wei=C3=9F <simone.p.weiss@p=
+osteo.com> a
+=C3=A9crit :
 
-Signed-off-by: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
----
- meta/recipes-connectivity/openssl/openssl_3.2.1.bb | 2 --
- meta/recipes-devtools/qemu/qemu.inc                | 2 --
- meta/recipes-extended/shadow/shadow_4.14.2.bb      | 1 -
- meta/recipes-multimedia/libpng/libpng_1.6.41.bb    | 2 --
- meta/recipes-support/libgcrypt/libgcrypt_1.10.3.bb | 3 ---
- meta/recipes-support/sqlite/sqlite3_3.45.1.bb      | 2 --
- 6 files changed, 12 deletions(-)
+> From: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
+>
+> Log if the CVE_STATUS is set for a CVE, but the cve is not reported for a
+> component. This should hopefully help to clean up not needed CVE_STATUS
+> settings.
+>
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_3.2.1.bb b/meta/re=
-cipes-connectivity/openssl/openssl_3.2.1.bb
-index 549fa4cd94..d3bf6248e3 100644
---- a/meta/recipes-connectivity/openssl/openssl_3.2.1.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_3.2.1.bb
-@@ -257,5 +257,3 @@ CVE_PRODUCT =3D "openssl:openssl"
-=20
- CVE_VERSION_SUFFIX =3D "alphabetical"
-=20
--# Apache in meta-webserver is already recent enough
--CVE_STATUS[CVE-2019-0190] =3D "not-applicable-config: Only affects OpenS=
-SL >=3D 1.1.1 in combination with Apache < 2.4.37"
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/=
-qemu/qemu.inc
-index d16d5e76c8..a403f7d69f 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -54,8 +54,6 @@ SRC_URI:append:class-native =3D " \
-=20
- SRC_URI[sha256sum] =3D "8562751158175f9d187c5f22b57555abe3c870f0325c8ced=
-12c34c6d987729be"
-=20
--CVE_STATUS[CVE-2017-5957] =3D "cpe-incorrect: Applies against virglrende=
-r < 0.6.0 and not qemu itself"
--
- CVE_STATUS[CVE-2007-0998] =3D "not-applicable-config: The VNC server can=
- expose host files uder some circumstances. We don't enable it by default=
-."
-=20
- # https://bugzilla.redhat.com/show_bug.cgi?id=3D1609015#c11
-diff --git a/meta/recipes-extended/shadow/shadow_4.14.2.bb b/meta/recipes=
--extended/shadow/shadow_4.14.2.bb
-index 4e55446312..e57676c1da 100644
---- a/meta/recipes-extended/shadow/shadow_4.14.2.bb
-+++ b/meta/recipes-extended/shadow/shadow_4.14.2.bb
-@@ -8,4 +8,3 @@ BBCLASSEXTEND =3D "native nativesdk"
-=20
- # https://bugzilla.redhat.com/show_bug.cgi?id=3D884658
- CVE_STATUS[CVE-2013-4235] =3D "upstream-wontfix: Severity is low and mar=
-ked as closed and won't fix."
--CVE_STATUS[CVE-2016-15024] =3D "cpe-incorrect: This is an issue for a di=
-fferent shadow"
-diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.41.bb b/meta/recip=
-es-multimedia/libpng/libpng_1.6.41.bb
-index 59d3db8efd..8c7529be9b 100644
---- a/meta/recipes-multimedia/libpng/libpng_1.6.41.bb
-+++ b/meta/recipes-multimedia/libpng/libpng_1.6.41.bb
-@@ -31,5 +31,3 @@ PACKAGES =3D+ "${PN}-tools"
- FILES:${PN}-tools =3D "${bindir}/png-fix-itxt ${bindir}/pngfix ${bindir}=
-/pngcp"
-=20
- BBCLASSEXTEND =3D "native nativesdk"
--
--CVE_STATUS[CVE-2019-17371] =3D "cpe-incorrect: A memory leak in gif2png =
-2.x"
-diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.10.3.bb b/meta/re=
-cipes-support/libgcrypt/libgcrypt_1.10.3.bb
-index 1c4f4d6038..5a76201ab5 100644
---- a/meta/recipes-support/libgcrypt/libgcrypt_1.10.3.bb
-+++ b/meta/recipes-support/libgcrypt/libgcrypt_1.10.3.bb
-@@ -29,9 +29,6 @@ SRC_URI =3D "${GNUPG_MIRROR}/libgcrypt/libgcrypt-${PV}.=
-tar.bz2 \
-            "
- SRC_URI[sha256sum] =3D "8b0870897ac5ac67ded568dcfadf45969cfa8a6beb0fd60a=
-f2a9eadc2a3272aa"
-=20
--CVE_STATUS[CVE-2018-12433] =3D "disputed: CVE is disputed and not affect=
-ing crypto libraries for any distro."
--CVE_STATUS[CVE-2018-12438] =3D "disputed: CVE is disputed and not affect=
-ing crypto libraries for any distro."
--
- BINCONFIG =3D "${bindir}/libgcrypt-config"
-=20
- inherit autotools texinfo binconfig-disabled pkgconfig ptest
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.45.1.bb b/meta/recipes=
--support/sqlite/sqlite3_3.45.1.bb
-index 2ca8bc5bc9..50612feb25 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.45.1.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.45.1.bb
-@@ -6,5 +6,3 @@ LIC_FILES_CHKSUM =3D "file://sqlite3.h;endline=3D11;md5=3D=
-786d3dc581eff03f4fd9e4a77ed0
- SRC_URI =3D "http://www.sqlite.org/2024/sqlite-autoconf-${SQLITE_PV}.tar=
-.gz"
- SRC_URI[sha256sum] =3D "cd9c27841b7a5932c9897651e20b86c701dd740556989b01=
-ca596fcfa3d49a0a"
-=20
--CVE_STATUS[CVE-2023-36191] =3D "disputed: The error is a bug. It has bee=
-n fixed upstream. But it is not a vulnerability"
--
+Thank you for taking the time to do this :-)
+
+
+> Signed-off-by: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
+> ---
+>  meta/classes/cve-check.bbclass | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/meta/classes/cve-check.bbclass
+> b/meta/classes/cve-check.bbclass
+> index 5191d04303..b82a9e89ec 100644
+> --- a/meta/classes/cve-check.bbclass
+> +++ b/meta/classes/cve-check.bbclass
+> @@ -418,6 +418,9 @@ def check_cves(d, patched_cves):
+>              cves_status.append([product, False])
+>
+>      conn.close()
+> +    diff_ignore =3D list(set(cve_ignore) - set(cves_ignored))
+> +    if diff_ignore:
+> +        bb.warn("Found CVE (%s) with CVE_STATUS set that is not found in
+> database for this component" % " ".join(diff_ignore))
+>
+
+A non-optional warning might be a bit harsh (Especially one that can come
+up after an independent NVD database update).
+
+How about a new element in the output of cve_check (the
+build/tmp/log/cve/*.{txt,json} files)?
+That way, someone looking for this info may find it, everyone else can
+(safely) ignore this.
+
+Another way I see would be to make the warning optional by using QA_WARN&co
+but I'm not 100% sure it can be done...
+
+Regards,
+
+     if not cves_in_recipe:
+>          bb.note("No CVE records for products in recipe %s" % (pn))
+> --
+> 2.39.2
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#196113):
+> https://lists.openembedded.org/g/openembedded-core/message/196113
+> Mute This Topic: https://lists.openembedded.org/mt/104536878/4316185
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> yoann.congal@smile.fr]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
 --=20
-2.39.2
+Yoann Congal
+Smile ECS - Tech expert
 
+--000000000000c7c677061213957d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Le=C2=A0ven. 23 f=C3=A9vr. 2024 =C3=A0=C2=
+=A022:09, Simone Wei=C3=9F &lt;<a href=3D"mailto:simone.p.weiss@posteo.com"=
+>simone.p.weiss@posteo.com</a>&gt; a =C3=A9crit=C2=A0:</div><div class=3D"g=
+mail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Simone =
+Wei=C3=9F &lt;<a href=3D"mailto:simone.p.weiss@posteo.com" target=3D"_blank=
+">simone.p.weiss@posteo.com</a>&gt;<br>
+<br>
+Log if the CVE_STATUS is set for a CVE, but the cve is not reported for a<b=
+r>
+component. This should hopefully help to clean up not needed CVE_STATUS<br>
+settings. <br></blockquote><div><br></div><div>Thank you for taking the tim=
+e to do this :-)<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
+padding-left:1ex">
+Signed-off-by: Simone Wei=C3=9F &lt;<a href=3D"mailto:simone.p.weiss@posteo=
+.com" target=3D"_blank">simone.p.weiss@posteo.com</a>&gt;<br>
+---<br>
+=C2=A0meta/classes/cve-check.bbclass | 3 +++<br>
+=C2=A01 file changed, 3 insertions(+)<br>
+<br>
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclas=
+s<br>
+index 5191d04303..b82a9e89ec 100644<br>
+--- a/meta/classes/cve-check.bbclass<br>
++++ b/meta/classes/cve-check.bbclass<br>
+@@ -418,6 +418,9 @@ def check_cves(d, patched_cves):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cves_status.append([product=
+, False])<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0conn.close()<br>
++=C2=A0 =C2=A0 diff_ignore =3D list(set(cve_ignore) - set(cves_ignored))<br=
+>
++=C2=A0 =C2=A0 if diff_ignore:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.warn(&quot;Found CVE (%s) with CVE_STATUS s=
+et that is not found in database for this component&quot; % &quot; &quot;.j=
+oin(diff_ignore))<br></blockquote><div><br></div><div>A non-optional warnin=
+g might be a bit harsh (Especially one that can come up after an independen=
+t NVD database update).</div><div><br></div><div>How about a new element in=
+ the output of cve_check (the build/tmp/log/cve/*.{txt,json} files)?</div><=
+div>That way, someone looking for this info may find it, everyone else can =
+(safely) ignore this.<br></div><div><br></div><div>Another way I see would =
+be to make the warning optional by using QA_WARN&amp;co but I&#39;m not 100=
+% sure it can be done...</div><div><br></div><div>Regards,</div><div><br></=
+div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
+der-left:1px solid rgb(204,204,204);padding-left:1ex">
+=C2=A0 =C2=A0 =C2=A0if not cves_in_recipe:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.note(&quot;No CVE records for products=
+ in recipe %s&quot; % (pn))<br>
+-- <br>
+2.39.2<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#196113): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/196113" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/196113</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/104536878/431=
+6185" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/104536878/4316185</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:yoann.congal@smile.fr" tar=
+get=3D"_blank">yoann.congal@smile.fr</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><br clear=3D"all"><br><span class=3D"gmail_signature_pre=
+fix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><div dir=3D"l=
+tr"><font face=3D"Raleway, regular">Yoann Congal</font><div><font face=3D"R=
+aleway, regular">Smile ECS - Tech expert<br></font></div></div></div></div>
+
+--000000000000c7c677061213957d--
 
