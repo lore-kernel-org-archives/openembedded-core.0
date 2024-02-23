@@ -1,134 +1,142 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <soumya.sambu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B2A5C48BC4
-	for <webhook@archiver.kernel.org>; Fri, 23 Feb 2024 03:55:54 +0000 (UTC)
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
- by mx.groups.io with SMTP id smtpd.web10.3634.1708660548122141574
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07AD9C5478C
+	for <webhook@archiver.kernel.org>; Fri, 23 Feb 2024 06:19:55 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.5356.1708669193530836062
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Feb 2024 19:55:48 -0800
+ Thu, 22 Feb 2024 22:19:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=GsmRmxIW;
- spf=pass (domain: mvista.com, ip: 209.85.128.171, mailfrom: vanusuri@mvista.com)
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-607dec82853so4556317b3.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Feb 2024 19:55:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1708660546; x=1709265346; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=YCT9mju1/jSLaACVkVxrAftUSgo6Cq7kQI+DRYhvzWo=;
-        b=GsmRmxIWojm/np7jwTnxbQVdRQ65ssreVTmXTiooxu90Pj1IB4Oia27YdK+zFl9LJ8
-         NGFFFytpt51qysuziXo9hmpgbka/rb1QyOXbG5ci9XEIMPN7b4m4W9VqiKHqhjTiQ516
-         nrQ7VWPqvUusTkPkC7l0HdMEaBxF0aewaM8UU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708660546; x=1709265346;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YCT9mju1/jSLaACVkVxrAftUSgo6Cq7kQI+DRYhvzWo=;
-        b=dSjPquHPxoFSJZYhxh41j9eN21MInCyM7O9tsTiBEjlX1wifagquXuzCsxOBdsy6GA
-         9hNYurGTnbiFh5nCkKBt9Olrq/VNF5PmkGXi3XMkrDPNy/jn5/MGfQgT4rroFnpWxCvo
-         2f+PWYbIAFM8d7PIDI2zKBYAmq8pFsHu1gNOVpqPNry0xDYNI0vrS9IqzX1O7hoHyk3j
-         YDTlYXxU1AD/7g0LC5yFwQblvyCaz6188+C8Bpkq+UYCEprUtYYtPYTOwYyc3gtpNJjr
-         5q2sZx3HWdLLT1yNtciwgHt7yhd992eRtKsrpsCA5LSs5PbWr8lyObhmKyqlSt2ptK3d
-         LFZw==
-X-Gm-Message-State: AOJu0YxjwedRrbXGSyVZ7XfWUd0WgDV8zMYNc27726iSlj9li7EH/ciz
-	bTOzR5btvawtjEYU+zszD1PFHv1evdbL2xE09Vx3a1O6UuFu2yiOsWtN8jhBItU10ZRt3RHZ3bw
-	b
-X-Google-Smtp-Source: AGHT+IHVI34Z8UG+mydY+l5Z7jU5z8pdYztGZX77UkhVSd0F6xC48YuoVta4ZG+n4dUh4VM2/6NUjw==
-X-Received: by 2002:a81:a14f:0:b0:608:af6:afa4 with SMTP id y76-20020a81a14f000000b006080af6afa4mr998323ywg.39.1708660546468;
-        Thu, 22 Feb 2024 19:55:46 -0800 (PST)
-Received: from MVIN00020.mvista.com ([2405:201:c01c:781c:d232:7153:3629:9fbf])
-        by smtp.gmail.com with ESMTPSA id n14-20020a635c4e000000b005dc2ca5b667sm9827414pgm.10.2024.02.22.19.55.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Feb 2024 19:55:46 -0800 (PST)
-From: vanusuri@mvista.com
-To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][kirkstone][PATCH] less: Fix for CVE-2022-48624
-Date: Fri, 23 Feb 2024 09:25:28 +0530
-Message-Id: <20240223035528.6230-1-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=nCYWTdN0;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=278352982c=soumya.sambu@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41N6GBY3014205
+	for <openembedded-core@lists.openembedded.org>; Fri, 23 Feb 2024 06:19:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=JOfS1
+	BzNTT7pysvllFfa9IQwwvpHMiQbZk1P/EFaPJ8=; b=nCYWTdN0iJ814mURQcacV
+	P8UwJKBboky2qikDhd914krBB8BmpAnjvm4tEOwHHOlfMGcsQ5iurJYt7j7cOvCD
+	z0Oqq5nrW70L/25JZFcJxjbptl3l6Xi3tOdf5yJN1wzNt94CYZH8M4a6OV/F3b49
+	eVHhYfNv1+1x2Wa9XFxrY0V7/mMM1NDrvRIkaIRSdx/eEIJ01/GTFt+uhrj2cbLE
+	J0Mq0c4Oj5rs2CWBQ37WDdKRJ88Gk1N+v0fg0t7jO8+6eqOWWAUecLOFBmSruQNG
+	iaM822jjd2xCkh6yNzuipzvSwcfMKyA6n9rkySMtYvLMB2xwyKyjSBEuix08Cy+/
+	Q==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3wd218ju76-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 23 Feb 2024 06:19:52 +0000 (GMT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Thu, 22 Feb 2024 22:19:49 -0800
+From: ssambu <soumya.sambu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][PATCH 1/1] bind: Upgrade 9.18.21 -> 9.18.24
+Date: Fri, 23 Feb 2024 06:19:12 +0000
+Message-ID: <20240223061912.3325521-1-soumya.sambu@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-GUID: 6DmEzZawWqe7RGu1DzqaPiqEyYb035J4
+X-Proofpoint-ORIG-GUID: 6DmEzZawWqe7RGu1DzqaPiqEyYb035J4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-22_15,2024-02-22_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 mlxscore=0
+ priorityscore=1501 suspectscore=0 impostorscore=0 clxscore=1015
+ bulkscore=0 malwarescore=0 adultscore=0 spamscore=0 lowpriorityscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2402120000 definitions=main-2402230042
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 23 Feb 2024 03:55:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196047
+ <openembedded-core@lists.openembedded.org>; Fri, 23 Feb 2024 06:19:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196048
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+From: Soumya Sambu <soumya.sambu@windriver.com>
 
-Upstream-Status: Backport [https://github.com/gwsw/less/commit/c6ac6de49698be84d264a0c4c0c40bb870b10144]
+Changelog:
+=========
+9.18.24:
+	- Fix case insensitive setting for isc_ht hashtable.
+	[GL #4568]
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+9.18.23:
+	- Specific DNS answers could cause a denial-of-service
+	condition due to DNS validation taking a long time.
+	(CVE-2023-50387) [GL #4424]
+	- Change 6315 inadvertently introduced regressions that
+	could cause named to crash. [GL #4234]
+	- Under some circumstances, the DoT code in client
+	mode could process more than one message at a time when
+	that was not expected. That has been fixed. [GL #4487]
+
+9.18.22:
+	- Limit isc_task_send() overhead for RBTDB tree pruning.
+	[GL #4383]
+	- Restore DNS64 state when handling a serve-stale timeout.
+	(CVE-2023-5679) [GL #4334]
+	- Specific queries could trigger an assertion check with
+	nxdomain-redirect enabled. (CVE-2023-5517) [GL #4281]
+	- Speed up parsing of DNS messages with many different
+	names. (CVE-2023-4408) [GL #4234]
+	- Address race conditions in dns_tsigkey_find().
+	[GL #4182]
+	- Conversion from NSEC3 signed to NSEC signed could
+	temporarily put the zone into a state where it was
+	treated as unsigned until the NSEC chain was built.
+	Additionally conversion from one set of NSEC3 parameters
+	to another could also temporarily put the zone into a
+	state where it was treated as unsigned until the new
+	NSEC3 chain was built. [GL #1794] [GL #4495]
+	- Memory leak in zone.c:sign_zone. When named signed a
+	zone it could leak dst_keys due to a misplaced
+	'continue'. [GL #4488]
+	- Log more details about the cause of "not exact" errors.
+	[GL #4500]
+	- The wrong time was being used to determine what RRSIGs
+	where to be generated when dnssec-policy was in use.
+	[GL #4494]
+	- The "trust-anchor-telemetry" statement is no longer
+	marked as experimental. This silences a relevant log
+	message that was emitted even when the feature was
+	explicitly disabled. [GL #4497]
+	- Fix statistics export to use full 64 bit signed numbers
+	instead of truncating values to unsigned 32 bits.
+	[GL #4467]
+	- NetBSD has added 'hmac' to libc which collides with our
+	use of 'hmac'. [GL #4478]
+
+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
 ---
- .../less/less/CVE-2022-48624.patch            | 41 +++++++++++++++++++
- meta/recipes-extended/less/less_600.bb        |  1 +
- 2 files changed, 42 insertions(+)
- create mode 100644 meta/recipes-extended/less/less/CVE-2022-48624.patch
+ .../bind/{bind_9.18.21.bb => bind_9.18.24.bb}                   | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/bind/{bind_9.18.21.bb => bind_9.18.24.bb} (97%)
 
-diff --git a/meta/recipes-extended/less/less/CVE-2022-48624.patch b/meta/recipes-extended/less/less/CVE-2022-48624.patch
-new file mode 100644
-index 0000000000..409730bd4f
---- /dev/null
-+++ b/meta/recipes-extended/less/less/CVE-2022-48624.patch
-@@ -0,0 +1,41 @@
-+From c6ac6de49698be84d264a0c4c0c40bb870b10144 Mon Sep 17 00:00:00 2001
-+From: Mark Nudelman <markn@greenwoodsoftware.com>
-+Date: Sat, 25 Jun 2022 11:54:43 -0700
-+Subject: [PATCH] Shell-quote filenames when invoking LESSCLOSE.
-+
-+Upstream-Status: Backport [https://github.com/gwsw/less/commit/c6ac6de49698be84d264a0c4c0c40bb870b10144]
-+CVE: CVE-2022-48624
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ filename.c | 10 ++++++++--
-+ 1 file changed, 8 insertions(+), 2 deletions(-)
-+
-+diff --git a/filename.c b/filename.c
-+index 5824e385..dff20c08 100644
-+--- a/filename.c
-++++ b/filename.c
-+@@ -972,6 +972,8 @@ close_altfile(altfilename, filename)
-+ {
-+ #if HAVE_POPEN
-+ 	char *lessclose;
-++	char *qfilename;
-++	char *qaltfilename;
-+ 	FILE *fd;
-+ 	char *cmd;
-+ 	int len;
-+@@ -986,9 +988,13 @@ close_altfile(altfilename, filename)
-+ 		error("LESSCLOSE ignored; must contain no more than 2 %%s", NULL_PARG);
-+ 		return;
-+ 	}
-+-	len = (int) (strlen(lessclose) + strlen(filename) + strlen(altfilename) + 2);
-++	qfilename = shell_quote(filename);
-++	qaltfilename = shell_quote(altfilename);
-++	len = (int) (strlen(lessclose) + strlen(qfilename) + strlen(qaltfilename) + 2);
-+ 	cmd = (char *) ecalloc(len, sizeof(char));
-+-	SNPRINTF2(cmd, len, lessclose, filename, altfilename);
-++	SNPRINTF2(cmd, len, lessclose, qfilename, qaltfilename);
-++	free(qaltfilename);
-++	free(qfilename);
-+ 	fd = shellcmd(cmd);
-+ 	free(cmd);
-+ 	if (fd != NULL)
-diff --git a/meta/recipes-extended/less/less_600.bb b/meta/recipes-extended/less/less_600.bb
-index f68281ac93..f88127a9e3 100644
---- a/meta/recipes-extended/less/less_600.bb
-+++ b/meta/recipes-extended/less/less_600.bb
-@@ -27,6 +27,7 @@ DEPENDS = "ncurses"
+diff --git a/meta/recipes-connectivity/bind/bind_9.18.21.bb b/meta/recipes-connectivity/bind/bind_9.18.24.bb
+similarity index 97%
+rename from meta/recipes-connectivity/bind/bind_9.18.21.bb
+rename to meta/recipes-connectivity/bind/bind_9.18.24.bb
+index f5fb4bd1e5..2874990320 100644
+--- a/meta/recipes-connectivity/bind/bind_9.18.21.bb
++++ b/meta/recipes-connectivity/bind/bind_9.18.24.bb
+@@ -20,7 +20,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
+            file://0001-avoid-start-failure-with-bind-user.patch \
+            "
  
- SRC_URI = "http://www.greenwoodsoftware.com/${BPN}/${BPN}-${PV}.tar.gz \
-            file://CVE-2022-46663.patch \
-+           file://CVE-2022-48624.patch \
- 	  "
+-SRC_URI[sha256sum] = "a556be22505d9ea4f9c6717aee9c549739c68498aff3ca69035787ecc648fec5"
++SRC_URI[sha256sum] = "709d73023c9115ddad3bab65b6c8c79a590196d0d114f5d0ca2533dbd52ddf66"
  
- SRC_URI[sha256sum] = "6633d6aa2b3cc717afb2c205778c7c42c4620f63b1d682f3d12c98af0be74d20"
+ UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+ # follow the ESV versions divisible by 2
 -- 
-2.25.1
+2.40.0
 
 
