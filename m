@@ -1,271 +1,262 @@
-Return-Path: <p.lobacz@welotec.com>
+Return-Path: <pidge@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CE86C48BC4
-	for <webhook@archiver.kernel.org>; Fri, 23 Feb 2024 09:57:16 +0000 (UTC)
-Received: from EUR03-DBA-obe.outbound.protection.outlook.com (EUR03-DBA-obe.outbound.protection.outlook.com [40.107.104.136])
- by mx.groups.io with SMTP id smtpd.web10.7464.1708682230045972871
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EB24C54E4C
+	for <webhook@archiver.kernel.org>; Fri, 23 Feb 2024 11:16:16 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web11.8365.1708686975750317250
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 Feb 2024 01:57:10 -0800
+ Fri, 23 Feb 2024 03:16:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@welotec.com header.s=selector1 header.b=J3OeVTOi;
- spf=pass (domain: welotec.com, ip: 40.107.104.136, mailfrom: p.lobacz@welotec.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IQrTpHIaaDoo4oVLGGJP/Inm9tCH8YzJrQ9Zre67hBE7tjS9pKqrr4E+OstX6HxLwgKaf2AL2qkc24KVh3JK4/rgqA30YI07G7dXmzR6CM1xRPVxgtkS+O6Syno81QoRaxy6QpWeY6mo/Y0vTm2LD5Clpq1d97zsZEWALEmTZlZuQspORFCaocJVHmjKt4jk9sY7rp6NxFMpVOaAdS9kiCCGppCjBHjP6teDSoNQ3eoIa5BvEcRNb0HckxeME4D1y56EmVvWH/hqfv0W42SgrwACyn27B6Wys6JrBmHsDJJ4dg6MMzOCaMp7StW0EQqmemsgUJHKJT64M1E79qZvow==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jUqrnqyiytXggrFQRhftxsLNiein4C0Ly3vAn6Dc8DE=;
- b=IyamNkqyfs0SJKOrMs6cnnA5O2Nle6Np5qeDQFdD39mGYrvTzHp42pdAcDOQGB1H0DGwxfpp+Z6kz1A1VApVzxA639LgFj2WGJtU0RLX+Yo0nFCc5EI7nPyBEZ7cNTm6em0fps9TJRJOpeCP1TguclioT4PF9QtNkRZSRC06utkMtt3MUCq/PEtU7phJM8vpa0hsUffA/MsK7L5QgD9hikYwsOPc+vpfwQ+DC0P662ir0a908ZrYg7e1rRCQ6lj5lPTdYO6uZ0cmAnuESCAloiHlQ8Spacz1EPMbAQqAMVTYeoElVRth9OcQ0uw3CkXZaBwWPqj9wqnOL83L+FKFJA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=welotec.com; dmarc=pass action=none header.from=welotec.com;
- dkim=pass header.d=welotec.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=welotec.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jUqrnqyiytXggrFQRhftxsLNiein4C0Ly3vAn6Dc8DE=;
- b=J3OeVTOito8K1Xs/v2axg87G/sgPXTi+p6NFOrhUNcTn6TemopdSxDEbyM/DW5QS/eq8egTLjaYSHBCg7GB2IjXn+jVvdqIPbXrerdXHknX2GT4Ve16sEVKkYv3OJP/TuO0PFaga8/Zk7jQpCZa/goPA1LQHCOkv2rcD93qw13x26cS8SOPK7fL0AuOnUbVjWramxXhwyvXgTGSrotTqgwFrZ2Weg/Buqi25bDGwvIxi/1Ba/tkx1yZYU/ybfxuuSN7pIz//eLdETTwji2ABY+E+gdBNvwve8hA5pOySTBIJ+L+wcq6uG/Wr0+rFtAnFWaRgowwEjo/bH3PMb902xA==
-Received: from DB6PR04MB2998.eurprd04.prod.outlook.com (2603:10a6:6:4::22) by
- AM9PR04MB8472.eurprd04.prod.outlook.com (2603:10a6:20b:417::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.24; Fri, 23 Feb
- 2024 09:57:05 +0000
-Received: from DB6PR04MB2998.eurprd04.prod.outlook.com
- ([fe80::d5d:d74f:9666:ea69]) by DB6PR04MB2998.eurprd04.prod.outlook.com
- ([fe80::d5d:d74f:9666:ea69%4]) with mapi id 15.20.7316.018; Fri, 23 Feb 2024
- 09:57:04 +0000
-From: =?utf-8?B?UGlvdHIgxYFvYmFjeg==?= <p.lobacz@welotec.com>
-To: =?utf-8?B?RWlsw61zICdwaWRnZScgTsOtIEZobGFubmFnw6Fpbg==?=
-	<pidge@baylibre.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: "Qi.Chen@windriver.com" <Qi.Chen@windriver.com>
-Subject: Re: [OE-core] [PATCH 1/3] useradd.bbclass: Fix order of
- postinst-useradd-*
-Thread-Topic: [OE-core] [PATCH 1/3] useradd.bbclass: Fix order of
- postinst-useradd-*
-Thread-Index: AQHaZZ8AKhjKlQftGkqpI0eZ7Y32tbEXrE2AgAAFwoA=
-Date: Fri, 23 Feb 2024 09:57:04 +0000
-Message-ID: <12386959.O9o76ZdvQC@latitude>
-References: <cover.1708613381.git.pidge@baylibre.com>
- <5eb199fe11d71f598726b75808b3330cd3efd2e5.1708613381.git.pidge@baylibre.com>
- <0d86535f-8745-443f-d5ac-48fbc337db6a@windriver.com>
-In-Reply-To: <0d86535f-8745-443f-d5ac-48fbc337db6a@windriver.com>
-Accept-Language: pl-PL, en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=welotec.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB6PR04MB2998:EE_|AM9PR04MB8472:EE_
-x-ms-office365-filtering-correlation-id: 34f7629d-6367-45ce-9c3d-08dc3455c9dd
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- A0NDnpKSFY6h+ZTXzIxTm7pi0EeTxwOPpfHM/X0bsufM2K5RB1HItBFPqbiO448yePPYId3BCBExvoLPj3es+XJk0vt+51jtd7BsHwtopH+d7VFWsd1imEjMVVzSpv/S8wriULdTWYsbpuIkxrxRV+M+p9E9fMv/sgjB4LMDugC/gexofNmU5ZGXHQjE5WgOw9g9EXnD6RQ4B6MFss5mKK+yeZfSvwfyoqd7Rp0hzFKmLgm4HeEsaXQF9RpReUejZHBNnXSb5jR5QbAU+zH+JTdAxusx0XZ2NlXtgThV5qvkfemScS4RhmxnEeOF/MJWZ5AAzT1AH5EgCY8Pb7oCqMyGGDOIpEBa5JRH/ejpYhuuMJP5X5eDHCui2UOK81qb2k47J+2I/Lm31MugDPoCrJNpmrLmDK6pwz6+B/dWgQ+jn3vUl0dbJS92vUZq1rcA7ltHT0+wJLdwFszoyxdipiJ2TboejYDaCqv1lWDbaHbo39bDAbamjw4l1o3cAFbu9RlgJQBnH/q4Skg7pS+Ndq/VnwAbxhn6MuvH0VGCeLrBxKbcsQolIDKIPQLR322CPwbx2LjoMDpsLspHKn9p9iYHyFFhGuhkXkGREyTWCO3IwSJ6cUM7N1NOQ8DXi+P/
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB6PR04MB2998.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(38070700009);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?bG4zUy8wTGtoUkh3Z1ZGOWlLNVV6dTdCM2RKTEM1ZUVCQUM1TDg5eWo0aHk3?=
- =?utf-8?B?eU14NExZSGEvVmZZMUdrRmNtTzRzM3J0TllaaFhtTE9nODNSUmxudU8xWWxL?=
- =?utf-8?B?ajM2SFMrQkY3NHliRVdpbnBBTVNRLzloem1lYkUyUW5lRGNqYTcxU1IzODZW?=
- =?utf-8?B?dWF6MW5saVErZFVuelRvYk1VaHdGVXBoOGxFRG9YM2xXakxoVERLK3hydkRD?=
- =?utf-8?B?N21mdjJNcm1TWHB6dEZBU1c3Rjl0MGgxc3lvNHV4MHpXeWZCWFVmWFNjM0pO?=
- =?utf-8?B?N0xNK21yRVJDdE43Wk0rNjZvNms4aTBiUnorRDhIU01tVkdwL3V4S1Y4YUhZ?=
- =?utf-8?B?dGl0YmhhT3lFRHhmSXh0TlROTFhQMzdUaTNnNkQ3YzBnZ1NXSzdNUThUYm5k?=
- =?utf-8?B?N1plaVFMSDU0RnpXdVFneGZzRWY3cFZiVTlGSmE2M0gvRkZ4QWhJZ25kc2Mw?=
- =?utf-8?B?L01OdVd3YVh6QS9BNzJnU2dxeGNzUnd2allWNFJjanplOWFoNnVnWUF6TVVo?=
- =?utf-8?B?ZnBaVWt4WXZuOW9YOXdML05Dc1BJeGQ2WFNhT0luUWppNTFwcXhoR2RnVys4?=
- =?utf-8?B?NmRhaFYydWkybUJkaHVLTWRiam5WVnFZc1BFU1FkRnV3NnNJYi93cE9VQXd4?=
- =?utf-8?B?TjJkQWxwTXpwTW5nRlN3S3dWSWs0UDcxYmN4QmtlSmdMSEVNKy9vMHUrclRT?=
- =?utf-8?B?ZXpsc01IWk5URC9YekZaTUlQNitWTlpLSlAvcUR6ZVJTaXFsd1FmTGZjb2dz?=
- =?utf-8?B?SWtvRCtPY0NQUy9nUGNMOHYxWkZiOC9qVEQwclVEaGtDRWt3KzJHb3puNDBl?=
- =?utf-8?B?K005eVRQeThJN1VlYnRxQmFVYzQ0anc1ZVRTQjhZTXhBNXc3UmNra0NQa1FK?=
- =?utf-8?B?WUhMTzBaQmkyRlJNczBzazlMcmdSMDA0VzY5UzJNd2tOeVUvNkh6bmFvSUc5?=
- =?utf-8?B?SG14QkVWbXRCU1VxZGtNWkxQM1AyaUVMS0tYRnlGQitLODZnc085REZBRVJU?=
- =?utf-8?B?VFZKVnZFUWwrZlBpVVdlNEljeEJMUDBvTFNwdXFzS2d4cWRUQjFIYThmeS9K?=
- =?utf-8?B?R2YrVXNydlVpT3lNc0xRSXFsZWpWQ0pVVUd3UVZGVEg3S0l3SGM5anJCdUVs?=
- =?utf-8?B?YXhyeDhNN05FaFYvem9HZUh3NHZVcVhuT0VwZFpqeW9HaXIramMvWUxZb1FM?=
- =?utf-8?B?eXhOZUZoM0xKQU5RU0Y5dlZDb0pLVVlZUXdNcDk2anMwM1gxUWlHSTJQMXc3?=
- =?utf-8?B?bzJlU21MZ3I0RktvSUUvU0FiUDVQNVdYaUZpaGRKUTBKRkxQYlBVSjJqV1Mv?=
- =?utf-8?B?ZzE1Q05wN0E3Umk0Z0pyRENLazJuUjF1L0NvZVViZDZudk5mQWpjU0lzRlRk?=
- =?utf-8?B?ekpvZlhBZ2ZKajVKYUFuZVc3VHBzb2k5a1RyUk85ZjFsWHJvWGtyV2s4VWVn?=
- =?utf-8?B?VW5RTTRaNjBhU3VONkp3eWlLSGxwbFZaWUd6TDg1Wng0MjVjS0R6b0NhemtB?=
- =?utf-8?B?ZFI5eFRzSGU5WU01eno5eGhQZVdZaHFydm5ydERIeDErYXFYUFJFQTBxbzhw?=
- =?utf-8?B?amdiaWt5M2xYZVpCV3BHb1pCRHR4MmxBcXI1VFZ3Ty9rYlFJUnVDY0RQN3FJ?=
- =?utf-8?B?cFdBTlVhVU5MZXNaM3J1T0dYcXFxMzl0dmlqcUhtWFZ4UDRhRGlxRkdMOUFB?=
- =?utf-8?B?WVNYY3I1aUswdWRqTEo5dUVna3kzVzN5WkFZRWdoZE5zMVUwTE5HRVBlK2hS?=
- =?utf-8?B?ZlllNHNuMHc1S0tPVU81Z3AwdGxXUlNJdkFSZ0FQYnRRTEx0K3cwSGRhbG5i?=
- =?utf-8?B?VXBRK3ZzZEYyakJnN0FHUzV2YWxYK1hmRDgybFp1Z0IrK0VLa3phUXRpUisr?=
- =?utf-8?B?cm9yY080bGF0aHExdFVHck9zQktvYjFGMmZDZFFwK0llY2JVNXhCeU53WGtT?=
- =?utf-8?B?Y3QyY3kveEMxTDB3Y0ZPY3lXM0JockFSbnRnbGZvdjVDNkVjVUoyN0dpcno4?=
- =?utf-8?B?VDI3ZWwrZFFBRlFsRys1UlNObnZuZ0JCdTMxcFVHU0ZqTE5KWnk3UGxMNVVE?=
- =?utf-8?B?MzRDK2RiV2VrdGZnTEgyZnNRU2l0YUlRaTl6dXZXZmk1ZUhWVFNOT0s0S04z?=
- =?utf-8?B?U2Y0NGV0cTh4M2xpTGJILzlTVnRhblpIWGwyRmZlMWh2TGFkVHBCVnZrZGhP?=
- =?utf-8?B?U3c9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <F02D9A8A31D75B408F248485D857DDE8@eurprd04.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=TkVfT7rf;
+ spf=pass (domain: baylibre.com, ip: 209.85.128.47, mailfrom: pidge@baylibre.com)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-41296df8306so1293275e9.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 23 Feb 2024 03:16:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1708686974; x=1709291774; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=a4ApzvAikFO9oc5ZJQqzlgOspPqZe3SqYbktvFDaFZ4=;
+        b=TkVfT7rfehBDc7SPGL7WDoyIA5TNhK7rKnq45xgExWyAhG+hIa2iL6a1QuzJbc+DnX
+         LBbfHZLSJX3ylkZkYJ83D7A1tQBFyjYUH3nHSxmm3IXw7umioSM2ewCEZSpqK+G+njDI
+         Ph9cMy4yNRPwPpL/svSqdKxvkoxNExQO96YpsvqVW/8VGR1q/z83ZsJWRIUr+h2VY0Dy
+         qPiper1Oky8yy8AxB7Kgsrt3onVKGhkKmFxXAFeGoAnSZGVF9ZqWdlJttv6PHJBinUY0
+         q9Qr9duk+craJ+cyQcMkUPnxHQOvXqGcB1ZldtH+wh6AcuHmOegdTq5XoC8m4S40ZD8p
+         /ibw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708686974; x=1709291774;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=a4ApzvAikFO9oc5ZJQqzlgOspPqZe3SqYbktvFDaFZ4=;
+        b=U/J/6lfv0EbkmNprIyws2Z+3J/dN6BD59rHFu9/yn6GANTTSMwd5gmQA8c9OAeQOCD
+         xZHnIgg6AYrCLU9yjI+qUdaDnB+lEuna/m18Mv5KWc6+eRVG/XlSzKOL6AZQl+lzuiMs
+         O+XKWzvljsRRikls9VGWxg1U09TOyifRfwG8P/D9M3EL6lHwOB8mbRQrwKGi+90gCz91
+         lk/fRmTBnSHznlx014U0UcxhF88GLeTVF+3nQRIioAKRNiRIT6FdGk5iv+59rAo9TEeY
+         FT2gnr/D8HfFPWKLjEz8fNxBKI2aAZDvlXr5M6hMLKF/Kz5nGryeAj7TSx1uSNkKdHgG
+         VElw==
+X-Gm-Message-State: AOJu0YzsAQqXqktJ2rezra5Khl+ViHlzeuusUkXv4zvD7oFhLt7evilZ
+	ZM+4GNxmmd13pCD6IX9pXEbWWaW+z9sn1Xy5qdogVf4yDQpuyRqHU24YT6rZ246YWZmbrXl3Aj4
+	Cffs=
+X-Google-Smtp-Source: AGHT+IH0VQB/cgYTt1+n7xy86VlLULCojduAThl/NRr0ZOCQddkVK5fvQTHrMAZ2kvquZlKWdza1JQ==
+X-Received: by 2002:a05:600c:3ac7:b0:412:96a0:dada with SMTP id d7-20020a05600c3ac700b0041296a0dadamr459398wms.3.1708686974281;
+        Fri, 23 Feb 2024 03:16:14 -0800 (PST)
+Received: from orm.fritz.box ([194.110.145.164])
+        by smtp.gmail.com with ESMTPSA id jd17-20020a05600c68d100b004129335947fsm1895094wmb.8.2024.02.23.03.16.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Feb 2024 03:16:13 -0800 (PST)
+From: =?UTF-8?q?Eil=C3=ADs=20=27pidge=27=20N=C3=AD=20Fhlannag=C3=A1in?= <pidge@baylibre.com>
+To: openembedded-core@lists.openembedded.org
+Cc: =?UTF-8?q?Eil=C3=ADs=20=27pidge=27=20N=C3=AD=20Fhlannag=C3=A1in?= <pidge@baylibre.com>
+Subject: [PATCH v2 2/3] selftest-users: Convoluted selftest for USERADD_DEPENDS
+Date: Fri, 23 Feb 2024 11:16:03 +0000
+Message-Id: <3cee65994b559494a038674015164450343238f8.1708686845.git.pidge@baylibre.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1708686845.git.pidge@baylibre.com>
+References: <cover.1708686845.git.pidge@baylibre.com>
 MIME-Version: 1.0
-X-OriginatorOrg: welotec.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB6PR04MB2998.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 34f7629d-6367-45ce-9c3d-08dc3455c9dd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Feb 2024 09:57:04.3320
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 25111a7f-1d5a-4c51-a4ca-7f8e44011b39
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: bt/4P7gHaTQRm9cN07/3hfVZPhfridDi7SbucEu8hQ76NEIwRshxqC/micwp+V7ArwTQlGAF7h9uVRVXyTZU3w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8472
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 23 Feb 2024 09:57:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196055
+ <openembedded-core@lists.openembedded.org>; Fri, 23 Feb 2024 11:16:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196058
 
-RG5pYSBwacSFdGVrLCAyMyBsdXRlZ28gMjAyNCAxMDozNjoyNyBDRVQgQ2hlbiBRaSB2aWEgbGlz
-dHMub3BlbmVtYmVkZGVkLm9yZyAKcGlzemU6Cj4gMS4gSSBjYW4gc2VlIHdoYXQgdGhpcyBwYXRj
-aCBtYWlubHkgZG9lcyBpcyBlbnN1cmluZyBncm91cHMgZmlyc3QsIHRoZW4KPiB1c2VyLCB0aGVu
-IGdyb3VwbWVtcy4gQnV0IHRoZSBjdXJyZW50IHVzZXJhZGRfcHJlaW5zdCwgd2hpY2ggaXMgY2Fs
-bGVkCj4gYnkgdXNlcmFkZF9zeXNyb290IGhhcyBhbHJlYWR5IGVuc3VyZWQgdGhpcy4gSXMgdGhh
-dCBub3Qgd29ya2luZz8KCkl0IGlzIHdvcmtpbmcgYnV0IGFsbCBwb3N0aW5zdCBzY3JpcHRzIGFy
-ZSBiZWluZyBjYWxsZWQgYWxwaGFiZXRpY2FsbHkgd2hpY2ggCmluIHNvbWUgY29ybmVyIGNhc2Vz
-IGlzIGNhdXNpbmcgdGhlIGZhaWx1cmVzLi4uCgo+IDIuIFlvdSdyZSB1c2luZyBiYi53YXJuIGFz
-IGEgbWV0aG9kIG9mIG91dHB1dHRpbmcgZGVidWdnaW5nIGluZm9ybWF0aW9uLAo+IHdoaWNoIEkg
-ZG9uJ3QgdGhpbmsgaXMgYXBwcm9wcmlhdGUuCgo+IFJlZ2FyZHMsCj4gUWkKPiAKPiBPbiAyLzIy
-LzI0IDIyOjUzLCBFaWzDrXMgJ3BpZGdlJyBOw60gRmhsYW5uYWfDoWluIHdyb3RlOgo+ID4gRnJv
-bTogUGlvdHIgxYFvYmFjeiA8cC5sb2JhY3pAd2Vsb3RlYy5jb20+Cj4gPiAKPiA+IHBvc3RpbnN0
-LXVzZXJhZGQtKiBoYXZlbid0IGJlZW4gcnVubmluZyBpbiBvcmRlciBvZiBkZXBlbmRlbmN5Lgo+
-ID4gCj4gPiBUaGlzIHBhdGNoIGlzIHJld29ya2VkIGZyb20gUGlvdHIgxYFvYmFjeidzIHBhdGNo
-IGFuZCBmaXhlczoKPiA+IAo+ID4gaHR0cHM6Ly9ldXIwNC5zYWZlbGlua3MucHJvdGVjdGlvbi5v
-dXRsb29rLmNvbS8/dXJsPWh0dHBzJTNBJTJGJTJGYnVnemlsbGEKPiA+IC55b2N0b3Byb2plY3Qu
-b3JnJTJGc2hvd19idWcuY2dpJTNGaWQlM0QxNTA4NCZkYXRhPTA1JTdDMDIlN0NwLmxvYmFjeiU0
-MHdlCj4gPiBsb3RlYy5jb20lN0M0YjM3OGRlMmJiZjg0NDI5MDNmZTA4ZGMzNDUyZjExMCU3QzI1
-MTExYTdmMWQ1YTRjNTFhNGNhN2Y4ZTQ0MAo+ID4gMTFiMzklN0MwJTdDMCU3QzYzODQ0Mjc3ODA0
-MzU2NzA5NSU3Q1Vua25vd24lN0NUV0ZwYkdac2IzZDhleUpXSWpvaU1DNHdMakEKPiA+IHdNREFp
-TENKUUlqb2lWMmx1TXpJaUxDSkJUaUk2SWsxaGFXd2lMQ0pYVkNJNk1uMCUzRCU3QzAlN0MlN0Ml
-N0Mmc2RhdGE9TnRKCj4gPiBMMXpvVVl4YktSRXJKOUdCSDZjeCUyRjJVTW9TRkFUNTNMTFE4WEJ6
-WWslM0QmcmVzZXJ2ZWQ9MAo+ID4gaHR0cHM6Ly9ldXIwNC5zYWZlbGlua3MucHJvdGVjdGlvbi5v
-dXRsb29rLmNvbS8/dXJsPWh0dHBzJTNBJTJGJTJGYnVnemlsbAo+ID4gYS55b2N0b3Byb2plY3Qu
-b3JnJTJGc2hvd19idWcuY2dpJTNGaWQlM0QxMzkwNCZkYXRhPTA1JTdDMDIlN0NwLmxvYmFjeiU0
-MHcKPiA+IGVsb3RlYy5jb20lN0M0YjM3OGRlMmJiZjg0NDI5MDNmZTA4ZGMzNDUyZjExMCU3QzI1
-MTExYTdmMWQ1YTRjNTFhNGNhN2Y4ZTQ0Cj4gPiAwMTFiMzklN0MwJTdDMCU3QzYzODQ0Mjc3ODA0
-MzU3NTAzMSU3Q1Vua25vd24lN0NUV0ZwYkdac2IzZDhleUpXSWpvaU1DNHdMago+ID4gQXdNREFp
-TENKUUlqb2lWMmx1TXpJaUxDSkJUaUk2SWsxaGFXd2lMQ0pYVkNJNk1uMCUzRCU3QzAlN0MlN0Ml
-N0Mmc2RhdGE9d1kKPiA+IGp2bXBhWHFzdThHenlHcllKZmxKQThvTnhuaVFYa0RLWjhHeEtSblhZ
-JTNEJnJlc2VydmVkPTAKPiA+IAo+ID4gSXQgZW5zdXJlcyB0aGF0IGdyb3VwcywgdXNlcnMgYW5k
-IGdyb3VwbWVtcyBhcmUgYWxsIHJ1biBpbiB0aGUgY29ycmVjdAo+ID4gb3JkZXIuCj4gPiAKPiA+
-IFNpZ25lZC1vZmYtYnk6IEVpbMOtcyAncGlkZ2UnIE7DrSBGaGxhbm5hZ8OhaW4gPHBpZGdlQGJh
-eWxpYnJlLmNvbT4KPiA+IC0tLQo+ID4gCj4gPiAgIG1ldGEvY2xhc3Nlcy1nbG9iYWwvc3RhZ2lu
-Zy5iYmNsYXNzIHwgIDcgKy0tCj4gPiAgIG1ldGEvY2xhc3Nlcy91c2VyYWRkLmJiY2xhc3MgICAg
-ICAgIHwgNzIgKysrKysrKysrKysrKysrKysrLS0tLS0tLS0tLS0KPiA+ICAgMiBmaWxlcyBjaGFu
-Z2VkLCA0OSBpbnNlcnRpb25zKCspLCAzMCBkZWxldGlvbnMoLSkKPiA+IAo+ID4gZGlmZiAtLWdp
-dCBhL21ldGEvY2xhc3Nlcy1nbG9iYWwvc3RhZ2luZy5iYmNsYXNzCj4gPiBiL21ldGEvY2xhc3Nl
-cy1nbG9iYWwvc3RhZ2luZy5iYmNsYXNzIGluZGV4IGFiM2UxZDcxYjUuLjZjMjE1MTAzNzcgMTAw
-NjQ0Cj4gPiAtLS0gYS9tZXRhL2NsYXNzZXMtZ2xvYmFsL3N0YWdpbmcuYmJjbGFzcwo+ID4gKysr
-IGIvbWV0YS9jbGFzc2VzLWdsb2JhbC9zdGFnaW5nLmJiY2xhc3MKPiA+IAo+ID4gQEAgLTI0NSw4
-ICsyNDUsOSBAQCBkZWYgc3RhZ2luZ19wb3B1bGF0ZV9zeXNyb290X2Rpcih0YXJnZXRzeXNyb290
-LCAKbmF0aXZlc3lzcm9vdCwgbmF0aXZlLCBkKToKPiA+ICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgY29udGludWUKPiA+ICAgICAgIAo+ID4gICAgICAgc3RhZ2luZ19wcm9jZXNzZml4bWUoZml4
-bWUsIHRhcmdldGRpciwgdGFyZ2V0c3lzcm9vdCwgbmF0aXZlc3lzcm9vdCwKPiA+ICAgICAgIGQp
-Cj4gPiAKPiA+IC0gICAgZm9yIHAgaW4gcG9zdGluc3RzOgo+ID4gLSAgICAgICAgYmIubm90ZSgi
-UnVubmluZyBwb3N0aW5zdCB7fSwgb3V0cHV0Olxue30iLmZvcm1hdChwLAo+ID4gc3VicHJvY2Vz
-cy5jaGVja19vdXRwdXQocCwgc2hlbGw9VHJ1ZSwgc3RkZXJyPXN1YnByb2Nlc3MuU1RET1VUKSkp
-ICsgICAKPiA+IGJiLndhcm4oc29ydGVkKHBvc3RpbnN0cykpCj4gPiArICAgIGZvciBwIGluIHNv
-cnRlZChwb3N0aW5zdHMpOgo+ID4gKyAgICAgICAgYmIud2FybigiUnVubmluZyBwb3N0aW5zdCB7
-fSwgb3V0cHV0Olxue30iLmZvcm1hdChwLAo+ID4gc3VicHJvY2Vzcy5jaGVja19vdXRwdXQocCwg
-c2hlbGw9VHJ1ZSwgc3RkZXJyPXN1YnByb2Nlc3MuU1RET1VUKSkpPiAKPiA+ICAgIwo+ID4gICAj
-IE1hbmlmZXN0cyBoZXJlIGFyZSBjb21wbGljYXRlZC4gVGhlIG1haW4gc3lzcm9vdCBhcmVhIGhh
-cyB0aGUgdW5wYWNrZWQKPiA+ICAgc3N0YXRlPiAKPiA+IEBAIC02MjksNyArNjMwLDcgQEAgcHl0
-aG9uIGV4dGVuZF9yZWNpcGVfc3lzcm9vdCgpIHsKPiA+IAo+ID4gICAgICAgZm9yIGYgaW4gZml4
-bWU6Cj4gPiAgICAgICAgICAgc3RhZ2luZ19wcm9jZXNzZml4bWUoZml4bWVbZl0sIGYsIHJlY2lw
-ZXN5c3Jvb3QsCj4gPiAgICAgICAgICAgcmVjaXBlc3lzcm9vdG5hdGl2ZSwgZCkKPiA+IAo+ID4g
-LSAgICBmb3IgcCBpbiBwb3N0aW5zdHM6Cj4gPiAKPiA+ICsgICAgZm9yIHAgaW4gc29ydGVkKHBv
-c3RpbnN0cyk6Cj4gPiAgICAgICAgICAgYmIubm90ZSgiUnVubmluZyBwb3N0aW5zdCB7fSwgb3V0
-cHV0Olxue30iLmZvcm1hdChwLAo+ID4gICAgICAgICAgIHN1YnByb2Nlc3MuY2hlY2tfb3V0cHV0
-KHAsIHNoZWxsPVRydWUsCj4gPiAgICAgICAgICAgc3RkZXJyPXN1YnByb2Nlc3MuU1RET1VUKSkp
-PiAgICAgICAKPiA+ICAgICAgIGZvciBkZXAgaW4gbWFuaWZlc3RzOgo+ID4gZGlmZiAtLWdpdCBh
-L21ldGEvY2xhc3Nlcy91c2VyYWRkLmJiY2xhc3MgYi9tZXRhL2NsYXNzZXMvdXNlcmFkZC5iYmNs
-YXNzCj4gPiBpbmRleCBhNThmODI4N2M5Li45MjRlZWFkZjljIDEwMDY0NAo+ID4gLS0tIGEvbWV0
-YS9jbGFzc2VzL3VzZXJhZGQuYmJjbGFzcwo+ID4gKysrIGIvbWV0YS9jbGFzc2VzL3VzZXJhZGQu
-YmJjbGFzcwo+ID4gQEAgLTEwMyw2ICsxMDMsMTggQEAgZmkKPiA+IAo+ID4gICB9Cj4gPiAgIAo+
-ID4gICB1c2VyYWRkX3N5c3Jvb3QgKCkgewo+ID4gCj4gPiArCXVzZXJfZ3JvdXBfZ3JvdXBtZW1z
-X2FkZF9zeXNyb290IHVzZXIKPiA+ICt9Cj4gPiArCj4gPiArZ3JvdXBhZGRfc3lzcm9vdCAoKSB7
-Cj4gPiArCXVzZXJfZ3JvdXBfZ3JvdXBtZW1zX2FkZF9zeXNyb290IGdyb3VwCj4gPiArfQo+ID4g
-Kwo+ID4gK2dyb3VwbWVtc2FkZF9zeXNyb290ICgpIHsKPiA+ICsJdXNlcl9ncm91cF9ncm91cG1l
-bXNfYWRkX3N5c3Jvb3QgZ3JvdXBtZW1zCj4gPiArfQo+ID4gKwo+ID4gK3VzZXJfZ3JvdXBfZ3Jv
-dXBtZW1zX2FkZF9zeXNyb290ICgpIHsKPiA+IAo+ID4gICAJIyBQc2V1ZG8gbWF5IChkb19wcmVw
-YXJlX3JlY2lwZV9zeXNyb290KSBvciBtYXkgbm90Cj4gPiAgIAkoZG9fcG9wdWxhdGVfc3lzcm9v
-dF9zZXRzY2VuZSkgYmUgcnVubmluZyAjIGF0IHRoaXMgcG9pbnQgc28gCndlJ3JlCj4gPiAgIAll
-eHBsaWNpdCBhYm91dCB0aGUgZW52aXJvbm1lbnQgc28gcHNldWRvIGNhbiBsb2FkIGlmICMgbm90
-IAphbHJlYWR5Cj4gPiAgIAlwcmVzZW50Lgo+ID4gCj4gPiBAQCAtMTMwLDEwICsxNDIsMTkgQEAg
-dXNlcmFkZF9zeXNyb290ICgpIHsKPiA+IAo+ID4gICAJCWV4aXQgMAo+ID4gICAJCj4gPiAgIAlm
-aQo+ID4gCj4gPiAtCSMgQWRkIGdyb3VwcyBhbmQgdXNlcnMgZGVmaW5lZCBmb3IgYWxsIHJlY2lw
-ZSBwYWNrYWdlcwo+ID4gLQlHUk9VUEFERF9QQVJBTT0iJHtAZ2V0X2FsbF9jbWRfcGFyYW1zKGQs
-ICdncm91cGFkZCcpfSIKPiA+IC0JVVNFUkFERF9QQVJBTT0iJHtAZ2V0X2FsbF9jbWRfcGFyYW1z
-KGQsICd1c2VyYWRkJyl9Igo+ID4gLQlHUk9VUE1FTVNfUEFSQU09IiR7QGdldF9hbGxfY21kX3Bh
-cmFtcyhkLCAnZ3JvdXBtZW1zJyl9Igo+ID4gKyAJIyBBZGQgZ3JvdXBzIGFuZCB1c2VycyBkZWZp
-bmVkIGZvciBhbGwgcmVjaXBlIHBhY2thZ2VzCj4gPiArCWlmIHRlc3QgIngkMSIgPSAieGdyb3Vw
-IjsgdGhlbgo+ID4gKwkJR1JPVVBBRERfUEFSQU09IiR7QGdldF9hbGxfY21kX3BhcmFtcyhkLCAn
-Z3JvdXBhZGQnKX0iCj4gPiArCWZpCj4gPiArCWlmIHRlc3QgIngkMSIgPSAieHVzZXIiOyB0aGVu
-Cj4gPiArCQlVU0VSQUREX1BBUkFNPSIke0BnZXRfYWxsX2NtZF9wYXJhbXMoZCwgJ3VzZXJhZGQn
-KX0iCj4gPiArCWZpCj4gPiArCWlmIHRlc3QgIngkMSIgPSAieGdyb3VwbWVtcyI7IHRoZW4KPiA+
-ICsJCUdST1VQTUVNU19QQVJBTT0iJHtAZ2V0X2FsbF9jbWRfcGFyYW1zKGQsIAonZ3JvdXBtZW1z
-Jyl9Igo+ID4gKwlmaQo+ID4gKwlpZiB0ZXN0ICJ4JDEiID0gIngiOyB0aGVuCj4gPiArCQliYndh
-cm4gIm1pc3NpbmcgdHlwZSBvZiBwYXNzd2QgZGIgYWN0aW9uIgo+ID4gKyAgICBmaQo+ID4gCj4g
-PiAgIAkjIFRlbGwgdGhlIHN5c3RlbSB0byB1c2UgdGhlIGVudmlyb25tZW50IHZhcnMKPiA+ICAg
-CVVBX1NZU1JPT1Q9MQo+ID4gCj4gPiBAQCAtMTQ4LDI5ICsxNjksMjYgQEAgdXNlcmFkZF9zeXNy
-b290ICgpIHsKPiA+IAo+ID4gICBFWFRSQV9TVEFHSU5HX0ZJWE1FUyArPSAiUFNFVURPX1NZU1JP
-T1QgUFNFVURPX0xPQ0FMU1RBVEVESVIgTE9HRklGTyIKPiA+ICAgCj4gPiAgIHB5dGhvbiB1c2Vy
-YWRkX3N5c3Jvb3Rfc3N0YXRlICgpIHsKPiA+IAo+ID4gLSAgICBzY3JpcHRmaWxlID0gTm9uZQo+
-ID4gLSAgICB0YXNrID0gZC5nZXRWYXIoIkJCX0NVUlJFTlRUQVNLIikKPiA+IC0gICAgaWYgdGFz
-ayA9PSAicGFja2FnZV9zZXRzY2VuZSI6Cj4gPiAtICAgICAgICBiYi5idWlsZC5leGVjX2Z1bmMo
-InVzZXJhZGRfc3lzcm9vdCIsIGQpCj4gPiAtICAgIGVsaWYgdGFzayA9PSAicHJlcGFyZV9yZWNp
-cGVfc3lzcm9vdCI6Cj4gPiAtICAgICAgICAjIFVzZWQgdG8gdXBkYXRlIHRoaXMgcmVjaXBlJ3Mg
-b3duIHN5c3Jvb3Qgc28gdGhlIHVzZXIvZ3JvdXBzIGFyZQo+ID4gYXZhaWxhYmxlIHRvIGRvX2lu
-c3RhbGwgLQo+ID4gLSAgICAgICAgIyBJZiBkb19wb3B1bGF0ZV9zeXNyb290IGlzIHRyaWdnZXJl
-ZCBhbmQgd2Ugd3JpdGUgdGhlIGZpbGUgaGVyZSwKPiA+IHRoZXJlIHdvdWxkIGJlIGFuIG92ZXJs
-YXBwaW5nIC0gICAgICAgICMgZmlsZXMuIFNlZQo+ID4gdXNlcmdyb3VwdGVzdHMuVXNlckdyb3Vw
-VGVzdHMudGVzdF9hZGRfdGFza19iZXR3ZWVuX3Bfc3lzcm9vdF9hbmRfcGFja2FnZQo+ID4gLSAg
-ICAgICAgc2NyaXB0ZmlsZSA9Cj4gPiBkLmV4cGFuZCgiJHtSRUNJUEVfU1lTUk9PVH0ke2JpbmRp
-cn0vcG9zdGluc3QtdXNlcmFkZC0ke1BOfS1yZWNpcGVkZWJ1ZyIpCj4gPiAtCj4gPiAtICAgICAg
-ICBiYi5idWlsZC5leGVjX2Z1bmMoInVzZXJhZGRfc3lzcm9vdCIsIGQpCj4gPiAtICAgIGVsaWYg
-dGFzayA9PSAicG9wdWxhdGVfc3lzcm9vdCI6Cj4gPiAtICAgICAgICAjIFVzZWQgd2hlbiBpbnN0
-YWxsZWQgaW4gZGVwZW5kZW50IHRhc2sgc3lzcm9vdHMKPiA+IC0gICAgICAgIHNjcmlwdGZpbGUg
-PQo+ID4gZC5leHBhbmQoIiR7U1lTUk9PVF9ERVNURElSfSR7YmluZGlyfS9wb3N0aW5zdC11c2Vy
-YWRkLSR7UE59IikgLQo+ID4gLSAgICBpZiBzY3JpcHRmaWxlOgo+ID4gLSAgICAgICAgYmIudXRp
-bHMubWtkaXJoaWVyKG9zLnBhdGguZGlybmFtZShzY3JpcHRmaWxlKSkKPiA+IC0gICAgICAgIHdp
-dGggb3BlbihzY3JpcHRmaWxlLCAndycpIGFzIHNjcmlwdDoKPiA+IC0gICAgICAgICAgICBzY3Jp
-cHQud3JpdGUoIiMhL2Jpbi9zaCAtZVxuIikKPiA+IC0gICAgICAgICAgICBiYi5kYXRhLmVtaXRf
-ZnVuYygidXNlcmFkZF9zeXNyb290Iiwgc2NyaXB0LCBkKQo+ID4gLSAgICAgICAgICAgIHNjcmlw
-dC53cml0ZSgidXNlcmFkZF9zeXNyb290XG4iKQo+ID4gLSAgICAgICAgb3MuY2htb2Qoc2NyaXB0
-ZmlsZSwgMG83NTUpCj4gPiArICAgIGZvciB0eXBlLCBzb3J0X3ByZWZpeCBpbiBbKCJncm91cCIs
-ICIwMSIpLCAoInVzZXIiLCAiMDIiKSwKPiA+ICgiZ3JvdXBtZW1zIiwgIjAzIildOiArICAgICAg
-ICBzY3JpcHRmaWxlID0gTm9uZQo+ID4gKyAgICAgICAgdGFzayA9IGQuZ2V0VmFyKCJCQl9DVVJS
-RU5UVEFTSyIpCj4gPiArICAgICAgICBpZiB0YXNrID09ICJwYWNrYWdlX3NldHNjZW5lIjoKPiA+
-ICsgICAgICAgICAgICBiYi5idWlsZC5leGVjX2Z1bmMoZiJ7dHlwZX1hZGRfc3lzcm9vdCIsIGQp
-Cj4gPiArICAgICAgICBlbGlmIHRhc2sgPT0gInByZXBhcmVfcmVjaXBlX3N5c3Jvb3QiOgo+ID4g
-KyAgICAgICAgICAgICMgVXNlZCB0byB1cGRhdGUgdGhpcyByZWNpcGUncyBvd24gc3lzcm9vdCBz
-byB0aGUgdXNlci9ncm91cHMKPiA+IGFyZSBhdmFpbGFibGUgdG8gZG9faW5zdGFsbCArICAgICAg
-ICAgICAgc2NyaXB0ZmlsZSA9Cj4gPiBkLmV4cGFuZCgiJHtSRUNJUEVfU1lTUk9PVH0ke2JpbmRp
-cn0vIgo+ID4gZiJwb3N0aW5zdC11c2VyYWRkLXtzb3J0X3ByZWZpeH17dHlwZX0iICItJHtQTn0i
-KSArICAgICAgICAgICAKPiA+IGJiLmJ1aWxkLmV4ZWNfZnVuYyhmInt0eXBlfWFkZF9zeXNyb290
-IiwgZCkKPiA+ICsgICAgICAgIGVsaWYgdGFzayA9PSAicG9wdWxhdGVfc3lzcm9vdCI6Cj4gPiAr
-ICAgICAgICAgICAgIyBVc2VkIHdoZW4gaW5zdGFsbGVkIGluIGRlcGVuZGVudCB0YXNrIHN5c3Jv
-b3RzCj4gPiArICAgICAgICAgICAgc2NyaXB0ZmlsZSA9IGQuZXhwYW5kKCIke1NZU1JPT1RfREVT
-VERJUn0ke2JpbmRpcn0vIgo+ID4gZiJwb3N0aW5zdC11c2VyYWRkLXtzb3J0X3ByZWZpeH17dHlw
-ZX0iICItJHtQTn0iKSArCj4gPiArICAgICAgICBpZiBzY3JpcHRmaWxlOgo+ID4gKyAgICAgICAg
-ICAgIGJiLnV0aWxzLm1rZGlyaGllcihvcy5wYXRoLmRpcm5hbWUoc2NyaXB0ZmlsZSkpCj4gPiAr
-ICAgICAgICAgICAgd2l0aCBvcGVuKHNjcmlwdGZpbGUsICd3JykgYXMgc2NyaXB0Ogo+ID4gKyAg
-ICAgICAgICAgICAgICBzY3JpcHQud3JpdGUoIiMhL2Jpbi9zaFxuIikKPiA+ICsgICAgICAgICAg
-ICAgICAgYmIuZGF0YS5lbWl0X2Z1bmMoZiJ7dHlwZX1hZGRfc3lzcm9vdCIsIHNjcmlwdCwgZCkK
-PiA+ICsgICAgICAgICAgICAgICAgc2NyaXB0LndyaXRlKGYie3R5cGV9YWRkX3N5c3Jvb3RcbiIp
-Cj4gPiArICAgICAgICAgICAgb3MuY2htb2Qoc2NyaXB0ZmlsZSwgMG83NTUpCj4gPiAKPiA+ICAg
-fQo+ID4gICAKPiA+ICAgZG9fcHJlcGFyZV9yZWNpcGVfc3lzcm9vdFtwb3N0ZnVuY3NdICs9ICIk
-e1NZU1JPT1RGVU5DfSIKCkJSClBpb3RyCg==
+This adds a test for 13904's fix by creating a convoluted set of recipes
+with USERADD_DEPENDS in non-alpha order.
+
+Signed-off-by: Eilís 'pidge' Ní Fhlannagáin <pidge@baylibre.com>
+---
+ .../selftest-users/acreategroup.bb            | 32 ++++++++++++++++
+ .../selftest-users/bcreategroup.bb            | 37 +++++++++++++++++++
+ .../selftest-users/ccreategroup.bb            | 34 +++++++++++++++++
+ .../selftest-users/dcreategroup.bb            | 33 +++++++++++++++++
+ .../lib/oeqa/selftest/cases/usergrouptests.py |  4 ++
+ 5 files changed, 140 insertions(+)
+ create mode 100644 meta-selftest/recipes-test/selftest-users/acreategroup.bb
+ create mode 100644 meta-selftest/recipes-test/selftest-users/bcreategroup.bb
+ create mode 100644 meta-selftest/recipes-test/selftest-users/ccreategroup.bb
+ create mode 100644 meta-selftest/recipes-test/selftest-users/dcreategroup.bb
+
+diff --git a/meta-selftest/recipes-test/selftest-users/acreategroup.bb b/meta-selftest/recipes-test/selftest-users/acreategroup.bb
+new file mode 100644
+index 0000000000..66ed5695a2
+--- /dev/null
++++ b/meta-selftest/recipes-test/selftest-users/acreategroup.bb
+@@ -0,0 +1,32 @@
++SUMMARY = "creategroup_a"
++LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
++
++LICENSE = "MIT"
++
++S = "${WORKDIR}"
++
++EXCLUDE_FROM_WORLD="1"
++
++inherit useradd allarch
++
++USERADD_PACKAGES = "${PN}"
++USERADD_PARAM:${PN} = "-u 5560 --gid a_group a_user"
++GROUPADD_PARAM:${PN} = "-r a_group"
++
++TESTDIR = "${D}${sysconfdir}/creategroup"
++
++do_install() {
++	install -d   ${TESTDIR}
++	install -d   ${TESTDIR}/dir
++	touch        ${TESTDIR}/file
++	ln -s ./file ${TESTDIR}/symlink
++	install -d   ${TESTDIR}/fifotest
++	mkfifo       ${TESTDIR}/fifotest/fifo
++
++	chown    a_user:a_group ${TESTDIR}/file
++	chown -R a_user:a_group ${TESTDIR}/dir
++	chown -h a_user:a_group ${TESTDIR}/symlink
++	chown -R a_user:a_group ${TESTDIR}/fifotest
++}
++
++FILES:${PN} = "${sysconfdir}/creategroup/*"
+diff --git a/meta-selftest/recipes-test/selftest-users/bcreategroup.bb b/meta-selftest/recipes-test/selftest-users/bcreategroup.bb
+new file mode 100644
+index 0000000000..c4844dd0da
+--- /dev/null
++++ b/meta-selftest/recipes-test/selftest-users/bcreategroup.bb
+@@ -0,0 +1,37 @@
++SUMMARY = "creategroup_b"
++LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
++
++LICENSE = "MIT"
++
++# This recipe requires a and c. C requires A. Reverse alpha.
++
++USERADD_DEPENDS = "acreategroup ccreategroup"
++
++S = "${WORKDIR}"
++
++EXCLUDE_FROM_WORLD="1"
++
++inherit useradd allarch
++
++USERADD_PACKAGES = "${PN}"
++USERADD_PARAM:${PN} = "-u 5561 -g b_group -G a_group,c_group b_user "
++GROUPADD_PARAM:${PN} = "-r b_group"
++
++TESTDIR = "${D}${sysconfdir}/creategroup"
++
++do_install() {
++	install -d   ${TESTDIR}
++	install -d   ${TESTDIR}/dir
++	touch        ${TESTDIR}/file
++	ln -s ./file ${TESTDIR}/symlink
++	install -d   ${TESTDIR}/fifotest
++	mkfifo       ${TESTDIR}/fifotest/fifo
++
++	chown    a_user:a_group ${TESTDIR}/file
++	chown -R c_user:c_group ${TESTDIR}/dir
++	chown -h a_user:a_group ${TESTDIR}/symlink
++	chown -R b_user:b_group ${TESTDIR}/fifotest
++}
++
++FILES:${PN} = "${sysconfdir}/creategroup/*"
++
+diff --git a/meta-selftest/recipes-test/selftest-users/ccreategroup.bb b/meta-selftest/recipes-test/selftest-users/ccreategroup.bb
+new file mode 100644
+index 0000000000..021b1ebbf7
+--- /dev/null
++++ b/meta-selftest/recipes-test/selftest-users/ccreategroup.bb
+@@ -0,0 +1,34 @@
++SUMMARY = "creategroup_c"
++LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
++
++LICENSE = "MIT"
++
++USERADD_DEPENDS = "acreategroup"
++
++S = "${WORKDIR}"
++
++EXCLUDE_FROM_WORLD="1"
++
++inherit useradd allarch
++
++USERADD_PACKAGES = "${PN}"
++USERADD_PARAM:${PN} = "-u 5563 --gid c_group -G a_group c_user"
++GROUPADD_PARAM:${PN} = "-r c_group"
++
++TESTDIR = "${D}${sysconfdir}/creategroup"
++
++do_install() {
++	install -d   ${TESTDIR}
++	install -d   ${TESTDIR}/dir
++	touch        ${TESTDIR}/file
++	ln -s ./file ${TESTDIR}/symlink
++	install -d   ${TESTDIR}/fifotest
++	mkfifo       ${TESTDIR}/fifotest/fifo
++
++	chown    c_user:c_group ${TESTDIR}/file
++	chown -R c_user:c_group ${TESTDIR}/dir
++	chown -h c_user:c_group ${TESTDIR}/symlink
++	chown -R c_user:c_group ${TESTDIR}/fifotest
++}
++
++FILES:${PN} = "${sysconfdir}/creategroup/*"
+diff --git a/meta-selftest/recipes-test/selftest-users/dcreategroup.bb b/meta-selftest/recipes-test/selftest-users/dcreategroup.bb
+new file mode 100644
+index 0000000000..b96ca92a16
+--- /dev/null
++++ b/meta-selftest/recipes-test/selftest-users/dcreategroup.bb
+@@ -0,0 +1,33 @@
++SUMMARY = "creategroup_d"
++LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
++
++LICENSE = "MIT"
++
++USERADD_DEPENDS = "bcreategroup"
++
++S = "${WORKDIR}"
++
++EXCLUDE_FROM_WORLD="1"
++
++inherit useradd allarch
++
++USERADD_PACKAGES = "${PN}"
++USERADD_PARAM:${PN} = "-u 5564 -g d_group -G b_group d_user "
++GROUPADD_PARAM:${PN} = "-r d_group"
++
++TESTDIR = "${D}${sysconfdir}/creategroup"
++
++do_install() {
++	install -d   ${TESTDIR}
++	install -d   ${TESTDIR}/dir
++	touch        ${TESTDIR}/file
++	ln -s ./file ${TESTDIR}/symlink
++	install -d   ${TESTDIR}/fifotest
++	mkfifo       ${TESTDIR}/fifotest/fifo
++
++	chown    d_user:d_group ${TESTDIR}/file
++	chown -R d_user:b_group ${TESTDIR}/dir
++	chown -h d_user:d_group ${TESTDIR}/symlink
++	chown -R d_user:b_group ${TESTDIR}/fifotest
++}
++
+diff --git a/meta/lib/oeqa/selftest/cases/usergrouptests.py b/meta/lib/oeqa/selftest/cases/usergrouptests.py
+index a331ca9f2c..3c59b0f290 100644
+--- a/meta/lib/oeqa/selftest/cases/usergrouptests.py
++++ b/meta/lib/oeqa/selftest/cases/usergrouptests.py
+@@ -22,6 +22,10 @@ class UserGroupTests(OESelftestTestCase):
+         # Test for YOCTO #14961
+         self.assertTrue(bitbake('useraddbadtask -C fetch'))
+ 
++    def test_postinst_order(self):
++        self.logger.info("Building dcreategroup")
++        self.assertTrue(bitbake(' dcreategroup'))
++
+     def test_static_useradd_from_dynamic(self):
+         metaselftestpath = get_test_layer()
+         self.logger.info("Building core-image-minimal to generate passwd/group file")
+-- 
+2.34.1
+
 
