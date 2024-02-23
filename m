@@ -1,215 +1,139 @@
-Return-Path: <alexis.lothore@bootlin.com>
+Return-Path: <simone.p.weiss@posteo.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64BAFC5478C
-	for <webhook@archiver.kernel.org>; Fri, 23 Feb 2024 17:36:17 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
- by mx.groups.io with SMTP id smtpd.web10.1092.1708709772703147528
- for <Openembedded-core@lists.openembedded.org>;
- Fri, 23 Feb 2024 09:36:13 -0800
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE54BC5478C
+	for <webhook@archiver.kernel.org>; Fri, 23 Feb 2024 19:19:17 +0000 (UTC)
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
+ by mx.groups.io with SMTP id smtpd.web10.3671.1708715950109797586
+ for <openembedded-core@lists.openembedded.org>;
+ Fri, 23 Feb 2024 11:19:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=WYNboXCA;
- spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: alexis.lothore@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 8426A1C000D;
-	Fri, 23 Feb 2024 17:36:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1708709770;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ldSNRpg8ma+71/EDxuq2yFdWyaNjdCVD3C94Xp0Djt8=;
-	b=WYNboXCA/xH2b6IldFO33IoWRwYFlD23OWAnSxuQpAABdmmzyLT1ZWfb0KT/SVabdI1lon
-	Wvy0j8lRao9IMCwT3s8vdlIo6qEHXkg3i1zCfLWsjcaXg9KwUG/FGewgb2WJHQAkGkRtf4
-	QasH9Q/b/NsA1jb1ivrw63tenkdjJuOWRIVJB8mKKrepBXw1qxowEgcQXi5Bfy87z6gzkI
-	V3moqAN2x29WYYwRvB2mraunX8Q4LbSFlOqu84W7W7TNboGglbBc2KeraPoheXZmFQxeGb
-	b7wf7x9C1lyCKdYvLi9Ck0pHNnUipXmBl5r88xlEjMObebAHppuawloCwnR5aw==
-Message-ID: <5b5df6fe-fe1d-4508-aae6-914137a167a2@bootlin.com>
-Date: Fri, 23 Feb 2024 18:36:10 +0100
+ dkim=fail reason="dkim: body hash did not verify" header.i=@posteo.com header.s=2017 header.b=JHMIPhiC;
+ spf=pass (domain: posteo.com, ip: 185.67.36.65, mailfrom: simone.p.weiss@posteo.com)
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id F262A240027
+	for <openembedded-core@lists.openembedded.org>; Fri, 23 Feb 2024 20:19:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.com; s=2017;
+	t=1708715948; bh=f1z7aKq3FPi8EYwE8uxJXgmKtHUSO0R/hDFL096vm1g=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:From;
+	b=JHMIPhiCwKsd1RkarFMDHVD5KVTahcMfTUJovsW2uXv7VQobD1POGeYfkkNtbcSfF
+	 MyAv1kY2qa0xYhoRmYeIsFACKXZpqNBHKauYWSOpL8xFaga9CjIcvUgO89cuwBLhrN
+	 bC85eGY0/6RVpoYJYsEmuvNCLRy052aWt/o4Rpd/k1D+q+v5jGRkKYSG0ivRxgD1lr
+	 inrH+CqaX4cczlWL7yLLNLLy3pzy/z4cXQGpznjrky/G21W4gdwmZFdRRuCs65T68f
+	 x3I+A//0y8iXRUnGmMwLPDur4a3WqhQpMwxDcwUbltxav0V5cavu3b4XoLmJDM9oU9
+	 sYLUDuYMuO1Ng==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4ThKZ31KCQz6tsf;
+	Fri, 23 Feb 2024 20:19:06 +0100 (CET)
+From: simone.p.weiss@posteo.com
+To: openembedded-core@lists.openembedded.org
+Cc: =?UTF-8?q?Simone=20Wei=C3=9F?= <simone.p.weiss@posteo.com>
+Subject: [PATCH] libxml2: Upgrade 2.11.5 -> 2.12.5
+Date: Fri, 23 Feb 2024 19:18:59 +0000
+Message-Id: <20240223191859.6912-1-simone.p.weiss@posteo.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-Core][PATCH v3 1/5] lib/oeqa: share get_json_result_dir
- helper
-Content-Language: en-US
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- Openembedded-core@lists.openembedded.org
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>
-References: <20240223151648.1453027-1-alexis.lothore@bootlin.com>
- <20240223151648.1453027-2-alexis.lothore@bootlin.com>
- <d17283d1e037be26e5fd905853ff47c48d630e85.camel@linuxfoundation.org>
-From: =?UTF-8?Q?Alexis_Lothor=C3=A9?= <alexis.lothore@bootlin.com>
-In-Reply-To: <d17283d1e037be26e5fd905853ff47c48d630e85.camel@linuxfoundation.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: alexis.lothore@bootlin.com
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 23 Feb 2024 17:36:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196105
+ <openembedded-core@lists.openembedded.org>; Fri, 23 Feb 2024 19:19:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196106
 
-On 2/23/24 18:27, Richard Purdie wrote:
-> On Fri, 2024-02-23 at 16:16 +0100, Alexis Lothoré via
-> lists.openembedded.org wrote:
->> From: Alexis Lothoré <alexis.lothore@bootlin.com>
->>
->> Multiple places in oeqa need to get the log output path, and redefine
->> a
->> small helper to accomplish this
->>
->> Define this helper in lib/oeqa/utils/__init__.py and import it
->> wherever
->> needed to allow using it.
->>
->> Signed-off-by: Alexis Lothoré <alexis.lothore@bootlin.com>
->> ---
->> There is one additional place re-definining (slightly) differently
->> this
->> helper, which is in selftest/context.py. This one does not check
->> OEQA_JSON_RESULT_DIR from the datastore but through test data
->> embedded in
->> the test context. Based on Richard's feedback in v2, the datastore
->> functions may be correctly simulated even in this case, so I may do
->> some
->> tests and come up with a patch after this series
->> ---
->>  meta/classes-recipe/testimage.bbclass | 12 +++---------
->>  meta/lib/oeqa/sdk/testsdk.py          | 11 ++---------
->>  meta/lib/oeqa/utils/__init__.py       |  7 +++++++
->>  3 files changed, 12 insertions(+), 18 deletions(-)
->>
->> diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-
->> recipe/testimage.bbclass
->> index d076102f9691..959c226072aa 100644
->> --- a/meta/classes-recipe/testimage.bbclass
->> +++ b/meta/classes-recipe/testimage.bbclass
->> @@ -149,13 +149,6 @@ def get_testimage_configuration(d, test_type,
->> machine):
->>      return configuration
->>  get_testimage_configuration[vardepsexclude] = "DATETIME"
->>  
->> -def get_testimage_json_result_dir(d):
->> -    json_result_dir = os.path.join(d.getVar("LOG_DIR"), 'oeqa')
->> -    custom_json_result_dir = d.getVar("OEQA_JSON_RESULT_DIR")
->> -    if custom_json_result_dir:
->> -        json_result_dir = custom_json_result_dir
->> -    return json_result_dir
->> -
->>  def get_testimage_result_id(configuration):
->>      return '%s_%s_%s_%s' % (configuration['TEST_TYPE'],
->> configuration['IMAGE_BASENAME'], configuration['MACHINE'],
->> configuration['STARTTIME'])
->>  
->> @@ -224,6 +217,7 @@ def testimage_main(d):
->>      from oeqa.core.target.qemu import supported_fstypes
->>      from oeqa.core.utils.test import getSuiteCases
->>      from oeqa.utils import make_logger_bitbake_compatible
->> +    from oeqa.utils import get_json_result_dir
->>  
->>      def sigterm_exception(signum, stackframe):
->>          """
->> @@ -426,14 +420,14 @@ def testimage_main(d):
->>      # Show results (if we have them)
->>      if results:
->>          configuration = get_testimage_configuration(d, 'runtime',
->> machine)
->> -        results.logDetails(get_testimage_json_result_dir(d),
->> +        results.logDetails(get_json_result_dir(d),
->>                          configuration,
->>                          get_testimage_result_id(configuration),
->>                         
->> dump_streams=d.getVar('TESTREPORT_FULLLOGS'))
->>          results.logSummary(pn)
->>  
->>      # Copy additional logs to tmp/log/oeqa so it's easier to find
->> them
->> -    targetdir = os.path.join(get_testimage_json_result_dir(d),
->> d.getVar("PN"))
->> +    targetdir = os.path.join(get_json_result_dir(d), d.getVar("PN"))
->>      os.makedirs(targetdir, exist_ok=True)
->>      os.symlink(bootlog, os.path.join(targetdir,
->> os.path.basename(bootlog)))
->>      os.symlink(d.getVar("BB_LOGFILE"), os.path.join(targetdir,
->> os.path.basename(d.getVar("BB_LOGFILE") + "." +
->> d.getVar('DATETIME'))))
->> diff --git a/meta/lib/oeqa/sdk/testsdk.py
->> b/meta/lib/oeqa/sdk/testsdk.py
->> index b4719110edbc..518b09febb61 100644
->> --- a/meta/lib/oeqa/sdk/testsdk.py
->> +++ b/meta/lib/oeqa/sdk/testsdk.py
->> @@ -22,14 +22,6 @@ class TestSDKBase(object):
->>                          'LAYERS': get_layers(d.getVar("BBLAYERS"))}
->>          return configuration
->>  
->> -    @staticmethod
->> -    def get_sdk_json_result_dir(d):
->> -        json_result_dir = os.path.join(d.getVar("LOG_DIR"), 'oeqa')
->> -        custom_json_result_dir = d.getVar("OEQA_JSON_RESULT_DIR")
->> -        if custom_json_result_dir:
->> -            json_result_dir = custom_json_result_dir
->> -        return json_result_dir
->> -
->>      @staticmethod
->>      def get_sdk_result_id(configuration):
->>          return '%s_%s_%s_%s_%s' % (configuration['TEST_TYPE'],
->> configuration['IMAGE_BASENAME'], configuration['SDKMACHINE'],
->> configuration['MACHINE'], configuration['STARTTIME'])
->> @@ -72,6 +64,7 @@ class TestSDK(TestSDKBase):
->>  
->>          from bb.utils import export_proxies
->>          from oeqa.utils import make_logger_bitbake_compatible
->> +        from oeqa.utils import get_json_result_dir
->>  
->>          pn = d.getVar("PN")
->>          logger =
->> make_logger_bitbake_compatible(logging.getLogger("BitBake"))
->> @@ -134,7 +127,7 @@ class TestSDK(TestSDKBase):
->>              component = "%s %s" % (pn,
->> self.context_executor_class.name)
->>              context_msg = "%s:%s" % (os.path.basename(tcname),
->> os.path.basename(sdk_env))
->>              configuration = self.get_sdk_configuration(d,
->> self.test_type)
->> -            result.logDetails(self.get_sdk_json_result_dir(d),
->> +            result.logDetails(get_json_result_dir(d),
->>                              configuration,
->>                              self.get_sdk_result_id(configuration))
->>              result.logSummary(component, context_msg)
->> diff --git a/meta/lib/oeqa/utils/__init__.py
->> b/meta/lib/oeqa/utils/__init__.py
->> index fbc7f7d525d8..53bdcbf26618 100644
->> --- a/meta/lib/oeqa/utils/__init__.py
->> +++ b/meta/lib/oeqa/utils/__init__.py
->> @@ -90,3 +90,10 @@ def load_test_components(logger, executor):
->>                                  "_executor_class defined." %
->> (comp_name, comp_context))
->>  
->>      return components
->> +
->> +def get_json_result_dir(d):
->> +    json_result_dir = os.path.join(d.getVar("LOG_DIR"), 'oeqa')
->> +    custom_json_result_dir = d.getVar("OEQA_JSON_RESULT_DIR")
->> +    if custom_json_result_dir:
->> +        json_result_dir = custom_json_result_dir
->> +    return json_result_dir
->> \ No newline at end of file
->>
-> 
-> I suspect this is missing a change to TestSDKEXT:
-> 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/136/builds/56/steps/14/logs/stdio
+From: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
 
-Indeed, I messed up with some half-search-and-replace -_- Thanks for the test.
-I'll delay a bit before sending v4 to avoid spamming the list.
+Upgraded to address CVE-2024-25062
 
-Thanks,
-Alexis
+License-Update: hash.c was rewritten and now also has MIT license,
+trio was totally removed, hence remove license checksum as well.
+Files are not mentioned as exception in overall license any more,
+therefore, checksum changed there as well.
 
--- 
-Alexis Lothoré, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Previous upgrades of libxml2 caused issues when building libsoup,
+this in the meantime has been adressed via commit "9f57bfb74e280827"
+("libsoup-2.4: Fix build with clang-17 and libxml2-2.12") already.
+
+Changes:
+- [CVE-2024-25062] xmlreader: Don't expand XIncludes when backtracking
+- parser: Fix crash in xmlParseInNodeContext with HTML documents
+
+Signed-off-by: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
+---
+ meta/recipes-core/libxml/libxml2/install-tests.patch      | 8 ++++----
+ .../libxml/{libxml2_2.11.5.bb =3D> libxml2_2.12.5.bb}       | 8 +++-----
+ 2 files changed, 7 insertions(+), 9 deletions(-)
+ rename meta/recipes-core/libxml/{libxml2_2.11.5.bb =3D> libxml2_2.12.5.b=
+b} (91%)
+
+diff --git a/meta/recipes-core/libxml/libxml2/install-tests.patch b/meta/=
+recipes-core/libxml/libxml2/install-tests.patch
+index 14ccce5873..4bddf9f05e 100644
+--- a/meta/recipes-core/libxml/libxml2/install-tests.patch
++++ b/meta/recipes-core/libxml/libxml2/install-tests.patch
+@@ -1,4 +1,4 @@
+-From 3fc716357ce1372d9418dc86f24315b34d9808de Mon Sep 17 00:00:00 2001
++From 582af12c9e89cd3d7c93c63756acb6e8180a776c Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@arm.com>
+ Date: Mon, 5 Dec 2022 17:02:32 +0000
+ Subject: [PATCH] add yocto-specific install-ptest target
+@@ -13,11 +13,11 @@ Signed-off-by: Ross Burton <ross.burton@arm.com>
+  1 file changed, 10 insertions(+)
+=20
+ diff --git a/Makefile.am b/Makefile.am
+-index 5bc4018..57d27af 100644
++index 0a49d37..1097c63 100644
+ --- a/Makefile.am
+ +++ b/Makefile.am
+-@@ -26,6 +26,16 @@ check_PROGRAMS =3D \
+- 	testlimits \
++@@ -27,6 +27,16 @@ check_PROGRAMS =3D \
++ 	testparser \
+  	testrecurse
+ =20
+ +ptestdir=3D$(libexecdir)
+diff --git a/meta/recipes-core/libxml/libxml2_2.11.5.bb b/meta/recipes-co=
+re/libxml/libxml2_2.12.5.bb
+similarity index 91%
+rename from meta/recipes-core/libxml/libxml2_2.11.5.bb
+rename to meta/recipes-core/libxml/libxml2_2.12.5.bb
+index 44336c25e1..01e23b21cc 100644
+--- a/meta/recipes-core/libxml/libxml2_2.11.5.bb
++++ b/meta/recipes-core/libxml/libxml2_2.12.5.bb
+@@ -4,10 +4,8 @@ HOMEPAGE =3D "https://gitlab.gnome.org/GNOME/libxml2"
+ BUGTRACKER =3D "http://bugzilla.gnome.org/buglist.cgi?product=3Dlibxml2"
+ SECTION =3D "libs"
+ LICENSE =3D "MIT"
+-LIC_FILES_CHKSUM =3D "file://Copyright;md5=3D2044417e2e5006b65a8b9067b68=
+3fcf1 \
+-                    file://hash.c;beginline=3D6;endline=3D15;md5=3De77f7=
+7b12cb69e203d8b4090a0eee879 \
+-                    file://list.c;beginline=3D4;endline=3D13;md5=3Db9c25=
+b021ccaf287e50060602d20f3a7 \
+-                    file://trio.c;beginline=3D5;endline=3D14;md5=3Dcd4f6=
+1e27f88c1d43df112966b1cd28f"
++LIC_FILES_CHKSUM =3D "file://Copyright;md5=3Dfec7ecfe714722b2bb0aaff7d20=
+0c701 \
++                    file://list.c;beginline=3D4;endline=3D13;md5=3Db9c25=
+b021ccaf287e50060602d20f3a7"
+=20
+ DEPENDS =3D "zlib virtual/libiconv"
+=20
+@@ -19,7 +17,7 @@ SRC_URI +=3D "http://www.w3.org/XML/Test/xmlts20130923.=
+tar;subdir=3D${BP};name=3Dtestt
+            file://install-tests.patch \
+            "
+=20
+-SRC_URI[archive.sha256sum] =3D "3727b078c360ec69fa869de14bd6f75d7ee8d369=
+87b071e6928d4720a28df3a6"
++SRC_URI[archive.sha256sum] =3D "a972796696afd38073e0f59c283c3a2f5a560b52=
+68b4babc391b286166526b21"
+ SRC_URI[testtar.sha256sum] =3D "c6b2d42ee50b8b236e711a97d68e6c4b5c8d83e6=
+9a2be4722379f08702ea7273"
+=20
+ # Disputed as a security issue, but fixed in d39f780
+--=20
+2.39.2
 
 
