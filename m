@@ -2,60 +2,59 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FC9DC54E41
-	for <webhook@archiver.kernel.org>; Fri, 23 Feb 2024 14:38:08 +0000 (UTC)
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
- by mx.groups.io with SMTP id smtpd.web11.13953.1708699083497695645
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7637BC54798
+	for <webhook@archiver.kernel.org>; Fri, 23 Feb 2024 14:42:08 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web11.14053.1708699324679956942
  for <Openembedded-core@lists.openembedded.org>;
- Fri, 23 Feb 2024 06:38:04 -0800
+ Fri, 23 Feb 2024 06:42:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Rne4VQ3Q;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.218.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a3f5808b0dfso124205866b.1
-        for <Openembedded-core@lists.openembedded.org>; Fri, 23 Feb 2024 06:38:03 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Ph+C83/C;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-412949fd224so2842085e9.1
+        for <Openembedded-core@lists.openembedded.org>; Fri, 23 Feb 2024 06:42:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1708699082; x=1709303882; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1708699323; x=1709304123; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=NSMaovF2lr3Dt9z3sNN/qO+/qrDKDuwvESMR8NmwlWA=;
-        b=Rne4VQ3QlTFUChnYzvhEK1qIoF+VUONtz4oEckeLzkyL/5wUledPNf6L2SteLMhnH5
-         H3CW9P8e6kL2Uep+uGjJir1g3yNKQgw9ZEJKivS1dbNFrl965DHF0YyLUwRj8KY0gTRD
-         WyVwVIM4TLjMXX5IBjTDu4O8WaNhmR2P9RA2k=
+        bh=DPcX5h3kK27cFWIwY4Dp0CXzbXNAVsLmBTcZ7VbZAbw=;
+        b=Ph+C83/CHNUMl9lYcOvMYVqc+lOHXgLC1ba9Pa8g/WrqOl6xos8mAX0aG2in0Afj5F
+         tRmIpPAZTse4XLdTb/I4CK1XcCHv0HNjpjvEPU6TOZyv0YVPDk7xYEvr96QghTGzbfOf
+         XVdGgB4/07sakq2Sep58v8j/aTOwuDFfz27lQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708699082; x=1709303882;
+        d=1e100.net; s=20230601; t=1708699323; x=1709304123;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NSMaovF2lr3Dt9z3sNN/qO+/qrDKDuwvESMR8NmwlWA=;
-        b=KdqxuZnNNVdUOaCW/IyQJ9f0sF1NDUkHjvjg9qjn/rY1TJzBpACco3YKK4GA0N3BXS
-         yFFMrmBqnokQWJWU8wrqkezmIFrPFd3sDeABLOeDooaLiVrY962Lj+ZN3C86sRAjiB9o
-         h4gTEddzTQVv3vO+iMe4a/2jNqOIj/LLbtKv9cR147ts4mj4HtZdn5MN2DJOfeCDZojk
-         QJ3w8pfxxekUhchUIfiwnIII9LBp38sMdAg+I6Khc0sGBW1pDojn65tanoMXvnHYlr7d
-         UJzlM7Re9XBDlVCdHzJ+l+Qf6fAxqeAYKxxCZVJ4jkUyZUipFSH66vuh+s+pWVMOD2M6
-         J7tQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXE7hzryaon0Zt7sLh7vCr56nws8Lz7cXTSOrQniyx56BdUQsBZEkW2i1Z3BJfYIU8mAMZ7qImMrjnEBsj2IchNswf6shzMQOOkqxcSsqF030qcYok6Fjn3
-X-Gm-Message-State: AOJu0YzPDdtmAZRO9uv8/JrCyDgZbmdEsT8xsbDt1K1zjlJtnQS3k8J5
-	SR1kqHRwiOoXGNy41aE1XEKffz8CgVcHWT0AcbG4X6uP/wqveIKUbizxxCxyGg7WdaZDyUoEgpg
-	9
-X-Google-Smtp-Source: AGHT+IEtAtpvLBUivDEMu7iplty4oeHlA+Ij6Sc/8+HcFNwPi7gLmM443lyxUIXLqNzoRdzFeAVwjg==
-X-Received: by 2002:a17:906:618:b0:a3e:b439:6c8d with SMTP id s24-20020a170906061800b00a3eb4396c8dmr2516ejb.25.1708699081704;
-        Fri, 23 Feb 2024 06:38:01 -0800 (PST)
+        bh=DPcX5h3kK27cFWIwY4Dp0CXzbXNAVsLmBTcZ7VbZAbw=;
+        b=AWa+q4yS1LT7fCLhctMVKIY9g275vK2Prs3zbDM1cUPjLsP0QPo8+qNslL71ykCuzz
+         ox8HeWhe8owtHx6A15hSvU5UCiN6h3Qmd+S4FBc0wDvXE6X/IU7pVbXzdMtXST3oRpt4
+         GnrFxtO0wkK0IZDrP8POMq77OUrGzFCeSSfgEknuCSudSLKK5GBSn9/ebP447FyLsfZw
+         7plh9yv1ASmdZA626lQQZrSFZ33focz2s1XPImK7BLCOS7bTsmu/PYYWVxc968EheQs/
+         VjMrgjXSEtejoPmp0OxGPnQW9+LRHBdtUE0cAHcD3Q2ot4W4K4Z77zfSyqHjHRMwDlo7
+         BU7Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVc7825Lteiv0BBUjWsdJK32txI1v+7em/NaDa8sRcmF+f6/majmIhJlS43MmJi12XJgOxjmwy+PPBSfXV588dqUznnsezWx81vdetm9BEpOGOwkaxllPC0
+X-Gm-Message-State: AOJu0YzfZikrRKmvOnfCJW9VKETeQhcqBzHvhhWuLm60hvz0rk82fG4v
+	wxT3B+7BZV5iFR3XjIeDpI9zenGHi5adJynKk6cx32vqJ3tiTg/CcYz7+75JvKE=
+X-Google-Smtp-Source: AGHT+IHC6b/O0a45mWkQPRiXW3iwO++PZoQy3AR51g85zb7PNa6QqVl4KOSQbKk/UQRs8sALXAm6MA==
+X-Received: by 2002:adf:e885:0:b0:33d:3cea:8484 with SMTP id d5-20020adfe885000000b0033d3cea8484mr4937305wrm.1.1708699323012;
+        Fri, 23 Feb 2024 06:42:03 -0800 (PST)
 Received: from ?IPv6:2001:8b0:aba:5f3c:25c1:6c0c:e2b8:37ae? ([2001:8b0:aba:5f3c:25c1:6c0c:e2b8:37ae])
-        by smtp.gmail.com with ESMTPSA id u9-20020a170906780900b00a382bcd9943sm6999326ejm.145.2024.02.23.06.38.01
+        by smtp.gmail.com with ESMTPSA id bo10-20020a056000068a00b0033cddadde6esm3155056wrb.80.2024.02.23.06.42.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Feb 2024 06:38:01 -0800 (PST)
-Message-ID: <d90a6575f9405252f29e7a9ff16979fbf96546de.camel@linuxfoundation.org>
-Subject: Re: [OE-Core][PATCH v2 1/5] lib/oeqa: share get_json_result_dir
- helper
+        Fri, 23 Feb 2024 06:42:02 -0800 (PST)
+Message-ID: <d3714ffadcf0daaa8915c0fcce0de11cc7dc0879.camel@linuxfoundation.org>
+Subject: Re: [OE-Core][PATCH v2 2/5] testimage: create a list of failed test
+ post actions
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: alexis.lothore@bootlin.com, Openembedded-core@lists.openembedded.org
 Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Alexandre Belloni
 	 <alexandre.belloni@bootlin.com>
-Date: Fri, 23 Feb 2024 14:38:00 +0000
-In-Reply-To: <20240223140345.1362972-2-alexis.lothore@bootlin.com>
+Date: Fri, 23 Feb 2024 14:42:02 +0000
+In-Reply-To: <20240223140345.1362972-3-alexis.lothore@bootlin.com>
 References: <20240223140345.1362972-1-alexis.lothore@bootlin.com>
-	 <20240223140345.1362972-2-alexis.lothore@bootlin.com>
+	 <20240223140345.1362972-3-alexis.lothore@bootlin.com>
 Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
@@ -71,39 +70,44 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 23 Feb 2024 14:38:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196093
+ <openembedded-core@lists.openembedded.org>; Fri, 23 Feb 2024 14:42:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196094
 
 On Fri, 2024-02-23 at 15:03 +0100, Alexis Lothor=C3=A9 via lists.openembedd=
 ed.org wrote:
 > From: Alexis Lothor=C3=A9 <alexis.lothore@bootlin.com>
 >=20
-> Multiple places in oeqa need to get the log output path, and redefine a
-> small helper to accomplish this
+> testimage is able to detect whenever a test run leads to some tests
+> failing, and execute some actions in this case. The only action currently
+> defined in such case is to retrieve artifacts from the target under test,
+> as listed in TESTIMAGE_FAILED_QA_ARTIFACTS
 >=20
-> Define this helper in lib/oeqa/utils/__init__.py and import it wherever
-> needed to allow using it.
+> In order to be able to add multiple actions, define a central function to
+> gather all "post actions" to run whenever a test has failed
+> (run_failed_tests_post_actions). This function contains a table listing a=
+ll
+> functions to be called whenever a test fails. Any function in this table
+> will be provided with bitbake internal data dictionary ("d") and the
+> current runtime testing context ("tc"). Isolate all this feature in a
+> dedicated postactions.py file inherited by testimage.
+> This patch does not bring any functional change.
 >=20
 > Signed-off-by: Alexis Lothor=C3=A9 <alexis.lothore@bootlin.com>
 > ---
-> There is one additional place re-definining (slightly) differently this
-> helper, which is in selftest/context.py. This one does not check
-> OEQA_JSON_RESULT_DIR from the datastore but through test data embedded in
-> the test context. Trying to check the origin of this test data, I
-> eventually see that it comes from bitbake environment, so I am not sure i=
-t
-> is 100% compatible with the datastore content. Please let me know if I'm
-> wrong, if so I can also replace selftest redefinition with the shared
-> helper too.
+> Changes in v2:
+> - move functions in a lib in oeqa instead of a bbclass
+> - use new shared helper get_json_result_dir()
+> ---
+> =C2=A0meta/classes-recipe/testimage.bbclass | 42 +----------------
+> =C2=A0meta/lib/oeqa/utils/postactions.py=C2=A0=C2=A0=C2=A0 | 68 +++++++++=
+++++++++++++++++++
+> =C2=A02 files changed, 70 insertions(+), 40 deletions(-)
+> =C2=A0create mode 100644 meta/lib/oeqa/utils/postactions.py
 
-Some of the test code has the ability to run without a bitbake datastore=C2=
-=A0
-so I suspect that may be the abstraction you're running into. That said,
-from memory I think it emulates the getVar calls so I think it could be=C2=
-=A0
-converted too. Perhaps a follow up patch we can test?
+This patch doesn't apply in testimage.bbclass (hunk #3). Could you
+check the branch you're basing these off please?
 
-Cheers,
+Thanks,
 
 Richard
 
