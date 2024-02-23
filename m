@@ -1,120 +1,102 @@
-Return-Path: <m.felsch@pengutronix.de>
+Return-Path: <alexis.lothore@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03259C54798
-	for <webhook@archiver.kernel.org>; Fri, 23 Feb 2024 13:55:38 +0000 (UTC)
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by mx.groups.io with SMTP id smtpd.web11.10941.1708696527665551473
- for <openembedded-core@lists.openembedded.org>;
- Fri, 23 Feb 2024 05:55:27 -0800
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0ED08C5478C
+	for <webhook@archiver.kernel.org>; Fri, 23 Feb 2024 14:03:58 +0000 (UTC)
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+ by mx.groups.io with SMTP id smtpd.web10.11209.1708697032768060865
+ for <Openembedded-core@lists.openembedded.org>;
+ Fri, 23 Feb 2024 06:03:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.201.7, mailfrom: mfe@pengutronix.de)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1rdW1O-0005Fu-4v; Fri, 23 Feb 2024 14:55:26 +0100
-Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1rdW1N-002R4S-OV; Fri, 23 Feb 2024 14:55:25 +0100
-Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1rdW1N-004HvQ-2A;
-	Fri, 23 Feb 2024 14:55:25 +0100
-Date: Fri, 23 Feb 2024 14:55:25 +0100
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org, yocto@pengutronix.de
-Subject: Re: [OE-core] [PATCH] devicetree.bbclass: fix do_fetch stage
-Message-ID: <20240223135525.j5lnfi2gq37hmuz6@pengutronix.de>
-References: <20240223121040.1608421-1-m.felsch@pengutronix.de>
- <74879539489bde95b7d3fada7bae7dcfbadcb96c.camel@linuxfoundation.org>
- <20240223130158.xai2bbltkklf4ech@pengutronix.de>
- <9c456049b253f718c74aae063343ab0db8081f81.camel@linuxfoundation.org>
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=d4rPe0nB;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: alexis.lothore@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 44AD920014;
+	Fri, 23 Feb 2024 14:03:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1708697031;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2gZl/CX2XdTl9L5zW6yK1ki4i4/oUog+WKw64t/cC68=;
+	b=d4rPe0nB32kxHISLEZXAAHpSFDufq/xIoQpanJgSQTTJGXPBAJ7t+gRzDQPS/tEO9NfqDf
+	svwp9RoM+LfgJ+xUUZe4DH4JfeqOoCdgs3dEyy+SwvSJTelwU8beE28OZd1yXdoAi3y2hZ
+	sAEIf3JSRUAFyXJYgnfZ2KfklN1EcEFZBPONG3bxpC20oG3oppmGstAlTs5BOZNHwuu7uR
+	pZR8BUsB4XlcP0JYVHT4tvvvN0nq4DKjZo9oZaxR1YQOQMkON0Sr/RYVy3mlX6PhRviUYS
+	8JNzfS5zJL1AU5+noUI3XD/HIfCnwuXLnBkGaHbwUHGtY1DUGivFnUJA05N6Zw==
+From: =?UTF-8?q?Alexis=20Lothor=C3=A9?= <alexis.lothore@bootlin.com>
+To: <Openembedded-core@lists.openembedded.org>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>
+Subject: [OE-Core][PATCH v2 4/5] oeqa/utils/postactions: add target disk usage stat as post action
+Date: Fri, 23 Feb 2024 15:03:44 +0100
+Message-ID: <20240223140345.1362972-5-alexis.lothore@bootlin.com>
+X-Mailer: git-send-email 2.43.1
+In-Reply-To: <20240223140345.1362972-1-alexis.lothore@bootlin.com>
+References: <20240223140345.1362972-1-alexis.lothore@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <9c456049b253f718c74aae063343ab0db8081f81.camel@linuxfoundation.org>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+X-GND-Sasl: alexis.lothore@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 23 Feb 2024 13:55:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196084
+ <openembedded-core@lists.openembedded.org>; Fri, 23 Feb 2024 14:03:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196089
 
-On 24-02-23, Richard Purdie wrote:
-> On Fri, 2024-02-23 at 14:01 +0100, Marco Felsch wrote:
-> > On 24-02-23, Richard Purdie wrote:
-> > > On Fri, 2024-02-23 at 13:10 +0100, Marco Felsch wrote:
-> > > > The fetch stage should always start with a clean ${S} directory
-> > > > to
-> > > > not
-> > > > try to compile leftovers from previous builds.
-> > > > 
-> > > > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> > > > ---
-> > > > �meta/classes-recipe/devicetree.bbclass | 2 ++
-> > > > �1 file changed, 2 insertions(+)
-> > > > 
-> > > > diff --git a/meta/classes-recipe/devicetree.bbclass
-> > > > b/meta/classes-
-> > > > recipe/devicetree.bbclass
-> > > > index bd50d7fa1d38..655460a9dbef 100644
-> > > > --- a/meta/classes-recipe/devicetree.bbclass
-> > > > +++ b/meta/classes-recipe/devicetree.bbclass
-> > > > @@ -77,6 +77,8 @@ python () {
-> > > > �������� d.appendVarFlag("do_compile", "depends", "
-> > > > virtual/kernel:do_configure")
-> > > > �}
-> > > > �
-> > > > +do_fetch[cleandirs] = "${S}"
-> > > > +
-> > > > �def expand_includes(varname, d):
-> > > > ���� import glob
-> > > > ���� includes = set()
-> > > > 
-> > > 
-> > > This doesn't make sense. do_fetch works with the fetcher in
-> > > directories
-> > > outside WORKDIR. The sources only become available at do_unpack.
-> > > The
-> > > correct task would therefore be unpack.
-> > 
-> > Good to know, what I inspect is that old dts(i) files are still
-> > present
-> > once I adapted the SRC_URI path e.g:
-> > 
-> > SRC_URI = "a.dts b.dts"
-> > 
-> > to
-> > 
-> > SRC_URI = "b.dts"
-> > 
-> > and so this class tries to compile both, albeit I explicite removed
-> > a.dts from SRC_URI.
-> 
-> This is a known problem, I thought there was an open bug for it but I
-> can't seem to find it right now.
-> 
-> Basically the problem is that the fetcher can't know what it previously
-> placed during do_unpack and know what it needs to clean up. Deleting
-> the contents of ${S} sounds straight forward but in reality, it isn't
-> quite that simple, particularly due to S = ${WORKDIR} that some recipes
-> use.
-> 
-> Longer term the plan is to drop support for S = ${WORKDIR} and then we
-> can simplify things but nobody has got around to doing that work yet.
+From: Alexis Lothoré <alexis.lothore@bootlin.com>
 
-Okay, thanks for input. In that case I will wait and notice it as known
-bug.
+In order to debug issues related to disk space (see [1]),  add a failed
+tests post action to retrieve disk usage on the target. Rely on the test
+context object to run the corresponding command onto the target
 
-Regards,
-  Marco
+[1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=15220
+
+Signed-off-by: Alexis Lothoré <alexis.lothore@bootlin.com>
+---
+Changes in v2:
+- - use new shared helper get_json_result_dir()
+---
+ meta/lib/oeqa/utils/postactions.py | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
+
+diff --git a/meta/lib/oeqa/utils/postactions.py b/meta/lib/oeqa/utils/postactions.py
+index 7014b2830a9c..008968b56a3f 100644
+--- a/meta/lib/oeqa/utils/postactions.py
++++ b/meta/lib/oeqa/utils/postactions.py
+@@ -18,6 +18,20 @@ def create_artifacts_directory(d, tc):
+ 
+     os.makedirs(local_artifacts_dir)
+ 
++##################################################################
++# Host/target statistics
++##################################################################
++
++def get_target_disk_usage(d, tc):
++    output_file = os.path.join(get_json_result_dir(d), "artifacts", "target_disk_usage.txt")
++    try:
++        (status, output) = tc.target.run('df -hl')
++        with open(output_file, 'w') as f:
++            f.write(output)
++            f.write("\n")
++    except Exception as e:
++        bb.warn(f"Can not get target disk usage: {e}")
++
+ ##################################################################
+ # Artifacts retrieval
+ ##################################################################
+@@ -65,7 +79,8 @@ def list_and_fetch_failed_tests_artifacts(d, tc):
+ def run_failed_tests_post_actions(d, tc):
+     post_actions=[
+         create_artifacts_directory,
+-        list_and_fetch_failed_tests_artifacts
++        list_and_fetch_failed_tests_artifacts,
++        get_target_disk_usage
+     ]
+ 
+     for action in post_actions:
+-- 
+2.43.1
+
 
