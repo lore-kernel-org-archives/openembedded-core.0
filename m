@@ -1,279 +1,132 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEFA5C54E50
-	for <webhook@archiver.kernel.org>; Fri, 23 Feb 2024 12:01:56 +0000 (UTC)
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.web11.8985.1708689710244015321
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA0A0C5478C
+	for <webhook@archiver.kernel.org>; Fri, 23 Feb 2024 12:04:16 +0000 (UTC)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web10.9066.1708689847135792926
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 Feb 2024 04:01:50 -0800
+ Fri, 23 Feb 2024 04:04:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=iPZqK5l9;
- spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a3e706f50beso94807266b.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 23 Feb 2024 04:01:50 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ayGtmkTe;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4129738cc81so1197045e9.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 23 Feb 2024 04:04:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708689709; x=1709294509; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2LO02WLe4Qp122fJFeCxZrC8MHySBci5Vsgg3LB+XIQ=;
-        b=iPZqK5l9k8N8HfrfXHm7Pn08c6Vx9BlZw4G+F1ewwq4UsQa37TRrqw19Iyk3AM8oL2
-         Pq3G+dH44r2BbxA8t/2d+i5pQ/3ClceOylVWPDl9yP4vH2xmWOpJeMKSJ/yXG598TrTP
-         w35ImJb4UFsKLQ9mH+qYvambi56BQPs/6pNnHDR3u6rZ9OvGMb6VwKRCqm7rZvPWE+BZ
-         7mrwmiJb94Wv+FCVm2QibcKBVXWBja13mj1y6jHYR7KcvSnj5M4DUCHqRpjEVYjUXokw
-         d23FMMd/4JKnV7IMDlHfENzZ9N8iIO4M+udPpC0u/bjANALK1J/h1XS0yJXTuTImisi6
-         mI8A==
+        d=linuxfoundation.org; s=google; t=1708689845; x=1709294645; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=qUZoVo+ShFLD3bieMaFlgJ1GNKl8nMBzYy08P92z++o=;
+        b=ayGtmkTe2MJR4Dh1jLlidw4SOdQNhP3OXga6xS0erNhg6FXO9E9INOHwCRONxlbeWz
+         SOU8/CkK3+sgKW44S6vlXorzxx8t0jHU9I5m+ti1VY0nE3AxnmpQkHGAAd6BAzd3q0v7
+         0EwEzhFQQ10aIyesR2ynNzzoHXfyTlu7kZzzE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708689709; x=1709294509;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2LO02WLe4Qp122fJFeCxZrC8MHySBci5Vsgg3LB+XIQ=;
-        b=gHbA0OkQkGTIKgWToAtHX/2URB2y3C8XBqTqDJH1oZp81jF2umwYXjA0j9GhC9FSAe
-         6M41PGQeDUR6OOe9VsjhhMMyfaAUY49ZsHk/hfTGBozdYCKzLfzyb6DQK943wOSk1WG+
-         BgQRz+l4MckK5wrh66GrpOgFj5rdahErKb89fp2Rolm7A6zTl6P5GEIHrsP+xz/VHI76
-         pa+iud7fP/4kxbh/mr9rWKW8/eRvJkUbeAHUqgO12tU8J5w0qaltYIIgO2MAhawEEOm3
-         eXEhob4G6Xko25o4Vbabm+qMPzhS1WOec1XRrBfkUzjPHz14NHrD+ZewkalSwFDfpqrW
-         CyWQ==
-X-Gm-Message-State: AOJu0YzthlzBO4GsbRT8K7oTZfM7RtR9RFd4FYJf0Z3kPVwPIjFlCDI3
-	HDcyL7r94J/k4X/DNrkNsU0E9kzAU+NRwl3mnSbAdpwTfNSCFwRO0EF5epRf
-X-Google-Smtp-Source: AGHT+IEbD5XCG+0tBDadfmUvSjK2aARD5W2wpZfD3IoP8i11ixK/nZstvuuNtpVlvZvMqyKUjIBPcw==
-X-Received: by 2002:a17:906:7192:b0:a3e:a951:4087 with SMTP id h18-20020a170906719200b00a3ea9514087mr1100764ejk.76.1708689708620;
-        Fri, 23 Feb 2024 04:01:48 -0800 (PST)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id d17-20020a170906345100b00a3d125b9c0asm220330ejb.81.2024.02.23.04.01.48
+        d=1e100.net; s=20230601; t=1708689845; x=1709294645;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qUZoVo+ShFLD3bieMaFlgJ1GNKl8nMBzYy08P92z++o=;
+        b=oz89heSjsFtsHLbzuTGJco2AnrajxSM2gbpkC5hIeNUzZMqRjfQFrLLSE/1MVBJUkF
+         BVzGlN4hc+RluKfy+ri0ATRe+hAQ8JnAilW8fDC8MNztIGfEQr4Bs1doHhpCQF31ePaL
+         L3OHdKyRTM7hwhA6HLyoXImEjlJpOT1bK2sx7P/T0R7ZuR97mLrhaKOBICIjQ1NxzZc8
+         GbQMd+BAdTnc5SsUbG48SRDF2rqYEN3udkbFLkL+z1aIzRn4Jt+Y5PKTWqInXwMcEN7C
+         0hq6zYSIzPiy5HgjacrdxVFqSq0ND0P3lr8CgjAZLeJ85X0ABmo8JukG6eNTCb0C5WjF
+         H+sA==
+X-Forwarded-Encrypted: i=1; AJvYcCVkdvN0QeBGxIlG/fvmvvG25tY41BZU89CeBLN8YrIjwteKXPwFiPZacDlz+1Ipu4fkKRWKNSc2pKsz7FCnOWSDc211C7XFQ7wDfRNNsDiyHJBZv+Dk6bX/
+X-Gm-Message-State: AOJu0YxAS3WK3qPAB8yqVpXp4jw9fgE8980D/W/a/vaZzG81YvASb3Um
+	iFBYxhfeQZ3MxAR74Pm+Pg4pP19wGGB/ontv7smEjgKgJLe+IsPbx+3aWirKLzA=
+X-Google-Smtp-Source: AGHT+IHvJ9BaC+alZpS2YJzdO+mAJM05AAg75FRsYXuyR3wf0bu/Tn4Pp5W8aJpY6W92yRu94OIiUg==
+X-Received: by 2002:a05:600c:4196:b0:412:6e8a:efff with SMTP id p22-20020a05600c419600b004126e8aefffmr1163054wmh.16.1708689845589;
+        Fri, 23 Feb 2024 04:04:05 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:25c1:6c0c:e2b8:37ae? ([2001:8b0:aba:5f3c:25c1:6c0c:e2b8:37ae])
+        by smtp.gmail.com with ESMTPSA id t6-20020a05600c450600b0040fdf5e6d40sm2169328wmo.20.2024.02.23.04.04.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Feb 2024 04:01:48 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [RFC PATCH 10/10] scripts/oe-replicate-build: add a script that packages and replicates a yocto build elsewhere
-Date: Fri, 23 Feb 2024 13:01:34 +0100
-Message-Id: <20240223120134.3713127-10-alex@linutronix.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240223120134.3713127-1-alex@linutronix.de>
-References: <20240223120134.3713127-1-alex@linutronix.de>
+        Fri, 23 Feb 2024 04:04:05 -0800 (PST)
+Message-ID: <a19489be7a3fbee8fc4217124c69bdea0710c9f2.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2 1/3] useradd.bbclass: Fix order of
+ postinst-useradd-*
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: =?ISO-8859-1?Q?Eil=EDs?= 'pidge' =?ISO-8859-1?Q?N=ED_Fhlannag=E1in?=
+	 <pidge@baylibre.com>, openembedded-core@lists.openembedded.org
+Cc: Piotr =?UTF-8?Q?=C5=81obacz?= <p.lobacz@welotec.com>
+Date: Fri, 23 Feb 2024 12:04:04 +0000
+In-Reply-To: <5ffe6e8ddd120cd6ac113fd2cf5d1e557974f64e.1708686845.git.pidge@baylibre.com>
+References: <cover.1708686845.git.pidge@baylibre.com>
+	 <5ffe6e8ddd120cd6ac113fd2cf5d1e557974f64e.1708686845.git.pidge@baylibre.com>
+Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
+ YNvg==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 23 Feb 2024 12:01:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196070
+ <openembedded-core@lists.openembedded.org>; Fri, 23 Feb 2024 12:04:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196071
 
-This scripts takes an existing, active yocto build, and puts pieces of it
-into a bundle directory, which is then placed in a tarball, and that goes
-into a self-extracting shell archive. This allows moving the bundle to another
-machine, or placing it on a network server for downloads. It's like esdk
-bundles, except inside there is a regular, plain, direct yocto build.
+On Fri, 2024-02-23 at 11:16 +0000, Eil=C3=ADs 'pidge' N=C3=AD Fhlannag=C3=
+=A1in wrote:
+> From: Piotr =C5=81obacz <p.lobacz@welotec.com>
+>=20
+> postinst-useradd-* haven't been running in order of dependency.
+>=20
+> This patch is reworked from Piotr =C5=81obacz's patch and fixes:
+>=20
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15084
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D13904
+>=20
+> basepasswd_sysroot_postinst in base-passwd can install postinst-useradd-*
+> scripts with any order. Sometimes this means, for example a useradd posti=
+nst
+> will attempt to run without the corresponding group postinst causing erro=
+rs.
+> This patch ensures that we first run groupadd, then useradd and then
+> group membership.
+>=20
+> Signed-off-by: Eil=C3=ADs 'pidge' N=C3=AD Fhlannag=C3=A1in <pidge@baylibr=
+e.com>
+> ---
+> =C2=A0meta/classes-global/staging.bbclass |=C2=A0 7 +--
+> =C2=A0meta/classes/useradd.bbclass=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 | 72 ++++++++++++++++++-----------
+> =C2=A02 files changed, 49 insertions(+), 30 deletions(-)
+>=20
+> diff --git a/meta/classes-global/staging.bbclass b/meta/classes-global/st=
+aging.bbclass
+> index ab3e1d71b5..6c21510377 100644
+> --- a/meta/classes-global/staging.bbclass
+> +++ b/meta/classes-global/staging.bbclass
+> @@ -245,8 +245,9 @@ def staging_populate_sysroot_dir(targetsysroot, nativ=
+esysroot, native, d):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 co=
+ntinue
+> =C2=A0
+> =C2=A0=C2=A0=C2=A0=C2=A0 staging_processfixme(fixme, targetdir, targetsys=
+root, nativesysroot, d)
+> -=C2=A0=C2=A0=C2=A0 for p in postinsts:
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bb.note("Running postinst {},=
+ output:\n{}".format(p, subprocess.check_output(p, shell=3DTrue, stderr=3Ds=
+ubprocess.STDOUT)))
+> +=C2=A0=C2=A0=C2=A0 bb.warn(sorted(postinsts))
+> +=C2=A0=C2=A0=C2=A0 for p in sorted(postinsts):
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bb.warn("Running postinst {},=
+ output:\n{}".format(p, subprocess.check_output(p, shell=3DTrue, stderr=3Ds=
+ubprocess.STDOUT)))
+> =C2=A0
 
-The bundle includes:
-- copies of all layers used in a build, with their git histories
-- build configuration as a template in a special layer private to the bundle
-- (this is the best bit) all the sstate needed for the specified target,
-but *only* that sstate and not a complete copy of the local cache.
+bb.warn? Still?
 
-When someone runs the self-extracting shell archive, everything
-should 'just work': the layers are restored, and the build
-set up to use them, the bundled sstate cache, and the template configuration.
+Cheers,
 
-Alternatively, it's possible to not include the cache, and presumably it will come
-from a configured sstate mirror.
-
-This enables at least two*scratch*three interesting use cases:
-
-- moving builds around in single-step fashion: run the script, and give
-the artifact to someone else via file sharing or usb sticks.
-
-- publishing builds on the network, perhaps right next to the sstate
-cache that can fulfil them. This allows an alternative, much smoother
-entry point into 'doing yocto', as this guarantees availability of
-needed cache items, and so builds will be a lot faster than the typical
-'compile everything from scratch' yocto experience. Sstate is guaranteed
-to be available, as there's a record of needed items in each bundle, and
-that record can be used to prevent pruning of still-needed cache items.
-
-- this, in turn, can enable 'binary Yocto distro' implemented with
-sstate, if there's a higher level tool that creates bundles in a systematic,
-structured fashion, and another tool that iterates over available bundles, and
-lets users pick them for building locally.
-
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
- meta/files/bundle-shar-extract.sh           | 55 +++++++++++++++
- meta/lib/oeqa/selftest/cases/sstatetests.py | 13 ++++
- scripts/oe-replicate-build                  | 75 +++++++++++++++++++++
- 3 files changed, 143 insertions(+)
- create mode 100644 meta/files/bundle-shar-extract.sh
- create mode 100755 scripts/oe-replicate-build
-
-diff --git a/meta/files/bundle-shar-extract.sh b/meta/files/bundle-shar-extract.sh
-new file mode 100644
-index 00000000000..ae10dbaf065
---- /dev/null
-+++ b/meta/files/bundle-shar-extract.sh
-@@ -0,0 +1,55 @@
-+#!/bin/bash
-+
-+verbose=0
-+listcontents=0
-+prepare_buildsystem="yes"
-+while getopts "Dln" OPT; do
-+        case $OPT in
-+        D)
-+                verbose=1
-+                ;;
-+        l)
-+                listcontents=1
-+                ;;
-+        n)
-+                prepare_buildsystem="no"
-+                ;;
-+        *)
-+                echo "Usage: $(basename "$0") [-D] [-l] [-n]"
-+                echo "  -D         Use set -x to see what is going on"
-+                echo "  -l         list files that will be extracted"
-+                echo "  -n         Extract files but do not prepare the build system"
-+                exit 1
-+                ;;
-+        esac
-+done
-+
-+if [ $verbose = 1 ] ; then
-+        set -x
-+fi
-+
-+payload_offset=$(($(grep -na -m1 "^MARKER:$" "$0"|cut -d':' -f1) + 1))
-+
-+if [ "$listcontents" = "1" ] ; then
-+    tail -n +$payload_offset "$0"| tar tv || exit 1
-+    exit
-+fi
-+
-+
-+tail -n +$payload_offset "$0"| tar mx --zstd --checkpoint=.2500 || exit 1
-+
-+if [ $prepare_buildsystem = "no" ] ; then
-+        exit
-+fi
-+
-+target_dir=$(basename "$0" .sh)
-+pushd $target_dir
-+layers/setup-build setup -c build-config-default -b build --no-shell > setup-build.log
-+popd
-+
-+echo "Each time you wish to use this build in a new shell session, you need to source the environment setup script:"
-+echo " \$ . $target_dir/build/init-build-env"
-+
-+exit 0
-+
-+MARKER:
-diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
-index bb2a1a2fb8c..d5e9ed099f8 100644
---- a/meta/lib/oeqa/selftest/cases/sstatetests.py
-+++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
-@@ -976,3 +976,16 @@ MACHINE = "{}"
-     def test_local_cache_qemuarm64(self):
-         exceptions = []
-         self.run_test("qemuarm64", "core-image-minimal core-image-full-cmdline core-image-sato-sdk", exceptions, check_cdn = False)
-+
-+class SStateBundles(SStateCheckObjectPresence):
-+    def test_minimal_bundle(self):
-+        targets = "core-image-minimal"
-+        machine = get_bb_var('MACHINE')
-+        bitbake("--runall build {}".format(targets))
-+        runCmd("oe-replicate-build --targets {}".format(targets))
-+        extractedbundledir = tempfile.mkdtemp(prefix='bundle-extracted-', dir=self.topdir)
-+        runCmd("../build-bundle.sh", cwd=extractedbundledir)
-+        result = runCmd(". build-bundle/build/init-build-env && MACHINE={} bitbake -DD -n {}".format(machine,targets), cwd=extractedbundledir, shell=True, executable='/bin/bash')
-+
-+        exceptions = []
-+        self.check_bb_output(result.output, targets, exceptions, check_cdn=False)
-diff --git a/scripts/oe-replicate-build b/scripts/oe-replicate-build
-new file mode 100755
-index 00000000000..bb465f0372d
---- /dev/null
-+++ b/scripts/oe-replicate-build
-@@ -0,0 +1,75 @@
-+#!/usr/bin/env python3
-+#
-+# Copyright OpenEmbedded Contributors
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+
-+import argparse
-+import json
-+import os
-+import subprocess
-+import shutil
-+
-+def _do_bundle(args):
-+    bundledir = args.output_prefix or "build-bundle"
-+    print("Making a self-extracting bundle archive in {}.sh ...".format(bundledir))
-+    os.mkdir(bundledir)
-+
-+    subprocess.check_output("bitbake -S outdir={} -S lockedsigs {}".format(os.path.abspath(bundledir),args.targets), shell=True)
-+    sstate_dir = subprocess.check_output("bitbake-getvar --value SSTATE_DIR", shell=True).decode().strip()
-+    nativelsbstring = subprocess.check_output("bitbake-getvar --value NATIVELSBSTRING", shell=True).decode().strip()
-+    if not args.no_sstate:
-+        subprocess.check_output("gen-lockedsig-cache {} {} {} {}".format("locked-sigs.inc", sstate_dir, "build/sstate-cache", nativelsbstring), shell=True, cwd=bundledir)
-+    cachedir = bundledir + "/build/cache"
-+    os.mkdir(cachedir)
-+    subprocess.check_output("bitbake -S outdir={} -S unihash-cache-copy {}".format(os.path.abspath(cachedir),args.targets), shell=True)
-+
-+    layerdir = "meta-build-config"
-+    subprocess.check_output("bitbake-layers create-layer --add-layer {}".format(layerdir), shell=True, cwd=bundledir)
-+    subprocess.check_output("bitbake-layers save-build-conf {} default".format(layerdir), shell=True, cwd=bundledir)
-+    shutil.copy(os.path.join(os.environ["BUILDDIR"],'conf',"conf-summary.txt"), os.path.join(bundledir,layerdir,'conf/templates/default'))
-+    shutil.copy(os.path.join(os.environ["BUILDDIR"],'conf',"conf-notes.txt"), os.path.join(bundledir,layerdir,'conf/templates/default'))
-+    subprocess.check_output("bitbake-layers remove-layer {}".format(layerdir), shell=True, cwd=bundledir)
-+
-+    # meta-build-config is then in bblayers.conf.sample, and should be removed from it as it wasn't in the actual build
-+    bblayers = os.path.join(bundledir, layerdir, 'conf/templates/default/bblayers.conf.sample')
-+    with open(bblayers) as f:
-+        lines = f.readlines()
-+        lines = [l for l in lines if os.path.join(bundledir, layerdir) not in l]
-+    with open(bblayers,'w') as f:
-+        f.write(''.join(lines))
-+
-+    subprocess.check_output("bitbake-layers create-layers-setup --writer oe-local-copy {}".format(bundledir), shell=True)
-+
-+    # meta-build-config should however be present in .oe-layers.json, as otherwise oe-setup-build won't be able to discover
-+    # the config template in it
-+    oelayers = os.path.join(bundledir, 'layers', '.oe-layers.json')
-+    with open(oelayers) as f:
-+        json_f = json.load(f)
-+    json_f["layers"].append("../meta-build-config")
-+    with open(oelayers,'w') as f:
-+        json.dump(json_f, f, sort_keys=True, indent=4)
-+
-+    subprocess.check_output("tar caf {}.tar.zst {}".format(bundledir, bundledir), shell=True)
-+
-+    corebase = subprocess.check_output("bitbake-getvar --value COREBASE", shell=True).decode().strip()
-+    subprocess.check_output("cp {}/meta/files/bundle-shar-extract.sh {}.sh".format(corebase, bundledir), shell=True)
-+    subprocess.check_output("cat {}.tar.zst >> {}.sh".format(bundledir, bundledir), shell=True)
-+    subprocess.check_output("chmod +x {}.sh".format(bundledir), shell=True)
-+
-+    if not args.keep_tmp:
-+        shutil.rmtree(bundledir)
-+        os.remove("{}.tar.zst".format(bundledir))
-+
-+parser = argparse.ArgumentParser(description="A script that bundles up everything needed to replicate a yocto build elsewhere (including appropriate portions of sstate cache) into a self-contained shell archive.")
-+
-+parser.add_argument('--targets', required=True, help="Bitbake targets that the bundle should be made for.")
-+parser.add_argument('--output-prefix', help='File name prefix for the output files, if the default (build-bundle) is undesirable.')
-+parser.add_argument('--no-sstate', action='store_true', help='Do not include sstate cache into the bundle.')
-+parser.add_argument('--keep-tmp', action='store_true', help='Keep intermediate output: unpacked bundle directory, and compressed tarball (in addition to the final self-extracting shell archuve.')
-+
-+args = parser.parse_args()
-+
-+_do_bundle(args)
-+
--- 
-2.39.2
-
+Richard
 
