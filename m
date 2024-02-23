@@ -1,399 +1,276 @@
-Return-Path: <reatmon@ti.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E354C54798
-	for <webhook@archiver.kernel.org>; Fri, 23 Feb 2024 17:11:47 +0000 (UTC)
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by mx.groups.io with SMTP id smtpd.web11.429.1708708300326106871
- for <openembedded-core@lists.openembedded.org>;
- Fri, 23 Feb 2024 09:11:40 -0800
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56515C5478C
+	for <webhook@archiver.kernel.org>; Fri, 23 Feb 2024 17:27:57 +0000 (UTC)
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+ by mx.groups.io with SMTP id smtpd.web10.877.1708709268416263523
+ for <Openembedded-core@lists.openembedded.org>;
+ Fri, 23 Feb 2024 09:27:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ti.com header.s=ti-com-17Q1 header.b=gbO1SvG6;
- spf=pass (domain: ti.com, ip: 198.47.19.141, mailfrom: reatmon@ti.com)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 41NHBcAm129081;
-	Fri, 23 Feb 2024 11:11:38 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1708708298;
-	bh=qF/yvZbnSMP9kpQdkOieMtOJnYK/rievvO5k04wLuqE=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=gbO1SvG6S1OkJNGiZPpbdHg94k73M10PfC2kOoh/cRhNSUEoQWSDrgPIWLAzzFVL2
-	 toUeDUvGJz7gOWpnGmYYT8ikkNQemFVKVoRpZ84UZMD9l3rXwIWNE8zAKiRPTBAiL1
-	 nBRUVmKzHUR9b68XajWSZgogE13EKPXV1Z9PD7D0=
-Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
-	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 41NHBcn8003754
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 23 Feb 2024 11:11:38 -0600
-Received: from DFLE105.ent.ti.com (10.64.6.26) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 23
- Feb 2024 11:11:38 -0600
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Fri, 23 Feb 2024 11:11:38 -0600
-Received: from [10.249.39.53] ([10.249.39.53])
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 41NHBcJg045926;
-	Fri, 23 Feb 2024 11:11:38 -0600
-Message-ID: <913ae651-71cb-435e-9647-84dbb9f02f16@ti.com>
-Date: Fri, 23 Feb 2024 11:11:38 -0600
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [kirkstone][PATCH 3/3] kernel: make LOCALVERSION
- consistent between recipes
-Content-Language: en-US
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-CC: Andreas Helbech Kleist <andreaskleist@gmail.com>,
-        <openembedded-core@lists.openembedded.org>
-References: <20240222103545.2970387-1-andreaskleist@gmail.com>
- <20240222103545.2970387-4-andreaskleist@gmail.com>
- <b0eff6e6-f931-4fff-bcf4-dcff40562fc8@ti.com>
- <CADkTA4NqBZafroO5qVQ9ATM1_xNidxkwmkVTPb9msDhGiooceA@mail.gmail.com>
- <17B650DBED7FC1F0.14827@lists.openembedded.org>
-From: Ryan Eatmon <reatmon@ti.com>
-In-Reply-To: <17B650DBED7FC1F0.14827@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hT0apHpF;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.215.172, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-5dbcfa0eb5dso894757a12.3
+        for <Openembedded-core@lists.openembedded.org>; Fri, 23 Feb 2024 09:27:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1708709268; x=1709314068; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=eEhRz19xKuh2mboh2JSS9nT3j+aS2Qva5/l8vhiWjns=;
+        b=hT0apHpF/4ZPyJkUBiS6eprU2ki7vjyQhYMbDj+fPyG2WEPKuE5RyAkioStOhD9yTo
+         BxJxYYACf8oj2WBTmDP75uoTUiOaT3H3k7PrRwq6PFTpR1uzMoZ7XNfAGmrPsASO6b2b
+         pLIt7kQCUbTassmLpCtOwNPzdVeDpWKKPlsF4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708709268; x=1709314068;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=eEhRz19xKuh2mboh2JSS9nT3j+aS2Qva5/l8vhiWjns=;
+        b=h9+rvYg+wVOLJ5E+MX8rv4LUejsYAx0uMF7TT9hK86BwtwUE6+ejtooXZSXzkA8Y/K
+         V6sbT84vtGnrnYP+nmWdoEoGhCWcNA6VXmnFlwhauKVKutTwFUYuiPjdgklLRi9kCvuq
+         IZl6AjyroCIFBhGR4GVQmJLiKyiXXc2u8wEa3JQuZiBw7cbUIwGEaSURzPWvMRmrvgwN
+         d5rtr4HlB4ERVW6OsN4+HQVzKql7vOt9xisZ6Sbal0TkB9+vA8c8bTV5xqAZzNF2pbrj
+         q0HrQ/kDr5e8aKiEJtbb0sg2A0OdXx1gDhe1deJAVKfNNK+QKedz7444RrZc3Uh7QpiG
+         Kv3w==
+X-Forwarded-Encrypted: i=1; AJvYcCWN3w9sQn+V4YxrBsHT00R8tXVqD5IIXC5JZdAdBkchoeKR6VLXh58tzqRiMQJzqvxuBFnZqGRCKMNf1UXw0hazVJWacQrnHFk+eTeXtN6lauOIlOJeIK9w
+X-Gm-Message-State: AOJu0YyKjf07mndSuh7SShZvw2AsWPmKzzPgJZK1SKh4SgmF9OlecNzx
+	UpxseUW2AvBYyl6prwR9JUaIl8BM3p2RVJhwHFig/9DcE7rB0LtSl7fXaN+WDbs=
+X-Google-Smtp-Source: AGHT+IHi13DNnNS7Y6BGU3PEtduxIsfMTUCcDQl5fOe4xqhqiNnA/JryHB0KKxzW/iA+RfwzvoJzSA==
+X-Received: by 2002:a17:90b:19cf:b0:299:d5fa:3e1c with SMTP id nm15-20020a17090b19cf00b00299d5fa3e1cmr446926pjb.31.1708709267830;
+        Fri, 23 Feb 2024 09:27:47 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:25c1:6c0c:e2b8:37ae? ([2001:8b0:aba:5f3c:25c1:6c0c:e2b8:37ae])
+        by smtp.gmail.com with ESMTPSA id h7-20020a17090ac38700b00298f2ad430csm1744263pjt.0.2024.02.23.09.27.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Feb 2024 09:27:47 -0800 (PST)
+Message-ID: <d17283d1e037be26e5fd905853ff47c48d630e85.camel@linuxfoundation.org>
+Subject: Re: [OE-Core][PATCH v3 1/5] lib/oeqa: share get_json_result_dir
+ helper
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: alexis.lothore@bootlin.com, Openembedded-core@lists.openembedded.org
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Alexandre Belloni
+	 <alexandre.belloni@bootlin.com>
+Date: Fri, 23 Feb 2024 17:27:44 +0000
+In-Reply-To: <20240223151648.1453027-2-alexis.lothore@bootlin.com>
+References: <20240223151648.1453027-1-alexis.lothore@bootlin.com>
+	 <20240223151648.1453027-2-alexis.lothore@bootlin.com>
+Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
+ YNvg==
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by fllv0015.ext.ti.com id 41NHBcAm129081
+User-Agent: Evolution 3.50.0-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 23 Feb 2024 17:11:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196103
+ <openembedded-core@lists.openembedded.org>; Fri, 23 Feb 2024 17:27:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196104
 
-
-
-On 2/22/2024 4:46 PM, Ryan Eatmon via lists.openembedded.org wrote:
+On Fri, 2024-02-23 at 16:16 +0100, Alexis Lothor=C3=A9 via
+lists.openembedded.org wrote:
+> From: Alexis Lothor=C3=A9 <alexis.lothore@bootlin.com>
 >=20
+> Multiple places in oeqa need to get the log output path, and redefine
+> a
+> small helper to accomplish this
 >=20
-> On 2/22/2024 3:56 PM, Bruce Ashfield wrote:
->> On Thu, Feb 22, 2024 at 4:51=E2=80=AFPM Ryan Eatmon via lists.openembe=
-dded.org
->> <reatmon=3Dti.com@lists.openembedded.org> wrote:
->>>
->>>
->>>
->>> On 2/22/2024 4:35 AM, Andreas Helbech Kleist wrote:
->>>> From: Bruce Ashfield <bruce.ashfield@gmail.com>
->>>>
->>>> The initial fix for localversion setting in 6.3+ broke older
->>>> recipes and also broke recipes setting localversion in a kernel
->>>> recipe, as make-mod-scripts (and other locations) can trigger
->>>> a regeneration of files and don't have access to the variable.
->>>>
->>>> Moving the setting of this variable to the global namespace
->>>> doesn't make sense, so we follow the example of the kernel-abiversio=
-n
->>>> and save a kernel-localversion to the build artifacts.
->>>>
->>>> Recipes that may regenerate scripts/dynamic files, must
->>>> depend on the do_shared_workedir of the kernel and use the helper
->>>> function to read the file storing the localversion.
->>>>
->>>> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
->>>> Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
->>>>
->>>> cherry-picked from master b378eec156998eea55ba61e59103cb34fab0d07c
->>>>
->>>> Signed-off-by: Andreas Helbech Kleist <andreaskleist@gmail.com>
->>>
->>> I'm not sure what is going on with our meta-ti testing.=C2=A0 This se=
-t of
->>> changes causes the same issue we were seeing before.=C2=A0 Plus, now =
-that I'm
->>> looking into it deeper, I'm seeing a breakage in master related to th=
-ese
->>> same patches on there.=C2=A0 Not sure why the changes were not caught=
- in our
->>> testing on master back when the patches were accepted there...=C2=A0 =
-Clearly
->>> I need some better checks on the images as part of our QC process...
->>>
->>> I need to figure out how to fix the issue on master and see if the sa=
-me
->>> change can be applied to these patches on kirkstone.=C2=A0 I'll try a=
-nd get
->>> all this done as quickly as I can.
->>
->> Please make sure to copy me directly, both as the maintainer of the
->> parts of core in question and the author of the patches.
->>
->> We've had no reports of issues since any of these went in, and they
->> aren't exactly a recent change. Which obviously means there's
->> potentially something different in the environment or the kernel
->> recipes.
->>
->> If you get a set of reproducing steps with linux-yocto and core, I
->> can lend a hand with any fixes.
->>
->> Bruce
+> Define this helper in lib/oeqa/utils/__init__.py and import it
+> wherever
+> needed to allow using it.
 >=20
-> This may not be an issue with these patches per se.=C2=A0 It may be an =
-issue=20
-> with our kernel recipes in meta-ti.=C2=A0 But since kirkstone is our pr=
-imary=20
-> release vector right now, it is breaking us to accept these patches ont=
-o=20
-> kirkstone.=C2=A0 I fully acknowledge that this might solely a TI issue.=
-=C2=A0 And=20
-> now that we are aware of the issue we are going to work very very hard=20
-> to find a solution as quickly as we can.
+> Signed-off-by: Alexis Lothor=C3=A9 <alexis.lothore@bootlin.com>
+> ---
+> There is one additional place re-definining (slightly) differently
+> this
+> helper, which is in selftest/context.py. This one does not check
+> OEQA_JSON_RESULT_DIR from the datastore but through test data
+> embedded in
+> the test context. Based on Richard's feedback in v2, the datastore
+> functions may be correctly simulated even in this case, so I may do
+> some
+> tests and come up with a patch after this series
+> ---
+> =C2=A0meta/classes-recipe/testimage.bbclass | 12 +++---------
+> =C2=A0meta/lib/oeqa/sdk/testsdk.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 | 11 ++---------
+> =C2=A0meta/lib/oeqa/utils/__init__.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ |=C2=A0 7 +++++++
+> =C2=A03 files changed, 12 insertions(+), 18 deletions(-)
 >=20
-> As soon as we have an understanding of how to recreate the issue outsid=
-e=20
-> of our recipe we will definitely share with this thread.
->=20
-
-Ok.  My initial thinking that there was a problem was incorrect.  I=20
-looked at the file system and found our value for KERNEL_LOCALVERSION=20
-was included in the modules directory name twice.
-
-/lib/modules/6.1.69-gcb84067eaf83-gcb84067eaf83
-
-That was the symptom that caused the issue with our request for the=20
-revert last week.  However, with this full patch series the problem=20
-caused by the double entry from the last series is not a problem because=20
-the double entry is everywhere in the kernel, so it all works together.=20
-It's just goofy.
-
-So with that.  This bigger series can be accepted into Kirkstone.
-
-Acked-by: Ryan Eatmon <reatmon@ti.com>
-
-
-
-Now for the second issue, and maybe this was known that it would occur,=20
-if we set KERNEL_LOCALVERSION it is placed into both the .scmversion=20
-file AND the LOCALVERSION variable.  The setlocalversion script in the=20
-6.1 kernel we are currently pointing at for our production includes both=20
-in the version string, which causes the entire kernel to be named named=20
-with a redundant string.
-
-/lib/modules/6.1.69-gcb84067eaf83-gcb84067eaf83
-
-I guess we can live with this.  It is unnecessary, but not incorrect.=20
-It is cleaned up with the next LTS kernel 6.6.  This is just the hazard=20
-of only having a single class to handle kernel issues that needs to span=20
-multiple kernel versions that are changing things up in big ways.
-
-The only way I can see to fix it would be to create some new control=20
-variables that recipes can set to control the above behavior and then=20
-set defaults for them.
-
-But we can look into patches to add that if needed.
-
-Apologies for taking so much time in testing this series.  We are just=20
-about to make a release and things that break the kernel cause us a lot=20
-anxiety.
-
-
->>>
->>>
->>>
->>>> ---
->>>> =C2=A0=C2=A0 meta/classes/kernel-arch.bbclass=C2=A0=C2=A0=C2=A0=C2=A0=
+> diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-
+> recipe/testimage.bbclass
+> index d076102f9691..959c226072aa 100644
+> --- a/meta/classes-recipe/testimage.bbclass
+> +++ b/meta/classes-recipe/testimage.bbclass
+> @@ -149,13 +149,6 @@ def get_testimage_configuration(d, test_type,
+> machine):
+> =C2=A0=C2=A0=C2=A0=C2=A0 return configuration
+> =C2=A0get_testimage_configuration[vardepsexclude] =3D "DATETIME"
+> =C2=A0
+> -def get_testimage_json_result_dir(d):
+> -=C2=A0=C2=A0=C2=A0 json_result_dir =3D os.path.join(d.getVar("LOG_DIR"),=
+ 'oeqa')
+> -=C2=A0=C2=A0=C2=A0 custom_json_result_dir =3D d.getVar("OEQA_JSON_RESULT=
+_DIR")
+> -=C2=A0=C2=A0=C2=A0 if custom_json_result_dir:
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 json_result_dir =3D custom_js=
+on_result_dir
+> -=C2=A0=C2=A0=C2=A0 return json_result_dir
+> -
+> =C2=A0def get_testimage_result_id(configuration):
+> =C2=A0=C2=A0=C2=A0=C2=A0 return '%s_%s_%s_%s' % (configuration['TEST_TYPE=
+'],
+> configuration['IMAGE_BASENAME'], configuration['MACHINE'],
+> configuration['STARTTIME'])
+> =C2=A0
+> @@ -224,6 +217,7 @@ def testimage_main(d):
+> =C2=A0=C2=A0=C2=A0=C2=A0 from oeqa.core.target.qemu import supported_fsty=
+pes
+> =C2=A0=C2=A0=C2=A0=C2=A0 from oeqa.core.utils.test import getSuiteCases
+> =C2=A0=C2=A0=C2=A0=C2=A0 from oeqa.utils import make_logger_bitbake_compa=
+tible
+> +=C2=A0=C2=A0=C2=A0 from oeqa.utils import get_json_result_dir
+> =C2=A0
+> =C2=A0=C2=A0=C2=A0=C2=A0 def sigterm_exception(signum, stackframe):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 """
+> @@ -426,14 +420,14 @@ def testimage_main(d):
+> =C2=A0=C2=A0=C2=A0=C2=A0 # Show results (if we have them)
+> =C2=A0=C2=A0=C2=A0=C2=A0 if results:
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 configuration =3D get_te=
+stimage_configuration(d, 'runtime',
+> machine)
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 results.logDetails(get_testim=
+age_json_result_dir(d),
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 results.logDetails(get_json_r=
+esult_dir(d),
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 co=
+nfiguration,
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ge=
+t_testimage_result_id(configuration),
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
+> dump_streams=3Dd.getVar('TESTREPORT_FULLLOGS'))
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 results.logSummary(pn)
+> =C2=A0
+> =C2=A0=C2=A0=C2=A0=C2=A0 # Copy additional logs to tmp/log/oeqa so it's e=
+asier to find
+> them
+> -=C2=A0=C2=A0=C2=A0 targetdir =3D os.path.join(get_testimage_json_result_=
+dir(d),
+> d.getVar("PN"))
+> +=C2=A0=C2=A0=C2=A0 targetdir =3D os.path.join(get_json_result_dir(d), d.=
+getVar("PN"))
+> =C2=A0=C2=A0=C2=A0=C2=A0 os.makedirs(targetdir, exist_ok=3DTrue)
+> =C2=A0=C2=A0=C2=A0=C2=A0 os.symlink(bootlog, os.path.join(targetdir,
+> os.path.basename(bootlog)))
+> =C2=A0=C2=A0=C2=A0=C2=A0 os.symlink(d.getVar("BB_LOGFILE"), os.path.join(=
+targetdir,
+> os.path.basename(d.getVar("BB_LOGFILE") + "." +
+> d.getVar('DATETIME'))))
+> diff --git a/meta/lib/oeqa/sdk/testsdk.py
+> b/meta/lib/oeqa/sdk/testsdk.py
+> index b4719110edbc..518b09febb61 100644
+> --- a/meta/lib/oeqa/sdk/testsdk.py
+> +++ b/meta/lib/oeqa/sdk/testsdk.py
+> @@ -22,14 +22,6 @@ class TestSDKBase(object):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 'L=
+AYERS': get_layers(d.getVar("BBLAYERS"))}
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return configuration
+> =C2=A0
+> -=C2=A0=C2=A0=C2=A0 @staticmethod
+> -=C2=A0=C2=A0=C2=A0 def get_sdk_json_result_dir(d):
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 json_result_dir =3D os.path.j=
+oin(d.getVar("LOG_DIR"), 'oeqa')
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 custom_json_result_dir =3D d.=
+getVar("OEQA_JSON_RESULT_DIR")
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if custom_json_result_dir:
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 json_=
+result_dir =3D custom_json_result_dir
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return json_result_dir
+> -
+> =C2=A0=C2=A0=C2=A0=C2=A0 @staticmethod
+> =C2=A0=C2=A0=C2=A0=C2=A0 def get_sdk_result_id(configuration):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return '%s_%s_%s_%s_%s' =
+% (configuration['TEST_TYPE'],
+> configuration['IMAGE_BASENAME'], configuration['SDKMACHINE'],
+> configuration['MACHINE'], configuration['STARTTIME'])
+> @@ -72,6 +64,7 @@ class TestSDK(TestSDKBase):
+> =C2=A0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 from bb.utils import exp=
+ort_proxies
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 from oeqa.utils import m=
+ake_logger_bitbake_compatible
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 from oeqa.utils import get_js=
+on_result_dir
+> =C2=A0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pn =3D d.getVar("PN")
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 logger =3D
+> make_logger_bitbake_compatible(logging.getLogger("BitBake"))
+> @@ -134,7 +127,7 @@ class TestSDK(TestSDKBase):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+component =3D "%s %s" % (pn,
+> self.context_executor_class.name)
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+context_msg =3D "%s:%s" % (os.path.basename(tcname),
+> os.path.basename(sdk_env))
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+configuration =3D self.get_sdk_configuration(d,
+> self.test_type)
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 resul=
+t.logDetails(self.get_sdk_json_result_dir(d),
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 resul=
+t.logDetails(get_json_result_dir(d),
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 |=C2=A0 8 --------
->>>> =C2=A0=C2=A0 meta/classes/kernel.bbclass=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=A0=C2=A0=C2=A0=C2=A0 configuration,
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 14=20
->>>> ++++++++++++++
->>>> =C2=A0=C2=A0 meta/classes/kernelsrc.bbclass=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0 1 +
->>>> =C2=A0=C2=A0 meta/classes/linux-kernel-base.bbclass=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 11 +++++++++++
->>>> =C2=A0=C2=A0 meta/classes/module-base.bbclass=C2=A0=C2=A0=C2=A0=C2=A0=
+=A0=C2=A0=C2=A0=C2=A0 self.get_sdk_result_id(configuration))
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+result.logSummary(component, context_msg)
+> diff --git a/meta/lib/oeqa/utils/__init__.py
+> b/meta/lib/oeqa/utils/__init__.py
+> index fbc7f7d525d8..53bdcbf26618 100644
+> --- a/meta/lib/oeqa/utils/__init__.py
+> +++ b/meta/lib/oeqa/utils/__init__.py
+> @@ -90,3 +90,10 @@ def load_test_components(logger, executor):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 |=C2=A0 1 +
->>>> =C2=A0=C2=A0 .../make-mod-scripts/make-mod-scripts_1.0.bb=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 3 +++
->>>> =C2=A0=C2=A0 6 files changed, 30 insertions(+), 8 deletions(-)
->>>>
->>>> diff --git a/meta/classes/kernel-arch.bbclass=20
->>>> b/meta/classes/kernel-arch.bbclass
->>>> index 0a79dea0af..62c8211621 100644
->>>> --- a/meta/classes/kernel-arch.bbclass
->>>> +++ b/meta/classes/kernel-arch.bbclass
->>>> @@ -65,11 +65,3 @@ KERNEL_CC =3D "${CCACHE}${HOST_PREFIX}gcc=20
->>>> ${HOST_CC_KERNEL_ARCH} -fuse-ld=3Dbfd ${DE
->>>> =C2=A0=C2=A0 KERNEL_LD =3D "${CCACHE}${HOST_PREFIX}ld.bfd ${HOST_LD_=
-KERNEL_ARCH}"
->>>> =C2=A0=C2=A0 KERNEL_AR =3D "${CCACHE}${HOST_PREFIX}ar ${HOST_AR_KERN=
-EL_ARCH}"
->>>> =C2=A0=C2=A0 TOOLCHAIN ?=3D "gcc"
->>>> -
->>>> -# 6.3+ requires the variable LOCALVERSION to be set to not get a=20
->>>> "+" in
->>>> -# the local version. Having it empty means nothing will be added,=20
->>>> and any
->>>> -# value will be appended to the local kernel version. This replaces=
-=20
->>>> the
->>>> -# use of .scmversion file for setting a localversion without using
->>>> -# the CONFIG_LOCALVERSION option.
->>>> -KERNEL_LOCALVERSION ??=3D ""
->>>> -export LOCALVERSION ?=3D "${KERNEL_LOCALVERSION}"
->>>> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbcla=
-ss
->>>> index 940f1a3cf4..96e41b5192 100644
->>>> --- a/meta/classes/kernel.bbclass
->>>> +++ b/meta/classes/kernel.bbclass
->>>> @@ -541,6 +541,7 @@ do_shared_workdir () {
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #
->>>>
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 echo "${KERNEL_VERSION}" >=20
->>>> $kerneldir/${KERNEL_PACKAGE_NAME}-abiversion
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0 echo "${KERNEL_LOCALVERSION}" >=20
->>>> $kerneldir/${KERNEL_PACKAGE_NAME}-localversion
->>>>
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # Copy files required for modul=
-e builds
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cp System.map $kerneldir/System=
-.map-${KERNEL_VERSION}
->>>> @@ -630,6 +631,19 @@ python check_oldest_kernel() {
->>>> =C2=A0=C2=A0 check_oldest_kernel[vardepsexclude] +=3D "OLDEST_KERNEL=
-=20
->>>> KERNEL_VERSION"
->>>> =C2=A0=C2=A0 do_configure[prefuncs] +=3D "check_oldest_kernel"
->>>>
->>>> +KERNEL_LOCALVERSION ??=3D ""
->>>> +
->>>> +# 6.3+ requires the variable LOCALVERSION to be set to not get a=20
->>>> "+" in
->>>> +# the local version. Having it empty means nothing will be added,=20
->>>> and any
->>>> +# value will be appended to the local kernel version. This replaces=
-=20
->>>> the
->>>> +# use of .scmversion file for setting a localversion without using
->>>> +# the CONFIG_LOCALVERSION option.
->>>> +#
->>>> +# Note: This class saves the value of localversion to a file
->>>> +# so other recipes like make-mod-scripts can restore it via the
->>>> +# helper function get_kernellocalversion_file
->>>> +export LOCALVERSION=3D"${KERNEL_LOCALVERSION}"
->>>> +
->>>> =C2=A0=C2=A0 kernel_do_configure() {
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # fixes extra + in /lib/modules=
-/2.6.37+
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # $ scripts/setlocalversion . =3D=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "_executor_class defined." %
+> (comp_name, comp_context))
+> =C2=A0
+> =C2=A0=C2=A0=C2=A0=C2=A0 return components
 > +
->>>> diff --git a/meta/classes/kernelsrc.bbclass=20
->>>> b/meta/classes/kernelsrc.bbclass
->>>> index a951ba3325..a79bf18b09 100644
->>>> --- a/meta/classes/kernelsrc.bbclass
->>>> +++ b/meta/classes/kernelsrc.bbclass
->>>> @@ -5,6 +5,7 @@ do_patch[depends] +=3D "virtual/kernel:do_shared_wor=
-kdir"
->>>> =C2=A0=C2=A0 do_patch[noexec] =3D "1"
->>>> =C2=A0=C2=A0 do_package[depends] +=3D "virtual/kernel:do_populate_sy=
-sroot"
->>>> =C2=A0=C2=A0 KERNEL_VERSION =3D=20
->>>> "${@get_kernelversion_file("${STAGING_KERNEL_BUILDDIR}")}"
->>>> +LOCAL_VERSION =3D=20
->>>> "${@get_kernellocalversion_file("${STAGING_KERNEL_BUILDDIR}")}"
->>>>
->>>> =C2=A0=C2=A0 inherit linux-kernel-base
->>>>
->>>> diff --git a/meta/classes/linux-kernel-base.bbclass=20
->>>> b/meta/classes/linux-kernel-base.bbclass
->>>> index 73a6fe36d9..0e2a4a4abe 100644
->>>> --- a/meta/classes/linux-kernel-base.bbclass
->>>> +++ b/meta/classes/linux-kernel-base.bbclass
->>>> @@ -33,6 +33,17 @@ def get_kernelversion_file(p):
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 except IOError:
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return =
-None
->>>>
->>>> +def get_kernellocalversion_file(p):
->>>> +=C2=A0=C2=A0=C2=A0 fn =3D p + '/kernel-localversion'
->>>> +
->>>> +=C2=A0=C2=A0=C2=A0 try:
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 with open(fn, 'r') as f:
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-return f.readlines()[0].strip()
->>>> +=C2=A0=C2=A0=C2=A0 except IOError:
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ""
->>>> +
->>>> +=C2=A0=C2=A0=C2=A0 return ""
->>>> +
->>>> =C2=A0=C2=A0 def linux_module_packages(s, d):
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 suffix =3D ""
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return " ".join(map(lambda s: "=
-kernel-module-%s%s" %=20
->>>> (s.lower().replace('_', '-').replace('@', '+'), suffix), s.split()))
->>>> diff --git a/meta/classes/module-base.bbclass=20
->>>> b/meta/classes/module-base.bbclass
->>>> index 27bd69ff33..5b2fde8144 100644
->>>> --- a/meta/classes/module-base.bbclass
->>>> +++ b/meta/classes/module-base.bbclass
->>>> @@ -14,6 +14,7 @@ export CROSS_COMPILE =3D "${TARGET_PREFIX}"
->>>> =C2=A0=C2=A0 export KBUILD_OUTPUT =3D "${STAGING_KERNEL_BUILDDIR}"
->>>>
->>>> =C2=A0=C2=A0 export KERNEL_VERSION =3D=20
->>>> "${@oe.utils.read_file('${STAGING_KERNEL_BUILDDIR}/kernel-abiversion=
-')}"
->>>> +export LOCALVERSION =3D=20
->>>> "${@oe.utils.read_file('${STAGING_KERNEL_BUILDDIR}/kernel-localversi=
-on')}"
->>>> =C2=A0=C2=A0 KERNEL_OBJECT_SUFFIX =3D ".ko"
->>>>
->>>> =C2=A0=C2=A0 # kernel modules are generally machine specific
->>>> diff --git=20
->>>> a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb=20
->>>> b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
->>>> index f6f47cfff5..8727d003f9 100644
->>>> --- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
->>>> +++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
->>>> @@ -21,6 +21,9 @@ DEPENDS +=3D "gmp-native"
->>>> =C2=A0=C2=A0 EXTRA_OEMAKE =3D " HOSTCC=3D"${BUILD_CC} ${BUILD_CFLAGS=
-}=20
->>>> ${BUILD_LDFLAGS}" HOSTCPP=3D"${BUILD_CPP}""
->>>> =C2=A0=C2=A0 EXTRA_OEMAKE +=3D " HOSTCXX=3D"${BUILD_CXX} ${BUILD_CXX=
-FLAGS}=20
->>>> ${BUILD_LDFLAGS}" CROSS_COMPILE=3D${TARGET_PREFIX}"
->>>>
->>>> +KERNEL_LOCALVERSION =3D=20
->>>> "${@get_kernellocalversion_file("${STAGING_KERNEL_BUILDDIR}")}"
->>>> +export LOCALVERSION=3D"${KERNEL_LOCALVERSION}"
->>>> +
->>>> =C2=A0=C2=A0 # Build some host tools under work-shared.=C2=A0 CC, LD=
-, and AR are=20
->>>> probably
->>>> =C2=A0=C2=A0 # not used, but this is the historical way of invoking =
-"make=20
->>>> scripts".
->>>> =C2=A0=C2=A0 #
->>>
->>> --=20
->>> Ryan Eatmon=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 reatmon@ti.com
->>> -----------------------------------------
->>> Texas Instruments, Inc.=C2=A0 -=C2=A0 LCPD=C2=A0 -=C2=A0 MGTS
->>>
->>>
->>>
->>
->>
->=20
->=20
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#196045): https://lists.openembedded.org/g/openembed=
-ded-core/message/196045
-> Mute This Topic: https://lists.openembedded.org/mt/104505983/6551054
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-reatmon@ti.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> +def get_json_result_dir(d):
+> +=C2=A0=C2=A0=C2=A0 json_result_dir =3D os.path.join(d.getVar("LOG_DIR"),=
+ 'oeqa')
+> +=C2=A0=C2=A0=C2=A0 custom_json_result_dir =3D d.getVar("OEQA_JSON_RESULT=
+_DIR")
+> +=C2=A0=C2=A0=C2=A0 if custom_json_result_dir:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 json_result_dir =3D custom_js=
+on_result_dir
+> +=C2=A0=C2=A0=C2=A0 return json_result_dir
+> \ No newline at end of file
 >=20
 
---=20
-Ryan Eatmon                reatmon@ti.com
------------------------------------------
-Texas Instruments, Inc.  -  LCPD  -  MGTS
+I suspect this is missing a change to TestSDKEXT:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/136/builds/56/steps=
+/14/logs/stdio
+
+Cheers,
+
+Richard
+
+
 
