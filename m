@@ -1,189 +1,162 @@
-Return-Path: <simone.p.weiss@posteo.com>
+Return-Path: <kamatam@amazon.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DE62C54798
-	for <webhook@archiver.kernel.org>; Sat, 24 Feb 2024 00:01:49 +0000 (UTC)
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
- by mx.groups.io with SMTP id smtpd.web11.9881.1708732903754840840
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B844C48BF6
+	for <webhook@archiver.kernel.org>; Sat, 24 Feb 2024 07:21:31 +0000 (UTC)
+Received: from smtp-fw-80006.amazon.com (smtp-fw-80006.amazon.com [99.78.197.217])
+ by mx.groups.io with SMTP id smtpd.web10.14975.1708759281476931171
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 Feb 2024 16:01:44 -0800
+ Fri, 23 Feb 2024 23:21:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@posteo.com header.s=2017 header.b=PnDNXn1M;
- spf=pass (domain: posteo.com, ip: 185.67.36.65, mailfrom: simone.p.weiss@posteo.com)
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id 3F182240027
-	for <openembedded-core@lists.openembedded.org>; Sat, 24 Feb 2024 01:01:40 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.com; s=2017;
-	t=1708732901; bh=yF9EbWOCCb25+jLA3EEkVtEIB4r71qKoz6W+WApeUNE=;
-	h=Message-ID:Subject:From:To:Cc:Date:Content-Type:MIME-Version:
-	 From;
-	b=PnDNXn1MTPQOakNxM1v4p9K+7LrS92tlx29RaGx3MfciYqlBgo8KasrjnTOqzfwnB
-	 bhhOkjGu9Yz8YNm4uyTkSi+I/itYruxdW8n1hLf7Hg3afdRmyr+9jrp4YML1EeUeD6
-	 zTrGLmaKfGVARE2T97v6aJmA+CIvy4Ibqr/kIhykjcyvlqb3ak+gcF/Pgp4ivN3EJy
-	 oB22CeZ9MhG2pbqeyyWWjwccKRCZTZJHihit5YYSKsgJ0ydLTLmyWN4BbMkrXEjjxg
-	 A8IeToWMFR2ZKcNf3ln5hrzba9w3DP9SljFE5cJO/FSNHlMMUWvIGVjGiLhKF/LInQ
-	 6pA8wRtON4laA==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4ThRr40420z9rxM;
-	Sat, 24 Feb 2024 01:01:39 +0100 (CET)
-Message-ID: <404a832329edbb499202500f2782bd115391a575.camel@posteo.net>
-Subject: Re: [OE-core] [PATCH] cve-check: Log if CVE_STATUS set but not
- reported for component
-From: Simone =?ISO-8859-1?Q?Wei=DF?= <simone.p.weiss@posteo.com>
-To: Yoann CONGAL <yoann.congal@smile.fr>, Simone =?ISO-8859-1?Q?Wei=DF?=
-	 <simone.p.weiss@posteo.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Sat, 24 Feb 2024 00:01:39 +0000
-In-Reply-To: <CAMSfU+4zeAm-BKwqw_vE2RTTmCBoCEAuYyoxm4_KXH7j_mDQqg@mail.gmail.com>
-References: <20240223210848.21731-1-simone.p.weiss@posteo.com>
-	 <CAMSfU+4zeAm-BKwqw_vE2RTTmCBoCEAuYyoxm4_KXH7j_mDQqg@mail.gmail.com>
-Content-Type: multipart/alternative; boundary="=-iYRrVHTRuVlGnCwC1lzG"
+ dkim=pass header.i=@amazon.com header.s=amazon201209 header.b=DhiQsqHB;
+ spf=pass (domain: amazon.com, ip: 99.78.197.217, mailfrom: prvs=777e2d521=kamatam@amazon.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1708759281; x=1740295281;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=rvypWJBwOlWKAixqZuWQHVB+PgFaJFwt9uvkxRTymDI=;
+  b=DhiQsqHBdz3sdxKFTKJAD8WpgYXCe0BmkxCvDqm0IeamG77DolSBNObK
+   c80LxdMZLoGq7VMUSSIjQ/uyKyyF1t0eKUviQU21U+L2zUUaTpvs6obsy
+   l/qVqRSMPTIAtwaW8Ax4dhN6td2ZNDENRlbhBckB/AFPsWP1RjEpVo713
+   g=;
+X-IronPort-AV: E=Sophos;i="6.06,181,1705363200"; 
+   d="scan'208";a="275557234"
+Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.25.36.214])
+  by smtp-border-fw-80006.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2024 07:21:20 +0000
+Received: from EX19MTAUWA001.ant.amazon.com [10.0.21.151:42732]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.23.221:2525] with esmtp (Farcaster)
+ id f0227859-8370-4601-99f4-c6b4ff09089b; Sat, 24 Feb 2024 07:21:20 +0000 (UTC)
+X-Farcaster-Flow-ID: f0227859-8370-4601-99f4-c6b4ff09089b
+Received: from EX19D010UWA004.ant.amazon.com (10.13.138.204) by
+ EX19MTAUWA001.ant.amazon.com (10.250.64.218) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Sat, 24 Feb 2024 07:21:19 +0000
+Received: from u0acfa43c8cad58.ant.amazon.com (10.106.100.17) by
+ EX19D010UWA004.ant.amazon.com (10.13.138.204) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Sat, 24 Feb 2024 07:21:19 +0000
+From: Munehisa Kamata <kamatam@amazon.com>
+To: <bruce.ashfield@gmail.com>
+CC: <kamatam@amazon.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] kernel.bbclass: Set pkg-config variables for building modules
+Date: Fri, 23 Feb 2024 23:21:06 -0800
+Message-ID: <20240224072106.2702207-1-kamatam@amazon.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <CADkTA4OD_rO2CPSHjA240-oGGzn9OPTd+=LT4Ne3t2yFFSQtjA@mail.gmail.com>
+References: <CADkTA4OD_rO2CPSHjA240-oGGzn9OPTd+=LT4Ne3t2yFFSQtjA@mail.gmail.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.106.100.17]
+X-ClientProxiedBy: EX19D045UWA001.ant.amazon.com (10.13.139.83) To
+ EX19D010UWA004.ant.amazon.com (10.13.138.204)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 24 Feb 2024 00:01:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196118
+ <openembedded-core@lists.openembedded.org>; Sat, 24 Feb 2024 07:21:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196119
 
---=-iYRrVHTRuVlGnCwC1lzG
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Bruce,
 
-On Fri, 2024-02-23 at 22:52 +0100, Yoann CONGAL wrote:
-> Le=C2=A0ven. 23 f=C3=A9vr. 2024 =C3=A0=C2=A022:09, Simone Wei=C3=9F <simo=
-ne.p.weiss@posteo.com> a
-> =C3=A9crit=C2=A0:
-> > From: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
-> >=20
-> > Log if the CVE_STATUS is set for a CVE, but the cve is not reported
-> > for a
-> > component. This should hopefully help to clean up not needed
-> > CVE_STATUS
-> > settings.=20
-> >=20
->=20
->=20
-> Thank you for taking the time to do this :-)
-> =C2=A0
-> > Signed-off-by: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
+> That is indeed not a simple workflow!
+> 
+> In the past, we've always had the existing packageconfig results picked up and
+> used by later stages of the kernel build which prevented things like this from
+> happening.
+> 
+> Have you figured out exactly which packageconfig is triggering the rebuild, and
+> had a look to see if something change such that the existing results
+> aren't used ?
+
+The missing of libcrypto.pc and libelf.pc triggers the rebuild of
+certs/extract-cert and objtool respectively. When PKG_CONFIG_DIR is set to
+recipe-sysroot at module build time, it points to a non-existent directory
+and therefore pkg-config can't find .pc for the requested library whereas
+they are present in the recipe-sysroot-native, then it causes make to
+rebuild the target.
+
+Although I admit that I don't fully understand how make particularly
+decides to trigger the rebuild in this case.
+
+> All that being said, rather than repeating the exports, it would be
+> better to have
+> them in a common place, since eventually everything but the HOSTPKG_CONFIG
+> definition will be dropped.
+> 
+> Have you tried a more class-global export of the values ? We have a
+> few of those,
+> but admittedly, we have way more exports that are duplicated between do_compile
+> and do_compile_kernelmodules(), so the duplicated exports aren't a big issue.
+
+Yes, I actually tried it first and it worked at lesat for simple kernel
+building. But I wasn't entirely sure if it was safe enough for the
+ecosystem and came up with the change that is hopefully less impact. That
+said, if you think it's fine, I'm happy to submit v3 with the class-global
+export. It would be better indeed.
+
+
+Thanks,
+Munehisa
+
+> Bruce
+> 
+> >
+> > Signed-off-by: Munehisa Kamata <kamatam@amazon.com>
 > > ---
-> > =C2=A0meta/classes/cve-check.bbclass | 3 +++
-> > =C2=A01 file changed, 3 insertions(+)
-> >=20
-> > diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-
-> > check.bbclass
-> > index 5191d04303..b82a9e89ec 100644
-> > --- a/meta/classes/cve-check.bbclass
-> > +++ b/meta/classes/cve-check.bbclass
-> > @@ -418,6 +418,9 @@ def check_cves(d, patched_cves):
-> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cves_status.append([pro=
-duct, False])
-> >=20
-> > =C2=A0 =C2=A0 =C2=A0conn.close()
-> > +=C2=A0 =C2=A0 diff_ignore =3D list(set(cve_ignore) - set(cves_ignored)=
-)
-> > +=C2=A0 =C2=A0 if diff_ignore:
-> > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.warn("Found CVE (%s) with CVE_STATUS se=
-t that is not found
-> > in database for this component" % " ".join(diff_ignore))
-> >=20
->=20
->=20
-> A non-optional warning might be a bit harsh (Especially one that can
-> come up after an independent NVD database update).
->=20
-I first had the same doubt, but then thought: hey it will only appear if
-cve checks are actually performed, which is not the default.
-And when you do that you get warnings anyway. You are right though.
-> How about a new element in the output of cve_check (the
-> build/tmp/log/cve/*.{txt,json} files)?
-> That way, someone looking for this info may find it, everyone else can
-> (safely) ignore this.
->=20
-> Another way I see would be to make the warning optional by using
-> QA_WARN&co but I'm not 100% sure it can be done...
->=20
-Good point. Sth like:
-
-oe.qa.handle_error("cve_status_not_in_db", "%s Found CVE (%s) with
-CVE_STATUS set that are not found in database for this component" % (pn, "
-".join(diff_ignore)), d)
-
-should work.
-Then the warning is only given if=C2=A0cve_status_not_in_db is appended to
-WARN_QA. I think this would be fine, also other classes besides
-insane.bbclass add to WARN_QA/ERROR_QA. I will check the docs and then
-most likely send v2.
-
-Cheers
-Simone
-> Regards,
->=20
-> > =C2=A0 =C2=A0 =C2=A0if not cves_in_recipe:
-> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.note("No CVE records for products =
-in recipe %s" % (pn))
-
-
---=-iYRrVHTRuVlGnCwC1lzG
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<html><head></head><body><div>On Fri, 2024-02-23 at 22:52 +0100, Yoann CONG=
-AL wrote:</div><blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border=
--left:2px #729fcf solid;padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr"=
->Le&nbsp;ven. 23 f=C3=A9vr. 2024 =C3=A0&nbsp;22:09, Simone Wei=C3=9F &lt;<a=
- href=3D"mailto:simone.p.weiss@posteo.com">simone.p.weiss@posteo.com</a>&gt=
-; a =C3=A9crit&nbsp;:</div><div class=3D"gmail_quote"><blockquote type=3D"c=
-ite" style=3D"margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left=
-:1ex"><div>From: Simone Wei=C3=9F &lt;<a href=3D"mailto:simone.p.weiss@post=
-eo.com" target=3D"_blank">simone.p.weiss@posteo.com</a>&gt;<br></div><div><=
-br>Log if the CVE_STATUS is set for a CVE, but the cve is not reported for =
-a<br>component. This should hopefully help to clean up not needed CVE_STATU=
-S<br>settings. <br></div><br></blockquote><div><br></div><div>Thank you for=
- taking the time to do this :-)<br></div><div>&nbsp;</div><blockquote type=
-=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding=
--left:1ex"><div>Signed-off-by: Simone Wei=C3=9F &lt;<a href=3D"mailto:simon=
-e.p.weiss@posteo.com" target=3D"_blank">simone.p.weiss@posteo.com</a>&gt;<b=
-r>---<br>&nbsp;meta/classes/cve-check.bbclass | 3 +++<br>&nbsp;1 file chang=
-ed, 3 insertions(+)<br></div><div><br>diff --git a/meta/classes/cve-check.b=
-bclass b/meta/classes/cve-check.bbclass<br>index 5191d04303..b82a9e89ec 100=
-644<br>--- a/meta/classes/cve-check.bbclass<br>+++ b/meta/classes/cve-check=
-.bbclass<br>@@ -418,6 +418,9 @@ def check_cves(d, patched_cves):<br>&nbsp; =
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;cves_status.append([product, False=
-])<br></div><div><br>&nbsp; &nbsp; &nbsp;conn.close()<br>+&nbsp; &nbsp; dif=
-f_ignore =3D list(set(cve_ignore) - set(cves_ignored))<br>+&nbsp; &nbsp; if=
- diff_ignore:<br>+&nbsp; &nbsp; &nbsp; &nbsp; bb.warn("Found CVE (%s) with =
-CVE_STATUS set that is not found in database for this component" % " ".join=
-(diff_ignore))<br></div><br></blockquote><div><br></div><div>A non-optional=
- warning might be a bit harsh (Especially one that can come up after an ind=
-ependent NVD database update).</div><div><br></div></div></div></blockquote=
-><div>I first had the same doubt, but then thought: hey it will only appear=
- if cve checks are actually performed, which is not the default.</div><div>=
-And when you do that you get warnings anyway. You are right though.</div><b=
-lockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2px #729fcf=
- solid;padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote"><div>H=
-ow about a new element in the output of cve_check (the build/tmp/log/cve/*.=
-{txt,json} files)?</div><div>That way, someone looking for this info may fi=
-nd it, everyone else can (safely) ignore this.<br></div><div><br></div><div=
->Another way I see would be to make the warning optional by using QA_WARN&a=
-mp;co but I'm not 100% sure it can be done...</div><div><br></div></div></d=
-iv></blockquote><div>Good point. Sth like:</div><div><br></div><div>oe.qa.h=
-andle_error("cve_status_not_in_db", "%s Found CVE (%s) with CVE_STATUS set =
-that are not found in database for this component" % (pn, " ".join(diff_ign=
-ore)), d)</div><div><br></div><div>should work.</div><div>Then the warning =
-is only given if&nbsp;<span style=3D"font-size: 14.666667px;">cve_status_no=
-t_in_db is appended to WARN_QA. I think this would be fine, also other clas=
-ses besides</span></div><div>insane.bbclass add to WARN_QA/ERROR_QA. I will=
- check the docs and then most likely send v2.</div><div><br></div><div>Chee=
-rs</div><div>Simone</div><blockquote type=3D"cite" style=3D"margin:0 0 0 .8=
-ex; border-left:2px #729fcf solid;padding-left:1ex"><div dir=3D"ltr"><div c=
-lass=3D"gmail_quote"><div>Regards,</div><div><br></div><blockquote type=3D"=
-cite" style=3D"margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding-lef=
-t:1ex"><div>&nbsp; &nbsp; &nbsp;if not cves_in_recipe:<br>&nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp;bb.note("No CVE records for products in recipe %s" % (pn))=
-<br></div></blockquote></div></div></blockquote><div><br></div><div><span><=
-/span></div></body></html>
-
---=-iYRrVHTRuVlGnCwC1lzG--
+> >
+> > v1 -> v2: Rewrote the commit message with the repro steps
+> >
+> >  meta/classes-recipe/kernel.bbclass | 12 +++++++++---
+> >  1 file changed, 9 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
+> > index a76aaee5ba..db4461e551 100644
+> > --- a/meta/classes-recipe/kernel.bbclass
+> > +++ b/meta/classes-recipe/kernel.bbclass
+> > @@ -239,6 +239,8 @@ KERNEL_EXTRA_ARGS ?= ""
+> >  EXTRA_OEMAKE += ' CC="${KERNEL_CC}" LD="${KERNEL_LD}" OBJCOPY="${KERNEL_OBJCOPY}" STRIP="${KERNEL_STRIP}"'
+> >  EXTRA_OEMAKE += ' HOSTCC="${BUILD_CC}" HOSTCFLAGS="${BUILD_CFLAGS}" HOSTLDFLAGS="${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}"'
+> >  EXTRA_OEMAKE += ' HOSTCXX="${BUILD_CXX}" HOSTCXXFLAGS="${BUILD_CXXFLAGS}"'
+> > +# Only for newer kernels (5.19+), native pkg-config variables are set for older kernels when building kernel and modules
+> > +EXTRA_OEMAKE += ' HOSTPKG_CONFIG="pkg-config-native"'
+> >
+> >  KERNEL_ALT_IMAGETYPE ??= ""
+> >
+> > @@ -356,9 +358,6 @@ kernel_do_compile() {
+> >         export PKG_CONFIG_LIBDIR="$PKG_CONFIG_DIR"
+> >         export PKG_CONFIG_SYSROOT_DIR=""
+> >
+> > -       # for newer kernels (5.19+) there's a dedicated variable
+> > -       export HOSTPKG_CONFIG="pkg-config-native"
+> > -
+> >         if [ "${KERNEL_DEBUG_TIMESTAMPS}" != "1" ]; then
+> >                 # kernel sources do not use do_unpack, so SOURCE_DATE_EPOCH may not
+> >                 # be set....
+> > @@ -408,6 +407,13 @@ addtask transform_kernel after do_compile before do_install
+> >
+> >  do_compile_kernelmodules() {
+> >         unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
+> > +
+> > +       # setup native pkg-config variables (kconfig scripts call pkg-config directly, cannot generically be overriden to pkg-config-native)
+> > +       export PKG_CONFIG_DIR="${STAGING_DIR_NATIVE}${libdir_native}/pkgconfig"
+> > +       export PKG_CONFIG_PATH="$PKG_CONFIG_DIR:${STAGING_DATADIR_NATIVE}/pkgconfig"
+> > +       export PKG_CONFIG_LIBDIR="$PKG_CONFIG_DIR"
+> > +       export PKG_CONFIG_SYSROOT_DIR=""
+> > +
+> >         if [ "${KERNEL_DEBUG_TIMESTAMPS}" != "1" ]; then
+> >                 # kernel sources do not use do_unpack, so SOURCE_DATE_EPOCH may not
+> >                 # be set....
+> > --
+> > 2.34.1
+> >
+> 
+> 
+> -- 
+> - Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
+> 
+> 
 
