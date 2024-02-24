@@ -1,99 +1,142 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 578D2C54E41
-	for <webhook@archiver.kernel.org>; Sat, 24 Feb 2024 11:18:12 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.16862.1708773491070755497
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9ABE3C48BF6
+	for <webhook@archiver.kernel.org>; Sat, 24 Feb 2024 12:11:42 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web11.17743.1708776697083619350
  for <openembedded-core@lists.openembedded.org>;
- Sat, 24 Feb 2024 03:18:11 -0800
+ Sat, 24 Feb 2024 04:11:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=BHhGYbTI;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=UJFW7IIO;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018ddad63e0d-7b11bbbe-ec64-44da-8c29-9f53d8b0dbb1-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1708773490; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=tEbEYqsQxwtOyp/VIR9vUWTAZq5UnzclO5fzrdnoCpk=;
-	b=BHhGYbTIf8o1xK3+c/17gOgLaFoZFSEe35GIbcHrVM2hP6+eQRMfnEk1pjxGiEEk
-	dRqjqsi09tMHLB/nPU1n5HUTPwQfr3W4HQb1kUf4VRnjWlEI3mx1VQsZI1wry1idxzt
-	Md29l6JAekyhukkCz3Ni2RaDmxlSDTEzuy+Inok4=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1708773490;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=tEbEYqsQxwtOyp/VIR9vUWTAZq5UnzclO5fzrdnoCpk=;
-	b=UJFW7IIONEBcR/GrVQKVo8g7yiG0PyxCm2S/lN2nVNCbrf229igx8QX8QvkSO0KK
-	Hf8cJD3LU/XRaXWl9tw1kDANpo5EQbUjw8F6yIwPP8mKxEfAvdm85KVlaRLDayJg9Lf
-	4h1HWNQot0VHgXiaaZd9KoxbPneI0UzIP5oCG4PI=
-From: patchtest@automation.yoctoproject.org
-To: Peter Marko <peter.marko@siemens.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][kirkstone][PATCH] glibc: ignore CVE-2023-0687
-In-Reply-To: <20240224105737.7942-1-peter.marko@siemens.com>
-References: <20240224105737.7942-1-peter.marko@siemens.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018ddad63e0d-7b11bbbe-ec64-44da-8c29-9f53d8b0dbb1-000000@us-west-2.amazonses.com>
-Date: Sat, 24 Feb 2024 11:18:10 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.02.24-54.240.27.30
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=R092/B48;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4128f5ec9b7so12023895e9.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 24 Feb 2024 04:11:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1708776695; x=1709381495; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=ehNkQF1z/nY1vjwt/vhHNllY0CWK1l9DOwbfTrZLsyY=;
+        b=R092/B48DvZxF9Ll++zQSIBzn7T/qUobXiRdgKXGg+jOYbNAJleLnM2LT+QYPGGcg0
+         l5eOrycjvG1ZOssx0rA69hup9EzRKZZZhBRVfj2On1RwjEAEFLDtbq6EJyAhToO4U3f1
+         XSZwZXy2MfJqt01Le9npSG50wd74gDlPtRgvw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708776695; x=1709381495;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ehNkQF1z/nY1vjwt/vhHNllY0CWK1l9DOwbfTrZLsyY=;
+        b=Nx2tf54OWyKB5S5czryElEQgpk1NmyTkFwphEK9wFHgoXOu/0I2bm7jK5i4b2YYMPv
+         C4+71QoorqSi9EUnV+nU3qx6bYNJ/6CE/uNO0Xu+kdHJ3QsutLxezIhIeeh9F87Eo2wA
+         zUNncrGNgJIgdiRAaOWeSzaM9nT9ehLEh5JYgMYBvUdwc0X6YkywBr0MwTLdB/9TH0MY
+         oprAye73A1WFleYVqf5PJBCqDA68rvR/dSorZrPcLF/Yk7/Y1fZqQyz/bW6yS3oy02Dz
+         1T2vjaR7aCtbxUFFOlXNFhV8FcWaHRJo137qo4wgYHOoEi5z6jeoZ3LbjDSdESsqwsRF
+         89Tw==
+X-Forwarded-Encrypted: i=1; AJvYcCUXr0mCysy/96saDntt511S7TzXt8L8ru9yLpr/OJN++6aQpY/JIp3m8jnbcGQgU9XxPXL1TrPUU8Rlrtd5mUx/LcfwydmQaUAuNPRjuCyLZITG+RdIj6VU
+X-Gm-Message-State: AOJu0YxkmCxLwzfQZAr5G16kWUXYcVMuoH3c3/A4QpxyULDwdrcfzksf
+	PcODNAVichPF6UGcOebouBLGaQHxZ7SUq3rCA5yu+xuoRLANxMUWDX00lbQ/ngk=
+X-Google-Smtp-Source: AGHT+IEgj5TfpNxi69g1U4P1zSrnXT4yG8B8yFCN34DoTJIGgocuEMWWnHNKQLPz+MPttVLqK97CTw==
+X-Received: by 2002:a05:600c:a44:b0:410:3ffb:87dc with SMTP id c4-20020a05600c0a4400b004103ffb87dcmr1744967wmq.35.1708776695465;
+        Sat, 24 Feb 2024 04:11:35 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:e94d:5687:8b3c:e26d? ([2001:8b0:aba:5f3c:e94d:5687:8b3c:e26d])
+        by smtp.gmail.com with ESMTPSA id c23-20020a7bc857000000b004128f1ace2asm5748157wml.19.2024.02.24.04.11.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 24 Feb 2024 04:11:34 -0800 (PST)
+Message-ID: <a5977a0ecacb24582118735fa1b5d511827b4b5c.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v3 1/3] useradd.bbclass: Fix order of
+ postinst-useradd-*
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: =?ISO-8859-1?Q?Eil=EDs?= 'pidge' =?ISO-8859-1?Q?N=ED_Fhlannag=E1in?=
+	 <pidge@baylibre.com>, openembedded-core@lists.openembedded.org
+Cc: Piotr =?UTF-8?Q?=C5=81obacz?= <p.lobacz@welotec.com>, Jan
+	=?ISO-8859-1?Q?G=F3rski?=
+	 <j.gorski@welotec.com>
+Date: Sat, 24 Feb 2024 12:11:33 +0000
+In-Reply-To: <07eb596dd4e8cfc319add777a3069d6e50d33e56.1708694024.git.pidge@baylibre.com>
+References: <cover.1708694024.git.pidge@baylibre.com>
+	 <07eb596dd4e8cfc319add777a3069d6e50d33e56.1708694024.git.pidge@baylibre.com>
+Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
+ YNvg==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.50.0-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 24 Feb 2024 11:18:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196126
+ <openembedded-core@lists.openembedded.org>; Sat, 24 Feb 2024 12:11:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196127
 
---NextPart
-Content-Type: text/plain
+T24gRnJpLCAyMDI0LTAyLTIzIGF0IDEzOjI1ICswMDAwLCBFaWzDrXMgJ3BpZGdlJyBOw60gRmhs
+YW5uYWfDoWluIHdyb3RlOgo+IMKgcHl0aG9uIHVzZXJhZGRfc3lzcm9vdF9zc3RhdGUgKCkgewo+
+IC3CoMKgwqAgc2NyaXB0ZmlsZSA9IE5vbmUKPiAtwqDCoMKgIHRhc2sgPSBkLmdldFZhcigiQkJf
+Q1VSUkVOVFRBU0siKQo+IC3CoMKgwqAgaWYgdGFzayA9PSAicGFja2FnZV9zZXRzY2VuZSI6Cj4g
+LcKgwqDCoMKgwqDCoMKgIGJiLmJ1aWxkLmV4ZWNfZnVuYygidXNlcmFkZF9zeXNyb290IiwgZCkK
+PiAtwqDCoMKgIGVsaWYgdGFzayA9PSAicHJlcGFyZV9yZWNpcGVfc3lzcm9vdCI6Cj4gLcKgwqDC
+oMKgwqDCoMKgICMgVXNlZCB0byB1cGRhdGUgdGhpcyByZWNpcGUncyBvd24gc3lzcm9vdCBzbyB0
+aGUgdXNlci9ncm91cHMgYXJlIGF2YWlsYWJsZSB0byBkb19pbnN0YWxsCj4gLQo+IC3CoMKgwqDC
+oMKgwqDCoCAjIElmIGRvX3BvcHVsYXRlX3N5c3Jvb3QgaXMgdHJpZ2dlcmVkIGFuZCB3ZSB3cml0
+ZSB0aGUgZmlsZSBoZXJlLCB0aGVyZSB3b3VsZCBiZSBhbiBvdmVybGFwcGluZwo+IC3CoMKgwqDC
+oMKgwqDCoCAjIGZpbGVzLiBTZWUgdXNlcmdyb3VwdGVzdHMuVXNlckdyb3VwVGVzdHMudGVzdF9h
+ZGRfdGFza19iZXR3ZWVuX3Bfc3lzcm9vdF9hbmRfcGFja2FnZQo+IC3CoMKgwqDCoMKgwqDCoCBz
+Y3JpcHRmaWxlID0gZC5leHBhbmQoIiR7UkVDSVBFX1NZU1JPT1R9JHtiaW5kaXJ9L3Bvc3RpbnN0
+LXVzZXJhZGQtJHtQTn0tcmVjaXBlZGVidWciKQo+IC0KPiAtwqDCoMKgwqDCoMKgwqAgYmIuYnVp
+bGQuZXhlY19mdW5jKCJ1c2VyYWRkX3N5c3Jvb3QiLCBkKQo+IC3CoMKgwqAgZWxpZiB0YXNrID09
+ICJwb3B1bGF0ZV9zeXNyb290IjoKPiAtwqDCoMKgwqDCoMKgwqAgIyBVc2VkIHdoZW4gaW5zdGFs
+bGVkIGluIGRlcGVuZGVudCB0YXNrIHN5c3Jvb3RzCj4gLcKgwqDCoMKgwqDCoMKgIHNjcmlwdGZp
+bGUgPSBkLmV4cGFuZCgiJHtTWVNST09UX0RFU1RESVJ9JHtiaW5kaXJ9L3Bvc3RpbnN0LXVzZXJh
+ZGQtJHtQTn0iKQo+IC0KPiAtwqDCoMKgIGlmIHNjcmlwdGZpbGU6Cj4gLcKgwqDCoMKgwqDCoMKg
+IGJiLnV0aWxzLm1rZGlyaGllcihvcy5wYXRoLmRpcm5hbWUoc2NyaXB0ZmlsZSkpCj4gLcKgwqDC
+oMKgwqDCoMKgIHdpdGggb3BlbihzY3JpcHRmaWxlLCAndycpIGFzIHNjcmlwdDoKPiAtwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoCBzY3JpcHQud3JpdGUoIiMhL2Jpbi9zaCAtZVxuIikKPiAtwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoCBiYi5kYXRhLmVtaXRfZnVuYygidXNlcmFkZF9zeXNyb290Iiwgc2Ny
+aXB0LCBkKQo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHNjcmlwdC53cml0ZSgidXNlcmFkZF9z
+eXNyb290XG4iKQo+IC3CoMKgwqDCoMKgwqDCoCBvcy5jaG1vZChzY3JpcHRmaWxlLCAwbzc1NSkK
+PiArwqDCoMKgIGZvciB0eXBlLCBzb3J0X3ByZWZpeCBpbiBbKCJncm91cCIsICIwMSIpLCAoInVz
+ZXIiLCAiMDIiKSwgKCJncm91cG1lbXMiLCAiMDMiKV06Cj4gK8KgwqDCoMKgwqDCoMKgIHNjcmlw
+dGZpbGUgPSBOb25lCj4gK8KgwqDCoMKgwqDCoMKgIHRhc2sgPSBkLmdldFZhcigiQkJfQ1VSUkVO
+VFRBU0siKQo+ICvCoMKgwqDCoMKgwqDCoCBpZiB0YXNrID09ICJwYWNrYWdlX3NldHNjZW5lIjoK
+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBiYi5idWlsZC5leGVjX2Z1bmMoZiJ7dHlwZX1hZGRf
+c3lzcm9vdCIsIGQpCj4gK8KgwqDCoMKgwqDCoMKgIGVsaWYgdGFzayA9PSAicHJlcGFyZV9yZWNp
+cGVfc3lzcm9vdCI6Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgIyBVc2VkIHRvIHVwZGF0ZSB0
+aGlzIHJlY2lwZSdzIG93biBzeXNyb290IHNvIHRoZSB1c2VyL2dyb3VwcyBhcmUgYXZhaWxhYmxl
+IHRvIGRvX2luc3RhbGwKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzY3JpcHRmaWxlID0gZC5l
+eHBhbmQoIiR7UkVDSVBFX1NZU1JPT1R9JHtiaW5kaXJ9LyIgZiJwb3N0aW5zdC11c2VyYWRkLXtz
+b3J0X3ByZWZpeH17dHlwZX0iICItJHtQTn0iKQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGJi
+LmJ1aWxkLmV4ZWNfZnVuYyhmInt0eXBlfWFkZF9zeXNyb290IiwgZCkKPiArwqDCoMKgwqDCoMKg
+wqAgZWxpZiB0YXNrID09ICJwb3B1bGF0ZV9zeXNyb290IjoKPiArwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCAjIFVzZWQgd2hlbiBpbnN0YWxsZWQgaW4gZGVwZW5kZW50IHRhc2sgc3lzcm9vdHMKPiAr
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzY3JpcHRmaWxlID0gZC5leHBhbmQoIiR7U1lTUk9PVF9E
+RVNURElSfSR7YmluZGlyfS8iIGYicG9zdGluc3QtdXNlcmFkZC17c29ydF9wcmVmaXh9e3R5cGV9
+IiAiLSR7UE59IikKPiArwqDCoMKgIAo+ICvCoMKgwqDCoMKgwqDCoCBpZiBzY3JpcHRmaWxlOgo+
+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGJiLnV0aWxzLm1rZGlyaGllcihvcy5wYXRoLmRpcm5h
+bWUoc2NyaXB0ZmlsZSkpCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgd2l0aCBvcGVuKHNjcmlw
+dGZpbGUsICd3JykgYXMgc2NyaXB0Ogo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+c2NyaXB0LndyaXRlKCIjIS9iaW4vc2hcbiIpCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCBiYi5kYXRhLmVtaXRfZnVuYyhmInt0eXBlfWFkZF9zeXNyb290Iiwgc2NyaXB0LCBkKQo+
+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc2NyaXB0LndyaXRlKGYie3R5cGV9YWRk
+X3N5c3Jvb3RcbiIpCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgb3MuY2htb2Qoc2NyaXB0Zmls
+ZSwgMG83NTUpCj4gwqB9CgpUaGlzIGNoYW5nZSBoYXMgYWxsIGtpbmRzIG9mIGhpZGRlbiBpc3N1
+ZXMgYW5kIGNoYW5nZXMuIFRoZSAtZSBjaGFuZ2UKaXNuJ3QgbWVudGlvbmVkIGJ1dCBwcm9iYWJs
+eSBhIGdvb2QgaWRlYS4gVGhlIGFkZGl0aW9uIG9mIHRyYWlsaW5nCndoaXRlc3BhY2UgaXMgbm90
+IGdyZWF0IGJ1dCBoYXJtbGVzcy4gVGhpcyBpcyBvbiB0b3Agb2YgdGhlIHByZXZpb3VzCmlzc3Vl
+cyB0aGUgc2VyaWVzIGhhZC4KCldoYXQgcmVhbGx5IHVwc2V0cyBtZSB0aG91Z2ggaXMgdGhhdCB0
+aGlzIHJldmVydGVkOgoKaHR0cHM6Ly9naXQueW9jdG9wcm9qZWN0Lm9yZy9wb2t5L2NvbW1pdC8/
+aWQ9NGJiMjIyZTBkNzFhNGNiMTU5YjhhNGYxYTkwYjY1YjFhZjMyYWMxMAoKd2hpY2ggdGhhbmtm
+dWxseSB3ZSBoYXZlIGEgdGVzdCBmb3IsIHdoaWNoIHRoZW4gZmFpbGVkOgoKaHR0cHM6Ly9hdXRv
+YnVpbGRlci55b2N0b3Byb2plY3Qub3JnL3R5cGhvb24vIy9idWlsZGVycy84MC9idWlsZHMvNjM5
+NS9zdGVwcy8xNC9sb2dzL3N0ZGlvCgpUaGlzIGFtb3VudHMgdG8gYSBsYWNrIG9mIGF0dGVudGlv
+biB0byBkZXRhaWwgYW5kIHJlYWxseSBmcnVzdHJhdGVzIG1lLgoKSSdsbCBxdWV1ZSBzb21ldGhp
+bmcgaW4gLW5leHQgdG8gZml4IHRoaXMgdXAgYXMgSSBkbyB3YW50IHRvIGZpeCB0aGUKb3JkZXJp
+bmcgaXNzdWUgYW5kIHdlIGFyZSBub3cgY2xvc2Ugd2l0aCB0aGF0IGJ1dCBpdCB3aWxsIG1ha2Ug
+bWUgd29ycnkKYSBsb3QgYWJvdXQgZnV0dXJlIHBhdGNoZXMuCgpSaWNoYXJkCgoK
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
----
-Testing patch /home/patchtest/share/mboxes/kirkstone-glibc-ignore-CVE-2023-0687.patch
-
-FAIL: test CVE check ignore: CVE_CHECK_IGNORE is deprecated and should be replaced by CVE_STATUS (test_metadata.TestMetadata.test_cve_check_ignore)
-
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
