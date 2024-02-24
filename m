@@ -1,214 +1,189 @@
-Return-Path: <jpuhlman@mvista.com>
+Return-Path: <simone.p.weiss@posteo.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6885C54798
-	for <webhook@archiver.kernel.org>; Fri, 23 Feb 2024 22:58:28 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web10.8533.1708729107123139739
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DE62C54798
+	for <webhook@archiver.kernel.org>; Sat, 24 Feb 2024 00:01:49 +0000 (UTC)
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
+ by mx.groups.io with SMTP id smtpd.web11.9881.1708732903754840840
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 Feb 2024 14:58:27 -0800
+ Fri, 23 Feb 2024 16:01:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=RFX+MwHd;
- spf=pass (domain: mvista.com, ip: 209.85.214.182, mailfrom: jpuhlman@mvista.com)
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1d95d67ff45so9162945ad.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 23 Feb 2024 14:58:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1708729106; x=1709333906; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4+hESRxa+7YMLWTCUMmF0CxCwSJ00btFYlIyEpHqDSI=;
-        b=RFX+MwHdyvhKv+Sr8Wgdivd3wo3QpmWR0vC9y97uZadB/5RpnOQmHj5bU65QI8Ic4N
-         vO0cH2sxIoNruj7c/e87fBZD4JJKIwrVXIv9v3DQOpqsTcSm9jcJCX5hN6WH0/jcpex6
-         7Px9TLe1DjasyI1f4xWmkEtwAXpdlnGLqmrvw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708729106; x=1709333906;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4+hESRxa+7YMLWTCUMmF0CxCwSJ00btFYlIyEpHqDSI=;
-        b=uFOOwFsJn44w0/EswwQPaxXQFzlFe6Ol//ORuQ+2ZgcTg0l2XCQ6Lp6kqloYBMP8Kc
-         UmhENudOMqg4aB1YbER7usT5z/Z9zA7LCpdn7gitCZm5RBk0PzyK5rzLchH8HzJOAbIc
-         BbA8Hsz+MRtupo92C/SB74VpwUROnS0Uuz8++olZxLVrB2Oi+rngMaB3jUDIb8PawJHb
-         vz4WQaVexns+gtqksf4H5yUAzzxSIPc7cmuV6ksYiV0/dYJtbX3o2KsoB6XnfxzHtUHm
-         bDUrpRmO9YLT1Rqkg0UUJneTbKaQ2JA/Z1QwZSuwp6ON/wSt5CzRUFcUiuzgAgx1JU1z
-         PXNg==
-X-Gm-Message-State: AOJu0YwWXso9Wb/TpcyljmA0e3rUEjHL5+ZfdU+mdSEmWhbM9zJMG+qh
-	F3Dz3N8I/9wrmWMio5D2iiTJPo8klb2ouKcRqtQh0afvM6a/tRPsafgjbWYGtaI=
-X-Google-Smtp-Source: AGHT+IG+xTJS3mYSU55rKrQlvFmm0VIeHs02uFH/Nb3FGy/Ll4/y1N0EmN+54ZpjEbPi+JjWClaxXA==
-X-Received: by 2002:a17:902:d2c5:b0:1dc:524:6da4 with SMTP id n5-20020a170902d2c500b001dc05246da4mr1557691plc.8.1708729106469;
-        Fri, 23 Feb 2024 14:58:26 -0800 (PST)
-Received: from [10.5.0.2] ([185.187.168.209])
-        by smtp.gmail.com with ESMTPSA id o13-20020a170903008d00b001db40866e09sm12132747pld.260.2024.02.23.14.58.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 Feb 2024 14:58:25 -0800 (PST)
-Message-ID: <54ac6f59-e88e-4226-8c4c-ea2928cfa829@mvista.com>
-Date: Fri, 23 Feb 2024 14:58:23 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] package_rpm: Fix backtrace on missing
- directory.
-Content-Language: en-US
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+ dkim=pass header.i=@posteo.com header.s=2017 header.b=PnDNXn1M;
+ spf=pass (domain: posteo.com, ip: 185.67.36.65, mailfrom: simone.p.weiss@posteo.com)
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id 3F182240027
+	for <openembedded-core@lists.openembedded.org>; Sat, 24 Feb 2024 01:01:40 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.com; s=2017;
+	t=1708732901; bh=yF9EbWOCCb25+jLA3EEkVtEIB4r71qKoz6W+WApeUNE=;
+	h=Message-ID:Subject:From:To:Cc:Date:Content-Type:MIME-Version:
+	 From;
+	b=PnDNXn1MTPQOakNxM1v4p9K+7LrS92tlx29RaGx3MfciYqlBgo8KasrjnTOqzfwnB
+	 bhhOkjGu9Yz8YNm4uyTkSi+I/itYruxdW8n1hLf7Hg3afdRmyr+9jrp4YML1EeUeD6
+	 zTrGLmaKfGVARE2T97v6aJmA+CIvy4Ibqr/kIhykjcyvlqb3ak+gcF/Pgp4ivN3EJy
+	 oB22CeZ9MhG2pbqeyyWWjwccKRCZTZJHihit5YYSKsgJ0ydLTLmyWN4BbMkrXEjjxg
+	 A8IeToWMFR2ZKcNf3ln5hrzba9w3DP9SljFE5cJO/FSNHlMMUWvIGVjGiLhKF/LInQ
+	 6pA8wRtON4laA==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4ThRr40420z9rxM;
+	Sat, 24 Feb 2024 01:01:39 +0100 (CET)
+Message-ID: <404a832329edbb499202500f2782bd115391a575.camel@posteo.net>
+Subject: Re: [OE-core] [PATCH] cve-check: Log if CVE_STATUS set but not
+ reported for component
+From: Simone =?ISO-8859-1?Q?Wei=DF?= <simone.p.weiss@posteo.com>
+To: Yoann CONGAL <yoann.congal@smile.fr>, Simone =?ISO-8859-1?Q?Wei=DF?=
+	 <simone.p.weiss@posteo.com>
 Cc: openembedded-core@lists.openembedded.org
-References: <20240223203051.1575654-1-jpuhlman@mvista.com>
- <CANNYZj8JykJuL+Q4hsM_xut_=7E45Bbt-W6NEQZRPP6R_HfSCQ@mail.gmail.com>
-From: Jeremy Puhlman <jpuhlman@mvista.com>
-In-Reply-To: <CANNYZj8JykJuL+Q4hsM_xut_=7E45Bbt-W6NEQZRPP6R_HfSCQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Date: Sat, 24 Feb 2024 00:01:39 +0000
+In-Reply-To: <CAMSfU+4zeAm-BKwqw_vE2RTTmCBoCEAuYyoxm4_KXH7j_mDQqg@mail.gmail.com>
+References: <20240223210848.21731-1-simone.p.weiss@posteo.com>
+	 <CAMSfU+4zeAm-BKwqw_vE2RTTmCBoCEAuYyoxm4_KXH7j_mDQqg@mail.gmail.com>
+Content-Type: multipart/alternative; boundary="=-iYRrVHTRuVlGnCwC1lzG"
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 23 Feb 2024 22:58:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196117
+ <openembedded-core@lists.openembedded.org>; Sat, 24 Feb 2024 00:01:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196118
+
+--=-iYRrVHTRuVlGnCwC1lzG
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, 2024-02-23 at 22:52 +0100, Yoann CONGAL wrote:
+> Le=C2=A0ven. 23 f=C3=A9vr. 2024 =C3=A0=C2=A022:09, Simone Wei=C3=9F <simo=
+ne.p.weiss@posteo.com> a
+> =C3=A9crit=C2=A0:
+> > From: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
+> >=20
+> > Log if the CVE_STATUS is set for a CVE, but the cve is not reported
+> > for a
+> > component. This should hopefully help to clean up not needed
+> > CVE_STATUS
+> > settings.=20
+> >=20
+>=20
+>=20
+> Thank you for taking the time to do this :-)
+> =C2=A0
+> > Signed-off-by: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
+> > ---
+> > =C2=A0meta/classes/cve-check.bbclass | 3 +++
+> > =C2=A01 file changed, 3 insertions(+)
+> >=20
+> > diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-
+> > check.bbclass
+> > index 5191d04303..b82a9e89ec 100644
+> > --- a/meta/classes/cve-check.bbclass
+> > +++ b/meta/classes/cve-check.bbclass
+> > @@ -418,6 +418,9 @@ def check_cves(d, patched_cves):
+> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cves_status.append([pro=
+duct, False])
+> >=20
+> > =C2=A0 =C2=A0 =C2=A0conn.close()
+> > +=C2=A0 =C2=A0 diff_ignore =3D list(set(cve_ignore) - set(cves_ignored)=
+)
+> > +=C2=A0 =C2=A0 if diff_ignore:
+> > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.warn("Found CVE (%s) with CVE_STATUS se=
+t that is not found
+> > in database for this component" % " ".join(diff_ignore))
+> >=20
+>=20
+>=20
+> A non-optional warning might be a bit harsh (Especially one that can
+> come up after an independent NVD database update).
+>=20
+I first had the same doubt, but then thought: hey it will only appear if
+cve checks are actually performed, which is not the default.
+And when you do that you get warnings anyway. You are right though.
+> How about a new element in the output of cve_check (the
+> build/tmp/log/cve/*.{txt,json} files)?
+> That way, someone looking for this info may find it, everyone else can
+> (safely) ignore this.
+>=20
+> Another way I see would be to make the warning optional by using
+> QA_WARN&co but I'm not 100% sure it can be done...
+>=20
+Good point. Sth like:
+
+oe.qa.handle_error("cve_status_not_in_db", "%s Found CVE (%s) with
+CVE_STATUS set that are not found in database for this component" % (pn, "
+".join(diff_ignore)), d)
+
+should work.
+Then the warning is only given if=C2=A0cve_status_not_in_db is appended to
+WARN_QA. I think this would be fine, also other classes besides
+insane.bbclass add to WARN_QA/ERROR_QA. I will check the docs and then
+most likely send v2.
+
+Cheers
+Simone
+> Regards,
+>=20
+> > =C2=A0 =C2=A0 =C2=A0if not cves_in_recipe:
+> > =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.note("No CVE records for products =
+in recipe %s" % (pn))
 
 
+--=-iYRrVHTRuVlGnCwC1lzG
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2/23/2024 1:20 PM, Alexander Kanavin wrote:
-> Somewhere in the overall function the paths aren't formed correctly,
-> but this patch is very much not a correct fix either, and should be
-> marked as such.
-Is there a preferred way to do that? I mention in the commit message 
-that is not
-the right way to handle it and followed up with a reply to the patch 
-mentioning
-as such.
+<html><head></head><body><div>On Fri, 2024-02-23 at 22:52 +0100, Yoann CONG=
+AL wrote:</div><blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border=
+-left:2px #729fcf solid;padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr"=
+>Le&nbsp;ven. 23 f=C3=A9vr. 2024 =C3=A0&nbsp;22:09, Simone Wei=C3=9F &lt;<a=
+ href=3D"mailto:simone.p.weiss@posteo.com">simone.p.weiss@posteo.com</a>&gt=
+; a =C3=A9crit&nbsp;:</div><div class=3D"gmail_quote"><blockquote type=3D"c=
+ite" style=3D"margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left=
+:1ex"><div>From: Simone Wei=C3=9F &lt;<a href=3D"mailto:simone.p.weiss@post=
+eo.com" target=3D"_blank">simone.p.weiss@posteo.com</a>&gt;<br></div><div><=
+br>Log if the CVE_STATUS is set for a CVE, but the cve is not reported for =
+a<br>component. This should hopefully help to clean up not needed CVE_STATU=
+S<br>settings. <br></div><br></blockquote><div><br></div><div>Thank you for=
+ taking the time to do this :-)<br></div><div>&nbsp;</div><blockquote type=
+=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding=
+-left:1ex"><div>Signed-off-by: Simone Wei=C3=9F &lt;<a href=3D"mailto:simon=
+e.p.weiss@posteo.com" target=3D"_blank">simone.p.weiss@posteo.com</a>&gt;<b=
+r>---<br>&nbsp;meta/classes/cve-check.bbclass | 3 +++<br>&nbsp;1 file chang=
+ed, 3 insertions(+)<br></div><div><br>diff --git a/meta/classes/cve-check.b=
+bclass b/meta/classes/cve-check.bbclass<br>index 5191d04303..b82a9e89ec 100=
+644<br>--- a/meta/classes/cve-check.bbclass<br>+++ b/meta/classes/cve-check=
+.bbclass<br>@@ -418,6 +418,9 @@ def check_cves(d, patched_cves):<br>&nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;cves_status.append([product, False=
+])<br></div><div><br>&nbsp; &nbsp; &nbsp;conn.close()<br>+&nbsp; &nbsp; dif=
+f_ignore =3D list(set(cve_ignore) - set(cves_ignored))<br>+&nbsp; &nbsp; if=
+ diff_ignore:<br>+&nbsp; &nbsp; &nbsp; &nbsp; bb.warn("Found CVE (%s) with =
+CVE_STATUS set that is not found in database for this component" % " ".join=
+(diff_ignore))<br></div><br></blockquote><div><br></div><div>A non-optional=
+ warning might be a bit harsh (Especially one that can come up after an ind=
+ependent NVD database update).</div><div><br></div></div></div></blockquote=
+><div>I first had the same doubt, but then thought: hey it will only appear=
+ if cve checks are actually performed, which is not the default.</div><div>=
+And when you do that you get warnings anyway. You are right though.</div><b=
+lockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2px #729fcf=
+ solid;padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote"><div>H=
+ow about a new element in the output of cve_check (the build/tmp/log/cve/*.=
+{txt,json} files)?</div><div>That way, someone looking for this info may fi=
+nd it, everyone else can (safely) ignore this.<br></div><div><br></div><div=
+>Another way I see would be to make the warning optional by using QA_WARN&a=
+mp;co but I'm not 100% sure it can be done...</div><div><br></div></div></d=
+iv></blockquote><div>Good point. Sth like:</div><div><br></div><div>oe.qa.h=
+andle_error("cve_status_not_in_db", "%s Found CVE (%s) with CVE_STATUS set =
+that are not found in database for this component" % (pn, " ".join(diff_ign=
+ore)), d)</div><div><br></div><div>should work.</div><div>Then the warning =
+is only given if&nbsp;<span style=3D"font-size: 14.666667px;">cve_status_no=
+t_in_db is appended to WARN_QA. I think this would be fine, also other clas=
+ses besides</span></div><div>insane.bbclass add to WARN_QA/ERROR_QA. I will=
+ check the docs and then most likely send v2.</div><div><br></div><div>Chee=
+rs</div><div>Simone</div><blockquote type=3D"cite" style=3D"margin:0 0 0 .8=
+ex; border-left:2px #729fcf solid;padding-left:1ex"><div dir=3D"ltr"><div c=
+lass=3D"gmail_quote"><div>Regards,</div><div><br></div><blockquote type=3D"=
+cite" style=3D"margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding-lef=
+t:1ex"><div>&nbsp; &nbsp; &nbsp;if not cves_in_recipe:<br>&nbsp; &nbsp; &nb=
+sp; &nbsp; &nbsp;bb.note("No CVE records for products in recipe %s" % (pn))=
+<br></div></blockquote></div></div></blockquote><div><br></div><div><span><=
+/span></div></body></html>
 
->   If you can provide a minimal reproducer recipe, that
-> would help; I can't say what is wrong otherwise.
-I will try and reduce it down later this evening, but the recipe in 
-question is here:
-https://github.com/MontaVista-OpenSourceTechnology/meta-qa/blob/master/meta-qa-framework/recipes-qatest/mvtest/mvtest_2.0.bb
-Using stock poky/meta-oe/meta-python and that repo causes the issue with 
-mvtest.
-
-The recipe is fairly basic, nothing really crazy, which is what is 
-baffling about the error.
->
-> You might want to insert debugging statements to see where opt//opt
-> formation is happening.
-Tried poking at  that for a while and really didn't make much progress 
-before I got
-pulled off to something else.
-
->
-> Alex
->
-> On Fri, 23 Feb 2024 at 21:31, Jeremy Puhlman via
-> lists.openembedded.org <jpuhlman=mvista.com@lists.openembedded.org>
-> wrote:
->> From: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
->>
->> This seems to work around the following issue. The recipe in quesiton
->> places all of its content in /opt, and we turn on license collection
->> globally. Systemd is turned on so usrmerge is also on. I doubt this
->> is the correct way to deal with this as it is not clear why it is
->> looking for /usr//usr in the first place. Not sure if its just a
->> wierd edge case or what.
->>
->> File:
->> '/build/../layers/poky/meta/classes-global/package_rpm.bbclass',
->> lineno: 527, function: write_specfile
->>       0523:            spec_scriptlets_bottom.append('')
->>       0524:
->>       0525:        # Now process files
->>       0526:        file_list = []
->>   *** 0527:        walk_files(root, file_list, conffiles, dirfiles)
->>       0528:        if not file_list and localdata.getVar('ALLOW_EMPTY',
->> False) != "1":
->>       0529:            bb.note("Not creating empty RPM package for %s" %
->> splitname)
->>       0530:        else:
->>       0531:            spec_files_bottom.append('%%files -n %s' %
->> splitname)
->> File:
->> '/build/../layers/poky/meta/classes-global/package_rpm.bbclass',
->> lineno: 249, function: walk_files
->>       0245:                    target.append(get_attr(dir) + '%dir "' +
->> escape_chars(p) + '"')
->>       0246:            else:
->>       0247:                # packages own only empty directories or
->> explict directory.
->>       0248:                # This will prevent the overlapping of
->> security permission.
->>   *** 0249:                attr = get_attr(path)
->>       0250:                if path and not files and not dirs:
->>       0251:                    target.append(attr + '%dir "' +
->> escape_chars(path) + '"')
->>       0252:                elif path and path in dirfiles:
->>       0253:                    target.append(attr + '%dir "' +
->> escape_chars(path) + '"')
->> File:
->> '/build/../layers/poky/meta/classes-global/package_rpm.bbclass',
->> lineno: 203, function: get_attr
->>       0199:        # of the walk, the isdir() test would then fail and
->> the walk code would assume its a file
->>       0200:        # hence we check for the names in files too.
->>       0201:        for rootpath, dirs, files in os.walk(walkpath):
->>       0202:            def get_attr(path):
->>   *** 0203:                stat_f = os.stat(rootpath + "/" + path,
->> follow_symlinks=False)
->>       0204:                mode = stat.S_IMODE(stat_f.st_mode)
->>       0205:                try:
->>       0206:                    owner =
->> pwd.getpwuid(stat_f.st_uid).pw_name
->>       0207:                except Exception as e:
->> Exception: FileNotFoundError: [Errno 2] No such file or directory:
->> '/build/tmp/work/corei7-64-montavista-linux/mvtest/2.0/packages-split/mvtest-lic/opt//opt'
->>
->> Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
->> ---
->>   meta/classes-global/package_rpm.bbclass | 6 ++++--
->>   1 file changed, 4 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/classes-global/package_rpm.bbclass b/meta/classes-global/package_rpm.bbclass
->> index 2e3e4e8c79..a6885ac74e 100644
->> --- a/meta/classes-global/package_rpm.bbclass
->> +++ b/meta/classes-global/package_rpm.bbclass
->> @@ -200,6 +200,8 @@ python write_specfile () {
->>           # hence we check for the names in files too.
->>           for rootpath, dirs, files in os.walk(walkpath):
->>               def get_attr(path):
->> +                if not os.path.exists(rootpath + "/" + path):
->> +                   return ""
->>                   stat_f = os.stat(rootpath + "/" + path, follow_symlinks=False)
->>                   mode = stat.S_IMODE(stat_f.st_mode)
->>                   try:
->> @@ -243,7 +245,7 @@ python write_specfile () {
->>                       p = path + '/' + dir
->>                       # All packages own the directories their files are in...
->>                       target.append(get_attr(dir) + '%dir "' + escape_chars(p) + '"')
->> -            elif path:
->> +            elif path and os.path.exists(path):
->>                   # packages own only empty directories or explict directory.
->>                   # This will prevent the overlapping of security permission.
->>                   attr = get_attr(path)
->> @@ -257,7 +259,7 @@ python write_specfile () {
->>                   p = path + '/' + file
->>                   if conffiles.count(p):
->>                       target.append(attr + '%config "' + escape_chars(p) + '"')
->> -                else:
->> +                elif attr:
->>                       target.append(attr + '"' + escape_chars(p) + '"')
->>
->>       # Prevent the prerm/postrm scripts from being run during an upgrade
->> --
->> 2.31.1
->>
->>
->> -=-=-=-=-=-=-=-=-=-=-=-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#196109): https://lists.openembedded.org/g/openembedded-core/message/196109
->> Mute This Topic: https://lists.openembedded.org/mt/104536226/1686489
->> Group Owner: openembedded-core+owner@lists.openembedded.org
->> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
->> -=-=-=-=-=-=-=-=-=-=-=-
->>
-
--- 
-Jeremy Puhlman
-jpuhlman@mvista.com
-
+--=-iYRrVHTRuVlGnCwC1lzG--
 
