@@ -1,70 +1,99 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BDDCC48BF6
-	for <webhook@archiver.kernel.org>; Sat, 24 Feb 2024 10:58:42 +0000 (UTC)
-Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
- by mx.groups.io with SMTP id smtpd.web11.16976.1708772319566682534
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 578D2C54E41
+	for <webhook@archiver.kernel.org>; Sat, 24 Feb 2024 11:18:12 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.16862.1708773491070755497
  for <openembedded-core@lists.openembedded.org>;
- Sat, 24 Feb 2024 02:58:40 -0800
+ Sat, 24 Feb 2024 03:18:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=G4mN3wo8;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-20240224105836bd8802170cfe33ee76-gpcavj@rts-flowmailer.siemens.com)
-Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20240224105836bd8802170cfe33ee76
-        for <openembedded-core@lists.openembedded.org>;
-        Sat, 24 Feb 2024 11:58:36 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=Ct91938tAF9xpQ2vYD3+nMaLx4YSg5UpRNa0+X/8JnA=;
- b=G4mN3wo8UO9bE4Mi++V/R1z8t1SBF/rSnnyF+1i3Q1sDj+z2ZmrcvrokfGXBPdnIE328LH
- t+Egyqp20LSAIISps62iSa5QsQLlYqWAQpZLtrPN+yqJ1+NWhbdpBOVtU9mnON111Qy+LknX
- 1+botmj0AW7Z9wBiI5bflyl9qC27Q=;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][kirkstone][PATCH] glibc: ignore CVE-2023-0687
-Date: Sat, 24 Feb 2024 11:57:37 +0100
-Message-Id: <20240224105737.7942-1-peter.marko@siemens.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=BHhGYbTI;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=UJFW7IIO;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018ddad63e0d-7b11bbbe-ec64-44da-8c29-9f53d8b0dbb1-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1708773490; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=tEbEYqsQxwtOyp/VIR9vUWTAZq5UnzclO5fzrdnoCpk=;
+	b=BHhGYbTIf8o1xK3+c/17gOgLaFoZFSEe35GIbcHrVM2hP6+eQRMfnEk1pjxGiEEk
+	dRqjqsi09tMHLB/nPU1n5HUTPwQfr3W4HQb1kUf4VRnjWlEI3mx1VQsZI1wry1idxzt
+	Md29l6JAekyhukkCz3Ni2RaDmxlSDTEzuy+Inok4=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1708773490;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=tEbEYqsQxwtOyp/VIR9vUWTAZq5UnzclO5fzrdnoCpk=;
+	b=UJFW7IIONEBcR/GrVQKVo8g7yiG0PyxCm2S/lN2nVNCbrf229igx8QX8QvkSO0KK
+	Hf8cJD3LU/XRaXWl9tw1kDANpo5EQbUjw8F6yIwPP8mKxEfAvdm85KVlaRLDayJg9Lf
+	4h1HWNQot0VHgXiaaZd9KoxbPneI0UzIP5oCG4PI=
+From: patchtest@automation.yoctoproject.org
+To: Peter Marko <peter.marko@siemens.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-core][kirkstone][PATCH] glibc: ignore CVE-2023-0687
+In-Reply-To: <20240224105737.7942-1-peter.marko@siemens.com>
+References: <20240224105737.7942-1-peter.marko@siemens.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018ddad63e0d-7b11bbbe-ec64-44da-8c29-9f53d8b0dbb1-000000@us-west-2.amazonses.com>
+Date: Sat, 24 Feb 2024 11:18:10 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.02.24-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 24 Feb 2024 10:58:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196125
+ <openembedded-core@lists.openembedded.org>; Sat, 24 Feb 2024 11:18:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196126
 
-From: Peter Marko <peter.marko@siemens.com>
+--NextPart
+Content-Type: text/plain
 
-This CVE was backported to glibc 2.35 branch 9 months ago.
-NVD recently updated CPE and it appeared in kirkstone cve reports.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-https://sourceware.org/git/?p=glibc.git;a=log;h=refs/heads/release/2.35/master
-gmon: Fix allocated buffer overflow (bug 29444)
-https://sourceware.org/git/?p=glibc.git;a=commit;h=f2820e478c68a73a38f81512cc38beeee220212a
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/recipes-core/glibc/glibc_2.35.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Testing patch /home/patchtest/share/mboxes/kirkstone-glibc-ignore-CVE-2023-0687.patch
 
-diff --git a/meta/recipes-core/glibc/glibc_2.35.bb b/meta/recipes-core/glibc/glibc_2.35.bb
-index 21cd99dfdd..3ec6610d01 100644
---- a/meta/recipes-core/glibc/glibc_2.35.bb
-+++ b/meta/recipes-core/glibc/glibc_2.35.bb
-@@ -24,7 +24,7 @@ CVE_CHECK_IGNORE += "CVE-2019-1010025"
- CVE_CHECK_IGNORE += "CVE-2023-4527"
- 
- # To avoid these in cve-check reports since the recipe version did not change
--CVE_CHECK_IGNORE += "CVE-2023-4813 CVE-2023-4806 CVE-2023-4911 CVE-2023-5156"
-+CVE_CHECK_IGNORE += "CVE-2023-0687 CVE-2023-4813 CVE-2023-4806 CVE-2023-4911 CVE-2023-5156"
- 
- DEPENDS += "gperf-native bison-native"
- 
--- 
-2.30.2
+FAIL: test CVE check ignore: CVE_CHECK_IGNORE is deprecated and should be replaced by CVE_STATUS (test_metadata.TestMetadata.test_cve_check_ignore)
 
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
