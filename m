@@ -1,266 +1,223 @@
-Return-Path: <adrian.freihofer@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A14ACC47DD9
-	for <webhook@archiver.kernel.org>; Sun, 25 Feb 2024 20:52:43 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web11.6069.1708894362393169708
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F145AC54E4A
+	for <webhook@archiver.kernel.org>; Sun, 25 Feb 2024 21:52:53 +0000 (UTC)
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
+ by mx.groups.io with SMTP id smtpd.web10.7499.1708897973520241682
  for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Feb 2024 12:52:42 -0800
+ Sun, 25 Feb 2024 13:52:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=BwMHh2+x;
- spf=pass (domain: gmail.com, ip: 209.85.128.44, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-412a6022050so200525e9.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 25 Feb 2024 12:52:42 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=N5ZDXKXm;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.42, mailfrom: steve@sakoman.com)
+Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-6e432514155so1171406a34.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 25 Feb 2024 13:52:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708894361; x=1709499161; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8ZEDCKeMf7yhwbFC3NDjwB+6en5zk1Vm83iWgDYSy+I=;
-        b=BwMHh2+x3BSQfpsmt601Bt+CDb8KCil564kpQOgOwji4+rtbbS+OKTh2OrhuW41Oak
-         FYbKQp585181bal17cQcKBSubFdBV+MWGYu5r/D3XQ2vYpWzUmr1QH3V5Bkvm4ZO9FRC
-         gtSSYvnXHSKTFCEWRiyTx+LDjHV0tx9cdpFaX89RxXcr0xntGpZyZtGgr6H23h19H3fO
-         JuYlIH0G+XRQe4tMN2lgzQ+y+AVE8rLm+i1A1W2uDq6Z+OAyx3dpnwIkXsiwXzODZiPY
-         dJiwPfQeUSHzpaNqmIIPNHhqCJiPKxCMjLGaUNtJhTabQbaUKUGOYNbg7xUU1kimxnEC
-         Licw==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1708897972; x=1709502772; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jPcOC5X2KCBE2MFFCRrx0BMRYGFiHTQOdT4jPHAY2gU=;
+        b=N5ZDXKXmG7FEUBkhyUyNeF8b4a23zyqpNkoBl31jcYvbMu+hYjP2QUqfU9MBNmbtDk
+         ZSA8V+GtA9h/eW4ZAAHhZOZixVPVdAggUJS4vg5D3SJwk2wwH+oIHxYmrIyUOYnuU4FM
+         3YKl3s5OH7UlEpkWwdOn8cx09plZJpS6pMiFR6b8ENuunEX+GguViVnVcdBcRh+HdliH
+         IHwVmszzpNalX00aErvH1WjnSUj8qHF+nc18zmA8PFffAxlRE4cCQ8tyqcBlqCEbUx6r
+         er5RF7XsLJiBLaHEBOqcl+Gg/xZF4hy3yGkBrwg7XyLohdCK5FOVtMwQZ4LdHGDLQkUM
+         LrtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708894361; x=1709499161;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=8ZEDCKeMf7yhwbFC3NDjwB+6en5zk1Vm83iWgDYSy+I=;
-        b=v9mRsnWd/RO9PaVSRHZMgbKKjwc3NWFU4AwBIrq+6s4RbzF0qGpEnJHPSwShOcPh6P
-         rQl1roTpNEqrxhQJto2hhYUMGMI5Qxo/gPkjRrXjs0f3SX3aZnjPSau4bxTyIautt0AN
-         bZR9NzMROwF64pT5ZuyQVneOVDXueERQl575gTwfoQCzSVYgwtLlOAeiw6AcztD9EST8
-         oknQylkoHWbsUfF94nbgwFDdOq5yq+C7dIqevPMz03nj8X9+xaX/wxW4O/FSI+jkkhSx
-         zl7ZyJy7nHaqdTDNVbfShimQZdpMZoGLXseE/rLDoyL4jcMb9vIPS9jY26d2C/Hs9pDO
-         U1pA==
-X-Forwarded-Encrypted: i=1; AJvYcCXKFS1rr9yUaXyWrjaEFkANk89Rb8+N5xWKQuNRkbuwPAiLdq80begtZIEyMJdTK4gMywIOFfGtzKe20hULR2XJdWQiZMw8W4ghinxfN2URBgRvQCe6yBPo
-X-Gm-Message-State: AOJu0Yx4dhAcCtD5H2ylog5RyCgZtS4Wrqj7ZKPMzcxw458WsUWT0hRj
-	oWQOYYoiKpVvbFejujlpg+zxrWNcZXHoO/v5pDDow8ewKl9XySzl0CMZyrBb
-X-Google-Smtp-Source: AGHT+IHwNSH6xbPmkjhgy2oVCcOj4aUJBgUhEyETHrOHMHqcgwgNsFhnN5Uat11xwkgo0Jjyru9KQg==
-X-Received: by 2002:a05:600c:5109:b0:412:610f:c2e7 with SMTP id o9-20020a05600c510900b00412610fc2e7mr4330187wms.41.1708894360525;
-        Sun, 25 Feb 2024 12:52:40 -0800 (PST)
-Received: from ?IPv6:2a02:169:59a6:0:55c4:f628:91f3:4287? ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id 7-20020a05600c230700b00412886cbc44sm9765906wmo.24.2024.02.25.12.52.39
+        d=1e100.net; s=20230601; t=1708897972; x=1709502772;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jPcOC5X2KCBE2MFFCRrx0BMRYGFiHTQOdT4jPHAY2gU=;
+        b=iJ+/MV+6md507ef+BMQBpaGqv+xLhMedUwovqUTm3x0YfL4uCLBpBXPfhdoPTzKh+y
+         0UHSKxWrvPkwp5Vb/8vzBp5MDBv2lxVDkAAlwNKl23DgocOCDZ4ZzcZ/84/RzOYBkWbP
+         ooEINfp/Yplh352vc6fENI2ojm3pDt6I/bw5EHaG65pNcZdew/EPj8o/B+MhoITiK1Qf
+         kHNRWDob5n9CP8q6dwK6d1pTvxg6pgpN5wbCpruMO1sN9cJdTucYLhFGYNDSkafeKx2u
+         Cvam4FfvU/dCtisoYyQTA8c1leV91X6C7WZtRBD9QOIMEMqzKO3xAd0pcmXAwzV9Kvp9
+         LOKw==
+X-Gm-Message-State: AOJu0YxlwwzvHzmtOc2Vr/ydnkiTOHH7ro4+y3ZSdoSkgUGbVrGbDpq/
+	lw+qbnazscW2RI+E1OtQ9YI1XMl+z6Ov/AT6JG13WsgjjecYCvRj77/ibt9fcPRIxdLObQtf/dE
+	CPS+16A==
+X-Google-Smtp-Source: AGHT+IH4nAWky0CQLUMxgRqpnrcOU6NxBDftvmwsC8lQX5eAXG6GumD+6/gjCwDOnjwxXPx22eahvQ==
+X-Received: by 2002:a05:6358:2495:b0:17b:88c2:5c13 with SMTP id m21-20020a056358249500b0017b88c25c13mr6696693rwc.7.1708897972417;
+        Sun, 25 Feb 2024 13:52:52 -0800 (PST)
+Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
+        by smtp.gmail.com with ESMTPSA id a12-20020a17090acb8c00b0029a4089fbf0sm3082947pju.16.2024.02.25.13.52.51
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Feb 2024 12:52:39 -0800 (PST)
-Message-ID: <78d46783054810d0f7bcc0566867c4d44e1bdc03.camel@gmail.com>
-Subject: Re: [PATCH v2 2/5] devtool: code: Add source mapping for debug
- source files
-From: adrian.freihofer@gmail.com
-To: Enguerrand de Ribaucourt
- <enguerrand.de-ribaucourt@savoirfairelinux.com>, 
- openembedded-core@lists.openembedded.org
-Date: Sun, 25 Feb 2024 21:52:39 +0100
-In-Reply-To: <63b2d3cf-e269-48df-b9b0-a2c6e154dfff@savoirfairelinux.com>
-References: 
-	<20240219165525.714512-1-enguerrand.de-ribaucourt@savoirfairelinux.com>
-	 <20240219165525.714512-3-enguerrand.de-ribaucourt@savoirfairelinux.com>
-	 <4a89e1327bf1595361c98d200f15a36daefca0a6.camel@gmail.com>
-	 <ba386157-4ef6-4d83-a1a8-95aff41a92d4@savoirfairelinux.com>
-	 <fd2771f5-f50b-4da9-a90c-204e2356085d@savoirfairelinux.com>
-	 <0eb9dfcfce7449a97b68e17d29c2e671b4dbc06d.camel@gmail.com>
-	 <63b2d3cf-e269-48df-b9b0-a2c6e154dfff@savoirfairelinux.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.module_f38+17164+63eeee4a) 
+        Sun, 25 Feb 2024 13:52:51 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][kirkstone 01/22] go: add a complementary fix for CVE-2023-29406
+Date: Sun, 25 Feb 2024 11:52:20 -1000
+Message-Id: <973901530c98bc3f1b10d8bb89d55decf6848713.1708897822.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1708897822.git.steve@sakoman.com>
+References: <cover.1708897822.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 25 Feb 2024 20:52:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196151
+ <openembedded-core@lists.openembedded.org>; Sun, 25 Feb 2024 21:52:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196153
 
-On Thu, 2024-02-22 at 16:51 +0100, Enguerrand de Ribaucourt wrote:
->=20
->=20
-> On 22/02/2024 14:00, adrian.freihofer@gmail.com=C2=A0wrote:
-> > On Wed, 2024-02-21 at 15:56 +0100, Enguerrand de Ribaucourt wrote:
-> > >=20
-> > >=20
-> > > On 21/02/2024 15:12, Enguerrand de Ribaucourt wrote:
-> > > >=20
-> > > >=20
-> > > > On 20/02/2024 10:01, adrian.freihofer@gmail.com=C2=A0wrote:
-> > > > > On Mon, 2024-02-19 at 17:55 +0100, Enguerrand de Ribaucourt
-> > > > > wrote:
-> > > > > > When launching the debug configuration, the source files
-> > > > > > from
-> > > > > > the
-> > > > > > debug
-> > > > > > rootfs were openened in the editor instead of the local
-> > > > > > workspace
-> > > > > > files.
-> > > > > > We add an exception to properly map them to the file being
-> > > > > > developed
-> > > > > > and
-> > > > > > compiled by the IDE integration. This also more closely
-> > > > > > matches
-> > > > > > what
-> > > > > > the
-> > > > > > user would expect compared to native development.
-> > > > > >=20
-> > > > > > This is also true for the devtool fallback mode.
-> > > > >=20
-> > > > > This looks still wrong to me. If files from the rootfs are
-> > > > > openend for
-> > > > > a recipe which is in the workspace, the SDK is broken and we
-> > > > > need
-> > > > > to
-> > > > > understand and fix that. This patch does not solve that, but
-> > > > > will
-> > > > > make
-> > > > > it much harder to find the right solution for this issue.
-> > > > Hi Adrian,
-> > > >=20
-> > > > This is affecting essentially the devtool fallback mode. Since
-> > > > it's
-> > > > compiled through devtool, it's using the bitbake packaging
-> > > > information.
-> > > >=20
-> > > > Steps to reproduce:
-> > > > =C2=A0=C2=A0=C2=A0- devtool modify powertop (autotools recipe, curr=
-ently
-> > > > fallback)
-> > > > =C2=A0=C2=A0=C2=A0- devtool ide-sdk powertop [args...]
-> > > > =C2=A0=C2=A0=C2=A0- open the powertop sources workspace
-> > > > =C2=A0=C2=A0=C2=A0- run the debug launch configuration
-> > > > =C2=A0=C2=A0=C2=A0- initial breakpoint opens the rootfs-dbg main.cp=
-p instead
-> > > > of the
-> > > > current workspace
-> > > >=20
-> > > > This probably will get fixed for autotools with your specific
-> > > > class
-> > > > support, but will remain for the fallback mode.
-> > > >=20
-> > > > Do we want to keep this source map, but only for the fallback
-> > > > mode?
-> > > > Like
-> > > > you say, it's kinda "cheating" the debug information, but since
-> > > > we
-> > > > are
-> > > > in fallback mode, the devtool packaging is supposed to be using
-> > > > the
-> > > > sources from the workspace, so it's more like "hinting" at the
-> > > > proper
-> > > > source.
-> > > It also affects more meson projects like lighttpd. The "hint"
-> > > would
-> > > still be valid given how it's built and deployed now. If you are
-> > > still
-> > > working on an alternative tinfoil deploy method, maybe it's not
-> > > affected.
-> >=20
-> > It looks like the devtool deploy-target step is missing. If you
-> > debug
-> > packaged files this would behave like this. It's important to over
-> > write the packaged files with the not packaged file from the image
-> > folder. This is what the devtool deploy-target command does. It's
-> > expected that this just happens, probably there is a bug in the
-> > dependencies. Could you please try to run it explicit? Something
-> > like
-> > this:
-> >=20
-> > - devtool modify powertop (autotools recipe, currently fallback)
-> > - devtool ide-sdk powertop [args...]
-> >=20
-> > - devtool build powertop
-> > - devtool deploy-target powertop
-> >=20
-> > - open the powertop sources workspace
-> > - run the debug launch configuration
-> >=20
-> > I guess this would work as expected. The question is then: Why is
-> > the
-> > deploy not executed?
-> The deploy-target is actually executed automatically through the
-> launch=20
-> configuration. I also get the same result if I deploy manually. I=20
-> believe that the problem is rather how "devtool build" compiles and=20
-> packages the binary.
+From: Ming Liu <liu.ming50@gmail.com>
 
-You are right. We need this additional source mapping. I found some
-time to look into the details. I propose to go with these 4 patches
-(including your patch as well):
-https://lists.openembedded.org/g/openembedded-core/message/196146
+The original CVE-2023-29406.patch is not complete, causing docker
+failures at runtime, backport a complementary fix from golang upstream.
 
-Adrian
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/recipes-devtools/go/go-1.17.13.inc       |   3 +-
+ ...023-29406.patch => CVE-2023-29406-1.patch} |   0
+ .../go/go-1.18/CVE-2023-29406-2.patch         | 114 ++++++++++++++++++
+ 3 files changed, 116 insertions(+), 1 deletion(-)
+ rename meta/recipes-devtools/go/go-1.18/{CVE-2023-29406.patch => CVE-2023-29406-1.patch} (100%)
+ create mode 100644 meta/recipes-devtools/go/go-1.18/CVE-2023-29406-2.patch
 
-> >=20
-> > Adrian
-> >=20
-> >=20
-> > > > >=20
-> > > > > Adrian
-> > > > >=20
-> > > > > >=20
-> > > > > > Signed-off-by: Enguerrand de Ribaucourt
-> > > > > > <enguerrand.de-ribaucourt@savoirfairelinux.com>
-> > > > > > ---
-> > > > > > =C2=A0=C2=A0=C2=A0scripts/lib/devtool/ide_plugins/ide_code.py |=
- 1 +
-> > > > > > =C2=A0=C2=A0=C2=A0scripts/lib/devtool/ide_sdk.py=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1 +
-> > > > > > =C2=A0=C2=A0=C2=A02 files changed, 2 insertions(+)
-> > > > > >=20
-> > > > > > diff --git a/scripts/lib/devtool/ide_plugins/ide_code.py
-> > > > > > b/scripts/lib/devtool/ide_plugins/ide_code.py
-> > > > > > index b2193130d2e..c063b7d0590 100644
-> > > > > > --- a/scripts/lib/devtool/ide_plugins/ide_code.py
-> > > > > > +++ b/scripts/lib/devtool/ide_plugins/ide_code.py
-> > > > > > @@ -234,6 +234,7 @@ class IdeVSCode(IdeBase):
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if=
- gdb_cross_config.image_recipe.rootfs_dbg:
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 launch_config['additionalSOLibSearchPath'] =3D
-> > > > > > modified_recipe.solib_search_path_str(
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gdb_cross_config.image_recipe=
-)
-> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 src_file_map[os.path.join("/usr/src/debug",
-> > > > > > modified_recipe.pn, modified_recipe.pv)] =3D
-> > > > > > "${workspaceFolder}"
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 src_file_map["/usr/src/debug"] =3D
-> > > > > > os.path.join(
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
-> > > > > > gdb_cross_config.image_recipe.rootfs_dbg,
-> > > > > > "usr",
-> > > > > > "src", "debug")
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 el=
-se:
-> > > > > > diff --git a/scripts/lib/devtool/ide_sdk.py
-> > > > > > b/scripts/lib/devtool/ide_sdk.py
-> > > > > > index 14679744807..f292edbe25c 100755
-> > > > > > --- a/scripts/lib/devtool/ide_sdk.py
-> > > > > > +++ b/scripts/lib/devtool/ide_sdk.py
-> > > > > > @@ -356,6 +356,7 @@ class RecipeModified:
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 'PACKAGE_DEBUG_SPLIT_STYLE')
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 se=
-lf.path =3D recipe_d.getVar('PATH')
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 se=
-lf.pn =3D recipe_d.getVar('PN')
-> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.pv =3D recipe_=
-d.getVar('PV')
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 se=
-lf.recipe_sysroot =3D os.path.realpath(
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 recipe_d.getVar('RECIPE_SYSROOT'))
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 se=
-lf.recipe_sysroot_native =3D os.path.realpath(
-> > > > >=20
-> > > > Enguerrand de Ribaucourt
-> > > >=20
-> > > Enguerrand de Ribaucourt
-> >=20
->=20
-> Enguerrand de Ribaucourt
+diff --git a/meta/recipes-devtools/go/go-1.17.13.inc b/meta/recipes-devtools/go/go-1.17.13.inc
+index 6fc07bb910..c02da60f68 100644
+--- a/meta/recipes-devtools/go/go-1.17.13.inc
++++ b/meta/recipes-devtools/go/go-1.17.13.inc
+@@ -38,7 +38,8 @@ SRC_URI += "\
+     file://CVE-2023-29405.patch \
+     file://CVE-2023-29402.patch \
+     file://CVE-2023-29400.patch \
+-    file://CVE-2023-29406.patch \
++    file://CVE-2023-29406-1.patch \
++    file://CVE-2023-29406-2.patch \
+     file://CVE-2023-24536_1.patch \
+     file://CVE-2023-24536_2.patch \
+     file://CVE-2023-24536_3.patch \
+diff --git a/meta/recipes-devtools/go/go-1.18/CVE-2023-29406.patch b/meta/recipes-devtools/go/go-1.18/CVE-2023-29406-1.patch
+similarity index 100%
+rename from meta/recipes-devtools/go/go-1.18/CVE-2023-29406.patch
+rename to meta/recipes-devtools/go/go-1.18/CVE-2023-29406-1.patch
+diff --git a/meta/recipes-devtools/go/go-1.18/CVE-2023-29406-2.patch b/meta/recipes-devtools/go/go-1.18/CVE-2023-29406-2.patch
+new file mode 100644
+index 0000000000..637f46a537
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.18/CVE-2023-29406-2.patch
+@@ -0,0 +1,114 @@
++From c08a5fa413a34111c9a37fd9e545de27ab0978b1 Mon Sep 17 00:00:00 2001
++From: Damien Neil <dneil@google.com>
++Date: Wed, 19 Jul 2023 10:30:46 -0700
++Subject: [PATCH] [release-branch.go1.19] net/http: permit requests with
++ invalid Host headers
++
++Historically, the Transport has silently truncated invalid
++Host headers at the first '/' or ' ' character. CL 506996 changed
++this behavior to reject invalid Host headers entirely.
++Unfortunately, Docker appears to rely on the previous behavior.
++
++When sending a HTTP/1 request with an invalid Host, send an empty
++Host header. This is safer than truncation: If you care about the
++Host, then you should get the one you set; if you don't care,
++then an empty Host should be fine.
++
++Continue to fully validate Host headers sent to a proxy,
++since proxies generally can't productively forward requests
++without a Host.
++
++For #60374
++Fixes #61431
++Fixes #61825
++
++Change-Id: If170c7dd860aa20eb58fe32990fc93af832742b6
++Reviewed-on: https://go-review.googlesource.com/c/go/+/511155
++TryBot-Result: Gopher Robot <gobot@golang.org>
++Reviewed-by: Roland Shoemaker <roland@golang.org>
++Run-TryBot: Damien Neil <dneil@google.com>
++(cherry picked from commit b9153f6ef338baee5fe02a867c8fbc83a8b29dd1)
++Reviewed-on: https://go-review.googlesource.com/c/go/+/518855
++Auto-Submit: Dmitri Shuralyov <dmitshur@google.com>
++Run-TryBot: Roland Shoemaker <roland@golang.org>
++Reviewed-by: Russ Cox <rsc@golang.org>
++
++Upstream-Status: Backport [https://github.com/golang/go/commit/c08a5fa413a34111c9a37fd9e545de27ab0978b1]
++CVE: CVE-2023-29406
++Signed-off-by: Ming Liu <liu.ming50@gmail.com>
++---
++ src/net/http/request.go      | 23 ++++++++++++++++++++++-
++ src/net/http/request_test.go | 17 ++++++++++++-----
++ 2 files changed, 34 insertions(+), 6 deletions(-)
++
++diff --git a/src/net/http/request.go b/src/net/http/request.go
++index 3100037386..91cb8a66b9 100644
++--- a/src/net/http/request.go
+++++ b/src/net/http/request.go
++@@ -582,8 +582,29 @@ func (r *Request) write(w io.Writer, usingProxy bool, extraHeaders Header, waitF
++ 	if err != nil {
++ 		return err
++ 	}
+++	// Validate that the Host header is a valid header in general,
+++	// but don't validate the host itself. This is sufficient to avoid
+++	// header or request smuggling via the Host field.
+++	// The server can (and will, if it's a net/http server) reject
+++	// the request if it doesn't consider the host valid.
++ 	if !httpguts.ValidHostHeader(host) {
++-		return errors.New("http: invalid Host header")
+++		// Historically, we would truncate the Host header after '/' or ' '.
+++		// Some users have relied on this truncation to convert a network
+++		// address such as Unix domain socket path into a valid, ignored
+++		// Host header (see https://go.dev/issue/61431).
+++		//
+++		// We don't preserve the truncation, because sending an altered
+++		// header field opens a smuggling vector. Instead, zero out the
+++		// Host header entirely if it isn't valid. (An empty Host is valid;
+++		// see RFC 9112 Section 3.2.)
+++		//
+++		// Return an error if we're sending to a proxy, since the proxy
+++		// probably can't do anything useful with an empty Host header.
+++		if !usingProxy {
+++			host = ""
+++		} else {
+++			return errors.New("http: invalid Host header")
+++		}
++ 	}
++ 
++ 	// According to RFC 6874, an HTTP client, proxy, or other
++diff --git a/src/net/http/request_test.go b/src/net/http/request_test.go
++index fddc85d6a9..dd1e2dc2a1 100644
++--- a/src/net/http/request_test.go
+++++ b/src/net/http/request_test.go
++@@ -770,16 +770,23 @@ func TestRequestWriteBufferedWriter(t *testing.T) {
++ 	}
++ }
++ 
++-func TestRequestBadHost(t *testing.T) {
+++func TestRequestBadHostHeader(t *testing.T) {
++ 	got := []string{}
++ 	req, err := NewRequest("GET", "http://foo/after", nil)
++ 	if err != nil {
++ 		t.Fatal(err)
++ 	}
++-	req.Host = "foo.com with spaces"
++-	req.URL.Host = "foo.com with spaces"
++-	if err := req.Write(logWrites{t, &got}); err == nil {
++-		t.Errorf("Writing request with invalid Host: succeded, want error")
+++	req.Host = "foo.com\nnewline"
+++	req.URL.Host = "foo.com\nnewline"
+++	req.Write(logWrites{t, &got})
+++	want := []string{
+++		"GET /after HTTP/1.1\r\n",
+++		"Host: \r\n",
+++		"User-Agent: " + DefaultUserAgent + "\r\n",
+++		"\r\n",
+++	}
+++	if !reflect.DeepEqual(got, want) {
+++		t.Errorf("Writes = %q\n  Want = %q", got, want)
++ 	}
++ }
++ 
++-- 
++2.34.1
++
+-- 
+2.34.1
 
 
