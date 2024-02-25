@@ -1,156 +1,138 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B493EC47DD9
-	for <webhook@archiver.kernel.org>; Sun, 25 Feb 2024 09:37:48 +0000 (UTC)
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
- by mx.groups.io with SMTP id smtpd.web10.36286.1708853860597142042
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DEE9C54E41
+	for <webhook@archiver.kernel.org>; Sun, 25 Feb 2024 11:18:49 +0000 (UTC)
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+ by mx.groups.io with SMTP id smtpd.web11.37552.1708859920065157901
  for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Feb 2024 01:37:40 -0800
+ Sun, 25 Feb 2024 03:18:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=GusJvjxW;
- spf=pass (domain: gmail.com, ip: 209.85.208.54, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-563fe793e1cso2861092a12.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 25 Feb 2024 01:37:40 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=A7kEnTRt;
+ spf=softfail (domain: sakoman.com, ip: 209.85.222.175, mailfrom: steve@sakoman.com)
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-787a2a14cd1so199120785a.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 25 Feb 2024 03:18:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708853859; x=1709458659; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dHx7MIetbs+Vz09St1ipZWgKd8HK8lco0ypEEL7uCnM=;
-        b=GusJvjxWpqX1Iypc5u9r5qi5/Pqdjk9bWfvbQIgftry+rRzCs8agBQCDcYaJgX7Bqx
-         HfdNr+7YH/rEKtbF39Xt2goM3b8/Tyga3oLsQJzPFllQEHjZlDmbiFE1gADjwJYVlT2D
-         x4HZRr1bJ1l+6O+0khXB0ho1WZWHVIEQRUYo5kUW0MRejte2sZmBACwVjRSeFEdNtkrJ
-         KHy03tW6pdmctyEaaTj8KXKr+hAyEhlIEHan1J3aG3S4wfTOBDKWoik6h0npcdSFiTtS
-         UbroaLOXfKsv7RYjDl/y9eShksWZ4HU5qpf1ivMGtQZ+5qqfBFbTo9hxmz5rmkcGEErB
-         fZmA==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1708859919; x=1709464719; darn=lists.openembedded.org;
+        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gfn2a4v8fxfteh6M3hNDrR2Zo5NPlEZ0WsHUTF+MjQk=;
+        b=A7kEnTRt5bv/TcAY/4RaA5+nZuA5C1WWxJS12+jw61UU6+IqC/I3oMmihg+l2FY3CM
+         pyGlCAc/A4jdrcwXtQc+JC1zuh/vBTsA4hxLkKL+goHwWVLwiU12jYu1gtoUr1yVE/SG
+         Q+QYwmS9GmhTe9VNNoDBKvtFYxlti24uGhGWtzWSrVHs0Xi4AiW/PPQsqnw8jExAxbgt
+         0HSoH5FwZU/r0FW5Lq4EaFrzEALhGq7zIRn5+mrJr8r0iRPeKkgsm6vm8qU5odzD8CHJ
+         Qxee0mC5iHE+ecl7tzvz5di9cJr+ZK3SwU8j0JD3z1I9kY1pSAtZpDQSbCukwQeHJ8BL
+         Yv0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708853859; x=1709458659;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dHx7MIetbs+Vz09St1ipZWgKd8HK8lco0ypEEL7uCnM=;
-        b=uN8h9SPG/eW1rQMl2Mak9JcrksMOiNls4vSMELuUvzhrmba2Y8wq+msA9cKmozgjSe
-         6nPYvpcgbX0dmQINr93yUWM07k693+S4B8zotDDCh7ItsG5rcFVQ7jcoN2Isf13fsfzy
-         LZJOD4oQ/gmxN1tKH6RcFZIzPWzgvLZTDhTvO3HFEMud5ASVxXj9usTrlEFLoWc1td7A
-         fHIP3ZdaNe+mt5yhn6VLHRZ4j1qiuf6l5+OMJjZXaw54sbEhH343hQkbndrAZ0CmvDuI
-         Agma3vKf7bXjHVTuvcHM0E2bxA7IB8VlmNbZD6k3YmvvAJ7QJK1y7Me1JpiY/Isigcm3
-         m14g==
-X-Gm-Message-State: AOJu0Yzg7WTFqTm4iXbZQgrPLukfUU/sbXl3MpncGwv2I5R/c2fep129
-	XUWh2s9nWBFOftdR6Os9/Y07uEdoV1G3gzGw6r99EmsWpKxpLqvH5FrxUow0
-X-Google-Smtp-Source: AGHT+IHwLT0TCDxoRkZUkS1/692azZVdLOaMEry1qB0A2TOFMEywCythj3eJ8XQJT15OKtz5mnoJjg==
-X-Received: by 2002:aa7:d385:0:b0:565:9b29:ad3e with SMTP id x5-20020aa7d385000000b005659b29ad3emr2243280edq.6.1708853858816;
-        Sun, 25 Feb 2024 01:37:38 -0800 (PST)
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id w8-20020a056402070800b00565d42006b8sm391335edx.62.2024.02.25.01.37.38
+        d=1e100.net; s=20230601; t=1708859919; x=1709464719;
+        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=gfn2a4v8fxfteh6M3hNDrR2Zo5NPlEZ0WsHUTF+MjQk=;
+        b=AvISENykDpK/Dyrt77V8wcGPkQWfWmbjSbMgycLB7CqwPk9NZYkYvLq8JsFwQDtMPj
+         sl/7VLrcRAG82RgQvWbx+pH4HSSJQU7V/EEdO5tdGuIASpFiZuwMZ+oaGTjtZT+l1rF4
+         FVv8Z7qht0Z8U3ioIbGymAddC1HdHHBvMb36xU67LPcOYckDanIYkRG6U2okNKWUfhBM
+         L1RiKs2n+Dpu9sKKk6qk+80BI4HTl8qAecqyYEL3+HlHraKEaNxm9EdE56KQe4DYp3/J
+         TwlrRi9uubtzRelRW7ktKx2dUkXTZxdqbwntPuuu0z5Y2tAQBnThJ2nMIcV68xw5RBf4
+         78yA==
+X-Gm-Message-State: AOJu0Yxcb8MQ3A7aYAi3opdV1goKrsMUeS4UlFCMQsXlKNGmjMzT9cND
+	5JidGxOAptlSnGs2TqVu5uEeaMbDDd5xu1aO/mdpD9Ri9Hk0reWMx/u9lodC77PxtB+vvW3xSut
+	2ycQ=
+X-Google-Smtp-Source: AGHT+IEHNjbFqiKreQryhTI5IoOIU0zCKEnutj36UaY3wBqlvXODFHbNU0TTo0AnP4yNu0rLjYJnCA==
+X-Received: by 2002:a05:620a:136c:b0:787:3676:675e with SMTP id d12-20020a05620a136c00b007873676675emr5000792qkl.36.1708859918872;
+        Sun, 25 Feb 2024 03:18:38 -0800 (PST)
+Received: from builder.sakoman.com ([71.19.246.55])
+        by smtp.gmail.com with ESMTPSA id h10-20020a05620a13ea00b00787bb956e07sm1418113qkl.76.2024.02.25.03.18.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Feb 2024 01:37:38 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Martin Jansa <martin.jansa@gmail.com>
-Subject: [PATCH] glib-2.0: backport a switch from distutils to packaging in codegen
-Date: Sun, 25 Feb 2024 10:37:26 +0100
-Message-ID: <20240225093726.1113403-1-martin.jansa@gmail.com>
-X-Mailer: git-send-email 2.43.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Sun, 25 Feb 2024 03:18:38 -0800 (PST)
+Received: by builder.sakoman.com (Postfix, from userid 1001)
+	id 2C120106968; Sun, 25 Feb 2024 01:18:37 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 25 Feb 2024 01:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+User-Agent: mail (GNU Mailutils 3.14)
+Date: Sun, 25 Feb 2024 01:18:37 -1000
+Message-Id: <20240225111837.2C120106968@builder.sakoman.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 25 Feb 2024 09:37:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196136
+ <openembedded-core@lists.openembedded.org>; Sun, 25 Feb 2024 11:18:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196137
 
-* to fix build on hosts with python-3.12, now it fails with:
+Branch: master
 
-Traceback (most recent call last):
-  File "recipe-sysroot-native/usr/bin/gdbus-codegen", line 53, in <module>
-    from codegen import codegen_main
-  File "recipe-sysroot-native/usr/share/glib-2.0/codegen/codegen_main.py", line 29, in <module>
-    from . import dbustypes
-  File "recipe-sysroot-native/usr/share/glib-2.0/codegen/dbustypes.py", line 22, in <module>
-    from . import utils
-  File "recipe-sysroot-native/usr/share/glib-2.0/codegen/utils.py", line 22, in <module>
-    import distutils.version
-ModuleNotFoundError: No module named 'distutils'
-CMake Error at CMakeLists.txt:90 (message):
-  Error in generating code for connman interface using gdbus-codegen
+New this week: 0 CVEs
 
-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
----
- ...deprecated-distutils-module-to-the-p.patch | 34 +++++++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.78.3.bb |  1 +
- meta/recipes-core/glib-2.0/glib.inc           |  4 +--
- 3 files changed, 36 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-Switch-from-the-deprecated-distutils-module-to-the-p.patch
+Removed this week: 13 CVEs
+CVE-2023-25584 (CVSS3: 7.1 HIGH): binutils:binutils-cross-testsuite:binutils-cross-x86_64:binutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-25584 *
+CVE-2023-3019 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3019 *
+CVE-2023-3164 (CVSS3: 5.5 MEDIUM): tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3164 *
+CVE-2023-38559 (CVSS3: 5.5 MEDIUM): ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-38559 *
+CVE-2023-4692 (CVSS3: 7.8 HIGH): grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4692 *
+CVE-2023-4693 (CVSS3: 4.6 MEDIUM): grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4693 *
+CVE-2023-5088 (CVSS3: 7.0 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5088 *
+CVE-2023-6693 (CVSS3: 5.3 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6693 *
+CVE-2024-1048 (CVSS3: 3.3 LOW): grub:grub-efi:grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-1048 *
+CVE-2024-22667 (CVSS3: 7.8 HIGH): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-22667 *
+CVE-2024-24575 (CVSS3: 7.5 HIGH): libgit2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24575 *
+CVE-2024-24577 (CVSS3: 9.8 CRITICAL): libgit2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24577 *
+CVE-2024-24806 (CVSS3: 9.8 CRITICAL): libuv https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24806 *
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Switch-from-the-deprecated-distutils-module-to-the-p.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-Switch-from-the-deprecated-distutils-module-to-the-p.patch
-new file mode 100644
-index 0000000000..50368ed22c
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-Switch-from-the-deprecated-distutils-module-to-the-p.patch
-@@ -0,0 +1,34 @@
-+From 05f0674c93d94fe6b29c1b707980aac469ddcd72 Mon Sep 17 00:00:00 2001
-+From: Jordan Williams <jordan@jwillikers.com>
-+Date: Fri, 1 Dec 2023 09:53:50 -0600
-+Subject: [PATCH] Switch from the deprecated distutils module to the packaging
-+ module
-+
-+The distutils module was removed in Python 3.12.
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/6ef967a0f930ce37a8c9b5aff969693b34714291]
-+
-+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-+---
-+ gio/gdbus-2.0/codegen/utils.py | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/gio/gdbus-2.0/codegen/utils.py b/gio/gdbus-2.0/codegen/utils.py
-+index 0204610..08f1ba9 100644
-+--- a/gio/gdbus-2.0/codegen/utils.py
-++++ b/gio/gdbus-2.0/codegen/utils.py
-+@@ -19,7 +19,7 @@
-+ #
-+ # Author: David Zeuthen <davidz@redhat.com>
-+ 
-+-import distutils.version
-++import packaging.version
-+ import os
-+ import sys
-+ 
-+@@ -166,4 +166,4 @@ def version_cmp_key(key):
-+         v = str(key[0])
-+     else:
-+         v = "0"
-+-    return (distutils.version.LooseVersion(v), key[1])
-++    return (packaging.version.Version(v), key[1])
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.78.3.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.78.3.bb
-index 42814ba544..6c3e99c641 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.78.3.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.78.3.bb
-@@ -14,6 +14,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://0001-Do-not-write-bindir-into-pkg-config-files.patch \
-            file://0001-meson-Run-atomics-test-on-clang-as-well.patch \
-            file://0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch \
-+           file://0001-Switch-from-the-deprecated-distutils-module-to-the-p.patch \
-            file://memory-monitor.patch \
-            file://native-gtkdoc.patch \
-            "
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index 5a57549d85..fac8875d84 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -144,9 +144,7 @@ do_install:append:mingw32() {
-         rm -f ${D}${bindir}/gtester-report
- }
- 
--# remove setuptools dependency when usage of distutils is dropped in
--# https://gitlab.gnome.org/GNOME/glib/-/blob/main/gio/gdbus-2.0/codegen/utils.py
--CODEGEN_PYTHON_RDEPENDS = "python3 python3-setuptools python3-xml"
-+CODEGEN_PYTHON_RDEPENDS = "python3 python3-packaging python3-xml"
- CODEGEN_PYTHON_RDEPENDS:mingw32 = ""
- 
- RDEPENDS:${PN}-codegen += "${CODEGEN_PYTHON_RDEPENDS}"
--- 
-2.43.2
+Full list:  Found 42 unpatched CVEs
+CVE-2019-14899 (CVSS3: 7.4 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
+CVE-2021-3714 (CVSS3: 5.9 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
+CVE-2021-3864 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
+CVE-2022-0400 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
+CVE-2022-1247 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
+CVE-2022-3219 (CVSS3: 3.3 LOW): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3219 *
+CVE-2022-38096 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
+CVE-2022-4543 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
+CVE-2022-46456 (CVSS3: 6.1 MEDIUM): nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46456 *
+CVE-2023-1386 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1386 *
+CVE-2023-3397 (CVSS3: 6.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
+CVE-2023-3640 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
+CVE-2023-4010 (CVSS3: 4.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
+CVE-2023-42363 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42363 *
+CVE-2023-42364 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42364 *
+CVE-2023-42365 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42365 *
+CVE-2023-42366 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42366 *
+CVE-2023-51767 (CVSS3: 7.0 HIGH): openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51767 *
+CVE-2023-6238 (CVSS3: 6.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
+CVE-2023-6240 (CVSS3: 6.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6240 *
+CVE-2023-6270 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6270 *
+CVE-2023-6356 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6356 *
+CVE-2023-6535 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6535 *
+CVE-2023-6536 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6536 *
+CVE-2023-6683 (CVSS3: 6.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6683 *
+CVE-2023-6780 (CVSS3: 5.3 MEDIUM): glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6780 *
+CVE-2023-7042 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-7042 *
+CVE-2023-7216 (CVSS3: 8.8 HIGH): cpio https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-7216 *
+CVE-2024-0684 (CVSS3: 5.5 MEDIUM): coreutils:coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0684 *
+CVE-2024-0841 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0841 *
+CVE-2024-21803 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-21803 *
+CVE-2024-23307 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23307 *
+CVE-2024-23848 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23848 *
+CVE-2024-23850 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23850 *
+CVE-2024-23851 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23851 *
+CVE-2024-24857 (CVSS3: 6.8 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24857 *
+CVE-2024-24858 (CVSS3: 5.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24858 *
+CVE-2024-24859 (CVSS3: 4.8 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24859 *
+CVE-2024-24860 (CVSS3: 5.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24860 *
+CVE-2024-24861 (CVSS3: 6.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24861 *
+CVE-2024-24864 (CVSS3: 4.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24864 *
+CVE-2024-25062 (CVSS3: 7.5 HIGH): libxml2:libxml2-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-25062 *
 
+Summary of CVE counts by recipe:
+  linux-yocto: 29
+  busybox: 4
+  qemu:qemu-native:qemu-system-native: 2
+  coreutils:coreutils-native: 1
+  cpio: 1
+  glibc: 1
+  gnupg:gnupg-native: 1
+  libxml2:libxml2-native: 1
+  nasm:nasm-native: 1
+  openssh: 1
+
+For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
