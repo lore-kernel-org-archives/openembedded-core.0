@@ -1,221 +1,115 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <jpuhlman@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2245FC47DD9
-	for <webhook@archiver.kernel.org>; Sun, 25 Feb 2024 14:55:20 +0000 (UTC)
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.web10.40176.1708872910981983444
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8833AC47DD9
+	for <webhook@archiver.kernel.org>; Sun, 25 Feb 2024 17:22:22 +0000 (UTC)
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+ by mx.groups.io with SMTP id smtpd.web11.1375.1708881733904492059
  for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Feb 2024 06:55:11 -0800
+ Sun, 25 Feb 2024 09:22:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=LqrDe2L3;
- spf=pass (domain: gmail.com, ip: 209.85.216.44, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-29a378040daso1656681a91.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 25 Feb 2024 06:55:10 -0800 (PST)
+ dkim=pass header.i=@mvista.com header.s=google header.b=C98Hl9J2;
+ spf=pass (domain: mvista.com, ip: 209.85.214.172, mailfrom: jpuhlman@mvista.com)
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1dc3b4b9b62so20237415ad.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 25 Feb 2024 09:22:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708872910; x=1709477710; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FNST3+jrRU6/5mWCUDp2980egBrgxC7LTfXVDpKc9os=;
-        b=LqrDe2L3X9aPqV5QFZmxCrvI18tQ11xSCqSQyWoOJYrSygwJERwI50/8qadTZ0TbOf
-         8ukXBGZBxnKPk1jOjwZKSYuAPoQ3EE7xcy13lpllWxYSX4r3ZgZWHBEJxTdYGYcoT3gN
-         jH+orNspi++Xc5qCYNa/CgFjONjwy29gAodlw3+WBmk/QdVHKXviHWRYQW7qzoMGg2jz
-         sfaK3Hk85/8VZ7XzQBqN29V0tn2ZYXHSL0DZdt/KrMugOCIxgwNX0c/7jpJxisryB8er
-         /78QSSsOPE9ndSfn2EEtSsLrfP3lxf0dtOPF8b6jjdZ4AXguvnM6DP/kN0CarUr+Ppd/
-         c8cQ==
+        d=mvista.com; s=google; t=1708881733; x=1709486533; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/mpaMDdGnyrwMtJb4y0b3xubst82XV8ovDZCBSOfxhY=;
+        b=C98Hl9J2vklRwtNsz7z7Di0XlDZON8AMkIw8Jol9eUB9qUAMBeokiIbvT5tjCQOTsb
+         sUU34IDcr8qazyC8XYFgNcGn60lvaBBkltjl4tnKO1UOAtkFJ98qg5vPhFNdgh2gHLk3
+         tzbHL250OTUAHQc/rCvCPDMlBqHTp5065z1Dg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708872910; x=1709477710;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FNST3+jrRU6/5mWCUDp2980egBrgxC7LTfXVDpKc9os=;
-        b=RHGlrVEvmyWUBQrM/NcuEBw91UsCN6Du9Q/Q1FHAtjmg0RZHPAKV+PBiaY2MnLaiOH
-         kC9Yzt/ypI6TczU+ch2Hl6oGOEvfDPmoGP4IgyH5WghqLS8ZUidsOZEsvfJVEUpIjVfJ
-         sLXq9tHZzuY+YaTeF1a+CXCA/qymK629+1ALvNWSTsyH21Gr8hgJJxWLVTysfJVHiPtO
-         SxSLmmzO38QPtXdy48Bgi3cNCBfj1gsG0u5W6/YE8vlEKQpLGEfR/PMIzIPMpkQHkFKG
-         ADYK82YuVdW9EzfBm/er2UcdA7UxKnEWQ/NG9Rm7GfOwu/+5KY+wRdHC54Q95JgZbSQd
-         oEYQ==
-X-Gm-Message-State: AOJu0YzFu8XZuMtD7iaghi21n659703P8xaUZuK44p/pExsFkuP5R7+Y
-	uQ9hivVWeIZ5VdHmBb1C/efJCgZqicQIfkOoNordM4bxFzQgkYTaRRu0Z3ZI/7be+K+Ln+WAmyL
-	eAzlf3kWQK7GpVbi174WPf2n0K+g=
-X-Google-Smtp-Source: AGHT+IHEg8qqa82vGOk+om3kknQ9ovVO7xkti6i2qPvq4B3oFMbcRpRZ1ofWgqMXR5/7o+rwy3BeSnIpjgEp8OnJrc0=
-X-Received: by 2002:a17:90a:ad8a:b0:29a:a38c:8262 with SMTP id
- s10-20020a17090aad8a00b0029aa38c8262mr1881635pjq.48.1708872910175; Sun, 25
- Feb 2024 06:55:10 -0800 (PST)
+        d=1e100.net; s=20230601; t=1708881733; x=1709486533;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/mpaMDdGnyrwMtJb4y0b3xubst82XV8ovDZCBSOfxhY=;
+        b=AV0ADp2fddipcQ+m0nTrczUDBhLG5yQQi2YB9QoVE3ifutyKYFdsWCVteSvy6RLs1Q
+         LI0Nns2/U+yBSRo5taCIasMrR7GLk2RdMo6Jpsxvz+GF07pOTjhQIIroMS18GqLqCB4Q
+         nKoM+2l9P83+JCZP6n4sfEgJI+sVrlIzIRKQ3Aybnw6srePrsT7Wu3r6RbtB3jt0v4EG
+         iC8QH31nlfonzFu1V+7/2In0BMzXO6mnRtQo1wjRmx3y0pBTJD5ob24KL9GUAfftvZCz
+         uyegv7IsVwl/Y7uCzU6LsXowz3zHpYM8AqFjCIlbhFFgmUMUYIFLjB8e/0DhlpslUx4A
+         u71w==
+X-Forwarded-Encrypted: i=1; AJvYcCWETIC2b0+0tGcMliWTRCTnt3+TATjpFfwY8d7EF077KqO28HkXQhvG6XcqWsWtzeM8XFiVXQrHgAAfaEtm/PWfnx4Eb0FcpDyvamOkKXsP9LbtEv0wWsKU
+X-Gm-Message-State: AOJu0YxWBE0r9UbLWsiIvhuPyQOw9bYzvSaVKjJeM51HZOxYNc9QhOYp
+	eByNMGEdXYic/Q51YTIS5NSHccim/uG/jDRPkgTTO3/RUDjf9iRZbS0iLmCgkJw=
+X-Google-Smtp-Source: AGHT+IH34uuzscUaWg1ZN0CLzL2P5rtM2JUp/D1yzkfHJsuqzm2rs5aGnLCH2mQz6yEiYaDBJNrMxA==
+X-Received: by 2002:a17:902:edd0:b0:1db:c056:8b2f with SMTP id q16-20020a170902edd000b001dbc0568b2fmr4525202plk.16.1708881733259;
+        Sun, 25 Feb 2024 09:22:13 -0800 (PST)
+Received: from [192.168.1.9] (99-14-97-149.lightspeed.frokca.sbcglobal.net. [99.14.97.149])
+        by smtp.gmail.com with ESMTPSA id kb11-20020a170903338b00b001d90a67e10bsm2440885plb.109.2024.02.25.09.22.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 25 Feb 2024 09:22:12 -0800 (PST)
+Message-ID: <8e02178a-106e-498c-92a0-c0fc760cff0f@mvista.com>
+Date: Sun, 25 Feb 2024 09:22:12 -0800
 MIME-Version: 1.0
-References: <CADkTA4OD_rO2CPSHjA240-oGGzn9OPTd+=LT4Ne3t2yFFSQtjA@mail.gmail.com>
- <20240224072106.2702207-1-kamatam@amazon.com>
-In-Reply-To: <20240224072106.2702207-1-kamatam@amazon.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Sun, 25 Feb 2024 09:54:58 -0500
-Message-ID: <CADkTA4Pmv7cL2LTSYvhXv905T6_MpsZxCgXnUZqvSS2E6BhTuQ@mail.gmail.com>
-Subject: Re: [PATCH v2] kernel.bbclass: Set pkg-config variables for building modules
-To: Munehisa Kamata <kamatam@amazon.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] package_rpm: Fix backtrace on missing
+ directory.
+Content-Language: en-US
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <17B69806B1DEE2BA.25421@lists.openembedded.org>
+ <ba284035-ee83-42d0-be21-a6f31532f9cb@mvista.com>
+ <f3b16ac13c9a4cdbc7409296267446c23332d56f.camel@linuxfoundation.org>
+From: Jeremy Puhlman <jpuhlman@mvista.com>
+In-Reply-To: <f3b16ac13c9a4cdbc7409296267446c23332d56f.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 25 Feb 2024 14:55:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196142
+ <openembedded-core@lists.openembedded.org>; Sun, 25 Feb 2024 17:22:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196143
 
-On Sat, Feb 24, 2024 at 2:21=E2=80=AFAM Munehisa Kamata <kamatam@amazon.com=
-> wrote:
->
-> Hi Bruce,
->
-> > That is indeed not a simple workflow!
-> >
-> > In the past, we've always had the existing packageconfig results picked=
- up and
-> > used by later stages of the kernel build which prevented things like th=
-is from
-> > happening.
-> >
-> > Have you figured out exactly which packageconfig is triggering the rebu=
-ild, and
-> > had a look to see if something change such that the existing results
-> > aren't used ?
->
-> The missing of libcrypto.pc and libelf.pc triggers the rebuild of
-> certs/extract-cert and objtool respectively. When PKG_CONFIG_DIR is set t=
-o
-> recipe-sysroot at module build time, it points to a non-existent director=
-y
-> and therefore pkg-config can't find .pc for the requested library whereas
-> they are present in the recipe-sysroot-native, then it causes make to
-> rebuild the target.
->
-> Although I admit that I don't fully understand how make particularly
-> decides to trigger the rebuild in this case.
 
-Fair enough. I can't say that I always understand how the kernel's
-Makefiles are triggering difficult builds without significant hacking
-up of the Makefiles, and it isn't worth doing for this.
 
-At a minimum, it is good to know that the .pc files are being consulted
-so we do have something reproducible between builds when everything
-is full defined.
-
+On 2/24/2024 2:13 PM, Richard Purdie wrote:
+> On Fri, 2024-02-23 at 12:33 -0800, Jeremy Puhlman via
+> lists.openembedded.org wrote:
+>> It says usr//usr in the comment, but when I ran on a clean build it
+>> started complaining about opt//opt as well. Its not really clear why
+>> it is looking for those directories, and I am sure this is not likely
+>> the correct solution, but I wanted to get it out here so someone who
+>> has kicked this area of code might know what may be happening.
+> Unfortunately there are layers of different pieces which could be the
+> issue, such as pseudo in combination with the host distro libraries and
+> uninative.
 >
-> > All that being said, rather than repeating the exports, it would be
-> > better to have
-> > them in a common place, since eventually everything but the HOSTPKG_CON=
-FIG
-> > definition will be dropped.
-> >
-> > Have you tried a more class-global export of the values ? We have a
-> > few of those,
-> > but admittedly, we have way more exports that are duplicated between do=
-_compile
-> > and do_compile_kernelmodules(), so the duplicated exports aren't a big =
-issue.
->
-> Yes, I actually tried it first and it worked at lesat for simple kernel
-> building. But I wasn't entirely sure if it was safe enough for the
-> ecosystem and came up with the change that is hopefully less impact. That
-> said, if you think it's fine, I'm happy to submit v3 with the class-globa=
-l
-> export. It would be better indeed.
->
+> Can you create a test case which reproduces the issue?
+Yeah, I was going to try to get to it, but time got away from me. 
+Hopefully I should
+be able to get some time later today.
 
-It is something that should be safe, since really, whenever we build
-anything in the kernel having a consistent environment should be in
-place. The kernel modules build has expanded over the years and
-more of the kernel tools and common build components are coming
-into play, so things we didn't previously need .. are now needed in
-the modules compilation.
+>   Does it always
+> happen with this recipe?
+Yes. Originally it was happening in our distro setup, minimizing it to 
+just poky and the
+meta-oe/meta-python, it happens with the recipe with the default distro 
+as well.
 
-I had recommended that this go into test on Friday via IRC, but
-there's no harm in doing a cleaned up v3 with a class global set
-of exports. We can always apply it post release if it is decided there
-is extra risk .. but at least it will be a reference to how we should
-start consolidating some of the exports.
+>   Does it happen on different host distros?
+I have not tried that, so far it was just rocky 8.
 
-Bruce
+>   Are
+> you using uninative?
+Yes. It happens with the default poky distro, too.
+
+> What about buildtools-tarball?
+We always use buildtools-extended-tarball, to isolate as much as 
+possible from the host.
 
 >
-> Thanks,
-> Munehisa
+> Cheers,
 >
-> > Bruce
-> >
-> > >
-> > > Signed-off-by: Munehisa Kamata <kamatam@amazon.com>
-> > > ---
-> > >
-> > > v1 -> v2: Rewrote the commit message with the repro steps
-> > >
-> > >  meta/classes-recipe/kernel.bbclass | 12 +++++++++---
-> > >  1 file changed, 9 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe=
-/kernel.bbclass
-> > > index a76aaee5ba..db4461e551 100644
-> > > --- a/meta/classes-recipe/kernel.bbclass
-> > > +++ b/meta/classes-recipe/kernel.bbclass
-> > > @@ -239,6 +239,8 @@ KERNEL_EXTRA_ARGS ?=3D ""
-> > >  EXTRA_OEMAKE +=3D ' CC=3D"${KERNEL_CC}" LD=3D"${KERNEL_LD}" OBJCOPY=
-=3D"${KERNEL_OBJCOPY}" STRIP=3D"${KERNEL_STRIP}"'
-> > >  EXTRA_OEMAKE +=3D ' HOSTCC=3D"${BUILD_CC}" HOSTCFLAGS=3D"${BUILD_CFL=
-AGS}" HOSTLDFLAGS=3D"${BUILD_LDFLAGS}" HOSTCPP=3D"${BUILD_CPP}"'
-> > >  EXTRA_OEMAKE +=3D ' HOSTCXX=3D"${BUILD_CXX}" HOSTCXXFLAGS=3D"${BUILD=
-_CXXFLAGS}"'
-> > > +# Only for newer kernels (5.19+), native pkg-config variables are se=
-t for older kernels when building kernel and modules
-> > > +EXTRA_OEMAKE +=3D ' HOSTPKG_CONFIG=3D"pkg-config-native"'
-> > >
-> > >  KERNEL_ALT_IMAGETYPE ??=3D ""
-> > >
-> > > @@ -356,9 +358,6 @@ kernel_do_compile() {
-> > >         export PKG_CONFIG_LIBDIR=3D"$PKG_CONFIG_DIR"
-> > >         export PKG_CONFIG_SYSROOT_DIR=3D""
-> > >
-> > > -       # for newer kernels (5.19+) there's a dedicated variable
-> > > -       export HOSTPKG_CONFIG=3D"pkg-config-native"
-> > > -
-> > >         if [ "${KERNEL_DEBUG_TIMESTAMPS}" !=3D "1" ]; then
-> > >                 # kernel sources do not use do_unpack, so SOURCE_DATE=
-_EPOCH may not
-> > >                 # be set....
-> > > @@ -408,6 +407,13 @@ addtask transform_kernel after do_compile before=
- do_install
-> > >
-> > >  do_compile_kernelmodules() {
-> > >         unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
-> > > +
-> > > +       # setup native pkg-config variables (kconfig scripts call pkg=
--config directly, cannot generically be overriden to pkg-config-native)
-> > > +       export PKG_CONFIG_DIR=3D"${STAGING_DIR_NATIVE}${libdir_native=
-}/pkgconfig"
-> > > +       export PKG_CONFIG_PATH=3D"$PKG_CONFIG_DIR:${STAGING_DATADIR_N=
-ATIVE}/pkgconfig"
-> > > +       export PKG_CONFIG_LIBDIR=3D"$PKG_CONFIG_DIR"
-> > > +       export PKG_CONFIG_SYSROOT_DIR=3D""
-> > > +
-> > >         if [ "${KERNEL_DEBUG_TIMESTAMPS}" !=3D "1" ]; then
-> > >                 # kernel sources do not use do_unpack, so SOURCE_DATE=
-_EPOCH may not
-> > >                 # be set....
-> > > --
-> > > 2.34.1
-> > >
-> >
-> >
-> > --
-> > - Thou shalt not follow the NULL pointer, for chaos and madness await
-> > thee at its end
-> > - "Use the force Harry" - Gandalf, Star Trek II
-> >
-> >
+> Richard
 
+-- 
+Jeremy Puhlman
+jpuhlman@mvista.com
 
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
