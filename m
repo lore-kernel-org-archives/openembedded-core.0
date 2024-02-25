@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 444BAC47DD9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 501A2C54E51
 	for <webhook@archiver.kernel.org>; Sun, 25 Feb 2024 21:53:24 +0000 (UTC)
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
- by mx.groups.io with SMTP id smtpd.web10.7526.1708898000251322069
+Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
+ by mx.groups.io with SMTP id smtpd.web10.7521.1708897998339133765
  for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Feb 2024 13:53:20 -0800
+ Sun, 25 Feb 2024 13:53:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=1AlNxRCX;
- spf=softfail (domain: sakoman.com, ip: 209.85.160.49, mailfrom: steve@sakoman.com)
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-21e63b586fcso1766442fac.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 25 Feb 2024 13:53:20 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=WrM4irg1;
+ spf=softfail (domain: sakoman.com, ip: 209.85.161.47, mailfrom: steve@sakoman.com)
+Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-5a0073ae310so1045871eaf.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 25 Feb 2024 13:53:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1708897999; x=1709502799; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1708897997; x=1709502797; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=cv5Ckvq04tiRLZ5rkhIr9xM3M9SxV0jYFv8y7Rw/Rqk=;
-        b=1AlNxRCXxkPHpYx+kNpg1CQpswpbRH5Ga6YmUNoBUpZaBbvNjBdIHnb8JtW9Qamhlp
-         KDK4c6pncmOAn0R3dAs94M/x0XPCIgsY3EJTbBHABE2ETgvpYCRRg8YzxfYAd9TagfZ6
-         9EbmMNgxuto3FzhxRfpWZ2W3ROFfQdLE9O5BXaVOseK/MXSrBQeq4No/CW4IGntlakbb
-         0Jdk1h+xRuNtvOn2N+uJOQfKFAls1F/eriJQAJ19o1JOco0p3CHlZwSs7T5BFEZKSbbF
-         qF0nRU/FZivlxMpQ4fUxzcrr8Lit7Aevv3JFVo0uLKKbzogQVCZsUBRd6pEWOmi0d9QA
-         B15g==
+        bh=67ZN3xVSGRMtpm5EjHWIVG3XjhpU/aYg690e7GuBGAM=;
+        b=WrM4irg1goF+V1/f7/ypxhu81A4bhr5KFOZK7dIvuxv35jOWt9QuQ8rF9eIWAVg12Y
+         3saOa0Lqz+4zvjuEivphpnIFZtJq+kBdFm+TETehNFJFE3nmN/ZokPNUSOKVFiLIRxtY
+         jcApSMWt/XNfmzjtmx3nVd8y487j3K1XI25bDdRiyK3q5wsFP3y9EZvuuzCMaPtyp44s
+         o4grSWrfk77tAlnor+8P79KXmWU6X1Dv5hzFUCWW05VAJZjQVkPOnw4xphVq09L8YiLM
+         aCDiPysjCko7RhYkfAo7eq5vFSYdHT+2uhpxJuyP9h5pA8RpUdXO77xHTv1aa2HZ+7bn
+         uEpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708897999; x=1709502799;
+        d=1e100.net; s=20230601; t=1708897997; x=1709502797;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=cv5Ckvq04tiRLZ5rkhIr9xM3M9SxV0jYFv8y7Rw/Rqk=;
-        b=XYS80e2wXd/ldgHPdV5p+eH30uYftZ+A+Vv8tZCrYI+GT936t/RBgFUbhLq5Ud2uzy
-         ysqaaNUH93zOLDi443TXJ3radOQJ3e/sjrbIh8VK0V5qoFGcakD832YU5yDEeWpepDKX
-         UYtHUXsknN9gm5U1OZahRz0zbQr/CE1Iy28uSj/VZ1ghoB/yXED5neCLPzCWH5+AODjd
-         AMRbsE14/yyaPmPeLL9U0iQ5FSJh8uK/Il/LrkPCBz/VlbNz010E2Bo4Hr9Rl7XtgzNT
-         aucGpfT4wngf+wvTX8hH4EyMX3mUMLxc15ogrX8Tj8WEJmUy3cR5HunrrcBmoJsxZipQ
-         F5aA==
-X-Gm-Message-State: AOJu0Yyx+tx2PXYNHePad6BSSZkO1CFXvUzvPuvi51AxZi5n9+bJeNYY
-	4+/438RxwKClkY0iu1skL3jylg/Meb+b3dDKqxozdH6BT8bm2OHGMLwuxzJ8ASku5YRJJ+rFzgs
-	C0oO8Og==
-X-Google-Smtp-Source: AGHT+IH1chxJcUr0YWaOCF9swcN7dakD3GlqWExu1yUexJhik8D7mslWGi33ZKJVG72pTABA8B84sQ==
-X-Received: by 2002:a05:6870:8326:b0:21f:db53:43bb with SMTP id p38-20020a056870832600b0021fdb5343bbmr5000686oae.11.1708897999328;
-        Sun, 25 Feb 2024 13:53:19 -0800 (PST)
+        bh=67ZN3xVSGRMtpm5EjHWIVG3XjhpU/aYg690e7GuBGAM=;
+        b=Y/MXeSrwFVbscx7L8BFjltC53Zc58bGSoqrT2lW4Yup694GAT3pjt0WQAx8N2mvacD
+         Y8u7R0f4OdN/qVXigemDCWYkmIGuaFfpOVHCpVVhqXK65pbV0CKxBJy8PWNUGSz6vG6s
+         Oskcei2ki7NLMGdqoqNlqbM9qOTdZ49RPECGH332BLu43/2WPcK8o+ZOttHJfi4D0BP3
+         CiE0PmxxjHdI57sh0HRUUKYtD1hdy7GBLTopv5rGOH/7CRZVbo9Cn3mj1WlUUjRLEtnL
+         XmMt4eiRouGAHccX9Xl7/RcVVtPLhh0gbKTMFnziewYFGuwhddLYiOvv/hknyE3+LD3b
+         Mq6g==
+X-Gm-Message-State: AOJu0YxJAJYXJIGuCxFDtsMbgqo690Siho83IFZqQGSwvzo56nTViX4R
+	mqhdyhEMgohGw7+S9DvkQNzwDvd18bsYhoMwUmOr7nn3DSB9Fuy/Vzlmk25BiNIoPlPnFe13yba
+	E4NhF+g==
+X-Google-Smtp-Source: AGHT+IFSEdgkWj0khBRU6o+fADwyRiSwwNRYVPm5D0scw+VzoSfivWD0xgfIjC1rQ4KT3wV+ISEthw==
+X-Received: by 2002:a05:6358:4c45:b0:17b:78f1:b4f4 with SMTP id lc5-20020a0563584c4500b0017b78f1b4f4mr6891069rwc.27.1708897997259;
+        Sun, 25 Feb 2024 13:53:17 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id a12-20020a17090acb8c00b0029a4089fbf0sm3082947pju.16.2024.02.25.13.53.18
+        by smtp.gmail.com with ESMTPSA id a12-20020a17090acb8c00b0029a4089fbf0sm3082947pju.16.2024.02.25.13.53.16
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Feb 2024 13:53:18 -0800 (PST)
+        Sun, 25 Feb 2024 13:53:16 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 14/22] linux-yocto/5.15: update to v5.15.147
-Date: Sun, 25 Feb 2024 11:52:33 -1000
-Message-Id: <f4f1964a7a2922f3253484852b76602af5f31a89.1708897822.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 13/22] linux-yocto/5.15: update CVE exclusions
+Date: Sun, 25 Feb 2024 11:52:32 -1000
+Message-Id: <22b1db5362e18ee6c2a90049facc72c3554542dd.1708897822.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1708897822.git.steve@sakoman.com>
 References: <cover.1708897822.git.steve@sakoman.com>
@@ -62,169 +62,456 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 25 Feb 2024 21:53:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196166
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196165
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Updating linux-yocto/5.15 to the latest korg -stable release that comprises
-the following commits:
+Data pulled from: https://github.com/nluedtke/linux_kernel_cves
 
-    ddcaf4999061 Linux 5.15.147
-    231752a0a05d net: usb: ax88179_178a: move priv to driver_priv
-    d800d18ba132 net: usb: ax88179_178a: remove redundant init code
-    329197033bb0 tracing/kprobes: Fix symbol counting logic by looking at modules as well
-    ccb7eef5f2f3 kallsyms: Make module_kallsyms_on_each_symbol generally available
-    ab3a3aadb373 netfilter: nf_tables: Reject tables of unsupported family
-    0eb556b2386d perf inject: Fix GEN_ELF_TEXT_OFFSET for jit
-    b8a5308feedd ipv6: remove max_size check inline with ipv4
-    ba5efd8544fa net: tls, update curr on splice as well
-    06bb52d2efb3 mmc: sdhci-sprd: Fix eMMC init failure after hw reset
-    6722186854a7 mmc: core: Cancel delayed work before releasing host
-    edaefc210e10 mmc: rpmb: fixes pause retune on all RPMB partitions.
-    41f20ac9bdc4 mmc: meson-mx-sdhc: Fix initialization frozen issue
-    91432aebce51 mm: fix unmap_mapping_range high bits shift bug
-    5e44f5da1266 i2c: core: Fix atomic xfer check for non-preempt config
-    1d5c1617e1e1 x86/kprobes: fix incorrect return address calculation in kprobe_emulate_call_indirect
-    10086ff58ce4 firewire: ohci: suppress unexpected system reboot in AMD Ryzen machines and ASM108x/VT630x PCIe cards
-    660b3c3bc8a7 mm/memory-failure: check the mapcount of the precise page
-    80eb449f809c selftests: secretmem: floor the memory size to the multiple of page_size
-    a58ae5ab714d net: Implement missing SO_TIMESTAMPING_NEW cmsg support
-    500c7f32ad43 bnxt_en: Remove mis-applied code from bnxt_cfg_ntp_filters()
-    fda00eb3cd41 asix: Add check for usbnet_get_endpoints
-    0817c1b21561 octeontx2-af: Re-enable MAC TX in otx2_stop processing
-    20fce91b4fa0 octeontx2-af: Always configure NIX TX link credits based on max frame size
-    6bbbcff3c798 octeontx2-af: Set NIX link credits based on max LMAC
-    6ef9a28e1bb2 octeontx2-af: Don't enable Pause frames by default
-    bc56ed720e06 net/qla3xxx: fix potential memleak in ql_alloc_buffer_queues
-    cfcf5490145a igc: Fix hicredit calculation
-    6c853b57684e i40e: Restore VF MSI-X state during PCI reset
-    9400f854facd ASoC: meson: g12a-tohdmitx: Fix event generation for S/PDIF mux
-    e08b666e4415 ASoC: meson: g12a-toacodec: Fix event generation
-    3a78a57764f0 ASoC: meson: g12a-tohdmitx: Validate written enum values
-    f74281f241ff ASoC: meson: g12a-toacodec: Validate written enum values
-    947db598acb8 i40e: fix use-after-free in i40e_aqc_add_filters()
-    975d6f66f2b6 net: Save and restore msg_namelen in sock_sendmsg
-    b2869e7600f4 netfilter: nft_immediate: drop chain reference counter on error
-    51976846f202 net: bcmgenet: Fix FCS generation for fragmented skbuffs
-    c748c358debe sfc: fix a double-free bug in efx_probe_filters
-    5c161f2220f5 ARM: sun9i: smp: Fix array-index-out-of-bounds read in sunxi_mc_smp_init
-    fd2e7829239e net-timestamp: extend SOF_TIMESTAMPING_OPT_ID to HW timestamps
-    dc5643abc1ac can: raw: add support for SO_MARK
-    464fb49ca9bb can: raw: add support for SO_TXTIME/SCM_TXTIME
-    ba80ff7a85b6 net: Implement missing getsockopt(SO_TIMESTAMPING_NEW)
-    5636941e42d5 r8169: Fix PCI error on system resume
-    0ce9a244d33b net: sched: em_text: fix possible memory leak in em_text_destroy()
-    c0b56aa9d1a6 mlxbf_gige: fix receive packet race condition
-    271567afd4c2 ASoC: fsl_rpmsg: Fix error handler with pm_runtime_enable
-    1867a9094743 igc: Check VLAN EtherType mask
-    f24370ddf75d igc: Check VLAN TCI mask
-    4ec5efdb9034 igc: Report VLAN EtherType matching back to user
-    b17f8024a5f0 i40e: Fix filter input checks to prevent config with invalid values
-    def90597ef5b drm/i915/dp: Fix passing the correct DPCD_REV for drm_dp_set_phy_test_pattern
-    a7b67635de1a octeontx2-af: Fix marking couple of structure as __packed
-    802af3c88ad1 nfc: llcp_core: Hold a ref to llcp_local->dev when holding a ref to llcp_local
-    5d3e98ef12f6 drm/bridge: ti-sn65dsi86: Never store more than msg->size bytes in AUX xfer
-    2f8cefc8b638 wifi: iwlwifi: pcie: don't synchronize IRQs from IRQ
-    1f2f662c8bec Revert "PCI/ASPM: Remove pcie_aspm_pm_state_change()"
-    200cecd6ff1e ALSA: hda/realtek: Fix mute and mic-mute LEDs for HP ProBook 440 G6
-    90ab9a70f0d8 block: Don't invalidate pagecache for invalid falloc modes
-    c496c35310e6 keys, dns: Fix missing size check of V1 server-list header
+    1/1 [
+        Author: Nicholas Luedtke
+        Email: nicholas.luedtke@uwalumni.com
+        Subject: Update 27Dec23
+        Date: Wed, 27 Dec 2023 19:47:13 -0500
+
+    ]
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../linux/linux-yocto-rt_5.15.bb              |  6 ++---
- .../linux/linux-yocto-tiny_5.15.bb            |  6 ++---
- meta/recipes-kernel/linux/linux-yocto_5.15.bb | 24 +++++++++----------
- 3 files changed, 18 insertions(+), 18 deletions(-)
+ .../linux/cve-exclusion_5.15.inc              | 259 +++++++++++++++---
+ 1 file changed, 223 insertions(+), 36 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
-index 1e61698222..e64f21b2f0 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
-@@ -11,13 +11,13 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
+diff --git a/meta/recipes-kernel/linux/cve-exclusion_5.15.inc b/meta/recipes-kernel/linux/cve-exclusion_5.15.inc
+index 7822040782..84d0becb8d 100644
+--- a/meta/recipes-kernel/linux/cve-exclusion_5.15.inc
++++ b/meta/recipes-kernel/linux/cve-exclusion_5.15.inc
+@@ -1,9 +1,9 @@
  
--SRCREV_machine ?= "daa620f017a02ae381f1e54be7ceb8a2f3e3caee"
--SRCREV_meta ?= "be429ba6790683eae6d1c34d527af29890988c25"
-+SRCREV_machine ?= "7168cfa2ce6492db31163393808806b6f48af5e8"
-+SRCREV_meta ?= "487de687c6a4553f11d67b83d01f16f79449ee49"
+ # Auto-generated CVE metadata, DO NOT EDIT BY HAND.
+-# Generated at 2023-09-23 10:40:51.641475 for version 5.15.124
++# Generated at 2024-01-11 21:16:55.956074 for version 5.15.146
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=${KMETA}"
+ python check_kernel_cve_status_version() {
+-    this_version = "5.15.124"
++    this_version = "5.15.146"
+     kernel_version = d.getVar("LINUX_VERSION")
+     if kernel_version != this_version:
+         bb.warn("Kernel CVE status needs updating: generated for %s but kernel is %s" % (this_version, kernel_version))
+@@ -4839,7 +4839,8 @@ CVE_CHECK_IGNORE += "CVE-2020-27194"
+ # fixed-version: Fixed after version 5.6rc4
+ CVE_CHECK_IGNORE += "CVE-2020-2732"
  
--LINUX_VERSION ?= "5.15.146"
-+LINUX_VERSION ?= "5.15.147"
+-# CVE-2020-27418 has no known resolution
++# fixed-version: Fixed after version 5.6rc5
++CVE_CHECK_IGNORE += "CVE-2020-27418"
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ # fixed-version: Fixed after version 5.10rc1
+ CVE_CHECK_IGNORE += "CVE-2020-27673"
+@@ -4981,6 +4982,9 @@ CVE_CHECK_IGNORE += "CVE-2020-36691"
+ # fixed-version: Fixed after version 5.10
+ CVE_CHECK_IGNORE += "CVE-2020-36694"
  
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
-index c7c4e09bd9..38bea23264 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
-@@ -5,7 +5,7 @@ KCONFIG_MODE = "--allnoconfig"
++# fixed-version: Fixed after version 5.9rc1
++CVE_CHECK_IGNORE += "CVE-2020-36766"
++
+ # fixed-version: Fixed after version 5.12rc1
+ CVE_CHECK_IGNORE += "CVE-2020-3702"
  
- require recipes-kernel/linux/linux-yocto.inc
+@@ -6450,7 +6454,8 @@ CVE_CHECK_IGNORE += "CVE-2022-40768"
+ # cpe-stable-backport: Backported in 5.15.66
+ CVE_CHECK_IGNORE += "CVE-2022-4095"
  
--LINUX_VERSION ?= "5.15.146"
-+LINUX_VERSION ?= "5.15.147"
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+-# CVE-2022-40982 needs backporting (fixed from 5.15.125)
++# cpe-stable-backport: Backported in 5.15.125
++CVE_CHECK_IGNORE += "CVE-2022-40982"
  
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-@@ -14,8 +14,8 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
+ # cpe-stable-backport: Backported in 5.15.87
+ CVE_CHECK_IGNORE += "CVE-2022-41218"
+@@ -6536,7 +6541,7 @@ CVE_CHECK_IGNORE += "CVE-2022-43945"
  
--SRCREV_machine ?= "aade2fc343af128889d6c6f1071ec1a8e9a548a8"
--SRCREV_meta ?= "be429ba6790683eae6d1c34d527af29890988c25"
-+SRCREV_machine ?= "641e2136a155ce3179c84b9365a5998c1354fdd0"
-+SRCREV_meta ?= "487de687c6a4553f11d67b83d01f16f79449ee49"
+ # CVE-2022-44033 needs backporting (fixed from 6.4rc1)
  
- PV = "${LINUX_VERSION}+git${SRCPV}"
+-# CVE-2022-44034 has no known resolution
++# CVE-2022-44034 needs backporting (fixed from 6.4rc1)
  
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.15.bb b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
-index ef8c18b1b2..1acd7b62cd 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
-@@ -14,17 +14,17 @@ KBRANCH:qemux86  ?= "v5.15/standard/base"
- KBRANCH:qemux86-64 ?= "v5.15/standard/base"
- KBRANCH:qemumips64 ?= "v5.15/standard/mti-malta64"
+ # CVE-2022-4543 has no known resolution
  
--SRCREV_machine:qemuarm ?= "f59d00a628c3ddb39052284a4a7bd54f9ee12999"
--SRCREV_machine:qemuarm64 ?= "8b10556d4fd67dec1a16252ef0d3058dfe31dff5"
--SRCREV_machine:qemumips ?= "b0c8aefa7811fd3b7cebb25c1565f73523c7b2ac"
--SRCREV_machine:qemuppc ?= "0ebd785a8436934e3f3e6dea6506de7f7ed9947e"
--SRCREV_machine:qemuriscv64 ?= "ea4d6bb2c229f41b49dc8a8a9cdcd6d7e55dc46f"
--SRCREV_machine:qemuriscv32 ?= "ea4d6bb2c229f41b49dc8a8a9cdcd6d7e55dc46f"
--SRCREV_machine:qemux86 ?= "ea4d6bb2c229f41b49dc8a8a9cdcd6d7e55dc46f"
--SRCREV_machine:qemux86-64 ?= "ea4d6bb2c229f41b49dc8a8a9cdcd6d7e55dc46f"
--SRCREV_machine:qemumips64 ?= "187d249255a797c470b0680f28e18a17a05c3bb4"
--SRCREV_machine ?= "ea4d6bb2c229f41b49dc8a8a9cdcd6d7e55dc46f"
--SRCREV_meta ?= "be429ba6790683eae6d1c34d527af29890988c25"
-+SRCREV_machine:qemuarm ?= "82f8a25a3894c10d1cf26914b8e51726351ba11e"
-+SRCREV_machine:qemuarm64 ?= "cf955e443d881e296b83940143fd30ea83fcf222"
-+SRCREV_machine:qemumips ?= "1c3babd3b42768e24c797edfc3f67906aca6d072"
-+SRCREV_machine:qemuppc ?= "b08998787bece69376578b049cab073d8b80e872"
-+SRCREV_machine:qemuriscv64 ?= "5822f13dba3b1f460536d873aea707f4b25840cf"
-+SRCREV_machine:qemuriscv32 ?= "5822f13dba3b1f460536d873aea707f4b25840cf"
-+SRCREV_machine:qemux86 ?= "5822f13dba3b1f460536d873aea707f4b25840cf"
-+SRCREV_machine:qemux86-64 ?= "5822f13dba3b1f460536d873aea707f4b25840cf"
-+SRCREV_machine:qemumips64 ?= "4ff2c0496c0160a96185a080ec9678c63b68bd47"
-+SRCREV_machine ?= "5822f13dba3b1f460536d873aea707f4b25840cf"
-+SRCREV_meta ?= "487de687c6a4553f11d67b83d01f16f79449ee49"
+@@ -6591,7 +6596,8 @@ CVE_CHECK_IGNORE += "CVE-2022-47938"
+ # cpe-stable-backport: Backported in 5.15.61
+ CVE_CHECK_IGNORE += "CVE-2022-47939"
  
- # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
- # get the <version>/base branch, which is pure upstream -stable, and the same
-@@ -39,7 +39,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=${KMETA}"
+-# CVE-2022-47940 needs backporting (fixed from 5.19rc1)
++# cpe-stable-backport: Backported in 5.15.145
++CVE_CHECK_IGNORE += "CVE-2022-47940"
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
--LINUX_VERSION ?= "5.15.146"
-+LINUX_VERSION ?= "5.15.147"
+ # cpe-stable-backport: Backported in 5.15.61
+ CVE_CHECK_IGNORE += "CVE-2022-47941"
+@@ -6708,9 +6714,11 @@ CVE_CHECK_IGNORE += "CVE-2023-1118"
+ # cpe-stable-backport: Backported in 5.15.113
+ CVE_CHECK_IGNORE += "CVE-2023-1192"
  
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
- DEPENDS += "openssl-native util-linux-native"
+-# CVE-2023-1193 has no known resolution
++# cpe-stable-backport: Backported in 5.15.145
++CVE_CHECK_IGNORE += "CVE-2023-1193"
+ 
+-# CVE-2023-1194 has no known resolution
++# cpe-stable-backport: Backported in 5.15.145
++CVE_CHECK_IGNORE += "CVE-2023-1194"
+ 
+ # fixed-version: only affects 5.16rc1 onwards
+ CVE_CHECK_IGNORE += "CVE-2023-1195"
+@@ -6797,9 +6805,11 @@ CVE_CHECK_IGNORE += "CVE-2023-2008"
+ # cpe-stable-backport: Backported in 5.15.61
+ CVE_CHECK_IGNORE += "CVE-2023-2019"
+ 
+-# CVE-2023-20569 needs backporting (fixed from 5.15.125)
++# cpe-stable-backport: Backported in 5.15.125
++CVE_CHECK_IGNORE += "CVE-2023-20569"
+ 
+-# CVE-2023-20588 needs backporting (fixed from 5.15.126)
++# cpe-stable-backport: Backported in 5.15.126
++CVE_CHECK_IGNORE += "CVE-2023-20588"
+ 
+ # cpe-stable-backport: Backported in 5.15.122
+ CVE_CHECK_IGNORE += "CVE-2023-20593"
+@@ -6922,7 +6932,8 @@ CVE_CHECK_IGNORE += "CVE-2023-25012"
+ # cpe-stable-backport: Backported in 5.15.61
+ CVE_CHECK_IGNORE += "CVE-2023-2513"
+ 
+-# CVE-2023-25775 needs backporting (fixed from 6.6rc1)
++# cpe-stable-backport: Backported in 5.15.144
++CVE_CHECK_IGNORE += "CVE-2023-25775"
+ 
+ # fixed-version: only affects 6.3rc1 onwards
+ CVE_CHECK_IGNORE += "CVE-2023-2598"
+@@ -7003,7 +7014,8 @@ CVE_CHECK_IGNORE += "CVE-2023-3106"
+ 
+ # CVE-2023-31084 needs backporting (fixed from 6.4rc3)
+ 
+-# CVE-2023-31085 has no known resolution
++# cpe-stable-backport: Backported in 5.15.135
++CVE_CHECK_IGNORE += "CVE-2023-31085"
+ 
+ # cpe-stable-backport: Backported in 5.15.63
+ CVE_CHECK_IGNORE += "CVE-2023-3111"
+@@ -7035,20 +7047,26 @@ CVE_CHECK_IGNORE += "CVE-2023-3220"
+ # cpe-stable-backport: Backported in 5.15.111
+ CVE_CHECK_IGNORE += "CVE-2023-32233"
+ 
+-# CVE-2023-32247 needs backporting (fixed from 6.4rc1)
++# cpe-stable-backport: Backported in 5.15.145
++CVE_CHECK_IGNORE += "CVE-2023-32247"
+ 
+ # cpe-stable-backport: Backported in 5.15.111
+ CVE_CHECK_IGNORE += "CVE-2023-32248"
+ 
+-# CVE-2023-32250 needs backporting (fixed from 6.4rc1)
++# cpe-stable-backport: Backported in 5.15.145
++CVE_CHECK_IGNORE += "CVE-2023-32250"
+ 
+-# CVE-2023-32252 needs backporting (fixed from 6.4rc1)
++# cpe-stable-backport: Backported in 5.15.145
++CVE_CHECK_IGNORE += "CVE-2023-32252"
+ 
+-# CVE-2023-32254 needs backporting (fixed from 6.4rc1)
++# cpe-stable-backport: Backported in 5.15.145
++CVE_CHECK_IGNORE += "CVE-2023-32254"
+ 
+-# CVE-2023-32257 needs backporting (fixed from 6.4rc1)
++# cpe-stable-backport: Backported in 5.15.145
++CVE_CHECK_IGNORE += "CVE-2023-32257"
+ 
+-# CVE-2023-32258 needs backporting (fixed from 6.4rc1)
++# cpe-stable-backport: Backported in 5.15.145
++CVE_CHECK_IGNORE += "CVE-2023-32258"
+ 
+ # cpe-stable-backport: Backported in 5.15.93
+ CVE_CHECK_IGNORE += "CVE-2023-32269"
+@@ -7113,6 +7131,9 @@ CVE_CHECK_IGNORE += "CVE-2023-34256"
+ # fixed-version: only affects 6.1 onwards
+ CVE_CHECK_IGNORE += "CVE-2023-34319"
+ 
++# cpe-stable-backport: Backported in 5.15.135
++CVE_CHECK_IGNORE += "CVE-2023-34324"
++
+ # CVE-2023-3439 needs backporting (fixed from 5.18rc5)
+ 
+ # cpe-stable-backport: Backported in 5.15.121
+@@ -7135,7 +7156,8 @@ CVE_CHECK_IGNORE += "CVE-2023-35824"
+ # fixed-version: only affects 5.18rc1 onwards
+ CVE_CHECK_IGNORE += "CVE-2023-35826"
+ 
+-# CVE-2023-35827 has no known resolution
++# cpe-stable-backport: Backported in 5.15.136
++CVE_CHECK_IGNORE += "CVE-2023-35827"
+ 
+ # cpe-stable-backport: Backported in 5.15.111
+ CVE_CHECK_IGNORE += "CVE-2023-35828"
+@@ -7159,7 +7181,8 @@ CVE_CHECK_IGNORE += "CVE-2023-37453"
+ 
+ # CVE-2023-37454 has no known resolution
+ 
+-# CVE-2023-3772 needs backporting (fixed from 5.15.128)
++# cpe-stable-backport: Backported in 5.15.128
++CVE_CHECK_IGNORE += "CVE-2023-3772"
+ 
+ # fixed-version: only affects 5.17rc1 onwards
+ CVE_CHECK_IGNORE += "CVE-2023-3773"
+@@ -7179,7 +7202,8 @@ CVE_CHECK_IGNORE += "CVE-2023-38409"
+ # cpe-stable-backport: Backported in 5.15.113
+ CVE_CHECK_IGNORE += "CVE-2023-38426"
+ 
+-# CVE-2023-38427 needs backporting (fixed from 6.4rc6)
++# cpe-stable-backport: Backported in 5.15.145
++CVE_CHECK_IGNORE += "CVE-2023-38427"
+ 
+ # cpe-stable-backport: Backported in 5.15.113
+ CVE_CHECK_IGNORE += "CVE-2023-38428"
+@@ -7187,9 +7211,11 @@ CVE_CHECK_IGNORE += "CVE-2023-38428"
+ # cpe-stable-backport: Backported in 5.15.113
+ CVE_CHECK_IGNORE += "CVE-2023-38429"
+ 
+-# CVE-2023-38430 needs backporting (fixed from 6.4rc6)
++# cpe-stable-backport: Backported in 5.15.145
++CVE_CHECK_IGNORE += "CVE-2023-38430"
+ 
+-# CVE-2023-38431 needs backporting (fixed from 6.4rc6)
++# cpe-stable-backport: Backported in 5.15.145
++CVE_CHECK_IGNORE += "CVE-2023-38431"
+ 
+ # cpe-stable-backport: Backported in 5.15.121
+ CVE_CHECK_IGNORE += "CVE-2023-38432"
+@@ -7203,7 +7229,29 @@ CVE_CHECK_IGNORE += "CVE-2023-3865"
+ # cpe-stable-backport: Backported in 5.15.121
+ CVE_CHECK_IGNORE += "CVE-2023-3866"
+ 
+-# CVE-2023-3867 needs backporting (fixed from 6.5rc1)
++# cpe-stable-backport: Backported in 5.15.145
++CVE_CHECK_IGNORE += "CVE-2023-3867"
++
++# cpe-stable-backport: Backported in 5.15.132
++CVE_CHECK_IGNORE += "CVE-2023-39189"
++
++# fixed-version: only affects 5.19rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2023-39191"
++
++# cpe-stable-backport: Backported in 5.15.132
++CVE_CHECK_IGNORE += "CVE-2023-39192"
++
++# cpe-stable-backport: Backported in 5.15.132
++CVE_CHECK_IGNORE += "CVE-2023-39193"
++
++# cpe-stable-backport: Backported in 5.15.128
++CVE_CHECK_IGNORE += "CVE-2023-39194"
++
++# cpe-stable-backport: Backported in 5.15.121
++CVE_CHECK_IGNORE += "CVE-2023-39197"
++
++# cpe-stable-backport: Backported in 5.15.128
++CVE_CHECK_IGNORE += "CVE-2023-39198"
+ 
+ # cpe-stable-backport: Backported in 5.15.123
+ CVE_CHECK_IGNORE += "CVE-2023-4004"
+@@ -7213,9 +7261,14 @@ CVE_CHECK_IGNORE += "CVE-2023-4004"
+ # cpe-stable-backport: Backported in 5.15.124
+ CVE_CHECK_IGNORE += "CVE-2023-4015"
+ 
+-# CVE-2023-40283 needs backporting (fixed from 5.15.126)
++# cpe-stable-backport: Backported in 5.15.126
++CVE_CHECK_IGNORE += "CVE-2023-40283"
+ 
+-# CVE-2023-4128 needs backporting (fixed from 5.15.126)
++# fixed-version: only affects 6.3rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2023-40791"
++
++# cpe-stable-backport: Backported in 5.15.126
++CVE_CHECK_IGNORE += "CVE-2023-4128"
+ 
+ # cpe-stable-backport: Backported in 5.15.121
+ CVE_CHECK_IGNORE += "CVE-2023-4132"
+@@ -7232,15 +7285,35 @@ CVE_CHECK_IGNORE += "CVE-2023-4147"
+ # fixed-version: only affects 6.3rc1 onwards
+ CVE_CHECK_IGNORE += "CVE-2023-4194"
+ 
+-# CVE-2023-4206 needs backporting (fixed from 5.15.126)
++# cpe-stable-backport: Backported in 5.15.126
++CVE_CHECK_IGNORE += "CVE-2023-4206"
++
++# cpe-stable-backport: Backported in 5.15.126
++CVE_CHECK_IGNORE += "CVE-2023-4207"
++
++# cpe-stable-backport: Backported in 5.15.126
++CVE_CHECK_IGNORE += "CVE-2023-4208"
+ 
+-# CVE-2023-4207 needs backporting (fixed from 5.15.126)
++# cpe-stable-backport: Backported in 5.15.134
++CVE_CHECK_IGNORE += "CVE-2023-4244"
+ 
+-# CVE-2023-4208 needs backporting (fixed from 5.15.126)
++# cpe-stable-backport: Backported in 5.15.128
++CVE_CHECK_IGNORE += "CVE-2023-4273"
+ 
+-# CVE-2023-4244 needs backporting (fixed from 6.5rc7)
++# cpe-stable-backport: Backported in 5.15.132
++CVE_CHECK_IGNORE += "CVE-2023-42752"
+ 
+-# CVE-2023-4273 needs backporting (fixed from 5.15.128)
++# cpe-stable-backport: Backported in 5.15.132
++CVE_CHECK_IGNORE += "CVE-2023-42753"
++
++# cpe-stable-backport: Backported in 5.15.134
++CVE_CHECK_IGNORE += "CVE-2023-42754"
++
++# cpe-stable-backport: Backported in 5.15.133
++CVE_CHECK_IGNORE += "CVE-2023-42755"
++
++# fixed-version: only affects 6.4rc6 onwards
++CVE_CHECK_IGNORE += "CVE-2023-42756"
+ 
+ # cpe-stable-backport: Backported in 5.15.46
+ CVE_CHECK_IGNORE += "CVE-2023-4385"
+@@ -7254,21 +7327,135 @@ CVE_CHECK_IGNORE += "CVE-2023-4389"
+ # fixed-version: only affects 5.16rc1 onwards
+ CVE_CHECK_IGNORE += "CVE-2023-4394"
+ 
++# cpe-stable-backport: Backported in 5.15.121
++CVE_CHECK_IGNORE += "CVE-2023-44466"
++
+ # cpe-stable-backport: Backported in 5.15.42
+ CVE_CHECK_IGNORE += "CVE-2023-4459"
+ 
+-# CVE-2023-4563 needs backporting (fixed from 6.5rc6)
++# cpe-stable-backport: Backported in 5.15.134
++CVE_CHECK_IGNORE += "CVE-2023-4563"
+ 
+-# CVE-2023-4569 needs backporting (fixed from 5.15.128)
++# cpe-stable-backport: Backported in 5.15.128
++CVE_CHECK_IGNORE += "CVE-2023-4569"
++
++# cpe-stable-backport: Backported in 5.15.100
++CVE_CHECK_IGNORE += "CVE-2023-45862"
++
++# cpe-stable-backport: Backported in 5.15.99
++CVE_CHECK_IGNORE += "CVE-2023-45863"
++
++# cpe-stable-backport: Backported in 5.15.132
++CVE_CHECK_IGNORE += "CVE-2023-45871"
++
++# fixed-version: only affects 6.5rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2023-45898"
++
++# CVE-2023-4610 needs backporting (fixed from 6.4)
+ 
+ # fixed-version: only affects 6.4rc1 onwards
+ CVE_CHECK_IGNORE += "CVE-2023-4611"
+ 
+ # CVE-2023-4622 needs backporting (fixed from 6.5rc1)
+ 
+-# CVE-2023-4623 needs backporting (fixed from 6.6rc1)
++# cpe-stable-backport: Backported in 5.15.132
++CVE_CHECK_IGNORE += "CVE-2023-4623"
++
++# cpe-stable-backport: Backported in 5.15.137
++CVE_CHECK_IGNORE += "CVE-2023-46813"
++
++# cpe-stable-backport: Backported in 5.15.140
++CVE_CHECK_IGNORE += "CVE-2023-46862"
++
++# CVE-2023-47233 has no known resolution
++
++# fixed-version: Fixed after version 5.14rc1
++CVE_CHECK_IGNORE += "CVE-2023-4732"
++
++# cpe-stable-backport: Backported in 5.15.132
++CVE_CHECK_IGNORE += "CVE-2023-4881"
++
++# cpe-stable-backport: Backported in 5.15.132
++CVE_CHECK_IGNORE += "CVE-2023-4921"
++
++# CVE-2023-50431 has no known resolution
++
++# fixed-version: only affects 6.0rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2023-5090"
++
++# cpe-stable-backport: Backported in 5.15.135
++CVE_CHECK_IGNORE += "CVE-2023-5158"
++
++# CVE-2023-51779 needs backporting (fixed from 6.7rc7)
++
++# cpe-stable-backport: Backported in 5.15.137
++CVE_CHECK_IGNORE += "CVE-2023-5178"
++
++# cpe-stable-backport: Backported in 5.15.144
++CVE_CHECK_IGNORE += "CVE-2023-51780"
++
++# cpe-stable-backport: Backported in 5.15.144
++CVE_CHECK_IGNORE += "CVE-2023-51781"
++
++# cpe-stable-backport: Backported in 5.15.144
++CVE_CHECK_IGNORE += "CVE-2023-51782"
++
++# cpe-stable-backport: Backported in 5.15.134
++CVE_CHECK_IGNORE += "CVE-2023-5197"
++
++# fixed-version: only affects 6.1rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2023-5345"
++
++# fixed-version: only affects 6.2 onwards
++CVE_CHECK_IGNORE += "CVE-2023-5633"
++
++# cpe-stable-backport: Backported in 5.15.137
++CVE_CHECK_IGNORE += "CVE-2023-5717"
++
++# fixed-version: only affects 6.2rc1 onwards
++CVE_CHECK_IGNORE += "CVE-2023-5972"
++
++# CVE-2023-6039 needs backporting (fixed from 6.5rc5)
++
++# fixed-version: only affects 6.6rc3 onwards
++CVE_CHECK_IGNORE += "CVE-2023-6111"
++
++# cpe-stable-backport: Backported in 5.15.141
++CVE_CHECK_IGNORE += "CVE-2023-6121"
++
++# cpe-stable-backport: Backported in 5.15.132
++CVE_CHECK_IGNORE += "CVE-2023-6176"
++
++# CVE-2023-6238 has no known resolution
++
++# CVE-2023-6356 has no known resolution
++
++# CVE-2023-6535 has no known resolution
++
++# CVE-2023-6536 has no known resolution
++
++# cpe-stable-backport: Backported in 5.15.128
++CVE_CHECK_IGNORE += "CVE-2023-6546"
++
++# CVE-2023-6560 needs backporting (fixed from 6.7rc4)
++
++# CVE-2023-6606 needs backporting (fixed from 6.7rc7)
++
++# CVE-2023-6610 needs backporting (fixed from 6.7rc7)
++
++# cpe-stable-backport: Backported in 5.15.143
++CVE_CHECK_IGNORE += "CVE-2023-6622"
++
++# CVE-2023-6679 needs backporting (fixed from 6.7rc6)
++
++# cpe-stable-backport: Backported in 5.15.143
++CVE_CHECK_IGNORE += "CVE-2023-6817"
++
++# cpe-stable-backport: Backported in 5.15.143
++CVE_CHECK_IGNORE += "CVE-2023-6931"
+ 
+-# CVE-2023-4881 needs backporting (fixed from 6.6rc1)
++# cpe-stable-backport: Backported in 5.15.142
++CVE_CHECK_IGNORE += "CVE-2023-6932"
+ 
+-# CVE-2023-4921 needs backporting (fixed from 6.6rc1)
++# CVE-2023-7042 has no known resolution
+ 
 -- 
 2.34.1
 
