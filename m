@@ -1,165 +1,130 @@
-Return-Path: <vkumbhar@mvista.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 248E1C54E49
-	for <webhook@archiver.kernel.org>; Mon, 26 Feb 2024 10:43:39 +0000 (UTC)
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
- by mx.groups.io with SMTP id smtpd.web10.17760.1708944211448159757
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 483A0C48BF6
+	for <webhook@archiver.kernel.org>; Mon, 26 Feb 2024 11:14:49 +0000 (UTC)
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.83])
+ by mx.groups.io with SMTP id smtpd.web10.18189.1708946087821986181
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Feb 2024 02:43:31 -0800
+ Mon, 26 Feb 2024 03:14:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=Pr/XUWE2;
- spf=pass (domain: mvista.com, ip: 209.85.215.177, mailfrom: vkumbhar@mvista.com)
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-5cfd95130c6so1601547a12.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 26 Feb 2024 02:43:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1708944210; x=1709549010; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=L2a6mZQ5zCOItyk3W8g7RV0WynZQFkJEpzqfY6yYb98=;
-        b=Pr/XUWE2KeTaT5xBqv5Sb11vu6GfQDoztCdjDShwsZrP9Men+NGfxE4OfHKlunKQ9E
-         1ckDbmATDJQJRiyZgrMxyqOP4kaCSM/RqesmUAoVa1c8XBfnjegs39Xj2obdq87Oeuze
-         HApSm5cPKGJqx+umNFI/afhfxoshhUS63RgaE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708944210; x=1709549010;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=L2a6mZQ5zCOItyk3W8g7RV0WynZQFkJEpzqfY6yYb98=;
-        b=ouEArGXVT+xi6mF0OZ6Pl+bRLWFPFtjNAvIhactl2EYfkCHhM4xhMt+Fk2hLiRLrSU
-         QzAEun5v5EFbhOM/dJFDXh8NdbcGwRXG36VxPO36QKxdjoMiJF4Nor+1skUn41y7q1g5
-         dsuq+Fyy1B1sA9KcT1el+IAHVfPpUGY/WMjtsm2qQeo/c5WP+F5SFpV0sl4n3KV3e3AU
-         Xh+d1Z+VVh1eLYvK9VwyBDipvPgVHPjyYDyg1dKVfq/Mv05js00nJZ0ytvfB1HOend8T
-         NZOTOu6MpciD8Kv+GwuBGqljLu4BESBKnnyQiQ35xTPHfvxs6pJ8TGhz4KL9TL9HrlHO
-         dskQ==
-X-Gm-Message-State: AOJu0YyfBtxdMXePui08tsvbndYML2F5xDNBO25eG8uGidrosuuZqgVy
-	6qAczoh8VaJJ0xhJS+7Ok4mTnpxJhd4OASz/Mqq2WrLN0iW/Shm8iNndvR5FySM0U/Q04ow1JXG
-	t
-X-Google-Smtp-Source: AGHT+IFSCFakiu5UMgI+8atvAlfUMvyL30MFqy885cdOYQRLP1gmUF/BTUu8OTKuQ3zHJhNxDsbexw==
-X-Received: by 2002:a17:90a:c592:b0:29a:72bb:439f with SMTP id l18-20020a17090ac59200b0029a72bb439fmr4555797pjt.11.1708944209627;
-        Mon, 26 Feb 2024 02:43:29 -0800 (PST)
-Received: from vkumbhar-Latitude-3400.. ([116.75.162.122])
-        by smtp.googlemail.com with ESMTPSA id x92-20020a17090a6c6500b00298d8804ba8sm6726226pjj.46.2024.02.26.02.43.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Feb 2024 02:43:29 -0800 (PST)
-From: Vivek Kumbhar <vkumbhar@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Vivek Kumbhar <vkumbhar@mvista.com>
-Subject: [OE-core][kirkstone][PATCH] qemu: Backport fix CVE-2023-6693
-Date: Mon, 26 Feb 2024 16:13:13 +0530
-Message-Id: <20240226104313.1724097-1-vkumbhar@mvista.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=VlKQMQ7v;
+ spf=pass (domain: siemens.com, ip: 40.107.22.83, mailfrom: peter.marko@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=B9EpGARqtdfM4FupaGKtxGvCVV5SCicTDzFCihN7SlQn4J5+GBu9aeAA0QpcILCypl8wwdBmWJyTUnakms4K8fi6AXjDViz2DzGxhCy0HDi/OypCktcRGUTIs8PGalAVSZlgZaEOYYR1uhwsgCpsWLz5pTdj8h2JFVyZCLcVcc9DjS4Nk6B7/S0/G1RyZUF8S40Z5+WWTz1MdzUbfdwopNM4wysCFxC8tOnLlq8svO7vbCJRirqciQ3QgEoIHE5xhyzwz0iXKfa5lVfMxksKEN3uWF1cCqVITaO+OXyVq8jkku7aJkZ7Hpdb4XhXdF8VsEvNGa4Tv1HQvmTo0xJu/A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rZbeieCNRWpVA8M9xedsyaNMPpWSWM29Kwv7vl8/wpU=;
+ b=cD7V1Bpr65EZsADu1oov/mErWCwymxgXUpXGZJYZjBu0UnuNdArYbcBv6UH9HOmXMqHviSNhgjy4Xufj5D0FIZf+80T+hcBNnXHLu2nypc7h0ILfws5WMHJJaIy8tt/1dhVUlN//BI2AN0LNW0k9OtAmtBy5Rq4cuMd5a7dFSXrk9stbDgYdKofBeQbqgBdPszon+FeYky+IsF/Ae1i/kLRTTgwKK1fpGCQ9XgFBC01vG+4arjyWq1lm3qdVSFXGyOgVPBx9Tqx2f10P6LLklczDy3zhvP/KRoG/236PjoOcbyAa8FT3Ie3WmMf9znMK6ZsI8YgrzvVn3FSXLNGDdQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rZbeieCNRWpVA8M9xedsyaNMPpWSWM29Kwv7vl8/wpU=;
+ b=VlKQMQ7vyjncHLTdIgcs+f1Ep6nG71Mf3zP6o3zdH5Utntphn0rHx6gYFfqdbn/qCYUS87HMX1GQUtA2gYOymStDHZ1p5Fkbm80IGVoB5cL7HuO+JUyYZKA8eqhTLzHOTqRufnSgbhGK62cGtu+SAz+SLt9Rw4ByUX4KsRzmB9oEBRTR+znC7ly19VIzONUdwcCQ92TBtV2xkaNEzWnDjtr6A2DvZoiGhvmCE+XIDMTiZzyeRRug36KscXIQ+Wpe8WPaygMSId1vRz6KplUhTaPklzD5NEzGi5yNdUpVKPxc7Ta3Kit2TOzwNfJfc2ie2YByPlHzZjRmX3uvyW2/1A==
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
+ by PAXPR10MB5382.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:286::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.33; Mon, 26 Feb
+ 2024 11:14:44 +0000
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::c496:afda:bc34:6b5e]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::c496:afda:bc34:6b5e%7]) with mapi id 15.20.7316.018; Mon, 26 Feb 2024
+ 11:14:44 +0000
+From: "Marko, Peter" <Peter.Marko@siemens.com>
+To: "steve@sakoman.com" <steve@sakoman.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>,
+	"yocto-security@lists.yoctoproject.org"
+	<yocto-security@lists.yoctoproject.org>
+Subject: RE: [yocto-security] OE-core CVE metrics for kirkstone on Sun 25 Feb
+ 2024 03:00:01 AM HST
+Thread-Topic: [yocto-security] OE-core CVE metrics for kirkstone on Sun 25 Feb
+ 2024 03:00:01 AM HST
+Thread-Index: AQHaZ+0aAAkohSWop0yF1snlXBHnkLEceYZA
+Date: Mon, 26 Feb 2024 11:14:44 +0000
+Message-ID: 
+ <AS1PR10MB5697AA89526441063871AEF2FD5A2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+References: <20240225131813.166C71068A9@builder.sakoman.com>
+In-Reply-To: <20240225131813.166C71068A9@builder.sakoman.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=b4c52981-9376-4c42-8d5e-66bb56be0d09;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2024-02-26T11:12:30Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|PAXPR10MB5382:EE_
+x-ms-office365-filtering-correlation-id: e9bf659e-ff47-4f23-1ca2-08dc36bc22c5
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ bg5AQ2Ycn98ZbfrZ4G2sAEZoaElOYUItS2GdKzlc5/R9tbLVIVFCV4vgQ2lO1HqjlN4sTQN4d4t78BqkXRcNQv+Yt0fbdGW2wODplEBOEfUymGY5X3eq7vCc2Ijr8XeDCrTFvIj4zJV4iKqle8thHD0yi4udjJLy6GH+x+XaSLW85opx8mE/yyXdsrpjfDtUwuQ1alewYc8yrTYar1/OhIxCSih3SNycD2NoJIXVDc+JCVnEOionTMMAkjpegkELMN+kWpXHzEMtx+KGyqj+KlxpDwzk11n0DtDp1Im38J0gQ9TDRdh+OjZnQf3IicqLDPv+BfscnR9qNJkQ2wJgo/0q6awYDLwV05PgPovr+x72kmj74+ZiAjmIWon7hsIggx3Ez7mRfSlYw2cRZOh6jf4VlND2lgNQ6TDqViQlYLmmnBppeovfe7JY90Sum74dxr8e6rzYho2QnqjuKL6GoNhUblPm93dwuf+bdJpD9hWmm6tmDv8dhFD5x2jhg9ekUrSXKxL6ZGzkKQy5FjLPdbBKmjax9BSktcvPRGGABlF+IYSO4CPbTwN2pI0xm7m7T1EACumc5WrB8nGbzAAuwzUJB7MmgC1rOYvn7mvY8sVm9YQxpPsHelDJ78p53rpXno+TSLlvY9MdE2AOSjB1KpVMTsb4muuGvPBS0W76ETmEHZAD/NRjGt9eDvZoQcdxofWLkffvBiXx5iW6/Gq4yQ==
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(38070700009);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?8vL0jZ0s9nfJRcK4u+HNqF+LBH58DVl/Ye9oRlCyqML/BfxHk27B7F1Bmuxv?=
+ =?us-ascii?Q?i+bfdVUZ1xwZM3NfgM1B+IR5tf9d0+QqWhNdXOu9YoDmYNF0RyTdUETU9ffG?=
+ =?us-ascii?Q?YAD1NhFx0J/uvp7gqwCKtiE1c1vlC6kRd7NogXOarEvYhFNbV3eyLXw+vJ8p?=
+ =?us-ascii?Q?4qlmZ9VgRdXFPgP//Zntt3cgMRr0Ho9N/PQYNuw+FmWQJUV1Xwgfys0B3D0o?=
+ =?us-ascii?Q?v7fvajyY9heGQ0FtBP4ezs2qNBzZPs3LCUVm4md34wJkXnzpQ1DRB3cranR6?=
+ =?us-ascii?Q?QKAK5ELggREsHaju2qIMJMu7pDf7dA0fuu1Q+grCjAITXM/zx3GaVKwOnUOf?=
+ =?us-ascii?Q?jxJm1YJDMLoal7DbeLG2pdHPSgEJ3W31Y8zuSBFAM/4Toz0qk4sMbmOZJpKT?=
+ =?us-ascii?Q?5t7dNY2c7EcIcEWi5DIXJAYiAnyeEUDUMPJyMrFebrBTczGKP4XLRotnjGKt?=
+ =?us-ascii?Q?8rE0AxMkJpu6IP8jAk9OzhohvftWTYkajtRtrYqke2gNpqjPPYWbgUlE/cTd?=
+ =?us-ascii?Q?Mt1eqceFGpoIkw71rcbfZFcQ3Wl7eD1SsmWz8WBxmFSRTAl8sQE3xd+Mkpr9?=
+ =?us-ascii?Q?2pFlXGrB46k1DGC2dZ5QAotrb90J/eQxE8nfQBLiAOf0p0wXNZfFcC5Qc+zr?=
+ =?us-ascii?Q?idAZpjFK2PHCBEOG1+MwN7x4QK+9vsqCo8UG+TCe4ClV4mF+ydhSwNDGqKdX?=
+ =?us-ascii?Q?qJD4Vxl0siWG234ttLMK+F6oSRBZcm3GLr7IKgUWeJsijyormHG8oWTZMsZ2?=
+ =?us-ascii?Q?vqW1gY4BxK3JxvTNjEB3AYBQwV4xDLoO1DU9sWzHEnhvwh28lF26325NV9hS?=
+ =?us-ascii?Q?UFq7JNu8Qqh6PVh9ETp/23u/heIl5gARsvfoXizrlo4f8Ymk+y+qFk//F9HT?=
+ =?us-ascii?Q?05ZrGh5o3sGpJdkgddVoWePf5dnmoBxZoSlWxaBR2bzw+bTl0QHQaamI0y2A?=
+ =?us-ascii?Q?jAcpT6OriqM3MALvEHv5zQbGWUu2VjWeHe3AExgwtc6BpqjU/P/i19B4De6w?=
+ =?us-ascii?Q?5LK7gvwJcF/4SZXXZGCP3Z80S1HiJENFmyKvDfcCagmpjwqlMHhz+kxgCGw9?=
+ =?us-ascii?Q?vsmxMCKuSBIpZ5DeacKpyLxmAW7rhHlKU3lwLMu3fdXdFkHBYZPFI+nVxpCp?=
+ =?us-ascii?Q?3G5L8PC7t8YvO9cPJLKbhK8B1u3rTr/3V7Xpm+Gt+1oHxXsffa7CEPQ28oMq?=
+ =?us-ascii?Q?5MbyyyhtXVfVFVAUaOD1et1Bz0qjKs94tfz+DoGL60ILih1AFFRFkjkTsYyD?=
+ =?us-ascii?Q?fIF69PJiMZsrxJ2OkEtXabBAxJXC5b0rzkPAmGcy/KR6gQBEt8peprr/xwrS?=
+ =?us-ascii?Q?YGKvTgnGHIdTXFt6EMI/Y7wGp6unH7w4CEYTuZOgalJLaxHNN9iqQIWJfgqd?=
+ =?us-ascii?Q?cfLie/qZ2E7urXIQz9qCdtk90QhxT7r465MnZ9fo/rX+UWJaT//lhY6YGNvS?=
+ =?us-ascii?Q?LivFqoHwlDzLy4xTDCgVb01LjMLhjJlQ4mtrn5zn38pNCvSh9r01KX75aBxq?=
+ =?us-ascii?Q?XH4Y9LDf5IwjXauWlmG/V/qlULi/p00RCtbPplCZE4/Ly6D3QHyKL40YHVIL?=
+ =?us-ascii?Q?TMT5z/rHG+oHGFZpoUPq/X6kveAxOihdKo2iFWNx?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: e9bf659e-ff47-4f23-1ca2-08dc36bc22c5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Feb 2024 11:14:44.4544
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: mLqlIX+Gzhl1nSIgiUh8l9qOhW+aFGcEdIbHtn4LIpLnX5RuyO/DnJNPVNy6AuBzhkA3BQYg3hO2WeFm+vwfdg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR10MB5382
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 26 Feb 2024 10:43:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196198
+ <openembedded-core@lists.openembedded.org>; Mon, 26 Feb 2024 11:14:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196199
 
-Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/2220e8189fb94068dbad333228659fbac819abb0]
+Hello,
 
-Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
----
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2023-6693.patch             | 74 +++++++++++++++++++
- 2 files changed, 75 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2023-6693.patch
+It looks like
+graph in https://autobuilder.yocto.io/pub/non-release/patchmetrics/
+and list in https://autobuilder.yocto.io/pub/non-release/patchmetrics/cve-s=
+tatus-kirkstone.txt
+are no longer updated properly and show old status compared to this email.
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index c5fb9b1eab..c69d26fbed 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -103,6 +103,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
- 	   file://CVE-2021-3638.patch \
- 	   file://CVE-2023-1544.patch \
- 	   file://CVE-2023-5088.patch \
-+	   file://CVE-2023-6693.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2023-6693.patch b/meta/recipes-devtools/qemu/qemu/CVE-2023-6693.patch
-new file mode 100644
-index 0000000000..b91f2e6902
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2023-6693.patch
-@@ -0,0 +1,74 @@
-+From 2220e8189fb94068dbad333228659fbac819abb0 Mon Sep 17 00:00:00 2001
-+From: Jason Wang <jasowang@redhat.com>
-+Date: Tue, 2 Jan 2024 11:29:01 +0800
-+Subject: [PATCH] virtio-net: correctly copy vnet header when flushing TX
-+
-+When HASH_REPORT is negotiated, the guest_hdr_len might be larger than
-+the size of the mergeable rx buffer header. Using
-+virtio_net_hdr_mrg_rxbuf during the header swap might lead a stack
-+overflow in this case. Fixing this by using virtio_net_hdr_v1_hash
-+instead.
-+
-+Reported-by: Xiao Lei <leixiao.nop@zju.edu.cn>
-+Cc: Yuri Benditovich <yuri.benditovich@daynix.com>
-+Cc: qemu-stable@nongnu.org
-+Cc: Mauro Matteo Cascella <mcascell@redhat.com>
-+Fixes: CVE-2023-6693
-+Fixes: e22f0603fb2f ("virtio-net: reference implementation of hash report")
-+Reviewed-by: Michael Tokarev <mjt@tls.msk.ru>
-+Signed-off-by: Jason Wang <jasowang@redhat.com>
-+
-+Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/2220e8189fb94068dbad333228659fbac819abb0]
-+CVE: CVE-2023-6693
-+Signed-off-by: Vivek Kumbhar <vkumbhar@mvista.com>
-+---
-+ hw/net/virtio-net.c | 13 +++++++++----
-+ 1 file changed, 9 insertions(+), 4 deletions(-)
-+
-+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-+index e1f474883..42e66697f 100644
-+--- a/hw/net/virtio-net.c
-++++ b/hw/net/virtio-net.c
-+@@ -600,6 +600,11 @@ static void virtio_net_set_mrg_rx_bufs(VirtIONet *n, int mergeable_rx_bufs,
-+
-+     n->mergeable_rx_bufs = mergeable_rx_bufs;
-+
-++    /*
-++     * Note: when extending the vnet header, please make sure to
-++     * change the vnet header copying logic in virtio_net_flush_tx()
-++     * as well.
-++     */
-+     if (version_1) {
-+         n->guest_hdr_len = hash_report ?
-+             sizeof(struct virtio_net_hdr_v1_hash) :
-+@@ -2520,7 +2525,7 @@ static int32_t virtio_net_flush_tx(VirtIONetQueue *q)
-+         ssize_t ret;
-+         unsigned int out_num;
-+         struct iovec sg[VIRTQUEUE_MAX_SIZE], sg2[VIRTQUEUE_MAX_SIZE + 1], *out_sg;
-+-        struct virtio_net_hdr_mrg_rxbuf mhdr;
-++        struct virtio_net_hdr_v1_hash vhdr;
-+
-+         elem = virtqueue_pop(q->tx_vq, sizeof(VirtQueueElement));
-+         if (!elem) {
-+@@ -2537,7 +2542,7 @@ static int32_t virtio_net_flush_tx(VirtIONetQueue *q)
-+         }
-+
-+         if (n->has_vnet_hdr) {
-+-            if (iov_to_buf(out_sg, out_num, 0, &mhdr, n->guest_hdr_len) <
-++            if (iov_to_buf(out_sg, out_num, 0, &vhdr, n->guest_hdr_len) <
-+                 n->guest_hdr_len) {
-+                 virtio_error(vdev, "virtio-net header incorrect");
-+                 virtqueue_detach_element(q->tx_vq, elem, 0);
-+@@ -2545,8 +2550,8 @@ static int32_t virtio_net_flush_tx(VirtIONetQueue *q)
-+                 return -EINVAL;
-+             }
-+             if (n->needs_vnet_hdr_swap) {
-+-                virtio_net_hdr_swap(vdev, (void *) &mhdr);
-+-                sg2[0].iov_base = &mhdr;
-++                virtio_net_hdr_swap(vdev, (void *) &vhdr);
-++                sg2[0].iov_base = &vhdr;
-+                 sg2[0].iov_len = n->guest_hdr_len;
-+                 out_num = iov_copy(&sg2[1], ARRAY_SIZE(sg2) - 1,
-+                                    out_sg, out_num,
-+--
-+2.34.1
--- 
-2.34.1
-
+Peter
 
