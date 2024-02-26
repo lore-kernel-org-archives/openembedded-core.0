@@ -1,197 +1,156 @@
-Return-Path: <alexis.lothore@bootlin.com>
+Return-Path: <xiangyu.chen@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AAEF7C54E56
-	for <webhook@archiver.kernel.org>; Mon, 26 Feb 2024 09:19:38 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
- by mx.groups.io with SMTP id smtpd.web11.16677.1708939174531800098
- for <Openembedded-core@lists.openembedded.org>;
- Mon, 26 Feb 2024 01:19:35 -0800
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5E17C54E49
+	for <webhook@archiver.kernel.org>; Mon, 26 Feb 2024 09:59:48 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.17045.1708941584216863042
+ for <openembedded-core@lists.openembedded.org>;
+ Mon, 26 Feb 2024 01:59:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=ftx+Iobu;
- spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: alexis.lothore@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id C52291C0008;
-	Mon, 26 Feb 2024 09:19:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1708939173;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nlKC1Y4YQ0d74xo32fD1eWVIGdKj0SmcVaahgs5G2Us=;
-	b=ftx+IobuwT7bAAWxMoICsOvoVyXX3dqjVX3L91AiGSbMAzTBoxqGQS4KU5D9XF/DlDCUk/
-	ZBAFcHqVTWMJ2TiNDML0nn37SoZZywUIQmZkqP+RN2tJZEHzLRurCPxB07bBvb27eYriSn
-	FfQVaZGO+fT95Lt16tvseRADMfubV9l4prFqWHKf0Hzwdz+fpSyrvA6Cq0kcWxdp9LVvnE
-	/9WXtr0/Jvgg33+X2LOVubyP6vKXgINQc7LCWYuJtQNgbhASnJEn3gbITCRmZU0FSaHTvb
-	VnQAgNIpMY3n9vpzsie9AeyZSXaL2rZNpcNtjbFfItuOhVUR9aXAdgwB4tOY9Q==
-From: =?UTF-8?q?Alexis=20Lothor=C3=A9?= <alexis.lothore@bootlin.com>
-To: <Openembedded-core@lists.openembedded.org>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>
-Subject: [OE-Core][PATCH v4 1/5] lib/oeqa: share get_json_result_dir helper
-Date: Mon, 26 Feb 2024 10:19:18 +0100
-Message-ID: <20240226091922.41801-2-alexis.lothore@bootlin.com>
-X-Mailer: git-send-email 2.43.1
-In-Reply-To: <20240226091922.41801-1-alexis.lothore@bootlin.com>
-References: <20240226091922.41801-1-alexis.lothore@bootlin.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=2786b44cc5=xiangyu.chen@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41Q7Q2fC029240
+	for <openembedded-core@lists.openembedded.org>; Mon, 26 Feb 2024 01:59:44 -0800
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2169.outbound.protection.outlook.com [104.47.59.169])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3wfgumhcef-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 26 Feb 2024 01:59:43 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cOrrNKx1OAmiswATvljq39Ykh4QG3Hq1B751AywzfHmQxU7wUdBG3FV0y07yGi41Fw5ayk7xek1QEPTegjjpttESgmBpbwJS4n/tuILQbSkYq+hdfSmnPcrzlwibylaJBIPZfcffbn0AU7LJxg5nWaCTP5nMRRX2t1to81EdbER70xwo1MR5+inux8QENFY+NLIMsjLVSBVVxmOxJPpTkrUQNX1MoEQHoFL5lIyCBwcVEqul4tN0xaLmvCG+Kq5VooTxeN2XZVhJfb58EaiIc4PZnMrxQyeec+p+npWyE3+EiLYTTW3uU2hsY+Lpg+TNbTYovX4/qXiNNTZb3SLEow==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/2GvHEVp05DQaU1BiVu+tvQttnMVkyAEPE97tI7UocQ=;
+ b=S69PgrCSEjwxYumUvzzcWvt91w90M+IYzFou0LbVXVTZYZt6Ru9LgZE9E4gK0ENqKsCMSwlDCQGQW5CwrWRPETtLl3EdiXCEJPqCnZ4u9clssu1+D8WAiDGGAoUSXBZm37XxKvCALQk47ri40rRBC2P4c5UJMQaQ1RmeMEfg9jbn/gDZSrXwuXoIxK/nx65ptBe4b6NmN2fa94wvADiypZFkc9Vi4j0nEUQRN91fWZmlZsALPROvhwTgEpPW6/zHnBamAkUojU4q8QbxCkwQhcVmRpT0GRjtL9yTBdN7PFp/qjaUKX40oV/NTI/4VKiZM/Rlg0GguFr1KhQibTi2XA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=eng.windriver.com; dkim=pass header.d=eng.windriver.com; arc=none
+Received: from MW4PR11MB5824.namprd11.prod.outlook.com (2603:10b6:303:187::19)
+ by LV8PR11MB8770.namprd11.prod.outlook.com (2603:10b6:408:202::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.13; Mon, 26 Feb
+ 2024 09:59:40 +0000
+Received: from MW4PR11MB5824.namprd11.prod.outlook.com
+ ([fe80::f816:c534:1377:b673]) by MW4PR11MB5824.namprd11.prod.outlook.com
+ ([fe80::f816:c534:1377:b673%4]) with mapi id 15.20.7339.023; Mon, 26 Feb 2024
+ 09:59:40 +0000
+From: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][PATCH] libc-locale: fix ASCII compatible warning cause build failure.
+Date: Mon, 26 Feb 2024 17:59:21 +0800
+Message-Id: <20240226095921.363844-1-xiangyu.chen@eng.windriver.com>
+X-Mailer: git-send-email 2.34.1
 Content-Transfer-Encoding: 8bit
-X-GND-Sasl: alexis.lothore@bootlin.com
+Content-Type: text/plain
+X-ClientProxiedBy: SI2P153CA0013.APCP153.PROD.OUTLOOK.COM
+ (2603:1096:4:140::12) To MW4PR11MB5824.namprd11.prod.outlook.com
+ (2603:10b6:303:187::19)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW4PR11MB5824:EE_|LV8PR11MB8770:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7d81cc36-31d7-4a37-e414-08dc36b1a5df
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	ff+1CHXsMaATcnQ0qpDhc8n9SNVIU0o4EwfcRQs4FWzerL8bHITYNU7968z34tgG+SzjioIq4jlBIn4R+PSiDEwG9RdK9i1GHPINkf+bnxai4+4CrlB+60xiO0T3GcyYRylJCTtAHdIRM+Qxph7Ee5V7wCEj/oRrYvzDh9LcPkOEwhjxOdtbRaO1DUS8j8nMbPVbpGqhWd2yZLGIH3E9dUtUCm1r/xvtbPLsAk6O6SCHmJOKwmCQ9FsmHkkbzzRlkjbfNwP1F9N6YuUZV9+lW4aLCq3ohADMd6PPa557Q+kSsNQWfc3EFWCDa51q8TnYOSTo2HuVVvf3E9Sx56aRelkSgMW0JTrZuPjXRcj8YMUIepYb0cxVbz+8snHDxNMfxnCQO3m+O4iCRA9kgGz7AS794hL04WZrguKbNvUKdq4D6PWcOeC4Q9dwHEAbzBUw7424owIdYKW37Ne75AN/fHmv/SapueZoATYHuC+4fA+xT9BoGID+l1W9eq7jTKICDvjPEaJjlj5quaCi3aT2qAcjEV8yHgWeiQzgsMqqhfrlJY5IK+s4uNkBiS8ZUHEnGLBRV//aQRUyFwTvgszaiG+2D74/blZMUNT0e9JAwT2I9/Zwq93Z1Oc4XpUi9BCaO4B38mNPEf4dB0qUWOurr1ktW3PJjc0UWK5amGkNSMb35jVjIIbljxKLqVeEVFFySYZye8+mI3EYvSQNNUxy2Ovu3dy3JFPO5SBZl0XAjw0=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR11MB5824.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(230273577357003)(38350700005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?ZpJTPvVTKW1yF1ae7OKoUJxQVa7XGR0RIJe170/aEyM4NmDEebL0w/vcg4cz?=
+ =?us-ascii?Q?mwxuGc/VOMYVjquaYJKRUsEPOSQXkyiVFyvoM2n2aRic3c7Pylma8Qii0iou?=
+ =?us-ascii?Q?RCE+y5I2yacYQb1fUZlnyUnJcB6O+n31Ge/EUL3ZFh8NcbxSnUKjVifuIyFK?=
+ =?us-ascii?Q?o6slnn27GC2hYu26pYfMe9ICr/YqlIVPVrzoxXall8keWpYEiScGbtz2uZk8?=
+ =?us-ascii?Q?N8k9fUuqna5FMgyTiBg7Jo0+nkUdJ6/MdnMvoB9IsSql335sjug/MmIXM4UQ?=
+ =?us-ascii?Q?QU0W0S5Z5uHQrxpTyC1guiwMsbbtxIXav1+UDBwxYDzEhCMj8+SEbfPZqu+2?=
+ =?us-ascii?Q?WeTkYYqRqei8wADMW8q6Xnf55s+q/j8SVjIpliML2JY7SkTQ3F2Cd6RFzuJ+?=
+ =?us-ascii?Q?vKOtXJ9OEwOep1RnITw6Z0ZJZd91U1G3LoWlub6P5w50GBemMopf9MHcC6N/?=
+ =?us-ascii?Q?VEOec50yV/5rojWbF/nnav2tqCW9Y/eZTdFRAxEqLA7dTqVk2qC7a0nt2k49?=
+ =?us-ascii?Q?sq3eGPfBoIh0TfCcLkzdJ5XbA9/TMgWylOG+OYp4BMgzd/U4JTS2CDY2jt0K?=
+ =?us-ascii?Q?uor88EHv/9bbcp3HdSbKgw1yXAX0/mpH7uR8q4XM7gVNJtelm4SDOy+h5HTn?=
+ =?us-ascii?Q?mTT2aXN0CysUTh5JCChbLsOK2yvXrCa5KRpnRj/8dugJxtS99hITOsUli2om?=
+ =?us-ascii?Q?Z3/a0jPB/k9b7aeMF55n54APCTUKcHeU1r20o2UGMQxC6rWxR3mP48OsK4i1?=
+ =?us-ascii?Q?HnPVg9UWoGLNQYPlCRTNzyhY5YP/FlNA2yDU3WbbOoZ9fSEYIsSvD7CEsSa4?=
+ =?us-ascii?Q?XuEwYhJJoXL3Kmwwl6R1weIWmE+MhMYxhLnm7gCBi5Gn1vF1epaMauhrLDWr?=
+ =?us-ascii?Q?6XgBNJn/HxUHmoN32Rt3NlzcYfrBpTtP0Rteln7UgQs0RBs0nOzeTlMr5+pD?=
+ =?us-ascii?Q?x3R0OBurJYSz4bY/Nyc2c2CgVE5NloSfWVpQVgeGk1ViQLn8PWyx63BAXfjL?=
+ =?us-ascii?Q?MsEP4XcczXBOReR3WlkUwPKfmgTMWM9QywIvqQ0yiBsKGTb0qZQMv9QDahRV?=
+ =?us-ascii?Q?4L62HuMgSX+E0Lm9fkpbK115jPbUBFVoQ6KIM070aolphbaWnejRY+YBQHrc?=
+ =?us-ascii?Q?8CmgiF8Lgsx1LLzhozkeenl/7jgkxqnuPS3+bjbGBlUsuZBkMiKHag4DiKFz?=
+ =?us-ascii?Q?cjo2cWcnG4MgX4LlmEOvaAXjCyn9rcI+zb1hHhW/ZaLlGyGH4fe5QxPtLx08?=
+ =?us-ascii?Q?y/4LP6qMzx7r1njzCQXevA7LceYB5Kf7Gn2u80HR09dZ30U5Dr5litqxKo0M?=
+ =?us-ascii?Q?eBuorZ6Bi6SqJSlTn3Z0U1fZOe2XPO5DgRuFPqMScW5bcCNPoArqd9TgAQjE?=
+ =?us-ascii?Q?mJGV07VMIdgU90SG3nzwiQtNcX7Znb4ycq04Nd0QaQfd9rAlvjOAX2c6cWcp?=
+ =?us-ascii?Q?Id9VTXYnxXMidiqo2GOAHcYIPLyeTrscPpaOw2ljrxHPzUbsSCoOZObFjBDO?=
+ =?us-ascii?Q?Ut3aUUaSqezQMBRaXt1EeDk1iM19HGtsJL2K5OSXXRtVW5y60c0Z4VWLwTpW?=
+ =?us-ascii?Q?OLJkP0AYx2f/0cUeFmLAs6jf/4HvTH5VuNBx41WW0cBiXeNfxhUdQFx12R7r?=
+ =?us-ascii?Q?EA=3D=3D?=
+X-OriginatorOrg: eng.windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7d81cc36-31d7-4a37-e414-08dc36b1a5df
+X-MS-Exchange-CrossTenant-AuthSource: MW4PR11MB5824.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2024 09:59:40.1718
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3dztGtMDu68tBgRzwuQ6dG5hwaQOdj2uOXCRJoBupRfJRprU0ueSrMtddlEHzggZMNgSPC+P5JukpGMwntFhekPCGw3xo0FM5SQ87lxikLI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR11MB8770
+X-Proofpoint-ORIG-GUID: QFh1HNlKtsKU5sy86LpYv4irjiWsyP7q
+X-Proofpoint-GUID: QFh1HNlKtsKU5sy86LpYv4irjiWsyP7q
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-26_07,2024-02-23_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 phishscore=0
+ priorityscore=1501 suspectscore=0 impostorscore=0 mlxscore=0 spamscore=0
+ adultscore=0 malwarescore=0 bulkscore=0 mlxlogscore=999 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2402120000
+ definitions=main-2402260075
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 26 Feb 2024 09:19:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196192
+ <openembedded-core@lists.openembedded.org>; Mon, 26 Feb 2024 09:59:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196197
 
-From: Alexis Lothoré <alexis.lothore@bootlin.com>
+From: Xiangyu Chen <xiangyu.chen@windriver.com>
 
-Multiple places in oeqa need to get the log output path, and redefine a
-small helper to accomplish this
+Some locales are not listed in glibc locales support list, but can be generated,
+here using ja_JP.SHIFT_JIS as an example. We can add following line into local.conf
+to enable and generate it:
 
-Define this helper in lib/oeqa/utils/__init__.py and import it wherever
-needed to allow using it.
+GLIBC_GENERATE_LOCALES += "en_GB.UTF-8 en_US.UTF-8 ja_JP.UTF-8 ja_JP.SHIFT_JIS"
+IMAGE_LINGUAS += "ja-jp en-us ja-jp.shift-jis"
 
-Signed-off-by: Alexis Lothoré <alexis.lothore@bootlin.com>
+The localedef tool would report a warning and exit with 1, that cause build failure,
+error message as below:
+
+[warning] character map `SHIFT_JIS' is not ASCII compatible, locale not ISO C compliant [--no-warnings=ascii]
+
+So add a --no-warnings=ascii in libc-package.bbclass to fix build failure if someone needs those locale
+in yocto.
+
+Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
 ---
-There is one additional place re-definining (slightly) differently this
-helper, which is in selftest/context.py. This one does not check
-OEQA_JSON_RESULT_DIR from the datastore but through test data embedded in
-the test context. Based on Richard's feedback in v2, the datastore
-functions may be correctly simulated even in this case, so I may do some
-tests and come up with a patch after this series
+ meta/classes-recipe/libc-package.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Changes in v4:
-- fix missed function name update in TestSDKExt
-Changes in v3:
-- None
-Changes in v2:
-- patch introduced
----
- meta/classes-recipe/testimage.bbclass | 12 +++---------
- meta/lib/oeqa/sdk/testsdk.py          | 11 ++---------
- meta/lib/oeqa/sdkext/testsdk.py       |  3 ++-
- meta/lib/oeqa/utils/__init__.py       |  7 +++++++
- 4 files changed, 14 insertions(+), 19 deletions(-)
-
-diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-recipe/testimage.bbclass
-index d076102f9691..959c226072aa 100644
---- a/meta/classes-recipe/testimage.bbclass
-+++ b/meta/classes-recipe/testimage.bbclass
-@@ -149,13 +149,6 @@ def get_testimage_configuration(d, test_type, machine):
-     return configuration
- get_testimage_configuration[vardepsexclude] = "DATETIME"
+diff --git a/meta/classes-recipe/libc-package.bbclass b/meta/classes-recipe/libc-package.bbclass
+index bf160b115d..c06a2ce90a 100644
+--- a/meta/classes-recipe/libc-package.bbclass
++++ b/meta/classes-recipe/libc-package.bbclass
+@@ -278,7 +278,7 @@ python package_do_split_gconvs () {
+                 bb.fatal("unknown arch:" + target_arch + " for locale_arch_options")
  
--def get_testimage_json_result_dir(d):
--    json_result_dir = os.path.join(d.getVar("LOG_DIR"), 'oeqa')
--    custom_json_result_dir = d.getVar("OEQA_JSON_RESULT_DIR")
--    if custom_json_result_dir:
--        json_result_dir = custom_json_result_dir
--    return json_result_dir
--
- def get_testimage_result_id(configuration):
-     return '%s_%s_%s_%s' % (configuration['TEST_TYPE'], configuration['IMAGE_BASENAME'], configuration['MACHINE'], configuration['STARTTIME'])
+             localedef_opts += " --force --no-hard-links --no-archive --prefix=%s \
+-                --inputfile=%s/%s/i18n/locales/%s --charmap=%s %s/%s" \
++                --inputfile=%s/%s/i18n/locales/%s --charmap=%s %s/%s --no-warnings=ascii" \
+                 % (treedir, treedir, datadir, locale, encoding, outputpath, name)
  
-@@ -224,6 +217,7 @@ def testimage_main(d):
-     from oeqa.core.target.qemu import supported_fstypes
-     from oeqa.core.utils.test import getSuiteCases
-     from oeqa.utils import make_logger_bitbake_compatible
-+    from oeqa.utils import get_json_result_dir
- 
-     def sigterm_exception(signum, stackframe):
-         """
-@@ -426,14 +420,14 @@ def testimage_main(d):
-     # Show results (if we have them)
-     if results:
-         configuration = get_testimage_configuration(d, 'runtime', machine)
--        results.logDetails(get_testimage_json_result_dir(d),
-+        results.logDetails(get_json_result_dir(d),
-                         configuration,
-                         get_testimage_result_id(configuration),
-                         dump_streams=d.getVar('TESTREPORT_FULLLOGS'))
-         results.logSummary(pn)
- 
-     # Copy additional logs to tmp/log/oeqa so it's easier to find them
--    targetdir = os.path.join(get_testimage_json_result_dir(d), d.getVar("PN"))
-+    targetdir = os.path.join(get_json_result_dir(d), d.getVar("PN"))
-     os.makedirs(targetdir, exist_ok=True)
-     os.symlink(bootlog, os.path.join(targetdir, os.path.basename(bootlog)))
-     os.symlink(d.getVar("BB_LOGFILE"), os.path.join(targetdir, os.path.basename(d.getVar("BB_LOGFILE") + "." + d.getVar('DATETIME'))))
-diff --git a/meta/lib/oeqa/sdk/testsdk.py b/meta/lib/oeqa/sdk/testsdk.py
-index b4719110edbc..518b09febb61 100644
---- a/meta/lib/oeqa/sdk/testsdk.py
-+++ b/meta/lib/oeqa/sdk/testsdk.py
-@@ -22,14 +22,6 @@ class TestSDKBase(object):
-                         'LAYERS': get_layers(d.getVar("BBLAYERS"))}
-         return configuration
- 
--    @staticmethod
--    def get_sdk_json_result_dir(d):
--        json_result_dir = os.path.join(d.getVar("LOG_DIR"), 'oeqa')
--        custom_json_result_dir = d.getVar("OEQA_JSON_RESULT_DIR")
--        if custom_json_result_dir:
--            json_result_dir = custom_json_result_dir
--        return json_result_dir
--
-     @staticmethod
-     def get_sdk_result_id(configuration):
-         return '%s_%s_%s_%s_%s' % (configuration['TEST_TYPE'], configuration['IMAGE_BASENAME'], configuration['SDKMACHINE'], configuration['MACHINE'], configuration['STARTTIME'])
-@@ -72,6 +64,7 @@ class TestSDK(TestSDKBase):
- 
-         from bb.utils import export_proxies
-         from oeqa.utils import make_logger_bitbake_compatible
-+        from oeqa.utils import get_json_result_dir
- 
-         pn = d.getVar("PN")
-         logger = make_logger_bitbake_compatible(logging.getLogger("BitBake"))
-@@ -134,7 +127,7 @@ class TestSDK(TestSDKBase):
-             component = "%s %s" % (pn, self.context_executor_class.name)
-             context_msg = "%s:%s" % (os.path.basename(tcname), os.path.basename(sdk_env))
-             configuration = self.get_sdk_configuration(d, self.test_type)
--            result.logDetails(self.get_sdk_json_result_dir(d),
-+            result.logDetails(get_json_result_dir(d),
-                             configuration,
-                             self.get_sdk_result_id(configuration))
-             result.logSummary(component, context_msg)
-diff --git a/meta/lib/oeqa/sdkext/testsdk.py b/meta/lib/oeqa/sdkext/testsdk.py
-index 159f0d135b9a..9d5a99d900fd 100644
---- a/meta/lib/oeqa/sdkext/testsdk.py
-+++ b/meta/lib/oeqa/sdkext/testsdk.py
-@@ -16,6 +16,7 @@ class TestSDKExt(TestSDKBase):
-         from bb.utils import export_proxies
-         from oeqa.utils import avoid_paths_in_environ, make_logger_bitbake_compatible, subprocesstweak
-         from oeqa.sdkext.context import OESDKExtTestContext, OESDKExtTestContextExecutor
-+        from oeqa.utils import get_json_result_dir
- 
-         pn = d.getVar("PN")
-         logger = make_logger_bitbake_compatible(logging.getLogger("BitBake"))
-@@ -91,7 +92,7 @@ class TestSDKExt(TestSDKBase):
-             component = "%s %s" % (pn, OESDKExtTestContextExecutor.name)
-             context_msg = "%s:%s" % (os.path.basename(tcname), os.path.basename(sdk_env))
-             configuration = self.get_sdk_configuration(d, 'sdkext')
--            result.logDetails(self.get_sdk_json_result_dir(d),
-+            result.logDetails(get_json_result_dir(d),
-                             configuration,
-                             self.get_sdk_result_id(configuration))
-             result.logSummary(component, context_msg)
-diff --git a/meta/lib/oeqa/utils/__init__.py b/meta/lib/oeqa/utils/__init__.py
-index fbc7f7d525d8..53bdcbf26618 100644
---- a/meta/lib/oeqa/utils/__init__.py
-+++ b/meta/lib/oeqa/utils/__init__.py
-@@ -90,3 +90,10 @@ def load_test_components(logger, executor):
-                                 "_executor_class defined." % (comp_name, comp_context))
- 
-     return components
-+
-+def get_json_result_dir(d):
-+    json_result_dir = os.path.join(d.getVar("LOG_DIR"), 'oeqa')
-+    custom_json_result_dir = d.getVar("OEQA_JSON_RESULT_DIR")
-+    if custom_json_result_dir:
-+        json_result_dir = custom_json_result_dir
-+    return json_result_dir
-\ No newline at end of file
+             cmd = "PATH=\"%s\" I18NPATH=\"%s\" GCONV_PATH=\"%s\" cross-localedef %s" % \
 -- 
-2.43.1
+2.34.1
 
 
