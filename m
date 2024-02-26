@@ -2,72 +2,59 @@ Return-Path: <wuxiaotian@loongson.cn>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1D0AC54E4A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E17E1C5478C
 	for <webhook@archiver.kernel.org>; Mon, 26 Feb 2024 08:43:57 +0000 (UTC)
 Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
- by mx.groups.io with SMTP id smtpd.web10.16561.1708937029921575366
+ by mx.groups.io with SMTP id smtpd.web11.16308.1708937027447873168
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Feb 2024 00:43:50 -0800
+ Mon, 26 Feb 2024 00:43:48 -0800
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: loongson.cn, ip: 114.242.206.163, mailfrom: wuxiaotian@loongson.cn)
 Received: from loongson.cn (unknown [10.40.24.15])
-	by gateway (Coremail) with SMTP id _____8CxG+lCT9xlYIYRAA--.26331S3;
-	Mon, 26 Feb 2024 16:43:46 +0800 (CST)
+	by gateway (Coremail) with SMTP id _____8Dxfes8T9xlXYYRAA--.44469S3;
+	Mon, 26 Feb 2024 16:43:41 +0800 (CST)
 Received: from 3a6kpc.. (unknown [10.40.24.15])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8BxVMw7T9xlQupEAA--.54486S3;
-	Mon, 26 Feb 2024 16:43:45 +0800 (CST)
+	by localhost.localdomain (Coremail) with SMTP id AQAAf8BxVMw7T9xlQupEAA--.54486S2;
+	Mon, 26 Feb 2024 16:43:39 +0800 (CST)
 From: Xiaotian Wu <wuxiaotian@loongson.cn>
 To: openembedded-core@lists.openembedded.org
 Cc: Xiaotian Wu <wuxiaotian@loongson.cn>
-Subject: [PATCH v3 1/1] loongarch64: change -march to loongarch64
-Date: Mon, 26 Feb 2024 16:43:35 +0800
-Message-ID: <20240226084333.505649-4-wuxiaotian@loongson.cn>
+Subject: [PATCH v3 0/1] loongarch64: change -march to loongarch64
+Date: Mon, 26 Feb 2024 16:43:33 +0800
+Message-ID: <20240226084333.505649-2-wuxiaotian@loongson.cn>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240226084333.505649-2-wuxiaotian@loongson.cn>
-References: <20240226084333.505649-2-wuxiaotian@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8BxVMw7T9xlQupEAA--.54486S3
-X-CM-SenderInfo: 5zx0xtprwlt0o6or00hjvr0hdfq/1tbiAQATCGXcS+QAIwADss
-X-Coremail-Antispam: 1Uk129KBj9xXoW7Xr4xuw4DZrW3XF48trWxKrX_yoWDAFc_ZF
-	13Jw4xWr4rJay7uwnIqryrJ34UJa18JFnYyFyvyr47ZwnxAr1rAF4DWwsIvr4vk3WDZrs5
-	X3yIqr95Cw1aqosvyTuYvTs0mTUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvT
-	s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
-	cSsGvfJTRUUUb7AYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
-	vaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
-	w2x7M28EF7xvwVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
-	WUJVW8JwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
-	6r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27w
-	Aqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE
-	14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x
-	0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E
-	7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIxkGc2Ij64vIr41lIxAIcV
-	C0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF
-	04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7
-	CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU1wL05UUUUU==
+X-CM-TRANSID: AQAAf8BxVMw7T9xlQupEAA--.54486S2
+X-CM-SenderInfo: 5zx0xtprwlt0o6or00hjvr0hdfq/1tbiAQATCGXcS+QAIwABsu
+X-Coremail-Antispam: 1Uk129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7
+	ZEXasCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29K
+	BjDU0xBIdaVrnRJUUUkFb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26c
+	xKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vE
+	j48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxV
+	AFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x02
+	67AKxVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6x
+	ACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E
+	87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82
+	IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC2
+	0s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1Y6r17MIIYrxkI7VAKI48JMI
+	IF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF
+	0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87
+	Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07UE-erUUUUU=
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 26 Feb 2024 08:43:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196190
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196189
 
 Now both gcc and clang all support -march=loongarch64, so we can use it.
 
-Signed-off-by: Xiaotian Wu <wuxiaotian@loongson.cn>
----
+Xiaotian Wu (1):
+  loongarch64: change -march to loongarch64
+
  meta/conf/machine/include/loongarch/arch-loongarch.inc | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/machine/include/loongarch/arch-loongarch.inc b/meta/conf/machine/include/loongarch/arch-loongarch.inc
-index 4b44614035..d0a51b34c7 100644
---- a/meta/conf/machine/include/loongarch/arch-loongarch.inc
-+++ b/meta/conf/machine/include/loongarch/arch-loongarch.inc
-@@ -4,4 +4,4 @@ DEFAULTTUNE ?= "loongarch64"
- 
- TUNE_ARCH = "${TUNE_ARCH:tune-${DEFAULTTUNE}}"
- TUNE_PKGARCH = "${TUNE_PKGARCH:tune-${DEFAULTTUNE}}"
--TUNE_CCARGS:append = "${@bb.utils.contains('TUNE_FEATURES', 'loongarch64', ' -march=la464 -mabi=lp64d', ' ', d)}"
-+TUNE_CCARGS:append = "${@bb.utils.contains('TUNE_FEATURES', 'loongarch64', ' -march=loongarch64 -mabi=lp64d', ' ', d)}"
 -- 
 2.43.0
 
