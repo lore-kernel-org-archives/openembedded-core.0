@@ -1,213 +1,121 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <kamatam@amazon.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3782FC5478C
-	for <webhook@archiver.kernel.org>; Mon, 26 Feb 2024 23:16:47 +0000 (UTC)
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
- by mx.groups.io with SMTP id smtpd.web10.8197.1708989397041656273
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EF61C5478C
+	for <webhook@archiver.kernel.org>; Mon, 26 Feb 2024 23:44:37 +0000 (UTC)
+Received: from smtp-fw-80008.amazon.com (smtp-fw-80008.amazon.com [99.78.197.219])
+ by mx.groups.io with SMTP id smtpd.web10.664.1708991072478411564
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Feb 2024 15:16:37 -0800
+ Mon, 26 Feb 2024 15:44:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=jdWvxgKk;
- spf=pass (domain: gmail.com, ip: 209.85.160.44, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-21f2f813e3bso1397086fac.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 26 Feb 2024 15:16:36 -0800 (PST)
+ dkim=pass header.i=@amazon.com header.s=amazon201209 header.b=ChX89/BO;
+ spf=pass (domain: amazon.com, ip: 99.78.197.219, mailfrom: prvs=779f0d7f9=kamatam@amazon.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708989396; x=1709594196; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Cjmvnet8AZxdhuK0kcMG4Dvf7lthmnYmBPQ/w4oaphQ=;
-        b=jdWvxgKk9JS6ZjyLFtXxC4xyUhNClirrFOH3pHgDXbAQbcLK2pfQFmiVzAJ6Vjnblm
-         rSDveRcK1/Hst4+tC2CpeBzT7/sNVghPmPuCgVyVfnLxx0okiPyhqpn+JwlmOFonm6+I
-         d/Taa1Kzc2Np0DJBM4FwNl3RGR1uPtR23Cp9hCkibFNY8Nwp5tintv7Dm4AP1eUbs/G4
-         GmN6mEUM4FIIQPv6Bf0wMHAIsmVtOE0ErDvRCBo7A837rKrMkfP9jIDs2yqag3zIfjm1
-         p9s8y1gEWzH7qdUjXKlTI6YPyg9Y3jANAGs6qrCwWLHhTnh+07LewWtbJzwqJMHy7iV+
-         Aq8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708989396; x=1709594196;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Cjmvnet8AZxdhuK0kcMG4Dvf7lthmnYmBPQ/w4oaphQ=;
-        b=uu6lU+T/s5umG/V0PeIKE6qe6PgSyWLwMxDQ1n2RgycYl5gF4wpgK24CLmYx3miM79
-         tXrAYlKFVo4kCUdJS20sZfIRpTKnD7THv9m0VuSMKuH9JU/+Rix3mgh2VduaK6OazuI0
-         5uHaxVpsL8XbB6Mrp1X02ZWWvytx5BziFFn/ypM/6DGszrO2cCQE7VjgLk5L2jNGsoGp
-         3BWWQGfFpKbBNupAypWKFu4Sbol3VL42dAIsF7eAbhTIEwYpqZAH5e+gQZHe+5DDxC0g
-         RDJo5oGGwgPTEealNr+qrxEmdykWSVZuTfjnCM4/VSMSbvbFbeySDY9sloVuXbwwquKR
-         cb7g==
-X-Gm-Message-State: AOJu0Yw+soY85zM63IKS8/JNhpUe90NcTLZmDVlXveRvcNk2U4Ox9zlK
-	QjntzDNZectjWLrptwOFBnPsPp8SXYmgrWou9e05ukwRcRjhTTGrO2cLK6H3B2pW9vWJQqJhhFe
-	6vBGIlBEQytJXGqaNabd/l5hEAjxv2oB0ciO9mg==
-X-Google-Smtp-Source: AGHT+IEyxA+Mo5LqQJeR9cYQn1ocYNeL3D8D2Zh8+WJKJsdkffMlQ2WP5lSH2K1ybF8pXpV5MLG6nVJgNWjzdTrdx6U=
-X-Received: by 2002:a05:6870:2049:b0:220:1da0:898a with SMTP id
- l9-20020a056870204900b002201da0898amr1313052oad.29.1708989396184; Mon, 26 Feb
- 2024 15:16:36 -0800 (PST)
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1708991072; x=1740527072;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=y4JrCax7LWxFYjjcg4LvZGhHS6cSc1eVfH7AcFfNloo=;
+  b=ChX89/BOFJ5cwATuFwl64MhUAX5i3U9EUxLgkAZDdVQf9Ia6vMTMVAbQ
+   +PszLc8drL7WS4bx5MohxgDIx2oapJrejCrp/rcySl58mNEJBMcuj8Q79
+   cAcLZukNPSEZCiAtJoVHQJE+doIevqyO0psEzvfV/O4dZNgbxE4IlTJH3
+   E=;
+X-IronPort-AV: E=Sophos;i="6.06,186,1705363200"; 
+   d="scan'208";a="68927224"
+Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.25.36.214])
+  by smtp-border-fw-80008.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2024 23:44:31 +0000
+Received: from EX19MTAUWB002.ant.amazon.com [10.0.38.20:55764]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.8.178:2525] with esmtp (Farcaster)
+ id 1ee33e1f-3db9-4119-b835-d7bac6630219; Mon, 26 Feb 2024 23:44:31 +0000 (UTC)
+X-Farcaster-Flow-ID: 1ee33e1f-3db9-4119-b835-d7bac6630219
+Received: from EX19D010UWA004.ant.amazon.com (10.13.138.204) by
+ EX19MTAUWB002.ant.amazon.com (10.250.64.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Mon, 26 Feb 2024 23:44:30 +0000
+Received: from u0acfa43c8cad58.ant.amazon.com (10.88.187.238) by
+ EX19D010UWA004.ant.amazon.com (10.13.138.204) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.28; Mon, 26 Feb 2024 23:44:30 +0000
+From: Munehisa Kamata <kamatam@amazon.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <bruce.ashfield@gmail.com>, <kamatam@amazon.com>
+Subject: [PATCH] kernel.bbclass: make pkg-config variables globally exported in the class
+Date: Mon, 26 Feb 2024 15:44:17 -0800
+Message-ID: <20240226234417.270628-1-kamatam@amazon.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20240225093726.1113403-1-martin.jansa@gmail.com>
-In-Reply-To: <20240225093726.1113403-1-martin.jansa@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 26 Feb 2024 15:16:09 -0800
-Message-ID: <CAMKF1sr1SVSnAZ2_ZCTHfMyM8i01msDQ+81M5h+Bb9zmKGPLCw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] glib-2.0: backport a switch from distutils to
- packaging in codegen
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.88.187.238]
+X-ClientProxiedBy: EX19D044UWB001.ant.amazon.com (10.13.139.171) To
+ EX19D010UWA004.ant.amazon.com (10.13.138.204)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 26 Feb 2024 23:16:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196232
+ <openembedded-core@lists.openembedded.org>; Mon, 26 Feb 2024 23:44:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196233
 
-I am seeing some build failures which seems to be related to this patch
+Rather than repeatedly exporting the variables in the different functions,
+make them globally exported in the class for better maintainability.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/88/builds/3657/step=
-s/15/logs/stdio
+This is essentially "v3" discussed in [1].
 
- |   File "/home/pokybuild/yocto-worker/meta-oe/build/build/tmp/work/core2-=
-64-poky-linux/gattlib/0.2+git/recipe-sysroot-native/usr/share/glib-2.0/code=
-gen/utils.py",
-line 22, in <module>
-    |     import packaging.version
-    | ModuleNotFoundError: No module named 'packaging'
+[1] https://lore.kernel.org/openembedded-core/20240222202827.3675576-1-kamatam@amazon.com/T/#t
 
+Signed-off-by: Munehisa Kamata <kamatam@amazon.com>
+---
+ meta/classes-recipe/kernel.bbclass | 20 +++++++-------------
+ 1 file changed, 7 insertions(+), 13 deletions(-)
 
+diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
+index db4461e551..fce810a9e4 100644
+--- a/meta/classes-recipe/kernel.bbclass
++++ b/meta/classes-recipe/kernel.bbclass
+@@ -239,9 +239,15 @@ KERNEL_EXTRA_ARGS ?= ""
+ EXTRA_OEMAKE += ' CC="${KERNEL_CC}" LD="${KERNEL_LD}" OBJCOPY="${KERNEL_OBJCOPY}" STRIP="${KERNEL_STRIP}"'
+ EXTRA_OEMAKE += ' HOSTCC="${BUILD_CC}" HOSTCFLAGS="${BUILD_CFLAGS}" HOSTLDFLAGS="${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}"'
+ EXTRA_OEMAKE += ' HOSTCXX="${BUILD_CXX}" HOSTCXXFLAGS="${BUILD_CXXFLAGS}"'
+-# Only for newer kernels (5.19+), native pkg-config variables are set for older kernels when building kernel and modules
++# Only for newer kernels (5.19+), native pkg-config variables are set below for older kernels
+ EXTRA_OEMAKE += ' HOSTPKG_CONFIG="pkg-config-native"'
+ 
++# setup native pkg-config variables (kconfig scripts call pkg-config directly, cannot generically be overriden to pkg-config-native)
++export PKG_CONFIG_DIR = "${STAGING_DIR_NATIVE}${libdir_native}/pkgconfig"
++export PKG_CONFIG_PATH = "${PKG_CONFIG_DIR}:${STAGING_DATADIR_NATIVE}/pkgconfig"
++export PKG_CONFIG_LIBDIR = "${PKG_CONFIG_DIR}"
++export PKG_CONFIG_SYSROOT_DIR = ""
++
+ KERNEL_ALT_IMAGETYPE ??= ""
+ 
+ copy_initramfs() {
+@@ -352,12 +358,6 @@ KERNEL_DEBUG_TIMESTAMPS ??= "0"
+ kernel_do_compile() {
+ 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
+ 
+-	# setup native pkg-config variables (kconfig scripts call pkg-config directly, cannot generically be overriden to pkg-config-native)
+-	export PKG_CONFIG_DIR="${STAGING_DIR_NATIVE}${libdir_native}/pkgconfig"
+-	export PKG_CONFIG_PATH="$PKG_CONFIG_DIR:${STAGING_DATADIR_NATIVE}/pkgconfig"
+-	export PKG_CONFIG_LIBDIR="$PKG_CONFIG_DIR"
+-	export PKG_CONFIG_SYSROOT_DIR=""
+-
+ 	if [ "${KERNEL_DEBUG_TIMESTAMPS}" != "1" ]; then
+ 		# kernel sources do not use do_unpack, so SOURCE_DATE_EPOCH may not
+ 		# be set....
+@@ -408,12 +408,6 @@ addtask transform_kernel after do_compile before do_install
+ do_compile_kernelmodules() {
+ 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
+ 
+-	# setup native pkg-config variables (kconfig scripts call pkg-config directly, cannot generically be overriden to pkg-config-native)
+-	export PKG_CONFIG_DIR="${STAGING_DIR_NATIVE}${libdir_native}/pkgconfig"
+-	export PKG_CONFIG_PATH="$PKG_CONFIG_DIR:${STAGING_DATADIR_NATIVE}/pkgconfig"
+-	export PKG_CONFIG_LIBDIR="$PKG_CONFIG_DIR"
+-	export PKG_CONFIG_SYSROOT_DIR=""
+-
+ 	if [ "${KERNEL_DEBUG_TIMESTAMPS}" != "1" ]; then
+ 		# kernel sources do not use do_unpack, so SOURCE_DATE_EPOCH may not
+ 		# be set....
+-- 
+2.34.1
 
-  |   File "/home/pokybuild/yocto-worker/meta-oe/build/build/tmp/work/core2=
--64-poky-linux/networkmanager-fortisslvpn/1.4.0/recipe-sysroot-native/usr/s=
-hare/glib-2.0/codegen/utils.py",
-line 22, in <module>
-    |     import packaging.version
-    | ModuleNotFoundError: No module named 'packaging'
-    | make: *** [Makefile:2081: src/nm-fortisslvpn-pppd-service-dbus.h] Err=
-or 1
-
-
-On Sun, Feb 25, 2024 at 1:37=E2=80=AFAM Martin Jansa <martin.jansa@gmail.co=
-m> wrote:
->
-> * to fix build on hosts with python-3.12, now it fails with:
->
-> Traceback (most recent call last):
->   File "recipe-sysroot-native/usr/bin/gdbus-codegen", line 53, in <module=
->
->     from codegen import codegen_main
->   File "recipe-sysroot-native/usr/share/glib-2.0/codegen/codegen_main.py"=
-, line 29, in <module>
->     from . import dbustypes
->   File "recipe-sysroot-native/usr/share/glib-2.0/codegen/dbustypes.py", l=
-ine 22, in <module>
->     from . import utils
->   File "recipe-sysroot-native/usr/share/glib-2.0/codegen/utils.py", line =
-22, in <module>
->     import distutils.version
-> ModuleNotFoundError: No module named 'distutils'
-> CMake Error at CMakeLists.txt:90 (message):
->   Error in generating code for connman interface using gdbus-codegen
->
-> Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-> ---
->  ...deprecated-distutils-module-to-the-p.patch | 34 +++++++++++++++++++
->  meta/recipes-core/glib-2.0/glib-2.0_2.78.3.bb |  1 +
->  meta/recipes-core/glib-2.0/glib.inc           |  4 +--
->  3 files changed, 36 insertions(+), 3 deletions(-)
->  create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-Switch-from-=
-the-deprecated-distutils-module-to-the-p.patch
->
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Switch-from-the-dep=
-recated-distutils-module-to-the-p.patch b/meta/recipes-core/glib-2.0/glib-2=
-.0/0001-Switch-from-the-deprecated-distutils-module-to-the-p.patch
-> new file mode 100644
-> index 0000000000..50368ed22c
-> --- /dev/null
-> +++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-Switch-from-the-deprecated=
--distutils-module-to-the-p.patch
-> @@ -0,0 +1,34 @@
-> +From 05f0674c93d94fe6b29c1b707980aac469ddcd72 Mon Sep 17 00:00:00 2001
-> +From: Jordan Williams <jordan@jwillikers.com>
-> +Date: Fri, 1 Dec 2023 09:53:50 -0600
-> +Subject: [PATCH] Switch from the deprecated distutils module to the pack=
-aging
-> + module
-> +
-> +The distutils module was removed in Python 3.12.
-> +
-> +Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/=
-6ef967a0f930ce37a8c9b5aff969693b34714291]
-> +
-> +Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-> +---
-> + gio/gdbus-2.0/codegen/utils.py | 4 ++--
-> + 1 file changed, 2 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/gio/gdbus-2.0/codegen/utils.py b/gio/gdbus-2.0/codegen/util=
-s.py
-> +index 0204610..08f1ba9 100644
-> +--- a/gio/gdbus-2.0/codegen/utils.py
-> ++++ b/gio/gdbus-2.0/codegen/utils.py
-> +@@ -19,7 +19,7 @@
-> + #
-> + # Author: David Zeuthen <davidz@redhat.com>
-> +
-> +-import distutils.version
-> ++import packaging.version
-> + import os
-> + import sys
-> +
-> +@@ -166,4 +166,4 @@ def version_cmp_key(key):
-> +         v =3D str(key[0])
-> +     else:
-> +         v =3D "0"
-> +-    return (distutils.version.LooseVersion(v), key[1])
-> ++    return (packaging.version.Version(v), key[1])
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.78.3.bb b/meta/recipes=
--core/glib-2.0/glib-2.0_2.78.3.bb
-> index 42814ba544..6c3e99c641 100644
-> --- a/meta/recipes-core/glib-2.0/glib-2.0_2.78.3.bb
-> +++ b/meta/recipes-core/glib-2.0/glib-2.0_2.78.3.bb
-> @@ -14,6 +14,7 @@ SRC_URI =3D "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV=
-}.tar.xz \
->             file://0001-Do-not-write-bindir-into-pkg-config-files.patch \
->             file://0001-meson-Run-atomics-test-on-clang-as-well.patch \
->             file://0001-gio-tests-resources.c-comment-out-a-build-host-on=
-ly-.patch \
-> +           file://0001-Switch-from-the-deprecated-distutils-module-to-th=
-e-p.patch \
->             file://memory-monitor.patch \
->             file://native-gtkdoc.patch \
->             "
-> diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib=
--2.0/glib.inc
-> index 5a57549d85..fac8875d84 100644
-> --- a/meta/recipes-core/glib-2.0/glib.inc
-> +++ b/meta/recipes-core/glib-2.0/glib.inc
-> @@ -144,9 +144,7 @@ do_install:append:mingw32() {
->          rm -f ${D}${bindir}/gtester-report
->  }
->
-> -# remove setuptools dependency when usage of distutils is dropped in
-> -# https://gitlab.gnome.org/GNOME/glib/-/blob/main/gio/gdbus-2.0/codegen/=
-utils.py
-> -CODEGEN_PYTHON_RDEPENDS =3D "python3 python3-setuptools python3-xml"
-> +CODEGEN_PYTHON_RDEPENDS =3D "python3 python3-packaging python3-xml"
->  CODEGEN_PYTHON_RDEPENDS:mingw32 =3D ""
->
->  RDEPENDS:${PN}-codegen +=3D "${CODEGEN_PYTHON_RDEPENDS}"
-> --
-> 2.43.2
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#196136): https://lists.openembedded.org/g/openembedde=
-d-core/message/196136
-> Mute This Topic: https://lists.openembedded.org/mt/104560766/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
 
