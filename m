@@ -1,162 +1,102 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51D71C48BF6
-	for <webhook@archiver.kernel.org>; Mon, 26 Feb 2024 11:22:59 +0000 (UTC)
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
- by mx.groups.io with SMTP id smtpd.web10.18294.1708946574703396413
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9718C54E49
+	for <webhook@archiver.kernel.org>; Mon, 26 Feb 2024 13:32:09 +0000 (UTC)
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+ by mx.groups.io with SMTP id smtpd.web10.20285.1708954320472246826
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Feb 2024 03:22:55 -0800
+ Mon, 26 Feb 2024 05:32:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=cBAwQHTL;
- spf=pass (domain: gmail.com, ip: 209.85.208.171, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2d094bc2244so33459621fa.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 26 Feb 2024 03:22:54 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=C6tusvw4;
+ spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a3fb8b0b7acso392973666b.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 26 Feb 2024 05:32:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708946573; x=1709551373; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=+un2MiJJd3MxrUMq6eh+kg/BOEO9gQVeUJRlVSMmsxM=;
-        b=cBAwQHTLW5PYvcf/byeaj1hJoHa3+5h40G5D1NZF6DsHCAfo9Dx19+tUF2PX/lv2Mq
-         LgqMUxom50DDlDT6EAty88ARnnEoLArb5u9JL8zrEjy/3+gvCOsArcd0NfDqn6tnv/wh
-         DfBmVClqn/n9f1MJoHP5NNYhRFSWzJcyjKipOWGF5Y73LIowkdKSSRx36y7rBsa/uOcA
-         vqvjzpglNi9xC+BOTGLFhgnKFiTZWSzSgNlzoLVXun4IhgfmZ/N4vCuGKRoPhHKySHIa
-         cKQh5TOUYHePadaQlH5Mz149ILueDDA42I29tQB4wHdX50YEu6UVT9ym7AHcNniHyJNB
-         Mm8w==
+        d=gmail.com; s=20230601; t=1708954319; x=1709559119; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rD25fYdWZ5PBQ6+4sgGXozNUHlkn3qITh0G/plFTaBY=;
+        b=C6tusvw4m4VUtAAqpjJqH7mye3j+yqWIJwYpCDFscD09Wtg/cYoe00NBhfPEkLOtay
+         xR9YeTwlvZMbZ2pTRzYmPoMeSZFb7WBorx+g82cxFcWUs5XXWMNbvqL4hk0/mUStHnXf
+         dJgvh1T3R2D3z4OZVQlPiK6NsT+iv5Y6ws02M5VMaMQf7cbcVgZte9qtaVca/NzsV0EN
+         j6pqModH7A+FPFsSUJt/V7apfFF1sNgLTRRrItP2YUIY1otPRVvknFc8lBmXY8b92hMq
+         YgHP7Md/g2hN1dtUZc6+d/NU3iHkx0iMb7CniIDzZ7uj4bQR5cw9XWdENSsX3FnIQNjQ
+         ajDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708946573; x=1709551373;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1708954319; x=1709559119;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+un2MiJJd3MxrUMq6eh+kg/BOEO9gQVeUJRlVSMmsxM=;
-        b=mSLoMHFun0h8aYu18q2UI1oSshgmNnXC2StGs+u2rvJSvzNbhEZfx1JRWm578C85Oo
-         /tCreJ1aGhR5SSRFZPMPAXs6YwOofqqBj8fEmDlMUt23oe+N3olz6APtOdPAGIuQCo/Z
-         dLzmfTkk5CdNWkJjVk5U2mfeJGjMFEkfXdxU13qFra5h+5tRSl380att0Pd5tZZ/d7sG
-         Z1vnhSl9zdrZ1A4I13e6HwyD/6XI6ITdAiZ5umU/J2dc5Lo3RKOSdObGUt9MAZBebH0T
-         C02Q57ZT+eD5rpoM3+B1qc3Hc5nVLhn/TrPyYt/E9aspqGkrdTYyKovw/99DwIYIEaG9
-         9KGw==
-X-Forwarded-Encrypted: i=1; AJvYcCVm4bdDPfwpuvxR3DNtTGs0ZWmsRogbbXg7ApHPsBdYQQwz0QIglMbkSFzn5weISJZM2Hvkdnoiix4FTQetEBcBoguT5qG9HKIb8VyulDs7O3hy1SvN0jqi
-X-Gm-Message-State: AOJu0YyYRpL7kgSxcWgWxuEzxzg0Eboeg2DvKFLSGJbwTvyUNOKoOYie
-	z/77kbc53K7pkEk9e4CGYI3rM9WJb+EtGHbKWafWPIad/7452WWFJY+1A4fBkePhFOwB1bxDCJ/
-	kAOiS85Xl7Eg64rttZ59TL9wvq5daBESXNeU=
-X-Google-Smtp-Source: AGHT+IEHDfZLfSjuiLF7byPDSX5AlKdaC22kpykK0mWNdFrNWar1V2v9eZCWShUOP+rv7xInTQLjAkZbtFH+a+mxmV8=
-X-Received: by 2002:a2e:3316:0:b0:2d1:26f0:8167 with SMTP id
- d22-20020a2e3316000000b002d126f08167mr3943054ljc.35.1708946572653; Mon, 26
- Feb 2024 03:22:52 -0800 (PST)
+        bh=rD25fYdWZ5PBQ6+4sgGXozNUHlkn3qITh0G/plFTaBY=;
+        b=GpN+r1pQFpKW+chcZvBFzrTbn/vILaMi0MxZ1V3vQHESC+EqYJ83ppO+Wh7fYDSsbf
+         CkhvTB/0orQ94+lwFt12f0w6VsreKMbzwxx7G8kH/S0aztWGzKCiDAmri/Ew0gCpmXKz
+         wA+//Tx5s3eImDVll0HKIcPhubsqb8oaImhNwr2UYkF+evj2FTShVDreCVjXeiQgNHxm
+         AWgCbYc70UeeKBX+0CyctPMAj2OVqkNw8+xDIeuHCRzLrsZCNA4KTfQpj3RQIiX2pfaf
+         vreZrfAweIRKd5S34VdZhkEtVouWRYuZU1hEbBLo0XTAIzV2ehaDP9kBwSwKzT39r3k0
+         7Isw==
+X-Gm-Message-State: AOJu0YxBfElFV7H6C7gSEeNYaa4B/caQLMYuUFMbbXxM8v9dUDmChtQw
+	1kfx/dZlm/hR6PHI56PZL1x8tce1Se3LK5s1TIsNOh+utyWKo/HbDImZaURf
+X-Google-Smtp-Source: AGHT+IFt/glOic8WgTR+mS6ODeOpYt6OVZW4zYeeuycB+20DRziPJW6xibgJMHRvq6LHGKA7JsmGKQ==
+X-Received: by 2002:a17:907:20ee:b0:a3f:b3e0:a986 with SMTP id rh14-20020a17090720ee00b00a3fb3e0a986mr4848264ejb.72.1708954318683;
+        Mon, 26 Feb 2024 05:31:58 -0800 (PST)
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id cu4-20020a170906ba8400b00a42ebdfda56sm2381079ejd.100.2024.02.26.05.31.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Feb 2024 05:31:58 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: [PATCH] pixman: explicitly disable openmp in native builds
+Date: Mon, 26 Feb 2024 14:31:51 +0100
+Message-ID: <20240226133151.2107307-1-martin.jansa@gmail.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-References: <17B69806B1DEE2BA.25421@lists.openembedded.org>
- <ba284035-ee83-42d0-be21-a6f31532f9cb@mvista.com> <f3b16ac13c9a4cdbc7409296267446c23332d56f.camel@linuxfoundation.org>
- <8e02178a-106e-498c-92a0-c0fc760cff0f@mvista.com> <6613bed9-5643-45cd-b0f3-89eb9f22700b@mvista.com>
- <0a042b9f-425b-443a-981b-1574e9efaf2b@mvista.com>
-In-Reply-To: <0a042b9f-425b-443a-981b-1574e9efaf2b@mvista.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 26 Feb 2024 12:22:41 +0100
-Message-ID: <CANNYZj_sju_FdPdYLDZv99U_hyUx=ABJAfOq9Vcu7aSZY=shLw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] package_rpm: Fix backtrace on missing directory.
-To: jpuhlman@mvista.com
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 26 Feb 2024 11:22:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196200
+ <openembedded-core@lists.openembedded.org>; Mon, 26 Feb 2024 13:32:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196201
 
-This was the commit that introduced the DIRFILES variable:
-https://git.yoctoproject.org/poky/commit/?id=2f42ef8d8fb1febf28252b98884cebabc931f720
+* on some hosts (e.g. on my gentoo after recent update) it detects OpenMP in do_configure:
+  Run-time dependency OpenMP found: YES 4.5
+  but then fails in do_compile as shown in:
+  http://errors.yoctoproject.org/Errors/Details/754632/
 
-Given that it's undocumented, untested, rpm-specific, and currently
-broken, and looks like a workaround for security label conflicts
-elsewhere I'm inclined to remove the code paths that use it
-altogether.
+  gcc  -o test/fetch-test test/fetch-test.p/fetch-test.c.o -LTOPDIR/tmp-glibc/work/x86_64-linux/pixman-native/0.42.2/recipe-sysroot-native/usr/lib -LTOPDIR/tmp-glibc/work/x86_64-linux/pixman-native/0.42.2/recipe-sysroot-native/lib -Wl,--as-needed -Wl,--no-undefined -Wl,--enable-new-dtags -Wl,-rpath-link,TOPDIR/tmp-glibc/work/x86_64-linux/pixman-native/0.42.2/recipe-sysroot-native/usr/lib -Wl,-rpath-link,TOPDIR/tmp-glibc/work/x86_64-linux/pixman-native/0.42.2/recipe-sysroot-native/lib -Wl,-rpath,TOPDIR/tmp-glibc/work/x86_64-linux/pixman-native/0.42.2/recipe-sysroot-native/usr/lib -Wl,-rpath,TOPDIR/tmp-glibc/work/x86_64-linux/pixman-native/0.42.2/recipe-sysroot-native/lib -Wl,-O1 '-Wl,-rpath,$ORIGIN/../pixman' -Wl,-rpath-link,TOPDIR/tmp-glibc/work/x86_64-linux/pixman-native/0.42.2/build/pixman -Wl,--start-group test/libtestutils.a pixman/libpixman-1.so.0.42.2 -pthread -fopenmp -fopenmp -lm -Wl,--end-group
+  gcc: fatal error: cannot read spec file ‘libgomp.spec’: No such file or directory
+  compilation terminated.
 
-Alex
+  it's only used in tests, so should be safe to disable for native builds
 
-On Sun, 25 Feb 2024 at 19:34, Jeremy Puhlman via
-lists.openembedded.org <jpuhlman=mvista.com@lists.openembedded.org>
-wrote:
->
->
->
-> On 2/25/2024 10:32 AM, Jeremy Puhlman wrote:
-> >
-> >
-> > On 2/25/2024 9:22 AM, Jeremy Puhlman wrote:
-> >>
-> >>
-> >> On 2/24/2024 2:13 PM, Richard Purdie wrote:
-> >>> On Fri, 2024-02-23 at 12:33 -0800, Jeremy Puhlman via
-> >>> lists.openembedded.org wrote:
-> >>>> It says usr//usr in the comment, but when I ran on a clean build it
-> >>>> started complaining about opt//opt as well. Its not really clear why
-> >>>> it is looking for those directories, and I am sure this is not likely
-> >>>> the correct solution, but I wanted to get it out here so someone who
-> >>>> has kicked this area of code might know what may be happening.
-> >>> Unfortunately there are layers of different pieces which could be the
-> >>> issue, such as pseudo in combination with the host distro libraries and
-> >>> uninative.
-> >>>
-> >>> Can you create a test case which reproduces the issue?
-> >> Yeah, I was going to try to get to it, but time got away from me.
-> >> Hopefully I should
-> >> be able to get some time later today.
-> >
-> > Trying to reduce the recipe to bare bones, I narrowed it down the the
-> > DIRFILES setting.
-> > Deep in the top level class configuration for the layer, it sets
-> > DIRFILES="1", which looks
-> > wrong given the code. OTOH, nothing else in any of the layers we are
-> > using sets the value
-> > to anything, so what ever recent changes that were made there are
-> > untested by anything.
-> >
-> > Turning that off should resolve my issue, but it looks like that code
-> > path may be vestigial at
-> > this point.
-> >
-> As an aside, adding:
-> DIRFILES = "${bindir}"
-> To something like the bash recipe, reproduces the behavior.
->
-> >>
-> >>>   Does it always
-> >>> happen with this recipe?
-> >> Yes. Originally it was happening in our distro setup, minimizing it
-> >> to just poky and the
-> >> meta-oe/meta-python, it happens with the recipe with the default
-> >> distro as well.
-> >>
-> >>>   Does it happen on different host distros?
-> >> I have not tried that, so far it was just rocky 8.
-> >>
-> >>>   Are
-> >>> you using uninative?
-> >> Yes. It happens with the default poky distro, too.
-> >>
-> >>> What about buildtools-tarball?
-> >> We always use buildtools-extended-tarball, to isolate as much as
-> >> possible from the host.
-> >>
-> >>>
-> >>> Cheers,
-> >>>
-> >>> Richard
-> >>
-> >
->
-> --
-> Jeremy Puhlman
-> jpuhlman@mvista.com
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#196145): https://lists.openembedded.org/g/openembedded-core/message/196145
-> Mute This Topic: https://lists.openembedded.org/mt/104536226/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+* the check in meson uses /usr/include/omp.h which is provided by libomp
+  even when openmp support is disabled in native gcc in gentoo this happned
+  after switching from 17.1 profile to 23.0 which doesn't include openmp
+  USE flag by default, if you later run depclean it will uninstall libomp
+  as well which will fix this conflict in meson's OpenMP autodetection
+
+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+---
+ meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb b/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb
+index 8a93f8c0fe..23ae0cbb27 100644
+--- a/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb
++++ b/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb
+@@ -40,6 +40,8 @@ EXTRA_OEMESON:append:class-target:powerpc64le = " ${@bb.utils.contains("TUNE_FEA
+ EXTRA_OEMESON:append:armv7a = "${@bb.utils.contains("TUNE_FEATURES","neon",""," -Dneon=disabled",d)}"
+ EXTRA_OEMESON:append:armv7ve = "${@bb.utils.contains("TUNE_FEATURES","neon",""," -Dneon=disabled",d)}"
+ 
++EXTRA_OEMESON:append:class-native = " -Dopenmp=disabled"
++
+ BBCLASSEXTEND = "native nativesdk"
+ 
+ CVE_STATUS[CVE-2023-37769] = "not-applicable-config: stress-test is an uninstalled test"
+-- 
+2.44.0
+
 
