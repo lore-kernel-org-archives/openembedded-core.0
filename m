@@ -1,157 +1,134 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44F94C5478C
-	for <webhook@archiver.kernel.org>; Mon, 26 Feb 2024 06:19:37 +0000 (UTC)
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
- by mx.groups.io with SMTP id smtpd.web11.14989.1708928372336092370
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B68AC48BF6
+	for <webhook@archiver.kernel.org>; Mon, 26 Feb 2024 06:55:47 +0000 (UTC)
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+ by mx.groups.io with SMTP id smtpd.web10.15515.1708930543172783114
  for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Feb 2024 22:19:32 -0800
+ Sun, 25 Feb 2024 22:55:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=NgkEzm05;
- spf=pass (domain: gmail.com, ip: 209.85.160.54, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-22007fe465bso420462fac.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 25 Feb 2024 22:19:32 -0800 (PST)
+ dkim=pass header.i=@mvista.com header.s=google header.b=GIe4kuCl;
+ spf=pass (domain: mvista.com, ip: 209.85.214.172, mailfrom: vanusuri@mvista.com)
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1dc49b00bdbso22578315ad.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 25 Feb 2024 22:55:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708928371; x=1709533171; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8pPv8+G0Le5ihfUsAu+X/32hnuEyG677x49BQ5UZKyo=;
-        b=NgkEzm05yl68/6lZZQWdqafVGFGWjsrD6rN+5LCV4IUCOJ0J2scGmWgB1GZ8EMGgrm
-         ypZqW6z1Pftgelec1M0GGzGJu4vhxlYpydA4U/hdMv5otwsqYh0OKQQU1G5omKAJAjhv
-         JLnN1XS/oZ8bhKfWzCVYscVa0/r2socgJkTr4f34YVsy9vTC+r0EqNzNxwFqzhSILIuJ
-         1pU2QvlIejvG3A2Jew+T7sQVQXeFth5RVPfjZ+wCDeXFnZPLSB1x4UPeiGqsda0gLcgg
-         hgo5yk1f5eLQuFPm9Q9GW/vW7J93PFjFOh/30aVpznZQuqMSL81z0so37nZK/ZBBjO5J
-         k4Ow==
+        d=mvista.com; s=google; t=1708930542; x=1709535342; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FObDJ83kv5FwU5GLzOLui9uMhj65GEQ7HGQwNn7dseY=;
+        b=GIe4kuCl68XaLfOkyXzCJepmSiuaviUWBnqtWUeDeeBH/XEE9LWvh1JeBbWijCZZ3B
+         TFGSUxbNcCieN/DV+RhiUys2P+LWvy/L+YdzD4trMAdQst/7nZ/5e8kkgnSO1zH0EzZ9
+         zo7REWZBOOCiY8JQAv1MAuW/Nwrw8gKbDI2nQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708928371; x=1709533171;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8pPv8+G0Le5ihfUsAu+X/32hnuEyG677x49BQ5UZKyo=;
-        b=cdxUto7FQcm3W6GPeaQ6BFlXm3+wJn3ZCxj3XSET4j/QYS2N0AzpNdORU63AZOi5GD
-         gWwx9UJnrBAqnSOJTdbOnTqE6aNTezxceAmJEzZWgiWrD8eSEKANG08KxG13IwsKrYbc
-         Sf/jVc3+UA8H0vmmpcPJngOqf9mCzjZIjhRzSCmszBJQft8LenmqEg5k9r696uAj7bKO
-         wAEUQYQh7TBOJcWIPVUu6hSYpctK9igPqVCm6GxKgIIGGjAY2bTOhyf5sipFmvbcvwDn
-         tu4k/k+alkCaB+KgC5kIU7cH3BNNKHduOTzYpqFB6rRT9QBJgaRUeI5/ARtJ84j/Akxm
-         bSfg==
-X-Gm-Message-State: AOJu0Yx3YkG5GRxe6rnKUObHF06Tt86zGR/LN7EYnmWVVgRlJQzYCh16
-	SJD0etILRRBeHuTOLeMz4WUcl3BvGXaLYc2aThmIxm4cf7LlhFvaPzaTuo+oriNVkeRS2xBT3kJ
-	t2Qe1f2ORp+QiPXD3XMwl3hcSYkU=
-X-Google-Smtp-Source: AGHT+IFcn55XqDvS2vA+jbmHbtjqs1awMSqx8vFrbtM7rvwcQQXL/ge4QOA+wcRnNn72qGMzKmnmD8ejZTRHHPJevGo=
-X-Received: by 2002:a05:6870:64a6:b0:21e:8c19:f716 with SMTP id
- cz38-20020a05687064a600b0021e8c19f716mr7713924oab.49.1708928371524; Sun, 25
- Feb 2024 22:19:31 -0800 (PST)
+        d=1e100.net; s=20230601; t=1708930542; x=1709535342;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FObDJ83kv5FwU5GLzOLui9uMhj65GEQ7HGQwNn7dseY=;
+        b=NJGGRQNwrbJyWXX4zKg9PBY9UfCbswe/IGUe8D6VhR8rJT4L7tt169jnAdKVnYgYKA
+         jg7vHpW2/P+/ulDL79nehQyf5yUHKeFKuPlbnWumMEahb21XpeI3ye7DcYXoB8kYFu03
+         Dx8U2jXIyWY4RlYYZEtjl1e64rnjgWf+1gogLL+NSQO4laYDqHBGyMY50QzvvQsSIcgx
+         I5qSBPeg6zfcwynD4Ly2DL5WkAf08QCSLDBQ57KVEhjEC/OS8X/ZUEVWGS9bk1MdAtXy
+         sGKF3vY06I4z6vgayXXRxUDYq4rP7Te4BmfNB1gteZ2s+Vnpl8o6IsQgPeyUmA+MC1ju
+         B7HA==
+X-Gm-Message-State: AOJu0Yz3z1qrE41oT9KA/Vufquw8P2cyUQcKhRwol7G+ZD8mHUbfBtnx
+	1kak7ujm7n1PJb8/Q8sK+ODsylO9tviTquZpbGGu3lUFt+aA4n4nzTIXA+f12t+qIi9hTMaocac
+	9
+X-Google-Smtp-Source: AGHT+IH9xBAjdHeW7Y4GoGhI3+3niDTVEVf79FN8VQ8ZX+I/pN1FV6imkd8LCuAjJuv4eWMN7IcqHA==
+X-Received: by 2002:a17:903:246:b0:1dc:1e7c:cd3 with SMTP id j6-20020a170903024600b001dc1e7c0cd3mr6518179plh.47.1708930541626;
+        Sun, 25 Feb 2024 22:55:41 -0800 (PST)
+Received: from MVIN00020.mvista.com ([2405:201:c01c:781c:f5d0:9dd9:b81d:8cf])
+        by smtp.gmail.com with ESMTPSA id i13-20020a17090332cd00b001db2ff16acasm3179598plr.128.2024.02.25.22.55.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 25 Feb 2024 22:55:41 -0800 (PST)
+From: vanusuri@mvista.com
+To: openembedded-core@lists.openembedded.org
+Cc: Vijay Anusuri <vanusuri@mvista.com>
+Subject: [OE-core][dunfell][PATCH] less: Fix for CVE-2022-48624
+Date: Mon, 26 Feb 2024 12:25:30 +0530
+Message-Id: <20240226065530.9575-1-vanusuri@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20240226053210.3501-1-leimaohui@fujitsu.com>
-In-Reply-To: <20240226053210.3501-1-leimaohui@fujitsu.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 25 Feb 2024 22:19:05 -0800
-Message-ID: <CAMKF1sqh5ngJdQfKvgQ-9Omc6U6SeKE2DzV6127-ep2iyS=8Jg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] glibc: Fix conflict error when enbale multilib
- on aarch64.
-To: leimaohui@fujitsu.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 26 Feb 2024 06:19:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196180
+ <openembedded-core@lists.openembedded.org>; Mon, 26 Feb 2024 06:55:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196181
 
-lgtm.
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-On Sun, Feb 25, 2024 at 9:32=E2=80=AFPM leimaohui via lists.openembedded.or=
-g
-<leimaohui=3Dfujitsu.com@lists.openembedded.org> wrote:
->
-> From: Lei Maohui <leimaohui@fujitsu.com>
->
-> Error: Transaction test error:
->   file /usr/include/finclude/math-vector-fortran.h from install of lib32-=
-libc6-dev-2.39+git0+312e159626-r0.armv7ahf_neon conflicts with file from pa=
-ckage libc6-dev-2.39+git0+312e159626-r0.aarch64
->
-> The difference of math-vector-fortran.h between 32bit and 64bit is as
-> the following:
->
-> --- tmp/work/aarch64-linux/glibc/2.39+git/image/usr/include/finclude/math=
--vector-fortran.h    2024-02-26 03:41:59.560000000 +0000
-> +++ tmp/work/armv7ahf-neon-xmllib32-linux-gnueabi/lib32-glibc/2.39+git/im=
-age/usr/include/finclude/math-vector-fortran.h 2024-02-26 02:22:28.59200000=
-0 +0000
-> @@ -15,33 +15,5 @@
->  !   You should have received a copy of the GNU Lesser General Public
->  !   License along with the GNU C Library; if not, see
->  !   <https://www.gnu.org/licenses/>.
-> -!GCC$ builtin (acos) attributes simd (notinbranch)
-> -!GCC$ builtin (acosf) attributes simd (notinbranch)
-> -!GCC$ builtin (asin) attributes simd (notinbranch)
-> -!GCC$ builtin (asinf) attributes simd (notinbranch)
-> -!GCC$ builtin (atan) attributes simd (notinbranch)
-> -!GCC$ builtin (atanf) attributes simd (notinbranch)
-> -!GCC$ builtin (atan2) attributes simd (notinbranch)
-> -!GCC$ builtin (atan2f) attributes simd (notinbranch)
-> -!GCC$ builtin (cos) attributes simd (notinbranch)
-> -!GCC$ builtin (cosf) attributes simd (notinbranch)
-> -!GCC$ builtin (exp) attributes simd (notinbranch)
-> -!GCC$ builtin (expf) attributes simd (notinbranch)
-> -!GCC$ builtin (exp10) attributes simd (notinbranch)
-> -!GCC$ builtin (exp10f) attributes simd (notinbranch)
-> -!GCC$ builtin (exp2) attributes simd (notinbranch)
-> -!GCC$ builtin (exp2f) attributes simd (notinbranch)
-> -!GCC$ builtin (expm1) attributes simd (notinbranch)
-> -!GCC$ builtin (expm1f) attributes simd (notinbranch)
-> -!GCC$ builtin (log) attributes simd (notinbranch)
-> -!GCC$ builtin (logf) attributes simd (notinbranch)
-> -!GCC$ builtin (log10) attributes simd (notinbranch)
-> -!GCC$ builtin (log10f) attributes simd (notinbranch)
-> -!GCC$ builtin (log1p) attributes simd (notinbranch)
-> -!GCC$ builtin (log1pf) attributes simd (notinbranch)
-> -!GCC$ builtin (log2) attributes simd (notinbranch)
-> -!GCC$ builtin (log2f) attributes simd (notinbranch)
-> -!GCC$ builtin (sin) attributes simd (notinbranch)
-> -!GCC$ builtin (sinf) attributes simd (notinbranch)
-> -!GCC$ builtin (tan) attributes simd (notinbranch)
-> -!GCC$ builtin (tanf) attributes simd (notinbranch)
-> +
-> +! No SIMD math functions are available for this platform.
->
-> Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
-> ---
->  meta/recipes-core/glibc/glibc-package.inc | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-cor=
-e/glibc/glibc-package.inc
-> index 1ef987be0a..19eb7afa81 100644
-> --- a/meta/recipes-core/glibc/glibc-package.inc
-> +++ b/meta/recipes-core/glibc/glibc-package.inc
-> @@ -167,6 +167,7 @@ do_install_armmultilib () {
->         oe_multilib_header fpu_control.h gnu/lib-names.h gnu/stubs.h ieee=
-754.h
->
->         oe_multilib_header sys/elf.h sys/procfs.h sys/ptrace.h sys/uconte=
-xt.h sys/user.h
-> +       oe_multilib_header finclude/math-vector-fortran.h
->  }
->
->
-> --
-> 2.34.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#196179): https://lists.openembedded.org/g/openembedde=
-d-core/message/196179
-> Mute This Topic: https://lists.openembedded.org/mt/104577604/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Upstream-Status: Backport [https://github.com/gwsw/less/commit/c6ac6de49698be84d264a0c4c0c40bb870b10144]
+
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+---
+ .../less/less/CVE-2022-48624.patch            | 41 +++++++++++++++++++
+ meta/recipes-extended/less/less_551.bb        |  1 +
+ 2 files changed, 42 insertions(+)
+ create mode 100644 meta/recipes-extended/less/less/CVE-2022-48624.patch
+
+diff --git a/meta/recipes-extended/less/less/CVE-2022-48624.patch b/meta/recipes-extended/less/less/CVE-2022-48624.patch
+new file mode 100644
+index 0000000000..409730bd4f
+--- /dev/null
++++ b/meta/recipes-extended/less/less/CVE-2022-48624.patch
+@@ -0,0 +1,41 @@
++From c6ac6de49698be84d264a0c4c0c40bb870b10144 Mon Sep 17 00:00:00 2001
++From: Mark Nudelman <markn@greenwoodsoftware.com>
++Date: Sat, 25 Jun 2022 11:54:43 -0700
++Subject: [PATCH] Shell-quote filenames when invoking LESSCLOSE.
++
++Upstream-Status: Backport [https://github.com/gwsw/less/commit/c6ac6de49698be84d264a0c4c0c40bb870b10144]
++CVE: CVE-2022-48624
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ filename.c | 10 ++++++++--
++ 1 file changed, 8 insertions(+), 2 deletions(-)
++
++diff --git a/filename.c b/filename.c
++index 5824e385..dff20c08 100644
++--- a/filename.c
+++++ b/filename.c
++@@ -972,6 +972,8 @@ close_altfile(altfilename, filename)
++ {
++ #if HAVE_POPEN
++ 	char *lessclose;
+++	char *qfilename;
+++	char *qaltfilename;
++ 	FILE *fd;
++ 	char *cmd;
++ 	int len;
++@@ -986,9 +988,13 @@ close_altfile(altfilename, filename)
++ 		error("LESSCLOSE ignored; must contain no more than 2 %%s", NULL_PARG);
++ 		return;
++ 	}
++-	len = (int) (strlen(lessclose) + strlen(filename) + strlen(altfilename) + 2);
+++	qfilename = shell_quote(filename);
+++	qaltfilename = shell_quote(altfilename);
+++	len = (int) (strlen(lessclose) + strlen(qfilename) + strlen(qaltfilename) + 2);
++ 	cmd = (char *) ecalloc(len, sizeof(char));
++-	SNPRINTF2(cmd, len, lessclose, filename, altfilename);
+++	SNPRINTF2(cmd, len, lessclose, qfilename, qaltfilename);
+++	free(qaltfilename);
+++	free(qfilename);
++ 	fd = shellcmd(cmd);
++ 	free(cmd);
++ 	if (fd != NULL)
+diff --git a/meta/recipes-extended/less/less_551.bb b/meta/recipes-extended/less/less_551.bb
+index a818c68fc7..401f40bed5 100644
+--- a/meta/recipes-extended/less/less_551.bb
++++ b/meta/recipes-extended/less/less_551.bb
+@@ -26,6 +26,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+ DEPENDS = "ncurses"
+ 
+ SRC_URI = "http://www.greenwoodsoftware.com/${BPN}/${BPN}-${PV}.tar.gz \
++           file://CVE-2022-48624.patch \
+ 	  "
+ 
+ SRC_URI[md5sum] = "4ad4408b06d7a6626a055cb453f36819"
+-- 
+2.25.1
+
 
