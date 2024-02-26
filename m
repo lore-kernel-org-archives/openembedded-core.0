@@ -1,209 +1,227 @@
-Return-Path: <kamatam@amazon.com>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C2B9C48BF6
-	for <webhook@archiver.kernel.org>; Mon, 26 Feb 2024 23:50:37 +0000 (UTC)
-Received: from smtp-fw-52004.amazon.com (smtp-fw-52004.amazon.com [52.119.213.154])
- by mx.groups.io with SMTP id smtpd.web11.736.1708991434799886609
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DBB8C5478C
+	for <webhook@archiver.kernel.org>; Mon, 26 Feb 2024 23:58:07 +0000 (UTC)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web10.953.1708991886202810722
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Feb 2024 15:50:35 -0800
+ Mon, 26 Feb 2024 15:58:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@amazon.com header.s=amazon201209 header.b=EgL19E+a;
- spf=pass (domain: amazon.com, ip: 52.119.213.154, mailfrom: prvs=779f0d7f9=kamatam@amazon.com)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=hcBINs+R;
+ spf=pass (domain: gmail.com, ip: 209.85.221.47, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-33d754746c3so2495232f8f.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 26 Feb 2024 15:58:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1708991435; x=1740527435;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=30g+f8choBEO/+yhL9e36NBySWEq85/P1UdX8+tL0/k=;
-  b=EgL19E+aarADGAQ7ieIF5xfb6ypKstRb1QBTfPNRJIXUo0e0DCF5X70K
-   L+26hejRtPLS+EbYE7SRTyJ9iEzkmF2XdfE5lI6sXYGs6smZjTJmS+4uu
-   xmBMryjK+ZVXcdAjGa0csW/hJ+s4KnqSJO5Ns0wfrn16RFaPd+JJU3r9G
-   4=;
-X-IronPort-AV: E=Sophos;i="6.06,187,1705363200"; 
-   d="scan'208";a="187561432"
-Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO smtpout.prod.us-east-1.prod.farcaster.email.amazon.dev) ([10.43.8.2])
-  by smtp-border-fw-52004.iad7.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2024 23:50:34 +0000
-Received: from EX19MTAUWA001.ant.amazon.com [10.0.21.151:25277]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.8.178:2525] with esmtp (Farcaster)
- id 0c9ba385-2e73-461e-b56d-b2704c5e8b7a; Mon, 26 Feb 2024 23:50:33 +0000 (UTC)
-X-Farcaster-Flow-ID: 0c9ba385-2e73-461e-b56d-b2704c5e8b7a
-Received: from EX19D010UWA004.ant.amazon.com (10.13.138.204) by
- EX19MTAUWA001.ant.amazon.com (10.250.64.204) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Mon, 26 Feb 2024 23:50:31 +0000
-Received: from u0acfa43c8cad58.ant.amazon.com (10.88.187.238) by
- EX19D010UWA004.ant.amazon.com (10.13.138.204) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.28; Mon, 26 Feb 2024 23:50:30 +0000
-From: Munehisa Kamata <kamatam@amazon.com>
-To: <bruce.ashfield@gmail.com>
-CC: <kamatam@amazon.com>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] kernel.bbclass: Set pkg-config variables for building modules
-Date: Mon, 26 Feb 2024 15:50:10 -0800
-Message-ID: <20240226235010.275074-1-kamatam@amazon.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <CADkTA4Pmv7cL2LTSYvhXv905T6_MpsZxCgXnUZqvSS2E6BhTuQ@mail.gmail.com>
-References: <CADkTA4Pmv7cL2LTSYvhXv905T6_MpsZxCgXnUZqvSS2E6BhTuQ@mail.gmail.com>
+        d=gmail.com; s=20230601; t=1708991885; x=1709596685; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zns4mgGlUwexpCvDshMX1le23eK96JAv6vRbi0J/sWI=;
+        b=hcBINs+RuQ6khe2kPdC0AA5EynSM2Zc5R73for7oQxgy/uve/m2QimHK3Ggx0z+4kB
+         TubqKNcYikMpLiSwv0eSkYlfJhx2JxJxoyfdeaTP9F1ZtP32vTtyRlb6RGW5mVqyh7b3
+         MKZTafqFnKD7Qi4pqm2vtAusp1/uUJlw7FF5fSdEHEbICyjsaL9FkixU4Vd2sGKftJs3
+         UWL9DY+QdAAY3ncZNOQ7PEAL2Pjt7jHToIQLGvUHZZYoa1LVZKW03JMmJ+MuE01aLqkr
+         BVS9dTzndjc+ikbh3drWGV+ZZZfwEZH8wHeRaHEcslKrIrcqy9XGMVctyybBa9Zxs+yM
+         +h9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708991885; x=1709596685;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zns4mgGlUwexpCvDshMX1le23eK96JAv6vRbi0J/sWI=;
+        b=Cogt2wacdqGAjRApf4UHxn3jYgFTedaswwIAf1sICI68om9GHen6mWXBvyHMaTcU12
+         GEmafviymk0SA2ftwYz5n0ER1T5bdvH+QJDOF0ETWDQ0ZfX3Dn+rTu5It5kOaXiEMxKi
+         ZU6i4NmBGM1b2NI4e6tAEcytYlzieMjsSXtW76cqKG5ShbsAoecQDpmqXZLG2L/IHcFW
+         lygX0pjw07nsteVsa7frFCKxf8Qfqs4Ieg4yo3PXasavOjSFLcsgip12wi8m6FWQFgAh
+         TM6D9NCBUOgOMW7VxHOfaw5o09RyQS896IPz2q/eewFxWl9bjsSdxnBMTe1+y7VWsdGt
+         bPtw==
+X-Gm-Message-State: AOJu0Yz1dcxz6kahDrWDRPjy4aABOxsBmcrmo8XUK5bbeiTLXEzG1Z3a
+	9fT63p7mT8ig776BubMUquCkS3r67LovzWHGkHR9E4xKzGbh16WO4gR9X7Uohl8pDBGfMBKvjXr
+	Kki26vvmIzS2GUFm2M/vnlR+ZGYc=
+X-Google-Smtp-Source: AGHT+IGujpIbWY1GqZhQHvF8vpp+9fjl8940dY2q0y7qcMCDDuWyPVaJHKbI3eE5T7JCsbyj3pa7/qZMHIfdip2oe2M=
+X-Received: by 2002:a5d:4b4f:0:b0:33d:81ca:532e with SMTP id
+ w15-20020a5d4b4f000000b0033d81ca532emr6474477wrs.47.1708991884460; Mon, 26
+ Feb 2024 15:58:04 -0800 (PST)
 MIME-Version: 1.0
+References: <20240225093726.1113403-1-martin.jansa@gmail.com> <CAMKF1sr1SVSnAZ2_ZCTHfMyM8i01msDQ+81M5h+Bb9zmKGPLCw@mail.gmail.com>
+In-Reply-To: <CAMKF1sr1SVSnAZ2_ZCTHfMyM8i01msDQ+81M5h+Bb9zmKGPLCw@mail.gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Tue, 27 Feb 2024 00:57:52 +0100
+Message-ID: <CA+chaQfJVOJa5M15=wViR0hPwOY=d9Ex+0JVLcWapm0E_Xsz9w@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] glib-2.0: backport a switch from distutils to
+ packaging in codegen
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.88.187.238]
-X-ClientProxiedBy: EX19D037UWC001.ant.amazon.com (10.13.139.197) To
- EX19D010UWA004.ant.amazon.com (10.13.138.204)
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 26 Feb 2024 23:50:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196234
+ <openembedded-core@lists.openembedded.org>; Mon, 26 Feb 2024 23:58:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196235
 
-Hi Bruce,
+Thanks Khem, will try to reproduce tomorrow. Maybe these don't use
+CODEGEN_PYTHON_RDEPENDS.
 
-On Sun, 2024-02-25 06:54:58 -0800, Bruce Ashfield wrote:
+With this patch backported to kirkstone I've seen glib-2.0-native
+failing with the same issue as python3native there doesn't include
+python3-packaging.
+
+Maybe these recipes aren't using python3native and were depending on
+packaging from host, will debug tomorrow.
+
+On Tue, Feb 27, 2024 at 12:16=E2=80=AFAM Khem Raj <raj.khem@gmail.com> wrot=
+e:
 >
-> On Sat, Feb 24, 2024 at 2:21 AM Munehisa Kamata <kamatam@amazon.com> wrote:
+> I am seeing some build failures which seems to be related to this patch
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/88/builds/3657/st=
+eps/15/logs/stdio
+>
+>  |   File "/home/pokybuild/yocto-worker/meta-oe/build/build/tmp/work/core=
+2-64-poky-linux/gattlib/0.2+git/recipe-sysroot-native/usr/share/glib-2.0/co=
+degen/utils.py",
+> line 22, in <module>
+>     |     import packaging.version
+>     | ModuleNotFoundError: No module named 'packaging'
+>
+>
+>
+>   |   File "/home/pokybuild/yocto-worker/meta-oe/build/build/tmp/work/cor=
+e2-64-poky-linux/networkmanager-fortisslvpn/1.4.0/recipe-sysroot-native/usr=
+/share/glib-2.0/codegen/utils.py",
+> line 22, in <module>
+>     |     import packaging.version
+>     | ModuleNotFoundError: No module named 'packaging'
+>     | make: *** [Makefile:2081: src/nm-fortisslvpn-pppd-service-dbus.h] E=
+rror 1
+>
+>
+> On Sun, Feb 25, 2024 at 1:37=E2=80=AFAM Martin Jansa <martin.jansa@gmail.=
+com> wrote:
 > >
-> > Hi Bruce,
+> > * to fix build on hosts with python-3.12, now it fails with:
 > >
-> > > That is indeed not a simple workflow!
-> > >
-> > > In the past, we've always had the existing packageconfig results picked up and
-> > > used by later stages of the kernel build which prevented things like this from
-> > > happening.
-> > >
-> > > Have you figured out exactly which packageconfig is triggering the rebuild, and
-> > > had a look to see if something change such that the existing results
-> > > aren't used ?
+> > Traceback (most recent call last):
+> >   File "recipe-sysroot-native/usr/bin/gdbus-codegen", line 53, in <modu=
+le>
+> >     from codegen import codegen_main
+> >   File "recipe-sysroot-native/usr/share/glib-2.0/codegen/codegen_main.p=
+y", line 29, in <module>
+> >     from . import dbustypes
+> >   File "recipe-sysroot-native/usr/share/glib-2.0/codegen/dbustypes.py",=
+ line 22, in <module>
+> >     from . import utils
+> >   File "recipe-sysroot-native/usr/share/glib-2.0/codegen/utils.py", lin=
+e 22, in <module>
+> >     import distutils.version
+> > ModuleNotFoundError: No module named 'distutils'
+> > CMake Error at CMakeLists.txt:90 (message):
+> >   Error in generating code for connman interface using gdbus-codegen
 > >
-> > The missing of libcrypto.pc and libelf.pc triggers the rebuild of
-> > certs/extract-cert and objtool respectively. When PKG_CONFIG_DIR is set to
-> > recipe-sysroot at module build time, it points to a non-existent directory
-> > and therefore pkg-config can't find .pc for the requested library whereas
-> > they are present in the recipe-sysroot-native, then it causes make to
-> > rebuild the target.
+> > Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+> > ---
+> >  ...deprecated-distutils-module-to-the-p.patch | 34 +++++++++++++++++++
+> >  meta/recipes-core/glib-2.0/glib-2.0_2.78.3.bb |  1 +
+> >  meta/recipes-core/glib-2.0/glib.inc           |  4 +--
+> >  3 files changed, 36 insertions(+), 3 deletions(-)
+> >  create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-Switch-fro=
+m-the-deprecated-distutils-module-to-the-p.patch
 > >
-> > Although I admit that I don't fully understand how make particularly
-> > decides to trigger the rebuild in this case.
-> 
-> Fair enough. I can't say that I always understand how the kernel's
-> Makefiles are triggering difficult builds without significant hacking
-> up of the Makefiles, and it isn't worth doing for this.
-> 
-> At a minimum, it is good to know that the .pc files are being consulted
-> so we do have something reproducible between builds when everything
-> is full defined.
-> 
+> > diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Switch-from-the-d=
+eprecated-distutils-module-to-the-p.patch b/meta/recipes-core/glib-2.0/glib=
+-2.0/0001-Switch-from-the-deprecated-distutils-module-to-the-p.patch
+> > new file mode 100644
+> > index 0000000000..50368ed22c
+> > --- /dev/null
+> > +++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-Switch-from-the-deprecat=
+ed-distutils-module-to-the-p.patch
+> > @@ -0,0 +1,34 @@
+> > +From 05f0674c93d94fe6b29c1b707980aac469ddcd72 Mon Sep 17 00:00:00 2001
+> > +From: Jordan Williams <jordan@jwillikers.com>
+> > +Date: Fri, 1 Dec 2023 09:53:50 -0600
+> > +Subject: [PATCH] Switch from the deprecated distutils module to the pa=
+ckaging
+> > + module
+> > +
+> > +The distutils module was removed in Python 3.12.
+> > +
+> > +Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commi=
+t/6ef967a0f930ce37a8c9b5aff969693b34714291]
+> > +
+> > +Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+> > +---
+> > + gio/gdbus-2.0/codegen/utils.py | 4 ++--
+> > + 1 file changed, 2 insertions(+), 2 deletions(-)
+> > +
+> > +diff --git a/gio/gdbus-2.0/codegen/utils.py b/gio/gdbus-2.0/codegen/ut=
+ils.py
+> > +index 0204610..08f1ba9 100644
+> > +--- a/gio/gdbus-2.0/codegen/utils.py
+> > ++++ b/gio/gdbus-2.0/codegen/utils.py
+> > +@@ -19,7 +19,7 @@
+> > + #
+> > + # Author: David Zeuthen <davidz@redhat.com>
+> > +
+> > +-import distutils.version
+> > ++import packaging.version
+> > + import os
+> > + import sys
+> > +
+> > +@@ -166,4 +166,4 @@ def version_cmp_key(key):
+> > +         v =3D str(key[0])
+> > +     else:
+> > +         v =3D "0"
+> > +-    return (distutils.version.LooseVersion(v), key[1])
+> > ++    return (packaging.version.Version(v), key[1])
+> > diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.78.3.bb b/meta/recip=
+es-core/glib-2.0/glib-2.0_2.78.3.bb
+> > index 42814ba544..6c3e99c641 100644
+> > --- a/meta/recipes-core/glib-2.0/glib-2.0_2.78.3.bb
+> > +++ b/meta/recipes-core/glib-2.0/glib-2.0_2.78.3.bb
+> > @@ -14,6 +14,7 @@ SRC_URI =3D "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${=
+PV}.tar.xz \
+> >             file://0001-Do-not-write-bindir-into-pkg-config-files.patch=
+ \
+> >             file://0001-meson-Run-atomics-test-on-clang-as-well.patch \
+> >             file://0001-gio-tests-resources.c-comment-out-a-build-host-=
+only-.patch \
+> > +           file://0001-Switch-from-the-deprecated-distutils-module-to-=
+the-p.patch \
+> >             file://memory-monitor.patch \
+> >             file://native-gtkdoc.patch \
+> >             "
+> > diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/gl=
+ib-2.0/glib.inc
+> > index 5a57549d85..fac8875d84 100644
+> > --- a/meta/recipes-core/glib-2.0/glib.inc
+> > +++ b/meta/recipes-core/glib-2.0/glib.inc
+> > @@ -144,9 +144,7 @@ do_install:append:mingw32() {
+> >          rm -f ${D}${bindir}/gtester-report
+> >  }
 > >
-> > > All that being said, rather than repeating the exports, it would be
-> > > better to have
-> > > them in a common place, since eventually everything but the HOSTPKG_CONFIG
-> > > definition will be dropped.
-> > >
-> > > Have you tried a more class-global export of the values ? We have a
-> > > few of those,
-> > > but admittedly, we have way more exports that are duplicated between do_compile
-> > > and do_compile_kernelmodules(), so the duplicated exports aren't a big issue.
+> > -# remove setuptools dependency when usage of distutils is dropped in
+> > -# https://gitlab.gnome.org/GNOME/glib/-/blob/main/gio/gdbus-2.0/codege=
+n/utils.py
+> > -CODEGEN_PYTHON_RDEPENDS =3D "python3 python3-setuptools python3-xml"
+> > +CODEGEN_PYTHON_RDEPENDS =3D "python3 python3-packaging python3-xml"
+> >  CODEGEN_PYTHON_RDEPENDS:mingw32 =3D ""
 > >
-> > Yes, I actually tried it first and it worked at lesat for simple kernel
-> > building. But I wasn't entirely sure if it was safe enough for the
-> > ecosystem and came up with the change that is hopefully less impact. That
-> > said, if you think it's fine, I'm happy to submit v3 with the class-global
-> > export. It would be better indeed.
+> >  RDEPENDS:${PN}-codegen +=3D "${CODEGEN_PYTHON_RDEPENDS}"
+> > --
+> > 2.43.2
 > >
-> 
-> It is something that should be safe, since really, whenever we build
-> anything in the kernel having a consistent environment should be in
-> place. The kernel modules build has expanded over the years and
-> more of the kernel tools and common build components are coming
-> into play, so things we didn't previously need .. are now needed in
-> the modules compilation.
-> 
-> I had recommended that this go into test on Friday via IRC, but
-> there's no harm in doing a cleaned up v3 with a class global set
-> of exports. We can always apply it post release if it is decided there
-> is extra risk .. but at least it will be a reference to how we should
-> start consolidating some of the exports.
-
-Since v2 has been already merged, I sent out v3 as just a new patch on the
-top of the lastet master branch.
-
-
-Thanks,
-Munehisa
- 
-> Bruce
-> 
 > >
-> > Thanks,
-> > Munehisa
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#196136): https://lists.openembedded.org/g/openembed=
+ded-core/message/196136
+> > Mute This Topic: https://lists.openembedded.org/mt/104560766/1997914
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
+raj.khem@gmail.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > >
-> > > Bruce
-> > >
-> > > >
-> > > > Signed-off-by: Munehisa Kamata <kamatam@amazon.com>
-> > > > ---
-> > > >
-> > > > v1 -> v2: Rewrote the commit message with the repro steps
-> > > >
-> > > >  meta/classes-recipe/kernel.bbclass | 12 +++++++++---
-> > > >  1 file changed, 9 insertions(+), 3 deletions(-)
-> > > >
-> > > > diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
-> > > > index a76aaee5ba..db4461e551 100644
-> > > > --- a/meta/classes-recipe/kernel.bbclass
-> > > > +++ b/meta/classes-recipe/kernel.bbclass
-> > > > @@ -239,6 +239,8 @@ KERNEL_EXTRA_ARGS ?= ""
-> > > >  EXTRA_OEMAKE += ' CC="${KERNEL_CC}" LD="${KERNEL_LD}" OBJCOPY="${KERNEL_OBJCOPY}" STRIP="${KERNEL_STRIP}"'
-> > > >  EXTRA_OEMAKE += ' HOSTCC="${BUILD_CC}" HOSTCFLAGS="${BUILD_CFLAGS}" HOSTLDFLAGS="${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}"'
-> > > >  EXTRA_OEMAKE += ' HOSTCXX="${BUILD_CXX}" HOSTCXXFLAGS="${BUILD_CXXFLAGS}"'
-> > > > +# Only for newer kernels (5.19+), native pkg-config variables are set for older kernels when building kernel and modules
-> > > > +EXTRA_OEMAKE += ' HOSTPKG_CONFIG="pkg-config-native"'
-> > > >
-> > > >  KERNEL_ALT_IMAGETYPE ??= ""
-> > > >
-> > > > @@ -356,9 +358,6 @@ kernel_do_compile() {
-> > > >         export PKG_CONFIG_LIBDIR="$PKG_CONFIG_DIR"
-> > > >         export PKG_CONFIG_SYSROOT_DIR=""
-> > > >
-> > > > -       # for newer kernels (5.19+) there's a dedicated variable
-> > > > -       export HOSTPKG_CONFIG="pkg-config-native"
-> > > > -
-> > > >         if [ "${KERNEL_DEBUG_TIMESTAMPS}" != "1" ]; then
-> > > >                 # kernel sources do not use do_unpack, so SOURCE_DATE_EPOCH may not
-> > > >                 # be set....
-> > > > @@ -408,6 +407,13 @@ addtask transform_kernel after do_compile before do_install
-> > > >
-> > > >  do_compile_kernelmodules() {
-> > > >         unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
-> > > > +
-> > > > +       # setup native pkg-config variables (kconfig scripts call pkg-config directly, cannot generically be overriden to pkg-config-native)
-> > > > +       export PKG_CONFIG_DIR="${STAGING_DIR_NATIVE}${libdir_native}/pkgconfig"
-> > > > +       export PKG_CONFIG_PATH="$PKG_CONFIG_DIR:${STAGING_DATADIR_NATIVE}/pkgconfig"
-> > > > +       export PKG_CONFIG_LIBDIR="$PKG_CONFIG_DIR"
-> > > > +       export PKG_CONFIG_SYSROOT_DIR=""
-> > > > +
-> > > >         if [ "${KERNEL_DEBUG_TIMESTAMPS}" != "1" ]; then
-> > > >                 # kernel sources do not use do_unpack, so SOURCE_DATE_EPOCH may not
-> > > >                 # be set....
-> > > > --
-> > > > 2.34.1
-> > > >
-> > >
-> > >
-> > > --
-> > > - Thou shalt not follow the NULL pointer, for chaos and madness await
-> > > thee at its end
-> > > - "Use the force Harry" - Gandalf, Star Trek II
-> > >
-> > >
-> 
-> 
-> 
-> -- 
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
-> 
-> 
 
