@@ -1,102 +1,78 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <omatiush@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9718C54E49
-	for <webhook@archiver.kernel.org>; Mon, 26 Feb 2024 13:32:09 +0000 (UTC)
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
- by mx.groups.io with SMTP id smtpd.web10.20285.1708954320472246826
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD23AC54E49
+	for <webhook@archiver.kernel.org>; Mon, 26 Feb 2024 13:49:09 +0000 (UTC)
+Received: from rcdn-iport-5.cisco.com (rcdn-iport-5.cisco.com [173.37.86.76])
+ by mx.groups.io with SMTP id smtpd.web11.20342.1708955346402566575
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Feb 2024 05:32:00 -0800
+ Mon, 26 Feb 2024 05:49:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=C6tusvw4;
- spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a3fb8b0b7acso392973666b.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 26 Feb 2024 05:32:00 -0800 (PST)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport header.b=Hmf29Bqy;
+ spf=pass (domain: cisco.com, ip: 173.37.86.76, mailfrom: omatiush@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708954319; x=1709559119; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rD25fYdWZ5PBQ6+4sgGXozNUHlkn3qITh0G/plFTaBY=;
-        b=C6tusvw4m4VUtAAqpjJqH7mye3j+yqWIJwYpCDFscD09Wtg/cYoe00NBhfPEkLOtay
-         xR9YeTwlvZMbZ2pTRzYmPoMeSZFb7WBorx+g82cxFcWUs5XXWMNbvqL4hk0/mUStHnXf
-         dJgvh1T3R2D3z4OZVQlPiK6NsT+iv5Y6ws02M5VMaMQf7cbcVgZte9qtaVca/NzsV0EN
-         j6pqModH7A+FPFsSUJt/V7apfFF1sNgLTRRrItP2YUIY1otPRVvknFc8lBmXY8b92hMq
-         YgHP7Md/g2hN1dtUZc6+d/NU3iHkx0iMb7CniIDzZ7uj4bQR5cw9XWdENSsX3FnIQNjQ
-         ajDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708954319; x=1709559119;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rD25fYdWZ5PBQ6+4sgGXozNUHlkn3qITh0G/plFTaBY=;
-        b=GpN+r1pQFpKW+chcZvBFzrTbn/vILaMi0MxZ1V3vQHESC+EqYJ83ppO+Wh7fYDSsbf
-         CkhvTB/0orQ94+lwFt12f0w6VsreKMbzwxx7G8kH/S0aztWGzKCiDAmri/Ew0gCpmXKz
-         wA+//Tx5s3eImDVll0HKIcPhubsqb8oaImhNwr2UYkF+evj2FTShVDreCVjXeiQgNHxm
-         AWgCbYc70UeeKBX+0CyctPMAj2OVqkNw8+xDIeuHCRzLrsZCNA4KTfQpj3RQIiX2pfaf
-         vreZrfAweIRKd5S34VdZhkEtVouWRYuZU1hEbBLo0XTAIzV2ehaDP9kBwSwKzT39r3k0
-         7Isw==
-X-Gm-Message-State: AOJu0YxBfElFV7H6C7gSEeNYaa4B/caQLMYuUFMbbXxM8v9dUDmChtQw
-	1kfx/dZlm/hR6PHI56PZL1x8tce1Se3LK5s1TIsNOh+utyWKo/HbDImZaURf
-X-Google-Smtp-Source: AGHT+IFt/glOic8WgTR+mS6ODeOpYt6OVZW4zYeeuycB+20DRziPJW6xibgJMHRvq6LHGKA7JsmGKQ==
-X-Received: by 2002:a17:907:20ee:b0:a3f:b3e0:a986 with SMTP id rh14-20020a17090720ee00b00a3fb3e0a986mr4848264ejb.72.1708954318683;
-        Mon, 26 Feb 2024 05:31:58 -0800 (PST)
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id cu4-20020a170906ba8400b00a42ebdfda56sm2381079ejd.100.2024.02.26.05.31.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Feb 2024 05:31:58 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
+  d=cisco.com; i=@cisco.com; l=784; q=dns/txt; s=iport;
+  t=1708955346; x=1710164946;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=5npcqZ7gH59fwht+z+Ftw7poiCZmi8RJ33gPGWCILgY=;
+  b=Hmf29Bqyt1fLFxjbr5yhSPMgGXGBE+41NWha5eD+fU/L8SUgG43uzvq/
+   O3HvwSKjU/t/uKk71y1ErqHGboFemWJVbehGr90HMGFNHlEJWtdPNQUZM
+   u1NbHinviwE+UOMvNEOE0LdT3/MsVyuRLdH0FAFfn+9znwisqfyK+/n7q
+   c=;
+X-CSE-ConnectionGUID: TOEkaQ7JSpW1UyLg21cflA==
+X-CSE-MsgGUID: 8oY63H9sR/CZ0CIJmlVeRA==
+X-IronPort-AV: E=Sophos;i="6.06,185,1705363200"; 
+   d="scan'208";a="196162023"
+Received: from rcdn-core-7.cisco.com ([173.37.93.143])
+  by rcdn-iport-5.cisco.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2024 13:49:05 +0000
+Received: from sjc-ads-6997.cisco.com (sjc-ads-6997.cisco.com [10.30.218.117])
+	by rcdn-core-7.cisco.com (8.15.2/8.15.2) with ESMTP id 41QDn5T1006283;
+	Mon, 26 Feb 2024 13:49:05 GMT
+From: Oleh Matiusha <omatiush@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Martin Jansa <martin.jansa@gmail.com>
-Subject: [PATCH] pixman: explicitly disable openmp in native builds
-Date: Mon, 26 Feb 2024 14:31:51 +0100
-Message-ID: <20240226133151.2107307-1-martin.jansa@gmail.com>
-X-Mailer: git-send-email 2.44.0
+Subject: [PATCH] gmp: improve reproducibility
+Date: Mon, 26 Feb 2024 13:49:05 +0000
+Message-Id: <20240226134905.280098-1-omatiush@cisco.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Outbound-SMTP-Client: 10.30.218.117, sjc-ads-6997.cisco.com
+X-Outbound-Node: rcdn-core-7.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 26 Feb 2024 13:32:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196201
+ <openembedded-core@lists.openembedded.org>; Mon, 26 Feb 2024 13:49:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196202
 
-* on some hosts (e.g. on my gentoo after recent update) it detects OpenMP in do_configure:
-  Run-time dependency OpenMP found: YES 4.5
-  but then fails in do_compile as shown in:
-  http://errors.yoctoproject.org/Errors/Details/754632/
+nativesdk-gmp package contains host references in output packages.
+Remove them.
 
-  gcc  -o test/fetch-test test/fetch-test.p/fetch-test.c.o -LTOPDIR/tmp-glibc/work/x86_64-linux/pixman-native/0.42.2/recipe-sysroot-native/usr/lib -LTOPDIR/tmp-glibc/work/x86_64-linux/pixman-native/0.42.2/recipe-sysroot-native/lib -Wl,--as-needed -Wl,--no-undefined -Wl,--enable-new-dtags -Wl,-rpath-link,TOPDIR/tmp-glibc/work/x86_64-linux/pixman-native/0.42.2/recipe-sysroot-native/usr/lib -Wl,-rpath-link,TOPDIR/tmp-glibc/work/x86_64-linux/pixman-native/0.42.2/recipe-sysroot-native/lib -Wl,-rpath,TOPDIR/tmp-glibc/work/x86_64-linux/pixman-native/0.42.2/recipe-sysroot-native/usr/lib -Wl,-rpath,TOPDIR/tmp-glibc/work/x86_64-linux/pixman-native/0.42.2/recipe-sysroot-native/lib -Wl,-O1 '-Wl,-rpath,$ORIGIN/../pixman' -Wl,-rpath-link,TOPDIR/tmp-glibc/work/x86_64-linux/pixman-native/0.42.2/build/pixman -Wl,--start-group test/libtestutils.a pixman/libpixman-1.so.0.42.2 -pthread -fopenmp -fopenmp -lm -Wl,--end-group
-  gcc: fatal error: cannot read spec file ‘libgomp.spec’: No such file or directory
-  compilation terminated.
-
-  it's only used in tests, so should be safe to disable for native builds
-
-* the check in meson uses /usr/include/omp.h which is provided by libomp
-  even when openmp support is disabled in native gcc in gentoo this happned
-  after switching from 17.1 profile to 23.0 which doesn't include openmp
-  USE flag by default, if you later run depclean it will uninstall libomp
-  as well which will fix this conflict in meson's OpenMP autodetection
-
-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+Signed-off-by: Oleh Matiusha <omatiush@cisco.com>
 ---
- meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-support/gmp/gmp_6.2.1.bb | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb b/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb
-index 8a93f8c0fe..23ae0cbb27 100644
---- a/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb
-+++ b/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb
-@@ -40,6 +40,8 @@ EXTRA_OEMESON:append:class-target:powerpc64le = " ${@bb.utils.contains("TUNE_FEA
- EXTRA_OEMESON:append:armv7a = "${@bb.utils.contains("TUNE_FEATURES","neon",""," -Dneon=disabled",d)}"
- EXTRA_OEMESON:append:armv7ve = "${@bb.utils.contains("TUNE_FEATURES","neon",""," -Dneon=disabled",d)}"
+diff --git a/meta/recipes-support/gmp/gmp_6.2.1.bb b/meta/recipes-support/gmp/gmp_6.2.1.bb
+index 29055492c2..3128350e5f 100644
+--- a/meta/recipes-support/gmp/gmp_6.2.1.bb
++++ b/meta/recipes-support/gmp/gmp_6.2.1.bb
+@@ -38,6 +38,13 @@ do_install:prepend:class-target() {
+          ${B}/gmp.h
+ }
  
-+EXTRA_OEMESON:append:class-native = " -Dopenmp=disabled"
++do_install:prepend:class-nativesdk() {
++        sed -i \
++        -e "s|--sysroot=${STAGING_DIR_HOST}||g" \
++        -e "s|${DEBUG_PREFIX_MAP}||g" \
++         ${B}/gmp.h
++}
 +
- BBCLASSEXTEND = "native nativesdk"
+ SSTATE_SCAN_FILES += "gmp.h"
  
- CVE_STATUS[CVE-2023-37769] = "not-applicable-config: stress-test is an uninstalled test"
+ # Doesn't compile in MIPS16e mode due to use of hand-written
 -- 
-2.44.0
+2.33.0
 
 
