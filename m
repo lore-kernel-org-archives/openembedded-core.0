@@ -1,125 +1,213 @@
-Return-Path: <ejo@pengutronix.de>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D022C48BF6
-	for <webhook@archiver.kernel.org>; Mon, 26 Feb 2024 22:41:27 +0000 (UTC)
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by mx.groups.io with SMTP id smtpd.web11.7393.1708987285177741899
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3782FC5478C
+	for <webhook@archiver.kernel.org>; Mon, 26 Feb 2024 23:16:47 +0000 (UTC)
+Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
+ by mx.groups.io with SMTP id smtpd.web10.8197.1708989397041656273
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Feb 2024 14:41:25 -0800
+ Mon, 26 Feb 2024 15:16:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.201.7, mailfrom: ejo@pengutronix.de)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ejo@pengutronix.de>)
-	id 1rejf1-0002oq-0Q; Mon, 26 Feb 2024 23:41:23 +0100
-Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ejo@pengutronix.de>)
-	id 1rejf0-0034vs-KB; Mon, 26 Feb 2024 23:41:22 +0100
-Received: from ejo by dude04.red.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ejo@pengutronix.de>)
-	id 1rejf0-00Ee3a-1q;
-	Mon, 26 Feb 2024 23:41:22 +0100
-From: Enrico Jorns <ejo@pengutronix.de>
-To: openembedded-core@lists.openembedded.org
-Cc: yocto@pengutronix.de,
-	Bruce Ashfield <bruce.ashfield@gmail.com>
-Subject: [PATCH] perf: fix TMPDIR contamination for recent mainline kernels
-Date: Mon, 26 Feb 2024 23:39:18 +0100
-Message-Id: <20240226223918.3490014-1-ejo@pengutronix.de>
-X-Mailer: git-send-email 2.39.2
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=jdWvxgKk;
+ spf=pass (domain: gmail.com, ip: 209.85.160.44, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-21f2f813e3bso1397086fac.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 26 Feb 2024 15:16:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708989396; x=1709594196; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Cjmvnet8AZxdhuK0kcMG4Dvf7lthmnYmBPQ/w4oaphQ=;
+        b=jdWvxgKk9JS6ZjyLFtXxC4xyUhNClirrFOH3pHgDXbAQbcLK2pfQFmiVzAJ6Vjnblm
+         rSDveRcK1/Hst4+tC2CpeBzT7/sNVghPmPuCgVyVfnLxx0okiPyhqpn+JwlmOFonm6+I
+         d/Taa1Kzc2Np0DJBM4FwNl3RGR1uPtR23Cp9hCkibFNY8Nwp5tintv7Dm4AP1eUbs/G4
+         GmN6mEUM4FIIQPv6Bf0wMHAIsmVtOE0ErDvRCBo7A837rKrMkfP9jIDs2yqag3zIfjm1
+         p9s8y1gEWzH7qdUjXKlTI6YPyg9Y3jANAGs6qrCwWLHhTnh+07LewWtbJzwqJMHy7iV+
+         Aq8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708989396; x=1709594196;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Cjmvnet8AZxdhuK0kcMG4Dvf7lthmnYmBPQ/w4oaphQ=;
+        b=uu6lU+T/s5umG/V0PeIKE6qe6PgSyWLwMxDQ1n2RgycYl5gF4wpgK24CLmYx3miM79
+         tXrAYlKFVo4kCUdJS20sZfIRpTKnD7THv9m0VuSMKuH9JU/+Rix3mgh2VduaK6OazuI0
+         5uHaxVpsL8XbB6Mrp1X02ZWWvytx5BziFFn/ypM/6DGszrO2cCQE7VjgLk5L2jNGsoGp
+         3BWWQGfFpKbBNupAypWKFu4Sbol3VL42dAIsF7eAbhTIEwYpqZAH5e+gQZHe+5DDxC0g
+         RDJo5oGGwgPTEealNr+qrxEmdykWSVZuTfjnCM4/VSMSbvbFbeySDY9sloVuXbwwquKR
+         cb7g==
+X-Gm-Message-State: AOJu0Yw+soY85zM63IKS8/JNhpUe90NcTLZmDVlXveRvcNk2U4Ox9zlK
+	QjntzDNZectjWLrptwOFBnPsPp8SXYmgrWou9e05ukwRcRjhTTGrO2cLK6H3B2pW9vWJQqJhhFe
+	6vBGIlBEQytJXGqaNabd/l5hEAjxv2oB0ciO9mg==
+X-Google-Smtp-Source: AGHT+IEyxA+Mo5LqQJeR9cYQn1ocYNeL3D8D2Zh8+WJKJsdkffMlQ2WP5lSH2K1ybF8pXpV5MLG6nVJgNWjzdTrdx6U=
+X-Received: by 2002:a05:6870:2049:b0:220:1da0:898a with SMTP id
+ l9-20020a056870204900b002201da0898amr1313052oad.29.1708989396184; Mon, 26 Feb
+ 2024 15:16:36 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ejo@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+References: <20240225093726.1113403-1-martin.jansa@gmail.com>
+In-Reply-To: <20240225093726.1113403-1-martin.jansa@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 26 Feb 2024 15:16:09 -0800
+Message-ID: <CAMKF1sr1SVSnAZ2_ZCTHfMyM8i01msDQ+81M5h+Bb9zmKGPLCw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] glib-2.0: backport a switch from distutils to
+ packaging in codegen
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 26 Feb 2024 22:41:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196231
+ <openembedded-core@lists.openembedded.org>; Mon, 26 Feb 2024 23:16:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196232
 
-The sed command
+I am seeing some build failures which seems to be related to this patch
 
-  sed -i -e "s,prefix='\$(DESTDIR_SQ)/usr'$,prefix='\$(DESTDIR_SQ)/usr' --install-lib='\$(PYTHON_SITEPACKAGES_DIR)' --root='\$(DESTDIR)',g" \
-    ${S}/tools/perf/Makefile.perf
+https://autobuilder.yoctoproject.org/typhoon/#/builders/88/builds/3657/step=
+s/15/logs/stdio
 
-that was introduced by oe-core commit 43f96506 ("perf: fix the
-install-python_ext") [1] and adapted with oe-core commit 138673f8
-("perf: Fix reproducibility issues with 5.19 onwards") [2], patches the
-'setup.py install' arguments for the 'install-python_ext' Make target
-similar to what the setuptools3_legacy.bbclass provides as
-${SETUPTOOLS_INSTALL_ARGS}.
+ |   File "/home/pokybuild/yocto-worker/meta-oe/build/build/tmp/work/core2-=
+64-poky-linux/gattlib/0.2+git/recipe-sysroot-native/usr/share/glib-2.0/code=
+gen/utils.py",
+line 22, in <module>
+    |     import packaging.version
+    | ModuleNotFoundError: No module named 'packaging'
 
-However, this only applies to the linux-yocto kernel patched with
-linux-yocto commit 3fd60d4d ("perf: change --root to --prefix for python
-install") [3] that was introduced in 2012 and never went upstream in any
-way.
 
-For a recent mainline kernel instead, we will run into host path
-contamination QA warnings like:
 
-| WARNING: perf-1.0-r0 do_package_qa: QA Issue: File /usr/lib/python3.11/site-packages/perf-0.1-py3.11-linux-x86_64.egg/EGG-INFO/SOURCES.txt in package perf-python contains reference to TMPDIR
-| File /usr/lib/python3.11/site-packages/perf-0.1-py3.11-linux-x86_64.egg/__pycache__/perf.cpython-311.pyc in package perf-python contains reference to TMPDIR [buildpaths]
+  |   File "/home/pokybuild/yocto-worker/meta-oe/build/build/tmp/work/core2=
+-64-poky-linux/networkmanager-fortisslvpn/1.4.0/recipe-sysroot-native/usr/s=
+hare/glib-2.0/codegen/utils.py",
+line 22, in <module>
+    |     import packaging.version
+    | ModuleNotFoundError: No module named 'packaging'
+    | make: *** [Makefile:2081: src/nm-fortisslvpn-pppd-service-dbus.h] Err=
+or 1
 
-To fix this, this commit introduces a replacement for Makefile.perf that
-results in the exact same setup.py install args as for the linux-yocto
-kernel.
 
-In oe-core commit c849ed0c ("perf: fix the install-python_ext on
-upstream kernel") [4], the sed that was originally meant for 'Makefile'
-only, was extended to 'Makefile*' (and thus including) Makefile.perf to
-fix similar issues.
-
-Since this would the affect the just-introduced Makefile.perf-specific
-sed, the scope of this extra sed was limited back to 'Makefile' only.
-The line could also be entirely removed maybe, since it seems to be for
-very old kernels only.
-
-In general, I would tend to argue that the above-mentioned linux-yocto
-patch for  should be dropped if it requires additional sed-based
-patching anyway.
-
-[1] https://git.openembedded.org/openembedded-core/commit/?id=43f965061f8af4c4537e9d9c0257253e613a616d
-[2] https://git.openembedded.org/openembedded-core/commit/?id=138673f833a72c636a7fa185089f25dda350dc54
-[3] https://git.yoctoproject.org/linux-yocto/commit/?id=3fd60d4d6f0095b03ff9b7b1499a049c580e7302
-[4] https://git.openembedded.org/openembedded-core/commit/?id=c849ed0c66a2fb7d91795c421eb4c87b47d03c0d
-
-Signed-off-by: Enrico Jorns <ejo@pengutronix.de>
----
- meta/recipes-kernel/perf/perf.bb | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index a392166e73..00a735ffc6 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -225,14 +225,18 @@ do_configure:prepend () {
-     if [ -e "${S}/tools/perf/Makefile.perf" ]; then
-         sed -i -e 's,\ .config-detected, $(OUTPUT)/config-detected,g' \
-             ${S}/tools/perf/Makefile.perf
-+        # Variant with linux-yocto-specific patch
-         sed -i -e "s,prefix='\$(DESTDIR_SQ)/usr'$,prefix='\$(DESTDIR_SQ)/usr' --install-lib='\$(PYTHON_SITEPACKAGES_DIR)' --root='\$(DESTDIR)',g" \
-             ${S}/tools/perf/Makefile.perf
-+        # Variant for mainline Linux
-+        sed -i -e "s,root='/\$(DESTDIR_SQ)',prefix='\$(DESTDIR_SQ)/usr' --install-lib='\$(PYTHON_SITEPACKAGES_DIR)' --root='/\$(DESTDIR_SQ)',g" \
-+            ${S}/tools/perf/Makefile.perf
-         # backport https://github.com/torvalds/linux/commit/e4ffd066ff440a57097e9140fa9e16ceef905de8
-         sed -i -e 's,\($(Q)$(SHELL) .$(arch_errno_tbl).\) $(CC) $(arch_errno_hdr_dir),\1 $(firstword $(CC)) $(arch_errno_hdr_dir),g' \
-             ${S}/tools/perf/Makefile.perf
-     fi
-     sed -i -e "s,--root='/\$(DESTDIR_SQ)',--prefix='\$(DESTDIR_SQ)/usr' --install-lib='\$(DESTDIR)\$(PYTHON_SITEPACKAGES_DIR)',g" \
--        ${S}/tools/perf/Makefile*
-+        ${S}/tools/perf/Makefile
- 
-     if [ -e "${S}/tools/build/Makefile.build" ]; then
-         sed -i -e 's,\ .config-detected, $(OUTPUT)/config-detected,g' \
--- 
-2.39.2
-
+On Sun, Feb 25, 2024 at 1:37=E2=80=AFAM Martin Jansa <martin.jansa@gmail.co=
+m> wrote:
+>
+> * to fix build on hosts with python-3.12, now it fails with:
+>
+> Traceback (most recent call last):
+>   File "recipe-sysroot-native/usr/bin/gdbus-codegen", line 53, in <module=
+>
+>     from codegen import codegen_main
+>   File "recipe-sysroot-native/usr/share/glib-2.0/codegen/codegen_main.py"=
+, line 29, in <module>
+>     from . import dbustypes
+>   File "recipe-sysroot-native/usr/share/glib-2.0/codegen/dbustypes.py", l=
+ine 22, in <module>
+>     from . import utils
+>   File "recipe-sysroot-native/usr/share/glib-2.0/codegen/utils.py", line =
+22, in <module>
+>     import distutils.version
+> ModuleNotFoundError: No module named 'distutils'
+> CMake Error at CMakeLists.txt:90 (message):
+>   Error in generating code for connman interface using gdbus-codegen
+>
+> Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+> ---
+>  ...deprecated-distutils-module-to-the-p.patch | 34 +++++++++++++++++++
+>  meta/recipes-core/glib-2.0/glib-2.0_2.78.3.bb |  1 +
+>  meta/recipes-core/glib-2.0/glib.inc           |  4 +--
+>  3 files changed, 36 insertions(+), 3 deletions(-)
+>  create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-Switch-from-=
+the-deprecated-distutils-module-to-the-p.patch
+>
+> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Switch-from-the-dep=
+recated-distutils-module-to-the-p.patch b/meta/recipes-core/glib-2.0/glib-2=
+.0/0001-Switch-from-the-deprecated-distutils-module-to-the-p.patch
+> new file mode 100644
+> index 0000000000..50368ed22c
+> --- /dev/null
+> +++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-Switch-from-the-deprecated=
+-distutils-module-to-the-p.patch
+> @@ -0,0 +1,34 @@
+> +From 05f0674c93d94fe6b29c1b707980aac469ddcd72 Mon Sep 17 00:00:00 2001
+> +From: Jordan Williams <jordan@jwillikers.com>
+> +Date: Fri, 1 Dec 2023 09:53:50 -0600
+> +Subject: [PATCH] Switch from the deprecated distutils module to the pack=
+aging
+> + module
+> +
+> +The distutils module was removed in Python 3.12.
+> +
+> +Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/=
+6ef967a0f930ce37a8c9b5aff969693b34714291]
+> +
+> +Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+> +---
+> + gio/gdbus-2.0/codegen/utils.py | 4 ++--
+> + 1 file changed, 2 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/gio/gdbus-2.0/codegen/utils.py b/gio/gdbus-2.0/codegen/util=
+s.py
+> +index 0204610..08f1ba9 100644
+> +--- a/gio/gdbus-2.0/codegen/utils.py
+> ++++ b/gio/gdbus-2.0/codegen/utils.py
+> +@@ -19,7 +19,7 @@
+> + #
+> + # Author: David Zeuthen <davidz@redhat.com>
+> +
+> +-import distutils.version
+> ++import packaging.version
+> + import os
+> + import sys
+> +
+> +@@ -166,4 +166,4 @@ def version_cmp_key(key):
+> +         v =3D str(key[0])
+> +     else:
+> +         v =3D "0"
+> +-    return (distutils.version.LooseVersion(v), key[1])
+> ++    return (packaging.version.Version(v), key[1])
+> diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.78.3.bb b/meta/recipes=
+-core/glib-2.0/glib-2.0_2.78.3.bb
+> index 42814ba544..6c3e99c641 100644
+> --- a/meta/recipes-core/glib-2.0/glib-2.0_2.78.3.bb
+> +++ b/meta/recipes-core/glib-2.0/glib-2.0_2.78.3.bb
+> @@ -14,6 +14,7 @@ SRC_URI =3D "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV=
+}.tar.xz \
+>             file://0001-Do-not-write-bindir-into-pkg-config-files.patch \
+>             file://0001-meson-Run-atomics-test-on-clang-as-well.patch \
+>             file://0001-gio-tests-resources.c-comment-out-a-build-host-on=
+ly-.patch \
+> +           file://0001-Switch-from-the-deprecated-distutils-module-to-th=
+e-p.patch \
+>             file://memory-monitor.patch \
+>             file://native-gtkdoc.patch \
+>             "
+> diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib=
+-2.0/glib.inc
+> index 5a57549d85..fac8875d84 100644
+> --- a/meta/recipes-core/glib-2.0/glib.inc
+> +++ b/meta/recipes-core/glib-2.0/glib.inc
+> @@ -144,9 +144,7 @@ do_install:append:mingw32() {
+>          rm -f ${D}${bindir}/gtester-report
+>  }
+>
+> -# remove setuptools dependency when usage of distutils is dropped in
+> -# https://gitlab.gnome.org/GNOME/glib/-/blob/main/gio/gdbus-2.0/codegen/=
+utils.py
+> -CODEGEN_PYTHON_RDEPENDS =3D "python3 python3-setuptools python3-xml"
+> +CODEGEN_PYTHON_RDEPENDS =3D "python3 python3-packaging python3-xml"
+>  CODEGEN_PYTHON_RDEPENDS:mingw32 =3D ""
+>
+>  RDEPENDS:${PN}-codegen +=3D "${CODEGEN_PYTHON_RDEPENDS}"
+> --
+> 2.43.2
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#196136): https://lists.openembedded.org/g/openembedde=
+d-core/message/196136
+> Mute This Topic: https://lists.openembedded.org/mt/104560766/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
