@@ -1,200 +1,82 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DE6AC48BF6
-	for <webhook@archiver.kernel.org>; Mon, 26 Feb 2024 14:41:50 +0000 (UTC)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
- by mx.groups.io with SMTP id smtpd.web10.21811.1708958502573753016
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EC71C48BF6
+	for <webhook@archiver.kernel.org>; Mon, 26 Feb 2024 14:48:00 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web11.21839.1708958872982563176
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Feb 2024 06:41:42 -0800
+ Mon, 26 Feb 2024 06:47:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=buXBcJWq;
- spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-512f892500cso1153720e87.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 26 Feb 2024 06:41:42 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=eZOjvYgZ;
+ spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-412a45f4766so7853585e9.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 26 Feb 2024 06:47:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708958501; x=1709563301; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=FCRTABUHmZbJAZ2rUx8c/1C7eByfmSbAn3He6XeNsCM=;
-        b=buXBcJWqGS3+i+7/0X92yURO/A12Hng4C8vEQDAB+7QpmaRy0LLZYwb8yROElTE1Ny
-         vvD7oTeXLzo6V6rzlI2wvwdPSy73UJqghaoTLJ0Jq/OvirFfjwxA5wL3Yq3UWy13T5op
-         w+4j7TxgmPrKDm7M0pGMO3i2hevLc9F6NGUjYzlGeYEWO3yZEaMxFdHxVpE4grDbkHgG
-         WZKXiFIAH87KTCnFNeTTO4DedVprmLuG7IEICDBfqeQ+8etxxkYTKJDcMfwbb4ilkJKP
-         +Ysr/4Ml7rPlCP82T4iGZgPfZwApfTwRPBTEYjiRtA7S12n2OJOCRQCJrknXaCs2GY6o
-         Ceow==
+        d=gmail.com; s=20230601; t=1708958871; x=1709563671; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9AOdGmCxmxis0y2dq+cwxbofCHcXJPFwmMc2dq5q7FA=;
+        b=eZOjvYgZn3sk4LvyydGu1/7sE5nqZWmF0dCPQL4jQCwOlKAjJlhjW0Q+oymVyBMZ+4
+         X8gCfqkNOgwgNNdyip3kbNG/OGlUUWUOfBiyHqAndjwIx7KKQHkirr/4eI7MtZA/OtMs
+         T5CyEiHxzXNw/oQmwdgp0FKK/4hJJHvDeXK31NMLmKOqj4nfsewr47UKqqjButR3ifXm
+         CoQH8UfWGjk2XBIkeFjH2dZnApiLDKqHnToGDRFPD9W1R6ciwSkz5HZmiYV9JzK8X11I
+         Du44FD3DgRWkbNDwLTObiuPtZe4OAXSSeoNJBeRlsSOdZWujAHhdWvN7VKcZUGZVYBbl
+         mcfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708958501; x=1709563301;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FCRTABUHmZbJAZ2rUx8c/1C7eByfmSbAn3He6XeNsCM=;
-        b=mLYgHXrdttbEi89yu15Rd6GvwRbv/Tc6e+lLnTW6MmtYt0K2XWr+Qn5iZ2dpJgIr2F
-         d2+zdHqY+ubQUcMcIVYvg/dnqGOznGDkfic9yjUf0hUchMm7uZ8RAN36Irt04SuIq9W+
-         MMPhcZIxZO6quXjrGSFezhuJ5wYJU7eG27K5OpxKExriMGs9JtiAQcFpW3VY/qvlw/tW
-         wKvoNk2nMpSFArZfSKXNPtQYR+fzGtznANh8L9JuLr5LHPAyBuWfMTfQCzeOBqzWoFvn
-         bBHngQgQOrjDpCYT4g/VWA1GAdZBR4V/vLEKtirkTe3jSNsvT/OtqZY5xWraL3Byrtpc
-         yruw==
-X-Gm-Message-State: AOJu0Yy2GhP0r2UcSFWhBtMjE0HIZ4qG3Jg5m+qPkf/m29iGpiEcMZlN
-	khaczPYF2e8kBQO2YEiwGnlXUqbdwFuDJ5iyyao3CrFRR7bVRlfVdI70xQt957ObnxqpnjoFYwg
-	5KheYcRWvfBLaX5Kr7hL3acZTQ5g=
-X-Google-Smtp-Source: AGHT+IHuXbZTYsAfK4Svb7WNKUDChN80mRgRHZnRysNfYCmZmLZMapxqBoJSebtkMBEFti2KW7kYubH+u9Jksf6by/c=
-X-Received: by 2002:a05:6512:3e24:b0:512:fce4:327b with SMTP id
- i36-20020a0565123e2400b00512fce4327bmr2932721lfv.39.1708958500373; Mon, 26
- Feb 2024 06:41:40 -0800 (PST)
+        d=1e100.net; s=20230601; t=1708958871; x=1709563671;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9AOdGmCxmxis0y2dq+cwxbofCHcXJPFwmMc2dq5q7FA=;
+        b=R1rxt4bvYf5aUsG87q+1UCizEq/4byu85wHeB/MtjSXrjCFZ9xOUswpn/WiGw8vLls
+         ZERrf/PR+N6zNcnlw/iXPN9wD76UFBLRDxRAnxyZyoRTAn1vK5ED0OZYz5FTiZFTK9y0
+         2s0N7z8NnPVjQ9JLoHbSCO/qAD3uyT21wz+Cq29HMvPqLy/SP5F+CO/8FNWsYc2i8BFY
+         jAR9A+Ya8rROcp+bZ0S6hmgx1RjP/L3BApwesKjsNriAyv2I7tL3mz7u5nv5JmIYGNrD
+         OzFCOdAQ9uNx3WN1/7KMuDwA/pgTiZDbQ66EJQJoBgHnLqltSt78SfPqYN2C5eRESXqP
+         a0Bw==
+X-Gm-Message-State: AOJu0YwMjkZa4dJyMjj8yDV5ilvO3BXpjvYVLp322g7HnwUmq4gNsFYO
+	DMUl3JG6QH8fCViAaVcCRcyUGPImDGe3AocBvkVvhJsLJXE2zNz16basZWvXJLcnrPynV/uUE63
+	fd+HczUYfD+vFNV2aSUujVbkfUko=
+X-Google-Smtp-Source: AGHT+IGGDPAPUID+LYNR9bFFWJKsvsSp4Zxo2ndnSBgXZY4WLgXC161uI9060dzrePUXIGG8BjveaLjj/Xd4UUTgoOw=
+X-Received: by 2002:a5d:694f:0:b0:33d:e140:a81f with SMTP id
+ r15-20020a5d694f000000b0033de140a81fmr1104998wrw.56.1708958871355; Mon, 26
+ Feb 2024 06:47:51 -0800 (PST)
 MIME-Version: 1.0
-References: <20240226135531.281696-1-omatiush@cisco.com>
-In-Reply-To: <20240226135531.281696-1-omatiush@cisco.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 26 Feb 2024 15:41:29 +0100
-Message-ID: <CANNYZj8jSOUBBGnpm_wESUy4tJ1fy2x4vM=VOUUytEeakXQg+Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] curl: improve reproducibility
-To: omatiush@cisco.com
+References: <20240226142855.2687016-1-martin.jansa@gmail.com> <CANNYZj9M9TGYGvEN0sZOpYYQ1-PVk3gnehR_zh_c9Ue4mEv8hQ@mail.gmail.com>
+In-Reply-To: <CANNYZj9M9TGYGvEN0sZOpYYQ1-PVk3gnehR_zh_c9Ue4mEv8hQ@mail.gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Mon, 26 Feb 2024 15:47:36 +0100
+Message-ID: <CA+chaQfK6Pji904PR-Zfn39E9cnEV-Zfa4i5UxoPv98ic2v5-A@mail.gmail.com>
+Subject: Re: [OE-core] [RFC PATCH] rpm: add PACKAGECONFIG for openmp and
+ disable it by default for native builds
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000059c7dc061249e808"
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 26 Feb 2024 14:41:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196212
+ <openembedded-core@lists.openembedded.org>; Mon, 26 Feb 2024 14:48:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196213
 
---00000000000059c7dc061249e808
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-It=E2=80=99s better to separate the processing into its own function so you=
- don=E2=80=99t
-have to copy paste it from target install.
-
-Alex
-
-On Mon 26. Feb 2024 at 14.55, Oleh Matiusha via lists.openembedded.org
-<omatiush=3Dcisco.com@lists.openembedded.org> wrote:
-
-> Nativesdk package contains host references in output packages.
-> Remove them.
+On Mon, Feb 26, 2024 at 3:39=E2=80=AFPM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
 >
-> Signed-off-by: Oleh Matiusha <omatiush@cisco.com>
-> ---
->  meta/recipes-support/curl/curl_7.85.0.bb | 10 ++++++++++
->  1 file changed, 10 insertions(+)
->
-> diff --git a/meta/recipes-support/curl/curl_7.85.0.bb
-> b/meta/recipes-support/curl/curl_7.85.0.bb
-> index 1e71ed821e..2d60f9aba1 100644
-> --- a/meta/recipes-support/curl/curl_7.85.0.bb
-> +++ b/meta/recipes-support/curl/curl_7.85.0.bb
-> @@ -110,6 +110,16 @@ do_install:append:class-target() {
->             ${D}${bindir}/curl-config
->  }
->
-> +do_install:append:class-nativesdk() {
-> +       # cleanup buildpaths from curl-config
-> +       sed -i \
-> +           -e 's,--sysroot=3D${STAGING_DIR_TARGET},,g' \
-> +           -e 's,--with-libtool-sysroot=3D${STAGING_DIR_TARGET},,g' \
-> +           -e 's|${DEBUG_PREFIX_MAP}||g' \
-> +           -e 's|${@" ".join(d.getVar("DEBUG_PREFIX_MAP").split())}||g' =
-\
-> +           ${D}${bindir}/curl-config
-> +}
-> +
->  do_compile_ptest() {
->         oe_runmake test
->         oe_runmake -C ${B}/tests/server
-> --
-> 2.33.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#196204):
-> https://lists.openembedded.org/g/openembedded-core/message/196204
-> Mute This Topic: https://lists.openembedded.org/mt/104582066/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> alex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+> This needs to be handled with care. We rely heavily on openmp support in =
+rpm to speed up rpm operations; adding an option to turn it off is okay, bu=
+t actually turning it off is not.
 
---00000000000059c7dc061249e808
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+That's why it was sent only as RFC, do you want me to re-send v2 RFC
+with keeping it enabled for native builds or should I wait for more
+(unlikely) feedback from others? When explicitly enabled for native it
+might start failing on hosts without openmp (where it was autodetected
+as disabled until now).
 
-<div dir=3D"auto">It=E2=80=99s better to separate the processing into its o=
-wn function so you don=E2=80=99t have to copy paste it from target install.=
-</div><div dir=3D"auto"><br></div><div dir=3D"auto">Alex</div><div><br><div=
- class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon 26. Feb=
- 2024 at 14.55, Oleh Matiusha via <a href=3D"http://lists.openembedded.org"=
->lists.openembedded.org</a> &lt;omatiush=3D<a href=3D"mailto:cisco.com@list=
-s.openembedded.org">cisco.com@lists.openembedded.org</a>&gt; wrote:<br></di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
-r-left-width:1px;border-left-style:solid;padding-left:1ex;border-left-color=
-:rgb(204,204,204)">Nativesdk package contains host references in output pac=
-kages.<br>
-Remove them.<br>
-<br>
-Signed-off-by: Oleh Matiusha &lt;<a href=3D"mailto:omatiush@cisco.com" targ=
-et=3D"_blank">omatiush@cisco.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-support/curl/<a href=3D"http://curl_7.85.0.bb" rel=3D"no=
-referrer" target=3D"_blank">curl_7.85.0.bb</a> | 10 ++++++++++<br>
-=C2=A01 file changed, 10 insertions(+)<br>
-<br>
-diff --git a/meta/recipes-support/curl/<a href=3D"http://curl_7.85.0.bb" re=
-l=3D"noreferrer" target=3D"_blank">curl_7.85.0.bb</a> b/meta/recipes-suppor=
-t/curl/<a href=3D"http://curl_7.85.0.bb" rel=3D"noreferrer" target=3D"_blan=
-k">curl_7.85.0.bb</a><br>
-index 1e71ed821e..2d60f9aba1 100644<br>
---- a/meta/recipes-support/curl/<a href=3D"http://curl_7.85.0.bb" rel=3D"no=
-referrer" target=3D"_blank">curl_7.85.0.bb</a><br>
-+++ b/meta/recipes-support/curl/<a href=3D"http://curl_7.85.0.bb" rel=3D"no=
-referrer" target=3D"_blank">curl_7.85.0.bb</a><br>
-@@ -110,6 +110,16 @@ do_install:append:class-target() {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${D}${bindir}/curl-config<br>
-=C2=A0}<br>
-<br>
-+do_install:append:class-nativesdk() {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0# cleanup buildpaths from curl-config<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0sed -i \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-e &#39;s,--sysroot=3D${STAGING_D=
-IR_TARGET},,g&#39; \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-e &#39;s,--with-libtool-sysroot=
-=3D${STAGING_DIR_TARGET},,g&#39; \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-e &#39;s|${DEBUG_PREFIX_MAP}||g&=
-#39; \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-e &#39;s|${@&quot; &quot;.join(d=
-.getVar(&quot;DEBUG_PREFIX_MAP&quot;).split())}||g&#39; \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${D}${bindir}/curl-config<br>
-+}<br>
-+<br>
-=C2=A0do_compile_ptest() {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 oe_runmake test<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 oe_runmake -C ${B}/tests/server<br>
--- <br>
-2.33.0<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#196204): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/196204" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/196204</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/104582066/168=
-6489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/104582066/1686489</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
-rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
+I use package_ipk, so from rpm-native I'm using only the rpmdeps.
 
---00000000000059c7dc061249e808--
+This can surely wait for styhead release (as I'm probably the only one
+seeing this issue and only with experimental profile).
 
