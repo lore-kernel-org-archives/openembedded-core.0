@@ -1,307 +1,154 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <lukas.funke-oss@weidmueller.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 405D8C54E41
-	for <webhook@archiver.kernel.org>; Mon, 26 Feb 2024 14:39:40 +0000 (UTC)
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
- by mx.groups.io with SMTP id smtpd.web10.21765.1708958372028181645
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50A1CC54E4A
+	for <webhook@archiver.kernel.org>; Mon, 26 Feb 2024 14:41:00 +0000 (UTC)
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.138])
+ by mx.groups.io with SMTP id smtpd.web11.21659.1708958455668094328
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Feb 2024 06:39:32 -0800
+ Mon, 26 Feb 2024 06:40:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hj2MqbHS;
- spf=pass (domain: gmail.com, ip: 209.85.208.181, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2d2533089f6so37278461fa.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 26 Feb 2024 06:39:31 -0800 (PST)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@weidmueller.onmicrosoft.com header.s=selector1-weidmueller-onmicrosoft-com header.b=tqOXs0+m;
+ spf=pass (domain: weidmueller.com, ip: 40.107.22.138, mailfrom: lukas.funke-oss@weidmueller.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mYp62F7oeqPVFqwLKhehMLX01MNtByR3vjcLZtaFwRKda3z5tsyfzj7SULK/Z0nAuZAnfa37zen2cV7pPo1dU1nWyyHDf+qs5yH0RD9FNYT4J1j1W1rNcDmPTz+fJviq4qGSNC3ZUO3AK5uxyKZDicFTDscH9YD7w8LPMBROFfxT6CxZ2l4L6KdEkEcJD68+FDLpjIuvf/g3rteJNngE7G22o8MuQlRW9uetmf354q9Ss1zrk8kS44O1AdywBGdgxTdFDj3wmc3MzXPiv5JWyFj/PnghypEuFg8BALV7ZJjl+tusdGdw1d7XksEc1HaeE3Gr83DuddREanpz7N1QoA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uQGiSXr2qWVFV9zhKTm5zfDLxMWapxggi0QP3NXyoPY=;
+ b=fqN61ToFw6pQpXd2E0JNKuZ2ZKuZL9eDxAjfvS+wPKHqFgxzb7wS06n1lq3Mddufuh/o4T8P+QQxREHOwo4SjZX0J0POl7+cPyn5ly1c9f4CSRkpTE4dPvZtj5KaUxHDgnx5x+nQCVVo/J9MKDbxiLmmgqh7IGwrrqTln3it4se9k+xzsj1GJEKghoENiT9ihDumqqWJyi/Ar37TVRi0JavVvfwG/4MnJIbP8YT19CRyQyoDImW7BMGlzpaZzieDR+YJY3hrKIoxQDxg8mOIM6/1RMtOgsQPLIlyWk2iGGWZ50uFkVWnsnAT9qkIZscyDc2+Lkdmc8RrOO9Dq2dnPA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=weidmueller.com; dmarc=pass action=none
+ header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708958370; x=1709563170; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=LFOndlu9A3xUKsgV73+az2uPIEsBxJrp5wTO3Mi9vTc=;
-        b=hj2MqbHSrlq+9qa5GUyK60TsjzW5UscDsJT/+j6dZEr3mjp/RQW0ZVLPF8llXvZk3J
-         UwKkuTxHxTPTVP4yMxnOSR6FzGsVynhCZj/214+Vdn7z41M4QeOLDdXcu2VWh1edhueJ
-         s1/WsH06ZY2ZOZ5OtdLuTa6XldtCIfSrRMGeZeiLIcOY/tNUR+N0yFV2HPKSicla81EL
-         rf6Xwq+jTmHEia1awCZz6MCMzYVa/Vg7j9DQwywnUEwTVRPEtr5/6IwRhGZ0yKXZK2cM
-         z3lZgBUPc0JNoHXQbYQDUzVQjoDomKIjWG/vqEllbgjvLZDp4XwufOtWWM21LVd07MdA
-         tOnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708958370; x=1709563170;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LFOndlu9A3xUKsgV73+az2uPIEsBxJrp5wTO3Mi9vTc=;
-        b=lXA5/Ysrf3Oi9ouuBPFLjldqy2MZgsxMqYPy9Nn3C8S2K0r/AHTP0LDeEz0wCIvhTp
-         l/cvzu0P53mzz4M/WRtsz6Pl1wjddJeO9rdVsogcNWfFwFdtYj48ZPm8Cw8qepQua5Ut
-         vr1p9jCtnyVJcu/+WB2bBQFLEcD7H0R+qZeKIpoo05k18+Ca5NbZt9BHp8/T4WEOZx7y
-         46+mQmJQBYvlFCDBC/GtLtW+E7SGpilb2ncQLBRGjmgFkTGB6vpYjLUiv7t2zcwzChfS
-         omRJ2yyJqwIpT+vJkyATHTz9Kuwu4xRAnbFW4DghBFfC5nEMVq9fr8cEP35NFPRZpgYd
-         teOA==
-X-Gm-Message-State: AOJu0Yy46VpwqRxkmzGOvOoUyq4Lro8icvBlS2jPBg5dL660b/3BZ6Si
-	+tTMYhQaHcPXZLtrW6+67l1SFt0+OtwvlkRsxG5IxRl8CHq/r/zo/cDpqzntD/BWkxu4s+RD88V
-	aYYpkbV3g0QdT+k2AkjfyuErI5cQ=
-X-Google-Smtp-Source: AGHT+IHgpYzfIdkOs9QrWi//UP3+FoG33I986fi9AygQA01+kMmBt0EfbT/Vv2g3vbIwGXnQCBGvUKH2nlKtEuPewaU=
-X-Received: by 2002:a2e:97d3:0:b0:2d2:6788:3183 with SMTP id
- m19-20020a2e97d3000000b002d267883183mr4436264ljj.48.1708958369984; Mon, 26
- Feb 2024 06:39:29 -0800 (PST)
+ d=weidmueller.onmicrosoft.com; s=selector1-weidmueller-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uQGiSXr2qWVFV9zhKTm5zfDLxMWapxggi0QP3NXyoPY=;
+ b=tqOXs0+mKtKOk3Gp3iTIq+3BNWo8bpbBj/CH5xQMlCvES9VUOK9O9kOHJJEEsfbW+bv1a0n6E3hbNqo3U6YrxtRhr4H0qmo3VoMhevGnjgLzzBfFol/dsxJE5fpfTXHn4iVSVgDr8eXk4+ncGgobHUREzgdAvbsuUt3f9WgoRBQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=weidmueller.com;
+Received: from AS2PR08MB8431.eurprd08.prod.outlook.com (2603:10a6:20b:55a::18)
+ by PR3PR08MB5626.eurprd08.prod.outlook.com (2603:10a6:102:81::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.34; Mon, 26 Feb
+ 2024 14:40:48 +0000
+Received: from AS2PR08MB8431.eurprd08.prod.outlook.com
+ ([fe80::d003:60c0:6918:8a5]) by AS2PR08MB8431.eurprd08.prod.outlook.com
+ ([fe80::d003:60c0:6918:8a5%6]) with mapi id 15.20.7316.034; Mon, 26 Feb 2024
+ 14:40:48 +0000
+From: Lukas Funke <lukas.funke-oss@weidmueller.com>
+To: openembedded-core@lists.openembedded.org
+CC: Vyacheslav Yurkov <uvv.mail@gmail.com>,
+	Lukas Funke <lukas.funke@weidmueller.com>
+Subject: [PATCH 0/4] go: improve vendoring
+Date: Mon, 26 Feb 2024 15:40:36 +0100
+Message-ID: <20240226144040.2007482-1-lukas.funke-oss@weidmueller.com>
+X-Mailer: git-send-email 2.30.2
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: FR4P281CA0017.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:c9::13) To AS2PR08MB8431.eurprd08.prod.outlook.com
+ (2603:10a6:20b:55a::18)
 MIME-Version: 1.0
-References: <20240226142855.2687016-1-martin.jansa@gmail.com>
-In-Reply-To: <20240226142855.2687016-1-martin.jansa@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 26 Feb 2024 15:39:18 +0100
-Message-ID: <CANNYZj9M9TGYGvEN0sZOpYYQ1-PVk3gnehR_zh_c9Ue4mEv8hQ@mail.gmail.com>
-Subject: Re: [OE-core] [RFC PATCH] rpm: add PACKAGECONFIG for openmp and
- disable it by default for native builds
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000943428061249e0c4"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS2PR08MB8431:EE_|PR3PR08MB5626:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3bc72f58-6a58-4444-ee6d-08dc36d8ec6a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	4D9krY4Jo6SQAEElXaQAiHqGQ+THqVqAYwFt6HNstNEVSJhqxE5hh6e6MNm9cmDIEF0mJjHoAN66CTu13lC5C53ahwpSWIJ9iA/yz/Z7Argbe5JJRDCOEm0f08IPw0RTQadaYbF3zdEaTDJl6zBUEhGwGd0xn1+GGcn0rAIBb8rRyAuYCnUo0k+VdV85SuRa4k/Varw2RIWzzu5vP2F+sQu7o8yrBR+Gg9zpNBTxtkyK6LV34bLsP/ydNh+eahNmG/29d1B9bpCGZiG1xWAAaJ4CrosbalB7DzuDDbLYlORT73+MNC47bOUWxboNlxmbKcYLpfMkaaMvnebiSB73OnOR5be9RX15KsAkYnxYKZI5cqmOay8+ofQIbc8+pTQSpaEd7eDU3axnnIH3ANxqphnuxwo8sFWCbj2DW65xogCWTINLGKvo9S/vT+iY1BXVk2qo78JNyMMY8JebMtT96NrX1ykOCD2rk36Y7l7tmJAdc+kAI1PIRSWe1ztXRbQsxlgLlY43qbvDqV3KpLwxLhUdN0QF+lz832NUlXZ371UAV08YVNHP6jV83zlNRICIyglsxzwDOAStl+way8PM9/s3+NtxTYhkFUF18+afOPfljylZKQY+cHjOCrlbF3bcbRUnHcvwOHXvuFMZ8tcJQ7VLaLs/QFHW3xCHmFHtkwE6iFwgp7/kmGE1bHUGXzGQYV4HwLeUBqt5/m12auuAzQ==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS2PR08MB8431.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(38350700005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?gRShhHWVf7T2q8gFrhM3o8PyaUeibg4Bjo7JZdCrbkBPZQizTNBjJu2mgila?=
+ =?us-ascii?Q?9rul1rOTkKnV5TxZBUwe3b79cM5engRb8Urc1If62G0Myv/HE60VvoiAbZ/P?=
+ =?us-ascii?Q?D8MXO4wf+pLLOUMxlNYUwLZbuhf13FNRDIE9JEvl5WbHroKuzvFMThIDc40e?=
+ =?us-ascii?Q?3UoZ45jjnLDQntbVZBUSgKi0HYrNEIuidPOfOoJi/FiI3BCwBvkJBITGQe0m?=
+ =?us-ascii?Q?tMV7+Hj1axh2m1I53ECI+ysPXqz3oPQccBFKgzFn9r04pQ416gdswQ5E3Gdh?=
+ =?us-ascii?Q?2/ZJOBYA42bikAhnNp7y1/6usRdKhM94xHaf2nUTWguR5H701v5kkNg2qoLY?=
+ =?us-ascii?Q?mHyycJiHHZEBloifvuw9krlKofVh2AYDcSI/476ZyPXPbspcoAupMeKTCYWh?=
+ =?us-ascii?Q?PIW1Q7QGPQAcSVOAigAtdM9oTeY5w6jWAltthY74Ac22mosC4u2ET7LVIZ0Y?=
+ =?us-ascii?Q?kvhpmCWJkcuCRvEaIyw7tTfasHOqr5QuH2oDf0ptKvhi6A/xT+bqhc6wibu6?=
+ =?us-ascii?Q?w5owipwVl6oPmF2c5SWQgO67D6KcUXaXgaMOTlwBMYwdZzQTVgBvldiQZABy?=
+ =?us-ascii?Q?9z4tuzXcXLzn7ti8VI/2b8LWLgQWXeQwgMENz8rd/m9m0GkiYA2I/GDeaPBn?=
+ =?us-ascii?Q?x373OJBACLZJS59t1YERvDXawPo25fXL1iW2Hgxtaf8BgoYJeSMzlK6cQs3F?=
+ =?us-ascii?Q?Ql1T9B79TooYcRmeNOrcfb1DVSIf1zSEl81mS4q+i1qGYTT+mbMy059Y7SGr?=
+ =?us-ascii?Q?QAeWBSYJuSpA00D0+lLTMOQUm9lLvjAULY4S95aXexN5QCfPx59wE5zqyf10?=
+ =?us-ascii?Q?2tTbG5w2HGA3RQux2/V1xl5z0ObGwBkYQyCdXhYBqLbAP+g609pGupTj04Y3?=
+ =?us-ascii?Q?HS/fsw41wng1ad/u3j+9xkK/YJTyBV+ZpgOaLIqXW68xRtQlZHwA/S9goWp0?=
+ =?us-ascii?Q?KG6LsnfawOrkYAIIilV+fqrTSaSjG1IsB0jcarhEMeLyBJ9ydZCDCnRpRG0j?=
+ =?us-ascii?Q?QMN1aH6bJPVQKIGlp+8kwzO7C/4WBV6t0IqdRmsVTKKt+C65i/94xhvV+WRX?=
+ =?us-ascii?Q?8bvEStGAEk8vtaqlyil/kQpSatH48teFYJmnnTvM0DNtI6Ts/eia08O8Gtoz?=
+ =?us-ascii?Q?mkTYjl/3kW1KY9/X2ghE/6hcZWVF36uICFm4hnvi48Lpw3cOksaZPvZcws/A?=
+ =?us-ascii?Q?NWuqTm50bne54/qeRFpzTtuR54fmrIkUsR4NyU9KJjmm3Dn805uEjnWvS04Z?=
+ =?us-ascii?Q?VfLVhWEBY2hY7x3Er98VCeF21oNnYkZagrSOsKOjQcJ4Iqn/sGFjIONp3d7Q?=
+ =?us-ascii?Q?4Y8Q/4xyVCT1EhDpVXDiD0xWYwefG7kLsie9mIKAzri37+obsnh89lP0ntIv?=
+ =?us-ascii?Q?bjJcFDiqESUWjvS8EETSTuFlRBzJOlrXObDCK1EEADfOyz4VbZ4qjuABuNcK?=
+ =?us-ascii?Q?wrLvsjy8I850pq82pQQZCUhguIku9y9UInbCRAA4NBFedhqp9FzmpPJHCEq8?=
+ =?us-ascii?Q?21Cock6G9TQzYqu5qlIRq8Xf+PjlHKYzqVKAzplSVxZjpMZAo0eIT0lFi3zp?=
+ =?us-ascii?Q?JJ7nIMjVZRjLJ5SH7NWaYgKNfkdlFCN3Z8Y7ToQ3FGyDcD3tJ1CMlYbPL3Eg?=
+ =?us-ascii?Q?1g=3D=3D?=
+X-OriginatorOrg: weidmueller.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3bc72f58-6a58-4444-ee6d-08dc36d8ec6a
+X-MS-Exchange-CrossTenant-AuthSource: AS2PR08MB8431.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2024 14:40:48.7898
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +Phw1GYlWqZOgDHquOSPxIcE6QAV6M6UUz67SywVT9fH9UAVyvHVTidzfwa3h8PeMbPgsWyIRhiDufDizYu+2g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR08MB5626
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 26 Feb 2024 14:39:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196206
+ <openembedded-core@lists.openembedded.org>; Mon, 26 Feb 2024 14:41:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196207
 
---000000000000943428061249e0c4
-Content-Type: text/plain; charset="UTF-8"
+From: Lukas Funke <lukas.funke@weidmueller.com>
 
-This needs to be handled with care. We rely heavily on openmp support in
-rpm to speed up rpm operations; adding an option to turn it off is okay,
-but actually turning it off is not.
+This series is intended to improve 'vendoring' for golang projects. 'Vendor=
+ing'
+is the golang mechanism to build go-projects in an offline manner. It enabl=
+es
+the fetcher to gather all dependencies during fetching-phase and unpack the=
+m
+during build into the workdirs 'vendor' folder.
 
+During testing on our go-projects some issues were discovered, that prevent=
+=20
+clean vendoring:
 
-Alex
+ - The '//go:embed' directive enables go-files to include additional source
+   files. These files/folder are not considered in the manifest created by =
+go.
+   Thus, this files are not copied to the vendor folder by yocto, resulting
+   in a broken build.
+ - Some files contain additional '//go:build' directives, that instruct go =
+to
+   ignore this files during vendoring. This case is now covered as well.
 
-On Mon 26. Feb 2024 at 15.29, Martin Jansa <martin.jansa@gmail.com> wrote:
+Additional changes:
 
-> * and keep it enabled in target builds unless libc-musl where it was
->   disabled since upgrade to 4.15.1 in:
->
-> https://git.openembedded.org/openembedded-core/commit/?id=67257ca87c6fa8e6050a20ecea50daf834c7e869
->   and disable it for native builds to be able to reuse rpm-native
->   between hosts with libomp and without to avoid do_package failures like:
->   recipe-sysroot-native/usr/lib/rpm/rpmdeps: error while loading shared
-> libraries: libgomp.so.1: cannot open shared object file: No such file or
-> directory
->
-> * and on hosts without libomp it fails in do_configure:
->   | CMake Error at
-> /OE/build/tmp-glibc/work/x86_64-linux/rpm-native/4.19.1/recipe-sysroot-native/usr/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:230
-> (message):
->   |   Could NOT find OpenMP_C (missing: OpenMP_C_FLAGS OpenMP_C_LIB_NAMES)
->   |   (Required is at least version "4.5")
->
-> * I've noticed this in new experimental gentoo profiles which don't
->   enable openmp by default for gcc-13 and newer, see:
->   https://bugs.gentoo.org/890999
->
-> https://gitweb.gentoo.org/repo/gentoo.git/commit/?id=8189b4b48c25dbd7b330b51b53f9023cdbbb29ec
->
-> https://gitweb.gentoo.org/repo/gentoo.git/commit/?id=94d882482714698d6d9b765920cd26bbe849336d
->
->   I'm not sure what other distributions plan with openmp support in future
->   (and this profile is just experimental and the decision not to enable
->   openmp by default might still change), but having the PACKAGECONFIG
->   at least gives easy way to explicitly enable/disable this in bbappend
->
->   openmp is also explicitly disabled in gettext since 2011:
->
-> https://git.openembedded.org/openembedded-core/commit/?id=e897103a58ad672cc87d2bab3ec45501ef09f8f1
->
-> Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-> ---
->  meta/recipes-devtools/rpm/rpm_4.19.1.bb | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-devtools/rpm/rpm_4.19.1.bb
-> b/meta/recipes-devtools/rpm/rpm_4.19.1.bb
-> index 1f8611a29c..477e1c2d62 100644
-> --- a/meta/recipes-devtools/rpm/rpm_4.19.1.bb
-> +++ b/meta/recipes-devtools/rpm/rpm_4.19.1.bb
-> @@ -52,7 +52,7 @@ DEPENDS = "lua libgcrypt file popt xz bzip2 elfutils
-> python3 sqlite3 zstd"
->  DEPENDS:append:class-native = " file-replacement-native
-> bzip2-replacement-native"
->
->  EXTRA_OECMAKE:append = " -D__CURL:FILEPATH=curl"
-> -EXTRA_OECMAKE:append:libc-musl = " -DENABLE_NLS=OFF -DENABLE_OPENMP=OFF"
-> +EXTRA_OECMAKE:append:libc-musl = " -DENABLE_NLS=OFF"
->
->  # --sysconfdir prevents rpm from attempting to access machine-specific
-> configuration in sysroot/etc; we need to have it in rootfs
->  # --localstatedir prevents rpm from writing its database to native
-> sysroot when building images
-> @@ -64,10 +64,15 @@ OECMAKE_GENERATOR = "Unix Makefiles"
->
->  BBCLASSEXTEND = "native nativesdk"
->
-> -PACKAGECONFIG ??= "internal-openpgp"
-> +PACKAGECONFIG_OPENMP = "openmp"
-> +PACKAGECONFIG_OPENMP:libc-musl = ""
-> +PACKAGECONFIG_OPENMP:class-native = ""
-> +
-> +PACKAGECONFIG ??= "internal-openpgp ${PACKAGECONFIG_OPENMP}"
->
->  PACKAGECONFIG[plugins] = "-DENABLE_PLUGINS=ON,-DENABLE_PLUGINS=OFF"
->  PACKAGECONFIG[testsuite] = "-DENABLE_TESTSUITE=ON,-DENABLE_TESTSUITE=OFF"
-> +PACKAGECONFIG[openmp] = "-DENABLE_OPENMP=ON,-DENABLE_OPENMP=OFF"
->
->  # Deprecated! https://fedoraproject.org/wiki/Changes/RpmSequoia
->  PACKAGECONFIG[internal-openpgp] =
-> "-DWITH_INTERNAL_OPENPGP=ON,-DWITH_INTERNAL_OPENPGP=OFF"
-> --
-> 2.44.0
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#196205):
-> https://lists.openembedded.org/g/openembedded-core/message/196205
-> Mute This Topic: https://lists.openembedded.org/mt/104582694/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
->
+ - fix an issue where some go log messages are included in the vendor manif=
+est
+ - run pylint analysis on the 'go' recipetool part and incorporate suggesti=
+ons
 
---000000000000943428061249e0c4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Lukas Funke (4):
+  classes: go-vendor: improve handling of go vendoring
+  recipetool: go: Do not restore go.mod/sum file
+  recipetool: go: ignore 'go: *' log messages
+  recipetool: go: apply pylint recommendations
 
-<div dir=3D"auto">This needs to be handled with care. We rely heavily on op=
-enmp support in rpm to speed up rpm operations; adding an option to turn it=
- off is okay, but actually turning it off is not.</div><div dir=3D"auto"><b=
-r></div><div dir=3D"auto"><br></div><div dir=3D"auto">Alex</div><div><br><d=
-iv class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon 26. F=
-eb 2024 at 15.29, Martin Jansa &lt;<a href=3D"mailto:martin.jansa@gmail.com=
-">martin.jansa@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left=
--style:solid;padding-left:1ex;border-left-color:rgb(204,204,204)">* and kee=
-p it enabled in target builds unless libc-musl where it was<br>
-=C2=A0 disabled since upgrade to 4.15.1 in:<br>
-=C2=A0 <a href=3D"https://git.openembedded.org/openembedded-core/commit/?id=
-=3D67257ca87c6fa8e6050a20ecea50daf834c7e869" rel=3D"noreferrer" target=3D"_=
-blank">https://git.openembedded.org/openembedded-core/commit/?id=3D67257ca8=
-7c6fa8e6050a20ecea50daf834c7e869</a><br>
-=C2=A0 and disable it for native builds to be able to reuse rpm-native<br>
-=C2=A0 between hosts with libomp and without to avoid do_package failures l=
-ike:<br>
-=C2=A0 recipe-sysroot-native/usr/lib/rpm/rpmdeps: error while loading share=
-d libraries: libgomp.so.1: cannot open shared object file: No such file or =
-directory<br>
-<br>
-* and on hosts without libomp it fails in do_configure:<br>
-=C2=A0 | CMake Error at /OE/build/tmp-glibc/work/x86_64-linux/rpm-native/4.=
-19.1/recipe-sysroot-native/usr/share/cmake-3.28/Modules/FindPackageHandleSt=
-andardArgs.cmake:230 (message):<br>
-=C2=A0 |=C2=A0 =C2=A0Could NOT find OpenMP_C (missing: OpenMP_C_FLAGS OpenM=
-P_C_LIB_NAMES)<br>
-=C2=A0 |=C2=A0 =C2=A0(Required is at least version &quot;4.5&quot;)<br>
-<br>
-* I&#39;ve noticed this in new experimental gentoo profiles which don&#39;t=
-<br>
-=C2=A0 enable openmp by default for gcc-13 and newer, see:<br>
-=C2=A0 <a href=3D"https://bugs.gentoo.org/890999" rel=3D"noreferrer" target=
-=3D"_blank">https://bugs.gentoo.org/890999</a><br>
-=C2=A0 <a href=3D"https://gitweb.gentoo.org/repo/gentoo.git/commit/?id=3D81=
-89b4b48c25dbd7b330b51b53f9023cdbbb29ec" rel=3D"noreferrer" target=3D"_blank=
-">https://gitweb.gentoo.org/repo/gentoo.git/commit/?id=3D8189b4b48c25dbd7b3=
-30b51b53f9023cdbbb29ec</a><br>
-=C2=A0 <a href=3D"https://gitweb.gentoo.org/repo/gentoo.git/commit/?id=3D94=
-d882482714698d6d9b765920cd26bbe849336d" rel=3D"noreferrer" target=3D"_blank=
-">https://gitweb.gentoo.org/repo/gentoo.git/commit/?id=3D94d882482714698d6d=
-9b765920cd26bbe849336d</a><br>
-<br>
-=C2=A0 I&#39;m not sure what other distributions plan with openmp support i=
-n future<br>
-=C2=A0 (and this profile is just experimental and the decision not to enabl=
-e<br>
-=C2=A0 openmp by default might still change), but having the PACKAGECONFIG<=
-br>
-=C2=A0 at least gives easy way to explicitly enable/disable this in bbappen=
-d<br>
-<br>
-=C2=A0 openmp is also explicitly disabled in gettext since 2011:<br>
-=C2=A0 <a href=3D"https://git.openembedded.org/openembedded-core/commit/?id=
-=3De897103a58ad672cc87d2bab3ec45501ef09f8f1" rel=3D"noreferrer" target=3D"_=
-blank">https://git.openembedded.org/openembedded-core/commit/?id=3De897103a=
-58ad672cc87d2bab3ec45501ef09f8f1</a><br>
-<br>
-Signed-off-by: Martin Jansa &lt;<a href=3D"mailto:martin.jansa@gmail.com" t=
-arget=3D"_blank">martin.jansa@gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-devtools/rpm/<a href=3D"http://rpm_4.19.1.bb" rel=3D"nor=
-eferrer" target=3D"_blank">rpm_4.19.1.bb</a> | 9 +++++++--<br>
-=C2=A01 file changed, 7 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/meta/recipes-devtools/rpm/<a href=3D"http://rpm_4.19.1.bb" rel=
-=3D"noreferrer" target=3D"_blank">rpm_4.19.1.bb</a> b/meta/recipes-devtools=
-/rpm/<a href=3D"http://rpm_4.19.1.bb" rel=3D"noreferrer" target=3D"_blank">=
-rpm_4.19.1.bb</a><br>
-index 1f8611a29c..477e1c2d62 100644<br>
---- a/meta/recipes-devtools/rpm/<a href=3D"http://rpm_4.19.1.bb" rel=3D"nor=
-eferrer" target=3D"_blank">rpm_4.19.1.bb</a><br>
-+++ b/meta/recipes-devtools/rpm/<a href=3D"http://rpm_4.19.1.bb" rel=3D"nor=
-eferrer" target=3D"_blank">rpm_4.19.1.bb</a><br>
-@@ -52,7 +52,7 @@ DEPENDS =3D &quot;lua libgcrypt file popt xz bzip2 elfuti=
-ls python3 sqlite3 zstd&quot;<br>
-=C2=A0DEPENDS:append:class-native =3D &quot; file-replacement-native bzip2-=
-replacement-native&quot;<br>
-<br>
-=C2=A0EXTRA_OECMAKE:append =3D &quot; -D__CURL:FILEPATH=3Dcurl&quot;<br>
--EXTRA_OECMAKE:append:libc-musl =3D &quot; -DENABLE_NLS=3DOFF -DENABLE_OPEN=
-MP=3DOFF&quot;<br>
-+EXTRA_OECMAKE:append:libc-musl =3D &quot; -DENABLE_NLS=3DOFF&quot;<br>
-<br>
-=C2=A0# --sysconfdir prevents rpm from attempting to access machine-specifi=
-c configuration in sysroot/etc; we need to have it in rootfs<br>
-=C2=A0# --localstatedir prevents rpm from writing its database to native sy=
-sroot when building images<br>
-@@ -64,10 +64,15 @@ OECMAKE_GENERATOR =3D &quot;Unix Makefiles&quot;<br>
-<br>
-=C2=A0BBCLASSEXTEND =3D &quot;native nativesdk&quot;<br>
-<br>
--PACKAGECONFIG ??=3D &quot;internal-openpgp&quot;<br>
-+PACKAGECONFIG_OPENMP =3D &quot;openmp&quot;<br>
-+PACKAGECONFIG_OPENMP:libc-musl =3D &quot;&quot;<br>
-+PACKAGECONFIG_OPENMP:class-native =3D &quot;&quot;<br>
-+<br>
-+PACKAGECONFIG ??=3D &quot;internal-openpgp ${PACKAGECONFIG_OPENMP}&quot;<b=
-r>
-<br>
-=C2=A0PACKAGECONFIG[plugins] =3D &quot;-DENABLE_PLUGINS=3DON,-DENABLE_PLUGI=
-NS=3DOFF&quot;<br>
-=C2=A0PACKAGECONFIG[testsuite] =3D &quot;-DENABLE_TESTSUITE=3DON,-DENABLE_T=
-ESTSUITE=3DOFF&quot;<br>
-+PACKAGECONFIG[openmp] =3D &quot;-DENABLE_OPENMP=3DON,-DENABLE_OPENMP=3DOFF=
-&quot;<br>
-<br>
-=C2=A0# Deprecated! <a href=3D"https://fedoraproject.org/wiki/Changes/RpmSe=
-quoia" rel=3D"noreferrer" target=3D"_blank">https://fedoraproject.org/wiki/=
-Changes/RpmSequoia</a><br>
-=C2=A0PACKAGECONFIG[internal-openpgp] =3D &quot;-DWITH_INTERNAL_OPENPGP=3DO=
-N,-DWITH_INTERNAL_OPENPGP=3DOFF&quot;<br>
--- <br>
-2.44.0<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#196205): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/196205" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/196205</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/104582694/168=
-6489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/104582694/1686489</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
-rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
+ meta/classes/go-vendor.bbclass      | 324 ++++++++++++++++++-------
+ scripts/lib/recipetool/create_go.py | 362 ++++++++++++++++------------
+ 2 files changed, 449 insertions(+), 237 deletions(-)
 
---000000000000943428061249e0c4--
+--=20
+2.30.2
+
 
