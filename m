@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38EAAC54E51
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 275C9C54798
 	for <webhook@archiver.kernel.org>; Tue, 27 Feb 2024 21:57:31 +0000 (UTC)
-Received: from mail-io1-f51.google.com (mail-io1-f51.google.com [209.85.166.51])
- by mx.groups.io with SMTP id smtpd.web11.2008.1709071046624600362
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web10.1949.1709071049578101918
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Feb 2024 13:57:26 -0800
+ Tue, 27 Feb 2024 13:57:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=YRn1voiY;
- spf=softfail (domain: sakoman.com, ip: 209.85.166.51, mailfrom: steve@sakoman.com)
-Received: by mail-io1-f51.google.com with SMTP id ca18e2360f4ac-7c7db34d162so76838539f.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 13:57:26 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=gmKRH8/D;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.169, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-6e53f76898fso1335209b3a.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 13:57:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1709071045; x=1709675845; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1709071049; x=1709675849; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=icJ2AEAYXxXy9sAaUjPsd9UtqfK6peXDHMxdOF7NsYY=;
-        b=YRn1voiYA6BQb4z4SKOWR1Y8qSPHAZ9Q8O6ggazkiphT6xk0nsYj5sUDgmmskq+Bly
-         Tevr4K34bxuNLjnXpFhc4KR1wA80sK4z2DllPl/9uGg0sgPTqXgFV82b/LANTvAsvCLM
-         Tnyy9hLRFCFavTD9AGYgsZ5OSyfVJS+r70iZd8j+kKZ5566j9UFHVAiYtlKUyf0x997E
-         aolyUnWgMAr9rpGcJd0brXilmCHhUWA3uS9oHuI8OaJ3+fgc6lEk5iIIRGRstLn26AzH
-         W4wFiWUHSdnsUUQ4Dq0zfq7pNBPBnj1uy9jFZLCZxonbDhkYQ57aFtuvUmoVC8OJVXwf
-         7tZg==
+        bh=Dq/vKTy0XcgE/4qwCOSVj1eN2SiU2BbCc55D9MMx1mY=;
+        b=gmKRH8/DGY2qiNLmPASo7nxjpYBZaoNtRNw85xWvwXUFe4BEXlBiNTpcbNecdwoZlI
+         L0FlvQ1DTMEwu9x2uLn9fNsCsjsHHDSGi1k0lUd9WLfk2X6aLglGPUo+VvPX1QMC9NW6
+         t/YRznKpK5Yq4k0W1U72SCX0cD/BJ6O7Wdf2uDZ/xaMIo8YQ3Bon0REYFzMMbIdMl9E4
+         VDBCbsvFz20/piJB7BT13omzISt3d7PU8CBN4t/mR5hNRVswviprNangEpqAmdUJr6Mf
+         fG8wnD5imoO+VofvsIH2QQalXNelz8k7bykhhOSQDPDJFmEdEIRpUXdTgn2//+MGuJ2h
+         6mUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709071045; x=1709675845;
+        d=1e100.net; s=20230601; t=1709071049; x=1709675849;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=icJ2AEAYXxXy9sAaUjPsd9UtqfK6peXDHMxdOF7NsYY=;
-        b=g8t2FLWWMwUfAReF9JTaeCB46zC3fTAheqWUSUnbU1/xwfbNNzwyjSY8NXdy6VU3yz
-         8hKm+/Xp24/5Jhq/WYkKuIkzl/mPljkb10YBMiGYUqz6U2flJlkjzr49KzIa+oiWnS9i
-         93ZBfz0iDzKhoMrqTS4lsm9SD9JEsYzolIo1mxEKLzE5TWqlZEyeF1xqZyXPAv8ACNDn
-         +idugiZ+M0koyzGn2ld0aqoWXdLZYwRXznTp9iiEiujvEq1WHmP1lLh0CkyjCS+VIS8z
-         1huBvGDsZbbll/gbdCaJlPB4xDmN8Bdow3h9fq7GaBjauKiKkdYLlzrZOexNXRip17nk
-         5FLg==
-X-Gm-Message-State: AOJu0YyliXS5yyyjgOuW0owbhnH8DcqM5CeLrjp/8lLJBHjpApNnWsDe
-	snSmhhi+F/yTDTHAju0ngLprdvIamobC3rIAV9NA8hDpnIjW+ZKcecL8MBJiTuZUCeS36VJCo57
-	R8rc=
-X-Google-Smtp-Source: AGHT+IEFRTROumWDw6+2E9K09Of0z8zyGp2fUtJi+6PHNq/rhTbB2wZAKi7+xo1PGqiUO3LChblAPQ==
-X-Received: by 2002:a92:cd4a:0:b0:365:3d96:4b98 with SMTP id v10-20020a92cd4a000000b003653d964b98mr10190134ilq.2.1709071045661;
-        Tue, 27 Feb 2024 13:57:25 -0800 (PST)
+        bh=Dq/vKTy0XcgE/4qwCOSVj1eN2SiU2BbCc55D9MMx1mY=;
+        b=dLALpgiqcAs4v5yxw0BeiREcoe2kNKSErpndnjTLnjHwrYuAg7UYcRkYVAvROzxRIq
+         cTctEz/5hl75xNFEWNfDbSwonBM8KQrATyzs+/+0s+XPxDmZWXfmr8eVcaBs8PqW5T/M
+         Y9baaQAD+A8r9tpqtz5eYIfYKIoW+lwwevljin9iHCUpj9sv30Tb7kNIrcC5ZNxlvdbG
+         IbrfVAfimr1LyIxHX/DiYE9WYk3sKAYLdhvBz3k2axdhM/9liDDZMdoEy/6YLX+Xl2rN
+         tQchZ9Pi2dRoBkbdQyPxby6F1bU6eq2OyS/Xh3krGCTD4RjBOU3uFryXaVgwUnjteSpW
+         JXZQ==
+X-Gm-Message-State: AOJu0YzMmhSEhkLYOpzZuq8AlZMulFQhRw0qHIffpulatbla9RK+vcgC
+	U23bntLM1vTLYAqQs/T6LyOWiG7M1xPxGUPOVQf4QkM4AuVw88Ww24W48dcMElf3K8rw+4lVg8K
+	O8/U=
+X-Google-Smtp-Source: AGHT+IEVS3kXoBgiUceN69On0/VR59EUoL4/ofBFtjaUWomjK7RePVxohuZMllM46JXGX91iyQHmVg==
+X-Received: by 2002:a05:6a00:198c:b0:6e5:30b8:d46b with SMTP id d12-20020a056a00198c00b006e530b8d46bmr8952523pfl.18.1709071048876;
+        Tue, 27 Feb 2024 13:57:28 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id n7-20020aa78a47000000b006e50bbf4e71sm4936428pfa.9.2024.02.27.13.57.24
+        by smtp.gmail.com with ESMTPSA id n7-20020aa78a47000000b006e50bbf4e71sm4936428pfa.9.2024.02.27.13.57.28
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Feb 2024 13:57:25 -0800 (PST)
+        Tue, 27 Feb 2024 13:57:28 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 09/16] oeqa/selftest/oelib/buildhistory: git default branch
-Date: Tue, 27 Feb 2024 11:56:56 -1000
-Message-Id: <095598eb7c9aa64797c8a41255fa28b695398054.1709070850.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 11/16] meta/lib/oeqa: python 3.12 regex
+Date: Tue, 27 Feb 2024 11:56:58 -1000
+Message-Id: <939046c5e9ddd71b941c9e389fa4a4687bfcdec0.1709070850.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1709070850.git.steve@sakoman.com>
 References: <cover.1709070850.git.steve@sakoman.com>
@@ -62,85 +62,85 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 21:57:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196308
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196310
 
 From: Adrian Freihofer <adrian.freihofer@gmail.com>
 
-On hosts with git defaulting to main branch the following exception
-occures:
-
-File .../buildhistory.py", line 99, in test_compare_dict_blobs_default
-  blob1 = self.repo.heads.master.commit.tree.blobs[0]
-          ^^^^^^^^^^^^^^^^^^^^^^
-File "/usr/lib/python3.12/site-packages/git/util.py", line 1114, in __getattr__
-  return list.__getattribute__(self, attr)
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AttributeError: 'IterableList' object has no attribute 'master'
-
-Support main and master branch for these test cases.
-
-Note: setting the default branch with --initial-branch requires git
-version 2.28 or later. Some of the still supported host distros do not
-provide this feature yet.
+Python 3 interprets string literals as Unicode strings, and therefore
+\s is treated as an escaped Unicode character which is not correct.
+Declaring the RegEx pattern as a raw string instead of unicode is
+required for Python 3.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Cherry-picked from master: 7df99843d8f31d8e0c2872ff625f4a5abf28f740
+Cherry-picked from master: 9002850f0c2e409d3bc629e36bb360b96326bb64
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../oeqa/selftest/cases/oelib/buildhistory.py  | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
+ meta/lib/oeqa/oetest.py                  | 2 +-
+ meta/lib/oeqa/selftest/cases/bblayers.py | 2 +-
+ meta/lib/oeqa/selftest/cases/fitimage.py | 6 +++---
+ 3 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/oelib/buildhistory.py b/meta/lib/oeqa/selftest/cases/oelib/buildhistory.py
-index 33bd6df2f3..ae12aa0865 100644
---- a/meta/lib/oeqa/selftest/cases/oelib/buildhistory.py
-+++ b/meta/lib/oeqa/selftest/cases/oelib/buildhistory.py
-@@ -28,6 +28,16 @@ class TestBlobParsing(OESelftestTestCase):
-         import shutil
-         shutil.rmtree(self.repo_path)
+diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
+index 9c84466dd0..b53c611062 100644
+--- a/meta/lib/oeqa/oetest.py
++++ b/meta/lib/oeqa/oetest.py
+@@ -256,7 +256,7 @@ class TestContext(object):
  
-+    @property
-+    def heads_default(self):
-+        """
-+        Support repos defaulting to master or to main branch
-+        """
-+        try:
-+            return self.repo.heads.main
-+        except AttributeError:
-+            return self.repo.heads.master
-+
-     def commit_vars(self, to_add={}, to_remove = [], msg="A commit message"):
-         if len(to_add) == 0 and len(to_remove) == 0:
-             return
-@@ -65,10 +75,10 @@ class TestBlobParsing(OESelftestTestCase):
-         changesmap = { "foo-2" : ("2", "8"), "bar" : ("","4"), "bar-2" : ("","5")}
+         modules = []
+         for test in self.testslist:
+-            if re.search("\w+\.\w+\.test_\S+", test):
++            if re.search(r"\w+\.\w+\.test_\S+", test):
+                 test = '.'.join(t.split('.')[:3])
+             module = pkgutil.get_loader(test)
+             modules.append(module)
+diff --git a/meta/lib/oeqa/selftest/cases/bblayers.py b/meta/lib/oeqa/selftest/cases/bblayers.py
+index 7d74833f61..0b9f16eeae 100644
+--- a/meta/lib/oeqa/selftest/cases/bblayers.py
++++ b/meta/lib/oeqa/selftest/cases/bblayers.py
+@@ -46,7 +46,7 @@ class BitbakeLayers(OESelftestTestCase):
+         bb_file = os.path.join(testoutdir, recipe_path, recipe_file)
+         self.assertTrue(os.path.isfile(bb_file), msg = "Cannot find xcursor-transparent-theme_0.1.1.bb in the test_bitbakelayers_flatten local dir.")
+         contents = ftools.read_file(bb_file)
+-        find_in_contents = re.search("##### bbappended from meta-selftest #####\n(.*\n)*include test_recipe.inc", contents)
++        find_in_contents = re.search(r"##### bbappended from meta-selftest #####\n(.*\n)*include test_recipe.inc", contents)
+         self.assertTrue(find_in_contents, msg = "Flattening layers did not work. bitbake-layers flatten output: %s" % result.output)
  
-         self.commit_vars(to_add = { "foo" : "1", "foo-2" : "2", "foo-3" : "3" })
--        blob1 = self.repo.heads.master.commit.tree.blobs[0]
-+        blob1 = self.heads_default.commit.tree.blobs[0]
- 
-         self.commit_vars(to_add = { "foo-2" : "8", "bar" : "4", "bar-2" : "5" })
--        blob2 = self.repo.heads.master.commit.tree.blobs[0]
-+        blob2 = self.heads_default.commit.tree.blobs[0]
- 
-         change_records = compare_dict_blobs(os.path.join(self.repo_path, self.test_file),
-             blob1, blob2, False, False)
-@@ -84,10 +94,10 @@ class TestBlobParsing(OESelftestTestCase):
-         defaultmap = { x : ("default", "1")  for x in ["PKG", "PKGE", "PKGV", "PKGR"]}
- 
-         self.commit_vars(to_add = { "foo" : "1" })
--        blob1 = self.repo.heads.master.commit.tree.blobs[0]
-+        blob1 = self.heads_default.commit.tree.blobs[0]
- 
-         self.commit_vars(to_add = { "PKG" : "1", "PKGE" : "1", "PKGV" : "1", "PKGR" : "1" })
--        blob2 = self.repo.heads.master.commit.tree.blobs[0]
-+        blob2 = self.heads_default.commit.tree.blobs[0]
- 
-         change_records = compare_dict_blobs(os.path.join(self.repo_path, self.test_file),
-             blob1, blob2, False, False)
+     def test_bitbakelayers_add_remove(self):
+diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
+index d732a9020d..4d820faf92 100644
+--- a/meta/lib/oeqa/selftest/cases/fitimage.py
++++ b/meta/lib/oeqa/selftest/cases/fitimage.py
+@@ -202,7 +202,7 @@ UBOOT_MKIMAGE_SIGN_ARGS = "-c 'a smart comment'"
+         signed_sections = {}
+         for line in result.output.splitlines():
+             if line.startswith((' Configuration', ' Image')):
+-                in_signed = re.search('\((.*)\)', line).groups()[0]
++                in_signed = re.search(r'\((.*)\)', line).groups()[0]
+             elif re.match('^ *', line) in (' ', ''):
+                 in_signed = None
+             elif in_signed:
+@@ -521,7 +521,7 @@ UBOOT_FIT_HASH_ALG = "sha256"
+         signed_sections = {}
+         for line in result.output.splitlines():
+             if line.startswith((' Image')):
+-                in_signed = re.search('\((.*)\)', line).groups()[0]
++                in_signed = re.search(r'\((.*)\)', line).groups()[0]
+             elif re.match(' \w', line):
+                 in_signed = None
+             elif in_signed:
+@@ -675,7 +675,7 @@ FIT_SIGN_INDIVIDUAL = "1"
+         signed_sections = {}
+         for line in result.output.splitlines():
+             if line.startswith((' Image')):
+-                in_signed = re.search('\((.*)\)', line).groups()[0]
++                in_signed = re.search(r'\((.*)\)', line).groups()[0]
+             elif re.match(' \w', line):
+                 in_signed = None
+             elif in_signed:
 -- 
 2.34.1
 
