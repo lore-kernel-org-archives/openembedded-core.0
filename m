@@ -1,100 +1,73 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <ejo@pengutronix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F4DAC54798
-	for <webhook@archiver.kernel.org>; Tue, 27 Feb 2024 15:51:52 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.15545.1709049110170633939
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFF37C54E41
+	for <webhook@archiver.kernel.org>; Tue, 27 Feb 2024 17:09:42 +0000 (UTC)
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by mx.groups.io with SMTP id smtpd.web10.17594.1709053776072654959
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Feb 2024 07:51:50 -0800
+ Tue, 27 Feb 2024 09:09:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 46B5EFEC
-	for <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 07:52:28 -0800 (PST)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 7B7803F762
-	for <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 07:51:49 -0800 (PST)
-From: ross.burton@arm.com
+ dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.201.7, mailfrom: ejo@pengutronix.de)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ejo@pengutronix.de>)
+	id 1rf0xS-0008EU-0u; Tue, 27 Feb 2024 18:09:34 +0100
+Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ejo@pengutronix.de>)
+	id 1rf0xR-003F7y-7o; Tue, 27 Feb 2024 18:09:33 +0100
+Received: from ejo by dude04.red.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ejo@pengutronix.de>)
+	id 1rf0xR-00FdPI-0b;
+	Tue, 27 Feb 2024 18:09:33 +0100
+From: =?UTF-8?q?Enrico=20J=C3=B6rns?= <ejo@pengutronix.de>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] libexif: improve ptest packaging
-Date: Tue, 27 Feb 2024 15:51:45 +0000
-Message-Id: <20240227155145.2679899-2-ross.burton@arm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240227155145.2679899-1-ross.burton@arm.com>
-References: <20240227155145.2679899-1-ross.burton@arm.com>
+Cc: yocto@pengutronix.de,
+	Bruce Ashfield <bruce.ashfield@gmail.com>
+Subject: [PATCH 1/3] kernel.bbclass: slightly fix wording, case, and spaces in version check
+Date: Tue, 27 Feb 2024 18:09:00 +0100
+Message-Id: <20240227170902.3718203-1-ejo@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ejo@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 15:51:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196278
+ <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 17:09:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196279
 
-From: Ross Burton <ross.burton@arm.com>
+* Version -> version
+* match of kernel -> match the kernel
+* Add missing spaces around "=" sign
 
-The NLS tests don't actually test anything useful and were not being ran
-anyway, so don't install them.
-
-Install the test binaries using libtool so that we install the actual
-binaries instead of libtool wrapper scripts.  This means that if we also
-tell the Makefile to use /bin/sh there's no need to RDEPEND on bash.
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Enrico Jörns <ejo@pengutronix.de>
 ---
- meta/recipes-support/libexif/libexif/run-ptest |  2 +-
- meta/recipes-support/libexif/libexif_0.6.24.bb | 14 ++++----------
- 2 files changed, 5 insertions(+), 11 deletions(-)
+ meta/classes-recipe/kernel.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/libexif/libexif/run-ptest b/meta/recipe=
-s-support/libexif/libexif/run-ptest
-index 2d23159eb03..9713a1bec2d 100644
---- a/meta/recipes-support/libexif/libexif/run-ptest
-+++ b/meta/recipes-support/libexif/libexif/run-ptest
-@@ -1,3 +1,3 @@
- #!/bin/sh
-=20
--make -o Makefile runtest-TESTS
-+make -o Makefile SHELL=3D/bin/sh runtest-TESTS
-diff --git a/meta/recipes-support/libexif/libexif_0.6.24.bb b/meta/recipe=
-s-support/libexif/libexif_0.6.24.bb
-index b407ee52de0..69c91773097 100644
---- a/meta/recipes-support/libexif/libexif_0.6.24.bb
-+++ b/meta/recipes-support/libexif/libexif_0.6.24.bb
-@@ -23,18 +23,12 @@ do_compile_ptest() {
+diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
+index 31e4a683d1..837064cef7 100644
+--- a/meta/classes-recipe/kernel.bbclass
++++ b/meta/classes-recipe/kernel.bbclass
+@@ -509,7 +509,7 @@ do_kernel_version_sanity_check() {
+ 	reg="${reg}${EXTRAVERSION}"
+ 
+ 	if [ -z `echo ${PV} | grep -E "${reg}"` ]; then
+-		bbfatal "Package Version (${PV}) does not match of kernel being built (${vers}). Please update the PV variable to match the kernel source or set KERNEL_VERSION_SANITY_SKIP=\"1\" in your recipe."
++		bbfatal "Package version (${PV}) does not match the kernel being built (${vers}). Please update the PV variable to match the kernel source or set KERNEL_VERSION_SANITY_SKIP = \"1\" in your recipe."
+ 	fi
+ 	exit 0
  }
-=20
- do_install_ptest() {
--    install ${B}/test/test*[!\.o] ${D}${PTEST_PATH}
--    for f in ${D}${PTEST_PATH}/test*; do
--        sed -i "s/\(LD_LIBRARY_PATH=3D\).*\(:\$LD_LIBRARY_PATH\)\"/\1.\2=
-/" $f
--    done
--
-     install ${B}/test/Makefile ${D}${PTEST_PATH}
-     sed -i -e "/^srcdir/c srcdir =3D \$\{PWD\}" ${D}${PTEST_PATH}/Makefi=
-le
-=20
--    install -d ${D}${PTEST_PATH}/nls
--    install ${B}/test/nls/*[!\.o] ${D}${PTEST_PATH}/nls
--    install -d ${D}${PTEST_PATH}/.libs
--    install ${B}/test/.libs/* ${D}${PTEST_PATH}/.libs
-+    for f in ${B}/test/test*[!\.o]; do
-+        libtool --mode=3Dinstall install $f ${D}${PTEST_PATH}
-+    done
-=20
-     install ${S}/test/*.sh ${D}${PTEST_PATH}
-=20
-@@ -42,6 +36,6 @@ do_install_ptest() {
-     install ${S}/test/testdata/* ${D}${PTEST_PATH}/testdata
- }
-=20
--RDEPENDS:${PN}-ptest +=3D "make bash"
-+RDEPENDS:${PN}-ptest +=3D "make"
-=20
- BBCLASSEXTEND =3D "native nativesdk"
---=20
-2.34.1
+-- 
+2.39.2
 
 
