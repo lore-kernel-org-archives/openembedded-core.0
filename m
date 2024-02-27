@@ -2,87 +2,138 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D43EDC54798
-	for <webhook@archiver.kernel.org>; Tue, 27 Feb 2024 09:37:29 +0000 (UTC)
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
- by mx.groups.io with SMTP id smtpd.web10.8910.1709026646942371620
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD576C5478C
+	for <webhook@archiver.kernel.org>; Tue, 27 Feb 2024 09:41:39 +0000 (UTC)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+ by mx.groups.io with SMTP id smtpd.web10.8954.1709026890800136858
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Feb 2024 01:37:27 -0800
+ Tue, 27 Feb 2024 01:41:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=H5T+v0eU;
- spf=pass (domain: gmail.com, ip: 209.85.208.176, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2d288bac3caso25239411fa.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 01:37:26 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Yev2R6Qi;
+ spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2d208be133bso62574341fa.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 01:41:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709026645; x=1709631445; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1709026889; x=1709631689; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=JKr6/IOcQ4k6oFxO31iMavDj2hYnfBaf9cr/rJUPHsw=;
-        b=H5T+v0eUMun2hKKaaKjMm1HSltbtTxewwn+i3FPkbM4w6ZGoBcJybg05Ru8IWZzFDL
-         ndK8KhG5aA2wDSIQr+pPaO86yRWIV29PEJG7IB3TOJCdMEWd8OMS1y1YU7ubZnte0ihx
-         TaxJNSv+Dor2TP+tUR7cFlasjs/kxijHv+anUuNE47zVRdiQF9J/cFSskKvKkDJsfbzi
-         fcCythCEuq9TAz4bzw9ImDYLwMcDrRDqAfix6WuGTJb5xh1cn03nA4D+Sz03t2keqcko
-         Ut9w4+duBHtpAbFYmKtFG6h+Nge0GCZuac4ELNuMv62/tjGzAWMLZaSFV6Hm+HD71VUM
-         KiuQ==
+        bh=bQ4PaFkNennaNVG5pjxNJsBOQBFOcHTygm02c1GZvuc=;
+        b=Yev2R6QirTci4GsSH93toXDcXy+iRjWz1Gwb7q/oUmEG11Ha7e7a6m6o6ctPfCNKG6
+         lRRtQYCL/Ztc2J7Gd7yirckF3DrKMV8hlYt/0CPJS3bBa4i0Yy7/Pl71waaetKFi2Sx9
+         nKSQXcZDUzBw90uYqtr0W1o/1sukiVwuiN4Sqi6i2ardPHyhivFjsu+3u0xtXGQKDzs4
+         5R5LDAPZZv3vL3X2ImkiIQwjfJa2P8cLJNUixDtuzvLytoAbkFq5a1OR7IAKJjXD+KG2
+         nPtHuxDdWoJj/8Te2RfLYomCxhdcKL3ukvaMdbFzVedMUz33cB5gW5QxlACSC+CoqF7H
+         oqww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709026645; x=1709631445;
+        d=1e100.net; s=20230601; t=1709026889; x=1709631689;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=JKr6/IOcQ4k6oFxO31iMavDj2hYnfBaf9cr/rJUPHsw=;
-        b=wTMFTP+rPKmu6oOTppBwFXCpLMuHrVoM9oxgp5BShVo4X8qJNu7+Ur0sK8t2Fnb9cl
-         NP+oQTabvjn1Pn0XZ2VyvcI9h7AWzZpZaymYV0lmuvRpWls5HrUjBV6qE8rhhk+GV5Ir
-         RzgShfPxm6JVMw7RY3XgjcsscWBRw3a8Jeh0x4iDEtCJE0RwyS/9qQfrHzhB+viNF180
-         KfHaJtc7nRkQKXoY/Xcc2Hi+joQaYpd0LodZ3YPwshHSpRb2VUQyDZ+IMjPaEkqy51OK
-         h4RGVPgo8BvzfIReIky7J61bx3iJsgtMb3U2kxIERJkb1EKOedwTM6uZBiE1ITEe8KY/
-         wUww==
-X-Gm-Message-State: AOJu0Yy5YZteRPtVccxMHtaZ9LDskb+AfxjkrRvRN3be3nbTtF9sFC/B
-	fJkmZA9c3eaXnrVPwQeE1n4Cg3qzQWUhi95syvLdwtMQOumy40zo6GO6MQXPG1T2xCG22KrHSq7
-	0QhqxlqmhjUGaenkDKFjt0VVt+6GnYNNH
-X-Google-Smtp-Source: AGHT+IE3Fc170ptWjn9cF0L6utfRBjcJOvq7dxPGgnENz18IevjMkYHsPb9KvYWHdXh6hgihM5+8LWaezEkw1STkbGI=
-X-Received: by 2002:a2e:9881:0:b0:2d2:85d5:80c5 with SMTP id
- b1-20020a2e9881000000b002d285d580c5mr4173845ljj.40.1709026645055; Tue, 27 Feb
- 2024 01:37:25 -0800 (PST)
+        bh=bQ4PaFkNennaNVG5pjxNJsBOQBFOcHTygm02c1GZvuc=;
+        b=PaA6Li6Zic2pMikWj7Eo+XQAoSIidZiCC58I+C9pFPrOQmMbvOtC17+od7ZyEco/UZ
+         zZqIub+12qB+1jOVWYrYtN9a0felKNIygaxMfP/7rT95bVol8gHHfj9JhCSiivHt7MeH
+         HMsriRL1mC94opZwYLNAXmr5AiNlk48Dnr9kvoVMcww3mCEA4ZgfO0PEg+dB8f6SfsNK
+         H/YB2sHgLqeejmdgtHpGvERoKpbOPP31hh+ulK+O7ku+QDImXrlYVwUHcygccNLsP0XW
+         oN+QE0wn19P+lEdeyRdqRU/fEykrpagK0hvLdUFmGSIQ/hOeHEX8B007JHa9Q4W9bOZI
+         GeYw==
+X-Gm-Message-State: AOJu0YyOWzxO60Zpm8mZ7wPmQWUXZf4WejJqgO2xUqIxfFns7slvfajX
+	EbhFjJJuBd03V153VGATjFYNlDwyLUGcjjwP3LX4RQS3v07uQN1cmk/sQju8ccN/fxqyXtEqhtg
+	shysm1IO5+93JXxZPDoqFEh5zoFE=
+X-Google-Smtp-Source: AGHT+IElbEkmAp/2At4piaAshiCBKZBo8EssX3425h+U+Gkw824TKDbRAdsrOayNb58HtT6m2Kx/bOlbn55MZltczuE=
+X-Received: by 2002:a2e:b0e6:0:b0:2d2:6d19:75ff with SMTP id
+ h6-20020a2eb0e6000000b002d26d1975ffmr5044532ljl.50.1709026888866; Tue, 27 Feb
+ 2024 01:41:28 -0800 (PST)
 MIME-Version: 1.0
-References: <20240227071004.2402854-1-changqing.li@windriver.com>
-In-Reply-To: <20240227071004.2402854-1-changqing.li@windriver.com>
+References: <20240227085722.2025994-1-xiangyu.chen@eng.windriver.com>
+In-Reply-To: <20240227085722.2025994-1-xiangyu.chen@eng.windriver.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 27 Feb 2024 10:37:13 +0100
-Message-ID: <CANNYZj-1oTYiqqMcN1S3q8M6WrWr8-TBf0EB2aEorsKK72qCcg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH V6] rxvt-unicode: Fix installing of terminfo
-To: Changqing Li <changqing.li@eng.windriver.com>
+Date: Tue, 27 Feb 2024 10:41:17 +0100
+Message-ID: <CANNYZj_uUATQFE54rkXaCiUqPRyaRvRWDJdhH0gGwBd9WHiLjA@mail.gmail.com>
+Subject: Re: [OE-core][PATCH 1/2] bash: add locale alias for ja_JP shiftjis in run-ptest
+To: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 09:37:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196248
+ <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 09:41:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196249
 
-On Tue, 27 Feb 2024 at 08:10, Changqing Li
-<changqing.li@eng.windriver.com> wrote:
-> +
-> +       install -d ${D}/${sysconfdir}
-> +       install -m 0644 ${S}/doc/etc/rxvt-unicode.terminfo ${D}/${sysconfdir}/rxvt-unicode.terminfo
-> +}
-> +
-> +RDEPENDS:${PN} = "ncurses-tools"
-> +PACKAGE_WRITE_DEPS += "qemu-native"
-> +pkg_postinst:${PN} () {
-> +       if [ -n "$D" ]; then
-> +               if ${@bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', 'true', 'false', d)}; then
-> +                       outdir=$(${@qemu_run_binary(d, '$D', '${bindir}/tic')} -D 2>&1 | sed -n "2p" | awk '{ print $2 }')
-> +                       ${@qemu_run_binary(d, '$D', '${bindir}/tic')} -x ${sysconfdir}/rxvt-unicode.terminfo -o $D$outdir
-> +               fi
-> +       fi
->  }
-
-I would really prefer to make native tic do the right thing, if the
-only problem is that it installs the needed items into the wrong
-location.
-
-qemu usermode is notoriously brittle, and isn't available on some
-targets at all.
+Wait. Why is the correct locale not generated? How do other systems do
+it? There's an issue elsewhere, possibly in glibc-locale, and this
+works around that, instead of fixing the original problem.
 
 Alex
+
+On Tue, 27 Feb 2024 at 09:57, Xiangyu Chen
+<xiangyu.chen@eng.windriver.com> wrote:
+>
+> From: Xiangyu Chen <xiangyu.chen@windriver.com>
+>
+> Bash has a test case that needs ja_JP shift jis locale.
+>
+> It will check current system has ja_JP.SJIS locale or not, but in yocto,
+> this locale named ja_JP.shiftjis, they are the same.
+> So create a locale alias, making ja_JP.SJIS link to ja_JP.shiftjis.
+>
+> Also add warning message if current system doesn't contain shift jis locale.
+>
+> Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+> ---
+>  meta/recipes-extended/bash/bash/run-ptest | 21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
+>
+> diff --git a/meta/recipes-extended/bash/bash/run-ptest b/meta/recipes-extended/bash/bash/run-ptest
+> index 738ad3c42c..3cafb5e2ea 100644
+> --- a/meta/recipes-extended/bash/bash/run-ptest
+> +++ b/meta/recipes-extended/bash/bash/run-ptest
+> @@ -3,6 +3,7 @@
+>  en_US=`locale -a | grep en_US*`
+>  fr_FR=`locale -a | grep fr_FR*`
+>  de_DE=`locale -a | grep de_DE*`
+> +ja_JP_SJIS=`locale -a | grep ja_JP.shiftjis`
+>
+>  if [ -z "$en_US" ]
+>  then
+> @@ -19,8 +20,28 @@ then
+>          echo "Warning: The de_DE* locales is needed to run the intl.tests, please add it."
+>  fi
+>
+> +if [ -z "$ja_JP_SJIS" ]
+> +then
+> +        echo "Warning: The ja_JP.shiftjis locales is needed to run the intl.tests, please add it."
+> +else
+> +# Yocto generated shiftjis locale named ja_JP.shiftjis, but bash's test script using ja_JP.SJIS
+> +# They are the same one, so add an alias in locale.alias
+> +        if [ -f /usr/share/locale/locale.alias ]
+> +        then
+> +                cp /usr/share/locale/locale.alias /usr/share/locale/locale.alias.bak
+> +        fi
+> +
+> +        echo "ja_JP.SJIS        ja_JP.shiftjis" >> /usr/share/locale/locale.alias
+> +fi
+> +
+> +
+>  useradd bashtest
+>  chown -R bashtest:bashtest tests
+>  setpriv --reuid bashtest --rgid bashtest --clear-groups --reset-env $(dirname "$0")/run-bash-ptests
+>  chown -R root:root tests
+>  userdel -r bashtest
+> +
+> +if [ -f /usr/share/locale/locale.alias.bak ]
+> +then
+> +        mv /usr/share/locale/locale.alias.bak /usr/share/locale/locale.alias
+> +fi
+> --
+> 2.34.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#196244): https://lists.openembedded.org/g/openembedded-core/message/196244
+> Mute This Topic: https://lists.openembedded.org/mt/104599698/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
