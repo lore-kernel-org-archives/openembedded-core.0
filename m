@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0E9BC5478C
-	for <webhook@archiver.kernel.org>; Tue, 27 Feb 2024 21:57:20 +0000 (UTC)
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
- by mx.groups.io with SMTP id smtpd.web10.1938.1709071031595008604
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0423EC54E51
+	for <webhook@archiver.kernel.org>; Tue, 27 Feb 2024 21:57:21 +0000 (UTC)
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+ by mx.groups.io with SMTP id smtpd.web10.1939.1709071033024216872
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Feb 2024 13:57:11 -0800
+ Tue, 27 Feb 2024 13:57:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=1tMWqqXz;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.171, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-3c132695f1bso2731774b6e.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 13:57:11 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=DdjOLc7I;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.170, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-6e4e7e2594cso2715554b3a.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 13:57:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1709071031; x=1709675831; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1709071032; x=1709675832; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Ig4YnMfLk9lH9UyCMPPVihuSoTd9cKR5BAEbjcye/lQ=;
-        b=1tMWqqXz7Ucl7gE3btv8BbqDoCZFMVrVar9V72tU8Z5MsEQ7I4hyCbm6VuC99CN6ub
-         ZyguJr51DEIRZKq9DvOwtuvXbq61t1fdgp7QwEn51ZO27mJ7pjaFbAI83pVrsWb7ZnUN
-         CPKSc+7JAyLe8QFfjhjPXo7d06wC9wLDXvhIkmzZeBVixoPyH88tMjtB8YXFfQUIv4v5
-         +pmm9la9zE4C9QZ4S0GovH4yR4Ku91+UXxWeNmvJ72yQ1+BatTuo5oiW5FTZBbyvNvHt
-         zur8mfvSpBf3+elFg93XUNebZkawwnA6Af087NDDf+Klf1mEWh5X6huAQiSAfvTi0yKU
-         hSIA==
+        bh=R0iq8lT/QRFaHWmZOJYB5DfWQpI/c8c4LN02QJ5KwSs=;
+        b=DdjOLc7Ifj4LCSL/F9LcSAXhTBEUTXRGkDdw/9qclkKzsipSZvRsrOW0I/bJ3xvJsK
+         dce0OFKVEQRM/wWaAax2Nil3f+IG9lLWpCxIo625sA6mfIn3xi87Y62P4rj873Fww1FB
+         YEkpTcyYxeJOte4I8JlJx1t9wTxUT+eUpJCpBdMotaxso4BDJ2/ta73gyjiJlq/hzh2U
+         xlxeFpF4Hjg/etgYZ884kVVWVZwoVx0prik5w9mRY1vjZg10m5ed7E+LS2KpHHbbEJiQ
+         WIGlD6Li8Dm3GlOUB2td04qWm5NmrdE6SF4vPewA+m5a+VS1CkYeQhaH3j8cSWdY7VKy
+         k1LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709071031; x=1709675831;
+        d=1e100.net; s=20230601; t=1709071032; x=1709675832;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Ig4YnMfLk9lH9UyCMPPVihuSoTd9cKR5BAEbjcye/lQ=;
-        b=Pbi1wrXoVM0woz8eV7jHnz/ZgCWypei428B8sU8YKdIwc1G3JOtJhPBkhrhneJWF99
-         /cpphMCPHxW9M7VTZux+pLHUFnUc94Yvaxg5NAdUDI6JwP5ygSiek9DsierjYFZwfKhr
-         WJQHnpgZhattjof6gPeBnMSeEfyAZs7hQT+gOO141mgbGMwR/llK5asY2dxLFk8p2Im/
-         lgf21j4lEdjUnxGBgd/75bzURLLrWnkvUKmtTYVJPkbrGY+cKoIIDxfwVpsjFyyYh7AN
-         a2Pg30XgqZtq/Rkd8vgGg4ABH+heNhaKTOjCrsKaHiZcl4buQg7GhVmF7fk1BCW/YqSz
-         feow==
-X-Gm-Message-State: AOJu0Yx2eIWRWy1hHwER9hM09SFatLl7x3p7YeqqvnI+AXXXq7uBF7yn
-	hKRswQ5blgfObUSclTfYb2dM566DdDh8ssdMbhQQGwetOC0MdZYya2KacsuVVYyhpAAaLnrAjju
-	0gw4=
-X-Google-Smtp-Source: AGHT+IHWE7opyP5uEeAinMDX0Exs8Hv+0BXEvxD8upQ9fZy3zY19VQF3t5Ffkyw+9Q/qHHoNK8nYcg==
-X-Received: by 2002:a05:6808:e8c:b0:3c1:b1b1:2a19 with SMTP id k12-20020a0568080e8c00b003c1b1b12a19mr2316050oil.55.1709071030700;
-        Tue, 27 Feb 2024 13:57:10 -0800 (PST)
+        bh=R0iq8lT/QRFaHWmZOJYB5DfWQpI/c8c4LN02QJ5KwSs=;
+        b=qEyRkwdWtqmqj9LeKY5OY4nYzDUIvBFAw3eTDe3sUBqg6VAScUr+hloKvslDD6gGxk
+         8G5pjSQaCwqoWOjYCOpZ85ee+RGqsSu1zjc42KXIP32Dc86AFEqL6pRSNikd9jFcBDtL
+         HkqaDG5fNfPBaelGZjNBJX8HelWCP+ldQKtqYN9qdKqPrQtZRRmbPjKxtjgcWUb5e6k3
+         BPjf4CZVF/yEq0p6ZgyzcRKz/CowE3wEIm/PAFq8h4a8AlQSysOpk6XrYOVF/aVJ0dxR
+         c7EL6cBnRdXzF8CT5IcOgU28FWrdvvvYetTSOO866Tl/9RHAlFY071WanGus0uRH+CKy
+         GR6A==
+X-Gm-Message-State: AOJu0Yw99E/sLyWrY1o6G/tAF3lx56nDlySYpUOOsogIlNcgfZ9mKh7x
+	lRmbRE7xaUPRVa0klqaNlSBneq8P4eDfnC50Q+PYlI7IJ4VI/4+FAqSx1B4txMbw0QRE6lUbGLl
+	wOIs=
+X-Google-Smtp-Source: AGHT+IFwqqMAT7P7HGHTNv6aqtIw1cGhR7+4UvuKfnTCJcXmn314ureuoDg3yPcVQYTzl0ON5BVd9A==
+X-Received: by 2002:a05:6a00:1e13:b0:6e4:e43e:dc1f with SMTP id gx19-20020a056a001e1300b006e4e43edc1fmr10465034pfb.32.1709071032311;
+        Tue, 27 Feb 2024 13:57:12 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id n7-20020aa78a47000000b006e50bbf4e71sm4936428pfa.9.2024.02.27.13.57.09
+        by smtp.gmail.com with ESMTPSA id n7-20020aa78a47000000b006e50bbf4e71sm4936428pfa.9.2024.02.27.13.57.11
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Feb 2024 13:57:10 -0800 (PST)
+        Tue, 27 Feb 2024 13:57:12 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 01/16] recipetool/create_buildsys_python: use importlib instead of imp
-Date: Tue, 27 Feb 2024 11:56:48 -1000
-Message-Id: <b9dcdf2346bb24866c5f3db96a3f79eba20e4662.1709070850.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 02/16] scripts/runqemu: fix regex escape sequences
+Date: Tue, 27 Feb 2024 11:56:49 -1000
+Message-Id: <2f8982ef4c903f43867da56fcfd080a6556daa8b.1709070850.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1709070850.git.steve@sakoman.com>
 References: <cover.1709070850.git.steve@sakoman.com>
@@ -61,56 +61,64 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 21:57:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196300
+ <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 21:57:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196301
 
-From: Chris Laplante <chris.laplante@agilent.com>
+From: Trevor Gamblin <tgamblin@baylibre.com>
 
-'imp' was deprecated in Python 3.4 and removed in 3.12. The
-piece of importlib we use has been around since 3.3.
+When invoking runqemu with Python 3.12, the following warning is
+encountered:
 
-Signed-off-by: Chris Laplante <chris.laplante@agilent.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+|SyntaxWarning: invalid escape sequence '\.'
+
+This is because the interpreter scans the string before it is processed
+by the regex module, and it interprets the backslash as part of an
+escape sequence, but not a standard one. This will be registered as an
+error rather than a warning in future Python versions. To avoid the it,
+simply add an extra backslash so that Python doesn't misinterpret the
+string, while the regex parser still sees an escaped '.' character.
+
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Cherry-picked from master: 457f0dad87b4e45a53865b5ad2c150215bd74019
+Backported from master: 0e8a4142bb90a92d175df6b2537d24a372356f98
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/lib/recipetool/create_buildsys_python.py | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ scripts/runqemu | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/scripts/lib/recipetool/create_buildsys_python.py b/scripts/lib/recipetool/create_buildsys_python.py
-index 5686a62d3f..a7eed3256f 100644
---- a/scripts/lib/recipetool/create_buildsys_python.py
-+++ b/scripts/lib/recipetool/create_buildsys_python.py
-@@ -10,7 +10,7 @@ import codecs
- import collections
- import setuptools.command.build_py
- import email
--import imp
-+import importlib
- import glob
- import itertools
- import logging
-@@ -561,7 +561,6 @@ class PythonRecipeHandler(RecipeHandler):
-         return deps
- 
-     def parse_pkgdata_for_python_packages(self):
--        suffixes = [t[0] for t in imp.get_suffixes()]
-         pkgdata_dir = tinfoil.config_data.getVar('PKGDATA_DIR')
- 
-         ldata = tinfoil.config_data.createCopy()
-@@ -585,7 +584,7 @@ class PythonRecipeHandler(RecipeHandler):
-                     continue
- 
-             for fn in files_info:
--                for suffix in suffixes:
-+                for suffix in importlib.machinery.all_suffixes():
-                     if fn.endswith(suffix):
-                         break
-                 else:
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 8e5d22888d..81d95133b6 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -362,7 +362,7 @@ class BaseConfig(object):
+         if p.endswith('.qemuboot.conf'):
+             self.qemuboot = p
+             self.qbconfload = True
+-        elif re.search('\.bin$', p) or re.search('bzImage', p) or \
++        elif re.search('\\.bin$', p) or re.search('bzImage', p) or \
+              re.search('zImage', p) or re.search('vmlinux', p) or \
+              re.search('fitImage', p) or re.search('uImage', p):
+             self.kernel =  p
+@@ -376,13 +376,13 @@ class BaseConfig(object):
+                     fst = t
+                     break
+             if not fst:
+-                m = re.search('.*\.(.*)$', self.rootfs)
++                m = re.search('.*\\.(.*)$', self.rootfs)
+                 if m:
+                     fst =  m.group(1)
+             if fst:
+                 self.check_arg_fstype(fst)
+-                qb = re.sub('\.' + fst + "$", '', self.rootfs)
+-                qb = '%s%s' % (re.sub('\.rootfs$', '', qb), '.qemuboot.conf')
++                qb = re.sub('\\.' + fst + "$", '', self.rootfs)
++                qb = '%s%s' % (re.sub('\\.rootfs$', '', qb), '.qemuboot.conf')
+                 if os.path.exists(qb):
+                     self.qemuboot = qb
+                     self.qbconfload = True
 -- 
 2.34.1
 
