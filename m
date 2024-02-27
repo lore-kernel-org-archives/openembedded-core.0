@@ -2,57 +2,58 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CC21C54798
-	for <webhook@archiver.kernel.org>; Tue, 27 Feb 2024 10:38:50 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web11.9324.1709030322299235288
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4386BC54798
+	for <webhook@archiver.kernel.org>; Tue, 27 Feb 2024 10:42:20 +0000 (UTC)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+ by mx.groups.io with SMTP id smtpd.web11.9361.1709030534129576487
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Feb 2024 02:38:42 -0800
+ Tue, 27 Feb 2024 02:42:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=c6AgL4wu;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-412acb93e2aso3843745e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 02:38:42 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HIbf9aTr;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.167.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-512bde3d197so3776330e87.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 02:42:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1709030321; x=1709635121; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1709030532; x=1709635332; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=NUAS3KPxZorwQCW0qdet9+kpk/+iqopTKJnX0vhu2v0=;
-        b=c6AgL4wu5EvR5UJt9oSBxrJpgc2eAEguklrxEh5hpqz/TLnyDDh1TFhrqGmusuDaot
-         X8JNG1yIYu/C4d3/U1t030I7t2YunI8I/nWgzZSQeyWnt86+1dHrS9t0YoRWNmLu4phR
-         hcC+tvzv016FuNVTr0cwdFkMOYq4KG+vznCWo=
+        bh=M7EGEteNUcMrjQ26addea4TpTQzxB2z1h1wk1VhlQYY=;
+        b=HIbf9aTrNxFnhQKqFbXHXVKqLiMKS5i4V7KCbJLcG8VOYYU9iOzF9FtJXjwoxmiAC0
+         BrXNp7KQ09NdGoDBu7Be4VmCiXkSrEblLHz8NdhDxT+vlWZuuFKtQ10xBW+VoRmqZg+j
+         yKOtY2pZFRK/ywm0d3rZhOmygpzdxZicZAhHM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709030321; x=1709635121;
+        d=1e100.net; s=20230601; t=1709030532; x=1709635332;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NUAS3KPxZorwQCW0qdet9+kpk/+iqopTKJnX0vhu2v0=;
-        b=VuWUlu0Uq71hpN5oJF17y9CoxnoUbCTs0Copn5qCzRHUMwROyyf26k9WeicbIy9Y19
-         9sYugI/uq+REUegDn6hMIhnKwSLZYf1trxK6TY9aw7rySzT5rUVisqDCTevr8R+zNTdS
-         qEZoUeYupbllzInD5aCAebqtkG6vTZhO/Zj08Vp8OTFZHZ890lvUMcmvvNfWNW12lwrZ
-         2xCtHDjYizmtRTezGL+33g4wDdEUZKMRPql6L9N2uivV0lvxwT7KPM9W/xgcpeiintIN
-         UZ79843V4YDJYAzHFCFfbHBEmblSvjUgVUbD/bjFIwuhziGtFDDY+lQ3s8pNf0qFXQLq
-         1nXA==
-X-Forwarded-Encrypted: i=1; AJvYcCUJskdmoDGuZHgl4pf73q2I0r3FJRvp1Dm4rLV+1h/P+G6ycvq6IlKsWmknmlomARqttJkEJ2m/Qtbp9Eix3ivxRObIU96nrec0/Fo7bUNjMwbYGIRqJzyP
-X-Gm-Message-State: AOJu0YzKt+lpAcA9i1lNY6EQuy71dtoJSBAGBZasbUJe4/Y8kUCUk4SZ
-	vTLBuy2b3pX611uuMHP4HqPSW0X6h7nWRFteEt6bpJWolBaS2152AN4BAAtPaw4=
-X-Google-Smtp-Source: AGHT+IF3SuYSsJALiHK42QdDaVklNze9oT3bVFxMfM+0St2uKpksHGjjAUsi8Qiwwr1vS+rucwtc1g==
-X-Received: by 2002:a05:600c:3ac8:b0:412:ad31:5ae5 with SMTP id d8-20020a05600c3ac800b00412ad315ae5mr999685wms.22.1709030320635;
-        Tue, 27 Feb 2024 02:38:40 -0800 (PST)
+        bh=M7EGEteNUcMrjQ26addea4TpTQzxB2z1h1wk1VhlQYY=;
+        b=cyDN9vWYZo36a8/WQFnm43SBUvJ3YlSdH0J7UoQVd4+K9SqWB8M204kZ9cdNVq6J3B
+         auHn6LEEpQKVJGLMBk2Hzd6C4RBE3opuRdlbKiqatRuhDXRtTG3JZdGsxpOjJhnbciu8
+         kqyDPst/W5WoLWhPu/G1k/cyLuZaZdDaXusL4ss5uGYjIVMZ6OrYyM/yZxUJ1Biqgj8m
+         c4D1taZDrFKAUIenqOD2O2Oo5EKhXHVz8ceoPQ4Wc2wJrkRm4BcPI2ZbOFRDsFt7+YAD
+         eB0Gb8vLkohaqsbme5fbqlJDf71ovfPY53YilL8gWqUPqF80XxLHscgL6x+8cJau1qCF
+         urjA==
+X-Forwarded-Encrypted: i=1; AJvYcCVBMo9kx2I5/BdTgWKRnV6oBYJFxSECN0PgHVYoERnuefwG/3BecDD9mUMVjlh4KAvmDD35u47o5TquWSRuvORf5shZxdLzflBIMlgDDKmK3bGICv+N7jO8
+X-Gm-Message-State: AOJu0YyPFjWqK1F9NHnvyhbnkMEji14tYqdG3csFWYwUVCIxKPgoMDun
+	kVmDaI9gsOUg/1dmeTXiRBEqP8uki6NuOcmYStFoLIXgFsAEEb/B5V/jBmTNAL0=
+X-Google-Smtp-Source: AGHT+IGYMaNetu/Wd2lUjipLMUUHjOBAodV9hN0bKm/0RFVrwyU3eBW3+xsjoWK2hyj2s4dbiVitIQ==
+X-Received: by 2002:a05:6512:454:b0:512:ed8e:97ce with SMTP id y20-20020a056512045400b00512ed8e97cemr5312673lfk.16.1709030532203;
+        Tue, 27 Feb 2024 02:42:12 -0800 (PST)
 Received: from ?IPv6:2001:8b0:aba:5f3c:6a04:c13a:16bd:e588? ([2001:8b0:aba:5f3c:6a04:c13a:16bd:e588])
-        by smtp.gmail.com with ESMTPSA id j5-20020a05600c488500b004127de1ba84sm515479wmp.0.2024.02.27.02.38.39
+        by smtp.gmail.com with ESMTPSA id v6-20020a05600c470600b00412a2919d98sm7773793wmo.10.2024.02.27.02.42.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Feb 2024 02:38:40 -0800 (PST)
-Message-ID: <69d08be1c7b875758a4147225e316f76fff3997f.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] kernel.bbclass: make pkg-config variables
- globally exported in the class
+        Tue, 27 Feb 2024 02:42:11 -0800 (PST)
+Message-ID: <e5e4d64241f2bd8b9f6ca0026d8b7671c6e53ae7.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] core-image-initramfs-boot: install all kernel
+ modules
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: kamatam@amazon.com, openembedded-core@lists.openembedded.org
-Cc: bruce.ashfield@gmail.com
-Date: Tue, 27 Feb 2024 10:38:39 +0000
-In-Reply-To: <20240226234417.270628-1-kamatam@amazon.com>
-References: <20240226234417.270628-1-kamatam@amazon.com>
+To: Ross Burton <ross.burton@arm.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Tue, 27 Feb 2024 10:42:11 +0000
+In-Reply-To: <20240226193848.3763932-1-ross.burton@arm.com>
+References: <20240226193848.3763932-1-ross.burton@arm.com>
 Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
@@ -68,106 +69,53 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 10:38:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196254
+ <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 10:42:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196255
 
-On Mon, 2024-02-26 at 15:44 -0800, Munehisa Kamata via lists.openembedded.o=
-rg wrote:
-> Rather than repeatedly exporting the variables in the different functions=
-,
-> make them globally exported in the class for better maintainability.
+On Mon, 2024-02-26 at 19:38 +0000, Ross Burton wrote:
+> From: Ross Burton <ross.burton@arm.com>
 >=20
-> This is essentially "v3" discussed in [1].
+> The point of a "just boot" initramfs is to contain the kernel modules so
+> that the kernel can find the real root filesystem, so explicitly add them=
+.
 >=20
-> [1] https://lore.kernel.org/openembedded-core/20240222202827.3675576-1-ka=
-matam@amazon.com/T/#t
->=20
-> Signed-off-by: Munehisa Kamata <kamatam@amazon.com>
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
 > ---
-> =C2=A0meta/classes-recipe/kernel.bbclass | 20 +++++++-------------
-> =C2=A01 file changed, 7 insertions(+), 13 deletions(-)
+> =C2=A0meta/recipes-core/images/core-image-initramfs-boot.bb | 2 +-
+> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/ker=
-nel.bbclass
-> index db4461e551..fce810a9e4 100644
-> --- a/meta/classes-recipe/kernel.bbclass
-> +++ b/meta/classes-recipe/kernel.bbclass
-> @@ -239,9 +239,15 @@ KERNEL_EXTRA_ARGS ?=3D ""
-> =C2=A0EXTRA_OEMAKE +=3D ' CC=3D"${KERNEL_CC}" LD=3D"${KERNEL_LD}" OBJCOPY=
-=3D"${KERNEL_OBJCOPY}" STRIP=3D"${KERNEL_STRIP}"'
-> =C2=A0EXTRA_OEMAKE +=3D ' HOSTCC=3D"${BUILD_CC}" HOSTCFLAGS=3D"${BUILD_CF=
-LAGS}" HOSTLDFLAGS=3D"${BUILD_LDFLAGS}" HOSTCPP=3D"${BUILD_CPP}"'
-> =C2=A0EXTRA_OEMAKE +=3D ' HOSTCXX=3D"${BUILD_CXX}" HOSTCXXFLAGS=3D"${BUIL=
-D_CXXFLAGS}"'
-> -# Only for newer kernels (5.19+), native pkg-config variables are set fo=
-r older kernels when building kernel and modules
-> +# Only for newer kernels (5.19+), native pkg-config variables are set be=
-low for older kernels
-> =C2=A0EXTRA_OEMAKE +=3D ' HOSTPKG_CONFIG=3D"pkg-config-native"'
+> diff --git a/meta/recipes-core/images/core-image-initramfs-boot.bb b/meta=
+/recipes-core/images/core-image-initramfs-boot.bb
+> index 72589447513..cb6837a43d6 100644
+> --- a/meta/recipes-core/images/core-image-initramfs-boot.bb
+> +++ b/meta/recipes-core/images/core-image-initramfs-boot.bb
+> @@ -4,7 +4,7 @@ LICENSE =3D "MIT"
 > =C2=A0
-> +# setup native pkg-config variables (kconfig scripts call pkg-config dir=
-ectly, cannot generically be overriden to pkg-config-native)
-> +export PKG_CONFIG_DIR =3D "${STAGING_DIR_NATIVE}${libdir_native}/pkgconf=
-ig"
-> +export PKG_CONFIG_PATH =3D "${PKG_CONFIG_DIR}:${STAGING_DATADIR_NATIVE}/=
-pkgconfig"
-> +export PKG_CONFIG_LIBDIR =3D "${PKG_CONFIG_DIR}"
-> +export PKG_CONFIG_SYSROOT_DIR =3D ""
-> +
-> =C2=A0KERNEL_ALT_IMAGETYPE ??=3D ""
+> =C2=A0INITRAMFS_SCRIPTS ?=3D "initramfs-framework-base initramfs-module-u=
+dev"
 > =C2=A0
-> =C2=A0copy_initramfs() {
-> @@ -352,12 +358,6 @@ KERNEL_DEBUG_TIMESTAMPS ??=3D "0"
-> =C2=A0kernel_do_compile() {
-> =C2=A0	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
+> -PACKAGE_INSTALL =3D "${INITRAMFS_SCRIPTS} ${VIRTUAL-RUNTIME_base-utils} =
+base-passwd"
+> +PACKAGE_INSTALL =3D "${INITRAMFS_SCRIPTS} ${VIRTUAL-RUNTIME_base-utils} =
+base-passwd kernel-modules"
 > =C2=A0
-> -	# setup native pkg-config variables (kconfig scripts call pkg-config di=
-rectly, cannot generically be overriden to pkg-config-native)
-> -	export PKG_CONFIG_DIR=3D"${STAGING_DIR_NATIVE}${libdir_native}/pkgconfi=
-g"
-> -	export PKG_CONFIG_PATH=3D"$PKG_CONFIG_DIR:${STAGING_DATADIR_NATIVE}/pkg=
-config"
-> -	export PKG_CONFIG_LIBDIR=3D"$PKG_CONFIG_DIR"
-> -	export PKG_CONFIG_SYSROOT_DIR=3D""
-> -
-> =C2=A0	if [ "${KERNEL_DEBUG_TIMESTAMPS}" !=3D "1" ]; then
-> =C2=A0		# kernel sources do not use do_unpack, so SOURCE_DATE_EPOCH may n=
-ot
-> =C2=A0		# be set....
-> @@ -408,12 +408,6 @@ addtask transform_kernel after do_compile before do_=
-install
-> =C2=A0do_compile_kernelmodules() {
-> =C2=A0	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
-> =C2=A0
-> -	# setup native pkg-config variables (kconfig scripts call pkg-config di=
-rectly, cannot generically be overriden to pkg-config-native)
-> -	export PKG_CONFIG_DIR=3D"${STAGING_DIR_NATIVE}${libdir_native}/pkgconfi=
-g"
-> -	export PKG_CONFIG_PATH=3D"$PKG_CONFIG_DIR:${STAGING_DATADIR_NATIVE}/pkg=
-config"
-> -	export PKG_CONFIG_LIBDIR=3D"$PKG_CONFIG_DIR"
-> -	export PKG_CONFIG_SYSROOT_DIR=3D""
-> -
-> =C2=A0	if [ "${KERNEL_DEBUG_TIMESTAMPS}" !=3D "1" ]; then
-> =C2=A0		# kernel sources do not use do_unpack, so SOURCE_DATE_EPOCH may n=
-ot
-> =C2=A0		# be set....
->=20
+> =C2=A0# Ensure the initramfs only contains the bare minimum
+> =C2=A0IMAGE_FEATURES =3D ""
 
+We've managed this long without doing this and that is a pretty
+horrible potentially large dependency to add in :(
 
-I'm really not keen on this. global exports are painful to remove later
-as you can't really tell when they need to be set (e.g during
-do_configure). Given that these reverse our usual usage of pkg-config
-too, I really don't want to be doing this at all.
+Yes, the system may need some of the modules to load the rootfs but a
+large majority will not be.=20
 
-Until we have a minimum kernel version which has saner pkg-config usage
-I appreciate we have to retain this but I do want to make it easier to
-remove=C2=A0later.
+I'd much prefer we had a list of things which should be promoted into
+the initramfs if present.
 
-I'm therefore leaning against doing this.
+I appreciate that isn't straigtforward to do but equally if I merge
+this, we basically just give in and start to look like a desktop
+distro, lets just put everything everywhere :(.
 
 Cheers,
 
 Richard
-
 
