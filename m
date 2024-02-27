@@ -1,93 +1,118 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <ejo@pengutronix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BAD5DC54798
-	for <webhook@archiver.kernel.org>; Tue, 27 Feb 2024 18:44:47 +0000 (UTC)
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
- by mx.groups.io with SMTP id smtpd.web11.2059.1709059483047103739
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA1C1C5478C
+	for <webhook@archiver.kernel.org>; Tue, 27 Feb 2024 18:55:27 +0000 (UTC)
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by mx.groups.io with SMTP id smtpd.web10.2430.1709060126126302131
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Feb 2024 10:44:43 -0800
+ Tue, 27 Feb 2024 10:55:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=FtUP5hNU;
- spf=pass (domain: baylibre.com, ip: 209.85.210.42, mailfrom: tgamblin@baylibre.com)
-Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-6e4a803c72aso848605a34.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 10:44:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1709059482; x=1709664282; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=K9CZ9RBkpqRSqWL4PiRwwfMARSQZoRDtfY2TxjiYyM4=;
-        b=FtUP5hNUppusclk6spW3hXJpKI4pV/eh0ATqrDsNG/2cmtwu+qM3qvFWOVwZi2PRP9
-         eh9bScY46G+/WYRKUpO6Tv/Jp/Tn2bhQbJh8Lu8DXbKoj7hcW+rv1eit1D0XpflcFzF0
-         jfqSlJWwzrlwOa+nGJYfhlOV3NqGdNew00RpkgBhhB429g7CDR5Bk5VQB1Y8KfjLY4sM
-         rIAeEOEkkxmOl6aIhQlancg9lySdSBjBRlcfa09xcnyDlkbGJWB58j+zBxQG9z51CN2H
-         MUVPzo2Tr3ABZb+l+lBEWQRN5+CHZlerjoJ9aJDdIKFYz6w5KyjwxzzTK8fv0I3X6pQ1
-         Ia4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709059482; x=1709664282;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=K9CZ9RBkpqRSqWL4PiRwwfMARSQZoRDtfY2TxjiYyM4=;
-        b=wT+l7WQgSbh0v448crl4n6DYmDm8x6MEpE8pf+ZuW5+RkM5fyiZunpBHthbDHREDv4
-         dAjgnXVYlO0+QB2kzbxvrzh4gqQOAuiJeyolqE8p7LUQnnFiWWEpWNYn07NEaEBKvyzI
-         xvzRF/wBnwVbM/FKejhx191WhWW/L5c16RQYPxPUOIFmtre7NGH6e5+fbl1vSn1c647q
-         kgTiYjCj1T3g+Ikpk1ll//oTPYq4m4VsgZrvOFuuppATOG/0GNOS43M3lqArvli75Zdb
-         Uhs2koFYg7I0hrnv+4B8z67HgK7n5pERBQGbq06hXdlJlVf5jWCfRjsJsXKsckRkxSsz
-         N1kQ==
-X-Gm-Message-State: AOJu0YzQCAlWVzn7Egbix9PM4jhntDpgs8W7H4QYgWg1e1BZehWmqedW
-	FGywBl66Y5d7jMPkFM/LHK+/SnmTCgO9BjOO/0V1DMdChhltVbMWP+rmBY7NImT7j4lWo0gNv4s
-	/
-X-Google-Smtp-Source: AGHT+IHQMsumLHFPpFAWH3hqxtg1RWP4LlRS5k6x0XV4Dt+r6A1P+cEZuV5PHSBiFuvdstD6tVaJKg==
-X-Received: by 2002:a05:6358:6495:b0:179:c8c:98db with SMTP id g21-20020a056358649500b001790c8c98dbmr13989632rwh.18.1709059482019;
-        Tue, 27 Feb 2024 10:44:42 -0800 (PST)
-Received: from megalith.oryx-coho.ts.net (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id qh27-20020a0562144c1b00b0068fb940bc92sm4342991qvb.144.2024.02.27.10.44.41
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Feb 2024 10:44:41 -0800 (PST)
-From: Trevor Gamblin <tgamblin@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] python3-git: upgrade 3.1.41 -> 3.1.42
-Date: Tue, 27 Feb 2024 13:44:40 -0500
-Message-ID: <20240227184440.2929043-1-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.43.2
+ dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.201.7, mailfrom: ejo@pengutronix.de)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[IPv6:::1])
+	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <ejo@pengutronix.de>)
+	id 1rf2bs-0001QG-Gz; Tue, 27 Feb 2024 19:55:24 +0100
+Message-ID: <b3485a14d8f03e3c29e6f12a065775e1522e7ad0.camel@pengutronix.de>
+Subject: Re: [PATCH 2/3] kernel-yocto.bblass: run
+ kernel_version_sanity_check after do_patch
+From: Enrico =?ISO-8859-1?Q?J=F6rns?= <ejo@pengutronix.de>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, yocto@pengutronix.de
+Date: Tue, 27 Feb 2024 19:55:23 +0100
+In-Reply-To: <CADkTA4PY4HXpcu4K7YkuqLSuLor=tKfTz04fEORKBRycgE12Fw@mail.gmail.com>
+References: <20240227170902.3718203-1-ejo@pengutronix.de>
+	 <20240227170902.3718203-2-ejo@pengutronix.de>
+	 <CADkTA4PY4HXpcu4K7YkuqLSuLor=tKfTz04fEORKBRycgE12Fw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: ejo@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 18:44:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196289
+ <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 18:55:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196290
 
-This release contains bugfixes, documentation updates, and changes to
-metadata for build and CI.
+Am Dienstag, dem 27.02.2024 um 12:36 -0500 schrieb Bruce Ashfield:
+> On Tue, Feb 27, 2024 at 12:09=E2=80=AFPM Enrico J=C3=B6rns <ejo@pengutron=
+ix.de> wrote:
+> >=20
+> > The kernel patches may modify the kernel version, thus wait for do_patc=
+h
+> > before running the version check.
+>=20
+> While that may be true for kernel's in general, I sincerely hope that no =
+one is
+> patching in a new kernel version to linux-yocto.
+>=20
+> I don't have any great concerns with the patch, I just don't think it
+> is necessary :)
 
-Changelog: https://github.com/gitpython-developers/GitPython/releases/tag/3.1.42
+Yes, the use case is actually not linux-yocto itself.
+Thus it might be most relevant in combination with moving the version check=
+ to kernel.bbclass.=20
 
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
----
- .../python/{python3-git_3.1.41.bb => python3-git_3.1.42.bb}     | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-git_3.1.41.bb => python3-git_3.1.42.bb} (92%)
+How I actually came across this check is that (in some projects) we use the=
+ linux-yocto.bbclass for
+non-linux-yocto kernels since some functionality (especially fragment handl=
+ing) seems useful in
+general.
 
-diff --git a/meta/recipes-devtools/python/python3-git_3.1.41.bb b/meta/recipes-devtools/python/python3-git_3.1.42.bb
-similarity index 92%
-rename from meta/recipes-devtools/python/python3-git_3.1.41.bb
-rename to meta/recipes-devtools/python/python3-git_3.1.42.bb
-index dd0440fe59e..19885a58c74 100644
---- a/meta/recipes-devtools/python/python3-git_3.1.41.bb
-+++ b/meta/recipes-devtools/python/python3-git_3.1.42.bb
-@@ -12,7 +12,7 @@ PYPI_PACKAGE = "GitPython"
- 
- inherit pypi python_setuptools_build_meta
- 
--SRC_URI[sha256sum] = "ed66e624884f76df22c8e16066d567aaa5a37d5b5fa19db2c6df6f7156db9048"
-+SRC_URI[sha256sum] = "2d99869e0fef71a73cbd242528105af1d6c1b108c60dfabd994bf292f76c3ceb"
- 
- DEPENDS += " python3-gitdb"
- 
--- 
-2.43.2
+I am still unsure if I should try to move (or duplicate) the required featu=
+res in the generic
+kernel.bbclass or if using linux-yocto.bbclass for 'mainline' kernel is an =
+appropriate use case..?
 
+
+Regards, Enrico
+
+> Bruce
+>=20
+> >=20
+> > Signed-off-by: Enrico J=C3=B6rns <ejo@pengutronix.de>
+> > ---
+> > =C2=A0meta/classes-recipe/kernel-yocto.bbclass | 2 +-
+> > =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+> >=20
+> > diff --git a/meta/classes-recipe/kernel-yocto.bbclass b/meta/classes-re=
+cipe/kernel-yocto.bbclass
+> > index 108b7e6752..854e4681d5 100644
+> > --- a/meta/classes-recipe/kernel-yocto.bbclass
+> > +++ b/meta/classes-recipe/kernel-yocto.bbclass
+> > @@ -729,6 +729,6 @@ python () {
+> > =C2=A0}
+> >=20
+> > =C2=A0# extra tasks
+> > -addtask kernel_version_sanity_check after do_kernel_metadata do_kernel=
+_checkout before
+> > do_compile
+> > +addtask kernel_version_sanity_check after do_patch before do_compile
+> > =C2=A0addtask validate_branches before do_patch after do_kernel_checkou=
+t
+> > =C2=A0addtask kernel_configcheck after do_configure before do_compile
+> > --
+> > 2.39.2
+> >=20
+>=20
+>=20
+
+--=20
+Pengutronix e.K.=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0| Enrico J=C3=B6rns=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0|
+Embedded Linux Consulting & Support=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0| https://www.pengutronix.de/ |
+Steuerwalder Str. 21=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0| Phone: +49-5121-206917-180=C2=A0=C2=A0|
+31137 Hildesheim, Germany=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0| Fax:=C2=A0=C2=
+=A0=C2=A0+49-5121-206917-9=C2=A0=C2=A0=C2=A0=C2=A0|
 
