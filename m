@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0423EC54E51
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10A1AC54E56
 	for <webhook@archiver.kernel.org>; Tue, 27 Feb 2024 21:57:21 +0000 (UTC)
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
- by mx.groups.io with SMTP id smtpd.web10.1939.1709071033024216872
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+ by mx.groups.io with SMTP id smtpd.web11.1994.1709071034769359741
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Feb 2024 13:57:13 -0800
+ Tue, 27 Feb 2024 13:57:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=DdjOLc7I;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.170, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-6e4e7e2594cso2715554b3a.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 13:57:12 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=fs5ryi2J;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-6e554f64971so199937b3a.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 13:57:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1709071032; x=1709675832; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1709071034; x=1709675834; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=R0iq8lT/QRFaHWmZOJYB5DfWQpI/c8c4LN02QJ5KwSs=;
-        b=DdjOLc7Ifj4LCSL/F9LcSAXhTBEUTXRGkDdw/9qclkKzsipSZvRsrOW0I/bJ3xvJsK
-         dce0OFKVEQRM/wWaAax2Nil3f+IG9lLWpCxIo625sA6mfIn3xi87Y62P4rj873Fww1FB
-         YEkpTcyYxeJOte4I8JlJx1t9wTxUT+eUpJCpBdMotaxso4BDJ2/ta73gyjiJlq/hzh2U
-         xlxeFpF4Hjg/etgYZ884kVVWVZwoVx0prik5w9mRY1vjZg10m5ed7E+LS2KpHHbbEJiQ
-         WIGlD6Li8Dm3GlOUB2td04qWm5NmrdE6SF4vPewA+m5a+VS1CkYeQhaH3j8cSWdY7VKy
-         k1LQ==
+        bh=wck+Dfnd/ZAjdp9xOoUEc5BQEa0C2oDhVMDLmwR36Bo=;
+        b=fs5ryi2JhRH92iACtHyt3n8XbroqvSGCeRUmNMud1AFaUTenw0hnYL4buEROksNSmG
+         kXz03AGDeXpDOzc6C80avzUvorKQCQyQZuhmh1elasVoUMBPmzUG1kWE7p8bBSVLG6n8
+         ap3eb7H+Z2MVthVV6G+JV+vNHeb6yYqQPrZlp0HY2kz+St9o1tSimO7kkrmGXFyJFQ4Q
+         EoIG4t18kiE00z92nJgKf2oYtlwGYQSAZCuyvbzKjIbPk7/v8ogyrsjhQjAE8dkO6Guu
+         tXq4DNXHepesnQtPWjxeHQ9uRXdx6D8Xj1sh4OFTPyIXw5vBFnYXR3vUdqi/z7TLS2FB
+         8gRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709071032; x=1709675832;
+        d=1e100.net; s=20230601; t=1709071034; x=1709675834;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=R0iq8lT/QRFaHWmZOJYB5DfWQpI/c8c4LN02QJ5KwSs=;
-        b=qEyRkwdWtqmqj9LeKY5OY4nYzDUIvBFAw3eTDe3sUBqg6VAScUr+hloKvslDD6gGxk
-         8G5pjSQaCwqoWOjYCOpZ85ee+RGqsSu1zjc42KXIP32Dc86AFEqL6pRSNikd9jFcBDtL
-         HkqaDG5fNfPBaelGZjNBJX8HelWCP+ldQKtqYN9qdKqPrQtZRRmbPjKxtjgcWUb5e6k3
-         BPjf4CZVF/yEq0p6ZgyzcRKz/CowE3wEIm/PAFq8h4a8AlQSysOpk6XrYOVF/aVJ0dxR
-         c7EL6cBnRdXzF8CT5IcOgU28FWrdvvvYetTSOO866Tl/9RHAlFY071WanGus0uRH+CKy
-         GR6A==
-X-Gm-Message-State: AOJu0Yw99E/sLyWrY1o6G/tAF3lx56nDlySYpUOOsogIlNcgfZ9mKh7x
-	lRmbRE7xaUPRVa0klqaNlSBneq8P4eDfnC50Q+PYlI7IJ4VI/4+FAqSx1B4txMbw0QRE6lUbGLl
-	wOIs=
-X-Google-Smtp-Source: AGHT+IFwqqMAT7P7HGHTNv6aqtIw1cGhR7+4UvuKfnTCJcXmn314ureuoDg3yPcVQYTzl0ON5BVd9A==
-X-Received: by 2002:a05:6a00:1e13:b0:6e4:e43e:dc1f with SMTP id gx19-20020a056a001e1300b006e4e43edc1fmr10465034pfb.32.1709071032311;
-        Tue, 27 Feb 2024 13:57:12 -0800 (PST)
+        bh=wck+Dfnd/ZAjdp9xOoUEc5BQEa0C2oDhVMDLmwR36Bo=;
+        b=isqye+Iuk3K3W4kUCGZ1ZuidnQkbRC8d0XamTZXclAANgb0rdGwZZNEoibB91+Gz3N
+         Wr8DknMcQTQdkLYU2bBTQH/3MP7YXVbuxS+pR1np9D+WlOOqDWn6qWx1vQUqOg4ehANi
+         +zCXagvvcis497gLKJDcBwAfBAN1cRXxpPnZ25aFIGs9p49ALkBkfHD4l9vDu4YRHgV4
+         1XD1pmryJhxTo61qQ2BwJmP8bkwwzyTil68upb7iD+hf79aI3CGGCldhlgndIew+H9Mp
+         Qy+fqe0cFNaiYAWXiy9TLIoGSF0B3Nlvel61IdxeOlk49jzKmp9kGneufPuj8XsY3ZAD
+         lR/g==
+X-Gm-Message-State: AOJu0Yz2nZKHavVGAw3wM2607aW8tDiwpUvrB6CNk725Cf55Av53/Z1b
+	2J+rpObzbM82HxkcvWWnrBY4JV6ukS4e72KL2Rkva4EZiJA/ABXZ3YmdCEbpFQp7uyqV641hlvk
+	I3NU=
+X-Google-Smtp-Source: AGHT+IHbp3bf8EK2xRCjH79hRSswN22zNmvcF3/wlDWRGwTEtTKB8EvTJuv1oDak34+X1lNdBtCVzg==
+X-Received: by 2002:a05:6a00:9283:b0:6e5:32e9:2954 with SMTP id jw3-20020a056a00928300b006e532e92954mr805830pfb.16.1709071034048;
+        Tue, 27 Feb 2024 13:57:14 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id n7-20020aa78a47000000b006e50bbf4e71sm4936428pfa.9.2024.02.27.13.57.11
+        by smtp.gmail.com with ESMTPSA id n7-20020aa78a47000000b006e50bbf4e71sm4936428pfa.9.2024.02.27.13.57.13
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Feb 2024 13:57:12 -0800 (PST)
+        Tue, 27 Feb 2024 13:57:13 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 02/16] scripts/runqemu: fix regex escape sequences
-Date: Tue, 27 Feb 2024 11:56:49 -1000
-Message-Id: <2f8982ef4c903f43867da56fcfd080a6556daa8b.1709070850.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 03/16] populate_sdk_ext: use ConfigParser instead of SafeConfigParser
+Date: Tue, 27 Feb 2024 11:56:50 -1000
+Message-Id: <50815c328e677ac079d38dc8555a909f049cf5be.1709070850.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1709070850.git.steve@sakoman.com>
 References: <cover.1709070850.git.steve@sakoman.com>
@@ -62,63 +62,37 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 21:57:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196301
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196302
 
-From: Trevor Gamblin <tgamblin@baylibre.com>
+From: Ross Burton <ross.burton@arm.com>
 
-When invoking runqemu with Python 3.12, the following warning is
-encountered:
+SafeConfigParser was renamed to ConfigParser in 3.2, and the
+SafeConfigParser alias will be removed in 3.12.
 
-|SyntaxWarning: invalid escape sequence '\.'
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 
-This is because the interpreter scans the string before it is processed
-by the regex module, and it interprets the backslash as part of an
-escape sequence, but not a standard one. This will be registered as an
-error rather than a warning in future Python versions. To avoid the it,
-simply add an extra backslash so that Python doesn't misinterpret the
-string, while the regex parser still sees an escaped '.' character.
-
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-Backported from master: 0e8a4142bb90a92d175df6b2537d24a372356f98
+Cherry-picked from master: 71b3e7f71727137b4b996cc4160c9cc1581824b8
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/runqemu | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ meta/classes/populate_sdk_ext.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 8e5d22888d..81d95133b6 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -362,7 +362,7 @@ class BaseConfig(object):
-         if p.endswith('.qemuboot.conf'):
-             self.qemuboot = p
-             self.qbconfload = True
--        elif re.search('\.bin$', p) or re.search('bzImage', p) or \
-+        elif re.search('\\.bin$', p) or re.search('bzImage', p) or \
-              re.search('zImage', p) or re.search('vmlinux', p) or \
-              re.search('fitImage', p) or re.search('uImage', p):
-             self.kernel =  p
-@@ -376,13 +376,13 @@ class BaseConfig(object):
-                     fst = t
-                     break
-             if not fst:
--                m = re.search('.*\.(.*)$', self.rootfs)
-+                m = re.search('.*\\.(.*)$', self.rootfs)
-                 if m:
-                     fst =  m.group(1)
-             if fst:
-                 self.check_arg_fstype(fst)
--                qb = re.sub('\.' + fst + "$", '', self.rootfs)
--                qb = '%s%s' % (re.sub('\.rootfs$', '', qb), '.qemuboot.conf')
-+                qb = re.sub('\\.' + fst + "$", '', self.rootfs)
-+                qb = '%s%s' % (re.sub('\\.rootfs$', '', qb), '.qemuboot.conf')
-                 if os.path.exists(qb):
-                     self.qemuboot = qb
-                     self.qbconfload = True
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index ca1b7753cb..bdd86863c6 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -227,7 +227,7 @@ python copy_buildsystem () {
+ 
+     # Write out config file for devtool
+     import configparser
+-    config = configparser.SafeConfigParser()
++    config = configparser.ConfigParser()
+     config.add_section('General')
+     config.set('General', 'bitbake_subdir', conf_bbpath)
+     config.set('General', 'init_path', conf_initpath)
 -- 
 2.34.1
 
