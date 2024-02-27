@@ -1,158 +1,97 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <skulkarni@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 439C8C54798
-	for <webhook@archiver.kernel.org>; Tue, 27 Feb 2024 10:52:00 +0000 (UTC)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
- by mx.groups.io with SMTP id smtpd.web11.9486.1709031114045318137
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45A6FC5478C
+	for <webhook@archiver.kernel.org>; Tue, 27 Feb 2024 11:00:00 +0000 (UTC)
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+ by mx.groups.io with SMTP id smtpd.web11.9593.1709031599878176125
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Feb 2024 02:51:54 -0800
+ Tue, 27 Feb 2024 02:59:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=jCXLv0Ql;
- spf=pass (domain: gmail.com, ip: 209.85.208.180, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2d27fef509eso35791161fa.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 02:51:53 -0800 (PST)
+ dkim=pass header.i=@mvista.com header.s=google header.b=CCW7a/hf;
+ spf=pass (domain: mvista.com, ip: 209.85.210.171, mailfrom: skulkarni@mvista.com)
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-6e459b39e2cso2464066b3a.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 02:59:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709031112; x=1709635912; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aiBm00Seyvv5j7rjtCFGlTOkizN4ZzRubovOpnGk1PM=;
-        b=jCXLv0Ql5KfI48kGjbwOxs3A0tx6vZPM6k99dfQTOo/pnClZQj4QJEX8/jsH8zG2LQ
-         EyBbk/mkM89fIZyXqqkbjdMERTmVgTzx54DNEuzoh4xpjZsYEtDlQ7iTiFCxCOsOCThP
-         JDlZIBCbDFg1L9mEJnbkUSFpLgs3XKkAh1MgEDIy1tUj6IGuw6S1dyYgtSfHq2koy8tE
-         xH6rpdcLqe0ZKRe6/BL9FC7AcZkHFxiU7ZOApoWnwu6NwjYCXp4rWYEs1idbgPxPVVEm
-         T04gkWk5sn6hKxMTDe3jA7hlSujKYIZda+kOrv5I6yDswWxEbBmDwvi3UHBy3fToe7WT
-         S7Fg==
+        d=mvista.com; s=google; t=1709031599; x=1709636399; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wqs8JExcrin4TGNbdk3Rwua3GLAJL9mhwsZdsFrf6hI=;
+        b=CCW7a/hftfYPIgNqYijh9EYAf6G/gtSXZ4PONhVdnhjt+atvkQicfaTBulpkbZu18L
+         z2kT/YqswsWEpi9n5oOv2Nz1JcVkQvHwn2xmTI7cSSmICQEkdT9ZSUgoMPWX1DeHYHGS
+         eX8QGfzPoKqTawYuPazCm+pa1QxT1q0gEXltg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709031112; x=1709635912;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aiBm00Seyvv5j7rjtCFGlTOkizN4ZzRubovOpnGk1PM=;
-        b=qMmFA5dEzE0fBtzj/GpLkiBwl4skbPJDHpF1zQM2Pe3blbDupJLFI3N4TzkcWr39EE
-         cYhsoYiJ6mFnsIqXLFWXo46s7nKxjXB/hlG++NYTwJsZj7EyWF+NgJIU090vAbaSTJ+m
-         65jm59cdUtHdJG8oGXZOIeYbmYNkXqMHSs0B6bBf6N0tDSUKaBaITeBXStGlCQwJDfxi
-         zTPOZ9B2lgdJ3Sd02MwXdX7q0VmjLBl85tZbjpenZABsAL/vO4MZ5KfX3nIJJhpVuzlx
-         /VndY4dkzBim+hGX8DIRuXxVqOMNdUEPqRoi8aErA4lD7fvYKr6r6RE0QkhBqxc0GzVJ
-         rtQQ==
-X-Gm-Message-State: AOJu0Yy8VWYnTDXEYEI3xlIr+MIbIyIyaFtD2eNZRi1+ZBGkrxpG9+UI
-	SQS4IbfrNk0tVIJcwQ31YHGe/6TNv/sS4ABXOvPY0gr0k9sJafsTVCrj7C8YCVCdjZx1ruHPhk7
-	2IzJqkXuYzZW33WlqHhXs1xmbnpfRCEqD0Uw=
-X-Google-Smtp-Source: AGHT+IFRCJeP2DWRWtA/nDCkYHLwikzmvnY0D+/w+dnNFw2d9SJKeG4KlByptvcsYa+3emAx0IkMM4ndv9YUkmzcGJs=
-X-Received: by 2002:a2e:9e4b:0:b0:2d2:642c:62d8 with SMTP id
- g11-20020a2e9e4b000000b002d2642c62d8mr5824254ljk.5.1709031111846; Tue, 27 Feb
- 2024 02:51:51 -0800 (PST)
+        d=1e100.net; s=20230601; t=1709031599; x=1709636399;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wqs8JExcrin4TGNbdk3Rwua3GLAJL9mhwsZdsFrf6hI=;
+        b=ESH14FyYm5T8FVFZf5ndhFvZSmeIwrS8w6BwWgyfLbxhr6f8dtdRxhPbrKArsXf87w
+         ekYVvRxyZ9Y3wSA7DAJIoNIbBdpLG/RDhQh/3LiDv8dr9iEae6ag6i5L/UKGA2ujcVAF
+         W5XUaeAPdKOUDJE3WKVdrhMXLn0fB+uJ4AdO23+pa8F1M+w7wtvhMaEi0qrsXy2J+SEx
+         PmaKVXzmhOZAp0QsLKzEkGjxt1uXWe0a1wsK1M8WC0nUtZO1IP+qKwoyEZhGSKPYDzKQ
+         QcTm7g87hpElNqmVdiwlZsoy/TOlIF5diE/+qElT888ZfwbZ17TQ4ujaDQ6wABZNGmkY
+         Lung==
+X-Gm-Message-State: AOJu0YyyU59d4Oex8MnHlzsSXMtYCalH3oOWO179yQtlq5bajqC+TMTb
+	+gWa6OXHedZXXyfG+WikFyIqdHS9r9KR2OqonWHasj6Bt7EnPt91wVhWtLXS/jVe4AN53loR7KD
+	Tz1Y=
+X-Google-Smtp-Source: AGHT+IEebYpkuCjCf6jF+uCI/Nn8hcwEIOWaFCBndfER5lYqYZ/IyTFQ1Fbscc/A5WjAW0kYUyxoLg==
+X-Received: by 2002:a17:90a:f009:b0:29a:90ef:66f4 with SMTP id bt9-20020a17090af00900b0029a90ef66f4mr12282712pjb.17.1709031598840;
+        Tue, 27 Feb 2024 02:59:58 -0800 (PST)
+Received: from kite.mvista.com ([182.74.28.237])
+        by smtp.gmail.com with ESMTPSA id r23-20020a17090a941700b0029942a73eaesm6139095pjo.9.2024.02.27.02.59.57
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 27 Feb 2024 02:59:58 -0800 (PST)
+From: skulkarni@mvista.com
+To: openembedded-core@lists.openembedded.org
+Cc: Priyal Doshi <pdoshi@mvista.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Shubham Kulkarni <skulkarni@mvista.com>
+Subject: [OE-core][kirkstone][PATCH] tzdata : Upgrade to 2024a
+Date: Tue, 27 Feb 2024 16:29:39 +0530
+Message-Id: <20240227105939.22580-1-skulkarni@mvista.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-References: <20240227100709.1154-1-jose.quaresma@foundries.io>
- <17B7B05748A57C25.14830@lists.openembedded.org> <CANPvuRkPCgyBY43BH7S=azRCKum51NVk2ikQ4jwU9V6ezUQWGg@mail.gmail.com>
-In-Reply-To: <CANPvuRkPCgyBY43BH7S=azRCKum51NVk2ikQ4jwU9V6ezUQWGg@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 27 Feb 2024 11:51:40 +0100
-Message-ID: <CANNYZj99yBvrCE+4U8d6V-n6Ex5Lh=SmNDx-aDM6p-FveHvH7Q@mail.gmail.com>
-Subject: Re: [OE-core] [RFC OE-core][PATCH 3/3] goarch: disable dynamic
- linking globally
-To: Jose Quaresma <quaresma.jose@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Jose Quaresma <jose.quaresma@foundries.io>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 10:52:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196257
+ <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 11:00:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196258
 
-I was going to do that, but RP beat me to it:
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6613
+From: Priyal Doshi <pdoshi@mvista.com>
 
-Alex
+Signed-off-by: Priyal Doshi <pdoshi@mvista.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(cherry picked from commit 5abbd0abf992ce8d11f3ae31fb1d83d97f5319fa)
+Signed-off-by: Shubham Kulkarni <skulkarni@mvista.com>
+---
+ meta/recipes-extended/timezone/timezone.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-On Tue, 27 Feb 2024 at 11:13, Jose Quaresma <quaresma.jose@gmail.com> wrote=
-:
->
-> Hi,
->
-> I would like to ask if this patchset could be exercised in the autobuilde=
-r?
-> I only got it working yesterday and today I'm going to do a more exhausti=
-ve test.
-> This is still missing the update to 1.22, which I'll do later, but testin=
-g this would be a good help.
->
-> Jose
->
-> Jose Quaresma via lists.openembedded.org <quaresma.jose=3Dgmail.com@lists=
-.openembedded.org> escreveu (ter=C3=A7a, 27/02/2024 =C3=A0(s) 10:07):
->>
->> With go-1.21 dynamic linking cause a runtime panic:
->>
->> | root@qemux86-64:~# go-helloworld
->> | panic: runtime error: index out of range [0] with length 0
->> |
->> | goroutine 1 [running]:
->> | flag.init()
->> |         /usr/lib/go/src/flag/flag.go:1199 +0xf9
->>
->> In my opinion, this would be a good trade-off so that we can update and
->> leave the version 1.20 for the next LTS 5.0 since we are already quite
->> behind on the version available upstream which already has the 1.22 avai=
-lable.
->>
->> Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
->> ---
->>  meta/classes-recipe/goarch.bbclass | 14 +++++++-------
->>  1 file changed, 7 insertions(+), 7 deletions(-)
->>
->> diff --git a/meta/classes-recipe/goarch.bbclass b/meta/classes-recipe/go=
-arch.bbclass
->> index 1ebe03864f..6899ec28e4 100644
->> --- a/meta/classes-recipe/goarch.bbclass
->> +++ b/meta/classes-recipe/goarch.bbclass
->> @@ -38,13 +38,13 @@ BASE_GOARM:armv5 =3D '5'
->>  # Go supports dynamic linking on a limited set of architectures.
->>  # See the supportsDynlink function in go/src/cmd/compile/internal/gc/ma=
-in.go
->>  GO_DYNLINK =3D ""
->> -GO_DYNLINK:arm ?=3D "1"
->> -GO_DYNLINK:aarch64 ?=3D "1"
->> -GO_DYNLINK:x86 ?=3D "1"
->> -GO_DYNLINK:x86-64 ?=3D "1"
->> -GO_DYNLINK:powerpc64 ?=3D "1"
->> -GO_DYNLINK:powerpc64le ?=3D "1"
->> -GO_DYNLINK:class-native ?=3D ""
->> +GO_DYNLINK:arm =3D ""
->> +GO_DYNLINK:aarch64 =3D ""
->> +GO_DYNLINK:x86 =3D ""
->> +GO_DYNLINK:x86-64 =3D ""
->> +GO_DYNLINK:powerpc64 =3D ""
->> +GO_DYNLINK:powerpc64le =3D ""
->> +GO_DYNLINK:class-native =3D ""
->>  GO_DYNLINK:class-nativesdk =3D ""
->>
->>  # define here because everybody inherits this class
->> --
->> 2.44.0
->>
->>
->>
->>
->
->
-> --
-> Best regards,
->
-> Jos=C3=A9 Quaresma
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#196253): https://lists.openembedded.org/g/openembedde=
-d-core/message/196253
-> Mute This Topic: https://lists.openembedded.org/mt/104600118/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
+index 2774e5e730..4734adcc08 100644
+--- a/meta/recipes-extended/timezone/timezone.inc
++++ b/meta/recipes-extended/timezone/timezone.inc
+@@ -6,7 +6,7 @@ SECTION = "base"
+ LICENSE = "PD & BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
+ 
+-PV = "2023d"
++PV = "2024a"
+ 
+ SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode;subdir=tz \
+            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata;subdir=tz \
+@@ -16,5 +16,5 @@ S = "${WORKDIR}/tz"
+ 
+ UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
+ 
+-SRC_URI[tzcode.sha256sum] = "e9a5f9e118886d2de92b62bb05510a28cc6c058d791c93bd6b84d3292c3c161e"
+-SRC_URI[tzdata.sha256sum] = "dbca21970b0a8b8c0ceceec1d7b91fa903be0f6eca5ae732b5329672232a08f3"
++SRC_URI[tzcode.sha256sum] = "80072894adff5a458f1d143e16e4ca1d8b2a122c9c5399da482cb68cba6a1ff8"
++SRC_URI[tzdata.sha256sum] = "0d0434459acbd2059a7a8da1f3304a84a86591f6ed69c6248fffa502b6edffe3"
+-- 
+2.33.0
+
 
