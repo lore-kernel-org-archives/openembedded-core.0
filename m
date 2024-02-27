@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDC3BC54798
-	for <webhook@archiver.kernel.org>; Tue, 27 Feb 2024 21:57:20 +0000 (UTC)
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
- by mx.groups.io with SMTP id smtpd.web11.1998.1709071037963623360
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17430C54E4A
+	for <webhook@archiver.kernel.org>; Tue, 27 Feb 2024 21:57:31 +0000 (UTC)
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
+ by mx.groups.io with SMTP id smtpd.web11.2009.1709071048149730167
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Feb 2024 13:57:18 -0800
+ Tue, 27 Feb 2024 13:57:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=T6tpg6Ov;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.177, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-6e55731af5cso552584b3a.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 13:57:17 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=MofLgYYe;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.182, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-3c19b79535aso2538960b6e.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 13:57:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1709071037; x=1709675837; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1709071047; x=1709675847; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=6oIouzdcbsfVSPbxD+bzcJLEN+NUMk4RDzRztv/eX04=;
-        b=T6tpg6Ovtywnr83Gr3nOAglR28QS6V0l/9PQ6uyJGc8T1OkaWmFjRlTy68UMOsfS7O
-         gFoKA/tUvNP8sFuF+e176DUlVovOWHAfn8F9BEPuC3BVcGWSfXtLA83bp1fp3O5QVHn/
-         ialDJMe9hScXR024LMMn8yMENoWpfrn5SUfYp64mcHUdyAP6Q/LJKXfAZUnjIXvZY8sH
-         4SQLbuw04JuSkSU6/LxK4wb8weIFoiFHNOerIC8tUJtHNafMND5SP8oThN5QRxueIorE
-         i6SKrvXZQu15IV0NRoSNAIWoEkCTSDk+XSGxhr48YGeS8pSCcfMMFsl5NXy4v+Od3pfc
-         nMSw==
+        bh=Sz9bHYvM3Dn3dS7kWQIq1olgrVUI5ZZJHfuGrRW9Acc=;
+        b=MofLgYYev0VNJ+XflfxtfCkiKGpfd9ZgQd23pXQiBvQtXYU2P3P1XJG4UzAHfLs1F2
+         ZcZ+csE2ecOrdY+m/Jq1v/cs1QaNwP9bQtJvGx8c1rGN8OpHxA9LwFi/89i/gW/z3zjf
+         WaAQjBbJWP04xiBZbXV8g4DzpSBGmxH9K2edTrCMlUD7N6ncT2yQu/losGxLWxwaZu1g
+         /JBTREtrYlUL7WgBn3nkXKnciZ6zywHeq/MU5YHppBcVqwS01NmCLLjC1Kh/F8dJIb03
+         OPCh/s+Pa53FrU1knMh4wQXdzvtR10/a3aszQHvLqSVBuejoJl74Pwf8bl2oxjzEbpRv
+         QXIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709071037; x=1709675837;
+        d=1e100.net; s=20230601; t=1709071047; x=1709675847;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6oIouzdcbsfVSPbxD+bzcJLEN+NUMk4RDzRztv/eX04=;
-        b=LZ4G8X37SdJR7BhBvn++YSRdzQfcccH/K47dW+Y9S9nZJs+BrsQ5zrrcLk/3kurMX0
-         zFlkswZ+SBBFzmFxPsOy4FUsWM6Jt6WueFWWs7WA89tKO4Kp1+mqXSkKVgfdUoMRmTQy
-         PEWmvz/6K/auZoiJ213czvHMa/HH1lz5H63Qj9KU4XGr5LuLRWHKN6Oiu1fgis80Mpta
-         nGMLpGG1MduMvnRJZYco+qksioE+TDi1kZkrFh7Xlvsoab2HP27spV78b/9KnL8xy4wp
-         YP8jnx9LzCIts3wJqmjPVuFzq86jfjMVf2p6pILQ1zz9QyCf25rC582CJrIzXPE0GGo/
-         3IBQ==
-X-Gm-Message-State: AOJu0Yzdc/LxBjAz//w9adJ80kRRp+pRD1vkFKg/eCcfwQeMlwVtPsR/
-	uQcQpvbZjC1Tv8QYyeNefIRqvhObSQmfUD6fH9RvprwEbhvIZ48ADcCcrpy2ZNw0aaylKWt0Tzz
-	qYc4=
-X-Google-Smtp-Source: AGHT+IF+tFSS4ATPASgLtSNr1HVVt0AqPHo+3JwbqFOhpsfTPSERS1PVET3Ys7r8NBWHakREbTZUyg==
-X-Received: by 2002:a62:ce0d:0:b0:6e1:29ee:aae8 with SMTP id y13-20020a62ce0d000000b006e129eeaae8mr10449499pfg.25.1709071037241;
-        Tue, 27 Feb 2024 13:57:17 -0800 (PST)
+        bh=Sz9bHYvM3Dn3dS7kWQIq1olgrVUI5ZZJHfuGrRW9Acc=;
+        b=Mfe3++HBYMx5SmSJm+mW7ZOZgNVxm0Z8Xphxvb8xr/pAhLWPXYJ8XVYIA1i2Vc7jKx
+         /WlAMZ/30iLLc/0SniSeH8hjnh1L6wYAexsZ+YiMqB8D6+p8uQtMpzMfMoVXAMraQHkm
+         uP4bpi3CJqjSkPU9pUvypl6l/Up6SfcuRcEU6gLkxLTqUWIONMk8YoOCP1DZDZYevqx4
+         8n+luFM6auPsPcM1eV6KC76ZeP1xZzWNx3klub0ZDzyvlFiczyc0cariufGKbHuePjNP
+         TCPmSMnOeYsJepHWbcBM7O0eDnbozX1MahPZZWlZSsJTEsBEI6KVawy8q5jx84iaNzCF
+         Y1IA==
+X-Gm-Message-State: AOJu0YzpUOe2fJ+1xaYNSf4CtU3JM48lGBciFfOoFqGj/5Z97RSugDL0
+	iM8t5Wam+Z2UbWeRqHnmKEK2uRyzw0BahoD8xeDXtGzVs9u9S9rQ3CL4uIYH0Av2xWwNzJMoFUz
+	EwBg=
+X-Google-Smtp-Source: AGHT+IGXb67RD3q1Qw71eTJm7bcSYM2T+g5fR44Q7wNQFMe6NJmGav/X0Sv/AsSfiWPKaMb33Ed13Q==
+X-Received: by 2002:a05:6808:170e:b0:3c1:7875:1c78 with SMTP id bc14-20020a056808170e00b003c178751c78mr3704126oib.55.1709071047390;
+        Tue, 27 Feb 2024 13:57:27 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id n7-20020aa78a47000000b006e50bbf4e71sm4936428pfa.9.2024.02.27.13.57.16
+        by smtp.gmail.com with ESMTPSA id n7-20020aa78a47000000b006e50bbf4e71sm4936428pfa.9.2024.02.27.13.57.26
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Feb 2024 13:57:16 -0800 (PST)
+        Tue, 27 Feb 2024 13:57:27 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 05/16] oeqa: replace deprecated assertEquals
-Date: Tue, 27 Feb 2024 11:56:52 -1000
-Message-Id: <a20325690a057aa7f71e5a176bfbdc03baac405c.1709070850.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 10/16] feature-microblaze-versions.inc: python 3.12 regex
+Date: Tue, 27 Feb 2024 11:56:57 -1000
+Message-Id: <2331982cf4f4649f1ec271640f8f7d33fa6ea88d.1709070850.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1709070850.git.steve@sakoman.com>
 References: <cover.1709070850.git.steve@sakoman.com>
@@ -61,63 +61,43 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 21:57:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196304
+ <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 21:57:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196309
 
 From: Adrian Freihofer <adrian.freihofer@gmail.com>
 
-assertEquals is deprecated since Python 2.7:
-https://docs.python.org/2/library/unittest.html#deprecated-aliases
-It throws errors at least on Python 3.12. Replace it by assertEqual.
+Python 3 interprets string literals as Unicode strings, and therefore
+\s is treated as an escaped Unicode character which is not correct.
+Declaring the RegEx pattern as a raw string instead of unicode is
+required for Python 3.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+
+feature-microblaze-versions.inc#
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Backported from master: 68286d0b70cf09a0d2950b48945c9192fb8c8769
+Cherry-picked from master: 662f52f1713c9f070550fc0c874eb62312218ea4
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/sdk/buildtools-cases/sanity.py | 2 +-
- meta/lib/oeqa/selftest/cases/devtool.py      | 2 +-
- meta/lib/oeqa/selftest/cases/liboe.py        | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ .../machine/include/microblaze/feature-microblaze-versions.inc  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/sdk/buildtools-cases/sanity.py b/meta/lib/oeqa/sdk/buildtools-cases/sanity.py
-index 64baaa8f84..68b19f4d47 100644
---- a/meta/lib/oeqa/sdk/buildtools-cases/sanity.py
-+++ b/meta/lib/oeqa/sdk/buildtools-cases/sanity.py
-@@ -19,4 +19,4 @@ class SanityTests(OESDKTestCase):
-             # Canonicalise the location of this command
-             tool_path = os.path.realpath(self._run("command -v %s" % command).strip())
-             # Assert that the tool was found inside the SDK root
--            self.assertEquals(os.path.commonprefix((sdk_base, tool_path)), sdk_base)
-+            self.assertEqual(os.path.commonprefix((sdk_base, tool_path)), sdk_base)
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index aea2ad6561..dc0fc35062 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -919,7 +919,7 @@ class DevtoolModifyTests(DevtoolBase):
-             runCmd('git -C %s checkout %s' % (tempdir, branch))
-             with open(source, "rt") as f:
-                 content = f.read()
--            self.assertEquals(content, expected)
-+            self.assertEqual(content, expected)
-         check('devtool', 'This is a test for something\n')
-         check('devtool-no-overrides', 'This is a test for something\n')
-         check('devtool-override-qemuarm', 'This is a test for qemuarm\n')
-diff --git a/meta/lib/oeqa/selftest/cases/liboe.py b/meta/lib/oeqa/selftest/cases/liboe.py
-index afe8f8809f..da88ff480e 100644
---- a/meta/lib/oeqa/selftest/cases/liboe.py
-+++ b/meta/lib/oeqa/selftest/cases/liboe.py
-@@ -97,6 +97,6 @@ class LibOE(OESelftestTestCase):
- 
-         dstcnt = len(os.listdir(dst))
-         srccnt = len(os.listdir(src))
--        self.assertEquals(dstcnt, len(testfiles), "Number of files in dst (%s) differs from number of files in src(%s)." % (dstcnt, srccnt))
-+        self.assertEqual(dstcnt, len(testfiles), "Number of files in dst (%s) differs from number of files in src(%s)." % (dstcnt, srccnt))
- 
-         oe.path.remove(testloc)
+diff --git a/meta/conf/machine/include/microblaze/feature-microblaze-versions.inc b/meta/conf/machine/include/microblaze/feature-microblaze-versions.inc
+index 5c37f49abb..658e87b8cd 100644
+--- a/meta/conf/machine/include/microblaze/feature-microblaze-versions.inc
++++ b/meta/conf/machine/include/microblaze/feature-microblaze-versions.inc
+@@ -16,7 +16,7 @@ def microblaze_current_version(d, gcc = False):
+     # find the current version, and convert it to major/minor integers
+     version = None
+     for t in (d.getVar("TUNE_FEATURES") or "").split():
+-        m = re.search("^v(\d+)\.(\d+)", t)
++        m = re.search(r"^v(\d+)\.(\d+)", t)
+         if m:
+             version = int(m.group(1)), int(m.group(2))
+             break
 -- 
 2.34.1
 
