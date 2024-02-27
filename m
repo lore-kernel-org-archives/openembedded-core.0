@@ -1,230 +1,193 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3852EC5478C
-	for <webhook@archiver.kernel.org>; Tue, 27 Feb 2024 19:46:38 +0000 (UTC)
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
- by mx.groups.io with SMTP id smtpd.web10.3631.1709063190355277429
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31669C54798
+	for <webhook@archiver.kernel.org>; Tue, 27 Feb 2024 19:52:08 +0000 (UTC)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web10.3778.1709063525818648595
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Feb 2024 11:46:30 -0800
+ Tue, 27 Feb 2024 11:52:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=WGf0iZhg;
- spf=pass (domain: gmail.com, ip: 209.85.214.172, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1db6e0996ceso34902605ad.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 11:46:30 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=U0RRAieP;
+ spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1dca160163dso24123275ad.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 11:52:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709063190; x=1709667990; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=L0At1rWQccjIQC+cEsarskG11rJSsjBRqITfuodgM1M=;
-        b=WGf0iZhgl1KLVwKCQl5ZNiXdxytprohi2FkXnAqG/NSv1ABF2TzNW90u7NXBJU97ca
-         pwEaVrNlMiE+cvVajOeb/UJwnMbp/jeC2wgAcGPcp0z0NK13Z6NwQRSD0jThXj9oQhRI
-         5sjtVt6pKXUW0kYthCwGpsBzJLF/dD1CDfyddIZ9Esv43DySDL9DiWLolhMSycvIVl4C
-         MbHjVViYcP+rr1V5XuFDxjL1QJmcD8Hrxa/F00nRucHN7BuNJ5srnwfSYiZZe5HwQfuY
-         KmCLU9mJ7zs5ZKzZju38GcQAijdmJz9TThTaumt87jPHtkUnjv/PDioqPl2tyIykZMtJ
-         n5Fw==
+        d=gmail.com; s=20230601; t=1709063525; x=1709668325; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=311vcP0aW5L0QvGVRLSNmd6ZUzSS6DcvVRku0fmNAUk=;
+        b=U0RRAiePzW4eM4AMk0tMbqrR7+j8Keh6WfBwDBxUbkkEPvTMNl7th2/zcQZHwJpASn
+         7n7v6U5KFv77vEOuchTdOGcmKImkmxGk4AnXQxVI0en1mRE4Jtx/tGLojOJPx0+tG431
+         awoQTCk4scBycOi1kJLJjgPrtR4poDZ5fmsqDcZcJQPkHm8RMal7LzOy1Etu41N9ibA/
+         aiNlfZN6C0GStn4R1+6yWyGcTlhPd8jXIoQxwTiT4L3s4HZu6AevykYB5wlWPmSIX7zl
+         bXpsUz3QHXWu/DGHWUz3b0MDKL22BJTF4fiLoWz2HRH0DrIK6w8OpUX8ydHAYuNIUBTH
+         r6iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709063190; x=1709667990;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=L0At1rWQccjIQC+cEsarskG11rJSsjBRqITfuodgM1M=;
-        b=G/R2YUiq0IGLL5bFyKo9m5OQvNrpMfgjRIBli3IXQDlvgNXsTA+5KYqPYR7fjslzKl
-         Nih27teU1hC1HbGUTIdZzlCFiBYojXdNs3JJh0WnOjTq/EsQcieLWa0mkN9opixSr6M4
-         9145ASANfRwnRmubQCsvidnPHHVgvDKPERpPE0niGSeKjE4KgP2mB/4FSmRC73Gt+ULz
-         hUQ/VCzQqTiCuFl482hNoduk9NUGveStG9zCraO1J0JXF9n+XRTb+ZJZFFGRQFGenI5i
-         7B2lMHC1+xlQI/05HJHd9Ic8egYKcBr73RDejzz8F+/JvU6WfTSzoRUGwLrUw98mMP+a
-         4dqg==
-X-Gm-Message-State: AOJu0YxA2W/YlErHykJRYf6MCsOvDLEuXkxjUBi4DYNy5iKVWPfN3lef
-	RfQ/xLeG1tQ5op4/XwNsYbzWocahToR1IVmyJmRT+UPgAdpNPPUjpFcXE88rg7o8YL8unVgRkbV
-	HZt99jIUxPAPoOot0oTVKtSNYLKE=
-X-Google-Smtp-Source: AGHT+IHl3AeV2ryq1KrcABwKu5Np1ADgTpcRpLFuHh/3STUwQlbiZ6D8ydvjMSbTqZaAdPrTEkgG/bLicryV3ssthMY=
-X-Received: by 2002:a17:902:d507:b0:1dc:b989:9bb1 with SMTP id
- b7-20020a170902d50700b001dcb9899bb1mr2596007plg.20.1709063189657; Tue, 27 Feb
- 2024 11:46:29 -0800 (PST)
+        d=1e100.net; s=20230601; t=1709063525; x=1709668325;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=311vcP0aW5L0QvGVRLSNmd6ZUzSS6DcvVRku0fmNAUk=;
+        b=ilhpu129Iy44uDMVI2xEQG4yoDwLaa0fzuPE7rguY4eLoSkZU2C+S4Zp7meZzZWwhT
+         GPCWZVWbDBtKfuSIn+AYKqa6adpTOos1487cc8W7cvfvVaXV2FXVIljPcrA5ubP4LweB
+         xM3MFidh+jM20jq8CeLkgzH1kv+pjKDF9+Ec+WVfLwB+QV/pzASWFJaz8425/Vfo+vUS
+         /cPMz8GQH7cCSTnjV+IVquft9tDMBoqoAiWEuh+53AL0EHt22QO2V8VQFIq46wfeKFrv
+         tLBCDNKi71GQ2aF3twIXE7beRtVRThbtMXLuRh+7QcyzB5otsFSr2gT6K463IceVKE4U
+         XQ4Q==
+X-Gm-Message-State: AOJu0YzjNSWygKUfew6Kkz+duThLXSm/GF/VKo9OSYi5SWZXYBFt60Hx
+	XyxFPUstOnXJdpw363uGK5TzBGXGNOw2Wb0pjiUD5eHiGhAdBq6xlw5MKqcCt0k=
+X-Google-Smtp-Source: AGHT+IGEthVKfloEsavkeckhAEY5plcWo/xpkii8ZuxiZeLAIPiDfEw1Y5fB8slewKzYjbpWPz3WTQ==
+X-Received: by 2002:a17:902:dac7:b0:1dc:afd0:e278 with SMTP id q7-20020a170902dac700b001dcafd0e278mr5171976plx.49.1709063525030;
+        Tue, 27 Feb 2024 11:52:05 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::95e0])
+        by smtp.gmail.com with ESMTPSA id la3-20020a170902fa0300b001db5432449esm1913804plb.18.2024.02.27.11.52.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Feb 2024 11:52:04 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] python3-maturin: Recognise riscv32 architecture
+Date: Tue, 27 Feb 2024 11:52:02 -0800
+Message-ID: <20240227195202.3887656-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-References: <20240227170902.3718203-1-ejo@pengutronix.de> <20240227170902.3718203-2-ejo@pengutronix.de>
- <CADkTA4PY4HXpcu4K7YkuqLSuLor=tKfTz04fEORKBRycgE12Fw@mail.gmail.com>
- <b3485a14d8f03e3c29e6f12a065775e1522e7ad0.camel@pengutronix.de>
- <CADkTA4Ou-ty361eSd3LxBvKNn75EoDn6pbtEE63gwd0kg+uWtA@mail.gmail.com> <5fe1a738ad6a53058fc7c4b1339ce64a0d0365ee.camel@pengutronix.de>
-In-Reply-To: <5fe1a738ad6a53058fc7c4b1339ce64a0d0365ee.camel@pengutronix.de>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 27 Feb 2024 14:46:18 -0500
-Message-ID: <CADkTA4PY-nSY8cQZY49LWG87OAjBT4=Pz=6R5eNTL4h4BNN6Tw@mail.gmail.com>
-Subject: Re: [PATCH 2/3] kernel-yocto.bblass: run kernel_version_sanity_check
- after do_patch
-To: =?UTF-8?Q?Enrico_J=C3=B6rns?= <ejo@pengutronix.de>
-Cc: openembedded-core@lists.openembedded.org, yocto@pengutronix.de
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 19:46:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196294
+ <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 19:52:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196295
 
-On Tue, Feb 27, 2024 at 2:32=E2=80=AFPM Enrico J=C3=B6rns <ejo@pengutronix.=
-de> wrote:
->
-> Am Dienstag, dem 27.02.2024 um 14:13 -0500 schrieb Bruce Ashfield:
-> > On Tue, Feb 27, 2024 at 1:55=E2=80=AFPM Enrico J=C3=B6rns <ejo@pengutro=
-nix.de> wrote:
-> > >
-> > > Am Dienstag, dem 27.02.2024 um 12:36 -0500 schrieb Bruce Ashfield:
-> > > > On Tue, Feb 27, 2024 at 12:09=E2=80=AFPM Enrico J=C3=B6rns <ejo@pen=
-gutronix.de> wrote:
-> > > > >
-> > > > > The kernel patches may modify the kernel version, thus wait for d=
-o_patch
-> > > > > before running the version check.
-> > > >
-> > > > While that may be true for kernel's in general, I sincerely hope th=
-at no one is
-> > > > patching in a new kernel version to linux-yocto.
-> > > >
-> > > > I don't have any great concerns with the patch, I just don't think =
-it
-> > > > is necessary :)
-> > >
-> > > Yes, the use case is actually not linux-yocto itself.
-> > > Thus it might be most relevant in combination with moving the version=
- check to kernel.bbclass.
-> > >
-> > > How I actually came across this check is that (in some projects) we u=
-se the linux-yocto.bbclass
-> > > for
-> > > non-linux-yocto kernels since some functionality (especially fragment=
- handling) seems useful in
-> > > general.
-> > >
-> > > I am still unsure if I should try to move (or duplicate) the required=
- features in the generic
-> > > kernel.bbclass or if using linux-yocto.bbclass for 'mainline' kernel =
-is an appropriate use
-> > > case..?
-> > >
-> >
-> > There's no need to use the linux-yocto repository when using
-> > kernel-yocto bbclass, so
-> > definitely, it is an acceptable use case. In fact meta-mainline, and
-> > linux-yocto themselves
-> > are both using kernel-yocto bbclass to build mainline/-stable kernels.
-> >
-> > I'd rather not move the kernel-yocto bits into kernel.bbclass, since
-> > if that was something
-> > easily done .. I would have done it a long time ago.
-> >
-> > Keeping the split in the functionality allows those that don't care
-> > about linux-yocto to
-> > keep their recipes and workflow the same, and those that want to opt
-> > into the kernel-yocto
-> > functionality can just inherit the class.
->
-> Yes, I wouldn't move the meta data handling and its tricky pieces, since =
-this is actually something
-> I see in kernel-yocto.bbclass, too.
->
-> But.. do you have an opinion on adding simple config fragment handling in=
- kernel.bbclass (like we
-> have in busybox or u-boot)? So mainly calling merge_config.sh somewhere a=
-round do_configure.
-> (It would however need to be compatible with (or replaced by) the more ad=
-vanced handling in kernel-
-> yocto.bbclass.)
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../0001-Add-32-bit-RISC-V-support.patch      | 102 ++++++++++++++++++
+ .../python/python3-maturin_1.4.0.bb           |   1 +
+ 2 files changed, 103 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-maturin/0001-Add-32-bit-RISC-V-support.patch
 
-I do have a very strong opinion.
+diff --git a/meta/recipes-devtools/python/python3-maturin/0001-Add-32-bit-RISC-V-support.patch b/meta/recipes-devtools/python/python3-maturin/0001-Add-32-bit-RISC-V-support.patch
+new file mode 100644
+index 00000000000..a0ef0c9e228
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-maturin/0001-Add-32-bit-RISC-V-support.patch
+@@ -0,0 +1,102 @@
++From a945706bd610c5400fc85a248d5e0c96ebd2e953 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Tue, 27 Feb 2024 10:38:49 -0800
++Subject: [PATCH] Add 32-bit RISC-V support
++
++Tested with qemuriscv32 and it builds fine with all tests passed on a
++qemu machine.
++
++Upstream-Status: Submitted [https://github.com/PyO3/maturin/pull/1969]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ src/target.rs | 11 ++++++++++-
++ 1 file changed, 10 insertions(+), 1 deletion(-)
++
++diff --git a/src/target.rs b/src/target.rs
++index fbb93531..33fa9273 100644
++--- a/src/target.rs
+++++ b/src/target.rs
++@@ -69,6 +69,7 @@ pub enum Arch {
++     X86_64,
++     S390X,
++     Wasm32,
+++    Riscv32,
++     Riscv64,
++     Mips64el,
++     Mips64,
++@@ -91,6 +92,7 @@ impl fmt::Display for Arch {
++             Arch::X86_64 => write!(f, "x86_64"),
++             Arch::S390X => write!(f, "s390x"),
++             Arch::Wasm32 => write!(f, "wasm32"),
+++            Arch::Riscv32 => write!(f, "riscv32"),
++             Arch::Riscv64 => write!(f, "riscv64"),
++             Arch::Mips64el => write!(f, "mips64el"),
++             Arch::Mips64 => write!(f, "mips64"),
++@@ -115,7 +117,7 @@ impl Arch {
++             Arch::Powerpc | Arch::Powerpc64Le | Arch::Powerpc64 => "powerpc",
++             Arch::X86 => "i386",
++             Arch::X86_64 => "amd64",
++-            Arch::Riscv64 => "riscv",
+++            Arch::Riscv32 | Arch::Riscv64 => "riscv",
++             Arch::Mips64el | Arch::Mips64 | Arch::Mipsel | Arch::Mips => "mips",
++             // sparc64 is unsupported since FreeBSD 13.0
++             Arch::Sparc64 => "sparc64",
++@@ -139,6 +141,7 @@ fn get_supported_architectures(os: &Os) -> Vec<Arch> {
++             Arch::S390X,
++             Arch::X86,
++             Arch::X86_64,
+++            Arch::Riscv32,
++             Arch::Riscv64,
++             Arch::Mips64el,
++             Arch::Mips64,
++@@ -158,6 +161,7 @@ fn get_supported_architectures(os: &Os) -> Vec<Arch> {
++             Arch::Powerpc64Le,
++             Arch::X86,
++             Arch::X86_64,
+++            Arch::Riscv32,
++             Arch::Riscv64,
++             Arch::Mips64el,
++             Arch::Mipsel,
++@@ -171,6 +175,7 @@ fn get_supported_architectures(os: &Os) -> Vec<Arch> {
++             Arch::Powerpc,
++             Arch::Powerpc64,
++             Arch::Powerpc64Le,
+++            Arch::Riscv32,
++             Arch::Riscv64,
++             Arch::Sparc64,
++         ],
++@@ -255,6 +260,7 @@ impl Target {
++             Architecture::Powerpc64le => Arch::Powerpc64Le,
++             Architecture::S390x => Arch::S390X,
++             Architecture::Wasm32 => Arch::Wasm32,
+++            Architecture::Riscv32(_) => Arch::Riscv32,
++             Architecture::Riscv64(_) => Arch::Riscv64,
++             Architecture::Mips64(mips64_arch) => match mips64_arch {
++                 Mips64Architecture::Mips64el => Arch::Mips64el,
++@@ -343,6 +349,7 @@ impl Target {
++             Arch::X86_64 => "x86_64",
++             Arch::S390X => "s390x",
++             Arch::Wasm32 => "wasm32",
+++            Arch::Riscv32 => "riscv32",
++             Arch::Riscv64 => "riscv64",
++             // It's kinda surprising that Python doesn't include the `el` suffix
++             Arch::Mips64el | Arch::Mips64 => "mips64",
++@@ -388,6 +395,7 @@ impl Target {
++             }
++             Arch::Armv6L
++             | Arch::Wasm32
+++            | Arch::Riscv32
++             | Arch::Riscv64
++             | Arch::Mips64el
++             | Arch::Mips64
++@@ -418,6 +426,7 @@ impl Target {
++             | Arch::Wasm32
++             | Arch::Mipsel
++             | Arch::Mips
+++            | Arch::Riscv32
++             | Arch::Powerpc => 32,
++         }
++     }
++-- 
++2.44.0
++
+diff --git a/meta/recipes-devtools/python/python3-maturin_1.4.0.bb b/meta/recipes-devtools/python/python3-maturin_1.4.0.bb
+index 82e65abb24d..ed19ee647a0 100644
+--- a/meta/recipes-devtools/python/python3-maturin_1.4.0.bb
++++ b/meta/recipes-devtools/python/python3-maturin_1.4.0.bb
+@@ -5,6 +5,7 @@ LICENSE = "MIT | Apache-2.0"
+ LIC_FILES_CHKSUM = "file://license-apache;md5=1836efb2eb779966696f473ee8540542 \
+                     file://license-mit;md5=85fd3b67069cff784d98ebfc7d5c0797"
+ 
++SRC_URI += "file://0001-Add-32-bit-RISC-V-support.patch"
+ SRC_URI[sha256sum] = "ed12e1768094a7adeafc3a74ebdb8dc2201fa64c4e7e31f14cfc70378bf93790"
+ 
+ S = "${WORKDIR}/maturin-${PV}"
+-- 
+2.44.0
 
-If we were going to do that, I also would have done it many years ago.
-
-Having some, but not all of the meta-data and merging split between the
-classes would be a disaster.
-
-If there's something that the meta-data handling is doing in kernel-yocto
-bbclass that isn't working or isn't appropriate, we can fix it there.
-
-Other layers and classes in those layers are of course free to do whatever
-they want, but we need to be consistent in core.
-
-In fact, I've had a bug and a prototype patch for many years now that
-does move some of the configuration merging to kernel.bbclass, but it
-only increases complexity and doesn't offer any benefits .. again, since
-if there's something wrong with the fragment gathering and merging
-in the kernel-yocto bbclass that makes it not broadly applicable, we need
-to fix it there, not make things more complex and confusing by arbitrarily
-splitting it into something unmaintainable.
-
-Bruce
-
->
->
-> Enrico
->
-> > Bruce
-> >
-> > >
-> > > Regards, Enrico
-> > >
-> > > > Bruce
-> > > >
-> > > > >
-> > > > > Signed-off-by: Enrico J=C3=B6rns <ejo@pengutronix.de>
-> > > > > ---
-> > > > >  meta/classes-recipe/kernel-yocto.bbclass | 2 +-
-> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > >
-> > > > > diff --git a/meta/classes-recipe/kernel-yocto.bbclass b/meta/clas=
-ses-recipe/kernel-
-> > > > > yocto.bbclass
-> > > > > index 108b7e6752..854e4681d5 100644
-> > > > > --- a/meta/classes-recipe/kernel-yocto.bbclass
-> > > > > +++ b/meta/classes-recipe/kernel-yocto.bbclass
-> > > > > @@ -729,6 +729,6 @@ python () {
-> > > > >  }
-> > > > >
-> > > > >  # extra tasks
-> > > > > -addtask kernel_version_sanity_check after do_kernel_metadata do_=
-kernel_checkout before
-> > > > > do_compile
-> > > > > +addtask kernel_version_sanity_check after do_patch before do_com=
-pile
-> > > > >  addtask validate_branches before do_patch after do_kernel_checko=
-ut
-> > > > >  addtask kernel_configcheck after do_configure before do_compile
-> > > > > --
-> > > > > 2.39.2
-> > > > >
-> > > >
-> > > >
-> > >
-> > > --
-> > > Pengutronix e.K.                           | Enrico J=C3=B6rns       =
-         |
-> > > Embedded Linux Consulting & Support        | https://www.pengutronix.=
-de/ |
-> > > Steuerwalder Str. 21                       | Phone: +49-5121-206917-1=
-80  |
-> > > 31137 Hildesheim, Germany                  | Fax:   +49-5121-206917-9=
-    |
-> >
-> >
-> >
->
-> --
-> Pengutronix e.K.                           | Enrico J=C3=B6rns           =
-     |
-> Embedded Linux Consulting & Support        | https://www.pengutronix.de/ =
-|
-> Steuerwalder Str. 21                       | Phone: +49-5121-206917-180  =
-|
-> 31137 Hildesheim, Germany                  | Fax:   +49-5121-206917-9    =
-|
-
-
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
