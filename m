@@ -2,137 +2,115 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1E30C54E4A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0E9BC5478C
 	for <webhook@archiver.kernel.org>; Tue, 27 Feb 2024 21:57:20 +0000 (UTC)
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
- by mx.groups.io with SMTP id smtpd.web11.1996.1709071036434480274
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+ by mx.groups.io with SMTP id smtpd.web10.1938.1709071031595008604
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Feb 2024 13:57:16 -0800
+ Tue, 27 Feb 2024 13:57:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=bRABDLR4;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.170, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-6e09143c7bdso2914260b3a.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 13:57:16 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=1tMWqqXz;
+ spf=softfail (domain: sakoman.com, ip: 209.85.167.171, mailfrom: steve@sakoman.com)
+Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-3c132695f1bso2731774b6e.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 13:57:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1709071036; x=1709675836; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1709071031; x=1709675831; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=gn2GrBm2b8UMJwz9z8J6Rk+NNiDahCAp8AXqltDoxow=;
-        b=bRABDLR4BIifaXlVerKYqNy6W740W0GZWuR+OdfXM7BdVatzLqKd63tsA9sKiGEahz
-         BIkKoUTE6Rikv3jIodeXDjSJtKzPowuv0ilF27ABFbNrW2h6UQBe48rvnBIoQtCCmHtn
-         1xEojcBjPoLd6D13l0Gwkv7D+vp5BV6McxwT+OXVNIJ61P8OantX7Dxp1eS7m9w7u8jn
-         jN4o/y1AYKspVsNCDl2Tl+yQKhmbqFopfB1nW4TR8gaqqnzjaty/F1nVbucp3/oVlwri
-         bT4Lgwjx8GXPxUj/XUJBUqrsXqtxx/FAAj9aSSgW06k+RmczXji4ORppZbD3ihjnP9l7
-         PHmQ==
+        bh=Ig4YnMfLk9lH9UyCMPPVihuSoTd9cKR5BAEbjcye/lQ=;
+        b=1tMWqqXz7Ucl7gE3btv8BbqDoCZFMVrVar9V72tU8Z5MsEQ7I4hyCbm6VuC99CN6ub
+         ZyguJr51DEIRZKq9DvOwtuvXbq61t1fdgp7QwEn51ZO27mJ7pjaFbAI83pVrsWb7ZnUN
+         CPKSc+7JAyLe8QFfjhjPXo7d06wC9wLDXvhIkmzZeBVixoPyH88tMjtB8YXFfQUIv4v5
+         +pmm9la9zE4C9QZ4S0GovH4yR4Ku91+UXxWeNmvJ72yQ1+BatTuo5oiW5FTZBbyvNvHt
+         zur8mfvSpBf3+elFg93XUNebZkawwnA6Af087NDDf+Klf1mEWh5X6huAQiSAfvTi0yKU
+         hSIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709071036; x=1709675836;
+        d=1e100.net; s=20230601; t=1709071031; x=1709675831;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=gn2GrBm2b8UMJwz9z8J6Rk+NNiDahCAp8AXqltDoxow=;
-        b=mfmIOrCAWBTkq3ZO6sPQmj2ghvjT3poXVhaKeH3k3eRKPuXXYU/xZ/4tyIWhKxueS2
-         mbErkAq3OrRsgc3VP1K6GwZ7ZdHbNrykq0PmWWLMtnKuFvSmEvgSZ7tuo86gHjflgDgF
-         Lw1Yvc/F0BsrbtK1t+1mWzuUbailry4zAlkr7pNo0rOUJDw+pLTwgbAkFybFWapBArf9
-         yiT6j0etTWU8S6hzujmZwEriogGIATy7K3ji9Skj5nAae+FI4clZufYatXPY8I2/l9kd
-         IqX5EjzsPvO32PJ9r+Pv4nnW2eJGdwvHN/vEJOvTvmfi6W+c0PJHnApP8WJuyBqWyKe8
-         zjFg==
-X-Gm-Message-State: AOJu0YwgEn1zRxIiUq9T/hI2vNrPw65kKKZEQb7vRTLINKhqXbeuBmfz
-	6Q6yirppVPrUhQ7dxjKO26ibwPERTKWd1pwJd61CBvpMJpAE4gG3VKMJ9KnlVbjtFaaUH/Xr2zN
-	r15E=
-X-Google-Smtp-Source: AGHT+IHV5ziBXrWkHIIez4hVvMFtuWKPXzzQ5ZMRINo4ASIUQU55a2Knr3T43aHsoFrxy7jzJX0Mlg==
-X-Received: by 2002:a05:6a00:982:b0:6e5:584d:8d17 with SMTP id u2-20020a056a00098200b006e5584d8d17mr1805373pfg.15.1709071035638;
-        Tue, 27 Feb 2024 13:57:15 -0800 (PST)
+        bh=Ig4YnMfLk9lH9UyCMPPVihuSoTd9cKR5BAEbjcye/lQ=;
+        b=Pbi1wrXoVM0woz8eV7jHnz/ZgCWypei428B8sU8YKdIwc1G3JOtJhPBkhrhneJWF99
+         /cpphMCPHxW9M7VTZux+pLHUFnUc94Yvaxg5NAdUDI6JwP5ygSiek9DsierjYFZwfKhr
+         WJQHnpgZhattjof6gPeBnMSeEfyAZs7hQT+gOO141mgbGMwR/llK5asY2dxLFk8p2Im/
+         lgf21j4lEdjUnxGBgd/75bzURLLrWnkvUKmtTYVJPkbrGY+cKoIIDxfwVpsjFyyYh7AN
+         a2Pg30XgqZtq/Rkd8vgGg4ABH+heNhaKTOjCrsKaHiZcl4buQg7GhVmF7fk1BCW/YqSz
+         feow==
+X-Gm-Message-State: AOJu0Yx2eIWRWy1hHwER9hM09SFatLl7x3p7YeqqvnI+AXXXq7uBF7yn
+	hKRswQ5blgfObUSclTfYb2dM566DdDh8ssdMbhQQGwetOC0MdZYya2KacsuVVYyhpAAaLnrAjju
+	0gw4=
+X-Google-Smtp-Source: AGHT+IHWE7opyP5uEeAinMDX0Exs8Hv+0BXEvxD8upQ9fZy3zY19VQF3t5Ffkyw+9Q/qHHoNK8nYcg==
+X-Received: by 2002:a05:6808:e8c:b0:3c1:b1b1:2a19 with SMTP id k12-20020a0568080e8c00b003c1b1b12a19mr2316050oil.55.1709071030700;
+        Tue, 27 Feb 2024 13:57:10 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id n7-20020aa78a47000000b006e50bbf4e71sm4936428pfa.9.2024.02.27.13.57.14
+        by smtp.gmail.com with ESMTPSA id n7-20020aa78a47000000b006e50bbf4e71sm4936428pfa.9.2024.02.27.13.57.09
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Feb 2024 13:57:15 -0800 (PST)
+        Tue, 27 Feb 2024 13:57:10 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 04/16] runqemu: add qmp socket support
-Date: Tue, 27 Feb 2024 11:56:51 -1000
-Message-Id: <31de620e9d899b93c6e982d3a563bbf618ce79c6.1709070850.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 01/16] recipetool/create_buildsys_python: use importlib instead of imp
+Date: Tue, 27 Feb 2024 11:56:48 -1000
+Message-Id: <b9dcdf2346bb24866c5f3db96a3f79eba20e4662.1709070850.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1709070850.git.steve@sakoman.com>
 References: <cover.1709070850.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 21:57:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196303
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196300
 
-From: Ross Burton <ross.burton@arm.com>
+From: Chris Laplante <chris.laplante@agilent.com>
 
-Add support for qmp sockets and defaults to unix:qmp.sock if unspecified
+'imp' was deprecated in Python 3.4 and removed in 3.12. The
+piece of importlib we use has been around since 3.3.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Eilís 'pidge' Ní Fhlannagáin <pidge@baylibre.com>
+Signed-off-by: Chris Laplante <chris.laplante@agilent.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Backported from master: 380631797f0d63124a8c21efa93ab672dbd79283
-Qemu throws many warnings without qmp and many runtime tests fail
-without this patch also on kirkstone.
+Cherry-picked from master: 457f0dad87b4e45a53865b5ad2c150215bd74019
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/runqemu | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ scripts/lib/recipetool/create_buildsys_python.py | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 81d95133b6..ba7c1b2461 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -82,6 +82,7 @@ of the following environment variables (in any order):
-     kvm-vhost - enable KVM with vhost when running x86/x86_64 (VT-capable CPU required)
-     publicvnc - enable a VNC server open to all hosts
-     audio - enable audio
-+    qmp=<path> - create a QMP socket (defaults to unix:qmp.sock if unspecified)
-     [*/]ovmf* - OVMF firmware file or base name for booting with UEFI
-   tcpserial=<port> - specify tcp serial port number
-   qemuparams=<xyz> - specify custom parameters to QEMU
-@@ -216,6 +217,7 @@ class BaseConfig(object):
-         self.cleaned = False
-         # Files to cleanup after run
-         self.cleanup_files = []
-+        self.qmp = None
+diff --git a/scripts/lib/recipetool/create_buildsys_python.py b/scripts/lib/recipetool/create_buildsys_python.py
+index 5686a62d3f..a7eed3256f 100644
+--- a/scripts/lib/recipetool/create_buildsys_python.py
++++ b/scripts/lib/recipetool/create_buildsys_python.py
+@@ -10,7 +10,7 @@ import codecs
+ import collections
+ import setuptools.command.build_py
+ import email
+-import imp
++import importlib
+ import glob
+ import itertools
+ import logging
+@@ -561,7 +561,6 @@ class PythonRecipeHandler(RecipeHandler):
+         return deps
  
-     def acquire_taplock(self, error=True):
-         logger.debug("Acquiring lockfile %s..." % self.taplock)
-@@ -512,6 +514,10 @@ to your build configuration.
-             elif arg == 'publicvnc':
-                 self.publicvnc = True
-                 self.qemu_opt_script += ' -vnc :0'
-+            elif arg == "qmp":
-+                self.qmp = "unix:qmp.sock"
-+            elif arg.startswith("qmp="):
-+                self.qmp = arg[len('qmp='):]
-             elif arg.startswith('tcpserial='):
-                 self.tcpserial_portnum = '%s' % arg[len('tcpserial='):]
-             elif arg.startswith('qemuparams='):
-@@ -1332,6 +1338,10 @@ to your build configuration.
-             raise RunQemuError("Failed to boot, QB_SYSTEM_NAME is NULL!")
-         self.qemu_system = qemu_system
+     def parse_pkgdata_for_python_packages(self):
+-        suffixes = [t[0] for t in imp.get_suffixes()]
+         pkgdata_dir = tinfoil.config_data.getVar('PKGDATA_DIR')
  
-+    def setup_qmp(self):
-+        if self.qmp:
-+            self.qemu_opt += " -qmp %s,server,nowait" % self.qmp
-+
-     def setup_vga(self):
-         if self.nographic == True:
-             if self.sdl == True:
-@@ -1462,6 +1472,7 @@ to your build configuration.
-         if self.snapshot:
-             self.qemu_opt += " -snapshot"
+         ldata = tinfoil.config_data.createCopy()
+@@ -585,7 +584,7 @@ class PythonRecipeHandler(RecipeHandler):
+                     continue
  
-+        self.setup_qmp()
-         self.setup_serial()
-         self.setup_vga()
- 
+             for fn in files_info:
+-                for suffix in suffixes:
++                for suffix in importlib.machinery.all_suffixes():
+                     if fn.endswith(suffix):
+                         break
+                 else:
 -- 
 2.34.1
 
