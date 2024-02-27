@@ -1,99 +1,261 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <ejo@pengutronix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B528C54798
-	for <webhook@archiver.kernel.org>; Tue, 27 Feb 2024 20:03:58 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web11.3961.1709064233270012447
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5412C54798
+	for <webhook@archiver.kernel.org>; Tue, 27 Feb 2024 21:01:40 +0000 (UTC)
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by mx.groups.io with SMTP id smtpd.web10.615.1709067689690622795
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Feb 2024 12:03:53 -0800
+ Tue, 27 Feb 2024 13:01:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=VEc1kNF4;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Of1p0UWa;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018dec2a9c2b-8e5eec3a-a932-41cf-8528-2a9787fc3a01-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1709064232; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=n0cxm09vW/T59pgmWQ2PWj7rckVlUup2fI4QDuRFT3I=;
-	b=VEc1kNF4A1TudZMvacUWYh5lYshDCN8G95bfe0hoMG9j7RP8tMN1UkPYpk0ASMHJ
-	J1Zyvi9VUrZlWv9MgMyFEMHGtmE3T5yjCFfpAZS/kMgIJL1cADzI22MMVKSh0tnV/fD
-	7umGvufZ7r7YI1hSyMT7kDCXjwWsiodrfeHHinDs=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1709064232;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=n0cxm09vW/T59pgmWQ2PWj7rckVlUup2fI4QDuRFT3I=;
-	b=Of1p0UWaZjdx7G7JouwXe3fgv8BomQnl3nNmjher5mip9IbQlzausHEmm0ZrOO6A
-	l57kTUhcl+eKO74yf4LuTd3cxrh0p1uUEZ/T7+UvyUm/e/sqsNhVIe0UCxFz3RpA34A
-	0Va0ZWJTPWdp5mcrVjWV9Z2xDSMQLK6nCe666qB4=
-From: patchtest@automation.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] python3-maturin: Recognise riscv32 architecture
-In-Reply-To: <20240227195202.3887656-1-raj.khem@gmail.com>
-References: <20240227195202.3887656-1-raj.khem@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018dec2a9c2b-8e5eec3a-a932-41cf-8528-2a9787fc3a01-000000@us-west-2.amazonses.com>
-Date: Tue, 27 Feb 2024 20:03:51 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.02.27-54.240.27.29
+ dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.201.7, mailfrom: ejo@pengutronix.de)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[IPv6:::1])
+	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <ejo@pengutronix.de>)
+	id 1rf4Zr-0006Li-G3; Tue, 27 Feb 2024 22:01:27 +0100
+Message-ID: <8f49574f0b5c04fd8852e4358d4130d54e8b42ec.camel@pengutronix.de>
+Subject: Re: [PATCH 2/3] kernel-yocto.bblass: run
+ kernel_version_sanity_check after do_patch
+From: Enrico =?ISO-8859-1?Q?J=F6rns?= <ejo@pengutronix.de>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, yocto@pengutronix.de
+Date: Tue, 27 Feb 2024 22:01:26 +0100
+In-Reply-To: <CADkTA4PY-nSY8cQZY49LWG87OAjBT4=Pz=6R5eNTL4h4BNN6Tw@mail.gmail.com>
+References: <20240227170902.3718203-1-ejo@pengutronix.de>
+	 <20240227170902.3718203-2-ejo@pengutronix.de>
+	 <CADkTA4PY4HXpcu4K7YkuqLSuLor=tKfTz04fEORKBRycgE12Fw@mail.gmail.com>
+	 <b3485a14d8f03e3c29e6f12a065775e1522e7ad0.camel@pengutronix.de>
+	 <CADkTA4Ou-ty361eSd3LxBvKNn75EoDn6pbtEE63gwd0kg+uWtA@mail.gmail.com>
+	 <5fe1a738ad6a53058fc7c4b1339ce64a0d0365ee.camel@pengutronix.de>
+	 <CADkTA4PY-nSY8cQZY49LWG87OAjBT4=Pz=6R5eNTL4h4BNN6Tw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
+MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: ejo@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 20:03:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196296
+ <openembedded-core@lists.openembedded.org>; Tue, 27 Feb 2024 21:01:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196297
 
---NextPart
-Content-Type: text/plain
+Am Dienstag, dem 27.02.2024 um 14:46 -0500 schrieb Bruce Ashfield:
+> On Tue, Feb 27, 2024 at 2:32=E2=80=AFPM Enrico J=C3=B6rns <ejo@pengutroni=
+x.de> wrote:
+> >=20
+> > Am Dienstag, dem 27.02.2024 um 14:13 -0500 schrieb Bruce Ashfield:
+> > > On Tue, Feb 27, 2024 at 1:55=E2=80=AFPM Enrico J=C3=B6rns <ejo@pengut=
+ronix.de> wrote:
+> > > >=20
+> > > > Am Dienstag, dem 27.02.2024 um 12:36 -0500 schrieb Bruce Ashfield:
+> > > > > On Tue, Feb 27, 2024 at 12:09=E2=80=AFPM Enrico J=C3=B6rns <ejo@p=
+engutronix.de> wrote:
+> > > > > >=20
+> > > > > > The kernel patches may modify the kernel version, thus wait for=
+ do_patch
+> > > > > > before running the version check.
+> > > > >=20
+> > > > > While that may be true for kernel's in general, I sincerely hope =
+that no one is
+> > > > > patching in a new kernel version to linux-yocto.
+> > > > >=20
+> > > > > I don't have any great concerns with the patch, I just don't thin=
+k it
+> > > > > is necessary :)
+> > > >=20
+> > > > Yes, the use case is actually not linux-yocto itself.
+> > > > Thus it might be most relevant in combination with moving the versi=
+on check to
+> > > > kernel.bbclass.
+> > > >=20
+> > > > How I actually came across this check is that (in some projects) we=
+ use the linux-
+> > > > yocto.bbclass
+> > > > for
+> > > > non-linux-yocto kernels since some functionality (especially fragme=
+nt handling) seems useful
+> > > > in
+> > > > general.
+> > > >=20
+> > > > I am still unsure if I should try to move (or duplicate) the requir=
+ed features in the
+> > > > generic
+> > > > kernel.bbclass or if using linux-yocto.bbclass for 'mainline' kerne=
+l is an appropriate use
+> > > > case..?
+> > > >=20
+> > >=20
+> > > There's no need to use the linux-yocto repository when using
+> > > kernel-yocto bbclass, so
+> > > definitely, it is an acceptable use case. In fact meta-mainline, and
+> > > linux-yocto themselves
+> > > are both using kernel-yocto bbclass to build mainline/-stable kernels=
+.
+> > >=20
+> > > I'd rather not move the kernel-yocto bits into kernel.bbclass, since
+> > > if that was something
+> > > easily done .. I would have done it a long time ago.
+> > >=20
+> > > Keeping the split in the functionality allows those that don't care
+> > > about linux-yocto to
+> > > keep their recipes and workflow the same, and those that want to opt
+> > > into the kernel-yocto
+> > > functionality can just inherit the class.
+> >=20
+> > Yes, I wouldn't move the meta data handling and its tricky pieces, sinc=
+e this is actually
+> > something
+> > I see in kernel-yocto.bbclass, too.
+> >=20
+> > But.. do you have an opinion on adding simple config fragment handling =
+in kernel.bbclass (like
+> > we
+> > have in busybox or u-boot)? So mainly calling merge_config.sh somewhere=
+ around do_configure.
+> > (It would however need to be compatible with (or replaced by) the more =
+advanced handling in
+> > kernel-
+> > yocto.bbclass.)
+>=20
+> I do have a very strong opinion.
+>=20
+> If we were going to do that, I also would have done it many years ago.
+>=20
+> Having some, but not all of the meta-data and merging split between the
+> classes would be a disaster.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+I would not call config fragments 'meta-data' and was thinking more about s=
+omething that is replaced
+by kernel-yocto.bbclass. That a split of meta-data handling would be a disa=
+ster is something I would
+agree on.
 
----
-Testing patch /home/patchtest/share/mboxes/python3-maturin-Recognise-riscv32-architecture.patch
+> If there's something that the meta-data handling is doing in kernel-yocto
+> bbclass that isn't working or isn't appropriate, we can fix it there.
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+Ok, if the opinion is that strong, than this is the way to go for me first =
+of all.
+(However, I do not have any meta-data in mind in our use case anyway.)
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+> Other layers and classes in those layers are of course free to do whateve=
+r
+> they want, but we need to be consistent in core.
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+Clear.
 
----
+> In fact, I've had a bug and a prototype patch for many years now that
+> does move some of the configuration merging to kernel.bbclass, but it
+> only increases complexity and doesn't offer any benefits .. again, since
+> if there's something wrong with the fragment gathering and merging
+> in the kernel-yocto bbclass that makes it not broadly applicable, we need
+> to fix it there, not make things more complex and confusing by arbitraril=
+y
+> splitting it into something unmaintainable.
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
+Keeping it maintainable should be the primary goal, indeed!
+I would not call it 'arbitrarily splitting' but at a well-defined point (*n=
+o* meta-data vs. meta-
+data), but if you have already tried to do a proper split I'd keep this as =
+a good hint first of all
+that the topic is quite tricky.
 
---NextPart
+Thanks for sharing your opinions on that =F0=9F=99=82
 
+Enrico
 
---NextPart--
+> Bruce
+>=20
+> >=20
+> >=20
+> > Enrico
+> >=20
+> > > Bruce
+> > >=20
+> > > >=20
+> > > > Regards, Enrico
+> > > >=20
+> > > > > Bruce
+> > > > >=20
+> > > > > >=20
+> > > > > > Signed-off-by: Enrico J=C3=B6rns <ejo@pengutronix.de>
+> > > > > > ---
+> > > > > > =C2=A0meta/classes-recipe/kernel-yocto.bbclass | 2 +-
+> > > > > > =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+> > > > > >=20
+> > > > > > diff --git a/meta/classes-recipe/kernel-yocto.bbclass b/meta/cl=
+asses-recipe/kernel-
+> > > > > > yocto.bbclass
+> > > > > > index 108b7e6752..854e4681d5 100644
+> > > > > > --- a/meta/classes-recipe/kernel-yocto.bbclass
+> > > > > > +++ b/meta/classes-recipe/kernel-yocto.bbclass
+> > > > > > @@ -729,6 +729,6 @@ python () {
+> > > > > > =C2=A0}
+> > > > > >=20
+> > > > > > =C2=A0# extra tasks
+> > > > > > -addtask kernel_version_sanity_check after do_kernel_metadata d=
+o_kernel_checkout before
+> > > > > > do_compile
+> > > > > > +addtask kernel_version_sanity_check after do_patch before do_c=
+ompile
+> > > > > > =C2=A0addtask validate_branches before do_patch after do_kernel=
+_checkout
+> > > > > > =C2=A0addtask kernel_configcheck after do_configure before do_c=
+ompile
+> > > > > > --
+> > > > > > 2.39.2
+> > > > > >=20
+> > > > >=20
+> > > > >=20
+> > > >=20
+> > > > --
+> > > > Pengutronix e.K.=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | Enrico J=C3=B6rns=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |
+> > > > Embedded Linux Consulting & Support=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 | https://www.pengutronix.de/=C2=A0|
+> > > > Steuerwalder Str. 21=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 | Phone: +49-5121-206917-180=C2=A0 |
+> > > > 31137 Hildesheim, Germany=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | Fax:=C2=A0=
+=C2=A0 +49-5121-206917-9=C2=A0=C2=A0=C2=A0 |
+> > >=20
+> > >=20
+> > >=20
+> >=20
+> > --
+> > Pengutronix e.K.=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 | Enrico J=C3=B6rns=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |
+> > Embedded Linux Consulting & Support=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 | https://www.pengutronix.de/=C2=A0|
+> > Steuerwalder Str. 21=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 | Phone: +49-5121-206917-180=C2=A0 |
+> > 31137 Hildesheim, Germany=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | Fax:=C2=A0=C2=
+=A0 +49-5121-206917-9=C2=A0=C2=A0=C2=A0 |
+>=20
+>=20
+>=20
+
+--=20
+Pengutronix e.K.=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0| Enrico J=C3=B6rns=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0|
+Embedded Linux Consulting & Support=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0| https://www.pengutronix.de/ |
+Steuerwalder Str. 21=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0| Phone: +49-5121-206917-180=C2=A0=C2=A0|
+31137 Hildesheim, Germany=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0| Fax:=C2=A0=C2=
+=A0=C2=A0+49-5121-206917-9=C2=A0=C2=A0=C2=A0=C2=A0|
 
