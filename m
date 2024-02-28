@@ -2,51 +2,51 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3813EC54E58
-	for <webhook@archiver.kernel.org>; Wed, 28 Feb 2024 07:33:31 +0000 (UTC)
-Received: from esa12.hc1455-7.c3s2.iphmx.com (esa12.hc1455-7.c3s2.iphmx.com [139.138.37.100])
- by mx.groups.io with SMTP id smtpd.web10.8415.1709105606125349280
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BDE8C54E41
+	for <webhook@archiver.kernel.org>; Wed, 28 Feb 2024 07:33:41 +0000 (UTC)
+Received: from esa4.hc1455-7.c3s2.iphmx.com (esa4.hc1455-7.c3s2.iphmx.com [68.232.139.117])
+ by mx.groups.io with SMTP id smtpd.web10.8420.1709105611380585283
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Feb 2024 23:33:26 -0800
+ Tue, 27 Feb 2024 23:33:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=mAsNt4Jo;
- spf=pass (domain: fujitsu.com, ip: 139.138.37.100, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=MCumsZpu;
+ spf=pass (domain: fujitsu.com, ip: 68.232.139.117, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1709105606; x=1740641606;
+  t=1709105611; x=1740641611;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references;
-  bh=bkABaaF5l2mDwrp+b1daILPJOJEV6NE0P+0d8PZOORk=;
-  b=mAsNt4JoTqC4QDViPNibULw3EVpX1WuNKAZxkdZtrc8MRPgM4mNYFZCs
-   tsZMzEJf3hRBeNqrK3izRt2Y3MtcoIk6X5VXTF8GzUfdMLPBo3eTzTF7F
-   YXd4Var48PA9uBq/YUIs+wUtcdunCzezqVQRZk9jpfAqqlbkT6bRt0Shs
-   LsPhdkTyf7IZeCh3qe3CLB/lHIZfdz+nmkh8Q7ICY+r7IRzGJ9BTToY73
-   x2wtIWa4yE+RGb7EKhjNSMZeEi/1MeXnPt3Uk4MH/rzarAJisGLX9wlZa
-   AO0fIVIEvRQXc6+wqnwWldVez9hNLgFtQExMHHYIU25iFJvoVNU1YjO2E
+  bh=tTgxajfsbieh+GJL482PnjQUjp09juECQ4SQTUGgpx4=;
+  b=MCumsZpu/q8AcmCVUibnEl1RS1WtypJ91uLNTcFP9/zTyzbhkxf8beLz
+   6PbLE7Bi0rUoYUDMKQh2VraZTYqrvFNT5DZujJZGLRi/fGp0d+//f+RKf
+   hk/zjOkT1HGyRpFPrAospb8B6DwgpzuRZ5bI/K3QQmkx93SImVJr14P50
+   cc2a9kM2ma1H55MrPpCC1vT48QXkOu5xwZ3VJuo2ZX06S0yO2z3iH75g/
+   oiufq6wLGPjZvddiLGDICtDbxhh9f2yIDnwAL8ILJKIHs5K/6b4Wdp1+n
+   pHKWDkLn6JuFwtFAglUsZgzmjIcawRY3eGyAb9o+34m/71vqmp5/DOHWH
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10996"; a="129959012"
+X-IronPort-AV: E=McAfee;i="6600,9927,10996"; a="150945748"
 X-IronPort-AV: E=Sophos;i="6.06,190,1705330800"; 
-   d="scan'208";a="129959012"
-Received: from unknown (HELO oym-r1.gw.nic.fujitsu.com) ([210.162.30.89])
-  by esa12.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2024 16:33:24 +0900
-Received: from oym-m2.gw.nic.fujitsu.com (oym-nat-oym-m2.gw.nic.fujitsu.com [192.168.87.59])
-	by oym-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id D4376D4804
-	for <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 16:33:21 +0900 (JST)
-Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
-	by oym-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id D78D7BF4A6
-	for <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 16:33:20 +0900 (JST)
+   d="scan'208";a="150945748"
+Received: from unknown (HELO yto-r3.gw.nic.fujitsu.com) ([218.44.52.219])
+  by esa4.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2024 16:33:29 +0900
+Received: from yto-m4.gw.nic.fujitsu.com (yto-nat-yto-m4.gw.nic.fujitsu.com [192.168.83.67])
+	by yto-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id E8994E8CC2
+	for <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 16:33:26 +0900 (JST)
+Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
+	by yto-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id 224DCD7B7A
+	for <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 16:33:26 +0900 (JST)
 Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id 7508741180
-	for <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 16:33:20 +0900 (JST)
+	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id B024D2008FF86
+	for <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 16:33:25 +0900 (JST)
 Received: from vm4860.g01.fujitsu.local (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 229831A006A;
-	Wed, 28 Feb 2024 15:33:20 +0800 (CST)
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 5D51A1A006A;
+	Wed, 28 Feb 2024 15:33:25 +0800 (CST)
 From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 11/48] libhandy: upgrade 1.8.2 -> 1.8.3
-Date: Wed, 28 Feb 2024 15:32:18 +0800
-Message-Id: <1709105575-24259-11-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH 19/48] libxext: upgrade 1.3.5 -> 1.3.6
+Date: Wed, 28 Feb 2024 15:32:26 +0800
+Message-Id: <1709105575-24259-19-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1709105575-24259-1-git-send-email-wangmy@fujitsu.com>
 References: <1709105575-24259-1-git-send-email-wangmy@fujitsu.com>
@@ -54,55 +54,50 @@ X-TM-AS-GCONF: 00
 X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28218.005
 X-TM-AS-User-Approved-Sender: Yes
 X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28218.005
-X-TMASE-Result: 10-2.560100-10.000000
-X-TMASE-MatchedRID: /gZnudouedqjz0nOeth/yUIIxwDaU5mrARyXsbS4pUZUjspoiX02F6+X
-	jxY1c4Onldhq7sfFh4dKhBUJyxjhBu1a16oqp8B1/HTKStsDGMJHNQ8CqEKO2MC5DTEMxpeQRBg
-	61kSK4DiBkESMI05d4qHvyg1ZsxTflwt7DABrvp91e7Xbb6Im2g8JAnaMw0RVwSC6qIZ5nkmjxY
-	yRBa/qJXcsDK2xBHh7jaPj0W1qn0TGVuWouVipcgGc1dSIUH/2Pme+sRsvX9XGpuug8oKD5U1li
-	7S7X8f1ktwh/hVbDzhazZfQWgjsfSUA4c+wbAqarxl3/M2HG9VU/ClD6AmKdf6/2/nZkihaOgB/
-	fz3EXdcVKT0eFRmfDs4YhafCzgujIdY9jOi4lTI=
+X-TMASE-Result: 10--1.427700-10.000000
+X-TMASE-MatchedRID: wgzGQ0X+yFqjz0nOeth/yUIIxwDaU5mr45oDENe4eevfUZT83lbkEGKF
+	UnCI/02ZIfufXEGEgRZEesSwxd/CQ4adzrWEfJJM30kDaWZBE1TVy4hHC3/gyLKw8Hx0EGitcqf
+	oMGP+CwQi+t+0AiFaYragH2fa4K/a5UcZtwNsCroURSScn+QSXmVV1G+Ck2l7+gtHj7OwNO28bR
+	Ued1HGAgejtITm3dC1Y2FKh9SADHrDBUalb/ouIGX58x7NOPzcG/lQBB+wXiHqi5XpRzqO5oOXe
+	0eJpMMysU9TPm0LQLam9KgIX84qe/IMFg0InOPqz5gAnmajvOU4qCidlj1MUy0uABDi47cA
 X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 07:33:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196336
+ <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 07:33:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196344
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
 Changelog:
-==========
-- HdyStyleManager
-  - Support contrast setting in the settings portal
-  - Remove an extra unref
-- Translation updates
-  - Catalan
-  - Georgian
-  - Romanian
-  - Turkish
+===========
+-Wrap Xext*CheckExtension() in do { ... } while(0)
+-configure: raise minimum autoconf requirement to 2.70
+-configure: Use LT_INIT from libtool 2 instead of deprecated AC_PROG_LIBTOOL
+-_xgeGetExtensionVersion should not free info on failure
+-Check for malloc failure in _xgeGetExtensionVersion
+-_xgeDpyClose: handle NULL return from _xgeFindDisplay
+-XEVI: fix -Walloc-size
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../libhandy/{libhandy_1.8.2.bb => libhandy_1.8.3.bb}           | 2 +-
+ .../xorg-lib/{libxext_1.3.5.bb => libxext_1.3.6.bb}             | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-gnome/libhandy/{libhandy_1.8.2.bb => libhandy_1.8.3.bb} (95%)
+ rename meta/recipes-graphics/xorg-lib/{libxext_1.3.5.bb => libxext_1.3.6.bb} (89%)
 
-diff --git a/meta/recipes-gnome/libhandy/libhandy_1.8.2.bb b/meta/recipes-gnome/libhandy/libhandy_1.8.3.bb
-similarity index 95%
-rename from meta/recipes-gnome/libhandy/libhandy_1.8.2.bb
-rename to meta/recipes-gnome/libhandy/libhandy_1.8.3.bb
-index e863e8d13b..7f5f02a7ba 100644
---- a/meta/recipes-gnome/libhandy/libhandy_1.8.2.bb
-+++ b/meta/recipes-gnome/libhandy/libhandy_1.8.3.bb
-@@ -10,7 +10,7 @@ LICENSE = "LGPL-2.1-only"
- LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+diff --git a/meta/recipes-graphics/xorg-lib/libxext_1.3.5.bb b/meta/recipes-graphics/xorg-lib/libxext_1.3.6.bb
+similarity index 89%
+rename from meta/recipes-graphics/xorg-lib/libxext_1.3.5.bb
+rename to meta/recipes-graphics/xorg-lib/libxext_1.3.6.bb
+index 7d0597ef1d..275926a885 100644
+--- a/meta/recipes-graphics/xorg-lib/libxext_1.3.5.bb
++++ b/meta/recipes-graphics/xorg-lib/libxext_1.3.6.bb
+@@ -21,4 +21,4 @@ PE = "1"
+ XORG_PN = "libXext"
+ BBCLASSEXTEND = "native nativesdk"
  
- SRC_URI = "git://gitlab.gnome.org/GNOME/libhandy.git;protocol=https;branch=libhandy-1-8"
--SRCREV = "48ae7ec0f7f9ee5f666da38b0e39e66874957166"
-+SRCREV = "9b0071408ce86a3ef843806fddd723a85f6f2416"
- S = "${WORKDIR}/git"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.(\d*[02468])+(\.\d+))"
+-SRC_URI[sha256sum] = "db14c0c895c57ea33a8559de8cb2b93dc76c42ea4a39e294d175938a133d7bca"
++SRC_URI[sha256sum] = "edb59fa23994e405fdc5b400afdf5820ae6160b94f35e3dc3da4457a16e89753"
 -- 
 2.34.1
 
