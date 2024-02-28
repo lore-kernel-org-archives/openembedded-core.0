@@ -2,56 +2,56 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7152C47DD9
-	for <webhook@archiver.kernel.org>; Wed, 28 Feb 2024 19:32:17 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web10.6305.1709148736002961799
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E466CC47DD9
+	for <webhook@archiver.kernel.org>; Wed, 28 Feb 2024 19:33:27 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web10.6338.1709148801716794985
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Feb 2024 11:32:16 -0800
+ Wed, 28 Feb 2024 11:33:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=F+9arz+O;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-33d38c9ca5bso81584f8f.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 11:32:15 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=LC4kcAYt;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-33dd2f0a0c4so95463f8f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 11:33:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1709148734; x=1709753534; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1709148800; x=1709753600; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=3cKPq1FQ/UK1N2czN8N52C6f4dTVn+sJXark5Pv5Uw4=;
-        b=F+9arz+O1r8TdxAXQgxPV8XIz88Pyri5ytFSj55uoMvC32NsPxtv7BNQehau3LJLRG
-         moSOZ8VB/8kd2MDRoskyyh0wAV2Qt4zADcX9Sv9Kiy9C2NwHvr5d9++MoQIMrjk9dj3s
-         azhdgfMH4ybyW9yxzSo+g80/qc9eSztrvraJI=
+        bh=Xtc4mb6qN2pkuWYJQUzbac5sx5WItEPD3OxPyobU1Ok=;
+        b=LC4kcAYtVez7Tq1NGupvkJKkm6ZNWpa6VTV+r0zJR3Vdm6Au3ee29MvBozcHdvpiP8
+         0V1TmPrpvvesvqVqnvq8fcbY/rlj/ypHkTbOodFlrIu14AjSIkFRtu27Wv1Fe87lEReF
+         9mksnUtlRfuUF8wv381+srShZOsVgxQTpJJN4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709148734; x=1709753534;
+        d=1e100.net; s=20230601; t=1709148800; x=1709753600;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:to:from:subject:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3cKPq1FQ/UK1N2czN8N52C6f4dTVn+sJXark5Pv5Uw4=;
-        b=EKD2clY/SL2HpF3k/BNS3upDozEKXRVpgZhUolyT1/vEpHp9TIhye6pmvcS//0V9AQ
-         3Mzi1q7F39KAKbaTJ24Qkh2hP+z016aHibOKumlgwRHeSaQl7GFj49dW2gcqMZUsGgjn
-         69ugZESw2dT2n5PeK0fiPj/a+HIe8IFS8GliunJ+6pH91JZHoHmx0hWCVkZGn0BZLKI6
-         Kj9JBz7FpzCyEIPkrtj+5YDKHV1P4yHAOMz7uaSc3+Uxzhd1UL67RSAyBdTlwGtIyxlB
-         iFBtWEsqQknVkJ1HQX1Dk0LDWgjuJqUK8hf8LmVV/lRR+pTM5KKXgViWqZkGmmJE+fij
-         755g==
-X-Forwarded-Encrypted: i=1; AJvYcCWP3+LiF98O+OUVT5DM7Bo/msuD8x59ak4uCX0o//NgDuh6OkS8aYSRkJzI/FNQxWecDN31KADDHXfoLjc6dJasTDhX5bF23XLcclzA+02RueGMKhPrpYy3
-X-Gm-Message-State: AOJu0YxsPnpD/PsQ5Ezi58RaBb3xmAZ9Te6WI9Yjzf1rosajrT2ysDcS
-	BRim5bp+GtRTeR7pMiIJpAUztfe/oALasOKzslASbX3JZg2Y+EueXFGuRGbOJjs=
-X-Google-Smtp-Source: AGHT+IEm7KJVohd8ui+pJjuNCSAHzSpIk/TdP0RZz6B/6Se009MsODIbvIoqYECqKizTiCmclFrIxg==
-X-Received: by 2002:a5d:5581:0:b0:33d:27d4:2fec with SMTP id i1-20020a5d5581000000b0033d27d42fecmr313078wrv.35.1709148734300;
-        Wed, 28 Feb 2024 11:32:14 -0800 (PST)
+        bh=Xtc4mb6qN2pkuWYJQUzbac5sx5WItEPD3OxPyobU1Ok=;
+        b=hnU3YslbuQafRxzWMAZ21zome7yj9ibgeCX+9+NiZxdOfykY0cytS0SHX7BQ8g/HoR
+         sAaf/zH+4PnZ5Im8zJ4gw33ilrEcpwRskM3UAjJL4v2yVVJbQYN80U1wek7ha7oOnl05
+         3HAAfK/GmJTQobxbISc+tp1P5l6OWxr5wxUwxwUYDFGh0J7H7/BolMuTEKZUurll+ed8
+         N+UFralTnnabnFAjNLl08IVYYqxAtNcUvpCtm7BVl8QMZ4zpppb41M1j2jyoUc4AESR7
+         k5y+6pXPB2Oqak2BNJJqFifMolF0GjjnkjSbvK7d9A1O7iTAihDw0JwUY9djR9giBe7W
+         O/FQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU0mAJ1Qgp2UaIizOTeEkfsz9veOCq/qW/sz6irNimrP/omZxLmneDsdF5KHX6UaGe/voLYIlftqlCt9X2kJOKRTG3io+z6mL6A/Wq2hj3UfNEMV8aiT8du
+X-Gm-Message-State: AOJu0YwgFxAe/ajVIem1vRL2Lbs7VLKHdShlK9dSPxh+9+zdOOGXWQdL
+	xxfLaSRggy6ycdAYgr/LtnI9RFnQCpWGp0E4o5psww23c20K9LZh3fcSW9Qi4lU=
+X-Google-Smtp-Source: AGHT+IH0nTdzhiJk73Ik/TUikZUhj5VhSmgCW6lkyW+p+21UVhYf7Oj3xcCzlHMuhkoSR18o6pBu1w==
+X-Received: by 2002:a5d:4ac9:0:b0:33d:b0c6:433c with SMTP id y9-20020a5d4ac9000000b0033db0c6433cmr375384wrs.53.1709148800009;
+        Wed, 28 Feb 2024 11:33:20 -0800 (PST)
 Received: from ?IPv6:2001:8b0:aba:5f3c:dfc0:7799:bd76:6cd8? ([2001:8b0:aba:5f3c:dfc0:7799:bd76:6cd8])
-        by smtp.gmail.com with ESMTPSA id bs17-20020a056000071100b0033df8854f0dsm3614127wrb.26.2024.02.28.11.32.13
+        by smtp.gmail.com with ESMTPSA id ay21-20020a5d6f15000000b0033cf095b9a2sm16238335wrb.78.2024.02.28.11.33.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Feb 2024 11:32:13 -0800 (PST)
-Message-ID: <8306bd275dac03ef649ae33aff2d560ff4c198de.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 24/48] minicom: upgrade 2.8 -> 2.9
+        Wed, 28 Feb 2024 11:33:19 -0800 (PST)
+Message-ID: <eec98a43c0d0594086dc88d0481e928b83526c03.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 14/48] libpcre2: upgrade 10.42 -> 10.43
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: wangmy@fujitsu.com, openembedded-core@lists.openembedded.org
-Date: Wed, 28 Feb 2024 19:32:13 +0000
-In-Reply-To: <1709105575-24259-24-git-send-email-wangmy@fujitsu.com>
+Date: Wed, 28 Feb 2024 19:33:19 +0000
+In-Reply-To: <1709105575-24259-14-git-send-email-wangmy@fujitsu.com>
 References: <1709105575-24259-1-git-send-email-wangmy@fujitsu.com>
-	 <1709105575-24259-24-git-send-email-wangmy@fujitsu.com>
+	 <1709105575-24259-14-git-send-email-wangmy@fujitsu.com>
 Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=mQINBGN1PzgBEADqZynxX+ivalgYtZ+AoHoGynCiJw0lR+H9rC83sj9z38nlKHBCuh8r8KOqelDUf1B73E9oCLjZQVwqKLmao6ZDQYt7utG+h6qGLEgyDfeochYkLwElvRtjhTp0Ks5WPIHUgE4lwfqmsLrHbkEfRYui9eSd+zJpPKTRgQ7WhTGfRaXPEVYn24fWEo637biLyoEop1qaZMoY/mPsflDYDISWgAeunFx63oL9zNAhOWbLIy2uicKq2GyS56CooPzQkpUv7ssQBOqXp/FSuGJ49RV7Npj/eXyEepAh3BtMliJF08rAj07Hpywp3skXku8YcwUAD7TqOnJ4Wr6G8vpJlQKSITIGMBqtq3f8+SwImWEMRVXxDzrmznihOC7qEUWH4tN/AEkz2BJQbGYnp3iQjZqsoqKblyC83/5MCCUHHpDg20HooEWVNTUxUa8dGWaJehKC5fX1276Sm4WLaoqbQwSGCmwS1e+LjO9lFT80WHIELw07iDhQxshNqVLIxCt3pZfWRlf9fHCtxStiQIRrQLAKN7ze+//YjExjkDOt1ZFIsgMmKIQmJ6b8kRAAmQUraTcn4E/hy0mArFLmROyPSc1nD8hQMeELDcjyjEmo7j3qQCsU464v4tcvJVXyqPc4TU1GDQdZBaKP0/jR68aR3ZOvzx99jdocPdHNW4Kpbv6PnQARAQABtDNSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz6JAlcEEwEKAEECGwEFCQPCZwAFCwkIBwIGFQoJCAsCBBYCAwECHgECF4AWIQQRclb3b/q6zLA9Fn+aUMY1GLyygAUCY3VBgQIZAQAKCRCaUMY1GLyygAtOEADglyjAhkCSGGetbs40FJ4
  xdHKck7aaB1FgbpGn9e9/WAeAPC722eJsxhujxgKaS9b7mHcTcWeMP7KFut4yKTDHovt4VbQOd PGqwyUmi8z0yd2ORlT9E3RjEEllpj/Z2Wfzs3H4qR5wz3Rij1BCirDH8LD5yAO8PpIW2N1Y4VbzFDTPX2KtLGQYIraOHZQQe8XjAJnXflVQbzSIbNw14IlVWnF94UwkamxRhhCVAdA4139ebU+R0inaVsG0Bb7GP3KiED4C1I/tj171G4bOsyz3zYkpuV64yuq5pVevLBuCJv1Z/yiBdbB02B+FkosKLWRvoZFa2gqK2xpZT8RvDdkBQTmZTs/hP59mh1QSt4d2p1KsBu7cx2fjRBuf9XVG+uR/XnbD5T1BQRVV641ZNzPTjtE3rEZzR1nsUv+vcFYv0V/FPcLg5f3Ui+4cuYj/xDykMKZlrBIVGExBOJr7Anbzwq8o4nYUsrbFE3Fu88l8/mWrQCkAIZqc2NRyuXplZrDanB9Abi2XmZO0B3Q9wKvzmH0yJyLfswmzrejf3oVOJNEKJP5acPnXfQqAr5F7gdeLvdHbOAtg1iU8GujkOvRA7ad5ahT/1mDzKlkjaf36p4jodsGzPydOks2/jbVZxbZsR1il3BuDXb0agChNXJH4IpcnrjAliBtTKwnEYuLQeLQsUmljaGFyZCBQdXJkaWUgPHJwdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz6JAlQEEwEKAD4WIQQRclb3b/q6zLA9Fn+aUMY1GLyygAUCY3VBEAIbAQUJA8JnAAULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRCaUMY1GLyygA0tD/4l5GVZ1OTKoCsHzQuSUVnyzmSwYmJD7W7E1VeVVvVk5bfFf/w6p3dXfGjhZ8zFackE+RmT3//8kQ+Zs68csd0wjX8klyFXgA5PWP3DxNkejnHCq7wiLouOGC/E9RSUULn1DYb68yPzvdGQBooqPQZORtXzNgM
  NuWDKH+9uvhGbdvURJHCRPTpgcdCo64d+IMzA+XmZUg0P722IyVmB+I2TgjaIRr/NsbsGP4x3u8 TVfJPXmE1IS9nrKEm023ntuy1AH9JlACLZ4LGvpxf8x7ZVKaXXqWOQ1aQ5BCQoOc41AiVUyeiq2wdLRQaNOxbb8+ED34BYLyMjZdII9eovZMbMt7kLSjkbOs/k3s7wtQ2eY7QnSggf8/MWUSUaJzLKHnOBRcqGjdFdlZ0BKXL+v9NrpjcUBsG1TY5XORIahk6Pt1+cPyIsKdycKU4RHtNfwX5fidE8AhU97U04z3tIYs121J4M/EG3bEfOtwDaH7BRTZHK5B05Mks/kX608CwLSJSbX2dSENInh5+dSVQ0egbFbXQGcHFmCCMjYH09hcNUSEyI4OUQHVu8HHQIfvutPqIsZEtJ1K/s3ZD3Zyq35UUiwnCu5hYohX9B0o0TwgDaI85dS2edHy2bnM3a9yuTPiwNYpfR6dp6cg8BM+9qqkJvwp5LiMcZcJC8S5xR3U0FtbQiUmljaGFyZCBQdXJkaWUgPHJwdXJkaWVAcnBzeXMubmV0PokCVAQTAQoAPhYhBBFyVvdv+rrMsD0Wf5pQxjUYvLKABQJjdUEhAhsBBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEJpQxjUYvLKA/iUQAJJkVW2yDzxrH/5szOuG0ZDDH6X6Yrdp+m+F4hHHJQkTYgdRPeoHYKyXNOettdVKrZyEDkztBWkB7Sd7zuVHR3Q4PVTsEh09ZzkqBgN8OevMA7RPHZOa2PYJ8pAx7eTah1whM2eOf+VZGKrW1R9ouTluV7/c4o5loaKuh+t61W2nH6E+lQt3/gKnwj4QmUb5V957ZSHO1cnjtHrd4FFmkYQOCbolEfC25lT9vh4ldY+dILQPcq4at/LEABp4xEgS6R7K4E3cDnjWogrZTiniAUrR7P0SNYv7WCpAbvk4Z9DGCHXpKod
@@ -67,57 +67,73 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 19:32:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196408
+ <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 19:33:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196409
 
 On Wed, 2024-02-28 at 15:32 +0800, wangmy via lists.openembedded.org wrote:
 > From: Wang Mingyu <wangmy@fujitsu.com>
 >=20
-> 0001-fix-minicom-h-v-return-value-is-not-0.patch
-> allow.to.disable.lockdev.patch
-> removed since they're included in 2.9.
+> License-Update: Copyright year updated to 2024.
 >=20
 > Changelog:
 > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> =C2=A0- Change Hardware Flow Control Default to No.
-> =C2=A0- Timestamping mode is now saved and restored.
-> =C2=A0- Split "Screen and Keyboard" menu into two menus.
-> =C2=A0- Update to gettext-0.21.
-> =C2=A0- Change return values of --help and --version to success.
-> =C2=A0- Support higher baud rates on MacOS
-> =C2=A0- Save character send delay to config file
-> =C2=A0- Save newline send delay to config file
-> =C2=A0- Update translations: Romanian, German, French, Norwegian/Bookmal,=
- Polish,
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Serbian,=
- Swedish
-> =C2=A0- New translation: Georgian, Korean
+> * The JIT code no longer supports ARMv5 architecture.
+> * A new function pcre2_get_match_data_heapframes_size() for finer heap co=
+ntrol.
+> * New option flags to restrict the interaction between ASCII and non-ASCI=
+I
+> =C2=A0 characters for caseless matching and \d and friends. There are als=
+o new
+> =C2=A0 pattern constructs to control these flags from within a pattern.
+> * Upgrade to Unicode 15.0.0.
+> * Treat a NULL pattern with zero length as an empty string.
+> * Added support for limited-length variable-length lookbehind assertions,=
+ with
+> =C2=A0 a default maximum length of 255 characters (same as Perl) but with=
+ a function
+> =C2=A0 to adjust the limit.
+> * Support for LoongArch in JIT.
+> * Perl changed the meaning of (for example) {,3} which did not used to be
+> =C2=A0 recognized as a quantifier. Now it means {0,3} and PCRE2 has also =
+changed.
+> =C2=A0 Note that {,} is still not a quantifier.
+> * Following Perl, allow spaces and tabs after { and before } in all Perl-
+> =C2=A0 compatible items that use braces, and also around commas in quanti=
+fiers. The
+> =C2=A0 one exception in PCRE2 is \u{...}, which is from ECMAScript, not P=
+erl, and
+> =C2=A0 PCRE2 follows ECMAScript usage.
+> * Changed the meaning of \w and its synonyms and derivatives (\b and \B) =
+in UCP
+> =C2=A0 mode to follow Perl. It now matches characters whose general categ=
+ories are L
+> =C2=A0 or N or whose particular categories are Mn (non-spacing mark) or P=
+c
+> =C2=A0 (combining punctuation).
+> * Changed the default meaning of [:xdigit:] in UCP mode to follow Perl. I=
+t now
+> =C2=A0 matches the "fullwidth" versions of hex digits. PCRE2_EXTRA_ASCII_=
+DIGIT can
+> =C2=A0 be used to keep it ASCII only.
+> * Make PCRE2_UCP the default in UTF mode in pcre2grep and add -no_ucp,
+> =C2=A0 --case-restrict and --posix-digit.
+> * Add --group-separator and --no-group-separator to pcre2grep.
 >=20
 > Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 > ---
-> =C2=A0...ix-minicom-h-v-return-value-is-not-0.patch | 33 ----------------=
----
-> =C2=A0.../minicom/allow.to.disable.lockdev.patch=C2=A0=C2=A0=C2=A0 | 30 -=
-----------------
-> =C2=A0.../{minicom_2.8.bb =3D> minicom_2.9.bb}=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0 7 ++--
-> =C2=A03 files changed, 2 insertions(+), 68 deletions(-)
-> =C2=A0delete mode 100644 meta/recipes-extended/minicom/minicom/0001-fix-m=
-inicom-h-v-return-value-is-not-0.patch
-> =C2=A0delete mode 100644 meta/recipes-extended/minicom/minicom/allow.to.d=
-isable.lockdev.patch
-> =C2=A0rename meta/recipes-extended/minicom/{minicom_2.8.bb =3D> minicom_2=
-.9.bb} (80%)
+> =C2=A0.../libpcre/{libpcre2_10.42.bb =3D> libpcre2_10.43.bb}=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 4 ++--
+> =C2=A01 file changed, 2 insertions(+), 2 deletions(-)
+> =C2=A0rename meta/recipes-support/libpcre/{libpcre2_10.42.bb =3D> libpcre=
+2_10.43.bb} (92%)
 
-This breaks selftests in devtool:
+This breaks glib-2.0 ptests:
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/6478/step=
-s/14/logs/stdio
+https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/6325/
+https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/6136
 
 Cheers,
 
 Richard
-
 
 
