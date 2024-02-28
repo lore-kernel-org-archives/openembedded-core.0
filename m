@@ -2,51 +2,51 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 024ABC54E55
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1485BC54E56
 	for <webhook@archiver.kernel.org>; Wed, 28 Feb 2024 07:33:31 +0000 (UTC)
-Received: from esa8.hc1455-7.c3s2.iphmx.com (esa8.hc1455-7.c3s2.iphmx.com [139.138.61.253])
- by mx.groups.io with SMTP id smtpd.web11.8393.1709105607655153432
+Received: from esa7.hc1455-7.c3s2.iphmx.com (esa7.hc1455-7.c3s2.iphmx.com [139.138.61.252])
+ by mx.groups.io with SMTP id smtpd.web11.8389.1709105605373369203
  for <openembedded-core@lists.openembedded.org>;
  Tue, 27 Feb 2024 23:33:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=AMX5a0zL;
- spf=pass (domain: fujitsu.com, ip: 139.138.61.253, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=UmVm0UtH;
+ spf=pass (domain: fujitsu.com, ip: 139.138.61.252, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1709105607; x=1740641607;
+  t=1709105608; x=1740641608;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references;
-  bh=BIzXifSBZBhMFxuaFWozxL9F2teb+FM0rGl2bRD1Nnk=;
-  b=AMX5a0zL8udRfUNTEOBFr/rNsdrI68tpUsh8zCT0IzJ0LECEpVoMiBVm
-   AaOiWg+bfIuFVZ389YpIYbmb0qNZV0YB7FFH5mQtKjuKNiQ8wlAS3g9Qi
-   LzdfE4+5GMs7PXRZ/qXaa4UWlnEpTv9kjKT33oZqEKlrIjNWRGK3nxeFb
-   eMMgs4DGv795hn7YH7aSTxc/xGYmokiG6c5A1S0/UE8r/oulJV39O3SzL
-   sjVaWvb/2LOOAPY5Kdd8SYD9kfwCpK+yi7uIEUXySU3NN41vPufzOSalU
-   X31yh+py8BjfoYeixddqXdKPk3o9EZxaKADdCdoVewPpN/xag+wjQ5CH5
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10996"; a="138665580"
+  bh=JA5gq4KPPsMzX8++KUxXsUxIxYiAVcpQCroMjad0kZE=;
+  b=UmVm0UtHYAnWIYadbVbuw5KFh7Jnbw3W1hmtWOrcg8O4n21g4uEtAJ86
+   S3I0eN2TB7dSqc9yNBpAWwInHL6v3qmI1a5PQY3Ll9DjhQbQtIFi9GJLm
+   GJxlWhCvKkwYeKCQLmiYXdC/XzxJesDy22zxKSHg725Ky0s7ZwANtxL8x
+   j+CMIqdzVRUcGAPbWU6VsRjFy+gLwPQdnZnMxu9HpGAeYy2bUQLskXL+p
+   zqHPTVlPubQFuSojvKP9491KthIXq2rgWe+fra2BXSiaRqiDBjgbLuZ0N
+   eclhPLmJwijlQGd0hOcdSjr2tYRrGykP7bKNdpUSwRA+/2GFTcYRApTh4
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10996"; a="129444240"
 X-IronPort-AV: E=Sophos;i="6.06,190,1705330800"; 
-   d="scan'208";a="138665580"
-Received: from unknown (HELO oym-r4.gw.nic.fujitsu.com) ([210.162.30.92])
-  by esa8.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2024 16:33:25 +0900
-Received: from oym-m4.gw.nic.fujitsu.com (oym-nat-oym-m4.gw.nic.fujitsu.com [192.168.87.61])
-	by oym-r4.gw.nic.fujitsu.com (Postfix) with ESMTP id 308561590F7
-	for <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 16:33:23 +0900 (JST)
-Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
-	by oym-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id 52C22D52AF
-	for <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 16:33:22 +0900 (JST)
+   d="scan'208";a="129444240"
+Received: from unknown (HELO yto-r4.gw.nic.fujitsu.com) ([218.44.52.220])
+  by esa7.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2024 16:33:26 +0900
+Received: from yto-m2.gw.nic.fujitsu.com (yto-nat-yto-m2.gw.nic.fujitsu.com [192.168.83.65])
+	by yto-r4.gw.nic.fujitsu.com (Postfix) with ESMTP id EEBE7A02A3
+	for <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 16:33:24 +0900 (JST)
+Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
+	by yto-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id 3A239DB3C6
+	for <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 16:33:24 +0900 (JST)
 Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id D8C5541180
-	for <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 16:33:21 +0900 (JST)
+	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id BF9352008FF86
+	for <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 16:33:23 +0900 (JST)
 Received: from vm4860.g01.fujitsu.local (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 8BFAB1A006A;
-	Wed, 28 Feb 2024 15:33:21 +0800 (CST)
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 695F41A006A;
+	Wed, 28 Feb 2024 15:33:23 +0800 (CST)
 From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 13/48] libmicrohttpd: upgrade 0.9.77 -> 1.0.1
-Date: Wed, 28 Feb 2024 15:32:20 +0800
-Message-Id: <1709105575-24259-13-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH 16/48] libsecret: upgrade 0.21.2 -> 0.21.4
+Date: Wed, 28 Feb 2024 15:32:23 +0800
+Message-Id: <1709105575-24259-16-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1709105575-24259-1-git-send-email-wangmy@fujitsu.com>
 References: <1709105575-24259-1-git-send-email-wangmy@fujitsu.com>
@@ -54,45 +54,51 @@ X-TM-AS-GCONF: 00
 X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28218.005
 X-TM-AS-User-Approved-Sender: Yes
 X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28218.005
-X-TMASE-Result: 10-2.368200-10.000000
-X-TMASE-MatchedRID: S9L8qTrmXfGjz0nOeth/yUIIxwDaU5mrG24YVeuZGmOBAXl9LkPp6d3j
-	jLnWeB3h4CtjYmQpb2kF1Ec/oUIRlVpCIuRr0RxKTuctSpiuWyU2ZWOmuJUS2YXsbVsdXVIhoSV
-	r3+zgq92xfbhqGxLk+4Ay6p60ZV62yA7duzCw6dLdB/CxWTRRu+rAZ8KTspSzaN1Ag6XPYXBaZZ
-	zNvSUxumKCTlL6CoTJFlkjUoF1Zw6uPnZs0gx4kCjl9FyWnkAcR41TGXAoT7TMyelrjkROkwgjI
-	iFsGRBaiB6mlDKe1V7S/yytHeCN9GXv4CQeNUk7G6qTOwq/n71+3BndfXUhXQ==
+X-TMASE-Result: 10--1.445900-10.000000
+X-TMASE-MatchedRID: /gZnudouedqjz0nOeth/yUIIxwDaU5mr7xtPw/8I7HSZVnrV0ZFsVUjk
+	mZhzoGFQ7+nFmH5aUdYq1udiYlzzO/POIMIWf2Grn6y0mNkW0aTD4xQfyZlO1JTx+2LIqNmt0yO
+	PBv1B9XYILxoCYZ47qVXTT7CHDFVDL/tBTZzO5Q3Q0D4MTphfBGxx7vRUjbKhgW6bY8SOq3WjxY
+	yRBa/qJXcsDK2xBHh7jaPj0W1qn0TGVuWouVipclmoQX+aag9F+mlHcJFovlUsibigLU4R9LPHB
+	4MXikBZvrCEjXs8BvSNuEvgLg2iMWzRpVLiYUTfyaHwlCINcn4P83ef6BtZh/6/2/nZkihaOgB/
+	fz3EXdcVKT0eFRmfDs4YhafCzgujIdY9jOi4lTI=
 X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 07:33:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196338
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196339
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
 Changelog:
-  fixes and improves builds with non-default configure parameters.
+==========
+ * file-backend: Subscribe before calling dbus
+ * meson: Fix crypto option being silently ignored
+ * Updated translations
+ * Port PAM module from gnome-keyring
+ * secret-tool: Fix memory issues in lock command
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../{libmicrohttpd_0.9.77.bb => libmicrohttpd_1.0.1.bb}         | 2 +-
+ .../libsecret/{libsecret_0.21.2.bb => libsecret_0.21.4.bb}      | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/libmicrohttpd/{libmicrohttpd_0.9.77.bb => libmicrohttpd_1.0.1.bb} (90%)
+ rename meta/recipes-gnome/libsecret/{libsecret_0.21.2.bb => libsecret_0.21.4.bb} (91%)
 
-diff --git a/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.77.bb b/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.1.bb
-similarity index 90%
-rename from meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.77.bb
-rename to meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.1.bb
-index 792ac24726..0628ee71b5 100644
---- a/meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.77.bb
-+++ b/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.1.bb
-@@ -7,7 +7,7 @@ SECTION = "net"
- DEPENDS = "file"
+diff --git a/meta/recipes-gnome/libsecret/libsecret_0.21.2.bb b/meta/recipes-gnome/libsecret/libsecret_0.21.4.bb
+similarity index 91%
+rename from meta/recipes-gnome/libsecret/libsecret_0.21.2.bb
+rename to meta/recipes-gnome/libsecret/libsecret_0.21.4.bb
+index 2d8ea952c5..88c3c73510 100644
+--- a/meta/recipes-gnome/libsecret/libsecret_0.21.2.bb
++++ b/meta/recipes-gnome/libsecret/libsecret_0.21.4.bb
+@@ -13,7 +13,7 @@ inherit gnomebase gi-docgen vala gobject-introspection manpages
  
- SRC_URI = "${GNU_MIRROR}/libmicrohttpd/${BPN}-${PV}.tar.gz"
--SRC_URI[sha256sum] = "9e7023a151120060d2806a6ea4c13ca9933ece4eacfc5c9464d20edddb76b0a0"
-+SRC_URI[sha256sum] = "a89e09fc9b4de34dde19f4fcb4faaa1ce10299b9908db1132bbfa1de47882b94"
+ DEPENDS += "glib-2.0 libgcrypt gettext-native"
  
- inherit autotools lib_package pkgconfig gettext
+-SRC_URI[archive.sha256sum] = "e4a341496a0815e64c8d3b8fabab33d7bae7efdeab77b843669731d5b181dcee"
++SRC_URI[archive.sha256sum] = "163d08d783be6d4ab9a979ceb5a4fecbc1d9660d3c34168c581301cd53912b20"
+ 
+ GTKDOC_MESON_OPTION = 'gtk_doc'
  
 -- 
 2.34.1
