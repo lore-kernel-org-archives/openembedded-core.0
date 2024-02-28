@@ -1,124 +1,102 @@
-Return-Path: <soumya.sambu@windriver.com>
+Return-Path: <leimaohui@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD0B7C47DD9
-	for <webhook@archiver.kernel.org>; Wed, 28 Feb 2024 07:38:42 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.8510.1709105917812782965
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9185C54E41
+	for <webhook@archiver.kernel.org>; Wed, 28 Feb 2024 07:41:52 +0000 (UTC)
+Received: from esa12.hc1455-7.c3s2.iphmx.com (esa12.hc1455-7.c3s2.iphmx.com [139.138.37.100])
+ by mx.groups.io with SMTP id smtpd.web10.8536.1709106109493733231
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Feb 2024 23:38:37 -0800
+ Tue, 27 Feb 2024 23:41:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=RuywT9wF;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=2788100bef=soumya.sambu@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41S5UkRM022350
-	for <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 07:38:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=PMvEB
-	y3HMsyay8fMQitlq9nkG6Kg5F9Qt1KZlcJzEbE=; b=RuywT9wFt5WMgjdxAJPBs
-	1tCwMIHqDve0B51zsX1ybnsdfoswrnHdTZB451Mrdwy10TsXTCYIgt2Br0ws1NZE
-	Gi4Lk2oBl8Gvg8UgT0YrMNcApoWTABVeBn18Qh4wkVvo1ietxYZ6R/OKuTbZFy6L
-	07bvOpYg7T47NNz0FXzGNFodR1KFpWk+F8g3jB3NqUhp/L1XUhHSsE1Y67Vu1gmd
-	LYeFaQjWNN1R3DjT8jr+pKWeEf2j1X3nSwCi2pLV73R4DszoDhMF7xXyMcHRLT0I
-	+XprPPryz1GQPnzSExypfmFW2TtlBtlgduGPNNieKqPgSMe3/EOVstBjtlkoA9Qw
-	g==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3wf7e6c0ws-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 07:38:36 +0000 (GMT)
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 27 Feb 2024 23:38:34 -0800
-From: ssambu <soumya.sambu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][PATCH 1/1] python3-cryptography{-vectors}: 42.0.2 -> 42.0.4
-Date: Wed, 28 Feb 2024 07:38:18 +0000
-Message-ID: <20240228073818.2520528-1-soumya.sambu@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=Ltf9F+fT;
+ spf=pass (domain: fujitsu.com, ip: 139.138.37.100, mailfrom: leimaohui@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1709106109; x=1740642109;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=YHqw8EP4c1ZLZmyuJne1TkT67ugrZ8xjfOTagQaMe4U=;
+  b=Ltf9F+fTvTlC6PWFCoTeWZz19e716Hwkp29q5S2pTSs4KjUonlVxC2Sy
+   7F3Yu5JhuI7nGy+BmYEgwUmH8SdaOeuKVpVGuYiv/Tqt/gvHr88+hpHs/
+   cGhnwdcXI6+DhIb7wGQdRhbKBKGtSwEwQP2pNGvBRuySMAMy1JF1Akplo
+   hy+an+AVcTfDiNk3f3TwsJKc7pmtuay+N6fb/7howcdHo8Mi5vHV+N1v9
+   rRszjIp5cnhaBuFMbnzknSCS+WivT/ordnw5dpYNBqffq/FrY9JRB1BUy
+   mCXqOD1HiWJ3l7BSjTGuNODaA5uZWq/Hq1tgG0lt971rB/mfCAU5lGdU6
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10996"; a="129960292"
+X-IronPort-AV: E=Sophos;i="6.06,190,1705330800"; 
+   d="scan'208";a="129960292"
+Received: from unknown (HELO oym-r2.gw.nic.fujitsu.com) ([210.162.30.90])
+  by esa12.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2024 16:41:47 +0900
+Received: from oym-m4.gw.nic.fujitsu.com (oym-nat-oym-m4.gw.nic.fujitsu.com [192.168.87.61])
+	by oym-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id 24FBEF0FF1
+	for <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 16:41:45 +0900 (JST)
+Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
+	by oym-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id 4D4DCD561F
+	for <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 16:41:44 +0900 (JST)
+Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
+	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id E16222008FF8A
+	for <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 16:41:43 +0900 (JST)
+Received: from ubuntu20.04 (unknown [10.193.130.22])
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 6C3391A006A;
+	Wed, 28 Feb 2024 15:41:43 +0800 (CST)
+From: leimaohui@fujitsu.com
+To: openembedded-core@lists.openembedded.org
+Cc: Lei Maohui <leimaohui@fujitsu.com>
+Subject: [OE-core] [PATCH] rpm: Fix the following error when run nativesdk-rpm in nativesdk environment.
+Date: Wed, 28 Feb 2024 15:41:41 +0800
+Message-Id: <20240228074141.1618722-1-leimaohui@fujitsu.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [147.11.136.210]
-X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
- ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-GUID: cyPjtRscxbRybRqEiJdPzUAE6GVFbB6S
-X-Proofpoint-ORIG-GUID: cyPjtRscxbRybRqEiJdPzUAE6GVFbB6S
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-28_04,2024-02-27_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- adultscore=0 phishscore=0 mlxscore=0 impostorscore=0 spamscore=0
- bulkscore=0 malwarescore=0 mlxlogscore=824 clxscore=1015
- priorityscore=1501 suspectscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2402120000 definitions=main-2402280057
+X-TM-AS-GCONF: 00
+X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28218.005
+X-TM-AS-User-Approved-Sender: Yes
+X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28218.005
+X-TMASE-Result: 10--2.275700-10.000000
+X-TMASE-MatchedRID: OPOr7Hp7We+4T7uLRdUewXnLJGGZe5swN5dqZcIK7Vgg9R3V8qg5xL8F
+	Hrw7frluRK4fQsyK1ppSlC60HsID+PG1EcJ9UEx5lOneJcroAxQQOcMSo0926v4DDXoaCqk70Xt
+	CztYVPqWC7PwCCLVSIoAy6p60ZV62fJ5/bZ6npdjiRhduhvElsvJT+hf62k2Yo9wYRlAg0MmkBZ
+	SQ2V+8TVzRtSrfaIQZsKzaS7d/L4bRCqHQI6mJiJo9AQ8aAO44kBADaXFpYMjr34v4jqq1GWGdf
+	s4EQDv4GurXI9mjEM0hyadlGFXHKsTgfCdKUS4cicSkmYsAV+kLUU1zqiphVX7cGd19dSFd
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 07:38:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196374
+ <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 07:41:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196375
 
-From: Soumya Sambu <soumya.sambu@windriver.com>
+From: Lei Maohui <leimaohui@fujitsu.com>
 
-Changelog:
-==========
-42.0.4 - 2024-02-20
-* Fixed a null-pointer-dereference and segfault that could occur
-when creating a PKCS#12 bundle. Credit to Alexander-Programming for
-reporting the issue. CVE-2024-26130
-* Fixed ASN.1 encoding for PKCS7/SMIME signed messages. The fields
-SMIMECapabilities and SignatureAlgorithmIdentifier should now be
-correctly encoded according to the definitions in RFC 2633 RFC 3370.
+  package busybox-inittab-1.36.1-r0.ubinux_x86_64 is intended for a different architecture
+  package busybox-udhcpc-1.36.1-r0.core2_64 is intended for a different architecture
+  package ldconfig-2.39+git0+312e159626-r0.core2_64 is intended for a different architecture
+  ......
 
-42.0.3 - 2024-02-15
-* Fixed an initialization issue that caused key loading failures for
-some users.
+CMAKE_INSTALL_SYSCONFDIR is necessary. If not set
+CMAKE_INSTALL_SYSCONFDIR, nativesdk-rpm will use the default setting:
+/usr/local/oe-sdk-hardcoded-buildpath/sysroots/x86_64-ubinuxsdk-linux/etc to find rpmrc file.
 
-https://cryptography.io/en/latest/changelog/#v42-0-4
-
-Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
+Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
 ---
- ...vectors_42.0.2.bb => python3-cryptography-vectors_42.0.4.bb} | 2 +-
- ...n3-cryptography_42.0.2.bb => python3-cryptography_42.0.4.bb} | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-cryptography-vectors_42.0.2.bb => python3-cryptography-vectors_42.0.4.bb} (91%)
- rename meta/recipes-devtools/python/{python3-cryptography_42.0.2.bb => python3-cryptography_42.0.4.bb} (95%)
+ meta/recipes-devtools/rpm/rpm_4.19.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python3-cryptography-vectors_42.0.2.bb b/meta/recipes-devtools/python/python3-cryptography-vectors_42.0.4.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-cryptography-vectors_42.0.2.bb
-rename to meta/recipes-devtools/python/python3-cryptography-vectors_42.0.4.bb
-index 94fbc94c55..9500e890f3 100644
---- a/meta/recipes-devtools/python/python3-cryptography-vectors_42.0.2.bb
-+++ b/meta/recipes-devtools/python/python3-cryptography-vectors_42.0.4.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8c3617db4fb6fae01f1d253ab91511e4 \
- # NOTE: Make sure to keep this recipe at the same version as python3-cryptography
- #       Upgrade both recipes at the same time
+diff --git a/meta/recipes-devtools/rpm/rpm_4.19.1.bb b/meta/recipes-devtools/rpm/rpm_4.19.1.bb
+index 1f8611a29c..a495f7ced2 100644
+--- a/meta/recipes-devtools/rpm/rpm_4.19.1.bb
++++ b/meta/recipes-devtools/rpm/rpm_4.19.1.bb
+@@ -57,7 +57,7 @@ EXTRA_OECMAKE:append:libc-musl = " -DENABLE_NLS=OFF -DENABLE_OPENMP=OFF"
+ # --sysconfdir prevents rpm from attempting to access machine-specific configuration in sysroot/etc; we need to have it in rootfs
+ # --localstatedir prevents rpm from writing its database to native sysroot when building images
+ EXTRA_OECMAKE:append:class-native = " -DCMAKE_INSTALL_SYSCONFDIR:PATH=/etc -DCMAKE_INSTALL_LOCALSTATEDIR:PATH=/var"
+-EXTRA_OECMAKE:append:class-nativesdk = " -DCMAKE_INSTALL_FULL_SYSCONFDIR=/etc"
++EXTRA_OECMAKE:append:class-nativesdk = " -DCMAKE_INSTALL_SYSCONFDIR:PATH=/etc -DCMAKE_INSTALL_FULL_SYSCONFDIR=/etc"
  
--SRC_URI[sha256sum] = "adcdccf5d9ee661a9602ad21d2525f678ba07a6e768ce79835994e208bab0e16"
-+SRC_URI[sha256sum] = "d6b707d238a5e2390c3dae7761b997b68c2b8c0723ed24fc13f832bcc8739945"
- 
- PYPI_PACKAGE = "cryptography_vectors"
- 
-diff --git a/meta/recipes-devtools/python/python3-cryptography_42.0.2.bb b/meta/recipes-devtools/python/python3-cryptography_42.0.4.bb
-similarity index 95%
-rename from meta/recipes-devtools/python/python3-cryptography_42.0.2.bb
-rename to meta/recipes-devtools/python/python3-cryptography_42.0.4.bb
-index c21c4d1a03..e864d6ce4f 100644
---- a/meta/recipes-devtools/python/python3-cryptography_42.0.2.bb
-+++ b/meta/recipes-devtools/python/python3-cryptography_42.0.4.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8c3617db4fb6fae01f1d253ab91511e4 \
-                    "
- LDSHARED += "-pthread"
- 
--SRC_URI[sha256sum] = "e0ec52ba3c7f1b7d813cd52649a5b3ef1fc0d433219dc8c93827c57eab6cf888"
-+SRC_URI[sha256sum] = "831a4b37accef30cccd34fcb916a5d7b5be3cbbe27268a02832c3e450aea39cb"
- 
- SRC_URI += "file://0001-pyproject.toml-remove-benchmark-disable-option.patch \
-             file://check-memfree.py \
+ inherit cmake gettext pkgconfig python3targetconfig
+ OECMAKE_GENERATOR = "Unix Makefiles"
 -- 
-2.40.0
+2.34.1
 
 
