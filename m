@@ -2,87 +2,100 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D583C47DD9
-	for <webhook@archiver.kernel.org>; Wed, 28 Feb 2024 09:38:33 +0000 (UTC)
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
- by mx.groups.io with SMTP id smtpd.web10.9747.1709113109088827091
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68B83C54E41
+	for <webhook@archiver.kernel.org>; Wed, 28 Feb 2024 09:45:33 +0000 (UTC)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+ by mx.groups.io with SMTP id smtpd.web10.9810.1709113524396420549
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Feb 2024 01:38:29 -0800
+ Wed, 28 Feb 2024 01:45:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=jYkskSjD;
- spf=pass (domain: gmail.com, ip: 209.85.208.174, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2d269b2ff48so65035581fa.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 01:38:28 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=iYaMxdtM;
+ spf=pass (domain: gmail.com, ip: 209.85.167.53, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-512f3e75391so4434600e87.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 01:45:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709113107; x=1709717907; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1709113522; x=1709718322; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=zAxePsor+jz4pZY50qyhs/BDX2pxyjDITXKQotyzhpk=;
-        b=jYkskSjDhgH7oii/RaC+iwJ8NmMmtLCp+mFANIprJh+rdEz4jwORbVyMqZBtS1rfeG
-         Xm+km3OTdzY3eYsNxv2e0OgqoZ38d2b7bIwSrfagm+F7FXeHhjPM8NASpCm6uIBfIngM
-         RE7jGhJacG6aHjwZdU8xcsZch5G+Wo7WrAlINpcMXJPyOx7ucDlNReiIfSFyVdlQ062y
-         +goPme2vCVdxX17WGYAqPQrYq+Q4Gai5yZ/S37V+ni6ER9fUmyN7aXMEKDvFyjepQFE8
-         2m0SG/Z/7eISlGJY2qG+H29UH0Y/B+uptC10UJ/3HvmbCOMn3WCb9nTH/a37cYeZaCi1
-         lCGA==
+        bh=54MkdH9DZ7cDnNqDRY9mVIt7aLCPCuNiibIJoI7R75o=;
+        b=iYaMxdtMC4nE1Ymq+9cFhIKvzxpdiXRJLEHCjyxuonZNZDsEKpRxHahaZOY7XZrn7m
+         Q9TmEQY0vg4pAsDmpuVoeNG7Kv7x8/kLw/707Zgs/+m+8WiUaNzOQVf4G+9zz6+9EEHR
+         5enloOytlywbH7uFhIdbmkZDuW9sNZJXciyT5/TjlKHOHwR2TRidxRz1kVeJTgQmP+bG
+         3WYiVWkFcSV1YqJ53h1Zc5QM6fCtMFKT/bYjUZAPFuf7sv7Z4ZnVu8iKYI7sHWJOfDTX
+         B8LDTORoAYz8shmZaPVWUn5iZmEeCE+8vygSxGzrA3BgS/au2rdzFX5Jk8MpKk0dIYYm
+         rmOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709113107; x=1709717907;
+        d=1e100.net; s=20230601; t=1709113522; x=1709718322;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=zAxePsor+jz4pZY50qyhs/BDX2pxyjDITXKQotyzhpk=;
-        b=HFumDhj22DdYDw0RKaahvU9iah+tw/AMhJQFgFUjeL2FlFFncNm9bpVreJwriPBMIg
-         EIncTr0z3YEOZ+317Ctiw48Z/kCpqU1xa3560NqC9vTvy8NfyZayRwHSN/sr1Y4Hheoy
-         mefaoKfOkkSGLUMvAtRr7gVqUc+JfDUnnzIWm9RpD+mo4qQwQYhj2gtCAAnkShcb0sis
-         0HselvGyc2FgayZcbs/Sysq7iPeE24VIwOth0SQ6wsPYQu6zXizmfYxv9jfxQN2O2nkS
-         eiHO+YYjgOicRmlAlHjFZoAQzuiD2y6iwH2DCWQLtY/ow3RQRJnjfT+GXVbwx3sd69z/
-         t4qg==
-X-Gm-Message-State: AOJu0Yyk7bNTIY4qYMRQIJOXvYqIlIvGipI5QZdr4AiNXtVIOyDQPuh4
-	L6H3kdzQCmf++vZhatboWb3Hm4Xi9yr7xrvOPpDU89bQplkSqmsn2PE3p/vdxeUmInehfeNruHc
-	Fammzk2289mSGM0ewIw/M/3K9w/pt7ZTt2ks=
-X-Google-Smtp-Source: AGHT+IH0QWgtOjAbrOAscB4HPCEcp6gjUDjVfuayCLMhZNlWchnkoGd0c2KSDgFi2bgYFNs3H0MHWqJn21Vcd/Q+fzs=
-X-Received: by 2002:a2e:834c:0:b0:2d2:463b:e991 with SMTP id
- l12-20020a2e834c000000b002d2463be991mr7390830ljh.29.1709113107097; Wed, 28
- Feb 2024 01:38:27 -0800 (PST)
+        bh=54MkdH9DZ7cDnNqDRY9mVIt7aLCPCuNiibIJoI7R75o=;
+        b=dKpt6P9Rw0j+OFqvrg7lqbuNWsnwD/IJXcrqjhEMxtznBQ2DfXzt5A3pMqW6M72MGT
+         1v1GRvxQcFJRsundT6RRRR6HJjPjO2HR1e1TSr5+XkxB/J5MFm7LFZeB5YSbpxXnIU2y
+         P0b1RypMeBBQkOr+zHuiP644fVppn6xperigredcHBLZ9/cW0VAiy6qRMisx91590eAZ
+         nFksES8pVi9RHIIdOWh0il2RirRTKJdEbvm1ALX/F3zHcKYfr5gQ31zdN9q19zL8v7WX
+         qSuptzwFZOB9yATm7aoKdzbHTpWRigHuZimnQIps9Gm+69Fw3ZGdRK6ntuMKas/B7s7i
+         8mfQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXiEDRvY0iwiAhy9HawEapJKlaI/EimGumrsb5tAiX1o/hdD39QAUxu3Edb7W779+ZAjwdZ3gmdnDqUhbLM+FpP7e5qsltsOzGOOE0EBA3UZlGDIQ3SxBRc
+X-Gm-Message-State: AOJu0YxGjgh4hCCHOYxwHa3aAm1D+aAA8Vmo2dwxo/E64/uGT/vwdOyN
+	3ioNtysAp3C14CtVk7zb1lPUwinqse2AKUNkPDDyy3e41QubfHcbrfb5AZPBe1UiBrXUaLc3i8n
+	K2N2UT3wHUmnMaKjHhHVm7z4rJD8=
+X-Google-Smtp-Source: AGHT+IFoqVCmXPM04SVRI8OTbVj25v0ReeFwMmViq5EvjxK4z65aJzFSWfxMbov2yuDCSm37rzxuAfAV8O4yHs0rU+k=
+X-Received: by 2002:ac2:5388:0:b0:512:e8eb:f978 with SMTP id
+ g8-20020ac25388000000b00512e8ebf978mr7734899lfh.4.1709113522416; Wed, 28 Feb
+ 2024 01:45:22 -0800 (PST)
 MIME-Version: 1.0
-References: <20240227085722.2025994-1-xiangyu.chen@eng.windriver.com>
- <CANNYZj_uUATQFE54rkXaCiUqPRyaRvRWDJdhH0gGwBd9WHiLjA@mail.gmail.com> <4823ed44-2ba4-4d18-86c2-e6dc426e0a46@eng.windriver.com>
-In-Reply-To: <4823ed44-2ba4-4d18-86c2-e6dc426e0a46@eng.windriver.com>
+References: <20240227051155.2166683-1-changqing.li@windriver.com>
+ <CANNYZj94Uxkp8ELj5CG_-ynK=SYd3U4NdKxy6OSN5w_wzByEtw@mail.gmail.com> <73e51c29-1405-4722-8feb-45536c5648f2@windriver.com>
+In-Reply-To: <73e51c29-1405-4722-8feb-45536c5648f2@windriver.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 28 Feb 2024 10:38:15 +0100
-Message-ID: <CANNYZj-FRp6uO9zVW-82JXBcArSQ6EMB7S444Wff5RNOtv6U1w@mail.gmail.com>
-Subject: Re: [OE-core][PATCH 1/2] bash: add locale alias for ja_JP shiftjis in run-ptest
-To: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
-Cc: openembedded-core@lists.openembedded.org
+Date: Wed, 28 Feb 2024 10:45:11 +0100
+Message-ID: <CANNYZj-QigrAj1=u2eTt-6VyiixAgjHK-0qPTufbWPBBe9dbAA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH V5] systemd: fix a dead link under /var/log
+To: Changqing Li <changqing.li@windriver.com>
+Cc: Changqing Li <changqing.li@eng.windriver.com>, 
+	openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 09:38:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196379
+ <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 09:45:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196380
 
-On Wed, 28 Feb 2024 at 03:45, Xiangyu Chen
-<xiangyu.chen@eng.windriver.com> wrote:
-> Since SHIFTJIS is not a ISO2022/posix compliant and not in the list of
-> glibc locale data support, it was generated by manual with localedef and
-> don't have a unified name.
+On Wed, 28 Feb 2024 at 04:19, Changqing Li <changqing.li@windriver.com> wrote:
+> 1.
 >
+> Currently,  There is one line in /usr/lib/tmpfile.d/legacy.conf(this is in package systemd),
 >
-> The following name has been already found on different linux:
+> "L /var/log/README - - - - ../../usr/share/doc/systemd/README.logs"
 >
-> ja_JP.SJIS ja_JP.SHIFT_JIS ja_JP.shiftjis japanese.sjis
+> This line will create an link to "${datadir}/doc/systemd/README.logs" during boot,
+>
+> and ${datadir}/doc/systemd/README.logs is in package systemd-doc. So there will be dead link when systemd-doc is not installed.
+>
+> So that's why I create another legacy-doc.conf packaged into systemd-doc
 
-Hello Chen,
+Then legacy.conf and README.logs should be placed into the same
+package. I would suggest that README.logs just goes into main systemd
+package. (the other option is placing legacy.conf into systemd-doc,
+but that file is not doc-specific, and should stay in systemd package,
+especially if more entries are added to it).
 
-I need to note that we specifically exclude bash from ptests, and this
-is the reason:
-https://git.yoctoproject.org/poky/commit/?id=2758f6d0337ec84c9143546bc65a80559e8d7808
+> 2.
+>
+> The symlink in legacy.conf use relative path.  but for oe, when VOLATILE_LOG_DIR is true, /var/log is a link to /var/volatile/log, so
+>
+> /var/log/README need link to ../../../usr/share/doc/systemd/README.logs,
+>
+> while VOLATILE_LOG_DIR is false, /var/log is a dir, so /var/log/README
+>
+> need link to ../../usr/share/doc/systemd/README.logs.
+>
+> After change it to absolute path, checking of VOLATILE_LOG_DIR is not needed.
 
-As a result, bash ptest would keep regressing in various ways, simply
-because it's not executed, and I would suggest that you either first
-fix these failures, so we can restore bash in
-meta/conf/distro/include/ptests-packagelists.inc, or drop bash from
-your own testing. Is there a particular reason you need to run those
-tests?
+That's ok, but can you make fixing the path to an absolute one a
+separate, second commit then?
 
+Thanks,
 Alex
 
