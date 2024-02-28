@@ -1,228 +1,264 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52A61C54E56
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58E9DC54E58
 	for <webhook@archiver.kernel.org>; Wed, 28 Feb 2024 18:30:47 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web11.4369.1709145043320409538
+Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
+ by mx.groups.io with SMTP id smtpd.web10.4492.1709145043043377434
  for <openembedded-core@lists.openembedded.org>;
  Wed, 28 Feb 2024 10:30:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=d96qUK3Y;
- spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-33d6f1f17e5so46721f8f.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 10:30:43 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=l3raxNHk;
+ spf=pass (domain: gmail.com, ip: 209.85.160.42, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-22008177fbeso2524381fac.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 10:30:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709145041; x=1709749841; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1709145042; x=1709749842; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Quzhaf8KMK2YCLvOA1doJPwslC0NrV1n8yOHcshEnYM=;
-        b=d96qUK3YrmAtV/S/kVnuo48l7bgh50D4VIaaWnCc/9McU5q/j3PQWU6QRpZySze4l2
-         Os5BV3ENRAENDsUDIm6quvN2Lo/g9kDjrS+eOOsGmRDbxQjJbNJLHH0TUSKHOYObTUnu
-         CsBQqeze96KTMxDDfoI/DHmTJbFz+YQrIODx7o/eBS3aLP3Oz+/YHeHAveXjePc8NHzp
-         yKGaEV+0vuTRpWKuC8H0AhUPTWyFO3OzZpoEODbK+MtS7QoOzFDTOpifg6AAxTwPnn26
-         yvcxNPJA0gjRXt2o95L8SY05mS3YAFIaeI7i2t3wNL9He/AsDIqK+2yMNRjv5k99yBLu
-         uaTg==
+        bh=eTHP2CT+1RBXsxJE4iUODfhJc1ElNOqGkLPGG/qRA7c=;
+        b=l3raxNHklUkSxQBBivc9w0gNkyK4AXDTQQLfknu6VDjsNHdsvpNCBOBqMuSBg22uwv
+         cXwwQixHmU0Sx1lIlTz7qYhglcR9PCld7p+DzDLbL7BUSkW5Unc0v90vmVhZ3tLKXi+y
+         9OTcQq61tVQtv4HSoEBsLosCfdyzDlKgqS4NFSGNuFbhukJIhtpLqohXLVH0EiCQ47Ta
+         89NdUEHgDBiLpktxpto4hArlPEKvohQo8QRxUs5x6Of09PEpIhkk3fpuF7YEw7Mmm4ke
+         Vs5mL4O6ShqmZFMMVzv9VAqBG5falSdqQ8hVvqMMj/LKYHQamw1BKTGAj733tpWXWg8s
+         sRzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709145041; x=1709749841;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1709145042; x=1709749842;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Quzhaf8KMK2YCLvOA1doJPwslC0NrV1n8yOHcshEnYM=;
-        b=C0s1Nbf4lif0sZg5qZPwjWhAOG+8Yqnhr3AbRYGOyCMeXTm2/0dv0jre1tgVP/musj
-         bhWxkgphudxz8z6do3t568GFq9MsjLi2c6XhmB3RXscJp+z2gn8gmt1NLwldDIPKfjY/
-         HFL6L6Q5s3fJoC3HTw1GuUXB4A69MokfjogD+cbnV5ywV9LIeJPZ4EiwP70ODM+VdxHr
-         pXprEjEMxqCaz0fSJii8AcGZ0c1w7txyHqCEhOPt+Bz/zfNwOEo+WM+Jkai2xahulEvd
-         4f7Akmhon7nYL3S/Q0Wb2+v43q7bVpYPQJ3cBzybZ9tNbAL4XBtiaPvrr8bUungBy/HD
-         u/Ug==
-X-Gm-Message-State: AOJu0YzrZ9yG+DrOrHI4b3RKw5TAmXtD6AW6QsqBniPSJEqiBY/5E305
-	muqHzfeJSeVPfonEj4Spz149M6X/lEMesrbxbCkxayotXXvWI4By7/O5Bst+
-X-Google-Smtp-Source: AGHT+IH88vxVEmV37fTKJ16HbOh8bwsYXb0B9LEAKUZFea6g7Kh+08piRYa2Rsb1xkx2rBD5bT5iXQ==
-X-Received: by 2002:a05:6000:194a:b0:33d:f3c4:6002 with SMTP id e10-20020a056000194a00b0033df3c46002mr277317wry.1.1709145041457;
-        Wed, 28 Feb 2024 10:30:41 -0800 (PST)
-Received: from toster.lan (bl23-106-114.dsl.telepac.pt. [144.64.106.114])
-        by smtp.gmail.com with ESMTPSA id bn21-20020a056000061500b0033e033898c5sm2005454wrb.20.2024.02.28.10.30.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Feb 2024 10:30:41 -0800 (PST)
-From: Jose Quaresma <quaresma.jose@gmail.com>
-X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
-To: openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <jose.quaresma@foundries.io>
-Subject: [RFC OE-core][PATCH v2 6/7] go: upgrade 1.21.5 -> 1.21.7
-Date: Wed, 28 Feb 2024 18:30:10 +0000
-Message-ID: <20240228183011.1495807-6-jose.quaresma@foundries.io>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240228183011.1495807-1-jose.quaresma@foundries.io>
-References: <20240228183011.1495807-1-jose.quaresma@foundries.io>
+        bh=eTHP2CT+1RBXsxJE4iUODfhJc1ElNOqGkLPGG/qRA7c=;
+        b=Pjsb1nV0FxO4Lw+1EMWP6iXZQ6s6KjZ0/v6XeT4bRVlSWhYKUZSutx+A33eAax1vlz
+         r7QDMtI1mtN/kLTzp3mco/AHH8HikSC3+AAHMYR3Tk1m7adSJZ6gaRI7yra32YIJY+mo
+         a41vX25ZwwixfOk/FRxhF3BcJ8rzOC+ZEP7/cbq9Ms0FFGKbHqwMYjtVD9V2a4ec5zrn
+         RENSWP8ccYN1vHvl8ozncruiSLgA+jNdj2cMIVeVeY+tcXnlfXvPWo9WTXWX3S4VIS2m
+         hstGn3gZ/k33uFVruc0yoeq6CjtoPToPXwRNKlZId3xuwyhc6svXq9O9AK6CzwSXXjpU
+         tCbQ==
+X-Gm-Message-State: AOJu0YziZkIcy+BWqRAFY7s0o+fZzoqsJpkuwse6wbX9iv3llGZyrtm7
+	ezoxsw59fSk4BT8ZUGChKBnbWLi7SQOd/TfuzpUE2FfVltWzwYd0e06Q2BME8Vl0fvGkvd3ZKUV
+	08waN29vDQd+nujX+wIFP2c/RRMw=
+X-Google-Smtp-Source: AGHT+IE85gfI21fta30jZwRo3tWco7cULtEThaIj42nfeie0emKWegPjpIAyG3sPe7JOza5gYZ49Q5M7kVpVf00QXqE=
+X-Received: by 2002:a05:6870:718e:b0:220:866f:dab7 with SMTP id
+ d14-20020a056870718e00b00220866fdab7mr545377oah.48.1709145042127; Wed, 28 Feb
+ 2024 10:30:42 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240225093726.1113403-1-martin.jansa@gmail.com>
+ <CAMKF1sr1SVSnAZ2_ZCTHfMyM8i01msDQ+81M5h+Bb9zmKGPLCw@mail.gmail.com>
+ <17B78F10F29044A4.14830@lists.openembedded.org> <CA+chaQfh47nRBVAjhxpo1xeXWkmw-vHf8Jk-MWX6Npn4GfyGXw@mail.gmail.com>
+In-Reply-To: <CA+chaQfh47nRBVAjhxpo1xeXWkmw-vHf8Jk-MWX6Npn4GfyGXw@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 28 Feb 2024 10:30:16 -0800
+Message-ID: <CAMKF1sroBXyZwPqLyehFLD36orrh7fC3Z5A_b98863-5hbRFxQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] glib-2.0: backport a switch from distutils to
+ packaging in codegen
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 18:30:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196406
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196404
 
-Upgrade to latest 1.21.x release [1]:
+some more failures in meta-openembedded layers ( meta-xfce)
 
-$ git --no-pager log --oneline go1.21.5..go1.21.7
-f29208030a (tag: go1.21.7) [release-branch.go1.21] go1.21.7
-2fdad8af6d [release-branch.go1.21] cmd/internal/obj/arm64: fix frame pointer restore in epilogue
-01c93ad049 [release-branch.go1.21] cmd/go/internal/generate: call modload.InitWorkFile
-db74bfba18 [release-branch.go1.21] Revert "crypto/internal/boring: upgrade module to fips-20220613" +1
-916e6cddf1 [release-branch.go1.21] runtime: fix Pinner.Pin documentation
-6552f3d4ac [release-branch.go1.21] cmd/go/internal/toolchain: apply the -modcacherw flag when downloading a module to determine what toolchain it needs
-3960318b87 [release-branch.go1.21] crypto/x509: properly gate test on macos version
-00f974eb1f [release-branch.go1.21] go/types, types2: don't lose position info of interface embeddings
-2f91c16e68 [release-branch.go1.21] runtime: properly model rwmutex in lock ranking
-2540b1436f [release-branch.go1.21] slices: explicitly discard results of some functions
-7e34c4308f [release-branch.go1.21] runtime: clear g0 stack bounds in dropm
-491c1e7e95 [release-branch.go1.21] runtime: allow update of system stack bounds on callback from C thread
-caafb50c0d [release-branch.go1.21] runtime: don't print "unexpected SPWRITE" when printing traceback
-cc85462b3d (tag: go1.21.6) [release-branch.go1.21] go1.21.6
-d2cb140194 [release-branch.go1.21] crypto/tls: align FIPS-only mode with BoringSSL policy
-368e2a9461 [release-branch.go1.21] crypto/internal/boring: upgrade module to fips-20220613
-8c6078adfb [release-branch.go1.21] runtime: add race annotations in IncNonDefault
-f6b203c828 [release-branch.go1.21] maps: fix aliasing problems with Clone
-43818206dc [release-branch.go1.21] runtime: put ReadMemStats debug assertions behind a double-check mode
-cf65d74bc5 [release-branch.go1.21] runtime: add the disablethp GODEBUG setting
-ad1ec60a5b [release-branch.go1.21] runtime/pprof: fix generics function names
-bbab863ada [release-branch.go1.21] os/signal: skip nohup tests on darwin builders
-7dc67e8f29 [release-branch.go1.21] os/signal: remove go t.Run from TestNohup
-9f8b3ac8c4 [release-branch.go1.21] cmd/compile: fix escape analysis of string min/max
-8c840b10d0 [release-branch.go1.21] cmd/compile: fix memcombine pass for big endian, > 1 byte elements
+https://errors.yoctoproject.org/Errors/Details/754995/
+https://errors.yoctoproject.org/Errors/Details/754996/
 
-[1] https://github.com/golang/go/compare/go1.21.5...go1.21.7
-
-Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
----
- meta/recipes-devtools/go/{go-1.21.5.inc => go-1.21.7.inc} | 2 +-
- ...binary-native_1.21.5.bb => go-binary-native_1.21.7.bb} | 6 +++---
- ...oss-canadian_1.21.5.bb => go-cross-canadian_1.21.7.bb} | 0
- .../go/{go-cross_1.21.5.bb => go-cross_1.21.7.bb}         | 0
- .../go/{go-crosssdk_1.21.5.bb => go-crosssdk_1.21.7.bb}   | 0
- .../go/{go-native_1.21.5.bb => go-native_1.21.7.bb}       | 0
- .../go/{go-runtime_1.21.5.bb => go-runtime_1.21.7.bb}     | 0
- ...go-Allow-GOTOOLDIR-to-be-overridden-in-the-envir.patch | 2 +-
- .../go/go/0003-ld-add-soname-to-shareable-objects.patch   | 8 ++++----
- meta/recipes-devtools/go/{go_1.21.5.bb => go_1.21.7.bb}   | 0
- 10 files changed, 9 insertions(+), 9 deletions(-)
- rename meta/recipes-devtools/go/{go-1.21.5.inc => go-1.21.7.inc} (89%)
- rename meta/recipes-devtools/go/{go-binary-native_1.21.5.bb => go-binary-native_1.21.7.bb} (78%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.21.5.bb => go-cross-canadian_1.21.7.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.21.5.bb => go-cross_1.21.7.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.21.5.bb => go-crosssdk_1.21.7.bb} (100%)
- rename meta/recipes-devtools/go/{go-native_1.21.5.bb => go-native_1.21.7.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.21.5.bb => go-runtime_1.21.7.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.21.5.bb => go_1.21.7.bb} (100%)
-
-diff --git a/meta/recipes-devtools/go/go-1.21.5.inc b/meta/recipes-devtools/go/go-1.21.7.inc
-similarity index 89%
-rename from meta/recipes-devtools/go/go-1.21.5.inc
-rename to meta/recipes-devtools/go/go-1.21.7.inc
-index f009ea77c7..6de24e1e22 100644
---- a/meta/recipes-devtools/go/go-1.21.5.inc
-+++ b/meta/recipes-devtools/go/go-1.21.7.inc
-@@ -15,4 +15,4 @@ SRC_URI += "\
-     file://0008-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
-     file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch \
- "
--SRC_URI[main.sha256sum] = "285cbbdf4b6e6e62ed58f370f3f6d8c30825d6e56c5853c66d3c23bcdb09db19"
-+SRC_URI[main.sha256sum] = "00197ab20f33813832bff62fd93cca1c42a08cc689a32a6672ca49591959bff6"
-diff --git a/meta/recipes-devtools/go/go-binary-native_1.21.5.bb b/meta/recipes-devtools/go/go-binary-native_1.21.7.bb
-similarity index 78%
-rename from meta/recipes-devtools/go/go-binary-native_1.21.5.bb
-rename to meta/recipes-devtools/go/go-binary-native_1.21.7.bb
-index cc79a277ff..d8826e20f1 100644
---- a/meta/recipes-devtools/go/go-binary-native_1.21.5.bb
-+++ b/meta/recipes-devtools/go/go-binary-native_1.21.7.bb
-@@ -9,9 +9,9 @@ PROVIDES = "go-native"
- 
- # Checksums available at https://go.dev/dl/
- SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
--SRC_URI[go_linux_amd64.sha256sum] = "e2bc0b3e4b64111ec117295c088bde5f00eeed1567999ff77bc859d7df70078e"
--SRC_URI[go_linux_arm64.sha256sum] = "841cced7ecda9b2014f139f5bab5ae31785f35399f236b8b3e75dff2a2978d96"
--SRC_URI[go_linux_ppc64le.sha256sum] = "1f6dd06aa34f292f33c2c70ea9b4456e3a9e5cbd1d99968f3f463a4805b40ece"
-+SRC_URI[go_linux_amd64.sha256sum] = "13b76a9b2a26823e53062fa841b07087d48ae2ef2936445dc34c4ae03293702c"
-+SRC_URI[go_linux_arm64.sha256sum] = "24744edcaeb827aafb76c67ebd406b5ae13291023b0ad9f061dd7a0e75b275ba"
-+SRC_URI[go_linux_ppc64le.sha256sum] = "48a99ecce9b1e632870c29420088f61cf17a6f0c5bdb3cc821ff5c00e14b1a8a"
- 
- UPSTREAM_CHECK_URI = "https://golang.org/dl/"
- UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
-diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.21.5.bb b/meta/recipes-devtools/go/go-cross-canadian_1.21.7.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross-canadian_1.21.5.bb
-rename to meta/recipes-devtools/go/go-cross-canadian_1.21.7.bb
-diff --git a/meta/recipes-devtools/go/go-cross_1.21.5.bb b/meta/recipes-devtools/go/go-cross_1.21.7.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross_1.21.5.bb
-rename to meta/recipes-devtools/go/go-cross_1.21.7.bb
-diff --git a/meta/recipes-devtools/go/go-crosssdk_1.21.5.bb b/meta/recipes-devtools/go/go-crosssdk_1.21.7.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-crosssdk_1.21.5.bb
-rename to meta/recipes-devtools/go/go-crosssdk_1.21.7.bb
-diff --git a/meta/recipes-devtools/go/go-native_1.21.5.bb b/meta/recipes-devtools/go/go-native_1.21.7.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-native_1.21.5.bb
-rename to meta/recipes-devtools/go/go-native_1.21.7.bb
-diff --git a/meta/recipes-devtools/go/go-runtime_1.21.5.bb b/meta/recipes-devtools/go/go-runtime_1.21.7.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-runtime_1.21.5.bb
-rename to meta/recipes-devtools/go/go-runtime_1.21.7.bb
-diff --git a/meta/recipes-devtools/go/go/0002-cmd-go-Allow-GOTOOLDIR-to-be-overridden-in-the-envir.patch b/meta/recipes-devtools/go/go/0002-cmd-go-Allow-GOTOOLDIR-to-be-overridden-in-the-envir.patch
-index cf7ad02f86..6d1a02e6c0 100644
---- a/meta/recipes-devtools/go/go/0002-cmd-go-Allow-GOTOOLDIR-to-be-overridden-in-the-envir.patch
-+++ b/meta/recipes-devtools/go/go/0002-cmd-go-Allow-GOTOOLDIR-to-be-overridden-in-the-envir.patch
-@@ -35,7 +35,7 @@ index 8973a87..adc9fd2 100644
-  	goversion := findgoversion()
-  	isRelease = strings.HasPrefix(goversion, "release.") || strings.HasPrefix(goversion, "go")
- diff --git a/src/cmd/go/internal/cfg/cfg.go b/src/cmd/go/internal/cfg/cfg.go
--index 8a82e55..1141fc2 100644
-+index 8caa22a..0c322fb 100644
- --- a/src/cmd/go/internal/cfg/cfg.go
- +++ b/src/cmd/go/internal/cfg/cfg.go
- @@ -231,7 +231,11 @@ func SetGOROOT(goroot string, isTestGo bool) {
-diff --git a/meta/recipes-devtools/go/go/0003-ld-add-soname-to-shareable-objects.patch b/meta/recipes-devtools/go/go/0003-ld-add-soname-to-shareable-objects.patch
-index be4af096ce..d0cd8d244e 100644
---- a/meta/recipes-devtools/go/go/0003-ld-add-soname-to-shareable-objects.patch
-+++ b/meta/recipes-devtools/go/go/0003-ld-add-soname-to-shareable-objects.patch
-@@ -19,10 +19,10 @@ Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
-  1 file changed, 3 insertions(+)
- 
- diff --git a/src/cmd/link/internal/ld/lib.go b/src/cmd/link/internal/ld/lib.go
--index 91e2d51..e98b912 100644
-+index 5e5d255..459e9dc 100644
- --- a/src/cmd/link/internal/ld/lib.go
- +++ b/src/cmd/link/internal/ld/lib.go
--@@ -1554,6 +1554,7 @@ func (ctxt *Link) hostlink() {
-+@@ -1563,6 +1563,7 @@ func (ctxt *Link) hostlink() {
-  				argv = append(argv, "-Wl,-z,relro")
-  			}
-  			argv = append(argv, "-shared")
-@@ -30,7 +30,7 @@ index 91e2d51..e98b912 100644
-  			if ctxt.HeadType == objabi.Hwindows {
-  				argv = addASLRargs(argv, *flagAslr)
-  			} else {
--@@ -1569,6 +1570,7 @@ func (ctxt *Link) hostlink() {
-+@@ -1578,6 +1579,7 @@ func (ctxt *Link) hostlink() {
-  			argv = append(argv, "-Wl,-z,relro")
-  		}
-  		argv = append(argv, "-shared")
-@@ -38,7 +38,7 @@ index 91e2d51..e98b912 100644
-  	case BuildModePlugin:
-  		if ctxt.HeadType == objabi.Hdarwin {
-  			argv = append(argv, "-dynamiclib")
--@@ -1577,6 +1579,7 @@ func (ctxt *Link) hostlink() {
-+@@ -1586,6 +1588,7 @@ func (ctxt *Link) hostlink() {
-  				argv = append(argv, "-Wl,-z,relro")
-  			}
-  			argv = append(argv, "-shared")
-diff --git a/meta/recipes-devtools/go/go_1.21.5.bb b/meta/recipes-devtools/go/go_1.21.7.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go_1.21.5.bb
-rename to meta/recipes-devtools/go/go_1.21.7.bb
--- 
-2.44.0
-
+On Tue, Feb 27, 2024 at 3:39=E2=80=AFAM Martin Jansa <martin.jansa@gmail.co=
+m> wrote:
+>
+> Yes, it was reproducible on my host gentoo after removing distutils
+> with dev-python/setuptools (and for updated glib-2.0-native after
+> removing dev-python/packaging)
+>
+> Fixes sent:
+> https://patchwork.yoctoproject.org/project/oe/patch/20240227113711.834767=
+-1-martin.jansa@gmail.com/
+> https://patchwork.yoctoproject.org/project/oe/patch/20240227113711.834767=
+-2-martin.jansa@gmail.com/
+>
+> Cheers,
+>
+> On Tue, Feb 27, 2024 at 12:58=E2=80=AFAM Martin Jansa via
+> lists.openembedded.org <martin.jansa=3Dgmail.com@lists.openembedded.org>
+> wrote:
+> >
+> > Thanks Khem, will try to reproduce tomorrow. Maybe these don't use
+> > CODEGEN_PYTHON_RDEPENDS.
+> >
+> > With this patch backported to kirkstone I've seen glib-2.0-native
+> > failing with the same issue as python3native there doesn't include
+> > python3-packaging.
+> >
+> > Maybe these recipes aren't using python3native and were depending on
+> > packaging from host, will debug tomorrow.
+> >
+> > On Tue, Feb 27, 2024 at 12:16=E2=80=AFAM Khem Raj <raj.khem@gmail.com> =
+wrote:
+> > >
+> > > I am seeing some build failures which seems to be related to this pat=
+ch
+> > >
+> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/88/builds/365=
+7/steps/15/logs/stdio
+> > >
+> > >  |   File "/home/pokybuild/yocto-worker/meta-oe/build/build/tmp/work/=
+core2-64-poky-linux/gattlib/0.2+git/recipe-sysroot-native/usr/share/glib-2.=
+0/codegen/utils.py",
+> > > line 22, in <module>
+> > >     |     import packaging.version
+> > >     | ModuleNotFoundError: No module named 'packaging'
+> > >
+> > >
+> > >
+> > >   |   File "/home/pokybuild/yocto-worker/meta-oe/build/build/tmp/work=
+/core2-64-poky-linux/networkmanager-fortisslvpn/1.4.0/recipe-sysroot-native=
+/usr/share/glib-2.0/codegen/utils.py",
+> > > line 22, in <module>
+> > >     |     import packaging.version
+> > >     | ModuleNotFoundError: No module named 'packaging'
+> > >     | make: *** [Makefile:2081: src/nm-fortisslvpn-pppd-service-dbus.=
+h] Error 1
+> > >
+> > >
+> > > On Sun, Feb 25, 2024 at 1:37=E2=80=AFAM Martin Jansa <martin.jansa@gm=
+ail.com> wrote:
+> > > >
+> > > > * to fix build on hosts with python-3.12, now it fails with:
+> > > >
+> > > > Traceback (most recent call last):
+> > > >   File "recipe-sysroot-native/usr/bin/gdbus-codegen", line 53, in <=
+module>
+> > > >     from codegen import codegen_main
+> > > >   File "recipe-sysroot-native/usr/share/glib-2.0/codegen/codegen_ma=
+in.py", line 29, in <module>
+> > > >     from . import dbustypes
+> > > >   File "recipe-sysroot-native/usr/share/glib-2.0/codegen/dbustypes.=
+py", line 22, in <module>
+> > > >     from . import utils
+> > > >   File "recipe-sysroot-native/usr/share/glib-2.0/codegen/utils.py",=
+ line 22, in <module>
+> > > >     import distutils.version
+> > > > ModuleNotFoundError: No module named 'distutils'
+> > > > CMake Error at CMakeLists.txt:90 (message):
+> > > >   Error in generating code for connman interface using gdbus-codege=
+n
+> > > >
+> > > > Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+> > > > ---
+> > > >  ...deprecated-distutils-module-to-the-p.patch | 34 +++++++++++++++=
+++++
+> > > >  meta/recipes-core/glib-2.0/glib-2.0_2.78.3.bb |  1 +
+> > > >  meta/recipes-core/glib-2.0/glib.inc           |  4 +--
+> > > >  3 files changed, 36 insertions(+), 3 deletions(-)
+> > > >  create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-Switch=
+-from-the-deprecated-distutils-module-to-the-p.patch
+> > > >
+> > > > diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Switch-from-t=
+he-deprecated-distutils-module-to-the-p.patch b/meta/recipes-core/glib-2.0/=
+glib-2.0/0001-Switch-from-the-deprecated-distutils-module-to-the-p.patch
+> > > > new file mode 100644
+> > > > index 0000000000..50368ed22c
+> > > > --- /dev/null
+> > > > +++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-Switch-from-the-depr=
+ecated-distutils-module-to-the-p.patch
+> > > > @@ -0,0 +1,34 @@
+> > > > +From 05f0674c93d94fe6b29c1b707980aac469ddcd72 Mon Sep 17 00:00:00 =
+2001
+> > > > +From: Jordan Williams <jordan@jwillikers.com>
+> > > > +Date: Fri, 1 Dec 2023 09:53:50 -0600
+> > > > +Subject: [PATCH] Switch from the deprecated distutils module to th=
+e packaging
+> > > > + module
+> > > > +
+> > > > +The distutils module was removed in Python 3.12.
+> > > > +
+> > > > +Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/c=
+ommit/6ef967a0f930ce37a8c9b5aff969693b34714291]
+> > > > +
+> > > > +Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+> > > > +---
+> > > > + gio/gdbus-2.0/codegen/utils.py | 4 ++--
+> > > > + 1 file changed, 2 insertions(+), 2 deletions(-)
+> > > > +
+> > > > +diff --git a/gio/gdbus-2.0/codegen/utils.py b/gio/gdbus-2.0/codege=
+n/utils.py
+> > > > +index 0204610..08f1ba9 100644
+> > > > +--- a/gio/gdbus-2.0/codegen/utils.py
+> > > > ++++ b/gio/gdbus-2.0/codegen/utils.py
+> > > > +@@ -19,7 +19,7 @@
+> > > > + #
+> > > > + # Author: David Zeuthen <davidz@redhat.com>
+> > > > +
+> > > > +-import distutils.version
+> > > > ++import packaging.version
+> > > > + import os
+> > > > + import sys
+> > > > +
+> > > > +@@ -166,4 +166,4 @@ def version_cmp_key(key):
+> > > > +         v =3D str(key[0])
+> > > > +     else:
+> > > > +         v =3D "0"
+> > > > +-    return (distutils.version.LooseVersion(v), key[1])
+> > > > ++    return (packaging.version.Version(v), key[1])
+> > > > diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.78.3.bb b/meta/r=
+ecipes-core/glib-2.0/glib-2.0_2.78.3.bb
+> > > > index 42814ba544..6c3e99c641 100644
+> > > > --- a/meta/recipes-core/glib-2.0/glib-2.0_2.78.3.bb
+> > > > +++ b/meta/recipes-core/glib-2.0/glib-2.0_2.78.3.bb
+> > > > @@ -14,6 +14,7 @@ SRC_URI =3D "${GNOME_MIRROR}/glib/${SHRT_VER}/gli=
+b-${PV}.tar.xz \
+> > > >             file://0001-Do-not-write-bindir-into-pkg-config-files.p=
+atch \
+> > > >             file://0001-meson-Run-atomics-test-on-clang-as-well.pat=
+ch \
+> > > >             file://0001-gio-tests-resources.c-comment-out-a-build-h=
+ost-only-.patch \
+> > > > +           file://0001-Switch-from-the-deprecated-distutils-module=
+-to-the-p.patch \
+> > > >             file://memory-monitor.patch \
+> > > >             file://native-gtkdoc.patch \
+> > > >             "
+> > > > diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-cor=
+e/glib-2.0/glib.inc
+> > > > index 5a57549d85..fac8875d84 100644
+> > > > --- a/meta/recipes-core/glib-2.0/glib.inc
+> > > > +++ b/meta/recipes-core/glib-2.0/glib.inc
+> > > > @@ -144,9 +144,7 @@ do_install:append:mingw32() {
+> > > >          rm -f ${D}${bindir}/gtester-report
+> > > >  }
+> > > >
+> > > > -# remove setuptools dependency when usage of distutils is dropped =
+in
+> > > > -# https://gitlab.gnome.org/GNOME/glib/-/blob/main/gio/gdbus-2.0/co=
+degen/utils.py
+> > > > -CODEGEN_PYTHON_RDEPENDS =3D "python3 python3-setuptools python3-xm=
+l"
+> > > > +CODEGEN_PYTHON_RDEPENDS =3D "python3 python3-packaging python3-xml=
+"
+> > > >  CODEGEN_PYTHON_RDEPENDS:mingw32 =3D ""
+> > > >
+> > > >  RDEPENDS:${PN}-codegen +=3D "${CODEGEN_PYTHON_RDEPENDS}"
+> > > > --
+> > > > 2.43.2
+> > > >
+> > > >
+> > > >
+> > > >
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#196235): https://lists.openembedded.org/g/openembed=
+ded-core/message/196235
+> > Mute This Topic: https://lists.openembedded.org/mt/104560766/3617156
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
+martin.jansa@gmail.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
 
