@@ -2,51 +2,51 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FA43C54E68
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42918C54E64
 	for <webhook@archiver.kernel.org>; Wed, 28 Feb 2024 07:33:42 +0000 (UTC)
-Received: from esa3.hc1455-7.c3s2.iphmx.com (esa3.hc1455-7.c3s2.iphmx.com [207.54.90.49])
- by mx.groups.io with SMTP id smtpd.web11.8397.1709105616748395131
+Received: from esa10.hc1455-7.c3s2.iphmx.com (esa10.hc1455-7.c3s2.iphmx.com [139.138.36.225])
+ by mx.groups.io with SMTP id smtpd.web11.8395.1709105612164643064
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Feb 2024 23:33:42 -0800
+ Tue, 27 Feb 2024 23:33:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=G1RX13M4;
- spf=pass (domain: fujitsu.com, ip: 207.54.90.49, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=JNHrmJct;
+ spf=pass (domain: fujitsu.com, ip: 139.138.36.225, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1709105621; x=1740641621;
+  t=1709105612; x=1740641612;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references;
-  bh=VtKyQb5dxjNZ2k/2WCQNEU2Amg3xfUxIMcBNLrrsvBA=;
-  b=G1RX13M4udtiwmMZlUMjX2f424TO3UHTtFuN9ZRjmyEsyHzidUFk/4Ny
-   Sm3lQiJOwvDPR1FFi95d93oTm0hI5mJl06ZbKmprPp1Zu6AM/xX7srgkv
-   WBDo/U0X4sWgbmjYU2XOtzd5a2l1on1GnuqpNnXuEfUQ6EECZ4LQC74lE
-   Kr2rqbUh9eJ0D1LunKb0ITEiM/prF8IvB6C0qi+x2gd47Ox433uR0etqJ
-   sZe4hlNBBgTDSWY4jpkzoFX3vbhJhmmwtRQnspFNqlvtXA0w2ri83L84R
-   8sK9HCKfdptMO2vmMhLX26eF7+8XZmYyHIKC8cN8vMg9YNKBXBgd14cQt
+  bh=2aNJz7d3FLczFO8aKelcBdT55ketVGqxkwJCly0Xvtk=;
+  b=JNHrmJct7XZMpbeJRa5Fap1/G/9/huLZ6wZBrS6hO1v/oc7zysuLTQbI
+   wPWaFbCnoI9hOjwAQzngqK26hWcS9J+/XKBVopE5eet30GX36lZWgTiGx
+   RHw7UdCrMc6HNLnEyUtPN+yW6kyiNqEngAwT7Ns9VhBRmyOwtlMnbVgaz
+   XoMoHABNyB6CUPk6+MiDdm45oSNUfSFNl57WXtSpdLVf8t8kClxMLhS7t
+   nZNtpmA/VUFP8LZ52szOcE/UgtLcRdqkoz6bOcNj78A+3pJbH8gyq45jK
+   t6iZ6k8Ghm1bs2tYoEGRj1oGmr44NYBUSyeH7ShkpFfhOE+K7ivO3pZr1
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10996"; a="150649128"
+X-IronPort-AV: E=McAfee;i="6600,9927,10996"; a="138291815"
 X-IronPort-AV: E=Sophos;i="6.06,190,1705330800"; 
-   d="scan'208";a="150649128"
-Received: from unknown (HELO oym-r4.gw.nic.fujitsu.com) ([210.162.30.92])
-  by esa3.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2024 16:33:40 +0900
-Received: from oym-m1.gw.nic.fujitsu.com (oym-nat-oym-m1.gw.nic.fujitsu.com [192.168.87.58])
-	by oym-r4.gw.nic.fujitsu.com (Postfix) with ESMTP id 500A41590F3
-	for <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 16:33:38 +0900 (JST)
+   d="scan'208";a="138291815"
+Received: from unknown (HELO oym-r2.gw.nic.fujitsu.com) ([210.162.30.90])
+  by esa10.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2024 16:33:29 +0900
+Received: from oym-m4.gw.nic.fujitsu.com (oym-nat-oym-m4.gw.nic.fujitsu.com [192.168.87.61])
+	by oym-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id 7217EF0FF2
+	for <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 16:33:27 +0900 (JST)
 Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
-	by oym-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id 7EF63FD860
-	for <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 16:33:37 +0900 (JST)
+	by oym-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id A1BE0D5CC3
+	for <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 16:33:26 +0900 (JST)
 Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id 1D03541180
-	for <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 16:33:37 +0900 (JST)
+	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id 4026640FD2
+	for <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 16:33:26 +0900 (JST)
 Received: from vm4860.g01.fujitsu.local (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id BF3DA1A006A;
-	Wed, 28 Feb 2024 15:33:36 +0800 (CST)
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id E26161A006A;
+	Wed, 28 Feb 2024 15:33:25 +0800 (CST)
 From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 40/48] python3-trove-classifiers: upgrade 2024.1.8 -> 2024.2.23
-Date: Wed, 28 Feb 2024 15:32:47 +0800
-Message-Id: <1709105575-24259-40-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH 20/48] libxkbfile: upgrade 1.1.2 -> 1.1.3
+Date: Wed, 28 Feb 2024 15:32:27 +0800
+Message-Id: <1709105575-24259-20-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1709105575-24259-1-git-send-email-wangmy@fujitsu.com>
 References: <1709105575-24259-1-git-send-email-wangmy@fujitsu.com>
@@ -54,51 +54,56 @@ X-TM-AS-GCONF: 00
 X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28218.005
 X-TM-AS-User-Approved-Sender: Yes
 X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28218.005
-X-TMASE-Result: 10--2.623300-10.000000
-X-TMASE-MatchedRID: dhm/lGuWeZijz0nOeth/yUIIxwDaU5mrF4r8H5YrEqwli8Y5a0svL88L
-	GTNFqWKaAye6NYYDq+DE0/GnRGyw5m0Xr+fj3ww/8t4fUUGeErTBOVz0JwcxlwV9fM+V9jt7U9a
-	6zfLFA1bss9r//dw7twYUFsN5WfiFOwTo9ZXISSzdCok3ibXlQX0tCKdnhB58I/9UW5M5dRNp7q
-	EhmmPgy46HM5rqDwqtXvzbqjMVwdaQL59MTDMsGDEqyaQiZMFxmplN5e00EYBuG/t7nj8sgSKAx
-	QFH/XSl6FzO64Yw/3fohCm5AAQdo0QpIRwakNKqHSbhGbmGylXFJK7yLnZRGZdO3Q67ImL8gi4R
-	Uz90EQwG2MApbv6odw==
+X-TMASE-Result: 10-3.823900-10.000000
+X-TMASE-MatchedRID: wbL0rUvz+3Cjz0nOeth/yUIIxwDaU5mrMx/XynyqsrsAIXlMppp3X1br
+	GDkZHQlehJtbBPDn7Ju58sshuYVZg6ZY4PxfRMWEBe3KRVyu+k2Siza26cvwNFp6v7WJomQQlTz
+	ElHFiLsrxitpmz4Mmm6EfeQTpODV8My4jVjbFuDMD2WXLXdz+AdXLiEcLf+DIsrDwfHQQaK1yp+
+	gwY/4LBCL637QCIVpitqAfZ9rgr9rlRxm3A2wKuhRFJJyf5BJe3QfwsVk0UbvqwGfCk7KUs0UHR
+	MqXPlRc9nTErwjolwJRhXiu1xQtece6936O0BVBgEPbtz7Df8K9oHbgxfLwq2HjLO/F7kHKNCVK
+	m14ZHUytZZl7Nxf0xogeppQyntVe0v8srR3gjfRl7+AkHjVJOxuqkzsKv5+9ftwZ3X11IV0=
 X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 07:33:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196364
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196346
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
 Changelog:
-==========
-*Add classifier: 'License :: OSI Approved :: Educational Community License'
-*PR for Issue #170
-*fix spurious line
-*Update src/trove_classifiers/__init__.py
+===========
+-configure: Use LT_INIT from libtool 2 instead of deprecated AC_PROG_LIBTOOL
+-Set close-on-exec when opening files
+-_XkbMakeAtom: remove check for impossible case
+-_XkbInitAtoms: check for malloc() failure
+-XkbChangeAtomDisplay: stop leaking atom name
+-XkbCFReportError: avoid -Wformat-nonliteral warning
+-XkbWriteCFile: stop leaking header file ifdef name
+-DefaultParser: avoid -Wimplicit-fallthrough warnings
+-xkbtext.c: Add tbGetBufferString helper function
+-XkbIndentText: Fix -Wsign-compare warning
+-Fix -Wsign-compare warnings in xkbtext.c & xkmread.c
+-Add a meson build system
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- ...fiers_2024.1.8.bb => python3-trove-classifiers_2024.2.23.bb} | 2 +-
+ .../xorg-lib/{libxkbfile_1.1.2.bb => libxkbfile_1.1.3.bb}       | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-trove-classifiers_2024.1.8.bb => python3-trove-classifiers_2024.2.23.bb} (87%)
+ rename meta/recipes-graphics/xorg-lib/{libxkbfile_1.1.2.bb => libxkbfile_1.1.3.bb} (81%)
 
-diff --git a/meta/recipes-devtools/python/python3-trove-classifiers_2024.1.8.bb b/meta/recipes-devtools/python/python3-trove-classifiers_2024.2.23.bb
-similarity index 87%
-rename from meta/recipes-devtools/python/python3-trove-classifiers_2024.1.8.bb
-rename to meta/recipes-devtools/python/python3-trove-classifiers_2024.2.23.bb
-index 6b923bb43f..8514a52616 100644
---- a/meta/recipes-devtools/python/python3-trove-classifiers_2024.1.8.bb
-+++ b/meta/recipes-devtools/python/python3-trove-classifiers_2024.2.23.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/pypa/trove-classifiers"
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
+diff --git a/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb b/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.3.bb
+similarity index 81%
+rename from meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb
+rename to meta/recipes-graphics/xorg-lib/libxkbfile_1.1.3.bb
+index 58dec8ae95..aab6284384 100644
+--- a/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.2.bb
++++ b/meta/recipes-graphics/xorg-lib/libxkbfile_1.1.3.bb
+@@ -13,4 +13,4 @@ DEPENDS += "virtual/libx11 xorgproto"
+ PE = "1"
  
--SRC_URI[sha256sum] = "6e36caf430ff6485c4b57a4c6b364a13f6a898d16b9417c6c37467e59c14b05a"
-+SRC_URI[sha256sum] = "8385160a12aac69c93fff058fb613472ed773a24a27eb3cd4b144cfbdd79f38c"
- 
- inherit pypi python_setuptools_build_meta ptest
- 
+ BBCLASSEXTEND = "native"
+-SRC_URI[sha256sum] = "b8a3784fac420b201718047cfb6c2d5ee7e8b9481564c2667b4215f6616644b1"
++SRC_URI[sha256sum] = "a9b63eea997abb9ee6a8b4fbb515831c841f471af845a09de443b28003874bec"
 -- 
 2.34.1
 
