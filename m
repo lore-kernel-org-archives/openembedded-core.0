@@ -2,51 +2,51 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F792C54E5A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3813EC54E58
 	for <webhook@archiver.kernel.org>; Wed, 28 Feb 2024 07:33:31 +0000 (UTC)
-Received: from esa11.hc1455-7.c3s2.iphmx.com (esa11.hc1455-7.c3s2.iphmx.com [207.54.90.137])
- by mx.groups.io with SMTP id smtpd.web11.8391.1709105606647121810
+Received: from esa12.hc1455-7.c3s2.iphmx.com (esa12.hc1455-7.c3s2.iphmx.com [139.138.37.100])
+ by mx.groups.io with SMTP id smtpd.web10.8415.1709105606125349280
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Feb 2024 23:33:27 -0800
+ Tue, 27 Feb 2024 23:33:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=dF/yutH5;
- spf=pass (domain: fujitsu.com, ip: 207.54.90.137, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=mAsNt4Jo;
+ spf=pass (domain: fujitsu.com, ip: 139.138.37.100, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1709105607; x=1740641607;
+  t=1709105606; x=1740641606;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references;
-  bh=KnO22+i9s6Q25Ip2T6bfeXSSY9t2C5hRueM0+le1gqY=;
-  b=dF/yutH5/vz1AKL1cXPcdDUI2igGhalOI5SXCUPsv6z19+TtucllBvWn
-   /mnUBTPT+hQxpz9zbZ1mxMkUZLAUknqcn1sqD8LlDrsmcEEqAa71WeFUa
-   C9dKwKqVqc60zgi6DOEh1AOfLYzhw3ujSHeMJW8VdCVqywCE8//YOdq2Z
-   6fzeZu2VxBLZoP640Q/EewbYdcgUDa9UVGutZjuMsQemCGoGUOG/kAYjI
-   z4Q9clVOxJYXvVH/K+geO188KCDj4OJz1HKLpfm2VPkDMOVHcBUYschus
-   TprBQZt1UZ3j6nhCrXxZOZCPyB8asPplbgpYXfwHJxJ9kApBTWlsT3oO8
+  bh=bkABaaF5l2mDwrp+b1daILPJOJEV6NE0P+0d8PZOORk=;
+  b=mAsNt4JoTqC4QDViPNibULw3EVpX1WuNKAZxkdZtrc8MRPgM4mNYFZCs
+   tsZMzEJf3hRBeNqrK3izRt2Y3MtcoIk6X5VXTF8GzUfdMLPBo3eTzTF7F
+   YXd4Var48PA9uBq/YUIs+wUtcdunCzezqVQRZk9jpfAqqlbkT6bRt0Shs
+   LsPhdkTyf7IZeCh3qe3CLB/lHIZfdz+nmkh8Q7ICY+r7IRzGJ9BTToY73
+   x2wtIWa4yE+RGb7EKhjNSMZeEi/1MeXnPt3Uk4MH/rzarAJisGLX9wlZa
+   AO0fIVIEvRQXc6+wqnwWldVez9hNLgFtQExMHHYIU25iFJvoVNU1YjO2E
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10996"; a="130045137"
+X-IronPort-AV: E=McAfee;i="6600,9927,10996"; a="129959012"
 X-IronPort-AV: E=Sophos;i="6.06,190,1705330800"; 
-   d="scan'208";a="130045137"
-Received: from unknown (HELO yto-r1.gw.nic.fujitsu.com) ([218.44.52.217])
-  by esa11.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2024 16:33:25 +0900
-Received: from yto-m4.gw.nic.fujitsu.com (yto-nat-yto-m4.gw.nic.fujitsu.com [192.168.83.67])
-	by yto-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id 6C78627A808
-	for <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 16:33:22 +0900 (JST)
-Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
-	by yto-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id A205DD7B7D
+   d="scan'208";a="129959012"
+Received: from unknown (HELO oym-r1.gw.nic.fujitsu.com) ([210.162.30.89])
+  by esa12.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2024 16:33:24 +0900
+Received: from oym-m2.gw.nic.fujitsu.com (oym-nat-oym-m2.gw.nic.fujitsu.com [192.168.87.59])
+	by oym-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id D4376D4804
 	for <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 16:33:21 +0900 (JST)
+Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
+	by oym-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id D78D7BF4A6
+	for <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 16:33:20 +0900 (JST)
 Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id 2B0D52008FF86
-	for <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 16:33:21 +0900 (JST)
+	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id 7508741180
+	for <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 16:33:20 +0900 (JST)
 Received: from vm4860.g01.fujitsu.local (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id D2B861A006A;
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 229831A006A;
 	Wed, 28 Feb 2024 15:33:20 +0800 (CST)
 From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 12/48] libksba: upgrade 1.6.5 -> 1.6.6
-Date: Wed, 28 Feb 2024 15:32:19 +0800
-Message-Id: <1709105575-24259-12-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH 11/48] libhandy: upgrade 1.8.2 -> 1.8.3
+Date: Wed, 28 Feb 2024 15:32:18 +0800
+Message-Id: <1709105575-24259-11-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1709105575-24259-1-git-send-email-wangmy@fujitsu.com>
 References: <1709105575-24259-1-git-send-email-wangmy@fujitsu.com>
@@ -54,47 +54,55 @@ X-TM-AS-GCONF: 00
 X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28218.005
 X-TM-AS-User-Approved-Sender: Yes
 X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28218.005
-X-TMASE-Result: 10-1.466400-10.000000
-X-TMASE-MatchedRID: dhm/lGuWeZijz0nOeth/yUIIxwDaU5mrTfK5j0EZbysRt1EvyOXA0dHP
-	vwtR3Bjz4CtjYmQpb2kF1Ec/oUIRlVpCIuRr0RxKTuctSpiuWyUUi4Ehat0544jqjGwEhbwS5wM
-	PMqdPNSwzatuHuXx5hPO14swvI6zRXYtXed01SF/dCok3ibXlQX0tCKdnhB58I/9UW5M5dRNp7q
-	EhmmPgy46HM5rqDwqtut+V4SxDUehJaGgBaP+vErA5NnlY19gTXzgu5T7xkUa6K7EBa8NuJoEgs
-	OwoPJkHGP51jhINtmaHyOtpWRdRQIvsga/WHOkBHSbhGbmGylXFJK7yLnZRGZdO3Q67ImL8gi4R
-	Uz90EQwG2MApbv6odw==
+X-TMASE-Result: 10-2.560100-10.000000
+X-TMASE-MatchedRID: /gZnudouedqjz0nOeth/yUIIxwDaU5mrARyXsbS4pUZUjspoiX02F6+X
+	jxY1c4Onldhq7sfFh4dKhBUJyxjhBu1a16oqp8B1/HTKStsDGMJHNQ8CqEKO2MC5DTEMxpeQRBg
+	61kSK4DiBkESMI05d4qHvyg1ZsxTflwt7DABrvp91e7Xbb6Im2g8JAnaMw0RVwSC6qIZ5nkmjxY
+	yRBa/qJXcsDK2xBHh7jaPj0W1qn0TGVuWouVipcgGc1dSIUH/2Pme+sRsvX9XGpuug8oKD5U1li
+	7S7X8f1ktwh/hVbDzhazZfQWgjsfSUA4c+wbAqarxl3/M2HG9VU/ClD6AmKdf6/2/nZkihaOgB/
+	fz3EXdcVKT0eFRmfDs4YhafCzgujIdY9jOi4lTI=
 X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 28 Feb 2024 07:33:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196337
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196336
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
 Changelog:
- Fix a possible wrong error return from the DER builder.
+==========
+- HdyStyleManager
+  - Support contrast setting in the settings portal
+  - Remove an extra unref
+- Translation updates
+  - Catalan
+  - Georgian
+  - Romanian
+  - Turkish
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../libksba/{libksba_1.6.5.bb => libksba_1.6.6.bb}              | 2 +-
+ .../libhandy/{libhandy_1.8.2.bb => libhandy_1.8.3.bb}           | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/libksba/{libksba_1.6.5.bb => libksba_1.6.6.bb} (94%)
+ rename meta/recipes-gnome/libhandy/{libhandy_1.8.2.bb => libhandy_1.8.3.bb} (95%)
 
-diff --git a/meta/recipes-support/libksba/libksba_1.6.5.bb b/meta/recipes-support/libksba/libksba_1.6.6.bb
-similarity index 94%
-rename from meta/recipes-support/libksba/libksba_1.6.5.bb
-rename to meta/recipes-support/libksba/libksba_1.6.6.bb
-index 62ba73d2d5..2230a032f6 100644
---- a/meta/recipes-support/libksba/libksba_1.6.5.bb
-+++ b/meta/recipes-support/libksba/libksba_1.6.6.bb
-@@ -24,7 +24,7 @@ UPSTREAM_CHECK_URI = "https://gnupg.org/download/index.html"
- SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://ksba-add-pkgconfig-support.patch"
+diff --git a/meta/recipes-gnome/libhandy/libhandy_1.8.2.bb b/meta/recipes-gnome/libhandy/libhandy_1.8.3.bb
+similarity index 95%
+rename from meta/recipes-gnome/libhandy/libhandy_1.8.2.bb
+rename to meta/recipes-gnome/libhandy/libhandy_1.8.3.bb
+index e863e8d13b..7f5f02a7ba 100644
+--- a/meta/recipes-gnome/libhandy/libhandy_1.8.2.bb
++++ b/meta/recipes-gnome/libhandy/libhandy_1.8.3.bb
+@@ -10,7 +10,7 @@ LICENSE = "LGPL-2.1-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
  
--SRC_URI[sha256sum] = "a564628c574c99287998753f98d750babd91a4e9db451f46ad140466ef2a6d16"
-+SRC_URI[sha256sum] = "5dec033d211559338838c0c4957c73dfdc3ee86f73977d6279640c9cd08ce6a4"
+ SRC_URI = "git://gitlab.gnome.org/GNOME/libhandy.git;protocol=https;branch=libhandy-1-8"
+-SRCREV = "48ae7ec0f7f9ee5f666da38b0e39e66874957166"
++SRCREV = "9b0071408ce86a3ef843806fddd723a85f6f2416"
+ S = "${WORKDIR}/git"
  
- do_configure:prepend () {
- 	# Else these could be used in preference to those in aclocal-copy
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.(\d*[02468])+(\.\d+))"
 -- 
 2.34.1
 
