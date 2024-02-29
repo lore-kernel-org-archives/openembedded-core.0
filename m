@@ -1,223 +1,140 @@
-Return-Path: <ticotimo@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0567CC54E41
-	for <webhook@archiver.kernel.org>; Thu, 29 Feb 2024 15:39:24 +0000 (UTC)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
- by mx.groups.io with SMTP id smtpd.web11.28008.1709221154494714250
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D6DEC48BF6
+	for <webhook@archiver.kernel.org>; Thu, 29 Feb 2024 16:24:37 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.337.1709223871873615968
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Feb 2024 07:39:14 -0800
+ Thu, 29 Feb 2024 08:24:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=W20/P5I3;
- spf=pass (domain: gmail.com, ip: 209.85.128.170, mailfrom: ticotimo@gmail.com)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-608841dfcafso11018377b3.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 Feb 2024 07:39:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709221153; x=1709825953; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=t1iXSbfQEucSvPy6XhvEkihGhUo/ZaZ74IWJ4bjqm+c=;
-        b=W20/P5I3IB9La6qUh2bvmpxYh0tak8CzHPMqxyrheS0ZIlV++WKN/xH445xxrDp2ib
-         w+i/f8GNq66rukHtrGMKha1pXpytOtZIOa2wcXPkXLVDZLsM6rGl0TQjfaY5486W4ccA
-         mHk+2wpWCVptCd+7hCIvPvATCs58NMx5GWv+JZICkfwChYXq0GHQRmfxLgMfpyUthB+R
-         UBe25Hucyeulsfezt5/bd+WA4XC+7n1P+PmyAQF2MfDeQwSxGgnP5i4QTf1NcYMIpse/
-         gs5G3/3BHGDIhoGQvapHUE0qG8ceg4oz60mSjPkEqEMt7BJpnaqWWyCDAapgxMToYoju
-         nFhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709221153; x=1709825953;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=t1iXSbfQEucSvPy6XhvEkihGhUo/ZaZ74IWJ4bjqm+c=;
-        b=hu0TSkbEBuscwmGdYPvMftC2nTtSmuel8wHGVHXpOFKA/AjwISyFypreMeN2bbo+vV
-         lK9CBLqfz9LZ4xPdW3xcDmwEibcclaXJrRYGTKNhMVVCeuW8uMhfeMUZ4zsHgYGmwGs0
-         ltfv4sz+lrYMIAl1ILs0ZBGesFDnWn6iwAaeIVf1hgnVFbTwHQB9WDSX5XT/eQnV0kFY
-         2KEf3qA6xjidmgtaHan5Uu8eSZFUW7QTMsb4jwXmGdSQ4SxmDeAhuh3uZJJgmd3DHdfY
-         GkQAL2RQ3s6EEdF5+NOEHLOaKJWMkG/z7ZiK1UeBlIWgaDtv65uwastt+dqJ+q2xBfPt
-         A5TA==
-X-Forwarded-Encrypted: i=1; AJvYcCWJFUpspLaizsmHI22Ji1wk+EsS7ol1onA811PFD+csUUm1yAqsLahjBjXOHT8+PsW8kVXfNRi9QOwkXxEHl1Lx8mKE/eNzWfjmlZn7GpryWRZySb4BFRAP
-X-Gm-Message-State: AOJu0YyZOmmenUD20h9I0ORq5FQlK7MCPjSL4iZC8lNFH6TUxkcZvTRE
-	4SgQc29OMZ4eoREBeTfjDOZ/jrjYXkWdzWGQKehm5KleiPeozNIYOkk7gGb4GM6krLyrV4KJck9
-	vyvid9Z2ytijaCSX846Gge9FXgxE=
-X-Google-Smtp-Source: AGHT+IFyosrHvmHNdZU+NO0evXKKpENk/75/ak8+CQ3Oa7gr310GBQ0V/fOufg/ZWh9uOwpP5phMGGOiMPBjwl4S76A=
-X-Received: by 2002:a81:4c41:0:b0:608:dc99:b217 with SMTP id
- z62-20020a814c41000000b00608dc99b217mr2334322ywa.50.1709221153653; Thu, 29
- Feb 2024 07:39:13 -0800 (PST)
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 269DF1FB
+	for <openembedded-core@lists.openembedded.org>; Thu, 29 Feb 2024 08:25:10 -0800 (PST)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 046353F6C4
+	for <openembedded-core@lists.openembedded.org>; Thu, 29 Feb 2024 08:24:30 -0800 (PST)
+From: ross.burton@arm.com
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] linux-firmware: split out more firmware pieces
+Date: Thu, 29 Feb 2024 16:24:29 +0000
+Message-Id: <20240229162429.4039266-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <685fc5b84a11e8b42335588118052ed0d3bf21f3.camel@linuxfoundation.org>
-In-Reply-To: <685fc5b84a11e8b42335588118052ed0d3bf21f3.camel@linuxfoundation.org>
-From: Tim Orling <ticotimo@gmail.com>
-Date: Thu, 29 Feb 2024 07:39:02 -0800
-Message-ID: <CANx9H-CqbyATjgz0=K0VeTtxiqM4Vu31itpJ33XRw6PapGsQEg@mail.gmail.com>
-Subject: Re: [OE-core] python3-attrs - turn deadline off?
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Tim Orling <tim.orling@konsulko.com>, Trevor Gamblin <tgamblin@baylibre.com>, 
-	Randy MacLeod <randy.macleod@windriver.com>, 
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000b4c9de0612870fb8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 29 Feb 2024 15:39:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196437
+ <openembedded-core@lists.openembedded.org>; Thu, 29 Feb 2024 16:24:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196438
 
---000000000000b4c9de0612870fb8
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Ross Burton <ross.burton@arm.com>
 
-On Thu, Feb 29, 2024 at 12:25=E2=80=AFAM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+Split _most_ of the rtl_nic drivers to a subpackage. Notably this does
+not include rtl8168 as this is already split into a separate package.
+These drivers are fairly common so this lets people install the essential
+firmware easier.
 
-> I noticed this failures:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/6139
->
-> which leads to:
->
->
-> http://autobuilder.yocto.io/pub/non-release/20240228-36/testresults/qemua=
-rm64-ptest/python3-attrs.log
->
-> which says:
->
-> """
-> Unreliable test timings! On an initial run, this test took 268.29ms,
-> which exceeded the deadline of 200.00ms, but on a subsequent run it
-> took 2.63 ms, which did not. If you expect this sort of variability in
-> your test timings, consider turning deadlines off for this test by
-> setting deadline=3DNone.
-> """
->
-> This warning is coming from python3-hypothesis, and is totally no obvious
-from the test case itself
-https://github.com/python-attrs/attrs/blob/23.2.0/tests/test_make.py#L1318C=
-1-L1337C24
+Also split out some large firmware collections into subpackages:
+- Mellanox (82M)
+- Marvell Prestera (72M)
+- QLogic 4xxxx (21M)
 
-    @given(integers(), booleans())
-    def test_converter_factory_property(self, val, init):
-        """
-        Property tests for attributes with converter, and a factory default=
-.
-        """
-        C =3D make_class(
-            "C",
-            {
-                "y": attr.ib(),
-                "x": attr.ib(
-                    init=3Dinit,
-                    default=3DFactory(lambda: val),
-                    converter=3Dlambda v: v + 1,
-                ),
-            },
-        )
-        c =3D C(2)
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ .../linux-firmware/linux-firmware_20231211.bb  | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-        assert c.x =3D=3D val + 1
-        assert c.y =3D=3D 2
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20231211.b=
+b b/meta/recipes-kernel/linux-firmware/linux-firmware_20231211.bb
+index 9347cde298d..3a3690bdc1b 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20231211.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20231211.bb
+@@ -280,6 +280,7 @@ PACKAGES =3D+ "${PN}-amphion-vpu-license ${PN}-amphio=
+n-vpu \
+              ${PN}-rtl8761 \
+              ${PN}-rtl8168 \
+              ${PN}-rtl8822 \
++             ${PN}-rtl-nic \
+              ${PN}-cypress-license \
+              ${PN}-broadcom-license \
+              ${PN}-bcm-0bb4-0306 \
+@@ -348,6 +349,7 @@ PACKAGES =3D+ "${PN}-amphion-vpu-license ${PN}-amphio=
+n-vpu \
+              ${PN}-bnx2 \
+              ${PN}-bnx2x \
+              ${PN}-liquidio \
++             ${PN}-mellanox \
+              ${PN}-nvidia-license \
+              ${PN}-nvidia-tegra-k1 ${PN}-nvidia-tegra \
+              ${PN}-nvidia-gpu \
+@@ -366,7 +368,9 @@ PACKAGES =3D+ "${PN}-amphion-vpu-license ${PN}-amphio=
+n-vpu \
+              ${PN}-olpc-license ${PN}-olpc \
+              ${PN}-phanfw-license ${PN}-phanfw \
+              ${PN}-powervr-license ${PN}-powervr \
++             ${PN}-prestera \
+              ${PN}-qat ${PN}-qat-license \
++             ${PN}-qed \
+              ${PN}-qcom-license ${PN}-qcom-yamato-license \
+              ${PN}-qcom-venus-1.8 ${PN}-qcom-venus-4.2 ${PN}-qcom-venus-=
+5.2 ${PN}-qcom-venus-5.4 ${PN}-qcom-venus-6.0 \
+              ${PN}-qcom-vpu-1.0 ${PN}-qcom-vpu-2.0 \
+@@ -817,6 +821,7 @@ LICENSE:${PN}-rtl8761 =3D "Firmware-rtlwifi_firmware"
+ LICENSE:${PN}-rtl8821 =3D "Firmware-rtlwifi_firmware"
+ LICENSE:${PN}-rtl8822 =3D "Firmware-rtlwifi_firmware"
+ LICENSE:${PN}-rtl-license =3D "Firmware-rtlwifi_firmware"
++LICENSE:${PN}-rtl-nic =3D "WHENCE"
+ LICENSE:${PN}-rtl8168 =3D "WHENCE"
+=20
+ FILES:${PN}-rtl-license =3D " \
+@@ -852,6 +857,9 @@ FILES:${PN}-rtl8822 =3D " \
+   ${nonarch_base_libdir}/firmware/rtw88/rtw8822*.bin \
+   ${nonarch_base_libdir}/firmware/rtlwifi/rtl8822*.bin \
+ "
++FILES:${PN}-rtl-nic =3D " \
++  ${nonarch_base_libdir}/firmware/rtl_nic/*.fw \
++"
+=20
+ RDEPENDS:${PN}-rtl8188 +=3D "${PN}-rtl-license"
+ RDEPENDS:${PN}-rtl8192ce +=3D "${PN}-rtl-license"
+@@ -862,6 +870,7 @@ RDEPENDS:${PN}-rtl8821 +=3D "${PN}-rtl-license"
+ RDEPENDS:${PN}-rtl8761 +=3D "${PN}-rtl-license"
+ RDEPENDS:${PN}-rtl8822 +=3D "${PN}-rtl-license"
+ RDEPENDS:${PN}-rtl8168 +=3D "${PN}-whence-license"
++RDEPENDS:${PN}-rtl-nic +=3D "${PN}-whence-license"
+=20
+ # For TI wl1251
+ LICENSE:${PN}-wl1251 =3D "Firmware-wl1251"
+@@ -1325,6 +1334,9 @@ FILES:${PN}-qat-license   =3D "${nonarch_base_libdi=
+r}/firmware/LICENCE.qat_firmwar
+ FILES:${PN}-qat           =3D "${nonarch_base_libdir}/firmware/qat*.bin"
+ RDEPENDS:${PN}-qat        =3D "${PN}-qat-license"
+=20
++LICENSE:${PN}-qed         =3D "WHENCE"
++FILES:${PN}-qed           =3D "${nonarch_base_libdir}/firmware/qed/*"
++
+ # For QCOM VPU/GPU and SDM845
+ LICENSE:${PN}-qcom-license =3D "Firmware-qcom"
+ LICENSE:${PN}-qcom-yamato-license =3D "Firmware-qcom-yamato"
+@@ -1467,6 +1479,12 @@ RRECOMMENDS:${PN}-qcom-sc8280xp-lenovo-x13s-sensor=
+s =3D "${PN}-qcom-sc8280xp-lenov
+=20
+ FILES:${PN}-liquidio =3D "${nonarch_base_libdir}/firmware/liquidio"
+=20
++FILES:${PN}-mellanox =3D "${nonarch_base_libdir}/firmware/mellanox"
++
++LICENSE:${PN}-prestera =3D "Firmware-Marvell"
++FILES:${PN}-prestera =3D "${nonarch_base_libdir}/firmware/mrvl/prestera"
++RDEPENDS:${PN}-prestera =3D "${PN}-marvell-license"
++
+ # For Rockchip
+ LICENSE:${PN}-rockchip-dptx =3D "Firmware-rockchip"
+ FILES:${PN}-rockchip-license =3D "${nonarch_base_libdir}/firmware/LICENC=
+E.rockchip"
+--=20
+2.34.1
 
-Related:
-https://github.com/HypothesisWorks/hypothesis/issues/3713
-
-Is there a setting we should be considering?
->
-> Cheers,
->
-> Richard
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#196420):
-> https://lists.openembedded.org/g/openembedded-core/message/196420
-> Mute This Topic: https://lists.openembedded.org/mt/104640034/924729
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> ticotimo@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---000000000000b4c9de0612870fb8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Feb 29, 2024 at 12:25=E2=80=
-=AFAM Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.o=
-rg">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><blockquote =
-class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
-id rgb(204,204,204);padding-left:1ex">I noticed this failures:<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/82/build=
-s/6139" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/82/builds/6139</a><br>
-<br>
-which leads to:<br>
-<br>
-<a href=3D"http://autobuilder.yocto.io/pub/non-release/20240228-36/testresu=
-lts/qemuarm64-ptest/python3-attrs.log" rel=3D"noreferrer" target=3D"_blank"=
->http://autobuilder.yocto.io/pub/non-release/20240228-36/testresults/qemuar=
-m64-ptest/python3-attrs.log</a><br>
-<br>
-which says:<br>
-<br>
-&quot;&quot;&quot;<br>
-Unreliable test timings! On an initial run, this test took 268.29ms,<br>
-which exceeded the deadline of 200.00ms, but on a subsequent run it<br>
-took 2.63 ms, which did not. If you expect this sort of variability in<br>
-your test timings, consider turning deadlines off for this test by<br>
-setting deadline=3DNone.<br>
-&quot;&quot;&quot;<br>
-<br></blockquote><div>This warning is coming from python3-hypothesis, and i=
-s totally no obvious from the test case itself=C2=A0</div><div><a href=3D"h=
-ttps://github.com/python-attrs/attrs/blob/23.2.0/tests/test_make.py#L1318C1=
--L1337C24">https://github.com/python-attrs/attrs/blob/23.2.0/tests/test_mak=
-e.py#L1318C1-L1337C24</a><br></div><div><br></div><div>=C2=A0 =C2=A0 @given=
-(integers(), booleans())<br>=C2=A0 =C2=A0 def test_converter_factory_proper=
-ty(self, val, init):<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 Property tests for attributes with converter, a=
-nd a factory default.<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 C =3D make_class(<br>=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 &quot;C&quot;,<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 {<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;y&qu=
-ot;: attr.ib(),<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-&quot;x&quot;: attr.ib(<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 init=3Dinit,<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 default=3DFactory(lambda: val),<br>=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 converte=
-r=3Dlambda v: v + 1,<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 ),<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 },<br>=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 )<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 c =3D C(2)<br><br>=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 assert c.x =3D=3D val + 1<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-assert c.y =3D=3D 2<br></div><div><br></div><div>Related:</div><div><a href=
-=3D"https://github.com/HypothesisWorks/hypothesis/issues/3713">https://gith=
-ub.com/HypothesisWorks/hypothesis/issues/3713</a><br></div><div><br></div><=
-blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
-eft:1px solid rgb(204,204,204);padding-left:1ex">
-Is there a setting we should be considering?<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#196420): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/196420" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/196420</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/104640034/924=
-729" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
-/104640034/924729</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:ticotimo@gmail.com" target=
-=3D"_blank">ticotimo@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---000000000000b4c9de0612870fb8--
 
