@@ -2,58 +2,55 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AF83C48BF6
-	for <webhook@archiver.kernel.org>; Thu, 29 Feb 2024 21:16:40 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web10.6926.1709241396206921722
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59B08C48BF6
+	for <webhook@archiver.kernel.org>; Thu, 29 Feb 2024 21:18:00 +0000 (UTC)
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+ by mx.groups.io with SMTP id smtpd.web10.6947.1709241475781603048
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Feb 2024 13:16:36 -0800
+ Thu, 29 Feb 2024 13:17:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Yg10FqjS;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-412c1d433c4so5317165e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 Feb 2024 13:16:35 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dMwfhVA0;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.208.178, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2d2ab9c5e83so15301521fa.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 Feb 2024 13:17:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1709241394; x=1709846194; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1709241474; x=1709846274; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ksDcjIDgi5n1lMAO0MSxtIUDXlfK5x4FU2TZL2Bb604=;
-        b=Yg10FqjS3utxSDO5QGPfA2gA61Myh6dzmGXZI0qTKijX+/yOWK7/V6jI2sN9sNLgZS
-         OLbi3A3PZblnTSHkwocWA+cRIf9SqLegjNYJkq3Xo+OlstF2yfQbxkaOd5pSpZVyRKm5
-         Z1jVp5UCd3wZBdSMUrLD6rOgf/A+cgu7HvQvE=
+        bh=mdSRKwG63tewBbcgdB2rmOytDrfFVH/F1MG5KTJpUC4=;
+        b=dMwfhVA0IA1FKXIXzxR1XTUIeMfP2Ajsv2l2KRnevMYtU4Hj2OaPkgzt5rO5hWGvzQ
+         LsGH8TCObS3hYw2W3ZzA+MrS89WMjJ2xCwRrQGf6v4kZzASHo4dYdJimXqPcspXSnQgR
+         yT2Oy4JRAq1GT193/s4Y3+ymCPsCRaFof+JC0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709241394; x=1709846194;
+        d=1e100.net; s=20230601; t=1709241474; x=1709846274;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:to:from:subject:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ksDcjIDgi5n1lMAO0MSxtIUDXlfK5x4FU2TZL2Bb604=;
-        b=Z7/ROqNMYWY3q5QKyQBgvabcIszZXVPnRZaHkaPzxF/wUsbAP69ANsyrWMI+bWxubb
-         nEbmb38mWM9tq4dwVRlIeZRNFtAw8MKnqaTTh1bEdyX+QGn/ka/D4sRQiDrA1uixOdZD
-         wZx3pjWBk6KoAT9skDoMHIdOa0zDEAHKBXoPWRi/uw0FzIcaYJCbfxIOh1FFH7REehgP
-         8XVbfdajm/UBLHSf1sjcuSPmA+0LQJ/I2CXJT/dnllp3Lwqa/DMShHpy6tJpkOWVSI+g
-         prSPxA5EvCh3urjtHqiPm/Yc02fDHujNNnJ+hbLfh2RRCksR2JXUMNF67MsQJgauxff2
-         /GAw==
-X-Forwarded-Encrypted: i=1; AJvYcCWNuMQh1sCShJXS46oS5qzwD0ohw+7MURUAIDwexUezmEYkuLTA/ID4XczR0ZxNu+rnY2YlO/OOs9A3tN1jJm1ysGraSoyMrXJ7kapnUZPpNjQvqu13RGee
-X-Gm-Message-State: AOJu0YyuzKHhLIM3uNhP+P4d5OBeqghESn+OO1off+GBDKBLvjt9PflZ
-	1pCr3zxPwh0oNdvU9bT+FeEk0qUPrzKH1xA7VR4kkOmMfzmNda0PoSokELt5I+A=
-X-Google-Smtp-Source: AGHT+IELRpLXZ2w/PXq2BuyV5/QKjRAovVFQl0MSNu+CkEnZnWjfwJT+z/JLmOiAQMgBz78zofqLIg==
-X-Received: by 2002:a05:600c:a001:b0:412:64cb:eff3 with SMTP id jg1-20020a05600ca00100b0041264cbeff3mr172818wmb.3.1709241394622;
-        Thu, 29 Feb 2024 13:16:34 -0800 (PST)
+        bh=mdSRKwG63tewBbcgdB2rmOytDrfFVH/F1MG5KTJpUC4=;
+        b=reUpfvN/2z/OSr1Z/AuGlZHIsC87A0mlLouLVY93cYIpXSiAQVH+iBbcjpB+IpzgZ7
+         ZbaWECkchRiM8PfrGQodU+OsRKistyPaj1oApd4Wv5Xqip373xFrQl5WzOWQWBiDCmbN
+         lv7OdsSEkMnxo+vEszc8z5J8v64oVzaho6WRvyAKyqpO3I44mTtqMWmqhYajoESPpeMp
+         rY2Mf58Deg1+wRijTyWReA+fHAEMuOD818znphhX8Qm7p2fwY8SEtgBSnILSKoYp3bQo
+         rr71oSdtjD+P4uX63UFT0Em2KOfI/Ngoa++VHP4sS0llNBiBT5E10CapjThp1xBqJPWU
+         Kkag==
+X-Forwarded-Encrypted: i=1; AJvYcCX2YMo56dYNCI82ZgcEAoX63bQDGPL5/0HSkLPtvtoajJZHH3quvyh+sLviCNr0NoZiSuqBW3PsiWkBh2yHl4hEMA2iRyEFXO/dXSl/uEweC0mwV0eA9JiJ
+X-Gm-Message-State: AOJu0YydYlXx5cI9ANadiA2QVsu5AZQQJUrLKo4hM02KXc+HeX9J5m8Q
+	ZfipiaL6GS1vLRU0FCIJwmNfjdCypyNL2d9pBJUOGVKtvWkYNB107U5ZgVk0taI=
+X-Google-Smtp-Source: AGHT+IHrfnTwf3blul+6r2eXIuaNV8nLfLCw3eOL6EYpeQw4okCC53R2GYyivmfVxDnmQ4hmIFeWUw==
+X-Received: by 2002:a2e:9101:0:b0:2d2:c83e:d4ce with SMTP id m1-20020a2e9101000000b002d2c83ed4cemr2458571ljg.34.1709241473960;
+        Thu, 29 Feb 2024 13:17:53 -0800 (PST)
 Received: from ?IPv6:2001:8b0:aba:5f3c:ef7:29f4:cff2:85e4? ([2001:8b0:aba:5f3c:ef7:29f4:cff2:85e4])
-        by smtp.gmail.com with ESMTPSA id 26-20020a05600c021a00b004128c73beffsm6250064wmi.34.2024.02.29.13.16.34
+        by smtp.gmail.com with ESMTPSA id g8-20020a05600c310800b00412b0ef22basm3235440wmo.10.2024.02.29.13.17.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Feb 2024 13:16:34 -0800 (PST)
-Message-ID: <50c382022d4ec94b9db9efc03528a28f4a427059.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] core-image-full-cmdline: add
- package-management
+        Thu, 29 Feb 2024 13:17:53 -0800 (PST)
+Message-ID: <a182f04615c1b7e15c99452bc85f325ca3fba569.camel@linuxfoundation.org>
+Subject: Re: [PATCH] core-image-full-cmdline: add package-management
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mark Hatle <mark.hatle@kernel.crashing.org>, 
-	michael.opdenacker@bootlin.com, openembedded-core@lists.openembedded.org
-Date: Thu, 29 Feb 2024 21:16:31 +0000
-In-Reply-To: <0d036adc-c63a-4a21-9325-47569a41514e@kernel.crashing.org>
+To: michael.opdenacker@bootlin.com, openembedded-core@lists.openembedded.org
+Date: Thu, 29 Feb 2024 21:17:51 +0000
+In-Reply-To: <20240229150304.3643093-1-michael.opdenacker@bootlin.com>
 References: <20240229150304.3643093-1-michael.opdenacker@bootlin.com>
-	 <0d036adc-c63a-4a21-9325-47569a41514e@kernel.crashing.org>
 Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
@@ -69,38 +66,47 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 29 Feb 2024 21:16:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196446
+ <openembedded-core@lists.openembedded.org>; Thu, 29 Feb 2024 21:18:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196447
 
-On Thu, 2024-02-29 at 13:29 -0600, Mark Hatle wrote:
-> There are plenty of systems where we don't want package-management
-> enabled by default.=C2=A0 This will just make core-image-full-cmdline les=
-s
-> useful there.
+On Thu, 2024-02-29 at 16:03 +0100, michael.opdenacker@bootlin.com
+wrote:
+> From: Michael Opdenacker <michael.opdenacker@bootlin.com>
 >=20
-> In the past, it's always been up to the user to enable full package-
-> management in their configuration, default has been to not have it
-> present.=C2=A0 Has this changed?
+> Add "package-management" image feature to the core-image-full-cmdline
+> image,
+> to support package upgrade testing.
+>=20
+> Signed-off-by: Michael Opdenacker <michael.opdenacker@bootlin.com>
+> Suggested-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+> =C2=A0meta/recipes-extended/images/core-image-full-cmdline.bb | 2 +-
+> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-extended/images/core-image-full-cmdline.bb
+> b/meta/recipes-extended/images/core-image-full-cmdline.bb
+> index 4e1cf58d55..b034cd0aeb 100644
+> --- a/meta/recipes-extended/images/core-image-full-cmdline.bb
+> +++ b/meta/recipes-extended/images/core-image-full-cmdline.bb
+> @@ -1,7 +1,7 @@
+> =C2=A0SUMMARY =3D "A console-only image with more full-featured Linux sys=
+tem
+> \
+> =C2=A0functionality installed."
+> =C2=A0
+> -IMAGE_FEATURES +=3D "splash ssh-server-openssh"
+> +IMAGE_FEATURES +=3D "splash ssh-server-openssh package-management"
+> =C2=A0
+> =C2=A0IMAGE_INSTALL =3D "\
+> =C2=A0=C2=A0=C2=A0=C2=A0 packagegroup-core-boot \
 
-Of our images, many of them already enable package-management including
-core-image-sato (and derivatives like sdk), core-image-x11, core-image-
-weston and build-appliance. In that sense, core-image-full-cmdline was
-an outlier.
+This does break one of the oe-selftests around gplv3 exclusion handling
+unfortunately:
 
-Whilst it does add some dependencies and metadata it doesn't add that
-much overall. This big win for this is that it then lets us test image
-upgrades with the artefact built as part of the release artefacts.
-
-That testing does make sense with full-cmdline so bringing it slightly
-more into line with the other images seemed like the best/easiest
-improvement for a big QA win.
-
-Anyone not needing it can easily remove that feature as they would with
-the others.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/6471/step=
+s/15/logs/stdio
 
 Cheers,
 
 Richard
-
-
 
