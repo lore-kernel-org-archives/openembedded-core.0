@@ -1,78 +1,186 @@
-Return-Path: <michal.seben@siemens.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CFC0C5475B
-	for <webhook@archiver.kernel.org>; Fri,  1 Mar 2024 15:06:05 +0000 (UTC)
-Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
- by mx.groups.io with SMTP id smtpd.web10.25199.1709305557428983560
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 838A6C5478C
+	for <webhook@archiver.kernel.org>; Fri,  1 Mar 2024 16:56:05 +0000 (UTC)
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+ by mx.groups.io with SMTP id smtpd.web11.28674.1709312157002701186
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Mar 2024 07:05:58 -0800
+ Fri, 01 Mar 2024 08:55:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=michal.seben@siemens.com header.s=fm1 header.b=HoxOyc4P;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-1325011-20240301150554a1fa57d585bdc1369a-anzqqo@rts-flowmailer.siemens.com)
-Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 20240301150554a1fa57d585bdc1369a
-        for <openembedded-core@lists.openembedded.org>;
-        Fri, 01 Mar 2024 16:05:54 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=michal.seben@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=MV+m3tGkncU9ikmAnF1OFHNrSmNnwueQled5ja4LM9Q=;
- b=HoxOyc4PYws3HcXZjwfkhooozbgnvHNMbeul0tkhEICgg+7vKin8QbN3kXPx/XeQJxTD4f
- gzLaBaW7SpAqM/vq+WhKqdD9ZLolqJbVDpeCjX70PfWsALbJzMDSHLcQTRzukAGEk+/dGd0a
- WAetQu3UUbusU6mWTxUECGgGqDXz0=;
-From: "M. Seben" <michal.seben@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: michal seben <michal.seben@siemens.com>
-Subject: [OE-core][PATCH] testimage: allow to set runqemu bootparams option
-Date: Fri,  1 Mar 2024 16:05:27 +0100
-Message-Id: <20240301150527.254951-1-michal.seben@siemens.com>
-In-Reply-To: <20240301141726.244561-1-michal.seben@siemens.com>
-References: <20240301141726.244561-1-michal.seben@siemens.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=MRMhfbR3;
+ spf=pass (domain: gmail.com, ip: 209.85.167.178, mailfrom: raj.khem@gmail.com)
+Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-3bd4e6a7cb0so1491172b6e.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 01 Mar 2024 08:55:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709312156; x=1709916956; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=nVdW6PnDaVQI0RaBRjmnHO6tBTsrAXp0Nf6d7wt+a0I=;
+        b=MRMhfbR3D57W6DTz2B1yGUY1XfeQgwSsS31MwqGSsTdXsjK9UqFpEFyyacBcXNvf+n
+         LBzQVvcCCG+WFIojhUuss7FGFcexfIl5sxq0tsykmKtLb4J9Xi2ml3mf4eCKufMu13Ht
+         1nZhNNQY6wZXr1av6/NwaXrVQpELREF8JGM0ZrFw68Yy15doiWKc8BexNhG51i6/K4kS
+         Wefpz0trub4dWczsmlhbArkTiZYJSxEjuYiN8j7M7N1nrvfE88c+xt8v85NychUmTPRc
+         V0p9C6aYPAR2/0EFACdNnZ3hmpgQAwBc+5vBu8Fl9a60YywGGA4JRneZCz4y4Ka5LLM9
+         Ttbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709312156; x=1709916956;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nVdW6PnDaVQI0RaBRjmnHO6tBTsrAXp0Nf6d7wt+a0I=;
+        b=YKoJGjRmRUPE6g0AzvKabTkY+9w4f0JibolCSxTrA52BA7gIpBd04ilevAfXUSD2ic
+         BLuEEUgwr1oHC2VWaHdRiRAMULk6F0BiKRM5052QyDEO0xXvSVyFlkxhbacpMdfqo7vA
+         EUuZN7S5dlprhhWlaiuh8mK/wRp0pdAmr7wLvqu3d0n7CX7338X106iae77xERVkwtTw
+         fjtNdpaGmD903fmlta4cbn/rhiQ/mqGy1iZ7Ra4L96BaBMwXlwsXjBFulO2kG7DVm34r
+         6tpB0WtwL5coT0GBWXUyIhcjSQSZgjUJtMpXj3RYfkVuMDThSLFjVeE7f6+EpxZ6hJok
+         SiCQ==
+X-Gm-Message-State: AOJu0YyA+whKmRZKFHCY+rgwXyaR5MiOQUe/esReSEwoii43IdBDVn9A
+	VzncQkMIN7cD9zgZ8ujopJNcrFvZKILyIgj3ulG94UCvNCfe+AathP7C4CYfrrNz/Xta1T9eXf5
+	RAOwVMbaiOgm9XVmwf5TrEmhhWTCzdCH4
+X-Google-Smtp-Source: AGHT+IHoodznc4UcpK9hxDPZ6a9LnKzxF9jlzR2cpr3Pj7szHcNE5JtcqAsZYk/nmqWDaAzvuyoEkj6udYP3OweUUjI=
+X-Received: by 2002:a05:6870:3913:b0:21f:c787:c900 with SMTP id
+ b19-20020a056870391300b0021fc787c900mr2285038oap.1.1709312156090; Fri, 01 Mar
+ 2024 08:55:56 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-1325011:519-21489:flowmailer
+References: <20240301093547.1810401-1-richard.purdie@linuxfoundation.org> <20240301093547.1810401-2-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20240301093547.1810401-2-richard.purdie@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 1 Mar 2024 08:55:45 -0800
+Message-ID: <CAMKF1soLZTWgkYKEsJoqkRv8U9RUvodyMuotQe607=hfsa8Y_Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] no-gplv3: Tweak for packagemangement in core-image-full-cmdline
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000dfc3cb06129c3f91"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Mar 2024 15:06:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196462
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Mar 2024 16:56:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196463
 
-From: michal seben <michal.seben@siemens.com>
+--000000000000dfc3cb06129c3f91
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Allow to set runqemu bootparams option using TEST_EXTRABOOTPARAMS
-variable. This option can be used .e.g. to mask service only for
-testimage task.
+On Fri, Mar 1, 2024 at 1:35=E2=80=AFAM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-Signed-off-by: michal seben <michal.seben@siemens.com>
----
- meta/classes-recipe/testimage.bbclass | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+> If we enable package-management for core-image-full-cmdline we need the
+> workarounds
+> used for core-image-weston to ensure the oe-selftest license QA tests kee=
+p
+> working.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/conf/distro/include/no-gplv3.inc | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/meta/conf/distro/include/no-gplv3.inc
+> b/meta/conf/distro/include/no-gplv3.inc
+> index bb2e836f982..d515fd4ad6b 100644
+> --- a/meta/conf/distro/include/no-gplv3.inc
+> +++ b/meta/conf/distro/include/no-gplv3.inc
+> @@ -19,6 +19,8 @@ PACKAGECONFIG:remove:pn-bluez5 =3D "readline"
+>  # so install rpm but not dnf
+>  IMAGE_FEATURES:remove:pn-core-image-weston =3D "package-management"
+>  CORE_IMAGE_EXTRA_INSTALL:pn-core-image-weston +=3D "rpm"
+> +IMAGE_FEATURES:remove:pn-core-image-full-cmdline =3D "package-management=
+"
+> +CORE_IMAGE_EXTRA_INSTALL:pn-core-image-full-cmdline +=3D "rpm"
+>
 
-diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-recipe/testimage.bbclass
-index ad040ee8f0..6e2800e3c3 100644
---- a/meta/classes-recipe/testimage.bbclass
-+++ b/meta/classes-recipe/testimage.bbclass
-@@ -47,6 +47,8 @@ TESTIMAGE_FAILED_QA_ARTIFACTS += "${@bb.utils.contains('DISTRO_FEATURES', 'ptest
- # TEST_QEMUBOOT_TIMEOUT can be used to set the maximum time in seconds the launch code will wait for the login prompt.
- # TEST_OVERALL_TIMEOUT can be used to set the maximum time in seconds the tests will be allowed to run (defaults to no limit).
- # TEST_QEMUPARAMS can be used to pass extra parameters to qemu, e.g. "-m 1024" for setting the amount of ram to 1 GB.
-+# TEST_EXTRABOOTPARAMS can be used to set the 'bootparams' option for the runqemu script
-+# e.g. "systemd.mask=NetworkManager-wait-online.service" to mask particular service
- # TEST_RUNQEMUPARAMS can be used to pass extra parameters to runqemu, e.g. "gl" to enable OpenGL acceleration.
- # QEMU_USE_KVM can be set to "" to disable the use of kvm (by default it is enabled if target_arch == build_arch or both of them are x86 archs)
- 
-@@ -358,7 +360,7 @@ def testimage_main(d):
-     try:
-         # We need to check if runqemu ends unexpectedly
-         # or if the worker send us a SIGTERM
--        tc.target.start(params=d.getVar("TEST_QEMUPARAMS"), runqemuparams=d.getVar("TEST_RUNQEMUPARAMS"))
-+        tc.target.start(params=d.getVar("TEST_QEMUPARAMS"), extra_bootparams=d.getVar("TEST_EXTRABOOTPARAMS"), runqemuparams=d.getVar("TEST_RUNQEMUPARAMS"))
-         import threading
-         try:
-             threading.Timer(int(d.getVar("TEST_OVERALL_TIMEOUT")), handle_test_timeout, (int(d.getVar("TEST_OVERALL_TIMEOUT")),)).start()
--- 
-2.39.2
+If a distro is not using rpm package backend then it seems to be not
+sufficient or did I miss anything
 
+
+>  # matchbox-terminal depends on vte, which is gpl3
+>  CORE_IMAGE_BASE_INSTALL:remove:pn-core-image-weston =3D "matchbox-termin=
+al"
+> --
+> 2.40.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#196457):
+> https://lists.openembedded.org/g/openembedded-core/message/196457
+> Mute This Topic: https://lists.openembedded.org/mt/104660966/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> raj.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--000000000000dfc3cb06129c3f91
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Fri, Mar 1, 2024 at 1:35=E2=80=AFAM Richard Purdie &lt;<=
+a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfo=
+undation.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">If we e=
+nable package-management for core-image-full-cmdline we need the workaround=
+s<br>
+used for core-image-weston to ensure the oe-selftest license QA tests keep =
+working.<br>
+<br>
+Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfou=
+ndation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;<b=
+r>
+---<br>
+=C2=A0meta/conf/distro/include/no-gplv3.inc | 2 ++<br>
+=C2=A01 file changed, 2 insertions(+)<br>
+<br>
+diff --git a/meta/conf/distro/include/no-gplv3.inc b/meta/conf/distro/inclu=
+de/no-gplv3.inc<br>
+index bb2e836f982..d515fd4ad6b 100644<br>
+--- a/meta/conf/distro/include/no-gplv3.inc<br>
++++ b/meta/conf/distro/include/no-gplv3.inc<br>
+@@ -19,6 +19,8 @@ PACKAGECONFIG:remove:pn-bluez5 =3D &quot;readline&quot;<b=
+r>
+=C2=A0# so install rpm but not dnf<br>
+=C2=A0IMAGE_FEATURES:remove:pn-core-image-weston =3D &quot;package-manageme=
+nt&quot;<br>
+=C2=A0CORE_IMAGE_EXTRA_INSTALL:pn-core-image-weston +=3D &quot;rpm&quot;<br=
+>
++IMAGE_FEATURES:remove:pn-core-image-full-cmdline =3D &quot;package-managem=
+ent&quot;<br>
++CORE_IMAGE_EXTRA_INSTALL:pn-core-image-full-cmdline +=3D &quot;rpm&quot;<b=
+r>
+</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">If a distro is n=
+ot using rpm package backend then it seems to be not sufficient or did I mi=
+ss anything=C2=A0</div><div dir=3D"auto"><br></div><blockquote class=3D"gma=
+il_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-lef=
+t:1ex"><br>
+=C2=A0# matchbox-terminal depends on vte, which is gpl3<br>
+=C2=A0CORE_IMAGE_BASE_INSTALL:remove:pn-core-image-weston =3D &quot;matchbo=
+x-terminal&quot;<br>
+-- <br>
+2.40.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#196457): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/196457" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/196457</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/104660966/199=
+7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/104660966/1997914</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
+=3D"_blank">raj.khem@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--000000000000dfc3cb06129c3f91--
 
