@@ -1,74 +1,99 @@
-Return-Path: <michal.seben@siemens.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2B46C5478C
-	for <webhook@archiver.kernel.org>; Fri,  1 Mar 2024 14:17:54 +0000 (UTC)
-Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
- by mx.groups.io with SMTP id smtpd.web11.24029.1709302667325423886
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E10A9C5478C
+	for <webhook@archiver.kernel.org>; Fri,  1 Mar 2024 14:33:54 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web10.24313.1709303626984408141
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Mar 2024 06:17:48 -0800
+ Fri, 01 Mar 2024 06:33:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=michal.seben@siemens.com header.s=fm1 header.b=LPnPv43Z;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-1325011-20240301141743bebb8ec6253266b62c-v_zvmr@rts-flowmailer.siemens.com)
-Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20240301141743bebb8ec6253266b62c
-        for <openembedded-core@lists.openembedded.org>;
-        Fri, 01 Mar 2024 15:17:44 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=michal.seben@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=DJdjSZegM00auIX8XXPmMeixos3WlbaBXN53WGJP8cU=;
- b=LPnPv43ZhVf1hEiqZS1VI1N836KCc8yDIE51mz620i70vTrIEmGLKTKYMuvX48m754IPnz
- IMT5qiHsMergIcj7eEX0nKkUQXb7LeVkgZrVFN3PuBOCoVWaAaHppjMG2O68FYj/MuqXiu+e
- wUcHVDs+WzJjAoIh8Wwsfj7KbQnxs=;
-From: "M. Seben" <michal.seben@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: michal seben <michal.seben@siemens.com>
-Subject: [OE-core][PATCH] testimage: allow to set runqemu bootparams option
-Date: Fri,  1 Mar 2024 15:17:26 +0100
-Message-Id: <20240301141726.244561-1-michal.seben@siemens.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-1325011:519-21489:flowmailer
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=IfkQXtp7;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=lWZF93jO;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018dfa6f7946-50d62e82-554f-4459-9aca-e9326e35d3d8-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1709303626; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=G8uhcAzef2dDlg1EUfNRCKZ7ne5Dl5eln+/qHgy5FbY=;
+	b=IfkQXtp7QXDLW3O6VINGHgE3BEq1aHPOt9Y5DTCo+w0uNt+4Y1apqugAV5CAjF58
+	EuFIjTS7nJIWiO+TPSD30Oxz6qwIs266FxcEXolDhc0V2lfyuSPPIZIpC+DFH5i4TKR
+	73e10LbTAl5y40Gtc5ZEJwRr+CaR6h74Pk6hzJtc=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1709303626;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=G8uhcAzef2dDlg1EUfNRCKZ7ne5Dl5eln+/qHgy5FbY=;
+	b=lWZF93jO4v98LtNInGuOAB3qDD6iUMzLFSofb9k3q+9CwiZ+2zjMxJX+TQ7vdyxI
+	1XfKXTKEJuE5qoz18WMfbb71MLdMl6xn01PfILXA/QV3qsDLPsGPqpn/fE0Bnw90IAY
+	x6QjZmHHDeTMPSXnZ+F/Ar+p3k5x7g4RlT7QjEgQ=
+From: patchtest@automation.yoctoproject.org
+To: "M. Seben" <michal.seben@siemens.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-core][PATCH] testimage: allow to set runqemu bootparams option
+In-Reply-To: <20240301141726.244561-1-michal.seben@siemens.com>
+References: <20240301141726.244561-1-michal.seben@siemens.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018dfa6f7946-50d62e82-554f-4459-9aca-e9326e35d3d8-000000@us-west-2.amazonses.com>
+Date: Fri, 1 Mar 2024 14:33:46 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.03.01-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Mar 2024 14:17:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196460
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Mar 2024 14:33:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196461
 
-From: michal seben <michal.seben@siemens.com>
+--NextPart
+Content-Type: text/plain
 
-Allow to set runqemu bootparams option using TEST_EXTRABOOTPARAMS
-variable. This option can be used .e.g. to mask service only for
-testimage task.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- meta/classes-recipe/testimage.bbclass | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Testing patch /home/patchtest/share/mboxes/testimage-allow-to-set-runqemu-bootparams-option.patch
 
-diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-recipe/testimage.bbclass
-index ad040ee8f0..6e2800e3c3 100644
---- a/meta/classes-recipe/testimage.bbclass
-+++ b/meta/classes-recipe/testimage.bbclass
-@@ -47,6 +47,8 @@ TESTIMAGE_FAILED_QA_ARTIFACTS += "${@bb.utils.contains('DISTRO_FEATURES', 'ptest
- # TEST_QEMUBOOT_TIMEOUT can be used to set the maximum time in seconds the launch code will wait for the login prompt.
- # TEST_OVERALL_TIMEOUT can be used to set the maximum time in seconds the tests will be allowed to run (defaults to no limit).
- # TEST_QEMUPARAMS can be used to pass extra parameters to qemu, e.g. "-m 1024" for setting the amount of ram to 1 GB.
-+# TEST_EXTRABOOTPARAMS can be used to set the 'bootparams' option for the runqemu script
-+# e.g. "systemd.mask=NetworkManager-wait-online.service" to mask particular service
- # TEST_RUNQEMUPARAMS can be used to pass extra parameters to runqemu, e.g. "gl" to enable OpenGL acceleration.
- # QEMU_USE_KVM can be set to "" to disable the use of kvm (by default it is enabled if target_arch == build_arch or both of them are x86 archs)
- 
-@@ -358,7 +360,7 @@ def testimage_main(d):
-     try:
-         # We need to check if runqemu ends unexpectedly
-         # or if the worker send us a SIGTERM
--        tc.target.start(params=d.getVar("TEST_QEMUPARAMS"), runqemuparams=d.getVar("TEST_RUNQEMUPARAMS"))
-+        tc.target.start(params=d.getVar("TEST_QEMUPARAMS"), extra_bootparams=d.getVar("TEST_EXTRABOOTPARAMS"), runqemuparams=d.getVar("TEST_RUNQEMUPARAMS"))
-         import threading
-         try:
-             threading.Timer(int(d.getVar("TEST_OVERALL_TIMEOUT")), handle_test_timeout, (int(d.getVar("TEST_OVERALL_TIMEOUT")),)).start()
--- 
-2.39.2
+FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_off_by_presence)
 
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
