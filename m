@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BF29C54EEE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8758C54EF2
 	for <webhook@archiver.kernel.org>; Fri,  1 Mar 2024 22:05:21 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.36646.1709330717967034438
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web10.36641.1709330717514306574
  for <openembedded-core@lists.openembedded.org>;
  Fri, 01 Mar 2024 14:05:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=CWr+rgeC;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=cY0hTqom;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018dfc0cd9c2-ad1f2ae7-43d4-45b6-82c4-2a32c25084fc-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=IZmy9fv8;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=nsFOm+d+;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018dfc0cdad0-aeea8e95-d4d1-4ebf-a567-5e9c799f5f43-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1709330717;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=BVEp/C9nv2NdrRQvf+38xoefBvtPg5hISNIg5xlC6QI=;
-	b=CWr+rgeCT2Fu7c8hWHyv8P+QevACZ7PD9zpcE+TiderVzcDFcxYKkb52btY29w24
-	v4zYmf8iJiJwku0EVDvYm8fESoSY1g029Pkup44ZlCtjzQvYSSVVVyKuN/luGwB3oVG
-	bip+mpS5yNngDDBR02fT/UTgEKOS15NsxGEk5Zsg=
+	bh=U0t+hg1/eXDcY4e1YwNqa37Fdfb8IObENl57NeN+G3w=;
+	b=IZmy9fv86ioGJRzYrnLjt1BvQx54X+W6W0ZJ7TiUdI+6GjZxw9CK0rKySPFqsKaJ
+	yLqd8RGXC9l54wkNibpAgc+oS+80FjIVbPm7t9G5Ry3Xxls50PQYFmOulu47dhQy+Aw
+	+fXb3xRxFMeRz3X+VrHc3ZdO22FYrBNhHtrFh3N8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1709330717;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=BVEp/C9nv2NdrRQvf+38xoefBvtPg5hISNIg5xlC6QI=;
-	b=cY0hTqom+WFc1WJPusnubA9Oo+5I9z1e6asJJA9T87nb+NHPZ4kxN6DBNrJey96h
-	kfQnCXhX4JUhAbcQ26PTnO86yBJx6RLJlOyrVH5ec57GtJ4L43OgG9wI41z3SjejIxf
-	X0/upGt3CBNWBHtuAsNqPgpSFuna60Z25ycLMESA=
-Content-Type: multipart/mixed; boundary="===============1599275229587846287=="
+	bh=U0t+hg1/eXDcY4e1YwNqa37Fdfb8IObENl57NeN+G3w=;
+	b=nsFOm+d+AG3D80yPDkyK0lb2htzh8gzU6hiHm83xvamDuzAjbTlviQq+0NhI5734
+	PRnK2Fa3DqoytWmZyejEE8c8T4Cf/bC9SkujKfRCWUMtJ6TAj6VqcW2G5682nbPdbs7
+	TWVzKqUETQ2RuroeOpfsulOSmswUcH4cbRzXZJYc=
+Content-Type: multipart/mixed; boundary="===============0199636326712846629=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Jose Quaresma <quaresma.jose@gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] spirv-tools: upgrading to 1.3.275.0 SUCCEEDED
-Message-ID: <0101018dfc0cd9c2-ad1f2ae7-43d4-45b6-82c4-2a32c25084fc-000000@us-west-2.amazonses.com>
+Subject: [AUH] acl: upgrading to 2.3.2 SUCCEEDED
+Message-ID: <0101018dfc0cdad0-aeea8e95-d4d1-4ebf-a567-5e9c799f5f43-000000@us-west-2.amazonses.com>
 Date: Fri, 1 Mar 2024 22:05:17 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.03.01-54.240.27.33
+X-SES-Outgoing: 2024.03.01-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 01 Mar 2024 22:05:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196535
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196537
 
---===============1599275229587846287==
+--===============0199636326712846629==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *spirv-tools* to *1.3.275.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *acl* to *2.3.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-spirv-tools-upgrade-1.3.268.0-1.3.275.0.patch
+    - apply the patch: git am 0001-acl-upgrade-2.3.1-2.3.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,64 +72,295 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 7165d5268c0849aa877f3f752f963b4a61acecf9 Mon Sep 17 00:00:00 2001
+From a02f7bdbb19a86e9f571da50c7c4b39122aeeb7e Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 1 Mar 2024 16:59:53 +0000
-Subject: [PATCH] spirv-tools: upgrade 1.3.268.0 -> 1.3.275.0
+Date: Fri, 1 Mar 2024 21:05:44 +0000
+Subject: [PATCH] acl: upgrade 2.3.1 -> 2.3.2
 
 ---
- .../spir/{spirv-tools_1.3.268.0.bb => spirv-tools_1.3.275.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/spir/{spirv-tools_1.3.268.0.bb => spirv-tools_1.3.275.0.bb} (96%)
+ ...rtable-version-of-dirent-and-readdir.patch | 39 -------------------
+ .../0001-test-patch-out-failing-bits.patch    |  5 +--
+ ...dcode-the-build-path-into-a-helper-l.patch |  6 +--
+ .../attr/{acl_2.3.1.bb => acl_2.3.2.bb}       |  3 +-
+ 4 files changed, 5 insertions(+), 48 deletions(-)
+ delete mode 100644 meta/recipes-support/attr/acl/0001-chacl-Use-portable-version-of-dirent-and-readdir.patch
+ rename meta/recipes-support/attr/{acl_2.3.1.bb => acl_2.3.2.bb} (94%)
 
-diff --git a/meta/recipes-graphics/spir/spirv-tools_1.3.268.0.bb b/meta/recipes-graphics/spir/spirv-tools_1.3.275.0.bb
-similarity index 96%
-rename from meta/recipes-graphics/spir/spirv-tools_1.3.268.0.bb
-rename to meta/recipes-graphics/spir/spirv-tools_1.3.275.0.bb
-index 1cccafdad0..05c6de1b50 100644
---- a/meta/recipes-graphics/spir/spirv-tools_1.3.268.0.bb
-+++ b/meta/recipes-graphics/spir/spirv-tools_1.3.275.0.bb
-@@ -7,7 +7,7 @@ SECTION = "graphics"
- LICENSE  = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+diff --git a/meta/recipes-support/attr/acl/0001-chacl-Use-portable-version-of-dirent-and-readdir.patch b/meta/recipes-support/attr/acl/0001-chacl-Use-portable-version-of-dirent-and-readdir.patch
+deleted file mode 100644
+index 775675e1f2..0000000000
+--- a/meta/recipes-support/attr/acl/0001-chacl-Use-portable-version-of-dirent-and-readdir.patch
++++ /dev/null
+@@ -1,39 +0,0 @@
+-From 1a5671a4eb13b81b98c3e71f00370781563f66d8 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Thu, 10 Nov 2022 17:57:24 -0800
+-Subject: [PATCH] chacl: Use portable version of dirent and readdir
+-
+-Using 64bit versions on 32bit architectures should be enabled with
+---enable-largefile, this makes it portable across musl and glibc
+-
+-Upstream-Status: Backport [https://git.savannah.nongnu.org/cgit/acl.git/commit/?id=2b42f64737adf6a2ddd491213580d6e9cdd2f5af]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- tools/chacl.c | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/tools/chacl.c b/tools/chacl.c
+-index 525a7ff..8fff875 100644
+---- a/tools/chacl.c
+-+++ b/tools/chacl.c
+-@@ -320,7 +320,7 @@ walk_dir(acl_t acl, acl_t dacl, const char *fname)
+- {
+- 	int failed = 0;
+- 	DIR *dir;
+--	struct dirent64 *d;
+-+	struct dirent *d;
+- 	char *name;
+- 
+- 	if ((dir = opendir(fname)) == NULL) {
+-@@ -332,7 +332,7 @@ walk_dir(acl_t acl, acl_t dacl, const char *fname)
+- 		return(0);	/* got a file, not an error */
+- 	}
+- 
+--	while ((d = readdir64(dir)) != NULL) {
+-+	while ((d = readdir(dir)) != NULL) {
+- 		/* skip "." and ".." entries */
+- 		if (strcmp(d->d_name, ".") == 0 || strcmp(d->d_name, "..") == 0)
+- 			continue;
+--- 
+-2.38.1
+-
+diff --git a/meta/recipes-support/attr/acl/0001-test-patch-out-failing-bits.patch b/meta/recipes-support/attr/acl/0001-test-patch-out-failing-bits.patch
+index ba2ffee5d2..219feaccd0 100644
+--- a/meta/recipes-support/attr/acl/0001-test-patch-out-failing-bits.patch
++++ b/meta/recipes-support/attr/acl/0001-test-patch-out-failing-bits.patch
+@@ -1,4 +1,4 @@
+-From 9e08219e0e99ee2589cf35fa8d52cef3515accce Mon Sep 17 00:00:00 2001
++From 7dec6fa3b3494a55120402ff1ea3eb96b67138e8 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Thu, 12 Dec 2019 15:47:49 +0100
+ Subject: [PATCH] test: patch out failing bits
+@@ -58,6 +58,3 @@ index 8f8f825..21e8a95 100644
+  	$ : > f
+  	$ : <> f
+  	>~ .*f: Permission denied$
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-support/attr/acl/0001-tests-do-not-hardcode-the-build-path-into-a-helper-l.patch b/meta/recipes-support/attr/acl/0001-tests-do-not-hardcode-the-build-path-into-a-helper-l.patch
+index 57ef0bb728..748f37f3e7 100644
+--- a/meta/recipes-support/attr/acl/0001-tests-do-not-hardcode-the-build-path-into-a-helper-l.patch
++++ b/meta/recipes-support/attr/acl/0001-tests-do-not-hardcode-the-build-path-into-a-helper-l.patch
+@@ -1,4 +1,4 @@
+-From 39d332a8801de5d9ef09dacb3dba85c208b7b2ad Mon Sep 17 00:00:00 2001
++From 42ae3f8a5e32ba0681ccd1552a203ddad8748a6e Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Thu, 12 Dec 2019 13:45:52 +0100
+ Subject: [PATCH] tests: do not hardcode the build path into a helper library
+@@ -10,7 +10,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
--SRCREV = "360d469b9eac54d6c6e20f609f9ec35e3a5380ad"
-+SRCREV = "f0cc85efdbbe3a46eae90e0f915dc1509836d0fc"
- SRC_URI = "git://github.com/KhronosGroup/SPIRV-Tools.git;branch=main;protocol=https"
- PE = "1"
- # These recipes need to be updated in lockstep with each other:
+ diff --git a/test/Makemodule.am b/test/Makemodule.am
+-index 17d4927..015de7f 100644
++index e1d715d..cffe732 100644
+ --- a/test/Makemodule.am
+ +++ b/test/Makemodule.am
+ @@ -30,7 +30,7 @@ EXTRA_DIST += \
+@@ -21,4 +21,4 @@ index 17d4927..015de7f 100644
+ +libtestlookup_la_CFLAGS = -DBASEDIR=\"/tmp/acl-ptest\"
+  libtestlookup_la_LDFLAGS = -rpath $(abs_builddir)
+  
+- AM_TESTS_ENVIRONMENT = PATH="$(abs_top_builddir):$$PATH";
++ # Make sure translations don't break tests when matching output.
+diff --git a/meta/recipes-support/attr/acl_2.3.1.bb b/meta/recipes-support/attr/acl_2.3.2.bb
+similarity index 94%
+rename from meta/recipes-support/attr/acl_2.3.1.bb
+rename to meta/recipes-support/attr/acl_2.3.2.bb
+index 9badd33254..6178473873 100644
+--- a/meta/recipes-support/attr/acl_2.3.1.bb
++++ b/meta/recipes-support/attr/acl_2.3.2.bb
+@@ -19,10 +19,9 @@ SRC_URI = "${SAVANNAH_GNU_MIRROR}/acl/${BP}.tar.gz \
+            file://run-ptest \
+            file://0001-tests-do-not-hardcode-the-build-path-into-a-helper-l.patch \
+            file://0001-test-patch-out-failing-bits.patch \
+-           file://0001-chacl-Use-portable-version-of-dirent-and-readdir.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "760c61c68901b37fdd5eefeeaf4c0c7a26bdfdd8ac747a1edff1ce0e243c11af"
++SRC_URI[sha256sum] = "5f2bdbad629707aa7d85c623f994aa8a1d2dec55a73de5205bac0bf6058a2f7c"
+ 
+ inherit autotools gettext ptest
+ 
 -- 
 2.42.0
 
 
---===============1599275229587846287==
+--===============0199636326712846629==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="0001-acl-upgrade-2.3.1-2.3.2.patch"
+
+RnJvbSBhMDJmN2JkYmIxOWE4NmU5ZjU3MWRhNTBjN2M0YjM5MTIyYWVlYjdlIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgMSBNYXIgMjAyNCAyMTowNTo0NCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGFj
+bDogdXBncmFkZSAyLjMuMSAtPiAyLjMuMgoKLS0tCiAuLi5ydGFibGUtdmVyc2lvbi1vZi1kaXJl
+bnQtYW5kLXJlYWRkaXIucGF0Y2ggfCAzOSAtLS0tLS0tLS0tLS0tLS0tLS0tCiAuLi4vMDAwMS10
+ZXN0LXBhdGNoLW91dC1mYWlsaW5nLWJpdHMucGF0Y2ggICAgfCAgNSArLS0KIC4uLmRjb2RlLXRo
+ZS1idWlsZC1wYXRoLWludG8tYS1oZWxwZXItbC5wYXRjaCB8ICA2ICstLQogLi4uL2F0dHIve2Fj
+bF8yLjMuMS5iYiA9PiBhY2xfMi4zLjIuYmJ9ICAgICAgIHwgIDMgKy0KIDQgZmlsZXMgY2hhbmdl
+ZCwgNSBpbnNlcnRpb25zKCspLCA0OCBkZWxldGlvbnMoLSkKIGRlbGV0ZSBtb2RlIDEwMDY0NCBt
+ZXRhL3JlY2lwZXMtc3VwcG9ydC9hdHRyL2FjbC8wMDAxLWNoYWNsLVVzZS1wb3J0YWJsZS12ZXJz
+aW9uLW9mLWRpcmVudC1hbmQtcmVhZGRpci5wYXRjaAogcmVuYW1lIG1ldGEvcmVjaXBlcy1zdXBw
+b3J0L2F0dHIve2FjbF8yLjMuMS5iYiA9PiBhY2xfMi4zLjIuYmJ9ICg5NCUpCgpkaWZmIC0tZ2l0
+IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvYXR0ci9hY2wvMDAwMS1jaGFjbC1Vc2UtcG9ydGFibGUt
+dmVyc2lvbi1vZi1kaXJlbnQtYW5kLXJlYWRkaXIucGF0Y2ggYi9tZXRhL3JlY2lwZXMtc3VwcG9y
+dC9hdHRyL2FjbC8wMDAxLWNoYWNsLVVzZS1wb3J0YWJsZS12ZXJzaW9uLW9mLWRpcmVudC1hbmQt
+cmVhZGRpci5wYXRjaApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggNzc1Njc1ZTFmMi4u
+MDAwMDAwMDAwMAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9hdHRyL2FjbC8wMDAxLWNoYWNs
+LVVzZS1wb3J0YWJsZS12ZXJzaW9uLW9mLWRpcmVudC1hbmQtcmVhZGRpci5wYXRjaAorKysgL2Rl
+di9udWxsCkBAIC0xLDM5ICswLDAgQEAKLUZyb20gMWE1NjcxYTRlYjEzYjgxYjk4YzNlNzFmMDAz
+NzA3ODE1NjNmNjZkOCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKLUZyb206IEtoZW0gUmFqIDxy
+YWoua2hlbUBnbWFpbC5jb20+Ci1EYXRlOiBUaHUsIDEwIE5vdiAyMDIyIDE3OjU3OjI0IC0wODAw
+Ci1TdWJqZWN0OiBbUEFUQ0hdIGNoYWNsOiBVc2UgcG9ydGFibGUgdmVyc2lvbiBvZiBkaXJlbnQg
+YW5kIHJlYWRkaXIKLQotVXNpbmcgNjRiaXQgdmVyc2lvbnMgb24gMzJiaXQgYXJjaGl0ZWN0dXJl
+cyBzaG91bGQgYmUgZW5hYmxlZCB3aXRoCi0tLWVuYWJsZS1sYXJnZWZpbGUsIHRoaXMgbWFrZXMg
+aXQgcG9ydGFibGUgYWNyb3NzIG11c2wgYW5kIGdsaWJjCi0KLVVwc3RyZWFtLVN0YXR1czogQmFj
+a3BvcnQgW2h0dHBzOi8vZ2l0LnNhdmFubmFoLm5vbmdudS5vcmcvY2dpdC9hY2wuZ2l0L2NvbW1p
+dC8/aWQ9MmI0MmY2NDczN2FkZjZhMmRkZDQ5MTIxMzU4MGQ2ZTljZGQyZjVhZl0KLVNpZ25lZC1v
+ZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+Ci0tLS0KLSB0b29scy9jaGFjbC5j
+IHwgNCArKy0tCi0gMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMo
+LSkKLQotZGlmZiAtLWdpdCBhL3Rvb2xzL2NoYWNsLmMgYi90b29scy9jaGFjbC5jCi1pbmRleCA1
+MjVhN2ZmLi44ZmZmODc1IDEwMDY0NAotLS0tIGEvdG9vbHMvY2hhY2wuYwotKysrIGIvdG9vbHMv
+Y2hhY2wuYwotQEAgLTMyMCw3ICszMjAsNyBAQCB3YWxrX2RpcihhY2xfdCBhY2wsIGFjbF90IGRh
+Y2wsIGNvbnN0IGNoYXIgKmZuYW1lKQotIHsKLSAJaW50IGZhaWxlZCA9IDA7Ci0gCURJUiAqZGly
+OwotLQlzdHJ1Y3QgZGlyZW50NjQgKmQ7Ci0rCXN0cnVjdCBkaXJlbnQgKmQ7Ci0gCWNoYXIgKm5h
+bWU7Ci0gCi0gCWlmICgoZGlyID0gb3BlbmRpcihmbmFtZSkpID09IE5VTEwpIHsKLUBAIC0zMzIs
+NyArMzMyLDcgQEAgd2Fsa19kaXIoYWNsX3QgYWNsLCBhY2xfdCBkYWNsLCBjb25zdCBjaGFyICpm
+bmFtZSkKLSAJCXJldHVybigwKTsJLyogZ290IGEgZmlsZSwgbm90IGFuIGVycm9yICovCi0gCX0K
+LSAKLS0Jd2hpbGUgKChkID0gcmVhZGRpcjY0KGRpcikpICE9IE5VTEwpIHsKLSsJd2hpbGUgKChk
+ID0gcmVhZGRpcihkaXIpKSAhPSBOVUxMKSB7Ci0gCQkvKiBza2lwICIuIiBhbmQgIi4uIiBlbnRy
+aWVzICovCi0gCQlpZiAoc3RyY21wKGQtPmRfbmFtZSwgIi4iKSA9PSAwIHx8IHN0cmNtcChkLT5k
+X25hbWUsICIuLiIpID09IDApCi0gCQkJY29udGludWU7Ci0tLSAKLTIuMzguMQotCmRpZmYgLS1n
+aXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9hdHRyL2FjbC8wMDAxLXRlc3QtcGF0Y2gtb3V0LWZh
+aWxpbmctYml0cy5wYXRjaCBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2F0dHIvYWNsLzAwMDEtdGVz
+dC1wYXRjaC1vdXQtZmFpbGluZy1iaXRzLnBhdGNoCmluZGV4IGJhMmZmZWU1ZDIuLjIxOWZlYWNj
+ZDAgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2F0dHIvYWNsLzAwMDEtdGVzdC1w
+YXRjaC1vdXQtZmFpbGluZy1iaXRzLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2F0
+dHIvYWNsLzAwMDEtdGVzdC1wYXRjaC1vdXQtZmFpbGluZy1iaXRzLnBhdGNoCkBAIC0xLDQgKzEs
+NCBAQAotRnJvbSA5ZTA4MjE5ZTBlOTllZTI1ODljZjM1ZmE4ZDUyY2VmMzUxNWFjY2NlIE1vbiBT
+ZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA3ZGVjNmZhM2IzNDk0YTU1MTIwNDAyZmYxZWEzZWI5
+NmI2NzEzOGU4IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQWxleGFuZGVyIEthbmF2
+aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiBEYXRlOiBUaHUsIDEyIERlYyAyMDE5IDE1OjQ3
+OjQ5ICswMTAwCiBTdWJqZWN0OiBbUEFUQ0hdIHRlc3Q6IHBhdGNoIG91dCBmYWlsaW5nIGJpdHMK
+QEAgLTU4LDYgKzU4LDMgQEAgaW5kZXggOGY4ZjgyNS4uMjFlOGE5NSAxMDA2NDQKICAJJCA6ID4g
+ZgogIAkkIDogPD4gZgogIAk+fiAuKmY6IFBlcm1pc3Npb24gZGVuaWVkJAotLS0gCi0yLjE3LjEK
+LQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvYXR0ci9hY2wvMDAwMS10ZXN0cy1k
+by1ub3QtaGFyZGNvZGUtdGhlLWJ1aWxkLXBhdGgtaW50by1hLWhlbHBlci1sLnBhdGNoIGIvbWV0
+YS9yZWNpcGVzLXN1cHBvcnQvYXR0ci9hY2wvMDAwMS10ZXN0cy1kby1ub3QtaGFyZGNvZGUtdGhl
+LWJ1aWxkLXBhdGgtaW50by1hLWhlbHBlci1sLnBhdGNoCmluZGV4IDU3ZWYwYmI3MjguLjc0OGYz
+N2YzZTcgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2F0dHIvYWNsLzAwMDEtdGVz
+dHMtZG8tbm90LWhhcmRjb2RlLXRoZS1idWlsZC1wYXRoLWludG8tYS1oZWxwZXItbC5wYXRjaAor
+KysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9hdHRyL2FjbC8wMDAxLXRlc3RzLWRvLW5vdC1oYXJk
+Y29kZS10aGUtYnVpbGQtcGF0aC1pbnRvLWEtaGVscGVyLWwucGF0Y2gKQEAgLTEsNCArMSw0IEBA
+Ci1Gcm9tIDM5ZDMzMmE4ODAxZGU1ZDllZjA5ZGFjYjNkYmE4NWMyMDhiN2IyYWQgTW9uIFNlcCAx
+NyAwMDowMDowMCAyMDAxCitGcm9tIDQyYWUzZjhhNWUzMmJhMDY4MWNjZDE1NTJhMjAzZGRhZDg3
+NDhhNmUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8
+YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KIERhdGU6IFRodSwgMTIgRGVjIDIwMTkgMTM6NDU6NTIg
+KzAxMDAKIFN1YmplY3Q6IFtQQVRDSF0gdGVzdHM6IGRvIG5vdCBoYXJkY29kZSB0aGUgYnVpbGQg
+cGF0aCBpbnRvIGEgaGVscGVyIGxpYnJhcnkKQEAgLTEwLDcgKzEwLDcgQEAgU2lnbmVkLW9mZi1i
+eTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgMSBmaWxlIGNo
+YW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiAKIGRpZmYgLS1naXQgYS90ZXN0
+L01ha2Vtb2R1bGUuYW0gYi90ZXN0L01ha2Vtb2R1bGUuYW0KLWluZGV4IDE3ZDQ5MjcuLjAxNWRl
+N2YgMTAwNjQ0CitpbmRleCBlMWQ3MTVkLi5jZmZlNzMyIDEwMDY0NAogLS0tIGEvdGVzdC9NYWtl
+bW9kdWxlLmFtCiArKysgYi90ZXN0L01ha2Vtb2R1bGUuYW0KIEBAIC0zMCw3ICszMCw3IEBAIEVY
+VFJBX0RJU1QgKz0gXApAQCAtMjEsNCArMjEsNCBAQCBpbmRleCAxN2Q0OTI3Li4wMTVkZTdmIDEw
+MDY0NAogK2xpYnRlc3Rsb29rdXBfbGFfQ0ZMQUdTID0gLURCQVNFRElSPVwiL3RtcC9hY2wtcHRl
+c3RcIgogIGxpYnRlc3Rsb29rdXBfbGFfTERGTEFHUyA9IC1ycGF0aCAkKGFic19idWlsZGRpcikK
+ICAKLSBBTV9URVNUU19FTlZJUk9OTUVOVCA9IFBBVEg9IiQoYWJzX3RvcF9idWlsZGRpcik6JCRQ
+QVRIIjsKKyAjIE1ha2Ugc3VyZSB0cmFuc2xhdGlvbnMgZG9uJ3QgYnJlYWsgdGVzdHMgd2hlbiBt
+YXRjaGluZyBvdXRwdXQuCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9hdHRyL2Fj
+bF8yLjMuMS5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2F0dHIvYWNsXzIuMy4yLmJiCnNpbWls
+YXJpdHkgaW5kZXggOTQlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2F0dHIvYWNs
+XzIuMy4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc3VwcG9ydC9hdHRyL2FjbF8yLjMuMi5i
+YgppbmRleCA5YmFkZDMzMjU0Li42MTc4NDczODczIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
+c3VwcG9ydC9hdHRyL2FjbF8yLjMuMS5iYgorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9hdHRy
+L2FjbF8yLjMuMi5iYgpAQCAtMTksMTAgKzE5LDkgQEAgU1JDX1VSSSA9ICIke1NBVkFOTkFIX0dO
+VV9NSVJST1J9L2FjbC8ke0JQfS50YXIuZ3ogXAogICAgICAgICAgICBmaWxlOi8vcnVuLXB0ZXN0
+IFwKICAgICAgICAgICAgZmlsZTovLzAwMDEtdGVzdHMtZG8tbm90LWhhcmRjb2RlLXRoZS1idWls
+ZC1wYXRoLWludG8tYS1oZWxwZXItbC5wYXRjaCBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLXRl
+c3QtcGF0Y2gtb3V0LWZhaWxpbmctYml0cy5wYXRjaCBcCi0gICAgICAgICAgIGZpbGU6Ly8wMDAx
+LWNoYWNsLVVzZS1wb3J0YWJsZS12ZXJzaW9uLW9mLWRpcmVudC1hbmQtcmVhZGRpci5wYXRjaCBc
+CiAgICAgICAgICAgICIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjc2MGM2MWM2ODkwMWIzN2Zk
+ZDVlZWZlZWFmNGMwYzdhMjZiZGZkZDhhYzc0N2ExZWRmZjFjZTBlMjQzYzExYWYiCitTUkNfVVJJ
+W3NoYTI1NnN1bV0gPSAiNWYyYmRiYWQ2Mjk3MDdhYTdkODVjNjIzZjk5NGFhOGExZDJkZWM1NWE3
+M2RlNTIwNWJhYzBiZjYwNThhMmY3YyIKIAogaW5oZXJpdCBhdXRvdG9vbHMgZ2V0dGV4dCBwdGVz
+dAogCi0tIAoyLjQyLjAKCg==
+
+--===============0199636326712846629==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/spirv-tools: PKGV changed from 1.3.268.0 [default] to 1.3.275.0 [default]
-packages/core2-64-poky-linux/spirv-tools: PV changed from "1.3.268.0" to "1.3.275.0"
-packages/core2-64-poky-linux/spirv-tools/spirv-tools-dbg: PKGV changed from 1.3.268.0 [default] to 1.3.275.0 [default]
-packages/core2-64-poky-linux/spirv-tools/spirv-tools-dbg: PKGSIZE changed from 317516408 to 317532816 (+0%)
-packages/core2-64-poky-linux/spirv-tools/spirv-tools-dbg: PV changed from "1.3.268.0" to "1.3.275.0"
-packages/core2-64-poky-linux/spirv-tools/spirv-tools-dev: PKGV changed from 1.3.268.0 [default] to 1.3.275.0 [default]
-packages/core2-64-poky-linux/spirv-tools/spirv-tools-dev: PKGSIZE changed from 170071 to 166829 (-2%)
-packages/core2-64-poky-linux/spirv-tools/spirv-tools-dev: PV changed from "1.3.268.0" to "1.3.275.0"
-packages/core2-64-poky-linux/spirv-tools/spirv-tools-doc: PKGV changed from 1.3.268.0 [default] to 1.3.275.0 [default]
-packages/core2-64-poky-linux/spirv-tools/spirv-tools-doc: PV changed from "1.3.268.0" to "1.3.275.0"
-packages/core2-64-poky-linux/spirv-tools/spirv-tools-lesspipe: PKGV changed from 1.3.268.0 [default] to 1.3.275.0 [default]
-packages/core2-64-poky-linux/spirv-tools/spirv-tools-lesspipe: PV changed from "1.3.268.0" to "1.3.275.0"
-packages/core2-64-poky-linux/spirv-tools/spirv-tools-locale: PKGV changed from 1.3.268.0 [default] to 1.3.275.0 [default]
-packages/core2-64-poky-linux/spirv-tools/spirv-tools-locale: PV changed from "1.3.268.0" to "1.3.275.0"
-packages/core2-64-poky-linux/spirv-tools/spirv-tools-src: PKGV changed from 1.3.268.0 [default] to 1.3.275.0 [default]
-packages/core2-64-poky-linux/spirv-tools/spirv-tools-src: PKGSIZE changed from 5703965 to 5702912 (-0%)
-packages/core2-64-poky-linux/spirv-tools/spirv-tools-src: PV changed from "1.3.268.0" to "1.3.275.0"
-packages/core2-64-poky-linux/spirv-tools/spirv-tools-staticdev: PKGV changed from 1.3.268.0 [default] to 1.3.275.0 [default]
-packages/core2-64-poky-linux/spirv-tools/spirv-tools-staticdev: PV changed from "1.3.268.0" to "1.3.275.0"
-packages/core2-64-poky-linux/spirv-tools/spirv-tools: PKGV changed from 1.3.268.0 [default] to 1.3.275.0 [default]
-packages/core2-64-poky-linux/spirv-tools/spirv-tools: PKGSIZE changed from 8000656 to 8008848 (+0%)
-packages/core2-64-poky-linux/spirv-tools/spirv-tools: PV changed from "1.3.268.0" to "1.3.275.0"
+packages/core2-64-poky-linux/acl/acl-dbg: PKGSIZE changed from 319168 to 335552 (+5%)
+packages/core2-64-poky-linux/acl/acl-dbg: PKGV changed from 2.3.1 [default] to 2.3.2 [default]
+packages/core2-64-poky-linux/acl/acl-dbg: FILELIST: removed "/usr/lib/.debug/libacl.so.1.1.2301", added "/usr/lib/.debug/libacl.so.1.1.2302"
+packages/core2-64-poky-linux/acl/acl-dbg: PV changed from "2.3.1" to "2.3.2"
+packages/core2-64-poky-linux/acl/acl-dev: PKGSIZE changed from 6532 to 6482 (-1%)
+packages/core2-64-poky-linux/acl/acl-dev: PKGV changed from 2.3.1 [default] to 2.3.2 [default]
+packages/core2-64-poky-linux/acl/acl-dev: PV changed from "2.3.1" to "2.3.2"
+packages/core2-64-poky-linux/acl/acl-doc: PKGSIZE changed from 225254 to 222615 (-1%)
+packages/core2-64-poky-linux/acl/acl-doc: PKGV changed from 2.3.1 [default] to 2.3.2 [default]
+packages/core2-64-poky-linux/acl/acl-doc: FILELIST: removed "/usr/share/doc/acl/PORTING"
+packages/core2-64-poky-linux/acl/acl-doc: PV changed from "2.3.1" to "2.3.2"
+packages/core2-64-poky-linux/acl/acl-locale-de: PKGV changed from 2.3.1 [default] to 2.3.2 [default]
+packages/core2-64-poky-linux/acl/acl-locale-de: PV changed from "2.3.1" to "2.3.2"
+packages/core2-64-poky-linux/acl/acl-locale-en+boldquot: PKGV changed from 2.3.1 [default] to 2.3.2 [default]
+packages/core2-64-poky-linux/acl/acl-locale-en+boldquot: PV changed from "2.3.1" to "2.3.2"
+packages/core2-64-poky-linux/acl/acl-locale-en+quot: PKGV changed from 2.3.1 [default] to 2.3.2 [default]
+packages/core2-64-poky-linux/acl/acl-locale-en+quot: PV changed from "2.3.1" to "2.3.2"
+packages/core2-64-poky-linux/acl/acl-locale-es: PKGV changed from 2.3.1 [default] to 2.3.2 [default]
+packages/core2-64-poky-linux/acl/acl-locale-es: PV changed from "2.3.1" to "2.3.2"
+packages/core2-64-poky-linux/acl/acl-locale-fr: PKGSIZE changed from 6677 to 7691 (+15%)
+packages/core2-64-poky-linux/acl/acl-locale-fr: PKGV changed from 2.3.1 [default] to 2.3.2 [default]
+packages/core2-64-poky-linux/acl/acl-locale-fr: PV changed from "2.3.1" to "2.3.2"
+packages/core2-64-poky-linux/acl/acl-locale-gl: PKGV changed from 2.3.1 [default] to 2.3.2 [default]
+packages/core2-64-poky-linux/acl/acl-locale-gl: PV changed from "2.3.1" to "2.3.2"
+packages/core2-64-poky-linux/acl/acl-locale-pl: PKGSIZE changed from 7004 to 9321 (+33%)
+packages/core2-64-poky-linux/acl/acl-locale-pl: PKGV changed from 2.3.1 [default] to 2.3.2 [default]
+packages/core2-64-poky-linux/acl/acl-locale-pl: PV changed from "2.3.1" to "2.3.2"
+packages/core2-64-poky-linux/acl/acl-locale-sv: PKGSIZE changed from 6612 to 6704 (+1%)
+packages/core2-64-poky-linux/acl/acl-locale-sv: PKGV changed from 2.3.1 [default] to 2.3.2 [default]
+packages/core2-64-poky-linux/acl/acl-locale-sv: PV changed from "2.3.1" to "2.3.2"
+packages/core2-64-poky-linux/acl/acl-ptest: PKGSIZE changed from 803284 to 803979 (+0%)
+packages/core2-64-poky-linux/acl/acl-ptest: PKGV changed from 2.3.1 [default] to 2.3.2 [default]
+packages/core2-64-poky-linux/acl/acl-ptest: PV changed from "2.3.1" to "2.3.2"
+packages/core2-64-poky-linux/acl/acl-src: PKGSIZE changed from 206893 to 204210 (-1%)
+packages/core2-64-poky-linux/acl/acl-src: PKGV changed from 2.3.1 [default] to 2.3.2 [default]
+packages/core2-64-poky-linux/acl/acl-src: FILELIST: directory renamed /usr/src/debug/acl/2.3.1/include -> /usr/src/debug/acl/2.3.2/include, directory renamed /usr/src/debug/acl/2.3.1/libacl -> /usr/src/debug/acl/2.3.2/libacl, directory renamed /usr/src/debug/acl/2.3.1/test -> /usr/src/debug/acl/2.3.2/test, directory renamed /usr/src/debug/acl/2.3.1/tools -> /usr/src/debug/acl/2.3.2/tools, removed "/usr/src/debug/acl/2.3.1/libmisc/quote.c /usr/src/debug/acl/2.3.1/libmisc/next_line.c /usr/src/debug/acl/2.3.1/libmisc/high_water_alloc.c /usr/src/debug/acl/2.3.1/libmisc/unquote.c /usr/src/debug/acl/2.3.1/libmisc/walk_tree.c", added "/usr/src/debug/acl/2.3.2/libmisc/quote.c /usr/src/debug/acl/2.3.2/libmisc/next_line.c /usr/src/debug/acl/2.3.2/libmisc/uid_gid_lookup.c /usr/src/debug/acl/2.3.2/libmisc/high_water_alloc.c /usr/src/debug/acl/2.3.2/libmisc/unquote.c /usr/src/debug/acl/2.3.2/libmisc/walk_tree.c"
+packages/core2-64-poky-linux/acl/acl-src: PV changed from "2.3.1" to "2.3.2"
+packages/core2-64-poky-linux/acl/acl-staticdev: PKGV changed from 2.3.1 [default] to 2.3.2 [default]
+packages/core2-64-poky-linux/acl/acl-staticdev: PV changed from "2.3.1" to "2.3.2"
+packages/core2-64-poky-linux/acl/acl: PKGSIZE changed from 85304 to 84304 (-1%)
+packages/core2-64-poky-linux/acl/acl: PKGV changed from 2.3.1 [default] to 2.3.2 [default]
+packages/core2-64-poky-linux/acl/acl: PV changed from "2.3.1" to "2.3.2"
+packages/core2-64-poky-linux/acl: PACKAGES: added "acl-locale-ka"
+packages/core2-64-poky-linux/acl: PKGV changed from 2.3.1 [default] to 2.3.2 [default]
+packages/core2-64-poky-linux/acl: SRC_URI changed from "https://download.savannah.gnu.org/releases/acl/acl-2.3.1.tar.gz file://run-ptest file://0001-tests-do-not-hardcode-the-build-path-into-a-helper-l.patch file://0001-test-patch-out-failing-bits.patch file://0001-chacl-Use-portable-version-of-dirent-and-readdir.patch" to "https://download.savannah.gnu.org/releases/acl/acl-2.3.2.tar.gz file://run-ptest file://0001-tests-do-not-hardcode-the-build-path-into-a-helper-l.patch file://0001-test-patch-out-failing-bits.patch"
+packages/core2-64-poky-linux/acl: PV changed from "2.3.1" to "2.3.2"
+packages/core2-64-poky-linux/acl/libacl: PKGV changed from 2.3.1 [default] to 2.3.2 [default]
+packages/core2-64-poky-linux/acl/libacl: FILELIST: removed "/usr/lib/libacl.so.1.1.2301", added "/usr/lib/libacl.so.1.1.2302"
+packages/core2-64-poky-linux/acl/libacl: PV changed from "2.3.1" to "2.3.2"
+Changes to packages/core2-64-poky-linux/acl (sysroot):
+  /usr/lib/libacl.so.1 changed symlink target from libacl.so.1.1.2301 to libacl.so.1.1.2302
+  /usr/lib/libacl.so changed symlink target from libacl.so.1.1.2301 to libacl.so.1.1.2302
+  /usr/lib/libacl.so.1.1.2301 moved to /usr/lib/libacl.so.1.1.2302
+Changes to packages/x86_64-linux/acl-native (sysroot):
+  /usr/lib/libacl.so.1 changed symlink target from libacl.so.1.1.2301 to libacl.so.1.1.2302
+  /usr/lib/libacl.so changed symlink target from libacl.so.1.1.2301 to libacl.so.1.1.2302
+  /usr/lib/libacl.so.1.1.2301 moved to /usr/lib/libacl.so.1.1.2302
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1769,343 +2000,25 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============1599275229587846287==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 916 .bb files complete (0 cached, 916 parsed). 1864 targets, 46 skipped, 0 masked, 0 errors.
-Removing 7 recipes from the core2-64 sysroot...done.
-Removing 31 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.7.3"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux-musl"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-9413312557cbbb78587154f4f2d2207a39c6e0ee"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:9413312557cbbb78587154f4f2d2207a39c6e0ee"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 230 Local 215 Mirrors 0 Missed 15 Current 218 (93% match, 96% complete)
-Removing 5 stale sstate objects for arch x86_64...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 222 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.21.bb:do_package_write_deb_setscene)
-NOTE: Running setscene task 223 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.21.bb:do_package_write_ipk_setscene)
-NOTE: Running setscene task 224 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.21.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 227 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.21.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 229 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-headers_1.3.268.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 238 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-headers_1.3.268.0.bb:do_populate_sysroot_setscene)
-NOTE: Running task 683 of 1308 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.275.0.bb:do_recipe_qa)
-NOTE: recipe spirv-headers-1_1.3.268.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe spirv-headers-1_1.3.268.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_recipe_qa: Started
-NOTE: recipe bash-5.2.21-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe bash-5.2.21-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe bash-5.2.21-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe bash-5.2.21-r0: task do_create_spdx_setscene: Started
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_recipe_qa: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.275.0.bb:do_recipe_qa unihash changed to f9d96fa4c5183cae73e3d571f8e632681112afc3bd04c5eb5667fc24b16ff278
-NOTE: recipe bash-5.2.21-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: recipe spirv-headers-1_1.3.268.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe bash-5.2.21-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe bash-5.2.21-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe bash-5.2.21-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: recipe spirv-headers-1_1.3.268.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 265 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/coreutils/coreutils_9.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 267 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.39.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 269 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/make/make_4.4.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 271 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/perl_5.38.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 272 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/sed/sed_4.9.bb:do_packagedata_setscene)
-NOTE: Running setscene task 274 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 279 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.21.bb:do_packagedata_setscene)
-NOTE: Running setscene task 282 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-headers_1.3.268.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 286 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.3.bb:do_packagedata_setscene)
-NOTE: Running task 758 of 1308 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.275.0.bb:do_fetch)
-NOTE: recipe make-4.4.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe ptest-runner-2.4.3+git-r0: task do_packagedata_setscene: Started
-NOTE: recipe spirv-headers-1_1.3.268.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_fetch: Started
-NOTE: recipe perl-5.38.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-5.2.21-r0: task do_packagedata_setscene: Started
-NOTE: recipe coreutils-9.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe util-linux-2.39.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe ptest-runner-2.4.3+git-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 288 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 293 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 294 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-passwd/base-passwd_3.6.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 298 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.14.2.bb:do_packagedata_setscene)
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/spirv-headers/1.3.268.0/temp/log.do_packagedata_setscene.3057078
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-headers_1.3.268.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 302 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-headers_1.3.268.0.bb:do_package_setscene)
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_fetch: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe musl-1.2.4+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe make-4.4.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-passwd-3.6.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe shadow-4.14.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 304 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_recipe_qa_setscene)
-NOTE: recipe bash-5.2.21-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe musl-1.2.4+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe coreutils-9.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-passwd-3.6.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 315 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 324 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/acl_2.3.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 326 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gmp/gmp_6.3.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 328 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap/libcap_2.69.bb:do_packagedata_setscene)
-NOTE: Running task 776 of 1308 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.275.0.bb:do_unpack)
-NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libcap-2.69-r0: task do_packagedata_setscene: Started
-NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe acl-2.3.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_unpack: Started
-NOTE: recipe shadow-4.14.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 801 of 1308 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_fetch)
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libcap-2.69-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_fetch: Started
-NOTE: recipe acl-2.3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 347 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/attr_2.5.1.bb:do_packagedata_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_fetch: Succeeded
-NOTE: Running task 880 of 1308 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_unpack)
-NOTE: Running task 881 of 1308 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_prepare_recipe_sysroot)
-NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_unpack: Started
-NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe util-linux-2.39.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 350 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 352 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.39.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 356 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.5.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 358 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.12.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 360 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.4.bb:do_packagedata_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_unpack: Succeeded
-NOTE: Running task 887 of 1308 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_patch)
-NOTE: recipe spirv-headers-1_1.3.268.0-r0: task do_package_setscene: Started
-NOTE: recipe attr-2.5.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bash-completion-2.12.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libcap-ng-0.8.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpam-1.5.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_patch: Started
-NOTE: recipe base-files-3.0.14-r0: task do_patch: Succeeded
-NOTE: Running task 894 of 1308 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_configure)
-NOTE: recipe util-linux-libuuid-2.39.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bash-completion-2.12.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libcap-ng-0.8.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_unpack: Succeeded
-NOTE: Running task 910 of 1308 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.275.0.bb:do_patch)
-NOTE: recipe base-files-3.0.14-r0: task do_configure: Started
-NOTE: recipe ncurses-6.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe spirv-headers-1_1.3.268.0-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 378 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-headers_1.3.268.0.bb:do_recipe_qa_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_configure: Succeeded
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_patch: Started
-NOTE: Running task 916 of 1308 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_compile)
-NOTE: recipe spirv-headers-1_1.3.268.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_compile: Started
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_patch: Succeeded
-NOTE: Running task 917 of 1308 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.275.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 918 of 1308 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.275.0.bb:do_generate_toolchain_file)
-NOTE: Running task 919 of 1308 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.275.0.bb:do_populate_lic)
-NOTE: recipe base-files-3.0.14-r0: task do_compile: Succeeded
-NOTE: Running task 920 of 1308 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install)
-NOTE: recipe spirv-headers-1_1.3.268.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_generate_toolchain_file: Started
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_populate_lic: Started
-NOTE: recipe base-files-3.0.14-r0: task do_install: Started
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.275.0.bb:do_populate_lic unihash changed to ab9e759744b3e5e45864edb02337ba183a9b225187bee0eee9514f600a6dc700
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.275.0.bb:do_deploy_source_date_epoch unihash changed to 2804be842bf2c5ef27980f2530644e191866749845599f0bd2196c1575614c50
-NOTE: recipe libpam-1.5.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 372 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cracklib/cracklib_2.9.11.bb:do_packagedata_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_install: Succeeded
-NOTE: Running task 932 of 1308 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package)
-NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_package: Started
-NOTE: recipe cracklib-2.9.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe perl-5.38.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 388 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 390 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 394 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.23.bb:do_packagedata_setscene)
-NOTE: recipe opkg-utils-0.6.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Started
-NOTE: recipe opkg-utils-0.6.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_package: Succeeded
-NOTE: Running task 953 of 1308 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata)
-NOTE: recipe gdbm-1.23-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 403 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 405 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_packagedata: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata unihash changed to 3827d1886d21fc285ddcf2fcb9cb1cc58679b8245b5b8a3c52f01f2714d587ae
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 411 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_packagedata_setscene)
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 413 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 414 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libgcc-13.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-13.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libgcc-13.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 416 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe musl-1.2.4+git-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 417 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 419 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_recipe_qa_setscene)
-NOTE: recipe musl-1.2.4+git-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 421 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
-NOTE: Running setscene task 422 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
-NOTE: Running setscene task 423 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb:do_packagedata_setscene)
-NOTE: recipe musl-1.2.4+git-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libgcc-13.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe linux-libc-headers-6.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe musl-1.2.4+git-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 424 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 425 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 427 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe musl-1.2.4+git-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe musl-1.2.4+git-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 435 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 436 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 438 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 441 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 443 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe linux-libc-headers-6.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 444 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.42.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 446 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb:do_recipe_qa_setscene)
-NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-6.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe linux-libc-headers-6.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 448 of 448 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.42.bb:do_recipe_qa_setscene)
-NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1192 of 1308 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-headers_1.3.268.0.bb:do_packagedata)
-NOTE: Running task 1198 of 1308 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.275.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe spirv-headers-1_1.3.268.0-r0: task do_packagedata: Started
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe spirv-headers-1_1.3.268.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 1295 of 1308 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.275.0.bb:do_collect_spdx_deps)
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1296 of 1308 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.275.0.bb:do_configure)
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_configure: Started
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_configure: Succeeded
-NOTE: Running task 1297 of 1308 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.275.0.bb:do_compile)
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_compile: Started
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_compile: Succeeded
-NOTE: Running task 1298 of 1308 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.275.0.bb:do_install)
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_install: Started
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_install: Succeeded
-NOTE: Running task 1299 of 1308 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.275.0.bb:do_package)
-NOTE: Running task 1300 of 1308 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.275.0.bb:do_populate_sysroot)
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_populate_sysroot: Started
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_package: Started
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_populate_sysroot: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.275.0.bb:do_populate_sysroot unihash changed to 9c8f2234a255c28ed3d411d552b2526aa563c4a729921da28d14f70bd0fc4197
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_package: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.275.0.bb:do_package unihash changed to a15deb5f91deb32e9f749714453a22a643e2be18f951a4f1df95f1de0785fa9a
-NOTE: Setscene tasks completed
-NOTE: Running task 1301 of 1308 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.275.0.bb:do_packagedata)
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_packagedata: Started
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_packagedata: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.275.0.bb:do_packagedata unihash changed to 251344d583145d7fa9486d5507f72a89b3e691a9809b90a556bc40b055c2972a
-NOTE: Setscene tasks completed
-NOTE: Running task 1302 of 1308 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.275.0.bb:do_create_spdx)
-NOTE: Running task 1303 of 1308 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.275.0.bb:do_package_write_ipk)
-NOTE: Running task 1304 of 1308 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.275.0.bb:do_package_write_deb)
-NOTE: Running task 1305 of 1308 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.275.0.bb:do_package_write_rpm)
-NOTE: Running task 1306 of 1308 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.275.0.bb:do_package_qa)
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_create_spdx: Started
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_package_write_ipk: Started
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_package_write_deb: Started
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_package_write_rpm: Started
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_package_qa: Started
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_package_qa: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.275.0.bb:do_package_qa unihash changed to 7021bf2dba7e2f2f1099f44cd03eeb51cfc88a80b4dde0759d3702b307eaa1f2
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_package_write_ipk: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.275.0.bb:do_package_write_ipk unihash changed to 4de2e4ea685cd2143f367fae47e6bb9ab569c6730d54b205514ab7581c9c2098
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_create_spdx: Succeeded
-NOTE: Running task 1307 of 1308 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.275.0.bb:do_create_runtime_spdx)
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_create_runtime_spdx: Started
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_create_runtime_spdx: Succeeded
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_package_write_deb: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.275.0.bb:do_package_write_deb unihash changed to 4fe4e8be3ffa16ef0c5c4814b7fbec759cb8c57b5a55e9f37f06a54ccaf531b0
-NOTE: recipe spirv-tools-1_1.3.275.0-r0: task do_package_write_rpm: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.275.0.bb:do_package_write_rpm unihash changed to 99b61dcc8618d0965baec04390b52b9e07b5b38ff5e4e7095d592e2017356a26
-NOTE: Running noexec task 1308 of 1308 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.275.0.bb:do_build)
-NOTE: Tasks Summary: Attempted 1308 tasks of which 1276 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-
-Summary: There were 8 ERROR messages, returning a non-zero exit code.
-ERROR: spirv-headers-1_1.3.268.0-r0 do_packagedata_setscene: QA Issue: Package version for package spirv-headers-src went backwards which would break package feeds (from 1:1.3.275.0-r0 to 1:1.3.268.0-r0) [version-going-backwards]
-ERROR: spirv-headers-1_1.3.268.0-r0 do_packagedata_setscene: QA Issue: Package version for package spirv-headers-dbg went backwards which would break package feeds (from 1:1.3.275.0-r0 to 1:1.3.268.0-r0) [version-going-backwards]
-ERROR: spirv-headers-1_1.3.268.0-r0 do_packagedata_setscene: QA Issue: Package version for package spirv-headers-staticdev went backwards which would break package feeds (from 1:1.3.275.0-r0 to 1:1.3.268.0-r0) [version-going-backwards]
-ERROR: spirv-headers-1_1.3.268.0-r0 do_packagedata_setscene: QA Issue: Package version for package spirv-headers-dev went backwards which would break package feeds (from 1:1.3.275.0-r0 to 1:1.3.268.0-r0) [version-going-backwards]
-ERROR: spirv-headers-1_1.3.268.0-r0 do_packagedata_setscene: QA Issue: Package version for package spirv-headers-doc went backwards which would break package feeds (from 1:1.3.275.0-r0 to 1:1.3.268.0-r0) [version-going-backwards]
-ERROR: spirv-headers-1_1.3.268.0-r0 do_packagedata_setscene: QA Issue: Package version for package spirv-headers-locale went backwards which would break package feeds (from 1:1.3.275.0-r0 to 1:1.3.268.0-r0) [version-going-backwards]
-ERROR: spirv-headers-1_1.3.268.0-r0 do_packagedata_setscene: QA Issue: Package version for package spirv-headers went backwards which would break package feeds (from 1:1.3.275.0-r0 to 1:1.3.268.0-r0) [version-going-backwards]
-ERROR: spirv-headers-1_1.3.268.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============1599275229587846287==
+--===============0199636326712846629==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
+packages/core2-64-poky-linux/acl/acl-doc: FILELIST: removed "/usr/share/doc/acl/PORTING"
+packages/core2-64-poky-linux/acl/acl-locale-fr: PKGSIZE changed from 6677 to 7691 (+15%)
+packages/core2-64-poky-linux/acl/acl-locale-pl: PKGSIZE changed from 7004 to 9321 (+33%)
+packages/core2-64-poky-linux/acl: PACKAGES: added "acl-locale-ka"
+packages/core2-64-poky-linux/acl/libacl: FILELIST: removed "/usr/lib/libacl.so.1.1.2301", added "/usr/lib/libacl.so.1.1.2302"
+Changes to packages/core2-64-poky-linux/acl (sysroot):
+  /usr/lib/libacl.so.1 changed symlink target from libacl.so.1.1.2301 to libacl.so.1.1.2302
+  /usr/lib/libacl.so changed symlink target from libacl.so.1.1.2301 to libacl.so.1.1.2302
+  /usr/lib/libacl.so.1.1.2301 moved to /usr/lib/libacl.so.1.1.2302
+Changes to packages/x86_64-linux/acl-native (sysroot):
+  /usr/lib/libacl.so.1 changed symlink target from libacl.so.1.1.2301 to libacl.so.1.1.2302
+  /usr/lib/libacl.so changed symlink target from libacl.so.1.1.2301 to libacl.so.1.1.2302
+  /usr/lib/libacl.so.1.1.2301 moved to /usr/lib/libacl.so.1.1.2302
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3745,36 +3658,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============1599275229587846287==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-spirv-tools-upgrade-1.3.268.0-1.3.275.0.patch"
-
-RnJvbSA3MTY1ZDUyNjhjMDg0OWFhODc3ZjNmNzUyZjk2M2I0YTYxYWNlY2Y5IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMSBNYXIgMjAyNCAxNjo1OTo1MyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHNw
-aXJ2LXRvb2xzOiB1cGdyYWRlIDEuMy4yNjguMCAtPiAxLjMuMjc1LjAKCi0tLQogLi4uL3NwaXIv
-e3NwaXJ2LXRvb2xzXzEuMy4yNjguMC5iYiA9PiBzcGlydi10b29sc18xLjMuMjc1LjAuYmJ9IHwg
-MiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5h
-bWUgbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIve3NwaXJ2LXRvb2xzXzEuMy4yNjguMC5iYiA9
-PiBzcGlydi10b29sc18xLjMuMjc1LjAuYmJ9ICg5NiUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
-cGVzLWdyYXBoaWNzL3NwaXIvc3BpcnYtdG9vbHNfMS4zLjI2OC4wLmJiIGIvbWV0YS9yZWNpcGVz
-LWdyYXBoaWNzL3NwaXIvc3BpcnYtdG9vbHNfMS4zLjI3NS4wLmJiCnNpbWlsYXJpdHkgaW5kZXgg
-OTYlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9zcGlyL3NwaXJ2LXRvb2xzXzEu
-My4yNjguMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIvc3BpcnYtdG9v
-bHNfMS4zLjI3NS4wLmJiCmluZGV4IDFjY2NhZmRhZDAuLjA1YzZkZTFiNTAgMTAwNjQ0Ci0tLSBh
-L21ldGEvcmVjaXBlcy1ncmFwaGljcy9zcGlyL3NwaXJ2LXRvb2xzXzEuMy4yNjguMC5iYgorKysg
-Yi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc3Bpci9zcGlydi10b29sc18xLjMuMjc1LjAuYmIKQEAg
-LTcsNyArNyw3IEBAIFNFQ1RJT04gPSAiZ3JhcGhpY3MiCiBMSUNFTlNFICA9ICJBcGFjaGUtMi4w
-IgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9M2I4M2VmOTYzODdmMTQ2
-NTVmYzg1NGRkYzNjNmJkNTciCiAKLVNSQ1JFViA9ICIzNjBkNDY5YjllYWM1NGQ2YzZlMjBmNjA5
-ZjllYzM1ZTNhNTM4MGFkIgorU1JDUkVWID0gImYwY2M4NWVmZGJiZTNhNDZlYWU5MGUwZjkxNWRj
-MTUwOTgzNmQwZmMiCiBTUkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20vS2hyb25vc0dyb3VwL1NQ
-SVJWLVRvb2xzLmdpdDticmFuY2g9bWFpbjtwcm90b2NvbD1odHRwcyIKIFBFID0gIjEiCiAjIFRo
-ZXNlIHJlY2lwZXMgbmVlZCB0byBiZSB1cGRhdGVkIGluIGxvY2tzdGVwIHdpdGggZWFjaCBvdGhl
-cjoKLS0gCjIuNDIuMAoK
-
---===============1599275229587846287==--
+--===============0199636326712846629==--
 
