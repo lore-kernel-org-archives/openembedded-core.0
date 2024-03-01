@@ -2,48 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FE8EC54EE6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 325BBC54EE7
 	for <webhook@archiver.kernel.org>; Fri,  1 Mar 2024 22:05:21 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.36622.1709330716397324066
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.36648.1709330718247372961
  for <openembedded-core@lists.openembedded.org>;
  Fri, 01 Mar 2024 14:05:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Uf/CaYps;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=dKDCi09y;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018dfc0cdba4-b1ac6e5c-68cf-4d69-8823-1d8eabb3979d-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=eYOt5ACY;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=V8OBM5X3;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018dfc0cdb5d-c9dedd04-e23d-4bae-bb52-9f0d4747bffc-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1709330718;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=tppoLZKLeI76Q1C5xS1FuI5Japy4cUOx5yCxxLRo4iE=;
-	b=Uf/CaYps9IQ13yvmLRVGY0kwqLfRZHEMhh0SMTow8TQW+K+bXGKUits2nQbQO4zk
-	X885nr+3Nvg2cRpIdByZPzJeXofPBygLUiyxuDmyOJy9edrFYS9CmKOYE6qd5TjSIgR
-	SrHopFDXGscJph3ttaz+3ORnrScaGtgykMx8cHWQ=
+	t=1709330717;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=EPBjfgooDGt930jJVSa49Os5Ln5gZBGO9mgElnhVfEU=;
+	b=eYOt5ACYlSRenWPVGR4D7Er3KF3jGMcUTe3MvOSgYpzbaqaPfv8A+o6SOqoq7nin
+	bDd7qeDHBmM3+4iU+ha7MHy591u04rYNeYtGDLEAGpCkOrXEhPFQVdarMoLa0gLzgQW
+	YCdfK403hG7dicYbkSx/7vp/FIVmU+ezMO04mGKc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1709330718;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=tppoLZKLeI76Q1C5xS1FuI5Japy4cUOx5yCxxLRo4iE=;
-	b=dKDCi09y/dnTunRdbozuHxU0TrHr2Z4mB3tV8IFo/moElllm3YsI8KYMT1CVmidy
-	Uom/rENOPQBIPqJVKNR3Ukm9SdN1yeVcGlUs2ri71QgzoTNepkG/ho9rwjjRwsZ0a48
-	2rJOu4kA4zn1XuLOmVlucc2Gdx42vo1Szb4qEtzU=
-Content-Type: multipart/mixed; boundary="===============5372158155741539972=="
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1709330717;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=EPBjfgooDGt930jJVSa49Os5Ln5gZBGO9mgElnhVfEU=;
+	b=V8OBM5X39Q3Ncz9znjNZauAU+c3IU8GrDz4C+5wa7v8gKEON1HrVMJLfehEj/l0n
+	EhVnGjfFYB/W4Z2LTl6io8yfxdNB2bVmwiWneNq8vQ2WIAoFYwjCLPehk4r2gZ9s08Y
+	gsQj3vM5nfl6wF9caU3+mnk431o3t+us616eKcI4=
+Content-Type: multipart/mixed; boundary="===============3982651074480368138=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libusb1: upgrading to 1.0.27 FAILED
-Message-ID: <0101018dfc0cdba4-b1ac6e5c-68cf-4d69-8823-1d8eabb3979d-000000@us-west-2.amazonses.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] libpcre2: upgrading to 10.43 SUCCEEDED
+Message-ID: <0101018dfc0cdb5d-c9dedd04-e23d-4bae-bb52-9f0d4747bffc-000000@us-west-2.amazonses.com>
 Date: Fri, 1 Mar 2024 22:05:17 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.03.01-54.240.27.30
+X-SES-Outgoing: 2024.03.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 01 Mar 2024 22:05:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196542
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196540
 
---===============5372158155741539972==
+--===============3982651074480368138==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libusb1* to *1.0.27* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *libpcre2* to *10.43* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libusb1-upgrade-1.0.26-1.0.27.patch
+    - apply the patch: git am 0001-libpcre2-upgrade-10.42-10.43.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,306 +71,243 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From b82f2c768558556eb95501d2e660a76dfe142909 Mon Sep 17 00:00:00 2001
+From 3d6ccad5b62370655eb953415c313404447a8a5c Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 1 Mar 2024 21:51:22 +0000
-Subject: [PATCH] libusb1: upgrade 1.0.26 -> 1.0.27
+Date: Fri, 1 Mar 2024 21:49:06 +0000
+Subject: [PATCH] libpcre2: upgrade 10.42 -> 10.43
 
 ---
- ...k-with-latomic-only-if-no-atomic-bui.patch | 46 -------------------
- .../{libusb1_1.0.26.bb => libusb1_1.0.27.bb}  |  5 +-
- 2 files changed, 2 insertions(+), 49 deletions(-)
- delete mode 100644 meta/recipes-support/libusb/libusb1/0001-configure.ac-Link-with-latomic-only-if-no-atomic-bui.patch
- rename meta/recipes-support/libusb/{libusb1_1.0.26.bb => libusb1_1.0.27.bb} (87%)
+ .../{libpcre2_10.42.bb => libpcre2_10.43.bb}  | 44 ++++++++++++++++++-
+ 1 file changed, 42 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/libpcre/{libpcre2_10.42.bb => libpcre2_10.43.bb} (61%)
 
-diff --git a/meta/recipes-support/libusb/libusb1/0001-configure.ac-Link-with-latomic-only-if-no-atomic-bui.patch b/meta/recipes-support/libusb/libusb1/0001-configure.ac-Link-with-latomic-only-if-no-atomic-bui.patch
-deleted file mode 100644
-index 3c223e0822..0000000000
---- a/meta/recipes-support/libusb/libusb1/0001-configure.ac-Link-with-latomic-only-if-no-atomic-bui.patch
-+++ /dev/null
-@@ -1,46 +0,0 @@
--From 95e601ce116dd46ea7915c171976b85ea0905d58 Mon Sep 17 00:00:00 2001
--From: Lonnie Abelbeck <lonnie@abelbeck.com>
--Date: Sun, 8 May 2022 14:05:56 -0500
--Subject: [PATCH] configure.ac: Link with -latomic only if no atomic builtins
--
--Follow-up to 561dbda, a check of GCC atomic builtins needs to be done
--first.
--
--I'm no autoconf guru, but using this:
--https://github.com/mesa3d/mesa/blob/0df485c285b73c34ba9062f0c27e55c3c702930d/configure.ac#L469
--as inspiration, I created a pre-check before calling AC_SEARCH_LIBS(...)
--
--Fixes #1135
--Closes #1139
--Upstream-Status: Backport [https://github.com/kraj/libusb/commit/95e601ce116dd46ea7915c171976b85ea0905d58]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- configure.ac          | 16 +++++++++++++++-
-- libusb/version_nano.h |  2 +-
-- 2 files changed, 16 insertions(+), 2 deletions(-)
--
----- a/configure.ac
--+++ b/configure.ac
--@@ -153,7 +153,21 @@ if test "x$platform" = xposix; then
-- 	AC_SEARCH_LIBS([pthread_create], [pthread],
-- 		[test "x$ac_cv_search_pthread_create" != "xnone required" && AC_SUBST(THREAD_LIBS, [-lpthread])],
-- 		[], [])
---	AC_SEARCH_LIBS([__atomic_fetch_add_4], [atomic])
--+	dnl Check for new-style atomic builtins. We first check without linking to -latomic.
--+	AC_MSG_CHECKING(whether __atomic_load_n is supported)
--+	AC_LINK_IFELSE([AC_LANG_SOURCE([[
--+	#include <stdint.h>
--+	int main() {
--+		struct {
--+			uint64_t *v;
--+		} x;
--+		return (int)__atomic_load_n(x.v, __ATOMIC_ACQUIRE) &
--+		       (int)__atomic_add_fetch(x.v, (uint64_t)1, __ATOMIC_ACQ_REL);
--+	}]])], GCC_ATOMIC_BUILTINS_SUPPORTED=yes, GCC_ATOMIC_BUILTINS_SUPPORTED=no)
--+	AC_MSG_RESULT($GCC_ATOMIC_BUILTINS_SUPPORTED)
--+	if test "x$GCC_ATOMIC_BUILTINS_SUPPORTED" != xyes; then
--+		AC_SEARCH_LIBS([__atomic_fetch_add_4], [atomic])
--+	fi
-- elif test "x$platform" = xwindows; then
-- 	AC_DEFINE([PLATFORM_WINDOWS], [1], [Define to 1 if compiling for a Windows platform.])
-- else
-diff --git a/meta/recipes-support/libusb/libusb1_1.0.26.bb b/meta/recipes-support/libusb/libusb1_1.0.27.bb
-similarity index 87%
-rename from meta/recipes-support/libusb/libusb1_1.0.26.bb
-rename to meta/recipes-support/libusb/libusb1_1.0.27.bb
-index 2af6fcdea7..f4af2bb977 100644
---- a/meta/recipes-support/libusb/libusb1_1.0.26.bb
-+++ b/meta/recipes-support/libusb/libusb1_1.0.27.bb
-@@ -11,14 +11,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
- BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-support/libpcre/libpcre2_10.42.bb b/meta/recipes-support/libpcre/libpcre2_10.43.bb
+similarity index 61%
+rename from meta/recipes-support/libpcre/libpcre2_10.42.bb
+rename to meta/recipes-support/libpcre/libpcre2_10.43.bb
+index f471b3f90a..f75a296b21 100644
+--- a/meta/recipes-support/libpcre/libpcre2_10.42.bb
++++ b/meta/recipes-support/libpcre/libpcre2_10.43.bb
+@@ -1,3 +1,43 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- LICENCE
++# +++ LICENCE
++# @@ -26,7 +26,7 @@
++#  Retired from University of Cambridge Computing Service,
++#  Cambridge, England.
++#  
++# -Copyright (c) 1997-2022 University of Cambridge
++# +Copyright (c) 1997-2024 University of Cambridge
++#  All rights reserved.
++#  
++#  
++# @@ -37,7 +37,7 @@
++#  Email local part: hzmester
++#  Email domain:     freemail.hu
++#  
++# -Copyright(c) 2010-2022 Zoltan Herczeg
++# +Copyright(c) 2010-2024 Zoltan Herczeg
++#  All rights reserved.
++#  
++#  
++# @@ -48,7 +48,7 @@
++#  Email local part: hzmester
++#  Email domain:     freemail.hu
++#  
++# -Copyright(c) 2009-2022 Zoltan Herczeg
++# +Copyright(c) 2009-2024 Zoltan Herczeg
++#  All rights reserved.
++#  
++#  
++# 
++#
++
+ DESCRIPTION = "There are two major versions of the PCRE library. The \
+ newest version is PCRE2, which is a re-working of the original PCRE \
+ library to provide an entirely new API. The original, very widely \
+@@ -8,14 +48,14 @@ SUMMARY = "Perl Compatible Regular Expressions version 2"
+ HOMEPAGE = "http://www.pcre.org"
+ SECTION = "devel"
+ LICENSE = "BSD-3-Clause"
+-LIC_FILES_CHKSUM = "file://LICENCE;md5=41bfb977e4933c506588724ce69bf5d2"
++LIC_FILES_CHKSUM = "file://LICENCE;md5=321a5eb46acae6b6c1ff2c7a866d836a"
  
- SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/libusb-${PV}.tar.bz2 \
--           file://0001-configure.ac-Link-with-latomic-only-if-no-atomic-bui.patch \
-            file://run-ptest \
--          "
-+           "
+ SRC_URI = "${GITHUB_BASE_URI}/download/pcre2-${PV}/pcre2-${PV}.tar.bz2"
  
- GITHUB_BASE_URI = "https://github.com/libusb/libusb/releases"
- UPSTREAM_CHECK_REGEX = "releases/tag/v?(?P<pver>\d+(\.\d+)+)$"
+ GITHUB_BASE_URI = "https://github.com/PhilipHazel/pcre2/releases"
+ UPSTREAM_CHECK_REGEX = "releases/tag/pcre2-(?P<pver>\d+(\.\d+)+)$"
  
--SRC_URI[sha256sum] = "12ce7a61fc9854d1d2a1ffe095f7b5fac19ddba095c259e6067a46500381b5a5"
-+SRC_URI[sha256sum] = "ffaa41d741a8a3bee244ac8e54a72ea05bf2879663c098c82fc5757853441575"
+-SRC_URI[sha256sum] = "8d36cd8cb6ea2a4c2bb358ff6411b0c788633a2a45dabbf1aeb4b701d1b5e840"
++SRC_URI[sha256sum] = "e2a53984ff0b07dfdb5ae4486bbb9b21cca8e7df2434096cc9bf1b728c350bcb"
  
- S = "${WORKDIR}/libusb-${PV}"
+ CVE_PRODUCT = "pcre2"
  
 -- 
 2.42.0
 
 
---===============5372158155741539972==
+--===============3982651074480368138==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/libpcre2: PV changed from "10.42" to "10.43"
+packages/core2-64-poky-linux/libpcre2: PKGV changed from 10.42 [default] to 10.43 [default]
+packages/core2-64-poky-linux/libpcre2: SRC_URI changed from "https://github.com/PhilipHazel/pcre2/releases/download/pcre2-10.42/pcre2-10.42.tar.bz2" to "https://github.com/PhilipHazel/pcre2/releases/download/pcre2-10.43/pcre2-10.43.tar.bz2"
+packages/core2-64-poky-linux/libpcre2/libpcre2-16: PV changed from "10.42" to "10.43"
+packages/core2-64-poky-linux/libpcre2/libpcre2-16: PKGV changed from 10.42 [default] to 10.43 [default]
+packages/core2-64-poky-linux/libpcre2/libpcre2-16: FILELIST: removed "/usr/lib/libpcre2-16.so.0.11.2", added "/usr/lib/libpcre2-16.so.0.12.0"
+packages/core2-64-poky-linux/libpcre2/libpcre2-16: PKGSIZE changed from 350573 to 354309 (+1%)
+packages/core2-64-poky-linux/libpcre2/libpcre2-32: PV changed from "10.42" to "10.43"
+packages/core2-64-poky-linux/libpcre2/libpcre2-32: PKGV changed from 10.42 [default] to 10.43 [default]
+packages/core2-64-poky-linux/libpcre2/libpcre2-32: FILELIST: removed "/usr/lib/libpcre2-32.so.0.11.2", added "/usr/lib/libpcre2-32.so.0.12.0"
+packages/core2-64-poky-linux/libpcre2/libpcre2-32: PKGSIZE changed from 338285 to 342021 (+1%)
+packages/core2-64-poky-linux/libpcre2/libpcre2-dbg: PV changed from "10.42" to "10.43"
+packages/core2-64-poky-linux/libpcre2/libpcre2-dbg: PKGV changed from 10.42 [default] to 10.43 [default]
+packages/core2-64-poky-linux/libpcre2/libpcre2-dbg: FILELIST: removed "/usr/lib/.debug/libpcre2-32.so.0.11.2 /usr/lib/.debug/libpcre2-16.so.0.11.2 /usr/lib/.debug/libpcre2-8.so.0.11.2 /usr/lib/.debug/libpcre2-posix.so.3.0.4", added "/usr/lib/.debug/libpcre2-8.so.0.12.0 /usr/lib/.debug/libpcre2-32.so.0.12.0 /usr/lib/.debug/libpcre2-posix.so.3.0.5 /usr/lib/.debug/libpcre2-16.so.0.12.0"
+packages/core2-64-poky-linux/libpcre2/libpcre2-dbg: PKGSIZE changed from 2179136 to 2235720 (+3%)
+packages/core2-64-poky-linux/libpcre2/libpcre2-dev: PV changed from "10.42" to "10.43"
+packages/core2-64-poky-linux/libpcre2/libpcre2-dev: PKGV changed from 10.42 [default] to 10.43 [default]
+packages/core2-64-poky-linux/libpcre2/libpcre2-dev: PKGSIZE changed from 56038 to 57062 (+2%)
+packages/core2-64-poky-linux/libpcre2/libpcre2-doc: PV changed from "10.42" to "10.43"
+packages/core2-64-poky-linux/libpcre2/libpcre2-doc: PKGV changed from 10.42 [default] to 10.43 [default]
+packages/core2-64-poky-linux/libpcre2/libpcre2-doc: FILELIST: added "/usr/share/man/man3/pcre2_set_max_varlookbehind.3 /usr/share/doc/pcre2/html/pcre2_get_match_data_heapframes_size.html /usr/share/man/man3/pcre2_get_match_data_heapframes_size.3 /usr/share/doc/pcre2/html/pcre2_set_max_varlookbehind.html"
+packages/core2-64-poky-linux/libpcre2/libpcre2-doc: PKGSIZE changed from 2537659 to 2628270 (+4%)
+packages/core2-64-poky-linux/libpcre2/libpcre2-locale: PV changed from "10.42" to "10.43"
+packages/core2-64-poky-linux/libpcre2/libpcre2-locale: PKGV changed from 10.42 [default] to 10.43 [default]
+packages/core2-64-poky-linux/libpcre2/libpcre2-src: PV changed from "10.42" to "10.43"
+packages/core2-64-poky-linux/libpcre2/libpcre2-src: PKGV changed from 10.42 [default] to 10.43 [default]
+packages/core2-64-poky-linux/libpcre2/libpcre2-src: FILELIST: removed "/usr/src/debug/libpcre2/10.42/src/pcre2_match.c /usr/src/debug/libpcre2/10.42/src/pcre2test.c /usr/src/debug/libpcre2/10.42/src/pcre2_intmodedep.h /usr/src/debug/libpcre2/10.42/src/pcre2_find_bracket.c /usr/src/debug/libpcre2/10.42/src/pcre2_pattern_info.c /usr/src/debug/libpcre2/10.42/src/pcre2_error.c /usr/src/debug/libpcre2/10.42/src/pcre2_chartables.c.dist /usr/src/debug/libpcre2/10.42/src/pcre2_script_run.c /usr/src/debug/libpcre2/10.42/src/pcre2_extuni.c /usr/src/debug/libpcre2/10.42/src/pcre2_auto_possess.c /usr/src/debug/libpcre2/10.42/src/pcre2_config.c /usr/src/debug/libpcre2/10.42/src/pcre2_newline.c /usr/src/debug/libpcre2/10.42/src/pcre2_valid_utf.c /usr/src/debug/libpcre2/10.42/src/pcre2_internal.h /usr/src/debug/libpcre2/10.42/src/pcre2posix.h /usr/src/debug/libpcre2/10.42/src/pcre2_tables.c /usr/src/debug/libpcre2/10.42/src/pcre2_ucptables.c /usr/src/debug/libpcre2/10.42/src/pcre2_string_utils.c /u
+ sr/src/debug/libpcre2/10.42/src/pcre2_printint.c /usr/src/debug/libpcre2/10.42/src/pcre2_serialize.c /usr/src/debug/libpcre2/10.42/src/pcre2.h /usr/src/debug/libpcre2/10.42/src/pcre2posix.c /usr/src/debug/libpcre2/10.42/src/pcre2_dfa_match.c /usr/src/debug/libpcre2/10.42/src/pcre2_substring.c /usr/src/debug/libpcre2/10.42/src/pcre2_ucp.h /usr/src/debug/libpcre2/10.42/src/pcre2_ucd.c /usr/src/debug/libpcre2/10.42/src/pcre2_substitute.c /usr/src/debug/libpcre2/10.42/src/pcre2grep.c /usr/src/debug/libpcre2/10.42/src/pcre2_compile.c /usr/src/debug/libpcre2/10.42/src/pcre2_context.c /usr/src/debug/libpcre2/10.42/src/pcre2_convert.c /usr/src/debug/libpcre2/10.42/src/pcre2_jit_misc.c /usr/src/debug/libpcre2/10.42/src/pcre2_xclass.c /usr/src/debug/libpcre2/10.42/src/pcre2_jit_compile.c /usr/src/debug/libpcre2/10.42/src/pcre2_maketables.c /usr/src/debug/libpcre2/10.42/src/pcre2_match_data.c /usr/src/debug/libpcre2/10.42/src/pcre2_study.c /usr/src/debug/libpcre2/10.42/src/pcre2_ord2utf.c /usr
+ /src/debug/libpcre2/10.42/src/pcre2_jit_match.c", added "/usr/src/debug/libpcre2/10.43/src/pcre2_match.c /usr/src/debug/libpcre2/10.43/src/pcre2test.c /usr/src/debug/libpcre2/10.43/src/pcre2_intmodedep.h /usr/src/debug/libpcre2/10.43/src/pcre2_find_bracket.c /usr/src/debug/libpcre2/10.43/src/pcre2_pattern_info.c /usr/src/debug/libpcre2/10.43/src/pcre2_error.c /usr/src/debug/libpcre2/10.43/src/pcre2_chartables.c.dist /usr/src/debug/libpcre2/10.43/src/pcre2_script_run.c /usr/src/debug/libpcre2/10.43/src/pcre2_extuni.c /usr/src/debug/libpcre2/10.43/src/pcre2_auto_possess.c /usr/src/debug/libpcre2/10.43/src/pcre2_config.c /usr/src/debug/libpcre2/10.43/src/pcre2_newline.c /usr/src/debug/libpcre2/10.43/src/pcre2_valid_utf.c /usr/src/debug/libpcre2/10.43/src/pcre2_internal.h /usr/src/debug/libpcre2/10.43/src/pcre2posix.h /usr/src/debug/libpcre2/10.43/src/pcre2_tables.c /usr/src/debug/libpcre2/10.43/src/pcre2_ucptables.c /usr/src/debug/libpcre2/10.43/src/pcre2_string_utils.c /usr/src/debug/
+ libpcre2/10.43/src/pcre2_printint.c /usr/src/debug/libpcre2/10.43/src/pcre2_serialize.c /usr/src/debug/libpcre2/10.43/src/pcre2.h /usr/src/debug/libpcre2/10.43/src/pcre2posix.c /usr/src/debug/libpcre2/10.43/src/pcre2_dfa_match.c /usr/src/debug/libpcre2/10.43/src/pcre2_substring.c /usr/src/debug/libpcre2/10.43/src/pcre2_ucp.h /usr/src/debug/libpcre2/10.43/src/pcre2_ucd.c /usr/src/debug/libpcre2/10.43/src/pcre2_substitute.c /usr/src/debug/libpcre2/10.43/src/pcre2grep.c /usr/src/debug/libpcre2/10.43/src/pcre2_compile.c /usr/src/debug/libpcre2/10.43/src/pcre2_chkdint.c /usr/src/debug/libpcre2/10.43/src/pcre2_context.c /usr/src/debug/libpcre2/10.43/src/pcre2_convert.c /usr/src/debug/libpcre2/10.43/src/pcre2_jit_misc.c /usr/src/debug/libpcre2/10.43/src/pcre2_xclass.c /usr/src/debug/libpcre2/10.43/src/pcre2_jit_compile.c /usr/src/debug/libpcre2/10.43/src/pcre2_maketables.c /usr/src/debug/libpcre2/10.43/src/pcre2_match_data.c /usr/src/debug/libpcre2/10.43/src/pcre2_study.c /usr/src/debug/li
+ bpcre2/10.43/src/pcre2_ord2utf.c /usr/src/debug/libpcre2/10.43/src/pcre2_jit_match.c"
+packages/core2-64-poky-linux/libpcre2/libpcre2-src: PKGSIZE changed from 2577856 to 2635840 (+2%)
+packages/core2-64-poky-linux/libpcre2/libpcre2-staticdev: PV changed from "10.42" to "10.43"
+packages/core2-64-poky-linux/libpcre2/libpcre2-staticdev: PKGV changed from 10.42 [default] to 10.43 [default]
+packages/core2-64-poky-linux/libpcre2/libpcre2: PV changed from "10.42" to "10.43"
+packages/core2-64-poky-linux/libpcre2/libpcre2: PKGV changed from 10.42 [default] to 10.43 [default]
+packages/core2-64-poky-linux/libpcre2/libpcre2: FILELIST: removed "/usr/lib/libpcre2-8.so.0.11.2 /usr/lib/libpcre2-posix.so.3.0.4", added "/usr/lib/libpcre2-8.so.0.12.0 /usr/lib/libpcre2-posix.so.3.0.5"
+packages/core2-64-poky-linux/libpcre2/libpcre2: PKGSIZE changed from 401771 to 405507 (+1%)
+packages/core2-64-poky-linux/libpcre2/pcre2grep-doc: PV changed from "10.42" to "10.43"
+packages/core2-64-poky-linux/libpcre2/pcre2grep-doc: PKGV changed from 10.42 [default] to 10.43 [default]
+packages/core2-64-poky-linux/libpcre2/pcre2grep-doc: PKGSIZE changed from 50359 to 52733 (+5%)
+packages/core2-64-poky-linux/libpcre2/pcre2grep: PV changed from "10.42" to "10.43"
+packages/core2-64-poky-linux/libpcre2/pcre2grep: PKGV changed from 10.42 [default] to 10.43 [default]
+packages/core2-64-poky-linux/libpcre2/pcre2grep: PKGSIZE changed from 53536 to 53704 (+0%)
+packages/core2-64-poky-linux/libpcre2/pcre2test-doc: PV changed from "10.42" to "10.43"
+packages/core2-64-poky-linux/libpcre2/pcre2test-doc: PKGV changed from 10.42 [default] to 10.43 [default]
+packages/core2-64-poky-linux/libpcre2/pcre2test-doc: PKGSIZE changed from 89779 to 92270 (+3%)
+packages/core2-64-poky-linux/libpcre2/pcre2test: PV changed from "10.42" to "10.43"
+packages/core2-64-poky-linux/libpcre2/pcre2test: PKGV changed from 10.42 [default] to 10.43 [default]
+packages/core2-64-poky-linux/libpcre2/pcre2test: PKGSIZE changed from 165168 to 173656 (+5%)
+Changes to packages/core2-64-poky-linux/libpcre2 (sysroot):
+  /usr/lib/libpcre2-16.so.0 changed symlink target from libpcre2-16.so.0.11.2 to libpcre2-16.so.0.12.0
+  /usr/lib/libpcre2-16.so changed symlink target from libpcre2-16.so.0.11.2 to libpcre2-16.so.0.12.0
+  /usr/lib/libpcre2-32.so.0 changed symlink target from libpcre2-32.so.0.11.2 to libpcre2-32.so.0.12.0
+  /usr/lib/libpcre2-32.so changed symlink target from libpcre2-32.so.0.11.2 to libpcre2-32.so.0.12.0
+  /usr/lib/libpcre2-8.so.0 changed symlink target from libpcre2-8.so.0.11.2 to libpcre2-8.so.0.12.0
+  /usr/lib/libpcre2-8.so changed symlink target from libpcre2-8.so.0.11.2 to libpcre2-8.so.0.12.0
+  /usr/lib/libpcre2-posix.so.3 changed symlink target from libpcre2-posix.so.3.0.4 to libpcre2-posix.so.3.0.5
+  /usr/lib/libpcre2-posix.so changed symlink target from libpcre2-posix.so.3.0.4 to libpcre2-posix.so.3.0.5
+  /usr/lib/libpcre2-8.so.0.11.2 moved to /usr/lib/libpcre2-8.so.0.12.0
+  /usr/lib/libpcre2-posix.so.3.0.4 moved to /usr/lib/libpcre2-posix.so.3.0.5
+  /usr/lib/libpcre2-16.so.0.12.0 was added
+  /usr/lib/libpcre2-32.so.0.12.0 was added
+  /usr/lib/libpcre2-16.so.0.11.2 was removed
+  /usr/lib/libpcre2-32.so.0.11.2 was removed
+
+--===============3982651074480368138==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libusb1-upgrade-1.0.26-1.0.27.patch"
+ filename="0001-libpcre2-upgrade-10.42-10.43.patch"
 
-RnJvbSBiODJmMmM3Njg1NTg1NTZlYjk1NTAxZDJlNjYwYTc2ZGZlMTQyOTA5IE1vbiBTZXAgMTcg
+RnJvbSAzZDZjY2FkNWI2MjM3MDY1NWViOTUzNDE1YzMxMzQwNDQ0N2E4YTVjIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMSBNYXIgMjAyNCAyMTo1MToyMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
-YnVzYjE6IHVwZ3JhZGUgMS4wLjI2IC0+IDEuMC4yNwoKLS0tCiAuLi5rLXdpdGgtbGF0b21pYy1v
-bmx5LWlmLW5vLWF0b21pYy1idWkucGF0Y2ggfCA0NiAtLS0tLS0tLS0tLS0tLS0tLS0tCiAuLi4v
-e2xpYnVzYjFfMS4wLjI2LmJiID0+IGxpYnVzYjFfMS4wLjI3LmJifSAgfCAgNSArLQogMiBmaWxl
-cyBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDQ5IGRlbGV0aW9ucygtKQogZGVsZXRlIG1vZGUg
-MTAwNjQ0IG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnVzYi9saWJ1c2IxLzAwMDEtY29uZmlndXJl
-LmFjLUxpbmstd2l0aC1sYXRvbWljLW9ubHktaWYtbm8tYXRvbWljLWJ1aS5wYXRjaAogcmVuYW1l
-IG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnVzYi97bGlidXNiMV8xLjAuMjYuYmIgPT4gbGlidXNi
-MV8xLjAuMjcuYmJ9ICg4NyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGli
-dXNiL2xpYnVzYjEvMDAwMS1jb25maWd1cmUuYWMtTGluay13aXRoLWxhdG9taWMtb25seS1pZi1u
-by1hdG9taWMtYnVpLnBhdGNoIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlidXNiL2xpYnVzYjEv
-MDAwMS1jb25maWd1cmUuYWMtTGluay13aXRoLWxhdG9taWMtb25seS1pZi1uby1hdG9taWMtYnVp
-LnBhdGNoCmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NAppbmRleCAzYzIyM2UwODIyLi4wMDAwMDAw
-MDAwCi0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnVzYi9saWJ1c2IxLzAwMDEtY29uZmln
-dXJlLmFjLUxpbmstd2l0aC1sYXRvbWljLW9ubHktaWYtbm8tYXRvbWljLWJ1aS5wYXRjaAorKysg
-L2Rldi9udWxsCkBAIC0xLDQ2ICswLDAgQEAKLUZyb20gOTVlNjAxY2UxMTZkZDQ2ZWE3OTE1YzE3
-MTk3NmI4NWVhMDkwNWQ1OCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKLUZyb206IExvbm5pZSBB
-YmVsYmVjayA8bG9ubmllQGFiZWxiZWNrLmNvbT4KLURhdGU6IFN1biwgOCBNYXkgMjAyMiAxNDow
-NTo1NiAtMDUwMAotU3ViamVjdDogW1BBVENIXSBjb25maWd1cmUuYWM6IExpbmsgd2l0aCAtbGF0
-b21pYyBvbmx5IGlmIG5vIGF0b21pYyBidWlsdGlucwotCi1Gb2xsb3ctdXAgdG8gNTYxZGJkYSwg
-YSBjaGVjayBvZiBHQ0MgYXRvbWljIGJ1aWx0aW5zIG5lZWRzIHRvIGJlIGRvbmUKLWZpcnN0Lgot
-Ci1JJ20gbm8gYXV0b2NvbmYgZ3VydSwgYnV0IHVzaW5nIHRoaXM6Ci1odHRwczovL2dpdGh1Yi5j
-b20vbWVzYTNkL21lc2EvYmxvYi8wZGY0ODVjMjg1YjczYzM0YmE5MDYyZjBjMjdlNTVjM2M3MDI5
-MzBkL2NvbmZpZ3VyZS5hYyNMNDY5Ci1hcyBpbnNwaXJhdGlvbiwgSSBjcmVhdGVkIGEgcHJlLWNo
-ZWNrIGJlZm9yZSBjYWxsaW5nIEFDX1NFQVJDSF9MSUJTKC4uLikKLQotRml4ZXMgIzExMzUKLUNs
-b3NlcyAjMTEzOQotVXBzdHJlYW0tU3RhdHVzOiBCYWNrcG9ydCBbaHR0cHM6Ly9naXRodWIuY29t
-L2tyYWovbGlidXNiL2NvbW1pdC85NWU2MDFjZTExNmRkNDZlYTc5MTVjMTcxOTc2Yjg1ZWEwOTA1
-ZDU4XQotU2lnbmVkLW9mZi1ieTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KLS0tLQot
-IGNvbmZpZ3VyZS5hYyAgICAgICAgICB8IDE2ICsrKysrKysrKysrKysrKy0KLSBsaWJ1c2IvdmVy
-c2lvbl9uYW5vLmggfCAgMiArLQotIDIgZmlsZXMgY2hhbmdlZCwgMTYgaW5zZXJ0aW9ucygrKSwg
-MiBkZWxldGlvbnMoLSkKLQotLS0tIGEvY29uZmlndXJlLmFjCi0rKysgYi9jb25maWd1cmUuYWMK
-LUBAIC0xNTMsNyArMTUzLDIxIEBAIGlmIHRlc3QgIngkcGxhdGZvcm0iID0geHBvc2l4OyB0aGVu
-Ci0gCUFDX1NFQVJDSF9MSUJTKFtwdGhyZWFkX2NyZWF0ZV0sIFtwdGhyZWFkXSwKLSAJCVt0ZXN0
-ICJ4JGFjX2N2X3NlYXJjaF9wdGhyZWFkX2NyZWF0ZSIgIT0gInhub25lIHJlcXVpcmVkIiAmJiBB
-Q19TVUJTVChUSFJFQURfTElCUywgWy1scHRocmVhZF0pXSwKLSAJCVtdLCBbXSkKLS0JQUNfU0VB
-UkNIX0xJQlMoW19fYXRvbWljX2ZldGNoX2FkZF80XSwgW2F0b21pY10pCi0rCWRubCBDaGVjayBm
-b3IgbmV3LXN0eWxlIGF0b21pYyBidWlsdGlucy4gV2UgZmlyc3QgY2hlY2sgd2l0aG91dCBsaW5r
-aW5nIHRvIC1sYXRvbWljLgotKwlBQ19NU0dfQ0hFQ0tJTkcod2hldGhlciBfX2F0b21pY19sb2Fk
-X24gaXMgc3VwcG9ydGVkKQotKwlBQ19MSU5LX0lGRUxTRShbQUNfTEFOR19TT1VSQ0UoW1sKLSsJ
-I2luY2x1ZGUgPHN0ZGludC5oPgotKwlpbnQgbWFpbigpIHsKLSsJCXN0cnVjdCB7Ci0rCQkJdWlu
-dDY0X3QgKnY7Ci0rCQl9IHg7Ci0rCQlyZXR1cm4gKGludClfX2F0b21pY19sb2FkX24oeC52LCBf
-X0FUT01JQ19BQ1FVSVJFKSAmCi0rCQkgICAgICAgKGludClfX2F0b21pY19hZGRfZmV0Y2goeC52
-LCAodWludDY0X3QpMSwgX19BVE9NSUNfQUNRX1JFTCk7Ci0rCX1dXSldLCBHQ0NfQVRPTUlDX0JV
-SUxUSU5TX1NVUFBPUlRFRD15ZXMsIEdDQ19BVE9NSUNfQlVJTFRJTlNfU1VQUE9SVEVEPW5vKQot
-KwlBQ19NU0dfUkVTVUxUKCRHQ0NfQVRPTUlDX0JVSUxUSU5TX1NVUFBPUlRFRCkKLSsJaWYgdGVz
-dCAieCRHQ0NfQVRPTUlDX0JVSUxUSU5TX1NVUFBPUlRFRCIgIT0geHllczsgdGhlbgotKwkJQUNf
-U0VBUkNIX0xJQlMoW19fYXRvbWljX2ZldGNoX2FkZF80XSwgW2F0b21pY10pCi0rCWZpCi0gZWxp
-ZiB0ZXN0ICJ4JHBsYXRmb3JtIiA9IHh3aW5kb3dzOyB0aGVuCi0gCUFDX0RFRklORShbUExBVEZP
-Uk1fV0lORE9XU10sIFsxXSwgW0RlZmluZSB0byAxIGlmIGNvbXBpbGluZyBmb3IgYSBXaW5kb3dz
-IHBsYXRmb3JtLl0pCi0gZWxzZQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGli
-dXNiL2xpYnVzYjFfMS4wLjI2LmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlidXNiL2xpYnVz
-YjFfMS4wLjI3LmJiCnNpbWlsYXJpdHkgaW5kZXggODclCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBl
-cy1zdXBwb3J0L2xpYnVzYi9saWJ1c2IxXzEuMC4yNi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVz
-LXN1cHBvcnQvbGlidXNiL2xpYnVzYjFfMS4wLjI3LmJiCmluZGV4IDJhZjZmY2RlYTcuLmY0YWYy
-YmI5NzcgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnVzYi9saWJ1c2IxXzEu
-MC4yNi5iYgorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJ1c2IvbGlidXNiMV8xLjAuMjcu
-YmIKQEAgLTExLDE0ICsxMSwxMyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5H
-O21kNT1mYmMwOTM5MDE4NTdmY2QxMThmMDY1ZjkwMDk4MmMyNCIKIEJCQ0xBU1NFWFRFTkQgPSAi
-bmF0aXZlIG5hdGl2ZXNkayIKIAogU1JDX1VSSSA9ICIke0dJVEhVQl9CQVNFX1VSSX0vZG93bmxv
-YWQvdiR7UFZ9L2xpYnVzYi0ke1BWfS50YXIuYnoyIFwKLSAgICAgICAgICAgZmlsZTovLzAwMDEt
-Y29uZmlndXJlLmFjLUxpbmstd2l0aC1sYXRvbWljLW9ubHktaWYtbm8tYXRvbWljLWJ1aS5wYXRj
-aCBcCiAgICAgICAgICAgIGZpbGU6Ly9ydW4tcHRlc3QgXAotICAgICAgICAgICIKKyAgICAgICAg
-ICAgIgogCiBHSVRIVUJfQkFTRV9VUkkgPSAiaHR0cHM6Ly9naXRodWIuY29tL2xpYnVzYi9saWJ1
-c2IvcmVsZWFzZXMiCiBVUFNUUkVBTV9DSEVDS19SRUdFWCA9ICJyZWxlYXNlcy90YWcvdj8oP1A8
-cHZlcj5cZCsoXC5cZCspKykkIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMTJjZTdhNjFmYzk4
-NTRkMWQyYTFmZmUwOTVmN2I1ZmFjMTlkZGJhMDk1YzI1OWU2MDY3YTQ2NTAwMzgxYjVhNSIKK1NS
-Q19VUklbc2hhMjU2c3VtXSA9ICJmZmFhNDFkNzQxYThhM2JlZTI0NGFjOGU1NGE3MmVhMDViZjI4
-Nzk2NjNjMDk4YzgyZmM1NzU3ODUzNDQxNTc1IgogCiBTID0gIiR7V09SS0RJUn0vbGlidXNiLSR7
-UFZ9IgogCi0tIAoyLjQyLjAKCg==
+CkRhdGU6IEZyaSwgMSBNYXIgMjAyNCAyMTo0OTowNiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
+YnBjcmUyOiB1cGdyYWRlIDEwLjQyIC0+IDEwLjQzCgotLS0KIC4uLi97bGlicGNyZTJfMTAuNDIu
+YmIgPT4gbGlicGNyZTJfMTAuNDMuYmJ9ICB8IDQ0ICsrKysrKysrKysrKysrKysrKy0KIDEgZmls
+ZSBjaGFuZ2VkLCA0MiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEv
+cmVjaXBlcy1zdXBwb3J0L2xpYnBjcmUve2xpYnBjcmUyXzEwLjQyLmJiID0+IGxpYnBjcmUyXzEw
+LjQzLmJifSAoNjElKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnBjcmUv
+bGlicGNyZTJfMTAuNDIuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJwY3JlL2xpYnBjcmUy
+XzEwLjQzLmJiCnNpbWlsYXJpdHkgaW5kZXggNjElCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1z
+dXBwb3J0L2xpYnBjcmUvbGlicGNyZTJfMTAuNDIuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1z
+dXBwb3J0L2xpYnBjcmUvbGlicGNyZTJfMTAuNDMuYmIKaW5kZXggZjQ3MWIzZjkwYS4uZjc1YTI5
+NmIyMSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlicGNyZS9saWJwY3JlMl8x
+MC40Mi5iYgorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJwY3JlL2xpYnBjcmUyXzEwLjQz
+LmJiCkBAIC0xLDMgKzEsNDMgQEAKKyMgRklYTUU6IHRoZSBMSUNfRklMRVNfQ0hLU1VNIHZhbHVl
+cyBoYXZlIGJlZW4gdXBkYXRlZCBieSAnZGV2dG9vbCB1cGdyYWRlJy4KKyMgVGhlIGZvbGxvd2lu
+ZyBpcyB0aGUgZGlmZmVyZW5jZSBiZXR3ZWVuIHRoZSBvbGQgYW5kIHRoZSBuZXcgbGljZW5zZSB0
+ZXh0LgorIyBQbGVhc2UgdXBkYXRlIHRoZSBMSUNFTlNFIHZhbHVlIGlmIG5lZWRlZCwgYW5kIHN1
+bW1hcml6ZSB0aGUgY2hhbmdlcyBpbgorIyB0aGUgY29tbWl0IG1lc3NhZ2UgdmlhICdMaWNlbnNl
+LVVwZGF0ZTonIHRhZy4KKyMgKGV4YW1wbGU6ICdMaWNlbnNlLVVwZGF0ZTogY29weXJpZ2h0IHll
+YXJzIHVwZGF0ZWQuJykKKyMKKyMgVGhlIGNoYW5nZXM6CisjCisjIC0tLSBMSUNFTkNFCisjICsr
+KyBMSUNFTkNFCisjIEBAIC0yNiw3ICsyNiw3IEBACisjICBSZXRpcmVkIGZyb20gVW5pdmVyc2l0
+eSBvZiBDYW1icmlkZ2UgQ29tcHV0aW5nIFNlcnZpY2UsCisjICBDYW1icmlkZ2UsIEVuZ2xhbmQu
+CisjICAKKyMgLUNvcHlyaWdodCAoYykgMTk5Ny0yMDIyIFVuaXZlcnNpdHkgb2YgQ2FtYnJpZGdl
+CisjICtDb3B5cmlnaHQgKGMpIDE5OTctMjAyNCBVbml2ZXJzaXR5IG9mIENhbWJyaWRnZQorIyAg
+QWxsIHJpZ2h0cyByZXNlcnZlZC4KKyMgIAorIyAgCisjIEBAIC0zNyw3ICszNyw3IEBACisjICBF
+bWFpbCBsb2NhbCBwYXJ0OiBoem1lc3RlcgorIyAgRW1haWwgZG9tYWluOiAgICAgZnJlZW1haWwu
+aHUKKyMgIAorIyAtQ29weXJpZ2h0KGMpIDIwMTAtMjAyMiBab2x0YW4gSGVyY3plZworIyArQ29w
+eXJpZ2h0KGMpIDIwMTAtMjAyNCBab2x0YW4gSGVyY3plZworIyAgQWxsIHJpZ2h0cyByZXNlcnZl
+ZC4KKyMgIAorIyAgCisjIEBAIC00OCw3ICs0OCw3IEBACisjICBFbWFpbCBsb2NhbCBwYXJ0OiBo
+em1lc3RlcgorIyAgRW1haWwgZG9tYWluOiAgICAgZnJlZW1haWwuaHUKKyMgIAorIyAtQ29weXJp
+Z2h0KGMpIDIwMDktMjAyMiBab2x0YW4gSGVyY3plZworIyArQ29weXJpZ2h0KGMpIDIwMDktMjAy
+NCBab2x0YW4gSGVyY3plZworIyAgQWxsIHJpZ2h0cyByZXNlcnZlZC4KKyMgIAorIyAgCisjIAor
+IworCiBERVNDUklQVElPTiA9ICJUaGVyZSBhcmUgdHdvIG1ham9yIHZlcnNpb25zIG9mIHRoZSBQ
+Q1JFIGxpYnJhcnkuIFRoZSBcCiBuZXdlc3QgdmVyc2lvbiBpcyBQQ1JFMiwgd2hpY2ggaXMgYSBy
+ZS13b3JraW5nIG9mIHRoZSBvcmlnaW5hbCBQQ1JFIFwKIGxpYnJhcnkgdG8gcHJvdmlkZSBhbiBl
+bnRpcmVseSBuZXcgQVBJLiBUaGUgb3JpZ2luYWwsIHZlcnkgd2lkZWx5IFwKQEAgLTgsMTQgKzQ4
+LDE0IEBAIFNVTU1BUlkgPSAiUGVybCBDb21wYXRpYmxlIFJlZ3VsYXIgRXhwcmVzc2lvbnMgdmVy
+c2lvbiAyIgogSE9NRVBBR0UgPSAiaHR0cDovL3d3dy5wY3JlLm9yZyIKIFNFQ1RJT04gPSAiZGV2
+ZWwiCiBMSUNFTlNFID0gIkJTRC0zLUNsYXVzZSIKLUxJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTov
+L0xJQ0VOQ0U7bWQ1PTQxYmZiOTc3ZTQ5MzNjNTA2NTg4NzI0Y2U2OWJmNWQyIgorTElDX0ZJTEVT
+X0NIS1NVTSA9ICJmaWxlOi8vTElDRU5DRTttZDU9MzIxYTVlYjQ2YWNhZTZiNmMxZmYyYzdhODY2
+ZDgzNmEiCiAKIFNSQ19VUkkgPSAiJHtHSVRIVUJfQkFTRV9VUkl9L2Rvd25sb2FkL3BjcmUyLSR7
+UFZ9L3BjcmUyLSR7UFZ9LnRhci5iejIiCiAKIEdJVEhVQl9CQVNFX1VSSSA9ICJodHRwczovL2dp
+dGh1Yi5jb20vUGhpbGlwSGF6ZWwvcGNyZTIvcmVsZWFzZXMiCiBVUFNUUkVBTV9DSEVDS19SRUdF
+WCA9ICJyZWxlYXNlcy90YWcvcGNyZTItKD9QPHB2ZXI+XGQrKFwuXGQrKSspJCIKIAotU1JDX1VS
+SVtzaGEyNTZzdW1dID0gIjhkMzZjZDhjYjZlYTJhNGMyYmIzNThmZjY0MTFiMGM3ODg2MzNhMmE0
+NWRhYmJmMWFlYjRiNzAxZDFiNWU4NDAiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiZTJhNTM5ODRm
+ZjBiMDdkZmRiNWFlNDQ4NmJiYjliMjFjY2E4ZTdkZjI0MzQwOTZjYzliZjFiNzI4YzM1MGJjYiIK
+IAogQ1ZFX1BST0RVQ1QgPSAicGNyZTIiCiAKLS0gCjIuNDIuMAoK
 
---===============5372158155741539972==
+--===============3982651074480368138==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1866 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 916 .bb files complete (915 cached, 1 parsed). 1863 targets, 35 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/core2-64-poky-linux/libpcre2/libpcre2-16: FILELIST: removed "/usr/lib/libpcre2-16.so.0.11.2", added "/usr/lib/libpcre2-16.so.0.12.0"
+packages/core2-64-poky-linux/libpcre2/libpcre2-32: FILELIST: removed "/usr/lib/libpcre2-32.so.0.11.2", added "/usr/lib/libpcre2-32.so.0.12.0"
+packages/core2-64-poky-linux/libpcre2/libpcre2-doc: FILELIST: added "/usr/share/man/man3/pcre2_set_max_varlookbehind.3 /usr/share/man/man3/pcre2_get_match_data_heapframes_size.3 /usr/share/doc/pcre2/html/pcre2_set_max_varlookbehind.html /usr/share/doc/pcre2/html/pcre2_get_match_data_heapframes_size.html"
+packages/core2-64-poky-linux/libpcre2/libpcre2: FILELIST: removed "/usr/lib/libpcre2-posix.so.3.0.4 /usr/lib/libpcre2-8.so.0.11.2", added "/usr/lib/libpcre2-posix.so.3.0.5 /usr/lib/libpcre2-8.so.0.12.0"
+Changes to packages/core2-64-poky-linux/libpcre2 (sysroot):
+  /usr/lib/libpcre2-16.so.0 changed symlink target from libpcre2-16.so.0.11.2 to libpcre2-16.so.0.12.0
+  /usr/lib/libpcre2-16.so changed symlink target from libpcre2-16.so.0.11.2 to libpcre2-16.so.0.12.0
+  /usr/lib/libpcre2-32.so.0 changed symlink target from libpcre2-32.so.0.11.2 to libpcre2-32.so.0.12.0
+  /usr/lib/libpcre2-32.so changed symlink target from libpcre2-32.so.0.11.2 to libpcre2-32.so.0.12.0
+  /usr/lib/libpcre2-8.so.0 changed symlink target from libpcre2-8.so.0.11.2 to libpcre2-8.so.0.12.0
+  /usr/lib/libpcre2-8.so changed symlink target from libpcre2-8.so.0.11.2 to libpcre2-8.so.0.12.0
+  /usr/lib/libpcre2-posix.so.3 changed symlink target from libpcre2-posix.so.3.0.4 to libpcre2-posix.so.3.0.5
+  /usr/lib/libpcre2-posix.so changed symlink target from libpcre2-posix.so.3.0.4 to libpcre2-posix.so.3.0.5
+  /usr/lib/libpcre2-8.so.0.11.2 moved to /usr/lib/libpcre2-8.so.0.12.0
+  /usr/lib/libpcre2-posix.so.3.0.4 moved to /usr/lib/libpcre2-posix.so.3.0.5
+  /usr/lib/libpcre2-16.so.0.12.0 was added
+  /usr/lib/libpcre2-32.so.0.12.0 was added
+  /usr/lib/libpcre2-16.so.0.11.2 was removed
+  /usr/lib/libpcre2-32.so.0.11.2 was removed
 
-Build Configuration:
-BB_VERSION           = "2.7.3"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-60a0a2caada7ac9c6d695312509caf000015b669"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:60a0a2caada7ac9c6d695312509caf000015b669"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 246 Local 233 Mirrors 0 Missed 13 Current 446 (94% match, 98% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 459 of 692 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/systemd/systemd_255.1.bb:do_create_spdx_setscene)
-NOTE: Running task 766 of 1931 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_recipe_qa)
-NOTE: recipe libusb1-1.0.27-r0: task do_recipe_qa: Started
-NOTE: recipe systemd-1_255.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libusb1-1.0.27-r0: task do_recipe_qa: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_recipe_qa unihash changed to c3aa2fabae66543ab1da9805e9e22dca2ac3ee2a86d5d23555b6492966e586b7
-NOTE: recipe systemd-1_255.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 654 of 692 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 656 of 692 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot_setscene)
-NOTE: Running task 1036 of 1931 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_fetch)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 660 of 692 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_create_spdx_setscene)
-NOTE: recipe libusb1-1.0.27-r0: task do_fetch: Started
-NOTE: recipe libusb1-1.0.27-r0: task do_fetch: Succeeded
-NOTE: Running task 1117 of 1931 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_unpack)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 662 of 692 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_recipe_qa_setscene)
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libusb1-1.0.27-r0: task do_unpack: Started
-NOTE: recipe libtool-cross-2.4.7-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 666 of 692 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_create_spdx_setscene)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libusb1-1.0.27-r0: task do_unpack: Succeeded
-NOTE: recipe glibc-2.39+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe glibc-2.39+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 673 of 692 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 675 of 692 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running task 1352 of 1931 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_patch)
-NOTE: recipe libusb1-1.0.27-r0: task do_patch: Started
-NOTE: recipe libusb1-1.0.27-r0: task do_patch: Succeeded
-NOTE: Running task 1417 of 1931 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1418 of 1931 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_populate_lic)
-NOTE: recipe libusb1-1.0.27-r0: task do_populate_lic: Started
-NOTE: recipe libusb1-1.0.27-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libusb1-1.0.27-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_populate_lic unihash changed to ec376bc582d9ca3cceea67959a99d30562ff947b74baa088176041b9ec0aced4
-NOTE: recipe libusb1-1.0.27-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_deploy_source_date_epoch unihash changed to 7449f435bac3e798534608c572c33404712682ed1a72bf30daf646fd4c51daf2
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 691 of 692 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_recipe_qa_setscene)
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1755 of 1931 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1910 of 1931 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_collect_spdx_deps)
-NOTE: recipe libusb1-1.0.27-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libusb1-1.0.27-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libusb1-1.0.27-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libusb1-1.0.27-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 1916 of 1931 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_configure)
-NOTE: recipe libusb1-1.0.27-r0: task do_configure: Started
-NOTE: recipe libusb1-1.0.27-r0: task do_configure: Succeeded
-NOTE: Running task 1917 of 1931 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_configure_ptest_base)
-NOTE: recipe libusb1-1.0.27-r0: task do_configure_ptest_base: Started
-NOTE: recipe libusb1-1.0.27-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1918 of 1931 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_compile)
-NOTE: recipe libusb1-1.0.27-r0: task do_compile: Started
-NOTE: recipe libusb1-1.0.27-r0: task do_compile: Succeeded
-NOTE: Running task 1919 of 1931 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_compile_ptest_base)
-NOTE: recipe libusb1-1.0.27-r0: task do_compile_ptest_base: Started
-NOTE: recipe libusb1-1.0.27-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1920 of 1931 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_install)
-NOTE: recipe libusb1-1.0.27-r0: task do_install: Started
-NOTE: recipe libusb1-1.0.27-r0: task do_install: Succeeded
-NOTE: Running task 1921 of 1931 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_install_ptest_base)
-NOTE: recipe libusb1-1.0.27-r0: task do_install_ptest_base: Started
-Log data follows:
-| DEBUG: Executing shell function do_install_ptest_base
-| install: cannot stat '/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libusb1/1.0.27/build/tests/.libs/stress': No such file or directory
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libusb1/1.0.27/temp/run.do_install_ptest_base.2962884:189 exit 1 from 'install -m 755 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libusb1/1.0.27/build/tests/.libs/stress /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libusb1/1.0.27/image/usr/lib/libusb1/ptest'
-| WARNING: Backtrace (BB generated script):
-| 	#1: do_install_ptest, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libusb1/1.0.27/temp/run.do_install_ptest_base.2962884, line 189
-| 	#2: do_install_ptest_base, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libusb1/1.0.27/temp/run.do_install_ptest_base.2962884, line 159
-| 	#3: main, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libusb1/1.0.27/temp/run.do_install_ptest_base.2962884, line 219
-NOTE: recipe libusb1-1.0.27-r0: task do_install_ptest_base: Failed
-NOTE: Tasks Summary: Attempted 1921 tasks of which 1907 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240301215049.txt
-You can send the errors to a reports server by running:
-  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240301215049.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_install_ptest_base
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: libusb1-1.0.27-r0 do_install_ptest_base: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libusb1/1.0.27/temp/run.do_install_ptest_base.2962884', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libusb1/1.0.27/temp/log.do_install_ptest_base.2962884
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_install_ptest_base) failed with exit code '1'
-
---===============5372158155741539972==--
+--===============3982651074480368138==--
 
