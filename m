@@ -1,196 +1,314 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <ppjadhav456@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D3D7C5475B
-	for <webhook@archiver.kernel.org>; Fri,  1 Mar 2024 04:23:32 +0000 (UTC)
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
- by mx.groups.io with SMTP id smtpd.web11.15361.1709267008721767851
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D742C5478C
+	for <webhook@archiver.kernel.org>; Fri,  1 Mar 2024 06:15:12 +0000 (UTC)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web10.16553.1709273710987971207
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Feb 2024 20:23:28 -0800
+ Thu, 29 Feb 2024 22:15:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=HqM9JDUi;
- spf=pass (domain: gmail.com, ip: 209.85.210.44, mailfrom: raj.khem@gmail.com)
-Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-6e4c62b6406so407051a34.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 Feb 2024 20:23:28 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=RDTQaPJi;
+ spf=pass (domain: gmail.com, ip: 209.85.214.180, mailfrom: ppjadhav456@gmail.com)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1d93edfa76dso16499725ad.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 Feb 2024 22:15:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709267008; x=1709871808; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=h3VrorBaAfrSKT/K5mo8UtMe6P3Q8P5LUwZfws7qQrg=;
-        b=HqM9JDUisTUGHdvBBr+egFr76TQvuVIuRg5GHEOZ0Ns5Pb5cZxp2WCzvSKhxgmqAVn
-         B/yQJC8MLKgFwsdJNAmd12D6gjmaGy36z2oTdxX3sa2U1HiL0WoewNRMO4kAmUxD/yT7
-         faOgo/AHBFCIu+ANe8au7pfdd6WnLeEkk8E/0QihuL7ygc/fy8iVYEz4JFOA96AGz2m1
-         ZB1qpOlAOB9RLn89ouewbIw82LTWA62oBx4bPhLECrXpHOx+Xi7ivuRQ4gNEGhYdCbxq
-         F5+u6scIRnWNZM/zJN39Gn4ryL9UrOUe99PfZa3NwEbi/+ur8zTCNi75CjjzbLtHTatS
-         uNXw==
+        d=gmail.com; s=20230601; t=1709273710; x=1709878510; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=EULkN/PfIm28bS8JUcrRDgEW+3YdPiGqM/3iLClbmGE=;
+        b=RDTQaPJihkYxvWctYwkOK2afBRw8zbDQNxpd7qLBggpnw152E8uC8Fu7pmUTmBzT8W
+         AdQU1z20SKU7icBdvCzkMqA9YBr1mmFJipRHPQX5VXkBpRxNuEX14a3WKmdHD580RuTj
+         nWgJJivcHNICF38xopUb6zSW9VVd/hio4EY1HQEjh89dgnZ62YCsjQTSyCALSz+CZDJS
+         LKECBixnVgcmx7+ttZe5HdZKiyUsFlsKh/sNoItdL30OkSI6Nm24P1kNWDleqs12Lbcf
+         eKct+v2Q/6AB2KjDVh4VmGsKNv9LZHCNmUR+aBQS5DJYbXGuioXzSx1uCaYEAhubzfUr
+         FNSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709267008; x=1709871808;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=h3VrorBaAfrSKT/K5mo8UtMe6P3Q8P5LUwZfws7qQrg=;
-        b=p4HMa/xDVmofpfMN5NYabs4AGqZ6hoEeLA4QEdKUg4AYaRJt/uwmx2fUvGo97Bu3Jv
-         /v+99qoLtU44lnfsRrEXlvPtqK9vaFO3W5gx1mz/Bp6GR2NLA4oE1weW9od5ty2j3AwV
-         Y1Ud/R/6Y7FxFP0nOD57fDa6weYHgZqrDtV2b3iP2m/1KsudqwZ0/Cjtn/hZINsK00T1
-         qNCU713EnT/zi+wMXoga6dp8WXRdpc8UXZ3GgVxTDXCYqNRLDvHRrobFQYceSaGUvYZL
-         wg+rp7wxxfnetUjqqdDtwofu6qB213l0+X0iN564omhZTxQrgfsM2kwmjvdeptM4u9X2
-         0FcQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXG0YsnZaIGHCQ2ykWpYcp6djdJwuXOUbLAo7MsvQBv893gG6+sAANDl0lWfRpY//dYfFIaZ/SLxrvZoUQjPfNN4vDNi9fOoUQ7CDry8KoDZlmKrc2Iyo/W
-X-Gm-Message-State: AOJu0YwF5sOK8+WAanRb0IdAnaHA1gl0iPhQIOvzzWlos9BpmPhF+wQN
-	5uHsNrk9SrcBRmwDiTTvdSqqtKs6kUbdB8vx6Sp5raItQwsGHh45HzmXmuON43o370vD3t7WDhA
-	SNKGExzH4sSa+X7GJXJF+DdrmWxA=
-X-Google-Smtp-Source: AGHT+IEz1mk+vM+ca1TAw3qA4URScTNDHJE+idovR/Wrh4GJhuRALBqLT1cb9eHU9qhG1/0dyPS1RkUsY2/9MFKy/Ls=
-X-Received: by 2002:a05:6870:75cb:b0:21a:37c5:1da7 with SMTP id
- de11-20020a05687075cb00b0021a37c51da7mr621008oab.0.1709267007837; Thu, 29 Feb
- 2024 20:23:27 -0800 (PST)
+        d=1e100.net; s=20230601; t=1709273710; x=1709878510;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EULkN/PfIm28bS8JUcrRDgEW+3YdPiGqM/3iLClbmGE=;
+        b=E3fCcowpzU2shjAibx28c2d2INjYdRAqa11DMNU2Yp7lSVyAnhMOoDR6XoACXCVq/p
+         EUDSyj7OKZTfOa9lkVdk0wbfl1KuoE9feNdthWuuwylB4SZB3FkTyBAe3LtsqQY8GM7i
+         epYxsj4mIbS9mtO8gABksACo7PiubZBk1V2uePgVbbX8isZUVFMgTGxtRnkzGiC7gBde
+         NIYha0xSZLouC2fqOrCU09yg/nwyGeMOnz9a7Ao+C1TStXbtaVpqC6sswa+eaeF3zluZ
+         U9g0UkPXh5x6kzXQ/Pcut4zam/8EIiBCpbq/BmipU2w0fii2aBAZAefjYLndgioUwd6E
+         Qgbg==
+X-Gm-Message-State: AOJu0YzUS41XnLiTVNHHYA3hcVaLMRkp3fKcRtF/KroJu1MwXmHnPVSf
+	mVaqhra0UEMRPBcs2EhDB5BLc7iRwsC1/1Wpen61tIU6fk/XEevzQyuyn0SW
+X-Google-Smtp-Source: AGHT+IGmxdrP012V0LV9rmmkHbiBT/9+68HUo9gc1A/EcPUy//eRsUfomFZLpaFNMqmZgGyzenQdhA==
+X-Received: by 2002:a17:902:6546:b0:1dc:4190:38f3 with SMTP id d6-20020a170902654600b001dc419038f3mr596108pln.13.1709273709899;
+        Thu, 29 Feb 2024 22:15:09 -0800 (PST)
+Received: from localhost.localdomain ([43.231.237.218])
+        by smtp.gmail.com with ESMTPSA id n12-20020a170902e54c00b001dca997b3e3sm2561419plf.65.2024.02.29.22.15.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Feb 2024 22:15:09 -0800 (PST)
+From: Poonam Jadhav <ppjadhav456@gmail.com>
+X-Google-Original-From: Poonam Jadhav <poonam.jadhav@kpit.com>
+To: openembedded-core@lists.openembedded.org,
+	poonam.jadhav@kpit.com
+Cc: virendra.thakur@kpit.com
+Subject: [OE-core][kirkstone][PATCH] qemu: Fix CVE-2023-42467
+Date: Fri,  1 Mar 2024 11:44:51 +0530
+Message-Id: <20240301061451.27559-1-poonam.jadhav@kpit.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20240227051155.2166683-1-changqing.li@windriver.com>
- <CANNYZj94Uxkp8ELj5CG_-ynK=SYd3U4NdKxy6OSN5w_wzByEtw@mail.gmail.com>
- <73e51c29-1405-4722-8feb-45536c5648f2@windriver.com> <CANNYZj-QigrAj1=u2eTt-6VyiixAgjHK-0qPTufbWPBBe9dbAA@mail.gmail.com>
- <f7653561-00d7-48cb-83d6-1dfb8cd6d4b2@windriver.com> <CAMKF1sprdSK3FZuR+MeQX-pvWaiVKsoHG5fmEmd6n7so+6NM3A@mail.gmail.com>
- <c19cc481-ae19-4b25-9248-cd9faa862026@windriver.com>
-In-Reply-To: <c19cc481-ae19-4b25-9248-cd9faa862026@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 29 Feb 2024 20:23:01 -0800
-Message-ID: <CAMKF1srW2B4OWKSgcmntL87LbVNXXZ1_P4h64+WAbFBFzjv3=Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH V5] systemd: fix a dead link under /var/log
-To: Changqing Li <changqing.li@windriver.com>
-Cc: Changqing Li <changqing.li@eng.windriver.com>, 
-	Alexander Kanavin <alex.kanavin@gmail.com>, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Mar 2024 04:23:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196454
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Mar 2024 06:15:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196455
 
-On Wed, Feb 28, 2024 at 10:43=E2=80=AFPM Changqing Li
-<changqing.li@windriver.com> wrote:
->
->
-> On 2/29/24 14:04, Khem Raj wrote:
-> > CAUTION: This email comes from a non Wind River email account!
-> > Do not click links or open attachments unless you recognize the sender =
-and know the content is safe.
-> >
-> > On Wed, Feb 28, 2024 at 9:56=E2=80=AFPM Changqing Li
-> > <changqing.li@eng.windriver.com> wrote:
-> >>
-> >> On 2/28/24 17:45, Alexander Kanavin wrote:
-> >>
-> >> CAUTION: This email comes from a non Wind River email account!
-> >> Do not click links or open attachments unless you recognize the sender=
- and know the content is safe.
-> >>
-> >> On Wed, 28 Feb 2024 at 04:19, Changqing Li <changqing.li@windriver.com=
-> wrote:
-> >>
-> >> 1.
-> >>
-> >> Currently,  There is one line in /usr/lib/tmpfile.d/legacy.conf(this i=
-s in package systemd),
-> >>
-> >> "L /var/log/README - - - - ../../usr/share/doc/systemd/README.logs"
-> >>
-> >> This line will create an link to "${datadir}/doc/systemd/README.logs" =
-during boot,
-> >>
-> >> and ${datadir}/doc/systemd/README.logs is in package systemd-doc. So t=
-here will be dead link when systemd-doc is not installed.
-> >>
-> >> So that's why I create another legacy-doc.conf packaged into systemd-d=
-oc
-> >>
-> >> Then legacy.conf and README.logs should be placed into the same
-> >> package. I would suggest that README.logs just goes into main systemd
-> >> package. (the other option is placing legacy.conf into systemd-doc,
-> >> but that file is not doc-specific, and should stay in systemd package,
-> >> especially if more entries are added to it).
-> >>
-> >> The solution is also good. But package "${docdir}/systemd/README.logs"=
- in package systemd may make things more complicated.
-> >>
-> >> since in bitabke .conf, ${PN}-doc is before ${PN} in PACKAGES, and  FI=
-LES:${PN}-doc =3D "${docdir}  ...". we need to adjust the sequence,
-> >>
-> >> and may have influences to current list of files and directories that =
-are placed in a package.
-> >>
-> >> So maybe this patch is more simple and reasonable, and will not have o=
-ther impact.
-> >>
-> >> 2.
-> >>
-> >> The symlink in legacy.conf use relative path.  but for oe, when VOLATI=
-LE_LOG_DIR is true, /var/log is a link to /var/volatile/log, so
-> >>
-> >> /var/log/README need link to ../../../usr/share/doc/systemd/README.log=
-s,
-> >>
-> >> while VOLATILE_LOG_DIR is false, /var/log is a dir, so /var/log/README
-> >>
-> >> need link to ../../usr/share/doc/systemd/README.logs.
-> >>
-> >> After change it to absolute path, checking of VOLATILE_LOG_DIR is not =
-needed.
-> >>
-> >> That's ok, but can you make fixing the path to an absolute one a
-> >> separate, second commit then?
-> >>
-> >> if  use solution in this patch,  it is better they are in one commit. =
- I can update description more detail.
-> >>
-> > You could also explore using -Dcreate-log-dirs=3Dfalse via EXTRA_OEMESO=
-N
->
-> Thanks. I had do some research about turn off CREATE_LOG_DIR,
->
-> if turn off CREATE_LOG_DIR, " /var/log/journal/" will not be created.
-> By default,  VOLATILE__LOG_DIR =3D "yes",  this change will have no
-> influence, since we will remove content under /var/log.
->
-> if VOLATILE_LOG_DIR set to "no", the current default behavior will be
-> changed,  log will saved from persistent  to memory.   our default
-> Storage set to auto,  if " /var/log/journal/" not exist, the log will
->
-> save  in memory /run/log/journal.  Refer [1].  So I did not try to turn
-> off it in case current default behavior is changed.
->
+1. scsi-disk: allow MODE SELECT block descriptor to set the block size
+Link: https://github.com/qemu/qemu/commit/356c4c441ec01910314c5867c680bef80d1dd373
 
-The option -Dcreate-log-dirs will control if systemd build emits
-relevant info into generated legacy.conf
-or not thats all. Whatever logic you have in OE is high level which
-might be covering it across the distro. so
-what I am suggesting is to use the meson option to control it when
-building systemd, the knob logic
-to apply it will depend on OE's logic for log persistence.
+The MODE SELECT command can contain an optional block descriptor that can be used
+to set the device block size. If the block descriptor is present then update the
+block size on the SCSI device accordingly.
 
-> Refer:
->
-> [1] https://www.freedesktop.org/software/systemd/man/journald.conf.html
->
-> //Changqing
->
-> >
-> >> Thanks
-> >>
-> >> Changqing
-> >>
-> >> Thanks,
-> >> Alex
-> >>
-> >>
-> >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >> Links: You receive all messages sent to this group.
-> >> View/Reply Online (#196414): https://lists.openembedded.org/g/openembe=
-dded-core/message/196414
-> >> Mute This Topic: https://lists.openembedded.org/mt/104598170/1997914
-> >> Group Owner: openembedded-core+owner@lists.openembedded.org
-> >> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub =
-[raj.khem@gmail.com]
-> >> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >>
+This allows CDROMs to be used with A/UX which requires a CDROM drive which is
+capable of switching from a 2048 byte sector size to a 512 byte sector size.
+
+2. scsi-disk: ensure block size is non-zero and changes limited to bits 8-15
+Link: https://github.com/qemu/qemu/commit/55794c904df723109b228da28b5db778e0df3110
+
+The existing code assumes that the block size can be generated from p[1] << 8
+in multiple places which ignores the top and bottom 8 bits. If the block size
+is allowed to be set to an arbitrary value then this causes a mismatch
+between the value written by the guest in the block descriptor and the value
+subsequently read back using READ CAPACITY causing the guest to generate
+requests that can crash QEMU.
+
+For now restrict block size changes to bits 8-15 and also ignore requests to
+set the block size to 0 which causes the SCSI emulation to crash in at least
+one place with a divide by zero error.
+
+3. Disallow block sizes smaller than 512 [CVE-2023-42467]
+Link: https://gitlab.com/qemu-project/qemu/-/commit/7cfcc79b0ab800959716738aff9419f53fc68c9c
+
+We are doing things like
+
+    nb_sectors /= (s->qdev.blocksize / BDRV_SECTOR_SIZE);
+
+in the code here (e.g. in scsi_disk_emulate_mode_sense()), so if
+the blocksize is smaller than BDRV_SECTOR_SIZE (=512), this crashes
+with a division by 0 exception. Thus disallow block sizes of 256
+bytes to avoid this situation.
+
+Signed-off-by: Poonam Jadhav <poonam.jadhav@kpit.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc           |  3 +
+ .../qemu/qemu/CVE-2023-42467.patch            | 46 +++++++++++++
+ ...lock-desriptor-to-set-the-block-size.patch | 54 +++++++++++++++
+ ...ero-and-changes-limited-to-bits-8-15.patch | 67 +++++++++++++++++++
+ 4 files changed, 170 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2023-42467.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/scsi-disk-allow-MODE-SELECT-block-desriptor-to-set-the-block-size.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/scsi-disk-ensure-block-size-is-non-zero-and-changes-limited-to-bits-8-15.patch
+
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index c5fb9b1eab..f97dcf289e 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -103,6 +103,9 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+ 	   file://CVE-2021-3638.patch \
+ 	   file://CVE-2023-1544.patch \
+ 	   file://CVE-2023-5088.patch \
++           file://scsi-disk-allow-MODE-SELECT-block-desriptor-to-set-the-block-size.patch \
++           file://scsi-disk-ensure-block-size-is-non-zero-and-changes-limited-to-bits-8-15.patch \
++           file://CVE-2023-42467.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2023-42467.patch b/meta/recipes-devtools/qemu/qemu/CVE-2023-42467.patch
+new file mode 100644
+index 0000000000..d53683faa7
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2023-42467.patch
+@@ -0,0 +1,46 @@
++From 7cfcc79b0ab800959716738aff9419f53fc68c9c Mon Sep 17 00:00:00 2001
++From: Thomas Huth <thuth@redhat.com>
++Date: Mon, 25 Sep 2023 11:18:54 +0200
++Subject: [PATCH] hw/scsi/scsi-disk: Disallow block sizes smaller than 512
++ [CVE-2023-42467]
++
++We are doing things like
++
++    nb_sectors /= (s->qdev.blocksize / BDRV_SECTOR_SIZE);
++
++in the code here (e.g. in scsi_disk_emulate_mode_sense()), so if
++the blocksize is smaller than BDRV_SECTOR_SIZE (=512), this crashes
++with a division by 0 exception. Thus disallow block sizes of 256
++bytes to avoid this situation.
++
++Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1813
++CVE: 2023-42467
++Signed-off-by: Thomas Huth <thuth@redhat.com>
++Message-ID: <20230925091854.49198-1-thuth@redhat.com>
++Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
++
++CVE: CVE-2023-42467
++Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/7cfcc79b0ab800959716738aff9419f53fc68c9c]
++Signed-off-by: Poonam Jadhav <poonam.jadhav@kpit.com>
++---
++ hw/scsi/scsi-disk.c | 5 +++--
++ 1 file changed, 3 insertions(+), 2 deletions(-)
++
++diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
++index e0d79c7966c..477ee2bcd47 100644
++--- a/hw/scsi/scsi-disk.c
+++++ b/hw/scsi/scsi-disk.c
++@@ -1628,9 +1628,10 @@ static void scsi_disk_emulate_mode_select(SCSIDiskReq *r, uint8_t *inbuf)
++          * Since the existing code only checks/updates bits 8-15 of the block
++          * size, restrict ourselves to the same requirement for now to ensure
++          * that a block size set by a block descriptor and then read back by
++-         * a subsequent SCSI command will be the same
+++         * a subsequent SCSI command will be the same. Also disallow a block
+++         * size of 256 since we cannot handle anything below BDRV_SECTOR_SIZE.
++          */
++-        if (bs && !(bs & ~0xff00) && bs != s->qdev.blocksize) {
+++        if (bs && !(bs & ~0xfe00) && bs != s->qdev.blocksize) {
++             s->qdev.blocksize = bs;
++             trace_scsi_disk_mode_select_set_blocksize(s->qdev.blocksize);
++         }
++--
+diff --git a/meta/recipes-devtools/qemu/qemu/scsi-disk-allow-MODE-SELECT-block-desriptor-to-set-the-block-size.patch b/meta/recipes-devtools/qemu/qemu/scsi-disk-allow-MODE-SELECT-block-desriptor-to-set-the-block-size.patch
+new file mode 100644
+index 0000000000..d8e48d07dd
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/scsi-disk-allow-MODE-SELECT-block-desriptor-to-set-the-block-size.patch
+@@ -0,0 +1,54 @@
++From 356c4c441ec01910314c5867c680bef80d1dd373 Mon Sep 17 00:00:00 2001
++From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
++Date: Wed, 22 Jun 2022 11:53:12 +0100
++Subject: [PATCH] scsi-disk: allow MODE SELECT block descriptor to set the
++ block size
++
++The MODE SELECT command can contain an optional block descriptor that can be used
++to set the device block size. If the block descriptor is present then update the
++block size on the SCSI device accordingly.
++
++This allows CDROMs to be used with A/UX which requires a CDROM drive which is
++capable of switching from a 2048 byte sector size to a 512 byte sector size.
++
++Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
++Message-Id: <20220622105314.802852-13-mark.cave-ayland@ilande.co.uk>
++Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
++
++Comment: Patch is refreshed
++Upstream-Status: Backport [https://github.com/qemu/qemu/commit/356c4c441ec01910314c5867c680bef80d1dd373]
++Signed-off-by: Poonam Jadhav <poonam.jadhav@kpit.com>
++---
++ hw/scsi/scsi-disk.c  | 6 ++++++
++ hw/scsi/trace-events | 1 +
++ 2 files changed, 7 insertions(+)
++
++diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
++index db27e834dae3..f5cdb9ad4b54 100644
++--- a/hw/scsi/scsi-disk.c
+++++ b/hw/scsi/scsi-disk.c
++@@ -1616,6 +1616,12 @@ static void scsi_disk_emulate_mode_select(SCSIDiskReq *r, uint8_t *inbuf)
++         goto invalid_param;
++     }
++ 
+++    /* Allow changing the block size */
+++    if (bd_len && p[6] != (s->qdev.blocksize >> 8)) {
+++        s->qdev.blocksize = p[6] << 8;
+++        trace_scsi_disk_mode_select_set_blocksize(s->qdev.blocksize);
+++    }
+++
++     len -= bd_len;
++     p += bd_len;
++ 
++diff --git a/hw/scsi/trace-events b/hw/scsi/trace-events
++index 8e927ff62de1..ab238293f0da 100644
++--- a/hw/scsi/trace-events
+++++ b/hw/scsi/trace-events
++@@ -338,6 +338,7 @@scsi_disk_dma_command_READ(uint64_t lba, uint32_t len) "Read (sector %" PRId64 ", count %u)"
++ scsi_disk_dma_command_WRITE(const char *cmd, uint64_t lba, int len) "Write %s(sector %" PRId64 ", count %u)"
++ scsi_disk_new_request(uint32_t lun, uint32_t tag, const char *line) "Command: lun=%d tag=0x%x data=%s"
++ scsi_disk_aio_sgio_command(uint32_t tag, uint8_t cmd, uint64_t lba, int len, uint32_t timeout) "disk aio sgio: tag=0x%x cmd=0x%x (sector %" PRId64 ", count %d) timeout=%u"
+++scsi_disk_mode_select_set_blocksize(int blocksize) "set block size to %d"
++ 
++ # scsi-generic.c
++ scsi_generic_command_complete_noio(void *req, uint32_t tag, int statuc) "Command complete %p tag=0x%x status=%d"
+diff --git a/meta/recipes-devtools/qemu/qemu/scsi-disk-ensure-block-size-is-non-zero-and-changes-limited-to-bits-8-15.patch b/meta/recipes-devtools/qemu/qemu/scsi-disk-ensure-block-size-is-non-zero-and-changes-limited-to-bits-8-15.patch
+new file mode 100644
+index 0000000000..1e1be683fc
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/scsi-disk-ensure-block-size-is-non-zero-and-changes-limited-to-bits-8-15.patch
+@@ -0,0 +1,67 @@
++From 55794c904df723109b228da28b5db778e0df3110 Mon Sep 17 00:00:00 2001
++From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
++Date: Sat, 30 Jul 2022 13:26:56 +0100
++Subject: [PATCH] scsi-disk: ensure block size is non-zero and changes limited
++ to bits 8-15
++
++The existing code assumes that the block size can be generated from p[1] << 8
++in multiple places which ignores the top and bottom 8 bits. If the block size
++is allowed to be set to an arbitrary value then this causes a mismatch
++between the value written by the guest in the block descriptor and the value
++subsequently read back using READ CAPACITY causing the guest to generate
++requests that can crash QEMU.
++
++For now restrict block size changes to bits 8-15 and also ignore requests to
++set the block size to 0 which causes the SCSI emulation to crash in at least
++one place with a divide by zero error.
++
++Fixes: 356c4c441e ("scsi-disk: allow MODE SELECT block descriptor to set the block size")
++Closes: https://gitlab.com/qemu-project/qemu/-/issues/1112
++Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
++Message-Id: <20220730122656.253448-3-mark.cave-ayland@ilande.co.uk>
++Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
++
++Comment: Patch is refreshed
++Upstream-Status: Backport [https://github.com/qemu/qemu/commit/55794c904df723109b228da28b5db778e0df3110]
++Signed-off-by: Poonam Jadhav <poonam.jadhav@kpit.com>
++---
++ hw/scsi/scsi-disk.c | 18 ++++++++++++++----
++ 1 file changed, 14 insertions(+), 4 deletions(-)
++
++diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
++index 3027ac3b1ed6..efee6739f9ad 100644
++--- a/hw/scsi/scsi-disk.c
+++++ b/hw/scsi/scsi-disk.c
++@@ -1532,7 +1532,7 @@ static void scsi_disk_emulate_mode_select(SCSIDiskReq *r, uint8_t *inbuf)
++     int cmd = r->req.cmd.buf[0];
++     int len = r->req.cmd.xfer;
++     int hdr_len = (cmd == MODE_SELECT ? 4 : 8);
++-    int bd_len;
+++    int bd_len, bs;
++     int pass;
++ 
++     /* We only support PF=1, SP=0.  */
++@@ -1617,9 +1617,19 @@ static void scsi_disk_emulate_mode_select(SCSIDiskReq *r, uint8_t *inbuf)
++     }
++ 
++     /* Allow changing the block size */
++-    if (bd_len && p[6] != (s->qdev.blocksize >> 8)) {
++-        s->qdev.blocksize = p[6] << 8;
++-        trace_scsi_disk_mode_select_set_blocksize(s->qdev.blocksize);
+++    if (bd_len) {
+++        bs = p[5] << 16 | p[6] << 8 | p[7];
+++
+++        /*
+++         * Since the existing code only checks/updates bits 8-15 of the block
+++         * size, restrict ourselves to the same requirement for now to ensure
+++         * that a block size set by a block descriptor and then read back by
+++         * a subsequent SCSI command will be the same
+++         */
+++        if (bs && !(bs & ~0xff00) && bs != s->qdev.blocksize) {
+++            s->qdev.blocksize = bs;
+++            trace_scsi_disk_mode_select_set_blocksize(s->qdev.blocksize);
+++        }
++     }
++ 
++     len -= bd_len;
++
+-- 
+2.25.1
+
 
