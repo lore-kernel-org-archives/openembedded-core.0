@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89AF1C54E78
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9650C54E89
 	for <webhook@archiver.kernel.org>; Fri,  1 Mar 2024 22:05:18 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.36636.1709330717124572285
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.36990.1709330717728857632
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Mar 2024 14:05:18 -0800
+ Fri, 01 Mar 2024 14:05:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=gI6fWm+X;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=nhDpQMdp;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018dfc0cdaaf-0c28fd70-a1b2-4a8a-b601-0646390ffab5-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=frH9wDcV;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Gfl6oYzO;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018dfc0cd8ee-aa11ce6a-36db-47da-8ba0-4a405c22169d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1709330717;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=KKt3DVTDSs1xmvh+Y073uJjtrytxxKkYzOkANkrXmsE=;
-	b=gI6fWm+XSIBUw72dm96lx7GZK3FwJjRfYZ5V4aT4bwAGxwEULw1e6HaQINXotLbM
-	8DXdRXbqsMUlYN+QHbj4HAg+i/o/H2aYlcREm2YNeEuhRU07L3hRZ61FxbLgezmftWP
-	SuuXjQvKQEqbt9zccR80glBJKCoCPDC8qBvOSeOI=
+	bh=E6Tg8F47Pf8RSVfhObTNjKfQSH1bW7CTGA0uYQmz/PI=;
+	b=frH9wDcVppSlJoNRJgH4MIrIZqpN/RTD52u6V4S/Sp4TJFI43KpumAdm9lL/q1R6
+	kjQPfdXQ6eNrhwLdBafd/vnS2jKcWlPO+tMDZomAPBFk18Vzii2kghi7UENAKAEGQ4L
+	qjb+1sAwX66FpwzyZuY6n23krx33dyc8wpur2q9U=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1709330717;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=KKt3DVTDSs1xmvh+Y073uJjtrytxxKkYzOkANkrXmsE=;
-	b=nhDpQMdpf5GF65CxvLJSInQUH9y2afSrtPO/O3wPMjFk9yKcHJ8nOWNLklNNonK4
-	SB5eNR4j+qcv0auTIK92RtFHaYZDRsbhNQuG5GMbmIWr2PF0kaA2R4ggQGQxch4DvGz
-	d2Zu+afnHK+fpg4nUfQksb4L3TSK+uoyLvpGi7LA=
-Content-Type: multipart/mixed; boundary="===============7400302367353125439=="
+	bh=E6Tg8F47Pf8RSVfhObTNjKfQSH1bW7CTGA0uYQmz/PI=;
+	b=Gfl6oYzO7oT/ZtwUyIwyx59dm7Fi0HSs+NpDG6ie66chG1n9SEIoiSZ1f3aaHE5p
+	hZ9KxugKJ39pcNLSVB+fmdAa3xkIzWQ3sIiXErUwCzwiDl6wC4dAPDjFjxjqv02rdHg
+	QaTIYlq4ItOr6i2up5WZFA7hbFztFApM0fKIb1Jw=
+Content-Type: multipart/mixed; boundary="===============8931802953453619006=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Markus Volk <f_l_k@t-online.de>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] appstream: upgrading to 1.0.2 SUCCEEDED
-Message-ID: <0101018dfc0cdaaf-0c28fd70-a1b2-4a8a-b601-0646390ffab5-000000@us-west-2.amazonses.com>
-Date: Fri, 1 Mar 2024 22:05:17 +0000
+Subject: [AUH] mesa: upgrading to 24.0.2 SUCCEEDED
+Message-ID: <0101018dfc0cd8ee-aa11ce6a-36db-47da-8ba0-4a405c22169d-000000@us-west-2.amazonses.com>
+Date: Fri, 1 Mar 2024 22:05:16 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.03.01-54.240.27.191
+X-SES-Outgoing: 2024.03.01-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 01 Mar 2024 22:05:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196529
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196523
 
---===============7400302367353125439==
+--===============8931802953453619006==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *appstream* to *1.0.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *mesa* to *24.0.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-appstream-upgrade-1.0.0-1.0.2.patch
+    - apply the patch: git am 0001-mesa-upgrade-24.0.1-24.0.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,224 +72,289 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 7dba9361ab31cc2927aa947b50d11fe2b0298a73 Mon Sep 17 00:00:00 2001
+From 24c6a448bd983d7b4c48ec04d0f5f59bbf1e132d Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 1 Mar 2024 20:19:52 +0000
-Subject: [PATCH] appstream: upgrade 1.0.0 -> 1.0.2
+Date: Fri, 1 Mar 2024 16:22:24 +0000
+Subject: [PATCH] mesa: upgrade 24.0.1 -> 24.0.2
 
 ---
- .../appstream/0001-remove-hardcoded-path.patch        | 11 ++++-------
- .../{appstream_1.0.0.bb => appstream_1.0.2.bb}        |  2 +-
- 2 files changed, 5 insertions(+), 8 deletions(-)
- rename meta/recipes-support/appstream/{appstream_1.0.0.bb => appstream_1.0.2.bb} (93%)
+ .../mesa/files/0001-gallium-Fix-build-with-llvm-17.patch | 3 +--
+ ...01-meson-misdetects-64bit-atomics-on-mips-clang.patch | 3 +--
+ ....build-check-for-all-linux-host_os-combinations.patch | 9 ++++-----
+ meta/recipes-graphics/mesa/mesa.inc                      | 2 +-
+ .../mesa/{mesa_24.0.1.bb => mesa_24.0.2.bb}              | 0
+ 5 files changed, 7 insertions(+), 10 deletions(-)
+ rename meta/recipes-graphics/mesa/{mesa_24.0.1.bb => mesa_24.0.2.bb} (100%)
 
-diff --git a/meta/recipes-support/appstream/appstream/0001-remove-hardcoded-path.patch b/meta/recipes-support/appstream/appstream/0001-remove-hardcoded-path.patch
-index 66687a5b89..bc811d67b0 100644
---- a/meta/recipes-support/appstream/appstream/0001-remove-hardcoded-path.patch
-+++ b/meta/recipes-support/appstream/appstream/0001-remove-hardcoded-path.patch
+diff --git a/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch b/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch
+index 237f940f0b..ceb0153f8d 100644
+--- a/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch
++++ b/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch
 @@ -1,4 +1,4 @@
--From 6ab00a4279823829a9b82dc9e4d055da4de88c6e Mon Sep 17 00:00:00 2001
-+From fe9ebb8c0fa7b84a9c5c667386b8fbb3baea2fad Mon Sep 17 00:00:00 2001
- From: Markus Volk <f_l_k@t-online.de>
- Date: Mon, 12 Dec 2022 15:42:42 +0100
- Subject: [PATCH] remove hardcoded path
-@@ -10,11 +10,11 @@ Dont include hardcoded path. This fixes:
+-From 6d07f6aa7f92f40d78a2db645f16f0f3e7d3c2e8 Mon Sep 17 00:00:00 2001
++From 3e1e5c475b52651657c906e6b03ee13567cccdd7 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Fri, 23 Jun 2023 01:20:38 -0700
+ Subject: [PATCH] gallium: Fix build with llvm 17
+@@ -9,7 +9,6 @@ so add conditions to exclude them for llvm >= 17
  
- Upstream-Status: Inappropriate [oe-specific]
+ Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/23827]
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
  ---
-- meson.build       | 2 +-
-- 1 files changed, 1 insertions(+), 1 deletions(-)
-+ meson.build | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
+  src/gallium/auxiliary/gallivm/lp_bld_init.c | 6 +++++-
+  1 file changed, 5 insertions(+), 1 deletion(-)
+diff --git a/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch b/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
+index 9cd9bee2d2..baa98a0d46 100644
+--- a/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
++++ b/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
+@@ -1,11 +1,10 @@
+-From 3ef37c63f03ad6f2af407de350486fdd25e9132a Mon Sep 17 00:00:00 2001
++From 02cc21800fe29f566add525e63f619c0536d6e7b Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Mon, 13 Jan 2020 15:23:47 -0800
+ Subject: [PATCH] meson misdetects 64bit atomics on mips/clang
+ 
+ Upstream-Status: Pending
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+ ---
+  src/util/u_atomic.c | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch b/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
+index b0be8d0feb..7be7d81eeb 100644
+--- a/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
++++ b/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
+@@ -1,4 +1,4 @@
+-From f2fe76d506f356de055b8eca83a7c9d0744a40af Mon Sep 17 00:00:00 2001
++From e8ec6b1cc5e401ba719095722d8b317d755ae613 Mon Sep 17 00:00:00 2001
+ From: Alistair Francis <alistair@alistair23.me>
+ Date: Thu, 14 Nov 2019 13:04:49 -0800
+ Subject: [PATCH] meson.build: check for all linux host_os combinations
+@@ -14,16 +14,15 @@ Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+ Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+ Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+ Signed-off-by: Alistair Francis <alistair@alistair23.me>
+-
+ ---
+  meson.build | 4 ++--
+  1 file changed, 2 insertions(+), 2 deletions(-)
  
  diff --git a/meson.build b/meson.build
--index fd0e3373..2f273ada 100644
-+index fa171d5..79d5168 100644
+-index 35cc5f1..9a49c0d 100644
++index 133fd9a..817861e 100644
  --- a/meson.build
  +++ b/meson.build
- @@ -185,10 +185,10 @@ endif
-@@ -30,6 +30,3 @@ index fd0e3373..2f273ada 100644
-          else
-              error('Unable to find Snowball header "libstemmer.h". Please ensure libstemmer/Snowball is installed properly in order to continue.')
-          endif
---- 
--2.34.1
--
-diff --git a/meta/recipes-support/appstream/appstream_1.0.0.bb b/meta/recipes-support/appstream/appstream_1.0.2.bb
-similarity index 93%
-rename from meta/recipes-support/appstream/appstream_1.0.0.bb
-rename to meta/recipes-support/appstream/appstream_1.0.2.bb
-index 3f8bfcd263..7eb12a04c5 100644
---- a/meta/recipes-support/appstream/appstream_1.0.0.bb
-+++ b/meta/recipes-support/appstream/appstream_1.0.2.bb
-@@ -28,7 +28,7 @@ SRC_URI = " \
- 	https://www.freedesktop.org/software/appstream/releases/AppStream-${PV}.tar.xz \
- 	file://0001-remove-hardcoded-path.patch \
+-@@ -128,7 +128,7 @@
++@@ -128,7 +128,7 @@ with_any_opengl = with_opengl or with_gles1 or with_gles2
+  # Only build shared_glapi if at least one OpenGL API is enabled
+  with_shared_glapi = with_shared_glapi and with_any_opengl
+  
+@@ -32,7 +31,7 @@ index 35cc5f1..9a49c0d 100644
+  
+  gallium_drivers = get_option('gallium-drivers')
+  if gallium_drivers.contains('auto')
+-@@ -998,7 +998,7 @@
++@@ -997,7 +997,7 @@ if cc.has_function('fmemopen')
+  endif
+  
+  # TODO: this is very incomplete
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index cdac01d3aa..8a2a4a2171 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -20,7 +20,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0001-gallium-Fix-build-with-llvm-17.patch \
  "
--SRC_URI[sha256sum] = "ef23477a380e8b525e92cfa87687f1146b9cef74c641349a1ae11250be5401d0"
-+SRC_URI[sha256sum] = "1a5148ca97dcbf5eb6e9c380278bb0d20938569292ea8652df1b3cac8bd2736b"
  
- S = "${WORKDIR}/AppStream-${PV}"
+-SRC_URI[sha256sum] = "f387192b08c471c545590dd12230a2a343244804b5fe866fec6aea02eab57613"
++SRC_URI[sha256sum] = "94e28a8edad06d8ed2b83eb53f253b9eb5aa62c3080f939702e1b3039b56c9e8"
  
+ UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+ 
+diff --git a/meta/recipes-graphics/mesa/mesa_24.0.1.bb b/meta/recipes-graphics/mesa/mesa_24.0.2.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa_24.0.1.bb
+rename to meta/recipes-graphics/mesa/mesa_24.0.2.bb
 -- 
 2.42.0
 
 
---===============7400302367353125439==
+--===============8931802953453619006==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-mesa-upgrade-24.0.1-24.0.2.patch"
+
+RnJvbSAyNGM2YTQ0OGJkOTgzZDdiNGM0OGVjMDRkMGY1ZjU5YmJmMWUxMzJkIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgMSBNYXIgMjAyNCAxNjoyMjoyNCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG1l
+c2E6IHVwZ3JhZGUgMjQuMC4xIC0+IDI0LjAuMgoKLS0tCiAuLi4vbWVzYS9maWxlcy8wMDAxLWdh
+bGxpdW0tRml4LWJ1aWxkLXdpdGgtbGx2bS0xNy5wYXRjaCB8IDMgKy0tCiAuLi4wMS1tZXNvbi1t
+aXNkZXRlY3RzLTY0Yml0LWF0b21pY3Mtb24tbWlwcy1jbGFuZy5wYXRjaCB8IDMgKy0tCiAuLi4u
+YnVpbGQtY2hlY2stZm9yLWFsbC1saW51eC1ob3N0X29zLWNvbWJpbmF0aW9ucy5wYXRjaCB8IDkg
+KysrKy0tLS0tCiBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9tZXNhLmluYyAgICAgICAgICAg
+ICAgICAgICAgICB8IDIgKy0KIC4uLi9tZXNhL3ttZXNhXzI0LjAuMS5iYiA9PiBtZXNhXzI0LjAu
+Mi5iYn0gICAgICAgICAgICAgIHwgMAogNSBmaWxlcyBjaGFuZ2VkLCA3IGluc2VydGlvbnMoKyks
+IDEwIGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL3ttZXNh
+XzI0LjAuMS5iYiA9PiBtZXNhXzI0LjAuMi5iYn0gKDEwMCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9y
+ZWNpcGVzLWdyYXBoaWNzL21lc2EvZmlsZXMvMDAwMS1nYWxsaXVtLUZpeC1idWlsZC13aXRoLWxs
+dm0tMTcucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAxLWdhbGxp
+dW0tRml4LWJ1aWxkLXdpdGgtbGx2bS0xNy5wYXRjaAppbmRleCAyMzdmOTQwZjBiLi5jZWIwMTUz
+ZjhkIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAxLWdh
+bGxpdW0tRml4LWJ1aWxkLXdpdGgtbGx2bS0xNy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ3Jh
+cGhpY3MvbWVzYS9maWxlcy8wMDAxLWdhbGxpdW0tRml4LWJ1aWxkLXdpdGgtbGx2bS0xNy5wYXRj
+aApAQCAtMSw0ICsxLDQgQEAKLUZyb20gNmQwN2Y2YWE3ZjkyZjQwZDc4YTJkYjY0NWYxNmYwZjNl
+N2QzYzJlOCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gM2UxZTVjNDc1YjUyNjUxNjU3
+YzkwNmU2YjAzZWUxMzU2N2NjY2RkNyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEto
+ZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiBEYXRlOiBGcmksIDIzIEp1biAyMDIzIDAxOjIw
+OjM4IC0wNzAwCiBTdWJqZWN0OiBbUEFUQ0hdIGdhbGxpdW06IEZpeCBidWlsZCB3aXRoIGxsdm0g
+MTcKQEAgLTksNyArOSw2IEBAIHNvIGFkZCBjb25kaXRpb25zIHRvIGV4Y2x1ZGUgdGhlbSBmb3Ig
+bGx2bSA+PSAxNwogCiBVcHN0cmVhbS1TdGF0dXM6IFN1Ym1pdHRlZCBbaHR0cHM6Ly9naXRsYWIu
+ZnJlZWRlc2t0b3Aub3JnL21lc2EvbWVzYS8tL21lcmdlX3JlcXVlc3RzLzIzODI3XQogU2lnbmVk
+LW9mZi1ieTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KLQogLS0tCiAgc3JjL2dhbGxp
+dW0vYXV4aWxpYXJ5L2dhbGxpdm0vbHBfYmxkX2luaXQuYyB8IDYgKysrKystCiAgMSBmaWxlIGNo
+YW5nZWQsIDUgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQpkaWZmIC0tZ2l0IGEvbWV0YS9y
+ZWNpcGVzLWdyYXBoaWNzL21lc2EvZmlsZXMvMDAwMS1tZXNvbi1taXNkZXRlY3RzLTY0Yml0LWF0
+b21pY3Mtb24tbWlwcy1jbGFuZy5wYXRjaCBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2Zp
+bGVzLzAwMDEtbWVzb24tbWlzZGV0ZWN0cy02NGJpdC1hdG9taWNzLW9uLW1pcHMtY2xhbmcucGF0
+Y2gKaW5kZXggOWNkOWJlZTJkMi4uYmFhOThhMGQ0NiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
+LWdyYXBoaWNzL21lc2EvZmlsZXMvMDAwMS1tZXNvbi1taXNkZXRlY3RzLTY0Yml0LWF0b21pY3Mt
+b24tbWlwcy1jbGFuZy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxl
+cy8wMDAxLW1lc29uLW1pc2RldGVjdHMtNjRiaXQtYXRvbWljcy1vbi1taXBzLWNsYW5nLnBhdGNo
+CkBAIC0xLDExICsxLDEwIEBACi1Gcm9tIDNlZjM3YzYzZjAzYWQ2ZjJhZjQwN2RlMzUwNDg2ZmRk
+MjVlOTEzMmEgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDAyY2MyMTgwMGZlMjlmNTY2
+YWRkNTI1ZTYzZjYxOWMwNTM2ZDZlN2IgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBL
+aGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgogRGF0ZTogTW9uLCAxMyBKYW4gMjAyMCAxNToy
+Mzo0NyAtMDgwMAogU3ViamVjdDogW1BBVENIXSBtZXNvbiBtaXNkZXRlY3RzIDY0Yml0IGF0b21p
+Y3Mgb24gbWlwcy9jbGFuZwogCiBVcHN0cmVhbS1TdGF0dXM6IFBlbmRpbmcKIFNpZ25lZC1vZmYt
+Ynk6IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+Ci0KIC0tLQogIHNyYy91dGlsL3VfYXRv
+bWljLmMgfCAyICstCiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9u
+KC0pCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAxLW1l
+c29uLmJ1aWxkLWNoZWNrLWZvci1hbGwtbGludXgtaG9zdF9vcy1jb21iaW5hdGlvbnMucGF0Y2gg
+Yi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAxLW1lc29uLmJ1aWxkLWNoZWNr
+LWZvci1hbGwtbGludXgtaG9zdF9vcy1jb21iaW5hdGlvbnMucGF0Y2gKaW5kZXggYjBiZThkMGZl
+Yi4uN2JlN2Q4MWVlYiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvZmls
+ZXMvMDAwMS1tZXNvbi5idWlsZC1jaGVjay1mb3ItYWxsLWxpbnV4LWhvc3Rfb3MtY29tYmluYXRp
+b25zLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAwMDEtbWVz
+b24uYnVpbGQtY2hlY2stZm9yLWFsbC1saW51eC1ob3N0X29zLWNvbWJpbmF0aW9ucy5wYXRjaApA
+QCAtMSw0ICsxLDQgQEAKLUZyb20gZjJmZTc2ZDUwNmYzNTZkZTA1NWI4ZWNhODNhN2M5ZDA3NDRh
+NDBhZiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gZThlYzZiMWNjNWU0MDFiYTcxOTA5
+NTcyMmQ4YjMxN2Q3NTVhZTYxMyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEFsaXN0
+YWlyIEZyYW5jaXMgPGFsaXN0YWlyQGFsaXN0YWlyMjMubWU+CiBEYXRlOiBUaHUsIDE0IE5vdiAy
+MDE5IDEzOjA0OjQ5IC0wODAwCiBTdWJqZWN0OiBbUEFUQ0hdIG1lc29uLmJ1aWxkOiBjaGVjayBm
+b3IgYWxsIGxpbnV4IGhvc3Rfb3MgY29tYmluYXRpb25zCkBAIC0xNCwxNiArMTQsMTUgQEAgU2ln
+bmVkLW9mZi1ieTogQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KIFNpZ25lZC1v
+ZmYtYnk6IEZhYmlvIEJlcnRvbiA8ZmFiaW8uYmVydG9uQG9zc3lzdGVtcy5jb20uYnI+CiBTaWdu
+ZWQtb2ZmLWJ5OiBPdGF2aW8gU2FsdmFkb3IgPG90YXZpb0Bvc3N5c3RlbXMuY29tLmJyPgogU2ln
+bmVkLW9mZi1ieTogQWxpc3RhaXIgRnJhbmNpcyA8YWxpc3RhaXJAYWxpc3RhaXIyMy5tZT4KLQog
+LS0tCiAgbWVzb24uYnVpbGQgfCA0ICsrLS0KICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25z
+KCspLCAyIGRlbGV0aW9ucygtKQogCiBkaWZmIC0tZ2l0IGEvbWVzb24uYnVpbGQgYi9tZXNvbi5i
+dWlsZAotaW5kZXggMzVjYzVmMS4uOWE0OWMwZCAxMDA2NDQKK2luZGV4IDEzM2ZkOWEuLjgxNzg2
+MWUgMTAwNjQ0CiAtLS0gYS9tZXNvbi5idWlsZAogKysrIGIvbWVzb24uYnVpbGQKLUBAIC0xMjgs
+NyArMTI4LDcgQEAKK0BAIC0xMjgsNyArMTI4LDcgQEAgd2l0aF9hbnlfb3BlbmdsID0gd2l0aF9v
+cGVuZ2wgb3Igd2l0aF9nbGVzMSBvciB3aXRoX2dsZXMyCiAgIyBPbmx5IGJ1aWxkIHNoYXJlZF9n
+bGFwaSBpZiBhdCBsZWFzdCBvbmUgT3BlbkdMIEFQSSBpcyBlbmFibGVkCiAgd2l0aF9zaGFyZWRf
+Z2xhcGkgPSB3aXRoX3NoYXJlZF9nbGFwaSBhbmQgd2l0aF9hbnlfb3BlbmdsCiAgCkBAIC0zMiw3
+ICszMSw3IEBAIGluZGV4IDM1Y2M1ZjEuLjlhNDljMGQgMTAwNjQ0CiAgCiAgZ2FsbGl1bV9kcml2
+ZXJzID0gZ2V0X29wdGlvbignZ2FsbGl1bS1kcml2ZXJzJykKICBpZiBnYWxsaXVtX2RyaXZlcnMu
+Y29udGFpbnMoJ2F1dG8nKQotQEAgLTk5OCw3ICs5OTgsNyBAQAorQEAgLTk5Nyw3ICs5OTcsNyBA
+QCBpZiBjYy5oYXNfZnVuY3Rpb24oJ2ZtZW1vcGVuJykKICBlbmRpZgogIAogICMgVE9ETzogdGhp
+cyBpcyB2ZXJ5IGluY29tcGxldGUKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9t
+ZXNhL21lc2EuaW5jIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvbWVzYS5pbmMKaW5kZXgg
+Y2RhYzAxZDNhYS4uOGEyYTRhMjE3MSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNz
+L21lc2EvbWVzYS5pbmMKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvbWVzYS5pbmMK
+QEAgLTIwLDcgKzIwLDcgQEAgU1JDX1VSSSA9ICJodHRwczovL21lc2EuZnJlZWRlc2t0b3Aub3Jn
+L2FyY2hpdmUvbWVzYS0ke1BWfS50YXIueHogXAogICAgICAgICAgICBmaWxlOi8vMDAwMS1nYWxs
+aXVtLUZpeC1idWlsZC13aXRoLWxsdm0tMTcucGF0Y2ggXAogIgogCi1TUkNfVVJJW3NoYTI1NnN1
+bV0gPSAiZjM4NzE5MmIwOGM0NzFjNTQ1NTkwZGQxMjIzMGEyYTM0MzI0NDgwNGI1ZmU4NjZmZWM2
+YWVhMDJlYWI1NzYxMyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI5NGUyOGE4ZWRhZDA2ZDhlZDJi
+ODNlYjUzZjI1M2I5ZWI1YWE2MmMzMDgwZjkzOTcwMmUxYjMwMzliNTZjOWU4IgogCiBVUFNUUkVB
+TV9DSEVDS19HSVRUQUdSRUdFWCA9ICJtZXNhLSg/UDxwdmVyPlxkKyhcLlxkKykrKSIKIApkaWZm
+IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvbWVzYV8yNC4wLjEuYmIgYi9tZXRh
+L3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9tZXNhXzI0LjAuMi5iYgpzaW1pbGFyaXR5IGluZGV4IDEw
+MCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvbWVzYV8yNC4wLjEuYmIK
+cmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL21lc2FfMjQuMC4yLmJiCi0tIAoy
+LjQyLjAKCg==
+
+--===============8931802953453619006==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/appstream/appstream-dbg: PKGSIZE changed from 2374056 to 2382096 (+0%)
-packages/core2-64-poky-linux/appstream/appstream-dbg: FILELIST: removed "/usr/lib/.debug/libappstream.so.1.0.0", added "/usr/lib/.debug/libappstream.so.1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-dbg: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-dbg: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-dev: PKGSIZE changed from 1313937 to 1314555 (+0%)
-packages/core2-64-poky-linux/appstream/appstream-dev: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-dev: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-doc: PKGSIZE changed from 2016810 to 2113109 (+5%)
-packages/core2-64-poky-linux/appstream/appstream-doc: FILELIST: added "/usr/share/doc/appstream/html/chap-Validation.html"
-packages/core2-64-poky-linux/appstream/appstream-doc: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-doc: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-ain: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-ain: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-ar: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-ar: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-bn-bd: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-bn-bd: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-bn: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-bn: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-ca: PKGSIZE changed from 84567 to 82184 (-3%)
-packages/core2-64-poky-linux/appstream/appstream-locale-ca: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-ca: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-ckb: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-ckb: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-cs: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-cs: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-da: PKGSIZE changed from 62409 to 61418 (-2%)
-packages/core2-64-poky-linux/appstream/appstream-locale-da: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-da: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-de: PKGSIZE changed from 110619 to 109676 (-1%)
-packages/core2-64-poky-linux/appstream/appstream-locale-de: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-de: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-en-gb: PKGSIZE changed from 94281 to 90861 (-4%)
-packages/core2-64-poky-linux/appstream/appstream-locale-en-gb: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-en-gb: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-eo: PKGSIZE changed from 66928 to 65198 (-3%)
-packages/core2-64-poky-linux/appstream/appstream-locale-eo: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-eo: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-es: PKGSIZE changed from 112189 to 113784 (+1%)
-packages/core2-64-poky-linux/appstream/appstream-locale-es: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-es: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-et: PKGSIZE changed from 16506 to 16651 (+1%)
-packages/core2-64-poky-linux/appstream/appstream-locale-et: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-et: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-eu: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-eu: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-fi: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-fi: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-fr: PKGSIZE changed from 103469 to 100689 (-3%)
-packages/core2-64-poky-linux/appstream/appstream-locale-fr: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-fr: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-gd: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-gd: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-gl: PKGSIZE changed from 100728 to 97084 (-4%)
-packages/core2-64-poky-linux/appstream/appstream-locale-gl: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-gl: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-he: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-he: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-hi: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-hi: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-hr: PKGSIZE changed from 97609 to 94065 (-4%)
-packages/core2-64-poky-linux/appstream/appstream-locale-hr: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-hr: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-hu: PKGSIZE changed from 86971 to 84473 (-3%)
-packages/core2-64-poky-linux/appstream/appstream-locale-hu: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-hu: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-id: PKGSIZE changed from 95735 to 93044 (-3%)
-packages/core2-64-poky-linux/appstream/appstream-locale-id: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-id: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-it: PKGSIZE changed from 52940 to 58441 (+10%)
-packages/core2-64-poky-linux/appstream/appstream-locale-it: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-it: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-ja: PKGSIZE changed from 32382 to 32231 (-0%)
-packages/core2-64-poky-linux/appstream/appstream-locale-ja: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-ja: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-ka: PKGSIZE changed from 35618 to 35454 (-0%)
-packages/core2-64-poky-linux/appstream/appstream-locale-ka: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-ka: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-ko: PKGSIZE changed from 33489 to 93489 (+179%)
-packages/core2-64-poky-linux/appstream/appstream-locale-ko: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-ko: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-lt: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-lt: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-nb: PKGSIZE changed from 24522 to 29162 (+19%)
-packages/core2-64-poky-linux/appstream/appstream-locale-nb: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-nb: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-nl: PKGSIZE changed from 53266 to 56142 (+5%)
-packages/core2-64-poky-linux/appstream/appstream-locale-nl: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-nl: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-oc: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-oc: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-pl: PKGSIZE changed from 110566 to 108389 (-2%)
-packages/core2-64-poky-linux/appstream/appstream-locale-pl: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-pl: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-pt-br: PKGSIZE changed from 103390 to 100553 (-3%)
-packages/core2-64-poky-linux/appstream/appstream-locale-pt-br: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-pt-br: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-pt: PKGSIZE changed from 90692 to 88182 (-3%)
-packages/core2-64-poky-linux/appstream/appstream-locale-pt: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-pt: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-ro: PKGSIZE changed from 54444 to 53948 (-1%)
-packages/core2-64-poky-linux/appstream/appstream-locale-ro: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-ro: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-rom: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-rom: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-ru: PKGSIZE changed from 139853 to 139100 (-1%)
-packages/core2-64-poky-linux/appstream/appstream-locale-ru: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-ru: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-sk: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-sk: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-sl: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-sl: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-sr+latin: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-sr+latin: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-sr: PKGSIZE changed from 81891 to 80581 (-2%)
-packages/core2-64-poky-linux/appstream/appstream-locale-sr: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-sr: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-sv: PKGSIZE changed from 105304 to 109601 (+4%)
-packages/core2-64-poky-linux/appstream/appstream-locale-sv: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-sv: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-tr: PKGSIZE changed from 108139 to 112595 (+4%)
-packages/core2-64-poky-linux/appstream/appstream-locale-tr: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-tr: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-uk: PKGSIZE changed from 144339 to 142020 (-2%)
-packages/core2-64-poky-linux/appstream/appstream-locale-uk: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-uk: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-zh-cn: PKGSIZE changed from 82111 to 80046 (-3%)
-packages/core2-64-poky-linux/appstream/appstream-locale-zh-cn: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-zh-cn: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-locale-zh-tw: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-locale-zh-tw: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-src: PKGSIZE changed from 1829227 to 1839219 (+1%)
-packages/core2-64-poky-linux/appstream/appstream-src: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-src: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream-staticdev: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream-staticdev: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream/appstream: PKGSIZE changed from 1013461 to 1019473 (+1%)
-packages/core2-64-poky-linux/appstream/appstream: FILELIST: removed "/usr/lib/libappstream.so.1.0.0", added "/usr/lib/libappstream.so.1.0.2"
-packages/core2-64-poky-linux/appstream/appstream: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream/appstream: PV changed from "1.0.0" to "1.0.2"
-packages/core2-64-poky-linux/appstream: SRC_URI changed from "https://www.freedesktop.org/software/appstream/releases/AppStream-1.0.0.tar.xz file://0001-remove-hardcoded-path.patch" to "https://www.freedesktop.org/software/appstream/releases/AppStream-1.0.2.tar.xz file://0001-remove-hardcoded-path.patch"
-packages/core2-64-poky-linux/appstream: PKGV changed from 1.0.0 [default] to 1.0.2 [default]
-packages/core2-64-poky-linux/appstream: PV changed from "1.0.0" to "1.0.2"
-Changes to packages/core2-64-poky-linux/appstream (sysroot):
-  /usr/lib/libappstream.so.5 changed symlink target from libappstream.so.1.0.0 to libappstream.so.1.0.2
-  /usr/lib/libappstream.so.1.0.0 moved to /usr/lib/libappstream.so.1.0.2
-Changes to packages/x86_64-linux/appstream-native (sysroot):
-  /usr/lib/libappstream.so.5 changed symlink target from libappstream.so.1.0.0 to libappstream.so.1.0.2
-  /usr/lib/libappstream.so.1.0.0 moved to /usr/lib/libappstream.so.1.0.2
+packages/core2-64-poky-linux/mesa: SRC_URI changed from "https://mesa.freedesktop.org/archive/mesa-24.0.1.tar.xz file://0001-meson.build-check-for-all-linux-host_os-combinations.patch file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch file://0001-gallium-Fix-build-with-llvm-17.patch" to "https://mesa.freedesktop.org/archive/mesa-24.0.2.tar.xz file://0001-meson.build-check-for-all-linux-host_os-combinations.patch file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch file://0001-gallium-Fix-build-with-llvm-17.patch"
+packages/core2-64-poky-linux/mesa: PKGV changed from 24.0.1 [default] to 24.0.2 [default]
+packages/core2-64-poky-linux/mesa: PV changed from "24.0.1" to "24.0.2"
+packages/core2-64-poky-linux/mesa/libegl-mesa-dev: PKGV changed from 24.0.1 [default] to 24.0.2 [default]
+packages/core2-64-poky-linux/mesa/libegl-mesa-dev: PV changed from "24.0.1" to "24.0.2"
+packages/core2-64-poky-linux/mesa/libegl-mesa: PKGV changed from 24.0.1 [default] to 24.0.2 [default]
+packages/core2-64-poky-linux/mesa/libegl-mesa: PV changed from "24.0.1" to "24.0.2"
+packages/core2-64-poky-linux/mesa/libgbm-dev: PKGV changed from 24.0.1 [default] to 24.0.2 [default]
+packages/core2-64-poky-linux/mesa/libgbm-dev: PV changed from "24.0.1" to "24.0.2"
+packages/core2-64-poky-linux/mesa/libgbm: PKGV changed from 24.0.1 [default] to 24.0.2 [default]
+packages/core2-64-poky-linux/mesa/libgbm: PV changed from "24.0.1" to "24.0.2"
+packages/core2-64-poky-linux/mesa/libgl-mesa-dev: PKGV changed from 24.0.1 [default] to 24.0.2 [default]
+packages/core2-64-poky-linux/mesa/libgl-mesa-dev: PV changed from "24.0.1" to "24.0.2"
+packages/core2-64-poky-linux/mesa/libgl-mesa: PKGV changed from 24.0.1 [default] to 24.0.2 [default]
+packages/core2-64-poky-linux/mesa/libgl-mesa: PV changed from "24.0.1" to "24.0.2"
+packages/core2-64-poky-linux/mesa/libglapi-dev: PKGV changed from 24.0.1 [default] to 24.0.2 [default]
+packages/core2-64-poky-linux/mesa/libglapi-dev: PV changed from "24.0.1" to "24.0.2"
+packages/core2-64-poky-linux/mesa/libglapi: PKGV changed from 24.0.1 [default] to 24.0.2 [default]
+packages/core2-64-poky-linux/mesa/libglapi: PV changed from "24.0.1" to "24.0.2"
+packages/core2-64-poky-linux/mesa/libgles1-mesa-dev: PKGV changed from 24.0.1 [default] to 24.0.2 [default]
+packages/core2-64-poky-linux/mesa/libgles1-mesa-dev: PV changed from "24.0.1" to "24.0.2"
+packages/core2-64-poky-linux/mesa/libgles1-mesa: PKGV changed from 24.0.1 [default] to 24.0.2 [default]
+packages/core2-64-poky-linux/mesa/libgles1-mesa: PV changed from "24.0.1" to "24.0.2"
+packages/core2-64-poky-linux/mesa/libgles2-mesa-dev: PKGV changed from 24.0.1 [default] to 24.0.2 [default]
+packages/core2-64-poky-linux/mesa/libgles2-mesa-dev: PV changed from "24.0.1" to "24.0.2"
+packages/core2-64-poky-linux/mesa/libgles2-mesa: PKGV changed from 24.0.1 [default] to 24.0.2 [default]
+packages/core2-64-poky-linux/mesa/libgles2-mesa: PV changed from "24.0.1" to "24.0.2"
+packages/core2-64-poky-linux/mesa/libgles3-mesa-dev: PKGV changed from 24.0.1 [default] to 24.0.2 [default]
+packages/core2-64-poky-linux/mesa/libgles3-mesa-dev: PV changed from "24.0.1" to "24.0.2"
+packages/core2-64-poky-linux/mesa/libgles3-mesa: PKGV changed from 24.0.1 [default] to 24.0.2 [default]
+packages/core2-64-poky-linux/mesa/libgles3-mesa: PV changed from "24.0.1" to "24.0.2"
+packages/core2-64-poky-linux/mesa/libglx-mesa-dev: PKGV changed from 24.0.1 [default] to 24.0.2 [default]
+packages/core2-64-poky-linux/mesa/libglx-mesa-dev: PV changed from "24.0.1" to "24.0.2"
+packages/core2-64-poky-linux/mesa/libglx-mesa: PKGV changed from 24.0.1 [default] to 24.0.2 [default]
+packages/core2-64-poky-linux/mesa/libglx-mesa: PV changed from "24.0.1" to "24.0.2"
+packages/core2-64-poky-linux/mesa/libopencl-mesa-dev: PKGV changed from 24.0.1 [default] to 24.0.2 [default]
+packages/core2-64-poky-linux/mesa/libopencl-mesa-dev: PV changed from "24.0.1" to "24.0.2"
+packages/core2-64-poky-linux/mesa/libopencl-mesa: PKGV changed from 24.0.1 [default] to 24.0.2 [default]
+packages/core2-64-poky-linux/mesa/libopencl-mesa: PV changed from "24.0.1" to "24.0.2"
+packages/core2-64-poky-linux/mesa/libosmesa-dev: PKGV changed from 24.0.1 [default] to 24.0.2 [default]
+packages/core2-64-poky-linux/mesa/libosmesa-dev: PV changed from "24.0.1" to "24.0.2"
+packages/core2-64-poky-linux/mesa/libosmesa: PKGV changed from 24.0.1 [default] to 24.0.2 [default]
+packages/core2-64-poky-linux/mesa/libosmesa: PV changed from "24.0.1" to "24.0.2"
+packages/core2-64-poky-linux/mesa/libxatracker-dev: PKGV changed from 24.0.1 [default] to 24.0.2 [default]
+packages/core2-64-poky-linux/mesa/libxatracker-dev: PV changed from "24.0.1" to "24.0.2"
+packages/core2-64-poky-linux/mesa/libxatracker: PKGV changed from 24.0.1 [default] to 24.0.2 [default]
+packages/core2-64-poky-linux/mesa/libxatracker: PV changed from "24.0.1" to "24.0.2"
+packages/core2-64-poky-linux/mesa/mesa-dbg: PKGSIZE changed from 253964160 to 253976040 (+0%)
+packages/core2-64-poky-linux/mesa/mesa-dbg: PKGV changed from 24.0.1 [default] to 24.0.2 [default]
+packages/core2-64-poky-linux/mesa/mesa-dbg: PV changed from "24.0.1" to "24.0.2"
+packages/core2-64-poky-linux/mesa/mesa-dev: PKGV changed from 24.0.1 [default] to 24.0.2 [default]
+packages/core2-64-poky-linux/mesa/mesa-dev: PV changed from "24.0.1" to "24.0.2"
+packages/core2-64-poky-linux/mesa/mesa-doc: PKGV changed from 24.0.1 [default] to 24.0.2 [default]
+packages/core2-64-poky-linux/mesa/mesa-doc: PV changed from "24.0.1" to "24.0.2"
+packages/core2-64-poky-linux/mesa/mesa-locale: PKGV changed from 24.0.1 [default] to 24.0.2 [default]
+packages/core2-64-poky-linux/mesa/mesa-locale: PV changed from "24.0.1" to "24.0.2"
+packages/core2-64-poky-linux/mesa/mesa-megadriver: PKGV changed from 24.0.1 [default] to 24.0.2 [default]
+packages/core2-64-poky-linux/mesa/mesa-megadriver: PV changed from "24.0.1" to "24.0.2"
+packages/core2-64-poky-linux/mesa/mesa-src: PKGSIZE changed from 153436611 to 153449441 (+0%)
+packages/core2-64-poky-linux/mesa/mesa-src: PKGV changed from 24.0.1 [default] to 24.0.2 [default]
+packages/core2-64-poky-linux/mesa/mesa-src: PV changed from "24.0.1" to "24.0.2"
+packages/core2-64-poky-linux/mesa/mesa-staticdev: PKGV changed from 24.0.1 [default] to 24.0.2 [default]
+packages/core2-64-poky-linux/mesa/mesa-staticdev: PV changed from "24.0.1" to "24.0.2"
+packages/core2-64-poky-linux/mesa/mesa-tools: PKGV changed from 24.0.1 [default] to 24.0.2 [default]
+packages/core2-64-poky-linux/mesa/mesa-tools: PV changed from "24.0.1" to "24.0.2"
+packages/core2-64-poky-linux/mesa/mesa-vdpau-drivers: PKGV changed from 24.0.1 [default] to 24.0.2 [default]
+packages/core2-64-poky-linux/mesa/mesa-vdpau-drivers: PV changed from "24.0.1" to "24.0.2"
+packages/core2-64-poky-linux/mesa/mesa-vulkan-drivers: PKGV changed from 24.0.1 [default] to 24.0.2 [default]
+packages/core2-64-poky-linux/mesa/mesa-vulkan-drivers: PV changed from "24.0.1" to "24.0.2"
+packages/core2-64-poky-linux/mesa/mesa: PKGV changed from 24.0.1 [default] to 24.0.2 [default]
+packages/core2-64-poky-linux/mesa/mesa: PV changed from "24.0.1" to "24.0.2"
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -1674,77 +1739,12 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============7400302367353125439==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-appstream-upgrade-1.0.0-1.0.2.patch"
-
-RnJvbSA3ZGJhOTM2MWFiMzFjYzI5MjdhYTk0N2I1MGQxMWZlMmIwMjk4YTczIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMSBNYXIgMjAyNCAyMDoxOTo1MiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGFw
-cHN0cmVhbTogdXBncmFkZSAxLjAuMCAtPiAxLjAuMgoKLS0tCiAuLi4vYXBwc3RyZWFtLzAwMDEt
-cmVtb3ZlLWhhcmRjb2RlZC1wYXRoLnBhdGNoICAgICAgICB8IDExICsrKystLS0tLS0tCiAuLi4v
-e2FwcHN0cmVhbV8xLjAuMC5iYiA9PiBhcHBzdHJlYW1fMS4wLjIuYmJ9ICAgICAgICB8ICAyICst
-CiAyIGZpbGVzIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKSwgOCBkZWxldGlvbnMoLSkKIHJlbmFt
-ZSBtZXRhL3JlY2lwZXMtc3VwcG9ydC9hcHBzdHJlYW0ve2FwcHN0cmVhbV8xLjAuMC5iYiA9PiBh
-cHBzdHJlYW1fMS4wLjIuYmJ9ICg5MyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBv
-cnQvYXBwc3RyZWFtL2FwcHN0cmVhbS8wMDAxLXJlbW92ZS1oYXJkY29kZWQtcGF0aC5wYXRjaCBi
-L21ldGEvcmVjaXBlcy1zdXBwb3J0L2FwcHN0cmVhbS9hcHBzdHJlYW0vMDAwMS1yZW1vdmUtaGFy
-ZGNvZGVkLXBhdGgucGF0Y2gKaW5kZXggNjY2ODdhNWI4OS4uYmM4MTFkNjdiMCAxMDA2NDQKLS0t
-IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvYXBwc3RyZWFtL2FwcHN0cmVhbS8wMDAxLXJlbW92ZS1o
-YXJkY29kZWQtcGF0aC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9hcHBzdHJlYW0v
-YXBwc3RyZWFtLzAwMDEtcmVtb3ZlLWhhcmRjb2RlZC1wYXRoLnBhdGNoCkBAIC0xLDQgKzEsNCBA
-QAotRnJvbSA2YWIwMGE0Mjc5ODIzODI5YTliODJkYzllNGQwNTVkYTRkZTg4YzZlIE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQorRnJvbSBmZTllYmI4YzBmYTdiODRhOWM1YzY2NzM4NmI4ZmJiM2Jh
-ZWEyZmFkIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogTWFya3VzIFZvbGsgPGZfbF9r
-QHQtb25saW5lLmRlPgogRGF0ZTogTW9uLCAxMiBEZWMgMjAyMiAxNTo0Mjo0MiArMDEwMAogU3Vi
-amVjdDogW1BBVENIXSByZW1vdmUgaGFyZGNvZGVkIHBhdGgKQEAgLTEwLDExICsxMCwxMSBAQCBE
-b250IGluY2x1ZGUgaGFyZGNvZGVkIHBhdGguIFRoaXMgZml4ZXM6CiAKIFVwc3RyZWFtLVN0YXR1
-czogSW5hcHByb3ByaWF0ZSBbb2Utc3BlY2lmaWNdCiAtLS0KLSBtZXNvbi5idWlsZCAgICAgICB8
-IDIgKy0KLSAxIGZpbGVzIGNoYW5nZWQsIDEgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbnMoLSkK
-KyBtZXNvbi5idWlsZCB8IDQgKystLQorIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyks
-IDIgZGVsZXRpb25zKC0pCiAKIGRpZmYgLS1naXQgYS9tZXNvbi5idWlsZCBiL21lc29uLmJ1aWxk
-Ci1pbmRleCBmZDBlMzM3My4uMmYyNzNhZGEgMTAwNjQ0CitpbmRleCBmYTE3MWQ1Li43OWQ1MTY4
-IDEwMDY0NAogLS0tIGEvbWVzb24uYnVpbGQKICsrKyBiL21lc29uLmJ1aWxkCiBAQCAtMTg1LDEw
-ICsxODUsMTAgQEAgZW5kaWYKQEAgLTMwLDYgKzMwLDMgQEAgaW5kZXggZmQwZTMzNzMuLjJmMjcz
-YWRhIDEwMDY0NAogICAgICAgICAgZWxzZQogICAgICAgICAgICAgIGVycm9yKCdVbmFibGUgdG8g
-ZmluZCBTbm93YmFsbCBoZWFkZXIgImxpYnN0ZW1tZXIuaCIuIFBsZWFzZSBlbnN1cmUgbGlic3Rl
-bW1lci9Tbm93YmFsbCBpcyBpbnN0YWxsZWQgcHJvcGVybHkgaW4gb3JkZXIgdG8gY29udGludWUu
-JykKICAgICAgICAgIGVuZGlmCi0tLSAKLTIuMzQuMQotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lw
-ZXMtc3VwcG9ydC9hcHBzdHJlYW0vYXBwc3RyZWFtXzEuMC4wLmJiIGIvbWV0YS9yZWNpcGVzLXN1
-cHBvcnQvYXBwc3RyZWFtL2FwcHN0cmVhbV8xLjAuMi5iYgpzaW1pbGFyaXR5IGluZGV4IDkzJQpy
-ZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtc3VwcG9ydC9hcHBzdHJlYW0vYXBwc3RyZWFtXzEuMC4w
-LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc3VwcG9ydC9hcHBzdHJlYW0vYXBwc3RyZWFtXzEu
-MC4yLmJiCmluZGV4IDNmOGJmY2QyNjMuLjdlYjEyYTA0YzUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVj
-aXBlcy1zdXBwb3J0L2FwcHN0cmVhbS9hcHBzdHJlYW1fMS4wLjAuYmIKKysrIGIvbWV0YS9yZWNp
-cGVzLXN1cHBvcnQvYXBwc3RyZWFtL2FwcHN0cmVhbV8xLjAuMi5iYgpAQCAtMjgsNyArMjgsNyBA
-QCBTUkNfVVJJID0gIiBcCiAJaHR0cHM6Ly93d3cuZnJlZWRlc2t0b3Aub3JnL3NvZnR3YXJlL2Fw
-cHN0cmVhbS9yZWxlYXNlcy9BcHBTdHJlYW0tJHtQVn0udGFyLnh6IFwKIAlmaWxlOi8vMDAwMS1y
-ZW1vdmUtaGFyZGNvZGVkLXBhdGgucGF0Y2ggXAogIgotU1JDX1VSSVtzaGEyNTZzdW1dID0gImVm
-MjM0NzdhMzgwZThiNTI1ZTkyY2ZhODc2ODdmMTE0NmI5Y2VmNzRjNjQxMzQ5YTFhZTExMjUwYmU1
-NDAxZDAiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiMWE1MTQ4Y2E5N2RjYmY1ZWI2ZTljMzgwMjc4
-YmIwZDIwOTM4NTY5MjkyZWE4NjUyZGYxYjNjYWM4YmQyNzM2YiIKIAogUyA9ICIke1dPUktESVJ9
-L0FwcFN0cmVhbS0ke1BWfSIKIAotLSAKMi40Mi4wCgo=
-
---===============7400302367353125439==
+--===============8931802953453619006==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/appstream/appstream-doc: FILELIST: added "/usr/share/doc/appstream/html/chap-Validation.html"
-packages/core2-64-poky-linux/appstream/appstream-locale-it: PKGSIZE changed from 52940 to 58441 (+10%)
-packages/core2-64-poky-linux/appstream/appstream-locale-ko: PKGSIZE changed from 33489 to 93489 (+179%)
-packages/core2-64-poky-linux/appstream/appstream-locale-nb: PKGSIZE changed from 24522 to 29162 (+19%)
-packages/core2-64-poky-linux/appstream/appstream: FILELIST: removed "/usr/lib/libappstream.so.1.0.0", added "/usr/lib/libappstream.so.1.0.2"
-Changes to packages/core2-64-poky-linux/appstream (sysroot):
-  /usr/lib/libappstream.so.5 changed symlink target from libappstream.so.1.0.0 to libappstream.so.1.0.2
-  /usr/lib/libappstream.so.1.0.0 moved to /usr/lib/libappstream.so.1.0.2
-Changes to packages/x86_64-linux/appstream-native (sysroot):
-  /usr/lib/libappstream.so.5 changed symlink target from libappstream.so.1.0.0 to libappstream.so.1.0.2
-  /usr/lib/libappstream.so.1.0.0 moved to /usr/lib/libappstream.so.1.0.2
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -3129,5 +3129,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============7400302367353125439==--
+--===============8931802953453619006==--
 
