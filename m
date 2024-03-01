@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D3FEC54EE8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FE8EC54EE6
 	for <webhook@archiver.kernel.org>; Fri,  1 Mar 2024 22:05:21 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web10.36650.1709330718408459895
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.36622.1709330716397324066
  for <openembedded-core@lists.openembedded.org>;
  Fri, 01 Mar 2024 14:05:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=OAywQ80Y;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=S3n3sfv4;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018dfc0cda1d-48573220-1fc9-45a1-8132-be37a3f341d6-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Uf/CaYps;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=dKDCi09y;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018dfc0cdba4-b1ac6e5c-68cf-4d69-8823-1d8eabb3979d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1709330717;
+	t=1709330718;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=2jg/0tmnpICx1iQBxShuh5/QmVroX1H6LvHP8yPjZJI=;
-	b=OAywQ80Y96rsNvfMO95KfQzQEnLyEKcgazykOqpM1iXmKudmKCFT/MB7QrQEViMv
-	7z7GI3tnb390v5j+3NCVG4WsNl1hh5MLXGCezQxo0REV6tlePozQ7MG8V3TtqqpvmWE
-	KF2FHIuPhrmDGDaR2W8idXorPVwhOHvUj2vin4qM=
+	bh=tppoLZKLeI76Q1C5xS1FuI5Japy4cUOx5yCxxLRo4iE=;
+	b=Uf/CaYps9IQ13yvmLRVGY0kwqLfRZHEMhh0SMTow8TQW+K+bXGKUits2nQbQO4zk
+	X885nr+3Nvg2cRpIdByZPzJeXofPBygLUiyxuDmyOJy9edrFYS9CmKOYE6qd5TjSIgR
+	SrHopFDXGscJph3ttaz+3ORnrScaGtgykMx8cHWQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1709330717;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1709330718;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=2jg/0tmnpICx1iQBxShuh5/QmVroX1H6LvHP8yPjZJI=;
-	b=S3n3sfv4XlrbBkINI7AvuAj5wipD0rJzU7Z4+rF69FBQTSDhdzv3OToO4Sn9JU9r
-	lRHUcvmW82AVwXe6CZsVSIO1VWNxKRmQoTLH4emKq1+9jDzKxpkAmF3+yN37Ane7flz
-	zP0T81IAO4p/gq0b9nCV7TQnrktitrCt89H2uI1A=
-Content-Type: multipart/mixed; boundary="===============7798913795830226360=="
+	bh=tppoLZKLeI76Q1C5xS1FuI5Japy4cUOx5yCxxLRo4iE=;
+	b=dKDCi09y/dnTunRdbozuHxU0TrHr2Z4mB3tV8IFo/moElllm3YsI8KYMT1CVmidy
+	Uom/rENOPQBIPqJVKNR3Ukm9SdN1yeVcGlUs2ri71QgzoTNepkG/ho9rwjjRwsZ0a48
+	2rJOu4kA4zn1XuLOmVlucc2Gdx42vo1Szb4qEtzU=
+Content-Type: multipart/mixed; boundary="===============5372158155741539972=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Wang Mingyu <wangmy@fujitsu.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libpciaccess: upgrading to 0.18 FAILED
-Message-ID: <0101018dfc0cda1d-48573220-1fc9-45a1-8132-be37a3f341d6-000000@us-west-2.amazonses.com>
+Subject: [AUH] libusb1: upgrading to 1.0.27 FAILED
+Message-ID: <0101018dfc0cdba4-b1ac6e5c-68cf-4d69-8823-1d8eabb3979d-000000@us-west-2.amazonses.com>
 Date: Fri, 1 Mar 2024 22:05:17 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.03.01-54.240.27.45
+X-SES-Outgoing: 2024.03.01-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 01 Mar 2024 22:05:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196543
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196542
 
---===============7798913795830226360==
+--===============5372158155741539972==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,7 +51,7 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libpciaccess* to *0.18* has Failed(do_compile).
+that the automatic attempt to upgrade the recipe *libusb1* to *1.0.27* has Failed(do_compile).
 
 Detailed error information:
 
@@ -60,7 +60,7 @@ do_compile failed
 
 
 Next steps:
-    - apply the patch: git am 0001-libpciaccess-upgrade-0.17-0.18.patch
+    - apply the patch: git am 0001-libusb1-upgrade-1.0.26-1.0.27.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,116 +78,178 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From c748a4c41a2ecaf4efcbe0d720c2faa67ab3a054 Mon Sep 17 00:00:00 2001
+From b82f2c768558556eb95501d2e660a76dfe142909 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 1 Mar 2024 17:31:28 +0000
-Subject: [PATCH] libpciaccess: upgrade 0.17 -> 0.18
+Date: Fri, 1 Mar 2024 21:51:22 +0000
+Subject: [PATCH] libusb1: upgrade 1.0.26 -> 1.0.27
 
 ---
- ...pwrite-pread-instead-of-64bit-versio.patch | 39 -------------------
- ...pciaccess_0.17.bb => libpciaccess_0.18.bb} | 28 +++++++++++--
- 2 files changed, 24 insertions(+), 43 deletions(-)
- delete mode 100644 meta/recipes-graphics/xorg-lib/libpciaccess/0001-linux_sysfs-Use-pwrite-pread-instead-of-64bit-versio.patch
- rename meta/recipes-graphics/xorg-lib/{libpciaccess_0.17.bb => libpciaccess_0.18.bb} (24%)
+ ...k-with-latomic-only-if-no-atomic-bui.patch | 46 -------------------
+ .../{libusb1_1.0.26.bb => libusb1_1.0.27.bb}  |  5 +-
+ 2 files changed, 2 insertions(+), 49 deletions(-)
+ delete mode 100644 meta/recipes-support/libusb/libusb1/0001-configure.ac-Link-with-latomic-only-if-no-atomic-bui.patch
+ rename meta/recipes-support/libusb/{libusb1_1.0.26.bb => libusb1_1.0.27.bb} (87%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libpciaccess/0001-linux_sysfs-Use-pwrite-pread-instead-of-64bit-versio.patch b/meta/recipes-graphics/xorg-lib/libpciaccess/0001-linux_sysfs-Use-pwrite-pread-instead-of-64bit-versio.patch
+diff --git a/meta/recipes-support/libusb/libusb1/0001-configure.ac-Link-with-latomic-only-if-no-atomic-bui.patch b/meta/recipes-support/libusb/libusb1/0001-configure.ac-Link-with-latomic-only-if-no-atomic-bui.patch
 deleted file mode 100644
-index 512a473e20..0000000000
---- a/meta/recipes-graphics/xorg-lib/libpciaccess/0001-linux_sysfs-Use-pwrite-pread-instead-of-64bit-versio.patch
+index 3c223e0822..0000000000
+--- a/meta/recipes-support/libusb/libusb1/0001-configure.ac-Link-with-latomic-only-if-no-atomic-bui.patch
 +++ /dev/null
-@@ -1,39 +0,0 @@
--From d20ff4f2e4feaafa6a6191b9cae3815b85617943 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Fri, 11 Nov 2022 11:15:58 -0800
--Subject: [PATCH] linux_sysfs: Use pwrite/pread instead of 64bit versions
+@@ -1,46 +0,0 @@
+-From 95e601ce116dd46ea7915c171976b85ea0905d58 Mon Sep 17 00:00:00 2001
+-From: Lonnie Abelbeck <lonnie@abelbeck.com>
+-Date: Sun, 8 May 2022 14:05:56 -0500
+-Subject: [PATCH] configure.ac: Link with -latomic only if no atomic builtins
 -
--pread64/pwrite64 are aliased to pread/pwrite when largefile support is
--enabled e.g. using _FILE_OFFSET_BITS=64 macro
+-Follow-up to 561dbda, a check of GCC atomic builtins needs to be done
+-first.
 -
--Upstream-Status: Submitted [https://gitlab.freedesktop.org/xorg/lib/libpciaccess/-/merge_requests/26]
+-I'm no autoconf guru, but using this:
+-https://github.com/mesa3d/mesa/blob/0df485c285b73c34ba9062f0c27e55c3c702930d/configure.ac#L469
+-as inspiration, I created a pre-check before calling AC_SEARCH_LIBS(...)
+-
+-Fixes #1135
+-Closes #1139
+-Upstream-Status: Backport [https://github.com/kraj/libusb/commit/95e601ce116dd46ea7915c171976b85ea0905d58]
 -Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ----
-- src/linux_sysfs.c | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
+- configure.ac          | 16 +++++++++++++++-
+- libusb/version_nano.h |  2 +-
+- 2 files changed, 16 insertions(+), 2 deletions(-)
 -
--diff --git a/src/linux_sysfs.c b/src/linux_sysfs.c
--index d62f48c..20c800e 100644
----- a/src/linux_sysfs.c
--+++ b/src/linux_sysfs.c
--@@ -462,7 +462,7 @@ pci_device_linux_sysfs_read( struct pci_device * dev, void * data,
-- 
-- 
--     while ( temp_size > 0 ) {
---	const ssize_t bytes = pread64( fd, data_bytes, temp_size, offset );
--+	const ssize_t bytes = pread( fd, data_bytes, temp_size, offset );
-- 
-- 	/* If zero bytes were read, then we assume it's the end of the
-- 	 * config file.
--@@ -522,7 +522,7 @@ pci_device_linux_sysfs_write( struct pci_device * dev, const void * data,
-- 
-- 
--     while ( temp_size > 0 ) {
---	const ssize_t bytes = pwrite64( fd, data_bytes, temp_size, offset );
--+	const ssize_t bytes = pwrite( fd, data_bytes, temp_size, offset );
-- 
-- 	/* If zero bytes were written, then we assume it's the end of the
-- 	 * config file.
---- 
--2.38.1
--
-diff --git a/meta/recipes-graphics/xorg-lib/libpciaccess_0.17.bb b/meta/recipes-graphics/xorg-lib/libpciaccess_0.18.bb
-similarity index 24%
-rename from meta/recipes-graphics/xorg-lib/libpciaccess_0.17.bb
-rename to meta/recipes-graphics/xorg-lib/libpciaccess_0.18.bb
-index 54bdb08976..d275076043 100644
---- a/meta/recipes-graphics/xorg-lib/libpciaccess_0.17.bb
-+++ b/meta/recipes-graphics/xorg-lib/libpciaccess_0.18.bb
-@@ -1,3 +1,25 @@
-+# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
-+# The following is the difference between the old and the new license text.
-+# Please update the LICENSE value if needed, and summarize the changes in
-+# the commit message via 'License-Update:' tag.
-+# (example: 'License-Update: copyright years updated.')
-+#
-+# The changes:
-+#
-+# --- COPYING
-+# +++ COPYING
-+# @@ -2,7 +2,7 @@
-+#  (C) Copyright Eric Anholt 2006
-+#  (C) Copyright Mark Kettenis 2011
-+#  (C) Copyright Robert Millan 2012
-+# -Copyright (c) 2007, 2008, 2009, 2011, 2012, 2013 Oracle and/or its affiliates.
-+# +Copyright (c) 2007, 2008, 2009, 2011, 2012, 2016 Oracle and/or its affiliates.
-+#  Copyright 2009, 2012 Red Hat, Inc.
-+#  All Rights Reserved.
-+#  
-+# 
-+#
-+
- SUMMARY = "Generic PCI access library for X"
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -153,7 +153,21 @@ if test "x$platform" = xposix; then
+- 	AC_SEARCH_LIBS([pthread_create], [pthread],
+- 		[test "x$ac_cv_search_pthread_create" != "xnone required" && AC_SUBST(THREAD_LIBS, [-lpthread])],
+- 		[], [])
+--	AC_SEARCH_LIBS([__atomic_fetch_add_4], [atomic])
+-+	dnl Check for new-style atomic builtins. We first check without linking to -latomic.
+-+	AC_MSG_CHECKING(whether __atomic_load_n is supported)
+-+	AC_LINK_IFELSE([AC_LANG_SOURCE([[
+-+	#include <stdint.h>
+-+	int main() {
+-+		struct {
+-+			uint64_t *v;
+-+		} x;
+-+		return (int)__atomic_load_n(x.v, __ATOMIC_ACQUIRE) &
+-+		       (int)__atomic_add_fetch(x.v, (uint64_t)1, __ATOMIC_ACQ_REL);
+-+	}]])], GCC_ATOMIC_BUILTINS_SUPPORTED=yes, GCC_ATOMIC_BUILTINS_SUPPORTED=no)
+-+	AC_MSG_RESULT($GCC_ATOMIC_BUILTINS_SUPPORTED)
+-+	if test "x$GCC_ATOMIC_BUILTINS_SUPPORTED" != xyes; then
+-+		AC_SEARCH_LIBS([__atomic_fetch_add_4], [atomic])
+-+	fi
+- elif test "x$platform" = xwindows; then
+- 	AC_DEFINE([PLATFORM_WINDOWS], [1], [Define to 1 if compiling for a Windows platform.])
+- else
+diff --git a/meta/recipes-support/libusb/libusb1_1.0.26.bb b/meta/recipes-support/libusb/libusb1_1.0.27.bb
+similarity index 87%
+rename from meta/recipes-support/libusb/libusb1_1.0.26.bb
+rename to meta/recipes-support/libusb/libusb1_1.0.27.bb
+index 2af6fcdea7..f4af2bb977 100644
+--- a/meta/recipes-support/libusb/libusb1_1.0.26.bb
++++ b/meta/recipes-support/libusb/libusb1_1.0.27.bb
+@@ -11,14 +11,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
+ BBCLASSEXTEND = "native nativesdk"
  
- DESCRIPTION = "libpciaccess provides functionality for X to access the \
-@@ -5,12 +27,10 @@ PCI bus and devices in a platform-independent way."
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/libusb-${PV}.tar.bz2 \
+-           file://0001-configure.ac-Link-with-latomic-only-if-no-atomic-bui.patch \
+            file://run-ptest \
+-          "
++           "
  
- require xorg-lib-common.inc
+ GITHUB_BASE_URI = "https://github.com/libusb/libusb/releases"
+ UPSTREAM_CHECK_REGEX = "releases/tag/v?(?P<pver>\d+(\.\d+)+)$"
  
--SRC_URI += "file://0001-linux_sysfs-Use-pwrite-pread-instead-of-64bit-versio.patch"
--
--SRC_URI[sha256sum] = "74283ba3c974913029e7a547496a29145b07ec51732bbb5b5c58d5025ad95b73"
-+SRC_URI[sha256sum] = "5461b0257d495254346f52a9c329b44b346262663675d3fecdb204a7e7c262a9"
+-SRC_URI[sha256sum] = "12ce7a61fc9854d1d2a1ffe095f7b5fac19ddba095c259e6067a46500381b5a5"
++SRC_URI[sha256sum] = "ffaa41d741a8a3bee244ac8e54a72ea05bf2879663c098c82fc5757853441575"
  
- LICENSE = "MIT & MIT"
--LIC_FILES_CHKSUM = "file://COPYING;md5=277aada5222b9a22fbf3471ff3687068"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=54c978968e565218eea36cf03ef24352"
- 
- REQUIRED_DISTRO_FEATURES = ""
+ S = "${WORKDIR}/libusb-${PV}"
  
 -- 
 2.42.0
 
 
---===============7798913795830226360==
+--===============5372158155741539972==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-libusb1-upgrade-1.0.26-1.0.27.patch"
+
+RnJvbSBiODJmMmM3Njg1NTg1NTZlYjk1NTAxZDJlNjYwYTc2ZGZlMTQyOTA5IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgMSBNYXIgMjAyNCAyMTo1MToyMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
+YnVzYjE6IHVwZ3JhZGUgMS4wLjI2IC0+IDEuMC4yNwoKLS0tCiAuLi5rLXdpdGgtbGF0b21pYy1v
+bmx5LWlmLW5vLWF0b21pYy1idWkucGF0Y2ggfCA0NiAtLS0tLS0tLS0tLS0tLS0tLS0tCiAuLi4v
+e2xpYnVzYjFfMS4wLjI2LmJiID0+IGxpYnVzYjFfMS4wLjI3LmJifSAgfCAgNSArLQogMiBmaWxl
+cyBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDQ5IGRlbGV0aW9ucygtKQogZGVsZXRlIG1vZGUg
+MTAwNjQ0IG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnVzYi9saWJ1c2IxLzAwMDEtY29uZmlndXJl
+LmFjLUxpbmstd2l0aC1sYXRvbWljLW9ubHktaWYtbm8tYXRvbWljLWJ1aS5wYXRjaAogcmVuYW1l
+IG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnVzYi97bGlidXNiMV8xLjAuMjYuYmIgPT4gbGlidXNi
+MV8xLjAuMjcuYmJ9ICg4NyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGli
+dXNiL2xpYnVzYjEvMDAwMS1jb25maWd1cmUuYWMtTGluay13aXRoLWxhdG9taWMtb25seS1pZi1u
+by1hdG9taWMtYnVpLnBhdGNoIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlidXNiL2xpYnVzYjEv
+MDAwMS1jb25maWd1cmUuYWMtTGluay13aXRoLWxhdG9taWMtb25seS1pZi1uby1hdG9taWMtYnVp
+LnBhdGNoCmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NAppbmRleCAzYzIyM2UwODIyLi4wMDAwMDAw
+MDAwCi0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnVzYi9saWJ1c2IxLzAwMDEtY29uZmln
+dXJlLmFjLUxpbmstd2l0aC1sYXRvbWljLW9ubHktaWYtbm8tYXRvbWljLWJ1aS5wYXRjaAorKysg
+L2Rldi9udWxsCkBAIC0xLDQ2ICswLDAgQEAKLUZyb20gOTVlNjAxY2UxMTZkZDQ2ZWE3OTE1YzE3
+MTk3NmI4NWVhMDkwNWQ1OCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKLUZyb206IExvbm5pZSBB
+YmVsYmVjayA8bG9ubmllQGFiZWxiZWNrLmNvbT4KLURhdGU6IFN1biwgOCBNYXkgMjAyMiAxNDow
+NTo1NiAtMDUwMAotU3ViamVjdDogW1BBVENIXSBjb25maWd1cmUuYWM6IExpbmsgd2l0aCAtbGF0
+b21pYyBvbmx5IGlmIG5vIGF0b21pYyBidWlsdGlucwotCi1Gb2xsb3ctdXAgdG8gNTYxZGJkYSwg
+YSBjaGVjayBvZiBHQ0MgYXRvbWljIGJ1aWx0aW5zIG5lZWRzIHRvIGJlIGRvbmUKLWZpcnN0Lgot
+Ci1JJ20gbm8gYXV0b2NvbmYgZ3VydSwgYnV0IHVzaW5nIHRoaXM6Ci1odHRwczovL2dpdGh1Yi5j
+b20vbWVzYTNkL21lc2EvYmxvYi8wZGY0ODVjMjg1YjczYzM0YmE5MDYyZjBjMjdlNTVjM2M3MDI5
+MzBkL2NvbmZpZ3VyZS5hYyNMNDY5Ci1hcyBpbnNwaXJhdGlvbiwgSSBjcmVhdGVkIGEgcHJlLWNo
+ZWNrIGJlZm9yZSBjYWxsaW5nIEFDX1NFQVJDSF9MSUJTKC4uLikKLQotRml4ZXMgIzExMzUKLUNs
+b3NlcyAjMTEzOQotVXBzdHJlYW0tU3RhdHVzOiBCYWNrcG9ydCBbaHR0cHM6Ly9naXRodWIuY29t
+L2tyYWovbGlidXNiL2NvbW1pdC85NWU2MDFjZTExNmRkNDZlYTc5MTVjMTcxOTc2Yjg1ZWEwOTA1
+ZDU4XQotU2lnbmVkLW9mZi1ieTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KLS0tLQot
+IGNvbmZpZ3VyZS5hYyAgICAgICAgICB8IDE2ICsrKysrKysrKysrKysrKy0KLSBsaWJ1c2IvdmVy
+c2lvbl9uYW5vLmggfCAgMiArLQotIDIgZmlsZXMgY2hhbmdlZCwgMTYgaW5zZXJ0aW9ucygrKSwg
+MiBkZWxldGlvbnMoLSkKLQotLS0tIGEvY29uZmlndXJlLmFjCi0rKysgYi9jb25maWd1cmUuYWMK
+LUBAIC0xNTMsNyArMTUzLDIxIEBAIGlmIHRlc3QgIngkcGxhdGZvcm0iID0geHBvc2l4OyB0aGVu
+Ci0gCUFDX1NFQVJDSF9MSUJTKFtwdGhyZWFkX2NyZWF0ZV0sIFtwdGhyZWFkXSwKLSAJCVt0ZXN0
+ICJ4JGFjX2N2X3NlYXJjaF9wdGhyZWFkX2NyZWF0ZSIgIT0gInhub25lIHJlcXVpcmVkIiAmJiBB
+Q19TVUJTVChUSFJFQURfTElCUywgWy1scHRocmVhZF0pXSwKLSAJCVtdLCBbXSkKLS0JQUNfU0VB
+UkNIX0xJQlMoW19fYXRvbWljX2ZldGNoX2FkZF80XSwgW2F0b21pY10pCi0rCWRubCBDaGVjayBm
+b3IgbmV3LXN0eWxlIGF0b21pYyBidWlsdGlucy4gV2UgZmlyc3QgY2hlY2sgd2l0aG91dCBsaW5r
+aW5nIHRvIC1sYXRvbWljLgotKwlBQ19NU0dfQ0hFQ0tJTkcod2hldGhlciBfX2F0b21pY19sb2Fk
+X24gaXMgc3VwcG9ydGVkKQotKwlBQ19MSU5LX0lGRUxTRShbQUNfTEFOR19TT1VSQ0UoW1sKLSsJ
+I2luY2x1ZGUgPHN0ZGludC5oPgotKwlpbnQgbWFpbigpIHsKLSsJCXN0cnVjdCB7Ci0rCQkJdWlu
+dDY0X3QgKnY7Ci0rCQl9IHg7Ci0rCQlyZXR1cm4gKGludClfX2F0b21pY19sb2FkX24oeC52LCBf
+X0FUT01JQ19BQ1FVSVJFKSAmCi0rCQkgICAgICAgKGludClfX2F0b21pY19hZGRfZmV0Y2goeC52
+LCAodWludDY0X3QpMSwgX19BVE9NSUNfQUNRX1JFTCk7Ci0rCX1dXSldLCBHQ0NfQVRPTUlDX0JV
+SUxUSU5TX1NVUFBPUlRFRD15ZXMsIEdDQ19BVE9NSUNfQlVJTFRJTlNfU1VQUE9SVEVEPW5vKQot
+KwlBQ19NU0dfUkVTVUxUKCRHQ0NfQVRPTUlDX0JVSUxUSU5TX1NVUFBPUlRFRCkKLSsJaWYgdGVz
+dCAieCRHQ0NfQVRPTUlDX0JVSUxUSU5TX1NVUFBPUlRFRCIgIT0geHllczsgdGhlbgotKwkJQUNf
+U0VBUkNIX0xJQlMoW19fYXRvbWljX2ZldGNoX2FkZF80XSwgW2F0b21pY10pCi0rCWZpCi0gZWxp
+ZiB0ZXN0ICJ4JHBsYXRmb3JtIiA9IHh3aW5kb3dzOyB0aGVuCi0gCUFDX0RFRklORShbUExBVEZP
+Uk1fV0lORE9XU10sIFsxXSwgW0RlZmluZSB0byAxIGlmIGNvbXBpbGluZyBmb3IgYSBXaW5kb3dz
+IHBsYXRmb3JtLl0pCi0gZWxzZQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGli
+dXNiL2xpYnVzYjFfMS4wLjI2LmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlidXNiL2xpYnVz
+YjFfMS4wLjI3LmJiCnNpbWlsYXJpdHkgaW5kZXggODclCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBl
+cy1zdXBwb3J0L2xpYnVzYi9saWJ1c2IxXzEuMC4yNi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVz
+LXN1cHBvcnQvbGlidXNiL2xpYnVzYjFfMS4wLjI3LmJiCmluZGV4IDJhZjZmY2RlYTcuLmY0YWYy
+YmI5NzcgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnVzYi9saWJ1c2IxXzEu
+MC4yNi5iYgorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJ1c2IvbGlidXNiMV8xLjAuMjcu
+YmIKQEAgLTExLDE0ICsxMSwxMyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5H
+O21kNT1mYmMwOTM5MDE4NTdmY2QxMThmMDY1ZjkwMDk4MmMyNCIKIEJCQ0xBU1NFWFRFTkQgPSAi
+bmF0aXZlIG5hdGl2ZXNkayIKIAogU1JDX1VSSSA9ICIke0dJVEhVQl9CQVNFX1VSSX0vZG93bmxv
+YWQvdiR7UFZ9L2xpYnVzYi0ke1BWfS50YXIuYnoyIFwKLSAgICAgICAgICAgZmlsZTovLzAwMDEt
+Y29uZmlndXJlLmFjLUxpbmstd2l0aC1sYXRvbWljLW9ubHktaWYtbm8tYXRvbWljLWJ1aS5wYXRj
+aCBcCiAgICAgICAgICAgIGZpbGU6Ly9ydW4tcHRlc3QgXAotICAgICAgICAgICIKKyAgICAgICAg
+ICAgIgogCiBHSVRIVUJfQkFTRV9VUkkgPSAiaHR0cHM6Ly9naXRodWIuY29tL2xpYnVzYi9saWJ1
+c2IvcmVsZWFzZXMiCiBVUFNUUkVBTV9DSEVDS19SRUdFWCA9ICJyZWxlYXNlcy90YWcvdj8oP1A8
+cHZlcj5cZCsoXC5cZCspKykkIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMTJjZTdhNjFmYzk4
+NTRkMWQyYTFmZmUwOTVmN2I1ZmFjMTlkZGJhMDk1YzI1OWU2MDY3YTQ2NTAwMzgxYjVhNSIKK1NS
+Q19VUklbc2hhMjU2c3VtXSA9ICJmZmFhNDFkNzQxYThhM2JlZTI0NGFjOGU1NGE3MmVhMDViZjI4
+Nzk2NjNjMDk4YzgyZmM1NzU3ODUzNDQxNTc1IgogCiBTID0gIiR7V09SS0RJUn0vbGlidXNiLSR7
+UFZ9IgogCi0tIAoyLjQyLjAKCg==
+
+--===============5372158155741539972==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -209,182 +271,113 @@ NATIVELSBSTRING      = "universal"
 TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-a8594ddcf20aa59bafee5cd931f782fb5f7bae0a"
+DISTRO_VERSION       = "4.3+snapshot-60a0a2caada7ac9c6d695312509caf000015b669"
 TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:a8594ddcf20aa59bafee5cd931f782fb5f7bae0a"
+workspace            = "tmp-auh-upgrades:60a0a2caada7ac9c6d695312509caf000015b669"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 73 Local 61 Mirrors 0 Missed 12 Current 228 (83% match, 96% complete)
+Sstate summary: Wanted 246 Local 233 Mirrors 0 Missed 13 Current 446 (94% match, 98% complete)
 done.
 NOTE: Executing Tasks
-NOTE: Running setscene task 263 of 301 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_create_spdx_setscene)
-NOTE: Running task 813 of 911 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpciaccess_0.18.bb:do_recipe_qa)
-NOTE: recipe util-macros-1_1.20.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libpciaccess-0.18-r0: task do_recipe_qa: Started
-NOTE: recipe util-macros-1_1.20.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 296 of 301 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 298 of 301 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot_setscene)
-NOTE: recipe libpciaccess-0.18-r0: task do_recipe_qa: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpciaccess_0.18.bb:do_recipe_qa unihash changed to 2e3272fff94ab2f5fb5e19dedd594e8da44c4540a374804d23ca1b8043083422
+NOTE: Running setscene task 459 of 692 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/systemd/systemd_255.1.bb:do_create_spdx_setscene)
+NOTE: Running task 766 of 1931 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_recipe_qa)
+NOTE: recipe libusb1-1.0.27-r0: task do_recipe_qa: Started
+NOTE: recipe systemd-1_255.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libusb1-1.0.27-r0: task do_recipe_qa: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_recipe_qa unihash changed to c3aa2fabae66543ab1da9805e9e22dca2ac3ee2a86d5d23555b6492966e586b7
+NOTE: recipe systemd-1_255.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 654 of 692 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 656 of 692 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot_setscene)
+NOTE: Running task 1036 of 1931 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_fetch)
 NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Started
 NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Started
 NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 660 of 692 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_create_spdx_setscene)
+NOTE: recipe libusb1-1.0.27-r0: task do_fetch: Started
+NOTE: recipe libusb1-1.0.27-r0: task do_fetch: Succeeded
+NOTE: Running task 1117 of 1931 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_unpack)
 NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 291 of 301 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_recipe_qa_setscene)
-NOTE: Running task 871 of 911 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpciaccess_0.18.bb:do_fetch)
+NOTE: Running setscene task 662 of 692 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_recipe_qa_setscene)
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libusb1-1.0.27-r0: task do_unpack: Started
 NOTE: recipe libtool-cross-2.4.7-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpciaccess-0.18-r0: task do_fetch: Started
-NOTE: recipe libpciaccess-0.18-r0: task do_fetch: Succeeded
-NOTE: Running task 872 of 911 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpciaccess_0.18.bb:do_unpack)
+NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 666 of 692 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_create_spdx_setscene)
 NOTE: recipe libtool-cross-2.4.7-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libusb1-1.0.27-r0: task do_unpack: Succeeded
+NOTE: recipe glibc-2.39+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe glibc-2.39+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 673 of 692 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 675 of 692 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running task 1352 of 1931 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_patch)
+NOTE: recipe libusb1-1.0.27-r0: task do_patch: Started
+NOTE: recipe libusb1-1.0.27-r0: task do_patch: Succeeded
+NOTE: Running task 1417 of 1931 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1418 of 1931 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_populate_lic)
+NOTE: recipe libusb1-1.0.27-r0: task do_populate_lic: Started
+NOTE: recipe libusb1-1.0.27-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe libusb1-1.0.27-r0: task do_populate_lic: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_populate_lic unihash changed to ec376bc582d9ca3cceea67959a99d30562ff947b74baa088176041b9ec0aced4
+NOTE: recipe libusb1-1.0.27-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_deploy_source_date_epoch unihash changed to 7449f435bac3e798534608c572c33404712682ed1a72bf30daf646fd4c51daf2
+NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 691 of 692 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_recipe_qa_setscene)
+NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 890 of 911 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpciaccess_0.18.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libpciaccess-0.18-r0: task do_unpack: Started
-NOTE: recipe libpciaccess-0.18-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libpciaccess-0.18-r0: task do_unpack: Succeeded
-NOTE: Running task 895 of 911 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpciaccess_0.18.bb:do_patch)
-NOTE: Running task 896 of 911 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpciaccess_0.18.bb:do_collect_spdx_deps)
-NOTE: recipe libpciaccess-0.18-r0: task do_patch: Started
-NOTE: recipe libpciaccess-0.18-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libpciaccess-0.18-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libpciaccess-0.18-r0: task do_patch: Succeeded
-NOTE: Running task 897 of 911 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpciaccess_0.18.bb:do_deploy_source_date_epoch)
-NOTE: Running task 898 of 911 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpciaccess_0.18.bb:do_populate_lic)
-NOTE: recipe libpciaccess-0.18-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libpciaccess-0.18-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libpciaccess-0.18-r0: task do_populate_lic: Started
-NOTE: recipe libpciaccess-0.18-r0: task do_populate_lic: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpciaccess_0.18.bb:do_populate_lic unihash changed to c9a94c61bc008378f92f1700cd2d9a8f67dfc09befd7b805db460365928b6341
-NOTE: recipe libpciaccess-0.18-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpciaccess_0.18.bb:do_deploy_source_date_epoch unihash changed to 79ac5b24a980b8e1481ef66f1f94fdc02ec875c334b5be4142acf8574d1f9ff4
-NOTE: Setscene tasks completed
-NOTE: Running task 899 of 911 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpciaccess_0.18.bb:do_configure)
-NOTE: recipe libpciaccess-0.18-r0: task do_configure: Started
-NOTE: recipe libpciaccess-0.18-r0: task do_configure: Succeeded
-NOTE: Running task 900 of 911 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpciaccess_0.18.bb:do_compile)
-NOTE: recipe libpciaccess-0.18-r0: task do_compile: Started
+NOTE: Running task 1755 of 1931 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1910 of 1931 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_collect_spdx_deps)
+NOTE: recipe libusb1-1.0.27-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libusb1-1.0.27-r0: task do_collect_spdx_deps: Started
+NOTE: recipe libusb1-1.0.27-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe libusb1-1.0.27-r0: task do_collect_spdx_deps: Succeeded
+NOTE: Running task 1916 of 1931 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_configure)
+NOTE: recipe libusb1-1.0.27-r0: task do_configure: Started
+NOTE: recipe libusb1-1.0.27-r0: task do_configure: Succeeded
+NOTE: Running task 1917 of 1931 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_configure_ptest_base)
+NOTE: recipe libusb1-1.0.27-r0: task do_configure_ptest_base: Started
+NOTE: recipe libusb1-1.0.27-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1918 of 1931 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_compile)
+NOTE: recipe libusb1-1.0.27-r0: task do_compile: Started
+NOTE: recipe libusb1-1.0.27-r0: task do_compile: Succeeded
+NOTE: Running task 1919 of 1931 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_compile_ptest_base)
+NOTE: recipe libusb1-1.0.27-r0: task do_compile_ptest_base: Started
+NOTE: recipe libusb1-1.0.27-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1920 of 1931 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_install)
+NOTE: recipe libusb1-1.0.27-r0: task do_install: Started
+NOTE: recipe libusb1-1.0.27-r0: task do_install: Succeeded
+NOTE: Running task 1921 of 1931 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_install_ptest_base)
+NOTE: recipe libusb1-1.0.27-r0: task do_install_ptest_base: Started
 Log data follows:
-| DEBUG: Executing python function autotools_aclocals
-| DEBUG: SITE files ['endian-little', 'common-linux', 'common-glibc', 'bit-64', 'x86_64-linux', 'common']
-| DEBUG: Python function autotools_aclocals finished
-| DEBUG: Executing shell function do_compile
-| NOTE: make -j 16 -l 75
-| make: *** No targets specified and no makefile found.  Stop.
-| ERROR: oe_runmake failed
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libpciaccess/0.18/temp/run.do_compile.3191453:182 exit 1 from 'exit 1'
+| DEBUG: Executing shell function do_install_ptest_base
+| install: cannot stat '/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libusb1/1.0.27/build/tests/.libs/stress': No such file or directory
+| WARNING: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libusb1/1.0.27/temp/run.do_install_ptest_base.2962884:189 exit 1 from 'install -m 755 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libusb1/1.0.27/build/tests/.libs/stress /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libusb1/1.0.27/image/usr/lib/libusb1/ptest'
 | WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libpciaccess/0.18/temp/run.do_compile.3191453, line 182
-| 	#2: die, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libpciaccess/0.18/temp/run.do_compile.3191453, line 166
-| 	#3: oe_runmake, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libpciaccess/0.18/temp/run.do_compile.3191453, line 161
-| 	#4: autotools_do_compile, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libpciaccess/0.18/temp/run.do_compile.3191453, line 156
-| 	#5: do_compile, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libpciaccess/0.18/temp/run.do_compile.3191453, line 151
-| 	#6: main, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libpciaccess/0.18/temp/run.do_compile.3191453, line 195
-NOTE: recipe libpciaccess-0.18-r0: task do_compile: Failed
-NOTE: Tasks Summary: Attempted 900 tasks of which 890 didn't need to be rerun and 1 failed.
+| 	#1: do_install_ptest, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libusb1/1.0.27/temp/run.do_install_ptest_base.2962884, line 189
+| 	#2: do_install_ptest_base, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libusb1/1.0.27/temp/run.do_install_ptest_base.2962884, line 159
+| 	#3: main, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libusb1/1.0.27/temp/run.do_install_ptest_base.2962884, line 219
+NOTE: recipe libusb1-1.0.27-r0: task do_install_ptest_base: Failed
+NOTE: Tasks Summary: Attempted 1921 tasks of which 1907 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 3 seconds
-NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240301173108.txt
+NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240301215049.txt
 You can send the errors to a reports server by running:
-  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240301173108.txt [-s server]
+  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240301215049.txt [-s server]
 NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
 
 Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpciaccess_0.18.bb:do_compile
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: libpciaccess-0.18-r0 do_compile: oe_runmake failed
-ERROR: libpciaccess-0.18-r0 do_compile: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libpciaccess/0.18/temp/run.do_compile.3191453', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libpciaccess/0.18/temp/log.do_compile.3191453
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpciaccess_0.18.bb:do_compile) failed with exit code '1'
+  /home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_install_ptest_base
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: libusb1-1.0.27-r0 do_install_ptest_base: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libusb1/1.0.27/temp/run.do_install_ptest_base.2962884', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/libusb1/1.0.27/temp/log.do_install_ptest_base.2962884
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_install_ptest_base) failed with exit code '1'
 
---===============7798913795830226360==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libpciaccess-upgrade-0.17-0.18.patch"
-
-RnJvbSBjNzQ4YTRjNDFhMmVjYWY0ZWZjYmUwZDcyMGMyZmFhNjdhYjNhMDU0IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMSBNYXIgMjAyNCAxNzozMToyOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
-YnBjaWFjY2VzczogdXBncmFkZSAwLjE3IC0+IDAuMTgKCi0tLQogLi4ucHdyaXRlLXByZWFkLWlu
-c3RlYWQtb2YtNjRiaXQtdmVyc2lvLnBhdGNoIHwgMzkgLS0tLS0tLS0tLS0tLS0tLS0tLQogLi4u
-cGNpYWNjZXNzXzAuMTcuYmIgPT4gbGlicGNpYWNjZXNzXzAuMTguYmJ9IHwgMjggKysrKysrKysr
-KystLQogMiBmaWxlcyBjaGFuZ2VkLCAyNCBpbnNlcnRpb25zKCspLCA0MyBkZWxldGlvbnMoLSkK
-IGRlbGV0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIvbGlicGNp
-YWNjZXNzLzAwMDEtbGludXhfc3lzZnMtVXNlLXB3cml0ZS1wcmVhZC1pbnN0ZWFkLW9mLTY0Yml0
-LXZlcnNpby5wYXRjaAogcmVuYW1lIG1ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi97bGli
-cGNpYWNjZXNzXzAuMTcuYmIgPT4gbGlicGNpYWNjZXNzXzAuMTguYmJ9ICgyNCUpCgpkaWZmIC0t
-Z2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYnBjaWFjY2Vzcy8wMDAxLWxp
-bnV4X3N5c2ZzLVVzZS1wd3JpdGUtcHJlYWQtaW5zdGVhZC1vZi02NGJpdC12ZXJzaW8ucGF0Y2gg
-Yi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIvbGlicGNpYWNjZXNzLzAwMDEtbGludXhf
-c3lzZnMtVXNlLXB3cml0ZS1wcmVhZC1pbnN0ZWFkLW9mLTY0Yml0LXZlcnNpby5wYXRjaApkZWxl
-dGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggNTEyYTQ3M2UyMC4uMDAwMDAwMDAwMAotLS0gYS9t
-ZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIvbGlicGNpYWNjZXNzLzAwMDEtbGludXhfc3lz
-ZnMtVXNlLXB3cml0ZS1wcmVhZC1pbnN0ZWFkLW9mLTY0Yml0LXZlcnNpby5wYXRjaAorKysgL2Rl
-di9udWxsCkBAIC0xLDM5ICswLDAgQEAKLUZyb20gZDIwZmY0ZjJlNGZlYWFmYTZhNjE5MWI5Y2Fl
-MzgxNWI4NTYxNzk0MyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKLUZyb206IEtoZW0gUmFqIDxy
-YWoua2hlbUBnbWFpbC5jb20+Ci1EYXRlOiBGcmksIDExIE5vdiAyMDIyIDExOjE1OjU4IC0wODAw
-Ci1TdWJqZWN0OiBbUEFUQ0hdIGxpbnV4X3N5c2ZzOiBVc2UgcHdyaXRlL3ByZWFkIGluc3RlYWQg
-b2YgNjRiaXQgdmVyc2lvbnMKLQotcHJlYWQ2NC9wd3JpdGU2NCBhcmUgYWxpYXNlZCB0byBwcmVh
-ZC9wd3JpdGUgd2hlbiBsYXJnZWZpbGUgc3VwcG9ydCBpcwotZW5hYmxlZCBlLmcuIHVzaW5nIF9G
-SUxFX09GRlNFVF9CSVRTPTY0IG1hY3JvCi0KLVVwc3RyZWFtLVN0YXR1czogU3VibWl0dGVkIFto
-dHRwczovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcveG9yZy9saWIvbGlicGNpYWNjZXNzLy0vbWVy
-Z2VfcmVxdWVzdHMvMjZdCi1TaWduZWQtb2ZmLWJ5OiBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwu
-Y29tPgotLS0tCi0gc3JjL2xpbnV4X3N5c2ZzLmMgfCA0ICsrLS0KLSAxIGZpbGUgY2hhbmdlZCwg
-MiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQotCi1kaWZmIC0tZ2l0IGEvc3JjL2xpbnV4
-X3N5c2ZzLmMgYi9zcmMvbGludXhfc3lzZnMuYwotaW5kZXggZDYyZjQ4Yy4uMjBjODAwZSAxMDA2
-NDQKLS0tLSBhL3NyYy9saW51eF9zeXNmcy5jCi0rKysgYi9zcmMvbGludXhfc3lzZnMuYwotQEAg
-LTQ2Miw3ICs0NjIsNyBAQCBwY2lfZGV2aWNlX2xpbnV4X3N5c2ZzX3JlYWQoIHN0cnVjdCBwY2lf
-ZGV2aWNlICogZGV2LCB2b2lkICogZGF0YSwKLSAKLSAKLSAgICAgd2hpbGUgKCB0ZW1wX3NpemUg
-PiAwICkgewotLQljb25zdCBzc2l6ZV90IGJ5dGVzID0gcHJlYWQ2NCggZmQsIGRhdGFfYnl0ZXMs
-IHRlbXBfc2l6ZSwgb2Zmc2V0ICk7Ci0rCWNvbnN0IHNzaXplX3QgYnl0ZXMgPSBwcmVhZCggZmQs
-IGRhdGFfYnl0ZXMsIHRlbXBfc2l6ZSwgb2Zmc2V0ICk7Ci0gCi0gCS8qIElmIHplcm8gYnl0ZXMg
-d2VyZSByZWFkLCB0aGVuIHdlIGFzc3VtZSBpdCdzIHRoZSBlbmQgb2YgdGhlCi0gCSAqIGNvbmZp
-ZyBmaWxlLgotQEAgLTUyMiw3ICs1MjIsNyBAQCBwY2lfZGV2aWNlX2xpbnV4X3N5c2ZzX3dyaXRl
-KCBzdHJ1Y3QgcGNpX2RldmljZSAqIGRldiwgY29uc3Qgdm9pZCAqIGRhdGEsCi0gCi0gCi0gICAg
-IHdoaWxlICggdGVtcF9zaXplID4gMCApIHsKLS0JY29uc3Qgc3NpemVfdCBieXRlcyA9IHB3cml0
-ZTY0KCBmZCwgZGF0YV9ieXRlcywgdGVtcF9zaXplLCBvZmZzZXQgKTsKLSsJY29uc3Qgc3NpemVf
-dCBieXRlcyA9IHB3cml0ZSggZmQsIGRhdGFfYnl0ZXMsIHRlbXBfc2l6ZSwgb2Zmc2V0ICk7Ci0g
-Ci0gCS8qIElmIHplcm8gYnl0ZXMgd2VyZSB3cml0dGVuLCB0aGVuIHdlIGFzc3VtZSBpdCdzIHRo
-ZSBlbmQgb2YgdGhlCi0gCSAqIGNvbmZpZyBmaWxlLgotLS0gCi0yLjM4LjEKLQpkaWZmIC0tZ2l0
-IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYnBjaWFjY2Vzc18wLjE3LmJiIGIv
-bWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYnBjaWFjY2Vzc18wLjE4LmJiCnNpbWls
-YXJpdHkgaW5kZXggMjQlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxp
-Yi9saWJwY2lhY2Nlc3NfMC4xNy5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hv
-cmctbGliL2xpYnBjaWFjY2Vzc18wLjE4LmJiCmluZGV4IDU0YmRiMDg5NzYuLmQyNzUwNzYwNDMg
-MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9saWJwY2lhY2Nlc3Nf
-MC4xNy5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIvbGlicGNpYWNjZXNz
-XzAuMTguYmIKQEAgLTEsMyArMSwyNSBAQAorIyBGSVhNRTogdGhlIExJQ19GSUxFU19DSEtTVU0g
-dmFsdWVzIGhhdmUgYmVlbiB1cGRhdGVkIGJ5ICdkZXZ0b29sIHVwZ3JhZGUnLgorIyBUaGUgZm9s
-bG93aW5nIGlzIHRoZSBkaWZmZXJlbmNlIGJldHdlZW4gdGhlIG9sZCBhbmQgdGhlIG5ldyBsaWNl
-bnNlIHRleHQuCisjIFBsZWFzZSB1cGRhdGUgdGhlIExJQ0VOU0UgdmFsdWUgaWYgbmVlZGVkLCBh
-bmQgc3VtbWFyaXplIHRoZSBjaGFuZ2VzIGluCisjIHRoZSBjb21taXQgbWVzc2FnZSB2aWEgJ0xp
-Y2Vuc2UtVXBkYXRlOicgdGFnLgorIyAoZXhhbXBsZTogJ0xpY2Vuc2UtVXBkYXRlOiBjb3B5cmln
-aHQgeWVhcnMgdXBkYXRlZC4nKQorIworIyBUaGUgY2hhbmdlczoKKyMKKyMgLS0tIENPUFlJTkcK
-KyMgKysrIENPUFlJTkcKKyMgQEAgLTIsNyArMiw3IEBACisjICAoQykgQ29weXJpZ2h0IEVyaWMg
-QW5ob2x0IDIwMDYKKyMgIChDKSBDb3B5cmlnaHQgTWFyayBLZXR0ZW5pcyAyMDExCisjICAoQykg
-Q29weXJpZ2h0IFJvYmVydCBNaWxsYW4gMjAxMgorIyAtQ29weXJpZ2h0IChjKSAyMDA3LCAyMDA4
-LCAyMDA5LCAyMDExLCAyMDEyLCAyMDEzIE9yYWNsZSBhbmQvb3IgaXRzIGFmZmlsaWF0ZXMuCisj
-ICtDb3B5cmlnaHQgKGMpIDIwMDcsIDIwMDgsIDIwMDksIDIwMTEsIDIwMTIsIDIwMTYgT3JhY2xl
-IGFuZC9vciBpdHMgYWZmaWxpYXRlcy4KKyMgIENvcHlyaWdodCAyMDA5LCAyMDEyIFJlZCBIYXQs
-IEluYy4KKyMgIEFsbCBSaWdodHMgUmVzZXJ2ZWQuCisjICAKKyMgCisjCisKIFNVTU1BUlkgPSAi
-R2VuZXJpYyBQQ0kgYWNjZXNzIGxpYnJhcnkgZm9yIFgiCiAKIERFU0NSSVBUSU9OID0gImxpYnBj
-aWFjY2VzcyBwcm92aWRlcyBmdW5jdGlvbmFsaXR5IGZvciBYIHRvIGFjY2VzcyB0aGUgXApAQCAt
-NSwxMiArMjcsMTAgQEAgUENJIGJ1cyBhbmQgZGV2aWNlcyBpbiBhIHBsYXRmb3JtLWluZGVwZW5k
-ZW50IHdheS4iCiAKIHJlcXVpcmUgeG9yZy1saWItY29tbW9uLmluYwogCi1TUkNfVVJJICs9ICJm
-aWxlOi8vMDAwMS1saW51eF9zeXNmcy1Vc2UtcHdyaXRlLXByZWFkLWluc3RlYWQtb2YtNjRiaXQt
-dmVyc2lvLnBhdGNoIgotCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiNzQyODNiYTNjOTc0OTEzMDI5
-ZTdhNTQ3NDk2YTI5MTQ1YjA3ZWM1MTczMmJiYjViNWM1OGQ1MDI1YWQ5NWI3MyIKK1NSQ19VUklb
-c2hhMjU2c3VtXSA9ICI1NDYxYjAyNTdkNDk1MjU0MzQ2ZjUyYTljMzI5YjQ0YjM0NjI2MjY2MzY3
-NWQzZmVjZGIyMDRhN2U3YzI2MmE5IgogCiBMSUNFTlNFID0gIk1JVCAmIE1JVCIKLUxJQ19GSUxF
-U19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PTI3N2FhZGE1MjIyYjlhMjJmYmYzNDcxZmYz
-Njg3MDY4IgorTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9NTRjOTc4OTY4
-ZTU2NTIxOGVlYTM2Y2YwM2VmMjQzNTIiCiAKIFJFUVVJUkVEX0RJU1RST19GRUFUVVJFUyA9ICIi
-CiAKLS0gCjIuNDIuMAoK
-
---===============7798913795830226360==--
+--===============5372158155741539972==--
 
