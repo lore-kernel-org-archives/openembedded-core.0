@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 720DEC54E74
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 649B1C54E77
 	for <webhook@archiver.kernel.org>; Fri,  1 Mar 2024 22:05:18 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.36977.1709330716878546699
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web11.36975.1709330716458059485
  for <openembedded-core@lists.openembedded.org>;
  Fri, 01 Mar 2024 14:05:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=FbtGLGWl;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=cPQXw9/D;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101018dfc0cd669-0cd3183a-c665-4523-a2a7-2ae7d6bc7902-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=HY3MN+QY;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Px/P1v0b;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018dfc0cd4ab-fbc6fc05-99d5-4f01-a32c-92ce5bdcc472-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1709330716;
+	t=1709330715;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=IOb1ELlfeBASzU5LnbNe2xSotqudFWBafg0KqbjB/5M=;
-	b=FbtGLGWlj+xToRVEIYjhIY4IqAURnXvCzQ7WY5b5Xnc8SUPvWeTOCvcsPca9zPsh
-	o/YO/FOmC5wEK29NH/mubvOKOFFWHSRgfbtHYDEL+76nP/X9g9m0W8waKNPC56dQxrg
-	a+TSv7ujLroex8jVsd30/UtttcMmsDRGpg+TZdz4=
+	bh=YiqzmHyLIBozYzkqr+C+DDHXwc/RXfgGa0IGx++lL4Y=;
+	b=HY3MN+QYPL75QqIg2Ac+6/eTdfTV0AV/5V0HYYeMtFHT/QsQl99W01FywkEVz6SP
+	3ya1/A2fkP0aKSxhUCCjl2+rsaz/8PinU537aZebh8cbBwtUSyg/nEhHX8CpYl7LdTo
+	dslJDwQ4fvkZWvd0EeABIxXvH9tVKlcQIAcr1FGA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1709330716;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1709330715;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=IOb1ELlfeBASzU5LnbNe2xSotqudFWBafg0KqbjB/5M=;
-	b=cPQXw9/D5hGkAmq2FDaxDjbCtV3U4oMSGuM3GMn3GtoR1dhCzvTLqy2J5SdXUHoL
-	Sb2Dyes4eDzVolNwreZoXcLCD4QtY++PavK3Om8gPZEGf7RdDeJGnuMAsIP4gn/cq7r
-	8sPwRMZWT3qi9Yz4J9J7BJLQnAr+BVsJjbMzJr60=
-Content-Type: multipart/mixed; boundary="===============2214849977366432847=="
+	bh=YiqzmHyLIBozYzkqr+C+DDHXwc/RXfgGa0IGx++lL4Y=;
+	b=Px/P1v0bbSJm8NtaB0j8WPh8EyZs0sGOoAtLGMLCFU5OlJvoaVho7m+eC/eq5uJF
+	8Px9ad8zwhGmawlMNttG/E2zXhr9UX50z71s0fWO6W97yIaHabAIe1G72VlPWpuP2SY
+	pPpiqCRfOpJe6r0OcK5dr7byaL0LfGmgZn7s6gZE=
+Content-Type: multipart/mixed; boundary="===============0790694898396152026=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-ruamel-yaml: upgrading to 0.18.6 SUCCEEDED
-Message-ID: <0101018dfc0cd669-0cd3183a-c665-4523-a2a7-2ae7d6bc7902-000000@us-west-2.amazonses.com>
-Date: Fri, 1 Mar 2024 22:05:16 +0000
+Subject: [AUH] go-runtime: upgrading to 1.22.0 FAILED
+Message-ID: <0101018dfc0cd4ab-fbc6fc05-99d5-4f01-a32c-92ce5bdcc472-000000@us-west-2.amazonses.com>
+Date: Fri, 1 Mar 2024 22:05:15 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.03.01-54.240.27.191
+X-SES-Outgoing: 2024.03.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 01 Mar 2024 22:05:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196490
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196473
 
---===============2214849977366432847==
+--===============0790694898396152026==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,198 +51,149 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-ruamel-yaml* to *0.18.6* has Succeeded.
+that the automatic attempt to upgrade the recipe *go-runtime* to *1.22.0* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-python3-ruamel-yaml-upgrade-0.17.35-0.18.6.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe go-runtime failed.
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1864 entries from dependency cache.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.7.3"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.3+snapshot-6efb960d0860fe43e93ac19651553c6ce088a469"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:6efb960d0860fe43e93ac19651553c6ce088a469"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 4 Local 4 Mirrors 0 Missed 0 Current 26 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+Loading cache...done.
+Loaded 1864 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 917 .bb files complete (915 cached, 2 parsed). 1864 targets, 35 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.7.3"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.3+snapshot-6efb960d0860fe43e93ac19651553c6ce088a469"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:6efb960d0860fe43e93ac19651553c6ce088a469"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   1% |                                    | ETA:  0:00:07
+Adding changed files:   3% |#                                   | ETA:  0:00:05
+Adding changed files:   5% |#                                   | ETA:  0:00:04
+Adding changed files:   6% |##                                  | ETA:  0:00:04
+Adding changed files:   8% |###                                 | ETA:  0:00:04
+Adding changed files:  10% |###                                 | ETA:  0:00:04
+Adding changed files:  12% |####                                | ETA:  0:00:03
+Adding changed files:  13% |####                                | ETA:  0:00:03
+Adding changed files:  15% |#####                               | ETA:  0:00:03
+Adding changed files:  17% |######                              | ETA:  0:00:03
+Adding changed files:  18% |######                              | ETA:  0:00:03
+Adding changed files:  20% |#######                             | ETA:  0:00:03
+Adding changed files:  22% |########                            | ETA:  0:00:03
+Adding changed files:  24% |########                            | ETA:  0:00:03
+Adding changed files:  25% |#########                           | ETA:  0:00:03
+Adding changed files:  27% |#########                           | ETA:  0:00:03
+Adding changed files:  29% |##########                          | ETA:  0:00:03
+Adding changed files:  31% |###########                         | ETA:  0:00:03
+Adding changed files:  32% |###########                         | ETA:  0:00:02
+Adding changed files:  34% |############                        | ETA:  0:00:02
+Adding changed files:  36% |#############                       | ETA:  0:00:03
+Adding changed files:  37% |#############                       | ETA:  0:00:02
+Adding changed files:  39% |##############                      | ETA:  0:00:02
+Adding changed files:  41% |##############                      | ETA:  0:00:02
+Adding changed files:  43% |###############                     | ETA:  0:00:02
+Adding changed files:  44% |################                    | ETA:  0:00:02
+Adding changed files:  46% |################                    | ETA:  0:00:02
+Adding changed files:  48% |#################                   | ETA:  0:00:02
+Adding changed files:  49% |#################                   | ETA:  0:00:02
+Adding changed files:  51% |##################                  | ETA:  0:00:02
+Adding changed files:  53% |###################                 | ETA:  0:00:02
+Adding changed files:  55% |###################                 | ETA:  0:00:02
+Adding changed files:  56% |####################                | ETA:  0:00:02
+Adding changed files:  58% |#####################               | ETA:  0:00:02
+Adding changed files:  60% |#####################               | ETA:  0:00:01
+Adding changed files:  62% |######################              | ETA:  0:00:01
+Adding changed files:  63% |######################              | ETA:  0:00:01
+Adding changed files:  65% |#######################             | ETA:  0:00:01
+Adding changed files:  67% |########################            | ETA:  0:00:01
+Adding changed files:  68% |########################            | ETA:  0:00:01
+Adding changed files:  70% |#########################           | ETA:  0:00:01
+Adding changed files:  72% |##########################          | ETA:  0:00:01
+Adding changed files:  74% |##########################          | ETA:  0:00:01
+Adding changed files:  75% |###########################         | ETA:  0:00:01
+Adding changed files:  77% |###########################         | ETA:  0:00:01
+Adding changed files:  79% |############################        | ETA:  0:00:01
+Adding changed files:  80% |#############################       | ETA:  0:00:00
+Adding changed files:  82% |#############################       | ETA:  0:00:00
+Adding changed files:  84% |##############################      | ETA:  0:00:00
+Adding changed files:  86% |###############################     | ETA:  0:00:00
+Adding changed files:  87% |###############################     | ETA:  0:00:00
+Adding changed files:  89% |################################    | ETA:  0:00:00
+Adding changed files:  91% |################################    | ETA:  0:00:00
+Adding changed files:  93% |#################################   | ETA:  0:00:00
+Adding changed files:  94% |##################################  | ETA:  0:00:00
+Adding changed files:  96% |##################################  | ETA:  0:00:00
+Adding changed files:  98% |################################### | ETA:  0:00:00
+Adding changed files:  99% |################################### | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:05
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://golang.org/dl/go1.22.0.src.tar.gz;name=main...
+INFO: Rebasing devtool onto bc7f4f8c0fb81cb5f1566dda26c6cdcb4ba54248
+WARNING: Command 'git rebase bc7f4f8c0fb81cb5f1566dda26c6cdcb4ba54248' failed:
+Auto-merging src/cmd/go/internal/envcmd/env.go
+Auto-merging src/cmd/go/internal/work/exec.go
+CONFLICT (content): Merge conflict in src/cmd/go/internal/work/exec.go
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Using source tree as build directory since that would be the default for this recipe
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/workspace/sources/go-runtime
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/workspace/recipes/go-runtime/go-runtime_1.22.0.bb
+WARNING: Version is pinned to 1.20% via PREFERRED_VERSION; it may need adjustment to match the new version before any further steps are taken
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From d9a15b6d39ef3c315250727cd4ecefdea24db8a8 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 1 Mar 2024 12:46:04 +0000
-Subject: [PATCH] python3-ruamel-yaml: upgrade 0.17.35 -> 0.18.6
-
----
- ...17.35.bb => python3-ruamel-yaml_0.18.6.bb} | 25 +++++++++++++++++--
- 1 file changed, 23 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-ruamel-yaml_0.17.35.bb => python3-ruamel-yaml_0.18.6.bb} (33%)
-
-diff --git a/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.35.bb b/meta/recipes-devtools/python/python3-ruamel-yaml_0.18.6.bb
-similarity index 33%
-rename from meta/recipes-devtools/python/python3-ruamel-yaml_0.17.35.bb
-rename to meta/recipes-devtools/python/python3-ruamel-yaml_0.18.6.bb
-index 02911ebde0..17d6e2e8e8 100644
---- a/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.35.bb
-+++ b/meta/recipes-devtools/python/python3-ruamel-yaml_0.18.6.bb
-@@ -1,14 +1,35 @@
-+# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
-+# The following is the difference between the old and the new license text.
-+# Please update the LICENSE value if needed, and summarize the changes in
-+# the commit message via 'License-Update:' tag.
-+# (example: 'License-Update: copyright years updated.')
-+#
-+# The changes:
-+#
-+# --- LICENSE
-+# +++ LICENSE
-+# @@ -1,6 +1,6 @@
-+#   The MIT License (MIT)
-+#  
-+# - Copyright (c) 2014-2023 Anthon van der Neut, Ruamel bvba
-+# + Copyright (c) 2014-2024 Anthon van der Neut, Ruamel bvba
-+#  
-+#   Permission is hereby granted, free of charge, to any person obtaining a copy
-+#   of this software and associated documentation files (the "Software"), to deal
-+# 
-+#
-+
- SUMMARY = "YAML parser/emitter that supports roundtrip preservation of comments, seq/map flow style, and map key order."
- HOMEPAGE = "https://pypi.org/project/ruamel.yaml/"
- 
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=0e5f41db57c3a8d3584b450d35985ad1"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=30cbbccd94bf3a2b0285ec35671a1938"
- 
- PYPI_PACKAGE = "ruamel.yaml"
- 
- inherit pypi setuptools3
- 
--SRC_URI[sha256sum] = "801046a9caacb1b43acc118969b49b96b65e8847f29029563b29ac61d02db61b"
-+SRC_URI[sha256sum] = "8b27e6a217e786c6fbe5634d8f3f11bc63e0f80f6a5890f28863d9c45aac311b"
- 
- RDEPENDS:${PN} += "\
-     python3-shell \
--- 
-2.42.0
-
-
---===============2214849977366432847==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/python3-ruamel-yaml: SRC_URI changed from "https://files.pythonhosted.org/packages/source/r/ruamel.yaml/ruamel.yaml-0.17.35.tar.gz;downloadfilename=ruamel.yaml-0.17.35.tar.gz" to "https://files.pythonhosted.org/packages/source/r/ruamel.yaml/ruamel.yaml-0.18.6.tar.gz;downloadfilename=ruamel.yaml-0.18.6.tar.gz"
-packages/core2-64-poky-linux/python3-ruamel-yaml: PKGV changed from 0.17.35 [default] to 0.18.6 [default]
-packages/core2-64-poky-linux/python3-ruamel-yaml: PV changed from "0.17.35" to "0.18.6"
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-dbg: PKGV changed from 0.17.35 [default] to 0.18.6 [default]
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-dbg: PV changed from "0.17.35" to "0.18.6"
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-dev: PKGV changed from 0.17.35 [default] to 0.18.6 [default]
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-dev: PV changed from "0.17.35" to "0.18.6"
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-doc: PKGV changed from 0.17.35 [default] to 0.18.6 [default]
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-doc: PV changed from "0.17.35" to "0.18.6"
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-locale: PKGV changed from 0.17.35 [default] to 0.18.6 [default]
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-locale: PV changed from "0.17.35" to "0.18.6"
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-src: PKGV changed from 0.17.35 [default] to 0.18.6 [default]
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-src: PV changed from "0.17.35" to "0.18.6"
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-staticdev: PKGV changed from 0.17.35 [default] to 0.18.6 [default]
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml-staticdev: PV changed from "0.17.35" to "0.18.6"
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml: PKGSIZE changed from 1180597 to 1186680 (+1%)
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml: PKGV changed from 0.17.35 [default] to 0.18.6 [default]
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml: FILELIST: directory renamed /usr/lib/python3.12/site-packages/ruamel.yaml-0.17.35.dist-info -> /usr/lib/python3.12/site-packages/ruamel.yaml-0.18.6.dist-info, added "/usr/lib/python3.12/site-packages/ruamel/yaml/docinfo.py /usr/lib/python3.12/site-packages/ruamel/yaml/__pycache__/docinfo.cpython-312.pyc"
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml: PV changed from "0.17.35" to "0.18.6"
-Changes to packages/core2-64-poky-linux/python3-ruamel-yaml (sysroot):
-  /usr/lib/python3.12/site-packages/ruamel.yaml-0.18.6.dist-info was added
-  /usr/lib/python3.12/site-packages/ruamel.yaml-0.18.6.dist-info/LICENSE was added
-  /usr/lib/python3.12/site-packages/ruamel.yaml-0.18.6.dist-info/METADATA was added
-  /usr/lib/python3.12/site-packages/ruamel.yaml-0.18.6.dist-info/RECORD was added
-  /usr/lib/python3.12/site-packages/ruamel.yaml-0.18.6.dist-info/top_level.txt was added
-  /usr/lib/python3.12/site-packages/ruamel.yaml-0.18.6.dist-info/WHEEL was added
-  /usr/lib/python3.12/site-packages/ruamel/yaml/docinfo.py was added
-  /usr/lib/python3.12/site-packages/ruamel/yaml/__pycache__/docinfo.cpython-312.pyc was added
-  /usr/lib/python3.12/site-packages/ruamel.yaml-0.17.35.dist-info was removed
-  /usr/lib/python3.12/site-packages/ruamel.yaml-0.17.35.dist-info/LICENSE was removed
-  /usr/lib/python3.12/site-packages/ruamel.yaml-0.17.35.dist-info/METADATA was removed
-  /usr/lib/python3.12/site-packages/ruamel.yaml-0.17.35.dist-info/RECORD was removed
-  /usr/lib/python3.12/site-packages/ruamel.yaml-0.17.35.dist-info/top_level.txt was removed
-  /usr/lib/python3.12/site-packages/ruamel.yaml-0.17.35.dist-info/WHEEL was removed
-
---===============2214849977366432847==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-ruamel-yaml-upgrade-0.17.35-0.18.6.patch"
-
-RnJvbSBkOWExNWI2ZDM5ZWYzYzMxNTI1MDcyN2NkNGVjZWZkZWEyNGRiOGE4IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMSBNYXIgMjAyNCAxMjo0NjowNCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtcnVhbWVsLXlhbWw6IHVwZ3JhZGUgMC4xNy4zNSAtPiAwLjE4LjYKCi0tLQogLi4uMTcu
-MzUuYmIgPT4gcHl0aG9uMy1ydWFtZWwteWFtbF8wLjE4LjYuYmJ9IHwgMjUgKysrKysrKysrKysr
-KysrKystLQogMSBmaWxlIGNoYW5nZWQsIDIzIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0p
-CiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1ydWFtZWwteWFt
-bF8wLjE3LjM1LmJiID0+IHB5dGhvbjMtcnVhbWVsLXlhbWxfMC4xOC42LmJifSAoMzMlKQoKZGlm
-ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1ydWFtZWwteWFt
-bF8wLjE3LjM1LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXJ1YW1l
-bC15YW1sXzAuMTguNi5iYgpzaW1pbGFyaXR5IGluZGV4IDMzJQpyZW5hbWUgZnJvbSBtZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcnVhbWVsLXlhbWxfMC4xNy4zNS5iYgpyZW5h
-bWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXJ1YW1lbC15YW1sXzAu
-MTguNi5iYgppbmRleCAwMjkxMWViZGUwLi4xN2Q2ZTJlOGU4IDEwMDY0NAotLS0gYS9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcnVhbWVsLXlhbWxfMC4xNy4zNS5iYgorKysg
-Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcnVhbWVsLXlhbWxfMC4xOC42
-LmJiCkBAIC0xLDE0ICsxLDM1IEBACisjIEZJWE1FOiB0aGUgTElDX0ZJTEVTX0NIS1NVTSB2YWx1
-ZXMgaGF2ZSBiZWVuIHVwZGF0ZWQgYnkgJ2RldnRvb2wgdXBncmFkZScuCisjIFRoZSBmb2xsb3dp
-bmcgaXMgdGhlIGRpZmZlcmVuY2UgYmV0d2VlbiB0aGUgb2xkIGFuZCB0aGUgbmV3IGxpY2Vuc2Ug
-dGV4dC4KKyMgUGxlYXNlIHVwZGF0ZSB0aGUgTElDRU5TRSB2YWx1ZSBpZiBuZWVkZWQsIGFuZCBz
-dW1tYXJpemUgdGhlIGNoYW5nZXMgaW4KKyMgdGhlIGNvbW1pdCBtZXNzYWdlIHZpYSAnTGljZW5z
-ZS1VcGRhdGU6JyB0YWcuCisjIChleGFtcGxlOiAnTGljZW5zZS1VcGRhdGU6IGNvcHlyaWdodCB5
-ZWFycyB1cGRhdGVkLicpCisjCisjIFRoZSBjaGFuZ2VzOgorIworIyAtLS0gTElDRU5TRQorIyAr
-KysgTElDRU5TRQorIyBAQCAtMSw2ICsxLDYgQEAKKyMgICBUaGUgTUlUIExpY2Vuc2UgKE1JVCkK
-KyMgIAorIyAtIENvcHlyaWdodCAoYykgMjAxNC0yMDIzIEFudGhvbiB2YW4gZGVyIE5ldXQsIFJ1
-YW1lbCBidmJhCisjICsgQ29weXJpZ2h0IChjKSAyMDE0LTIwMjQgQW50aG9uIHZhbiBkZXIgTmV1
-dCwgUnVhbWVsIGJ2YmEKKyMgIAorIyAgIFBlcm1pc3Npb24gaXMgaGVyZWJ5IGdyYW50ZWQsIGZy
-ZWUgb2YgY2hhcmdlLCB0byBhbnkgcGVyc29uIG9idGFpbmluZyBhIGNvcHkKKyMgICBvZiB0aGlz
-IHNvZnR3YXJlIGFuZCBhc3NvY2lhdGVkIGRvY3VtZW50YXRpb24gZmlsZXMgKHRoZSAiU29mdHdh
-cmUiKSwgdG8gZGVhbAorIyAKKyMKKwogU1VNTUFSWSA9ICJZQU1MIHBhcnNlci9lbWl0dGVyIHRo
-YXQgc3VwcG9ydHMgcm91bmR0cmlwIHByZXNlcnZhdGlvbiBvZiBjb21tZW50cywgc2VxL21hcCBm
-bG93IHN0eWxlLCBhbmQgbWFwIGtleSBvcmRlci4iCiBIT01FUEFHRSA9ICJodHRwczovL3B5cGku
-b3JnL3Byb2plY3QvcnVhbWVsLnlhbWwvIgogCiBMSUNFTlNFID0gIk1JVCIKLUxJQ19GSUxFU19D
-SEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTBlNWY0MWRiNTdjM2E4ZDM1ODRiNDUwZDM1OTg1
-YWQxIgorTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9MzBjYmJjY2Q5NGJm
-M2EyYjAyODVlYzM1NjcxYTE5MzgiCiAKIFBZUElfUEFDS0FHRSA9ICJydWFtZWwueWFtbCIKIAog
-aW5oZXJpdCBweXBpIHNldHVwdG9vbHMzCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI4MDEwNDZh
-OWNhYWNiMWI0M2FjYzExODk2OWI0OWI5NmI2NWU4ODQ3ZjI5MDI5NTYzYjI5YWM2MWQwMmRiNjFi
-IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjhiMjdlNmEyMTdlNzg2YzZmYmU1NjM0ZDhmM2YxMWJj
-NjNlMGY4MGY2YTU4OTBmMjg4NjNkOWM0NWFhYzMxMWIiCiAKIFJERVBFTkRTOiR7UE59ICs9ICJc
-CiAgICAgcHl0aG9uMy1zaGVsbCBcCi0tIAoyLjQyLjAKCg==
-
---===============2214849977366432847==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-64-poky-linux/python3-ruamel-yaml/python3-ruamel-yaml: FILELIST: directory renamed /usr/lib/python3.12/site-packages/ruamel.yaml-0.17.35.dist-info -> /usr/lib/python3.12/site-packages/ruamel.yaml-0.18.6.dist-info, added "/usr/lib/python3.12/site-packages/ruamel/yaml/__pycache__/docinfo.cpython-312.pyc /usr/lib/python3.12/site-packages/ruamel/yaml/docinfo.py"
-Changes to packages/core2-64-poky-linux/python3-ruamel-yaml (sysroot):
-  /usr/lib/python3.12/site-packages/ruamel.yaml-0.18.6.dist-info was added
-  /usr/lib/python3.12/site-packages/ruamel.yaml-0.18.6.dist-info/LICENSE was added
-  /usr/lib/python3.12/site-packages/ruamel.yaml-0.18.6.dist-info/METADATA was added
-  /usr/lib/python3.12/site-packages/ruamel.yaml-0.18.6.dist-info/RECORD was added
-  /usr/lib/python3.12/site-packages/ruamel.yaml-0.18.6.dist-info/top_level.txt was added
-  /usr/lib/python3.12/site-packages/ruamel.yaml-0.18.6.dist-info/WHEEL was added
-  /usr/lib/python3.12/site-packages/ruamel/yaml/docinfo.py was added
-  /usr/lib/python3.12/site-packages/ruamel/yaml/__pycache__/docinfo.cpython-312.pyc was added
-  /usr/lib/python3.12/site-packages/ruamel.yaml-0.17.35.dist-info was removed
-  /usr/lib/python3.12/site-packages/ruamel.yaml-0.17.35.dist-info/LICENSE was removed
-  /usr/lib/python3.12/site-packages/ruamel.yaml-0.17.35.dist-info/METADATA was removed
-  /usr/lib/python3.12/site-packages/ruamel.yaml-0.17.35.dist-info/RECORD was removed
-  /usr/lib/python3.12/site-packages/ruamel.yaml-0.17.35.dist-info/top_level.txt was removed
-  /usr/lib/python3.12/site-packages/ruamel.yaml-0.17.35.dist-info/WHEEL was removed
-
---===============2214849977366432847==--
+--===============0790694898396152026==--
 
