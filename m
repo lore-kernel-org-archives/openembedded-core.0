@@ -1,124 +1,174 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <simone.p.weiss@posteo.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB9F7C5475B
-	for <webhook@archiver.kernel.org>; Fri,  1 Mar 2024 22:17:11 +0000 (UTC)
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
- by mx.groups.io with SMTP id smtpd.web10.36984.1709331427399702055
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EEE2C54798
+	for <webhook@archiver.kernel.org>; Sat,  2 Mar 2024 16:41:17 +0000 (UTC)
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+ by mx.groups.io with SMTP id smtpd.web11.53476.1709397672039246743
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Mar 2024 14:17:07 -0800
+ Sat, 02 Mar 2024 08:41:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=F048BP1K;
- spf=pass (domain: gmail.com, ip: 209.85.208.178, mailfrom: jpewhacker@gmail.com)
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2d208be133bso30966221fa.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 01 Mar 2024 14:17:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709331425; x=1709936225; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RB3Ql44O4iibpHjH1IKa93cXZABAYWnUvAJyFnZNWTw=;
-        b=F048BP1Kvmi8yN1ttqk7peRP50QfmB+9ScCgYkOduysDckS7MU1CPmEqZK4aM7Y6X1
-         psR4U6EZtVat5oLcu+X0oQL1dgqs2bJ36ZA3VteBcaBx+tvN9sfruxi5qB1zi+Cd9UQp
-         eJjbqcFSacDcuFM4LzjwWA+E8IHe03z6F3bipL14+zVeJN83XAFXM2EN4ieEXyGV5Igp
-         3rvUVR5Zl5/2/xeDi0eAbDOlcjLxfqSk8OL5FEGBW3gzcYJo8/XobdqG7QCK9kQBCquS
-         rwXa4jwstBZtt7exAN2a3yhuO/LicoChOV4Nb8zUV3rPYM9uvoc7SXbHYLfa+KPH5bdQ
-         jvyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709331425; x=1709936225;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RB3Ql44O4iibpHjH1IKa93cXZABAYWnUvAJyFnZNWTw=;
-        b=kOeeb4gMi7g3rmzo/OaNWuloiGq4ZFE8T12OSQSDAR2ke2vV4hL1ppkUgC7lTWeYlt
-         yDAtg6SEe2rkYQGEBTnxalgXW7qvL/Gf7WqoKEVYWeKZhoOPbDPOT4htvlegyc5fN35+
-         tmRM4mesonuO9y0M6vSTDlTt5KeCPqD8fxIhILABu/Ujy8qturx67I5e6ud4ywI+yoGJ
-         SL1pCvL7a/iLMC89OioDZZovaIU8IFo0LlJBSUl65kCQN4YmB05vJeeyMO2kLGUBaEOK
-         NfwlSnogdNW3XLeSnY6FDntknmWN91N3fGzdPtax0GXdZw6uyD0XwY052A2uqctRbSzO
-         OOAw==
-X-Gm-Message-State: AOJu0YxzDq80nb5JXlKXValJA40ad8Vhhv2cHv31hxjOLKxGGdF8XMOP
-	RM+6YDk4B4aFhL9RsKkiF/M+4CFMN9ncoqOcE2lETMJC1fCPKmRq3b9YmbYxeZYS/bYirRnNVl4
-	+ez8X84gnbCRM0Tbbj9Ps9zV4NNQ=
-X-Google-Smtp-Source: AGHT+IEkUqLLwi+2/qhw1l5jdLtOVQ/aoinNaLNdyh9HgIqaHAdidKHLvfaU6Z8OybR5+zv4MTQ/PxFvwQ/obrebz5Q=
-X-Received: by 2002:ac2:532b:0:b0:512:f17f:2b31 with SMTP id
- f11-20020ac2532b000000b00512f17f2b31mr2134463lfh.43.1709331425088; Fri, 01
- Mar 2024 14:17:05 -0800 (PST)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@posteo.com header.s=2017 header.b=JQ062uac;
+ spf=pass (domain: posteo.com, ip: 185.67.36.66, mailfrom: simone.p.weiss@posteo.com)
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout02.posteo.de (Postfix) with ESMTPS id E41D7240101
+	for <openembedded-core@lists.openembedded.org>; Sat,  2 Mar 2024 17:41:09 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.com; s=2017;
+	t=1709397669; bh=9YXCCfFTJBg6mQ1RkAOkD6PgbJBNRYRbE2ROkyIyEC0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:From;
+	b=JQ062uacp5lF63ETQy7F7KKIcST0LTujj700htsKIPcnKIHt50NILMNlYbbxjRPfC
+	 O33d/b18YK2a+oO9W5a0TsnFQZ/rrITjy8jC4Y+uQUywCcJL9UgseKJCRDZHRkDfAy
+	 5plzHs2PNIui9mTe6hTdXcT3VxaR4fpcNmVRO8g4Xt64/yqMQqArX/s9JppYKnPR4B
+	 stpIDobW+IGHN0a9zDbTsvcmgFj4Ivwb2ywXm2P3//2aXZx6SVeezfcOAC7VzohliA
+	 rHl/UR64XIt7rBJ+YOnYu+Dc3KxZB/3iiRTG5bPEc3E24qo238wrq8ILwQy5b2cMyQ
+	 fFApBYQg7j/xA==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4Tn9h51V8Dz6tm4;
+	Sat,  2 Mar 2024 17:41:08 +0100 (CET)
+From: simone.p.weiss@posteo.com
+To: openembedded-core@lists.openembedded.org
+Cc: =?UTF-8?q?Simone=20Wei=C3=9F?= <simone.p.weiss@posteo.com>
+Subject: [PATCH] qemu: backport patch for ui/clipboard issue
+Date: Sat,  2 Mar 2024 16:40:52 +0000
+Message-Id: <20240302164052.2040716-1-simone.p.weiss@posteo.com>
 MIME-Version: 1.0
-References: <1ebfc609-cce2-4bcd-b984-ace1cca1162c@bootlin.com>
-In-Reply-To: <1ebfc609-cce2-4bcd-b984-ace1cca1162c@bootlin.com>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Fri, 1 Mar 2024 15:16:52 -0700
-Message-ID: <CAJdd5GZXX1AVkLheaj3U_3Xi9tGurC+sAzAxD96UKTxkWCWw3w@mail.gmail.com>
-Subject: Re: Easy way to talk to hashserv or prserv?
-To: Michael Opdenacker <michael.opdenacker@bootlin.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Mar 2024 22:17:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196548
+ <openembedded-core@lists.openembedded.org>; Sat, 02 Mar 2024 16:41:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196549
 
-On Fri, Mar 1, 2024 at 11:34=E2=80=AFAM Michael Opdenacker
-<michael.opdenacker@bootlin.com> wrote:
->
-> Hi Joshua and all,
->
-> I'm going to test changes to the prserv server, to implement
-> "passthrough" to another server.
->
-> I can make tests by checking the impact of my changes on the build
-> results, like checking the revision of generated packages. However,
-> would there be an easy way to make a test connection to a server based
-> on the bb.asyncrpc.AsyncServer class, such as hashserv or prserv?
->
-> Feeling lucky, I tried with a plain "telnet":
->
-> telnet 0.0.0.0 8585
-> Trying 0.0.0.0...
-> Connected to 0.0.0.0.
-> Escape character is '^]'.
-> get-pr ethtool-6.7-r0
-> Connection closed by foreign host.
->
-> The request doesn't look that bad, as the server doesn't complain (in
-> the logs) but I don't get the return value.
->
-> So, any tip for talking to a server from a terminal, or do I need a
-> proper client written in Python?
+From: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
 
-The protocol is all a line based-text protocol (at least for the TCP &
-UNIX domain sockets; websockets are another story); the basic flow is
-(C for client, S for Server)
-1. C: <greeting and protocol version>
-2. C: <0 or more lines of headers>
-3. C: <empty line>
-4. C: <Line of JSON encoding message>
-5. S: <Line of JSON responding to message>
+Backported from upstream to fix CVE-2023-6683
 
-Each line is terminated with a single newline
+Signed-off-by: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ .../qemu/qemu/CVE-2023-6683.patch             | 91 +++++++++++++++++++
+ 2 files changed, 92 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2023-6683.patch
 
-In the (near) future, the Server will send headers back to the client
-between lines 3 and 4, but that's not implemented yet
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/=
+qemu/qemu.inc
+index a403f7d69f..e8c8c049cf 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -34,6 +34,7 @@ SRC_URI =3D "https://download.qemu.org/${BPN}-${PV}.tar=
+.xz \
+            file://fixedmeson.patch \
+            file://no-pip.patch \
+            file://fix_segv.patch \
++           file://CVE-2023-6683.patch \
+            file://qemu-guest-agent.init \
+            file://qemu-guest-agent.udev \
+            "
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2023-6683.patch b/meta/r=
+ecipes-devtools/qemu/qemu/CVE-2023-6683.patch
+new file mode 100644
+index 0000000000..1c0223e239
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2023-6683.patch
+@@ -0,0 +1,91 @@
++From 405484b29f6548c7b86549b0f961b906337aa68a Mon Sep 17 00:00:00 2001
++From: Fiona Ebner <f.ebner@proxmox.com>
++Date: Wed, 24 Jan 2024 11:57:48 +0100
++Subject: [PATCH] ui/clipboard: mark type as not available when there is =
+no
++ data
++MIME-Version: 1.0
++Content-Type: text/plain; charset=3DUTF-8
++Content-Transfer-Encoding: 8bit
++
++With VNC, a client can send a non-extended VNC_MSG_CLIENT_CUT_TEXT
++message with len=3D0. In qemu_clipboard_set_data(), the clipboard info
++will be updated setting data to NULL (because g_memdup(data, size)
++returns NULL when size is 0). If the client does not set the
++VNC_ENCODING_CLIPBOARD_EXT feature when setting up the encodings, then
++the 'request' callback for the clipboard peer is not initialized.
++Later, because data is NULL, qemu_clipboard_request() can be reached
++via vdagent_chr_write() and vdagent_clipboard_recv_request() and
++there, the clipboard owner's 'request' callback will be attempted to
++be called, but that is a NULL pointer.
++
++In particular, this can happen when using the KRDC (22.12.3) VNC
++client.
++
++Another scenario leading to the same issue is with two clients (say
++noVNC and KRDC):
++
++The noVNC client sets the extension VNC_FEATURE_CLIPBOARD_EXT and
++initializes its cbpeer.
++
++The KRDC client does not, but triggers a vnc_client_cut_text() (note
++it's not the _ext variant)). There, a new clipboard info with it as
++the 'owner' is created and via qemu_clipboard_set_data() is called,
++which in turn calls qemu_clipboard_update() with that info.
++
++In qemu_clipboard_update(), the notifier for the noVNC client will be
++called, i.e. vnc_clipboard_notify() and also set vs->cbinfo for the
++noVNC client. The 'owner' in that clipboard info is the clipboard peer
++for the KRDC client, which did not initialize the 'request' function.
++That sounds correct to me, it is the owner of that clipboard info.
++
++Then when noVNC sends a VNC_MSG_CLIENT_CUT_TEXT message (it did set
++the VNC_FEATURE_CLIPBOARD_EXT feature correctly, so a check for it
++passes), that clipboard info is passed to qemu_clipboard_request() and
++the original segfault still happens.
++
++Fix the issue by handling updates with size 0 differently. In
++particular, mark in the clipboard info that the type is not available.
++
++While at it, switch to g_memdup2(), because g_memdup() is deprecated.
++
++Cc: qemu-stable@nongnu.org
++Fixes: CVE-2023-6683
++Reported-by: Markus Frank <m.frank@proxmox.com>
++Suggested-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
++Signed-off-by: Fiona Ebner <f.ebner@proxmox.com>
++Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
++Tested-by: Markus Frank <m.frank@proxmox.com>
++Message-ID: <20240124105749.204610-1-f.ebner@proxmox.com>
++
++CVE: CVE-2023-6683
++
++Upstream-Status: Backport [https://github.com/qemu/qemu/commit/405484b29=
+f6548c7b86549b0f961b906337aa68a]
++Signed-off-by: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
++
++---
++ ui/clipboard.c | 12 +++++++++---
++ 1 file changed, 9 insertions(+), 3 deletions(-)
++
++diff --git a/ui/clipboard.c b/ui/clipboard.c
++index 3d14bffaf80f..b3f6fa3c9e1f 100644
++--- a/ui/clipboard.c
+++++ b/ui/clipboard.c
++@@ -163,9 +163,15 @@ void qemu_clipboard_set_data(QemuClipboardPeer *pee=
+r,
++     }
++=20
++     g_free(info->types[type].data);
++-    info->types[type].data =3D g_memdup(data, size);
++-    info->types[type].size =3D size;
++-    info->types[type].available =3D true;
+++    if (size) {
+++        info->types[type].data =3D g_memdup2(data, size);
+++        info->types[type].size =3D size;
+++        info->types[type].available =3D true;
+++    } else {
+++        info->types[type].data =3D NULL;
+++        info->types[type].size =3D 0;
+++        info->types[type].available =3D false;
+++    }
++=20
++     if (update) {
++         qemu_clipboard_update(info);
+--=20
+2.39.2
 
-While you _could_ possibly manually do this using netcat (and maybe
-telnet? Not sure if telnet option negotiation would mess that up),
-it's going to be tricky to get right, so I'd recommend a python
-client. Also, if you want websockets I wouldn't try to do that without
-a client as that protocol is a lot more complicated
-
-
-
-> Cheers
-> Michael.
->
->
->
-> --
-> Michael Opdenacker, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
->
 
