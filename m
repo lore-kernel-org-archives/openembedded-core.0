@@ -1,101 +1,256 @@
-Return-Path: <haokexin@gmail.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42B3FC48BF6
-	for <webhook@archiver.kernel.org>; Sun,  3 Mar 2024 06:55:21 +0000 (UTC)
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
- by mx.groups.io with SMTP id smtpd.web11.69135.1709448920418796721
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F27EDC5475B
+	for <webhook@archiver.kernel.org>; Sun,  3 Mar 2024 10:33:21 +0000 (UTC)
+Received: from mailout01.t-online.de (mailout01.t-online.de [194.25.134.80])
+ by mx.groups.io with SMTP id smtpd.web10.70777.1709461997827242687
  for <openembedded-core@lists.openembedded.org>;
- Sat, 02 Mar 2024 22:55:20 -0800
+ Sun, 03 Mar 2024 02:33:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=YV3Cb1ie;
- spf=pass (domain: gmail.com, ip: 209.85.215.173, mailfrom: haokexin@gmail.com)
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-5e42b4bbfa4so2598352a12.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 02 Mar 2024 22:55:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709448919; x=1710053719; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zTYmBBWc/qU35Cbu3cMAf7K8GDWF/TmFGA2B/68JoFQ=;
-        b=YV3Cb1iev7qFTGelBeUniWZrqd74p8RpdZrQtPoisR3j6aBRdHjuLwWazO8HigR6F9
-         Q7TXt7i63QD0pJ64leDWUXyzYl3a5oPJiScm5uTi20u6QtipR8eAb66YWvn6Lpixtfzw
-         JmDPxgJ6AY7itKOsYINfngKfOo5PCjoosl+hw1Avoc5ENVem36xYAm1109IBbVkd0LQz
-         zoMg8ovqEjRXiVsklBuZZhSxGB6pKnJq5OZ9O9bUqMUgXEdjSHHrQABgBzcMNhyslk9Z
-         yXtSaZqNVJ4We5s70m7JilvKEJhtBYg0wvsfqjOXE6FmO7G5yP5dNCP+B1De9H9cPDcU
-         aikA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709448919; x=1710053719;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zTYmBBWc/qU35Cbu3cMAf7K8GDWF/TmFGA2B/68JoFQ=;
-        b=N5x3qnrgfJ+tWxMRb1meJQo6peVbY/tS2t9G77QOxsR6p77lITZ46n+2mEqIXZcqdc
-         xSBWoLr6oP+e1lAudvtMgzzpySGbcYVfiZp4B9lg2psxKLWvpga8pSkwMV3+OmcawGtP
-         PRXG9KccXxkMxbrvWknNbo1pt2Qse6vkbWH8wMrgIZK7MCHiCSWw46Xkh5xCj6Y29frt
-         CeWpnEniK5/ML1xXFr1Y+iHvSn4UMBiKswq9xLWH9JfNwnaQe3sWXkIdol77UoYTY9PS
-         +LxbNsNnt3KRtiPHiZbX1iZX/q62De1LNhZbtYaqWAP6+QSFi2mk1nrUSl9iLAJhMpXf
-         6w9Q==
-X-Gm-Message-State: AOJu0YwuI/0XRyuWoPl1U3yEezdTELwwJdvEKXWAYKD8dgUA1TD4axaX
-	Rmd36MX22naZxKYHTTBRxPQSReavxm2NRhpkLwQ0FcskXQKX2/bkGe2WoHpX
-X-Google-Smtp-Source: AGHT+IEpcOZpWimZfxM4NINnI6QvsQQ7u2jwn1bDZRqOzqjdgSlPhY6sgfsvGx6vVTtUGB8EXnoTvw==
-X-Received: by 2002:a17:903:2405:b0:1db:f830:c381 with SMTP id e5-20020a170903240500b001dbf830c381mr7841491plo.44.1709448919321;
-        Sat, 02 Mar 2024 22:55:19 -0800 (PST)
-Received: from pek-lpggp6.wrs.com (unknown-105-121.windriver.com. [147.11.105.121])
-        by smtp.gmail.com with ESMTPSA id c1-20020a170903234100b001db594c9d17sm6149644plh.254.2024.03.02.22.55.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Mar 2024 22:55:18 -0800 (PST)
-From: Kevin Hao <haokexin@gmail.com>
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.80, mailfrom: f_l_k@t-online.de)
+Received: from fwd72.aul.t-online.de (fwd72.aul.t-online.de [10.223.144.98])
+	by mailout01.t-online.de (Postfix) with SMTP id C9F58E4EC
+	for <openembedded-core@lists.openembedded.org>; Sun,  3 Mar 2024 11:33:15 +0100 (CET)
+Received: from intel-corei7-64.fritz.box ([79.219.233.233]) by fwd72.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1rgj9a-35O2S10; Sun, 3 Mar 2024 11:33:11 +0100
+From: Markus Volk <f_l_k@t-online.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [PATCH] image-live.bbclass: Adjust the default value for INITRD_LIVE
-Date: Sun,  3 Mar 2024 14:54:54 +0800
-Message-Id: <20240303065454.4141916-1-haokexin@gmail.com>
-X-Mailer: git-send-email 2.40.1
+Subject: [oe-core][PATCH] gtk+3: update 3.24.38 -> 3.24.41
+Date: Sun,  3 Mar 2024 11:33:29 +0100
+Message-ID: <20240303103329.252312-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-TOI-EXPURGATEID: 150726::1709461991-3B7FD95D-709AC934/0/0 CLEAN NORMAL
+X-TOI-MSGID: c65135b4-e746-4e06-a733-e9c7f51921bf
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 03 Mar 2024 06:55:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196555
+ <openembedded-core@lists.openembedded.org>; Sun, 03 Mar 2024 10:33:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196556
 
-From: Kevin Hao <kexin.hao@windriver.com>
+- update opengl.patch
 
-- After the commit 26d97acc7137 ("image-artifact-names: include
-${IMAGE_NAME_SUFFIX} directly in both ${IMAGE_NAME} and
-${IMAGE_LINK_NAME}"), the image names have changed from
-  core-image-minimal-qemux86-64-20230307181808.rootfs.ext4
-  core-image-minimal-qemux86-64.ext4
-to
-  core-image-minimal-qemux86-64.rootfs-20230307181456.ext4
-  core-image-minimal-qemux86-64.rootfs.ext4
-So we also need to add ${IMAGE_NAME_SUFFIX} to the default INITRD_LIVE.
+Overview of Changes in GTK+ 3.24.41, 23-01-2024
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
-- The ${INITRAMFS_FSTYPES} may contains multi filesystem types,
-such as "cpio.gz cpio.xz". So it can't be used directly in setting
-of the default INITRD_LIVE. We choose the first filesystem type
-in ${INITRAMFS_FSTYPES} for the default INITRD_LIVE.
+* Fix a crash introduced in the X11 changes in 3.24.40
 
-Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
+* Build fixes
+
+* Wayland: Fix interpretation of gtk-shell protocol
+
+Overview of Changes in GTK+ 3.24.40, 17-01-2024
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+* GtkEmojiChooser:
+ - Update to CLDR v44
+ - Add more translations
+
+* GtkGestures:
+ - Preserve accuracy when translating events
+
+* X11
+ - Support 'virtual' XRANDR monitors
+
+* MacOs:
+ - Use consistent event coordinates
+
+* Translation updates:
+ Georgian
+ Hebrew
+ Swedish
+
+Overview of Changes in GTK+ 3.24.39, 19-12-2023
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+* GtkMountOperation:
+ - Avoid a segfault
+
+* GtkTooltip:
+ - Fix some positioning problems
+
+* GtkFileChooser:
+ - Handle webdav in the pathbar
+
+* GtkFileChooserNative:
+ - Fix closing portal file choosers
+
+* GDK:
+ - Handle offscreen windows better in some places
+
+* Wayland:
+ - Create pad devices on enter
+ - Ensure device-added/removed are emitted
+ - Make stylus button mappings compatible with X11
+ - Try harder to preserve cursor size with scaling
+ - Avoid oob access to cursor images
+ - Support tiling in xdg-shell
+ - Avoid using legacy cursor names
+ - Fix buffer size for scaled custom cursors
+
+* X11:
+ - Remove slow path in gdk_cairo_draw_from_gl
+ - Trap more XRANDR errors
+
+* MacOs:
+ - Make gdkquartz-cocoa-access.h usable again
+ - Silence secure-restore message
+
+* Translation updates
+ Belarusian
+ British English
+ Catalan
+ Chinese (China)
+ Czech
+ Danish
+ Esperanto
+ Farsi
+ Georgian
+ Greek
+ Hebrew
+ Icelandic
+ Kazakh
+ Korean
+ Polish
+ Punjabi
+ Romanian
+ Slovak
+ Slovenian
+ Spanish
+ Turkish
+
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
 ---
- meta/classes-recipe/image-live.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-gnome/gtk+/gtk+3/opengl.patch    | 25 ++++++++++---------
+ .../{gtk+3_3.24.38.bb =3D> gtk+3_3.24.41.bb}    |  2 +-
+ 2 files changed, 14 insertions(+), 13 deletions(-)
+ rename meta/recipes-gnome/gtk+/{gtk+3_3.24.38.bb =3D> gtk+3_3.24.41.bb} =
+(87%)
 
-diff --git a/meta/classes-recipe/image-live.bbclass b/meta/classes-recipe/image-live.bbclass
-index da919d52f983..2029807d2d2e 100644
---- a/meta/classes-recipe/image-live.bbclass
-+++ b/meta/classes-recipe/image-live.bbclass
-@@ -38,7 +38,7 @@ do_bootimg[depends] += "dosfstools-native:do_populate_sysroot \
- LABELS_LIVE ?= "boot install"
- ROOT_LIVE ?= "root=/dev/ram0"
- INITRD_IMAGE_LIVE ?= "${MLPREFIX}core-image-minimal-initramfs"
--INITRD_LIVE ?= "${DEPLOY_DIR_IMAGE}/${INITRD_IMAGE_LIVE}${IMAGE_MACHINE_SUFFIX}.${INITRAMFS_FSTYPES}"
-+INITRD_LIVE ?= "${DEPLOY_DIR_IMAGE}/${INITRD_IMAGE_LIVE}${IMAGE_MACHINE_SUFFIX}${IMAGE_NAME_SUFFIX}.${@d.getVar('INITRAMFS_FSTYPES').split()[0]}"
- 
- LIVE_ROOTFS_TYPE ?= "ext4"
- ROOTFS ?= "${IMGDEPLOYDIR}/${IMAGE_LINK_NAME}.${LIVE_ROOTFS_TYPE}"
--- 
-2.40.1
+diff --git a/meta/recipes-gnome/gtk+/gtk+3/opengl.patch b/meta/recipes-gn=
+ome/gtk+/gtk+3/opengl.patch
+index 7354265e10..8f2feb0ee7 100644
+--- a/meta/recipes-gnome/gtk+/gtk+3/opengl.patch
++++ b/meta/recipes-gnome/gtk+/gtk+3/opengl.patch
+@@ -141,17 +141,18 @@ diff --git a/gdk/gdkgl.c b/gdk/gdkgl.c
+ index 9690077cc2..55f85ef605 100644
+ --- a/gdk/gdkgl.c
+ +++ b/gdk/gdkgl.c
+-@@ -26,7 +26,9 @@
+- # include "win32/gdkwin32.h"
+- #endif
++@@ -21,8 +21,9 @@
++ #include "gdkglcontextprivate.h"
+ =20
++ #include "gdkinternals.h"
++-
+ +#ifdef HAVE_OPENGL
+  #include <epoxy/gl.h>
+ +#endif
+  #include <math.h>
+  #include <string.h>
+ =20
+-@@ -40,6 +42,7 @@ gdk_cairo_surface_mark_as_direct (cairo_surface_t *sur=
+face,
++@@ -36,6 +37,7 @@
+                                 g_object_ref (window),  g_object_unref);
+  }
+ =20
+@@ -159,7 +160,7 @@ index 9690077cc2..55f85ef605 100644
+  static const char *
+  get_vertex_type_name (int type)
+  {
+-@@ -212,6 +215,7 @@ use_texture_rect_program (GdkGLContextPaintData *pai=
+nt_data)
++@@ -208,6 +210,7 @@
+        glUseProgram (paint_data->current_program->program);
+      }
+  }
+@@ -167,7 +168,7 @@ index 9690077cc2..55f85ef605 100644
+ =20
+  void
+  gdk_gl_texture_quads (GdkGLContext *paint_context,
+-@@ -220,6 +224,7 @@ gdk_gl_texture_quads (GdkGLContext *paint_context,
++@@ -216,6 +219,7 @@
+                        GdkTexturedQuad *quads,
+                        gboolean flip_colors)
+  {
+@@ -175,7 +176,7 @@ index 9690077cc2..55f85ef605 100644
+    GdkGLContextPaintData *paint_data  =3D gdk_gl_context_get_paint_data =
+(paint_context);
+    GdkGLContextProgram *program;
+    GdkWindow *window =3D gdk_gl_context_get_window (paint_context);
+-@@ -293,6 +298,7 @@ gdk_gl_texture_quads (GdkGLContext *paint_context,
++@@ -289,6 +293,7 @@
+ =20
+    glDisableVertexAttribArray (program->position_location);
+    glDisableVertexAttribArray (program->uv_location);
+@@ -183,15 +184,15 @@ index 9690077cc2..55f85ef605 100644
+  }
+ =20
+  /* x,y,width,height describes a rectangle in the gl render buffer
+-@@ -341,6 +347,7 @@ gdk_cairo_draw_from_gl (cairo_t              *cr,
++@@ -337,6 +342,7 @@
+                          int                   width,
+                          int                   height)
+  {
+ +#ifdef HAVE_OPENGL
+-   GdkGLContext *paint_context;
++   GdkGLContext *paint_context, *current_context;
+    cairo_surface_t *image;
+    cairo_matrix_t matrix;
+-@@ -718,6 +725,7 @@ out:
++@@ -703,6 +709,7 @@
+    if (clip_region)
+      cairo_region_destroy (clip_region);
+ =20
+@@ -199,7 +200,7 @@ index 9690077cc2..55f85ef605 100644
+  }
+ =20
+  /* This is always called with the paint context current */
+-@@ -725,6 +733,7 @@ void
++@@ -710,6 +717,7 @@
+  gdk_gl_texture_from_surface (cairo_surface_t *surface,
+  			     cairo_region_t  *region)
+  {
+@@ -207,7 +208,7 @@ index 9690077cc2..55f85ef605 100644
+    GdkGLContext *paint_context;
+    cairo_surface_t *image;
+    double device_x_offset, device_y_offset;
+-@@ -825,4 +834,5 @@ gdk_gl_texture_from_surface (cairo_surface_t *surfac=
+e,
++@@ -810,4 +818,5 @@
+ =20
+    glDisable (GL_SCISSOR_TEST);
+    glDeleteTextures (1, &texture_id);
+diff --git a/meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb b/meta/recipes-gnom=
+e/gtk+/gtk+3_3.24.41.bb
+similarity index 87%
+rename from meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb
+rename to meta/recipes-gnome/gtk+/gtk+3_3.24.41.bb
+index c23c46a689..17e90c59f0 100644
+--- a/meta/recipes-gnome/gtk+/gtk+3_3.24.38.bb
++++ b/meta/recipes-gnome/gtk+/gtk+3_3.24.41.bb
+@@ -5,7 +5,7 @@ MAJ_VER =3D "${@oe.utils.trim_version("${PV}", 2)}"
+ SRC_URI =3D "http://ftp.gnome.org/pub/gnome/sources/gtk+/${MAJ_VER}/gtk+=
+-${PV}.tar.xz \
+            file://opengl.patch \
+            "
+-SRC_URI[sha256sum] =3D "ce11decf018b25bdd8505544a4f87242854ec88be054d9ad=
+e5f3a20444dd8ee7"
++SRC_URI[sha256sum] =3D "47da61487af3087a94bc49296fd025ca0bc02f96ef06c556=
+e7c8988bd651b6fa"
+=20
+ S =3D "${WORKDIR}/gtk+-${PV}"
+=20
+--=20
+2.43.0
 
 
