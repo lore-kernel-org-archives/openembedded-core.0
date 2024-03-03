@@ -1,343 +1,236 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D5DBC48BF6
-	for <webhook@archiver.kernel.org>; Sun,  3 Mar 2024 14:58:03 +0000 (UTC)
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
- by mx.groups.io with SMTP id smtpd.web11.74579.1709477880627040864
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9611BC48BF6
+	for <webhook@archiver.kernel.org>; Sun,  3 Mar 2024 16:31:33 +0000 (UTC)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+ by mx.groups.io with SMTP id smtpd.web11.76497.1709483484465529829
  for <openembedded-core@lists.openembedded.org>;
- Sun, 03 Mar 2024 06:58:01 -0800
+ Sun, 03 Mar 2024 08:31:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile-fr.20230601.gappssmtp.com header.s=20230601 header.b=ulkUzxn9;
- spf=pass (domain: smile.fr, ip: 209.85.208.52, mailfrom: yoann.congal@smile.fr)
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-56682b85220so6035801a12.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 03 Mar 2024 06:58:00 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CI3v1lAX;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.208.177, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2d1094b5568so44636851fa.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 03 Mar 2024 08:31:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1709477879; x=1710082679; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=hRijfaMyf63h2cnyTzKZzUA6fNelqbxFNPo9ciF+rhA=;
-        b=ulkUzxn9AVhA6IijcSOeOctKvmHZALkSlNnvArqtoEAAbza2inircMK09aQEp/UO/7
-         s/r38KmE1cj3e1fIkcDMtXjkG3S4j8PvJOyL79CXd8co0+7KOZXwvkygNmrzSZqAZ6pQ
-         o9HVDI5RcSlLgOvzbnxIqOYy0qsZx3YVld3WrBsKdKMytmErlAi8l9zNKuoMeaYKl3rq
-         vBhjhunWyqA6x/rSRBCNdbFhK7uoWA8HxoDb4+dUx52mkEazbdbEcR0ercDEUQDME+TI
-         9pCyzBygbY227c7YqVwqYByA6HI9BvGyKrYmQ1V/luBckXvJXpiuEUx/i1y0G5oqTMrN
-         szKA==
+        d=linuxfoundation.org; s=google; t=1709483482; x=1710088282; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=JPIetiGux7rDEMXSpccwKUs3T1a9ddcmOufpXCZM1Nk=;
+        b=CI3v1lAXCgEhykzXs8GF8ZTn/5gIoxgK3it2z4zr8YRIXJDi5Bmz2/D++dIx4oGfD3
+         o/BkaLaciN2BJCVPdvlWNWXRJLrjwc6/g3a+0OkbSDqSfw50wjpUw5EzuiHb2kg6RHEH
+         IF0amHZ1U9a09MiO5s4wCOVaqviaZcPyG9FZQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709477879; x=1710082679;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hRijfaMyf63h2cnyTzKZzUA6fNelqbxFNPo9ciF+rhA=;
-        b=k1XULs1N+b5F+hp32dRqbGkUWYt8Ga7XF9GNJDKEUJNywjAX/r4sCS0ufwYD6trIZI
-         sSXrqpshTIbr2WahZzJbzkinupAezRXvce5z8C9q7jy+npi96TYG6KbVeIqERhAPY6a5
-         5dq+Mg9hT3hxxTBUh2ZhM8mtMFEiJw+oIdzwQ8BKAKwc1IsrqDAH6sGSxnspmREhSUKa
-         INIAC/8ZtJD2s6Uc+W8VKwibsVlaMlgn6Yav28V1oROh4o5oDk4RLPim7Xl/W2KColGf
-         j3XiGV0EX3sRajGc1iet47F+auOXfGr9OXBzIt0qGDFjqPHTcBCL/y6DEoYMd957w5bT
-         Mlhw==
-X-Forwarded-Encrypted: i=1; AJvYcCVMMjDLXcLqbJ2FhjXWWTPH05dqEIRz75oGpF1MJemHG2fMWOEzMdhUUmp4ymJEf2iUDU3VL8aZOzezuFmGOJMrIVa83kFrj9S+3evQVSg8HgZWZWcxMiau
-X-Gm-Message-State: AOJu0YyYyAlD3EiDnsFA5DgqwDb/OZXaNE4LbB4UZ6hdyKYx1+h0/hr2
-	tQk9lt5Ej7YA2dTybCMsBHDeywyxIuPqLCRNkbXNXLHdazoNg7i3ljHn4LZYXEwOu7AoiwoczKw
-	xpHW4DbXADEmKtGjZR2MjqRQc89amJgT4x/gH9g==
-X-Google-Smtp-Source: AGHT+IHgBluqDWdV8dvExQB4WiMLl1eWtAvoFak6/fVZYN34pExzpOFWi+90OlCJQZbpFfKdCdjO8KfgzaGEV7ts/Kc=
-X-Received: by 2002:a17:906:b80b:b0:a45:1c4b:54eb with SMTP id
- dv11-20020a170906b80b00b00a451c4b54ebmr994306ejb.3.1709477878822; Sun, 03 Mar
- 2024 06:57:58 -0800 (PST)
+        d=1e100.net; s=20230601; t=1709483482; x=1710088282;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JPIetiGux7rDEMXSpccwKUs3T1a9ddcmOufpXCZM1Nk=;
+        b=HJIleXu2ZQQ2Ukij7oUFJu9qRzhAxHJXnKh/thXUBpM6lPnB+Azb3IHKJOHILGUizB
+         sfHAFaiw7PNsHjtS/DaPhEcwuV/llNGURp+2zRCR2TP8XfCRABKN+ymBTdnemlZIHOWV
+         hu+YxU7oHe1vSoNdetNLucK17Khz9eWNoh1uY1t0F1StqWZ7zCfFYH8GEFRRJsfnva7z
+         3JCFJpYI1oAuA4ZFGJ9l9ZnFRo5sZ+gu5IQq1T5ttFnBuUSYGg1gtVrnQIUhybPtrFFB
+         TNHDiKoOQphi8hORmLdLRd70gumDU1P4977448m9dgIveEklO1QMMNtyfVWmkr2HoBHZ
+         rynw==
+X-Forwarded-Encrypted: i=1; AJvYcCWic0XyEDhOj2QwAjH2ZfsJVsc5Cm/ATgS/1a+vccRmxu4UD4pZwIQ0lulZtOgNjizzddTaFsGf3cIXYjAKGTEWC81qwX2bKPOBOy5wvOehFFbtyeOKxa0Y
+X-Gm-Message-State: AOJu0YyZ1JCnCkp67nLNVC/wb+ux1AMivVpVeTmE+HZdT4jvnr8J1Az/
+	XNaYnwLVq23WK0OuGlDjxxM2CdwNUtJgOBL87VS1jO4QJNHcKeS54TAD4fzSYlo=
+X-Google-Smtp-Source: AGHT+IFe/1Kti/QMLICPIxjrfBVEFSAIh5lmYqHUD0LPhrfvyMs80mNc3fqYYcrB9Ja+0Edj7rEQ5A==
+X-Received: by 2002:a2e:9b10:0:b0:2d2:9a8e:94a9 with SMTP id u16-20020a2e9b10000000b002d29a8e94a9mr4118445lji.46.1709483482483;
+        Sun, 03 Mar 2024 08:31:22 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:1b68:114e:8f9b:9a96? ([2001:8b0:aba:5f3c:1b68:114e:8f9b:9a96])
+        by smtp.gmail.com with ESMTPSA id h19-20020a05600c351300b00412b6fbb9c3sm11994283wmq.9.2024.03.03.08.31.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 Mar 2024 08:31:21 -0800 (PST)
+Message-ID: <7fb48d27acb136ee014d8e0bcd7c56e79657bd55.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [RFC OE-core][PATCH v2 6/7] go: upgrade 1.21.5 ->
+ 1.21.7
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Jose Quaresma <quaresma.jose@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: Jose Quaresma <jose.quaresma@foundries.io>
+Date: Sun, 03 Mar 2024 16:31:21 +0000
+In-Reply-To: <17B89B4F303DC3DB.30419@lists.openembedded.org>
+References: <20240228183011.1495807-1-jose.quaresma@foundries.io>
+	 <20240228183011.1495807-6-jose.quaresma@foundries.io>
+	 <17B89B4F303DC3DB.30419@lists.openembedded.org>
+Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
+ YNvg==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.0-1 
 MIME-Version: 1.0
-References: <20240303111845.7A4DE106912@builder.sakoman.com>
- <f9e113a874a6c71e73bed3a062da1b06520dcabb.camel@posteo.net>
- <d30f4cd0293437624736e21d82d14081f0c23d48.camel@linuxfoundation.org>
- <AS1PR10MB5697DA05C2BBC97F0BAFF040FD5C2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
- <CAMSfU+7uTvEZwb2vGME5UksGOnT+56m6_SSa8YR=A3bwmLHN_Q@mail.gmail.com>
-In-Reply-To: <CAMSfU+7uTvEZwb2vGME5UksGOnT+56m6_SSa8YR=A3bwmLHN_Q@mail.gmail.com>
-From: Yoann CONGAL <yoann.congal@smile.fr>
-Date: Sun, 3 Mar 2024 15:57:32 +0100
-Message-ID: <CAMSfU+6XpBGaJG0YmK9bkx79cjDAgTR-cWyJgz61Q4g_q78c=Q@mail.gmail.com>
-Subject: Re: [yocto-security] OE-core CVE metrics for master on Sun 03 Mar
- 2024 01:00:01 AM HST
-To: peter.marko@siemens.com
-Cc: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, 
-	=?UTF-8?B?U2ltb25lIFdlacOf?= <simone.p.weiss@posteo.com>, 
-	Steve Sakoman <steve@sakoman.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	"yocto-security@lists.yoctoproject.org" <yocto-security@lists.yoctoproject.org>
-Content-Type: multipart/alternative; boundary="000000000000b808d40612c2d55e"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 03 Mar 2024 14:58:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196566
+ <openembedded-core@lists.openembedded.org>; Sun, 03 Mar 2024 16:31:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196567
 
---000000000000b808d40612c2d55e
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Fri, 2024-03-01 at 09:53 +0000, Richard Purdie via
+lists.openembedded.org wrote:
+> On Wed, 2024-02-28 at 18:30 +0000, Jose Quaresma wrote:
+> > Upgrade to latest 1.21.x release [1]:
+> >=20
+> > $ git --no-pager log --oneline go1.21.5..go1.21.7
+> > f29208030a (tag: go1.21.7) [release-branch.go1.21] go1.21.7
+> > 2fdad8af6d [release-branch.go1.21] cmd/internal/obj/arm64: fix
+> > frame pointer restore in epilogue
+> > 01c93ad049 [release-branch.go1.21] cmd/go/internal/generate: call
+> > modload.InitWorkFile
+> > db74bfba18 [release-branch.go1.21] Revert "crypto/internal/boring:
+> > upgrade module to fips-20220613" +1
+> > 916e6cddf1 [release-branch.go1.21] runtime: fix Pinner.Pin
+> > documentation
+> > 6552f3d4ac [release-branch.go1.21] cmd/go/internal/toolchain: apply
+> > the -modcacherw flag when downloading a module to determine what
+> > toolchain it needs
+> > 3960318b87 [release-branch.go1.21] crypto/x509: properly gate test
+> > on macos version
+> > 00f974eb1f [release-branch.go1.21] go/types, types2: don't lose
+> > position info of interface embeddings
+> > 2f91c16e68 [release-branch.go1.21] runtime: properly model rwmutex
+> > in lock ranking
+> > 2540b1436f [release-branch.go1.21] slices: explicitly discard
+> > results of some functions
+> > 7e34c4308f [release-branch.go1.21] runtime: clear g0 stack bounds
+> > in dropm
+> > 491c1e7e95 [release-branch.go1.21] runtime: allow update of system
+> > stack bounds on callback from C thread
+> > caafb50c0d [release-branch.go1.21] runtime: don't print "unexpected
+> > SPWRITE" when printing traceback
+> > cc85462b3d (tag: go1.21.6) [release-branch.go1.21] go1.21.6
+> > d2cb140194 [release-branch.go1.21] crypto/tls: align FIPS-only mode
+> > with BoringSSL policy
+> > 368e2a9461 [release-branch.go1.21] crypto/internal/boring: upgrade
+> > module to fips-20220613
+> > 8c6078adfb [release-branch.go1.21] runtime: add race annotations in
+> > IncNonDefault
+> > f6b203c828 [release-branch.go1.21] maps: fix aliasing problems with
+> > Clone
+> > 43818206dc [release-branch.go1.21] runtime: put ReadMemStats debug
+> > assertions behind a double-check mode
+> > cf65d74bc5 [release-branch.go1.21] runtime: add the disablethp
+> > GODEBUG setting
+> > ad1ec60a5b [release-branch.go1.21] runtime/pprof: fix generics
+> > function names
+> > bbab863ada [release-branch.go1.21] os/signal: skip nohup tests on
+> > darwin builders
+> > 7dc67e8f29 [release-branch.go1.21] os/signal: remove go t.Run from
+> > TestNohup
+> > 9f8b3ac8c4 [release-branch.go1.21] cmd/compile: fix escape analysis
+> > of string min/max
+> > 8c840b10d0 [release-branch.go1.21] cmd/compile: fix memcombine pass
+> > for big endian, > 1 byte elements
+> >=20
+> > [1] https://github.com/golang/go/compare/go1.21.5...go1.21.7
+> >=20
+> > Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
+> > ---
+> > =C2=A0meta/recipes-devtools/go/{go-1.21.5.inc =3D> go-1.21.7.inc} | 2 +=
+-
+> > =C2=A0...binary-native_1.21.5.bb =3D> go-binary-native_1.21.7.bb} | 6 +=
+++-
+> > --
+> > =C2=A0...oss-canadian_1.21.5.bb =3D> go-cross-canadian_1.21.7.bb} | 0
+> > =C2=A0.../go/{go-cross_1.21.5.bb =3D> go-cross_1.21.7.bb}=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 0
+> > =C2=A0.../go/{go-crosssdk_1.21.5.bb =3D> go-crosssdk_1.21.7.bb}=C2=A0=
+=C2=A0 | 0
+> > =C2=A0.../go/{go-native_1.21.5.bb =3D> go-native_1.21.7.bb}=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 | 0
+> > =C2=A0.../go/{go-runtime_1.21.5.bb =3D> go-runtime_1.21.7.bb}=C2=A0=C2=
+=A0=C2=A0=C2=A0 | 0
+> > =C2=A0...go-Allow-GOTOOLDIR-to-be-overridden-in-the-envir.patch | 2 +-
+> > =C2=A0.../go/go/0003-ld-add-soname-to-shareable-objects.patch=C2=A0=C2=
+=A0 | 8
+> > ++++----
+> > =C2=A0meta/recipes-devtools/go/{go_1.21.5.bb =3D> go_1.21.7.bb}=C2=A0=
+=C2=A0 | 0
+> > =C2=A010 files changed, 9 insertions(+), 9 deletions(-)
+> > =C2=A0rename meta/recipes-devtools/go/{go-1.21.5.inc =3D> go-1.21.7.inc=
+}
+> > (89%)
+> > =C2=A0rename meta/recipes-devtools/go/{go-binary-native_1.21.5.bb =3D> =
+go-
+> > binary-native_1.21.7.bb} (78%)
+> > =C2=A0rename meta/recipes-devtools/go/{go-cross-canadian_1.21.5.bb =3D>
+> > go-cross-canadian_1.21.7.bb} (100%)
+> > =C2=A0rename meta/recipes-devtools/go/{go-cross_1.21.5.bb =3D> go-
+> > cross_1.21.7.bb} (100%)
+> > =C2=A0rename meta/recipes-devtools/go/{go-crosssdk_1.21.5.bb =3D> go-
+> > crosssdk_1.21.7.bb} (100%)
+> > =C2=A0rename meta/recipes-devtools/go/{go-native_1.21.5.bb =3D> go-
+> > native_1.21.7.bb} (100%)
+> > =C2=A0rename meta/recipes-devtools/go/{go-runtime_1.21.5.bb =3D> go-
+> > runtime_1.21.7.bb} (100%)
+> > =C2=A0rename meta/recipes-devtools/go/{go_1.21.5.bb =3D> go_1.21.7.bb}
+> > (100%)
+> >=20
+> > diff --git a/meta/recipes-devtools/go/go-1.21.5.inc b/meta/recipes-
+> > devtools/go/go-1.21.7.inc
+> > similarity index 89%
+> > rename from meta/recipes-devtools/go/go-1.21.5.inc
+> > rename to meta/recipes-devtools/go/go-1.21.7.inc
+> > index f009ea77c7..6de24e1e22 100644
+> > --- a/meta/recipes-devtools/go/go-1.21.5.inc
+> > +++ b/meta/recipes-devtools/go/go-1.21.7.inc
+> > @@ -15,4 +15,4 @@ SRC_URI +=3D "\
+> > =C2=A0=C2=A0=C2=A0=C2=A0
+> > file://0008-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch
+> > =C2=A0\
+> > =C2=A0=C2=A0=C2=A0=C2=A0
+> > file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch=C2=A0=
+\
+> > =C2=A0"
+> > -SRC_URI[main.sha256sum] =3D
+> > "285cbbdf4b6e6e62ed58f370f3f6d8c30825d6e56c5853c66d3c23bcdb09db19"
+> > +SRC_URI[main.sha256sum] =3D
+> > "00197ab20f33813832bff62fd93cca1c42a08cc689a32a6672ca49591959bff6"
+> > diff --git a/meta/recipes-devtools/go/go-binary-native_1.21.5.bb
+> > b/meta/recipes-devtools/go/go-binary-native_1.21.7.bb
+> > similarity index 78%
+> > rename from meta/recipes-devtools/go/go-binary-native_1.21.5.bb
+> > rename to meta/recipes-devtools/go/go-binary-native_1.21.7.bb
+> > index cc79a277ff..d8826e20f1 100644
+> > --- a/meta/recipes-devtools/go/go-binary-native_1.21.5.bb
+> > +++ b/meta/recipes-devtools/go/go-binary-native_1.21.7.bb
+> > @@ -9,9 +9,9 @@ PROVIDES =3D "go-native"
+> > =C2=A0
+> > =C2=A0# Checksums available at https://go.dev/dl/
+> > =C2=A0SRC_URI =3D
+> > "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar
+> > .gz;name=3Dgo_${BUILD_GOTUPLE}"
+> > -SRC_URI[go_linux_amd64.sha256sum] =3D
+> > "e2bc0b3e4b64111ec117295c088bde5f00eeed1567999ff77bc859d7df70078e"
+> > -SRC_URI[go_linux_arm64.sha256sum] =3D
+> > "841cced7ecda9b2014f139f5bab5ae31785f35399f236b8b3e75dff2a2978d96"
+> > -SRC_URI[go_linux_ppc64le.sha256sum] =3D
+> > "1f6dd06aa34f292f33c2c70ea9b4456e3a9e5cbd1d99968f3f463a4805b40ece"
+> > +SRC_URI[go_linux_amd64.sha256sum] =3D
+> > "13b76a9b2a26823e53062fa841b07087d48ae2ef2936445dc34c4ae03293702c"
+> > +SRC_URI[go_linux_arm64.sha256sum] =3D
+> > "24744edcaeb827aafb76c67ebd406b5ae13291023b0ad9f061dd7a0e75b275ba"
+> > +SRC_URI[go_linux_ppc64le.sha256sum] =3D
+> > "48a99ecce9b1e632870c29420088f61cf17a6f0c5bdb3cc821ff5c00e14b1a8a"
+> > =C2=A0
+>=20
+> I checked and for some reason, some of these checksums aren't correct
+> in this or the previous patch. I'll try fixing them up locally.
 
-Le dim. 3 mars 2024 =C3=A0 15:10, Yoann CONGAL <yoann.congal@smile.fr> a =
-=C3=A9crit :
+With the checksums fixed, 1.21 seemed to pass enough to merge. There
+were some meta-oe recipes which failed.
 
->
->
-> Le dim. 3 mars 2024 =C3=A0 14:18, Peter Marko via lists.yoctoproject.org
-> <peter.marko=3Dsiemens.com@lists.yoctoproject.org> a =C3=A9crit :
->
->> I already mentioned this last week.
->> https://lists.openembedded.org/g/openembedded-core/message/196199
->>
->> I think that partial NVD DB update is not working properly as things
->> which were corrected by NVD are still showing up in patchmetrics but not=
- in
->> email reports.
->>
->
-> The yocto-metrics repo shows that CVE-2022-3563 has been "Unpatched" sinc=
-e
-> its creation 31/10/2023.
-> +1 on the "partial NVD DB update is not working properly" hyptohesis
->
-> Looking into this, I've started to look at the NVD API: IIUC, a partial
-> update is done by requesting every CVE that have a lastModified field
-> after our last update.
->
-> But from the NVD API doc:
-> https://nvd.nist.gov/developers/vulnerabilities#cves-lastModDates
->
->> A CVE's lastModified *does* *not* change when any of the follow actions
->> occur:
->> [...]
->> The NVD modifies a CPE record previously associated with the CVE record
->
->
-> If I read that correctly, this means that CVEs CPE updated by the NVD
-> (which is what we frequently request to the NVD) would not have their las=
-tModified
-> field updated and then, missed by the partial update. Sounds like a bug, =
-no?
->
+1.22 still has further issues blocking it.
 
-Hmmm, maybe not so simple: Take CVE-2023-3180 for exemple:
-* https://nvd.nist.gov/vuln/detail/CVE-2023-3180#VulnChangeHistorySection
-=3D> last update (2023-11-07) is the CPE update adding an upper bound to th=
-e
-version
-* but CVE lastmodified field does match the CPE update date (2023-11-07) :
-https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=3DCVE-2023-3180
+Cheers,
 
-At least, right now, the API output is "correct" (but does not match my
-understanding of the doc). But, maybe it was "incorrect" (but matching the
-doc) a few months ago?
-
-
-> For example:
->> https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2023-6779
->> https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2023-6780
->> kirkstone has glibc 2.35 and nvd recently fixed these to >=3D 2.37 and
->> these ate still in patchmetrics.
->>
->> Email reports maybe use different (not-broken yet) NVD DB cache or make
->> full update instead of incremental?
->>
->> Peter
->>
->> -----Original Message-----
->> From: yocto-security@lists.yoctoproject.org <
->> yocto-security@lists.yoctoproject.org> On Behalf Of Richard Purdie via
->> lists.yoctoproject.org
->> Sent: Sunday, March 3, 2024 13:36
->> To: Simone Wei=C3=9F <simone.p.weiss@posteo.com>; Steve Sakoman <
->> steve@sakoman.com>; openembedded-core@lists.openembedded.org;
->> yocto-security@lists.yoctoproject.org
->> Subject: Re: [yocto-security] OE-core CVE metrics for master on Sun 03
->> Mar 2024 01:00:01 AM HST
->>
->> > On Sun, 2024-03-03 at 11:49 +0000, Simone Wei=C3=9F wrote:
->> > > quick check: No news for any old issue, except cpio, which is
->> disputed
->> > > by the maintainer.
->> >
->> > Thanks, that is really useful to know!
->> >
->> > >
->> > > > Full list:  Found 41 unpatched CVEs
->> >
->> > I'm a bit puzzled/worried that our patch metrics page says 50 rather
->> than 41:
->> >
->> >
->> https://autobuilder.yocto.io/pub/non-release/patchmetrics/cve-status-mas=
-ter.txt
->> >
->> >:/
->> >
->> > Does anyone know why?
->> >
->> > Cheers,
->> >
->> > Richard
->>
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> Links: You receive all messages sent to this group.
->> View/Reply Online (#1091):
->> https://lists.yoctoproject.org/g/yocto-security/message/1091
->> Mute This Topic: https://lists.yoctoproject.org/mt/104700791/4316185
->> Group Owner: yocto-security+owner@lists.yoctoproject.org
->> Unsubscribe: https://lists.yoctoproject.org/g/yocto-security/unsub [
->> yoann.congal@smile.fr]
->> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->>
->>
->
-> --
-> Yoann Congal
-> Smile ECS - Tech expert
->
-
-
---=20
-Yoann Congal
-Smile ECS - Tech expert
-
---000000000000b808d40612c2d55e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0dim. 3 mars 2024 =C3=A0=C2=A0=
-15:10, Yoann CONGAL &lt;<a href=3D"mailto:yoann.congal@smile.fr">yoann.cong=
-al@smile.fr</a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
-,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><di=
-v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0dim. =
-3 mars 2024 =C3=A0=C2=A014:18, Peter Marko via <a href=3D"http://lists.yoct=
-oproject.org" target=3D"_blank">lists.yoctoproject.org</a> &lt;peter.marko=
-=3D<a href=3D"mailto:siemens.com@lists.yoctoproject.org" target=3D"_blank">=
-siemens.com@lists.yoctoproject.org</a>&gt; a =C3=A9crit=C2=A0:<br></div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t:1px solid rgb(204,204,204);padding-left:1ex">I already mentioned this las=
-t week.<br>
-<a href=3D"https://lists.openembedded.org/g/openembedded-core/message/19619=
-9" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/g/op=
-enembedded-core/message/196199</a><br>
-<br>
-I think that partial NVD DB update is not working properly as things which =
-were corrected by NVD are still showing up in patchmetrics but not in email=
- reports.<br></blockquote><div><br></div><div>The yocto-metrics repo shows =
-that CVE-2022-3563 has been &quot;Unpatched&quot; since its creation 31/10/=
-2023.</div><div>+1 on the &quot;partial NVD DB update is not working proper=
-ly&quot; hyptohesis<br></div><div><br></div><div>Looking into this, I&#39;v=
-e started to look at the NVD API: IIUC, a partial update is done by request=
-ing every CVE that have a <span>lastModified field after our last update.<b=
-r></span></div><div><br></div><div>But from the NVD API doc: <a href=3D"htt=
-ps://nvd.nist.gov/developers/vulnerabilities#cves-lastModDates" target=3D"_=
-blank">https://nvd.nist.gov/developers/vulnerabilities#cves-lastModDates</a=
-></div><div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-							A CVE&#39;s <span>lastModified</span> <b>does</b> <b>not</b> change =
-when any of the follow actions occur:=20
-						<br>[...]<br>The NVD modifies a CPE record previously associated with=
- the CVE record</blockquote></div><div><br></div><div>If I read that correc=
-tly, this means that CVEs CPE updated by the NVD (which is what we frequent=
-ly request to the NVD) would not have their <span>lastModified field update=
-d and then, missed by the partial update. Sounds like a bug, no?<br></span>=
-</div></div></div></blockquote><div><br></div><div>Hmmm, maybe not so simpl=
-e: Take CVE-2023-3180 for exemple:</div><div>* <a href=3D"https://nvd.nist.=
-gov/vuln/detail/CVE-2023-3180#VulnChangeHistorySection">https://nvd.nist.go=
-v/vuln/detail/CVE-2023-3180#VulnChangeHistorySection</a> =3D&gt; last updat=
-e (2023-11-07) is the CPE update adding an upper bound to the version<br>* =
-but CVE lastmodified field does match the CPE update date (2023-11-07) : <a=
- href=3D"https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=3DCVE-2023-=
-3180">https://services.nvd.nist.gov/rest/json/cves/2.0?cveId=3DCVE-2023-318=
-0</a></div><div><br></div><div>At least, right now, the API output is &quot=
-;correct&quot; (but does not match my understanding of the doc). But, maybe=
- it was &quot;incorrect&quot; (but matching the doc) a few months ago?<br><=
-/div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><di=
-v dir=3D"ltr"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" =
-style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
-dding-left:1ex">
-
-For example:<br>
-<a href=3D"https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2023-6779=
-" rel=3D"noreferrer" target=3D"_blank">https://web.nvd.nist.gov/view/vuln/d=
-etail?vulnId=3DCVE-2023-6779</a><br>
-<a href=3D"https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2023-6780=
-" rel=3D"noreferrer" target=3D"_blank">https://web.nvd.nist.gov/view/vuln/d=
-etail?vulnId=3DCVE-2023-6780</a><br>
-kirkstone has glibc 2.35 and nvd recently fixed these to &gt;=3D 2.37 and t=
-hese ate still in patchmetrics.<br>
-<br>
-Email reports maybe use different (not-broken yet) NVD DB cache or make ful=
-l update instead of incremental?<br>
-<br>
-Peter<br>
-<br>
------Original Message-----<br>
-From: <a href=3D"mailto:yocto-security@lists.yoctoproject.org" target=3D"_b=
-lank">yocto-security@lists.yoctoproject.org</a> &lt;<a href=3D"mailto:yocto=
--security@lists.yoctoproject.org" target=3D"_blank">yocto-security@lists.yo=
-ctoproject.org</a>&gt; On Behalf Of Richard Purdie via <a href=3D"http://li=
-sts.yoctoproject.org" rel=3D"noreferrer" target=3D"_blank">lists.yoctoproje=
-ct.org</a><br>
-Sent: Sunday, March 3, 2024 13:36<br>
-To: Simone Wei=C3=9F &lt;<a href=3D"mailto:simone.p.weiss@posteo.com" targe=
-t=3D"_blank">simone.p.weiss@posteo.com</a>&gt;; Steve Sakoman &lt;<a href=
-=3D"mailto:steve@sakoman.com" target=3D"_blank">steve@sakoman.com</a>&gt;; =
-<a href=3D"mailto:openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">openembedded-core@lists.openembedded.org</a>; <a href=3D"mailto:yocto-se=
-curity@lists.yoctoproject.org" target=3D"_blank">yocto-security@lists.yocto=
-project.org</a><br>
-Subject: Re: [yocto-security] OE-core CVE metrics for master on Sun 03 Mar =
-2024 01:00:01 AM HST<br>
-<br>
-&gt; On Sun, 2024-03-03 at 11:49 +0000, Simone Wei=C3=9F wrote:<br>
-&gt; &gt; quick check: No news for any old issue, except cpio, which is dis=
-puted <br>
-&gt; &gt; by the maintainer.<br>
-&gt;<br>
-&gt; Thanks, that is really useful to know!<br>
-&gt;<br>
-&gt; &gt; <br>
-&gt; &gt; &gt; Full list:=C2=A0 Found 41 unpatched CVEs<br>
-&gt;<br>
-&gt; I&#39;m a bit puzzled/worried that our patch metrics page says 50 rath=
-er than 41:<br>
-&gt;<br>
-&gt; <a href=3D"https://autobuilder.yocto.io/pub/non-release/patchmetrics/c=
-ve-status-master.txt" rel=3D"noreferrer" target=3D"_blank">https://autobuil=
-der.yocto.io/pub/non-release/patchmetrics/cve-status-master.txt</a><br>
-&gt;<br>
-&gt;:/<br>
-&gt;<br>
-&gt; Does anyone know why?<br>
-&gt;<br>
-&gt; Cheers,<br>
-&gt;<br>
-&gt; Richard<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#1091): <a href=3D"https://lists.yoctoproject.org/g/yoct=
-o-security/message/1091" rel=3D"noreferrer" target=3D"_blank">https://lists=
-.yoctoproject.org/g/yocto-security/message/1091</a><br>
-Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/104700791/431=
-6185" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/m=
-t/104700791/4316185</a><br>
-Group Owner: <a href=3D"mailto:yocto-security%2Bowner@lists.yoctoproject.or=
-g" target=3D"_blank">yocto-security+owner@lists.yoctoproject.org</a><br>
-Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/yocto-security/uns=
-ub" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/g/y=
-octo-security/unsub</a> [<a href=3D"mailto:yoann.congal@smile.fr" target=3D=
-"_blank">yoann.congal@smile.fr</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br><span class=3D"gmail_signature_pre=
-fix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><div dir=3D"l=
-tr"><font face=3D"Raleway, regular">Yoann Congal</font><div><font face=3D"R=
-aleway, regular">Smile ECS - Tech expert<br></font></div></div></div></div>
-</blockquote></div><br clear=3D"all"><br><span class=3D"gmail_signature_pre=
-fix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><div dir=3D"l=
-tr"><font face=3D"Raleway, regular">Yoann Congal</font><div><font face=3D"R=
-aleway, regular">Smile ECS - Tech expert<br></font></div></div></div></div>
-
---000000000000b808d40612c2d55e--
+Richard
 
