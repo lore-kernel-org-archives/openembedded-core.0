@@ -2,60 +2,58 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9611BC48BF6
-	for <webhook@archiver.kernel.org>; Sun,  3 Mar 2024 16:31:33 +0000 (UTC)
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
- by mx.groups.io with SMTP id smtpd.web11.76497.1709483484465529829
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8022DC48BF6
+	for <webhook@archiver.kernel.org>; Sun,  3 Mar 2024 16:32:33 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web10.76489.1709483551744965207
  for <openembedded-core@lists.openembedded.org>;
- Sun, 03 Mar 2024 08:31:24 -0800
+ Sun, 03 Mar 2024 08:32:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CI3v1lAX;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.208.177, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2d1094b5568so44636851fa.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 03 Mar 2024 08:31:24 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NwHwg0um;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-33d6f26ff33so2303493f8f.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 03 Mar 2024 08:32:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1709483482; x=1710088282; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1709483550; x=1710088350; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=JPIetiGux7rDEMXSpccwKUs3T1a9ddcmOufpXCZM1Nk=;
-        b=CI3v1lAXCgEhykzXs8GF8ZTn/5gIoxgK3it2z4zr8YRIXJDi5Bmz2/D++dIx4oGfD3
-         o/BkaLaciN2BJCVPdvlWNWXRJLrjwc6/g3a+0OkbSDqSfw50wjpUw5EzuiHb2kg6RHEH
-         IF0amHZ1U9a09MiO5s4wCOVaqviaZcPyG9FZQ=
+         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3/ng92S3UuyxkY29roNWtPMhlEZpAuFZWrAOdcR6Eqc=;
+        b=NwHwg0umgWRDdd7RVoLkY3QotIk2Q7cP1egYfS8YQG3Czi4gIWShIozezImuwNOmoS
+         7unTzCPOF+1UQqKtoriSGR81oQNIywSLuJvrU/9fvhAGtYvwYIhnaJl9jOdTyA9dKbgj
+         /iM0oVctQTozbmN733BDAXi8Z2JVFHzIM+LWs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709483482; x=1710088282;
+        d=1e100.net; s=20230601; t=1709483550; x=1710088350;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :references:in-reply-to:date:to:from:subject:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JPIetiGux7rDEMXSpccwKUs3T1a9ddcmOufpXCZM1Nk=;
-        b=HJIleXu2ZQQ2Ukij7oUFJu9qRzhAxHJXnKh/thXUBpM6lPnB+Azb3IHKJOHILGUizB
-         sfHAFaiw7PNsHjtS/DaPhEcwuV/llNGURp+2zRCR2TP8XfCRABKN+ymBTdnemlZIHOWV
-         hu+YxU7oHe1vSoNdetNLucK17Khz9eWNoh1uY1t0F1StqWZ7zCfFYH8GEFRRJsfnva7z
-         3JCFJpYI1oAuA4ZFGJ9l9ZnFRo5sZ+gu5IQq1T5ttFnBuUSYGg1gtVrnQIUhybPtrFFB
-         TNHDiKoOQphi8hORmLdLRd70gumDU1P4977448m9dgIveEklO1QMMNtyfVWmkr2HoBHZ
-         rynw==
-X-Forwarded-Encrypted: i=1; AJvYcCWic0XyEDhOj2QwAjH2ZfsJVsc5Cm/ATgS/1a+vccRmxu4UD4pZwIQ0lulZtOgNjizzddTaFsGf3cIXYjAKGTEWC81qwX2bKPOBOy5wvOehFFbtyeOKxa0Y
-X-Gm-Message-State: AOJu0YyZ1JCnCkp67nLNVC/wb+ux1AMivVpVeTmE+HZdT4jvnr8J1Az/
-	XNaYnwLVq23WK0OuGlDjxxM2CdwNUtJgOBL87VS1jO4QJNHcKeS54TAD4fzSYlo=
-X-Google-Smtp-Source: AGHT+IFe/1Kti/QMLICPIxjrfBVEFSAIh5lmYqHUD0LPhrfvyMs80mNc3fqYYcrB9Ja+0Edj7rEQ5A==
-X-Received: by 2002:a2e:9b10:0:b0:2d2:9a8e:94a9 with SMTP id u16-20020a2e9b10000000b002d29a8e94a9mr4118445lji.46.1709483482483;
-        Sun, 03 Mar 2024 08:31:22 -0800 (PST)
+        bh=3/ng92S3UuyxkY29roNWtPMhlEZpAuFZWrAOdcR6Eqc=;
+        b=bvrwwkmngM1kUuY4rPZKccNmGUghAVmm5Q59/A7edsxBeDtZWMVuZJsuR1LrDEV0Tg
+         D20UZzq2e9mNcYReqg8s9bgw1TdB5dIlY5pCGe9+hs6upFxESWCtPWOExmMCfZwstBw2
+         5esyxgAGVzPJ/UtzBpF5d7/IIv95LJITyM5D0O0iAPP57C55Nn+lTv593RuyBGdlTDqG
+         RNVm+y/Xze8eRokXf85NA5S0ZfgrJZwW5Jn8j43KLUiIKoRniG1I4v5L9NkMsTrFv5gX
+         rfi8fChyAbPFUlCUasOaN0ArzwDe4lEH/qMNx+BK/xB/g7K+fuTz3+8yPj4dRIL8yQwW
+         W99Q==
+X-Forwarded-Encrypted: i=1; AJvYcCV1sC7JwiJPEyI8H6nFHPqYaUjQS5362xVK7SguLuaWZrvTjqtAStXG66fv8dBg2K7kQmyMpY/98Woqf07A2c2WZ11Bw+HYocojDUy7/6iv5ytzBXgVST0v
+X-Gm-Message-State: AOJu0YwMwX4N/13hwHW5/bkvspnYP+dNo4iTlR3Woxl4oMNwm1uSOak6
+	RXZeG9XzGOMo5BKijzduKJbdgsmuhwsRph4jX8liUxrbq029MwwvMWWhi2Q1g9Nb2illQRL78kp
+	Z
+X-Google-Smtp-Source: AGHT+IEMUfQKvrKBQsDL6GWILL+KKw9cGoRXOGrR9Th15Fm+FNJ7dBFUuo3X7kaQPIo77S+9NIUG0A==
+X-Received: by 2002:a5d:660d:0:b0:33e:206b:8112 with SMTP id n13-20020a5d660d000000b0033e206b8112mr5547067wru.14.1709483549757;
+        Sun, 03 Mar 2024 08:32:29 -0800 (PST)
 Received: from ?IPv6:2001:8b0:aba:5f3c:1b68:114e:8f9b:9a96? ([2001:8b0:aba:5f3c:1b68:114e:8f9b:9a96])
-        by smtp.gmail.com with ESMTPSA id h19-20020a05600c351300b00412b6fbb9c3sm11994283wmq.9.2024.03.03.08.31.21
+        by smtp.gmail.com with ESMTPSA id bn26-20020a056000061a00b0033d4dab14a8sm9867934wrb.22.2024.03.03.08.32.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Mar 2024 08:31:21 -0800 (PST)
-Message-ID: <7fb48d27acb136ee014d8e0bcd7c56e79657bd55.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [RFC OE-core][PATCH v2 6/7] go: upgrade 1.21.5 ->
- 1.21.7
+        Sun, 03 Mar 2024 08:32:29 -0800 (PST)
+Message-ID: <717d4653e5002408884110178013804b645e2b38.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] go: filter out build specific path from the
+ linker flags
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jose Quaresma <quaresma.jose@gmail.com>, 
+To: Changqing Li <changqing.li@eng.windriver.com>, 
 	openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <jose.quaresma@foundries.io>
-Date: Sun, 03 Mar 2024 16:31:21 +0000
-In-Reply-To: <17B89B4F303DC3DB.30419@lists.openembedded.org>
-References: <20240228183011.1495807-1-jose.quaresma@foundries.io>
-	 <20240228183011.1495807-6-jose.quaresma@foundries.io>
-	 <17B89B4F303DC3DB.30419@lists.openembedded.org>
+Date: Sun, 03 Mar 2024 16:32:28 +0000
+In-Reply-To: <20240229012140.1355863-1-changqing.li@windriver.com>
+References: <20240229012140.1355863-1-changqing.li@windriver.com>
 Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
@@ -71,166 +69,38 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 03 Mar 2024 16:31:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196567
+ <openembedded-core@lists.openembedded.org>; Sun, 03 Mar 2024 16:32:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196568
 
-On Fri, 2024-03-01 at 09:53 +0000, Richard Purdie via
-lists.openembedded.org wrote:
-> On Wed, 2024-02-28 at 18:30 +0000, Jose Quaresma wrote:
-> > Upgrade to latest 1.21.x release [1]:
-> >=20
-> > $ git --no-pager log --oneline go1.21.5..go1.21.7
-> > f29208030a (tag: go1.21.7) [release-branch.go1.21] go1.21.7
-> > 2fdad8af6d [release-branch.go1.21] cmd/internal/obj/arm64: fix
-> > frame pointer restore in epilogue
-> > 01c93ad049 [release-branch.go1.21] cmd/go/internal/generate: call
-> > modload.InitWorkFile
-> > db74bfba18 [release-branch.go1.21] Revert "crypto/internal/boring:
-> > upgrade module to fips-20220613" +1
-> > 916e6cddf1 [release-branch.go1.21] runtime: fix Pinner.Pin
-> > documentation
-> > 6552f3d4ac [release-branch.go1.21] cmd/go/internal/toolchain: apply
-> > the -modcacherw flag when downloading a module to determine what
-> > toolchain it needs
-> > 3960318b87 [release-branch.go1.21] crypto/x509: properly gate test
-> > on macos version
-> > 00f974eb1f [release-branch.go1.21] go/types, types2: don't lose
-> > position info of interface embeddings
-> > 2f91c16e68 [release-branch.go1.21] runtime: properly model rwmutex
-> > in lock ranking
-> > 2540b1436f [release-branch.go1.21] slices: explicitly discard
-> > results of some functions
-> > 7e34c4308f [release-branch.go1.21] runtime: clear g0 stack bounds
-> > in dropm
-> > 491c1e7e95 [release-branch.go1.21] runtime: allow update of system
-> > stack bounds on callback from C thread
-> > caafb50c0d [release-branch.go1.21] runtime: don't print "unexpected
-> > SPWRITE" when printing traceback
-> > cc85462b3d (tag: go1.21.6) [release-branch.go1.21] go1.21.6
-> > d2cb140194 [release-branch.go1.21] crypto/tls: align FIPS-only mode
-> > with BoringSSL policy
-> > 368e2a9461 [release-branch.go1.21] crypto/internal/boring: upgrade
-> > module to fips-20220613
-> > 8c6078adfb [release-branch.go1.21] runtime: add race annotations in
-> > IncNonDefault
-> > f6b203c828 [release-branch.go1.21] maps: fix aliasing problems with
-> > Clone
-> > 43818206dc [release-branch.go1.21] runtime: put ReadMemStats debug
-> > assertions behind a double-check mode
-> > cf65d74bc5 [release-branch.go1.21] runtime: add the disablethp
-> > GODEBUG setting
-> > ad1ec60a5b [release-branch.go1.21] runtime/pprof: fix generics
-> > function names
-> > bbab863ada [release-branch.go1.21] os/signal: skip nohup tests on
-> > darwin builders
-> > 7dc67e8f29 [release-branch.go1.21] os/signal: remove go t.Run from
-> > TestNohup
-> > 9f8b3ac8c4 [release-branch.go1.21] cmd/compile: fix escape analysis
-> > of string min/max
-> > 8c840b10d0 [release-branch.go1.21] cmd/compile: fix memcombine pass
-> > for big endian, > 1 byte elements
-> >=20
-> > [1] https://github.com/golang/go/compare/go1.21.5...go1.21.7
-> >=20
-> > Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
-> > ---
-> > =C2=A0meta/recipes-devtools/go/{go-1.21.5.inc =3D> go-1.21.7.inc} | 2 +=
--
-> > =C2=A0...binary-native_1.21.5.bb =3D> go-binary-native_1.21.7.bb} | 6 +=
-++-
-> > --
-> > =C2=A0...oss-canadian_1.21.5.bb =3D> go-cross-canadian_1.21.7.bb} | 0
-> > =C2=A0.../go/{go-cross_1.21.5.bb =3D> go-cross_1.21.7.bb}=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 0
-> > =C2=A0.../go/{go-crosssdk_1.21.5.bb =3D> go-crosssdk_1.21.7.bb}=C2=A0=
-=C2=A0 | 0
-> > =C2=A0.../go/{go-native_1.21.5.bb =3D> go-native_1.21.7.bb}=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 | 0
-> > =C2=A0.../go/{go-runtime_1.21.5.bb =3D> go-runtime_1.21.7.bb}=C2=A0=C2=
-=A0=C2=A0=C2=A0 | 0
-> > =C2=A0...go-Allow-GOTOOLDIR-to-be-overridden-in-the-envir.patch | 2 +-
-> > =C2=A0.../go/go/0003-ld-add-soname-to-shareable-objects.patch=C2=A0=C2=
-=A0 | 8
-> > ++++----
-> > =C2=A0meta/recipes-devtools/go/{go_1.21.5.bb =3D> go_1.21.7.bb}=C2=A0=
-=C2=A0 | 0
-> > =C2=A010 files changed, 9 insertions(+), 9 deletions(-)
-> > =C2=A0rename meta/recipes-devtools/go/{go-1.21.5.inc =3D> go-1.21.7.inc=
-}
-> > (89%)
-> > =C2=A0rename meta/recipes-devtools/go/{go-binary-native_1.21.5.bb =3D> =
-go-
-> > binary-native_1.21.7.bb} (78%)
-> > =C2=A0rename meta/recipes-devtools/go/{go-cross-canadian_1.21.5.bb =3D>
-> > go-cross-canadian_1.21.7.bb} (100%)
-> > =C2=A0rename meta/recipes-devtools/go/{go-cross_1.21.5.bb =3D> go-
-> > cross_1.21.7.bb} (100%)
-> > =C2=A0rename meta/recipes-devtools/go/{go-crosssdk_1.21.5.bb =3D> go-
-> > crosssdk_1.21.7.bb} (100%)
-> > =C2=A0rename meta/recipes-devtools/go/{go-native_1.21.5.bb =3D> go-
-> > native_1.21.7.bb} (100%)
-> > =C2=A0rename meta/recipes-devtools/go/{go-runtime_1.21.5.bb =3D> go-
-> > runtime_1.21.7.bb} (100%)
-> > =C2=A0rename meta/recipes-devtools/go/{go_1.21.5.bb =3D> go_1.21.7.bb}
-> > (100%)
-> >=20
-> > diff --git a/meta/recipes-devtools/go/go-1.21.5.inc b/meta/recipes-
-> > devtools/go/go-1.21.7.inc
-> > similarity index 89%
-> > rename from meta/recipes-devtools/go/go-1.21.5.inc
-> > rename to meta/recipes-devtools/go/go-1.21.7.inc
-> > index f009ea77c7..6de24e1e22 100644
-> > --- a/meta/recipes-devtools/go/go-1.21.5.inc
-> > +++ b/meta/recipes-devtools/go/go-1.21.7.inc
-> > @@ -15,4 +15,4 @@ SRC_URI +=3D "\
-> > =C2=A0=C2=A0=C2=A0=C2=A0
-> > file://0008-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch
-> > =C2=A0\
-> > =C2=A0=C2=A0=C2=A0=C2=A0
-> > file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch=C2=A0=
-\
-> > =C2=A0"
-> > -SRC_URI[main.sha256sum] =3D
-> > "285cbbdf4b6e6e62ed58f370f3f6d8c30825d6e56c5853c66d3c23bcdb09db19"
-> > +SRC_URI[main.sha256sum] =3D
-> > "00197ab20f33813832bff62fd93cca1c42a08cc689a32a6672ca49591959bff6"
-> > diff --git a/meta/recipes-devtools/go/go-binary-native_1.21.5.bb
-> > b/meta/recipes-devtools/go/go-binary-native_1.21.7.bb
-> > similarity index 78%
-> > rename from meta/recipes-devtools/go/go-binary-native_1.21.5.bb
-> > rename to meta/recipes-devtools/go/go-binary-native_1.21.7.bb
-> > index cc79a277ff..d8826e20f1 100644
-> > --- a/meta/recipes-devtools/go/go-binary-native_1.21.5.bb
-> > +++ b/meta/recipes-devtools/go/go-binary-native_1.21.7.bb
-> > @@ -9,9 +9,9 @@ PROVIDES =3D "go-native"
-> > =C2=A0
-> > =C2=A0# Checksums available at https://go.dev/dl/
-> > =C2=A0SRC_URI =3D
-> > "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar
-> > .gz;name=3Dgo_${BUILD_GOTUPLE}"
-> > -SRC_URI[go_linux_amd64.sha256sum] =3D
-> > "e2bc0b3e4b64111ec117295c088bde5f00eeed1567999ff77bc859d7df70078e"
-> > -SRC_URI[go_linux_arm64.sha256sum] =3D
-> > "841cced7ecda9b2014f139f5bab5ae31785f35399f236b8b3e75dff2a2978d96"
-> > -SRC_URI[go_linux_ppc64le.sha256sum] =3D
-> > "1f6dd06aa34f292f33c2c70ea9b4456e3a9e5cbd1d99968f3f463a4805b40ece"
-> > +SRC_URI[go_linux_amd64.sha256sum] =3D
-> > "13b76a9b2a26823e53062fa841b07087d48ae2ef2936445dc34c4ae03293702c"
-> > +SRC_URI[go_linux_arm64.sha256sum] =3D
-> > "24744edcaeb827aafb76c67ebd406b5ae13291023b0ad9f061dd7a0e75b275ba"
-> > +SRC_URI[go_linux_ppc64le.sha256sum] =3D
-> > "48a99ecce9b1e632870c29420088f61cf17a6f0c5bdb3cc821ff5c00e14b1a8a"
-> > =C2=A0
+On Thu, 2024-02-29 at 09:21 +0800, Changqing Li wrote:
+> From: Changqing Li <changqing.li@windriver.com>
 >=20
-> I checked and for some reason, some of these checksums aren't correct
-> in this or the previous patch. I'll try fixing them up locally.
+> patch 0007-exec.go-do-not-write-linker-flags-into-buildids.patch
+> removes linker flags from buildids for not breaking reproducibility,
+> but it seems that this will make go not rebuild when linker flag
+> changes, Refer [1]. So remove this oe-specific patch, and change to
+> filter out build specific path from the linker flags
+>=20
+> [1] https://github.com/golang/go/issues/63760
+>=20
+> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> ---
+> =C2=A0meta/recipes-devtools/go/go-1.20.14.inc=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 |=C2=A0 2 +-
+> =C2=A0...ut-build-specific-paths-from-linker-.patch | 61 ++++++++++++++++=
++++
+> =C2=A0...not-write-linker-flags-into-buildids.patch | 41 -------------
+> =C2=A03 files changed, 62 insertions(+), 42 deletions(-)
+> =C2=A0create mode 100644 meta/recipes-devtools/go/go/0001-exec.go-filter-=
+out-build-specific-paths-from-linker-.patch
+> =C2=A0delete mode 100644 meta/recipes-devtools/go/go/0007-exec.go-do-not-=
+write-linker-flags-into-buildids.patch
 
-With the checksums fixed, 1.21 seemed to pass enough to merge. There
-were some meta-oe recipes which failed.
+Whilst I think this is a good change, I decided to take the 1.21
+upgrade and this conflicts. Would you be able to rebase against the new
+version please?
 
-1.22 still has further issues blocking it.
-
-Cheers,
+Thanks,
 
 Richard
 
