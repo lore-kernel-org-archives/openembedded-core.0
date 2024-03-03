@@ -1,98 +1,252 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8926AC48BF6
-	for <webhook@archiver.kernel.org>; Sun,  3 Mar 2024 12:36:02 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web11.72163.1709469358727101769
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9CA1C5475B
+	for <webhook@archiver.kernel.org>; Sun,  3 Mar 2024 13:17:22 +0000 (UTC)
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+ by mx.groups.io with SMTP id smtpd.web10.72658.1709471832057901451
  for <openembedded-core@lists.openembedded.org>;
- Sun, 03 Mar 2024 04:35:59 -0800
+ Sun, 03 Mar 2024 05:17:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SRnWGxi7;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-412e17d60fcso910955e9.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 03 Mar 2024 04:35:58 -0800 (PST)
+ dkim=pass header.i=@smile-fr.20230601.gappssmtp.com header.s=20230601 header.b=JtuP6cyG;
+ spf=pass (domain: smile.fr, ip: 209.85.208.49, mailfrom: yoann.congal@smile.fr)
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-563c595f968so5487651a12.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 03 Mar 2024 05:17:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1709469357; x=1710074157; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WmbQxTFxBIe0q/oCPLn8jMMbbqee0Ywgxc6/Qm96qA0=;
-        b=SRnWGxi7vSpJo1wtJYWJVrOSRUx7Y4HKccpcu2JfGcVKYD3BrQc2tytxKtZpaYprD2
-         +s0dTF5Tw5GX3X8LanVVPHmGQRI+/6guNIqWbpzJRaBdOVz1QrBiz9ecfN1irQPTlml0
-         L670OZledGE50tmNVJ7NspJcz1ieOeLUL9d2k=
+        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1709471830; x=1710076630; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=GdlwvKmJcei1fpnJFiVFRikk3FrpV9mc+Ooawb42JXE=;
+        b=JtuP6cyGA3Y3/ajPNKl4V97/FgS/s//MDmga0IO6nxgU3IWK6yKIxP1Y0yNsVGLQUH
+         juO0C207huBg6KPpprzgbk5bfqK6GLcXWwK8NS30Df3xhTuKQR2EP4FB73DXd0ROkkTu
+         tdB9ZWIwSf6aiKI0fObWew3dp4cIAk3hoVy+8r+uS86+FtG5xAl97vAPAwWXug8Msf/L
+         cna8+yE0g/8zYgqlf4zk10Vx2LXHqolbNT22z2lM3BVAK6PX8Qlc0vXbvnoyfKgGWVjG
+         7FtWo1UdxjyhFLT3Jt08CyZBw7FX+wSgQFzNHEPi1aDIqNT0QfmuiGZ6luT8mtOKtvpP
+         lBSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709469357; x=1710074157;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WmbQxTFxBIe0q/oCPLn8jMMbbqee0Ywgxc6/Qm96qA0=;
-        b=Sa81ajV/aAgYwM0N2SEQPehUG3TWoBOcLMlpa0al6gWKUL4yb6+Vo0eGoB3XxIATak
-         cMwuqgzbIDjhLsrnZHL+MdMjaWpQ2lWe6KVpw9uMQn0zBRehoDtcA6MdKm4V3PNYvnHb
-         JHz5N22npSmwtRWkyUuTKfi0N/q+JEReajB2WbskYp116sSrf8KSB1G3YZi4bMOx0zcK
-         VnVjMbF7Ps5yARuDdbrYZAJgEJLI6bqKjWO2EsmWzm5Xt6+Uk9GqxRYrAeNRzIrK9Bmj
-         C7+7jMFx7N9q6rN8xRu4vovcgDte47T/RAjMBNBo73fMJqaayp7pNkf3bYutirXoxrIj
-         wsnQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV6OqOjH1W8wFm8T0S8rrVrmmtOZp4ILhneUUXvSwxxueuwTXsyugGyUj2SSltVsEVDAnCanW0IAKx9wXp2acTVciSnVgru1GWCtxwcedwBQmE6pNHZmCzg
-X-Gm-Message-State: AOJu0YzK64tfBg1s+7/Dr4/ytyqHMbhQsA8rgWAG7MAA0WZaLi9TGz4n
-	sTwZjYRYiDO5W2atyduQUFCMibBlbhU60Rkd+v7AkyGXrGo4mFVeMVDvzO4UGWU=
-X-Google-Smtp-Source: AGHT+IG80Akrtrx1zthM/H//xWBbe7Ryj9te0uL4GYEdbFrD59v9+8MqKtFw+34eJNCfOsEHKB/Fag==
-X-Received: by 2002:a05:600c:3b94:b0:412:d1ee:dfa2 with SMTP id n20-20020a05600c3b9400b00412d1eedfa2mr3301630wms.0.1709469356956;
-        Sun, 03 Mar 2024 04:35:56 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:1b68:114e:8f9b:9a96? ([2001:8b0:aba:5f3c:1b68:114e:8f9b:9a96])
-        by smtp.gmail.com with ESMTPSA id p4-20020a05600c358400b00412b56aa46bsm11377895wmq.13.2024.03.03.04.35.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Mar 2024 04:35:56 -0800 (PST)
-Message-ID: <d30f4cd0293437624736e21d82d14081f0c23d48.camel@linuxfoundation.org>
+        d=1e100.net; s=20230601; t=1709471830; x=1710076630;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GdlwvKmJcei1fpnJFiVFRikk3FrpV9mc+Ooawb42JXE=;
+        b=kjCPMklCLHzU5GPzLq18h7kOViDwdphZ5EJCx4AMBzPuPs2RJJh9xqH1NP2Ef+ffhn
+         PRbJoPllkN+EK/v/rWA7U98vIaXK7Ce6O7gCufTuS8i/MsC35QKYwLiqvhC0oB1H9hAF
+         ocXjdGE8oZCbPMqyOPm+XeOdrgosLA2mfMZ1qLYvelPDyw9tMYmUlBrXt29WSOMZd0+C
+         lFgRW4+4VNwJW0h9q+hkLrkIy0nir56moqHaL1GABzHo/N92AoeV6kqNUcdAP7mizceU
+         4vymkAp1jZxS5aaR47LMUHgpmsHceLMY4D/AP+vHcShg/cJI9bNYsI5CS8hKrfNjCZx4
+         O60A==
+X-Forwarded-Encrypted: i=1; AJvYcCVg6825FoXQpVMhZnXVxJ4L1iqQ2L7bprUA5BoGVOELqolqxt2mxN/wpSsgonXPBR0bMJ4DZJDfAPVD2dmRF08oiKHqTVBPaBLHM3gGp2fj//42btBqDjb2
+X-Gm-Message-State: AOJu0YzPQDjE095cjgXKYrwA8Fk7+aA/Fnl+PZA7ujrwy9pHL6W1Otom
+	oUgjDqdq2eiJ0tQvf6sAOQxQDCWZkqMSbwbyu7po3t2D7QXkb3LJ8YAyp5KkTDm7L9SJFquviSJ
+	8Km5FlNs8CjzFp7rGxmH0frw2sPkOCBywgkMifw==
+X-Google-Smtp-Source: AGHT+IFwKTTV2ieAUI+zAiP2OZWycEqAfK92OVXcfmgrO6kAK2OUknBphMwFHPofaD3v9VuIwZC3Qu5EU60/GdPrC+s=
+X-Received: by 2002:a17:906:a454:b0:a45:3113:e875 with SMTP id
+ cb20-20020a170906a45400b00a453113e875mr503126ejb.29.1709471829937; Sun, 03
+ Mar 2024 05:17:09 -0800 (PST)
+MIME-Version: 1.0
+References: <20240303111845.7A4DE106912@builder.sakoman.com>
+ <f9e113a874a6c71e73bed3a062da1b06520dcabb.camel@posteo.net> <d30f4cd0293437624736e21d82d14081f0c23d48.camel@linuxfoundation.org>
+In-Reply-To: <d30f4cd0293437624736e21d82d14081f0c23d48.camel@linuxfoundation.org>
+From: Yoann CONGAL <yoann.congal@smile.fr>
+Date: Sun, 3 Mar 2024 14:16:43 +0100
+Message-ID: <CAMSfU+6k3a8VW=j7bQGY7ebc+ZexshmQLJAV_9oXwTYa2AdJuQ@mail.gmail.com>
 Subject: Re: [yocto-security] OE-core CVE metrics for master on Sun 03 Mar
  2024 01:00:01 AM HST
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Simone =?ISO-8859-1?Q?Wei=DF?= <simone.p.weiss@posteo.com>, Steve
- Sakoman <steve@sakoman.com>, openembedded-core@lists.openembedded.org, 
- yocto-security@lists.yoctoproject.org
-Date: Sun, 03 Mar 2024 12:35:55 +0000
-In-Reply-To: <f9e113a874a6c71e73bed3a062da1b06520dcabb.camel@posteo.net>
-References: <20240303111845.7A4DE106912@builder.sakoman.com>
-	 <f9e113a874a6c71e73bed3a062da1b06520dcabb.camel@posteo.net>
-Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
- YNvg==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.0-1 
-MIME-Version: 1.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: =?UTF-8?B?U2ltb25lIFdlacOf?= <simone.p.weiss@posteo.com>, 
+	Steve Sakoman <steve@sakoman.com>, openembedded-core@lists.openembedded.org, 
+	yocto-security@lists.yoctoproject.org
+Content-Type: multipart/alternative; boundary="0000000000002d65390612c16d96"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 03 Mar 2024 12:36:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196560
+ <openembedded-core@lists.openembedded.org>; Sun, 03 Mar 2024 13:17:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196561
 
-On Sun, 2024-03-03 at 11:49 +0000, Simone Wei=C3=9F wrote:
-> quick check: No news for any old issue, except cpio, which is
-> disputed by the maintainer.
+--0000000000002d65390612c16d96
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks, that is really useful to know!
+Le dim. 3 mars 2024 =C3=A0 13:36, Richard Purdie <
+richard.purdie@linuxfoundation.org> a =C3=A9crit :
 
->=20
-> > Full list:=C2=A0 Found 41 unpatched CVEs
+> On Sun, 2024-03-03 at 11:49 +0000, Simone Wei=C3=9F wrote:
+> > > Full list:  Found 41 unpatched CVEs
+>
+> I'm a bit puzzled/worried that our patch metrics page says 50 rather
+> than 41:
+>
+>
+> https://autobuilder.yocto.io/pub/non-release/patchmetrics/cve-status-mast=
+er.txt
+>
+> :/
+>
+> Does anyone know why?
+>
 
-I'm a bit puzzled/worried that our patch metrics page says 50 rather
-than 41:
+Weird...
 
-https://autobuilder.yocto.io/pub/non-release/patchmetrics/cve-status-master=
-.txt
+Here is the added CVEs from Steve's run to the AB run (
+https://autobuilder.yoctoproject.org/typhoon/#/builders/138/builds/1275/ste=
+ps/15/logs/stdio
+):
++CVE-2022-3563: bluez5
+https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2022-3563 *
++CVE-2022-3637: bluez5
+https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2022-3637 *
++CVE-2023-28736: mdadm
+https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2023-28736 *
++CVE-2023-28938: mdadm
+https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2023-28938 *
++CVE-2023-3180: qemu:qemu-native:qemu-system-native
+https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2023-3180 *
++CVE-2023-3354: qemu:qemu-native:qemu-system-native
+https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2023-3354 *
++CVE-2023-4135: qemu:qemu-native:qemu-system-native
+https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2023-4135 *
++CVE-2023-6918: libssh2:libssh2-native
+https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2023-6918 *
++CVE-2024-24806: libuv
+https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2024-24806 *
 
-:/
+I've started looking at this at the top:
+CVE-2022-3563: bluez5
+https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2022-3563 *
+=3D> Fixed in >=3D 5.65 (last NVD update November 2023), bluez5 is 5.72 in
+oe-core but cve-check says Unpatched :
+https://git.yoctoproject.org/yocto-metrics/tree/cve-check/master/1709449295=
+.json?id=3D851f9dd3bf9faccb85796b45e62139cc50cbbcb7#n12305
+Locally this CVE is not displayed as unpatched.
 
-Does anyone know why?
+The rest of the list is in similar state:
+* oe-core is updated enough for the CVE to be patched as per NVD data
+* all NVD updates are at least a few weeks old (except CVE-2024-24806:
+libuv : 4 days)
+* locally these CVE do not appear as Unpatched
 
-Cheers,
+Something is weird on the autobuilder. Maybe keep the build directory
+around and a copy of the current CVE database for analysis
+($DL_DIR/CVE_CHECK/nvdcve_2-1.db) ?
 
-Richard
+
+
+> Cheers,
+>
+> Richard
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#1089):
+> https://lists.yoctoproject.org/g/yocto-security/message/1089
+> Mute This Topic: https://lists.yoctoproject.org/mt/104700791/4316185
+> Group Owner: yocto-security+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/yocto-security/unsub [
+> yoann.congal@smile.fr]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--=20
+Yoann Congal
+Smile ECS - Tech expert
+
+--0000000000002d65390612c16d96
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0dim. 3 mars 2024 =C3=A0=C2=A0=
+13:36, Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.=
+org">richard.purdie@linuxfoundation.org</a>&gt; a =C3=A9crit=C2=A0:<br></di=
+v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
+r-left:1px solid rgb(204,204,204);padding-left:1ex">On Sun, 2024-03-03 at 1=
+1:49 +0000, Simone Wei=C3=9F wrote:<br>
+&gt; &gt; Full list:=C2=A0 Found 41 unpatched CVEs<br>
+<br>
+I&#39;m a bit puzzled/worried that our patch metrics page says 50 rather<br=
+>
+than 41:<br>
+<br>
+<a href=3D"https://autobuilder.yocto.io/pub/non-release/patchmetrics/cve-st=
+atus-master.txt" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.y=
+octo.io/pub/non-release/patchmetrics/cve-status-master.txt</a><br>
+<br>
+:/<br>
+<br>
+Does anyone know why?<br></blockquote><div><br></div><div>Weird...</div><di=
+v><br></div><div>Here is the added CVEs from Steve&#39;s run to the AB run =
+(<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/138/bui=
+lds/1275/steps/15/logs/stdio">https://autobuilder.yoctoproject.org/typhoon/=
+#/builders/138/builds/1275/steps/15/logs/stdio</a>):<br></div><div>+CVE-202=
+2-3563: bluez5 <a href=3D"https://web.nvd.nist.gov/view/vuln/detail?vulnId=
+=3DCVE-2022-3563">https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-20=
+22-3563</a> *</div><div>+CVE-2022-3637: bluez5 <a href=3D"https://web.nvd.n=
+ist.gov/view/vuln/detail?vulnId=3DCVE-2022-3637">https://web.nvd.nist.gov/v=
+iew/vuln/detail?vulnId=3DCVE-2022-3637</a> *</div><div>+CVE-2023-28736: mda=
+dm <a href=3D"https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2023-2=
+8736">https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2023-28736</a>=
+ *<br>+CVE-2023-28938: mdadm <a href=3D"https://web.nvd.nist.gov/view/vuln/=
+detail?vulnId=3DCVE-2023-28938">https://web.nvd.nist.gov/view/vuln/detail?v=
+ulnId=3DCVE-2023-28938</a> *<br>+CVE-2023-3180: qemu:qemu-native:qemu-syste=
+m-native <a href=3D"https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-=
+2023-3180">https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2023-3180=
+</a> *<br>+CVE-2023-3354: qemu:qemu-native:qemu-system-native <a href=3D"ht=
+tps://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2023-3354">https://web=
+.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2023-3354</a> *<br>+CVE-2023-41=
+35: qemu:qemu-native:qemu-system-native <a href=3D"https://web.nvd.nist.gov=
+/view/vuln/detail?vulnId=3DCVE-2023-4135">https://web.nvd.nist.gov/view/vul=
+n/detail?vulnId=3DCVE-2023-4135</a> *<br>+CVE-2023-6918: libssh2:libssh2-na=
+tive <a href=3D"https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2023=
+-6918">https://web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2023-6918</a>=
+ *<br>+CVE-2024-24806: libuv <a href=3D"https://web.nvd.nist.gov/view/vuln/=
+detail?vulnId=3DCVE-2024-24806">https://web.nvd.nist.gov/view/vuln/detail?v=
+ulnId=3DCVE-2024-24806</a> *</div><div><br></div><div>I&#39;ve started look=
+ing at this at the top:</div><div>CVE-2022-3563: bluez5 <a href=3D"https://=
+web.nvd.nist.gov/view/vuln/detail?vulnId=3DCVE-2022-3563">https://web.nvd.n=
+ist.gov/view/vuln/detail?vulnId=3DCVE-2022-3563</a> *</div><div>=3D&gt; Fix=
+ed in &gt;=3D 5.65 (last NVD update November 2023), bluez5 is 5.72 in oe-co=
+re but cve-check says=20
+Unpatched :=20
+<a href=3D"https://git.yoctoproject.org/yocto-metrics/tree/cve-check/master=
+/1709449295.json?id=3D851f9dd3bf9faccb85796b45e62139cc50cbbcb7#n12305">http=
+s://git.yoctoproject.org/yocto-metrics/tree/cve-check/master/1709449295.jso=
+n?id=3D851f9dd3bf9faccb85796b45e62139cc50cbbcb7#n12305</a></div><div>Locall=
+y this CVE is not displayed as unpatched.</div><div><br></div><div>The rest=
+ of the list is in similar state:</div><div>* oe-core is updated enough for=
+ the CVE to be patched as per NVD data</div><div>* all NVD updates are at l=
+east a few weeks old (except=C2=A0CVE-2024-24806: libuv : 4 days)</div><div=
+>* locally these CVE do not appear as Unpatched <br></div><div><br></div><d=
+iv><div>Something is weird on the autobuilder. Maybe keep the build=20
+directory around and a copy of the current CVE database for analysis=20
+($DL_DIR/CVE_CHECK/nvdcve_2-1.db) ?</div></div><div><br></div><div>=C2=A0</=
+div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
+der-left:1px solid rgb(204,204,204);padding-left:1ex">
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#1089): <a href=3D"https://lists.yoctoproject.org/g/yoct=
+o-security/message/1089" rel=3D"noreferrer" target=3D"_blank">https://lists=
+.yoctoproject.org/g/yocto-security/message/1089</a><br>
+Mute This Topic: <a href=3D"https://lists.yoctoproject.org/mt/104700791/431=
+6185" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/m=
+t/104700791/4316185</a><br>
+Group Owner: <a href=3D"mailto:yocto-security%2Bowner@lists.yoctoproject.or=
+g" target=3D"_blank">yocto-security+owner@lists.yoctoproject.org</a><br>
+Unsubscribe: <a href=3D"https://lists.yoctoproject.org/g/yocto-security/uns=
+ub" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/g/y=
+octo-security/unsub</a> [<a href=3D"mailto:yoann.congal@smile.fr" target=3D=
+"_blank">yoann.congal@smile.fr</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><br clear=3D"all"><br><span class=3D"gmail_signature_pre=
+fix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><div dir=3D"l=
+tr"><font face=3D"Raleway, regular">Yoann Congal</font><div><font face=3D"R=
+aleway, regular">Smile ECS - Tech expert<br></font></div></div></div></div>
+
+--0000000000002d65390612c16d96--
 
