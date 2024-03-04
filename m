@@ -1,109 +1,145 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <johannes.schneider@leica-geosystems.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB244C48BF6
-	for <webhook@archiver.kernel.org>; Mon,  4 Mar 2024 03:57:36 +0000 (UTC)
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
- by mx.groups.io with SMTP id smtpd.web10.90692.1709524651662602001
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B13CC54E49
+	for <webhook@archiver.kernel.org>; Mon,  4 Mar 2024 06:15:37 +0000 (UTC)
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com (EUR04-DB3-obe.outbound.protection.outlook.com [40.107.6.79])
+ by mx.groups.io with SMTP id smtpd.web10.92480.1709532931231998518
  for <openembedded-core@lists.openembedded.org>;
- Sun, 03 Mar 2024 19:57:31 -0800
+ Sun, 03 Mar 2024 22:15:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=OqT4aCBM;
- spf=pass (domain: gmail.com, ip: 209.85.210.174, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-6e6277f72d8so111522b3a.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 03 Mar 2024 19:57:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709524651; x=1710129451; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=frjuyUWiOkk2A8NPzU9dFqzK0xG8ZmqJ+SKNUvcmHhI=;
-        b=OqT4aCBMLXQNH30H5IsnUQ3IhKq0rH+p+gRhy0Hf2vPVetvSg4GHTokH9XJu29c47i
-         9ekshtr5WQ7xlWj4vxzpcyVWRFUIh89jU/CHk9PHOoIXIl/yRcHJUrU5cFur2gtj/lyM
-         A+Hnc+GzWCZdLzaYVwk0yUNeP4vuYM4AUZ0tIt9Ji85dDadl6Qh1Q96WniibrZCs2Wiz
-         MvElA5WrZgVuLyrvfJJ0SgpPYx6zUcfsaNGFiOP7rgCRueT32Bu4cgJO4uE6F97/7hcK
-         20SpDTvYWSXaRzAEzgWS0Gv51BLgdbzpBZb4fI05W24HMB+BjUCg8o9YvMvgBVsxCc+e
-         3wOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709524651; x=1710129451;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=frjuyUWiOkk2A8NPzU9dFqzK0xG8ZmqJ+SKNUvcmHhI=;
-        b=uYliBS3MG8wc9tFj0Rt5ddQMna7TvQFi4mQCKD6G6ZKPxUWTduAeMEQFYUGhBLCSLT
-         kqn6MPd9tNIF5sIlwOVZfKi54taQbrENxxNasujVFlGWIaKtUx1lQ+2AXjGAeRY8FhJG
-         mUfXC8t1N8RV1O128x1LG3RlaOF0cpn7+nQzjT/5h35xY3ydQ0TIx/CkXNUtDtGooDAy
-         uP9F4pi4LoLqo33JB1/ZBcQFBP8Mr4Evxd/TwA0TEeO443y73SiVK83n880Xx1xoH/wi
-         60H03B0BzrgGNph/oKwl4HtebqavAZo2+ioQQoAfNUMURn2pSF4/4gafaciNmChSLu+n
-         3PqA==
-X-Gm-Message-State: AOJu0YzRlhz/gfcaVb/WW2hHmn8fyFuuHejn3YZYcaLasG5qFTppxepH
-	GDYDg1rcEa4kde9hQUzGEjzAnKO0OQaKfrDJM2CyVpTGW6Cn+CpIUnutVO2P
-X-Google-Smtp-Source: AGHT+IFAIR42lcy1vlElI6mWiy1A/pNFE5wL4wcLVyIKAji+B5zB8cyD12hxckwVbQLmKwAi2+THYA==
-X-Received: by 2002:a05:6a00:c85:b0:6e4:e4cf:8944 with SMTP id a5-20020a056a000c8500b006e4e4cf8944mr8936741pfv.12.1709524650611;
-        Sun, 03 Mar 2024 19:57:30 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::5e7])
-        by smtp.gmail.com with ESMTPSA id q5-20020a056a00084500b006e535914f9bsm6445383pfk.97.2024.03.03.19.57.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Mar 2024 19:57:29 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] gdb: Upgrade 14.1 -> 14.2
-Date: Sun,  3 Mar 2024 19:57:27 -0800
-Message-ID: <20240304035727.600047-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.44.0
+ dkim=fail reason="dkim: body hash did not verify" header.i=@leica-geosystems.com header.s=selector1 header.b=DxQBIH90;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: leica-geosystems.com, ip: 40.107.6.79, mailfrom: johannes.schneider@leica-geosystems.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nEct6uza5D0Z4gvRwHGGbJ6vk6DoAYJMIQ+tVRL3MpU2sBzQAN0VVnNhzkBgFi/3a0jxeo9TWtxXA8AymGXyV4W3BT9riEmkfq6cTUxi85p1nIK5tepY7M6vqdKPZy1euC171qM6BbOrlk1M2KHBuWli3S5ABtiXfk5gdLtdG6T5B9DHe9FENRAqXjX5qziaSSs3WQ99iYmHAYZl5wgRbstEDTiI2CANr58VEMATtq4pKbNQourbHGMBPHUW2XMeMQKFuIxTLgz7y3CjqM20hjHgHFC4KfKRTw94zxj5jQt70bwFdk7T1GqoN6opg+UVWyTypT4FSXTiaitoo0Y2jw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bcuek2tViWoD/Ewl9mI7yu2ygzSIVQRji2W6lADxax8=;
+ b=LLuOQLfWDuTe4w5UNjYqolHVvEFki4Mpu766qdaeJCH737gJTeUTVbQdqF6IZZfY8Te+yctV8dMp/iTca7u2dKWzJefQQK6YamcSQ3MpFGZOM29k73YToieSB3+mh6cELLArpKrkPa9I3M+TqqVTEjPYU8WLxw/t27VJWgkcq5WTBw+2BEw0x5WQGukyzOE3nvHbPXBscIl2G/wlbUClFZgrw8pIYQf25H9/Xt37DpRcE4A40MBAsXeANc8ZpZ+gXTAo5VfQ9dmgeBAZypT1ldAYKQPQQNu8Tjf6dwHvtnEX2o3CM52rZQ7YcnDojeFVFz4rYGN6E+JKXxnLdNY8/A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=temperror (sender ip
+ is 193.8.40.94) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=leica-geosystems.com; dmarc=temperror action=none
+ header.from=leica-geosystems.com; dkim=none (message not signed); arc=none
+ (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=leica-geosystems.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bcuek2tViWoD/Ewl9mI7yu2ygzSIVQRji2W6lADxax8=;
+ b=DxQBIH90hmxVzc7bim/yx0UmnYBiLAgoGPFkgPHscXG1fvQsrtfSjY+MV1ZNv85Mq/VGYQAuLe7aBbU8zZtYatrkVc0l5A/ooGkeLAzCzZ4xn4wH4BXv6gQYGtoC9QdmDH3q1S5qRQsquCOT5nntlL40TyGBmTCHu1MU8Q97Oao=
+Received: from AS9PR06CA0302.eurprd06.prod.outlook.com (2603:10a6:20b:45b::17)
+ by GV1PR06MB8385.eurprd06.prod.outlook.com (2603:10a6:150:20::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7362.23; Mon, 4 Mar
+ 2024 06:15:28 +0000
+Received: from AMS1EPF0000004B.eurprd04.prod.outlook.com
+ (2603:10a6:20b:45b:cafe::f) by AS9PR06CA0302.outlook.office365.com
+ (2603:10a6:20b:45b::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.38 via Frontend
+ Transport; Mon, 4 Mar 2024 06:15:28 +0000
+X-MS-Exchange-Authentication-Results: spf=temperror (sender IP is 193.8.40.94)
+ smtp.mailfrom=leica-geosystems.com; dkim=none (message not signed)
+ header.d=none;dmarc=temperror action=none header.from=leica-geosystems.com;
+Received-SPF: TempError (protection.outlook.com: error in processing during
+ lookup of leica-geosystems.com: DNS Timeout)
+Received: from hexagon.com (193.8.40.94) by
+ AMS1EPF0000004B.mail.protection.outlook.com (10.167.16.136) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7362.11 via Frontend Transport; Mon, 4 Mar 2024 06:15:26 +0000
+Received: from aherlnxbspsrv01.lgs-net.com ([10.60.34.116]) by hexagon.com with Microsoft SMTPSVC(10.0.17763.1697);
+	 Mon, 4 Mar 2024 07:15:26 +0100
+From: Johannes Schneider <johannes.schneider@leica-geosystems.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+CC: Johannes Schneider <johannes.schneider@leica-geosystems.com>
+Subject: [PATCH v3 0/3] pkg-database and systemd-sysext image
+Date: Mon,  4 Mar 2024 07:15:17 +0100
+Message-ID: <20240304061520.2280541-1-johannes.schneider@leica-geosystems.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-OriginalArrivalTime: 04 Mar 2024 06:15:26.0209 (UTC) FILETIME=[593AB710:01DA6DFB]
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AMS1EPF0000004B:EE_|GV1PR06MB8385:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 376b6e57-ae13-42d1-2031-08dc3c127bd1
+X-SET-LOWER-SCL-SCANNER: YES
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	Mh/q2ha/JBQvlDNHqikvHbEl5hlAOqpNUH6Wti04OTc84oIgbjCc+sRBqp9Y35fbMRkZP063jax+WK20FyPe9a+jF4lmrSzZGfv7lSMATNtHoUaswoKQVyfArFs07NPuYpy8Sdj9/dbubDLmEQ3BpafbiBeEW2Sw4UKi3gKJIQmTm5aTCH/xBed1yNR2e/ufCU0fXeu/vpvxfEW+l2Q3/UVwU7BwggXFuGVsmni1ERm+DulJvrfae3IZsBYDsDYazZ5KDnwaXnEqlBhd0LRsWRXip3krfjU8J//qUu8fQykCSAZZMXRXzk0+7Up8EOYTpajDiv8RdKIjmTdV6y6dhgBTh4ntjzsaviFr4TiRR4SQPq9jJAWIqfaOASLpAp6bl/e2sWrlj3VPclsDX6qvu5f5cVPvFmupH97hKMNOstkBc393yzsU+kpghHW9u6+62vzjIftZtsDCA20k7V24skWDuXuL+qtBV4pkb4JC+WLdq2JJRQjqr67pBns2J9REl89VtgXF2gefoEUi3mqwN5+jVIwnrpplgbqwAA1A/cSjUIDpAVwV8MCVCxOO5M7eD8tNnaOKHzm5bqshOHouH/RkBYXHK7Sv66ZNufDxt4x78gcEu3nOaKYnA1ma/Hh7ii0Cb73yrdn55UQBZM92OgUr3uST1eUVb5+SPsHIz+ID2pZvVWxmmhsv33wnEGZPVnWhrshwPyVDs6c9297NeW5QM6ZHMYDpLBqICQmAQbww1G74NKaNWGQ4igvYJnRX
+X-Forefront-Antispam-Report: 
+	CIP:193.8.40.94;CTRY:CH;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:hexagon.com;PTR:ahersrvdom50.leica-geosystems.com;CAT:NONE;SFS:(13230031)(82310400014)(376005)(36860700004);DIR:OUT;SFP:1101;
+X-OriginatorOrg: leica-geosystems.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2024 06:15:26.3679
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 376b6e57-ae13-42d1-2031-08dc3c127bd1
+X-MS-Exchange-CrossTenant-Id: 1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a;Ip=[193.8.40.94];Helo=[hexagon.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AMS1EPF0000004B.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR06MB8385
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 04 Mar 2024 03:57:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196584
+ <openembedded-core@lists.openembedded.org>; Mon, 04 Mar 2024 06:15:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196585
 
-BugFix release
+systemd-sysext allows to overlay another image (or multiple) ontop of
+a "base-image" =3D the current rootfs, via the use of overlayfs; to add
+tools and features meant for development purposes.
 
-This is a minor corrective release over GDB 14.1, fixing the following issues:
+To quote the documentation on systemd-sysext:
+" ...addition in order to make debugging/development easier). System
+extension images should not be misunderstood as a generic software
+packaging framework, ..."
 
-PR symtab/31112 (DLL export forwarding is broken)
-PR c++/31128 (gdb crashes when trying to print a global variable stub without a running inferior)
-PR tdep/31254 ([gdb/tdep, arm] FAIL: gdb.threads/staticthreads.exp: up 10)
-PR gdb/31256 (Crash with basic 'list .')
-PR python/31366 (Frame.static_link() segfaults)
+To build a lean image, that only holds packages that are not already
+part of the base-image, a snapshot of the package-database is taken
+after the installation of the base-rootfs is done, and picked up again
+when collecting the rootfs of such a extension image.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../{gdb-cross-canadian_14.1.bb => gdb-cross-canadian_14.2.bb}  | 0
- .../gdb/{gdb-cross_14.1.bb => gdb-cross_14.2.bb}                | 0
- meta/recipes-devtools/gdb/gdb.inc                               | 2 +-
- meta/recipes-devtools/gdb/{gdb_14.1.bb => gdb_14.2.bb}          | 0
- 4 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/gdb/{gdb-cross-canadian_14.1.bb => gdb-cross-canadian_14.2.bb} (100%)
- rename meta/recipes-devtools/gdb/{gdb-cross_14.1.bb => gdb-cross_14.2.bb} (100%)
- rename meta/recipes-devtools/gdb/{gdb_14.1.bb => gdb_14.2.bb} (100%)
+with all this in place an example usage could look like this:
+some-core-image.bb
+  inherit core-image
+  IMAGE_GEN_PKGDBFS =3D "1"
 
-diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian_14.1.bb b/meta/recipes-devtools/gdb/gdb-cross-canadian_14.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/gdb/gdb-cross-canadian_14.1.bb
-rename to meta/recipes-devtools/gdb/gdb-cross-canadian_14.2.bb
-diff --git a/meta/recipes-devtools/gdb/gdb-cross_14.1.bb b/meta/recipes-devtools/gdb/gdb-cross_14.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/gdb/gdb-cross_14.1.bb
-rename to meta/recipes-devtools/gdb/gdb-cross_14.2.bb
-diff --git a/meta/recipes-devtools/gdb/gdb.inc b/meta/recipes-devtools/gdb/gdb.inc
-index eb480f3c658..81ac441462a 100644
---- a/meta/recipes-devtools/gdb/gdb.inc
-+++ b/meta/recipes-devtools/gdb/gdb.inc
-@@ -14,4 +14,4 @@ SRC_URI = "${GNU_MIRROR}/gdb/gdb-${PV}.tar.xz \
-            file://0007-Fix-invalid-sigprocmask-call.patch \
-            file://0008-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch \
-            "
--SRC_URI[sha256sum] = "d66df51276143451fcbff464cc8723d68f1e9df45a6a2d5635a54e71643edb80"
-+SRC_URI[sha256sum] = "2d4dd8061d8ded12b6c63f55e45344881e8226105f4d2a9b234040efa5ce7772"
-diff --git a/meta/recipes-devtools/gdb/gdb_14.1.bb b/meta/recipes-devtools/gdb/gdb_14.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/gdb/gdb_14.1.bb
-rename to meta/recipes-devtools/gdb/gdb_14.2.bb
--- 
-2.44.0
+extending-image.bb
+  inherit image-sysext
+  IMAGE_FSTYPES =3D "squashfs"
+  IMAGE_BASE_PKGDB =3D "some-core-image"
+  # the above pointing at a package-db similar to:
+  # build/deploy/images/$MACHINE/some-core-image-$MACHINE-20240210172305-pk=
+gdb.rootfs.tar.gz
 
+then on the device, running some-core-image, with the extension image place=
+d at FN:
+$> ln -s "$FN" /run/extensions/$(basename $FN).raw
+$> systemd-sysext list
+$> SYSTEMD_LOG_LEVEL=3Ddebug systemd-sysext merge
+
+As long as the VERSION_ID of the extension image matches the os-release
+in the base image, the above commands return sucessfully;
+for details on the compativility check see the docs for systemd-sysext.
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+changes with v2:
+        rebase from 'kirkstone' onto 'master'
+
+changes with v3;
+	incorporate review suggestions for simplification
+	add task dependency handling
+	add oe-selftest for the pkgdb handling
+	add variable documentation and
+	some more comments, and examples in the commit-msg
+
+changes with v4;
+	rebase onto 'master' =3D> no functional changes
+	fixed patchtest findings
 
