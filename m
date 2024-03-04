@@ -1,81 +1,103 @@
-Return-Path: <rpjday@crashcourse.ca>
+Return-Path: <pramanik.souravkumar@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01D58C54E41
-	for <webhook@archiver.kernel.org>; Mon,  4 Mar 2024 11:13:09 +0000 (UTC)
-Received: from cpanel10.indieserve.net (cpanel10.indieserve.net [199.212.143.9])
- by mx.groups.io with SMTP id smtpd.web10.95864.1709550787880843816
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FC5BC48BF6
+	for <webhook@archiver.kernel.org>; Mon,  4 Mar 2024 12:03:59 +0000 (UTC)
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web11.96581.1709553835760119996
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Mar 2024 03:13:08 -0800
+ Mon, 04 Mar 2024 04:03:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@crashcourse.ca header.s=default header.b=mnQT07k2;
- spf=pass (domain: crashcourse.ca, ip: 199.212.143.9, mailfrom: rpjday@crashcourse.ca)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=crashcourse.ca; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
-	To:From:Date:Sender:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=B3vDJor+tgkMhb9RSeewwo//1T+MjGPAO6Ca6zxisAM=; b=mnQT07k2RL8bLASPEdPTpziCur
-	YbuK3kmkbzQVIqr8XIm3l9f9CTKSDbPgWxDopzSb/jsBxQNvkAIwJ3M2AAHLIKT2yxYsdom8Lzi8X
-	p8qsXzkLLCdNCub9GktmPJYM7kWVhjhTvlQjfGvqIjGqy9kc7e7EmuKUWR7Dqsy6ayViDV+Au7tKr
-	rfS90IUXmwVVHduKq6YRUBna25wLFQAFHehjLvuEyDzx1Fsewn4pb6RI8xS+pA3i/d2vI53/Nuh5T
-	lBBEAB+noUcYz4mKffNYBemX+xm8FdyjDMQb42gHyBZ6acz/fpAdRTKqGsLK3dn7zbhzBImVyxmIl
-	0eJx4W9g==;
-Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.102.5]:41080 helo=fedora)
-	by cpanel10.indieserve.net with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96.2)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1rh6Fh-005B3W-0u
-	for openembedded-core@lists.openembedded.org;
-	Mon, 04 Mar 2024 06:13:06 -0500
-Date: Mon, 4 Mar 2024 06:12:57 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] python3-cryptography_42.0.5.bb: delete redundant ptest
- packaging
-Message-ID: <dbfe4df3-d2b0-f275-12a6-23bd441cdf86@crashcourse.ca>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=PEkjgqZb;
+ spf=pass (domain: gmail.com, ip: 209.85.210.175, mailfrom: pramanik.souravkumar@gmail.com)
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-6e6277f72d8so355359b3a.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 04 Mar 2024 04:03:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709553834; x=1710158634; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=aXt0KAioXyUmduWlYHs5lrroKaDdjCOa9lmlRoFfRnQ=;
+        b=PEkjgqZbZePjmiMNKWAB6VVzu+/1zZW33XWv0z/nvOHVjgF5uO/TgiB7KFGujQUYhM
+         bBTSScMFoiZFEkd17ze0YqIzPwqf+67G1f5+tCFvwuI8TYGY/N/Y8jUp2Zhz3e1JQDFy
+         WWHeCEPXeP1s0eIvVL18tvn1qDJh9Tbcpqx1DtCc9lZJ+CHqI0mD9BskW24BWUSGlvXA
+         ARNJtjLcBAiwxqc0PW7H3mnZFMIK5TBkODpkpX0NaagK/60HIUFjeA1V5BQrnlNd2lAc
+         qBfsaBeBZjNyf7dB33GtDlhtSluMLh1tHWPThTO9WqRh203m4fvWTdbnVp0CF1nuC+SJ
+         FoKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709553834; x=1710158634;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=aXt0KAioXyUmduWlYHs5lrroKaDdjCOa9lmlRoFfRnQ=;
+        b=jEhe8s48jrAsSuN3Ns0mpbFsJbv7dVXai+1xcy4Cz7PwRifCGrOYWGkW8HC1VNWTZd
+         e+AK2BKONKgBbyrsJloLk4tUo/OtPdsXqTN0m0efIl7zvIkiTD2kXFUw80qyxRSYJMmn
+         PmzpFyhXXkgxDX8mCR1ms0kiG529CWCBsLJ3a/YL86uqrlHH71hy7ueFCOaO9UOmitmB
+         mSDjXg5z8CO5k+dKpT4owDlEIfJAXfGXPeq2uF0bFPEUBLNEXWDR7UcvJkHe8ukRG+WL
+         Fv+RIBMpPVQ3nxIEUwUB8VDGtoduIjKBNXRn7TAsFcL3wH2uRmtqZUAIsCHii/mQn44G
+         uf/Q==
+X-Gm-Message-State: AOJu0YwvavgGsCidBCz41P4fO5GeK3LViOQymnf4QB09e+I0xl0dUvyz
+	mzZ8GqHnMNsGPR/BxV6DVE8a5oR+1YP3EoKA7DfjMMIpeRoW4dufMEmqUhCB
+X-Google-Smtp-Source: AGHT+IGZG4gRrjbGQ9v8uKEOS7SUCLVwmfDj4/UQbnusGwga9YLRhjc6vXNotIwjNYWAq173xSwQbQ==
+X-Received: by 2002:a05:6a20:bf1f:b0:1a1:4918:cdbe with SMTP id gc31-20020a056a20bf1f00b001a14918cdbemr2387139pzb.54.1709553834392;
+        Mon, 04 Mar 2024 04:03:54 -0800 (PST)
+Received: from LL-2887.kpit.com ([103.53.233.65])
+        by smtp.gmail.com with ESMTPSA id z4-20020a626504000000b006e621fd613fsm1711570pfb.80.2024.03.04.04.03.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Mar 2024 04:03:54 -0800 (PST)
+From: Sourav Pramanik <pramanik.souravkumar@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	pramanik.souravkumar@gmail.com
+Cc: ranjitsinh.rathod@kpit.com
+Subject: [OE-core][kirkstone][PATCH] libseccomp: Add back in PTESTS_SLOW list
+Date: Mon,  4 Mar 2024 17:31:53 +0530
+Message-Id: <20240304120153.67234-1-pramanik.souravkumar@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel10.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel10.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: cpanel10.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 04 Mar 2024 11:13:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196594
+ <openembedded-core@lists.openembedded.org>; Mon, 04 Mar 2024 12:03:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196595
 
+Enable libseccomp-ptest in PTESTS_SLOW as
+all tests are passing now.
 
-Since FILES:${PN}-ptest is already defined to include the contents of
-${PTEST_PATH}, adding such an entry to the package is superfluous.
-
-Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
-
+Signed-off-by: Sourav Pramanik <pramanik.souravkumar@gmail.com>
 ---
+ meta/conf/distro/include/ptest-packagelists.inc | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3-cryptography_42.0.5.bb b/meta/recipes-devtools/python/python3-cryptography_42.0.5.bb
-index 2bcb5717e4..732f925d92 100644
---- a/meta/recipes-devtools/python/python3-cryptography_42.0.5.bb
-+++ b/meta/recipes-devtools/python/python3-cryptography_42.0.5.bb
-@@ -60,9 +60,6 @@ do_install_ptest() {
-     cp -r ${S}/pyproject.toml ${D}${PTEST_PATH}/
- }
-
--FILES:${PN}-ptest += " \
--    ${PTEST_PATH}/check-memfree.py \
--"
- FILES:${PN}-dbg += " \
-     ${PYTHON_SITEPACKAGES_DIR}/${SRCNAME}/hazmat/bindings/.debug \
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
+index 5c6a30635f..f39b048b21 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -88,6 +88,7 @@ PTESTS_SLOW = "\
+     glib-2.0-ptest \
+     gstreamer1.0-ptest \
+     libevent-ptest \
++    libseccomp-ptest \
+     lttng-tools-ptest \
+     openssh-ptest \
+     openssl-ptest \
+@@ -112,7 +113,6 @@ PTESTS_PROBLEMS:append:riscv64 = " valgrind-ptest"
+ #    libinput-ptest \ # Tests need an unloaded system to be reliable
+ #    libpam-ptest \ # Needs pam DISTRO_FEATURE
+ #    numactl-ptest \ # qemu not (yet) configured for numa; all tests are skipped
+-#    libseccomp-ptest \ #  tests failed: 38; add to slow tests once addressed
+ #    python3-numpy-ptest \ # requires even more RAM and (possibly) disk space; multiple failures
+ 
+ PTESTS_PROBLEMS = "\
+@@ -124,7 +124,6 @@ PTESTS_PROBLEMS = "\
+     mdadm-ptest \
+     libinput-ptest \
+     libpam-ptest \
+-    libseccomp-ptest \
+     numactl-ptest \
+     python3-numpy-ptest \
  "
-
 -- 
+2.25.1
+
 
