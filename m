@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64994C48BF6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D552C54E55
 	for <webhook@archiver.kernel.org>; Mon,  4 Mar 2024 15:23:30 +0000 (UTC)
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
- by mx.groups.io with SMTP id smtpd.web11.101495.1709565807993781055
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.web11.101494.1709565806481296267
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Mar 2024 07:23:28 -0800
+ Mon, 04 Mar 2024 07:23:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=MMEtfC24;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.53, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-299e4b352cdso3014681a91.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 04 Mar 2024 07:23:27 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=imIjtmeh;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.48, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-29aa8c4710bso3321440a91.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 04 Mar 2024 07:23:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1709565807; x=1710170607; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1709565806; x=1710170606; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=MFnHwK8joqKnJZBUZipiUuWA+Nd8hxF9ZBIQ8iJ7/hU=;
-        b=MMEtfC24BjCzt8jZhyDJEjGbcjrLQBgLbmwDWw8rR33TLmy7TnlWUyL0uCAwVy2bSn
-         u2QdBiFs89KvAe+nIFetaeoY0zWYafAOp7GwFNhLvta7D6E3uaCSA6lXvzZFvY+9bnto
-         Jwixvxtt3QrNDSW/DOh/yPrg5mAM+9LAIY0WY5N5oOfF41llS04cXSV5r4ek7LEPvwBC
-         acLaf1UfnCkzAFL2KPS4ehhlZtOID2XiYRmEFHK9FkYam3bSy8YPV+QXDqDwuPB2QC/T
-         yCl4DplnGHepDIvWmJF4gbh1JARz7xL5doOIzoQ0fi7cGmU3oGT5OcdgETz6Cl6j4lqE
-         Ah4g==
+        bh=MsO+jZ1esW/vi28f+tIstnzjeXoJCE+eqLwSGuEZXVk=;
+        b=imIjtmeh0JqzVCHgU8uqNnuzaqXtkcUuQcFpBymEQ4CBRo8NPMmaxzQAWaBOQEVQfX
+         vmdQcNeLRbF4htr/t+XiJX9XHrsro1HxZ9LfC5IqzTEpLkCnHV9wHdC2SbXAZs7nyO//
+         DLqUlnEvljKBItcRvjcqT/ECYN1mcr5EWizX0Qj1ks6KcKLpu8/yj/VawOIOuH8k+5SR
+         KG65cBr8+2uamNg+pOEK8tWzbrTg5l9InbSYkl9G5LGioQRRvoOi8jvGyh74Yq55D3mP
+         kSUeM7kIVoHYPbQsb0owdOaqDF6PqGNfmhKro7SOBqKMICu0I5Rz89W3Mxv3WqocfJND
+         nwEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709565807; x=1710170607;
+        d=1e100.net; s=20230601; t=1709565806; x=1710170606;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=MFnHwK8joqKnJZBUZipiUuWA+Nd8hxF9ZBIQ8iJ7/hU=;
-        b=VJZzP6TDzJax/mNKbbvjY7wgN2Q262lovta1AL+YmcvtUW5s81p0MLKpU5TF/LDYZw
-         FsTcNKyqwtUlMUUcrFdDPxgL/FTt8plzmw54FFnDabqQVzm5SFTQGLK4cj4hs4yk1mbL
-         u0MZq8SrLUZc01ynheuzAO6JoQKSYrUM67MTl6yM70VNH1HqN7sMqWbP7en6Z3x+DfpA
-         o4z+cpK41P2RL1Ddnb1BKFDiQsaRjZmvIoOjlBjL1tmdJKVc2toA/d4tV9vdYIksx0TO
-         gKybq+CvmX76cCPUkH86tcjvHMVO7wJcHNiz0bR1tjxjQiazvSnj6ZoPdgkIZxd3/dkf
-         dDGA==
-X-Gm-Message-State: AOJu0YwTsO5atgC8lvav+7ziZmlInlsye91Cg/xsFDXxPaYa3fh6mD1g
-	QoABUmLT2lWUvy/hiUmpQH4wzBz+dw2pLqy9uuzgVl5TkX/qFu9lsiXDovxRAP8w1uuiJpXlPOE
-	q1to=
-X-Google-Smtp-Source: AGHT+IGO24eu/u1o8Ml2+lkG0PBbmWz6kZIodntAtaFfYxA24hv1a586eBxS6JCbYT1qc/jqy+KmJA==
-X-Received: by 2002:a17:90a:8a07:b0:29b:2c12:6b6f with SMTP id w7-20020a17090a8a0700b0029b2c126b6fmr6204795pjn.16.1709565807210;
-        Mon, 04 Mar 2024 07:23:27 -0800 (PST)
+        bh=MsO+jZ1esW/vi28f+tIstnzjeXoJCE+eqLwSGuEZXVk=;
+        b=UGnmxNcsFfHCcrAQ3XPmImZBNQmwN+AMPjW7hdaRVUhm7X5gaa/NJSTW5GkNUe+XGZ
+         JKhAyVU5wUcBDXRLPWGztpF+Gpef6NnEYg/3P4e2QgV3xJE1n0UrMWnOVC8uXYOKuD6a
+         qyiMr4uAJLoV74DXZP5SiPgAlMHVdPWfPd/sS39rQ+OLjyju4OyxvguIhsQiAiSizvad
+         sXKOkhXs1SxybMDNzaqlHeXqb4z3IEECnvjFQXUf0W8BTkH0Drh2e7xB4GZHvh562eHs
+         V2/2wll2mZPtfA3liHa148KQyBpTNndFe2/k6OpOQX9NvatFnAWQJ6kOqGnddem7DF57
+         19VQ==
+X-Gm-Message-State: AOJu0YwzuJtpnrawZYkxOgVMDLjhlbVur8awmPMLujNruJTEVP8GeQvV
+	D82pJQw9iP77v2nxo7LK/rRCDActWQD5iZAnF9K2X85IfUaQcgXCV249Jk+34v0Nia/6O7jEWlu
+	v5xk=
+X-Google-Smtp-Source: AGHT+IEh8yQEXcsN43AUd+As4qoxclcLez/1j8s2z7FgNoAgB6HwkjpHMVL3eln3cAbS9cqsN8h+kA==
+X-Received: by 2002:a17:90b:50e:b0:29a:9dd1:d45b with SMTP id r14-20020a17090b050e00b0029a9dd1d45bmr11989556pjz.3.1709565805779;
+        Mon, 04 Mar 2024 07:23:25 -0800 (PST)
 Received: from hexa.router0800d9.com (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id 1-20020a17090a0f0100b0029981c0d5c5sm8898968pjy.19.2024.03.04.07.23.26
+        by smtp.gmail.com with ESMTPSA id 1-20020a17090a0f0100b0029981c0d5c5sm8898968pjy.19.2024.03.04.07.23.24
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Mar 2024 07:23:26 -0800 (PST)
+        Mon, 04 Mar 2024 07:23:25 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 03/11] qemu: Fix for CVE-2024-24474
-Date: Mon,  4 Mar 2024 05:23:08 -1000
-Message-Id: <71600de72c602e6d1ae2c3b13af6c59440affdb6.1709565668.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 02/11] glibc: ignore CVE-2023-0687
+Date: Mon,  4 Mar 2024 05:23:07 -1000
+Message-Id: <c8b30db7fcecc726fae87c8c49d4c01f0feeb2ab.1709565668.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1709565668.git.steve@sakoman.com>
 References: <cover.1709565668.git.steve@sakoman.com>
@@ -62,83 +62,36 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 04 Mar 2024 15:23:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196601
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196600
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-Upstream-Status: Backport
-[https://github.com/qemu/qemu/commit/77668e4b9bca03a856c27ba899a2513ddf52bb52]
+This CVE was backported to glibc 2.35 branch 9 months ago.
+NVD recently updated CPE and it appeared in kirkstone cve reports.
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+https://sourceware.org/git/?p=glibc.git;a=log;h=refs/heads/release/2.35/master
+gmon: Fix allocated buffer overflow (bug 29444)
+https://sourceware.org/git/?p=glibc.git;a=commit;h=f2820e478c68a73a38f81512cc38beeee220212a
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2024-24474.patch            | 44 +++++++++++++++++++
- 2 files changed, 45 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-24474.patch
+ meta/recipes-core/glibc/glibc_2.35.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index c5fb9b1eab..18752af274 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -103,6 +103,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
- 	   file://CVE-2021-3638.patch \
- 	   file://CVE-2023-1544.patch \
- 	   file://CVE-2023-5088.patch \
-+	   file://CVE-2024-24474.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+diff --git a/meta/recipes-core/glibc/glibc_2.35.bb b/meta/recipes-core/glibc/glibc_2.35.bb
+index 21cd99dfdd..3ec6610d01 100644
+--- a/meta/recipes-core/glibc/glibc_2.35.bb
++++ b/meta/recipes-core/glibc/glibc_2.35.bb
+@@ -24,7 +24,7 @@ CVE_CHECK_IGNORE += "CVE-2019-1010025"
+ CVE_CHECK_IGNORE += "CVE-2023-4527"
  
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-24474.patch b/meta/recipes-devtools/qemu/qemu/CVE-2024-24474.patch
-new file mode 100644
-index 0000000000..e890fe56cf
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2024-24474.patch
-@@ -0,0 +1,44 @@
-+From 77668e4b9bca03a856c27ba899a2513ddf52bb52 Mon Sep 17 00:00:00 2001
-+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-+Date: Wed, 13 Sep 2023 21:44:09 +0100
-+Subject: [PATCH] esp: restrict non-DMA transfer length to that of available
-+ data
-+
-+In the case where a SCSI layer transfer is incorrectly terminated, it is
-+possible for a TI command to cause a SCSI buffer overflow due to the
-+expected transfer data length being less than the available data in the
-+FIFO. When this occurs the unsigned async_len variable underflows and
-+becomes a large offset which writes past the end of the allocated SCSI
-+buffer.
-+
-+Restrict the non-DMA transfer length to be the smallest of the expected
-+transfer length and the available FIFO data to ensure that it is no longer
-+possible for the SCSI buffer overflow to occur.
-+
-+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1810
-+Reviewed-by: Thomas Huth <thuth@redhat.com>
-+Message-ID: <20230913204410.65650-3-mark.cave-ayland@ilande.co.uk>
-+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-+
-+Upstream-Status: Backport [https://github.com/qemu/qemu/commit/77668e4b9bca03a856c27ba899a2513ddf52bb52]
-+CVE: CVE-2024-24474
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ hw/scsi/esp.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-+index 4218a6a96054..9b11d8c5738a 100644
-+--- a/hw/scsi/esp.c
-++++ b/hw/scsi/esp.c
-+@@ -759,7 +759,8 @@ static void esp_do_nodma(ESPState *s)
-+     }
-+ 
-+     if (to_device) {
-+-        len = MIN(fifo8_num_used(&s->fifo), ESP_FIFO_SZ);
-++        len = MIN(s->async_len, ESP_FIFO_SZ);
-++        len = MIN(len, fifo8_num_used(&s->fifo));
-+         esp_fifo_pop_buf(&s->fifo, s->async_buf, len);
-+         s->async_buf += len;
-+         s->async_len -= len;
+ # To avoid these in cve-check reports since the recipe version did not change
+-CVE_CHECK_IGNORE += "CVE-2023-4813 CVE-2023-4806 CVE-2023-4911 CVE-2023-5156"
++CVE_CHECK_IGNORE += "CVE-2023-0687 CVE-2023-4813 CVE-2023-4806 CVE-2023-4911 CVE-2023-5156"
+ 
+ DEPENDS += "gperf-native bison-native"
+ 
 -- 
 2.34.1
 
