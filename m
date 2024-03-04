@@ -1,211 +1,164 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <twoerner@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40093C5478C
-	for <webhook@archiver.kernel.org>; Mon,  4 Mar 2024 19:10:09 +0000 (UTC)
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com (EUR04-VI1-obe.outbound.protection.outlook.com [40.107.8.45])
- by mx.groups.io with SMTP id smtpd.web11.165.1709579407807642662
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E161C48BF6
+	for <webhook@archiver.kernel.org>; Mon,  4 Mar 2024 19:26:19 +0000 (UTC)
+Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
+ by mx.groups.io with SMTP id smtpd.web11.716.1709580371368258101
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Mar 2024 11:10:08 -0800
+ Mon, 04 Mar 2024 11:26:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=selector1 header.b=rX2SVxga;
- spf=pass (domain: axis.com, ip: 40.107.8.45, mailfrom: peter.kjellerstedt@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lgbriOmzH3YHwVEI0mCQdp2cTmJKawpllllL5FSfXbBTOmj188IqxfjetoA7xXqplTHXVuu0biW1UnNr1mMKPu4mSe+CyzevUOpkz1/4Wsq24fGE0S0ahRrAc7VMLsujs5si33hxuWv/eXuVSzR4IFn3J90tvB/ZgbU0C5gVe17/Ll/Ast/gmjZyKhQPOpLrPZ7xqzJMvzywBpEJoDkUEZY3xW/X5Ciqiu+qAAo4O9X6oDstBJ153XBQbvIurP/Dp5fz0gQ4Crieh32SYP/bE5mYPTcwfah/Qhiz68UuXDXV/okl0fEYCGpu/t3AoqQ8xfpB5Xq8k+H0tXorrfdeug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=U2RoteZ4aKCNKe6kypmN7G98L/MXIIiGFGixSfkunpo=;
- b=JDqaJYvv/ofeQxf5TeSUYEQNZzzHksfSqZBvE3TlgpMGbT19yfdrn/8Rn71Fpj2zf4ncM53zYGYOISOq4YRy8wcmb6cTGs0t79rxYAAcBo1tO98gdm60HXh7fXe5vaNEEqzAA7IoEMRoshbv61BdjrBGdN7zsR/iplYF2GFW8ZtwFhciBRqrm0pFFRA5fU1rhFnug6bGS2z17pErlP+DqNWlio0+yctBCtF5VYS3yI+kFu9XlRy9aQMXZMHh1GLf6Ze8yRXYAN94h51XtoSGnhIH9A6GH9qYTGGsTyFBxORfAzy2aKmReFer6NF+M8smD9ligdBC9IKmsjkvualeow==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
- dkim=pass header.d=axis.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=U2RoteZ4aKCNKe6kypmN7G98L/MXIIiGFGixSfkunpo=;
- b=rX2SVxgaWopSbotSfhTN627L5MangcstrGhhr7hClxaLEzIYvKTEjkfZ2tEMjt2b6IiKqdN/vDVohMZLf1ogMmgQqasn9/ytcdQ1CBKQ43g5ZzETq8t6O2bx6dUl0xXWhll3bqILDgVoWsseastqEk0Y94y2vVy9sI96hO4Qs4o=
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com (2603:10a6:10:4a8::17)
- by PR3PR02MB6298.eurprd02.prod.outlook.com (2603:10a6:102:79::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.39; Mon, 4 Mar
- 2024 19:10:04 +0000
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::fa03:deff:aae:c4d0]) by DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::fa03:deff:aae:c4d0%7]) with mapi id 15.20.7339.035; Mon, 4 Mar 2024
- 19:10:04 +0000
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH 1/2] kernel-module-dirs.bbclass: Add class
-Thread-Topic: [OE-core] [PATCH 1/2] kernel-module-dirs.bbclass: Add class
-Thread-Index: AQHabk9tCvx7JQVgD02XIsJAY3UXwrEnxwUQgAASBgCAAAlbQA==
-Date: Mon, 4 Mar 2024 19:10:04 +0000
-Message-ID: 
- <DB5PR02MB102131DD610882A54BD0B9816EF232@DB5PR02MB10213.eurprd02.prod.outlook.com>
-References: <20240304155732.2267310-1-pkj@axis.com>
-	 <36f5eae8a011fe6f9472872f3e32689b6a419043.camel@linuxfoundation.org>
-	 <DB5PR02MB102135B3B6930CAC4FF6F0E07EF232@DB5PR02MB10213.eurprd02.prod.outlook.com>
- <317b6a68f12010040cf16c2ce0e3b62210075704.camel@linuxfoundation.org>
-In-Reply-To: 
- <317b6a68f12010040cf16c2ce0e3b62210075704.camel@linuxfoundation.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=axis.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|PR3PR02MB6298:EE_
-x-ms-office365-filtering-correlation-id: 5d31ea92-1335-4ef3-d5ec-08dc3c7eb2aa
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- 7l4h/zUfvHiJOAKBgG84Juax4lEEn1Q6rbc6i0WhEwecAn6g+Weg3pNlBtBgpnsHRLe5m2yfpx9ZAKE1BidbaZGnuEcFrAs0qftPuVbJYxTvP99OEKL54foklIDXgW2SYa6Go87hCpbVCGKwMf1L7rm2AZUAKtQfRhzQ74iA7YiNVmhk51BX5CNGkvym3JyPdTs8xvW928MYDFFO7ZZJLToZSoAQ8l2uapLDW+flQxT5nCFBYbr0Lnv/80DvZ3fyKdraeOffFycwbPzPswC45z9aigtTffhWY/gH19qorKMazxWCeh4IPFJTBD5sGm1MGdTVRElaT1Wri4FtLniTYVvhnfDSdzwN/Jvqu/qr1XrZSTT14CJnbWEWjS4orBgwVc96gJGXdxz9mkRYnUMh4C+PzmmLjMNRWhP7HrJ6lqqHWMW9oeX8DaETdF+RAmtjLTVmxdSuqG5xYPRWpAbujyruZ6lS7MQg3gdNYjr2ZKEDeyI26q9nzMnVZn8LQ+iSRIIT/TKuJtj4tvMoygFK7aiyti2QidmCzQzAcBs2pSz410BCVIjbW/idRRD5QiKPpp0yg4mopHSOIqoLlGEL2C4yeYI1N5AoKn1C0HPa1/A9ztTFtD84j4WYL571d6k/dW3a8+AFt0l1N6AAhm/ZrRJMnoMppVSYxVAuHSai/P2TOhzi77Z3IqChQThngRlhk6S59nRpqRkBxbPK+4jkRHwe8ijosQcNc+Zs1gLi0+U=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(38070700009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?U053UDBwV0k0Q0xTaXMzVkcwSU5sQXZLVVl1SlVDZ3ZKY1d2cE9MdjJMWWlu?=
- =?utf-8?B?b3ZXOFZ5bkZyWmxwakJ6anEvU2YwTU9SOHFZMytHbENmVktOQkFiUVZ6bGx0?=
- =?utf-8?B?ZHEyQ3NMRmdSQkZxU1FrRndqdFNUblM0ODZ3UGt5MlZYakxWNFFWbkpINzd0?=
- =?utf-8?B?THJDSWJFNHpjQVF0UDUwQWFXcDMvRlpENVBTbGlhak8xOVpjK3BFMzlXQVlv?=
- =?utf-8?B?K3pKckh0d2ZOSUxMTnlkbmxkeTR2S0pmMmYzTURIcWVTYkFZM3FnUitITE91?=
- =?utf-8?B?NmVBdUhlUGQwK1YxbENjZGxXMUpNN3FsWnpqR1NxT1ExbDVwOEt0Z2RGMkpO?=
- =?utf-8?B?d290TW1mQlovM3ZETThYdTgzWFVNait2UmNadXZNNDZMV0h5d1g5Zys2a3Bm?=
- =?utf-8?B?NnN1VDlYSzdUOUVXQWc3NTM4NUJLTUdSRUtweFBvazlwRGpjMDBkVk9raHRW?=
- =?utf-8?B?K1FNTmFkd1V3OVdrRHBTMThSSkpOc2xFOW5DQkRlS0NaWUdZQ0VnWk1qbUdJ?=
- =?utf-8?B?aFhNb3Jxd1lnbDhHNWNZVDRpNVRjTXdPa0hUTkJaRmxLNldLOTJTa1pmRFU1?=
- =?utf-8?B?MTNmV3JIK0NFaVdGSEZWNU13dEpkWEpXY29CQ3ZzWDVYdFlJd05iQms4b1NL?=
- =?utf-8?B?cmhlZ01hcXZGNDBjczJZbUV4TXoyQlExeDN5MTRaU2xXMlVyN1ZXS0Z5OERz?=
- =?utf-8?B?V1VUVzlkOGNsUWlXTnlGc29WODQzdGhkZHB0WVcwTTE5VnQzMjBXc0ppSmox?=
- =?utf-8?B?dVNuUy9sSjdqNnJOYjVWbmIxVlA5bTdJWm1xSUNQc0J1QnZyTmM5TXJHWGhF?=
- =?utf-8?B?SUxPcS83VVV2QTZtbGhFMGk4T1JzYXJVKzhYSUVtdnhGVFFFUWxJczBOMzBo?=
- =?utf-8?B?RUpMbmsrWHlaOHdabmdadmh4b1RLUmRNV1pVUmRPcmhnenRjdTdmUThFWVpN?=
- =?utf-8?B?ZUFXZUVsMm5GZlZaK2ZnSjFOR2lwOGErWkFtVFBTajM4dlZnVzF0eURhN2pv?=
- =?utf-8?B?MWF5WGNYNXdOVy9EN1ppOHI5WkVPeVR6WlNBVHNaL2tmOGhIcUdMa0c2Ylcw?=
- =?utf-8?B?UUNtZzlCL0ZMVVNTSENzNjBiYng1SkpENXh0aG1nTVZmWDRrYzBUQnVrTlZs?=
- =?utf-8?B?Vk45U2h1YkJhSlZVM0ZnOWJVNysrVGRYT09LcjRaSmpSZVk0ZVpQU0MzeGho?=
- =?utf-8?B?WVhsOGtWM2t6OUR5MCtMTkxSOHR1MzBaTFk5V2MzdGlWQTAvdFJnOEhsamxn?=
- =?utf-8?B?OUhOa00zcUZIV0NEL0c0ckdVdjBXcStvSEVaRWozNkNHRzgrNi8yVzZyODU3?=
- =?utf-8?B?ZlZpQlNkV3NaUWJhUGZ5cWU2MkRtd1pMV0hEVFlCeXZoOGhFMXoyR2dFaDJK?=
- =?utf-8?B?TExCbVhKNjVyWjJLc0t3SmlRc1VscFVRWTB6N0l4OWhYT1NTaU5QeWlES1lW?=
- =?utf-8?B?UmtVS0JINElXL0JkemtTSkUvN25rQ2h6YjFPM21HMHRMOWd5ODQxM3BSTmcr?=
- =?utf-8?B?RUFicFY1UklhS2lrQlBuVEZIcloyK29yMjF4bUJZUmV2UmlCakZGNENWaHBh?=
- =?utf-8?B?aU1kaVQ3cmdGYnBJSVlSUDdndU13UmdXU3FuMVRrY1lXOXU5KzBvMERNTG0y?=
- =?utf-8?B?MTlPOWhSdjlMNm1zbHdJeVV3aVF5NUtZSFdnUlJLS09zN1BoVzVXOXg1OVFV?=
- =?utf-8?B?WTlGYlUvUEJqR2VabUhLemFoRDVZNkxPaCtRSWdtVElKTTBiSk9XNVB3bC9B?=
- =?utf-8?B?Nk9keGxOUXh2R1F6ZVBsTnBWZDVwMTE5Mm1rVWUvL0pvbTdET3h2NnFXNFpx?=
- =?utf-8?B?S0Q1VDRoa1hYR2dqT2FnemNyT25jMHlIL1FTTHhQR2VveGZ6NmZxd1JLamIx?=
- =?utf-8?B?bjlkck96ZG1VallSb3lVSlUvd1BSKzlXeTVocVAwNFpJbU84dUhGWVphelZm?=
- =?utf-8?B?R1FzNm4zTmg2bVNPZGUyZUhFdEl2ZVJ0ZnZoWUVBMEFrUUVTSFR2ODVaV1pw?=
- =?utf-8?B?aVRGZUpJalBOQ2doUWg4UEhCSENWSXU1TUIxNi9TS3ZkRFVkVnF2ZzEvZjRV?=
- =?utf-8?B?aTJhNUdONy9tUlVJeDhyWUt5QVF6eGZMUFZ0Z0liaDdRaGJVTVl0SFMzS1hj?=
- =?utf-8?Q?uHJU=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=XHcKg7Zz;
+ spf=pass (domain: gmail.com, ip: 209.85.161.51, mailfrom: twoerner@gmail.com)
+Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-5a12661c8a2so400936eaf.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 04 Mar 2024 11:26:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709580369; x=1710185169; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6yooC2A9aoaKm/vNnb0Dv/ol9rkj+8QCO9QBbNAQKFs=;
+        b=XHcKg7Zz5I8y0FewHZPGsV5R5FEZCfFLRSN+mqjzQNaF6WtbCKOHmzVa2WCHPImqOs
+         asA9r7i3wgT9sF+okqmx1SMhpMSm15h6BcQg/Jvxy41FBEdWwITnkLonAhm8jG0Q28rR
+         oS1/9osZ+ttWUIf7G15qg0sS1EpI0Ekv4B1NSBLk6Z83ppJYPDtN2gc91cR+zhULTZ+U
+         SLJOT9gg8/IhrN34snIhtTwrtROiPkoyvTjPbXN66rjtuRVmfizPRw/VWlu88KyOIRjM
+         fzN1dLOCoR/OmAAl9icqektWUajGHuWblllEUudm8xu/wWF0stMFKV8vwKyJ4ygigGm5
+         8UnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709580369; x=1710185169;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6yooC2A9aoaKm/vNnb0Dv/ol9rkj+8QCO9QBbNAQKFs=;
+        b=B0wQoP4MraQG3JBesuBd//XfwvCaxINWEO5Bu7Ba9cwOgc3Y+/OPjc56RnmpundwY+
+         W+uk+AN0zBubpSLGFFO6GnjTRTsfykrL/rXvoFyzXqYS/x9Jlz5NhRikTqoZi74iYwTT
+         RaULEdMwGvqOc/sfEmZ3on87CzLnYKmDmPUoJgHT9tfZrFHiCOaAgpJw6d3Y8RXKA6rJ
+         yD4H/wc+N9Hes5GHhxQ/SEO0cAfb5O+ALS4s+kJml/qrzLPfjnGpw6C3UjP0SUCgxgoo
+         yfc0ni4VuIw33U0DbWBizoj9I//qduISbT4ow2cuS9txjCAb9GWIoq1+HPpP/ZI9bF7M
+         obsg==
+X-Gm-Message-State: AOJu0Yx7tCMKTGClsHGRrWWZKKrBACI03TeQujp6Hatwj2JpTksO63/+
+	2digId1mgZkaIDqCwDWseN02uN+kIjwPgAharEZyTxqxqbIJqZbiDlFeTPV3
+X-Google-Smtp-Source: AGHT+IFDDBwXkOeXipXGKOnacfbehjT3F62sGRq1YkAczKcCZzssaJja9LZYKCKQkJq0mEuJg+rSTQ==
+X-Received: by 2002:a05:6358:3a1a:b0:17b:5df3:98fa with SMTP id g26-20020a0563583a1a00b0017b5df398famr5758545rwe.19.1709580369364;
+        Mon, 04 Mar 2024 11:26:09 -0800 (PST)
+Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
+        by smtp.gmail.com with ESMTPSA id jh19-20020a0562141fd300b0068fef023e6esm5414146qvb.88.2024.03.04.11.26.08
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Mar 2024 11:26:08 -0800 (PST)
+From: Trevor Woerner <twoerner@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] bmaptool: now part of Yocto Project
+Date: Mon,  4 Mar 2024 14:25:58 -0500
+Message-ID: <20240304192558.27575-1-twoerner@gmail.com>
+X-Mailer: git-send-email 2.43.0.76.g1a87c842ece3
 MIME-Version: 1.0
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5d31ea92-1335-4ef3-d5ec-08dc3c7eb2aa
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Mar 2024 19:10:04.0283
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 72QIt+M1c4M9Mn2Kb7zAP9i3Ei4fKxDLuBpzJmXTG7cW/O5hRhy6uLLugxEHeCea
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR02MB6298
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 04 Mar 2024 19:10:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196616
+ <openembedded-core@lists.openembedded.org>; Mon, 04 Mar 2024 19:26:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196617
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmlj
-aGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4NCj4gU2VudDogZGVuIDQgbWFycyAyMDI0
-IDE4OjM5DQo+IFRvOiBQZXRlciBLamVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJzdGVkdEBheGlz
-LmNvbT47IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVj
-dDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggMS8yXSBrZXJuZWwtbW9kdWxlLWRpcnMuYmJjbGFzczog
-QWRkIGNsYXNzDQo+IA0KPiBPbiBNb24sIDIwMjQtMDMtMDQgYXQgMTc6MjAgKzAwMDAsIFBldGVy
-IEtqZWxsZXJzdGVkdCB3cm90ZToNCj4gPiA+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+
-ID4gPiBGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9u
-Lm9yZz4NCj4gPiA+IFNlbnQ6IGRlbiA0IG1hcnMgMjAyNCAxNzoxNw0KPiA+ID4gVG86IFBldGVy
-IEtqZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPjsgb3BlbmVtYmVkZGVk
-LWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiA+ID4gU3ViamVjdDogUmU6IFtPRS1jb3Jl
-XSBbUEFUQ0ggMS8yXSBrZXJuZWwtbW9kdWxlLWRpcnMuYmJjbGFzczogQWRkIGNsYXNzDQo+ID4g
-Pg0KPiA+ID4gT24gTW9uLCAyMDI0LTAzLTA0IGF0IDE2OjU3ICswMTAwLCBQZXRlciBLamVsbGVy
-c3RlZHQgd3JvdGU6DQo+ID4gPiA+IFNwbGl0IG91dCB0aGUgdHdvIHZhcmlhYmxlcyBtb2R1bGVz
-bG9hZGRpciBhbmQgbW9kcHJvYmVkaXIgZnJvbQ0KPiA+ID4gPiBrZXJuZWwtbW9kdWxlLXNwbGl0
-LmJiY2xhc3MgYXMgdGhleSBjYW4gYmUgdXNlZnVsIHRvIG90aGVyIHJlY2lwZXMgdGhhbg0KPiA+
-ID4gPiBrZXJuZWwgbW9kdWxlIHJlY2lwZXMuDQo+ID4gPiA+DQo+ID4gPiA+IFNpZ25lZC1vZmYt
-Ynk6IFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPg0KPiA+
-ID4gPiAtLS0NCj4gPiA+ID4gwqBtZXRhL2NsYXNzZXMtcmVjaXBlL2tlcm5lbC1tb2R1bGUtZGly
-cy5iYmNsYXNzIHwgOCArKysrKysrKw0KPiA+ID4gPiDCoDEgZmlsZSBjaGFuZ2VkLCA4IGluc2Vy
-dGlvbnMoKykNCj4gPiA+ID4gwqBjcmVhdGUgbW9kZSAxMDA2NDQgbWV0YS9jbGFzc2VzLXJlY2lw
-ZS9rZXJuZWwtbW9kdWxlLWRpcnMuYmJjbGFzcw0KPiA+ID4gPg0KPiA+ID4gPiBkaWZmIC0tZ2l0
-IGEvbWV0YS9jbGFzc2VzLXJlY2lwZS9rZXJuZWwtbW9kdWxlLWRpcnMuYmJjbGFzcyBiL21ldGEv
-Y2xhc3Nlcy1yZWNpcGUva2VybmVsLW1vZHVsZS1kaXJzLmJiY2xhc3MNCj4gPiA+ID4gbmV3IGZp
-bGUgbW9kZSAxMDA2NDQNCj4gPiA+ID4gaW5kZXggMDAwMDAwMDAwMC4uZWVjYzM2YWI1Mg0KPiA+
-ID4gPiAtLS0gL2Rldi9udWxsDQo+ID4gPiA+ICsrKyBiL21ldGEvY2xhc3Nlcy1yZWNpcGUva2Vy
-bmVsLW1vZHVsZS1kaXJzLmJiY2xhc3MNCj4gPiA+ID4gQEAgLTAsMCArMSw4IEBADQo+ID4gPiA+
-ICsjDQo+ID4gPiA+ICsjIENvcHlyaWdodCBPcGVuRW1iZWRkZWQgQ29udHJpYnV0b3JzDQo+ID4g
-PiA+ICsjDQo+ID4gPiA+ICsjIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBNSVQNCj4gPiA+ID4g
-KyMNCj4gPiA+ID4gKw0KPiA+ID4gPiArbW9kdWxlc2xvYWRkaXIgPz89ICIke0BiYi51dGlscy5j
-b250YWlucygnRElTVFJPX0ZFQVRVUkVTJywgJ3N5c3RlbWQnLCAnJHtub25hcmNoX2xpYmRpcn0n
-LCAnJHtzeXNjb25mZGlyfScsIGQpfS9tb2R1bGVzLWxvYWQuZCINCj4gPiA+ID4gK21vZHByb2Jl
-ZGlyID8/PSAiJHtAYmIudXRpbHMuY29udGFpbnMoJ0RJU1RST19GRUFUVVJFUycsICdzeXN0ZW1k
-JywgJyR7bm9uYXJjaF9iYXNlX2xpYmRpcn0nLCAnJHtzeXNjb25mZGlyfScsIGQpfS9tb2Rwcm9i
-ZS5kIg0KPiA+ID4NCj4gPiA+IEFic29sdXRlbHkgbm90LiBXZSBhcmUgbm90IGhhdmluZyB5ZXQg
-bW9yZSBrZXJuZWwgY2xhc3NlcyBqdXN0IGZvciB0d28NCj4gPiA+IHZhcmlhYmxlcy4NCj4gPg0K
-PiA+IE9rLiBJIGNvbnNpZGVyZWQgYWRkaW5nIHRoZW0gdG8gYml0YmFrZS5jb25mIHdoZXJlIGFs
-bCBvdGhlciBzaW1pbGFyICpkaXINCj4gPiB2YXJpYWJsZXMgYXJlIGRlZmluZWQsIGJ1dCBJIG9w
-dGVkIGZvciBhIGJiY2xhc3Mgc2luY2UgSSBleHBlY3QgaXQgdG8gb25seQ0KPiA+IGJlIHJlbGF0
-aXZlbHkgZmV3IHJlY2lwZXMgdGhhdCBuZWVkIGVpdGhlciBvZiB0aGVtICh3ZSBjdXJyZW50bHkg
-aGF2ZSB+MTANCj4gPiBub24tbW9kdWxlIHJlY2lwZXMgdGhhdCBjb3VsZCB1c2UgdGhlbSkuDQo+
-IA0KPiBiaXRiYWtlLmNvbmYgaXMgYWxzbyBhbiBhYnNvbHV0ZSBuby4NCg0KWWVzLCB0aGF0IHdh
-cyB3aGF0IEkgZXhwZWN0ZWQuDQoNCj4gDQo+ID4gPiBUaGVyZSBpcyBwcm9iYWJseSBhIGJldHRl
-ciB3YXkgbW92aW5nIHNvbWUgZGVmaW5pdGlvbnMgdG8gYSBuZXcgY29uZg0KPiA+ID4gZmlsZSBm
-b3IgdGhlIGtlcm5lbCBpbiBnZW5lcmFsLg0KPiA+DQo+ID4gSSBhbSBub3Qgc3VyZSB3aGF0IHRv
-IG1ha2Ugb2YgdGhpcy4gV2hhdCBJIHdhbnRlZCB0byBhY2hpZXZlIHdhcyB0byBiZQ0KPiA+IGFi
-bGUgdG8gbWFrZSB0aGUgdHdvIHBhdGggdmFyaWFibGVzIGF2YWlsYWJsZSB0byBub24tbW9kdWxl
-IHJlY2lwZXMuIEkgYW0NCj4gPiBub3Qgc3VyZSBob3cgdGhhdCBtYXRjaGVzIHdoYXQgeW91IG1l
-YW50IHdpdGggImEgbmV3IGNvbmYgZmlsZSBmb3IgdGhlDQo+ID4ga2VybmVsIi4gRGlkIHlvdSBh
-Y3R1YWxseSBtZWFuIGEgLmNvbmYgZmlsZSB3aGVyZSB0aGUgdmFyaWFibGVzIHdvdWxkIGJlDQo+
-ID4gYWRkZWQgdG8gdGhlIGdsb2JhbCBzdGF0ZSwgb3IgZGlkIHlvdSBtZWFuIGEgLmJiY2xhc3Mv
-LmluYyBmaWxlIHNpbWlsYXIgdG8NCj4gPiB0aGUgb25lIEkgcHJvcG9zZWQsIGJ1dCB3aXRoIGEg
-bW9yZSBnZW5lcmljIG5hbWUgc28gdGhhdCBpdCBjYW4gdGFrZSBvdGhlcg0KPiA+IHZhcmlhYmxl
-cyB0aGFuIGp1c3QgdGhlIHR3byBwYXRoIHZhcmlhYmxlcyBhYm92ZT8NCj4gDQo+IEkgbWVhbiBz
-b21ldGhpbmcgbW9yZSBsaWtlIG1ldGEvY29uZi9pbWFnZS11ZWZpLmNvbmYgYnV0IGtlcm5lbCBm
-b2N1c2VkLg0KDQpIbW0sIHRoZSBuYW1pbmcgb2YgdGhhdCBmaWxlIG1lc3NlcyB3aXRoIHRoZSBl
-eHBlY3RhdGlvbnMgSSd2ZSBsZWFybnQgb3ZlciANCnRoZSB5ZWFycyBvZiB3b3JraW5nIHdpdGgg
-T0UuIEkndmUgYWx3YXlzICB0aG91Z2h0IHRoYXQgLmNvbmYgZmlsZXMgYXJlIA0KdXNlZCBmb3Ig
-ZGVmaW5pdGlvbnMgdGhhdCBhcmUgcGFydCBvZiB0aGUgZ2xvYmFsIGNvbmZpZ3VyYXRpb24sIGFu
-ZCAuaW5jIA0KZmlsZXMgYXJlIHVzZWQgZm9yIG1vcmUgbG9jYWwgZGVmaW5pdGlvbnMuIFdoaWxl
-IEkgb2YgY291cnNlIGtub3cgdGhhdCANCnRoZXJlIGlzIG5vIHRlY2huaWNhbCBkaWZmZXJlbmNl
-IGJldHdlZW4gdGhlIHR3bywgdGhhdCBraW5kIG9mIHNlbWFudGljcyANCmlzIGhlbHBmdWwgd2hl
-biBsb29raW5nIGF0IGFuIGluZGl2aWR1YWwgZmlsZSB0byBrbm93IHRoZSBjb250ZXh0IGluIHdo
-aWNoIA0KaXQgaXMgdXNlZC4NCg0KPiANCj4gV2UgbmVlZCB0byBkbyBiZXR0ZXIgYWJvdXQgbW9y
-ZSBmb2N1c2VkIGNvbmYvaW5jIGZpbGVzLg0KDQpJbiB0aGF0IHJlZ2FyZCwga2VybmVsLW1vZHVs
-ZS1kaXJzLmJiY2xhc3Mgd2FzIHZlcnkgZm9jdXNlZC4gOykNCg0KRG8geW91IHNlZSBhIGRpZmZl
-cmVuY2UgaW4sIGUuZy4sIGtlcm5lbC1tb2R1bGUtZGlycy5iYmNsYXNzIHZzLg0Ka2VybmVsLW1v
-ZHVsZS1kaXJzLmluYz8gSS5lLiwgd2h5IGlzIGFuIC5pbmMgKG9yIC5jb25mKSBmaWxlIG1vcmUg
-c3VpdGFibGUgDQp0aGFuIGEgLmJiY2xhc3MgZmlsZSBpbiB0aGlzIGNhc2U/DQoNCk9uZSByZWFz
-b24gSSBjYW4gc2VlIGZvciB3aHkgYSAuYmJjbGFzcyB3b3VsZCBiZSBwcmVmZXJyZWQsIGlzIGJl
-Y2F1c2UgaXQgDQppcyBvbmx5IGluaGVyaXRlZCBvbmNlIGV2ZW4gaWYgdGhlcmUgYXJlIG11bHRp
-cGxlIGluaGVyaXRzLiBFLmcuLCBzYXkgSSANCndvdWxkIHRha2UgdGhlIHByb3Bvc2VkIGtlcm5l
-bC1tb2R1bGUtZGlycy5iYmNsYXNzIGFuZCB0dXJuIGl0IGludG8gYSBtb3JlIA0KZ2VuZXJpYyBr
-ZXJuZWwtdmFycy5pbmMgZmlsZS4gVGhpcyBmaWxlIHdvdWxkIHRoZW4gbW9zdCBsaWtlbHkgYmUg
-bmVlZGVkIA0KYnksIGUuZy4sIGtlcm5lbC5iYmNsYXNzIGFuZCBtb2R1bGUuYmJjbGFzcy4gSG93
-ZXZlciwgYmFzZWQgb24gaXRzIGN1cnJlbnQgDQpjb250ZW50cywgaXQgd291bGQgYWxzbyBiZSBu
-ZWVkZWQgYnkga2VybmVsLW1vZHVsZS1zcGxpdC5iYmNsYXNzIHRoYXQgYm90aCANCm9mIHRoZW0g
-aW5oZXJpdC4gQnV0IHNpbmNlIGl0IGlzIGFuIC5pbmMgZmlsZSwgcmVxdWlyaW5nIGl0IGZyb20g
-Ym90aCANCmtlcm5lbC5iYmNsYXNzIGFuZCBrZXJuZWwtbW9kdWxlLXNwbGl0LmJiY2xhc3Mgd291
-bGQgcmVzdWx0IGluIGEgbG90IG9mIA0Kd2FybmluZ3MgYWJvdXQgZHVwbGljYXRlIGluY2x1c2lv
-bi4gT24gdGhlIG90aGVyIGhhbmQsIGhhdmluZyANCmtlcm5lbC1tb2R1bGUtc3BsaXQuYmJjbGFz
-cyByZWx5IG9uIHRoYXQgd2hhdGV2ZXIgaW5oZXJpdHMgaXQgaGFzIGFscmVhZHkgDQpyZXF1aXJl
-ZCB0aGUga2VybmVsLXZhcnMuaW5jIGZpbGUgc2VlbXMgd3JvbmcuDQoNCj4gDQo+IENoZWVycywN
-Cj4gDQo+IFJpY2hhcmQNCg0KLy9QZXRlcg0KDQo=
+The bmaptool (previously: bmap-tools, bmap-tool, bmaptool) has been moved
+to be under the Yocto Project umbrella and is now hosted at:
+
+	github.com/yoctoproject/bmaptool
+
+Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+---
+ meta/classes-recipe/image_types.bbclass                   | 2 +-
+ meta/classes-recipe/image_types_wic.bbclass               | 2 +-
+ meta/conf/distro/include/maintainers.inc                  | 2 +-
+ .../bmap-tools_git.bb => bmaptool/bmaptool_git.bb}        | 8 ++++----
+ .../files/0001-BmapCopy.py-fix-error-message.patch        | 0
+ ...0002-CLI.py-fix-block-device-udev-race-condition.patch | 0
+ .../0003-BmapCopy.py-tweak-suggested-udev-rule.patch      | 0
+ 7 files changed, 7 insertions(+), 7 deletions(-)
+ rename meta/recipes-support/{bmap-tools/bmap-tools_git.bb => bmaptool/bmaptool_git.bb} (78%)
+ rename meta/recipes-support/{bmap-tools => bmaptool}/files/0001-BmapCopy.py-fix-error-message.patch (100%)
+ rename meta/recipes-support/{bmap-tools => bmaptool}/files/0002-CLI.py-fix-block-device-udev-race-condition.patch (100%)
+ rename meta/recipes-support/{bmap-tools => bmaptool}/files/0003-BmapCopy.py-tweak-suggested-udev-rule.patch (100%)
+
+diff --git a/meta/classes-recipe/image_types.bbclass b/meta/classes-recipe/image_types.bbclass
+index 3733bdfc20c6..4ad13b43677a 100644
+--- a/meta/classes-recipe/image_types.bbclass
++++ b/meta/classes-recipe/image_types.bbclass
+@@ -363,7 +363,7 @@ CONVERSION_DEPENDS_zip = "zip-native"
+ CONVERSION_DEPENDS_7zip = "p7zip-native"
+ CONVERSION_DEPENDS_zst = "zstd-native"
+ CONVERSION_DEPENDS_sum = "mtd-utils-native"
+-CONVERSION_DEPENDS_bmap = "bmap-tools-native"
++CONVERSION_DEPENDS_bmap = "bmaptool-native"
+ CONVERSION_DEPENDS_u-boot = "u-boot-tools-native"
+ CONVERSION_DEPENDS_vmdk = "qemu-system-native"
+ CONVERSION_DEPENDS_vdi = "qemu-system-native"
+diff --git a/meta/classes-recipe/image_types_wic.bbclass b/meta/classes-recipe/image_types_wic.bbclass
+index ce7125f6f18f..cf3be909b30c 100644
+--- a/meta/classes-recipe/image_types_wic.bbclass
++++ b/meta/classes-recipe/image_types_wic.bbclass
+@@ -106,7 +106,7 @@ do_image_wic[recrdeptask] += "do_deploy"
+ do_image_wic[deptask] += "do_image_complete"
+ 
+ WKS_FILE_DEPENDS_DEFAULT = '${@bb.utils.contains_any("BUILD_ARCH", [ 'x86_64', 'i686' ], "syslinux-native", "",d)}'
+-WKS_FILE_DEPENDS_DEFAULT += "bmap-tools-native cdrtools-native btrfs-tools-native squashfs-tools-native e2fsprogs-native erofs-utils-native"
++WKS_FILE_DEPENDS_DEFAULT += "bmaptool-native cdrtools-native btrfs-tools-native squashfs-tools-native e2fsprogs-native erofs-utils-native"
+ # Unified kernel images need objcopy
+ WKS_FILE_DEPENDS_DEFAULT += "virtual/${TARGET_PREFIX}binutils"
+ WKS_FILE_DEPENDS_BOOTLOADERS = ""
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 7e17e9b71fa0..a3433f496cb4 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -70,7 +70,7 @@ RECIPE_MAINTAINER:pn-bison = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER:pn-blktool = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER:pn-blktrace = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER:pn-bluez5 = "Anuj Mittal <anuj.mittal@intel.com>"
+-RECIPE_MAINTAINER:pn-bmap-tools = "Anuj Mittal <anuj.mittal@intel.com>"
++RECIPE_MAINTAINER:pn-bmaptool = "Trevor Woerner <twoerner@gmail.com>"
+ RECIPE_MAINTAINER:pn-boost = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER:pn-boost-build-native = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER:pn-bootchart2 = "Alexander Kanavin <alex.kanavin@gmail.com>"
+diff --git a/meta/recipes-support/bmap-tools/bmap-tools_git.bb b/meta/recipes-support/bmaptool/bmaptool_git.bb
+similarity index 78%
+rename from meta/recipes-support/bmap-tools/bmap-tools_git.bb
+rename to meta/recipes-support/bmaptool/bmaptool_git.bb
+index ffb6ccfe99a5..87328af8c65b 100644
+--- a/meta/recipes-support/bmap-tools/bmap-tools_git.bb
++++ b/meta/recipes-support/bmaptool/bmaptool_git.bb
+@@ -1,16 +1,16 @@
+ SUMMARY = "Tools to generate block map (AKA bmap) and flash images using bmap"
+-DESCRIPTION = "Bmap-tools - tools to generate block map (AKA bmap) and flash images using \
+-bmap. Bmaptool is a generic tool for creating the block map (bmap) for a file, \
++DESCRIPTION = "bmaptool - tools to generate block map (AKA bmap) and flash images using \
++bmap. bmaptool is a generic tool for creating the block map (bmap) for a file, \
+ and copying files using the block map. The idea is that large file containing \
+ unused blocks, like raw system image files, can be copied or flashed a lot \
+ faster with bmaptool than with traditional tools like "dd" or "cp"."
+-HOMEPAGE = "https://github.com/01org/bmap-tools"
++HOMEPAGE = "https://github.com/yoctoproject/bmaptool"
+ SECTION = "console/utils"
+ LICENSE = "GPL-2.0-only"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+ 
+ FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
+-SRC_URI = "git://github.com/intel/${BPN};branch=main;protocol=https \
++SRC_URI = "git://github.com/yoctoproject/${BPN};branch=main;protocol=https \
+ 	file://0001-BmapCopy.py-fix-error-message.patch \
+ 	file://0002-CLI.py-fix-block-device-udev-race-condition.patch \
+ 	file://0003-BmapCopy.py-tweak-suggested-udev-rule.patch \
+diff --git a/meta/recipes-support/bmap-tools/files/0001-BmapCopy.py-fix-error-message.patch b/meta/recipes-support/bmaptool/files/0001-BmapCopy.py-fix-error-message.patch
+similarity index 100%
+rename from meta/recipes-support/bmap-tools/files/0001-BmapCopy.py-fix-error-message.patch
+rename to meta/recipes-support/bmaptool/files/0001-BmapCopy.py-fix-error-message.patch
+diff --git a/meta/recipes-support/bmap-tools/files/0002-CLI.py-fix-block-device-udev-race-condition.patch b/meta/recipes-support/bmaptool/files/0002-CLI.py-fix-block-device-udev-race-condition.patch
+similarity index 100%
+rename from meta/recipes-support/bmap-tools/files/0002-CLI.py-fix-block-device-udev-race-condition.patch
+rename to meta/recipes-support/bmaptool/files/0002-CLI.py-fix-block-device-udev-race-condition.patch
+diff --git a/meta/recipes-support/bmap-tools/files/0003-BmapCopy.py-tweak-suggested-udev-rule.patch b/meta/recipes-support/bmaptool/files/0003-BmapCopy.py-tweak-suggested-udev-rule.patch
+similarity index 100%
+rename from meta/recipes-support/bmap-tools/files/0003-BmapCopy.py-tweak-suggested-udev-rule.patch
+rename to meta/recipes-support/bmaptool/files/0003-BmapCopy.py-tweak-suggested-udev-rule.patch
+-- 
+2.43.0.76.g1a87c842ece3
+
 
