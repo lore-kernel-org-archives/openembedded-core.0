@@ -1,433 +1,170 @@
-Return-Path: <johannes.schneider@leica-geosystems.com>
+Return-Path: <yi.zhao@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53BA8C54E55
-	for <webhook@archiver.kernel.org>; Mon,  4 Mar 2024 06:16:07 +0000 (UTC)
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.59])
- by mx.groups.io with SMTP id smtpd.web10.92488.1709532962750688567
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97422C48BF6
+	for <webhook@archiver.kernel.org>; Mon,  4 Mar 2024 07:20:47 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.93083.1709536845292114275
  for <openembedded-core@lists.openembedded.org>;
- Sun, 03 Mar 2024 22:16:03 -0800
+ Sun, 03 Mar 2024 23:20:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@leica-geosystems.com header.s=selector1 header.b=VH3UGKYe;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: leica-geosystems.com, ip: 40.107.20.59, mailfrom: johannes.schneider@leica-geosystems.com)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=iKajuTRj;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=379381f229=yi.zhao@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4246mC00030032
+	for <openembedded-core@lists.openembedded.org>; Sun, 3 Mar 2024 23:20:45 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:content-transfer-encoding
+	:content-type:mime-version; s=PPS06212021; bh=dhcngsiCCMdB2oIEKp
+	ALrOJuKT1dKHVyD0AVnMG0fHg=; b=iKajuTRjMCRDPGTixsFv14vA46Bz9vfCLL
+	kq8RnaDgugYg29hy3W01m82NyHvCGQ0q1moVLEEpCoZK0NOcuWMfeYmcV1AbX6th
+	J542EuNZgiQ1px1Pksm9PkKoJXB/YyYB0fJbHZzlv3T4beoLE8q1wIf41AI8Rfwx
+	+T7k6Yq9uWBRfQG39uuq8HT0x7d+sI3AJUeSCI3PhLLb4Xr81oR0c6AOBm//MPEZ
+	azYKtuhq388XRbcxucWZo6YYC00hYlc/DKvrBEf/ScKIG95HHToUISvxDdIBkXLA
+	/+ut9b/jxGxo+P111M5/B3CmR0dwVcKovPtfQoL+LMyHY5zqFVFQ==
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2168.outbound.protection.outlook.com [104.47.59.168])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3wm4gm1664-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Sun, 03 Mar 2024 23:20:44 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UqRqyALJN1uQ1B8LBmSMTMSDbQIxBJrNh5uCAo6y69cfj7fMcoTznh07OId3PE6uDmcbEacMw5rr4z6QanzMUEWuhdzqDjmZ3R9msD+VKftryf+Zjm1tpvWBIfvFGXgDZfh/K7eP9YcVqpJf1sMiMn8ij0OK80xxzEkP+EGc8kj+h8RRnr99iF9OQlxjp/lqpDaviTcWoP3QUWvZG+EWW5fFMOSalQBPMyfevWHEZxilY+C3dOrQ911lNlw3jJDuSm2Mv78rNQ7GxAi1S5iGsfC3jcD0opsMu7SP9wbsPVHeU21UUR55Ug3JZNuT8AKRo3vwAoPQtThoA7pgLH+Orw==
+ b=CRdWSmgN+q7Wwy0Z2oJ44jczUT1gabolI/0TS13e7oyFEJ2L/XQyWC24vdw/TxTv4exIFB3T9OPrBqV1lp02TdxpyelDWfze/OUC9PDgJn0s6jmshHW0gb7RPkskP56/ID0GBGzAXYdO00kPEdyueB/1D1dI84oRwq5GtyUp2y4gFRWDQF0kZBHBdiWTwH6x8cLBhdERIH2YGVTofNxTzbU6/2f9sNq5fcRJ3AKH6IZHs/P0SBn2GERpgSMZ/ufBdSAx/JI67mlXZpjSRJuPeGbr26z0EZF9ZbM/BXEdvX08cKOTCIUBseqIMqosFoqgCNR4Wceh83Yg/b9ZGOGtDw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hfMB7I697gzwTDanUr517pxqtfp2NPpni+f66Z7aGIE=;
- b=OvRvLFp5Mx1MlJguWWI5osXesNCpTGSmiGmKYTAvlkuKv59zWhL6yIvF3xLlzoG0S6iLmuUX3ARtv8Hn3gMBBU9Z2T5tnBSrQzcGesgM/z/KlfBNXIS7yQ4QgGTf5/VZMpscK1Cxr9KojYlIUqzuYHpCYu2rtnQf2EWbzA1FHrVZM9B9BA29RQJfY58BlOmVoTCQf9ajCTqD2HG9x4LQGqRHjTrafZcQ/nyx0kUIh0/+XA3Mac81xYcneH1XDW2ybXUqj+by47pj4aPx70YLTkrLqqf73/hBqAyqZNsLrI2M+im8KhCOZ2CNDcjaQQWpgnn2qR/l5kg5ibnubQJ8vw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 193.8.40.94) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=leica-geosystems.com; dmarc=pass (p=reject sp=reject pct=100)
- action=none header.from=leica-geosystems.com; dkim=none (message not signed);
- arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=leica-geosystems.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hfMB7I697gzwTDanUr517pxqtfp2NPpni+f66Z7aGIE=;
- b=VH3UGKYemoes84tYeLcXWxSk5J9PMDoX4lzW4s34DdoIHOx3tUTrA0+CYfYmyb6nT3WrviKMlaKXj9JRjircUHtQNz96NRblNk9cs1zUCURXblEV/2ZaF3FelquievLQdDSVZ5vhullEMdoo2DgnGwTOWul6Vrb4ZdzvjpVYLcY=
-Received: from DU6P191CA0004.EURP191.PROD.OUTLOOK.COM (2603:10a6:10:540::21)
- by DUZPR06MB8748.eurprd06.prod.outlook.com (2603:10a6:10:4da::19) with
+ bh=dhcngsiCCMdB2oIEKpALrOJuKT1dKHVyD0AVnMG0fHg=;
+ b=aZKI5UC2adnUoH6IRrrFk0+qxmPE63GA85TqpwPaS1vJh3M3EFmqgTSBXH4KZtLob155Lde3xvXTCei54smQjFPin0s+qEYfQl576t51n2ud9woRXIQ2iN44fXP/u2hMTk3BOfENnxlyV4g7QwTexYM79qLeVWtGwZTDLFUDB91XglXp7tfxSNulKVbYJt152dokpes/Dc/7MtoOlNSqsfqy2R5zsd5FX8hDaz6Hj36OAUSIINRt3e6+x++KYLzrp+6llrG8yIgJx6KUniet+XFAs98NEP/KbBho9g2Fki8uIKfAwBrAtxuYleiak0JUto4BeJ2dAp4SeIcdAjSUtA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DS0PR11MB7484.namprd11.prod.outlook.com (2603:10b6:8:14c::10)
+ by PH0PR11MB7422.namprd11.prod.outlook.com (2603:10b6:510:285::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7362.22; Mon, 4 Mar
- 2024 06:15:59 +0000
-Received: from DU2PEPF00028D09.eurprd03.prod.outlook.com
- (2603:10a6:10:540:cafe::e1) by DU6P191CA0004.outlook.office365.com
- (2603:10a6:10:540::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.39 via Frontend
- Transport; Mon, 4 Mar 2024 06:15:58 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 193.8.40.94)
- smtp.mailfrom=leica-geosystems.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=leica-geosystems.com;
-Received-SPF: Pass (protection.outlook.com: domain of leica-geosystems.com
- designates 193.8.40.94 as permitted sender) receiver=protection.outlook.com;
- client-ip=193.8.40.94; helo=hexagon.com; pr=C
-Received: from hexagon.com (193.8.40.94) by
- DU2PEPF00028D09.mail.protection.outlook.com (10.167.242.169) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7362.11 via Frontend Transport; Mon, 4 Mar 2024 06:15:58 +0000
-Received: from aherlnxbspsrv01.lgs-net.com ([10.60.34.116]) by hexagon.com with Microsoft SMTPSVC(10.0.17763.1697);
-	 Mon, 4 Mar 2024 07:15:57 +0100
-From: Johannes Schneider <johannes.schneider@leica-geosystems.com>
-To: openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org
-CC: Johannes Schneider <johannes.schneider@leica-geosystems.com>
-Subject: [PATCH v4 2/3] image.bbclass/rootfs: set and unpack package-database
-Date: Mon,  4 Mar 2024 07:15:52 +0100
-Message-ID: <20240304061553.2281009-3-johannes.schneider@leica-geosystems.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240304061553.2281009-1-johannes.schneider@leica-geosystems.com>
-References: <20240304061553.2281009-1-johannes.schneider@leica-geosystems.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-OriginalArrivalTime: 04 Mar 2024 06:15:57.0646 (UTC) FILETIME=[6BF79EE0:01DA6DFB]
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU2PEPF00028D09:EE_|DUZPR06MB8748:EE_
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7362.23; Mon, 4 Mar
+ 2024 07:20:42 +0000
+Received: from DS0PR11MB7484.namprd11.prod.outlook.com
+ ([fe80::97da:833f:8511:a558]) by DS0PR11MB7484.namprd11.prod.outlook.com
+ ([fe80::97da:833f:8511:a558%6]) with mapi id 15.20.7362.019; Mon, 4 Mar 2024
+ 07:20:42 +0000
+From: Yi Zhao <yi.zhao@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] expat: upgrdae 2.6.0 -> 2.6.1
+Date: Mon,  4 Mar 2024 15:20:30 +0800
+Message-Id: <20240304072030.381063-1-yi.zhao@windriver.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 4d83cd30-5df5-4766-7be1-08dc3c128f3a
-X-SET-LOWER-SCL-SCANNER: YES
+X-ClientProxiedBy: SG3P274CA0023.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:be::35)
+ To DS0PR11MB7484.namprd11.prod.outlook.com (2603:10b6:8:14c::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB7484:EE_|PH0PR11MB7422:EE_
+X-MS-Office365-Filtering-Correlation-Id: ad21f112-0b1f-4e3b-ca5d-08dc3c1b99d8
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	Clh8pHYA5aJVkGen+4Y0UM3sFXB6LDMc1Na6SUzzTEAED7rInmSQ85buuDypsG1WN4Qy9YV46GrNM9mSehb2sNjyk5+XuljbQlHwBBB3T6Oy5HRxm1uchkQFV1LeF3lWif4PxXBn/HjpcS7aeBooH66Kg494+TbcO49aV22BKMoDQd2bohsLgVuaG/qrO3QGAqcYDKo20aOhwGFyT/iHCQ8VZL1eKodGtL2Dyp0BaK+5oXM+ei+wwCY3TAM/LmgEWnOknLqz48NnOWMOfI5r6IyCXWZ0+5YWUwwSA6jsKaBGIDBLXfIL92mAPHFBxawob8FUM4XmTjF66W/9Pr5n4FoYv3ggzB80hN4vp3lmxeovBH97T1OK/P/WUCdyc5m/94f1Y8U4S3hrOd54DICBR8/Oh68apDlgJtWAaypMdvMQulixc+NfZeSktx2HwFrJtOtj1X0/V34UEsklINqXseGvnHG/oauxaWLGgdt0L9O2lxp5AqaFqPlL/AQqErbevnj562z7iP/U11KrUaCIGEdqRsVqBWEnJlA1JZEbs6o0BYPjDupwNc196qX/NLVTzXsK4c0494SKeooJG3iBZpDjM9ovfzA8kp7fmj2oW4NEDlY4k2kEdbt7TJklh0JYw47yTYfYeBxe52OUSKMyAPltHXEknU1rf5V/PZP7NxY9hoPdv6fphsbdE2KiEXtuK8rFHu2gW5t8rDUF+9mIqA==
+	GKdIfhjQkm1pKKFBbT6MlCmwzj+P6/rr+eZ6mFSaWm57EPuY+Au3/vCWlFuV9JS/Fta1f6WryJTWMePwuCKfGSpBZuu//i+GKPglJbXmybqL5YLa4i/GVEkGsHop61aE6B7vDhUrTqYOmMBtY8mFGxM6W9MTTUE4QpM22ns3MTVT/kgN/ZKN5q+w16fbbZEDqN+KHaC819uhNeCzzKWmvgyFA8jMqcAfYc0iMkGLbgWAyHZcaG8RPGm1E2DcWsy8SpeLzkU8+Chde72mN1BKisBUi1qJu2bSh56x6+1lDlCNoQ+r42/AYiKt95YzObKGw/Z1+f3TYN8mqOJZrnktk0cODsunVuOu4oGV5n0O6ZnmQKYxdGsU+3uEhPJWGDVhF7DzJqfbaBEZVMoQRxZJjsPF62d4+3j+StqVdtLE6/gDt1suSYBywAcxItpmgSca3Dy8+1LuzxW6Ch96HOES1gO/qW9zWVtipzv/xBl/WNm+IzbZGxrxrJvH0EtFC6+o0n8FgQRsshntMloaUmT85gTODcsrQE2bBfwRbKJ4DgJYO1ZRO5e3JXPZMyGwpzVjWQv0ux0MhBSrb/ciXtTu+XdW8j2ZiA3hg7Ye62b+2LG2nuT+T1ZOoU31RDCpLiKPWMrg5Y62YQX8+Wkk4ypv4mS5UpY69Yf03s3XaBh5XTtJeBVWeFmMjT8gtKP3+2YV
 X-Forefront-Antispam-Report: 
-	CIP:193.8.40.94;CTRY:CH;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:hexagon.com;PTR:ahersrvdom50.leica-geosystems.com;CAT:NONE;SFS:(13230031)(82310400014)(36860700004)(376005);DIR:OUT;SFP:1101;
-X-OriginatorOrg: leica-geosystems.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2024 06:15:58.9195
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7484.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(38350700005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?VPrIt776vAynjfaPi/3sUnXZC0xC810WDflgzAtHhZJ4W6Kaaoi4Mhvg5EwR?=
+ =?us-ascii?Q?f3KXaMImrfchzydLD6irCd2oqCmeYV2WNlipzel+Iw3qRod9GekN4G4kjLOW?=
+ =?us-ascii?Q?XoMN83woHaP/5CpDRRGwOxzAkvP+gaRG5BCbCRK1o8bO1sQ+8FUx8pom4waw?=
+ =?us-ascii?Q?XC77/At9EPGTc8tNy1pF+RkJO/pYtIZuiHgfpiERGDTXwiTUvIIwVyzr00SR?=
+ =?us-ascii?Q?bWUoiv3rssRJiSYoiBWPv/9t0LlL4b541gLjEvjJifeuR7xePDYMMJQBjdMe?=
+ =?us-ascii?Q?86OMWZJDPsm2cht9gTA9hCCw+1ZeubpK6oGPs95znIrhHnbrpCnwmSj8Dr7e?=
+ =?us-ascii?Q?IGi9fY8rTnSFb71wa5DZN58pO5XsDi7jGqMKOqPBpUsB0+C2tCJyNv9cXo47?=
+ =?us-ascii?Q?rBXDRW9HYzv0Jg6eDkJzoWFFHqK4AeFAESqRkyvLD8M/eoYU6W21xNWi1cp8?=
+ =?us-ascii?Q?S/erhAm2uXLYMV+XeNc1ay5cDo5YkybzOSosIFnayezeDjb+1K+ziizHReQC?=
+ =?us-ascii?Q?EMnfdqKK39L2+yei9KYFrrKmqljndFHuJkJYZcp5vY9vaRFO97l/Wp90U2AL?=
+ =?us-ascii?Q?qczDBVerZDRM3Qw10HQAQFbEGQAt98pCY4C7W9cToS9VvNhpTpujFUmgn0Ay?=
+ =?us-ascii?Q?oPrjbou4YutKSKjUgwvVVxakcJFIJ1AsNdPDgBGbDExUYV/f1HcN6HAjxD9O?=
+ =?us-ascii?Q?Lz9btCvT3aXtN/+L3WZiP+/8m/uIbFIz85BUl2EoG6EJy37gdhM3iBfHDf9c?=
+ =?us-ascii?Q?hQi5uDWCa8nqH1CfcJucYa1D9vtyOzp6J6fxPsPzy7ZSZI+VHdKiRWPbmlwE?=
+ =?us-ascii?Q?tVOhSCMEWbbZ0RSE9Fi++fxw1rBm1TijwfOCcAy9citNyVt8wF/o+P5qipO3?=
+ =?us-ascii?Q?XObgP6ZZt/aPiTkNJu39PF8WpGMXpmjZdZcm5LkAH7tTygbt8hQmASXArbS/?=
+ =?us-ascii?Q?bX1FZA8EJTNEs813xlk8vm1TLR0ENejCxpc3nlJ5WfZQw77DJDkTLv9Ov/Zf?=
+ =?us-ascii?Q?tQ877nvXLAjym8weeHVd9X8NNvTewSWQs7fjTCkNqcsV7WuUdgaIAi2i+kAv?=
+ =?us-ascii?Q?vAZXr2I59HEnmnKax+vLhjUJKN0cKoWQSUv4qPT7avMj2UIA5FrNctf4XU/q?=
+ =?us-ascii?Q?0SkUgrP+dyIf3+gWfZ2TQWtiPhPod/1j8rmZAoXjOH/FHXogkHwY3CjrY8Vf?=
+ =?us-ascii?Q?g4Gr1VHKvGTtVgSvCcvSjvTo12fc1hV260DjNGN9NzzBTXlKgvcPVWwFFoGH?=
+ =?us-ascii?Q?nq/Ng6g7d3fJbcIzHCm5eRQCVvmXyRtYacq6tCwWkvo2JO1cfXyGEk/L0YIP?=
+ =?us-ascii?Q?5ovH1jJd9kRSykJRHUct5qvqyRDAiDiDWg8EgcsNGL4sHdx9Uz22stj8TNhD?=
+ =?us-ascii?Q?3nXvD0jHRORcG1bDxi0I3m2A5OUkJ4idMJOitNBR9yhL3W4SZZjxGN2ZTRQn?=
+ =?us-ascii?Q?9VjNa029T/5U9UIrCM6m/5xD3hE0Iwf2M3KuVHHr6CNJhE4kC9xv+hnoXQmp?=
+ =?us-ascii?Q?K8T1amIjXLxdaDtOig4fD36L6o5p26lZyzrw4QZNLD4SAc5L6yvYv+fPCkZd?=
+ =?us-ascii?Q?Y5rLnbs7jb4cx4PFe0VSNT/NGP+Xbg7nNzoudK8i?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ad21f112-0b1f-4e3b-ca5d-08dc3c1b99d8
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7484.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2024 07:20:42.4494
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4d83cd30-5df5-4766-7be1-08dc3c128f3a
-X-MS-Exchange-CrossTenant-Id: 1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a;Ip=[193.8.40.94];Helo=[hexagon.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DU2PEPF00028D09.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DUZPR06MB8748
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5w0iSwGNgEoAlbbPh0G/jWc3ZM9Ru9zxvZ1aPV/sMA+D2V5HFGQ9Xeg2LAK6ww3yeBt+0vFg1NB9AjpLQWDvCg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB7422
+X-Proofpoint-ORIG-GUID: q9q3lcNyi20CwZLyeVV_JBPQnSSdb3zv
+X-Proofpoint-GUID: q9q3lcNyi20CwZLyeVV_JBPQnSSdb3zv
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-04_03,2024-03-01_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 malwarescore=0
+ spamscore=0 lowpriorityscore=0 priorityscore=1501 phishscore=0
+ mlxlogscore=999 suspectscore=0 impostorscore=0 mlxscore=0 adultscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2402120000 definitions=main-2403040054
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 04 Mar 2024 06:16:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196587
+ <openembedded-core@lists.openembedded.org>; Mon, 04 Mar 2024 07:20:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196590
 
-set the package-database of a "lower image" to unpack and build upon
-when installing packages for the current image. This way a lean image
-will be created, which only holds the packages that are not already
-present in the lower image.
+ChangeLog:
+(https://github.com/libexpat/libexpat/blob/R_2_6_1/expat/Changes)
 
-An image build such could then be used with overlayfs or systemd-
-sysext to extend the "lower image" on demand; for development purposes
-on a device running the "lower image" in RO mode for example.
+Bug fixes:
+  #817  Make tests independent of CPU speed, and thus more robust
+  #828 #836  Expose billion laughs API with XML_DTD defined and
+             XML_GE undefined, regression from 2.6.0
 
-A configuration could look as follows:
-  some-core-image.bb
-    inherit image
-    IMAGE_GEN_PKGDBFS =3D "1"
+Other changes:
+  #829  Hide test-only code behind new internal macro
+  #833  Autotools: Reject expat_config.h.in defining SIZEOF_VOID_P
+  #819  Address compiler warnings
+  #832 #834  Version info bumped from 10:0:9 (libexpat*.so.1.9.0)
+             to 10:1:9 (libexpat*.so.1.9.1); see https://verbump.de/
+             for what these numbers do
 
-  extending-image.bb
-    inherit image
-    IMAGE_BASE_PKGDB =3D "some-core-image"
+Infrastructure:
+  #818  CI: Adapt to breaking changes in clang-format
 
-Signed-off-by: Johannes Schneider <johannes.schneider@leica-geosystems.com>
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
- meta/classes-recipe/image.bbclass             | 23 ++++++++--
- meta/conf/documentation.conf                  |  3 +-
- meta/lib/oe/package_manager/deb/rootfs.py     |  2 +
- meta/lib/oe/package_manager/ipk/rootfs.py     |  6 ++-
- meta/lib/oe/package_manager/rpm/rootfs.py     |  7 ++-
- meta/lib/oe/rootfs.py                         | 18 ++++++++
- meta/lib/oeqa/selftest/cases/imagefeatures.py | 46 +++++++++++++++++++
- 7 files changed, 97 insertions(+), 8 deletions(-)
+ meta/recipes-core/expat/{expat_2.6.0.bb => expat_2.6.1.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/expat/{expat_2.6.0.bb => expat_2.6.1.bb} (92%)
 
-diff --git a/meta/classes-recipe/image.bbclass b/meta/classes-recipe/image.=
-bbclass
-index 3ccaaa17b8..c573c37cd8 100644
---- a/meta/classes-recipe/image.bbclass
-+++ b/meta/classes-recipe/image.bbclass
-@@ -42,8 +42,16 @@ IMAGE_FEATURES ?=3D ""
- IMAGE_FEATURES[type] =3D "list"
- IMAGE_FEATURES[validitems] +=3D "debug-tweaks read-only-rootfs read-only-r=
-ootfs-delayed-postinsts stateless-rootfs empty-root-password allow-empty-pa=
-ssword allow-root-login serial-autologin-root post-install-logging overlayf=
-s-etc"
-=20
--# Generate snapshot of the package database?
-+# Image layering:
-+# a "base image" would create a snapshot of the package-database after the
-+# installation of all packages into the rootfs is done. The next/other ima=
-ge
-+# "layered on-top" of the former would then import that database and insta=
-ll
-+# further packages; without reinstalling packages/dependencies that are al=
-ready
-+# installed in the layer below.
-+# Set to '1' in a "base image" recipe, to preserve a snapshot of the packa=
-ge database.
- IMAGE_GEN_PKGDBFS ?=3D "0"
-+# "PN" of a "base image", upon which the current image is to be built upon=
-.
-+IMAGE_BASE_PKGDB ?=3D ""
-=20
- # Generate companion debugfs?
- IMAGE_GEN_DEBUGFS ?=3D "0"
-@@ -118,6 +126,15 @@ do_rootfs[depends] +=3D " \
- "
- do_rootfs[recrdeptask] +=3D "do_packagedata"
-=20
-+python () {
-+    # make sure that the 'base image' has been queued in before this
-+    # image wants to unpack and build upon the formers pgkdb
-+    base_image =3D d.getVar('IMAGE_BASE_PKGDB')
-+    pn =3D d.getVar('PN')
-+    if base_image and base_image !=3D pn:
-+        d.appendVarFlag("do_rootfs", 'depends', ' '+ base_image + ':do_ima=
-ge_complete')
-+}
-+
- def rootfs_command_variables(d):
-     return ['ROOTFS_POSTPROCESS_COMMAND','ROOTFS_PREPROCESS_COMMAND','ROOT=
-FS_POSTINSTALL_COMMAND','ROOTFS_POSTUNINSTALL_COMMAND','OPKG_PREPROCESS_COM=
-MANDS','OPKG_POSTPROCESS_COMMANDS','IMAGE_POSTPROCESS_COMMAND',
-             'IMAGE_PREPROCESS_COMMAND','RPM_PREPROCESS_COMMANDS','RPM_POST=
-PROCESS_COMMANDS','DEB_PREPROCESS_COMMANDS','DEB_POSTPROCESS_COMMANDS']
-@@ -134,8 +151,8 @@ def rootfs_variables(d):
-                  'IMAGE_ROOTFS_MAXSIZE','IMAGE_NAME','IMAGE_LINK_NAME','IM=
-AGE_MANIFEST','DEPLOY_DIR_IMAGE','IMAGE_FSTYPES','IMAGE_INSTALL_COMPLEMENTA=
-RY','IMAGE_LINGUAS', 'IMAGE_LINGUAS_COMPLEMENTARY', 'IMAGE_LOCALES_ARCHIVE'=
-,
-                  'MULTILIBRE_ALLOW_REP','MULTILIB_TEMP_ROOTFS','MULTILIB_V=
-ARIANTS','MULTILIBS','ALL_MULTILIB_PACKAGE_ARCHS','MULTILIB_GLOBAL_VARIANTS=
-','BAD_RECOMMENDATIONS','NO_RECOMMENDATIONS',
-                  'PACKAGE_ARCHS','PACKAGE_CLASSES','TARGET_VENDOR','TARGET=
-_ARCH','TARGET_OS','OVERRIDES','BBEXTENDVARIANT','FEED_DEPLOYDIR_BASE_URI',=
-'INTERCEPT_DIR','USE_DEVFS',
--                 'CONVERSIONTYPES', 'IMAGE_GEN_PKGDBFS', 'IMAGE_GEN_DEBUGF=
-S', 'ROOTFS_RO_UNNEEDED', 'IMGDEPLOYDIR', 'PACKAGE_EXCLUDE_COMPLEMENTARY', =
-'REPRODUCIBLE_TIMESTAMP_ROOTFS',
--                 'IMAGE_INSTALL_DEBUGFS']
-+                 'CONVERSIONTYPES', 'IMAGE_GEN_PKGDBFS', 'IMAGE_BASE_PKGDB=
-', 'IMAGE_GEN_DEBUGFS', 'ROOTFS_RO_UNNEEDED', 'IMGDEPLOYDIR', 'PACKAGE_EXCL=
-UDE_COMPLEMENTARY',
-+                 'REPRODUCIBLE_TIMESTAMP_ROOTFS', 'IMAGE_INSTALL_DEBUGFS']
-     variables.extend(rootfs_command_variables(d))
-     variables.extend(variable_depends(d))
-     return " ".join(variables)
-diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-index 36aebb59ab..9f493cfe96 100644
---- a/meta/conf/documentation.conf
-+++ b/meta/conf/documentation.conf
-@@ -208,6 +208,7 @@ ICECC_PATH[doc] =3D "The location of the icecc binary."
- ICECC_CLASS_DISABLE[doc] =3D "Identifies user classes that you do not want=
- the Icecream distributed compile support to consider."
- ICECC_RECIPE_DISABLE[doc] =3D "Identifies user recipes that you do not wan=
-t the Icecream distributed compile support to consider."
- ICECC_RECIPE_ENABLE[doc] =3D "Identifies user recipes that use an empty PA=
-RALLEL_MAKE variable that you want to force remote distributed compilation =
-on using the Icecream distributed compile support."
-+IMAGE_BASE_PKGDB[doc] =3D "Set to the PN of a base-image name, which was b=
-uilt with IMAGE_GEN_PKGDBFS enabled; Then this image will only add/install =
-packages into its rootfs that are not already in the base-image."
- IMAGE_BASENAME[doc] =3D "The base name of image output files."
- IMAGE_BOOT_FILES[doc] =3D "Whitespace separated list of files from ${DEPLO=
-Y_DIR_IMAGE} to place in boot partition. Entries will be installed under a =
-same name as the source file. To change the destination file name, pass a d=
-esired name after a semicolon (eg. u-boot.img;uboot)."
- IMAGE_CLASSES[doc] =3D "A list of classes that all images should inherit."
-@@ -215,7 +216,7 @@ IMAGE_FEATURES[doc] =3D "The primary list of features t=
-o include in an image. Conf
- IMAGE_FSTYPES[doc] =3D "Formats of root filesystem images that you want to=
- have created."
- IMAGE_FSTYPES_DEBUGFS[doc] =3D "Formats of the debug root filesystem image=
-s that you want to have created."
- IMAGE_GEN_DEBUGFS[doc] =3D "When set to '1', generate a companion debug ob=
-ject/source filesystem image."
--IMAGE_GEN_PKGDBFS[doc] =3D "When set to '1', create a snapshot of the pack=
-age-manager state after the rootfs has been assembled."
-+IMAGE_GEN_PKGDBFS[doc] =3D "When set to '1', create a snapshot of the pack=
-age-manager state after the rootfs has been assembled; This snapshot can th=
-en be used in a different image recipe, that sets IMAGE_BASE_PKGDB to this =
-images PN."
- IMAGE_INSTALL[doc] =3D "Specifies the packages to install into an image. I=
-mage recipes set IMAGE_INSTALL to specify the packages to install into an i=
-mage through image.bbclass."
- IMAGE_LINGUAS[doc] =3D "Specifies the list of locales to install into the =
-image during the root filesystem construction process."
- IMAGE_NAME[doc] =3D "The name of the output image files minus the extensio=
-n."
-diff --git a/meta/lib/oe/package_manager/deb/rootfs.py b/meta/lib/oe/packag=
-e_manager/deb/rootfs.py
-index 43107c8663..71a21df09b 100644
---- a/meta/lib/oe/package_manager/deb/rootfs.py
-+++ b/meta/lib/oe/package_manager/deb/rootfs.py
-@@ -152,6 +152,8 @@ class PkgRootfs(DpkgOpkgRootfs):
-=20
-         execute_pre_post_process(self.d, deb_pre_process_cmds)
-=20
-+        self._unpack_pkg_db_rootfs(['/var/lib/dpkg'])
-+
-         if self.progress_reporter:
-             self.progress_reporter.next_stage()
-             # Don't support incremental, so skip that
-diff --git a/meta/lib/oe/package_manager/ipk/rootfs.py b/meta/lib/oe/packag=
-e_manager/ipk/rootfs.py
-index 64d9bc7969..408faa8030 100644
---- a/meta/lib/oe/package_manager/ipk/rootfs.py
-+++ b/meta/lib/oe/package_manager/ipk/rootfs.py
-@@ -276,12 +276,16 @@ class PkgRootfs(DpkgOpkgRootfs):
-         pkgs_to_install =3D self.manifest.parse_initial_manifest()
-         opkg_pre_process_cmds =3D self.d.getVar('OPKG_PREPROCESS_COMMANDS'=
-)
-         opkg_post_process_cmds =3D self.d.getVar('OPKG_POSTPROCESS_COMMAND=
-S')
-+        opkg_lib_dir =3D self.d.getVar('OPKGLIBDIR')
-+        opkg_dir =3D os.path.join(opkg_lib_dir, 'opkg')
-=20
-         # update PM index files
-         self.pm.write_index()
-=20
-         execute_pre_post_process(self.d, opkg_pre_process_cmds)
-=20
-+        self._unpack_pkg_db_rootfs([opkg_dir])
-+
-         if self.progress_reporter:
-             self.progress_reporter.next_stage()
-             # Steps are a bit different in order, skip next
-@@ -317,8 +321,6 @@ class PkgRootfs(DpkgOpkgRootfs):
-         if self.progress_reporter:
-             self.progress_reporter.next_stage()
-=20
--        opkg_lib_dir =3D self.d.getVar('OPKGLIBDIR')
--        opkg_dir =3D os.path.join(opkg_lib_dir, 'opkg')
-         self._setup_pkg_db_rootfs([opkg_dir])
-         self._setup_dbg_rootfs([opkg_dir])
-=20
-diff --git a/meta/lib/oe/package_manager/rpm/rootfs.py b/meta/lib/oe/packag=
-e_manager/rpm/rootfs.py
-index 673006c131..9986b13b5f 100644
---- a/meta/lib/oe/package_manager/rpm/rootfs.py
-+++ b/meta/lib/oe/package_manager/rpm/rootfs.py
-@@ -67,12 +67,15 @@ class PkgRootfs(Rootfs):
-         pkgs_to_install =3D self.manifest.parse_initial_manifest()
-         rpm_pre_process_cmds =3D self.d.getVar('RPM_PREPROCESS_COMMANDS')
-         rpm_post_process_cmds =3D self.d.getVar('RPM_POSTPROCESS_COMMANDS'=
-)
-+        package_paths =3D ['/etc/rpm', '/etc/rpmrc', '/etc/dnf', '/var/lib=
-/rpm', '/var/cache/dnf', '/var/lib/dnf']
-=20
-         # update PM index files
-         self.pm.write_index()
-=20
-         execute_pre_post_process(self.d, rpm_pre_process_cmds)
-=20
-+        self._unpack_pkg_db_rootfs(package_paths)
-+
-         if self.progress_reporter:
-             self.progress_reporter.next_stage()
-=20
-@@ -110,8 +113,8 @@ class PkgRootfs(Rootfs):
-         if self.progress_reporter:
-             self.progress_reporter.next_stage()
-=20
--        self._setup_pkg_db_rootfs(['/etc/rpm', '/etc/rpmrc', '/etc/dnf', '=
-/var/lib/rpm', '/var/cache/dnf', '/var/lib/dnf'])
--        self._setup_dbg_rootfs(['/etc/rpm', '/etc/rpmrc', '/etc/dnf', '/va=
-r/lib/rpm', '/var/cache/dnf', '/var/lib/dnf'])
-+        self._setup_pkg_db_rootfs(package_paths)
-+        self._setup_dbg_rootfs(package_paths)
-=20
-         execute_pre_post_process(self.d, rpm_post_process_cmds)
-=20
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index 6d6e888a30..9d691c58cd 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -106,6 +106,24 @@ class Rootfs(object, metaclass=3DABCMeta):
-     def _cleanup(self):
-         pass
-=20
-+    def _unpack_pkg_db_rootfs(self, package_paths):
-+        import tarfile
-+        pn =3D self.d.getVar('PN')
-+        base_pkgdb =3D self.d.getVar('IMAGE_BASE_PKGDB')
-+        if not base_pkgdb or pn =3D=3D base_pkgdb:
-+            return
-+
-+        fname =3D self.d.getVar('DEPLOY_DIR_IMAGE') + '/' + self.d.getVar(=
-'IMAGE_BASE_PKGDB') + '-' + self.d.getVar('MACHINE')  + '.rootfs-pkgdb.tar.=
-gz'
-+        if not os.path.exists(fname):
-+            bb.fatal("PKGDB for '%s' does not exist,\n\texpected: %s\n\tth=
-e recipe for '%s' should set: IMAGE_GEN_PKGDBFS=3D'1'" % (base_pkgdb, fname=
-, base_pkgdb))
-+            return
-+
-+        bb.note("  unpacking base image package database...")
-+        if fname.endswith("tar.gz"):
-+            tar =3D tarfile.open(fname, "r:gz")
-+            tar.extractall(path=3Dself.image_rootfs)
-+            tar.close()
-+
-     def _setup_pkg_db_rootfs(self, package_paths):
-         gen_pkg_db_fs =3D bb.utils.to_boolean(self.d.getVar('IMAGE_GEN_PKG=
-DBFS'))
-         if not gen_pkg_db_fs:
-diff --git a/meta/lib/oeqa/selftest/cases/imagefeatures.py b/meta/lib/oeqa/=
-selftest/cases/imagefeatures.py
-index 9adde6c6f1..bd2ee894f7 100644
---- a/meta/lib/oeqa/selftest/cases/imagefeatures.py
-+++ b/meta/lib/oeqa/selftest/cases/imagefeatures.py
-@@ -353,6 +353,52 @@ SKIP_RECIPE[busybox] =3D "Don't build this"
-         # check for a common base package, a random library for example:
-         self.assertTrue("libc6" in result.output, msg=3D'Failed query inst=
-alled packages')
-=20
-+    def test_image_use_pkgdbfs(self):
-+        """
-+        Summary:     Check pkgdb snapshot
-+        Expected:    1. core-image-minimal is built with IMAGE_GEN_PKGDBFS=
- variable set
-+                     2. core-image-minimal-mtdutils is built with:
-+                        IMAGE_BASE_PKGDB pointing to the former, to build =
-upon it
-+                     3. the rootfs of both images is checked, and there sh=
-ould be no file
-+                        from any of the installed packages that shows up i=
-n both images
-+        """
-+
-+        base_image =3D 'core-image-minimal'
-+        extension_image =3D 'core-image-minimal-mtdutils'
-+
-+        features =3D 'IMAGE_FSTYPES =3D "tar.bz2"\n'
-+        # enable usrmerge so that all relevant pieces are in one place =3D=
- /usr
-+        features +=3D 'DISTRO_FEATURES +=3D "usrmerge"\n'
-+        features +=3D 'IMAGE_GEN_PKGDBFS =3D "1"\n'
-+        features +=3D 'IMAGE_BASE_PKGDB =3D "%s"\n' % base_image
-+        self.write_config(features)
-+
-+        # through task dependencies the base_image should automagically be=
- built
-+        bitbake(extension_image)
-+
-+        # collect image content of both images
-+        img_vars =3D get_bb_vars(['DEPLOY_DIR_IMAGE', 'IMAGE_LINK_NAME'], =
-base_image)
-+        img_file =3D os.path.join(img_vars['DEPLOY_DIR_IMAGE'], "%s.%s" % =
-(img_vars['IMAGE_LINK_NAME'], 'tar.bz2'))
-+        self.logger.debug("base image: %s" % img_file)
-+        img_content =3D runCmd('tar -tf %s' % img_file)
-+
-+        ext_vars =3D get_bb_vars(['DEPLOY_DIR_IMAGE', 'IMAGE_LINK_NAME'], =
-extension_image)
-+        ext_file =3D os.path.join(ext_vars['DEPLOY_DIR_IMAGE'], "%s.%s" % =
-(ext_vars['IMAGE_LINK_NAME'], 'tar.bz2'))
-+        self.logger.debug("extension image: %s" % ext_file)
-+        ext_content =3D runCmd('tar -tf %s' % ext_file)
-+
-+        # filter out folders and anything outside of /usr
-+        img_files =3D [ x for x in img_content.output.splitlines() if not =
-x.endswith('/') and x.startswith('./usr/') ]
-+        self.logger.debug("image files:\n%s" % img_files)
-+        ext_files =3D [ x for x in ext_content.output.splitlines() if not =
-x.endswith('/') and x.startswith('./usr/') ]
-+
-+        # check mutual exclusive content listing
-+        self.logger.debug("extension files:\n%s" % ext_files)
-+        for i in img_files:
-+            self.assertTrue(i not in ext_files, "found %s in extension" % =
-i)
-+        for e in ext_files:
-+            self.assertTrue(e not in img_files, "found %s in base-image" %=
- e)
-+
-     def test_empty_image(self):
-         """Test creation of image with no packages"""
-         image =3D 'test-empty-image'
---=20
-2.34.1
+diff --git a/meta/recipes-core/expat/expat_2.6.0.bb b/meta/recipes-core/expat/expat_2.6.1.bb
+similarity index 92%
+rename from meta/recipes-core/expat/expat_2.6.0.bb
+rename to meta/recipes-core/expat/expat_2.6.1.bb
+index 1f9f7b269a..9bdc3b6206 100644
+--- a/meta/recipes-core/expat/expat_2.6.0.bb
++++ b/meta/recipes-core/expat/expat_2.6.1.bb
+@@ -15,7 +15,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/R_${VERSION_TAG}/expat-${PV}.tar.bz2  \
+ GITHUB_BASE_URI = "https://github.com/libexpat/libexpat/releases/"
+ UPSTREAM_CHECK_REGEX = "releases/tag/R_(?P<pver>.+)"
+ 
+-SRC_URI[sha256sum] = "ff60e6a6b6ce570ae012dc7b73169c7fdf4b6bf08c12ed0ec6f55736b78d85ba"
++SRC_URI[sha256sum] = "4677d957c0c6cb2a3321101944574c24113b637c7ab1cf0659a27c5babc201fd"
+ 
+ EXTRA_OECMAKE:class-native += "-DEXPAT_BUILD_DOCS=OFF"
+ 
+-- 
+2.25.1
 
 
