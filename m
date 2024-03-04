@@ -1,110 +1,109 @@
-Return-Path: <tim.orling@konsulko.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71951C5475B
-	for <webhook@archiver.kernel.org>; Mon,  4 Mar 2024 02:48:56 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web10.89669.1709520534139314826
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB244C48BF6
+	for <webhook@archiver.kernel.org>; Mon,  4 Mar 2024 03:57:36 +0000 (UTC)
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+ by mx.groups.io with SMTP id smtpd.web10.90692.1709524651662602001
  for <openembedded-core@lists.openembedded.org>;
- Sun, 03 Mar 2024 18:48:54 -0800
+ Sun, 03 Mar 2024 19:57:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=VoQyLKE8;
- spf=pass (domain: konsulko.com, ip: 209.85.214.171, mailfrom: tim.orling@konsulko.com)
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1dc139ed11fso38840085ad.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 03 Mar 2024 18:48:54 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=OqT4aCBM;
+ spf=pass (domain: gmail.com, ip: 209.85.210.174, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-6e6277f72d8so111522b3a.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 03 Mar 2024 19:57:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1709520532; x=1710125332; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1709524651; x=1710129451; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XoeMYhSqmYwMnaAoCrXZjXSD971V0KaQ3wmQoenCkAw=;
-        b=VoQyLKE8WvqCwE49k0LQ5m1FrvKwl70a7V/7f8ZkvqkTQ5L759mmhWJZBnaNndAYKr
-         emx/JdNbHynFYsrJHtjn0b4BKTKcXUPZlxrLc+9kCckbqv2jP+ghwWRPBNesRmWx4UZM
-         dKP6WAXV8Rji94fdZofXVYF4F36MYQtU1aSwo=
+        bh=frjuyUWiOkk2A8NPzU9dFqzK0xG8ZmqJ+SKNUvcmHhI=;
+        b=OqT4aCBMLXQNH30H5IsnUQ3IhKq0rH+p+gRhy0Hf2vPVetvSg4GHTokH9XJu29c47i
+         9ekshtr5WQ7xlWj4vxzpcyVWRFUIh89jU/CHk9PHOoIXIl/yRcHJUrU5cFur2gtj/lyM
+         A+Hnc+GzWCZdLzaYVwk0yUNeP4vuYM4AUZ0tIt9Ji85dDadl6Qh1Q96WniibrZCs2Wiz
+         MvElA5WrZgVuLyrvfJJ0SgpPYx6zUcfsaNGFiOP7rgCRueT32Bu4cgJO4uE6F97/7hcK
+         20SpDTvYWSXaRzAEzgWS0Gv51BLgdbzpBZb4fI05W24HMB+BjUCg8o9YvMvgBVsxCc+e
+         3wOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709520532; x=1710125332;
+        d=1e100.net; s=20230601; t=1709524651; x=1710129451;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=XoeMYhSqmYwMnaAoCrXZjXSD971V0KaQ3wmQoenCkAw=;
-        b=p6nFOaP4Gbt3+JZtOCY1hcdtZUax2SFt/kT6SEeU2Bt/UUn7MCDcubNm7GlxNLof5j
-         hbdxsEYvDPWtgM3YYcxr/I4ATd9Csoq6A0v5tMAN7eFAmXgFPst6kkl8+HhAs9P7H0TR
-         xdvC59iWHObIYWK6PXSqBenak+G2yG/sPQRUMRa5UXVreUaoHn01AOH6242SGkx4eaZT
-         6q/33Rors4Y0c0x9PaQP3hp+NkMOLL27Mqd6SxhMscacfjbrq807xlFEX00NGqMpHSEU
-         OCpfOmS8zJRE8mHiB1nWfurBdxH3f/jTBHh/uhayUBGzy/iJrMQrlrPj3purLriYFMs3
-         PxzA==
-X-Gm-Message-State: AOJu0Yx6ixzYbOCaut1QK9w97nHs7ArYo4FTEOTh0SSKGdGVphu2kDcB
-	OZKFyxhEJ+z7fuPTjcKAST+TaPydczn+7f0p0FZSV1DY2oAVraFnR2NP7SqB2k4WzKK82ubns4D
-	sa5U=
-X-Google-Smtp-Source: AGHT+IEVxohwZH6Y6g7a0dPB4NWCMrT7M+cSTEu0Epas2rZMrQeKeybw6RQjNJltvUjU0Ph8zNqDsQ==
-X-Received: by 2002:a17:902:654a:b0:1dc:b887:35bd with SMTP id d10-20020a170902654a00b001dcb88735bdmr9255195pln.5.1709520532544;
-        Sun, 03 Mar 2024 18:48:52 -0800 (PST)
-Received: from localhost ([2601:1c0:ca01:19f0:98c:a88:21dd:cea5])
-        by smtp.gmail.com with ESMTPSA id mq12-20020a170902fd4c00b001dc8f1e06eesm7264176plb.291.2024.03.03.18.48.51
+        bh=frjuyUWiOkk2A8NPzU9dFqzK0xG8ZmqJ+SKNUvcmHhI=;
+        b=uYliBS3MG8wc9tFj0Rt5ddQMna7TvQFi4mQCKD6G6ZKPxUWTduAeMEQFYUGhBLCSLT
+         kqn6MPd9tNIF5sIlwOVZfKi54taQbrENxxNasujVFlGWIaKtUx1lQ+2AXjGAeRY8FhJG
+         mUfXC8t1N8RV1O128x1LG3RlaOF0cpn7+nQzjT/5h35xY3ydQ0TIx/CkXNUtDtGooDAy
+         uP9F4pi4LoLqo33JB1/ZBcQFBP8Mr4Evxd/TwA0TEeO443y73SiVK83n880Xx1xoH/wi
+         60H03B0BzrgGNph/oKwl4HtebqavAZo2+ioQQoAfNUMURn2pSF4/4gafaciNmChSLu+n
+         3PqA==
+X-Gm-Message-State: AOJu0YzRlhz/gfcaVb/WW2hHmn8fyFuuHejn3YZYcaLasG5qFTppxepH
+	GDYDg1rcEa4kde9hQUzGEjzAnKO0OQaKfrDJM2CyVpTGW6Cn+CpIUnutVO2P
+X-Google-Smtp-Source: AGHT+IFAIR42lcy1vlElI6mWiy1A/pNFE5wL4wcLVyIKAji+B5zB8cyD12hxckwVbQLmKwAi2+THYA==
+X-Received: by 2002:a05:6a00:c85:b0:6e4:e4cf:8944 with SMTP id a5-20020a056a000c8500b006e4e4cf8944mr8936741pfv.12.1709524650611;
+        Sun, 03 Mar 2024 19:57:30 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::5e7])
+        by smtp.gmail.com with ESMTPSA id q5-20020a056a00084500b006e535914f9bsm6445383pfk.97.2024.03.03.19.57.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Mar 2024 18:48:52 -0800 (PST)
-From: Tim Orling <tim.orling@konsulko.com>
+        Sun, 03 Mar 2024 19:57:29 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH] python3-hypothesis: upgrade 6.98.12 -> 6.98.15
-Date: Sun,  3 Mar 2024 18:47:19 -0800
-Message-Id: <20240304024718.2691289-1-tim.orling@konsulko.com>
-X-Mailer: git-send-email 2.34.1
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] gdb: Upgrade 14.1 -> 14.2
+Date: Sun,  3 Mar 2024 19:57:27 -0800
+Message-ID: <20240304035727.600047-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 04 Mar 2024 02:48:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196583
+ <openembedded-core@lists.openembedded.org>; Mon, 04 Mar 2024 03:57:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196584
 
-https://hypothesis.readthedocs.io/en/latest/changes.html#v6-98-15
-https://hypothesis.readthedocs.io/en/latest/changes.html#v6-98-14
-https://hypothesis.readthedocs.io/en/latest/changes.html#v6-98-13
+BugFix release
 
-6.98.15 - 2024-02-29
-* This release adds support for the Array API’s 2023.12 release via the
-  api_version argument in make_strategies_namespace(). The API additions
-  and modifications in the 2023.12 spec do not necessitate any changes in
-  the Hypothesis strategies, hence there is no distinction between a
-  2022.12 and 2023.12 strategies namespace.
+This is a minor corrective release over GDB 14.1, fixing the following issues:
 
-6.98.14 - 2024-02-29
-* This patch adjusts the printing of bundle values to correspond with
-  their names when using stateful testing.
+PR symtab/31112 (DLL export forwarding is broken)
+PR c++/31128 (gdb crashes when trying to print a global variable stub without a running inferior)
+PR tdep/31254 ([gdb/tdep, arm] FAIL: gdb.threads/staticthreads.exp: up 10)
+PR gdb/31256 (Crash with basic 'list .')
+PR python/31366 (Frame.static_link() segfaults)
 
-6.98.13 - 2024-02-27
-* This patch implements filter-rewriting for text() and binary() with
-  the search(), match(), or fullmatch() method of a re.compile()d regex.
-
-Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
-Tested with buildall-qemu core-image-ptest-python3-hypothesis
-I saw an issue with qemuarmv5-musl, but not obvious it has anything
-to do with this upgrade, seemed like just a qemu timeout
+ .../{gdb-cross-canadian_14.1.bb => gdb-cross-canadian_14.2.bb}  | 0
+ .../gdb/{gdb-cross_14.1.bb => gdb-cross_14.2.bb}                | 0
+ meta/recipes-devtools/gdb/gdb.inc                               | 2 +-
+ meta/recipes-devtools/gdb/{gdb_14.1.bb => gdb_14.2.bb}          | 0
+ 4 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/gdb/{gdb-cross-canadian_14.1.bb => gdb-cross-canadian_14.2.bb} (100%)
+ rename meta/recipes-devtools/gdb/{gdb-cross_14.1.bb => gdb-cross_14.2.bb} (100%)
+ rename meta/recipes-devtools/gdb/{gdb_14.1.bb => gdb_14.2.bb} (100%)
 
- ...hon3-hypothesis_6.98.12.bb => python3-hypothesis_6.98.15.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-hypothesis_6.98.12.bb => python3-hypothesis_6.98.15.bb} (91%)
-
-diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.98.12.bb b/meta/recipes-devtools/python/python3-hypothesis_6.98.15.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-hypothesis_6.98.12.bb
-rename to meta/recipes-devtools/python/python3-hypothesis_6.98.15.bb
-index a74c3af401d..a17abe58c0f 100644
---- a/meta/recipes-devtools/python/python3-hypothesis_6.98.12.bb
-+++ b/meta/recipes-devtools/python/python3-hypothesis_6.98.15.bb
-@@ -13,7 +13,7 @@ SRC_URI += " \
-     file://test_rle.py \
-     "
- 
--SRC_URI[sha256sum] = "584ef03a847464b0d14a63e53fcc3335a75b1f1eb3bcc770a03ff950ee4e279e"
-+SRC_URI[sha256sum] = "1e31210951511b24ce8b3b6e04d791c466385a30ac3af571bf2223954b025d77"
- 
- RDEPENDS:${PN} += " \
-     python3-attrs \
+diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian_14.1.bb b/meta/recipes-devtools/gdb/gdb-cross-canadian_14.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/gdb/gdb-cross-canadian_14.1.bb
+rename to meta/recipes-devtools/gdb/gdb-cross-canadian_14.2.bb
+diff --git a/meta/recipes-devtools/gdb/gdb-cross_14.1.bb b/meta/recipes-devtools/gdb/gdb-cross_14.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/gdb/gdb-cross_14.1.bb
+rename to meta/recipes-devtools/gdb/gdb-cross_14.2.bb
+diff --git a/meta/recipes-devtools/gdb/gdb.inc b/meta/recipes-devtools/gdb/gdb.inc
+index eb480f3c658..81ac441462a 100644
+--- a/meta/recipes-devtools/gdb/gdb.inc
++++ b/meta/recipes-devtools/gdb/gdb.inc
+@@ -14,4 +14,4 @@ SRC_URI = "${GNU_MIRROR}/gdb/gdb-${PV}.tar.xz \
+            file://0007-Fix-invalid-sigprocmask-call.patch \
+            file://0008-Define-alignof-using-_Alignof-when-using-C11-or-newe.patch \
+            "
+-SRC_URI[sha256sum] = "d66df51276143451fcbff464cc8723d68f1e9df45a6a2d5635a54e71643edb80"
++SRC_URI[sha256sum] = "2d4dd8061d8ded12b6c63f55e45344881e8226105f4d2a9b234040efa5ce7772"
+diff --git a/meta/recipes-devtools/gdb/gdb_14.1.bb b/meta/recipes-devtools/gdb/gdb_14.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/gdb/gdb_14.1.bb
+rename to meta/recipes-devtools/gdb/gdb_14.2.bb
 -- 
-2.34.1
+2.44.0
 
 
