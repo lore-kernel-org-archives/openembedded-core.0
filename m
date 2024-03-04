@@ -1,139 +1,112 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C80F8C5478C
-	for <webhook@archiver.kernel.org>; Mon,  4 Mar 2024 15:57:50 +0000 (UTC)
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.74])
- by mx.groups.io with SMTP id smtpd.web10.102785.1709567860803909069
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCD82C48BF6
+	for <webhook@archiver.kernel.org>; Mon,  4 Mar 2024 16:17:20 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web10.103523.1709569031017016596
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Mar 2024 07:57:41 -0800
+ Mon, 04 Mar 2024 08:17:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=iyW8isPL;
- spf=pass (domain: axis.com, ip: 40.107.20.74, mailfrom: peter.kjellerstedt@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ph5D4EPnsImBBbHDt0upcvG+AXkUpBZgB9/fi2GmUGm646l/3ALjFBYRiuJ3Eur/Cio3GBnV4PrdawFTL7Mzlq2pB8mQ5yP1S21uPfxcCPBbklqo2VpLGfQz1vCc/VRMQS2R4TDzZzczlR6SecZiXpX0GMd1KFu2s49FqNkZNMsEoVuAF3hdMaaDgTKjj0+98vIOYAUMDskvtr8RaoJWyyCXbn6JR12OsjrczzKjkN1CH3n7q1xsdABB7bcaHVV97EOkn22woAonnHbwB0IaatY03MYQgkFwqKVKM6lKBo5zpdn3eRYsL8eAQldyaARGDvDbQVoNI4QCJeMllUi5Aw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=O84f0sHXDnEfLjBp2RUKRnOvxWf5aywaGzQQ7fy0PGs=;
- b=iCb7a3g7i9pXTS+Dod6m14RBPO6CVccIo0bx2mw3iQ/q8ooOG3xxtIhrP5hkWBY8/DOqy/0WPwpeyGbhQqHM4vb6JXbocnJD8T8sYfXUizRQLUSRFmmy0cL53r0Jor7CQZ/8XRSwFRiYEVz1+FLgJTiEQMn8tEUS1BoNf1wiGciQTLaKjogSwDEDSIiNhL018SEdMS4rRYoWjZf4qL0TMo2XeiJrJHVdshWGO+volDhyjlg5yJ2NFPDY0gVaUf1m72mY9X10INqH0Rj6t6/UKpdZL9BDl67RdyATMSWg6vBxtyKdEPTZRUo2X0ZyvjFI7g9pPo/2VfqMa16o1vzrtg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=axis.com; dmarc=fail (p=none sp=none pct=100) action=none
- header.from=axis.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=O84f0sHXDnEfLjBp2RUKRnOvxWf5aywaGzQQ7fy0PGs=;
- b=iyW8isPLm3r/zkBWngBBU9PrxB89ceGk0NqzUw4RKLZvEig4bdqExyYTTDI3R+VtxjYkkYYZUtoa+Ppwp529uRVJxKpTYuNIRwBW6sp1BtOKoT6av2vP5ifAPjaEW+dwECDjeMOWdNR8juB5LDih5GG5N32XvbecTmTIKJ1Y00g=
-Received: from AS8PR04CA0087.eurprd04.prod.outlook.com (2603:10a6:20b:313::32)
- by AM9PR02MB6497.eurprd02.prod.outlook.com (2603:10a6:20b:2c1::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.38; Mon, 4 Mar
- 2024 15:57:38 +0000
-Received: from AMS0EPF000001AB.eurprd05.prod.outlook.com
- (2603:10a6:20b:313:cafe::7b) by AS8PR04CA0087.outlook.office365.com
- (2603:10a6:20b:313::32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.39 via Frontend
- Transport; Mon, 4 Mar 2024 15:57:38 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 195.60.68.100)
- smtp.mailfrom=axis.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=none header.from=axis.com;
-Received-SPF: Fail (protection.outlook.com: domain of axis.com does not
- designate 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=195.60.68.100; helo=mail.axis.com;
-Received: from mail.axis.com (195.60.68.100) by
- AMS0EPF000001AB.mail.protection.outlook.com (10.167.16.151) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7362.11 via Frontend Transport; Mon, 4 Mar 2024 15:57:38 +0000
-Received: from se-mail02w.axis.com (10.20.40.8) by se-mail02w.axis.com
- (10.20.40.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Mon, 4 Mar
- 2024 16:57:37 +0100
-Received: from se-intmail01x.se.axis.com (10.0.5.60) by se-mail02w.axis.com
- (10.20.40.8) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
- Transport; Mon, 4 Mar 2024 16:57:37 +0100
-Received: from saur.se.axis.com (saur.se.axis.com [10.92.3.10])
-	by se-intmail01x.se.axis.com (Postfix) with ESMTP id 43007159E7
-	for <openembedded-core@lists.openembedded.org>; Mon,  4 Mar 2024 16:57:37 +0100 (CET)
-Received: from saur.se.axis.com (localhost [127.0.0.1])
-	by saur.se.axis.com (8.17.1/8.15.2) with ESMTPS id 424Fvb7j2270055
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 4 Mar 2024 16:57:37 +0100
-Received: (from pkj@localhost)
-	by saur.se.axis.com (8.17.1/8.17.1/Submit) id 424FvbYe2270050
-	for openembedded-core@lists.openembedded.org; Mon, 4 Mar 2024 16:57:37 +0100
-From: Peter Kjellerstedt <pkj@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 2/2] kernel-module-split.bbclass: Inherit kernel-module-dirs
-Date: Mon, 4 Mar 2024 16:57:32 +0100
-Message-ID: <20240304155732.2267310-2-pkj@axis.com>
-X-Mailer: git-send-email 2.40.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=U4f3IwEc;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-412e6bb2181so5661095e9.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 04 Mar 2024 08:17:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1709569029; x=1710173829; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xq3pJTIuUXS+zNhn7vuHp8vTIqULz/MHWvsbjSgRVmo=;
+        b=U4f3IwEc8z8guHhJhfhHfa9pYYzMk1W4IAgrpSmQ+JFx9j054FpXEwJUdeQ+sYTzC/
+         N/DI1CCLE/bKGedfrm/EGFqnNSR8oMF5EUXiQQKdfwE34L0wTvDUQtJBz5/ZDply7UBP
+         C0jVljDOm3eSiarXuGgr8KGtjfaCPhaOd5MXA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709569029; x=1710173829;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xq3pJTIuUXS+zNhn7vuHp8vTIqULz/MHWvsbjSgRVmo=;
+        b=NOi/35m8mM4cB+H7gisX5RJr1bgStvEMX6KAEJzYG9PgvA5WaQzaHPbLRvrjshUsCZ
+         aEAEOBn2LGQ2IJZVO4KmASh6WxmGvAYgOpbI30rZnlaO79+otKKDULGw3Qv/o42A2Bm4
+         3sPMnvEfqcypQvKSWt3SgwAnH1NmFnY8uiypAYKpRGnAtiahPSS2HQx4tN1U0jPmrkDw
+         Q+tbTy13+VQySrYlVw0Jzz/0JqB2989YXSBye0NJIydaoIiagGiG4W+so02Aq/JN/Gwv
+         O8pH6vAMmzMjuA3F9pgsu8H1ilwUWJilU+LAsYUFO3gux0nbuGeyDkYVM52BiaGn3UAX
+         8Sig==
+X-Forwarded-Encrypted: i=1; AJvYcCXCnIfZVo3TM15rP58e0ppUoQpm5PFkwGrO9olmWLms/Qf/yDCa5vsiX0174l7lhf0KL9Cw/nDJOurrnO0j3babYfZX25Ot20TAtpGTfn2QqosDOqzV5hjc
+X-Gm-Message-State: AOJu0YzY79w5HOCYKC8i9hO/rXqTjv56IXDFfIiH45bTZaDjhEoAQJIp
+	9WcIOmcrJk7HvQHXC+wnNYvKoWnBiLn8ejXOXA96xp+s9B69axOXbiGIFwZI0cM=
+X-Google-Smtp-Source: AGHT+IHTRY2grNbaVqCwpX1ylESpJrp/mzX9HABkuMHtOStBNYgUbtgth4rBTJqz7WYF916Nz9bApg==
+X-Received: by 2002:adf:f452:0:b0:33d:38cf:aa76 with SMTP id f18-20020adff452000000b0033d38cfaa76mr7078960wrp.46.1709569029371;
+        Mon, 04 Mar 2024 08:17:09 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:1372:82d7:9b60:58ea? ([2001:8b0:aba:5f3c:1372:82d7:9b60:58ea])
+        by smtp.gmail.com with ESMTPSA id q13-20020adfcb8d000000b0033ce06c303csm12500755wrh.40.2024.03.04.08.17.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Mar 2024 08:17:09 -0800 (PST)
+Message-ID: <36f5eae8a011fe6f9472872f3e32689b6a419043.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/2] kernel-module-dirs.bbclass: Add class
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Mon, 04 Mar 2024 16:17:07 +0000
 In-Reply-To: <20240304155732.2267310-1-pkj@axis.com>
 References: <20240304155732.2267310-1-pkj@axis.com>
-MIME-Version: 1.0
+Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
+ YNvg==
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AMS0EPF000001AB:EE_|AM9PR02MB6497:EE_
-X-MS-Office365-Filtering-Correlation-Id: ce448285-d9a5-49f0-62dc-08dc3c63d0da
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	MpNQE5sAO2DyxV6StcgE7jeYpdhOc/gVGyfyWMi0nknXTFQ6TnxVAWcybGdCFDrL4wQhKlaVKBFX8JLHfR1GzeA0cElOHn0IscUTwQ0r+B4S52JhVD2hDIZVEtxMXtRIXIdoGzmzJRf4vm+0jnuPMg6QqvUDjVld2gqtT/b/ZFsMVLNqrdba/h6JrPADtiDIFsH412sucKBJ1exd3L7r7I9qy2+6sRHTpIFZewh3Uzl3sjNB+nY7ByzRoActBXuVAtl9lIJ9+3FzxxQg09KKR8+ocVVimungf8xL0S2r/vTK53qXBj/vzXkp3zCp5Y8+/gnZQ32wWzgXTX37aBzru15dqNjPUvJgTq/3MKJ54lJ+R9UGa5SWkpT+/DkqJowi1CRzTvKyw1mqsNWCyhVT32PsOYB7YpS4E9wsH+ykBUFOVNHtrdcJvOplfl8MI2jfhLnM84CPm5BbmatfaRpZPW6Z3t3dgK60ijTo2+vsyIRuDfcwK/OgPMnKchJZt7M3hTMv0KI6EYWxNmuaxHPVtkaAj1tIPb2PHhcLucdpEA4PKaE3ZBFJ4rgGrPQvfmBcjZEN8dLS/XRSu5s0uOxTnyAvwTlPC4oGENo93FqfbQGlGK/C39GuZqj88TYRfKKzeMZB9LcbJTGsRZ23WjPkANQ8GFGo+MuJF7pq4JvPZF/41URo70wK6pj8iSAIj10ySt/gv3w/WXbNlmfvnKx2/WR+AaWea2+ttM3xv5FHv/MHzlqLmrqjusfsilykVdar
-X-Forefront-Antispam-Report: 
-	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(82310400014)(376005)(36860700004);DIR:OUT;SFP:1101;
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2024 15:57:38.2857
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ce448285-d9a5-49f0-62dc-08dc3c63d0da
-X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AMS0EPF000001AB.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR02MB6497
+User-Agent: Evolution 3.50.0-1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 04 Mar 2024 15:57:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196610
+ <openembedded-core@lists.openembedded.org>; Mon, 04 Mar 2024 16:17:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196612
 
-The two variables modulesloaddir and modprobedir have been moved to
-their own bbclass, kernel-module-dirs.
+On Mon, 2024-03-04 at 16:57 +0100, Peter Kjellerstedt wrote:
+> Split out the two variables modulesloaddir and modprobedir from
+> kernel-module-split.bbclass as they can be useful to other recipes than
+> kernel module recipes.
+>=20
+> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> ---
+> =C2=A0meta/classes-recipe/kernel-module-dirs.bbclass | 8 ++++++++
+> =C2=A01 file changed, 8 insertions(+)
+> =C2=A0create mode 100644 meta/classes-recipe/kernel-module-dirs.bbclass
+>=20
+> diff --git a/meta/classes-recipe/kernel-module-dirs.bbclass b/meta/classe=
+s-recipe/kernel-module-dirs.bbclass
+> new file mode 100644
+> index 0000000000..eecc36ab52
+> --- /dev/null
+> +++ b/meta/classes-recipe/kernel-module-dirs.bbclass
+> @@ -0,0 +1,8 @@
+> +#
+> +# Copyright OpenEmbedded Contributors
+> +#
+> +# SPDX-License-Identifier: MIT
+> +#
+> +
+> +modulesloaddir ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'systemd',=
+ '${nonarch_libdir}', '${sysconfdir}', d)}/modules-load.d"
+> +modprobedir ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '$=
+{nonarch_base_libdir}', '${sysconfdir}', d)}/modprobe.d"
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- meta/classes-recipe/kernel-module-split.bbclass | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes-recipe/kernel-module-split.bbclass b/meta/classes=
--recipe/kernel-module-split.bbclass
-index c1208d55e0..ce8e5e1c09 100644
---- a/meta/classes-recipe/kernel-module-split.bbclass
-+++ b/meta/classes-recipe/kernel-module-split.bbclass
-@@ -4,6 +4,8 @@
- # SPDX-License-Identifier: MIT
- #
-=20
-+inherit kernel-module-dirs
-+
- pkg_postinst:modules () {
- if [ -z "$D" ]; then
- 	depmod -a ${KERNEL_VERSION}
-@@ -30,9 +32,6 @@ fi
-=20
- PACKAGE_WRITE_DEPS +=3D "kmod-native depmodwrapper-cross"
-=20
--modulesloaddir ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '=
-${nonarch_libdir}', '${sysconfdir}', d)}/modules-load.d"
--modprobedir ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '${n=
-onarch_base_libdir}', '${sysconfdir}', d)}/modprobe.d"
--
- KERNEL_SPLIT_MODULES ?=3D "1"
- PACKAGESPLITFUNCS =3D+ "split_kernel_module_packages"
-=20
+Absolutely not. We are not having yet more kernel classes just for two
+variables.
+
+There is probably a better way moving some definitions to a new conf
+file for the kernel in general.
+
+Cheers,
+
+Richard
 
