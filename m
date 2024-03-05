@@ -1,127 +1,114 @@
-Return-Path: <twoerner@gmail.com>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89619C54798
-	for <webhook@archiver.kernel.org>; Tue,  5 Mar 2024 12:52:54 +0000 (UTC)
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
- by mx.groups.io with SMTP id smtpd.web10.21758.1709643169567799571
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBA67C54E41
+	for <webhook@archiver.kernel.org>; Tue,  5 Mar 2024 13:33:14 +0000 (UTC)
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+ by mx.groups.io with SMTP id smtpd.web10.22591.1709645590426772646
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Mar 2024 04:52:49 -0800
+ Tue, 05 Mar 2024 05:33:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=bn20ffzY;
- spf=pass (domain: gmail.com, ip: 209.85.219.45, mailfrom: twoerner@gmail.com)
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-69012259657so24742176d6.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 05 Mar 2024 04:52:49 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Di7RlLP5;
+ spf=pass (domain: gmail.com, ip: 209.85.216.42, mailfrom: rybczynska@gmail.com)
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-299a2456948so4245475a91.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 05 Mar 2024 05:33:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709643168; x=1710247968; darn=lists.openembedded.org;
-        h=user-agent:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ld236NQ7kwg/CX/3cBGypjtC1+v7YSzdOn7ZkW4d5ik=;
-        b=bn20ffzYJVzUEAchBElNOlTtTyhRgG0QOZBMFOEI+xcGxEKDxtyBe0BO+fQDjzf1Yc
-         IZC8D+7iZqvZMbqaLUE4HrU6moktpCByyOZIWRSMCeksAh20ALHEL1DiRlN+8huwa+4C
-         TvvsHwjIa5h7IYSZgZc9v3VUcSuRvB6FbQSw4SKdOV4WZaLla3CBIuMJEiynwRx/4HzB
-         qD2t1mQTF6LGVf15ut6m2K649Q/uDw0ljOJn6NoPbJ0UhFxcFdmjX68Bb/Lq6PR7p/QD
-         mcF0eHQgJ8++3LTvrCQ1nWcHctsiG7kCGyoQUMmoqU4lAbo0fOm5TR3IVwRPPK+MGrg0
-         23vg==
+        d=gmail.com; s=20230601; t=1709645590; x=1710250390; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2WmKeZeRQUfE9lPCaMPwq/4tVYBe9qUw1QLygAjWGlg=;
+        b=Di7RlLP51Guo/7FCar5T9gnZGbeuCb6vR6GvlZexbnm50o1s3pimNr1z4MDx5tE6Bo
+         QIL6N9dH4/WkogummzdUXg5+CVdFjiYbh+QB+yhDwHna8XUbPFc9K8luln4BdX+fX5w0
+         Q3BNTtxkAEA5xLdp4lpvNctdwkwbTeToTIzFfmxWV1ZnTeOxlFwjljAp1waYU1veqoXg
+         uFILtP858yiPpGRuxlMX0B+CDTbSs0JimEK8ZjpuzvZwaJhcXg7ZFm4+tysNmaNJQb6n
+         0MO2qy7ZnSj7DkOhRkwbx4jvbWpj7DYpRjQygLxIBLEA+eDxj8zz2eHGpxXy49WgWR+t
+         jucQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709643168; x=1710247968;
-        h=user-agent:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Ld236NQ7kwg/CX/3cBGypjtC1+v7YSzdOn7ZkW4d5ik=;
-        b=whUaHDuSaYfvuAV647Dfp8XzSJEBEJQuDQsH+2blNWusdQSL4b95sz93zyfd/SRPrk
-         +H9iO6zo9vd3T/QBSLRSIgy4dDCe6eOYtZSVtBqQMexCpszrVWNqPz6tWVh1Wi+0mzxP
-         DKftdFfY58WeAX06hnpmvisM9ZYYfpus+kXKuxylC0Keycjrqlf+VbObRHJkMbpe2VDG
-         CN2reSkD2TXtKbIpZnb0O8dCR9pzzLzJJcOZVIESfL6owqh8UuphkJo7RXcZ1ejx3REz
-         tnPu11AVVArOgtEV9thC0TPAYb0f1UyXD77nAFA8zb4+oJGJkLXEgECuea+KyIbjkIz3
-         1gmg==
-X-Gm-Message-State: AOJu0YxTYM2iR2pyvs8yc/N3AaQIlLk8s5DEvFesjSSO9jexXpvkWIYN
-	O40DbkcVkrb4hpyN/aFk0Qxhxh3yscZCaXjdK9d2Q1fGZTEE0vJw
-X-Google-Smtp-Source: AGHT+IEbQzfAp9OUB5UhNIbtBaLb+CyU5WP0PIR8s6yR9nbDdjeA2rdVlvbEMGqQax2bt0oRoQlSWA==
-X-Received: by 2002:a0c:e2c7:0:b0:68f:501c:ea49 with SMTP id t7-20020a0ce2c7000000b0068f501cea49mr2018675qvl.36.1709643168486;
-        Tue, 05 Mar 2024 04:52:48 -0800 (PST)
-Received: from localhost (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
-        by smtp.gmail.com with ESMTPSA id nc8-20020a0562142dc800b006907904691dsm1939471qvb.17.2024.03.05.04.52.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Mar 2024 04:52:47 -0800 (PST)
-Date: Tue, 5 Mar 2024 07:52:46 -0500
-From: Trevor Woerner <twoerner@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] bmaptool: now part of Yocto Project
-Message-ID: <20240305125245.GA2252@localhost>
-References: <20240304192558.27575-1-twoerner@gmail.com>
- <0e8ffac6e98c84bf7665acbbe33eef05742e8109.camel@linuxfoundation.org>
+        d=1e100.net; s=20230601; t=1709645590; x=1710250390;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2WmKeZeRQUfE9lPCaMPwq/4tVYBe9qUw1QLygAjWGlg=;
+        b=X+/E/jDi4d5JWNCSTqGN4BDsSUUW+ZRc6J8axqvEb0WNOZn//ulstpMwm8HeCboOzZ
+         Ghm+ke5ecWEj5mKN+0WLtd9Ed4mTo2ItmzhJFkYTF6WYraceBQ8Z0vWkcZ7PsxsSoJkr
+         oSH+UWujcbinVSdaidhXRdJVkiiN8btg79gONHdtty1g6TCTPxDpNNM/fjFYZIiz+6BG
+         AzG/OJ7BvMcK6jG1Lbkg7lnc3lOPmh9h0rlO8JLqIjLOLBO1V8wc3BjSkF7MmORUgQl7
+         fSyB3r8gzgBUXVQG2T6AVeH+nScBJ7JlwaWN5UPRMLqfqQbWG0PrNSTrnYmxeSDDijmB
+         AglA==
+X-Forwarded-Encrypted: i=1; AJvYcCXt9e781yU/bsTFPE/wR7r4pPLscWzy58NAfANa7Pd/rylxli8xT4Tk4YPZhf9rCw6ykXJ24YLX/YqtzZKPmbMlMb1BrbEGVsIWLRPzEy77r/xuw3BtGSgG
+X-Gm-Message-State: AOJu0Ywi4ICYSZ1l6tW/JqvbhXUvzjwXdUdPbxiILNcFhck150YGOK3/
+	/d2AhmJZN4OBE/Z1ujZjjobhwwnJ/FiNMM2gmqTFu1kxwL8hlNCIwqmlvV4c692o73KccELbQZF
+	CAgXi+mRFe/iVDpuJOYJAALflppY=
+X-Google-Smtp-Source: AGHT+IEH7Vczf/rHpNWyL+npaNegQeUZw/xHrtPXnXN53qy1cD0mm4USlgT9b0QsDC4wK9/zEdCcJamQyz+yOtUlLc4=
+X-Received: by 2002:a17:90a:f191:b0:29b:2a8:9a89 with SMTP id
+ bv17-20020a17090af19100b0029b02a89a89mr10196817pjb.21.1709645589750; Tue, 05
+ Mar 2024 05:33:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0e8ffac6e98c84bf7665acbbe33eef05742e8109.camel@linuxfoundation.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20240303111845.7A4DE106912@builder.sakoman.com>
+ <f9e113a874a6c71e73bed3a062da1b06520dcabb.camel@posteo.net>
+ <d30f4cd0293437624736e21d82d14081f0c23d48.camel@linuxfoundation.org>
+ <AS1PR10MB5697DA05C2BBC97F0BAFF040FD5C2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+ <68A4B042-3073-40FC-89B8-FD50AD8AE919@arm.com>
+In-Reply-To: <68A4B042-3073-40FC-89B8-FD50AD8AE919@arm.com>
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Tue, 5 Mar 2024 14:32:57 +0100
+Message-ID: <CAApg2=QSNPnhnPz60VNfX-3Q7XRvbjkT=D_ZG-UQL0Js5pNtTQ@mail.gmail.com>
+Subject: Re: [yocto-security] OE-core CVE metrics for master on Sun 03 Mar
+ 2024 01:00:01 AM HST
+To: Ross Burton <ross.burton@arm.com>
+Cc: "peter.marko@siemens.com" <peter.marko@siemens.com>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	=?UTF-8?B?U2ltb25lIFdlacOf?= <simone.p.weiss@posteo.com>, 
+	Steve Sakoman <steve@sakoman.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	"yocto-security@lists.yoctoproject.org" <yocto-security@lists.yoctoproject.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 05 Mar 2024 12:52:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196631
+ <openembedded-core@lists.openembedded.org>; Tue, 05 Mar 2024 13:33:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196632
 
-On Tue 2024-03-05 @ 11:59:17 AM, Richard Purdie wrote:
-> On Mon, 2024-03-04 at 14:25 -0500, Trevor Woerner wrote:
-> > The bmaptool (previously: bmap-tools, bmap-tool, bmaptool) has been moved
-> > to be under the Yocto Project umbrella and is now hosted at:
-> > 
-> > 	github.com/yoctoproject/bmaptool
-> > 
-> > Signed-off-by: Trevor Woerner <twoerner@gmail.com>
-> > ---
-> >  meta/classes-recipe/image_types.bbclass                   | 2 +-
-> >  meta/classes-recipe/image_types_wic.bbclass               | 2 +-
-> >  meta/conf/distro/include/maintainers.inc                  | 2 +-
-> >  .../bmap-tools_git.bb => bmaptool/bmaptool_git.bb}        | 8 ++++----
-> >  .../files/0001-BmapCopy.py-fix-error-message.patch        | 0
-> >  ...0002-CLI.py-fix-block-device-udev-race-condition.patch | 0
-> >  .../0003-BmapCopy.py-tweak-suggested-udev-rule.patch      | 0
-> >  7 files changed, 7 insertions(+), 7 deletions(-)
-> >  rename meta/recipes-support/{bmap-tools/bmap-tools_git.bb => bmaptool/bmaptool_git.bb} (78%)
-> >  rename meta/recipes-support/{bmap-tools => bmaptool}/files/0001-BmapCopy.py-fix-error-message.patch (100%)
-> >  rename meta/recipes-support/{bmap-tools => bmaptool}/files/0002-CLI.py-fix-block-device-udev-race-condition.patch (100%)
-> >  rename meta/recipes-support/{bmap-tools => bmaptool}/files/0003-BmapCopy.py-tweak-suggested-udev-rule.patch (100%)
-> 
-> Thanks. Unfortunately this wasn't quite enough and caused a ton of
-> build failures, it also needs:
+On Mon, Mar 4, 2024 at 1:29=E2=80=AFPM Ross Burton <ross.burton@arm.com> wr=
+ote:
+>
+> On 3 Mar 2024, at 13:18, Peter Marko via lists.yoctoproject.org <peter.ma=
+rko=3Dsiemens.com@lists.yoctoproject.org> wrote:
+> >
+> > I already mentioned this last week.
+> > https://lists.openembedded.org/g/openembedded-core/message/196199
+> >
+> > I think that partial NVD DB update is not working properly as things wh=
+ich were corrected by NVD are still showing up in patchmetrics but not in e=
+mail reports.
+>
+> I need to file a bug for this issue.  If CPEs are updated then they only =
+reach an existing database if the CVE itself is updated, as a CPE change al=
+one isn=E2=80=99t enough to appear in the query we use.
+>
+> I=E2=80=99ve a branch that adds this second query to the fetcher but it i=
+s incredibly slow (and you thought the current fetcher was slow?) and still=
+ isn=E2=80=99t 100% accurate.  NIST are aware of =E2=80=9Climitations=E2=80=
+=9D with the new API=E2=80=A6
+>
+> For accurate runs I do sadly recommend forcing a full fetch of the CVE da=
+ta.
+>
 
-Oops! Sorry about that.
+I second Ross that we're likely hitting that problem. We have
+discussed that with Ross before and there seems to be no workaround
+other than to download the whole database.
 
-> diff --git a/meta/recipes-core/meta/wic-tools.bb b/meta/recipes-core/meta/wic-tools.bb
-> index 9282d36a4dc..76494e7fca4 100644
-> --- a/meta/recipes-core/meta/wic-tools.bb
-> +++ b/meta/recipes-core/meta/wic-tools.bb
-> @@ -4,7 +4,7 @@ LICENSE = "MIT"
->  
->  DEPENDS = "\
->             parted-native gptfdisk-native dosfstools-native \
-> -           mtools-native bmap-tools-native grub-native cdrtools-native \
-> +           mtools-native bmaptool-native grub-native cdrtools-native \
->             btrfs-tools-native squashfs-tools-native pseudo-native \
->             e2fsprogs-native util-linux-native tar-native erofs-utils-native \
->             virtual/${TARGET_PREFIX}binutils \
-> diff --git a/scripts/lib/wic/misc.py b/scripts/lib/wic/misc.py
-> index 2b90821b305..1a7c140fa6c 100644
-> --- a/scripts/lib/wic/misc.py
-> +++ b/scripts/lib/wic/misc.py
-> @@ -25,7 +25,7 @@ from wic import WicError
->  logger = logging.getLogger('wic')
->  
->  # executable -> recipe pairs for exec_native_cmd
-> -NATIVE_RECIPES = {"bmaptool": "bmap-tools",
-> +NATIVE_RECIPES = {"bmaptool": "bmaptool",
->                    "dumpe2fs": "e2fsprogs",
->                    "grub-mkimage": "grub-efi",
->                    "isohybrid": "syslinux",
-> 
-> but I'll squash that into the patch.
+Solutions I see:
+- always fetch the whole database
+- go back to the old legacy system with JSON dumps (which is still online)
+- have an "official" YP mirror of the database
 
-Great, thanks!
+Probably a subject we could discuss at the today's call.
+
+Kind regards,
+Marta
 
