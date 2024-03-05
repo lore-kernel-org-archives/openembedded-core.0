@@ -2,61 +2,56 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57265C54E41
-	for <webhook@archiver.kernel.org>; Mon,  4 Mar 2024 21:50:00 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web11.5843.1709588995817854940
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF748C54E49
+	for <webhook@archiver.kernel.org>; Tue,  5 Mar 2024 00:12:00 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web10.9570.1709597514218433580
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Mar 2024 13:49:56 -0800
+ Mon, 04 Mar 2024 16:11:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=iSvChKhb;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-412e7fe4497so6953775e9.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 04 Mar 2024 13:49:55 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=I0F/mY4E;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-412e4619e5eso10464775e9.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 04 Mar 2024 16:11:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1709588994; x=1710193794; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1709597512; x=1710202312; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=OCkzSkgtlVlFrAdjGB0No+jNL/B62JEgZIw9j/8+mIs=;
-        b=iSvChKhbs1Jj+Dji7TIW/x7oY815BrJICsZxebklj5HB1mrr/jwu3mjDv6J/IHBmgf
-         ZVFhHPC/OpJBft4FQsJFMjYjD5gQzes+Zv/EGvE7fhoIbFY+oLnWV43FarnKwNJrTn07
-         VWqUV/XA5e4S4x4vT3ZS59YmBduqcPJuo3oLA=
+        bh=86dbM4FBmG3UMoVLEwuNVdAtKoPFYDZsA44h73aXUO8=;
+        b=I0F/mY4Ec4JewPTYCjcMwSWZPHZwKgwLTGifwP2pOeT0+A5cVTaHe/ccTwuihmdv0A
+         T4eCkaHvyVTJ0upjKteTfKVW41743Uffb9yrqXT07bcEp/oCITqfx6ZSODUjfWXxri9d
+         pO+vu6PyD+St+nT7X7G3qIFQZwwt8zZRbDp58=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709588994; x=1710193794;
+        d=1e100.net; s=20230601; t=1709597512; x=1710202312;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:to:from:subject:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OCkzSkgtlVlFrAdjGB0No+jNL/B62JEgZIw9j/8+mIs=;
-        b=EnF2W5KNVIycx4cO3dtvqtZirPIHHlo8Y8rai3099KjvcWNMW9/T4laECcb1Vgur4P
-         yAKDZpRb07IAkWqQ8T9ja7yeXIyZCclxsdPj1r+YUHtL08U5AxPplRt3SmYVe3fOvJ67
-         jlgMqvZRbDUDBoalJ2j6QS1GPH/zc0bB4SL118O/wyTzk5AaLiL+IWeoFh4dUjaBV7S/
-         LNjicA/aVo2k8RQs2JK2llphzMLHqYMZ9F3KNwObH8ZqG+ulHrNaQ+kMGK4EPWJtdXR4
-         DS36z6Xp2lFjOM+nHmSJnRNVAIneIBQBjUhpdSBAh+7hQnTrB04fhPpyKisvoHFj/4wC
-         NWuw==
-X-Forwarded-Encrypted: i=1; AJvYcCVgfQTV/Uvjbzo8QtaMH7ZsxKcihX1tobCYNW/tRTMZAcPw30pMHfVrSwueUvnDGW8z0vGo2d6wB69JTQJN6f8UhkCrbK+/F1l+v6UzPYuhgQ2ZcwngA9rB
-X-Gm-Message-State: AOJu0YxrEiQsi/gQDVmJjqSQ2iOXyiVdgw5So9y2AgixIw//Tlb3HjeU
-	mwu3A0hn2jzHo23S1cCtHT+eIiyLpO363kDB42nplXafi5+1WBlRq8QKcys2nAA=
-X-Google-Smtp-Source: AGHT+IEP7l28Bk9hf8iXau5fkh+qCk5P+QJ9tOX0dv0iDnyiVeP9I087k+94gLZrr3UsyWrXfnLIgQ==
-X-Received: by 2002:a05:600c:4f0e:b0:412:77a4:d7c with SMTP id l14-20020a05600c4f0e00b0041277a40d7cmr8298304wmq.9.1709588993931;
-        Mon, 04 Mar 2024 13:49:53 -0800 (PST)
+        bh=86dbM4FBmG3UMoVLEwuNVdAtKoPFYDZsA44h73aXUO8=;
+        b=kbRMj+SZhuaYqXSA470A90SFDPCobKBrcK9s6h6rla/1HUkvQIPro9fkmh303ZXlVC
+         dlJXutHt/RvJNJ3/hvomrd8VbfVn6/yxjT/25yC7NgOfVddbQAFMtrG+byt3WQ6cYICO
+         m1iW8Uk3ZrM+srcX8tk+b6xgHcyc8H2BQ2F2MZy8Ujcvlf+SJLl3M46AZMSZL0CuoqQY
+         J8NsAgSFwOXuzfSrNwM+iI3NJIwCSKYHh++ypJfzZyG35A9yTTb7fIcB0aIB4VMktZd+
+         NU57poi0WNNQCOKIDyGQNXNZVLXFoY0XBKWvsu4Ynj2yBBYo/91/EW5PG6A2sIleWKsC
+         WaMA==
+X-Forwarded-Encrypted: i=1; AJvYcCUZoMDd0USSiaApaTKi7DGCsxCj7CXhoLAKl6k4WybAWvoB/Xn6l3U7mt8ohCsUu1GYBb6+M6uNjz6qFY+DStBgdJwrbonjpdGkJWaVHDn4GY8sx2B90JLP
+X-Gm-Message-State: AOJu0YzrjlwfGicd2PcElAIF7uQtuwBHB59Zv+UZhhfvtaZR9/43J9ov
+	tznL1Luc7Gwd+5KU+gyp6dUFMT2NuD0/1x4pOLZxNEutE6XToxaBHjC4J0wGRkU=
+X-Google-Smtp-Source: AGHT+IEztd99C0/15xafg4olp1ecgq8lu1YD2aC+15SEt8jV6Och+GCKfyt8sOlodeSoFqpPmcjxWw==
+X-Received: by 2002:a05:600c:3849:b0:412:e568:824b with SMTP id s9-20020a05600c384900b00412e568824bmr2086094wmr.32.1709597512596;
+        Mon, 04 Mar 2024 16:11:52 -0800 (PST)
 Received: from ?IPv6:2001:8b0:aba:5f3c:328b:e6fa:1413:e2b7? ([2001:8b0:aba:5f3c:328b:e6fa:1413:e2b7])
-        by smtp.gmail.com with ESMTPSA id q13-20020a05600c46cd00b00412ebd587ebsm220644wmo.3.2024.03.04.13.49.52
+        by smtp.gmail.com with ESMTPSA id n6-20020a05600c4f8600b0041273fc463csm19272443wmq.17.2024.03.04.16.11.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Mar 2024 13:49:53 -0800 (PST)
-Message-ID: <64b637621aaead57f613e3a85b2273f882b97188.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/2] kernel-module-dirs.bbclass: Add class
+        Mon, 04 Mar 2024 16:11:52 -0800 (PST)
+Message-ID: <aa9d8319cedf564d2c3bbfd5c92870d927e1bcc5.camel@linuxfoundation.org>
+Subject: Re: [PATCH] image-live.bbclass: Adjust the default value for
+ INITRD_LIVE
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
-	"openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Mon, 04 Mar 2024 21:49:50 +0000
-In-Reply-To: <DB5PR02MB102131DD610882A54BD0B9816EF232@DB5PR02MB10213.eurprd02.prod.outlook.com>
-References: <20240304155732.2267310-1-pkj@axis.com>
-	 <36f5eae8a011fe6f9472872f3e32689b6a419043.camel@linuxfoundation.org>
-	 <DB5PR02MB102135B3B6930CAC4FF6F0E07EF232@DB5PR02MB10213.eurprd02.prod.outlook.com>
-	 <317b6a68f12010040cf16c2ce0e3b62210075704.camel@linuxfoundation.org>
-	 <DB5PR02MB102131DD610882A54BD0B9816EF232@DB5PR02MB10213.eurprd02.prod.outlook.com>
+To: Kevin Hao <haokexin@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Tue, 05 Mar 2024 00:11:51 +0000
+In-Reply-To: <20240303065454.4141916-1-haokexin@gmail.com>
+References: <20240303065454.4141916-1-haokexin@gmail.com>
 Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=mQINBGN1PzgBEADqZynxX+ivalgYtZ+AoHoGynCiJw0lR+H9rC83sj9z38nlKHBCuh8r8KOqelDUf1B73E9oCLjZQVwqKLmao6ZDQYt7utG+h6qGLEgyDfeochYkLwElvRtjhTp0Ks5WPIHUgE4lwfqmsLrHbkEfRYui9eSd+zJpPKTRgQ7WhTGfRaXPEVYn24fWEo637biLyoEop1qaZMoY/mPsflDYDISWgAeunFx63oL9zNAhOWbLIy2uicKq2GyS56CooPzQkpUv7ssQBOqXp/FSuGJ49RV7Npj/eXyEepAh3BtMliJF08rAj07Hpywp3skXku8YcwUAD7TqOnJ4Wr6G8vpJlQKSITIGMBqtq3f8+SwImWEMRVXxDzrmznihOC7qEUWH4tN/AEkz2BJQbGYnp3iQjZqsoqKblyC83/5MCCUHHpDg20HooEWVNTUxUa8dGWaJehKC5fX1276Sm4WLaoqbQwSGCmwS1e+LjO9lFT80WHIELw07iDhQxshNqVLIxCt3pZfWRlf9fHCtxStiQIRrQLAKN7ze+//YjExjkDOt1ZFIsgMmKIQmJ6b8kRAAmQUraTcn4E/hy0mArFLmROyPSc1nD8hQMeELDcjyjEmo7j3qQCsU464v4tcvJVXyqPc4TU1GDQdZBaKP0/jR68aR3ZOvzx99jdocPdHNW4Kpbv6PnQARAQABtDNSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz6JAlcEEwEKAEECGwEFCQPCZwAFCwkIBwIGFQoJCAsCBBYCAwECHgECF4AWIQQRclb3b/q6zLA9Fn+aUMY1GLyygAUCY3VBgQIZAQAKCRCaUMY1GLyygAtOEADglyjAhkCSGGetbs40FJ4
  xdHKck7aaB1FgbpGn9e9/WAeAPC722eJsxhujxgKaS9b7mHcTcWeMP7KFut4yKTDHovt4VbQOd PGqwyUmi8z0yd2ORlT9E3RjEEllpj/Z2Wfzs3H4qR5wz3Rij1BCirDH8LD5yAO8PpIW2N1Y4VbzFDTPX2KtLGQYIraOHZQQe8XjAJnXflVQbzSIbNw14IlVWnF94UwkamxRhhCVAdA4139ebU+R0inaVsG0Bb7GP3KiED4C1I/tj171G4bOsyz3zYkpuV64yuq5pVevLBuCJv1Z/yiBdbB02B+FkosKLWRvoZFa2gqK2xpZT8RvDdkBQTmZTs/hP59mh1QSt4d2p1KsBu7cx2fjRBuf9XVG+uR/XnbD5T1BQRVV641ZNzPTjtE3rEZzR1nsUv+vcFYv0V/FPcLg5f3Ui+4cuYj/xDykMKZlrBIVGExBOJr7Anbzwq8o4nYUsrbFE3Fu88l8/mWrQCkAIZqc2NRyuXplZrDanB9Abi2XmZO0B3Q9wKvzmH0yJyLfswmzrejf3oVOJNEKJP5acPnXfQqAr5F7gdeLvdHbOAtg1iU8GujkOvRA7ad5ahT/1mDzKlkjaf36p4jodsGzPydOks2/jbVZxbZsR1il3BuDXb0agChNXJH4IpcnrjAliBtTKwnEYuLQeLQsUmljaGFyZCBQdXJkaWUgPHJwdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz6JAlQEEwEKAD4WIQQRclb3b/q6zLA9Fn+aUMY1GLyygAUCY3VBEAIbAQUJA8JnAAULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRCaUMY1GLyygA0tD/4l5GVZ1OTKoCsHzQuSUVnyzmSwYmJD7W7E1VeVVvVk5bfFf/w6p3dXfGjhZ8zFackE+RmT3//8kQ+Zs68csd0wjX8klyFXgA5PWP3DxNkejnHCq7wiLouOGC/E9RSUULn1DYb68yPzvdGQBooqPQZORtXzNgM
  NuWDKH+9uvhGbdvURJHCRPTpgcdCo64d+IMzA+XmZUg0P722IyVmB+I2TgjaIRr/NsbsGP4x3u8 TVfJPXmE1IS9nrKEm023ntuy1AH9JlACLZ4LGvpxf8x7ZVKaXXqWOQ1aQ5BCQoOc41AiVUyeiq2wdLRQaNOxbb8+ED34BYLyMjZdII9eovZMbMt7kLSjkbOs/k3s7wtQ2eY7QnSggf8/MWUSUaJzLKHnOBRcqGjdFdlZ0BKXL+v9NrpjcUBsG1TY5XORIahk6Pt1+cPyIsKdycKU4RHtNfwX5fidE8AhU97U04z3tIYs121J4M/EG3bEfOtwDaH7BRTZHK5B05Mks/kX608CwLSJSbX2dSENInh5+dSVQ0egbFbXQGcHFmCCMjYH09hcNUSEyI4OUQHVu8HHQIfvutPqIsZEtJ1K/s3ZD3Zyq35UUiwnCu5hYohX9B0o0TwgDaI85dS2edHy2bnM3a9yuTPiwNYpfR6dp6cg8BM+9qqkJvwp5LiMcZcJC8S5xR3U0FtbQiUmljaGFyZCBQdXJkaWUgPHJwdXJkaWVAcnBzeXMubmV0PokCVAQTAQoAPhYhBBFyVvdv+rrMsD0Wf5pQxjUYvLKABQJjdUEhAhsBBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEJpQxjUYvLKA/iUQAJJkVW2yDzxrH/5szOuG0ZDDH6X6Yrdp+m+F4hHHJQkTYgdRPeoHYKyXNOettdVKrZyEDkztBWkB7Sd7zuVHR3Q4PVTsEh09ZzkqBgN8OevMA7RPHZOa2PYJ8pAx7eTah1whM2eOf+VZGKrW1R9ouTluV7/c4o5loaKuh+t61W2nH6E+lQt3/gKnwj4QmUb5V957ZSHO1cnjtHrd4FFmkYQOCbolEfC25lT9vh4ldY+dILQPcq4at/LEABp4xEgS6R7K4E3cDnjWogrZTiniAUrR7P0SNYv7WCpAbvk4Z9DGCHXpKod
@@ -72,81 +67,40 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 04 Mar 2024 21:50:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196618
+ <openembedded-core@lists.openembedded.org>; Tue, 05 Mar 2024 00:12:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196619
 
-On Mon, 2024-03-04 at 19:10 +0000, Peter Kjellerstedt wrote:
+On Sun, 2024-03-03 at 14:54 +0800, Kevin Hao wrote:
+> From: Kevin Hao <kexin.hao@windriver.com>
 >=20
-> > I mean something more like meta/conf/image-uefi.conf but kernel focused=
-.
+> - After the commit 26d97acc7137 ("image-artifact-names: include
+> ${IMAGE_NAME_SUFFIX} directly in both ${IMAGE_NAME} and
+> ${IMAGE_LINK_NAME}"), the image names have changed from
+> =C2=A0 core-image-minimal-qemux86-64-20230307181808.rootfs.ext4
+> =C2=A0 core-image-minimal-qemux86-64.ext4
+> to
+> =C2=A0 core-image-minimal-qemux86-64.rootfs-20230307181456.ext4
+> =C2=A0 core-image-minimal-qemux86-64.rootfs.ext4
+> So we also need to add ${IMAGE_NAME_SUFFIX} to the default INITRD_LIVE.
 >=20
-> Hmm, the naming of that file messes with the expectations I've learnt ove=
-r=20
-> the years of working with OE. I've always=C2=A0 thought that .conf files =
-are=20
-> used for definitions that are part of the global configuration, and .inc=
-=20
-> files are used for more local definitions. While I of course know that=
-=20
-> there is no technical difference between the two, that kind of semantics=
-=20
-> is helpful when looking at an individual file to know the context in whic=
-h=20
-> it is used.
+> - The ${INITRAMFS_FSTYPES} may contains multi filesystem types,
+> such as "cpio.gz cpio.xz". So it can't be used directly in setting
+> of the default INITRD_LIVE. We choose the first filesystem type
+> in ${INITRAMFS_FSTYPES} for the default INITRD_LIVE.
 >=20
-> >=20
-> > We need to do better about more focused conf/inc files.
->=20
-> In that regard, kernel-module-dirs.bbclass was very focused. ;)
->=20
-> Do you see a difference in, e.g., kernel-module-dirs.bbclass vs.
-> kernel-module-dirs.inc? I.e., why is an .inc (or .conf) file more suitabl=
-e=20
-> than a .bbclass file in this case?
+> Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
+> ---
+> =C2=A0meta/classes-recipe/image-live.bbclass | 2 +-
+> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
 
-There is a big difference, please step back and try and think about the
-bigger picture on this and other variable definitions.
+I think this causes:
 
-> One reason I can see for why a .bbclass would be preferred, is because it=
-=20
-> is only inherited once even if there are multiple inherits. E.g., say I=
-=20
-> would take the proposed kernel-module-dirs.bbclass and turn it into a mor=
-e=20
-> generic kernel-vars.inc file. This file would then most likely be needed=
-=20
-> by, e.g., kernel.bbclass and module.bbclass. However, based on its curren=
-t=20
-> contents, it would also be needed by kernel-module-split.bbclass that bot=
-h=20
-> of them inherit. But since it is an .inc file, requiring it from both
-> kernel.bbclass and kernel-module-split.bbclass would result in a lot of=
-=20
-> warnings about duplicate inclusion. On the other hand, having=20
-> kernel-module-split.bbclass rely on that whatever inherits it has already=
-=20
-> required the kernel-vars.inc file seems wrong.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/58/builds/8468/step=
+s/11/logs/stdio
 
-What we have today with all the ever increasing maze of ever smaller
-bbclass files also seems very wrong.
-
-I'm trying to give some pointers about what I might find more
-acceptable since I very much doubt you'd accept an outright "no".
-
-Yes, what I'm proposing also isn't perfect and yes, we might need to
-work on actually improving some of the infrastructure if necessary but
-so be it, we need to try and improve this rather than making it worse.
-
-I'd also highlight that choosing to try and do this now at feature
-freeze is really not helpful. I do not have the time to spend on this
-right now.
+unfortunately.
 
 Cheers,
 
 Richard
-
-
-
-
-
 
