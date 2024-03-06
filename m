@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D939CC54E5C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1575C54E5F
 	for <webhook@archiver.kernel.org>; Wed,  6 Mar 2024 15:42:20 +0000 (UTC)
 Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
- by mx.groups.io with SMTP id smtpd.web11.14873.1709739737653115955
+ by mx.groups.io with SMTP id smtpd.web11.14868.1709739733603207693
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Mar 2024 07:42:17 -0800
+ Wed, 06 Mar 2024 07:42:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=TiAq/zW3;
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Alzsli+t;
  spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a44f2d894b7so557769166b.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 07:42:17 -0800 (PST)
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a3f893ad5f4so1018810966b.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 07:42:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709739736; x=1710344536; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1709739732; x=1710344532; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jnRxpXVe6UG/pA5flrRGSq9IbaDRRcRW8IihMqu27Rw=;
-        b=TiAq/zW3M63Nt3nSBg8Ue/HMNWJSgME7lIbi458qKpa8efA+tSycnbu/Y17F69CrY4
-         2ZzedpnA8uvzFaMGGJK6Uw9e4ABJ2HkbL1mwUQIVLLGUyrGGPwOk6tQJQKpRvXKrMnDz
-         i89o519igQ+X3i8Zl1UKqCquk9Mv21vF1MZavJ6AaYVAOCdclj3JnfDnWL7uucEt/9A/
-         H5Sz0ajPCwHi27HPm9yVhr3K5E6vHzHgvh+3vQmz+gWm4pjVGzMALzeCxLqNtFyVwZJY
-         ZT5AEni7ir69ZhFaXw+bNej87oWIBP1M1vDJyUtkyNApoKVoFjTTOoI6Ry0Gwr+d9mFY
-         OZDA==
+        bh=audhK3F/Ym7me8XU9+HfiTnvwOx1pL+7coRsCqE47/4=;
+        b=Alzsli+taDz1joIfudWW9X4fjQxy/fDblujrWLlEIU7NdX7xCF1CurzUQ29L2L080p
+         /ZA4TbxdHya/WCal6G+hDbUk3la/nD1mcOHgBoNrxk0Miqo8VmsPXO0DhJC0hO2CjYrp
+         VQumM0Z18A5A2WoJuv4Bzaw7Li7n8316YnWVySMGT3EA+Gb4TV5YGTWXmdRNlKhPRmde
+         jrgTfwsBbwvlLZsnMuGBATvtpmri2P9Adgr9BfPNdsLGnKc2yfGq87aJlKyXNAazkkcR
+         PqyL6w9MDavoPtrIRNA63E/n9ypB+vlsOryGf+OSFPjFkL9PMvvPuoHt2xuKnbLfP7qB
+         jfXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709739736; x=1710344536;
+        d=1e100.net; s=20230601; t=1709739732; x=1710344532;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jnRxpXVe6UG/pA5flrRGSq9IbaDRRcRW8IihMqu27Rw=;
-        b=DCNOZ70ECH6UbpJcSPwkzsjhPFuT6iCrYqa0YSCCRVU5ZNbTP9E9uXsNdg58cI7wrL
-         xYckRfMMVgYGmwJpM3BKMw5SmHHsokwdmjfPtcl1WnQpDbGqUIk0Dlg3TRlCfm6H2OLQ
-         fmddWo2D80I5HS8yUoFIboouwjR5ua9ALenrbAkgZL415Ju6UrirbU27gaT3VW1kvdxl
-         TFTsgHWVX3u0xrk9c63KMiHlHtXPFg0wlumCssid2Q5vSbZjIQwCWvKtph33LkcgToYB
-         JnZ6sgVpqw1r11HvKZEBejmugxrEOLIrJ0HQ89EUWReMB+kHVIZPPf5Ey60uyYfnOYT9
-         RfTQ==
-X-Gm-Message-State: AOJu0Yx9Iocp5SKUNsSKTV1ucT4j0PtxPsFlGqnF9XzI0nohOi9B/vJf
-	WQEx/p5HZRwwOH9irq3CHJFtMMq9y9ASrqNzNCEe3xCTeQxe3KHfJpCqWnEc
-X-Google-Smtp-Source: AGHT+IFcDpJ8ASX5MrhH0EkpU/5dc5fBZCoacRCBLZD4tDsfXNGUSUZm9SS4eSYY8STCYWnCyO8Y8g==
-X-Received: by 2002:a17:906:3505:b0:a45:200e:171a with SMTP id r5-20020a170906350500b00a45200e171amr7599028eja.33.1709739735944;
-        Wed, 06 Mar 2024 07:42:15 -0800 (PST)
+        bh=audhK3F/Ym7me8XU9+HfiTnvwOx1pL+7coRsCqE47/4=;
+        b=whLehNFzU1eVzpHcYqvbhP54HfLJESL3S24GjgiwMScFyjniJSRh5R8Wy8y2aTBJif
+         QW5kYJAwtZuSH5TUWWcYLrbafY14+9qhTCjm4g8uzznI0OU4MbM6D5OVWaPxUw4OK5BY
+         6JmKhTky7xfQSFkexQPwiNWDoYFtaaWV/futgDy5DFt/vHaIWLxkq6Erl16vfPEpNt6a
+         lOjNnfQpQKq3r2MML8TmetZBYRcCTXO7Grf06gspR/AIAGE/MzBRcu/MCCzzOMyeQGL4
+         ZOiPtTQulss2XWMWQDPHbUELRJKwjMoXSKIzBMf6GFPGny25bYwLU2uC4OY2oMOBeVd4
+         2nzQ==
+X-Gm-Message-State: AOJu0YzSmaoGLD8LL0+R8s3fpoGB0iLS61CzjSWQVdgR2fdtvBq1AIS+
+	2AqpNTCic925XY4HlG6lTnEyeKhoAIWIP1HwFINy/oyBBAL0fuH2vTiA8Tib
+X-Google-Smtp-Source: AGHT+IE16wwoTZB9P/ncjrN+k616JLD2pyq0Xr/W1ME/xXM6685zNjSw2VsSGD+Il7gWf4OgWIx2DA==
+X-Received: by 2002:a17:906:714f:b0:a44:5515:3b48 with SMTP id z15-20020a170906714f00b00a4455153b48mr10521534ejj.14.1709739731811;
+        Wed, 06 Mar 2024 07:42:11 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id x11-20020a170906710b00b00a4434e9938asm7209343ejj.84.2024.03.06.07.42.15
+        by smtp.gmail.com with ESMTPSA id x11-20020a170906710b00b00a4434e9938asm7209343ejj.84.2024.03.06.07.42.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Mar 2024 07:42:15 -0800 (PST)
+        Wed, 06 Mar 2024 07:42:11 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 28/47] minicom: upgrade 2.8 -> 2.9
-Date: Wed,  6 Mar 2024 16:41:32 +0100
-Message-Id: <20240306154151.3741709-28-alex@linutronix.de>
+Subject: [PATCH 21/47] libusb1: upgrade 1.0.26 -> 1.0.27
+Date: Wed,  6 Mar 2024 16:41:25 +0100
+Message-Id: <20240306154151.3741709-21-alex@linutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240306154151.3741709-1-alex@linutronix.de>
 References: <20240306154151.3741709-1-alex@linutronix.de>
@@ -62,137 +62,101 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 15:42:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196711
-
-Adjust selftest to git-add the directory with newly added patches,
-as the new minicom recipe has no default patches, and thus no directory
-with them (and the selftest assumed it does).
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196703
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/lib/oeqa/selftest/cases/devtool.py       |  5 +--
- ...ix-minicom-h-v-return-value-is-not-0.patch | 33 -------------------
- .../minicom/allow.to.disable.lockdev.patch    | 30 -----------------
- .../{minicom_2.8.bb => minicom_2.9.bb}        |  7 ++--
- 4 files changed, 5 insertions(+), 70 deletions(-)
- delete mode 100644 meta/recipes-extended/minicom/minicom/0001-fix-minicom-h-v-return-value-is-not-0.patch
- delete mode 100644 meta/recipes-extended/minicom/minicom/allow.to.disable.lockdev.patch
- rename meta/recipes-extended/minicom/{minicom_2.8.bb => minicom_2.9.bb} (80%)
+ ...k-with-latomic-only-if-no-atomic-bui.patch | 46 -------------------
+ .../{libusb1_1.0.26.bb => libusb1_1.0.27.bb}  |  7 ++-
+ 2 files changed, 3 insertions(+), 50 deletions(-)
+ delete mode 100644 meta/recipes-support/libusb/libusb1/0001-configure.ac-Link-with-latomic-only-if-no-atomic-bui.patch
+ rename meta/recipes-support/libusb/{libusb1_1.0.26.bb => libusb1_1.0.27.bb} (83%)
 
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index ecff3a9ebdf..a1cccc39ebc 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -1165,9 +1165,10 @@ class DevtoolUpdateTests(DevtoolBase):
-         result = runCmd('git commit -m "Add a new file"', cwd=tempdir)
-         self.add_command_to_tearDown('cd %s; rm %s/*.patch; git checkout %s %s' % (os.path.dirname(recipefile), testrecipe, testrecipe, os.path.basename(recipefile)))
-         result = runCmd('devtool update-recipe %s' % testrecipe)
-+        result = runCmd('git add minicom', cwd=os.path.dirname(recipefile))
-         expected_status = [(' M', '.*/%s$' % os.path.basename(recipefile)),
--                           ('??', '.*/0001-Change-the-README.patch$'),
--                           ('??', '.*/0002-Add-a-new-file.patch$')]
-+                           ('A ', '.*/0001-Change-the-README.patch$'),
-+                           ('A ', '.*/0002-Add-a-new-file.patch$')]
-         self._check_repo_status(os.path.dirname(recipefile), expected_status)
- 
-     def test_devtool_update_recipe_git(self):
-diff --git a/meta/recipes-extended/minicom/minicom/0001-fix-minicom-h-v-return-value-is-not-0.patch b/meta/recipes-extended/minicom/minicom/0001-fix-minicom-h-v-return-value-is-not-0.patch
+diff --git a/meta/recipes-support/libusb/libusb1/0001-configure.ac-Link-with-latomic-only-if-no-atomic-bui.patch b/meta/recipes-support/libusb/libusb1/0001-configure.ac-Link-with-latomic-only-if-no-atomic-bui.patch
 deleted file mode 100644
-index 9e67126f3e1..00000000000
---- a/meta/recipes-extended/minicom/minicom/0001-fix-minicom-h-v-return-value-is-not-0.patch
+index 3c223e0822f..00000000000
+--- a/meta/recipes-support/libusb/libusb1/0001-configure.ac-Link-with-latomic-only-if-no-atomic-bui.patch
 +++ /dev/null
-@@ -1,33 +0,0 @@
--Exit normally for help/verison options
+@@ -1,46 +0,0 @@
+-From 95e601ce116dd46ea7915c171976b85ea0905d58 Mon Sep 17 00:00:00 2001
+-From: Lonnie Abelbeck <lonnie@abelbeck.com>
+-Date: Sun, 8 May 2022 14:05:56 -0500
+-Subject: [PATCH] configure.ac: Link with -latomic only if no atomic builtins
 -
--If -v or -h is used for the help/version information, it is a normal exit situation,
--not an error condition. Sometimes these are used as a simple operation test of the
--resulting binary so the exit code does matter.
+-Follow-up to 561dbda, a check of GCC atomic builtins needs to be done
+-first.
 -
--Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
--Upstream-Status: Submitted [https://salsa.debian.org/minicom-team/minicom/-/merge_requests/14]
+-I'm no autoconf guru, but using this:
+-https://github.com/mesa3d/mesa/blob/0df485c285b73c34ba9062f0c27e55c3c702930d/configure.ac#L469
+-as inspiration, I created a pre-check before calling AC_SEARCH_LIBS(...)
+-
+-Fixes #1135
+-Closes #1139
+-Upstream-Status: Backport [https://github.com/kraj/libusb/commit/95e601ce116dd46ea7915c171976b85ea0905d58]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ----
-- src/minicom.c |    6 ++----
-- 1 file changed, 2 insertions(+), 4 deletions(-)
+- configure.ac          | 16 +++++++++++++++-
+- libusb/version_nano.h |  2 +-
+- 2 files changed, 16 insertions(+), 2 deletions(-)
 -
--Index: minicom-2.8/src/minicom.c
--===================================================================
----- minicom-2.8.orig/src/minicom.c
--+++ minicom-2.8/src/minicom.c
--@@ -1257,14 +1257,14 @@ int main(int argc, char **argv)
--                  "modify it under the terms of the GNU General Public License\n"
--                  "as published by the Free Software Foundation; either version\n"
--                  "2 of the License, or (at your option) any later version.\n\n"));
---          exit(1);
--+          exit(0);
--           break;
--         case 's': /* setup mode */
--           dosetup = 1;
--           break;
--         case 'h':
--           helpthem();
---          exit(1);
--+          exit(0);
--           break;
--         case 'p': /* Pseudo terminal to use. */
--           if (strncmp(optarg, "/dev/", 5) == 0)
-diff --git a/meta/recipes-extended/minicom/minicom/allow.to.disable.lockdev.patch b/meta/recipes-extended/minicom/minicom/allow.to.disable.lockdev.patch
-deleted file mode 100644
-index 39dc5c04925..00000000000
---- a/meta/recipes-extended/minicom/minicom/allow.to.disable.lockdev.patch
-+++ /dev/null
-@@ -1,30 +0,0 @@
--configure: Allow lockdev to be disabled
--
--When the pkgconfig dependencies may be present, it is useful to be
--able to explictly disable the lockdev dependency. This adds such an
--option.
--
--Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
--Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
--
--Upstream-Status: Submitted [https://salsa.debian.org/minicom-team/minicom/-/merge_requests/14]
--
--Index: minicom-2.8/configure.ac
--===================================================================
----- minicom-2.8.orig/configure.ac
--+++ minicom-2.8/configure.ac
--@@ -43,7 +43,13 @@ if test "x$enable_socket" = xyes; then
-- fi
-- 
-- PKG_PROG_PKG_CONFIG
---if test -n "$PKG_CONFIG"; then
--+
--+AC_ARG_ENABLE([lockdev],
--+        AS_HELP_STRING([--enable-lockdev],
--+                       [Enable lockdev support (def: enabled)]),
--+        [], [enable_lockdev="yes"])
--+
--+if test -n "$PKG_CONFIG" && test "x$enable_lockdev" = xyes; then
-- 	PKG_CHECK_MODULES([LOCKDEV], [lockdev], AC_DEFINE([HAVE_LOCKDEV],[1],[Define if you have lockdev]),[:])
-- fi
-- 
-diff --git a/meta/recipes-extended/minicom/minicom_2.8.bb b/meta/recipes-extended/minicom/minicom_2.9.bb
-similarity index 80%
-rename from meta/recipes-extended/minicom/minicom_2.8.bb
-rename to meta/recipes-extended/minicom/minicom_2.9.bb
-index 2640c6b0574..907d5c79c9d 100644
---- a/meta/recipes-extended/minicom/minicom_2.8.bb
-+++ b/meta/recipes-extended/minicom/minicom_2.9.bb
-@@ -7,12 +7,9 @@ LICENSE = "GPL-2.0-or-later"
- LIC_FILES_CHKSUM = "file://COPYING;md5=420477abc567404debca0a2a1cb6b645 \
-                     file://src/minicom.h;beginline=1;endline=12;md5=a58838cb709f0db517f4e42730c49e81"
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -153,7 +153,21 @@ if test "x$platform" = xposix; then
+- 	AC_SEARCH_LIBS([pthread_create], [pthread],
+- 		[test "x$ac_cv_search_pthread_create" != "xnone required" && AC_SUBST(THREAD_LIBS, [-lpthread])],
+- 		[], [])
+--	AC_SEARCH_LIBS([__atomic_fetch_add_4], [atomic])
+-+	dnl Check for new-style atomic builtins. We first check without linking to -latomic.
+-+	AC_MSG_CHECKING(whether __atomic_load_n is supported)
+-+	AC_LINK_IFELSE([AC_LANG_SOURCE([[
+-+	#include <stdint.h>
+-+	int main() {
+-+		struct {
+-+			uint64_t *v;
+-+		} x;
+-+		return (int)__atomic_load_n(x.v, __ATOMIC_ACQUIRE) &
+-+		       (int)__atomic_add_fetch(x.v, (uint64_t)1, __ATOMIC_ACQ_REL);
+-+	}]])], GCC_ATOMIC_BUILTINS_SUPPORTED=yes, GCC_ATOMIC_BUILTINS_SUPPORTED=no)
+-+	AC_MSG_RESULT($GCC_ATOMIC_BUILTINS_SUPPORTED)
+-+	if test "x$GCC_ATOMIC_BUILTINS_SUPPORTED" != xyes; then
+-+		AC_SEARCH_LIBS([__atomic_fetch_add_4], [atomic])
+-+	fi
+- elif test "x$platform" = xwindows; then
+- 	AC_DEFINE([PLATFORM_WINDOWS], [1], [Define to 1 if compiling for a Windows platform.])
+- else
+diff --git a/meta/recipes-support/libusb/libusb1_1.0.26.bb b/meta/recipes-support/libusb/libusb1_1.0.27.bb
+similarity index 83%
+rename from meta/recipes-support/libusb/libusb1_1.0.26.bb
+rename to meta/recipes-support/libusb/libusb1_1.0.27.bb
+index 2af6fcdea79..f2431d75c89 100644
+--- a/meta/recipes-support/libusb/libusb1_1.0.26.bb
++++ b/meta/recipes-support/libusb/libusb1_1.0.27.bb
+@@ -11,14 +11,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
+ BBCLASSEXTEND = "native nativesdk"
  
--SRC_URI = "${DEBIAN_MIRROR}/main/m/${BPN}/${BPN}_${PV}.orig.tar.bz2 \
--           file://allow.to.disable.lockdev.patch \
--           file://0001-fix-minicom-h-v-return-value-is-not-0.patch \
--"
-+SRC_URI = "${DEBIAN_MIRROR}/main/m/${BPN}/${BPN}_${PV}.orig.tar.bz2"
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/libusb-${PV}.tar.bz2 \
+-           file://0001-configure.ac-Link-with-latomic-only-if-no-atomic-bui.patch \
+            file://run-ptest \
+-          "
++           "
  
--SRC_URI[sha256sum] = "38cea30913a20349326ff3f1763ee1512b7b41601c24f065f365e18e9db0beba"
-+SRC_URI[sha256sum] = "9efbb6458140e5a0de445613f0e76bcf12cbf7a9892b2f53e075c2e7beaba86c"
+ GITHUB_BASE_URI = "https://github.com/libusb/libusb/releases"
+ UPSTREAM_CHECK_REGEX = "releases/tag/v?(?P<pver>\d+(\.\d+)+)$"
  
- PACKAGECONFIG ??= ""
- PACKAGECONFIG[lockdev] = "--enable-lockdev,--disable-lockdev,lockdev"
+-SRC_URI[sha256sum] = "12ce7a61fc9854d1d2a1ffe095f7b5fac19ddba095c259e6067a46500381b5a5"
++SRC_URI[sha256sum] = "ffaa41d741a8a3bee244ac8e54a72ea05bf2879663c098c82fc5757853441575"
+ 
+ S = "${WORKDIR}/libusb-${PV}"
+ 
+@@ -41,7 +40,7 @@ do_compile_ptest() {
+ }
+ 
+ do_install_ptest() {
+-    install -m 755 ${B}/tests/.libs/stress ${D}${PTEST_PATH}
++    install -m 755 ${B}/tests/stress ${D}${PTEST_PATH}
+ }
+ 
+ FILES:${PN} += "${base_libdir}/*.so.*"
 -- 
 2.39.2
 
