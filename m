@@ -1,121 +1,240 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
+Return-Path: <jonathan@joggee.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47C56C5475B
-	for <webhook@archiver.kernel.org>; Wed,  6 Mar 2024 13:08:39 +0000 (UTC)
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
- by mx.groups.io with SMTP id smtpd.web11.11314.1709730514213943573
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 620DFC5475B
+	for <webhook@archiver.kernel.org>; Wed,  6 Mar 2024 13:34:19 +0000 (UTC)
+Received: from 8.mo582.mail-out.ovh.net (8.mo582.mail-out.ovh.net [178.33.42.204])
+ by mx.groups.io with SMTP id smtpd.web11.11767.1709732058207694316
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Mar 2024 05:08:34 -0800
+ Wed, 06 Mar 2024 05:34:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ossystems-com-br.20230601.gappssmtp.com header.s=20230601 header.b=ke6TO8h9;
- spf=pass (domain: ossystems.com.br, ip: 209.85.219.182, mailfrom: otavio.salvador@ossystems.com.br)
-Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-dcc6fc978ddso699116276.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 05:08:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ossystems-com-br.20230601.gappssmtp.com; s=20230601; t=1709730513; x=1710335313; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:in-reply-to:references:mime-version
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=27yOLaw5vnI2gjRsc+wW6NIA7muPTRrcwn7vvOLdSkQ=;
-        b=ke6TO8h919xTt3Rqn/TKObBkvkPEQ6Chg6gjvFcGdd19jsa5WXyZ/9on2jW+dwwGK2
-         +0lUy18q272pM+EvKIJ86VYUAflfbWFGIyIXzstL3vufqaC6c6yfnrDkAojxg3Jy251+
-         JapZBfsndfVhcjgY1gQ6XS9exnleUZXebA3AmPNuROFfEDphuTSCc8T8QYvXesPGQoGc
-         maUv9yAHk5cAR0JYmTF8uk5hoMGJew5KrNh1qzobwLYxFDbZ4hcY/J/zNvQy2Br4shs5
-         NJcQ3xN09Wr/tUq6RBQx3v6nCpq8yJgggtf8Kio0AZJNf6CSKh8/gpQfWAJdqeMXiQKq
-         4cqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709730513; x=1710335313;
-        h=cc:to:subject:message-id:date:in-reply-to:references:mime-version
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=27yOLaw5vnI2gjRsc+wW6NIA7muPTRrcwn7vvOLdSkQ=;
-        b=OoHQvxUSAHc5/cIS1YOQ1fYp//9xzbyIY2JQIGH8gX/ujNCgDS3oUWwWkVZDOWGIU5
-         1KNa+qAr8zEiduoWNz5F8Lw+pB6h4rDkNVFTqj8wXKAbJ9mESw1YtkL1oZP5vH0dwNYJ
-         NIyKmocWgKd8dT5vyLYcQoFQ7NpTLeTqTJktcG0DP1ToWSvTL7XkoEt+GSz2eQ/sCnB6
-         16N2NhsjvEcEwKEEgT7x5eCo3jtxid90YVT1RAdyhNCKty1kQft8uXho8Ff30GtqE3Lm
-         9/eDdhaMaMNUMIQNuT4ukbogYy2wceUdyRNfrowHgcWAiggyHbGnVFbYdKLCQAFFcQw+
-         RGWA==
-X-Forwarded-Encrypted: i=1; AJvYcCWaezCfTSSrnmkHqKLQAFCpnJndqhTvps2YDdoQ7T0O28GrksiyoiIruu+UV4+1CzCg6jZtBxmbqU796/HPGjZEhbVrwdcDdqCEV4gZTUDRZXdXzgOpB8p+
-X-Gm-Message-State: AOJu0YyxLgRajrroSxxYBLTL6MjN41WMb4xac3TnGpUOmUC0xx3gBhqA
-	9MUFn5IAG00PvF89FjRS4ZfK5n3TSUYKud6hc9egDUxoNzSwCDdU8amp4PkUaDPQfibqkR7cBQz
-	fNQW45g==
-X-Google-Smtp-Source: AGHT+IGzf+T6fxROLtvInRJZLzb/NRZlzzWQAseM3sgLjI8WL7zwRz0ogSqSCBTmPIaNG8oGGi0fQg==
-X-Received: by 2002:a25:ac49:0:b0:dcc:623e:1b5d with SMTP id r9-20020a25ac49000000b00dcc623e1b5dmr688ybd.31.1709730512679;
-        Wed, 06 Mar 2024 05:08:32 -0800 (PST)
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com. [209.85.219.177])
-        by smtp.gmail.com with ESMTPSA id b25-20020a25ae99000000b00dcdbe11c243sm3168073ybj.1.2024.03.06.05.08.31
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Mar 2024 05:08:32 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-dcc6fc978ddso699094276.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 05:08:31 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWeHfZrcwSnUQQdEZHq8bC1h8JnjHUBo1MRQ04Ny470JWnTY7WnZIo/qvGg2TlQtEShEK9HTWvQRNRazRlaNYl3gcZuIo29MNQRNi5S9f3MhEUWeDvcffjF
-X-Received: by 2002:a25:a107:0:b0:dc6:ab85:ba89 with SMTP id
- z7-20020a25a107000000b00dc6ab85ba89mr4937ybh.25.1709730511562; Wed, 06 Mar
- 2024 05:08:31 -0800 (PST)
+ dkim=none (message not signed); spf=softfail (domain: joggee.fr, ip: 178.33.42.204, mailfrom: jonathan@joggee.fr)
+Received: from director8.ghost.mail-out.ovh.net (unknown [10.109.148.106])
+	by mo582.mail-out.ovh.net (Postfix) with ESMTP id 4TqYLc3cPtz1GMJ
+	for <openembedded-core@lists.openembedded.org>; Wed,  6 Mar 2024 13:34:16 +0000 (UTC)
+Received: from ghost-submission-6684bf9d7b-dhjbs (unknown [10.110.178.25])
+	by director8.ghost.mail-out.ovh.net (Postfix) with ESMTPS id DB2201FEAC
+	for <openembedded-core@lists.openembedded.org>; Wed,  6 Mar 2024 13:34:15 +0000 (UTC)
+Received: from joggee.fr ([37.59.142.99])
+	by ghost-submission-6684bf9d7b-dhjbs with ESMTPSA
+	id QV5BCddw6GX+EAAAU+SFwA
+	(envelope-from <jonathan@joggee.fr>)
+	for <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 13:34:15 +0000
+Authentication-Results: garm.ovh; auth=pass (GARM-99G003ab8a534d-4a60-4ef6-a5a7-747d0f0e5cff,
+                    622E3D65E487744B431855700C0379CF46E4D1D2) smtp.auth=jonathan@joggee.fr
+X-OVh-ClientIp: 209.85.160.44
+Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-21f3a4ba205so2961686fac.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 05:34:15 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCW1T/Fr0Gs/04/C8D/CaetP3h0Jb8OAQ3BEtJmLUL77oYTJSqW1eYXBTFyF00oVpGuyLWrcWuoVVimO6vU/1tRi4VdoAMpufF8UYOoERT+i52ve3cJ63mW8
+X-Gm-Message-State: AOJu0YyjS6UcHWmQ35QnX6wj4yN/JSywRNiN+ALc3e3XUKN5XsUZR/I+
+	KhMtV1vqGHuTBCzdd5BKmISvAJF/5veiUu13cQG2YcEpNZc6ZC3GBTkBF9VWouYXKVCpAf9X3iQ
+	xoWooPKE//Ra4AU1WoNqgeWUjY1c=
+X-Google-Smtp-Source: AGHT+IGOvQfTZfL0Dp/cI9p4DrcH2cH+FlKX1xlV8ZG5gIcOBPvriLyaLGs1IwmVINH3xOc2L6xyWU8UM44FSILEIII=
+X-Received: by 2002:a05:6871:b27:b0:21f:1547:35cc with SMTP id
+ fq39-20020a0568710b2700b0021f154735ccmr5446360oab.47.1709732053671; Wed, 06
+ Mar 2024 05:34:13 -0800 (PST)
 MIME-Version: 1.0
-References: <20240305203608.3039688-1-tom.hochstein@nxp.com>
- <3b991e85a5ee7b24c728c3bf59906dc44c756385.camel@linuxfoundation.org>
- <CAP9ODKrUcNXcEQFAzPy77jS7uYPJ0Lx56pQzfVzTMescPnsYvw@mail.gmail.com>
- <0331b56aadffd139fca065008a38e7784a3e06df.camel@linuxfoundation.org>
- <CAP9ODKp1sK65kaejiHMm5TS4=e0bbCC2Da9HrBoN=c88wF6dbQ@mail.gmail.com> <ba338ad83d02efbaeac55e4f80d9560cab92a54d.camel@linuxfoundation.org>
-In-Reply-To: <ba338ad83d02efbaeac55e4f80d9560cab92a54d.camel@linuxfoundation.org>
-Date: Wed, 6 Mar 2024 10:08:19 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKq7ONvW6Axw74zU65TqKT6v9QnqvV_BOB=rY4yRDh3SUg@mail.gmail.com>
-Message-ID: <CAP9ODKq7ONvW6Axw74zU65TqKT6v9QnqvV_BOB=rY4yRDh3SUg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] bmaptool: Add bmap-tools alias for compatibility
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Tom Hochstein <tom.hochstein@nxp.com>, openembedded-core@lists.openembedded.org, 
-	Otavio Salvador <otavio@ossystems.com.br>
-Content-Type: multipart/alternative; boundary="000000000000cdbc9d0612fda7ac"
+References: <20240227085722.2025994-1-xiangyu.chen@eng.windriver.com>
+ <CANNYZj_uUATQFE54rkXaCiUqPRyaRvRWDJdhH0gGwBd9WHiLjA@mail.gmail.com>
+ <4823ed44-2ba4-4d18-86c2-e6dc426e0a46@eng.windriver.com> <CANNYZj-FRp6uO9zVW-82JXBcArSQ6EMB7S444Wff5RNOtv6U1w@mail.gmail.com>
+ <baece317-a250-4e8c-adb3-1e3227d0e9a6@eng.windriver.com> <CANNYZj-gAZjoAAMUVLhS5NPOz_Lh+NHdCB+pT+ifM2+sPnUGZA@mail.gmail.com>
+ <476d00b2-8d19-40e2-b15a-995cb44edd39@eng.windriver.com>
+In-Reply-To: <476d00b2-8d19-40e2-b15a-995cb44edd39@eng.windriver.com>
+From: Jonathan GUILLOT <jonathan@joggee.fr>
+Date: Wed, 6 Mar 2024 14:34:03 +0100
+X-Gmail-Original-Message-ID: <CAA_hxbQNSoJt2PZG6hWpxAJGSWyXNaLkAKhxm=Y9NWi3qJHjMw@mail.gmail.com>
+Message-ID: <CAA_hxbQNSoJt2PZG6hWpxAJGSWyXNaLkAKhxm=Y9NWi3qJHjMw@mail.gmail.com>
+Subject: Re: [OE-core][PATCH 1/2] bash: add locale alias for ja_JP shiftjis in run-ptest
+To: Xiangyu Chen <xiangyu.chen@eng.windriver.com>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>, openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000b8649d0612fe030b"
+X-Ovh-Tracer-Id: 8131249128092667003
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvledriedugdehtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeggfhgjhfffkffuvfevtgesrgdtreertddtjeenucfhrhhomheplfhonhgrthhhrghnucfifgfknffnqffvuceojhhonhgrthhhrghnsehjohhgghgvvgdrfhhrqeenucggtffrrghtthgvrhhnpeetfeejvddvtdetudejhefftdelgeejgfffueeuheeijeeuheffudduieehfeehtdenucffohhmrghinhepohhpvghnvghmsggvugguvggurdhorhhgnecukfhppeduvdejrddtrddtrddupddvtdelrdekhedrudeitddrgeegpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepjhhonhgrthhhrghnsehjohhgghgvvgdrfhhrpdhnsggprhgtphhtthhopedupdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhgpdfovfetjfhoshhtpehmohehkedvpdhmohguvgepshhmthhpohhuth
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 13:08:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196676
+ <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 13:34:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196677
 
---000000000000cdbc9d0612fda7ac
+--000000000000b8649d0612fe030b
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Em qua., 6 de mar. de 2024 =C3=A0s 09:55, Richard Purdie <
-richard.purdie@linuxfoundation.org> escreveu:
+ Hi Chen,
 
-> Put another way, if I were to merge the PROVIDES, when would it ever be
-> acceptable to remove it?
+It does not seem to be the main issue, but here is an other strange thing I
+noticed in the locale.alias file. Indeed, the file (provided by the
+glibc-locale-alias package) in my environment already contains this line:
+japanese.sjis   ja_JP.SJIS
+
+I understand that ja_JP.SJIS is expected to be the "real" locale name.
+However, your patch sets it as an alias for  ja_JP.shiftjis.
+
+Regards,
+Jonathan
+
+Le jeu. 29 f=C3=A9vr. 2024 =C3=A0 11:27, Xiangyu Chen <xiangyu.chen@eng.win=
+driver.com>
+a =C3=A9crit :
+
+>
+> On 2/29/24 18:09, Alexander Kanavin wrote:
+> > CAUTION: This email comes from a non Wind River email account!
+> > Do not click links or open attachments unless you recognize the sender
+> and know the content is safe.
+> >
+> > On Thu, 29 Feb 2024 at 11:00, Xiangyu Chen
+> > <xiangyu.chen@eng.windriver.com> wrote:
+> >
+> >> And also i met a problem, most of cases are comparing test log with
+> >> pre-test log from maintainer as the test result that line
+> >> number/space/path/new line is produced causes diff failed,
+> >>
+> >> but in fact they are not a real test failure, the result still need to
+> >> verify by manual, seems cannot do the automation test, any suggestion =
+on
+> >> that?
+> > All of this seems to indicate that the bash test suite is not meant
+> > for independent execution, and is only intended for bash maintainers.
+> > Perhaps you should clarify this with them first, and then also point
+> > out specific problems you are facing. Basically, engage with bash
+> > upstream, and see if they're interested in helping you to improve
+> > tests to the point where we can re-enable them. If there's no such
+> > interest, we shouldn't have to continuously add fixes and workarounds.
+> >
+> > Whether the whole effort is worth your time is a question I leave for
+> > you to answer :)
+>
+> Aha, thanks for your information :)
+>
+> Yes, from the result, it seems only intended for bash maintainers and
+> not fit for other automation yet.
+>
+> I think firstly i need to check the history of bash maillist to see
+> whether others sent this topic and the result of discussion on that.
+>
+>
+> Thanks :D
+>
+>
+> Br,
+>
+> Xiangyu
+>
+>
+> >
+> > Alex
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#196427):
+> https://lists.openembedded.org/g/openembedded-core/message/196427
+> Mute This Topic: https://lists.openembedded.org/mt/104599698/8060005
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> jonathan@joggee.fr]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 >
 
-I'd do it in next release; so it keeps a time for upgrade.
-
-
---=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
-
---000000000000cdbc9d0612fda7ac
+--000000000000b8649d0612fe030b
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Em qua., 6 de mar. de 2024 =C3=A0s 09=
-:55, Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.or=
-g">richard.purdie@linuxfoundation.org</a>&gt; escreveu:</div><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
- rgb(204,204,204);padding-left:1ex">
-Put another way, if I were to merge the PROVIDES, when would it ever be<br>
-acceptable to remove it?<br></blockquote><div><br></div><div>I&#39;d do it =
-in next release; so it keeps a time for upgrade.=C2=A0</div></div><br clear=
-=3D"all"><div><br></div><span class=3D"gmail_signature_prefix">-- </span><b=
-r><div dir=3D"ltr" class=3D"gmail_signature">Otavio Salvador =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 O.S. Systems<br><a href=3D"http://www.ossystems.com.br" target=
-=3D"_blank">http://www.ossystems.com.br</a> =C2=A0 =C2=A0 =C2=A0 =C2=A0<a h=
-ref=3D"http://code.ossystems.com.br" target=3D"_blank">http://code.ossystem=
-s.com.br</a><br>Mobile: +55 (53) 9 9981-7854 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0Mobile: +1 (347) 903-9750</div></div>
+<div dir=3D"ltr">
+<div>Hi Chen,</div><div><br></div><div>It does not seem to be the main issu=
+e, but here is an other strange thing I noticed in the locale.alias file. I=
+ndeed, the file (provided by the glibc-locale-alias package) in my environm=
+ent already contains this line:</div><div>japanese.sjis =C2=A0 ja_JP.SJIS</=
+div><div><br></div><div>I understand that
+ja_JP.SJIS is expected to be the &quot;real&quot; locale name. However, you=
+r patch sets it as an alias for=C2=A0 ja_JP.shiftjis. <br></div><div><br></=
+div><div>Regards,</div><div>Jonathan<br></div>
 
---000000000000cdbc9d0612fda7ac--
+</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">=
+Le=C2=A0jeu. 29 f=C3=A9vr. 2024 =C3=A0=C2=A011:27, Xiangyu Chen &lt;<a href=
+=3D"mailto:xiangyu.chen@eng.windriver.com">xiangyu.chen@eng.windriver.com</=
+a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex"><br>
+On 2/29/24 18:09, Alexander Kanavin wrote:<br>
+&gt; CAUTION: This email comes from a non Wind River email account!<br>
+&gt; Do not click links or open attachments unless you recognize the sender=
+ and know the content is safe.<br>
+&gt;<br>
+&gt; On Thu, 29 Feb 2024 at 11:00, Xiangyu Chen<br>
+&gt; &lt;<a href=3D"mailto:xiangyu.chen@eng.windriver.com" target=3D"_blank=
+">xiangyu.chen@eng.windriver.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt;&gt; And also i met a problem, most of cases are comparing test log wit=
+h<br>
+&gt;&gt; pre-test log from maintainer as the test result that line<br>
+&gt;&gt; number/space/path/new line is produced causes diff failed,<br>
+&gt;&gt;<br>
+&gt;&gt; but in fact they are not a real test failure, the result still nee=
+d to<br>
+&gt;&gt; verify by manual, seems cannot do the automation test, any suggest=
+ion on<br>
+&gt;&gt; that?<br>
+&gt; All of this seems to indicate that the bash test suite is not meant<br=
+>
+&gt; for independent execution, and is only intended for bash maintainers.<=
+br>
+&gt; Perhaps you should clarify this with them first, and then also point<b=
+r>
+&gt; out specific problems you are facing. Basically, engage with bash<br>
+&gt; upstream, and see if they&#39;re interested in helping you to improve<=
+br>
+&gt; tests to the point where we can re-enable them. If there&#39;s no such=
+<br>
+&gt; interest, we shouldn&#39;t have to continuously add fixes and workarou=
+nds.<br>
+&gt;<br>
+&gt; Whether the whole effort is worth your time is a question I leave for<=
+br>
+&gt; you to answer :)<br>
+<br>
+Aha, thanks for your information :)<br>
+<br>
+Yes, from the result, it seems only intended for bash maintainers and <br>
+not fit for other automation yet.<br>
+<br>
+I think firstly i need to check the history of bash maillist to see <br>
+whether others sent this topic and the result of discussion on that.<br>
+<br>
+<br>
+Thanks :D<br>
+<br>
+<br>
+Br,<br>
+<br>
+Xiangyu<br>
+<br>
+<br>
+&gt;<br>
+&gt; Alex<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#196427): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/196427" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/196427</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/104599698/806=
+0005" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/104599698/8060005</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:jonathan@joggee.fr" target=
+=3D"_blank">jonathan@joggee.fr</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
+
+--000000000000b8649d0612fe030b--
 
