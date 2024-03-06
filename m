@@ -2,54 +2,54 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E093AC54E4A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFA58C5475B
 	for <webhook@archiver.kernel.org>; Wed,  6 Mar 2024 12:12:58 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web10.10379.1709727168507576021
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web11.10350.1709727169243242869
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Mar 2024 04:12:48 -0800
+ Wed, 06 Mar 2024 04:12:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=aT27AYmr;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-33d0a7f2424so1120713f8f.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 04:12:48 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HED2KLlg;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-33e27940554so3251271f8f.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 04:12:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google; t=1709727167; x=1710331967; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=6kWKO3IJsEQaIw22FHL228PbNH+ttSWF6b9qEQ+dtrc=;
-        b=aT27AYmrWaIsXTsjQHBzkPRVKa+k+OUkqbwNG1rwQAHcaFTXvpclaGdoqluFB8B0ZV
-         7xwa3xrBXSDlddfQtQIwjAeHT5siDrcYM8zLdyQDT5wfRjRJFJjO6nfZvDt9mWNWkchF
-         amo4NUUQzfj355cdMoWPHPwbMFvALlgQT+F4k=
+        bh=rOpq6YBiI7QGPUvhPrBZcCDNn54Vmhk/PFjMgnxMgvU=;
+        b=HED2KLlg9YCHR6ID9dVXnhl0RABoLLFEiJQRJXGKCvxJizByRtIL3nD04gsj0/5iVQ
+         gYDT0G7Or5WGstu79agzpzZKrs0bw95zE6zfj+53Howw1uA/83F8m50aTPhUabqjpz9f
+         pYfYlm457s189CF7Ynx2u/d8bXEE5xGcCM3i0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1709727167; x=1710331967;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6kWKO3IJsEQaIw22FHL228PbNH+ttSWF6b9qEQ+dtrc=;
-        b=Rn6TaW7sQRsTJJa/iuL4ga+Kdj9uhxzkmNyBmHEH5VeuLGswZSCK+TXmsq6KBr8YoD
-         3YuNz1B0qRE3FcEOFmI+3+0D1XZF0HsPBo59+fZZ8BfGfZ1U6QibRSpRd96E+YFf+OMX
-         FzXf4435mx1+sLwpLurt8+1sMacAyzHnNp6bM9tJEyniCCSUmFQd8UfDzI3gr/hqkTTv
-         oxKJk9hgkV2WDQJi+fyZtKxD7kN3HLqR7uwBe9wqVWJoNAE9qWv/iFnQdtSXL8mxFwjT
-         ReQuwiS3K0dLKpP0cB6y13jpal+LHewha6EsvXzFqBOvc0yLR0l7xVeKIQEIaOdN+/NK
-         SphQ==
-X-Gm-Message-State: AOJu0YwEJllSbhHl4BV04TzqthuDV1Vpq2IujZYGCEQxnbwHHkkjQVPf
-	6caTC5MiXNGVghbQKyv2/An/rrnM66N7mRUYlpB8jTW0v1xg1CTtBdaT4MHdWdNaSd8Pcmkh8nM
-	/
-X-Google-Smtp-Source: AGHT+IGFy6Loh6WgnWz9Xo0vtCgHUYYJPZp62UsEtiHiQJ+fhx17RTdWWy2WhvYqJParW/64b5vgXg==
-X-Received: by 2002:a05:6000:4c7:b0:33e:8fd:1173 with SMTP id h7-20020a05600004c700b0033e08fd1173mr11934994wri.60.1709727166715;
-        Wed, 06 Mar 2024 04:12:46 -0800 (PST)
+        bh=rOpq6YBiI7QGPUvhPrBZcCDNn54Vmhk/PFjMgnxMgvU=;
+        b=euzfw6/n7p41DgAAeqny5DIyNw1+Pv7yz1SYhirN2ER+bmQvm9QaaN4DXWUkhuLz0R
+         2NisMl9K7K97XCEl0NR5G1Cth6fS/W79x0ubVcnK+LKWKsr4q/dc5sHN3a6AEYSKstSb
+         4Ieu8TVudVXK+Qk3dTs3reCbWSmNgFqAFvD61/RvlbZyeziHP1LJQl6e0yA/sZdeekAN
+         sRKO7lFE+vqcJb/oteZXcHFG7+LxYVyee5nvpRNCFURVqStN6J9HV0lWQ0/dvTFDlB/F
+         WgAPGObI6GoRedZao4dA7ux5le/kdzEBdXi0AdZuKW+0tO3ovPIRJyuRee17/j1u/Qev
+         0SzQ==
+X-Gm-Message-State: AOJu0Yz2tLF3bhW3DJSLdw/dndoMxnuuM98ZJi9nOYUGdtsVKzJz9Oqr
+	DBV7USABQsck/NAqKHBvRapi9zmmi8GAHdBnkkib5jKq0U9h0fVGPZlfGnHUFMdlRmtwbjEIHAc
+	z
+X-Google-Smtp-Source: AGHT+IHeufI1xFdNhhKVDjzdS/fwdjT1URkLOCBmr2S55g56xikdMVCYOO/SmgfjyUlQQh/+KIwWog==
+X-Received: by 2002:adf:f183:0:b0:33e:4ffa:dbee with SMTP id h3-20020adff183000000b0033e4ffadbeemr2202307wro.7.1709727167593;
+        Wed, 06 Mar 2024 04:12:47 -0800 (PST)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:1f9c:b564:4f14:a0ea])
         by smtp.gmail.com with ESMTPSA id h3-20020adfa4c3000000b0033dd2a7167fsm17634099wrb.29.2024.03.06.04.12.46
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Mar 2024 04:12:46 -0800 (PST)
+        Wed, 06 Mar 2024 04:12:47 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/4] go: Further tweak indentation in patch
-Date: Wed,  6 Mar 2024 12:12:41 +0000
-Message-Id: <20240306121243.2247637-2-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 3/4] go: Drop linkmode with nativesdk/cross-canadian
+Date: Wed,  6 Mar 2024 12:12:42 +0000
+Message-Id: <20240306121243.2247637-3-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20240306121243.2247637-1-richard.purdie@linuxfoundation.org>
 References: <20240306121243.2247637-1-richard.purdie@linuxfoundation.org>
@@ -59,84 +59,44 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 12:12:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196666
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196667
 
-The current patch formatting is a mix of two styles which is hard to read.
-Tweak it further to make changes easier to identify since we're already
-breaking formatting rules.
+In 1.22 this appears to cause failures and no longer appears to be needed.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- ...d-dist-separate-host-and-target-builds.patch | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+ meta/recipes-devtools/go/go-cross-canadian.inc | 2 +-
+ meta/recipes-devtools/go/go-target.inc         | 4 +---
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/go/go/0005-cmd-dist-separate-host-and-target-builds.patch b/meta/recipes-devtools/go/go/0005-cmd-dist-separate-host-and-target-builds.patch
-index 02269be9699..364fce907ad 100644
---- a/meta/recipes-devtools/go/go/0005-cmd-dist-separate-host-and-target-builds.patch
-+++ b/meta/recipes-devtools/go/go/0005-cmd-dist-separate-host-and-target-builds.patch
-@@ -31,9 +31,10 @@ Adapted to Go 1.13 from patches originally submitted to
- the meta/recipes-devtools/go tree by
- Matt Madison <matt@madison.systems>.
+diff --git a/meta/recipes-devtools/go/go-cross-canadian.inc b/meta/recipes-devtools/go/go-cross-canadian.inc
+index 8298fe31bea..dd485b6799b 100644
+--- a/meta/recipes-devtools/go/go-cross-canadian.inc
++++ b/meta/recipes-devtools/go/go-cross-canadian.inc
+@@ -16,7 +16,7 @@ DEBUG_PREFIX_MAP = "-fdebug-prefix-map=${WORKDIR}=${TARGET_DBGSRC_DIR} \
+ export GOTOOLDIR_BOOTSTRAP = "${STAGING_LIBDIR_NATIVE}/${HOST_SYS}/go/pkg/tool/${BUILD_GOTUPLE}"
+ export CGO_CFLAGS = "${CFLAGS}"
+ export CGO_LDFLAGS = "${LDFLAGS}"
+-export GO_LDFLAGS = '-linkmode external -extld ${HOST_PREFIX}gcc -extldflags "--sysroot=${STAGING_DIR_HOST} ${SECURITY_NOPIE_CFLAGS} ${HOST_CC_ARCH} ${LDFLAGS}"'
++export GO_LDFLAGS = '-extld ${HOST_PREFIX}gcc -extldflags "--sysroot=${STAGING_DIR_HOST} ${SECURITY_NOPIE_CFLAGS} ${HOST_CC_ARCH} ${LDFLAGS}"'
  
--Rework the patch to avoid identation, it's more hard to read but
--easy to rebase.
-+Rework the patch to avoid identation, it breaks formatting rules but
-+makes the changes more obvious and maintainable.
- Jose Quaresma <jose.quaresma@foundries.io>
-+Richard Purdie <richard.purdie@linuxfoundation.org>
+ do_configure[noexec] = "1"
  
- Upstream-Status: Inappropriate [OE specific]
+diff --git a/meta/recipes-devtools/go/go-target.inc b/meta/recipes-devtools/go/go-target.inc
+index a4b55ad3d89..981c7abd313 100644
+--- a/meta/recipes-devtools/go/go-target.inc
++++ b/meta/recipes-devtools/go/go-target.inc
+@@ -13,9 +13,7 @@ export CGO_CXXFLAGS = "${CXXFLAGS}"
+ export CGO_LDFLAGS = "${@ ' '.join(filter(lambda f: not f.startswith('-fdebug-prefix-map'), d.getVar('LDFLAGS').split())) }"
  
-@@ -131,7 +132,7 @@ index 06ee4de8a9..74b7c7098f 100644
- +	// For split host/target cross/cross-canadian builds, we don't
- +	// want to be setting these flags until after we have compiled
- +	// the toolchain that runs on the build host.
--+	if !crossBuild {
-++if !crossBuild {
-  	gogcflags = os.Getenv("GO_GCFLAGS") // we were using $BOOT_GO_GCFLAGS until now
-  	setNoOpt()
-  	goldflags = os.Getenv("GO_LDFLAGS") // we were using $BOOT_GO_LDFLAGS until now
-@@ -143,11 +144,11 @@ index 06ee4de8a9..74b7c7098f 100644
-  		xprintf("\n")
-  	}
-  	xprintf("Building Go toolchain2 using go_bootstrap and Go toolchain1.\n")
--+	if !crossBuild {
-++if !crossBuild {
-  	os.Setenv("CC", compilerEnvLookup("CC", defaultcc, goos, goarch))
- +} else {
- +		os.Setenv("CC", defaultcc[""])
--+	}
-++}
-  	// Now that cmd/go is in charge of the build process, enable GOEXPERIMENT.
-  	os.Setenv("GOEXPERIMENT", goexperiment)
-  	// No need to enable PGO for toolchain2.
-@@ -155,7 +156,7 @@ index 06ee4de8a9..74b7c7098f 100644
-  		os.Setenv("GOCACHE", oldgocache)
-  	}
-  
--+	if !crossBuild {
-++if !crossBuild {
-  	if goos == oldgoos && goarch == oldgoarch {
-  		// Common case - not setting up for cross-compilation.
-  		timelog("build", "toolchain")
-@@ -198,7 +199,7 @@ index 06ee4de8a9..74b7c7098f 100644
- +			checkNotStale(toolenv(), goBootstrap, toBuild...)
- +			// Skip cmdGo staleness checks here, since we can't run the target's cmdGo binary
- +		}
--+	}
-++}
-  
-  	// Check that there are no new files in $GOROOT/bin other than
-  	// go and gofmt and $GOOS_$GOARCH (target bin when cross-compiling).
-@@ -208,7 +209,7 @@ index 06ee4de8a9..74b7c7098f 100644
-  
- +	// Except that for split host/target cross-builds, we need to
- +	// keep it.
--+	if !crossBuild {
-++if !crossBuild {
-  	// Remove go_bootstrap now that we're done.
-  	xremove(pathf("%s/go_bootstrap"+exe, tooldir))
- +}
+ export GOCACHE = "${B}/.cache"
+-GO_LDFLAGS = ""
+-GO_LDFLAGS:class-nativesdk = " -linkmode external"
+-export GO_LDFLAGS
++export GO_LDFLAGS = ""
+ export GOBUILDFLAGS = "-gcflags=-trimpath=$GOPATH -asmflags=-trimpath=$GOPATH -trimpath"
+ CC:append:class-nativesdk = " ${SECURITY_NOPIE_CFLAGS}"
+ 
 -- 
 2.40.1
 
