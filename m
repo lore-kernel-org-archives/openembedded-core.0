@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F23D2C54E5F
-	for <webhook@archiver.kernel.org>; Wed,  6 Mar 2024 15:42:31 +0000 (UTC)
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
- by mx.groups.io with SMTP id smtpd.web11.14878.1709739741892789057
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B5ABC54E66
+	for <webhook@archiver.kernel.org>; Wed,  6 Mar 2024 15:42:32 +0000 (UTC)
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+ by mx.groups.io with SMTP id smtpd.web10.15041.1709739745488517578
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Mar 2024 07:42:22 -0800
+ Wed, 06 Mar 2024 07:42:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=JkXjGaH2;
- spf=pass (domain: gmail.com, ip: 209.85.208.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-565ef8af2f5so8892260a12.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 07:42:21 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=PxirV462;
+ spf=pass (domain: gmail.com, ip: 209.85.218.53, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a44ad785a44so640865266b.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 07:42:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709739740; x=1710344540; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1709739744; x=1710344544; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Nns6MffFpazIO5pjwUdDFazWUJG/k17oZfKOMqNVP28=;
-        b=JkXjGaH2nb1BthHVmeIRqgHbErz1JsUf4ZM3URz7dzKgvPtDjaaG3QiOoCuxruoLCH
-         3keSju8t5tZHPqRx1HogPzlzGd2iXxhmhHmTUp7RpmVLngPcaJUdmeg59BJSJD4pju6f
-         8TlC/Bh1MTSB1qeC+Al91cPa/Nc4X8tEzzVQyPfLO3qz9JK49851Dpx3f5QsJUlKvFAz
-         wCOG00rC0jnESzmYQAE1fzu/h8n8EQlT7mmfxFIjlJ3TApsGikA0j3ijcEUGiZLB8xkR
-         7F0jkGRQdsJxR1wb/d+XG0s2bbXvi7ln1N7SwdflhsF0hL9Kmt93Hj6E0qg/wet2/UKj
-         r1xg==
+        bh=dOX7QCy34gD/nTa9F6SU6JGJWVVGEn/DTY7xg0ewwdU=;
+        b=PxirV462dKB0BR0KHqiAuuQE+BShGdmEbxICt0ByexroqJ4AIFxwhlNiVkP/OMbKzw
+         kLRM9ljURkcpZPMArR1a7/wqS+i/KAQfKqSAO5rGlUVcPwWFVO/JCaVv/KddTea9M+xH
+         k26jVRMWXs9XZciFgcCeEusR6L1veVEDZS8VNZjPj2JCM1AKRuR7xj8DgNBYuAMC/2/x
+         ByCvLks+SYWdWeenUeS5YU+IGsRRx7bAOwCmQJY1yb+XaaOh1NyfpzMPfdGi6/lasZPP
+         6ay1TR24Gug8ZRzSzTFKzv5yv5V7BCa/ZzoaV0KbjYYh6bDtAEPdnhTLhATR30ytCGIT
+         4VkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709739740; x=1710344540;
+        d=1e100.net; s=20230601; t=1709739744; x=1710344544;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Nns6MffFpazIO5pjwUdDFazWUJG/k17oZfKOMqNVP28=;
-        b=izfPZw+YHPkAyrQsNAPiNdtLtNYxc1XES/qtIuOpU9vqfUDk48c5HCuvJEdR+WCo7/
-         fd37KjdGTDwVVMeYFCiUAUiGOvHj2qbUob52HRwcncBn4l7eNkAWM+2Fb59bvQksVlOH
-         CTgg53jarRumu11DvcospACRilkNapuCMfh4VPV62adcNK8coD5A2XJtTjurYeJElY3V
-         d7pZvc63xSCuVjNfF+eZPq8bJOyf0Eu9izyPCbIEI6TQMm/a+jmvUT43QRdOBErU6oTr
-         ptZN4aqhoW+hExEuaq5ggB1lmi59VUWIakIab/JuXZT9mPkpeQZOYSyU5MZ6tTLGdVGo
-         11sw==
-X-Gm-Message-State: AOJu0YxpJ4AyTKGcpk5yzlAdnTIEgE1zddX5mjgXrorX8SyKVpGHNJeY
-	Ya2VZgGr/FOmCS3nUD2+A4sm4xuaTczkW+b8H1sHRqkOMPSNuV78n/4vN9Rk
-X-Google-Smtp-Source: AGHT+IEMnMeXENnCQ1RZtonHeYJWy8m20QJV9UBTzaHtctUQSesaWj2QG1jMg8xj+gGE2DuzPROgng==
-X-Received: by 2002:a17:906:792:b0:a45:ab1a:4c31 with SMTP id l18-20020a170906079200b00a45ab1a4c31mr3414017ejc.56.1709739740167;
-        Wed, 06 Mar 2024 07:42:20 -0800 (PST)
+        bh=dOX7QCy34gD/nTa9F6SU6JGJWVVGEn/DTY7xg0ewwdU=;
+        b=t4QuoFbGpQGyX0N3q3iA/CLhX/v/VyffA+am5hkNF0HwNYDO9Ydv+OM1W4fVeJ/cC/
+         XWNYc4GVUaxihUDXscLFVJe+U120NJxxXNP8JvN0Z7jUxIhxKiVEZ7P3L11AcxQ1g6Ev
+         Xdfexi+Kf6WV1vBdXQLcrOyLUGRMFa7ZhFkE5Aeur2n9SJljxIjuwt2HEYgSWzx7w+b9
+         rYbqDODR5Ya8F+EjG+OWixYbCXVsqhtR3Hq9UVb55Hpe4iFjyM5Hpc4QbqUVRClSJFjw
+         ggFIe4EVhytDV42jHB5Tf/kaJEHUTYNKiyiDslE8ydyMbPVNiDjJHQoKr/TMptarRWBH
+         F1Zw==
+X-Gm-Message-State: AOJu0YwDzeFjkHz9b0zDp/YWrbHEz8zH05d206Zlygvlse+e+eHkn7A0
+	7cO0izpoD2B69peqz7pCWleCWXIFBxajQr0fvYm0CcZCjZFMaYKb6FTHdV7O
+X-Google-Smtp-Source: AGHT+IGeQ42kVyl0Y/P3g8nMjwYV9aAmAcxV+q3kba6QAdCFQct621NrCtK67Dcsdbl916RlLXOTKQ==
+X-Received: by 2002:a17:906:ae8b:b0:a45:9b85:3bc5 with SMTP id md11-20020a170906ae8b00b00a459b853bc5mr4527437ejb.33.1709739743919;
+        Wed, 06 Mar 2024 07:42:23 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id x11-20020a170906710b00b00a4434e9938asm7209343ejj.84.2024.03.06.07.42.19
+        by smtp.gmail.com with ESMTPSA id x11-20020a170906710b00b00a4434e9938asm7209343ejj.84.2024.03.06.07.42.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Mar 2024 07:42:19 -0800 (PST)
+        Wed, 06 Mar 2024 07:42:23 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 36/47] python3-ruamel-yaml: upgrade 0.17.35 -> 0.18.6
-Date: Wed,  6 Mar 2024 16:41:40 +0100
-Message-Id: <20240306154151.3741709-36-alex@linutronix.de>
+Subject: [PATCH 43/47] ttyrun: upgrade 2.30.0 -> 2.31.0
+Date: Wed,  6 Mar 2024 16:41:47 +0100
+Message-Id: <20240306154151.3741709-43-alex@linutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240306154151.3741709-1-alex@linutronix.de>
 References: <20240306154151.3741709-1-alex@linutronix.de>
@@ -61,40 +61,31 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 15:42:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196719
-
-License-Update: copyright years
+ <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 15:42:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196726
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...3-ruamel-yaml_0.17.35.bb => python3-ruamel-yaml_0.18.6.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-ruamel-yaml_0.17.35.bb => python3-ruamel-yaml_0.18.6.bb} (73%)
+ meta/recipes-core/ttyrun/{ttyrun_2.30.0.bb => ttyrun_2.31.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/ttyrun/{ttyrun_2.30.0.bb => ttyrun_2.31.0.bb} (93%)
 
-diff --git a/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.35.bb b/meta/recipes-devtools/python/python3-ruamel-yaml_0.18.6.bb
-similarity index 73%
-rename from meta/recipes-devtools/python/python3-ruamel-yaml_0.17.35.bb
-rename to meta/recipes-devtools/python/python3-ruamel-yaml_0.18.6.bb
-index 02911ebde0e..197bf91d6cc 100644
---- a/meta/recipes-devtools/python/python3-ruamel-yaml_0.17.35.bb
-+++ b/meta/recipes-devtools/python/python3-ruamel-yaml_0.18.6.bb
-@@ -2,13 +2,13 @@ SUMMARY = "YAML parser/emitter that supports roundtrip preservation of comments,
- HOMEPAGE = "https://pypi.org/project/ruamel.yaml/"
+diff --git a/meta/recipes-core/ttyrun/ttyrun_2.30.0.bb b/meta/recipes-core/ttyrun/ttyrun_2.31.0.bb
+similarity index 93%
+rename from meta/recipes-core/ttyrun/ttyrun_2.30.0.bb
+rename to meta/recipes-core/ttyrun/ttyrun_2.31.0.bb
+index 73c6c58c9d6..122dd9d8e70 100644
+--- a/meta/recipes-core/ttyrun/ttyrun_2.30.0.bb
++++ b/meta/recipes-core/ttyrun/ttyrun_2.31.0.bb
+@@ -7,7 +7,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=f5118f167b055bfd7c3450803f1847af"
  
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=0e5f41db57c3a8d3584b450d35985ad1"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=30cbbccd94bf3a2b0285ec35671a1938"
+ SRC_URI = "git://github.com/ibm-s390-linux/s390-tools;protocol=https;branch=master"
+-SRCREV = "c217f6be6addd4d008f110efa53fbec79681dbfd"
++SRCREV = "6f15ed326491a17d83ca60cd2bda47fb5e8a0175"
  
- PYPI_PACKAGE = "ruamel.yaml"
+ S = "${WORKDIR}/git"
  
- inherit pypi setuptools3
- 
--SRC_URI[sha256sum] = "801046a9caacb1b43acc118969b49b96b65e8847f29029563b29ac61d02db61b"
-+SRC_URI[sha256sum] = "8b27e6a217e786c6fbe5634d8f3f11bc63e0f80f6a5890f28863d9c45aac311b"
- 
- RDEPENDS:${PN} += "\
-     python3-shell \
 -- 
 2.39.2
 
