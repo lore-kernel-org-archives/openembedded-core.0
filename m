@@ -2,226 +2,244 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A94BBC54E5D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9610C54E5E
 	for <webhook@archiver.kernel.org>; Wed,  6 Mar 2024 16:23:52 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web10.16301.1709742229103883670
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web10.16300.1709742228320552163
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Mar 2024 08:23:49 -0800
+ Wed, 06 Mar 2024 08:23:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TXZcOW79;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-33d90dfe73cso702990f8f.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UBbhz/yl;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-412ff60af01so3003195e9.3
         for <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 08:23:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1709742227; x=1710347027; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1709742226; x=1710347026; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=8Ktja1MmMrDj+AHeJOCveetzFV7ywNZ0wNZ/sCMk9W8=;
-        b=TXZcOW79FNizlx47FEpGQA/oNRtQOHreRFYsVSleXDSFArktNR22GCFUAMPZIHG2+i
-         jwBfU2xlyxml7hgUOfW8OIYBN997SM3Ak/D029RE3E8zQY+zk4f1w3/Syi3JRxtgMXLK
-         bK4DMqo57899koFwooofoWMSjtr2FzHAxeXXs=
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9kz5amxcsmf7ZUcA+ONgI0vtpCSvACgB2oZ1YYZkzEw=;
+        b=UBbhz/ylMak0HNtYy13l+DJrMZY0tuOriXpRLkMO8fCPZpDBs9da4fuLzg9MHQx/0T
+         Q2fpnW9KVBrGD93NZYXgtY0mGakpFV2j//F95C/wGhRubT8S+JaGev5iMGLKb1+FfKEL
+         wBxMveOo4n0QGp88uS+iDM/F0KGsSjKTVL8r8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709742227; x=1710347027;
+        d=1e100.net; s=20230601; t=1709742226; x=1710347026;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8Ktja1MmMrDj+AHeJOCveetzFV7ywNZ0wNZ/sCMk9W8=;
-        b=jQtiz9OrYQCfK7J+Kln9MvvU7gqrOE6eR56FyBftMhVRLP3RZl8wvu/cZdELoCp9+r
-         e5oxDQ84JlTdnQ4V1dj++SpwMZ4wy2Nmd1e4p16Azu+FviXtQ2BUVxRy7Z8wBYO7p/di
-         s+4rjwwdsH9rHJZ3JliuVRhO8fsOAxbGEWgLHvjwptyp4WFTbRSTWsihL55e5ygCPV+c
-         DgHJf3XR3g56VwA2WBfK3fq77NlX8sjS4ZZNx0Y2/JOE2UDhdUuleiqpvmeYV70VdL4o
-         lsMejk+zADCH9V7wUfic9gOiL7DV7LDi6W/2cdkCJMxgmxwkYdRL/JiafcsbIE5wDl5y
-         eDsQ==
-X-Gm-Message-State: AOJu0YzBEjbpFYoqtAMUmpxpi0EcJv6WbIYKkHMPl+4/VKStbCdtFFM2
-	9TujhTbtL34dsmdDgcF7/z3YpSqqPQcjZupn77F8tWY6HNNqxTOS2FJdDyzjFSvRT3Ep8dbeiOB
-	c
-X-Google-Smtp-Source: AGHT+IG1Z98AnRWyH/IhEYYhyJCSNRz8P0rTjtZwbnRhX888ld4Qz/4KRi4/NhjHglHAsuZsvYSahA==
-X-Received: by 2002:adf:d052:0:b0:33d:61c7:9b2c with SMTP id v18-20020adfd052000000b0033d61c79b2cmr5427395wrh.34.1709742227069;
-        Wed, 06 Mar 2024 08:23:47 -0800 (PST)
+        bh=9kz5amxcsmf7ZUcA+ONgI0vtpCSvACgB2oZ1YYZkzEw=;
+        b=OmFlbr8+ItZvzgYVYkmU509HsTVaKKk8wQTkb1fonUwUhTgZwkgcjBK7dyesIMlwyo
+         xOnuEnyRX6B2VcuoRILAcn0P/mnfRcawkb6zgsvVUHYfrBgqY5xumPhmVP6qOi2fSdbe
+         ocka8iX/8hQ2PGjtNPVA5BHERcPAA6AtkJOxtxKpDboz4rYL6VrzC5ftv5ZAPY4qdG31
+         EETJOSgwHm4JF8BXaKrnSjvzzyAYYppYttMS7JDlnYUjpBv0FiR/BcaacOL9RPrgq7Sk
+         siIQTqtgxnJcZlpMxCD9LXOvUJ/JUKAWioNrhiX8tiMtVzhyiwW/7pDWzDwbcXlrEH+2
+         pIhg==
+X-Gm-Message-State: AOJu0Yz7uJbN8aY7jBJVfRbksa/GOX4zdjwPHkb4jj30Viid5uu+shup
+	vk6JH7fB2IaGjCXM3SZZOfETMcWYLFrFrKYrQqQ6An8KI7VwS1U5TIfYf7zs2JiFywdgw3lIx7p
+	6
+X-Google-Smtp-Source: AGHT+IFbgBiyzURFPqYZzjYp1btTj2RALTN7i0wcIDJzXFV9p3j407bDWNYth9C7Yoour6hY7t1+aQ==
+X-Received: by 2002:a05:600c:4e8e:b0:412:e70a:ab8a with SMTP id f14-20020a05600c4e8e00b00412e70aab8amr5705521wmq.25.1709742226419;
+        Wed, 06 Mar 2024 08:23:46 -0800 (PST)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:1f9c:b564:4f14:a0ea])
-        by smtp.gmail.com with ESMTPSA id k34-20020a05600c1ca200b00412f81ba413sm1929791wms.11.2024.03.06.08.23.46
-        for <openembedded-core@lists.openembedded.org>
+        by smtp.gmail.com with ESMTPSA id k34-20020a05600c1ca200b00412f81ba413sm1929791wms.11.2024.03.06.08.23.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 06 Mar 2024 08:23:46 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/9] oeqa/runtime/login: Various code improvements and fixes
-Date: Wed,  6 Mar 2024 16:23:36 +0000
-Message-Id: <20240306162341.2267587-4-richard.purdie@linuxfoundation.org>
+Cc: =?UTF-8?q?Eil=C3=ADs=20=27pidge=27=20N=C3=AD=20Fhlannag=C3=A1in?= <pidge@baylibre.com>,
+	Ross Burton <ross.burton@arm.com>
+Subject: [PATCH 3/9] oeqa/runtime/login: Proof of concept for screenshot testcases
+Date: Wed,  6 Mar 2024 16:23:35 +0000
+Message-Id: <20240306162341.2267587-3-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20240306162341.2267587-1-richard.purdie@linuxfoundation.org>
 References: <20240306162341.2267587-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 16:23:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196738
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196737
 
-* Allow tools to be found from the host PATH so that imagemagick from a buildtools
-  tarball/sdk can work
-* Reformat the code to have imports at the start of the file and have more standard
-  formatting and whitespace
-* Always save copies of the images, the space imapct is negligle compared to the
-  debug win
-* Write the images to ${T}
-* Use bb.utils.mkdirhier() instead of more complex code
-* Restrict the tests to images containing matchbox-desktop
+From: Eilís 'pidge' Ní Fhlannagáin <pidge@baylibre.com>
 
+This takes the work rburton did on image screenshot testing and
+expands it.
+
+Right now this works with most of the qemu based machines except for
+
+- qemuppc64
+- qemuarmv5
+- qemuriscv32
+- qemuloongarch64
+
+See "Known Issues" further down.
+
+This test takes a screendump of a qemu image, blanks out the clock
+and compares it to an image we have on record. If the diff is exact,
+the test passes. If not, it stores the image in build/failed-images and
+fails out.
+
+In order to enable this test, you will need meta-openembedded/meta-oe in
+your bblayers.conf for imagemagick and the following in local.conf:
+
+IMAGE_CLASSES += "testimage"
+TEST_SUITES = "login"
+TESTIMAGEDEPENDS:append:qemuall = " imagemagick-native:do_populate_sysroot "
+
+Known Issues
+------------
+
+The main issue is that I've yet to find a gating factor that would allow
+me to tell when the qemu instance is fully up and rendered. I've tried a
+few tactics here, (dbus-wait, qmp) but for now a disgusting
+time.sleep(30) is there.
+
+You can replicate this by running qemumips. The screen load takes forever,
+but you even see it on qemux86 where the Home and Workspace Switch icons
+will sometimes take a while to fully load.
+
+Eventually I'm going to have to take multiple screenshots and compare
+them, but then you get into the issue where the question is, is the diff
+greater than 0 because it hasn't fully loaded or something is actually
+incorrect.
+
+There are the issues I know about:
+
+   - runqemu qemuppc64 comes up blank.
+   - qemuarmv5 comes up with multiple heads but sending "head" to screendump.
+     seems to create a png with a bad header.
+   - qemuriscv32 and qemuloongarch64 don't work with testimage apparently?
+   - qemumips64 is missing mouse icon.
+   - qemumips takes forever to render and is missing mouse icon.
+   - qemuarm and qemuppc return incorrect width
+   - All images have home and screen flipper icons not always rendered fully at first.
+     The sleep seems to help this out some, depending on machine load.
+
+Signed-off-by: Eilís 'pidge' Ní Fhlannagáin <pidge@baylibre.com>
+Co-authored-by: Ross Burton <ross.burton@arm.com>
+Co-authored-by: Eilís 'pidge' Ní Fhlannagáin <pidge@baylibre.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes-recipe/testimage.bbclass |  1 +
- meta/lib/oeqa/runtime/cases/login.py  | 91 ++++++++++++++-------------
- 2 files changed, 49 insertions(+), 43 deletions(-)
+ meta/lib/oeqa/runtime/cases/login.py | 107 +++++++++++++++++++++++++++
+ 1 file changed, 107 insertions(+)
+ create mode 100644 meta/lib/oeqa/runtime/cases/login.py
 
-diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-recipe/testimage.bbclass
-index ad040ee8f07..ed0d87b7a72 100644
---- a/meta/classes-recipe/testimage.bbclass
-+++ b/meta/classes-recipe/testimage.bbclass
-@@ -221,6 +221,7 @@ def testimage_main(d):
-     # ones of the current environment because some tests require them.
-     for var in d.getVar('TESTIMAGE_UPDATE_VARS').split():
-         td[var] = d.getVar(var)
-+    td['ORIGPATH'] = d.getVar("BB_ORIGENV").getVar("PATH")
- 
-     image_manifest = "%s.manifest" % image_name
-     image_packages = OERuntimeTestContextExecutor.readPackagesManifest(image_manifest)
 diff --git a/meta/lib/oeqa/runtime/cases/login.py b/meta/lib/oeqa/runtime/cases/login.py
-index aea3bfc778e..175a60c48ca 100644
---- a/meta/lib/oeqa/runtime/cases/login.py
+new file mode 100644
+index 00000000000..aea3bfc778e
+--- /dev/null
 +++ b/meta/lib/oeqa/runtime/cases/login.py
-@@ -4,9 +4,13 @@
- # SPDX-License-Identifier: MIT
- #
- 
-+import shutil
- import subprocess
--from oeqa.runtime.case import OERuntimeTestCase
- import tempfile
-+import time
-+import os
-+from datetime import datetime
+@@ -0,0 +1,107 @@
++#
++# Copyright OpenEmbedded Contributors
++#
++# SPDX-License-Identifier: MIT
++#
++
++import subprocess
 +from oeqa.runtime.case import OERuntimeTestCase
- from oeqa.runtime.decorator.package import OEHasPackage
- 
- ### Status of qemu images.
-@@ -22,14 +26,27 @@ from oeqa.runtime.decorator.package import OEHasPackage
- ###
- 
- class LoginTest(OERuntimeTestCase):
-+    @OEHasPackage(['matchbox-desktop'])
-     def test_screenshot(self):
-         if self.td.get('MACHINE') in ("qemuppc64", "qemuarmv5", "qemuriscv32", "qemuloongarch64"):
-             self.skipTest("{0} is not currently supported.".format(self.td.get('MACHINE')))
- 
--        # Set DEBUG_CREATE_IMAGES to 1 in order to populate the image-test images directory.
--        DEBUG_CREATE_IMAGES="0"
--        # Store failed images so we can debug them.
--        failed_image_dir=self.td.get('TOPDIR') + "/failed-images/"
-+        pn = self.td.get('PN')
++import tempfile
++from oeqa.runtime.decorator.package import OEHasPackage
 +
-+        ourenv = os.environ.copy()
-+        origpath = self.td.get("ORIGPATH")
-+        if origpath:
-+            ourenv['PATH'] = ourenv['PATH'] + ":" + origpath
++### Status of qemu images.
++#   - runqemu qemuppc64 comes up blank. (skip)
++#   - qemuarmv5 comes up with multiple heads but sending "head" to screendump.
++#     seems to create a png with a bad header? (skip for now, but come back to fix)
++#   - qemuriscv32 and qemuloongarch64 doesn't work with testimage apparently? (skip)
++#   - qemumips64 is missing mouse icon.
++#   - qemumips takes forever to render and is missing mouse icon.
++#   - qemuarm and qemuppc are odd as they don't resize so we need to just set width.
++#   - All images have home and screen flipper icons not always rendered fully at first.
++#     the sleep seems to help this out some, depending on machine load.
++###
 +
-+        for cmd in ["identify.im7", "convert.im7", "compare.im7"]:
-+            try:
-+                subprocess.check_output(["which", cmd], env=ourenv)
-+            except subprocess.CalledProcessError:
-+                self.skipTest("%s (from imagemagick) not available" % cmd)
++class LoginTest(OERuntimeTestCase):
++    def test_screenshot(self):
++        if self.td.get('MACHINE') in ("qemuppc64", "qemuarmv5", "qemuriscv32", "qemuloongarch64"):
++            self.skipTest("{0} is not currently supported.".format(self.td.get('MACHINE')))
 +
++        # Set DEBUG_CREATE_IMAGES to 1 in order to populate the image-test images directory.
++        DEBUG_CREATE_IMAGES="0"
++        # Store failed images so we can debug them.
++        failed_image_dir=self.td.get('TOPDIR') + "/failed-images/"
 +
-+        # Store images so we can debug them if needed
-+        saved_screenshots_dir = self.td.get('T') + "/saved-screenshots/"
- 
-         ###
-         # This is a really horrible way of doing this but I've not found the
-@@ -50,8 +67,6 @@ class LoginTest(OERuntimeTestCase):
-         # 'works'.
-         ###
- 
--        import time
--        
-         # qemumips takes forever to render. We could probably get away with 20
-         # here were it not for that.
-         time.sleep(40)
-@@ -62,46 +77,36 @@ class LoginTest(OERuntimeTestCase):
-             # Find out size of image so we can determine where to blank out clock.
-             # qemuarm and qemuppc are odd as it doesn't resize the window and returns
-             # incorrect widths
--            if self.td.get('MACHINE')=="qemuarm" or self.td.get('MACHINE')=="qemuppc":
--                width="640"
-+            if self.td.get('MACHINE') == "qemuarm" or self.td.get('MACHINE') == "qemuppc":
-+                width = "640"
-             else:
-                 cmd = "identify.im7 -ping -format '%w' {0}".format(t.name)
--                width = subprocess.check_output(cmd, shell=True).decode()
-+                width = subprocess.check_output(cmd, shell=True, env=ourenv).decode()
- 
--            rblank=int(float(width))
--            lblank=rblank-40
-+            rblank = int(float(width))
-+            lblank = rblank-40
- 
-             # Use the meta-oe version of convert, along with it's suffix. This blanks out the clock.
-             cmd = "convert.im7 {0} -fill white -draw 'rectangle {1},10 {2},22' {3}".format(t.name, str(rblank), str(lblank), t.name)
--            convert_out=subprocess.check_output(cmd, shell=True).decode()
--
--            if DEBUG_CREATE_IMAGES=="1":
--                # You probably aren't interested in this as it's just to create the images we compare against.
--                import shutil
--                shutil.copy2(t.name, "{0}/meta/files/image-tests/core-image-sato-{1}.png".format(self.td.get('COREBASE'), \
--                                                                                                 self.td.get('MACHINE')))
--                self.skipTest("Created a reference image for {0} and placed it in {1}/meta/files/image-tests/.".format(self.td.get('MACHINE'), self.td.get('COREBASE')))
-+            convert_out=subprocess.check_output(cmd, shell=True, env=ourenv).decode()
++        ###
++        # This is a really horrible way of doing this but I've not found the
++        # right event to determine "The system is loaded and screen is rendered"
++        #
++        # Using dbus-wait for matchbox is the wrong answer because while it
++        # ensures the system is up, it doesn't mean the screen is rendered.
++        #
++        # Checking the qmp socket doesn't work afaik either.
++        #
++        # One way to do this is to do compares of known good screendumps until
++        # we either get expected or close to expected or we time out. Part of the
++        # issue here with that is that there is a very fine difference in the
++        # diff between a screendump where the icons haven't loaded yet and
++        # one where they won't load. I'll look at that next, but, for now, this.
++        #
++        # Which is ugly and I hate it but it 'works' for various definitions of
++        # 'works'.
++        ###
 +
++        import time
++        
++        # qemumips takes forever to render. We could probably get away with 20
++        # here were it not for that.
++        time.sleep(40)
 +
-+            bb.utils.mkdirhier(saved_screenshots_dir)
-+            savedfile = "{0}/saved-{1}-{2}-{3}.png".format(saved_screenshots_dir, \
-+                                                                        datetime.timestamp(datetime.now()), \
-+                                                                        pn, \
-+                                                                        self.td.get('MACHINE'))
-+            shutil.copy2(t.name, savedfile)
++        with tempfile.NamedTemporaryFile(prefix="oeqa-screenshot-login", suffix=".png") as t:
++            ret = self.target.runner.run_monitor("screendump", args={"filename": t.name, "format":"png"})
 +
-+            refimage = self.td.get('COREBASE') + "/meta/files/screenshot-tests/" + pn + "-" + self.td.get('MACHINE') +".png"
-+            if not os.path.exists(refimage):
-+                self.skipTest("No reference image for comparision (%s)" % refimage)
++            # Find out size of image so we can determine where to blank out clock.
++            # qemuarm and qemuppc are odd as it doesn't resize the window and returns
++            # incorrect widths
++            if self.td.get('MACHINE')=="qemuarm" or self.td.get('MACHINE')=="qemuppc":
++                width="640"
++            else:
++                cmd = "identify.im7 -ping -format '%w' {0}".format(t.name)
++                width = subprocess.check_output(cmd, shell=True).decode()
 +
-+            cmd = "compare.im7 -metric MSE {0} {1} /dev/null".format(t.name, refimage)
-+            compare_out = subprocess.run(cmd, shell=True, capture_output=True, text=True, env=ourenv)
-+            diff=float(compare_out.stderr.replace("(", "").replace(")","").split()[1])
-+            if diff > 0:
-+                # Keep a copy of the failed screenshot so we can see what happened.
-+                self.fail("Screenshot diff is {0}. Failed image stored in {1}".format(str(diff), savedfile))
-             else:
--                # Use the meta-oe version of compare, along with it's suffix.
--                cmd = "compare.im7 -metric MSE {0} {1}/meta/files/image-tests/core-image-sato-{2}.png /dev/null".format(t.name, \
--                                                                                                                        self.td.get('COREBASE'), \
--                                                                                                                        self.td.get('MACHINE'))
--                compare_out = subprocess.run(cmd, shell=True, capture_output=True, text=True)
--                diff=float(compare_out.stderr.replace("(", "").replace(")","").split()[1])
--                if diff > 0:
--                    from datetime import datetime
--                    import shutil
--                    import os
--                    try:
--                        os.mkdir(failed_image_dir)
--                    except FileExistsError:
--                        # directory exists
--                        pass
--                    # Keep a copy of the failed screenshot so we can see what happened.
--                    failedfile="{0}/failed-{1}-core-image-sato-{2}.png".format(failed_image_dir, \
--                                                                               datetime.timestamp(datetime.now()), \
--                                                                               self.td.get('MACHINE'))
--                    shutil.copy2(t.name, failedfile)
--                    self.fail("Screenshot diff is {0}. Failed image stored in {1}".format(str(diff), failedfile))
--                else:
--                    self.assertEqual(0, diff, "Screenshot diff is {0}.".format(str(diff)))
-+                self.assertEqual(0, diff, "Screenshot diff is {0}.".format(str(diff)))
++            rblank=int(float(width))
++            lblank=rblank-40
++
++            # Use the meta-oe version of convert, along with it's suffix. This blanks out the clock.
++            cmd = "convert.im7 {0} -fill white -draw 'rectangle {1},10 {2},22' {3}".format(t.name, str(rblank), str(lblank), t.name)
++            convert_out=subprocess.check_output(cmd, shell=True).decode()
++
++            if DEBUG_CREATE_IMAGES=="1":
++                # You probably aren't interested in this as it's just to create the images we compare against.
++                import shutil
++                shutil.copy2(t.name, "{0}/meta/files/image-tests/core-image-sato-{1}.png".format(self.td.get('COREBASE'), \
++                                                                                                 self.td.get('MACHINE')))
++                self.skipTest("Created a reference image for {0} and placed it in {1}/meta/files/image-tests/.".format(self.td.get('MACHINE'), self.td.get('COREBASE')))
++            else:
++                # Use the meta-oe version of compare, along with it's suffix.
++                cmd = "compare.im7 -metric MSE {0} {1}/meta/files/image-tests/core-image-sato-{2}.png /dev/null".format(t.name, \
++                                                                                                                        self.td.get('COREBASE'), \
++                                                                                                                        self.td.get('MACHINE'))
++                compare_out = subprocess.run(cmd, shell=True, capture_output=True, text=True)
++                diff=float(compare_out.stderr.replace("(", "").replace(")","").split()[1])
++                if diff > 0:
++                    from datetime import datetime
++                    import shutil
++                    import os
++                    try:
++                        os.mkdir(failed_image_dir)
++                    except FileExistsError:
++                        # directory exists
++                        pass
++                    # Keep a copy of the failed screenshot so we can see what happened.
++                    failedfile="{0}/failed-{1}-core-image-sato-{2}.png".format(failed_image_dir, \
++                                                                               datetime.timestamp(datetime.now()), \
++                                                                               self.td.get('MACHINE'))
++                    shutil.copy2(t.name, failedfile)
++                    self.fail("Screenshot diff is {0}. Failed image stored in {1}".format(str(diff), failedfile))
++                else:
++                    self.assertEqual(0, diff, "Screenshot diff is {0}.".format(str(diff)))
 -- 
 2.40.1
 
