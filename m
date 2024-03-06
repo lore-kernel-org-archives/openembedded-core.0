@@ -1,100 +1,227 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <ticotimo@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7ABA0C54E41
-	for <webhook@archiver.kernel.org>; Wed,  6 Mar 2024 22:34:45 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web11.9474.1709764480258965937
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D1FCC54E41
+	for <webhook@archiver.kernel.org>; Wed,  6 Mar 2024 23:54:56 +0000 (UTC)
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
+ by mx.groups.io with SMTP id smtpd.web10.11205.1709769286747796442
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Mar 2024 14:34:40 -0800
+ Wed, 06 Mar 2024 15:54:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ietoyGpD;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-33e285a33bdso77136f8f.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 14:34:40 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=SKDnjY35;
+ spf=pass (domain: gmail.com, ip: 209.85.219.181, mailfrom: ticotimo@gmail.com)
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-dcc6fc978ddso353050276.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 15:54:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1709764478; x=1710369278; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=2ERUUt7yIBc5gqqIGq7zCOhdxEIDAQYxJ9xmFnFxats=;
-        b=ietoyGpDkfPwPlR8TaFWJRvBYT459AzjQQ0d6UqImtWGa6WXBnlK608ndVtuuatKKt
-         NHp1Et8ec/tUWF1EnKa0wFJZVYawBlqfd/Xa00csJMwrOokKcA9kN3RF+DD1fB4O95S1
-         x8ooefaXwlvkvzeR+OBrYRxybCyZJZOeicyS8=
+        d=gmail.com; s=20230601; t=1709769286; x=1710374086; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=sMVXT2OJQQO7B+/9Fu34JDrkHeWAlbzW2BoRIt6nGoU=;
+        b=SKDnjY35FiV63WTC/69darl29pCGKyRwXLO5llG+K4Xc3GtEMw4XSGF7EgTiXkHZNg
+         rSNn8U+uSB/wCsi+vXyvGJusCC6HOenzQArQ2w7mrc1M85UEktpb+92s4tzvFuGL+rpe
+         Roy22Kw+HU3558vgwgd+jc7bXJ0anvMV5mt3VxLBBAqxiXb91F2whaBWJUFBnayUzAsF
+         xppO48Y/dLS5glXISA/bbm6EIJm5gVuQS3ZRi7O2x9mlJDFT6Av8ULvBiS2VT4l6bXW1
+         08mfLIwJNoYJs/B1xniIwFS6NQYIO/Qu/JDF0q+WEkjBFay3lTeUJWlXqqAEdxTm6YZi
+         AJiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709764478; x=1710369278;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2ERUUt7yIBc5gqqIGq7zCOhdxEIDAQYxJ9xmFnFxats=;
-        b=jQs3R7ysMpjBx2UrpgBH5K+o0BjkUzGE0qYxIzA9rRE3WR8UQERUPwDWTKYGqFPO3O
-         XE3XzLoX22i2rt2meEEMe6ySfCedOZBuuVTNQLadCt99S7D5Ui5rvy675az1XhlNsQLe
-         vLQ/VBerOIPAcXLtsIDCkO+0V7/PcK22igP+bu2Gn5x+Tyky2F2q1dRqMz01JlIuT+Ex
-         s6J68bUmex74j8HSpuofhh51aj8DFa9vqkFmxOgpqngjp7VKEIUoL3BF5Zj2anNOE9Mf
-         VJ+JLzZx8hXOBwciWUCUsRQrWWx+lT9uOcEWbJ4N2AWPqHEcNeHwZyNGWQbcQoc1P6Sp
-         AL1A==
-X-Gm-Message-State: AOJu0YwhlsGC52PtrqlGy1qbvYJAgeaczP83bdUqWJRW/BMMD+pE8DC+
-	5mZ8lpIlamZbiQqwZKFg/1qawjnlEZjaL+PrdVdLLgpN+XalRmP961A5gX8SH/w=
-X-Google-Smtp-Source: AGHT+IFYk54FdCSbCujohtY3T3EC8YDTYSWFgWi2rFoYI9VGDqADpJFJ1tjjXKWTQLGr/8UerzBW0w==
-X-Received: by 2002:adf:ab07:0:b0:33d:2071:9b85 with SMTP id q7-20020adfab07000000b0033d20719b85mr10368225wrc.19.1709764478512;
-        Wed, 06 Mar 2024 14:34:38 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:1f9c:b564:4f14:a0ea? ([2001:8b0:aba:5f3c:1f9c:b564:4f14:a0ea])
-        by smtp.gmail.com with ESMTPSA id j27-20020a05600c1c1b00b00412f83e0c11sm571855wms.22.2024.03.06.14.34.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Mar 2024 14:34:38 -0800 (PST)
-Message-ID: <3cd28383d48955c12056aa09216cb20f920fda6a.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 7/9] oeqa/runtime/login: Exclude qemuriscv64
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, =?ISO-8859-1?Q?Eil=EDs?=
-	'pidge' =?ISO-8859-1?Q?N=ED_Fhlannag=E1in?=
-	 <pidge@baylibre.com>
-Date: Wed, 06 Mar 2024 22:34:37 +0000
-In-Reply-To: <CAMKF1sr84E-VvgKDMor9Bx_7BtZtQ1VwSCi_4R4Qi=S0+b6MdA@mail.gmail.com>
-References: <20240306162341.2267587-1-richard.purdie@linuxfoundation.org>
-	 <20240306162341.2267587-7-richard.purdie@linuxfoundation.org>
-	 <CAMKF1sr84E-VvgKDMor9Bx_7BtZtQ1VwSCi_4R4Qi=S0+b6MdA@mail.gmail.com>
-Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=mQINBGN1PzgBEADqZynxX+ivalgYtZ+AoHoGynCiJw0lR+H9rC83sj9z38nlKHBCuh8r8KOqelDUf1B73E9oCLjZQVwqKLmao6ZDQYt7utG+h6qGLEgyDfeochYkLwElvRtjhTp0Ks5WPIHUgE4lwfqmsLrHbkEfRYui9eSd+zJpPKTRgQ7WhTGfRaXPEVYn24fWEo637biLyoEop1qaZMoY/mPsflDYDISWgAeunFx63oL9zNAhOWbLIy2uicKq2GyS56CooPzQkpUv7ssQBOqXp/FSuGJ49RV7Npj/eXyEepAh3BtMliJF08rAj07Hpywp3skXku8YcwUAD7TqOnJ4Wr6G8vpJlQKSITIGMBqtq3f8+SwImWEMRVXxDzrmznihOC7qEUWH4tN/AEkz2BJQbGYnp3iQjZqsoqKblyC83/5MCCUHHpDg20HooEWVNTUxUa8dGWaJehKC5fX1276Sm4WLaoqbQwSGCmwS1e+LjO9lFT80WHIELw07iDhQxshNqVLIxCt3pZfWRlf9fHCtxStiQIRrQLAKN7ze+//YjExjkDOt1ZFIsgMmKIQmJ6b8kRAAmQUraTcn4E/hy0mArFLmROyPSc1nD8hQMeELDcjyjEmo7j3qQCsU464v4tcvJVXyqPc4TU1GDQdZBaKP0/jR68aR3ZOvzx99jdocPdHNW4Kpbv6PnQARAQABtDNSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz6JAlcEEwEKAEECGwEFCQPCZwAFCwkIBwIGFQoJCAsCBBYCAwECHgECF4AWIQQRclb3b/q6zLA9Fn+aUMY1GLyygAUCY3VBgQIZAQAKCRCaUMY1GLyygAtOEADglyjAhkCSGGetbs40FJ4
- xdHKck7aaB1FgbpGn9e9/WAeAPC722eJsxhujxgKaS9b7mHcTcWeMP7KFut4yKTDHovt4VbQOd PGqwyUmi8z0yd2ORlT9E3RjEEllpj/Z2Wfzs3H4qR5wz3Rij1BCirDH8LD5yAO8PpIW2N1Y4VbzFDTPX2KtLGQYIraOHZQQe8XjAJnXflVQbzSIbNw14IlVWnF94UwkamxRhhCVAdA4139ebU+R0inaVsG0Bb7GP3KiED4C1I/tj171G4bOsyz3zYkpuV64yuq5pVevLBuCJv1Z/yiBdbB02B+FkosKLWRvoZFa2gqK2xpZT8RvDdkBQTmZTs/hP59mh1QSt4d2p1KsBu7cx2fjRBuf9XVG+uR/XnbD5T1BQRVV641ZNzPTjtE3rEZzR1nsUv+vcFYv0V/FPcLg5f3Ui+4cuYj/xDykMKZlrBIVGExBOJr7Anbzwq8o4nYUsrbFE3Fu88l8/mWrQCkAIZqc2NRyuXplZrDanB9Abi2XmZO0B3Q9wKvzmH0yJyLfswmzrejf3oVOJNEKJP5acPnXfQqAr5F7gdeLvdHbOAtg1iU8GujkOvRA7ad5ahT/1mDzKlkjaf36p4jodsGzPydOks2/jbVZxbZsR1il3BuDXb0agChNXJH4IpcnrjAliBtTKwnEYuLQeLQsUmljaGFyZCBQdXJkaWUgPHJwdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz6JAlQEEwEKAD4WIQQRclb3b/q6zLA9Fn+aUMY1GLyygAUCY3VBEAIbAQUJA8JnAAULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRCaUMY1GLyygA0tD/4l5GVZ1OTKoCsHzQuSUVnyzmSwYmJD7W7E1VeVVvVk5bfFf/w6p3dXfGjhZ8zFackE+RmT3//8kQ+Zs68csd0wjX8klyFXgA5PWP3DxNkejnHCq7wiLouOGC/E9RSUULn1DYb68yPzvdGQBooqPQZORtXzNgM
- NuWDKH+9uvhGbdvURJHCRPTpgcdCo64d+IMzA+XmZUg0P722IyVmB+I2TgjaIRr/NsbsGP4x3u8 TVfJPXmE1IS9nrKEm023ntuy1AH9JlACLZ4LGvpxf8x7ZVKaXXqWOQ1aQ5BCQoOc41AiVUyeiq2wdLRQaNOxbb8+ED34BYLyMjZdII9eovZMbMt7kLSjkbOs/k3s7wtQ2eY7QnSggf8/MWUSUaJzLKHnOBRcqGjdFdlZ0BKXL+v9NrpjcUBsG1TY5XORIahk6Pt1+cPyIsKdycKU4RHtNfwX5fidE8AhU97U04z3tIYs121J4M/EG3bEfOtwDaH7BRTZHK5B05Mks/kX608CwLSJSbX2dSENInh5+dSVQ0egbFbXQGcHFmCCMjYH09hcNUSEyI4OUQHVu8HHQIfvutPqIsZEtJ1K/s3ZD3Zyq35UUiwnCu5hYohX9B0o0TwgDaI85dS2edHy2bnM3a9yuTPiwNYpfR6dp6cg8BM+9qqkJvwp5LiMcZcJC8S5xR3U0FtbQiUmljaGFyZCBQdXJkaWUgPHJwdXJkaWVAcnBzeXMubmV0PokCVAQTAQoAPhYhBBFyVvdv+rrMsD0Wf5pQxjUYvLKABQJjdUEhAhsBBQkDwmcABQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEJpQxjUYvLKA/iUQAJJkVW2yDzxrH/5szOuG0ZDDH6X6Yrdp+m+F4hHHJQkTYgdRPeoHYKyXNOettdVKrZyEDkztBWkB7Sd7zuVHR3Q4PVTsEh09ZzkqBgN8OevMA7RPHZOa2PYJ8pAx7eTah1whM2eOf+VZGKrW1R9ouTluV7/c4o5loaKuh+t61W2nH6E+lQt3/gKnwj4QmUb5V957ZSHO1cnjtHrd4FFmkYQOCbolEfC25lT9vh4ldY+dILQPcq4at/LEABp4xEgS6R7K4E3cDnjWogrZTiniAUrR7P0SNYv7WCpAbvk4Z9DGCHXpKod
- KjTi3em7xDpqA1Rxd/rV4z9VQJrbpL/oiPCnTW/iCx+eMH70dRk+gHxSU8FWVf+CucFZprvO9UMi tGHLvfpBxfnGDT2EOqOoFOYgYHq7MfSDZT+zM/gBWfHXbyz6W9RYqycwWCIhG5jhMhT2sEWr4FlwmXfogvSqxvKondwPfXsgNT1MdBqa0Hhm0pIJYs4ovKWnvymTraziqSWI2C9X5lPmf6ugNiuzJt5BqlilNHxsej9OC53HfBbkgDONdcJbduW9nrJlIl9OLanB4/fvuqG1ZIS/eFFAkb2YnBBuS2TNz3aPd7vFkOoMU7VegDic/sH23eZPGQm3XWcTYwIY2djBU8Jzyy4mRIOQZMGXb/ygrGXAuIxL2R2O1uFYEY3VB1RIIKoZIzj0DAQcCAwQzkAYGjbS/m2SeumSYfDZKeazIkOpwUxpTQ7kPxz0ijiquKSsEZzlPMFzhA+iBJh2jdCyabi5K+8+v3VZZglbWAwEIB4kCNgQYAQoAIBYhBBFyVvdv+rrMsD0Wf5pQxjUYvLKABQJjdUHVAhsMAAoJEJpQxjUYvLKAr6UQAMyaDatvvCkxvOyFgO6jxLLzbkwl40hTNB/TsG5RdwL6FXnBMzkIa5lEfgV1u2zwu0p7SKWH9J3DSNqYKjUCAfwDEv6aDKrFYqGQZMuke1ZAfKqmWTIYOKYG4vRgvvF1u0aCOrRJiipjEPnrw1LC6eaqpnI3WGJyy8Wgr8aO0RBUO93ax/+Mpw3QG+jQqZjuomBWGvUwsjRtzE9j2QUcGxjyTrocVsR2qjK0boE4jLGJWNreSIgs5Nllww++3l0pabmXhyXqDdoYE1U0WkI/yemsc8ydDtjpeG4uzv9rfd5VUqHoZpuYZ1sc4DTGFrEAoght/9FXWsOFOtX8vZprLFFi7iFNSDChIFEsyuizHOW5wl/PYkGCCMZvwPK61IvCARKwevdnSrle9omYEqjnU/HjVZ/kvtKxn1VN15j1NNF
- 0zgmm+/RfbZFHbeuea/lVInXpNBMDj+pl3VyygUae65DMFWgYVSLtXPTRLVMb2mIxiNpk3T2UcuVW 1XC9LWup6h8jHEJ0zBCPjPyd1tFQ9hHVOJnwRthV+VG3zuBf8sri1TPnz5XjNpu3Q3r/6turvh+Khal2itb980tITH5fDbLUewPiA2jCAgZCkVMQcvYTS4rZCC+hpHSMte4m1n7AcmF9ohhw6tt41AEhwbMh+nRkyjDkY+k/vivg0obC2JpruDMEY3VCGBYJKwYBBAHaRw8BAQdArl5/9Fe2aA9JEc+HRm2rnCl6NMb7DZJLnM0xmQg1ouyJAq0EGAEKACAWIQQRclb3b/q6zLA9Fn+aUMY1GLyygAUCY3VCGAIbAgCBCRCaUMY1GLyygHYgBBkWCAAdFiEEHKt8QO5c0zRDdmiGodJewzbIKeYFAmN1QhgACgkQodJewzbIKeawUgEAzEwjSYf8lXVNcZVYL/4SLX9FEop83Q8+WmwT2rGhA+MBAKga5Fl8afYVHuPlPOxB/M7aQdP8vfYEx/cWmHmQEUICQxQQAJd85C4//BU0FOUPlEQ1vofZGNC1wTzVA7cQtYlIRrgQOmjR4tOFTxEzusA8QvXxOYkMkDlaa/Ai4/nicMqadnWPQ37BmTAW3/O5PVA22mWaC/ZVeG6DGBGVWb/OAwZe9KMxOR6say+bEIM6B6iDgc3V/HNsLWYYPHaj5HebHOKAJ7dqGGUlFV02OrVW5yAaOUEI61cKw0QuwoN1fZgih94EvFicNaLnDVDV64cbOnNyxGlJhbv4WMErtU4RVD3tT1soESmDB4jS2v49reBpsVVXg2G/M1xFO3sUcczHeo5LRaKtXpkXNh4WO3HDT/eb/IWP8Me2YKpwa5dzlrUz0AYi2s+h+LGclOP0Mls0tgS8sQSVdTj/feLk1FSSQGhSKdHMMGTlSsqj7XjToTAnIheq+5sdaY8UCEYu4s6jDiKu6G02HlF
- WpERQ9FmtGo2PVqnMaZy2w9lkNNn8ccyMWpP2EwGuCxONQrc22a7WnCYLTpOukLUSD7ApH7M2Jk8on
- kPGvi48NFq7PWaTkvG3vuSm+eApSToeyz7AVtFt8QOUnHTiNHbuiNpQsDd3y5bLLhU9mIJTbsWNP/72oXV7Tcz7w8zVh2qmuZqhu5qz9rcox3D9unGQ49N3i+CO9c7SqxcLckEjd9o62HsDDpqYv3cdtFNajNsHD8bFU9bb+swCuDMEY3VCRhYJKwYBBAHaRw8BAQdAjoQBsbbnpigttLSFJOFohHY6BGWmjCi520kt0UBBgG+JAjYEGAEKACAWIQQRclb3b/q6zLA9Fn+aUMY1GLyygAUCY3VCRgIbIAAKCRCaUMY1GLyygAQbD/0WyvGz8jA3CTAMTa8yoAlcX73+7aHQaP+DT1PaVU6W85Mm/Bv5JXJ+RWyCCa1jllAWTOhqkOXZ1lXqgislBGtpY22LdwlXW4NGETWwZb79ypR+nayuIPnjOrxkxPOFpcH+wCk9wX0qYi4/8xFTeIZtoty6ayP2bZUZL8aQ91kyUn7nrLmAymPhDq1AAjg+Dkz6DDyzkzXDsY6OY9SpKcWxLkcOm8oXn5B5K5Pl3FaRfYrmX2pAZ6DliQsvPMtXlA01qJ6W4nvRN5ROfjXefNGdyRK8LfJ8BkfDqtZ9/5UrMrW1b7CPA9/7dC5P2jfImtU6R90fz/S4ua2jzeVY2gt7olSDsBqJDOMBPwqEETDROu1+oCIXvdrrZszBu0pTCLV8r+rQqqjICZtK17CEXH3jmDeD/Q6MmAQqeyIhi3uQpGOaveP81WMiC8DDLRXmSuMYOIH/KebzgNnaCQzlQl3a+8tD2qQ48RqzR6JLcKu6h0A6KWItZScfshopNRVsm7FIWM1XUGm1nG6lmPtpVYsXF75hx+YxpAogbzm6fOnUJWFiP1/NVRgtWiii2HG8YCIrEeR3LCUQd/5aYS0CI0cy8WATg/1qkLbcr0lVaCRLT2KZd5WH7tz/4IBanSdCAj6vEfovE5ilWNThQHwg8aPQI6COaHFcTcervMD4Sy
- YNvg==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.0-1 
+        d=1e100.net; s=20230601; t=1709769286; x=1710374086;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sMVXT2OJQQO7B+/9Fu34JDrkHeWAlbzW2BoRIt6nGoU=;
+        b=pLbNvjJmMigKEKThq6LM/MnDb1rjK7Fxw0iXwTaJq404xvSE1kTp8LEutjEXH4AZqj
+         nxGn4LlsrQYSChWYpLI7TuWI7SEhTav63x5KER8kF7GZu09iTOOe2cUkM2phyTAY4aXq
+         mvvTtP8aBsmmO7Ql1q43KKJ4MJ3PNjtutmdHNQB8woyhzIANOTZshBDcstwBGAGSutRM
+         SWsuxSx5OJoZllKPmWyII9303QsFPJTAEXmj/0UA+4E17DqtLXbj9veUGKZsGPmnyyow
+         THIfpmYA2rupEAWLWPSkSzmJfwe7X4txORWXDZXK1C4J9QZcXRhW9BRWjDQPERE9C8Cn
+         Neqg==
+X-Forwarded-Encrypted: i=1; AJvYcCXPD4RdmX5/pK2GNy9mbCYvYgMyn/T4UIk/75fYG2pXMECzgbdAA63ZF5vIi34lE1fRMVEFgZuN+YwCjzQewsIvGczJh4NkLhOyUjyCOSyzBhtIofXnByIM
+X-Gm-Message-State: AOJu0Yyi4Yal27xO/GluuD+Gku+JeM6K/36S+Ezoy4CVIFk75zaA38bi
+	6ZYhngURoJWCZnEqGe/JGweGOYgzxx2b8vsPy5wrnPUhh3pV81rdPV8ideQ3bANQbXLNv7vSFAP
+	QIneb9Qb+Ll7y7XhW2jv1H5r2Kww=
+X-Google-Smtp-Source: AGHT+IGs8EAKZJH6+WB+RDBxIAX9PuIgv9ONLQUPLRnCUjDgs7cEXRAF0RrsXGkqbwYWaORCosTZLBEi4cokhx7DPvY=
+X-Received: by 2002:a25:6a8a:0:b0:dc7:494e:ff33 with SMTP id
+ f132-20020a256a8a000000b00dc7494eff33mr1197003ybc.7.1709769285757; Wed, 06
+ Mar 2024 15:54:45 -0800 (PST)
 MIME-Version: 1.0
+References: <20240306154151.3741709-1-alex@linutronix.de> <20240306154151.3741709-38-alex@linutronix.de>
+In-Reply-To: <20240306154151.3741709-38-alex@linutronix.de>
+From: Tim Orling <ticotimo@gmail.com>
+Date: Wed, 6 Mar 2024 15:54:34 -0800
+Message-ID: <CANx9H-ALONEaNrYs6fnQCmB5e+Jktugp+urZWwNxOKjUhTYYUw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 38/47] python3-wcwidth: upgrade 0.2.12 -> 0.2.13
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Alexander Kanavin <alex@linutronix.de>, openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000ecf554061306aed4"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 22:34:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196757
+ <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 23:54:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196758
 
-On Wed, 2024-03-06 at 10:52 -0800, Khem Raj wrote:
-> On Wed, Mar 6, 2024 at 8:23=E2=80=AFAM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> >=20
-> > From: Eil=C3=ADs 'pidge' N=C3=AD Fhlannag=C3=A1in <pidge@baylibre.com>
-> >=20
-> > Excluding riscv64 due to mouse rather than a touchscreen which adds a
-> > moving cursor, so the diff ends up > 0. Need to fix the image to use th=
-e
-> > touchscreen rather than mouse input.
->=20
-> Is it an option we are using to start the qemu which is causing this issu=
-e?
-> I would like to understand more
+--000000000000ecf554061306aed4
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I suspect it will be. Somewhere on the other platforms we use a usb
-touch input device (absolute coords) but I think for riscv64 it is
-using a mouse (relative coords).
+On Wed, Mar 6, 2024 at 7:42=E2=80=AFAM Alexander Kanavin <alex.kanavin@gmai=
+l.com>
+wrote:
 
-We just need to compare the usb devices and work out what is missing...
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ---
+>  ...{python3-wcwidth_0.2.12.bb =3D> python3-wcwidth_0.2.13.bb} | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>  rename meta/recipes-devtools/python/{python3-wcwidth_0.2.12.bb =3D>
+> python3-wcwidth_0.2.13.bb} (72%)
+>
+> diff --git a/meta/recipes-devtools/python/python3-wcwidth_0.2.12.bb
+> b/meta/recipes-devtools/python/python3-wcwidth_0.2.13.bb
+> similarity index 72%
+> rename from meta/recipes-devtools/python/python3-wcwidth_0.2.12.bb
+> rename to meta/recipes-devtools/python/python3-wcwidth_0.2.13.bb
+> index 6ce5e70c2a6..4a9bf753233 100644
+> --- a/meta/recipes-devtools/python/python3-wcwidth_0.2.12.bb
+> +++ b/meta/recipes-devtools/python/python3-wcwidth_0.2.13.bb
+> @@ -4,7 +4,7 @@ HOMEPAGE =3D "https://github.com/jquast/wcwidth"
+>  LICENSE =3D "MIT"
+>  LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Db15979c39a2543892fca8cd86b4b5=
+2cb"
+>
+> -SRC_URI[sha256sum] =3D
+> "f01c104efdf57971bcb756f054dd58ddec5204dd15fa31d6503ea57947d97c02"
+> +SRC_URI[sha256sum] =3D
+> "72ea0c06399eb286d978fdedb6923a9eb47e1c486ce63e9b4e64fc18303972b5"
+>
+>  inherit pypi setuptools3 ptest
+>
+> @@ -18,8 +18,10 @@ RDEPENDS:${PN}-ptest +=3D " \
+>  "
+>
+>  do_install_ptest() {
+> -      install -d ${D}${PTEST_PATH}/tests
+> +      install -d ${D}${PTEST_PATH}/tests
+>        cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
+> +      install -d ${D}${PTEST_PATH}/bin
+> +      cp -rf ${S}/bin/* ${D}${PTEST_PATH}/bin/
+>  }
+>
 
-Cheers,
+thank you. I had figured out that this was needed but you beat me to it.
 
-Richard
+Reviewed-by: Tim Orling <tim.orling@konsulko.com>
+
+>
+>  BBCLASSEXTEND =3D "native nativesdk"
+> --
+> 2.39.2
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#196721):
+> https://lists.openembedded.org/g/openembedded-core/message/196721
+> Mute This Topic: https://lists.openembedded.org/mt/104767983/924729
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> ticotimo@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--000000000000ecf554061306aed4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Wed, Mar 6, 2024 at 7:42=E2=80=AFAM Alexander Kanavin &l=
+t;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; =
+wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left-width:1px;border-left-style:solid;padding-left:1ex;bor=
+der-left-color:rgb(204,204,204)">Signed-off-by: Alexander Kanavin &lt;<a hr=
+ef=3D"mailto:alex@linutronix.de" target=3D"_blank">alex@linutronix.de</a>&g=
+t;<br>
+---<br>
+=C2=A0...{<a href=3D"http://python3-wcwidth_0.2.12.bb" rel=3D"noreferrer" t=
+arget=3D"_blank">python3-wcwidth_0.2.12.bb</a> =3D&gt; <a href=3D"http://py=
+thon3-wcwidth_0.2.13.bb" rel=3D"noreferrer" target=3D"_blank">python3-wcwid=
+th_0.2.13.bb</a>} | 6 ++++--<br>
+=C2=A01 file changed, 4 insertions(+), 2 deletions(-)<br>
+=C2=A0rename meta/recipes-devtools/python/{<a href=3D"http://python3-wcwidt=
+h_0.2.12.bb" rel=3D"noreferrer" target=3D"_blank">python3-wcwidth_0.2.12.bb=
+</a> =3D&gt; <a href=3D"http://python3-wcwidth_0.2.13.bb" rel=3D"noreferrer=
+" target=3D"_blank">python3-wcwidth_0.2.13.bb</a>} (72%)<br>
+<br>
+diff --git a/meta/recipes-devtools/python/<a href=3D"http://python3-wcwidth=
+_0.2.12.bb" rel=3D"noreferrer" target=3D"_blank">python3-wcwidth_0.2.12.bb<=
+/a> b/meta/recipes-devtools/python/<a href=3D"http://python3-wcwidth_0.2.13=
+.bb" rel=3D"noreferrer" target=3D"_blank">python3-wcwidth_0.2.13.bb</a><br>
+similarity index 72%<br>
+rename from meta/recipes-devtools/python/<a href=3D"http://python3-wcwidth_=
+0.2.12.bb" rel=3D"noreferrer" target=3D"_blank">python3-wcwidth_0.2.12.bb</=
+a><br>
+rename to meta/recipes-devtools/python/<a href=3D"http://python3-wcwidth_0.=
+2.13.bb" rel=3D"noreferrer" target=3D"_blank">python3-wcwidth_0.2.13.bb</a>=
+<br>
+index 6ce5e70c2a6..4a9bf753233 100644<br>
+--- a/meta/recipes-devtools/python/<a href=3D"http://python3-wcwidth_0.2.12=
+.bb" rel=3D"noreferrer" target=3D"_blank">python3-wcwidth_0.2.12.bb</a><br>
++++ b/meta/recipes-devtools/python/<a href=3D"http://python3-wcwidth_0.2.13=
+.bb" rel=3D"noreferrer" target=3D"_blank">python3-wcwidth_0.2.13.bb</a><br>
+@@ -4,7 +4,7 @@ HOMEPAGE =3D &quot;<a href=3D"https://github.com/jquast/wcw=
+idth" rel=3D"noreferrer" target=3D"_blank">https://github.com/jquast/wcwidt=
+h</a>&quot;<br>
+=C2=A0LICENSE =3D &quot;MIT&quot;<br>
+=C2=A0LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3Db15979c39a2543892fca8=
+cd86b4b52cb&quot;<br>
+<br>
+-SRC_URI[sha256sum] =3D &quot;f01c104efdf57971bcb756f054dd58ddec5204dd15fa3=
+1d6503ea57947d97c02&quot;<br>
++SRC_URI[sha256sum] =3D &quot;72ea0c06399eb286d978fdedb6923a9eb47e1c486ce63=
+e9b4e64fc18303972b5&quot;<br>
+<br>
+=C2=A0inherit pypi setuptools3 ptest<br>
+<br>
+@@ -18,8 +18,10 @@ RDEPENDS:${PN}-ptest +=3D &quot; \<br>
+=C2=A0&quot;<br>
+<br>
+=C2=A0do_install_ptest() {<br>
+-=C2=A0 =C2=A0 =C2=A0 install -d ${D}${PTEST_PATH}/tests<br>
++=C2=A0 =C2=A0 =C2=A0 install -d ${D}${PTEST_PATH}/tests <br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/<br>
++=C2=A0 =C2=A0 =C2=A0 install -d ${D}${PTEST_PATH}/bin<br>
++=C2=A0 =C2=A0 =C2=A0 cp -rf ${S}/bin/* ${D}${PTEST_PATH}/bin/<br>
+=C2=A0}<br>
+</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">thank you. I had=
+ figured out that this was needed but you beat me to it.</div><div dir=3D"a=
+uto"><br></div><div dir=3D"auto">Reviewed-by: Tim Orling &lt;<a href=3D"mai=
+lto:tim.orling@konsulko.com">tim.orling@konsulko.com</a>&gt;</div><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-widt=
+h:1px;border-left-style:solid;padding-left:1ex;border-left-color:rgb(204,20=
+4,204)"><br>
+=C2=A0BBCLASSEXTEND =3D &quot;native nativesdk&quot;<br>
+-- <br>
+2.39.2<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#196721): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/196721" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/196721</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/104767983/924=
+729" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/mt=
+/104767983/924729</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:ticotimo@gmail.com" target=
+=3D"_blank">ticotimo@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--000000000000ecf554061306aed4--
 
