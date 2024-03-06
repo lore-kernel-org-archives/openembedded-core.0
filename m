@@ -2,256 +2,175 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC41AC54E55
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7D4BC54E4A
 	for <webhook@archiver.kernel.org>; Wed,  6 Mar 2024 15:42:20 +0000 (UTC)
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
- by mx.groups.io with SMTP id smtpd.web10.15022.1709739731853637988
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+ by mx.groups.io with SMTP id smtpd.web10.15032.1709739736954209242
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Mar 2024 07:42:12 -0800
+ Wed, 06 Mar 2024 07:42:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=aSujljmu;
- spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a3ddc13bbb3so183601366b.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 07:42:11 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=hqJuuHAD;
+ spf=pass (domain: gmail.com, ip: 209.85.208.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-565ef8af2f5so8892078a12.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 07:42:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709739730; x=1710344530; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1709739735; x=1710344535; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=GF/nzC/CtfYwrY6uHSakp3kuUI6EHUN8S740XV84tnc=;
-        b=aSujljmuNqKq9+h/mWHH8gcw1QTaVdnUznFTg/f7oMya+MEqSyCvhtEGG4AmJ0zUh3
-         bObV99C1L2iSk0UELkRNVNdaUA4WA/7ZcrFQL7MIzMjdRysHK1uBmh9W5jJNt9yul31u
-         6xQbeTYEP3RtvfFBeEsLmtW4fpYyj6dijU/kEzDx0xBAdiv7PPXjNS19qi+HRzadolAp
-         YHzu2I/P66znuiBRXj1VNTphkFlu85UXS220tuCbfDWUbfktI+DFNqJbo5Ch4FmB7dMn
-         n5y+sJIJXElm3ExsPbjGJqwYiNOHLGTNfyRATXkisTW5ajEhqpAZGb+jG09CnXLMuPPs
-         Wn+A==
+        bh=VVuY3X2b9PHWFOiisU58iS2gRSdv6kioqt/K5jzNf4I=;
+        b=hqJuuHADXldKKvdAgKTTwSBalPixVDFgAW6RWpAZ6PRKqAreC7tDZdspcoVSdEh1ZS
+         M6icd3a+8kY/wuLjP3HplCAImcH0uu95/gUKraYk2E4rtGi3rWPmrS8+tkJc+CIrCnq0
+         7VQRs69G/ilaSloQkeR9Wv+ygz7fpN+NGvHH1LTCtbHBw+TiKsf8nn6nSEea9aZ4CwIx
+         0DPWJBuMTORYqnfzavVLIDmFD6aMzH1DOqv//3lP2GE8RQlLcxGSmsrvp2k0X83ayAn8
+         w66GrYdOmTDXyjQyyxp+WNe7XT8iB2rL2nbc5jGL8g03p6139VEw3lpDm9oKqSdXXiit
+         ZdIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709739730; x=1710344530;
+        d=1e100.net; s=20230601; t=1709739735; x=1710344535;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GF/nzC/CtfYwrY6uHSakp3kuUI6EHUN8S740XV84tnc=;
-        b=sgju4QoaKMIXGYTYK+Fy7nAyCeRncUhFo2qYZ151TNzvz8phom4cmWiGuRzf2Xdjh+
-         N7sz6ts3gmsbXXw5AyDpe/H10CJdGlHXMXmOVx1B9oD8IwBntX7g7dPDmwlif3mu7IR5
-         nk6Mq5Od7nCDr/gHsJv/dMbUF4Ub7UyxFNrvxfWX+7vFF+/gkhlJFcxe7IT3YJdDjJu6
-         PXdOxXmDc6mePxEriC6PftiergV2NsDuIbirM6EPmWZ62sNR1sityuU82wDJYKoEiK29
-         ZsTE/x91ZB1Lt4WqRL33XHdgQou0vHnwEvUOgSqItROYUyBoS7wJQr3ZJWpTYnYTBzE1
-         pkPA==
-X-Gm-Message-State: AOJu0YxQjsiISuEmAueun6+9emxFXYloBbHJXXQM+CI3E9dR6Ye2WWQV
-	HnLuMS1woesMzzK8T4dackQFZq5y45Ew3Kn9KpFxhU19BKvDrZDRGwvLon4V
-X-Google-Smtp-Source: AGHT+IELC4T3NSl9FwR8TvWnNhC7L/5TiQpW1k1Z5TMbV4aKvcerMvmLSbNnTi/QmuX+dqvHaXN0ug==
-X-Received: by 2002:a17:906:7fd8:b0:a45:297d:52b9 with SMTP id r24-20020a1709067fd800b00a45297d52b9mr5960053ejs.26.1709739730307;
-        Wed, 06 Mar 2024 07:42:10 -0800 (PST)
+        bh=VVuY3X2b9PHWFOiisU58iS2gRSdv6kioqt/K5jzNf4I=;
+        b=pKHqk5Ji9OthQQ2nLAhhesOTMCgNdQy7JWCWE/UhSVyCmnLdU+fjbBl1lZ1Hwn4Xnd
+         hMj7QK8aD9l05Cb9C5+8f5jn9AtdqtdhtdxkRbmXQWuiUbAhViFrqDD9r06bLSX6JhE+
+         Wr0bHFQUijRcwghUVusgcTWTo5AgqUW+CZ5d2RfwO3kSrztzVd2QOhzFMD8jgPqrw4lA
+         P7YvPboBvdpMuaOqrYpUs1OpVnLMAa814zJ85qbc64PZvUybCd8h6EVQ3iGl4TD74FaB
+         opaJUumi0dVC/8UAQ8I067A5Opj8iFxvqm8eraVpR8qnVg9b/SB9mkcPADh+wdHrsI0f
+         EM9A==
+X-Gm-Message-State: AOJu0YztjTX2aJLb/n3waNmswkvxMcVuszXmHXhaZhI7Q05afYsDOPNt
+	2AzAgth5NN97fgJzH3R7NR8U1F06E0r+FtDdaWGBiSRe7tMRNum92TDoxxZx
+X-Google-Smtp-Source: AGHT+IEy9nQei5epsNFIdf+aNRkej5FBzfCIDgrA9kjNdwnOKwm7WqAf0ixJh7n4D3fPUEGL1ZZcCA==
+X-Received: by 2002:a17:906:fc01:b0:a44:2ee1:eab3 with SMTP id ov1-20020a170906fc0100b00a442ee1eab3mr10736937ejb.31.1709739735213;
+        Wed, 06 Mar 2024 07:42:15 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id x11-20020a170906710b00b00a4434e9938asm7209343ejj.84.2024.03.06.07.42.09
+        by smtp.gmail.com with ESMTPSA id x11-20020a170906710b00b00a4434e9938asm7209343ejj.84.2024.03.06.07.42.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Mar 2024 07:42:10 -0800 (PST)
+        Wed, 06 Mar 2024 07:42:14 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 19/47] librepo: update 1.16.0 -> 1.17.0
-Date: Wed,  6 Mar 2024 16:41:23 +0100
-Message-Id: <20240306154151.3741709-19-alex@linutronix.de>
+Subject: [PATCH 27/47] mesa: upgrade 24.0.1 -> 24.0.2
+Date: Wed,  6 Mar 2024 16:41:31 +0100
+Message-Id: <20240306154151.3741709-27-alex@linutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240306154151.3741709-1-alex@linutronix.de>
 References: <20240306154151.3741709-1-alex@linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 15:42:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196702
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196710
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...me.c-fix-build-errors-with-older-gcc.patch | 36 +++++++++++++++++++
- ...tain-PYTHON_INSTALL_DIR-by-running-p.patch |  5 +--
- ...les-with-pkg-config-not-with-cmake-m.patch | 16 ++++-----
- .../{librepo_1.16.0.bb =3D> librepo_1.17.0.bb}  |  4 ++-
- 4 files changed, 46 insertions(+), 15 deletions(-)
- create mode 100644 meta/recipes-devtools/librepo/librepo/0001-gpg_gpgme.c-=
-fix-build-errors-with-older-gcc.patch
- rename meta/recipes-devtools/librepo/{librepo_1.16.0.bb =3D> librepo_1.17.=
-0.bb} (85%)
+ .../mesa/files/0001-gallium-Fix-build-with-llvm-17.patch | 3 +--
+ ...01-meson-misdetects-64bit-atomics-on-mips-clang.patch | 3 +--
+ ....build-check-for-all-linux-host_os-combinations.patch | 9 ++++-----
+ .../mesa/{mesa-gl_24.0.1.bb => mesa-gl_24.0.2.bb}        | 0
+ meta/recipes-graphics/mesa/mesa.inc                      | 2 +-
+ .../mesa/{mesa_24.0.1.bb => mesa_24.0.2.bb}              | 0
+ 6 files changed, 7 insertions(+), 10 deletions(-)
+ rename meta/recipes-graphics/mesa/{mesa-gl_24.0.1.bb => mesa-gl_24.0.2.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_24.0.1.bb => mesa_24.0.2.bb} (100%)
 
-diff --git a/meta/recipes-devtools/librepo/librepo/0001-gpg_gpgme.c-fix-bui=
-ld-errors-with-older-gcc.patch b/meta/recipes-devtools/librepo/librepo/0001=
--gpg_gpgme.c-fix-build-errors-with-older-gcc.patch
-new file mode 100644
-index 00000000000..8727b181b35
---- /dev/null
-+++ b/meta/recipes-devtools/librepo/librepo/0001-gpg_gpgme.c-fix-build-erro=
-rs-with-older-gcc.patch
-@@ -0,0 +1,36 @@
-+From b525cdec3051d1c6ff0c3cd38bf3070b18d6fb50 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex@linutronix.de>
-+Date: Wed, 6 Mar 2024 10:13:38 +0100
-+Subject: [PATCH] gpg_gpgme.c: fix build errors with older gcc
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=3DUTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+When selinux is not enabled, older gcc versions error out this way:
-+
-+| /home/pokybuild/yocto-worker/oe-selftest-armhost/build/build-st-1938845/=
-tmp-mc-tiny/hosttools/gcc -DG_LOG_DOMAIN=3D\"librepo\" -D_FILE_OFFSET_BITS=
-=3D64 -D_LARGEFILE64_SOURCE -D_LARGEFILE_SOURCE -Dlibrepo_EXPORTS -I/home/p=
-okybuild/yocto-worker/oe-selftest-armhost/build/build-st-1938845/tmp-mc-tin=
-y/work/aarch64-linux/librepo-native/1.17.0/git -I/home/pokybuild/yocto-work=
-er/oe-selftest-armhost/build/build-st-1938845/tmp-mc-tiny/work/aarch64-linu=
-x/librepo-native/1.17.0/recipe-sysroot-native/usr/lib/pkgconfig/../../../us=
-r/include/libmount -I/home/pokybuild/yocto-worker/oe-selftest-armhost/build=
-/build-st-1938845/tmp-mc-tiny/work/aarch64-linux/librepo-native/1.17.0/reci=
-pe-sysroot-native/usr/lib/pkgconfig/../../../usr/include/blkid -I/home/poky=
-build/yocto-worker/oe-selftest-armhost/build/build-st-1938845/tmp-mc-tiny/w=
-ork/aarch64-linux/librepo-native/1.17.0/recipe-sysroot-native/usr/lib/pkgco=
-nfig/../../../usr/include/glib-2.0 -I/home/pokybuild/yocto-worker/oe-selfte=
-st-armhost/build/build-st-1938845/tmp-mc-tiny/work/aarch64-linux/librepo-na=
-tive/1.17.0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib/glib-2=
-.0/include -I/home/pokybuild/yocto-worker/oe-selftest-armhost/build/build-s=
-t-1938845/tmp-mc-tiny/work/aarch64-linux/librepo-native/1.17.0/recipe-sysro=
-ot-native/usr/lib/pkgconfig/../../../usr/include/libxml2 -isystem/home/poky=
-build/yocto-worker/oe-selftest-armhost/build/build-st-1938845/tmp-mc-tiny/w=
-ork/aarch64-linux/librepo-native/1.17.0/recipe-sysroot-native/usr/include -=
-O2 -pipe -std=3Dc99 -Wall -fPIC -MD -MT librepo/CMakeFiles/librepo.dir/gpg_=
-gpgme.c.o -MF librepo/CMakeFiles/librepo.dir/gpg_gpgme.c.o.d -o librepo/CMa=
-keFiles/librepo.dir/gpg_gpgme.c.o -c /home/pokybuild/yocto-worker/oe-selfte=
-st-armhost/build/build-st-1938845/tmp-mc-tiny/work/aarch64-linux/librepo-na=
-tive/1.17.0/git/librepo/gpg_gpgme.c
-+| /home/pokybuild/yocto-worker/oe-selftest-armhost/build/build-st-1938845/=
-tmp-mc-tiny/work/aarch64-linux/librepo-native/1.17.0/git/librepo/gpg_gpgme.=
-c: In function =E2=80=98lr_gpg_ensure_socket_dir_exists=E2=80=99:
-+| /home/pokybuild/yocto-worker/oe-selftest-armhost/build/build-st-1938845/=
-tmp-mc-tiny/work/aarch64-linux/librepo-native/1.17.0/git/librepo/gpg_gpgme.=
-c:135:1: error: label at end of compound statement
-+|   135 | exit:
-+|       | ^~~~
-+
-+Ensuring the exit: block is not empty fixes the issue.
-+
-+Upstream-Status: Submitted [https://github.com/rpm-software-management/lib=
-repo/pull/300]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ librepo/gpg_gpgme.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/librepo/gpg_gpgme.c b/librepo/gpg_gpgme.c
-+index c4addb2..47c3153 100644
-+--- a/librepo/gpg_gpgme.c
-++++ b/librepo/gpg_gpgme.c
-+@@ -144,6 +144,7 @@ exit:
-+     }
-+     freecon(old_default_context);
-+ #endif
-++    return;
-+ }
-+=20
-+ static gpgme_ctx_t
-diff --git a/meta/recipes-devtools/librepo/librepo/0002-Do-not-try-to-obtai=
-n-PYTHON_INSTALL_DIR-by-running-p.patch b/meta/recipes-devtools/librepo/lib=
-repo/0002-Do-not-try-to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch
-index 2ea50f00ffd..4a851ad1e28 100644
---- a/meta/recipes-devtools/librepo/librepo/0002-Do-not-try-to-obtain-PYTHO=
-N_INSTALL_DIR-by-running-p.patch
-+++ b/meta/recipes-devtools/librepo/librepo/0002-Do-not-try-to-obtain-PYTHO=
-N_INSTALL_DIR-by-running-p.patch
+diff --git a/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch b/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch
+index 237f940f0bf..ceb0153f8d3 100644
+--- a/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch
++++ b/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch
 @@ -1,4 +1,4 @@
--From 82bd6d196a0453657cbacaaedd75b2d2fe0bf9ba Mon Sep 17 00:00:00 2001
-+From 76052aa40c61580869472fd3f009a4ab1620b998 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 30 Dec 2016 18:05:36 +0200
- Subject: [PATCH] Do not try to obtain PYTHON_INSTALL_DIR by running python.
-@@ -33,6 +33,3 @@ index 8523ca7..06e5f7b 100644
-  INCLUDE_DIRECTORIES (${PYTHON_INCLUDE_PATH})
-=20=20
-  MESSAGE(STATUS "Python3 install dir is ${PYTHON_INSTALL_DIR}")
----=20
--2.25.1
--
-diff --git a/meta/recipes-devtools/librepo/librepo/0004-Set-gpgme-variables=
--with-pkg-config-not-with-cmake-m.patch b/meta/recipes-devtools/librepo/lib=
-repo/0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch
-index a0a4d490f1e..fd1df95473d 100644
---- a/meta/recipes-devtools/librepo/librepo/0004-Set-gpgme-variables-with-p=
-kg-config-not-with-cmake-m.patch
-+++ b/meta/recipes-devtools/librepo/librepo/0004-Set-gpgme-variables-with-p=
-kg-config-not-with-cmake-m.patch
-@@ -1,4 +1,4 @@
--From 25113b34bc1aae377d7bf447e69528783e2c177e Mon Sep 17 00:00:00 2001
-+From b5918f06d790dc346d41de4b3a3ec01f290c1d25 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 30 Dec 2016 18:23:27 +0200
- Subject: [PATCH] Set gpgme variables with pkg-config, not with cmake module
-@@ -6,25 +6,21 @@ Subject: [PATCH] Set gpgme variables with pkg-config, not=
- with cmake module
-=20
- Upstream-Status: Inappropriate [gpgme upstream does not have pkg-config su=
-pport and is not interested in it]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-From 6d07f6aa7f92f40d78a2db645f16f0f3e7d3c2e8 Mon Sep 17 00:00:00 2001
++From 3e1e5c475b52651657c906e6b03ee13567cccdd7 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Fri, 23 Jun 2023 01:20:38 -0700
+ Subject: [PATCH] gallium: Fix build with llvm 17
+@@ -9,7 +9,6 @@ so add conditions to exclude them for llvm >= 17
+ 
+ Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/23827]
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
 -
  ---
-  CMakeLists.txt | 3 ++-
-  1 file changed, 2 insertions(+), 1 deletion(-)
-=20
- diff --git a/CMakeLists.txt b/CMakeLists.txt
--index cd975a8..713cc87 100644
-+index 6c00024..a2f57af 100644
- --- a/CMakeLists.txt
- +++ b/CMakeLists.txt
--@@ -35,7 +35,8 @@ PKG_CHECK_MODULES(LIBXML2 libxml-2.0 REQUIRED)
-+@@ -37,7 +37,8 @@ PKG_CHECK_MODULES(LIBXML2 libxml-2.0 REQUIRED)
-  FIND_PACKAGE(CURL 7.52.0 REQUIRED)
-=20=20
-  IF (USE_GPGME)
- -    FIND_PACKAGE(Gpgme REQUIRED)
- +    PKG_CHECK_MODULES(GPGME gpgme REQUIRED)
- +    set(GPGME_VANILLA_LIBRARIES ${GPGME_LIBRARIES})
-- ELSE (USE_GPGME)
--     PKG_CHECK_MODULES(RPM REQUIRED rpm>=3D4.18.0)
-- ENDIF (USE_GPGME)
----=20
--2.34.1
+  src/gallium/auxiliary/gallivm/lp_bld_init.c | 6 +++++-
+  1 file changed, 5 insertions(+), 1 deletion(-)
+diff --git a/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch b/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
+index 9cd9bee2d2c..baa98a0d46b 100644
+--- a/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
++++ b/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
+@@ -1,11 +1,10 @@
+-From 3ef37c63f03ad6f2af407de350486fdd25e9132a Mon Sep 17 00:00:00 2001
++From 02cc21800fe29f566add525e63f619c0536d6e7b Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Mon, 13 Jan 2020 15:23:47 -0800
+ Subject: [PATCH] meson misdetects 64bit atomics on mips/clang
+ 
+ Upstream-Status: Pending
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
 -
-+     IF (ENABLE_SELINUX)
-+         PKG_CHECK_MODULES(SELINUX REQUIRED libselinux)
-+     ENDIF(ENABLE_SELINUX)
-diff --git a/meta/recipes-devtools/librepo/librepo_1.16.0.bb b/meta/recipes=
--devtools/librepo/librepo_1.17.0.bb
-similarity index 85%
-rename from meta/recipes-devtools/librepo/librepo_1.16.0.bb
-rename to meta/recipes-devtools/librepo/librepo_1.17.0.bb
-index 4710a6b72ae..810191459dd 100644
---- a/meta/recipes-devtools/librepo/librepo_1.16.0.bb
-+++ b/meta/recipes-devtools/librepo/librepo_1.17.0.bb
-@@ -8,9 +8,10 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D4fbd65380cdd255=
-951079008b364516c"
- SRC_URI =3D "git://github.com/rpm-software-management/librepo.git;branch=
-=3Dmaster;protocol=3Dhttps \
-            file://0002-Do-not-try-to-obtain-PYTHON_INSTALL_DIR-by-running-=
-p.patch \
-            file://0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-=
-m.patch \
-+           file://0001-gpg_gpgme.c-fix-build-errors-with-older-gcc.patch \
-            "
-=20
--SRCREV =3D "7c9af219abd49f8961542b7622fc82cfdaa572e3"
-+SRCREV =3D "ae727d99086f70f39fba5695af5460e1da908c1b"
-=20
- S =3D "${WORKDIR}/git"
-=20
-@@ -24,6 +25,7 @@ EXTRA_OECMAKE =3D " \
-     -DENABLE_TESTS=3DOFF \
-     -DENABLE_DOCS=3DOFF \
-     -DWITH_ZCHUNK=3DOFF \
-+    -DENABLE_SELINUX=3DOFF \
+ ---
+  src/util/u_atomic.c | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch b/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
+index b0be8d0febf..7be7d81eeb7 100644
+--- a/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
++++ b/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
+@@ -1,4 +1,4 @@
+-From f2fe76d506f356de055b8eca83a7c9d0744a40af Mon Sep 17 00:00:00 2001
++From e8ec6b1cc5e401ba719095722d8b317d755ae613 Mon Sep 17 00:00:00 2001
+ From: Alistair Francis <alistair@alistair23.me>
+ Date: Thu, 14 Nov 2019 13:04:49 -0800
+ Subject: [PATCH] meson.build: check for all linux host_os combinations
+@@ -14,16 +14,15 @@ Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+ Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+ Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+ Signed-off-by: Alistair Francis <alistair@alistair23.me>
+-
+ ---
+  meson.build | 4 ++--
+  1 file changed, 2 insertions(+), 2 deletions(-)
+ 
+ diff --git a/meson.build b/meson.build
+-index 35cc5f1..9a49c0d 100644
++index 133fd9a..817861e 100644
+ --- a/meson.build
+ +++ b/meson.build
+-@@ -128,7 +128,7 @@
++@@ -128,7 +128,7 @@ with_any_opengl = with_opengl or with_gles1 or with_gles2
+  # Only build shared_glapi if at least one OpenGL API is enabled
+  with_shared_glapi = with_shared_glapi and with_any_opengl
+  
+@@ -32,7 +31,7 @@ index 35cc5f1..9a49c0d 100644
+  
+  gallium_drivers = get_option('gallium-drivers')
+  if gallium_drivers.contains('auto')
+-@@ -998,7 +998,7 @@
++@@ -997,7 +997,7 @@ if cc.has_function('fmemopen')
+  endif
+  
+  # TODO: this is very incomplete
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_24.0.1.bb b/meta/recipes-graphics/mesa/mesa-gl_24.0.2.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-gl_24.0.1.bb
+rename to meta/recipes-graphics/mesa/mesa-gl_24.0.2.bb
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index e5fa0a76d2b..12d7a18eb82 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -22,7 +22,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch \
  "
-=20
- BBCLASSEXTEND =3D "native nativesdk"
---=20
+ 
+-SRC_URI[sha256sum] = "f387192b08c471c545590dd12230a2a343244804b5fe866fec6aea02eab57613"
++SRC_URI[sha256sum] = "94e28a8edad06d8ed2b83eb53f253b9eb5aa62c3080f939702e1b3039b56c9e8"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+ 
+diff --git a/meta/recipes-graphics/mesa/mesa_24.0.1.bb b/meta/recipes-graphics/mesa/mesa_24.0.2.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa_24.0.1.bb
+rename to meta/recipes-graphics/mesa/mesa_24.0.2.bb
+-- 
 2.39.2
 
 
