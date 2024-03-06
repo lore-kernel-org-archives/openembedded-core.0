@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0097C54E5C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCA0DC54E60
 	for <webhook@archiver.kernel.org>; Wed,  6 Mar 2024 15:42:31 +0000 (UTC)
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
- by mx.groups.io with SMTP id smtpd.web10.15047.1709739748060648590
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+ by mx.groups.io with SMTP id smtpd.web11.14882.1709739743854502242
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Mar 2024 07:42:28 -0800
+ Wed, 06 Mar 2024 07:42:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=A9RRjeKe;
- spf=pass (domain: gmail.com, ip: 209.85.208.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-563c403719cso9350208a12.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 07:42:27 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=J6teFm7Z;
+ spf=pass (domain: gmail.com, ip: 209.85.218.53, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a4532f84144so137522666b.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 07:42:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709739746; x=1710344546; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1709739742; x=1710344542; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DUsLBqFWHw0F9SbvVbGz9/ler7e8viuzYIuXc5vxZvg=;
-        b=A9RRjeKeARKRrRiOczDi5Pbzl6F/W1/JwKlea+Knvh6JwCNuxymIJdDtvDpEkvMPBS
-         kOuhjmPQoKCAeg/n3bwB3GzAVBmiJaJbnreAGFo+aXchPSsU6thU0nEDQ8Z47yYkjDdx
-         fLAGmWBk5lgGfgmqsWd1VE2qvUeRvEGY3A7XwtcXpUxBSTfJIZ3IDFffPsDyAc1HJ4Hf
-         2JRkPtVNeIeJ6XTK4RIYexW+mp0a0ERpmwlnd+olE23Tzz8zpqg9JyBLRALNrl8J3b3R
-         XWGrKmEBFBOuJQ/hKU3KJMhiYTkLVKJ8Z971UFAj6gIfDgIRvPdN17mSN4bpDXdhLmA2
-         7lzA==
+        bh=r4uqDdPpEdM2BsuMWA8hZV8nZbOzQdxK+s3dzZ+uTG4=;
+        b=J6teFm7ZS97/R7eACfUsQe38cbgjHRwjejRZJKpVolTtup9alRQ9IEk1SzOY3+EhiV
+         gsXhDA1Jfm3sX621WKHEutdZgWDQJjMWFi6i+4rAsmb2dBDRaIDnd9Y1M09YnPah4hJl
+         PbDWyw7WVJSGNhd4QFEz4iNC98sw1TGktGJLcrApnNr+tzFc8RU7NG9oyHcLvWRDgxTx
+         SuGltWgyKHpyRn0tLhOCXf2e43/0tdapOduQfIgyPDwo9TYgiIUZBGwnVFloAIgYJfoX
+         d+JH0P1ULzqeE42853W+PDceYTm6LxV/c3Z4gqZl5AMdWH0i8+OxXL4jsUhjUWZAJfYb
+         m8Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709739746; x=1710344546;
+        d=1e100.net; s=20230601; t=1709739742; x=1710344542;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=DUsLBqFWHw0F9SbvVbGz9/ler7e8viuzYIuXc5vxZvg=;
-        b=ZOtm91kTPK3n/O93U1sHZv4XCyAHFcx/Z3abNiy79VyvUuEHz/cXugyxBe49/Cb1JQ
-         Y/uqvRF9/gAHfnFUrb/l5bTSlj4FDy8hAyLoG98t47w1Axe2fWHRm7p0IE4Zmrbc496c
-         o9yNHjpIWuIXKt8zMaivd0F+D0creWjQA67EVo1Ocuunzl375yiAfVAFnrTnCeyHXqU6
-         wyLD9QWROxrUY7SoHl8ZzcAGYDuloLMHkKD9uUF64gjOshKg79mzIcakvWm6gxfRLJn3
-         4muSYauW+5s6Y+XlmTmMIiHRDcb5mtppNOfIa736DUNIoBawp/KkPDaahPUl4A+1fq3h
-         n5Xw==
-X-Gm-Message-State: AOJu0YyqcBW/wgPBu/A0UkaUQSCjnU0Dc0mMNP6ZgGMhZX9e8d1MzYxI
-	MxV6hesf303SnKrDSnFcf6ogj5A5DW0QJ9d8ngdlhTTzhKgQP8L07NP4YEWO
-X-Google-Smtp-Source: AGHT+IG7pvixTnZcF/zspMEowkWIsdH59rmmZJoUXcGtJOmp95qVBwhQDl/lAQhZ1CRqDT+J/wLaFA==
-X-Received: by 2002:a17:906:2448:b0:a45:3308:560f with SMTP id a8-20020a170906244800b00a453308560fmr7022188ejb.64.1709739746344;
-        Wed, 06 Mar 2024 07:42:26 -0800 (PST)
+        bh=r4uqDdPpEdM2BsuMWA8hZV8nZbOzQdxK+s3dzZ+uTG4=;
+        b=ZaAEJqtGpxnHzSsXdK0L7w+0vunY0zqB4JazX2ntMYl2PIYNpK6W4oJyrOgF9EVPGt
+         KtCORvIKpZ0QakotB0t6zWUpmm9cwLw4ZOeEwkPKEChqORg+65/fXsQt9PcXntE5yWjv
+         NopcJZljLvr8ytCQBHQH6xU2csXnW/ezpRpCnAwFywBuOl8ZGIoTjs8OwikdExHGgDNL
+         CXQTOaGlD8SGhaFU3/zMskVegiVgK2AkTLMlPCIwoxKRNOaqIMEV1l5slIjNeQa18lIA
+         Wg7NBzLx9da592NBMXk1RXisYcIQ5CUUQYQKHf7eoaQMcjMUd6zCMg06lE2ntMgOYHOy
+         zX9A==
+X-Gm-Message-State: AOJu0Yy/UO7WMaeD9PfSf+pdQITlOrgAb5N8Ik25xs79FgByRf8vLAox
+	dKAZPHydqyuNWXDpFt7RjgxdlAQO+pIQfUV6hyGshijgNsFv0Ng244tJbLsm
+X-Google-Smtp-Source: AGHT+IGpB4aBKyGHA3XjTHnaXGvLr7Y4ieaNX/TTFh8D1Ggi14NdBVMt5l64oheWAcUJwVQ1ejARcA==
+X-Received: by 2002:a17:906:3606:b0:a45:6d18:a80d with SMTP id q6-20020a170906360600b00a456d18a80dmr5673806ejb.62.1709739742266;
+        Wed, 06 Mar 2024 07:42:22 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id x11-20020a170906710b00b00a4434e9938asm7209343ejj.84.2024.03.06.07.42.25
+        by smtp.gmail.com with ESMTPSA id x11-20020a170906710b00b00a4434e9938asm7209343ejj.84.2024.03.06.07.42.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Mar 2024 07:42:26 -0800 (PST)
+        Wed, 06 Mar 2024 07:42:21 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 47/47] webkitgtk: upgrade 2.42.2 -> 2.42.5
-Date: Wed,  6 Mar 2024 16:41:51 +0100
-Message-Id: <20240306154151.3741709-47-alex@linutronix.de>
+Subject: [PATCH 40/47] shaderc: update 2023.7 -> 2023.8
+Date: Wed,  6 Mar 2024 16:41:44 +0100
+Message-Id: <20240306154151.3741709-40-alex@linutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240306154151.3741709-1-alex@linutronix.de>
 References: <20240306154151.3741709-1-alex@linutronix.de>
@@ -62,216 +62,202 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 15:42:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196730
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196723
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...able-to-control-macro-__PAS_ALWAYS_I.patch | 11 ++----
- ...spection.cmake-prefix-variables-obta.patch |  4 +-
- ...44e17d258106617b0e6d783d073b188a2548.patch |  3 +-
- .../webkit/webkitgtk/no-musttail-arm.patch    | 11 +++++-
- .../webkit/webkitgtk/reproducibility.patch    | 16 ++++++--
- .../webkit/webkitgtk/t6-not-declared.patch    | 37 +++++++++++++++++++
- ...ebkitgtk_2.42.2.bb => webkitgtk_2.42.5.bb} |  3 +-
- 7 files changed, 68 insertions(+), 17 deletions(-)
- create mode 100644 meta/recipes-sato/webkit/webkitgtk/t6-not-declared.patch
- rename meta/recipes-sato/webkit/{webkitgtk_2.42.2.bb => webkitgtk_2.42.5.bb} (98%)
+ ...rop-OSDependent-OGLCompiler-from-lis.patch | 76 -------------------
+ ...sable-building-external-dependencies.patch | 13 ++--
+ ...til-fix-glslang-header-file-location.patch |  5 +-
+ .../{shaderc_2023.7.bb => shaderc_2023.8.bb}  |  3 +-
+ 4 files changed, 9 insertions(+), 88 deletions(-)
+ delete mode 100644 meta/recipes-graphics/shaderc/files/0001-CMakeLists.txt-drop-OSDependent-OGLCompiler-from-lis.patch
+ rename meta/recipes-graphics/shaderc/{shaderc_2023.7.bb => shaderc_2023.8.bb} (88%)
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch b/meta/recipes-sato/webkit/webkitgtk/0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch
-index 4266d11e9e2..a819e221272 100644
---- a/meta/recipes-sato/webkit/webkitgtk/0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch
-+++ b/meta/recipes-sato/webkit/webkitgtk/0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch
-@@ -1,7 +1,7 @@
--From 73efe0ea75c3ac4cb088f300acc3de44d5dd3344 Mon Sep 17 00:00:00 2001
-+From 575b848a3b3c14280679db80d0d518922c83d62a Mon Sep 17 00:00:00 2001
- From: Kai Kang <kai.kang@windriver.com>
- Date: Fri, 11 Aug 2023 14:20:48 +0800
--Subject: [PATCH] [CMake] Add a variable to control macro
-+Subject: [PATCH] Add a variable to control macro
-  __PAS_ALWAYS_INLINE_BUT_NOT_INLINE
-  https://bugs.webkit.org/show_bug.cgi?id=260065
- 
-@@ -44,7 +44,7 @@ Signed-off-by: Kai Kang <kai.kang@windriver.com>
-  2 files changed, 8 insertions(+), 1 deletion(-)
- 
- diff --git a/Source/bmalloc/libpas/src/libpas/pas_utils_prefix.h b/Source/bmalloc/libpas/src/libpas/pas_utils_prefix.h
--index 5d5fb38cddbd..a554f70064eb 100644
-+index 5d5fb38c..a554f700 100644
- --- a/Source/bmalloc/libpas/src/libpas/pas_utils_prefix.h
- +++ b/Source/bmalloc/libpas/src/libpas/pas_utils_prefix.h
- @@ -44,7 +44,7 @@ __PAS_BEGIN_EXTERN_C;
-@@ -57,7 +57,7 @@ index 5d5fb38cddbd..a554f70064eb 100644
-  #else
-  #define __PAS_ALWAYS_INLINE_BUT_NOT_INLINE
- diff --git a/Source/cmake/WebKitCompilerFlags.cmake b/Source/cmake/WebKitCompilerFlags.cmake
--index 9b2fecf9a0d3..7cdc2b6afbe0 100644
-+index 9b2fecf9..7cdc2b6a 100644
- --- a/Source/cmake/WebKitCompilerFlags.cmake
- +++ b/Source/cmake/WebKitCompilerFlags.cmake
- @@ -453,3 +453,10 @@ endif ()
-@@ -71,6 +71,3 @@ index 9b2fecf9a0d3..7cdc2b6afbe0 100644
- +if (WEBKIT_NO_INLINE_HINTS)
- +    add_definitions(-DWEBKIT_NO_INLINE_HINTS)
- +endif ()
---- 
--2.34.1
+diff --git a/meta/recipes-graphics/shaderc/files/0001-CMakeLists.txt-drop-OSDependent-OGLCompiler-from-lis.patch b/meta/recipes-graphics/shaderc/files/0001-CMakeLists.txt-drop-OSDependent-OGLCompiler-from-lis.patch
+deleted file mode 100644
+index ecaa2ddb30f..00000000000
+--- a/meta/recipes-graphics/shaderc/files/0001-CMakeLists.txt-drop-OSDependent-OGLCompiler-from-lis.patch
++++ /dev/null
+@@ -1,76 +0,0 @@
+-From 7f6c60f928dabd8b15aa948886523ddf15709215 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex@linutronix.de>
+-Date: Wed, 2 Nov 2022 15:42:58 +0100
+-Subject: [PATCH] CMakeLists.txt: drop OSDependent/OGLCompiler from lists of
+- glslang libraries
 -
-diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch b/meta/recipes-sato/webkit/webkitgtk/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch
-index 8ae39f14e11..8e29ce17edf 100644
---- a/meta/recipes-sato/webkit/webkitgtk/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch
-+++ b/meta/recipes-sato/webkit/webkitgtk/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch
+-glslang no longer installs them separately, and all needed
+-functionality has been merged into glslang shared library itself:
+-
+-This wasn't a problem previously as they were still provided,
+-as static libraries but in latest glslang they no longer are:
+-https://github.com/KhronosGroup/glslang/commit/7cd519511c32d7e86d901c7ed231cb84c652d18d
+-
+-Upstream-Status: Submitted [https://github.com/google/shaderc/pull/1276]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+----
+- glslc/CMakeLists.txt           | 2 +-
+- libshaderc/CMakeLists.txt      | 2 +-
+- libshaderc/README.md           | 4 ++--
+- libshaderc_util/CMakeLists.txt | 2 +-
+- 4 files changed, 5 insertions(+), 5 deletions(-)
+-
+-diff --git a/glslc/CMakeLists.txt b/glslc/CMakeLists.txt
+-index 31664d1..5093bd9 100644
+---- a/glslc/CMakeLists.txt
+-+++ b/glslc/CMakeLists.txt
+-@@ -43,7 +43,7 @@ if (SHADERC_ENABLE_WGSL_OUTPUT)
+- endif(SHADERC_ENABLE_WGSL_OUTPUT)
+- 
+- target_link_libraries(glslc PRIVATE
+--  glslang OSDependent OGLCompiler HLSL glslang SPIRV    # Glslang libraries
+-+  glslang HLSL glslang SPIRV    # Glslang libraries
+-   $<$<BOOL:${SHADERC_ENABLE_WGSL_OUTPUT}>:libtint>      # Tint libraries, optional
+-   shaderc_util shaderc                                  # internal Shaderc libraries
+-   ${CMAKE_THREAD_LIBS_INIT})
+-diff --git a/libshaderc/CMakeLists.txt b/libshaderc/CMakeLists.txt
+-index 3ada419..d3542bf 100644
+---- a/libshaderc/CMakeLists.txt
+-+++ b/libshaderc/CMakeLists.txt
+-@@ -62,7 +62,7 @@ endif(SHADERC_ENABLE_INSTALL)
+- 
+- find_package(Threads)
+- set(SHADERC_LIBS
+--  glslang OSDependent OGLCompiler glslang ${CMAKE_THREAD_LIBS_INIT}
+-+  glslang glslang ${CMAKE_THREAD_LIBS_INIT}
+-   shaderc_util
+-   SPIRV # from glslang
+-   SPIRV-Tools
+-diff --git a/libshaderc/README.md b/libshaderc/README.md
+-index bf9d317..1071769 100644
+---- a/libshaderc/README.md
+-+++ b/libshaderc/README.md
+-@@ -7,8 +7,8 @@ A library for compiling shader strings into SPIR-V.
+- There are two main shaderc libraries that are created during a CMake
+- compilation. The first is `libshaderc`, which is a static library
+- containing just the functionality exposed by libshaderc. It depends
+--on other compilation targets `glslang`, `OSDependent`, `OGLCompiler`,
+--`shaderc_util`, `SPIRV`, `HLSL`, `SPIRV-Tools`, and `SPIRV-Tools-opt`.
+-+on other compilation targets `glslang`, `shaderc_util`, `SPIRV`,
+-+`HLSL`, `SPIRV-Tools`, and `SPIRV-Tools-opt`.
+- 
+- The other is `libshaderc_combined`, which is a static library containing
+- libshaderc and all of its dependencies.
+-diff --git a/libshaderc_util/CMakeLists.txt b/libshaderc_util/CMakeLists.txt
+-index 99ce3c4..5291175 100644
+---- a/libshaderc_util/CMakeLists.txt
+-+++ b/libshaderc_util/CMakeLists.txt
+-@@ -46,7 +46,7 @@ add_definitions(-DENABLE_HLSL)
+- 
+- find_package(Threads)
+- target_link_libraries(shaderc_util PRIVATE
+--  glslang OSDependent OGLCompiler HLSL glslang SPIRV
+-+  glslang HLSL glslang SPIRV
+-   SPIRV-Tools-opt ${CMAKE_THREAD_LIBS_INIT})
+- 
+- shaderc_add_tests(
+diff --git a/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch b/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch
+index 35855bd8326..4212512034b 100644
+--- a/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch
++++ b/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch
 @@ -1,4 +1,4 @@
--From 10cfdcc905915d8814c609008a069102f2bc7e39 Mon Sep 17 00:00:00 2001
-+From 6348f91c29e2350ad3fec5264aa57dd4994d4583 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Tue, 27 Oct 2015 16:02:19 +0200
- Subject: [PATCH] FindGObjectIntrospection.cmake: prefix variables obtained
-@@ -14,7 +14,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 3 insertions(+)
+-From d3fbd6b9427f29606540528d17fe02930cd78d0c Mon Sep 17 00:00:00 2001
++From 792a46ef27ef879a21c9f01a198eae213ea535e6 Mon Sep 17 00:00:00 2001
+ From: Jose Quaresma <quaresma.jose@gmail.com>
+ Date: Sat, 13 Feb 2021 00:45:56 +0000
+ Subject: [PATCH] cmake: disable building external dependencies
+@@ -9,17 +9,16 @@ Subject: [PATCH] cmake: disable building external dependencies
+ Upstream-Status: Inappropriate [OE-core specific]
  
- diff --git a/Source/cmake/FindGI.cmake b/Source/cmake/FindGI.cmake
--index af039cbb..b3e810cd 100644
-+index fdc56b21..d42eca52 100644
- --- a/Source/cmake/FindGI.cmake
- +++ b/Source/cmake/FindGI.cmake
- @@ -72,6 +72,9 @@ if (PKG_CONFIG_FOUND)
-diff --git a/meta/recipes-sato/webkit/webkitgtk/0d3344e17d258106617b0e6d783d073b188a2548.patch b/meta/recipes-sato/webkit/webkitgtk/0d3344e17d258106617b0e6d783d073b188a2548.patch
-index e5ece82ed31..a4ef565db0e 100644
---- a/meta/recipes-sato/webkit/webkitgtk/0d3344e17d258106617b0e6d783d073b188a2548.patch
-+++ b/meta/recipes-sato/webkit/webkitgtk/0d3344e17d258106617b0e6d783d073b188a2548.patch
-@@ -1,4 +1,4 @@
--From 95398982f4a120147a98a27e176facf6d95b2bf7 Mon Sep 17 00:00:00 2001
-+From a180f6821f81c65e320be0cebac72b4dcf86342e Mon Sep 17 00:00:00 2001
- From: Adrian Perez de Castro <aperez@igalia.com>
- Date: Thu, 2 Jun 2022 11:19:06 +0300
- Subject: [PATCH] FELightningNEON.cpp fails to build, NEON fast path seems
-@@ -33,7 +33,6 @@ left for a follow-up fix.
- 
- Upstream-Status: Submitted [https://github.com/WebKit/WebKit/pull/1233]
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 -
  ---
-  .../cpu/arm/filters/FELightingNEON.cpp        |  4 +-
-  .../graphics/cpu/arm/filters/FELightingNEON.h | 52 +++++++++----------
-diff --git a/meta/recipes-sato/webkit/webkitgtk/no-musttail-arm.patch b/meta/recipes-sato/webkit/webkitgtk/no-musttail-arm.patch
-index a6d67c1d703..8ce37a01cc0 100644
---- a/meta/recipes-sato/webkit/webkitgtk/no-musttail-arm.patch
-+++ b/meta/recipes-sato/webkit/webkitgtk/no-musttail-arm.patch
-@@ -1,4 +1,7 @@
--clang/arm: Do not use MUST_TAIL_CALL
-+From a9c874f7418cefbe78f7cd26505ae495cb59bbcf Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Fri, 12 Jan 2024 09:21:39 -0800
-+Subject: [PATCH] clang/arm: Do not use MUST_TAIL_CALL
+  CMakeLists.txt                | 13 ++++++++++---
+  utils/update_build_version.py | 22 +++++++++++++++-------
+  2 files changed, 25 insertions(+), 10 deletions(-)
  
- This causes clang-17 to crash see [1]
- this code is new in webkit 2.42[2] thats why we do not see the crash in older webkit
-@@ -8,6 +11,12 @@ this code is new in webkit 2.42[2] thats why we do not see the crash in older we
- 
- Upstream-Status: Inappropriate [work around to avoid clang compiler crash]
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ Source/WTF/wtf/Compiler.h | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/Source/WTF/wtf/Compiler.h b/Source/WTF/wtf/Compiler.h
-+index 0ea5cb76..c5480dbc 100644
- --- a/Source/WTF/wtf/Compiler.h
- +++ b/Source/WTF/wtf/Compiler.h
- @@ -284,7 +284,7 @@
-diff --git a/meta/recipes-sato/webkit/webkitgtk/reproducibility.patch b/meta/recipes-sato/webkit/webkitgtk/reproducibility.patch
-index e866a1a193a..93a431a0b1e 100644
---- a/meta/recipes-sato/webkit/webkitgtk/reproducibility.patch
-+++ b/meta/recipes-sato/webkit/webkitgtk/reproducibility.patch
-@@ -1,3 +1,8 @@
-+From d096b945113ddecaf33062296e20b6d5a007cab3 Mon Sep 17 00:00:00 2001
-+From: Richard Purdie <richard.purdie@linuxfoundation.org>
-+Date: Mon, 3 Jan 2022 14:18:34 +0000
-+Subject: [PATCH] webkitgtk: Add reproducibility fix
-+
- Injection a year based on the current date isn't reproducible. Hack this
- to a specific year for now for reproducibilty and to avoid autobuilder failures.
- 
-@@ -6,11 +11,14 @@ then this could be submitted upstream, sadly my ruby isn't up to that.
- 
- Upstream-Status: Pending [could be reworked]
- Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-+---
-+ Source/JavaScriptCore/generator/GeneratedFile.rb | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
- 
--Index: webkitgtk-2.34.2/Source/JavaScriptCore/generator/GeneratedFile.rb
--===================================================================
----- webkitgtk-2.34.2.orig/Source/JavaScriptCore/generator/GeneratedFile.rb
--+++ webkitgtk-2.34.2/Source/JavaScriptCore/generator/GeneratedFile.rb
-+diff --git a/Source/JavaScriptCore/generator/GeneratedFile.rb b/Source/JavaScriptCore/generator/GeneratedFile.rb
-+index 6ed2b6e4..86a28286 100644
-+--- a/Source/JavaScriptCore/generator/GeneratedFile.rb
-++++ b/Source/JavaScriptCore/generator/GeneratedFile.rb
- @@ -25,7 +25,7 @@ require 'date'
-  require 'digest'
+ diff --git a/CMakeLists.txt b/CMakeLists.txt
+-index 633c244..75b01da 100644
++index 7bc8f5d..13fc535 100644
+ --- a/CMakeLists.txt
+ +++ b/CMakeLists.txt
+-@@ -67,6 +67,7 @@ else()
++@@ -62,6 +62,7 @@ else()
+  endif()
   
-diff --git a/meta/recipes-sato/webkit/webkitgtk/t6-not-declared.patch b/meta/recipes-sato/webkit/webkitgtk/t6-not-declared.patch
-new file mode 100644
-index 00000000000..d4720e4f289
---- /dev/null
-+++ b/meta/recipes-sato/webkit/webkitgtk/t6-not-declared.patch
-@@ -0,0 +1,37 @@
-+From 3d5373575695b293b8559155431d0079a6153aff Mon Sep 17 00:00:00 2001
-+From: Michael Catanzaro <mcatanzaro@redhat.com>
-+Date: Mon, 5 Feb 2024 11:00:49 -0600
-+Subject: [PATCH] =?UTF-8?q?[GTK]=20[2.42.5]=20LowLevelInterpreter.cpp:339:?=
-+ =?UTF-8?q?21:=20error:=20=E2=80=98t6=E2=80=99=20was=20not=20declared=20in?=
-+ =?UTF-8?q?=20this=20scope=20https://bugs.webkit.org/show=5Fbug.cgi=3Fid?=
-+ =?UTF-8?q?=3D268739?=
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Unreviewed build fix. Seems a backport went badly, and we didn't notice
-+because the code is architecture-specific.
-+
-+* Source/JavaScriptCore/llint/LowLevelInterpreter.cpp:
-+(JSC::CLoop::execute):
-+
-+Upstream-Status: Backport [https://github.com/WebKit/WebKit/commit/3d5373575695b293b8559155431d0079a6153aff]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ Source/JavaScriptCore/llint/LowLevelInterpreter.cpp | 2 --
-+ 1 file changed, 2 deletions(-)
-+
-+diff --git a/Source/JavaScriptCore/llint/LowLevelInterpreter.cpp b/Source/JavaScriptCore/llint/LowLevelInterpreter.cpp
-+index 5064ead6cd2e7..9a2e2653b1219 100644
-+--- a/Source/JavaScriptCore/llint/LowLevelInterpreter.cpp
-++++ b/Source/JavaScriptCore/llint/LowLevelInterpreter.cpp
-+@@ -336,8 +336,6 @@ JSValue CLoop::execute(OpcodeID entryOpcodeID, void* executableAddress, VM* vm,
-+     UNUSED_VARIABLE(t2);
-+     UNUSED_VARIABLE(t3);
-+     UNUSED_VARIABLE(t5);
-+-    UNUSED_VARIABLE(t6);
-+-    UNUSED_VARIABLE(t7);
-+ 
-+     struct StackPointerScope {
-+         StackPointerScope(CLoopStack& stack)
-+
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.42.2.bb b/meta/recipes-sato/webkit/webkitgtk_2.42.5.bb
-similarity index 98%
-rename from meta/recipes-sato/webkit/webkitgtk_2.42.2.bb
-rename to meta/recipes-sato/webkit/webkitgtk_2.42.5.bb
-index 997aa5575b0..6790814958b 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.42.2.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.42.5.bb
-@@ -15,8 +15,9 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://0d3344e17d258106617b0e6d783d073b188a2548.patch \
-            file://0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch \
-            file://no-musttail-arm.patch \
-+           file://t6-not-declared.patch \
+  option(SHADERC_ENABLE_WERROR_COMPILE "Enable passing -Werror to compiler, if available" ON)
+@@ -27,7 +26,7 @@ index 633c244..75b01da 100644
+  
+  set (CMAKE_CXX_STANDARD 17)
+  
+-@@ -129,8 +130,14 @@ endif(MSVC)
++@@ -123,8 +124,14 @@ endif(MSVC)
+  
+  
+  # Configure subdirectories.
+@@ -44,7 +43,7 @@ index 633c244..75b01da 100644
+  
+  add_subdirectory(libshaderc_util)
+  add_subdirectory(libshaderc)
+-@@ -142,7 +149,7 @@ endif()
++@@ -136,7 +143,7 @@ endif()
+  add_custom_target(build-version
+    ${PYTHON_EXECUTABLE}
+    ${CMAKE_CURRENT_SOURCE_DIR}/utils/update_build_version.py
+@@ -54,7 +53,7 @@ index 633c244..75b01da 100644
+  
+  function(define_pkg_config_file NAME LIBS)
+ diff --git a/utils/update_build_version.py b/utils/update_build_version.py
+-index 5785390..f72b762 100755
++index 11ee53e..d39e59d 100755
+ --- a/utils/update_build_version.py
+ +++ b/utils/update_build_version.py
+ @@ -30,6 +30,7 @@ import re
+diff --git a/meta/recipes-graphics/shaderc/files/0002-libshaderc_util-fix-glslang-header-file-location.patch b/meta/recipes-graphics/shaderc/files/0002-libshaderc_util-fix-glslang-header-file-location.patch
+index 0e8ad7e4d2a..39f982b7f3d 100644
+--- a/meta/recipes-graphics/shaderc/files/0002-libshaderc_util-fix-glslang-header-file-location.patch
++++ b/meta/recipes-graphics/shaderc/files/0002-libshaderc_util-fix-glslang-header-file-location.patch
+@@ -1,4 +1,4 @@
+-From d02ad48d5c9b48af70ddea2e6998081347ef82f3 Mon Sep 17 00:00:00 2001
++From ec2442940e1d5338971861bb81537bae3a6c19e2 Mon Sep 17 00:00:00 2001
+ From: Jose Quaresma <quaresma.jose@gmail.com>
+ Date: Sat, 13 Feb 2021 00:45:56 +0000
+ Subject: [PATCH] libshaderc_util: fix glslang header file location
+@@ -6,13 +6,12 @@ Subject: [PATCH] libshaderc_util: fix glslang header file location
+ Upstream-Status: Pending
+ 
+ Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+-
+ ---
+  libshaderc_util/src/compiler.cc | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/libshaderc_util/src/compiler.cc b/libshaderc_util/src/compiler.cc
+-index 051558b..9c4476c 100644
++index e5f5d10..5fd6d3c 100644
+ --- a/libshaderc_util/src/compiler.cc
+ +++ b/libshaderc_util/src/compiler.cc
+ @@ -20,7 +20,7 @@
+diff --git a/meta/recipes-graphics/shaderc/shaderc_2023.7.bb b/meta/recipes-graphics/shaderc/shaderc_2023.8.bb
+similarity index 88%
+rename from meta/recipes-graphics/shaderc/shaderc_2023.7.bb
+rename to meta/recipes-graphics/shaderc/shaderc_2023.8.bb
+index cf2ced98f09..bc7afbdf5e6 100644
+--- a/meta/recipes-graphics/shaderc/shaderc_2023.7.bb
++++ b/meta/recipes-graphics/shaderc/shaderc_2023.8.bb
+@@ -6,11 +6,10 @@ HOMEPAGE = "https://github.com/google/shaderc"
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
+ 
+-SRCREV = "3882b16417077aa8eaa7b5775920e7ba4b8a224d"
++SRCREV = "f8a25c591bf5edbb462ca4aea99dcc666f096d13"
+ SRC_URI = "git://github.com/google/shaderc.git;protocol=https;branch=main \
+            file://0001-cmake-disable-building-external-dependencies.patch \
+            file://0002-libshaderc_util-fix-glslang-header-file-location.patch \
+-           file://0001-CMakeLists.txt-drop-OSDependent-OGLCompiler-from-lis.patch \
             "
--SRC_URI[sha256sum] = "5720aa3e8627f1b9f63252187d4df0f8233ae71d697b1796ebfbe5ca750bd118"
-+SRC_URI[sha256sum] = "b64278c1f20b8cfdbfb5ff573c37d871aba74a1db26d9b39f74e8953fe61e749"
- 
- inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gi-docgen
- 
+ UPSTREAM_CHECK_GITTAGREGEX = "^v(?P<pver>\d+(\.\d+)+)$"
+ S = "${WORKDIR}/git"
 -- 
 2.39.2
 
