@@ -2,91 +2,99 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C2FFC54E4A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59F3BC5475B
 	for <webhook@archiver.kernel.org>; Wed,  6 Mar 2024 16:23:52 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web10.16304.1709742229458337474
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web11.16116.1709742224549159144
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Mar 2024 08:23:49 -0800
+ Wed, 06 Mar 2024 08:23:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=AvARsApN;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-412f55695d1so6364265e9.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 08:23:49 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=LnJPgFxa;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-412e6ba32easo23785585e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 08:23:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1709742228; x=1710347028; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Th93Ra4sybPd5pgxU3onuO3PZU/oxxWftu4exHwoGjw=;
-        b=AvARsApN4O5rgMo6gr4QRH+QgB4caxsHCgSJ5VJI02D8jGSjQ1KcihXB8XBRL9rxxH
-         rChFz+lOaM9D/VY7TtwZ2c/3q8QLLjiSxdb7mKxbBRuxhDMVrctdotek3qMi1/BFN9bw
-         tQyAShokvJX+FFxVHTHBkJuG/FsUZXI915W9c=
+        d=linuxfoundation.org; s=google; t=1709742223; x=1710347023; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=p85baMXjHFcsCfThdr8kOXX8kapBV7Q/QWze9izZ1/M=;
+        b=LnJPgFxauk0dVu68EAlmLDmroxiMR5rnORqR1wKbFGpecbKP2gvJht2P19BAUuJQYS
+         nToyf8QBLZ/DRt+9yNoy9etecE9xhPWFz1m6+NsqoZ+9mkQAzNyWhJOBUUMOUcwHN0Pw
+         uJdmhPnPTm9tyAV+ZCu7mgP7D8OFfntH8ctAU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709742228; x=1710347028;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Th93Ra4sybPd5pgxU3onuO3PZU/oxxWftu4exHwoGjw=;
-        b=w7cPheQsreemO+2VzwiEk9+gRcwnTbJ5HzzBt6ew/lr2Ru8Ef00cw4+Y2Ka5aqtjCT
-         CNZHU2oef/KvbBRRxYG8vj5JDBseaPzMYDdLUHGG/+M21WuBzcpoAyRQU+RNKI0HFbDd
-         Zf46vsUwF4lLXdHTsDExHKUON02TsaN0UQoDDwq2ce/pfFscOIHsOVHYin36AtSlzgfJ
-         Fo4p4zplRr2RbRQu5BZwjGZ0dVJTnFBaE+5z+6rDqXNprg8yetSg3GOPn1pbzOsW2GAH
-         cPlLWbOsi3s+KUdndpmFxN2BSRxqO6FPPVgrg2CYDqcWTX0ufkr7tesgsGcwLQB2/YIp
-         Xmmw==
-X-Gm-Message-State: AOJu0YwyrVeChZQJKY3qAQPuc6MX6xmyX01rpd+RCLdsakakUjZaM6FP
-	uz7EKDnogAobMLk/hrM5izlI5MeP5jrnCiKYdUq80nu6yx6Ehd51xUj0RNalR6Efrg5iFdbSGEq
-	D
-X-Google-Smtp-Source: AGHT+IER8Kj4aSRfK6avphG+8Idq4+TjuCdiNSav2nK3LtGqY81HvOAvGrbYc5xWgXxURfb0fMKGbg==
-X-Received: by 2002:adf:edc9:0:b0:33d:1d57:6eb1 with SMTP id v9-20020adfedc9000000b0033d1d576eb1mr11969008wro.32.1709742227850;
-        Wed, 06 Mar 2024 08:23:47 -0800 (PST)
+        d=1e100.net; s=20230601; t=1709742223; x=1710347023;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=p85baMXjHFcsCfThdr8kOXX8kapBV7Q/QWze9izZ1/M=;
+        b=b38oWLQOeqLp/LUBOJQJG8i43hInF+muZFBosX1Jctm6OUsD6VWYJx6F7Oc8ZiLPCV
+         5O6A4o6z0X470tGORIgkMZ+AopdtW57iSBYpoU3cc5qW+KmV4lJYDf+n2Ci5PN+XFDB9
+         lBBfqNPPzUX1WkSBa+vWF4A58gZSkxpgGd5DNRf/rm303u0Q0LC5o0KMk2/+wEoqw1MO
+         TBdFwxjwSLz1asF2+cd/t2BkY0NABZ0ELsHrbrRIWF+J27ExvPbtXQ+tKMLV15Lqa4Tm
+         83+Rexj9tEfi0bNpYt+5gos985+vYMcetmSWWwAB/3SGBsddPl/4AmY+iOn+PTZEGzuV
+         S7gQ==
+X-Gm-Message-State: AOJu0Yxqx1ROrIjMEnw9yRIuvAlBIdkIvOCSs2gm66otf7/pnSt1wCfg
+	zrhsCPApW4bJb31Nt5mAwr64SECsg+1cVSc0t0THw3m4edM9qASEFqpp6UhpOiSABipdflIwovG
+	G
+X-Google-Smtp-Source: AGHT+IEC8rnGl0qCNTkvnWj9lNr0ffsSZ9U9bJ601iciEDM3fnfqfyF6AHiEC6RmAwdO960ErvUAYg==
+X-Received: by 2002:a05:600c:45ce:b0:412:fe95:b6c3 with SMTP id s14-20020a05600c45ce00b00412fe95b6c3mr703389wmo.35.1709742222630;
+        Wed, 06 Mar 2024 08:23:42 -0800 (PST)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:1f9c:b564:4f14:a0ea])
-        by smtp.gmail.com with ESMTPSA id k34-20020a05600c1ca200b00412f81ba413sm1929791wms.11.2024.03.06.08.23.47
-        for <openembedded-core@lists.openembedded.org>
+        by smtp.gmail.com with ESMTPSA id k34-20020a05600c1ca200b00412f81ba413sm1929791wms.11.2024.03.06.08.23.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Mar 2024 08:23:47 -0800 (PST)
+        Wed, 06 Mar 2024 08:23:42 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 5/9] oeqa/runtime/login: Mask out the mouse panel icon for now
-Date: Wed,  6 Mar 2024 16:23:37 +0000
-Message-Id: <20240306162341.2267587-5-richard.purdie@linuxfoundation.org>
+Cc: =?UTF-8?q?Eil=C3=ADs=20=27pidge=27=20N=C3=AD=20Fhlannag=C3=A1in?= <pidge@baylibre.com>
+Subject: [PATCH 1/9] qemurunner.py: Fix error on calls to run_monitor
+Date: Wed,  6 Mar 2024 16:23:33 +0000
+Message-Id: <20240306162341.2267587-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20240306162341.2267587-1-richard.purdie@linuxfoundation.org>
-References: <20240306162341.2267587-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 16:23:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196739
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196736
 
-The mouse panel icon can move when the time changes between 3 and 4 digits.
-Ideally we'd fix the alignment of the clock on the panel but to get the
-tests working, increase the size of the mask for now.
+From: Eilís 'pidge' Ní Fhlannagáin <pidge@baylibre.com>
 
+A change in QEMUMonitorProtocol.cmd() requires that we either pass in
+kwargs instead of an argument dict or move to cmd_raw()
+
+cmd() was renamed to cmd_raw() (and command() was renamed to cmd())
+See:
+https://github.com/qemu/qemu/commit/37274707f6f3868fae7e0055d9a703006fc142d0
+https://github.com/qemu/qemu/commit/684750ab4f8a3ad69512b71532408be3ac2547d4
+
+My concern with this patch is that I haven't seen this come up with
+utils/dump.py which also uses QemuMonitor's run_monitor. If it is
+occuring, this should fix issues there as well
+
+Signed-off-by: Eilís 'pidge' Ní Fhlannagáin <pidge@baylibre.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/runtime/cases/login.py | 4 ++--
+ meta/lib/oeqa/utils/qemurunner.py | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/runtime/cases/login.py b/meta/lib/oeqa/runtime/cases/login.py
-index 175a60c48ca..ac8a0454f38 100644
---- a/meta/lib/oeqa/runtime/cases/login.py
-+++ b/meta/lib/oeqa/runtime/cases/login.py
-@@ -84,10 +84,10 @@ class LoginTest(OERuntimeTestCase):
-                 width = subprocess.check_output(cmd, shell=True, env=ourenv).decode()
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index 277cd328484..cda43aad8c5 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -650,9 +650,9 @@ class QemuRunner:
+         if hasattr(self, 'qmp') and self.qmp:
+             self.qmp.settimeout(timeout)
+             if args is not None:
+-                return self.qmp.cmd(command, args)
++                return self.qmp.cmd_raw(command, args)
+             else:
+-                return self.qmp.cmd(command)
++                return self.qmp.cmd_raw(command)
  
-             rblank = int(float(width))
--            lblank = rblank-40
-+            lblank = rblank-80
- 
-             # Use the meta-oe version of convert, along with it's suffix. This blanks out the clock.
--            cmd = "convert.im7 {0} -fill white -draw 'rectangle {1},10 {2},22' {3}".format(t.name, str(rblank), str(lblank), t.name)
-+            cmd = "convert.im7 {0} -fill white -draw 'rectangle {1},4 {2},28' {3}".format(t.name, str(rblank), str(lblank), t.name)
-             convert_out=subprocess.check_output(cmd, shell=True, env=ourenv).decode()
- 
- 
+     def run_serial(self, command, raw=False, timeout=60):
+         # Returns (status, output) where status is 1 on success and 0 on error
 -- 
 2.40.1
 
