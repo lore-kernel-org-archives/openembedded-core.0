@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77CBEC54E63
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 932A3C54E61
 	for <webhook@archiver.kernel.org>; Wed,  6 Mar 2024 15:42:10 +0000 (UTC)
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
- by mx.groups.io with SMTP id smtpd.web11.14856.1709739722268115377
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+ by mx.groups.io with SMTP id smtpd.web11.14862.1709739726708306023
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Mar 2024 07:42:02 -0800
+ Wed, 06 Mar 2024 07:42:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=jMftifh6;
- spf=pass (domain: gmail.com, ip: 209.85.218.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a3122b70439so273629166b.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 07:42:02 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=CyTtVlQ4;
+ spf=pass (domain: gmail.com, ip: 209.85.208.50, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-563d56ee65cso10480154a12.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 07:42:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709739721; x=1710344521; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1709739725; x=1710344525; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=SZboWBw14IJQsfnSVrEVmUgiLrSu1nFQwOaX4+Tqs5U=;
-        b=jMftifh68HCb0PvnN8T2NwXw44eIKM8839Z5VgJtZSCFBUuSxX3msULV3n5gfgJd4r
-         BnZWgSkbfisvEqLom6zbTy8uvj5b3U0ea7dMY4c+VMCWsB15O+Qoqqq3/ehQenQHLZxX
-         33JzAPP/Eb+psdMKCzYtWzVpdxZ4Pxr1daWxVpuN5XUfwAgC2J/rVUGGCLfEiVLJidUX
-         U2K69JRZnB0AFnJR2akefGimcodMdaSYPHO45KCGXGq/9dO7ariRFKkrg3hJimFNJgT9
-         q1ojsD+3K2PeXHxbAa6PW7neNarvaWZpzMrCwE/KvLh9XllYw3B1XuG6OHi5h41eIxeM
-         NV1w==
+        bh=FwhYCddNsmtfY9wBSwertTyDQk+AhqNQKkQ5+emfBzw=;
+        b=CyTtVlQ48Yra6Xl7EM4Li0KgYogdq4U/TwT17xankyZiOWtkyfw9ID4pKw2OapNPZf
+         M6n2/AnceIeNOEHKMqO0qBEwsWsWoO8Nf4OjoUuRcDeOT3WqiHG5qEC8Z41BI72hoMvh
+         K5F76LT961t1F07dYWlh0cmtlpvTFn09a8pt9FtHM628j8wHytBY8W0ydHtPWqKFu+ru
+         xt0D005GTfCS2YZMvCm+/5UZHo22YeYYeCkbRzggl46O67rO97G7Bi6r0HqIvNY5vdKE
+         uPg233zzno1tqDTkjdCiNld6WauRL4tlWpEMaXvb4WVEL/DAyfD+d3SpsFQBBNPs2qIu
+         70ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709739721; x=1710344521;
+        d=1e100.net; s=20230601; t=1709739725; x=1710344525;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=SZboWBw14IJQsfnSVrEVmUgiLrSu1nFQwOaX4+Tqs5U=;
-        b=vdFyjzd69MgLPJGn/rda8b+Xy8DJver5rGyWsfhRz3fxaBqK3N6GPVEX9VgOigGT6H
-         G4u2azH5IVMdxo04YebFLBBEvs2QuiDU+sesORZemfQ2eR3veG3vVUoVTQYOlLXq89UI
-         mlIDXCnLOQLJSKp/oHCHr5sPgMQAMqASZx/Evpo+8e6/+8/zQDUnFPHQfa7j13nd5OtL
-         f+wdDIqcNtqgbZmyDXyEQi+pQpelvUpCqFvBvFInPA+gArGN1HLK1EvmefwISmkPVemJ
-         YwQUaPgXPtEMKAVAvZzDnlNWxy7FR9c71JKghsmdRy5znpP9Bq/cg9+dlD+mnhfH/7oT
-         h2tA==
-X-Gm-Message-State: AOJu0Yyrj/i75uFt2Hq+sAKJv/4PZHd3fMe1CIdaX4tIi/NbuuGO65Nq
-	w6VySLwNgiDtB/DJlF99yOicbvsHfGcSyYNYPIir4kkTO43YA4eztf6UaWgz
-X-Google-Smtp-Source: AGHT+IE6ShiIcb4SXM4g2f4Lu/kmZ/jlGdcH5Zwtlgvasfgn7RLSGDe1h9/cvQn84qkJY19mhd3ySA==
-X-Received: by 2002:a17:906:fcc2:b0:a45:b6b3:dc29 with SMTP id qx2-20020a170906fcc200b00a45b6b3dc29mr1760424ejb.4.1709739720564;
-        Wed, 06 Mar 2024 07:42:00 -0800 (PST)
+        bh=FwhYCddNsmtfY9wBSwertTyDQk+AhqNQKkQ5+emfBzw=;
+        b=NUg7kYPA6QBYOG9CjzbH87PRFCZAA4j/XNeO95teiRAdk3PvxNh3M6jR3UjN3YSGew
+         naeIR6saVu1farwIsVARdLaoE0Jg1oMsZ7ksLCpvWVp1eRa0VPwL2nHvdWGOcdhZW+MM
+         cNdyQBmHG+ySYPFv7cWmXnpDY+qhdAxca69lxOD0R+8jfGiSRQo8GnZASUvygwiExleJ
+         1WfwYnpd+y+Fygc8dWgi2s/gZpjuBsiUnINLWlp5HJzEcOupkXBpPrkY36TtDS6OGgEK
+         d6Fc+ftlylGdnsFQy+zEW728LYQZT48HPJ8MshEMMKrIJcrsmAtmCgfaJx04idCIy362
+         H8nw==
+X-Gm-Message-State: AOJu0Yz3W7KkuODtX91bxJkpzDygGjxA+7jewvX2VOgMn+LTTwxUCeGR
+	UKGq5iWJasl9SaaTXwB43EWBnW1Zc+0Go8kyWKUje1p91XPutPfihoXsYuGa
+X-Google-Smtp-Source: AGHT+IGg0RYZQ2m/nhIxDSbboNOWfzznFK202wJp78pWfqT4cEuxfAMuYuxIlfp9sXESCZwEkdFipw==
+X-Received: by 2002:a17:906:b154:b0:a45:da1:9364 with SMTP id bt20-20020a170906b15400b00a450da19364mr7143669ejb.19.1709739725078;
+        Wed, 06 Mar 2024 07:42:05 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id x11-20020a170906710b00b00a4434e9938asm7209343ejj.84.2024.03.06.07.42.00
+        by smtp.gmail.com with ESMTPSA id x11-20020a170906710b00b00a4434e9938asm7209343ejj.84.2024.03.06.07.42.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Mar 2024 07:42:00 -0800 (PST)
+        Wed, 06 Mar 2024 07:42:04 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 02/47] acl: upgrade 2.3.1 -> 2.3.2
-Date: Wed,  6 Mar 2024 16:41:06 +0100
-Message-Id: <20240306154151.3741709-2-alex@linutronix.de>
+Subject: [PATCH 10/47] epiphany: upgrade 45.1 -> 45.3
+Date: Wed,  6 Mar 2024 16:41:14 +0100
+Message-Id: <20240306154151.3741709-10-alex@linutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240306154151.3741709-1-alex@linutronix.de>
 References: <20240306154151.3741709-1-alex@linutronix.de>
@@ -62,124 +62,113 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 15:42:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196685
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196693
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...rtable-version-of-dirent-and-readdir.patch | 39 -------------------
- .../0001-test-patch-out-failing-bits.patch    |  5 +--
- ...dcode-the-build-path-into-a-helper-l.patch |  6 +--
- .../attr/{acl_2.3.1.bb => acl_2.3.2.bb}       |  3 +-
- 4 files changed, 5 insertions(+), 48 deletions(-)
- delete mode 100644 meta/recipes-support/attr/acl/0001-chacl-Use-portable-version-of-dirent-and-readdir.patch
- rename meta/recipes-support/attr/{acl_2.3.1.bb => acl_2.3.2.bb} (94%)
+ .../{epiphany_45.1.bb => epiphany_45.3.bb}     |  2 +-
+ ...p-meson.build-disable-the-use-of-yelp.patch |  3 +--
+ .../epiphany/files/distributor.patch           | 17 ++++++++++++-----
+ .../epiphany/files/migrator.patch              | 18 +++++++++++++-----
+ 4 files changed, 27 insertions(+), 13 deletions(-)
+ rename meta/recipes-gnome/epiphany/{epiphany_45.1.bb => epiphany_45.3.bb} (94%)
 
-diff --git a/meta/recipes-support/attr/acl/0001-chacl-Use-portable-version-of-dirent-and-readdir.patch b/meta/recipes-support/attr/acl/0001-chacl-Use-portable-version-of-dirent-and-readdir.patch
-deleted file mode 100644
-index 775675e1f2e..00000000000
---- a/meta/recipes-support/attr/acl/0001-chacl-Use-portable-version-of-dirent-and-readdir.patch
-+++ /dev/null
-@@ -1,39 +0,0 @@
--From 1a5671a4eb13b81b98c3e71f00370781563f66d8 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Thu, 10 Nov 2022 17:57:24 -0800
--Subject: [PATCH] chacl: Use portable version of dirent and readdir
--
--Using 64bit versions on 32bit architectures should be enabled with
----enable-largefile, this makes it portable across musl and glibc
--
--Upstream-Status: Backport [https://git.savannah.nongnu.org/cgit/acl.git/commit/?id=2b42f64737adf6a2ddd491213580d6e9cdd2f5af]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- tools/chacl.c | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/tools/chacl.c b/tools/chacl.c
--index 525a7ff..8fff875 100644
----- a/tools/chacl.c
--+++ b/tools/chacl.c
--@@ -320,7 +320,7 @@ walk_dir(acl_t acl, acl_t dacl, const char *fname)
-- {
-- 	int failed = 0;
-- 	DIR *dir;
---	struct dirent64 *d;
--+	struct dirent *d;
-- 	char *name;
-- 
-- 	if ((dir = opendir(fname)) == NULL) {
--@@ -332,7 +332,7 @@ walk_dir(acl_t acl, acl_t dacl, const char *fname)
-- 		return(0);	/* got a file, not an error */
-- 	}
-- 
---	while ((d = readdir64(dir)) != NULL) {
--+	while ((d = readdir(dir)) != NULL) {
-- 		/* skip "." and ".." entries */
-- 		if (strcmp(d->d_name, ".") == 0 || strcmp(d->d_name, "..") == 0)
-- 			continue;
---- 
--2.38.1
--
-diff --git a/meta/recipes-support/attr/acl/0001-test-patch-out-failing-bits.patch b/meta/recipes-support/attr/acl/0001-test-patch-out-failing-bits.patch
-index ba2ffee5d27..219feaccd07 100644
---- a/meta/recipes-support/attr/acl/0001-test-patch-out-failing-bits.patch
-+++ b/meta/recipes-support/attr/acl/0001-test-patch-out-failing-bits.patch
-@@ -1,4 +1,4 @@
--From 9e08219e0e99ee2589cf35fa8d52cef3515accce Mon Sep 17 00:00:00 2001
-+From 7dec6fa3b3494a55120402ff1ea3eb96b67138e8 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Thu, 12 Dec 2019 15:47:49 +0100
- Subject: [PATCH] test: patch out failing bits
-@@ -58,6 +58,3 @@ index 8f8f825..21e8a95 100644
-  	$ : > f
-  	$ : <> f
-  	>~ .*f: Permission denied$
---- 
--2.17.1
--
-diff --git a/meta/recipes-support/attr/acl/0001-tests-do-not-hardcode-the-build-path-into-a-helper-l.patch b/meta/recipes-support/attr/acl/0001-tests-do-not-hardcode-the-build-path-into-a-helper-l.patch
-index 57ef0bb728c..748f37f3e7e 100644
---- a/meta/recipes-support/attr/acl/0001-tests-do-not-hardcode-the-build-path-into-a-helper-l.patch
-+++ b/meta/recipes-support/attr/acl/0001-tests-do-not-hardcode-the-build-path-into-a-helper-l.patch
-@@ -1,4 +1,4 @@
--From 39d332a8801de5d9ef09dacb3dba85c208b7b2ad Mon Sep 17 00:00:00 2001
-+From 42ae3f8a5e32ba0681ccd1552a203ddad8748a6e Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Thu, 12 Dec 2019 13:45:52 +0100
- Subject: [PATCH] tests: do not hardcode the build path into a helper library
-@@ -10,7 +10,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/test/Makemodule.am b/test/Makemodule.am
--index 17d4927..015de7f 100644
-+index e1d715d..cffe732 100644
- --- a/test/Makemodule.am
- +++ b/test/Makemodule.am
- @@ -30,7 +30,7 @@ EXTRA_DIST += \
-@@ -21,4 +21,4 @@ index 17d4927..015de7f 100644
- +libtestlookup_la_CFLAGS = -DBASEDIR=\"/tmp/acl-ptest\"
-  libtestlookup_la_LDFLAGS = -rpath $(abs_builddir)
-  
-- AM_TESTS_ENVIRONMENT = PATH="$(abs_top_builddir):$$PATH";
-+ # Make sure translations don't break tests when matching output.
-diff --git a/meta/recipes-support/attr/acl_2.3.1.bb b/meta/recipes-support/attr/acl_2.3.2.bb
+diff --git a/meta/recipes-gnome/epiphany/epiphany_45.1.bb b/meta/recipes-gnome/epiphany/epiphany_45.3.bb
 similarity index 94%
-rename from meta/recipes-support/attr/acl_2.3.1.bb
-rename to meta/recipes-support/attr/acl_2.3.2.bb
-index 9badd332546..61784738738 100644
---- a/meta/recipes-support/attr/acl_2.3.1.bb
-+++ b/meta/recipes-support/attr/acl_2.3.2.bb
-@@ -19,10 +19,9 @@ SRC_URI = "${SAVANNAH_GNU_MIRROR}/acl/${BP}.tar.gz \
-            file://run-ptest \
-            file://0001-tests-do-not-hardcode-the-build-path-into-a-helper-l.patch \
-            file://0001-test-patch-out-failing-bits.patch \
--           file://0001-chacl-Use-portable-version-of-dirent-and-readdir.patch \
+rename from meta/recipes-gnome/epiphany/epiphany_45.1.bb
+rename to meta/recipes-gnome/epiphany/epiphany_45.3.bb
+index c8631e05e97..eec52e321a0 100644
+--- a/meta/recipes-gnome/epiphany/epiphany_45.1.bb
++++ b/meta/recipes-gnome/epiphany/epiphany_45.3.bb
+@@ -31,7 +31,7 @@ SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@oe.utils.trim_version("${PV}", 1)}/${GN
+            file://migrator.patch \
+            file://distributor.patch \
             "
+-SRC_URI[archive.sha256sum] = "7c994ef34ecd60e915de331ee123c08938f9623cefada6d50b99e3c9c5ad8135"
++SRC_URI[archive.sha256sum] = "6c302e9bdd66290cb0e26f62843cd4c435a4955abdbb4f151f07dc80495d6730"
  
--SRC_URI[sha256sum] = "760c61c68901b37fdd5eefeeaf4c0c7a26bdfdd8ac747a1edff1ce0e243c11af"
-+SRC_URI[sha256sum] = "5f2bdbad629707aa7d85c623f994aa8a1d2dec55a73de5205bac0bf6058a2f7c"
+ # Developer mode enables debugging
+ PACKAGECONFIG[developer-mode] = "-Ddeveloper_mode=true,-Ddeveloper_mode=false"
+diff --git a/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch b/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch
+index a6c4f92c868..e5054667649 100644
+--- a/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch
++++ b/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch
+@@ -1,4 +1,4 @@
+-From 77c9f87dc2b3ad0854a678e234e22dfb31902b82 Mon Sep 17 00:00:00 2001
++From bd45c75fe691e275d7a7d7e641ac66b153369a1c Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Wed, 31 Jan 2018 15:50:38 +0200
+ Subject: [PATCH] help/meson.build: disable the use of yelp
+@@ -7,7 +7,6 @@ In particular this avoids calling itstool which oe-core doesn't provide.
  
- inherit autotools gettext ptest
+ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-
+ ---
+  help/meson.build | 8 ++++----
+  1 file changed, 4 insertions(+), 4 deletions(-)
+diff --git a/meta/recipes-gnome/epiphany/files/distributor.patch b/meta/recipes-gnome/epiphany/files/distributor.patch
+index b09c9b38d2e..a2800eb62d6 100644
+--- a/meta/recipes-gnome/epiphany/files/distributor.patch
++++ b/meta/recipes-gnome/epiphany/files/distributor.patch
+@@ -1,12 +1,19 @@
+-Don't encode the distro from /etc/os-release into the binaries.
++From c297f5b89d7c8e98ac98e1d9a7506df6db6fc025 Mon Sep 17 00:00:00 2001
++From: Richard Purdie <richard.purdie@linuxfoundation.org>
++Date: Fri, 26 Feb 2021 10:17:52 +0000
++Subject: [PATCH] Don't encode the distro from /etc/os-release into the
++ binaries.
  
+ Upstream-Status: Pending
+ RP 2021/2/26
++---
++ meson.build | 1 +
++ 1 file changed, 1 insertion(+)
+ 
+-Index: epiphany-3.38.2/meson.build
+-===================================================================
+---- epiphany-3.38.2.orig/meson.build
+-+++ epiphany-3.38.2/meson.build
++diff --git a/meson.build b/meson.build
++index e416cc7..ee5f7b1 100644
++--- a/meson.build
+++++ b/meson.build
+ @@ -15,6 +15,7 @@ if r.returncode() == 0
+  else
+    distributor_name = 'GNOME Web'
+diff --git a/meta/recipes-gnome/epiphany/files/migrator.patch b/meta/recipes-gnome/epiphany/files/migrator.patch
+index a9a650a64ad..1b4404c8cad 100644
+--- a/meta/recipes-gnome/epiphany/files/migrator.patch
++++ b/meta/recipes-gnome/epiphany/files/migrator.patch
+@@ -1,15 +1,23 @@
++From b38a4ceaeec05efb1b822d52c43590e7fd518113 Mon Sep 17 00:00:00 2001
++From: Richard Purdie <richard.purdie@linuxfoundation.org>
++Date: Thu, 25 Feb 2021 14:52:32 +0000
++Subject: [PATCH] epiphany: Fix reproducibility issue
++
+ We don't want to encide BUILD_ROOT into target packages. This is used
+ for build time tests but in our case those would be on target anyway
+ do use the target paths.
+ 
+ Upstream-Status: Pending
+ RP 2021/2/25
++---
++ lib/ephy-profile-utils.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
+ 
+-Index: epiphany-3.38.2/lib/ephy-profile-utils.c
+-===================================================================
+---- epiphany-3.38.2.orig/lib/ephy-profile-utils.c
+-+++ epiphany-3.38.2/lib/ephy-profile-utils.c
+-@@ -130,10 +130,10 @@ ephy_profile_utils_do_migration (const c
++diff --git a/lib/ephy-profile-utils.c b/lib/ephy-profile-utils.c
++index a2f6181..5218077 100644
++--- a/lib/ephy-profile-utils.c
+++++ b/lib/ephy-profile-utils.c
++@@ -130,10 +130,10 @@ ephy_profile_utils_do_migration (const char *profile_directory,
+    argv[i++] = NULL;
+  
+  #if DEVELOPER_MODE
 -- 
 2.39.2
 
