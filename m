@@ -1,201 +1,179 @@
-Return-Path: <fbberton@gmail.com>
+Return-Path: <otavio.salvador@ossystems.com.br>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41443C5475B
-	for <webhook@archiver.kernel.org>; Wed,  6 Mar 2024 12:41:39 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web11.10799.1709728894690616269
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34380C5475B
+	for <webhook@archiver.kernel.org>; Wed,  6 Mar 2024 12:48:49 +0000 (UTC)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+ by mx.groups.io with SMTP id smtpd.web10.10950.1709729325034786127
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Mar 2024 04:41:35 -0800
+ Wed, 06 Mar 2024 04:48:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=O3B4FBrt;
- spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: fbberton@gmail.com)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-412e96284b9so15002155e9.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 04:41:34 -0800 (PST)
+ dkim=pass header.i=@ossystems-com-br.20230601.gappssmtp.com header.s=20230601 header.b=UUVkSRVw;
+ spf=pass (domain: ossystems.com.br, ip: 209.85.128.171, mailfrom: otavio.salvador@ossystems.com.br)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-607c5679842so69114337b3.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 04:48:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709728893; x=1710333693; darn=lists.openembedded.org;
-        h=in-reply-to:from:content-language:references:to:subject:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ekUdBnZG98Te+D0lQom0U8j9CC90SYS/pIBkOQtJLFA=;
-        b=O3B4FBrtVWanKsARcTUqZFe2WbeeUnperVvrYVnJq6sc44tq+PJDDYWamqsehzmqED
-         7ToO5azc2hekF/T4RgzUwfQ1/W5Ms6Gsxw9KbVj689RjcoJKfT7oOLK4N3rDczUJD++f
-         wV4Gpz+3T+5BJmDuajz3kXzrlL1Vge8A33WNwfWy5uXRjoQWh9MfvO1ziu2Def72yLpg
-         6yJiGZhLU1pJJ6nXvUjAhercjF55KB3hNAG/mMsM2b8AI6JNBd/tCaIdr+NROA7fMhWw
-         VIgSZ4BjQn8d1GOKoO61uc0n2iGeCPPw2Y/XpccR3yQTGa+HimLlO1S30BCQm8+mpBms
-         W4lg==
+        d=ossystems-com-br.20230601.gappssmtp.com; s=20230601; t=1709729324; x=1710334124; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:in-reply-to:references:mime-version
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5WoqSI2x5mDQcGO/1N2rkKVNEmLdQytSIfhKlUq+t8s=;
+        b=UUVkSRVwHat1qiAEf4gzQDoqNmkCRKpWw3rYnEdhEc7HpeB1fmNtFrknzNvzAnH7T9
+         OOLibjDrHyte3MMICVFxiZMz3hfARuVznDFh9rjpqI6Z4WdImFB/E0vtRdEhZgWnzg73
+         ET/nCaoki+yAvnI5/5m3RvqupCeDJfvVPV+XuFKvpG4RULINfnqR5ZkX8DTb0dt4yOgP
+         AP8V5nwU2URSDVhuRezzotni/HHDToOz0Uc8T+MFKwqbbwpSRjSM/H3Jy++T6TcWMY3o
+         YLv5lIKDtvXUEoqSIOOXIWaSOauwFS2wYNZsFEQ3VEaqnotEpqhqM2hSYgg6BS60D7hT
+         RFlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709728893; x=1710333693;
-        h=in-reply-to:from:content-language:references:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=ekUdBnZG98Te+D0lQom0U8j9CC90SYS/pIBkOQtJLFA=;
-        b=GFyVCnD13M5kGfaEP9pkd8tG0mnKHyCZ2qWRfLqWCkHXTPQWFNKbjjVyikoPbjbbTz
-         5j4NNa3WYN1ppOL/tJRiovswDoc037YEP+nJ+9VhipDFhPbRJIVqSKBAQBrovVQnllkt
-         K7d8/z6k2XKBkEZf4ldrwbcv+mealMaIs3r57JJ4eUVFLcqWqBkLtLRRoa3v3hXF7AqN
-         Us1kBoKyxBKJ34yv/ydaXmIS+5RkK3ZAmndQ0S4PEgODQgXCb6Awk+tCYc7J5NHUq0ip
-         LpoQTrcYMSh3vJHxJC/kR2L+Np/UkWbvh9QC1fTTGEMM6pxCrlAYWt5b5QJxR5O3cdP7
-         Dn0A==
-X-Gm-Message-State: AOJu0YwCgjy0Z3KDY6JyvS5cL331ALqEvB20paaV+IiQ2FJ/ADZffJgV
-	ea0Fnmjbznp932r7ZJNTy8QflTSu/IFEGA8ThFqTs5SkL6L6Vg19WrETSf6G
-X-Google-Smtp-Source: AGHT+IFXMsDRz2Nsbvls4m4GU4NwDU8GRKwrZCw25439mt44I4tso2mYaDKQBQ0Jt8+s5L9AxEd+SA==
-X-Received: by 2002:a5d:4bd0:0:b0:33d:7e9e:4eb with SMTP id l16-20020a5d4bd0000000b0033d7e9e04ebmr10505403wrt.12.1709728892422;
-        Wed, 06 Mar 2024 04:41:32 -0800 (PST)
-Received: from [192.168.144.139] ([78.137.195.161])
-        by smtp.gmail.com with ESMTPSA id e18-20020adfef12000000b0033cf5094fcesm17468158wro.36.2024.03.06.04.41.31
+        d=1e100.net; s=20230601; t=1709729324; x=1710334124;
+        h=cc:to:subject:message-id:date:in-reply-to:references:mime-version
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5WoqSI2x5mDQcGO/1N2rkKVNEmLdQytSIfhKlUq+t8s=;
+        b=XhtT6hgBmiBJDDxOtG6ZZekbrgwWDP+rHe3+Z6UXc6yJByBkVBi2ig2e8hK/33iXml
+         LUnvikcm8t7V37NiajOx2PD1bnA0UYM8LUuXxAmTEhwoZj06emUtBYdZSpZH3c7SvP1s
+         Dm0BQZ07+WO2Mt5rp3nFMOqNEFY4nGiqXYb6O5iQKcnjFMStz7ocwdIzxYnsehJvhfln
+         xUoPHtVO+7hCukPwhvuPsHVprvdPt/UgQpLTgm9H7tAtPY3jGpwZ1oePUrtayshyYN0M
+         TBBvTEeIPXiedEHNNzEwW55sk/fKRjNsmGpLqJaqTIa024JoeDchQsRgr2GXgfmV3ne8
+         ZX5g==
+X-Forwarded-Encrypted: i=1; AJvYcCXBvw5S8/C32j5MuHwGJrBSJYqcKuFVNRL+VpQzKMje46COd4bfAVRftXbkp7fRzhtWLG9yYwh45MwTuYQbCAgt7O8XMcISLlmrR635ApcELSSr2G0Ic2di
+X-Gm-Message-State: AOJu0Yymt1lVUW9v34nZWvsIOliO46XFxmfA1TybjRY2H1nPYqwAQ4vi
+	+Hy9CLZBYL063d8NayRwQdGhI9oMR/uSK/6IvMmRqwzvxaPwXlgrp3jigaQOSBr1xxhrOfWSCpl
+	B8Ng39g==
+X-Google-Smtp-Source: AGHT+IF7zYcifVf8m1Lh5nE0uHVFgYIhC98yFdi7ELQ1Uk/dtiEBUL5vXNm1Z86zk0ZWzkbbbE98Aw==
+X-Received: by 2002:a0d:fc83:0:b0:5fb:da77:af07 with SMTP id m125-20020a0dfc83000000b005fbda77af07mr15237209ywf.32.1709729323879;
+        Wed, 06 Mar 2024 04:48:43 -0800 (PST)
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
+        by smtp.gmail.com with ESMTPSA id z131-20020a0dd789000000b0060983ceb487sm2969537ywd.28.2024.03.06.04.48.43
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Mar 2024 04:41:31 -0800 (PST)
-Content-Type: multipart/alternative;
- boundary="------------bBTyETX0sjN49EsgrNRlQOV5"
-Message-ID: <5f06f07b-fd27-4c84-b6e9-4d28123975ef@gmail.com>
-Date: Wed, 6 Mar 2024 12:41:31 +0000
+        Wed, 06 Mar 2024 04:48:43 -0800 (PST)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-dc6d8bd612dso7081613276.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 04:48:43 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWeww4oWCauHOspsZSp2KkFzqol7Vx3tpWWdRQFaBTs/ifPr/kVWrtfMfmk4lBhIOYfzLAPftfM7oz6Vc7WnIOJJka2zFTk9XrWzDh0m7Q+WYciCamK5o7q
+X-Received: by 2002:a25:b0a:0:b0:dcc:f3fe:19c with SMTP id 10-20020a250b0a000000b00dccf3fe019cmr12956375ybl.59.1709729322814;
+ Wed, 06 Mar 2024 04:48:42 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [kirkstone][PATCH v2] shadow: backport patch to fix
- CVE-2023-29383
-To: openembedded-core@lists.openembedded.org
-References: <29120.1707998122174808963@lists.openembedded.org>
- <29581.1708924459856405185@lists.openembedded.org>
- <17BA048F79699A0A.32420@lists.openembedded.org>
-Content-Language: en-US
-From: Fabio Berton <fbberton@gmail.com>
-In-Reply-To: <17BA048F79699A0A.32420@lists.openembedded.org>
+References: <20240305203608.3039688-1-tom.hochstein@nxp.com>
+ <3b991e85a5ee7b24c728c3bf59906dc44c756385.camel@linuxfoundation.org>
+ <CAP9ODKrUcNXcEQFAzPy77jS7uYPJ0Lx56pQzfVzTMescPnsYvw@mail.gmail.com> <0331b56aadffd139fca065008a38e7784a3e06df.camel@linuxfoundation.org>
+In-Reply-To: <0331b56aadffd139fca065008a38e7784a3e06df.camel@linuxfoundation.org>
+Date: Wed, 6 Mar 2024 09:48:30 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKp1sK65kaejiHMm5TS4=e0bbCC2Da9HrBoN=c88wF6dbQ@mail.gmail.com>
+Message-ID: <CAP9ODKp1sK65kaejiHMm5TS4=e0bbCC2Da9HrBoN=c88wF6dbQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] bmaptool: Add bmap-tools alias for compatibility
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Tom Hochstein <tom.hochstein@nxp.com>, openembedded-core@lists.openembedded.org, 
+	Otavio Salvador <otavio@ossystems.com.br>
+Content-Type: multipart/alternative; boundary="000000000000f2dde50612fd60d6"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 12:41:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196673
+ <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 12:48:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196674
 
-This is a multi-part message in MIME format.
---------------bBTyETX0sjN49EsgrNRlQOV5
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+--000000000000f2dde50612fd60d6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Em qua., 6 de mar. de 2024 =C3=A0s 09:36, Richard Purdie <
+richard.purdie@linuxfoundation.org> escreveu:
 
+> On Wed, 2024-03-06 at 09:13 -0300, Otavio Salvador wrote:
+> > Em ter., 5 de mar. de 2024 =C3=A0s 21:06, Richard Purdie
+> > <richard.purdie@linuxfoundation.org> escreveu:
+> > > On Tue, 2024-03-05 at 14:36 -0600, Tom Hochstein wrote:
+> > > > The rename of bmap-tools to bmaptool creates an incompatibility
+> > > > for
+> > > > pre-scarthgap layers. Restore compatibility by adding bmap-tools
+> > > > as
+> > > > an alias.
+> > > >
+> > > > Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+> > > > Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
+> > > > ---
+> > > >  meta/recipes-support/bmaptool/bmaptool_git.bb | 8 ++++++++
+> > > >  1 file changed, 8 insertions(+)
+> > >
+> > > Perhaps we should just drop nanbield from the layer series instead
+> > > as
+> > > we're about to do that anyway?
+> > >
+> > > I'm worried this will just mask things and stop people renaming :/.
+> > >
+> >
+> > I understand your point of view, but it is a must for package feeds,
+> > or it will break them.
+>
+> You need the R* changes for that which is fair enough but you do not
+> the PROVIDES...
+>
 
-The error message is caused because the 
-0001-Disable-use-of-syslog-for-sysroot.patch applied to the native 
-recipe disables syslog support and the native tool does not recognize 
-SYSLOG_SU_ENAB.
+Sure, but since we're late on release, it would be helpful to maintain
+compatibility.
 
-On 3/6/2024 12:13 AM, Fabio Berton via lists.openembedded.org wrote:
->
-> Hi,
->
-> I checked on kirkstone using OE-Core with DISTRO="nodistro" and when 
-> running bitbake useradd-example I can see this:
->
-> configuration error - unknown item 'SYSLOG_SU_ENAB' (notify administrator)
-> configuration error - unknown item 'SYSLOG_SG_ENAB' (notify administrator)
->
-> in the log.do_prepare_recipe_sysroot.
->
-> The same happens without CVE-2023-29383.patch and 
-> 0001-Overhaul-valid_field.patch patches. I didn't understand why the 
-> SYSLOG_SU_ENAB is not supported.
->
-> What is the correct approach here, remove SYSLOG_SU_ENAB and 
-> SYSLOG_SG_ENAB from login.defs_shadow-sysroot?
->
-> To use the useradd-example.bb was needed to add this change 
-> https://lists.openembedded.org/g/openembedded-core/topic/kirkstone_patch/104757004
->
-> Thanks
->
-> On 2/26/2024 5:14 AM, Pawan Badganchi wrote:
->> Hi,
->>
->> Could please help here?
->>
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#196655):https://lists.openembedded.org/g/openembedded-core/message/196655
-> Mute This Topic:https://lists.openembedded.org/mt/98361235/6083838
-> Group Owner:openembedded-core+owner@lists.openembedded.org
-> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub  [fbberton@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
---------------bBTyETX0sjN49EsgrNRlQOV5
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+--=20
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
 
-<!DOCTYPE html>
-<html data-lt-installed="true">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body style="padding-bottom: 1px;">
-    <p><font face="monospace">Hi,</font></p>
-    <p><font face="monospace"><br>
-      </font></p>
-    <p><font face="monospace">The error message is caused because the
-        0001-Disable-use-of-syslog-for-sysroot.patch applied to the
-        native recipe disables syslog support and the native tool does
-        not recognize SYSLOG_SU_ENAB.</font></p>
-    <div class="moz-cite-prefix">On 3/6/2024 12:13 AM, Fabio Berton via
-      lists.openembedded.org wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:17BA048F79699A0A.32420@lists.openembedded.org">
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <p><font face="monospace">Hi,</font></p>
-      <p><font face="monospace">I checked on kirkstone using OE-Core
-          with DISTRO="nodistro" and when running bitbake
-          useradd-example I can see this:</font></p>
-      <p><font face="monospace">configuration error - unknown item
-          'SYSLOG_SU_ENAB' (notify administrator)<br>
-          configuration error - unknown item 'SYSLOG_SG_ENAB' (notify
-          administrator)</font></p>
-      <p><font face="monospace">in the log.do_prepare_recipe_sysroot.</font></p>
-      <p><font face="monospace">The same happens without
-          CVE-2023-29383.patch and 0001-Overhaul-valid_field.patch
-          patches. I didn't understand why the </font><font
-          face="monospace">SYSLOG_SU_ENAB is not supported.</font></p>
-      <p><font face="monospace">What is the correct approach here,
-          remove </font><font face="monospace">SYSLOG_SU_ENAB and </font><font
-          face="monospace">SYSLOG_SG_ENAB from
-          login.defs_shadow-sysroot?</font></p>
-      <p><font face="monospace">To use the </font><font
-          face="monospace">useradd-example.bb was needed to add this
-          change
-          <a class="moz-txt-link-freetext"
-href="https://lists.openembedded.org/g/openembedded-core/topic/kirkstone_patch/104757004"
-            moz-do-not-send="true">https://lists.openembedded.org/g/openembedded-core/topic/kirkstone_patch/104757004</a><br>
-        </font></p>
-      <p><font face="monospace">Thanks<br>
-        </font></p>
-      <div class="moz-cite-prefix">On 2/26/2024 5:14 AM, Pawan Badganchi
-        wrote:<br>
-      </div>
-      <blockquote type="cite"
-        cite="mid:29581.1708924459856405185@lists.openembedded.org">
-        <meta http-equiv="content-type"
-          content="text/html; charset=UTF-8">
-        Hi,<br>
-        <br>
-        Could please help here? <br>
-        <fieldset class="moz-mime-attachment-header"></fieldset>
-      </blockquote>
-      <lt-container></lt-container>
-      <br>
-      <fieldset class="moz-mime-attachment-header"></fieldset>
-      <pre class="moz-quote-pre" wrap="">
--=-=-=-=-=-=-=-=-=-=-=-
-Links: You receive all messages sent to this group.
-View/Reply Online (#196655): <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/message/196655">https://lists.openembedded.org/g/openembedded-core/message/196655</a>
-Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/mt/98361235/6083838">https://lists.openembedded.org/mt/98361235/6083838</a>
-Group Owner: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
-Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a class="moz-txt-link-abbreviated" href="mailto:fbberton@gmail.com">fbberton@gmail.com</a>]
--=-=-=-=-=-=-=-=-=-=-=-
+--000000000000f2dde50612fd60d6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-</pre>
-    </blockquote>
-  </body>
-</html>
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">Em qua., 6 de mar. de 2024 =C3=A0s 09=
+:36, Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.or=
+g">richard.purdie@linuxfoundation.org</a>&gt; escreveu:<br></div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
+olid rgb(204,204,204);padding-left:1ex">On Wed, 2024-03-06 at 09:13 -0300, =
+Otavio Salvador wrote:<br>&gt; Em ter., 5 de mar. de 2024 =C3=A0s 21:06, Ri=
+chard Purdie<br>
+&gt; &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_b=
+lank">richard.purdie@linuxfoundation.org</a>&gt; escreveu:<br>
+&gt; &gt; On Tue, 2024-03-05 at 14:36 -0600, Tom Hochstein wrote:<br>
+&gt; &gt; &gt; The rename of bmap-tools to bmaptool creates an incompatibil=
+ity<br>
+&gt; &gt; &gt; for<br>
+&gt; &gt; &gt; pre-scarthgap layers. Restore compatibility by adding bmap-t=
+ools<br>
+&gt; &gt; &gt; as<br>
+&gt; &gt; &gt; an alias.<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; Acked-by: Otavio Salvador &lt;<a href=3D"mailto:otavio@ossys=
+tems.com.br" target=3D"_blank">otavio@ossystems.com.br</a>&gt;<br>
+&gt; &gt; &gt; Signed-off-by: Tom Hochstein &lt;<a href=3D"mailto:tom.hochs=
+tein@nxp.com" target=3D"_blank">tom.hochstein@nxp.com</a>&gt;<br>
+&gt; &gt; &gt; ---<br>
+&gt; &gt; &gt; =C2=A0meta/recipes-support/bmaptool/<a href=3D"http://bmapto=
+ol_git.bb" rel=3D"noreferrer" target=3D"_blank">bmaptool_git.bb</a> | 8 +++=
++++++<br>
+&gt; &gt; &gt; =C2=A01 file changed, 8 insertions(+)<br>
+&gt; &gt; <br>
+&gt; &gt; Perhaps we should just drop nanbield from the layer series instea=
+d<br>
+&gt; &gt; as<br>
+&gt; &gt; we&#39;re about to do that anyway?<br>
+&gt; &gt; <br>
+&gt; &gt; I&#39;m worried this will just mask things and stop people renami=
+ng :/.<br>
+&gt; &gt; <br>
+&gt; <br>&gt; I understand your point of view, but it is a must for package=
+ feeds,<br>
+&gt; or it will break them.=C2=A0<br>
+<br>
+You need the R* changes for that which is fair enough but you do not<br>
+the PROVIDES...<br></blockquote><div><br></div><div>Sure, but since we&#39;=
+re late on release, it would be helpful to maintain compatibility.</div><di=
+v>=C2=A0=C2=A0</div></div><span class=3D"gmail_signature_prefix">-- </span>=
+<br><div dir=3D"ltr" class=3D"gmail_signature">Otavio Salvador =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 O.S. Systems<br><a href=3D"http://www.ossystems.com.br" targe=
+t=3D"_blank">http://www.ossystems.com.br</a> =C2=A0 =C2=A0 =C2=A0 =C2=A0<a =
+href=3D"http://code.ossystems.com.br" target=3D"_blank">http://code.ossyste=
+ms.com.br</a><br>Mobile: +55 (53) 9 9981-7854 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0Mobile: +1 (347) 903-9750</div></div>
 
---------------bBTyETX0sjN49EsgrNRlQOV5--
+--000000000000f2dde50612fd60d6--
 
