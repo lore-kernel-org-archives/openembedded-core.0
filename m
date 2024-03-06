@@ -1,113 +1,201 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <fbberton@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23C54C5475B
-	for <webhook@archiver.kernel.org>; Wed,  6 Mar 2024 12:36:39 +0000 (UTC)
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
- by mx.groups.io with SMTP id smtpd.web11.10688.1709728595401434255
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41443C5475B
+	for <webhook@archiver.kernel.org>; Wed,  6 Mar 2024 12:41:39 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web11.10799.1709728894690616269
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Mar 2024 04:36:35 -0800
+ Wed, 06 Mar 2024 04:41:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HoUJtViv;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.167.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5134f830488so2684729e87.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 04:36:35 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=O3B4FBrt;
+ spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: fbberton@gmail.com)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-412e96284b9so15002155e9.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 04:41:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1709728593; x=1710333393; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=b59433UesYOOkd3/m6nFlulZQemqH+89rsex6Crumrk=;
-        b=HoUJtVivOmoGHlnXrWIAD9o2uz1IPS0/Og3yvIk5OQ1r/FD54QI+QElGr/CtiCnV4s
-         Lkuh8uiPkqFzD9Xq1d2H2XxEr5Uj/qAc0FyH/Si0LZ9mqbIJZ+Xcpl4loPHO4abiC8sr
-         y1zynM/C/PtwYutfJTkW+Zp6k7VQ9hJ5xpf9g=
+        d=gmail.com; s=20230601; t=1709728893; x=1710333693; darn=lists.openembedded.org;
+        h=in-reply-to:from:content-language:references:to:subject:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ekUdBnZG98Te+D0lQom0U8j9CC90SYS/pIBkOQtJLFA=;
+        b=O3B4FBrtVWanKsARcTUqZFe2WbeeUnperVvrYVnJq6sc44tq+PJDDYWamqsehzmqED
+         7ToO5azc2hekF/T4RgzUwfQ1/W5Ms6Gsxw9KbVj689RjcoJKfT7oOLK4N3rDczUJD++f
+         wV4Gpz+3T+5BJmDuajz3kXzrlL1Vge8A33WNwfWy5uXRjoQWh9MfvO1ziu2Def72yLpg
+         6yJiGZhLU1pJJ6nXvUjAhercjF55KB3hNAG/mMsM2b8AI6JNBd/tCaIdr+NROA7fMhWw
+         VIgSZ4BjQn8d1GOKoO61uc0n2iGeCPPw2Y/XpccR3yQTGa+HimLlO1S30BCQm8+mpBms
+         W4lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709728593; x=1710333393;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=b59433UesYOOkd3/m6nFlulZQemqH+89rsex6Crumrk=;
-        b=Kt4YtvDogBBKcAtVQFmfthqV6mq0xnC+dnEm43XEadqzTiAzXzBzrfdPcc61zdWwqu
-         9HfNOzLf5PgS7sg1fNKcyOVY5jwvG4cYlcKGh76Z299cHjQGgCUDSowfWifWPiddZBFO
-         VEbk3s72yuZXS6xgy5uoElitj0dNdUHkFc1aa6L39TpkbpV1PhZ7BoUraISwPvcNhh6i
-         7ZLeLfR1Wxj6lcb/iD8K+F+kTmMdLlwpvXRDdz4xrokDeVucazJsevW+2EVW3mdfckqO
-         aZuNvHX9JpL8Tg8NOI+KmGq6/UOJubRy2NsLRnRpzq7tL36YIIhpXQYTGhsQyKx8D4aY
-         /Hqg==
-X-Forwarded-Encrypted: i=1; AJvYcCWaZAmoA5YyDfqWQeKhACEiUasf/AsliU5pLyRb+bGARyMb5ovajx7sNTIuc9pI8bZ0kK07e8hX23WKIDzSsGWdOJJLhu8X7cDk6MoN2jsx013v3byjoUjq
-X-Gm-Message-State: AOJu0YwwlqwZyXc3zWpDEcSx/k8pW7QD1nAmSb6fvDaEydKIso54CT9u
-	egQGDW9ykBWGQymXwsWQRGS93SflkX2hiL1RtUOQyNoDdteZ3Lf+X38eHHmqOPk=
-X-Google-Smtp-Source: AGHT+IFwbRl1I47qBLVaGGjpduiV26WCobLNLpQ5OGKmHTDDUDCg6B13Eph57DB7XFK/B0nOhcKrTA==
-X-Received: by 2002:a05:6512:244:b0:513:5701:d13b with SMTP id b4-20020a056512024400b005135701d13bmr2592952lfo.20.1709728593087;
-        Wed, 06 Mar 2024 04:36:33 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:1f9c:b564:4f14:a0ea? ([2001:8b0:aba:5f3c:1f9c:b564:4f14:a0ea])
-        by smtp.gmail.com with ESMTPSA id ay30-20020a05600c1e1e00b00412fc25691bsm639544wmb.38.2024.03.06.04.36.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Mar 2024 04:36:32 -0800 (PST)
-Message-ID: <0331b56aadffd139fca065008a38e7784a3e06df.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] bmaptool: Add bmap-tools alias for
- compatibility
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: Tom Hochstein <tom.hochstein@nxp.com>, 
-	openembedded-core@lists.openembedded.org, Otavio Salvador
-	 <otavio@ossystems.com.br>
-Date: Wed, 06 Mar 2024 12:36:30 +0000
-In-Reply-To: <CAP9ODKrUcNXcEQFAzPy77jS7uYPJ0Lx56pQzfVzTMescPnsYvw@mail.gmail.com>
-References: <20240305203608.3039688-1-tom.hochstein@nxp.com>
-	 <3b991e85a5ee7b24c728c3bf59906dc44c756385.camel@linuxfoundation.org>
-	 <CAP9ODKrUcNXcEQFAzPy77jS7uYPJ0Lx56pQzfVzTMescPnsYvw@mail.gmail.com>
-Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
- YNvg==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.0-1 
+        d=1e100.net; s=20230601; t=1709728893; x=1710333693;
+        h=in-reply-to:from:content-language:references:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=ekUdBnZG98Te+D0lQom0U8j9CC90SYS/pIBkOQtJLFA=;
+        b=GFyVCnD13M5kGfaEP9pkd8tG0mnKHyCZ2qWRfLqWCkHXTPQWFNKbjjVyikoPbjbbTz
+         5j4NNa3WYN1ppOL/tJRiovswDoc037YEP+nJ+9VhipDFhPbRJIVqSKBAQBrovVQnllkt
+         K7d8/z6k2XKBkEZf4ldrwbcv+mealMaIs3r57JJ4eUVFLcqWqBkLtLRRoa3v3hXF7AqN
+         Us1kBoKyxBKJ34yv/ydaXmIS+5RkK3ZAmndQ0S4PEgODQgXCb6Awk+tCYc7J5NHUq0ip
+         LpoQTrcYMSh3vJHxJC/kR2L+Np/UkWbvh9QC1fTTGEMM6pxCrlAYWt5b5QJxR5O3cdP7
+         Dn0A==
+X-Gm-Message-State: AOJu0YwCgjy0Z3KDY6JyvS5cL331ALqEvB20paaV+IiQ2FJ/ADZffJgV
+	ea0Fnmjbznp932r7ZJNTy8QflTSu/IFEGA8ThFqTs5SkL6L6Vg19WrETSf6G
+X-Google-Smtp-Source: AGHT+IFXMsDRz2Nsbvls4m4GU4NwDU8GRKwrZCw25439mt44I4tso2mYaDKQBQ0Jt8+s5L9AxEd+SA==
+X-Received: by 2002:a5d:4bd0:0:b0:33d:7e9e:4eb with SMTP id l16-20020a5d4bd0000000b0033d7e9e04ebmr10505403wrt.12.1709728892422;
+        Wed, 06 Mar 2024 04:41:32 -0800 (PST)
+Received: from [192.168.144.139] ([78.137.195.161])
+        by smtp.gmail.com with ESMTPSA id e18-20020adfef12000000b0033cf5094fcesm17468158wro.36.2024.03.06.04.41.31
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 Mar 2024 04:41:31 -0800 (PST)
+Content-Type: multipart/alternative;
+ boundary="------------bBTyETX0sjN49EsgrNRlQOV5"
+Message-ID: <5f06f07b-fd27-4c84-b6e9-4d28123975ef@gmail.com>
+Date: Wed, 6 Mar 2024 12:41:31 +0000
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [kirkstone][PATCH v2] shadow: backport patch to fix
+ CVE-2023-29383
+To: openembedded-core@lists.openembedded.org
+References: <29120.1707998122174808963@lists.openembedded.org>
+ <29581.1708924459856405185@lists.openembedded.org>
+ <17BA048F79699A0A.32420@lists.openembedded.org>
+Content-Language: en-US
+From: Fabio Berton <fbberton@gmail.com>
+In-Reply-To: <17BA048F79699A0A.32420@lists.openembedded.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 12:36:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196672
+ <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 12:41:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196673
 
-On Wed, 2024-03-06 at 09:13 -0300, Otavio Salvador wrote:
->=20
->=20
-> Em ter., 5 de mar. de 2024 =C3=A0s 21:06, Richard Purdie
-> <richard.purdie@linuxfoundation.org> escreveu:
-> > On Tue, 2024-03-05 at 14:36 -0600, Tom Hochstein wrote:
-> > > The rename of bmap-tools to bmaptool creates an incompatibility
-> > > for
-> > > pre-scarthgap layers. Restore compatibility by adding bmap-tools
-> > > as
-> > > an alias.
-> > >=20
-> > > Acked-by: Otavio Salvador <otavio@ossystems.com.br>
-> > > Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
-> > > ---
-> > > =C2=A0meta/recipes-support/bmaptool/bmaptool_git.bb | 8 ++++++++
-> > > =C2=A01 file changed, 8 insertions(+)
-> >=20
-> > Perhaps we should just drop nanbield from the layer series instead
-> > as
-> > we're about to do that anyway?
-> >=20
-> > I'm worried this will just mask things and stop people renaming :/.
-> >=20
->=20
->=20
-> I understand your point of view, but it is a must for package feeds,
-> or it will break them.=C2=A0
+This is a multi-part message in MIME format.
+--------------bBTyETX0sjN49EsgrNRlQOV5
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-You need the R* changes for that which is fair enough but you do not
-the PROVIDES...
+Hi,
 
-Cheers,
 
-Richard
+The error message is caused because the 
+0001-Disable-use-of-syslog-for-sysroot.patch applied to the native 
+recipe disables syslog support and the native tool does not recognize 
+SYSLOG_SU_ENAB.
+
+On 3/6/2024 12:13 AM, Fabio Berton via lists.openembedded.org wrote:
+>
+> Hi,
+>
+> I checked on kirkstone using OE-Core with DISTRO="nodistro" and when 
+> running bitbake useradd-example I can see this:
+>
+> configuration error - unknown item 'SYSLOG_SU_ENAB' (notify administrator)
+> configuration error - unknown item 'SYSLOG_SG_ENAB' (notify administrator)
+>
+> in the log.do_prepare_recipe_sysroot.
+>
+> The same happens without CVE-2023-29383.patch and 
+> 0001-Overhaul-valid_field.patch patches. I didn't understand why the 
+> SYSLOG_SU_ENAB is not supported.
+>
+> What is the correct approach here, remove SYSLOG_SU_ENAB and 
+> SYSLOG_SG_ENAB from login.defs_shadow-sysroot?
+>
+> To use the useradd-example.bb was needed to add this change 
+> https://lists.openembedded.org/g/openembedded-core/topic/kirkstone_patch/104757004
+>
+> Thanks
+>
+> On 2/26/2024 5:14 AM, Pawan Badganchi wrote:
+>> Hi,
+>>
+>> Could please help here?
+>>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#196655):https://lists.openembedded.org/g/openembedded-core/message/196655
+> Mute This Topic:https://lists.openembedded.org/mt/98361235/6083838
+> Group Owner:openembedded-core+owner@lists.openembedded.org
+> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub  [fbberton@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+--------------bBTyETX0sjN49EsgrNRlQOV5
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE html>
+<html data-lt-installed="true">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body style="padding-bottom: 1px;">
+    <p><font face="monospace">Hi,</font></p>
+    <p><font face="monospace"><br>
+      </font></p>
+    <p><font face="monospace">The error message is caused because the
+        0001-Disable-use-of-syslog-for-sysroot.patch applied to the
+        native recipe disables syslog support and the native tool does
+        not recognize SYSLOG_SU_ENAB.</font></p>
+    <div class="moz-cite-prefix">On 3/6/2024 12:13 AM, Fabio Berton via
+      lists.openembedded.org wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:17BA048F79699A0A.32420@lists.openembedded.org">
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <p><font face="monospace">Hi,</font></p>
+      <p><font face="monospace">I checked on kirkstone using OE-Core
+          with DISTRO="nodistro" and when running bitbake
+          useradd-example I can see this:</font></p>
+      <p><font face="monospace">configuration error - unknown item
+          'SYSLOG_SU_ENAB' (notify administrator)<br>
+          configuration error - unknown item 'SYSLOG_SG_ENAB' (notify
+          administrator)</font></p>
+      <p><font face="monospace">in the log.do_prepare_recipe_sysroot.</font></p>
+      <p><font face="monospace">The same happens without
+          CVE-2023-29383.patch and 0001-Overhaul-valid_field.patch
+          patches. I didn't understand why the </font><font
+          face="monospace">SYSLOG_SU_ENAB is not supported.</font></p>
+      <p><font face="monospace">What is the correct approach here,
+          remove </font><font face="monospace">SYSLOG_SU_ENAB and </font><font
+          face="monospace">SYSLOG_SG_ENAB from
+          login.defs_shadow-sysroot?</font></p>
+      <p><font face="monospace">To use the </font><font
+          face="monospace">useradd-example.bb was needed to add this
+          change
+          <a class="moz-txt-link-freetext"
+href="https://lists.openembedded.org/g/openembedded-core/topic/kirkstone_patch/104757004"
+            moz-do-not-send="true">https://lists.openembedded.org/g/openembedded-core/topic/kirkstone_patch/104757004</a><br>
+        </font></p>
+      <p><font face="monospace">Thanks<br>
+        </font></p>
+      <div class="moz-cite-prefix">On 2/26/2024 5:14 AM, Pawan Badganchi
+        wrote:<br>
+      </div>
+      <blockquote type="cite"
+        cite="mid:29581.1708924459856405185@lists.openembedded.org">
+        <meta http-equiv="content-type"
+          content="text/html; charset=UTF-8">
+        Hi,<br>
+        <br>
+        Could please help here? <br>
+        <fieldset class="moz-mime-attachment-header"></fieldset>
+      </blockquote>
+      <lt-container></lt-container>
+      <br>
+      <fieldset class="moz-mime-attachment-header"></fieldset>
+      <pre class="moz-quote-pre" wrap="">
+-=-=-=-=-=-=-=-=-=-=-=-
+Links: You receive all messages sent to this group.
+View/Reply Online (#196655): <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/message/196655">https://lists.openembedded.org/g/openembedded-core/message/196655</a>
+Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/mt/98361235/6083838">https://lists.openembedded.org/mt/98361235/6083838</a>
+Group Owner: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
+Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a class="moz-txt-link-abbreviated" href="mailto:fbberton@gmail.com">fbberton@gmail.com</a>]
+-=-=-=-=-=-=-=-=-=-=-=-
+
+</pre>
+    </blockquote>
+  </body>
+</html>
+
+--------------bBTyETX0sjN49EsgrNRlQOV5--
 
