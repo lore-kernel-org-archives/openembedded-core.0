@@ -1,104 +1,100 @@
-Return-Path: <a.fatoum@pengutronix.de>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05C93C54E41
-	for <webhook@archiver.kernel.org>; Wed,  6 Mar 2024 20:58:25 +0000 (UTC)
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by mx.groups.io with SMTP id smtpd.web10.7063.1709758701325739724
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7ABA0C54E41
+	for <webhook@archiver.kernel.org>; Wed,  6 Mar 2024 22:34:45 +0000 (UTC)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web11.9474.1709764480258965937
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Mar 2024 12:58:22 -0800
+ Wed, 06 Mar 2024 14:34:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.201.7, mailfrom: a.fatoum@pengutronix.de)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <a.fatoum@pengutronix.de>)
-	id 1rhyLD-0004jS-Qf; Wed, 06 Mar 2024 21:58:19 +0100
-Message-ID: <af455b1f-10ee-4f91-93cb-ee796fe67fe3@pengutronix.de>
-Date: Wed, 6 Mar 2024 21:58:18 +0100
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ietoyGpD;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-33e285a33bdso77136f8f.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 14:34:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1709764478; x=1710369278; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=2ERUUt7yIBc5gqqIGq7zCOhdxEIDAQYxJ9xmFnFxats=;
+        b=ietoyGpDkfPwPlR8TaFWJRvBYT459AzjQQ0d6UqImtWGa6WXBnlK608ndVtuuatKKt
+         NHp1Et8ec/tUWF1EnKa0wFJZVYawBlqfd/Xa00csJMwrOokKcA9kN3RF+DD1fB4O95S1
+         x8ooefaXwlvkvzeR+OBrYRxybCyZJZOeicyS8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709764478; x=1710369278;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2ERUUt7yIBc5gqqIGq7zCOhdxEIDAQYxJ9xmFnFxats=;
+        b=jQs3R7ysMpjBx2UrpgBH5K+o0BjkUzGE0qYxIzA9rRE3WR8UQERUPwDWTKYGqFPO3O
+         XE3XzLoX22i2rt2meEEMe6ySfCedOZBuuVTNQLadCt99S7D5Ui5rvy675az1XhlNsQLe
+         vLQ/VBerOIPAcXLtsIDCkO+0V7/PcK22igP+bu2Gn5x+Tyky2F2q1dRqMz01JlIuT+Ex
+         s6J68bUmex74j8HSpuofhh51aj8DFa9vqkFmxOgpqngjp7VKEIUoL3BF5Zj2anNOE9Mf
+         VJ+JLzZx8hXOBwciWUCUsRQrWWx+lT9uOcEWbJ4N2AWPqHEcNeHwZyNGWQbcQoc1P6Sp
+         AL1A==
+X-Gm-Message-State: AOJu0YwhlsGC52PtrqlGy1qbvYJAgeaczP83bdUqWJRW/BMMD+pE8DC+
+	5mZ8lpIlamZbiQqwZKFg/1qawjnlEZjaL+PrdVdLLgpN+XalRmP961A5gX8SH/w=
+X-Google-Smtp-Source: AGHT+IFYk54FdCSbCujohtY3T3EC8YDTYSWFgWi2rFoYI9VGDqADpJFJ1tjjXKWTQLGr/8UerzBW0w==
+X-Received: by 2002:adf:ab07:0:b0:33d:2071:9b85 with SMTP id q7-20020adfab07000000b0033d20719b85mr10368225wrc.19.1709764478512;
+        Wed, 06 Mar 2024 14:34:38 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:1f9c:b564:4f14:a0ea? ([2001:8b0:aba:5f3c:1f9c:b564:4f14:a0ea])
+        by smtp.gmail.com with ESMTPSA id j27-20020a05600c1c1b00b00412f83e0c11sm571855wms.22.2024.03.06.14.34.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Mar 2024 14:34:38 -0800 (PST)
+Message-ID: <3cd28383d48955c12056aa09216cb20f920fda6a.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 7/9] oeqa/runtime/login: Exclude qemuriscv64
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, =?ISO-8859-1?Q?Eil=EDs?=
+	'pidge' =?ISO-8859-1?Q?N=ED_Fhlannag=E1in?=
+	 <pidge@baylibre.com>
+Date: Wed, 06 Mar 2024 22:34:37 +0000
+In-Reply-To: <CAMKF1sr84E-VvgKDMor9Bx_7BtZtQ1VwSCi_4R4Qi=S0+b6MdA@mail.gmail.com>
+References: <20240306162341.2267587-1-richard.purdie@linuxfoundation.org>
+	 <20240306162341.2267587-7-richard.purdie@linuxfoundation.org>
+	 <CAMKF1sr84E-VvgKDMor9Bx_7BtZtQ1VwSCi_4R4Qi=S0+b6MdA@mail.gmail.com>
+Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
+ YNvg==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.0-1 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core][PATCH v2] kernel-fitImage: only include valid
- compatible line
-Content-Language: en-US
-To: christian.taedcke-oss@weidmueller.com,
- openembedded-core@lists.openembedded.org
-Cc: denis.osterland@diehl.com,
- Christian Taedcke <christian.taedcke@weidmueller.com>
-References: <20240305093628.1094525-1-christian.taedcke-oss@weidmueller.com>
- <20240306164214.445656-1-christian.taedcke-oss@weidmueller.com>
-From: Ahmad Fatoum <a.fatoum@pengutronix.de>
-In-Reply-To: <20240306164214.445656-1-christian.taedcke-oss@weidmueller.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 20:58:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196756
+ <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 22:34:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196757
 
-On 06.03.24 17:42, christian.taedcke-oss@weidmueller.com wrote:
-> From: Christian Taedcke <christian.taedcke@weidmueller.com>
-> 
-> Without this commit the configuration node includes the compatible
-> line 'compatible = [00];' if EXTERNAL_KERNEL_DEVICETREE is not
-> defined, i.e. if PREFERRED_PROVIDER_virtual/dtb is not used.
-> This prevents u-boot from using this configuration and it prints the
-> message "Could not find configuration node".
-> 
-> An additional check also ensures that the written compatible line
-> never contains an empty compatible.
-> 
-> The functionality to add the compatible line was added in commit
-> f4c82fb6da89 ("kernel-fitImage: add machine compatible to config
-> section").
-> 
-> Signed-off-by: Christian Taedcke <christian.taedcke@weidmueller.com>
+On Wed, 2024-03-06 at 10:52 -0800, Khem Raj wrote:
+> On Wed, Mar 6, 2024 at 8:23=E2=80=AFAM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> >=20
+> > From: Eil=C3=ADs 'pidge' N=C3=AD Fhlannag=C3=A1in <pidge@baylibre.com>
+> >=20
+> > Excluding riscv64 due to mouse rather than a touchscreen which adds a
+> > moving cursor, so the diff ends up > 0. Need to fix the image to use th=
+e
+> > touchscreen rather than mouse input.
+>=20
+> Is it an option we are using to start the qemu which is causing this issu=
+e?
+> I would like to understand more
 
-Reviewed-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
+I suspect it will be. Somewhere on the other platforms we use a usb
+touch input device (absolute coords) but I think for riscv64 it is
+using a mouse (relative coords).
 
-Thanks,
-Ahmad
+We just need to compare the usb devices and work out what is missing...
 
-> ---
->  meta/classes-recipe/kernel-fitimage.bbclass | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes-recipe/kernel-fitimage.bbclass b/meta/classes-recipe/kernel-fitimage.bbclass
-> index 7e30a5d47e..4b74ddc201 100644
-> --- a/meta/classes-recipe/kernel-fitimage.bbclass
-> +++ b/meta/classes-recipe/kernel-fitimage.bbclass
-> @@ -421,6 +421,7 @@ fitimage_emit_section_config() {
->  	bootscr_line=""
->  	setup_line=""
->  	default_line=""
-> +	compatible_line=""
->  
->  	dtb_image_sect=$(symlink_points_below $dtb_image "${EXTERNAL_KERNEL_DEVICETREE}")
->  	if [ -z "$dtb_image_sect" ]; then
-> @@ -428,7 +429,12 @@ fitimage_emit_section_config() {
->  	fi
->  
->  	dtb_path="${EXTERNAL_KERNEL_DEVICETREE}/${dtb_image_sect}"
-> -	compatible_line="compatible = \"$(fdtget "$dtb_path" / compatible | sed 's/ /", "/g')\";"
-> +	if [ -e "$dtb_path" ]; then
-> +		compat=$(fdtget -t s "$dtb_path" / compatible | sed 's/ /", "/g')
-> +		if [ -n "$compat" ]; then
-> +			compatible_line="compatible = \"$compat\";"
-> +		fi
-> +	fi
->  
->  	dtb_image=$(echo $dtb_image | tr '/' '_')
->  	dtb_image_sect=$(echo "${dtb_image_sect}" | tr '/' '_')
+Cheers,
 
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
-
+Richard
 
