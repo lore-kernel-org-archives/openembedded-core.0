@@ -1,126 +1,89 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF50AC54E41
-	for <webhook@archiver.kernel.org>; Wed,  6 Mar 2024 16:58:02 +0000 (UTC)
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
- by mx.groups.io with SMTP id smtpd.web11.17573.1709744277994587561
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDCC8C54E41
+	for <webhook@archiver.kernel.org>; Wed,  6 Mar 2024 17:17:18 +0000 (UTC)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web10.390.1709745433042165188
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Mar 2024 08:57:58 -0800
+ Wed, 06 Mar 2024 09:17:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NOKwfaT3;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.210.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-6e4de6fb7f9so916a34.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 08:57:57 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Lab9HoYF;
+ spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1dd178fc492so26024015ad.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 09:17:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1709744277; x=1710349077; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GWupj7XZK67QaLsyP83pbuGkYxdFbAX+hJQE7RXZPVI=;
-        b=NOKwfaT3+Eyh8LFXrd+4thze0qIyLK1cDHToK2kuYNAmjVGWYPWOEU5fxOZ8Al+H2w
-         2OkwEMf77AIfu3bQJp2HhtkyNsTxMVHYLJS04OEpzXxntQmdVH5oevC6OsLPYWIymRH8
-         JOigaXDfkXAr75vxEimR5s3Y0zhaXfnlql3iM=
+        d=gmail.com; s=20230601; t=1709745432; x=1710350232; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=o4oEQmJoof/aFOfpOgT7j6jgh4yoNQlnt//5ASYoT4w=;
+        b=Lab9HoYFkBkhQ5EEPW6iBSkI85PF+Th0vYTSurAZSj1A6NmqkyFFfng4dOcJ9+aNX6
+         sLIofDaPRUfmIoKYmhUzNvPYMG1AjlnrcU9J4p8wGcNAoKW3ETmo3AfNK0hHNgGTMEYb
+         hn6fvZL//ghPigxzo7I/vFDYacUDQAKB/b2fMDlkV2n0NkygfjbKftDXTB/JO82LshVO
+         /9ngZaCo7LWyKbcnvObdyR1qmLU20gMZ2/Jx0DZwTGavBIL63E2i8ajgyjEE9ydgF3Pe
+         Sr+tdAKR3tm+oGCDyC50i/S76n/41HPVMrkPMJOp4TGs+HXYAlldyk58qzJC3q+5hq7I
+         qGHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709744277; x=1710349077;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GWupj7XZK67QaLsyP83pbuGkYxdFbAX+hJQE7RXZPVI=;
-        b=vfLa0eIByUbngkdAkHBavwC1C6mwkll80vlgwyklyQAxig2JV+aDjSzmVwie0kf8XE
-         9s3UeoGH86ZSmhfq6y+CoVNzlkGZ+AW9lOUpNCFno6vm0j4GRPNcJ56ltmmmAqhoVBJy
-         xZxkIPR1QLPlHauNOq1VJTF4WDD/dkN7AJUH+JaCQ8qwuRhnE9eKRv+vFsCuZ5+a0JqO
-         m5lxEBu1RPmDW5XaoAffWkX7WZJCEhu027Cysf7umXAJ4nItofFY0s85snH596t2gAo/
-         G30sJ4y/NsEWxb8A6sMN7wUFYSBOZcorNNEOWvucmQfZ/mKDQgHif7ZxbK0pGVmjlcMz
-         btEA==
-X-Forwarded-Encrypted: i=1; AJvYcCVVnaNHZOXDRRpid1IrDNbkews2hzF2AQ/2U3Qn78uTRo/VIJ5TEtEujfze65B49SlamWgO7rWncycReQTI/6aZrTXm2MuscB5+83QckSYWsR1cI1Hyq51F
-X-Gm-Message-State: AOJu0YySPwpFyTYscqiDEt3LticBxEeEkhd88MFno4EkAiKgOW4QjhHY
-	DxOwYsBcVhQK//P3WSkld/OVauDLPBrrCEiZwJDcBKxAEeq7GGfvMVhRQPTK2htAlqwkiNeSfGT
-	6
-X-Google-Smtp-Source: AGHT+IF0ivkZ/PMv45ie95JHCEO9iwz5nyd8nK11Ak3LVijsFXwpOaKyQhWRmcLpWUtMilnVt9fpuA==
-X-Received: by 2002:a05:6830:14cb:b0:6e5:175:34d0 with SMTP id t11-20020a05683014cb00b006e5017534d0mr2261808otq.35.1709744277285;
-        Wed, 06 Mar 2024 08:57:57 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:1f9c:b564:4f14:a0ea? ([2001:8b0:aba:5f3c:1f9c:b564:4f14:a0ea])
-        by smtp.gmail.com with ESMTPSA id g16-20020a9d6c50000000b006e4e891efbesm953306otq.50.2024.03.06.08.57.56
+        d=1e100.net; s=20230601; t=1709745432; x=1710350232;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=o4oEQmJoof/aFOfpOgT7j6jgh4yoNQlnt//5ASYoT4w=;
+        b=sw8z6tE+ffypTVd+m3SFdUZvhFI3GEpQiRi6RjAgrpX99r8ZSO/uVbSfKaIkCS2DGH
+         qQz0QualGJMphK6zqSZbi6O+MtwLurxyxd9hdn+KdJR9K/Y/jKMDsbC03/MwdJuNC+5h
+         248t6r/oS+5+kB+RLHkbSkNps62t4awJ8wOLP+QT3brdsBeHv8kmu07JA5FH6qFBd5zO
+         VTwUkMYEmZYJw9TFnKY1c20X/umffOQmN84DKy619TBAmHO0gFFfs2qxHmiWmRp7bZUj
+         oUMw8p/GKb/b/5qvVKG2CWeMa3Bwk6SB5OmDkJkfTkCAynpvExn1xluVo0o8Fssqn0as
+         J6Bg==
+X-Gm-Message-State: AOJu0Yx5YJePvxC+Vrz33ft9DC8dLQH1+aDlge8G/Eo7i6U+o2rgMlJo
+	37rnhQzhVFXo0A/4Njuyl3DTLH4PJv98eGy3LPDja4//6vsgNATrwtGZUfnr
+X-Google-Smtp-Source: AGHT+IFXni1de52tvnsMlHiHo1DEDOOTIIgSNZLYT10qx0WyXldOSLMRUf2gnHS55cTI0LemH0hUfg==
+X-Received: by 2002:a17:902:e5c8:b0:1dc:b01e:9ae0 with SMTP id u8-20020a170902e5c800b001dcb01e9ae0mr6702135plf.14.1709745431968;
+        Wed, 06 Mar 2024 09:17:11 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::8f25])
+        by smtp.gmail.com with ESMTPSA id 12-20020a170902e9cc00b001db9fa23407sm12863384plk.195.2024.03.06.09.17.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Mar 2024 08:57:57 -0800 (PST)
-Message-ID: <f770af549d52f72312358ea30d9f1c96b6151de0.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] image_types_wic.bbclass: remove .env file in
- do_clean
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mauro <m.salvini@koansoftware.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 06 Mar 2024 16:57:54 +0000
-In-Reply-To: <20240306163658.34188-1-m.salvini@koansoftware.com>
-References: <20240306163658.34188-1-m.salvini@koansoftware.com>
-Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
- YNvg==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.0-1 
+        Wed, 06 Mar 2024 09:17:11 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] glibc: Update to tip of 2.39 branch
+Date: Wed,  6 Mar 2024 09:17:09 -0800
+Message-ID: <20240306171709.3002566-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 16:58:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196747
+ <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 17:17:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196748
 
-On Wed, 2024-03-06 at 08:37 -0800, Mauro wrote:
-> Before this commit, the .env file created in
-> tmp/sysroots/<machine>/imgdata/<image>.env was never cleaned,
-> but when the do_clean task is invoked on an image, the .env file
-> contains paths that are not valid anymore.
-> If another image wants to use the cleaned image fs to build a .wic,
-> the wic command fails because paths contained in .env are not found.
-> With this patch, the returned error is more clear:
->=20
-> =C2=A0 "File /.../tmp/sysroots/<machine>/imgdata/<image>.env doesn't
-> exist"
->=20
-> Signed-off-by: Mauro Salvini <m.salvini@koansoftware.com>
-> ---
-> =C2=A0meta/classes-recipe/image_types_wic.bbclass | 11 +++++++++++
-> =C2=A01 file changed, 11 insertions(+)
->=20
-> diff --git a/meta/classes-recipe/image_types_wic.bbclass
-> b/meta/classes-recipe/image_types_wic.bbclass
-> index cf3be909b3..b0b5691225 100644
-> --- a/meta/classes-recipe/image_types_wic.bbclass
-> +++ b/meta/classes-recipe/image_types_wic.bbclass
-> @@ -205,3 +205,14 @@ addtask do_flush_pseudodb after do_rootfs before
-> do_image do_image_qa
-> =C2=A0addtask do_rootfs_wicenv after do_image before do_image_wic
-> =C2=A0do_rootfs_wicenv[vardeps] +=3D "${WICVARS}"
-> =C2=A0do_rootfs_wicenv[prefuncs] =3D 'set_image_size'
-> +
-> +#
-> +# Clean also .env file created in
-> tmp/sysroots/<machine>/imgdata/<image>.env
-> +# when a clean is invoked
-> +#
-> +do_clean:append() {
-> +=C2=A0=C2=A0=C2=A0 stdir =3D d.getVar('STAGING_DIR')
-> +=C2=A0=C2=A0=C2=A0 outdir =3D os.path.join(stdir, d.getVar('MACHINE'), '=
-imgdata')
-> +=C2=A0=C2=A0=C2=A0 basename =3D d.getVar('IMAGE_BASENAME')
-> +=C2=A0=C2=A0=C2=A0 bb.utils.remove(os.path.join(outdir, basename) + '.en=
-v')
-> +}
+Brings
 
-This doesn't look right unfortunately.
+* 1b9c1a0047 Use gcc __builtin_stdc_* builtins in stdbit.h if possible
+* e0910f1d32 S390: Do not clobber r7 in clone [BZ #31402]
+* d0724994de math: Update mips64 ulps
 
-Things should not be being placed into the sysroots (STAGING_DIR) that
-aren't under the control of sstate. If things are, we need to fix that
-at the source of the problem.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-core/glibc/glibc-version.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Cheers,
+diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
+index 5b0705f6960..618a5745664 100644
+--- a/meta/recipes-core/glibc/glibc-version.inc
++++ b/meta/recipes-core/glibc/glibc-version.inc
+@@ -1,6 +1,6 @@
+ SRCBRANCH ?= "release/2.39/master"
+ PV = "2.39+git"
+-SRCREV_glibc ?= "312e159626b67fe11f39e83e222cf4348a3962f3"
++SRCREV_glibc ?= "1b9c1a0047fb26a65a9b2a7b8cd977243f7d353c"
+ SRCREV_localedef ?= "fab74f31b3811df543e24b6de47efdf45b538abc"
+ 
+ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git;protocol=https"
+-- 
+2.44.0
 
-Richard
 
