@@ -1,169 +1,102 @@
-Return-Path: <fbberton@gmail.com>
+Return-Path: <festevam@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E67D9C54798
-	for <webhook@archiver.kernel.org>; Wed,  6 Mar 2024 00:13:47 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web11.5243.1709684022433717342
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BDDDC5475B
+	for <webhook@archiver.kernel.org>; Wed,  6 Mar 2024 03:23:46 +0000 (UTC)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web10.3987.1709695417143852019
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Mar 2024 16:13:42 -0800
+ Tue, 05 Mar 2024 19:23:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=f2RTmWV0;
- spf=pass (domain: gmail.com, ip: 209.85.128.51, mailfrom: fbberton@gmail.com)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-412f1ccf8d8so3520015e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 05 Mar 2024 16:13:42 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=PbjntRd3;
+ spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: festevam@gmail.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1db9cb6dcb5so19231445ad.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 05 Mar 2024 19:23:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709684020; x=1710288820; darn=lists.openembedded.org;
-        h=in-reply-to:from:content-language:references:to:subject:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tYjeVu10aO6kYi6qB7HL7VMFm4rnUhpU2arbPXg1QME=;
-        b=f2RTmWV0qRJCqhw/EI4z1rUxhrM4kcfuY5Ib50Zh3XZGssJ/mV2zGvdoSumUpci/U/
-         UW5JM2ixRdtJCDtVtgAsXyDWgy+yZz/UtGnR+rdqtrhBXC+w43O30p7sTVQavez291nP
-         Pe1EMYhWlGIG1G9gIfQL7JZpM2Ofrk9HXMaS/AssT+FuN662JenF47vFPqrVvRP9siRB
-         SvXEh1c0UNyYXbysRd+jUgn9NQmAHZNzTy1lbAeasYjZx+suTunnmy97sup7AqszlWWK
-         P0MID2GmTNFLxi/EmzsE9rscw0eOBxiyjIExGYwBnIixnzXldcxOZFT29CAofXSqHzaz
-         M2HA==
+        d=gmail.com; s=20230601; t=1709695416; x=1710300216; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0D+B03o7DikROLcslbUnK6KhMBGsByoMEUBnM/9k7gM=;
+        b=PbjntRd32XCr3eoHSqvArXdkp9Y1c7E2PObqMmOMARUwskU4bR3rrAUl8IHvQrp5XT
+         /ddQZS0grZAs3pD/462n/75tCopgqInB051L38CJagAe3EIv09shaVdbU3NIOoV2eom9
+         pmK7Yh/DXAsAG0imFgZEmhWmIbhKMoanHBX/nR6mEKGQec5A445z7/WqzWmihVWLHk6s
+         o4YMBGSTOS7af4YEenJYwaAhGH620t66dopTsTKUSmPc69hRMKAb4OlwJTTUr0QucvQg
+         HMThme2Pp6eDlMUS8RxcWDbvI9W67+jODrIJ53IJxq6qhz9gffqtXHZUHBXNdz1cLGX3
+         5H6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709684020; x=1710288820;
-        h=in-reply-to:from:content-language:references:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=tYjeVu10aO6kYi6qB7HL7VMFm4rnUhpU2arbPXg1QME=;
-        b=ANWQFKoWHyb0JQdYqmoKSmKCsyruvq7QdZeVyQ3SBYzcpNXFEXxLv6KeBY2SOqOixt
-         M8D61pSjzCl53JSLPiEuRUX9H5bV911D8D/2TDWF9yrirPnhhuJPsGR9UPE2uq48jBC5
-         NR+EQlGLl/FkjlIKkxkL/9VorsBrsud6PmY0rtVRPj6etONwzDy8hIpijdhcRbceLFfc
-         I9WxVE6CTO66msZh2SdHJzJyhHVA7K9X/aneWlXlDANqidj2Nhn/tMvsz7BzwmUNYpq4
-         dS3D/MlbwT8w3GG7xR0C89m/NsDnvf4KqiOncp+ZL7Gjfg3ldX7IRASdJg/1nMHNhKel
-         K7LQ==
-X-Gm-Message-State: AOJu0YyRc4zUZqba9Of+JmbBnNgifQns2TDC1F8WYfnd7htN1Xdv/w+b
-	C+ZyE1NZVbh2du95/OjgvoZ5+0FNjtMdU4W7Iw9nD7Uzhal8apLKTA08ayQV
-X-Google-Smtp-Source: AGHT+IF8axWqLGGdLNsg8UgHK/o/AZuv0WoH/b8d5RgaCw7FLrjwcTO5M0zo4VmPBNWoYnD58YEbSw==
-X-Received: by 2002:a05:600c:548e:b0:412:e4f6:75ae with SMTP id iv14-20020a05600c548e00b00412e4f675aemr4249652wmb.32.1709684020315;
-        Tue, 05 Mar 2024 16:13:40 -0800 (PST)
-Received: from [192.168.144.7] ([78.137.195.161])
-        by smtp.gmail.com with ESMTPSA id h7-20020a05600c314700b00412b431eb0csm19154550wmo.14.2024.03.05.16.13.39
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Mar 2024 16:13:39 -0800 (PST)
-Content-Type: multipart/alternative;
- boundary="------------efq5UZiYFaV9fDmCOdO0qSH2"
-Message-ID: <203ebf7b-d4e6-4257-919f-6020ab3409f8@gmail.com>
-Date: Wed, 6 Mar 2024 00:13:38 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [kirkstone][PATCH v2] shadow: backport patch to fix
- CVE-2023-29383
+        d=1e100.net; s=20230601; t=1709695416; x=1710300216;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0D+B03o7DikROLcslbUnK6KhMBGsByoMEUBnM/9k7gM=;
+        b=ngiT1tS6Alr3kQqv8aer3vmMiqhA2H6rpQq2G8tXcfHXSWsryK2Eqb0xVC9dO4R40j
+         BZ//L7Hmz+fzvNux1CYajGajPx/yWHslDGBfCxBtPvCy/VTU2bWYKiQwqszLUDe+9hOX
+         JjWY1rXNgqyBtGFGMvFYczlsaG/scAqvWYfic2Ccurn04E/NNCKvFjC3qNd/adm6B+X5
+         ZNNTOZU7aWyIXSjcuIipcVWrmWtCeJwsECBgFfbTGcecdAT983nxJsSrwn0nBBIHqu1K
+         wyUhThQuVQQHEcaQ1X+1wzhvLePciGqqG7o2cAGUewDfT99oj5BZewr2FDwfWuDQzp2I
+         Ma0g==
+X-Gm-Message-State: AOJu0YxBmlm9Fwsmf6mD9IrxFpEygvrtqCzVM0whSQLa21eO00q0644/
+	Fg9rd+wDHjxkxVS7Yak3f1nJyWqYvUp9nYQNj3cUoqi66tbcAssk11IoWPp8
+X-Google-Smtp-Source: AGHT+IE5k4+l9gSu4v5FPAIybKv9ZyCp6IZSqGiySM1lYM9Kwy2b4McBp4gRoCip5/s2r41ksMwkRQ==
+X-Received: by 2002:a17:902:ea8a:b0:1dc:825e:42a with SMTP id x10-20020a170902ea8a00b001dc825e042amr2551311plb.3.1709695416143;
+        Tue, 05 Mar 2024 19:23:36 -0800 (PST)
+Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:3698:9a75:d5b6:44fb])
+        by smtp.gmail.com with ESMTPSA id i3-20020a170902c94300b001dc95205b56sm11341144pla.53.2024.03.05.19.23.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Mar 2024 19:23:35 -0800 (PST)
+From: Fabio Estevam <festevam@gmail.com>
 To: openembedded-core@lists.openembedded.org
-References: <29120.1707998122174808963@lists.openembedded.org>
- <29581.1708924459856405185@lists.openembedded.org>
-Content-Language: en-US
-From: Fabio Berton <fbberton@gmail.com>
-In-Reply-To: <29581.1708924459856405185@lists.openembedded.org>
+Cc: Fabio Estevam <festevam@denx.de>
+Subject: [PATCH] mesa: update 24.0.1 -> 24.0.2
+Date: Wed,  6 Mar 2024 00:23:31 -0300
+Message-Id: <20240306032331.1158192-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 00:13:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196655
+ <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 03:23:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196656
 
-This is a multi-part message in MIME format.
---------------efq5UZiYFaV9fDmCOdO0qSH2
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Fabio Estevam <festevam@denx.de>
 
-Hi,
+Mesa 24.0.2 release notes:
 
-I checked on kirkstone using OE-Core with DISTRO="nodistro" and when 
-running bitbake useradd-example I can see this:
+https://lists.freedesktop.org/archives/mesa-announce/2024-February/000751.html
 
-configuration error - unknown item 'SYSLOG_SU_ENAB' (notify administrator)
-configuration error - unknown item 'SYSLOG_SG_ENAB' (notify administrator)
+Signed-off-by: Fabio Estevam <festevam@denx.de>
+---
+ .../mesa/{mesa-gl_24.0.1.bb => mesa-gl_24.0.2.bb}               | 0
+ meta/recipes-graphics/mesa/mesa.inc                             | 2 +-
+ meta/recipes-graphics/mesa/{mesa_24.0.1.bb => mesa_24.0.2.bb}   | 0
+ 3 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/mesa/{mesa-gl_24.0.1.bb => mesa-gl_24.0.2.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_24.0.1.bb => mesa_24.0.2.bb} (100%)
 
-in the log.do_prepare_recipe_sysroot.
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_24.0.1.bb b/meta/recipes-graphics/mesa/mesa-gl_24.0.2.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-gl_24.0.1.bb
+rename to meta/recipes-graphics/mesa/mesa-gl_24.0.2.bb
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index e5fa0a76d2b8..12d7a18eb82a 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -22,7 +22,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch \
+ "
+ 
+-SRC_URI[sha256sum] = "f387192b08c471c545590dd12230a2a343244804b5fe866fec6aea02eab57613"
++SRC_URI[sha256sum] = "94e28a8edad06d8ed2b83eb53f253b9eb5aa62c3080f939702e1b3039b56c9e8"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+ 
+diff --git a/meta/recipes-graphics/mesa/mesa_24.0.1.bb b/meta/recipes-graphics/mesa/mesa_24.0.2.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa_24.0.1.bb
+rename to meta/recipes-graphics/mesa/mesa_24.0.2.bb
+-- 
+2.34.1
 
-The same happens without CVE-2023-29383.patch and 
-0001-Overhaul-valid_field.patch patches. I didn't understand why the 
-SYSLOG_SU_ENAB is not supported.
-
-What is the correct approach here, remove SYSLOG_SU_ENAB and 
-SYSLOG_SG_ENAB from login.defs_shadow-sysroot?
-
-To use the useradd-example.bb was needed to add this change 
-https://lists.openembedded.org/g/openembedded-core/topic/kirkstone_patch/104757004
-
-Thanks
-
-On 2/26/2024 5:14 AM, Pawan Badganchi wrote:
-> Hi,
->
-> Could please help here?
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#196178):https://lists.openembedded.org/g/openembedded-core/message/196178
-> Mute This Topic:https://lists.openembedded.org/mt/98361235/6083838
-> Group Owner:openembedded-core+owner@lists.openembedded.org
-> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub  [fbberton@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
---------------efq5UZiYFaV9fDmCOdO0qSH2
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-<!DOCTYPE html>
-<html data-lt-installed="true">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body style="padding-bottom: 1px;">
-    <p><font face="monospace">Hi,</font></p>
-    <p><font face="monospace">I checked on kirkstone using OE-Core with
-        DISTRO="nodistro" and when running bitbake useradd-example I can
-        see this:</font></p>
-    <p><font face="monospace">configuration error - unknown item
-        'SYSLOG_SU_ENAB' (notify administrator)<br>
-        configuration error - unknown item 'SYSLOG_SG_ENAB' (notify
-        administrator)</font></p>
-    <p><font face="monospace">in the log.do_prepare_recipe_sysroot.</font></p>
-    <p><font face="monospace">The same happens without
-        CVE-2023-29383.patch and 0001-Overhaul-valid_field.patch
-        patches. I didn't understand why the </font><font
-        face="monospace">SYSLOG_SU_ENAB is not supported.</font></p>
-    <p><font face="monospace">What is the correct approach here, remove
-      </font><font face="monospace">SYSLOG_SU_ENAB and </font><font
-        face="monospace">SYSLOG_SG_ENAB from login.defs_shadow-sysroot?</font></p>
-    <p><font face="monospace">To use the </font><font face="monospace">useradd-example.bb
-        was needed to add this change
-<a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/topic/kirkstone_patch/104757004">https://lists.openembedded.org/g/openembedded-core/topic/kirkstone_patch/104757004</a><br>
-      </font></p>
-    <p><font face="monospace">Thanks<br>
-      </font></p>
-    <div class="moz-cite-prefix">On 2/26/2024 5:14 AM, Pawan Badganchi
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:29581.1708924459856405185@lists.openembedded.org">
-      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-      Hi,<br>
-      <br>
-      Could please help here?
-      <br>
-      <fieldset class="moz-mime-attachment-header"></fieldset>
-      <pre class="moz-quote-pre" wrap="">
--=-=-=-=-=-=-=-=-=-=-=-
-Links: You receive all messages sent to this group.
-View/Reply Online (#196178): <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/message/196178">https://lists.openembedded.org/g/openembedded-core/message/196178</a>
-Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/mt/98361235/6083838">https://lists.openembedded.org/mt/98361235/6083838</a>
-Group Owner: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
-Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a class="moz-txt-link-abbreviated" href="mailto:fbberton@gmail.com">fbberton@gmail.com</a>]
--=-=-=-=-=-=-=-=-=-=-=-
-
-</pre>
-    </blockquote>
-  </body>
-  <lt-container></lt-container>
-</html>
-
---------------efq5UZiYFaV9fDmCOdO0qSH2--
 
