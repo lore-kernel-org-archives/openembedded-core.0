@@ -1,175 +1,144 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <changqing.li@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CDD49C48BF6
-	for <webhook@archiver.kernel.org>; Thu,  7 Mar 2024 06:03:37 +0000 (UTC)
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
- by mx.groups.io with SMTP id smtpd.web11.17007.1709791402326390532
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F144BC48BF6
+	for <webhook@archiver.kernel.org>; Thu,  7 Mar 2024 06:49:07 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.17617.1709794139069733208
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Mar 2024 22:03:22 -0800
+ Wed, 06 Mar 2024 22:48:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=FvLzUoGQ;
- spf=pass (domain: mvista.com, ip: 209.85.210.170, mailfrom: vanusuri@mvista.com)
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-6d9f94b9186so520470b3a.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 22:03:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1709791401; x=1710396201; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=IAV/irrqBtT9EvvvxI0c44zWQ25j6e80Ii2uOfEdV+U=;
-        b=FvLzUoGQ+F6gEw+p3kJ8jK/B/nXoGB/HA4wMv2pvUfxd+4VR2X9NPacf/Ewegh9xzT
-         OM6ws0aRGK0nveNEn7/NIhDgbPsM31YvBQhnYJkNy8Ywje2vTHfguYvJouRpfPCjQ5Jl
-         MMrje/OU2FjP/KEOgjik9cQQFK5Ur1LSG1mX8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709791401; x=1710396201;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IAV/irrqBtT9EvvvxI0c44zWQ25j6e80Ii2uOfEdV+U=;
-        b=sNsCBtfCmA++m4bGmS8uZJx4sjOEDQVZ7i85TNUTxgxaLJQLrY+/RCLLIdbiV8cMo4
-         K0SCVw8fqb06LxSrIh+VM3ZehsWrj04ysty5E9Lu8zlyfM1mirTmy8Qo+MplltQRWaYk
-         n0qsmlr0nVg8d4e1RnJV9UNHi5JsqNIuYtTYHq0Pmv6tT91BgOK+3058uSjd+PnFyZox
-         2JlrW7+Gu6q4F65Mms78nG31zgpRQNnJJMjxUPQGzVlJCYJJ0UNv3kfW5ElSzJ64+koc
-         O5RwBXfeh9Kqrkrczi4xjSBgwmC7ZY/oC1bLCkVfcCH6q16CQ+h0L9lwYW7ZszPpIhPe
-         1cZw==
-X-Gm-Message-State: AOJu0YyjUVMBT7DCvO2hgaiIuOwZIz/J/ZxycR3peXGuDLnnn98zHfDr
-	a7sJnxLu5wyftTAbpivRy1nRhwFeh7RV43/3vURjVQpPRIZgib1D58U3HxlAp3yOFOR4hgv8tmX
-	6
-X-Google-Smtp-Source: AGHT+IF0pqYDSKfmjMlCHLtwzsSswts0tlMIY+9YMgJGtKdQTBwTqwnmstTGEZUgHABH70AZvnj08A==
-X-Received: by 2002:a05:6a00:929b:b0:6e6:4f67:8440 with SMTP id jw27-20020a056a00929b00b006e64f678440mr3490597pfb.1.1709791400757;
-        Wed, 06 Mar 2024 22:03:20 -0800 (PST)
-Received: from MVIN00020.mvista.com ([2401:4900:1cb2:fea3:64d7:e2df:84a:6241])
-        by smtp.gmail.com with ESMTPSA id x18-20020a056a00271200b006e650049472sm1992751pfv.123.2024.03.06.22.03.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Mar 2024 22:03:20 -0800 (PST)
-From: vanusuri@mvista.com
-To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][dunfell][PATCH] libxml2: Backport fix for CVE-2024-25062
-Date: Thu,  7 Mar 2024 11:33:11 +0530
-Message-Id: <20240307060311.10653-1-vanusuri@mvista.com>
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=mPTDm+7u;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=3796ab1ae3=changqing.li@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4276Su1n018526
+	for <openembedded-core@lists.openembedded.org>; Wed, 6 Mar 2024 22:48:58 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=J+5OQ
+	GzLwBrX6e1IHXCPOwpjBTVfYb6IQUJTeQOE+64=; b=mPTDm+7ultXgxH6OHUqIs
+	EUQ1Eu4USWn5kNps2vkwID5yxhetOMFrrgu+hS1n4Py4puEJXYBzN8SB9u/bxEiM
+	G5RVBBdELZO2BExrl3vv5+9vM8/LscJZl2TlCLzEUHEUR5aQA2ZJ+wZcZCP5qUXm
+	nwoPf9KWkd6CGoyhF+XKw1Mu8Tj/VPfFTQVs9eVMOfoWf9g2qTxboqkXs04J3yRy
+	hG6blMqedDRyeSVz6Bf3Rs1gy5rd5APRTfg1dqDFo/5R3zfRH2ZDxHZfqQBeiD7v
+	mSFPCeTMahWe4SSG18YFcIhcDs2jngKGatPG+AnhCp9K6KQW7qhUgAfEgKvLn9Py
+	Q==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3wm093vnpt-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 22:48:58 -0800 (PST)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Wed, 6 Mar 2024 22:48:57 -0800
+Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.35 via Frontend Transport; Wed, 6 Mar 2024 22:48:57 -0800
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] dnf: remove log_lock.pid before exit
+Date: Thu, 7 Mar 2024 14:48:56 +0800
+Message-ID: <20240307064856.879596-1-changqing.li@windriver.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: 4IbQDNo6KjrTumUUvW6ifPcu2j8DAl7p
+X-Proofpoint-ORIG-GUID: 4IbQDNo6KjrTumUUvW6ifPcu2j8DAl7p
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-07_03,2024-03-06_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 spamscore=0
+ lowpriorityscore=0 impostorscore=0 clxscore=1015 adultscore=0
+ mlxlogscore=999 mlxscore=0 malwarescore=0 phishscore=0 priorityscore=1501
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2402120000 definitions=main-2403070047
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 Mar 2024 06:03:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196769
+ <openembedded-core@lists.openembedded.org>; Thu, 07 Mar 2024 06:49:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196770
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+From: Changqing Li <changqing.li@windriver.com>
 
-Upstream-Status: Backport
-[https://gitlab.gnome.org/GNOME/libxml2/-/commit/31c6ce3b63f8a494ad9e31ca65187a73d8ad3508
-&
-https://gitlab.gnome.org/GNOME/libxml2/-/commit/2b0aac140d739905c7848a42efc60bfe783a39b7]
+dnf has a bug, refer [1], it causes that log_lock.pid may not removed
+after dnf exit. And for native dnf, since we change the lock file path
+to /, it will never be removed, and make the rootfs not clean,refer
+[2][3].  This patch is a workaround to fix above issue.
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+[1] https://github.com/rpm-software-management/dnf/issues/1963
+[2] https://git.openembedded.org/openembedded-core/commit/?id=742a1b71249f4da1c8d8e13e270b0eb6128a3f66
+[3] https://github.com/rpm-software-management/dnf/blob/master/etc/tmpfiles.d/dnf.conf
+
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- .../libxml/libxml2/CVE-2024-25062-pre1.patch  | 38 +++++++++++++++++++
- .../libxml/libxml2/CVE-2024-25062.patch       | 33 ++++++++++++++++
- meta/recipes-core/libxml/libxml2_2.9.10.bb    |  2 +
- 3 files changed, 73 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2024-25062-pre1.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2024-25062.patch
+ ...n.py-remove-log_lock.pid-before-exit.patch | 41 +++++++++++++++++++
+ meta/recipes-devtools/dnf/dnf_4.18.2.bb       |  3 +-
+ 2 files changed, 43 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/dnf/dnf/0001-main.py-remove-log_lock.pid-before-exit.patch
 
-diff --git a/meta/recipes-core/libxml/libxml2/CVE-2024-25062-pre1.patch b/meta/recipes-core/libxml/libxml2/CVE-2024-25062-pre1.patch
+diff --git a/meta/recipes-devtools/dnf/dnf/0001-main.py-remove-log_lock.pid-before-exit.patch b/meta/recipes-devtools/dnf/dnf/0001-main.py-remove-log_lock.pid-before-exit.patch
 new file mode 100644
-index 0000000000..31183399f8
+index 0000000000..ae036cbbd6
 --- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/CVE-2024-25062-pre1.patch
-@@ -0,0 +1,38 @@
-+From 31c6ce3b63f8a494ad9e31ca65187a73d8ad3508 Mon Sep 17 00:00:00 2001
-+From: Nick Wellnhofer <wellnhofer@aevum.de>
-+Date: Mon, 9 Nov 2020 17:55:44 +0100
-+Subject: [PATCH] Avoid call stack overflow with XML reader and recursive
-+ XIncludes
++++ b/meta/recipes-devtools/dnf/dnf/0001-main.py-remove-log_lock.pid-before-exit.patch
+@@ -0,0 +1,41 @@
++From bdf17281385cf33ad59267fe75a9e427e6e2ffc4 Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Thu, 7 Mar 2024 14:03:07 +0800
++Subject: [PATCH] main.py: remove log_lock.pid before exit
 +
-+Don't process XIncludes in the result of another inclusion to avoid
-+infinite recursion resulting in a call stack overflow.
++dnf has a bug, refer [1], it causes that log_lock.pid may not removed
++after dnf exit. And for native dnf, since we change the lock file path
++to /, it will never be removed, and make the rootfs not clean,refer
++[2][3].  This patch is a workaround to fix above issue.
 +
-+This is something the XInclude engine shouldn't allow but correct
-+handling of intra-document includes would require major changes.
++[1] https://github.com/rpm-software-management/dnf/issues/1963
++[2] https://git.openembedded.org/openembedded-core/commit/?id=742a1b71249f4da1c8d8e13e270b0eb6128a3f66
++[3] https://github.com/rpm-software-management/dnf/blob/master/etc/tmpfiles.d/dnf.conf
 +
-+Found by OSS-Fuzz.
++Upstream-Status: Submited [ report to https://github.com/rpm-software-management/dnf/issues/1963]
 +
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/31c6ce3b63f8a494ad9e31ca65187a73d8ad3508]
-+CVE: CVE-2024-25062 #Dependency Patch
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
 +---
-+ xmlreader.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
++ dnf/cli/main.py | 6 ++++++
++ 1 file changed, 6 insertions(+)
 +
-+diff --git a/xmlreader.c b/xmlreader.c
-+index 01adf74f4..72e40b032 100644
-+--- a/xmlreader.c
-++++ b/xmlreader.c
-+@@ -1585,7 +1585,8 @@ node_found:
-+     /*
-+      * Handle XInclude if asked for
-+      */
-+-    if ((reader->xinclude) && (reader->node != NULL) &&
-++    if ((reader->xinclude) && (reader->in_xinclude == 0) &&
-++        (reader->node != NULL) &&
-+ 	(reader->node->type == XML_ELEMENT_NODE) &&
-+ 	(reader->node->ns != NULL) &&
-+ 	((xmlStrEqual(reader->node->ns->href, XINCLUDE_NS)) ||
++diff --git a/dnf/cli/main.py b/dnf/cli/main.py
++index 2a7f92d54..2f672cff2 100644
++--- a/dnf/cli/main.py
+++++ b/dnf/cli/main.py
++@@ -200,6 +200,12 @@ def user_main(args, exit_code=False):
++ 
++     errcode = main(args)
++     if exit_code:
+++        for arg in args:
+++            if arg.startswith("--installroot="):
+++                root=arg.split("=")[1]
+++                if os.path.exists(os.path.join(root, "log_lock.pid")):
+++                    os.unlink(os.path.join(root, "log_lock.pid"))
+++                break
++         sys.exit(errcode)
++     return errcode
++ 
 +-- 
-+GitLab
++2.25.1
 +
-diff --git a/meta/recipes-core/libxml/libxml2/CVE-2024-25062.patch b/meta/recipes-core/libxml/libxml2/CVE-2024-25062.patch
-new file mode 100644
-index 0000000000..5365d5546a
---- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/CVE-2024-25062.patch
-@@ -0,0 +1,33 @@
-+From 2b0aac140d739905c7848a42efc60bfe783a39b7 Mon Sep 17 00:00:00 2001
-+From: Nick Wellnhofer <wellnhofer@aevum.de>
-+Date: Sat, 14 Oct 2023 22:45:54 +0200
-+Subject: [PATCH] [CVE-2024-25062] xmlreader: Don't expand XIncludes when
-+ backtracking
-+
-+Fixes a use-after-free if XML Reader if used with DTD validation and
-+XInclude expansion.
-+
-+Fixes #604.
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/2b0aac140d739905c7848a42efc60bfe783a39b7]
-+CVE: CVE-2024-25062
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ xmlreader.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/xmlreader.c b/xmlreader.c
-+index 979385a13..fefd68e0b 100644
-+--- a/xmlreader.c
-++++ b/xmlreader.c
-+@@ -1443,6 +1443,7 @@ node_found:
-+      * Handle XInclude if asked for
-+      */
-+     if ((reader->xinclude) && (reader->in_xinclude == 0) &&
-++        (reader->state != XML_TEXTREADER_BACKTRACK) &&
-+         (reader->node != NULL) &&
-+ 	(reader->node->type == XML_ELEMENT_NODE) &&
-+ 	(reader->node->ns != NULL) &&
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.10.bb b/meta/recipes-core/libxml/libxml2_2.9.10.bb
-index 90d30f1ea7..72f830b6d3 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.10.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.10.bb
-@@ -44,6 +44,8 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar.gz;subdir=${BP};name=te
-            file://CVE-2021-3516.patch \
-            file://CVE-2023-45322-1.patch \
-            file://CVE-2023-45322-2.patch \
-+           file://CVE-2024-25062-pre1.patch \
-+           file://CVE-2024-25062.patch \
+diff --git a/meta/recipes-devtools/dnf/dnf_4.18.2.bb b/meta/recipes-devtools/dnf/dnf_4.18.2.bb
+index dc0c18be5e..7770c9d7e0 100644
+--- a/meta/recipes-devtools/dnf/dnf_4.18.2.bb
++++ b/meta/recipes-devtools/dnf/dnf_4.18.2.bb
+@@ -17,7 +17,8 @@ SRC_URI = "git://github.com/rpm-software-management/dnf.git;branch=master;protoc
+            file://0001-set-python-path-for-completion_helper.patch \
             "
  
- SRC_URI[archive.sha256sum] = "593b7b751dd18c2d6abcd0c4bcb29efc203d0b4373a6df98e3a455ea74ae2813"
+-SRC_URI:append:class-native = "file://0001-dnf-write-the-log-lock-to-root.patch"
++SRC_URI:append:class-native = "file://0001-dnf-write-the-log-lock-to-root.patch \
++                               file://0001-main.py-remove-log_lock.pid-before-exit.patch"
+ 
+ SRCREV = "1c43d0999178d492381ad0b43917ffd9c74016f8"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
 -- 
 2.25.1
 
