@@ -1,492 +1,175 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3BADC48BF6
-	for <webhook@archiver.kernel.org>; Thu,  7 Mar 2024 05:44:57 +0000 (UTC)
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
- by mx.groups.io with SMTP id smtpd.web11.16796.1709790290863200241
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDD49C48BF6
+	for <webhook@archiver.kernel.org>; Thu,  7 Mar 2024 06:03:37 +0000 (UTC)
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+ by mx.groups.io with SMTP id smtpd.web11.17007.1709791402326390532
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Mar 2024 21:44:51 -0800
+ Wed, 06 Mar 2024 22:03:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=HdENDmOA;
- spf=pass (domain: mvista.com, ip: 209.85.167.171, mailfrom: hprajapati@mvista.com)
-Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-3c1ec2d05feso210137b6e.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 21:44:50 -0800 (PST)
+ dkim=pass header.i=@mvista.com header.s=google header.b=FvLzUoGQ;
+ spf=pass (domain: mvista.com, ip: 209.85.210.170, mailfrom: vanusuri@mvista.com)
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-6d9f94b9186so520470b3a.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 22:03:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1709790290; x=1710395090; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1709791401; x=1710396201; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VncDS7YdKjH5muiUZBC4K5yznEPwZ5IhkDxIuRE9Ot8=;
-        b=HdENDmOAS7VWurZFAxTSCpq+gjIAulUv9yEdSF7sv5o73YJ7pwyk8DGzxpkX1pdJmq
-         Kojb7BPPUK+gmKjgrPCR2NG3zkYiXEm/jibReTjaSlKF+71LYp+bViHEVJLf4Epgfi69
-         Bob/NavLMG9GgGTwsm34aBD8MNcKQ3w3EHEOo=
+        bh=IAV/irrqBtT9EvvvxI0c44zWQ25j6e80Ii2uOfEdV+U=;
+        b=FvLzUoGQ+F6gEw+p3kJ8jK/B/nXoGB/HA4wMv2pvUfxd+4VR2X9NPacf/Ewegh9xzT
+         OM6ws0aRGK0nveNEn7/NIhDgbPsM31YvBQhnYJkNy8Ywje2vTHfguYvJouRpfPCjQ5Jl
+         MMrje/OU2FjP/KEOgjik9cQQFK5Ur1LSG1mX8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709790290; x=1710395090;
+        d=1e100.net; s=20230601; t=1709791401; x=1710396201;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=VncDS7YdKjH5muiUZBC4K5yznEPwZ5IhkDxIuRE9Ot8=;
-        b=IFH0yLUhU+pc2q1WPHMbrnh5fyShHctwN6yQKSq8yGpB9YVIpICH4Gp1QeNib1oe43
-         awJZ2uZO5alzwpiBt00NzrDJ4VL8+Wnz6dhFXSCok0OkJfi9MCciFOshkzVAQSbLqg1S
-         azQD8jxKygyfgxLsuMzB00yabsroHyJWAB+GApFm5FrSd7vIfRBjCv/g5k9G6ZhxUlg0
-         UaL5+o37jcLA2JuroTZzL9NJ8WeAy/VmOqyTk08ZrdBsFnOFrqc/1Mz8nI6PApLBwsm1
-         odqtdPxKhcjWfYBeALkP5X4s7EGEeh4LjpAADlNNeghrBlte6hVSQKVVQQ/VOTCanT7y
-         FnaA==
-X-Gm-Message-State: AOJu0YxrTB/0FX0Bit2orxKExFdn/u+JCd9eq98N6XFZ08REhDnf9T/V
-	lOZOnYzLch0hXBDh4SikTK5yRYBk32TwHRSj+TODYiKi3Xskq19uJTZVCJMhNabPoVlY1uSA3bb
-	w
-X-Google-Smtp-Source: AGHT+IHULHp6h4Kj0UoVYzx9Onvqb4fZuqfFpYw+P/w67KAD3kGr138sk2yvLuN20uCQFJ/lcHsifw==
-X-Received: by 2002:a05:6871:8a7:b0:21e:3c57:18d4 with SMTP id r39-20020a05687108a700b0021e3c5718d4mr7327700oaq.19.1709790289682;
-        Wed, 06 Mar 2024 21:44:49 -0800 (PST)
-Received: from MVIN00016.mvista.com ([43.249.234.154])
-        by smtp.gmail.com with ESMTPSA id m7-20020aa78a07000000b006e319d8c752sm11691981pfa.150.2024.03.06.21.44.48
+        bh=IAV/irrqBtT9EvvvxI0c44zWQ25j6e80Ii2uOfEdV+U=;
+        b=sNsCBtfCmA++m4bGmS8uZJx4sjOEDQVZ7i85TNUTxgxaLJQLrY+/RCLLIdbiV8cMo4
+         K0SCVw8fqb06LxSrIh+VM3ZehsWrj04ysty5E9Lu8zlyfM1mirTmy8Qo+MplltQRWaYk
+         n0qsmlr0nVg8d4e1RnJV9UNHi5JsqNIuYtTYHq0Pmv6tT91BgOK+3058uSjd+PnFyZox
+         2JlrW7+Gu6q4F65Mms78nG31zgpRQNnJJMjxUPQGzVlJCYJJ0UNv3kfW5ElSzJ64+koc
+         O5RwBXfeh9Kqrkrczi4xjSBgwmC7ZY/oC1bLCkVfcCH6q16CQ+h0L9lwYW7ZszPpIhPe
+         1cZw==
+X-Gm-Message-State: AOJu0YyjUVMBT7DCvO2hgaiIuOwZIz/J/ZxycR3peXGuDLnnn98zHfDr
+	a7sJnxLu5wyftTAbpivRy1nRhwFeh7RV43/3vURjVQpPRIZgib1D58U3HxlAp3yOFOR4hgv8tmX
+	6
+X-Google-Smtp-Source: AGHT+IF0pqYDSKfmjMlCHLtwzsSswts0tlMIY+9YMgJGtKdQTBwTqwnmstTGEZUgHABH70AZvnj08A==
+X-Received: by 2002:a05:6a00:929b:b0:6e6:4f67:8440 with SMTP id jw27-20020a056a00929b00b006e64f678440mr3490597pfb.1.1709791400757;
+        Wed, 06 Mar 2024 22:03:20 -0800 (PST)
+Received: from MVIN00020.mvista.com ([2401:4900:1cb2:fea3:64d7:e2df:84a:6241])
+        by smtp.gmail.com with ESMTPSA id x18-20020a056a00271200b006e650049472sm1992751pfv.123.2024.03.06.22.03.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Mar 2024 21:44:49 -0800 (PST)
-From: Hitendra Prajapati <hprajapati@mvista.com>
+        Wed, 06 Mar 2024 22:03:20 -0800 (PST)
+From: vanusuri@mvista.com
 To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [kirkstone][PATCH] golang: Fix CVE-2023-45289 & CVE-2023-45290
-Date: Thu,  7 Mar 2024 11:14:43 +0530
-Message-Id: <20240307054443.44478-1-hprajapati@mvista.com>
+Cc: Vijay Anusuri <vanusuri@mvista.com>
+Subject: [OE-core][dunfell][PATCH] libxml2: Backport fix for CVE-2024-25062
+Date: Thu,  7 Mar 2024 11:33:11 +0530
+Message-Id: <20240307060311.10653-1-vanusuri@mvista.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 Mar 2024 05:44:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196768
+ <openembedded-core@lists.openembedded.org>; Thu, 07 Mar 2024 06:03:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196769
 
-Backport fixes for:
-CVE-2023-45289 - Upstream-Status: Backport from https://github.com/golang/go/commit/3a855208e3efed2e9d7c20ad023f1fa78afcc0be
-CVE-2023-45290 - Upstream-Status: Backport from https://github.com/golang/go/commit/041a47712e765e94f86d841c3110c840e76d8f82
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Upstream-Status: Backport
+[https://gitlab.gnome.org/GNOME/libxml2/-/commit/31c6ce3b63f8a494ad9e31ca65187a73d8ad3508
+&
+https://gitlab.gnome.org/GNOME/libxml2/-/commit/2b0aac140d739905c7848a42efc60bfe783a39b7]
+
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 ---
- meta/recipes-devtools/go/go-1.17.13.inc       |   2 +
- .../go/go-1.21/CVE-2023-45289.patch           | 121 ++++++++
- .../go/go-1.21/CVE-2023-45290.patch           | 270 ++++++++++++++++++
- 3 files changed, 393 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go-1.21/CVE-2023-45289.patch
- create mode 100644 meta/recipes-devtools/go/go-1.21/CVE-2023-45290.patch
+ .../libxml/libxml2/CVE-2024-25062-pre1.patch  | 38 +++++++++++++++++++
+ .../libxml/libxml2/CVE-2024-25062.patch       | 33 ++++++++++++++++
+ meta/recipes-core/libxml/libxml2_2.9.10.bb    |  2 +
+ 3 files changed, 73 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2024-25062-pre1.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2024-25062.patch
 
-diff --git a/meta/recipes-devtools/go/go-1.17.13.inc b/meta/recipes-devtools/go/go-1.17.13.inc
-index 95c4461d3e..02433a79e5 100644
---- a/meta/recipes-devtools/go/go-1.17.13.inc
-+++ b/meta/recipes-devtools/go/go-1.17.13.inc
-@@ -48,6 +48,8 @@ SRC_URI += "\
-     file://CVE-2023-39319.patch \
-     file://CVE-2023-39318.patch \
-     file://CVE-2023-39326.patch \
-+    file://CVE-2023-45289.patch \
-+    file://CVE-2023-45290.patch \
- "
- SRC_URI[main.sha256sum] = "a1a48b23afb206f95e7bbaa9b898d965f90826f6f1d1fc0c1d784ada0cd300fd"
- 
-diff --git a/meta/recipes-devtools/go/go-1.21/CVE-2023-45289.patch b/meta/recipes-devtools/go/go-1.21/CVE-2023-45289.patch
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2024-25062-pre1.patch b/meta/recipes-core/libxml/libxml2/CVE-2024-25062-pre1.patch
 new file mode 100644
-index 0000000000..f8ac64472f
+index 0000000000..31183399f8
 --- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.21/CVE-2023-45289.patch
-@@ -0,0 +1,121 @@
-+From 3a855208e3efed2e9d7c20ad023f1fa78afcc0be Mon Sep 17 00:00:00 2001
-+From: Damien Neil <dneil@google.com>
-+Date: Thu, 11 Jan 2024 11:31:57 -0800
-+Subject: [PATCH] [release-branch.go1.22] net/http, net/http/cookiejar: avoid
-+ subdomain matches on IPv6 zones
++++ b/meta/recipes-core/libxml/libxml2/CVE-2024-25062-pre1.patch
+@@ -0,0 +1,38 @@
++From 31c6ce3b63f8a494ad9e31ca65187a73d8ad3508 Mon Sep 17 00:00:00 2001
++From: Nick Wellnhofer <wellnhofer@aevum.de>
++Date: Mon, 9 Nov 2020 17:55:44 +0100
++Subject: [PATCH] Avoid call stack overflow with XML reader and recursive
++ XIncludes
 +
-+When deciding whether to forward cookies or sensitive headers
-+across a redirect, do not attempt to interpret an IPv6 address
-+as a domain name.
++Don't process XIncludes in the result of another inclusion to avoid
++infinite recursion resulting in a call stack overflow.
 +
-+Avoids a case where a maliciously-crafted redirect to an
-+IPv6 address with a scoped addressing zone could be
-+misinterpreted as a within-domain redirect. For example,
-+we could interpret "::1%.www.example.com" as a subdomain
-+of "www.example.com".
++This is something the XInclude engine shouldn't allow but correct
++handling of intra-document includes would require major changes.
 +
-+Thanks to Juho Nurminen of Mattermost for reporting this issue.
++Found by OSS-Fuzz.
 +
-+Fixes CVE-2023-45289
-+Fixes #65859
-+For #65065
-+
-+Change-Id: I8f463f59f0e700c8a18733d2b264a8bcb3a19599
-+Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/2131938
-+Reviewed-by: Tatiana Bradley <tatianabradley@google.com>
-+Reviewed-by: Roland Shoemaker <bracewell@google.com>
-+Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/2174344
-+Reviewed-by: Carlos Amedee <amedee@google.com>
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/569236
-+Reviewed-by: Carlos Amedee <carlos@golang.org>
-+LUCI-TryBot-Result: Go LUCI <golang-scoped@luci-project-accounts.iam.gserviceaccount.com>
-+Auto-Submit: Michael Knyszek <mknyszek@google.com>
-+
-+Upstream-Status: Backport [https://github.com/golang/go/commit/3a855208e3efed2e9d7c20ad023f1fa78afcc0be]
-+CVE: CVE-2023-45289
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/31c6ce3b63f8a494ad9e31ca65187a73d8ad3508]
++CVE: CVE-2024-25062 #Dependency Patch
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ src/net/http/client.go             |  6 ++++++
-+ src/net/http/client_test.go        |  1 +
-+ src/net/http/cookiejar/jar.go      |  7 +++++++
-+ src/net/http/cookiejar/jar_test.go | 10 ++++++++++
-+ 4 files changed, 24 insertions(+)
++ xmlreader.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
 +
-+diff --git a/src/net/http/client.go b/src/net/http/client.go
-+index 22db96b..b2dd445 100644
-+--- a/src/net/http/client.go
-++++ b/src/net/http/client.go
-+@@ -1015,6 +1015,12 @@ func isDomainOrSubdomain(sub, parent string) bool {
-+ 	if sub == parent {
-+ 		return true
-+ 	}
-++	// If sub contains a :, it's probably an IPv6 address (and is definitely not a hostname).
-++	// Don't check the suffix in this case, to avoid matching the contents of a IPv6 zone.
-++	// For example, "::1%.www.example.com" is not a subdomain of "www.example.com".
-++	if strings.ContainsAny(sub, ":%") {
-++		return false
-++	}
-+ 	// If sub is "foo.example.com" and parent is "example.com",
-+ 	// that means sub must end in "."+parent.
-+ 	// Do it without allocating.
-+diff --git a/src/net/http/client_test.go b/src/net/http/client_test.go
-+index 9788c7a..7a0aa53 100644
-+--- a/src/net/http/client_test.go
-++++ b/src/net/http/client_test.go
-+@@ -1729,6 +1729,7 @@ func TestShouldCopyHeaderOnRedirect(t *testing.T) {
-+ 		{"cookie2", "http://foo.com/", "http://bar.com/", false},
-+ 		{"authorization", "http://foo.com/", "http://bar.com/", false},
-+ 		{"www-authenticate", "http://foo.com/", "http://bar.com/", false},
-++		{"authorization", "http://foo.com/", "http://[::1%25.foo.com]/", false},
-+ 
-+ 		// But subdomains should work:
-+ 		{"www-authenticate", "http://foo.com/", "http://foo.com/", true},
-+diff --git a/src/net/http/cookiejar/jar.go b/src/net/http/cookiejar/jar.go
-+index e6583da..f2cf9c2 100644
-+--- a/src/net/http/cookiejar/jar.go
-++++ b/src/net/http/cookiejar/jar.go
-+@@ -362,6 +362,13 @@ func jarKey(host string, psl PublicSuffixList) string {
-+ 
-+ // isIP reports whether host is an IP address.
-+ func isIP(host string) bool {
-++	if strings.ContainsAny(host, ":%") {
-++		// Probable IPv6 address.
-++		// Hostnames can't contain : or %, so this is definitely not a valid host.
-++		// Treating it as an IP is the more conservative option, and avoids the risk
-++		// of interpeting ::1%.www.example.com as a subtomain of www.example.com.
-++		return true
-++	}
-+ 	return net.ParseIP(host) != nil
-+ }
-+ 
-+diff --git a/src/net/http/cookiejar/jar_test.go b/src/net/http/cookiejar/jar_test.go
-+index 47fb1ab..fd8d40e 100644
-+--- a/src/net/http/cookiejar/jar_test.go
-++++ b/src/net/http/cookiejar/jar_test.go
-+@@ -251,6 +251,7 @@ var isIPTests = map[string]bool{
-+ 	"127.0.0.1":            true,
-+ 	"1.2.3.4":              true,
-+ 	"2001:4860:0:2001::68": true,
-++	"::1%zone":             true,
-+ 	"example.com":          false,
-+ 	"1.1.1.300":            false,
-+ 	"www.foo.bar.net":      false,
-+@@ -613,6 +614,15 @@ var basicsTests = [...]jarTest{
-+ 			{"http://www.host.test:1234/", "a=1"},
-+ 		},
-+ 	},
-++	{
-++		"IPv6 zone is not treated as a host.",
-++		"https://example.com/",
-++		[]string{"a=1"},
-++		"a=1",
-++		[]query{
-++			{"https://[::1%25.example.com]:80/", ""},
-++		},
-++	},
-+ }
-+ 
-+ func TestBasics(t *testing.T) {
++diff --git a/xmlreader.c b/xmlreader.c
++index 01adf74f4..72e40b032 100644
++--- a/xmlreader.c
+++++ b/xmlreader.c
++@@ -1585,7 +1585,8 @@ node_found:
++     /*
++      * Handle XInclude if asked for
++      */
++-    if ((reader->xinclude) && (reader->node != NULL) &&
+++    if ((reader->xinclude) && (reader->in_xinclude == 0) &&
+++        (reader->node != NULL) &&
++ 	(reader->node->type == XML_ELEMENT_NODE) &&
++ 	(reader->node->ns != NULL) &&
++ 	((xmlStrEqual(reader->node->ns->href, XINCLUDE_NS)) ||
 +-- 
-+2.25.1
++GitLab
 +
-diff --git a/meta/recipes-devtools/go/go-1.21/CVE-2023-45290.patch b/meta/recipes-devtools/go/go-1.21/CVE-2023-45290.patch
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2024-25062.patch b/meta/recipes-core/libxml/libxml2/CVE-2024-25062.patch
 new file mode 100644
-index 0000000000..81f2123f34
+index 0000000000..5365d5546a
 --- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.21/CVE-2023-45290.patch
-@@ -0,0 +1,270 @@
-+From 041a47712e765e94f86d841c3110c840e76d8f82 Mon Sep 17 00:00:00 2001
-+From: Damien Neil <dneil@google.com>
-+Date: Tue, 16 Jan 2024 15:37:52 -0800
-+Subject: [PATCH] [release-branch.go1.22] net/textproto, mime/multipart: avoid
-+ unbounded read in MIME header
++++ b/meta/recipes-core/libxml/libxml2/CVE-2024-25062.patch
+@@ -0,0 +1,33 @@
++From 2b0aac140d739905c7848a42efc60bfe783a39b7 Mon Sep 17 00:00:00 2001
++From: Nick Wellnhofer <wellnhofer@aevum.de>
++Date: Sat, 14 Oct 2023 22:45:54 +0200
++Subject: [PATCH] [CVE-2024-25062] xmlreader: Don't expand XIncludes when
++ backtracking
 +
-+mime/multipart.Reader.ReadForm allows specifying the maximum amount
-+of memory that will be consumed by the form. While this limit is
-+correctly applied to the parsed form data structure, it was not
-+being applied to individual header lines in a form.
++Fixes a use-after-free if XML Reader if used with DTD validation and
++XInclude expansion.
 +
-+For example, when presented with a form containing a header line
-+that never ends, ReadForm will continue to read the line until it
-+runs out of memory.
++Fixes #604.
 +
-+Limit the amount of data consumed when reading a header.
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/2b0aac140d739905c7848a42efc60bfe783a39b7]
++CVE: CVE-2024-25062
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ xmlreader.c | 1 +
++ 1 file changed, 1 insertion(+)
 +
-+Fixes CVE-2023-45290
-+Fixes #65850
-+For #65383
-+
-+Change-Id: I7f9264d25752009e95f6b2c80e3d76aaf321d658
-+Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/2134435
-+Reviewed-by: Roland Shoemaker <bracewell@google.com>
-+Reviewed-by: Tatiana Bradley <tatianabradley@google.com>
-+Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/2174345
-+Reviewed-by: Carlos Amedee <amedee@google.com>
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/569237
-+Reviewed-by: Carlos Amedee <carlos@golang.org>
-+LUCI-TryBot-Result: Go LUCI <golang-scoped@luci-project-accounts.iam.gserviceaccount.com>
-+Auto-Submit: Michael Knyszek <mknyszek@google.com>
-+
-+Upstream-Status: Backport [https://github.com/golang/go/commit/041a47712e765e94f86d841c3110c840e76d8f82]
-+CVE: CVE-2023-45290
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>---
-+ src/mime/multipart/formdata_test.go | 42 +++++++++++++++++++++++++
-+ src/net/textproto/reader.go         | 48 ++++++++++++++++++++---------
-+ src/net/textproto/reader_test.go    | 12 ++++++++
-+ 3 files changed, 87 insertions(+), 15 deletions(-)
-+
-+diff --git a/src/mime/multipart/formdata_test.go b/src/mime/multipart/formdata_test.go
-+index c78eeb7..f729da6 100644
-+--- a/src/mime/multipart/formdata_test.go
-++++ b/src/mime/multipart/formdata_test.go
-+@@ -421,6 +421,48 @@ func TestReadFormLimits(t *testing.T) {
-+ 	}
-+ }
-+ 
-++func TestReadFormEndlessHeaderLine(t *testing.T) {
-++	for _, test := range []struct {
-++		name   string
-++		prefix string
-++	}{{
-++		name:   "name",
-++		prefix: "X-",
-++	}, {
-++		name:   "value",
-++		prefix: "X-Header: ",
-++	}, {
-++		name:   "continuation",
-++		prefix: "X-Header: foo\r\n  ",
-++	}} {
-++		t.Run(test.name, func(t *testing.T) {
-++			const eol = "\r\n"
-++			s := `--boundary` + eol
-++			s += `Content-Disposition: form-data; name="a"` + eol
-++			s += `Content-Type: text/plain` + eol
-++			s += test.prefix
-++			fr := io.MultiReader(
-++				strings.NewReader(s),
-++				neverendingReader('X'),
-++			)
-++			r := NewReader(fr, "boundary")
-++			_, err := r.ReadForm(1 << 20)
-++			if err != ErrMessageTooLarge {
-++				t.Fatalf("ReadForm(1 << 20): %v, want ErrMessageTooLarge", err)
-++			}
-++		})
-++	}
-++}
-++
-++type neverendingReader byte
-++
-++func (r neverendingReader) Read(p []byte) (n int, err error) {
-++	for i := range p {
-++		p[i] = byte(r)
-++	}
-++	return len(p), nil
-++}
-++
-+ func BenchmarkReadForm(b *testing.B) {
-+ 	for _, test := range []struct {
-+ 		name string
-+diff --git a/src/net/textproto/reader.go b/src/net/textproto/reader.go
-+index c6569c8..3ac4d4d 100644
-+--- a/src/net/textproto/reader.go
-++++ b/src/net/textproto/reader.go
-+@@ -16,6 +16,10 @@ import (
-+ 	"sync"
-+ )
-+ 
-++// TODO: This should be a distinguishable error (ErrMessageTooLarge)
-++// to allow mime/multipart to detect it.
-++var errMessageTooLarge = errors.New("message too large")
-++
-+ // A Reader implements convenience methods for reading requests
-+ // or responses from a text protocol network connection.
-+ type Reader struct {
-+@@ -37,13 +41,13 @@ func NewReader(r *bufio.Reader) *Reader {
-+ // ReadLine reads a single line from r,
-+ // eliding the final \n or \r\n from the returned string.
-+ func (r *Reader) ReadLine() (string, error) {
-+-	line, err := r.readLineSlice()
-++	line, err := r.readLineSlice(-1)
-+ 	return string(line), err
-+ }
-+ 
-+ // ReadLineBytes is like ReadLine but returns a []byte instead of a string.
-+ func (r *Reader) ReadLineBytes() ([]byte, error) {
-+-	line, err := r.readLineSlice()
-++	line, err := r.readLineSlice(-1)
-+ 	if line != nil {
-+ 		buf := make([]byte, len(line))
-+ 		copy(buf, line)
-+@@ -52,7 +56,10 @@ func (r *Reader) ReadLineBytes() ([]byte, error) {
-+ 	return line, err
-+ }
-+ 
-+-func (r *Reader) readLineSlice() ([]byte, error) {
-++// readLineSlice reads a single line from r,
-++// up to lim bytes long (or unlimited if lim is less than 0),
-++// eliding the final \r or \r\n from the returned string.
-++func (r *Reader) readLineSlice(lim int64) ([]byte, error) {
-+ 	r.closeDot()
-+ 	var line []byte
-+ 	for {
-+@@ -60,6 +67,9 @@ func (r *Reader) readLineSlice() ([]byte, error) {
-+ 		if err != nil {
-+ 			return nil, err
-+ 		}
-++		if lim >= 0 && int64(len(line))+int64(len(l)) > lim {
-++			return nil, errMessageTooLarge
-++		}
-+ 		// Avoid the copy if the first call produced a full line.
-+ 		if line == nil && !more {
-+ 			return l, nil
-+@@ -92,7 +102,7 @@ func (r *Reader) readLineSlice() ([]byte, error) {
-+ // Empty lines are never continued.
-+ //
-+ func (r *Reader) ReadContinuedLine() (string, error) {
-+-	line, err := r.readContinuedLineSlice(noValidation)
-++	line, err := r.readContinuedLineSlice(-1, noValidation)
-+ 	return string(line), err
-+ }
-+ 
-+@@ -113,7 +123,7 @@ func trim(s []byte) []byte {
-+ // ReadContinuedLineBytes is like ReadContinuedLine but
-+ // returns a []byte instead of a string.
-+ func (r *Reader) ReadContinuedLineBytes() ([]byte, error) {
-+-	line, err := r.readContinuedLineSlice(noValidation)
-++	line, err := r.readContinuedLineSlice(-1, noValidation)
-+ 	if line != nil {
-+ 		buf := make([]byte, len(line))
-+ 		copy(buf, line)
-+@@ -126,13 +136,14 @@ func (r *Reader) ReadContinuedLineBytes() ([]byte, error) {
-+ // returning a byte slice with all lines. The validateFirstLine function
-+ // is run on the first read line, and if it returns an error then this
-+ // error is returned from readContinuedLineSlice.
-+-func (r *Reader) readContinuedLineSlice(validateFirstLine func([]byte) error) ([]byte, error) {
-++// It reads up to lim bytes of data (or unlimited if lim is less than 0).
-++func (r *Reader) readContinuedLineSlice(lim int64, validateFirstLine func([]byte) error) ([]byte, error) {
-+ 	if validateFirstLine == nil {
-+ 		return nil, fmt.Errorf("missing validateFirstLine func")
-+ 	}
-+ 
-+ 	// Read the first line.
-+-	line, err := r.readLineSlice()
-++	line, err := r.readLineSlice(lim)
-+ 	if err != nil {
-+ 		return nil, err
-+ 	}
-+@@ -160,13 +171,21 @@ func (r *Reader) readContinuedLineSlice(validateFirstLine func([]byte) error) ([
-+ 	// copy the slice into buf.
-+ 	r.buf = append(r.buf[:0], trim(line)...)
-+ 
-++	if lim < 0 {
-++		lim = math.MaxInt64
-++	}
-++	lim -= int64(len(r.buf))
-++
-+ 	// Read continuation lines.
-+ 	for r.skipSpace() > 0 {
-+-		line, err := r.readLineSlice()
-++		r.buf = append(r.buf, ' ')
-++		if int64(len(r.buf)) >= lim {
-++			return nil, errMessageTooLarge
-++		}
-++		line, err := r.readLineSlice(lim - int64(len(r.buf)))
-+ 		if err != nil {
-+ 			break
-+ 		}
-+-		r.buf = append(r.buf, ' ')
-+ 		r.buf = append(r.buf, trim(line)...)
-+ 	}
-+ 	return r.buf, nil
-+@@ -511,7 +530,8 @@ func readMIMEHeader(r *Reader, maxMemory, maxHeaders int64) (MIMEHeader, error)
-+ 
-+ 	// The first line cannot start with a leading space.
-+ 	if buf, err := r.R.Peek(1); err == nil && (buf[0] == ' ' || buf[0] == '\t') {
-+-		line, err := r.readLineSlice()
-++		const errorLimit = 80 // arbitrary limit on how much of the line we'll quote
-++		line, err := r.readLineSlice(errorLimit)
-+ 		if err != nil {
-+ 			return m, err
-+ 		}
-+@@ -519,7 +539,7 @@ func readMIMEHeader(r *Reader, maxMemory, maxHeaders int64) (MIMEHeader, error)
-+ 	}
-+ 
-+ 	for {
-+-		kv, err := r.readContinuedLineSlice(mustHaveFieldNameColon)
-++		kv, err := r.readContinuedLineSlice(maxMemory, mustHaveFieldNameColon)
-+ 		if len(kv) == 0 {
-+ 			return m, err
-+ 		}
-+@@ -540,7 +560,7 @@ func readMIMEHeader(r *Reader, maxMemory, maxHeaders int64) (MIMEHeader, error)
-+ 
-+ 		maxHeaders--
-+ 		if maxHeaders < 0 {
-+-			return nil, errors.New("message too large")
-++			return nil, errMessageTooLarge
-+ 		}
-+ 
-+ 		// backport 5c55ac9bf1e5f779220294c843526536605f42ab
-+@@ -567,9 +587,7 @@ func readMIMEHeader(r *Reader, maxMemory, maxHeaders int64) (MIMEHeader, error)
-+ 		}
-+ 		maxMemory -= int64(len(value))
-+ 		if maxMemory < 0 {
-+-			// TODO: This should be a distinguishable error (ErrMessageTooLarge)
-+-			// to allow mime/multipart to detect it.
-+-			return m, errors.New("message too large")
-++			return m, errMessageTooLarge
-+ 		}
-+ 		if vv == nil && len(strs) > 0 {
-+ 			// More than likely this will be a single-element key.
-+diff --git a/src/net/textproto/reader_test.go b/src/net/textproto/reader_test.go
-+index 3ae0de1..db1ed91 100644
-+--- a/src/net/textproto/reader_test.go
-++++ b/src/net/textproto/reader_test.go
-+@@ -34,6 +34,18 @@ func TestReadLine(t *testing.T) {
-+ 	}
-+ }
-+ 
-++func TestReadLineLongLine(t *testing.T) {
-++	line := strings.Repeat("12345", 10000)
-++	r := reader(line + "\r\n")
-++	s, err := r.ReadLine()
-++	if err != nil {
-++		t.Fatalf("Line 1: %v", err)
-++	}
-++	if s != line {
-++		t.Fatalf("%v-byte line does not match expected %v-byte line", len(s), len(line))
-++	}
-++}
-++
-+ func TestReadContinuedLine(t *testing.T) {
-+ 	r := reader("line1\nline\n 2\nline3\n")
-+ 	s, err := r.ReadContinuedLine()
++diff --git a/xmlreader.c b/xmlreader.c
++index 979385a13..fefd68e0b 100644
++--- a/xmlreader.c
+++++ b/xmlreader.c
++@@ -1443,6 +1443,7 @@ node_found:
++      * Handle XInclude if asked for
++      */
++     if ((reader->xinclude) && (reader->in_xinclude == 0) &&
+++        (reader->state != XML_TEXTREADER_BACKTRACK) &&
++         (reader->node != NULL) &&
++ 	(reader->node->type == XML_ELEMENT_NODE) &&
++ 	(reader->node->ns != NULL) &&
 +-- 
-+2.25.1
++GitLab
 +
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.10.bb b/meta/recipes-core/libxml/libxml2_2.9.10.bb
+index 90d30f1ea7..72f830b6d3 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.10.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.10.bb
+@@ -44,6 +44,8 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar.gz;subdir=${BP};name=te
+            file://CVE-2021-3516.patch \
+            file://CVE-2023-45322-1.patch \
+            file://CVE-2023-45322-2.patch \
++           file://CVE-2024-25062-pre1.patch \
++           file://CVE-2024-25062.patch \
+            "
+ 
+ SRC_URI[archive.sha256sum] = "593b7b751dd18c2d6abcd0c4bcb29efc203d0b4373a6df98e3a455ea74ae2813"
 -- 
 2.25.1
 
