@@ -2,143 +2,162 @@ Return-Path: <changqing.li@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F144BC48BF6
-	for <webhook@archiver.kernel.org>; Thu,  7 Mar 2024 06:49:07 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.17617.1709794139069733208
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7805C48BF6
+	for <webhook@archiver.kernel.org>; Thu,  7 Mar 2024 06:49:17 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.17504.1709794148625335361
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Mar 2024 22:48:59 -0800
+ Wed, 06 Mar 2024 22:49:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=mPTDm+7u;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=3796ab1ae3=changqing.li@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4276Su1n018526
-	for <openembedded-core@lists.openembedded.org>; Wed, 6 Mar 2024 22:48:58 -0800
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=gKxkQK4p;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=3796ab1ae3=changqing.li@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4276ZY5S007020
+	for <openembedded-core@lists.openembedded.org>; Thu, 7 Mar 2024 06:49:07 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=J+5OQ
-	GzLwBrX6e1IHXCPOwpjBTVfYb6IQUJTeQOE+64=; b=mPTDm+7ultXgxH6OHUqIs
-	EUQ1Eu4USWn5kNps2vkwID5yxhetOMFrrgu+hS1n4Py4puEJXYBzN8SB9u/bxEiM
-	G5RVBBdELZO2BExrl3vv5+9vM8/LscJZl2TlCLzEUHEUR5aQA2ZJ+wZcZCP5qUXm
-	nwoPf9KWkd6CGoyhF+XKw1Mu8Tj/VPfFTQVs9eVMOfoWf9g2qTxboqkXs04J3yRy
-	hG6blMqedDRyeSVz6Bf3Rs1gy5rd5APRTfg1dqDFo/5R3zfRH2ZDxHZfqQBeiD7v
-	mSFPCeTMahWe4SSG18YFcIhcDs2jngKGatPG+AnhCp9K6KQW7qhUgAfEgKvLn9Py
-	Q==
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=MdPBU
+	rsXqCtM2TV5p01jw8Xfysz0uC44wBw6SyPucds=; b=gKxkQK4ppWh00xylI8tDg
+	Bn2pPSG2GofUWkZbh+rYXZhZyAKobJVyqJGgDNlEswjVTN3u0Qt6NM/q0mBVqofQ
+	9Enet5KZPGhm4OETr6CSHmjOqrGTCj9mxDoBKTpTmA8TmMpZL1Qb4oOY1V5HAt96
+	iRoD+arXuYMlAygAVhA2VBjOypjYC0qwNF7yj3sZGeRG7E0gAhM7OtjdkFHvYQoO
+	BZ4JIs0XPVjkpg8vdyt86PcDJ3PYDJk06JjbusPa/njTIv+LkZeWpiS3+vEWXmUi
+	2lwmhFGBDJlkc0m65b4cCB/YC4MGMFho9CCEEFRkmQF8p2ztYVRtgeqRFVkW0xbI
+	A==
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3wm093vnpt-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3wksawvuk9-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 06 Mar 2024 22:48:58 -0800 (PST)
+	for <openembedded-core@lists.openembedded.org>; Thu, 07 Mar 2024 06:49:07 +0000 (GMT)
 Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 6 Mar 2024 22:48:57 -0800
+ 15.1.2507.35; Wed, 6 Mar 2024 22:49:06 -0800
 Received: from pek-lpg-core2.wrs.com (128.224.153.41) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Wed, 6 Mar 2024 22:48:57 -0800
+ 15.1.2507.35 via Frontend Transport; Wed, 6 Mar 2024 22:49:05 -0800
 From: <changqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] dnf: remove log_lock.pid before exit
-Date: Thu, 7 Mar 2024 14:48:56 +0800
-Message-ID: <20240307064856.879596-1-changqing.li@windriver.com>
+Subject: [PATCH] go: filter out build specific path from the linker flags
+Date: Thu, 7 Mar 2024 14:49:04 +0800
+Message-ID: <20240307064904.888065-1-changqing.li@windriver.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: 4IbQDNo6KjrTumUUvW6ifPcu2j8DAl7p
-X-Proofpoint-ORIG-GUID: 4IbQDNo6KjrTumUUvW6ifPcu2j8DAl7p
+X-Proofpoint-ORIG-GUID: IDUGKJV38q-k8aWBjIajnFXdRJ6TFAiy
+X-Proofpoint-GUID: IDUGKJV38q-k8aWBjIajnFXdRJ6TFAiy
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-07_03,2024-03-06_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 spamscore=0
- lowpriorityscore=0 impostorscore=0 clxscore=1015 adultscore=0
- mlxlogscore=999 mlxscore=0 malwarescore=0 phishscore=0 priorityscore=1501
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2402120000 definitions=main-2403070047
+ definitions=2024-03-07_02,2024-03-06_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 malwarescore=0
+ suspectscore=0 lowpriorityscore=0 spamscore=0 impostorscore=0
+ priorityscore=1501 adultscore=0 bulkscore=0 clxscore=1015 mlxlogscore=999
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2402120000 definitions=main-2403070046
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 Mar 2024 06:49:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196770
+ <openembedded-core@lists.openembedded.org>; Thu, 07 Mar 2024 06:49:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196771
 
 From: Changqing Li <changqing.li@windriver.com>
 
-dnf has a bug, refer [1], it causes that log_lock.pid may not removed
-after dnf exit. And for native dnf, since we change the lock file path
-to /, it will never be removed, and make the rootfs not clean,refer
-[2][3].  This patch is a workaround to fix above issue.
+patch 0007-exec.go-do-not-write-linker-flags-into-buildids.patch
+removes linker flags from buildids for not breaking reproducibility,
+but it seems that this will make go not rebuild when linker flag
+changes, Refer [1]. So remove this oe-specific patch, and change to
+filter out build specific path from the linker flags
 
-[1] https://github.com/rpm-software-management/dnf/issues/1963
-[2] https://git.openembedded.org/openembedded-core/commit/?id=742a1b71249f4da1c8d8e13e270b0eb6128a3f66
-[3] https://github.com/rpm-software-management/dnf/blob/master/etc/tmpfiles.d/dnf.conf
+[1] https://github.com/golang/go/issues/63760
 
 Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- ...n.py-remove-log_lock.pid-before-exit.patch | 41 +++++++++++++++++++
- meta/recipes-devtools/dnf/dnf_4.18.2.bb       |  3 +-
- 2 files changed, 43 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/dnf/dnf/0001-main.py-remove-log_lock.pid-before-exit.patch
+ meta/recipes-devtools/go/go-1.22.0.inc        |  2 +-
+ ...ut-build-specific-paths-from-linker-.patch | 61 +++++++++++++++++++
+ 2 files changed, 62 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/go/go/0001-exec.go-filter-out-build-specific-paths-from-linker-.patch
 
-diff --git a/meta/recipes-devtools/dnf/dnf/0001-main.py-remove-log_lock.pid-before-exit.patch b/meta/recipes-devtools/dnf/dnf/0001-main.py-remove-log_lock.pid-before-exit.patch
+diff --git a/meta/recipes-devtools/go/go-1.22.0.inc b/meta/recipes-devtools/go/go-1.22.0.inc
+index 230ada5e4b..5b94051fc2 100644
+--- a/meta/recipes-devtools/go/go-1.22.0.inc
++++ b/meta/recipes-devtools/go/go-1.22.0.inc
+@@ -11,8 +11,8 @@ SRC_URI += "\
+     file://0004-make.bash-override-CC-when-building-dist-and-go_boot.patch \
+     file://0005-cmd-dist-separate-host-and-target-builds.patch \
+     file://0006-cmd-go-make-GOROOT-precious-by-default.patch \
+-    file://0007-exec.go-do-not-write-linker-flags-into-buildids.patch \
+     file://0008-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
+     file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch \
++    file://0001-exec.go-filter-out-build-specific-paths-from-linker-.patch \
+ "
+ SRC_URI[main.sha256sum] = "4d196c3d41a0d6c1dfc64d04e3cc1f608b0c436bd87b7060ce3e23234e1f4d5c"
+diff --git a/meta/recipes-devtools/go/go/0001-exec.go-filter-out-build-specific-paths-from-linker-.patch b/meta/recipes-devtools/go/go/0001-exec.go-filter-out-build-specific-paths-from-linker-.patch
 new file mode 100644
-index 0000000000..ae036cbbd6
+index 0000000000..c5bf28f54a
 --- /dev/null
-+++ b/meta/recipes-devtools/dnf/dnf/0001-main.py-remove-log_lock.pid-before-exit.patch
-@@ -0,0 +1,41 @@
-+From bdf17281385cf33ad59267fe75a9e427e6e2ffc4 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/go/go/0001-exec.go-filter-out-build-specific-paths-from-linker-.patch
+@@ -0,0 +1,61 @@
++From 083b5c74b12a1abeb11dd7f58a1cb1593d0000c0 Mon Sep 17 00:00:00 2001
 +From: Changqing Li <changqing.li@windriver.com>
-+Date: Thu, 7 Mar 2024 14:03:07 +0800
-+Subject: [PATCH] main.py: remove log_lock.pid before exit
++Date: Tue, 27 Feb 2024 18:06:51 +0800
++Subject: [PATCH] exec.go: filter out build-specific paths from linker flags
 +
-+dnf has a bug, refer [1], it causes that log_lock.pid may not removed
-+after dnf exit. And for native dnf, since we change the lock file path
-+to /, it will never be removed, and make the rootfs not clean,refer
-+[2][3].  This patch is a workaround to fix above issue.
++The flags can contain build-specific paths, breaking reproducibility.
++Filter out options that have build-specific paths.
 +
-+[1] https://github.com/rpm-software-management/dnf/issues/1963
-+[2] https://git.openembedded.org/openembedded-core/commit/?id=742a1b71249f4da1c8d8e13e270b0eb6128a3f66
-+[3] https://github.com/rpm-software-management/dnf/blob/master/etc/tmpfiles.d/dnf.conf
-+
-+Upstream-Status: Submited [ report to https://github.com/rpm-software-management/dnf/issues/1963]
++Upstream-Status: Inappropriate [ Not perfect for upstream ]
 +
 +Signed-off-by: Changqing Li <changqing.li@windriver.com>
 +---
-+ dnf/cli/main.py | 6 ++++++
-+ 1 file changed, 6 insertions(+)
++ src/cmd/go/internal/work/exec.go | 25 ++++++++++++++++++++++++-
++ 1 file changed, 24 insertions(+), 1 deletion(-)
 +
-+diff --git a/dnf/cli/main.py b/dnf/cli/main.py
-+index 2a7f92d54..2f672cff2 100644
-+--- a/dnf/cli/main.py
-++++ b/dnf/cli/main.py
-+@@ -200,6 +200,12 @@ def user_main(args, exit_code=False):
++diff --git a/src/cmd/go/internal/work/exec.go b/src/cmd/go/internal/work/exec.go
++index cde867b..e3ce17d 100644
++--- a/src/cmd/go/internal/work/exec.go
+++++ b/src/cmd/go/internal/work/exec.go
++@@ -1358,6 +1358,29 @@ func (b *Builder) linkActionID(a *Action) cache.ActionID {
++ 	return h.Sum()
++ }
 + 
-+     errcode = main(args)
-+     if exit_code:
-++        for arg in args:
-++            if arg.startswith("--installroot="):
-++                root=arg.split("=")[1]
-++                if os.path.exists(os.path.join(root, "log_lock.pid")):
-++                    os.unlink(os.path.join(root, "log_lock.pid"))
-++                break
-+         sys.exit(errcode)
-+     return errcode
+++func filterLinkerFlags(flags []string) []string {
+++	var newflags []string
+++	var skipflag bool
+++	skipflag = false
+++	for i, flag := range flags {
+++		if skipflag == true {
+++			skipflag = false
+++			continue
+++		}
+++		if strings.HasPrefix(flag, "--sysroot") || strings.HasPrefix(flag, "-fmacro-prefix-map") || strings.HasPrefix(flag, "-fdebug-prefix-map") || strings.HasPrefix(flag, "-ffile-prefix-map") || strings.HasPrefix(flag, "-fcanon-prefix-map") || strings.HasPrefix(flag, "-fprofile-prefix-map") || strings.HasPrefix(flag, "-Wl,-rpath-link"){
+++			continue
+++		} else if strings.HasPrefix(flag, "-extldflags") {
+++			skipflag = true
+++			newflags = append(newflags, flag)
+++			var filterd_Extldflags []string = filterLinkerFlags(strings.Split(flags[i+1], " "))
+++			newflags = append(newflags, strings.Join(filterd_Extldflags, " "))
+++		} else {
+++			newflags = append(newflags, flag)
+++		}
+++	}
+++	return newflags
+++}
+++
++ // printLinkerConfig prints the linker config into the hash h,
++ // as part of the computation of a linker-related action ID.
++ func (b *Builder) printLinkerConfig(h io.Writer, p *load.Package) {
++@@ -1368,7 +1391,7 @@ func (b *Builder) printLinkerConfig(h io.Writer, p *load.Package) {
++ 	case "gc":
++ 		fmt.Fprintf(h, "link %s %q %s\n", b.toolID("link"), forcedLdflags, ldBuildmode)
++ 		if p != nil {
++-			fmt.Fprintf(h, "linkflags %q\n", p.Internal.Ldflags)
+++			fmt.Fprintf(h, "linkflags %q\n", filterLinkerFlags(p.Internal.Ldflags))
++ 		}
 + 
++ 		// GOARM, GOMIPS, etc.
 +-- 
 +2.25.1
 +
-diff --git a/meta/recipes-devtools/dnf/dnf_4.18.2.bb b/meta/recipes-devtools/dnf/dnf_4.18.2.bb
-index dc0c18be5e..7770c9d7e0 100644
---- a/meta/recipes-devtools/dnf/dnf_4.18.2.bb
-+++ b/meta/recipes-devtools/dnf/dnf_4.18.2.bb
-@@ -17,7 +17,8 @@ SRC_URI = "git://github.com/rpm-software-management/dnf.git;branch=master;protoc
-            file://0001-set-python-path-for-completion_helper.patch \
-            "
- 
--SRC_URI:append:class-native = "file://0001-dnf-write-the-log-lock-to-root.patch"
-+SRC_URI:append:class-native = "file://0001-dnf-write-the-log-lock-to-root.patch \
-+                               file://0001-main.py-remove-log_lock.pid-before-exit.patch"
- 
- SRCREV = "1c43d0999178d492381ad0b43917ffd9c74016f8"
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
 -- 
 2.25.1
 
