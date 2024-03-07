@@ -1,100 +1,127 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5646BC54E49
-	for <webhook@archiver.kernel.org>; Thu,  7 Mar 2024 16:51:31 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web11.28486.1709830283684353253
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F38AC54798
+	for <webhook@archiver.kernel.org>; Thu,  7 Mar 2024 17:24:15 +0000 (UTC)
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
+ by mx.groups.io with SMTP id smtpd.web10.586.1709832247550220310
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Mar 2024 08:51:23 -0800
+ Thu, 07 Mar 2024 09:24:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=GSSqGSEG;
- spf=pass (domain: gmail.com, ip: 209.85.221.43, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-33e6d364b7aso381307f8f.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 07 Mar 2024 08:51:23 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=iPojWr1p;
+ spf=pass (domain: gmail.com, ip: 209.85.160.50, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-21f0c82e97fso604640fac.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 07 Mar 2024 09:24:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709830282; x=1710435082; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1709832247; x=1710437047; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=SqEmLNyCWfQgNI4xMyDsJiVtSknhPDc7PROQ2+wmANU=;
-        b=GSSqGSEG224Osric41nbdTBLGtbJkydk2JNSZYe5WzX9fX79rRn51slDvxYL14TkqB
-         PmZW/mynsuAq/6eos/ZaNru1pwLNmgix5WPqaFq26/8yzMbT8ip21D42gM0goxB7HYA5
-         /tOTOoMD0GSyLThuvMcVwFrLf+JZtoDdABk8GgxAwTK22d6llNvnk1QPRkL+OkuQQwHf
-         PHjbvH3fTClJ+rp0bxl2vH0hMPdeJBBhIH4QHiUpa8/Fitt/kr6XEXJAY0hfToG69v1M
-         Ei0tMq4DHS/qFgwHaXI5Aa9hiaW4QIC99NlYHuj87DDJLCkqfpQnqlRPCvobvo301IPP
-         TwCw==
+        bh=ccyynil3c/WwqTRq7E2GB3fKCuuFGvT+D1iGGw0FGK0=;
+        b=iPojWr1pESUj7jqfHQsD5Obnla/KG9SRbjxExso7kGAjjyDoN1YbKlYVKDubATyHLe
+         FYUTUWohhE7Fo1jJPdbR1u6LLaixgPDZ0QPg+HqpnYTbIPuAemwwOVjIf2dlp5bUCfDV
+         GBEjGgrODhHw9o1DPLy/UJ1+WbAOXaI07Ed/42ZwxTTz/wIniMnWtbqKY/GaqtwTwUJG
+         9JXIBRR5Aa7DKJtBOaWAvoqVcu5ReO2a5Tnsi6EWv0kktVDa5e8zipTpA2UuhAbFWNTU
+         mwxFz1OjzkFUvBqxuA52x6GJBUZ+yWZqgEa9BD+uyBKC6bVwUhuvrxI61taW9jOtCcz+
+         +7sA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709830282; x=1710435082;
+        d=1e100.net; s=20230601; t=1709832247; x=1710437047;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=SqEmLNyCWfQgNI4xMyDsJiVtSknhPDc7PROQ2+wmANU=;
-        b=oNObqhbegMFjSlO9yVkYR21ibCDItd5+ldyiqgzvh7HRaKqn8ue8RTrE9YG4tFfMdK
-         /1DDLIWuUjb/rtVOZ5vcD+wWKNOkcezz9JIhQisdjhTMy93zu7eMpeZL6Aiqjixk1OL0
-         zcCj+2yQqQR3RH0rp+K5YZFRD08TZEUBwmBbHPQ7WtUnwZWhtcTfVidsGlvWWP8PF6RE
-         xmWpEC9O0fhnkN+n6baHxE1TAqJJLZHiZvH20/pi8qodFWqFWyN7V9eLr8HABz4knQQC
-         MTKbwnc/cgKWdCW3jefnkKDJyq1GNUwDpPUfW/XvXWRq1LWUbB2FDBVK2L20Ee0+UK6e
-         HtOQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX//y9tbzaatzOgU6xLvi9NNTyagS/KsIh/L+VPy9Eex2ZObDyUFtGLYd8nMnNFo2b931711z24qj/aXUauO/1DZgkScdONFZ0YxPvdfM93l9/6t7S4v91b
-X-Gm-Message-State: AOJu0YyW2C9xJGAy6W9uY5MDGW1nrktV1yXGkhT+Dd5jPuZq5cCXdGOX
-	uAqx+Olx7c/q52yy5wRDqb53v94+rYvzIBYEnF3J92q2/9OUtdZxnZBWuPmo2BlX6db2+nj8zve
-	yKsqoV8lTYtgKjh+D+vk+LkP6PQ76q8DabVU=
-X-Google-Smtp-Source: AGHT+IGvUaRilde9C7lBG3Zb6uEod9GiTplhJpsiK51CmHcNOXyFAeqHibKDR8/NNX7QpaWCvXq9l7FWruV9lOJRI+k=
-X-Received: by 2002:adf:e682:0:b0:33e:1ea:2eeb with SMTP id
- r2-20020adfe682000000b0033e01ea2eebmr14915990wrm.67.1709830281738; Thu, 07
- Mar 2024 08:51:21 -0800 (PST)
+        bh=ccyynil3c/WwqTRq7E2GB3fKCuuFGvT+D1iGGw0FGK0=;
+        b=O0+oVCBmr9IAMRlUssl+TdAVjdi66t8jUxTJ5LVSM5B/dUjgWItwH+OKMnUOPgF7pb
+         hZyRaJguP8Hxrb33u4vGV+EliWn8852leD5ok7vEAts8De3cKOjH2FQJhCsF1s0OiP1B
+         jCEkQoZU7uW5cwTCOXIjZTLdZ2J3GJREqZW5PPjPA4kuK74EKNMGOvJ9YNZOcKYTlGhe
+         JedmfUQn/qwkM9Q1w9Zou6e7qqccICumlXCepV/WqeMkw5oGFNCD9Rz7FDzELYLhCg3V
+         Ha6izv7iwv5sWIzKdN8SeXZARI2HfL4y4KLqJZE0IkNcnWNxSBCSlHwccuMlU7f5pKjx
+         Y7Fg==
+X-Gm-Message-State: AOJu0Yw3s27DLcd4AOHJ/D/Ux0lIO8RZ6fORK/9eetEuk9UkS+T0GoUw
+	JjvDMgDpoMAPuQMcc1t7+yHH7i6mD9VhfPY+5BA4Vm7aEfjvhMfarE2U8WYEkG6RtYteYIZorkH
+	x+DhNAB3A2vgazsq0liMUPoELll17duIR/x8=
+X-Google-Smtp-Source: AGHT+IEjFj/q8Q052lA37dNyBRGcEnsPZ5Rw+FTYmvaSGlJIL9BmxFnoiq0Ryk3tugnV1shauPUwS4shRU1Ax+ZaAR0=
+X-Received: by 2002:a05:6870:82a9:b0:220:13b5:3e9e with SMTP id
+ q41-20020a05687082a900b0022013b53e9emr582718oae.4.1709832246755; Thu, 07 Mar
+ 2024 09:24:06 -0800 (PST)
 MIME-Version: 1.0
-References: <20240225093726.1113403-1-martin.jansa@gmail.com>
- <CAMKF1sr1SVSnAZ2_ZCTHfMyM8i01msDQ+81M5h+Bb9zmKGPLCw@mail.gmail.com>
- <17B78F10F29044A4.14830@lists.openembedded.org> <CA+chaQfh47nRBVAjhxpo1xeXWkmw-vHf8Jk-MWX6Npn4GfyGXw@mail.gmail.com>
- <CAMKF1sroBXyZwPqLyehFLD36orrh7fC3Z5A_b98863-5hbRFxQ@mail.gmail.com> <DB5PR02MB10213AB74AFAAB16C842B2E78EF202@DB5PR02MB10213.eurprd02.prod.outlook.com>
-In-Reply-To: <DB5PR02MB10213AB74AFAAB16C842B2E78EF202@DB5PR02MB10213.eurprd02.prod.outlook.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 7 Mar 2024 17:51:07 +0100
-Message-ID: <CA+chaQdc8zDhrk5JhK5yGbcNSuFOE_1MWVBm_6KhP85KdP3v+g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] glib-2.0: backport a switch from distutils to
- packaging in codegen
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: Khem Raj <raj.khem@gmail.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+References: <20240307065635.1261288-1-changqing.li@windriver.com>
+In-Reply-To: <20240307065635.1261288-1-changqing.li@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 7 Mar 2024 09:23:40 -0800
+Message-ID: <CAMKF1srqPZMYPH+1n4B35HgZM+CgcMqzLe2S9mNE6PZ10qq1jA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH V6] systemd: fix dead link /var/log/README
+To: Changqing Li <changqing.li@eng.windriver.com>
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 Mar 2024 16:51:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196808
+ <openembedded-core@lists.openembedded.org>; Thu, 07 Mar 2024 17:24:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196809
 
-On Thu, Mar 7, 2024 at 4:48=E2=80=AFPM Peter Kjellerstedt
-<peter.kjellerstedt@axis.com> wrote:
+This is causing errors in do_install
+
+| chown: cannot access
+'/mnt/b/yoe/master/build/tmp/work/riscv64-yoe-linux/systemd/255.4/image/var=
+/log/journal':
+No such file or directory
+
+On Wed, Mar 6, 2024 at 10:56=E2=80=AFPM Changqing Li
+<changqing.li@eng.windriver.com> wrote:
 >
-> We have a lot of recipes that use gdbus-codegen and are now facing this
-> problem. To solve it, I have added a gdbus-codegen.bbclass that does:
+> From: Changqing Li <changqing.li@windriver.com>
 >
-> DEPENDS:append =3D " glib-2.0-native python3-packaging-native"
+> There are 2 issues here:
+> First, in package systemd, there is a file /usr/lib/tmpfile.d/legacy.conf=
+,
+> which will create a symlink to /usr/share/doc/systemd/README.logs during
+> boot time. But for oe, /usr/share/doc/systemd/README.logs is packaged in
+> systemd-doc, which will make /var/log/README is dead link.
 >
-> inherit python3native
+> Second, the symlink /var/log/README in legacy.conf use relative path:
+> "L /var/log/README - - - - ../../usr/share/doc/systemd/README.logs"
+> But for oe, when VOLATILE_LOG_DIR is true, /var/log is a link to
+> /var/volatile/log, so /var/log/README need link to
+> ../../../usr/share/doc/systemd/README.logs, while VOLATILE_LOG_DIR is
+> false, /var/log is a dir, so /var/log/README need link to
+> ../../usr/share/doc/systemd/README.logs. So current symlink in
+> legacy.conf will also make it a dead link when VOLATILE_LOG_DIR is true.
 >
-> This adds the dependencies needed to use gdbus-codegen, and is similar
-> in spirit to pkgconfig.bbclass, which adds the dependencies needed to use
-> pkg-config.
+> Turn off CREATE_LOG_DIRS to avoid these issues.
 >
-> I can send a patch to add it to either meta or meta-oe if it sounds
-> like this is something that would be useful to others.
-
-I was wondering about the same while changing this, there is already
-CODEGEN_PYTHON_RDEPENDS =3D "python3 python3-packaging python3-xml"
-CODEGEN_PYTHON_RDEPENDS:mingw32 =3D ""
-
-RDEPENDS:${PN}-codegen +=3D "${CODEGEN_PYTHON_RDEPENDS}"
-
-but that won't apply the python3native inherit, unless moving this to
-some gdbus-codegen.bbclass as you suggested.
-
-I've already fixed all recipes in meta-oe and our internal layers so I
-don't need this anymore, but agree it would be useful.
-
-Regards,
+> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> ---
+>  meta/recipes-core/systemd/systemd_255.1.bb | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-core/systemd/systemd_255.1.bb b/meta/recipes-co=
+re/systemd/systemd_255.1.bb
+> index a907d60e84..9fd7eccb38 100644
+> --- a/meta/recipes-core/systemd/systemd_255.1.bb
+> +++ b/meta/recipes-core/systemd/systemd_255.1.bb
+> @@ -247,6 +247,7 @@ EXTRA_OEMESON +=3D "-Dnobody-user=3Dnobody \
+>                    -Dsystem-uid-max=3D999 \
+>                    -Dsystem-alloc-gid-min=3D101 \
+>                    -Dsystem-gid-max=3D999 \
+> +                  -Dcreate-log-dirs=3Dfalse \
+>                    "
+>
+>  # Hardcode target binary paths to avoid using paths from sysroot or wors=
+e
+> --
+> 2.25.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#196773): https://lists.openembedded.org/g/openembedde=
+d-core/message/196773
+> Mute This Topic: https://lists.openembedded.org/mt/104782978/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
