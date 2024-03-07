@@ -1,84 +1,283 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3A6CC54798
-	for <webhook@archiver.kernel.org>; Thu,  7 Mar 2024 22:33:12 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web11.7151.1709850789638623745
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12634C54E4A
+	for <webhook@archiver.kernel.org>; Thu,  7 Mar 2024 23:05:33 +0000 (UTC)
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+ by mx.groups.io with SMTP id smtpd.web11.7951.1709852732116283995
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Mar 2024 14:33:10 -0800
+ Thu, 07 Mar 2024 15:05:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=a+EGKYjV;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-33e70d71756so426886f8f.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 07 Mar 2024 14:33:09 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=p4WG/V8N;
+ spf=softfail (domain: sakoman.com, ip: 209.85.128.173, mailfrom: steve@sakoman.com)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-609fd5fbe50so8429107b3.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 07 Mar 2024 15:05:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1709850788; x=1710455588; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+GmgmytdUCjmB9cWtHoDdQ/Wz5/GdPnE4N2AHtADV1A=;
-        b=a+EGKYjVCD5smEcFlNt4THL0jN3tgXt5+0YeCITS2ZfP4h2oicM3mz0VgU5Be2k0J4
-         HAvf1770Hm4ek8kmVwGVo9dYSYmQHwy4zyrhByzM5m5n5O65FxrDj/KPJsCFqzs/eiap
-         tVunj5ZcQa6aRDnQkKkyPk3mUeUaNcWPJMkQk=
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1709852731; x=1710457531; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hP8rQrKAKjpYDJktYaMDrx/U4yHCzfF8k92N9EXcZKw=;
+        b=p4WG/V8NHyh4qhAQ29Xi2o/8l7GloAWUbWSBGcQ0hZZ8xLZCONNQrzSkerSL+nJxnh
+         KbEdkN1hAi2XlQd4HxD/whhch+4znKbsapbWtuncovczQJHa1ymshyrwec8IXnekfX35
+         0TEV9y8noMovQYF3D82zOUgpxU0zG+L2XSNJMUexH+Vpr+85XB3s+0kvfCLL588EqdRd
+         SWLuv6bQy3RvwtZyOsY/mfemMWzBqXklHLpLTs5OEd9XOP7OtW/OAcrleeQPrXVgKvF0
+         xOp1haLLbIYxuakPs+UZStn7oZRIxE3/PDakZ+3269G1pDD8RX/wMwgeeifPXtD8N72S
+         mfjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709850788; x=1710455588;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+GmgmytdUCjmB9cWtHoDdQ/Wz5/GdPnE4N2AHtADV1A=;
-        b=f+v843qGM5Q/sLkHAQKAueeVshww8m91rmBBBjU3Ioln9zjKYuoOtnMK2uFUG54C04
-         E2Tu4lyEQRjfZOYbg/49AKkdRntyoyahYpl0mwY4WYwoJQRtvkQnUdIW4eB0Lpy2Yq95
-         CN12iGmOqnf5Eb3hqwH/q3DoQQFXvN62p1R3jWyUyALwNq+qJfxGYyHxsaGjCgMFJF+5
-         7O6Mo5a7cLO7zJZLaw2XbT0NdWLFCK9+Nzhs2+3yG2/QFEmJuYY9G3EvN1lI1ZcghIfT
-         gr0N1uHjii03F+9zpB2FhyZPsJgB7tyyq69DEDMyWy1vpcsVTPS0ZtRo2yeBt0P3sHJX
-         y6KQ==
-X-Gm-Message-State: AOJu0YydVV39VFCTVzbaEfhDw9vWcVyGN4zKTj2AiBQJhoqJHIoWYK+d
-	zDvO2Ll9iFmeY3uglQrIR574wFNqqu+zDcTXSKpdsl/DVrgkDVtObZKZ9vvlWyHFm3+v/nPPMdj
-	t
-X-Google-Smtp-Source: AGHT+IGDuuSTHlL4RuTWIOqBvs3Ivu/pN3yzPWRu3bqBkqdL12QsESJVrjReXv3bz06G/ZwLfzpiCw==
-X-Received: by 2002:adf:b1d3:0:b0:33e:1ee2:bd18 with SMTP id r19-20020adfb1d3000000b0033e1ee2bd18mr2650948wra.22.1709850787674;
-        Thu, 07 Mar 2024 14:33:07 -0800 (PST)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:fd0d:9fb:2ae8:5152])
-        by smtp.gmail.com with ESMTPSA id g1-20020adfd1e1000000b0033e3a24f17esm12873262wrd.76.2024.03.07.14.33.07
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Mar 2024 14:33:07 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] layer.conf: Prepare for release, drop nanbield LAYERSERIES
-Date: Thu,  7 Mar 2024 22:33:04 +0000
-Message-Id: <20240307223304.2386241-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.40.1
+        d=1e100.net; s=20230601; t=1709852731; x=1710457531;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hP8rQrKAKjpYDJktYaMDrx/U4yHCzfF8k92N9EXcZKw=;
+        b=s9LketngN86Ic7bZl4KklKqzuFeuOkADifniMafQ67ZOPw0TGYeOD8VYhM5vFlaXX7
+         9OhwQbbZ00zBaLTqLYoQdBfw1Nog1a3zRV3b7VNlBQ8CsYC6PCvvj4RXSJLhBbA0TSF0
+         OfvU5Mt8GG1wpL6A6GIJH+Yq9HEILKiz2HnLvtOGqZGlSnemirKIIqHqjZhxlSv4Jtpa
+         nM75q6jjudpBiypBAVe0q7SPtXn7HpvvDLpv47FZTVtqaVxTQ8tdf4DxDDlhJK9R6Avu
+         s2K35y87JXwkbOHxof7kFABNBFFOwernaHXOlTFW9wLA07g+5domFvysQseDtAgOxwSN
+         K9LQ==
+X-Gm-Message-State: AOJu0YxL3psT64bD6w+Um1/mfd8hyrMn5c1F3MgzExv6coyGy89CYapg
+	j+9f65delLKRXeD5x1pMiAsr8D8fOglpeVXPYDDTYwYgNFoqkxNABFIp/ITsDrgmikfDEhLG3/c
+	EedppCuSyk1yKzQy1eziUnXn5ahAElG4v10cZ9v/ZSl4tGZJcYxyzNw==
+X-Google-Smtp-Source: AGHT+IHCOSGhNjF71JQz1GNrv9npRnkfBySmBmXrwW+6mMiI7KhBlz5gUynMOGyOMyMwckyruH9vuki2cfmpTZPTwts=
+X-Received: by 2002:a81:60d4:0:b0:609:1252:61e2 with SMTP id
+ u203-20020a8160d4000000b00609125261e2mr20823575ywb.45.1709852731159; Thu, 07
+ Mar 2024 15:05:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240307193409.987235-1-bruce.ashfield@gmail.com>
+In-Reply-To: <20240307193409.987235-1-bruce.ashfield@gmail.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Thu, 7 Mar 2024 13:05:20 -1000
+Message-ID: <CAOSpxdaskMSouQhV_FmfS==CnfQ5zikQQ4QwwA3RzqtM6dzrLg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/3] linux-yocto: for-test-only: fix parted ptest
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 Mar 2024 22:33:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196824
+ <openembedded-core@lists.openembedded.org>; Thu, 07 Mar 2024 23:05:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196825
 
-As we're close to release, drop compatibility to nanbield, people
-have had time to switch now.
+Hi Bruce,
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/conf/layer.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This patch seems to fix the parted ptest problems, but now util-linux
+ptest is failing :-(
 
-diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-index 2418ee7d53b..62f86f361ad 100644
---- a/meta/conf/layer.conf
-+++ b/meta/conf/layer.conf
-@@ -7,7 +7,7 @@ BBFILE_COLLECTIONS += "core"
- BBFILE_PATTERN_core = "^${LAYERDIR}/"
- BBFILE_PRIORITY_core = "5"
- 
--LAYERSERIES_CORENAMES = "nanbield scarthgap"
-+LAYERSERIES_CORENAMES = "scarthgap"
- 
- # This should only be incremented on significant changes that will
- # cause compatibility issues with other layers
--- 
-2.40.1
+Also seems to be partition resize related:
 
+AssertionError: Failed ptests:
+{'util-linux': ['fdisk:_gpt-resize']}
+
+Steve
+
+On Thu, Mar 7, 2024 at 9:34=E2=80=AFAM Bruce Ashfield <bruce.ashfield@gmail=
+.com> wrote:
+>
+> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+>
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> ---
+>  ...partitions-if-GD_SUPPRESS_PART_SCAN-.patch | 43 +++++++++
+>  ...-support-partitions-without-scanning.patch | 87 +++++++++++++++++++
+>  meta/recipes-kernel/linux/linux-yocto_5.15.bb |  4 +
+>  3 files changed, 134 insertions(+)
+>  create mode 100644 meta/recipes-kernel/linux/files/0001-block-don-t-add-=
+partitions-if-GD_SUPPRESS_PART_SCAN-.patch
+>  create mode 100644 meta/recipes-kernel/linux/files/0001-block-loop-suppo=
+rt-partitions-without-scanning.patch
+>
+> diff --git a/meta/recipes-kernel/linux/files/0001-block-don-t-add-partiti=
+ons-if-GD_SUPPRESS_PART_SCAN-.patch b/meta/recipes-kernel/linux/files/0001-=
+block-don-t-add-partitions-if-GD_SUPPRESS_PART_SCAN-.patch
+> new file mode 100644
+> index 0000000000..cde4f317e9
+> --- /dev/null
+> +++ b/meta/recipes-kernel/linux/files/0001-block-don-t-add-partitions-if-=
+GD_SUPPRESS_PART_SCAN-.patch
+> @@ -0,0 +1,43 @@
+> +From 748008e1da926a814cc0a054c81ca614408b1b0c Mon Sep 17 00:00:00 2001
+> +From: Ming Lei <ming.lei@redhat.com>
+> +Date: Tue, 23 Aug 2022 18:38:19 +0800
+> +Subject: [PATCH] block: don't add partitions if GD_SUPPRESS_PART_SCAN is=
+ set
+> +
+> +Commit b9684a71fca7 ("block, loop: support partitions without scanning")
+> +adds GD_SUPPRESS_PART_SCAN for replacing part function of
+> +GENHD_FL_NO_PART. But looks blk_add_partitions() is missed, since
+> +loop doesn't want to add partitions if GENHD_FL_NO_PART was set.
+> +And it causes regression on libblockdev (as called from udisks) which
+> +operates with the LO_FLAGS_PARTSCAN.
+> +
+> +Fixes the issue by not adding partitions if GD_SUPPRESS_PART_SCAN is
+> +set.
+> +
+> +Upstream-Status: Backport [748008e1da926a814cc0a054c81ca614408b1b0c]
+> +
+> +Fixes: b9684a71fca7 ("block, loop: support partitions without scanning")
+> +Signed-off-by: Ming Lei <ming.lei@redhat.com>
+> +Reviewed-by: Christoph Hellwig <hch@lst.de>
+> +Link: https://lore.kernel.org/r/20220823103819.395776-1-ming.lei@redhat.=
+com
+> +Signed-off-by: Jens Axboe <axboe@kernel.dk>
+> +---
+> + block/partitions/core.c | 3 +++
+> + 1 file changed, 3 insertions(+)
+> +
+> +diff --git a/block/partitions/core.c b/block/partitions/core.c
+> +index fc1d70384825..b8112f52d388 100644
+> +--- a/block/partitions/core.c
+> ++++ b/block/partitions/core.c
+> +@@ -596,6 +596,9 @@ static int blk_add_partitions(struct gendisk *disk)
+> +       if (disk->flags & GENHD_FL_NO_PART)
+> +               return 0;
+> +
+> ++      if (test_bit(GD_SUPPRESS_PART_SCAN, &disk->state))
+> ++              return 0;
+> ++
+> +       state =3D check_partition(disk);
+> +       if (!state)
+> +               return 0;
+> +--
+> +2.39.2
+> +
+> diff --git a/meta/recipes-kernel/linux/files/0001-block-loop-support-part=
+itions-without-scanning.patch b/meta/recipes-kernel/linux/files/0001-block-=
+loop-support-partitions-without-scanning.patch
+> new file mode 100644
+> index 0000000000..9522c2d2cc
+> --- /dev/null
+> +++ b/meta/recipes-kernel/linux/files/0001-block-loop-support-partitions-=
+without-scanning.patch
+> @@ -0,0 +1,87 @@
+> +From ea6bf87558eb534ded532cfa622b575c1f39e3d6 Mon Sep 17 00:00:00 2001
+> +From: Christoph Hellwig <hch@lst.de>
+> +Date: Fri, 27 May 2022 07:58:06 +0200
+> +Subject: [PATCH] block, loop: support partitions without scanning
+> +
+> +Historically we did distinguish between a flag that surpressed partition
+> +scanning, and a combinations of the minors variable and another flag if
+> +any partitions were supported.  This was generally confusing and doesn't
+> +make much sense, but some corner case uses of the loop driver actually
+> +do want to support manually added partitions on a device that does not
+> +actively scan for partitions.  To make things worsee the loop driver
+> +also wants to dynamically toggle the scanning for partitions on a live
+> +gendisk, which makes the disk->flags updates non-atomic.
+> +
+> +Introduce a new GD_SUPPRESS_PART_SCAN bit in disk->state that disables
+> +just scanning for partitions, and toggle that instead of GENHD_FL_NO_PAR=
+T
+> +in the loop driver.
+> +
+> +Upstream-Status: Backport [b9684a71fca793213378dd410cd11675d973eaa1]
+> +
+> +Fixes: 1ebe2e5f9d68 ("block: remove GENHD_FL_EXT_DEVT")
+> +Reported-by: Ming Lei <ming.lei@redhat.com>
+> +Signed-off-by: Christoph Hellwig <hch@lst.de>
+> +Reviewed-by: Ming Lei <ming.lei@redhat.com>
+> +Link: https://lore.kernel.org/r/20220527055806.1972352-1-hch@lst.de
+> +Signed-off-by: Jens Axboe <axboe@kernel.dk>
+> +Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> +---
+> + drivers/block/loop.c   | 8 ++++----
+> + include/linux/blkdev.h | 1 +
+> + 2 files changed, 5 insertions(+), 4 deletions(-)
+> +
+> +diff --git a/drivers/block/loop.c b/drivers/block/loop.c
+> +index 4769caab9ff9..a76302450c46 100644
+> +--- a/drivers/block/loop.c
+> ++++ b/drivers/block/loop.c
+> +@@ -1332,7 +1332,7 @@ static int loop_configure(struct loop_device *lo, =
+fmode_t mode,
+> +               lo->lo_flags |=3D LO_FLAGS_PARTSCAN;
+> +       partscan =3D lo->lo_flags & LO_FLAGS_PARTSCAN;
+> +       if (partscan)
+> +-              lo->lo_disk->flags &=3D ~GENHD_FL_NO_PART;
+> ++              clear_bit(GD_SUPPRESS_PART_SCAN, &lo->lo_disk->state);
+> +
+> +       /* enable and uncork uevent now that we are done */
+> +       dev_set_uevent_suppress(disk_to_dev(lo->lo_disk), 0);
+> +@@ -1481,7 +1481,7 @@ static int __loop_clr_fd(struct loop_device *lo, b=
+ool release)
+> +       mutex_lock(&lo->lo_mutex);
+> +       lo->lo_flags =3D 0;
+> +       if (!part_shift)
+> +-              lo->lo_disk->flags |=3D GENHD_FL_NO_PART;
+> ++              set_bit(GD_SUPPRESS_PART_SCAN, &lo->lo_disk->state);
+> +       lo->lo_state =3D Lo_unbound;
+> +       mutex_unlock(&lo->lo_mutex);
+> +
+> +@@ -1598,7 +1598,7 @@ loop_set_status(struct loop_device *lo, const stru=
+ct loop_info64 *info)
+> +
+> +       if (!err && (lo->lo_flags & LO_FLAGS_PARTSCAN) &&
+> +            !(prev_lo_flags & LO_FLAGS_PARTSCAN)) {
+> +-              lo->lo_disk->flags &=3D ~GENHD_FL_NO_PART;
+> ++              clear_bit(GD_SUPPRESS_PART_SCAN, &lo->lo_disk->state);
+> +               partscan =3D true;
+> +       }
+> + out_unlock:
+> +@@ -2428,7 +2428,7 @@ static int loop_add(int i)
+> +        * userspace tools. Parameters like this in general should be avo=
+ided.
+> +        */
+> +       if (!part_shift)
+> +-              disk->flags |=3D GENHD_FL_NO_PART;
+> ++              set_bit(GD_SUPPRESS_PART_SCAN, &disk->state);
+> +       disk->flags |=3D GENHD_FL_EXT_DEVT;
+> +       atomic_set(&lo->lo_refcnt, 0);
+> +       mutex_init(&lo->lo_mutex);
+> +diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+> +index 905844172cfd..15815f1ced9e 100644
+> +--- a/include/linux/blkdev.h
+> ++++ b/include/linux/blkdev.h
+> +@@ -813,6 +813,7 @@ static inline unsigned int blk_queue_depth(struct re=
+quest_queue *q)
+> +  */
+> + #define BLK_DEFAULT_SG_TIMEOUT        (60 * HZ)
+> + #define BLK_MIN_SG_TIMEOUT    (7 * HZ)
+> ++#define GD_SUPPRESS_PART_SCAN         5
+> +
+> + struct rq_map_data {
+> +       struct page **pages;
+> +--
+> +2.39.2
+> +
+> diff --git a/meta/recipes-kernel/linux/linux-yocto_5.15.bb b/meta/recipes=
+-kernel/linux/linux-yocto_5.15.bb
+> index 1c6b3d1112..17d36524f7 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto_5.15.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
+> @@ -38,6 +38,10 @@ KBRANCH:class-devupstream =3D "v5.15/base"
+>  SRC_URI =3D "git://git.yoctoproject.org/linux-yocto.git;name=3Dmachine;b=
+ranch=3D${KBRANCH}; \
+>             git://git.yoctoproject.org/yocto-kernel-cache;type=3Dkmeta;na=
+me=3Dmeta;branch=3Dyocto-5.15;destsuffix=3D${KMETA}"
+>
+> +SRC_URI +=3D "file://0001-block-don-t-add-partitions-if-GD_SUPPRESS_PART=
+_SCAN-.patch"
+> +SRC_URI +=3D "file://0001-block-loop-support-partitions-without-scanning=
+.patch"
+> +
+> +
+>  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D6bc538ed5bd9a7fc9398086aedcd7=
+e46"
+>  LINUX_VERSION ?=3D "5.15.149"
+>
+> --
+> 2.39.2
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#196820): https://lists.openembedded.org/g/openembedde=
+d-core/message/196820
+> Mute This Topic: https://lists.openembedded.org/mt/104794844/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
