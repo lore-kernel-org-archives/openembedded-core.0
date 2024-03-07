@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E1F5C54E58
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34468C54E4A
 	for <webhook@archiver.kernel.org>; Thu,  7 Mar 2024 23:37:43 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web10.8461.1709854656927028208
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web11.8649.1709854658670912044
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Mar 2024 15:37:36 -0800
+ Thu, 07 Mar 2024 15:37:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=BKnqQLTN;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1dd178fc492so10106855ad.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 07 Mar 2024 15:37:36 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=HWs6O4Ce;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1dca160163dso2050875ad.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 07 Mar 2024 15:37:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1709854656; x=1710459456; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1709854658; x=1710459458; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=2xKSHYRJTeunhwzSTpz38LTTrpNedQ7mRq3FVENnbfk=;
-        b=BKnqQLTNML3qtFqKd+YOs4bDeXto1aU//zw6vJMg3dVhLIY8rTKgiGoDEKOJoErCxf
-         SBmSN2GtgT5eIgZDWiERShOywpe8IurIDbde8oNK4z+tFhWyxr+c0Y09un3Dx468zZmB
-         ItobsxqnVu5Z4TZMsGnWKWMyCwhIt5gQ1Afa8wLXEeparMbdHkYoXqwRVrOPZvePrmgw
-         7VaN+RVtSXILPNKg8uAJ83tmNMsnHwhtO2wBUfmyiA2vP9WbzhmHm/LWnuhpWRn/jk7j
-         yucxoSup/7IfBVwLEJkCQGNw81aQwC/rB8s3oVwZPnoVdMLbn38QcY15tru+nW7xmDxq
-         ZtGQ==
+        bh=fxXXoW4PckQD0+W/iq+PC7tjk2FoX+reUrN7UOOIrBA=;
+        b=HWs6O4CeJmv4sk3+3u2+oB0eyGWk5loeGKQfimu8/2GFXtsM7abbiFReme98FiB4/J
+         YIiIiGIK/HkOtvq2UREeFFMjiGL+0gz4VaeNULIG20thXJSpBxiyYA8oWG9si34sv3AT
+         UphT4diV/ePyN8Dw446SPIwlm15tTylQun3P0EXVvJgjR/WAcJEekCBwSdHnMPwDWVDe
+         mO1eNBKwrDnVfQxccEN3VWABm0doZbKDWMtTBb26EjaD9brUVW4HT6argqfY9gwuqgLD
+         uvaeQS7IZQLzsPSTuHCuQ/dKfLOnKoJ9TxBdcmvUIzZArrWSYi9y9hGeUhnE/N0QdFta
+         LD1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709854656; x=1710459456;
+        d=1e100.net; s=20230601; t=1709854658; x=1710459458;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2xKSHYRJTeunhwzSTpz38LTTrpNedQ7mRq3FVENnbfk=;
-        b=qgznXNAnF7zWMAf0s6gXTPh56IllrpxQkRoIEItinAQYFSdZapyNU36dXBAuld+T83
-         uUyNnDyqKCnaJFojlTgZKF5sPqrbTuFsU25R5Pucc7sXvu4R3OJwRsSGZpnuPLUm1x0T
-         5WA4xQUs4Od2c+asA+qladEgtffC1Nr/XzDMmLoxSgbbUGpVl4vnMhpUjYZEofBWgES1
-         +QH90/YubXchPorZ0wDfAXP2xc3WEyy+uwy8Z/DtNRYaFJrBubO4412Cm6Jr/iywuzvr
-         iKHxeWjNzCjD3JMYe/kxzdwf4ZdxjeF73qVaLjuA1ibcwmy591x4u85tkWcWlq8pRDVu
-         8LKA==
-X-Gm-Message-State: AOJu0YxT20InO9Y6f8v/SJ+4lpGa0PMG6pGs9MXVb1GGOU7WH8YKxqsX
-	W6JPtprz8GUw7a1RJPfXvMVD0ankGqn9vk5l/fcMjcYk9/P6b+737neXdUytn7QYHlfnJdqlFWT
-	//p4=
-X-Google-Smtp-Source: AGHT+IEQ0Oga/JFguNNHW5KrY5dlIyUHJnlRbs8S713iYWtkeroMttL9hFwo93HVJ+bQ17r1LF6N5w==
-X-Received: by 2002:a17:903:2448:b0:1db:f811:66f7 with SMTP id l8-20020a170903244800b001dbf81166f7mr10230992pls.60.1709854656171;
-        Thu, 07 Mar 2024 15:37:36 -0800 (PST)
+        bh=fxXXoW4PckQD0+W/iq+PC7tjk2FoX+reUrN7UOOIrBA=;
+        b=ZaY6aed5TC9TBCN+uHfLO8wWFxsVXDsG/1cNGYbf4KmD7aI+WHIM2TFKFIE+be+0tf
+         LZJb8qjM+wEY4rZyfTO9Ok6TqHxPKBPjixWMGLJ7jtmQs7L6mmfpuud/w1Nr6iyRZGb7
+         /uuf+XU/YXJAbieZ7uttVJ2w93K9E3D5TIF3z5q+R40rExp7Dm8tHBQ6zz1d2V5gxr19
+         yZkcJZWA7ozEUHoXMBJNkb6Ua/bZwa+kIe5x3KTLlyZHEyi/yrCYnMVygj2VQiJs8yWu
+         M0DKnF/fqVSzx1OUdifIyoZCq4w2LXZ8cDADx8tuR3GGNAPd5t+R6phGczx3V6ITuaZ7
+         +IxA==
+X-Gm-Message-State: AOJu0YzC8TqF5AqdSIvPPw5FMxcR0kqbLfjOWXyFPsLMvPglqaC0E3Yy
+	Ne1ZkCchu4VtNBw5HjAehQ1D2nCtEDTLIdfkmisNd3hY8ahePNP9FYnpZoEmC2XhOc9VtK8Zu0x
+	badg=
+X-Google-Smtp-Source: AGHT+IEg0Z58u79VoCmw1gh1w84ZnHKf94jpdDalKp/21Pf6iUU8tW7YhwaAnFR3QHJ/ly9E6JBJFw==
+X-Received: by 2002:a17:902:f64c:b0:1dd:5df5:e6e5 with SMTP id m12-20020a170902f64c00b001dd5df5e6e5mr2836386plg.35.1709854657975;
+        Thu, 07 Mar 2024 15:37:37 -0800 (PST)
 Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id h18-20020a170902f7d200b001dd526ff7d2sm1933243plw.308.2024.03.07.15.37.35
+        by smtp.gmail.com with ESMTPSA id h18-20020a170902f7d200b001dd526ff7d2sm1933243plw.308.2024.03.07.15.37.37
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Mar 2024 15:37:35 -0800 (PST)
+        Thu, 07 Mar 2024 15:37:37 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 3/9] Revert "linux-yocto/5.15: update CVE exclusions"
-Date: Thu,  7 Mar 2024 13:37:15 -1000
-Message-Id: <929849eba86b5fe0d0aeaaf7ee78316b4dd77d99.1709853987.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 4/9] Revert "linux-yocto/5.15: update to v5.15.147"
+Date: Thu,  7 Mar 2024 13:37:16 -1000
+Message-Id: <68b4acdc16996050196aaa20445dc5f7467e353b.1709853987.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1709853987.git.steve@sakoman.com>
 References: <cover.1709853987.git.steve@sakoman.com>
@@ -62,139 +62,104 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 07 Mar 2024 23:37:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196830
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196831
 
 This series is causing issues with adding and resizing partitions.
 
-This reverts commit c7c86d97f6a0e1d09eaca999ecec13656655f299.
+This reverts commit f4f1964a7a2922f3253484852b76602af5f31a89.
 ---
- .../linux/cve-exclusion_5.15.inc              | 44 +++----------------
- 1 file changed, 7 insertions(+), 37 deletions(-)
+ .../linux/linux-yocto-rt_5.15.bb              |  6 ++---
+ .../linux/linux-yocto-tiny_5.15.bb            |  6 ++---
+ meta/recipes-kernel/linux/linux-yocto_5.15.bb | 24 +++++++++----------
+ 3 files changed, 18 insertions(+), 18 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/cve-exclusion_5.15.inc b/meta/recipes-kernel/linux/cve-exclusion_5.15.inc
-index 0d54b414d9..84d0becb8d 100644
---- a/meta/recipes-kernel/linux/cve-exclusion_5.15.inc
-+++ b/meta/recipes-kernel/linux/cve-exclusion_5.15.inc
-@@ -1,9 +1,9 @@
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
+index e64f21b2f0..1e61698222 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
+@@ -11,13 +11,13 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
  
- # Auto-generated CVE metadata, DO NOT EDIT BY HAND.
--# Generated at 2024-01-18 18:47:24.084935 for version 5.15.147
-+# Generated at 2024-01-11 21:16:55.956074 for version 5.15.146
+-SRCREV_machine ?= "7168cfa2ce6492db31163393808806b6f48af5e8"
+-SRCREV_meta ?= "487de687c6a4553f11d67b83d01f16f79449ee49"
++SRCREV_machine ?= "daa620f017a02ae381f1e54be7ceb8a2f3e3caee"
++SRCREV_meta ?= "be429ba6790683eae6d1c34d527af29890988c25"
  
- python check_kernel_cve_status_version() {
--    this_version = "5.15.147"
-+    this_version = "5.15.146"
-     kernel_version = d.getVar("LINUX_VERSION")
-     if kernel_version != this_version:
-         bb.warn("Kernel CVE status needs updating: generated for %s but kernel is %s" % (this_version, kernel_version))
-@@ -6626,9 +6626,6 @@ CVE_CHECK_IGNORE += "CVE-2022-48425"
- # cpe-stable-backport: Backported in 5.15.121
- CVE_CHECK_IGNORE += "CVE-2022-48502"
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=${KMETA}"
  
--# cpe-stable-backport: Backported in 5.15.42
--CVE_CHECK_IGNORE += "CVE-2022-48619"
--
- # fixed-version: Fixed after version 5.0rc1
- CVE_CHECK_IGNORE += "CVE-2023-0030"
+-LINUX_VERSION ?= "5.15.147"
++LINUX_VERSION ?= "5.15.146"
  
-@@ -6750,8 +6747,6 @@ CVE_CHECK_IGNORE += "CVE-2023-1382"
- # fixed-version: Fixed after version 5.11rc4
- CVE_CHECK_IGNORE += "CVE-2023-1390"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
  
--# CVE-2023-1476 has no known resolution
--
- # cpe-stable-backport: Backported in 5.15.95
- CVE_CHECK_IGNORE += "CVE-2023-1513"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
+index 38bea23264..c7c4e09bd9 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
+@@ -5,7 +5,7 @@ KCONFIG_MODE = "--allnoconfig"
  
-@@ -6926,8 +6921,7 @@ CVE_CHECK_IGNORE += "CVE-2023-23559"
- # fixed-version: Fixed after version 5.12rc1
- CVE_CHECK_IGNORE += "CVE-2023-23586"
+ require recipes-kernel/linux/linux-yocto.inc
  
--# fixed-version: only affects 5.18rc1 onwards
--CVE_CHECK_IGNORE += "CVE-2023-2430"
-+# CVE-2023-2430 needs backporting (fixed from 6.2rc5)
+-LINUX_VERSION ?= "5.15.147"
++LINUX_VERSION ?= "5.15.146"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
  
- # cpe-stable-backport: Backported in 5.15.105
- CVE_CHECK_IGNORE += "CVE-2023-2483"
-@@ -7357,8 +7351,7 @@ CVE_CHECK_IGNORE += "CVE-2023-45871"
- # fixed-version: only affects 6.5rc1 onwards
- CVE_CHECK_IGNORE += "CVE-2023-45898"
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+@@ -14,8 +14,8 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
  
--# fixed-version: only affects 6.4rc1 onwards
--CVE_CHECK_IGNORE += "CVE-2023-4610"
-+# CVE-2023-4610 needs backporting (fixed from 6.4)
+-SRCREV_machine ?= "641e2136a155ce3179c84b9365a5998c1354fdd0"
+-SRCREV_meta ?= "487de687c6a4553f11d67b83d01f16f79449ee49"
++SRCREV_machine ?= "aade2fc343af128889d6c6f1071ec1a8e9a548a8"
++SRCREV_meta ?= "be429ba6790683eae6d1c34d527af29890988c25"
  
- # fixed-version: only affects 6.4rc1 onwards
- CVE_CHECK_IGNORE += "CVE-2023-4611"
-@@ -7393,8 +7386,7 @@ CVE_CHECK_IGNORE += "CVE-2023-5090"
- # cpe-stable-backport: Backported in 5.15.135
- CVE_CHECK_IGNORE += "CVE-2023-5158"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
  
--# cpe-stable-backport: Backported in 5.15.146
--CVE_CHECK_IGNORE += "CVE-2023-51779"
-+# CVE-2023-51779 needs backporting (fixed from 6.7rc7)
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.15.bb b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
+index 1acd7b62cd..ef8c18b1b2 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.15.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
+@@ -14,17 +14,17 @@ KBRANCH:qemux86  ?= "v5.15/standard/base"
+ KBRANCH:qemux86-64 ?= "v5.15/standard/base"
+ KBRANCH:qemumips64 ?= "v5.15/standard/mti-malta64"
  
- # cpe-stable-backport: Backported in 5.15.137
- CVE_CHECK_IGNORE += "CVE-2023-5178"
-@@ -7425,8 +7417,6 @@ CVE_CHECK_IGNORE += "CVE-2023-5972"
+-SRCREV_machine:qemuarm ?= "82f8a25a3894c10d1cf26914b8e51726351ba11e"
+-SRCREV_machine:qemuarm64 ?= "cf955e443d881e296b83940143fd30ea83fcf222"
+-SRCREV_machine:qemumips ?= "1c3babd3b42768e24c797edfc3f67906aca6d072"
+-SRCREV_machine:qemuppc ?= "b08998787bece69376578b049cab073d8b80e872"
+-SRCREV_machine:qemuriscv64 ?= "5822f13dba3b1f460536d873aea707f4b25840cf"
+-SRCREV_machine:qemuriscv32 ?= "5822f13dba3b1f460536d873aea707f4b25840cf"
+-SRCREV_machine:qemux86 ?= "5822f13dba3b1f460536d873aea707f4b25840cf"
+-SRCREV_machine:qemux86-64 ?= "5822f13dba3b1f460536d873aea707f4b25840cf"
+-SRCREV_machine:qemumips64 ?= "4ff2c0496c0160a96185a080ec9678c63b68bd47"
+-SRCREV_machine ?= "5822f13dba3b1f460536d873aea707f4b25840cf"
+-SRCREV_meta ?= "487de687c6a4553f11d67b83d01f16f79449ee49"
++SRCREV_machine:qemuarm ?= "f59d00a628c3ddb39052284a4a7bd54f9ee12999"
++SRCREV_machine:qemuarm64 ?= "8b10556d4fd67dec1a16252ef0d3058dfe31dff5"
++SRCREV_machine:qemumips ?= "b0c8aefa7811fd3b7cebb25c1565f73523c7b2ac"
++SRCREV_machine:qemuppc ?= "0ebd785a8436934e3f3e6dea6506de7f7ed9947e"
++SRCREV_machine:qemuriscv64 ?= "ea4d6bb2c229f41b49dc8a8a9cdcd6d7e55dc46f"
++SRCREV_machine:qemuriscv32 ?= "ea4d6bb2c229f41b49dc8a8a9cdcd6d7e55dc46f"
++SRCREV_machine:qemux86 ?= "ea4d6bb2c229f41b49dc8a8a9cdcd6d7e55dc46f"
++SRCREV_machine:qemux86-64 ?= "ea4d6bb2c229f41b49dc8a8a9cdcd6d7e55dc46f"
++SRCREV_machine:qemumips64 ?= "187d249255a797c470b0680f28e18a17a05c3bb4"
++SRCREV_machine ?= "ea4d6bb2c229f41b49dc8a8a9cdcd6d7e55dc46f"
++SRCREV_meta ?= "be429ba6790683eae6d1c34d527af29890988c25"
  
- # CVE-2023-6039 needs backporting (fixed from 6.5rc5)
+ # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
+ # get the <version>/base branch, which is pure upstream -stable, and the same
+@@ -39,7 +39,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=${KMETA}"
  
--# CVE-2023-6040 needs backporting (fixed from 5.18rc1)
--
- # fixed-version: only affects 6.6rc3 onwards
- CVE_CHECK_IGNORE += "CVE-2023-6111"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+-LINUX_VERSION ?= "5.15.147"
++LINUX_VERSION ?= "5.15.146"
  
-@@ -7438,13 +7428,8 @@ CVE_CHECK_IGNORE += "CVE-2023-6176"
- 
- # CVE-2023-6238 has no known resolution
- 
--# CVE-2023-6270 has no known resolution
--
- # CVE-2023-6356 has no known resolution
- 
--# fixed-version: only affects 6.1rc1 onwards
--CVE_CHECK_IGNORE += "CVE-2023-6531"
--
- # CVE-2023-6535 has no known resolution
- 
- # CVE-2023-6536 has no known resolution
-@@ -7454,16 +7439,14 @@ CVE_CHECK_IGNORE += "CVE-2023-6546"
- 
- # CVE-2023-6560 needs backporting (fixed from 6.7rc4)
- 
--# cpe-stable-backport: Backported in 5.15.146
--CVE_CHECK_IGNORE += "CVE-2023-6606"
-+# CVE-2023-6606 needs backporting (fixed from 6.7rc7)
- 
- # CVE-2023-6610 needs backporting (fixed from 6.7rc7)
- 
- # cpe-stable-backport: Backported in 5.15.143
- CVE_CHECK_IGNORE += "CVE-2023-6622"
- 
--# fixed-version: only affects 6.7rc1 onwards
--CVE_CHECK_IGNORE += "CVE-2023-6679"
-+# CVE-2023-6679 needs backporting (fixed from 6.7rc6)
- 
- # cpe-stable-backport: Backported in 5.15.143
- CVE_CHECK_IGNORE += "CVE-2023-6817"
-@@ -7476,16 +7459,3 @@ CVE_CHECK_IGNORE += "CVE-2023-6932"
- 
- # CVE-2023-7042 has no known resolution
- 
--# cpe-stable-backport: Backported in 5.15.100
--CVE_CHECK_IGNORE += "CVE-2023-7192"
--
--# fixed-version: only affects 6.5rc6 onwards
--CVE_CHECK_IGNORE += "CVE-2024-0193"
--
--# CVE-2024-0340 needs backporting (fixed from 6.4rc6)
--
--# fixed-version: only affects 6.2rc1 onwards
--CVE_CHECK_IGNORE += "CVE-2024-0443"
--
--# Skipping dd=CVE-2023-1476, no affected_versions
--
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+ DEPENDS += "openssl-native util-linux-native"
 -- 
 2.34.1
 
