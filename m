@@ -1,174 +1,102 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DC5DC54E4A
-	for <webhook@archiver.kernel.org>; Thu,  7 Mar 2024 19:19:52 +0000 (UTC)
-Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
- by mx.groups.io with SMTP id smtpd.web11.2319.1709839182650880203
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C647C54E58
+	for <webhook@archiver.kernel.org>; Thu,  7 Mar 2024 19:34:22 +0000 (UTC)
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+ by mx.groups.io with SMTP id smtpd.web11.2721.1709840054821974274
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Mar 2024 11:19:42 -0800
+ Thu, 07 Mar 2024 11:34:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=m+gKenIf;
- spf=pass (domain: gmail.com, ip: 209.85.161.51, mailfrom: raj.khem@gmail.com)
-Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-59fc2d22cfaso494854eaf.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 07 Mar 2024 11:19:42 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Nfz+LNkF;
+ spf=pass (domain: gmail.com, ip: 209.85.219.43, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-68f901192afso420496d6.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 07 Mar 2024 11:34:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709839182; x=1710443982; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1709840054; x=1710444854; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=RTXC//YfU+72vHCxvf1DWPwNvkXgMp5FFERJ3sTeamc=;
-        b=m+gKenIfiJHfM/uJiloEYDjT6CIb/yki+9aRJaTW1/G54a7eWPw23jsRDoG+Wg8Ie+
-         /a1wC26CT3cXSURqfMNcdHeBsk4WKE0vs7LbWNRsxfOzik9EnkRvaMGnaVGJtilC26Ys
-         seYHg4qpsMh45l0zH6yhU5ypXAc5JtsipOn8NQDPMihJtl1dViBLkAnvgg3/O7WquMaG
-         biID1CUC4lBKClyfRX+YmvZ4y3rKDsWd7NUljohBn7avb+5FSAFaaYV+zjK2O02Sz5O9
-         EbJ0Kl4csTtLvYAgdKpGWqvkXJq8jCjVWPPBD/Nxj6ayFIUVtXEpR+e6svx0DfnbUCvP
-         bLgQ==
+        bh=XwMPL87mrNAYWKfTX2d8nsR9UzUqPZm8MJhr/1/hKgs=;
+        b=Nfz+LNkFFgXDBCdy/lajTRTHPWJkcrTbOM774wiJxtD8IvrkC8VhD2jo3NYCjQRU7z
+         uOwEnKP0bgvVb0g4unQGf0FUMMsKImdNCJ/C41iCbFQMHiKB0bKTCcqAo0LJXzSPXCE7
+         r/a+AMHOfh+KhsRmCw/GAc92oQL0FU+6gCDvmKSW0xNRIMe9S5uEqXSFw/xGGq064VoY
+         B3hAGfXXKTG58HGMJiz4mpV2HWLjRwYAlyOhOOM0oM/QxFVxABfuneXFKvKopnXGyVdf
+         /B/tS+ue8mWFHnSa0VDD/HNDsanE0wNdVU9CKX6lGeTHOaTqGOXIxT/x58zxNekPwq+i
+         7v/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709839182; x=1710443982;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1709840054; x=1710444854;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=RTXC//YfU+72vHCxvf1DWPwNvkXgMp5FFERJ3sTeamc=;
-        b=bIbZKI4nk4ck1fsf/josrEwVkaYJFa+WmgrxESeWjDhHJkzbaJ13B0YVuwoJfgGdD7
-         zpUrxdLF7cIYArbzfp3bMG95jlC4JeJvl97Mzfpjbt9MSdtoodcOLygRRfCUkljNCtVb
-         W6Ngj4pJT0+Qgs0SXs5DR1+QfHKzCEtoN5aIFo/y/wBx559ylNn7KCkfU/QxRBZS2z7/
-         CNbGod42oLJIhb4Dlfx7njFjCrsMO34+6bA7GrNsRaQHQwaR/cnbbQw7nT5rMa9iA5ad
-         PbUfdOlbbPkZ1VPNM/nwRMhgPMLJazEDrtMRZGfjO4S1pB0PURsvXmYIZaoafskbrG9v
-         9/Jg==
-X-Gm-Message-State: AOJu0YxNe05m/KA1twQcyHYD3GZ+1JjqJvytc40VzIn/BXysJYHR8GRy
-	w0+a8ZVI8SaYkkV/P+aKuDMD/ndqoa9SWy2JVtnfrTCE0nu9dhCTarAkm+FaWvpumaxzVFsBvjF
-	WNjmz93bYRurq6J7NLWNu1S9tyiY=
-X-Google-Smtp-Source: AGHT+IGEGGFBjkVkTXnqngk7OCfgwrPFBgw+bXMJtzPV/oM0WtI/z8JA8g+duBknqBrlZBqoKgWmhBvTCVLDe++ruf0=
-X-Received: by 2002:a05:6870:f60c:b0:221:3742:77ff with SMTP id
- ek12-20020a056870f60c00b00221374277ffmr860573oab.36.1709839181777; Thu, 07
- Mar 2024 11:19:41 -0800 (PST)
+        bh=XwMPL87mrNAYWKfTX2d8nsR9UzUqPZm8MJhr/1/hKgs=;
+        b=afeHAyZSZ5jXiPXiLGJ30b6tB/QYN7zqMf/cpuZIf83/YXqJGwaGFyoNpNpbwQx4yX
+         lKkM4auONrZ3RDVF4VvXRZejoA6OLWM9fzouGwDbxOPrw5z9V0iPWDSXuLLvmg+7Awi8
+         xHKH73QpwweKYAVFY3+b6bscfc2KyXcVGdLpFPS+htEwElZyFRXiwy8wM28KwfMST5tB
+         v1OQDeSvkFNeTaBLAhlJLcoweYB/zDurdNAirA/+JSGD3+RRYa/uAKkkeUAjQekd+O3/
+         PX6CH3J3yLusqjtMIprVG54pvopnCFhXom+eIg8O1LNBWd4aOPDHugs/u8O+OTxDJ0yV
+         ysaQ==
+X-Gm-Message-State: AOJu0YxXme6ltrySz5B6TKXBG8mqcN5LB/oiSTnm+rjPYIH7PT5x8afa
+	usZehtbIN3mJ3ZV3xxSqX9dIWKNv3qj9Jojd2hM/umKfEYz4C5Ii2hBj/8nF
+X-Google-Smtp-Source: AGHT+IHSpYFukB1dZkopInEfrc++EXPSFBDpmevx/wvMx/iwpAAXqznWKEV1UCy90THb2ZjkQCoWyw==
+X-Received: by 2002:ad4:5495:0:b0:690:ae67:ce39 with SMTP id pv21-20020ad45495000000b00690ae67ce39mr1139824qvb.31.1709840053763;
+        Thu, 07 Mar 2024 11:34:13 -0800 (PST)
+Received: from bruce-XPS-8940.localdomain ([174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id md18-20020a056214589200b0069054377816sm8055120qvb.124.2024.03.07.11.34.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Mar 2024 11:34:13 -0800 (PST)
+From: bruce.ashfield@gmail.com
+To: steve@sakoman.com
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 3/3] linux-yocto/5.15: update CVE exclusions
+Date: Thu,  7 Mar 2024 14:34:09 -0500
+Message-Id: <20240307193409.987235-3-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240307193409.987235-1-bruce.ashfield@gmail.com>
+References: <20240307193409.987235-1-bruce.ashfield@gmail.com>
 MIME-Version: 1.0
-References: <20240306154151.3741709-1-alex@linutronix.de> <20240306154151.3741709-22-alex@linutronix.de>
-In-Reply-To: <20240306154151.3741709-22-alex@linutronix.de>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 7 Mar 2024 11:19:15 -0800
-Message-ID: <CAMKF1spsgVyLxF7Vjf999+rGJZdtDKpL_=Lpd-XvqNK+L3eiQA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 22/47] libxml2: upgrade 2.11.5 -> 2.12.5
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 Mar 2024 19:19:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196819
+ <openembedded-core@lists.openembedded.org>; Thu, 07 Mar 2024 19:34:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196822
 
-libosinfo fails due to this upgrade
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/88/builds/3691/step=
-s/14/logs/stdio
+Data pulled from: https://github.com/nluedtke/linux_kernel_cves
 
-On Wed, Mar 6, 2024 at 7:42=E2=80=AFAM Alexander Kanavin <alex.kanavin@gmai=
-l.com> wrote:
->
-> License-Update: hash.c is rewritten and no longer carries a special copyr=
-ight notice, but dict.c still does
-> (Copyright file updated to reflect that)
->
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> ---
->  meta/recipes-core/libxml/libxml2/install-tests.patch     | 9 ++++-----
->  .../libxml/{libxml2_2.11.5.bb =3D> libxml2_2.12.5.bb}      | 9 +++++----
->  2 files changed, 9 insertions(+), 9 deletions(-)
->  rename meta/recipes-core/libxml/{libxml2_2.11.5.bb =3D> libxml2_2.12.5.b=
-b} (92%)
->
-> diff --git a/meta/recipes-core/libxml/libxml2/install-tests.patch b/meta/=
-recipes-core/libxml/libxml2/install-tests.patch
-> index 14ccce5873b..478eeea81b1 100644
-> --- a/meta/recipes-core/libxml/libxml2/install-tests.patch
-> +++ b/meta/recipes-core/libxml/libxml2/install-tests.patch
-> @@ -1,4 +1,4 @@
-> -From 3fc716357ce1372d9418dc86f24315b34d9808de Mon Sep 17 00:00:00 2001
-> +From 0779511838a8cbd1e0f431c22f28f286a2a37b1b Mon Sep 17 00:00:00 2001
->  From: Ross Burton <ross.burton@arm.com>
->  Date: Mon, 5 Dec 2022 17:02:32 +0000
->  Subject: [PATCH] add yocto-specific install-ptest target
-> @@ -7,17 +7,16 @@ Add a target to install the test suite.
->
->  Upstream-Status: Inappropriate
->  Signed-off-by: Ross Burton <ross.burton@arm.com>
-> -
->  ---
->   Makefile.am | 10 ++++++++++
->   1 file changed, 10 insertions(+)
->
->  diff --git a/Makefile.am b/Makefile.am
-> -index 5bc4018..57d27af 100644
-> +index 0a49d37..1097c63 100644
->  --- a/Makefile.am
->  +++ b/Makefile.am
-> -@@ -26,6 +26,16 @@ check_PROGRAMS =3D \
-> -       testlimits \
-> +@@ -27,6 +27,16 @@ check_PROGRAMS =3D \
-> +       testparser \
->         testrecurse
->
->  +ptestdir=3D$(libexecdir)
-> diff --git a/meta/recipes-core/libxml/libxml2_2.11.5.bb b/meta/recipes-co=
-re/libxml/libxml2_2.12.5.bb
-> similarity index 92%
-> rename from meta/recipes-core/libxml/libxml2_2.11.5.bb
-> rename to meta/recipes-core/libxml/libxml2_2.12.5.bb
-> index 44336c25e1c..47c1a72e77e 100644
-> --- a/meta/recipes-core/libxml/libxml2_2.11.5.bb
-> +++ b/meta/recipes-core/libxml/libxml2_2.12.5.bb
-> @@ -4,10 +4,11 @@ HOMEPAGE =3D "https://gitlab.gnome.org/GNOME/libxml2"
->  BUGTRACKER =3D "http://bugzilla.gnome.org/buglist.cgi?product=3Dlibxml2"
->  SECTION =3D "libs"
->  LICENSE =3D "MIT"
-> -LIC_FILES_CHKSUM =3D "file://Copyright;md5=3D2044417e2e5006b65a8b9067b68=
-3fcf1 \
-> -                    file://hash.c;beginline=3D6;endline=3D15;md5=3De77f7=
-7b12cb69e203d8b4090a0eee879 \
-> +LIC_FILES_CHKSUM =3D "file://Copyright;md5=3Dfec7ecfe714722b2bb0aaff7d20=
-0c701 \
-> +                    file://dict.c;beginline=3D6;endline=3D15;md5=3D2b4b7=
-b827d2d8b080372433c4c9c85b6 \
->                      file://list.c;beginline=3D4;endline=3D13;md5=3Db9c25=
-b021ccaf287e50060602d20f3a7 \
-> -                    file://trio.c;beginline=3D5;endline=3D14;md5=3Dcd4f6=
-1e27f88c1d43df112966b1cd28f"
-> +                    file://trio.c;beginline=3D5;endline=3D14;md5=3Dcd4f6=
-1e27f88c1d43df112966b1cd28f \
-> +                    "
->
->  DEPENDS =3D "zlib virtual/libiconv"
->
-> @@ -19,7 +20,7 @@ SRC_URI +=3D "http://www.w3.org/XML/Test/xmlts20130923.=
-tar;subdir=3D${BP};name=3Dtestt
->             file://install-tests.patch \
->             "
->
-> -SRC_URI[archive.sha256sum] =3D "3727b078c360ec69fa869de14bd6f75d7ee8d369=
-87b071e6928d4720a28df3a6"
-> +SRC_URI[archive.sha256sum] =3D "a972796696afd38073e0f59c283c3a2f5a560b52=
-68b4babc391b286166526b21"
->  SRC_URI[testtar.sha256sum] =3D "c6b2d42ee50b8b236e711a97d68e6c4b5c8d83e6=
-9a2be4722379f08702ea7273"
->
->  # Disputed as a security issue, but fixed in d39f780
-> --
-> 2.39.2
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#196704): https://lists.openembedded.org/g/openembedde=
-d-core/message/196704
-> Mute This Topic: https://lists.openembedded.org/mt/104767962/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+    1/1 [
+        Author: Nicholas Luedtke
+        Email: nicholas.luedtke@uwalumni.com
+        Subject: Update 25Feb24
+        Date: Sun, 25 Feb 2024 07:03:08 -0500
+
+    ]
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+ meta/recipes-kernel/linux/cve-exclusion_5.15.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-kernel/linux/cve-exclusion_5.15.inc b/meta/recipes-kernel/linux/cve-exclusion_5.15.inc
+index 2e30efe6be..7cabb1e244 100644
+--- a/meta/recipes-kernel/linux/cve-exclusion_5.15.inc
++++ b/meta/recipes-kernel/linux/cve-exclusion_5.15.inc
+@@ -1,9 +1,9 @@
+ 
+ # Auto-generated CVE metadata, DO NOT EDIT BY HAND.
+-# Generated at 2024-02-26 23:36:34.200936 for version 5.15.149
++# Generated at 2024-03-07 14:18:47.385549 for version 5.15.150
+ 
+ python check_kernel_cve_status_version() {
+-    this_version = "5.15.149"
++    this_version = "5.15.150"
+     kernel_version = d.getVar("LINUX_VERSION")
+     if kernel_version != this_version:
+         bb.warn("Kernel CVE status needs updating: generated for %s but kernel is %s" % (this_version, kernel_version))
+-- 
+2.39.2
+
 
