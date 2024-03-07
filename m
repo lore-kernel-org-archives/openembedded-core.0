@@ -2,106 +2,137 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE8A7C54798
-	for <webhook@archiver.kernel.org>; Thu,  7 Mar 2024 12:05:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACFE3C48BF6
+	for <webhook@archiver.kernel.org>; Thu,  7 Mar 2024 12:05:39 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.21481.1709813128939714354
+ by mx.groups.io with SMTP id smtpd.web10.21482.1709813130188505756
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Mar 2024 04:05:29 -0800
+ Thu, 07 Mar 2024 04:05:30 -0800
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8A2AD1FB
-	for <openembedded-core@lists.openembedded.org>; Thu,  7 Mar 2024 04:06:05 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D5D8D1FB
+	for <openembedded-core@lists.openembedded.org>; Thu,  7 Mar 2024 04:06:06 -0800 (PST)
 Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 293333F762
-	for <openembedded-core@lists.openembedded.org>; Thu,  7 Mar 2024 04:05:28 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 75F8F3F762
+	for <openembedded-core@lists.openembedded.org>; Thu,  7 Mar 2024 04:05:29 -0800 (PST)
 From: ross.burton@arm.com
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/4] linux-firmware: add support for deduplicating the firmware
-Date: Thu,  7 Mar 2024 12:05:23 +0000
-Message-Id: <20240307120526.774895-1-ross.burton@arm.com>
+Subject: [PATCH 3/4] linux-firmware: remove pointless linux-firmware-gplv2-license package
+Date: Thu,  7 Mar 2024 12:05:25 +0000
+Message-Id: <20240307120526.774895-3-ross.burton@arm.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240307120526.774895-1-ross.burton@arm.com>
+References: <20240307120526.774895-1-ross.burton@arm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 Mar 2024 12:05:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196786
+ <openembedded-core@lists.openembedded.org>; Thu, 07 Mar 2024 12:05:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196788
 
 From: Ross Burton <ross.burton@arm.com>
 
-This can a non-trivial amount of disk space, but requires rdfind from
-meta-oe. As duplicate pieces of firmware become links, this reduces the
-size of individual packages and adds dependencies:
+The GPLv2 text is the standard text, so the -carl9170 package can just
+set LICENSE=3DGPL-2.0-or-later and the custom license handling removed.
 
-linux-firmware-adsp-sst: PKGSIZE changed from 6362678 to 5609999 (-12%)
-linux-firmware-amdgpu: PKGSIZE changed from 80234502 to 60819841 (-24%)
-linux-firmware-cirrus: PKGSIZE changed from 1290908 to 1068886 (-17%)
-linux-firmware-ibt-17: PKGSIZE changed from 2601222 to 1300679 (-50%)
-linux-firmware-ibt-17: RDEPENDS: added "linux-firmware-ibt-misc"
-linux-firmware-ibt-20: PKGSIZE changed from 2399511 to 1599721 (-33%)
-linux-firmware-ibt-20: RDEPENDS: added "linux-firmware-ibt-misc"
-linux-firmware-ibt-misc: PKGSIZE changed from 22400466 to 13390020 (-40%)
-linux-firmware-ibt-misc: RDEPENDS: added "linux-firmware-ibt-17"
-linux-firmware-qcom-qrb4210-audio: RDEPENDS: added "linux-firmware-qcom-q=
-cm2290-audio"
-linux-firmware-qcom-qrb4210-modem: PKGSIZE changed from 8882947 to 63 (-1=
-00%)
-linux-firmware-qcom-qrb4210-modem: RDEPENDS: added "linux-firmware-qcom-q=
-cm2290-modem"
-linux-firmware-qcom-sdm845-audio: RDEPENDS: added "linux-firmware-qcom-qc=
-m2290-audio"
-linux-firmware-qcom-sdm845-compute: RDEPENDS: added "linux-firmware-qcom-=
-qrb4210-compute"
-linux-firmware-qcom-sdm845-modem: RDEPENDS: added "linux-firmware-qcom-qc=
-m2290-modem"
-linux-firmware-qcom-sm8250-audio: RDEPENDS: added "linux-firmware-qcom-qc=
-m2290-audio"
-linux-firmware-qcom-sm8250-compute: RDEPENDS: added "linux-firmware-qcom-=
-qrb4210-compute"
-linux-firmware-qcom-sm8250-thundercomm-rb5-sensors: RDEPENDS: added "linu=
-x-firmware-qcom-sdm845-thundercomm-db845c-sensors"
-linux-firmware-radeon: PKGSIZE changed from 7105560 to 3343141 (-53%)
-linux-firmware-radeon: RDEPENDS: added "linux-firmware-amdgpu"
-linux-firmware-rtl8822: RDEPENDS: added "linux-firmware-rtl8761"
-linux-firmware-sd8688: RDEPENDS: added "linux-firmware"
-linux-firmware: RDEPENDS: added "linux-firmware-rtl8761"
+Confirmed in the source that the intended license is v2-or-later, not
+v2-only as WHENCE says.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- .../linux-firmware/linux-firmware_20231211.bb             | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ .../linux-firmware/linux-firmware_20231211.bb      | 14 ++++----------
+ 1 file changed, 4 insertions(+), 10 deletions(-)
 
 diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20231211.b=
 b b/meta/recipes-kernel/linux-firmware/linux-firmware_20231211.bb
-index 3a3690bdc1b..b3884dd3e5a 100644
+index 54e0dc7dc91..b6b98628f3f 100644
 --- a/meta/recipes-kernel/linux-firmware/linux-firmware_20231211.bb
 +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20231211.bb
-@@ -249,13 +249,17 @@ inherit allarch
+@@ -28,7 +28,6 @@ LICENSE =3D "\
+     & Firmware-ene_firmware \
+     & Firmware-fw_sst_0f28 \
+     & Firmware-go7007 \
+-    & Firmware-GPLv2 \
+     & Firmware-hfi1_firmware \
+     & Firmware-i915 \
+     & Firmware-ibt_firmware \
+@@ -77,6 +76,7 @@ LICENSE =3D "\
+     & Firmware-xc5000 \
+     & Firmware-xc5000c \
+     & WHENCE \
++    & GPL-2.0-or-later \
+ "
 =20
- CLEANBROKEN =3D "1"
-=20
-+# Use PACKAGECONFIG_CONFARGS to set the Makefile target
-+PACKAGECONFIG ??=3D ""
-+# Enabling dedup will turn duplicate firmware files into links
-+PACKAGECONFIG[deduplicate] =3D "install,install-nodedup,rdfind-native"
-+
- do_compile() {
- 	:
- }
+ LIC_FILES_CHKSUM =3D "file://LICENCE.Abilis;md5=3Db5ee3f410780e56711ad48=
+eadc22b8bc \
+@@ -102,7 +102,6 @@ LIC_FILES_CHKSUM =3D "file://LICENCE.Abilis;md5=3Db5e=
+e3f410780e56711ad48eadc22b8bc \
+                     file://LICENCE.ene_firmware;md5=3Ded67f0f62f8f798130=
+c296720b7d3921 \
+                     file://LICENCE.fw_sst_0f28;md5=3D6353931c988ad52818a=
+e733ac61cd293 \
+                     file://LICENCE.go7007;md5=3Dc0bb9f6aaaba55b0529ee9b3=
+0aa66beb \
+-                    file://GPL-2;md5=3Db234ee4d69f5fce4486a80fdaf4a4263 =
+\
+                     file://LICENSE.hfi1_firmware;md5=3D5e7b6e586ce7339d1=
+2689e49931ad444 \
+                     file://LICENSE.i915;md5=3D2b0b2e0d20984affd4490ba2cb=
+a02570 \
+                     file://LICENCE.ibt_firmware;md5=3Dfdbee1ddfe0fb7ab0b=
+2fcd6b454a366b \
+@@ -182,7 +181,6 @@ NO_GENERIC_LICENSE[Firmware-e100] =3D "LICENCE.e100"
+ NO_GENERIC_LICENSE[Firmware-ene_firmware] =3D "LICENCE.ene_firmware"
+ NO_GENERIC_LICENSE[Firmware-fw_sst_0f28] =3D "LICENCE.fw_sst_0f28"
+ NO_GENERIC_LICENSE[Firmware-go7007] =3D "LICENCE.go7007"
+-NO_GENERIC_LICENSE[Firmware-GPLv2] =3D "GPL-2"
+ NO_GENERIC_LICENSE[Firmware-hfi1_firmware] =3D "LICENSE.hfi1_firmware"
+ NO_GENERIC_LICENSE[Firmware-i915] =3D "LICENSE.i915"
+ NO_GENERIC_LICENSE[Firmware-ibt_firmware] =3D "LICENCE.ibt_firmware"
+@@ -260,7 +258,7 @@ do_compile() {
 =20
  do_install() {
--        # install-nodedup avoids rdfind dependency
--        oe_runmake 'DESTDIR=3D${D}' 'FIRMWAREDIR=3D${nonarch_base_libdir=
-}/firmware' install-nodedup
-+        oe_runmake 'DESTDIR=3D${D}' 'FIRMWAREDIR=3D${nonarch_base_libdir=
+         oe_runmake 'DESTDIR=3D${D}' 'FIRMWAREDIR=3D${nonarch_base_libdir=
 }/firmware' ${PACKAGECONFIG_CONFARGS}
-         cp GPL-2 LICEN[CS]E.* WHENCE ${D}${nonarch_base_libdir}/firmware=
+-        cp GPL-2 LICEN[CS]E.* WHENCE ${D}${nonarch_base_libdir}/firmware=
 /
++        cp LICEN[CS]E.* WHENCE ${D}${nonarch_base_libdir}/firmware/
  }
 =20
+=20
+@@ -323,7 +321,7 @@ PACKAGES =3D+ "${PN}-amphion-vpu-license ${PN}-amphio=
+n-vpu \
+              ${PN}-cirrus-license ${PN}-cirrus \
+              ${PN}-cnm-license ${PN}-cnm \
+              ${PN}-atheros-license ${PN}-ar5523 ${PN}-ar9170 ${PN}-ath6k=
+ ${PN}-ath9k ${PN}-ath3k \
+-             ${PN}-gplv2-license ${PN}-carl9170 \
++             ${PN}-carl9170 \
+              ${PN}-ar3k-license ${PN}-ar3k ${PN}-ath10k-license ${PN}-at=
+h10k ${PN}-ath11k ${PN}-qca \
+              \
+              ${PN}-imx-sdma-license ${PN}-imx-sdma-imx6q ${PN}-imx-sdma-=
+imx7d \
+@@ -461,15 +459,11 @@ RDEPENDS:${PN}-ath6k +=3D "${PN}-atheros-license"
+ RDEPENDS:${PN}-ath9k +=3D "${PN}-atheros-license"
+=20
+ # For carl9170
+-LICENSE:${PN}-carl9170 =3D "Firmware-GPLv2"
+-LICENSE:${PN}-gplv2-license =3D "Firmware-GPLv2"
+=20
+-FILES:${PN}-gplv2-license =3D "${nonarch_base_libdir}/firmware/GPL-2"
+ FILES:${PN}-carl9170 =3D " \
+   ${nonarch_base_libdir}/firmware/carl9170*.fw \
+ "
+-
+-RDEPENDS:${PN}-carl9170 +=3D "${PN}-gplv2-license"
++LICENSE:${PN}-carl9170 =3D "GPL-2.0-or-later"
+=20
+ # For QualCommAthos
+ LICENSE:${PN}-ar3k =3D "Firmware-qualcommAthos_ar3k & Firmware-atheros_f=
+irmware"
 --=20
 2.34.1
 
