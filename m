@@ -1,174 +1,526 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <meenali.gupta@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E89CC54E5C
-	for <webhook@archiver.kernel.org>; Thu,  7 Mar 2024 23:37:53 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web11.8653.1709854665458462427
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69628C54798
+	for <webhook@archiver.kernel.org>; Fri,  8 Mar 2024 00:08:43 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.9242.1709856521080099091
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Mar 2024 15:37:45 -0800
+ Thu, 07 Mar 2024 16:08:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=yuNk4tgJ;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1dca3951ad9so11933595ad.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 07 Mar 2024 15:37:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1709854665; x=1710459465; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AyOwqaLRSuoQ5CSMlxyHzkhR/zqj26Ke9wY1a7WHgE8=;
-        b=yuNk4tgJUfqKQBCxcNq2wNKDSctW70dfZguh1j4s3KBSOykwxJKA5YtTsu3xgEH6Jw
-         hwn+9nMK9N3x5rMxAYehuJlIeODNbegq0EQWj5n6Jc5bDuaePzCxwvTkibQS3SxRya4a
-         Ia7ZBgawUJJS/JDulfhox2T5CHqJ+xFM+U6fSKEHo7+LnvnImtRuQi55h+6KKBFKcJQH
-         0cqzM2qASTstc/ZKa6jm43ixRwpWH5w5+uYLbfWug0JORzrKKaaxxjXRY4uqnyViO1jv
-         hF+/3rPmWYU9V4vpS4DHzEIxZGw+qyQEVz5NRlcJ/PUBQXoagmhxIMiIDd3dKD1vLwVl
-         uFBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709854665; x=1710459465;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AyOwqaLRSuoQ5CSMlxyHzkhR/zqj26Ke9wY1a7WHgE8=;
-        b=ikP4TqhnvdIp+oufpAJGLNvZnsoXiKLJJhos2umgqF8/6YeEgvrCzOKSaBuPAE8EKb
-         1ndbz4QSXQVNWKhW6BwJIZcGiPpzP2pKfLqEoJMdRYQymjlGgViEMq+jV3h+hl+w4blg
-         oOF/9EjVDFvn+ZGfSrJmgJraLVvneLOzu15rSnIMQCqD+R74RNzvHGa2QgnMcWZQXg+D
-         DmlvbkQ0ZAh05fAH0gk5tqKJI6zSc1aPszkipy3d5BZQprURk2DtA900Fx93p+xNhdco
-         uo4Hb2VXF05Bgy9dq9Q0tEZCSQCG+n1bCkO1Ie4aLFocvAF6AxoVSP2VcabCuvD8ZYhH
-         Y6cQ==
-X-Gm-Message-State: AOJu0Yyv+PKWRYlcChoMNOHydZYz74lJD1x/oIBZpHOTGbyxSG7yOO4h
-	6WE/qx8sk3mKO7cvWFIs3l27BPIzsOhKtQVSS/g3Uf7/uECc6xnx6gZTmZUAShOHdHHn5NKDfeG
-	0kOY=
-X-Google-Smtp-Source: AGHT+IFGzq1uyCRmDuH9AJKcjhWi+CeIBZ9Mot/vKm/W+hyuuM8ZEgYBWoSwPgmM4iW8az7cfauTjQ==
-X-Received: by 2002:a17:902:e88d:b0:1db:35b5:7e37 with SMTP id w13-20020a170902e88d00b001db35b57e37mr11083399plg.50.1709854664749;
-        Thu, 07 Mar 2024 15:37:44 -0800 (PST)
-Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id h18-20020a170902f7d200b001dd526ff7d2sm1933243plw.308.2024.03.07.15.37.44
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Mar 2024 15:37:44 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 8/9] Revert "linux-yocto/5.15: update to v5.15.142"
-Date: Thu,  7 Mar 2024 13:37:20 -1000
-Message-Id: <bd05710f8f279d7e51e3a0f96ca3d7c1442e7a42.1709853987.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1709853987.git.steve@sakoman.com>
-References: <cover.1709853987.git.steve@sakoman.com>
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=dvtOmkGn;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=379737ad25=meenali.gupta@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 427MtrrL014507
+	for <openembedded-core@lists.openembedded.org>; Fri, 8 Mar 2024 00:08:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=Xdias
+	cVLW64NdvHZX1Nw9skmFQjSWv71HaAtZ8JWOvw=; b=dvtOmkGnHz6XlWtff69fZ
+	uhhu5a8jjPW8+OOggIfOftNZO1Aals+kRBEzodmArFpH1/XJ5bf3xVjjskMEl+1d
+	0ouuobNltAJ1ZsI0gkVXznE4AcpR84py9QvxVQUmvi3RsHPQipy62CgZ1Zi9dFh0
+	Tx8II4/UfO9KWPLr2zCUeQub14YuVlMHTqx4sD019FNoUvYH1mDAFRlgUUD5g8Jq
+	MNbI01thvLsZvlF5lGSPQk/JhcaGR9KnzfREt09YQxz8CnUc5MyeypDf8/lHzLJg
+	VskXUj9eUDhm769nr8fr1GCd1D7DmdIrou6Gz0fWYT99dba6NjM9W35mwoNerubQ
+	g==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3wku36dukv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 08 Mar 2024 00:08:39 +0000 (GMT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Thu, 7 Mar 2024 16:08:24 -0800
+From: mgupta1 <meenali.gupta@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [oe-core][kirkstone][PATCH 1/1] expat: fix CVE-2023-52426
+Date: Fri, 8 Mar 2024 00:08:07 +0000
+Message-ID: <20240308000807.1078261-1-meenali.gupta@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-ORIG-GUID: s3huZRCGhYnJ8FLh2QFJQgQfPn7vsYk6
+X-Proofpoint-GUID: s3huZRCGhYnJ8FLh2QFJQgQfPn7vsYk6
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-07_18,2024-03-06_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 adultscore=0
+ suspectscore=0 spamscore=0 impostorscore=0 mlxscore=0 phishscore=0
+ lowpriorityscore=0 malwarescore=0 bulkscore=0 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2402120000
+ definitions=main-2403070173
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 Mar 2024 23:37:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196835
+ <openembedded-core@lists.openembedded.org>; Fri, 08 Mar 2024 00:08:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196837
 
-This series is causing issues with adding and resizing partitions.
+From: Meenali Gupta <meenali.gupta@windriver.com>
 
-This reverts commit 4deed206f92fc207d18cdb4c8bc35ce1bf0fb0f6.
+A flaw was found in Expat (libexpat). If XML_DTD is undefined at compile time, a recursive XML Entity
+Expansion condition can be triggered. This issue may lead to a condition where data is expanded exponentially,
+which will quickly consume system resources and cause a denial of service.
+
+Signed-off-by: Meenali Gupta <meenali.gupta@windriver.com>
 ---
- .../linux/linux-yocto-rt_5.15.bb              |  6 ++---
- .../linux/linux-yocto-tiny_5.15.bb            |  6 ++---
- meta/recipes-kernel/linux/linux-yocto_5.15.bb | 26 +++++++++----------
- 3 files changed, 19 insertions(+), 19 deletions(-)
+ .../expat/expat/CVE-2023-52426.patch          | 429 ++++++++++++++++++
+ meta/recipes-core/expat/expat_2.5.0.bb        |   1 +
+ 2 files changed, 430 insertions(+)
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2023-52426.patch
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
-index 37fb729e0d..f7286759a9 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.15.bb
-@@ -11,13 +11,13 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
+diff --git a/meta/recipes-core/expat/expat/CVE-2023-52426.patch b/meta/recipes-core/expat/expat/CVE-2023-52426.patch
+new file mode 100644
+index 0000000000..b78a8ee0dc
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/CVE-2023-52426.patch
+@@ -0,0 +1,429 @@
++From 0f075ec8ecb5e43f8fdca5182f8cca4703da0404 Mon Sep 17 00:00:00 2001
++From: Sebastian Pipping <sebastian@pipping.org>
++Date: Thu, 26 Oct 2023 00:43:22 +0200
++Subject: [PATCH] lib|xmlwf|cmake: Extend scope of billion laughs attack
++ protection
++
++.. from "defined(XML_DTD)" to "defined(XML_DTD) || XML_GE==1".
++
++CVE: CVE-2023-52426
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/0f075ec8ecb5e43f8fdca5182f8cca4703da0404]
++
++Signed-off-by: Meenali Gupta <meenali.gupta@windriver.com>
++---
++ CMakeLists.txt         |  8 ++++-
++ lib/expat.h            |  8 +++--
++ lib/internal.h         |  2 +-
++ lib/libexpat.def.cmake |  4 +--
++ lib/xmlparse.c         | 71 ++++++++++++++++++++++--------------------
++ xmlwf/xmlwf.c          | 18 ++++++-----
++ 6 files changed, 62 insertions(+), 49 deletions(-)
++
++diff --git a/CMakeLists.txt b/CMakeLists.txt
++index 2b4c13c..183c5c2 100644
++--- a/CMakeLists.txt
+++++ b/CMakeLists.txt
++@@ -381,7 +381,13 @@ if(EXPAT_SHARED_LIBS)
++             endif()
++         endmacro()
++
++-        _expat_def_file_toggle(EXPAT_DTD _EXPAT_COMMENT_DTD)
+++	if(EXPAT_DTD OR EXPAT_GE)
+++            set(_EXPAT_DTD_OR_GE TRUE)
+++        else()
+++            set(_EXPAT_DTD_OR_GE FALSE)
+++        endif()
+++
+++        _expat_def_file_toggle(_EXPAT_DTD_OR_GE _EXPAT_COMMENT_DTD_OR_GE)
++         _expat_def_file_toggle(EXPAT_ATTR_INFO _EXPAT_COMMENT_ATTR_INFO)
++
++         configure_file("${CMAKE_CURRENT_SOURCE_DIR}/lib/libexpat.def.cmake" "${CMAKE_CURRENT_BINARY_DIR}/lib/libexpat.def")
++diff --git a/lib/expat.h b/lib/expat.h
++index 1c83563..33c94af 100644
++--- a/lib/expat.h
+++++ b/lib/expat.h
++@@ -1038,13 +1038,15 @@ typedef struct {
++ XMLPARSEAPI(const XML_Feature *)
++ XML_GetFeatureList(void);
++
++-#ifdef XML_DTD
++-/* Added in Expat 2.4.0. */
+++#if defined(XML_DTD) || XML_GE == 1
+++/* Added in Expat 2.4.0 for XML_DTD defined and
+++ * added in Expat 2.6.0 for XML_GE == 1. */
++ XMLPARSEAPI(XML_Bool)
++ XML_SetBillionLaughsAttackProtectionMaximumAmplification(
++     XML_Parser parser, float maximumAmplificationFactor);
++
++-/* Added in Expat 2.4.0. */
+++/* Added in Expat 2.4.0 for XML_DTD defined and
+++ * added in Expat 2.6.0 for XML_GE == 1. */
++ XMLPARSEAPI(XML_Bool)
++ XML_SetBillionLaughsAttackProtectionActivationThreshold(
++     XML_Parser parser, unsigned long long activationThresholdBytes);
++diff --git a/lib/internal.h b/lib/internal.h
++index e09f533..1851925 100644
++--- a/lib/internal.h
+++++ b/lib/internal.h
++@@ -154,7 +154,7 @@ extern "C" {
++ void _INTERNAL_trim_to_complete_utf8_characters(const char *from,
++                                                 const char **fromLimRef);
++
++-#if defined(XML_DTD)
+++#if defined(XML_DTD) || XML_GE == 1
++ unsigned long long testingAccountingGetCountBytesDirect(XML_Parser parser);
++ unsigned long long testingAccountingGetCountBytesIndirect(XML_Parser parser);
++ const char *unsignedCharToPrintable(unsigned char c);
++diff --git a/lib/libexpat.def.cmake b/lib/libexpat.def.cmake
++index cf434a2..61a4f00 100644
++--- a/lib/libexpat.def.cmake
+++++ b/lib/libexpat.def.cmake
++@@ -75,5 +75,5 @@ EXPORTS
++   XML_SetHashSalt @67
++ ; internal @68 removed with version 2.3.1
++ ; added with version 2.4.0
++-@_EXPAT_COMMENT_DTD@ XML_SetBillionLaughsAttackProtectionActivationThreshold @69
++-@_EXPAT_COMMENT_DTD@ XML_SetBillionLaughsAttackProtectionMaximumAmplification @70
+++@_EXPAT_COMMENT_DTD_OR_GE@ XML_SetBillionLaughsAttackProtectionActivationThreshold @69
+++@_EXPAT_COMMENT_DTD_OR_GE@ XML_SetBillionLaughsAttackProtectionMaximumAmplification @70
++diff --git a/lib/xmlparse.c b/lib/xmlparse.c
++index b6c2eca..e23441e 100644
++--- a/lib/xmlparse.c
+++++ b/lib/xmlparse.c
++@@ -408,7 +408,7 @@ enum XML_Account {
++   XML_ACCOUNT_NONE              /* i.e. do not account, was accounted already */
++ };
++
++-#ifdef XML_DTD
+++#if defined(XML_DTD) || XML_GE == 1
++ typedef unsigned long long XmlBigCount;
++ typedef struct accounting {
++   XmlBigCount countBytesDirect;
++@@ -424,7 +424,7 @@ typedef struct entity_stats {
++   unsigned int maximumDepthSeen;
++   int debugLevel;
++ } ENTITY_STATS;
++-#endif /* XML_DTD */
+++#endif /* defined(XML_DTD) || XML_GE == 1 */
++
++ typedef enum XML_Error PTRCALL Processor(XML_Parser parser, const char *start,
++                                          const char *end, const char **endPtr);
++@@ -562,7 +562,7 @@ static XML_Parser parserCreate(const XML_Char *encodingName,
++
++ static void parserInit(XML_Parser parser, const XML_Char *encodingName);
++
++-#ifdef XML_DTD
+++#if defined(XML_DTD) || XML_GE == 1
++ static float accountingGetCurrentAmplification(XML_Parser rootParser);
++ static void accountingReportStats(XML_Parser originParser, const char *epilog);
++ static void accountingOnAbort(XML_Parser originParser);
++@@ -585,7 +585,7 @@ static void entityTrackingOnClose(XML_Parser parser, ENTITY *entity,
++
++ static XML_Parser getRootParserOf(XML_Parser parser,
++                                   unsigned int *outLevelDiff);
++-#endif /* XML_DTD */
+++#endif /* defined(XML_DTD) || XML_GE == 1 */
++
++ static unsigned long getDebugLevel(const char *variableName,
++                                    unsigned long defaultDebugLevel);
++@@ -703,7 +703,7 @@ struct XML_ParserStruct {
++   enum XML_ParamEntityParsing m_paramEntityParsing;
++ #endif
++   unsigned long m_hash_secret_salt;
++-#ifdef XML_DTD
+++#if defined(XML_DTD) || XML_GE == 1
++   ACCOUNTING m_accounting;
++   ENTITY_STATS m_entity_stats;
++ #endif
++@@ -1163,7 +1163,7 @@ parserInit(XML_Parser parser, const XML_Char *encodingName) {
++ #endif
++   parser->m_hash_secret_salt = 0;
++
++-#ifdef XML_DTD
+++#if defined(XML_DTD) || XML_GE == 1
++   memset(&parser->m_accounting, 0, sizeof(ACCOUNTING));
++   parser->m_accounting.debugLevel = getDebugLevel("EXPAT_ACCOUNTING_DEBUG", 0u);
++   parser->m_accounting.maximumAmplificationFactor
++@@ -2522,8 +2522,9 @@ XML_GetFeatureList(void) {
++ #ifdef XML_ATTR_INFO
++       {XML_FEATURE_ATTR_INFO, XML_L("XML_ATTR_INFO"), 0},
++ #endif
++-#ifdef XML_DTD
++-      /* Added in Expat 2.4.0. */
+++#if defined(XML_DTD) || XML_GE == 1
+++    /* Added in Expat 2.4.0 for XML_DTD defined and
+++     * added in Expat 2.6.0 for XML_GE == 1. */
++       {XML_FEATURE_BILLION_LAUGHS_ATTACK_PROTECTION_MAXIMUM_AMPLIFICATION_DEFAULT,
++        XML_L("XML_BLAP_MAX_AMP"),
++        (long int)
++@@ -2537,7 +2538,7 @@ XML_GetFeatureList(void) {
++   return features;
++ }
++
++-#ifdef XML_DTD
+++#if defined(XML_DTD) || XML_GE == 1
++ XML_Bool XMLCALL
++ XML_SetBillionLaughsAttackProtectionMaximumAmplification(
++     XML_Parser parser, float maximumAmplificationFactor) {
++@@ -2559,7 +2560,7 @@ XML_SetBillionLaughsAttackProtectionActivationThreshold(
++   parser->m_accounting.activationThresholdBytes = activationThresholdBytes;
++   return XML_TRUE;
++ }
++-#endif /* XML_DTD */
+++#endif /* defined(XML_DTD) || XML_GE == 1 */
++
++ /* Initially tag->rawName always points into the parse buffer;
++    for those TAG instances opened while the current parse buffer was
++@@ -2645,13 +2646,13 @@ externalEntityInitProcessor2(XML_Parser parser, const char *start,
++   int tok = XmlContentTok(parser->m_encoding, start, end, &next);
++   switch (tok) {
++   case XML_TOK_BOM:
++-#ifdef XML_DTD
+++#if defined(XML_DTD) || XML_GE == 1
++     if (! accountingDiffTolerated(parser, tok, start, next, __LINE__,
++                                   XML_ACCOUNT_DIRECT)) {
++       accountingOnAbort(parser);
++       return XML_ERROR_AMPLIFICATION_LIMIT_BREACH;
++     }
++-#endif /* XML_DTD */
+++#endif /* defined(XML_DTD) || XML_GE == 1 */
++
++     /* If we are at the end of the buffer, this would cause the next stage,
++        i.e. externalEntityInitProcessor3, to pass control directly to
++@@ -2765,7 +2766,7 @@ doContent(XML_Parser parser, int startTagLevel, const ENCODING *enc,
++   for (;;) {
++     const char *next = s; /* XmlContentTok doesn't always set the last arg */
++     int tok = XmlContentTok(enc, s, end, &next);
++-#ifdef XML_DTD
+++#if defined(XML_DTD) || XML_GE == 1
++     const char *accountAfter
++         = ((tok == XML_TOK_TRAILING_RSQB) || (tok == XML_TOK_TRAILING_CR))
++               ? (haveMore ? s /* i.e. 0 bytes */ : end)
++@@ -2831,14 +2832,14 @@ doContent(XML_Parser parser, int startTagLevel, const ENCODING *enc,
++       XML_Char ch = (XML_Char)XmlPredefinedEntityName(
++           enc, s + enc->minBytesPerChar, next - enc->minBytesPerChar);
++       if (ch) {
++-#ifdef XML_DTD
+++#if defined(XML_DTD) || XML_GE == 1
++         /* NOTE: We are replacing 4-6 characters original input for 1 character
++          *       so there is no amplification and hence recording without
++          *       protection. */
++         accountingDiffTolerated(parser, tok, (char *)&ch,
++                                 ((char *)&ch) + sizeof(XML_Char), __LINE__,
++                                 XML_ACCOUNT_ENTITY_EXPANSION);
++-#endif /* XML_DTD */
+++#endif /* defined(XML_DTD) || XML_GE == 1 */
++         if (parser->m_characterDataHandler)
++           parser->m_characterDataHandler(parser->m_handlerArg, &ch, 1);
++         else if (parser->m_defaultHandler)
++@@ -4040,7 +4041,7 @@ doCdataSection(XML_Parser parser, const ENCODING *enc, const char **startPtr,
++   for (;;) {
++     const char *next = s; /* in case of XML_TOK_NONE or XML_TOK_PARTIAL */
++     int tok = XmlCdataSectionTok(enc, s, end, &next);
++-#ifdef XML_DTD
+++#if defined(XML_DTD) || XML_GE == 1
++     if (! accountingDiffTolerated(parser, tok, s, next, __LINE__, account)) {
++       accountingOnAbort(parser);
++       return XML_ERROR_AMPLIFICATION_LIMIT_BREACH;
++@@ -4192,7 +4193,7 @@ doIgnoreSection(XML_Parser parser, const ENCODING *enc, const char **startPtr,
++   *eventPP = s;
++   *startPtr = NULL;
++   tok = XmlIgnoreSectionTok(enc, s, end, &next);
++-#  ifdef XML_DTD
+++#if defined(XML_DTD) || XML_GE == 1
++   if (! accountingDiffTolerated(parser, tok, s, next, __LINE__,
++                                 XML_ACCOUNT_DIRECT)) {
++     accountingOnAbort(parser);
++@@ -4284,7 +4285,7 @@ processXmlDecl(XML_Parser parser, int isGeneralTextEntity, const char *s,
++   const XML_Char *storedversion = NULL;
++   int standalone = -1;
++
++-#ifdef XML_DTD
+++#if defined(XML_DTD) || XML_GE == 1
++   if (! accountingDiffTolerated(parser, XML_TOK_XML_DECL, s, next, __LINE__,
++                                 XML_ACCOUNT_DIRECT)) {
++     accountingOnAbort(parser);
++@@ -4491,7 +4492,7 @@ entityValueInitProcessor(XML_Parser parser, const char *s, const char *end,
++     */
++     else if (tok == XML_TOK_BOM && next == end
++              && ! parser->m_parsingStatus.finalBuffer) {
++-#  ifdef XML_DTD
+++#  if defined(XML_DTD) || XML_GE == 1
++       if (! accountingDiffTolerated(parser, tok, s, next, __LINE__,
++                                     XML_ACCOUNT_DIRECT)) {
++         accountingOnAbort(parser);
++@@ -4707,11 +4708,13 @@ doProlog(XML_Parser parser, const ENCODING *enc, const char *s, const char *end,
++       }
++     }
++     role = XmlTokenRole(&parser->m_prologState, tok, s, next, enc);
++-#ifdef XML_DTD
+++#if defined(XML_DTD) || XML_GE == 1
++     switch (role) {
++     case XML_ROLE_INSTANCE_START: // bytes accounted in contentProcessor
++     case XML_ROLE_XML_DECL:       // bytes accounted in processXmlDecl
++-    case XML_ROLE_TEXT_DECL:      // bytes accounted in processXmlDecl
+++    #  ifdef XML_DTD
+++    case XML_ROLE_TEXT_DECL: // bytes accounted in processXmlDecl
+++#  endif
++       break;
++     default:
++       if (! accountingDiffTolerated(parser, tok, s, next, __LINE__, account)) {
++@@ -5648,7 +5651,7 @@ epilogProcessor(XML_Parser parser, const char *s, const char *end,
++   for (;;) {
++     const char *next = NULL;
++     int tok = XmlPrologTok(parser->m_encoding, s, end, &next);
++-#ifdef XML_DTD
+++#if defined(XML_DTD) || XML_GE == 1
++     if (! accountingDiffTolerated(parser, tok, s, next, __LINE__,
++                                   XML_ACCOUNT_DIRECT)) {
++       accountingOnAbort(parser);
++@@ -5728,7 +5731,7 @@ processInternalEntity(XML_Parser parser, ENTITY *entity, XML_Bool betweenDecl) {
++       return XML_ERROR_NO_MEMORY;
++   }
++   entity->open = XML_TRUE;
++-#ifdef XML_DTD
+++#if defined(XML_DTD) || XML_GE == 1
++   entityTrackingOnOpen(parser, entity, __LINE__);
++ #endif
++   entity->processed = 0;
++@@ -5762,9 +5765,9 @@ processInternalEntity(XML_Parser parser, ENTITY *entity, XML_Bool betweenDecl) {
++       entity->processed = (int)(next - textStart);
++       parser->m_processor = internalEntityProcessor;
++     } else {
++-#ifdef XML_DTD
+++#if defined(XML_DTD) || XML_GE == 1
++       entityTrackingOnClose(parser, entity, __LINE__);
++-#endif /* XML_DTD */
+++#endif /* defined(XML_DTD) || XML_GE == 1 */
++       entity->open = XML_FALSE;
++       parser->m_openInternalEntities = openEntity->next;
++       /* put openEntity back in list of free instances */
++@@ -5813,7 +5816,7 @@ internalEntityProcessor(XML_Parser parser, const char *s, const char *end,
++     return result;
++   }
++
++-#ifdef XML_DTD
+++#if defined(XML_DTD) || XML_GE == 1
++   entityTrackingOnClose(parser, entity, __LINE__);
++ #endif
++   entity->open = XML_FALSE;
++@@ -5892,7 +5895,7 @@ appendAttributeValue(XML_Parser parser, const ENCODING *enc, XML_Bool isCdata,
++     const char *next
++         = ptr; /* XmlAttributeValueTok doesn't always set the last arg */
++     int tok = XmlAttributeValueTok(enc, ptr, end, &next);
++-#ifdef XML_DTD
+++#if defined(XML_DTD) || XML_GE == 1
++     if (! accountingDiffTolerated(parser, tok, ptr, next, __LINE__, account)) {
++       accountingOnAbort(parser);
++       return XML_ERROR_AMPLIFICATION_LIMIT_BREACH;
++@@ -5957,14 +5960,14 @@ appendAttributeValue(XML_Parser parser, const ENCODING *enc, XML_Bool isCdata,
++       XML_Char ch = (XML_Char)XmlPredefinedEntityName(
++           enc, ptr + enc->minBytesPerChar, next - enc->minBytesPerChar);
++       if (ch) {
++-#ifdef XML_DTD
+++#if defined(XML_DTD) || XML_GE == 1
++         /* NOTE: We are replacing 4-6 characters original input for 1 character
++          *       so there is no amplification and hence recording without
++          *       protection. */
++         accountingDiffTolerated(parser, tok, (char *)&ch,
++                                 ((char *)&ch) + sizeof(XML_Char), __LINE__,
++                                 XML_ACCOUNT_ENTITY_EXPANSION);
++-#endif /* XML_DTD */
+++#endif /* defined(XML_DTD) || XML_GE == 1 */
++         if (! poolAppendChar(pool, ch))
++           return XML_ERROR_NO_MEMORY;
++         break;
++@@ -6042,14 +6045,14 @@ appendAttributeValue(XML_Parser parser, const ENCODING *enc, XML_Bool isCdata,
++         enum XML_Error result;
++         const XML_Char *textEnd = entity->textPtr + entity->textLen;
++         entity->open = XML_TRUE;
++-#ifdef XML_DTD
+++#if defined(XML_DTD) || XML_GE == 1
++         entityTrackingOnOpen(parser, entity, __LINE__);
++ #endif
++         result = appendAttributeValue(parser, parser->m_internalEncoding,
++                                       isCdata, (const char *)entity->textPtr,
++                                       (const char *)textEnd, pool,
++                                       XML_ACCOUNT_ENTITY_EXPANSION);
++-#ifdef XML_DTD
+++#if defined(XML_DTD) || XML_GE == 1
++         entityTrackingOnClose(parser, entity, __LINE__);
++ #endif
++         entity->open = XML_FALSE;
++@@ -6105,7 +6108,7 @@ storeEntityValue(XML_Parser parser, const ENCODING *enc,
++         = entityTextPtr; /* XmlEntityValueTok doesn't always set the last arg */
++     int tok = XmlEntityValueTok(enc, entityTextPtr, entityTextEnd, &next);
++
++-#ifdef XML_DTD
+++#if defined(XML_DTD) || XML_GE == 1
++     if (! accountingDiffTolerated(parser, tok, entityTextPtr, next, __LINE__,
++                                   account)) {
++       accountingOnAbort(parser);
++@@ -7651,7 +7654,7 @@ copyString(const XML_Char *s, const XML_Memory_Handling_Suite *memsuite) {
++   return result;
++ }
++
++-#ifdef XML_DTD
+++#if defined(XML_DTD) || XML_GE == 1
++
++ static float
++ accountingGetCurrentAmplification(XML_Parser rootParser) {
++@@ -8382,7 +8385,7 @@ unsignedCharToPrintable(unsigned char c) {
++   assert(0); /* never gets here */
++ }
++
++-#endif /* XML_DTD */
+++#endif /* defined(XML_DTD) || XML_GE == 1 */
++
++ static unsigned long
++ getDebugLevel(const char *variableName, unsigned long defaultDebugLevel) {
++diff --git a/xmlwf/xmlwf.c b/xmlwf/xmlwf.c
++index 471f2a2..be23f5a 100644
++--- a/xmlwf/xmlwf.c
+++++ b/xmlwf/xmlwf.c
++@@ -1062,9 +1062,10 @@ tmain(int argc, XML_Char **argv) {
++             " (needs a floating point number greater or equal than 1.0)"));
++         exit(XMLWF_EXIT_USAGE_ERROR);
++       }
++-#ifndef XML_DTD
++-      ftprintf(stderr, T("Warning: Given amplification limit ignored") T(
++-                           ", xmlwf has been compiled without DTD support.\n"));
+++#if ! defined(XML_DTD) && XML_GE == 0
+++      ftprintf(stderr,
+++               T("Warning: Given amplification limit ignored")
+++                   T(", xmlwf has been compiled without DTD/GE support.\n"));
++ #endif
++       break;
++     }
++@@ -1083,9 +1084,10 @@ tmain(int argc, XML_Char **argv) {
++         exit(XMLWF_EXIT_USAGE_ERROR);
++       }
++       attackThresholdGiven = XML_TRUE;
++-#ifndef XML_DTD
++-      ftprintf(stderr, T("Warning: Given attack threshold ignored") T(
++-                           ", xmlwf has been compiled without DTD support.\n"));
+++#if ! defined(XML_DTD) && XML_GE == 0
+++      ftprintf(stderr,
+++               T("Warning: Given attack threshold ignored")
+++                   T(", xmlwf has been compiled without DTD/GE support.\n"));
++ #endif
++       break;
++     }
++@@ -1120,13 +1122,13 @@ tmain(int argc, XML_Char **argv) {
++     }
++
++     if (attackMaximumAmplification != -1.0f) {
++-#ifdef XML_DTD
+++#if defined(XML_DTD) || XML_GE == 1
++       XML_SetBillionLaughsAttackProtectionMaximumAmplification(
++           parser, attackMaximumAmplification);
++ #endif
++     }
++     if (attackThresholdGiven) {
++-#ifdef XML_DTD
+++#if defined(XML_DTD) || XML_GE == 1
++       XML_SetBillionLaughsAttackProtectionActivationThreshold(
++           parser, attackThresholdBytes);
++ #else
++--
++2.40.0
+diff --git a/meta/recipes-core/expat/expat_2.5.0.bb b/meta/recipes-core/expat/expat_2.5.0.bb
+index 7080f934d1..e427020534 100644
+--- a/meta/recipes-core/expat/expat_2.5.0.bb
++++ b/meta/recipes-core/expat/expat_2.5.0.bb
+@@ -10,6 +10,7 @@ VERSION_TAG = "${@d.getVar('PV').replace('.', '_')}"
  
--SRCREV_machine ?= "205938506aafa86698f2753a59d2c9f13d080fbb"
--SRCREV_meta ?= "9a1e0301f56cda16a9fabd03745dba445f068349"
-+SRCREV_machine ?= "423b5d5cb3f45a272285fa4157d1964086fabc2e"
-+SRCREV_meta ?= "92bd0a656f0f9db955fb53c52be71cce9296bdb2"
+ SRC_URI = "https://github.com/libexpat/libexpat/releases/download/R_${VERSION_TAG}/expat-${PV}.tar.bz2  \
+            file://run-ptest \
++           file://CVE-2023-52426.patch \
+            "
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=${KMETA}"
- 
--LINUX_VERSION ?= "5.15.142"
-+LINUX_VERSION ?= "5.15.141"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
-index f502030c9d..7461087299 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.15.bb
-@@ -5,7 +5,7 @@ KCONFIG_MODE = "--allnoconfig"
- 
- require recipes-kernel/linux/linux-yocto.inc
- 
--LINUX_VERSION ?= "5.15.142"
-+LINUX_VERSION ?= "5.15.141"
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-@@ -14,8 +14,8 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine ?= "53b8058476d634a0103dff993e24d15b1fd087c7"
--SRCREV_meta ?= "9a1e0301f56cda16a9fabd03745dba445f068349"
-+SRCREV_machine ?= "ddf2eeeb31d1edaa5a80e9aabc8b2674ae95f865"
-+SRCREV_meta ?= "92bd0a656f0f9db955fb53c52be71cce9296bdb2"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.15.bb b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
-index 1021065bf7..c7b07dee62 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.15.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.15.bb
-@@ -14,24 +14,24 @@ KBRANCH:qemux86  ?= "v5.15/standard/base"
- KBRANCH:qemux86-64 ?= "v5.15/standard/base"
- KBRANCH:qemumips64 ?= "v5.15/standard/mti-malta64"
- 
--SRCREV_machine:qemuarm ?= "325679bc1a595ca81783f7652e13ce7f2be58620"
--SRCREV_machine:qemuarm64 ?= "338f086bcd841a5b0239ddb66c34ca23ff5af2f5"
--SRCREV_machine:qemumips ?= "af26192f4dd0fc7396faedd4653034ae02d5ed6d"
--SRCREV_machine:qemuppc ?= "be567407d4d9009407c4e7a511e7227fcb36b0b7"
--SRCREV_machine:qemuriscv64 ?= "97015a8737f3f284f9a9c4967bf12c8b26efcdcc"
--SRCREV_machine:qemuriscv32 ?= "97015a8737f3f284f9a9c4967bf12c8b26efcdcc"
--SRCREV_machine:qemux86 ?= "97015a8737f3f284f9a9c4967bf12c8b26efcdcc"
--SRCREV_machine:qemux86-64 ?= "97015a8737f3f284f9a9c4967bf12c8b26efcdcc"
--SRCREV_machine:qemumips64 ?= "3a2ff5c2f2e6e0c0653da1192081681e2a50b592"
--SRCREV_machine ?= "97015a8737f3f284f9a9c4967bf12c8b26efcdcc"
--SRCREV_meta ?= "9a1e0301f56cda16a9fabd03745dba445f068349"
-+SRCREV_machine:qemuarm ?= "0bd882ff2a47566033965928ab468491f7e1ffd6"
-+SRCREV_machine:qemuarm64 ?= "d353330a9ba30300be32f1d732723ae3678da684"
-+SRCREV_machine:qemumips ?= "7f8fbffda634dc22a70f69ff2b762a1f3ff9c842"
-+SRCREV_machine:qemuppc ?= "fb2191ca96824c7451fbca4eef129660d25711af"
-+SRCREV_machine:qemuriscv64 ?= "54a3472506956ed41289ae423ca9b7ad4cbb3ab5"
-+SRCREV_machine:qemuriscv32 ?= "54a3472506956ed41289ae423ca9b7ad4cbb3ab5"
-+SRCREV_machine:qemux86 ?= "54a3472506956ed41289ae423ca9b7ad4cbb3ab5"
-+SRCREV_machine:qemux86-64 ?= "54a3472506956ed41289ae423ca9b7ad4cbb3ab5"
-+SRCREV_machine:qemumips64 ?= "35895af6b529915f9c09a720592554feaca9a2c7"
-+SRCREV_machine ?= "54a3472506956ed41289ae423ca9b7ad4cbb3ab5"
-+SRCREV_meta ?= "92bd0a656f0f9db955fb53c52be71cce9296bdb2"
- 
- # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
- # get the <version>/base branch, which is pure upstream -stable, and the same
- # meta SRCREV as the linux-yocto-standard builds. Select your version using the
- # normal PREFERRED_VERSION settings.
- BBCLASSEXTEND = "devupstream:target"
--SRCREV_machine:class-devupstream ?= "8a1d809b05454b2e08fb3d801787917975fdb037"
-+SRCREV_machine:class-devupstream ?= "9b91d36ba301db86bbf9e783169f7f6abf2585d8"
- PN:class-devupstream = "linux-yocto-upstream"
- KBRANCH:class-devupstream = "v5.15/base"
- 
-@@ -39,7 +39,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.15;destsuffix=${KMETA}"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
--LINUX_VERSION ?= "5.15.142"
-+LINUX_VERSION ?= "5.15.141"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
- DEPENDS += "openssl-native util-linux-native"
+ UPSTREAM_CHECK_URI = "https://github.com/libexpat/libexpat/releases/"
 -- 
-2.34.1
+2.40.0
 
 
