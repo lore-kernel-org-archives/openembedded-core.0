@@ -1,526 +1,227 @@
-Return-Path: <meenali.gupta@windriver.com>
+Return-Path: <leimaohui@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69628C54798
-	for <webhook@archiver.kernel.org>; Fri,  8 Mar 2024 00:08:43 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.9242.1709856521080099091
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96CD3C54798
+	for <webhook@archiver.kernel.org>; Fri,  8 Mar 2024 00:22:33 +0000 (UTC)
+Received: from esa14.fujitsucc.c3s2.iphmx.com (esa14.fujitsucc.c3s2.iphmx.com [68.232.156.101])
+ by mx.groups.io with SMTP id smtpd.web10.9289.1709857351503489139
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Mar 2024 16:08:41 -0800
+ Thu, 07 Mar 2024 16:22:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=dvtOmkGn;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=379737ad25=meenali.gupta@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 427MtrrL014507
-	for <openembedded-core@lists.openembedded.org>; Fri, 8 Mar 2024 00:08:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=PPS06212021; bh=Xdias
-	cVLW64NdvHZX1Nw9skmFQjSWv71HaAtZ8JWOvw=; b=dvtOmkGnHz6XlWtff69fZ
-	uhhu5a8jjPW8+OOggIfOftNZO1Aals+kRBEzodmArFpH1/XJ5bf3xVjjskMEl+1d
-	0ouuobNltAJ1ZsI0gkVXznE4AcpR84py9QvxVQUmvi3RsHPQipy62CgZ1Zi9dFh0
-	Tx8II4/UfO9KWPLr2zCUeQub14YuVlMHTqx4sD019FNoUvYH1mDAFRlgUUD5g8Jq
-	MNbI01thvLsZvlF5lGSPQk/JhcaGR9KnzfREt09YQxz8CnUc5MyeypDf8/lHzLJg
-	VskXUj9eUDhm769nr8fr1GCd1D7DmdIrou6Gz0fWYT99dba6NjM9W35mwoNerubQ
-	g==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3wku36dukv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 08 Mar 2024 00:08:39 +0000 (GMT)
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 7 Mar 2024 16:08:24 -0800
-From: mgupta1 <meenali.gupta@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [oe-core][kirkstone][PATCH 1/1] expat: fix CVE-2023-52426
-Date: Fri, 8 Mar 2024 00:08:07 +0000
-Message-ID: <20240308000807.1078261-1-meenali.gupta@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=pass header.i=@fujitsu.com header.s=fj1 header.b=hgNXa38l;
+ spf=neutral (domain: fujitsu.com, ip: 68.232.156.101, mailfrom: leimaohui@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj1;
+  t=1709857352; x=1741393352;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=TtxJqJaT+bXvzS00qgErTQXTNib+/HXKC6yLMeo3Zf8=;
+  b=hgNXa38lV4fTXUWU5FQ6eZqlq1cBtl04wvNmNLXSCiYITX6vHa10g/VO
+   X5BVv559VEfYG5uYwCNmZOBFWBUe6olwiXHbYHtzAap8WggoHQd2TzZxq
+   H34CKTAqZ6LLVeS9ADm0pP3AF/g99soIIEyzdyvmYU+6ayKnAPk6mRP+V
+   bUvj/noELbCJvDquawuBY0Wr69R8XEZ/m5gL7qgkrl4VrPaajpWpUvkKo
+   iBxTHzpUi6xTqXwjIggCQxL4pPE+Go/ka3caEjP1ogCyEpOIRlHInYLFe
+   IQ5EZNexHjPWW5I79g4IkeD3t6uXQzwpbPRHiMjcfcrDcf/JZIxfi8Bsa
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11006"; a="112961438"
+X-IronPort-AV: E=Sophos;i="6.07,107,1708354800"; 
+   d="scan'208";a="112961438"
+Received: from mail-os0jpn01lp2105.outbound.protection.outlook.com (HELO JPN01-OS0-obe.outbound.protection.outlook.com) ([104.47.23.105])
+  by ob1.fujitsucc.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2024 09:22:25 +0900
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UaU2aZ1EWPFJheexzusvYIQlsf5+q3t7CNjSgF8Z3hmG9E9g54eEWK0/4wIhJSxeR6KoLdI38tEBkS0Fl8BA3HubDhmghkz1+8+EAUwxxzbec613V8Ovegj2fCzmH4UdvSB3SqIln6042m0qYl6Ar5DUGm80taFVo7uJraX3F00gX6x9p1P2nXjqyLWGbL2gdJ+4e9Yz+ibfKlrN9BQ8I8LvERZBxSxJhhJEPzQhQ6zhNJRD2BGeReGLNjo0TBZKvY4q+QrLiygb4IMnunNIZqiLqJ/UNaEqexYWqCFCd8Zg9OC8dRVOuxAI9iYHdlVN7uidmwVxGufkQj2GYcK0Jw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TtxJqJaT+bXvzS00qgErTQXTNib+/HXKC6yLMeo3Zf8=;
+ b=ZvjNmL1xZAvreR7vPKpMJB1sF1H1FVDUPB2AqjPXieQ3fKeUl+79b0//A1C1oouZ64dfCq0Dbkn4QTDD8Hxw+3/tRDoBiU72eNf4UbRlWFhzamJPi5Dp4LkHKpwz2+NAMzhwI8iXINtztflKueUd1LvAkAk/jfJz95Z9StjCyz7IibWO2tFp3EJPBd+cUIDz95iyBl8x9HxWtq1qDZT9EmpBsrfywSnBc/4JPY7zKovONrIvlYgOpZr63vpnO6bCNxkppzoJhx7cLtBroIgnyk0m7/Q1GGJ9loIIRzrvZaI6QVCi3Q6kQuMASVLCBIUu9oG1ibodVqs2EkhMMk3KlQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
+ dkim=pass header.d=fujitsu.com; arc=none
+Received: from TY3PR01MB11056.jpnprd01.prod.outlook.com
+ (2603:1096:400:3b4::12) by TYCPR01MB10590.jpnprd01.prod.outlook.com
+ (2603:1096:400:302::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7362.27; Fri, 8 Mar
+ 2024 00:22:21 +0000
+Received: from TY3PR01MB11056.jpnprd01.prod.outlook.com
+ ([fe80::4189:9809:9327:afc8]) by TY3PR01MB11056.jpnprd01.prod.outlook.com
+ ([fe80::4189:9809:9327:afc8%4]) with mapi id 15.20.7362.024; Fri, 8 Mar 2024
+ 00:22:21 +0000
+From: "Maohui Lei (Fujitsu)" <leimaohui@fujitsu.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH] glibc: Fix conflict error when enbale multilib
+ on aarch64.
+Thread-Topic: [OE-core] [PATCH] glibc: Fix conflict error when enbale multilib
+ on aarch64.
+Thread-Index: AQHaaHUpatzEX0efzE20ox1aXl40t7EcJnuAgBDlEjA=
+Date: Fri, 8 Mar 2024 00:22:20 +0000
+Message-ID: 
+ <TY3PR01MB11056E0F4F06FD30D842303E3A0272@TY3PR01MB11056.jpnprd01.prod.outlook.com>
+References: <20240226053210.3501-1-leimaohui@fujitsu.com>
+ <CAMKF1sqh5ngJdQfKvgQ-9Omc6U6SeKE2DzV6127-ep2iyS=8Jg@mail.gmail.com>
+In-Reply-To: 
+ <CAMKF1sqh5ngJdQfKvgQ-9Omc6U6SeKE2DzV6127-ep2iyS=8Jg@mail.gmail.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ =?utf-8?B?TVNJUF9MYWJlbF9hNzI5NWNjMS1kMjc5LTQyYWMtYWI0ZC0zYjBmNGZlY2Uw?=
+ =?utf-8?B?NTBfQWN0aW9uSWQ9YWQ1MjFiZDktZGMzMC00M2RlLThlMDUtZjk5ZjNjYTUw?=
+ =?utf-8?B?MTQyO01TSVBfTGFiZWxfYTcyOTVjYzEtZDI3OS00MmFjLWFiNGQtM2IwZjRm?=
+ =?utf-8?B?ZWNlMDUwX0NvbnRlbnRCaXRzPTA7TVNJUF9MYWJlbF9hNzI5NWNjMS1kMjc5?=
+ =?utf-8?B?LTQyYWMtYWI0ZC0zYjBmNGZlY2UwNTBfRW5hYmxlZD10cnVlO01TSVBfTGFi?=
+ =?utf-8?B?ZWxfYTcyOTVjYzEtZDI3OS00MmFjLWFiNGQtM2IwZjRmZWNlMDUwX01ldGhv?=
+ =?utf-8?B?ZD1TdGFuZGFyZDtNU0lQX0xhYmVsX2E3Mjk1Y2MxLWQyNzktNDJhYy1hYjRk?=
+ =?utf-8?B?LTNiMGY0ZmVjZTA1MF9OYW1lPUZVSklUU1UtUkVTVFJJQ1RFROKAiztNU0lQ?=
+ =?utf-8?B?X0xhYmVsX2E3Mjk1Y2MxLWQyNzktNDJhYy1hYjRkLTNiMGY0ZmVjZTA1MF9T?=
+ =?utf-8?B?ZXREYXRlPTIwMjQtMDMtMDhUMDA6MTk6MDZaO01TSVBfTGFiZWxfYTcyOTVj?=
+ =?utf-8?B?YzEtZDI3OS00MmFjLWFiNGQtM2IwZjRmZWNlMDUwX1NpdGVJZD1hMTlmMTIx?=
+ =?utf-8?Q?d-81e1-4858-a9d8-736e267fd4c7;?=
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=fujitsu.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB11056:EE_|TYCPR01MB10590:EE_
+x-ms-office365-filtering-correlation-id: 41b49ba9-ff7d-4061-124e-08dc3f05d1fd
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ MAjD26fWExfQ34G1eqhzN4nrrSgOQ77dGgPbs2PKYt7En2URCAPkBnH2qmuQz8t0CszxoAzh3S/T6clPl8A9pDrGcXdp/WriXx8kK/Jf4eaJJneAr9PDJzYYcQbI8H/jx8yL2HoBTklAaBYo09/1FTNMe0oZnNXdBPcdMhewjLZXQqgn6fMY48xgpirPmU2b9Mlqhh171qJQnQz5YBzcfi3xX22wU4m1OjftimLu+Vlidd7gybuOFPpXmP6kiUygaWIHQ58CUJCrHV9N5s3w6P05rLw4tSnOu9x6yfgYrEgrjLHjWIqnVzOt1znZXLIr5X7Eg2vg9P23hJuShMNuDOvrPXSW4SYU4IlaSFoq4yi9Bi3fpzHcml9tIF5HzMIdO/jJghuH5s3uxSzNp7Pzs/OJ2AaRsVfHcKqTRdfR0j6i/fDHh7LriDU1n1GUXGJhrvJuqMIr36dG9FfP5PXcYA63CdkDUzNeoDwgcqjZIIXw2DsgE6q3qXDr3H8bgU25LzfAy+7uFMgi/G3J+A6My3lJLMnmWMc0CM7Vax3wHm9NJbwUqI2BDaT6PrB+TkZWhULzD9O6sY3bgRqSWTqtJsh+GCeQN4wjZ2/N33vcH7D7b0Pq1rTiMa6N1MvUUoWTI3sonS/mMCzM5OSkweEApK5O/bJXgMbAQ+4ZLnZpZ0uOeBMp7f6YieCtDFOlXWCk
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11056.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(376005)(1580799018)(38070700009);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?QWtaeDkzM3pWcXYwamt0dEhYbEVzdzdNU3RqY0pnYnU5TUFiSEttSWlUckJa?=
+ =?utf-8?B?b3ZBNVgwUFFRdmQ1ZzVQdVQwUHo4K2RrSk5yNE9ySmtQUnZCWFhwWjRIUGxx?=
+ =?utf-8?B?VFUyZ0ZsWlEvV21NWU15bUNFcTVFKzRrNlIwWUltQjB2RGJMRzJHVTBuM241?=
+ =?utf-8?B?MnNGbTJybTBsUmpNMzhjWm9zQ3NlMjc3ZTdMVXBFMzU5UnQrUHh6UktJam5J?=
+ =?utf-8?B?aDNlVDlydjlHZXJic0c2akpIWjRBWTlaMXZJak9BUlNZamIrN3E1UC9MeUNn?=
+ =?utf-8?B?SFE3QTVXZ1ZLSW5QTVZnRkZKK0twVk16bDlMNUpNM0F5MWVONXhtWUpDOVdK?=
+ =?utf-8?B?Yjk2YmlWR2VtWnZIMVJLWHdtVVR4ZHVsemV4UmZQcXZDeXRNUjJJOHBnUk5s?=
+ =?utf-8?B?UFh3a3ZVWXlXZ29ZcjRqV1JBU0JGUXh0KzlvZlNzd2VObTd5TXdDRGRybTls?=
+ =?utf-8?B?aFkwTE1YWHpZUUdrSXFkTHBxSEpwbEd5RFBKKzYrdHZnbEdMWDV4NHBrckJv?=
+ =?utf-8?B?SzBDSUh0MWlGN2dEU2RadmpOTGt5aU9VY3BpbE1JZTRZSFB4N3ZpK2FNZmM5?=
+ =?utf-8?B?M3V1Yytoc2lVSTkvVXNUSEtKcjlyMUV2NmJnNGg4NTEvaFdiYmxRVXhlZHV1?=
+ =?utf-8?B?azJmQnR0WG8wRkQ4VCtUdlkveVRISW9pMklmcmpLeEFGR3J1YzJoUFpPMlNU?=
+ =?utf-8?B?UDdGdTBQRXk0M0g2QTBxbGxwY1hTYTlOTFdLaTRBSVdraGVVQ01jNXBMYXBQ?=
+ =?utf-8?B?QlNBanNaelIvaFNxTG9zbFFMbDdjRGV4a2dIYTRUbEEwL2p6Qncvb2Q0dG9u?=
+ =?utf-8?B?Q1djcWMxTWgwVVJSK201V1MyRk5OdkY3cU4xRnRTRGZVZ0xXaGN5bzhGMlRE?=
+ =?utf-8?B?TWxQd1VoWmpQbTJaLzZ5by92YlJ3ZDM1czZjUkh6OXdLZytUdmFyTkg4Sjh4?=
+ =?utf-8?B?YTlkMXZNakE4UU55bEF3a2RlVkNNMENwVXNSSWx4U0xXSW5uZVpjOXh0Wjlv?=
+ =?utf-8?B?Q1NkT25lNGtLNHMwUUVDdDRLUmtmK2djY1cxNVo2N1ZONGRvMFVKTFI5NVRZ?=
+ =?utf-8?B?RlRHN3VBc3JNZzhaYW03Um56aC9LdXNJUmErNTE1ZWpzT2tDQkNTZ3VuRUti?=
+ =?utf-8?B?eUkySFZCd3d6QnJ3THc5Z0tmVUlJNFNZQkduTm5PU1hzcmtPODRZTFlGVEZN?=
+ =?utf-8?B?QnFXaXFOYlN4dFpHM0xIMEJFL3htUHg3d2dKa09PblVTZlE4VndySjRJaGFY?=
+ =?utf-8?B?T1Fyc1ZaQVh3ZVpzQlJxeGhuZHR2cUMzVndjVHk0SXNWVUpzMTBOU1E3cmU3?=
+ =?utf-8?B?Y3FEM3cvbkJsb2JIaWkxRG8rY0I2dzVQTlVvVlJyZWRzL3lwT3VKcHRMVU1H?=
+ =?utf-8?B?R1M5WGhOQnVZV0N6Yi9iK2dNNndFVGp4YlZEM29TSE03T1FVT3paVmtsQTVj?=
+ =?utf-8?B?QnBMMjlXTC9yc3QvK1FYcytTVGpneWpKczZPdDRuNWpiUEpoeW4xYk1YS0Yz?=
+ =?utf-8?B?TERCUmRZOWF4SG5aVEQxd0NPSy9XUS94SjZyeEhhUGsxWGxxc284UzMwNVZo?=
+ =?utf-8?B?NjAwMXV5U0hnSnl6OU5zMmJhbktOOEtqSWRFRjlqY1ZRaTRrbGx2bnFPZ2dj?=
+ =?utf-8?B?RTJLV1NNSjhhVFhEazA2ZksvbzFUOW9pTkdRdk9qSGcwWUI4d2tQUlBobUhL?=
+ =?utf-8?B?RFJqdlhXTU5VVWoySGFsc0VJYzBna0gwZFZxZlM0MTRpNWJxQkVXdEMvR0tP?=
+ =?utf-8?B?b2srSGJFZGVtMnVPOUE0UnJBdExSWDZpN1FvNkRETjV0R2xESE1uY0JrZStq?=
+ =?utf-8?B?SXZKQzF2Z0dNK0lRTnM0RmJvbEFFNmw0OUVqcU5SM0hESG9uUy90VTR5aG1T?=
+ =?utf-8?B?aUtySGhHVnhJK0xLNHQxNnc1bGtUN25tVWd5US9ZQjdleFJyRmIxcmgweWdM?=
+ =?utf-8?B?M2RFMTNlSmZBN1Zmc0tBOGEwMFQ4UWJ0ZHFMQU5nalNpZ2NseTIvN2FrbzRH?=
+ =?utf-8?B?UTR0dzZBckpHZTcwb0ZLK0pZaERPNURzQ3loalVTeVJsNXl0UncvZnZ5SThl?=
+ =?utf-8?B?c2I5emtkODk3amVLTnVQU0ZCSG0vaUVuZUlsMVZWQmV2ODhDa2VwR1FvMU05?=
+ =?utf-8?Q?AzliWItXWe77rPqn8HLoF6GEM?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [147.11.136.210]
-X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
- ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-ORIG-GUID: s3huZRCGhYnJ8FLh2QFJQgQfPn7vsYk6
-X-Proofpoint-GUID: s3huZRCGhYnJ8FLh2QFJQgQfPn7vsYk6
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-07_18,2024-03-06_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 adultscore=0
- suspectscore=0 spamscore=0 impostorscore=0 mlxscore=0 phishscore=0
- lowpriorityscore=0 malwarescore=0 bulkscore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.19.0-2402120000
- definitions=main-2403070173
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
+	mLYx3R/XU5a6WbQpzBWSfdS2joPKhgm3hQKOCI3mng14bRpX+xim/Xh9bmNyuesMmPVGo5HUyI3jvX8YSvJ4KnZbfkK1HQBHT2w4i0jVjBGN+b+BgjaBWfZ5jLvbRNXolMcxmae125xozjjV5OCklJLIe/XME854t24znlrKI2LBaJgbm0Avp7L4qfYglsKpMYbp7+oGKfHk7IAYVklGhNvSGTBo4+wrwXH3PFVrOTbQqyHNs0QwsBKkho9g6cIj/OmDlmVg8YNTMb55meTO/YQHrWGfaC7q+0jeqG+N4/reoUEfE4kTbo8T6/abp7DTWHrFTH1MNXJm5WZqR/jTFoC5scoT4BKkK8eLj9Mhil+C9L2DJLIaFv/1QUVSL2v6PTr+0bN615OXnnYqJVJ2p0tK1OXnMwSiBEvh5Z5KOWI63mk67uuWDHN7iBeKGHbMB3jMDFjaZCLCJnHk0qixmBZUcyfe55m5ROba7cUYsmUL9drN0ZNCWYN7VOez3Cj4fRfPUZ65GvLQZt88XOLLeVW3JMPoZZTOBqZkAF2YROfxjUwQtgHHCf4ZqSjH3/Ij+k6MNLloQn6+P7XUOYBKmgjyesRU3FOPkUHa9dspajRKDeQKdg96ehDu9lCVKRd2
+X-OriginatorOrg: fujitsu.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11056.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 41b49ba9-ff7d-4061-124e-08dc3f05d1fd
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Mar 2024 00:22:20.9846
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 1j2etF613o98/y5JXIdnYRDBvOrTgoJT430tN6836udU+eeUvr4vU34sTjP/UE7T6HcJh+qHPjRJH+CxXjbe9w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB10590
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 Mar 2024 00:08:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196837
+ <openembedded-core@lists.openembedded.org>; Fri, 08 Mar 2024 00:22:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196838
 
-From: Meenali Gupta <meenali.gupta@windriver.com>
-
-A flaw was found in Expat (libexpat). If XML_DTD is undefined at compile time, a recursive XML Entity
-Expansion condition can be triggered. This issue may lead to a condition where data is expanded exponentially,
-which will quickly consume system resources and cause a denial of service.
-
-Signed-off-by: Meenali Gupta <meenali.gupta@windriver.com>
----
- .../expat/expat/CVE-2023-52426.patch          | 429 ++++++++++++++++++
- meta/recipes-core/expat/expat_2.5.0.bb        |   1 +
- 2 files changed, 430 insertions(+)
- create mode 100644 meta/recipes-core/expat/expat/CVE-2023-52426.patch
-
-diff --git a/meta/recipes-core/expat/expat/CVE-2023-52426.patch b/meta/recipes-core/expat/expat/CVE-2023-52426.patch
-new file mode 100644
-index 0000000000..b78a8ee0dc
---- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2023-52426.patch
-@@ -0,0 +1,429 @@
-+From 0f075ec8ecb5e43f8fdca5182f8cca4703da0404 Mon Sep 17 00:00:00 2001
-+From: Sebastian Pipping <sebastian@pipping.org>
-+Date: Thu, 26 Oct 2023 00:43:22 +0200
-+Subject: [PATCH] lib|xmlwf|cmake: Extend scope of billion laughs attack
-+ protection
-+
-+.. from "defined(XML_DTD)" to "defined(XML_DTD) || XML_GE==1".
-+
-+CVE: CVE-2023-52426
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/0f075ec8ecb5e43f8fdca5182f8cca4703da0404]
-+
-+Signed-off-by: Meenali Gupta <meenali.gupta@windriver.com>
-+---
-+ CMakeLists.txt         |  8 ++++-
-+ lib/expat.h            |  8 +++--
-+ lib/internal.h         |  2 +-
-+ lib/libexpat.def.cmake |  4 +--
-+ lib/xmlparse.c         | 71 ++++++++++++++++++++++--------------------
-+ xmlwf/xmlwf.c          | 18 ++++++-----
-+ 6 files changed, 62 insertions(+), 49 deletions(-)
-+
-+diff --git a/CMakeLists.txt b/CMakeLists.txt
-+index 2b4c13c..183c5c2 100644
-+--- a/CMakeLists.txt
-++++ b/CMakeLists.txt
-+@@ -381,7 +381,13 @@ if(EXPAT_SHARED_LIBS)
-+             endif()
-+         endmacro()
-+
-+-        _expat_def_file_toggle(EXPAT_DTD _EXPAT_COMMENT_DTD)
-++	if(EXPAT_DTD OR EXPAT_GE)
-++            set(_EXPAT_DTD_OR_GE TRUE)
-++        else()
-++            set(_EXPAT_DTD_OR_GE FALSE)
-++        endif()
-++
-++        _expat_def_file_toggle(_EXPAT_DTD_OR_GE _EXPAT_COMMENT_DTD_OR_GE)
-+         _expat_def_file_toggle(EXPAT_ATTR_INFO _EXPAT_COMMENT_ATTR_INFO)
-+
-+         configure_file("${CMAKE_CURRENT_SOURCE_DIR}/lib/libexpat.def.cmake" "${CMAKE_CURRENT_BINARY_DIR}/lib/libexpat.def")
-+diff --git a/lib/expat.h b/lib/expat.h
-+index 1c83563..33c94af 100644
-+--- a/lib/expat.h
-++++ b/lib/expat.h
-+@@ -1038,13 +1038,15 @@ typedef struct {
-+ XMLPARSEAPI(const XML_Feature *)
-+ XML_GetFeatureList(void);
-+
-+-#ifdef XML_DTD
-+-/* Added in Expat 2.4.0. */
-++#if defined(XML_DTD) || XML_GE == 1
-++/* Added in Expat 2.4.0 for XML_DTD defined and
-++ * added in Expat 2.6.0 for XML_GE == 1. */
-+ XMLPARSEAPI(XML_Bool)
-+ XML_SetBillionLaughsAttackProtectionMaximumAmplification(
-+     XML_Parser parser, float maximumAmplificationFactor);
-+
-+-/* Added in Expat 2.4.0. */
-++/* Added in Expat 2.4.0 for XML_DTD defined and
-++ * added in Expat 2.6.0 for XML_GE == 1. */
-+ XMLPARSEAPI(XML_Bool)
-+ XML_SetBillionLaughsAttackProtectionActivationThreshold(
-+     XML_Parser parser, unsigned long long activationThresholdBytes);
-+diff --git a/lib/internal.h b/lib/internal.h
-+index e09f533..1851925 100644
-+--- a/lib/internal.h
-++++ b/lib/internal.h
-+@@ -154,7 +154,7 @@ extern "C" {
-+ void _INTERNAL_trim_to_complete_utf8_characters(const char *from,
-+                                                 const char **fromLimRef);
-+
-+-#if defined(XML_DTD)
-++#if defined(XML_DTD) || XML_GE == 1
-+ unsigned long long testingAccountingGetCountBytesDirect(XML_Parser parser);
-+ unsigned long long testingAccountingGetCountBytesIndirect(XML_Parser parser);
-+ const char *unsignedCharToPrintable(unsigned char c);
-+diff --git a/lib/libexpat.def.cmake b/lib/libexpat.def.cmake
-+index cf434a2..61a4f00 100644
-+--- a/lib/libexpat.def.cmake
-++++ b/lib/libexpat.def.cmake
-+@@ -75,5 +75,5 @@ EXPORTS
-+   XML_SetHashSalt @67
-+ ; internal @68 removed with version 2.3.1
-+ ; added with version 2.4.0
-+-@_EXPAT_COMMENT_DTD@ XML_SetBillionLaughsAttackProtectionActivationThreshold @69
-+-@_EXPAT_COMMENT_DTD@ XML_SetBillionLaughsAttackProtectionMaximumAmplification @70
-++@_EXPAT_COMMENT_DTD_OR_GE@ XML_SetBillionLaughsAttackProtectionActivationThreshold @69
-++@_EXPAT_COMMENT_DTD_OR_GE@ XML_SetBillionLaughsAttackProtectionMaximumAmplification @70
-+diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-+index b6c2eca..e23441e 100644
-+--- a/lib/xmlparse.c
-++++ b/lib/xmlparse.c
-+@@ -408,7 +408,7 @@ enum XML_Account {
-+   XML_ACCOUNT_NONE              /* i.e. do not account, was accounted already */
-+ };
-+
-+-#ifdef XML_DTD
-++#if defined(XML_DTD) || XML_GE == 1
-+ typedef unsigned long long XmlBigCount;
-+ typedef struct accounting {
-+   XmlBigCount countBytesDirect;
-+@@ -424,7 +424,7 @@ typedef struct entity_stats {
-+   unsigned int maximumDepthSeen;
-+   int debugLevel;
-+ } ENTITY_STATS;
-+-#endif /* XML_DTD */
-++#endif /* defined(XML_DTD) || XML_GE == 1 */
-+
-+ typedef enum XML_Error PTRCALL Processor(XML_Parser parser, const char *start,
-+                                          const char *end, const char **endPtr);
-+@@ -562,7 +562,7 @@ static XML_Parser parserCreate(const XML_Char *encodingName,
-+
-+ static void parserInit(XML_Parser parser, const XML_Char *encodingName);
-+
-+-#ifdef XML_DTD
-++#if defined(XML_DTD) || XML_GE == 1
-+ static float accountingGetCurrentAmplification(XML_Parser rootParser);
-+ static void accountingReportStats(XML_Parser originParser, const char *epilog);
-+ static void accountingOnAbort(XML_Parser originParser);
-+@@ -585,7 +585,7 @@ static void entityTrackingOnClose(XML_Parser parser, ENTITY *entity,
-+
-+ static XML_Parser getRootParserOf(XML_Parser parser,
-+                                   unsigned int *outLevelDiff);
-+-#endif /* XML_DTD */
-++#endif /* defined(XML_DTD) || XML_GE == 1 */
-+
-+ static unsigned long getDebugLevel(const char *variableName,
-+                                    unsigned long defaultDebugLevel);
-+@@ -703,7 +703,7 @@ struct XML_ParserStruct {
-+   enum XML_ParamEntityParsing m_paramEntityParsing;
-+ #endif
-+   unsigned long m_hash_secret_salt;
-+-#ifdef XML_DTD
-++#if defined(XML_DTD) || XML_GE == 1
-+   ACCOUNTING m_accounting;
-+   ENTITY_STATS m_entity_stats;
-+ #endif
-+@@ -1163,7 +1163,7 @@ parserInit(XML_Parser parser, const XML_Char *encodingName) {
-+ #endif
-+   parser->m_hash_secret_salt = 0;
-+
-+-#ifdef XML_DTD
-++#if defined(XML_DTD) || XML_GE == 1
-+   memset(&parser->m_accounting, 0, sizeof(ACCOUNTING));
-+   parser->m_accounting.debugLevel = getDebugLevel("EXPAT_ACCOUNTING_DEBUG", 0u);
-+   parser->m_accounting.maximumAmplificationFactor
-+@@ -2522,8 +2522,9 @@ XML_GetFeatureList(void) {
-+ #ifdef XML_ATTR_INFO
-+       {XML_FEATURE_ATTR_INFO, XML_L("XML_ATTR_INFO"), 0},
-+ #endif
-+-#ifdef XML_DTD
-+-      /* Added in Expat 2.4.0. */
-++#if defined(XML_DTD) || XML_GE == 1
-++    /* Added in Expat 2.4.0 for XML_DTD defined and
-++     * added in Expat 2.6.0 for XML_GE == 1. */
-+       {XML_FEATURE_BILLION_LAUGHS_ATTACK_PROTECTION_MAXIMUM_AMPLIFICATION_DEFAULT,
-+        XML_L("XML_BLAP_MAX_AMP"),
-+        (long int)
-+@@ -2537,7 +2538,7 @@ XML_GetFeatureList(void) {
-+   return features;
-+ }
-+
-+-#ifdef XML_DTD
-++#if defined(XML_DTD) || XML_GE == 1
-+ XML_Bool XMLCALL
-+ XML_SetBillionLaughsAttackProtectionMaximumAmplification(
-+     XML_Parser parser, float maximumAmplificationFactor) {
-+@@ -2559,7 +2560,7 @@ XML_SetBillionLaughsAttackProtectionActivationThreshold(
-+   parser->m_accounting.activationThresholdBytes = activationThresholdBytes;
-+   return XML_TRUE;
-+ }
-+-#endif /* XML_DTD */
-++#endif /* defined(XML_DTD) || XML_GE == 1 */
-+
-+ /* Initially tag->rawName always points into the parse buffer;
-+    for those TAG instances opened while the current parse buffer was
-+@@ -2645,13 +2646,13 @@ externalEntityInitProcessor2(XML_Parser parser, const char *start,
-+   int tok = XmlContentTok(parser->m_encoding, start, end, &next);
-+   switch (tok) {
-+   case XML_TOK_BOM:
-+-#ifdef XML_DTD
-++#if defined(XML_DTD) || XML_GE == 1
-+     if (! accountingDiffTolerated(parser, tok, start, next, __LINE__,
-+                                   XML_ACCOUNT_DIRECT)) {
-+       accountingOnAbort(parser);
-+       return XML_ERROR_AMPLIFICATION_LIMIT_BREACH;
-+     }
-+-#endif /* XML_DTD */
-++#endif /* defined(XML_DTD) || XML_GE == 1 */
-+
-+     /* If we are at the end of the buffer, this would cause the next stage,
-+        i.e. externalEntityInitProcessor3, to pass control directly to
-+@@ -2765,7 +2766,7 @@ doContent(XML_Parser parser, int startTagLevel, const ENCODING *enc,
-+   for (;;) {
-+     const char *next = s; /* XmlContentTok doesn't always set the last arg */
-+     int tok = XmlContentTok(enc, s, end, &next);
-+-#ifdef XML_DTD
-++#if defined(XML_DTD) || XML_GE == 1
-+     const char *accountAfter
-+         = ((tok == XML_TOK_TRAILING_RSQB) || (tok == XML_TOK_TRAILING_CR))
-+               ? (haveMore ? s /* i.e. 0 bytes */ : end)
-+@@ -2831,14 +2832,14 @@ doContent(XML_Parser parser, int startTagLevel, const ENCODING *enc,
-+       XML_Char ch = (XML_Char)XmlPredefinedEntityName(
-+           enc, s + enc->minBytesPerChar, next - enc->minBytesPerChar);
-+       if (ch) {
-+-#ifdef XML_DTD
-++#if defined(XML_DTD) || XML_GE == 1
-+         /* NOTE: We are replacing 4-6 characters original input for 1 character
-+          *       so there is no amplification and hence recording without
-+          *       protection. */
-+         accountingDiffTolerated(parser, tok, (char *)&ch,
-+                                 ((char *)&ch) + sizeof(XML_Char), __LINE__,
-+                                 XML_ACCOUNT_ENTITY_EXPANSION);
-+-#endif /* XML_DTD */
-++#endif /* defined(XML_DTD) || XML_GE == 1 */
-+         if (parser->m_characterDataHandler)
-+           parser->m_characterDataHandler(parser->m_handlerArg, &ch, 1);
-+         else if (parser->m_defaultHandler)
-+@@ -4040,7 +4041,7 @@ doCdataSection(XML_Parser parser, const ENCODING *enc, const char **startPtr,
-+   for (;;) {
-+     const char *next = s; /* in case of XML_TOK_NONE or XML_TOK_PARTIAL */
-+     int tok = XmlCdataSectionTok(enc, s, end, &next);
-+-#ifdef XML_DTD
-++#if defined(XML_DTD) || XML_GE == 1
-+     if (! accountingDiffTolerated(parser, tok, s, next, __LINE__, account)) {
-+       accountingOnAbort(parser);
-+       return XML_ERROR_AMPLIFICATION_LIMIT_BREACH;
-+@@ -4192,7 +4193,7 @@ doIgnoreSection(XML_Parser parser, const ENCODING *enc, const char **startPtr,
-+   *eventPP = s;
-+   *startPtr = NULL;
-+   tok = XmlIgnoreSectionTok(enc, s, end, &next);
-+-#  ifdef XML_DTD
-++#if defined(XML_DTD) || XML_GE == 1
-+   if (! accountingDiffTolerated(parser, tok, s, next, __LINE__,
-+                                 XML_ACCOUNT_DIRECT)) {
-+     accountingOnAbort(parser);
-+@@ -4284,7 +4285,7 @@ processXmlDecl(XML_Parser parser, int isGeneralTextEntity, const char *s,
-+   const XML_Char *storedversion = NULL;
-+   int standalone = -1;
-+
-+-#ifdef XML_DTD
-++#if defined(XML_DTD) || XML_GE == 1
-+   if (! accountingDiffTolerated(parser, XML_TOK_XML_DECL, s, next, __LINE__,
-+                                 XML_ACCOUNT_DIRECT)) {
-+     accountingOnAbort(parser);
-+@@ -4491,7 +4492,7 @@ entityValueInitProcessor(XML_Parser parser, const char *s, const char *end,
-+     */
-+     else if (tok == XML_TOK_BOM && next == end
-+              && ! parser->m_parsingStatus.finalBuffer) {
-+-#  ifdef XML_DTD
-++#  if defined(XML_DTD) || XML_GE == 1
-+       if (! accountingDiffTolerated(parser, tok, s, next, __LINE__,
-+                                     XML_ACCOUNT_DIRECT)) {
-+         accountingOnAbort(parser);
-+@@ -4707,11 +4708,13 @@ doProlog(XML_Parser parser, const ENCODING *enc, const char *s, const char *end,
-+       }
-+     }
-+     role = XmlTokenRole(&parser->m_prologState, tok, s, next, enc);
-+-#ifdef XML_DTD
-++#if defined(XML_DTD) || XML_GE == 1
-+     switch (role) {
-+     case XML_ROLE_INSTANCE_START: // bytes accounted in contentProcessor
-+     case XML_ROLE_XML_DECL:       // bytes accounted in processXmlDecl
-+-    case XML_ROLE_TEXT_DECL:      // bytes accounted in processXmlDecl
-++    #  ifdef XML_DTD
-++    case XML_ROLE_TEXT_DECL: // bytes accounted in processXmlDecl
-++#  endif
-+       break;
-+     default:
-+       if (! accountingDiffTolerated(parser, tok, s, next, __LINE__, account)) {
-+@@ -5648,7 +5651,7 @@ epilogProcessor(XML_Parser parser, const char *s, const char *end,
-+   for (;;) {
-+     const char *next = NULL;
-+     int tok = XmlPrologTok(parser->m_encoding, s, end, &next);
-+-#ifdef XML_DTD
-++#if defined(XML_DTD) || XML_GE == 1
-+     if (! accountingDiffTolerated(parser, tok, s, next, __LINE__,
-+                                   XML_ACCOUNT_DIRECT)) {
-+       accountingOnAbort(parser);
-+@@ -5728,7 +5731,7 @@ processInternalEntity(XML_Parser parser, ENTITY *entity, XML_Bool betweenDecl) {
-+       return XML_ERROR_NO_MEMORY;
-+   }
-+   entity->open = XML_TRUE;
-+-#ifdef XML_DTD
-++#if defined(XML_DTD) || XML_GE == 1
-+   entityTrackingOnOpen(parser, entity, __LINE__);
-+ #endif
-+   entity->processed = 0;
-+@@ -5762,9 +5765,9 @@ processInternalEntity(XML_Parser parser, ENTITY *entity, XML_Bool betweenDecl) {
-+       entity->processed = (int)(next - textStart);
-+       parser->m_processor = internalEntityProcessor;
-+     } else {
-+-#ifdef XML_DTD
-++#if defined(XML_DTD) || XML_GE == 1
-+       entityTrackingOnClose(parser, entity, __LINE__);
-+-#endif /* XML_DTD */
-++#endif /* defined(XML_DTD) || XML_GE == 1 */
-+       entity->open = XML_FALSE;
-+       parser->m_openInternalEntities = openEntity->next;
-+       /* put openEntity back in list of free instances */
-+@@ -5813,7 +5816,7 @@ internalEntityProcessor(XML_Parser parser, const char *s, const char *end,
-+     return result;
-+   }
-+
-+-#ifdef XML_DTD
-++#if defined(XML_DTD) || XML_GE == 1
-+   entityTrackingOnClose(parser, entity, __LINE__);
-+ #endif
-+   entity->open = XML_FALSE;
-+@@ -5892,7 +5895,7 @@ appendAttributeValue(XML_Parser parser, const ENCODING *enc, XML_Bool isCdata,
-+     const char *next
-+         = ptr; /* XmlAttributeValueTok doesn't always set the last arg */
-+     int tok = XmlAttributeValueTok(enc, ptr, end, &next);
-+-#ifdef XML_DTD
-++#if defined(XML_DTD) || XML_GE == 1
-+     if (! accountingDiffTolerated(parser, tok, ptr, next, __LINE__, account)) {
-+       accountingOnAbort(parser);
-+       return XML_ERROR_AMPLIFICATION_LIMIT_BREACH;
-+@@ -5957,14 +5960,14 @@ appendAttributeValue(XML_Parser parser, const ENCODING *enc, XML_Bool isCdata,
-+       XML_Char ch = (XML_Char)XmlPredefinedEntityName(
-+           enc, ptr + enc->minBytesPerChar, next - enc->minBytesPerChar);
-+       if (ch) {
-+-#ifdef XML_DTD
-++#if defined(XML_DTD) || XML_GE == 1
-+         /* NOTE: We are replacing 4-6 characters original input for 1 character
-+          *       so there is no amplification and hence recording without
-+          *       protection. */
-+         accountingDiffTolerated(parser, tok, (char *)&ch,
-+                                 ((char *)&ch) + sizeof(XML_Char), __LINE__,
-+                                 XML_ACCOUNT_ENTITY_EXPANSION);
-+-#endif /* XML_DTD */
-++#endif /* defined(XML_DTD) || XML_GE == 1 */
-+         if (! poolAppendChar(pool, ch))
-+           return XML_ERROR_NO_MEMORY;
-+         break;
-+@@ -6042,14 +6045,14 @@ appendAttributeValue(XML_Parser parser, const ENCODING *enc, XML_Bool isCdata,
-+         enum XML_Error result;
-+         const XML_Char *textEnd = entity->textPtr + entity->textLen;
-+         entity->open = XML_TRUE;
-+-#ifdef XML_DTD
-++#if defined(XML_DTD) || XML_GE == 1
-+         entityTrackingOnOpen(parser, entity, __LINE__);
-+ #endif
-+         result = appendAttributeValue(parser, parser->m_internalEncoding,
-+                                       isCdata, (const char *)entity->textPtr,
-+                                       (const char *)textEnd, pool,
-+                                       XML_ACCOUNT_ENTITY_EXPANSION);
-+-#ifdef XML_DTD
-++#if defined(XML_DTD) || XML_GE == 1
-+         entityTrackingOnClose(parser, entity, __LINE__);
-+ #endif
-+         entity->open = XML_FALSE;
-+@@ -6105,7 +6108,7 @@ storeEntityValue(XML_Parser parser, const ENCODING *enc,
-+         = entityTextPtr; /* XmlEntityValueTok doesn't always set the last arg */
-+     int tok = XmlEntityValueTok(enc, entityTextPtr, entityTextEnd, &next);
-+
-+-#ifdef XML_DTD
-++#if defined(XML_DTD) || XML_GE == 1
-+     if (! accountingDiffTolerated(parser, tok, entityTextPtr, next, __LINE__,
-+                                   account)) {
-+       accountingOnAbort(parser);
-+@@ -7651,7 +7654,7 @@ copyString(const XML_Char *s, const XML_Memory_Handling_Suite *memsuite) {
-+   return result;
-+ }
-+
-+-#ifdef XML_DTD
-++#if defined(XML_DTD) || XML_GE == 1
-+
-+ static float
-+ accountingGetCurrentAmplification(XML_Parser rootParser) {
-+@@ -8382,7 +8385,7 @@ unsignedCharToPrintable(unsigned char c) {
-+   assert(0); /* never gets here */
-+ }
-+
-+-#endif /* XML_DTD */
-++#endif /* defined(XML_DTD) || XML_GE == 1 */
-+
-+ static unsigned long
-+ getDebugLevel(const char *variableName, unsigned long defaultDebugLevel) {
-+diff --git a/xmlwf/xmlwf.c b/xmlwf/xmlwf.c
-+index 471f2a2..be23f5a 100644
-+--- a/xmlwf/xmlwf.c
-++++ b/xmlwf/xmlwf.c
-+@@ -1062,9 +1062,10 @@ tmain(int argc, XML_Char **argv) {
-+             " (needs a floating point number greater or equal than 1.0)"));
-+         exit(XMLWF_EXIT_USAGE_ERROR);
-+       }
-+-#ifndef XML_DTD
-+-      ftprintf(stderr, T("Warning: Given amplification limit ignored") T(
-+-                           ", xmlwf has been compiled without DTD support.\n"));
-++#if ! defined(XML_DTD) && XML_GE == 0
-++      ftprintf(stderr,
-++               T("Warning: Given amplification limit ignored")
-++                   T(", xmlwf has been compiled without DTD/GE support.\n"));
-+ #endif
-+       break;
-+     }
-+@@ -1083,9 +1084,10 @@ tmain(int argc, XML_Char **argv) {
-+         exit(XMLWF_EXIT_USAGE_ERROR);
-+       }
-+       attackThresholdGiven = XML_TRUE;
-+-#ifndef XML_DTD
-+-      ftprintf(stderr, T("Warning: Given attack threshold ignored") T(
-+-                           ", xmlwf has been compiled without DTD support.\n"));
-++#if ! defined(XML_DTD) && XML_GE == 0
-++      ftprintf(stderr,
-++               T("Warning: Given attack threshold ignored")
-++                   T(", xmlwf has been compiled without DTD/GE support.\n"));
-+ #endif
-+       break;
-+     }
-+@@ -1120,13 +1122,13 @@ tmain(int argc, XML_Char **argv) {
-+     }
-+
-+     if (attackMaximumAmplification != -1.0f) {
-+-#ifdef XML_DTD
-++#if defined(XML_DTD) || XML_GE == 1
-+       XML_SetBillionLaughsAttackProtectionMaximumAmplification(
-+           parser, attackMaximumAmplification);
-+ #endif
-+     }
-+     if (attackThresholdGiven) {
-+-#ifdef XML_DTD
-++#if defined(XML_DTD) || XML_GE == 1
-+       XML_SetBillionLaughsAttackProtectionActivationThreshold(
-+           parser, attackThresholdBytes);
-+ #else
-+--
-+2.40.0
-diff --git a/meta/recipes-core/expat/expat_2.5.0.bb b/meta/recipes-core/expat/expat_2.5.0.bb
-index 7080f934d1..e427020534 100644
---- a/meta/recipes-core/expat/expat_2.5.0.bb
-+++ b/meta/recipes-core/expat/expat_2.5.0.bb
-@@ -10,6 +10,7 @@ VERSION_TAG = "${@d.getVar('PV').replace('.', '_')}"
- 
- SRC_URI = "https://github.com/libexpat/libexpat/releases/download/R_${VERSION_TAG}/expat-${PV}.tar.bz2  \
-            file://run-ptest \
-+           file://CVE-2023-52426.patch \
-            "
- 
- UPSTREAM_CHECK_URI = "https://github.com/libexpat/libexpat/releases/"
--- 
-2.40.0
-
+UGluZyANCg0KDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogb3BlbmVt
+YmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiA8b3BlbmVtYmVkZGVkLWNvcmVA
+bGlzdHMub3BlbmVtYmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIEtoZW0gUmFqDQo+IFNlbnQ6IE1v
+bmRheSwgRmVicnVhcnkgMjYsIDIwMjQgMjoxOSBQTQ0KPiBUbzogTGVpLCBNYW9odWkgPGxlaW1h
+b2h1aUBmdWppdHN1LmNvbT4NCj4gQ2M6IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJl
+ZGRlZC5vcmcNCj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIGdsaWJjOiBGaXggY29u
+ZmxpY3QgZXJyb3Igd2hlbiBlbmJhbGUgbXVsdGlsaWIgb24NCj4gYWFyY2g2NC4NCj4gDQo+IGxn
+dG0uDQo+IA0KPiBPbiBTdW4sIEZlYiAyNSwgMjAyNCBhdCA5OjMy4oCvUE0gbGVpbWFvaHVpIHZp
+YSBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IDxsZWltYW9odWk9ZnVqaXRzdS5jb21AbGlzdHMu
+b3BlbmVtYmVkZGVkLm9yZz4gd3JvdGU6DQo+ID4NCj4gPiBGcm9tOiBMZWkgTWFvaHVpIDxsZWlt
+YW9odWlAZnVqaXRzdS5jb20+DQo+ID4NCj4gPiBFcnJvcjogVHJhbnNhY3Rpb24gdGVzdCBlcnJv
+cjoNCj4gPiAgIGZpbGUgL3Vzci9pbmNsdWRlL2ZpbmNsdWRlL21hdGgtdmVjdG9yLWZvcnRyYW4u
+aCBmcm9tIGluc3RhbGwgb2YNCj4gPiBsaWIzMi1saWJjNi1kZXYtMi4zOStnaXQwKzMxMmUxNTk2
+MjYtcjAuYXJtdjdhaGZfbmVvbiBjb25mbGljdHMgd2l0aA0KPiA+IGZpbGUgZnJvbSBwYWNrYWdl
+IGxpYmM2LWRldi0yLjM5K2dpdDArMzEyZTE1OTYyNi1yMC5hYXJjaDY0DQo+ID4NCj4gPiBUaGUg
+ZGlmZmVyZW5jZSBvZiBtYXRoLXZlY3Rvci1mb3J0cmFuLmggYmV0d2VlbiAzMmJpdCBhbmQgNjRi
+aXQgaXMgYXMNCj4gPiB0aGUgZm9sbG93aW5nOg0KPiA+DQo+ID4gLS0tDQo+IHRtcC93b3JrL2Fh
+cmNoNjQtbGludXgvZ2xpYmMvMi4zOStnaXQvaW1hZ2UvdXNyL2luY2x1ZGUvZmluY2x1ZGUvbWF0
+aC12ZWN0bw0KPiByLWZvcnRyYW4uaCAgICAyMDI0LTAyLTI2IDAzOjQxOjU5LjU2MDAwMDAwMCAr
+MDAwMA0KPiA+ICsrKyB0bXAvd29yay9hcm12N2FoZi1uZW9uLXhtbGxpYjMyLWxpbnV4LWdudWVh
+YmkvbGliMzItZ2xpYmMvMi4zOStnaXQNCj4gPiArKysgL2ltYWdlL3Vzci9pbmNsdWRlL2ZpbmNs
+dWRlL21hdGgtdmVjdG9yLWZvcnRyYW4uaCAyMDI0LTAyLTI2DQo+ID4gKysrIDAyOjIyOjI4LjU5
+MjAwMDAwMCArMDAwMA0KPiA+IEBAIC0xNSwzMyArMTUsNSBAQA0KPiA+ICAhICAgWW91IHNob3Vs
+ZCBoYXZlIHJlY2VpdmVkIGEgY29weSBvZiB0aGUgR05VIExlc3NlciBHZW5lcmFsIFB1YmxpYw0K
+PiA+ICAhICAgTGljZW5zZSBhbG9uZyB3aXRoIHRoZSBHTlUgQyBMaWJyYXJ5OyBpZiBub3QsIHNl
+ZQ0KPiA+ICAhICAgPGh0dHBzOi8vd3d3LmdudS5vcmcvbGljZW5zZXMvPi4NCj4gPiAtIUdDQyQg
+YnVpbHRpbiAoYWNvcykgYXR0cmlidXRlcyBzaW1kIChub3RpbmJyYW5jaCkgLSFHQ0MkIGJ1aWx0
+aW4NCj4gPiAoYWNvc2YpIGF0dHJpYnV0ZXMgc2ltZCAobm90aW5icmFuY2gpIC0hR0NDJCBidWls
+dGluIChhc2luKSBhdHRyaWJ1dGVzDQo+ID4gc2ltZCAobm90aW5icmFuY2gpIC0hR0NDJCBidWls
+dGluIChhc2luZikgYXR0cmlidXRlcyBzaW1kDQo+ID4gKG5vdGluYnJhbmNoKSAtIUdDQyQgYnVp
+bHRpbiAoYXRhbikgYXR0cmlidXRlcyBzaW1kIChub3RpbmJyYW5jaCkNCj4gPiAtIUdDQyQgYnVp
+bHRpbiAoYXRhbmYpIGF0dHJpYnV0ZXMgc2ltZCAobm90aW5icmFuY2gpIC0hR0NDJCBidWlsdGlu
+DQo+ID4gKGF0YW4yKSBhdHRyaWJ1dGVzIHNpbWQgKG5vdGluYnJhbmNoKSAtIUdDQyQgYnVpbHRp
+biAoYXRhbjJmKQ0KPiA+IGF0dHJpYnV0ZXMgc2ltZCAobm90aW5icmFuY2gpIC0hR0NDJCBidWls
+dGluIChjb3MpIGF0dHJpYnV0ZXMgc2ltZA0KPiA+IChub3RpbmJyYW5jaCkgLSFHQ0MkIGJ1aWx0
+aW4gKGNvc2YpIGF0dHJpYnV0ZXMgc2ltZCAobm90aW5icmFuY2gpDQo+ID4gLSFHQ0MkIGJ1aWx0
+aW4gKGV4cCkgYXR0cmlidXRlcyBzaW1kIChub3RpbmJyYW5jaCkgLSFHQ0MkIGJ1aWx0aW4NCj4g
+PiAoZXhwZikgYXR0cmlidXRlcyBzaW1kIChub3RpbmJyYW5jaCkgLSFHQ0MkIGJ1aWx0aW4gKGV4
+cDEwKSBhdHRyaWJ1dGVzDQo+ID4gc2ltZCAobm90aW5icmFuY2gpIC0hR0NDJCBidWlsdGluIChl
+eHAxMGYpIGF0dHJpYnV0ZXMgc2ltZA0KPiA+IChub3RpbmJyYW5jaCkgLSFHQ0MkIGJ1aWx0aW4g
+KGV4cDIpIGF0dHJpYnV0ZXMgc2ltZCAobm90aW5icmFuY2gpDQo+ID4gLSFHQ0MkIGJ1aWx0aW4g
+KGV4cDJmKSBhdHRyaWJ1dGVzIHNpbWQgKG5vdGluYnJhbmNoKSAtIUdDQyQgYnVpbHRpbg0KPiA+
+IChleHBtMSkgYXR0cmlidXRlcyBzaW1kIChub3RpbmJyYW5jaCkgLSFHQ0MkIGJ1aWx0aW4gKGV4
+cG0xZikNCj4gPiBhdHRyaWJ1dGVzIHNpbWQgKG5vdGluYnJhbmNoKSAtIUdDQyQgYnVpbHRpbiAo
+bG9nKSBhdHRyaWJ1dGVzIHNpbWQNCj4gPiAobm90aW5icmFuY2gpIC0hR0NDJCBidWlsdGluIChs
+b2dmKSBhdHRyaWJ1dGVzIHNpbWQgKG5vdGluYnJhbmNoKQ0KPiA+IC0hR0NDJCBidWlsdGluIChs
+b2cxMCkgYXR0cmlidXRlcyBzaW1kIChub3RpbmJyYW5jaCkgLSFHQ0MkIGJ1aWx0aW4NCj4gPiAo
+bG9nMTBmKSBhdHRyaWJ1dGVzIHNpbWQgKG5vdGluYnJhbmNoKSAtIUdDQyQgYnVpbHRpbiAobG9n
+MXApDQo+ID4gYXR0cmlidXRlcyBzaW1kIChub3RpbmJyYW5jaCkgLSFHQ0MkIGJ1aWx0aW4gKGxv
+ZzFwZikgYXR0cmlidXRlcyBzaW1kDQo+ID4gKG5vdGluYnJhbmNoKSAtIUdDQyQgYnVpbHRpbiAo
+bG9nMikgYXR0cmlidXRlcyBzaW1kIChub3RpbmJyYW5jaCkNCj4gPiAtIUdDQyQgYnVpbHRpbiAo
+bG9nMmYpIGF0dHJpYnV0ZXMgc2ltZCAobm90aW5icmFuY2gpIC0hR0NDJCBidWlsdGluDQo+ID4g
+KHNpbikgYXR0cmlidXRlcyBzaW1kIChub3RpbmJyYW5jaCkgLSFHQ0MkIGJ1aWx0aW4gKHNpbmYp
+IGF0dHJpYnV0ZXMNCj4gPiBzaW1kIChub3RpbmJyYW5jaCkgLSFHQ0MkIGJ1aWx0aW4gKHRhbikg
+YXR0cmlidXRlcyBzaW1kIChub3RpbmJyYW5jaCkNCj4gPiAtIUdDQyQgYnVpbHRpbiAodGFuZikg
+YXR0cmlidXRlcyBzaW1kIChub3RpbmJyYW5jaCkNCj4gPiArDQo+ID4gKyEgTm8gU0lNRCBtYXRo
+IGZ1bmN0aW9ucyBhcmUgYXZhaWxhYmxlIGZvciB0aGlzIHBsYXRmb3JtLg0KPiA+DQo+ID4gU2ln
+bmVkLW9mZi1ieTogTGVpIE1hb2h1aSA8bGVpbWFvaHVpQGZ1aml0c3UuY29tPg0KPiA+IC0tLQ0K
+PiA+ICBtZXRhL3JlY2lwZXMtY29yZS9nbGliYy9nbGliYy1wYWNrYWdlLmluYyB8IDEgKw0KPiA+
+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9t
+ZXRhL3JlY2lwZXMtY29yZS9nbGliYy9nbGliYy1wYWNrYWdlLmluYw0KPiA+IGIvbWV0YS9yZWNp
+cGVzLWNvcmUvZ2xpYmMvZ2xpYmMtcGFja2FnZS5pbmMNCj4gPiBpbmRleCAxZWY5ODdiZTBhLi4x
+OWViN2FmYTgxIDEwMDY0NA0KPiA+IC0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL2dsaWJjL2dsaWJj
+LXBhY2thZ2UuaW5jDQo+ID4gKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYmMvZ2xpYmMtcGFj
+a2FnZS5pbmMNCj4gPiBAQCAtMTY3LDYgKzE2Nyw3IEBAIGRvX2luc3RhbGxfYXJtbXVsdGlsaWIg
+KCkgew0KPiA+ICAgICAgICAgb2VfbXVsdGlsaWJfaGVhZGVyIGZwdV9jb250cm9sLmggZ251L2xp
+Yi1uYW1lcy5oIGdudS9zdHVicy5oDQo+ID4gaWVlZTc1NC5oDQo+ID4NCj4gPiAgICAgICAgIG9l
+X211bHRpbGliX2hlYWRlciBzeXMvZWxmLmggc3lzL3Byb2Nmcy5oIHN5cy9wdHJhY2UuaA0KPiA+
+IHN5cy91Y29udGV4dC5oIHN5cy91c2VyLmgNCj4gPiArICAgICAgIG9lX211bHRpbGliX2hlYWRl
+ciBmaW5jbHVkZS9tYXRoLXZlY3Rvci1mb3J0cmFuLmgNCj4gPiAgfQ0KPiA+DQo+ID4NCj4gPiAt
+LQ0KPiA+IDIuMzQuMQ0KPiA+DQo+ID4NCj4gPg0KPiA+DQo=
 
