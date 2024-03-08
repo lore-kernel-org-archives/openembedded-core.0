@@ -2,67 +2,58 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BC59C54E41
-	for <webhook@archiver.kernel.org>; Fri,  8 Mar 2024 23:44:22 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web11.2772.1709941459114793919
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79CA8C5475B
+	for <webhook@archiver.kernel.org>; Fri,  8 Mar 2024 23:48:22 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.web10.2824.1709941692429335128
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Mar 2024 15:44:20 -0800
+ Fri, 08 Mar 2024 15:48:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=XswW8zOo;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-41318e93a08so7742715e9.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 08 Mar 2024 15:44:18 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hzc5fD2s;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-412f55695d1so20840555e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 08 Mar 2024 15:48:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1709941457; x=1710546257; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1709941691; x=1710546491; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Lqi1ShOUnJN9Ol2CDiHUMYs8km55paD9Fhpm1tTsxb8=;
-        b=XswW8zOoQ7VkR63OGKAxVrWAcPn7cWhezAcT3o0lJ+cjiUPmLR1HZqRwuKDW/Ctta3
-         WED90WjCgzCg/xt/0lmcHKJ0uD3ckBdHHoTKPdcS4zTcQcoj3SgVyFXXbFXmCtJyqvL9
-         dM9pkrsUGiuZnsUKtEU51SVZddI0HI/dwq57Q=
+         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=P1evWBs753WSzlmP2A6f2Ec8V7W+mXwLGj5XMAd1Joc=;
+        b=hzc5fD2s7rXU7DyrxsVB+I8N+Rfh3BHGasdloxGUuIdyE2x6Y5D8QetlAoV2At0D1C
+         Eq09BhtXQZ/Ax0VzNylYRY0wCtGBspdCBVh15+iTpkDjbYiuFr/DI9C/tHmtfp6t3Wft
+         4URYqxRRthTLDRAe/juxonjIXZjHkN1IoIVHM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709941457; x=1710546257;
+        d=1e100.net; s=20230601; t=1709941691; x=1710546491;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :references:in-reply-to:date:to:from:subject:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Lqi1ShOUnJN9Ol2CDiHUMYs8km55paD9Fhpm1tTsxb8=;
-        b=k+ikxcyEkKI3KXpvK8qf6RwDXqeFSbhMA9c6BQBCOkqbcdrnZoJR/VRS/iMGTR6YxZ
-         9yyS1RKYQjSXimr5MZ1imAMhkzta5vwY0rvPwaqliG5eCZOXgt54B0GDv34A7aPsSKv2
-         PN3JRdMitNVxiLLhKr7LcoiG1MbWi18LzgNDccdHp7paRh2KD8TdBjazTkGEIOHJrc+e
-         oyYTFJJjSWXhn/gaT09k7c1wOiIYqte9Ljzlri9ltqwne49lgLPFsooGOZoqVJ2HpiIk
-         XRYuPypVdhJrkKTYfkCaJSlZ2zsnFbllD9wqnj2CTZ+FSHSqNZWegToI2S5PSVHsxq9F
-         BFiQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXaTye1UJ541R36hywGFCPjKBJ36sFS5fTXsrPLhWANDl2PlX+/DTsvpFBTtuQCcc5in5vpft/XSURpb9TuMHTmfvQFIj2ZWPzQEW1Go5tC1nphMIJ4PeIY
-X-Gm-Message-State: AOJu0Yz67bpJzDBmcUtI1HeTr3eBOCREv14YnF0FE3MPPDvVQJ3qm1uG
-	Moc4/zh3FPdtoHhTzTQHbDgnTqWJqypzKCwXUzXC/2AYpqdFV5xlrY3/KqDciZU=
-X-Google-Smtp-Source: AGHT+IEKALunrAe+juAGNxvxyK7Bt4Qxcl1rbIvMY7ag8Ak7W8VXaZcGW/k9GK9Din6YAZqiQPzzCg==
-X-Received: by 2002:a05:600c:8513:b0:413:1788:3a51 with SMTP id gw19-20020a05600c851300b0041317883a51mr461450wmb.15.1709941457276;
-        Fri, 08 Mar 2024 15:44:17 -0800 (PST)
+        bh=P1evWBs753WSzlmP2A6f2Ec8V7W+mXwLGj5XMAd1Joc=;
+        b=ViO8SMNvQfKIuPV3hqy5ADed13slQ33jLXkNqeI/yCBpaZ9H7V2Ket/VCUgovUWfM0
+         WuriHod+0SDzMrSNpfTNvjXkRXYRkhxTk1O+N4cYGagfbP9cDwL6LCH8AjJJfHRwnxZY
+         0Qk5SXDj6kj/TLWkyCHNAlpHzav7CU4uyqVZbX5WCo0AXgofUDHn52ts+U3iJm/rAA5W
+         GmHlIu6MVhr0FxnMsGev/A4tJqboW8hA7A071PTJkMqEQXH5h3uMbpSlRoAs8L5JNHW+
+         YrVsM5J/4F19YCPY+PWZnKWsL/dM7cuyHkkanTlKAXiiZi+uXFtDwlBcH5k1AVznHbMZ
+         Y0RA==
+X-Forwarded-Encrypted: i=1; AJvYcCWU8KSbASU6d5KUZT+g7ttKbdC29tJtvtvwQ5H9EmTT/B+b0iyJJxKHZAqAtuWaf/P+e1VJgHvyNkVbEO/EHrBLYiEkESMz2Y9AUudFCzoB8O9KZaB/WG7m
+X-Gm-Message-State: AOJu0YwpE1aZat9bBvQ4tpTbyfNb0zqbaS6WWE3ywaY/ZUDogzv3sDPV
+	1qHdS8FoSZ7cxfRW066ICr7DHhUpTNR+UwnFvLB9D5iNEOsLooec8cF4ssjtn6d8U4oLyXQfgpN
+	I
+X-Google-Smtp-Source: AGHT+IEGZoEY/eunOwJnub8+3mP+WEbAQvITmaa/1ep1ENt+59+vNtIoXARHK3Ho0svqJJ63dxjNlQ==
+X-Received: by 2002:a05:600c:1d28:b0:412:e3aa:8f69 with SMTP id l40-20020a05600c1d2800b00412e3aa8f69mr489143wms.30.1709941690678;
+        Fri, 08 Mar 2024 15:48:10 -0800 (PST)
 Received: from ?IPv6:2001:8b0:aba:5f3c:ccad:25fb:1839:beb6? ([2001:8b0:aba:5f3c:ccad:25fb:1839:beb6])
-        by smtp.gmail.com with ESMTPSA id j20-20020a05600c191400b00412f016a151sm794091wmq.9.2024.03.08.15.44.16
+        by smtp.gmail.com with ESMTPSA id u18-20020a05600c19d200b0041316e91c99sm795728wmq.1.2024.03.08.15.48.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Mar 2024 15:44:16 -0800 (PST)
-Message-ID: <13872d74aca711f2a345d778e0239ddbaa6353b5.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/3] linux-yocto: for-test-only: fix parted
- ptest
+        Fri, 08 Mar 2024 15:48:10 -0800 (PST)
+Message-ID: <e0f52c604864bbe73dd91a02a139423a26743707.camel@linuxfoundation.org>
+Subject: Re: [OE-core] Yocto rpm packages do not keep the modified CONFFILES
+ (was: BB Equivalent for %config(noreplace))
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Steve Sakoman <steve@sakoman.com>
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>, Kevin Hao
- <haokexin@gmail.com>,  openembedded-core@lists.openembedded.org
-Date: Fri, 08 Mar 2024 23:44:14 +0000
-In-Reply-To: <CAOSpxdbZaDdip_yn6X8x80MWXhLLVPz+_SCWGO-TTKU7nDdKSQ@mail.gmail.com>
-References: <20240307193409.987235-1-bruce.ashfield@gmail.com>
-	 <CAOSpxdaskMSouQhV_FmfS==CnfQ5zikQQ4QwwA3RzqtM6dzrLg@mail.gmail.com>
-	 <CADkTA4NM7zk6kpWe3BENz2a4Fjqwkx+ECqbu6tvsoktHWC45RA@mail.gmail.com>
-	 <ZesUK4JntnaikkPb@pek-khao-d3>
-	 <CAOSpxdbcpwpcwk+e-46FRKaPMip1mD+f4gE8ZP+jfNnef3S-UQ@mail.gmail.com>
-	 <CADkTA4O4jJcjhCMOXe0jhLygpvjWww+bzw8c1RnNTm65V3xKCg@mail.gmail.com>
-	 <ZesnuCYO3_s90qYE@pek-khao-d3>
-	 <CADkTA4MzMQFtEXyTcS8Hc4b8bcfPQ5-q=f4bUBUx3FcqkchPXw@mail.gmail.com>
-	 <17BAD2A66EE04CAD.2608@lists.openembedded.org>
-	 <CAOSpxdbZaDdip_yn6X8x80MWXhLLVPz+_SCWGO-TTKU7nDdKSQ@mail.gmail.com>
+To: Zoltan Boszormenyi <zboszor@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Fri, 08 Mar 2024 23:48:08 +0000
+In-Reply-To: <0e38566f-a1f9-4ebb-8492-2c50945eeeb4@gmail.com>
+References: <0e38566f-a1f9-4ebb-8492-2c50945eeeb4@gmail.com>
 Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
@@ -78,37 +69,44 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 Mar 2024 23:44:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196864
+ <openembedded-core@lists.openembedded.org>; Fri, 08 Mar 2024 23:48:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196865
 
-On Fri, 2024-03-08 at 10:42 -0800, Steve Sakoman wrote:
-> On Fri, Mar 8, 2024 at 5:10=E2=80=AFAM Steve Sakoman via
-> lists.openembedded.org <steve=3Dsakoman.com@lists.openembedded.org>
-> wrote:
-> >=20
-> > I did fire up a test of Kevin's patch:
-> >=20
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/6373
-> >=20
-> > Let's see what happens.
+On Fri, 2024-03-08 at 03:20 -0800, Zoltan Boszormenyi wrote:
+> Hi,
 >=20
-> I can confirm that this patch fixes the parted ptest issues and does
-> not trigger any other ptest issues.
+> I just found out that if an updated package ships a modified
+> configuration file, then the Yocto package upgrade does this:
 >=20
-> However since there is a kirkstone release build scheduled for next
-> Tuesday, the current plan of record is to revert the previous
-> linux-yocto 5.15 version bump series for the release build.
+> * rename the edited conffile to conffile.rpmsave
+> * install the new, modified one from the package
 >=20
-> I will then wait for a patch from Bruce that fixes the problem before
-> reapplying it post release.
+> instead of:
+>=20
+> * keep the edited conffile intact
+> * install the new, modified one from the package as conffile.rpmnew
+>=20
+> I think this is what was asked in 2017 here:
+> https://docs.yoctoproject.org/pipermail/yocto/2017-May/036031.html
+>=20
+> The answer was a little uninformed about saying that using
+> CONFFILES is the fix, because rpm can behave two ways, see above.
+>=20
+> Yocto, to this day, uses "%config /path/to/conffile" instead of
+> "%config(noreplace) /path/to/conffile" in package_rpm.bbclass.
+> The latter would behave as "keep modified conffile + install
+> conffile.rpmnew".
+>=20
+> What's the official stance on this behaviour?
+> Is it a known issue?
+> Is this what the project would expect from a package upgrade?
 
-If it takes a few more days it may be better to slip that release (when
-QA are likely testing M3 anyway) in order to resolve this rather than
-reverting a load of things we'll only then end up reapplying.
+I would be interested to know what the ipk and deb backends do...
+
+In some ways, I'd also like to have a test case and then we can define
+and document what the correct behaviour is too.
 
 Cheers,
 
 Richard
-
-
 
