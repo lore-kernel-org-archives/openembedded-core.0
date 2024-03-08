@@ -1,158 +1,145 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B66ACC5475B
-	for <webhook@archiver.kernel.org>; Fri,  8 Mar 2024 18:43:04 +0000 (UTC)
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
- by mx.groups.io with SMTP id smtpd.web10.1070.1709923375927383058
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72627C5475B
+	for <webhook@archiver.kernel.org>; Fri,  8 Mar 2024 20:59:35 +0000 (UTC)
+Received: from mailout02.t-online.de (mailout02.t-online.de [194.25.134.17])
+ by mx.groups.io with SMTP id smtpd.web10.4345.1709931574293206376
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Mar 2024 10:42:56 -0800
+ Fri, 08 Mar 2024 12:59:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=JcshKsjS;
- spf=softfail (domain: sakoman.com, ip: 209.85.219.181, mailfrom: steve@sakoman.com)
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-dbed179f0faso2616446276.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 08 Mar 2024 10:42:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1709923375; x=1710528175; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Fvv5B4WnX1c6cnfFQuO/nKLG4NsWUY3TAi/didfOOEM=;
-        b=JcshKsjSGabDw+b3SEU9BzSZLPmpoPw+WudmggFXW2Tcd/BFbGn3Emm0z7F/7pPaB4
-         Xc637kFo+9gF+YTkdJ2rtc+D2niLuS0IQfiHyNYtKnyKk4YqzG/yFy0XXuFP/JwIIvg6
-         OuaM/Fi8MzJ36wXUtNHFsB6VqR7kuPJcW9uHEvgOFIaG0tSr2ZQi626OYbgsCc5sfptT
-         7RqOOjgNXlEkKmYCKxotjTk1lUaWTyFldxv4MlQRLFeG2jjtTiO7PqqzrdFPTj5lOiT2
-         198ybG132Iw5+3Nzmnozcnsiedj/g77VSFhKjPHnxc0KzGPMNj025uIsiXU75wLNkP02
-         Ao1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709923375; x=1710528175;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Fvv5B4WnX1c6cnfFQuO/nKLG4NsWUY3TAi/didfOOEM=;
-        b=DBa7jQjsc13mxuq9KR/PSWVN1Mez4hgBZxZf+cYV15YmAIkK9MkP/+q3jAHu5fnOdb
-         Tk0rFBi+8YK/7GecC7Kh7qzt3uKtC2O5Waelcqc7O90Oej7r1BGPMZXQh6c6UHi+Ovvl
-         ShKxrtDXb8bfiangP1h6ytbKFlhRs6RtcYj35o8fFmziRhBCBM7iuKPg33eW6D9GBXAs
-         YlHxNiSCOY7OgYJYN1EX4ek7LJw7dZ3rtnuJDYWY3Apm8OvWuEuTsVw7qYgh1j+qbz45
-         DEJStTUboInQmSgsyvcz4zG123LzAzfQRLCKM5QpleoS1Kt+4GGm+fWQYOXl99oM06V/
-         1eKA==
-X-Forwarded-Encrypted: i=1; AJvYcCV3hHg07alwGvbxyTeeIPN1YlH25WsiSGR4Hwaq4C1yg2jubLTBvVEANJx0oWaHr64wjwIH9LGObPFUHj5H2Q4HE4vfYRP8oIbhCRuSKrfURVXYt0b7Q5Ca
-X-Gm-Message-State: AOJu0Ywfv4TmxroawWSWamke4V0Ih2x1tVt0cTYNC2ne5UPmlD/hj2t+
-	KT5LAi2vUB4ZEJ5wnakxAzv24UxN7p9VXo6hLwwY4MmzYJdNhLVp1ymW0yjv7gXs6Prh/ff+TGX
-	LGdQ95CvrP9Lh7e9Tt3kYl0vAfWlG09NpOD0V1w==
-X-Google-Smtp-Source: AGHT+IGifsKmhMTg4Ypix7MEeDvpwFDDpjUFPYawWcqg3sJDEd+mD5Ch062e1Hvahl2fi6/EARi8LvP2u3VB4EpKVMQ=
-X-Received: by 2002:a25:a290:0:b0:dc6:cf8e:8f97 with SMTP id
- c16-20020a25a290000000b00dc6cf8e8f97mr1080949ybi.27.1709923374651; Fri, 08
- Mar 2024 10:42:54 -0800 (PST)
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.17, mailfrom: f_l_k@t-online.de)
+Received: from fwd74.aul.t-online.de (fwd74.aul.t-online.de [10.223.144.100])
+	by mailout02.t-online.de (Postfix) with SMTP id 9034913C71
+	for <openembedded-core@lists.openembedded.org>; Fri,  8 Mar 2024 21:59:31 +0100 (CET)
+Received: from intel-corei7-64.fritz.box ([84.154.167.68]) by fwd74.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1rihJS-0gvpQH0; Fri, 8 Mar 2024 21:59:30 +0100
+From: Markus Volk <f_l_k@t-online.de>
+To: openembedded-core@lists.openembedded.org
+Subject: [oe-core][PATCHv2] mesa: fix opencl-spirv build
+Date: Fri,  8 Mar 2024 21:59:33 +0100
+Message-ID: <20240308205933.3045560-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-References: <20240307193409.987235-1-bruce.ashfield@gmail.com>
- <CAOSpxdaskMSouQhV_FmfS==CnfQ5zikQQ4QwwA3RzqtM6dzrLg@mail.gmail.com>
- <CADkTA4NM7zk6kpWe3BENz2a4Fjqwkx+ECqbu6tvsoktHWC45RA@mail.gmail.com>
- <ZesUK4JntnaikkPb@pek-khao-d3> <CAOSpxdbcpwpcwk+e-46FRKaPMip1mD+f4gE8ZP+jfNnef3S-UQ@mail.gmail.com>
- <CADkTA4O4jJcjhCMOXe0jhLygpvjWww+bzw8c1RnNTm65V3xKCg@mail.gmail.com>
- <ZesnuCYO3_s90qYE@pek-khao-d3> <CADkTA4MzMQFtEXyTcS8Hc4b8bcfPQ5-q=f4bUBUx3FcqkchPXw@mail.gmail.com>
- <17BAD2A66EE04CAD.2608@lists.openembedded.org>
-In-Reply-To: <17BAD2A66EE04CAD.2608@lists.openembedded.org>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Fri, 8 Mar 2024 08:42:43 -1000
-Message-ID: <CAOSpxdbZaDdip_yn6X8x80MWXhLLVPz+_SCWGO-TTKU7nDdKSQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/3] linux-yocto: for-test-only: fix parted ptest
-To: steve@sakoman.com
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>, Kevin Hao <haokexin@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+X-TOI-EXPURGATEID: 150726::1709931570-D5FF893F-4B46715A/0/0 CLEAN NORMAL
+X-TOI-MSGID: 9421c5bd-60f4-4d87-8f84-98a2698faa73
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 Mar 2024 18:43:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196860
+ <openembedded-core@lists.openembedded.org>; Fri, 08 Mar 2024 20:59:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196861
 
-On Fri, Mar 8, 2024 at 5:10=E2=80=AFAM Steve Sakoman via
-lists.openembedded.org <steve=3Dsakoman.com@lists.openembedded.org>
-wrote:
->
-> On Fri, Mar 8, 2024 at 5:05=E2=80=AFAM Bruce Ashfield <bruce.ashfield@gma=
-il.com> wrote:
-> >
-> > On Fri, Mar 8, 2024 at 9:59=E2=80=AFAM Kevin Hao <haokexin@gmail.com> w=
-rote:
-> > >
-> > > On Fri, Mar 08, 2024 at 09:41:14AM -0500, Bruce Ashfield wrote:
-> > > > > Hmmm . . . Bruce said that the ubuntu patch didn't apply for him,=
- so I
-> > > > > haven't tried that.
-> > > > >
-> > > > > Do you have a kirkstone patch that I can try on the autobuilder?
-> > > > >
-> > > >
-> > > > I'd still rather not go the ubuntu patch route. It is my last choic=
-e in the
-> > > > options.
-> > > >
-> > > > If this is caused by upstream commits, there should also be upstrea=
-m
-> > > > commits that fix the issues. I need to identify those commits and
-> > > > document why they aren't appropriate for our 5.15 kernel before I p=
-ick
-> > > > up someone's else patch .. since at that point, I have no idea abou=
-t their
-> > > > logic and other issues it may introduce.
-> > >
-> > > Agreed. But that patch is indeed a backport of upstream commit b9684a=
-71fca7 and
-> > > the tweak in order to port to v5.15 also seems pretty reasonable. I g=
-enerated
-> > > a patch based on the latest kirkstone branch. Steve, could you give t=
-he attachment
-> > > a try?
-> >
-> > You can give it a try, but I won't merge it as-is.
-> >
-> > I'll just go ahead and do it myself, since I won't be ignored on the fo=
-rmat
-> > that I'm looking for in this change.
->
-> We wouldn't even think of ignoring you!!
->
-> I did fire up a test of Kevin's patch:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/6373
->
-> Let's see what happens.
+https://gitlab.freedesktop.org/mesa/mesa/-/commit/815a6647eb1383e9dc704ff=
+cc266d85f3b13338a
+adds a regression and breaks opencl-spirv build.
 
-I can confirm that this patch fixes the parted ptest issues and does
-not trigger any other ptest issues.
+The next step in mesa will probably be to completely remove nir in favour=
+ of rusticl.
+https://gitlab.freedesktop.org/mesa/mesa/-/issues/10674
 
-However since there is a kirkstone release build scheduled for next
-Tuesday, the current plan of record is to revert the previous
-linux-yocto 5.15 version bump series for the release build.
+Revert this commit to avoid that the lts version cannot use spirv
+because rusticl is not yet and opencl-spirv is no longer supported.
 
-I will then wait for a patch from Bruce that fixes the problem before
-reapplying it post release.
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
+---
+ ...-meson-do-not-pull-in-clc-for-clover.patch | 56 +++++++++++++++++++
+ meta/recipes-graphics/mesa/mesa.inc           |  1 +
+ 2 files changed, 57 insertions(+)
+ create mode 100644 meta/recipes-graphics/mesa/files/0001-Revert-meson-do=
+-not-pull-in-clc-for-clover.patch
 
-I apologize to all for not catching this prior to merging the version
-bump series :-(
+diff --git a/meta/recipes-graphics/mesa/files/0001-Revert-meson-do-not-pu=
+ll-in-clc-for-clover.patch b/meta/recipes-graphics/mesa/files/0001-Revert=
+-meson-do-not-pull-in-clc-for-clover.patch
+new file mode 100644
+index 0000000000..6ed203ec3e
+--- /dev/null
++++ b/meta/recipes-graphics/mesa/files/0001-Revert-meson-do-not-pull-in-c=
+lc-for-clover.patch
+@@ -0,0 +1,56 @@
++From fe4600de549549fbb3033fc1b37904ba6b3fe2af Mon Sep 17 00:00:00 2001
++From: Markus Volk <f_l_k@t-online.de>
++Date: Fri, 8 Mar 2024 15:53:11 +0100
++Subject: [PATCH] Revert "meson: do not pull in clc for clover"
++
++This reverts commit 815a6647eb1383e9dc704ffcc266d85f3b13338a.
++Upstream-Status: Inappropriate[https://gitlab.freedesktop.org/mesa/mesa/=
+-/merge_requests/27783/diffs?commit_id=3Da976f2c9f0c07f9e06cc9affd9124b45=
+bc60c2bd]
++
++Once the merge request above was added, it will only be possible to prov=
+ide opencl spir-v with gallium-rusticl=3Dtrue. This is not yet supported =
+in the mesa recipe.
++For now reverting this commit allows to still use clover with opencl-spi=
+rv, which would otherwise be broken starting from mesa 24.0.2.
++
++After it was merged, this patch needs to be removed and rusticl support =
+will be required
++
++Signed-off-by: Markus Volk <f_l_k@t-online.de>
++---
++ meson.build              | 3 ++-
++ src/compiler/meson.build | 2 +-
++ 2 files changed, 3 insertions(+), 2 deletions(-)
++
++diff --git a/meson.build b/meson.build
++index 25e92ea5f95..3956e19c08f 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -818,6 +818,7 @@ if _opencl !=3D 'disabled'
++     error('The Clover OpenCL state tracker requires rtti')
++   endif
++=20
+++  with_clc =3D true
++   with_gallium_opencl =3D true
++   with_opencl_icd =3D _opencl =3D=3D 'icd'
++ else
++@@ -842,7 +843,7 @@ if with_gallium_rusticl
++ endif
++=20
++ dep_clc =3D null_dep
++-if with_gallium_opencl or with_clc
+++if with_clc
++   dep_clc =3D dependency('libclc')
++ endif
++=20
++diff --git a/src/compiler/meson.build b/src/compiler/meson.build
++index 8d73544c6d8..1dae56d1b2b 100644
++--- a/src/compiler/meson.build
+++++ b/src/compiler/meson.build
++@@ -79,7 +79,7 @@ subdir('nir')
++=20
++ subdir('spirv')
++=20
++-if with_clc
+++if with_opencl_spirv
++   subdir('clc')
++ endif
++ if with_gallium
++--=20
++2.44.0
++
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/=
+mesa/mesa.inc
+index 12d7a18eb8..f5a6392d28 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -20,6 +20,7 @@ SRC_URI =3D "https://mesa.freedesktop.org/archive/mesa-=
+${PV}.tar.xz \
+            file://0001-gallium-Fix-build-with-llvm-17.patch \
+            file://0001-drisw-fix-build-without-dri3.patch \
+            file://0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patc=
+h \
++           file://0001-Revert-meson-do-not-pull-in-clc-for-clover.patch =
+\
+ "
+=20
+ SRC_URI[sha256sum] =3D "94e28a8edad06d8ed2b83eb53f253b9eb5aa62c3080f9397=
+02e1b3039b56c9e8"
+--=20
+2.44.0
 
-Steve
-
-> > --
-> > - Thou shalt not follow the NULL pointer, for chaos and madness await
-> > thee at its end
-> > - "Use the force Harry" - Gandalf, Star Trek II
-> >
-> >
-> >
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#196855): https://lists.openembedded.org/g/openembedde=
-d-core/message/196855
-> Mute This Topic: https://lists.openembedded.org/mt/104794844/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
-eve@sakoman.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
 
