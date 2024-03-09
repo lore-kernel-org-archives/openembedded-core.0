@@ -1,120 +1,99 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <rpjday@crashcourse.ca>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DFC7C5475B
-	for <webhook@archiver.kernel.org>; Sat,  9 Mar 2024 03:24:13 +0000 (UTC)
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.web11.6032.1709954645268025086
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38F00C54E41
+	for <webhook@archiver.kernel.org>; Sat,  9 Mar 2024 09:38:25 +0000 (UTC)
+Received: from cpanel10.indieserve.net (cpanel10.indieserve.net [199.212.143.9])
+ by mx.groups.io with SMTP id smtpd.web10.9545.1709977097826339787
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Mar 2024 19:24:05 -0800
+ Sat, 09 Mar 2024 01:38:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=aWqPlT7C;
- spf=pass (domain: gmail.com, ip: 209.85.216.49, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-29b7164eef6so1150114a91.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 08 Mar 2024 19:24:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709954645; x=1710559445; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RGu8PSW85MA4P6j9RzeGBGHkH7v7npqzYRsCDp4+eL0=;
-        b=aWqPlT7CMobvpc0td7Kl76dg7IycXbbNulGek9nnAlD3zjaTrkUpph5P8ebf+eULTW
-         TA7LDchNvYkGfCBo26+igy/J3pn9mNapzkcUI4cJ4UsBHoCLOFNv/P/uzJ0eThrPXUjq
-         B4oKlBRUsJCV4e/YhhPSTcqyn0ymD49yO9+kBkCzKmmIW80f8VSaHMATktt7hZjWbw4P
-         tyXVP/0Vthyq936I0zHMW+j5OZg8vCGHceK+V1v5EPP8ur9AwubSHLOVLztQuwRMuY03
-         bYjdSo4SPR8nGYnfpEvhaFaKhmMIC2qExjWPMz6yyU8tcYB2EiZImV1b+l3bA4CVMdeS
-         Ql2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709954645; x=1710559445;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RGu8PSW85MA4P6j9RzeGBGHkH7v7npqzYRsCDp4+eL0=;
-        b=i+xGJE4nGR8YvpnFoByeRXiGmm27upW6o7MGA4rhivBacj4sQVOa21SYQhx+gMlWrB
-         BoQdE/Bz4zPdo7Q6Bkd7huCgUBadR0YtvRgzfVNzXiaZSP4IOpeeUiaY+J3ka5/65ich
-         H1oCW1dACCTtfrUFxKk3T6UdNIWTF5s1QJ6E+0JhFVQHhZSPxDMzvF/Nb1vwPIK9AEJv
-         TJcB5T0sEuPZhtzQldOkv5AIefMgN0/lifuRap38X1tW+1ESZgiAqkA7NhtQ2sbZhRgN
-         VRWgo8RUdPP4qUoZp8uuNf+5fg4i5JA+izFvmoRYc5L0kCAV/LbgH/74YM2/Gr9UE8cq
-         Feng==
-X-Forwarded-Encrypted: i=1; AJvYcCXYF3yrmaNUBfVm7vBq4rVcmntf2VoFLxoDCH/R3MH1APF5AU8Ejg+6Kshk9M+K2MeZ+YIvZFb0yu3U79ut3gofgHfFiXX7hVU8U/kFogZDMzPHn72O0MDx
-X-Gm-Message-State: AOJu0YyXjcR0rMkUXfZ646EaOzBdTS4NCV/pB+hNxb9h7R6NRiCyY+/x
-	id2dKB9qrriDlleIW5svBXGEMOnwFfU85gdDl9G5edfSXzDxQ/lCh1ONVKFSlK77scpT+MHrONg
-	sVzr0t+O7zgn0sdDrSXh1s9zZkec=
-X-Google-Smtp-Source: AGHT+IFVA2+fRzweRX0+eLZwKJzMlaz4tlZuC12PTHwx0TbRo2U4pwXH9u7T5p1K1BBXcP3AOFW5tQ4rGaUUIsdc838=
-X-Received: by 2002:a17:90a:ad82:b0:29b:c317:6b8c with SMTP id
- s2-20020a17090aad8200b0029bc3176b8cmr856704pjq.41.1709954644498; Fri, 08 Mar
- 2024 19:24:04 -0800 (PST)
+ dkim=pass header.i=@crashcourse.ca header.s=default header.b=m25ObzRE;
+ spf=pass (domain: crashcourse.ca, ip: 199.212.143.9, mailfrom: rpjday@crashcourse.ca)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=crashcourse.ca; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
+	To:From:Date:Sender:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=5dqSHcb/gnO+XBiBe0n3r1Pp/eMUeLKiRO0x+C9TH0A=; b=m25ObzREyd3uWiqT4uHxxVw76f
+	RUzapNolBn8VnOhcxUxhjiZgjndiEtxlDGEZEDv6LXmXXBnEyFyTV+V1iyW0awpb9fTSXVUQ+tZag
+	t/IPjQdmnJxtWofqxVhixMG3q75yTdbHx4kfWJlrFF5BI+lHivmRJ14iVg1YKE9xbXIKZ5kwvnJAB
+	WDmKpBXDOhzubT19a58tpUdDFcP0dj/kpbKhwf8tBCed/gwx5dpJH+03yyQM5GIZ9CzkLwNaAnSVS
+	NJjVln+BZDf7y5a3VRUA53feSyKqBq0iw70By92n7WHNPyjmQXUVN/pgda3PC8eHjiUjseBcEMhNR
+	ubB9bJzw==;
+Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.102.5]:47320 helo=fedora)
+	by cpanel10.indieserve.net with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <rpjday@crashcourse.ca>)
+	id 1rit9h-009zbr-2M
+	for openembedded-core@lists.openembedded.org;
+	Sat, 09 Mar 2024 04:38:15 -0500
+Date: Sat, 9 Mar 2024 04:38:06 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: more pedantry: observation on PACKAGES ordering and
+ bash-completion.bbclass
+Message-ID: <8d17a5b5-4cea-34f0-d0bf-a1e0ff1c9db1@crashcourse.ca>
 MIME-Version: 1.0
-References: <20240307193409.987235-1-bruce.ashfield@gmail.com>
- <CAOSpxdaskMSouQhV_FmfS==CnfQ5zikQQ4QwwA3RzqtM6dzrLg@mail.gmail.com>
- <CADkTA4NM7zk6kpWe3BENz2a4Fjqwkx+ECqbu6tvsoktHWC45RA@mail.gmail.com>
- <ZesUK4JntnaikkPb@pek-khao-d3> <CAOSpxdbcpwpcwk+e-46FRKaPMip1mD+f4gE8ZP+jfNnef3S-UQ@mail.gmail.com>
- <CADkTA4O4jJcjhCMOXe0jhLygpvjWww+bzw8c1RnNTm65V3xKCg@mail.gmail.com>
- <ZesnuCYO3_s90qYE@pek-khao-d3> <CADkTA4MzMQFtEXyTcS8Hc4b8bcfPQ5-q=f4bUBUx3FcqkchPXw@mail.gmail.com>
- <17BAD2A66EE04CAD.2608@lists.openembedded.org> <CAOSpxdbZaDdip_yn6X8x80MWXhLLVPz+_SCWGO-TTKU7nDdKSQ@mail.gmail.com>
- <13872d74aca711f2a345d778e0239ddbaa6353b5.camel@linuxfoundation.org>
-In-Reply-To: <13872d74aca711f2a345d778e0239ddbaa6353b5.camel@linuxfoundation.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 8 Mar 2024 22:23:52 -0500
-Message-ID: <CADkTA4MJ8Y31QAkqHvDqBo7ruV++Rn6ROzSBxfRjwvuKM9maDA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/3] linux-yocto: for-test-only: fix parted ptest
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Steve Sakoman <steve@sakoman.com>, Kevin Hao <haokexin@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel10.indieserve.net
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Get-Message-Sender-Via: cpanel10.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: cpanel10.indieserve.net: rpjday@crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 09 Mar 2024 03:24:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196866
-
-On Fri, Mar 8, 2024 at 6:44=E2=80=AFPM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Fri, 2024-03-08 at 10:42 -0800, Steve Sakoman wrote:
-> > On Fri, Mar 8, 2024 at 5:10=E2=80=AFAM Steve Sakoman via
-> > lists.openembedded.org <steve=3Dsakoman.com@lists.openembedded.org>
-> > wrote:
-> > >
-> > > I did fire up a test of Kevin's patch:
-> > >
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/637=
-3
-> > >
-> > > Let's see what happens.
-> >
-> > I can confirm that this patch fixes the parted ptest issues and does
-> > not trigger any other ptest issues.
-> >
-> > However since there is a kirkstone release build scheduled for next
-> > Tuesday, the current plan of record is to revert the previous
-> > linux-yocto 5.15 version bump series for the release build.
-> >
-> > I will then wait for a patch from Bruce that fixes the problem before
-> > reapplying it post release.
->
-> If it takes a few more days it may be better to slip that release (when
-> QA are likely testing M3 anyway) in order to resolve this rather than
-> reverting a load of things we'll only then end up reapplying.
->
-
-I'll be working on it over the weekend, along with some other kernel
-items that I didn't get to as I worked on this today and some meta-virt
-things.
-
-Bruce
-
-> Cheers,
->
-> Richard
->
->
+ <openembedded-core@lists.openembedded.org>; Sat, 09 Mar 2024 09:38:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196867
 
 
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+  currently perusing countless recipes to choose really good
+pedagogical examples of "ptest" usage, and i began running across a
+number of recipes that (unrelated to ptest) included snippets toward
+the end of their recipe files that added content to FILES:${PN}.
+here's an example from fwupd:
+
+https://github.com/openembedded/meta-openembedded/blob/master/meta-oe/recipes-bsp/fwupd/fwupd_1.8.9.bb#L130
+
+    FILES:${PN} += "${libdir}/fwupd-plugins-* \
+                ${libdir}/fwupd-${PV} \
+                ${systemd_unitdir} \
+                ${datadir}/fish \
+                ${datadir}/metainfo \
+                ${datadir}/icons \
+                ${datadir}/dbus-1 \
+                ${datadir}/polkit-1 \
+                ${nonarch_libdir}/modules-load.d"
+
+  since i knew(?) that the default PACKAGES list is processed left to
+right, and that the PN package is left until the end to gather what
+remains, i couldn't understand why so many recipes insisted on adding
+extra content to FILES:${PN} when the default processing would have
+collected it anyway, unless ... there was something that had been
+appended to PACKAGES that required that.
+
+  sure enough, bash-completion.bbclass:
+
+    PACKAGES += "${PN}-bash-completion"
+    FILES:${PN}-bash-completion = "${datadir}/bash-completion ${sysconfdir}/bash_completion.d"
+
+  my understanding is that the "proper" ordering of PACKAGES is to
+start with the most focused and specific packages, define their
+content, then move on until, at the end, whatever remains goes into
+PN. which makes that definition of bash-completion.bbclass a bit
+puzzling -- why was it not *prepended* to the PACKAGES list given its
+specificity? and making all that subsequent addition to FILES:${PN}
+unnecessary?
+
+  or am i misunderstanding something?
+
+rday
 
