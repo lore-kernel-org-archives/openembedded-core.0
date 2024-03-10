@@ -1,62 +1,105 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EA79C54791
-	for <webhook@archiver.kernel.org>; Sun, 10 Mar 2024 15:56:33 +0000 (UTC)
-Received: from mailout08.t-online.de (mailout08.t-online.de [194.25.134.20])
- by mx.groups.io with SMTP id smtpd.web10.40298.1710086181378604667
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69F02C54791
+	for <webhook@archiver.kernel.org>; Sun, 10 Mar 2024 16:01:03 +0000 (UTC)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web10.40393.1710086462001555830
  for <openembedded-core@lists.openembedded.org>;
- Sun, 10 Mar 2024 08:56:21 -0700
+ Sun, 10 Mar 2024 09:01:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.20, mailfrom: f_l_k@t-online.de)
-Received: from fwd70.aul.t-online.de (fwd70.aul.t-online.de [10.223.144.96])
-	by mailout08.t-online.de (Postfix) with SMTP id 58E4B16846;
-	Sun, 10 Mar 2024 16:56:19 +0100 (CET)
-Received: from [192.168.178.67] ([84.154.166.16]) by fwd70.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1rjLX8-29A4OW0; Sun, 10 Mar 2024 16:56:18 +0100
-Date: Sun, 10 Mar 2024 16:56:41 +0100
-From: f_l_k@t-online.de
-Subject: Re: [oe-core][PATCH] gtk4: update 4.12.5 -> 4.13.9
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Markus Volk <f_l_k@t-online.de>, openembedded-core@lists.openembedded.org
-Message-Id: <HY25AS.FPYH8NV384822@t-online.de>
-In-Reply-To: <54530dfa95ef0ca744fde5ab2b83bb402e4a50fd.camel@linuxfoundation.org>
-References: <17BB704B3D5D1758.5850@lists.openembedded.org>
-	<R915AS.S2SD7P4CMM6X2@t-online.de>
-	<54530dfa95ef0ca744fde5ab2b83bb402e4a50fd.camel@linuxfoundation.org>
-X-Mailer: geary/44.1
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ElZr9bU1;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1dcab44747bso23443165ad.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 10 Mar 2024 09:01:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1710086461; x=1710691261; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=sANT5tLoHkRsImbelNsXUPAN7e84FCYhyKWEIG0GVaw=;
+        b=ElZr9bU18IUII5zV1DAGcbLIspqYR/eHSBJqTaZBewYzESXDvsaeluvDlF3uFU7XaG
+         /EydIcRnq/9OkGzE2/A0qxcunhswR5jYAWvEeqzBf8osnsFM2W7dSg/dtA2nCXHtuw84
+         yoRfYt2TuCX1qnjF1MgaEsogeuulL/m4VHs0IX4ifhGRpqEFxyqKnnxM1E3M4c+lYAjX
+         Kx77iI7YGxabTQKFiyaxrlSI8i9EC3+kDNGreAKOUbJYnPXDdEEKQYS984CiWE2em8B9
+         zf4ByJ8Be+r2IeviiDAhRZ12duKpk0sAtAEhT5auAPgACJFTlUR5yjmFsMCXwlU/jIiG
+         fmtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710086461; x=1710691261;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=sANT5tLoHkRsImbelNsXUPAN7e84FCYhyKWEIG0GVaw=;
+        b=uxBEngeYRAfr4Th+ycEH3WZ/GspUJYrKSSI23TVG93dOD+6ANH+0vLDTYuJIfVOhI0
+         4eUMCIYhlvitUwaln5W7K3YmopvYp2fi8xulFlGCIxVwP4HVefyDR18Fv68MmJKRXlaj
+         M0XlfscMv6GCdpGr1kcwy6zn104YeHNaf2v71B6NHCnEL+nrrR/12PhLu/3UWpaG7wH5
+         nhw3E/P7FxOlLJbNh3xQvGVsRIUvKeeuD+qZFkQg6Oa2lQ1rTBqOifyvXF5vXTJxyL0P
+         w+0rYoghFVTz1/jJeebn3SVGahpiSIZOPFLkbX0ASZ6HHRI/SWi+J9nIFFFpPsw/eYMK
+         5J3Q==
+X-Gm-Message-State: AOJu0Ywn0FDzLVNIoa/BdkrMNgaZ4EWuukSCID9ogJE/MNtaobzDGMnQ
+	jQ0iQkYKntV/NIsDuX+JlkvuDeMIZjkICjHrzZvIBY46Qf2u1TWKn3JsW4QEu4WnUG1cpswp7o5
+	oq+PmMw==
+X-Google-Smtp-Source: AGHT+IGcFJF45BjTCuT9mvkJIvTRb2av9F0yNG2F18Z3pziNqn095wZwcn0uc5XkdjqwWM2wQLjU1w==
+X-Received: by 2002:a17:902:ec86:b0:1dd:758f:2d24 with SMTP id x6-20020a170902ec8600b001dd758f2d24mr4394450plg.7.1710086460983;
+        Sun, 10 Mar 2024 09:01:00 -0700 (PDT)
+Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
+        by smtp.gmail.com with ESMTPSA id e9-20020a170902cf4900b001da105d6a83sm2836862plg.224.2024.03.10.09.01.00
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 10 Mar 2024 09:01:00 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][nanbield 0/5] Patch review
+Date: Sun, 10 Mar 2024 06:00:49 -1000
+Message-Id: <cover.1710086264.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/alternative; boundary="=-tIS2Lzt080Yj+3cbInsR"
-X-TOI-EXPURGATEID: 150726::1710086178-327FB937-3F60001D/0/0 CLEAN NORMAL
-X-TOI-MSGID: d8f4e696-a4c6-4f54-aab5-132c6e2c24fa
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 10 Mar 2024 15:56:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196892
+ <openembedded-core@lists.openembedded.org>; Sun, 10 Mar 2024 16:01:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196893
 
---=-tIS2Lzt080Yj+3cbInsR
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Please review this set of changes for nanbield and have comments back by
+end of day Tuesday, March 12
 
-On Sun, Mar 10 2024 at 08:48:39 AM -07:00:00, Richard Purdie 
-<richard.purdie@linuxfoundation.org> wrote:
-> Given where we are with release that does look preferable to an
-> experimental GTK verison...
+Passed a-full on autobuilder:
 
-I'll do some tesing with this patches included in vala and will send a 
-patch for it.
-But I guess because of this blog post, that gtk 4.14 can be considered 
-as almost ready
-<https://blog.gtk.org/>
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6663
 
+The following changes since commit 82dd61aade02456621cd2958b2fbb56236062789:
 
---=-tIS2Lzt080Yj+3cbInsR
-Content-Type: text/html; charset=us-ascii
+  multilib_global.bbclass: fix parsing error with no kernel module split (2024-02-14 07:09:08 -1000)
 
-<div id="geary-body" dir="auto">On Sun, Mar 10 2024 at 08:48:39 AM -07:00:00, Richard Purdie &lt;richard.purdie@linuxfoundation.org&gt; wrote:<br><blockquote type="cite"><div class="plaintext" style="white-space: break-spaces;">Given where we are with release that does look preferable to an
-experimental GTK verison...</div></blockquote><div><br></div><div>I'll do some tesing with this patches included in vala and will send a patch for it.</div><div>But I guess because of this blog post, that gtk 4.14 can be considered as almost ready</div><div><a href="https://blog.gtk.org/">https://blog.gtk.org/</a></div></div>
---=-tIS2Lzt080Yj+3cbInsR--
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/nanbield-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/nanbield-nut
+
+Bruce Ashfield (2):
+  linux-yocto/6.1: update to v6.1.78
+  linux-yocto/6.1: update CVE exclusions
+
+Dhairya Nagodra (1):
+  glibc: Remove duplicate entry for CVE-2023-4527
+
+Munehisa Kamata (1):
+  kernel.bbclass: Set pkg-config variables for building modules
+
+Tim Orling (1):
+  vim: upgrade v9.0.2130 -> v9.0.2190
+
+ meta/classes-recipe/kernel.bbclass            |  12 +-
+ meta/recipes-core/glibc/glibc-version.inc     |   1 -
+ .../linux/cve-exclusion_6.1.inc               | 104 ++++++++++++++++--
+ .../linux/linux-yocto-rt_6.1.bb               |   6 +-
+ .../linux/linux-yocto-tiny_6.1.bb             |   6 +-
+ meta/recipes-kernel/linux/linux-yocto_6.1.bb  |  28 ++---
+ meta/recipes-support/vim/vim.inc              |   4 +-
+ 7 files changed, 124 insertions(+), 37 deletions(-)
+
+-- 
+2.34.1
 
 
