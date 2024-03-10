@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B0F3C54E60
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57A08C54E58
 	for <webhook@archiver.kernel.org>; Sun, 10 Mar 2024 16:01:13 +0000 (UTC)
 Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web10.40409.1710086471233662176
+ by mx.groups.io with SMTP id smtpd.web10.40402.1710086465314687166
  for <openembedded-core@lists.openembedded.org>;
- Sun, 10 Mar 2024 09:01:11 -0700
+ Sun, 10 Mar 2024 09:01:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=PNpIVDbL;
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=eJLBDGOu;
  spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1dd2dca2007so12273545ad.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 10 Mar 2024 09:01:11 -0700 (PDT)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1dd878da011so3446765ad.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 10 Mar 2024 09:01:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1710086470; x=1710691270; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1710086464; x=1710691264; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=mbdG0FbeYcVqAxxm94kLrXI40hi+MtGr2ckMRSrQl0M=;
-        b=PNpIVDbL728Y0VMOnqoi884z1z+g53rJISudcxi6snNszNDy2AX/CUnxwm3n8SjeOz
-         uHEaiMtkrFEojYZzmLkhIzHrCAMQnnz48x9mz4okljeNIiQKYI8tMgi4M1Qew28RsKIN
-         JsyElcIRQ2grP4Ck9TKpU8mIxaheqaojIW7tNR57wyNtVR989sE68z3K3l3AP8OvzaE6
-         aP/GiWZka/aKpPRITy3fuQIvOtCA77f4baf1TVpvLHMrOfMP9ponhCMrLXVms+wkvNEM
-         Qv5r9Mrb1mJg0wGfMBTQNRbA+NpiNPgr10j5KzhgdmxdBMXJo87WUFKBqgpjBdCNIykC
-         M9/Q==
+        bh=XUvO7yqMuiBA/8o0UYyOwHDNyF5Z1AY3zHj6iBWF4Zk=;
+        b=eJLBDGOuLvc7LccRUjmvhxjgYLrG1qnnOwF9/uRzBULbLvUxjZ7HkJl5Kcip8/bIXn
+         ovZL2D9tEKKO2vu87Z+rutSs5E1o06B0FYnOLFZ1DhVzvvjbZfdslopu3wCX7UMX4bIG
+         E/HR4ZUFvio0uZNE3I+sKFq+o2RDVQ3f9BChdwPmfvvZJMgfi17ZxHTbvbJdrMZdPxnb
+         CJPtT6Mi+IUihuq1MPRr/ah3dW5tWtIFPuwN5bImaccu/4hQ1vqrFu4ae5dt7jECW9ix
+         tJ8VnOdD2YhBH0h9kn39bjkRUYzuEQn6M/n9QNXOQI88bMZWwUAC8avifKYIbHQr0MGR
+         g93w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710086470; x=1710691270;
+        d=1e100.net; s=20230601; t=1710086464; x=1710691264;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=mbdG0FbeYcVqAxxm94kLrXI40hi+MtGr2ckMRSrQl0M=;
-        b=kuI7A794h47b2fWarvMQwfJa3t+w37QB6XkZbTxE1dZqJo2AhzzhPIa1UGRK/FgmRP
-         au7tgFx9ClUGjK56kdhqJOQ0nhID5s6VF1VxN50YBfOhLDfdii6m1uqW7fxzV8O//6Wv
-         nxWLTRyjTxYEEHSYyPc/f0T38WU1GIsrqmTqOzuE5dvXCXJR1aSt54A2mOBTTVDDk2tC
-         EQCJKYoAQ5CA0r4YIT30g2+ouNYqcqyz8X59434kP6ngQcZ2mGBZO17ERjdFxKlXGoB0
-         0pT4AvJ6z94Q9a1NtokfiaIkUUUMigeB7HLuob6TJy7SSNldyB913FSCHlyZ+okarEjp
-         7P+g==
-X-Gm-Message-State: AOJu0YxtAffLSxJuf41A2COW74ASI2A0BZN0OFJXz9JQUVXHr671lWPo
-	4eT5ZMVKY3lmiVxu/JYsS37c3VkL1H/zCz9prmaosBSSNWIb/JZKPjsgamdGQIdGS08214eo+VC
-	tq0kpew==
-X-Google-Smtp-Source: AGHT+IHkHn8bNyWU6ZBC8LPBxBWzxfWzDsMcviPQGwLR7xJHh7Xz40AHoSXoeTR64+GH8osTI5iNVA==
-X-Received: by 2002:a17:902:e748:b0:1dd:1c6f:af52 with SMTP id p8-20020a170902e74800b001dd1c6faf52mr4322708plf.12.1710086470368;
-        Sun, 10 Mar 2024 09:01:10 -0700 (PDT)
+        bh=XUvO7yqMuiBA/8o0UYyOwHDNyF5Z1AY3zHj6iBWF4Zk=;
+        b=imSdrQCDiw8zhkMcBaNe/aVR47A3sS3DFm5TzJY5oJxp4Xpho3AdlA9yder1O51Zr4
+         +glb4KHgi0FBX2pMxIIuXcjfIspRYrtPsKTOnlEPuB7Tb+0O3HjaR0iODvVeIAyKrbXE
+         Yfr55kNAFl+sC1J2FBhyBj6JO/CXvEyMj/kitu9+Z2JsLjuiH7BU850U1da8HKAkVcaA
+         zISVX7Klv5aKMWM3Xg/nfIt0L8vswdDlXHJ8NiDmjxdTKtrscV2zZyu0w1Sj8qeu0v/S
+         //L/gCeYpT0hfEjv4MvV9OYcrtIbxqvutBNtK+ycba8JBRyhtFW3u2v/a2NmJEWQNZx9
+         rtUw==
+X-Gm-Message-State: AOJu0Yz08cNn8fz3M8AZxp6vssPXiYVZZaT0tvkfRX6qXLpDQMQIHvig
+	wcZkkiAnkIWV0Ks0x9GydZg7EOZq0LBkjyLFEWBN6z/xuc6ng9BrwmEfkpFl7HtHPtejRIDATBz
+	hS0nBgg==
+X-Google-Smtp-Source: AGHT+IGPE4ytZ5wp67bV3Ujl3154h33tdHOWio2f0p0quN99i2tXPnuOPAPn0lWxOG1E1kbp/gIKQQ==
+X-Received: by 2002:a17:902:e54a:b0:1db:4419:e925 with SMTP id n10-20020a170902e54a00b001db4419e925mr4764646plf.1.1710086464521;
+        Sun, 10 Mar 2024 09:01:04 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id e9-20020a170902cf4900b001da105d6a83sm2836862plg.224.2024.03.10.09.01.09
+        by smtp.gmail.com with ESMTPSA id e9-20020a170902cf4900b001da105d6a83sm2836862plg.224.2024.03.10.09.01.03
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Mar 2024 09:01:10 -0700 (PDT)
+        Sun, 10 Mar 2024 09:01:04 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][nanbield 5/5] kernel.bbclass: Set pkg-config variables for building modules
-Date: Sun, 10 Mar 2024 06:00:54 -1000
-Message-Id: <d88e0fa7c5e6c8252f8f775996f512a37fea4818.1710086264.git.steve@sakoman.com>
+Subject: [OE-core][nanbield 2/5] vim: upgrade v9.0.2130 -> v9.0.2190
+Date: Sun, 10 Mar 2024 06:00:51 -1000
+Message-Id: <8155a1f60b490859b1c942da2a35d5106eddc901.1710086264.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1710086264.git.steve@sakoman.com>
 References: <cover.1710086264.git.steve@sakoman.com>
@@ -62,105 +62,40 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 10 Mar 2024 16:01:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196898
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196895
 
-From: Munehisa Kamata <kamatam@amazon.com>
+From: Tim Orling <ticotimo@gmail.com>
 
-The pkg-config workaround has been applied for kernel image building, but
-not for module building. So pkg-config variables are different between
-do_compile and do_compile_kernelmodules tasks. It may unnecessary trigger
-rebuilding of a few host tools at the later task.
+This is the latest/last of the 9.0.z upgrades, since 9.1 is now
+released.
 
-Especially when CONFIG_DEBUG_INFO_BTF is enabled in the kernel, it may even
-trigger rebuilding vmlinux at do_compile_kernelmodules due to the rebuilt
-host tools such as certs/extract-cert or objtool (on x86). This eventually
-creates an inconsistent set of kernel binaries.
+CVE: CVE-2024-22667
+(includes the patch for .2142 https://github.com/vim/vim/commit/b39b240c386a5a29241415541f1c99e2e6b8ce47)
 
-Here is the repro steps:
+Changes:
+https://github.com/vim/vim/compare/v9.0.2130...v9.0.2190
 
- - Check out nanbield on x86
-   - The unexpected rebuild happens on kirkstone or possibly earlier
-
- - Ensure that pahole is available (e.g. via meta-oe)
-
- - Set KERNEL_DEBUG to "True" to properly set up PAHOLE
-   e.g.
-   $ export KERNEL_DEBUG="True"
-   $ export BB_ENV_PASSTHROUGH_ADDITIONS="${BB_ENV_PASSTHROUGH_ADDITIONS} KERNEL_DEBUG"
-
- - Enable CONFIG_DEBUG_INFO_BTF=y
-   e.g.
-   $ bitbake -c menuconfig virtual/kernel
-    -> Kernel hacking
-      -> Compile-time checks and compiler options
-        -> Generate BTF typeinfo
-
- - Build the kernel
-   e.g.
-   $ bitbake virtual/kernel
-
-The BTF information in the resulting bzImage and kernel modules are
-inconsistent, because the module's BTF information is generated using the
-"second" vmlinux that doesn't have the identical BTF to the "first" vmlinux.
-These modules can't be loaded at runtime due to the BTF mismatch.
-
-This also leads to a build-id mismatch between the installed bzImage and
-vmlinux since the bzImage is created from the first vmlinux, but the
-installed vmlinux is the second one.
-
-  $ eu-readelf -n tmp/work/qemux86_64-poky-linux/linux-yocto/6.5.13+git/image/boot/{bzImage*,vmlinux*} | grep "Build ID"
-   Build ID: 4a0d62ee7fef0244950f0f604253729875bea493
-   Build ID: fb99b3d91399dbe42bf67ddee59e0f5a0c7f74d9
-
-To avoid the unexpected rebuilding that results in such inconsistency, set
-the same pkg-config variables when building kernel and modules. For kernel
-5.19 and above, simply set the HOSTPKG_CONFIG in the make command line.
-
-Signed-off-by: Munehisa Kamata <kamatam@amazon.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit cd2072e5d953af981339427028e19083257e6a92)
+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes-recipe/kernel.bbclass | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ meta/recipes-support/vim/vim.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
-index 16b85dbca4..2ff2dff9e2 100644
---- a/meta/classes-recipe/kernel.bbclass
-+++ b/meta/classes-recipe/kernel.bbclass
-@@ -239,6 +239,8 @@ KERNEL_EXTRA_ARGS ?= ""
- EXTRA_OEMAKE += ' CC="${KERNEL_CC}" LD="${KERNEL_LD}" OBJCOPY="${KERNEL_OBJCOPY}" STRIP="${KERNEL_STRIP}"'
- EXTRA_OEMAKE += ' HOSTCC="${BUILD_CC}" HOSTCFLAGS="${BUILD_CFLAGS}" HOSTLDFLAGS="${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}"'
- EXTRA_OEMAKE += ' HOSTCXX="${BUILD_CXX}" HOSTCXXFLAGS="${BUILD_CXXFLAGS}"'
-+# Only for newer kernels (5.19+), native pkg-config variables are set for older kernels when building kernel and modules
-+EXTRA_OEMAKE += ' HOSTPKG_CONFIG="pkg-config-native"'
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index 6b440d8947..906aa53a16 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -19,8 +19,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://no-path-adjust.patch \
+            "
  
- KERNEL_ALT_IMAGETYPE ??= ""
+-PV .= ".2130"
+-SRCREV = "075ad7047457debfeef13442c01e74088b461092"
++PV .= ".2190"
++SRCREV = "6a950da86d7a6eb09d5ebeab17657986420d07ac"
  
-@@ -356,9 +358,6 @@ kernel_do_compile() {
- 	export PKG_CONFIG_LIBDIR="$PKG_CONFIG_DIR"
- 	export PKG_CONFIG_SYSROOT_DIR=""
- 
--	# for newer kernels (5.19+) there's a dedicated variable
--	export HOSTPKG_CONFIG="pkg-config-native"
--
- 	if [ "${KERNEL_DEBUG_TIMESTAMPS}" != "1" ]; then
- 		# kernel sources do not use do_unpack, so SOURCE_DATE_EPOCH may not
- 		# be set....
-@@ -408,6 +407,13 @@ addtask transform_kernel after do_compile before do_install
- 
- do_compile_kernelmodules() {
- 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
-+
-+	# setup native pkg-config variables (kconfig scripts call pkg-config directly, cannot generically be overriden to pkg-config-native)
-+	export PKG_CONFIG_DIR="${STAGING_DIR_NATIVE}${libdir_native}/pkgconfig"
-+	export PKG_CONFIG_PATH="$PKG_CONFIG_DIR:${STAGING_DATADIR_NATIVE}/pkgconfig"
-+	export PKG_CONFIG_LIBDIR="$PKG_CONFIG_DIR"
-+	export PKG_CONFIG_SYSROOT_DIR=""
-+
- 	if [ "${KERNEL_DEBUG_TIMESTAMPS}" != "1" ]; then
- 		# kernel sources do not use do_unpack, so SOURCE_DATE_EPOCH may not
- 		# be set....
+ # Do not consider .z in x.y.z, as that is updated with every commit
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+)\.0"
 -- 
 2.34.1
 
