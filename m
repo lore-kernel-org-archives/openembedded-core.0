@@ -1,97 +1,61 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3972C54E60
-	for <webhook@archiver.kernel.org>; Sun, 10 Mar 2024 16:54:43 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web11.41740.1710089678154711067
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC028C54791
+	for <webhook@archiver.kernel.org>; Sun, 10 Mar 2024 17:03:03 +0000 (UTC)
+Received: from mailout12.t-online.de (mailout12.t-online.de [194.25.134.22])
+ by mx.groups.io with SMTP id smtpd.web10.41827.1710090179775268288
  for <openembedded-core@lists.openembedded.org>;
- Sun, 10 Mar 2024 09:54:38 -0700
+ Sun, 10 Mar 2024 10:03:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=byXTH9xW;
- spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-33e2268ed96so2937486f8f.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 10 Mar 2024 09:54:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710089676; x=1710694476; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XdSV4TyfeqXOsXjNJIPQ+EqJSwbVnMUgH7mEAHr3hZs=;
-        b=byXTH9xWAC+cqrpSB1CjuBJ3S4miE/vocsquR/ZyBAi1vV+6p9QXhNbKneOYWkID8G
-         6gZuBXig76QQMSUE1KROZeER3kKgAOrIazKFgwry/OBlClqvWbsLBC57rUdSvZlQ+ZRx
-         XuFw0YoGKuDvKcLi5Qp+dAYaDYDFwERO0l/29AgqPvHVCdQQbvVN/LAmtlFmZp0mleWD
-         1kXAgddeSaWO0qvbPoOcpWfyNZ3K5mgdepaw9H+/Nm+SysgxqYsH9MH3w6H5O21oTZ7Y
-         1huR0nC9jhQO+cLm9SIB7xuJi5CT8ExW37vV23eFK5BjjD7US/iAsdrNI5rvF3h70Hgb
-         EVqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710089676; x=1710694476;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XdSV4TyfeqXOsXjNJIPQ+EqJSwbVnMUgH7mEAHr3hZs=;
-        b=XbwRkXJOmGugIJ90V7+K4vCJmstZvBq3zo2Z/pULAU4ketApsF8XrS867LzizvQ32N
-         gHhv+ECaOXjuf7gp8RfdgaywCf57TUg+AO6HpKtS+MKIgDAWJFAY1WGNSY6zcIYZMK0J
-         vAYSEP929sIHgjY2J5CpvK9/dBguOS2S7K7z1v5mAA8YSbSMKwIUmfWb7vuhm/qsy4og
-         a6PwhAcZ3/eR4RfK1/dcinVg2v492jMb9sRzVttveBLX4VnLFDQO80oS5My4ekSbmyNi
-         XKUlapm9xH5/ErnTWRjc7bqhoO88I0qbQRdA12d6Hn5AY5HVqywFKrCuyHiPc3E4DQci
-         BvDg==
-X-Forwarded-Encrypted: i=1; AJvYcCXG/4mdKkvsiv9OJPSVfIvh+P8JAgGSH3O0DJl4ooZ2BmlHwJdZU6xU6dQjMFf9rgkmVYXrlXyrhfCkxu4kyvv9LuIJgS/qljl8NatJJ0s1N9v/oaunL79d
-X-Gm-Message-State: AOJu0YxUV1jJhXLaiHHPRZ0Mn+03vlZYpI8VVjSPu/ZchBT7CcDgzQfD
-	1ap5ksPGmqFOTnT79EgZj1FeuDyWFZ2Tt2YWTJSbhS6H41h3+gHvaA7IdlfHJAREkfKSPwkujp4
-	+XmWsD9uYS+1WqyqK6V4c2tCj2IYj114dTag=
-X-Google-Smtp-Source: AGHT+IH6inLT/QGy8QNct6RCEqXVXUTHfPhaqxuOt8qwbTcNez4QdxVMILtwu9+jU7fKIogauAuiK6uHaGuPVvhxGvM=
-X-Received: by 2002:adf:ed0e:0:b0:33d:7afa:fb0b with SMTP id
- a14-20020adfed0e000000b0033d7afafb0bmr2980755wro.15.1710089676384; Sun, 10
- Mar 2024 09:54:36 -0700 (PDT)
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.22, mailfrom: f_l_k@t-online.de)
+Received: from fwd70.aul.t-online.de (fwd70.aul.t-online.de [10.223.144.96])
+	by mailout12.t-online.de (Postfix) with SMTP id 7B2DF5153;
+	Sun, 10 Mar 2024 18:02:57 +0100 (CET)
+Received: from [192.168.178.67] ([84.154.166.16]) by fwd70.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1rjMZZ-17I34y0; Sun, 10 Mar 2024 18:02:54 +0100
+Date: Sun, 10 Mar 2024 18:03:16 +0100
+From: f_l_k@t-online.de
+Subject: Re: [oe-core][PATCH] gtk4: update 4.12.5 -> 4.13.9
+To: Markus Volk <f_l_k@t-online.de>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+Message-Id: <G165AS.UHPXD5QHY4K91@t-online.de>
+In-Reply-To: <17BB725268800180.5850@lists.openembedded.org>
+References: <17BB704B3D5D1758.5850@lists.openembedded.org>
+	<R915AS.S2SD7P4CMM6X2@t-online.de>
+	<54530dfa95ef0ca744fde5ab2b83bb402e4a50fd.camel@linuxfoundation.org>
+	<17BB725268800180.5850@lists.openembedded.org>
+X-Mailer: geary/44.1
 MIME-Version: 1.0
-References: <CAOSpxdaa9X1ySRN2hgnqqEu1Hf34vTSaKGZayUaVxx09GSQOew@mail.gmail.com>
-In-Reply-To: <CAOSpxdaa9X1ySRN2hgnqqEu1Hf34vTSaKGZayUaVxx09GSQOew@mail.gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Sun, 10 Mar 2024 17:54:20 +0100
-Message-ID: <CA+chaQdtaqzvpKqT3JHxBn7bSb8pfPAro4e_uOSjDMypqYcVqQ@mail.gmail.com>
-Subject: Re: [OE-core] Final nanbield release build on March 25, 2024
-To: Steve Sakoman <steve@sakoman.com>
-Cc: Yocto-mailing-list <yocto@lists.yoctoproject.org>, 
-	",openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/alternative; boundary="=-3UGVwC6z6O3HhLwV8B9B"
+X-TOI-EXPURGATEID: 150726::1710090174-33FFC937-D289C9D4/0/0 CLEAN NORMAL
+X-TOI-MSGID: 69279e0a-e5ce-4c8b-ace4-59496bc43979
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 10 Mar 2024 16:54:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196901
+ <openembedded-core@lists.openembedded.org>; Sun, 10 Mar 2024 17:03:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196902
 
-Hi Steve,
+--=-3UGVwC6z6O3HhLwV8B9B
+Content-Type: text/plain; charset=us-ascii; format=flowed
 
-I'm not using nanbield, but does
-https://wiki.yoctoproject.org/wiki/Releases need to be updated? It
-says "Support for 7 months (until May 2024)" so I was expecting final
-call for dunfell (which says "Long Term Support (until Apr. 2024=C2=B9))
-before nanbield.
+On Sun, Mar 10 2024 at 08:56:21 AM -07:00:00, Markus Volk 
+<f_l_k@t-online.de> wrote:
+> I'll do some tesing with this patches included in vala and will send 
+> a patch for it.
 
-Regards,
+The problem I have with creating the backport patches:
+ vapi/metadata/Gtk-4.0.metadata should be patched and that file is not 
+included in the tarball version of vala
 
-On Sun, Mar 10, 2024 at 5:11=E2=80=AFPM Steve Sakoman <steve@sakoman.com> w=
-rote:
->
-> If you have any patches you would like to submit for nanbield before
-> it goes EOL, please do so now!
->
-> I'll be taking patches until around March 18 in preparation for a
-> March 25 build.
->
-> Steve
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#196900): https://lists.openembedded.org/g/openembedde=
-d-core/message/196900
-> Mute This Topic: https://lists.openembedded.org/mt/104846319/3617156
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ma=
-rtin.jansa@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+
+--=-3UGVwC6z6O3HhLwV8B9B
+Content-Type: text/html; charset=us-ascii
+
+<div id="geary-body" dir="auto">On Sun, Mar 10 2024 at 08:56:21 AM -07:00:00, Markus Volk &lt;f_l_k@t-online.de&gt; wrote:<br><blockquote type="cite">I'll do some tesing with this patches included in vala and will send a patch for it.</blockquote><div><br></div><div>The problem I have with creating the backport patches:</div><div>&nbsp;vapi/metadata/Gtk-4.0.metadata should be patched and that file is not included in the tarball version of vala</div></div>
+--=-3UGVwC6z6O3HhLwV8B9B--
+
 
