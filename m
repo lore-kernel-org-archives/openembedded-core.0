@@ -1,170 +1,212 @@
-Return-Path: <christian.taedcke-oss@weidmueller.com>
+Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E68DC5475B
-	for <webhook@archiver.kernel.org>; Mon, 11 Mar 2024 09:15:49 +0000 (UTC)
-Received: from EUR03-AM7-obe.outbound.protection.outlook.com (EUR03-AM7-obe.outbound.protection.outlook.com [40.107.105.93])
- by mx.groups.io with SMTP id smtpd.web11.58429.1710148546823498439
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9B66C54E58
+	for <webhook@archiver.kernel.org>; Mon, 11 Mar 2024 09:30:49 +0000 (UTC)
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
+ by mx.groups.io with SMTP id smtpd.web10.58404.1710149446522351608
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Mar 2024 02:15:47 -0700
+ Mon, 11 Mar 2024 02:30:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@weidmueller.onmicrosoft.com header.s=selector1-weidmueller-onmicrosoft-com header.b=gEfYMgSq;
- spf=pass (domain: weidmueller.com, ip: 40.107.105.93, mailfrom: christian.taedcke-oss@weidmueller.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GJVk2PSXv+MIzjbQStMZQSo18+8u5Oo5G5wEZdPBOVNOeuRcEisPwYJqostTtPux+NyljGXy+8mR43BxLd8a57a7I+NUeFik7dbcaz5D/shKEk1f5rr8xEdeHY6qEUmD3UhYJkNlVGOx/7bchgczSvYGYNHYlO5oQvls7t9TbLeQTFCz+W6/fwO9yjKKqGRTbBQRnaTnm4GqAb1znhcRXI9UdeYQr2SyCCsLps90r6dxMPIbG6avfblqS+n3QLqraeViDf3xq27AVYMGm82vqAsiLLn4PfjhgQV5IpKrAoS5VYFcFc7lTYpa1M0xR1iEX6nS84E2FDAqNsXKV7bU0g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Pfng1vqYXqvoOhsa0uDfi1gshRrH5TPgigvQAfIEmwQ=;
- b=m181M179l+606BZ2cEWRlB/Kg5TW+nYQIRJPWss2Lj86I5uESC6SDXrml+fPnZiZwZybqNDglHIX8R2s1NoNp0MA/wfDfGKuyDIRTh89HI91aF91g1PpLBcv7Lnhz2a/twWHnEt6slPDsKhWFI+d84SL7SlYSoYZ+lYkWa4udHWTaNg1TjiqSw9nlWVnMxxSC2wZqHYprI26CfvLp2LF/rSSd7LKd1KwtyELCk9PaC59f8QvmrqaGNujYgWvvQg5ZZxMVV3pblLBH/Osen8XTeHRk2gYRHQOw8fEkYSPSQFOol8PsoBgbHV0A9QBJZiGipBtWVchhkATAgRc+65ARA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=weidmueller.com; dmarc=pass action=none
- header.from=weidmueller.com; dkim=pass header.d=weidmueller.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Jcghk0O0;
+ spf=pass (domain: gmail.com, ip: 209.85.166.48, mailfrom: zboszor@gmail.com)
+Received: by mail-io1-f48.google.com with SMTP id ca18e2360f4ac-7c8b8618457so2814539f.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 11 Mar 2024 02:30:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=weidmueller.onmicrosoft.com; s=selector1-weidmueller-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Pfng1vqYXqvoOhsa0uDfi1gshRrH5TPgigvQAfIEmwQ=;
- b=gEfYMgSqGqgfE3zrt15mse0HUH3fFWvyclkFoAclNK3lvcdCuuugLVr927R5DqLEjih55+xNyXhR+gcfINnz+Ej3b0qO8tRFvMqvBPW3aJV6fcbT+M6UR09KZqFKyyofYn5ybTjtZ+hnsUfLUQmL84kruQBJ476axc7jeceZj98=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=weidmueller.com;
-Received: from AS2PR08MB9199.eurprd08.prod.outlook.com (2603:10a6:20b:578::22)
- by AS2PR08MB10009.eurprd08.prod.outlook.com (2603:10a6:20b:64b::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7362.35; Mon, 11 Mar
- 2024 09:15:42 +0000
-Received: from AS2PR08MB9199.eurprd08.prod.outlook.com
- ([fe80::f092:6b68:ac4e:ff7f]) by AS2PR08MB9199.eurprd08.prod.outlook.com
- ([fe80::f092:6b68:ac4e:ff7f%7]) with mapi id 15.20.7362.031; Mon, 11 Mar 2024
- 09:15:42 +0000
-From: christian.taedcke-oss@weidmueller.com
-To: openembedded-core@lists.openembedded.org
-CC: Christian Taedcke <christian.taedcke@weidmueller.com>
-Subject: [OE-core][PATCH] kernel-yocto: enable fetching kernel metadata using file fetcher
-Date: Mon, 11 Mar 2024 10:15:33 +0100
-Message-ID: <20240311091533.46869-1-christian.taedcke-oss@weidmueller.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: FR4P281CA0291.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:e7::17) To AS2PR08MB9199.eurprd08.prod.outlook.com
- (2603:10a6:20b:578::22)
+        d=gmail.com; s=20230601; t=1710149445; x=1710754245; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=kdFvIkWNPKMOBj64e4MavuHq4v8bUgNhu8+8pEx00wk=;
+        b=Jcghk0O0MnhbdVH+7qv3JABSQQSZmWoU8ApydF23+Y8SBD6nFcYK5zhvn2XkCBmKBm
+         rcRhuI71FAaFT+meABXLn+b7FIqC/KutawwXAVLu5WxYG3DJuVIsYxIv3sEZjlf07vSa
+         3ZC9khrZd+odVuhLmzNAKFB2saumxYQhzTMYAejVrv7vefRWu+doOz/OSsnE/iYTC1FB
+         Ooet/PnsZc7hq8ZD/x3k7e7ROHXrKenyie2IS2av7ojJnebZ4L0Sd+qBnP9XFht8SYIK
+         bJDau/1iabf7s8EngjN6igZX4vG4hIxHf3tiKUp9rewZqxy3uCsn+oQouZjFkkc/WdON
+         mRIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710149445; x=1710754245;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kdFvIkWNPKMOBj64e4MavuHq4v8bUgNhu8+8pEx00wk=;
+        b=ioQpEB79HJYuGpkEHrcEQ/UtEGfRvWA6YSGlJJgowKBubDQfmufU6L7YD9Vt+7HMgn
+         rufaBS+rITorrnsHT8V87dHbNw5kVZTXPfNjguh5kBFVsNJSv5fsgb9qb6Z4tRkJ9cGZ
+         p7IcW+P36N7elsATjnX/vf7/RJMEyyz+p+DwVLAwf24nbpy1jv44kMZAHq1FjE+S9FvO
+         EJeREVItXNIrUV8DLeBSfQADjfgTnXYXbXMR11CNPuL9yk4xKPPyoA8n5kLSAdI2QHra
+         xAdrKDVOK6CWlvvLEo+onDJrUFYRUML4R8ZYr8cjCl2S3wTvW3drVHNP/OwSorU1/h9I
+         YcmQ==
+X-Gm-Message-State: AOJu0YzMjQtMoqUAkhnIpQDhq9sMcmGp++i6tw9bMHA6gswnoThLqHtA
+	lDyl3nSUPxKkVKnJp5kVGN5VMmesbLLzWfyixzrkkfJts8AJn/7b
+X-Google-Smtp-Source: AGHT+IEnWGfMTOSw2KSTTsvHP6OlDBuRlEeTypH1IXDjl7ZzdyeCqhjwQ35YzZa0tM+qmccw0YwAqw==
+X-Received: by 2002:a05:6602:1248:b0:7c8:b59a:8dd with SMTP id o8-20020a056602124800b007c8b59a08ddmr3287948iou.13.1710149445537;
+        Mon, 11 Mar 2024 02:30:45 -0700 (PDT)
+Received: from [192.168.2.143] (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
+        by smtp.gmail.com with ESMTPSA id cw7-20020a05663849c700b004750097315csm1628895jab.16.2024.03.11.02.30.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Mar 2024 02:30:45 -0700 (PDT)
+Message-ID: <a70cbc1e-f234-45ba-a886-51461f2e8689@gmail.com>
+Date: Mon, 11 Mar 2024 10:30:42 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS2PR08MB9199:EE_|AS2PR08MB10009:EE_
-X-MS-Office365-Filtering-Correlation-Id: b0262cb6-d048-4ef5-56f9-08dc41abd367
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	PWwAwPAmfVp1Ha7nE3N+O9xFprX82rENvK1LnD89QeWt4oF+qP6AP64w9iM5Rv1w1ZbYBmq+nG86xN1FPmE1GPGs0q7kjuQgaZZ4nOkPBqb96yhSapPJSJYBvPYyfzY5boZ9WQraJMkiP1T2eE95N8TN9UzZcTCyDjoOJ2I42bmyAVRuPZFlMPoC31umcGwqePsHK9JXnjVjSn87WJovF1yHu9Qcq+6Z/hpbY+EbYkkewhorUXkrJBc6+hD6sMj9vEFFY7bUZu4pLGxUzxEdTzGHn2Jr/ArpZjN21Xkiga0NHjiZ5fK5cxsgR8wGYmk0POF31IH2NrJEW/w4cqb2wQ0Z6w4jncvETJo9fPQeN0FA3rdUIqndh1OuUgVwaMcV2Zq0taQv+rqdh5GGxVqZjHS0eG5z4njsvTEy7cN6p78To7H+JAVAJFKwJac/DmibP3IiFCRnm3e/lsZBg4Rx9sXaYBGcIt8mGKrmJbggblj2lK8OBnPUw8CNXgBEX+91AanftvaKY1YLSWZyoEMIaPaW3aJtZ5BU+O0Ss0Z9Gnz2l23qtkxBNYGB/g0sBS/tymA3OW9POidqasiB1wjHotgaV3v275jUH+ottS/G/0YDJwwluw3+F7rEZmfpEoYVlmA/n6HMgQ4WxqhiW3WuQ61k0ElGCn6nDWNuFPOG2Ub9pGbqiUK3nW57pBycbXS2h5Yw5aaXTL+vFGrJ1+N8c2sgOJjlSuin+CRYj1ZrF4Y=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS2PR08MB9199.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(52116005)(1800799015)(38350700005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?mQ6ENf0NKoVPPGH6h06v2OmdlQDIwYiqt7AFnR1KZceOX6oBD7plz1Kf9XUg?=
- =?us-ascii?Q?KpdlR24LCAxhRXx2X1kI21G7GUTe1B0VR5vK/93Yari/2woRTAoIYWt0Cm9t?=
- =?us-ascii?Q?iFHc9orb4rVqnlqEXFmO9uvc7pvy2eNSfW3P2mGiAIfkNFFgEYTLwLU2xUPX?=
- =?us-ascii?Q?kQnOG+9U6ixHrejLHFID1w7XQuPPr/JQwM6VFbkGoxn+DXXEt16SrEx0weSS?=
- =?us-ascii?Q?Q2HDAkr/dIHvdl4eOyHLb+H5ZX8r+FXYxtMv/OHxgitE2uSCLktnHkNif+0D?=
- =?us-ascii?Q?8mSZ+o0ojfReyrdQEN7Wv/5MTZcV8mUu0SgzV/OeZMWI1LSrA0pkCg7MH+MQ?=
- =?us-ascii?Q?wCkZRQP4adtgjrbRZJQAfi7WXegHUKDCN3V80Ui5GcSmR/qyyuIzOuKcW+9E?=
- =?us-ascii?Q?25Lkk1153GPTVdpUUm+ExTHTTzA2rEeW/HFgJP5JJbX4UuiGfJswBlRyRYxE?=
- =?us-ascii?Q?5swEsKOek4DtvIQYajVDjkzP/ikeobpfladcyKo8sfpKuRcAy+l04JeM0e7M?=
- =?us-ascii?Q?90d7H9oQQvYzP8H0zwzE5jcxY2wCSL4bi5KNc3xqmG3us/laqqhd7mC2XKdE?=
- =?us-ascii?Q?UyHh8RLXSSHCJ4sVu3yhiOCSH25K8l5wXP8vwskD2b5KuKb7jlSsyjjqm34V?=
- =?us-ascii?Q?td1e5KggjzcBfgHVX2Z6O90dhq+b1/HosIElJE5Deo5LoBLAGgshpsU4QDX5?=
- =?us-ascii?Q?YtbBHLKrsNEKt6vH1uG6aqGvBBvht4zFXBFZuF7rtnzEXuMe/1UVoVxexb0Z?=
- =?us-ascii?Q?82hcyK7G5GdAIbIO2SAMeHnfwNsUP7zEVHBozBKpkUv9qDx1LL8ugwKf706J?=
- =?us-ascii?Q?iUvvhaa67ZDXLKfoVgkp+14hu0kVTVPwWYyGXODY6Cl7MveDRtWzQMBIQfYJ?=
- =?us-ascii?Q?J1B/k7lYR4qPkM8NzNOxjO24QRMgcavW5w6RgCCB8ysUOAEOnFgtLjFlfrNS?=
- =?us-ascii?Q?zIWot4kSCR6g93+gdFUj0jhFg1TcdwjDnMzULGPuBq/qEYsmJ9JNXkCvx5Si?=
- =?us-ascii?Q?rE/TEE7e9L1M9yotsS2y27zZFP2pVRhlvkSMdT1faTnoBL4hMc7x2cpbBrQr?=
- =?us-ascii?Q?OwR5ozm5CYERIjbUrUIeXUnNFvPOoxSW+8F9ZV4ZJn5i+aonFjGRJjxjJQD7?=
- =?us-ascii?Q?7Fi5dtPqoMHDqwqT2rTygnxjD25pYkAyONKhjk3G1N1B2hn4rXJfZ8j0E+Jx?=
- =?us-ascii?Q?22iH4jf810bJCHrLLfk+aPolYCYwZKGBuemHwZTLME0KboI+c64Gyt3fzB7n?=
- =?us-ascii?Q?XhjCf6B+dS8HLpJb56iw96QV3nXg5sPJmp6/uZLKwoU2Q5uH1iWbegkUQz+d?=
- =?us-ascii?Q?+3paT5l/fGfagRQglBQg+3rwGn5AfHfokLsc9tJ8Lsfj0OR6cc8SuNvafIN9?=
- =?us-ascii?Q?96/U7ohhxbbGdkvGbtv/yEpAQugVPeEvF7J4fSOKLPBYW4w4GbwosKsZMBdD?=
- =?us-ascii?Q?ZrWCOVj0xCmyWUKeIk2ZQpV6iGUbWQcEU055oFHJmuHsm+DnHpThZEIwBB2F?=
- =?us-ascii?Q?ZVhqTcc6o0nz+yv+Gq++bIrrEb2AsyzyUEHOFkDuGqxUs2SZTUbvTVUy+jQi?=
- =?us-ascii?Q?Kp4eTxptPL0gMAZHwg0ViCK1rlm4rug7TDAP5BRouEbyX7wZuYylasYWOtB8?=
- =?us-ascii?Q?a39q0QLoY+hRtCrWM7xv3cY=3D?=
-X-OriginatorOrg: weidmueller.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b0262cb6-d048-4ef5-56f9-08dc41abd367
-X-MS-Exchange-CrossTenant-AuthSource: AS2PR08MB9199.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Mar 2024 09:15:42.2353
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e4289438-1c5f-4c95-a51a-ee553b8b18ec
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CFFGxYqpjKnVa1EqLI0Pi2r0EVtsXlQ4CwveCmmDDjDKGSiQiIuKibZpXzVwYqnQfnloe2XQ72hsBErT8K0Oa7A/nZ1iILZ0sp3MUzZCDKIpT9h4Fztg0SiJvrYAtvRO
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB10009
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] Yocto rpm packages do not keep the modified CONFFILES
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+References: <0e38566f-a1f9-4ebb-8492-2c50945eeeb4@gmail.com>
+ <CANNYZj96nE0kVyLW=DnrzwfN9UROZ1AzUG5kJ7Y6W2eF2tqAvQ@mail.gmail.com>
+Content-Language: en-US
+From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>
+In-Reply-To: <CANNYZj96nE0kVyLW=DnrzwfN9UROZ1AzUG5kJ7Y6W2eF2tqAvQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 Mar 2024 09:15:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196928
+ <openembedded-core@lists.openembedded.org>; Mon, 11 Mar 2024 09:30:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196929
 
-From: Christian Taedcke <christian.taedcke@weidmueller.com>
+2024. 03. 09. 17:39 keltezéssel, Alexander Kanavin írta:
+> I think (noreplace) flag only matters when the file has been manually
+> edited after rpm installation and its checksum diverges from what is
+> registered in rpm database. Which is not a common scenario in
+> embedded.
 
-The file fetcher does not support the destsuffix parameter. It does
-not rename the supplied folder during the fetch. Therefore the folder
-name (i.e. basepath) is added to the kernel-meta search directories.
+So from Yocto's POV it's the same either way, right?
 
-Signed-off-by: Christian Taedcke <christian.taedcke@weidmueller.com>
----
- meta/classes-recipe/kernel-yocto.bbclass | 21 ++++++++++++++-------
- 1 file changed, 14 insertions(+), 7 deletions(-)
+>   If you manually edit the file on target, you might as well
+> manually resolve which version you want after the update as both are
+> available regardless of whether (noreplace) was used or not. Or
+> perhaps merge the manual edits into the new version.
 
-diff --git a/meta/classes-recipe/kernel-yocto.bbclass b/meta/classes-recipe=
-/kernel-yocto.bbclass
-index 9a86616dad..3cbdf21df8 100644
---- a/meta/classes-recipe/kernel-yocto.bbclass
-+++ b/meta/classes-recipe/kernel-yocto.bbclass
-@@ -62,8 +62,8 @@ def find_sccs(d):
-=20
-     return sources_list
-=20
--# check the SRC_URI for "kmeta" type'd git repositories. Return the name o=
-f
--# the repository as it will be found in WORKDIR
-+# check the SRC_URI for "kmeta" type'd git repositories and directories. R=
-eturn
-+# the name of the repository or directory as it will be found in WORKDIR
- def find_kernel_feature_dirs(d):
-     feature_dirs=3D[]
-     fetch =3D bb.fetch2.Fetch([], d)
-@@ -71,13 +71,20 @@ def find_kernel_feature_dirs(d):
-         urldata =3D fetch.ud[url]
-         parm =3D urldata.parm
-         type=3D""
-+        destdir =3D ""
-         if "type" in parm:
-             type =3D parm["type"]
--        if "destsuffix" in parm:
--            destdir =3D parm["destsuffix"]
--            if type =3D=3D "kmeta":
--                feature_dirs.append(destdir)
--	   =20
-+        if type =3D=3D "kmeta":
-+            if urldata.type =3D=3D "git":
-+                if "destsuffix" in parm:
-+                    destdir =3D parm["destsuffix"]
-+            elif urldata.type =3D=3D "file":
-+                destdir =3D urldata.basepath
-+            else:
-+                bb.fatal( "unsupported fetcher '%s' used for kernel-metada=
-ta" % (urldata.type) )
-+        if destdir:
-+            feature_dirs.append(destdir)
-+
-     return feature_dirs
-=20
- # find the master/machine source branch. In the same way that the fetcher =
-proceses
---=20
-2.34.1
+The interesting use case here is that the configuration file
+in question is generated on the machine using a GUI,
+while a minimal stock version of the file is shipped by the package.
+
+>
+> Alex
+>
+> On Fri, 8 Mar 2024 at 12:20, Zoltan Boszormenyi <zboszor@gmail.com> wrote:
+>> Hi,
+>>
+>> I just found out that if an updated package ships a modified
+>> configuration file, then the Yocto package upgrade does this:
+>>
+>> * rename the edited conffile to conffile.rpmsave
+>> * install the new, modified one from the package
+>>
+>> instead of:
+>>
+>> * keep the edited conffile intact
+>> * install the new, modified one from the package as conffile.rpmnew
+>>
+>> I think this is what was asked in 2017 here:
+>> https://docs.yoctoproject.org/pipermail/yocto/2017-May/036031.html
+>>
+>> The answer was a little uninformed about saying that using
+>> CONFFILES is the fix, because rpm can behave two ways, see above.
+>>
+>> Yocto, to this day, uses "%config /path/to/conffile" instead of
+>> "%config(noreplace) /path/to/conffile" in package_rpm.bbclass.
+>> The latter would behave as "keep modified conffile + install conffile.rpmnew".
+>>
+>> What's the official stance on this behaviour?
+>> Is it a known issue?
+>> Is this what the project would expect from a package upgrade?
+>>
+>> FWIW, this one liner would change the behaviour:
+>>
+>> diff --git a/meta/classes-global/package_rpm.bbclass b/meta/classes-global/package_rpm.bbclass
+>> index 2e3e4e8c79..6610115849 100644
+>> --- a/meta/classes-global/package_rpm.bbclass
+>> +++ b/meta/classes-global/package_rpm.bbclass
+>> @@ -256,7 +256,7 @@ python write_specfile () {
+>>                    attr = get_attr(file)
+>>                    p = path + '/' + file
+>>                    if conffiles.count(p):
+>> -                    target.append(attr + '%config "' + escape_chars(p) + '"')
+>> +                    target.append(attr + '%config(noreplace) "' + escape_chars(p) + '"')
+>>                    else:
+>>                        target.append(attr + '"' + escape_chars(p) + '"')
+>>
+>>
+>> Maybe it's better to make it conditional on a different variable:
+>>
+>> CONFFILES_MODE = "keepold"
+>> vs
+>> CONFFILES_MODE = "installnew"
+>>
+>> and the patch would be something like this below (untested),
+>> keeping the current behaviour as default:
+>>
+>> diff --git a/meta/classes-global/package_rpm.bbclass b/meta/classes-global/package_rpm.bbclass
+>> index 2e3e4e8c79..f0651d69ba 100644
+>> --- a/meta/classes-global/package_rpm.bbclass
+>> +++ b/meta/classes-global/package_rpm.bbclass
+>> @@ -191,7 +191,7 @@ python write_specfile () {
+>>                    if not len(depends_dict[dep]):
+>>                        array.append("%s: %s" % (tag, dep))
+>>
+>> -    def walk_files(walkpath, target, conffiles, dirfiles):
+>> +    def walk_files(d, walkpath, target, conffiles, dirfiles):
+>>            # We can race against the ipk/deb backends which create CONTROL or DEBIAN
+>> directories
+>>            # when packaging. We just ignore these files which are created in
+>>            # packages-split/ and not package/
+>> @@ -250,13 +250,19 @@ python write_specfile () {
+>>                    if (not files and not dirs) or path in dirfiles:
+>>                        target.append(attr + '%dir "' + escape_chars(path) + '"')
+>>
+>> +            conffiles_mode = d.getVar("CONFFILES_MODE") or "installnew"
+>> +            if conffiles_mode != "installnew" and conffiles_mode != "keepold":
+>> +                conffiles_mode = "installnew"
+>>                for file in files:
+>>                    if file == "CONTROL" or file == "DEBIAN":
+>>                        continue
+>>                    attr = get_attr(file)
+>>                    p = path + '/' + file
+>>                    if conffiles.count(p):
+>> -                    target.append(attr + '%config "' + escape_chars(p) + '"')
+>> +                    if conffiles_mode == "keepold":
+>> +                        target.append(attr + '%config(noreplace) "' + escape_chars(p) + '"')
+>> +                    else:
+>> +                        target.append(attr + '%config "' + escape_chars(p) + '"')
+>>                    else:
+>>                        target.append(attr + '"' + escape_chars(p) + '"')
+>>
+>> @@ -430,7 +436,7 @@ python write_specfile () {
+>>                srcrpostrm     = splitrpostrm
+>>
+>>                file_list = []
+>> -            walk_files(root, file_list, conffiles, dirfiles)
+>> +            walk_files(localdata, root, file_list, conffiles, dirfiles)
+>>                if not file_list and localdata.getVar('ALLOW_EMPTY', False) != "1":
+>>                    bb.note("Not creating empty RPM package for %s" % splitname)
+>>                else:
+>> @@ -522,7 +528,7 @@ python write_specfile () {
+>>
+>>            # Now process files
+>>            file_list = []
+>> -        walk_files(root, file_list, conffiles, dirfiles)
+>> +        walk_files(localdata, root, file_list, conffiles, dirfiles)
+>>            if not file_list and localdata.getVar('ALLOW_EMPTY', False) != "1":
+>>                bb.note("Not creating empty RPM package for %s" % splitname)
+>>            else:
+>>
+>> Best regards,
+>> Zoltán Böszörményi
+>>
+>>
+>>
+>>
+>>
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#196869): https://lists.openembedded.org/g/openembedded-core/message/196869
+>> Mute This Topic: https://lists.openembedded.org/mt/104806483/3617728
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [zboszor@gmail.com]
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>>
 
 
