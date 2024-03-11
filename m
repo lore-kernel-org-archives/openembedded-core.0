@@ -2,329 +2,142 @@ Return-Path: <enrico.scholz@sigma-chemnitz.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24B81C54E60
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47021C54E6A
 	for <webhook@archiver.kernel.org>; Mon, 11 Mar 2024 17:19:12 +0000 (UTC)
 Received: from smtpout.cvg.de (smtpout.cvg.de [87.128.211.67])
- by mx.groups.io with SMTP id smtpd.web10.669.1710177550574426040
+ by mx.groups.io with SMTP id smtpd.web10.666.1710177546010535894
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Mar 2024 10:19:11 -0700
+ Mon, 11 Mar 2024 10:19:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@sigma-chemnitz.de header.s=v2022040800 header.b=qQrvZS6m;
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@sigma-chemnitz.de header.s=v2022040800 header.b=kMe9fQV4;
  spf=pass (domain: sigma-chemnitz.de, ip: 87.128.211.67, mailfrom: enrico.scholz@sigma-chemnitz.de)
 Received: from mail-mta-3.intern.sigma-chemnitz.de (mail-mta-3.intern.sigma-chemnitz.de [192.168.12.71])
-	by mail-out-3.intern.sigma-chemnitz.de (8.17.1/8.17.1) with ESMTPS id 42BHJ8ib107338
+	by mail-out-3.intern.sigma-chemnitz.de (8.17.1/8.17.1) with ESMTPS id 42BHJ3vR107331
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>; Mon, 11 Mar 2024 18:19:09 +0100
+	for <openembedded-core@lists.openembedded.org>; Mon, 11 Mar 2024 18:19:03 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2022040800; t=1710177549;
-	bh=TZOCIo2HtQHcx0cH7h7khJDa7zS/0r0dXOBR64mXZzI=; l=9117;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=qQrvZS6mKNFqMcTN4KRnt6ytIQcnGBm+nSlGD3qURbsZaSwnK8aRTK49tYX96dxYm
-	 mt0uBXQY0Rnfixv0TllDchHtYJxiX/d+bfXo1eaD4xbQNHHIUXU0nS1shfl/dyVYdg
-	 l+ajtRWZIKX43INW/LhPUIlDy5U9RjSRXI3n96KaH9nmf3nxYUAF5C2luE7HamVZDy
-	 krUx3RjYfg1TlGtVpU9NAynfbWXOW4lynLZuNuxEignQq3g6+UvJMzGRiuP3HoE2/C
-	 3BHMnLCESqzGjjbBJ5VZNu42B81K+hsXeBzSHWTKBLbeeqqXpSC02Lrnn4LoldMFH1
-	 piBpQ3qktwtUA==
+	s=v2022040800; t=1710177543;
+	bh=6iTXxwz5if2BUiPgtinO/bQ0O+VbZsUzn8i18D/eUJc=; l=3362;
+	h=From:To:Cc:Subject:Date;
+	b=kMe9fQV4nhmylVVkiCCSQysax1SoY06exvnvSmJEcnawA9+K5l8k6m59Bo+ESnV6m
+	 ZbgfWNyycFNNnbww/JvGG5Iqzs0Bobe68xaU8k4MumGH1x05qSYitvNVV/3Hr0fsdj
+	 MyE3GHIUOR9KAWyr4Qab0c9+ojQdwM7ofcjwShSObKpi78TbJFrzY+TKMxcnUkUfnK
+	 X6xS1EKCQrIHgkyBMS04JKk8NuLp29X5zoFtpDwk6cxRttVd9+QRc3Ptyq2eO9+Dmn
+	 e+9KaTRIhTiHTi003K7Dq17m4xq0mmUj/Vm9mB0D6vTVzlddRnXcRLjaywjtpkX2Dg
+	 Vy4jWcKH/CM0A==
 Received: from reddoxx.intern.sigma-chemnitz.de (reddoxx.sigma.local [192.168.16.32])
-	by mail-mta-3.intern.sigma-chemnitz.de (8.17.1/8.17.1) with ESMTP id 42BHJ0Vx279268
-	for <openembedded-core@lists.openembedded.org> from enrico.scholz@sigma-chemnitz.de; Mon, 11 Mar 2024 18:19:02 +0100
+	by mail-mta-3.intern.sigma-chemnitz.de (8.17.1/8.17.1) with ESMTP id 42BHJ0K3279263
+	for <openembedded-core@lists.openembedded.org> from enrico.scholz@sigma-chemnitz.de; Mon, 11 Mar 2024 18:19:00 +0100
 Received: from mail-msa-2.intern.sigma-chemnitz.de ([192.168.12.72])
 	by reddoxx.intern.sigma-chemnitz.de with ESMTP
-	id E65WEYYM0G; Mon, 11 Mar 2024 18:18:59 +0100
+	id BIUPYURXS6; Mon, 11 Mar 2024 18:18:59 +0100
 Received: from ensc-pc.intern.sigma-chemnitz.de (ensc-pc.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail-msa-2.intern.sigma-chemnitz.de (8.17.1/8.17.1) with ESMTPS id 42BHIxUb164811
+	by mail-msa-2.intern.sigma-chemnitz.de (8.17.1/8.17.1) with ESMTPS id 42BHIxXh164810
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
 	Mon, 11 Mar 2024 18:18:59 +0100
 Received: from ensc by ensc-pc.intern.sigma-chemnitz.de with local (Exim 4.97.1)
 	(envelope-from <ensc@sigma-chemnitz.de>)
-	id 1rjjIh-00000008xuJ-0n9u;
+	id 1rjjIh-00000008xuH-0VKb;
 	Mon, 11 Mar 2024 18:18:59 +0100
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Subject: [PATCH 1/7] openssh: replace complete configuration files by patch
-Date: Mon, 11 Mar 2024 18:18:42 +0100
-Message-ID: <c9c255c5e5c0a01ac9110f7e4745ede3c11b9431.1710177387.git.enrico.scholz@sigma-chemnitz.de>
+Subject: [PATCH 0/7] Replace sshd_config patching by snippets
+Date: Mon, 11 Mar 2024 18:18:41 +0100
+Message-ID: <cover.1710177387.git.enrico.scholz@sigma-chemnitz.de>
 X-Mailer: git-send-email 2.44.0
-In-Reply-To: <cover.1710177387.git.enrico.scholz@sigma-chemnitz.de>
-References: <cover.1710177387.git.enrico.scholz@sigma-chemnitz.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-REDDOXX-Id: 65ef3d03b121c496daa8ef71
+X-REDDOXX-Id: 65ef3d03b121c496daa8ef70
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 11 Mar 2024 17:19:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196957
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196955
 
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To deal with system setups, sshd was configured in the following way:
 
-Instead of shipping the whole configuration files for openssh, add
-small patch includes configuration snippets from subdirectories.
+ - sshd_config is shipped completely by OE and DISTRO_FEATURES (pam,
+   x11) are patched in during do_install
 
-This allows us to keep the original upstream configuration which is
-mainly useful for documentation purposes.  It makes it more easy to
-identify OE specific setup.
+   --> this is difficulty to maintain; e.g. sshd_config must be
+       synchronized between OpenSSH releases and OE adaptations
+       manually inserted
 
-Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
----
+ - two different configuration files (sshd_config + sshd_config_readonly)
+   are created; IMAGE_FEATURES decides which one is used and it is patched
+   in a ROOTFS_COMMAND in the system
+
+   --> this make it difficult for third party recipes to incorporate
+       their changes (they have to go over both files)
+
+   --> the readonly HostKey locations and algorithms are hardcoded
+       which makes it difficult to place them e.g. on a persistent
+       /opt partition and disable e.g. ecdsa
+
+ - depending on IMAGE_FEATURES (empty passwords, root login), both
+   files are patched by a ROOTFS_POSTCOMMAND
+
+   --> these changes are lost when pkgmgmt is used for the image and
+       openssh being updated
+
+
+The patchset:
+
+ - reduces changes to sshd_config to
+
+   | Include /etc/ssh/sshd_config.d/*.conf
+
+   --> This is already the done in current recipe and most mainline
+       Linux distributions are doing it
+
+ - moves configuration in new openssh-config recipe which is a weak
+   dependency of openssh (and can be replaced by another IMAGE_INSTALL)
+
+   Recipe ships configuration as small snippets which might contain
+   dynamically created content (e.g. 'UsePAM yes')
+
+ - IMAGE_FEATURE based setup is done by creating subpackages with
+   the corresponding options.  These subpackages are added to
+   FEATURE_PACKAGES_ssh-server-openssh
+
+ - readonly rootfs setup has been enhanced by
+
+   | RO_KEYDIR ??= "/var/run/ssh"
+   | KEY_ALGORITHMS ??= "rsa ecdsa ed25519"
+
+   parameters which can be overridden.
+
+
+Enrico Scholz (7):
+  openssh: replace complete configuration files by patch
+  openssh-config: initial checkin
+  openssh: move configuration tweaking in configuration recipe
+  image: prepare openssh configuration
+  openssh: replace 'allow-empty-password' rootfs scipt by configuration
+  openssh: replace 'allow-root-login' rootfs scipt by configuration
+  openssh: move read-only-rootfs setup in configuration snippet
+
+ meta/classes-recipe/core-image.bbclass        |  19 ++-
+ .../rootfs-postcommands.bbclass               |  25 +---
+ .../openssh/openssh-config.bb                 |  51 ++++++++
+ .../60-allow-empty-password.conf              |   1 +
+ .../openssh-config/60-allow-root-login.conf   |   1 +
+ .../openssh/openssh-config/80-oe.conf         |   5 +
  .../openssh/openssh/include-conf.patch        |  32 +++++
  .../openssh/openssh/ssh_config                |  48 -------
  .../openssh/openssh/sshd_config               | 119 ------------------
- .../openssh/openssh_9.6p1.bb                  |   5 +-
- 4 files changed, 33 insertions(+), 171 deletions(-)
+ .../openssh/openssh_9.6p1.bb                  |  20 +--
+ 10 files changed, 112 insertions(+), 209 deletions(-)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh-config.bb
+ create mode 100644 meta/recipes-connectivity/openssh/openssh-config/60-allow-empty-password.conf
+ create mode 100644 meta/recipes-connectivity/openssh/openssh-config/60-allow-root-login.conf
+ create mode 100644 meta/recipes-connectivity/openssh/openssh-config/80-oe.conf
  create mode 100644 meta/recipes-connectivity/openssh/openssh/include-conf.patch
  delete mode 100644 meta/recipes-connectivity/openssh/openssh/ssh_config
  delete mode 100644 meta/recipes-connectivity/openssh/openssh/sshd_config
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/include-conf.patch b/meta/recipes-connectivity/openssh/openssh/include-conf.patch
-new file mode 100644
-index 000000000000..3e0bd2957e25
---- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh/include-conf.patch
-@@ -0,0 +1,32 @@
-+Include configuration snippets from subdirectory.
-+
-+NOTE: first configuration option wins.
-+
-+Upstream-Status: Inappropriate
-+
-+Index: openssh-9.5p1/ssh_config
-+===================================================================
-+--- openssh-9.5p1.orig/ssh_config
-++++ openssh-9.5p1/ssh_config
-+@@ -5,6 +5,8 @@
-+ # users, and the values can be changed in per-user configuration files
-+ # or on the command line.
-+ 
-++Include /etc/ssh/ssh_config.d/*.conf
-++
-+ # Configuration data is parsed as follows:
-+ #  1. command line options
-+ #  2. user-specific file
-+Index: openssh-9.5p1/sshd_config
-+===================================================================
-+--- openssh-9.5p1.orig/sshd_config
-++++ openssh-9.5p1/sshd_config
-+@@ -10,6 +10,8 @@
-+ # possible, but leave them commented.  Uncommented options override the
-+ # default value.
-+ 
-++Include /etc/ssh/sshd_config.d/*.conf
-++
-+ #Port 22
-+ #AddressFamily any
-+ #ListenAddress 0.0.0.0
-diff --git a/meta/recipes-connectivity/openssh/openssh/ssh_config b/meta/recipes-connectivity/openssh/openssh/ssh_config
-deleted file mode 100644
-index cb2774a163ed..000000000000
---- a/meta/recipes-connectivity/openssh/openssh/ssh_config
-+++ /dev/null
-@@ -1,48 +0,0 @@
--#	$OpenBSD: ssh_config,v 1.35 2020/07/17 03:43:42 dtucker Exp $
--
--# This is the ssh client system-wide configuration file.  See
--# ssh_config(5) for more information.  This file provides defaults for
--# users, and the values can be changed in per-user configuration files
--# or on the command line.
--
--# Configuration data is parsed as follows:
--#  1. command line options
--#  2. user-specific file
--#  3. system-wide file
--# Any configuration value is only changed the first time it is set.
--# Thus, host-specific definitions should be at the beginning of the
--# configuration file, and defaults at the end.
--
--# Site-wide defaults for some commonly used options.  For a comprehensive
--# list of available options, their meanings and defaults, please see the
--# ssh_config(5) man page.
--
--Include /etc/ssh/ssh_config.d/*.conf
--
--# Host *
--#   ForwardAgent no
--#   ForwardX11 no
--#   PasswordAuthentication yes
--#   HostbasedAuthentication no
--#   GSSAPIAuthentication no
--#   GSSAPIDelegateCredentials no
--#   BatchMode no
--#   CheckHostIP yes
--#   AddressFamily any
--#   ConnectTimeout 0
--#   StrictHostKeyChecking ask
--#   IdentityFile ~/.ssh/id_rsa
--#   IdentityFile ~/.ssh/id_dsa
--#   IdentityFile ~/.ssh/id_ecdsa
--#   IdentityFile ~/.ssh/id_ed25519
--#   Port 22
--#   Ciphers aes128-ctr,aes192-ctr,aes256-ctr,aes128-cbc,3des-cbc
--#   MACs hmac-md5,hmac-sha1,umac-64@openssh.com
--#   EscapeChar ~
--#   Tunnel no
--#   TunnelDevice any:any
--#   PermitLocalCommand no
--#   VisualHostKey no
--#   ProxyCommand ssh -q -W %h:%p gateway.example.com
--#   RekeyLimit 1G 1h
--#   UserKnownHostsFile ~/.ssh/known_hosts.d/%k
-diff --git a/meta/recipes-connectivity/openssh/openssh/sshd_config b/meta/recipes-connectivity/openssh/openssh/sshd_config
-deleted file mode 100644
-index e9eaf9315775..000000000000
---- a/meta/recipes-connectivity/openssh/openssh/sshd_config
-+++ /dev/null
-@@ -1,119 +0,0 @@
--#	$OpenBSD: sshd_config,v 1.104 2021/07/02 05:11:21 dtucker Exp $
--
--# This is the sshd server system-wide configuration file.  See
--# sshd_config(5) for more information.
--
--# This sshd was compiled with PATH=/usr/bin:/bin:/usr/sbin:/sbin
--
--# The strategy used for options in the default sshd_config shipped with
--# OpenSSH is to specify options with their default value where
--# possible, but leave them commented.  Uncommented options override the
--# default value.
--
--Include /etc/ssh/sshd_config.d/*.conf
--
--#Port 22
--#AddressFamily any
--#ListenAddress 0.0.0.0
--#ListenAddress ::
--
--#HostKey /etc/ssh/ssh_host_rsa_key
--#HostKey /etc/ssh/ssh_host_ecdsa_key
--#HostKey /etc/ssh/ssh_host_ed25519_key
--
--# Ciphers and keying
--#RekeyLimit default none
--
--# Logging
--#SyslogFacility AUTH
--#LogLevel INFO
--
--# Authentication:
--
--#LoginGraceTime 2m
--#PermitRootLogin prohibit-password
--#StrictModes yes
--#MaxAuthTries 6
--#MaxSessions 10
--
--#PubkeyAuthentication yes
--
--# The default is to check both .ssh/authorized_keys and .ssh/authorized_keys2
--# but this is overridden so installations will only check .ssh/authorized_keys
--AuthorizedKeysFile	.ssh/authorized_keys
--
--#AuthorizedPrincipalsFile none
--
--#AuthorizedKeysCommand none
--#AuthorizedKeysCommandUser nobody
--
--# For this to work you will also need host keys in /etc/ssh/ssh_known_hosts
--#HostbasedAuthentication no
--# Change to yes if you don't trust ~/.ssh/known_hosts for
--# HostbasedAuthentication
--#IgnoreUserKnownHosts no
--# Don't read the user's ~/.rhosts and ~/.shosts files
--#IgnoreRhosts yes
--
--# To disable tunneled clear text passwords, change to no here!
--#PasswordAuthentication yes
--#PermitEmptyPasswords no
--
--# Change to yes to enable keyboard-interactive authentication (beware issues
--# with some PAM modules and threads)
--KbdInteractiveAuthentication no
--
--# Kerberos options
--#KerberosAuthentication no
--#KerberosOrLocalPasswd yes
--#KerberosTicketCleanup yes
--#KerberosGetAFSToken no
--
--# GSSAPI options
--#GSSAPIAuthentication no
--#GSSAPICleanupCredentials yes
--
--# Set this to 'yes' to enable PAM authentication, account processing,
--# and session processing. If this is enabled, PAM authentication will
--# be allowed through the KbdInteractiveAuthentication and
--# PasswordAuthentication.  Depending on your PAM configuration,
--# PAM authentication via KbdInteractiveAuthentication may bypass
--# the setting of "PermitRootLogin without-password".
--# If you just want the PAM account and session checks to run without
--# PAM authentication, then enable this but set PasswordAuthentication
--# and KbdInteractiveAuthentication to 'no'.
--#UsePAM no
--
--#AllowAgentForwarding yes
--#AllowTcpForwarding yes
--#GatewayPorts no
--#X11Forwarding no
--#X11DisplayOffset 10
--#X11UseLocalhost yes
--#PermitTTY yes
--#PrintMotd yes
--#PrintLastLog yes
--#TCPKeepAlive yes
--#PermitUserEnvironment no
--Compression no
--ClientAliveInterval 15
--ClientAliveCountMax 4
--#UseDNS no
--#PidFile /var/run/sshd.pid
--#MaxStartups 10:30:100
--#PermitTunnel no
--#ChrootDirectory none
--#VersionAddendum none
--
--# no default banner path
--#Banner none
--
--# override default of no subsystems
--Subsystem	sftp	/usr/libexec/sftp-server
--
--# Example of overriding settings on a per-user basis
--#Match User anoncvs
--#	X11Forwarding no
--#	AllowTcpForwarding no
--#	PermitTTY no
--#	ForceCommand cvs server
-diff --git a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
-index edd8e8c2d18f..d500ca6019fe 100644
---- a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
-@@ -12,8 +12,6 @@ DEPENDS = "zlib openssl virtual/crypt"
- DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- 
- SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.gz \
--           file://sshd_config \
--           file://ssh_config \
-            file://init \
-            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
-            file://sshd.service \
-@@ -23,6 +21,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
-            file://volatiles.99_sshd \
-            file://run-ptest \
-            file://fix-potential-signed-overflow-in-pointer-arithmatic.patch \
-+           file://include-conf.patch \
-            file://sshd_check_keys \
-            file://add-test-support-for-busybox.patch \
-            file://0001-regress-banner.sh-log-input-and-output-files-on-erro.patch \
-@@ -101,8 +100,6 @@ CACHED_CONFIGUREVARS += "ac_cv_header_maillock_h=no"
- 
- do_configure:prepend () {
- 	export LD="${CC}"
--	install -m 0644 ${WORKDIR}/sshd_config ${B}/
--	install -m 0644 ${WORKDIR}/ssh_config ${B}/
- }
- 
- do_compile_ptest() {
 -- 
 2.44.0
 
