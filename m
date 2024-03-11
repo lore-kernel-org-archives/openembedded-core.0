@@ -1,120 +1,108 @@
-Return-Path: <max.oss.09@gmail.com>
+Return-Path: <m.salvini@koansoftware.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BED5AC54E58
-	for <webhook@archiver.kernel.org>; Mon, 11 Mar 2024 14:37:21 +0000 (UTC)
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
- by mx.groups.io with SMTP id smtpd.web11.64558.1710167831634236993
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED202C54E58
+	for <webhook@archiver.kernel.org>; Mon, 11 Mar 2024 14:58:41 +0000 (UTC)
+Received: from mail.koansoftware.com (mail.koansoftware.com [172.104.12.216])
+ by mx.groups.io with SMTP id smtpd.web10.64945.1710169113128246179
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Mar 2024 07:37:11 -0700
+ Mon, 11 Mar 2024 07:58:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=U5LEAYAz;
- spf=pass (domain: gmail.com, ip: 209.85.218.41, mailfrom: max.oss.09@gmail.com)
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a462a1b7754so116604866b.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 11 Mar 2024 07:37:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710167829; x=1710772629; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=O70o9Xs97e1FUXLWiH0x5CdsA2YtTuUNNq3quQTToE4=;
-        b=U5LEAYAzTZ2bjypu52W/YOAzVn/CgYY01rFliPCgJyMwLQfcHvqo9bGnjWZJr3xIsP
-         HYSy81BnIv9XYI+TnOgjwnHGYZbSpaW9xSPOmUHTPBGAQ+aT8o8iSZTIhX4dhwzuX1Qv
-         ZzvBb0XTP4CDQHTkNm+lpkSgQFKsxuIA1twm6AU4r3z0zEwbtg4TNOCe2CbTc2T6qA2L
-         3sEFHlKLYqRFdSnqL0lSIxhyIxVS8eAGax3YvCHsbGdIE3kmk8tW/cOHpJvoTrudGzNd
-         V4DP6MS8o9Wt5qnjwyvZamFiHfPZzia3LbRHyWn/P3oEu3Aya4rTH8ywwJiSD5nXLshi
-         Qd4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710167829; x=1710772629;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=O70o9Xs97e1FUXLWiH0x5CdsA2YtTuUNNq3quQTToE4=;
-        b=cjvzOuuNsYxnSU4Fe+azuGg/l3O7u0vJVoSFR71LIwVouZWt2Fr8AVL63gYhBoWUsG
-         TThZVCJH5zLjEnSFPahEz51AF422TnqdBQQz193ndIkrOXEbNTKfDoxnxZKFfFDqwHFQ
-         YW9gRgSVm2v0y6u7UIImtbeEtC2kWo3p98G94wnNR8rOjy0oW0Dp83T4NY5PSRIMGsy8
-         mWHCIuTAY6lgR1UmYdMwPfvkDq2jnryK06hgnUGVl6pCzUHpzv4ROV+YcBj92Z3JsRNo
-         3o/gG0vxz9MluIiOUg0DEcKIyCK+dylbyDF1K5ZaVlih0CQCO5tLcFStbvf19/61msH5
-         MxTw==
-X-Gm-Message-State: AOJu0Yz6DKK+PXB1PCrKctoM/Lx8G+gWKpHPr6Wdkg5fIso2qDJZSFKM
-	qnwmAzM+3vySs1XfxGqmwJu/G753cOK+LZACL0fM65H2132MYQx0yo+Rh6vI
-X-Google-Smtp-Source: AGHT+IHmzHO6DU83kI5v0qQFqPwAUtOlGCdRxb3Bm4jB1GhjWM/38p6otXhbH4s1kB5JKYJcmrwL4A==
-X-Received: by 2002:a17:906:b11:b0:a3e:e678:556 with SMTP id u17-20020a1709060b1100b00a3ee6780556mr4117928ejg.58.1710167829259;
-        Mon, 11 Mar 2024 07:37:09 -0700 (PDT)
-Received: from toolbox.int.toradex.com (31-10-206-125.static.upc.ch. [31.10.206.125])
-        by smtp.gmail.com with ESMTPSA id uz17-20020a170907119100b00a45cac9ae6bsm2893308ejb.162.2024.03.11.07.37.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Mar 2024 07:37:09 -0700 (PDT)
-From: max.oss.09@gmail.com
-To: openembedded-core@lists.openembedded.org
-Cc: bruce.ashfield@gmail.com,
-	max.krummenacher@toradex.com,
-	max.oss.09@gmail.com,
-	richard.purdie@linuxfoundation.org
-Subject: [PATCH v1] git: git-replacement-native: depend on ca-certificate
-Date: Mon, 11 Mar 2024 15:36:55 +0100
-Message-ID: <20240311143655.1781388-1-max.oss.09@gmail.com>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <CADkTA4N5KcudMaimcs46Ph_Uk6ZQaFM-OLqSqECyT5QYJ_z_tg@mail.gmail.com>
-References: <CADkTA4N5KcudMaimcs46Ph_Uk6ZQaFM-OLqSqECyT5QYJ_z_tg@mail.gmail.com>
+ dkim=none (message not signed); spf=pass (domain: koansoftware.com, ip: 172.104.12.216, mailfrom: m.salvini@koansoftware.com)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.koansoftware.com (Postfix) with ESMTP id 5AB443D509;
+	Mon, 11 Mar 2024 15:58:32 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at mail
+Received: from mail.koansoftware.com ([127.0.0.1])
+	by localhost (mail.koansoftware.com [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id YY0m52TbJ0-2; Mon, 11 Mar 2024 15:58:31 +0100 (CET)
+Message-ID: <43508590-9184-469a-983f-cdbdfc8a3f47@koansoftware.com>
+Date: Mon, 11 Mar 2024 15:58:26 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] image_types_wic.bbclass: remove .env file in
+ do_clean
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <20240306163658.34188-1-m.salvini@koansoftware.com>
+ <f770af549d52f72312358ea30d9f1c96b6151de0.camel@linuxfoundation.org>
+Content-Language: en-US, it
+Cc: openembedded-core@lists.openembedded.org
+From: Mauro Salvini <m.salvini@koansoftware.com>
+In-Reply-To: <f770af549d52f72312358ea30d9f1c96b6151de0.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 Mar 2024 14:37:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196943
+ <openembedded-core@lists.openembedded.org>; Mon, 11 Mar 2024 14:58:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196944
 
-From: Max Krummenacher <max.krummenacher@toradex.com>
+On 06/03/24 17:57, Richard Purdie wrote:
+> On Wed, 2024-03-06 at 08:37 -0800, Mauro wrote:
+>> Before this commit, the .env file created in
+>> tmp/sysroots/<machine>/imgdata/<image>.env was never cleaned,
+>> but when the do_clean task is invoked on an image, the .env file
+>> contains paths that are not valid anymore.
+>> If another image wants to use the cleaned image fs to build a .wic,
+>> the wic command fails because paths contained in .env are not found.
+>> With this patch, the returned error is more clear:
+>>
+>>  =C2=A0 "File /.../tmp/sysroots/<machine>/imgdata/<image>.env doesn't
+>> exist"
+>>
+>> Signed-off-by: Mauro Salvini <m.salvini@koansoftware.com>
+>> ---
+>>  =C2=A0meta/classes-recipe/image_types_wic.bbclass | 11 +++++++++++
+>>  =C2=A01 file changed, 11 insertions(+)
+>>
+>> diff --git a/meta/classes-recipe/image_types_wic.bbclass
+>> b/meta/classes-recipe/image_types_wic.bbclass
+>> index cf3be909b3..b0b5691225 100644
+>> --- a/meta/classes-recipe/image_types_wic.bbclass
+>> +++ b/meta/classes-recipe/image_types_wic.bbclass
+>> @@ -205,3 +205,14 @@ addtask do_flush_pseudodb after do_rootfs before
+>> do_image do_image_qa
+>>  =C2=A0addtask do_rootfs_wicenv after do_image before do_image_wic
+>>  =C2=A0do_rootfs_wicenv[vardeps] +=3D "${WICVARS}"
+>>  =C2=A0do_rootfs_wicenv[prefuncs] =3D 'set_image_size'
+>> +
+>> +#
+>> +# Clean also .env file created in
+>> tmp/sysroots/<machine>/imgdata/<image>.env
+>> +# when a clean is invoked
+>> +#
+>> +do_clean:append() {
+>> +=C2=A0=C2=A0=C2=A0 stdir =3D d.getVar('STAGING_DIR')
+>> +=C2=A0=C2=A0=C2=A0 outdir =3D os.path.join(stdir, d.getVar('MACHINE')=
+, 'imgdata')
+>> +=C2=A0=C2=A0=C2=A0 basename =3D d.getVar('IMAGE_BASENAME')
+>> +=C2=A0=C2=A0=C2=A0 bb.utils.remove(os.path.join(outdir, basename) + '=
+.env')
+>> +}
+>=20
+> This doesn't look right unfortunately.
+>=20
+> Things should not be being placed into the sysroots (STAGING_DIR) that
+> aren't under the control of sstate. If things are, we need to fix that
+> at the source of the problem.
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
+>=20
 
-git is delegating webacces for URLs using TLS to libcurl.
-However our native libcurl build does not find a ca-certificate.crt
-unless its curl-native work dir still exists and thus git will
-fail.
-If a recipe uses AUTOREV with a git repo using https as its protocol
-parsing of that recipe will fail fetching the latest HEAD.
+Hi Richard,
 
-Fix that by depending on ca-certificate and give its location
-to libcurl via git's envrironment variable GIT_SSL_CAINFO.
+thank you.
 
-Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
----
- meta/recipes-devtools/git/git_2.44.0.bb | 3 +++
- 1 file changed, 3 insertions(+)
+What would be the correct directory where to put the .env files?
+I don't know much about Yocto internals, but I can try do arrange a=20
+patch to solve the problem at the source.
 
-See also the ML discussion:
-https://lore.kernel.org/all/20240309175750.2621579-1-max.oss.09@gmail.com/
+Thanks, regards
 
-diff --git a/meta/recipes-devtools/git/git_2.44.0.bb b/meta/recipes-devtools/git/git_2.44.0.bb
-index e6d1470873..90e555eba7 100644
---- a/meta/recipes-devtools/git/git_2.44.0.bb
-+++ b/meta/recipes-devtools/git/git_2.44.0.bb
-@@ -4,6 +4,7 @@ DESCRIPTION = "Git is a free and open source distributed version control system
- SECTION = "console/utils"
- LICENSE = "GPL-2.0-only & GPL-2.0-or-later & BSD-3-Clause & MIT & BSL-1.0 & LGPL-2.1-or-later"
- DEPENDS = "openssl zlib"
-+DEPENDS:class-native += "ca-certificates"
- 
- PROVIDES:append:class-native = " git-replacement-native"
- 
-@@ -95,6 +96,7 @@ perl_native_fixup () {
- 
- REL_GIT_EXEC_PATH = "${@os.path.relpath(libexecdir, bindir)}/git-core"
- REL_GIT_TEMPLATE_DIR = "${@os.path.relpath(datadir, bindir)}/git-core/templates"
-+REL_GIT_SSL_CAINFO = "${@os.path.relpath(sysconfdir, bindir)}/ssl/certs/ca-certificates.crt"
- 
- do_install:append:class-target () {
- 	perl_native_fixup
-@@ -103,6 +105,7 @@ do_install:append:class-target () {
- do_install:append:class-native() {
- 	create_wrapper ${D}${bindir}/git \
- 		GIT_EXEC_PATH='`dirname $''realpath`'/${REL_GIT_EXEC_PATH} \
-+		GIT_SSL_CAINFO='`dirname $''realpath`'/${REL_GIT_SSL_CAINFO} \
- 		GIT_TEMPLATE_DIR='`dirname $''realpath`'/${REL_GIT_TEMPLATE_DIR}
- }
- 
--- 
-2.42.0
-
+--=20
+Mauro
 
