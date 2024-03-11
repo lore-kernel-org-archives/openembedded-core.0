@@ -1,102 +1,160 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35784C5475B
-	for <webhook@archiver.kernel.org>; Mon, 11 Mar 2024 18:33:51 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.1025.1710182025862910605
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 508D3C5475B
+	for <webhook@archiver.kernel.org>; Mon, 11 Mar 2024 22:25:42 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+ by mx.groups.io with SMTP id smtpd.web10.6709.1710195936912469706
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Mar 2024 11:33:46 -0700
+ Mon, 11 Mar 2024 15:25:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=FIjRiNng;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=cmCRl1iO;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018e2ecac7c7-0f96b946-7a2c-4d40-8c42-5b963781ff2e-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1710182025; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=ANCJqh0s6LNlghky1IWovixC7yj+41rEPLB3I0erTWg=;
-	b=FIjRiNngudTiQGgcqxZeX8J6nlOpm2YC6uHkub7AEp0nkGdVl2s509SxFKeeOYMV
-	0FBTqnj0XhZI8cDb6pv5BpwBpRpmKv3Wm9dNQn44u1+6GvqnwKJkrL9QsAnbgKnDg/g
-	wdHBLewcqM+hGkPyvbI9s6xcZunAKUCCR9VY58pk=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1710182025;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=ANCJqh0s6LNlghky1IWovixC7yj+41rEPLB3I0erTWg=;
-	b=cmCRl1iO/ZUQsKsiLYVYILz7J5zQbAc3beZ9TK/5LyHpSw1hXCEVsGxRFs8JfuFu
-	CD2QnOqJGNm6q6vSVQ7W2U6z1/yt/9Liq2z1ilJAQUNLLYquFzhjlQYnydbbLclbWgx
-	btuctoE2Zng9LBx5XNw+RsjkDgFk4mGdtJMT2vr0=
-From: patchtest@automation.yoctoproject.org
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 1/7,
- v2] openssh: replace complete configuration files by patch
-In-Reply-To: 
- <c9c255c5e5c0a01ac9110f7e4745ede3c11b9431.1710180876.git.enrico.scholz@sigma-chemnitz.de>
-References: 
- <c9c255c5e5c0a01ac9110f7e4745ede3c11b9431.1710180876.git.enrico.scholz@sigma-chemnitz.de>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018e2ecac7c7-0f96b946-7a2c-4d40-8c42-5b963781ff2e-000000@us-west-2.amazonses.com>
-Date: Mon, 11 Mar 2024 18:33:45 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.03.11-54.240.27.23
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=YwtmSu1D;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id CC0CE240005;
+	Mon, 11 Mar 2024 22:25:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1710195935;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fkKsV4im7VNpyqFKTYY6JbFQpxapCJ+0sHdqz+GlDoc=;
+	b=YwtmSu1DRbyTjsJIErybJjUgXqjHL9/BZD77AVpuY5xbAYwBjugxrPWv/Ku2Kf4XqCFf+6
+	DUwD/SaRF4qfHN8AwvNCBDlNxi/HT+aqt9xYkGfyPGpuR2SZ6yg6ncUYW19GRvn/iU8h64
+	bWvjma2VQtjna0SSI0KCTbmEet1SRTbGSE9IMpEBrLfi6zAPz0zD3tGXui+mSaPoOz6z++
+	OYmQftur+v3mKP3qHskJ+mo2O+aO+fICCmKh9SSPhX+aO+xVgY/t+RHY279tidLo0js2zJ
+	IT43h+WiMw12OFrQS8jCQDNK7F7/9/Ss4M2VeC9IzY44LZgiRgXQZvufFuCT7A==
+Date: Mon, 11 Mar 2024 23:25:34 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: leimaohui@fujitsu.com
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] glibc: Fix conflict error when enbale multilib
+ on aarch64.
+Message-ID: <202403112225341e0cd1cf@mail.local>
+References: <20240226053210.3501-1-leimaohui@fujitsu.com>
+ <CAMKF1sqh5ngJdQfKvgQ-9Omc6U6SeKE2DzV6127-ep2iyS=8Jg@mail.gmail.com>
+ <TY3PR01MB11056E0F4F06FD30D842303E3A0272@TY3PR01MB11056.jpnprd01.prod.outlook.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <TY3PR01MB11056E0F4F06FD30D842303E3A0272@TY3PR01MB11056.jpnprd01.prod.outlook.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 Mar 2024 18:33:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196965
+ <openembedded-core@lists.openembedded.org>; Mon, 11 Mar 2024 22:25:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196966
 
---NextPart
-Content-Type: text/plain
+https://lore.kernel.org/all/b023614f7765fc003a4aa854440c0b66d200d27b.camel@linuxfoundation.org/
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+On 07/03/2024 16:22:32-0800, leimaohui via lists.openembedded.org wrote:
+> Ping 
+> 
+> 
+> 
+> > -----Original Message-----
+> > From: openembedded-core@lists.openembedded.org
+> > <openembedded-core@lists.openembedded.org> On Behalf Of Khem Raj
+> > Sent: Monday, February 26, 2024 2:19 PM
+> > To: Lei, Maohui <leimaohui@fujitsu.com>
+> > Cc: openembedded-core@lists.openembedded.org
+> > Subject: Re: [OE-core] [PATCH] glibc: Fix conflict error when enbale multilib on
+> > aarch64.
+> > 
+> > lgtm.
+> > 
+> > On Sun, Feb 25, 2024 at 9:32 PM leimaohui via lists.openembedded.org
+> > <leimaohui=fujitsu.com@lists.openembedded.org> wrote:
+> > >
+> > > From: Lei Maohui <leimaohui@fujitsu.com>
+> > >
+> > > Error: Transaction test error:
+> > >   file /usr/include/finclude/math-vector-fortran.h from install of
+> > > lib32-libc6-dev-2.39+git0+312e159626-r0.armv7ahf_neon conflicts with
+> > > file from package libc6-dev-2.39+git0+312e159626-r0.aarch64
+> > >
+> > > The difference of math-vector-fortran.h between 32bit and 64bit is as
+> > > the following:
+> > >
+> > > ---
+> > tmp/work/aarch64-linux/glibc/2.39+git/image/usr/include/finclude/math-vecto
+> > r-fortran.h    2024-02-26 03:41:59.560000000 +0000
+> > > +++ tmp/work/armv7ahf-neon-xmllib32-linux-gnueabi/lib32-glibc/2.39+git
+> > > +++ /image/usr/include/finclude/math-vector-fortran.h 2024-02-26
+> > > +++ 02:22:28.592000000 +0000
+> > > @@ -15,33 +15,5 @@
+> > >  !   You should have received a copy of the GNU Lesser General Public
+> > >  !   License along with the GNU C Library; if not, see
+> > >  !   <https://www.gnu.org/licenses/>.
+> > > -!GCC$ builtin (acos) attributes simd (notinbranch) -!GCC$ builtin
+> > > (acosf) attributes simd (notinbranch) -!GCC$ builtin (asin) attributes
+> > > simd (notinbranch) -!GCC$ builtin (asinf) attributes simd
+> > > (notinbranch) -!GCC$ builtin (atan) attributes simd (notinbranch)
+> > > -!GCC$ builtin (atanf) attributes simd (notinbranch) -!GCC$ builtin
+> > > (atan2) attributes simd (notinbranch) -!GCC$ builtin (atan2f)
+> > > attributes simd (notinbranch) -!GCC$ builtin (cos) attributes simd
+> > > (notinbranch) -!GCC$ builtin (cosf) attributes simd (notinbranch)
+> > > -!GCC$ builtin (exp) attributes simd (notinbranch) -!GCC$ builtin
+> > > (expf) attributes simd (notinbranch) -!GCC$ builtin (exp10) attributes
+> > > simd (notinbranch) -!GCC$ builtin (exp10f) attributes simd
+> > > (notinbranch) -!GCC$ builtin (exp2) attributes simd (notinbranch)
+> > > -!GCC$ builtin (exp2f) attributes simd (notinbranch) -!GCC$ builtin
+> > > (expm1) attributes simd (notinbranch) -!GCC$ builtin (expm1f)
+> > > attributes simd (notinbranch) -!GCC$ builtin (log) attributes simd
+> > > (notinbranch) -!GCC$ builtin (logf) attributes simd (notinbranch)
+> > > -!GCC$ builtin (log10) attributes simd (notinbranch) -!GCC$ builtin
+> > > (log10f) attributes simd (notinbranch) -!GCC$ builtin (log1p)
+> > > attributes simd (notinbranch) -!GCC$ builtin (log1pf) attributes simd
+> > > (notinbranch) -!GCC$ builtin (log2) attributes simd (notinbranch)
+> > > -!GCC$ builtin (log2f) attributes simd (notinbranch) -!GCC$ builtin
+> > > (sin) attributes simd (notinbranch) -!GCC$ builtin (sinf) attributes
+> > > simd (notinbranch) -!GCC$ builtin (tan) attributes simd (notinbranch)
+> > > -!GCC$ builtin (tanf) attributes simd (notinbranch)
+> > > +
+> > > +! No SIMD math functions are available for this platform.
+> > >
+> > > Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
+> > > ---
+> > >  meta/recipes-core/glibc/glibc-package.inc | 1 +
+> > >  1 file changed, 1 insertion(+)
+> > >
+> > > diff --git a/meta/recipes-core/glibc/glibc-package.inc
+> > > b/meta/recipes-core/glibc/glibc-package.inc
+> > > index 1ef987be0a..19eb7afa81 100644
+> > > --- a/meta/recipes-core/glibc/glibc-package.inc
+> > > +++ b/meta/recipes-core/glibc/glibc-package.inc
+> > > @@ -167,6 +167,7 @@ do_install_armmultilib () {
+> > >         oe_multilib_header fpu_control.h gnu/lib-names.h gnu/stubs.h
+> > > ieee754.h
+> > >
+> > >         oe_multilib_header sys/elf.h sys/procfs.h sys/ptrace.h
+> > > sys/ucontext.h sys/user.h
+> > > +       oe_multilib_header finclude/math-vector-fortran.h
+> > >  }
+> > >
+> > >
+> > > --
+> > > 2.34.1
+> > >
+> > >
+> > >
+> > >
 
----
-Testing patch /home/patchtest/share/mboxes/1-7-v2-openssh-replace-complete-configuration-files-by-patch.patch
-
-FAIL: test Signed-off-by presence: A patch file has been added without a Signed-off-by tag: 'include-conf.patch' (test_patch.TestPatch.test_signed_off_by_presence)
-
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#196838): https://lists.openembedded.org/g/openembedded-core/message/196838
+> Mute This Topic: https://lists.openembedded.org/mt/104577604/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
 
---NextPart--
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
