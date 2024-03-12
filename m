@@ -1,238 +1,99 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C507C54E5D
-	for <webhook@archiver.kernel.org>; Tue, 12 Mar 2024 05:22:06 +0000 (UTC)
-Received: from mailout07.t-online.de (mailout07.t-online.de [194.25.134.83])
- by mx.groups.io with SMTP id smtpd.web11.1892.1710220921721241623
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B65BC54E58
+	for <webhook@archiver.kernel.org>; Tue, 12 Mar 2024 05:34:56 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web10.2053.1710221690612925697
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Mar 2024 22:22:02 -0700
+ Mon, 11 Mar 2024 22:34:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.83, mailfrom: f_l_k@t-online.de)
-Received: from fwd81.aul.t-online.de (fwd81.aul.t-online.de [10.223.144.107])
-	by mailout07.t-online.de (Postfix) with SMTP id D55564AD07
-	for <openembedded-core@lists.openembedded.org>; Tue, 12 Mar 2024 06:21:59 +0100 (CET)
-Received: from intel-corei7-64.fritz.box ([84.163.38.43]) by fwd81.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1rjuaL-2MvcCf0; Tue, 12 Mar 2024 06:21:57 +0100
-From: Markus Volk <f_l_k@t-online.de>
-To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][PATCHv3 1/2] vala: merge bb and inc files
-Date: Tue, 12 Mar 2024 06:22:06 +0100
-Message-ID: <20240312052207.20685-1-f_l_k@t-online.de>
-X-Mailer: git-send-email 2.44.0
-MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1710220917-FCAAA990-8117738E/0/0 CLEAN NORMAL
-X-TOI-MSGID: 505c355b-1b33-4680-8da9-2fa498df93b6
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=NyQTgqNz;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=U/ni1+3C;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018e312802dd-9717afa3-bc4b-4a3f-9090-4e1b39801945-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1710221689; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=gQOBiWs1JB0WHWcz8VB8f0TNou1Qbxn1d9JciT2Enz8=;
+	b=NyQTgqNzFSMLt/86dwrVZ6daWS38SBspkUnhMa6hXno3zyBs3D9jSn5uq8WtkFL+
+	HO6GmSLSrmQrreT+aUUe52FHJtym/pJyLG2RZjcUNpsD9Uk5uGHf/Rz7W60+j7h/jvG
+	cuGMqFz1D75Wzv/JihMauZB8fbRwIKs6pn78sFUs=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1710221689;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=gQOBiWs1JB0WHWcz8VB8f0TNou1Qbxn1d9JciT2Enz8=;
+	b=U/ni1+3CCA93GvqdifQC3SRxFiffEZWM/SKdCkca5iezSjDHSYIDLqPS8WG1cWui
+	AHvb+UH8iGcFpBH58Wk0jZEvyD9NvoEnDoMKr8Sca9XBQL2gsT86qLpVd9NRPIztWaX
+	ctCMsDtoQyYI5/Fdw/petN4S7gdk18uP8LZAi7jY=
+From: patchtest@automation.yoctoproject.org
+To: Markus Volk <f_l_k@t-online.de>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [oe-core][PATCHv3 1/2] vala: merge bb and inc files
+In-Reply-To: <20240312052207.20685-1-f_l_k@t-online.de>
+References: <20240312052207.20685-1-f_l_k@t-online.de>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018e312802dd-9717afa3-bc4b-4a3f-9090-4e1b39801945-000000@us-west-2.amazonses.com>
+Date: Tue, 12 Mar 2024 05:34:49 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.03.12-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 Mar 2024 05:22:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196969
+ <openembedded-core@lists.openembedded.org>; Tue, 12 Mar 2024 05:34:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196971
 
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
+--NextPart
+Content-Type: text/plain
+
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- meta/recipes-devtools/vala/vala.inc        | 71 ---------------------
- meta/recipes-devtools/vala/vala_0.56.15.bb | 72 +++++++++++++++++++++-
- 2 files changed, 71 insertions(+), 72 deletions(-)
- delete mode 100644 meta/recipes-devtools/vala/vala.inc
+Testing patch /home/patchtest/share/mboxes/PATCHv3-1-2-vala-merge-bb-and-inc-files.patch
 
-diff --git a/meta/recipes-devtools/vala/vala.inc b/meta/recipes-devtools/=
-vala/vala.inc
-deleted file mode 100644
-index 0177e86240..0000000000
---- a/meta/recipes-devtools/vala/vala.inc
-+++ /dev/null
-@@ -1,71 +0,0 @@
--SUMMARY =3D "C#-like programming language for easing GObject programming=
-"
--HOMEPAGE =3D "http://vala-project.org"
--DESCRIPTION =3D "Vala is a C#-like language dedicated to ease GObject pr=
-ogramming. \
--Vala compiles to plain C and has no runtime environment nor penalities w=
-hatsoever."
--SECTION =3D "devel"
--DEPENDS =3D "bison-native flex-native glib-2.0 gobject-introspection"
--
--# Appending libxslt-native to dependencies has an effect
--# of rebuilding the manual, which is very slow. Let's do this
--# only when api-documentation distro feature is enabled.
--DEPENDS:append:class-target =3D " ${@bb.utils.contains('DISTRO_FEATURES'=
-, 'api-documentation', 'libxslt-native', '', d)}"
--
--# vala-native contains a native version of vapigen, which we use instead=
- of the target one
--DEPENDS:append:class-target =3D " vala-native"
--BBCLASSEXTEND =3D "native"
--LICENSE =3D "LGPL-2.1-only"
--LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dfbc093901857fcd118f065f900982=
-c24"
--
--SHRT_VER =3D "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('=
-.')[1]}"
--
--SRC_URI =3D "http://ftp.gnome.org/pub/GNOME/sources/${BPN}/${SHRT_VER}/$=
-{BP}.tar.xz"
--inherit autotools pkgconfig upstream-version-is-even
--
--FILES:${PN} +=3D "${datadir}/${BPN}-${SHRT_VER}/vapi ${libdir}/${BPN}-${=
-SHRT_VER}/"
--FILES:${PN}-doc +=3D "${datadir}/devhelp"
--
--# .gir files from gobject-introspection are installed to ${libdir} when =
-multilib is enabled
--GIRDIR_OPT =3D "${@'--girdir=3D${STAGING_LIBDIR}/gir-1.0' if d.getVar('M=
-ULTILIBS') else ''}"
--
--do_configure:prepend:class-target() {
--        # Write out a vapigen wrapper that will be provided by pkg-confi=
-g file installed in target sysroot
--        # The wrapper will call a native vapigen
--        cat > ${B}/vapigen-wrapper << EOF
--#!/bin/sh
--vapigen-${SHRT_VER} ${GIRDIR_OPT} "\$@"
--EOF
--        chmod +x ${B}/vapigen-wrapper
--}
--
--EXTRA_OECONF +=3D " --disable-valadoc"
--
--# Vapigen wrapper needs to be available system-wide, because it will be =
-used
--# to build vapi files from all other packages with vala support
--do_install:append:class-target() {
--        install -d ${D}${bindir_crossscripts}/
--        install ${B}/vapigen-wrapper ${D}${bindir_crossscripts}/
--}
--
--# Put vapigen wrapper into target sysroot so that it can be used when bu=
-ilding
--# vapi files.
--SYSROOT_DIRS +=3D "${bindir_crossscripts}"
--
--inherit multilib_script
--MULTILIB_SCRIPTS =3D "${PN}:${bindir}/vala-gen-introspect-0.56"
--
--SYSROOT_PREPROCESS_FUNCS:append:class-target =3D " vapigen_sysroot_prepr=
-ocess"
--vapigen_sysroot_preprocess() {
--        # Tweak the vapigen name in the vapigen pkgconfig file, so that =
-it picks
--        # up our wrapper.
--        sed -i \
--           -e "s|vapigen=3D.*|vapigen=3D${bindir_crossscripts}/vapigen-w=
-rapper|" \
--           ${SYSROOT_DESTDIR}${libdir}/pkgconfig/vapigen-${SHRT_VER}.pc
--}
--
--SSTATE_SCAN_FILES +=3D "vapigen-wrapper"
--
--PACKAGE_PREPROCESS_FUNCS +=3D "vala_package_preprocess"
--
--vala_package_preprocess () {
--	rm -rf ${PKGD}${bindir_crossscripts}
--}
-diff --git a/meta/recipes-devtools/vala/vala_0.56.15.bb b/meta/recipes-de=
-vtools/vala/vala_0.56.15.bb
-index dc483b12ba..a8fdd0a97a 100644
---- a/meta/recipes-devtools/vala/vala_0.56.15.bb
-+++ b/meta/recipes-devtools/vala/vala_0.56.15.bb
-@@ -1,3 +1,73 @@
--require ${BPN}.inc
-+SUMMARY =3D "C#-like programming language for easing GObject programming=
-"
-+HOMEPAGE =3D "http://vala-project.org"
-+DESCRIPTION =3D "Vala is a C#-like language dedicated to ease GObject pr=
-ogramming. \
-+Vala compiles to plain C and has no runtime environment nor penalities w=
-hatsoever."
-+SECTION =3D "devel"
-+DEPENDS =3D "bison-native flex-native glib-2.0 gobject-introspection"
-=20
-+# Appending libxslt-native to dependencies has an effect
-+# of rebuilding the manual, which is very slow. Let's do this
-+# only when api-documentation distro feature is enabled.
-+DEPENDS:append:class-target =3D " ${@bb.utils.contains('DISTRO_FEATURES'=
-, 'api-documentation', 'libxslt-native', '', d)}"
-+
-+# vala-native contains a native version of vapigen, which we use instead=
- of the target one
-+DEPENDS:append:class-target =3D " vala-native"
-+BBCLASSEXTEND =3D "native"
-+LICENSE =3D "LGPL-2.1-only"
-+LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dfbc093901857fcd118f065f900982=
-c24"
-+
-+SHRT_VER =3D "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('=
-.')[1]}"
-+
-+SRC_URI =3D "http://ftp.gnome.org/pub/GNOME/sources/${BPN}/${SHRT_VER}/$=
-{BP}.tar.xz"
- SRC_URI[sha256sum] =3D "535b6452ed310fd5fb5c7dd6794b6213dac3b48e645e5bff=
-3173741ec2cb3f2b"
-+
-+inherit autotools pkgconfig upstream-version-is-even
-+
-+FILES:${PN} +=3D "${datadir}/${BPN}-${SHRT_VER}/vapi ${libdir}/${BPN}-${=
-SHRT_VER}/"
-+FILES:${PN}-doc +=3D "${datadir}/devhelp"
-+
-+# .gir files from gobject-introspection are installed to ${libdir} when =
-multilib is enabled
-+GIRDIR_OPT =3D "${@'--girdir=3D${STAGING_LIBDIR}/gir-1.0' if d.getVar('M=
-ULTILIBS') else ''}"
-+
-+do_configure:prepend:class-target() {
-+        # Write out a vapigen wrapper that will be provided by pkg-confi=
-g file installed in target sysroot
-+        # The wrapper will call a native vapigen
-+        cat > ${B}/vapigen-wrapper << EOF
-+#!/bin/sh
-+vapigen-${SHRT_VER} ${GIRDIR_OPT} "\$@"
-+EOF
-+        chmod +x ${B}/vapigen-wrapper
-+}
-+
-+EXTRA_OECONF +=3D " --disable-valadoc"
-+
-+# Vapigen wrapper needs to be available system-wide, because it will be =
-used
-+# to build vapi files from all other packages with vala support
-+do_install:append:class-target() {
-+        install -d ${D}${bindir_crossscripts}/
-+        install ${B}/vapigen-wrapper ${D}${bindir_crossscripts}/
-+}
-+
-+# Put vapigen wrapper into target sysroot so that it can be used when bu=
-ilding
-+# vapi files.
-+SYSROOT_DIRS +=3D "${bindir_crossscripts}"
-+
-+inherit multilib_script
-+MULTILIB_SCRIPTS =3D "${PN}:${bindir}/vala-gen-introspect-0.56"
-+
-+SYSROOT_PREPROCESS_FUNCS:append:class-target =3D " vapigen_sysroot_prepr=
-ocess"
-+vapigen_sysroot_preprocess() {
-+        # Tweak the vapigen name in the vapigen pkgconfig file, so that =
-it picks
-+        # up our wrapper.
-+        sed -i \
-+           -e "s|vapigen=3D.*|vapigen=3D${bindir_crossscripts}/vapigen-w=
-rapper|" \
-+           ${SYSROOT_DESTDIR}${libdir}/pkgconfig/vapigen-${SHRT_VER}.pc
-+}
-+
-+SSTATE_SCAN_FILES +=3D "vapigen-wrapper"
-+
-+PACKAGE_PREPROCESS_FUNCS +=3D "vala_package_preprocess"
-+
-+vala_package_preprocess () {
-+	rm -rf ${PKGD}${bindir_crossscripts}
-+}
---=20
-2.44.0
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
 
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
