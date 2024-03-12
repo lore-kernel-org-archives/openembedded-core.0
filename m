@@ -1,98 +1,112 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83787C54E58
-	for <webhook@archiver.kernel.org>; Tue, 12 Mar 2024 13:26:48 +0000 (UTC)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
- by mx.groups.io with SMTP id smtpd.web10.9140.1710250004663976478
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC4E7C54E68
+	for <webhook@archiver.kernel.org>; Tue, 12 Mar 2024 13:53:38 +0000 (UTC)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web11.10083.1710251612548668374
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Mar 2024 06:26:45 -0700
+ Tue, 12 Mar 2024 06:53:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=c45nPQS0;
- spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2d4141c4438so86219501fa.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 Mar 2024 06:26:44 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=1K7o/ZfV;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1dc29f1956cso26904995ad.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 Mar 2024 06:53:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710250003; x=1710854803; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uImWriHFBJMWRWXT7VMB7mu4Lf8nndK1aiVTHqZwk/w=;
-        b=c45nPQS0QXUocy6fW6LjU7hBPeMtGAltzjXrmBeSbYtP9Xh5qxl8Id/mCcho9xioNx
-         rmkjuQfmdTmjEsocxLi399Qh2ZmU9x/Ib0muA9DiQgmXjSTjdGqSbfw+QmVUNHLbAUGr
-         OjjC7ym6xGbRB2B6RLtPGGM8lQvw2DQ4GtDkTchcpsBeHFYMEctkOKoJqVaN4qmb0pgU
-         5XJDDuwsIlEkAeG4bQfTkCkhQkH7R65A07HXizeWTBNmL9HK+w3bMOWXpzHZsDdvSON+
-         Oy9Rcpqe8zeJmOVVkIQtXpziIey6xjNbJM14n+w+/9PXT5jlUMQVPArNP77GD/3rXWE0
-         V0FQ==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1710251612; x=1710856412; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=K7QjjsTc9RcsVa+QFTu3KdzccEQz8WR+Tz3QedCUB5I=;
+        b=1K7o/ZfV1ik6WeDUPCJClzfi2B0ry+ML288QY0t2D4TGq9OOgRdY0tfkVYxs64WoXl
+         VOERGjgLqHcZAhL/ib/2N15m7UEHiAlFqsAHQD8NuDEmrhkOVwBZ5JFr7fUpT58cwJ7V
+         +O5uC4M2EEaXLuU9jR1hKhSvyqg4I8DPlxHK09RcGxfh6qd72nrQNDpLzjtC30a5RgP0
+         QJqVeBc2Kar1aFYDjiK54mdhR992q+kEq65audUqqfQOUuRvKfzGrrWAXB8lYn1Opcyb
+         +nO8lS2KlCT7G0/RA8uMHzqP+wsYsnYZEnZXN3W9NV5gFMEcuxwNq6TBNNNRBeUFWcFy
+         wVVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710250003; x=1710854803;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uImWriHFBJMWRWXT7VMB7mu4Lf8nndK1aiVTHqZwk/w=;
-        b=WQzI7WvEKaW9uiByfeu12aE61g/HeXvA8olPuQAecNp6eHADLxau2HlejCBgJneP/H
-         /4HbjRDdjbklZKaJ2IfPLLDwuKiPumEvAA5q2MXJ7YmUW5OsfPvIBOGFGtpifCfYEJGk
-         VLL09Uczh5KFUNbhm+wLeaRXkmFf7VTFpHTFAMaqcr3OZPjLLzKU83gUpXYQ5qhmp7hy
-         p4lcLB8ToQQKuhzo9DjfPxbBBXyxuyB0dcSbp+mFVc2TATN05PfAviozTkQ3iTVfXlIv
-         J9eCNFIHDD8HOzdxpPi9aQOJlAsiTNVKTAidhKNPkcohLifHQMCZOoINf4xvLLx/mueX
-         5cKw==
-X-Forwarded-Encrypted: i=1; AJvYcCXUo/OJpLi826nmMON/XGvVx0giHlxKNa3vdYP67A5o+UbxSeFE0NXSV+UZg9hhau5qzYWxILWZEESMCxXQBMmpnARhdeFl+TfDPl/GppTixPKoBAeiYxtV
-X-Gm-Message-State: AOJu0YwBFSdR/uEDPa+WZtx/dES2CGPsfLfrL0KWmex3rVsXAp82jHpf
-	2CZjUDBDqZyMjYGBVjOzLNKp38a5Mksp1grf+WDs7ljRN/VNEFsk1hBBld2UzsVe4nA8Znay7JW
-	mAiKccWltTt4btIeHj+QsS2bBSbs=
-X-Google-Smtp-Source: AGHT+IFpOK2ADKNEFs6xzPm36PKObKGG8DCtK1wLkFUa6OJnWOyeNu3GAYR270l/GIocguBMMeEnq39HqU5Gxn/mxPY=
-X-Received: by 2002:a2e:a383:0:b0:2d4:24c5:a35e with SMTP id
- r3-20020a2ea383000000b002d424c5a35emr6006939lje.29.1710250002625; Tue, 12 Mar
- 2024 06:26:42 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1710251612; x=1710856412;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=K7QjjsTc9RcsVa+QFTu3KdzccEQz8WR+Tz3QedCUB5I=;
+        b=Uu/Ifl2ksX+Ce0tKVkysZi/C+GDdscg60cyt15F3vbIayhjlrRsDq3eiLWUOZ9dBhw
+         c+nKXYn4djhPDxUjAzVe0b3GRybhxqCin3df74negR95FR5uZ/9od+/PmKLAkG5JAxY1
+         hmc9K4msRLr8gNYI5WCG+S/N30p6NNjnJVmk8O8EV/mUrI98glpHDdU4dsFwbjV5QheY
+         gR3wZYWECkLCkrt43DljL0F9GUhCe3UvfADcsTZUhn+aRY9W43ya0btx31uRiv4YfFgV
+         6lEHQ460mjMGkfOcUNKgVwtbpDGSpH4AOWs/J/Fcnt02bWbUxyYk0yFIUIPiKSY0P+je
+         cvbw==
+X-Gm-Message-State: AOJu0YyrJwrZ764GT74hFNUtYWMLFDbzSm9YPc6Mnq6c4zGcW/AMzb87
+	+Rp1WbhyVTrCOE6Yg6O90st/JFJrc/SV4eMldLDGDJiD8NpTTXEuvC96FB1n0cr1n6G7q+UM58B
+	e9Vw=
+X-Google-Smtp-Source: AGHT+IHMibzYlG5c1HdknQlmNZIgaUW/kQBs1/TRTcQBEN4vNnHfxH//HW3KUzYPaslyf1ZpcWYs/Q==
+X-Received: by 2002:a17:903:124e:b0:1dd:7da:e0a9 with SMTP id u14-20020a170903124e00b001dd07dae0a9mr10291317plh.69.1710251611608;
+        Tue, 12 Mar 2024 06:53:31 -0700 (PDT)
+Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
+        by smtp.gmail.com with ESMTPSA id 12-20020a170902c10c00b001dc3916853csm6734776pli.73.2024.03.12.06.53.30
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Mar 2024 06:53:31 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][kirkstone 0/8] Patch review
+Date: Tue, 12 Mar 2024 03:53:15 -1000
+Message-Id: <cover.1710251458.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <0e38566f-a1f9-4ebb-8492-2c50945eeeb4@gmail.com>
- <CANNYZj96nE0kVyLW=DnrzwfN9UROZ1AzUG5kJ7Y6W2eF2tqAvQ@mail.gmail.com>
- <a70cbc1e-f234-45ba-a886-51461f2e8689@gmail.com> <CANNYZj9Z4j=Xr6ogCvPe+rzjGeg3j6i9XvVo-+5UfCX+qE_=Mg@mail.gmail.com>
- <71b34437-cd65-48c0-89b8-1030cf1a30cd@gmail.com> <CANNYZj_C9xKhVWjdcXx_3wi8WemRQSwPFGACtfCqydnDmtetNA@mail.gmail.com>
- <CO6PR11MB560246DF522F2C499DA4C411ED2B2@CO6PR11MB5602.namprd11.prod.outlook.com>
-In-Reply-To: <CO6PR11MB560246DF522F2C499DA4C411ED2B2@CO6PR11MB5602.namprd11.prod.outlook.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 12 Mar 2024 14:26:31 +0100
-Message-ID: <CANNYZj8vS93gnY24ynoc+moF6MAW5ziw-+-f4+QJcjw3PN9Z=A@mail.gmail.com>
-Subject: Re: [OE-core] Yocto rpm packages do not keep the modified CONFFILES
-To: "Chen, Qi" <Qi.Chen@windriver.com>
-Cc: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 Mar 2024 13:26:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196981
+ <openembedded-core@lists.openembedded.org>; Tue, 12 Mar 2024 13:53:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196982
 
-On Tue, 12 Mar 2024 at 02:57, Chen, Qi <Qi.Chen@windriver.com> wrote:
->
-> Packages + overrides are a very common way to configure/customize images.
->
-> Take OE itself as an example, the sshd_config is a conffile for openssh, =
-but in rootfs-postcommands.bbclass, it is customized.
-> This means sshd_config might be different from the one that is recorded i=
-n rpm database. This is a similar situation with the original question.
-> The original question is basically equal to: are we going to keep the ssh=
-d_config we customized when we upgrade the openssh on target?
->
-> Ideally, packages should be designed to allow config snippets (/etc/xxx.c=
-onf.d/) or some override mechanism (default conf in /usr/lib and override i=
-n /etc). But there'll always be packages that lack such mechanisms. Using '=
-noreplace' seems a reasonable choice.
->
-> For the default behavior of OE, I'd suggest we change to use 'noreplace'.=
- Because the more unlikely people modify their target files (as Alex pointe=
-d out for embedded devices), the more important those modifications might b=
-e.
+Please review this set of changes for kirkstone and have comments back by
+end of day Wednesday, March 13
 
-With this I agree. There's also just been a patchset that refactors
-ssh config into just that kind of snippet mechanism.
+Passed a-full on autobuilder:
 
-But if we add noreplace, we also need to ensure its behaviour is
-consistent with deb and ipk backends as RP said.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6670
 
-Alex
+The following changes since commit e5aae8a371717215a7d78459788ad67dfaefe37e:
+
+  golang: Fix CVE-2023-45289 & CVE-2023-45290 (2024-03-07 04:18:33 -1000)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
+
+Bruce Ashfield (6):
+  linux-yocto/5.15: update to v5.15.149
+  linux-yocto/5.15: update CVE exclusions
+  linux-yocto/5.10: update to v5.10.210
+  linux-yocto/5.15: update to v5.15.150
+  linux-yocto/5.15: update CVE exclusions (5.15.150)
+  linux-yocto/5.15: fix partion scanning
+
+Nikhil R (1):
+  librsvg: Fix do_package_qa error for librsvg
+
+Vivek Kumbhar (1):
+  go: Backport fix CVE-2024-24784 & CVE-2024-24785
+
+ meta/recipes-devtools/go/go-1.17.13.inc       |   2 +
+ .../go/go-1.18/CVE-2024-24784.patch           | 207 ++++++++++++++++++
+ .../go/go-1.18/CVE-2024-24785.patch           | 196 +++++++++++++++++
+ meta/recipes-gnome/librsvg/librsvg_2.52.10.bb |   2 +
+ .../linux/cve-exclusion_5.15.inc              | 197 ++++++++++++++++-
+ .../linux/linux-yocto-rt_5.10.bb              |   4 +-
+ .../linux/linux-yocto-rt_5.15.bb              |   6 +-
+ .../linux/linux-yocto-tiny_5.10.bb            |   6 +-
+ .../linux/linux-yocto-tiny_5.15.bb            |   6 +-
+ meta/recipes-kernel/linux/linux-yocto_5.10.bb |  22 +-
+ meta/recipes-kernel/linux/linux-yocto_5.15.bb |  26 +--
+ 11 files changed, 632 insertions(+), 42 deletions(-)
+ create mode 100644 meta/recipes-devtools/go/go-1.18/CVE-2024-24784.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.18/CVE-2024-24785.patch
+
+-- 
+2.34.1
+
 
