@@ -1,87 +1,322 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <troth@openavr.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 055CBC54E5D
-	for <webhook@archiver.kernel.org>; Tue, 12 Mar 2024 17:42:33 +0000 (UTC)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
- by mx.groups.io with SMTP id smtpd.web11.2963.1710265344945603613
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 505E0C54E5D
+	for <webhook@archiver.kernel.org>; Tue, 12 Mar 2024 18:56:03 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web10.5159.1710269756523211704
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Mar 2024 10:42:25 -0700
+ Tue, 12 Mar 2024 11:55:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=cYfXEZOr;
- spf=pass (domain: gmail.com, ip: 209.85.167.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-513b1e1724bso77396e87.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 Mar 2024 10:42:24 -0700 (PDT)
+ dkim=pass header.i=@openavr-org.20230601.gappssmtp.com header.s=20230601 header.b=vv/TC1Fx;
+ spf=none, err=permanent DNS error (domain: openavr.org, ip: 209.85.128.50, mailfrom: troth@openavr.org)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-413e61525c2so2078235e9.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 Mar 2024 11:55:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710265343; x=1710870143; darn=lists.openembedded.org;
+        d=openavr-org.20230601.gappssmtp.com; s=20230601; t=1710269755; x=1710874555; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=RnFr0k8JdCqrQX3r3PsVvvSUl/FlBP83VVWd5c07yNk=;
-        b=cYfXEZOrguLRrCZWjoCU/5EfV/0ZrbtK6Zj4wmD1w8jZVh8cNTLncF1r+jkTOTHmwk
-         ilLKOMaoHUI1sC3yzCf0dCDQ8kFU+ruVB81V99/0M4BsfOgeBQgRiSHGe3DCMg7Kk2zz
-         UXSsu/4lmRKePn9xuo9u5tIZvwRX7Nf1tTAqSvl1hb842xyMms3EBnrIOU6s5N0vGjyb
-         f7IQ5hK/KJD1PAyxWBoJwUo395s1Q1GZtgEZigmgembWcJIBWEM4BHDMbgEiT59Dgjz6
-         QxB632Skv02TeBI2YQFonnGA/CRAU+/t18/Io/CePu+CTWCayFtaqTwvPHTCDPraS8kB
-         MmSw==
+        bh=/q3fOsHdE8xY6ifiiDmWOKl8AOvNxQWZhn84Hr36lZQ=;
+        b=vv/TC1Fxu9VclVYKZGUf+pfVmQ5CF7qvi9JIhWx4Qv/r2zDKJwTdBgwQzl5KkK9epg
+         l1ePNavXY8FX+9Tivaoh+7NXcg323BMzEdDZLBsDHtCOxa/r38TkueVRhbXGIHWBP/aD
+         qQ1WUpMFcP6sI0qo/PYMlkIraM7HGcurnblZIZOrwspYFkkmWFJQIMVI09xJOJ7FPP7x
+         vEH17787mdAcJBJWjRLeBWN8Qaqx8moVRDIgZCgv71NPZR7IPOX2p30OdnVxTR799wwX
+         AtoT64R7E+35GwqPrJp0gUfhGjLMZpjjq8G+0nAmxCtBD7BKTiXrazwkRAPgZL1StzrT
+         CpIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710265343; x=1710870143;
+        d=1e100.net; s=20230601; t=1710269755; x=1710874555;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=RnFr0k8JdCqrQX3r3PsVvvSUl/FlBP83VVWd5c07yNk=;
-        b=vDw7/LHpYax0yHVEFgs9panVM+kFVfgWK9ESohMY1ZdJXUFLn0k8MGyzhsDxxKLHOf
-         K3sOxJbX0buTO+U3QTx0GBUH6gI2mbdunN5rJDYYMv6CIof6IbYNB5xql0zXDk+CLvCb
-         SGbH3BprufQDlmYpDx/0auuAyF4xVPefR0knqrLenpMEYpV2q7Hw/AmFjszztnezuC1Y
-         UbRQ7Bu2FtIo+YZH4nehF7yzC1fGRDsPGwm6TSJEKL0KhFPa2TJX0ErxoS+5UHhKDPzw
-         MBa3hfCyNE3LpX9Jj4wibcLiWnOoJeeV64lhP/PHZ6EBUnujXEvumbNZA7H6AXO6h0sT
-         CAaw==
-X-Forwarded-Encrypted: i=1; AJvYcCXZBM46YrgciRHuXffReCPYWX+mCwkFzpv+l3k2S5eE9K2JUCx6lUu5bIyhZE8r8W8bo7dcd8WTFrmKzcwLzfjmEXnK81mw397I8q7eGmHTE6G9HP20eYvc
-X-Gm-Message-State: AOJu0YwrhMGx80LeGhyK5GOVGeeLJ3ujpwAomRxS6+VmJ/rxSwRP0E4w
-	+VG2+794gk7juaWZVSGvaFdHC61H6zVOt4j36jMpyXlraWLuIEzHrkN2rvX4sxvHES11hsOEq0T
-	MJ1NWbNc05hK+6XA+A0LSTyg19Bg=
-X-Google-Smtp-Source: AGHT+IH8CiRM/q8+PCJrGfKL5s8iyzqncngDOIdUqKfQkmFdCRmorsGAkfeeMzn4UfN6C0ssPFisrGhHVnV6Hqhmmtk=
-X-Received: by 2002:a05:6512:15a3:b0:513:9cc8:f082 with SMTP id
- bp35-20020a05651215a300b005139cc8f082mr94161lfb.11.1710265342924; Tue, 12 Mar
- 2024 10:42:22 -0700 (PDT)
+        bh=/q3fOsHdE8xY6ifiiDmWOKl8AOvNxQWZhn84Hr36lZQ=;
+        b=TFxivHbQpMd278qPq0t5AMz7rLRKNMO9m4QVBOjDT8icL5V1rp2W1RrEPDbuoQYdJF
+         VkmRd+28qYtmkkLzAwxp2XTddGxhjtzpEaunhZmq9r7ZWuIpvR3klJ5kJJLUeMGxU3E6
+         FdBfvl5PhcGZ7G1gRE/E7v+8h5Qv7kanUYlFsFa+AtcYJTbg7ZItJ/nKqkXMvHb5mZ68
+         xlSdKGl50aET6UJEFyCJ8TqV5kXrxDDdHQEptHK+k3JtQHEte3MR5gScrDS0LvDtujo+
+         jKBcCnwZ+q9I566P6t9JQvLCtgHn3mXQVRK6u8riY9aKX2kOXUfJoZ0JA5FT41XkgEQJ
+         SCbg==
+X-Gm-Message-State: AOJu0YyPPODV/eQGhkZ/aSa8Ag0NwqV52/8lIqlgdI1BmY6Fy3qaVVBJ
+	br+/PNycglbvoNJBe+sViRvkNcL2WfhEyMayIf5LotG9o0GJJZYDZpeaiNP3KfYbDtN3NbSMekr
+	eti3xQYmJvFSjYLja/S+2Hdzn9jIgbAG+YXy1zQ==
+X-Google-Smtp-Source: AGHT+IGlADeSR8Jielff9tR7DS6rv5eRU0yX8StFNn8dFaxKg8pURXIrjch5ML01uPiG6ZN0AP9/JuMKBEKAzSsgxnA=
+X-Received: by 2002:a05:6000:1b05:b0:33e:d17:76b with SMTP id
+ f5-20020a0560001b0500b0033e0d17076bmr241679wrz.7.1710269754615; Tue, 12 Mar
+ 2024 11:55:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAK5yBb-rUZzdqbXD4yoHiF5V-L2sOg1DVWMEsDGXWk36F2cexQ@mail.gmail.com>
- <CANNYZj9q5baYcA1AZ6UkqL+E+Z=H+4aJ3iAeD9SuCB7SoktX5g@mail.gmail.com> <2c6b60473e843b212695a2609ab0fa88181fbf6a.camel@linuxfoundation.org>
-In-Reply-To: <2c6b60473e843b212695a2609ab0fa88181fbf6a.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 12 Mar 2024 18:42:11 +0100
-Message-ID: <CANNYZj9-yshEb3tVXzqFt_5d92qhRCngNK-smzGry9isgxwhqw@mail.gmail.com>
-Subject: Re: [OE-core] Yocto Project Status 12 March 2024 (WW11)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Yocto-mailing-list <yocto@lists.yoctoproject.org>, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+References: <20240306154151.3741709-1-alex@linutronix.de> <20240306154151.3741709-35-alex@linutronix.de>
+In-Reply-To: <20240306154151.3741709-35-alex@linutronix.de>
+From: "Theodore A. Roth" <troth@openavr.org>
+Date: Tue, 12 Mar 2024 12:55:43 -0600
+Message-ID: <CAFMvBt0onfsJ3BtzcEn87P4G3g+LQbrg2=f9eEexE80VO2TFPg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 35/47] python3-jsonschema: upgrade 4.17.3 ->
+ 4.21.1 and add new dependencies
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Alexander Kanavin <alex@linutronix.de>, Tim Orling <tim.orling@konsulko.com>
+Content-Type: multipart/alternative; boundary="00000000000031c64d06137b35e9"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 Mar 2024 17:42:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197000
+ <openembedded-core@lists.openembedded.org>; Tue, 12 Mar 2024 18:56:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197001
 
-On Tue, 12 Mar 2024 at 18:29, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> > I'd like to see the issue, as one recent change in devtool tests was
-> > in the minicom version update commit.
->
-> e.g.
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/6519/steps/14/logs/stdio
->
-> which looks a race between:
->
-> overlayfs.OverlayFSTests.test_correct_image_fstab and
-> devtool.DevtoolUpdateTests.test_devtool_update_recipe_local_files
->
-> (over makedevs).
->
-> but there looked to be more going on there too.
+--00000000000031c64d06137b35e9
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Right, the minicom stuff is probably not the culprit. At first glance,
-devtool tests do ensure to make a copy of meta/ and operate on that,
-but the failures seem to indicate they modified the original common
-meta/ instead :-/
+On Wed, Mar 6, 2024 at 8:42=E2=80=AFAM Alexander Kanavin <alex.kanavin@gmai=
+l.com>
+wrote:
+>
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ---
+>  meta/conf/distro/include/maintainers.inc      |  3 +
+>  ...on3-jsonschema-specifications_2023.12.1.bb | 18 +++++
+>  ...4.17.3.bb =3D> python3-jsonschema_4.21.1.bb} |  4 +-
+>  .../python/python3-referencing_0.33.0.bb      | 14 ++++
+>  .../python/python3-rpds-py-crates.inc         | 80 +++++++++++++++++++
+>  .../python/python3-rpds-py_0.18.0.bb          | 17 ++++
+>  6 files changed, 135 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-devtools/python/
+python3-jsonschema-specifications_2023.12.1.bb
+>  rename meta/recipes-devtools/python/{python3-jsonschema_4.17.3.bb =3D>
+python3-jsonschema_4.21.1.bb} (88%)
+>  create mode 100644 meta/recipes-devtools/python/
+python3-referencing_0.33.0.bb
+>  create mode 100644
+meta/recipes-devtools/python/python3-rpds-py-crates.inc
+>  create mode 100644 meta/recipes-devtools/python/python3-rpds-py_0.18.0.b=
+b
+>
 
-Alex
+Hi,
+
+Since this was merged to poky master our application which uses jsonschema
+dies with a stack
+trace indicating a failure to import rpds.
+
+After a bit of investigation, I found that it looks like yocto is
+installing the rust library
+module into the site-packages on the device as '
+rpds.cpython-312-armv7l-linux-gnueabihf.so' and the
+python interpreter is looking for 'rpds.cpython-312-arm-linux-gnueabihf.so'=
+.
+
+When I rename the .so file to what the python interpreter is looking for,
+things work and I can
+import rpds successfully.
+
+It seems like something is going wrong with maturin building the wheel for
+the armv7l target, but
+unfortunately my skills with rust and maturin are lacking, so I can't
+figure out how to fix this.
+
+We are building our images using HEAD of master/main for all of our meta
+layers, so this landed
+in our builds a few days ago.
+
+Simple way to tickle the error on a device:
+
+#######################################################################
+
+root@mp1010:~# find /usr/lib/python3.12/site-packages/ -name '*.so'
+/usr/lib/python3.12/site-packages/_
+cffi_backend.cpython-312-arm-linux-gnueabihf.so
+/usr/lib/python3.12/site-packages/cryptography/hazmat/bindings/_
+rust.cpython-312-arm-linux-gnueabihf.so
+/usr/lib/python3.12/site-packages/markupsafe/_
+speedups.cpython-312-arm-linux-gnueabihf.so
+/usr/lib/python3.12/site-packages/pkcs11/_
+pkcs11.cpython-312-arm-linux-gnueabihf.so
+/usr/lib/python3.12/site-packages/
+pvectorc.cpython-312-arm-linux-gnueabihf.so
+/usr/lib/python3.12/site-packages/pycurl.cpython-312-arm-linux-gnueabihf.so
+/usr/lib/python3.12/site-packages/rpds/
+rpds.cpython-312-armv7l-linux-gnueabihf.so
+/usr/lib/python3.12/site-packages/rpds/
+rpds.cpython-312-arm-linux-gnueabihf.so
+/usr/lib/python3.12/site-packages/sdbus/
+sd_bus_internals.cpython-312-arm-linux-gnueabihf.so
+/usr/lib/python3.12/site-packages/simplejson/_
+speedups.cpython-312-arm-linux-gnueabihf.so
+/usr/lib/python3.12/site-packages/spidev.cpython-312-arm-linux-gnueabihf.so
+/usr/lib/python3.12/site-packages/tornado/speedups.abi3.so
+/usr/lib/python3.12/site-packages/yaml/_
+yaml.cpython-312-arm-linux-gnueabihf.so
+/usr/lib/python3.12/site-packages/zenoh/zenoh.abi3.so
+
+root@mp1010:~# python3
+Python 3.12.2 (main, Feb  6 2024, 20:19:44) [GCC 13.2.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import rpds
+>>>
+
+root@mp1010:~# cd /lib/python3.12/site-packages/rpds
+
+root@mp1010:/lib/python3.12/site-packages/rpds# ls -1
+__init__.py
+__init__.pyi
+__pycache__/
+py.typed
+rpds.cpython-312-arm-linux-gnueabihf.so*
+rpds.cpython-312-armv7l-linux-gnueabihf.so*
+root@mp1010:/lib/python3.12/site-packages/rpds# rm
+rpds.cpython-312-arm-linux-gnueabihf.so
+rm: remove regular file 'rpds.cpython-312-arm-linux-gnueabihf.so'? y
+
+root@mp1010:/lib/python3.12/site-packages/rpds# python3
+Python 3.12.2 (main, Feb  6 2024, 20:19:44) [GCC 13.2.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import rpds
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/usr/lib/python3.12/site-packages/rpds/__init__.py", line 1, in
+<module>
+    from .rpds import *
+ModuleNotFoundError: No module named 'rpds.rpds'
+>>>
+
+#######################################################################
+
+Target processor is a TI AM57xx.
+
+Any help or things to try would be appreciated. More than happy to provide
+more information if needed.
+
+--00000000000031c64d06137b35e9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><span style=3D"font-family:monospace">On Wed, Mar 6, 2024 =
+at 8:42=E2=80=AFAM Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gma=
+il.com">alex.kanavin@gmail.com</a>&gt; wrote:<br>&gt;<br>&gt; Signed-off-by=
+: Alexander Kanavin &lt;<a href=3D"mailto:alex@linutronix.de">alex@linutron=
+ix.de</a>&gt;<br>&gt; ---<br>&gt; =C2=A0meta/conf/distro/include/maintainer=
+s.inc =C2=A0 =C2=A0 =C2=A0| =C2=A03 +<br>&gt; =C2=A0...<a href=3D"http://on=
+3-jsonschema-specifications_2023.12.1.bb">on3-jsonschema-specifications_202=
+3.12.1.bb</a> | 18 +++++<br>&gt; =C2=A0...<a href=3D"http://4.17.3.bb">4.17=
+.3.bb</a> =3D&gt; <a href=3D"http://python3-jsonschema_4.21.1.bb">python3-j=
+sonschema_4.21.1.bb</a>} | =C2=A04 +-<br>&gt; =C2=A0.../python/<a href=3D"h=
+ttp://python3-referencing_0.33.0.bb">python3-referencing_0.33.0.bb</a> =C2=
+=A0 =C2=A0 =C2=A0| 14 ++++<br>&gt; =C2=A0.../python/python3-rpds-py-crates.=
+inc =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 80 +++++++++++++++++++<br>&gt; =C2=A0.../=
+python/<a href=3D"http://python3-rpds-py_0.18.0.bb">python3-rpds-py_0.18.0.=
+bb</a> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 17 ++++<br>&gt; =C2=A06 files ch=
+anged, 135 insertions(+), 1 deletion(-)<br>&gt; =C2=A0create mode 100644 me=
+ta/recipes-devtools/python/<a href=3D"http://python3-jsonschema-specificati=
+ons_2023.12.1.bb">python3-jsonschema-specifications_2023.12.1.bb</a><br>&gt=
+; =C2=A0rename meta/recipes-devtools/python/{<a href=3D"http://python3-json=
+schema_4.17.3.bb">python3-jsonschema_4.17.3.bb</a> =3D&gt; <a href=3D"http:=
+//python3-jsonschema_4.21.1.bb">python3-jsonschema_4.21.1.bb</a>} (88%)<br>=
+&gt; =C2=A0create mode 100644 meta/recipes-devtools/python/<a href=3D"http:=
+//python3-referencing_0.33.0.bb">python3-referencing_0.33.0.bb</a><br>&gt; =
+=C2=A0create mode 100644 meta/recipes-devtools/python/python3-rpds-py-crate=
+s.inc<br>&gt; =C2=A0create mode 100644 meta/recipes-devtools/python/<a href=
+=3D"http://python3-rpds-py_0.18.0.bb">python3-rpds-py_0.18.0.bb</a><br>&gt;=
+<br><br>Hi,<br><br></span><div><span style=3D"font-family:monospace">Since =
+this was merged to poky master our application which uses jsonschema dies w=
+ith a stack</span></div><div><span style=3D"font-family:monospace">trace in=
+dicating a failure to import rpds.</span></div><div><span style=3D"font-fam=
+ily:monospace"><br></span></div><div><span style=3D"font-family:monospace">=
+After a bit of investigation, I found that it <span>looks like yocto is ins=
+talling the rust library</span></span></div><div><span style=3D"font-family=
+:monospace"><span>module into the site-packages on the device as &#39;<span=
+><a href=3D"http://rpds.cpython-312-armv7l-linux-gnueabihf.so">rpds.cpython=
+-312-armv7l-linux-gnueabihf.so</a>&#39;</span> and the</span></span></div><=
+div><span style=3D"font-family:monospace"><span>python interpreter is looki=
+ng for <span>&#39;<a href=3D"http://rpds.cpython-312-arm-linux-gnueabihf.so=
+">rpds.cpython-312-arm-linux-gnueabihf.so</a></span>&#39;.</span></span></d=
+iv><div><span style=3D"font-family:monospace"></span></div><span style=3D"f=
+ont-family:monospace"><span><br></span></span><div><span style=3D"font-fami=
+ly:monospace"><span>When I rename the <span>.so</span> file to what the pyt=
+hon interpreter is looking for, things work and I can</span></span></div><d=
+iv><span style=3D"font-family:monospace"><span>import rpds successfully.</s=
+pan></span></div><div><span style=3D"font-family:monospace"><span><br></spa=
+n></span></div><div><span style=3D"font-family:monospace"><span>It seems li=
+ke something is going wrong with maturin building the wheel for the armv7l =
+target, but</span></span></div><div><span style=3D"font-family:monospace"><=
+span>unfortunately my skills with rust and maturin are lacking, so I can&#3=
+9;t figure out how to fix this.</span></span></div><div><span style=3D"font=
+-family:monospace"><span><br></span></span></div><div><span style=3D"font-f=
+amily:monospace"><span>We are building our images using HEAD of master/main=
+ for all of our meta layers, so this landed</span></span></div><div><span s=
+tyle=3D"font-family:monospace"><span>in our builds a few days ago.</span></=
+span></div><div><span style=3D"font-family:monospace"><span><br></span></sp=
+an></div><div><span style=3D"font-family:monospace"><span>Simple way to tic=
+kle the error on a device:<br></span></span></div><div><br><span style=3D"f=
+ont-family:monospace"><span></span></span></div><div><span style=3D"font-fa=
+mily:monospace">###########################################################=
+############<br></span></div><div><span style=3D"font-family:monospace"><br=
+></span></div><div><span style=3D"font-family:monospace">root@mp1010:~# fin=
+d /usr/lib/python3.12/site-packages/ -name &#39;*.so&#39;<br>/usr/lib/pytho=
+n3.12/site-packages/_<a href=3D"http://cffi_backend.cpython-312-arm-linux-g=
+nueabihf.so">cffi_backend.cpython-312-arm-linux-gnueabihf.so</a><br>/usr/li=
+b/python3.12/site-packages/cryptography/hazmat/bindings/_<a href=3D"http://=
+rust.cpython-312-arm-linux-gnueabihf.so">rust.cpython-312-arm-linux-gnueabi=
+hf.so</a><br>/usr/lib/python3.12/site-packages/markupsafe/_<a href=3D"http:=
+//speedups.cpython-312-arm-linux-gnueabihf.so">speedups.cpython-312-arm-lin=
+ux-gnueabihf.so</a><br>/usr/lib/python3.12/site-packages/pkcs11/_<a href=3D=
+"http://pkcs11.cpython-312-arm-linux-gnueabihf.so">pkcs11.cpython-312-arm-l=
+inux-gnueabihf.so</a><br>/usr/lib/python3.12/site-packages/<a href=3D"http:=
+//pvectorc.cpython-312-arm-linux-gnueabihf.so">pvectorc.cpython-312-arm-lin=
+ux-gnueabihf.so</a><br>/usr/lib/python3.12/site-packages/<a href=3D"http://=
+pycurl.cpython-312-arm-linux-gnueabihf.so">pycurl.cpython-312-arm-linux-gnu=
+eabihf.so</a><br>/usr/lib/python3.12/site-packages/rpds/<a href=3D"http://r=
+pds.cpython-312-armv7l-linux-gnueabihf.so">rpds.cpython-312-armv7l-linux-gn=
+ueabihf.so</a><br>/usr/lib/python3.12/site-packages/rpds/<a href=3D"http://=
+rpds.cpython-312-arm-linux-gnueabihf.so">rpds.cpython-312-arm-linux-gnueabi=
+hf.so</a><br>/usr/lib/python3.12/site-packages/sdbus/<a href=3D"http://sd_b=
+us_internals.cpython-312-arm-linux-gnueabihf.so">sd_bus_internals.cpython-3=
+12-arm-linux-gnueabihf.so</a><br>/usr/lib/python3.12/site-packages/simplejs=
+on/_<a href=3D"http://speedups.cpython-312-arm-linux-gnueabihf.so">speedups=
+.cpython-312-arm-linux-gnueabihf.so</a><br>/usr/lib/python3.12/site-package=
+s/<a href=3D"http://spidev.cpython-312-arm-linux-gnueabihf.so">spidev.cpyth=
+on-312-arm-linux-gnueabihf.so</a><br>/usr/lib/python3.12/site-packages/torn=
+ado/<a href=3D"http://speedups.abi3.so">speedups.abi3.so</a><br>/usr/lib/py=
+thon3.12/site-packages/yaml/_<a href=3D"http://yaml.cpython-312-arm-linux-g=
+nueabihf.so">yaml.cpython-312-arm-linux-gnueabihf.so</a><br>/usr/lib/python=
+3.12/site-packages/zenoh/<a href=3D"http://zenoh.abi3.so">zenoh.abi3.so</a>=
+<br></span></div><div><span style=3D"font-family:monospace"><br></span></di=
+v><div><span style=3D"font-family:monospace">root@mp1010:~# python3<br>Pyth=
+on 3.12.2 (main, Feb =C2=A06 2024, 20:19:44) [GCC 13.2.0] on linux<br>Type =
+&quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;licen=
+se&quot; for more information.<br>&gt;&gt;&gt; import rpds<br>&gt;&gt;&gt; =
+<br></span></div><div><span style=3D"font-family:monospace"><br></span></di=
+v><div><span style=3D"font-family:monospace">root@mp1010:~# cd /lib/python3=
+.12/site-packages/rpds<br></span></div><div><span style=3D"font-family:mono=
+space"><br></span></div><div><span style=3D"font-family:monospace">root@mp1=
+010:/lib/python3.12/site-packages/rpds# ls -1<br>__init__.py</span></div><d=
+iv><span style=3D"font-family:monospace">__init__.pyi</span></div><div><spa=
+n style=3D"font-family:monospace">__pycache__/</span></div><div><span style=
+=3D"font-family:monospace">py.typed</span></div><div><span style=3D"font-fa=
+mily:monospace"><a href=3D"http://rpds.cpython-312-arm-linux-gnueabihf.so">=
+rpds.cpython-312-arm-linux-gnueabihf.so</a>*</span></div><div><span style=
+=3D"font-family:monospace"><a href=3D"http://rpds.cpython-312-armv7l-linux-=
+gnueabihf.so">rpds.cpython-312-armv7l-linux-gnueabihf.so</a>*<br>root@mp101=
+0:/lib/python3.12/site-packages/rpds# rm <a href=3D"http://rpds.cpython-312=
+-arm-linux-gnueabihf.so">rpds.cpython-312-arm-linux-gnueabihf.so</a><br>rm:=
+ remove regular file &#39;<a href=3D"http://rpds.cpython-312-arm-linux-gnue=
+abihf.so">rpds.cpython-312-arm-linux-gnueabihf.so</a>&#39;? y<br></span></d=
+iv><div><span style=3D"font-family:monospace"><br></span></div><div><span s=
+tyle=3D"font-family:monospace">root@mp1010:/lib/python3.12/site-packages/rp=
+ds# python3<br>Python 3.12.2 (main, Feb =C2=A06 2024, 20:19:44) [GCC 13.2.0=
+] on linux<br>Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&q=
+uot; or &quot;license&quot; for more information.<br>&gt;&gt;&gt; import rp=
+ds<br>Traceback (most recent call last):<br>=C2=A0 File &quot;&lt;stdin&gt;=
+&quot;, line 1, in &lt;module&gt;<br>=C2=A0 File &quot;/usr/lib/python3.12/=
+site-packages/rpds/__init__.py&quot;, line 1, in &lt;module&gt;<br>=C2=A0 =
+=C2=A0 from .rpds import *<br>ModuleNotFoundError: No module named &#39;rpd=
+s.rpds&#39;<br>&gt;&gt;&gt;</span></div><div><span style=3D"font-family:mon=
+ospace"><br></span></div><div><span style=3D"font-family:monospace">#######=
+################################################################</span></di=
+v><div><span style=3D"font-family:monospace"><br></span></div><div><span st=
+yle=3D"font-family:monospace">Target processor is a TI AM57xx.<br></span></=
+div><div><span style=3D"font-family:monospace"><br></span></div><div><span =
+style=3D"font-family:monospace"><span>Any help or things to try would be ap=
+preciated. More than happy to provide more information if needed.<br></span=
+></span></div><div><span style=3D"font-family:monospace"><span></span></spa=
+n></div></div>
+
+--00000000000031c64d06137b35e9--
 
