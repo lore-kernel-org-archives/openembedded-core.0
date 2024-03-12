@@ -1,92 +1,98 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5892FC54E5D
-	for <webhook@archiver.kernel.org>; Tue, 12 Mar 2024 13:14:38 +0000 (UTC)
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
- by mx.groups.io with SMTP id smtpd.web10.8716.1710249274278651075
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83787C54E58
+	for <webhook@archiver.kernel.org>; Tue, 12 Mar 2024 13:26:48 +0000 (UTC)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+ by mx.groups.io with SMTP id smtpd.web10.9140.1710250004663976478
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Mar 2024 06:14:34 -0700
+ Tue, 12 Mar 2024 06:26:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=Kj7f+rkF;
- spf=pass (domain: baylibre.com, ip: 209.85.160.180, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-42a029c8e62so34306821cf.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 Mar 2024 06:14:34 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=c45nPQS0;
+ spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2d4141c4438so86219501fa.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 Mar 2024 06:26:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1710249273; x=1710854073; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3F21WR6USEzkl8LOKOl/zoRhT0VmuDMHSyp71+ThRKo=;
-        b=Kj7f+rkFYCF+YEYBVA/bHEOXDFALZOlmdJWG5j7AjfLo32wb42CWTJ8qVlb7CIlWxB
-         o0I2QzlIh2m0YmfzfwY/dDY1iKscmaC04kre9WWvvcsaGkV4OIsZGfX7xHGL7+6QOeRe
-         JODgjqbgKtxdVcTPE7qm2eN8b+uDIKQiSDdAfyUf2ZmBYavbYvaSyMYZyMtf6ECFJYPg
-         YhUBjJErnAEAE0scQIBAfHAsai9sHKSrfCAd16CAyKrVwWiadxws/yejAi3sMa3p/UXm
-         nA1NexiONYDfqdSlsDnYYQSoqKvKoRT34ggDr/ld9pXjZ/NCN4hMBV5Hy6vgXUC51XNC
-         VEBw==
+        d=gmail.com; s=20230601; t=1710250003; x=1710854803; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uImWriHFBJMWRWXT7VMB7mu4Lf8nndK1aiVTHqZwk/w=;
+        b=c45nPQS0QXUocy6fW6LjU7hBPeMtGAltzjXrmBeSbYtP9Xh5qxl8Id/mCcho9xioNx
+         rmkjuQfmdTmjEsocxLi399Qh2ZmU9x/Ib0muA9DiQgmXjSTjdGqSbfw+QmVUNHLbAUGr
+         OjjC7ym6xGbRB2B6RLtPGGM8lQvw2DQ4GtDkTchcpsBeHFYMEctkOKoJqVaN4qmb0pgU
+         5XJDDuwsIlEkAeG4bQfTkCkhQkH7R65A07HXizeWTBNmL9HK+w3bMOWXpzHZsDdvSON+
+         Oy9Rcpqe8zeJmOVVkIQtXpziIey6xjNbJM14n+w+/9PXT5jlUMQVPArNP77GD/3rXWE0
+         V0FQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710249273; x=1710854073;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3F21WR6USEzkl8LOKOl/zoRhT0VmuDMHSyp71+ThRKo=;
-        b=AejhGI5CZRk8sZJV5xdCvIe5/k6OVzaDOOeRAibcgytQRWrilOH/CMi+GAbiuXIFcm
-         DE+ZjIaVGj4TgnquoXuQ0vnYOjShS01rXFviCEe9QfiZ7WvmtJF7fDMNS8mxG79sD5B+
-         S5vWEPmh5lJupTbBquzoGDklu4r7hVX6cVWt+1DSg7ZbkoA553STaT0eehLx+uvS9ZCf
-         q4/I7f/DNXY+SrgSRir/7k+egBSklZ8g0JF4r1ixT4VfLwhOmCaYh/o1yW4Ci+/R/bZO
-         hoJu8JPXX6COICVt9dp4gi4167ToAnFVnHXZpHks89U7iBCEpPRVJzw48/nzFa3AhztQ
-         fl/A==
-X-Gm-Message-State: AOJu0YyW9RWVoIHJiDuUfBsOfrXPqmzRZNFO0HJLSgnzoxMynw0g8VjM
-	a+6ewYncXGbMhJWxNE/Pl2WMHg8E2JDSJVXlAN7nsM9+oAETxU6+NyaPLCT5ENOajPppNzWx8VV
-	m
-X-Google-Smtp-Source: AGHT+IGq7/gPz1MiTXpCTAq+BcieKjjKwaw5+JW0YYmlVa4nmKKIU/oS05fxuvuu8vIvbLli1wah4Q==
-X-Received: by 2002:a05:622a:120a:b0:42e:f034:86ed with SMTP id y10-20020a05622a120a00b0042ef03486edmr12194405qtx.3.1710249273328;
-        Tue, 12 Mar 2024 06:14:33 -0700 (PDT)
-Received: from [192.168.40.12] (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id jz11-20020a05622a81cb00b0042f2b9d1812sm3716138qtb.86.2024.03.12.06.14.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Mar 2024 06:14:33 -0700 (PDT)
-Message-ID: <0f327746-7ac6-44b8-9839-f005d3f00396@baylibre.com>
-Date: Tue, 12 Mar 2024 09:14:32 -0400
+        d=1e100.net; s=20230601; t=1710250003; x=1710854803;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=uImWriHFBJMWRWXT7VMB7mu4Lf8nndK1aiVTHqZwk/w=;
+        b=WQzI7WvEKaW9uiByfeu12aE61g/HeXvA8olPuQAecNp6eHADLxau2HlejCBgJneP/H
+         /4HbjRDdjbklZKaJ2IfPLLDwuKiPumEvAA5q2MXJ7YmUW5OsfPvIBOGFGtpifCfYEJGk
+         VLL09Uczh5KFUNbhm+wLeaRXkmFf7VTFpHTFAMaqcr3OZPjLLzKU83gUpXYQ5qhmp7hy
+         p4lcLB8ToQQKuhzo9DjfPxbBBXyxuyB0dcSbp+mFVc2TATN05PfAviozTkQ3iTVfXlIv
+         J9eCNFIHDD8HOzdxpPi9aQOJlAsiTNVKTAidhKNPkcohLifHQMCZOoINf4xvLLx/mueX
+         5cKw==
+X-Forwarded-Encrypted: i=1; AJvYcCXUo/OJpLi826nmMON/XGvVx0giHlxKNa3vdYP67A5o+UbxSeFE0NXSV+UZg9hhau5qzYWxILWZEESMCxXQBMmpnARhdeFl+TfDPl/GppTixPKoBAeiYxtV
+X-Gm-Message-State: AOJu0YwBFSdR/uEDPa+WZtx/dES2CGPsfLfrL0KWmex3rVsXAp82jHpf
+	2CZjUDBDqZyMjYGBVjOzLNKp38a5Mksp1grf+WDs7ljRN/VNEFsk1hBBld2UzsVe4nA8Znay7JW
+	mAiKccWltTt4btIeHj+QsS2bBSbs=
+X-Google-Smtp-Source: AGHT+IFpOK2ADKNEFs6xzPm36PKObKGG8DCtK1wLkFUa6OJnWOyeNu3GAYR270l/GIocguBMMeEnq39HqU5Gxn/mxPY=
+X-Received: by 2002:a2e:a383:0:b0:2d4:24c5:a35e with SMTP id
+ r3-20020a2ea383000000b002d424c5a35emr6006939lje.29.1710250002625; Tue, 12 Mar
+ 2024 06:26:42 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] Patchtest results for [PATCH 2/7] openssh-config:
- initial checkin
-To: enrico.scholz@sigma-chemnitz.de, patchtest@automation.yoctoproject.org
-Cc: openembedded-core@lists.openembedded.org
-References: <507a19c6164d34669ff09794134257835063af64.1710177387.git.enrico.scholz@sigma-chemnitz.de>
- <0101018e2e9afb18-ff562683-59f3-418d-b628-74dfc3f7f152-000000@us-west-2.amazonses.com>
- <lyedcgbpsy.fsf@ensc-pc.intern.sigma-chemnitz.de>
-Content-Language: en-US
-From: Trevor Gamblin <tgamblin@baylibre.com>
-In-Reply-To: <lyedcgbpsy.fsf@ensc-pc.intern.sigma-chemnitz.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <0e38566f-a1f9-4ebb-8492-2c50945eeeb4@gmail.com>
+ <CANNYZj96nE0kVyLW=DnrzwfN9UROZ1AzUG5kJ7Y6W2eF2tqAvQ@mail.gmail.com>
+ <a70cbc1e-f234-45ba-a886-51461f2e8689@gmail.com> <CANNYZj9Z4j=Xr6ogCvPe+rzjGeg3j6i9XvVo-+5UfCX+qE_=Mg@mail.gmail.com>
+ <71b34437-cd65-48c0-89b8-1030cf1a30cd@gmail.com> <CANNYZj_C9xKhVWjdcXx_3wi8WemRQSwPFGACtfCqydnDmtetNA@mail.gmail.com>
+ <CO6PR11MB560246DF522F2C499DA4C411ED2B2@CO6PR11MB5602.namprd11.prod.outlook.com>
+In-Reply-To: <CO6PR11MB560246DF522F2C499DA4C411ED2B2@CO6PR11MB5602.namprd11.prod.outlook.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 12 Mar 2024 14:26:31 +0100
+Message-ID: <CANNYZj8vS93gnY24ynoc+moF6MAW5ziw-+-f4+QJcjw3PN9Z=A@mail.gmail.com>
+Subject: Re: [OE-core] Yocto rpm packages do not keep the modified CONFFILES
+To: "Chen, Qi" <Qi.Chen@windriver.com>
+Cc: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@gmail.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 Mar 2024 13:14:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196980
+ <openembedded-core@lists.openembedded.org>; Tue, 12 Mar 2024 13:26:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196981
 
+On Tue, 12 Mar 2024 at 02:57, Chen, Qi <Qi.Chen@windriver.com> wrote:
+>
+> Packages + overrides are a very common way to configure/customize images.
+>
+> Take OE itself as an example, the sshd_config is a conffile for openssh, =
+but in rootfs-postcommands.bbclass, it is customized.
+> This means sshd_config might be different from the one that is recorded i=
+n rpm database. This is a similar situation with the original question.
+> The original question is basically equal to: are we going to keep the ssh=
+d_config we customized when we upgrade the openssh on target?
+>
+> Ideally, packages should be designed to allow config snippets (/etc/xxx.c=
+onf.d/) or some override mechanism (default conf in /usr/lib and override i=
+n /etc). But there'll always be packages that lack such mechanisms. Using '=
+noreplace' seems a reasonable choice.
+>
+> For the default behavior of OE, I'd suggest we change to use 'noreplace'.=
+ Because the more unlikely people modify their target files (as Alex pointe=
+d out for embedded devices), the more important those modifications might b=
+e.
 
-On 2024-03-11 14:12, Enrico Scholz via lists.openembedded.org wrote:
-> patchtest@automation.yoctoproject.org writes:
->
->> FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-> This failure seems to be bogus; patch creates a new recipe with a new
-> LIC_FILES_CHKSUM.  It does not change/update an existing tag.
-Noted. We'll have to tweak the test...
->
->
-> Enrico
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#196963): https://lists.openembedded.org/g/openembedded-core/message/196963
-> Mute This Topic: https://lists.openembedded.org/mt/104868543/7611679
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [tgamblin@baylibre.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+With this I agree. There's also just been a patchset that refactors
+ssh config into just that kind of snippet mechanism.
+
+But if we add noreplace, we also need to ensure its behaviour is
+consistent with deb and ipk backends as RP said.
+
+Alex
 
