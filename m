@@ -1,795 +1,1355 @@
-Return-Path: <sjolley.yp.pm@gmail.com>
+Return-Path: <randy.macleod@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 639A1C54E5D
-	for <webhook@archiver.kernel.org>; Tue, 12 Mar 2024 14:45:39 +0000 (UTC)
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
- by mx.groups.io with SMTP id smtpd.web11.11704.1710254735509986868
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 703A0C54E5D
+	for <webhook@archiver.kernel.org>; Tue, 12 Mar 2024 15:01:49 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.12191.1710255704993468714
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Mar 2024 07:45:36 -0700
+ Tue, 12 Mar 2024 08:01:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=XP0QOj6y;
- spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: sjolley.yp.pm@gmail.com)
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a446b5a08f0so3864366b.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 Mar 2024 07:45:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710254734; x=1710859534; darn=lists.openembedded.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=i/43PShUF5aamcBAKj195V1rYs66XHFvWl4mWeJ8V0k=;
-        b=XP0QOj6yDLxeyMyM8GyV05H7nP9f3R3guBIOimqBGQ/rtUYevBSxBKveTH9yVUvYCl
-         8WiUsL3EaGB14uGyIP0TiDSmV143vfosS9ehQR4AmHPtDXRJYjLZH/9ThTMOOr8LsF3f
-         +GzTMELntGaN1qXw8ipNiInJ8zBH2CdYOBNSq0a0PIRnCTTqJIX4pcZksPAtbWyCGgtr
-         G0Saz3GvJWzam2GCp1FH/k3A6L2j/nkzu2XloAhDojnPFzny8dBpAQJJVPEu6kZlqB1a
-         obhbay3NwJ2Gx8+BKYtns0SPEpGKbF0ICSXCFqLUE9TBsRi3bBcYhAqwfNOrPHYZbqxy
-         seXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710254734; x=1710859534;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=i/43PShUF5aamcBAKj195V1rYs66XHFvWl4mWeJ8V0k=;
-        b=vEFGXiCA92jty7W5P3HPelzADOnIQJfHB6gznk2M2DDhFgtXQkvxKN0vZ7/BaKK2dg
-         LmVOt2YqhhmQAZr3Cl480kXBfN2vQgcWNnNQeTGErfIJhsmhmV0Vlss8plLYaE4ca+wJ
-         etVeeNYnzIEwko7zSzRfI+uRlplxAorqDwLNx22iCCxCgKgDbOuhQJSszkm7IuiK9a+z
-         QPNfsGN2KldnHNc9cVK1R5RnntxAAGis6m3U1YSB+kdRsxoKW1baTp7oCEZxjHXpI6SA
-         pm6Pmh7ozgtCe6cXWqcgac8iCmtVqayldIGNMIg+p8rtmaUa+EWpOXnsuauVIKUiobfE
-         5Z+g==
-X-Forwarded-Encrypted: i=1; AJvYcCXhPxcmdzU0pbIOjxFgBapY4udGvvx1T3e+vY4S+qySTLqiydePZy2WpdvasA0ptzetxo6j/RGiSMJ7sdwXLi/RhZ06cWWEo13YbncBDjCZBIa+xvP3y+Sh
-X-Gm-Message-State: AOJu0Yz87UW4pye+A1LwKrpX6zUL+o1R9rj9cyULgKGCKOhDId6GlED0
-	V8Qa5RQbonKBk296ij9uuZs7FsMtlXTXLd9auDjhY4LTedGOxUIuWGPo4thh0FGUzF26E5DypVG
-	EhWf4BpHGm9HSPnUAXptQ0wT69LSUmvuoCEo=
-X-Google-Smtp-Source: AGHT+IEKVr88rumzyvP5Ff2supthk0zPY2uZXFPq9OmTMsPCs5mdYJCARbzehBerf5QX7A+8k2JDaZEee9+H4VqUdOo=
-X-Received: by 2002:a17:906:139b:b0:a46:371b:c4d5 with SMTP id
- f27-20020a170906139b00b00a46371bc4d5mr3531520ejc.22.1710254733552; Tue, 12
- Mar 2024 07:45:33 -0700 (PDT)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=hQc95bmj;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=3801c62bbf=randy.macleod@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42C6WB8r020050
+	for <openembedded-core@lists.openembedded.org>; Tue, 12 Mar 2024 08:01:44 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-type:message-id:date:subject:to:references:from
+	:in-reply-to:mime-version; s=PPS06212021; bh=mIP8xULX7AkPZydKp7m
+	Vl6VM1eAMi6XQYDlOW4w5pB0=; b=hQc95bmju4/E8nbLWoty2tDoUEyY0JvYKb1
+	yZAuFhXyT3mtbNOtyFu/BWO7z4Wvel2perPLrz9XeBtqofuRP049zOhWC1Mb40S9
+	I6zkz5ewG1FIrkK9IxP91Y47vfZNtr0qLX6YB+FsmGTCkPDzDsX/6bklXQxE3mke
+	FmvL+mxM491b3HUlXBiIvEA9/ciHQT6egSpzFrYgDByGEMheIB1vo1ZPdwafUYMh
+	UK7H1LcsOCROBFMS4LG9XVj9H/NI0xFQJiMvMD4T5J5FdBTxsAn8XQ/6ZY5t+KK1
+	4Zgtx88hwjA/Ovwe9JKa54rVANgPag5Xvt1smzWv7q/qqC2xVeA==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3wrkx4anya-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 12 Mar 2024 08:01:44 -0700 (PDT)
+Received: from m0250810.ppops.net (m0250810.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.24/8.17.1.24) with ESMTP id 42CEtHro010656
+	for <openembedded-core@lists.openembedded.org>; Tue, 12 Mar 2024 08:01:44 -0700
+Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2101.outbound.protection.outlook.com [104.47.55.101])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3wrkx4any2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 12 Mar 2024 08:01:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KT4GBu1DJGuWaiYrEIhCmoaVIIME/xI0fdgllmca3YpVNbVbm6yfnbbg6piYiCfW8WynI4a2t/A2X+s1Yf2T8VNhe8+az/RWkra7Clq/+1Of5AUfi1q8T0wkRunS1t+gaE5lFb97um5OTP89qgerElHT2J0aeeKOK27te/eNjhEfVce1x3YaFDDcMyefDA5IZ85su838hpbxZhJS5SQQo3wUQJ6jEih1rno4Copwz26vuUTmULovNJYJztA/EmY2AcjUln9LJ5HJFeoT5vyNMvWCS+Ucvvnbp4sqobyMK5gzWRwqGH8bFOYLW2IKIiYOCtJx9NdCsV+K/+QDXw3tNg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mIP8xULX7AkPZydKp7mVl6VM1eAMi6XQYDlOW4w5pB0=;
+ b=FTsZ3tFtzD+5GZ1vNruZgD0tyz7iDVn6qJtjri9b6pJgqDVb870RjcolmAhUJck0TCESdpQZdsFXrCfQ8nr4JUZyBbL2d+/BSUswMugoaHLBUttjVn6NyEOucs1fP4h7LqCAa9lddGMyiTbhs0h6A2ptuv6ixkl6eFluTeOVLY3Ah6VVFbyAgxQ4guBN5LDRI7cC/njWqs1h5xm746qTnuauraZnRgKBYTgSyE0EQt95F3AWTcmkvesrBRQD8uIXf09E9vnnMlFbnOSMQ09WEep9Iv6/3gefzByyPJ1/ni2IY3DVHJ+Pln3ugkRyFPdNsZd0YDWBiuqcpglg/8/1yw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from SJ0PR11MB5920.namprd11.prod.outlook.com (2603:10b6:a03:42e::9)
+ by IA1PR11MB6323.namprd11.prod.outlook.com (2603:10b6:208:389::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.18; Tue, 12 Mar
+ 2024 15:01:18 +0000
+Received: from SJ0PR11MB5920.namprd11.prod.outlook.com
+ ([fe80::c613:f5c5:2c48:3f9d]) by SJ0PR11MB5920.namprd11.prod.outlook.com
+ ([fe80::c613:f5c5:2c48:3f9d%4]) with mapi id 15.20.7386.016; Tue, 12 Mar 2024
+ 15:01:17 +0000
+Content-Type: multipart/alternative;
+ boundary="------------sk6t2aVJjsVu4pXLrNhn67Bg"
+Message-ID: <41c9861c-2041-433a-9de9-e7202c0ee3f6@windriver.com>
+Date: Tue, 12 Mar 2024 11:01:14 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [RFC PATCH V2 0/5] Fix persistent tmp
+Content-Language: en-CA
+To: changqing.li@eng.windriver.com, openembedded-core@lists.openembedded.org,
+        Trevor Woerner <twoerner@gmail.com>, Ross Burton <ross.burton@arm.com>
+References: <179FA115B6317FAF.20566@lists.openembedded.org>
+ <f32ecfd5-5d95-403e-87ed-b2db21a1afde@windriver.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+In-Reply-To: <f32ecfd5-5d95-403e-87ed-b2db21a1afde@windriver.com>
+X-ClientProxiedBy: BYAPR03CA0008.namprd03.prod.outlook.com
+ (2603:10b6:a02:a8::21) To SJ0PR11MB5920.namprd11.prod.outlook.com
+ (2603:10b6:a03:42e::9)
 MIME-Version: 1.0
-From: Stephen K Jolley <sjolley.yp.pm@gmail.com>
-Date: Tue, 12 Mar 2024 07:45:23 -0700
-Message-ID: <CAK5yBb-rUZzdqbXD4yoHiF5V-L2sOg1DVWMEsDGXWk36F2cexQ@mail.gmail.com>
-Subject: Yocto Project Status 12 March 2024 (WW11)
-To: Yocto-mailing-list <yocto@lists.yoctoproject.org>, 
-	",openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000de78ed061377b557"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR11MB5920:EE_|IA1PR11MB6323:EE_
+X-MS-Office365-Filtering-Correlation-Id: b8bfbccb-2d58-4ae9-9d03-08dc42a54495
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	jNxC7W6hbsPyfT5XJ8nyEokpINwzuQIME95OY5IvOHlMshFahiAE3WmizKa7vG8+99A+q1XkoWUZ3cnEHFpDafwbUO260TYJ5tEpnszpPhlBvnNZ6VLrcNh4oyXB0Ms5wqedBwrB75cuXrGfiiZQSabc41/eY37OYewuqk+hryQJq9dUP61RAz3wr3vFCoJN+RqkZ4ILK2qGKwmCcoceiTHVH1GiugDHMiu3yRqKMcjeiKaHICmH+shBbsFZXPiLzdV/LjHwfVJ/AOwrbxoH2s5Eyl0qt1EWjQUumio8P83T/7yjGM9tUUXcY6HBpVNxjY8DuN/MFPLEdIc5w4dk2/jICv6s9PZxAUYzDXjYryMaGXkKjwlOMAOqnz38b+pumV3wVhK1uN8ZFxCqHDdkJXobZx284DFWAPggI3SzFmQE8uffnwYdJv2Vvc2v7ZNCPWg/U3XZyRz3Cdc9/xI9pk/tAgUNSNTJM5j89fZl4hzv52/rhRU1CRNJkM/xxMbNhp1EKIygf2XLBdL1nbjUd0OByl2oZTmlLj0fSlZuAHVs++DtUvjQEqWwWONMed++tpYmlN9Q7G0mwePEGN7a0VW/dNFwUDoQuHEmcJ9XKFuox3Mjov4tzDj+3jMaPJYI
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5920.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(376005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?UER4S3VQVVZneVhpdkkvWFlubmNTbEw4c3FHODBxbmNrak1uWFRRSFBOV3hH?=
+ =?utf-8?B?MTlOc3dEdy9zS05ZY0hNMUYyVWp3WGFMM3J1bkF3MkpHQjl3RnpIc0YwRXRO?=
+ =?utf-8?B?RHg2MG1mcVZQT2dJUWhtRGwycFlGbzZ0aFEvLzZaa09HWmphZXZSTlRjQVR1?=
+ =?utf-8?B?dW04d1BNNDZwL0dML2svT1I4SnR1SEZqMzB3bjJIaTlqbnRYYXk0WGplSVM3?=
+ =?utf-8?B?azJNamlic2VEdHpkRndpY2k1Q1B1L3p5d0NQVGNWVDF3T1BsYlpVaDJMTGNC?=
+ =?utf-8?B?cUlVWVMyUHlpckFYb1JqdEhaUmEzWWdtLzFId1N2Y1pYR0lYWXpEditudk9t?=
+ =?utf-8?B?OGdPSmZWbm9ZK3dDbyt4aFdHbzM1YUJSZXhqeG84V09wSDcrWVdoVU02OGx3?=
+ =?utf-8?B?ZUpiWXdYUmRBblkrd3JKQU52UC96T01aMzRDMVRxU0ZibXpIMStjcUd1RWVN?=
+ =?utf-8?B?SXJ4b3lzMDZpRWdyVW9FYXpVK3FVU0oxNloxY0hBYXlDYUIxV0lVS0xsQ0ta?=
+ =?utf-8?B?dTJiQzZRdnJqMkIyQXNUVTgxMTBXcURqZ05mZUd2RUtIN0hYRWJuTXNBaHdM?=
+ =?utf-8?B?bjlKa1BHU216bllmckVzclBZWXdMYXJUTC9sdVJXNDJ0bWxwVFM1ZGg4eTly?=
+ =?utf-8?B?NUEzazJabGxpUjNoNS9MZTNDeU81RS92M2tLTEpkVWVOVzRsWFJCTG5PVEVv?=
+ =?utf-8?B?NWs5UkV4UFpmKzNzOE9MbHlhOHVJWXVVcjlHNjd0UnBlaytnWllBT0s4U0Nj?=
+ =?utf-8?B?V0w0M05ocktwWENHRHFlRmg4L2NLVnAzdmlxcGswa3R2ZWtsS2hEbVNZUGE2?=
+ =?utf-8?B?ek92M1RBZHNRZi9OVTc2YTlMcVVLTUhsbDd2ZitFM2dNb3JLS2RtT2xFVGY0?=
+ =?utf-8?B?TU5nUENyb1VIdGJ6bWc3R2hYdDBoWHFGYTU4WjFZd3RsUzYvSncxSTh6QTVp?=
+ =?utf-8?B?ZXIxM2dMNXl1YnQyZHltVkxyU2QyQ3R5emo3WVVZQmJrQmdxTEJVaGpGRjVj?=
+ =?utf-8?B?QzZaZHJ5TmROVXhLVGFtL0xoc21NcVVwVGNUcUdIT1NoaEJObzc2eEZ6dnMz?=
+ =?utf-8?B?Njgzakp4SXJpNVlzaFZEMWlKNjJvRCtSSFJRK2pjdFNNOHEvNk9MZFdXV2x2?=
+ =?utf-8?B?djlndFVqbnVnOC9TVlJINmxqd3B1aXM0NjBseEpFNWZ5dUtPVnVETHdFblRX?=
+ =?utf-8?B?OVR0anlNTUVod0NFMlJNL2tDYnJUZmxkaWFoZDY2T3I4V2RXZk9kaFFxY0VQ?=
+ =?utf-8?B?Y3A0ak91TGJmRDdzUXFVY3V5U1ZjOVowM3BSb1p1THRpR0tJdU1Camc0TEt0?=
+ =?utf-8?B?akNwU01TNGVPYkVQZWNhc013YURXdUp5cmJOSlNvMjNzQkF3ZFRHdG8vUHZ5?=
+ =?utf-8?B?NHlmLzBLUHZZeEw1bjNrNGhPRE04MmRMdTR3Uy9YVFc1SjlCUDYvZ3JreC9u?=
+ =?utf-8?B?NWVWdmlCUXNyVmdwaEo4YXRObVFjbHlndEtDZnlSZzdHSXNlYjF2U2RRa1hr?=
+ =?utf-8?B?ZEJ1L3UwYzFkaS9xSW9HSzcyZjZtZXNNOEpoeFdKZnR5Q1k3dUVmTndjcDlE?=
+ =?utf-8?B?S2hoUGowL0ttYkMyYzRocEU0b3oxVHZMUWJFTHZrSVlTaXZiNnBQNFVnVzBi?=
+ =?utf-8?B?alZ5OUZEL01HY0JZdHU2NEhmQi92bVJxYWFWS2FpY3NrcVJDUmcrTDZQbVF2?=
+ =?utf-8?B?MFlGc1piVkZZZ0ZsVmZMUUFOSTU3WDNMc3RrQ29ielFlcFNVeDd6Q1BWU2hw?=
+ =?utf-8?B?M2M3MC9ONU14VkhBd2Z5Z2dBTHNTWm12eTJzSlg1QVE5bGsvNERmSDRieU9D?=
+ =?utf-8?B?MnNvc3ZiT1J5dGRaa0RpV0xvMFl1a2hnTmJMNlRMSzFvcFJabFNnU2xVQlds?=
+ =?utf-8?B?SlYwemtHdnpoSWdPb28yaGhqWXd5RDJZaVNQallnbzBFa29CZlIvRU9CSzd0?=
+ =?utf-8?B?ZVpsRHMvaiswdHBTT0gvYzFianlWUzdacEZwUElaTGRzcjNoc0RVZmRXUlJk?=
+ =?utf-8?B?ZzBabG5LbFZWbG96S1N3VUhQendVRS9wWk95ZWpuTWRQc2l4bzZJMUIxcUVG?=
+ =?utf-8?B?aUU3MnBYd1Y3U3pFbUp1Q2Zxa01QUVpGWDVpOVE0N3FHSi9oOHUwVVF0bjB1?=
+ =?utf-8?B?ZGxjdE5TR3lrQ2RzY2pLVnN1b1F1NFhwTUlEN1B3YkcvUHF2NEZxaTBxQ1VZ?=
+ =?utf-8?B?c3c9PQ==?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b8bfbccb-2d58-4ae9-9d03-08dc42a54495
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5920.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Mar 2024 15:01:17.3162
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ECEVeY7qpSiUNKn3Og9rCDR1Pv0MKJZMZCvl5tKrmz8eku43XHIQ2uvZLtOaBzvN8D+T8pKxx7gp6NkgH6piCZltDKPMUlXrfMiwUwZ0QeE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB6323
+X-Proofpoint-GUID: cJgkRQXIww8XCs-8hWPb1foAxVPDivdG
+X-Proofpoint-ORIG-GUID: 1GZsY6U1fJ_5prB1WcC2zs-K8fiIWDwe
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-12_10,2024-03-12_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
+ priorityscore=1501 impostorscore=0 mlxlogscore=999 mlxscore=0 spamscore=0
+ phishscore=0 suspectscore=0 adultscore=0 lowpriorityscore=0 malwarescore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2402120000 definitions=main-2403120115
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 Mar 2024 14:45:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196992
-
---000000000000de78ed061377b557
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Current Dev Position: YP 5.0 M4 - Final Release
-
-Next Deadline: 1st April 2024 YP 5.0 M4 build
-
-Next Team Meetings:
-
-   -
-
-   Bug Triage meeting Thursday March 14th at 7:30 am PST (
-   https://zoom.us/j/454367603?pwd=3DZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09)
-   -
-
-   Weekly Project Engineering Sync Tuesday March 12th at 8 am PST (
-   https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT09)
-   <https://zoom.us/j/990892712>
-   -
-
-   Twitch -  See https://www.twitch.tv/theyoctojester
-
-
-Key Status/Updates:
-
-   -
-
-   YP 5.0 M3 is in QA
-   -
-
-   YP 3.1.32 was released
-   -
-
-   A key worry now is the documentation for the release, especially given
-   it is an LTS
-   -
-
-   The QA screenshot changes were merged but not enabled as there were too
-   many bugs still present.
-   -
-
-   The go upgrade to 1.22 did merge
-   -
-
-   We are seeing issues with devtool tests changing metadata and causing
-   race issues. It is unclear why we=E2=80=99re seeing these now.
-   -
-
-   The opkg lock issue with systemd images continues to be a significant
-   concern for the release.
-   -
-
-   The previously reported CVE database update issue on the autobuilder has
-   not been addressed yet. This is causing higher numbers of CVEs to be
-   reported on the autobuilder generated charts.
-   -
-
-   There have been questions about official RISC-V support in this next
-   release, especially since it is an LTS. We will trial qemuriscv64 suppor=
-t
-   in M3 but remove it before the final LTS release as there is no sponsor =
-for
-   that support.
-
-
-Ways to contribute:
-
-   -
-
-   As people are likely aware, the project has a number of components which
-   are either unmaintained, or have people with little to no time trying to
-   keep them alive. These components include: devtool, toaster, wic, oeqa,
-   autobuilder, CROPs containers, pseudo and more. Many have open bugs. Hel=
-p
-   is welcome in trying to better look after these components!
-   -
-
-   There are bugs identified as possible for newcomers to the project:
-   https://wiki.yoctoproject.org/wiki/Newcomers
-   -
-
-   There are bugs that are currently unassigned for YP 5.0. See:
-   https://wiki.yoctoproject.org/wiki/Bug_Triage#Medium+_5.0_Unassigned_Enh=
-ancements/Bugs
-   -
-
-   We=E2=80=99d welcome new maintainers for recipes in OE-Core. Please see =
-the list
-   at:
-   http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/conf/distro/include/=
-maintainers.inc
-   and discuss with the existing maintainer, or ask on the OE-Core mailing
-   list. We will likely move a chunk of these to =E2=80=9CUnassigned=E2=80=
-=9D soon to help
-   facilitate this.
-   -
-
-   Help is very much welcome in trying to resolve our autobuilder
-   intermittent issues. You can see the list of failures we=E2=80=99re cont=
-inuing to
-   see by searching for the =E2=80=9CAB-INT=E2=80=9D tag in bugzilla:
-   https://bugzilla.yoctoproject.org/buglist.cgi?quicksearch=3DAB-INT.
-   -
-
-   Help us resolve CVE issues: CVE metrics
-   <https://autobuilder.yocto.io/pub/non-release/patchmetrics/>
-   -
-
-   We have a growing number of bugs in bugzilla, any help with them is
-   appreciated.
-   -
-
-   Regarding bugs, even if you can=E2=80=99t fix a bug, submitting a failin=
-g test
-   case that can reproduce the issue significantly improves the chances it
-   might get fixed.
-
-
-YP 5.0 Milestone Dates:
-
-   -
-
-   YP 5.0 M3 is in QA.
-   -
-
-   YP 5.0 M4 build date  2024/04/01
-   -
-
-   YP 5.0 M4 Release date 2024/04/30
-
-
-Upcoming dot releases:
-
-   -
-
-   YP 3.1.32 was released.
-   -
-
-   YP 4.0.17 build date 2024/03/11
-   -
-
-   YP 4.0.17 Release date 2024/03/22
-   -
-
-   YP 4.3.4 build date 2024/03/25
-   -
-
-   YP 4.3.4 Release date 2024/04/05
-   -
-
-   YP 3.1.33 build date 2024/04/15
-   -
-
-   YP 3.1.33 Release date 2024/04/26
-   -
-
-   YP 4.0.18 build date 2024/04/22
-   -
-
-   YP 4.0.18 Release date 2024/05/03
-   -
-
-   YP 4.0.19 build date 2024/06/03
-   -
-
-   YP 4.0.19 Release date 2024/06/14
-
-
-Tracking Metrics:
-
-   -
-
-   WDD 2688 (last week 2618) (
-   https://wiki.yoctoproject.org/charts/combo.html)
-   -
-
-   OE-Core/Poky Patch Metrics
-   -
-
-      Total patches found: 1148 (last week 1155)
-      -
-
-      Patches in the Pending State: 249 (22%) [last week 249 (22%)]
-      -
-
-   https://autobuilder.yocto.io/pub/non-release/patchmetrics/
-
-
-The Yocto Project=E2=80=99s technical governance is through its Technical S=
-teering
-Committee, more information is available at:
-
-https://wiki.yoctoproject.org/wiki/TSC
-
-The Status reports are now stored on the wiki at:
-https://wiki.yoctoproject.org/wiki/Weekly_Status
-
-[If anyone has suggestions for other information you=E2=80=99d like to see =
-on this
-weekly status update, let us know!]
-
-Thanks,
-
-
-
-*Stephen K. Jolley*
-
-*Yocto Project Program Manager*
-
-(    *Cell*:                (208) 244-4460
-
-* *Email*:                 *s
-<stephen.k.jolley@intel.com>jolley.yp.pm@gmail.com <jolley.yp.pm@gmail.com>=
-*
-
---000000000000de78ed061377b557
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><span id=3D"gmail-docs-internal-guid-9e798738-7fff-b5dd-f6=
-1c-670e7a316e89"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;ma=
-rgin-bottom:0pt"><span style=3D"font-size:11pt;font-family:Arial,sans-serif=
-;color:rgb(0,0,0);background-color:transparent;font-variant-numeric:normal;=
-font-variant-east-asian:normal;font-variant-alternates:normal;vertical-alig=
-n:baseline">Current Dev Position: YP 5.0 M4 - Final Release</span></p><p di=
-r=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><span=
- style=3D"font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);back=
-ground-color:transparent;font-variant-numeric:normal;font-variant-east-asia=
-n:normal;font-variant-alternates:normal;vertical-align:baseline">Next Deadl=
-ine: 1st April 2024 YP 5.0 M4 build</span></p><br><p dir=3D"ltr" style=3D"l=
-ine-height:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:=
-11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:transpa=
-rent;font-variant-numeric:normal;font-variant-east-asian:normal;font-varian=
-t-alternates:normal;vertical-align:baseline">Next Team Meetings:</span></p>=
-<ul style=3D"margin-top:0px;margin-bottom:0px"><li dir=3D"ltr" style=3D"lis=
-t-style-type:disc;font-size:9.5pt;font-family:Arial,sans-serif;color:rgb(0,=
-0,0);background-color:transparent;font-variant-numeric:normal;font-variant-=
-east-asian:normal;font-variant-alternates:normal;vertical-align:baseline;wh=
-ite-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;marg=
-in-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;backgrou=
-nd-color:transparent;font-variant-numeric:normal;font-variant-east-asian:no=
-rmal;font-variant-alternates:normal;vertical-align:baseline">Bug Triage mee=
-ting Thursday March 14th at 7:30 am PST (</span><a href=3D"https://zoom.us/=
-j/454367603?pwd=3DZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09" style=3D"text-decoratio=
-n-line:none"><span style=3D"font-size:11pt;background-color:transparent;fon=
-t-variant-numeric:normal;font-variant-east-asian:normal;font-variant-altern=
-ates:normal;text-decoration-line:underline;vertical-align:baseline">https:/=
-/zoom.us/j/454367603?pwd=3DZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09</span></a><span=
- style=3D"font-size:11pt;background-color:transparent;font-variant-numeric:=
-normal;font-variant-east-asian:normal;font-variant-alternates:normal;vertic=
-al-align:baseline">)</span></p></li><li dir=3D"ltr" style=3D"list-style-typ=
-e:disc;font-size:9.5pt;font-family:Arial,sans-serif;color:rgb(0,0,0);backgr=
-ound-color:transparent;font-variant-numeric:normal;font-variant-east-asian:=
-normal;font-variant-alternates:normal;vertical-align:baseline;white-space:p=
-re"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0=
-pt" role=3D"presentation"><span style=3D"font-size:11pt;background-color:tr=
-ansparent;font-variant-numeric:normal;font-variant-east-asian:normal;font-v=
-ariant-alternates:normal;vertical-align:baseline">Weekly Project Engineerin=
-g Sync Tuesday March 12th at 8 am PST (</span><a href=3D"https://zoom.us/j/=
-990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT09" style=3D"text-decoration-=
-line:none"><span style=3D"font-size:11pt;background-color:transparent;font-=
-variant-numeric:normal;font-variant-east-asian:normal;font-variant-alternat=
-es:normal;text-decoration-line:underline;vertical-align:baseline">https://z=
-oom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT09</span></a><a href=
-=3D"https://zoom.us/j/990892712" style=3D"text-decoration-line:none"><span =
-style=3D"font-size:11pt;background-color:transparent;font-variant-numeric:n=
-ormal;font-variant-east-asian:normal;font-variant-alternates:normal;text-de=
-coration-line:underline;vertical-align:baseline">)</span></a></p></li><li d=
-ir=3D"ltr" style=3D"list-style-type:disc;font-size:9.5pt;font-family:Arial,=
-sans-serif;color:rgb(0,0,0);background-color:transparent;font-variant-numer=
-ic:normal;font-variant-east-asian:normal;font-variant-alternates:normal;ver=
-tical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1=
-.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"=
-font-size:11pt;background-color:transparent;font-variant-numeric:normal;fon=
-t-variant-east-asian:normal;font-variant-alternates:normal;vertical-align:b=
-aseline">Twitch -=C2=A0 See </span><a href=3D"https://www.twitch.tv/theyoct=
-ojester" style=3D"text-decoration-line:none"><span style=3D"font-size:11pt;=
-background-color:transparent;font-variant-numeric:normal;font-variant-east-=
-asian:normal;font-variant-alternates:normal;text-decoration-line:underline;=
-vertical-align:baseline">https://www.twitch.tv/theyoctojester</span></a><sp=
-an style=3D"font-size:11pt;background-color:transparent;font-variant-numeri=
-c:normal;font-variant-east-asian:normal;font-variant-alternates:normal;vert=
-ical-align:baseline">=C2=A0</span></p></li></ul><br><p dir=3D"ltr" style=3D=
-"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-siz=
-e:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:trans=
-parent;font-variant-numeric:normal;font-variant-east-asian:normal;font-vari=
-ant-alternates:normal;vertical-align:baseline">Key Status/Updates:</span></=
-p><ul style=3D"margin-top:0px;margin-bottom:0px"><li dir=3D"ltr" style=3D"l=
-ist-style-type:disc;font-size:11pt;font-family:Arial,sans-serif;color:rgb(0=
-,0,0);background-color:transparent;font-variant-numeric:normal;font-variant=
--east-asian:normal;font-variant-alternates:normal;vertical-align:baseline;w=
-hite-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;mar=
-gin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;backgro=
-und-color:transparent;font-variant-numeric:normal;font-variant-east-asian:n=
-ormal;font-variant-alternates:normal;vertical-align:baseline">YP 5.0 M3 is =
-in QA</span></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;font-siz=
-e:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:trans=
-parent;font-variant-numeric:normal;font-variant-east-asian:normal;font-vari=
-ant-alternates:normal;vertical-align:baseline;white-space:pre"><p dir=3D"lt=
-r" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"pres=
-entation"><span style=3D"font-size:11pt;background-color:transparent;font-v=
-ariant-numeric:normal;font-variant-east-asian:normal;font-variant-alternate=
-s:normal;vertical-align:baseline">YP 3.1.32 was released</span></p></li><li=
- dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-family:Arial=
-,sans-serif;color:rgb(0,0,0);background-color:transparent;font-variant-nume=
-ric:normal;font-variant-east-asian:normal;font-variant-alternates:normal;ve=
-rtical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:=
-1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D=
-"font-size:11pt;background-color:transparent;font-variant-numeric:normal;fo=
-nt-variant-east-asian:normal;font-variant-alternates:normal;vertical-align:=
-baseline">A key worry now is the documentation for the release, especially =
-given it is an LTS</span></p></li><li dir=3D"ltr" style=3D"list-style-type:=
-disc;font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);backgroun=
-d-color:transparent;font-variant-numeric:normal;font-variant-east-asian:nor=
-mal;font-variant-alternates:normal;vertical-align:baseline;white-space:pre"=
-><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"=
- role=3D"presentation"><span style=3D"font-size:11pt;background-color:trans=
-parent;font-variant-numeric:normal;font-variant-east-asian:normal;font-vari=
-ant-alternates:normal;vertical-align:baseline">The QA screenshot changes we=
-re merged but not enabled as there were too many bugs still present.</span>=
-</p></li><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-=
-family:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-=
-variant-numeric:normal;font-variant-east-asian:normal;font-variant-alternat=
-es:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"=
-line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><s=
-pan style=3D"font-size:11pt;background-color:transparent;font-variant-numer=
-ic:normal;font-variant-east-asian:normal;font-variant-alternates:normal;ver=
-tical-align:baseline">The go upgrade to 1.22 did merge</span></p></li><li d=
-ir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-family:Arial,s=
-ans-serif;color:rgb(0,0,0);background-color:transparent;font-variant-numeri=
-c:normal;font-variant-east-asian:normal;font-variant-alternates:normal;vert=
-ical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.=
-38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"f=
-ont-size:11pt;background-color:transparent;font-variant-numeric:normal;font=
--variant-east-asian:normal;font-variant-alternates:normal;vertical-align:ba=
-seline">We are seeing issues with devtool tests changing metadata and causi=
-ng race issues. It is unclear why we=E2=80=99re seeing these now.</span></p=
-></li><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-fam=
-ily:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-var=
-iant-numeric:normal;font-variant-east-asian:normal;font-variant-alternates:=
-normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"lin=
-e-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span=
- style=3D"font-size:11pt;background-color:transparent;font-variant-numeric:=
-normal;font-variant-east-asian:normal;font-variant-alternates:normal;vertic=
-al-align:baseline">The opkg lock issue with systemd images continues to be =
-a significant concern for the release.</span></p></li><li dir=3D"ltr" style=
-=3D"list-style-type:disc;font-size:11pt;font-family:Arial,sans-serif;color:=
-rgb(0,0,0);background-color:transparent;font-variant-numeric:normal;font-va=
-riant-east-asian:normal;font-variant-alternates:normal;vertical-align:basel=
-ine;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0p=
-t;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;ba=
-ckground-color:transparent;font-variant-numeric:normal;font-variant-east-as=
-ian:normal;font-variant-alternates:normal;vertical-align:baseline">The prev=
-iously reported CVE database update issue on the autobuilder has not been a=
-ddressed yet. This is causing higher numbers of CVEs to be reported on the =
-autobuilder generated charts.</span></p></li><li dir=3D"ltr" style=3D"list-=
-style-type:disc;font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0=
-);background-color:transparent;font-variant-numeric:normal;font-variant-eas=
-t-asian:normal;font-variant-alternates:normal;vertical-align:baseline;white=
--space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-=
-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;background-=
-color:transparent;font-variant-numeric:normal;font-variant-east-asian:norma=
-l;font-variant-alternates:normal;vertical-align:baseline">There have been q=
-uestions about official RISC-V support in this next release, especially sin=
-ce it is an LTS. We will trial qemuriscv64 support in M3 but remove it befo=
-re the final LTS release as there is no sponsor for that support.</span></p=
-></li></ul><br><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;marg=
-in-bottom:0pt"><span style=3D"font-size:11pt;font-family:Arial,sans-serif;c=
-olor:rgb(0,0,0);background-color:transparent;font-variant-numeric:normal;fo=
-nt-variant-east-asian:normal;font-variant-alternates:normal;vertical-align:=
-baseline">Ways to contribute:</span></p><ul style=3D"margin-top:0px;margin-=
-bottom:0px"><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;fo=
-nt-family:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;fo=
-nt-variant-numeric:normal;font-variant-east-asian:normal;font-variant-alter=
-nates:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=
-=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation=
-"><span style=3D"font-size:11pt;background-color:transparent;font-variant-n=
-umeric:normal;font-variant-east-asian:normal;font-variant-alternates:normal=
-;vertical-align:baseline">As people are likely aware, the project has a num=
-ber of components which are either unmaintained, or have people with little=
- to no time trying to keep them alive. These components include: devtool, t=
-oaster, wic, oeqa, autobuilder, CROPs containers, pseudo and more. Many hav=
-e open bugs. Help is welcome in trying to better look after these component=
-s!</span></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:1=
-1pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:transpar=
-ent;font-variant-numeric:normal;font-variant-east-asian:normal;font-variant=
--alternates:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" =
-style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"present=
-ation"><span style=3D"font-size:11pt;background-color:transparent;font-vari=
-ant-numeric:normal;font-variant-east-asian:normal;font-variant-alternates:n=
-ormal;vertical-align:baseline">There are bugs identified as possible for ne=
-wcomers to the project: </span><a href=3D"https://wiki.yoctoproject.org/wik=
-i/Newcomers" style=3D"text-decoration-line:none"><span style=3D"font-size:1=
-1pt;background-color:transparent;font-variant-numeric:normal;font-variant-e=
-ast-asian:normal;font-variant-alternates:normal;text-decoration-line:underl=
-ine;vertical-align:baseline">https://wiki.yoctoproject.org/wiki/Newcomers</=
-span></a></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:1=
-1pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:transpar=
-ent;font-variant-numeric:normal;font-variant-east-asian:normal;font-variant=
--alternates:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" =
-style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"present=
-ation"><span style=3D"font-size:11pt;background-color:transparent;font-vari=
-ant-numeric:normal;font-variant-east-asian:normal;font-variant-alternates:n=
-ormal;vertical-align:baseline">There are bugs that are currently unassigned=
- for YP 5.0. See: </span><a href=3D"https://wiki.yoctoproject.org/wiki/Bug_=
-Triage#Medium+_5.0_Unassigned_Enhancements/Bugs" style=3D"text-decoration-l=
-ine:none"><span style=3D"font-size:11pt;background-color:transparent;font-v=
-ariant-numeric:normal;font-variant-east-asian:normal;font-variant-alternate=
-s:normal;text-decoration-line:underline;vertical-align:baseline">https://wi=
-ki.yoctoproject.org/wiki/Bug_Triage#Medium+_5.0_Unassigned_Enhancements/Bug=
-s</span></a></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;font-siz=
-e:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:trans=
-parent;font-variant-numeric:normal;font-variant-east-asian:normal;font-vari=
-ant-alternates:normal;vertical-align:baseline;white-space:pre"><p dir=3D"lt=
-r" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"pres=
-entation"><span style=3D"font-size:11pt;background-color:transparent;font-v=
-ariant-numeric:normal;font-variant-east-asian:normal;font-variant-alternate=
-s:normal;vertical-align:baseline">We=E2=80=99d welcome new maintainers for =
-recipes in OE-Core. Please see the list at: </span><a href=3D"http://git.yo=
-ctoproject.org/cgit.cgi/poky/tree/meta/conf/distro/include/maintainers.inc"=
- style=3D"text-decoration-line:none"><span style=3D"font-size:11pt;backgrou=
-nd-color:transparent;font-variant-numeric:normal;font-variant-east-asian:no=
-rmal;font-variant-alternates:normal;text-decoration-line:underline;vertical=
--align:baseline">http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/conf/d=
-istro/include/maintainers.inc</span></a><span style=3D"font-size:11pt;backg=
-round-color:transparent;font-variant-numeric:normal;font-variant-east-asian=
-:normal;font-variant-alternates:normal;vertical-align:baseline"> and discus=
-s with the existing maintainer, or ask on the OE-Core mailing list. We will=
- likely move a chunk of these to =E2=80=9CUnassigned=E2=80=9D soon to help =
-facilitate this.</span></p></li><li dir=3D"ltr" style=3D"list-style-type:di=
-sc;font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-=
-color:transparent;font-variant-numeric:normal;font-variant-east-asian:norma=
-l;font-variant-alternates:normal;vertical-align:baseline;white-space:pre"><=
-p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" r=
-ole=3D"presentation"><span style=3D"font-size:11pt;background-color:transpa=
-rent;font-variant-numeric:normal;font-variant-east-asian:normal;font-varian=
-t-alternates:normal;vertical-align:baseline">Help is very much welcome in t=
-rying to resolve our autobuilder intermittent issues. You can see the list =
-of failures we=E2=80=99re continuing to see by searching for the =E2=80=9CA=
-B-INT=E2=80=9D tag in bugzilla: </span><a href=3D"https://bugzilla.yoctopro=
-ject.org/buglist.cgi?quicksearch=3DAB-INT" style=3D"text-decoration-line:no=
-ne"><span style=3D"font-size:11pt;background-color:transparent;font-variant=
--numeric:normal;font-variant-east-asian:normal;font-variant-alternates:norm=
-al;text-decoration-line:underline;vertical-align:baseline">https://bugzilla=
-.yoctoproject.org/buglist.cgi?quicksearch=3DAB-INT</span></a><span style=3D=
-"font-size:11pt;background-color:transparent;font-variant-numeric:normal;fo=
-nt-variant-east-asian:normal;font-variant-alternates:normal;vertical-align:=
-baseline">.</span></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;fo=
-nt-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color=
-:transparent;font-variant-numeric:normal;font-variant-east-asian:normal;fon=
-t-variant-alternates:normal;vertical-align:baseline;white-space:pre"><p dir=
-=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=
-=3D"presentation"><span style=3D"font-size:11pt;background-color:transparen=
-t;font-variant-numeric:normal;font-variant-east-asian:normal;font-variant-a=
-lternates:normal;vertical-align:baseline">Help us resolve CVE issues: </spa=
-n><a href=3D"https://autobuilder.yocto.io/pub/non-release/patchmetrics/" st=
-yle=3D"text-decoration-line:none"><span style=3D"font-size:11pt;background-=
-color:transparent;font-variant-numeric:normal;font-variant-east-asian:norma=
-l;font-variant-alternates:normal;text-decoration-line:underline;vertical-al=
-ign:baseline">CVE metrics</span></a><span style=3D"font-size:11pt;backgroun=
-d-color:transparent;font-variant-numeric:normal;font-variant-east-asian:nor=
-mal;font-variant-alternates:normal;vertical-align:baseline">=C2=A0</span></=
-p></li><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-fa=
-mily:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-va=
-riant-numeric:normal;font-variant-east-asian:normal;font-variant-alternates=
-:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"li=
-ne-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><spa=
-n style=3D"font-size:11pt;background-color:transparent;font-variant-numeric=
-:normal;font-variant-east-asian:normal;font-variant-alternates:normal;verti=
-cal-align:baseline">We have a growing number of bugs in bugzilla, any help =
-with them is appreciated.</span></p></li><li dir=3D"ltr" style=3D"list-styl=
-e-type:disc;font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);ba=
-ckground-color:transparent;font-variant-numeric:normal;font-variant-east-as=
-ian:normal;font-variant-alternates:normal;vertical-align:baseline;white-spa=
-ce:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bott=
-om:0pt" role=3D"presentation"><span style=3D"font-size:11pt;background-colo=
-r:transparent;font-variant-numeric:normal;font-variant-east-asian:normal;fo=
-nt-variant-alternates:normal;vertical-align:baseline">Regarding bugs, even =
-if you can=E2=80=99t fix a bug, submitting a failing test case that can rep=
-roduce the issue significantly improves the chances it might get fixed.</sp=
-an></p></li></ul><br><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0p=
-t;margin-bottom:0pt"><span style=3D"font-size:11pt;font-family:Arial,sans-s=
-erif;color:rgb(0,0,0);background-color:transparent;font-variant-numeric:nor=
-mal;font-variant-east-asian:normal;font-variant-alternates:normal;vertical-=
-align:baseline">YP 5.0 Milestone Dates:</span></p><ul style=3D"margin-top:0=
-px;margin-bottom:0px"><li dir=3D"ltr" style=3D"list-style-type:disc;font-si=
-ze:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:tran=
-sparent;font-variant-numeric:normal;font-variant-east-asian:normal;font-var=
-iant-alternates:normal;vertical-align:baseline;white-space:pre"><p dir=3D"l=
-tr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"pre=
-sentation"><span style=3D"font-size:11pt;background-color:transparent;font-=
-variant-numeric:normal;font-variant-east-asian:normal;font-variant-alternat=
-es:normal;vertical-align:baseline">YP 5.0 M3 is in QA.</span></p></li><li d=
-ir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-family:Arial,s=
-ans-serif;color:rgb(0,0,0);background-color:transparent;font-variant-numeri=
-c:normal;font-variant-east-asian:normal;font-variant-alternates:normal;vert=
-ical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.=
-38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"f=
-ont-size:11pt;background-color:transparent;font-variant-numeric:normal;font=
--variant-east-asian:normal;font-variant-alternates:normal;vertical-align:ba=
-seline">YP 5.0 M4 build date=C2=A0 2024/04/01</span></p></li><li dir=3D"ltr=
-" style=3D"list-style-type:disc;font-size:11pt;font-family:Arial,sans-serif=
-;color:rgb(0,0,0);background-color:transparent;font-variant-numeric:normal;=
-font-variant-east-asian:normal;font-variant-alternates:normal;vertical-alig=
-n:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin=
--top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:=
-11pt;background-color:transparent;font-variant-numeric:normal;font-variant-=
-east-asian:normal;font-variant-alternates:normal;vertical-align:baseline">Y=
-P 5.0 M4 Release date 2024/04/30</span></p></li></ul><br><p dir=3D"ltr" sty=
-le=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D"fon=
-t-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:=
-transparent;font-variant-numeric:normal;font-variant-east-asian:normal;font=
--variant-alternates:normal;vertical-align:baseline">Upcoming dot releases:<=
-/span></p><ul style=3D"margin-top:0px;margin-bottom:0px"><li dir=3D"ltr" st=
-yle=3D"list-style-type:disc;font-size:11pt;font-family:Arial,sans-serif;col=
-or:rgb(0,0,0);background-color:transparent;font-variant-numeric:normal;font=
--variant-east-asian:normal;font-variant-alternates:normal;vertical-align:ba=
-seline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top=
-:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt=
-;background-color:transparent;font-variant-numeric:normal;font-variant-east=
--asian:normal;font-variant-alternates:normal;vertical-align:baseline">YP 3.=
-1.32 was released.</span></p></li><li dir=3D"ltr" style=3D"list-style-type:=
-disc;font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);backgroun=
-d-color:transparent;font-variant-numeric:normal;font-variant-east-asian:nor=
-mal;font-variant-alternates:normal;vertical-align:baseline;white-space:pre"=
-><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"=
- role=3D"presentation"><span style=3D"font-size:11pt;background-color:trans=
-parent;font-variant-numeric:normal;font-variant-east-asian:normal;font-vari=
-ant-alternates:normal;vertical-align:baseline">YP 4.0.17 build date 2024/03=
-/11</span></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:=
-11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:transpa=
-rent;font-variant-numeric:normal;font-variant-east-asian:normal;font-varian=
-t-alternates:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr"=
- style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presen=
-tation"><span style=3D"font-size:11pt;background-color:transparent;font-var=
-iant-numeric:normal;font-variant-east-asian:normal;font-variant-alternates:=
-normal;vertical-align:baseline">YP 4.0.17 Release date 2024/03/22</span></p=
-></li><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-fam=
-ily:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-var=
-iant-numeric:normal;font-variant-east-asian:normal;font-variant-alternates:=
-normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"lin=
-e-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span=
- style=3D"font-size:11pt;background-color:transparent;font-variant-numeric:=
-normal;font-variant-east-asian:normal;font-variant-alternates:normal;vertic=
-al-align:baseline">YP 4.3.4 build date 2024/03/25</span></p></li><li dir=3D=
-"ltr" style=3D"list-style-type:disc;font-size:11pt;font-family:Arial,sans-s=
-erif;color:rgb(0,0,0);background-color:transparent;font-variant-numeric:nor=
-mal;font-variant-east-asian:normal;font-variant-alternates:normal;vertical-=
-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;ma=
-rgin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-s=
-ize:11pt;background-color:transparent;font-variant-numeric:normal;font-vari=
-ant-east-asian:normal;font-variant-alternates:normal;vertical-align:baselin=
-e">YP 4.3.4 Release date 2024/04/05</span></p></li><li dir=3D"ltr" style=3D=
-"list-style-type:disc;font-size:11pt;font-family:Arial,sans-serif;color:rgb=
-(0,0,0);background-color:transparent;font-variant-numeric:normal;font-varia=
-nt-east-asian:normal;font-variant-alternates:normal;vertical-align:baseline=
-;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;m=
-argin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;backg=
-round-color:transparent;font-variant-numeric:normal;font-variant-east-asian=
-:normal;font-variant-alternates:normal;vertical-align:baseline">YP 3.1.33 b=
-uild date 2024/04/15</span></p></li><li dir=3D"ltr" style=3D"list-style-typ=
-e:disc;font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);backgro=
-und-color:transparent;font-variant-numeric:normal;font-variant-east-asian:n=
-ormal;font-variant-alternates:normal;vertical-align:baseline;white-space:pr=
-e"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0p=
-t" role=3D"presentation"><span style=3D"font-size:11pt;background-color:tra=
-nsparent;font-variant-numeric:normal;font-variant-east-asian:normal;font-va=
-riant-alternates:normal;vertical-align:baseline">YP 3.1.33 Release date 202=
-4/04/26</span></p></li><li dir=3D"ltr" style=3D"list-style-type:disc;font-s=
-ize:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:tra=
-nsparent;font-variant-numeric:normal;font-variant-east-asian:normal;font-va=
-riant-alternates:normal;vertical-align:baseline;white-space:pre"><p dir=3D"=
-ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"pr=
-esentation"><span style=3D"font-size:11pt;background-color:transparent;font=
--variant-numeric:normal;font-variant-east-asian:normal;font-variant-alterna=
-tes:normal;vertical-align:baseline">YP 4.0.18 build date 2024/04/22</span><=
-/p></li><li dir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-f=
-amily:Arial,sans-serif;color:rgb(0,0,0);background-color:transparent;font-v=
-ariant-numeric:normal;font-variant-east-asian:normal;font-variant-alternate=
-s:normal;vertical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"l=
-ine-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><sp=
-an style=3D"font-size:11pt;background-color:transparent;font-variant-numeri=
-c:normal;font-variant-east-asian:normal;font-variant-alternates:normal;vert=
-ical-align:baseline">YP 4.0.18 Release date 2024/05/03</span></p></li><li d=
-ir=3D"ltr" style=3D"list-style-type:disc;font-size:11pt;font-family:Arial,s=
-ans-serif;color:rgb(0,0,0);background-color:transparent;font-variant-numeri=
-c:normal;font-variant-east-asian:normal;font-variant-alternates:normal;vert=
-ical-align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.=
-38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"f=
-ont-size:11pt;background-color:transparent;font-variant-numeric:normal;font=
--variant-east-asian:normal;font-variant-alternates:normal;vertical-align:ba=
-seline">YP 4.0.19 build date 2024/06/03</span></p></li><li dir=3D"ltr" styl=
-e=3D"list-style-type:disc;font-size:11pt;font-family:Arial,sans-serif;color=
-:rgb(0,0,0);background-color:transparent;font-variant-numeric:normal;font-v=
-ariant-east-asian:normal;font-variant-alternates:normal;vertical-align:base=
-line;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0=
-pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;b=
-ackground-color:transparent;font-variant-numeric:normal;font-variant-east-a=
-sian:normal;font-variant-alternates:normal;vertical-align:baseline">YP 4.0.=
-19 Release date 2024/06/14</span></p></li></ul><br><p dir=3D"ltr" style=3D"=
-line-height:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-size=
-:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color:transp=
-arent;font-variant-numeric:normal;font-variant-east-asian:normal;font-varia=
-nt-alternates:normal;vertical-align:baseline">Tracking Metrics:</span></p><=
-ul style=3D"margin-top:0px;margin-bottom:0px"><li dir=3D"ltr" style=3D"list=
--style-type:disc;font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,=
-0);background-color:transparent;font-variant-numeric:normal;font-variant-ea=
-st-asian:normal;font-variant-alternates:normal;vertical-align:baseline;whit=
-e-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin=
--bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;background=
--color:transparent;font-variant-numeric:normal;font-variant-east-asian:norm=
-al;font-variant-alternates:normal;vertical-align:baseline">WDD 2688 (last w=
-eek 2618) </span><span style=3D"font-size:11pt;font-family:Consolas,sans-se=
-rif;background-color:transparent;font-variant-numeric:normal;font-variant-e=
-ast-asian:normal;font-variant-alternates:normal;vertical-align:baseline">(<=
-/span><a href=3D"https://wiki.yoctoproject.org/charts/combo.html" style=3D"=
-text-decoration-line:none"><span style=3D"font-size:11pt;background-color:t=
-ransparent;font-variant-numeric:normal;font-variant-east-asian:normal;font-=
-variant-alternates:normal;text-decoration-line:underline;vertical-align:bas=
-eline">https://wiki.yoctoproject.org/charts/combo.html</span></a><span styl=
-e=3D"font-size:11pt;font-family:Consolas,sans-serif;background-color:transp=
-arent;font-variant-numeric:normal;font-variant-east-asian:normal;font-varia=
-nt-alternates:normal;vertical-align:baseline">)</span></p></li><li dir=3D"l=
-tr" style=3D"list-style-type:disc;font-size:11pt;font-family:Consolas,sans-=
-serif;color:rgb(0,0,0);background-color:transparent;font-variant-numeric:no=
-rmal;font-variant-east-asian:normal;font-variant-alternates:normal;vertical=
--align:baseline;white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;m=
-argin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-=
-size:11pt;font-family:Arial,sans-serif;background-color:transparent;font-va=
-riant-numeric:normal;font-variant-east-asian:normal;font-variant-alternates=
-:normal;vertical-align:baseline">OE-Core/Poky Patch Metrics</span></p></li>=
-<ul style=3D"margin-top:0px;margin-bottom:0px"><li dir=3D"ltr" style=3D"lis=
-t-style-type:circle;font-size:11pt;font-family:Arial,sans-serif;color:rgb(0=
-,0,0);background-color:transparent;font-variant-numeric:normal;font-variant=
--east-asian:normal;font-variant-alternates:normal;vertical-align:baseline;w=
-hite-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;mar=
-gin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;backgro=
-und-color:transparent;font-variant-numeric:normal;font-variant-east-asian:n=
-ormal;font-variant-alternates:normal;vertical-align:baseline">Total patches=
- found: 1148 (last week 1155)</span></p></li><li dir=3D"ltr" style=3D"list-=
-style-type:circle;font-size:11pt;font-family:Consolas,sans-serif;color:rgb(=
-0,0,0);background-color:transparent;font-variant-numeric:normal;font-varian=
-t-east-asian:normal;font-variant-alternates:normal;vertical-align:baseline;=
-white-space:pre"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;ma=
-rgin-bottom:0pt" role=3D"presentation"><span style=3D"font-size:11pt;font-f=
-amily:Arial,sans-serif;background-color:transparent;font-variant-numeric:no=
-rmal;font-variant-east-asian:normal;font-variant-alternates:normal;vertical=
--align:baseline">Patches in the Pending State: 249 (22%) [last week 249 (22=
-%)]</span></p></li></ul><li dir=3D"ltr" style=3D"list-style-type:disc;font-=
-size:11pt;font-family:Consolas,sans-serif;color:rgb(0,0,0);background-color=
-:transparent;font-variant-numeric:normal;font-variant-east-asian:normal;fon=
-t-variant-alternates:normal;vertical-align:baseline;white-space:pre"><p dir=
-=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=
-=3D"presentation"><a href=3D"https://autobuilder.yocto.io/pub/non-release/p=
-atchmetrics/" style=3D"text-decoration-line:none"><span style=3D"font-size:=
-11pt;font-family:Arial,sans-serif;background-color:transparent;font-variant=
--numeric:normal;font-variant-east-asian:normal;font-variant-alternates:norm=
-al;text-decoration-line:underline;vertical-align:baseline">https://autobuil=
-der.yocto.io/pub/non-release/patchmetrics/</span></a></p></li></ul><br><p d=
-ir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><spa=
-n style=3D"font-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);bac=
-kground-color:transparent;font-variant-numeric:normal;font-variant-east-asi=
-an:normal;font-variant-alternates:normal;vertical-align:baseline">The Yocto=
- Project=E2=80=99s technical governance is through its Technical Steering C=
-ommittee, more information is available at:</span></p><p dir=3D"ltr" style=
-=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><a href=3D"https://w=
-iki.yoctoproject.org/wiki/TSC" style=3D"text-decoration-line:none"><span st=
-yle=3D"font-size:11pt;font-family:Arial,sans-serif;background-color:transpa=
-rent;font-variant-numeric:normal;font-variant-east-asian:normal;font-varian=
-t-alternates:normal;text-decoration-line:underline;vertical-align:baseline"=
->https://wiki.yoctoproject.org/wiki/TSC</span></a></p><br><p dir=3D"ltr" st=
-yle=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D"fo=
-nt-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color=
-:transparent;font-variant-numeric:normal;font-variant-east-asian:normal;fon=
-t-variant-alternates:normal;vertical-align:baseline">The Status reports are=
- now stored on the wiki at: </span><a href=3D"https://wiki.yoctoproject.org=
-/wiki/Weekly_Status" style=3D"text-decoration-line:none"><span style=3D"fon=
-t-size:11pt;font-family:Arial,sans-serif;background-color:transparent;font-=
-variant-numeric:normal;font-variant-east-asian:normal;font-variant-alternat=
-es:normal;text-decoration-line:underline;vertical-align:baseline">https://w=
-iki.yoctoproject.org/wiki/Weekly_Status</span></a></p><br><p dir=3D"ltr" st=
-yle=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D"fo=
-nt-size:11pt;font-family:Arial,sans-serif;color:rgb(0,0,0);background-color=
-:transparent;font-variant-numeric:normal;font-variant-east-asian:normal;fon=
-t-variant-alternates:normal;vertical-align:baseline">[If anyone has suggest=
-ions for other information you=E2=80=99d like to see on this weekly status =
-update, let us know!]</span></p></span><br class=3D"gmail-Apple-interchange=
--newline"><div dir=3D"ltr" class=3D"gmail_signature" data-smartmail=3D"gmai=
-l_signature"><div dir=3D"ltr"><div dir=3D"ltr"><p class=3D"MsoNormal" style=
-=3D"background-image:initial;background-position:initial;background-repeat:=
-initial"><span style=3D"font-size:12pt;font-family:Arial,sans-serif">Thanks=
-,<span></span></span></p>
-
-<p class=3D"MsoNormal" style=3D"background-image:initial;background-positio=
-n:initial;background-repeat:initial"><span style=3D"font-size:12pt;font-fam=
-ily:Arial,sans-serif">=C2=A0<span></span></span></p>
-
-<p class=3D"MsoNormal" style=3D"background-image:initial;background-positio=
-n:initial;background-repeat:initial"><b><i><span style=3D"font-size:16pt;co=
-lor:purple">Stephen K. Jolley</span></i></b><span style=3D"font-size:12pt;f=
-ont-family:Arial,sans-serif"><span></span></span></p>
-
-<p class=3D"MsoNormal" style=3D"background-image:initial;background-positio=
-n:initial;background-repeat:initial"><b><span style=3D"font-size:8pt;font-f=
-amily:&quot;Courier New&quot;;color:blue">Yocto Project Program Manager</sp=
-an></b></p>
-
-<p class=3D"MsoNormal" style=3D"background-image:initial;background-positio=
-n:initial;background-repeat:initial"><span style=3D"font-size:9pt;font-fami=
-ly:Wingdings;color:black">(</span><span style=3D"font-size:9pt;font-family:=
-&quot;MS Sans Serif&quot;,serif;color:teal">=C2=A0=C2=A0=C2=A0=C2=A0</span>=
-<b><span style=3D"font-size:8pt;font-family:&quot;Comic Sans MS&quot;;color=
-:teal">Cell</span></b><span style=3D"font-size:9pt;font-family:&quot;MS San=
-s Serif&quot;,serif;color:teal">:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 </span><span style=3D"font=
--size:9pt;font-family:&quot;MS Sans Serif&quot;,serif">(208) 244-4460</span=
-><span style=3D"font-size:12pt;font-family:Arial,sans-serif"><span></span><=
-/span></p>
-
-<p class=3D"MsoNormal" style=3D"background-image:initial;background-positio=
-n:initial;background-repeat:initial"><span style=3D"font-size:9pt;font-fami=
-ly:Wingdings">*=C2=A0</span><b><span lang=3D"FR" style=3D"font-size:8pt;fon=
-t-family:&quot;Comic Sans MS&quot;;color:teal">Email</span></b><span lang=
-=3D"FR" style=3D"font-size:9pt;font-family:&quot;MS Sans Serif&quot;,serif;=
-color:teal">:</span><span lang=3D"FR" style=3D"font-size:9pt;font-family:&q=
-uot;MS Sans Serif&quot;,serif">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0</span><u><span=
- lang=3D"FR" style=3D"font-size:9pt;font-family:&quot;MS Sans Serif&quot;,s=
-erif;color:blue"><span style=3D"color:rgb(17,85,204)"><a href=3D"mailto:ste=
-phen.k.jolley@intel.com" target=3D"_blank">s</a><a href=3D"mailto:jolley.yp=
-.pm@gmail.com" target=3D"_blank">jolley.yp.pm@gmail.com</a></span></span></=
-u></p></div></div></div></div>
-
---000000000000de78ed061377b557--
+ <openembedded-core@lists.openembedded.org>; Tue, 12 Mar 2024 15:01:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/196993
+
+--------------sk6t2aVJjsVu4pXLrNhn67Bg
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+X-MIME-Autoconverted: from 8bit to base64 by mx0a-0064b401.pphosted.com id 42C6WB8r020050
+
+QWRkIFRyZXZvciB3aG8gbWFkZSB0aGUgb3JpZ2luYWwgY29tbWl0Og0KDQpjb21taXQgZDVk
+NDA0NzlkNzA2Y2JiMzgyODUwYjk0NzljNWRkOWJmYjgwMWM5OQ0KQXV0aG9yOiBUcmV2b3Ig
+V29lcm5lciA8dHdvZXJuZXJAZ21haWwuY29tPg0KRGF0ZTrCoMKgIE1vbiBGZWIgMjcgMDA6
+MDA6NDAgMjAyMw0KDQogwqDCoMKgIFZPTEFUSUxFX1RNUF9ESVI6IGFkZA0KDQogwqDCoMKg
+IFByb3ZpZGUgYSBtZWNoYW5pc20gdG8gYWxsb3cgdXNlcnMgdG8gY2hvb3NlIHdoZXRoZXIg
+dGhlIC90bXAgZGlyZWN0b3J5DQogwqDCoMKgIGlzIG9uIHBlcnNpc3RlbnQgc3RvcmFnZSAo
+bm9uLXZvbGF0aWxlKSBvciBhIFJBTS1iYXNlZCB0bXBmcyANCih2b2xhdGlsZSkuDQogwqDC
+oMKgIFRoZSBkZWZhdWx0IGlzIHZvbGF0aWxlLg0KDQogwqDCoMKgIFdvcmtzIGZvciBib3Ro
+IHN5c3Zpbml0LWJhc2VkIGFuZCBzeXN0ZW1kLWJhc2VkIHN5c3RlbXMuDQoNCg0KYW5kIFJv
+c3Mgd2hvIHNhaWQgaGUnZCB0YWtlIGEgbG9vayBhdCB0aGlzIFJGQy4NCg0KDQpPbiAyMDI0
+LTAyLTAzIDk6NTggcC5tLiwgQ2hhbmdxaW5nIExpIHZpYSBsaXN0cy5vcGVuZW1iZWRkZWQu
+b3JnIHdyb3RlOg0KPiBwaW5nDQo+DQo+IE9uIDEyLzExLzIzIDA4OjU4LCBDaGFuZ3Fpbmcg
+TGkgd3JvdGU6DQo+PiBGcm9tOiBDaGFuZ3FpbmcgTGkgPGNoYW5ncWluZy5saUB3aW5kcml2
+ZXIuY29tPg0KPj4NCj4+IEhpLCBBbGwNCj4+DQo+PiBDdXJyZW50bHksIFZPTEFUSUxFX1RN
+UF9ESVIgbm90IHdvcmtzLA0KPj4gc2V0IFZPTEFUSUxFX1RNUF9ESVI9Im5vIiwgVk9MQVRJ
+TEVfTE9HX0RJUj0ibm8iLCBhZnRlciBib290IHRhcmdldCwNCj4+IC92YXIvdG1wIHN0aWxs
+IGxpbmsgdG8gdG1wZnMgL3Zhci92b2xhdGlsZS90bXANCj4+DQo+PiBscnd4cnd4cnd4wqAg
+MSByb290IHJvb3TCoMKgIDExIE1hcsKgIDnCoCAyMDE4IGxvY2sgLT4gLi4vcnVuL2xvY2sN
+Cj4+IGRyd3hyLXhyLXjCoCA0IHJvb3Qgcm9vdCAxMDI0IERlY8KgIDQgMDc6NTUgbG9nDQo+
+PiBscnd4cnd4cnd4wqAgMSByb290IHJvb3TCoMKgwqAgNiBNYXLCoCA5wqAgMjAxOCBydW4g
+LT4gLi4vcnVuDQo+PiBkcnd4ci14ci14wqAgMyByb290IHJvb3QgMTAyNCBNYXLCoCA5wqAg
+MjAxOCBzcG9vbA0KPj4gbHJ3eHJ3eHJ3eMKgIDEgcm9vdCByb290wqDCoCAxMiBNYXLCoCA5
+wqAgMjAxOCB0bXAgLT4gdm9sYXRpbGUvdG1wDQo+PiBkcnd4cnd4cnd0wqAgNCByb290IHJv
+b3TCoMKgIDgwIERlY8KgIDQgMDc6NTUgdm9sYXRpbGUNCj4+DQo+PiBTbyBJIGRvIHNvbWUg
+cmVzZWFyY2gsIGZpeCB0aGlzIGlzc3VlIGFuZCBkbyBzb21lIG90aGVyIGNoYW5nZXMgDQo+
+PiBhY2NvcmRpbmdseS4gUGxlYXNlDQo+PiBoZWxwIHRvIHJldmlldyB0aGlzIHBhdGNoLCB0
+aGFua3MuDQo+Pg0KPj4gVGFyZ2V0czoNCj4+IDEuIFN1cHBvcnQgcGVyc2lzdGVudCB0bXAs
+wqAgRm9yIHBlcnNpc3RlbnQgdG1wLCBvbmx5IC92YXIvdG1wIGlzIA0KPj4gcGVyc2lzdGVu
+dCwgL3RtcCBpcyB0bXBmcywNCj4+IMKgwqDCoCBGb3Igdm9sYXRpbGUgdG1wLCAvdG1wIGxp
+bmsgdG8gL3Zhci90bXAsIC92YXIvdG1wIGxpbmsgdG8gDQo+PiAvdmFyL3ZvbGF0aWxlL3Rt
+cA0KPj4gMi4gbWFrZSBzeXN0ZW1kIGFuZCBTeXNWaW5pdCBoYXZlIHRoZSBzYW1lIGRpcmVj
+dG9yeSBzdHJ1Y3R1cmUuDQo+Pg0KPj4gQ3VycmVudGx5LCBzeXN0ZW1kIGFuZCBTeXNWaW5p
+dCBoYXZlIGRpZmZlcmVudCBkaXJlY3Rvcnkgc3RydWN0dXJlLCANCj4+IHRoZSBkaWZmZXJl
+bmNlIGZvY3VzIG9uIGhvdyB0byBoYW5kbGUgL3RtcC4NCj4+DQo+PiB3aGVuIHZvbGF0aWxl
+IGlzIGVuYWJsZWQsIGZvciBzeXNWaW5pdCwgL3RtcCBsaW5rIHRvIC92YXIvdG1wLCANCj4+
+IC92YXIvdG1wIGxpbmsgdG8gL3Zhci92b2xhdGlsZS90bXANCj4+IHJlZmVyIFs0XVs1XS4g
+YnV0IGZvciBzeXN0ZW1kLCAvdG1wIGlzIGEgZGlyZWN0b3J5LCBpdCBpcyBtb3VudGVkIGJ5
+IA0KPj4gc3lzdGVtZCBhcyB0bXBmcy4gL3Zhci90bXANCj4+IGxpbmtlZCB0byAvdmFyL3Zv
+bGF0aWxlL3RtcC7CoCBBbmQgZm9yIHN5c3RlbWQsIHJlZmVyIFs2XSwgc2V0IA0KPj4gZGlm
+ZmVyZW50IGFnZSBmb3IgL3RtcCBhbmQgL3Zhci90bXAuDQoNCkkgZmluZCB0aGF0IHN0cnVj
+dHVyZWQgdGV4dCBoZWxwcyBtZSB1bmRlcnN0YW5kIHRoaW5ncywgc28gaGVyZSdzIGEgDQpz
+dHJ1Y3R1cmVkIHZlcnNpb24gb2YgdGhlIHNlbnRlbmNlcyBhYm92ZToNCg0KDQpDdXJyZW50
+bHksIHN5c3RlbWQgYW5kIFN5c1Zpbml0IGhhdmUgZGlmZmVyZW50IGRpcmVjdG9yeSBzdHJ1
+Y3R1cmU7IHRoZSANCmRpZmZlcmVuY2UgZm9jdXMgb24gaG93IHRvIGhhbmRsZSAvdG1wLg0K
+DQpXaGVuIHZvbGF0aWxlIGlzIGVuYWJsZWQsIGZvciBzeXNWaW5pdDoNCiDCoCDCoMKgwqAg
+L3RtcCBsaW5rIHRvIC92YXIvdG1wLA0KIMKgwqDCoMKgwqAgL3Zhci90bXAgbGluayB0byAv
+dmFyL3ZvbGF0aWxlL3RtcA0KIMKgwqAgcmVmZXIgWzRdWzVdDQoNCmJ1dCBmb3Igc3lzdGVt
+ZDoNCiDCoMKgwqDCoMKgwqAgL3RtcCBpcyBhIGRpcmVjdG9yeSwgaXQgaXMgbW91bnRlZCBi
+eSBzeXN0ZW1kIGFzIHRtcGZzLg0KIMKgwqDCoMKgwqAgL3Zhci90bXAgbGlua2VkIHRvIC92
+YXIvdm9sYXRpbGUvdG1wDQoNCmFuZCBmb3Igc3lzdGVtZCwgcmVmZXIgWzZdLCBzZXQgZGlm
+ZmVyZW50IGFnZSBmb3IgL3RtcCBhbmQgL3Zhci90bXAuDQoNCg0KDQoNCj4+DQo+PiBTaW5j
+ZSB2b2xhdGlsZSBkaXNhYmxlZCBub3Qgd29ya3MsIGlnbm9yZSB0aGUgZGlmZmVyZW5jZSB3
+aGVuIA0KPj4gdm9sYXRpbGUgaXMgZGlzYWJsZWQuDQo+Pg0KPj4gV2l0aCB0aGlzIHBhdGNo
+LCBWT0xBVElMRV9UTVBfRElSIHdpbGwgYmVoYXZpb3IgbGlrZSB0aGlzOg0KPj4gRm9yIGJv
+dGggc3lzdmluaXQgYW5kIHN5c3RlbWQ6DQo+PiAxLiBWT0xBVElMRV9UTVBfRElSPSJ5ZXMi
+Og0KPj4gL3RtcCBsaW5rIHRvIC92YXIvdG1wLMKgIC92YXIvdG1wIGxpbmsgdG8gL3Zhci92
+b2xhdGlsZS9sb2csIA0KPj4gL3Zhci92b2xhdGlsZSBpcyBtb3VudGVkIGFzIHRtcGZzDQo+
+PiBJbiB0aGlzIGNhc2UsIGZvciBzeXN0ZW1kLCAvdG1wIGFuZCAvdmFyL3RtcCB3aWxsIHNl
+dCB0byB0aGUgc2FtZSANCj4+IGFnZSwgMTBkLg0KPj4NCj4+IENvbXBhcmUgdG8gY3VycmVu
+dCBiZWhhdmlvciwgdGhlcmUgYXJlIDIgY2hhbmdlczoNCj4+IMKgwqDCoCAxKSBmb3Igc3lz
+dGVtZCzCoCAvdG1wIGNoYW5nZWQgZnJvbSBhIGRpcmVjdHkgdG8gYSBzeW1saW5rIHRvIA0K
+Pj4gL3Zhci90bXANCj4+IMKgwqDCoCAyKSBhZ2Ugb2YgL3RtcCBhbmQgL3Zhci90bXAgd2ls
+bCBiZSBzYW1lDQoNCg0KT2theSBidXQgaXMgYW4gaWRlbnRpY2FsIHRpbWVzdGFtcCBhYnNv
+bHV0ZWx5IHJlcXVpcmVkIG9yIGFyZSB5b3UganVzdCANCnRyeWluZyB0byBtYWtlIHRoaW5n
+cyBjb25zaXN0ZW50DQoNCnRvIHJlZHVjZSB0aGUgY2hhbmNlIHRoYXQgYSBkaWZmZXJlbnQg
+dGltZXN0YW1wIGNvdWxkIGNhdXNlIHByb2JsZW1zPw0KDQpJIG1heSBoYXZlIG1pc3NlZCBh
+biBleHBsYW5hdGlvbiBvZiB3aHkgeW91IHdhbnQgdGhlIDEwZCBvbGQgdGltZXN0YW1wIA0K
+YW55d2F5LCB0aGF0IHNlZW1zIGxpa2UNCmEgc2VwYXJhdGUgY2hhbmdlIHRoYXQgc2hvdWxk
+IGZvbGxvdy11cCB0aGUgcmUtb3JnIGNoYW5nZXMuDQoNCg0KPj4NCj4+IDIuIFZPTEFUSUxF
+X1RNUF9ESVI9Im5vIjoNCj4+IC90bXAgaXMgYSBkaXJlY3RvcnkgbW91bnRlZCBhcyB0bXBm
+cywgL3Zhci90bXAgaXMgYSBkaXJlY3Rvcnkgb24gDQo+PiBwZXJzaXN0ZW50IGZzLCBhbmQg
+a2VlcCB0aGUgYWdlIGFzIFs2XQ0KPj4NCj4+IENoYW5nZSBsaWtlIHRoaXMgaW4gb3JkZXIg
+dG8gbWVldCBbMV1bMl0sIGFsc28gbWF5YmUgWzNdIGZvciBzeXN0ZW1kLg0KPj4NCj4+IENv
+bXBhcmUgdG8gY3VycmVudCBiZWhhdmlvciwgdGhlcmUgaXMgb25lIGNoYW5nZToNCj4+IMKg
+wqDCoCAxKSBmb3Igc3lzVmluaXQsIC90bXAgY2hhbmdlZCBmcm9tIGEgc3ltbGluayB0byBh
+IGRpcmVjdG9yeQ0KDQpZb3UndmUgY2FyZWZ1bGx5IGV4cGxhaW5lZCB0aGluZ3MgYnV0IGl0
+IGRvZXMgc2VlbSBhIGJpdCBjb21wbGljYXRlZCANCndoZW4geW91IGZpcnN0IHJlYWQNCnRo
+ZSBleHBsYWluYXRpb24uIEl0IG1heSBoYXZlIGJlZW4gYmV0dGVyIHRvIHN0YXJ0IHlvdXIg
+ZXhwbGFpbmF0aW9uIA0Kd2l0aCB0aGUgbGFzdCBzdGF0ZW1lbnQgeW91DQptYWRlLCBieSBz
+YXlpbmcgc29tZXRoaW5nIGxpa2UgdGhpczoNCg0KIMKgwqAgVGhpcyBpcyBnb2luZyB0byBi
+ZSBhIGRldGFpbGVkLCBsZW5ndGh5IGV4cGxhaW5hdGlvbiBidXQgdGhlIG9ubHkgDQpjaGFu
+Z2UgaW4gcnVudGltZSB3aWxsIGJlDQogwqDCoCBmb3Igc3lzVmluaXQgd2hlcmUgL3RtcCBp
+cyBjaGFuZ2VkIGZyb20gYSBzeW1saW5rIHRvIGEgZGlyZWN0b3J5IHRvIA0KbWFrZSBpdCBw
+ZXJzaXN0ZW50Lg0KDQoNClJvc3MsIFRyZXZvciwNCkFueSBjb21tZW50cyBvciBjb25jZXJu
+cyA/DQoNCkNoYW5ncWluZyBpcyBubyBvbmUgcmVwbGllcyB0b2RheSwgcGxlYXNlIGp1c3Qg
+cmViYXNlIGFuZCByZXBvc3QgeW91ciANCmZ1bGwgUkZDIHBhdGNoDQp0byB0cnkgdG8gcmVz
+dGFydCB0aGUgZGlzY3Vzc2lvbi4NCg0KDQpUaGFua3MsDQoNCi4uL1JhbmR5DQoNCj4+DQo+
+PiBbMV0gaHR0cHM6Ly9yZWZzcGVjcy5saW51eGZvdW5kYXRpb24ub3JnL0ZIU18zLjAvZmhz
+L2NoMDNzMTguaHRtbA0KPj4gWzJdIGh0dHBzOi8vcmVmc3BlY3MubGludXhmb3VuZGF0aW9u
+Lm9yZy9GSFNfMy4wL2Zocy9jaDA1czE1Lmh0bWwNCj4+IFszXSBodHRwczovL3N5c3RlbWQu
+aW8vVEVNUE9SQVJZX0RJUkVDVE9SSUVTLw0KPj4gWzRdIA0KPj4gaHR0cHM6Ly9naXQub3Bl
+bmVtYmVkZGVkLm9yZy9vcGVuZW1iZWRkZWQvdHJlZS9kb2NzL3VzZXJtYW51YWwvY2hhcHRl
+cnMvcmVjaXBlcy54bWwjbjM1MzUNCj4+IFs1XSANCj4+IGh0dHBzOi8vZ2l0Lm9wZW5lbWJl
+ZGRlZC5vcmcvb3BlbmVtYmVkZGVkLWNvcmUvY29tbWl0Lz9pZD0xMmM0YWNkN2FjNWEyN2Nm
+MzY3NjA2NWI2MGYxYzgzOTVjOTY4NTRjDQo+PiBbNl0gaHR0cHM6Ly9naXRodWIuY29tL3N5
+c3RlbWQvc3lzdGVtZC9ibG9iL21haW4vdG1wZmlsZXMuZC90bXAuY29uZg0KPj4gWzddIA0K
+Pj4gaHR0cHM6Ly93d3cuZnJlZWRlc2t0b3Aub3JnL3NvZnR3YXJlL3N5c3RlbWQvbWFuL2xh
+dGVzdC90bXBmaWxlcy5kLmh0bWwNCj4+DQo+Pg0KPj4gVGVzdCBSZXN1bHQgb2YgZm9sbG93
+aW5nIGNhc2VzOg0KPj4gMS4NCj4+IFN5c1Zpbml0DQo+PiBWT0xBVElMRV9UTVBfRElSPSJ5
+ZXMiDQo+PiBWT0xBVElMRV9MT0dfRElSPSJ5ZXMiDQo+Pg0KPj4gcm9vdEBxZW11eDg2LTY0
+On4jIGxzIC1hbCAvdG1wDQo+PiBscnd4cnd4cnd4wqDCoMKgIDEgcm9vdMKgwqDCoMKgIHJv
+b3TCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgOCBEZWPCoCA4IDA4OjUxIC90bXAgLT4gDQo+
+PiAvdmFyL3RtcA0KPj4gcm9vdEBxZW11eDg2LTY0On4jIGxzIC1hbCAvdmFyL2xvZw0KPj4g
+bHJ3eHJ3eHJ3eMKgwqDCoCAxIHJvb3TCoMKgwqDCoCByb290wqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCAxNyBEZWPCoCA4IDA4OjUxIC92YXIvbG9nIC0+IA0KPj4gL3Zhci92b2xhdGlsZS9s
+b2cNCj4+IHJvb3RAcWVtdXg4Ni02NDp+IyBscyAtYWwgL3Zhci90bXANCj4+IGxyd3hyd3hy
+d3jCoMKgwqAgMSByb290wqDCoMKgwqAgcm9vdMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgMTcg
+RGVjwqAgOCAwODo1MSAvdmFyL3RtcCAtPiANCj4+IC92YXIvdm9sYXRpbGUvdG1wDQo+PiBy
+b290QHFlbXV4ODYtNjQ6fiMgbW91bnQgfCBncmVwIHZvbGF0aWxlDQo+PiB0bXBmcyBvbiAv
+dmFyL3ZvbGF0aWxlIHR5cGUgdG1wZnMgKHJ3LHJlbGF0aW1lKQ0KPj4gcm9vdEBxZW11eDg2
+LTY0On4jDQo+Pg0KPj4gMi4NCj4+IFN5c1Zpbml0DQo+PiBWT0xBVElMRV9UTVBfRElSPSJu
+byINCj4+IFZPTEFUSUxFX0xPR19ESVI9Im5vIg0KPj4NCj4+IHJvb3RAcWVtdXg4Ni02NDov
+IyBscyAtYWwNCj4+IGRyd3hyLXhyLXjCoMKgIDE4IHJvb3TCoMKgwqDCoCByb290wqDCoMKg
+wqDCoMKgwqDCoMKgIDEwMjQgRGVjwqAgOCAwOToyMiAuDQo+PiBkcnd4ci14ci14wqDCoCAx
+OCByb290wqDCoMKgwqAgcm9vdMKgwqDCoMKgwqDCoMKgwqDCoCAxMDI0IERlY8KgIDggMDk6
+MjIgLi4NCj4+IGRyd3hyLXhyLXjCoMKgwqAgMiByb290wqDCoMKgwqAgcm9vdMKgwqDCoMKg
+wqDCoMKgwqDCoCAzMDcyIE1hcsKgIDnCoCAyMDE4IGJpbg0KPj4gZHJ3eHIteHIteMKgwqDC
+oCAyIHJvb3TCoMKgwqDCoCByb290wqDCoMKgwqDCoMKgwqDCoMKgIDEwMjQgTWFywqAgOcKg
+IDIwMTggYm9vdA0KPj4gZHJ3eHIteHIteMKgwqAgMTMgcm9vdMKgwqDCoMKgIHJvb3TCoMKg
+wqDCoMKgwqDCoMKgwqAgMjk2MCBEZWPCoCA4IDA5OjI0IGRldg0KPj4gZHJ3eHIteHIteMKg
+wqAgMjAgcm9vdMKgwqDCoMKgIHJvb3TCoMKgwqDCoMKgwqDCoMKgwqAgMTAyNCBEZWPCoCA4
+IDA5OjI0IGV0Yw0KPj4gZHJ3eHIteHIteMKgwqDCoCAzIHJvb3TCoMKgwqDCoCByb290wqDC
+oMKgwqDCoMKgwqDCoMKgIDEwMjQgTWFywqAgOcKgIDIwMTggaG9tZQ0KPj4gZHJ3eHIteHIt
+eMKgwqDCoCA2IHJvb3TCoMKgwqDCoCByb290wqDCoMKgwqDCoMKgwqDCoMKgIDEwMjQgTWFy
+wqAgOcKgIDIwMTggbGliDQo+PiBkcnd4LS0tLS0twqDCoMKgIDIgcm9vdMKgwqDCoMKgIHJv
+b3TCoMKgwqDCoMKgwqDCoMKgIDEyMjg4IERlY8KgIDggMDk6MjIgbG9zdCtmb3VuZA0KPj4g
+ZHJ3eHIteHIteMKgwqDCoCAyIHJvb3TCoMKgwqDCoCByb290wqDCoMKgwqDCoMKgwqDCoMKg
+IDEwMjQgTWFywqAgOcKgIDIwMTggbWVkaWENCj4+IGRyd3hyLXhyLXjCoMKgwqAgMiByb290
+wqDCoMKgwqAgcm9vdMKgwqDCoMKgwqDCoMKgwqDCoCAxMDI0IE1hcsKgIDnCoCAyMDE4IG1u
+dA0KPj4gZHIteHIteHIteMKgIDE2MSByb290wqDCoMKgwqAgcm9vdMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCAwIERlY8KgIDggMDk6MjQgcHJvYw0KPj4gZHJ3eHIteHIteMKgwqDCoCA0
+IHJvb3TCoMKgwqDCoCByb290wqDCoMKgwqDCoMKgwqDCoMKgwqAgMjQwIERlY8KgIDggMDk6
+MjQgcnVuDQo+PiBkcnd4ci14ci14wqDCoMKgIDIgcm9vdMKgwqDCoMKgIHJvb3TCoMKgwqDC
+oMKgwqDCoMKgwqAgMzA3MiBNYXLCoCA5wqAgMjAxOCBzYmluDQo+PiBkci14ci14ci14wqDC
+oCAxMiByb290wqDCoMKgwqAgcm9vdMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAwIERlY8Kg
+IDggMDk6MjQgc3lzDQo+PiBkcnd4cnd4cnd0wqDCoMKgIDIgcm9vdMKgwqDCoMKgIHJvb3TC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgIDQwIERlY8KgIDggMDk6MjQgdG1wDQo+PiBkcnd4ci14
+ci14wqDCoMKgIDkgcm9vdMKgwqDCoMKgIHJvb3TCoMKgwqDCoMKgwqDCoMKgwqAgMTAyNCBN
+YXLCoCA5wqAgMjAxOCB1c3INCj4+IGRyd3hyLXhyLXjCoMKgIDEwIHJvb3TCoMKgwqDCoCBy
+b290wqDCoMKgwqDCoMKgwqDCoMKgIDEwMjQgRGVjwqAgOCAwOToyNCB2YXINCj4+IHJvb3RA
+cWVtdXg4Ni02NDovIyBjZCAvdmFyLw0KPj4gcm9vdEBxZW11eDg2LTY0Oi92YXIjIGxzIC1h
+bA0KPj4gZHJ3eHIteHIteMKgwqAgMTAgcm9vdMKgwqDCoMKgIHJvb3TCoMKgwqDCoMKgwqDC
+oMKgwqAgMTAyNCBEZWPCoCA4IDA5OjI0IC4NCj4+IGRyd3hyLXhyLXjCoMKgIDE4IHJvb3TC
+oMKgwqDCoCByb290wqDCoMKgwqDCoMKgwqDCoMKgIDEwMjQgRGVjwqAgOCAwOToyMiAuLg0K
+Pj4gZHJ3eHIteHIteMKgwqDCoCAyIHJvb3TCoMKgwqDCoCByb290wqDCoMKgwqDCoMKgwqDC
+oMKgIDEwMjQgTWFywqAgOcKgIDIwMTggYmFja3Vwcw0KPj4gZHJ3eHIteHIteMKgwqDCoCAy
+IHJvb3TCoMKgwqDCoCByb290wqDCoMKgwqDCoMKgwqDCoMKgIDEwMjQgTWFywqAgOcKgIDIw
+MTggY2FjaGUNCj4+IGRyd3hyLXhyLXjCoMKgwqAgNCByb290wqDCoMKgwqAgcm9vdMKgwqDC
+oMKgwqDCoMKgwqDCoCAxMDI0IE1hcsKgIDnCoCAyMDE4IGxpYg0KPj4gZHJ3eHIteHIteMKg
+wqDCoCAyIHJvb3TCoMKgwqDCoCByb290wqDCoMKgwqDCoMKgwqDCoMKgIDEwMjQgTWFywqAg
+OcKgIDIwMTggbG9jYWwNCj4+IGxyd3hyd3hyd3jCoMKgwqAgMSByb290wqDCoMKgwqAgcm9v
+dMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCA5IERlY8KgIDggMDk6MjQgbG9jayAtPiANCj4+
+IC9ydW4vbG9jaw0KPj4gZHJ3eHIteHIteMKgwqDCoCAyIHJvb3TCoMKgwqDCoCByb290wqDC
+oMKgwqDCoMKgwqDCoMKgIDEwMjQgRGVjwqAgOCAwOToyNCBsb2cNCj4+IGxyd3hyd3hyd3jC
+oMKgwqAgMSByb290wqDCoMKgwqAgcm9vdMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCA0IERl
+Y8KgIDggMDk6MjQgcnVuIC0+IC9ydW4NCj4+IGRyd3hyLXhyLXjCoMKgwqAgMiByb290wqDC
+oMKgwqAgcm9vdMKgwqDCoMKgwqDCoMKgwqDCoCAxMDI0IE1hcsKgIDnCoCAyMDE4IHNwb29s
+DQo+PiBkcnd4cnd4cnd0wqDCoMKgIDIgcm9vdMKgwqDCoMKgIHJvb3TCoMKgwqDCoMKgwqDC
+oMKgwqAgMTAyNCBNYXLCoCA5wqAgMjAxOCB0bXANCj4+IGRyd3hyd3hyd3TCoMKgwqAgNCBy
+b290wqDCoMKgwqAgcm9vdMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgODAgRGVjwqAgOCAwOToy
+NCB2b2xhdGlsZQ0KPj4gcm9vdEBxZW11eDg2LTY0Oi92YXIjIG1vdW50IHwgZ3JlcCB0bXBm
+cw0KPj4gZGV2dG1wZnMgb24gL2RldiB0eXBlIGRldnRtcGZzIA0KPj4gKHJ3LHJlbGF0aW1l
+LHNpemU9MTAxMjE2NGssbnJfaW5vZGVzPTI1MzA0MSxtb2RlPTc1NSkNCj4+IHRtcGZzIG9u
+IC9ydW4gdHlwZSB0bXBmcyAocncsbm9zdWlkLG5vZGV2LG1vZGU9NzU1KQ0KPj4gdG1wZnMg
+b24gL3Zhci92b2xhdGlsZSB0eXBlIHRtcGZzIChydyxyZWxhdGltZSkNCj4+IHRtcGZzIG9u
+IC90bXAgdHlwZSB0bXBmcyAocncsbm9zdWlkLG5vZGV2LG5yX2lub2Rlcz0xMDQ4NTc2KQ0K
+Pj4gcm9vdEBxZW11eDg2LTY0Oi92YXIjDQo+Pg0KPj4NCj4+IDMuDQo+PiBzeXN0ZW1kDQo+
+PiBWT0xBVElMRV9UTVBfRElSPSJ5ZXMiDQo+PiBWT0xBVElMRV9MT0dfRElSPSJ5ZXMiDQo+
+Pg0KPj4gcm9vdEBxZW11eDg2LTY0Oi8jIGxzIC1hbCAvdG1wDQo+PiBscnd4cnd4cnd4wqDC
+oMKgIDEgcm9vdMKgwqDCoMKgIHJvb3TCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgOCBEZWPC
+oCA4IDA4OjQ5IC90bXAgLT4gDQo+PiAvdmFyL3RtcA0KPj4gwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCA4IERlY8KgIDggMDg6NDkgL3RtcCAtPiAvdmFyL3RtcA0KPj4gcm9vdEBxZW11eDg2
+LTY0Oi8jIGNkIC92YXIvDQo+PiByb290QHFlbXV4ODYtNjQ6L3ZhciMgbHMgLWFsIHRtcA0K
+Pj4gbHJ3eHJ3eHJ3eMKgwqDCoCAxIHJvb3TCoMKgwqDCoCByb290wqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoCAxMiBNYXLCoCA5wqAgMjAxOCB0bXAgLT4gDQo+PiB2b2xhdGlsZS90bXANCj4+
+IHJvb3RAcWVtdXg4Ni02NDovdmFyIyBscyAtYWwgbG9nDQo+PiBscnd4cnd4cnd4wqDCoMKg
+IDEgcm9vdMKgwqDCoMKgIHJvb3TCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIDEyIE1hcsKgIDnC
+oCAyMDE4IGxvZyAtPiANCj4+IHZvbGF0aWxlL2xvZw0KPj4gcm9vdEBxZW11eDg2LTY0Oi92
+YXIjIG1vdW50IHwgZ3JlcCB0bXANCj4+IGRldnRtcGZzIG9uIC9kZXYgdHlwZSBkZXZ0bXBm
+cyANCj4+IChydyxyZWxhdGltZSxzaXplPTEwMTIxNjBrLG5yX2lub2Rlcz0yNTMwNDAsbW9k
+ZT03NTUpDQo+PiB0bXBmcyBvbiAvZGV2L3NobSB0eXBlIHRtcGZzIChydyxub3N1aWQsbm9k
+ZXYpDQo+PiB0bXBmcyBvbiAvcnVuIHR5cGUgdG1wZnMgDQo+PiAocncsbm9zdWlkLG5vZGV2
+LHNpemU9NDA1NzMyayxucl9pbm9kZXM9ODE5MjAwLG1vZGU9NzU1KQ0KPj4gdG1wZnMgb24g
+L3N5cy9mcy9jZ3JvdXAgdHlwZSB0bXBmcyANCj4+IChybyxub3N1aWQsbm9kZXYsbm9leGVj
+LHNpemU9NDA5NmssbnJfaW5vZGVzPTEwMjQsbW9kZT03NTUpDQo+PiB0bXBmcyBvbiAvdmFy
+L3ZvbGF0aWxlIHR5cGUgdG1wZnMgKHJ3LHJlbGF0aW1lKQ0KPj4gcm9vdEBxZW11eDg2LTY0
+Oi92YXIjDQo+Pg0KPj4gNC4NCj4+IHN5c3RlbWQNCj4+IFZPTEFUSUxFX1RNUF9ESVI9Im5v
+Ig0KPj4gVk9MQVRJTEVfTE9HX0RJUj0ibm8iDQo+Pg0KPj4gcm9vdEBxZW11eDg2LTY0Oi8j
+IGxzIC1hbA0KPj4gZHJ3eHIteHIteMKgwqAgMTcgcm9vdMKgwqDCoMKgIHJvb3TCoMKgwqDC
+oMKgwqDCoMKgwqAgMTAyNCBEZWPCoCA4IDA5OjE2IC4NCj4+IGRyd3hyLXhyLXjCoMKgIDE3
+IHJvb3TCoMKgwqDCoCByb290wqDCoMKgwqDCoMKgwqDCoMKgIDEwMjQgRGVjwqAgOCAwOTox
+NiAuLg0KPj4gbHJ3eHJ3eHJ3eMKgwqDCoCAxIHJvb3TCoMKgwqDCoCByb290wqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgIDcgTWFywqAgOcKgIDIwMTggYmluIC0+IHVzci9iaW4NCj4+IGRy
+d3hyLXhyLXjCoMKgwqAgMiByb290wqDCoMKgwqAgcm9vdMKgwqDCoMKgwqDCoMKgwqDCoCAx
+MDI0IE1hcsKgIDnCoCAyMDE4IGJvb3QNCj4+IGRyd3hyLXhyLXjCoMKgIDE0IHJvb3TCoMKg
+wqDCoCByb290wqDCoMKgwqDCoMKgwqDCoMKgIDMyNjAgRGVjwqAgOCAwOToxNiBkZXYNCj4+
+IGRyd3hyLXhyLXjCoMKgIDIxIHJvb3TCoMKgwqDCoCByb290wqDCoMKgwqDCoMKgwqDCoMKg
+IDMwNzIgRGVjwqAgOCAwOToxNiBldGMNCj4+IGRyd3hyLXhyLXjCoMKgwqAgMyByb290wqDC
+oMKgwqAgcm9vdMKgwqDCoMKgwqDCoMKgwqDCoCAxMDI0IE1hcsKgIDnCoCAyMDE4IGhvbWUN
+Cj4+IGxyd3hyd3hyd3jCoMKgwqAgMSByb290wqDCoMKgwqAgcm9vdMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCA3IE1hcsKgIDnCoCAyMDE4IGxpYiAtPiB1c3IvbGliDQo+PiBkcnd4LS0t
+LS0twqDCoMKgIDIgcm9vdMKgwqDCoMKgIHJvb3TCoMKgwqDCoMKgwqDCoMKgIDEyMjg4IERl
+Y8KgIDggMDk6MTYgbG9zdCtmb3VuZA0KPj4gZHJ3eHIteHIteMKgwqDCoCAyIHJvb3TCoMKg
+wqDCoCByb290wqDCoMKgwqDCoMKgwqDCoMKgIDEwMjQgTWFywqAgOcKgIDIwMTggbWVkaWEN
+Cj4+IGRyd3hyLXhyLXjCoMKgwqAgMiByb290wqDCoMKgwqAgcm9vdMKgwqDCoMKgwqDCoMKg
+wqDCoCAxMDI0IE1hcsKgIDnCoCAyMDE4IG1udA0KPj4gZHIteHIteHIteMKgIDE3MyByb290
+wqDCoMKgwqAgcm9vdMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAwIERlY8KgIDggMDk6MTYg
+cHJvYw0KPj4gZHJ3eC0tLS0tLcKgwqDCoCAzIHJvb3TCoMKgwqDCoCByb290wqDCoMKgwqDC
+oMKgwqDCoMKgIDEwMjQgRGVjwqAgOCAwOToxNiByb290DQo+PiBkcnd4ci14ci14wqDCoCAx
+MSByb290wqDCoMKgwqAgcm9vdMKgwqDCoMKgwqDCoMKgwqDCoMKgIDMyMCBEZWPCoCA4IDA5
+OjE2IHJ1bg0KPj4gbHJ3eHJ3eHJ3eMKgwqDCoCAxIHJvb3TCoMKgwqDCoCByb290wqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgIDggTWFywqAgOcKgIDIwMTggc2JpbiAtPiANCj4+IHVzci9z
+YmluDQo+PiBkcnd4ci14ci14wqDCoMKgIDIgcm9vdMKgwqDCoMKgIHJvb3TCoMKgwqDCoMKg
+wqDCoMKgwqAgMTAyNCBNYXLCoCA5wqAgMjAxOCBzcnYNCj4+IGRyLXhyLXhyLXjCoMKgIDEy
+IHJvb3TCoMKgwqDCoCByb290wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIDAgRGVjwqAgOCAw
+OToxNiBzeXMNCj4+IGRyd3hyd3hyd3TCoMKgwqAgOSByb290wqDCoMKgwqAgcm9vdMKgwqDC
+oMKgwqDCoMKgwqDCoMKgIDE4MCBEZWPCoCA4IDA5OjE2IHRtcA0KPj4gZHJ3eHIteHIteMKg
+wqAgMTAgcm9vdMKgwqDCoMKgIHJvb3TCoMKgwqDCoMKgwqDCoMKgwqAgMTAyNCBNYXLCoCA5
+wqAgMjAxOCB1c3INCj4+IGRyd3hyLXhyLXjCoMKgIDEwIHJvb3TCoMKgwqDCoCByb290wqDC
+oMKgwqDCoMKgwqDCoMKgIDEwMjQgRGVjwqAgOCAwOToxNiB2YXINCj4+IHJvb3RAcWVtdXg4
+Ni02NDovIyBjZCAvdmFyLw0KPj4gcm9vdEBxZW11eDg2LTY0Oi92YXIjIGxzIC1hbA0KPj4g
+ZHJ3eHIteHIteMKgwqAgMTAgcm9vdMKgwqDCoMKgIHJvb3TCoMKgwqDCoMKgwqDCoMKgwqAg
+MTAyNCBEZWPCoCA4IDA5OjE2IC4NCj4+IGRyd3hyLXhyLXjCoMKgIDE3IHJvb3TCoMKgwqDC
+oCByb290wqDCoMKgwqDCoMKgwqDCoMKgIDEwMjQgRGVjwqAgOCAwOToxNiAuLg0KPj4gLXJ3
+LXItLXItLcKgwqDCoCAxIHJvb3TCoMKgwqDCoCByb290wqDCoMKgwqDCoMKgwqDCoMKgwqAg
+MjA4IE1hcsKgIDnCoCAyMDE4IC51cGRhdGVkDQo+PiBkcnd4ci14ci14wqDCoMKgIDIgcm9v
+dMKgwqDCoMKgIHJvb3TCoMKgwqDCoMKgwqDCoMKgwqAgMTAyNCBNYXLCoCA5wqAgMjAxOCBi
+YWNrdXBzDQo+PiBkcnd4ci14ci14wqDCoMKgIDQgcm9vdMKgwqDCoMKgIHJvb3TCoMKgwqDC
+oMKgwqDCoMKgwqAgMTAyNCBEZWPCoCA4IDA5OjE2IGNhY2hlDQo+PiBkcnd4ci14ci14wqDC
+oMKgIDYgcm9vdMKgwqDCoMKgIHJvb3TCoMKgwqDCoMKgwqDCoMKgwqAgMTAyNCBEZWPCoCA4
+IDA5OjE2IGxpYg0KPj4gZHJ3eHIteHIteMKgwqDCoCAyIHJvb3TCoMKgwqDCoCByb290wqDC
+oMKgwqDCoMKgwqDCoMKgIDEwMjQgTWFywqAgOcKgIDIwMTggbG9jYWwNCj4+IGxyd3hyd3hy
+d3jCoMKgwqAgMSByb290wqDCoMKgwqAgcm9vdMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgMTEg
+TWFywqAgOcKgIDIwMTggbG9jayAtPiANCj4+IC4uL3J1bi9sb2NrDQo+PiBkcnd4ci14ci14
+wqDCoMKgIDQgcm9vdMKgwqDCoMKgIHJvb3TCoMKgwqDCoMKgwqDCoMKgwqAgMTAyNCBEZWPC
+oCA4IDA5OjE2IGxvZw0KPj4gbHJ3eHJ3eHJ3eMKgwqDCoCAxIHJvb3TCoMKgwqDCoCByb290
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIDYgTWFywqAgOcKgIDIwMTggcnVuIC0+IC4uL3J1
+bg0KPj4gZHJ3eHIteHIteMKgwqDCoCAzIHJvb3TCoMKgwqDCoCByb290wqDCoMKgwqDCoMKg
+wqDCoMKgIDEwMjQgTWFywqAgOcKgIDIwMTggc3Bvb2wNCj4+IGRyd3hyd3hyd3TCoMKgwqAg
+NSByb290wqDCoMKgwqAgcm9vdMKgwqDCoMKgwqDCoMKgwqDCoCAxMDI0IERlY8KgIDggMDk6
+MTYgdG1wDQo+PiBkcnd4cnd4cnd0wqDCoMKgIDIgcm9vdMKgwqDCoMKgIHJvb3TCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgIDQwIERlY8KgIDggMDk6MTYgdm9sYXRpbGUNCj4+IHJvb3RAcWVt
+dXg4Ni02NDovdmFyIyBtb3VudCB8IGdyZXAgdG1wZnMNCj4+IGRldnRtcGZzIG9uIC9kZXYg
+dHlwZSBkZXZ0bXBmcyANCj4+IChydyxyZWxhdGltZSxzaXplPTEwMTIxNjRrLG5yX2lub2Rl
+cz0yNTMwNDEsbW9kZT03NTUpDQo+PiB0bXBmcyBvbiAvZGV2L3NobSB0eXBlIHRtcGZzIChy
+dyxub3N1aWQsbm9kZXYpDQo+PiB0bXBmcyBvbiAvcnVuIHR5cGUgdG1wZnMgDQo+PiAocncs
+bm9zdWlkLG5vZGV2LHNpemU9NDA1NzMyayxucl9pbm9kZXM9ODE5MjAwLG1vZGU9NzU1KQ0K
+Pj4gdG1wZnMgb24gL3N5cy9mcy9jZ3JvdXAgdHlwZSB0bXBmcyANCj4+IChybyxub3N1aWQs
+bm9kZXYsbm9leGVjLHNpemU9NDA5NmssbnJfaW5vZGVzPTEwMjQsbW9kZT03NTUpDQo+PiB0
+bXBmcyBvbiAvdG1wIHR5cGUgdG1wZnMgKHJ3LG5vc3VpZCxub2Rldixucl9pbm9kZXM9MTA0
+ODU3NikNCj4+IHRtcGZzIG9uIC92YXIvdm9sYXRpbGUgdHlwZSB0bXBmcyAocncscmVsYXRp
+bWUpDQo+PiByb290QHFlbXV4ODYtNjQ6L3ZhciMNCj4+DQo+PiA1Lg0KPj4gU3lzVmluaXQN
+Cj4+IFZPTEFUSUxFX1RNUF9ESVI9InllcyINCj4+IFZPTEFUSUxFX0xPR19ESVI9Im5vIg0K
+Pj4NCj4+IHJvb3RAcWVtdXg4Ni02NDovIyBscyAtYWwNCj4+IGRyd3hyLXhyLXjCoMKgIDE3
+IHJvb3TCoMKgwqDCoCByb290wqDCoMKgwqDCoMKgwqDCoMKgIDEwMjQgRGVjwqAgOCAwOTo0
+MCAuDQo+PiBkcnd4ci14ci14wqDCoCAxNyByb290wqDCoMKgwqAgcm9vdMKgwqDCoMKgwqDC
+oMKgwqDCoCAxMDI0IERlY8KgIDggMDk6NDAgLi4NCj4+IGRyd3hyLXhyLXjCoMKgwqAgMiBy
+b290wqDCoMKgwqAgcm9vdMKgwqDCoMKgwqDCoMKgwqDCoCAzMDcyIE1hcsKgIDnCoCAyMDE4
+IGJpbg0KPj4gZHJ3eHIteHIteMKgwqDCoCAyIHJvb3TCoMKgwqDCoCByb290wqDCoMKgwqDC
+oMKgwqDCoMKgIDEwMjQgTWFywqAgOcKgIDIwMTggYm9vdA0KPj4gZHJ3eHIteHIteMKgwqAg
+MTMgcm9vdMKgwqDCoMKgIHJvb3TCoMKgwqDCoMKgwqDCoMKgwqAgMjk2MCBEZWPCoCA4IDA5
+OjQwIGRldg0KPj4gZHJ3eHIteHIteMKgwqAgMjAgcm9vdMKgwqDCoMKgIHJvb3TCoMKgwqDC
+oMKgwqDCoMKgwqAgMTAyNCBEZWPCoCA4IDA5OjQwIGV0Yw0KPj4gZHJ3eHIteHIteMKgwqDC
+oCAzIHJvb3TCoMKgwqDCoCByb290wqDCoMKgwqDCoMKgwqDCoMKgIDEwMjQgTWFywqAgOcKg
+IDIwMTggaG9tZQ0KPj4gZHJ3eHIteHIteMKgwqDCoCA2IHJvb3TCoMKgwqDCoCByb290wqDC
+oMKgwqDCoMKgwqDCoMKgIDEwMjQgTWFywqAgOcKgIDIwMTggbGliDQo+PiBkcnd4LS0tLS0t
+wqDCoMKgIDIgcm9vdMKgwqDCoMKgIHJvb3TCoMKgwqDCoMKgwqDCoMKgIDEyMjg4IERlY8Kg
+IDggMDk6NDAgbG9zdCtmb3VuZA0KPj4gZHJ3eHIteHIteMKgwqDCoCAyIHJvb3TCoMKgwqDC
+oCByb290wqDCoMKgwqDCoMKgwqDCoMKgIDEwMjQgTWFywqAgOcKgIDIwMTggbWVkaWENCj4+
+IGRyd3hyLXhyLXjCoMKgwqAgMiByb290wqDCoMKgwqAgcm9vdMKgwqDCoMKgwqDCoMKgwqDC
+oCAxMDI0IE1hcsKgIDnCoCAyMDE4IG1udA0KPj4gZHIteHIteHIteMKgIDE1OSByb290wqDC
+oMKgwqAgcm9vdMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAwIERlY8KgIDggMDk6NDAgcHJv
+Yw0KPj4gZHJ3eHIteHIteMKgwqDCoCA0IHJvb3TCoMKgwqDCoCByb290wqDCoMKgwqDCoMKg
+wqDCoMKgwqAgMjQwIERlY8KgIDggMDk6NDAgcnVuDQo+PiBkcnd4ci14ci14wqDCoMKgIDIg
+cm9vdMKgwqDCoMKgIHJvb3TCoMKgwqDCoMKgwqDCoMKgwqAgMzA3MiBNYXLCoCA5wqAgMjAx
+OCBzYmluDQo+PiBkci14ci14ci14wqDCoCAxMiByb290wqDCoMKgwqAgcm9vdMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoCAwIERlY8KgIDggMDk6NDAgc3lzDQo+PiBscnd4cnd4cnd4wqDC
+oMKgIDEgcm9vdMKgwqDCoMKgIHJvb3TCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgOCBEZWPC
+oCA4IDA5OjQwIHRtcCAtPiAvdmFyL3RtcA0KPj4gZHJ3eHIteHIteMKgwqDCoCA5IHJvb3TC
+oMKgwqDCoCByb290wqDCoMKgwqDCoMKgwqDCoMKgIDEwMjQgTWFywqAgOcKgIDIwMTggdXNy
+DQo+PiBkcnd4ci14ci14wqDCoMKgIDkgcm9vdMKgwqDCoMKgIHJvb3TCoMKgwqDCoMKgwqDC
+oMKgwqAgMTAyNCBEZWPCoCA4IDA5OjQwIHZhcg0KPj4gcm9vdEBxZW11eDg2LTY0Oi8jIGNk
+IC92YXIvDQo+PiByb290QHFlbXV4ODYtNjQ6L3ZhciMgbHMgLWFsDQo+PiBkcnd4ci14ci14
+wqDCoMKgIDkgcm9vdMKgwqDCoMKgIHJvb3TCoMKgwqDCoMKgwqDCoMKgwqAgMTAyNCBEZWPC
+oCA4IDA5OjQwIC4NCj4+IGRyd3hyLXhyLXjCoMKgIDE3IHJvb3TCoMKgwqDCoCByb290wqDC
+oMKgwqDCoMKgwqDCoMKgIDEwMjQgRGVjwqAgOCAwOTo0MCAuLg0KPj4gZHJ3eHIteHIteMKg
+wqDCoCAyIHJvb3TCoMKgwqDCoCByb290wqDCoMKgwqDCoMKgwqDCoMKgIDEwMjQgTWFywqAg
+OcKgIDIwMTggYmFja3Vwcw0KPj4gZHJ3eHIteHIteMKgwqDCoCAyIHJvb3TCoMKgwqDCoCBy
+b290wqDCoMKgwqDCoMKgwqDCoMKgIDEwMjQgTWFywqAgOcKgIDIwMTggY2FjaGUNCj4+IGRy
+d3hyLXhyLXjCoMKgwqAgNCByb290wqDCoMKgwqAgcm9vdMKgwqDCoMKgwqDCoMKgwqDCoCAx
+MDI0IE1hcsKgIDnCoCAyMDE4IGxpYg0KPj4gZHJ3eHIteHIteMKgwqDCoCAyIHJvb3TCoMKg
+wqDCoCByb290wqDCoMKgwqDCoMKgwqDCoMKgIDEwMjQgTWFywqAgOcKgIDIwMTggbG9jYWwN
+Cj4+IGxyd3hyd3hyd3jCoMKgwqAgMSByb290wqDCoMKgwqAgcm9vdMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCA5IERlY8KgIDggMDk6NDAgbG9jayAtPiANCj4+IC9ydW4vbG9jaw0KPj4g
+ZHJ3eHIteHIteMKgwqDCoCAyIHJvb3TCoMKgwqDCoCByb290wqDCoMKgwqDCoMKgwqDCoMKg
+IDEwMjQgRGVjwqAgOCAwOTo0MCBsb2cNCj4+IGxyd3hyd3hyd3jCoMKgwqAgMSByb290wqDC
+oMKgwqAgcm9vdMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCA0IERlY8KgIDggMDk6NDAgcnVu
+IC0+IC9ydW4NCj4+IGRyd3hyLXhyLXjCoMKgwqAgMiByb290wqDCoMKgwqAgcm9vdMKgwqDC
+oMKgwqDCoMKgwqDCoCAxMDI0IE1hcsKgIDnCoCAyMDE4IHNwb29sDQo+PiBscnd4cnd4cnd4
+wqDCoMKgIDEgcm9vdMKgwqDCoMKgIHJvb3TCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIDE3IERl
+Y8KgIDggMDk6NDAgdG1wIC0+IA0KPj4gL3Zhci92b2xhdGlsZS90bXANCj4+IGRyd3hyd3hy
+d3TCoMKgwqAgMyByb290wqDCoMKgwqAgcm9vdMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgNjAg
+RGVjwqAgOCAwOTo0MCB2b2xhdGlsZQ0KPj4gcm9vdEBxZW11eDg2LTY0Oi92YXIjIG1vdW50
+IHwgZ3JlcCB0bXANCj4+IGRldnRtcGZzIG9uIC9kZXYgdHlwZSBkZXZ0bXBmcyANCj4+IChy
+dyxyZWxhdGltZSxzaXplPTEwMTIxNjRrLG5yX2lub2Rlcz0yNTMwNDEsbW9kZT03NTUpDQo+
+PiB0bXBmcyBvbiAvcnVuIHR5cGUgdG1wZnMgKHJ3LG5vc3VpZCxub2Rldixtb2RlPTc1NSkN
+Cj4+IHRtcGZzIG9uIC92YXIvdm9sYXRpbGUgdHlwZSB0bXBmcyAocncscmVsYXRpbWUpDQo+
+PiByb290QHFlbXV4ODYtNjQ6L3ZhciMNCj4+DQo+Pg0KPj4gNi4NCj4+IHN5c3RlbWQNCj4+
+IFZPTEFUSUxFX1RNUF9ESVI9Im5vIg0KPj4gVk9MQVRJTEVfTE9HX0RJUj0ieWVzIg0KPj4N
+Cj4+IHJvb3RAcWVtdXg4Ni02NDovIyBscyAtYWwNCj4+IGRyd3hyLXhyLXjCoMKgIDE3IHJv
+b3TCoMKgwqDCoCByb290wqDCoMKgwqDCoMKgwqDCoMKgIDEwMjQgRGVjwqAgOCAwOTo0NiAu
+DQo+PiBkcnd4ci14ci14wqDCoCAxNyByb290wqDCoMKgwqAgcm9vdMKgwqDCoMKgwqDCoMKg
+wqDCoCAxMDI0IERlY8KgIDggMDk6NDYgLi4NCj4+IGxyd3hyd3hyd3jCoMKgwqAgMSByb290
+wqDCoMKgwqAgcm9vdMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCA3IE1hcsKgIDnCoCAyMDE4
+IGJpbiAtPiB1c3IvYmluDQo+PiBkcnd4ci14ci14wqDCoMKgIDIgcm9vdMKgwqDCoMKgIHJv
+b3TCoMKgwqDCoMKgwqDCoMKgwqAgMTAyNCBNYXLCoCA5wqAgMjAxOCBib290DQo+PiBkcnd4
+ci14ci14wqDCoCAxNCByb290wqDCoMKgwqAgcm9vdMKgwqDCoMKgwqDCoMKgwqDCoCAzMjYw
+IERlY8KgIDggMDk6NDYgZGV2DQo+PiBkcnd4ci14ci14wqDCoCAyMSByb290wqDCoMKgwqAg
+cm9vdMKgwqDCoMKgwqDCoMKgwqDCoCAzMDcyIERlY8KgIDggMDk6NDYgZXRjDQo+PiBkcnd4
+ci14ci14wqDCoMKgIDMgcm9vdMKgwqDCoMKgIHJvb3TCoMKgwqDCoMKgwqDCoMKgwqAgMTAy
+NCBNYXLCoCA5wqAgMjAxOCBob21lDQo+PiBscnd4cnd4cnd4wqDCoMKgIDEgcm9vdMKgwqDC
+oMKgIHJvb3TCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgNyBNYXLCoCA5wqAgMjAxOCBsaWIg
+LT4gdXNyL2xpYg0KPj4gZHJ3eC0tLS0tLcKgwqDCoCAyIHJvb3TCoMKgwqDCoCByb290wqDC
+oMKgwqDCoMKgwqDCoCAxMjI4OCBEZWPCoCA4IDA5OjQ0IGxvc3QrZm91bmQNCj4+IGRyd3hy
+LXhyLXjCoMKgwqAgMiByb290wqDCoMKgwqAgcm9vdMKgwqDCoMKgwqDCoMKgwqDCoCAxMDI0
+IE1hcsKgIDnCoCAyMDE4IG1lZGlhDQo+PiBkcnd4ci14ci14wqDCoMKgIDIgcm9vdMKgwqDC
+oMKgIHJvb3TCoMKgwqDCoMKgwqDCoMKgwqAgMTAyNCBNYXLCoCA5wqAgMjAxOCBtbnQNCj4+
+IGRyLXhyLXhyLXjCoCAxNzMgcm9vdMKgwqDCoMKgIHJvb3TCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAgMCBEZWPCoCA4IDA5OjQ2IHByb2MNCj4+IGRyd3gtLS0tLS3CoMKgwqAgMyByb290
+wqDCoMKgwqAgcm9vdMKgwqDCoMKgwqDCoMKgwqDCoCAxMDI0IERlY8KgIDggMDk6NDYgcm9v
+dA0KPj4gZHJ3eHIteHIteMKgwqAgMTEgcm9vdMKgwqDCoMKgIHJvb3TCoMKgwqDCoMKgwqDC
+oMKgwqDCoCAzMjAgRGVjwqAgOCAwOTo0NiBydW4NCj4+IGxyd3hyd3hyd3jCoMKgwqAgMSBy
+b290wqDCoMKgwqAgcm9vdMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCA4IE1hcsKgIDnCoCAy
+MDE4IHNiaW4gLT4gDQo+PiB1c3Ivc2Jpbg0KPj4gZHJ3eHIteHIteMKgwqDCoCAyIHJvb3TC
+oMKgwqDCoCByb290wqDCoMKgwqDCoMKgwqDCoMKgIDEwMjQgTWFywqAgOcKgIDIwMTggc3J2
+DQo+PiBkci14ci14ci14wqDCoCAxMiByb290wqDCoMKgwqAgcm9vdMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCAwIERlY8KgIDggMDk6NDYgc3lzDQo+PiBkcnd4cnd4cnd0wqDCoMKgIDkg
+cm9vdMKgwqDCoMKgIHJvb3TCoMKgwqDCoMKgwqDCoMKgwqDCoCAxODAgRGVjwqAgOCAwOTo0
+NiB0bXANCj4+IGRyd3hyLXhyLXjCoMKgIDEwIHJvb3TCoMKgwqDCoCByb290wqDCoMKgwqDC
+oMKgwqDCoMKgIDEwMjQgTWFywqAgOcKgIDIwMTggdXNyDQo+PiBkcnd4ci14ci14wqDCoMKg
+IDkgcm9vdMKgwqDCoMKgIHJvb3TCoMKgwqDCoMKgwqDCoMKgwqAgMTAyNCBEZWPCoCA4IDA5
+OjQ2IHZhcg0KPj4gcm9vdEBxZW11eDg2LTY0Oi8jIGNkIC92YXIvDQo+PiByb290QHFlbXV4
+ODYtNjQ6L3ZhciMgbHMgLWFsDQo+PiBkcnd4ci14ci14wqDCoMKgIDkgcm9vdMKgwqDCoMKg
+IHJvb3TCoMKgwqDCoMKgwqDCoMKgwqAgMTAyNCBEZWPCoCA4IDA5OjQ2IC4NCj4+IGRyd3hy
+LXhyLXjCoMKgIDE3IHJvb3TCoMKgwqDCoCByb290wqDCoMKgwqDCoMKgwqDCoMKgIDEwMjQg
+RGVjwqAgOCAwOTo0NiAuLg0KPj4gLXJ3LXItLXItLcKgwqDCoCAxIHJvb3TCoMKgwqDCoCBy
+b290wqDCoMKgwqDCoMKgwqDCoMKgwqAgMjA4IE1hcsKgIDnCoCAyMDE4IC51cGRhdGVkDQo+
+PiBkcnd4ci14ci14wqDCoMKgIDIgcm9vdMKgwqDCoMKgIHJvb3TCoMKgwqDCoMKgwqDCoMKg
+wqAgMTAyNCBNYXLCoCA5wqAgMjAxOCBiYWNrdXBzDQo+PiBkcnd4ci14ci14wqDCoMKgIDQg
+cm9vdMKgwqDCoMKgIHJvb3TCoMKgwqDCoMKgwqDCoMKgwqAgMTAyNCBEZWPCoCA4IDA5OjQ2
+IGNhY2hlDQo+PiBkcnd4ci14ci14wqDCoMKgIDYgcm9vdMKgwqDCoMKgIHJvb3TCoMKgwqDC
+oMKgwqDCoMKgwqAgMTAyNCBEZWPCoCA4IDA5OjQ2IGxpYg0KPj4gZHJ3eHIteHIteMKgwqDC
+oCAyIHJvb3TCoMKgwqDCoCByb290wqDCoMKgwqDCoMKgwqDCoMKgIDEwMjQgTWFywqAgOcKg
+IDIwMTggbG9jYWwNCj4+IGxyd3hyd3hyd3jCoMKgwqAgMSByb290wqDCoMKgwqAgcm9vdMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgMTEgTWFywqAgOcKgIDIwMTggbG9jayAtPiANCj4+IC4u
+L3J1bi9sb2NrDQo+PiBscnd4cnd4cnd4wqDCoMKgIDEgcm9vdMKgwqDCoMKgIHJvb3TCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgIDEyIE1hcsKgIDnCoCAyMDE4IGxvZyAtPiANCj4+IHZvbGF0
+aWxlL2xvZw0KPj4gbHJ3eHJ3eHJ3eMKgwqDCoCAxIHJvb3TCoMKgwqDCoCByb290wqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgIDYgTWFywqAgOcKgIDIwMTggcnVuIC0+IC4uL3J1bg0KPj4g
+ZHJ3eHIteHIteMKgwqDCoCAzIHJvb3TCoMKgwqDCoCByb290wqDCoMKgwqDCoMKgwqDCoMKg
+IDEwMjQgTWFywqAgOcKgIDIwMTggc3Bvb2wNCj4+IGRyd3hyd3hyd3TCoMKgwqAgNSByb290
+wqDCoMKgwqAgcm9vdMKgwqDCoMKgwqDCoMKgwqDCoCAxMDI0IERlY8KgIDggMDk6NDYgdG1w
+DQo+PiBkcnd4cnd4cnd0wqDCoMKgIDMgcm9vdMKgwqDCoMKgIHJvb3TCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgIDYwIERlY8KgIDggMDk6NDYgdm9sYXRpbGUNCj4+IHJvb3RAcWVtdXg4Ni02
+NDovdmFyIyBtb3VudCB8IGdyZXAgdG1wDQo+PiBkZXZ0bXBmcyBvbiAvZGV2IHR5cGUgZGV2
+dG1wZnMgDQo+PiAocncscmVsYXRpbWUsc2l6ZT0xMDEyMTY0ayxucl9pbm9kZXM9MjUzMDQx
+LG1vZGU9NzU1KQ0KPj4gdG1wZnMgb24gL2Rldi9zaG0gdHlwZSB0bXBmcyAocncsbm9zdWlk
+LG5vZGV2KQ0KPj4gdG1wZnMgb24gL3J1biB0eXBlIHRtcGZzIA0KPj4gKHJ3LG5vc3VpZCxu
+b2RldixzaXplPTQwNTczMmssbnJfaW5vZGVzPTgxOTIwMCxtb2RlPTc1NSkNCj4+IHRtcGZz
+IG9uIC9zeXMvZnMvY2dyb3VwIHR5cGUgdG1wZnMgDQo+PiAocm8sbm9zdWlkLG5vZGV2LG5v
+ZXhlYyxzaXplPTQwOTZrLG5yX2lub2Rlcz0xMDI0LG1vZGU9NzU1KQ0KPj4gdG1wZnMgb24g
+L3RtcCB0eXBlIHRtcGZzIChydyxub3N1aWQsbm9kZXYsbnJfaW5vZGVzPTEwNDg1NzYpDQo+
+PiB0bXBmcyBvbiAvdmFyL3ZvbGF0aWxlIHR5cGUgdG1wZnMgKHJ3LHJlbGF0aW1lKQ0KPj4g
+cm9vdEBxZW11eDg2LTY0Oi92YXIjDQo+Pg0KPj4gQ2hhbmdxaW5nIExpICg1KToNCj4+IMKg
+wqAgYml0YmFrZS5jb25mOiBzZXQgY29ycmVjdCBGSUxFU1lTVEVNX1BFUk1TX1RBQkxFUw0K
+Pj4gwqDCoCBiYXNlLWZpbGVzOiB1cGRhdGUgZGlyczE3NzcgYW5kIHZvbGF0aWxlcyBhY2Nv
+cmRpbmcgdG8NCj4+IMKgwqDCoMKgIFZPTEFUSUxFX1RNUF9ESVINCj4+IMKgwqAgaW5pdHNj
+cmlwdHM6IHN1cHBvcnQgcGVyc2lzdGVudCB0bXANCj4+IMKgwqAgc3lzdGVtZDogc3VwcG9y
+dCBwZXJzaXN0ZW50IHRtcA0KPj4gwqDCoCBldWRldjogY3JlYXRlIGRpciAvdG1wIGlmIHBl
+cnNpc3RlbnQgdG1wIGlzIHVzZWQNCj4+DQo+PiDCoCBtZXRhL2NvbmYvYml0YmFrZS5jb25m
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqAgNSAr
+Ky0NCj4+IMKgIC4uLmZzLXBlcm1zLnR4dCA9PiBmcy1wZXJtcy12b2xhdGlsZS1sb2cudHh0
+fSB8IDMyIC0tLS0tLS0tLS0tLS0tLS0tLS0NCj4+IMKgIC4uLnRlbnQtbG9nLnR4dCA9PiBm
+cy1wZXJtcy12b2xhdGlsZS10bXAudHh0fSB8IDI3IC0tLS0tLS0tLS0tLS0tLS0NCj4+IMKg
+IG1ldGEvZmlsZXMvZnMtcGVybXMudHh0wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgfMKgIDMgLS0NCj4+IMKgIC4uLi9iYXNlLWZpbGVzL2Jhc2UtZmls
+ZXNfMy4wLjE0LmJiwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgIDggKysrLS0NCj4+IMKgIC4u
+Li9pbml0c2NyaXB0cy9pbml0c2NyaXB0cy0xLjAvdm9sYXRpbGVzwqDCoMKgwqAgfMKgIDEg
+Kw0KPj4gwqAgLi4uL2luaXRzY3JpcHRzL2luaXRzY3JpcHRzXzEuMC5iYsKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgfCAxMiArKysrLS0tDQo+PiDCoCAuLi4vc3lzdGVtZC9zeXN0ZW1kLzAw
+LWNyZWF0ZS12b2xhdGlsZS5jb25mwqDCoCB8wqAgMyArLQ0KPj4gwqAgbWV0YS9yZWNpcGVz
+LWNvcmUvc3lzdGVtZC9zeXN0ZW1kXzI1NC40LmJiwqDCoMKgIHwgMjMgKysrKysrKysrLS0t
+LQ0KPj4gwqAgbWV0YS9yZWNpcGVzLWNvcmUvdWRldi9ldWRldl8zLjIuMTQuYmLCoMKgwqDC
+oMKgwqDCoCB8wqAgNCArKysNCj4+IMKgIDEwIGZpbGVzIGNoYW5nZWQsIDQwIGluc2VydGlv
+bnMoKyksIDc4IGRlbGV0aW9ucygtKQ0KPj4gwqAgY29weSBtZXRhL2ZpbGVzL3tmcy1wZXJt
+cy50eHQgPT4gZnMtcGVybXMtdm9sYXRpbGUtbG9nLnR4dH0gKDUzJSkNCj4+IMKgIHJlbmFt
+ZSBtZXRhL2ZpbGVzL3tmcy1wZXJtcy1wZXJzaXN0ZW50LWxvZy50eHQgPT4gDQo+PiBmcy1w
+ZXJtcy12b2xhdGlsZS10bXAudHh0fSAoNTklKQ0KPj4NCj4+DQo+Pg0KPj4NCj4NCj4gLT0t
+PS09LT0tPS09LT0tPS09LT0tPS0NCj4gTGlua3M6IFlvdSByZWNlaXZlIGFsbCBtZXNzYWdl
+cyBzZW50IHRvIHRoaXMgZ3JvdXAuDQo+IFZpZXcvUmVwbHkgT25saW5lICgjMTk0ODY4KTpo
+dHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS9tZXNz
+YWdlLzE5NDg2OA0KPiBNdXRlIFRoaXMgVG9waWM6aHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRk
+ZWQub3JnL210LzEwMzEwMDQ3NC8zNjE2NzY1DQo+IEdyb3VwIE93bmVyOm9wZW5lbWJlZGRl
+ZC1jb3JlK293bmVyQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gVW5zdWJzY3JpYmU6aHR0
+cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVkLWNvcmUvdW5zdWIg
+IFtyYW5keS5tYWNsZW9kQHdpbmRyaXZlci5jb21dDQo+IC09LT0tPS09LT0tPS09LT0tPS09
+LT0tDQo+DQoNCi0tIA0KIyBSYW5keSBNYWNMZW9kDQojIFdpbmQgUml2ZXIgTGludXgNCg==
+--------------sk6t2aVJjsVu4pXLrNhn67Bg
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html><html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <div class="moz-cite-prefix">Add Trevor who made the original
+      commit:<br>
+      <br>
+      commit d5d40479d706cbb382850b9479c5dd9bfb801c99<br>
+      Author: Trevor Woerner <a class="moz-txt-link-rfc2396E" href="mailto:twoerner@gmail.com">&lt;twoerner@gmail.com&gt;</a><br>
+      Date:&nbsp;&nbsp; Mon Feb 27 00:00:40 2023<br>
+      <br>
+      &nbsp;&nbsp;&nbsp; VOLATILE_TMP_DIR: add<br>
+      &nbsp;&nbsp; &nbsp;<br>
+      &nbsp;&nbsp;&nbsp; Provide a mechanism to allow users to choose whether the /tmp
+      directory<br>
+      &nbsp;&nbsp;&nbsp; is on persistent storage (non-volatile) or a RAM-based tmpfs
+      (volatile).<br>
+      &nbsp;&nbsp;&nbsp; The default is volatile.<br>
+      &nbsp;&nbsp; &nbsp;<br>
+      &nbsp;&nbsp;&nbsp; Works for both sysvinit-based and systemd-based systems.<br>
+    </div>
+    <div class="moz-cite-prefix"><br>
+    </div>
+    <div class="moz-cite-prefix"><br>
+    </div>
+    <div class="moz-cite-prefix">and Ross who said he'd take a look at
+      this RFC.<br>
+      <br>
+      <br>
+    </div>
+    <div class="moz-cite-prefix">On 2024-02-03 9:58 p.m., Changqing Li
+      via lists.openembedded.org wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:f32ecfd5-5d95-403e-87ed-b2db21a1afde@windriver.com">ping
+      <br>
+      <br>
+      On 12/11/23 08:58, Changqing Li wrote:
+      <br>
+      <blockquote type="cite">From: Changqing Li
+        <a class="moz-txt-link-rfc2396E" href="mailto:changqing.li@windriver.com">&lt;changqing.li@windriver.com&gt;</a>
+        <br>
+        <br>
+        Hi, All
+        <br>
+        <br>
+        Currently, VOLATILE_TMP_DIR not works,
+        <br>
+        set VOLATILE_TMP_DIR=&quot;no&quot;, VOLATILE_LOG_DIR=&quot;no&quot;, after boot
+        target,
+        <br>
+        /var/tmp still link to tmpfs /var/volatile/tmp
+        <br>
+        <br>
+        lrwxrwxrwx&nbsp; 1 root root&nbsp;&nbsp; 11 Mar&nbsp; 9&nbsp; 2018 lock -&gt; ../run/lock
+        <br>
+        drwxr-xr-x&nbsp; 4 root root 1024 Dec&nbsp; 4 07:55 log
+        <br>
+        lrwxrwxrwx&nbsp; 1 root root&nbsp;&nbsp;&nbsp; 6 Mar&nbsp; 9&nbsp; 2018 run -&gt; ../run
+        <br>
+        drwxr-xr-x&nbsp; 3 root root 1024 Mar&nbsp; 9&nbsp; 2018 spool
+        <br>
+        lrwxrwxrwx&nbsp; 1 root root&nbsp;&nbsp; 12 Mar&nbsp; 9&nbsp; 2018 tmp -&gt; volatile/tmp
+        <br>
+        drwxrwxrwt&nbsp; 4 root root&nbsp;&nbsp; 80 Dec&nbsp; 4 07:55 volatile
+        <br>
+        <br>
+        So I do some research, fix this issue and do some other changes
+        accordingly. Please
+        <br>
+        help to review this patch, thanks.
+        <br>
+        <br>
+        Targets:
+        <br>
+        1. Support persistent tmp,&nbsp; For persistent tmp, only /var/tmp is
+        persistent, /tmp is tmpfs,
+        <br>
+        &nbsp;&nbsp;&nbsp; For volatile tmp, /tmp link to /var/tmp, /var/tmp link to
+        /var/volatile/tmp
+        <br>
+        2. make systemd and SysVinit have the same directory structure.
+        <br>
+        <br>
+        Currently, systemd and SysVinit have different directory
+        structure, the difference focus on how to handle /tmp.
+        <br>
+        <br>
+        when volatile is enabled, for sysVinit, /tmp link to /var/tmp,
+        /var/tmp link to /var/volatile/tmp
+        <br>
+        refer [4][5]. but for systemd, /tmp is a directory, it is
+        mounted by systemd as tmpfs. /var/tmp
+        <br>
+        linked to /var/volatile/tmp.&nbsp; And for systemd, refer [6], set
+        different age for /tmp and /var/tmp.
+        <br>
+      </blockquote>
+    </blockquote>
+    <p>I find that structured text helps me understand things, so here's
+      a structured version of the sentences above:<br>
+    </p>
+    <p><br>
+    </p>
+    <p>Currently, systemd and SysVinit have different directory
+      structure; the difference focus on how to handle /tmp.
+      <br>
+      <br>
+      When volatile is enabled, for sysVinit:<br>
+      &nbsp; &nbsp;&nbsp;&nbsp; /tmp link to /var/tmp, <br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /var/tmp link to /var/volatile/tmp
+      <br>
+      &nbsp;&nbsp; refer [4][5]&nbsp;</p>
+    <p>but for systemd:<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /tmp is a directory, it is mounted by systemd as tmpfs. <br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /var/tmp
+      linked to /var/volatile/tmp&nbsp;</p>
+    <p>and for systemd, refer [6], set different age for /tmp and
+      /var/tmp. <br>
+    </p>
+    <p><br>
+    </p>
+    <p><br>
+    </p>
+    <p><br>
+    </p>
+    <blockquote type="cite" cite="mid:f32ecfd5-5d95-403e-87ed-b2db21a1afde@windriver.com">
+      <blockquote type="cite">
+        <br>
+        Since volatile disabled not works, ignore the difference when
+        volatile is disabled.
+        <br>
+        <br>
+        With this patch, VOLATILE_TMP_DIR will behavior like this:
+        <br>
+        For both sysvinit and systemd:
+        <br>
+        1. VOLATILE_TMP_DIR=&quot;yes&quot;:
+        <br>
+        /tmp link to /var/tmp,&nbsp; /var/tmp link to /var/volatile/log,&nbsp;
+        /var/volatile is mounted as tmpfs
+        <br>
+        In this case, for systemd, /tmp and /var/tmp will set to the
+        same age, 10d.
+        <br>
+        <br>
+        Compare to current behavior, there are 2 changes:
+        <br>
+        &nbsp;&nbsp;&nbsp; 1) for systemd,&nbsp; /tmp changed from a directy to a symlink to
+        /var/tmp
+        <br>
+        &nbsp;&nbsp;&nbsp; 2) age of /tmp and /var/tmp will be same
+        <br>
+      </blockquote>
+    </blockquote>
+    <p><br>
+    </p>
+    <p>Okay but is an identical timestamp absolutely required or are you
+      just trying to make things consistent</p>
+    <p>to reduce the chance that a different timestamp could cause
+      problems?</p>
+    <p>I may have missed an explanation of why you want the 10d old
+      timestamp anyway, that seems like<br>
+      a separate change that should follow-up the re-org changes.<br>
+    </p>
+    <p><br>
+    </p>
+    <blockquote type="cite" cite="mid:f32ecfd5-5d95-403e-87ed-b2db21a1afde@windriver.com">
+      <blockquote type="cite">
+        <br>
+        2. VOLATILE_TMP_DIR=&quot;no&quot;:
+        <br>
+        /tmp is a directory mounted as tmpfs, /var/tmp is a directory on
+        persistent fs, and keep the age as [6]
+        <br>
+        <br>
+        Change like this in order to meet [1][2], also maybe [3] for
+        systemd.
+        <br>
+        <br>
+        Compare to current behavior, there is one change:
+        <br>
+        &nbsp;&nbsp;&nbsp; 1) for sysVinit, /tmp changed from a symlink to a directory
+        <br>
+      </blockquote>
+    </blockquote>
+    <p>You've carefully explained things but it does seem a bit
+      complicated when you first read<br>
+      the explaination. It may have been better to start your
+      explaination with the last statement you<br>
+      made, by saying something like this:</p>
+    <p>&nbsp;&nbsp; This is going to be a detailed, lengthy explaination but the
+      only change in runtime will be <br>
+      &nbsp;&nbsp; for sysVinit where /tmp is changed from a symlink to a
+      directory to make it persistent.</p>
+    <p><br>
+    </p>
+    <p>Ross, Trevor,<br>
+      Any comments or concerns ?<br>
+    </p>
+    <p>Changqing is no one replies today, please just rebase and repost
+      your full RFC patch<br>
+      to try to restart the discussion.<br>
+    </p>
+    <p><br>
+    </p>
+    <p>Thanks,<br>
+    </p>
+    <p>../Randy<br>
+    </p>
+    <blockquote type="cite" cite="mid:f32ecfd5-5d95-403e-87ed-b2db21a1afde@windriver.com">
+      <blockquote type="cite">
+        <br>
+        [1]
+        <a class="moz-txt-link-freetext" href="https://refspecs.linuxfoundation.org/FHS_3.0/fhs/ch03s18.html">https://refspecs.linuxfoundation.org/FHS_3.0/fhs/ch03s18.html</a>
+        <br>
+        [2]
+        <a class="moz-txt-link-freetext" href="https://refspecs.linuxfoundation.org/FHS_3.0/fhs/ch05s15.html">https://refspecs.linuxfoundation.org/FHS_3.0/fhs/ch05s15.html</a>
+        <br>
+        [3] <a class="moz-txt-link-freetext" href="https://systemd.io/TEMPORARY_DIRECTORIES/">https://systemd.io/TEMPORARY_DIRECTORIES/</a>
+        <br>
+        [4]
+<a class="moz-txt-link-freetext" href="https://git.openembedded.org/openembedded/tree/docs/usermanual/chapters/recipes.xml#n3535">https://git.openembedded.org/openembedded/tree/docs/usermanual/chapters/recipes.xml#n3535</a><br>
+        [5]
+<a class="moz-txt-link-freetext" href="https://git.openembedded.org/openembedded-core/commit/?id=12c4acd7ac5a27cf3676065b60f1c8395c96854c">https://git.openembedded.org/openembedded-core/commit/?id=12c4acd7ac5a27cf3676065b60f1c8395c96854c</a><br>
+        [6]
+        <a class="moz-txt-link-freetext" href="https://github.com/systemd/systemd/blob/main/tmpfiles.d/tmp.conf">https://github.com/systemd/systemd/blob/main/tmpfiles.d/tmp.conf</a>
+        <br>
+        [7]
+        <a class="moz-txt-link-freetext" href="https://www.freedesktop.org/software/systemd/man/latest/tmpfiles.d.html">https://www.freedesktop.org/software/systemd/man/latest/tmpfiles.d.html</a>
+        <br>
+        <br>
+        <br>
+        Test Result of following cases:
+        <br>
+        1.
+        <br>
+        SysVinit
+        <br>
+        VOLATILE_TMP_DIR=&quot;yes&quot;
+        <br>
+        VOLATILE_LOG_DIR=&quot;yes&quot;
+        <br>
+        <br>
+        root@qemux86-64:~# ls -al /tmp
+        <br>
+        lrwxrwxrwx&nbsp;&nbsp;&nbsp; 1 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 8 Dec&nbsp; 8 08:51 /tmp
+        -&gt; /var/tmp
+        <br>
+        root@qemux86-64:~# ls -al /var/log
+        <br>
+        lrwxrwxrwx&nbsp;&nbsp;&nbsp; 1 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 17 Dec&nbsp; 8 08:51
+        /var/log -&gt; /var/volatile/log
+        <br>
+        root@qemux86-64:~# ls -al /var/tmp
+        <br>
+        lrwxrwxrwx&nbsp;&nbsp;&nbsp; 1 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 17 Dec&nbsp; 8 08:51
+        /var/tmp -&gt; /var/volatile/tmp
+        <br>
+        root@qemux86-64:~# mount | grep volatile
+        <br>
+        tmpfs on /var/volatile type tmpfs (rw,relatime)
+        <br>
+        root@qemux86-64:~#
+        <br>
+        <br>
+        2.
+        <br>
+        SysVinit
+        <br>
+        VOLATILE_TMP_DIR=&quot;no&quot;
+        <br>
+        VOLATILE_LOG_DIR=&quot;no&quot;
+        <br>
+        <br>
+        root@qemux86-64:/# ls -al
+        <br>
+        drwxr-xr-x&nbsp;&nbsp; 18 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Dec&nbsp; 8 09:22 .
+        <br>
+        drwxr-xr-x&nbsp;&nbsp; 18 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Dec&nbsp; 8 09:22 ..
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 2 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3072 Mar&nbsp; 9&nbsp; 2018 bin
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 2 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Mar&nbsp; 9&nbsp; 2018 boot
+        <br>
+        drwxr-xr-x&nbsp;&nbsp; 13 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2960 Dec&nbsp; 8 09:24 dev
+        <br>
+        drwxr-xr-x&nbsp;&nbsp; 20 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Dec&nbsp; 8 09:24 etc
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 3 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Mar&nbsp; 9&nbsp; 2018 home
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 6 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Mar&nbsp; 9&nbsp; 2018 lib
+        <br>
+        drwx------&nbsp;&nbsp;&nbsp; 2 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 12288 Dec&nbsp; 8 09:22
+        lost+found
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 2 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Mar&nbsp; 9&nbsp; 2018 media
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 2 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Mar&nbsp; 9&nbsp; 2018 mnt
+        <br>
+        dr-xr-xr-x&nbsp; 161 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0 Dec&nbsp; 8 09:24 proc
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 4 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 240 Dec&nbsp; 8 09:24 run
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 2 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3072 Mar&nbsp; 9&nbsp; 2018 sbin
+        <br>
+        dr-xr-xr-x&nbsp;&nbsp; 12 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0 Dec&nbsp; 8 09:24 sys
+        <br>
+        drwxrwxrwt&nbsp;&nbsp;&nbsp; 2 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 40 Dec&nbsp; 8 09:24 tmp
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 9 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Mar&nbsp; 9&nbsp; 2018 usr
+        <br>
+        drwxr-xr-x&nbsp;&nbsp; 10 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Dec&nbsp; 8 09:24 var
+        <br>
+        root@qemux86-64:/# cd /var/
+        <br>
+        root@qemux86-64:/var# ls -al
+        <br>
+        drwxr-xr-x&nbsp;&nbsp; 10 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Dec&nbsp; 8 09:24 .
+        <br>
+        drwxr-xr-x&nbsp;&nbsp; 18 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Dec&nbsp; 8 09:22 ..
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 2 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Mar&nbsp; 9&nbsp; 2018 backups
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 2 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Mar&nbsp; 9&nbsp; 2018 cache
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 4 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Mar&nbsp; 9&nbsp; 2018 lib
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 2 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Mar&nbsp; 9&nbsp; 2018 local
+        <br>
+        lrwxrwxrwx&nbsp;&nbsp;&nbsp; 1 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 9 Dec&nbsp; 8 09:24 lock
+        -&gt; /run/lock
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 2 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Dec&nbsp; 8 09:24 log
+        <br>
+        lrwxrwxrwx&nbsp;&nbsp;&nbsp; 1 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4 Dec&nbsp; 8 09:24 run
+        -&gt; /run
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 2 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Mar&nbsp; 9&nbsp; 2018 spool
+        <br>
+        drwxrwxrwt&nbsp;&nbsp;&nbsp; 2 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Mar&nbsp; 9&nbsp; 2018 tmp
+        <br>
+        drwxrwxrwt&nbsp;&nbsp;&nbsp; 4 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 80 Dec&nbsp; 8 09:24
+        volatile
+        <br>
+        root@qemux86-64:/var# mount | grep tmpfs
+        <br>
+        devtmpfs on /dev type devtmpfs
+        (rw,relatime,size=1012164k,nr_inodes=253041,mode=755)
+        <br>
+        tmpfs on /run type tmpfs (rw,nosuid,nodev,mode=755)
+        <br>
+        tmpfs on /var/volatile type tmpfs (rw,relatime)
+        <br>
+        tmpfs on /tmp type tmpfs (rw,nosuid,nodev,nr_inodes=1048576)
+        <br>
+        root@qemux86-64:/var#
+        <br>
+        <br>
+        <br>
+        3.
+        <br>
+        systemd
+        <br>
+        VOLATILE_TMP_DIR=&quot;yes&quot;
+        <br>
+        VOLATILE_LOG_DIR=&quot;yes&quot;
+        <br>
+        <br>
+        root@qemux86-64:/# ls -al /tmp
+        <br>
+        lrwxrwxrwx&nbsp;&nbsp;&nbsp; 1 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 8 Dec&nbsp; 8 08:49 /tmp
+        -&gt; /var/tmp
+        <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 8 Dec&nbsp; 8 08:49 /tmp -&gt; /var/tmp
+        <br>
+        root@qemux86-64:/# cd /var/
+        <br>
+        root@qemux86-64:/var# ls -al tmp
+        <br>
+        lrwxrwxrwx&nbsp;&nbsp;&nbsp; 1 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 12 Mar&nbsp; 9&nbsp; 2018 tmp
+        -&gt; volatile/tmp
+        <br>
+        root@qemux86-64:/var# ls -al log
+        <br>
+        lrwxrwxrwx&nbsp;&nbsp;&nbsp; 1 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 12 Mar&nbsp; 9&nbsp; 2018 log
+        -&gt; volatile/log
+        <br>
+        root@qemux86-64:/var# mount | grep tmp
+        <br>
+        devtmpfs on /dev type devtmpfs
+        (rw,relatime,size=1012160k,nr_inodes=253040,mode=755)
+        <br>
+        tmpfs on /dev/shm type tmpfs (rw,nosuid,nodev)
+        <br>
+        tmpfs on /run type tmpfs
+        (rw,nosuid,nodev,size=405732k,nr_inodes=819200,mode=755)
+        <br>
+        tmpfs on /sys/fs/cgroup type tmpfs
+        (ro,nosuid,nodev,noexec,size=4096k,nr_inodes=1024,mode=755)
+        <br>
+        tmpfs on /var/volatile type tmpfs (rw,relatime)
+        <br>
+        root@qemux86-64:/var#
+        <br>
+        <br>
+        4.
+        <br>
+        systemd
+        <br>
+        VOLATILE_TMP_DIR=&quot;no&quot;
+        <br>
+        VOLATILE_LOG_DIR=&quot;no&quot;
+        <br>
+        <br>
+        root@qemux86-64:/# ls -al
+        <br>
+        drwxr-xr-x&nbsp;&nbsp; 17 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Dec&nbsp; 8 09:16 .
+        <br>
+        drwxr-xr-x&nbsp;&nbsp; 17 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Dec&nbsp; 8 09:16 ..
+        <br>
+        lrwxrwxrwx&nbsp;&nbsp;&nbsp; 1 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 7 Mar&nbsp; 9&nbsp; 2018 bin
+        -&gt; usr/bin
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 2 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Mar&nbsp; 9&nbsp; 2018 boot
+        <br>
+        drwxr-xr-x&nbsp;&nbsp; 14 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3260 Dec&nbsp; 8 09:16 dev
+        <br>
+        drwxr-xr-x&nbsp;&nbsp; 21 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3072 Dec&nbsp; 8 09:16 etc
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 3 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Mar&nbsp; 9&nbsp; 2018 home
+        <br>
+        lrwxrwxrwx&nbsp;&nbsp;&nbsp; 1 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 7 Mar&nbsp; 9&nbsp; 2018 lib
+        -&gt; usr/lib
+        <br>
+        drwx------&nbsp;&nbsp;&nbsp; 2 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 12288 Dec&nbsp; 8 09:16
+        lost+found
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 2 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Mar&nbsp; 9&nbsp; 2018 media
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 2 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Mar&nbsp; 9&nbsp; 2018 mnt
+        <br>
+        dr-xr-xr-x&nbsp; 173 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0 Dec&nbsp; 8 09:16 proc
+        <br>
+        drwx------&nbsp;&nbsp;&nbsp; 3 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Dec&nbsp; 8 09:16 root
+        <br>
+        drwxr-xr-x&nbsp;&nbsp; 11 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 320 Dec&nbsp; 8 09:16 run
+        <br>
+        lrwxrwxrwx&nbsp;&nbsp;&nbsp; 1 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 8 Mar&nbsp; 9&nbsp; 2018 sbin
+        -&gt; usr/sbin
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 2 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Mar&nbsp; 9&nbsp; 2018 srv
+        <br>
+        dr-xr-xr-x&nbsp;&nbsp; 12 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0 Dec&nbsp; 8 09:16 sys
+        <br>
+        drwxrwxrwt&nbsp;&nbsp;&nbsp; 9 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 180 Dec&nbsp; 8 09:16 tmp
+        <br>
+        drwxr-xr-x&nbsp;&nbsp; 10 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Mar&nbsp; 9&nbsp; 2018 usr
+        <br>
+        drwxr-xr-x&nbsp;&nbsp; 10 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Dec&nbsp; 8 09:16 var
+        <br>
+        root@qemux86-64:/# cd /var/
+        <br>
+        root@qemux86-64:/var# ls -al
+        <br>
+        drwxr-xr-x&nbsp;&nbsp; 10 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Dec&nbsp; 8 09:16 .
+        <br>
+        drwxr-xr-x&nbsp;&nbsp; 17 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Dec&nbsp; 8 09:16 ..
+        <br>
+        -rw-r--r--&nbsp;&nbsp;&nbsp; 1 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 208 Mar&nbsp; 9&nbsp; 2018
+        .updated
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 2 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Mar&nbsp; 9&nbsp; 2018 backups
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 4 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Dec&nbsp; 8 09:16 cache
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 6 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Dec&nbsp; 8 09:16 lib
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 2 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Mar&nbsp; 9&nbsp; 2018 local
+        <br>
+        lrwxrwxrwx&nbsp;&nbsp;&nbsp; 1 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 11 Mar&nbsp; 9&nbsp; 2018 lock
+        -&gt; ../run/lock
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 4 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Dec&nbsp; 8 09:16 log
+        <br>
+        lrwxrwxrwx&nbsp;&nbsp;&nbsp; 1 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 6 Mar&nbsp; 9&nbsp; 2018 run
+        -&gt; ../run
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 3 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Mar&nbsp; 9&nbsp; 2018 spool
+        <br>
+        drwxrwxrwt&nbsp;&nbsp;&nbsp; 5 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Dec&nbsp; 8 09:16 tmp
+        <br>
+        drwxrwxrwt&nbsp;&nbsp;&nbsp; 2 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 40 Dec&nbsp; 8 09:16
+        volatile
+        <br>
+        root@qemux86-64:/var# mount | grep tmpfs
+        <br>
+        devtmpfs on /dev type devtmpfs
+        (rw,relatime,size=1012164k,nr_inodes=253041,mode=755)
+        <br>
+        tmpfs on /dev/shm type tmpfs (rw,nosuid,nodev)
+        <br>
+        tmpfs on /run type tmpfs
+        (rw,nosuid,nodev,size=405732k,nr_inodes=819200,mode=755)
+        <br>
+        tmpfs on /sys/fs/cgroup type tmpfs
+        (ro,nosuid,nodev,noexec,size=4096k,nr_inodes=1024,mode=755)
+        <br>
+        tmpfs on /tmp type tmpfs (rw,nosuid,nodev,nr_inodes=1048576)
+        <br>
+        tmpfs on /var/volatile type tmpfs (rw,relatime)
+        <br>
+        root@qemux86-64:/var#
+        <br>
+        <br>
+        5.
+        <br>
+        SysVinit
+        <br>
+        VOLATILE_TMP_DIR=&quot;yes&quot;
+        <br>
+        VOLATILE_LOG_DIR=&quot;no&quot;
+        <br>
+        <br>
+        root@qemux86-64:/# ls -al
+        <br>
+        drwxr-xr-x&nbsp;&nbsp; 17 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Dec&nbsp; 8 09:40 .
+        <br>
+        drwxr-xr-x&nbsp;&nbsp; 17 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Dec&nbsp; 8 09:40 ..
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 2 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3072 Mar&nbsp; 9&nbsp; 2018 bin
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 2 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Mar&nbsp; 9&nbsp; 2018 boot
+        <br>
+        drwxr-xr-x&nbsp;&nbsp; 13 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2960 Dec&nbsp; 8 09:40 dev
+        <br>
+        drwxr-xr-x&nbsp;&nbsp; 20 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Dec&nbsp; 8 09:40 etc
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 3 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Mar&nbsp; 9&nbsp; 2018 home
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 6 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Mar&nbsp; 9&nbsp; 2018 lib
+        <br>
+        drwx------&nbsp;&nbsp;&nbsp; 2 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 12288 Dec&nbsp; 8 09:40
+        lost+found
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 2 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Mar&nbsp; 9&nbsp; 2018 media
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 2 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Mar&nbsp; 9&nbsp; 2018 mnt
+        <br>
+        dr-xr-xr-x&nbsp; 159 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0 Dec&nbsp; 8 09:40 proc
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 4 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 240 Dec&nbsp; 8 09:40 run
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 2 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3072 Mar&nbsp; 9&nbsp; 2018 sbin
+        <br>
+        dr-xr-xr-x&nbsp;&nbsp; 12 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0 Dec&nbsp; 8 09:40 sys
+        <br>
+        lrwxrwxrwx&nbsp;&nbsp;&nbsp; 1 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 8 Dec&nbsp; 8 09:40 tmp
+        -&gt; /var/tmp
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 9 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Mar&nbsp; 9&nbsp; 2018 usr
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 9 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Dec&nbsp; 8 09:40 var
+        <br>
+        root@qemux86-64:/# cd /var/
+        <br>
+        root@qemux86-64:/var# ls -al
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 9 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Dec&nbsp; 8 09:40 .
+        <br>
+        drwxr-xr-x&nbsp;&nbsp; 17 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Dec&nbsp; 8 09:40 ..
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 2 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Mar&nbsp; 9&nbsp; 2018 backups
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 2 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Mar&nbsp; 9&nbsp; 2018 cache
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 4 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Mar&nbsp; 9&nbsp; 2018 lib
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 2 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Mar&nbsp; 9&nbsp; 2018 local
+        <br>
+        lrwxrwxrwx&nbsp;&nbsp;&nbsp; 1 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 9 Dec&nbsp; 8 09:40 lock
+        -&gt; /run/lock
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 2 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Dec&nbsp; 8 09:40 log
+        <br>
+        lrwxrwxrwx&nbsp;&nbsp;&nbsp; 1 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4 Dec&nbsp; 8 09:40 run
+        -&gt; /run
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 2 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Mar&nbsp; 9&nbsp; 2018 spool
+        <br>
+        lrwxrwxrwx&nbsp;&nbsp;&nbsp; 1 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 17 Dec&nbsp; 8 09:40 tmp
+        -&gt; /var/volatile/tmp
+        <br>
+        drwxrwxrwt&nbsp;&nbsp;&nbsp; 3 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 60 Dec&nbsp; 8 09:40
+        volatile
+        <br>
+        root@qemux86-64:/var# mount | grep tmp
+        <br>
+        devtmpfs on /dev type devtmpfs
+        (rw,relatime,size=1012164k,nr_inodes=253041,mode=755)
+        <br>
+        tmpfs on /run type tmpfs (rw,nosuid,nodev,mode=755)
+        <br>
+        tmpfs on /var/volatile type tmpfs (rw,relatime)
+        <br>
+        root@qemux86-64:/var#
+        <br>
+        <br>
+        <br>
+        6.
+        <br>
+        systemd
+        <br>
+        VOLATILE_TMP_DIR=&quot;no&quot;
+        <br>
+        VOLATILE_LOG_DIR=&quot;yes&quot;
+        <br>
+        <br>
+        root@qemux86-64:/# ls -al
+        <br>
+        drwxr-xr-x&nbsp;&nbsp; 17 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Dec&nbsp; 8 09:46 .
+        <br>
+        drwxr-xr-x&nbsp;&nbsp; 17 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Dec&nbsp; 8 09:46 ..
+        <br>
+        lrwxrwxrwx&nbsp;&nbsp;&nbsp; 1 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 7 Mar&nbsp; 9&nbsp; 2018 bin
+        -&gt; usr/bin
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 2 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Mar&nbsp; 9&nbsp; 2018 boot
+        <br>
+        drwxr-xr-x&nbsp;&nbsp; 14 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3260 Dec&nbsp; 8 09:46 dev
+        <br>
+        drwxr-xr-x&nbsp;&nbsp; 21 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3072 Dec&nbsp; 8 09:46 etc
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 3 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Mar&nbsp; 9&nbsp; 2018 home
+        <br>
+        lrwxrwxrwx&nbsp;&nbsp;&nbsp; 1 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 7 Mar&nbsp; 9&nbsp; 2018 lib
+        -&gt; usr/lib
+        <br>
+        drwx------&nbsp;&nbsp;&nbsp; 2 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 12288 Dec&nbsp; 8 09:44
+        lost+found
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 2 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Mar&nbsp; 9&nbsp; 2018 media
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 2 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Mar&nbsp; 9&nbsp; 2018 mnt
+        <br>
+        dr-xr-xr-x&nbsp; 173 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0 Dec&nbsp; 8 09:46 proc
+        <br>
+        drwx------&nbsp;&nbsp;&nbsp; 3 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Dec&nbsp; 8 09:46 root
+        <br>
+        drwxr-xr-x&nbsp;&nbsp; 11 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 320 Dec&nbsp; 8 09:46 run
+        <br>
+        lrwxrwxrwx&nbsp;&nbsp;&nbsp; 1 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 8 Mar&nbsp; 9&nbsp; 2018 sbin
+        -&gt; usr/sbin
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 2 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Mar&nbsp; 9&nbsp; 2018 srv
+        <br>
+        dr-xr-xr-x&nbsp;&nbsp; 12 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0 Dec&nbsp; 8 09:46 sys
+        <br>
+        drwxrwxrwt&nbsp;&nbsp;&nbsp; 9 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 180 Dec&nbsp; 8 09:46 tmp
+        <br>
+        drwxr-xr-x&nbsp;&nbsp; 10 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Mar&nbsp; 9&nbsp; 2018 usr
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 9 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Dec&nbsp; 8 09:46 var
+        <br>
+        root@qemux86-64:/# cd /var/
+        <br>
+        root@qemux86-64:/var# ls -al
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 9 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Dec&nbsp; 8 09:46 .
+        <br>
+        drwxr-xr-x&nbsp;&nbsp; 17 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Dec&nbsp; 8 09:46 ..
+        <br>
+        -rw-r--r--&nbsp;&nbsp;&nbsp; 1 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 208 Mar&nbsp; 9&nbsp; 2018
+        .updated
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 2 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Mar&nbsp; 9&nbsp; 2018 backups
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 4 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Dec&nbsp; 8 09:46 cache
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 6 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Dec&nbsp; 8 09:46 lib
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 2 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Mar&nbsp; 9&nbsp; 2018 local
+        <br>
+        lrwxrwxrwx&nbsp;&nbsp;&nbsp; 1 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 11 Mar&nbsp; 9&nbsp; 2018 lock
+        -&gt; ../run/lock
+        <br>
+        lrwxrwxrwx&nbsp;&nbsp;&nbsp; 1 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 12 Mar&nbsp; 9&nbsp; 2018 log
+        -&gt; volatile/log
+        <br>
+        lrwxrwxrwx&nbsp;&nbsp;&nbsp; 1 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 6 Mar&nbsp; 9&nbsp; 2018 run
+        -&gt; ../run
+        <br>
+        drwxr-xr-x&nbsp;&nbsp;&nbsp; 3 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Mar&nbsp; 9&nbsp; 2018 spool
+        <br>
+        drwxrwxrwt&nbsp;&nbsp;&nbsp; 5 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1024 Dec&nbsp; 8 09:46 tmp
+        <br>
+        drwxrwxrwt&nbsp;&nbsp;&nbsp; 3 root&nbsp;&nbsp;&nbsp;&nbsp; root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 60 Dec&nbsp; 8 09:46
+        volatile
+        <br>
+        root@qemux86-64:/var# mount | grep tmp
+        <br>
+        devtmpfs on /dev type devtmpfs
+        (rw,relatime,size=1012164k,nr_inodes=253041,mode=755)
+        <br>
+        tmpfs on /dev/shm type tmpfs (rw,nosuid,nodev)
+        <br>
+        tmpfs on /run type tmpfs
+        (rw,nosuid,nodev,size=405732k,nr_inodes=819200,mode=755)
+        <br>
+        tmpfs on /sys/fs/cgroup type tmpfs
+        (ro,nosuid,nodev,noexec,size=4096k,nr_inodes=1024,mode=755)
+        <br>
+        tmpfs on /tmp type tmpfs (rw,nosuid,nodev,nr_inodes=1048576)
+        <br>
+        tmpfs on /var/volatile type tmpfs (rw,relatime)
+        <br>
+        root@qemux86-64:/var#
+        <br>
+        <br>
+        Changqing Li (5):
+        <br>
+        &nbsp;&nbsp; bitbake.conf: set correct FILESYSTEM_PERMS_TABLES
+        <br>
+        &nbsp;&nbsp; base-files: update dirs1777 and volatiles according to
+        <br>
+        &nbsp;&nbsp;&nbsp;&nbsp; VOLATILE_TMP_DIR
+        <br>
+        &nbsp;&nbsp; initscripts: support persistent tmp
+        <br>
+        &nbsp;&nbsp; systemd: support persistent tmp
+        <br>
+        &nbsp;&nbsp; eudev: create dir /tmp if persistent tmp is used
+        <br>
+        <br>
+        &nbsp; meta/conf/bitbake.conf&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 5 ++-
+        <br>
+        &nbsp; ...fs-perms.txt =&gt; fs-perms-volatile-log.txt} | 32
+        -------------------
+        <br>
+        &nbsp; ...tent-log.txt =&gt; fs-perms-volatile-tmp.txt} | 27
+        ----------------
+        <br>
+        &nbsp; meta/files/fs-perms.txt&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 3 --
+        <br>
+        &nbsp; .../base-files/base-files_3.0.14.bb&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 8 +++--
+        <br>
+        &nbsp; .../initscripts/initscripts-1.0/volatiles&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 1 +
+        <br>
+        &nbsp; .../initscripts/initscripts_1.0.bb&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 12 ++++---
+        <br>
+        &nbsp; .../systemd/systemd/00-create-volatile.conf&nbsp;&nbsp; |&nbsp; 3 +-
+        <br>
+        &nbsp; meta/recipes-core/systemd/systemd_254.4.bb&nbsp;&nbsp;&nbsp; | 23
+        +++++++++----
+        <br>
+        &nbsp; meta/recipes-core/udev/eudev_3.2.14.bb&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 4 +++
+        <br>
+        &nbsp; 10 files changed, 40 insertions(+), 78 deletions(-)
+        <br>
+        &nbsp; copy meta/files/{fs-perms.txt =&gt; fs-perms-volatile-log.txt}
+        (53%)
+        <br>
+        &nbsp; rename meta/files/{fs-perms-persistent-log.txt =&gt;
+        fs-perms-volatile-tmp.txt} (59%)
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+      </blockquote>
+      <br>
+      <fieldset class="moz-mime-attachment-header"></fieldset>
+      <pre class="moz-quote-pre" wrap="">-=-=-=-=-=-=-=-=-=-=-=-
+Links: You receive all messages sent to this group.
+View/Reply Online (#194868): <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/message/194868">https://lists.openembedded.org/g/openembedded-core/message/194868</a>
+Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/mt/103100474/3616765">https://lists.openembedded.org/mt/103100474/3616765</a>
+Group Owner: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
+Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a class="moz-txt-link-abbreviated" href="mailto:randy.macleod@windriver.com">randy.macleod@windriver.com</a>]
+-=-=-=-=-=-=-=-=-=-=-=-
+
+</pre>
+    </blockquote>
+    <p><br>
+    </p>
+    <pre class="moz-signature" cols="72">-- 
+# Randy MacLeod
+# Wind River Linux</pre>
+  </body>
+</html>
+
+--------------sk6t2aVJjsVu4pXLrNhn67Bg--
 
