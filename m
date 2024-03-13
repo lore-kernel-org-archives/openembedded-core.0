@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 874B5C54E6A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B1BBC54E66
 	for <webhook@archiver.kernel.org>; Wed, 13 Mar 2024 17:33:57 +0000 (UTC)
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
- by mx.groups.io with SMTP id smtpd.web10.2095.1710351233090624194
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web11.2043.1710351229008002428
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Mar 2024 10:33:53 -0700
+ Wed, 13 Mar 2024 10:33:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=TELib/54;
- spf=pass (domain: gmail.com, ip: 209.85.167.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5131316693cso168886e87.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 Mar 2024 10:33:52 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=SDQIoRim;
+ spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-413e93b0f54so702335e9.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 Mar 2024 10:33:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710351231; x=1710956031; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1710351227; x=1710956027; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VsljwgexOdKy+UkGo/wFzK2xnwuieO6u4kKGJQ7tgTc=;
-        b=TELib/54qC83e9Ki2UjisOSAhnYVVHPQikzTQb1ItDUysCWejG33Ji7R1rL9GsXILr
-         F2QLch73koa6qBbFzpf/PaN6hA/C2/2NWJNZltcS8RZMLh7PXkf3zNrnhDTaNLsrzve1
-         nO0+XxbEa1uvPvSUCwnrCROv0gFXmeA9eGIofXVE7tZxB5G/SWxhB6vUOuntVPGMlWep
-         cNTuzFyY5GJoLYqqYbjATlVXeJHIzDhNj4HcOa+PQpkL3yXUPK2Dk9nfc31Y+gBBAMqX
-         hw0NyshyPxU9oV5qSVSn1/fn/ssS3qrXEx1Whq1oPOeO5dxTffONyn+yA4HqxWfOcaC9
-         Wg+A==
+        bh=OsRNSsodXYZoTZGBP4ozl6YbYAD5XK10ytyW97LUACw=;
+        b=SDQIoRimM78VKDTjDMafedxbUGssaAEoXqKnTZ7/0XWpm3vI4AzKzZYKuulstHGE+3
+         qEaePhYtYl5oCuozj+1hzEP4MXV+wGR1+XLHUGYUD0XTkDgMXAZKkBTqNSGxJHf1AIt9
+         kf2eKMvEIo4+ofZjBwPWhIUPWvUvEZLXnxE9eb0VGMkMOprTsXoDiFsSFY4YONuPCDDj
+         iB7+tym4O9CccLQGi5lbVRjlr5QlVx5aViQ9KGD3xkX3EqrhBQiDMXD+B5fl8bkrGyio
+         HFNgQzipS3/L3CFQuDfSPGxLKYkKb7Ui9Oa4vUaRMJ3m01dxIFl48iwB1+N4rJM44Ud5
+         A5og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710351231; x=1710956031;
+        d=1e100.net; s=20230601; t=1710351227; x=1710956027;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VsljwgexOdKy+UkGo/wFzK2xnwuieO6u4kKGJQ7tgTc=;
-        b=WxP6kyOobUaP74nS3kvC9jVe0tc2vJ9wtxPxB6K+rhamp/kMd3ouUs6Wn+wPCqjjgK
-         s0ySv445HbeLWbSEhbA4rqJJ227CnXXrR8+p4FhUvqfWHjk8kbNmKVRHTu16h+lTI8pR
-         Z2PZQ2xdx1qa5ep+McSXZYtnWSua3HTDrsyy5H54EHRobkQUmRjLZgDw9XqXj6oD2RCC
-         I0Jo8DRZY6cb0u+DUdA5cAK1Oo1/QRXYMpAfFiiviaMkLR60MkHEBgYfKVCKth6iq0Ar
-         3AjUIjyo1CtC0QgVwKyrc9pZ3ZxDVnlog5NZTMhmohd5dxRDsoLgESGg5oeoRPewsH8N
-         qIwA==
-X-Gm-Message-State: AOJu0Yw+pTiJRBn5SaT/WpX5oB2H31j7dk0IziX5LMJRieYL9no16/A6
-	0ylt5dh9RaXJJShPdJWP6DQ1k/BgPH18N19p+X80RuTMsEhg3YfyZ4rpKbvb
-X-Google-Smtp-Source: AGHT+IHe48+tnYIQYSOVPbZwpnpQeQpKlUE19rBy1irSWkmTSCnrBWj9gVT0ayqqb2hRJNGZxEoj2g==
-X-Received: by 2002:ac2:5e3c:0:b0:513:c6ec:fa6c with SMTP id o28-20020ac25e3c000000b00513c6ecfa6cmr2156163lfg.48.1710351231208;
-        Wed, 13 Mar 2024 10:33:51 -0700 (PDT)
+        bh=OsRNSsodXYZoTZGBP4ozl6YbYAD5XK10ytyW97LUACw=;
+        b=iVOKR23V1xQ+Z3camMn5JhC8NEyYIWQ7uzps2vodlgkt7RmQGRk0/r9iE2gKzT1bKJ
+         bcC46rm8mLKxmDzuXUW/XMRVTmjtPf8d1iVerG3KmuTQaYvbvfbgxfx88G2JExSQ3KtR
+         p1qxhexKCHMco6jWNhrwJEMD9k42AddkHTtQiC6HPUqWt7k5ADk7pMXzJDclqWAsXLoU
+         ll7DmJ1P8F0IShRpLTu2sgacpVM+JNKGsYKTJk0GfdD1FIpi7R6LjXKNKPEuUxuW/C+9
+         Zl0Qq8gyx3qw1zXGcR74pv7QRl+wB9PCD0y4g74jWtuP45IXQ3dtpdUWwXuVHsbFKXsD
+         gu5w==
+X-Gm-Message-State: AOJu0YyZZrKhxoZJFKk35VbUV5nanbQORpkNKCsCwko/+f6tXkhNH0PP
+	4R9n87AxHbn8JzBLj3F1NxctMSGGYAwgm9vRP+OH47c7YmJHG1E5SflDsJGk
+X-Google-Smtp-Source: AGHT+IESjUK2NU69BLLPRcmq1KMPgtwUdj8LdTS/r4POaZuTopdwYqsKvtorpPHFJ/HyWP4gcO1oew==
+X-Received: by 2002:a05:600c:154d:b0:413:ee9e:fca6 with SMTP id f13-20020a05600c154d00b00413ee9efca6mr511960wmg.41.1710351227300;
+        Wed, 13 Mar 2024 10:33:47 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id l5-20020a05600c1d0500b00412ea52b102sm2989710wms.34.2024.03.13.10.33.50
+        by smtp.gmail.com with ESMTPSA id l5-20020a05600c1d0500b00412ea52b102sm2989710wms.34.2024.03.13.10.33.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Mar 2024 10:33:50 -0700 (PDT)
+        Wed, 13 Mar 2024 10:33:46 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 19/21] texinfo: update 7.0.3 -> 7.1
-Date: Wed, 13 Mar 2024 18:33:34 +0100
-Message-Id: <20240313173336.3900178-19-alex@linutronix.de>
+Subject: [PATCH 12/21] npth: update 1.6 -> 1.7
+Date: Wed, 13 Mar 2024 18:33:27 +0100
+Message-Id: <20240313173336.3900178-12-alex@linutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240313173336.3900178-1-alex@linutronix.de>
 References: <20240313173336.3900178-1-alex@linutronix.de>
@@ -62,232 +62,237 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 13 Mar 2024 17:33:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197071
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197064
 
-Drop texinfo/link-zip.patch
-(no longer necessary)
+Drop 0001-Revert-Fix-problem-with-regression-tests-on-recent-g.patch
+(upstream resolved the issue)
 
-Add texinfo_cv_sys_iconv_converts_euc_cn=yes as otherwise
-it's determined via building and running a helper binary.
+npth-config is no longer installed.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...hanges-to-build-without-zlib-and-nc.patch} | 13 +++++++----
- ...tch => 0002-dont-depend-on-help2man.patch} | 16 +++++++------
- ...patch => 0003-texinfo-Update-to-5.1.patch} | 12 ++++++----
- .../texinfo/texinfo/link-zip.patch            | 23 -------------------
- .../{texinfo_7.0.3.bb => texinfo_7.1.bb}      | 10 ++++----
- 5 files changed, 29 insertions(+), 45 deletions(-)
- rename meta/recipes-extended/texinfo/texinfo/{disable-native-tools.patch => 0001-texinfo-several-changes-to-build-without-zlib-and-nc.patch} (88%)
- rename meta/recipes-extended/texinfo/texinfo/{dont-depend-on-help2man.patch => 0002-dont-depend-on-help2man.patch} (84%)
- rename meta/recipes-extended/texinfo/texinfo/{use_host_makedoc.patch => 0003-texinfo-Update-to-5.1.patch} (75%)
- delete mode 100644 meta/recipes-extended/texinfo/texinfo/link-zip.patch
- rename meta/recipes-extended/texinfo/{texinfo_7.0.3.bb => texinfo_7.1.bb} (89%)
+ ...em-with-regression-tests-on-recent-g.patch | 43 -----------
+ meta/recipes-support/npth/npth/musl-fix.patch | 37 ++++++++++
+ .../recipes-support/npth/npth/pkgconfig.patch | 74 +++++++++++--------
+ .../npth/{npth_1.6.bb => npth_1.7.bb}         | 10 +--
+ 4 files changed, 82 insertions(+), 82 deletions(-)
+ delete mode 100644 meta/recipes-support/npth/npth/0001-Revert-Fix-problem-with-regression-tests-on-recent-g.patch
+ create mode 100644 meta/recipes-support/npth/npth/musl-fix.patch
+ rename meta/recipes-support/npth/{npth_1.6.bb => npth_1.7.bb} (68%)
 
-diff --git a/meta/recipes-extended/texinfo/texinfo/disable-native-tools.patch b/meta/recipes-extended/texinfo/texinfo/0001-texinfo-several-changes-to-build-without-zlib-and-nc.patch
-similarity index 88%
-rename from meta/recipes-extended/texinfo/texinfo/disable-native-tools.patch
-rename to meta/recipes-extended/texinfo/texinfo/0001-texinfo-several-changes-to-build-without-zlib-and-nc.patch
-index 3801d73883d..b43a115b235 100644
---- a/meta/recipes-extended/texinfo/texinfo/disable-native-tools.patch
-+++ b/meta/recipes-extended/texinfo/texinfo/0001-texinfo-several-changes-to-build-without-zlib-and-nc.patch
-@@ -1,7 +1,8 @@
--From e5d8f6d4a7652ea95c8d069ce9333494f2db868c Mon Sep 17 00:00:00 2001
-+From ee9d23373b488c4a499c561d71e6b6ba7ca1bd31 Mon Sep 17 00:00:00 2001
- From: Joshua Lock <josh@linux.intel.com>
- Date: Fri, 16 Sep 2011 15:35:48 -0700
--Subject: [PATCH] texinfo: several changes to build without zlib and ncurses
-+Subject: [PATCH 1/3] texinfo: several changes to build without zlib and
-+ ncurses
- 
- We already DEPEND on the native texinfo being present before building so
- there isn't any need to try and build the required native texinfo binaries
-@@ -10,16 +11,15 @@ before cross-compiling. This simplifies the recipe somewhat!
- Upstream-Status: Inappropriate oe specific
- 
- Signed-off-by: Joshua Lock <josh@linux.intel.com>
--
- ---
-  configure.ac | 24 +-----------------------
-  1 file changed, 1 insertion(+), 23 deletions(-)
- 
- diff --git a/configure.ac b/configure.ac
--index 6fcd3a0..c108df7 100644
-+index 8094498..5b72fc1 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -180,29 +180,7 @@ AC_CANONICAL_BUILD
-+@@ -247,29 +247,7 @@ AC_CANONICAL_BUILD
-  # $native_tools is also added to SUBDIRS in the main Makefile.am,
-  # so that make compiles the native tools first.
-  #
-@@ -50,3 +50,6 @@ index 6fcd3a0..c108df7 100644
-  AC_SUBST(native_tools)
-  AM_CONDITIONAL(TOOLS_ONLY, [[test "x$tools_only" = x1]])
-  
-+-- 
-+2.39.2
-+
-diff --git a/meta/recipes-extended/texinfo/texinfo/dont-depend-on-help2man.patch b/meta/recipes-extended/texinfo/texinfo/0002-dont-depend-on-help2man.patch
-similarity index 84%
-rename from meta/recipes-extended/texinfo/texinfo/dont-depend-on-help2man.patch
-rename to meta/recipes-extended/texinfo/texinfo/0002-dont-depend-on-help2man.patch
-index 825887cc2e9..f3b6827d582 100644
---- a/meta/recipes-extended/texinfo/texinfo/dont-depend-on-help2man.patch
-+++ b/meta/recipes-extended/texinfo/texinfo/0002-dont-depend-on-help2man.patch
-@@ -1,33 +1,32 @@
--From 451a9b9c3874872d575693fc7733fae02690a7d3 Mon Sep 17 00:00:00 2001
-+From e02be81fa68ddc7f939abd99de4e42759a0d5d8c Mon Sep 17 00:00:00 2001
- From: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
- Date: Tue, 29 Nov 2016 13:43:24 -0600
--Subject: [PATCH] dont-depend-on-help2man
-+Subject: [PATCH 2/3] dont-depend-on-help2man
- 
- Upstream-Status: Inappropriate
- 
- Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
- Signed-off-by: Edwin Plauchu <edwin.plauchu.camacho@intel.com>
--
- ---
-  doc/Makefile.am |  2 +-
-  man/Makefile.am | 12 ++++++------
-  2 files changed, 7 insertions(+), 7 deletions(-)
- 
- diff --git a/doc/Makefile.am b/doc/Makefile.am
--index 407a38c..6b5ff3e 100644
-+index e9e6298..f1b9895 100644
- --- a/doc/Makefile.am
- +++ b/doc/Makefile.am
--@@ -55,7 +55,7 @@ refcard_files = refcard/Makefile refcard/txicmdcheck \
-+@@ -63,7 +63,7 @@ refcard/txirefcard.pdf refcard/txirefcard-a4.pdf: refcard/txirefcard.tex
-  # Include our texinfo.tex, not Automake's.
-  EXTRA_DIST = epsf.tex texinfo.tex \
-               fdl.texi \
- -	     $(man_MANS) $(TXI_XLATE) \
- +	     $(TXI_XLATE) \
-               $(refcard_files) \
--              gendocs.chapter/gendocs_template \
-  	     texinfo-tex-test.texi texinfo-tex-test.WIDOWs \
-+              texinfo-ja.tex short-sample-ja.texi \
- diff --git a/man/Makefile.am b/man/Makefile.am
--index d0cd72c..a19e52a 100644
-+index f2c703f..61caeeb 100644
- --- a/man/Makefile.am
- +++ b/man/Makefile.am
- @@ -11,27 +11,27 @@
-@@ -64,3 +63,6 @@ index d0cd72c..a19e52a 100644
-  
-  # Maintainers should be able to regenerate.
-  MAINTAINERCLEANFILES = $(man_MANS)
-+-- 
-+2.39.2
-+
-diff --git a/meta/recipes-extended/texinfo/texinfo/use_host_makedoc.patch b/meta/recipes-extended/texinfo/texinfo/0003-texinfo-Update-to-5.1.patch
-similarity index 75%
-rename from meta/recipes-extended/texinfo/texinfo/use_host_makedoc.patch
-rename to meta/recipes-extended/texinfo/texinfo/0003-texinfo-Update-to-5.1.patch
-index c6c9952c9ed..f99f8b87d5c 100644
---- a/meta/recipes-extended/texinfo/texinfo/use_host_makedoc.patch
-+++ b/meta/recipes-extended/texinfo/texinfo/0003-texinfo-Update-to-5.1.patch
-@@ -1,21 +1,20 @@
--From 81ccd162b869c20e450073fa834b5cabbea8e3d4 Mon Sep 17 00:00:00 2001
-+From 33b85a3928895b812b37dc759c6de711802db45f Mon Sep 17 00:00:00 2001
- From: Saul Wold <sgw@linux.intel.com>
- Date: Mon, 29 Jul 2013 15:02:34 -0700
--Subject: [PATCH] texinfo: Update to 5.1
-+Subject: [PATCH 3/3] texinfo: Update to 5.1
- 
- Upstream-Status: Inappropriate [cross build specific]
- 
- Signed-off-by: Saul Wold <sgw@linux.intel.com>
--
- ---
-  info/Makefile.am | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/info/Makefile.am b/info/Makefile.am
--index 35596b1..cae1421 100644
-+index f57b341..a019aa7 100644
- --- a/info/Makefile.am
- +++ b/info/Makefile.am
--@@ -69,7 +69,7 @@ cmd_sources = $(srcdir)/session.c $(srcdir)/echo-area.c $(srcdir)/infodoc.c \
-+@@ -77,7 +77,7 @@ cmd_sources = $(srcdir)/session.c $(srcdir)/echo-area.c $(srcdir)/infodoc.c \
-  # more than once.
-  funs.h: makedoc$(EXEEXT) $(cmd_sources)
-  	rm -f $(generated_sources)
-@@ -24,3 +23,6 @@ index 35596b1..cae1421 100644
-  
-  # The following hack is necessary to hint make before the automatic
-  # dependencies are built.
-+-- 
-+2.39.2
-+
-diff --git a/meta/recipes-extended/texinfo/texinfo/link-zip.patch b/meta/recipes-extended/texinfo/texinfo/link-zip.patch
+diff --git a/meta/recipes-support/npth/npth/0001-Revert-Fix-problem-with-regression-tests-on-recent-g.patch b/meta/recipes-support/npth/npth/0001-Revert-Fix-problem-with-regression-tests-on-recent-g.patch
 deleted file mode 100644
-index 72d7067aa90..00000000000
---- a/meta/recipes-extended/texinfo/texinfo/link-zip.patch
+index 47c426b4a5c..00000000000
+--- a/meta/recipes-support/npth/npth/0001-Revert-Fix-problem-with-regression-tests-on-recent-g.patch
 +++ /dev/null
-@@ -1,23 +0,0 @@
--From c5050ac84c8a3cc3ff8c7e558f8c2fdb57f410d9 Mon Sep 17 00:00:00 2001
--From: Joshua Lock <josh@linux.intel.com>
--Date: Mon, 29 Jul 2013 15:02:34 -0700
--Subject: [PATCH] install-info uses symbols from zlib so must link against it.
+@@ -1,43 +0,0 @@
+-From e43524868bb4901703d63876f9d49f73ca75b3ab Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Wed, 12 May 2021 20:27:52 -0700
+-Subject: [PATCH] Revert "Fix problem with regression tests on recent glibc."
+-
+-This reverts commit 3a9d32eb59194b989656548755066ccd9feb36ac.
 -
 -Upstream-Status: Pending
--
--Signed-off-by: Joshua Lock <josh@linux.intel.com>
--
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ----
-- install-info/Makefile.am | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
+- configure.ac | 8 +++-----
+- 1 file changed, 3 insertions(+), 5 deletions(-)
 -
--diff --git a/install-info/Makefile.am b/install-info/Makefile.am
--index 9bcff71..68247f9 100644
----- a/install-info/Makefile.am
--+++ b/install-info/Makefile.am
--@@ -33,4 +33,4 @@ AM_CPPFLAGS = 					\
--   -I$(top_srcdir)/gnulib/lib			\
--   -I$(top_builddir)/gnulib/lib			\
--   -DLOCALEDIR=\"$(localedir)\"
---LDADD = $(top_builddir)/gnulib/lib/libgnu.a $(LIBINTL) $(LIBTHREAD)
--+LDADD = $(top_builddir)/gnulib/lib/libgnu.a $(LIBINTL) $(LIBTHREAD) -lz
-diff --git a/meta/recipes-extended/texinfo/texinfo_7.0.3.bb b/meta/recipes-extended/texinfo/texinfo_7.1.bb
-similarity index 89%
-rename from meta/recipes-extended/texinfo/texinfo_7.0.3.bb
-rename to meta/recipes-extended/texinfo/texinfo_7.1.bb
-index b149177b72d..65d8252fb97 100644
---- a/meta/recipes-extended/texinfo/texinfo_7.0.3.bb
-+++ b/meta/recipes-extended/texinfo/texinfo_7.1.bb
-@@ -25,17 +25,16 @@ RDEPENDS:info += "${@compress_pkg(d)}"
- DEPENDS = "zlib ncurses texinfo-replacement-native"
- DEPENDS:class-native = "zlib-native ncurses-native"
+-diff --git a/configure.ac b/configure.ac
+-index 8a9373c..8cda28d 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -284,11 +284,9 @@ AC_TYPE_SSIZE_T
+- #
+- # Checks for libraries and functions.
+- #
+--#   We test for pthread_detach because glibc 2.22 includes
+--#   pthread_create but not pthread_detach.
+- if test "$have_w32_system" = no; then
+--  AC_SEARCH_LIBS([pthread_detach],[pthread])
+--  case "x$ac_cv_search_pthread_detach" in
+-+  AC_SEARCH_LIBS([pthread_create],[pthread])
+-+  case "x$ac_cv_search_pthread_create" in
+-     xno)
+-       have_pthread=no
+-       ;;
+-@@ -297,7 +295,7 @@ if test "$have_w32_system" = no; then
+-       ;;
+-     *)
+-       have_pthread=yes
+--      config_libs="$config_libs $ac_cv_search_pthread_detach"
+-+      config_libs="$config_libs $ac_cv_search_pthread_create"
+-       ;;
+-   esac
+-   if test "$have_pthread" != no; then
+--- 
+-2.31.1
+-
+diff --git a/meta/recipes-support/npth/npth/musl-fix.patch b/meta/recipes-support/npth/npth/musl-fix.patch
+new file mode 100644
+index 00000000000..fabe78b14c5
+--- /dev/null
++++ b/meta/recipes-support/npth/npth/musl-fix.patch
+@@ -0,0 +1,37 @@
++From 417abd56fd7bf45cd4948414050615cb1ad59134 Mon Sep 17 00:00:00 2001
++From: NIIBE Yutaka <gniibe@fsij.org>
++Date: Fri, 1 Mar 2024 13:53:52 +0900
++Subject: [PATCH] Fix INSERT_EXPOSE_RWLOCK_API for musl C library.
++
++* configure.ac: Add a case for musl system.
++
++Upstream-Status: Backport [https://git.gnupg.org/cgi-bin/gitweb.cgi?p=npth.git;a=commit;h=417abd56fd7bf45cd4948414050615cb1ad59134]
++Signed-off-by: Alexander Kanavin <alex@linutronix.de>
++--
++
++GnuPG-bug-id: 5664
++Signed-off-by: NIIBE Yutaka <gniibe@fsij.org>
++---
++ configure.ac | 5 ++++-
++ 1 file changed, 4 insertions(+), 1 deletion(-)
++
++diff --git a/configure.ac b/configure.ac
++index c1091b1..576a26e 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -381,7 +381,10 @@ fi
++ AC_SUBST(INSERT_NO_RWLOCK)
++ 
++ case "${host}" in
++-    *-*-linux*|*-*-gnu*)
+++    *-*-linux-musl*)
+++        INSERT_EXPOSE_RWLOCK_API="1"
+++        ;;
+++    *-*-linux-gnu*|*-*-gnu*)
++         INSERT_EXPOSE_RWLOCK_API="defined(__USE_UNIX98) || defined(__USE_XOPEN2K)"
++         ;;
++     *)
++-- 
++2.30.2
++
++
+diff --git a/meta/recipes-support/npth/npth/pkgconfig.patch b/meta/recipes-support/npth/npth/pkgconfig.patch
+index b6a12e73099..e736921b43d 100644
+--- a/meta/recipes-support/npth/npth/pkgconfig.patch
++++ b/meta/recipes-support/npth/npth/pkgconfig.patch
+@@ -1,13 +1,51 @@
+-Added npth pkgconfig file
++From ff19a9648f1c7d93087e2c33ca64bb881d53ea5a Mon Sep 17 00:00:00 2001
++From: Saul Wold <sgw@linux.intel.com>
++Date: Mon, 10 Nov 2014 13:59:03 -0800
++Subject: [PATCH] Added npth pkgconfig file
  
--TARGET_PATCH = "file://use_host_makedoc.patch"
-+TARGET_PATCH = "file://0003-texinfo-Update-to-5.1.patch"
- TARGET_PATCH:class-native = ""
+ Upstream-Status: Pending
  
- SRC_URI = "${GNU_MIRROR}/texinfo/${BP}.tar.gz \
--           file://disable-native-tools.patch \
--           file://link-zip.patch \
--           file://dont-depend-on-help2man.patch \
-+           file://0001-texinfo-several-changes-to-build-without-zlib-and-nc.patch \
-+           file://0002-dont-depend-on-help2man.patch \
-            ${TARGET_PATCH} \
-            "
+ Signed-off-by: Saul Wold <sgw@linux.intel.com>
++---
++ configure.ac    |  1 +
++ src/Makefile.am |  4 +++-
++ src/npth.pc.in  | 10 ++++++++++
++ 3 files changed, 14 insertions(+), 1 deletion(-)
++ create mode 100644 src/npth.pc.in
  
--SRC_URI[sha256sum] = "3cc5706fb086b895e1dc2b407aade9f95a3a233ff856273e2b659b089f117683"
-+SRC_URI[sha256sum] = "dd5710b3a53ac002644677a06145748e260592a35be182dc830ebebb79c5d5a0"
+-Index: npth-1.1/src/npth.pc.in
+-===================================================================
++diff --git a/configure.ac b/configure.ac
++index 10f3629..65b76a1 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -476,6 +476,7 @@ src/Makefile
++ w32/Makefile
++ tests/Makefile])
++ AC_CONFIG_FILES(npth-config, chmod +x npth-config)
+++AC_CONFIG_FILES([src/npth.pc])
++ AC_OUTPUT
++ 
++ echo "
++diff --git a/src/Makefile.am b/src/Makefile.am
++index 7070118..6f01c64 100644
++--- a/src/Makefile.am
+++++ b/src/Makefile.am
++@@ -17,8 +17,10 @@
++ # License along with this program; if not, see <http://www.gnu.org/licenses/>.
++ 
++ ## Process this file with automake to produce Makefile.in
+++pkgconfigdir = $(libdir)/pkgconfig
+++pkgconfig_DATA = npth.pc
++ 
++-EXTRA_DIST = libnpth.vers
+++EXTRA_DIST = libnpth.vers npth.pc
++ #	     versioninfo.rc.in
++ nodist_include_HEADERS = npth.h
++ 
++diff --git a/src/npth.pc.in b/src/npth.pc.in
++new file mode 100644
++index 0000000..db091e8
+ --- /dev/null
+-+++ npth-1.1/src/npth.pc.in
+++++ b/src/npth.pc.in
+ @@ -0,0 +1,10 @@
+ +prefix=@prefix@
+ +exec_prefix=@exec_prefix@
+@@ -19,31 +57,3 @@ Index: npth-1.1/src/npth.pc.in
+ +Version: @VERSION@
+ +Libs: -L${libdir} -lnpth -lpthread
+ +Cflags: -I${includedir}
+-Index: npth-1.1/src/Makefile.am
+-===================================================================
+---- npth-1.1.orig/src/Makefile.am
+-+++ npth-1.1/src/Makefile.am
+-@@ -27,8 +27,10 @@
+- # License along with this program; if not, see <http://www.gnu.org/licenses/>.
+- 
+- ## Process this file with automake to produce Makefile.in
+-+pkgconfigdir = $(libdir)/pkgconfig
+-+pkgconfig_DATA = npth.pc
+- 
+--EXTRA_DIST = libnpth.vers
+-+EXTRA_DIST = libnpth.vers npth.pc
+- #	     versioninfo.rc.in
+- nodist_include_HEADERS = npth.h
+- 
+-Index: npth-1.1/configure.ac
+-===================================================================
+---- npth-1.1.orig/configure.ac
+-+++ npth-1.1/configure.ac
+-@@ -337,6 +337,7 @@ src/Makefile
+- w32/Makefile
+- tests/Makefile])
+- AC_CONFIG_FILES(npth-config, chmod +x npth-config)
+-+AC_CONFIG_FILES([src/npth.pc])
+- AC_OUTPUT
+- 
+- echo "
+diff --git a/meta/recipes-support/npth/npth_1.6.bb b/meta/recipes-support/npth/npth_1.7.bb
+similarity index 68%
+rename from meta/recipes-support/npth/npth_1.6.bb
+rename to meta/recipes-support/npth/npth_1.7.bb
+index ef863d39b0c..f02a731f850 100644
+--- a/meta/recipes-support/npth/npth_1.6.bb
++++ b/meta/recipes-support/npth/npth_1.7.bb
+@@ -9,18 +9,14 @@ LIC_FILES_CHKSUM = "\
+ UPSTREAM_CHECK_URI = "https://gnupg.org/download/index.html"
+ SRC_URI = "${GNUPG_MIRROR}/npth/npth-${PV}.tar.bz2 \
+            file://pkgconfig.patch \
+-           file://0001-Revert-Fix-problem-with-regression-tests-on-recent-g.patch \
+-          "
++           file://musl-fix.patch \
++           "
  
- tex_texinfo = "texmf/tex/texinfo"
+-SRC_URI[md5sum] = "375d1a15ad969f32d25f1a7630929854"
+-SRC_URI[sha256sum] = "1393abd9adcf0762d34798dc34fdcf4d0d22a8410721e76f1e3afcd1daa4e2d1"
+-
+-BINCONFIG = "${bindir}/npth-config"
++SRC_URI[sha256sum] = "8589f56937b75ce33b28d312fccbf302b3b71ec3f3945fde6aaa74027914ad05"
  
-@@ -44,6 +43,7 @@ inherit gettext autotools multilib_script
- MULTILIB_SCRIPTS = "${PN}:${bindir}/texi2any"
+ inherit autotools binconfig-disabled multilib_header
  
- EXTRA_AUTORECONF += "-I ${S}/gnulib/m4"
-+CACHED_CONFIGUREVARS += "texinfo_cv_sys_iconv_converts_euc_cn=yes"
+ FILES:${PN} = "${libdir}/libnpth.so.*"
+-FILES:${PN}-dev += "${bindir}/npth-config"
  
- do_configure:prepend () {
- 	# autotools_do_configure updates po/Makefile.in.in, we also need
+ do_install:append() {
+     oe_multilib_header npth.h
 -- 
 2.39.2
 
