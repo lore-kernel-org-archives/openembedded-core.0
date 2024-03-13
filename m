@@ -2,595 +2,604 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3F7EC54E71
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE41EC54E74
 	for <webhook@archiver.kernel.org>; Wed, 13 Mar 2024 17:33:57 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web11.2047.1710351231292886121
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+ by mx.groups.io with SMTP id smtpd.web10.2092.1710351230983642510
  for <openembedded-core@lists.openembedded.org>;
  Wed, 13 Mar 2024 10:33:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=CbrDKLWQ;
- spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-413ee4acab3so622165e9.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 Mar 2024 10:33:51 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=UJ+3tA1Y;
+ spf=pass (domain: gmail.com, ip: 209.85.167.44, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5101cd91017so177355e87.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 Mar 2024 10:33:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710351230; x=1710956030; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1710351229; x=1710956029; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MZhiDMSSeXsK9aQqSEqvqPyoWZvVqGzYiKRUzJ/yEjw=;
-        b=CbrDKLWQzOUtXepmoR4mjvh0A3z42V5ErGwvnXy6E/5v1OaOTEGi74Bw8dz4MX8JlR
-         FnYzW1UU7aetqcUfBE63wib09CWPgelenJW4sAcYDm3MVrCdGmmqLYudD/VsywWl99L+
-         RwC5abvmuYEyM8KPngd/2UqtsR+pH0bYgDdeHvsEyujIdLnHpmvk3ZCfcBB90svlRMTO
-         r7QRm0eTK1NLmtfzJLsTp8r4Ho3XeKIqi5nF29uUlx/mHkNPVZLhYVNZdKh9GKts1uPA
-         3chtH9EexzvYxqiEob+kSVWiejXKMizQIYT6XC6CH0X4BzwM5F06g+q9vLhcsuTZXbSI
-         3vRw==
+        bh=pItUNFwjCu6RHeMXIGnjBfc1xuLSIs3skzRChkKAgFY=;
+        b=UJ+3tA1YT3A5jeD7nuroyjz6leS1CvIgtE+iITu0QDlAxzxxau658zLNCetPrwMbeP
+         PNur/SbmePdBxaK79vFVqzkPt08/4+ly8IO47HdWAYAlHhFH5qJlEc8AQHm68Oy4Jv7J
+         e2QOoYoH4r3XURIhlUc2MSsidyJsFutdBUf+YNCX32OIY1j3dDjhxE0mUGS5LocOBeb2
+         cgV0/dCl3FvRwD9Rga56YohzvIny1qouJkzfQjvNoIj107rzvWmyadjokQYUNJk3OWYE
+         +cfCjEJEvJyzP2WKik3j9Wy4aqksE2SEUZmwMl4q010Vh4DaMkW3uJq9c3RJMZ9RR7xQ
+         7BbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710351230; x=1710956030;
+        d=1e100.net; s=20230601; t=1710351229; x=1710956029;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=MZhiDMSSeXsK9aQqSEqvqPyoWZvVqGzYiKRUzJ/yEjw=;
-        b=S9LhSWVx4diK3jlrgKBIcjYvGu7bEk+kaaZVKu0L+Dm/jd+jx8PwPrl29nPTOqk1lB
-         +kOwgadZHxeADlfzOhj6acAy5689YL78/THLPc9B6ReU7h6l3ED1n263qp4wxY1nRsGA
-         pCzKz2PaVC+bkXn1iyTuRCaFIz3+jcgpVlYmcGdttUVkyW5+BrFX/ORwWBIrZHReQHtZ
-         z8A71OtUYAGxjScEvtRGD1OdaC6luBxweLHjCeJOo468ir+6NtIm9UQtZ0b9dZ1zRzod
-         oIj7I4x514jL2Tj+0k4JDDOTJzD136nV9dfoXKYhzNk2U1L9or0nZxF0duaqNNdZztDf
-         Wkqw==
-X-Gm-Message-State: AOJu0YxKojZvQvP5qBDBA3qt24jA/a0txmLpjD3mmzZfE3nX6934u5E2
-	5A+SbIMI0KL40pNhpiCfpuuFDr32F7P8O3GMSNrqldX8vBEIfTv9Daow8jty
-X-Google-Smtp-Source: AGHT+IGUmkWP9tq3iT3TuONfMhQ5fGhRGrQqht17zXjytOh2I4AQ8Cu47M3aVnHgux8rimkl5c3pdg==
-X-Received: by 2002:a05:600c:3493:b0:413:1b2e:50a2 with SMTP id a19-20020a05600c349300b004131b2e50a2mr521474wmq.4.1710351229569;
-        Wed, 13 Mar 2024 10:33:49 -0700 (PDT)
+        bh=pItUNFwjCu6RHeMXIGnjBfc1xuLSIs3skzRChkKAgFY=;
+        b=wWcQOaoIlLoZVs07zPQXczCBWl2vemBewCTi7tee8k8waJe8lWrIkZKU8zKqM/Ow0h
+         ZynPAlMdc0fokEo94eguI4+Nv7nopKWPeEvf9BDDUoe0rW7V7ra3ldbbg+kplngk8/HO
+         wMPl6cZhJdVtJuRSvDuYZpO8AnhAoSeAoPiP6SjgrPP7AkLJf/04qAp82Zrtg2YiL7F2
+         1IBf8RuDsVPxZTiCX5iky1P2pqMG1nP9tzaMfOjjRn5V0cirYZ4OPLUTu88INZuwIjM8
+         +nIsWQXaJKDFzSdUUyQLDtT0xiw4WXL4OxD5C5NmEi8Tt6KITnYqaYxZtujKDup+KdiJ
+         SHZQ==
+X-Gm-Message-State: AOJu0Yxu2jJZKloHFtsPbGxZJqZdX3hCFjR9VGkFt1eLg3PApVSVTKXb
+	el+wppSYPFnI4yNzM+sOrkOqVpTqhQ3e04S4e4SDjjuEEViBpHzlaydMkUeB
+X-Google-Smtp-Source: AGHT+IGXIjncbGL0YQYsl1mXSDdJPjf+UNcMJmzPiTlYqpyK4yIzTS7uBbJDj5w1w1EM/wsILhC0zw==
+X-Received: by 2002:a05:6512:2388:b0:513:cb2f:1e40 with SMTP id c8-20020a056512238800b00513cb2f1e40mr1531803lfv.26.1710351228980;
+        Wed, 13 Mar 2024 10:33:48 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id l5-20020a05600c1d0500b00412ea52b102sm2989710wms.34.2024.03.13.10.33.49
+        by smtp.gmail.com with ESMTPSA id l5-20020a05600c1d0500b00412ea52b102sm2989710wms.34.2024.03.13.10.33.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Mar 2024 10:33:49 -0700 (PDT)
+        Wed, 13 Mar 2024 10:33:48 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 16/21] ruby: update 3.2.2 -> 3.3.0
-Date: Wed, 13 Mar 2024 18:33:31 +0100
-Message-Id: <20240313173336.3900178-16-alex@linutronix.de>
+Subject: [PATCH 15/21] rpm: update 4.19.1 -> 4.19.1.1
+Date: Wed, 13 Mar 2024 18:33:30 +0100
+Message-Id: <20240313173336.3900178-15-alex@linutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240313173336.3900178-1-alex@linutronix.de>
 References: <20240313173336.3900178-1-alex@linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 13 Mar 2024 17:33:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197068
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197067
 
-Rebase:
-ruby/0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch
+Drop patches:
+files/0002-docs-CMakeLists.txt-do-not-install-non-existent-docs.patch
+(upstream resolved the issue)
 
-Drop:
-
-ruby/0001-fiddle-Use-C11-_Alignof-to-define-ALIGN_OF-when-poss.patch
-(merged upstream)
-
-ruby/0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch
-ruby/0002-template-Makefile.in-filter-out-f-prefix-map.patch
-ruby/remove_has_include_macros.patch
-(code rewritten upstream)
+files/0001-CMakeLists.txt-restore-readline-support-as-an-explic.patch
+files/0001-Fix-unconditional-dependency-on-non-POSIX-GLOB_ONLYD.patch
+(backports)
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...x-cross-compilation-of-external-gems.patch | 11 ++--
- ...Alignof-to-define-ALIGN_OF-when-poss.patch | 52 -------------------
- ...e.in-do-not-write-host-cross-cc-item.patch | 32 ------------
- ...ine-REG_S1-and-REG_S2-for-musl-riscv.patch |  7 +--
- ...Obey-LDFLAGS-for-the-link-of-libruby.patch |  9 ++--
- ...-Makefile.in-filter-out-f-prefix-map.patch | 42 ---------------
- ...doc-build-reproducible-documentation.patch | 16 +++---
- ...-list-of-object-files-in-generated-M.patch |  7 ++-
- ...eproducible-change-fixing-784225-too.patch | 28 +++++-----
- .../0006-Make-gemspecs-reproducible.patch     | 17 +++---
- .../ruby/ruby/remove_has_include_macros.patch | 35 -------------
- .../ruby/{ruby_3.2.2.bb => ruby_3.3.0.bb}     |  8 +--
- 12 files changed, 48 insertions(+), 216 deletions(-)
- delete mode 100644 meta/recipes-devtools/ruby/ruby/0001-fiddle-Use-C11-_Alignof-to-define-ALIGN_OF-when-poss.patch
- delete mode 100644 meta/recipes-devtools/ruby/ruby/0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch
- delete mode 100644 meta/recipes-devtools/ruby/ruby/0002-template-Makefile.in-filter-out-f-prefix-map.patch
- delete mode 100644 meta/recipes-devtools/ruby/ruby/remove_has_include_macros.patch
- rename meta/recipes-devtools/ruby/{ruby_3.2.2.bb => ruby_3.3.0.bb} (92%)
+ ...olor-setting-for-mips64_n32-binaries.patch |  3 +-
+ ...ook-for-lua-with-pkg-config-rather-t.patch |  7 +--
+ ...estore-readline-support-as-an-explic.patch | 42 --------------
+ ...satisfiable-dependency-when-building.patch |  3 +-
+ ...lib-rpm-as-the-installation-path-for.patch |  9 ++-
+ ...1-Do-not-read-config-files-from-HOME.patch |  9 ++-
+ ...-PATH-environment-variable-before-ru.patch |  5 +-
+ ...l-dependency-on-non-POSIX-GLOB_ONLYD.patch | 56 -------------------
+ ...lling-execute-package-scriptlets-wit.patch |  5 +-
+ ...not-insert-payloadflags-into-.rpm-me.patch |  3 +-
+ ....c-fix-file-conflicts-for-MIPS64-N32.patch |  3 +-
+ .../files/0001-perl-disable-auto-reqs.patch   |  3 +-
+ ...prefixing-etc-from-RPM_ETCCONFIGDIR-.patch | 13 ++---
+ ...txt-do-not-install-non-existent-docs.patch | 26 ---------
+ ...avoid-using-GLOB_BRACE-if-undefined-.patch |  2 +-
+ ...ge-logging-level-around-scriptlets-t.patch |  5 +-
+ .../rpm/{rpm_4.19.1.bb => rpm_4.19.1.1.bb}    |  7 +--
+ 17 files changed, 32 insertions(+), 169 deletions(-)
+ delete mode 100644 meta/recipes-devtools/rpm/files/0001-CMakeLists.txt-restore-readline-support-as-an-explic.patch
+ delete mode 100644 meta/recipes-devtools/rpm/files/0001-Fix-unconditional-dependency-on-non-POSIX-GLOB_ONLYD.patch
+ delete mode 100644 meta/recipes-devtools/rpm/files/0002-docs-CMakeLists.txt-do-not-install-non-existent-docs.patch
+ rename meta/recipes-devtools/rpm/{rpm_4.19.1.bb => rpm_4.19.1.1.bb} (96%)
 
-diff --git a/meta/recipes-devtools/ruby/ruby/0001-extmk-fix-cross-compilation-of-external-gems.patch b/meta/recipes-devtools/ruby/ruby/0001-extmk-fix-cross-compilation-of-external-gems.patch
-index 2e3156880ef..7402e763331 100644
---- a/meta/recipes-devtools/ruby/ruby/0001-extmk-fix-cross-compilation-of-external-gems.patch
-+++ b/meta/recipes-devtools/ruby/ruby/0001-extmk-fix-cross-compilation-of-external-gems.patch
-@@ -1,7 +1,7 @@
--From a6e12b25a54d112c899b70c89c0bec9c5e5ebf3c Mon Sep 17 00:00:00 2001
-+From caa03f46a3204a7e0f0e5d9d9cc9113304dc0382 Mon Sep 17 00:00:00 2001
- From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <andre.draszik@jci.com>
- Date: Mon, 30 Sep 2019 16:57:01 +0100
--Subject: [PATCH 1/3] extmk: fix cross-compilation of external gems
-+Subject: [PATCH] extmk: fix cross-compilation of external gems
- MIME-Version: 1.0
- Content-Type: text/plain; charset=UTF-8
- Content-Transfer-Encoding: 8bit
-@@ -16,10 +16,10 @@ Signed-off-by: André Draszik <andre.draszik@jci.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/meta/recipes-devtools/rpm/files/0001-Add-a-color-setting-for-mips64_n32-binaries.patch b/meta/recipes-devtools/rpm/files/0001-Add-a-color-setting-for-mips64_n32-binaries.patch
+index 96fe57dfeb8..25aa69d7daa 100644
+--- a/meta/recipes-devtools/rpm/files/0001-Add-a-color-setting-for-mips64_n32-binaries.patch
++++ b/meta/recipes-devtools/rpm/files/0001-Add-a-color-setting-for-mips64_n32-binaries.patch
+@@ -1,11 +1,10 @@
+-From ecc45e3ae837ab50603088dcc8fd2f8e67a7ece6 Mon Sep 17 00:00:00 2001
++From f4cf90b5a298d6a3199e8b4c07f520aaf593ce2b Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Thu, 9 Mar 2017 18:54:02 +0200
+ Subject: [PATCH] Add a color setting for mips64_n32 binaries
  
- diff --git a/ext/extmk.rb b/ext/extmk.rb
--index 1389dc4117..e4d923d7a7 100755
-+index 428ffc9..87eff71 100755
- --- a/ext/extmk.rb
- +++ b/ext/extmk.rb
--@@ -413,8 +413,8 @@ def $mflags.defined?(var)
-+@@ -420,8 +420,8 @@ else
-  end
-  $ruby = [$ruby]
-  $ruby << "-I'$(topdir)'"
-@@ -29,6 +29,3 @@ index 1389dc4117..e4d923d7a7 100755
-    $ruby << "-I'$(extout)/$(arch)'" << "-I'$(extout)/common'" if $extout
-    ENV["RUBYLIB"] = "-"
-  end
---- 
--2.23.0.rc1
--
-diff --git a/meta/recipes-devtools/ruby/ruby/0001-fiddle-Use-C11-_Alignof-to-define-ALIGN_OF-when-poss.patch b/meta/recipes-devtools/ruby/ruby/0001-fiddle-Use-C11-_Alignof-to-define-ALIGN_OF-when-poss.patch
-deleted file mode 100644
-index 1dff9c0f8c4..00000000000
---- a/meta/recipes-devtools/ruby/ruby/0001-fiddle-Use-C11-_Alignof-to-define-ALIGN_OF-when-poss.patch
-+++ /dev/null
-@@ -1,52 +0,0 @@
--From 6b3c202b46b9312c5bb0789145f13d8086e70948 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Sun, 15 Jan 2023 02:34:17 -0800
--Subject: [PATCH] fiddle: Use C11 _Alignof to define ALIGN_OF when possible
--
--WG14 N2350 made very clear that it is an UB having type definitions
--within "offsetof" [1]. This patch enhances the implementation of macro
--ALIGN_OF to use builtin "_Alignof" to avoid undefined behavior
--when using std=c11 or newer
--
--clang 16+ has started to flag this [2]
--
--Fixes build when using -std >= gnu11 and using clang16+
--
--Older compilers gcc < 4.9 or clang < 8 has buggy _Alignof even though it
--may support C11, exclude those compiler versions
--
--[1] https://www.open-std.org/jtc1/sc22/wg14/www/docs/n2350.htm
--[2] https://reviews.llvm.org/D133574
--
--Upstream-Status: Submitted [https://github.com/ruby/fiddle/pull/120]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- ext/fiddle/fiddle.h | 12 +++++++++++-
-- 1 file changed, 11 insertions(+), 1 deletion(-)
--
--diff --git a/ext/fiddle/fiddle.h b/ext/fiddle/fiddle.h
--index 10eb9ce..ffb395e 100644
----- a/ext/fiddle/fiddle.h
--+++ b/ext/fiddle/fiddle.h
--@@ -196,7 +196,17 @@
-- #endif
-- #define TYPE_UINTPTR_T (-TYPE_INTPTR_T)
-- 
---#define ALIGN_OF(type) offsetof(struct {char align_c; type align_x;}, align_x)
--+/* GCC releases before GCC 4.9 had a bug in _Alignof.  See GCC bug 52023
--+   <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=52023>.
--+   clang versions < 8.0.0 have the same bug.  */
--+#if (!defined __STDC_VERSION__ || __STDC_VERSION__ < 201112 \
--+     || (defined __GNUC__ && __GNUC__ < 4 + (__GNUC_MINOR__ < 9) \
--+         && !defined __clang__) \
--+     || (defined __clang__ && __clang_major__ < 8))
--+# define ALIGN_OF(type) offsetof(struct {char align_c; type align_x;}, align_x)
--+#else
--+# define ALIGN_OF(type) _Alignof(type)
--+#endif
-- 
-- #define ALIGN_VOIDP  ALIGN_OF(void*)
-- #define ALIGN_CHAR   ALIGN_OF(char)
---- 
--2.39.0
--
-diff --git a/meta/recipes-devtools/ruby/ruby/0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch b/meta/recipes-devtools/ruby/ruby/0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch
-deleted file mode 100644
-index 226ef3af750..00000000000
---- a/meta/recipes-devtools/ruby/ruby/0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch
-+++ /dev/null
-@@ -1,32 +0,0 @@
--From 2368d07660a93a2c41d63f3ab6054ca4daeef820 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Tue, 17 Nov 2020 18:31:40 +0000
--Subject: [PATCH] template/Makefile.in: do not write host cross-cc items into
-- target config
--
--This helps reproducibility.
--
--Upstream-Status: Inappropriate [oe-core specific]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- template/Makefile.in | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/template/Makefile.in b/template/Makefile.in
--index 10dc826..940ee07 100644
----- a/template/Makefile.in
--+++ b/template/Makefile.in
--@@ -657,11 +657,11 @@ mjit_config.h:
-- 	echo '#endif'; \
-- 	quote MJIT_MIN_HEADER_NAME "$(MJIT_MIN_HEADER_NAME)"; \
-- 	sep=,; \
---	quote "MJIT_CC_COMMON  " $(MJIT_CC); \
--+	quote "MJIT_CC_COMMON  " ; \
-- 	quote "MJIT_CFLAGS      MJIT_ARCHFLAG" $(MJIT_CFLAGS); \
-- 	quote "MJIT_OPTFLAGS   " $(MJIT_OPTFLAGS); \
-- 	quote "MJIT_DEBUGFLAGS " $(MJIT_DEBUGFLAGS); \
---	quote "MJIT_LDSHARED   " $(MJIT_LDSHARED); \
--+	quote "MJIT_LDSHARED   " ; \
-- 	quote "MJIT_DLDFLAGS    MJIT_ARCHFLAG" $(MJIT_DLDFLAGS); \
-- 	quote "MJIT_LIBS       " $(LIBRUBYARG_SHARED); \
-- 	quote 'PRELOADENV       "@PRELOADENV@"'; \
-diff --git a/meta/recipes-devtools/ruby/ruby/0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch b/meta/recipes-devtools/ruby/ruby/0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch
-index f7b7adb3fdb..67054d65533 100644
---- a/meta/recipes-devtools/ruby/ruby/0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch
-+++ b/meta/recipes-devtools/ruby/ruby/0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch
-@@ -1,4 +1,4 @@
--From dfb22e4d6662bf72879eda806eaa78c7b52b519e Mon Sep 17 00:00:00 2001
-+From 980dcc5380db6f03451357140ae1487117300156 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Tue, 25 Jan 2022 20:29:14 -0800
- Subject: [PATCH] vm_dump.c: Define REG_S1 and REG_S2 for musl/riscv
-@@ -14,7 +14,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  1 file changed, 5 insertions(+)
- 
- diff --git a/vm_dump.c b/vm_dump.c
--index a98f5aa..957b785 100644
-+index 444be4a..8a081a7 100644
- --- a/vm_dump.c
- +++ b/vm_dump.c
- @@ -39,6 +39,11 @@
-@@ -29,6 +29,3 @@ index a98f5aa..957b785 100644
-  #define VM_CFP_CNT(ec, cfp) \
-    ((rb_control_frame_t *)((ec)->vm_stack + (ec)->vm_stack_size) - \
-     (rb_control_frame_t *)(cfp))
---- 
--2.35.0
--
-diff --git a/meta/recipes-devtools/ruby/ruby/0002-Obey-LDFLAGS-for-the-link-of-libruby.patch b/meta/recipes-devtools/ruby/ruby/0002-Obey-LDFLAGS-for-the-link-of-libruby.patch
-index 96ae86263b4..f3a65e785d6 100644
---- a/meta/recipes-devtools/ruby/ruby/0002-Obey-LDFLAGS-for-the-link-of-libruby.patch
-+++ b/meta/recipes-devtools/ruby/ruby/0002-Obey-LDFLAGS-for-the-link-of-libruby.patch
-@@ -1,20 +1,19 @@
--From 21d8e7700fa0a9c4bf569dd366134060ae858832 Mon Sep 17 00:00:00 2001
-+From 7f7facb85bd65adec24230fe8ca7f6a9863a1fd0 Mon Sep 17 00:00:00 2001
- From: Christopher Larson <chris_larson@mentor.com>
- Date: Thu, 5 May 2016 10:59:07 -0700
- Subject: [PATCH] Obey LDFLAGS for the link of libruby
- 
- Signed-off-by: Christopher Larson <chris_larson@mentor.com>
- Upstream-Status: Pending
+ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 -
  ---
-  template/Makefile.in | 2 +-
+  build/rpmfc.c | 4 ++++
+  rpmrc.in      | 2 ++
+diff --git a/meta/recipes-devtools/rpm/files/0001-CMakeLists.txt-look-for-lua-with-pkg-config-rather-t.patch b/meta/recipes-devtools/rpm/files/0001-CMakeLists.txt-look-for-lua-with-pkg-config-rather-t.patch
+index 5053caae33f..e4edc884b1e 100644
+--- a/meta/recipes-devtools/rpm/files/0001-CMakeLists.txt-look-for-lua-with-pkg-config-rather-t.patch
++++ b/meta/recipes-devtools/rpm/files/0001-CMakeLists.txt-look-for-lua-with-pkg-config-rather-t.patch
+@@ -1,4 +1,4 @@
+-From ca4655f36c3c7883eb50381902890b23f0e8aaab Mon Sep 17 00:00:00 2001
++From c39a074ff3c4d21c100d387661c7d725b5eae7b0 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Wed, 29 Nov 2023 14:06:15 +0100
+ Subject: [PATCH] CMakeLists.txt: look for lua with pkg-config rather than
+@@ -8,16 +8,15 @@ Otherwise cmake will try to find libm, badly, and fail.
+ 
+ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+-
+ ---
+  CMakeLists.txt | 2 +-
   1 file changed, 1 insertion(+), 1 deletion(-)
  
- diff --git a/template/Makefile.in b/template/Makefile.in
--index 1456313..15b98a4 100644
-+index 8c462f2..2200c8c 100644
- --- a/template/Makefile.in
- +++ b/template/Makefile.in
--@@ -127,7 +127,7 @@ ENABLE_SHARED = @ENABLE_SHARED@
-+@@ -115,7 +115,7 @@ ENABLE_SHARED = @ENABLE_SHARED@
-  LDSHARED = @LIBRUBY_LDSHARED@
-  DLDSHARED = @DLDSHARED@
-  XDLDFLAGS = @DLDFLAGS@
-@@ -22,4 +21,4 @@ index 1456313..15b98a4 100644
- +DLDFLAGS = @LIBRUBY_DLDFLAGS@ @LDFLAGS@ $(XLDFLAGS) $(ARCH_FLAG)
-  SOLIBS = @SOLIBS@
-  ENABLE_DEBUG_ENV = @ENABLE_DEBUG_ENV@
-- MAINLIBS = $(YJIT_LIBS) @MAINLIBS@
-+ MAINLIBS = @MAINLIBS@
-diff --git a/meta/recipes-devtools/ruby/ruby/0002-template-Makefile.in-filter-out-f-prefix-map.patch b/meta/recipes-devtools/ruby/ruby/0002-template-Makefile.in-filter-out-f-prefix-map.patch
+ diff --git a/CMakeLists.txt b/CMakeLists.txt
+-index 7f0630453..d0ea565f3 100644
++index 4a383ceba..ed847c09a 100644
+ --- a/CMakeLists.txt
+ +++ b/CMakeLists.txt
+-@@ -187,7 +187,7 @@ set(REQFUNCS
++@@ -190,7 +190,7 @@ set(REQFUNCS
+  )
+  
+  find_package(PkgConfig REQUIRED)
+diff --git a/meta/recipes-devtools/rpm/files/0001-CMakeLists.txt-restore-readline-support-as-an-explic.patch b/meta/recipes-devtools/rpm/files/0001-CMakeLists.txt-restore-readline-support-as-an-explic.patch
 deleted file mode 100644
-index 2efbad75133..00000000000
---- a/meta/recipes-devtools/ruby/ruby/0002-template-Makefile.in-filter-out-f-prefix-map.patch
+index db83b176b41..00000000000
+--- a/meta/recipes-devtools/rpm/files/0001-CMakeLists.txt-restore-readline-support-as-an-explic.patch
 +++ /dev/null
 @@ -1,42 +0,0 @@
--Subject: [PATCH] template/Makefile.in: filter out -f*prefix-map
+-From 3c2e529c6cc1bae4bc94cbed7358c6e0cdd2de02 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex@linutronix.de>
+-Date: Tue, 16 Jan 2024 13:43:36 +0100
+-Subject: [PATCH] CMakeLists.txt: restore readline support as an explicit
+- option
 -
--If we add DEBUG_PREFIX_MAP into LDFLAGS, ruby and ruby-dbg are no longer
--reproducible.  Fix this.
+-This was lost in autotools -> cmake transition. The particular
+-reason to make it explicit is that readline is gpl version 3
+-licensed, and in some builds components under that license
+-need to be excluded.
 -
--Upstream-Status: Inappropriate [oe-core specific]
--Signed-off-by: Tony Battersby <tonyb@cybernetics.com>
+-Upstream-Status: Submitted [https://github.com/rpm-software-management/rpm/pull/2852]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ----
----- a/tool/mjit_archflag.sh
--+++ b/tool/mjit_archflag.sh
--@@ -7,6 +7,20 @@ quote() {
--     echo
-- }
+- CMakeLists.txt | 7 ++++++-
+- 1 file changed, 6 insertions(+), 1 deletion(-)
+-
+-diff --git a/CMakeLists.txt b/CMakeLists.txt
+-index 0a474106e..89e27417f 100644
+---- a/CMakeLists.txt
+-+++ b/CMakeLists.txt
+-@@ -31,6 +31,7 @@ option(WITH_AUDIT "Build with audit support" ON)
+- option(WITH_FSVERITY "Build with fsverity support" OFF)
+- option(WITH_IMAEVM "Build with IMA support" OFF)
+- option(WITH_FAPOLICYD "Build with fapolicyd support" ON)
+-+option(WITH_READLINE "Build with readline support" ON)
 - 
--+quote_filtered() {
--+    printf "#${indent}define $1"
--+    while shift && [ "$#" -gt 0 ]; do
--+	case "$1" in
--+	    -ffile-prefix-map=*|-fdebug-prefix-map=*|-fmacro-prefix-map=*)
--+		;;
--+	    *)
--+		printf ' "%s"'$sep "$1"
--+		;;
--+	esac
--+    done
--+    echo
--+}
+- set(RPM_CONFIGDIR "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/rpm" CACHE PATH "rpm home")
+- set(RPM_VENDOR "vendor" CACHE STRING "rpm vendor string")
+-@@ -193,7 +194,11 @@ find_package(BZip2)
+- find_package(Iconv)
+- 
+- pkg_check_modules(POPT REQUIRED IMPORTED_TARGET popt)
+--pkg_check_modules(READLINE IMPORTED_TARGET readline)
 -+
-- archs=""
-- arch_flag=""
-- 
----- a/template/Makefile.in
--+++ b/template/Makefile.in
--@@ -666,7 +666,7 @@ mjit_config.h:
-- 	quote "MJIT_OPTFLAGS   " $(MJIT_OPTFLAGS); \
-- 	quote "MJIT_DEBUGFLAGS " $(MJIT_DEBUGFLAGS); \
-- 	quote "MJIT_LDSHARED   " ; \
---	quote "MJIT_DLDFLAGS    MJIT_ARCHFLAG" $(MJIT_DLDFLAGS); \
--+	quote_filtered "MJIT_DLDFLAGS    MJIT_ARCHFLAG" $(MJIT_DLDFLAGS); \
-- 	quote "MJIT_LIBS       " $(LIBRUBYARG_SHARED); \
-- 	quote 'PRELOADENV       "@PRELOADENV@"'; \
-- 	indent=$${archs:+'  '}; \
-diff --git a/meta/recipes-devtools/ruby/ruby/0003-rdoc-build-reproducible-documentation.patch b/meta/recipes-devtools/ruby/ruby/0003-rdoc-build-reproducible-documentation.patch
-index f92f0e1ba68..e2d5b57c25c 100644
---- a/meta/recipes-devtools/ruby/ruby/0003-rdoc-build-reproducible-documentation.patch
-+++ b/meta/recipes-devtools/ruby/ruby/0003-rdoc-build-reproducible-documentation.patch
-@@ -1,6 +1,7 @@
-+From 5079e678ce2a81416088c04f9123cd8207d5def2 Mon Sep 17 00:00:00 2001
- From: Christian Hofstaedtler <zeha@debian.org>
- Date: Tue, 10 Oct 2017 15:04:34 -0300
--Subject: rdoc: build reproducible documentation
-+Subject: [PATCH] rdoc: build reproducible documentation
+-+if (WITH_READLINE)
+-+    pkg_check_modules(READLINE REQUIRED IMPORTED_TARGET readline)
+-+endif()
+-+
+- pkg_check_modules(ZSTD IMPORTED_TARGET libzstd>=1.3.8)
+- pkg_check_modules(LIBELF IMPORTED_TARGET libelf)
+- pkg_check_modules(LIBDW IMPORTED_TARGET libdw)
+diff --git a/meta/recipes-devtools/rpm/files/0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch b/meta/recipes-devtools/rpm/files/0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch
+index df5543873c1..d0ed7110866 100644
+--- a/meta/recipes-devtools/rpm/files/0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch
++++ b/meta/recipes-devtools/rpm/files/0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch
+@@ -1,4 +1,4 @@
+-From d77429bf20d138ec8ce577c0080cae1f1bc2aa6f Mon Sep 17 00:00:00 2001
++From 86e585cc0dd06dfa20f584af8b59d52a59accb45 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Mon, 9 Jan 2017 18:52:11 +0200
+ Subject: [PATCH] Do not add an unsatisfiable dependency when building rpms in
+@@ -9,7 +9,6 @@ hand produces rpms that way by design.
  
- - provide a fixed timestamp to the gzip compression
- 
-@@ -10,23 +11,24 @@ Signed-off-by: Antonio Terceiro <terceiro@debian.org>
- Signed-off-by: Christian Hofstaedtler <zeha@debian.org>
+ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-
  ---
-  lib/rdoc/generator/json_index.rb | 4 ++--
-- lib/rdoc/rdoc.rb                 | 2 +-
-- 2 files changed, 3 insertions(+), 3 deletions(-)
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
+  build/pack.c | 4 ----
+  1 file changed, 4 deletions(-)
+diff --git a/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch b/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
+index b056d19741a..b571a0ae8c8 100644
+--- a/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
++++ b/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
+@@ -1,4 +1,4 @@
+-From 7948f21e08bc7552b281ed0098a9c8099d2370cb Mon Sep 17 00:00:00 2001
++From 73d6841d9ef2a8ac7bd63f9645a3efe8038dfdd4 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Mon, 27 Feb 2017 09:43:30 +0200
+ Subject: [PATCH] Do not hardcode "lib/rpm" as the installation path for
+@@ -6,19 +6,18 @@ Subject: [PATCH] Do not hardcode "lib/rpm" as the installation path for
  
-+diff --git a/lib/rdoc/generator/json_index.rb b/lib/rdoc/generator/json_index.rb
-+index c454910..24feab0 100644
- --- a/lib/rdoc/generator/json_index.rb
- +++ b/lib/rdoc/generator/json_index.rb
--@@ -178,7 +178,7 @@
-+@@ -178,7 +178,7 @@ class RDoc::Generator::JsonIndex
-      debug_msg "Writing gzipped search index to %s" % outfile
+ Upstream-Status: Denied [https://github.com/rpm-software-management/rpm/pull/263]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 -
-+ 
-      Zlib::GzipWriter.open(outfile) do |gz|
- -      gz.mtime = File.mtime(search_index_file)
- +      gz.mtime = -1
-        gz.orig_name = search_index_file.basename.to_s
-        gz.write search_index
-        gz.close
--@@ -196,7 +196,7 @@
-+@@ -196,7 +196,7 @@ class RDoc::Generator::JsonIndex
-          debug_msg "Writing gzipped file to %s" % outfile
--
-+ 
-          Zlib::GzipWriter.open(outfile) do |gz|
- -          gz.mtime = File.mtime(dest)
- +          gz.mtime = -1
-diff --git a/meta/recipes-devtools/ruby/ruby/0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch b/meta/recipes-devtools/ruby/ruby/0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch
-index e0aca0dcfc1..b14a731cfb6 100644
---- a/meta/recipes-devtools/ruby/ruby/0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch
-+++ b/meta/recipes-devtools/ruby/ruby/0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch
-@@ -1,6 +1,7 @@
-+From 99734381652602f76075017576a819c427ebb5f2 Mon Sep 17 00:00:00 2001
- From: Reiner Herrmann <reiner@reiner-h.de>
- Date: Tue, 10 Oct 2017 15:06:13 -0300
--Subject: lib/mkmf.rb: sort list of object files in generated Makefile
-+Subject: [PATCH] lib/mkmf.rb: sort list of object files in generated Makefile
+ ---
+  CMakeLists.txt | 2 +-
+  macros.in      | 2 +-
+  2 files changed, 2 insertions(+), 2 deletions(-)
  
- Without sorting the list explicitly, its order is indeterministic,
- because readdir() is also not deterministic.
-@@ -15,9 +16,11 @@ Signed-off-by: Reiner Herrmann <reiner@reiner-h.de>
-  lib/mkmf.rb | 2 +-
+ diff --git a/CMakeLists.txt b/CMakeLists.txt
+-index 2767915fb..7f0630453 100644
++index 7808115c1..4a383ceba 100644
+ --- a/CMakeLists.txt
+ +++ b/CMakeLists.txt
+-@@ -32,7 +32,7 @@ option(WITH_FSVERITY "Build with fsverity support" OFF)
+- option(WITH_IMAEVM "Build with IMA support" OFF)
++@@ -33,7 +33,7 @@ option(WITH_IMAEVM "Build with IMA support" OFF)
+  option(WITH_FAPOLICYD "Build with fapolicyd support" ON)
++ option(WITH_READLINE "Build with readline support" ON)
+  
+ -set(RPM_CONFIGDIR "${CMAKE_INSTALL_PREFIX}/lib/rpm" CACHE PATH "rpm home")
+ +set(RPM_CONFIGDIR "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/rpm" CACHE PATH "rpm home")
+diff --git a/meta/recipes-devtools/rpm/files/0001-Do-not-read-config-files-from-HOME.patch b/meta/recipes-devtools/rpm/files/0001-Do-not-read-config-files-from-HOME.patch
+index 6a18679da2f..796088df539 100644
+--- a/meta/recipes-devtools/rpm/files/0001-Do-not-read-config-files-from-HOME.patch
++++ b/meta/recipes-devtools/rpm/files/0001-Do-not-read-config-files-from-HOME.patch
+@@ -1,20 +1,19 @@
+-From 4f34994d9ad38d96976578a9d1a006f72e5aca50 Mon Sep 17 00:00:00 2001
++From e210458d125793915abce30420d866a30305c37a Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Tue, 10 Jan 2017 14:11:30 +0200
+ Subject: [PATCH] Do not read config files from $HOME
+ 
+ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-
+ ---
+  lib/rpmrc.c | 6 ++----
+  1 file changed, 2 insertions(+), 4 deletions(-)
+ 
+ diff --git a/lib/rpmrc.c b/lib/rpmrc.c
+-index 269d490ac..f39dcfc11 100644
++index 9437a0ff1..483585ae4 100644
+ --- a/lib/rpmrc.c
+ +++ b/lib/rpmrc.c
+-@@ -458,8 +458,7 @@ static void setDefaults(void)
++@@ -459,8 +459,7 @@ static void setDefaults(void)
+      if (!defrcfiles) {
+  	defrcfiles = rstrscat(NULL, confdir, "/rpmrc", ":",
+  				confdir, "/" RPM_VENDOR "/rpmrc", ":",
+@@ -24,7 +23,7 @@ index 269d490ac..f39dcfc11 100644
+      }
+  
+  #ifndef MACROFILES
+-@@ -471,8 +470,7 @@ static void setDefaults(void)
++@@ -472,8 +471,7 @@ static void setDefaults(void)
+    				confdir, "/" RPM_VENDOR "/macros", ":",
+  				SYSCONFDIR "/rpm/macros.*", ":",
+  				SYSCONFDIR "/rpm/macros", ":",
+diff --git a/meta/recipes-devtools/rpm/files/0001-Do-not-reset-the-PATH-environment-variable-before-ru.patch b/meta/recipes-devtools/rpm/files/0001-Do-not-reset-the-PATH-environment-variable-before-ru.patch
+index 318f65ed375..328fbf86ac1 100644
+--- a/meta/recipes-devtools/rpm/files/0001-Do-not-reset-the-PATH-environment-variable-before-ru.patch
++++ b/meta/recipes-devtools/rpm/files/0001-Do-not-reset-the-PATH-environment-variable-before-ru.patch
+@@ -1,4 +1,4 @@
+-From 25beba1efc31901a3bb0b1b6f0604d6583dc0513 Mon Sep 17 00:00:00 2001
++From a8fe7a7a2e41c9f127ed26407d57076babcb89e8 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Fri, 20 Jan 2017 13:32:06 +0200
+ Subject: [PATCH] Do not reset the PATH environment variable before running
+@@ -8,13 +8,12 @@ We add lots of native stuff into it and scriptlets rely on that.
+ 
+ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-
+ ---
+  lib/rpmscript.c | 2 +-
   1 file changed, 1 insertion(+), 1 deletion(-)
  
-+diff --git a/lib/mkmf.rb b/lib/mkmf.rb
-+index 6da7dde..3af30a9 100644
- --- a/lib/mkmf.rb
- +++ b/lib/mkmf.rb
--@@ -2315,7 +2315,7 @@
-+@@ -2368,7 +2368,7 @@ LOCAL_LIBS = #{$LOCAL_LIBS}
-  LIBS = #{$LIBRUBYARG} #{$libs} #{$LIBS}
-  ORIG_SRCS = #{orig_srcs.collect(&File.method(:basename)).join(' ')}
-  SRCS = $(ORIG_SRCS) #{(srcs - orig_srcs).collect(&File.method(:basename)).join(' ')}
-diff --git a/meta/recipes-devtools/ruby/ruby/0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch b/meta/recipes-devtools/ruby/ruby/0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch
-index 41f206523e6..24268625a28 100644
---- a/meta/recipes-devtools/ruby/ruby/0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch
-+++ b/meta/recipes-devtools/ruby/ruby/0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch
+ diff --git a/lib/rpmscript.c b/lib/rpmscript.c
+-index 36e37cf77..37ada014c 100644
++index 57689bb68..7b7e26606 100644
+ --- a/lib/rpmscript.c
+ +++ b/lib/rpmscript.c
+ @@ -252,7 +252,7 @@ static void doScriptExec(ARGV_const_t argv, ARGV_const_t prefixes,
+diff --git a/meta/recipes-devtools/rpm/files/0001-Fix-unconditional-dependency-on-non-POSIX-GLOB_ONLYD.patch b/meta/recipes-devtools/rpm/files/0001-Fix-unconditional-dependency-on-non-POSIX-GLOB_ONLYD.patch
+deleted file mode 100644
+index 8e73e077049..00000000000
+--- a/meta/recipes-devtools/rpm/files/0001-Fix-unconditional-dependency-on-non-POSIX-GLOB_ONLYD.patch
++++ /dev/null
+@@ -1,56 +0,0 @@
+-From 1b3a182f38895de5ea8dda5a77867345845fb967 Mon Sep 17 00:00:00 2001
+-From: Panu Matilainen <pmatilai@redhat.com>
+-Date: Mon, 18 Dec 2023 12:25:04 +0200
+-Subject: [PATCH] Fix unconditional dependency on non-POSIX GLOB_ONLYDIR flag
+-
+-This regressed when we axed our internal glob copy in commit
+-66fa46c006bae0f28d93238b8f7f1c923645eee5. Luckily GLOB_ONLYDIR is only
+-an optimization so we can just skip it if not available.
+-
+-Upstream-Status: Backport [https://github.com/rpm-software-management/rpm/commit/57f3711846f44da0f37cbc5dd66e8fba80a3bee1]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+----
+- CMakeLists.txt  | 1 +
+- config.h.in     | 1 +
+- rpmio/rpmglob.c | 2 ++
+- 3 files changed, 4 insertions(+)
+-
+-diff --git a/CMakeLists.txt b/CMakeLists.txt
+-index d0ea565f3..0a474106e 100644
+---- a/CMakeLists.txt
+-+++ b/CMakeLists.txt
+-@@ -351,6 +351,7 @@ if (LIBDW_FOUND)
+- 	set(HAVE_LIBDW 1)
+- endif()
+- 
+-+check_symbol_exists(GLOB_ONLYDIR "glob.h" HAVE_GLOB_ONLYDIR)
+- check_symbol_exists(major "sys/sysmacros.h" MAJOR_IN_SYSMACROS)
+- if (NOT MAJOR_IN_SYSMACROS)
+- 	check_symbol_exists(major "sys/mkdev.h" MAJOR_IN_MKDEV)
+-diff --git a/config.h.in b/config.h.in
+-index cb97827d0..ab1757a9a 100644
+---- a/config.h.in
+-+++ b/config.h.in
+-@@ -100,6 +100,7 @@
+- #cmakedefine HAVE_ZSTD @HAVE_ZSTD@
+- #cmakedefine HAVE___PROGNAME @HAVE___PROGNAME@
+- #cmakedefine HAVE___SECURE_GETENV @HAVE___SECURE_GETENV@
+-+#cmakedefine HAVE_GLOB_ONLYDIR @HAVE_GLOB_ONLYDIR@
+- #cmakedefine MAJOR_IN_MKDEV @MAJOR_IN_MKDEV@
+- #cmakedefine MAJOR_IN_SYSMACROS @MAJOR_IN_SYSMACROS@
+- #cmakedefine RUNDIR @rundir@
+-diff --git a/rpmio/rpmglob.c b/rpmio/rpmglob.c
+-index 8276eddb4..243568766 100644
+---- a/rpmio/rpmglob.c
+-+++ b/rpmio/rpmglob.c
+-@@ -84,8 +84,10 @@ int rpmGlobPath(const char * pattern, rpmglobFlags flags,
+-     gflags |= GLOB_BRACE;
+-     if (home != NULL && strlen(home) > 0) 
+- 	gflags |= GLOB_TILDE;
+-+#if HAVE_GLOB_ONLYDIR
+-     if (dir_only)
+- 	gflags |= GLOB_ONLYDIR;
+-+#endif
+-     if (flags & RPMGLOB_NOCHECK)
+- 	gflags |= GLOB_NOCHECK;
+- 
+diff --git a/meta/recipes-devtools/rpm/files/0001-When-cross-installing-execute-package-scriptlets-wit.patch b/meta/recipes-devtools/rpm/files/0001-When-cross-installing-execute-package-scriptlets-wit.patch
+index fc89b44132b..e4251a1a73a 100644
+--- a/meta/recipes-devtools/rpm/files/0001-When-cross-installing-execute-package-scriptlets-wit.patch
++++ b/meta/recipes-devtools/rpm/files/0001-When-cross-installing-execute-package-scriptlets-wit.patch
 @@ -1,4 +1,4 @@
--From 6e1dc610724a7aa8368cbcddf4bbe21cccc0f731 Mon Sep 17 00:00:00 2001
-+From 3bc324379aa3e322bad9353da8c0064cd671cc74 Mon Sep 17 00:00:00 2001
- From: Lucas Kanashiro <kanashiro@debian.org>
- Date: Fri, 1 Nov 2019 15:25:17 -0300
- Subject: [PATCH] Make gemspecs reproducible
-@@ -12,20 +12,20 @@ Upstream-Status: Backport [debian]
-  1 file changed, 3 insertions(+), 1 deletion(-)
+-From 82e6d1ad126df88c58120a31fc025691039db7f3 Mon Sep 17 00:00:00 2001
++From 34c0d3263f3e0b366a2320e0823f46673f7ba928 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Tue, 17 Jan 2017 14:07:17 +0200
+ Subject: [PATCH] When cross-installing, execute package scriptlets without
+@@ -24,13 +24,12 @@ Amended 2018-07-03 by Olof Johansson <olofjn@axis.com>:
  
- diff --git a/lib/rubygems/specification.rb b/lib/rubygems/specification.rb
--index 0d72cee..eb7bc25 100644
-+index a0c7faa..f0722d9 100644
- --- a/lib/rubygems/specification.rb
- +++ b/lib/rubygems/specification.rb
--@@ -1691,7 +1691,9 @@ class Gem::Specification < Gem::BasicSpecification
--         raise(Gem::InvalidSpecificationException,
--               "invalid date format in specification: #{date.inspect}")
--       end
---    when Time, DateLike then
--+    when Time then
--+      Time.utc(date.utc.year, date.utc.month, date.utc.day)
--+    when DateLike then
--       Time.utc(date.year, date.month, date.day)
--     else
--       TODAY
-+@@ -1774,7 +1774,9 @@ class Gem::Specification < Gem::BasicSpecification
-+                 raise(Gem::InvalidSpecificationException,
-+                       "invalid date format in specification: #{date.inspect}")
-+               end
-+-            when Time, DateLike then
-++            when Time then
-++              Time.utc(date.utc.year, date.utc.month, date.utc.day)
-++            when DateLike then
-+               Time.utc(date.year, date.month, date.day)
-+             else
-+               TODAY
- -- 
--2.25.1
-+2.39.2
- 
-diff --git a/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch b/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch
-index 0a87cae17f9..21604dfc349 100644
---- a/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch
-+++ b/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch
-@@ -1,4 +1,4 @@
--From 3f60710bc29c1b08e128314d40101e87b7d2c9a1 Mon Sep 17 00:00:00 2001
-+From 1dc7ef09c3c567c4adb09ccfd97e0e59c58edb9f Mon Sep 17 00:00:00 2001
- From: Lucas Kanashiro <kanashiro@debian.org>
- Date: Fri, 1 Nov 2019 15:25:17 -0300
- Subject: [PATCH] Make gemspecs reproducible
-@@ -7,7 +7,6 @@ Without an explicit date, they will get the current date and make the
- build unreproducible
- 
- Upstream-Status: Backport [debian]
+ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 -
  ---
-  ext/bigdecimal/bigdecimal.gemspec | 1 +
-  ext/fiddle/fiddle.gemspec         | 1 +
-@@ -17,12 +16,12 @@ Upstream-Status: Backport [debian]
-  5 files changed, 5 insertions(+)
+  lib/rpmscript.c | 11 ++++++++---
+  1 file changed, 8 insertions(+), 3 deletions(-)
  
- diff --git a/ext/bigdecimal/bigdecimal.gemspec b/ext/bigdecimal/bigdecimal.gemspec
--index d215757..5148d56 100644
-+index f9f3b45..b9a469d 100644
- --- a/ext/bigdecimal/bigdecimal.gemspec
- +++ b/ext/bigdecimal/bigdecimal.gemspec
--@@ -4,6 +4,7 @@ Gem::Specification.new do |s|
--   s.name          = "bigdecimal"
--   s.version       = "3.1.3"
-+@@ -14,6 +14,7 @@ Gem::Specification.new do |s|
-+   s.name          = name
-+   s.version       = source_version
-    s.authors       = ["Kenta Murata", "Zachary Scott", "Shigeo Kobayashi"]
- +  s.date          = RUBY_RELEASE_DATE
-    s.email         = ["mrkn@mrkn.jp"]
-@@ -41,10 +40,10 @@ index 8781093..efdca32 100644
-    spec.email         = ["aaron@tenderlovemaking.com", "hsbt@ruby-lang.org"]
+ diff --git a/lib/rpmscript.c b/lib/rpmscript.c
+-index b18f851a3..36e37cf77 100644
++index 3f6313278..57689bb68 100644
+ --- a/lib/rpmscript.c
+ +++ b/lib/rpmscript.c
+ @@ -448,8 +448,7 @@ exit:
+diff --git a/meta/recipes-devtools/rpm/files/0001-build-pack.c-do-not-insert-payloadflags-into-.rpm-me.patch b/meta/recipes-devtools/rpm/files/0001-build-pack.c-do-not-insert-payloadflags-into-.rpm-me.patch
+index 5820b2e7e5b..2f6397aa8a3 100644
+--- a/meta/recipes-devtools/rpm/files/0001-build-pack.c-do-not-insert-payloadflags-into-.rpm-me.patch
++++ b/meta/recipes-devtools/rpm/files/0001-build-pack.c-do-not-insert-payloadflags-into-.rpm-me.patch
+@@ -1,4 +1,4 @@
+-From ebe65b0e8622c37463697dcec779a42290c33810 Mon Sep 17 00:00:00 2001
++From ae4fdd8e8d052835973e6ff4b7550f93bde30a98 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Tue, 31 Aug 2021 10:37:05 +0200
+ Subject: [PATCH] build/pack.c: do not insert payloadflags into .rpm metadata
+@@ -9,7 +9,6 @@ host to the next and breaks reproducibility for .rpm).
+ 
+ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+-
+ ---
+  build/pack.c | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/meta/recipes-devtools/rpm/files/0001-lib-transaction.c-fix-file-conflicts-for-MIPS64-N32.patch b/meta/recipes-devtools/rpm/files/0001-lib-transaction.c-fix-file-conflicts-for-MIPS64-N32.patch
+index 8b9f1f72944..98e52da3a89 100644
+--- a/meta/recipes-devtools/rpm/files/0001-lib-transaction.c-fix-file-conflicts-for-MIPS64-N32.patch
++++ b/meta/recipes-devtools/rpm/files/0001-lib-transaction.c-fix-file-conflicts-for-MIPS64-N32.patch
+@@ -1,4 +1,4 @@
+-From bfceae7386b5fec108f98ad59ad96e57aecb08d3 Mon Sep 17 00:00:00 2001
++From b04ecb793a3c859985eead5e261785b27a4c4a20 Mon Sep 17 00:00:00 2001
+ From: Changqing Li <changqing.li@windriver.com>
+ Date: Thu, 7 May 2020 17:40:58 +0800
+ Subject: [PATCH] lib/transaction.c: fix file conflicts for MIPS64 N32
+@@ -27,7 +27,6 @@ Fixed by performing a 'last-in-wins' resolution when "neither is preferred".
+ Upstream-Status: Submitted <https://github.com/rpm-software-management/rpm/issues/193>
+ 
+ Signed-off-by: Changqing Li <changqing.li@windriver.com>
+-
+ ---
+  lib/transaction.c | 13 ++++++++++++-
+  1 file changed, 12 insertions(+), 1 deletion(-)
+diff --git a/meta/recipes-devtools/rpm/files/0001-perl-disable-auto-reqs.patch b/meta/recipes-devtools/rpm/files/0001-perl-disable-auto-reqs.patch
+index 388694d234f..55108e7f1ce 100644
+--- a/meta/recipes-devtools/rpm/files/0001-perl-disable-auto-reqs.patch
++++ b/meta/recipes-devtools/rpm/files/0001-perl-disable-auto-reqs.patch
+@@ -1,4 +1,4 @@
+-From 7894b508a61bb87f05f7eb0a1e912a2422f4fcd2 Mon Sep 17 00:00:00 2001
++From 58bf006646a063837c46b695f7e7ebb69bee7238 Mon Sep 17 00:00:00 2001
+ From: Mark Hatle <mark.hatle@windriver.com>
+ Date: Tue, 15 Aug 2017 16:41:57 -0500
+ Subject: [PATCH] perl: disable auto requires
+@@ -12,7 +12,6 @@ generation.  This matches the behavior from the previous RPM5 implementation.
+ Upstream-Status: Inappropriate [OE specific configuration]
+ 
+ Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+ ---
+  fileattrs/perl.attr    | 2 +-
+  fileattrs/perllib.attr | 2 +-
+diff --git a/meta/recipes-devtools/rpm/files/0002-Add-support-for-prefixing-etc-from-RPM_ETCCONFIGDIR-.patch b/meta/recipes-devtools/rpm/files/0002-Add-support-for-prefixing-etc-from-RPM_ETCCONFIGDIR-.patch
+index 89c23f81975..c5caa7dc5e5 100644
+--- a/meta/recipes-devtools/rpm/files/0002-Add-support-for-prefixing-etc-from-RPM_ETCCONFIGDIR-.patch
++++ b/meta/recipes-devtools/rpm/files/0002-Add-support-for-prefixing-etc-from-RPM_ETCCONFIGDIR-.patch
+@@ -1,4 +1,4 @@
+-From e53c0e2586bc6f4677db3c6898a6428283a6b785 Mon Sep 17 00:00:00 2001
++From d7143dc4e75c8bcc5cc4c852a4b972942b7e4d07 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Fri, 20 Jan 2017 13:33:05 +0200
+ Subject: [PATCH] Add support for prefixing /etc from RPM_ETCCONFIGDIR
+@@ -9,16 +9,15 @@ from target rootfs instead of its own native sysroot.
+ 
+ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-
+ ---
+  lib/rpmrc.c | 19 ++++++++++++++-----
+  1 file changed, 14 insertions(+), 5 deletions(-)
+ 
+ diff --git a/lib/rpmrc.c b/lib/rpmrc.c
+-index f39dcfc11..f27f88753 100644
++index 483585ae4..ea858c290 100644
+ --- a/lib/rpmrc.c
+ +++ b/lib/rpmrc.c
+-@@ -455,10 +455,14 @@ const char * lookupInDefaultTable(const char * name,
++@@ -456,10 +456,14 @@ const char * lookupInDefaultTable(const char * name,
+  static void setDefaults(void)
+  {
+      const char *confdir = rpmConfigDir();
+@@ -34,7 +33,7 @@ index f39dcfc11..f27f88753 100644
+      }
   
- diff --git a/ext/io/console/io-console.gemspec b/ext/io/console/io-console.gemspec
--index d26a757..cc88c55 100644
-+index d4f5276..8f89611 100644
- --- a/ext/io/console/io-console.gemspec
- +++ b/ext/io/console/io-console.gemspec
--@@ -4,6 +4,7 @@ _VERSION = "0.6.0"
-+@@ -4,6 +4,7 @@ _VERSION = "0.7.1"
-  Gem::Specification.new do |s|
-    s.name = "io-console"
-    s.version = _VERSION
-@@ -65,7 +64,7 @@ index 1f4798e..48743cf 100644
-    spec.email         = ["knu@idaemons.org", "ume@mahoroba.org"]
+  #ifndef MACROFILES
+-@@ -468,9 +472,9 @@ static void setDefaults(void)
++@@ -469,9 +473,9 @@ static void setDefaults(void)
+  				confdir, "/platform/%{_target}/macros", ":",
+  				confdir, "/fileattrs/*.attr", ":",
+    				confdir, "/" RPM_VENDOR "/macros", ":",
+@@ -47,7 +46,7 @@ index f39dcfc11..f27f88753 100644
+      }
+  #else
+      macrofiles = MACROFILES;
+-@@ -1114,7 +1118,11 @@ static void read_auxv(void)
++@@ -1115,7 +1119,11 @@ static void read_auxv(void)
+   */
+  static void defaultMachine(rpmrcCtx ctx, const char ** arch, const char ** os)
+  {
+@@ -60,7 +59,7 @@ index f39dcfc11..f27f88753 100644
+      static struct utsname un;
+      char * chptr;
+      canonEntry canon;
+-@@ -1434,6 +1442,7 @@ static void defaultMachine(rpmrcCtx ctx, const char ** arch, const char ** os)
++@@ -1435,6 +1443,7 @@ static void defaultMachine(rpmrcCtx ctx, const char ** arch, const char ** os)
   
- diff --git a/lib/rdoc/rdoc.gemspec b/lib/rdoc/rdoc.gemspec
--index 3c96f7d..fec0872 100644
-+index 93a281c..cc5c155 100644
- --- a/lib/rdoc/rdoc.gemspec
- +++ b/lib/rdoc/rdoc.gemspec
- @@ -7,6 +7,7 @@ end
-diff --git a/meta/recipes-devtools/ruby/ruby/remove_has_include_macros.patch b/meta/recipes-devtools/ruby/ruby/remove_has_include_macros.patch
+      if (arch) *arch = un.machine;
+      if (os) *os = un.sysname;
+diff --git a/meta/recipes-devtools/rpm/files/0002-docs-CMakeLists.txt-do-not-install-non-existent-docs.patch b/meta/recipes-devtools/rpm/files/0002-docs-CMakeLists.txt-do-not-install-non-existent-docs.patch
 deleted file mode 100644
-index b78e3db892e..00000000000
---- a/meta/recipes-devtools/ruby/ruby/remove_has_include_macros.patch
+index e7f0adc70c9..00000000000
+--- a/meta/recipes-devtools/rpm/files/0002-docs-CMakeLists.txt-do-not-install-non-existent-docs.patch
 +++ /dev/null
-@@ -1,35 +0,0 @@
--From e74b57febec9bd806e29025e6eeb8091e7021d75 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Sun, 26 Jan 2020 11:27:40 -0800
--Subject: [PATCH] Filter out __has_include* compiler defines
+@@ -1,26 +0,0 @@
+-From 4e388caabf0906f09d697b8d08623a022f7270b2 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex@linutronix.de>
+-Date: Wed, 29 Nov 2023 14:09:06 +0100
+-Subject: [PATCH] docs/CMakeLists.txt: do not install non-existent docs/html
 -
--They are internal to compiler and this header is later on includes in C
--files, but newer gcc >= 10 complains about it.
+-Building html would require doxygen-native.
 -
--error in initial header file:
--| In file included from /tmp/20200124-86625-14hiju4.c:1:
--| /tmp/20200124-86625-11y6l6i.h:13849:9: error: "__has_include" cannot be used as a macro name
--| 13849 | #define __has_include __has_include
--|       |         ^~~~~~~~~~~~~
--| compilation terminated due to -Wfatal-errors.
--
--Upstream-Status: Pending
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Upstream-Status: Inappropriate [oe-core specific]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 -
 ----
-- common.mk | 2 ++
-- 1 file changed, 2 insertions(+)
+- docs/CMakeLists.txt | 1 -
+- 1 file changed, 1 deletion(-)
 -
--diff --git a/common.mk b/common.mk
--index 664f750..3b8fbe6 100644
----- a/common.mk
--+++ b/common.mk
--@@ -238,6 +238,8 @@ $(TIMESTAMPDIR)/$(MJIT_HEADER:.h=)$(MJIT_HEADER_SUFFIX).time: probes.h vm.$(OBJE
-- 	$(ECHO) building $(@F:.time=.h)
-- 	$(Q)$(MINIRUBY) $(tooldir)/mjit_tabs.rb "$(MJIT_TABS)" \
-- 		$(CPP) -DMJIT_HEADER $(MJIT_HEADER_FLAGS) $(CFLAGS) $(XCFLAGS) $(CPPFLAGS) $(srcdir)/vm.c $(CPPOUTFLAG)$(@F:.time=.h).new
--+	$(Q)sed -i -e "/#define __has_include __has_include/d" $(@F:.time=.h).new
--+	$(Q)sed -i -e "/#define __has_include_next __has_include_next/d" $(@F:.time=.h).new
-- 	$(Q) $(IFCHANGE) "--timestamp=$@" $(@F:.time=.h) $(@F:.time=.h).new
+-diff --git a/docs/CMakeLists.txt b/docs/CMakeLists.txt
+-index 52dce7b4e..c01ff7757 100644
+---- a/docs/CMakeLists.txt
+-+++ b/docs/CMakeLists.txt
+-@@ -18,7 +18,6 @@ if (DOXYGEN_FOUND)
+- elseif (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/html/index.html)
+- 	set(doxsrc ${CMAKE_CURRENT_SOURCE_DIR})
+- endif()
+--install(DIRECTORY ${doxsrc}/html/ DESTINATION ${CMAKE_INSTALL_DOCDIR}/API)
 - 
-- $(MJIT_HEADER:.h=)$(MJIT_HEADER_SUFFIX).h: $(TIMESTAMPDIR)/$(MJIT_HEADER:.h=)$(MJIT_HEADER_SUFFIX).time
-diff --git a/meta/recipes-devtools/ruby/ruby_3.2.2.bb b/meta/recipes-devtools/ruby/ruby_3.3.0.bb
-similarity index 92%
-rename from meta/recipes-devtools/ruby/ruby_3.2.2.bb
-rename to meta/recipes-devtools/ruby/ruby_3.3.0.bb
-index 481fe7c23d8..17eb6d73c2b 100644
---- a/meta/recipes-devtools/ruby/ruby_3.2.2.bb
-+++ b/meta/recipes-devtools/ruby/ruby_3.3.0.bb
-@@ -10,7 +10,7 @@ LICENSE = "Ruby | BSD-2-Clause | BSD-3-Clause | GPL-2.0-only | ISC | MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=5b8c87559868796979806100db3f3805 \
-                     file://BSDL;md5=8b50bc6de8f586dc66790ba11d064d75 \
-                     file://GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
--                    file://LEGAL;md5=bcd74b47bbaf2051c5e49811a5faa97a \
-+                    file://LEGAL;md5=81e6a4d81533b9263da4c3485a0ad883 \
-                     "
+- install(FILES
+- 	README.md
+diff --git a/meta/recipes-devtools/rpm/files/0002-rpmio-rpmglob.c-avoid-using-GLOB_BRACE-if-undefined-.patch b/meta/recipes-devtools/rpm/files/0002-rpmio-rpmglob.c-avoid-using-GLOB_BRACE-if-undefined-.patch
+index 3d4b09bedb6..23dce300862 100644
+--- a/meta/recipes-devtools/rpm/files/0002-rpmio-rpmglob.c-avoid-using-GLOB_BRACE-if-undefined-.patch
++++ b/meta/recipes-devtools/rpm/files/0002-rpmio-rpmglob.c-avoid-using-GLOB_BRACE-if-undefined-.patch
+@@ -1,4 +1,4 @@
+-From f78e05544fb5ae9ef688963f19666f1af34c3d5c Mon Sep 17 00:00:00 2001
++From 29c2a0c18b0c773128bf62c611b4c53fe4471105 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Tue, 16 Jan 2024 09:59:26 +0100
+ Subject: [PATCH] rpmio/rpmglob.c: avoid using GLOB_BRACE if undefined by C
+diff --git a/meta/recipes-devtools/rpm/files/0016-rpmscript.c-change-logging-level-around-scriptlets-t.patch b/meta/recipes-devtools/rpm/files/0016-rpmscript.c-change-logging-level-around-scriptlets-t.patch
+index b3d57cc8703..732202c46f6 100644
+--- a/meta/recipes-devtools/rpm/files/0016-rpmscript.c-change-logging-level-around-scriptlets-t.patch
++++ b/meta/recipes-devtools/rpm/files/0016-rpmscript.c-change-logging-level-around-scriptlets-t.patch
+@@ -1,4 +1,4 @@
+-From 0005ab544230020e854e9709b2bc0501702c2968 Mon Sep 17 00:00:00 2001
++From f01d9c24bb86bc47ad2453483518dbb25953cac7 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Thu, 10 Jan 2019 18:14:18 +0100
+ Subject: [PATCH] rpmscript.c: change logging level around scriptlets to INFO
+@@ -9,13 +9,12 @@ irrelevant noise to rootfs logs.
  
- DEPENDS = "zlib openssl libyaml gdbm readline libffi"
-@@ -21,16 +21,12 @@ SHRT_VER = "${@oe.utils.trim_version("${PV}", 2)}"
- SRC_URI = "http://cache.ruby-lang.org/pub/ruby/${SHRT_VER}/ruby-${PV}.tar.gz \
-            file://0001-extmk-fix-cross-compilation-of-external-gems.patch \
-            file://0002-Obey-LDFLAGS-for-the-link-of-libruby.patch \
--           file://remove_has_include_macros.patch \
-            file://run-ptest \
--           file://0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch \
--           file://0002-template-Makefile.in-filter-out-f-prefix-map.patch \
-            file://0003-rdoc-build-reproducible-documentation.patch \
-            file://0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch \
-            file://0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch \
-            file://0006-Make-gemspecs-reproducible.patch \
-            file://0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch \
--           file://0001-fiddle-Use-C11-_Alignof-to-define-ALIGN_OF-when-poss.patch \
+ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-
+ ---
+  lib/rpmscript.c | 8 ++++----
+  1 file changed, 4 insertions(+), 4 deletions(-)
+ 
+ diff --git a/lib/rpmscript.c b/lib/rpmscript.c
+-index 37ada014c..bab0c97a6 100644
++index 7b7e26606..1dcd23be5 100644
+ --- a/lib/rpmscript.c
+ +++ b/lib/rpmscript.c
+ @@ -291,7 +291,7 @@ static char * writeScript(const char *cmd, const char *script)
+diff --git a/meta/recipes-devtools/rpm/rpm_4.19.1.bb b/meta/recipes-devtools/rpm/rpm_4.19.1.1.bb
+similarity index 96%
+rename from meta/recipes-devtools/rpm/rpm_4.19.1.bb
+rename to meta/recipes-devtools/rpm/rpm_4.19.1.1.bb
+index a495f7ced20..0802f262955 100644
+--- a/meta/recipes-devtools/rpm/rpm_4.19.1.bb
++++ b/meta/recipes-devtools/rpm/rpm_4.19.1.1.bb
+@@ -37,14 +37,11 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.19.x;protoc
+            file://0001-lib-transaction.c-fix-file-conflicts-for-MIPS64-N32.patch \
+            file://0001-build-pack.c-do-not-insert-payloadflags-into-.rpm-me.patch \
+            file://0001-CMakeLists.txt-look-for-lua-with-pkg-config-rather-t.patch \
+-           file://0002-docs-CMakeLists.txt-do-not-install-non-existent-docs.patch \
+            file://0002-rpmio-rpmglob.c-avoid-using-GLOB_BRACE-if-undefined-.patch \
+-           file://0001-Fix-unconditional-dependency-on-non-POSIX-GLOB_ONLYD.patch \
+-           file://0001-CMakeLists.txt-restore-readline-support-as-an-explic.patch \
             "
- UPSTREAM_CHECK_URI = "https://www.ruby-lang.org/en/downloads/"
  
-@@ -51,7 +47,7 @@ do_configure:prepend() {
+ PE = "1"
+-SRCREV = "98b301ebb44fb5cabb56fc24bc3aaa437c47c038"
++SRCREV = "13b4521341781293c41ac898aa9c2d2f6bc1f21d"
  
- DEPENDS:append:libc-musl = " libucontext"
+ S = "${WORKDIR}/git"
  
--SRC_URI[sha256sum] = "96c57558871a6748de5bc9f274e93f4b5aad06cd8f37befa0e8d94e7b8a423bc"
-+SRC_URI[sha256sum] = "96518814d9832bece92a85415a819d4893b307db5921ae1f0f751a9a89a56b7d"
+@@ -135,6 +132,8 @@ do_install:append () {
+ 	sed -i -e 's:${HOSTTOOLS_DIR}/::g' \
+             -e 's:${STAGING_DIR_NATIVE}/::g' \
+ 	    ${D}/${libdir}/rpm/macros
++	sed -i -e 's:${RECIPE_SYSROOT}/::g' \
++	    ${D}/${libdir}/cmake/rpm/rpm-targets.cmake
  
- PACKAGECONFIG ??= ""
- PACKAGECONFIG += "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
+ }
+ 
 -- 
 2.39.2
 
