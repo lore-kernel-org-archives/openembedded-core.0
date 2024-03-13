@@ -1,99 +1,133 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <marcel@ziswiler.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBA18C54791
-	for <webhook@archiver.kernel.org>; Wed, 13 Mar 2024 13:18:51 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.16509.1710335926750548870
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F2B5C54E58
+	for <webhook@archiver.kernel.org>; Wed, 13 Mar 2024 14:19:52 +0000 (UTC)
+Received: from mout.perfora.net (mout.perfora.net [74.208.4.197])
+ by mx.groups.io with SMTP id smtpd.web11.18218.1710339589143902282
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Mar 2024 06:18:46 -0700
+ Wed, 13 Mar 2024 07:19:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=QqeuB+Lq;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=xTLDkz7k;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018e37f71ea1-db7e1170-db93-4985-a51f-b14072dd3276-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1710335926; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=StZxv7aqfqAyr9zEcIGx/s42pQptGsSPDukmMgf89rM=;
-	b=QqeuB+LqPvDFEMAM1EsG7APriWZN15N6IKmTUJGHpY+VQt/KkKXq2SqNBxgywjJh
-	YgwabRATQjjRYBhdlkWA58wJevSloOMWAxcOZ0Xf0hbAiuMB0Pw3QmkHnk1Z8FIM/i6
-	xhtiohKpiQoCmQJX86Xjc5N5OrIz5CEQLos3J2/8=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1710335926;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=StZxv7aqfqAyr9zEcIGx/s42pQptGsSPDukmMgf89rM=;
-	b=xTLDkz7kbe/bJJ9t8ZEn2+mTspf6p9oAfLws98+HnOX+Wo55JbL3TOY/0mV1WwlV
-	9SLqM7Znwp1Dth8bMeY3Z96f1HXn42dZ6zrmnAcqOUHaHkYllMJSdoX+uk672PeBkK4
-	yGOC4O+bZSAIoqkU3Fx5MMoJedzxKa1b20yPtyks=
-From: patchtest@automation.yoctoproject.org
-To: Yi Zhao <yi.zhao@windriver.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] libtirpc: drop redundant PACKAGECONFIG
-In-Reply-To: <20240313130324.2128933-1-yi.zhao@windriver.com>
-References: <20240313130324.2128933-1-yi.zhao@windriver.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018e37f71ea1-db7e1170-db93-4985-a51f-b14072dd3276-000000@us-west-2.amazonses.com>
-Date: Wed, 13 Mar 2024 13:18:45 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.03.13-54.240.27.30
+ dkim=pass header.i=marcel@ziswiler.com header.s=s1-ionos header.b=npQqUWji;
+ spf=pass (domain: ziswiler.com, ip: 74.208.4.197, mailfrom: marcel@ziswiler.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ziswiler.com;
+	s=s1-ionos; t=1710339585; x=1710944385; i=marcel@ziswiler.com;
+	bh=QYLu9NABOMoQTZLEmKlOSYgoYMddcjP3idbgGAlyJow=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+	b=npQqUWjifIMMRvEGxQZBRtqEAO2SokVcbBOMLk5D+TB8HDBnUNr52LqfE5Ap4vhv
+	 Ov6YfsMV3sv2ebs5oFS69g6iWp8k2Us5VpNK+Y7r41dah5fchFzfpjEg1z/kBRTnf
+	 WahXkQtPkRtrUXnRYNmZf20c/GWGVHDB83WgNiTi2p6isvqrsXzOYq+92gxZNsxTQ
+	 3b2vGuK+FzNo+WS8aq/G77ame7h5oOlszFlEOZaYsSwwAw4Fs/DlM5hzNTgzEt4aq
+	 U70GescLWkp56GwFgtF3e+4IdyLaRQ3Awqt+rhBvBsJDPypSl7NdcqnBjuDWV4O/b
+	 BrAQ00CisiVhFAdxzA==
+X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
+Received: from toolbox.corp.toradex.com ([31.10.206.125]) by
+ mrelay.perfora.net (mreueus004 [74.208.5.2]) with ESMTPSA (Nemesis) id
+ 1N6KxR-1qiEGX2FFh-016eNJ; Wed, 13 Mar 2024 15:19:44 +0100
+From: Marcel Ziswiler <marcel@ziswiler.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Max Krummenacher <max.krummenacher@toradex.com>,
+	Ryan Eatmon <reatmon@ti.com>,
+	Randolph Sapp <rs@ti.com>,
+	Marcel Ziswiler <marcel.ziswiler@toradex.com>
+Subject: [oe-core][PATCH v1] mesa: enable imagination powervr support
+Date: Wed, 13 Mar 2024 15:19:35 +0100
+Message-ID: <20240313141940.146208-1-marcel@ziswiler.com>
+X-Mailer: git-send-email 2.44.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:ytnRdxT6tVE2VOxBFzKQq51UoeoCJudNIjl4aaP+c2FImPKTvMf
+ oGiVlJNq8rM0rIlg5WTJl/vM4Nf/DUyuLe5meZE1KaFZdZheAM9iLTHeMC79G+Xpt6rlLhY
+ Mv33Qx1qUHvZavRj27psGHfDfQQLhRlTkDx66MuxsEQcPa9bzCp82CsVVJeshT/vR616hGw
+ 49ozM0a4lw2GZ/P5GjEhA==
+UI-OutboundReport: notjunk:1;M01:P0:m6YAnuylhJk=;pytHyeMIH6ahkxN2uB6IDFBslBp
+ iOrTIhFImRvdyoonM5tlranR4wNC2pthQE3gdGcQX/UJULxqeCJdcTsAaF+PAokKyFKannvel
+ Sz25s3dyGNHEA4zF4p+uhvPVQjAQ4XjZAWv9kW8MBCADt4X3aepfBB0DQUzW+I62pVPE6f7EQ
+ P08P6rwSFdqfMGVsvA4FXzYwVKhXGkcMunODHCDIaRPH01XBXKinboPCnLIg2N4yoOvrALlUl
+ g2teMsiQo0Oq7lsdQcM6sfdEFq1Tip5f/cc+lvr29LH8DwtB/8bg3lwRyXAWU3YrGtL+Jqayb
+ HFBcBRdZ2/6W2brEe6hsqqTvh5zc33tKdwOmjVz8nZFBm2TpHbxndplfWRcE6z5uS5tgoT0iB
+ 5DytkjaYyhFoU3Z0uTTeYWGGMHdmZjQ+ydiTD4nRV+ea7+1RfR+hUdCbP953szzwLhhi/bpuu
+ fScx/WROI7fnsbdjYBFyiSyKqcDx/zr2vkjhUXrsRmgoxjMafcxvifTAnlZwUTC16+2MZU5Er
+ UCs14ke/4PqO29akr4briO/xKipUpK79E/kCPChA66dnPThdiO2leTqxOUXbZJuHaZZX6r9ed
+ KPLLX/TnjwzEge9zL4UStElKQE0U03k7DjyxDkq15LpjPDipIn4as4gCMmV8Fzm2v7YnSsdyD
+ w1O6AhsldjraMgluvHMI46d6dU0sLpb2kA/rJZ8xRhaOjOmQj1mK1tTnY1dKr+vMmIS3aEDZd
+ ugxkCJ/o7k+LrJo+PjD4visc7MbhLcjUltbkhgn3+6cW7jvAjasVvY=
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Mar 2024 13:18:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197040
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Mar 2024 14:19:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197041
 
---NextPart
-Content-Type: text/plain
+From: Marcel Ziswiler <marcel.ziswiler@toradex.com>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Allows mesa to be build with Imagination PowerVR support.
 
----
-Testing patch /home/patchtest/share/mboxes/libtirpc-drop-redundant-PACKAGECONFIG.patch
+Signed-off-by: Marcel Ziswiler <marcel.ziswiler@toradex.com>
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+=2D--
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+ meta/recipes-graphics/mesa/mesa.inc | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/m=
+esa/mesa.inc
+index 12d7a18eb8..24304c89fa 100644
+=2D-- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -75,6 +75,8 @@ EXTRA_OEMESON =3D " \
+     -Dplatforms=3D'${@",".join("${PLATFORMS}".split())}' \
+ "
 
----
++EXTRA_OEMESON:append:class-target =3D " ${@bb.utils.contains('PACKAGECONF=
+IG', 'imagination', '-Dimagination-srv=3Dtrue', '', d)}"
++
+ EXTRA_OEMESON:append:class-target =3D " ${@bb.utils.contains('PACKAGECONF=
+IG', 'opencl', '-Dintel-clc=3Dsystem', '', d)}"
+ EXTRA_OEMESON:append:class-native =3D " ${@bb.utils.contains('PACKAGECONF=
+IG', 'opencl', '-Dintel-clc=3Denabled', '', d)}"
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
+@@ -113,6 +115,7 @@ VULKAN_DRIVERS:append:i686 =3D ",intel,amd"
+ VULKAN_DRIVERS:append =3D"${@bb.utils.contains('PACKAGECONFIG', 'freedren=
+o', ',freedreno', '', d)}"
+ VULKAN_DRIVERS:append =3D"${@bb.utils.contains('PACKAGECONFIG', 'broadcom=
+', ',broadcom', '', d)}"
+ VULKAN_DRIVERS:append =3D"${@bb.utils.contains('PACKAGECONFIG', 'gallium-=
+llvm', ',swrast', '', d)}"
++VULKAN_DRIVERS:append =3D"${@bb.utils.contains('PACKAGECONFIG', 'imaginat=
+ion', ',imagination-experimental', '', d)}"
+ PACKAGECONFIG[vulkan] =3D "-Dvulkan-drivers=3D${@strip_comma('${VULKAN_DR=
+IVERS}')}, -Dvulkan-drivers=3D'',glslang-native vulkan-loader vulkan-heade=
+rs"
 
---NextPart
+ # mesa development and testing tools support, per driver
+@@ -122,6 +125,7 @@ TOOLS:append =3D "${@bb.utils.contains('PACKAGECONFIG'=
+, 'etnaviv', ',etnaviv', '',
+ TOOLS:append =3D "${@bb.utils.contains('PACKAGECONFIG', 'freedreno', ',fr=
+eedreno', '', d)}"
+ TOOLS:append =3D "${@bb.utils.contains('PACKAGECONFIG', 'lima', ',lima', =
+'', d)}"
+ TOOLS:append =3D "${@bb.utils.contains('PACKAGECONFIG', 'panfrost', ',pan=
+frost', '', d)}"
++TOOLS:append =3D "${@bb.utils.contains('PACKAGECONFIG', 'imagination', ',=
+imagination', '', d)}"
 
+ # dependencies for tools.
+ TOOLS_DEPS:append =3D "${@bb.utils.contains('PACKAGECONFIG', 'freedreno',=
+ ' ncurses libxml2 ', '', d)}"
+@@ -327,7 +331,7 @@ PACKAGES_DYNAMIC +=3D "^mesa-driver-.*"
+ PACKAGES_DYNAMIC:class-native =3D "^mesa-driver-.*-native"
 
---NextPart--
+ FILES:mesa-megadriver =3D "${libdir}/dri/* ${datadir}/drirc.d"
+-FILES:mesa-vulkan-drivers =3D "${libdir}/libvulkan_*.so ${datadir}/vulkan=
+"
++FILES:mesa-vulkan-drivers =3D "${libdir}/libvulkan_*.so ${libdir}/libpowe=
+rvr_rogue.so ${datadir}/vulkan"
+ FILES:${PN}-vdpau-drivers =3D "${libdir}/vdpau/*.so.*"
+ FILES:libegl-mesa =3D "${libdir}/libEGL*.so.* ${datadir}/glvnd/egl_vendor=
+.d"
+ FILES:libgbm =3D "${libdir}/libgbm.so.*"
+=2D-
+2.44.0
+
 
