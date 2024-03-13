@@ -2,51 +2,51 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DC92C54E66
-	for <webhook@archiver.kernel.org>; Wed, 13 Mar 2024 07:09:09 +0000 (UTC)
-Received: from esa9.hc1455-7.c3s2.iphmx.com (esa9.hc1455-7.c3s2.iphmx.com [139.138.36.223])
- by mx.groups.io with SMTP id smtpd.web10.10635.1710313745263450203
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BE7FC54791
+	for <webhook@archiver.kernel.org>; Wed, 13 Mar 2024 07:09:19 +0000 (UTC)
+Received: from esa5.hc1455-7.c3s2.iphmx.com (esa5.hc1455-7.c3s2.iphmx.com [68.232.139.130])
+ by mx.groups.io with SMTP id smtpd.web11.10791.1710313750140899810
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Mar 2024 00:09:05 -0700
+ Wed, 13 Mar 2024 00:09:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=AUoUa2JI;
- spf=pass (domain: fujitsu.com, ip: 139.138.36.223, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=V6m91McH;
+ spf=pass (domain: fujitsu.com, ip: 68.232.139.130, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1710313745; x=1741849745;
+  t=1710313751; x=1741849751;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references;
-  bh=Cr4N98SccnqLFIZwh82KSskP3eeaCD8PlDA3c6luNGg=;
-  b=AUoUa2JIEXuRZ1EXZjP/UZAbIdBB3Ug/OVtYppz35qCM7fabayaz7wcM
-   pibI6jk3rsI8w45TqaZsKDnYz1RMwC+YTbX9YG3Fnknf8UUj941M1Pc+w
-   +ISiwojRSqHf5kp582m5Vp8Ec8A97qGH2E5YLnGbGNgnE+U2qobVGsAHl
-   GJ1Ba0d/sakiyCXD2hwcKy8ir6sAFIbgAsRKcp1MoLSYJ5o4/Fk4ysmoW
-   OoY2BzlasZ7q59EQUNERGk2JPjeAsS8QJZoxvLKjEbxoe5QnqtboSbBxd
-   fd7fTifpwHR1kG3WXS97WR9neerSIwD2GGMc2hZE1hNoT1M/747MQrZsV
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="140577412"
+  bh=e4a1mBCdAr2uJCRs6xAwFL9L8m+pu0jKb0KSvXzE2LM=;
+  b=V6m91McHYKttem3IvP/tX1JSkDs119lh51j9l1cZvA6xmbDeMWGyYHVk
+   HUJQ2n3GC7o6bA52rmqcIkgGWmqeRPVKbO7zc0JC9+fWBbAKYjgI3MGYW
+   69yuxkDsaAs973BFQkfO3UVfwsdccWnIHVAb642J7AjBsmcUvJMJ+dKwC
+   c/h1WHxgVhqeolMEpE2BioSverA6hTSkVUiHwhrRIHDsRiJ6cD2196ZyL
+   QnlA75+aymBL9v/PDr3g3eoh3VH7ZhwLRUd5rI1e6p5d6lEa2VBNIs+Cx
+   Vr+TYp1FIXJUD1wGAjL8yrnGAOgUxX9HeFk0wH0e7TNjY/+XX/UrpdbM2
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="151572681"
 X-IronPort-AV: E=Sophos;i="6.07,119,1708354800"; 
-   d="scan'208";a="140577412"
-Received: from unknown (HELO oym-r3.gw.nic.fujitsu.com) ([210.162.30.91])
-  by esa9.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 16:09:02 +0900
-Received: from oym-m4.gw.nic.fujitsu.com (oym-nat-oym-m4.gw.nic.fujitsu.com [192.168.87.61])
-	by oym-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id 6E307C21AB
-	for <openembedded-core@lists.openembedded.org>; Wed, 13 Mar 2024 16:09:00 +0900 (JST)
-Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
-	by oym-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id 9EC08276F9
-	for <openembedded-core@lists.openembedded.org>; Wed, 13 Mar 2024 16:08:59 +0900 (JST)
+   d="scan'208";a="151572681"
+Received: from unknown (HELO yto-r1.gw.nic.fujitsu.com) ([218.44.52.217])
+  by esa5.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 16:09:08 +0900
+Received: from yto-m2.gw.nic.fujitsu.com (yto-nat-yto-m2.gw.nic.fujitsu.com [192.168.83.65])
+	by yto-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id C73A4E6003
+	for <openembedded-core@lists.openembedded.org>; Wed, 13 Mar 2024 16:09:05 +0900 (JST)
+Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
+	by yto-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id 1278ED6247
+	for <openembedded-core@lists.openembedded.org>; Wed, 13 Mar 2024 16:09:05 +0900 (JST)
 Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id 3457820097CD1
-	for <openembedded-core@lists.openembedded.org>; Wed, 13 Mar 2024 16:08:59 +0900 (JST)
+	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id 9EC3C21BD41
+	for <openembedded-core@lists.openembedded.org>; Wed, 13 Mar 2024 16:09:04 +0900 (JST)
 Received: from vm4860.g01.fujitsu.local (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id D491F1A006B;
-	Wed, 13 Mar 2024 15:08:58 +0800 (CST)
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 4B8D31A006B;
+	Wed, 13 Mar 2024 15:09:04 +0800 (CST)
 From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 06/36] gnupg: upgrade 2.4.4 -> 2.4.5
-Date: Wed, 13 Mar 2024 15:08:04 +0800
-Message-Id: <1710313714-12541-6-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH 07/36] libadwaita: upgrade 1.4.3 -> 1.4.4
+Date: Wed, 13 Mar 2024 15:08:05 +0800
+Message-Id: <1710313714-12541-7-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1710313714-12541-1-git-send-email-wangmy@fujitsu.com>
 References: <1710313714-12541-1-git-send-email-wangmy@fujitsu.com>
@@ -54,67 +54,56 @@ X-TM-AS-GCONF: 00
 X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28248.004
 X-TM-AS-User-Approved-Sender: Yes
 X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28248.004
-X-TMASE-Result: 10--6.850500-10.000000
-X-TMASE-MatchedRID: Sudfee3ORQqjz0nOeth/yUIIxwDaU5mrKQNhMboqZlpVJ8sOvRbBi8PR
-	dA5qc+XmyrhI07UUNwakulA7P59Gup76e9GOpfQK0Eym3EHGbrj0swHSFcVJ6Al4w4lfxz2cpPp
-	QIi8rib57c9JF/3RsTRrhXHjPYz6AHPTlDEy8xUu5qYz3DvND6wEPJrYlsf/6xbvXakbDXzj3SJ
-	vEvhvPoFn5XWwnJwkW3+BcJt5VCDhaQiLka9EcSj9B1SHosSXQwTlc9CcHMZerwqxtE531VIPcX
-	uILVCbaK9R11yl42sW9Du2ZULY31fr252PTOmm/3QqJN4m15UF9LQinZ4QefCP/VFuTOXUTKYOc
-	jnHaFYKOhzOa6g8Krb3eUWxY4pb6GQ2+Av2qP+ICknOT3tvx9r19lTVQS4Xj1X76NRw7Jr8=
+X-TMASE-Result: 10--3.338900-10.000000
+X-TMASE-MatchedRID: dhm/lGuWeZijz0nOeth/yUIIxwDaU5mrTfK5j0EZbysn3IThl21UN7zl
+	BfjmzOn3ldhq7sfFh4dKhBUJyxjhBu1a16oqp8B1/HTKStsDGMJHNQ8CqEKO2MC5DTEMxpeQCmL
+	ENVLWzfdYPNn6POdBJcAoifPuvlEWu2PzD0SpTPXdCok3ibXlQX0tCKdnhB58I/9UW5M5dRNp7q
+	EhmmPgy46HM5rqDwqtlgeMjwhZhSLTXf8orEX9L3slrq3Lc1wMMpJgFoWlTmqtgZtcyngroJgxh
+	2jNS3le3CZ0drGnbM8kYH6+FfoMo5iYu81In5w0HSbhGbmGylXFJK7yLnZRGZdO3Q67ImL8gi4R
+	Uz90EQwG2MApbv6odw==
 X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Mar 2024 07:09:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197008
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Mar 2024 07:09:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197009
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
 Changelog:
-==========
-* gpg,gpgv: New option --assert-pubkey-algo.
-* gpg: Emit status lines for errors in the compression layer.
-* gpg: Fix invocation with --trusted-keys and --no-options.
-* gpgsm: Allow for a longer salt in PKCS#12 files.
-* gpgtar: Make --status-fd=2 work on Windows.
-* scd: Support for the ACR-122U NFC reader.
-* scd: Suport D-TRUST ECC cards.
-* scd: Allow auto detaching of kernel drivers; can be disabled with
-  the new compatibility-flag ccid-no-auto-detach.
-* scd: Allow setting a PIN length of 6 also with a reset code for
-  openpgp cards.
-* agent: Allow GET_PASSPHRASE in restricted mode.
-* dirmngr: Trust system's root CAs for checking CRL issuers.
-* dirmngr: Fix regression in 2.4.4 in fetching keys via hkps.
-* gpg-wks-client: Make option --mirror work properly w/o specifying
-  domains.
-* g13,gpg-wks-client: Allow command style options as in "g13 mount
-  foo".
-* Allow tilde expansion for the foo-program options.
-* Make the getswdb.sh tool usable outside the GnuPG tree.
+===========
+- Fix layout with GtkSettings:gtk-xft-dpi == 0
+- AdwNavigationView
+  - Fix signal mentions in push() docs
+- AdwStatusPage
+  - Fix property notification in set_child()
+- AdwToolbarView
+  - Fix a typo in docs
+- Translation updates
+  - British English
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- meta/recipes-support/gnupg/{gnupg_2.4.4.bb => gnupg_2.4.5.bb} | 2 +-
+ .../libadwaita/{libadwaita_1.4.3.bb => libadwaita_1.4.4.bb}     | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/gnupg/{gnupg_2.4.4.bb => gnupg_2.4.5.bb} (97%)
+ rename meta/recipes-gnome/libadwaita/{libadwaita_1.4.3.bb => libadwaita_1.4.4.bb} (88%)
 
-diff --git a/meta/recipes-support/gnupg/gnupg_2.4.4.bb b/meta/recipes-support/gnupg/gnupg_2.4.5.bb
-similarity index 97%
-rename from meta/recipes-support/gnupg/gnupg_2.4.4.bb
-rename to meta/recipes-support/gnupg/gnupg_2.4.5.bb
-index fff7d8c6da..99996968b1 100644
---- a/meta/recipes-support/gnupg/gnupg_2.4.4.bb
-+++ b/meta/recipes-support/gnupg/gnupg_2.4.5.bb
-@@ -23,7 +23,7 @@ SRC_URI:append:class-native = " file://0001-configure.ac-use-a-custom-value-for-
-                                 file://relocate.patch"
- SRC_URI:append:class-nativesdk = " file://relocate.patch"
+diff --git a/meta/recipes-gnome/libadwaita/libadwaita_1.4.3.bb b/meta/recipes-gnome/libadwaita/libadwaita_1.4.4.bb
+similarity index 88%
+rename from meta/recipes-gnome/libadwaita/libadwaita_1.4.3.bb
+rename to meta/recipes-gnome/libadwaita/libadwaita_1.4.4.bb
+index e3f849ad6a..e81580feba 100644
+--- a/meta/recipes-gnome/libadwaita/libadwaita_1.4.3.bb
++++ b/meta/recipes-gnome/libadwaita/libadwaita_1.4.4.bb
+@@ -11,7 +11,7 @@ DEPENDS = " \
  
--SRC_URI[sha256sum] = "67ebe016ca90fa7688ce67a387ebd82c6261e95897db7b23df24ff335be85bc6"
-+SRC_URI[sha256sum] = "f68f7d75d06cb1635c336d34d844af97436c3f64ea14bcb7c869782f96f44277"
+ inherit gnomebase gobject-introspection gi-docgen vala features_check
  
- EXTRA_OECONF = "--disable-ldap \
- 		--disable-ccid-driver \
+-SRC_URI[archive.sha256sum] = "ae9622222b0eb18e23675655ad2ba01741db4d8655a796f4cf077b093e2f5841"
++SRC_URI[archive.sha256sum] = "f802b7d8d5ae33be4650ef571a580f144a806202a26f527dacd57d1560938828"
+ 
+ ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
+ REQUIRED_DISTRO_FEATURES = "opengl"
 -- 
 2.34.1
 
