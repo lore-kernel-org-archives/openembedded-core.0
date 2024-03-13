@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23899C54E67
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34640C54E69
 	for <webhook@archiver.kernel.org>; Wed, 13 Mar 2024 17:33:47 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web11.2038.1710351225963725469
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web10.2086.1710351225644240257
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Mar 2024 10:33:46 -0700
+ Wed, 13 Mar 2024 10:33:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=haqlEk9T;
- spf=pass (domain: gmail.com, ip: 209.85.128.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4132f37e170so664485e9.2
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=gfRSmBbj;
+ spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-413eee75912so737415e9.1
         for <openembedded-core@lists.openembedded.org>; Wed, 13 Mar 2024 10:33:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1710351224; x=1710956024; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=R2uyMsSuecQaiIVU/v3xWGYrQDForK97cJBlM/ysOCE=;
-        b=haqlEk9TfjnxDhmxGUkZEp9lbqeHFFX8U6pef+hXV8fy58kunCDItw61Njt1QbUCb0
-         JYXJLukTbTeP8D4MB4oli69LCtF1cc6PlrG4FeLfeJ/f2wm90yxRxm39LlQnt6HwM/gS
-         odDNgHhtOdW568xO6UwBHSfTVkBtGi+fLeQpI5+R2y1OofjM67+4lN5S5/K0MqzvkbDW
-         JlayHAYHB4KkSGi60X3CS5gup9wrz7fzgRLjnpK+SYkG0TOTjSJnZisH3suhCf+Nubm/
-         hnMbnVPJg8hTJEsvlOuCbZ/8R7jBithvL+5lcB/fkYK1tckTy+W0LyRbf5++UUV3pYeP
-         7aCA==
+        bh=gV7x00QVXe6syCxmLZUoF0YPhJ7GlcG+nbzxn77yilM=;
+        b=gfRSmBbjUcut5cWbfV9tPUeguAoq/lC9bm4V7uQDrvWO26XzjGdjtjH5rs2vILRxmF
+         cIMjqCfFuGt2bxxhostT70cLEhiDlu/bT7Kts9kH11xOmSmAwP/H3XyIZkvnGEb5jBPN
+         /ujKBVcQxPDp2xgsbeliQAlabhRDvx/lManfU/+GOhhb64+30D47div8JF3SxCR6AO0o
+         MdmIN/g88fzq9rLBFkcDw+B89X3oL6U7nx4Zmdmait79Ddmyhq8WN6CFWho7SdDJRuM/
+         lAceHHPqWhTkIMgImiMTK7BsM5XlToUjimYm/RqpWIkMe/u1pQ5kKXqv2cHIBA9cnYp3
+         ufag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1710351224; x=1710956024;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=R2uyMsSuecQaiIVU/v3xWGYrQDForK97cJBlM/ysOCE=;
-        b=FpBFrxj0CEQkBKsMkNI2MVY6X7xAKUkNdFxu98WxWdhOoPkyCq3bLy9n918j1xQq1c
-         u/Sgc0BN9O5mL3Y786R447PJ+Hnc1UxZTVk9DXpzeys0xAOJujMF88w7RuxiAgOvfpks
-         so3xaK8eolUt7HCYip+I/XsMweVf48SenDg3cICO5CJnC4yFkYnzK9EM/LZ9RpxTnO1r
-         TyVjJH/vl5QCmV2p5y9MmoO9Vm3UeG6QpkZDLersCn5u6QSu5Liof3M7s4MSJyinYDBm
-         mXv9RHZYLYSLPfj4UZ5BaxYdGLUvK8DaIv70qi8SsZmH2E04vDF8qjoEn92ABQRzdV00
-         UafQ==
-X-Gm-Message-State: AOJu0YxSTwMdg+/WcxsQZAIOslabyUYA2lqcSMzv156elJN30+CQloba
-	a8d+2+2EvgF1xtnyPyn7YL7TiFRHSdFTFbf3i/Zml9TQqlrV8EF/dOuJjeBM
-X-Google-Smtp-Source: AGHT+IFRop19bPq0zZIcfhRR4blHqnAwFF8zz+7RzdOMXWSx1gRzp0bAV5PDP+PdeeJO5Qtfuks9Yg==
-X-Received: by 2002:a05:600c:c1b:b0:413:3761:b1b7 with SMTP id fm27-20020a05600c0c1b00b004133761b1b7mr474210wmb.20.1710351224434;
-        Wed, 13 Mar 2024 10:33:44 -0700 (PDT)
+        bh=gV7x00QVXe6syCxmLZUoF0YPhJ7GlcG+nbzxn77yilM=;
+        b=ELYdqH60J8iuuncf0OnZwsBVNBGeoij7tNTLq9HnDqRXg4bQTUYopoEIluH9wpBrPc
+         KjHFAN1ZMUzjC9YDh9c3NyHfTfA21d16G3PB+B1UFnEs1/eV6AA6u3tRO01U4KyWWvwd
+         jDppXSxHH/KcZvw6aNLvbW/TeQIGcfNE/rDv9HXLxSfg/sbg6mw13jg8EgBjArAUK+MS
+         pI9MrNOrBR0KKOmvz+oIcIdbqz3/GKyAXt9yqhMO29s2SomvGaACTyvBv8i5W4oDGxRW
+         TLdzyVMadL8kikq69KHzg+amtIm931f/slZLXDg2crkFUA4iuXscNUY+JSnbKTHFElA9
+         qOLQ==
+X-Gm-Message-State: AOJu0YwwQ/TCRCNnUIcB+96WBhGTR3QaO5DkX/axoWniX1rAMvNEMDkG
+	wKBCpnQaFdWVYmGXLsrIhgL0WItaaJ2wVoUebiE1eLPHDY8GclqQKjXx3V24
+X-Google-Smtp-Source: AGHT+IE+HvyWs8jWnjr+3mzt+c++Eo2MlMxo8wO68RK527IkGamX1l0sLsbC8VpQrg33eQdEuOV8PA==
+X-Received: by 2002:a05:600c:1553:b0:412:b41a:53a2 with SMTP id f19-20020a05600c155300b00412b41a53a2mr501369wmg.2.1710351223943;
+        Wed, 13 Mar 2024 10:33:43 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id l5-20020a05600c1d0500b00412ea52b102sm2989710wms.34.2024.03.13.10.33.44
+        by smtp.gmail.com with ESMTPSA id l5-20020a05600c1d0500b00412ea52b102sm2989710wms.34.2024.03.13.10.33.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Mar 2024 10:33:44 -0700 (PDT)
+        Wed, 13 Mar 2024 10:33:43 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 08/21] go-helloworld: update to latest revision
-Date: Wed, 13 Mar 2024 18:33:23 +0100
-Message-Id: <20240313173336.3900178-8-alex@linutronix.de>
+Subject: [PATCH 07/21] icu: update 74-1 -> 74-2
+Date: Wed, 13 Mar 2024 18:33:22 +0100
+Message-Id: <20240313173336.3900178-7-alex@linutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240313173336.3900178-1-alex@linutronix.de>
 References: <20240313173336.3900178-1-alex@linutronix.de>
@@ -62,26 +62,130 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 13 Mar 2024 17:33:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197060
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197059
+
+Note that upstream has re-spun the release tarball (the initial tarball had a broken symlink
+for LICENSE file), so there can be yocto premirror checksum mismatches:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6671/steps/13/logs/stdio
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-extended/go-examples/go-helloworld_0.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../icu/icu/0001-Disable-LDFLAGSICUDT-for-Linux.patch | 11 ++++-------
+ .../icu/icu/0001-icu-Added-armeb-support.patch        |  9 ++++-----
+ meta/recipes-support/icu/icu/fix-install-manx.patch   |  7 +++----
+ meta/recipes-support/icu/{icu_74-1.bb => icu_74-2.bb} |  4 ++--
+ 4 files changed, 13 insertions(+), 18 deletions(-)
+ rename meta/recipes-support/icu/{icu_74-1.bb => icu_74-2.bb} (96%)
 
-diff --git a/meta/recipes-extended/go-examples/go-helloworld_0.1.bb b/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
-index 98cd4d81033..74f3520eaef 100644
---- a/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
-+++ b/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
-@@ -6,7 +6,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
+diff --git a/meta/recipes-support/icu/icu/0001-Disable-LDFLAGSICUDT-for-Linux.patch b/meta/recipes-support/icu/icu/0001-Disable-LDFLAGSICUDT-for-Linux.patch
+index 2968d571bb3..c0e9e2806b4 100644
+--- a/meta/recipes-support/icu/icu/0001-Disable-LDFLAGSICUDT-for-Linux.patch
++++ b/meta/recipes-support/icu/icu/0001-Disable-LDFLAGSICUDT-for-Linux.patch
+@@ -1,4 +1,4 @@
+-From 0c82d6aa02c08e41b13c83b14782bd7024e25d59 Mon Sep 17 00:00:00 2001
++From 0f4e9eee64bd4220aa4fae1ab4f7bbf10b87cd69 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Sat, 15 Feb 2014 21:06:42 +0000
+ Subject: [PATCH] Disable LDFLAGSICUDT for Linux
+@@ -7,14 +7,14 @@ Upstream-Status: Inappropriate [ OE Configuration ]
  
- SRC_URI = "git://go.googlesource.com/example;branch=master;protocol=https"
--SRCREV = "d9923f6970e9ba7e0d23aa9448ead71ea57235ae"
-+SRCREV = "32022caedd6a177a7717aa8680cbe179e1045935"
- UPSTREAM_CHECK_COMMITS = "1"
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ ---
+- source/config/mh-linux |    2 +-
++ config/mh-linux | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
- GO_IMPORT = "golang.org/x/example"
+ diff --git a/config/mh-linux b/config/mh-linux
+-index 366f0cc..2689aab 100644
++index 53d6780..b622513 100644
+ --- a/config/mh-linux
+ +++ b/config/mh-linux
+-@@ -21,7 +21,7 @@ LD_RPATH= -Wl,-zorigin,-rpath,'$$'ORIGIN
++@@ -23,7 +23,7 @@ LD_RPATH= -Wl,-zorigin,-rpath,'$$'ORIGIN
+  LD_RPATH_PRE = -Wl,-rpath,
+  
+  ## These are the library specific LDFLAGS
+@@ -23,6 +23,3 @@ index 366f0cc..2689aab 100644
+  
+  ## Compiler switch to embed a library name
+  # The initial tab in the next line is to prevent icu-config from reading it.
+--- 
+-1.7.10.4
+-
+diff --git a/meta/recipes-support/icu/icu/0001-icu-Added-armeb-support.patch b/meta/recipes-support/icu/icu/0001-icu-Added-armeb-support.patch
+index 578517b57fb..a25285fb541 100644
+--- a/meta/recipes-support/icu/icu/0001-icu-Added-armeb-support.patch
++++ b/meta/recipes-support/icu/icu/0001-icu-Added-armeb-support.patch
+@@ -1,4 +1,4 @@
+-From e3c25af4b40d64f098e7b8ae5a91fdc3c90163c4 Mon Sep 17 00:00:00 2001
++From cf55c077b77b7a219502364eaadf12c074ab005e Mon Sep 17 00:00:00 2001
+ From: Lei Maohui <leimaohui@cn.fujitsu.com>
+ Date: Wed, 8 May 2019 14:42:30 +0900
+ Subject: [PATCH] icu: Added armeb support.
+@@ -8,16 +8,15 @@ Make icu support arm32 BE.
+ Upstream-Status: Pending
+ 
+ Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
+-
+ ---
+  i18n/double-conversion-utils.h | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+-diff --git a/source/i18n/double-conversion-utils.h b/source/i18n/double-conversion-utils.h
+-index 7f23e0a..7f89094 100644
++diff --git a/i18n/double-conversion-utils.h b/i18n/double-conversion-utils.h
++index 303668f..7d859dc 100644
+ --- a/i18n/double-conversion-utils.h
+ +++ b/i18n/double-conversion-utils.h
+-@@ -115,7 +115,7 @@ int main(int argc, char** argv) {
++@@ -146,7 +146,7 @@ int main(int argc, char** argv) {
+  //
+  // If it prints "correct" then the architecture should be here, in the "correct" section.
+  #if defined(_M_X64) || defined(__x86_64__) || \
+diff --git a/meta/recipes-support/icu/icu/fix-install-manx.patch b/meta/recipes-support/icu/icu/fix-install-manx.patch
+index 925b064ebd5..7526bde3702 100644
+--- a/meta/recipes-support/icu/icu/fix-install-manx.patch
++++ b/meta/recipes-support/icu/icu/fix-install-manx.patch
+@@ -1,4 +1,4 @@
+-From a6ddabc8cadb76bfe2d2e374a6702442cfe51cce Mon Sep 17 00:00:00 2001
++From 2d544cac238eccbfc32cafc9502ddf6e00994211 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Fri, 9 Oct 2015 17:50:41 +0100
+ Subject: [PATCH] icu: fix install race
+@@ -13,13 +13,12 @@ in the install command.
+ 
+ Upstream-Status: Pending
+ Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+ ---
+- source/Makefile.in | 8 ++++----
++ Makefile.in | 8 ++++----
+  1 file changed, 4 insertions(+), 4 deletions(-)
+ 
+ diff --git a/Makefile.in b/Makefile.in
+-index be9435b..ada20d7 100644
++index 8366f01..79b91c9 100644
+ --- a/Makefile.in
+ +++ b/Makefile.in
+ @@ -77,7 +77,7 @@ EXTRA_DATA =
+diff --git a/meta/recipes-support/icu/icu_74-1.bb b/meta/recipes-support/icu/icu_74-2.bb
+similarity index 96%
+rename from meta/recipes-support/icu/icu_74-1.bb
+rename to meta/recipes-support/icu/icu_74-2.bb
+index 88ded166b52..8352bf2a5b4 100644
+--- a/meta/recipes-support/icu/icu_74-1.bb
++++ b/meta/recipes-support/icu/icu_74-2.bb
+@@ -111,8 +111,8 @@ SRC_URI = "${BASE_SRC_URI};name=code \
+ SRC_URI:append:class-target = "\
+            file://0001-Disable-LDFLAGSICUDT-for-Linux.patch \
+           "
+-SRC_URI[code.sha256sum] = "86ce8e60681972e60e4dcb2490c697463fcec60dd400a5f9bffba26d0b52b8d0"
+-SRC_URI[data.sha256sum] = "67d5ab39c5187e1dd0fed60a3fe52794dce9784b4c045cb85e19f5d317fd783f"
++SRC_URI[code.sha256sum] = "68db082212a96d6f53e35d60f47d38b962e9f9d207a74cfac78029ae8ff5e08c"
++SRC_URI[data.sha256sum] = "c28c3ca5f4ba3384781797138a294ca360988d4322674ad4d51e52f5d9b0a2b6"
+ 
+ UPSTREAM_CHECK_REGEX = "releases/tag/release-(?P<pver>(?!.+rc).+)"
+ GITHUB_BASE_URI = "https://github.com/unicode-org/icu/releases"
 -- 
 2.39.2
 
