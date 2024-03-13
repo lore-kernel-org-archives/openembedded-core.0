@@ -1,217 +1,154 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <yi.zhao@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F2E9C54E69
-	for <webhook@archiver.kernel.org>; Wed, 13 Mar 2024 07:09:50 +0000 (UTC)
-Received: from esa6.hc1455-7.c3s2.iphmx.com (esa6.hc1455-7.c3s2.iphmx.com [68.232.139.139])
- by mx.groups.io with SMTP id smtpd.web10.10650.1710313781224085267
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DEE06C54E58
+	for <webhook@archiver.kernel.org>; Wed, 13 Mar 2024 13:03:51 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.16266.1710335023729474686
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Mar 2024 00:09:41 -0700
+ Wed, 13 Mar 2024 06:03:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=GaFY/PJ8;
- spf=pass (domain: fujitsu.com, ip: 68.232.139.139, mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1710313782; x=1741849782;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references;
-  bh=ZtA6YyrH0GAT2FrCR4FyYzLYOJ5SUmLwJPSzMGdjXDQ=;
-  b=GaFY/PJ8FvMqNGBHQi/Z+CYKmw0wnWMOa+t7GV7HhBRr/P4hSUbJCO+m
-   FERPFiLTEHraR6rEYeRVZOVprIVMr/ZESlFCihgR5t3Mv2hdJtAVoabEr
-   GMrwUCytQeEZRQLZRa3qoYh2r+MasQEBcGLI5TFBy1qzRZ7pnO7DsXKay
-   slZoa254wcntaiuI0c3ZowtdkEJRIQPCARTj4GcHewQmFFvTpALIyjzib
-   0g148O/p8r3eYUpO6e/iuYFZNQPFQH0fqHIWciwFe7tg57KRbqyMhx3v3
-   9yH0kfMeosYyBpTbITZfZO38PRti1s8OTleFknmG7pcZzlwUXbusbF5rN
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11011"; a="153951025"
-X-IronPort-AV: E=Sophos;i="6.07,119,1708354800"; 
-   d="scan'208";a="153951025"
-Received: from unknown (HELO yto-r2.gw.nic.fujitsu.com) ([218.44.52.218])
-  by esa6.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2024 16:09:39 +0900
-Received: from yto-m3.gw.nic.fujitsu.com (yto-nat-yto-m3.gw.nic.fujitsu.com [192.168.83.66])
-	by yto-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id 92A93232B2
-	for <openembedded-core@lists.openembedded.org>; Wed, 13 Mar 2024 16:09:36 +0900 (JST)
-Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
-	by yto-m3.gw.nic.fujitsu.com (Postfix) with ESMTP id C64372970B
-	for <openembedded-core@lists.openembedded.org>; Wed, 13 Mar 2024 16:09:35 +0900 (JST)
-Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id 5E9E7224955
-	for <openembedded-core@lists.openembedded.org>; Wed, 13 Mar 2024 16:09:35 +0900 (JST)
-Received: from vm4860.g01.fujitsu.local (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 0D1381A006B;
-	Wed, 13 Mar 2024 15:09:35 +0800 (CST)
-From: wangmy@fujitsu.com
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=XGQgd+ND;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=38026f214a=yi.zhao@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42DAV89N005104
+	for <openembedded-core@lists.openembedded.org>; Wed, 13 Mar 2024 13:03:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:content-transfer-encoding
+	:content-type:mime-version; s=PPS06212021; bh=3Ko3PB8J0uC7Tma28J
+	9XNE3FyH0IB/tFFRVnK541TV0=; b=XGQgd+NDsUltHY25NyOi9IwCKdtIw6ArJC
+	lGhE8hPf2FekSDAdQnGxS1dydEmAD0a1qUvfvx5aCrnb3U5OZDMf8Y6QJdY+YxRF
+	i2stW245s9Q/qnxJ7F1myRqNDnfU6sPYv8QirZwKL6/fz9GKLVLQ4K9IUJa/w4M+
+	Mi3i5nXqu7oAWhKfRi5I1my3I0D91cW2BKdeksCBFIEz6ZFL5i7fjfOoUQ4+1vab
+	8h+RdquXttIVINtz72ygGtlqNbH5joyTL5jOIwNwXI3bkvD3t/xthXarqVWbc8Ly
+	Q1WsoIOqwxOJDAqhoJEkWykNkLe+01/HYPBMHWr5pgyXsxfUz4wA==
+Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2040.outbound.protection.outlook.com [104.47.66.40])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3wrer6byyv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 13 Mar 2024 13:03:41 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CMR87SJEW9+I4fMAyh06k+CuS7mLaV1PabjmOhZV0rucd0s7oO0+LjvMcXTsjHfrFEnHrwIiGqqNcHlPD1DMcZ6LKdvm0grKezcKsb2wuijwgZ8iX+W9qrxSZNdiMQCxfiwQniXGashCta8FkTJfiGDWfM6yGXxVWNe/zo6EmJ3NC3b5hVlmAn3QxLjOqzI8G0vxseMnJ4+kV8oC8tYCbaM/MnJiaON92UkFOf40HFjcnwbTZSNjgUM9fMNSrK+77B95AE8nmyenmRWBGr8jt3CgTIOZ+d/Qga2H3Y+1rEpSgDPNHs4AwatJDxaIKmHA9d6p9CQ3uUE74y9/ZdFW8Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3Ko3PB8J0uC7Tma28J9XNE3FyH0IB/tFFRVnK541TV0=;
+ b=POq7JJmNiH/q0mHHh/ogTiO8iWlyjrbxybVGSp+z93gDf5q6oY8i0jsK7ecT8X5Fw2R7CsNk/oJW0xXdJ+UOx1z+oQX344WPAt2eNz1vvmIV4fWtSDLMKy8Gb8MuCSs6ywLzaWoBoerPLpPtGuuWFEn7Ev5E1lpcK8brMum34/X7PhM3Kz9yQ5clvUPCQnS69sPrtSLkXf6cdvg70viF8oaAOcPH0LRbRI+3pvjsrAKl5wnI96RqKWNUiSA9DNsBC5TcRrDnP7BrZp8SXZF76ADKt/g7o3aSRA/dEf7TywO1Iv9y4rok3XBlw5VWA4kWpdE9Bt/jINKAiWdhQ6McNQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DS0PR11MB7484.namprd11.prod.outlook.com (2603:10b6:8:14c::10)
+ by PH8PR11MB6562.namprd11.prod.outlook.com (2603:10b6:510:1c1::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.12; Wed, 13 Mar
+ 2024 13:03:35 +0000
+Received: from DS0PR11MB7484.namprd11.prod.outlook.com
+ ([fe80::97da:833f:8511:a558]) by DS0PR11MB7484.namprd11.prod.outlook.com
+ ([fe80::97da:833f:8511:a558%6]) with mapi id 15.20.7386.015; Wed, 13 Mar 2024
+ 13:03:35 +0000
+From: Yi Zhao <yi.zhao@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 33/36] tcl: upgrade 8.6.13 -> 8.6.14
-Date: Wed, 13 Mar 2024 15:08:31 +0800
-Message-Id: <1710313714-12541-33-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1710313714-12541-1-git-send-email-wangmy@fujitsu.com>
-References: <1710313714-12541-1-git-send-email-wangmy@fujitsu.com>
-X-TM-AS-GCONF: 00
-X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28248.004
-X-TM-AS-User-Approved-Sender: Yes
-X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28248.004
-X-TMASE-Result: 10--7.529900-10.000000
-X-TMASE-MatchedRID: 6IstDyeExSCjz0nOeth/ySrLqyE6Ur/jyqyllX6UJItXGTbsQqHbkvlt
-	wVYZ2yRqKqrQ7lLcMnyK8WnR386CVm0Xr+fj3ww/8t4fUUGeErTBOVz0Jwcxl0fyM5VfgjG2DCJ
-	4R8XjS0cSkT0TcPCCFE+ar1fsIOhmzaLfecLVryZ85pjA/x1xfmvaomg0i4KN8f3rOEwXzqdCWO
-	NqeTVrImsfwvKHyqbJqKKYyw9LDz3yha4uErRN/bixxDRpftwPzvw8i1YocQ8IrXrOsT3ieTlCR
-	r8Hb3qil40eicjerpYwgZloB/TBseVHGbcDbAq6FEUknJ/kEl7dB/CxWTRRu25FeHtsUoHuDvlm
-	xh7mtfoCVTT8u5cLbiAAQNhE8gjlSczZJCMl49nrpcchznD6Bw==
-X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
+Subject: [PATCH] libtirpc: drop redundant PACKAGECONFIG
+Date: Wed, 13 Mar 2024 21:03:24 +0800
+Message-Id: <20240313130324.2128933-1-yi.zhao@windriver.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR04CA0015.apcprd04.prod.outlook.com
+ (2603:1096:4:197::21) To DS0PR11MB7484.namprd11.prod.outlook.com
+ (2603:10b6:8:14c::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB7484:EE_|PH8PR11MB6562:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7ff50eff-d1c2-4838-fb51-08dc435dfdb7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	6FKTZDx596Myd5mSHwiqlFXwWzSKP67Yf3HV+NYZMfwluf/VhFHvVwYAcGKg1oz/hqTZfNq8vLxCaVYuPYSJCF2AUAltwfRV8uPyUFNyThhUNXXlxoWcecroskLmQzFTU2UF8jVMR7gDR9zGDHMvYAtPbzKELARo63Dq8HUyAPGyVItPWRj9UY2MS9UDiXJASn7+x1OUgQMFWn8MvQBHwLUWYzv/9P0SX+Tm92ApCy3NJVJ5FMy9/M7RsjDplnQ3DpQKlndVaq/ZxML6pnG7RzjGiBY4qP/6Zs169SemUQcSDlailj6O4Dhwh+C/CMm7tA9fa22ncsugxX+J7u4KmNdMdZzKp4F+CtbzMecNOV9FMRVb+61LVVjvhRSi04jqTm5yQqBIy9TlHoUZaYXKSvfzwFbcg0EmoKhJUUdMj2pTlWEJ8SF1IfiJ1BpRLov6kHkyroLcjXHTg8YzXrps1FnssSCLFTqAVtInKTNzAbtxIJIDOP3SyyB68Q+mPjv71HcqF7/ya8+kctzlFGzr9qqP4xwyLvjzxNgKr0x8+71W5EkRZDBIWoPOylcxbCFRS52tGtoYz2OeWfSB1VmS1pUxd/0nBimS3EIo+EJg4aFbwAQ92m8yYyHZCLVqI6zKCj5NeDa11UFwrakyWPGPFn+ek4J0XPP/l4HiBCWsDE7j1yPLM4N7zZM85fKIyI+2VRUT4WhL/8DUiaxhzba2+A==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7484.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(1800799015)(52116005)(38350700005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?HqEqLbkcHH1C9zFimEFahn7a0XcXrwa8PSDcdzxqDTBBlo+DADG11IvAStto?=
+ =?us-ascii?Q?1EOAUJ4N7RXBfPZFGap77KNki1v0fqDFf4Jrvaf2k9xo8J7FD/m99pZSlZIP?=
+ =?us-ascii?Q?uOMhZCIXLoez17mBHlsTlrhzipvFuXQlifElH1AiMJdYf11dM0D4gsCUe2DM?=
+ =?us-ascii?Q?o0tlh/59DImRCDg0DUE7jr2fZYKGVP3MWFEydvSGay8IXa21SQJnuSoJA6ut?=
+ =?us-ascii?Q?blz2xaV4kz+JVnuQhzlZnHhH3ear/yueXsoAkx+xC7t813AeerlMtnnFOZP8?=
+ =?us-ascii?Q?d2I+rX5p2PbsKXT9InrcUjA7b2vH1qLUd7b+BYmKcrjmAhWAKP4X4h2sue+Z?=
+ =?us-ascii?Q?e9So8c1s1vFWD4QNetsp7g7Xt9Ai0CrIM1ogZ1FLr/K9e0UlIM6/MlMWFxF2?=
+ =?us-ascii?Q?bUhD99zzI1hLDwADZMsVlcnyeGkb4yn0gqSBofszFhsTuwEBT33tA6nlscvj?=
+ =?us-ascii?Q?DhlHBwvGODLsus1uW+YiJqlmdKGUyw2mx+ND/MFKpyEt7aW7tEdQHatpm1J5?=
+ =?us-ascii?Q?uURdAjslnUDmPkVFcsxoJpSUXcS2eQVgCqWIBsLBV+B+UMHpxqolKZgQx88N?=
+ =?us-ascii?Q?ichN9Zhamc6LOn/JNiUICcreEkiM280BebafJkOLfam4dWL6hcXlM9i8HOcB?=
+ =?us-ascii?Q?U5/SBAvQ89qUW114BkuHp4bZHZB10l58G1jRJl5w1YhKRtwZp4NjUX6mRVQ6?=
+ =?us-ascii?Q?5CUxiIzp+scXgj0xG2TeSqEXfuCWruXPcJ2nq8BieCdXglX68eP2iE5OOY+Z?=
+ =?us-ascii?Q?5nDJhSV+3zxtDhP2rOQ9W3nWUZDVbTRwv1k9+iQnYR5QdkocK2dcmkH5TD5L?=
+ =?us-ascii?Q?zP1PAeZWBB3O2M0AjujgeKqFw1VlT0U6OvdbO1QfrXPnTGWrY1+4jQEuKxW1?=
+ =?us-ascii?Q?OU7ymEyF1/CTAEKQKAuA/1dx5/O/ccSIyMY6QMy+dGPCpb5RxJ288bxWw4xz?=
+ =?us-ascii?Q?3RKEc6MDHiEenCS2Ddl+7f+kSQ2mkjWxaDRNNMMdfvGyLCmbaaX3JpIqg5+o?=
+ =?us-ascii?Q?11Vx7m5pn97/EcijveA5vanp0SxX1CHTHlHq3POQnHmejQRltJFKPrj3fp6k?=
+ =?us-ascii?Q?d+wSa6JSeerMHYIAx1W1qdAJqIqQyVBWOxVsPk+73CDViLWWPcituVVIoyDb?=
+ =?us-ascii?Q?bGGpsF3Do7jMvrfIpoUXluwm6uVWoFYnOPDuquNe9FYrmSE6j4PryfwQfnRu?=
+ =?us-ascii?Q?LgCA8Eb0/SUVjgOL302oF0/15hcY7VEHrCg6BjZk2cEc+Ijw/Jti9dMZf53A?=
+ =?us-ascii?Q?v13dEGJSLV68QZxTWBndmJD4vGNGZu478ELBzfcw6CwJUoFpul8YOrlanF4o?=
+ =?us-ascii?Q?81M4ozy2MW65mvpvZoqKQbqsLcXUxvM+S1nF28Ur1mkWRsCmw57T8zn1vGFw?=
+ =?us-ascii?Q?EXAY14v5Gv3Xuetql+hCLphq4BxwhuTmJ8/2QySZSPhsJqEnit3yxBliB9/P?=
+ =?us-ascii?Q?NKLs7MzJ+p22ihQ9wNlisDtKAIe49TsO3nkIFJfsQUwusl2nd/WISAjzSXDB?=
+ =?us-ascii?Q?doqiYrHDGFhimKtaFNmgz81EA0bsQsj8OPRP4pjdJ4L85T97e2E4Q1fwZTJ6?=
+ =?us-ascii?Q?dTx8SvvYvnrS44T06J//nVPCKtBQ9K0xLjFmwPr5?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7ff50eff-d1c2-4838-fb51-08dc435dfdb7
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7484.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Mar 2024 13:03:35.1050
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: SLoV4ylCs3ySHdBSQ1RrqEjmtbQzNzgksplgUeSLZa/0rDRexmE5JT6qwpZVzgkkQsqtSV6qUJ7I8rcY9OslYA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB6562
+X-Proofpoint-ORIG-GUID: 6NAFJg2e0O1clVLPr-UMIEK1pJAv4Qgc
+X-Proofpoint-GUID: 6NAFJg2e0O1clVLPr-UMIEK1pJAv4Qgc
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-13_07,2024-03-12_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 phishscore=0
+ clxscore=1011 suspectscore=0 priorityscore=1501 bulkscore=0
+ impostorscore=0 lowpriorityscore=0 mlxlogscore=702 adultscore=0
+ spamscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2402120000 definitions=main-2403130097
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Mar 2024 07:09:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197035
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Mar 2024 13:03:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197039
 
-From: Wang Mingyu <wangmy@fujitsu.com>
-
-fix_issue_with_old_distro_glibc.patch
-fix_non_native_build_issue.patch
-refreshed for 8.6.14
-
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
- .../tcl/fix_issue_with_old_distro_glibc.patch | 28 +++++++++++--------
- .../tcl/fix_non_native_build_issue.patch      | 25 ++++++++++-------
- .../tcltk/{tcl_8.6.13.bb => tcl_8.6.14.bb}    |  2 +-
- 3 files changed, 33 insertions(+), 22 deletions(-)
- rename meta/recipes-devtools/tcltk/{tcl_8.6.13.bb => tcl_8.6.14.bb} (97%)
+ meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/tcltk/tcl/fix_issue_with_old_distro_glibc.patch b/meta/recipes-devtools/tcltk/tcl/fix_issue_with_old_distro_glibc.patch
-index 2c31cec8e3..f8acaf406f 100644
---- a/meta/recipes-devtools/tcltk/tcl/fix_issue_with_old_distro_glibc.patch
-+++ b/meta/recipes-devtools/tcltk/tcl/fix_issue_with_old_distro_glibc.patch
-@@ -14,12 +14,15 @@ Fixes tcl target recipe build on old distros which have glibc older than 2.14
+diff --git a/meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb b/meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb
+index 16c7a6007a..aa526e9e1c 100644
+--- a/meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb
++++ b/meta/recipes-extended/libtirpc/libtirpc_1.3.4.bb
+@@ -20,13 +20,11 @@ CVE_STATUS[CVE-2021-46828] = "fixed-version: fixed in 1.3.3rc1 so not present in
  
- Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
- 2012/04/26
-+---
-+ unix/Makefile.in | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ inherit autotools pkgconfig
  
--Index: unix/Makefile.in
--===================================================================
----- a/unix.orig/Makefile.in	2013-11-10 23:38:01.787425628 -0800
--+++ b/unix/Makefile.in	2013-11-10 23:37:59.807425578 -0800
--@@ -686,7 +686,7 @@
-+diff --git a/unix/Makefile.in b/unix/Makefile.in
-+index 7604959..c52cf2d 100644
-+--- a/unix/Makefile.in
-++++ b/unix/Makefile.in
-+@@ -792,7 +792,7 @@ topDirName:
-  # tcltest executable gets the build directory burned into its ld search path.
-  # This keeps tcltest from picking up an already installed version of the Tcl
-  # library.
-@@ -28,12 +31,15 @@ Index: unix/Makefile.in
-  		TCLLIBPATH="@abs_builddir@/pkgs" \
-  		TCL_LIBRARY="${TCL_BUILDTIME_LIBRARY}"
-  
--@@ -712,7 +712,7 @@
-+@@ -818,7 +818,7 @@ test-tcl: ${TCLTEST_EXE}
-  	$(SHELL_ENV) ${TCLTEST_EXE} $(TOP_DIR)/tests/all.tcl $(TESTFLAGS)
-  
-  gdb-test: ${TCLTEST_EXE}
---	@echo "set env @LD_LIBRARY_PATH_VAR@=`pwd`:$${@LD_LIBRARY_PATH_VAR@}" > gdb.run
--+	@echo "set env @LD_LIBRARY_PATH_VAR@=$${@LD_LIBRARY_PATH_VAR@}" > gdb.run
-- 	@echo "set env TCL_LIBRARY=${TCL_BUILDTIME_LIBRARY}" >> gdb.run
-- 	@echo "set args $(TOP_DIR)/tests/all.tcl $(TESTFLAGS) -singleproc 1" >> gdb.run
-- 	$(GDB) ${TCLTEST_EXE} --command=gdb.run
-+-	@printf '%s ' set env @LD_LIBRARY_PATH_VAR@=\"`pwd`$${@LD_LIBRARY_PATH_VAR@:+:$${@LD_LIBRARY_PATH_VAR}}\" > gdb.run
-++	@printf '%s ' set env @LD_LIBRARY_PATH_VAR@=\"$${@LD_LIBRARY_PATH_VAR@:+:$${@LD_LIBRARY_PATH_VAR}}\" > gdb.run
-+ 	@printf '\n' >>gdb.run
-+ 	@printf '%s ' set env TCL_LIBRARY=\'$(call shquotesingle,${TCL_BUILDTIME_LIBRARY})\' >> gdb.run
-+ 	@printf '\n' >>gdb.run
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-devtools/tcltk/tcl/fix_non_native_build_issue.patch b/meta/recipes-devtools/tcltk/tcl/fix_non_native_build_issue.patch
-index 6dbef7077f..931ea1e975 100644
---- a/meta/recipes-devtools/tcltk/tcl/fix_non_native_build_issue.patch
-+++ b/meta/recipes-devtools/tcltk/tcl/fix_non_native_build_issue.patch
-@@ -4,16 +4,15 @@ Date: Fri, 13 Aug 2010 12:24:00 -0700
- Subject: [PATCH] tcl: fix a build issue
- 
- Upstream-Status: Inappropriate [upstream does not support installed tests]
+-PACKAGECONFIG ??= ""
+-PACKAGECONFIG[gssapi] = "--enable-gssapi,--disable-gssapi,krb5"
 -
- ---
-- unix/Makefile.in | 20 ++++++++++----------
-- 1 file changed, 10 insertions(+), 10 deletions(-)
-+ unix/Makefile.in | 22 +++++++++++-----------
-+ 1 file changed, 11 insertions(+), 11 deletions(-)
- 
- diff --git a/unix/Makefile.in b/unix/Makefile.in
--index b110fe9..d7b35a8 100644
-+index 9dd053d..7604959 100644
- --- a/unix/Makefile.in
- +++ b/unix/Makefile.in
--@@ -814,23 +814,23 @@ tcltest-real:
-+@@ -815,7 +815,7 @@ tcltest-real:
-  test: test-tcl test-packages
-  
-  test-tcl: ${TCLTEST_EXE}
-@@ -21,9 +20,11 @@ index b110fe9..d7b35a8 100644
- +	$(SHELL_ENV) ${TCLTEST_EXE} $(TOP_DIR)/tests/all.tcl $(TESTFLAGS)
-  
-  gdb-test: ${TCLTEST_EXE}
-- 	@echo "set env @LD_LIBRARY_PATH_VAR@=`pwd`:$${@LD_LIBRARY_PATH_VAR@}" > gdb.run
-- 	@echo "set env TCL_LIBRARY=${TCL_BUILDTIME_LIBRARY}" >> gdb.run
-- 	@echo "set args $(TOP_DIR)/tests/all.tcl $(TESTFLAGS) -singleproc 1" >> gdb.run
-+ 	@printf '%s ' set env @LD_LIBRARY_PATH_VAR@=\"`pwd`$${@LD_LIBRARY_PATH_VAR@:+:$${@LD_LIBRARY_PATH_VAR}}\" > gdb.run
-+@@ -824,17 +824,17 @@ gdb-test: ${TCLTEST_EXE}
-+ 	@printf '\n' >>gdb.run
-+ 	@printf '%s ' set args $(call shquotequote,$(TOP_DIR))/tests/all.tcl\
-+ 		$(call shquotequote,$(TESTFLAGS)) -singleproc 1 >> gdb.run
- -	$(GDB) ./${TCLTEST_EXE} --command=gdb.run
- +	$(GDB) ${TCLTEST_EXE} --command=gdb.run
-  	rm gdb.run
-@@ -41,7 +42,7 @@ index b110fe9..d7b35a8 100644
-  
-  # The following target generates the shared libraries in dltest/ that are used
-  # for testing; they are included as part of the "tcltest" target (via the
--@@ -848,28 +848,28 @@ dltest.marker: ${STUB_LIB_FILE}
-+@@ -852,28 +852,28 @@ dltest.marker: ${STUB_LIB_FILE}
-  # This target can be used to run tclsh from the build directory
-  # via `make shell SCRIPT=/tmp/foo.tcl`
-  shell: ${TCL_EXE}
-@@ -54,7 +55,8 @@ index b110fe9..d7b35a8 100644
- +	$(SHELL_ENV) $(GDB) ${TCL_EXE}
-  
-  lldb: ${TCL_EXE}
-- 	$(SHELL_ENV) $(LLDB) ./${TCL_EXE}
-+-	$(SHELL_ENV) $(LLDB) ./${TCL_EXE}
-++	$(SHELL_ENV) $(LLDB) ${TCL_EXE}
-  
-  valgrind: ${TCL_EXE} ${TCLTEST_EXE}
- -	$(SHELL_ENV) $(VALGRIND) $(VALGRINDARGS) ./${TCLTEST_EXE} \
-@@ -76,3 +78,6 @@ index b110fe9..d7b35a8 100644
-  
-  #--------------------------------------------------------------------------
-  # Installation rules
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-devtools/tcltk/tcl_8.6.13.bb b/meta/recipes-devtools/tcltk/tcl_8.6.14.bb
-similarity index 97%
-rename from meta/recipes-devtools/tcltk/tcl_8.6.13.bb
-rename to meta/recipes-devtools/tcltk/tcl_8.6.14.bb
-index bb75353a5a..8fdccbaa90 100644
---- a/meta/recipes-devtools/tcltk/tcl_8.6.13.bb
-+++ b/meta/recipes-devtools/tcltk/tcl_8.6.14.bb
-@@ -25,7 +25,7 @@ SRC_URI = "${BASE_SRC_URI} \
-            file://interp.patch \
-            file://run-ptest \
+ PACKAGECONFIG ??= "\
+ 	${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} \
  "
--SRC_URI[sha256sum] = "c61f0d6699e2bc7691f119b41963aaa8dc980f23532c4e937739832a5f4a6642"
-+SRC_URI[sha256sum] = "ff604f43862a778827d7ecd1ad7686950ac2ef48d9cf69d3424cea9de08d9a72"
+ PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6"
++PACKAGECONFIG[gssapi] = "--enable-gssapi,--disable-gssapi,krb5"
  
- SRC_URI:class-native = "${BASE_SRC_URI}"
- 
+ do_install:append() {
+ 	test -e ${D}${sysconfdir}/netconfig && chown root:root ${D}${sysconfdir}/netconfig
 -- 
-2.34.1
+2.25.1
 
 
