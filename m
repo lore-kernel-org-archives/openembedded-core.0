@@ -2,57 +2,57 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AB0DC54E6E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8725FC54E68
 	for <webhook@archiver.kernel.org>; Wed, 13 Mar 2024 17:33:57 +0000 (UTC)
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
- by mx.groups.io with SMTP id smtpd.web11.2049.1710351231983902279
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web10.2097.1710351233318632377
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Mar 2024 10:33:52 -0700
+ Wed, 13 Mar 2024 10:33:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=OjYGFTBu;
- spf=pass (domain: gmail.com, ip: 209.85.167.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-513ccc70a6dso153153e87.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 Mar 2024 10:33:51 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=mDTeGj2G;
+ spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-413ef770149so565445e9.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 Mar 2024 10:33:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710351230; x=1710956030; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1710351232; x=1710956032; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZuJi8shGGAKb3St6/UV+DZCpd91/EifcbNEs2DIq5LM=;
-        b=OjYGFTBuWy+8e158YDcLBV/xvRUYcFikMi+bALbcL562fBPMMlkOW8DuRZju1mlfHF
-         8t3n2IIppBBAjb2GoVP9xtLtVnxAiBH+XvTtlnMFwiF8AJbMTPGUgmcmlsgAmi5BaWBM
-         tFYKg9l7KGLandZBP+Xm5Z6sPCxaFXLLlXUnMrma9QlbR0PNdc0wjtU4PeDiL4GfhV9M
-         aNmaX21SOIP8niRdhtjhxOMprrnU1NEG/zz1rAlAIuEXfrp8svxQPhmiuAT600/Mraro
-         oqVoueiO6BorvEAZoV7DsIZCQpxPEeJdm3mj0kyF/8tQb3xGBihiWI5iOyGaZN2lvr5J
-         XMrQ==
+        bh=EmZVNriWY6PrEjUAvLT2K1f7FKV4KQCEJOp5n9k6jW4=;
+        b=mDTeGj2G8/n4rqroF6a4O6MmqH0eALwmC1rrqFUnk8d8NTXgPmyF/MXyIgSs3w8w5X
+         6txQBu24hwiPjEeg6BPTs82HlaPhmC/VBzwbXmPXDLDYj8jjRShca5ACwK7Z/7/w4vrQ
+         7dHSHcMv26R8Rc6RY/rmy9RnT7He5xnE10p/YL5aBdJ6L1ugDcIfAI3+UeaSC3E4pzzq
+         qImxfLDgMdYNn8MHM7uotIOOzJX4WsCQGdk2LMUjgeo/wpXs6BP7ChjKxmF9kkV8hGZT
+         FASB5DV9CX4NegBDQfQPCGlj1FUOkCdkPqaoZPzopIaK9kNoaMXvtyyGlqEy2SNBhi40
+         6K4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710351230; x=1710956030;
+        d=1e100.net; s=20230601; t=1710351232; x=1710956032;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ZuJi8shGGAKb3St6/UV+DZCpd91/EifcbNEs2DIq5LM=;
-        b=K6jxmdnM6/0gMVFTKzFa+GgKDdHGBFwZoqFG8U03lehOqpSNHJuXqa2v0TSnoCjsQl
-         XrgOfpnIYQs03IMY5AqhaDqbkkFMJQ5suNCMnGEEutNIFLN9A5qgP9kklc1nOjRRv8qo
-         +M/JtiDRwSqVfktNR1C/dzfpgbnfb1yM+pqKMPx25FYrBSb3HF5OXwRzyqXE8jV51FJL
-         Oodn4g0wNLOiuDw/0XmD+eITQTugLYe3AU/W5M3AimonQiMA4WeVHPz67V4LxXNvUzi2
-         N9rMmF43+o//F/dJzzm3TDfKEwsop7tO51r2q6hL/aYLD8qhA8U4pnzQi47cjZcmGZV4
-         5aKg==
-X-Gm-Message-State: AOJu0Ywww2MnmQ/Nfb2dgefXixTUsblcvOK30GeJXaJq/apF+uPm3VYF
-	rCP9fby8lkA2bkHdvjzufPyaN/7w+K6Qn1tomUK41DJyQjqHAlyDX6EHE6j8
-X-Google-Smtp-Source: AGHT+IHim6G8JjQ2sw3l1zNBIY35DtuQEInxs/X12n8ozLvo2UFLg90CimlJjbOLjiy2QY3m+Q5m6A==
-X-Received: by 2002:a19:5219:0:b0:513:c813:a9f9 with SMTP id m25-20020a195219000000b00513c813a9f9mr1920927lfb.21.1710351230133;
-        Wed, 13 Mar 2024 10:33:50 -0700 (PDT)
+        bh=EmZVNriWY6PrEjUAvLT2K1f7FKV4KQCEJOp5n9k6jW4=;
+        b=QUV/sGJjLInnBJnSztUPkwS/G4pY3LziqR6hFOLW8CvhcOjE9Evi6QwHisdq+MrJGp
+         sZ3bXjZ0I6se0qiJ6luJnEPLX7s62qevWqlDArlUHEk0bllR//+NZ7ftEuKK1MDt2JCY
+         MlVRsgTQkomM2uREUyfnkE01t92xs5/LTLNgvO5qr+prFMG6PsM/Vos/Wbh4/Guwi8Ec
+         t/IPtOwv+rqO7Q/L+Dthzlej7XJd11QktkAhP0z0Gg1/s3c4YETYj7V2Jlub6CXAgNka
+         wj95AsFfvyCG2fkBsWmf7WIKBVDpc/lZlg51kfYvQzqAEiWPgcs8zeCLLk9mGwQilS71
+         rviw==
+X-Gm-Message-State: AOJu0YwAMyEq+vL1ifOzEo/CuteyLCG/7txIvt5ogUCUUkSzcIq8Me5o
+	QH4zEzHdQgXs7CwAnHvl31BN0HroQpSFns6bxPlNuZTCco0A6Migtfxh5tRg
+X-Google-Smtp-Source: AGHT+IHmqSoo24kLij0dlwmaZ8yRBfYad6c0VO0A0f3gtfbMGwnrf9sqgvsGhmJ6GpJnWJhBdLTbhQ==
+X-Received: by 2002:a05:600c:470f:b0:412:e3aa:8f69 with SMTP id v15-20020a05600c470f00b00412e3aa8f69mr499864wmo.30.1710351231708;
+        Wed, 13 Mar 2024 10:33:51 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id l5-20020a05600c1d0500b00412ea52b102sm2989710wms.34.2024.03.13.10.33.49
+        by smtp.gmail.com with ESMTPSA id l5-20020a05600c1d0500b00412ea52b102sm2989710wms.34.2024.03.13.10.33.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Mar 2024 10:33:49 -0700 (PDT)
+        Wed, 13 Mar 2024 10:33:51 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 X-Google-Original-From: Alexander Kanavin <alex@linutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 17/21] shadow: update 4.14.2 -> 4.15.0
-Date: Wed, 13 Mar 2024 18:33:32 +0100
-Message-Id: <20240313173336.3900178-17-alex@linutronix.de>
+Subject: [PATCH 20/21] waffle: update 1.7.2 -> 1.8.0
+Date: Wed, 13 Mar 2024 18:33:35 +0100
+Message-Id: <20240313173336.3900178-20-alex@linutronix.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240313173336.3900178-1-alex@linutronix.de>
 References: <20240313173336.3900178-1-alex@linutronix.de>
@@ -62,218 +62,110 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 13 Mar 2024 17:33:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197069
-
-libcrack support was dropped.
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197072
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...nexpected-open-failure-in-chroot-env.patch |  9 +--
- .../shadow/files/shadow-update-pam-conf.patch | 79 ++++++++++++-------
- meta/recipes-extended/shadow/shadow.inc       |  4 +-
- .../{shadow_4.14.2.bb => shadow_4.15.0.bb}    |  0
- 4 files changed, 57 insertions(+), 35 deletions(-)
- rename meta/recipes-extended/shadow/{shadow_4.14.2.bb => shadow_4.15.0.bb} (100%)
+ ...build-request-native-wayland-scanner.patch | 28 -------------------
+ ...-make-core-protocol-into-the-library.patch |  9 +++---
+ .../{waffle_1.7.2.bb => waffle_1.8.0.bb}      |  5 ++--
+ 3 files changed, 6 insertions(+), 36 deletions(-)
+ delete mode 100644 meta/recipes-graphics/waffle/waffle/0001-meson.build-request-native-wayland-scanner.patch
+ rename meta/recipes-graphics/waffle/{waffle_1.7.2.bb => waffle_1.8.0.bb} (93%)
 
-diff --git a/meta/recipes-extended/shadow/files/commonio.c-fix-unexpected-open-failure-in-chroot-env.patch b/meta/recipes-extended/shadow/files/commonio.c-fix-unexpected-open-failure-in-chroot-env.patch
-index 4a932d2dbb1..cd99aad135c 100644
---- a/meta/recipes-extended/shadow/files/commonio.c-fix-unexpected-open-failure-in-chroot-env.patch
-+++ b/meta/recipes-extended/shadow/files/commonio.c-fix-unexpected-open-failure-in-chroot-env.patch
-@@ -1,4 +1,4 @@
--From a773c6b240d27e23d6be41decef0edf24fcee523 Mon Sep 17 00:00:00 2001
-+From f512071dd3a4c29d4bf048c5a89c4ba9160e37b1 Mon Sep 17 00:00:00 2001
- From: Chen Qi <Qi.Chen@windriver.com>
- Date: Thu, 17 Jul 2014 15:53:34 +0800
- Subject: [PATCH] commonio.c-fix-unexpected-open-failure-in-chroot-env
-@@ -20,10 +20,10 @@ Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-  1 file changed, 12 insertions(+), 4 deletions(-)
- 
- diff --git a/lib/commonio.c b/lib/commonio.c
--index 73fdb3a..d1231e9 100644
-+index 01a26c9..82b2868 100644
- --- a/lib/commonio.c
- +++ b/lib/commonio.c
--@@ -606,10 +606,18 @@ int commonio_open (struct commonio_db *db, int mode)
-+@@ -601,10 +601,18 @@ int commonio_open (struct commonio_db *db, int mode)
-  	db->cursor = NULL;
-  	db->changed = false;
-  
-@@ -46,6 +46,3 @@ index 73fdb3a..d1231e9 100644
-  	db->fp = NULL;
-  	if (fd >= 0) {
-  #ifdef WITH_TCB
---- 
--2.30.2
+diff --git a/meta/recipes-graphics/waffle/waffle/0001-meson.build-request-native-wayland-scanner.patch b/meta/recipes-graphics/waffle/waffle/0001-meson.build-request-native-wayland-scanner.patch
+deleted file mode 100644
+index 4b3a0e7c4a9..00000000000
+--- a/meta/recipes-graphics/waffle/waffle/0001-meson.build-request-native-wayland-scanner.patch
++++ /dev/null
+@@ -1,28 +0,0 @@
+-From 0961787d2bf0d359a3ead89e9cec642818b32dea Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex@linutronix.de>
+-Date: Tue, 5 Jul 2022 11:51:39 +0200
+-Subject: [PATCH] meson.build: request native wayland-scanner
 -
-diff --git a/meta/recipes-extended/shadow/files/shadow-update-pam-conf.patch b/meta/recipes-extended/shadow/files/shadow-update-pam-conf.patch
-index 3b61b75e5bb..1eacb8a53fe 100644
---- a/meta/recipes-extended/shadow/files/shadow-update-pam-conf.patch
-+++ b/meta/recipes-extended/shadow/files/shadow-update-pam-conf.patch
-@@ -1,3 +1,8 @@
-+From 38882ab288fd4d2cc2e45dff222ae3412c8fe357 Mon Sep 17 00:00:00 2001
-+From: Kang Kai <kai.kang@windriver.com>
-+Date: Wed, 20 Jul 2011 19:18:14 +0800
-+Subject: [PATCH] shadow: update pam related configure files
-+
- The system-auth in the configure files is from Fedora which put all the 4 pam type rules
- in one file.
- In yocto it obey the way with Debian/Ubuntu, and the names are common-auth, common-account,
-@@ -9,82 +14,102 @@ See meta/recipes-extended/pam/libpam/pam.d/common-password
+-This matters in cross compilation, as otherwise meson will
+-try to use a cross-binary, and fail.
+-
+-Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/waffle/-/merge_requests/110]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+-
+----
+- meson.build | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/meson.build b/meson.build
+-index ca6a212..3177bde 100644
+---- a/meson.build
+-+++ b/meson.build
+-@@ -110,7 +110,7 @@ else
+-     'wayland-egl', version : '>= 9.1', required : get_option('wayland'),
+-   )
+-   dep_wayland_scanner = dependency(
+--    'wayland-scanner', version : '>= 1.15', required : get_option('wayland'),
+-+    'wayland-scanner', version : '>= 1.15', required : get_option('wayland'), native: true,
+-   )
+-   if dep_wayland_scanner.found()
+-     prog_wayland_scanner = find_program(dep_wayland_scanner.get_variable(pkgconfig: 'wayland_scanner'))
+diff --git a/meta/recipes-graphics/waffle/waffle/0001-waffle-do-not-make-core-protocol-into-the-library.patch b/meta/recipes-graphics/waffle/waffle/0001-waffle-do-not-make-core-protocol-into-the-library.patch
+index 60e6318f7a4..31ac3e0dd19 100644
+--- a/meta/recipes-graphics/waffle/waffle/0001-waffle-do-not-make-core-protocol-into-the-library.patch
++++ b/meta/recipes-graphics/waffle/waffle/0001-waffle-do-not-make-core-protocol-into-the-library.patch
+@@ -1,4 +1,4 @@
+-From 71f9399d6cea1e2e885a98b98d82eb628832a86e Mon Sep 17 00:00:00 2001
++From 79b9e4338f803d79449e53a40b1ecc0a5a5889e4 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Tue, 26 Oct 2021 08:52:17 +0200
+ Subject: [PATCH] waffle: do not make core protocol into the library
+@@ -9,16 +9,15 @@ wayland.xml from the host.
+ 
  Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+-
+ ---
+  src/waffle/meson.build | 7 -------
+  1 file changed, 7 deletions(-)
  
- Signed-off-by: Kang Kai <kai.kang@windriver.com>
-+---
-+ etc/pam.d/chage     | 2 +-
-+ etc/pam.d/chgpasswd | 2 +-
-+ etc/pam.d/groupadd  | 2 +-
-+ etc/pam.d/groupdel  | 2 +-
-+ etc/pam.d/groupmems | 2 +-
-+ etc/pam.d/groupmod  | 2 +-
-+ etc/pam.d/useradd   | 2 +-
-+ etc/pam.d/userdel   | 2 +-
-+ etc/pam.d/usermod   | 2 +-
-+ 9 files changed, 9 insertions(+), 9 deletions(-)
+ diff --git a/src/waffle/meson.build b/src/waffle/meson.build
+-index e2636c7..3ff5762 100644
++index 1cc99f6..022745a 100644
+ --- a/src/waffle/meson.build
+ +++ b/src/waffle/meson.build
+-@@ -88,12 +88,6 @@ if build_surfaceless
++@@ -89,12 +89,6 @@ if build_surfaceless
+  endif
+  
+  if build_wayland
+@@ -31,7 +30,7 @@ index e2636c7..3ff5762 100644
+    wl_xdg_shell_proto_c = custom_target(
+      'wl-xdg-shell-proto.c',
+      input: wayland_xdg_shell_xml,
+-@@ -114,7 +108,6 @@ if build_wayland
++@@ -115,7 +109,6 @@ if build_wayland
+      'wayland/wayland_wrapper.c',
+    )
+    files_libwaffle += [
+diff --git a/meta/recipes-graphics/waffle/waffle_1.7.2.bb b/meta/recipes-graphics/waffle/waffle_1.8.0.bb
+similarity index 93%
+rename from meta/recipes-graphics/waffle/waffle_1.7.2.bb
+rename to meta/recipes-graphics/waffle/waffle_1.8.0.bb
+index cb917d88943..12b31dcff1c 100644
+--- a/meta/recipes-graphics/waffle/waffle_1.7.2.bb
++++ b/meta/recipes-graphics/waffle/waffle_1.8.0.bb
+@@ -9,11 +9,10 @@ LICENSE = "BSD-2-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=4c5154407c2490750dd461c50ad94797 \
+                     file://include/waffle-1/waffle.h;endline=24;md5=61dbf8697f61c78645e75a93c585b1bf"
  
--diff -Nur shadow-4.1.4.3/etc/pam.d.orig/chage shadow-4.1.4.3/etc/pam.d/chage
----- shadow-4.1.4.3/etc/pam.d.orig/chage	2011-07-20 19:02:27.384844958 +0800
--+++ shadow-4.1.4.3/etc/pam.d/chage	2011-07-20 19:03:08.964844958 +0800
-+diff --git a/etc/pam.d/chage b/etc/pam.d/chage
-+index 8f49f5c..b1f365d 100644
-+--- a/etc/pam.d/chage
-++++ b/etc/pam.d/chage
- @@ -1,4 +1,4 @@
-  #%PAM-1.0
-  auth		sufficient	pam_rootok.so
-  account		required	pam_permit.so
- -password	include		system-auth
- +password	include		common-password
--diff -Nur shadow-4.1.4.3/etc/pam.d.orig/chgpasswd shadow-4.1.4.3/etc/pam.d/chgpasswd
----- shadow-4.1.4.3/etc/pam.d.orig/chgpasswd	2011-07-20 19:02:27.384844958 +0800
--+++ shadow-4.1.4.3/etc/pam.d/chgpasswd	2011-07-20 19:03:26.544844958 +0800
-+diff --git a/etc/pam.d/chgpasswd b/etc/pam.d/chgpasswd
-+index 8f49f5c..b1f365d 100644
-+--- a/etc/pam.d/chgpasswd
-++++ b/etc/pam.d/chgpasswd
- @@ -1,4 +1,4 @@
-  #%PAM-1.0
-  auth		sufficient	pam_rootok.so
-  account		required	pam_permit.so
- -password	include		system-auth
- +password	include		common-password
--diff -Nur shadow-4.1.4.3/etc/pam.d.orig/groupadd shadow-4.1.4.3/etc/pam.d/groupadd
----- shadow-4.1.4.3/etc/pam.d.orig/groupadd	2011-07-20 19:02:27.384844958 +0800
--+++ shadow-4.1.4.3/etc/pam.d/groupadd	2011-07-20 19:04:08.124844958 +0800
-+diff --git a/etc/pam.d/groupadd b/etc/pam.d/groupadd
-+index 8f49f5c..b1f365d 100644
-+--- a/etc/pam.d/groupadd
-++++ b/etc/pam.d/groupadd
- @@ -1,4 +1,4 @@
-  #%PAM-1.0
-  auth		sufficient	pam_rootok.so
-  account		required	pam_permit.so
- -password	include		system-auth
- +password	include		common-password
--diff -Nur shadow-4.1.4.3/etc/pam.d.orig/groupdel shadow-4.1.4.3/etc/pam.d/groupdel
----- shadow-4.1.4.3/etc/pam.d.orig/groupdel	2011-07-20 19:02:27.384844958 +0800
--+++ shadow-4.1.4.3/etc/pam.d/groupdel	2011-07-20 19:04:26.114844958 +0800
-+diff --git a/etc/pam.d/groupdel b/etc/pam.d/groupdel
-+index 8f49f5c..b1f365d 100644
-+--- a/etc/pam.d/groupdel
-++++ b/etc/pam.d/groupdel
- @@ -1,4 +1,4 @@
-  #%PAM-1.0
-  auth		sufficient	pam_rootok.so
-  account		required	pam_permit.so
- -password	include		system-auth
- +password	include		common-password
--diff -Nur shadow-4.1.4.3/etc/pam.d.orig/groupmems shadow-4.1.4.3/etc/pam.d/groupmems
----- shadow-4.1.4.3/etc/pam.d.orig/groupmems	2011-07-20 19:02:27.384844958 +0800
--+++ shadow-4.1.4.3/etc/pam.d/groupmems	2011-07-20 19:04:35.074844958 +0800
-+diff --git a/etc/pam.d/groupmems b/etc/pam.d/groupmems
-+index 8f49f5c..b1f365d 100644
-+--- a/etc/pam.d/groupmems
-++++ b/etc/pam.d/groupmems
- @@ -1,4 +1,4 @@
-  #%PAM-1.0
-  auth		sufficient	pam_rootok.so
-  account		required	pam_permit.so
- -password	include		system-auth
- +password	include		common-password
--diff -Nur shadow-4.1.4.3/etc/pam.d.orig/groupmod shadow-4.1.4.3/etc/pam.d/groupmod
----- shadow-4.1.4.3/etc/pam.d.orig/groupmod	2011-07-20 19:02:27.384844958 +0800
--+++ shadow-4.1.4.3/etc/pam.d/groupmod	2011-07-20 19:04:44.864844958 +0800
-+diff --git a/etc/pam.d/groupmod b/etc/pam.d/groupmod
-+index 8f49f5c..b1f365d 100644
-+--- a/etc/pam.d/groupmod
-++++ b/etc/pam.d/groupmod
- @@ -1,4 +1,4 @@
-  #%PAM-1.0
-  auth		sufficient	pam_rootok.so
-  account		required	pam_permit.so
- -password	include		system-auth
- +password	include		common-password
--diff -Nur shadow-4.1.4.3/etc/pam.d.orig/useradd shadow-4.1.4.3/etc/pam.d/useradd
----- shadow-4.1.4.3/etc/pam.d.orig/useradd	2011-07-20 19:02:27.384844958 +0800
--+++ shadow-4.1.4.3/etc/pam.d/useradd	2011-07-20 19:07:26.244844958 +0800
-+diff --git a/etc/pam.d/useradd b/etc/pam.d/useradd
-+index 8f49f5c..b1f365d 100644
-+--- a/etc/pam.d/useradd
-++++ b/etc/pam.d/useradd
- @@ -1,4 +1,4 @@
-  #%PAM-1.0
-  auth		sufficient	pam_rootok.so
-  account		required	pam_permit.so
- -password	include		system-auth
- +password	include		common-password
--diff -Nur shadow-4.1.4.3/etc/pam.d.orig/userdel shadow-4.1.4.3/etc/pam.d/userdel
----- shadow-4.1.4.3/etc/pam.d.orig/userdel	2011-07-20 19:02:27.384844958 +0800
--+++ shadow-4.1.4.3/etc/pam.d/userdel	2011-07-20 19:07:35.734844958 +0800
-+diff --git a/etc/pam.d/userdel b/etc/pam.d/userdel
-+index 8f49f5c..b1f365d 100644
-+--- a/etc/pam.d/userdel
-++++ b/etc/pam.d/userdel
- @@ -1,4 +1,4 @@
-  #%PAM-1.0
-  auth		sufficient	pam_rootok.so
-  account		required	pam_permit.so
- -password	include		system-auth
- +password	include		common-password
--diff -Nur shadow-4.1.4.3/etc/pam.d.orig/usermod shadow-4.1.4.3/etc/pam.d/usermod
----- shadow-4.1.4.3/etc/pam.d.orig/usermod	2011-07-20 19:02:27.384844958 +0800
--+++ shadow-4.1.4.3/etc/pam.d/usermod	2011-07-20 19:07:42.024844958 +0800
-+diff --git a/etc/pam.d/usermod b/etc/pam.d/usermod
-+index 8f49f5c..b1f365d 100644
-+--- a/etc/pam.d/usermod
-++++ b/etc/pam.d/usermod
- @@ -1,4 +1,4 @@
-  #%PAM-1.0
-  auth		sufficient	pam_rootok.so
-diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
-index 16b99a0b60e..c4769f3f535 100644
---- a/meta/recipes-extended/shadow/shadow.inc
-+++ b/meta/recipes-extended/shadow/shadow.inc
-@@ -24,7 +24,7 @@ SRC_URI:append:class-target = " \
- SRC_URI:append:class-native = " \
-            file://commonio.c-fix-unexpected-open-failure-in-chroot-env.patch \
+-SRC_URI = "git://gitlab.freedesktop.org/mesa/waffle.git;protocol=https;branch=maint-1.7 \
++SRC_URI = "git://gitlab.freedesktop.org/mesa/waffle.git;protocol=https;branch=master \
+            file://0001-waffle-do-not-make-core-protocol-into-the-library.patch \
+-           file://0001-meson.build-request-native-wayland-scanner.patch \
             "
--SRC_URI[sha256sum] = "a305edf5d19bddbdf5e836d2d609fa8bff2d35458819de4d9f06306a1cf24342"
-+SRC_URI[sha256sum] = "377fe0d7c1a0aa5e3514c08fdf5ddc70c9dcbb391678c2134445ed97326bcc26"
+-SRCREV = "f3b42a7216105498842bc6ba77d8481b90d6f5f9"
++SRCREV = "580b912a30085528886603942c100c7b309b3bdb"
+ S = "${WORKDIR}/git"
  
- # Additional Policy files for PAM
- PAM_SRC_URI = "file://pam.d/chfn \
-@@ -39,7 +39,7 @@ inherit autotools gettext github-releases pkgconfig
- 
- export CONFIG_SHELL="/bin/sh"
- 
--EXTRA_OECONF += "--without-libcrack \
-+EXTRA_OECONF += " \
-                  --with-group-name-max-length=24 \
-                  --enable-subordinate-ids=yes \
-                  --without-sssd \
-diff --git a/meta/recipes-extended/shadow/shadow_4.14.2.bb b/meta/recipes-extended/shadow/shadow_4.15.0.bb
-similarity index 100%
-rename from meta/recipes-extended/shadow/shadow_4.14.2.bb
-rename to meta/recipes-extended/shadow/shadow_4.15.0.bb
+ inherit meson features_check lib_package bash-completion pkgconfig
 -- 
 2.39.2
 
