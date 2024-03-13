@@ -1,152 +1,145 @@
-Return-Path: <asharma@mvista.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B104AC54E60
-	for <webhook@archiver.kernel.org>; Wed, 13 Mar 2024 20:03:58 +0000 (UTC)
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
- by mx.groups.io with SMTP id smtpd.web10.5937.1710360234550216520
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4605C54E66
+	for <webhook@archiver.kernel.org>; Wed, 13 Mar 2024 20:05:08 +0000 (UTC)
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+ by mx.groups.io with SMTP id smtpd.web10.5964.1710360306364655034
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Mar 2024 13:03:54 -0700
+ Wed, 13 Mar 2024 13:05:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=X/v3E5SF;
- spf=pass (domain: mvista.com, ip: 209.85.210.171, mailfrom: asharma@mvista.com)
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-6e6b54a28ebso308143b3a.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 Mar 2024 13:03:54 -0700 (PDT)
+ dkim=pass header.i=@smile-fr.20230601.gappssmtp.com header.s=20230601 header.b=17w1LcXz;
+ spf=pass (domain: smile.fr, ip: 209.85.208.44, mailfrom: yoann.congal@smile.fr)
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5689d96ba1cso58759a12.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 Mar 2024 13:05:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1710360234; x=1710965034; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=f8B+LJ/tUU0St7+/ULxNnUZIHBMoeVePFizzadpEdHQ=;
-        b=X/v3E5SFZRZ72KYfxcVPFelpInUR4+YzB6tQ5FN0Qq0M5ISE04dn3cShv6KW00XM9g
-         yCnlhaV/PzDlRpFfXvjT8u69GJFCT37nvcdoysbgilQQbiAnpEd7jSpbD6U9pMOhUbna
-         g7CO2dJY0dd6YryYWcsn0bQgwBvdrooGsq3oE=
+        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1710360305; x=1710965105; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=a6wl6J0ApJlOt57sQ8EGKgRyPWKGc1trSNB5TrhEVmE=;
+        b=17w1LcXzO4q2HeMpa14sGESGWRWHfwfOk6MfN7LeElDwUfcf+D1ZHFEf9sIy0Q8eNK
+         iTi052sopwSY451bp77rE4JuF/sq8HQRle4IxCPrFsruiwTkYmfz4H54p2aaI5Ba1DxL
+         YGam1IXgFTuE1EMSF69vl+4Wf/y2McwWqAL/SZQjuy5tfPfJ6Ct8Ih2J7rofkVy+yDOw
+         ymsb9HLa0zL83EZk+msWq1W3UVt/ha/vnQvMrHBgQ4CDXLCHhP15lAGt9KOh7FbwspWu
+         C3gTvbtq3dvN6qk1uaaRQqW6ZHykzo06Ia7ZE2aKKNFNmB8f1x/N7+xaIYIkWP6BtCBS
+         ipLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710360234; x=1710965034;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1710360305; x=1710965105;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=f8B+LJ/tUU0St7+/ULxNnUZIHBMoeVePFizzadpEdHQ=;
-        b=p9BeeGPIa1mHOCeMNoxVxbX8RXeYXH7qXX4fDdhQHbysC2BGe7Krm9CfRdPuT6EUOK
-         BpFukdxvolOFBR3GTg3zeZQPUGk66n9lPRUXZD+LEXc9YQy8VHDlhGIvIKgZUaFkV1dt
-         K2u9smTAPJIikVaNwDH8+7OdCYJdrVMrARHoUId95/eGVhY81QQs0IDqL3OQ+XBpOv/O
-         /yKJs6a9qjMnBLdIn8IFb8z1l0IYVh9hqt5RueDv5k04c97k4euMguk9X9JmddCJE1xr
-         MeWl8uwWAprq7S0P/BiT83Bhl95phf0gc/neHQB5iuPwewH8WB7Vx0mnLcC2ir8CdvBk
-         51rA==
-X-Gm-Message-State: AOJu0YwpQmoil2NDRbAphGSdFaY5NOl5HvmY9nY9aBelHC9zHngVaj95
-	FaNNdcknTjJl/6MbwtaPYMrtlfcw5mCP5DPXKcollAEmLo8PSIY1hSp12rLInJQ5F40EIURCZGY
-	2
-X-Google-Smtp-Source: AGHT+IGUEGuhtEu7wTc35HB86B8Ejkok7Fo1ljMdGWuJr6KIaaCTE+f/lq1sANEn7qSgApmTqqhpOg==
-X-Received: by 2002:a05:6a20:3956:b0:1a3:2fe9:ad74 with SMTP id r22-20020a056a20395600b001a32fe9ad74mr3895584pzg.44.1710360233573;
-        Wed, 13 Mar 2024 13:03:53 -0700 (PDT)
-Received: from asharma-Latitude-3400 ([2401:4900:1c68:a50b:4d97:8f6c:b736:c749])
-        by smtp.gmail.com with ESMTPSA id h23-20020a635317000000b005dc9439c56bsm28341pgb.13.2024.03.13.13.03.50
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 13 Mar 2024 13:03:53 -0700 (PDT)
-Received: by asharma-Latitude-3400 (sSMTP sendmail emulation); Thu, 14 Mar 2024 01:33:47 +0530
-From: Ashish Sharma <asharma@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Ashish Sharma <asharma@mvista.com>
-Subject: [OE-core][dunfell][PATCH] expat: Backport fix for CVE-2024-28757
-Date: Thu, 14 Mar 2024 01:33:43 +0530
-Message-Id: <20240313200343.15817-1-asharma@mvista.com>
-X-Mailer: git-send-email 2.24.4
+        bh=a6wl6J0ApJlOt57sQ8EGKgRyPWKGc1trSNB5TrhEVmE=;
+        b=bnVEuQXsdvRtwNHwW8GfXVEJgNvsnNYpb/FQ5g0T6NPDDstyHdR68EvxS/3kIRNdDE
+         lKQgRXPRqPapFthNzSvZSzt8rMpRhexJgEY/pJLmgnDsNOw/3JkN324m4NLKrxt06P9O
+         58RBIhIZ6tub9Y/xKsyLdvGN5jwPtKB4ySMZephxq+hyEjzuiafwRSPi2+bSCAsJ0yzX
+         GWXBIowNcPKtOeinAJkgrh/81IPQ2Kby0rUlZZ/11CFCBIPqFnwYSpLG+t6BlTfxh3+R
+         huGJwBntKJIQzFvtcjSEZLLe+F8HHKwmrPXOq6dYgfXPnxYsq83FvakPdzg0znvWLCzl
+         CrRQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWK6pujOY/z4aEkMzyxVAYNC/8jpFb3ZUbQr3xjy/jHnIA61QY5u5XhBwF40kHgNIxVaflU++8BWW/vXA2O17j8NjI2uit8Pr/Lvx7kmKFijD3TzgeBR5Hg
+X-Gm-Message-State: AOJu0YwFoY0CJrtTeblPS4JjbgxqA9TnDLWCAw997H+v1G3pqynjNVsq
+	b92CwjgQHbI328eZJsxS4oz5MrNI8KEEPN5kAn7tjQpKwipnhyw/HINspeWpk8cAJ3031UVBWUk
+	06uhxiCyU3s/43E81tfrFj8gRvtmAhQKvK0SgjQ==
+X-Google-Smtp-Source: AGHT+IF1FlWARZ+pSW5Xh5MPr3Twg+uDoe+1EMnoFY5cqcA71y/oKVgawBctNiwVp25KxIYjXhqS9fwsWZveAynTOaI=
+X-Received: by 2002:a17:906:99cf:b0:a46:511c:ffcb with SMTP id
+ s15-20020a17090699cf00b00a46511cffcbmr2831052ejn.38.1710360304662; Wed, 13
+ Mar 2024 13:05:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAK5yBb-rUZzdqbXD4yoHiF5V-L2sOg1DVWMEsDGXWk36F2cexQ@mail.gmail.com>
+In-Reply-To: <CAK5yBb-rUZzdqbXD4yoHiF5V-L2sOg1DVWMEsDGXWk36F2cexQ@mail.gmail.com>
+From: Yoann CONGAL <yoann.congal@smile.fr>
+Date: Wed, 13 Mar 2024 21:04:38 +0100
+Message-ID: <CAMSfU+5fTNCyTSRMkN=L4UQ83eOSBtfBXHUUhmMtUd9KEgjJYA@mail.gmail.com>
+Subject: Re: [OE-core] Yocto Project Status 12 March 2024 (WW11)
+To: Stephen Jolley <sjolley.yp.pm@gmail.com>
+Cc: Yocto-mailing-list <yocto@lists.yoctoproject.org>, 
+	",openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000065dc680613904a37"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Mar 2024 20:03:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197079
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Mar 2024 20:05:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197080
 
-Upstream ref:
-https://github.com/libexpat/libexpat/pull/842
-https://github.com/libexpat/libexpat/issues/839
+--00000000000065dc680613904a37
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/072eca0b72373da103ce15f8f62d1d7b52695454]
-Signed-off-by: Ashish Sharma <asharma@mvista.com>
----
- .../expat/expat/CVE-2024-28757.patch          | 57 +++++++++++++++++++
- meta/recipes-core/expat/expat_2.2.9.bb        |  1 +
- 2 files changed, 58 insertions(+)
- create mode 100644 meta/recipes-core/expat/expat/CVE-2024-28757.patch
+Hi,
 
-diff --git a/meta/recipes-core/expat/expat/CVE-2024-28757.patch b/meta/recipes-core/expat/expat/CVE-2024-28757.patch
-new file mode 100644
-index 0000000000..c4bdb4621a
---- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2024-28757.patch
-@@ -0,0 +1,57 @@
-+From 1d50b80cf31de87750103656f6eb693746854aa8 Mon Sep 17 00:00:00 2001
-+From: Sebastian Pipping <sebastian@pipping.org>
-+Date: Mon, 4 Mar 2024 23:49:06 +0100
-+Subject: [PATCH] lib/xmlparse.c: Detect billion laughs attack with isolated
-+ external parser
-+
-+When parsing DTD content with code like ..
-+
-+  XML_Parser parser = XML_ParserCreate(NULL);
-+  XML_Parser ext_parser = XML_ExternalEntityParserCreate(parser, NULL, NULL);
-+  enum XML_Status status = XML_Parse(ext_parser, doc, (int)strlen(doc), XML_TRUE);
-+
-+.. there are 0 bytes accounted as direct input and all input from `doc` accounted
-+as indirect input.  Now function accountingGetCurrentAmplification cannot calculate
-+the current amplification ratio as "(direct + indirect) / direct", and it did refuse
-+to divide by 0 as one would expect, but it returned 1.0 for this case to indicate
-+no amplification over direct input.  As a result, billion laughs attacks from
-+DTD-only input were not detected with this isolated way of using an external parser.
-+
-+The new approach is to assume direct input of length not 0 but 22 -- derived from
-+ghost input "<!ENTITY a SYSTEM 'b'>", the shortest possible way to include an external
-+DTD --, and do the usual "(direct + indirect) / direct" math with "direct := 22".
-+
-+GitHub issue #839 has more details on this issue and its origin in ClusterFuzz
-+finding 66812.
-+---
-+CVE: CVE-2024-28757
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/072eca0b72373da103ce15f8f62d1d7b52695454]
-+Signed-off-by: Ashish Sharma <asharma@mvista.com>
-+---
-+ expat/lib/xmlparse.c | 6 +++++-
-+ 1 file changed, 5 insertions(+), 1 deletion(-)
-+
-+diff --git a/expat/lib/xmlparse.c b/expat/lib/xmlparse.c
-+index b884d82b5..d44baa68d 100644
-+--- a/expat/lib/xmlparse.c
-++++ b/expat/lib/xmlparse.c
-+@@ -7787,6 +7787,8 @@ copyString(const XML_Char *s, const XML_Memory_Handling_Suite *memsuite) {
-+ 
-+ static float
-+ accountingGetCurrentAmplification(XML_Parser rootParser) {
-++  //                                          1.........1.........12 => 22
-++  const size_t lenOfShortestInclude = sizeof("<!ENTITY a SYSTEM 'b'>") - 1;
-+   const XmlBigCount countBytesOutput
-+       = rootParser->m_accounting.countBytesDirect
-+         + rootParser->m_accounting.countBytesIndirect;
-+@@ -7794,7 +7796,9 @@ accountingGetCurrentAmplification(XML_Parser rootParser) {
-+       = rootParser->m_accounting.countBytesDirect
-+             ? (countBytesOutput
-+                / (float)(rootParser->m_accounting.countBytesDirect))
-+-            : 1.0f;
-++            : ((lenOfShortestInclude
-++                + rootParser->m_accounting.countBytesIndirect)
-++               / (float)lenOfShortestInclude);
-+   assert(! rootParser->m_parentParser);
-+   return amplificationFactor;
-+ }
-diff --git a/meta/recipes-core/expat/expat_2.2.9.bb b/meta/recipes-core/expat/expat_2.2.9.bb
-index 8a5006e59a..ea50533ed9 100644
---- a/meta/recipes-core/expat/expat_2.2.9.bb
-+++ b/meta/recipes-core/expat/expat_2.2.9.bb
-@@ -22,6 +22,7 @@ SRC_URI = "git://github.com/libexpat/libexpat.git;protocol=https;branch=master \
-            file://libtool-tag.patch \
-            file://CVE-2022-40674.patch \
-            file://CVE-2022-43680.patch \
-+           file://CVE-2024-28757.patch \
-          "
- 
- SRCREV = "a7bc26b69768f7fb24f0c7976fae24b157b85b13"
--- 
-2.24.4
+Le mar. 12 mars 2024 =C3=A0 15:45, Stephen Jolley <sjolley.yp.pm@gmail.com>=
+ a
+=C3=A9crit :
 
+>
+>    -
+>
+>    The previously reported CVE database update issue on the autobuilder
+>    has not been addressed yet. This is causing higher numbers of CVEs to =
+be
+>    reported on the autobuilder generated charts.
+>
+> Here's my proposal to fix this :
+
+   - [PATCH 2/2] cve-update-nvd2-native: Add an age threshold for
+   incremental update
+   https://lists.openembedded.org/g/openembedded-core/message/197046
+   - [yocto-autobuilder2][PATCH] schedulers: metrics: Start with master for
+   the daily full download
+   https://lists.yoctoproject.org/g/yocto/message/62754
+   - [yocto-autobuilder-helper][PATCH] config.json: metrics: Switch to
+   daily CVE DB full-download
+   https://lists.yoctoproject.org/g/yocto/message/62753
+
+Those 3 patches work together to (hopefully) do a daily full download of
+the NVD CVE database. That should fix the metrics on master and any branch
+sharing the CVE database with it.
+
+Best regards,
+--=20
+Yoann Congal
+Smile ECS - Tech expert
+
+--00000000000065dc680613904a37
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi,</div><div><br></div><div dir=3D"ltr"><div><div cl=
+ass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0mar. 12 m=
+ars 2024 =C3=A0=C2=A015:45, Stephen Jolley &lt;<a href=3D"mailto:sjolley.yp=
+.pm@gmail.com">sjolley.yp.pm@gmail.com</a>&gt; a =C3=A9crit=C2=A0:<br></div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
+-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><span i=
+d=3D"m_704423976736090797gmail-docs-internal-guid-9e798738-7fff-b5dd-f61c-6=
+70e7a316e89"><ul style=3D"margin-top:0px;margin-bottom:0px"><li dir=3D"ltr"=
+ style=3D"list-style-type:disc;font-size:11pt;font-family:Arial,sans-serif;=
+color:rgb(0,0,0);background-color:transparent;font-variant-numeric:normal;f=
+ont-variant-east-asian:normal;font-variant-alternates:normal;vertical-align=
+:baseline;white-space:pre-wrap"><p dir=3D"ltr" style=3D"line-height:1.38;ma=
+rgin-top:0pt;margin-bottom:0pt" role=3D"presentation"><span style=3D"font-s=
+ize:11pt;background-color:transparent;font-variant-numeric:normal;font-vari=
+ant-east-asian:normal;font-variant-alternates:normal;vertical-align:baselin=
+e">The previously reported CVE database update issue on the autobuilder has=
+ not been addressed yet. This is causing higher numbers of CVEs to be repor=
+ted on the autobuilder generated charts.</span></p></li></ul></span></div><=
+/blockquote><div>Here&#39;s my proposal to fix this : <br></div><div><ul><l=
+i>[PATCH 2/2] cve-update-nvd2-native: Add an age threshold for incremental =
+update <a href=3D"https://lists.openembedded.org/g/openembedded-core/messag=
+e/197046">https://lists.openembedded.org/g/openembedded-core/message/197046=
+</a></li><li>[yocto-autobuilder2][PATCH] schedulers: metrics: Start with ma=
+ster for the daily full download <a href=3D"https://lists.yoctoproject.org/=
+g/yocto/message/62754">https://lists.yoctoproject.org/g/yocto/message/62754=
+</a></li><li>[yocto-autobuilder-helper][PATCH] config.json: metrics: Switch=
+ to daily CVE DB full-download <a href=3D"https://lists.yoctoproject.org/g/=
+yocto/message/62753">https://lists.yoctoproject.org/g/yocto/message/62753</=
+a></li></ul></div><div>Those 3 patches work together to (hopefully) do a da=
+ily full download of the NVD CVE database. That should fix the metrics on m=
+aster and any branch sharing the CVE database with it.</div><div><br></div>=
+<div>Best regards,</div><div><span class=3D"gmail_signature_prefix">-- </sp=
+an><br><div dir=3D"ltr" class=3D"gmail_signature"><div dir=3D"ltr"><font fa=
+ce=3D"Raleway, regular">Yoann Congal</font><div><font face=3D"Raleway, regu=
+lar">Smile ECS - Tech expert<br></font></div></div></div></div></div></div>=
+</div></div>
+
+--00000000000065dc680613904a37--
 
