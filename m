@@ -1,135 +1,148 @@
-Return-Path: <philip@balister.org>
+Return-Path: <troth@openavr.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F06BC54791
-	for <webhook@archiver.kernel.org>; Wed, 13 Mar 2024 14:39:32 +0000 (UTC)
-Received: from de-smtp-delivery-113.mimecast.com (de-smtp-delivery-113.mimecast.com [194.104.111.113])
- by mx.groups.io with SMTP id smtpd.web10.18252.1710340095395716076
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61124C54E66
+	for <webhook@archiver.kernel.org>; Wed, 13 Mar 2024 14:45:22 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web10.18709.1710341114777138625
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Mar 2024 07:28:15 -0700
+ Wed, 13 Mar 2024 07:45:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@toradex.com header.s=toradex-com header.b=VeqEzxXN;
- spf=pass (domain: toradex.com, ip: 194.104.111.113, mailfrom: marcel.ziswiler@toradex.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=toradex.com; s=toradex-com;
-	t=1710340093;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=c0GhmULcVg9LLg3+y2ojGetVNc4w6FiINfYajaCP958=;
-	b=VeqEzxXN0nKG5YQYQ3Z25nqXRSuSRHWhXorf0FEUZ3mUasl1VuiiaHQLnEq3WGxv2m2K+G
-	/v1G+HLKLQYNTSCD256mKdijQ+LT4Rbm1Pf/9a+6GPj9vLdL+ATp4GW2rpX7/h2qcxDYEm
-	hiVeowt7QAeuEE8wOpFJUioz1pI+Qzk=
-Received: from ZRZP278CU001.outbound.protection.outlook.com
- (mail-switzerlandnorthazlp17011007.outbound.protection.outlook.com
- [40.93.85.7]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- de-mta-76-jQdojs2bPr6a9tF-7nMp-w-2; Wed, 13 Mar 2024 15:28:12 +0100
-X-MC-Unique: jQdojs2bPr6a9tF-7nMp-w-2
-Received: from ZR0P278MB0683.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:3b::9) by
- ZR0P278MB0169.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:33::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7386.20; Wed, 13 Mar 2024 14:28:08 +0000
-Received: from ZR0P278MB0683.CHEP278.PROD.OUTLOOK.COM
- ([fe80::1a2c:bf89:a76e:a6a3]) by ZR0P278MB0683.CHEP278.PROD.OUTLOOK.COM
- ([fe80::1a2c:bf89:a76e:a6a3%3]) with mapi id 15.20.7386.017; Wed, 13 Mar 2024
- 14:28:08 +0000
-From: "Marcel Ziswiler" <marcel.ziswiler@toradex.com>
-To: "alex.kanavin@gmail.com" <alex.kanavin@gmail.com>
-CC: "reatmon@ti.com" <reatmon@ti.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "rs@ti.com" <rs@ti.com>, Max
- Krummenacher <max.krummenacher@toradex.com>
-Subject: Re: [oe-core][PATCH v1] mesa: enable imagination powervr support
-Thread-Topic: [oe-core][PATCH v1] mesa: enable imagination powervr support
-Thread-Index: AQHadVINULbuIBE+rkaxnr8soWJK+bE1urIA
-Date: Wed, 13 Mar 2024 14:28:08 +0000
-Message-ID: <07aa1cc8e623feddfe3aef7b3be00fa15d296955.camel@toradex.com>
-References: <20240313141940.146208-1-marcel@ziswiler.com>
-	 <CANNYZj8vXvxmqtOGbUfEkGOB814sGmTmCbqiORwUCSgeD0bgbA@mail.gmail.com>
-In-Reply-To: <CANNYZj8vXvxmqtOGbUfEkGOB814sGmTmCbqiORwUCSgeD0bgbA@mail.gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: ZR0P278MB0683:EE_|ZR0P278MB0169:EE_
-x-ms-office365-filtering-correlation-id: 0ff9c4f2-7547-4e63-234a-08dc4369ce00
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0
-x-microsoft-antispam-message-info: r9HZR1ch+1mgDeXVg4KTDCyJJHFx0QeGEd3CsIeWVWnRdzZiqcWKJurt+LEWfUq9WQhqTyxWuPSdyb7ljjKgQZuk7K/HVcbWQq9ScsQSfLnmTXcf7NCqutQyWZ6yK1ej/BwlYrdeXnXbdLT7RqEw8vG+ODb0rUA7WS/l6WfIbvGRZm8Cz+ZrFZnh9UjUqvNGo6buGjYstY8rKUc6UcZ/ucBuoBK/5+s68zjzuG7KJA5Yons6VH1j4U1NS/8O4mgG3ChrC55FpT/4+JbcrH8Uia+vpYHdoRjIwQIDh4yxjBXHP/nx9h4SUCyEHgnvjrzbD/z7kzPAIRuJ26QQLIpMyaqOvAwc1z2/nqB30+1ThefhI5lkCJQRwIbpxbmBKIdYHVE85QSsnnc0dfBVhuS+Gx0eI/WcMLfSGIRX+9t2bEm4AtymauRhP9xYGu+48hGvMOOnTFTEkRPLI9HX/OCfUG8VyDEetNYsd85lm4x/wC6ZB0gmpDYye3+f0zXvPtDhY/lRTTG+2/JtngXx1BoORJ823aF8OY6hFG1QhPQPUcaAm3Ome4LU34pJPzY63Gs4Lmh446L4HuElrYHRAAG+QcApyd3EVv+vKypAd0EGlLB2VLCNyVseTdzM/xbWZXGz3uGOXxsdAKBmpL+3UUEI3j3PwCfzqWmUEwSwkBQKt3itu31FMQBhRzOPvciGoC7V10Ra+X/9vwCX0R8r2JAbMrKp/NYP5ykDtNxHyUCFpks=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZR0P278MB0683.CHEP278.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(376005)(38070700009);DIR:OUT;SFP:1102
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?N1VLamltYituekNldW9vSUoyczBLNHV2YlFPUEFjMCt3S2JTbXNnaGlCNkQz?=
- =?utf-8?B?QjVzeUhLV3BhK3RveHFCdWZuYUljS25pa3VZa1ZlT0llWEFKdTdqdzdtMnZw?=
- =?utf-8?B?Znk2Slcyc1BWejI4K1ljRDJtdnJLY2R5Y2NzSDlpK09OT0Y0alJQajNiZWxq?=
- =?utf-8?B?NlNKSHpYZTFHRGZRQVNHaDFuQTJRd1hybWdzbnFWNFNSTmttcnpDUC9WNkJ2?=
- =?utf-8?B?Ri8zNVdTSWNwWVd4N2RsNkNwYWh5Q3FnZkphUlZHOU1BWlBFU0JYZFFmZmQ4?=
- =?utf-8?B?bFdIa3BpclYzUHdINjBiZStjY2tGalk0WUhTcHl0bUliMlFENjQvbGptSG9B?=
- =?utf-8?B?N0hLWWJEZTRBa21qOFR2M096anZJdkZXbENIT28rT2dFVXZFcWM5MUlhdlVn?=
- =?utf-8?B?OFo0ZUpGb2RpTVVIYWF2VDFwbEFXaUFmN0RibEREczdUMmhpc0x6VjFFVDNm?=
- =?utf-8?B?OTh5dHljTzVmd3U5L2FOaUpmWWRvakZFQ3MwbDRmeFVEdDdtZGloNHh0eE9C?=
- =?utf-8?B?T1RHaHpEbzhsQUhSWnVFVEVxZDVvOG9rYVhFTENObHpEd3pLSnJNVTFtMFdN?=
- =?utf-8?B?RUsvMzRDd1l6WE50TXJQYmtZbWY3TG5hRnlTeHFzczkydU53WkFESVplZU5X?=
- =?utf-8?B?NFZZc0JLTDlpN1dSRHFEL0pKd3BQc0NUUkpmd1RnVkxWMDVIMjZRWXV5TTIy?=
- =?utf-8?B?QkxieW56Um13TWVlTVdTdlJ0VDdnZmdxTFV4NkkrV2s5MHV0Y01rU3k3emRO?=
- =?utf-8?B?RkZzS096TUd1S0xOaGtnS2cwTWRMWldlTkQzYmtJaEU3cTFFcjlrRnJlb1Vy?=
- =?utf-8?B?MVVnak5jRmRFazdnV0NtZVc0Yy9oRjNtSXlFQjNuKyt5QkF5b0dBRGpCVkRx?=
- =?utf-8?B?NHl2VXZqQm9HbW45L0tOcXZPYWtrK3BhSVB6dVpTUlBCb0RpUVNHaHI0czBk?=
- =?utf-8?B?TWlnSnpGbHdPeWNKNmEvdWNJSWRmOG85dEc5STIwdndvWmgwYTJzV3RsT1Zy?=
- =?utf-8?B?bXNQb2pSV1FsY2c0cHRNczVwbE9KN3pnbkw4ZEo2ZDNCUTd1ejI2bFFEU04r?=
- =?utf-8?B?SkhSTnhMSjhzb2pLNFpteEVpTkJINEVmSVNVV3g5djkybVlUTEZ4aExaOHdH?=
- =?utf-8?B?NnQzZGRCYjQzMzNoMGFsWlVBNHJQME1TWXlSZlRzcjZ6eDVkRzBqSWpmV00y?=
- =?utf-8?B?UDFGMjFpWGZ4VGhqUWEwTjB6b25kNjRsK1hwcWJuTnZhc0k3WXYvWXFKT21C?=
- =?utf-8?B?My82c0xpZk5ybGk2Q25lNUZGbm1ud2o2NzN5QlBYeTFMQmFsWStSQVVJV0RH?=
- =?utf-8?B?WHRJOGJ5YXZHeVBjYmRRb2cxVjZnVTlxZUVPZVhOcW1TWGkwQTFyU3hJR0w4?=
- =?utf-8?B?SlcrR1BhRVhDQ1NwWG9YZ0xRS0lRZmhJWFh0MWRUcld6Tnl0cUdyRTN2T0tX?=
- =?utf-8?B?ODV1b1NxaUVLb2tvbnM0UUpZSWxnNjJ4OXF6cU90RWlIelBhOWk1WWxieVFD?=
- =?utf-8?B?RkN5UGZ5UUJoMWFGSXdMQW5pcU1Kc1E5RFNHaVZ3bWZUVFBnUXkvS2s0bHdv?=
- =?utf-8?B?aExTdHpEclowbXVlYkxaUFJobzUxanNkRzI4VGx2OWxnWWVsdTVxdUZVbngr?=
- =?utf-8?B?MTFJVlQyTnM3OGM5VXBiU0NXNEdlZnU1WU5QWWszeWVJb0NkS2FHcEJEM242?=
- =?utf-8?B?aEx2VGo0ZVRBdjVyTHFFRzRjVXFIb0YwZjkrZGlaZHdidUJoWFBoekJ1TFd5?=
- =?utf-8?B?UUxJQjkwRkh6ZHFpcW91VnZqcjRTL0ZqbDJqcWZTbkNjM3BiVnFZN3BlcVZ4?=
- =?utf-8?B?b2diQUxESFpteGhDYVNQTndWMWtaMTB5a21EbTZaUHMxWjZNcjBlRlhKS1pk?=
- =?utf-8?B?c2VrU2xYaFZzUlhRTkVVR1pzTjNCR01aaHR6bDhnUHh2WmxRT0lxbldSbDlI?=
- =?utf-8?B?cW9WZXRqdnNzUFpNZTFxMmhlZnAvcEtaRUVVYllYSGx3V3hySFBXbFNyR0tz?=
- =?utf-8?B?Q01UeFdGa0hLUWplUEhVeDZSNnZnWjR4c3QyUkZsbG01OWV3TEhOSE81b09y?=
- =?utf-8?B?YVp4dWZHSG45K2FqTy9zNHgwN0RFb0p6UDB3Q2VkR05JTG16bFRTdExMMlhv?=
- =?utf-8?B?dURjcnYrWVJ0SjNFVVRwdDZoSzZnVFoxcFNuWTlSNjhWZHlYRCtOSTR0emNU?=
- =?utf-8?B?OEE9PQ==?=
+ dkim=pass header.i=@openavr-org.20230601.gappssmtp.com header.s=20230601 header.b=dCI8i2CR;
+ spf=none, err=permanent DNS error (domain: openavr.org, ip: 209.85.128.42, mailfrom: troth@openavr.org)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-413ebe077d6so3497415e9.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 Mar 2024 07:45:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=openavr-org.20230601.gappssmtp.com; s=20230601; t=1710341113; x=1710945913; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=/+f1n64k6/GDfIM43ty4vQNX0+xf5aJOBwfzb0rbPRY=;
+        b=dCI8i2CRUVVlWKouHZdEAwlSC6zckdB4SsBEcyxVGVFDFwgrk+75wed4Rq1dyg0meF
+         cyjQ7Gv8BQjdZAI+zmrxuV76P0WVZdDc3HW1vOfjfiHmsduc5H4maZG5WNenVXs0XYcZ
+         s38HUEjPki5xYv033rdR9RWfAu0fFjCfcgvCLoiLsGW0Nm9SK3xBXDTPkTdpzTlq0BqM
+         jygiXLDXVIRJypA97fNVUClz41Fjmq2DU6a+vmdNO7DkTuUCpc3EhCmzyD6qgLjKCMQt
+         wosFiMql7KYuPMg8Xc2Tp9nsnzW224NvFekXFiKvWmko/bV6JqrzDq/q75dMXerTIvmI
+         hjVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710341113; x=1710945913;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/+f1n64k6/GDfIM43ty4vQNX0+xf5aJOBwfzb0rbPRY=;
+        b=iE6E0tTRXaMqno9gOqe7PuJF47AEF3BmVOGwCXwHgnoHIOXwh8BpqCry1LgD+FqnDz
+         60DkANckzXgqHAMErH4aXC38E1H9hKzyWYdGk9KWLmefHi6fxnnS5/I8dGocN25099SW
+         VWrAhsfjvbpthYoIwn2TwHjSqxXpz5LsVzz3fZtMvx6h7ubefXt1UMh1WnFRcpWzAdkp
+         lEXRp43EhqYUs/tIVk6Uqf7M3v7icbR0QR6Q0FEhQO2+B7rN4VomtfjW/2RT/X+RvWIK
+         /1n9vjZ60ch0DePzPZWXzm/JErY/iR7i3iZUUKc8BEe9LeDd62hkY+0sfWV6RrYOAG+w
+         fWNQ==
+X-Gm-Message-State: AOJu0YyumgsY5eyGjrKJuxGfQ1YHUzfgNa/B2KtoP6k7U5i46qQ3JBTj
+	sb5xZVP6TW+0KESgoFUdf97uuojfdRaWEZluQ+fPpogKCM57J2zFpygQQEt7YM4Ir8vL2FD1A9K
+	b6f34v4Orj/X8IUDDjopbNdtx1IX4AQDBj3tnpA==
+X-Google-Smtp-Source: AGHT+IEZr5GbM+/nhkccd8eyJmevsDIlUON/qcKFq0+c8v4S3mnMKLqcjmcNx+CYvqu0U2tPfBbWxt5d2M/ugvvXBcU=
+X-Received: by 2002:adf:f70f:0:b0:33e:71b6:bccf with SMTP id
+ r15-20020adff70f000000b0033e71b6bccfmr1797124wrp.36.1710341112823; Wed, 13
+ Mar 2024 07:45:12 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: toradex.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: ZR0P278MB0683.CHEP278.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0ff9c4f2-7547-4e63-234a-08dc4369ce00
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Mar 2024 14:28:08.6216
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d9995866-0d9b-4251-8315-093f062abab4
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: h5oZOEHruZQNYBzqwBxRK0QQTKZoZ+u24+xCARCBEPLwCCDHwM6WrW4CUXTnu1PNSEJ6Q3ph+IaxaDtsPep0raZebOIMYLBAcI/e3brlyGg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZR0P278MB0169
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: toradex.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-ID: <8C568EDFF2E91845877BB3C31992D1DA@CHEP278.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: base64
+References: <20240306154151.3741709-1-alex@linutronix.de> <20240306154151.3741709-35-alex@linutronix.de>
+ <CAFMvBt0onfsJ3BtzcEn87P4G3g+LQbrg2=f9eEexE80VO2TFPg@mail.gmail.com> <CANNYZj-jM1Uj4XW=58F9sbX3r5bST9iqT7L5hmvRs6XxOmELRw@mail.gmail.com>
+In-Reply-To: <CANNYZj-jM1Uj4XW=58F9sbX3r5bST9iqT7L5hmvRs6XxOmELRw@mail.gmail.com>
+From: "Theodore A. Roth" <troth@openavr.org>
+Date: Wed, 13 Mar 2024 08:45:01 -0600
+Message-ID: <CAFMvBt0xxWt6=q-8EDq=oMiQv95eCXy_PTARx_JQznOV8hKsUA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 35/47] python3-jsonschema: upgrade 4.17.3 ->
+ 4.21.1 and add new dependencies
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Alexander Kanavin <alex@linutronix.de>, Tim Orling <tim.orling@konsulko.com>
+Content-Type: multipart/alternative; boundary="00000000000079a24006138bd2d0"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Mar 2024 14:39:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197043
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Mar 2024 14:45:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197044
 
-SGkgQWxleA0KDQpPbiBXZWQsIDIwMjQtMDMtMTMgYXQgMTU6MjMgKzAxMDAsIEFsZXhhbmRlciBL
-YW5hdmluIHdyb3RlOg0KPiBPbiBXZWQsIDEzIE1hciAyMDI0IGF0IDE1OjE5LCBNYXJjZWwgWmlz
-d2lsZXIgPG1hcmNlbEB6aXN3aWxlci5jb20+IHdyb3RlOg0KPiA+ICtFWFRSQV9PRU1FU09OOmFw
-cGVuZDpjbGFzcy10YXJnZXQgPSAiICR7QGJiLnV0aWxzLmNvbnRhaW5zKCdQQUNLQUdFQ09ORklH
-JywgJ2ltYWdpbmF0aW9uJywgJy1EaW1hZ2luYXRpb24tDQo+ID4gc3J2PXRydWUnLCAnJywgZCl9
-Ig0KPiANCj4gVGhpcyBzaG91bGQgYmUgZGVmaW5lZCBhcyBhIHN0YW5kYXJkIFBBQ0tBR0VDT05G
-SUcgc2V0dGluZywgbm8/DQoNClllcywgdHJ1ZS4gTGV0IG1lIHRyeSB0aGF0IGFuZCBzZW5kIGEg
-djIgd2l0aCBpdCBhZnRlciBhd2FpdGluZyBhbnkgbW9yZSBmZWVkYmFjayBmb3IgYSBkYXkgb3Ig
-dHdvLg0KDQpUaGFua3MhDQoNCj4gQWxleA0KDQpDaGVlcnMNCg0KTWFyY2VsDQo=
+--00000000000079a24006138bd2d0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Mar 13, 2024 at 12:53=E2=80=AFAM Alexander Kanavin <alex.kanavin@gm=
+ail.com>
+wrote:
+
+> On Tue, 12 Mar 2024 at 19:55, Theodore A. Roth <troth@openavr.org> wrote:
+>
+> > Any help or things to try would be appreciated. More than happy to
+> provide more information if needed.
+>
+> Maturin support is fairly new, and rpds is the first real consumer in
+> oe-core, so issues like this can happen. You need to find out how it
+> forms the installation file name, and then find out how python forms
+> the filename it expects, and see where the mismatch is coming from.
+> Yes it's not simple and requires advanced, intuitive ability to read
+> large, unfamiliar code trees, something that everyone working with
+> yocto should possess. We already map architectures in various rust
+> pieces, e.g. rust-target-config class, so probably something like that
+> should be done in maturin builds too.
+>
+> Alex
+>
+
+Making the following change (via a patch in a .bbappend) to the rpds
+Cargo.toml file fixed the import problem for me.
+
+Do not know if this problem is specific to our environment or not at this
+point.
+
+Ted Roth
+
+diff --git a/Cargo.toml b/Cargo.toml
+index 78ac37f..c1f2ccd 100644
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -13,4 +13,4 @@ archery =3D "1.1.0"
+
+ [dependencies.pyo3]
+ version =3D "0.20.2"
+-features =3D ["extension-module"]
++features =3D ["extension-module", "abi3-py37"]
+
+--00000000000079a24006138bd2d0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Wed, Mar 13, 2024 at 12:53=E2=80=AFAM Alexander Kanavin &lt;<a hr=
+ef=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<=
+br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Tue, 12 Mar 2=
+024 at 19:55, Theodore A. Roth &lt;<a href=3D"mailto:troth@openavr.org" tar=
+get=3D"_blank">troth@openavr.org</a>&gt; wrote:<br>
+<br>
+&gt; Any help or things to try would be appreciated. More than happy to pro=
+vide more information if needed.<br>
+<br>
+Maturin support is fairly new, and rpds is the first real consumer in<br>
+oe-core, so issues like this can happen. You need to find out how it<br>
+forms the installation file name, and then find out how python forms<br>
+the filename it expects, and see where the mismatch is coming from.<br>
+Yes it&#39;s not simple and requires advanced, intuitive ability to read<br=
+>
+large, unfamiliar code trees, something that everyone working with<br>
+yocto should possess. We already map architectures in various rust<br>
+pieces, e.g. rust-target-config class, so probably something like that<br>
+should be done in maturin builds too.<br>
+<br>
+Alex<br></blockquote><div><br></div><div>Making the following change (via a=
+ patch in a .bbappend) to the rpds Cargo.toml file fixed the import problem=
+ for me.</div><div><br></div><div>Do not know if this problem is specific t=
+o our environment or not at this point.<br></div><div><br></div><div>Ted Ro=
+th<br></div><div><br> diff --git a/Cargo.toml b/Cargo.toml<br>index 78ac37f=
+..c1f2ccd 100644<br>--- a/Cargo.toml<br>+++ b/Cargo.toml<br>@@ -13,4 +13,4 =
+@@ archery =3D &quot;1.1.0&quot;<br>=C2=A0<br>=C2=A0[dependencies.pyo3]<br>=
+=C2=A0version =3D &quot;0.20.2&quot;<br>-features =3D [&quot;extension-modu=
+le&quot;]<br>+features =3D [&quot;extension-module&quot;, &quot;abi3-py37&q=
+uot;]</div></div></div>
+
+--00000000000079a24006138bd2d0--
 
