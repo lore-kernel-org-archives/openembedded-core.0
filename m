@@ -1,84 +1,169 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D232C54E66
-	for <webhook@archiver.kernel.org>; Wed, 13 Mar 2024 17:49:48 +0000 (UTC)
-Received: from mta-65-228.siemens.flowmailer.net (mta-65-228.siemens.flowmailer.net [185.136.65.228])
- by mx.groups.io with SMTP id smtpd.web10.2506.1710352177064434538
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26631C54791
+	for <webhook@archiver.kernel.org>; Wed, 13 Mar 2024 17:55:58 +0000 (UTC)
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
+ by mx.groups.io with SMTP id smtpd.web10.2727.1710352550389744731
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Mar 2024 10:49:38 -0700
+ Wed, 13 Mar 2024 10:55:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=VUq4jeo/;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.228, mailfrom: fm-256628-202403131749336c5b3fdd8504b80842-o76brx@rts-flowmailer.siemens.com)
-Received: by mta-65-228.siemens.flowmailer.net with ESMTPSA id 202403131749336c5b3fdd8504b80842
-        for <openembedded-core@lists.openembedded.org>;
-        Wed, 13 Mar 2024 18:49:33 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=JLg1inEGar7Dx/gPghkj0cf2A6Yl5f/0PEA3nxc3R/I=;
- b=VUq4jeo/PL/gVctWD1mCpupGsw/gax2cjOiBSuA9GViv0KLNcbGA+yT62e6DoBNQrxjIMG
- Lnlpy3E9cVFncU712vDnNg41p0ZP4HNWdPykqOUeCI7+VFn3sB+LNannGAllDsAMBgdNsAxq
- quy8RbLwMHjsAZyPV9T427epL+wIA=;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][PATCH] meta-ide-support: depend recursively on populate_sysroot
-Date: Wed, 13 Mar 2024 18:48:44 +0100
-Message-Id: <20240313174844.3580697-1-peter.marko@siemens.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=h8jJ2Qzi;
+ spf=pass (domain: gmail.com, ip: 209.85.160.43, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-221ffba5c8bso122507fac.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 Mar 2024 10:55:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1710352549; x=1710957349; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sOLC9vDV82XqyHm3Vq/9CofV1kBNX1n/X8SOuezJUKo=;
+        b=h8jJ2QziK8kAsWTboFUrlcOEftxaH6grvXIfW/hZpPsYN7prqutahx9M6YnzWoJMYF
+         25Fh5FjNyY4wkRjvkLlrrqOU2ZwraBCjdog/DOR1V9Cs9ufPOfaBkM+HXmpJ3uuGe8hd
+         oW52nbGWsF+0kb8KUZljm6ZGbyHeR+uwiW4G081+e2OOk8m3lU/JW9edbqb5wU4NPNv/
+         h49St5s+mcP6Ixw35t4pJp1bLU6MdSKXpHa5fwCrLdFsI3EiHZR/yTalWfk7fg/phqzx
+         JifpiBudS2fc4SWy8XkUL/GvWuQSlXDHMCzWFN+iZoBg5I37j+ZCxTo7mciZgf4qPwDp
+         PxyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710352549; x=1710957349;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sOLC9vDV82XqyHm3Vq/9CofV1kBNX1n/X8SOuezJUKo=;
+        b=Eg24Qm92M5Z5k8KqVAPzjA2/KMhoKKeteKkYliBvD+m0HCEu5XxASa1gZNBZfbsBb5
+         LWqLrOjNXxumHrdTx9kSmt1IAL8vqpPiLlatiMbEdGON/HAbHWrQ7br4l78eiM7p/EbV
+         2Xfk7GN/iNgwQVJLofYUrk+Xq8xCTdy1QrC8g8Ta9DtjvyxvmeeQ8DQPFBwqsh5T1NXP
+         Zs8dhbT/OKwWrYIS4jvRZDfE21m5vct1A/E0PmMW78izvq9lfBt1+k8JSfO1Wf427iTu
+         PTDjfVCX1KX1vVMOz/rlGFSO+u40mO8VkrvbUFIAA+qtTZpSexQuWLabxCHhDA7Df32d
+         ciDg==
+X-Gm-Message-State: AOJu0Yx1gE8DxdqZV0aIrX+Fn+0fXYSW+UDS/jY5bpY/74qhQKuBp6v8
+	txrc76rNvilFrHIb/nUrlxJ/fhRAvi0Bs5jGfHfApGmwaHp+IIZ0LjdKxVTpNnvxnMZLi7TGh37
+	UkL9N0nyvL3Xsz0xFYI8xxkd3rb8=
+X-Google-Smtp-Source: AGHT+IHj62pOuGqiyLeG40WDS/uul6xypkpLZkEtVdUfYbaezSNA3cWO/0GSjWe91hbGG1kcMDSEg9qdXv/aiTpLluE=
+X-Received: by 2002:a05:6870:a449:b0:21e:aca4:883 with SMTP id
+ n9-20020a056870a44900b0021eaca40883mr14055078oal.15.1710352549604; Wed, 13
+ Mar 2024 10:55:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+References: <20240313173336.3900178-1-alex@linutronix.de> <20240313173336.3900178-21-alex@linutronix.de>
+In-Reply-To: <20240313173336.3900178-21-alex@linutronix.de>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 13 Mar 2024 10:55:23 -0700
+Message-ID: <CAMKF1spuZD1nHfbygJ9qPpWZmC=g6QJea-ZUYmX=K9faJWKcXw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 21/21] man-pages: use env from coreutils-native
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Mar 2024 17:49:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197075
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Mar 2024 17:55:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197076
 
-From: Peter Marko <peter.marko@siemens.com>
+On Wed, Mar 13, 2024 at 10:34=E2=80=AFAM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> This is the outcome of investigating the selftest-armhost fail:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/127/builds/3028/s=
+teps/15/logs/stdio
+>
+> When man-pages recipe builds on ubuntu 18.04, /usr/bin/env on that is too
+> old to support -S option, and the outcome is that man-pages quietly
+> installs nothing, and no packages get created, and the test
+> that expects the package to exist fails.
+>
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> ---
+>  .../0001-GNUmakefile-use-env-from-PATH.patch  | 31 +++++++++++++++++++
+>  .../man-pages/man-pages_6.06.bb               |  4 +++
+>  2 files changed, 35 insertions(+)
+>  create mode 100644 meta/recipes-extended/man-pages/man-pages/0001-GNUmak=
+efile-use-env-from-PATH.patch
+>
+> diff --git a/meta/recipes-extended/man-pages/man-pages/0001-GNUmakefile-u=
+se-env-from-PATH.patch b/meta/recipes-extended/man-pages/man-pages/0001-GNU=
+makefile-use-env-from-PATH.patch
+> new file mode 100644
+> index 00000000000..a644d24328a
+> --- /dev/null
+> +++ b/meta/recipes-extended/man-pages/man-pages/0001-GNUmakefile-use-env-=
+from-PATH.patch
+> @@ -0,0 +1,31 @@
+> +From fbf0544138af02be4d6dd3085e7ecf98ad060bb4 Mon Sep 17 00:00:00 2001
+> +From: Alexander Kanavin <alex@linutronix.de>
+> +Date: Wed, 13 Mar 2024 17:30:02 +0100
+> +Subject: [PATCH] GNUmakefile: use env from PATH
+> +
+> +This allows using env from coreutils-native (rather than host env),
+> +which resolves the problem of missing -S option on distributions
+> +with much older coreutils such as Ubuntu 18.04.
+> +
+> +Once all autobuilder distros are newer than that, this patch
+> +can be dropped, together with corutils-native dependency.
+> +
+> +Upstream-Status: Inappropriate [made for obsolete host distros]
+> +Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> +---
+> + GNUmakefile | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/GNUmakefile b/GNUmakefile
+> +index 1234194..65ba327 100644
+> +--- a/GNUmakefile
+> ++++ b/GNUmakefile
+> +@@ -21,7 +21,7 @@
+> + #######################################################################=
+#
+> +
+> +
+> +-SHELL :=3D /usr/bin/env
+> ++SHELL :=3D env
+> + .SHELLFLAGS :=3D -S bash -Eeuo pipefail -c
+> +
+> +
+> diff --git a/meta/recipes-extended/man-pages/man-pages_6.06.bb b/meta/rec=
+ipes-extended/man-pages/man-pages_6.06.bb
+> index fa2e6b266e3..0f091bbd7d7 100644
+> --- a/meta/recipes-extended/man-pages/man-pages_6.06.bb
+> +++ b/meta/recipes-extended/man-pages/man-pages_6.06.bb
+> @@ -19,12 +19,16 @@ LIC_FILES_CHKSUM =3D "file://README;md5=3D72cff06b795=
+4222c24d38bc2c41b234e \
+>                      "
+>  SRC_URI =3D "${KERNELORG_MIRROR}/linux/docs/${BPN}/${BP}.tar.gz \
+>             file://0001-man.ml-do-not-use-dev-stdin.patch \
+> +           file://0001-GNUmakefile-use-env-from-PATH.patch \
+>             "
+>
+>  SRC_URI[sha256sum] =3D "006906e7be81a71c2d347809597bcb91485fa7fa488acdaa=
+79e681ddfa894568"
+>
+>  inherit manpages
+>
+> +# can be dropped when ubuntu 18.04 is not in use anymore
+> +DEPENDS +=3D "coreutils-native"
 
-Following workflow is broken when built from sstate-cache:
-https://docs.yoctoproject.org/singleindex.html#setting-up-the-extensible-sdk-environment-directly-in-a-yocto-build
-This is already broken in kirkstone.
+does buildtools tarball contain it ? if so, we may instead recommend
+that or add it to buildtools tarball instead of adding this dep
+for every host environment.
 
-Reproducer:
-$ bitbake meta-ide-support && bitbake build-sysroots -c build_native_sysroot
-$ ls -1 build/tmp/sysroots/*/*gdb-cross* && echo OK || echo FAIL # succeeds from scratch
-build/tmp/sysroots/x86_64/manifest-x86_64-gdb-cross-x86_64.populate_sysroot
-OK
-$ rm -rf build/tmp
-$ bitbake meta-ide-support && bitbake build-sysroots -c build_native_sysroot
-$ ls -1 build/tmp/sysroots/*/*gdb-cross* && echo OK || echo FAIL # fails from sstate-cache
-ls: cannot access 'build/tmp/sysroots/*/*gdb-cross*': No such file or directory
-FAIL
-
-build-sysroot populates sysroot with recipes which run
-populate_sysroot or populate_sysroot_setscene.
-Dependency on its own populate_sysroot does not seem to work when
-building from sstate-cache as this task is not executed.
-This seem to becaused by inheriting nopackages class which deletes tasks
-thus messing the setscene dependencies.
-
-Depend explicitly recursively on prepare_recipe_sysroot.
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- meta/recipes-core/meta/meta-ide-support.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/meta/meta-ide-support.bb b/meta/recipes-core/meta/meta-ide-support.bb
-index d85aa120c0..9aa87f3056 100644
---- a/meta/recipes-core/meta/meta-ide-support.bb
-+++ b/meta/recipes-core/meta/meta-ide-support.bb
-@@ -37,4 +37,4 @@ do_deploy () {
- 
- addtask deploy before do_build
- 
--do_build[deptask] += "do_prepare_recipe_sysroot"
-+do_build[recrdeptask] += "do_populate_sysroot"
--- 
-2.30.2
-
+> +
+>  MAN_PKG =3D "${PN}"
+>
+>  PACKAGECONFIG ??=3D ""
+> --
+> 2.39.2
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#197073): https://lists.openembedded.org/g/openembedde=
+d-core/message/197073
+> Mute This Topic: https://lists.openembedded.org/mt/104910691/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
