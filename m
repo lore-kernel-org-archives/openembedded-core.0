@@ -1,96 +1,262 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED64AC5475B
-	for <webhook@archiver.kernel.org>; Thu, 14 Mar 2024 07:09:23 +0000 (UTC)
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
- by mx.groups.io with SMTP id smtpd.web10.6578.1710400156642275503
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E5C9C54E5D
+	for <webhook@archiver.kernel.org>; Thu, 14 Mar 2024 08:35:34 +0000 (UTC)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+ by mx.groups.io with SMTP id smtpd.web10.7810.1710405327737136262
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Mar 2024 00:09:16 -0700
+ Thu, 14 Mar 2024 01:35:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Al8DAHKg;
- spf=pass (domain: gmail.com, ip: 209.85.208.44, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-55a5e7fa471so812217a12.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 14 Mar 2024 00:09:16 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=CAa36lxo;
+ spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-512b3b04995so719672e87.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 14 Mar 2024 01:35:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710400155; x=1711004955; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+/eYb8P2d5WBlskUPwkXRMAFqyCrKycqXmBZqSX8Jrw=;
-        b=Al8DAHKgBTo5oibvaEKc3RFwLZDeIjQuAjt6F37v+oOqQ/+9ohUdUuf5S6m9dzFkCP
-         8m0qUNmr6oDmLw7mK+twZRjHUG9czjqe3XxJKcAV5ahKKWn+oOSUnmXgJbLFyyVF0d/B
-         A1JIeCpFM4WbqPdgepw4+KTQFh4QTpHzXmofCR4zAnkiKDg0EJHudP7BDsaEsWDzz3/D
-         BazdupN4N1x9275W6oyYkMgNICI1EyECQF7GlHmQ0wc5r/q0hWyFqImd3EuJHQsDcCGY
-         vtuGbl7XhZVLWcLSkuEiT9QyZaRkcqId1kFF2qkDj4a/GesnkuHL3bcH/dTawEAFygjc
-         2lWA==
+        d=gmail.com; s=20230601; t=1710405326; x=1711010126; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=/2JEos4wNDRfW0FIObBXOEoWEAaiH7yENIwQsQRqCUY=;
+        b=CAa36lxoYJyhHVE29vrtF4Bm2QajuTSgQVItbwKHvkH+/GB0tvU8XMwO/6/KK9JsHm
+         UfDGoWQGOvI7UizT1wXftXj3aiexwAGuNfe6Bow0YOdOpjxQlbojZ9rv3GWvqc3ZcQFm
+         Z8C42sZaKMf9z/XxF912S1QzdV8qVScmXJjFRAloyqOEZFS3XZPdtkccRfjf/S9nZFvo
+         AZ9KxRCkvD0VxSxElyTTzqtz7c5sjiU9h5Ab/A1iWSQXNDVQ87TE9kTy4QdjNDJvmQzq
+         aRaF0h01qN2aSp7wdwFQe6xoN1detQgCsd+CrB1twdAdV7CMwXeKR7Demn/iIuChspcS
+         0o4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710400155; x=1711004955;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1710405326; x=1711010126;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+/eYb8P2d5WBlskUPwkXRMAFqyCrKycqXmBZqSX8Jrw=;
-        b=dq7/vYHav2uuNSq3YkJvP37dFvJciDzaosdR6zzLrifUC3YCgi8Sp7Y6B4ARNb78e4
-         SGExW0YngpkYf3jncIor0qYxThsfvJH7IAkxX1EoQf7QN8Emq3xntg8M4ygXb1B8Zryo
-         6ONTmXyyi/ZlgqORBY4LUUQBe/8RmNa56W6lgdXK51Xrwygg1mYnI048hhvRCaOniDO0
-         A/mYLYwTD0aXgEsypz+ICAy8YIZwkBNVy5Xuk/rmnLSXZ1JndbM7ZAsBzl1xjJoNbxAA
-         AU5jxgUWnFhoBe6JUuo5lAT3gVlky1aEmqy9Qu09S8GonB1sQ2fgb4II9l2R7P9KDeQJ
-         JjRQ==
-X-Gm-Message-State: AOJu0Yx70i2QxBN3eARSW58JID0Y58rsHH9BBUOzHYSj3oj5zbMRQHls
-	5aQYIaTZsVMzwpeeedYgRuMYdlYfrTVi8TImLTGF/U20EMRGJHLlg7rxt6/4
-X-Google-Smtp-Source: AGHT+IF4PY5mTqx3FhIOzSIp4mmiRCSYomKyWEUBOJ5oaDNgUq8EzdKdsdtz0rufz/ugHwuP5Poq4g==
-X-Received: by 2002:a05:6402:5485:b0:566:aa2:8433 with SMTP id fg5-20020a056402548500b005660aa28433mr473867edb.36.1710400154557;
-        Thu, 14 Mar 2024 00:09:14 -0700 (PDT)
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id m7-20020a056402430700b005687e041608sm391447edc.37.2024.03.14.00.09.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Mar 2024 00:09:13 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Martin Jansa <martin.jansa@gmail.com>
-Subject: [PATCH] insane: add patch-status to default ERROR_QA for all layers
-Date: Thu, 14 Mar 2024 08:09:03 +0100
-Message-ID: <20240314070903.83765-1-martin.jansa@gmail.com>
-X-Mailer: git-send-email 2.44.0
+        bh=/2JEos4wNDRfW0FIObBXOEoWEAaiH7yENIwQsQRqCUY=;
+        b=K93BfEXgYCT9/OzNb5lGdA0Pj1UpIgWzBTtNCg9FTdFKc5xk0lGdcnlY+COBV4V/2V
+         +/xvk7RACuUw9l/1kkaDVGcSy1v6vUVVXwiF5hFTXJkHSHB7BXJ4r90IaAyZyvHmoRKh
+         +aODjCxwww1aQm7cvPubpbpO9UYHQ0Mh9WMpJDomMM8aMvX1YTI2LcqWdCTgcY5mI5Gm
+         kRHjZi9j8putGN0STHgEqJ+qU/MODNouotzbmOdGCdTyeXjQdIX/1VunSsyEA9EvzsLK
+         JKzJFGtJeki5/WmwifSBwa8vZM44wwcsVJEQrXK1EtuK7NYZ/7Dj32WybyHeSCIVAl35
+         JFFA==
+X-Gm-Message-State: AOJu0YxCR52AMzI/3yv0PjAfeVqtPGVkGLECa8wthasnR6qV5YwBvwpW
+	i6U2IoDuN0RjrRZRktaiC8UECN8QC7ngkBugWEjW2Kmf8qJV44VtpSKwoOatFXuJ0aCfZ1OBPCD
+	Ct36NNSq4DX/hdhvRuIqx20FQ4Co=
+X-Google-Smtp-Source: AGHT+IEc+RopnPTsVMf1pralaYGKjYAZAuliSUP15PaMVYueZmxDJC/ouURmEb3iryLBElR2qthbopP3FRcVsIBF+i4=
+X-Received: by 2002:ac2:4e04:0:b0:513:c658:799b with SMTP id
+ e4-20020ac24e04000000b00513c658799bmr766303lfr.55.1710405325455; Thu, 14 Mar
+ 2024 01:35:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <d70935f0c1bc2315f649af3011f5b2a1cfdbecc1.1710362494.git.joerg.sommer@navimatix.de>
+In-Reply-To: <d70935f0c1bc2315f649af3011f5b2a1cfdbecc1.1710362494.git.joerg.sommer@navimatix.de>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 14 Mar 2024 09:35:13 +0100
+Message-ID: <CANNYZj_A-3OzXhD4QZrEnxxEpNyj9sxb=fONdmep5O=YfVhpRA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] sngrep: new recipe for ncurses SIP Messages
+ flow viewer
+To: joerg.sommer@navimatix.de
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000d888c806139ac507"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 14 Mar 2024 07:09:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197098
+ <openembedded-core@lists.openembedded.org>; Thu, 14 Mar 2024 08:35:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197099
 
-* it's enabled for patches in oe-core for very long time and I was using
-  it for many other layers as well, so most layers should be in good
-  shape
+--000000000000d888c806139ac507
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-* it's also possible to disable it for individual layer as shown
-  by oe-core in:
-  https://git.openembedded.org/openembedded-core/commit/meta/classes-global/insane.bbclass?h=scarthgap&id=61a881fdbe8b5a21c6276b8a5d06cc30486b1eb3
+This should go to the openembedded-devel list.
 
-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
----
- meta/classes-global/insane.bbclass | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Alex
 
-diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/insane.bbclass
-index e963001d09..9350bfa106 100644
---- a/meta/classes-global/insane.bbclass
-+++ b/meta/classes-global/insane.bbclass
-@@ -45,11 +45,10 @@ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
-             already-stripped installed-vs-shipped ldflags compile-host-path \
-             install-host-path pn-overrides unknown-configure-option \
-             useless-rpaths rpaths staticdev empty-dirs \
--            patch-fuzz \
-+            patch-fuzz patch-status \
-             "
- # Add usrmerge QA check based on distro feature
- ERROR_QA:append = "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', ' usrmerge', '', d)}"
--ERROR_QA:append:layer-core = " patch-status"
- WARN_QA:append:layer-core = " missing-metadata missing-maintainer"
- 
- FAKEROOT_QA = "host-user-contaminated"
--- 
-2.44.0
+On Wed 13. Mar 2024 at 21.41, J=C3=B6rg Sommer via lists.openembedded.org
+<joerg.sommer=3Dnavimatix.de@lists.openembedded.org> wrote:
 
+> From: J=C3=B6rg Sommer <joerg.sommer@navimatix.de>
+>
+> Signed-off-by: J=C3=B6rg Sommer <joerg.sommer@navimatix.de>
+> ---
+>  .../recipes-support/sngrep/sngrep_1.8.0.bb    | 37 +++++++++++++++++++
+>  1 file changed, 37 insertions(+)
+>  create mode 100644 meta-networking/recipes-support/sngrep/sngrep_1.8.0.b=
+b
+>
+> diff --git a/meta-networking/recipes-support/sngrep/sngrep_1.8.0.bb
+> b/meta-networking/recipes-support/sngrep/sngrep_1.8.0.bb
+> new file mode 100644
+> index 000000000..2824dde88
+> --- /dev/null
+> +++ b/meta-networking/recipes-support/sngrep/sngrep_1.8.0.bb
+> @@ -0,0 +1,37 @@
+> +SUMMARY =3D "Ncurses SIP Messages flow viewer"
+> +DESCRIPTION =3D "Tool for displaying SIP calls message flows from termin=
+al"
+> +HOMEPAGE =3D "https://github.com/irontec/sngrep"
+> +BUGTRACKER =3D "https://github.com/irontec/sngrep/issues"
+> +SECTION =3D "console/network"
+> +LICENSE =3D "GPL-3.0-or-later & OpenSSL"
+> +LIC_FILES_CHKSUM =3D "\
+> +    file://LICENSE;md5=3Dd32239bcb673463ab874e80d47fae504 \
+> +    file://LICENSE.OpenSSL;md5=3De39170c41c6f83de36426dbf49a03632 \
+> +
+> file://README;beginline=3D100;endline=3D124;md5=3D758a88cf2b27572df05996a=
+3810066b3
+> \
+> +"
+> +
+> +DEPENDS =3D "\
+> +    libpcap \
+> +    ncurses \
+> +"
+> +
+> +SRC_URI =3D "git://
+> github.com/irontec/sngrep.git;protocol=3Dhttps;branch=3Dmaster"
+> +SRCREV =3D "f7b36df3b79617892958b67cb4ad9313c6ce72d2"
+> +
+> +S =3D "${WORKDIR}/git"
+> +
+> +inherit cmake pkgconfig
+> +
+> +PACKAGECONFIG ?=3D "\
+> +    openssl \
+> +    ${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} \
+> +    unicode \
+> +"
+> +
+> +PACKAGECONFIG[openssl] =3D "-DWITH_OPENSSL=3DON,-DWITH_OPENSSL=3DOFF,ope=
+nssl"
+> +PACKAGECONFIG[gnutls] =3D "-DWITH_GNUTLS=3DON,-DWITH_GNUTLS=3DOFF,gnutls
+> libgcrypt"
+> +PACKAGECONFIG[pcre] =3D "-DWITH_PCRE=3DOFF,-DWITH_PCRE=3DOFF,libpcre"
+> +PACKAGECONFIG[zlib] =3D "-DWITH_ZLIB=3DON,-DWITH_ZLIB=3DOFF,zlib"
+> +PACKAGECONFIG[unicode] =3D "-DWITH_UNICODE=3DON,-DWITH_UNICODE=3DOFF"
+> +PACKAGECONFIG[ipv6] =3D "-DUSE_IPV6=3DON,-DUSE_IPV6=3DOFF"
+> +PACKAGECONFIG[eep] =3D "-DUSE_EEP=3DON,-DUSE_EEP=3DOFF"
+> --
+> 2.34.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#197083):
+> https://lists.openembedded.org/g/openembedded-core/message/197083
+> Mute This Topic: https://lists.openembedded.org/mt/104914270/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> alex.kanavin@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--000000000000d888c806139ac507
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"auto">This should go to the openembedded-devel=
+ list.<br></div><div dir=3D"auto"><br></div><div dir=3D"auto">Alex</div></d=
+iv><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr=
+">On Wed 13. Mar 2024 at 21.41, J=C3=B6rg Sommer via <a href=3D"http://list=
+s.openembedded.org" target=3D"_blank">lists.openembedded.org</a> &lt;joerg.=
+sommer=3D<a href=3D"mailto:navimatix.de@lists.openembedded.org" target=3D"_=
+blank">navimatix.de@lists.openembedded.org</a>&gt; wrote:<br></div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
+ solid rgb(204,204,204);padding-left:1ex">From: J=C3=B6rg Sommer &lt;<a hre=
+f=3D"mailto:joerg.sommer@navimatix.de" target=3D"_blank">joerg.sommer@navim=
+atix.de</a>&gt;<br>
+<br>
+Signed-off-by: J=C3=B6rg Sommer &lt;<a href=3D"mailto:joerg.sommer@navimati=
+x.de" target=3D"_blank">joerg.sommer@navimatix.de</a>&gt;<br>
+---<br>
+=C2=A0.../recipes-support/sngrep/<a href=3D"http://sngrep_1.8.0.bb" rel=3D"=
+noreferrer" target=3D"_blank">sngrep_1.8.0.bb</a>=C2=A0 =C2=A0 | 37 +++++++=
+++++++++++++<br>
+=C2=A01 file changed, 37 insertions(+)<br>
+=C2=A0create mode 100644 meta-networking/recipes-support/sngrep/<a href=3D"=
+http://sngrep_1.8.0.bb" rel=3D"noreferrer" target=3D"_blank">sngrep_1.8.0.b=
+b</a><br>
+<br>
+diff --git a/meta-networking/recipes-support/sngrep/<a href=3D"http://sngre=
+p_1.8.0.bb" rel=3D"noreferrer" target=3D"_blank">sngrep_1.8.0.bb</a> b/meta=
+-networking/recipes-support/sngrep/<a href=3D"http://sngrep_1.8.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">sngrep_1.8.0.bb</a><br>
+new file mode 100644<br>
+index 000000000..2824dde88<br>
+--- /dev/null<br>
++++ b/meta-networking/recipes-support/sngrep/<a href=3D"http://sngrep_1.8.0=
+.bb" rel=3D"noreferrer" target=3D"_blank">sngrep_1.8.0.bb</a><br>
+@@ -0,0 +1,37 @@<br>
++SUMMARY =3D &quot;Ncurses SIP Messages flow viewer&quot;<br>
++DESCRIPTION =3D &quot;Tool for displaying SIP calls message flows from ter=
+minal&quot;<br>
++HOMEPAGE =3D &quot;<a href=3D"https://github.com/irontec/sngrep" rel=3D"no=
+referrer" target=3D"_blank">https://github.com/irontec/sngrep</a>&quot;<br>
++BUGTRACKER =3D &quot;<a href=3D"https://github.com/irontec/sngrep/issues" =
+rel=3D"noreferrer" target=3D"_blank">https://github.com/irontec/sngrep/issu=
+es</a>&quot;<br>
++SECTION =3D &quot;console/network&quot;<br>
++LICENSE =3D &quot;GPL-3.0-or-later &amp; OpenSSL&quot;<br>
++LIC_FILES_CHKSUM =3D &quot;\<br>
++=C2=A0 =C2=A0 file://LICENSE;md5=3Dd32239bcb673463ab874e80d47fae504 \<br>
++=C2=A0 =C2=A0 file://LICENSE.OpenSSL;md5=3De39170c41c6f83de36426dbf49a0363=
+2 \<br>
++=C2=A0 =C2=A0 file://README;beginline=3D100;endline=3D124;md5=3D758a88cf2b=
+27572df05996a3810066b3 \<br>
++&quot;<br>
++<br>
++DEPENDS =3D &quot;\<br>
++=C2=A0 =C2=A0 libpcap \<br>
++=C2=A0 =C2=A0 ncurses \<br>
++&quot;<br>
++<br>
++SRC_URI =3D &quot;git://<a href=3D"http://github.com/irontec/sngrep.git;pr=
+otocol=3Dhttps;branch=3Dmaster" rel=3D"noreferrer" target=3D"_blank">github=
+.com/irontec/sngrep.git;protocol=3Dhttps;branch=3Dmaster</a>&quot;<br>
++SRCREV =3D &quot;f7b36df3b79617892958b67cb4ad9313c6ce72d2&quot;<br>
++<br>
++S =3D &quot;${WORKDIR}/git&quot;<br>
++<br>
++inherit cmake pkgconfig<br>
++<br>
++PACKAGECONFIG ?=3D &quot;\<br>
++=C2=A0 =C2=A0 openssl \<br>
++=C2=A0 =C2=A0 ${@bb.utils.filter(&#39;DISTRO_FEATURES&#39;, &#39;ipv6&#39;=
+, d)} \<br>
++=C2=A0 =C2=A0 unicode \<br>
++&quot;<br>
++<br>
++PACKAGECONFIG[openssl] =3D &quot;-DWITH_OPENSSL=3DON,-DWITH_OPENSSL=3DOFF,=
+openssl&quot;<br>
++PACKAGECONFIG[gnutls] =3D &quot;-DWITH_GNUTLS=3DON,-DWITH_GNUTLS=3DOFF,gnu=
+tls libgcrypt&quot;<br>
++PACKAGECONFIG[pcre] =3D &quot;-DWITH_PCRE=3DOFF,-DWITH_PCRE=3DOFF,libpcre&=
+quot;<br>
++PACKAGECONFIG[zlib] =3D &quot;-DWITH_ZLIB=3DON,-DWITH_ZLIB=3DOFF,zlib&quot=
+;<br>
++PACKAGECONFIG[unicode] =3D &quot;-DWITH_UNICODE=3DON,-DWITH_UNICODE=3DOFF&=
+quot;<br>
++PACKAGECONFIG[ipv6] =3D &quot;-DUSE_IPV6=3DON,-DUSE_IPV6=3DOFF&quot;<br>
++PACKAGECONFIG[eep] =3D &quot;-DUSE_EEP=3DON,-DUSE_EEP=3DOFF&quot;<br>
+-- <br>
+2.34.1<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#197083): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/197083" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/197083</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/104914270/168=
+6489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/104914270/1686489</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
+rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--000000000000d888c806139ac507--
 
