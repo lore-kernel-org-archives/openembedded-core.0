@@ -1,165 +1,219 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48B4AC5475B
-	for <webhook@archiver.kernel.org>; Thu, 14 Mar 2024 12:14:36 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web11.10900.1710418469076865091
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40860C54E68
+	for <webhook@archiver.kernel.org>; Thu, 14 Mar 2024 12:31:56 +0000 (UTC)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+ by mx.groups.io with SMTP id smtpd.web11.11252.1710419513919690725
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Mar 2024 05:14:29 -0700
+ Thu, 14 Mar 2024 05:31:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=cMwuZ4Op;
- spf=pass (domain: gmail.com, ip: 209.85.214.178, mailfrom: rybczynska@gmail.com)
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1dca3951ad9so6436475ad.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 14 Mar 2024 05:14:29 -0700 (PDT)
+ dkim=pass header.i=@smile-fr.20230601.gappssmtp.com header.s=20230601 header.b=KCevbTYn;
+ spf=pass (domain: smile.fr, ip: 209.85.208.46, mailfrom: yoann.congal@smile.fr)
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-55a179f5fa1so1101241a12.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 14 Mar 2024 05:31:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710418468; x=1711023268; darn=lists.openembedded.org;
+        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1710419512; x=1711024312; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=luPHQ8Rb1VyTNGNvDHKg+jnRed4OAxgZu/HSP9DCyZA=;
-        b=cMwuZ4Op/+OeB5SbZmOqZx/8E1Y44Hlf9265bvQvAgLh9qiydzuOlFTwS5AwNfdWU1
-         ukjfKpeQjhBypIceflDdcNGaRVCzYCbydtMy03/4oF2ohgAd6+r1XFTe6SAmddcXjJOS
-         Li1HKqDYSz/Ic19h/QMa/Io9vJvXXqCi5L6RyPUyWTMuqcr/iGx+RYEa2l3JWY7+6Dla
-         XKSPp0vveNjhrdp6oaIn3A3yGmmeVIz/vZBBWMPR+YEAEkEn/geZXBp31H8mqSGkOtCs
-         n4OTrQN060HrZa/Bacul2LYxuy5vW34AtGHELQNG1o07DD20na18fRp0YQR7dt0g74hN
-         BmjQ==
+        bh=RbndgJOEaiSTaB85hH6RK9MSK1q4sH/G3vGi8MJ8SdI=;
+        b=KCevbTYnHNbEnVdmjqP2/y+Dx6zuF/O0wTM2q/mSm7sWz3lJQBFtAJx4RJSnHC+eG1
+         VzbIBsm/mn9xnQAzpSi+jYizcgh2yxYzJfF9ciYVOTo4ntorcjoNMZUlFdhHGXlTe0Qv
+         yfVnt+KeZyD9TWROuhmyJqxQiRDz8qmI0qAp4NKzwu+7tYX6+pfIyPzVpqpo9D8mppaM
+         aktnefNRpIbZVpl9i2LHsxTptZIfKSvT5NqdLOKVbMBdbvwOIsHLg4aLgu5vGpy/o66x
+         gu1m2Y9tHTi09gEKDbLwGlAn39e0wT73LmIt7Q0gxFhrtE+68HO/HD4CzBaRUH0bTzYJ
+         CdNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710418468; x=1711023268;
+        d=1e100.net; s=20230601; t=1710419512; x=1711024312;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=luPHQ8Rb1VyTNGNvDHKg+jnRed4OAxgZu/HSP9DCyZA=;
-        b=vONbb0ihNBkCQeNoqLTjyDOEz2l3uC0b5ehORvl3x5WZdGntpqbdQ89RHXw6qQxEv8
-         pKjsDGnd0TYGGdTTIzf7jNo134t3RbUZbJN9xe56VRuQ2hcmqCx91R5pwKlsT7B8uil/
-         6FER4B+LzGktWHQa98oLTfIdJOpGaVXs5bqCW8hgh/eW0ta2Wx+CQ3EziVnFu2WQL+R7
-         UOFgksTVxFUKjCrQhKnXbMyu+jjyJZWW3yiHRNE7RcXD++h+lmph+s3W7OVHnuKHlYBN
-         kn7yoTIBHs8ZzTd0hMw5WusfSCWBBnglK8XRqAqmRFU0ilATwB6n8PPpuj8L8IW2NF8t
-         9BXg==
-X-Gm-Message-State: AOJu0YzbLbLl2NpbKxW08VUJdHlIVR4JMuqcXXU1dbc9agr4A6lTrr2j
-	s3aharWvh6xqJJtgstkXGwfYonI/q/RYOLr30jqKM9FoGHWEcpnyMWHoIV49GflNqSqDox/kupg
-	/WopRMqgMim/IazGggJC0KfnJlpo=
-X-Google-Smtp-Source: AGHT+IEg0JhjigQjGrOaG3xLjDniPpOD3T00mwTtud6/oe0Jp5+ZDL6i5NRdwIPTXp/vW4j+GpUq22pKppV4PEsAl+c=
-X-Received: by 2002:a17:902:694c:b0:1dd:7163:b58e with SMTP id
- k12-20020a170902694c00b001dd7163b58emr1416153plt.41.1710418468283; Thu, 14
- Mar 2024 05:14:28 -0700 (PDT)
+        bh=RbndgJOEaiSTaB85hH6RK9MSK1q4sH/G3vGi8MJ8SdI=;
+        b=vup8sNrsJexnGY1mW/WT4sqFVVqm3eSrSrsRUoVvUvJqp91zV1bwzh5ZYZCm8TZ1EP
+         Eiw2pxqRfya2W7GwaXrqcayv6ZMZLEzPsioLUV1FHRd0pPlwkq38/32WBNy3qfeRLB6V
+         eRFvjRbwsJ2HBLgeKGVFoz7YyZOsvXAs2jEEbu1VPk4FJG3eM7A7uGyg6b+4Qtz0Clly
+         UJpyt5iTc1S7qADU6e0luqmDbzSvLQmFzJSX4MIYvgCiq5YlXQs/AJFmWudgJ0aaKhfD
+         P5x1wvMUJ0xjI46SS9YHkDuHSXWeOaUyp0S5iutCMwN4XxI2RxW0X6VJtoB2+qV8ejRW
+         1RNw==
+X-Gm-Message-State: AOJu0YwZBn2eiHeZVYTb7cBevb+UpaHk91AOnXHySVpcUyZlb+cBp/fS
+	eoT0pLasZUaqTkiYHQnzX3BjdqLamlD7xyFHccg+f1e4HQgOCm0KS5TRMEzOQphh1fXMGHLMP7o
+	PamizRIShoScaVso/YRcJXE4MpKUB9dExORMr4Q==
+X-Google-Smtp-Source: AGHT+IGbWCMfIOxXD7V0nEcPZWIxJgUb8OyoqC0ujVF7brZiTtK4nRVQ1YgzI/FGNx+pYcT2VRUoiMcdKIBww1qKL8w=
+X-Received: by 2002:a17:906:a389:b0:a44:9fe3:d7d1 with SMTP id
+ k9-20020a170906a38900b00a449fe3d7d1mr1178957ejz.43.1710419512104; Thu, 14 Mar
+ 2024 05:31:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240313151327.2123368-1-yoann.congal@smile.fr> <20240313151327.2123368-2-yoann.congal@smile.fr>
-In-Reply-To: <20240313151327.2123368-2-yoann.congal@smile.fr>
-From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Thu, 14 Mar 2024 13:14:12 +0100
-Message-ID: <CAApg2=S9Gqg24bqwVgrGbCEBMa+h1ek2kq2nYJzLDA7JX0+89A@mail.gmail.com>
+References: <20240313151327.2123368-1-yoann.congal@smile.fr>
+ <20240313151327.2123368-2-yoann.congal@smile.fr> <CAApg2=S9Gqg24bqwVgrGbCEBMa+h1ek2kq2nYJzLDA7JX0+89A@mail.gmail.com>
+In-Reply-To: <CAApg2=S9Gqg24bqwVgrGbCEBMa+h1ek2kq2nYJzLDA7JX0+89A@mail.gmail.com>
+From: Yoann CONGAL <yoann.congal@smile.fr>
+Date: Thu, 14 Mar 2024 13:31:26 +0100
+Message-ID: <CAMSfU+7uCjqHiofeAcXjNj2VZhvYce20G+ea2is3EyqJuXgq7A@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH 2/2] cve-update-nvd2-native: Add an age
  threshold for incremental update
-To: Yoann Congal <yoann.congal@smile.fr>
+To: Marta Rybczynska <rybczynska@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000003833a006139dd5e2"
+Content-Type: multipart/alternative; boundary="0000000000006fb1cf06139e1324"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 14 Mar 2024 12:14:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197104
+ <openembedded-core@lists.openembedded.org>; Thu, 14 Mar 2024 12:31:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197105
 
---0000000000003833a006139dd5e2
+--0000000000006fb1cf06139e1324
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 13 Mar 2024, 16:15 Yoann Congal, <yoann.congal@smile.fr> wrote:
+Le jeu. 14 mars 2024 =C3=A0 13:14, Marta Rybczynska <rybczynska@gmail.com> =
+a
+=C3=A9crit :
 
-> Add a new variable "CVE_DB_INCR_UPDATE_AGE_THRES", which can be used to
-> specify the maximum age of the database for doing an incremental update
-> For older databases, a full re-download is done.
 >
-> With a value of "0", this forces a full-redownload.
 >
-> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-> ---
->  .../meta/cve-update-nvd2-native.bb            | 20 +++++++++++++++----
->  1 file changed, 16 insertions(+), 4 deletions(-)
+> On Wed, 13 Mar 2024, 16:15 Yoann Congal, <yoann.congal@smile.fr> wrote:
 >
-> diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb
-> b/meta/recipes-core/meta/cve-update-nvd2-native.bb
-> index f21c139aa5..d565887498 100644
-> --- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
-> +++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
-> @@ -26,6 +26,12 @@ NVDCVE_API_KEY ?= ""
->  # Use a negative value to skip the update
->  CVE_DB_UPDATE_INTERVAL ?= "86400"
+>> Add a new variable "CVE_DB_INCR_UPDATE_AGE_THRES", which can be used to
+>> specify the maximum age of the database for doing an incremental update
+>> For older databases, a full re-download is done.
+>>
+>> With a value of "0", this forces a full-redownload.
+>>
+>> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+>> ---
+>>  .../meta/cve-update-nvd2-native.bb            | 20 +++++++++++++++----
+>>  1 file changed, 16 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb
+>> b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+>> index f21c139aa5..d565887498 100644
+>> --- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
+>> +++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+>> @@ -26,6 +26,12 @@ NVDCVE_API_KEY ?=3D ""
+>>  # Use a negative value to skip the update
+>>  CVE_DB_UPDATE_INTERVAL ?=3D "86400"
+>>
+>> +# CVE database incremental update age threshold, in seconds. If the
+>> database is
+>> +# older than this threshold, do a full re-download, else, do an
+>> incremental
+>> +# update. By default: the maximum allowed value from NVD: 120 days
+>> (120*24*60*60)
+>> +# Use 0 to force a full download.
+>> +CVE_DB_INCR_UPDATE_AGE_THRES ?=3D "10368000"
+>> +
+>>  # Number of attempts for each http query to nvd server before giving up
+>>  CVE_DB_UPDATE_ATTEMPTS ?=3D "5"
+>>
+>> @@ -172,18 +178,24 @@ def update_db_file(db_tmp_file, d, database_time):
+>>
+>>      req_args =3D {'startIndex' : 0}
+>>
+>> -    # The maximum range for time is 120 days
+>> -    # Force a complete update if our range is longer
+>> -    if (database_time !=3D 0):
+>> +    incr_update_threshold =3D int(d.getVar("CVE_DB_INCR_UPDATE_AGE_THRE=
+S"))
+>> +    if database_time !=3D 0:
+>>          database_date =3D datetime.datetime.fromtimestamp(database_time=
+,
+>> tz=3Ddatetime.timezone.utc)
+>>          today_date =3D datetime.datetime.now(tz=3Ddatetime.timezone.utc=
+)
+>>          delta =3D today_date - database_date
+>> -        if delta.days < 120:
+>> +        if incr_update_threshold =3D=3D 0:
+>> +            bb.note("CVE database: forced full update")
+>> +        elif delta < datetime.timedelta(seconds=3Dincr_update_threshold=
+):
+>>              bb.note("CVE database: performing partial update")
+>> +            # The maximum range for time is 120 days
+>> +            if delta > datetime.timedelta(days=3D120):
+>> +                bb.error("CVE database: Trying to do an incremental
+>> update on a larger than supported range")
+>>              req_args['lastModStartDate'] =3D database_date.isoformat()
+>>              req_args['lastModEndDate'] =3D today_date.isoformat()
+>>          else:
+>>              bb.note("CVE database: file too old, forcing a full update"=
+)
+>> +    else:
+>> +        bb.note("CVE database: no preexisting database, do a full
+>> download")
+>>
+>>      with bb.progress.ProgressHandler(d) as ph,
+>> open(os.path.join(d.getVar("TMPDIR"), 'cve_check'), 'a') as cve_f:
+>>
+>> --
+>>
 >
-> +# CVE database incremental update age threshold, in seconds. If the
-> database is
-> +# older than this threshold, do a full re-download, else, do an
-> incremental
-> +# update. By default: the maximum allowed value from NVD: 120 days
-> (120*24*60*60)
-> +# Use 0 to force a full download.
-> +CVE_DB_INCR_UPDATE_AGE_THRES ?= "10368000"
-> +
->  # Number of attempts for each http query to nvd server before giving up
->  CVE_DB_UPDATE_ATTEMPTS ?= "5"
 >
-> @@ -172,18 +178,24 @@ def update_db_file(db_tmp_file, d, database_time):
+Hi Marta,
+
+Thanks for your review!
+
+If you had not noticed, this patch has been merged here
+https://git.yoctoproject.org/poky/commit/?id=3D19f27037b2b785673c8f68f19ea7=
+83856f732e4d
+And was used this morning by AB
+https://autobuilder.yoctoproject.org/typhoon/#/builders/138/builds/1326 =3D=
 >
->      req_args = {'startIndex' : 0}
->
-> -    # The maximum range for time is 120 days
-> -    # Force a complete update if our range is longer
-> -    if (database_time != 0):
-> +    incr_update_threshold = int(d.getVar("CVE_DB_INCR_UPDATE_AGE_THRES"))
-> +    if database_time != 0:
->          database_date = datetime.datetime.fromtimestamp(database_time,
-> tz=datetime.timezone.utc)
->          today_date = datetime.datetime.now(tz=datetime.timezone.utc)
->          delta = today_date - database_date
-> -        if delta.days < 120:
-> +        if incr_update_threshold == 0:
-> +            bb.note("CVE database: forced full update")
-> +        elif delta < datetime.timedelta(seconds=incr_update_threshold):
->              bb.note("CVE database: performing partial update")
-> +            # The maximum range for time is 120 days
-> +            if delta > datetime.timedelta(days=120):
-> +                bb.error("CVE database: Trying to do an incremental
-> update on a larger than supported range")
->              req_args['lastModStartDate'] = database_date.isoformat()
->              req_args['lastModEndDate'] = today_date.isoformat()
->          else:
->              bb.note("CVE database: file too old, forcing a full update")
-> +    else:
-> +        bb.note("CVE database: no preexisting database, do a full
-> download")
->
->      with bb.progress.ProgressHandler(d) as ph,
-> open(os.path.join(d.getVar("TMPDIR"), 'cve_check'), 'a') as cve_f:
->
-> --
->
+It does not work as expected, I'm working on it.
 
 I find naming of the variable misleading, sourcing like FORCE_FULL_DOWNLOAD
-would be more obvious. Also, I'm not sure we need a variable if the user
-can just delete the database file and force the download this way. The 120
-days case is special, because its a limit set in the spec.
+> would be more obvious.
+>
+I agree FORCE_FULL_DOWNLOAD is more obvious. But, I've chosen a more
+nuanced variable to allow a customised workflow like the one we want on AB:
+fulldownload once a day, no update for other daily cve-check runs.
 
-Regards,
-Marta
 
+> Also, I'm not sure we need a variable if the user can just delete the
+> database file and force the download this way.
 >
 
---0000000000003833a006139dd5e2
+It is not usually expected of users to manually modify the content of
+DL_DIR. Here, I feel like a variable is cleaner and (once documented), will
+be more easy for users.
+
+
+> The 120 days case is special, because its a limit set in the spec.
+>
+
+Yes, that what this hunk test:
++            # The maximum range for time is 120 days
++            if delta > datetime.timedelta(days=3D120):
++                bb.error("CVE database: Trying to do an incremental update
+on a larger than supported range")
+maybe the error message is not clear enough?
+
+Regards,
+--=20
+Yoann Congal
+Smile ECS - Tech expert
+
+--0000000000006fb1cf06139e1324
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Wed, 13 Mar 2024, 16:15 Yoann Congal, &lt;<a href=
-=3D"mailto:yoann.congal@smile.fr">yoann.congal@smile.fr</a>&gt; wrote:<br><=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-le=
-ft:1px #ccc solid;padding-left:1ex">Add a new variable &quot;CVE_DB_INCR_UP=
-DATE_AGE_THRES&quot;, which can be used to<br>
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0jeu. 14 mars 2024 =C3=A0=C2=
+=A013:14, Marta Rybczynska &lt;<a href=3D"mailto:rybczynska@gmail.com">rybc=
+zynska@gmail.com</a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"=
+gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
+4,204,204);padding-left:1ex"><div dir=3D"auto"><div><br><br><div class=3D"g=
+mail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, 13 Mar 2024, 16:1=
+5 Yoann Congal, &lt;<a href=3D"mailto:yoann.congal@smile.fr" target=3D"_bla=
+nk">yoann.congal@smile.fr</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
+4,204);padding-left:1ex">Add a new variable &quot;CVE_DB_INCR_UPDATE_AGE_TH=
+RES&quot;, which can be used to<br>
 specify the maximum age of the database for doing an incremental update<br>
 For older databases, a full re-download is done.<br>
 <br>
 With a value of &quot;0&quot;, this forces a full-redownload.<br>
 <br>
-Signed-off-by: Yoann Congal &lt;<a href=3D"mailto:yoann.congal@smile.fr" ta=
-rget=3D"_blank" rel=3D"noreferrer">yoann.congal@smile.fr</a>&gt;<br>
+Signed-off-by: Yoann Congal &lt;<a href=3D"mailto:yoann.congal@smile.fr" re=
+l=3D"noreferrer" target=3D"_blank">yoann.congal@smile.fr</a>&gt;<br>
 ---<br>
 =C2=A0.../meta/<a href=3D"http://cve-update-nvd2-native.bb" rel=3D"noreferr=
 er noreferrer" target=3D"_blank">cve-update-nvd2-native.bb</a>=C2=A0 =C2=A0=
@@ -241,16 +295,48 @@ abase, do a full download&quot;)<br>
 .join(d.getVar(&quot;TMPDIR&quot;), &#39;cve_check&#39;), &#39;a&#39;) as c=
 ve_f:<br>
 <br>
---<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto=
+--<br></blockquote></div></div><div dir=3D"auto"><br></div></div></blockquo=
+te><div><br></div><div>Hi Marta,</div><div><br></div><div>Thanks for your r=
+eview!</div><div><br></div><div>If you had not noticed, this patch has been=
+ merged here <a href=3D"https://git.yoctoproject.org/poky/commit/?id=3D19f2=
+7037b2b785673c8f68f19ea783856f732e4d">https://git.yoctoproject.org/poky/com=
+mit/?id=3D19f27037b2b785673c8f68f19ea783856f732e4d</a></div><div>And was us=
+ed this morning by AB <a href=3D"https://autobuilder.yoctoproject.org/typho=
+on/#/builders/138/builds/1326">https://autobuilder.yoctoproject.org/typhoon=
+/#/builders/138/builds/1326</a> =3D&gt; It does not work as expected, I&#39=
+;m working on it.<br></div><div><br></div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex"><div dir=3D"auto"><div dir=3D"auto"></div><div dir=3D"auto=
 ">I find naming of the variable misleading, sourcing like FORCE_FULL_DOWNLO=
-AD would be more obvious. Also, I&#39;m not sure we need a variable if the =
-user can just delete the database file and force the download this way. The=
- 120 days case is special, because its a limit set in the spec.</div><div d=
-ir=3D"auto"><br></div><div dir=3D"auto">Regards,</div><div dir=3D"auto">Mar=
-ta</div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"g=
-mail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-l=
-eft:1ex">
-</blockquote></div></div></div>
+AD would be more obvious. </div></div></blockquote><div>I agree FORCE_FULL_=
+DOWNLOAD is more obvious. But, I&#39;ve chosen a more nuanced variable to a=
+llow a customised workflow like the one we want on AB: fulldownload once a =
+day, no update for other daily cve-check runs.<br></div><div>=C2=A0</div><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"auto"><div dir=
+=3D"auto">Also, I&#39;m not sure we need a variable if the user can just de=
+lete the database file and force the download this way.</div></div></blockq=
+uote></div><div class=3D"gmail_quote"><br></div><div class=3D"gmail_quote">=
+It is not usually expected of users to manually modify the content of DL_DI=
+R. Here, I feel like a variable is cleaner and (once documented), will be m=
+ore easy for users.<br></div><div class=3D"gmail_quote"><div>=C2=A0</div><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"auto"><div dir=
+=3D"auto">The 120 days case is special, because its a limit set in the spec=
+.</div></div></blockquote><div><br></div><div>Yes, that what this hunk test=
+:<br></div><div>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # The maximum range for time is =
+120 days<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if delta &gt; datetime.timedelta=
+(days=3D120):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.error(&quot;CVE=
+ database: Trying to do an incremental update on a larger than supported ra=
+nge&quot;)</div><div>maybe the error message is not clear enough?<br></div>=
+<div><br></div><div>Regards,<br></div><div><span class=3D"gmail_signature_p=
+refix">-- </span><br></div></div><div dir=3D"ltr" class=3D"gmail_signature"=
+><div dir=3D"ltr"><font face=3D"Raleway, regular">Yoann Congal</font><div><=
+font face=3D"Raleway, regular">Smile ECS - Tech expert<br></font></div></di=
+v></div></div>
 
---0000000000003833a006139dd5e2--
+--0000000000006fb1cf06139e1324--
 
