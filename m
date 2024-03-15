@@ -2,47 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86190C54F48
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BBFBC54F42
 	for <webhook@archiver.kernel.org>; Fri, 15 Mar 2024 17:00:17 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web11.1284.1710522016207143912
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web10.1235.1710522010786895544
  for <openembedded-core@lists.openembedded.org>;
  Fri, 15 Mar 2024 10:00:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=b7bxLR+w;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=YMl9PXf5;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018e430e9f05-f9945ed2-359d-480e-82f2-e1002d4abbe7-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=E0Cncm6N;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=2IbNQ1mn;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018e430ea1e2-9f7b9b72-1d52-4571-a35f-c28dd1cfbed9-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1710522015;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=wwlj8TbsjaY+EeFz2knBTZYId6APRSeqwYAA+R9bfDc=;
-	b=b7bxLR+wgZ/1Am7ziPXQMyO2E1SBwwBOSzlHjeY8n8SzOM52evEeUVffdyZQcyN6
-	BcP9RtrLnd5F2ryH3YJ4cWtHz38xqlaTnaY+d04xuasnRxu2ouwtc118L85ESTVpnJu
-	7E28IULPqe4iiyNwfZkyP273PWuH3tL63YzBMF74=
+	t=1710522016;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=HHZAhjivgR0jK3NeHVcVIhBJ3aAZDF1ARRWMbwWxzNU=;
+	b=E0Cncm6NnDwWO+P0fLzNhudd+hQ6rMVXxHyHOK8uf7GMnXE7f2zzwp+ELLrYZE3A
+	Xoei/yYPxjKnzJr/ppzwcnqe/gc1MahYLnmpEfWrJ8zDf/PU9O5IvmYiYSNiz423bEq
+	Ozo8W9FQWjsqnxoaaQKaQC+WSqbGund3kp31a67M=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1710522015;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=wwlj8TbsjaY+EeFz2knBTZYId6APRSeqwYAA+R9bfDc=;
-	b=YMl9PXf53G1w0KtI2Gzp0VD1SjdnKqkaztQnuhfqwKTx5EN7AvpZHu2MTX9FKYLG
-	C110kjPf2Z3SaFe1GTM7bucfhP/LBnlKUnjzS+Zy8GU+pZlEEeZtSgvu1HOCV1ANsZM
-	jAm/IaRiRxjr48FtiN2t0vomFALROXqgkSGB+HNM=
-Content-Type: multipart/mixed; boundary="===============5022214601303729055=="
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1710522016;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=HHZAhjivgR0jK3NeHVcVIhBJ3aAZDF1ARRWMbwWxzNU=;
+	b=2IbNQ1mnjEv3xBXl0psfMRFEO7xz1VSzTTZPGM4Tj/ba9etEGok4oICILhRMxpme
+	hCsmaoDN963maXqBxkESqzIK+hpm/AmRRtO8sgRVAM9TunHx2uqVW3KPvKBSgmfd5RA
+	DVOBcAFqw11ATey7Au2IMGoXqc0yQ+AiEbALirTo=
+Content-Type: multipart/mixed; boundary="===============4262864506020790375=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] libxdmcp: upgrading to 1.1.5 SUCCEEDED
-Message-ID: <0101018e430e9f05-f9945ed2-359d-480e-82f2-e1002d4abbe7-000000@us-west-2.amazonses.com>
-Date: Fri, 15 Mar 2024 17:00:15 +0000
+To: Anuj Mittal <anuj.mittal@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] sqlite3: upgrading to 3.45.2 SUCCEEDED
+Message-ID: <0101018e430ea1e2-9f7b9b72-1d52-4571-a35f-c28dd1cfbed9-000000@us-west-2.amazonses.com>
+Date: Fri, 15 Mar 2024 17:00:16 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.03.15-54.240.27.33
+X-SES-Outgoing: 2024.03.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 Mar 2024 17:00:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197238
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197243
 
---===============5022214601303729055==
+--===============4262864506020790375==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libxdmcp* to *1.1.5* has Succeeded.
+that the automatic attempt to upgrade the recipe *sqlite3* to *3.45.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libxdmcp-upgrade-1.1.4-1.1.5.patch
+    - apply the patch: git am 0001-sqlite3-upgrade-3.45.1-3.45.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -71,62 +72,60 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 67cedf4c840e5ef3ce89e31d5d9df1773f106ecb Mon Sep 17 00:00:00 2001
+From 2ffb33b2384305a6352487586cc3a34d75b135f9 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Mar 2024 14:02:45 +0000
-Subject: [PATCH] libxdmcp: upgrade 1.1.4 -> 1.1.5
+Date: Fri, 15 Mar 2024 16:53:37 +0000
+Subject: [PATCH] sqlite3: upgrade 3.45.1 -> 3.45.2
 
 ---
- .../xorg-lib/{libxdmcp_1.1.4.bb => libxdmcp_1.1.5.bb}           | 2 +-
+ .../sqlite/{sqlite3_3.45.1.bb => sqlite3_3.45.2.bb}             | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-lib/{libxdmcp_1.1.4.bb => libxdmcp_1.1.5.bb} (89%)
+ rename meta/recipes-support/sqlite/{sqlite3_3.45.1.bb => sqlite3_3.45.2.bb} (69%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb b/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb
-similarity index 89%
-rename from meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb
-rename to meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb
-index bf5d2d6721..d1a1a2e7f9 100644
---- a/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb
-@@ -22,7 +22,7 @@ XORG_PN = "libXdmcp"
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.45.1.bb b/meta/recipes-support/sqlite/sqlite3_3.45.2.bb
+similarity index 69%
+rename from meta/recipes-support/sqlite/sqlite3_3.45.1.bb
+rename to meta/recipes-support/sqlite/sqlite3_3.45.2.bb
+index 50612feb25..83a7bde784 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.45.1.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.45.2.bb
+@@ -4,5 +4,5 @@ LICENSE = "PD"
+ LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
  
- BBCLASSEXTEND = "native nativesdk"
+ SRC_URI = "http://www.sqlite.org/2024/sqlite-autoconf-${SQLITE_PV}.tar.gz"
+-SRC_URI[sha256sum] = "cd9c27841b7a5932c9897651e20b86c701dd740556989b01ca596fcfa3d49a0a"
++SRC_URI[sha256sum] = "bc9067442eedf3dd39989b5c5cfbfff37ae66cc9c99274e0c3052dc4d4a8f6ae"
  
--SRC_URI[sha256sum] = "2dce5cc317f8f0b484ec347d87d81d552cdbebb178bd13c5d8193b6b7cd6ad00"
-+SRC_URI[sha256sum] = "d8a5222828c3adab70adf69a5583f1d32eb5ece04304f7f8392b6a353aa2228c"
- 
- PACKAGECONFIG ??= ""
- PACKAGECONFIG[arc4] = "ac_cv_lib_bsd_arc4random_buf=yes,ac_cv_lib_bsd_arc4random_buf=no,libbsd"
 -- 
 2.42.0
 
 
---===============5022214601303729055==
+--===============4262864506020790375==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/libxdmcp: PV changed from "1.1.4" to "1.1.5"
-packages/core2-64-poky-linux/libxdmcp: SRC_URI changed from "https://www.x.org/releases//individual/lib/libXdmcp-1.1.4.tar.xz" to "https://www.x.org/releases//individual/lib/libXdmcp-1.1.5.tar.xz"
-packages/core2-64-poky-linux/libxdmcp: PKGV changed from 1.1.4 [default] to 1.1.5 [default]
-packages/core2-64-poky-linux/libxdmcp/libxdmcp-dbg: PKGSIZE changed from 55328 to 55344 (+0%)
-packages/core2-64-poky-linux/libxdmcp/libxdmcp-dbg: PV changed from "1.1.4" to "1.1.5"
-packages/core2-64-poky-linux/libxdmcp/libxdmcp-dbg: PKGV changed from 1.1.4 [default] to 1.1.5 [default]
-packages/core2-64-poky-linux/libxdmcp/libxdmcp-dev: PKGSIZE changed from 6608 to 8772 (+33%)
-packages/core2-64-poky-linux/libxdmcp/libxdmcp-dev: PV changed from "1.1.4" to "1.1.5"
-packages/core2-64-poky-linux/libxdmcp/libxdmcp-dev: PKGV changed from 1.1.4 [default] to 1.1.5 [default]
-packages/core2-64-poky-linux/libxdmcp/libxdmcp-doc: PV changed from "1.1.4" to "1.1.5"
-packages/core2-64-poky-linux/libxdmcp/libxdmcp-doc: PKGV changed from 1.1.4 [default] to 1.1.5 [default]
-packages/core2-64-poky-linux/libxdmcp/libxdmcp-locale: PV changed from "1.1.4" to "1.1.5"
-packages/core2-64-poky-linux/libxdmcp/libxdmcp-locale: PKGV changed from 1.1.4 [default] to 1.1.5 [default]
-packages/core2-64-poky-linux/libxdmcp/libxdmcp-src: PKGSIZE changed from 56150 to 58248 (+4%)
-packages/core2-64-poky-linux/libxdmcp/libxdmcp-src: PV changed from "1.1.4" to "1.1.5"
-packages/core2-64-poky-linux/libxdmcp/libxdmcp-src: PKGV changed from 1.1.4 [default] to 1.1.5 [default]
-packages/core2-64-poky-linux/libxdmcp/libxdmcp-staticdev: PV changed from "1.1.4" to "1.1.5"
-packages/core2-64-poky-linux/libxdmcp/libxdmcp-staticdev: PKGV changed from 1.1.4 [default] to 1.1.5 [default]
-packages/core2-64-poky-linux/libxdmcp/libxdmcp: PV changed from "1.1.4" to "1.1.5"
-packages/core2-64-poky-linux/libxdmcp/libxdmcp: PKGV changed from 1.1.4 [default] to 1.1.5 [default]
+packages/core2-64-poky-linux/sqlite3: PKGV changed from 3.45.1 [default] to 3.45.2 [default]
+packages/core2-64-poky-linux/sqlite3: PV changed from "3.45.1" to "3.45.2"
+packages/core2-64-poky-linux/sqlite3: SRC_URI changed from "http://www.sqlite.org/2024/sqlite-autoconf-3450100.tar.gz" to "http://www.sqlite.org/2024/sqlite-autoconf-3450200.tar.gz"
+packages/core2-64-poky-linux/sqlite3/libsqlite3-dev: PKGV changed from 3.45.1 [default] to 3.45.2 [default]
+packages/core2-64-poky-linux/sqlite3/libsqlite3-dev: PV changed from "3.45.1" to "3.45.2"
+packages/core2-64-poky-linux/sqlite3/libsqlite3-dev: PKGSIZE changed from 679067 to 679215 (+0%)
+packages/core2-64-poky-linux/sqlite3/libsqlite3-doc: PKGV changed from 3.45.1 [default] to 3.45.2 [default]
+packages/core2-64-poky-linux/sqlite3/libsqlite3-doc: PV changed from "3.45.1" to "3.45.2"
+packages/core2-64-poky-linux/sqlite3/libsqlite3-staticdev: PKGV changed from 3.45.1 [default] to 3.45.2 [default]
+packages/core2-64-poky-linux/sqlite3/libsqlite3-staticdev: PV changed from "3.45.1" to "3.45.2"
+packages/core2-64-poky-linux/sqlite3/libsqlite3: PKGV changed from 3.45.1 [default] to 3.45.2 [default]
+packages/core2-64-poky-linux/sqlite3/libsqlite3: PV changed from "3.45.1" to "3.45.2"
+packages/core2-64-poky-linux/sqlite3/sqlite3-dbg: PKGV changed from 3.45.1 [default] to 3.45.2 [default]
+packages/core2-64-poky-linux/sqlite3/sqlite3-dbg: PV changed from "3.45.1" to "3.45.2"
+packages/core2-64-poky-linux/sqlite3/sqlite3-dbg: PKGSIZE changed from 5993848 to 5996688 (+0%)
+packages/core2-64-poky-linux/sqlite3/sqlite3-src: PKGV changed from 3.45.1 [default] to 3.45.2 [default]
+packages/core2-64-poky-linux/sqlite3/sqlite3-src: PV changed from "3.45.1" to "3.45.2"
+packages/core2-64-poky-linux/sqlite3/sqlite3-src: PKGSIZE changed from 10569618 to 10574703 (+0%)
+packages/core2-64-poky-linux/sqlite3/sqlite3: PKGV changed from 3.45.1 [default] to 3.45.2 [default]
+packages/core2-64-poky-linux/sqlite3/sqlite3: PV changed from "3.45.1" to "3.45.2"
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1766,13 +1765,12 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============5022214601303729055==
+--===============4262864506020790375==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/libxdmcp/libxdmcp-dev: PKGSIZE changed from 6608 to 8772 (+33%)
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3412,35 +3410,34 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============5022214601303729055==
+--===============4262864506020790375==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libxdmcp-upgrade-1.1.4-1.1.5.patch"
+ filename="0001-sqlite3-upgrade-3.45.1-3.45.2.patch"
 
-RnJvbSA2N2NlZGY0Yzg0MGU1ZWYzY2U4OWUzMWQ1ZDlkZjE3NzNmMTA2ZWNiIE1vbiBTZXAgMTcg
+RnJvbSAyZmZiMzNiMjM4NDMwNWE2MzUyNDg3NTg2Y2MzYTM0ZDc1YjEzNWY5IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTUgTWFyIDIwMjQgMTQ6MDI6NDUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJ4ZG1jcDogdXBncmFkZSAxLjEuNCAtPiAxLjEuNQoKLS0tCiAuLi4veG9yZy1saWIve2xpYnhk
-bWNwXzEuMS40LmJiID0+IGxpYnhkbWNwXzEuMS41LmJifSAgICAgICAgICAgfCAyICstCiAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
-Y2lwZXMtZ3JhcGhpY3MveG9yZy1saWIve2xpYnhkbWNwXzEuMS40LmJiID0+IGxpYnhkbWNwXzEu
-MS41LmJifSAoODklKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxp
-Yi9saWJ4ZG1jcF8xLjEuNC5iYiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9saWJ4
-ZG1jcF8xLjEuNS5iYgpzaW1pbGFyaXR5IGluZGV4IDg5JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lw
-ZXMtZ3JhcGhpY3MveG9yZy1saWIvbGlieGRtY3BfMS4xLjQuYmIKcmVuYW1lIHRvIG1ldGEvcmVj
-aXBlcy1ncmFwaGljcy94b3JnLWxpYi9saWJ4ZG1jcF8xLjEuNS5iYgppbmRleCBiZjVkMmQ2NzIx
-Li5kMWExYTJlN2Y5IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIv
-bGlieGRtY3BfMS4xLjQuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xp
-YnhkbWNwXzEuMS41LmJiCkBAIC0yMiw3ICsyMiw3IEBAIFhPUkdfUE4gPSAibGliWGRtY3AiCiAK
-IEJCQ0xBU1NFWFRFTkQgPSAibmF0aXZlIG5hdGl2ZXNkayIKIAotU1JDX1VSSVtzaGEyNTZzdW1d
-ID0gIjJkY2U1Y2MzMTdmOGYwYjQ4NGVjMzQ3ZDg3ZDgxZDU1MmNkYmViYjE3OGJkMTNjNWQ4MTkz
-YjZiN2NkNmFkMDAiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiZDhhNTIyMjgyOGMzYWRhYjcwYWRm
-NjlhNTU4M2YxZDMyZWI1ZWNlMDQzMDRmN2Y4MzkyYjZhMzUzYWEyMjI4YyIKIAogUEFDS0FHRUNP
-TkZJRyA/Pz0gIiIKIFBBQ0tBR0VDT05GSUdbYXJjNF0gPSAiYWNfY3ZfbGliX2JzZF9hcmM0cmFu
-ZG9tX2J1Zj15ZXMsYWNfY3ZfbGliX2JzZF9hcmM0cmFuZG9tX2J1Zj1ubyxsaWJic2QiCi0tIAoy
-LjQyLjAKCg==
+CkRhdGU6IEZyaSwgMTUgTWFyIDIwMjQgMTY6NTM6MzcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBz
+cWxpdGUzOiB1cGdyYWRlIDMuNDUuMSAtPiAzLjQ1LjIKCi0tLQogLi4uL3NxbGl0ZS97c3FsaXRl
+M18zLjQ1LjEuYmIgPT4gc3FsaXRlM18zLjQ1LjIuYmJ9ICAgICAgICAgICAgIHwgMiArLQogMSBm
+aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
+ZWNpcGVzLXN1cHBvcnQvc3FsaXRlL3tzcWxpdGUzXzMuNDUuMS5iYiA9PiBzcWxpdGUzXzMuNDUu
+Mi5iYn0gKDY5JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9zcWxpdGUvc3Fs
+aXRlM18zLjQ1LjEuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9zcWxpdGUvc3FsaXRlM18zLjQ1
+LjIuYmIKc2ltaWxhcml0eSBpbmRleCA2OSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1cHBv
+cnQvc3FsaXRlL3NxbGl0ZTNfMy40NS4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc3VwcG9y
+dC9zcWxpdGUvc3FsaXRlM18zLjQ1LjIuYmIKaW5kZXggNTA2MTJmZWIyNS4uODNhN2JkZTc4NCAx
+MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvc3FsaXRlL3NxbGl0ZTNfMy40NS4xLmJi
+CisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L3NxbGl0ZS9zcWxpdGUzXzMuNDUuMi5iYgpAQCAt
+NCw1ICs0LDUgQEAgTElDRU5TRSA9ICJQRCIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL3Nx
+bGl0ZTMuaDtlbmRsaW5lPTExO21kNT03ODZkM2RjNTgxZWZmMDNmNGZkOWU0YTc3ZWQwMGM2NiIK
+IAogU1JDX1VSSSA9ICJodHRwOi8vd3d3LnNxbGl0ZS5vcmcvMjAyNC9zcWxpdGUtYXV0b2NvbmYt
+JHtTUUxJVEVfUFZ9LnRhci5neiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJjZDljMjc4NDFiN2E1
+OTMyYzk4OTc2NTFlMjBiODZjNzAxZGQ3NDA1NTY5ODliMDFjYTU5NmZjZmEzZDQ5YTBhIgorU1JD
+X1VSSVtzaGEyNTZzdW1dID0gImJjOTA2NzQ0MmVlZGYzZGQzOTk4OWI1YzVjZmJmZmYzN2FlNjZj
+YzljOTkyNzRlMGMzMDUyZGM0ZDRhOGY2YWUiCiAKLS0gCjIuNDIuMAoK
 
---===============5022214601303729055==--
+--===============4262864506020790375==--
 
