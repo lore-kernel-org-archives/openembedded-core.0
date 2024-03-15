@@ -1,98 +1,138 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 426C2C54E58
-	for <webhook@archiver.kernel.org>; Fri, 15 Mar 2024 15:58:31 +0000 (UTC)
-Received: from smtpout.cvg.de (smtpout.cvg.de [87.128.211.67])
- by mx.groups.io with SMTP id smtpd.web11.26053.1710518305307553836
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BD58C54E67
+	for <webhook@archiver.kernel.org>; Fri, 15 Mar 2024 16:06:51 +0000 (UTC)
+Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
+ by mx.groups.io with SMTP id smtpd.web11.26265.1710518804255330742
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Mar 2024 08:58:29 -0700
+ Fri, 15 Mar 2024 09:06:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@sigma-chemnitz.de header.s=v2022040800 header.b=Rk5v0cZI;
- spf=pass (domain: sigma-chemnitz.de, ip: 87.128.211.67, mailfrom: enrico.scholz@sigma-chemnitz.de)
-Received: from mail-mta-3.intern.sigma-chemnitz.de (mail-mta-3.intern.sigma-chemnitz.de [192.168.12.71])
-	by mail-out-2.intern.sigma-chemnitz.de (8.17.1/8.17.1) with ESMTPS id 42FFwLl9206167
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>; Fri, 15 Mar 2024 16:58:22 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2022040800; t=1710518302;
-	bh=oT6E7OObFXY5iVz2Ka1EtLjOTY2GJFw8bzNDPmqnGFU=; l=1188;
-	h=From:To:Subject:Date;
-	b=Rk5v0cZIh44+U2nYtCUVsTBUvU0MJhLSOOsXPdx5EMZ0Uq9weYwOR+fKrCkvwtEiY
-	 lUH5waq3dTcuxf03GreDL874QD1cPbIi/q2u+6bGfQMKQYLMWuq6qrBMtCpr4kwsTx
-	 oTyfzSkayNn+WaE7f4Zsh6aG1pIN8hN7kzvLuDyGNGPMFUVaEJqUskqqGAK+pCMnvs
-	 4/m3+35eNcno4hfz6bWlx32SQwiaEVfW0b5+iw0+7lSj8RjfF8/ie+psDkc+pM7qTV
-	 IM1ZehC5tYuBGa0GnS8xCY6iRUCez2gK2W484IXAlsZu7cxLr1bFOhKu9+KpbVxyQh
-	 BxhUHaBMRnJMA==
-Received: from reddoxx.intern.sigma-chemnitz.de (reddoxx.sigma.local [192.168.16.32])
-	by mail-mta-3.intern.sigma-chemnitz.de (8.17.1/8.17.1) with ESMTP id 42FFwJjD390160
-	for <openembedded-core@lists.openembedded.org> from enrico.scholz@sigma-chemnitz.de; Fri, 15 Mar 2024 16:58:20 +0100
-Received: from mail-msa-3.intern.sigma-chemnitz.de ([192.168.12.73])
-	by reddoxx.intern.sigma-chemnitz.de with ESMTP
-	id W91SKNSYV3; Fri, 15 Mar 2024 16:58:18 +0100
-Received: from ensc-pc.intern.sigma-chemnitz.de (ensc-pc.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail-msa-3.intern.sigma-chemnitz.de (8.15.2/8.15.2) with ESMTPS id 42FFwIPp143202
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org> from ensc@sigma-chemnitz.de; Fri, 15 Mar 2024 16:58:18 +0100
-Received: from ensc by ensc-pc.intern.sigma-chemnitz.de with local (Exim 4.97.1)
-	(envelope-from <ensc@sigma-chemnitz.de>)
-	id 1rl9wo-00000004zjy-2YLM
-	for openembedded-core@lists.openembedded.org;
-	Fri, 15 Mar 2024 16:58:18 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-Subject: '.bashrc': Unknown file type; file ignored
-Date: Fri, 15 Mar 2024 16:58:18 +0100
-Message-ID: <lysf0r7ahx.fsf@ensc-pc.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=aoz80jPD;
+ spf=pass (domain: gmail.com, ip: 209.85.161.53, mailfrom: raj.khem@gmail.com)
+Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-5a4789684abso525868eaf.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 15 Mar 2024 09:06:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1710518803; x=1711123603; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8k/sSQPjZGJaUGfc0NcvGZt66XnD2PepXyftup6ol9s=;
+        b=aoz80jPD8tOh5g9loAlIZQnpdtjweRotLWCBHx2YT1yJ68OGBGSQ8HsR/5AUPsyEwF
+         6XsIjm4Tio5Br7dYmF3IaeqxPKbEANY3yJN6IJYNo8ceBClG6K15Nu6QhwocLlNkRpVW
+         uCfD9U0ZtyrJKtOxlLVJbD2rNUHdYfE+uhOZXcDdMXKwo/1Xuw9JR/YC8CP4nmz2ot3Q
+         qy9IY31NcfQi3g/lSjvMGpD/7uT6cw9Qkeq6pdp9MhyEzhm2g1GC4tJ/buYi58jMKg3U
+         mSrAKqBJeLGKcaT9RpagqMzNeYZA4QXZq0fjTLHRqTqtnG79PUWHes5hX7iXG42f7hqD
+         DLIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710518803; x=1711123603;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8k/sSQPjZGJaUGfc0NcvGZt66XnD2PepXyftup6ol9s=;
+        b=I18eYnv6WdmDxmg0IEPU4RX37EJf01UpZvZdhbhG++twghItJoGB5HMcuy0QwdgVoo
+         vGAZQHuR9si75A8kL0tivAwzW05YDdHDM3hRFqCuVLizErRCnuVO9JDZzhiPVCXtFrRn
+         hxtQpOplPpYSmwvZ43A0VJBZrFlNcDdT3qoSsgw2NYaEti3dPmdoPfVj7/JyyrLnaJX0
+         X1KDobknns1Eh+jPwDw2NrzwZO/Np2AMJki8x3zhj58dmNBEh8hKGYafaZfsEFK0u9Kc
+         mR6DSVfjPsPd/TqbX0jRTPA7ZUTpcxlDiGLKOoLskMfgU5Bp/l5Qv7/9EvUJxUgUmpXS
+         2/LQ==
+X-Gm-Message-State: AOJu0YxaKgxoqYeYfo5hxOnHHd1absTMaljfx37K/mSXJHANd/T6mLeN
+	hfTlGjD2/4GgwcZEfVlREr8yyAeb36WiR5LRXAuSQ+BUozFH5Ig5/12Kh2RRoVT6laFpTRQWb6U
+	yAad3Bbbkqex1LEzsHUmRc4l/H8gBAa6Q
+X-Google-Smtp-Source: AGHT+IE7CO74eNgjiNcXgmsSFInWc/U9fXY1pWLhcsP3a0ni6Pcks5we9X30Mh2SOJv8iN3kxjOD1FOITEtnV/j7EQ4=
+X-Received: by 2002:a05:6870:a11a:b0:21e:d17f:8693 with SMTP id
+ m26-20020a056870a11a00b0021ed17f8693mr5537264oae.56.1710518803289; Fri, 15
+ Mar 2024 09:06:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-REDDOXX-Id: 65f4701ab121c496daa90638
+References: <20240315142926.3832940-1-richard.purdie@linuxfoundation.org> <20240315142926.3832940-2-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20240315142926.3832940-2-richard.purdie@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 15 Mar 2024 09:06:16 -0700
+Message-ID: <CAMKF1soHpQCLr_UXrEUSMqZOdx=TBiZeduFq-+huS4vFf=fshA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] uninative: Add pthread linking workaround
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 15 Mar 2024 15:58:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197140
+ <openembedded-core@lists.openembedded.org>; Fri, 15 Mar 2024 16:06:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197141
 
-Hello,
+On Fri, Mar 15, 2024 at 7:29=E2=80=AFAM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> With newer glibc versions, pthread was merged into the main library so th=
+ere is
+> no longer any need to link with -lpthread. On newer systems this means th=
+at linker
+> flag is dropped from places like pkgconfig .pc files. If uninative then u=
+ses this
+> newer library on an older system, the flag is missing and linker errors a=
+bout missing
+> symbols occur.
+>
+> Adding the linkage unconditionally to our uninative linking flags avoids =
+that problem
+> at a potential cost of slight over linking.
+>
 
-with ubuntu-20.04 based builders I get problems like
+There is another unintended consequence of linking pthreads
+unconditionally on older versions
+where certain functions which are required to be thread-safe are
+implemented as weak stubs in
+libc so single threaded programs do not incur the cost of ensuring
+thread safety, but when pthread
+it linked in, it will replace these stubs with thread safe versions
+which are correct in muti-threaded env
+but incur performance cost. I do not know how much of this is going to
+impact the uninative stuff
+but I thought I would mention it for reference.
 
-| DEBUG: Executing shell function do_image_tar
-| tar: ./home/.../.bashrc: Unknown file type; file ignored
-| tar: Exiting with failure status due to previous errors
-| WARNING: exit code 1 from a shell command.
-| NOTE: recipe ...-image-core-1.0-r0: task do_image_tar: Failed
-
-or
-
-| Creating journal (8192 blocks): done
-| Copying files into the device: __populate_fs: ignoring entry ".bashrc"
-| .bashrc: File not found by ext2_lookup while looking up ".bashrc"
-| mkfs.ext4: File not found by ext2_lookup while populating file system
-| 
-| + bb_sh_exit_handler
-| + ret=1
-| + [ 1 != 0 ]
-| + echo WARNING: exit code 1 from a shell command.
-| + exit 1
-| WARNING: exit code 1 from a shell command.
-| NOTE: recipe ...-image-1.0-r0: task do_image_wic: Failed
-
-
-Build works fine under fedora-39 based builders.
-
-I see related discussions at 2024-01-18 ("shadow: link executables
-statically for -native variant") but not after.
-
-
-Seen on scarthgap bc793fa9d1fe24c102d91e97b7002b6e637cbfa5 and it seems
-to be very reproducible (both the failure on ubuntu-20.04 and the success
-on fedora-39).
-
-
-
-Enrico
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/classes-global/uninative.bbclass | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/classes-global/uninative.bbclass b/meta/classes-global/=
+uninative.bbclass
+> index 9b8b4565dd4..d05b61c48eb 100644
+> --- a/meta/classes-global/uninative.bbclass
+> +++ b/meta/classes-global/uninative.bbclass
+> @@ -143,8 +143,8 @@ def enable_uninative(d):
+>          d.setVar("NATIVELSBSTRING", "universal%s" % oe.utils.host_gcc_ve=
+rsion(d))
+>          d.appendVar("SSTATEPOSTUNPACKFUNCS", " uninative_changeinterp")
+>          d.appendVarFlag("SSTATEPOSTUNPACKFUNCS", "vardepvalueexclude", "=
+| uninative_changeinterp")
+> -        d.appendVar("BUILD_LDFLAGS", " -Wl,--allow-shlib-undefined -Wl,-=
+-dynamic-linker=3D${UNINATIVE_LOADER}")
+> -        d.appendVarFlag("BUILD_LDFLAGS", "vardepvalueexclude", "| -Wl,--=
+allow-shlib-undefined -Wl,--dynamic-linker=3D${UNINATIVE_LOADER}")
+> +        d.appendVar("BUILD_LDFLAGS", " -Wl,--allow-shlib-undefined -Wl,-=
+-dynamic-linker=3D${UNINATIVE_LOADER} -Wl,-lpthread")
+> +        d.appendVarFlag("BUILD_LDFLAGS", "vardepvalueexclude", "| -Wl,--=
+allow-shlib-undefined -Wl,--dynamic-linker=3D${UNINATIVE_LOADER} -Wl,-lpthr=
+ead")
+>          d.appendVarFlag("BUILD_LDFLAGS", "vardepsexclude", "UNINATIVE_LO=
+ADER")
+>          d.prependVar("PATH", "${UNINATIVE_STAGING_DIR}-uninative/${BUILD=
+_ARCH}-linux${bindir_native}:")
+>
+> --
+> 2.40.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#197132): https://lists.openembedded.org/g/openembedde=
+d-core/message/197132
+> Mute This Topic: https://lists.openembedded.org/mt/104948451/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
