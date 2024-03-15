@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A26CEC54F2A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C16D9C54F2B
 	for <webhook@archiver.kernel.org>; Fri, 15 Mar 2024 17:00:16 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.1234.1710522010374095625
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web10.1250.1710522012666851723
  for <openembedded-core@lists.openembedded.org>;
  Fri, 15 Mar 2024 10:00:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=bnZWiCsK;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=rO1tqR/Q;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018e430e9f58-1488efd7-c756-4d0a-b676-2f7e59717acf-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=K5EVex3+;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=NlmkTFcb;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018e430ea01f-0a9a5234-0dc1-45ae-a14e-9d5523ea2fe2-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1710522015;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=v7k+ClN0qwVQp3DUiPbxHjE4pjzgye85stjzRPE5lUQ=;
-	b=bnZWiCsKDf9hyFsF1v7BymLCAchrdO5kS7dgJGCzGIsmXf2HGkLZrj2x6C2Cu1by
-	iSGFs5ZzPM0EupKpEm6jXyJKyqvXZCDoPKVI06DETEsMZUMBYYpRiU9QYrtZug9Furh
-	+V2wzPoMtvsxeB6mRcmefhF/LcTmtWjKECYy/i1Q=
+	bh=VwPzM/U1HOHTN+V5iJdwaQgN6KvBD9OuGEalnq8yXxs=;
+	b=K5EVex3+zhSRgGGp8DYFxM9wyzIlOsOFciurUeIcLlMvb/5TJjEyf81YNZVeulLu
+	m6Q0uyJhr5B4E4YHfvMMOWrrlpyKVLcHUd9S3k+NXx8PBQ/9jPWTu7x1FWCzDmIqlXf
+	gO+aWD2DXWJrWRIp0NwZajOdwEvPTu2BOtUq6Cw0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1710522015;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=v7k+ClN0qwVQp3DUiPbxHjE4pjzgye85stjzRPE5lUQ=;
-	b=rO1tqR/QhyvGrdJ//TerYhggrZxgah1WdzQmuruBersN9QWdicqH2vg4OZ4iz6Xg
-	ZRDSxqghcGA4ta4JHAcrLP/5iF2c/JMlSGNj0P6ZX95WzjYx3h72Ve5SbSGbfNEWH6O
-	qYK89Bj76Wewm1Du/YolUttPIq6MJN9Sb9vOEAGw=
-Content-Type: multipart/mixed; boundary="===============8580124124907389459=="
+	bh=VwPzM/U1HOHTN+V5iJdwaQgN6KvBD9OuGEalnq8yXxs=;
+	b=NlmkTFcbaFtvvWEQrmO5xvmZ4MOWSs046edEFwxwOV6Ud6ihpQjeTP6nfsZXWje/
+	n0R4/gKD1+aOmLA0C07eBIAz9cVgR4eznV8dT8R0wvufhJHNa+qjKIxOA7L0b+5ygKE
+	h7t7EUCUp3S899TJOSLm+UrBhtKVqI9MhuurokFU=
+Content-Type: multipart/mixed; boundary="===============6174102714740131500=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Chen Qi <Qi.Chen@windriver.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] kmod: upgrading to 32 FAILED
-Message-ID: <0101018e430e9f58-1488efd7-c756-4d0a-b676-2f7e59717acf-000000@us-west-2.amazonses.com>
+Subject: [AUH] gstreamer1.0-python: upgrading to 1.24.0 FAILED
+Message-ID: <0101018e430ea01f-0a9a5234-0dc1-45ae-a14e-9d5523ea2fe2-000000@us-west-2.amazonses.com>
 Date: Fri, 15 Mar 2024 17:00:15 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.03.15-54.240.27.30
+X-SES-Outgoing: 2024.03.15-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 Mar 2024 17:00:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197230
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197227
 
---===============8580124124907389459==
+--===============6174102714740131500==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,7 +51,7 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *kmod* to *32* has Failed(do_compile).
+that the automatic attempt to upgrade the recipe *gstreamer1.0-python* to *1.24.0* has Failed(do_compile).
 
 Detailed error information:
 
@@ -60,7 +60,7 @@ do_compile failed
 
 
 Next steps:
-    - apply the patch: git am 0001-kmod-upgrade-31-32.patch
+    - apply the patch: git am 0001-gstreamer1.0-python-upgrade-1.22.10-1.24.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,145 +78,72 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 269aae80c873f3f701dcc9838617291ca3e62ca8 Mon Sep 17 00:00:00 2001
+From 0496b73716e70d9340008ea1afb1246ad1acd304 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Mar 2024 14:07:05 +0000
-Subject: [PATCH] kmod: upgrade 31 -> 32
+Date: Fri, 15 Mar 2024 14:46:22 +0000
+Subject: [PATCH] gstreamer1.0-python: upgrade 1.22.10 -> 1.24.0
 
 ---
- ...Use-portable-implementation-for-basename-API.patch | 11 ++++-------
- .../kmod/kmod/avoid_parallel_tests.patch              | 10 ++++------
- meta/recipes-kernel/kmod/kmod/gtkdocdir.patch         |  9 +++------
- meta/recipes-kernel/kmod/{kmod_31.bb => kmod_32.bb}   |  2 +-
- 4 files changed, 12 insertions(+), 20 deletions(-)
- rename meta/recipes-kernel/kmod/{kmod_31.bb => kmod_32.bb} (98%)
+ ...eamer1.0-python_1.22.10.bb => gstreamer1.0-python_1.24.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.22.10.bb => gstreamer1.0-python_1.24.0.bb} (91%)
 
-diff --git a/meta/recipes-kernel/kmod/kmod/0001-Use-portable-implementation-for-basename-API.patch b/meta/recipes-kernel/kmod/kmod/0001-Use-portable-implementation-for-basename-API.patch
-index 6a7f9ded4f..fa99cd54c7 100644
---- a/meta/recipes-kernel/kmod/kmod/0001-Use-portable-implementation-for-basename-API.patch
-+++ b/meta/recipes-kernel/kmod/kmod/0001-Use-portable-implementation-for-basename-API.patch
-@@ -1,4 +1,4 @@
--From 721ed6040c7aa47070faf6378c433089e178bd43 Mon Sep 17 00:00:00 2001
-+From 806114f45a3910f3d0fe0463cc29e9efa661c789 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Sat, 9 Dec 2023 17:35:59 -0800
- Subject: [PATCH] Use portable implementation for basename API
-@@ -110,10 +110,10 @@ index 43fc354..cfb15b1 100644
-  		dirlen -= namelen + 1;
-  	}
- diff --git a/tools/kmod.c b/tools/kmod.c
--index 55689c0..df91e5c 100644
-+index 1015575..57f59ca 100644
- --- a/tools/kmod.c
- +++ b/tools/kmod.c
--@@ -68,7 +68,7 @@ static int kmod_help(int argc, char *argv[])
-+@@ -63,7 +63,7 @@ static int kmod_help(int argc, char *argv[])
-  			"Options:\n"
-  			"\t-V, --version     show version\n"
-  			"\t-h, --help        show this help\n\n"
-@@ -122,7 +122,7 @@ index 55689c0..df91e5c 100644
-  
-  	for (i = 0; i < ARRAY_SIZE(kmod_cmds); i++) {
-  		if (kmod_cmds[i]->help != NULL) {
--@@ -156,7 +156,7 @@ static int handle_kmod_compat_commands(int argc, char *argv[])
-+@@ -151,7 +151,7 @@ static int handle_kmod_compat_commands(int argc, char *argv[])
-  	const char *cmd;
-  	size_t i;
-  
-@@ -131,6 +131,3 @@ index 55689c0..df91e5c 100644
-  
-  	for (i = 0; i < ARRAY_SIZE(kmod_compat_cmds); i++) {
-  		if (streq(kmod_compat_cmds[i]->name, cmd))
---- 
--2.43.0
--
-diff --git a/meta/recipes-kernel/kmod/kmod/avoid_parallel_tests.patch b/meta/recipes-kernel/kmod/kmod/avoid_parallel_tests.patch
-index 04a8204815..d83a15708a 100644
---- a/meta/recipes-kernel/kmod/kmod/avoid_parallel_tests.patch
-+++ b/meta/recipes-kernel/kmod/kmod/avoid_parallel_tests.patch
-@@ -1,4 +1,4 @@
--From be6f82c54f694617c646ca1f8b5bcf93694e20ad Mon Sep 17 00:00:00 2001
-+From 5aaeb8d1cb2c8cc5f2a5f83775344a817274dc31 Mon Sep 17 00:00:00 2001
- From: Tudor Florea <tudor.florea@enea.com>
- Date: Fri, 6 Sep 2013 21:11:57 +0000
- Subject: [PATCH] kmod: avoid parallel-tests
-@@ -11,16 +11,15 @@ serial-tests is now required
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.22.10.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.0.bb
+similarity index 91%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.22.10.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.0.bb
+index b829a0fc62..545bb21ce5 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.22.10.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.0.bb
+@@ -8,7 +8,7 @@ LICENSE = "LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c34deae4e395ca07e725ab0076a5f740"
  
- Signed-off-by: Tudor Florea <tudor.florea@enea.com>
- Upstream-Status: Inappropriate (disable feature incompatible with ptest)
--
- ---
-  configure.ac | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
+ SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "99e37ea9f7163099734f9b0fce361bc67a0e7a65ffba9bc497127506a3fdedb3"
++SRC_URI[sha256sum] = "041c2255c1ea9936c777dcb08a36ecaa6a24a69a12fc46ef53f1530d46c59f9d"
  
- diff --git a/configure.ac b/configure.ac
--index ee72283..60980c0 100644
-+index b651b5f..491be1b 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -14,8 +14,8 @@ AC_USE_SYSTEM_EXTENSIONS
-+@@ -14,7 +14,7 @@ AC_USE_SYSTEM_EXTENSIONS
-  AC_SYS_LARGEFILE
-  AC_PREFIX_DEFAULT([/usr])
-  AM_MAINTAINER_MODE([enable])
-@@ -28,5 +27,4 @@ index ee72283..60980c0 100644
- +AM_INIT_AUTOMAKE([check-news foreign 1.11 silent-rules tar-pax no-dist-gzip dist-xz subdir-objects color-tests serial-tests])
-  AM_SILENT_RULES([yes])
-  LT_INIT([disable-static pic-only])
--
-- AS_IF([test "x$enable_static" = "xyes"], [AC_MSG_ERROR([--enable-static is not supported by kmod])])
-+ 
-diff --git a/meta/recipes-kernel/kmod/kmod/gtkdocdir.patch b/meta/recipes-kernel/kmod/kmod/gtkdocdir.patch
-index a34ea466e8..31973e452a 100644
---- a/meta/recipes-kernel/kmod/kmod/gtkdocdir.patch
-+++ b/meta/recipes-kernel/kmod/kmod/gtkdocdir.patch
-@@ -1,4 +1,4 @@
--From dd59095f70f774f6d1e767010e25b35ef6db4c4b Mon Sep 17 00:00:00 2001
-+From 8e74be1289420fb9c38a44f40097919dc3ded82d Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@arm.com>
- Date: Fri, 8 Dec 2023 22:35:45 +0000
- Subject: [PATCH] configure: set docdir in GTK_DOC_CHECK
-@@ -16,10 +16,10 @@ Signed-off-by: Ross Burton <ross.burton@arm.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/configure.ac b/configure.ac
--index de01e08..67696c4 100644
-+index 491be1b..034878b 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -255,7 +255,7 @@ AS_IF([test "x$enable_coverage" = "xyes"], [
-+@@ -227,7 +227,7 @@ AS_IF([test "x$enable_coverage" = "xyes"], [
-  AM_CONDITIONAL([ENABLE_COVERAGE], [test "x$enable_coverage" = "xyes"])
-  
-  m4_ifdef([GTK_DOC_CHECK], [
-@@ -28,6 +28,3 @@ index de01e08..67696c4 100644
-  ], [
-  AM_CONDITIONAL([ENABLE_GTK_DOC], false)])
-  
---- 
--2.34.1
--
-diff --git a/meta/recipes-kernel/kmod/kmod_31.bb b/meta/recipes-kernel/kmod/kmod_32.bb
-similarity index 98%
-rename from meta/recipes-kernel/kmod/kmod_31.bb
-rename to meta/recipes-kernel/kmod/kmod_32.bb
-index 6ae83a7c66..3aa7308a3b 100644
---- a/meta/recipes-kernel/kmod/kmod_31.bb
-+++ b/meta/recipes-kernel/kmod/kmod_32.bb
-@@ -15,7 +15,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
-                    "
- inherit autotools bash-completion gtk-doc pkgconfig manpages update-alternatives
- 
--SRCREV = "aff617ea871d0568cc491bd116c0be1e857463bb"
-+SRCREV = "41faa59711742c1476d59985011ee0f27ed91d30"
- 
- SRC_URI = "git://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git;branch=master;protocol=https \
-            file://depmod-search.conf \
+ DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
+ RDEPENDS:${PN} += "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
 -- 
 2.42.0
 
 
---===============8580124124907389459==
+--===============6174102714740131500==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-gstreamer1.0-python-upgrade-1.22.10-1.24.0.patch"
+
+RnJvbSAwNDk2YjczNzE2ZTcwZDkzNDAwMDhlYTFhZmIxMjQ2YWQxYWNkMzA0IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgMTUgTWFyIDIwMjQgMTQ6NDY6MjIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
+c3RyZWFtZXIxLjAtcHl0aG9uOiB1cGdyYWRlIDEuMjIuMTAgLT4gMS4yNC4wCgotLS0KIC4uLmVh
+bWVyMS4wLXB5dGhvbl8xLjIyLjEwLmJiID0+IGdzdHJlYW1lcjEuMC1weXRob25fMS4yNC4wLmJi
+fSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQog
+cmVuYW1lIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci97Z3N0cmVhbWVyMS4wLXB5
+dGhvbl8xLjIyLjEwLmJiID0+IGdzdHJlYW1lcjEuMC1weXRob25fMS4yNC4wLmJifSAoOTElKQoK
+ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIx
+LjAtcHl0aG9uXzEuMjIuMTAuYmIgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIv
+Z3N0cmVhbWVyMS4wLXB5dGhvbl8xLjI0LjAuYmIKc2ltaWxhcml0eSBpbmRleCA5MSUKcmVuYW1l
+IGZyb20gbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1weXRo
+b25fMS4yMi4xMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVy
+L2dzdHJlYW1lcjEuMC1weXRob25fMS4yNC4wLmJiCmluZGV4IGI4MjlhMGZjNjIuLjU0NWJiMjFj
+ZTUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFt
+ZXIxLjAtcHl0aG9uXzEuMjIuMTAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0
+cmVhbWVyL2dzdHJlYW1lcjEuMC1weXRob25fMS4yNC4wLmJiCkBAIC04LDcgKzgsNyBAQCBMSUNF
+TlNFID0gIkxHUEwtMi4xLW9yLWxhdGVyIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09Q
+WUlORzttZDU9YzM0ZGVhZTRlMzk1Y2EwN2U3MjVhYjAwNzZhNWY3NDAiCiAKIFNSQ19VUkkgPSAi
+aHR0cHM6Ly9nc3RyZWFtZXIuZnJlZWRlc2t0b3Aub3JnL3NyYy8ke1BOUkVBTH0vJHtQTlJFQUx9
+LSR7UFZ9LnRhci54eiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI5OWUzN2VhOWY3MTYzMDk5NzM0
+ZjliMGZjZTM2MWJjNjdhMGU3YTY1ZmZiYTliYzQ5NzEyNzUwNmEzZmRlZGIzIgorU1JDX1VSSVtz
+aGEyNTZzdW1dID0gIjA0MWMyMjU1YzFlYTk5MzZjNzc3ZGNiMDhhMzZlY2FhNmEyNGE2OWExMmZj
+NDZlZjUzZjE1MzBkNDZjNTlmOWQiCiAKIERFUEVORFMgPSAiZ3N0cmVhbWVyMS4wIGdzdHJlYW1l
+cjEuMC1wbHVnaW5zLWJhc2UgcHl0aG9uMy1weWdvYmplY3QiCiBSREVQRU5EUzoke1BOfSArPSAi
+Z3N0cmVhbWVyMS4wIGdzdHJlYW1lcjEuMC1wbHVnaW5zLWJhc2UgcHl0aG9uMy1weWdvYmplY3Qi
+Ci0tIAoyLjQyLjAKCg==
+
+--===============6174102714740131500==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -224,7 +151,7 @@ Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
-Loaded 1879 entries from dependency cache.
+Loaded 1878 entries from dependency cache.
 Parsing recipes...done.
 Parsing of 922 .bb files complete (921 cached, 1 parsed). 1877 targets, 35 skipped, 0 masked, 0 errors.
 Removing 1 recipes from the core2-64 sysroot...done.
@@ -238,269 +165,108 @@ NATIVELSBSTRING      = "universal"
 TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-190a21a4aedfc49cfcfa3d6c08eacbae554abbce"
+DISTRO_VERSION       = "4.3+snapshot-67d5510a3b0af6f226cf4d81844426a4b5ab615c"
 TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:190a21a4aedfc49cfcfa3d6c08eacbae554abbce"
+workspace            = "tmp-auh-upgrades:67d5510a3b0af6f226cf4d81844426a4b5ab615c"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 137 Local 125 Mirrors 0 Missed 12 Current 221 (91% match, 96% complete)
+Sstate summary: Wanted 463 Local 451 Mirrors 0 Missed 12 Current 699 (97% match, 98% complete)
 done.
 NOTE: Executing Tasks
-NOTE: Running setscene task 238 of 358 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.2.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 239 of 358 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 240 of 358 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 251 of 358 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.12.0.bb:do_create_spdx_setscene)
-NOTE: Running task 653 of 1047 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/kmod/kmod_32.bb:do_recipe_qa)
-NOTE: recipe bash-completion-2.12.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe openssl-3.2.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe xz-5.4.6-r0: task do_create_spdx_setscene: Started
-NOTE: recipe kmod-32-r0: task do_recipe_qa: Started
-NOTE: recipe bash-completion-2.12.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe zlib-1.3.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe xz-5.4.6-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 317 of 358 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 319 of 358 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot_setscene)
-NOTE: recipe openssl-3.2.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 323 of 358 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb:do_create_spdx_setscene)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Started
-NOTE: recipe kmod-32-r0: task do_recipe_qa: Succeeded
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running task 742 of 1047 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/kmod/kmod_32.bb:do_fetch)
-NOTE: recipe opkg-utils-0.6.3-r0: task do_create_spdx_setscene: Started
-NOTE: recipe kmod-32-r0: task do_fetch: Started
-NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe opkg-utils-0.6.3-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 324 of 358 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_create_spdx_setscene)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 328 of 358 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_recipe_qa_setscene)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 332 of 358 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_create_spdx_setscene)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe glibc-2.39+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe glibc-2.39+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 339 of 358 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 341 of 358 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 353 of 358 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.42.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 355 of 358 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_recipe_qa_setscene)
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 358 of 358 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.42.bb:do_recipe_qa_setscene)
-NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_recipe_qa_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: recipe kmod-32-r0: task do_fetch: Succeeded
-NOTE: Running task 1029 of 1047 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/kmod/kmod_32.bb:do_unpack)
-NOTE: Running task 1030 of 1047 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/kmod/kmod_32.bb:do_prepare_recipe_sysroot)
-NOTE: recipe kmod-32-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe kmod-32-r0: task do_unpack: Started
-NOTE: recipe kmod-32-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe kmod-32-r0: task do_unpack: Succeeded
-NOTE: Running task 1031 of 1047 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/kmod/kmod_32.bb:do_patch)
-NOTE: Running task 1032 of 1047 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/kmod/kmod_32.bb:do_collect_spdx_deps)
-NOTE: recipe kmod-32-r0: task do_patch: Started
-NOTE: recipe kmod-32-r0: task do_collect_spdx_deps: Started
-NOTE: recipe kmod-32-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe kmod-32-r0: task do_patch: Succeeded
-NOTE: Running task 1033 of 1047 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/kmod/kmod_32.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1034 of 1047 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/kmod/kmod_32.bb:do_populate_lic)
-NOTE: recipe kmod-32-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe kmod-32-r0: task do_populate_lic: Started
-NOTE: recipe kmod-32-r0: task do_populate_lic: Succeeded
-NOTE: recipe kmod-32-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1035 of 1047 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/kmod/kmod_32.bb:do_configure)
-NOTE: recipe kmod-32-r0: task do_configure: Started
-NOTE: recipe kmod-32-r0: task do_configure: Succeeded
-NOTE: Running task 1036 of 1047 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/kmod/kmod_32.bb:do_compile)
-NOTE: recipe kmod-32-r0: task do_compile: Started
-NOTE: recipe kmod-32-r0: task do_compile: Succeeded
-NOTE: Running task 1037 of 1047 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/kmod/kmod_32.bb:do_install)
-NOTE: recipe kmod-32-r0: task do_install: Started
+NOTE: Running task 2574 of 3196 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.0.bb:do_recipe_qa)
+NOTE: Running task 2810 of 3196 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.0.bb:do_write_config)
+NOTE: recipe gstreamer1.0-python-1.24.0-r0: task do_recipe_qa: Started
+NOTE: recipe gstreamer1.0-python-1.24.0-r0: task do_write_config: Started
+NOTE: recipe gstreamer1.0-python-1.24.0-r0: task do_write_config: Succeeded
+NOTE: recipe gstreamer1.0-python-1.24.0-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 3177 of 3196 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.0.bb:do_fetch)
+NOTE: recipe gstreamer1.0-python-1.24.0-r0: task do_fetch: Started
+NOTE: recipe gstreamer1.0-python-1.24.0-r0: task do_fetch: Succeeded
+NOTE: Running task 3178 of 3196 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.0.bb:do_unpack)
+NOTE: Running task 3179 of 3196 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gstreamer1.0-python-1.24.0-r0: task do_unpack: Started
+NOTE: recipe gstreamer1.0-python-1.24.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gstreamer1.0-python-1.24.0-r0: task do_unpack: Succeeded
+NOTE: Running task 3180 of 3196 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.0.bb:do_patch)
+NOTE: Running task 3181 of 3196 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.0.bb:do_collect_spdx_deps)
+NOTE: recipe gstreamer1.0-python-1.24.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe gstreamer1.0-python-1.24.0-r0: task do_patch: Started
+NOTE: recipe gstreamer1.0-python-1.24.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe gstreamer1.0-python-1.24.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe gstreamer1.0-python-1.24.0-r0: task do_patch: Succeeded
+NOTE: Running task 3182 of 3196 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 3183 of 3196 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.0.bb:do_populate_lic)
+NOTE: recipe gstreamer1.0-python-1.24.0-r0: task do_populate_lic: Started
+NOTE: recipe gstreamer1.0-python-1.24.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe gstreamer1.0-python-1.24.0-r0: task do_populate_lic: Succeeded
+NOTE: recipe gstreamer1.0-python-1.24.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 3184 of 3196 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.0.bb:do_configure)
+NOTE: recipe gstreamer1.0-python-1.24.0-r0: task do_configure: Started
 Log data follows:
 | DEBUG: Executing python function extend_recipe_sysroot
-| NOTE: Direct dependencies are ['/home/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.2.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-native_2.4.7.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/quilt/quilt-native_0.67.bb:do_p
- opulate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.12.0.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/autoconf/autoconf_2.72e.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/automake/automake_1.16.5.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/patch/patch_2.7.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.2.bb:do_populate_sysroot', 'virtual:nat
- ive:/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_populate_sysroot']
+| NOTE: Direct dependencies are ['/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-pygobject_3.46.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/qemu/qemu-native_8.2.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/quilt/quilt-native_0.67.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.10.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstre
+ amer/gstreamer1.0_1.22.10.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/meson/meson_1.3.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/ninja/ninja_1.11.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/patch/patch_2.7.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.2.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_populate_sysroot']
 | NOTE: Installed into sysroot: []
-| NOTE: Skipping as already exists in sysroot: ['openssl', 'gettext-minimal-native', 'glibc', 'zlib', 'binutils-cross-x86_64', 'cmake-native', 'gcc-cross-x86_64', 'gcc-runtime', 'libgcc', 'libtool-cross', 'libtool-native', 'm4-native', 'opkg-utils', 'quilt-native', 'texinfo-dummy-native', 'xz', 'linux-libc-headers', 'bash-completion', 'openssl-native', 'expat-native', 'ncurses-native', 'util-linux-libuuid-native', 'zlib-native', 'autoconf-native', 'automake-native', 'flex-native', 'gnu-config-native', 'libedit-native', 'make-native', 'patch-native', 'perl-native', 'pkgconfig-native', 'pseudo-native', 'python3-native', 'bzip2-native', 'libnsl2-native', 'libtirpc-native', 'xz-native', 'zstd-native', 'gtk-doc-native', 'attr-native', 'gdbm-native', 'gmp-native', 'libffi-native', 'libmpc-native', 'mpfr-native', 'sqlite3-native']
+| NOTE: Skipping as already exists in sysroot: ['openssl', 'expat', 'gettext-minimal-native', 'glib-2.0', 'glibc', 'libxcrypt', 'libxml2', 'ncurses', 'util-linux-libuuid', 'util-linux', 'zlib', 'binutils-cross-x86_64', 'cmake-native', 'gcc-cross-x86_64', 'gcc-runtime', 'libgcc', 'libedit', 'libtool-native', 'm4-native', 'opkg-utils', 'orc', 'python3-pycairo', 'python3-pygobject', 'python3', 'qemu-native', 'quilt-native', 'bzip2', 'cracklib', 'libnsl2', 'libtirpc', 'libpam', 'texinfo-dummy-native', 'xz', 'gobject-introspection', 'cairo', 'libdrm', 'fontconfig', 'freetype', 'harfbuzz', 'libjpeg-turbo', 'libglu', 'mesa', 'pango', 'vulkan-headers', 'vulkan-loader', 'wayland-protocols', 'wayland', 'xrandr', 'libice', 'libpciaccess', 'libpthread-stubs', 'libsm', 'libx11', 'libxau', 'libxcb', 'libxdamage', 'libxdmcp', 'libxext', 'libxfixes', 'libxft', 'libxrandr', 'libxrender', 'libxshmfence', 'libxv', 'libxxf86vm', 'pixman', 'xtrans', 'xcb-proto', 'xorgproto', 'util-macros', 'linux-libc-he
+ aders', 'alsa-lib', 'gstreamer1.0-plugins-base', 'gstreamer1.0', 'libogg', 'libpng', 'libtheora', 'libvorbis', 'bash-completion', 'fribidi', 'gdbm', 'icu', 'iso-codes', 'libcap-ng', 'libffi', 'libpcre2', 'sqlite3', 'openssl-native', 'expat-native', 'gettext-native', 'glib-2.0-native', 'ncurses-native', 'util-linux-libuuid-native', 'util-linux-native', 'zlib-native', 'flex-native', 'gnu-config-native', 'libedit-native', 'make-native', 'meson-native', 'ninja-native', 'patch-native', 'perl-native', 'pkgconfig-native', 'pseudo-native', 'python3-build-native', 'python3-flit-core-native', 'python3-installer-native', 'python3-packaging-native', 'python3-pyproject-hooks-native', 'python3-setuptools-native', 'python3-wheel-native', 'python3-native', 'bzip2-native', 'libnsl2-native', 'libtirpc-native', 'unzip-native', 'xz-native', 'zstd-native', 'attr-native', 'gdbm-native', 'gmp-native', 'libcap-ng-native', 'libffi-native', 'libmpc-native', 'libpcre2-native', 'mpfr-native', 're2c-native', 's
+ qlite3-native']
 | DEBUG: Python function extend_recipe_sysroot finished
-| DEBUG: Executing python function autotools_aclocals
-| DEBUG: SITE files ['endian-little', 'common-linux', 'common-glibc', 'bit-64', 'x86_64-linux', 'common']
-| DEBUG: Python function autotools_aclocals finished
-| DEBUG: Executing shell function do_install
-| NOTE: make -j 16 -l 75 DESTDIR=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/kmod/32/image install
-| Making install in .
-|  /home/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/kmod/32/image/usr/lib'
-|  /bin/bash ./libtool   --mode=install /home/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c   libkmod/libkmod.la '/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/kmod/32/image/usr/lib'
-| libtool: install: /home/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c libkmod/.libs/libkmod.so.2.4.2 /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/kmod/32/image/usr/lib/libkmod.so.2.4.2
-| libtool: install: (cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/kmod/32/image/usr/lib && { ln -s -f libkmod.so.2.4.2 libkmod.so.2 || { rm -f libkmod.so.2 && ln -s libkmod.so.2.4.2 libkmod.so.2; }; })
-| libtool: install: (cd /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/kmod/32/image/usr/lib && { ln -s -f libkmod.so.2.4.2 libkmod.so || { rm -f libkmod.so && ln -s libkmod.so.2.4.2 libkmod.so; }; })
-| libtool: install: /home/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c libkmod/.libs/libkmod.lai /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/kmod/32/image/usr/lib/libkmod.la
-| libtool: warning: remember to run 'libtool --finish /usr/lib'
-|  /home/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/kmod/32/image/usr/lib/pkgconfig'
-|  /home/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644 libkmod/libkmod.pc tools/kmod.pc '/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/kmod/32/image/usr/lib/pkgconfig'
-|  /home/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/kmod/32/image/usr/bin'
-|   /bin/bash ./libtool   --mode=install /home/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c tools/kmod '/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/kmod/32/image/usr/bin'
-| libtool: install: /home/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c tools/kmod /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/kmod/32/image/usr/bin/kmod
-|  /home/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/kmod/32/image/usr/include'
-|  /home/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644 ../git/libkmod/libkmod.h '/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/kmod/32/image/usr/include'
-| make --no-print-directory install-exec-hook
-| if test "/usr/lib" != "/usr/lib"; then \
-| 	/home/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/kmod/32/image/usr/lib && \
-| 	so_img_name=$(readlink /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/kmod/32/image/usr/lib/libkmod.so) && \
-| 	so_img_rel_target_prefix=$(echo /usr/lib | sed 's,\(^/\|\)[^/][^/]*,..,g') && \
-| 	ln -sf $so_img_rel_target_prefix/usr/lib/$so_img_name /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/kmod/32/image/usr/lib/libkmod.so && \
-| 	mv /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/kmod/32/image/usr/lib/libkmod.so.* /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/kmod/32/image/usr/lib; \
-| fi
-| for tool in insmod lsmod rmmod depmod modprobe modinfo; do \
-| 	ln -s kmod /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/kmod/32/image/usr/bin/$tool; \
-| done
-|  /home/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/mkdir -p '/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/kmod/32/image/usr/share/bash-completion/completions'
-|  /home/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/install -c -m 644 ../git/shell-completion/bash/kmod '/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/kmod/32/image/usr/share/bash-completion/completions'
-| make[2]: Nothing to be done for 'install-data-am'.
-| Making install in libkmod/docs
-| make[2]: Nothing to be done for 'install-exec-am'.
-| make[2]: Nothing to be done for 'install-data-am'.
-| ln: failed to create symbolic link '/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/kmod/32/image/usr/bin/lsmod': File exists
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/kmod/32/temp/run.do_install.1072952:166 exit 1 from 'ln -rs /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/kmod/32/image/usr/bin/kmod /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/kmod/32/image/usr/bin/lsmod'
+| DEBUG: Executing shell function do_configure
+| NOTE: Executing meson -Dtests=disabled -Dplugin=enabled -Dlibpython-dir=/usr/lib ...
+| The Meson build system
+| Version: 1.3.1
+| Source dir: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.24.0/gst-python-1.24.0
+| Build dir: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.24.0/build
+| Build type: cross build
+| Project name: gst-python
+| Project version: 1.24.0
+| C compiler for the host machine: x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.24.0/recipe-sysroot (gcc 13.2.0 "x86_64-poky-linux-gcc (GCC) 13.2.0")
+| C linker for the host machine: x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.24.0/recipe-sysroot ld.bfd 2.42.0.20240216
+| C compiler for the build machine: gcc (gcc 13.2.0 "gcc (GCC) 13.2.0")
+| C linker for the build machine: gcc ld.bfd 2.41.0.20230926
+| Build machine cpu family: x86_64
+| Build machine cpu: x86_64
+| Host machine cpu family: x86_64
+| Host machine cpu: x86_64
+| Target machine cpu family: x86_64
+| Target machine cpu: x86_64
+| Found pkg-config: YES (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.24.0/recipe-sysroot-native/usr/bin/pkg-config) 0.29.2
+| Dependency gstreamer-1.0 found: NO found 1.22.10 but need: '>= 1.24.0'
+| Found CMake: NO
+| Run-time dependency gstreamer-1.0 found: NO (tried pkgconfig and cmake)
+| Looking for a fallback subproject for the dependency gstreamer-1.0
+| 
+| ../gst-python-1.24.0/meson.build:20:10: ERROR: Neither a subproject directory nor a gstreamer.wrap file was found.
+| 
+| A full log can be found at /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.24.0/build/meson-logs/meson-log.txt
+| ERROR: meson failed
+| WARNING: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.24.0/temp/run.do_configure.4178342:182 exit 1 from 'exit 1'
 | WARNING: Backtrace (BB generated script):
-| 	#1: do_install, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/kmod/32/temp/run.do_install.1072952, line 166
-| 	#2: main, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/kmod/32/temp/run.do_install.1072952, line 228
-NOTE: recipe kmod-32-r0: task do_install: Failed
-NOTE: Tasks Summary: Attempted 1037 tasks of which 1026 didn't need to be rerun and 1 failed.
+| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.24.0/temp/run.do_configure.4178342, line 182
+| 	#2: meson_do_configure, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.24.0/temp/run.do_configure.4178342, line 164
+| 	#3: do_configure, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.24.0/temp/run.do_configure.4178342, line 153
+| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.24.0/temp/run.do_configure.4178342, line 195
+NOTE: recipe gstreamer1.0-python-1.24.0-r0: task do_configure: Failed
+NOTE: Tasks Summary: Attempted 3184 tasks of which 3174 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 5 seconds
-NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240315140541.txt
+NOTE: Writing buildhistory took: 3 seconds
+NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240315144550.txt
 You can send the errors to a reports server by running:
-  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240315140541.txt [-s server]
+  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240315144550.txt [-s server]
 NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
 
 Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/kmod/kmod_32.bb:do_install
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: kmod-32-r0 do_install: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/kmod/32/temp/run.do_install.1072952', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/kmod/32/temp/log.do_install.1072952
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/kmod/kmod_32.bb:do_install) failed with exit code '1'
+  /home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.0.bb:do_configure
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: gstreamer1.0-python-1.24.0-r0 do_configure: meson failed
+ERROR: gstreamer1.0-python-1.24.0-r0 do_configure: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.24.0/temp/run.do_configure.4178342', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-python/1.24.0/temp/log.do_configure.4178342
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.0.bb:do_configure) failed with exit code '1'
 
---===============8580124124907389459==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-kmod-upgrade-31-32.patch"
-
-RnJvbSAyNjlhYWU4MGM4NzNmM2Y3MDFkY2M5ODM4NjE3MjkxY2EzZTYyY2E4IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTUgTWFyIDIwMjQgMTQ6MDc6MDUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBr
-bW9kOiB1cGdyYWRlIDMxIC0+IDMyCgotLS0KIC4uLlVzZS1wb3J0YWJsZS1pbXBsZW1lbnRhdGlv
-bi1mb3ItYmFzZW5hbWUtQVBJLnBhdGNoIHwgMTEgKysrKy0tLS0tLS0KIC4uLi9rbW9kL2ttb2Qv
-YXZvaWRfcGFyYWxsZWxfdGVzdHMucGF0Y2ggICAgICAgICAgICAgIHwgMTAgKysrKy0tLS0tLQog
-bWV0YS9yZWNpcGVzLWtlcm5lbC9rbW9kL2ttb2QvZ3RrZG9jZGlyLnBhdGNoICAgICAgICAgfCAg
-OSArKystLS0tLS0KIG1ldGEvcmVjaXBlcy1rZXJuZWwva21vZC97a21vZF8zMS5iYiA9PiBrbW9k
-XzMyLmJifSAgIHwgIDIgKy0KIDQgZmlsZXMgY2hhbmdlZCwgMTIgaW5zZXJ0aW9ucygrKSwgMjAg
-ZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWtlcm5lbC9rbW9kL3trbW9kXzMxLmJi
-ID0+IGttb2RfMzIuYmJ9ICg5OCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWtlcm5lbC9r
-bW9kL2ttb2QvMDAwMS1Vc2UtcG9ydGFibGUtaW1wbGVtZW50YXRpb24tZm9yLWJhc2VuYW1lLUFQ
-SS5wYXRjaCBiL21ldGEvcmVjaXBlcy1rZXJuZWwva21vZC9rbW9kLzAwMDEtVXNlLXBvcnRhYmxl
-LWltcGxlbWVudGF0aW9uLWZvci1iYXNlbmFtZS1BUEkucGF0Y2gKaW5kZXggNmE3ZjlkZWQ0Zi4u
-ZmE5OWNkNTRjNyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWtlcm5lbC9rbW9kL2ttb2QvMDAw
-MS1Vc2UtcG9ydGFibGUtaW1wbGVtZW50YXRpb24tZm9yLWJhc2VuYW1lLUFQSS5wYXRjaAorKysg
-Yi9tZXRhL3JlY2lwZXMta2VybmVsL2ttb2Qva21vZC8wMDAxLVVzZS1wb3J0YWJsZS1pbXBsZW1l
-bnRhdGlvbi1mb3ItYmFzZW5hbWUtQVBJLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA3MjFl
-ZDYwNDBjN2FhNDcwNzBmYWY2Mzc4YzQzMzA4OWUxNzhiZDQzIE1vbiBTZXAgMTcgMDA6MDA6MDAg
-MjAwMQorRnJvbSA4MDYxMTRmNDVhMzkxMGYzZDBmZTA0NjNjYzI5ZTllZmE2NjFjNzg5IE1vbiBT
-ZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4K
-IERhdGU6IFNhdCwgOSBEZWMgMjAyMyAxNzozNTo1OSAtMDgwMAogU3ViamVjdDogW1BBVENIXSBV
-c2UgcG9ydGFibGUgaW1wbGVtZW50YXRpb24gZm9yIGJhc2VuYW1lIEFQSQpAQCAtMTEwLDEwICsx
-MTAsMTAgQEAgaW5kZXggNDNmYzM1NC4uY2ZiMTViMSAxMDA2NDQKICAJCWRpcmxlbiAtPSBuYW1l
-bGVuICsgMTsKICAJfQogZGlmZiAtLWdpdCBhL3Rvb2xzL2ttb2QuYyBiL3Rvb2xzL2ttb2QuYwot
-aW5kZXggNTU2ODljMC4uZGY5MWU1YyAxMDA2NDQKK2luZGV4IDEwMTU1NzUuLjU3ZjU5Y2EgMTAw
-NjQ0CiAtLS0gYS90b29scy9rbW9kLmMKICsrKyBiL3Rvb2xzL2ttb2QuYwotQEAgLTY4LDcgKzY4
-LDcgQEAgc3RhdGljIGludCBrbW9kX2hlbHAoaW50IGFyZ2MsIGNoYXIgKmFyZ3ZbXSkKK0BAIC02
-Myw3ICs2Myw3IEBAIHN0YXRpYyBpbnQga21vZF9oZWxwKGludCBhcmdjLCBjaGFyICphcmd2W10p
-CiAgCQkJIk9wdGlvbnM6XG4iCiAgCQkJIlx0LVYsIC0tdmVyc2lvbiAgICAgc2hvdyB2ZXJzaW9u
-XG4iCiAgCQkJIlx0LWgsIC0taGVscCAgICAgICAgc2hvdyB0aGlzIGhlbHBcblxuIgpAQCAtMTIy
-LDcgKzEyMiw3IEBAIGluZGV4IDU1Njg5YzAuLmRmOTFlNWMgMTAwNjQ0CiAgCiAgCWZvciAoaSA9
-IDA7IGkgPCBBUlJBWV9TSVpFKGttb2RfY21kcyk7IGkrKykgewogIAkJaWYgKGttb2RfY21kc1tp
-XS0+aGVscCAhPSBOVUxMKSB7Ci1AQCAtMTU2LDcgKzE1Niw3IEBAIHN0YXRpYyBpbnQgaGFuZGxl
-X2ttb2RfY29tcGF0X2NvbW1hbmRzKGludCBhcmdjLCBjaGFyICphcmd2W10pCitAQCAtMTUxLDcg
-KzE1MSw3IEBAIHN0YXRpYyBpbnQgaGFuZGxlX2ttb2RfY29tcGF0X2NvbW1hbmRzKGludCBhcmdj
-LCBjaGFyICphcmd2W10pCiAgCWNvbnN0IGNoYXIgKmNtZDsKICAJc2l6ZV90IGk7CiAgCkBAIC0x
-MzEsNiArMTMxLDMgQEAgaW5kZXggNTU2ODljMC4uZGY5MWU1YyAxMDA2NDQKICAKICAJZm9yIChp
-ID0gMDsgaSA8IEFSUkFZX1NJWkUoa21vZF9jb21wYXRfY21kcyk7IGkrKykgewogIAkJaWYgKHN0
-cmVxKGttb2RfY29tcGF0X2NtZHNbaV0tPm5hbWUsIGNtZCkpCi0tLSAKLTIuNDMuMAotCmRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMta2VybmVsL2ttb2Qva21vZC9hdm9pZF9wYXJhbGxlbF90ZXN0
-cy5wYXRjaCBiL21ldGEvcmVjaXBlcy1rZXJuZWwva21vZC9rbW9kL2F2b2lkX3BhcmFsbGVsX3Rl
-c3RzLnBhdGNoCmluZGV4IDA0YTgyMDQ4MTUuLmQ4M2ExNTcwOGEgMTAwNjQ0Ci0tLSBhL21ldGEv
-cmVjaXBlcy1rZXJuZWwva21vZC9rbW9kL2F2b2lkX3BhcmFsbGVsX3Rlc3RzLnBhdGNoCisrKyBi
-L21ldGEvcmVjaXBlcy1rZXJuZWwva21vZC9rbW9kL2F2b2lkX3BhcmFsbGVsX3Rlc3RzLnBhdGNo
-CkBAIC0xLDQgKzEsNCBAQAotRnJvbSBiZTZmODJjNTRmNjk0NjE3YzY0NmNhMWY4YjViY2Y5MzY5
-NGUyMGFkIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA1YWFlYjhkMWNiMmM4Y2M1ZjJh
-NWY4Mzc3NTM0NGE4MTcyNzRkYzMxIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogVHVk
-b3IgRmxvcmVhIDx0dWRvci5mbG9yZWFAZW5lYS5jb20+CiBEYXRlOiBGcmksIDYgU2VwIDIwMTMg
-MjE6MTE6NTcgKzAwMDAKIFN1YmplY3Q6IFtQQVRDSF0ga21vZDogYXZvaWQgcGFyYWxsZWwtdGVz
-dHMKQEAgLTExLDE2ICsxMSwxNSBAQCBzZXJpYWwtdGVzdHMgaXMgbm93IHJlcXVpcmVkCiAKIFNp
-Z25lZC1vZmYtYnk6IFR1ZG9yIEZsb3JlYSA8dHVkb3IuZmxvcmVhQGVuZWEuY29tPgogVXBzdHJl
-YW0tU3RhdHVzOiBJbmFwcHJvcHJpYXRlIChkaXNhYmxlIGZlYXR1cmUgaW5jb21wYXRpYmxlIHdp
-dGggcHRlc3QpCi0KIC0tLQogIGNvbmZpZ3VyZS5hYyB8IDIgKy0KICAxIGZpbGUgY2hhbmdlZCwg
-MSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIAogZGlmZiAtLWdpdCBhL2NvbmZpZ3VyZS5h
-YyBiL2NvbmZpZ3VyZS5hYwotaW5kZXggZWU3MjI4My4uNjA5ODBjMCAxMDA2NDQKK2luZGV4IGI2
-NTFiNWYuLjQ5MWJlMWIgMTAwNjQ0CiAtLS0gYS9jb25maWd1cmUuYWMKICsrKyBiL2NvbmZpZ3Vy
-ZS5hYwotQEAgLTE0LDggKzE0LDggQEAgQUNfVVNFX1NZU1RFTV9FWFRFTlNJT05TCitAQCAtMTQs
-NyArMTQsNyBAQCBBQ19VU0VfU1lTVEVNX0VYVEVOU0lPTlMKICBBQ19TWVNfTEFSR0VGSUxFCiAg
-QUNfUFJFRklYX0RFRkFVTFQoWy91c3JdKQogIEFNX01BSU5UQUlORVJfTU9ERShbZW5hYmxlXSkK
-QEAgLTI4LDUgKzI3LDQgQEAgaW5kZXggZWU3MjI4My4uNjA5ODBjMCAxMDA2NDQKICtBTV9JTklU
-X0FVVE9NQUtFKFtjaGVjay1uZXdzIGZvcmVpZ24gMS4xMSBzaWxlbnQtcnVsZXMgdGFyLXBheCBu
-by1kaXN0LWd6aXAgZGlzdC14eiBzdWJkaXItb2JqZWN0cyBjb2xvci10ZXN0cyBzZXJpYWwtdGVz
-dHNdKQogIEFNX1NJTEVOVF9SVUxFUyhbeWVzXSkKICBMVF9JTklUKFtkaXNhYmxlLXN0YXRpYyBw
-aWMtb25seV0pCi0KLSBBU19JRihbdGVzdCAieCRlbmFibGVfc3RhdGljIiA9ICJ4eWVzIl0sIFtB
-Q19NU0dfRVJST1IoWy0tZW5hYmxlLXN0YXRpYyBpcyBub3Qgc3VwcG9ydGVkIGJ5IGttb2RdKV0p
-CisgCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMta2VybmVsL2ttb2Qva21vZC9ndGtkb2NkaXIu
-cGF0Y2ggYi9tZXRhL3JlY2lwZXMta2VybmVsL2ttb2Qva21vZC9ndGtkb2NkaXIucGF0Y2gKaW5k
-ZXggYTM0ZWE0NjZlOC4uMzE5NzNlNDUyYSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWtlcm5l
-bC9rbW9kL2ttb2QvZ3RrZG9jZGlyLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1rZXJuZWwva21v
-ZC9rbW9kL2d0a2RvY2Rpci5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gZGQ1OTA5NWY3MGY3
-NzRmNmQxZTc2NzAxMGUyNWIzNWVmNmRiNGM0YiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zy
-b20gOGU3NGJlMTI4OTQyMGZiOWMzOGE0NGY0MDA5NzkxOWRjM2RlZDgyZCBNb24gU2VwIDE3IDAw
-OjAwOjAwIDIwMDEKIEZyb206IFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBhcm0uY29tPgogRGF0
-ZTogRnJpLCA4IERlYyAyMDIzIDIyOjM1OjQ1ICswMDAwCiBTdWJqZWN0OiBbUEFUQ0hdIGNvbmZp
-Z3VyZTogc2V0IGRvY2RpciBpbiBHVEtfRE9DX0NIRUNLCkBAIC0xNiwxMCArMTYsMTAgQEAgU2ln
-bmVkLW9mZi1ieTogUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGFybS5jb20+CiAgMSBmaWxlIGNo
-YW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiAKIGRpZmYgLS1naXQgYS9jb25m
-aWd1cmUuYWMgYi9jb25maWd1cmUuYWMKLWluZGV4IGRlMDFlMDguLjY3Njk2YzQgMTAwNjQ0Citp
-bmRleCA0OTFiZTFiLi4wMzQ4NzhiIDEwMDY0NAogLS0tIGEvY29uZmlndXJlLmFjCiArKysgYi9j
-b25maWd1cmUuYWMKLUBAIC0yNTUsNyArMjU1LDcgQEAgQVNfSUYoW3Rlc3QgIngkZW5hYmxlX2Nv
-dmVyYWdlIiA9ICJ4eWVzIl0sIFsKK0BAIC0yMjcsNyArMjI3LDcgQEAgQVNfSUYoW3Rlc3QgIngk
-ZW5hYmxlX2NvdmVyYWdlIiA9ICJ4eWVzIl0sIFsKICBBTV9DT05ESVRJT05BTChbRU5BQkxFX0NP
-VkVSQUdFXSwgW3Rlc3QgIngkZW5hYmxlX2NvdmVyYWdlIiA9ICJ4eWVzIl0pCiAgCiAgbTRfaWZk
-ZWYoW0dUS19ET0NfQ0hFQ0tdLCBbCkBAIC0yOCw2ICsyOCwzIEBAIGluZGV4IGRlMDFlMDguLjY3
-Njk2YzQgMTAwNjQ0CiAgXSwgWwogIEFNX0NPTkRJVElPTkFMKFtFTkFCTEVfR1RLX0RPQ10sIGZh
-bHNlKV0pCiAgCi0tLSAKLTIuMzQuMQotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMta2VybmVs
-L2ttb2Qva21vZF8zMS5iYiBiL21ldGEvcmVjaXBlcy1rZXJuZWwva21vZC9rbW9kXzMyLmJiCnNp
-bWlsYXJpdHkgaW5kZXggOTglCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1rZXJuZWwva21vZC9r
-bW9kXzMxLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMta2VybmVsL2ttb2Qva21vZF8zMi5iYgpp
-bmRleCA2YWU4M2E3YzY2Li4zYWE3MzA4YTNiIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMta2Vy
-bmVsL2ttb2Qva21vZF8zMS5iYgorKysgYi9tZXRhL3JlY2lwZXMta2VybmVsL2ttb2Qva21vZF8z
-Mi5iYgpAQCAtMTUsNyArMTUsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5H
-O21kNT1hNmY4OWUyMTAwZDliNmNkZmZjZWE0ZjM5OGUzNzM0MyBcCiAgICAgICAgICAgICAgICAg
-ICAgIgogaW5oZXJpdCBhdXRvdG9vbHMgYmFzaC1jb21wbGV0aW9uIGd0ay1kb2MgcGtnY29uZmln
-IG1hbnBhZ2VzIHVwZGF0ZS1hbHRlcm5hdGl2ZXMKIAotU1JDUkVWID0gImFmZjYxN2VhODcxZDA1
-NjhjYzQ5MWJkMTE2YzBiZTFlODU3NDYzYmIiCitTUkNSRVYgPSAiNDFmYWE1OTcxMTc0MmMxNDc2
-ZDU5OTg1MDExZWUwZjI3ZWQ5MWQzMCIKIAogU1JDX1VSSSA9ICJnaXQ6Ly9naXQua2VybmVsLm9y
-Zy9wdWIvc2NtL3V0aWxzL2tlcm5lbC9rbW9kL2ttb2QuZ2l0O2JyYW5jaD1tYXN0ZXI7cHJvdG9j
-b2w9aHR0cHMgXAogICAgICAgICAgICBmaWxlOi8vZGVwbW9kLXNlYXJjaC5jb25mIFwKLS0gCjIu
-NDIuMAoK
-
---===============8580124124907389459==--
+--===============6174102714740131500==--
 
