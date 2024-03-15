@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46092C54EEC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B7CDC54EF5
 	for <webhook@archiver.kernel.org>; Fri, 15 Mar 2024 17:00:15 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.1250.1710522012666851723
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web11.1277.1710522012517623170
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Mar 2024 10:00:13 -0700
+ Fri, 15 Mar 2024 10:00:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=bZ4i+cGa;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=zfjJnOpw;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018e430e96d6-30f2ef5e-2468-4daf-822d-a340f62a44ed-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=SOdOpR/e;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=cOMtzPds;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018e430e9991-65e2c8c4-464c-47f2-a153-ad7006630972-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1710522013;
+	t=1710522014;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Ltz77xcUCNEMn9nbKPAFBCdWh+ZPT9pZVhq3SnS5F6E=;
-	b=bZ4i+cGao+2242y8uQbYnvTLGio/rXQB08flwosTefMM43Hu8tDt/DW18W6s7x40
-	c251vkhH1gCFs0FrvG9+yPZ+G0RBBL73rBUQRnzTUjLUVqbJQcGhp/s3n6NklBje1HO
-	9Hshh7DhaEGFohktP0Sr/qzl0Nd45XtFIvBCtG7E=
+	bh=q5Y6Gwtb9WheXZtRzNvbjJXXUlnIVK6bVvAtNLv8PL4=;
+	b=SOdOpR/eWLtebhtHUDMvSJFlEvcT3sYSF+bjXUi1rFjId5qBnQNZdqNU3u3RK98C
+	At0dGw3LaQ+I08lA5bGN8MyqsQhac5K1yG2K9/y5t15+1j8QrhheOzf7X47oceFREJd
+	JnfThrAF1T7Fidt57JwK33COy5+SGXeGhSsWFqcc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1710522013;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1710522014;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Ltz77xcUCNEMn9nbKPAFBCdWh+ZPT9pZVhq3SnS5F6E=;
-	b=zfjJnOpwwtF7FsOOrmHIUKo7mxnCW+bw4Upum6IAPiRdXWJCRqtgg79GTtbn5kZw
-	A+7aX78jm3b2RBT5yndqoejt74y5fcT4AwhllMdLF8I9A9dHRmgo24WFozWUJhpDIwx
-	vovZPBWXYNDtwmQnyNHh3TISUBorB6o358NlXd24=
-Content-Type: multipart/mixed; boundary="===============3564158852371577557=="
+	bh=q5Y6Gwtb9WheXZtRzNvbjJXXUlnIVK6bVvAtNLv8PL4=;
+	b=cOMtzPdsW1q9AbrSc1MSIJl7HJGxkNwLrl4iNWGQz4Im/JplviMVTiVT8ivSZPwG
+	COOoPJgStO0i6hg3LoIbMfbuMYR/FrS5mMo02Z2WCyN28/NN1TSuwOrS0TMoIwnu1vD
+	oon0IkhbKv+llVBcgnGDzAxZEQNOczY7QhZQ6o/w=
+Content-Type: multipart/mixed; boundary="===============4917667131229017603=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gobject-introspection: upgrading to 1.80.0 FAILED
-Message-ID: <0101018e430e96d6-30f2ef5e-2468-4daf-822d-a340f62a44ed-000000@us-west-2.amazonses.com>
-Date: Fri, 15 Mar 2024 17:00:13 +0000
+Subject: [AUH] mesa: upgrading to 24.0.3 SUCCEEDED
+Message-ID: <0101018e430e9991-65e2c8c4-464c-47f2-a153-ad7006630972-000000@us-west-2.amazonses.com>
+Date: Fri, 15 Mar 2024 17:00:14 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.03.15-54.240.27.31
+X-SES-Outgoing: 2024.03.15-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 Mar 2024 17:00:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197201
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197209
 
---===============3564158852371577557==
+--===============4917667131229017603==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gobject-introspection* to *1.80.0* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *mesa* to *24.0.3* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gobject-introspection-upgrade-1.78.1-1.80.0.patch
+    - apply the patch: git am 0001-mesa-upgrade-24.0.2-24.0.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,364 +72,320 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 45702d00afcaf06fa7317ef138602325d6af730d Mon Sep 17 00:00:00 2001
+From 91bf9a888c14f94040955a41ce215f8eda44dedf Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Mar 2024 11:50:13 +0000
-Subject: [PATCH] gobject-introspection: upgrade 1.78.1 -> 1.80.0
+Date: Fri, 15 Mar 2024 12:25:11 +0000
+Subject: [PATCH] mesa: upgrade 24.0.2 -> 24.0.3
 
 ---
- ...e-the-repository-directory-for-native-builds.patch | 11 +++++------
- ...tion_1.78.1.bb => gobject-introspection_1.80.0.bb} |  2 +-
- 2 files changed, 6 insertions(+), 7 deletions(-)
- rename meta/recipes-gnome/gobject-introspection/{gobject-introspection_1.78.1.bb => gobject-introspection_1.80.0.bb} (99%)
+ .../mesa/files/0001-drisw-fix-build-without-dri3.patch     | 7 ++-----
+ .../mesa/files/0001-gallium-Fix-build-with-llvm-17.patch   | 2 +-
+ ...0001-meson-misdetects-64bit-atomics-on-mips-clang.patch | 2 +-
+ ...on.build-check-for-all-linux-host_os-combinations.patch | 4 ++--
+ ...0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch | 7 ++-----
+ meta/recipes-graphics/mesa/mesa.inc                        | 2 +-
+ .../mesa/{mesa_24.0.2.bb => mesa_24.0.3.bb}                | 0
+ 7 files changed, 9 insertions(+), 15 deletions(-)
+ rename meta/recipes-graphics/mesa/{mesa_24.0.2.bb => mesa_24.0.3.bb} (100%)
 
-diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-Relocate-the-repository-directory-for-native-builds.patch b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-Relocate-the-repository-directory-for-native-builds.patch
-index c9e1afffd0..eb2605f8fb 100644
---- a/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-Relocate-the-repository-directory-for-native-builds.patch
-+++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-Relocate-the-repository-directory-for-native-builds.patch
-@@ -1,4 +1,4 @@
--From aeb5532f8be42d42f4e8725ca42e239b36983a4d Mon Sep 17 00:00:00 2001
-+From 46f419fef5073bc385ce681c9e564ce0f648632b Mon Sep 17 00:00:00 2001
- From: Sascha Silbe <x-yo17@se-silbe.de>
- Date: Fri, 8 Jun 2018 13:55:10 +0200
- Subject: [PATCH] Relocate the repository directory for native builds
-@@ -14,14 +14,13 @@ cache or sstate mirror).
+diff --git a/meta/recipes-graphics/mesa/files/0001-drisw-fix-build-without-dri3.patch b/meta/recipes-graphics/mesa/files/0001-drisw-fix-build-without-dri3.patch
+index ab16152090..97fff243b5 100644
+--- a/meta/recipes-graphics/mesa/files/0001-drisw-fix-build-without-dri3.patch
++++ b/meta/recipes-graphics/mesa/files/0001-drisw-fix-build-without-dri3.patch
+@@ -1,7 +1,7 @@
+-From 4bd15a419e892da843489c374c58c5b29c40b5d6 Mon Sep 17 00:00:00 2001
++From d9ee6a95480b9721026fe6e7256f6350e7fd3c42 Mon Sep 17 00:00:00 2001
+ From: Romain Naour <romain.naour@smile.fr>
+ Date: Tue, 6 Feb 2024 09:47:09 +0100
+-Subject: [PATCH 1/2] drisw: fix build without dri3
++Subject: [PATCH] drisw: fix build without dri3
  
- Upstream-Status: Inappropriate
- Signed-off-by: Sascha Silbe <x-yo17@se-silbe.de>
+ commit 1887368df41 ("glx/sw: check for modifier support in the kopper path")
+ added dri3_priv.h header and dri3_check_multibuffer() function in drisw that
+@@ -53,6 +53,3 @@ index 3d3f752..4b19e2d 100644
+  
+     glx_config_destroy_list(psc->base.configs);
+     psc->base.configs = configs;
+--- 
+-2.44.0
 -
- ---
-  girepository/girepository.c | 15 +++++++++++++--
-  girepository/meson.build    |  2 +-
-  2 files changed, 14 insertions(+), 3 deletions(-)
+diff --git a/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch b/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch
+index ceb0153f8d..cc0ede0bc0 100644
+--- a/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch
++++ b/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch
+@@ -1,4 +1,4 @@
+-From 3e1e5c475b52651657c906e6b03ee13567cccdd7 Mon Sep 17 00:00:00 2001
++From f09df22fa849ccda256c365617bb584e4e843d05 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Fri, 23 Jun 2023 01:20:38 -0700
+ Subject: [PATCH] gallium: Fix build with llvm 17
+diff --git a/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch b/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
+index baa98a0d46..0f479c37d3 100644
+--- a/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
++++ b/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
+@@ -1,4 +1,4 @@
+-From 02cc21800fe29f566add525e63f619c0536d6e7b Mon Sep 17 00:00:00 2001
++From cbc82509e10bdb62701e7e5b1c12bb00ca2ecccf Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Mon, 13 Jan 2020 15:23:47 -0800
+ Subject: [PATCH] meson misdetects 64bit atomics on mips/clang
+diff --git a/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch b/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
+index 7be7d81eeb..7934366889 100644
+--- a/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
++++ b/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
+@@ -1,4 +1,4 @@
+-From e8ec6b1cc5e401ba719095722d8b317d755ae613 Mon Sep 17 00:00:00 2001
++From 5bdc4ab761c7ea991c28215e9e980f4520c7a2ad Mon Sep 17 00:00:00 2001
+ From: Alistair Francis <alistair@alistair23.me>
+ Date: Thu, 14 Nov 2019 13:04:49 -0800
+ Subject: [PATCH] meson.build: check for all linux host_os combinations
+@@ -19,7 +19,7 @@ Signed-off-by: Alistair Francis <alistair@alistair23.me>
+  1 file changed, 2 insertions(+), 2 deletions(-)
  
- diff --git a/girepository/girepository.c b/girepository/girepository.c
--index a0754f4..2d456f9 100644
-+index 12eaf36..876382c 100644
- --- a/girepository/girepository.c
- +++ b/girepository/girepository.c
- @@ -21,6 +21,8 @@
-@@ -42,7 +41,7 @@ index a0754f4..2d456f9 100644
-  /**
-   * SECTION:girepository
-   * @short_description: GObject Introspection repository manager
--@@ -215,9 +219,16 @@ init_globals (void)
-+@@ -222,9 +226,16 @@ init_globals (void)
-            g_free (custom_dirs);
-          }
-  
-@@ -62,10 +61,10 @@ index a0754f4..2d456f9 100644
-        typelib_search_path = g_slist_prepend (typelib_search_path, typelib_dir);
-  
- diff --git a/girepository/meson.build b/girepository/meson.build
--index 786749a..15cf2a9 100644
-+index 5ced59e..a580d9b 100644
- --- a/girepository/meson.build
- +++ b/girepository/meson.build
--@@ -45,7 +45,7 @@ girepo_internals_lib = static_library('girepository-internals',
-+@@ -47,7 +47,7 @@ girepo_internals_lib = static_library('girepository-internals',
-    ],
-    c_args: gi_hidden_visibility_cflags + custom_c_args,
-    include_directories : configinc,
-diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.78.1.bb b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.0.bb
-similarity index 99%
-rename from meta/recipes-gnome/gobject-introspection/gobject-introspection_1.78.1.bb
-rename to meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.0.bb
-index 05a08a50e0..b1a94cb284 100644
---- a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.78.1.bb
-+++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.0.bb
-@@ -16,7 +16,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c434e8128a68bedd59b80b2ac1eb1c4a \
- SRC_URI = "${GNOME_MIRROR}/${BPN}/${@oe.utils.trim_version("${PV}", 2)}/${BPN}-${PV}.tar.xz \
-            "
+ diff --git a/meson.build b/meson.build
+-index 133fd9a..817861e 100644
++index 5c91048..2db6185 100644
+ --- a/meson.build
+ +++ b/meson.build
+ @@ -128,7 +128,7 @@ with_any_opengl = with_opengl or with_gles1 or with_gles2
+diff --git a/meta/recipes-graphics/mesa/files/0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch b/meta/recipes-graphics/mesa/files/0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch
+index 036a0b4945..ff5dde34f8 100644
+--- a/meta/recipes-graphics/mesa/files/0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch
++++ b/meta/recipes-graphics/mesa/files/0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch
+@@ -1,7 +1,7 @@
+-From 62495ebb977866c52d5bed8499a547c49f0d9bc1 Mon Sep 17 00:00:00 2001
++From 01c4e7e12ee51f7fd92f36d7fe06febe10abcbfa Mon Sep 17 00:00:00 2001
+ From: Romain Naour <romain.naour@smile.fr>
+ Date: Tue, 6 Feb 2024 09:47:10 +0100
+-Subject: [PATCH 2/2] glxext: don't try zink if not enabled in mesa
++Subject: [PATCH] glxext: don't try zink if not enabled in mesa
  
--SRC_URI[sha256sum] = "bd7babd99af7258e76819e45ba4a6bc399608fe762d83fde3cac033c50841bb4"
-+SRC_URI[sha256sum] = "54a90b4a3cb82fd6a3e8b8a7775178ebc954af3c2bc726ed5961e6503ce62636"
+ Commit 7d9ea77b459 ("glx: add automatic zink fallback loading between hw and sw drivers")
+ added an automatic zink fallback even when the zink gallium is not
+@@ -37,6 +37,3 @@ index 05c825a..7a06aa9 100644
+     }
+  #endif /* GLX_USE_DRM */
+     if (glx_direct)
+--- 
+-2.44.0
+-
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 12d7a18eb8..a025c005ba 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -22,7 +22,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch \
+ "
  
- SRC_URI:append:class-native = " file://0001-Relocate-the-repository-directory-for-native-builds.patch"
+-SRC_URI[sha256sum] = "94e28a8edad06d8ed2b83eb53f253b9eb5aa62c3080f939702e1b3039b56c9e8"
++SRC_URI[sha256sum] = "77aec9a2a37b7d3596ea1640b3cc53d0b5d9b3b52abed89de07e3717e91bfdbe"
  
+ UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+ 
+diff --git a/meta/recipes-graphics/mesa/mesa_24.0.2.bb b/meta/recipes-graphics/mesa/mesa_24.0.3.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa_24.0.2.bb
+rename to meta/recipes-graphics/mesa/mesa_24.0.3.bb
 -- 
 2.42.0
 
 
---===============3564158852371577557==
+--===============4917667131229017603==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/mesa: PV changed from "24.0.2" to "24.0.3"
+packages/core2-64-poky-linux/mesa: SRC_URI changed from "https://mesa.freedesktop.org/archive/mesa-24.0.2.tar.xz file://0001-meson.build-check-for-all-linux-host_os-combinations.patch file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch file://0001-gallium-Fix-build-with-llvm-17.patch file://0001-drisw-fix-build-without-dri3.patch file://0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch" to "https://mesa.freedesktop.org/archive/mesa-24.0.3.tar.xz file://0001-meson.build-check-for-all-linux-host_os-combinations.patch file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch file://0001-gallium-Fix-build-with-llvm-17.patch file://0001-drisw-fix-build-without-dri3.patch file://0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch"
+packages/core2-64-poky-linux/mesa: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
+packages/core2-64-poky-linux/mesa/libegl-mesa-dev: PV changed from "24.0.2" to "24.0.3"
+packages/core2-64-poky-linux/mesa/libegl-mesa-dev: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
+packages/core2-64-poky-linux/mesa/libegl-mesa: PV changed from "24.0.2" to "24.0.3"
+packages/core2-64-poky-linux/mesa/libegl-mesa: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
+packages/core2-64-poky-linux/mesa/libgbm-dev: PV changed from "24.0.2" to "24.0.3"
+packages/core2-64-poky-linux/mesa/libgbm-dev: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
+packages/core2-64-poky-linux/mesa/libgbm: PV changed from "24.0.2" to "24.0.3"
+packages/core2-64-poky-linux/mesa/libgbm: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
+packages/core2-64-poky-linux/mesa/libgl-mesa-dev: PV changed from "24.0.2" to "24.0.3"
+packages/core2-64-poky-linux/mesa/libgl-mesa-dev: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
+packages/core2-64-poky-linux/mesa/libgl-mesa: PV changed from "24.0.2" to "24.0.3"
+packages/core2-64-poky-linux/mesa/libgl-mesa: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
+packages/core2-64-poky-linux/mesa/libglapi-dev: PV changed from "24.0.2" to "24.0.3"
+packages/core2-64-poky-linux/mesa/libglapi-dev: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
+packages/core2-64-poky-linux/mesa/libglapi: PV changed from "24.0.2" to "24.0.3"
+packages/core2-64-poky-linux/mesa/libglapi: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
+packages/core2-64-poky-linux/mesa/libgles1-mesa-dev: PV changed from "24.0.2" to "24.0.3"
+packages/core2-64-poky-linux/mesa/libgles1-mesa-dev: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
+packages/core2-64-poky-linux/mesa/libgles1-mesa: PV changed from "24.0.2" to "24.0.3"
+packages/core2-64-poky-linux/mesa/libgles1-mesa: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
+packages/core2-64-poky-linux/mesa/libgles2-mesa-dev: PV changed from "24.0.2" to "24.0.3"
+packages/core2-64-poky-linux/mesa/libgles2-mesa-dev: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
+packages/core2-64-poky-linux/mesa/libgles2-mesa: PV changed from "24.0.2" to "24.0.3"
+packages/core2-64-poky-linux/mesa/libgles2-mesa: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
+packages/core2-64-poky-linux/mesa/libgles3-mesa-dev: PV changed from "24.0.2" to "24.0.3"
+packages/core2-64-poky-linux/mesa/libgles3-mesa-dev: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
+packages/core2-64-poky-linux/mesa/libgles3-mesa: PV changed from "24.0.2" to "24.0.3"
+packages/core2-64-poky-linux/mesa/libgles3-mesa: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
+packages/core2-64-poky-linux/mesa/libglx-mesa-dev: PV changed from "24.0.2" to "24.0.3"
+packages/core2-64-poky-linux/mesa/libglx-mesa-dev: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
+packages/core2-64-poky-linux/mesa/libglx-mesa: PV changed from "24.0.2" to "24.0.3"
+packages/core2-64-poky-linux/mesa/libglx-mesa: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
+packages/core2-64-poky-linux/mesa/libopencl-mesa-dev: PV changed from "24.0.2" to "24.0.3"
+packages/core2-64-poky-linux/mesa/libopencl-mesa-dev: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
+packages/core2-64-poky-linux/mesa/libopencl-mesa: PV changed from "24.0.2" to "24.0.3"
+packages/core2-64-poky-linux/mesa/libopencl-mesa: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
+packages/core2-64-poky-linux/mesa/libosmesa-dev: PV changed from "24.0.2" to "24.0.3"
+packages/core2-64-poky-linux/mesa/libosmesa-dev: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
+packages/core2-64-poky-linux/mesa/libosmesa: PV changed from "24.0.2" to "24.0.3"
+packages/core2-64-poky-linux/mesa/libosmesa: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
+packages/core2-64-poky-linux/mesa/libxatracker-dev: PV changed from "24.0.2" to "24.0.3"
+packages/core2-64-poky-linux/mesa/libxatracker-dev: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
+packages/core2-64-poky-linux/mesa/libxatracker: PV changed from "24.0.2" to "24.0.3"
+packages/core2-64-poky-linux/mesa/libxatracker: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
+packages/core2-64-poky-linux/mesa/mesa-dbg: PV changed from "24.0.2" to "24.0.3"
+packages/core2-64-poky-linux/mesa/mesa-dbg: PKGSIZE changed from 253976048 to 254058432 (+0%)
+packages/core2-64-poky-linux/mesa/mesa-dbg: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
+packages/core2-64-poky-linux/mesa/mesa-dev: PV changed from "24.0.2" to "24.0.3"
+packages/core2-64-poky-linux/mesa/mesa-dev: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
+packages/core2-64-poky-linux/mesa/mesa-doc: PV changed from "24.0.2" to "24.0.3"
+packages/core2-64-poky-linux/mesa/mesa-doc: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
+packages/core2-64-poky-linux/mesa/mesa-locale: PV changed from "24.0.2" to "24.0.3"
+packages/core2-64-poky-linux/mesa/mesa-locale: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
+packages/core2-64-poky-linux/mesa/mesa-megadriver: PV changed from "24.0.2" to "24.0.3"
+packages/core2-64-poky-linux/mesa/mesa-megadriver: PKGSIZE changed from 23002355 to 23010929 (+0%)
+packages/core2-64-poky-linux/mesa/mesa-megadriver: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
+packages/core2-64-poky-linux/mesa/mesa-src: PV changed from "24.0.2" to "24.0.3"
+packages/core2-64-poky-linux/mesa/mesa-src: PKGSIZE changed from 153449535 to 153664577 (+0%)
+packages/core2-64-poky-linux/mesa/mesa-src: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
+packages/core2-64-poky-linux/mesa/mesa-staticdev: PV changed from "24.0.2" to "24.0.3"
+packages/core2-64-poky-linux/mesa/mesa-staticdev: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
+packages/core2-64-poky-linux/mesa/mesa-tools: PV changed from "24.0.2" to "24.0.3"
+packages/core2-64-poky-linux/mesa/mesa-tools: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
+packages/core2-64-poky-linux/mesa/mesa-vdpau-drivers: PV changed from "24.0.2" to "24.0.3"
+packages/core2-64-poky-linux/mesa/mesa-vdpau-drivers: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
+packages/core2-64-poky-linux/mesa/mesa-vulkan-drivers: PV changed from "24.0.2" to "24.0.3"
+packages/core2-64-poky-linux/mesa/mesa-vulkan-drivers: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
+packages/core2-64-poky-linux/mesa/mesa: PV changed from "24.0.2" to "24.0.3"
+packages/core2-64-poky-linux/mesa/mesa: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
+
+--===============4917667131229017603==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-gobject-introspection-upgrade-1.78.1-1.80.0.patch"
+ filename="0001-mesa-upgrade-24.0.2-24.0.3.patch"
 
-RnJvbSA0NTcwMmQwMGFmY2FmMDZmYTczMTdlZjEzODYwMjMyNWQ2YWY3MzBkIE1vbiBTZXAgMTcg
+RnJvbSA5MWJmOWE4ODhjMTRmOTQwNDA5NTVhNDFjZTIxNWY4ZWRhNDRkZWRmIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTUgTWFyIDIwMjQgMTE6NTA6MTMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-b2JqZWN0LWludHJvc3BlY3Rpb246IHVwZ3JhZGUgMS43OC4xIC0+IDEuODAuMAoKLS0tCiAuLi5l
-LXRoZS1yZXBvc2l0b3J5LWRpcmVjdG9yeS1mb3ItbmF0aXZlLWJ1aWxkcy5wYXRjaCB8IDExICsr
-KysrLS0tLS0tCiAuLi50aW9uXzEuNzguMS5iYiA9PiBnb2JqZWN0LWludHJvc3BlY3Rpb25fMS44
-MC4wLmJifSB8ICAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygrKSwgNyBkZWxl
-dGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZ25vbWUvZ29iamVjdC1pbnRyb3NwZWN0aW9u
-L3tnb2JqZWN0LWludHJvc3BlY3Rpb25fMS43OC4xLmJiID0+IGdvYmplY3QtaW50cm9zcGVjdGlv
-bl8xLjgwLjAuYmJ9ICg5OSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdub21lL2dvYmpl
-Y3QtaW50cm9zcGVjdGlvbi9nb2JqZWN0LWludHJvc3BlY3Rpb24vMDAwMS1SZWxvY2F0ZS10aGUt
-cmVwb3NpdG9yeS1kaXJlY3RvcnktZm9yLW5hdGl2ZS1idWlsZHMucGF0Y2ggYi9tZXRhL3JlY2lw
-ZXMtZ25vbWUvZ29iamVjdC1pbnRyb3NwZWN0aW9uL2dvYmplY3QtaW50cm9zcGVjdGlvbi8wMDAx
-LVJlbG9jYXRlLXRoZS1yZXBvc2l0b3J5LWRpcmVjdG9yeS1mb3ItbmF0aXZlLWJ1aWxkcy5wYXRj
-aAppbmRleCBjOWUxYWZmZmQwLi5lYjI2MDVmOGZiIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
-Z25vbWUvZ29iamVjdC1pbnRyb3NwZWN0aW9uL2dvYmplY3QtaW50cm9zcGVjdGlvbi8wMDAxLVJl
-bG9jYXRlLXRoZS1yZXBvc2l0b3J5LWRpcmVjdG9yeS1mb3ItbmF0aXZlLWJ1aWxkcy5wYXRjaAor
-KysgYi9tZXRhL3JlY2lwZXMtZ25vbWUvZ29iamVjdC1pbnRyb3NwZWN0aW9uL2dvYmplY3QtaW50
-cm9zcGVjdGlvbi8wMDAxLVJlbG9jYXRlLXRoZS1yZXBvc2l0b3J5LWRpcmVjdG9yeS1mb3ItbmF0
-aXZlLWJ1aWxkcy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gYWViNTUzMmY4YmU0MmQ0MmY0
-ZTg3MjVjYTQyZTIzOWIzNjk4M2E0ZCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gNDZm
-NDE5ZmVmNTA3M2JjMzg1Y2U2ODFjOWU1NjRjZTBmNjQ4NjMyYiBNb24gU2VwIDE3IDAwOjAwOjAw
-IDIwMDEKIEZyb206IFNhc2NoYSBTaWxiZSA8eC15bzE3QHNlLXNpbGJlLmRlPgogRGF0ZTogRnJp
-LCA4IEp1biAyMDE4IDEzOjU1OjEwICswMjAwCiBTdWJqZWN0OiBbUEFUQ0hdIFJlbG9jYXRlIHRo
-ZSByZXBvc2l0b3J5IGRpcmVjdG9yeSBmb3IgbmF0aXZlIGJ1aWxkcwpAQCAtMTQsMTQgKzE0LDEz
-IEBAIGNhY2hlIG9yIHNzdGF0ZSBtaXJyb3IpLgogCiBVcHN0cmVhbS1TdGF0dXM6IEluYXBwcm9w
-cmlhdGUKIFNpZ25lZC1vZmYtYnk6IFNhc2NoYSBTaWxiZSA8eC15bzE3QHNlLXNpbGJlLmRlPgot
-CiAtLS0KICBnaXJlcG9zaXRvcnkvZ2lyZXBvc2l0b3J5LmMgfCAxNSArKysrKysrKysrKysrLS0K
-ICBnaXJlcG9zaXRvcnkvbWVzb24uYnVpbGQgICAgfCAgMiArLQogIDIgZmlsZXMgY2hhbmdlZCwg
-MTQgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkKIAogZGlmZiAtLWdpdCBhL2dpcmVwb3Np
-dG9yeS9naXJlcG9zaXRvcnkuYyBiL2dpcmVwb3NpdG9yeS9naXJlcG9zaXRvcnkuYwotaW5kZXgg
-YTA3NTRmNC4uMmQ0NTZmOSAxMDA2NDQKK2luZGV4IDEyZWFmMzYuLjg3NjM4MmMgMTAwNjQ0CiAt
-LS0gYS9naXJlcG9zaXRvcnkvZ2lyZXBvc2l0b3J5LmMKICsrKyBiL2dpcmVwb3NpdG9yeS9naXJl
-cG9zaXRvcnkuYwogQEAgLTIxLDYgKzIxLDggQEAKQEAgLTQyLDcgKzQxLDcgQEAgaW5kZXggYTA3
-NTRmNC4uMmQ0NTZmOSAxMDA2NDQKICAvKioKICAgKiBTRUNUSU9OOmdpcmVwb3NpdG9yeQogICAq
-IEBzaG9ydF9kZXNjcmlwdGlvbjogR09iamVjdCBJbnRyb3NwZWN0aW9uIHJlcG9zaXRvcnkgbWFu
-YWdlcgotQEAgLTIxNSw5ICsyMTksMTYgQEAgaW5pdF9nbG9iYWxzICh2b2lkKQorQEAgLTIyMiw5
-ICsyMjYsMTYgQEAgaW5pdF9nbG9iYWxzICh2b2lkKQogICAgICAgICAgICBnX2ZyZWUgKGN1c3Rv
-bV9kaXJzKTsKICAgICAgICAgIH0KICAKQEAgLTYyLDEwICs2MSwxMCBAQCBpbmRleCBhMDc1NGY0
-Li4yZDQ1NmY5IDEwMDY0NAogICAgICAgIHR5cGVsaWJfc2VhcmNoX3BhdGggPSBnX3NsaXN0X3By
-ZXBlbmQgKHR5cGVsaWJfc2VhcmNoX3BhdGgsIHR5cGVsaWJfZGlyKTsKICAKIGRpZmYgLS1naXQg
-YS9naXJlcG9zaXRvcnkvbWVzb24uYnVpbGQgYi9naXJlcG9zaXRvcnkvbWVzb24uYnVpbGQKLWlu
-ZGV4IDc4Njc0OWEuLjE1Y2YyYTkgMTAwNjQ0CitpbmRleCA1Y2VkNTllLi5hNTgwZDliIDEwMDY0
-NAogLS0tIGEvZ2lyZXBvc2l0b3J5L21lc29uLmJ1aWxkCiArKysgYi9naXJlcG9zaXRvcnkvbWVz
-b24uYnVpbGQKLUBAIC00NSw3ICs0NSw3IEBAIGdpcmVwb19pbnRlcm5hbHNfbGliID0gc3RhdGlj
-X2xpYnJhcnkoJ2dpcmVwb3NpdG9yeS1pbnRlcm5hbHMnLAorQEAgLTQ3LDcgKzQ3LDcgQEAgZ2ly
-ZXBvX2ludGVybmFsc19saWIgPSBzdGF0aWNfbGlicmFyeSgnZ2lyZXBvc2l0b3J5LWludGVybmFs
-cycsCiAgICBdLAogICAgY19hcmdzOiBnaV9oaWRkZW5fdmlzaWJpbGl0eV9jZmxhZ3MgKyBjdXN0
-b21fY19hcmdzLAogICAgaW5jbHVkZV9kaXJlY3RvcmllcyA6IGNvbmZpZ2luYywKZGlmZiAtLWdp
-dCBhL21ldGEvcmVjaXBlcy1nbm9tZS9nb2JqZWN0LWludHJvc3BlY3Rpb24vZ29iamVjdC1pbnRy
-b3NwZWN0aW9uXzEuNzguMS5iYiBiL21ldGEvcmVjaXBlcy1nbm9tZS9nb2JqZWN0LWludHJvc3Bl
-Y3Rpb24vZ29iamVjdC1pbnRyb3NwZWN0aW9uXzEuODAuMC5iYgpzaW1pbGFyaXR5IGluZGV4IDk5
-JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ25vbWUvZ29iamVjdC1pbnRyb3NwZWN0aW9uL2dv
-YmplY3QtaW50cm9zcGVjdGlvbl8xLjc4LjEuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1nbm9t
-ZS9nb2JqZWN0LWludHJvc3BlY3Rpb24vZ29iamVjdC1pbnRyb3NwZWN0aW9uXzEuODAuMC5iYgpp
-bmRleCAwNWEwOGE1MGUwLi5iMWE5NGNiMjg0IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ25v
-bWUvZ29iamVjdC1pbnRyb3NwZWN0aW9uL2dvYmplY3QtaW50cm9zcGVjdGlvbl8xLjc4LjEuYmIK
-KysrIGIvbWV0YS9yZWNpcGVzLWdub21lL2dvYmplY3QtaW50cm9zcGVjdGlvbi9nb2JqZWN0LWlu
-dHJvc3BlY3Rpb25fMS44MC4wLmJiCkBAIC0xNiw3ICsxNiw3IEBAIExJQ19GSUxFU19DSEtTVU0g
-PSAiZmlsZTovL0NPUFlJTkc7bWQ1PWM0MzRlODEyOGE2OGJlZGQ1OWI4MGIyYWMxZWIxYzRhIFwK
-IFNSQ19VUkkgPSAiJHtHTk9NRV9NSVJST1J9LyR7QlBOfS8ke0BvZS51dGlscy50cmltX3ZlcnNp
-b24oIiR7UFZ9IiwgMil9LyR7QlBOfS0ke1BWfS50YXIueHogXAogICAgICAgICAgICAiCiAKLVNS
-Q19VUklbc2hhMjU2c3VtXSA9ICJiZDdiYWJkOTlhZjcyNThlNzY4MTllNDViYTRhNmJjMzk5NjA4
-ZmU3NjJkODNmZGUzY2FjMDMzYzUwODQxYmI0IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjU0YTkw
-YjRhM2NiODJmZDZhM2U4YjhhNzc3NTE3OGViYzk1NGFmM2MyYmM3MjZlZDU5NjFlNjUwM2NlNjI2
-MzYiCiAKIFNSQ19VUkk6YXBwZW5kOmNsYXNzLW5hdGl2ZSA9ICIgZmlsZTovLzAwMDEtUmVsb2Nh
-dGUtdGhlLXJlcG9zaXRvcnktZGlyZWN0b3J5LWZvci1uYXRpdmUtYnVpbGRzLnBhdGNoIgogCi0t
-IAoyLjQyLjAKCg==
+CkRhdGU6IEZyaSwgMTUgTWFyIDIwMjQgMTI6MjU6MTEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBt
+ZXNhOiB1cGdyYWRlIDI0LjAuMiAtPiAyNC4wLjMKCi0tLQogLi4uL21lc2EvZmlsZXMvMDAwMS1k
+cmlzdy1maXgtYnVpbGQtd2l0aG91dC1kcmkzLnBhdGNoICAgICB8IDcgKystLS0tLQogLi4uL21l
+c2EvZmlsZXMvMDAwMS1nYWxsaXVtLUZpeC1idWlsZC13aXRoLWxsdm0tMTcucGF0Y2ggICB8IDIg
+Ky0KIC4uLjAwMDEtbWVzb24tbWlzZGV0ZWN0cy02NGJpdC1hdG9taWNzLW9uLW1pcHMtY2xhbmcu
+cGF0Y2ggfCAyICstCiAuLi5vbi5idWlsZC1jaGVjay1mb3ItYWxsLWxpbnV4LWhvc3Rfb3MtY29t
+YmluYXRpb25zLnBhdGNoIHwgNCArKy0tCiAuLi4wMDAyLWdseGV4dC1kb24tdC10cnktemluay1p
+Zi1ub3QtZW5hYmxlZC1pbi1tZXNhLnBhdGNoIHwgNyArKy0tLS0tCiBtZXRhL3JlY2lwZXMtZ3Jh
+cGhpY3MvbWVzYS9tZXNhLmluYyAgICAgICAgICAgICAgICAgICAgICAgIHwgMiArLQogLi4uL21l
+c2Eve21lc2FfMjQuMC4yLmJiID0+IG1lc2FfMjQuMC4zLmJifSAgICAgICAgICAgICAgICB8IDAK
+IDcgZmlsZXMgY2hhbmdlZCwgOSBpbnNlcnRpb25zKCspLCAxNSBkZWxldGlvbnMoLSkKIHJlbmFt
+ZSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS97bWVzYV8yNC4wLjIuYmIgPT4gbWVzYV8yNC4w
+LjMuYmJ9ICgxMDAlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2Zp
+bGVzLzAwMDEtZHJpc3ctZml4LWJ1aWxkLXdpdGhvdXQtZHJpMy5wYXRjaCBiL21ldGEvcmVjaXBl
+cy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAwMDEtZHJpc3ctZml4LWJ1aWxkLXdpdGhvdXQtZHJpMy5w
+YXRjaAppbmRleCBhYjE2MTUyMDkwLi45N2ZmZjI0M2I1IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
+ZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAxLWRyaXN3LWZpeC1idWlsZC13aXRob3V0LWRyaTMu
+cGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvZmlsZXMvMDAwMS1kcmlzdy1m
+aXgtYnVpbGQtd2l0aG91dC1kcmkzLnBhdGNoCkBAIC0xLDcgKzEsNyBAQAotRnJvbSA0YmQxNWE0
+MTllODkyZGE4NDM0ODljMzc0YzU4YzViMjljNDBiNWQ2IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
+MQorRnJvbSBkOWVlNmE5NTQ4MGI5NzIxMDI2ZmU2ZTcyNTZmNjM1MGU3ZmQzYzQyIE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQogRnJvbTogUm9tYWluIE5hb3VyIDxyb21haW4ubmFvdXJAc21pbGUu
+ZnI+CiBEYXRlOiBUdWUsIDYgRmViIDIwMjQgMDk6NDc6MDkgKzAxMDAKLVN1YmplY3Q6IFtQQVRD
+SCAxLzJdIGRyaXN3OiBmaXggYnVpbGQgd2l0aG91dCBkcmkzCitTdWJqZWN0OiBbUEFUQ0hdIGRy
+aXN3OiBmaXggYnVpbGQgd2l0aG91dCBkcmkzCiAKIGNvbW1pdCAxODg3MzY4ZGY0MSAoImdseC9z
+dzogY2hlY2sgZm9yIG1vZGlmaWVyIHN1cHBvcnQgaW4gdGhlIGtvcHBlciBwYXRoIikKIGFkZGVk
+IGRyaTNfcHJpdi5oIGhlYWRlciBhbmQgZHJpM19jaGVja19tdWx0aWJ1ZmZlcigpIGZ1bmN0aW9u
+IGluIGRyaXN3IHRoYXQKQEAgLTUzLDYgKzUzLDMgQEAgaW5kZXggM2QzZjc1Mi4uNGIxOWUyZCAx
+MDA2NDQKICAKICAgICBnbHhfY29uZmlnX2Rlc3Ryb3lfbGlzdChwc2MtPmJhc2UuY29uZmlncyk7
+CiAgICAgcHNjLT5iYXNlLmNvbmZpZ3MgPSBjb25maWdzOwotLS0gCi0yLjQ0LjAKLQpkaWZmIC0t
+Z2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvZmlsZXMvMDAwMS1nYWxsaXVtLUZpeC1i
+dWlsZC13aXRoLWxsdm0tMTcucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxl
+cy8wMDAxLWdhbGxpdW0tRml4LWJ1aWxkLXdpdGgtbGx2bS0xNy5wYXRjaAppbmRleCBjZWIwMTUz
+ZjhkLi5jYzBlZGUwYmMwIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9m
+aWxlcy8wMDAxLWdhbGxpdW0tRml4LWJ1aWxkLXdpdGgtbGx2bS0xNy5wYXRjaAorKysgYi9tZXRh
+L3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAxLWdhbGxpdW0tRml4LWJ1aWxkLXdpdGgt
+bGx2bS0xNy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gM2UxZTVjNDc1YjUyNjUxNjU3Yzkw
+NmU2YjAzZWUxMzU2N2NjY2RkNyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gZjA5ZGYy
+MmZhODQ5Y2NkYTI1NmMzNjU2MTdiYjU4NGU0ZTg0M2QwNSBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
+MDEKIEZyb206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiBEYXRlOiBGcmksIDIzIEp1
+biAyMDIzIDAxOjIwOjM4IC0wNzAwCiBTdWJqZWN0OiBbUEFUQ0hdIGdhbGxpdW06IEZpeCBidWls
+ZCB3aXRoIGxsdm0gMTcKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2Zp
+bGVzLzAwMDEtbWVzb24tbWlzZGV0ZWN0cy02NGJpdC1hdG9taWNzLW9uLW1pcHMtY2xhbmcucGF0
+Y2ggYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAxLW1lc29uLW1pc2RldGVj
+dHMtNjRiaXQtYXRvbWljcy1vbi1taXBzLWNsYW5nLnBhdGNoCmluZGV4IGJhYTk4YTBkNDYuLjBm
+NDc5YzM3ZDMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAw
+MDEtbWVzb24tbWlzZGV0ZWN0cy02NGJpdC1hdG9taWNzLW9uLW1pcHMtY2xhbmcucGF0Y2gKKysr
+IGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvZmlsZXMvMDAwMS1tZXNvbi1taXNkZXRlY3Rz
+LTY0Yml0LWF0b21pY3Mtb24tbWlwcy1jbGFuZy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20g
+MDJjYzIxODAwZmUyOWY1NjZhZGQ1MjVlNjNmNjE5YzA1MzZkNmU3YiBNb24gU2VwIDE3IDAwOjAw
+OjAwIDIwMDEKK0Zyb20gY2JjODI1MDllMTBiZGI2MjcwMWU3ZTViMWMxMmJiMDBjYTJlY2NjZiBN
+b24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5j
+b20+CiBEYXRlOiBNb24sIDEzIEphbiAyMDIwIDE1OjIzOjQ3IC0wODAwCiBTdWJqZWN0OiBbUEFU
+Q0hdIG1lc29uIG1pc2RldGVjdHMgNjRiaXQgYXRvbWljcyBvbiBtaXBzL2NsYW5nCmRpZmYgLS1n
+aXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAxLW1lc29uLmJ1aWxkLWNo
+ZWNrLWZvci1hbGwtbGludXgtaG9zdF9vcy1jb21iaW5hdGlvbnMucGF0Y2ggYi9tZXRhL3JlY2lw
+ZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAxLW1lc29uLmJ1aWxkLWNoZWNrLWZvci1hbGwtbGlu
+dXgtaG9zdF9vcy1jb21iaW5hdGlvbnMucGF0Y2gKaW5kZXggN2JlN2Q4MWVlYi4uNzkzNDM2Njg4
+OSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvZmlsZXMvMDAwMS1tZXNv
+bi5idWlsZC1jaGVjay1mb3ItYWxsLWxpbnV4LWhvc3Rfb3MtY29tYmluYXRpb25zLnBhdGNoCisr
+KyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAwMDEtbWVzb24uYnVpbGQtY2hl
+Y2stZm9yLWFsbC1saW51eC1ob3N0X29zLWNvbWJpbmF0aW9ucy5wYXRjaApAQCAtMSw0ICsxLDQg
+QEAKLUZyb20gZThlYzZiMWNjNWU0MDFiYTcxOTA5NTcyMmQ4YjMxN2Q3NTVhZTYxMyBNb24gU2Vw
+IDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gNWJkYzRhYjc2MWM3ZWE5OTFjMjgyMTVlOWU5ODBmNDUy
+MGM3YTJhZCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEFsaXN0YWlyIEZyYW5jaXMg
+PGFsaXN0YWlyQGFsaXN0YWlyMjMubWU+CiBEYXRlOiBUaHUsIDE0IE5vdiAyMDE5IDEzOjA0OjQ5
+IC0wODAwCiBTdWJqZWN0OiBbUEFUQ0hdIG1lc29uLmJ1aWxkOiBjaGVjayBmb3IgYWxsIGxpbnV4
+IGhvc3Rfb3MgY29tYmluYXRpb25zCkBAIC0xOSw3ICsxOSw3IEBAIFNpZ25lZC1vZmYtYnk6IEFs
+aXN0YWlyIEZyYW5jaXMgPGFsaXN0YWlyQGFsaXN0YWlyMjMubWU+CiAgMSBmaWxlIGNoYW5nZWQs
+IDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKIAogZGlmZiAtLWdpdCBhL21lc29uLmJ1
+aWxkIGIvbWVzb24uYnVpbGQKLWluZGV4IDEzM2ZkOWEuLjgxNzg2MWUgMTAwNjQ0CitpbmRleCA1
+YzkxMDQ4Li4yZGI2MTg1IDEwMDY0NAogLS0tIGEvbWVzb24uYnVpbGQKICsrKyBiL21lc29uLmJ1
+aWxkCiBAQCAtMTI4LDcgKzEyOCw3IEBAIHdpdGhfYW55X29wZW5nbCA9IHdpdGhfb3BlbmdsIG9y
+IHdpdGhfZ2xlczEgb3Igd2l0aF9nbGVzMgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBo
+aWNzL21lc2EvZmlsZXMvMDAwMi1nbHhleHQtZG9uLXQtdHJ5LXppbmstaWYtbm90LWVuYWJsZWQt
+aW4tbWVzYS5wYXRjaCBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAwMDItZ2x4
+ZXh0LWRvbi10LXRyeS16aW5rLWlmLW5vdC1lbmFibGVkLWluLW1lc2EucGF0Y2gKaW5kZXggMDM2
+YTBiNDk0NS4uZmY1ZGRlMzRmOCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21l
+c2EvZmlsZXMvMDAwMi1nbHhleHQtZG9uLXQtdHJ5LXppbmstaWYtbm90LWVuYWJsZWQtaW4tbWVz
+YS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAyLWdseGV4
+dC1kb24tdC10cnktemluay1pZi1ub3QtZW5hYmxlZC1pbi1tZXNhLnBhdGNoCkBAIC0xLDcgKzEs
+NyBAQAotRnJvbSA2MjQ5NWViYjk3Nzg2NmM1MmQ1YmVkODQ5OWE1NDdjNDlmMGQ5YmMxIE1vbiBT
+ZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAwMWM0ZTdlMTJlZTUxZjdmZDkyZjM2ZDdmZTA2ZmVi
+ZTEwYWJjYmZhIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogUm9tYWluIE5hb3VyIDxy
+b21haW4ubmFvdXJAc21pbGUuZnI+CiBEYXRlOiBUdWUsIDYgRmViIDIwMjQgMDk6NDc6MTAgKzAx
+MDAKLVN1YmplY3Q6IFtQQVRDSCAyLzJdIGdseGV4dDogZG9uJ3QgdHJ5IHppbmsgaWYgbm90IGVu
+YWJsZWQgaW4gbWVzYQorU3ViamVjdDogW1BBVENIXSBnbHhleHQ6IGRvbid0IHRyeSB6aW5rIGlm
+IG5vdCBlbmFibGVkIGluIG1lc2EKIAogQ29tbWl0IDdkOWVhNzdiNDU5ICgiZ2x4OiBhZGQgYXV0
+b21hdGljIHppbmsgZmFsbGJhY2sgbG9hZGluZyBiZXR3ZWVuIGh3IGFuZCBzdyBkcml2ZXJzIikK
+IGFkZGVkIGFuIGF1dG9tYXRpYyB6aW5rIGZhbGxiYWNrIGV2ZW4gd2hlbiB0aGUgemluayBnYWxs
+aXVtIGlzIG5vdApAQCAtMzcsNiArMzcsMyBAQCBpbmRleCAwNWM4MjVhLi43YTA2YWE5IDEwMDY0
+NAogICAgIH0KICAjZW5kaWYgLyogR0xYX1VTRV9EUk0gKi8KICAgICBpZiAoZ2x4X2RpcmVjdCkK
+LS0tIAotMi40NC4wCi0KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL21l
+c2EuaW5jIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvbWVzYS5pbmMKaW5kZXggMTJkN2Ex
+OGViOC4uYTAyNWMwMDViYSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2Ev
+bWVzYS5pbmMKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvbWVzYS5pbmMKQEAgLTIy
+LDcgKzIyLDcgQEAgU1JDX1VSSSA9ICJodHRwczovL21lc2EuZnJlZWRlc2t0b3Aub3JnL2FyY2hp
+dmUvbWVzYS0ke1BWfS50YXIueHogXAogICAgICAgICAgICBmaWxlOi8vMDAwMi1nbHhleHQtZG9u
+LXQtdHJ5LXppbmstaWYtbm90LWVuYWJsZWQtaW4tbWVzYS5wYXRjaCBcCiAiCiAKLVNSQ19VUklb
+c2hhMjU2c3VtXSA9ICI5NGUyOGE4ZWRhZDA2ZDhlZDJiODNlYjUzZjI1M2I5ZWI1YWE2MmMzMDgw
+ZjkzOTcwMmUxYjMwMzliNTZjOWU4IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjc3YWVjOWEyYTM3
+YjdkMzU5NmVhMTY0MGIzY2M1M2QwYjVkOWIzYjUyYWJlZDg5ZGUwN2UzNzE3ZTkxYmZkYmUiCiAK
+IFVQU1RSRUFNX0NIRUNLX0dJVFRBR1JFR0VYID0gIm1lc2EtKD9QPHB2ZXI+XGQrKFwuXGQrKSsp
+IgogCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9tZXNhXzI0LjAuMi5i
+YiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL21lc2FfMjQuMC4zLmJiCnNpbWlsYXJpdHkg
+aW5kZXggMTAwJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9tZXNhXzI0
+LjAuMi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvbWVzYV8yNC4wLjMu
+YmIKLS0gCjIuNDIuMAoK
 
---===============3564158852371577557==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1879 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 922 .bb files complete (921 cached, 1 parsed). 1877 targets, 35 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.7.3"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-e748a4d6b3cb0040bae264d851ba807abe123f36"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:e748a4d6b3cb0040bae264d851ba807abe123f36"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 336 Local 319 Mirrors 0 Missed 17 Current 361 (94% match, 97% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 437 of 697 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.78.4.bb:do_create_spdx_setscene)
-NOTE: Running task 913 of 1965 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.0.bb:do_recipe_qa)
-NOTE: Running task 914 of 1965 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.0.bb:do_recipe_qa)
-NOTE: Running task 950 of 1965 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.0.bb:do_write_config)
-NOTE: Running task 958 of 1965 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.0.bb:do_write_config)
-NOTE: recipe glib-2.0-1_2.78.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gobject-introspection-1.80.0-r0: task do_recipe_qa: Started
-NOTE: recipe gobject-introspection-1.80.0-r0: task do_write_config: Started
-NOTE: recipe gobject-introspection-native-1.80.0-r0: task do_recipe_qa: Started
-NOTE: recipe gobject-introspection-native-1.80.0-r0: task do_write_config: Started
-NOTE: recipe glib-2.0-1_2.78.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe gobject-introspection-1.80.0-r0: task do_write_config: Succeeded
-NOTE: Running setscene task 648 of 697 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 650 of 697 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 652 of 697 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.6.3.bb:do_create_spdx_setscene)
-NOTE: recipe gobject-introspection-native-1.80.0-r0: task do_write_config: Succeeded
-NOTE: recipe gobject-introspection-1.80.0-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 1118 of 1965 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.0.bb:do_fetch)
-NOTE: recipe gobject-introspection-native-1.80.0-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 1119 of 1965 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.0.bb:do_fetch)
-NOTE: recipe opkg-utils-0.6.3-r0: task do_create_spdx_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libffi-3.4.6-r0: task do_create_spdx_setscene: Started
-NOTE: recipe opkg-utils-0.6.3-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe zlib-1.3.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libffi-3.4.6-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 662 of 697 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_create_spdx_setscene)
-NOTE: recipe gobject-introspection-1.80.0-r0: task do_fetch: Started
-NOTE: recipe gobject-introspection-native-1.80.0-r0: task do_fetch: Started
-NOTE: recipe gobject-introspection-1.80.0-r0: task do_fetch: Succeeded
-NOTE: Running task 1137 of 1965 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.0.bb:do_unpack)
-NOTE: recipe gobject-introspection-native-1.80.0-r0: task do_fetch: Succeeded
-NOTE: Running task 1138 of 1965 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.0.bb:do_unpack)
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gobject-introspection-1.80.0-r0: task do_unpack: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 671 of 697 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_create_spdx_setscene)
-NOTE: recipe gobject-introspection-native-1.80.0-r0: task do_unpack: Started
-NOTE: recipe glibc-2.39+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gobject-introspection-1.80.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1141 of 1965 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.0.bb:do_patch)
-NOTE: recipe glibc-2.39+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 678 of 697 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 680 of 697 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe gobject-introspection-1.80.0-r0: task do_patch: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gobject-introspection-native-1.80.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1148 of 1965 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.0.bb:do_patch)
-NOTE: recipe gobject-introspection-1.80.0-r0: task do_patch: Succeeded
-NOTE: Running task 1149 of 1965 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running task 1150 of 1965 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.0.bb:do_populate_lic)
-NOTE: recipe gobject-introspection-native-1.80.0-r0: task do_patch: Started
-NOTE: Running task 1366 of 1965 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1382 of 1965 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.0.bb:do_collect_spdx_deps)
-NOTE: recipe gobject-introspection-1.80.0-r0: task do_populate_lic: Started
-NOTE: recipe gobject-introspection-1.80.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gobject-introspection-native-1.80.0-r0: task do_patch: Succeeded
-NOTE: Running task 1383 of 1965 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.0.bb:do_deploy_source_date_epoch)
-NOTE: recipe gobject-introspection-native-1.80.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gobject-introspection-native-1.80.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe gobject-introspection-1.80.0-r0: task do_populate_lic: Succeeded
-NOTE: recipe gobject-introspection-1.80.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gobject-introspection-native-1.80.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gobject-introspection-native-1.80.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe gobject-introspection-native-1.80.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 1384 of 1965 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.0.bb:do_create_spdx)
-NOTE: recipe gobject-introspection-native-1.80.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1385 of 1965 (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.0.bb:do_configure)
-NOTE: recipe gobject-introspection-native-1.80.0-r0: task do_create_spdx: Started
-NOTE: recipe gobject-introspection-native-1.80.0-r0: task do_configure: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 696 of 697 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_recipe_qa_setscene)
-NOTE: recipe gobject-introspection-native-1.80.0-r0: task do_create_spdx: Succeeded
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1940 of 1965 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.0.bb:do_collect_spdx_deps)
-NOTE: recipe gobject-introspection-1.80.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe gobject-introspection-1.80.0-r0: task do_collect_spdx_deps: Succeeded
-Log data follows:
-| DEBUG: Executing python function extend_recipe_sysroot
-| NOTE: Direct dependencies are ['/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/quilt/quilt-native_0.67.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.78.4.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/bison/bison_3.8.2.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/flex/flex_2.6.4.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/meson/meson_1.3.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/ninja/ninja_1.11.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:nat
- ive:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.2.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.2.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_populate_sysroot']
-| NOTE: Installed into sysroot: []
-| NOTE: Skipping as already exists in sysroot: ['gettext-minimal-native', 'cmake-native', 'libtool-native', 'm4-native', 'quilt-native', 'texinfo-dummy-native', 'openssl-native', 'expat-native', 'gettext-native', 'glib-2.0-native', 'ncurses-native', 'util-linux-libuuid-native', 'util-linux-native', 'zlib-native', 'bison-native', 'flex-native', 'gnu-config-native', 'libedit-native', 'make-native', 'meson-native', 'ninja-native', 'perl-native', 'pkgconfig-native', 'python3-build-native', 'python3-flit-core-native', 'python3-installer-native', 'python3-packaging-native', 'python3-pyproject-hooks-native', 'python3-setuptools-native', 'python3-wheel-native', 'python3-native', 'bzip2-native', 'libnsl2-native', 'libtirpc-native', 'unzip-native', 'xz-native', 'zstd-native', 'gtk-doc-native', 'gdbm-native', 'libcap-ng-native', 'libffi-native', 'libpcre2-native', 're2c-native', 'sqlite3-native']
-| DEBUG: Python function extend_recipe_sysroot finished
-| DEBUG: Executing shell function do_configure
-| NOTE: Executing meson -Dgtk_doc=false -Ddoctool=disabled...
-| The Meson build system
-| Version: 1.3.1
-| Source dir: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.80.0/gobject-introspection-1.80.0
-| Build dir: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.80.0/build
-| Build type: native build
-| Project name: gobject-introspection
-| Project version: 1.80.0
-| C compiler for the host machine: gcc (gcc 13.2.0 "gcc (GCC) 13.2.0")
-| C linker for the host machine: gcc ld.bfd 2.41.0.20230926
-| Host machine cpu family: x86_64
-| Host machine cpu: x86_64
-| Program python3 found: YES (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.80.0/recipe-sysroot-native/usr/bin/python3-native/python3)
-| Program python3 (setuptools) found: YES (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.80.0/recipe-sysroot-native/usr/bin/python3-native/python3) modules: setuptools
-| Compiler for C supports arguments -Warray-bounds: YES
-| Compiler for C supports arguments -Wcast-align: YES
-| Compiler for C supports arguments -Wduplicated-branches: YES
-| Compiler for C supports arguments -Wformat=2: YES
-| Compiler for C supports arguments -Wformat-nonliteral: YES
-| Compiler for C supports arguments -Wformat-security: YES
-| Compiler for C supports arguments -Wimplicit-function-declaration: YES
-| Compiler for C supports arguments -Winit-self: YES
-| Compiler for C supports arguments -Wjump-misses-init: YES
-| Compiler for C supports arguments -Wlogical-op: YES
-| Compiler for C supports arguments -Wmissing-declarations: YES
-| Compiler for C supports arguments -Wmissing-format-attribute: YES
-| Compiler for C supports arguments -Wmissing-include-dirs: YES
-| Compiler for C supports arguments -Wmissing-noreturn: YES
-| Compiler for C supports arguments -Wmissing-prototypes: YES
-| Compiler for C supports arguments -Wnested-externs: YES
-| Compiler for C supports arguments -Wnull-dereference: YES
-| Compiler for C supports arguments -Wold-style-definition: YES
-| Compiler for C supports arguments -Wpacked: YES
-| Compiler for C supports arguments -Wpointer-arith: YES
-| Compiler for C supports arguments -Wrestrict: YES
-| Compiler for C supports arguments -Wreturn-type: YES
-| Compiler for C supports arguments -Wshadow: YES
-| Compiler for C supports arguments -Wsign-compare: YES
-| Compiler for C supports arguments -Wstrict-aliasing: YES
-| Compiler for C supports arguments -Wstrict-prototypes: YES
-| Compiler for C supports arguments -Wundef: YES
-| Compiler for C supports arguments -Wunused-but-set-variable: YES
-| Compiler for C supports arguments -Wwrite-strings: YES
-| Compiler for C supports arguments -fno-strict-aliasing: YES
-| Checking for size of "char" : 1
-| Checking for size of "short" : 2
-| Checking for size of "int" : 4
-| Checking for size of "long" : 8
-| Found pkg-config: YES (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.80.0/recipe-sysroot-native/usr/bin/pkg-config-native) 0.29.2
-| Dependency glib-2.0 found: NO found 2.78.4 but need: '>=2.80.0'
-| Found CMake: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.80.0/recipe-sysroot-native/usr/bin/cmake (3.28.3)
-| Run-time dependency glib-2.0 found: NO (tried pkgconfig and cmake)
-| Looking for a fallback subproject for the dependency glib-2.0
-| 
-| ../gobject-introspection-1.80.0/meson.build:134:11: ERROR: Automatic wrap-based subproject downloading is disabled
-| 
-| A full log can be found at /home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.80.0/build/meson-logs/meson-log.txt
-| ERROR: meson failed
-| WARNING: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.80.0/temp/run.do_configure.1286144:177 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.80.0/temp/run.do_configure.1286144, line 177
-| 	#2: meson_do_configure, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.80.0/temp/run.do_configure.1286144, line 166
-| 	#3: do_configure, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.80.0/temp/run.do_configure.1286144, line 155
-| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.80.0/temp/run.do_configure.1286144, line 190
-NOTE: recipe gobject-introspection-native-1.80.0-r0: task do_configure: Failed
-NOTE: Tasks Summary: Attempted 1948 tasks of which 1930 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 3 seconds
-NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240315114949.txt
-You can send the errors to a reports server by running:
-  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240315114949.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.0.bb:do_configure
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: gobject-introspection-native-1.80.0-r0 do_configure: meson failed
-ERROR: gobject-introspection-native-1.80.0-r0 do_configure: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.80.0/temp/run.do_configure.1286144', 1, None, None)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/gobject-introspection-native/1.80.0/temp/log.do_configure.1286144
-ERROR: Task (virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.80.0.bb:do_configure) failed with exit code '1'
-
---===============3564158852371577557==--
+--===============4917667131229017603==--
 
