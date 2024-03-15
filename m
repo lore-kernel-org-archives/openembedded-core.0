@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B7CDC54EF5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9911FC54EF3
 	for <webhook@archiver.kernel.org>; Fri, 15 Mar 2024 17:00:15 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.1277.1710522012517623170
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.1271.1710522012004625181
  for <openembedded-core@lists.openembedded.org>;
  Fri, 15 Mar 2024 10:00:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=SOdOpR/e;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=cOMtzPds;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101018e430e9991-65e2c8c4-464c-47f2-a153-ad7006630972-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=cGdkPuGq;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=uHUIN68u;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018e430e977c-50b42075-3473-4230-ab81-3b736fcc8422-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1710522014;
+	t=1710522013;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=q5Y6Gwtb9WheXZtRzNvbjJXXUlnIVK6bVvAtNLv8PL4=;
-	b=SOdOpR/eWLtebhtHUDMvSJFlEvcT3sYSF+bjXUi1rFjId5qBnQNZdqNU3u3RK98C
-	At0dGw3LaQ+I08lA5bGN8MyqsQhac5K1yG2K9/y5t15+1j8QrhheOzf7X47oceFREJd
-	JnfThrAF1T7Fidt57JwK33COy5+SGXeGhSsWFqcc=
+	bh=SDJHtz1iGPCfZPlVNeYDm08pSsvkAFtNjEDAecO35DI=;
+	b=cGdkPuGq8Qc6g5phvV/PMLivpnnVRVnOTes3t0EmYtDeh9QLsF6XN3a0rCve5jnO
+	+BiPbsL/cNtmIbcQR3Sa4YYtop+HoIcb8fI9i89IwoVaxdTIAhm4Lj8lIouqmdGATAG
+	gRXpJ0zci5O/dIp2qRyyW7BSzll7P7SQ5KQqFZG4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1710522014;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1710522013;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=q5Y6Gwtb9WheXZtRzNvbjJXXUlnIVK6bVvAtNLv8PL4=;
-	b=cOMtzPdsW1q9AbrSc1MSIJl7HJGxkNwLrl4iNWGQz4Im/JplviMVTiVT8ivSZPwG
-	COOoPJgStO0i6hg3LoIbMfbuMYR/FrS5mMo02Z2WCyN28/NN1TSuwOrS0TMoIwnu1vD
-	oon0IkhbKv+llVBcgnGDzAxZEQNOczY7QhZQ6o/w=
-Content-Type: multipart/mixed; boundary="===============4917667131229017603=="
+	bh=SDJHtz1iGPCfZPlVNeYDm08pSsvkAFtNjEDAecO35DI=;
+	b=uHUIN68uA+LDDutGWyzZgH8C3E8xKWpknu5oo2j7D4K0sagIcSqSR2LKvrkywv4+
+	l0UWxVe/RXdPDo0q2YdMvSch4orfXScgSYh+WmPoq4EPc5hm4uhO0Q3g/RmayuVpaJA
+	ZW0BENsNurN6uBOrnhBWTWrJe+liNpyKYLCWI5jQ=
+Content-Type: multipart/mixed; boundary="===============6305728462288322784=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] mesa: upgrading to 24.0.3 SUCCEEDED
-Message-ID: <0101018e430e9991-65e2c8c4-464c-47f2-a153-ad7006630972-000000@us-west-2.amazonses.com>
-Date: Fri, 15 Mar 2024 17:00:14 +0000
+Subject: [AUH] libadwaita: upgrading to 1.4.4 SUCCEEDED
+Message-ID: <0101018e430e977c-50b42075-3473-4230-ab81-3b736fcc8422-000000@us-west-2.amazonses.com>
+Date: Fri, 15 Mar 2024 17:00:13 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.03.15-54.240.27.45
+X-SES-Outgoing: 2024.03.15-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 Mar 2024 17:00:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197209
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197203
 
---===============4917667131229017603==
+--===============6305728462288322784==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *mesa* to *24.0.3* has Succeeded.
+that the automatic attempt to upgrade the recipe *libadwaita* to *1.4.4* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-mesa-upgrade-24.0.2-24.0.3.patch
+    - apply the patch: git am 0001-libadwaita-upgrade-1.4.3-1.4.4.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,320 +72,183 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 91bf9a888c14f94040955a41ce215f8eda44dedf Mon Sep 17 00:00:00 2001
+From 7d654d0dae964b75b38e4bef2008646b5ef225ed Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Mar 2024 12:25:11 +0000
-Subject: [PATCH] mesa: upgrade 24.0.2 -> 24.0.3
+Date: Fri, 15 Mar 2024 12:08:38 +0000
+Subject: [PATCH] libadwaita: upgrade 1.4.3 -> 1.4.4
 
 ---
- .../mesa/files/0001-drisw-fix-build-without-dri3.patch     | 7 ++-----
- .../mesa/files/0001-gallium-Fix-build-with-llvm-17.patch   | 2 +-
- ...0001-meson-misdetects-64bit-atomics-on-mips-clang.patch | 2 +-
- ...on.build-check-for-all-linux-host_os-combinations.patch | 4 ++--
- ...0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch | 7 ++-----
- meta/recipes-graphics/mesa/mesa.inc                        | 2 +-
- .../mesa/{mesa_24.0.2.bb => mesa_24.0.3.bb}                | 0
- 7 files changed, 9 insertions(+), 15 deletions(-)
- rename meta/recipes-graphics/mesa/{mesa_24.0.2.bb => mesa_24.0.3.bb} (100%)
+ .../libadwaita/{libadwaita_1.4.3.bb => libadwaita_1.4.4.bb}     | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-gnome/libadwaita/{libadwaita_1.4.3.bb => libadwaita_1.4.4.bb} (88%)
 
-diff --git a/meta/recipes-graphics/mesa/files/0001-drisw-fix-build-without-dri3.patch b/meta/recipes-graphics/mesa/files/0001-drisw-fix-build-without-dri3.patch
-index ab16152090..97fff243b5 100644
---- a/meta/recipes-graphics/mesa/files/0001-drisw-fix-build-without-dri3.patch
-+++ b/meta/recipes-graphics/mesa/files/0001-drisw-fix-build-without-dri3.patch
-@@ -1,7 +1,7 @@
--From 4bd15a419e892da843489c374c58c5b29c40b5d6 Mon Sep 17 00:00:00 2001
-+From d9ee6a95480b9721026fe6e7256f6350e7fd3c42 Mon Sep 17 00:00:00 2001
- From: Romain Naour <romain.naour@smile.fr>
- Date: Tue, 6 Feb 2024 09:47:09 +0100
--Subject: [PATCH 1/2] drisw: fix build without dri3
-+Subject: [PATCH] drisw: fix build without dri3
+diff --git a/meta/recipes-gnome/libadwaita/libadwaita_1.4.3.bb b/meta/recipes-gnome/libadwaita/libadwaita_1.4.4.bb
+similarity index 88%
+rename from meta/recipes-gnome/libadwaita/libadwaita_1.4.3.bb
+rename to meta/recipes-gnome/libadwaita/libadwaita_1.4.4.bb
+index e3f849ad6a..e81580feba 100644
+--- a/meta/recipes-gnome/libadwaita/libadwaita_1.4.3.bb
++++ b/meta/recipes-gnome/libadwaita/libadwaita_1.4.4.bb
+@@ -11,7 +11,7 @@ DEPENDS = " \
  
- commit 1887368df41 ("glx/sw: check for modifier support in the kopper path")
- added dri3_priv.h header and dri3_check_multibuffer() function in drisw that
-@@ -53,6 +53,3 @@ index 3d3f752..4b19e2d 100644
-  
-     glx_config_destroy_list(psc->base.configs);
-     psc->base.configs = configs;
---- 
--2.44.0
--
-diff --git a/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch b/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch
-index ceb0153f8d..cc0ede0bc0 100644
---- a/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch
-+++ b/meta/recipes-graphics/mesa/files/0001-gallium-Fix-build-with-llvm-17.patch
-@@ -1,4 +1,4 @@
--From 3e1e5c475b52651657c906e6b03ee13567cccdd7 Mon Sep 17 00:00:00 2001
-+From f09df22fa849ccda256c365617bb584e4e843d05 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Fri, 23 Jun 2023 01:20:38 -0700
- Subject: [PATCH] gallium: Fix build with llvm 17
-diff --git a/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch b/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
-index baa98a0d46..0f479c37d3 100644
---- a/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
-+++ b/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
-@@ -1,4 +1,4 @@
--From 02cc21800fe29f566add525e63f619c0536d6e7b Mon Sep 17 00:00:00 2001
-+From cbc82509e10bdb62701e7e5b1c12bb00ca2ecccf Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Mon, 13 Jan 2020 15:23:47 -0800
- Subject: [PATCH] meson misdetects 64bit atomics on mips/clang
-diff --git a/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch b/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
-index 7be7d81eeb..7934366889 100644
---- a/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
-+++ b/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
-@@ -1,4 +1,4 @@
--From e8ec6b1cc5e401ba719095722d8b317d755ae613 Mon Sep 17 00:00:00 2001
-+From 5bdc4ab761c7ea991c28215e9e980f4520c7a2ad Mon Sep 17 00:00:00 2001
- From: Alistair Francis <alistair@alistair23.me>
- Date: Thu, 14 Nov 2019 13:04:49 -0800
- Subject: [PATCH] meson.build: check for all linux host_os combinations
-@@ -19,7 +19,7 @@ Signed-off-by: Alistair Francis <alistair@alistair23.me>
-  1 file changed, 2 insertions(+), 2 deletions(-)
+ inherit gnomebase gobject-introspection gi-docgen vala features_check
  
- diff --git a/meson.build b/meson.build
--index 133fd9a..817861e 100644
-+index 5c91048..2db6185 100644
- --- a/meson.build
- +++ b/meson.build
- @@ -128,7 +128,7 @@ with_any_opengl = with_opengl or with_gles1 or with_gles2
-diff --git a/meta/recipes-graphics/mesa/files/0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch b/meta/recipes-graphics/mesa/files/0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch
-index 036a0b4945..ff5dde34f8 100644
---- a/meta/recipes-graphics/mesa/files/0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch
-+++ b/meta/recipes-graphics/mesa/files/0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch
-@@ -1,7 +1,7 @@
--From 62495ebb977866c52d5bed8499a547c49f0d9bc1 Mon Sep 17 00:00:00 2001
-+From 01c4e7e12ee51f7fd92f36d7fe06febe10abcbfa Mon Sep 17 00:00:00 2001
- From: Romain Naour <romain.naour@smile.fr>
- Date: Tue, 6 Feb 2024 09:47:10 +0100
--Subject: [PATCH 2/2] glxext: don't try zink if not enabled in mesa
-+Subject: [PATCH] glxext: don't try zink if not enabled in mesa
+-SRC_URI[archive.sha256sum] = "ae9622222b0eb18e23675655ad2ba01741db4d8655a796f4cf077b093e2f5841"
++SRC_URI[archive.sha256sum] = "f802b7d8d5ae33be4650ef571a580f144a806202a26f527dacd57d1560938828"
  
- Commit 7d9ea77b459 ("glx: add automatic zink fallback loading between hw and sw drivers")
- added an automatic zink fallback even when the zink gallium is not
-@@ -37,6 +37,3 @@ index 05c825a..7a06aa9 100644
-     }
-  #endif /* GLX_USE_DRM */
-     if (glx_direct)
---- 
--2.44.0
--
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 12d7a18eb8..a025c005ba 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -22,7 +22,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch \
- "
- 
--SRC_URI[sha256sum] = "94e28a8edad06d8ed2b83eb53f253b9eb5aa62c3080f939702e1b3039b56c9e8"
-+SRC_URI[sha256sum] = "77aec9a2a37b7d3596ea1640b3cc53d0b5d9b3b52abed89de07e3717e91bfdbe"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
- 
-diff --git a/meta/recipes-graphics/mesa/mesa_24.0.2.bb b/meta/recipes-graphics/mesa/mesa_24.0.3.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa_24.0.2.bb
-rename to meta/recipes-graphics/mesa/mesa_24.0.3.bb
+ ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
+ REQUIRED_DISTRO_FEATURES = "opengl"
 -- 
 2.42.0
 
 
---===============4917667131229017603==
+--===============6305728462288322784==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/mesa: PV changed from "24.0.2" to "24.0.3"
-packages/core2-64-poky-linux/mesa: SRC_URI changed from "https://mesa.freedesktop.org/archive/mesa-24.0.2.tar.xz file://0001-meson.build-check-for-all-linux-host_os-combinations.patch file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch file://0001-gallium-Fix-build-with-llvm-17.patch file://0001-drisw-fix-build-without-dri3.patch file://0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch" to "https://mesa.freedesktop.org/archive/mesa-24.0.3.tar.xz file://0001-meson.build-check-for-all-linux-host_os-combinations.patch file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch file://0001-gallium-Fix-build-with-llvm-17.patch file://0001-drisw-fix-build-without-dri3.patch file://0002-glxext-don-t-try-zink-if-not-enabled-in-mesa.patch"
-packages/core2-64-poky-linux/mesa: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
-packages/core2-64-poky-linux/mesa/libegl-mesa-dev: PV changed from "24.0.2" to "24.0.3"
-packages/core2-64-poky-linux/mesa/libegl-mesa-dev: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
-packages/core2-64-poky-linux/mesa/libegl-mesa: PV changed from "24.0.2" to "24.0.3"
-packages/core2-64-poky-linux/mesa/libegl-mesa: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
-packages/core2-64-poky-linux/mesa/libgbm-dev: PV changed from "24.0.2" to "24.0.3"
-packages/core2-64-poky-linux/mesa/libgbm-dev: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
-packages/core2-64-poky-linux/mesa/libgbm: PV changed from "24.0.2" to "24.0.3"
-packages/core2-64-poky-linux/mesa/libgbm: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
-packages/core2-64-poky-linux/mesa/libgl-mesa-dev: PV changed from "24.0.2" to "24.0.3"
-packages/core2-64-poky-linux/mesa/libgl-mesa-dev: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
-packages/core2-64-poky-linux/mesa/libgl-mesa: PV changed from "24.0.2" to "24.0.3"
-packages/core2-64-poky-linux/mesa/libgl-mesa: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
-packages/core2-64-poky-linux/mesa/libglapi-dev: PV changed from "24.0.2" to "24.0.3"
-packages/core2-64-poky-linux/mesa/libglapi-dev: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
-packages/core2-64-poky-linux/mesa/libglapi: PV changed from "24.0.2" to "24.0.3"
-packages/core2-64-poky-linux/mesa/libglapi: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
-packages/core2-64-poky-linux/mesa/libgles1-mesa-dev: PV changed from "24.0.2" to "24.0.3"
-packages/core2-64-poky-linux/mesa/libgles1-mesa-dev: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
-packages/core2-64-poky-linux/mesa/libgles1-mesa: PV changed from "24.0.2" to "24.0.3"
-packages/core2-64-poky-linux/mesa/libgles1-mesa: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
-packages/core2-64-poky-linux/mesa/libgles2-mesa-dev: PV changed from "24.0.2" to "24.0.3"
-packages/core2-64-poky-linux/mesa/libgles2-mesa-dev: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
-packages/core2-64-poky-linux/mesa/libgles2-mesa: PV changed from "24.0.2" to "24.0.3"
-packages/core2-64-poky-linux/mesa/libgles2-mesa: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
-packages/core2-64-poky-linux/mesa/libgles3-mesa-dev: PV changed from "24.0.2" to "24.0.3"
-packages/core2-64-poky-linux/mesa/libgles3-mesa-dev: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
-packages/core2-64-poky-linux/mesa/libgles3-mesa: PV changed from "24.0.2" to "24.0.3"
-packages/core2-64-poky-linux/mesa/libgles3-mesa: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
-packages/core2-64-poky-linux/mesa/libglx-mesa-dev: PV changed from "24.0.2" to "24.0.3"
-packages/core2-64-poky-linux/mesa/libglx-mesa-dev: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
-packages/core2-64-poky-linux/mesa/libglx-mesa: PV changed from "24.0.2" to "24.0.3"
-packages/core2-64-poky-linux/mesa/libglx-mesa: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
-packages/core2-64-poky-linux/mesa/libopencl-mesa-dev: PV changed from "24.0.2" to "24.0.3"
-packages/core2-64-poky-linux/mesa/libopencl-mesa-dev: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
-packages/core2-64-poky-linux/mesa/libopencl-mesa: PV changed from "24.0.2" to "24.0.3"
-packages/core2-64-poky-linux/mesa/libopencl-mesa: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
-packages/core2-64-poky-linux/mesa/libosmesa-dev: PV changed from "24.0.2" to "24.0.3"
-packages/core2-64-poky-linux/mesa/libosmesa-dev: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
-packages/core2-64-poky-linux/mesa/libosmesa: PV changed from "24.0.2" to "24.0.3"
-packages/core2-64-poky-linux/mesa/libosmesa: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
-packages/core2-64-poky-linux/mesa/libxatracker-dev: PV changed from "24.0.2" to "24.0.3"
-packages/core2-64-poky-linux/mesa/libxatracker-dev: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
-packages/core2-64-poky-linux/mesa/libxatracker: PV changed from "24.0.2" to "24.0.3"
-packages/core2-64-poky-linux/mesa/libxatracker: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
-packages/core2-64-poky-linux/mesa/mesa-dbg: PV changed from "24.0.2" to "24.0.3"
-packages/core2-64-poky-linux/mesa/mesa-dbg: PKGSIZE changed from 253976048 to 254058432 (+0%)
-packages/core2-64-poky-linux/mesa/mesa-dbg: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
-packages/core2-64-poky-linux/mesa/mesa-dev: PV changed from "24.0.2" to "24.0.3"
-packages/core2-64-poky-linux/mesa/mesa-dev: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
-packages/core2-64-poky-linux/mesa/mesa-doc: PV changed from "24.0.2" to "24.0.3"
-packages/core2-64-poky-linux/mesa/mesa-doc: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
-packages/core2-64-poky-linux/mesa/mesa-locale: PV changed from "24.0.2" to "24.0.3"
-packages/core2-64-poky-linux/mesa/mesa-locale: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
-packages/core2-64-poky-linux/mesa/mesa-megadriver: PV changed from "24.0.2" to "24.0.3"
-packages/core2-64-poky-linux/mesa/mesa-megadriver: PKGSIZE changed from 23002355 to 23010929 (+0%)
-packages/core2-64-poky-linux/mesa/mesa-megadriver: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
-packages/core2-64-poky-linux/mesa/mesa-src: PV changed from "24.0.2" to "24.0.3"
-packages/core2-64-poky-linux/mesa/mesa-src: PKGSIZE changed from 153449535 to 153664577 (+0%)
-packages/core2-64-poky-linux/mesa/mesa-src: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
-packages/core2-64-poky-linux/mesa/mesa-staticdev: PV changed from "24.0.2" to "24.0.3"
-packages/core2-64-poky-linux/mesa/mesa-staticdev: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
-packages/core2-64-poky-linux/mesa/mesa-tools: PV changed from "24.0.2" to "24.0.3"
-packages/core2-64-poky-linux/mesa/mesa-tools: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
-packages/core2-64-poky-linux/mesa/mesa-vdpau-drivers: PV changed from "24.0.2" to "24.0.3"
-packages/core2-64-poky-linux/mesa/mesa-vdpau-drivers: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
-packages/core2-64-poky-linux/mesa/mesa-vulkan-drivers: PV changed from "24.0.2" to "24.0.3"
-packages/core2-64-poky-linux/mesa/mesa-vulkan-drivers: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
-packages/core2-64-poky-linux/mesa/mesa: PV changed from "24.0.2" to "24.0.3"
-packages/core2-64-poky-linux/mesa/mesa: PKGV changed from 24.0.2 [default] to 24.0.3 [default]
+packages/core2-64-poky-linux/libadwaita: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita: SRC_URI changed from "https://download.gnome.org/sources//libadwaita/1.4/libadwaita-1.4.3.tar.xz;name=archive" to "https://download.gnome.org/sources//libadwaita/1.4/libadwaita-1.4.4.tar.xz;name=archive"
+packages/core2-64-poky-linux/libadwaita/libadwaita-dbg: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-dbg: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-dbg: PKGSIZE changed from 3906360 to 3906536 (+0%)
+packages/core2-64-poky-linux/libadwaita/libadwaita-dev: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-dev: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-dev: PKGSIZE changed from 1925712 to 1925715 (+0%)
+packages/core2-64-poky-linux/libadwaita/libadwaita-doc: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-doc: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ab: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ab: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-be: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-be: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-bg: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-bg: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ca: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ca: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-cs: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-cs: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-da: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-da: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-de: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-de: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-el: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-el: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-en-gb: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-en-gb: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-en-gb: PKGSIZE changed from 6073 to 6199 (+2%)
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-eo: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-eo: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-es: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-es: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-eu: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-eu: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-fa: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-fa: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-fi: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-fi: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-fr: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-fr: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-fur: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-fur: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-gl: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-gl: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-he: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-he: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-hi: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-hi: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-hr: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-hr: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-hu: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-hu: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-id: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-id: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-it: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-it: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ja: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ja: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ka: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ka: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-kk: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-kk: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ko: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ko: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-lt: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-lt: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-nb: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-nb: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ne: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ne: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-nl: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-nl: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-oc: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-oc: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-pl: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-pl: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-pt-br: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-pt-br: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-pt: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-pt: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ro: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ro: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ru: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-ru: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-sk: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-sk: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-sl: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-sl: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-sr: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-sr: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-sv: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-sv: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-tr: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-tr: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-uk: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-uk: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-vi: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-vi: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-zh-cn: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-zh-cn: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-zh-tw: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-locale-zh-tw: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-src: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-src: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita-src: PKGSIZE changed from 7801097 to 7801200 (+0%)
+packages/core2-64-poky-linux/libadwaita/libadwaita-staticdev: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita-staticdev: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
+packages/core2-64-poky-linux/libadwaita/libadwaita: PV changed from "1.4.3" to "1.4.4"
+packages/core2-64-poky-linux/libadwaita/libadwaita: PKGV changed from 1.4.3 [default] to 1.4.4 [default]
 
---===============4917667131229017603==
+--===============6305728462288322784==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-mesa-upgrade-24.0.2-24.0.3.patch"
+ filename="0001-libadwaita-upgrade-1.4.3-1.4.4.patch"
 
-RnJvbSA5MWJmOWE4ODhjMTRmOTQwNDA5NTVhNDFjZTIxNWY4ZWRhNDRkZWRmIE1vbiBTZXAgMTcg
+RnJvbSA3ZDY1NGQwZGFlOTY0Yjc1YjM4ZTRiZWYyMDA4NjQ2YjVlZjIyNWVkIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTUgTWFyIDIwMjQgMTI6MjU6MTEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBt
-ZXNhOiB1cGdyYWRlIDI0LjAuMiAtPiAyNC4wLjMKCi0tLQogLi4uL21lc2EvZmlsZXMvMDAwMS1k
-cmlzdy1maXgtYnVpbGQtd2l0aG91dC1kcmkzLnBhdGNoICAgICB8IDcgKystLS0tLQogLi4uL21l
-c2EvZmlsZXMvMDAwMS1nYWxsaXVtLUZpeC1idWlsZC13aXRoLWxsdm0tMTcucGF0Y2ggICB8IDIg
-Ky0KIC4uLjAwMDEtbWVzb24tbWlzZGV0ZWN0cy02NGJpdC1hdG9taWNzLW9uLW1pcHMtY2xhbmcu
-cGF0Y2ggfCAyICstCiAuLi5vbi5idWlsZC1jaGVjay1mb3ItYWxsLWxpbnV4LWhvc3Rfb3MtY29t
-YmluYXRpb25zLnBhdGNoIHwgNCArKy0tCiAuLi4wMDAyLWdseGV4dC1kb24tdC10cnktemluay1p
-Zi1ub3QtZW5hYmxlZC1pbi1tZXNhLnBhdGNoIHwgNyArKy0tLS0tCiBtZXRhL3JlY2lwZXMtZ3Jh
-cGhpY3MvbWVzYS9tZXNhLmluYyAgICAgICAgICAgICAgICAgICAgICAgIHwgMiArLQogLi4uL21l
-c2Eve21lc2FfMjQuMC4yLmJiID0+IG1lc2FfMjQuMC4zLmJifSAgICAgICAgICAgICAgICB8IDAK
-IDcgZmlsZXMgY2hhbmdlZCwgOSBpbnNlcnRpb25zKCspLCAxNSBkZWxldGlvbnMoLSkKIHJlbmFt
-ZSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS97bWVzYV8yNC4wLjIuYmIgPT4gbWVzYV8yNC4w
-LjMuYmJ9ICgxMDAlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2Zp
-bGVzLzAwMDEtZHJpc3ctZml4LWJ1aWxkLXdpdGhvdXQtZHJpMy5wYXRjaCBiL21ldGEvcmVjaXBl
-cy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAwMDEtZHJpc3ctZml4LWJ1aWxkLXdpdGhvdXQtZHJpMy5w
-YXRjaAppbmRleCBhYjE2MTUyMDkwLi45N2ZmZjI0M2I1IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
-ZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAxLWRyaXN3LWZpeC1idWlsZC13aXRob3V0LWRyaTMu
-cGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvZmlsZXMvMDAwMS1kcmlzdy1m
-aXgtYnVpbGQtd2l0aG91dC1kcmkzLnBhdGNoCkBAIC0xLDcgKzEsNyBAQAotRnJvbSA0YmQxNWE0
-MTllODkyZGE4NDM0ODljMzc0YzU4YzViMjljNDBiNWQ2IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
-MQorRnJvbSBkOWVlNmE5NTQ4MGI5NzIxMDI2ZmU2ZTcyNTZmNjM1MGU3ZmQzYzQyIE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQogRnJvbTogUm9tYWluIE5hb3VyIDxyb21haW4ubmFvdXJAc21pbGUu
-ZnI+CiBEYXRlOiBUdWUsIDYgRmViIDIwMjQgMDk6NDc6MDkgKzAxMDAKLVN1YmplY3Q6IFtQQVRD
-SCAxLzJdIGRyaXN3OiBmaXggYnVpbGQgd2l0aG91dCBkcmkzCitTdWJqZWN0OiBbUEFUQ0hdIGRy
-aXN3OiBmaXggYnVpbGQgd2l0aG91dCBkcmkzCiAKIGNvbW1pdCAxODg3MzY4ZGY0MSAoImdseC9z
-dzogY2hlY2sgZm9yIG1vZGlmaWVyIHN1cHBvcnQgaW4gdGhlIGtvcHBlciBwYXRoIikKIGFkZGVk
-IGRyaTNfcHJpdi5oIGhlYWRlciBhbmQgZHJpM19jaGVja19tdWx0aWJ1ZmZlcigpIGZ1bmN0aW9u
-IGluIGRyaXN3IHRoYXQKQEAgLTUzLDYgKzUzLDMgQEAgaW5kZXggM2QzZjc1Mi4uNGIxOWUyZCAx
-MDA2NDQKICAKICAgICBnbHhfY29uZmlnX2Rlc3Ryb3lfbGlzdChwc2MtPmJhc2UuY29uZmlncyk7
-CiAgICAgcHNjLT5iYXNlLmNvbmZpZ3MgPSBjb25maWdzOwotLS0gCi0yLjQ0LjAKLQpkaWZmIC0t
-Z2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvZmlsZXMvMDAwMS1nYWxsaXVtLUZpeC1i
-dWlsZC13aXRoLWxsdm0tMTcucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxl
-cy8wMDAxLWdhbGxpdW0tRml4LWJ1aWxkLXdpdGgtbGx2bS0xNy5wYXRjaAppbmRleCBjZWIwMTUz
-ZjhkLi5jYzBlZGUwYmMwIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9m
-aWxlcy8wMDAxLWdhbGxpdW0tRml4LWJ1aWxkLXdpdGgtbGx2bS0xNy5wYXRjaAorKysgYi9tZXRh
-L3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAxLWdhbGxpdW0tRml4LWJ1aWxkLXdpdGgt
-bGx2bS0xNy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gM2UxZTVjNDc1YjUyNjUxNjU3Yzkw
-NmU2YjAzZWUxMzU2N2NjY2RkNyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gZjA5ZGYy
-MmZhODQ5Y2NkYTI1NmMzNjU2MTdiYjU4NGU0ZTg0M2QwNSBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
-MDEKIEZyb206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiBEYXRlOiBGcmksIDIzIEp1
-biAyMDIzIDAxOjIwOjM4IC0wNzAwCiBTdWJqZWN0OiBbUEFUQ0hdIGdhbGxpdW06IEZpeCBidWls
-ZCB3aXRoIGxsdm0gMTcKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2Zp
-bGVzLzAwMDEtbWVzb24tbWlzZGV0ZWN0cy02NGJpdC1hdG9taWNzLW9uLW1pcHMtY2xhbmcucGF0
-Y2ggYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAxLW1lc29uLW1pc2RldGVj
-dHMtNjRiaXQtYXRvbWljcy1vbi1taXBzLWNsYW5nLnBhdGNoCmluZGV4IGJhYTk4YTBkNDYuLjBm
-NDc5YzM3ZDMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAw
-MDEtbWVzb24tbWlzZGV0ZWN0cy02NGJpdC1hdG9taWNzLW9uLW1pcHMtY2xhbmcucGF0Y2gKKysr
-IGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvZmlsZXMvMDAwMS1tZXNvbi1taXNkZXRlY3Rz
-LTY0Yml0LWF0b21pY3Mtb24tbWlwcy1jbGFuZy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20g
-MDJjYzIxODAwZmUyOWY1NjZhZGQ1MjVlNjNmNjE5YzA1MzZkNmU3YiBNb24gU2VwIDE3IDAwOjAw
-OjAwIDIwMDEKK0Zyb20gY2JjODI1MDllMTBiZGI2MjcwMWU3ZTViMWMxMmJiMDBjYTJlY2NjZiBN
-b24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5j
-b20+CiBEYXRlOiBNb24sIDEzIEphbiAyMDIwIDE1OjIzOjQ3IC0wODAwCiBTdWJqZWN0OiBbUEFU
-Q0hdIG1lc29uIG1pc2RldGVjdHMgNjRiaXQgYXRvbWljcyBvbiBtaXBzL2NsYW5nCmRpZmYgLS1n
-aXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAxLW1lc29uLmJ1aWxkLWNo
-ZWNrLWZvci1hbGwtbGludXgtaG9zdF9vcy1jb21iaW5hdGlvbnMucGF0Y2ggYi9tZXRhL3JlY2lw
-ZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAxLW1lc29uLmJ1aWxkLWNoZWNrLWZvci1hbGwtbGlu
-dXgtaG9zdF9vcy1jb21iaW5hdGlvbnMucGF0Y2gKaW5kZXggN2JlN2Q4MWVlYi4uNzkzNDM2Njg4
-OSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvZmlsZXMvMDAwMS1tZXNv
-bi5idWlsZC1jaGVjay1mb3ItYWxsLWxpbnV4LWhvc3Rfb3MtY29tYmluYXRpb25zLnBhdGNoCisr
-KyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAwMDEtbWVzb24uYnVpbGQtY2hl
-Y2stZm9yLWFsbC1saW51eC1ob3N0X29zLWNvbWJpbmF0aW9ucy5wYXRjaApAQCAtMSw0ICsxLDQg
-QEAKLUZyb20gZThlYzZiMWNjNWU0MDFiYTcxOTA5NTcyMmQ4YjMxN2Q3NTVhZTYxMyBNb24gU2Vw
-IDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gNWJkYzRhYjc2MWM3ZWE5OTFjMjgyMTVlOWU5ODBmNDUy
-MGM3YTJhZCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEFsaXN0YWlyIEZyYW5jaXMg
-PGFsaXN0YWlyQGFsaXN0YWlyMjMubWU+CiBEYXRlOiBUaHUsIDE0IE5vdiAyMDE5IDEzOjA0OjQ5
-IC0wODAwCiBTdWJqZWN0OiBbUEFUQ0hdIG1lc29uLmJ1aWxkOiBjaGVjayBmb3IgYWxsIGxpbnV4
-IGhvc3Rfb3MgY29tYmluYXRpb25zCkBAIC0xOSw3ICsxOSw3IEBAIFNpZ25lZC1vZmYtYnk6IEFs
-aXN0YWlyIEZyYW5jaXMgPGFsaXN0YWlyQGFsaXN0YWlyMjMubWU+CiAgMSBmaWxlIGNoYW5nZWQs
-IDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKIAogZGlmZiAtLWdpdCBhL21lc29uLmJ1
-aWxkIGIvbWVzb24uYnVpbGQKLWluZGV4IDEzM2ZkOWEuLjgxNzg2MWUgMTAwNjQ0CitpbmRleCA1
-YzkxMDQ4Li4yZGI2MTg1IDEwMDY0NAogLS0tIGEvbWVzb24uYnVpbGQKICsrKyBiL21lc29uLmJ1
-aWxkCiBAQCAtMTI4LDcgKzEyOCw3IEBAIHdpdGhfYW55X29wZW5nbCA9IHdpdGhfb3BlbmdsIG9y
-IHdpdGhfZ2xlczEgb3Igd2l0aF9nbGVzMgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBo
-aWNzL21lc2EvZmlsZXMvMDAwMi1nbHhleHQtZG9uLXQtdHJ5LXppbmstaWYtbm90LWVuYWJsZWQt
-aW4tbWVzYS5wYXRjaCBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL2ZpbGVzLzAwMDItZ2x4
-ZXh0LWRvbi10LXRyeS16aW5rLWlmLW5vdC1lbmFibGVkLWluLW1lc2EucGF0Y2gKaW5kZXggMDM2
-YTBiNDk0NS4uZmY1ZGRlMzRmOCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21l
-c2EvZmlsZXMvMDAwMi1nbHhleHQtZG9uLXQtdHJ5LXppbmstaWYtbm90LWVuYWJsZWQtaW4tbWVz
-YS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9maWxlcy8wMDAyLWdseGV4
-dC1kb24tdC10cnktemluay1pZi1ub3QtZW5hYmxlZC1pbi1tZXNhLnBhdGNoCkBAIC0xLDcgKzEs
-NyBAQAotRnJvbSA2MjQ5NWViYjk3Nzg2NmM1MmQ1YmVkODQ5OWE1NDdjNDlmMGQ5YmMxIE1vbiBT
-ZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAwMWM0ZTdlMTJlZTUxZjdmZDkyZjM2ZDdmZTA2ZmVi
-ZTEwYWJjYmZhIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogUm9tYWluIE5hb3VyIDxy
-b21haW4ubmFvdXJAc21pbGUuZnI+CiBEYXRlOiBUdWUsIDYgRmViIDIwMjQgMDk6NDc6MTAgKzAx
-MDAKLVN1YmplY3Q6IFtQQVRDSCAyLzJdIGdseGV4dDogZG9uJ3QgdHJ5IHppbmsgaWYgbm90IGVu
-YWJsZWQgaW4gbWVzYQorU3ViamVjdDogW1BBVENIXSBnbHhleHQ6IGRvbid0IHRyeSB6aW5rIGlm
-IG5vdCBlbmFibGVkIGluIG1lc2EKIAogQ29tbWl0IDdkOWVhNzdiNDU5ICgiZ2x4OiBhZGQgYXV0
-b21hdGljIHppbmsgZmFsbGJhY2sgbG9hZGluZyBiZXR3ZWVuIGh3IGFuZCBzdyBkcml2ZXJzIikK
-IGFkZGVkIGFuIGF1dG9tYXRpYyB6aW5rIGZhbGxiYWNrIGV2ZW4gd2hlbiB0aGUgemluayBnYWxs
-aXVtIGlzIG5vdApAQCAtMzcsNiArMzcsMyBAQCBpbmRleCAwNWM4MjVhLi43YTA2YWE5IDEwMDY0
-NAogICAgIH0KICAjZW5kaWYgLyogR0xYX1VTRV9EUk0gKi8KICAgICBpZiAoZ2x4X2RpcmVjdCkK
-LS0tIAotMi40NC4wCi0KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL21l
-c2EuaW5jIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvbWVzYS5pbmMKaW5kZXggMTJkN2Ex
-OGViOC4uYTAyNWMwMDViYSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2Ev
-bWVzYS5pbmMKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvbWVzYS5pbmMKQEAgLTIy
-LDcgKzIyLDcgQEAgU1JDX1VSSSA9ICJodHRwczovL21lc2EuZnJlZWRlc2t0b3Aub3JnL2FyY2hp
-dmUvbWVzYS0ke1BWfS50YXIueHogXAogICAgICAgICAgICBmaWxlOi8vMDAwMi1nbHhleHQtZG9u
-LXQtdHJ5LXppbmstaWYtbm90LWVuYWJsZWQtaW4tbWVzYS5wYXRjaCBcCiAiCiAKLVNSQ19VUklb
-c2hhMjU2c3VtXSA9ICI5NGUyOGE4ZWRhZDA2ZDhlZDJiODNlYjUzZjI1M2I5ZWI1YWE2MmMzMDgw
-ZjkzOTcwMmUxYjMwMzliNTZjOWU4IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjc3YWVjOWEyYTM3
-YjdkMzU5NmVhMTY0MGIzY2M1M2QwYjVkOWIzYjUyYWJlZDg5ZGUwN2UzNzE3ZTkxYmZkYmUiCiAK
-IFVQU1RSRUFNX0NIRUNLX0dJVFRBR1JFR0VYID0gIm1lc2EtKD9QPHB2ZXI+XGQrKFwuXGQrKSsp
-IgogCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9tZXNhXzI0LjAuMi5i
-YiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL21lc2FfMjQuMC4zLmJiCnNpbWlsYXJpdHkg
-aW5kZXggMTAwJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9tZXNhXzI0
-LjAuMi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvbWVzYV8yNC4wLjMu
-YmIKLS0gCjIuNDIuMAoK
+CkRhdGU6IEZyaSwgMTUgTWFyIDIwMjQgMTI6MDg6MzggKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJhZHdhaXRhOiB1cGdyYWRlIDEuNC4zIC0+IDEuNC40CgotLS0KIC4uLi9saWJhZHdhaXRhL3ts
+aWJhZHdhaXRhXzEuNC4zLmJiID0+IGxpYmFkd2FpdGFfMS40LjQuYmJ9ICAgICB8IDIgKy0KIDEg
+ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEv
+cmVjaXBlcy1nbm9tZS9saWJhZHdhaXRhL3tsaWJhZHdhaXRhXzEuNC4zLmJiID0+IGxpYmFkd2Fp
+dGFfMS40LjQuYmJ9ICg4OCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdub21lL2xpYmFk
+d2FpdGEvbGliYWR3YWl0YV8xLjQuMy5iYiBiL21ldGEvcmVjaXBlcy1nbm9tZS9saWJhZHdhaXRh
+L2xpYmFkd2FpdGFfMS40LjQuYmIKc2ltaWxhcml0eSBpbmRleCA4OCUKcmVuYW1lIGZyb20gbWV0
+YS9yZWNpcGVzLWdub21lL2xpYmFkd2FpdGEvbGliYWR3YWl0YV8xLjQuMy5iYgpyZW5hbWUgdG8g
+bWV0YS9yZWNpcGVzLWdub21lL2xpYmFkd2FpdGEvbGliYWR3YWl0YV8xLjQuNC5iYgppbmRleCBl
+M2Y4NDlhZDZhLi5lODE1ODBmZWJhIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ25vbWUvbGli
+YWR3YWl0YS9saWJhZHdhaXRhXzEuNC4zLmJiCisrKyBiL21ldGEvcmVjaXBlcy1nbm9tZS9saWJh
+ZHdhaXRhL2xpYmFkd2FpdGFfMS40LjQuYmIKQEAgLTExLDcgKzExLDcgQEAgREVQRU5EUyA9ICIg
+XAogCiBpbmhlcml0IGdub21lYmFzZSBnb2JqZWN0LWludHJvc3BlY3Rpb24gZ2ktZG9jZ2VuIHZh
+bGEgZmVhdHVyZXNfY2hlY2sKIAotU1JDX1VSSVthcmNoaXZlLnNoYTI1NnN1bV0gPSAiYWU5NjIy
+MjIyYjBlYjE4ZTIzNjc1NjU1YWQyYmEwMTc0MWRiNGQ4NjU1YTc5NmY0Y2YwNzdiMDkzZTJmNTg0
+MSIKK1NSQ19VUklbYXJjaGl2ZS5zaGEyNTZzdW1dID0gImY4MDJiN2Q4ZDVhZTMzYmU0NjUwZWY1
+NzFhNTgwZjE0NGE4MDYyMDJhMjZmNTI3ZGFjZDU3ZDE1NjA5Mzg4MjgiCiAKIEFOWV9PRl9ESVNU
+Uk9fRkVBVFVSRVMgPSAiJHtHVEszRElTVFJPRkVBVFVSRVN9IgogUkVRVUlSRURfRElTVFJPX0ZF
+QVRVUkVTID0gIm9wZW5nbCIKLS0gCjIuNDIuMAoK
 
---===============4917667131229017603==--
+--===============6305728462288322784==--
 
