@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7272C54EE2
-	for <webhook@archiver.kernel.org>; Fri, 15 Mar 2024 17:00:14 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web11.1269.1710522011395964736
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 421F2C54EE7
+	for <webhook@archiver.kernel.org>; Fri, 15 Mar 2024 17:00:15 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.1274.1710522012282469801
  for <openembedded-core@lists.openembedded.org>;
  Fri, 15 Mar 2024 10:00:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=OZbG0gSd;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=2M5zq3vB;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018e430e904c-cf787f78-8941-4771-a7b0-1929443f0329-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=OfSNnNKL;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=PfHQOFgQ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018e430e8f0d-0414e617-abba-4659-bdd2-b62cae353c34-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1710522011;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=nxUpCUPYMR/nMwH5Z65agbLWhQTsrkHVShVPTezcJN8=;
-	b=OZbG0gSd2P81vpwezfyai5PXEEh5nXmq3//ZiyR+vtEcfdXjM6GPl3Ik/FdujMKK
-	zKsIJyLPmZFrKW8A6/BZeRflPkkfuAvFj/Ndua6mofHRhZgPKVEMq8p7z5dkplwekES
-	7wmTLRMimbdq+CBu436C+mwbOLisOpFz+gg//Y6A=
+	bh=VjQfWvTKUIMyiAvdtwXRheu9JzdSOnTKKEwPJSVBWuI=;
+	b=OfSNnNKLwnFBLxVKmz5LoeDe+sKPOuJEdoO+UY9LtXLkaGnlVmMYQ0n726AfBhBF
+	LILdjQc2FsYsU00Gqxquu4fJWsOGlu79hzNKyb3aYfn0gt+DMgH1Fdb1hG7KrzLYhb0
+	6tCCRmgYxtkgOy35BahR0BIzTml3toDuoDtaMjvA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1710522011;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=nxUpCUPYMR/nMwH5Z65agbLWhQTsrkHVShVPTezcJN8=;
-	b=2M5zq3vBDqP8vLozlu4ZrTTnBgfx4bOde2weM0DZUKwx5NpyyHymB2dr8xXerVDN
-	M7xURbNwxsAUmLotCgvHTVMCwxzmHjq4JVRH4M5peEdOVwlhdKBRMtMcVARsbqVe/oU
-	segAw/Bjn8OhICmqzJ95DsN16vaDlmz5MCL5v+vQ=
-Content-Type: multipart/mixed; boundary="===============8968385447291556072=="
+	bh=VjQfWvTKUIMyiAvdtwXRheu9JzdSOnTKKEwPJSVBWuI=;
+	b=PfHQOFgQc1dcyhhpOCwI1PjFG8Lg+JeWNRnh0BWYIMSpaoOl5biwXV2rNn+G6uWM
+	l8h/ssTHwHJO7iL1XBoGkUZetwB5VHIkwTHFBZ384erGRANuBT1zSmiiJnqCVRleQoo
+	wyHRWsHxmYGzgawUradLwi6BLYmYo0SaeLA8rEKs=
+Content-Type: multipart/mixed; boundary="===============9165697355232128523=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-zipp: upgrading to 3.18.1 SUCCEEDED
-Message-ID: <0101018e430e904c-cf787f78-8941-4771-a7b0-1929443f0329-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-importlib-metadata: upgrading to 7.0.2 SUCCEEDED
+Message-ID: <0101018e430e8f0d-0414e617-abba-4659-bdd2-b62cae353c34-000000@us-west-2.amazonses.com>
 Date: Fri, 15 Mar 2024 17:00:11 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.03.15-54.240.27.29
+X-SES-Outgoing: 2024.03.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 15 Mar 2024 17:00:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197183
+ <openembedded-core@lists.openembedded.org>; Fri, 15 Mar 2024 17:00:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197182
 
---===============8968385447291556072==
+--===============9165697355232128523==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-zipp* to *3.18.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-importlib-metadata* to *7.0.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-zipp-upgrade-3.17.0-3.18.1.patch
+    - apply the patch: git am 0001-python3-importlib-metadata-upgrade-7.0.1-7.0.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,71 +72,62 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From efcc0fcf2ca84de75c2c76b86d4886c25422612e Mon Sep 17 00:00:00 2001
+From 479426bc80795671497f3c1d7c1496378d8e5148 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Mar 2024 09:18:50 +0000
-Subject: [PATCH] python3-zipp: upgrade 3.17.0 -> 3.18.1
+Date: Fri, 15 Mar 2024 08:03:59 +0000
+Subject: [PATCH] python3-importlib-metadata: upgrade 7.0.1 -> 7.0.2
 
 ---
- .../python/{python3-zipp_3.17.0.bb => python3-zipp_3.18.1.bb}   | 2 +-
+ ...ib-metadata_7.0.1.bb => python3-importlib-metadata_7.0.2.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-zipp_3.17.0.bb => python3-zipp_3.18.1.bb} (84%)
+ rename meta/recipes-devtools/python/{python3-importlib-metadata_7.0.1.bb => python3-importlib-metadata_7.0.2.bb} (88%)
 
-diff --git a/meta/recipes-devtools/python/python3-zipp_3.17.0.bb b/meta/recipes-devtools/python/python3-zipp_3.18.1.bb
-similarity index 84%
-rename from meta/recipes-devtools/python/python3-zipp_3.17.0.bb
-rename to meta/recipes-devtools/python/python3-zipp_3.18.1.bb
-index e9e220e315..e43432469d 100644
---- a/meta/recipes-devtools/python/python3-zipp_3.17.0.bb
-+++ b/meta/recipes-devtools/python/python3-zipp_3.18.1.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/jaraco/zipp"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=141643e11c48898150daa83802dbc65f"
+diff --git a/meta/recipes-devtools/python/python3-importlib-metadata_7.0.1.bb b/meta/recipes-devtools/python/python3-importlib-metadata_7.0.2.bb
+similarity index 88%
+rename from meta/recipes-devtools/python/python3-importlib-metadata_7.0.1.bb
+rename to meta/recipes-devtools/python/python3-importlib-metadata_7.0.2.bb
+index 0d3f0a5001..719d5f84f9 100644
+--- a/meta/recipes-devtools/python/python3-importlib-metadata_7.0.1.bb
++++ b/meta/recipes-devtools/python/python3-importlib-metadata_7.0.2.bb
+@@ -8,7 +8,7 @@ inherit pypi python_setuptools_build_meta
+ PYPI_PACKAGE = "importlib_metadata"
+ UPSTREAM_CHECK_REGEX = "/importlib-metadata/(?P<pver>(\d+[\.\-_]*)+)/"
  
--SRC_URI[sha256sum] = "84e64a1c28cf7e91ed2078bb8cc8c259cb19b76942096c8d7b84947690cabaf0"
-+SRC_URI[sha256sum] = "2884ed22e7d8961de1c9a05142eb69a247f120291bc0206a00a7642f09b5b715"
+-SRC_URI[sha256sum] = "f238736bb06590ae52ac1fab06a3a9ef1d8dce2b7a35b5ab329371d6c8f5d2cc"
++SRC_URI[sha256sum] = "198f568f3230878cb1b44fbd7975f87906c22336dba2e4a7f05278c281fbd792"
  
- DEPENDS += "python3-setuptools-scm-native"
+ S = "${WORKDIR}/importlib_metadata-${PV}"
  
 -- 
 2.42.0
 
 
---===============8968385447291556072==
+--===============9165697355232128523==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-zipp: PV changed from "3.17.0" to "3.18.1"
-packages/core2-64-poky-linux/python3-zipp: PKGV changed from 3.17.0 [default] to 3.18.1 [default]
-packages/core2-64-poky-linux/python3-zipp: SRC_URI changed from "https://files.pythonhosted.org/packages/source/z/zipp/zipp-3.17.0.tar.gz;downloadfilename=zipp-3.17.0.tar.gz" to "https://files.pythonhosted.org/packages/source/z/zipp/zipp-3.18.1.tar.gz;downloadfilename=zipp-3.18.1.tar.gz"
-packages/core2-64-poky-linux/python3-zipp/python3-zipp-dbg: PV changed from "3.17.0" to "3.18.1"
-packages/core2-64-poky-linux/python3-zipp/python3-zipp-dbg: PKGV changed from 3.17.0 [default] to 3.18.1 [default]
-packages/core2-64-poky-linux/python3-zipp/python3-zipp-dev: PV changed from "3.17.0" to "3.18.1"
-packages/core2-64-poky-linux/python3-zipp/python3-zipp-dev: PKGV changed from 3.17.0 [default] to 3.18.1 [default]
-packages/core2-64-poky-linux/python3-zipp/python3-zipp-doc: PV changed from "3.17.0" to "3.18.1"
-packages/core2-64-poky-linux/python3-zipp/python3-zipp-doc: PKGV changed from 3.17.0 [default] to 3.18.1 [default]
-packages/core2-64-poky-linux/python3-zipp/python3-zipp-locale: PV changed from "3.17.0" to "3.18.1"
-packages/core2-64-poky-linux/python3-zipp/python3-zipp-locale: PKGV changed from 3.17.0 [default] to 3.18.1 [default]
-packages/core2-64-poky-linux/python3-zipp/python3-zipp-src: PV changed from "3.17.0" to "3.18.1"
-packages/core2-64-poky-linux/python3-zipp/python3-zipp-src: PKGV changed from 3.17.0 [default] to 3.18.1 [default]
-packages/core2-64-poky-linux/python3-zipp/python3-zipp-staticdev: PV changed from "3.17.0" to "3.18.1"
-packages/core2-64-poky-linux/python3-zipp/python3-zipp-staticdev: PKGV changed from 3.17.0 [default] to 3.18.1 [default]
-packages/core2-64-poky-linux/python3-zipp/python3-zipp: PV changed from "3.17.0" to "3.18.1"
-packages/core2-64-poky-linux/python3-zipp/python3-zipp: PKGV changed from 3.17.0 [default] to 3.18.1 [default]
-packages/core2-64-poky-linux/python3-zipp/python3-zipp: FILELIST: directory renamed /usr/lib/python3.12/site-packages/zipp-3.17.0.dist-info -> /usr/lib/python3.12/site-packages/zipp-3.18.1.dist-info, removed "/usr/lib/python3.12/site-packages/zipp/py310compat.py /usr/lib/python3.12/site-packages/zipp/__pycache__/py310compat.cpython-312.pyc", added "/usr/lib/python3.12/site-packages/zipp/compat/__init__.py /usr/lib/python3.12/site-packages/zipp/compat/__pycache__/py310.cpython-312.pyc /usr/lib/python3.12/site-packages/zipp/compat/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/zipp/compat/py310.py"
-packages/core2-64-poky-linux/python3-zipp/python3-zipp: PKGSIZE changed from 39154 to 45624 (+17%)
-Changes to packages/core2-64-poky-linux/python3-zipp (sysroot):
-  /usr/lib/python3.12/site-packages/zipp-3.17.0.dist-info moved to /usr/lib/python3.12/site-packages/zipp-3.18.1.dist-info
-  /usr/lib/python3.12/site-packages/zipp/compat was added
-  /usr/lib/python3.12/site-packages/zipp/compat/__init__.py was added
-  /usr/lib/python3.12/site-packages/zipp/compat/py310.py was added
-  /usr/lib/python3.12/site-packages/zipp/compat/__pycache__ was added
-  /usr/lib/python3.12/site-packages/zipp/compat/__pycache__/__init__.cpython-312.pyc was added
-  /usr/lib/python3.12/site-packages/zipp/compat/__pycache__/py310.cpython-312.pyc was added
-  /usr/lib/python3.12/site-packages/zipp/py310compat.py was removed
-  /usr/lib/python3.12/site-packages/zipp/__pycache__/py310compat.cpython-312.pyc was removed
+packages/core2-64-poky-linux/python3-importlib-metadata: SRC_URI changed from "https://files.pythonhosted.org/packages/source/i/importlib_metadata/importlib_metadata-7.0.1.tar.gz;downloadfilename=importlib_metadata-7.0.1.tar.gz" to "https://files.pythonhosted.org/packages/source/i/importlib_metadata/importlib_metadata-7.0.2.tar.gz;downloadfilename=importlib_metadata-7.0.2.tar.gz"
+packages/core2-64-poky-linux/python3-importlib-metadata: PV changed from "7.0.1" to "7.0.2"
+packages/core2-64-poky-linux/python3-importlib-metadata: PKGV changed from 7.0.1 [default] to 7.0.2 [default]
+packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata-dbg: PV changed from "7.0.1" to "7.0.2"
+packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata-dbg: PKGV changed from 7.0.1 [default] to 7.0.2 [default]
+packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata-dev: PV changed from "7.0.1" to "7.0.2"
+packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata-dev: PKGV changed from 7.0.1 [default] to 7.0.2 [default]
+packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata-doc: PV changed from "7.0.1" to "7.0.2"
+packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata-doc: PKGV changed from 7.0.1 [default] to 7.0.2 [default]
+packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata-locale: PV changed from "7.0.1" to "7.0.2"
+packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata-locale: PKGV changed from 7.0.1 [default] to 7.0.2 [default]
+packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata-src: PV changed from "7.0.1" to "7.0.2"
+packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata-src: PKGV changed from 7.0.1 [default] to 7.0.2 [default]
+packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata-staticdev: PV changed from "7.0.1" to "7.0.2"
+packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata-staticdev: PKGV changed from 7.0.1 [default] to 7.0.2 [default]
+packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata: PV changed from "7.0.1" to "7.0.2"
+packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata: PKGV changed from 7.0.1 [default] to 7.0.2 [default]
+packages/core2-64-poky-linux/python3-importlib-metadata/python3-importlib-metadata: PKGSIZE changed from 139678 to 144625 (+4%)
+Changes to packages/core2-64-poky-linux/python3-importlib-metadata (sysroot):
+  /usr/lib/python3.12/site-packages/importlib_metadata-7.0.1.dist-info moved to /usr/lib/python3.12/site-packages/importlib_metadata-7.0.2.dist-info
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1776,54 +1767,14 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============8968385447291556072==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-zipp-upgrade-3.17.0-3.18.1.patch"
-
-RnJvbSBlZmNjMGZjZjJjYTg0ZGU3NWMyYzc2Yjg2ZDQ4ODZjMjU0MjI2MTJlIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTUgTWFyIDIwMjQgMDk6MTg6NTAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXppcHA6IHVwZ3JhZGUgMy4xNy4wIC0+IDMuMTguMQoKLS0tCiAuLi4vcHl0aG9uL3tw
-eXRob24zLXppcHBfMy4xNy4wLmJiID0+IHB5dGhvbjMtemlwcF8zLjE4LjEuYmJ9ICAgfCAyICst
-CiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBt
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXppcHBfMy4xNy4wLmJiID0+IHB5
-dGhvbjMtemlwcF8zLjE4LjEuYmJ9ICg4NCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3B5dGhvbi9weXRob24zLXppcHBfMy4xNy4wLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL3B5dGhvbi9weXRob24zLXppcHBfMy4xOC4xLmJiCnNpbWlsYXJpdHkgaW5kZXggODQlCnJl
-bmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy16aXBwXzMuMTcu
-MC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXppcHBf
-My4xOC4xLmJiCmluZGV4IGU5ZTIyMGUzMTUuLmU0MzQzMjQ2OWQgMTAwNjQ0Ci0tLSBhL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy16aXBwXzMuMTcuMC5iYgorKysgYi9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtemlwcF8zLjE4LjEuYmIKQEAgLTMsNyAr
-Myw3IEBAIEhPTUVQQUdFID0gImh0dHBzOi8vZ2l0aHViLmNvbS9qYXJhY28vemlwcCIKIExJQ0VO
-U0UgPSAiTUlUIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9MTQxNjQz
-ZTExYzQ4ODk4MTUwZGFhODM4MDJkYmM2NWYiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI4NGU2
-NGExYzI4Y2Y3ZTkxZWQyMDc4YmI4Y2M4YzI1OWNiMTliNzY5NDIwOTZjOGQ3Yjg0OTQ3NjkwY2Fi
-YWYwIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjI4ODRlZDIyZTdkODk2MWRlMWM5YTA1MTQyZWI2
-OWEyNDdmMTIwMjkxYmMwMjA2YTAwYTc2NDJmMDliNWI3MTUiCiAKIERFUEVORFMgKz0gInB5dGhv
-bjMtc2V0dXB0b29scy1zY20tbmF0aXZlIgogCi0tIAoyLjQyLjAKCg==
-
---===============8968385447291556072==
+--===============9165697355232128523==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/python3-zipp/python3-zipp: PKGSIZE changed from 39154 to 45624 (+17%)
-packages/core2-64-poky-linux/python3-zipp/python3-zipp: FILELIST: directory renamed /usr/lib/python3.12/site-packages/zipp-3.17.0.dist-info -> /usr/lib/python3.12/site-packages/zipp-3.18.1.dist-info, removed "/usr/lib/python3.12/site-packages/zipp/py310compat.py /usr/lib/python3.12/site-packages/zipp/__pycache__/py310compat.cpython-312.pyc", added "/usr/lib/python3.12/site-packages/zipp/compat/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/zipp/compat/__init__.py /usr/lib/python3.12/site-packages/zipp/compat/py310.py /usr/lib/python3.12/site-packages/zipp/compat/__pycache__/py310.cpython-312.pyc"
-Changes to packages/core2-64-poky-linux/python3-zipp (sysroot):
-  /usr/lib/python3.12/site-packages/zipp-3.17.0.dist-info moved to /usr/lib/python3.12/site-packages/zipp-3.18.1.dist-info
-  /usr/lib/python3.12/site-packages/zipp/compat was added
-  /usr/lib/python3.12/site-packages/zipp/compat/__init__.py was added
-  /usr/lib/python3.12/site-packages/zipp/compat/py310.py was added
-  /usr/lib/python3.12/site-packages/zipp/compat/__pycache__ was added
-  /usr/lib/python3.12/site-packages/zipp/compat/__pycache__/__init__.cpython-312.pyc was added
-  /usr/lib/python3.12/site-packages/zipp/compat/__pycache__/py310.cpython-312.pyc was added
-  /usr/lib/python3.12/site-packages/zipp/py310compat.py was removed
-  /usr/lib/python3.12/site-packages/zipp/__pycache__/py310compat.cpython-312.pyc was removed
+Changes to packages/core2-64-poky-linux/python3-importlib-metadata (sysroot):
+  /usr/lib/python3.12/site-packages/importlib_metadata-7.0.1.dist-info moved to /usr/lib/python3.12/site-packages/importlib_metadata-7.0.2.dist-info
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3463,5 +3414,37 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============8968385447291556072==--
+--===============9165697355232128523==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-importlib-metadata-upgrade-7.0.1-7.0.2.patch"
+
+RnJvbSA0Nzk0MjZiYzgwNzk1NjcxNDk3ZjNjMWQ3YzE0OTYzNzhkOGU1MTQ4IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgMTUgTWFyIDIwMjQgMDg6MDM6NTkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWltcG9ydGxpYi1tZXRhZGF0YTogdXBncmFkZSA3LjAuMSAtPiA3LjAuMgoKLS0tCiAu
+Li5pYi1tZXRhZGF0YV83LjAuMS5iYiA9PiBweXRob24zLWltcG9ydGxpYi1tZXRhZGF0YV83LjAu
+Mi5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24o
+LSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWltcG9ydGxp
+Yi1tZXRhZGF0YV83LjAuMS5iYiA9PiBweXRob24zLWltcG9ydGxpYi1tZXRhZGF0YV83LjAuMi5i
+Yn0gKDg4JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
+bjMtaW1wb3J0bGliLW1ldGFkYXRhXzcuMC4xLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
+dGhvbi9weXRob24zLWltcG9ydGxpYi1tZXRhZGF0YV83LjAuMi5iYgpzaW1pbGFyaXR5IGluZGV4
+IDg4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaW1w
+b3J0bGliLW1ldGFkYXRhXzcuMC4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cHl0aG9uL3B5dGhvbjMtaW1wb3J0bGliLW1ldGFkYXRhXzcuMC4yLmJiCmluZGV4IDBkM2YwYTUw
+MDEuLjcxOWQ1Zjg0ZjkgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
+cHl0aG9uMy1pbXBvcnRsaWItbWV0YWRhdGFfNy4wLjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL3B5dGhvbi9weXRob24zLWltcG9ydGxpYi1tZXRhZGF0YV83LjAuMi5iYgpAQCAtOCw3
+ICs4LDcgQEAgaW5oZXJpdCBweXBpIHB5dGhvbl9zZXR1cHRvb2xzX2J1aWxkX21ldGEKIFBZUElf
+UEFDS0FHRSA9ICJpbXBvcnRsaWJfbWV0YWRhdGEiCiBVUFNUUkVBTV9DSEVDS19SRUdFWCA9ICIv
+aW1wb3J0bGliLW1ldGFkYXRhLyg/UDxwdmVyPihcZCtbXC5cLV9dKikrKS8iCiAKLVNSQ19VUklb
+c2hhMjU2c3VtXSA9ICJmMjM4NzM2YmIwNjU5MGFlNTJhYzFmYWIwNmEzYTllZjFkOGRjZTJiN2Ez
+NWI1YWIzMjkzNzFkNmM4ZjVkMmNjIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjE5OGY1NjhmMzIz
+MDg3OGNiMWI0NGZiZDc5NzVmODc5MDZjMjIzMzZkYmEyZTRhN2YwNTI3OGMyODFmYmQ3OTIiCiAK
+IFMgPSAiJHtXT1JLRElSfS9pbXBvcnRsaWJfbWV0YWRhdGEtJHtQVn0iCiAKLS0gCjIuNDIuMAoK
+
+--===============9165697355232128523==--
 
