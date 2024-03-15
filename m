@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23CD3C54EE8
-	for <webhook@archiver.kernel.org>; Fri, 15 Mar 2024 17:00:15 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.1242.1710522012224745805
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A504BC54EE0
+	for <webhook@archiver.kernel.org>; Fri, 15 Mar 2024 17:00:14 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web11.1273.1710522012186640340
  for <openembedded-core@lists.openembedded.org>;
  Fri, 15 Mar 2024 10:00:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=ZYA/hFQQ;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=x3fBWH6y;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018e430e8e8f-8afbd874-949c-487a-8b2c-4e4c6ba1d2b7-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=CcQqdemc;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=2IED/4qY;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018e430e8fcb-aa62fbb3-d6f0-4058-b21f-d044b0c07554-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1710522011;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=jC17c2RbFyShvYhivVWNk5Ay6DV2k/ohUZqUdjpbU1A=;
-	b=ZYA/hFQQI/9SCTK01k6+ZPGospD4i+/rRcnAPueWNS1gCXA2rYP70888kEStBVJT
-	95l8ScbpPc5e5o75cbwlOJsFYzh3K/7SZHUNSdMkPSKZI9D2HA6sbpC5vvigK1NpcVw
-	prZRVmdEg8VTtKsss4flftY5U6zUUGsvs6DNbYqU=
+	bh=8lkd+66vxVjzUwXmF1qjLJfCxSGkkuyaydqy5Uu3TNU=;
+	b=CcQqdemc9z7NcYd1iWlqT9UrA+XUdeWie2zOMBTjcEDUbdDV8nNBGSPWjKsYC6CV
+	Zl0/+H0I0QX54YmVbM2KJyKgjuNJJNkCvm4qMzIRT24KTA5yqAPBipDoCmREImD45qT
+	f7Ib3EE2hlnSC7g0IHXL3emHo9HNzeQSaXe1iwNg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1710522011;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=jC17c2RbFyShvYhivVWNk5Ay6DV2k/ohUZqUdjpbU1A=;
-	b=x3fBWH6ygt2LrAdt+QAVf2QMlKL+veRwxeAEPV5jgIVAl/Ji/nDxD/eOCrb/j4qJ
-	FWc20btetRu/LGYCg9hWtKXPto1Iw2iJygb4Rf8uxnr2BWaTL+UArW5nlaFxSVIK0ny
-	1t3ObNMr1FUNUksFIiuviuS1lbQRxBx1pYTYaJh4=
-Content-Type: multipart/mixed; boundary="===============3379883023595463784=="
+	bh=8lkd+66vxVjzUwXmF1qjLJfCxSGkkuyaydqy5Uu3TNU=;
+	b=2IED/4qYJXhhVmWOtAmjvTwYazrUpJLHPQJ/iLdQAyw3SUfI3bRoLBwTVOe1eLhh
+	FXa52xiU3rjvZfHeORfo+RFSrmhd0X/UkT3Wtm5CSbXVy77gr84SvRYFN+yVqya6ZYR
+	VAqeySS1CllZ6ndrdJaKG95W5Pgx9oLHz8Xq0fXQ=
+Content-Type: multipart/mixed; boundary="===============8881720683499040170=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Trevor Gamblin <tgamblin@baylibre.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-hypothesis: upgrading to 6.99.6 SUCCEEDED
-Message-ID: <0101018e430e8e8f-8afbd874-949c-487a-8b2c-4e4c6ba1d2b7-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-pyparsing: upgrading to 3.1.2 SUCCEEDED
+Message-ID: <0101018e430e8fcb-aa62fbb3-d6f0-4058-b21f-d044b0c07554-000000@us-west-2.amazonses.com>
 Date: Fri, 15 Mar 2024 17:00:11 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.03.15-54.240.27.33
+X-SES-Outgoing: 2024.03.15-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 15 Mar 2024 17:00:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197180
+ <openembedded-core@lists.openembedded.org>; Fri, 15 Mar 2024 17:00:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197178
 
---===============3379883023595463784==
+--===============8881720683499040170==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-hypothesis* to *6.99.6* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-pyparsing* to *3.1.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-hypothesis-upgrade-6.98.15-6.99.6.patch
+    - apply the patch: git am 0001-python3-pyparsing-upgrade-3.1.1-3.1.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,77 +72,62 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From a88169a1b11f67508a45fa3dd996806f24e84c50 Mon Sep 17 00:00:00 2001
+From 80178a113f4cb70f0cf993158fa0f023b55a521c Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Mar 2024 08:00:47 +0000
-Subject: [PATCH] python3-hypothesis: upgrade 6.98.15 -> 6.99.6
+Date: Fri, 15 Mar 2024 08:58:55 +0000
+Subject: [PATCH] python3-pyparsing: upgrade 3.1.1 -> 3.1.2
 
 ---
- ...thon3-hypothesis_6.98.15.bb => python3-hypothesis_6.99.6.bb} | 2 +-
+ .../{python3-pyparsing_3.1.1.bb => python3-pyparsing_3.1.2.bb}  | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-hypothesis_6.98.15.bb => python3-hypothesis_6.99.6.bb} (91%)
+ rename meta/recipes-devtools/python/{python3-pyparsing_3.1.1.bb => python3-pyparsing_3.1.2.bb} (90%)
 
-diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.98.15.bb b/meta/recipes-devtools/python/python3-hypothesis_6.99.6.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-hypothesis_6.98.15.bb
-rename to meta/recipes-devtools/python/python3-hypothesis_6.99.6.bb
-index a17abe58c0..79375f3e5d 100644
---- a/meta/recipes-devtools/python/python3-hypothesis_6.98.15.bb
-+++ b/meta/recipes-devtools/python/python3-hypothesis_6.99.6.bb
-@@ -13,7 +13,7 @@ SRC_URI += " \
-     file://test_rle.py \
-     "
+diff --git a/meta/recipes-devtools/python/python3-pyparsing_3.1.1.bb b/meta/recipes-devtools/python/python3-pyparsing_3.1.2.bb
+similarity index 90%
+rename from meta/recipes-devtools/python/python3-pyparsing_3.1.1.bb
+rename to meta/recipes-devtools/python/python3-pyparsing_3.1.2.bb
+index 6f34091c86..64210ade53 100644
+--- a/meta/recipes-devtools/python/python3-pyparsing_3.1.1.bb
++++ b/meta/recipes-devtools/python/python3-pyparsing_3.1.2.bb
+@@ -10,7 +10,7 @@ BUGTRACKER = "https://github.com/pyparsing/pyparsing/issues"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=657a566233888513e1f07ba13e2f47f1"
  
--SRC_URI[sha256sum] = "1e31210951511b24ce8b3b6e04d791c466385a30ac3af571bf2223954b025d77"
-+SRC_URI[sha256sum] = "397e362c8d7e3a5f4654644db964759f6a7f26a8c8a46d2a9e909595d9769ed1"
+-SRC_URI[sha256sum] = "ede28a1a32462f5a9705e07aea48001a08f7cf81a021585011deba701581a0db"
++SRC_URI[sha256sum] = "a1bac0ce561155ecc3ed78ca94d3c9378656ad4c94c1270de543f621420f94ad"
  
- RDEPENDS:${PN} += " \
-     python3-attrs \
+ UPSTREAM_CHECK_REGEX = "pyparsing-(?P<pver>.*)\.tar"
+ 
 -- 
 2.42.0
 
 
---===============3379883023595463784==
+--===============8881720683499040170==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-hypothesis: PV changed from "6.98.15" to "6.99.6"
-packages/core2-64-poky-linux/python3-hypothesis: SRC_URI changed from "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.98.15.tar.gz;downloadfilename=hypothesis-6.98.15.tar.gz file://run-ptest file://test_binary_search.py file://test_rle.py" to "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.99.6.tar.gz;downloadfilename=hypothesis-6.99.6.tar.gz file://run-ptest file://test_binary_search.py file://test_rle.py"
-packages/core2-64-poky-linux/python3-hypothesis: PKGV changed from 6.98.15 [default] to 6.99.6 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PV changed from "6.98.15" to "6.99.6"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PKGV changed from 6.98.15 [default] to 6.99.6 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-dev: PV changed from "6.98.15" to "6.99.6"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-dev: PKGV changed from 6.98.15 [default] to 6.99.6 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-doc: PV changed from "6.98.15" to "6.99.6"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-doc: PKGV changed from 6.98.15 [default] to 6.99.6 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-locale: PV changed from "6.98.15" to "6.99.6"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-locale: PKGV changed from 6.98.15 [default] to 6.99.6 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PV changed from "6.98.15" to "6.99.6"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PKGV changed from 6.98.15 [default] to 6.99.6 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-src: PV changed from "6.98.15" to "6.99.6"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-src: PKGV changed from 6.98.15 [default] to 6.99.6 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PV changed from "6.98.15" to "6.99.6"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PKGV changed from 6.98.15 [default] to 6.99.6 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis: PV changed from "6.98.15" to "6.99.6"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis: PKGV changed from 6.98.15 [default] to 6.99.6 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis: PKGSIZE changed from 2963374 to 3022742 (+2%)
-Changes to packages/core2-64-poky-linux/python3-hypothesis (sysroot):
-  /usr/lib/python3.12/site-packages/hypothesis-6.99.6.dist-info was added
-  /usr/lib/python3.12/site-packages/hypothesis-6.99.6.dist-info/entry_points.txt was added
-  /usr/lib/python3.12/site-packages/hypothesis-6.99.6.dist-info/LICENSE.txt was added
-  /usr/lib/python3.12/site-packages/hypothesis-6.99.6.dist-info/METADATA was added
-  /usr/lib/python3.12/site-packages/hypothesis-6.99.6.dist-info/RECORD was added
-  /usr/lib/python3.12/site-packages/hypothesis-6.99.6.dist-info/top_level.txt was added
-  /usr/lib/python3.12/site-packages/hypothesis-6.99.6.dist-info/WHEEL was added
-  /usr/lib/python3.12/site-packages/hypothesis-6.98.15.dist-info was removed
-  /usr/lib/python3.12/site-packages/hypothesis-6.98.15.dist-info/entry_points.txt was removed
-  /usr/lib/python3.12/site-packages/hypothesis-6.98.15.dist-info/LICENSE.txt was removed
-  /usr/lib/python3.12/site-packages/hypothesis-6.98.15.dist-info/METADATA was removed
-  /usr/lib/python3.12/site-packages/hypothesis-6.98.15.dist-info/RECORD was removed
-  /usr/lib/python3.12/site-packages/hypothesis-6.98.15.dist-info/top_level.txt was removed
-  /usr/lib/python3.12/site-packages/hypothesis-6.98.15.dist-info/WHEEL was removed
+packages/core2-64-poky-linux/python3-pyparsing: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pyparsing/pyparsing-3.1.1.tar.gz;downloadfilename=pyparsing-3.1.1.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pyparsing/pyparsing-3.1.2.tar.gz;downloadfilename=pyparsing-3.1.2.tar.gz"
+packages/core2-64-poky-linux/python3-pyparsing: PV changed from "3.1.1" to "3.1.2"
+packages/core2-64-poky-linux/python3-pyparsing: PKGV changed from 3.1.1 [default] to 3.1.2 [default]
+packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-dbg: PV changed from "3.1.1" to "3.1.2"
+packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-dbg: PKGV changed from 3.1.1 [default] to 3.1.2 [default]
+packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-dev: PV changed from "3.1.1" to "3.1.2"
+packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-dev: PKGV changed from 3.1.1 [default] to 3.1.2 [default]
+packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-doc: PV changed from "3.1.1" to "3.1.2"
+packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-doc: PKGV changed from 3.1.1 [default] to 3.1.2 [default]
+packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-locale: PV changed from "3.1.1" to "3.1.2"
+packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-locale: PKGV changed from 3.1.1 [default] to 3.1.2 [default]
+packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-src: PV changed from "3.1.1" to "3.1.2"
+packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-src: PKGV changed from 3.1.1 [default] to 3.1.2 [default]
+packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-staticdev: PV changed from "3.1.1" to "3.1.2"
+packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-staticdev: PKGV changed from 3.1.1 [default] to 3.1.2 [default]
+packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing: PV changed from "3.1.1" to "3.1.2"
+packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing: PKGV changed from 3.1.1 [default] to 3.1.2 [default]
+packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing: PKGSIZE changed from 861140 to 853325 (-1%)
+Changes to packages/core2-64-poky-linux/python3-pyparsing (sysroot):
+  /usr/lib/python3.12/site-packages/pyparsing-3.1.1.dist-info moved to /usr/lib/python3.12/site-packages/pyparsing-3.1.2.dist-info
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1782,27 +1767,45 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============3379883023595463784==
+--===============8881720683499040170==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-pyparsing-upgrade-3.1.1-3.1.2.patch"
+
+RnJvbSA4MDE3OGExMTNmNGNiNzBmMGNmOTkzMTU4ZmEwZjAyM2I1NWE1MjFjIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgMTUgTWFyIDIwMjQgMDg6NTg6NTUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXB5cGFyc2luZzogdXBncmFkZSAzLjEuMSAtPiAzLjEuMgoKLS0tCiAuLi4ve3B5dGhv
+bjMtcHlwYXJzaW5nXzMuMS4xLmJiID0+IHB5dGhvbjMtcHlwYXJzaW5nXzMuMS4yLmJifSAgfCAy
+ICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFt
+ZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXB5cGFyc2luZ18zLjEuMS5i
+YiA9PiBweXRob24zLXB5cGFyc2luZ18zLjEuMi5iYn0gKDkwJSkKCmRpZmYgLS1naXQgYS9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHlwYXJzaW5nXzMuMS4xLmJiIGIvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5cGFyc2luZ18zLjEuMi5iYgpzaW1p
+bGFyaXR5IGluZGV4IDkwJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
+L3B5dGhvbjMtcHlwYXJzaW5nXzMuMS4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcHl0aG9uL3B5dGhvbjMtcHlwYXJzaW5nXzMuMS4yLmJiCmluZGV4IDZmMzQwOTFjODYuLjY0
+MjEwYWRlNTMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
+My1weXBhcnNpbmdfMy4xLjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
+eXRob24zLXB5cGFyc2luZ18zLjEuMi5iYgpAQCAtMTAsNyArMTAsNyBAQCBCVUdUUkFDS0VSID0g
+Imh0dHBzOi8vZ2l0aHViLmNvbS9weXBhcnNpbmcvcHlwYXJzaW5nL2lzc3VlcyIKIExJQ0VOU0Ug
+PSAiTUlUIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9NjU3YTU2NjIz
+Mzg4ODUxM2UxZjA3YmExM2UyZjQ3ZjEiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJlZGUyOGEx
+YTMyNDYyZjVhOTcwNWUwN2FlYTQ4MDAxYTA4ZjdjZjgxYTAyMTU4NTAxMWRlYmE3MDE1ODFhMGRi
+IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImExYmFjMGNlNTYxMTU1ZWNjM2VkNzhjYTk0ZDNjOTM3
+ODY1NmFkNGM5NGMxMjcwZGU1NDNmNjIxNDIwZjk0YWQiCiAKIFVQU1RSRUFNX0NIRUNLX1JFR0VY
+ID0gInB5cGFyc2luZy0oP1A8cHZlcj4uKilcLnRhciIKIAotLSAKMi40Mi4wCgo=
+
+--===============8881720683499040170==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-64-poky-linux/python3-hypothesis (sysroot):
-  /usr/lib/python3.12/site-packages/hypothesis-6.99.6.dist-info was added
-  /usr/lib/python3.12/site-packages/hypothesis-6.99.6.dist-info/entry_points.txt was added
-  /usr/lib/python3.12/site-packages/hypothesis-6.99.6.dist-info/LICENSE.txt was added
-  /usr/lib/python3.12/site-packages/hypothesis-6.99.6.dist-info/METADATA was added
-  /usr/lib/python3.12/site-packages/hypothesis-6.99.6.dist-info/RECORD was added
-  /usr/lib/python3.12/site-packages/hypothesis-6.99.6.dist-info/top_level.txt was added
-  /usr/lib/python3.12/site-packages/hypothesis-6.99.6.dist-info/WHEEL was added
-  /usr/lib/python3.12/site-packages/hypothesis-6.98.15.dist-info was removed
-  /usr/lib/python3.12/site-packages/hypothesis-6.98.15.dist-info/entry_points.txt was removed
-  /usr/lib/python3.12/site-packages/hypothesis-6.98.15.dist-info/LICENSE.txt was removed
-  /usr/lib/python3.12/site-packages/hypothesis-6.98.15.dist-info/METADATA was removed
-  /usr/lib/python3.12/site-packages/hypothesis-6.98.15.dist-info/RECORD was removed
-  /usr/lib/python3.12/site-packages/hypothesis-6.98.15.dist-info/top_level.txt was removed
-  /usr/lib/python3.12/site-packages/hypothesis-6.98.15.dist-info/WHEEL was removed
+Changes to packages/core2-64-poky-linux/python3-pyparsing (sysroot):
+  /usr/lib/python3.12/site-packages/pyparsing-3.1.1.dist-info moved to /usr/lib/python3.12/site-packages/pyparsing-3.1.2.dist-info
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3442,35 +3445,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============3379883023595463784==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-hypothesis-upgrade-6.98.15-6.99.6.patch"
-
-RnJvbSBhODgxNjlhMWIxMWY2NzUwOGE0NWZhM2RkOTk2ODA2ZjI0ZTg0YzUwIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTUgTWFyIDIwMjQgMDg6MDA6NDcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWh5cG90aGVzaXM6IHVwZ3JhZGUgNi45OC4xNSAtPiA2Ljk5LjYKCi0tLQogLi4udGhv
-bjMtaHlwb3RoZXNpc182Ljk4LjE1LmJiID0+IHB5dGhvbjMtaHlwb3RoZXNpc182Ljk5LjYuYmJ9
-IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiBy
-ZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1oeXBvdGhlc2lzXzYu
-OTguMTUuYmIgPT4gcHl0aG9uMy1oeXBvdGhlc2lzXzYuOTkuNi5iYn0gKDkxJSkKCmRpZmYgLS1n
-aXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNpc182Ljk4
-LjE1LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNf
-Ni45OS42LmJiCnNpbWlsYXJpdHkgaW5kZXggOTElCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuOTguMTUuYmIKcmVuYW1lIHRvIG1l
-dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuOTkuNi5iYgpp
-bmRleCBhMTdhYmU1OGMwLi43OTM3NWYzZTVkIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNpc182Ljk4LjE1LmJiCisrKyBiL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuOTkuNi5iYgpAQCAtMTMs
-NyArMTMsNyBAQCBTUkNfVVJJICs9ICIgXAogICAgIGZpbGU6Ly90ZXN0X3JsZS5weSBcCiAgICAg
-IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMWUzMTIxMDk1MTUxMWIyNGNlOGIzYjZlMDRkNzkx
-YzQ2NjM4NWEzMGFjM2FmNTcxYmYyMjIzOTU0YjAyNWQ3NyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9
-ICIzOTdlMzYyYzhkN2UzYTVmNDY1NDY0NGRiOTY0NzU5ZjZhN2YyNmE4YzhhNDZkMmE5ZTkwOTU5
-NWQ5NzY5ZWQxIgogCiBSREVQRU5EUzoke1BOfSArPSAiIFwKICAgICBweXRob24zLWF0dHJzIFwK
-LS0gCjIuNDIuMAoK
-
---===============3379883023595463784==--
+--===============8881720683499040170==--
 
