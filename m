@@ -2,37 +2,37 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C071C54F41
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86190C54F48
 	for <webhook@archiver.kernel.org>; Fri, 15 Mar 2024 17:00:17 +0000 (UTC)
 Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web11.1274.1710522012282469801
+ by mx.groups.io with SMTP id smtpd.web11.1284.1710522016207143912
  for <openembedded-core@lists.openembedded.org>;
  Fri, 15 Mar 2024 10:00:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=emL9dLDV;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=P7XyS9bE;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018e430e9f64-9f1d4acb-cd4a-4d66-ac47-37b8479b4f39-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=b7bxLR+w;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=YMl9PXf5;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018e430e9f05-f9945ed2-359d-480e-82f2-e1002d4abbe7-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1710522016;
+	t=1710522015;
 	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=Y7wFvwDKZiypXE7tVydsO6iYXpf1ETTV/rXjOCfX67o=;
-	b=emL9dLDVYC07dGimiJA3hyr1LykIvw8q1TtQhjMQWolTfALHDMxVQ8BRma9sdhdo
-	kt/e76G+zZrAVohFIKDoxMRnNzEG27i0og3S92gAZ2TWW5txLqvuXDQ1bRryj435Icn
-	88Ju23HbuJK96y0+HCfkU0z1RSrj7HwDOfWV2VAI=
+	bh=wwlj8TbsjaY+EeFz2knBTZYId6APRSeqwYAA+R9bfDc=;
+	b=b7bxLR+wgZ/1Am7ziPXQMyO2E1SBwwBOSzlHjeY8n8SzOM52evEeUVffdyZQcyN6
+	BcP9RtrLnd5F2ryH3YJ4cWtHz38xqlaTnaY+d04xuasnRxu2ouwtc118L85ESTVpnJu
+	7E28IULPqe4iiyNwfZkyP273PWuH3tL63YzBMF74=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1710522016;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1710522015;
 	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=Y7wFvwDKZiypXE7tVydsO6iYXpf1ETTV/rXjOCfX67o=;
-	b=P7XyS9bE8oYQ0LFttLm5UCZRfHpmQlAZf3haIQtZjiLqVB+BKBLaFPBnWdwe2uxh
-	SWmpL4iLoknhWiax8R/dpTvrkHB1taPJk1R7JTgWOrlqgNMBzkAQQu5hFJHqNrMQiAc
-	twm30Qf1eQiYPNNHm1nx/gSMzdjxAMB5OCplbZnE=
-Content-Type: multipart/mixed; boundary="===============5307971992389075947=="
+	bh=wwlj8TbsjaY+EeFz2knBTZYId6APRSeqwYAA+R9bfDc=;
+	b=YMl9PXf53G1w0KtI2Gzp0VD1SjdnKqkaztQnuhfqwKTx5EN7AvpZHu2MTX9FKYLG
+	C110kjPf2Z3SaFe1GTM7bucfhP/LBnlKUnjzS+Zy8GU+pZlEEeZtSgvu1HOCV1ANsZM
+	jAm/IaRiRxjr48FtiN2t0vomFALROXqgkSGB+HNM=
+Content-Type: multipart/mixed; boundary="===============5022214601303729055=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
-Subject: [AUH] libxcb: upgrading to 1.16.1 SUCCEEDED
-Message-ID: <0101018e430e9f64-9f1d4acb-cd4a-4d66-ac47-37b8479b4f39-000000@us-west-2.amazonses.com>
+Subject: [AUH] libxdmcp: upgrading to 1.1.5 SUCCEEDED
+Message-ID: <0101018e430e9f05-f9945ed2-359d-480e-82f2-e1002d4abbe7-000000@us-west-2.amazonses.com>
 Date: Fri, 15 Mar 2024 17:00:15 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2024.03.15-54.240.27.33
@@ -40,9 +40,9 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 Mar 2024 17:00:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197244
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197238
 
---===============5307971992389075947==
+--===============5022214601303729055==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libxcb* to *1.16.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *libxdmcp* to *1.1.5* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libxcb-upgrade-1.16-1.16.1.patch
+    - apply the patch: git am 0001-libxdmcp-upgrade-1.1.4-1.1.5.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -71,138 +71,62 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 87b93f6833b40daeea44a7959375be1da9d7d7b0 Mon Sep 17 00:00:00 2001
+From 67cedf4c840e5ef3ce89e31d5d9df1773f106ecb Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Mar 2024 13:47:31 +0000
-Subject: [PATCH] libxcb: upgrade 1.16 -> 1.16.1
+Date: Fri, 15 Mar 2024 14:02:45 +0000
+Subject: [PATCH] libxdmcp: upgrade 1.1.4 -> 1.1.5
 
 ---
- .../libxcb/0001-use-_Alignof-to-avoid-UB-in-ALIGNOF.patch  | 7 ++-----
- .../xorg-lib/{libxcb_1.16.bb => libxcb_1.16.1.bb}          | 2 +-
- 2 files changed, 3 insertions(+), 6 deletions(-)
- rename meta/recipes-graphics/xorg-lib/{libxcb_1.16.bb => libxcb_1.16.1.bb} (93%)
+ .../xorg-lib/{libxdmcp_1.1.4.bb => libxdmcp_1.1.5.bb}           | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/xorg-lib/{libxdmcp_1.1.4.bb => libxdmcp_1.1.5.bb} (89%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxcb/0001-use-_Alignof-to-avoid-UB-in-ALIGNOF.patch b/meta/recipes-graphics/xorg-lib/libxcb/0001-use-_Alignof-to-avoid-UB-in-ALIGNOF.patch
-index 5b159d646d..939fed32ee 100644
---- a/meta/recipes-graphics/xorg-lib/libxcb/0001-use-_Alignof-to-avoid-UB-in-ALIGNOF.patch
-+++ b/meta/recipes-graphics/xorg-lib/libxcb/0001-use-_Alignof-to-avoid-UB-in-ALIGNOF.patch
-@@ -1,4 +1,4 @@
--From d55b6b1fa87700f3eae3a29522972d2e7be7d53e Mon Sep 17 00:00:00 2001
-+From 68bb930f15d4d7b2042883900e8d3dc221b98a81 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Sat, 14 Jan 2023 10:11:35 -0800
- Subject: [PATCH] use _Alignof to avoid UB in ALIGNOF
-@@ -20,7 +20,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  1 file changed, 1 insertion(+), 2 deletions(-)
- 
- diff --git a/src/c_client.py b/src/c_client.py
--index fd256f0..4e48f13 100644
-+index 182b5de..54691f9 100644
- --- a/src/c_client.py
- +++ b/src/c_client.py
- @@ -288,7 +288,6 @@ def c_open(self):
-@@ -40,6 +40,3 @@ index fd256f0..4e48f13 100644
-               % (space,
-                   'char'
-                    if field.c_field_type == 'void' or field.type.is_switch
---- 
--2.39.0
--
-diff --git a/meta/recipes-graphics/xorg-lib/libxcb_1.16.bb b/meta/recipes-graphics/xorg-lib/libxcb_1.16.1.bb
-similarity index 93%
-rename from meta/recipes-graphics/xorg-lib/libxcb_1.16.bb
-rename to meta/recipes-graphics/xorg-lib/libxcb_1.16.1.bb
-index 04b1eaa910..de3290aa9f 100644
---- a/meta/recipes-graphics/xorg-lib/libxcb_1.16.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxcb_1.16.1.bb
-@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d763b081cb10c223435b01e00dc0aba7"
- SRC_URI = "http://xcb.freedesktop.org/dist/libxcb-${PV}.tar.xz \
-            file://0001-use-_Alignof-to-avoid-UB-in-ALIGNOF.patch"
- 
--SRC_URI[sha256sum] = "4348566aa0fbf196db5e0a576321c65966189210cb51328ea2bb2be39c711d71"
-+SRC_URI[sha256sum] = "f24d187154c8e027b358fc7cb6588e35e33e6a92f11c668fe77396a7ae66e311"
+diff --git a/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb b/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb
+similarity index 89%
+rename from meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb
+rename to meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb
+index bf5d2d6721..d1a1a2e7f9 100644
+--- a/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb
++++ b/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb
+@@ -22,7 +22,7 @@ XORG_PN = "libXdmcp"
  
  BBCLASSEXTEND = "native nativesdk"
  
+-SRC_URI[sha256sum] = "2dce5cc317f8f0b484ec347d87d81d552cdbebb178bd13c5d8193b6b7cd6ad00"
++SRC_URI[sha256sum] = "d8a5222828c3adab70adf69a5583f1d32eb5ece04304f7f8392b6a353aa2228c"
+ 
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[arc4] = "ac_cv_lib_bsd_arc4random_buf=yes,ac_cv_lib_bsd_arc4random_buf=no,libbsd"
 -- 
 2.42.0
 
 
---===============5307971992389075947==
+--===============5022214601303729055==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/libxcb: SRC_URI changed from "http://xcb.freedesktop.org/dist/libxcb-1.16.tar.xz file://0001-use-_Alignof-to-avoid-UB-in-ALIGNOF.patch" to "http://xcb.freedesktop.org/dist/libxcb-1.16.1.tar.xz file://0001-use-_Alignof-to-avoid-UB-in-ALIGNOF.patch"
-packages/core2-64-poky-linux/libxcb: PKGV changed from 1.16 [default] to 1.16.1 [default]
-packages/core2-64-poky-linux/libxcb: PV changed from "1.16" to "1.16.1"
-packages/core2-64-poky-linux/libxcb/libxcb-composite: PKGV changed from 1.16 [default] to 1.16.1 [default]
-packages/core2-64-poky-linux/libxcb/libxcb-composite: PV changed from "1.16" to "1.16.1"
-packages/core2-64-poky-linux/libxcb/libxcb-damage: PKGV changed from 1.16 [default] to 1.16.1 [default]
-packages/core2-64-poky-linux/libxcb/libxcb-damage: PV changed from "1.16" to "1.16.1"
-packages/core2-64-poky-linux/libxcb/libxcb-dbe: PKGV changed from 1.16 [default] to 1.16.1 [default]
-packages/core2-64-poky-linux/libxcb/libxcb-dbe: PV changed from "1.16" to "1.16.1"
-packages/core2-64-poky-linux/libxcb/libxcb-dbg: PKGV changed from 1.16 [default] to 1.16.1 [default]
-packages/core2-64-poky-linux/libxcb/libxcb-dbg: PV changed from "1.16" to "1.16.1"
-packages/core2-64-poky-linux/libxcb/libxcb-dbg: PKGSIZE changed from 2258264 to 2258344 (+0%)
-packages/core2-64-poky-linux/libxcb/libxcb-dev: PKGV changed from 1.16 [default] to 1.16.1 [default]
-packages/core2-64-poky-linux/libxcb/libxcb-dev: PV changed from "1.16" to "1.16.1"
-packages/core2-64-poky-linux/libxcb/libxcb-dev: PKGSIZE changed from 2130939 to 2130989 (+0%)
-packages/core2-64-poky-linux/libxcb/libxcb-doc: PKGV changed from 1.16 [default] to 1.16.1 [default]
-packages/core2-64-poky-linux/libxcb/libxcb-doc: PV changed from "1.16" to "1.16.1"
-packages/core2-64-poky-linux/libxcb/libxcb-doc: PKGSIZE changed from 1605896 to 1607364 (+0%)
-packages/core2-64-poky-linux/libxcb/libxcb-dpms: PKGV changed from 1.16 [default] to 1.16.1 [default]
-packages/core2-64-poky-linux/libxcb/libxcb-dpms: PV changed from "1.16" to "1.16.1"
-packages/core2-64-poky-linux/libxcb/libxcb-dri2: PKGV changed from 1.16 [default] to 1.16.1 [default]
-packages/core2-64-poky-linux/libxcb/libxcb-dri2: PV changed from "1.16" to "1.16.1"
-packages/core2-64-poky-linux/libxcb/libxcb-dri3: PKGV changed from 1.16 [default] to 1.16.1 [default]
-packages/core2-64-poky-linux/libxcb/libxcb-dri3: PV changed from "1.16" to "1.16.1"
-packages/core2-64-poky-linux/libxcb/libxcb-glx: PKGV changed from 1.16 [default] to 1.16.1 [default]
-packages/core2-64-poky-linux/libxcb/libxcb-glx: PV changed from "1.16" to "1.16.1"
-packages/core2-64-poky-linux/libxcb/libxcb-locale: PKGV changed from 1.16 [default] to 1.16.1 [default]
-packages/core2-64-poky-linux/libxcb/libxcb-locale: PV changed from "1.16" to "1.16.1"
-packages/core2-64-poky-linux/libxcb/libxcb-present: PKGV changed from 1.16 [default] to 1.16.1 [default]
-packages/core2-64-poky-linux/libxcb/libxcb-present: PV changed from "1.16" to "1.16.1"
-packages/core2-64-poky-linux/libxcb/libxcb-randr: PKGV changed from 1.16 [default] to 1.16.1 [default]
-packages/core2-64-poky-linux/libxcb/libxcb-randr: PV changed from "1.16" to "1.16.1"
-packages/core2-64-poky-linux/libxcb/libxcb-record: PKGV changed from 1.16 [default] to 1.16.1 [default]
-packages/core2-64-poky-linux/libxcb/libxcb-record: PV changed from "1.16" to "1.16.1"
-packages/core2-64-poky-linux/libxcb/libxcb-render: PKGV changed from 1.16 [default] to 1.16.1 [default]
-packages/core2-64-poky-linux/libxcb/libxcb-render: PV changed from "1.16" to "1.16.1"
-packages/core2-64-poky-linux/libxcb/libxcb-res: PKGV changed from 1.16 [default] to 1.16.1 [default]
-packages/core2-64-poky-linux/libxcb/libxcb-res: PV changed from "1.16" to "1.16.1"
-packages/core2-64-poky-linux/libxcb/libxcb-screensaver: PKGV changed from 1.16 [default] to 1.16.1 [default]
-packages/core2-64-poky-linux/libxcb/libxcb-screensaver: PV changed from "1.16" to "1.16.1"
-packages/core2-64-poky-linux/libxcb/libxcb-shape: PKGV changed from 1.16 [default] to 1.16.1 [default]
-packages/core2-64-poky-linux/libxcb/libxcb-shape: PV changed from "1.16" to "1.16.1"
-packages/core2-64-poky-linux/libxcb/libxcb-shm: PKGV changed from 1.16 [default] to 1.16.1 [default]
-packages/core2-64-poky-linux/libxcb/libxcb-shm: PV changed from "1.16" to "1.16.1"
-packages/core2-64-poky-linux/libxcb/libxcb-src: PKGV changed from 1.16 [default] to 1.16.1 [default]
-packages/core2-64-poky-linux/libxcb/libxcb-src: PV changed from "1.16" to "1.16.1"
-packages/core2-64-poky-linux/libxcb/libxcb-src: PKGSIZE changed from 4727649 to 4727671 (+0%)
-packages/core2-64-poky-linux/libxcb/libxcb-staticdev: PKGV changed from 1.16 [default] to 1.16.1 [default]
-packages/core2-64-poky-linux/libxcb/libxcb-staticdev: PV changed from "1.16" to "1.16.1"
-packages/core2-64-poky-linux/libxcb/libxcb-sync: PKGV changed from 1.16 [default] to 1.16.1 [default]
-packages/core2-64-poky-linux/libxcb/libxcb-sync: PV changed from "1.16" to "1.16.1"
-packages/core2-64-poky-linux/libxcb/libxcb-xf86dri: PKGV changed from 1.16 [default] to 1.16.1 [default]
-packages/core2-64-poky-linux/libxcb/libxcb-xf86dri: PV changed from "1.16" to "1.16.1"
-packages/core2-64-poky-linux/libxcb/libxcb-xfixes: PKGV changed from 1.16 [default] to 1.16.1 [default]
-packages/core2-64-poky-linux/libxcb/libxcb-xfixes: PV changed from "1.16" to "1.16.1"
-packages/core2-64-poky-linux/libxcb/libxcb-xinerama: PKGV changed from 1.16 [default] to 1.16.1 [default]
-packages/core2-64-poky-linux/libxcb/libxcb-xinerama: PV changed from "1.16" to "1.16.1"
-packages/core2-64-poky-linux/libxcb/libxcb-xinput: PKGV changed from 1.16 [default] to 1.16.1 [default]
-packages/core2-64-poky-linux/libxcb/libxcb-xinput: PV changed from "1.16" to "1.16.1"
-packages/core2-64-poky-linux/libxcb/libxcb-xkb: PKGV changed from 1.16 [default] to 1.16.1 [default]
-packages/core2-64-poky-linux/libxcb/libxcb-xkb: PV changed from "1.16" to "1.16.1"
-packages/core2-64-poky-linux/libxcb/libxcb-xtest: PKGV changed from 1.16 [default] to 1.16.1 [default]
-packages/core2-64-poky-linux/libxcb/libxcb-xtest: PV changed from "1.16" to "1.16.1"
-packages/core2-64-poky-linux/libxcb/libxcb-xv: PKGV changed from 1.16 [default] to 1.16.1 [default]
-packages/core2-64-poky-linux/libxcb/libxcb-xv: PV changed from "1.16" to "1.16.1"
-packages/core2-64-poky-linux/libxcb/libxcb-xvmc: PKGV changed from 1.16 [default] to 1.16.1 [default]
-packages/core2-64-poky-linux/libxcb/libxcb-xvmc: PV changed from "1.16" to "1.16.1"
-packages/core2-64-poky-linux/libxcb/libxcb: PKGV changed from 1.16 [default] to 1.16.1 [default]
-packages/core2-64-poky-linux/libxcb/libxcb: PV changed from "1.16" to "1.16.1"
+packages/core2-64-poky-linux/libxdmcp: PV changed from "1.1.4" to "1.1.5"
+packages/core2-64-poky-linux/libxdmcp: SRC_URI changed from "https://www.x.org/releases//individual/lib/libXdmcp-1.1.4.tar.xz" to "https://www.x.org/releases//individual/lib/libXdmcp-1.1.5.tar.xz"
+packages/core2-64-poky-linux/libxdmcp: PKGV changed from 1.1.4 [default] to 1.1.5 [default]
+packages/core2-64-poky-linux/libxdmcp/libxdmcp-dbg: PKGSIZE changed from 55328 to 55344 (+0%)
+packages/core2-64-poky-linux/libxdmcp/libxdmcp-dbg: PV changed from "1.1.4" to "1.1.5"
+packages/core2-64-poky-linux/libxdmcp/libxdmcp-dbg: PKGV changed from 1.1.4 [default] to 1.1.5 [default]
+packages/core2-64-poky-linux/libxdmcp/libxdmcp-dev: PKGSIZE changed from 6608 to 8772 (+33%)
+packages/core2-64-poky-linux/libxdmcp/libxdmcp-dev: PV changed from "1.1.4" to "1.1.5"
+packages/core2-64-poky-linux/libxdmcp/libxdmcp-dev: PKGV changed from 1.1.4 [default] to 1.1.5 [default]
+packages/core2-64-poky-linux/libxdmcp/libxdmcp-doc: PV changed from "1.1.4" to "1.1.5"
+packages/core2-64-poky-linux/libxdmcp/libxdmcp-doc: PKGV changed from 1.1.4 [default] to 1.1.5 [default]
+packages/core2-64-poky-linux/libxdmcp/libxdmcp-locale: PV changed from "1.1.4" to "1.1.5"
+packages/core2-64-poky-linux/libxdmcp/libxdmcp-locale: PKGV changed from 1.1.4 [default] to 1.1.5 [default]
+packages/core2-64-poky-linux/libxdmcp/libxdmcp-src: PKGSIZE changed from 56150 to 58248 (+4%)
+packages/core2-64-poky-linux/libxdmcp/libxdmcp-src: PV changed from "1.1.4" to "1.1.5"
+packages/core2-64-poky-linux/libxdmcp/libxdmcp-src: PKGV changed from 1.1.4 [default] to 1.1.5 [default]
+packages/core2-64-poky-linux/libxdmcp/libxdmcp-staticdev: PV changed from "1.1.4" to "1.1.5"
+packages/core2-64-poky-linux/libxdmcp/libxdmcp-staticdev: PKGV changed from 1.1.4 [default] to 1.1.5 [default]
+packages/core2-64-poky-linux/libxdmcp/libxdmcp: PV changed from "1.1.4" to "1.1.5"
+packages/core2-64-poky-linux/libxdmcp/libxdmcp: PKGV changed from 1.1.4 [default] to 1.1.5 [default]
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1842,12 +1766,13 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============5307971992389075947==
+--===============5022214601303729055==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
+packages/core2-64-poky-linux/libxdmcp/libxdmcp-dev: PKGSIZE changed from 6608 to 8772 (+33%)
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3487,58 +3412,35 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============5307971992389075947==
+--===============5022214601303729055==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libxcb-upgrade-1.16-1.16.1.patch"
+ filename="0001-libxdmcp-upgrade-1.1.4-1.1.5.patch"
 
-RnJvbSA4N2I5M2Y2ODMzYjQwZGFlZWE0NGE3OTU5Mzc1YmUxZGE5ZDdkN2IwIE1vbiBTZXAgMTcg
+RnJvbSA2N2NlZGY0Yzg0MGU1ZWYzY2U4OWUzMWQ1ZDlkZjE3NzNmMTA2ZWNiIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTUgTWFyIDIwMjQgMTM6NDc6MzEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJ4Y2I6IHVwZ3JhZGUgMS4xNiAtPiAxLjE2LjEKCi0tLQogLi4uL2xpYnhjYi8wMDAxLXVzZS1f
-QWxpZ25vZi10by1hdm9pZC1VQi1pbi1BTElHTk9GLnBhdGNoICB8IDcgKystLS0tLQogLi4uL3hv
-cmctbGliL3tsaWJ4Y2JfMS4xNi5iYiA9PiBsaWJ4Y2JfMS4xNi4xLmJifSAgICAgICAgICB8IDIg
-Ky0KIDIgZmlsZXMgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCA2IGRlbGV0aW9ucygtKQogcmVu
-YW1lIG1ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi97bGlieGNiXzEuMTYuYmIgPT4gbGli
-eGNiXzEuMTYuMS5iYn0gKDkzJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
-eG9yZy1saWIvbGlieGNiLzAwMDEtdXNlLV9BbGlnbm9mLXRvLWF2b2lkLVVCLWluLUFMSUdOT0Yu
-cGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIvbGlieGNiLzAwMDEtdXNlLV9B
-bGlnbm9mLXRvLWF2b2lkLVVCLWluLUFMSUdOT0YucGF0Y2gKaW5kZXggNWIxNTlkNjQ2ZC4uOTM5
-ZmVkMzJlZSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYnhj
-Yi8wMDAxLXVzZS1fQWxpZ25vZi10by1hdm9pZC1VQi1pbi1BTElHTk9GLnBhdGNoCisrKyBiL21l
-dGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9saWJ4Y2IvMDAwMS11c2UtX0FsaWdub2YtdG8t
-YXZvaWQtVUItaW4tQUxJR05PRi5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gZDU1YjZiMWZh
-ODc3MDBmM2VhZTNhMjk1MjI5NzJkMmU3YmU3ZDUzZSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
-K0Zyb20gNjhiYjkzMGYxNWQ0ZDdiMjA0Mjg4MzkwMGU4ZDNkYzIyMWI5OGE4MSBNb24gU2VwIDE3
-IDAwOjAwOjAwIDIwMDEKIEZyb206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiBEYXRl
-OiBTYXQsIDE0IEphbiAyMDIzIDEwOjExOjM1IC0wODAwCiBTdWJqZWN0OiBbUEFUQ0hdIHVzZSBf
-QWxpZ25vZiB0byBhdm9pZCBVQiBpbiBBTElHTk9GCkBAIC0yMCw3ICsyMCw3IEBAIFNpZ25lZC1v
-ZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiAgMSBmaWxlIGNoYW5nZWQsIDEg
-aW5zZXJ0aW9uKCspLCAyIGRlbGV0aW9ucygtKQogCiBkaWZmIC0tZ2l0IGEvc3JjL2NfY2xpZW50
-LnB5IGIvc3JjL2NfY2xpZW50LnB5Ci1pbmRleCBmZDI1NmYwLi40ZTQ4ZjEzIDEwMDY0NAoraW5k
-ZXggMTgyYjVkZS4uNTQ2OTFmOSAxMDA2NDQKIC0tLSBhL3NyYy9jX2NsaWVudC5weQogKysrIGIv
-c3JjL2NfY2xpZW50LnB5CiBAQCAtMjg4LDcgKzI4OCw2IEBAIGRlZiBjX29wZW4oc2VsZik6CkBA
-IC00MCw2ICs0MCwzIEBAIGluZGV4IGZkMjU2ZjAuLjRlNDhmMTMgMTAwNjQ0CiAgICAgICAgICAg
-ICAgICUgKHNwYWNlLAogICAgICAgICAgICAgICAgICAgJ2NoYXInCiAgICAgICAgICAgICAgICAg
-ICAgaWYgZmllbGQuY19maWVsZF90eXBlID09ICd2b2lkJyBvciBmaWVsZC50eXBlLmlzX3N3aXRj
-aAotLS0gCi0yLjM5LjAKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmct
-bGliL2xpYnhjYl8xLjE2LmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYnhj
-Yl8xLjE2LjEuYmIKc2ltaWxhcml0eSBpbmRleCA5MyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVz
-LWdyYXBoaWNzL3hvcmctbGliL2xpYnhjYl8xLjE2LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMt
-Z3JhcGhpY3MveG9yZy1saWIvbGlieGNiXzEuMTYuMS5iYgppbmRleCAwNGIxZWFhOTEwLi5kZTMy
-OTBhYTlmIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIvbGlieGNi
-XzEuMTYuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYnhjYl8xLjE2
-LjEuYmIKQEAgLTEyLDcgKzEyLDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlO
-RzttZDU9ZDc2M2IwODFjYjEwYzIyMzQzNWIwMWUwMGRjMGFiYTciCiBTUkNfVVJJID0gImh0dHA6
-Ly94Y2IuZnJlZWRlc2t0b3Aub3JnL2Rpc3QvbGlieGNiLSR7UFZ9LnRhci54eiBcCiAgICAgICAg
-ICAgIGZpbGU6Ly8wMDAxLXVzZS1fQWxpZ25vZi10by1hdm9pZC1VQi1pbi1BTElHTk9GLnBhdGNo
-IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiNDM0ODU2NmFhMGZiZjE5NmRiNWUwYTU3NjMyMWM2
-NTk2NjE4OTIxMGNiNTEzMjhlYTJiYjJiZTM5YzcxMWQ3MSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9
-ICJmMjRkMTg3MTU0YzhlMDI3YjM1OGZjN2NiNjU4OGUzNWUzM2U2YTkyZjExYzY2OGZlNzczOTZh
-N2FlNjZlMzExIgogCiBCQkNMQVNTRVhURU5EID0gIm5hdGl2ZSBuYXRpdmVzZGsiCiAKLS0gCjIu
-NDIuMAoK
+CkRhdGU6IEZyaSwgMTUgTWFyIDIwMjQgMTQ6MDI6NDUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJ4ZG1jcDogdXBncmFkZSAxLjEuNCAtPiAxLjEuNQoKLS0tCiAuLi4veG9yZy1saWIve2xpYnhk
+bWNwXzEuMS40LmJiID0+IGxpYnhkbWNwXzEuMS41LmJifSAgICAgICAgICAgfCAyICstCiAxIGZp
+bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
+Y2lwZXMtZ3JhcGhpY3MveG9yZy1saWIve2xpYnhkbWNwXzEuMS40LmJiID0+IGxpYnhkbWNwXzEu
+MS41LmJifSAoODklKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxp
+Yi9saWJ4ZG1jcF8xLjEuNC5iYiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9saWJ4
+ZG1jcF8xLjEuNS5iYgpzaW1pbGFyaXR5IGluZGV4IDg5JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lw
+ZXMtZ3JhcGhpY3MveG9yZy1saWIvbGlieGRtY3BfMS4xLjQuYmIKcmVuYW1lIHRvIG1ldGEvcmVj
+aXBlcy1ncmFwaGljcy94b3JnLWxpYi9saWJ4ZG1jcF8xLjEuNS5iYgppbmRleCBiZjVkMmQ2NzIx
+Li5kMWExYTJlN2Y5IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIv
+bGlieGRtY3BfMS4xLjQuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xp
+YnhkbWNwXzEuMS41LmJiCkBAIC0yMiw3ICsyMiw3IEBAIFhPUkdfUE4gPSAibGliWGRtY3AiCiAK
+IEJCQ0xBU1NFWFRFTkQgPSAibmF0aXZlIG5hdGl2ZXNkayIKIAotU1JDX1VSSVtzaGEyNTZzdW1d
+ID0gIjJkY2U1Y2MzMTdmOGYwYjQ4NGVjMzQ3ZDg3ZDgxZDU1MmNkYmViYjE3OGJkMTNjNWQ4MTkz
+YjZiN2NkNmFkMDAiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiZDhhNTIyMjgyOGMzYWRhYjcwYWRm
+NjlhNTU4M2YxZDMyZWI1ZWNlMDQzMDRmN2Y4MzkyYjZhMzUzYWEyMjI4YyIKIAogUEFDS0FHRUNP
+TkZJRyA/Pz0gIiIKIFBBQ0tBR0VDT05GSUdbYXJjNF0gPSAiYWNfY3ZfbGliX2JzZF9hcmM0cmFu
+ZG9tX2J1Zj15ZXMsYWNfY3ZfbGliX2JzZF9hcmM0cmFuZG9tX2J1Zj1ubyxsaWJic2QiCi0tIAoy
+LjQyLjAKCg==
 
---===============5307971992389075947==--
+--===============5022214601303729055==--
 
