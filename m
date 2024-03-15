@@ -2,47 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6981AC54F44
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75FD2C54F49
 	for <webhook@archiver.kernel.org>; Fri, 15 Mar 2024 17:00:17 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.1258.1710522016486760510
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web10.1249.1710522012635506454
  for <openembedded-core@lists.openembedded.org>;
  Fri, 15 Mar 2024 10:00:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Um5ujSp7;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=xuBu0bNs;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018e430ea0e0-51abf5e0-3936-40c7-bdd3-9380211daab1-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=NhgjtQS3;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=tzcPbaNC;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018e430ea0da-bb446907-4565-47c3-b18e-cd75b93c465f-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1710522016;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=m4E2N/ljfe1dL6aZe8ExvRj5lRS96LrEqELfwuZ60MY=;
-	b=Um5ujSp7IP8rcZwZRjMcMK9PXprCtJPmDVUPRjmO0/pqnYz01nQHenKXAVHuapDX
-	vwzJiPyKEpNqBU568kCbYMrVJvlJ1uG6D8tkcLrB/5tqMxyNCnO9Zle1U/GNZhw1XTe
-	uA1GJl70cNVwQagDZzxAs3/AoEw4I/hQs+slQrJM=
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=gS8GXDgYU9hQOz4wtwa6rx4OwIsvFprYV1CmDM66AhU=;
+	b=NhgjtQS3VOMiX7npomTiCfjP7gg33yqTBquuFHSA2afI7gLRIRFS1oj+yi24nt++
+	zsegPEulJ6InXWtaQN4NTye7Er/Q/cjKSndpeClup50BVm0uFElIzP7d5DTdANWTITF
+	4Bi9WgcO9PEBaJhHfhoe8CiCEuTtzMJqvpNSlsVA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1710522016;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=m4E2N/ljfe1dL6aZe8ExvRj5lRS96LrEqELfwuZ60MY=;
-	b=xuBu0bNsis5WU3uLZuwQQehY2Yy+UyGXZghv78v6qldDm08H2+M6Hd15h/SbiwN0
-	BfYJ2vSNN+F+3Abm06RhuWK6oyx8uNK7qSbQXu87RAISF7p0LxI+9aKw0tfTPpx+w0I
-	9cQt7iA7NPzzjt+RCXwasOkGQHJ3/KOTyN1W0/dc=
-Content-Type: multipart/mixed; boundary="===============3000483951242938293=="
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=gS8GXDgYU9hQOz4wtwa6rx4OwIsvFprYV1CmDM66AhU=;
+	b=tzcPbaNCbKfnknOn1a8SvhAeUYPSZNntr1aNpjGpc8x9620m4JJQ1FAb8VPgV+5L
+	iKxrGSrhtMSZdJ9nvDmcMSpKWAwUMXkSeEY30vgiSDOeCFRgoAiJYstmuWjKVCk4Zik
+	MjfflvqM/ojfFvkKGD3Tsqpclud+UhLvqigl/C/Y=
+Content-Type: multipart/mixed; boundary="===============5034345739375696101=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] libassuan: upgrading to 2.5.7 SUCCEEDED
-Message-ID: <0101018e430ea0e0-51abf5e0-3936-40c7-bdd3-9380211daab1-000000@us-west-2.amazonses.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] npth: upgrading to 1.7 FAILED
+Message-ID: <0101018e430ea0da-bb446907-4565-47c3-b18e-cd75b93c465f-000000@us-west-2.amazonses.com>
 Date: Fri, 15 Mar 2024 17:00:15 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.03.15-54.240.27.193
+X-SES-Outgoing: 2024.03.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 Mar 2024 17:00:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197240
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197234
 
---===============3000483951242938293==
+--===============5034345739375696101==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,167 +51,89 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libassuan* to *2.5.7* has Succeeded.
+that the automatic attempt to upgrade the recipe *npth* to *1.7* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-libassuan-upgrade-2.5.6-2.5.7.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe npth failed.
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1877 entries from dependency cache.
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.7.3"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.3+snapshot-ef0aa1fd16da8fc37bea26a41ee8c64631fb5d15"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:ef0aa1fd16da8fc37bea26a41ee8c64631fb5d15"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 9 Local 9 Mirrors 0 Missed 0 Current 21 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 4 seconds
+Loading cache...done.
+Loaded 1877 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 923 .bb files complete (921 cached, 2 parsed). 1878 targets, 35 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.7.3"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.3+snapshot-ef0aa1fd16da8fc37bea26a41ee8c64631fb5d15"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:ef0aa1fd16da8fc37bea26a41ee8c64631fb5d15"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 5 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files: 100% |####################################| Time: 0:00:00
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://www.gnupg.org/ftp/gcrypt/npth/npth-1.7.tar.bz2...
+INFO: Rebasing devtool onto ea631f69e177c4d95bf0099c86af2e6638150a0e
+WARNING: Command 'git rebase ea631f69e177c4d95bf0099c86af2e6638150a0e' failed:
+Auto-merging configure.ac
+CONFLICT (content): Merge conflict in configure.ac
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/workspace/sources/npth
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/workspace/recipes/npth/npth_1.7.bb
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From 477a2c2edf4fdb9cc211b68e2552daf85a9f6582 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Mar 2024 15:39:01 +0000
-Subject: [PATCH] libassuan: upgrade 2.5.6 -> 2.5.7
-
----
- .../libassuan/libassuan-add-pkgconfig-support.patch       | 8 +++++---
- .../libassuan/{libassuan_2.5.6.bb => libassuan_2.5.7.bb}  | 2 +-
- 2 files changed, 6 insertions(+), 4 deletions(-)
- rename meta/recipes-support/libassuan/{libassuan_2.5.6.bb => libassuan_2.5.7.bb} (93%)
-
-diff --git a/meta/recipes-support/libassuan/libassuan/libassuan-add-pkgconfig-support.patch b/meta/recipes-support/libassuan/libassuan/libassuan-add-pkgconfig-support.patch
-index fe811254d3..a0fc6cf757 100644
---- a/meta/recipes-support/libassuan/libassuan/libassuan-add-pkgconfig-support.patch
-+++ b/meta/recipes-support/libassuan/libassuan/libassuan-add-pkgconfig-support.patch
-@@ -1,3 +1,8 @@
-+From d91b46ba2ed6677921c7902abe22fa7af11e308d Mon Sep 17 00:00:00 2001
-+From: Chen Qi <Qi.Chen@windriver.com>
-+Date: Thu, 22 May 2014 10:50:00 +0100
-+Subject: [PATCH] libassuan: Improve pkgconfig support
-+
- Add pkgconfig support to libassuan.
- This patch is rejected by upstream for the reason below:
- They think pkgconfig adds no portability and maintaining them is not worthwhile.
-@@ -130,6 +135,3 @@ index df50484..380a48a 100644
-      ifelse([$3], , :, [$3])
-    fi
-    AC_SUBST(LIBASSUAN_CFLAGS)
---- 
--2.25.1
--
-diff --git a/meta/recipes-support/libassuan/libassuan_2.5.6.bb b/meta/recipes-support/libassuan/libassuan_2.5.7.bb
-similarity index 93%
-rename from meta/recipes-support/libassuan/libassuan_2.5.6.bb
-rename to meta/recipes-support/libassuan/libassuan_2.5.7.bb
-index 7e899e7399..d1e622635f 100644
---- a/meta/recipes-support/libassuan/libassuan_2.5.6.bb
-+++ b/meta/recipes-support/libassuan/libassuan_2.5.7.bb
-@@ -20,7 +20,7 @@ SRC_URI = "${GNUPG_MIRROR}/libassuan/libassuan-${PV}.tar.bz2 \
-            file://libassuan-add-pkgconfig-support.patch \
-           "
- 
--SRC_URI[sha256sum] = "e9fd27218d5394904e4e39788f9b1742711c3e6b41689a31aa3380bd5aa4f426"
-+SRC_URI[sha256sum] = "0103081ffc27838a2e50479153ca105e873d3d65d8a9593282e9c94c7e6afb76"
- 
- BINCONFIG = "${bindir}/libassuan-config"
- 
--- 
-2.42.0
-
-
---===============3000483951242938293==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/libassuan: PKGV changed from 2.5.6 [default] to 2.5.7 [default]
-packages/core2-64-poky-linux/libassuan: SRC_URI changed from "https://www.gnupg.org/ftp/gcrypt/libassuan/libassuan-2.5.6.tar.bz2 file://libassuan-add-pkgconfig-support.patch" to "https://www.gnupg.org/ftp/gcrypt/libassuan/libassuan-2.5.7.tar.bz2 file://libassuan-add-pkgconfig-support.patch"
-packages/core2-64-poky-linux/libassuan: PV changed from "2.5.6" to "2.5.7"
-packages/core2-64-poky-linux/libassuan/libassuan-dbg: PKGV changed from 2.5.6 [default] to 2.5.7 [default]
-packages/core2-64-poky-linux/libassuan/libassuan-dbg: FILELIST: removed "/usr/lib/.debug/libassuan.so.0.8.6", added "/usr/lib/.debug/libassuan.so.0.8.7"
-packages/core2-64-poky-linux/libassuan/libassuan-dbg: PV changed from "2.5.6" to "2.5.7"
-packages/core2-64-poky-linux/libassuan/libassuan-dev: PKGV changed from 2.5.6 [default] to 2.5.7 [default]
-packages/core2-64-poky-linux/libassuan/libassuan-dev: PV changed from "2.5.6" to "2.5.7"
-packages/core2-64-poky-linux/libassuan/libassuan-doc: PKGV changed from 2.5.6 [default] to 2.5.7 [default]
-packages/core2-64-poky-linux/libassuan/libassuan-doc: PV changed from "2.5.6" to "2.5.7"
-packages/core2-64-poky-linux/libassuan/libassuan-doc: PKGSIZE changed from 157500 to 157539 (+0%)
-packages/core2-64-poky-linux/libassuan/libassuan-locale: PKGV changed from 2.5.6 [default] to 2.5.7 [default]
-packages/core2-64-poky-linux/libassuan/libassuan-locale: PV changed from "2.5.6" to "2.5.7"
-packages/core2-64-poky-linux/libassuan/libassuan-src: PKGV changed from 2.5.6 [default] to 2.5.7 [default]
-packages/core2-64-poky-linux/libassuan/libassuan-src: PV changed from "2.5.6" to "2.5.7"
-packages/core2-64-poky-linux/libassuan/libassuan-staticdev: PKGV changed from 2.5.6 [default] to 2.5.7 [default]
-packages/core2-64-poky-linux/libassuan/libassuan-staticdev: PV changed from "2.5.6" to "2.5.7"
-packages/core2-64-poky-linux/libassuan/libassuan: PKGV changed from 2.5.6 [default] to 2.5.7 [default]
-packages/core2-64-poky-linux/libassuan/libassuan: FILELIST: removed "/usr/lib/libassuan.so.0.8.6", added "/usr/lib/libassuan.so.0.8.7"
-packages/core2-64-poky-linux/libassuan/libassuan: PV changed from "2.5.6" to "2.5.7"
-Changes to packages/core2-64-poky-linux/libassuan (sysroot):
-  /usr/lib/libassuan.so.0 changed symlink target from libassuan.so.0.8.6 to libassuan.so.0.8.7
-  /usr/lib/libassuan.so changed symlink target from libassuan.so.0.8.6 to libassuan.so.0.8.7
-  /usr/lib/libassuan.so.0.8.6 moved to /usr/lib/libassuan.so.0.8.7
-
---===============3000483951242938293==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-64-poky-linux/libassuan/libassuan: FILELIST: removed "/usr/lib/libassuan.so.0.8.6", added "/usr/lib/libassuan.so.0.8.7"
-Changes to packages/core2-64-poky-linux/libassuan (sysroot):
-  /usr/lib/libassuan.so.0 changed symlink target from libassuan.so.0.8.6 to libassuan.so.0.8.7
-  /usr/lib/libassuan.so changed symlink target from libassuan.so.0.8.6 to libassuan.so.0.8.7
-  /usr/lib/libassuan.so.0.8.6 moved to /usr/lib/libassuan.so.0.8.7
-
---===============3000483951242938293==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libassuan-upgrade-2.5.6-2.5.7.patch"
-
-RnJvbSA0NzdhMmMyZWRmNGZkYjljYzIxMWI2OGUyNTUyZGFmODVhOWY2NTgyIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTUgTWFyIDIwMjQgMTU6Mzk6MDEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJhc3N1YW46IHVwZ3JhZGUgMi41LjYgLT4gMi41LjcKCi0tLQogLi4uL2xpYmFzc3Vhbi9saWJh
-c3N1YW4tYWRkLXBrZ2NvbmZpZy1zdXBwb3J0LnBhdGNoICAgICAgIHwgOCArKysrKy0tLQogLi4u
-L2xpYmFzc3Vhbi97bGliYXNzdWFuXzIuNS42LmJiID0+IGxpYmFzc3Vhbl8yLjUuNy5iYn0gIHwg
-MiArLQogMiBmaWxlcyBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0pCiBy
-ZW5hbWUgbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliYXNzdWFuL3tsaWJhc3N1YW5fMi41LjYuYmIg
-PT4gbGliYXNzdWFuXzIuNS43LmJifSAoOTMlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1z
-dXBwb3J0L2xpYmFzc3Vhbi9saWJhc3N1YW4vbGliYXNzdWFuLWFkZC1wa2djb25maWctc3VwcG9y
-dC5wYXRjaCBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmFzc3Vhbi9saWJhc3N1YW4vbGliYXNz
-dWFuLWFkZC1wa2djb25maWctc3VwcG9ydC5wYXRjaAppbmRleCBmZTgxMTI1NGQzLi5hMGZjNmNm
-NzU3IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJhc3N1YW4vbGliYXNzdWFu
-L2xpYmFzc3Vhbi1hZGQtcGtnY29uZmlnLXN1cHBvcnQucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVz
-LXN1cHBvcnQvbGliYXNzdWFuL2xpYmFzc3Vhbi9saWJhc3N1YW4tYWRkLXBrZ2NvbmZpZy1zdXBw
-b3J0LnBhdGNoCkBAIC0xLDMgKzEsOCBAQAorRnJvbSBkOTFiNDZiYTJlZDY2Nzc5MjFjNzkwMmFi
-ZTIyZmE3YWYxMWUzMDhkIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbTogQ2hlbiBRaSA8
-UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgorRGF0ZTogVGh1LCAyMiBNYXkgMjAxNCAxMDo1MDowMCAr
-MDEwMAorU3ViamVjdDogW1BBVENIXSBsaWJhc3N1YW46IEltcHJvdmUgcGtnY29uZmlnIHN1cHBv
-cnQKKwogQWRkIHBrZ2NvbmZpZyBzdXBwb3J0IHRvIGxpYmFzc3Vhbi4KIFRoaXMgcGF0Y2ggaXMg
-cmVqZWN0ZWQgYnkgdXBzdHJlYW0gZm9yIHRoZSByZWFzb24gYmVsb3c6CiBUaGV5IHRoaW5rIHBr
-Z2NvbmZpZyBhZGRzIG5vIHBvcnRhYmlsaXR5IGFuZCBtYWludGFpbmluZyB0aGVtIGlzIG5vdCB3
-b3J0aHdoaWxlLgpAQCAtMTMwLDYgKzEzNSwzIEBAIGluZGV4IGRmNTA0ODQuLjM4MGE0OGEgMTAw
-NjQ0CiAgICAgIGlmZWxzZShbJDNdLCAsIDosIFskM10pCiAgICBmaQogICAgQUNfU1VCU1QoTElC
-QVNTVUFOX0NGTEFHUykKLS0tIAotMi4yNS4xCi0KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1z
-dXBwb3J0L2xpYmFzc3Vhbi9saWJhc3N1YW5fMi41LjYuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9y
-dC9saWJhc3N1YW4vbGliYXNzdWFuXzIuNS43LmJiCnNpbWlsYXJpdHkgaW5kZXggOTMlCnJlbmFt
-ZSBmcm9tIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmFzc3Vhbi9saWJhc3N1YW5fMi41LjYuYmIK
-cmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmFzc3Vhbi9saWJhc3N1YW5fMi41Ljcu
-YmIKaW5kZXggN2U4OTllNzM5OS4uZDFlNjIyNjM1ZiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
-LXN1cHBvcnQvbGliYXNzdWFuL2xpYmFzc3Vhbl8yLjUuNi5iYgorKysgYi9tZXRhL3JlY2lwZXMt
-c3VwcG9ydC9saWJhc3N1YW4vbGliYXNzdWFuXzIuNS43LmJiCkBAIC0yMCw3ICsyMCw3IEBAIFNS
-Q19VUkkgPSAiJHtHTlVQR19NSVJST1J9L2xpYmFzc3Vhbi9saWJhc3N1YW4tJHtQVn0udGFyLmJ6
-MiBcCiAgICAgICAgICAgIGZpbGU6Ly9saWJhc3N1YW4tYWRkLXBrZ2NvbmZpZy1zdXBwb3J0LnBh
-dGNoIFwKICAgICAgICAgICAiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJlOWZkMjcyMThkNTM5
-NDkwNGU0ZTM5Nzg4ZjliMTc0MjcxMWMzZTZiNDE2ODlhMzFhYTMzODBiZDVhYTRmNDI2IgorU1JD
-X1VSSVtzaGEyNTZzdW1dID0gIjAxMDMwODFmZmMyNzgzOGEyZTUwNDc5MTUzY2ExMDVlODczZDNk
-NjVkOGE5NTkzMjgyZTljOTRjN2U2YWZiNzYiCiAKIEJJTkNPTkZJRyA9ICIke2JpbmRpcn0vbGli
-YXNzdWFuLWNvbmZpZyIKIAotLSAKMi40Mi4wCgo=
-
---===============3000483951242938293==--
+--===============5034345739375696101==--
 
