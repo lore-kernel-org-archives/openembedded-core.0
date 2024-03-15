@@ -2,48 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33DAAC54F23
-	for <webhook@archiver.kernel.org>; Fri, 15 Mar 2024 17:00:16 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web11.1283.1710522014967776490
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04082C54EE4
+	for <webhook@archiver.kernel.org>; Fri, 15 Mar 2024 17:00:15 +0000 (UTC)
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.1267.1710522011054565494
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Mar 2024 10:00:15 -0700
+ Fri, 15 Mar 2024 10:00:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Gs8gv9Hy;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=lmoatQHl;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018e430e9a10-6704b8a3-45d0-497d-b628-9cb4b2f0355a-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=C8aYidxK;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=P7yhLyE2;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101018e430e8faf-ab8d6333-a06f-4b5b-b673-d953e46341ab-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1710522014;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=jK0eojS2IWHBxXxamzJItz3dYL/6lzONr4qyWWlaxoU=;
-	b=Gs8gv9HyUoNKkos5Z8/ZPUXRyOQon4SvYT5wAiDc7+FaXaHNPTWoH847olkZhGWv
-	1E5BwFXXzjkcBTqnAWbEB+GNMDTGGohVQSdi3Ymlp/355wvzw7qTbsnMWyROgT/oALV
-	+xjkd7ff8in/Bs1e4lzNDK9kxbZiA6RSL3MbF6HQ=
+	t=1710522012;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=BCX5lruYgQG/XJcRZcx6KmEpsYOfFfNmVxgogEM48cU=;
+	b=C8aYidxKpiadI9Cv5xGFBPGCxiG2SLypl8q8wmBvmxrAKg12efLvSj30ifu8WbPh
+	tZurbYCUPJGrsfCNZ+Husp/3ChylE9F7g81OCIsnIQLHbsRRrENrNi5QMqP42BgwH/z
+	DRVWjI3XjCCkELjvtACOWJNzLy3kAY1NY1z0LDbE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1710522014;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=jK0eojS2IWHBxXxamzJItz3dYL/6lzONr4qyWWlaxoU=;
-	b=lmoatQHlc5JvzFSfOC5nIsWulun3U5JTKfJgAM9YmcXJHPLgsu7bxH5VnUrJo7We
-	+76G3+Bm3YKP/oNXgQ8acOC6owdz7qWriepreL9YSD8N+nIcaTb29f/UP7aLxAcJNAZ
-	stgWvZ6SRqH8dF7zg6EqG+B2PqNpixmUY3kzw2hc=
-Content-Type: multipart/mixed; boundary="===============5388788078465686227=="
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1710522012;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=BCX5lruYgQG/XJcRZcx6KmEpsYOfFfNmVxgogEM48cU=;
+	b=P7yhLyE2+Bj6wi4imI3e/qh6u/Yef6d84LND2WAb41Tntg9wSNy1aG9iRmb/T4ox
+	2jRV9keEJX0GAg6Rqb2obvxlRjiEc45+zjKxZMuqwYRlH8hpAn5WosDG6B47+OEcc5q
+	F59vpc0DPH9TDNBW/SfaKxuT0ar3KqMW0F7lypcw=
+Content-Type: multipart/mixed; boundary="===============8956772331044573777=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] pango: upgrading to 1.52.1 SUCCEEDED
-Message-ID: <0101018e430e9a10-6704b8a3-45d0-497d-b628-9cb4b2f0355a-000000@us-west-2.amazonses.com>
-Date: Fri, 15 Mar 2024 17:00:14 +0000
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-setuptools: upgrading to 69.2.0 SUCCEEDED
+Message-ID: <0101018e430e8faf-ab8d6333-a06f-4b5b-b673-d953e46341ab-000000@us-west-2.amazonses.com>
+Date: Fri, 15 Mar 2024 17:00:11 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.03.15-54.240.27.30
+X-SES-Outgoing: 2024.03.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 15 Mar 2024 17:00:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197216
+ <openembedded-core@lists.openembedded.org>; Fri, 15 Mar 2024 17:00:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197192
 
---===============5388788078465686227==
+--===============8956772331044573777==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *pango* to *1.52.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-setuptools* to *69.2.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-pango-upgrade-1.52.0-1.52.1.patch
+    - apply the patch: git am 0001-python3-setuptools-upgrade-69.1.1-69.2.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,135 +71,401 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 5e57c13bab182fe94bb974b0a064d2d783356133 Mon Sep 17 00:00:00 2001
+From a3bd3946cdc64705d15764f690ce7b1843e9cfdf Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Mar 2024 12:29:06 +0000
-Subject: [PATCH] pango: upgrade 1.52.0 -> 1.52.1
+Date: Fri, 15 Mar 2024 09:08:54 +0000
+Subject: [PATCH] python3-setuptools: upgrade 69.1.1 -> 69.2.0
 
 ---
- .../pango/pango/0001-Skip-running-test-layout-test.patch     | 5 +----
- .../pango/{pango_1.52.0.bb => pango_1.52.1.bb}               | 2 +-
- 2 files changed, 2 insertions(+), 5 deletions(-)
- rename meta/recipes-graphics/pango/{pango_1.52.0.bb => pango_1.52.1.bb} (94%)
+ ...istutils-sysconfig.py-make-it-possible-to-substite.patch | 2 +-
+ ...01-conditionally-do-not-fetch-code-by-easy_install.patch | 6 +++---
+ ...n3-setuptools_69.1.1.bb => python3-setuptools_69.2.0.bb} | 2 +-
+ 3 files changed, 5 insertions(+), 5 deletions(-)
+ rename meta/recipes-devtools/python/{python3-setuptools_69.1.1.bb => python3-setuptools_69.2.0.bb} (94%)
 
-diff --git a/meta/recipes-graphics/pango/pango/0001-Skip-running-test-layout-test.patch b/meta/recipes-graphics/pango/pango/0001-Skip-running-test-layout-test.patch
-index ec7fb4727e..675838922b 100644
---- a/meta/recipes-graphics/pango/pango/0001-Skip-running-test-layout-test.patch
-+++ b/meta/recipes-graphics/pango/pango/0001-Skip-running-test-layout-test.patch
+diff --git a/meta/recipes-devtools/python/python3-setuptools/0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch b/meta/recipes-devtools/python/python3-setuptools/0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch
+index 0f6c9d250d..74b8374724 100644
+--- a/meta/recipes-devtools/python/python3-setuptools/0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch
++++ b/meta/recipes-devtools/python/python3-setuptools/0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch
 @@ -1,4 +1,4 @@
--From b9bfe3a79f165682a6db3d7ee1928365e93b1ccf Mon Sep 17 00:00:00 2001
-+From f029fafbe6b60d396ce4c6219497225467c57bc4 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Wed, 13 Apr 2022 19:39:29 -0700
- Subject: [PATCH] Skip running test-layout test
-@@ -40,6 +40,3 @@ index 1139e4f..b47a066 100644
- -  return g_test_run ();
- +  return 77;
-  }
---- 
--2.35.2
--
-diff --git a/meta/recipes-graphics/pango/pango_1.52.0.bb b/meta/recipes-graphics/pango/pango_1.52.1.bb
+-From d393759315b189a738e4b6a2ce31dc18dbbfae29 Mon Sep 17 00:00:00 2001
++From 0124a03cc54786aca1ab7e533c60519b50375b70 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Wed, 11 May 2022 21:41:14 +0200
+ Subject: [PATCH] _distutils/sysconfig.py: make it possible to substite the
+diff --git a/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch b/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch
+index 2a3c71fb62..080d39fdcc 100644
+--- a/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch
++++ b/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch
+@@ -1,4 +1,4 @@
+-From 40648dfa770f9f7b9b9efa501c9ef7af96be9f2d Mon Sep 17 00:00:00 2001
++From 6c329b73ab285c836cb55e380e9cbdc815c7c59b Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Tue, 17 Jul 2018 10:13:38 +0800
+ Subject: [PATCH] conditionally do not fetch code by easy_install
+@@ -14,10 +14,10 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+  1 file changed, 5 insertions(+)
+ 
+ diff --git a/setuptools/command/easy_install.py b/setuptools/command/easy_install.py
+-index 5d6fd5c..377e575 100644
++index cc0c409..948bcf2 100644
+ --- a/setuptools/command/easy_install.py
+ +++ b/setuptools/command/easy_install.py
+-@@ -676,6 +676,11 @@ class easy_install(Command):
++@@ -671,6 +671,11 @@ class easy_install(Command):
+              os.path.exists(tmpdir) and _rmtree(tmpdir)
+  
+      def easy_install(self, spec, deps=False):
+diff --git a/meta/recipes-devtools/python/python3-setuptools_69.1.1.bb b/meta/recipes-devtools/python/python3-setuptools_69.2.0.bb
 similarity index 94%
-rename from meta/recipes-graphics/pango/pango_1.52.0.bb
-rename to meta/recipes-graphics/pango/pango_1.52.1.bb
-index 7505ff9279..a67c3791a2 100644
---- a/meta/recipes-graphics/pango/pango_1.52.0.bb
-+++ b/meta/recipes-graphics/pango/pango_1.52.1.bb
-@@ -23,7 +23,7 @@ SRC_URI += "file://run-ptest \
-            file://0001-Skip-running-test-layout-test.patch \
-            "
+rename from meta/recipes-devtools/python/python3-setuptools_69.1.1.bb
+rename to meta/recipes-devtools/python/python3-setuptools_69.2.0.bb
+index 77d4e0aa03..897398afc5 100644
+--- a/meta/recipes-devtools/python/python3-setuptools_69.1.1.bb
++++ b/meta/recipes-devtools/python/python3-setuptools_69.2.0.bb
+@@ -11,7 +11,7 @@ SRC_URI:append:class-native = " file://0001-conditionally-do-not-fetch-code-by-e
+ SRC_URI += " \
+             file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch"
  
--SRC_URI[archive.sha256sum] = "1ec8518879c3f43224499f08e8ecbbdf4a5d302ed6cd3853b4fa949f82b89a9b"
-+SRC_URI[archive.sha256sum] = "58728a0a2d86f60761208df9493033d18ecb2497abac80ee1a274ad0c6e55f0f"
+-SRC_URI[sha256sum] = "5c0806c7d9af348e6dd3777b4f4dbb42c7ad85b190104837488eab9a7c945cf8"
++SRC_URI[sha256sum] = "0ff4183f8f42cd8fa3acea16c45205521a4ef28f73c6391d8a25e92893134f2e"
  
- DEPENDS = "glib-2.0 glib-2.0-native fontconfig freetype virtual/libiconv cairo harfbuzz fribidi"
+ DEPENDS += "python3"
  
 -- 
 2.42.0
 
 
---===============5388788078465686227==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-pango-upgrade-1.52.0-1.52.1.patch"
-
-RnJvbSA1ZTU3YzEzYmFiMTgyZmU5NGJiOTc0YjBhMDY0ZDJkNzgzMzU2MTMzIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTUgTWFyIDIwMjQgMTI6Mjk6MDYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-YW5nbzogdXBncmFkZSAxLjUyLjAgLT4gMS41Mi4xCgotLS0KIC4uLi9wYW5nby9wYW5nby8wMDAx
-LVNraXAtcnVubmluZy10ZXN0LWxheW91dC10ZXN0LnBhdGNoICAgICB8IDUgKy0tLS0KIC4uLi9w
-YW5nby97cGFuZ29fMS41Mi4wLmJiID0+IHBhbmdvXzEuNTIuMS5iYn0gICAgICAgICAgICAgICB8
-IDIgKy0KIDIgZmlsZXMgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCA1IGRlbGV0aW9ucygtKQog
-cmVuYW1lIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9wYW5nby97cGFuZ29fMS41Mi4wLmJiID0+IHBh
-bmdvXzEuNTIuMS5iYn0gKDk0JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
-cGFuZ28vcGFuZ28vMDAwMS1Ta2lwLXJ1bm5pbmctdGVzdC1sYXlvdXQtdGVzdC5wYXRjaCBiL21l
-dGEvcmVjaXBlcy1ncmFwaGljcy9wYW5nby9wYW5nby8wMDAxLVNraXAtcnVubmluZy10ZXN0LWxh
-eW91dC10ZXN0LnBhdGNoCmluZGV4IGVjN2ZiNDcyN2UuLjY3NTgzODkyMmIgMTAwNjQ0Ci0tLSBh
-L21ldGEvcmVjaXBlcy1ncmFwaGljcy9wYW5nby9wYW5nby8wMDAxLVNraXAtcnVubmluZy10ZXN0
-LWxheW91dC10ZXN0LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9wYW5nby9wYW5n
-by8wMDAxLVNraXAtcnVubmluZy10ZXN0LWxheW91dC10ZXN0LnBhdGNoCkBAIC0xLDQgKzEsNCBA
-QAotRnJvbSBiOWJmZTNhNzlmMTY1NjgyYTZkYjNkN2VlMTkyODM2NWU5M2IxY2NmIE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQorRnJvbSBmMDI5ZmFmYmU2YjYwZDM5NmNlNGM2MjE5NDk3MjI1NDY3
-YzU3YmM0IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogS2hlbSBSYWogPHJhai5raGVt
-QGdtYWlsLmNvbT4KIERhdGU6IFdlZCwgMTMgQXByIDIwMjIgMTk6Mzk6MjkgLTA3MDAKIFN1Ympl
-Y3Q6IFtQQVRDSF0gU2tpcCBydW5uaW5nIHRlc3QtbGF5b3V0IHRlc3QKQEAgLTQwLDYgKzQwLDMg
-QEAgaW5kZXggMTEzOWU0Zi4uYjQ3YTA2NiAxMDA2NDQKIC0gIHJldHVybiBnX3Rlc3RfcnVuICgp
-OwogKyAgcmV0dXJuIDc3OwogIH0KLS0tIAotMi4zNS4yCi0KZGlmZiAtLWdpdCBhL21ldGEvcmVj
-aXBlcy1ncmFwaGljcy9wYW5nby9wYW5nb18xLjUyLjAuYmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhp
-Y3MvcGFuZ28vcGFuZ29fMS41Mi4xLmJiCnNpbWlsYXJpdHkgaW5kZXggOTQlCnJlbmFtZSBmcm9t
-IG1ldGEvcmVjaXBlcy1ncmFwaGljcy9wYW5nby9wYW5nb18xLjUyLjAuYmIKcmVuYW1lIHRvIG1l
-dGEvcmVjaXBlcy1ncmFwaGljcy9wYW5nby9wYW5nb18xLjUyLjEuYmIKaW5kZXggNzUwNWZmOTI3
-OS4uYTY3YzM3OTFhMiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BhbmdvL3Bh
-bmdvXzEuNTIuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGFuZ28vcGFuZ29fMS41
-Mi4xLmJiCkBAIC0yMyw3ICsyMyw3IEBAIFNSQ19VUkkgKz0gImZpbGU6Ly9ydW4tcHRlc3QgXAog
-ICAgICAgICAgICBmaWxlOi8vMDAwMS1Ta2lwLXJ1bm5pbmctdGVzdC1sYXlvdXQtdGVzdC5wYXRj
-aCBcCiAgICAgICAgICAgICIKIAotU1JDX1VSSVthcmNoaXZlLnNoYTI1NnN1bV0gPSAiMWVjODUx
-ODg3OWMzZjQzMjI0NDk5ZjA4ZThlY2JiZGY0YTVkMzAyZWQ2Y2QzODUzYjRmYTk0OWY4MmI4OWE5
-YiIKK1NSQ19VUklbYXJjaGl2ZS5zaGEyNTZzdW1dID0gIjU4NzI4YTBhMmQ4NmY2MDc2MTIwOGRm
-OTQ5MzAzM2QxOGVjYjI0OTdhYmFjODBlZTFhMjc0YWQwYzZlNTVmMGYiCiAKIERFUEVORFMgPSAi
-Z2xpYi0yLjAgZ2xpYi0yLjAtbmF0aXZlIGZvbnRjb25maWcgZnJlZXR5cGUgdmlydHVhbC9saWJp
-Y29udiBjYWlybyBoYXJmYnV6eiBmcmliaWRpIgogCi0tIAoyLjQyLjAKCg==
-
---===============5388788078465686227==
+--===============8956772331044573777==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/pango: PKGV changed from 1.52.0 [default] to 1.52.1 [default]
-packages/core2-64-poky-linux/pango: SRC_URI changed from "https://download.gnome.org/sources//pango/1.52/pango-1.52.0.tar.xz;name=archive file://run-ptest file://0001-Skip-running-test-layout-test.patch" to "https://download.gnome.org/sources//pango/1.52/pango-1.52.1.tar.xz;name=archive file://run-ptest file://0001-Skip-running-test-layout-test.patch"
-packages/core2-64-poky-linux/pango: PV changed from "1.52.0" to "1.52.1"
-packages/core2-64-poky-linux/pango/pango-dbg: PKGSIZE changed from 3051808 to 3051800 (-0%)
-packages/core2-64-poky-linux/pango/pango-dbg: FILELIST: removed "/usr/lib/.debug/libpangocairo-1.0.so.0.5200.0 /usr/lib/.debug/libpangoft2-1.0.so.0.5200.0 /usr/lib/.debug/libpango-1.0.so.0.5200.0 /usr/lib/.debug/libpangoxft-1.0.so.0.5200.0", added "/usr/lib/.debug/libpangocairo-1.0.so.0.5200.1 /usr/lib/.debug/libpangoxft-1.0.so.0.5200.1 /usr/lib/.debug/libpangoft2-1.0.so.0.5200.1 /usr/lib/.debug/libpango-1.0.so.0.5200.1"
-packages/core2-64-poky-linux/pango/pango-dbg: PKGV changed from 1.52.0 [default] to 1.52.1 [default]
-packages/core2-64-poky-linux/pango/pango-dbg: PV changed from "1.52.0" to "1.52.1"
-packages/core2-64-poky-linux/pango/pango-dev: PKGV changed from 1.52.0 [default] to 1.52.1 [default]
-packages/core2-64-poky-linux/pango/pango-dev: PV changed from "1.52.0" to "1.52.1"
-packages/core2-64-poky-linux/pango/pango-doc: PKGV changed from 1.52.0 [default] to 1.52.1 [default]
-packages/core2-64-poky-linux/pango/pango-doc: PV changed from "1.52.0" to "1.52.1"
-packages/core2-64-poky-linux/pango/pango-locale: PKGV changed from 1.52.0 [default] to 1.52.1 [default]
-packages/core2-64-poky-linux/pango/pango-locale: PV changed from "1.52.0" to "1.52.1"
-packages/core2-64-poky-linux/pango/pango-ptest: PKGV changed from 1.52.0 [default] to 1.52.1 [default]
-packages/core2-64-poky-linux/pango/pango-ptest: PV changed from "1.52.0" to "1.52.1"
-packages/core2-64-poky-linux/pango/pango-src: PKGV changed from 1.52.0 [default] to 1.52.1 [default]
-packages/core2-64-poky-linux/pango/pango-src: PV changed from "1.52.0" to "1.52.1"
-packages/core2-64-poky-linux/pango/pango-staticdev: PKGV changed from 1.52.0 [default] to 1.52.1 [default]
-packages/core2-64-poky-linux/pango/pango-staticdev: PV changed from "1.52.0" to "1.52.1"
-packages/core2-64-poky-linux/pango/pango: FILELIST: removed "/usr/lib/libpangoxft-1.0.so.0.5200.0 /usr/lib/libpangocairo-1.0.so.0.5200.0 /usr/lib/libpango-1.0.so.0.5200.0 /usr/lib/libpangoft2-1.0.so.0.5200.0", added "/usr/lib/libpangocairo-1.0.so.0.5200.1 /usr/lib/libpangoxft-1.0.so.0.5200.1 /usr/lib/libpangoft2-1.0.so.0.5200.1 /usr/lib/libpango-1.0.so.0.5200.1"
-packages/core2-64-poky-linux/pango/pango: PKGV changed from 1.52.0 [default] to 1.52.1 [default]
-packages/core2-64-poky-linux/pango/pango: PV changed from "1.52.0" to "1.52.1"
-Changes to packages/core2-64-poky-linux/pango (sysroot):
-  /usr/lib/libpango-1.0.so.0 changed symlink target from libpango-1.0.so.0.5200.0 to libpango-1.0.so.0.5200.1
-  /usr/lib/libpangocairo-1.0.so.0 changed symlink target from libpangocairo-1.0.so.0.5200.0 to libpangocairo-1.0.so.0.5200.1
-  /usr/lib/libpangoft2-1.0.so.0 changed symlink target from libpangoft2-1.0.so.0.5200.0 to libpangoft2-1.0.so.0.5200.1
-  /usr/lib/libpangoxft-1.0.so.0 changed symlink target from libpangoxft-1.0.so.0.5200.0 to libpangoxft-1.0.so.0.5200.1
-  /usr/lib/libpango-1.0.so.0.5200.0 moved to /usr/lib/libpango-1.0.so.0.5200.1
-  /usr/lib/libpangocairo-1.0.so.0.5200.0 moved to /usr/lib/libpangocairo-1.0.so.0.5200.1
-  /usr/lib/libpangoft2-1.0.so.0.5200.0 moved to /usr/lib/libpangoft2-1.0.so.0.5200.1
-  /usr/lib/libpangoxft-1.0.so.0.5200.0 moved to /usr/lib/libpangoxft-1.0.so.0.5200.1
+packages/core2-64-poky-linux/python3-setuptools: PKGV changed from 69.1.1 [default] to 69.2.0 [default]
+packages/core2-64-poky-linux/python3-setuptools: PV changed from "69.1.1" to "69.2.0"
+packages/core2-64-poky-linux/python3-setuptools: SRC_URI changed from "https://files.pythonhosted.org/packages/source/s/setuptools/setuptools-69.1.1.tar.gz;downloadfilename=setuptools-69.1.1.tar.gz file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch" to "https://files.pythonhosted.org/packages/source/s/setuptools/setuptools-69.2.0.tar.gz;downloadfilename=setuptools-69.2.0.tar.gz file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch"
+packages/core2-64-poky-linux/python3-setuptools/python3-pkg-resources: PKGV changed from 69.1.1 [default] to 69.2.0 [default]
+packages/core2-64-poky-linux/python3-setuptools/python3-pkg-resources: PV changed from "69.1.1" to "69.2.0"
+packages/core2-64-poky-linux/python3-setuptools/python3-pkg-resources: PKGSIZE changed from 1390277 to 1390285 (+0%)
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-dbg: PKGV changed from 69.1.1 [default] to 69.2.0 [default]
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-dbg: PV changed from "69.1.1" to "69.2.0"
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-dev: PKGV changed from 69.1.1 [default] to 69.2.0 [default]
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-dev: PV changed from "69.1.1" to "69.2.0"
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-doc: PKGV changed from 69.1.1 [default] to 69.2.0 [default]
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-doc: PV changed from "69.1.1" to "69.2.0"
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-locale: PKGV changed from 69.1.1 [default] to 69.2.0 [default]
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-locale: PV changed from "69.1.1" to "69.2.0"
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-src: PKGV changed from 69.1.1 [default] to 69.2.0 [default]
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-src: PV changed from "69.1.1" to "69.2.0"
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-staticdev: PKGV changed from 69.1.1 [default] to 69.2.0 [default]
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-staticdev: PV changed from "69.1.1" to "69.2.0"
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools: PKGV changed from 69.1.1 [default] to 69.2.0 [default]
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools: PV changed from "69.1.1" to "69.2.0"
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools: PKGSIZE changed from 10370031 to 4553527 (-56%)
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools: FILELIST: directory renamed /usr/lib/python3.12/site-packages/setuptools-69.1.1.dist-info -> /usr/lib/python3.12/site-packages/setuptools-69.2.0.dist-info, removed "/usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/__pycache__/_common.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/py.typed /usr/lib/python3.12/site-packages/build/lib/setuptools/command/easy_install.py /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/develop.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/bdist_rpm.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/unicode_utils.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/namespaces.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/_tokeni
+ zer.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_path.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/config.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/_distutils_hack/__pycache__/override.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/glob.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/debug.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/spawn.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/utils.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/requirements.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/_msvccompiler.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/tags.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/tomli/py.typed /usr/lib/python3
+ .12/site-packages/build/lib/setuptools/command/__pycache__/install.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/msvc9compiler.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/abc.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/tomli/__pycache__/_parser.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools/more.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools/__init__.pyi /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/egg_info.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/upload_docs.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/__init__.py /usr/lib/python3.12/site-packages/build/lib/setuptools/namespaces.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools/__pycache
+ __/more.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/log.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/build_clib.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/build_ext.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/py.typed /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/versionpredicate.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/jaraco/functools.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/_compat.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/build_clib.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/_tokenizer.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/modified.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/
+ pkg_resources/_vendor/packaging/version.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/tomli/_parser.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/unix.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/tomli/_re.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/requirements.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/utils.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/dist.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/install_scripts.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/__pycache__/_itertools.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/__pycache__/_adapters.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__
+ /_parser.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/jaraco/context.py /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/install_scripts.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/__pycache__/fastjsonschema_exceptions.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/simple.py /usr/lib/python3.12/site-packages/build/lib/setuptools/dep_util.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_itertools.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__pycache__/_legacy.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/install_data.py /usr/lib/python3.12/site-packages/build/lib/setuptools/command/rotate.py /usr/lib/python3.12/site-packages/build/lib/setuptools/errors.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__p
+ ycache__/unixccompiler.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/jaraco/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/_manylinux.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/_musllinux.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/bdist.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/fancy_getopt.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/sdist.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_importlib.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/_elffile.py /usr/lib/python3.1
+ 2/site-packages/build/lib/setuptools/_vendor/__pycache__/ordered_set.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/text_file.py /usr/lib/python3.12/site-packages/build/lib/setuptools/config/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/alias.py /usr/lib/python3.12/site-packages/build/lib/setuptools/command/editable_wheel.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/jaraco/__init__.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/metadata.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/__pycache__/zipp.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/version.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/config/pyprojecttoml.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/py.typed /usr/lib/python3.
+ 12/site-packages/build/lib/setuptools/_vendor/importlib_resources/readers.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/bdist.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/build.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/check.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/clean.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/sdist.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/metadata.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/jaraco/__pycache__/context.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/_adapters.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/_collections.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_imp.py /usr/lib/python3.
+ 12/site-packages/build/lib/setuptools/config/_validate_pyproject/formats.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/_requirestxt.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/__pycache__/readers.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/log.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools/__pycache__/recipes.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/install_headers.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/cygwinccompiler.py /usr/lib/python3.12/site-packages/build/lib/setuptools/version.py /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/_itertools.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_n
+ ormalization.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/__pycache__/abc.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/_musllinux.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/_structures.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/logging.py /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/_imp.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/dist.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/glob.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/msvc.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/extension.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/depends.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/
+ _vendor/platformdirs/android.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/_elffile.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/requirements.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/config.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/upload.py /usr/lib/python3.12/site-packages/build/lib/setuptools/compat/__pycache__/py310.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/compat/__pycache__/py311.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/install_egg_info.py /usr/lib/python3.12/site-packages/build/lib/setuptools/command/build_clib.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/_legacy.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/build.cpython-312.pyc /usr/lib/python3.12/site-packages/build/l
+ ib/setuptools/command/dist_info.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/abc.py /usr/lib/python3.12/site-packages/build/lib/setuptools/compat/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/easy_install.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/py38compat.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/py39compat.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/archive_util.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/_manylinux.py /usr/lib/python3.12/site-packages/build/lib/setuptools/launch.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools/more.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/__pycache__/macos.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_
+ metadata/_compat.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/bdist_dumb.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/_adapters.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/markers.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/py39compat.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/zipp.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/_macos_compat.py /usr/lib/python3.12/site-packages/build/lib/_distutils_hack/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/build_meta.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/bdist_rpm.py /usr/lib/python3.12/site-packages/build/lib/setuptools/compat/py311.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/_
+ structures.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/_compat.py /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/fastjsonschema_validations.py /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/_importlib.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/archive_util.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/tomli/__pycache__/_types.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_apply_pyprojecttoml.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/__init__.py /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/macos.py /usr/lib/python3.12/site-packages/build/lib/setuptools/config/expand.py /usr/lib/python3.12/site-packages/build/lib/s
+ etuptools/_vendor/importlib_resources/simple.py /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/_core_metadata.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__pycache__/readers.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/__pycache__/unix.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__init__.py /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/error_reporting.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/archive_util.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/__pycache__/zipp.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/_parser.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/b
+ uild/lib/setuptools/__init__.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/_legacy.py /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/rotate.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/bdist_dumb.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/versionpredicate.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/install_lib.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/config/__pycache__/expand.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/register.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/tomli/__init__.py /usr/lib/python3.12/site-packages/build/lib/setuptools/package_index.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/version.py /usr/lib/python3.12/site-packages/build/
+ lib/setuptools/_distutils/__pycache__/extension.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/test.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/__pycache__/_adapters.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/tags.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/version.py /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/install_lib.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/config/setupcfg.py /usr/lib/python3.12/site-packages/build/lib/setuptools/modified.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/_functools.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/_itertools.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/ordered_set.py /usr/lib/python3.12/site-packages/build/l
+ ib/pkg_resources/_vendor/importlib_resources/__pycache__/_itertools.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__init__.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/dist.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/py.typed /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/install_lib.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/tomli/__pycache__/_re.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/dep_util.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/sdist.py /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/__pycache__/extra_validations.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__p
+ ycache__/cmd.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools/__init__.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/_functools.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/specifiers.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/_elffile.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/dir_util.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools/recipes.pyi /usr/lib/python3.12/site-packages/build/lib/setuptools/extension.py /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/__pycache__/formats.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/launch.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/ccompiler.cpython-312.pyc /usr/lib/python3.12/si
+ te-packages/build/lib/pkg_resources/_vendor/more_itertools/__init__.py /usr/lib/python3.12/site-packages/build/lib/setuptools/command/build.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/api.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/__pycache__/simple.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/archive_util.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/__pycache__/_compat.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/jaraco/__init__.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/tags.py /usr/lib/python3.12/site-packages/build/lib/_distutils_hack/__init__.py /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/test.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/depends.py /usr/lib/python3.12/site-packa
+ ges/build/lib/setuptools/_vendor/importlib_metadata/__pycache__/_py39compat.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/build_py.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/config.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/errors.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/jaraco/text/__init__.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/extern/__init__.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/sysconfig.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/requirements.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/jaraco/text/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/tomli/_types.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/_collections.py /usr/lib/python3.12/site-packages/build/lib
+ /setuptools/_vendor/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/editable_wheel.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/config/__pycache__/setupcfg.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/version.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/__pycache__/_meta.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/__init__.py /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/__pycache__/fastjsonschema_validations.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/egg_info.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/__init__.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/_msvccompiler.py /usr/lib/python3.12/site-packages/build/lib/setuptool
+ s/_distutils/command/__pycache__/clean.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/msvc9compiler.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/unixccompiler.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__pycache__/simple.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/compat/py310.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools/recipes.pyi /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/build_ext.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/markers.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/jaraco/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/extra_validations.py /usr/lib/python3.12/s
+ ite-packages/build/lib/setuptools/_vendor/more_itertools/more.pyi /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/build_meta.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/fastjsonschema_exceptions.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/__pycache__/windows.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/_log.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/core.py /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/_normalization.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/markers.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/dist.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/util.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/jaraco/functools.py /usr/lib/python3.12
+ /site-packages/build/lib/setuptools/_distutils/command/_framework_compat.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/__main__.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__init__.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__init__.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/upload.py /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/bdist_rpm.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/__init__.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/_py39compat.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/spec
+ ifiers.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/_modified.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/jaraco/context.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/_tokenizer.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/_log.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/sandbox.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/utils.py /usr/lib/python3.12/site-packages/build/lib/setuptools/warnings.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/version.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/spawn.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/b
+ uild/lib/setuptools/_distutils/__pycache__/debug.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/alias.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/build.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/sdist.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/metadata.py /usr/lib/python3.12/site-packages/build/lib/setuptools/monkey.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/install_egg_info.py /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/_entry_points.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/setopt.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/build_scripts.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/install_scripts.cpython-312.pyc /usr/lib/python3.1
+ 2/site-packages/build/lib/setuptools/extern/__init__.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/_itertools.py /usr/lib/python3.12/site-packages/build/lib/setuptools/command/build_py.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/build_scripts.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/__pycache__/error_reporting.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/upload_docs.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/jaraco/text/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/upload.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/build_clib.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/__init__.cpython-312
+ .pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/windows_support.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/specifiers.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/dep_util.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/dir_util.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/cygwinccompiler.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/sandbox.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/monkey.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/file_util.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/cmd.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/py.typed 
+ /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/logging.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools/recipes.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__pycache__/_adapters.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/build_py.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/setopt.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__pycache__/abc.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/_collections.py /usr/lib/python3.12/site-packages/build/lib/setuptools/wheel.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/filelist.cpython-312.pyc /usr/lib/python3.12/site-pac
+ kages/build/lib/pkg_resources/_vendor/jaraco/__pycache__/functools.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/config/__pycache__/pyprojecttoml.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/__pycache__/__main__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/_meta.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/_text.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/_elffile.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/install_lib.py /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__init__.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/tags.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__init__.py /usr/lib/python3.12/site-packages/build/lib/setuptools/
+ extern/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/py37compat.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/__pycache__/version.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools/recipes.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/__pycache__/android.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/unicode_utils.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/_manylinux.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/_manylinux.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/_musllinux.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/check.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/saveo
+ pts.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/__pycache__/_functools.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/_framework_compat.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools/py.typed /usr/lib/python3.12/site-packages/build/lib/setuptools/command/saveopts.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/install_data.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/__init__.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/_parser.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/typing_extensions.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/file_util.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/regi
+ ster.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/upload.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/_common.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/__pycache__/_legacy.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/markers.py /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/_requirestxt.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/build_py.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/errors.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/errors.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/dist_info.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/discovery.
+ py /usr/lib/python3.12/site-packages/build/lib/_distutils_hack/override.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/__pycache__/typing_extensions.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/py37compat.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__pycache__/_common.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__pycache__/_compat.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/sysconfig.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools/more.pyi /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__pycache__/_itertools.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/_musllinux.cpython-312.pyc /usr/lib/python3.12/site-packag
+ es/build/lib/pkg_resources/_vendor/platformdirs/py.typed /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/windows.py /usr/lib/python3.12/site-packages/build/lib/setuptools/command/register.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/__pycache__/_compat.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/extern/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/core.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/specifiers.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/jaraco/__pycache__/functools.cpython-312.pyc /usr/lib/p
+ ython3.12/site-packages/build/lib/setuptools/_entry_points.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/config.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools/__init__.pyi /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/install.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/compat/__init__.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/_structures.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/config/__pycache__/_apply_pyprojecttoml.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/discovery.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/_itertools.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/_structures.py /usr/lib/python3.12/site-packages/build/lib/setupto
+ ols/__pycache__/windows_support.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/install.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/utils.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/jaraco/__pycache__/context.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_reqs.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/build_ext.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/_adapters.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/metadata.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/install_egg_info.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools/__pycache__/recipes.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__
+ /text_file.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/package_index.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/filelist.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/_macos_compat.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/_path.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/_reqs.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/wheel.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/installer.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/readers.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/_common.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/jaraco/text/__init__.py /usr/lib/python3.12/site-packages/build/lib/setup
+ tools/command/__pycache__/register.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/py38compat.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/util.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/_tokenizer.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/msvccompiler.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/bdist_egg.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/build_ext.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/_functools.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/msvc.py /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/version.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__
+ /_parser.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/warnings.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/installer.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/zipp.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/__pycache__/api.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_core_metadata.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/bcppcompiler.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/ccompiler.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/extension.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools/py.typed /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/msvccompiler.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/bcppcompiler.py /usr/lib/python3.12/site-packages/b
+ uild/lib/setuptools/_distutils/_modified.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/dep_util.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/__init__.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/__pycache__/_collections.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/bdist_egg.py /usr/lib/python3.12/site-packages/build/lib/setuptools/command/bdist_rpm.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/fancy_getopt.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/tomli/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/install_headers.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/install_scripts.py /usr/lib/python3.12/sit
+ e-packages/build/lib/setuptools/command/install.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools/__pycache__/more.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/install_egg_info.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/config/__init__.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/version.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/__pycache__/typing_extensions.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/typing_extensions.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/__pycache__/_text.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/develop.py", added "/usr/lib/python3.12/site-packages/setuptools/compat/__pycache__/py39.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/compat/py39.py"
+Changes to packages/core2-64-poky-linux/python3-setuptools (sysroot):
+  /usr/lib/python3.12/site-packages/setuptools-69.1.1.dist-info moved to /usr/lib/python3.12/site-packages/setuptools-69.2.0.dist-info
+  /usr/lib/python3.12/site-packages/setuptools/compat/py39.py was added
+  /usr/lib/python3.12/site-packages/setuptools/compat/__pycache__/py39.cpython-312.pyc was added
+Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
+  /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
+  /usr/bin/x86_64-poky-linux was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ar was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-as was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++filt was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-dwp was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-elfedit was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gprof was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.bfd was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.gold was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-nm was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objcopy was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objdump was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ranlib was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-readelf was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-size was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strings was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strip was added
+  /usr/lib/x86_64-poky-linux was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins/libdep.so was added
+  /usr/lib/x86_64-poky-linux/ldscripts was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xa was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xa was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/stamp was added
+  /sysroot-providers/virtual_x86_64-poky-linux-musl-binutils was removed
+  /usr/bin/x86_64-poky-linux-musl was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-addr2line was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ar was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-as was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++filt was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-dwp was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-elfedit was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gprof was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.bfd was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.gold was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-nm was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objcopy was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objdump was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ranlib was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-readelf was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-size was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strings was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strip was removed
+  /usr/lib/x86_64-poky-linux-musl was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/libdep.so was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xa was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xa was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/stamp was removed
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -1584,23 +1849,320 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
+Changes to packages/x86_64-linux/python3-setuptools-native (sysroot):
+  /usr/lib/python3.12/site-packages/setuptools-69.1.1.dist-info moved to /usr/lib/python3.12/site-packages/setuptools-69.2.0.dist-info
+  /usr/lib/python3.12/site-packages/setuptools/compat/py39.py was added
 
---===============5388788078465686227==
+--===============8956772331044573777==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/pango/pango: FILELIST: removed "/usr/lib/libpango-1.0.so.0.5200.0 /usr/lib/libpangoft2-1.0.so.0.5200.0 /usr/lib/libpangocairo-1.0.so.0.5200.0 /usr/lib/libpangoxft-1.0.so.0.5200.0", added "/usr/lib/libpangoxft-1.0.so.0.5200.1 /usr/lib/libpangoft2-1.0.so.0.5200.1 /usr/lib/libpango-1.0.so.0.5200.1 /usr/lib/libpangocairo-1.0.so.0.5200.1"
-Changes to packages/core2-64-poky-linux/pango (sysroot):
-  /usr/lib/libpango-1.0.so.0 changed symlink target from libpango-1.0.so.0.5200.0 to libpango-1.0.so.0.5200.1
-  /usr/lib/libpangocairo-1.0.so.0 changed symlink target from libpangocairo-1.0.so.0.5200.0 to libpangocairo-1.0.so.0.5200.1
-  /usr/lib/libpangoft2-1.0.so.0 changed symlink target from libpangoft2-1.0.so.0.5200.0 to libpangoft2-1.0.so.0.5200.1
-  /usr/lib/libpangoxft-1.0.so.0 changed symlink target from libpangoxft-1.0.so.0.5200.0 to libpangoxft-1.0.so.0.5200.1
-  /usr/lib/libpango-1.0.so.0.5200.0 moved to /usr/lib/libpango-1.0.so.0.5200.1
-  /usr/lib/libpangocairo-1.0.so.0.5200.0 moved to /usr/lib/libpangocairo-1.0.so.0.5200.1
-  /usr/lib/libpangoft2-1.0.so.0.5200.0 moved to /usr/lib/libpangoft2-1.0.so.0.5200.1
-  /usr/lib/libpangoxft-1.0.so.0.5200.0 moved to /usr/lib/libpangoxft-1.0.so.0.5200.1
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools: FILELIST: directory renamed /usr/lib/python3.12/site-packages/setuptools-69.1.1.dist-info -> /usr/lib/python3.12/site-packages/setuptools-69.2.0.dist-info, removed "/usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/register.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/_elffile.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/ordered_set.py /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/fastjsonschema_exceptions.py /usr/lib/python3.12/site-packages/build/lib/setuptools/dist.py /usr/lib/python3.12/site-packages/build/lib/setuptools/errors.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/versionpredicate.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/_elffile.cpython-312.pyc /usr/lib/python3.12/site-
+ packages/build/lib/setuptools/_vendor/packaging/_tokenizer.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/tags.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/msvccompiler.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/tomli/_parser.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/install.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/_collections.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/launch.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/_collections.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/cmd.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/__pycache__/__main__.cpython-312.pyc /usr/lib
+ /python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools/recipes.pyi /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/build.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/__pycache__/typing_extensions.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/rotate.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/typing_extensions.py /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/__pycache__/error_reporting.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/_collections.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/__pycache__/android.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/abc.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resou
+ rces/__pycache__/_compat.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/_distutils_hack/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/__init__.py /usr/lib/python3.12/site-packages/build/lib/setuptools/command/editable_wheel.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/__init__.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/specifiers.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/debug.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/tomli/_re.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/launch.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/easy_install.cpython-312.pyc /usr/lib/pyt
+ hon3.12/site-packages/build/lib/setuptools/_core_metadata.py /usr/lib/python3.12/site-packages/build/lib/setuptools/command/rotate.py /usr/lib/python3.12/site-packages/build/lib/setuptools/msvc.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/__pycache__/zipp.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/utils.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/filelist.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/file_util.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/dep_util.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/_parser.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/_functools.py /usr/lib/pyt
+ hon3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/_itertools.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/__init__.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/cygwinccompiler.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/jaraco/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/install.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/__pycache__/typing_extensions.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__pycache__/_itertools.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/_tokenizer.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/abc.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools/__pycache__/more.cpython-312.pyc
+  /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/package_index.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/requirements.py /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/__pycache__/fastjsonschema_exceptions.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__init__.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/extern/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/_compat.py /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/version.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/fancy_getopt.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib
+ _metadata/__pycache__/_text.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/version.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools/__init__.pyi /usr/lib/python3.12/site-packages/build/lib/setuptools/extension.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/_log.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/fastjsonschema_validations.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/jaraco/__pycache__/context.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/_manylinux.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/_musllinux.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/_structures.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/install.cpython-312.p
+ yc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/_legacy.py /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/errors.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/jaraco/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/__pycache__/zipp.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/saveopts.py /usr/lib/python3.12/site-packages/build/lib/setuptools/config/__pycache__/pyprojecttoml.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/bdist_rpm.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/build_ext.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/jaraco/functools.py /usr/lib/python3.12/site-packages/build/lib/setuptools/command/build_ext.py /usr/lib/python3.12/site-packages/build/lib/pkg_re
+ sources/_vendor/packaging/__pycache__/version.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/_msvccompiler.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/__pycache__/unix.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/_py39compat.py /usr/lib/python3.12/site-packages/build/lib/setuptools/installer.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/readers.py /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/install_lib.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/_elffile.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/jaraco/__init__.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/version.py /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/_imp
+ .cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/dist.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/glob.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/msvc.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/install.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/__pycache__/api.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/build_clib.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/__pycache__/_itertools.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/setopt.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/_path.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/_reqs.cpython-
+ 312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/wheel.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/jaraco/text/__init__.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/_common.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/bdist_rpm.py /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/upload.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/_structures.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/jaraco/context.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/jaraco/text/__init__.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/register.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_importlib.py /usr/lib/python3.12/site-packages/build/lib/setuptools/command/bdist_egg.py /usr/lib/p
+ ython3.12/site-packages/build/lib/setuptools/command/bdist_rpm.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/ccompiler.py /usr/lib/python3.12/site-packages/build/lib/setuptools/command/dist_info.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/install_egg_info.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools/more.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/windows.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/tags.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/extern/__init__.py /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/_core_metadata.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/debug.py /usr/lib/python3.12/site-packages/build/lib/setuptools/
+ _distutils/spawn.py /usr/lib/python3.12/site-packages/build/lib/_distutils_hack/__pycache__/override.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/modified.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/markers.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/build_py.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/extern/__init__.py /usr/lib/python3.12/site-packages/build/lib/setuptools/command/alias.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/archive_util.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__pycache__/readers.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools/__pycache__/recipes.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/__pycache__/ordered_set.cpython-312.pyc /usr/lib/
+ python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/_meta.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/_text.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/_compat.py /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/register.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/depends.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/metadata.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/tomli/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/install_data.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/tomli/__pycache__/_re.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/extra_validations.py /usr/lib/python3.12/site-packages/build/lib/setu
+ ptools/_distutils/extension.py /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/log.py /usr/lib/python3.12/site-packages/build/lib/setuptools/config/__pycache__/setupcfg.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/tags.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_normalization.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/bcppcompiler.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__pycache__/_common.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__pycache__/_compat.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/_itertools.py /usr/lib/python3.12/site-packages/build/lib/setuptools/command/_requirestxt.py /usr/lib/python3.12/s
+ ite-packages/build/lib/setuptools/dep_util.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/versionpredicate.py /usr/lib/python3.12/site-packages/build/lib/setuptools/namespaces.py /usr/lib/python3.12/site-packages/build/lib/setuptools/config/expand.py /usr/lib/python3.12/site-packages/build/lib/setuptools/command/install_egg_info.py /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/__pycache__/fastjsonschema_validations.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/py.typed /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/jaraco/text/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/build_clib.py /usr/lib/python3.12/site-packages/build/lib/setuptools/command/sdist.py /usr/lib/python3.12/site-packages/build/lib/_distutils_hack/__init__.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distut
+ ils/command/__pycache__/bdist.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/sdist.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/bdist_dumb.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/__pycache__/_functools.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/__pycache__/extra_validations.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/sandbox.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/_parser.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/archive_util.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/warnings.py /usr/lib/python3.12/site-
+ packages/build/lib/setuptools/_vendor/tomli/py.typed /usr/lib/python3.12/site-packages/build/lib/setuptools/command/setopt.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__pycache__/abc.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/egg_info.py /usr/lib/python3.12/site-packages/build/lib/setuptools/compat/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools/py.typed /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__pycache__/_adapters.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools/recipes.pyi /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools/py.typed /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/py39compat.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/package_index.py /usr/lib/pytho
+ n3.12/site-packages/build/lib/setuptools/_vendor/packaging/__init__.py /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/_entry_points.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/config/__init__.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/config.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/cmd.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/depends.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/compat/py311.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/__init__.py /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/discovery.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/warnings.cpython-312.pyc /usr/lib/python
+ 3.12/site-packages/build/lib/setuptools/_vendor/jaraco/text/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/py.typed /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/simple.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/core.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__init__.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/unixccompiler.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/logging.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/__pycache__/_collections.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/text_file.cpyth
+ on-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/api.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/zipp.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/tags.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/fancy_getopt.py /usr/lib/python3.12/site-packages/build/lib/setuptools/command/build_clib.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/build_ext.py /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/editable_wheel.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/_macos_compat.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/_adapters.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/__pycache__/abc.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/glob.py /usr/lib/python3.12/site-packages/bui
+ ld/lib/setuptools/_vendor/packaging/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/build_py.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/install_lib.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/config/setupcfg.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/_musllinux.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/requirements.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/_msvccompiler.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/msvc9compiler.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/unixccompiler.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/py38compat.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/py39compat.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_dis
+ tutils/cygwinccompiler.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__pycache__/simple.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/unicode_utils.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/_importlib.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/dep_util.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/dir_util.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/unix.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools/__init__.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__init__.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/upload.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools/more.pyi /usr/lib/python3.12/site-package
+ s/build/lib/setuptools/_distutils/__pycache__/sysconfig.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/config.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/__main__.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/zipp.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/metadata.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/jaraco/__pycache__/functools.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/build_py.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_path.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/py.typed /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/_musllinux.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/bdist_egg.cpython-312.pyc /usr/lib/python3.12/s
+ ite-packages/build/lib/setuptools/command/__pycache__/build_ext.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/_requirestxt.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/extension.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/py.typed /usr/lib/python3.12/site-packages/build/lib/setuptools/version.py /usr/lib/python3.12/site-packages/build/lib/setuptools/command/test.py /usr/lib/python3.12/site-packages/build/lib/setuptools/monkey.py /usr/lib/python3.12/site-packages/build/lib/setuptools/__init__.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/_parser.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/_functools.py /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/monkey.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/build.py /usr/lib/python3.12/site-pack
+ ages/build/lib/setuptools/__pycache__/namespaces.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/config/__pycache__/expand.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/_normalization.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/build_meta.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/__pycache__/readers.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/tomli/__init__.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/__pycache__/_adapters.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/install_egg_info.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/logging.py /usr/lib/python3.12/site-packages/build/lib/pk
+ g_resources/_vendor/importlib_resources/__pycache__/_legacy.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/_structures.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/specifiers.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/_modified.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/compat/py310.py /usr/lib/python3.12/site-packages/build/lib/setuptools/config/__pycache__/_apply_pyprojecttoml.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/__pycache__/_py39compat.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/config.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/errors.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/check.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setupt
+ ools/_vendor/packaging/__pycache__/requirements.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/jaraco/__pycache__/context.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/_elffile.py /usr/lib/python3.12/site-packages/build/lib/setuptools/command/install_lib.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_entry_points.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/dist.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/__pycache__/_meta.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/register.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/errors.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_reqs.py /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/_itertools.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib
+ /setuptools/command/easy_install.py /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/formats.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/specifiers.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/wheel.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/filelist.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/_parser.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools/__pycache__/recipes.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/install_headers.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/_tokenizer.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/com
+ mand/install_scripts.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/_compat.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_itertools.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/android.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/_modified.py /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/test.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/install_scripts.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/utils.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools/more.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/_manylinux.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/_musllinux.cpython-312.pyc /usr/lib/python3.12/site-pa
+ ckages/build/lib/pkg_resources/_vendor/platformdirs/__pycache__/windows.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/egg_info.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/__init__.py /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_apply_pyprojecttoml.py /usr/lib/python3.12/site-packages/build/lib/setuptools/command/develop.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/bcppcompiler.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/msvccompiler.py /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/develop.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/log.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/jaraco/__init__.py /usr/lib/
+ python3.12/site-packages/build/lib/setuptools/unicode_utils.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/metadata.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/__pycache__/formats.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/install_egg_info.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/build_meta.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/__pycache__/version.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools/__pycache__/more.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/saveopts.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/
+ _tokenizer.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/__init__.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/ccompiler.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools/__init__.py /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/error_reporting.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/__pycache__/_compat.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/msvc9compiler.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/dir_util.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/simple.py /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/upload_docs.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/modifie
+ d.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/__pycache__/_adapters.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/__pycache__/_itertools.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/__pycache__/macos.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/_macos_compat.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/install_data.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/utils.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/windows_support.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/extern/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/compat/__pycache__/py310.cpython-312.pyc /usr/lib/python3.12/site-packages/b
+ uild/lib/setuptools/compat/__pycache__/py311.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/__pycache__/requirements.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/build_scripts.py /usr/lib/python3.12/site-packages/build/lib/setuptools/config/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/file_util.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/config.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/upload.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/text_file.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/py.typed /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/typing_extensions.py /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/archive_util.cpython-312.pyc /usr/lib/python3.12/site-packag
+ es/build/lib/setuptools/discovery.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools/__init__.pyi /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/installer.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/version.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/__pycache__/_legacy.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/_distutils_hack/override.py /usr/lib/python3.12/site-packages/build/lib/setuptools/config/pyprojecttoml.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/py37compat.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__init__.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/_itertools.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/__pycache__/simple.cpython-312.pyc /usr/lib/python3.12/site-packages/build/li
+ b/setuptools/_vendor/packaging/__pycache__/metadata.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/py38compat.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/__pycache__/_common.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/bdist_rpm.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/more_itertools/recipes.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/build_scripts.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/tomli/__pycache__/_parser.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/compat/__init__.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/markers.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/markers.py /usr/lib/python3.12/site-package
+ s/build/lib/setuptools/_distutils/command/_framework_compat.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/_manylinux.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/_adapters.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/markers.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/install_scripts.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/bdist_dumb.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools/recipes.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/version.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/alias.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/build.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__
+ /sdist.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/upload_docs.py /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/install_scripts.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/py37compat.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/packaging/utils.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/jaraco/__pycache__/functools.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/archive_util.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/upload.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/dep_util.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/util.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/clean.cpython-3
+ 12.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/__pycache__/_manylinux.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/specifiers.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/more_itertools/more.pyi /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/sysconfig.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/macos.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/_log.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/core.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/dist.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/util.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/tomli/_types.py /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__init__.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/jaraco/context.py /usr/l
+ ib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/_functools.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/sandbox.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/readers.py /usr/lib/python3.12/site-packages/build/lib/setuptools/windows_support.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/install_headers.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/__pycache__/build_py.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/_structures.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/importlib_resources/_legacy.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/bdist.py /usr/lib/python3.12/site-packages/build/l
+ ib/setuptools/_distutils/command/__pycache__/_framework_compat.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/build.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/check.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/clean.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/sdist.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/_adapters.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_imp.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_resources/_common.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/__init__.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/__pycache__/spawn.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/importlib_metadata/py.typed /usr/lib/python3.12/site-packages/build/lib/setu
+ ptools/command/__pycache__/build_clib.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/__pycache__/extension.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/jaraco/functools.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/tomli/__pycache__/_types.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/config/_validate_pyproject/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/command/__pycache__/dist_info.cpython-312.pyc /usr/lib/python3.12/site-packages/build/lib/setuptools/_distutils/command/install_lib.py /usr/lib/python3.12/site-packages/build/lib/setuptools/_vendor/packaging/version.py /usr/lib/python3.12/site-packages/build/lib/pkg_resources/_vendor/platformdirs/version.py", added "/usr/lib/python3.12/site-packages/setuptools/compat/py39.py /usr/lib/python3.12/site-packages/setuptools/compat/__pycache__/py39.cpython-312.pyc"
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools: PKGSIZE changed from 10370031 to 4553527 (-56%)
+Changes to packages/core2-64-poky-linux/python3-setuptools (sysroot):
+  /usr/lib/python3.12/site-packages/setuptools-69.1.1.dist-info moved to /usr/lib/python3.12/site-packages/setuptools-69.2.0.dist-info
+  /usr/lib/python3.12/site-packages/setuptools/compat/py39.py was added
+  /usr/lib/python3.12/site-packages/setuptools/compat/__pycache__/py39.cpython-312.pyc was added
+Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
+  /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
+  /usr/bin/x86_64-poky-linux was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ar was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-as was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++filt was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-dwp was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-elfedit was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gprof was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.bfd was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.gold was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-nm was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objcopy was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objdump was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ranlib was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-readelf was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-size was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strings was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strip was added
+  /usr/lib/x86_64-poky-linux was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins/libdep.so was added
+  /usr/lib/x86_64-poky-linux/ldscripts was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xa was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xa was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/stamp was added
+  /sysroot-providers/virtual_x86_64-poky-linux-musl-binutils was removed
+  /usr/bin/x86_64-poky-linux-musl was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-addr2line was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ar was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-as was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++filt was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-dwp was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-elfedit was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gprof was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.bfd was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.gold was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-nm was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objcopy was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objdump was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ranlib was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-readelf was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-size was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strings was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strip was removed
+  /usr/lib/x86_64-poky-linux-musl was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/libdep.so was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xa was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xa was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/stamp was removed
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -2984,6 +3546,81 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
+Changes to packages/x86_64-linux/python3-setuptools-native (sysroot):
+  /usr/lib/python3.12/site-packages/setuptools-69.1.1.dist-info moved to /usr/lib/python3.12/site-packages/setuptools-69.2.0.dist-info
+  /usr/lib/python3.12/site-packages/setuptools/compat/py39.py was added
 
---===============5388788078465686227==--
+--===============8956772331044573777==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-setuptools-upgrade-69.1.1-69.2.0.patch"
+
+RnJvbSBhM2JkMzk0NmNkYzY0NzA1ZDE1NzY0ZjY5MGNlN2IxODQzZTljZmRmIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgMTUgTWFyIDIwMjQgMDk6MDg6NTQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXNldHVwdG9vbHM6IHVwZ3JhZGUgNjkuMS4xIC0+IDY5LjIuMAoKLS0tCiAuLi5pc3R1
+dGlscy1zeXNjb25maWcucHktbWFrZS1pdC1wb3NzaWJsZS10by1zdWJzdGl0ZS5wYXRjaCB8IDIg
+Ky0KIC4uLjAxLWNvbmRpdGlvbmFsbHktZG8tbm90LWZldGNoLWNvZGUtYnktZWFzeV9pbnN0YWxs
+LnBhdGNoIHwgNiArKystLS0KIC4uLm4zLXNldHVwdG9vbHNfNjkuMS4xLmJiID0+IHB5dGhvbjMt
+c2V0dXB0b29sc182OS4yLjAuYmJ9IHwgMiArLQogMyBmaWxlcyBjaGFuZ2VkLCA1IGluc2VydGlv
+bnMoKyksIDUgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
+bi97cHl0aG9uMy1zZXR1cHRvb2xzXzY5LjEuMS5iYiA9PiBweXRob24zLXNldHVwdG9vbHNfNjku
+Mi4wLmJifSAoOTQlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
+cHl0aG9uMy1zZXR1cHRvb2xzLzAwMDEtX2Rpc3R1dGlscy1zeXNjb25maWcucHktbWFrZS1pdC1w
+b3NzaWJsZS10by1zdWJzdGl0ZS5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
+cHl0aG9uMy1zZXR1cHRvb2xzLzAwMDEtX2Rpc3R1dGlscy1zeXNjb25maWcucHktbWFrZS1pdC1w
+b3NzaWJsZS10by1zdWJzdGl0ZS5wYXRjaAppbmRleCAwZjZjOWQyNTBkLi43NGI4Mzc0NzI0IDEw
+MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0b29s
+cy8wMDAxLV9kaXN0dXRpbHMtc3lzY29uZmlnLnB5LW1ha2UtaXQtcG9zc2libGUtdG8tc3Vic3Rp
+dGUucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNldHVw
+dG9vbHMvMDAwMS1fZGlzdHV0aWxzLXN5c2NvbmZpZy5weS1tYWtlLWl0LXBvc3NpYmxlLXRvLXN1
+YnN0aXRlLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBkMzkzNzU5MzE1YjE4OWE3MzhlNGI2
+YTJjZTMxZGMxOGRiYmZhZTI5IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAwMTI0YTAz
+Y2M1NDc4NmFjYTFhYjdlNTMzYzYwNTE5YjUwMzc1YjcwIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
+MQogRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRyb25peC5kZT4KIERhdGU6IFdl
+ZCwgMTEgTWF5IDIwMjIgMjE6NDE6MTQgKzAyMDAKIFN1YmplY3Q6IFtQQVRDSF0gX2Rpc3R1dGls
+cy9zeXNjb25maWcucHk6IG1ha2UgaXQgcG9zc2libGUgdG8gc3Vic3RpdGUgdGhlCmRpZmYgLS1n
+aXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0b29scy8wMDAx
+LWNvbmRpdGlvbmFsbHktZG8tbm90LWZldGNoLWNvZGUtYnktZWFzeV9pbnN0YWxsLnBhdGNoIGIv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNldHVwdG9vbHMvMDAwMS1jb25k
+aXRpb25hbGx5LWRvLW5vdC1mZXRjaC1jb2RlLWJ5LWVhc3lfaW5zdGFsbC5wYXRjaAppbmRleCAy
+YTNjNzFmYjYyLi4wODBkMzlmZGNjIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cHl0aG9uL3B5dGhvbjMtc2V0dXB0b29scy8wMDAxLWNvbmRpdGlvbmFsbHktZG8tbm90LWZldGNo
+LWNvZGUtYnktZWFzeV9pbnN0YWxsLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9w
+eXRob24vcHl0aG9uMy1zZXR1cHRvb2xzLzAwMDEtY29uZGl0aW9uYWxseS1kby1ub3QtZmV0Y2gt
+Y29kZS1ieS1lYXN5X2luc3RhbGwucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDQwNjQ4ZGZh
+NzcwZjlmN2I5YjllZmE1MDFjOWVmN2FmOTZiZTlmMmQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAx
+CitGcm9tIDZjMzI5YjczYWIyODVjODM2Y2I1NWUzODBlOWNiZGM4MTVjN2M1OWIgTW9uIFNlcCAx
+NyAwMDowMDowMCAyMDAxCiBGcm9tOiBIb25neHUgSmlhIDxob25neHUuamlhQHdpbmRyaXZlci5j
+b20+CiBEYXRlOiBUdWUsIDE3IEp1bCAyMDE4IDEwOjEzOjM4ICswODAwCiBTdWJqZWN0OiBbUEFU
+Q0hdIGNvbmRpdGlvbmFsbHkgZG8gbm90IGZldGNoIGNvZGUgYnkgZWFzeV9pbnN0YWxsCkBAIC0x
+NCwxMCArMTQsMTAgQEAgU2lnbmVkLW9mZi1ieTogSG9uZ3h1IEppYSA8aG9uZ3h1LmppYUB3aW5k
+cml2ZXIuY29tPgogIDEgZmlsZSBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKykKIAogZGlmZiAtLWdp
+dCBhL3NldHVwdG9vbHMvY29tbWFuZC9lYXN5X2luc3RhbGwucHkgYi9zZXR1cHRvb2xzL2NvbW1h
+bmQvZWFzeV9pbnN0YWxsLnB5Ci1pbmRleCA1ZDZmZDVjLi4zNzdlNTc1IDEwMDY0NAoraW5kZXgg
+Y2MwYzQwOS4uOTQ4YmNmMiAxMDA2NDQKIC0tLSBhL3NldHVwdG9vbHMvY29tbWFuZC9lYXN5X2lu
+c3RhbGwucHkKICsrKyBiL3NldHVwdG9vbHMvY29tbWFuZC9lYXN5X2luc3RhbGwucHkKLUBAIC02
+NzYsNiArNjc2LDExIEBAIGNsYXNzIGVhc3lfaW5zdGFsbChDb21tYW5kKToKK0BAIC02NzEsNiAr
+NjcxLDExIEBAIGNsYXNzIGVhc3lfaW5zdGFsbChDb21tYW5kKToKICAgICAgICAgICAgICBvcy5w
+YXRoLmV4aXN0cyh0bXBkaXIpIGFuZCBfcm10cmVlKHRtcGRpcikKICAKICAgICAgZGVmIGVhc3lf
+aW5zdGFsbChzZWxmLCBzcGVjLCBkZXBzPUZhbHNlKToKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
+cy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zZXR1cHRvb2xzXzY5LjEuMS5iYiBiL21ldGEvcmVj
+aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zZXR1cHRvb2xzXzY5LjIuMC5iYgpzaW1pbGFy
+aXR5IGluZGV4IDk0JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5
+dGhvbjMtc2V0dXB0b29sc182OS4xLjEuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9weXRob24vcHl0aG9uMy1zZXR1cHRvb2xzXzY5LjIuMC5iYgppbmRleCA3N2Q0ZTBhYTAzLi44
+OTczOThhZmM1IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
+bjMtc2V0dXB0b29sc182OS4xLjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
+bi9weXRob24zLXNldHVwdG9vbHNfNjkuMi4wLmJiCkBAIC0xMSw3ICsxMSw3IEBAIFNSQ19VUkk6
+YXBwZW5kOmNsYXNzLW5hdGl2ZSA9ICIgZmlsZTovLzAwMDEtY29uZGl0aW9uYWxseS1kby1ub3Qt
+ZmV0Y2gtY29kZS1ieS1lCiBTUkNfVVJJICs9ICIgXAogICAgICAgICAgICAgZmlsZTovLzAwMDEt
+X2Rpc3R1dGlscy1zeXNjb25maWcucHktbWFrZS1pdC1wb3NzaWJsZS10by1zdWJzdGl0ZS5wYXRj
+aCIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjVjMDgwNmM3ZDlhZjM0OGU2ZGQzNzc3YjRmNGRi
+YjQyYzdhZDg1YjE5MDEwNDgzNzQ4OGVhYjlhN2M5NDVjZjgiCitTUkNfVVJJW3NoYTI1NnN1bV0g
+PSAiMGZmNDE4M2Y4ZjQyY2Q4ZmEzYWNlYTE2YzQ1MjA1NTIxYTRlZjI4ZjczYzYzOTFkOGEyNWU5
+Mjg5MzEzNGYyZSIKIAogREVQRU5EUyArPSAicHl0aG9uMyIKIAotLSAKMi40Mi4wCgo=
+
+--===============8956772331044573777==--
 
