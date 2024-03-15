@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A504BC54EE0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7272C54EE2
 	for <webhook@archiver.kernel.org>; Fri, 15 Mar 2024 17:00:14 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web11.1273.1710522012186640340
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web11.1269.1710522011395964736
  for <openembedded-core@lists.openembedded.org>;
  Fri, 15 Mar 2024 10:00:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=CcQqdemc;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=2IED/4qY;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018e430e8fcb-aa62fbb3-d6f0-4058-b21f-d044b0c07554-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=OZbG0gSd;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=2M5zq3vB;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101018e430e904c-cf787f78-8941-4771-a7b0-1929443f0329-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1710522011;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=8lkd+66vxVjzUwXmF1qjLJfCxSGkkuyaydqy5Uu3TNU=;
-	b=CcQqdemc9z7NcYd1iWlqT9UrA+XUdeWie2zOMBTjcEDUbdDV8nNBGSPWjKsYC6CV
-	Zl0/+H0I0QX54YmVbM2KJyKgjuNJJNkCvm4qMzIRT24KTA5yqAPBipDoCmREImD45qT
-	f7Ib3EE2hlnSC7g0IHXL3emHo9HNzeQSaXe1iwNg=
+	bh=nxUpCUPYMR/nMwH5Z65agbLWhQTsrkHVShVPTezcJN8=;
+	b=OZbG0gSd2P81vpwezfyai5PXEEh5nXmq3//ZiyR+vtEcfdXjM6GPl3Ik/FdujMKK
+	zKsIJyLPmZFrKW8A6/BZeRflPkkfuAvFj/Ndua6mofHRhZgPKVEMq8p7z5dkplwekES
+	7wmTLRMimbdq+CBu436C+mwbOLisOpFz+gg//Y6A=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1710522011;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=8lkd+66vxVjzUwXmF1qjLJfCxSGkkuyaydqy5Uu3TNU=;
-	b=2IED/4qYJXhhVmWOtAmjvTwYazrUpJLHPQJ/iLdQAyw3SUfI3bRoLBwTVOe1eLhh
-	FXa52xiU3rjvZfHeORfo+RFSrmhd0X/UkT3Wtm5CSbXVy77gr84SvRYFN+yVqya6ZYR
-	VAqeySS1CllZ6ndrdJaKG95W5Pgx9oLHz8Xq0fXQ=
-Content-Type: multipart/mixed; boundary="===============8881720683499040170=="
+	bh=nxUpCUPYMR/nMwH5Z65agbLWhQTsrkHVShVPTezcJN8=;
+	b=2M5zq3vBDqP8vLozlu4ZrTTnBgfx4bOde2weM0DZUKwx5NpyyHymB2dr8xXerVDN
+	M7xURbNwxsAUmLotCgvHTVMCwxzmHjq4JVRH4M5peEdOVwlhdKBRMtMcVARsbqVe/oU
+	segAw/Bjn8OhICmqzJ95DsN16vaDlmz5MCL5v+vQ=
+Content-Type: multipart/mixed; boundary="===============8968385447291556072=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pyparsing: upgrading to 3.1.2 SUCCEEDED
-Message-ID: <0101018e430e8fcb-aa62fbb3-d6f0-4058-b21f-d044b0c07554-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-zipp: upgrading to 3.18.1 SUCCEEDED
+Message-ID: <0101018e430e904c-cf787f78-8941-4771-a7b0-1929443f0329-000000@us-west-2.amazonses.com>
 Date: Fri, 15 Mar 2024 17:00:11 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.03.15-54.240.27.192
+X-SES-Outgoing: 2024.03.15-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 Mar 2024 17:00:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197178
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197183
 
---===============8881720683499040170==
+--===============8968385447291556072==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-pyparsing* to *3.1.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-zipp* to *3.18.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-pyparsing-upgrade-3.1.1-3.1.2.patch
+    - apply the patch: git am 0001-python3-zipp-upgrade-3.17.0-3.18.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,62 +72,71 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 80178a113f4cb70f0cf993158fa0f023b55a521c Mon Sep 17 00:00:00 2001
+From efcc0fcf2ca84de75c2c76b86d4886c25422612e Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Mar 2024 08:58:55 +0000
-Subject: [PATCH] python3-pyparsing: upgrade 3.1.1 -> 3.1.2
+Date: Fri, 15 Mar 2024 09:18:50 +0000
+Subject: [PATCH] python3-zipp: upgrade 3.17.0 -> 3.18.1
 
 ---
- .../{python3-pyparsing_3.1.1.bb => python3-pyparsing_3.1.2.bb}  | 2 +-
+ .../python/{python3-zipp_3.17.0.bb => python3-zipp_3.18.1.bb}   | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pyparsing_3.1.1.bb => python3-pyparsing_3.1.2.bb} (90%)
+ rename meta/recipes-devtools/python/{python3-zipp_3.17.0.bb => python3-zipp_3.18.1.bb} (84%)
 
-diff --git a/meta/recipes-devtools/python/python3-pyparsing_3.1.1.bb b/meta/recipes-devtools/python/python3-pyparsing_3.1.2.bb
-similarity index 90%
-rename from meta/recipes-devtools/python/python3-pyparsing_3.1.1.bb
-rename to meta/recipes-devtools/python/python3-pyparsing_3.1.2.bb
-index 6f34091c86..64210ade53 100644
---- a/meta/recipes-devtools/python/python3-pyparsing_3.1.1.bb
-+++ b/meta/recipes-devtools/python/python3-pyparsing_3.1.2.bb
-@@ -10,7 +10,7 @@ BUGTRACKER = "https://github.com/pyparsing/pyparsing/issues"
+diff --git a/meta/recipes-devtools/python/python3-zipp_3.17.0.bb b/meta/recipes-devtools/python/python3-zipp_3.18.1.bb
+similarity index 84%
+rename from meta/recipes-devtools/python/python3-zipp_3.17.0.bb
+rename to meta/recipes-devtools/python/python3-zipp_3.18.1.bb
+index e9e220e315..e43432469d 100644
+--- a/meta/recipes-devtools/python/python3-zipp_3.17.0.bb
++++ b/meta/recipes-devtools/python/python3-zipp_3.18.1.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/jaraco/zipp"
  LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=657a566233888513e1f07ba13e2f47f1"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=141643e11c48898150daa83802dbc65f"
  
--SRC_URI[sha256sum] = "ede28a1a32462f5a9705e07aea48001a08f7cf81a021585011deba701581a0db"
-+SRC_URI[sha256sum] = "a1bac0ce561155ecc3ed78ca94d3c9378656ad4c94c1270de543f621420f94ad"
+-SRC_URI[sha256sum] = "84e64a1c28cf7e91ed2078bb8cc8c259cb19b76942096c8d7b84947690cabaf0"
++SRC_URI[sha256sum] = "2884ed22e7d8961de1c9a05142eb69a247f120291bc0206a00a7642f09b5b715"
  
- UPSTREAM_CHECK_REGEX = "pyparsing-(?P<pver>.*)\.tar"
+ DEPENDS += "python3-setuptools-scm-native"
  
 -- 
 2.42.0
 
 
---===============8881720683499040170==
+--===============8968385447291556072==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-pyparsing: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pyparsing/pyparsing-3.1.1.tar.gz;downloadfilename=pyparsing-3.1.1.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pyparsing/pyparsing-3.1.2.tar.gz;downloadfilename=pyparsing-3.1.2.tar.gz"
-packages/core2-64-poky-linux/python3-pyparsing: PV changed from "3.1.1" to "3.1.2"
-packages/core2-64-poky-linux/python3-pyparsing: PKGV changed from 3.1.1 [default] to 3.1.2 [default]
-packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-dbg: PV changed from "3.1.1" to "3.1.2"
-packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-dbg: PKGV changed from 3.1.1 [default] to 3.1.2 [default]
-packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-dev: PV changed from "3.1.1" to "3.1.2"
-packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-dev: PKGV changed from 3.1.1 [default] to 3.1.2 [default]
-packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-doc: PV changed from "3.1.1" to "3.1.2"
-packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-doc: PKGV changed from 3.1.1 [default] to 3.1.2 [default]
-packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-locale: PV changed from "3.1.1" to "3.1.2"
-packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-locale: PKGV changed from 3.1.1 [default] to 3.1.2 [default]
-packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-src: PV changed from "3.1.1" to "3.1.2"
-packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-src: PKGV changed from 3.1.1 [default] to 3.1.2 [default]
-packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-staticdev: PV changed from "3.1.1" to "3.1.2"
-packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-staticdev: PKGV changed from 3.1.1 [default] to 3.1.2 [default]
-packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing: PV changed from "3.1.1" to "3.1.2"
-packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing: PKGV changed from 3.1.1 [default] to 3.1.2 [default]
-packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing: PKGSIZE changed from 861140 to 853325 (-1%)
-Changes to packages/core2-64-poky-linux/python3-pyparsing (sysroot):
-  /usr/lib/python3.12/site-packages/pyparsing-3.1.1.dist-info moved to /usr/lib/python3.12/site-packages/pyparsing-3.1.2.dist-info
+packages/core2-64-poky-linux/python3-zipp: PV changed from "3.17.0" to "3.18.1"
+packages/core2-64-poky-linux/python3-zipp: PKGV changed from 3.17.0 [default] to 3.18.1 [default]
+packages/core2-64-poky-linux/python3-zipp: SRC_URI changed from "https://files.pythonhosted.org/packages/source/z/zipp/zipp-3.17.0.tar.gz;downloadfilename=zipp-3.17.0.tar.gz" to "https://files.pythonhosted.org/packages/source/z/zipp/zipp-3.18.1.tar.gz;downloadfilename=zipp-3.18.1.tar.gz"
+packages/core2-64-poky-linux/python3-zipp/python3-zipp-dbg: PV changed from "3.17.0" to "3.18.1"
+packages/core2-64-poky-linux/python3-zipp/python3-zipp-dbg: PKGV changed from 3.17.0 [default] to 3.18.1 [default]
+packages/core2-64-poky-linux/python3-zipp/python3-zipp-dev: PV changed from "3.17.0" to "3.18.1"
+packages/core2-64-poky-linux/python3-zipp/python3-zipp-dev: PKGV changed from 3.17.0 [default] to 3.18.1 [default]
+packages/core2-64-poky-linux/python3-zipp/python3-zipp-doc: PV changed from "3.17.0" to "3.18.1"
+packages/core2-64-poky-linux/python3-zipp/python3-zipp-doc: PKGV changed from 3.17.0 [default] to 3.18.1 [default]
+packages/core2-64-poky-linux/python3-zipp/python3-zipp-locale: PV changed from "3.17.0" to "3.18.1"
+packages/core2-64-poky-linux/python3-zipp/python3-zipp-locale: PKGV changed from 3.17.0 [default] to 3.18.1 [default]
+packages/core2-64-poky-linux/python3-zipp/python3-zipp-src: PV changed from "3.17.0" to "3.18.1"
+packages/core2-64-poky-linux/python3-zipp/python3-zipp-src: PKGV changed from 3.17.0 [default] to 3.18.1 [default]
+packages/core2-64-poky-linux/python3-zipp/python3-zipp-staticdev: PV changed from "3.17.0" to "3.18.1"
+packages/core2-64-poky-linux/python3-zipp/python3-zipp-staticdev: PKGV changed from 3.17.0 [default] to 3.18.1 [default]
+packages/core2-64-poky-linux/python3-zipp/python3-zipp: PV changed from "3.17.0" to "3.18.1"
+packages/core2-64-poky-linux/python3-zipp/python3-zipp: PKGV changed from 3.17.0 [default] to 3.18.1 [default]
+packages/core2-64-poky-linux/python3-zipp/python3-zipp: FILELIST: directory renamed /usr/lib/python3.12/site-packages/zipp-3.17.0.dist-info -> /usr/lib/python3.12/site-packages/zipp-3.18.1.dist-info, removed "/usr/lib/python3.12/site-packages/zipp/py310compat.py /usr/lib/python3.12/site-packages/zipp/__pycache__/py310compat.cpython-312.pyc", added "/usr/lib/python3.12/site-packages/zipp/compat/__init__.py /usr/lib/python3.12/site-packages/zipp/compat/__pycache__/py310.cpython-312.pyc /usr/lib/python3.12/site-packages/zipp/compat/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/zipp/compat/py310.py"
+packages/core2-64-poky-linux/python3-zipp/python3-zipp: PKGSIZE changed from 39154 to 45624 (+17%)
+Changes to packages/core2-64-poky-linux/python3-zipp (sysroot):
+  /usr/lib/python3.12/site-packages/zipp-3.17.0.dist-info moved to /usr/lib/python3.12/site-packages/zipp-3.18.1.dist-info
+  /usr/lib/python3.12/site-packages/zipp/compat was added
+  /usr/lib/python3.12/site-packages/zipp/compat/__init__.py was added
+  /usr/lib/python3.12/site-packages/zipp/compat/py310.py was added
+  /usr/lib/python3.12/site-packages/zipp/compat/__pycache__ was added
+  /usr/lib/python3.12/site-packages/zipp/compat/__pycache__/__init__.cpython-312.pyc was added
+  /usr/lib/python3.12/site-packages/zipp/compat/__pycache__/py310.cpython-312.pyc was added
+  /usr/lib/python3.12/site-packages/zipp/py310compat.py was removed
+  /usr/lib/python3.12/site-packages/zipp/__pycache__/py310compat.cpython-312.pyc was removed
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1767,45 +1776,54 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============8881720683499040170==
+--===============8968385447291556072==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-pyparsing-upgrade-3.1.1-3.1.2.patch"
+ filename="0001-python3-zipp-upgrade-3.17.0-3.18.1.patch"
 
-RnJvbSA4MDE3OGExMTNmNGNiNzBmMGNmOTkzMTU4ZmEwZjAyM2I1NWE1MjFjIE1vbiBTZXAgMTcg
+RnJvbSBlZmNjMGZjZjJjYTg0ZGU3NWMyYzc2Yjg2ZDQ4ODZjMjU0MjI2MTJlIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTUgTWFyIDIwMjQgMDg6NTg6NTUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXB5cGFyc2luZzogdXBncmFkZSAzLjEuMSAtPiAzLjEuMgoKLS0tCiAuLi4ve3B5dGhv
-bjMtcHlwYXJzaW5nXzMuMS4xLmJiID0+IHB5dGhvbjMtcHlwYXJzaW5nXzMuMS4yLmJifSAgfCAy
-ICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFt
-ZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXB5cGFyc2luZ18zLjEuMS5i
-YiA9PiBweXRob24zLXB5cGFyc2luZ18zLjEuMi5iYn0gKDkwJSkKCmRpZmYgLS1naXQgYS9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHlwYXJzaW5nXzMuMS4xLmJiIGIvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5cGFyc2luZ18zLjEuMi5iYgpzaW1p
-bGFyaXR5IGluZGV4IDkwJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
-L3B5dGhvbjMtcHlwYXJzaW5nXzMuMS4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvcHl0aG9uL3B5dGhvbjMtcHlwYXJzaW5nXzMuMS4yLmJiCmluZGV4IDZmMzQwOTFjODYuLjY0
-MjEwYWRlNTMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
-My1weXBhcnNpbmdfMy4xLjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
-eXRob24zLXB5cGFyc2luZ18zLjEuMi5iYgpAQCAtMTAsNyArMTAsNyBAQCBCVUdUUkFDS0VSID0g
-Imh0dHBzOi8vZ2l0aHViLmNvbS9weXBhcnNpbmcvcHlwYXJzaW5nL2lzc3VlcyIKIExJQ0VOU0Ug
-PSAiTUlUIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9NjU3YTU2NjIz
-Mzg4ODUxM2UxZjA3YmExM2UyZjQ3ZjEiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJlZGUyOGEx
-YTMyNDYyZjVhOTcwNWUwN2FlYTQ4MDAxYTA4ZjdjZjgxYTAyMTU4NTAxMWRlYmE3MDE1ODFhMGRi
-IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImExYmFjMGNlNTYxMTU1ZWNjM2VkNzhjYTk0ZDNjOTM3
-ODY1NmFkNGM5NGMxMjcwZGU1NDNmNjIxNDIwZjk0YWQiCiAKIFVQU1RSRUFNX0NIRUNLX1JFR0VY
-ID0gInB5cGFyc2luZy0oP1A8cHZlcj4uKilcLnRhciIKIAotLSAKMi40Mi4wCgo=
+CkRhdGU6IEZyaSwgMTUgTWFyIDIwMjQgMDk6MTg6NTAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXppcHA6IHVwZ3JhZGUgMy4xNy4wIC0+IDMuMTguMQoKLS0tCiAuLi4vcHl0aG9uL3tw
+eXRob24zLXppcHBfMy4xNy4wLmJiID0+IHB5dGhvbjMtemlwcF8zLjE4LjEuYmJ9ICAgfCAyICst
+CiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBt
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXppcHBfMy4xNy4wLmJiID0+IHB5
+dGhvbjMtemlwcF8zLjE4LjEuYmJ9ICg4NCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL3B5dGhvbi9weXRob24zLXppcHBfMy4xNy4wLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL3B5dGhvbi9weXRob24zLXppcHBfMy4xOC4xLmJiCnNpbWlsYXJpdHkgaW5kZXggODQlCnJl
+bmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy16aXBwXzMuMTcu
+MC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXppcHBf
+My4xOC4xLmJiCmluZGV4IGU5ZTIyMGUzMTUuLmU0MzQzMjQ2OWQgMTAwNjQ0Ci0tLSBhL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy16aXBwXzMuMTcuMC5iYgorKysgYi9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtemlwcF8zLjE4LjEuYmIKQEAgLTMsNyAr
+Myw3IEBAIEhPTUVQQUdFID0gImh0dHBzOi8vZ2l0aHViLmNvbS9qYXJhY28vemlwcCIKIExJQ0VO
+U0UgPSAiTUlUIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9MTQxNjQz
+ZTExYzQ4ODk4MTUwZGFhODM4MDJkYmM2NWYiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI4NGU2
+NGExYzI4Y2Y3ZTkxZWQyMDc4YmI4Y2M4YzI1OWNiMTliNzY5NDIwOTZjOGQ3Yjg0OTQ3NjkwY2Fi
+YWYwIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjI4ODRlZDIyZTdkODk2MWRlMWM5YTA1MTQyZWI2
+OWEyNDdmMTIwMjkxYmMwMjA2YTAwYTc2NDJmMDliNWI3MTUiCiAKIERFUEVORFMgKz0gInB5dGhv
+bjMtc2V0dXB0b29scy1zY20tbmF0aXZlIgogCi0tIAoyLjQyLjAKCg==
 
---===============8881720683499040170==
+--===============8968385447291556072==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-64-poky-linux/python3-pyparsing (sysroot):
-  /usr/lib/python3.12/site-packages/pyparsing-3.1.1.dist-info moved to /usr/lib/python3.12/site-packages/pyparsing-3.1.2.dist-info
+packages/core2-64-poky-linux/python3-zipp/python3-zipp: PKGSIZE changed from 39154 to 45624 (+17%)
+packages/core2-64-poky-linux/python3-zipp/python3-zipp: FILELIST: directory renamed /usr/lib/python3.12/site-packages/zipp-3.17.0.dist-info -> /usr/lib/python3.12/site-packages/zipp-3.18.1.dist-info, removed "/usr/lib/python3.12/site-packages/zipp/py310compat.py /usr/lib/python3.12/site-packages/zipp/__pycache__/py310compat.cpython-312.pyc", added "/usr/lib/python3.12/site-packages/zipp/compat/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/zipp/compat/__init__.py /usr/lib/python3.12/site-packages/zipp/compat/py310.py /usr/lib/python3.12/site-packages/zipp/compat/__pycache__/py310.cpython-312.pyc"
+Changes to packages/core2-64-poky-linux/python3-zipp (sysroot):
+  /usr/lib/python3.12/site-packages/zipp-3.17.0.dist-info moved to /usr/lib/python3.12/site-packages/zipp-3.18.1.dist-info
+  /usr/lib/python3.12/site-packages/zipp/compat was added
+  /usr/lib/python3.12/site-packages/zipp/compat/__init__.py was added
+  /usr/lib/python3.12/site-packages/zipp/compat/py310.py was added
+  /usr/lib/python3.12/site-packages/zipp/compat/__pycache__ was added
+  /usr/lib/python3.12/site-packages/zipp/compat/__pycache__/__init__.cpython-312.pyc was added
+  /usr/lib/python3.12/site-packages/zipp/compat/__pycache__/py310.cpython-312.pyc was added
+  /usr/lib/python3.12/site-packages/zipp/py310compat.py was removed
+  /usr/lib/python3.12/site-packages/zipp/__pycache__/py310compat.cpython-312.pyc was removed
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3445,5 +3463,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============8881720683499040170==--
+--===============8968385447291556072==--
 
