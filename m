@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58890C54F38
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A9F4C54F43
 	for <webhook@archiver.kernel.org>; Fri, 15 Mar 2024 17:00:17 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.1260.1710522016578020659
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web10.1261.1710522016585769646
  for <openembedded-core@lists.openembedded.org>;
  Fri, 15 Mar 2024 10:00:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=FSJK/gax;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=NIcgEeEa;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101018e430ea0d3-20edfc96-a523-4526-9f29-72a1b5910109-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=PCZt/qJx;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=XVFvYdcW;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101018e430ea067-49770d40-52d6-43d6-becf-718a07ae7fff-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1710522016;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=OMeXRcQd7V2p6oW9ToPzMeiyp2/AR5I0B4GRbadc6xo=;
-	b=FSJK/gax2Yq6j7YfruphKi/vyw9DoGWqV10TWS3MLw8808Nc+NIl2t1ACBl0zFS5
-	GYYCEb8L/vfSiXDP4lw3BM8ePFXYRWxfft1EShWlBfJroOsBa/QiEafLTO9ed+0/IFp
-	wMU6/MHaeLy8cUqmn3+rtPPGHerp8fJBRCiTAY2Y=
+	bh=Uw8qHS5Zc7R5bn0BBV5b1T4IZBhp9FdNqD0ERB9ideQ=;
+	b=PCZt/qJxCMyYZAT5oMQ/nH65/iejAqHYTnVITus79vOrQxV2eNo2cc5mfS16sCNB
+	WA7Pzu6+qffBllI8cz7jdGml7qOiekyu5tfEM1oD22V0yduhAbvIDr2hu7X4bbWvEVj
+	IOVyfSCVamzLHxyp8E9B3KjVs66RrkRLflewuOF0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1710522016;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=OMeXRcQd7V2p6oW9ToPzMeiyp2/AR5I0B4GRbadc6xo=;
-	b=NIcgEeEaLvHZpRIAKFKnvAUliwSf+DgAsFKPz2fqiol7syhS46ytuuBU4ignOcLi
-	I+xxoK0AuYZBhKOejYUkcFtopreU0n7IBvnDPU3WAYw4XeOEuHAF1GH8PUPmOrzdjhd
-	ypbyPWE/kpWullt7WgcX4sdE8QWNgCvkyFq+5vi4=
-Content-Type: multipart/mixed; boundary="===============8355247807844097685=="
+	bh=Uw8qHS5Zc7R5bn0BBV5b1T4IZBhp9FdNqD0ERB9ideQ=;
+	b=XVFvYdcWU/w23QRNLzSlWuLiUqPUO83mMm5epPS3WbB7ctJpcAaUlMydE+UrPJ1w
+	QyMPp1Fsha0M6Bb5YBveHOJtAnubUb6FBdFnqnpWQWseCwb6Xn0vbDnw3RfNJHQ2AtX
+	1tLQVVzi6wD/mrOOC+XsQcSSYI2uggXGNi4+lOvM=
+Content-Type: multipart/mixed; boundary="===============7132818708323251673=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Hongxu Jia <hongxu.jia@windriver.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gnupg: upgrading to 2.4.5 SUCCEEDED
-Message-ID: <0101018e430ea0d3-20edfc96-a523-4526-9f29-72a1b5910109-000000@us-west-2.amazonses.com>
+Subject: [AUH] gstreamer1.0-vaapi: upgrading to 1.24.0 FAILED
+Message-ID: <0101018e430ea067-49770d40-52d6-43d6-becf-718a07ae7fff-000000@us-west-2.amazonses.com>
 Date: Fri, 15 Mar 2024 17:00:15 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.03.15-54.240.27.193
+X-SES-Outgoing: 2024.03.15-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 15 Mar 2024 17:00:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197241
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197242
 
---===============8355247807844097685==
+--===============7132818708323251673==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gnupg* to *2.4.5* has Succeeded.
+that the automatic attempt to upgrade the recipe *gstreamer1.0-vaapi* to *1.24.0* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-gnupg-upgrade-2.4.4-2.4.5.patch
+    - apply the patch: git am 0001-gstreamer1.0-vaapi-upgrade-1.22.10-1.24.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,387 +78,199 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 0f659eeb6e5980549fb723d4655a22f45dd50363 Mon Sep 17 00:00:00 2001
+From 8f76ae65e6958e538513591e7e5bd99cebb6ffd8 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Mar 2024 15:27:32 +0000
-Subject: [PATCH] gnupg: upgrade 2.4.4 -> 2.4.5
+Date: Fri, 15 Mar 2024 14:51:47 +0000
+Subject: [PATCH] gstreamer1.0-vaapi: upgrade 1.22.10 -> 1.24.0
 
 ---
- .../0001-Woverride-init-is-not-needed-with-gcc-9.patch     | 7 ++-----
- ...figure.ac-use-a-custom-value-for-the-location-of-.patch | 5 ++---
- .../gnupg/0002-use-pkgconfig-instead-of-npth-config.patch  | 3 +--
- ...004-autogen.sh-fix-find-version-for-beta-checking.patch | 3 +--
- meta/recipes-support/gnupg/gnupg/relocate.patch            | 3 +--
- .../gnupg/{gnupg_2.4.4.bb => gnupg_2.4.5.bb}               | 2 +-
- 6 files changed, 8 insertions(+), 15 deletions(-)
- rename meta/recipes-support/gnupg/{gnupg_2.4.4.bb => gnupg_2.4.5.bb} (97%)
+ ...treamer1.0-vaapi_1.22.10.bb => gstreamer1.0-vaapi_1.24.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.22.10.bb => gstreamer1.0-vaapi_1.24.0.bb} (95%)
 
-diff --git a/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch b/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch
-index 83195b5bd4..3776013e1f 100644
---- a/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch
-+++ b/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch
-@@ -1,4 +1,4 @@
--From e3adc816d2d56dd929016073937ba24e01e03cb8 Mon Sep 17 00:00:00 2001
-+From 3f1fee4f794d879a2638213685836342c5c22904 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Thu, 20 Dec 2018 17:37:48 -0800
- Subject: [PATCH] Woverride-init is not needed with gcc 9
-@@ -17,7 +17,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.22.10.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.24.0.bb
+similarity index 95%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.22.10.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.24.0.bb
+index b52b7aa4c4..0c1b47b5e8 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.22.10.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.24.0.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
  
- diff --git a/dirmngr/dns.h b/dirmngr/dns.h
--index 024d6dcc8..c6e141e16 100644
-+index 1f647e1..334acb6 100644
- --- a/dirmngr/dns.h
- +++ b/dirmngr/dns.h
- @@ -139,7 +139,7 @@ DNS_PUBLIC int *dns_debug_p(void);
-@@ -29,6 +29,3 @@ index 024d6dcc8..c6e141e16 100644
-  #define DNS_PRAGMA_PUSH _Pragma("GCC diagnostic push")
-  #define DNS_PRAGMA_QUIET _Pragma("GCC diagnostic ignored \"-Woverride-init\"")
-  #define DNS_PRAGMA_POP _Pragma("GCC diagnostic pop")
---- 
--2.17.1
--
-diff --git a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
-index f957f6b55e..72d5318177 100644
---- a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
-+++ b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
-@@ -1,4 +1,4 @@
--From 6b581c43bd01f815db78a410fd3814fc5994171e Mon Sep 17 00:00:00 2001
-+From ae201b232ec10dbc8766e3cfebd07142ffc2fd62 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Mon, 22 Jan 2018 18:00:21 +0200
- Subject: [PATCH] configure.ac: use a custom value for the location of
-@@ -8,13 +8,12 @@ This should avoid clashes with the host gpg-agent observed on autobuilders.
+ SRC_URI = "https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-${PV}.tar.xz"
  
- Upstream-Status: Inappropriate [oe-core specific, and only for -native]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
--
- ---
-  configure.ac | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
+-SRC_URI[sha256sum] = "094ca144aca8f2c554a2517dfdc421fa37c80294c6f12b992c20cbc73aa2c0bd"
++SRC_URI[sha256sum] = "6b1f3b91ca65dedc67dc67a25dc1d1e464f11825a27ab9c7ac7c1bda67f03596"
  
- diff --git a/configure.ac b/configure.ac
--index 26d7f7b..e953c2e 100644
-+index ac4f08c..90f77e9 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -1921,7 +1921,7 @@ AC_DEFINE_UNQUOTED(GPGCONF_DISP_NAME, "GPGConf",
-diff --git a/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of-npth-config.patch b/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of-npth-config.patch
-index 0e58fd4c4d..8e6710ce37 100644
---- a/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of-npth-config.patch
-+++ b/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of-npth-config.patch
-@@ -1,4 +1,4 @@
--From d9048788d906774b1475c3bb1b17e22455c2add4 Mon Sep 17 00:00:00 2001
-+From a63c3b7d0b406dd19e2f00f34490f9fe9d952a8b Mon Sep 17 00:00:00 2001
- From: Saul Wold <sgw@linux.intel.com>
- Date: Wed, 16 Aug 2017 11:16:30 +0800
- Subject: [PATCH] use pkgconfig instead of npth config
-@@ -9,7 +9,6 @@ Signed-off-by: Saul Wold <sgw@linux.intel.com>
- 
- Rebase to 2.1.23
- Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
--
- ---
-  m4/npth.m4 | 53 ++++++++---------------------------------------------
-  1 file changed, 8 insertions(+), 45 deletions(-)
-diff --git a/meta/recipes-support/gnupg/gnupg/0004-autogen.sh-fix-find-version-for-beta-checking.patch b/meta/recipes-support/gnupg/gnupg/0004-autogen.sh-fix-find-version-for-beta-checking.patch
-index d664c36a1b..437b4ead94 100644
---- a/meta/recipes-support/gnupg/gnupg/0004-autogen.sh-fix-find-version-for-beta-checking.patch
-+++ b/meta/recipes-support/gnupg/gnupg/0004-autogen.sh-fix-find-version-for-beta-checking.patch
-@@ -1,4 +1,4 @@
--From 6a7f9b71d936847dcaeeac7d1b69d8299be4dd85 Mon Sep 17 00:00:00 2001
-+From d9563caff7e688a99d9a1d5e91acbacd46eff313 Mon Sep 17 00:00:00 2001
- From: Wenzong Fan <wenzong.fan@windriver.com>
- Date: Wed, 16 Aug 2017 11:23:22 +0800
- Subject: [PATCH] autogen.sh: fix find-version for beta checking
-@@ -13,7 +13,6 @@ Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
- 
- Rebase to 2.1.23
- Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
--
- ---
-  autogen.sh | 1 -
-  1 file changed, 1 deletion(-)
-diff --git a/meta/recipes-support/gnupg/gnupg/relocate.patch b/meta/recipes-support/gnupg/gnupg/relocate.patch
-index ea0252026a..ab3dc7fc5a 100644
---- a/meta/recipes-support/gnupg/gnupg/relocate.patch
-+++ b/meta/recipes-support/gnupg/gnupg/relocate.patch
-@@ -1,4 +1,4 @@
--From c50d0a95fcf8f96c272fadd4ba85f3eeac39fcaf Mon Sep 17 00:00:00 2001
-+From 0174193dfc17983765528a6eae0f4732935819cf Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Wed, 19 Sep 2018 14:44:40 +0100
- Subject: [PATCH] Allow the environment to override where gnupg looks for its
-@@ -8,7 +8,6 @@ Upstream-Status: Inappropriate [OE-specific]
- Signed-off-by: Ross Burton <ross.burton@intel.com>
- 
- Signed-off-by: Alexander Kanavin <alex@linutronix.de>
--
- ---
-  common/homedir.c | 14 +++++++-------
-  1 file changed, 7 insertions(+), 7 deletions(-)
-diff --git a/meta/recipes-support/gnupg/gnupg_2.4.4.bb b/meta/recipes-support/gnupg/gnupg_2.4.5.bb
-similarity index 97%
-rename from meta/recipes-support/gnupg/gnupg_2.4.4.bb
-rename to meta/recipes-support/gnupg/gnupg_2.4.5.bb
-index fff7d8c6da..99996968b1 100644
---- a/meta/recipes-support/gnupg/gnupg_2.4.4.bb
-+++ b/meta/recipes-support/gnupg/gnupg_2.4.5.bb
-@@ -23,7 +23,7 @@ SRC_URI:append:class-native = " file://0001-configure.ac-use-a-custom-value-for-
-                                 file://relocate.patch"
- SRC_URI:append:class-nativesdk = " file://relocate.patch"
- 
--SRC_URI[sha256sum] = "67ebe016ca90fa7688ce67a387ebd82c6261e95897db7b23df24ff335be85bc6"
-+SRC_URI[sha256sum] = "f68f7d75d06cb1635c336d34d844af97436c3f64ea14bcb7c869782f96f44277"
- 
- EXTRA_OECONF = "--disable-ldap \
- 		--disable-ccid-driver \
+ S = "${WORKDIR}/${REALPN}-${PV}"
+ DEPENDS = "libva gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
 -- 
 2.42.0
 
 
---===============8355247807844097685==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/gnupg/gnupg-dbg: PKGSIZE changed from 20025304 to 20050800 (+0%)
-packages/core2-64-poky-linux/gnupg/gnupg-dbg: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-dbg: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/gnupg/gnupg-dev: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-dev: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/gnupg/gnupg-doc: PKGSIZE changed from 1192073 to 1197789 (+0%)
-packages/core2-64-poky-linux/gnupg/gnupg-doc: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-doc: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/gnupg/gnupg-gpg: PKGSIZE changed from 1591348 to 1591412 (+0%)
-packages/core2-64-poky-linux/gnupg/gnupg-gpg: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-gpg: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-ca: PKGSIZE changed from 43079 to 43010 (-0%)
-packages/core2-64-poky-linux/gnupg/gnupg-locale-ca: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-ca: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-cs: PKGSIZE changed from 242046 to 241869 (-0%)
-packages/core2-64-poky-linux/gnupg/gnupg-locale-cs: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-cs: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-da: PKGSIZE changed from 131289 to 131114 (-0%)
-packages/core2-64-poky-linux/gnupg/gnupg-locale-da: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-da: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-de: PKGSIZE changed from 245737 to 245682 (-0%)
-packages/core2-64-poky-linux/gnupg/gnupg-locale-de: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-de: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-el: PKGSIZE changed from 56980 to 56832 (-0%)
-packages/core2-64-poky-linux/gnupg/gnupg-locale-el: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-el: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-en+boldquot: PKGSIZE changed from 223900 to 223838 (-0%)
-packages/core2-64-poky-linux/gnupg/gnupg-locale-en+boldquot: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-en+boldquot: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-en+quot: PKGSIZE changed from 221524 to 221462 (-0%)
-packages/core2-64-poky-linux/gnupg/gnupg-locale-en+quot: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-en+quot: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-eo: PKGSIZE changed from 28129 to 28068 (-0%)
-packages/core2-64-poky-linux/gnupg/gnupg-locale-eo: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-eo: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-es: PKGSIZE changed from 214798 to 214598 (-0%)
-packages/core2-64-poky-linux/gnupg/gnupg-locale-es: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-es: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-et: PKGSIZE changed from 41307 to 41196 (-0%)
-packages/core2-64-poky-linux/gnupg/gnupg-locale-et: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-et: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-fi: PKGSIZE changed from 42844 to 42743 (-0%)
-packages/core2-64-poky-linux/gnupg/gnupg-locale-fi: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-fi: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-fr: PKGSIZE changed from 201025 to 200784 (-0%)
-packages/core2-64-poky-linux/gnupg/gnupg-locale-fr: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-fr: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-gl: PKGSIZE changed from 42748 to 42679 (-0%)
-packages/core2-64-poky-linux/gnupg/gnupg-locale-gl: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-gl: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-hu: PKGSIZE changed from 44209 to 44132 (-0%)
-packages/core2-64-poky-linux/gnupg/gnupg-locale-hu: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-hu: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-id: PKGSIZE changed from 41136 to 41028 (-0%)
-packages/core2-64-poky-linux/gnupg/gnupg-locale-id: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-id: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-it: PKGSIZE changed from 235749 to 235558 (-0%)
-packages/core2-64-poky-linux/gnupg/gnupg-locale-it: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-it: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-ja: PKGSIZE changed from 252952 to 252874 (-0%)
-packages/core2-64-poky-linux/gnupg/gnupg-locale-ja: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-ja: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-nb: PKGSIZE changed from 209933 to 209765 (-0%)
-packages/core2-64-poky-linux/gnupg/gnupg-locale-nb: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-nb: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-pl: PKGSIZE changed from 239518 to 244708 (+2%)
-packages/core2-64-poky-linux/gnupg/gnupg-locale-pl: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-pl: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-pt: PKGSIZE changed from 235642 to 235472 (-0%)
-packages/core2-64-poky-linux/gnupg/gnupg-locale-pt: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-pt: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-ro: PKGSIZE changed from 82627 to 82533 (-0%)
-packages/core2-64-poky-linux/gnupg/gnupg-locale-ro: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-ro: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-ru: PKGSIZE changed from 289694 to 289444 (-0%)
-packages/core2-64-poky-linux/gnupg/gnupg-locale-ru: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-ru: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-sk: PKGSIZE changed from 43728 to 43653 (-0%)
-packages/core2-64-poky-linux/gnupg/gnupg-locale-sk: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-sk: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-sv: PKGSIZE changed from 131585 to 131364 (-0%)
-packages/core2-64-poky-linux/gnupg/gnupg-locale-sv: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-sv: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-tr: PKGSIZE changed from 240902 to 240726 (-0%)
-packages/core2-64-poky-linux/gnupg/gnupg-locale-tr: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-tr: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-uk: PKGSIZE changed from 295138 to 294862 (-0%)
-packages/core2-64-poky-linux/gnupg/gnupg-locale-uk: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-uk: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-zh-cn: PKGSIZE changed from 219889 to 219732 (-0%)
-packages/core2-64-poky-linux/gnupg/gnupg-locale-zh-cn: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-zh-cn: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/gnupg/gnupg-locale-zh-tw: PKGSIZE changed from 174337 to 174172 (-0%)
-packages/core2-64-poky-linux/gnupg/gnupg-locale-zh-tw: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-locale-zh-tw: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/gnupg/gnupg-src: PKGSIZE changed from 8838039 to 8853319 (+0%)
-packages/core2-64-poky-linux/gnupg/gnupg-src: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-src: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/gnupg/gnupg-staticdev: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/gnupg/gnupg-staticdev: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/gnupg/gnupg: PKGSIZE changed from 4631309 to 4639661 (+0%)
-packages/core2-64-poky-linux/gnupg/gnupg: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/gnupg/gnupg: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/gnupg: PKGV changed from 2.4.4 [default] to 2.4.5 [default]
-packages/core2-64-poky-linux/gnupg: PV changed from "2.4.4" to "2.4.5"
-packages/core2-64-poky-linux/gnupg: SRC_URI changed from "https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-2.4.4.tar.bz2 file://0002-use-pkgconfig-instead-of-npth-config.patch file://0004-autogen.sh-fix-find-version-for-beta-checking.patch file://0001-Woverride-init-is-not-needed-with-gcc-9.patch" to "https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-2.4.5.tar.bz2 file://0002-use-pkgconfig-instead-of-npth-config.patch file://0004-autogen.sh-fix-find-version-for-beta-checking.patch file://0001-Woverride-init-is-not-needed-with-gcc-9.patch"
-
---===============8355247807844097685==
+--===============7132818708323251673==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-gnupg-upgrade-2.4.4-2.4.5.patch"
+ filename="0001-gstreamer1.0-vaapi-upgrade-1.22.10-1.24.0.patch"
 
-RnJvbSAwZjY1OWVlYjZlNTk4MDU0OWZiNzIzZDQ2NTVhMjJmNDVkZDUwMzYzIE1vbiBTZXAgMTcg
+RnJvbSA4Zjc2YWU2NWU2OTU4ZTUzODUxMzU5MWU3ZTViZDk5Y2ViYjZmZmQ4IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTUgTWFyIDIwMjQgMTU6Mjc6MzIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-bnVwZzogdXBncmFkZSAyLjQuNCAtPiAyLjQuNQoKLS0tCiAuLi4vMDAwMS1Xb3ZlcnJpZGUtaW5p
-dC1pcy1ub3QtbmVlZGVkLXdpdGgtZ2NjLTkucGF0Y2ggICAgIHwgNyArKy0tLS0tCiAuLi5maWd1
-cmUuYWMtdXNlLWEtY3VzdG9tLXZhbHVlLWZvci10aGUtbG9jYXRpb24tb2YtLnBhdGNoIHwgNSAr
-Ky0tLQogLi4uL2dudXBnLzAwMDItdXNlLXBrZ2NvbmZpZy1pbnN0ZWFkLW9mLW5wdGgtY29uZmln
-LnBhdGNoICB8IDMgKy0tCiAuLi4wMDQtYXV0b2dlbi5zaC1maXgtZmluZC12ZXJzaW9uLWZvci1i
-ZXRhLWNoZWNraW5nLnBhdGNoIHwgMyArLS0KIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXBnL2du
-dXBnL3JlbG9jYXRlLnBhdGNoICAgICAgICAgICAgfCAzICstLQogLi4uL2dudXBnL3tnbnVwZ18y
-LjQuNC5iYiA9PiBnbnVwZ18yLjQuNS5iYn0gICAgICAgICAgICAgICB8IDIgKy0KIDYgZmlsZXMg
-Y2hhbmdlZCwgOCBpbnNlcnRpb25zKCspLCAxNSBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3Jl
-Y2lwZXMtc3VwcG9ydC9nbnVwZy97Z251cGdfMi40LjQuYmIgPT4gZ251cGdfMi40LjUuYmJ9ICg5
-NyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ251cGcvZ251cGcvMDAwMS1X
-b3ZlcnJpZGUtaW5pdC1pcy1ub3QtbmVlZGVkLXdpdGgtZ2NjLTkucGF0Y2ggYi9tZXRhL3JlY2lw
-ZXMtc3VwcG9ydC9nbnVwZy9nbnVwZy8wMDAxLVdvdmVycmlkZS1pbml0LWlzLW5vdC1uZWVkZWQt
-d2l0aC1nY2MtOS5wYXRjaAppbmRleCA4MzE5NWI1YmQ0Li4zNzc2MDEzZTFmIDEwMDY0NAotLS0g
-YS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9nbnVwZy9nbnVwZy8wMDAxLVdvdmVycmlkZS1pbml0LWlz
-LW5vdC1uZWVkZWQtd2l0aC1nY2MtOS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9n
-bnVwZy9nbnVwZy8wMDAxLVdvdmVycmlkZS1pbml0LWlzLW5vdC1uZWVkZWQtd2l0aC1nY2MtOS5w
-YXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gZTNhZGM4MTZkMmQ1NmRkOTI5MDE2MDczOTM3YmEy
-NGUwMWUwM2NiOCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gM2YxZmVlNGY3OTRkODc5
-YTI2MzgyMTM2ODU4MzYzNDJjNWMyMjkwNCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206
-IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiBEYXRlOiBUaHUsIDIwIERlYyAyMDE4IDE3
-OjM3OjQ4IC0wODAwCiBTdWJqZWN0OiBbUEFUQ0hdIFdvdmVycmlkZS1pbml0IGlzIG5vdCBuZWVk
-ZWQgd2l0aCBnY2MgOQpAQCAtMTcsNyArMTcsNyBAQCBTaWduZWQtb2ZmLWJ5OiBLaGVtIFJhaiA8
-cmFqLmtoZW1AZ21haWwuY29tPgogIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBk
-ZWxldGlvbigtKQogCiBkaWZmIC0tZ2l0IGEvZGlybW5nci9kbnMuaCBiL2Rpcm1uZ3IvZG5zLmgK
-LWluZGV4IDAyNGQ2ZGNjOC4uYzZlMTQxZTE2IDEwMDY0NAoraW5kZXggMWY2NDdlMS4uMzM0YWNi
-NiAxMDA2NDQKIC0tLSBhL2Rpcm1uZ3IvZG5zLmgKICsrKyBiL2Rpcm1uZ3IvZG5zLmgKIEBAIC0x
-MzksNyArMTM5LDcgQEAgRE5TX1BVQkxJQyBpbnQgKmRuc19kZWJ1Z19wKHZvaWQpOwpAQCAtMjks
-NiArMjksMyBAQCBpbmRleCAwMjRkNmRjYzguLmM2ZTE0MWUxNiAxMDA2NDQKICAjZGVmaW5lIERO
-U19QUkFHTUFfUFVTSCBfUHJhZ21hKCJHQ0MgZGlhZ25vc3RpYyBwdXNoIikKICAjZGVmaW5lIERO
-U19QUkFHTUFfUVVJRVQgX1ByYWdtYSgiR0NDIGRpYWdub3N0aWMgaWdub3JlZCBcIi1Xb3ZlcnJp
-ZGUtaW5pdFwiIikKICAjZGVmaW5lIEROU19QUkFHTUFfUE9QIF9QcmFnbWEoIkdDQyBkaWFnbm9z
-dGljIHBvcCIpCi0tLSAKLTIuMTcuMQotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9y
-dC9nbnVwZy9nbnVwZy8wMDAxLWNvbmZpZ3VyZS5hYy11c2UtYS1jdXN0b20tdmFsdWUtZm9yLXRo
-ZS1sb2NhdGlvbi1vZi0ucGF0Y2ggYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9nbnVwZy9nbnVwZy8w
-MDAxLWNvbmZpZ3VyZS5hYy11c2UtYS1jdXN0b20tdmFsdWUtZm9yLXRoZS1sb2NhdGlvbi1vZi0u
-cGF0Y2gKaW5kZXggZjk1N2Y2YjU1ZS4uNzJkNTMxODE3NyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
-cGVzLXN1cHBvcnQvZ251cGcvZ251cGcvMDAwMS1jb25maWd1cmUuYWMtdXNlLWEtY3VzdG9tLXZh
-bHVlLWZvci10aGUtbG9jYXRpb24tb2YtLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0
-L2dudXBnL2dudXBnLzAwMDEtY29uZmlndXJlLmFjLXVzZS1hLWN1c3RvbS12YWx1ZS1mb3ItdGhl
-LWxvY2F0aW9uLW9mLS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gNmI1ODFjNDNiZDAxZjgx
-NWRiNzhhNDEwZmQzODE0ZmM1OTk0MTcxZSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20g
-YWUyMDFiMjMyZWMxMGRiYzg3NjZlM2NmZWJkMDcxNDJmZmMyZmQ2MiBNb24gU2VwIDE3IDAwOjAw
-OjAwIDIwMDEKIEZyb206IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29t
-PgogRGF0ZTogTW9uLCAyMiBKYW4gMjAxOCAxODowMDoyMSArMDIwMAogU3ViamVjdDogW1BBVENI
-XSBjb25maWd1cmUuYWM6IHVzZSBhIGN1c3RvbSB2YWx1ZSBmb3IgdGhlIGxvY2F0aW9uIG9mCkBA
-IC04LDEzICs4LDEyIEBAIFRoaXMgc2hvdWxkIGF2b2lkIGNsYXNoZXMgd2l0aCB0aGUgaG9zdCBn
-cGctYWdlbnQgb2JzZXJ2ZWQgb24gYXV0b2J1aWxkZXJzLgogCiBVcHN0cmVhbS1TdGF0dXM6IElu
-YXBwcm9wcmlhdGUgW29lLWNvcmUgc3BlY2lmaWMsIGFuZCBvbmx5IGZvciAtbmF0aXZlXQogU2ln
-bmVkLW9mZi1ieTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+Ci0K
-IC0tLQogIGNvbmZpZ3VyZS5hYyB8IDIgKy0KICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24o
-KyksIDEgZGVsZXRpb24oLSkKIAogZGlmZiAtLWdpdCBhL2NvbmZpZ3VyZS5hYyBiL2NvbmZpZ3Vy
-ZS5hYwotaW5kZXggMjZkN2Y3Yi4uZTk1M2MyZSAxMDA2NDQKK2luZGV4IGFjNGYwOGMuLjkwZjc3
-ZTkgMTAwNjQ0CiAtLS0gYS9jb25maWd1cmUuYWMKICsrKyBiL2NvbmZpZ3VyZS5hYwogQEAgLTE5
-MjEsNyArMTkyMSw3IEBAIEFDX0RFRklORV9VTlFVT1RFRChHUEdDT05GX0RJU1BfTkFNRSwgIkdQ
-R0NvbmYiLApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ251cGcvZ251cGcvMDAw
-Mi11c2UtcGtnY29uZmlnLWluc3RlYWQtb2YtbnB0aC1jb25maWcucGF0Y2ggYi9tZXRhL3JlY2lw
-ZXMtc3VwcG9ydC9nbnVwZy9nbnVwZy8wMDAyLXVzZS1wa2djb25maWctaW5zdGVhZC1vZi1ucHRo
-LWNvbmZpZy5wYXRjaAppbmRleCAwZTU4ZmQ0YzRkLi44ZTY3MTBjZTM3IDEwMDY0NAotLS0gYS9t
-ZXRhL3JlY2lwZXMtc3VwcG9ydC9nbnVwZy9nbnVwZy8wMDAyLXVzZS1wa2djb25maWctaW5zdGVh
-ZC1vZi1ucHRoLWNvbmZpZy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9nbnVwZy9n
-bnVwZy8wMDAyLXVzZS1wa2djb25maWctaW5zdGVhZC1vZi1ucHRoLWNvbmZpZy5wYXRjaApAQCAt
-MSw0ICsxLDQgQEAKLUZyb20gZDkwNDg3ODhkOTA2Nzc0YjE0NzVjM2JiMWIxN2UyMjQ1NWMyYWRk
-NCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gYTYzYzNiN2QwYjQwNmRkMTllMmYwMGYz
-NDQ5MGY5ZmU5ZDk1MmE4YiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFNhdWwgV29s
-ZCA8c2d3QGxpbnV4LmludGVsLmNvbT4KIERhdGU6IFdlZCwgMTYgQXVnIDIwMTcgMTE6MTY6MzAg
-KzA4MDAKIFN1YmplY3Q6IFtQQVRDSF0gdXNlIHBrZ2NvbmZpZyBpbnN0ZWFkIG9mIG5wdGggY29u
-ZmlnCkBAIC05LDcgKzksNiBAQCBTaWduZWQtb2ZmLWJ5OiBTYXVsIFdvbGQgPHNnd0BsaW51eC5p
-bnRlbC5jb20+CiAKIFJlYmFzZSB0byAyLjEuMjMKIFNpZ25lZC1vZmYtYnk6IEhvbmd4dSBKaWEg
-PGhvbmd4dS5qaWFAd2luZHJpdmVyLmNvbT4KLQogLS0tCiAgbTQvbnB0aC5tNCB8IDUzICsrKysr
-KysrLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCiAgMSBmaWxl
-IGNoYW5nZWQsIDggaW5zZXJ0aW9ucygrKSwgNDUgZGVsZXRpb25zKC0pCmRpZmYgLS1naXQgYS9t
-ZXRhL3JlY2lwZXMtc3VwcG9ydC9nbnVwZy9nbnVwZy8wMDA0LWF1dG9nZW4uc2gtZml4LWZpbmQt
-dmVyc2lvbi1mb3ItYmV0YS1jaGVja2luZy5wYXRjaCBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2du
-dXBnL2dudXBnLzAwMDQtYXV0b2dlbi5zaC1maXgtZmluZC12ZXJzaW9uLWZvci1iZXRhLWNoZWNr
-aW5nLnBhdGNoCmluZGV4IGQ2NjRjMzZhMWIuLjQzN2I0ZWFkOTQgMTAwNjQ0Ci0tLSBhL21ldGEv
-cmVjaXBlcy1zdXBwb3J0L2dudXBnL2dudXBnLzAwMDQtYXV0b2dlbi5zaC1maXgtZmluZC12ZXJz
-aW9uLWZvci1iZXRhLWNoZWNraW5nLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2du
-dXBnL2dudXBnLzAwMDQtYXV0b2dlbi5zaC1maXgtZmluZC12ZXJzaW9uLWZvci1iZXRhLWNoZWNr
-aW5nLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA2YTdmOWI3MWQ5MzY4NDdkY2FlZWFjN2Qx
-YjY5ZDgyOTliZTRkZDg1IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBkOTU2M2NhZmY3
-ZTY4OGE5OWQ5YTFkNWU5MWFjYmFjZDQ2ZWZmMzEzIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQog
-RnJvbTogV2Vuem9uZyBGYW4gPHdlbnpvbmcuZmFuQHdpbmRyaXZlci5jb20+CiBEYXRlOiBXZWQs
-IDE2IEF1ZyAyMDE3IDExOjIzOjIyICswODAwCiBTdWJqZWN0OiBbUEFUQ0hdIGF1dG9nZW4uc2g6
-IGZpeCBmaW5kLXZlcnNpb24gZm9yIGJldGEgY2hlY2tpbmcKQEAgLTEzLDcgKzEzLDYgQEAgU2ln
-bmVkLW9mZi1ieTogV2Vuem9uZyBGYW4gPHdlbnpvbmcuZmFuQHdpbmRyaXZlci5jb20+CiAKIFJl
-YmFzZSB0byAyLjEuMjMKIFNpZ25lZC1vZmYtYnk6IEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2lu
-ZHJpdmVyLmNvbT4KLQogLS0tCiAgYXV0b2dlbi5zaCB8IDEgLQogIDEgZmlsZSBjaGFuZ2VkLCAx
-IGRlbGV0aW9uKC0pCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9nbnVwZy9nbnVw
-Zy9yZWxvY2F0ZS5wYXRjaCBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXBnL2dudXBnL3JlbG9j
-YXRlLnBhdGNoCmluZGV4IGVhMDI1MjAyNmEuLmFiM2RjN2ZjNWEgMTAwNjQ0Ci0tLSBhL21ldGEv
-cmVjaXBlcy1zdXBwb3J0L2dudXBnL2dudXBnL3JlbG9jYXRlLnBhdGNoCisrKyBiL21ldGEvcmVj
-aXBlcy1zdXBwb3J0L2dudXBnL2dudXBnL3JlbG9jYXRlLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAot
-RnJvbSBjNTBkMGE5NWZjZjhmOTZjMjcyZmFkZDRiYTg1ZjNlZWFjMzlmY2FmIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQorRnJvbSAwMTc0MTkzZGZjMTc5ODM3NjU1MjhhNmVhZTBmNDczMjkzNTgx
-OWNmIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogUm9zcyBCdXJ0b24gPHJvc3MuYnVy
-dG9uQGludGVsLmNvbT4KIERhdGU6IFdlZCwgMTkgU2VwIDIwMTggMTQ6NDQ6NDAgKzAxMDAKIFN1
-YmplY3Q6IFtQQVRDSF0gQWxsb3cgdGhlIGVudmlyb25tZW50IHRvIG92ZXJyaWRlIHdoZXJlIGdu
-dXBnIGxvb2tzIGZvciBpdHMKQEAgLTgsNyArOCw2IEBAIFVwc3RyZWFtLVN0YXR1czogSW5hcHBy
-b3ByaWF0ZSBbT0Utc3BlY2lmaWNdCiBTaWduZWQtb2ZmLWJ5OiBSb3NzIEJ1cnRvbiA8cm9zcy5i
-dXJ0b25AaW50ZWwuY29tPgogCiBTaWduZWQtb2ZmLWJ5OiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxl
-eEBsaW51dHJvbml4LmRlPgotCiAtLS0KICBjb21tb24vaG9tZWRpci5jIHwgMTQgKysrKysrKy0t
-LS0tLS0KICAxIGZpbGUgY2hhbmdlZCwgNyBpbnNlcnRpb25zKCspLCA3IGRlbGV0aW9ucygtKQpk
-aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ251cGcvZ251cGdfMi40LjQuYmIgYi9t
-ZXRhL3JlY2lwZXMtc3VwcG9ydC9nbnVwZy9nbnVwZ18yLjQuNS5iYgpzaW1pbGFyaXR5IGluZGV4
-IDk3JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtc3VwcG9ydC9nbnVwZy9nbnVwZ18yLjQuNC5i
-YgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ251cGcvZ251cGdfMi40LjUuYmIKaW5k
-ZXggZmZmN2Q4YzZkYS4uOTk5OTY5NjhiMSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBv
-cnQvZ251cGcvZ251cGdfMi40LjQuYmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ251cGcv
-Z251cGdfMi40LjUuYmIKQEAgLTIzLDcgKzIzLDcgQEAgU1JDX1VSSTphcHBlbmQ6Y2xhc3MtbmF0
-aXZlID0gIiBmaWxlOi8vMDAwMS1jb25maWd1cmUuYWMtdXNlLWEtY3VzdG9tLXZhbHVlLWZvci0K
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZmlsZTovL3JlbG9jYXRlLnBhdGNoIgog
-U1JDX1VSSTphcHBlbmQ6Y2xhc3MtbmF0aXZlc2RrID0gIiBmaWxlOi8vcmVsb2NhdGUucGF0Y2gi
-CiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI2N2ViZTAxNmNhOTBmYTc2ODhjZTY3YTM4N2ViZDgy
-YzYyNjFlOTU4OTdkYjdiMjNkZjI0ZmYzMzViZTg1YmM2IgorU1JDX1VSSVtzaGEyNTZzdW1dID0g
-ImY2OGY3ZDc1ZDA2Y2IxNjM1YzMzNmQzNGQ4NDRhZjk3NDM2YzNmNjRlYTE0YmNiN2M4Njk3ODJm
-OTZmNDQyNzciCiAKIEVYVFJBX09FQ09ORiA9ICItLWRpc2FibGUtbGRhcCBcCiAJCS0tZGlzYWJs
-ZS1jY2lkLWRyaXZlciBcCi0tIAoyLjQyLjAKCg==
+CkRhdGU6IEZyaSwgMTUgTWFyIDIwMjQgMTQ6NTE6NDcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
+c3RyZWFtZXIxLjAtdmFhcGk6IHVwZ3JhZGUgMS4yMi4xMCAtPiAxLjI0LjAKCi0tLQogLi4udHJl
+YW1lcjEuMC12YWFwaV8xLjIyLjEwLmJiID0+IGdzdHJlYW1lcjEuMC12YWFwaV8xLjI0LjAuYmJ9
+IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiBy
+ZW5hbWUgbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL3tnc3RyZWFtZXIxLjAtdmFh
+cGlfMS4yMi4xMC5iYiA9PiBnc3RyZWFtZXIxLjAtdmFhcGlfMS4yNC4wLmJifSAoOTUlKQoKZGlm
+ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAt
+dmFhcGlfMS4yMi4xMC5iYiBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3Ry
+ZWFtZXIxLjAtdmFhcGlfMS4yNC4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTUlCnJlbmFtZSBmcm9t
+IG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtdmFhcGlfMS4y
+Mi4xMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJl
+YW1lcjEuMC12YWFwaV8xLjI0LjAuYmIKaW5kZXggYjUyYjdhYTRjNC4uMGMxYjQ3YjVlOCAxMDA2
+NDQKLS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC12
+YWFwaV8xLjIyLjEwLmJiCisrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9n
+c3RyZWFtZXIxLjAtdmFhcGlfMS4yNC4wLmJiCkBAIC0xMSw3ICsxMSw3IEBAIExJQ19GSUxFU19D
+SEtTVU0gPSAiZmlsZTovL0NPUFlJTkcuTElCO21kNT00ZmJkNjUzODBjZGQyNTU5NTEwNzkwMDhi
+MzY0NTE2YyIKIAogU1JDX1VSSSA9ICJodHRwczovL2dzdHJlYW1lci5mcmVlZGVza3RvcC5vcmcv
+c3JjLyR7UkVBTFBOfS8ke1JFQUxQTn0tJHtQVn0udGFyLnh6IgogCi1TUkNfVVJJW3NoYTI1NnN1
+bV0gPSAiMDk0Y2ExNDRhY2E4ZjJjNTU0YTI1MTdkZmRjNDIxZmEzN2M4MDI5NGM2ZjEyYjk5MmMy
+MGNiYzczYWEyYzBiZCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI2YjFmM2I5MWNhNjVkZWRjNjdk
+YzY3YTI1ZGMxZDFlNDY0ZjExODI1YTI3YWI5YzdhYzdjMWJkYTY3ZjAzNTk2IgogCiBTID0gIiR7
+V09SS0RJUn0vJHtSRUFMUE59LSR7UFZ9IgogREVQRU5EUyA9ICJsaWJ2YSBnc3RyZWFtZXIxLjAg
+Z3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFzZSBnc3RyZWFtZXIxLjAtcGx1Z2lucy1iYWQiCi0tIAoy
+LjQyLjAKCg==
 
---===============8355247807844097685==--
+--===============7132818708323251673==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1878 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 922 .bb files complete (921 cached, 1 parsed). 1877 targets, 35 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-64 sysroot...done.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.7.3"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "4.3+snapshot-0487319d12bb09383905ef9f72c14b545b370a7b"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:0487319d12bb09383905ef9f72c14b545b370a7b"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 459 Local 446 Mirrors 0 Missed 13 Current 762 (97% match, 98% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 3046 of 3369 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.24.0.bb:do_recipe_qa)
+NOTE: Running task 3179 of 3369 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.24.0.bb:do_write_config)
+NOTE: recipe gstreamer1.0-vaapi-1.24.0-r0: task do_recipe_qa: Started
+NOTE: recipe gstreamer1.0-vaapi-1.24.0-r0: task do_write_config: Started
+NOTE: recipe gstreamer1.0-vaapi-1.24.0-r0: task do_write_config: Succeeded
+NOTE: recipe gstreamer1.0-vaapi-1.24.0-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 3350 of 3369 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.24.0.bb:do_fetch)
+NOTE: recipe gstreamer1.0-vaapi-1.24.0-r0: task do_fetch: Started
+NOTE: recipe gstreamer1.0-vaapi-1.24.0-r0: task do_fetch: Succeeded
+NOTE: Running task 3351 of 3369 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.24.0.bb:do_unpack)
+NOTE: Running task 3352 of 3369 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.24.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe gstreamer1.0-vaapi-1.24.0-r0: task do_unpack: Started
+NOTE: recipe gstreamer1.0-vaapi-1.24.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe gstreamer1.0-vaapi-1.24.0-r0: task do_unpack: Succeeded
+NOTE: Running task 3353 of 3369 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.24.0.bb:do_patch)
+NOTE: Running task 3354 of 3369 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.24.0.bb:do_collect_spdx_deps)
+NOTE: recipe gstreamer1.0-vaapi-1.24.0-r0: task do_patch: Started
+NOTE: recipe gstreamer1.0-vaapi-1.24.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe gstreamer1.0-vaapi-1.24.0-r0: task do_patch: Succeeded
+NOTE: Running task 3355 of 3369 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.24.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 3356 of 3369 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.24.0.bb:do_populate_lic)
+NOTE: recipe gstreamer1.0-vaapi-1.24.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe gstreamer1.0-vaapi-1.24.0-r0: task do_populate_lic: Started
+NOTE: recipe gstreamer1.0-vaapi-1.24.0-r0: task do_populate_lic: Succeeded
+NOTE: recipe gstreamer1.0-vaapi-1.24.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe gstreamer1.0-vaapi-1.24.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe gstreamer1.0-vaapi-1.24.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 3357 of 3369 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.24.0.bb:do_configure)
+NOTE: recipe gstreamer1.0-vaapi-1.24.0-r0: task do_configure: Started
+Log data follows:
+| DEBUG: Executing python function extend_recipe_sysroot
+| NOTE: Direct dependencies are ['/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.39.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/systemd/systemd_255.4.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/qemu/qemu-native_8.2.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/quilt/quilt-native_0.67.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/drm/libdrm_2.4.120.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/libva/libva_2.20.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa_24.0.2.bb:do_populate_sysroot', '/home/po
+ kybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland-protocols_1.33.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.7.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrandr_1.5.4.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.22.10.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.10.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.22.10.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/met
+ a/recipes-devtools/meson/meson_1.3.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/ninja/ninja_1.11.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/patch/patch_2.7.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.2.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.4.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland_1.22.0.bb:do_populate_sysroot']
+| NOTE: Installed into sysroot: []
+| NOTE: Skipping as already exists in sysroot: ['bluez5', 'openssl', 'base-files', 'base-passwd', 'dbus', 'expat', 'gettext-minimal-native', 'glib-2.0', 'glibc', 'initscripts', 'libxcrypt', 'libxml2', 'ncurses', 'readline', 'systemd', 'update-rc.d', 'util-linux-libuuid', 'util-linux', 'zlib', 'binutils-cross-x86_64', 'cmake-native', 'gcc-cross-x86_64', 'gcc-runtime', 'libgcc', 'libedit', 'libtool-native', 'm4-native', 'opkg-utils', 'orc', 'python3', 'qemu-native', 'quilt-native', 'libstd-rs', 'vala', 'bzip2', 'cracklib', 'libidn2', 'libnsl2', 'libtirpc', 'libpam', 'shadow-sysroot', 'shadow', 'texinfo-dummy-native', 'xz', 'zstd', 'gdk-pixbuf', 'gobject-introspection', 'libgudev', 'librsvg', 'cairo', 'libdrm', 'fontconfig', 'freetype', 'harfbuzz', 'libjpeg-turbo', 'libva', 'libglu', 'mesa', 'pango', 'vulkan-headers', 'vulkan-loader', 'wayland-protocols', 'wayland', 'xrandr', 'libice', 'libpciaccess', 'libpthread-stubs', 'libsm', 'libx11', 'libxau', 'libxcb', 'libxdamage', 'libxdmcp', '
+ libxext', 'libxfixes', 'libxft', 'libxkbcommon', 'libxrandr', 'libxrender', 'libxshmfence', 'libxv', 'libxxf86vm', 'pixman', 'xkeyboard-config', 'xtrans', 'xcb-proto', 'xorgproto', 'util-macros', 'kmod', 'linux-libc-headers', 'alsa-lib', 'flac', 'gstreamer1.0-plugins-bad', 'gstreamer1.0-plugins-base', 'gstreamer1.0', 'libogg', 'libpng', 'libsndfile1', 'libtheora', 'libvorbis', 'sbc', 'libwebp', 'acl', 'attr', 'bash-completion', 'curl', 'fribidi', 'gdbm', 'icu', 'iso-codes', 'libcap-ng', 'libcap', 'libffi', 'libical', 'libpcre2', 'libseccomp', 'libunistring', 'libusb1', 'shared-mime-info', 'sqlite3', 'openssl-native', 'expat-native', 'gettext-native', 'glib-2.0-native', 'libxml2-native', 'ncurses-native', 'util-linux-libuuid-native', 'util-linux-native', 'zlib-native', 'flex-native', 'gnu-config-native', 'libedit-native', 'make-native', 'meson-native', 'ninja-native', 'patch-native', 'perl-native', 'pkgconfig-native', 'pseudo-native', 'python3-build-native', 'python3-flit-core-native
+ ', 'python3-installer-native', 'python3-packaging-native', 'python3-pyproject-hooks-native', 'python3-setuptools-native', 'python3-wheel-native', 'python3-native', 'bzip2-native', 'libnsl2-native', 'libtirpc-native', 'shadow-native', 'unzip-native', 'xz-native', 'zstd-native', 'wayland-native', 'attr-native', 'gdbm-native', 'gmp-native', 'libbsd-native', 'libcap-ng-native', 'libffi-native', 'libmd-native', 'libmpc-native', 'libpcre2-native', 'mpfr-native', 're2c-native', 'sqlite3-native']
+| DEBUG: Python function extend_recipe_sysroot finished
+| DEBUG: Executing shell function do_configure
+| NOTE: Executing meson -Ddoc=disabled -Dexamples=disabled -Dtests=enabled -Ddrm=enabled -Degl=disabled -Dencoders=enabled -Dglx=enabled -Dwayland=enabled -Dx11=enabled...
+| The Meson build system
+| Version: 1.3.1
+| Source dir: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-vaapi/1.24.0/gstreamer-vaapi-1.24.0
+| Build dir: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-vaapi/1.24.0/build
+| Build type: cross build
+| Project name: gstreamer-vaapi
+| Project version: 1.24.0
+| C compiler for the host machine: x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-vaapi/1.24.0/recipe-sysroot (gcc 13.2.0 "x86_64-poky-linux-gcc (GCC) 13.2.0")
+| C linker for the host machine: x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-vaapi/1.24.0/recipe-sysroot ld.bfd 2.42.0.20240216
+| C compiler for the build machine: gcc (gcc 13.2.0 "gcc (GCC) 13.2.0")
+| C linker for the build machine: gcc ld.bfd 2.41.0.20230926
+| Build machine cpu family: x86_64
+| Build machine cpu: x86_64
+| Host machine cpu family: x86_64
+| Host machine cpu: x86_64
+| Target machine cpu family: x86_64
+| Target machine cpu: x86_64
+| Compiler for C supports link arguments -Wl,-Bsymbolic-functions: YES
+| Compiler for C supports arguments -fvisibility=hidden: YES
+| Compiler for C supports arguments -fno-strict-aliasing: YES
+| Library m found: YES
+| Found pkg-config: YES (/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-vaapi/1.24.0/recipe-sysroot-native/usr/bin/pkg-config) 0.29.2
+| Dependency gstreamer-1.0 found: NO found 1.22.10 but need: '>= 1.24.0'
+| Found CMake: NO
+| Run-time dependency gstreamer-1.0 found: NO (tried pkgconfig and cmake)
+| Looking for a fallback subproject for the dependency gstreamer-1.0
+| 
+| ../gstreamer-vaapi-1.24.0/meson.build:47:10: ERROR: Neither a subproject directory nor a gstreamer.wrap file was found.
+| 
+| A full log can be found at /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-vaapi/1.24.0/build/meson-logs/meson-log.txt
+| ERROR: meson failed
+| WARNING: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-vaapi/1.24.0/temp/run.do_configure.465686:170 exit 1 from 'exit 1'
+| WARNING: Backtrace (BB generated script):
+| 	#1: bbfatal_log, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-vaapi/1.24.0/temp/run.do_configure.465686, line 170
+| 	#2: meson_do_configure, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-vaapi/1.24.0/temp/run.do_configure.465686, line 159
+| 	#3: do_configure, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-vaapi/1.24.0/temp/run.do_configure.465686, line 148
+| 	#4: main, /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-vaapi/1.24.0/temp/run.do_configure.465686, line 183
+NOTE: recipe gstreamer1.0-vaapi-1.24.0-r0: task do_configure: Failed
+NOTE: Tasks Summary: Attempted 3357 tasks of which 3347 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 3 seconds
+NOTE: The errors for this build are stored in /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240315145120.txt
+You can send the errors to a reports server by running:
+  send-error-report /home/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20240315145120.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.24.0.bb:do_configure
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: gstreamer1.0-vaapi-1.24.0-r0 do_configure: meson failed
+ERROR: gstreamer1.0-vaapi-1.24.0-r0 do_configure: ExecutionError('/home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-vaapi/1.24.0/temp/run.do_configure.465686', 1, None, None)
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gstreamer1.0-vaapi/1.24.0/temp/log.do_configure.465686
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.24.0.bb:do_configure) failed with exit code '1'
+
+--===============7132818708323251673==--
 
