@@ -1,80 +1,95 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A73BAC54E60
-	for <webhook@archiver.kernel.org>; Thu, 14 Mar 2024 17:47:36 +0000 (UTC)
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
- by mx.groups.io with SMTP id smtpd.web11.2871.1710438454563992590
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5402C54E69
+	for <webhook@archiver.kernel.org>; Fri, 15 Mar 2024 00:21:26 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web10.8885.1710462081065114288
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Mar 2024 10:47:34 -0700
+ Thu, 14 Mar 2024 17:21:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=UcRehghI;
- spf=pass (domain: gmail.com, ip: 209.85.167.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-512b3b04995so1334762e87.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 14 Mar 2024 10:47:34 -0700 (PDT)
+ dkim=pass header.i=@smile-fr.20230601.gappssmtp.com header.s=20230601 header.b=ondHmeMG;
+ spf=pass (domain: smile.fr, ip: 209.85.128.49, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-413feb32096so2269505e9.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 14 Mar 2024 17:21:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710438453; x=1711043253; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=oDzTowdEWT7ze3DEjtdHMUUHa0KM5Qk7wOHhYGvbCsI=;
-        b=UcRehghITrNWMLKM/icUwrXKIcoj/lBjkwIaWoMp04NMyYX0/qwFJ4x3CNIG3kWSee
-         40D57dbiCLQ4dzlUJLRj7Wdw5dBpTBouD55JuHA/jSyurZBoBCvTThXYzEFtsgk/NZ7i
-         XFym5JCYhhAkZS9VLCeZg+Yusk2mwI+TIxzArBNuHADO4N71vUdj3lkSVC2IAWVMErpb
-         SJg/Oe8jVbi1k7B0UEHNa6/GxlFtLAXZFLjc8oYzDJAUJRBX53cQP/MxAt0GdMExONOJ
-         zCy8GtTqDL8ZJ8gxAgjKiC28R8pjciCwpJMXBBdkUSudbk5WmnTbOkvTFZn5+OnHq7oN
-         c7EQ==
+        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1710462079; x=1711066879; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=R1iXvUEfYdtOFrZ4nSXikcEbnoezGI/wavJuQd4qO7w=;
+        b=ondHmeMGEHMfwLdxEq9hnN2PJ3Q1I4W/b8mEdjC7NhKB2rTXquYxL4R4tVgQApB/Pn
+         8ZlKWzbPssUVnZZ1jHXfgupwrDXZNymQuz545zlR8rIeX77miVdy+lsBugpekGGnlgiN
+         rJhw3vNe/RnYbpwmylDtWDD90LN3OhtUdwShNgf6tuF7MV3oYbW99q9yha/fE5N/pEj5
+         2irU3ZurwK3+P83Zdn4jKNDh5HkNTOxApOLppqwBa5zlhJdN/r+8lPzqaIRXvp3ik/DN
+         NNGvqZpd8iw57df7o3fcM3yaT1NsyMrNiRw7ZKAEX3Cut1uirXZFjdptnhh2I00e19mj
+         tjpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710438453; x=1711043253;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=oDzTowdEWT7ze3DEjtdHMUUHa0KM5Qk7wOHhYGvbCsI=;
-        b=DN7iAssuM6OKzX2lnEckPUp5y3LuN0YGiiPseezbnTZU9jZhvpYuUNOF8Rh054vKNX
-         noDm3hwjz+Ps4fBpJH3oYYXWeoAN3QLc2MDI2seAQdkgnngYwLr2uyasOxr1oyHfhp6h
-         leRl1WrkVTUokYtPEaH6KsgHOb5LAShfcYeiHNz+lF1wRilamrCj9B4NLb6GTc8ODgNv
-         Tgk6p5aWMGHeK6k58nq5qb1m/kBfJmBT0x7uR+lP3RPMO1wJkBgrdET+nQPzslIFVKDG
-         Wv6H/Qz7QEa4Urfjwv5MUY9H2ivIhXqonv4PAENoH/z5FO5BtjdEhLjL5kg9ul0bb5TO
-         SD3A==
-X-Forwarded-Encrypted: i=1; AJvYcCVAzcNIYOjOqyNHMc8sUOZeDo1b9uqRc8fsMyZFevGzDSI1KQBYtVttTYvAmOB2DuE9L/81H1BwtL3peGFnYxKt/XoYZU+2GqmDGop10CcN6EOKfKK13f9f
-X-Gm-Message-State: AOJu0YxClrNUaAlzZ2VK1h2NKXl//XkB0vDjnUd2Yb/7osWnAEF1Kxgd
-	jHlrfzC/gJkzEqJrGEUCTNDN/r1bVabPQgWEY2Ih+pA8pi5At7qT0MPFofiJdyMhGep6XDJayWa
-	VEYym2DdP5fPiojfagFzGrDCKTiQ=
-X-Google-Smtp-Source: AGHT+IHCJbXqUneuQWtnNb0x+GYagDxDms47GUAc1lLzTIxZt7S0u6/OKhnkhnedEUNzRc1lJSZwf5BTO3qVwUKaprU=
-X-Received: by 2002:ac2:5e24:0:b0:513:c658:799b with SMTP id
- o4-20020ac25e24000000b00513c658799bmr605084lfg.55.1710438452422; Thu, 14 Mar
- 2024 10:47:32 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1710462079; x=1711066879;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=R1iXvUEfYdtOFrZ4nSXikcEbnoezGI/wavJuQd4qO7w=;
+        b=Ii+SQ+UCP7FpeR/3moX+yoI7Pfouo1IXgDdE2n/M1lXq32x8vtkkI6fhXYoLByJZam
+         u7f7wyuY1s8nlXYcvKkswqghvUD4vi+CbzZqdOV/epmG8jRgjWzXgy55YYjmHzoRauFM
+         u8KJwh7kzfK2TXQxxPkuYCug0fveladqxw53L18x2s2uLdltEqkonXPgjhPdt3NMShM/
+         jrmfCGgOxBXRe9nFNnnBmdIRkt+IWeQ8boH/CUZJEpzhAkf+Y2GOtFEZKBNMSwZFN1ue
+         I0RS5jVJhuSJZmRCBx39UEa8CCJElYgL8WKF2ewcJDlufBE2R9OJt/8VyeymWtDlibL0
+         0zwQ==
+X-Gm-Message-State: AOJu0Yzkh5bIDgeSCsUxQCzQ1QFXi86QjqH7pmq3Wlkf9vsypYeH/C+E
+	tKLtQUxjk5nGcio5xS+4M/6hCITC3wRt7In6xqiwg4cd9VO4Nfiswog8V8/2ErRGaqbTrr5LKmi
+	Fm3Y=
+X-Google-Smtp-Source: AGHT+IHsfUtUkah6dbXU1EtrxYFudmI0iTwEKHvYeirzCiNiwlBhH1cFIRp6ETzrTCoRbj8T06QPKQ==
+X-Received: by 2002:a05:600c:450c:b0:412:e8f5:c368 with SMTP id t12-20020a05600c450c00b00412e8f5c368mr4026487wmo.8.1710462079004;
+        Thu, 14 Mar 2024 17:21:19 -0700 (PDT)
+Received: from P-ASN-ECS-830T8C3.numericable.fr ([89.159.1.53])
+        by smtp.gmail.com with ESMTPSA id bs17-20020a056000071100b0033d9f0dcb35sm1868053wrb.87.2024.03.14.17.21.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Mar 2024 17:21:17 -0700 (PDT)
+From: Yoann Congal <yoann.congal@smile.fr>
+To: openembedded-core@lists.openembedded.org
+Cc: Yoann Congal <yoann.congal@smile.fr>
+Subject: [PATCH 4/4] cve-update-nvd2-native: Remove rejected CVE from database
+Date: Fri, 15 Mar 2024 01:20:20 +0100
+Message-Id: <20240315002020.2194310-5-yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240315002020.2194310-1-yoann.congal@smile.fr>
+References: <20240315002020.2194310-1-yoann.congal@smile.fr>
 MIME-Version: 1.0
-References: <cover.1710177387.git.enrico.scholz@sigma-chemnitz.de>
- <17BC9C80577EA5C2.22340@lists.openembedded.org> <68d71da3a6f49e2ac4594fa8ca633cdc7eb2e0fe.camel@linuxfoundation.org>
- <lyo7bg9801.fsf@ensc-pc.intern.sigma-chemnitz.de>
-In-Reply-To: <lyo7bg9801.fsf@ensc-pc.intern.sigma-chemnitz.de>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 14 Mar 2024 18:47:20 +0100
-Message-ID: <CANNYZj-qjqNbQeBg_npkdi_i-A1ueyZrTwcK64B80vAfrKWt1Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 0/7] Replace sshd_config patching by snippets
-To: enrico.scholz@sigma-chemnitz.de
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 14 Mar 2024 17:47:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197116
+ <openembedded-core@lists.openembedded.org>; Fri, 15 Mar 2024 00:21:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197121
 
-On Thu, 14 Mar 2024 at 15:57, Enrico Scholz via lists.openembedded.org
-<enrico.scholz=sigma-chemnitz.de@lists.openembedded.org> wrote:
+When a CVE is updated to be rejected, matching database entries must be
+removed. Otherwise:
+* an incremental update is not equivalent the to an initial download.
+* rejected CVEs might still appear as Unpatched in cve-check.
 
-> | stdio: WARNING: Nothing RPROVIDES 'nativesdk-openssh-scp' ...
-> | stdio: WARNING: Nothing RPROVIDES 'nativesdk-openssh-sshd' ...
-> | stdio: WARNING: Nothing RPROVIDES 'nativesdk-openssh-ssh' ...
->
-> are these warnings really new?
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+---
+ meta/recipes-core/meta/cve-update-nvd2-native.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-They are. Warnings are not allowed to creep in and linger around, so
-master is always free of them (except for intermittent ptest fails,
-which this one isn't).
+diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+index 4b8d01fe84..1901641965 100644
+--- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
++++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+@@ -324,6 +324,10 @@ def update_db(conn, elt):
+     vectorString = None
+     cveId = elt['cve']['id']
+     if elt['cve']['vulnStatus'] ==  "Rejected":
++        c = conn.cursor()
++        c.execute("delete from PRODUCTS where ID = ?;", [cveId])
++        c.execute("delete from NVD where ID = ?;", [cveId])
++        c.close()
+         return
+     cveDesc = ""
+     for desc in elt['cve']['descriptions']:
+-- 
+2.39.2
 
-Alex
 
