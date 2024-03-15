@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BBD6C54F28
-	for <webhook@archiver.kernel.org>; Fri, 15 Mar 2024 17:00:16 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.1247.1710522012364854045
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C071C54F41
+	for <webhook@archiver.kernel.org>; Fri, 15 Mar 2024 17:00:17 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.1274.1710522012282469801
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Mar 2024 10:00:15 -0700
+ Fri, 15 Mar 2024 10:00:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=AAGsh+q6;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=zjIR8b7C;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018e430e9e90-cd39df28-e087-43e8-bd98-fc8e1ddbbc80-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=emL9dLDV;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=P7XyS9bE;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101018e430e9f64-9f1d4acb-cd4a-4d66-ac47-37b8479b4f39-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1710522015;
+	t=1710522016;
 	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=AmSW0sQpehTU1LB/dlamka9h1pl4wrYvTJajrckyXyU=;
-	b=AAGsh+q6B66e0OyECMyTMS03xqHuQtGgZIEtuH20FzafqDY6j28rwxqiLD31lQbv
-	xeSEqs7Z52g3pj41ABwQL1Ydk2kS/hxMfJxMiJYlpyR0/3TJ0+Rl5rtBGz4YSe0ym9C
-	lEGgMgm6t+1tPCaX1sUFG93OI1Dm7UBOqhOvxnDk=
+	bh=Y7wFvwDKZiypXE7tVydsO6iYXpf1ETTV/rXjOCfX67o=;
+	b=emL9dLDVYC07dGimiJA3hyr1LykIvw8q1TtQhjMQWolTfALHDMxVQ8BRma9sdhdo
+	kt/e76G+zZrAVohFIKDoxMRnNzEG27i0og3S92gAZ2TWW5txLqvuXDQ1bRryj435Icn
+	88Ju23HbuJK96y0+HCfkU0z1RSrj7HwDOfWV2VAI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1710522015;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1710522016;
 	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=AmSW0sQpehTU1LB/dlamka9h1pl4wrYvTJajrckyXyU=;
-	b=zjIR8b7CzUHgxQ20vqCCZR0uugCTzI97umhNnIq8puySAztBp3OzPjE+++ToRbiL
-	wd+lDEm2Vzt2CCJ1O3FwW0yQdYaxzZ6lyKvkr2KvX0M/9fcVgrhn8MbOxCAFlqv8Z24
-	cKPY5rl66qw8gW55HLlA6dy2tLxuvukoZuc337vQ=
-Content-Type: multipart/mixed; boundary="===============4151907927750061397=="
+	bh=Y7wFvwDKZiypXE7tVydsO6iYXpf1ETTV/rXjOCfX67o=;
+	b=P7XyS9bE8oYQ0LFttLm5UCZRfHpmQlAZf3haIQtZjiLqVB+BKBLaFPBnWdwe2uxh
+	SWmpL4iLoknhWiax8R/dpTvrkHB1taPJk1R7JTgWOrlqgNMBzkAQQu5hFJHqNrMQiAc
+	twm30Qf1eQiYPNNHm1nx/gSMzdjxAMB5OCplbZnE=
+Content-Type: multipart/mixed; boundary="===============5307971992389075947=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
-Subject: [AUH] libxcursor: upgrading to 1.2.2 SUCCEEDED
-Message-ID: <0101018e430e9e90-cd39df28-e087-43e8-bd98-fc8e1ddbbc80-000000@us-west-2.amazonses.com>
+Subject: [AUH] libxcb: upgrading to 1.16.1 SUCCEEDED
+Message-ID: <0101018e430e9f64-9f1d4acb-cd4a-4d66-ac47-37b8479b4f39-000000@us-west-2.amazonses.com>
 Date: Fri, 15 Mar 2024 17:00:15 +0000
 Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.03.15-54.240.27.192
+X-SES-Outgoing: 2024.03.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 15 Mar 2024 17:00:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197222
+ <openembedded-core@lists.openembedded.org>; Fri, 15 Mar 2024 17:00:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197244
 
---===============4151907927750061397==
+--===============5307971992389075947==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libxcursor* to *1.2.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *libxcb* to *1.16.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libxcursor-upgrade-1.2.1-1.2.2.patch
+    - apply the patch: git am 0001-libxcb-upgrade-1.16-1.16.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -71,60 +71,138 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 004b9915795df1ac73e76e3b9e97ebe5d1edbc03 Mon Sep 17 00:00:00 2001
+From 87b93f6833b40daeea44a7959375be1da9d7d7b0 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 15 Mar 2024 13:55:01 +0000
-Subject: [PATCH] libxcursor: upgrade 1.2.1 -> 1.2.2
+Date: Fri, 15 Mar 2024 13:47:31 +0000
+Subject: [PATCH] libxcb: upgrade 1.16 -> 1.16.1
 
 ---
- .../xorg-lib/{libxcursor_1.2.1.bb => libxcursor_1.2.2.bb}       | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-lib/{libxcursor_1.2.1.bb => libxcursor_1.2.2.bb} (87%)
+ .../libxcb/0001-use-_Alignof-to-avoid-UB-in-ALIGNOF.patch  | 7 ++-----
+ .../xorg-lib/{libxcb_1.16.bb => libxcb_1.16.1.bb}          | 2 +-
+ 2 files changed, 3 insertions(+), 6 deletions(-)
+ rename meta/recipes-graphics/xorg-lib/{libxcb_1.16.bb => libxcb_1.16.1.bb} (93%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb b/meta/recipes-graphics/xorg-lib/libxcursor_1.2.2.bb
-similarity index 87%
-rename from meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb
-rename to meta/recipes-graphics/xorg-lib/libxcursor_1.2.2.bb
-index 4fd7e949c4..159ac4f7fa 100644
---- a/meta/recipes-graphics/xorg-lib/libxcursor_1.2.1.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxcursor_1.2.2.bb
-@@ -18,6 +18,6 @@ PE = "1"
+diff --git a/meta/recipes-graphics/xorg-lib/libxcb/0001-use-_Alignof-to-avoid-UB-in-ALIGNOF.patch b/meta/recipes-graphics/xorg-lib/libxcb/0001-use-_Alignof-to-avoid-UB-in-ALIGNOF.patch
+index 5b159d646d..939fed32ee 100644
+--- a/meta/recipes-graphics/xorg-lib/libxcb/0001-use-_Alignof-to-avoid-UB-in-ALIGNOF.patch
++++ b/meta/recipes-graphics/xorg-lib/libxcb/0001-use-_Alignof-to-avoid-UB-in-ALIGNOF.patch
+@@ -1,4 +1,4 @@
+-From d55b6b1fa87700f3eae3a29522972d2e7be7d53e Mon Sep 17 00:00:00 2001
++From 68bb930f15d4d7b2042883900e8d3dc221b98a81 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Sat, 14 Jan 2023 10:11:35 -0800
+ Subject: [PATCH] use _Alignof to avoid UB in ALIGNOF
+@@ -20,7 +20,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  1 file changed, 1 insertion(+), 2 deletions(-)
  
- XORG_PN = "libXcursor"
+ diff --git a/src/c_client.py b/src/c_client.py
+-index fd256f0..4e48f13 100644
++index 182b5de..54691f9 100644
+ --- a/src/c_client.py
+ +++ b/src/c_client.py
+ @@ -288,7 +288,6 @@ def c_open(self):
+@@ -40,6 +40,3 @@ index fd256f0..4e48f13 100644
+               % (space,
+                   'char'
+                    if field.c_field_type == 'void' or field.type.is_switch
+--- 
+-2.39.0
+-
+diff --git a/meta/recipes-graphics/xorg-lib/libxcb_1.16.bb b/meta/recipes-graphics/xorg-lib/libxcb_1.16.1.bb
+similarity index 93%
+rename from meta/recipes-graphics/xorg-lib/libxcb_1.16.bb
+rename to meta/recipes-graphics/xorg-lib/libxcb_1.16.1.bb
+index 04b1eaa910..de3290aa9f 100644
+--- a/meta/recipes-graphics/xorg-lib/libxcb_1.16.bb
++++ b/meta/recipes-graphics/xorg-lib/libxcb_1.16.1.bb
+@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d763b081cb10c223435b01e00dc0aba7"
+ SRC_URI = "http://xcb.freedesktop.org/dist/libxcb-${PV}.tar.xz \
+            file://0001-use-_Alignof-to-avoid-UB-in-ALIGNOF.patch"
  
--SRC_URI[sha256sum] = "46c143731610bafd2070159a844571b287ac26192537d047a39df06155492104"
-+SRC_URI[sha256sum] = "53d071bd2cc56e517a30998d5e685c8a74556ddada43c6985d14da9a023a88ee"
+-SRC_URI[sha256sum] = "4348566aa0fbf196db5e0a576321c65966189210cb51328ea2bb2be39c711d71"
++SRC_URI[sha256sum] = "f24d187154c8e027b358fc7cb6588e35e33e6a92f11c668fe77396a7ae66e311"
  
  BBCLASSEXTEND = "native nativesdk"
+ 
 -- 
 2.42.0
 
 
---===============4151907927750061397==
+--===============5307971992389075947==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/libxcursor: SRC_URI changed from "https://www.x.org/releases//individual/lib/libXcursor-1.2.1.tar.xz" to "https://www.x.org/releases//individual/lib/libXcursor-1.2.2.tar.xz"
-packages/core2-64-poky-linux/libxcursor: PKGV changed from 1.2.1 [default] to 1.2.2 [default]
-packages/core2-64-poky-linux/libxcursor: PV changed from "1.2.1" to "1.2.2"
-packages/core2-64-poky-linux/libxcursor/libxcursor-dbg: PKGSIZE changed from 174520 to 174616 (+0%)
-packages/core2-64-poky-linux/libxcursor/libxcursor-dbg: PKGV changed from 1.2.1 [default] to 1.2.2 [default]
-packages/core2-64-poky-linux/libxcursor/libxcursor-dbg: PV changed from "1.2.1" to "1.2.2"
-packages/core2-64-poky-linux/libxcursor/libxcursor-dev: PKGV changed from 1.2.1 [default] to 1.2.2 [default]
-packages/core2-64-poky-linux/libxcursor/libxcursor-dev: PV changed from "1.2.1" to "1.2.2"
-packages/core2-64-poky-linux/libxcursor/libxcursor-doc: PKGV changed from 1.2.1 [default] to 1.2.2 [default]
-packages/core2-64-poky-linux/libxcursor/libxcursor-doc: PV changed from "1.2.1" to "1.2.2"
-packages/core2-64-poky-linux/libxcursor/libxcursor-locale: PKGV changed from 1.2.1 [default] to 1.2.2 [default]
-packages/core2-64-poky-linux/libxcursor/libxcursor-locale: PV changed from "1.2.1" to "1.2.2"
-packages/core2-64-poky-linux/libxcursor/libxcursor-src: PKGSIZE changed from 96480 to 96993 (+1%)
-packages/core2-64-poky-linux/libxcursor/libxcursor-src: PKGV changed from 1.2.1 [default] to 1.2.2 [default]
-packages/core2-64-poky-linux/libxcursor/libxcursor-src: PV changed from "1.2.1" to "1.2.2"
-packages/core2-64-poky-linux/libxcursor/libxcursor-staticdev: PKGV changed from 1.2.1 [default] to 1.2.2 [default]
-packages/core2-64-poky-linux/libxcursor/libxcursor-staticdev: PV changed from "1.2.1" to "1.2.2"
-packages/core2-64-poky-linux/libxcursor/libxcursor: PKGV changed from 1.2.1 [default] to 1.2.2 [default]
-packages/core2-64-poky-linux/libxcursor/libxcursor: PV changed from "1.2.1" to "1.2.2"
+packages/core2-64-poky-linux/libxcb: SRC_URI changed from "http://xcb.freedesktop.org/dist/libxcb-1.16.tar.xz file://0001-use-_Alignof-to-avoid-UB-in-ALIGNOF.patch" to "http://xcb.freedesktop.org/dist/libxcb-1.16.1.tar.xz file://0001-use-_Alignof-to-avoid-UB-in-ALIGNOF.patch"
+packages/core2-64-poky-linux/libxcb: PKGV changed from 1.16 [default] to 1.16.1 [default]
+packages/core2-64-poky-linux/libxcb: PV changed from "1.16" to "1.16.1"
+packages/core2-64-poky-linux/libxcb/libxcb-composite: PKGV changed from 1.16 [default] to 1.16.1 [default]
+packages/core2-64-poky-linux/libxcb/libxcb-composite: PV changed from "1.16" to "1.16.1"
+packages/core2-64-poky-linux/libxcb/libxcb-damage: PKGV changed from 1.16 [default] to 1.16.1 [default]
+packages/core2-64-poky-linux/libxcb/libxcb-damage: PV changed from "1.16" to "1.16.1"
+packages/core2-64-poky-linux/libxcb/libxcb-dbe: PKGV changed from 1.16 [default] to 1.16.1 [default]
+packages/core2-64-poky-linux/libxcb/libxcb-dbe: PV changed from "1.16" to "1.16.1"
+packages/core2-64-poky-linux/libxcb/libxcb-dbg: PKGV changed from 1.16 [default] to 1.16.1 [default]
+packages/core2-64-poky-linux/libxcb/libxcb-dbg: PV changed from "1.16" to "1.16.1"
+packages/core2-64-poky-linux/libxcb/libxcb-dbg: PKGSIZE changed from 2258264 to 2258344 (+0%)
+packages/core2-64-poky-linux/libxcb/libxcb-dev: PKGV changed from 1.16 [default] to 1.16.1 [default]
+packages/core2-64-poky-linux/libxcb/libxcb-dev: PV changed from "1.16" to "1.16.1"
+packages/core2-64-poky-linux/libxcb/libxcb-dev: PKGSIZE changed from 2130939 to 2130989 (+0%)
+packages/core2-64-poky-linux/libxcb/libxcb-doc: PKGV changed from 1.16 [default] to 1.16.1 [default]
+packages/core2-64-poky-linux/libxcb/libxcb-doc: PV changed from "1.16" to "1.16.1"
+packages/core2-64-poky-linux/libxcb/libxcb-doc: PKGSIZE changed from 1605896 to 1607364 (+0%)
+packages/core2-64-poky-linux/libxcb/libxcb-dpms: PKGV changed from 1.16 [default] to 1.16.1 [default]
+packages/core2-64-poky-linux/libxcb/libxcb-dpms: PV changed from "1.16" to "1.16.1"
+packages/core2-64-poky-linux/libxcb/libxcb-dri2: PKGV changed from 1.16 [default] to 1.16.1 [default]
+packages/core2-64-poky-linux/libxcb/libxcb-dri2: PV changed from "1.16" to "1.16.1"
+packages/core2-64-poky-linux/libxcb/libxcb-dri3: PKGV changed from 1.16 [default] to 1.16.1 [default]
+packages/core2-64-poky-linux/libxcb/libxcb-dri3: PV changed from "1.16" to "1.16.1"
+packages/core2-64-poky-linux/libxcb/libxcb-glx: PKGV changed from 1.16 [default] to 1.16.1 [default]
+packages/core2-64-poky-linux/libxcb/libxcb-glx: PV changed from "1.16" to "1.16.1"
+packages/core2-64-poky-linux/libxcb/libxcb-locale: PKGV changed from 1.16 [default] to 1.16.1 [default]
+packages/core2-64-poky-linux/libxcb/libxcb-locale: PV changed from "1.16" to "1.16.1"
+packages/core2-64-poky-linux/libxcb/libxcb-present: PKGV changed from 1.16 [default] to 1.16.1 [default]
+packages/core2-64-poky-linux/libxcb/libxcb-present: PV changed from "1.16" to "1.16.1"
+packages/core2-64-poky-linux/libxcb/libxcb-randr: PKGV changed from 1.16 [default] to 1.16.1 [default]
+packages/core2-64-poky-linux/libxcb/libxcb-randr: PV changed from "1.16" to "1.16.1"
+packages/core2-64-poky-linux/libxcb/libxcb-record: PKGV changed from 1.16 [default] to 1.16.1 [default]
+packages/core2-64-poky-linux/libxcb/libxcb-record: PV changed from "1.16" to "1.16.1"
+packages/core2-64-poky-linux/libxcb/libxcb-render: PKGV changed from 1.16 [default] to 1.16.1 [default]
+packages/core2-64-poky-linux/libxcb/libxcb-render: PV changed from "1.16" to "1.16.1"
+packages/core2-64-poky-linux/libxcb/libxcb-res: PKGV changed from 1.16 [default] to 1.16.1 [default]
+packages/core2-64-poky-linux/libxcb/libxcb-res: PV changed from "1.16" to "1.16.1"
+packages/core2-64-poky-linux/libxcb/libxcb-screensaver: PKGV changed from 1.16 [default] to 1.16.1 [default]
+packages/core2-64-poky-linux/libxcb/libxcb-screensaver: PV changed from "1.16" to "1.16.1"
+packages/core2-64-poky-linux/libxcb/libxcb-shape: PKGV changed from 1.16 [default] to 1.16.1 [default]
+packages/core2-64-poky-linux/libxcb/libxcb-shape: PV changed from "1.16" to "1.16.1"
+packages/core2-64-poky-linux/libxcb/libxcb-shm: PKGV changed from 1.16 [default] to 1.16.1 [default]
+packages/core2-64-poky-linux/libxcb/libxcb-shm: PV changed from "1.16" to "1.16.1"
+packages/core2-64-poky-linux/libxcb/libxcb-src: PKGV changed from 1.16 [default] to 1.16.1 [default]
+packages/core2-64-poky-linux/libxcb/libxcb-src: PV changed from "1.16" to "1.16.1"
+packages/core2-64-poky-linux/libxcb/libxcb-src: PKGSIZE changed from 4727649 to 4727671 (+0%)
+packages/core2-64-poky-linux/libxcb/libxcb-staticdev: PKGV changed from 1.16 [default] to 1.16.1 [default]
+packages/core2-64-poky-linux/libxcb/libxcb-staticdev: PV changed from "1.16" to "1.16.1"
+packages/core2-64-poky-linux/libxcb/libxcb-sync: PKGV changed from 1.16 [default] to 1.16.1 [default]
+packages/core2-64-poky-linux/libxcb/libxcb-sync: PV changed from "1.16" to "1.16.1"
+packages/core2-64-poky-linux/libxcb/libxcb-xf86dri: PKGV changed from 1.16 [default] to 1.16.1 [default]
+packages/core2-64-poky-linux/libxcb/libxcb-xf86dri: PV changed from "1.16" to "1.16.1"
+packages/core2-64-poky-linux/libxcb/libxcb-xfixes: PKGV changed from 1.16 [default] to 1.16.1 [default]
+packages/core2-64-poky-linux/libxcb/libxcb-xfixes: PV changed from "1.16" to "1.16.1"
+packages/core2-64-poky-linux/libxcb/libxcb-xinerama: PKGV changed from 1.16 [default] to 1.16.1 [default]
+packages/core2-64-poky-linux/libxcb/libxcb-xinerama: PV changed from "1.16" to "1.16.1"
+packages/core2-64-poky-linux/libxcb/libxcb-xinput: PKGV changed from 1.16 [default] to 1.16.1 [default]
+packages/core2-64-poky-linux/libxcb/libxcb-xinput: PV changed from "1.16" to "1.16.1"
+packages/core2-64-poky-linux/libxcb/libxcb-xkb: PKGV changed from 1.16 [default] to 1.16.1 [default]
+packages/core2-64-poky-linux/libxcb/libxcb-xkb: PV changed from "1.16" to "1.16.1"
+packages/core2-64-poky-linux/libxcb/libxcb-xtest: PKGV changed from 1.16 [default] to 1.16.1 [default]
+packages/core2-64-poky-linux/libxcb/libxcb-xtest: PV changed from "1.16" to "1.16.1"
+packages/core2-64-poky-linux/libxcb/libxcb-xv: PKGV changed from 1.16 [default] to 1.16.1 [default]
+packages/core2-64-poky-linux/libxcb/libxcb-xv: PV changed from "1.16" to "1.16.1"
+packages/core2-64-poky-linux/libxcb/libxcb-xvmc: PKGV changed from 1.16 [default] to 1.16.1 [default]
+packages/core2-64-poky-linux/libxcb/libxcb-xvmc: PV changed from "1.16" to "1.16.1"
+packages/core2-64-poky-linux/libxcb/libxcb: PKGV changed from 1.16 [default] to 1.16.1 [default]
+packages/core2-64-poky-linux/libxcb/libxcb: PV changed from "1.16" to "1.16.1"
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1764,347 +1842,7 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============4151907927750061397==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 922 .bb files complete (0 cached, 922 parsed). 1878 targets, 46 skipped, 0 masked, 0 errors.
-Removing 17 recipes from the core2-64 sysroot...done.
-Removing 16 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.7.3"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux-musl"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "4.3+snapshot-18f2ab0ed44df6a080a01007eb5c848f87954571"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:18f2ab0ed44df6a080a01007eb5c848f87954571"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 218 Local 209 Mirrors 0 Missed 9 Current 220 (95% match, 97% complete)
-Removing 5 stale sstate objects for arch x86_64...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 236 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcursor_1.2.2.bb:do_populate_lic_setscene)
-NOTE: Running setscene task 238 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcursor_1.2.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 239 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 240 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 241 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 242 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxcursor-1_1.2.2-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libxcursor-1_1.2.2-r0: task do_populate_lic_setscene: Started
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxrender-1_0.9.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxrender-1_0.9.11-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxcursor-1_1.2.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libxcursor-1_1.2.2-r0: task do_populate_lic_setscene: Succeeded
-NOTE: Running setscene task 318 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcursor_1.2.2.bb:do_recipe_qa_setscene)
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 319 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_packagedata_setscene)
-NOTE: recipe libxrender-1_0.9.11-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 325 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 329 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_create_spdx_setscene)
-NOTE: recipe libxrender-1_0.9.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxcursor-1_1.2.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe util-macros-1_1.20.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxrender-1_0.9.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxcursor-1_1.2.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 766 of 1257 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcursor_1.2.2.bb:do_fetch)
-NOTE: recipe util-macros-1_1.20.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 330 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_create_spdx_setscene)
-NOTE: recipe libxrender-1_0.9.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 333 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_recipe_qa_setscene)
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 335 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.7.bb:do_packagedata_setscene)
-NOTE: Running setscene task 336 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.7.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 338 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_recipe_qa_setscene)
-NOTE: recipe libxcursor-1_1.2.2-r0: task do_fetch: Started
-NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxrender-1_0.9.11-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libx11-1_1.8.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe libx11-1_1.8.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxcursor-1_1.2.2-r0: task do_fetch: Succeeded
-NOTE: recipe libtool-cross-2.4.7-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libxrender-1_0.9.11-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 339 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_create_spdx_setscene)
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 775 of 1257 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcursor_1.2.2.bb:do_unpack)
-NOTE: recipe libx11-1_1.8.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 341 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcb_1.16.bb:do_packagedata_setscene)
-NOTE: Running setscene task 342 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_packagedata_setscene)
-NOTE: recipe libx11-1_1.8.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 344 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.7.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 345 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcb_1.16.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 346 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxcursor-1_1.2.2-r0: task do_unpack: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxcb-1.16-r0: task do_packagedata_setscene: Started
-NOTE: recipe xtrans-1_1.5.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libx11-1_1.8.7-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxcb-1.16-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xtrans-1_1.5.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libxcursor-1_1.2.2-r0: task do_unpack: Succeeded
-NOTE: Running setscene task 348 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
-NOTE: Running task 778 of 1257 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcursor_1.2.2.bb:do_patch)
-NOTE: recipe libx11-1_1.8.7-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe xtrans-1_1.5.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe musl-1.2.4+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxcursor-1_1.2.2-r0: task do_patch: Started
-NOTE: recipe xtrans-1_1.5.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 351 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libxcb-1.16-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxcursor-1_1.2.2-r0: task do_patch: Succeeded
-NOTE: recipe musl-1.2.4+git-r0: task do_create_spdx_setscene: Succeeded
-WARNING: Logfile for failed setscene task is /home/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/libxcb/1.16/temp/log.do_packagedata_setscene.181518
-WARNING: Setscene task (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcb_1.16.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 355 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 356 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcb_1.16.bb:do_package_setscene)
-NOTE: recipe xtrans-1_1.5.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe xtrans-1_1.5.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libxcb-1.16-r0: task do_package_setscene: Started
-NOTE: recipe libxcb-1.16-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 363 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 364 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 365 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 366 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 368 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcb_1.16.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 369 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 370 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 371 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xcb-proto_1.16.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 372 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xcb-proto_1.16.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe libpthread-stubs-0.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxau-1_1.0.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpthread-stubs-0.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxau-1_1.0.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xcb-proto-1.16.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxcb-1.16-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xcb-proto-1.16.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xcb-proto-1.16.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxau-1_1.0.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 376 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 377 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_packagedata_setscene)
-NOTE: recipe libpthread-stubs-0.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxau-1_1.0.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxcb-1.16-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 380 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 382 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.4.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 383 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 384 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe xcb-proto-1.16.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 386 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xcb-proto_1.16.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libpthread-stubs-0.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 388 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_recipe_qa_setscene)
-NOTE: recipe util-macros-1_1.20.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe xorgproto-2023.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxau-1_1.0.11-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xorgproto-2023.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-macros-1_1.20.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xcb-proto-1.16.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpthread-stubs-0.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxau-1_1.0.11-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe xorgproto-2023.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-macros-1_1.20.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 391 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_packagedata_setscene)
-NOTE: recipe xcb-proto-1.16.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libpthread-stubs-0.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe xorgproto-2023.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 393 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xorgproto_2023.2.bb:do_recipe_qa_setscene)
-NOTE: recipe util-macros-1_1.20.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 394 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 396 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-util/util-macros_1.20.0.bb:do_recipe_qa_setscene)
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe xorgproto-2023.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe util-macros-1_1.20.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xorgproto-2023.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe util-macros-1_1.20.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 398 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_packagedata_setscene)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 399 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 401 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.4.7.bb:do_recipe_qa_setscene)
-NOTE: recipe libtool-cross-2.4.7-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libgcc-13.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libtool-cross-2.4.7-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libgcc-13.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 403 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
-NOTE: recipe musl-1.2.4+git-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 405 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_13.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 406 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe musl-1.2.4+git-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 408 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
-NOTE: Running setscene task 409 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
-NOTE: Running setscene task 410 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb:do_packagedata_setscene)
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libgcc-13.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe linux-libc-headers-6.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libgcc-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 414 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 416 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_13.2.bb:do_recipe_qa_setscene)
-NOTE: recipe musl-1.2.4+git-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libgcc-13.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libgcc-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe musl-1.2.4+git-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 417 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 418 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 420 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe musl-1.2.4+git-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe musl-1.2.4+git-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 425 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 426 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 428 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 431 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_13.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 433 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe linux-libc-headers-6.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-cross-x86_64-13.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 434 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.42.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 436 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.6.bb:do_recipe_qa_setscene)
-NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-6.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe linux-libc-headers-6.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 438 of 438 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.42.bb:do_recipe_qa_setscene)
-NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe binutils-cross-x86_64-2.42-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1204 of 1257 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcb_1.16.bb:do_packagedata)
-NOTE: recipe libxcb-1.16-r0: task do_packagedata: Started
-NOTE: recipe libxcb-1.16-r0: task do_packagedata: Succeeded
-NOTE: Running task 1225 of 1257 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcursor_1.2.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libxcursor-1_1.2.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libxcursor-1_1.2.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 1226 of 1257 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcursor_1.2.2.bb:do_configure)
-NOTE: recipe libxcursor-1_1.2.2-r0: task do_configure: Started
-NOTE: Load average limiting set to False as load average: 1.4761875697544642 - using 1/16 bitbake threads
-NOTE: Running task 1245 of 1257 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcursor_1.2.2.bb:do_collect_spdx_deps)
-NOTE: recipe libxcursor-1_1.2.2-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libxcursor-1_1.2.2-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libxcursor-1_1.2.2-r0: task do_configure: Succeeded
-NOTE: Running task 1246 of 1257 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcursor_1.2.2.bb:do_compile)
-NOTE: recipe libxcursor-1_1.2.2-r0: task do_compile: Started
-NOTE: recipe libxcursor-1_1.2.2-r0: task do_compile: Succeeded
-NOTE: Running task 1247 of 1257 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcursor_1.2.2.bb:do_install)
-NOTE: recipe libxcursor-1_1.2.2-r0: task do_install: Started
-NOTE: recipe libxcursor-1_1.2.2-r0: task do_install: Succeeded
-NOTE: Running task 1248 of 1257 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcursor_1.2.2.bb:do_package)
-NOTE: Running task 1249 of 1257 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcursor_1.2.2.bb:do_populate_sysroot)
-NOTE: recipe libxcursor-1_1.2.2-r0: task do_populate_sysroot: Started
-NOTE: recipe libxcursor-1_1.2.2-r0: task do_package: Started
-NOTE: recipe libxcursor-1_1.2.2-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libxcursor-1_1.2.2-r0: task do_package: Succeeded
-NOTE: Running task 1250 of 1257 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcursor_1.2.2.bb:do_packagedata)
-NOTE: recipe libxcursor-1_1.2.2-r0: task do_packagedata: Started
-NOTE: recipe libxcursor-1_1.2.2-r0: task do_packagedata: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcursor_1.2.2.bb:do_packagedata unihash changed to fb3fefa649a0713391a1f94c4a5163e3c470df752beec01c1d49838c540bef89
-NOTE: Setscene tasks completed
-NOTE: Running task 1251 of 1257 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcursor_1.2.2.bb:do_create_spdx)
-NOTE: Running task 1252 of 1257 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcursor_1.2.2.bb:do_package_write_ipk)
-NOTE: Running task 1253 of 1257 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcursor_1.2.2.bb:do_package_write_deb)
-NOTE: Running task 1254 of 1257 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcursor_1.2.2.bb:do_package_write_rpm)
-NOTE: Running task 1255 of 1257 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcursor_1.2.2.bb:do_package_qa)
-NOTE: recipe libxcursor-1_1.2.2-r0: task do_create_spdx: Started
-NOTE: recipe libxcursor-1_1.2.2-r0: task do_package_write_ipk: Started
-NOTE: recipe libxcursor-1_1.2.2-r0: task do_package_write_deb: Started
-NOTE: recipe libxcursor-1_1.2.2-r0: task do_package_write_rpm: Started
-NOTE: recipe libxcursor-1_1.2.2-r0: task do_package_qa: Started
-NOTE: recipe libxcursor-1_1.2.2-r0: task do_create_spdx: Succeeded
-NOTE: Load average limiting set to True as load average: 1.5107073102678572 - using 4/16 bitbake threads
-NOTE: recipe libxcursor-1_1.2.2-r0: task do_package_qa: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcursor_1.2.2.bb:do_package_qa unihash changed to 247a882cfd0fc98f22141753559c2c05ec8976c7fd9a256d819c6186951a6002
-NOTE: recipe libxcursor-1_1.2.2-r0: task do_package_write_ipk: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcursor_1.2.2.bb:do_package_write_ipk unihash changed to 750e406a8be636d29144d01d626d7a1e6ff0a3979f9616a4037aa582b13190be
-NOTE: recipe libxcursor-1_1.2.2-r0: task do_package_write_deb: Succeeded
-NOTE: Task /home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcursor_1.2.2.bb:do_package_write_deb unihash changed to bb93850b4ed7313873d60d2785b7b39930e8c1f1f4c9538b65fb88f55bd0e436
-NOTE: recipe libxcursor-1_1.2.2-r0: task do_package_write_rpm: Succeeded
-NOTE: Running task 1256 of 1257 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcursor_1.2.2.bb:do_create_runtime_spdx)
-NOTE: recipe libxcursor-1_1.2.2-r0: task do_create_runtime_spdx: Started
-NOTE: recipe libxcursor-1_1.2.2-r0: task do_create_runtime_spdx: Succeeded
-NOTE: Running noexec task 1257 of 1257 (/home/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcursor_1.2.2.bb:do_build)
-NOTE: Tasks Summary: Attempted 1257 tasks of which 1238 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 5 seconds
-
-Summary: There were 32 ERROR messages, returning a non-zero exit code.
-ERROR: libxcb-1.16-r0 do_packagedata_setscene: QA Issue: Package version for package libxcb-src went backwards which would break package feeds (from 0:1.16.1-r0 to 0:1.16-r0) [version-going-backwards]
-ERROR: libxcb-1.16-r0 do_packagedata_setscene: QA Issue: Package version for package libxcb-dbg went backwards which would break package feeds (from 0:1.16.1-r0 to 0:1.16-r0) [version-going-backwards]
-ERROR: libxcb-1.16-r0 do_packagedata_setscene: QA Issue: Package version for package libxcb-staticdev went backwards which would break package feeds (from 0:1.16.1-r0 to 0:1.16-r0) [version-going-backwards]
-ERROR: libxcb-1.16-r0 do_packagedata_setscene: QA Issue: Package version for package libxcb-dev went backwards which would break package feeds (from 0:1.16.1-r0 to 0:1.16-r0) [version-going-backwards]
-ERROR: libxcb-1.16-r0 do_packagedata_setscene: QA Issue: Package version for package libxcb-doc went backwards which would break package feeds (from 0:1.16.1-r0 to 0:1.16-r0) [version-going-backwards]
-ERROR: libxcb-1.16-r0 do_packagedata_setscene: QA Issue: Package version for package libxcb-locale went backwards which would break package feeds (from 0:1.16.1-r0 to 0:1.16-r0) [version-going-backwards]
-ERROR: libxcb-1.16-r0 do_packagedata_setscene: QA Issue: Package version for package libxcb went backwards which would break package feeds (from 0:1.16.1-r0 to 0:1.16-r0) [version-going-backwards]
-ERROR: libxcb-1.16-r0 do_packagedata_setscene: QA Issue: Package version for package libxcb-composite went backwards which would break package feeds (from 0:1.16.1-r0 to 0:1.16-r0) [version-going-backwards]
-ERROR: libxcb-1.16-r0 do_packagedata_setscene: QA Issue: Package version for package libxcb-damage went backwards which would break package feeds (from 0:1.16.1-r0 to 0:1.16-r0) [version-going-backwards]
-ERROR: libxcb-1.16-r0 do_packagedata_setscene: QA Issue: Package version for package libxcb-dbe went backwards which would break package feeds (from 0:1.16.1-r0 to 0:1.16-r0) [version-going-backwards]
-ERROR: libxcb-1.16-r0 do_packagedata_setscene: QA Issue: Package version for package libxcb-dpms went backwards which would break package feeds (from 0:1.16.1-r0 to 0:1.16-r0) [version-going-backwards]
-ERROR: libxcb-1.16-r0 do_packagedata_setscene: QA Issue: Package version for package libxcb-dri2 went backwards which would break package feeds (from 0:1.16.1-r0 to 0:1.16-r0) [version-going-backwards]
-ERROR: libxcb-1.16-r0 do_packagedata_setscene: QA Issue: Package version for package libxcb-dri3 went backwards which would break package feeds (from 0:1.16.1-r0 to 0:1.16-r0) [version-going-backwards]
-ERROR: libxcb-1.16-r0 do_packagedata_setscene: QA Issue: Package version for package libxcb-glx went backwards which would break package feeds (from 0:1.16.1-r0 to 0:1.16-r0) [version-going-backwards]
-ERROR: libxcb-1.16-r0 do_packagedata_setscene: QA Issue: Package version for package libxcb-present went backwards which would break package feeds (from 0:1.16.1-r0 to 0:1.16-r0) [version-going-backwards]
-ERROR: libxcb-1.16-r0 do_packagedata_setscene: QA Issue: Package version for package libxcb-randr went backwards which would break package feeds (from 0:1.16.1-r0 to 0:1.16-r0) [version-going-backwards]
-ERROR: libxcb-1.16-r0 do_packagedata_setscene: QA Issue: Package version for package libxcb-record went backwards which would break package feeds (from 0:1.16.1-r0 to 0:1.16-r0) [version-going-backwards]
-ERROR: libxcb-1.16-r0 do_packagedata_setscene: QA Issue: Package version for package libxcb-render went backwards which would break package feeds (from 0:1.16.1-r0 to 0:1.16-r0) [version-going-backwards]
-ERROR: libxcb-1.16-r0 do_packagedata_setscene: QA Issue: Package version for package libxcb-res went backwards which would break package feeds (from 0:1.16.1-r0 to 0:1.16-r0) [version-going-backwards]
-ERROR: libxcb-1.16-r0 do_packagedata_setscene: QA Issue: Package version for package libxcb-screensaver went backwards which would break package feeds (from 0:1.16.1-r0 to 0:1.16-r0) [version-going-backwards]
-ERROR: libxcb-1.16-r0 do_packagedata_setscene: QA Issue: Package version for package libxcb-shape went backwards which would break package feeds (from 0:1.16.1-r0 to 0:1.16-r0) [version-going-backwards]
-ERROR: libxcb-1.16-r0 do_packagedata_setscene: QA Issue: Package version for package libxcb-shm went backwards which would break package feeds (from 0:1.16.1-r0 to 0:1.16-r0) [version-going-backwards]
-ERROR: libxcb-1.16-r0 do_packagedata_setscene: QA Issue: Package version for package libxcb-sync went backwards which would break package feeds (from 0:1.16.1-r0 to 0:1.16-r0) [version-going-backwards]
-ERROR: libxcb-1.16-r0 do_packagedata_setscene: QA Issue: Package version for package libxcb-xf86dri went backwards which would break package feeds (from 0:1.16.1-r0 to 0:1.16-r0) [version-going-backwards]
-ERROR: libxcb-1.16-r0 do_packagedata_setscene: QA Issue: Package version for package libxcb-xfixes went backwards which would break package feeds (from 0:1.16.1-r0 to 0:1.16-r0) [version-going-backwards]
-ERROR: libxcb-1.16-r0 do_packagedata_setscene: QA Issue: Package version for package libxcb-xinerama went backwards which would break package feeds (from 0:1.16.1-r0 to 0:1.16-r0) [version-going-backwards]
-ERROR: libxcb-1.16-r0 do_packagedata_setscene: QA Issue: Package version for package libxcb-xinput went backwards which would break package feeds (from 0:1.16.1-r0 to 0:1.16-r0) [version-going-backwards]
-ERROR: libxcb-1.16-r0 do_packagedata_setscene: QA Issue: Package version for package libxcb-xkb went backwards which would break package feeds (from 0:1.16.1-r0 to 0:1.16-r0) [version-going-backwards]
-ERROR: libxcb-1.16-r0 do_packagedata_setscene: QA Issue: Package version for package libxcb-xtest went backwards which would break package feeds (from 0:1.16.1-r0 to 0:1.16-r0) [version-going-backwards]
-ERROR: libxcb-1.16-r0 do_packagedata_setscene: QA Issue: Package version for package libxcb-xv went backwards which would break package feeds (from 0:1.16.1-r0 to 0:1.16-r0) [version-going-backwards]
-ERROR: libxcb-1.16-r0 do_packagedata_setscene: QA Issue: Package version for package libxcb-xvmc went backwards which would break package feeds (from 0:1.16.1-r0 to 0:1.16-r0) [version-going-backwards]
-ERROR: libxcb-1.16-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============4151907927750061397==
+--===============5307971992389075947==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -3749,33 +3487,58 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/13.2.0/plugin/include/xcoff.h was removed
 
---===============4151907927750061397==
+--===============5307971992389075947==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libxcursor-upgrade-1.2.1-1.2.2.patch"
+ filename="0001-libxcb-upgrade-1.16-1.16.1.patch"
 
-RnJvbSAwMDRiOTkxNTc5NWRmMWFjNzNlNzZlM2I5ZTk3ZWJlNWQxZWRiYzAzIE1vbiBTZXAgMTcg
+RnJvbSA4N2I5M2Y2ODMzYjQwZGFlZWE0NGE3OTU5Mzc1YmUxZGE5ZDdkN2IwIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTUgTWFyIDIwMjQgMTM6NTU6MDEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJ4Y3Vyc29yOiB1cGdyYWRlIDEuMi4xIC0+IDEuMi4yCgotLS0KIC4uLi94b3JnLWxpYi97bGli
-eGN1cnNvcl8xLjIuMS5iYiA9PiBsaWJ4Y3Vyc29yXzEuMi4yLmJifSAgICAgICB8IDIgKy0KIDEg
-ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEv
-cmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi97bGlieGN1cnNvcl8xLjIuMS5iYiA9PiBsaWJ4Y3Vy
-c29yXzEuMi4yLmJifSAoODclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy94
-b3JnLWxpYi9saWJ4Y3Vyc29yXzEuMi4xLmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmct
-bGliL2xpYnhjdXJzb3JfMS4yLjIuYmIKc2ltaWxhcml0eSBpbmRleCA4NyUKcmVuYW1lIGZyb20g
-bWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYnhjdXJzb3JfMS4yLjEuYmIKcmVuYW1l
-IHRvIG1ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9saWJ4Y3Vyc29yXzEuMi4yLmJiCmlu
-ZGV4IDRmZDdlOTQ5YzQuLjE1OWFjNGY3ZmEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFw
-aGljcy94b3JnLWxpYi9saWJ4Y3Vyc29yXzEuMi4xLmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFw
-aGljcy94b3JnLWxpYi9saWJ4Y3Vyc29yXzEuMi4yLmJiCkBAIC0xOCw2ICsxOCw2IEBAIFBFID0g
-IjEiCiAKIFhPUkdfUE4gPSAibGliWGN1cnNvciIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjQ2
-YzE0MzczMTYxMGJhZmQyMDcwMTU5YTg0NDU3MWIyODdhYzI2MTkyNTM3ZDA0N2EzOWRmMDYxNTU0
-OTIxMDQiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNTNkMDcxYmQyY2M1NmU1MTdhMzA5OThkNWU2
-ODVjOGE3NDU1NmRkYWRhNDNjNjk4NWQxNGRhOWEwMjNhODhlZSIKIAogQkJDTEFTU0VYVEVORCA9
-ICJuYXRpdmUgbmF0aXZlc2RrIgotLSAKMi40Mi4wCgo=
+CkRhdGU6IEZyaSwgMTUgTWFyIDIwMjQgMTM6NDc6MzEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJ4Y2I6IHVwZ3JhZGUgMS4xNiAtPiAxLjE2LjEKCi0tLQogLi4uL2xpYnhjYi8wMDAxLXVzZS1f
+QWxpZ25vZi10by1hdm9pZC1VQi1pbi1BTElHTk9GLnBhdGNoICB8IDcgKystLS0tLQogLi4uL3hv
+cmctbGliL3tsaWJ4Y2JfMS4xNi5iYiA9PiBsaWJ4Y2JfMS4xNi4xLmJifSAgICAgICAgICB8IDIg
+Ky0KIDIgZmlsZXMgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCA2IGRlbGV0aW9ucygtKQogcmVu
+YW1lIG1ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi97bGlieGNiXzEuMTYuYmIgPT4gbGli
+eGNiXzEuMTYuMS5iYn0gKDkzJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
+eG9yZy1saWIvbGlieGNiLzAwMDEtdXNlLV9BbGlnbm9mLXRvLWF2b2lkLVVCLWluLUFMSUdOT0Yu
+cGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIvbGlieGNiLzAwMDEtdXNlLV9B
+bGlnbm9mLXRvLWF2b2lkLVVCLWluLUFMSUdOT0YucGF0Y2gKaW5kZXggNWIxNTlkNjQ2ZC4uOTM5
+ZmVkMzJlZSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYnhj
+Yi8wMDAxLXVzZS1fQWxpZ25vZi10by1hdm9pZC1VQi1pbi1BTElHTk9GLnBhdGNoCisrKyBiL21l
+dGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi9saWJ4Y2IvMDAwMS11c2UtX0FsaWdub2YtdG8t
+YXZvaWQtVUItaW4tQUxJR05PRi5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gZDU1YjZiMWZh
+ODc3MDBmM2VhZTNhMjk1MjI5NzJkMmU3YmU3ZDUzZSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
+K0Zyb20gNjhiYjkzMGYxNWQ0ZDdiMjA0Mjg4MzkwMGU4ZDNkYzIyMWI5OGE4MSBNb24gU2VwIDE3
+IDAwOjAwOjAwIDIwMDEKIEZyb206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiBEYXRl
+OiBTYXQsIDE0IEphbiAyMDIzIDEwOjExOjM1IC0wODAwCiBTdWJqZWN0OiBbUEFUQ0hdIHVzZSBf
+QWxpZ25vZiB0byBhdm9pZCBVQiBpbiBBTElHTk9GCkBAIC0yMCw3ICsyMCw3IEBAIFNpZ25lZC1v
+ZmYtYnk6IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiAgMSBmaWxlIGNoYW5nZWQsIDEg
+aW5zZXJ0aW9uKCspLCAyIGRlbGV0aW9ucygtKQogCiBkaWZmIC0tZ2l0IGEvc3JjL2NfY2xpZW50
+LnB5IGIvc3JjL2NfY2xpZW50LnB5Ci1pbmRleCBmZDI1NmYwLi40ZTQ4ZjEzIDEwMDY0NAoraW5k
+ZXggMTgyYjVkZS4uNTQ2OTFmOSAxMDA2NDQKIC0tLSBhL3NyYy9jX2NsaWVudC5weQogKysrIGIv
+c3JjL2NfY2xpZW50LnB5CiBAQCAtMjg4LDcgKzI4OCw2IEBAIGRlZiBjX29wZW4oc2VsZik6CkBA
+IC00MCw2ICs0MCwzIEBAIGluZGV4IGZkMjU2ZjAuLjRlNDhmMTMgMTAwNjQ0CiAgICAgICAgICAg
+ICAgICUgKHNwYWNlLAogICAgICAgICAgICAgICAgICAgJ2NoYXInCiAgICAgICAgICAgICAgICAg
+ICAgaWYgZmllbGQuY19maWVsZF90eXBlID09ICd2b2lkJyBvciBmaWVsZC50eXBlLmlzX3N3aXRj
+aAotLS0gCi0yLjM5LjAKLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmct
+bGliL2xpYnhjYl8xLjE2LmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYnhj
+Yl8xLjE2LjEuYmIKc2ltaWxhcml0eSBpbmRleCA5MyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVz
+LWdyYXBoaWNzL3hvcmctbGliL2xpYnhjYl8xLjE2LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMt
+Z3JhcGhpY3MveG9yZy1saWIvbGlieGNiXzEuMTYuMS5iYgppbmRleCAwNGIxZWFhOTEwLi5kZTMy
+OTBhYTlmIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIvbGlieGNi
+XzEuMTYuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL2xpYnhjYl8xLjE2
+LjEuYmIKQEAgLTEyLDcgKzEyLDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlO
+RzttZDU9ZDc2M2IwODFjYjEwYzIyMzQzNWIwMWUwMGRjMGFiYTciCiBTUkNfVVJJID0gImh0dHA6
+Ly94Y2IuZnJlZWRlc2t0b3Aub3JnL2Rpc3QvbGlieGNiLSR7UFZ9LnRhci54eiBcCiAgICAgICAg
+ICAgIGZpbGU6Ly8wMDAxLXVzZS1fQWxpZ25vZi10by1hdm9pZC1VQi1pbi1BTElHTk9GLnBhdGNo
+IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiNDM0ODU2NmFhMGZiZjE5NmRiNWUwYTU3NjMyMWM2
+NTk2NjE4OTIxMGNiNTEzMjhlYTJiYjJiZTM5YzcxMWQ3MSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9
+ICJmMjRkMTg3MTU0YzhlMDI3YjM1OGZjN2NiNjU4OGUzNWUzM2U2YTkyZjExYzY2OGZlNzczOTZh
+N2FlNjZlMzExIgogCiBCQkNMQVNTRVhURU5EID0gIm5hdGl2ZSBuYXRpdmVzZGsiCiAKLS0gCjIu
+NDIuMAoK
 
---===============4151907927750061397==--
+--===============5307971992389075947==--
 
