@@ -1,153 +1,341 @@
-Return-Path: <tom.hochstein@nxp.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5685DC48BF6
-	for <webhook@archiver.kernel.org>; Sat, 16 Mar 2024 17:36:52 +0000 (UTC)
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.86])
- by mx.groups.io with SMTP id smtpd.web11.1974.1710610606813235036
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5317DC54E60
+	for <webhook@archiver.kernel.org>; Sat, 16 Mar 2024 23:59:03 +0000 (UTC)
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+ by mx.groups.io with SMTP id smtpd.web11.9443.1710633537421003828
  for <openembedded-core@lists.openembedded.org>;
- Sat, 16 Mar 2024 10:36:47 -0700
+ Sat, 16 Mar 2024 16:58:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@nxp.com header.s=selector2 header.b=mBympVdA;
- spf=pass (domain: nxp.com, ip: 40.107.22.86, mailfrom: tom.hochstein@nxp.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FQEsHCx1r2NIq5P55AUN8KLTtpsvVOb4zoKOpPfaxZQJMyBjw1fUamdTm1/QL+96hL1YiTrWlu1mer8k+rTpqvzXYxzA0+V3Uj/vRR6OHmq1sBDAWYBimnhU8wzlTlxN+QHzXMtBjr4XJZPymDFGc5935PbFgSqOfaIRrvxbpjgzL6kEYaShPYH1e6yLnfQa9tKZIK+oXHsDLYooS+9jxCSgfo1XAa73ipvhXELXCCKZCDK302ClgpyTtvuTDmoirHRfgM9OR0VMzg88fGs+FButww0byeUFW9zQS9muiQEr0aqA3nZ2vuaul8OIDvkH70OXxizAQ3yLunspSGb0jQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aXkJLG3pHyTs/hICymmJvVMjZUSCcyFOtrKFDiqGe6M=;
- b=cT1ElPRKacFsDQQIIF7wHvDORTxXdaIx+oeTG7pkivGHafAnUEsb015B7YNiT6jEJQXIAC9U1JBjzxy042HHWDuDyv4UWSaoe80aEp9ctm4sTCsfPuLDtvqSVrro4dl46MsXjSKhkk6n5o0c/V9QA3Ok8UmMVaWD/AY04S1thJ///Yzkw1L/FjJNgw1fv+1PtHCQnqs15Wp6fHL0n13H2iLFDehwsBc2o/Wxm2eepCLSe+eV2Zd6ph6jaeBJP/sV7eQaOclWi9AahQMlfZyLB6t8SyMmGmtQZQdt35n6l1BCnNnL0g1aRtJ//ccrFq/aGZMe1p9lcpgDoCM+QrooxA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aXkJLG3pHyTs/hICymmJvVMjZUSCcyFOtrKFDiqGe6M=;
- b=mBympVdAPbM5GWbcY6bOq+JzaGGFmnaJnqNKsVDqSoEH295VmrRRduKPwpjunrzf9JcvlvLF9+7WliUg3EPVm2UUV4YRc+WwFvb4Dqj/kZRrshpsRo5pR41BpeHF5OTXdm4FYguPTQGXnO3IuIbXP/QyaqqVvBtdHEVHxRCrDnw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from DU0PR04MB9444.eurprd04.prod.outlook.com (2603:10a6:10:35c::5)
- by AM9PR04MB8162.eurprd04.prod.outlook.com (2603:10a6:20b:3b5::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.25; Sat, 16 Mar
- 2024 17:36:44 +0000
-Received: from DU0PR04MB9444.eurprd04.prod.outlook.com
- ([fe80::5a98:6e84:b9ce:1e26]) by DU0PR04MB9444.eurprd04.prod.outlook.com
- ([fe80::5a98:6e84:b9ce:1e26%4]) with mapi id 15.20.7362.035; Sat, 16 Mar 2024
- 17:36:43 +0000
-From: Tom Hochstein <tom.hochstein@nxp.com>
-To: openembedded-core@lists.openembedded.org
-CC: Tom Hochstein <tom.hochstein@nxp.com>
-Subject: [PATCH] toolchain-shar-relocate.sh: Add check for missing command 'file'
-Date: Sat, 16 Mar 2024 12:35:58 -0500
-Message-ID: <20240316173558.468284-1-tom.hochstein@nxp.com>
-X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR13CA0136.namprd13.prod.outlook.com
- (2603:10b6:a03:2c6::21) To PAXPR04MB9448.eurprd04.prod.outlook.com
- (2603:10a6:102:2b1::21)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=eZUiApQx;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 38BA91BF203;
+	Sat, 16 Mar 2024 23:58:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1710633535;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dWE42M2yQbUTE6WgH6WzDnVBWuIKkudQy/VcOdXJ9HE=;
+	b=eZUiApQxUUrFGzA+kM1liDskMGMjlNnwoIF7VtG6hYez40hRDr+Z6davna5Fog0R/MgsZz
+	M49e4+xqgfXHcwik6HK545sjSAYsW5fclO7KtFC8kZ+GH7MnEgC7qW7rMZhFIpu2Z5AO0b
+	itw7bN8XbUV0S3SQtUgpbLXMSKpZg2JHB1pelEGGdNmCSh9nhVa38nlnIbu2MShn+q4bxq
+	3K0+hfG5RN01Ee+0T0LStR88EhKSAnKDPS3VZKu9fPBFVByRGqysksXyMAL5CqZsNVSkSx
+	7CXpz1mJ8fPpvET0Ji2j7easwWC1aYmjEXH+ua2ZL20jK7n7xZVqVYhEGJ+mag==
+Date: Sun, 17 Mar 2024 00:58:54 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: enrico.scholz@sigma-chemnitz.de
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH 1/7, v3] openssh: replace complete
+ configuration files by patch
+Message-ID: <20240316235854139fc1b5@mail.local>
+References: <cover.1710177387.git.enrico.scholz@sigma-chemnitz.de>
+ <c9c255c5e5c0a01ac9110f7e4745ede3c11b9431.1710177387.git.enrico.scholz@sigma-chemnitz.de>
+ <c9c255c5e5c0a01ac9110f7e4745ede3c11b9431.1710241040.git.enrico.scholz@sigma-chemnitz.de>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU0PR04MB9444:EE_|AM9PR04MB8162:EE_
-X-MS-Office365-Filtering-Correlation-Id: d1898146-85eb-49f2-6ee3-08dc45df9e20
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	RV5NQTFjU+0yvNTedeQrSVB6YkieEzE0Q2MzLt14IQVVqO+aWv6et9spiOCb0v94G4Db7lCT6GLFCzJLNpd4Zqp1Z0C4KdR31MiAFPt/bepBK5pPRCXJidPplrmr9nRKtKvY9jFkzFqOg4RcR3lXjZnZV/YZ4e89BIfj+W8DFoMEPpUZDZUBlIYVXq8HK1cbg7SyQcqAqu2gXAhg2WC+KHS1jkWFdl2Lf0a7JFwrrqPSAxDoOYQfcDh7KF2LiYRs1JbHQVY162ZwaDQN9/0H1JwR/peH5e0bPtBvLdS3lNwur3KaMzJzAM7fOTwdM6dN/CXGgKWMWWwpO/Bv6zfSyZor8UrDjydRHbSB/FcFaNyfO02Mpa+FggoIE5wS3sUOP3wlxsI0g4or4R6hQUxbP/SN1nFItuvKutaLTI9DRizCtdmqLIwlVa5fO3FO1fjj57tmV4JdE7KOW5NOySfuuh2CD6LOkDnx9Enzc4+jb+sdFjTdeAA0oQeZRJNiVWnsJu7zqVhhgh4Pc4OpsS70QXdx+knigZWQ9qOwx9TtV2V3WBRPiAoNnQZvzt1yVidAv12zYXThOEC8HNBXqT+OgnSyfDNYZ7xkSZZ3XngpDhlTc8vE7PSJi8JaBBJ+4uYn2qScQdFW9R2oNrMAOvJK5cnv4umcKJjtHE5Okko8Zl2+ZFV/KfhB5QQssVDg1XTgwCuNC6CLcwcHFYCItoKO7WuZ0cGh6R7GblyvFhOKH8I=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU0PR04MB9444.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(52116005)(376005)(366007)(38350700005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?gVzGSyfAMv1da1mXmrOwd5ZTxL+51af/qXowTHvsgxtyOZpM/qXX/NwyrwVt?=
- =?us-ascii?Q?k/PGRkPpCnjDLwA08B88DSveBzxbBeHXn8Ut4Gb7AMDY5XafsjZgU7Zj00X7?=
- =?us-ascii?Q?2BQjvyrRPRlOZ1FhiQakNRGBvDTefmO+k92anphRS897jmtpN6e33Rfy7Paf?=
- =?us-ascii?Q?fI1ipyn90EM5pTRL/1yX05tClGEb/CyWCVFOVWufNqyhHF99RUYd92dre7sn?=
- =?us-ascii?Q?z4r2w5TZAPWGk9QTUhIqJQXbXr4x4ax05aozTJ6hAKtnzoojSRW5NiUMnqev?=
- =?us-ascii?Q?lmc4LYjzL4qmePPBZwQ4h4i7384IBLXbGrAO61ijpN0yMNV4xjCS+nXmv96v?=
- =?us-ascii?Q?WFUd1m13khKZVEJAAKbcs79RmSwaDs/ZhpmXoRDjwYswrRXw7i7AQ3tJM6Hg?=
- =?us-ascii?Q?blvvgHt2q5tEBVuMAztwuOdCJUFwwhmmkoaTjovhZuCgFUnV1Uu5zcmz1VXI?=
- =?us-ascii?Q?Zan2RFlUJzeul3i/ly5AvwD2rSiqiI1W2Vux2Bqm7L10oAkBm2IVvOgsrNHR?=
- =?us-ascii?Q?CU3H4T2ej20RCENEOwGsf34dZmSNIbeFw7gKP+JbGcOC2kYBP5IFnLmZkPIg?=
- =?us-ascii?Q?eUSSM46HEnC5VZ6qI7s/phDqrc4jnaZI1WcXXpjxNSk5uAlKmwLV75YfNuPE?=
- =?us-ascii?Q?ry8i6dJVdo4Mx4Vb3FXCoQUg4Xkq/E1VVgHhvrpCbJZKc41bih4vCycM4P/y?=
- =?us-ascii?Q?T3MeLLgCYXPO2RjLAGv2rpKbeGOe+KpNx40Y93rYjadYmJckoYab/Rhzx/Mh?=
- =?us-ascii?Q?NoOeb8FTNVZmYCBGDJjCvIrzn/wyqRu39qTnJKNoraX9Px7SZ6ntyPMRfhVS?=
- =?us-ascii?Q?QRYJ9vnaCeSOcTC5s/8hvB1sEaCY08pWwP5BwpTnJJPMRZfoUlabmT2m5BCA?=
- =?us-ascii?Q?tjlmoywEbhTUd+t32Tr2ejM/oHnzqts/fxzGM8V9w6OuLnQ88FaseX2P6IDW?=
- =?us-ascii?Q?VWaqvdi+Q2AQto4sAmGQxwDYPJyKZ3ja6p1/Z1C7tePu2hnOPdA/RjdExAM5?=
- =?us-ascii?Q?U+ifOsfxJNJqoJeHYkaockuXnTeZlVQRF/9XE+KdYGl5TQYS/RXDu/C5/GJS?=
- =?us-ascii?Q?zJAGbgq+FLP/tQZJvuOC8NRY/1BILbwr7HpyI5AP39S35qNA0cjROCgF+4nK?=
- =?us-ascii?Q?aLnnL4TeHJODvcstp06qBktG8y+3uUQPK5R4ePsXbUUwlwtaZ1k3Xbf8K3y3?=
- =?us-ascii?Q?QtUSQQQ/TJoy2WhP22y8IMJruk9ijd0rAQ3h+COUNsr0tlER9kgWe9+eo4LM?=
- =?us-ascii?Q?V61pKQhSjf2AgydBIE4sj5o5MxMc7JWHGEqNE30cu+pIIFY880SwqSefk4eX?=
- =?us-ascii?Q?HHBHDHLbwuzdvSgfo4oY0XZewPcQsXqJa8tZ4mNBdnmyqmUrbZDlNVDettBI?=
- =?us-ascii?Q?Kn6yOE2cIGHqkhw8K+Giepw/9eCba+g97y+P3Fmmv+cvAZ88/3/1zD3vJLKZ?=
- =?us-ascii?Q?bqXZYIhjUL08CZs2QVLk31LG0JlBVAQZkP4L8Tc7vBL2tzdPBNeq9RqISXSl?=
- =?us-ascii?Q?V8+Y1dfRzkyn6Hdnjra0rpU5qw32dDfmVQwv9Vqvx8dcBdTYiPlWPiLQI31T?=
- =?us-ascii?Q?sr5Pr7omA2x0WBDy2PoxMX3hKGMQS5kRKDQddY24?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d1898146-85eb-49f2-6ee3-08dc45df9e20
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9448.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Mar 2024 17:36:43.6159
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /hb0y9dakb3gcPhAzDfNxC+U/kRB0qGsi2IoHHfqhm80P2b31rGpAFGZU5KxdFWTX0+KXf6Lmt0ttnW0Qwbfdw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8162
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c9c255c5e5c0a01ac9110f7e4745ede3c11b9431.1710241040.git.enrico.scholz@sigma-chemnitz.de>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 16 Mar 2024 17:36:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197256
+ <openembedded-core@lists.openembedded.org>; Sat, 16 Mar 2024 23:59:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197257
 
-On a machine without the file command, the SDK install fails with a
-cryptic error message.
+Please always resend the whole series, the maintainer should have to go
+and cherry pick patches from various versions once the series has been
+dropped.
 
-```
-xargs: file: No such file or directory
-sed: no input files
-Failed to replace perl. Relocate script failed. Abort!
-```
+On 12/03/2024 12:00:21+0100, Enrico Scholz via lists.openembedded.org wrote:
+> From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+> 
+> Instead of shipping the whole configuration files for openssh, add
+> small patch includes configuration snippets from subdirectories.
+> 
+> This allows us to keep the original upstream configuration which is
+> mainly useful for documentation purposes.  It makes it more easy to
+> identify OE specific setup.
+> 
+> Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+> ---
+>  .../openssh/openssh/include-conf.patch        |  34 +++++
+>  .../openssh/openssh/ssh_config                |  48 -------
+>  .../openssh/openssh/sshd_config               | 119 ------------------
+>  .../openssh/openssh_9.6p1.bb                  |   5 +-
+>  4 files changed, 35 insertions(+), 171 deletions(-)
+>  create mode 100644 meta/recipes-connectivity/openssh/openssh/include-conf.patch
+>  delete mode 100644 meta/recipes-connectivity/openssh/openssh/ssh_config
+>  delete mode 100644 meta/recipes-connectivity/openssh/openssh/sshd_config
+> 
+> diff --git a/meta/recipes-connectivity/openssh/openssh/include-conf.patch b/meta/recipes-connectivity/openssh/openssh/include-conf.patch
+> new file mode 100644
+> index 000000000000..0a3f6839f838
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/openssh/openssh/include-conf.patch
+> @@ -0,0 +1,34 @@
+> +Include configuration snippets from subdirectory.
+> +
+> +NOTE: first configuration option wins.
+> +
+> +Upstream-Status: Inappropriate [configuration]
+> +
+> +Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+> +
+> +Index: openssh-9.5p1/ssh_config
+> +===================================================================
+> +--- openssh-9.5p1.orig/ssh_config
+> ++++ openssh-9.5p1/ssh_config
+> +@@ -5,6 +5,8 @@
+> + # users, and the values can be changed in per-user configuration files
+> + # or on the command line.
+> +
+> ++Include /etc/ssh/ssh_config.d/*.conf
+> ++
+> + # Configuration data is parsed as follows:
+> + #  1. command line options
+> + #  2. user-specific file
+> +Index: openssh-9.5p1/sshd_config
+> +===================================================================
+> +--- openssh-9.5p1.orig/sshd_config
+> ++++ openssh-9.5p1/sshd_config
+> +@@ -10,6 +10,8 @@
+> + # possible, but leave them commented.  Uncommented options override the
+> + # default value.
+> +
+> ++Include /etc/ssh/sshd_config.d/*.conf
+> ++
+> + #Port 22
+> + #AddressFamily any
+> + #ListenAddress 0.0.0.0
+> diff --git a/meta/recipes-connectivity/openssh/openssh/ssh_config b/meta/recipes-connectivity/openssh/openssh/ssh_config
+> deleted file mode 100644
+> index cb2774a163ed..000000000000
+> --- a/meta/recipes-connectivity/openssh/openssh/ssh_config
+> +++ /dev/null
+> @@ -1,48 +0,0 @@
+> -#	$OpenBSD: ssh_config,v 1.35 2020/07/17 03:43:42 dtucker Exp $
+> -
+> -# This is the ssh client system-wide configuration file.  See
+> -# ssh_config(5) for more information.  This file provides defaults for
+> -# users, and the values can be changed in per-user configuration files
+> -# or on the command line.
+> -
+> -# Configuration data is parsed as follows:
+> -#  1. command line options
+> -#  2. user-specific file
+> -#  3. system-wide file
+> -# Any configuration value is only changed the first time it is set.
+> -# Thus, host-specific definitions should be at the beginning of the
+> -# configuration file, and defaults at the end.
+> -
+> -# Site-wide defaults for some commonly used options.  For a comprehensive
+> -# list of available options, their meanings and defaults, please see the
+> -# ssh_config(5) man page.
+> -
+> -Include /etc/ssh/ssh_config.d/*.conf
+> -
+> -# Host *
+> -#   ForwardAgent no
+> -#   ForwardX11 no
+> -#   PasswordAuthentication yes
+> -#   HostbasedAuthentication no
+> -#   GSSAPIAuthentication no
+> -#   GSSAPIDelegateCredentials no
+> -#   BatchMode no
+> -#   CheckHostIP yes
+> -#   AddressFamily any
+> -#   ConnectTimeout 0
+> -#   StrictHostKeyChecking ask
+> -#   IdentityFile ~/.ssh/id_rsa
+> -#   IdentityFile ~/.ssh/id_dsa
+> -#   IdentityFile ~/.ssh/id_ecdsa
+> -#   IdentityFile ~/.ssh/id_ed25519
+> -#   Port 22
+> -#   Ciphers aes128-ctr,aes192-ctr,aes256-ctr,aes128-cbc,3des-cbc
+> -#   MACs hmac-md5,hmac-sha1,umac-64@openssh.com
+> -#   EscapeChar ~
+> -#   Tunnel no
+> -#   TunnelDevice any:any
+> -#   PermitLocalCommand no
+> -#   VisualHostKey no
+> -#   ProxyCommand ssh -q -W %h:%p gateway.example.com
+> -#   RekeyLimit 1G 1h
+> -#   UserKnownHostsFile ~/.ssh/known_hosts.d/%k
+> diff --git a/meta/recipes-connectivity/openssh/openssh/sshd_config b/meta/recipes-connectivity/openssh/openssh/sshd_config
+> deleted file mode 100644
+> index e9eaf9315775..000000000000
+> --- a/meta/recipes-connectivity/openssh/openssh/sshd_config
+> +++ /dev/null
+> @@ -1,119 +0,0 @@
+> -#	$OpenBSD: sshd_config,v 1.104 2021/07/02 05:11:21 dtucker Exp $
+> -
+> -# This is the sshd server system-wide configuration file.  See
+> -# sshd_config(5) for more information.
+> -
+> -# This sshd was compiled with PATH=/usr/bin:/bin:/usr/sbin:/sbin
+> -
+> -# The strategy used for options in the default sshd_config shipped with
+> -# OpenSSH is to specify options with their default value where
+> -# possible, but leave them commented.  Uncommented options override the
+> -# default value.
+> -
+> -Include /etc/ssh/sshd_config.d/*.conf
+> -
+> -#Port 22
+> -#AddressFamily any
+> -#ListenAddress 0.0.0.0
+> -#ListenAddress ::
+> -
+> -#HostKey /etc/ssh/ssh_host_rsa_key
+> -#HostKey /etc/ssh/ssh_host_ecdsa_key
+> -#HostKey /etc/ssh/ssh_host_ed25519_key
+> -
+> -# Ciphers and keying
+> -#RekeyLimit default none
+> -
+> -# Logging
+> -#SyslogFacility AUTH
+> -#LogLevel INFO
+> -
+> -# Authentication:
+> -
+> -#LoginGraceTime 2m
+> -#PermitRootLogin prohibit-password
+> -#StrictModes yes
+> -#MaxAuthTries 6
+> -#MaxSessions 10
+> -
+> -#PubkeyAuthentication yes
+> -
+> -# The default is to check both .ssh/authorized_keys and .ssh/authorized_keys2
+> -# but this is overridden so installations will only check .ssh/authorized_keys
+> -AuthorizedKeysFile	.ssh/authorized_keys
+> -
+> -#AuthorizedPrincipalsFile none
+> -
+> -#AuthorizedKeysCommand none
+> -#AuthorizedKeysCommandUser nobody
+> -
+> -# For this to work you will also need host keys in /etc/ssh/ssh_known_hosts
+> -#HostbasedAuthentication no
+> -# Change to yes if you don't trust ~/.ssh/known_hosts for
+> -# HostbasedAuthentication
+> -#IgnoreUserKnownHosts no
+> -# Don't read the user's ~/.rhosts and ~/.shosts files
+> -#IgnoreRhosts yes
+> -
+> -# To disable tunneled clear text passwords, change to no here!
+> -#PasswordAuthentication yes
+> -#PermitEmptyPasswords no
+> -
+> -# Change to yes to enable keyboard-interactive authentication (beware issues
+> -# with some PAM modules and threads)
+> -KbdInteractiveAuthentication no
+> -
+> -# Kerberos options
+> -#KerberosAuthentication no
+> -#KerberosOrLocalPasswd yes
+> -#KerberosTicketCleanup yes
+> -#KerberosGetAFSToken no
+> -
+> -# GSSAPI options
+> -#GSSAPIAuthentication no
+> -#GSSAPICleanupCredentials yes
+> -
+> -# Set this to 'yes' to enable PAM authentication, account processing,
+> -# and session processing. If this is enabled, PAM authentication will
+> -# be allowed through the KbdInteractiveAuthentication and
+> -# PasswordAuthentication.  Depending on your PAM configuration,
+> -# PAM authentication via KbdInteractiveAuthentication may bypass
+> -# the setting of "PermitRootLogin without-password".
+> -# If you just want the PAM account and session checks to run without
+> -# PAM authentication, then enable this but set PasswordAuthentication
+> -# and KbdInteractiveAuthentication to 'no'.
+> -#UsePAM no
+> -
+> -#AllowAgentForwarding yes
+> -#AllowTcpForwarding yes
+> -#GatewayPorts no
+> -#X11Forwarding no
+> -#X11DisplayOffset 10
+> -#X11UseLocalhost yes
+> -#PermitTTY yes
+> -#PrintMotd yes
+> -#PrintLastLog yes
+> -#TCPKeepAlive yes
+> -#PermitUserEnvironment no
+> -Compression no
+> -ClientAliveInterval 15
+> -ClientAliveCountMax 4
+> -#UseDNS no
+> -#PidFile /var/run/sshd.pid
+> -#MaxStartups 10:30:100
+> -#PermitTunnel no
+> -#ChrootDirectory none
+> -#VersionAddendum none
+> -
+> -# no default banner path
+> -#Banner none
+> -
+> -# override default of no subsystems
+> -Subsystem	sftp	/usr/libexec/sftp-server
+> -
+> -# Example of overriding settings on a per-user basis
+> -#Match User anoncvs
+> -#	X11Forwarding no
+> -#	AllowTcpForwarding no
+> -#	PermitTTY no
+> -#	ForceCommand cvs server
+> diff --git a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
+> index edd8e8c2d18f..d500ca6019fe 100644
+> --- a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
+> +++ b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
+> @@ -12,8 +12,6 @@ DEPENDS = "zlib openssl virtual/crypt"
+>  DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+>  
+>  SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.gz \
+> -           file://sshd_config \
+> -           file://ssh_config \
+>             file://init \
+>             ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
+>             file://sshd.service \
+> @@ -23,6 +21,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
+>             file://volatiles.99_sshd \
+>             file://run-ptest \
+>             file://fix-potential-signed-overflow-in-pointer-arithmatic.patch \
+> +           file://include-conf.patch \
+>             file://sshd_check_keys \
+>             file://add-test-support-for-busybox.patch \
+>             file://0001-regress-banner.sh-log-input-and-output-files-on-erro.patch \
+> @@ -101,8 +100,6 @@ CACHED_CONFIGUREVARS += "ac_cv_header_maillock_h=no"
+>  
+>  do_configure:prepend () {
+>  	export LD="${CC}"
+> -	install -m 0644 ${WORKDIR}/sshd_config ${B}/
+> -	install -m 0644 ${WORKDIR}/ssh_config ${B}/
+>  }
+>  
+>  do_compile_ptest() {
+> -- 
+> 2.44.0
+> 
 
-Add a test for 'file' to print a clear error message.
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#196975): https://lists.openembedded.org/g/openembedded-core/message/196975
+> Mute This Topic: https://lists.openembedded.org/mt/104882201/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
-```
-The command 'file' is required by the relocation script, please install it =
-first. Abort!
-```
 
-Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
----
- meta/files/toolchain-shar-relocate.sh | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
-
-diff --git a/meta/files/toolchain-shar-relocate.sh b/meta/files/toolchain-s=
-har-relocate.sh
-index e8ab357717..3d55e38102 100644
---- a/meta/files/toolchain-shar-relocate.sh
-+++ b/meta/files/toolchain-shar-relocate.sh
-@@ -1,7 +1,9 @@
--if ! xargs --version > /dev/null 2>&1; then
--	echo "xargs is required by the relocation script, please install it first=
-. Abort!"
--	exit 1
--fi
-+for cmd in xargs file; do
-+	if ! command -v $cmd &> /dev/null; then
-+		echo "The command '$cmd' is required by the relocation script, please in=
-stall it first. Abort!"
-+		exit 1
-+	fi
-+done
-=20
- # fix dynamic loader paths in all ELF SDK binaries
- # allow symlinks to be accessed via the find command too
---=20
-2.25.1
-
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
