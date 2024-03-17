@@ -1,117 +1,130 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6108AC54E60
-	for <webhook@archiver.kernel.org>; Sun, 17 Mar 2024 11:17:56 +0000 (UTC)
-Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
- by mx.groups.io with SMTP id smtpd.web11.16655.1710674267009766736
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85E39C54E60
+	for <webhook@archiver.kernel.org>; Sun, 17 Mar 2024 12:02:06 +0000 (UTC)
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+ by mx.groups.io with SMTP id smtpd.web11.17232.1710676916089915574
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Mar 2024 04:17:47 -0700
+ Sun, 17 Mar 2024 05:01:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=uhrIsLjE;
- spf=softfail (domain: sakoman.com, ip: 209.85.161.48, mailfrom: steve@sakoman.com)
-Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-5a485724ddaso1228162eaf.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 17 Mar 2024 04:17:46 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=bVqo4o38;
+ spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a466c85ae5fso83196466b.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 17 Mar 2024 05:01:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1710674266; x=1711279066; darn=lists.openembedded.org;
-        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hVCgXlVDPMlAEk8m3V+nok8MZyHtl8NrY12D4bln5Is=;
-        b=uhrIsLjENL1yJ0oNPFhwSlQTdCnfFi9xqqIjFwmsU5n5Emh/IVxysM0M750hq6RByM
-         kuJPoyIKzWVrw7UvMxT3kJyhbBez5ecJcc/kpVWfy9hM9B4WEnghsDANjwgxq6XU/nh6
-         Yx+KGHviiYy+qewZ68peU+q0BitJBP2NanX1sVwvesL3SRYZpLbc0Yf2eLqnXGUEDODx
-         poR7HJifxc8gBJYP2ODi7VJe5rVwZ/Tp/uPbOzPvRhZVnu8V+xqHCWXPlIQqI8LmLygO
-         j3n8j5P6XjGYB9iuPPjcJs5yjIkcVJLqzEvHEG55QiEy7LXbiTFOsU6TXBuYyPilucxC
-         xxcw==
+        d=gmail.com; s=20230601; t=1710676914; x=1711281714; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Bkz70wDSIVYnmyqFU/THy/PevVAR7jFRV8EUk5m17rU=;
+        b=bVqo4o38Fm+/iaFwzAShlGhxkq1omLe33NoZtLiuVQ+EShz3jjqWfqDYHugJYudkAE
+         kdwYkpST/lVWvfMZLZL3QBqVrtuxsZqCe1gbby0UPwWyFwHr6XCclng0uJmPBvUJ/o/i
+         LPe7HwwWqzAs9lEbfAFl7aqf9QExkNqoF7/GGN0GkpSpBhR5Rw4vnPmPrrybW7kH1cJb
+         0LmFDvtlOITAC9Kzm0lg+DPLzkV/yQ5FtMDfABKpNHaX5AlZx84I3HKX8tbIU6BTStHE
+         OJzBaN+aV5UYR4d7ah/0iLoieOgN7NLdL8t/CiACiQTkoxiHyNsXE8wZOnbY6ISW+no3
+         5oEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710674266; x=1711279066;
-        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=hVCgXlVDPMlAEk8m3V+nok8MZyHtl8NrY12D4bln5Is=;
-        b=jznrawseJqAAabX+HfCjxo5XdupdtyS0zKU8pwP3IyN2b8dFhrpPPMk1It4bQgcCrm
-         32wPTqdDv72su9kcZ3u/ns2x0Sw4IDnbI4My4BpPoxkkDLsobGCGTvHI/RKzq5AR4/QO
-         c7PKikPdzmcKUCmGk6G4p+hwDzzuYCazhTMGZMwyB3EXA5xNztkjWMUelVtAmO0u0QIV
-         QR4N/9HpxAisbcNrRgBTKsDkIt+YMF80U9s8Bt2LT0U5gCFqjWNHXJ4UM5s8bVzol9UQ
-         3jbXJszoQXrKvK73dmElFswtNEhPsetjKH131j2CbPd9aEUusJJ3lFyxuIjDxggDs2wf
-         9bNg==
-X-Gm-Message-State: AOJu0YyEfzUQ6aT1EJdBRrFzwxQty3VlRGoTVwcXjtXj6ISXuHJg3fxj
-	y75Ybv55KD+GAtc9NiEq+6TGwRjmMKa9RLubVVHL+KrUdjfdcZ/zTZRG9FYYAq4mzimCoBLtdH5
-	sq7g=
-X-Google-Smtp-Source: AGHT+IH8zQmTtiOYp+OLGqh1kcjbjtSzkfQyQJnPPJQFHGmBMX324q+cSzNCpmIxFJmmTYuRTZh73Q==
-X-Received: by 2002:a9d:7d91:0:b0:6e6:7b48:b801 with SMTP id j17-20020a9d7d91000000b006e67b48b801mr6308890otn.16.1710674265901;
-        Sun, 17 Mar 2024 04:17:45 -0700 (PDT)
-Received: from builder.sakoman.com ([71.19.246.55])
-        by smtp.gmail.com with ESMTPSA id p14-20020a05621421ee00b00691631154a2sm3707470qvj.43.2024.03.17.04.17.45
+        d=1e100.net; s=20230601; t=1710676914; x=1711281714;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Bkz70wDSIVYnmyqFU/THy/PevVAR7jFRV8EUk5m17rU=;
+        b=iFzUiIm7/xL2T4NRTN2Z1ittza73ymmbaA3A8gmvJXmIN2tZXt8FevLbAM+L+ZYwnr
+         UY/aApTuCGu6iaJ5T5fbGg0EU1WjyHWknccgEMGwH/maar/VWAV1q6UEY6np34nGn65+
+         W6PPRQIqDPg77bntVAHuVD77pPjZVnl2+NhoYZB1AUHGUenkLspkCAUCu6HHWII76gBt
+         +QpU0bJHeqKo28Yv7xSnhg3+GPjjk9mDgrohmIHyji0HB1CvYWIVofRh+LVHOxsnHq/A
+         r61y3xrf0wdzM77FAl0VZjtvWC+6bR76c6NxRl42NoQpioq9pcQWleyGl5sJ9Ez96Uah
+         gRQQ==
+X-Gm-Message-State: AOJu0YzCB6X+okpY9mK2QbiIUgEQwdbPuL1kp+VymTx1PFQMuHVd2duN
+	60x4jXENcAwtCjyDLrGHqHt7VpkIEN2nmiK+mkyAc4Vc7xY6b2EFvdw1vpGq
+X-Google-Smtp-Source: AGHT+IFgS/n+EJZ6Xcpw4209mBq5rqx/DmFzSgBHhtn1/G9pQvGPuYfoNlszCsOnCwXbO9CWX4JEZg==
+X-Received: by 2002:a17:906:1c4e:b0:a46:7e07:e66f with SMTP id l14-20020a1709061c4e00b00a467e07e66fmr4456627ejg.0.1710676914273;
+        Sun, 17 Mar 2024 05:01:54 -0700 (PDT)
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id h25-20020a17090634d900b00a454438091fsm3703394ejb.70.2024.03.17.05.01.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Mar 2024 04:17:45 -0700 (PDT)
-Received: by builder.sakoman.com (Postfix, from userid 1001)
-	id 82243106914; Sun, 17 Mar 2024 01:17:44 -1000 (HST)
-Subject: OE-core CVE metrics for master on Sun 17 Mar 2024 01:00:01 AM HST
-FROM: steve@sakoman.com
-To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-User-Agent: mail (GNU Mailutils 3.14)
-Date: Sun, 17 Mar 2024 01:17:44 -1000
-Message-Id: <20240317111744.82243106914@builder.sakoman.com>
+        Sun, 17 Mar 2024 05:01:53 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: steve@sakoman.com,
+	Martin Jansa <martin.jansa@gmail.com>
+Subject: [kirkstone][PATCH] stress-ng: avoid calling sync during do_compile
+Date: Sun, 17 Mar 2024 13:01:38 +0100
+Message-ID: <20240317120138.180013-1-martin.jansa@gmail.com>
+X-Mailer: git-send-email 2.44.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 17 Mar 2024 11:17:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197259
+ <openembedded-core@lists.openembedded.org>; Sun, 17 Mar 2024 12:02:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197260
 
-Branch: master
+calling 'sync' from do_compile in the middle of big OE world
+build harms the build time.
 
-New this week: 0 CVEs
+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+---
+ .../0001-Makefile-avoid-calling-sync.patch    | 35 +++++++++++++++++++
+ .../stress-ng/stress-ng_0.13.12.bb            |  1 +
+ 2 files changed, 36 insertions(+)
+ create mode 100644 meta/recipes-extended/stress-ng/stress-ng-0.13.12/0001-Makefile-avoid-calling-sync.patch
 
-Removed this week: 0 CVEs
+diff --git a/meta/recipes-extended/stress-ng/stress-ng-0.13.12/0001-Makefile-avoid-calling-sync.patch b/meta/recipes-extended/stress-ng/stress-ng-0.13.12/0001-Makefile-avoid-calling-sync.patch
+new file mode 100644
+index 0000000000..fec8c524eb
+--- /dev/null
++++ b/meta/recipes-extended/stress-ng/stress-ng-0.13.12/0001-Makefile-avoid-calling-sync.patch
+@@ -0,0 +1,35 @@
++From 1d1801902a4944c6f5fa521c19b32fbac7342a0c Mon Sep 17 00:00:00 2001
++From: Colin Ian King <colin.i.king@gmail.com>
++Date: Sat, 6 Aug 2022 13:05:59 +0000
++Subject: [PATCH] Makefile: avoid calling sync
++
++Original commit message:
++Makefile: use ld-gold if it is available
++
++Speed up linking by using ld-gold if is available. Add build
++time detection to see if compiler allows it
++
++MJ: backported only the "sync" removal from Makefile as calling
++    it from do_compile in the middle of big OE world build harms
++    the build time.
++
++Upstream-Status: Backport [V0.14.04 c10e5c3f9f5560a085279f4c4b399c2f34cb897d]
++
++Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
++Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
++---
++ Makefile | 1 -
++ 1 file changed, 1 deletion(-)
++
++diff --git a/Makefile b/Makefile
++index f8f71c54b..23db4c612 100644
++--- a/Makefile
+++++ b/Makefile
++@@ -425,7 +425,6 @@ OBJS += $(CONFIG_OBJS)
++ stress-ng: $(OBJS)
++ 	$(Q)echo "LD $@"
++ 	$(V)$(CC) $(CPPFLAGS) $(CFLAGS) $(OBJS) -lm $(LDFLAGS) -o $@
++-	$(V)sync
++ 
++ config.h:
++ 	+$(MAKE) -f Makefile.config STATIC=$(STATIC) -j
+diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.13.12.bb b/meta/recipes-extended/stress-ng/stress-ng_0.13.12.bb
+index 807ecd3466..72dafddaf8 100644
+--- a/meta/recipes-extended/stress-ng/stress-ng_0.13.12.bb
++++ b/meta/recipes-extended/stress-ng/stress-ng_0.13.12.bb
+@@ -7,6 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+ 
+ SRC_URI = "git://github.com/ColinIanKing/stress-ng.git;protocol=https;branch=master \
+            file://0001-stress-cpu-disable-float128-math-on-powerpc64-to-avo.patch \
++           file://0001-Makefile-avoid-calling-sync.patch \
+           "
+ SRCREV = "f59bcb2fe1e25042e77d5e4942f72bfa026fa305"
+ S = "${WORKDIR}/git"
+-- 
+2.44.0
 
-Full list:  Found 37 unpatched CVEs
-CVE-2019-14899 (CVSS3: 7.4 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
-CVE-2021-3714 (CVSS3: 5.9 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
-CVE-2021-3864 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
-CVE-2022-0400 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
-CVE-2022-1247 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
-CVE-2022-3219 (CVSS3: 3.3 LOW): gnupg:gnupg-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-3219 *
-CVE-2022-38096 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
-CVE-2022-4543 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
-CVE-2022-46456 (CVSS3: 6.1 MEDIUM): nasm:nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-46456 *
-CVE-2023-1386 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1386 *
-CVE-2023-3397 (CVSS3: 6.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
-CVE-2023-3640 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
-CVE-2023-4010 (CVSS3: 4.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
-CVE-2023-42363 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42363 *
-CVE-2023-42364 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42364 *
-CVE-2023-42365 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42365 *
-CVE-2023-42366 (CVSS3: 5.5 MEDIUM): busybox https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-42366 *
-CVE-2023-51767 (CVSS3: 7.0 HIGH): openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-51767 *
-CVE-2023-6238 (CVSS3: 6.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
-CVE-2023-6240 (CVSS3: 6.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6240 *
-CVE-2023-6270 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6270 *
-CVE-2023-6356 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6356 *
-CVE-2023-6535 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6535 *
-CVE-2023-6536 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6536 *
-CVE-2023-7042 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-7042 *
-CVE-2023-7216 (CVSS3: 5.3 MEDIUM): cpio https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-7216 *
-CVE-2024-0841 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-0841 *
-CVE-2024-21803 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-21803 *
-CVE-2024-23307 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23307 *
-CVE-2024-23848 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-23848 *
-CVE-2024-24857 (CVSS3: 6.8 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24857 *
-CVE-2024-24858 (CVSS3: 5.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24858 *
-CVE-2024-24859 (CVSS3: 4.8 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24859 *
-CVE-2024-24861 (CVSS3: 6.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24861 *
-CVE-2024-24864 (CVSS3: 4.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-24864 *
-CVE-2024-25739 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-25739 *
-CVE-2024-25740 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-25740 *
-
-Summary of CVE counts by recipe:
-  linux-yocto: 28
-  busybox: 4
-  cpio: 1
-  gnupg:gnupg-native: 1
-  nasm:nasm-native: 1
-  openssh: 1
-  qemu:qemu-native:qemu-system-native: 1
-
-For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
