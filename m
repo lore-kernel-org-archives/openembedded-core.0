@@ -1,100 +1,144 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <Haitao.Liu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AAD5CC54E69
-	for <webhook@archiver.kernel.org>; Mon, 18 Mar 2024 02:22:31 +0000 (UTC)
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
- by mx.groups.io with SMTP id smtpd.web10.34195.1710728546014708549
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B9C0C54E60
+	for <webhook@archiver.kernel.org>; Mon, 18 Mar 2024 03:07:22 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.34698.1710731233854529996
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Mar 2024 19:22:26 -0700
+ Sun, 17 Mar 2024 20:07:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=B85t0Wks;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.178, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-3c37d50adecso1345583b6e.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 17 Mar 2024 19:22:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1710728545; x=1711333345; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4FFBPXBeDZxmg9WIrfGltp9RsfYGigeAeqmBuMuSioo=;
-        b=B85t0WksjnNu/kcnhLArhvhiWFQtdSuy/WYkQ+Qz9XpqrC77Bg1TIPLUB5b8ovVcsT
-         p0rlwMw4K1QsYM/BT+nHnUSPCx+NIV8oXD/FuiOTnqNrjCSnSSXSjExLxMmcJWyY9tzF
-         Xq8g5ZkFMBbg5i3m5a6htXEPTEHWBv3o+dEr9Pq3aAFqhAuQqudDQUqAioFgxorOyz4v
-         wadpWf4awizMevxEACsAqaLLgQRF3ME4zsthLm3263eMSLdPrDHa5tw4Q2Fx54uQD0iP
-         YdyCiyx+8mrQ4MkatBoR5TN18MRUiDJ82o6P6bbpUxdbB+UzR0flE4zGU85f+TbMdWi4
-         W9bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710728545; x=1711333345;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4FFBPXBeDZxmg9WIrfGltp9RsfYGigeAeqmBuMuSioo=;
-        b=W2cgCInw7riJfZTc9MVStGnYFPOdtqdJ1CYTLe3NG1KhNKtheLOtPtYFgBY4M5H/WO
-         HfAVLQOtFmQQ/Da/bki08VLxHDxK33bFiR7mhMquen3O7GWHus/uxqpSCVgoafgf2K+I
-         pDrteZu/iO49iMyF+lhd8vy46NJhmjZiWKyMNcrIiMZ/6Zt0Glv6SS+fG9gsUaecUqrQ
-         pXGwcF9b/UbNUP1jySuywun0TJ0tcKriCXiPSJhGiqMWyEjBDOG/Fsp4HsPh4Ij/qLqg
-         Ss77eeSaFTYgfqiK0f8RBaEd+hS1GEReYfX5Zzh6BdFNAGB8nTZvTUB+YopzpRK96i2M
-         rIzw==
-X-Gm-Message-State: AOJu0YyEMtRmmpEzvGrBVuDtIQHfmcsagIv+iapNhvAPcr4BkspcOWsO
-	mCP9UkZbXmpXHlrYV5R8FFeuKIGwffzxaVpppyqHvjnzRKi1PMshjOJs44t8DzTdUQxOVpI89B5
-	99DguVw==
-X-Google-Smtp-Source: AGHT+IGOlZOgaeVLJMYNfVlys9Yr9zjaklsnhC9oN01QJcpbe4yOKp4uBzuNLBxTan6HWLVHDA1N8g==
-X-Received: by 2002:a05:6808:399b:b0:3c3:7f24:4537 with SMTP id gq27-20020a056808399b00b003c37f244537mr8710002oib.42.1710728544869;
-        Sun, 17 Mar 2024 19:22:24 -0700 (PDT)
-Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id 25-20020a630f59000000b005dc2ca5b667sm5953953pgp.10.2024.03.17.19.22.24
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Mar 2024 19:22:24 -0700 (PDT)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][nanbield 13/14] yocto-uninative: Update to 4.4 for glibc 2.39
-Date: Sun, 17 Mar 2024 16:21:57 -1000
-Message-Id: <eebb03d9409df143c68262264a7d3991f6e94a9a.1710728384.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1710728384.git.steve@sakoman.com>
-References: <cover.1710728384.git.steve@sakoman.com>
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=EqBourqi;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=3807ca6fbb=haitao.liu@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42I2wnep013007
+	for <openembedded-core@lists.openembedded.org>; Mon, 18 Mar 2024 03:07:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=PPS06212021; bh=zRWOX
+	Qkd2LHY5IGtKDYlM0rbX5LnnRGhJSDN/LOSvNc=; b=EqBourqi/NlGl2UMozwRc
+	8Lf2qIlKTqnZLB88dlQZZeUxPnkxCGydmUo7fNtKzB7ukeFREiluUKcK57LZIHTQ
+	tkyq0KR4WW1o1b2h3+hbjL66XsgafmgustLnDHjIe3urvHsjjHhS119xL4zokuSg
+	pAJq9MrJyAJEys/m4s/KKCbcGoLRUL4idzisJa4pSsglXmgSlrHjONUe4t/W5bkE
+	AxeN+4YXoNgMtVKfiIzXiQvmB84SjxkSVe81WwVM70Ut9+2KfyE9ut3bVNbQXA8P
+	AAtPYo7rD+hsiopnSaoncWCG1oV5x962OMnIMgTUcMcQEvnaqxIUf3jWquhR4eDI
+	w==
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3ww2d6h9q1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 18 Mar 2024 03:07:12 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.37; Sun, 17 Mar 2024 20:07:11 -0700
+Received: from pek-lpd-susbld.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.37 via Frontend Transport; Sun, 17 Mar 2024 20:07:11 -0700
+From: Haitao Liu <haitao.liu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][kirkstone][PATCH] glibc: Fix subscript typos for get_nscd_addresses
+Date: Mon, 18 Mar 2024 11:07:10 +0800
+Message-ID: <20240318030710.2084076-1-haitao.liu@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: PiNi6njH11YIED5JcKoTlMR7_UpkF25a
+X-Proofpoint-ORIG-GUID: PiNi6njH11YIED5JcKoTlMR7_UpkF25a
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-17_12,2024-03-15_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0
+ lowpriorityscore=0 malwarescore=0 mlxscore=0 clxscore=1011 mlxlogscore=999
+ impostorscore=0 suspectscore=0 phishscore=0 priorityscore=1501 spamscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2403140001 definitions=main-2403180022
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Mar 2024 02:22:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197288
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Mar 2024 03:07:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197290
 
-From: Michael Halstead <mhalstead@linuxfoundation.org>
+Fix the following error:
 
-Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 56fdd8b79e2f7ec30d2cdcfa0c399a6553efac1e)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+root@intel-x86-64:~# wget -6 http://localhost
+--2024-01-12 07:18:42--  http://localhost/
+Resolving localhost... failed: No IPv4/IPv6 addresses for host.
+wget: unable to resolve host address 'localhost'
+
+Reference:
+https://sourceware.org/bugzilla/show_bug.cgi?id=29605
+
+Upstream-patch:
+https://sourceware.org/git/?p=glibc.git;a=commit;h=c9226c03da0276593a0918eaa9a14835183343e8
+
+Signed-off-by: Haitao Liu <haitao.liu@windriver.com>
 ---
- meta/conf/distro/include/yocto-uninative.inc | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ ...dresses-Fix-subscript-typos-BZ-29605.patch | 40 +++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.35.bb         |  1 +
+ 2 files changed, 41 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/0002-get_nscd_addresses-Fix-subscript-typos-BZ-29605.patch
 
-diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
-index eaa3e9b31c..4ac66fd506 100644
---- a/meta/conf/distro/include/yocto-uninative.inc
-+++ b/meta/conf/distro/include/yocto-uninative.inc
-@@ -6,10 +6,10 @@
- # to the distro running on the build machine.
- #
- 
--UNINATIVE_MAXGLIBCVERSION = "2.38"
--UNINATIVE_VERSION = "4.3"
-+UNINATIVE_MAXGLIBCVERSION = "2.39"
-+UNINATIVE_VERSION = "4.4"
- 
- UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/${UNINATIVE_VERSION}/"
--UNINATIVE_CHECKSUM[aarch64] ?= "8df05f4a41455018b4303b2e0ea4eac5c960b5a13713f6dbb33dfdb3e32753ec"
--UNINATIVE_CHECKSUM[i686] ?= "bea76b4a97c9ba0077c0dd1295f519cd599dbf71f0ca1c964471c4cdb043addd"
--UNINATIVE_CHECKSUM[x86_64] ?= "1c35f09a75c4096749bbe1e009df4e3968cde151424062cf4aa3ed89db22b030"
-+UNINATIVE_CHECKSUM[aarch64] ?= "b61876130f494f75092f21086b4a64ea5fb064045769bf1d32e9cb6af17ea8ec"
-+UNINATIVE_CHECKSUM[i686] ?= "9f28627828f0082cc0344eede4d9a861a9a064bfa8f36e072e46212f0fe45fcc"
-+UNINATIVE_CHECKSUM[x86_64] ?= "d81c54284be2bb886931fc87281d58177a2cd381cf99d1981f8923039a72a302"
+diff --git a/meta/recipes-core/glibc/glibc/0002-get_nscd_addresses-Fix-subscript-typos-BZ-29605.patch b/meta/recipes-core/glibc/glibc/0002-get_nscd_addresses-Fix-subscript-typos-BZ-29605.patch
+new file mode 100644
+index 0000000000..629298c23e
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/0002-get_nscd_addresses-Fix-subscript-typos-BZ-29605.patch
+@@ -0,0 +1,40 @@
++From 707a878b655395f41b954bbed78008d1d9252f1a Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?J=C3=B6rg=20Sonnenberger?= <joerg@bec.de>
++Date: Mon, 26 Sep 2022 13:59:16 -0400
++Subject: [PATCH] get_nscd_addresses: Fix subscript typos [BZ #29605]
++
++Fix the subscript on air->family, which was accidentally set to COUNT
++when it should have remained as I.
++
++Resolves: BZ #29605
++
++Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=c9226c03da0276593a0918eaa9a14835183343e8]
++
++Reviewed-by: Siddhesh Poyarekar <siddhesh@sourceware.org>
++Signed-off-by: Haitao Liu <haitao.liu@windriver.com>
++---
++ sysdeps/posix/getaddrinfo.c | 6 +++---
++ 1 file changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/sysdeps/posix/getaddrinfo.c b/sysdeps/posix/getaddrinfo.c
++index f4c08d6e3b..fa333ad6ec 100644
++--- a/sysdeps/posix/getaddrinfo.c
+++++ b/sysdeps/posix/getaddrinfo.c
++@@ -549,11 +549,11 @@ get_nscd_addresses (const char *name, const struct addrinfo *req,
++ 	  at[count].addr[2] = htonl (0xffff);
++ 	}
++       else if (req->ai_family == AF_UNSPEC
++-	       || air->family[count] == req->ai_family)
+++	       || air->family[i] == req->ai_family)
++ 	{
++-	  at[count].family = air->family[count];
+++	  at[count].family = air->family[i];
++ 	  memcpy (at[count].addr, addrs, size);
++-	  if (air->family[count] == AF_INET6)
+++	  if (air->family[i] == AF_INET6)
++ 	    res->got_ipv6 = true;
++ 	}
++       at[count].next = at + count + 1;
++-- 
++2.35.5
++
+diff --git a/meta/recipes-core/glibc/glibc_2.35.bb b/meta/recipes-core/glibc/glibc_2.35.bb
+index 3ec6610d01..751427517f 100644
+--- a/meta/recipes-core/glibc/glibc_2.35.bb
++++ b/meta/recipes-core/glibc/glibc_2.35.bb
+@@ -60,6 +60,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0024-fix-create-thread-failed-in-unprivileged-process-BZ-.patch \
+            \
+            file://0001-Revert-Linux-Implement-a-useful-version-of-_startup_.patch \
++           file://0002-get_nscd_addresses-Fix-subscript-typos-BZ-29605.patch \
+            "
+ S = "${WORKDIR}/git"
+ B = "${WORKDIR}/build-${TARGET_SYS}"
 -- 
-2.34.1
+2.25.1
 
 
