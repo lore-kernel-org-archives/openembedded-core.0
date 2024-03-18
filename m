@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E797C54E68
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D353DC54E71
 	for <webhook@archiver.kernel.org>; Mon, 18 Mar 2024 02:22:31 +0000 (UTC)
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
- by mx.groups.io with SMTP id smtpd.web11.34079.1710728542155120811
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+ by mx.groups.io with SMTP id smtpd.web11.34081.1710728543475423017
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Mar 2024 19:22:22 -0700
+ Sun, 17 Mar 2024 19:22:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Bp91N3f7;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.50, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-6e67d42422aso1472079a34.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 17 Mar 2024 19:22:22 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Fu9k6gtR;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.48, mailfrom: steve@sakoman.com)
+Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-6e69543fc1eso189905a34.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 17 Mar 2024 19:22:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1710728541; x=1711333341; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1710728542; x=1711333342; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=lTiUdAn5NBgO0iw2m4OC/pEPvCzQ0nD8xwk349lYvrA=;
-        b=Bp91N3f7l779fWcIWsJ/i9UAuNllQpxlvJbOql6AlDfUYxMPUyWxDyKsGMDpWIZJ0i
-         Davg6BjDs2Q3QXze6l6QL0qCD1KAbrHZiV7ZjRgRn3Nv2y/cNF8u+BqZmXKzTEKY5cfF
-         8hIfVXONN+krYF1Tr3HModiPtzx4BZOhDNA1bNyz4hBrxozg4gutISV/lwOj+NSOM8bh
-         FGa4gcLifvLxoWo8srtqkfzCtJZqXxiVUM1Mc75GigxhDzd1QeqC8fWzDpGx3w6u6puc
-         oRpybgdqsTPgZIJ/SJPR8EVBNIyYaFGaPlEjzMC/4Mg/e1yksTmyA96aAye+PneZBu1A
-         CY/Q==
+        bh=LCBtKohTZylOy9H7C1WiZoYja6Q8AeZEkWVkmtNQj9s=;
+        b=Fu9k6gtRcFHQ7gO86XPiEpAxLci5txAyptNCfD+eBxeKEFshBFhYEEPYU41RerWyCI
+         DlvTb+/6O1DrihtirFycCrhF/V0NUZlHx/w/uSqgpyMXbwZ8b8HfA1CrsqIw3xV6XnOK
+         Z/qggdnuQDq9GekDkBQ8kYDKboVX/udAJgKtvoe+QoVNAMSvaReSekWW5+QoBhjaiptC
+         qxgtXIE/zAxnNOBnU4e55d9o9XdY8Ak1t816afNnxF8xhKxm6IHTUJ5k/1IxyLOv33ew
+         /LTwgu2zG8JGk1kah2CFxy31f0unn7V5wejLPqicc2YbgzRReLCwg46VaufzZvdIqw5i
+         VtWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710728541; x=1711333341;
+        d=1e100.net; s=20230601; t=1710728542; x=1711333342;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=lTiUdAn5NBgO0iw2m4OC/pEPvCzQ0nD8xwk349lYvrA=;
-        b=gZ8rcbESQ1YvypUTFTr8xJca1EjpnQOZwh3Xiy5PE2HPSdq+tXReraHotJGqti2Iak
-         VwFt7kapniK5CsYoaINGdvG9R8r0Cweb3iF/TyArgL9id18ZpuB364ixEy3eoRnusMP1
-         kqKLVT0GiHKxE4MEJRBpsfdWDHnyZI+rCg9DjiBXCWb9dXzw0bqfzyfx3ZkIvKLuGd6X
-         PFSn5E/izop9SxVRgZhY5abN8p/kt3k5yDwmsmBqUduXSjLnGTmsmPgYeKfz7Ps+QVEL
-         N/X8eCBmFBCNcV0n9TQhFDFOmcQielpY6CjSm2+GxupnPem2TuklkjG4wJutyiS7mKEb
-         Mm4A==
-X-Gm-Message-State: AOJu0YyPpWlejpwMCoSPGxaUZXI3XPugRcZh5GXIQmTm4wOPG1Awq5FP
-	EZAJ+hj+uP2LV8D//CkLwq73+13E4HLibfp20yC/eMK3/ZtY8Ued7VIxcQ9Q3pE2PDATbh86odj
-	ARagWBg==
-X-Google-Smtp-Source: AGHT+IEZKQWU8c82ibMVKfCzDXd2iVc7GvpJwhK/Azuh9N92Ip4ygkqCenjCOZ4Loz5FIdHi7zu+zw==
-X-Received: by 2002:a05:6830:1608:b0:6e6:8521:b72a with SMTP id g8-20020a056830160800b006e68521b72amr4686749otr.17.1710728541283;
-        Sun, 17 Mar 2024 19:22:21 -0700 (PDT)
+        bh=LCBtKohTZylOy9H7C1WiZoYja6Q8AeZEkWVkmtNQj9s=;
+        b=W3o8NCJ8bgXOedPuv0hJCDbrmzBH8F4BD929/TC/ojo2loHZBK1Q41+cZbWB9Y2l0n
+         jooP4tVVtHPXbpQTc6hTzCOG7eZ6AZ7yQUe9NKFcQ6qlgFsTRas9ti7HgK9MWv8vosQI
+         whagpGf82gS0o2GV6p8SBKRmYZ9+i3GSWoufX6o1RnYZ1lRmItY48R/o5tYTzj4Q4XYB
+         yAjENF9LsfO7rd3ThIF2pQhtkgnf0lbkhvoquz4s3KAwtGY09mn8JLDRNQnRSk/VKEOf
+         +9u98EzUB8cp5uDNl4/WoV4fa8NWznQpHu18dxqH8Mrgc/mej0DtYKZxy1Ov3M2cTbMP
+         1pWQ==
+X-Gm-Message-State: AOJu0YwrBM6O2IYUDTYHVs5dWgEc7xNDNDkz8Kh/gjZw3MT+8EMBn1TX
+	MM0OJkDfqrrbEPN+ZO+i6YvEnbzXfZxZz+8JY+ODoPeFL4+Bb4yeO8/sesnFzzjzP2UVy9t28dI
+	kbovgQA==
+X-Google-Smtp-Source: AGHT+IEdazHtNYpRGPVEJ21l/MzsMr3quk+DmBSfYZ9oaOFO4nAs+IwwxYbkFfn7MO7yJuPXJiIg9w==
+X-Received: by 2002:a05:6830:6e8c:b0:6e6:978e:26d with SMTP id ed12-20020a0568306e8c00b006e6978e026dmr365829otb.9.1710728542735;
+        Sun, 17 Mar 2024 19:22:22 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id 25-20020a630f59000000b005dc2ca5b667sm5953953pgp.10.2024.03.17.19.22.20
+        by smtp.gmail.com with ESMTPSA id 25-20020a630f59000000b005dc2ca5b667sm5953953pgp.10.2024.03.17.19.22.22
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Mar 2024 19:22:20 -0700 (PDT)
+        Sun, 17 Mar 2024 19:22:22 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][nanbield 11/14] linux-firmware: upgrade 20231211 -> 20240220
-Date: Sun, 17 Mar 2024 16:21:55 -1000
-Message-Id: <0d506b892d299eaf9aeefb614245108128ce480e.1710728384.git.steve@sakoman.com>
+Subject: [OE-core][nanbield 12/14] tzdata : Upgrade to 2024a
+Date: Sun, 17 Mar 2024 16:21:56 -1000
+Message-Id: <e0f18bb696dc7266befd2fd6c46062c9d6a7ab59.1710728384.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1710728384.git.steve@sakoman.com>
 References: <cover.1710728384.git.steve@sakoman.com>
@@ -62,55 +62,39 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 18 Mar 2024 02:22:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197286
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197287
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+From: Priyal Doshi <pdoshi@mvista.com>
 
-License-Update: additional files
-
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit add81ef0299ea5260f9bdc59ffc8f5cc0e74276f)
+Signed-off-by: Priyal Doshi <pdoshi@mvista.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(cherry picked from commit 5abbd0abf992ce8d11f3ae31fb1d83d97f5319fa)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...inux-firmware_20231211.bb => linux-firmware_20240220.bb} | 6 +++---
+ meta/recipes-extended/timezone/timezone.inc | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20231211.bb => linux-firmware_20240220.bb} (99%)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20231211.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20240220.bb
-similarity index 99%
-rename from meta/recipes-kernel/linux-firmware/linux-firmware_20231211.bb
-rename to meta/recipes-kernel/linux-firmware/linux-firmware_20240220.bb
-index 0ed4d91f8a..490c0ab89f 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20231211.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20240220.bb
-@@ -91,7 +91,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     file://LICENCE.cadence;md5=009f46816f6956cfb75ede13d3e1cee0 \
-                     file://LICENCE.cavium;md5=c37aaffb1ebe5939b2580d073a95daea \
-                     file://LICENCE.chelsio_firmware;md5=819aa8c3fa453f1b258ed8d168a9d903 \
--                    file://LICENSE.cirrus;md5=bb18d943382abf8e8232a9407bfdafe0 \
-+                    file://LICENSE.cirrus;md5=662ea2c1a8888f7d79ed7f27c27472e1 \
-                     file://LICENCE.cnm;md5=93b67e6bac7f8fec22b96b8ad0a1a9d0 \
-                     file://LICENCE.cw1200;md5=f0f770864e7a8444a5c5aa9d12a3a7ed \
-                     file://LICENCE.cypress;md5=48cd9436c763bf873961f9ed7b5c147b \
-@@ -151,7 +151,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     "
- # WHENCE checksum is defined separately to ease overriding it if
- # class-devupstream is selected.
--WHENCE_CHKSUM  = "3113c4ea08e5171555f3bf49eceb5b07"
-+WHENCE_CHKSUM  = "a344e6c28970fc7daafa81c10247aeb6"
+diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
+index 2774e5e730..4734adcc08 100644
+--- a/meta/recipes-extended/timezone/timezone.inc
++++ b/meta/recipes-extended/timezone/timezone.inc
+@@ -6,7 +6,7 @@ SECTION = "base"
+ LICENSE = "PD & BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
  
- # These are not common licenses, set NO_GENERIC_LICENSE for them
- # so that the license files will be copied from fetched source
-@@ -237,7 +237,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
- # Pin this to the 20220509 release, override this in local.conf
- SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
+-PV = "2023d"
++PV = "2024a"
  
--SRC_URI[sha256sum] = "96af7e4b5eabd37869cdb3dcbb7ab36911106d39b76e799fa1caab16a9dbe8bb"
-+SRC_URI[sha256sum] = "bf0f239dc0801e9d6bf5d5fb3e2f549575632cf4688f4348184199cb02c2bcd7"
+ SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode;subdir=tz \
+            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata;subdir=tz \
+@@ -16,5 +16,5 @@ S = "${WORKDIR}/tz"
  
- inherit allarch
+ UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
  
+-SRC_URI[tzcode.sha256sum] = "e9a5f9e118886d2de92b62bb05510a28cc6c058d791c93bd6b84d3292c3c161e"
+-SRC_URI[tzdata.sha256sum] = "dbca21970b0a8b8c0ceceec1d7b91fa903be0f6eca5ae732b5329672232a08f3"
++SRC_URI[tzcode.sha256sum] = "80072894adff5a458f1d143e16e4ca1d8b2a122c9c5399da482cb68cba6a1ff8"
++SRC_URI[tzdata.sha256sum] = "0d0434459acbd2059a7a8da1f3304a84a86591f6ed69c6248fffa502b6edffe3"
 -- 
 2.34.1
 
