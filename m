@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97F27C54E74
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A42EBC54E73
 	for <webhook@archiver.kernel.org>; Mon, 18 Mar 2024 02:22:21 +0000 (UTC)
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
- by mx.groups.io with SMTP id smtpd.web11.34069.1710728534205296717
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+ by mx.groups.io with SMTP id smtpd.web11.34066.1710728532998911171
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Mar 2024 19:22:14 -0700
+ Sun, 17 Mar 2024 19:22:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=N8IJw64R;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.176, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-5e4b775e1d6so2684834a12.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 17 Mar 2024 19:22:14 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=x+agqXAD;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.44, mailfrom: steve@sakoman.com)
+Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-6e67cf739d0so1497127a34.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 17 Mar 2024 19:22:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1710728533; x=1711333333; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1710728532; x=1711333332; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=LlF0xfcbVjc7bRjNrITLnkCHjGuUYBEIgIIr5Akhp7A=;
-        b=N8IJw64RZK+C5q9ceA5R0l9FdxgrD4+09hpzlB4xB4iIr1qM5WxqLUWPQfWtx/uVNM
-         Tleo481nbkyoaT77u3BzLOd0ZaPUnr8aYKkeLkRXstbsB1lBu2ECrlqR1/GyXRZxnwOo
-         E+IXBvsSbw/qvL5Pk1CNoXYuAD+LYEyzNXzSubILDynJZxZTLjffOHUrJ+aZdNEFFiuc
-         JxMX57dpjn3eLmEGS2p3MAzxqqmR9lUzGzvLpl/1WNYLxLDrWVa2B19/ocFKvmocTpNP
-         aczYG8swsKjpFDIjLeEe5fN2jqLa4t2s88ZrbyIdDdTYUa51UO44O4IqEM0FvpU/lb2z
-         AaSg==
+        bh=L1W8P+YHa0tYHZaZ41j6AyaPdxoNKtvn8GCrnpX4pwI=;
+        b=x+agqXADAAre2/83KmvRKyP2cbsK4TpWyMhZNXtEXB2Ytekusfk4UCyGQNFh8uQJLs
+         21KaS6WJUgVL0d3HQd74/JlnAnqEb6x3DZNEBhX6BCJUuDn4o61kcXF2MDgMxALH2eqh
+         8PsiFUbgOrefSJS2R/PgDVQEpZ7oGm4lq572GDdEnhSWgcsIf01tlMkWlFC6iG+uwH9f
+         a10tP8uT4CzjOJxe2xlTotnOdWZBnDsveK8FxeS1cMJO32F9OQcw5MN7Wuwz5nDakFHZ
+         hlGos0d5JTADpygsbb/TnojZ6TEITxanBGXe1f7lRO9LZA6bYMq3mOwXq4HFDXUAbSGc
+         KMew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710728533; x=1711333333;
+        d=1e100.net; s=20230601; t=1710728532; x=1711333332;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=LlF0xfcbVjc7bRjNrITLnkCHjGuUYBEIgIIr5Akhp7A=;
-        b=HhusJTTQ3Z+wzDU+hN+Vd+Whz/hxcopt8O3NXJhGdp2CAsvpiLnJ9UUIb6nK+c/Hhs
-         dJshDgt++v9wf3SBNsEyTPm4uBcmGnkIjVAij1HasoQUQQe40xYD1KD83cvh0wl4fAQv
-         KxaObjZ7wJEzG1rJC5uFidLswaH275Au/v5q+TOUdKZtbGdW44l1F8fmpjIR1YL5W1kv
-         98l85BD9U0+MkE2RIZDNCvmXusb4/eBIcraEVBDzTTm3xt5Ekgc3J2LO7K3/G8a9zDbq
-         v4c8ccAIRLcmfnTqRP4AkXQO9K25s9P3YhcjzDqc4503TlQA77R5udROmUVYH4ycfMfA
-         Zulg==
-X-Gm-Message-State: AOJu0YyLg8kzVKcQCry2pDD+hI346DMAMpKIKa5rQ7nV+HlprP5FsmY9
-	VcjwgDSQf4do6laz7m5zOGABT1Z0fU3SdgH8Pzxba8Vc+y8F+y/v12ffpwggO8ZrRw2fke3mYBp
-	VhDUoyA==
-X-Google-Smtp-Source: AGHT+IFE7Ztox9ccKJFVexFg0m4BGt8qDmySbzMpNXFxAIvzpLmMUHVp3bfYBjoFcyB70AVjsL6BCQ==
-X-Received: by 2002:a05:6a20:93a7:b0:1a3:56df:b10f with SMTP id x39-20020a056a2093a700b001a356dfb10fmr7392435pzh.12.1710728533538;
-        Sun, 17 Mar 2024 19:22:13 -0700 (PDT)
+        bh=L1W8P+YHa0tYHZaZ41j6AyaPdxoNKtvn8GCrnpX4pwI=;
+        b=CJd7EL+sI2C4Ep0Dsunwd3CAOtVufLgQsVelKPNyMgjr+NaaOarDe2GEP4MtVINapS
+         qiCxJMUkZCXbaEfcHlmx8q4OtOp/Bfv0tsUpouPjZQGGhIzWWH1tKpp7yssyrU9DJ5d3
+         Lm9GSZvidH7/4/ESnwXpkdNBC2IwQRITT0ZGLDFTeH9mX/d6Lg8dcfbt2foX/6kAJghS
+         IlqZQCVCrvyhWS6GmZLX68IDXqo7t6wdt6CNL/xPrQ2nMt7dUMBwT1AXX0La07F7QupQ
+         ey1tr0NAkS4MfeJ6Ck3bP2V9uzqSxR4jOTJ8qzOVfL6RGmWMLJuc8o5Oaap2E4bAmeJ1
+         SDng==
+X-Gm-Message-State: AOJu0YwUh9ebznuN+SgruYXAMW7Q8+e1VcXuOBI7YtqmDodHhP3LDYBr
+	6NJNJhwLaC6hg4j/zexBIp2KmnMAKHMGr2+4qoa7AEoH9CXLTFtHlBZE9DMzHEi9kmQD0oiQisw
+	kXbkdHQ==
+X-Google-Smtp-Source: AGHT+IGlu74e0vDvxPIFmYodqR/ihM/SQmOCY6hcbIIq/qILzRwGa+TjBKWc0bZAm6huMvMaOyTbIA==
+X-Received: by 2002:a9d:6e08:0:b0:6e6:7d92:d5ab with SMTP id e8-20020a9d6e08000000b006e67d92d5abmr7492620otr.10.1710728532113;
+        Sun, 17 Mar 2024 19:22:12 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id 25-20020a630f59000000b005dc2ca5b667sm5953953pgp.10.2024.03.17.19.22.12
+        by smtp.gmail.com with ESMTPSA id 25-20020a630f59000000b005dc2ca5b667sm5953953pgp.10.2024.03.17.19.22.11
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Mar 2024 19:22:13 -0700 (PDT)
+        Sun, 17 Mar 2024 19:22:11 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][nanbield 06/14] cve-update-nvd2-native: nvd_request_next: Improve comment
-Date: Sun, 17 Mar 2024 16:21:50 -1000
-Message-Id: <c8ae1765e81f9dd8e95a251cfda9e4d820bb5630.1710728384.git.steve@sakoman.com>
+Subject: [OE-core][nanbield 05/14] cve-update-nvd2-native: Remove duplicated CVE_CHECK_DB_FILE definition
+Date: Sun, 17 Mar 2024 16:21:49 -1000
+Message-Id: <572ee5512a3d8941c6842af451ca6c9bb75773d3.1710728384.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1710728384.git.steve@sakoman.com>
 References: <cover.1710728384.git.steve@sakoman.com>
@@ -62,35 +62,37 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 18 Mar 2024 02:22:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197281
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197280
 
 From: Yoann Congal <yoann.congal@smile.fr>
 
-Add a URL to the doc of the API used in the function.
-... and fix a small typo dabase -> database
+CVE_CHECK_DB_FILE is already defined in cve-check.bbclass which is
+always inherited in cve-update-nvd2-native (There is a check line 40).
+
+Remove it to avoid confusion. Otherwise, this should not change
+anything.
 
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit e0157b3b81333a24abd31dbb23a6abebca3e7ba7)
+(cherry picked from commit e5f3f223885c17b7007c310273fc7c80b90a4105)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/meta/cve-update-nvd2-native.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-core/meta/cve-update-nvd2-native.bb | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb b/meta/recipes-core/meta/cve-update-nvd2-native.bb
-index 8bdb4a4b46..5bba2219d6 100644
+index d565887498..8bdb4a4b46 100644
 --- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
 +++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
-@@ -123,7 +123,8 @@ def nvd_request_wait(attempt, min_wait):
+@@ -37,8 +37,6 @@ CVE_DB_UPDATE_ATTEMPTS ?= "5"
  
- def nvd_request_next(url, attempts, api_key, args, min_wait):
-     """
--    Request next part of the NVD dabase
-+    Request next part of the NVD database
-+    NVD API documentation: https://nvd.nist.gov/developers/vulnerabilities
-     """
+ CVE_DB_TEMP_FILE ?= "${CVE_CHECK_DB_DIR}/temp_nvdcve_2.db"
  
-     import urllib.request
+-CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/nvdcve_2.db"
+-
+ python () {
+     if not bb.data.inherits_class("cve-check", d):
+         raise bb.parse.SkipRecipe("Skip recipe when cve-check class is not loaded.")
 -- 
 2.34.1
 
