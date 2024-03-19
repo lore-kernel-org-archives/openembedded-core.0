@@ -1,225 +1,98 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B886C54E60
-	for <webhook@archiver.kernel.org>; Tue, 19 Mar 2024 06:53:48 +0000 (UTC)
-Received: from mailout09.t-online.de (mailout09.t-online.de [194.25.134.84])
- by mx.groups.io with SMTP id smtpd.web11.9030.1710831220752309547
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A0F8C54E5D
+	for <webhook@archiver.kernel.org>; Tue, 19 Mar 2024 10:21:59 +0000 (UTC)
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+ by mx.groups.io with SMTP id smtpd.web11.11822.1710843716581779718
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Mar 2024 23:53:41 -0700
+ Tue, 19 Mar 2024 03:21:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.84, mailfrom: f_l_k@t-online.de)
-Received: from fwd73.aul.t-online.de (fwd73.aul.t-online.de [10.223.144.99])
-	by mailout09.t-online.de (Postfix) with SMTP id 00F4AF714
-	for <openembedded-core@lists.openembedded.org>; Tue, 19 Mar 2024 07:53:39 +0100 (CET)
-Received: from intel-corei7-64.fritz.box ([79.219.227.144]) by fwd73.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1rmTLu-0n4g9x0; Tue, 19 Mar 2024 07:53:38 +0100
-From: Markus Volk <f_l_k@t-online.de>
-To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][PATCH] libadwaita: update 1.4.4 -> 1.5.0
-Date: Tue, 19 Mar 2024 07:54:08 +0100
-Message-ID: <20240319065408.33061-1-f_l_k@t-online.de>
-X-Mailer: git-send-email 2.44.0
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=OA+6c1Og;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 9087FE0007;
+	Tue, 19 Mar 2024 10:21:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1710843714;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Eveig2f4u2nUzoq79Lbnuyqgl84N8si1+3Aixj/mDrg=;
+	b=OA+6c1OgTcYF/c2vbUwxao+o7s+f34nFqD1KxY2MHhbmyYFOvJMqF/05b940a12tJqNBEA
+	bwQJ0pFerBcz+2srLLhLJQCnH1wNTpmKh9d6TfjR7MB2WeejEpvJvByv28fCMY60AhAa0W
+	EuOlsETFez34sXWpJ08UjCsPqeuXhDvyN6+PhkFb5nAIzmzYCGZKXHKk9lzqk3ZEs08Otn
+	Z9aUEfzBLoYvi4YmkPyxpIPskbtymqWP2TPQnag6ZZ+CKMAICvHtjMRzdntRXNdlzAeDbc
+	sV1fkzvF0druR/fAhS50iQp3v2UNlwvnFgjmN/bJpig3O66dSdLyeX9Y5OjvDA==
+Date: Tue, 19 Mar 2024 11:21:54 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: wangmy@fujitsu.com
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH 23/36] python3-maturin: upgrade 1.4.0 -> 1.5.0
+Message-ID: <20240319102154f0e2de40@mail.local>
+References: <1710313714-12541-1-git-send-email-wangmy@fujitsu.com>
+ <1710313714-12541-23-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-TOI-EXPURGATEID: 150726::1710831218-BF7FD917-5EC56958/0/0 CLEAN NORMAL
-X-TOI-MSGID: 0cb51faa-abda-4729-a40e-abeba4f61df6
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1710313714-12541-23-git-send-email-wangmy@fujitsu.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Mar 2024 06:53:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197316
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Mar 2024 10:21:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197317
 
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Version 1.5.0
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+On 13/03/2024 15:08:21+0800, wangmy via lists.openembedded.org wrote:
+> From: Wang Mingyu <wangmy@fujitsu.com>
+> 
+> Changelog:
+>  Fix the format_name property and move it from the ArchiveEntry class to the ArchiveRead class
+> 
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> ---
+>  .../{python3-maturin_1.4.0.bb => python3-maturin_1.5.0.bb}      | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-devtools/python/{python3-maturin_1.4.0.bb => python3-maturin_1.5.0.bb} (92%)
+> 
+> diff --git a/meta/recipes-devtools/python/python3-maturin_1.4.0.bb b/meta/recipes-devtools/python/python3-maturin_1.5.0.bb
+> similarity index 92%
+> rename from meta/recipes-devtools/python/python3-maturin_1.4.0.bb
+> rename to meta/recipes-devtools/python/python3-maturin_1.5.0.bb
+> index ed19ee647a..e80a45f0bc 100644
+> --- a/meta/recipes-devtools/python/python3-maturin_1.4.0.bb
+> +++ b/meta/recipes-devtools/python/python3-maturin_1.5.0.bb
+> @@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://license-apache;md5=1836efb2eb779966696f473ee8540542 \
+>                      file://license-mit;md5=85fd3b67069cff784d98ebfc7d5c0797"
+>  
+>  SRC_URI += "file://0001-Add-32-bit-RISC-V-support.patch"
 
-- AdwDialog
-  - Fix widget selection in inspector when presented as a bottom sheet
-  - Fix clicks on the dimming still working with can-closed=3Dtrue
-- Demo
-  - Fix <developer> in metainfo
-- Translation updates
-  - Belarusian
-  - Brazilian Portuguese
-  - Danish
-  - French
-  - Galician
-  - Hungarian
-  - Italian
-  - Kabyle
-  - Kazakh
-  - Latvian
-  - Norwegian Bokm=C3=A5l
-  - Occitan
-  - Slovenian
-  - Swedish
-  - Turkish
+ERROR: python3-maturin-native-1.5.0-r0 do_patch: Applying patch '0001-Add-32-bit-RISC-V-support.patch' on target directory '/home/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleA/tmp/work/x86_64-linux/python3-maturin-native/1.5.0/maturin-1.5.0'
+CmdError('quilt --quiltrc /home/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleA/tmp/work/x86_64-linux/python3-maturin-native/1.5.0/recipe-sysroot-native/etc/quiltrc push', 0, 'stdout: Applying patch 0001-Add-32-bit-RISC-V-support.patch
 
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Version 1.5.rc
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
-- Depend on GTK 4.13.4
-- Fix layout with GtkSettings:gtk-xft-dpi =3D=3D 0
-- AdwAboutDialog
-  - Support zero-clause bsd license
-  - Fix example
-- AdwAboutWindow
-  - Support zero-clause bsd license
-- AdwDialog
-  - Allow bottom sheets to shrink beyond 360px width
-  - Fix a crash when swiping on the dimming
-  - Adjust dimming intensity
-- AdwNavigationView
-  - Fix signal mentions in push() docs
-  - Disable missing title warning when containing a split view
-- AdwStatusPage
-  - Fix property notification in set_child()
-- AdwSwipeTracker
-  - Use a smaller threshold for window handles
-- AdwToolbarView
-  - Fix a typo in docs
-- Demo
-  - Fix window.devel demo
-- Stylesheet
-  - Adjust shade colors in dark
-  - Make .devel not propagate to dialogs
+> -SRC_URI[sha256sum] = "ed12e1768094a7adeafc3a74ebdb8dc2201fa64c4e7e31f14cfc70378bf93790"
+> +SRC_URI[sha256sum] = "e046ea2aed687991d58c42f6276dfcc0c037092934654f538b5877fd57dd3a9c"
+>  
+>  S = "${WORKDIR}/maturin-${PV}"
+>  
+> -- 
+> 2.34.1
+> 
 
-- Translation updates
-  - Basque
-  - Belarusian
-  - Catalan
-  - Chinese (China)
-  - Chinese (Taiwan)
-  - Czech
-  - Dutch
-  - Finnish
-  - French
-  - Georgian
-  - Hebrew
-  - Hungarian
-  - Indonesian
-  - Kazakh
-  - Korean
-  - Latvian
-  - Lithuanian
-  - Norwegian Bokm=C3=A5l
-  - Occitan
-  - Persian
-  - Polish
-  - Russian
-  - Spanish
-  - Swedish
-  - Ukrainian
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#197027): https://lists.openembedded.org/g/openembedded-core/message/197027
+> Mute This Topic: https://lists.openembedded.org/mt/104900971/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
 
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Version 1.5.beta
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
-- Fix build with libappstream 1.0
-- Fix deprecation warning with libappstream 0.16.4
-- Fix a build error with MSVC
-- Add AdwDialog, AdwAlertDialog, AdwPreferencesDialog and AdwAboutDialog
-- AdwAboutWindow
-  - Don't pre-select the first section on the Legal page
-- AdwApplicationWindow
-  - Add :dialogs and :visible-dialog
-- AdwBreakpointBin
-  - Add remove_breakpoint()
-  - Fix focus during transitions
-  - Fix swapping the child during transitions
-- AdwButtonContent
-  - Horizontally center children
-- AdwCarousel
-  - Fix carousel scroll behavior with page reordering
-- AdwComboRow
-  - Don't change selection on filtering
-  - Fix focus when opening the popover
-  - Set the correct state on the selected checkmark
-- AdwEntryRow
-  - Add :text-length
-- AdwHeaderBar
-  - Integrate with AdwDialog
-  - Fix visibility after changing :show-back-button
-- AdwMessageDialog
-  - Add remove_response()
-  - Fix choose() annotations
-- AdwNavigationView
-  - Fix a warning message
-- AdwPreferencesWindow
-  - Fix :visible-page and :visible-page-name docs
-- AdwStyleManager
-  - Support contrast setting in the settings portal
-- AdwSwipeTracker
-  - Add :allow-window-handle
-- AdwTabOverview
-  - Allow child focus on out animations
-- AdwTabView
-  - Keep view alive during ::page-detached
-  - Fix crashes when using :pages
-- AdwViewSwitcherBar
-  - Fix a warning when empty
-- AdwWindow
-  - Add :dialogs and :visible-dialog
-- Demo
-  - Port everything to AdwDialog
-- Docs
-  - Add a migration guide for adaptive dialogs
-  - Add a favicon
-  - Use the new asides
-  - Fix erroneous <child> use in breakpoints migration guide
-- Stylesheet
-  - Increase GtkSwitch padding
-  - Align property row title and other row subtitle sizes
-  - Align expander row and combo row arrows
-  - Stop hiding switch shapes
-- Translation updates
-  - Czech
-  - French
-  - Galician
-  - German
-  - Greek
-  - Hebrew
-  - Hungarian
-  - Norwegian Bokm=C3=A5l
-  - Persian
-  - Russian
-  - Serbian
-  - Slovenian
-  - Turkish
-  - Ukrainian
-
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
----
- .../libadwaita/{libadwaita_1.4.4.bb =3D> libadwaita_1.5.0.bb}     | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-gnome/libadwaita/{libadwaita_1.4.4.bb =3D> libadwait=
-a_1.5.0.bb} (88%)
-
-diff --git a/meta/recipes-gnome/libadwaita/libadwaita_1.4.4.bb b/meta/rec=
-ipes-gnome/libadwaita/libadwaita_1.5.0.bb
-similarity index 88%
-rename from meta/recipes-gnome/libadwaita/libadwaita_1.4.4.bb
-rename to meta/recipes-gnome/libadwaita/libadwaita_1.5.0.bb
-index e81580feba..b0b1e4502a 100644
---- a/meta/recipes-gnome/libadwaita/libadwaita_1.4.4.bb
-+++ b/meta/recipes-gnome/libadwaita/libadwaita_1.5.0.bb
-@@ -11,7 +11,7 @@ DEPENDS =3D " \
-=20
- inherit gnomebase gobject-introspection gi-docgen vala features_check
-=20
--SRC_URI[archive.sha256sum] =3D "f802b7d8d5ae33be4650ef571a580f144a806202=
-a26f527dacd57d1560938828"
-+SRC_URI[archive.sha256sum] =3D "fd92287df9bb95c963654fb6e70d3e082e2bcb37=
-b147e0e3c905567167993783"
-=20
- ANY_OF_DISTRO_FEATURES =3D "${GTK3DISTROFEATURES}"
- REQUIRED_DISTRO_FEATURES =3D "opengl"
---=20
-2.44.0
-
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
