@@ -1,109 +1,225 @@
-Return-Path: <leimaohui@fujitsu.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC188C54E58
-	for <webhook@archiver.kernel.org>; Tue, 19 Mar 2024 00:45:44 +0000 (UTC)
-Received: from esa10.hc1455-7.c3s2.iphmx.com (esa10.hc1455-7.c3s2.iphmx.com [139.138.36.225])
- by mx.groups.io with SMTP id smtpd.web11.3939.1710809134206503694
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B886C54E60
+	for <webhook@archiver.kernel.org>; Tue, 19 Mar 2024 06:53:48 +0000 (UTC)
+Received: from mailout09.t-online.de (mailout09.t-online.de [194.25.134.84])
+ by mx.groups.io with SMTP id smtpd.web11.9030.1710831220752309547
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Mar 2024 17:45:35 -0700
+ Mon, 18 Mar 2024 23:53:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=bT/V4ldx;
- spf=pass (domain: fujitsu.com, ip: 139.138.36.225, mailfrom: leimaohui@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1710809134; x=1742345134;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=lFiEK9stejDg8wS26YS83KHrkw/vc+exX4j/T4pOzjU=;
-  b=bT/V4ldxOdSQxlW0L325lDEqcyDKY+PzfO4QsrLlxXvExxhDvVf0Xmd7
-   UiL9oMqSxzCeFUuMya7nF49H2g88PDjMaNWeEoGqPCZpSLITEUUvJJEup
-   YLRMDMT7HvS78SHT/ZXFn7bSvXpZ5L6mxnVNolbuKNV4T1zcLl7O/ER9k
-   4g4wnVt8j8HDt7E/f5fxIhGq4OrSwXwX09Ms30a1T9l0lT/rBpcgsGroj
-   tVYQCpHpTasXjx8noZbfpkHaCkbGEblWSeemHn7TR71TrqP7BuZEWk/o1
-   DHQxObksQyOd2eLp2xOPC4r1epuO86to4wtWItebBTluvtbQg2OSeHUPZ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11017"; a="140263114"
-X-IronPort-AV: E=Sophos;i="6.07,135,1708354800"; 
-   d="scan'208";a="140263114"
-Received: from unknown (HELO oym-r2.gw.nic.fujitsu.com) ([210.162.30.90])
-  by esa10.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2024 09:45:31 +0900
-Received: from oym-m2.gw.nic.fujitsu.com (oym-nat-oym-m2.gw.nic.fujitsu.com [192.168.87.59])
-	by oym-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id 65E97F2648
-	for <openembedded-core@lists.openembedded.org>; Tue, 19 Mar 2024 09:45:29 +0900 (JST)
-Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
-	by oym-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id 92D96BF4AB
-	for <openembedded-core@lists.openembedded.org>; Tue, 19 Mar 2024 09:45:28 +0900 (JST)
-Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id 15DE6E2A2D
-	for <openembedded-core@lists.openembedded.org>; Tue, 19 Mar 2024 09:45:28 +0900 (JST)
-Received: from ubuntu20.04 (unknown [10.193.130.22])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 8B6BC1A006C;
-	Tue, 19 Mar 2024 08:45:27 +0800 (CST)
-From: leimaohui@fujitsu.com
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.84, mailfrom: f_l_k@t-online.de)
+Received: from fwd73.aul.t-online.de (fwd73.aul.t-online.de [10.223.144.99])
+	by mailout09.t-online.de (Postfix) with SMTP id 00F4AF714
+	for <openembedded-core@lists.openembedded.org>; Tue, 19 Mar 2024 07:53:39 +0100 (CET)
+Received: from intel-corei7-64.fritz.box ([79.219.227.144]) by fwd73.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1rmTLu-0n4g9x0; Tue, 19 Mar 2024 07:53:38 +0100
+From: Markus Volk <f_l_k@t-online.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Lei Maohui <leimaohui@fujitsu.com>
-Subject: [OE-core] [PATCH] libbsd: Fix conflict error when enable multlib.
-Date: Tue, 19 Mar 2024 08:45:24 +0800
-Message-Id: <20240319004524.1270639-1-leimaohui@fujitsu.com>
-X-Mailer: git-send-email 2.25.1
+Subject: [oe-core][PATCH] libadwaita: update 1.4.4 -> 1.5.0
+Date: Tue, 19 Mar 2024 07:54:08 +0100
+Message-ID: <20240319065408.33061-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28260.003
-X-TM-AS-User-Approved-Sender: Yes
-X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28260.003
-X-TMASE-Result: 10--7.866400-10.000000
-X-TMASE-MatchedRID: b3nQ9wmEox3FDHbj0bewebstbCLHbulS96ryTp77YeG4GyTmeN+AbO79
-	DJRUi35pTQ0JkPG287/mn3xyPJAJoh2P280ZiGmRnVTWWiNp+v8gX2Xt4pvYkbxet1P447WQnpt
-	r8PnHpyni8zVgXoAltuJ5hXsnxp7jC24oEZ6SpSkj80Za3RRg8NUww6AG/IrQAViIjr++k+4ckx
-	P0kRLXNaAd02/NaoE5hhLpsXPmiAM=
-X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
+Content-Type: text/plain; charset=UTF-8
+X-TOI-EXPURGATEID: 150726::1710831218-BF7FD917-5EC56958/0/0 CLEAN NORMAL
+X-TOI-MSGID: 0cb51faa-abda-4729-a40e-abeba4f61df6
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Mar 2024 00:45:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197315
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Mar 2024 06:53:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197316
 
-From: Lei Maohui <leimaohui@fujitsu.com>
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Version 1.5.0
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
-Error: Transaction test error:
-  file /usr/include/bsd/sys/cdefs.h conflicts between attempted installs 
-of libbsd-dev-0.12.1-r0.core2_64 and lib32-libbsd-dev-0.12.1-r0.core2_32
+- AdwDialog
+  - Fix widget selection in inspector when presented as a bottom sheet
+  - Fix clicks on the dimming still working with can-closed=3Dtrue
+- Demo
+  - Fix <developer> in metainfo
+- Translation updates
+  - Belarusian
+  - Brazilian Portuguese
+  - Danish
+  - French
+  - Galician
+  - Hungarian
+  - Italian
+  - Kabyle
+  - Kazakh
+  - Latvian
+  - Norwegian Bokm=C3=A5l
+  - Occitan
+  - Slovenian
+  - Swedish
+  - Turkish
 
-The difference of bsd/sys/cdefs.h between libbsd-dev and
-lib32-libbsd-dev is as following:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Version 1.5.rc
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
- /* Define the ABI for the current system. */
- -#define LIBBSD_SYS_TIME_BITS 64
- +#define LIBBSD_SYS_TIME_BITS 32
- #define LIBBSD_SYS_HAS_TIME64 1
+- Depend on GTK 4.13.4
+- Fix layout with GtkSettings:gtk-xft-dpi =3D=3D 0
+- AdwAboutDialog
+  - Support zero-clause bsd license
+  - Fix example
+- AdwAboutWindow
+  - Support zero-clause bsd license
+- AdwDialog
+  - Allow bottom sheets to shrink beyond 360px width
+  - Fix a crash when swiping on the dimming
+  - Adjust dimming intensity
+- AdwNavigationView
+  - Fix signal mentions in push() docs
+  - Disable missing title warning when containing a split view
+- AdwStatusPage
+  - Fix property notification in set_child()
+- AdwSwipeTracker
+  - Use a smaller threshold for window handles
+- AdwToolbarView
+  - Fix a typo in docs
+- Demo
+  - Fix window.devel demo
+- Stylesheet
+  - Adjust shade colors in dark
+  - Make .devel not propagate to dialogs
 
-Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
+- Translation updates
+  - Basque
+  - Belarusian
+  - Catalan
+  - Chinese (China)
+  - Chinese (Taiwan)
+  - Czech
+  - Dutch
+  - Finnish
+  - French
+  - Georgian
+  - Hebrew
+  - Hungarian
+  - Indonesian
+  - Kazakh
+  - Korean
+  - Latvian
+  - Lithuanian
+  - Norwegian Bokm=C3=A5l
+  - Occitan
+  - Persian
+  - Polish
+  - Russian
+  - Spanish
+  - Swedish
+  - Ukrainian
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Version 1.5.beta
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+- Fix build with libappstream 1.0
+- Fix deprecation warning with libappstream 0.16.4
+- Fix a build error with MSVC
+- Add AdwDialog, AdwAlertDialog, AdwPreferencesDialog and AdwAboutDialog
+- AdwAboutWindow
+  - Don't pre-select the first section on the Legal page
+- AdwApplicationWindow
+  - Add :dialogs and :visible-dialog
+- AdwBreakpointBin
+  - Add remove_breakpoint()
+  - Fix focus during transitions
+  - Fix swapping the child during transitions
+- AdwButtonContent
+  - Horizontally center children
+- AdwCarousel
+  - Fix carousel scroll behavior with page reordering
+- AdwComboRow
+  - Don't change selection on filtering
+  - Fix focus when opening the popover
+  - Set the correct state on the selected checkmark
+- AdwEntryRow
+  - Add :text-length
+- AdwHeaderBar
+  - Integrate with AdwDialog
+  - Fix visibility after changing :show-back-button
+- AdwMessageDialog
+  - Add remove_response()
+  - Fix choose() annotations
+- AdwNavigationView
+  - Fix a warning message
+- AdwPreferencesWindow
+  - Fix :visible-page and :visible-page-name docs
+- AdwStyleManager
+  - Support contrast setting in the settings portal
+- AdwSwipeTracker
+  - Add :allow-window-handle
+- AdwTabOverview
+  - Allow child focus on out animations
+- AdwTabView
+  - Keep view alive during ::page-detached
+  - Fix crashes when using :pages
+- AdwViewSwitcherBar
+  - Fix a warning when empty
+- AdwWindow
+  - Add :dialogs and :visible-dialog
+- Demo
+  - Port everything to AdwDialog
+- Docs
+  - Add a migration guide for adaptive dialogs
+  - Add a favicon
+  - Use the new asides
+  - Fix erroneous <child> use in breakpoints migration guide
+- Stylesheet
+  - Increase GtkSwitch padding
+  - Align property row title and other row subtitle sizes
+  - Align expander row and combo row arrows
+  - Stop hiding switch shapes
+- Translation updates
+  - Czech
+  - French
+  - Galician
+  - German
+  - Greek
+  - Hebrew
+  - Hungarian
+  - Norwegian Bokm=C3=A5l
+  - Persian
+  - Russian
+  - Serbian
+  - Slovenian
+  - Turkish
+  - Ukrainian
+
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
 ---
- meta/recipes-support/libbsd/libbsd_0.12.1.bb | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ .../libadwaita/{libadwaita_1.4.4.bb =3D> libadwaita_1.5.0.bb}     | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-gnome/libadwaita/{libadwaita_1.4.4.bb =3D> libadwait=
+a_1.5.0.bb} (88%)
 
-diff --git a/meta/recipes-support/libbsd/libbsd_0.12.1.bb b/meta/recipes-support/libbsd/libbsd_0.12.1.bb
-index 161dc6df43..84edd9bafa 100644
---- a/meta/recipes-support/libbsd/libbsd_0.12.1.bb
-+++ b/meta/recipes-support/libbsd/libbsd_0.12.1.bb
-@@ -40,8 +40,12 @@ SRC_URI = "https://libbsd.freedesktop.org/releases/${BPN}-${PV}.tar.xz"
- 
- SRC_URI[sha256sum] = "d7747f8ec1baa6ff5c096a9dd587c061233dec90da0f1aedd66d830f6db6996a"
- 
--inherit autotools pkgconfig
-+inherit autotools pkgconfig multilib_header
- 
- DEPENDS += "libmd"
- 
-+do_install:append () {
-+       oe_multilib_header bsd/sys/cdefs.h
-+}
-+
- BBCLASSEXTEND = "native nativesdk"
--- 
-2.34.1
+diff --git a/meta/recipes-gnome/libadwaita/libadwaita_1.4.4.bb b/meta/rec=
+ipes-gnome/libadwaita/libadwaita_1.5.0.bb
+similarity index 88%
+rename from meta/recipes-gnome/libadwaita/libadwaita_1.4.4.bb
+rename to meta/recipes-gnome/libadwaita/libadwaita_1.5.0.bb
+index e81580feba..b0b1e4502a 100644
+--- a/meta/recipes-gnome/libadwaita/libadwaita_1.4.4.bb
++++ b/meta/recipes-gnome/libadwaita/libadwaita_1.5.0.bb
+@@ -11,7 +11,7 @@ DEPENDS =3D " \
+=20
+ inherit gnomebase gobject-introspection gi-docgen vala features_check
+=20
+-SRC_URI[archive.sha256sum] =3D "f802b7d8d5ae33be4650ef571a580f144a806202=
+a26f527dacd57d1560938828"
++SRC_URI[archive.sha256sum] =3D "fd92287df9bb95c963654fb6e70d3e082e2bcb37=
+b147e0e3c905567167993783"
+=20
+ ANY_OF_DISTRO_FEATURES =3D "${GTK3DISTROFEATURES}"
+ REQUIRED_DISTRO_FEATURES =3D "opengl"
+--=20
+2.44.0
 
 
