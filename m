@@ -2,56 +2,56 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C356CD11DD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C401CD11DF
 	for <webhook@archiver.kernel.org>; Tue, 19 Mar 2024 23:01:48 +0000 (UTC)
-Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
- by mx.groups.io with SMTP id smtpd.web10.30633.1710889301746393780
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+ by mx.groups.io with SMTP id smtpd.web10.30632.1710889300265878645
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Mar 2024 16:01:41 -0700
+ Tue, 19 Mar 2024 16:01:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Hzy8cmVj;
- spf=pass (domain: gmail.com, ip: 209.85.161.47, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-5a1fa3cf5eeso2728323eaf.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 Mar 2024 16:01:41 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=eqpIlqKW;
+ spf=pass (domain: gmail.com, ip: 209.85.219.50, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-690c1747c3cso3162686d6.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 19 Mar 2024 16:01:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710889301; x=1711494101; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1710889299; x=1711494099; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Gy+PZoxPknIwS+EigABl/aeHb/6iMPFAjauzz7OrfG4=;
-        b=Hzy8cmVj4AkmkYiTbunHAgMdBTT8nCZPrs8VxSdNrAotCu/EyOs9qpy652/2HXAsDI
-         vI1mko9akF7Ou2XL7dqmNfzbN09Y93Eb63w1hk7NZBtj4iDiLt8/JBVHDfdivS18reS7
-         8dAEJpCXXnU4NuSQwfBKQ99mEEAsoMb+yo1n4r3U8kitfKICs/kfaiZaypV0Rsv44vAa
-         E+uLyhTvf1/bRgVtHDEyQG5S2FeIqT9usbMySRTxPXmtXN0YLTb87q9Zn0jnJ5OypGqR
-         cFBixWCeIoFJniaCPe72ZWRcJzraiq/n1b7G0Q1v3v/VaQ6T8s0DSnsHfUiEUYbkT5GX
-         M2jg==
+        bh=AK1qjmMfvOT8/5bw3wJviWGfgaYTgAo+6DdwCyx70L8=;
+        b=eqpIlqKWz89XbH99t7RpFw+UgK10sjmKUkrzyagXFlRuWbgPg2NrTlSa2EhqnqyV1a
+         uHTFe+FfbKQjg5ZgrwMPKhcPszxSr+wFnxblW+CusDQK8lqxWyKtKI2g20vPvPhbXSA9
+         069AQUI6ffbwAzv/OmWiUG/AHi0lC3+cLioJKeoew15uLOIJ3koi7pXIyaIb3HxN2dVe
+         SMvxs0eo0VTZR3h9YwdadBtmKktR18klPfSWCvUqp90MsMcVWzhDr2KZs5dF47rBZtII
+         W7AO2ICvXc9MbMM79DhdqyY7GLF+oj2s9gnHh6HulHhwPgjS3h6z0X1DAWANY0Tziirl
+         uwqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710889301; x=1711494101;
+        d=1e100.net; s=20230601; t=1710889299; x=1711494099;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Gy+PZoxPknIwS+EigABl/aeHb/6iMPFAjauzz7OrfG4=;
-        b=Jm1ExbLpAM0Gsb0CvRfVlYbSAhZtXNVclxfhbhBpuDK4y4FA217wP84Dklip5dq8ZW
-         KmaYO/Ayl0SMtllHFnyoASL2BexCW1pvWyak7fklqCLFyu7ZPtA0xXUkcEX2XEazOFjm
-         OG9nl45vNuipYTigdfnyv7qKHB0hhVZQ5NZSKH+i9yDnoBOUqeC0R9k9rMfL3w1DnBt6
-         3Ga9cm1jPmqchCgn2cRTZKmO87BtX8awBEeWLRnIH0pITCP723Hc+1p/9CTRN1fGgTxt
-         p8GTuocLOFxndUmo3Drwo8kck1SXLe4hvKQcGb93XkR6Yfi/AXYRsPgTpko1q61nhrv1
-         oJow==
-X-Gm-Message-State: AOJu0YzxesYZWXPTOha29lBWHG8PclELE3P/SSPWTf6IuRJC29AGhGwq
-	8rR8R4v49K5j36Z2TWNxCUEhVOyYsbvb5J0P6Izc1KApFqEHQ7tMnKsMfPgs
-X-Google-Smtp-Source: AGHT+IGA4kb1Z9wRXYPVj4wAkE0nL9i8X4ZCu+r3Cu4HlifChzu2Qx+egNaxCMwXBT2FvOMmSDXz5g==
-X-Received: by 2002:a05:6870:b513:b0:221:9414:4519 with SMTP id v19-20020a056870b51300b0022194144519mr18774628oap.46.1710889300819;
-        Tue, 19 Mar 2024 16:01:40 -0700 (PDT)
-Received: from bruce-XPS-8940.localdomain ([174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id kc28-20020a056214411c00b00690bfb6aac7sm7047065qvb.51.2024.03.19.16.01.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        bh=AK1qjmMfvOT8/5bw3wJviWGfgaYTgAo+6DdwCyx70L8=;
+        b=tSuGcmcnR6QN9qsuAuUDH3sE/fzuWuXU68RHLTp1vVEQlG6DvuUatkN8iBtzBZRKD6
+         qABXgIdDXIdtCVH2w6BNSvUwk6u0+exLslvF0fkHmIYKUCxBHoVsh6GlykoQVbV0kKTY
+         KXDI1axI8vU4FEe8QlF74ycylyRFUcY1YEBViJsQkOa5Nj4qZGe4H3LTUTBHxxKscCPj
+         WGNc4w33+YT5OoLVpxtZyAqpClz+ZKuzrr5fbswJe7R8tCgeOZ/ln2oWN+aIdGCXjI7q
+         8EJiY1kSnPnyJ7CMutBlfA85gBu+HudKeopTLApyARjJN4anXBJgYHvxO2mEiiE3rnVy
+         YMIg==
+X-Gm-Message-State: AOJu0Yxcx9ou2A9B4D317Eumu+l4YP7zm6+ckGOX2Bzyl5r9hCcIzDHA
+	cXkiQWJSVxku5R7EHPQmVJKDYQTp1TyAz/QFx2I2KAcz7Chn4vCz32kmVWzC
+X-Google-Smtp-Source: AGHT+IGw7aVpQOIyNFWw8DITbW8RzzaXySiajBEqSD5U6/fblT52M5+9nOFCwRb/0O/7eS9UaLTR+w==
+X-Received: by 2002:a0c:cdd2:0:b0:693:73f9:8f72 with SMTP id a18-20020a0ccdd2000000b0069373f98f72mr1308193qvn.31.1710889299077;
         Tue, 19 Mar 2024 16:01:39 -0700 (PDT)
+Received: from bruce-XPS-8940.localdomain ([174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id kc28-20020a056214411c00b00690bfb6aac7sm7047065qvb.51.2024.03.19.16.01.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Mar 2024 16:01:37 -0700 (PDT)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/9] yocto-bsps: update to v6.6.21
-Date: Tue, 19 Mar 2024 19:01:27 -0400
-Message-Id: <4079b14e4fccdf64f52b60c878fb22def0eae836.1710888915.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 3/9] linux-yocto/6.6: update to v6.6.21
+Date: Tue, 19 Mar 2024 19:01:26 -0400
+Message-Id: <00abef81f9617aa1e687cbfcc9bbf2d74f361525.1710888915.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1710888915.git.bruce.ashfield@gmail.com>
 References: <cover.1710888915.git.bruce.ashfield@gmail.com>
@@ -61,14 +61,13 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 19 Mar 2024 23:01:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197339
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197338
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
 Updating linux-yocto/6.6 to the latest korg -stable release that comprises
 the following commits:
 
-    06644f0d7193 drm/tilcdc: Set preferred depth
     62e5ae5007ef Linux 6.6.21
     d6ac0ee5ff95 drm/nouveau: don't fini scheduler before entity flush
     ece1aaec7f7e selftests: mptcp: rm subflow with v4/v4mapped addr
@@ -212,136 +211,111 @@ the following commits:
     2b5f1692a95b ksmbd: fix wrong allocation size update in smb2_open()
     05059601518e ASoC: cs35l34: Fix GPIO name and drop legacy include
     d3d782b5a5d3 ubifs: fix possible dereference after free
-    ff7ae7b32324 crypto: jitter - add RCT/APT support for different OSRs
-    50cd24ddb6f0 arm64: defconfig: remove CONFIG_IPQ_APSS_5018
-    58e5c91d6701 x86/alternatives: Disable interrupts and sync when optimizing NOPs in place
-    c878fd2d4c79 x86/alternatives: Sync core before enabling interrupts
-    c2d64b9f52b6 qemux86: add configuration symbol to select values
-    630c33229e6d sched/isolation: really align nohz_full with rcu_nocbs
-    0e5e0f68e2e6 clear_warn_once: add a clear_warn_once= boot parameter
-    46934791b902 clear_warn_once: bind a timer to written reset value
-    cdee9e38ff32 clear_warn_once: expand debugfs to include read support
-    82b562b81841 tools: Remove some options from CLANG_CROSS_FLAGS
-    36dc380b776b libbpf: Fix build warning on ref_ctr_off
-    9e3e1fe20982 perf: perf can not parser the backtrace of app in the 32bit system and 64bit kernel.
-    e497a4a5da65 perf: x86-32: explicitly include <errno.h>
-    7b57ddd89565 perf: mips64: Convert __u64 to unsigned long long
-    1cfc19423dc7 perf: fix bench numa compilation
-    98bc2815fade perf: add SLANG_INC for slang.h
-    17209a70b9b3 perf: add sgidefs.h to for mips builds
-    9cd4258d910a perf: change --root to --prefix for python install
-    8110a4f26628 perf: add 'libperl not found' warning
-    bc89d5e08f77 perf: force include of <stdbool.h>
-    4f6c760cc876 fat: Replace prandom_u32() with get_random_u32()
-    bc53117b12b2 fat: don't use obsolete random32 call in namei_vfat
-    30b2236ab378 FAT: Added FAT_NO_83NAME
-    cef98d22b4ed FAT: Add CONFIG_VFAT_NO_CREATE_WITH_LONGNAMES option
-    0bbd7daba9e1 FAT: Add CONFIG_VFAT_FS_NO_DUALNAMES option
-    5883fc340084 aufs6: adapt to v6.6 i_op->ctime changes
-    c4342d979bf2 aufs6: fix magic.mk include path
-    35266bc2dc81 aufs6: adapt to v6.6
-    8edede4e98be aufs6: core
-    712248233ebe aufs6: standalone
-    3b71a8a848d8 aufs6: mmap
-    3e2924871f37 aufs6: base
-    7f4907a93101 aufs6: kbuild
-    d2f7b03e4aa7 yaffs2: update VFS ctime operations to 6.6+
-    bcd6cfcd1aa0 yaffs2: v6.5 fixups
-    cc615704b5f5 yaffs2: Fix miscalculation of devname buffer length
-    8ef2e22dcf91 yaffs2: convert user_namespace to mnt_idmap
-    c9c749f9f7d3 yaffs2: replace bdevname call with sprintf
-    395b01cdc39d yaffs2: convert read_page -> readfolio
-    d98b07e43ba6 yaffs: replace IS_ERR with IS_ERR_OR_NULL to check both ERR and NULL
-    613c6d50fdbe yaffs: fix -Wstringop-overread compile warning in yaffs_fix_null_name
-    622c4648936f yaffs2: v5.12+ build fixups (not runtime tested)
-    7562133d4090 yaffs: include blkdev.h
-    dbd44252cd59 yaffs: fix misplaced variable declaration
-    c223a10b1ac0 yaffs2: v5.6 build fixups
-    90f6007cfbf4 yaffs2: fix memory leak when /proc/yaffs is read
-    37ee169c5ea1 yaffs: add strict check when call yaffs_internal_read_super
-    b6e007b8abb6 yaffs: repair yaffs_get_mtd_device
-    fb98f65a466a yaffs: Fix build failure by handling inode i_version with proper atomic API
-    51e0aac75ea2 yaffs2: fix memory leak in mount/umount
-    2b74a0cae7b0 yaffs: Avoid setting any ACL releated xattr
-    ff4130a9c376 Yaffs:check oob size before auto selecting Yaffs1
-    ba95b409c67c fs: yaffs2: replace CURRENT_TIME by other appropriate apis
-    8fa35eba9056 yaffs2: adjust to proper location of MS_RDONLY
-    1eb5deaad8c4 yaffs2: import git revision b4ce1bb (jan, 2020)
-    4dce67c1e8c8 initramfs: allow an optional wrapper script around initramfs generation
-    2f603d83fcc4 pnmtologo: use relocatable file name
-    664a6a0a484b tools: use basename to identify file in gen-mach-types
-    9de64bc0c185 lib/build_OID_registry: fix reproducibility issues
-    ae9b80797295 vt/conmakehash: improve reproducibility
-    a972323151bd iwlwifi: select MAC80211_LEDS conditionally
-    15d2adcc0198 net/dccp: make it depend on CONFIG_BROKEN (CVE-2020-16119)
-    5556a6c04b19 arm64/perf: Fix wrong cast that may cause wrong truncation
-    5552dc768ffc defconfigs: drop obselete options
-    00fe4152df31 arm64/perf: fix backtrace for AAPCS with FP enabled
-    3888d0652edf linux-yocto: Handle /bin/awk issues
-    3d55d299f23a uvesafb: provide option to specify timeout for task completion
-    23c068c080be uvesafb: print error message when task timeout occurs
-    edbfc939266e compiler.h: Undef before redefining __attribute_const__
-    c99ae7e2a19a vmware: include jiffies.h
-    572d84d928c8 Resolve jiffies wrapping about arp
-    fdcd47cac843 nfs: Allow default io size to be configured.
-    927d48801098 check console device file on fs when booting
-    57cc27f821dd mount_root: clarify error messages for when no rootfs found
-    1b53d82a8152 mconf: fix output of cflags and libraries
-    1811da09f42c menuconfig,mconf-cfg: Allow specification of ncurses location
-    83c2e0c6eb1f modpost: mask trivial warnings
-    6de673039484 kbuild: exclude meta directory from distclean processing
-    6decd32815f5 powerpc: serialize image targets
-    f6b683b38318 arm: serialize build targets
-    e798b09ebf57 mtd_blkdevs: add mtd_table_mutex lock back to blktrans_{open, release} to avoid race condition
-    dc8a1e5a88f8 x86_64_defconfig: Fix warnings
-    68491e5f72b6 powerpc/ptrace: Disable array-bounds warning with gcc8
-    d71ebfce3004 powerpc: Disable attribute-alias warnings from gcc8
-    62f50884b8b1 powerpc: kexec fix for powerpc64
-    da6871c62c37 powerpc: Add unwind information for SPE registers of E500 core
-    f161c880c11d mips: make current_cpu_data preempt safe
-    5e94a8247ce7 mips: vdso: fix 'jalr $t9' crash in vdso code
-    19e36714b1c7 mips: Kconfig: add QEMUMIPS64 option
-    e2e537db3cbd 4kc cache tlb hazard: tlbp cache coherency
-    aee9870611e5 malta uhci quirks: make allowance for slow 4k(e)c
-    881948cd1517 drm/fb-helper: move zeroing code to drm_fb_helper_fill_var
-    98ec1963fcb7 arm64: defconfig: cleanup config options
-    f1727c537ba8 vexpress: Pass LOADADDR to Makefile
-    4474c32dc24a arm: ARM EABI socketcall
-    75e31a2b70fd ARM: LPAE: Invalidate the TLB for module addresses during translation fault
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- .../recipes-kernel/linux/linux-yocto_6.6.bbappend  | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ .../linux/linux-yocto-rt_6.6.bb               |  6 ++--
+ .../linux/linux-yocto-tiny_6.6.bb             |  6 ++--
+ meta/recipes-kernel/linux/linux-yocto_6.6.bb  | 28 +++++++++----------
+ 3 files changed, 20 insertions(+), 20 deletions(-)
 
-diff --git a/meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.6.bbappend b/meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.6.bbappend
-index ca7b2b09df..bf88a57770 100644
---- a/meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.6.bbappend
-+++ b/meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.6.bbappend
-@@ -9,16 +9,16 @@ KMACHINE:genericx86-64 ?= "common-pc-64"
- KMACHINE:beaglebone-yocto ?= "beaglebone"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
+index fe5d70dea1..7076a40e1f 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
+@@ -14,13 +14,13 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
  
- SRCREV_machine:genericarm64 ?= "e064a7d658a30b027b999183e21cd37305caff2a"
--SRCREV_machine:genericx86 ?= "332d4668fcc32826907d4f3c4938845206006089"
--SRCREV_machine:genericx86-64 ?= "332d4668fcc32826907d4f3c4938845206006089"
--SRCREV_machine:beaglebone-yocto ?= "332d4668fcc32826907d4f3c4938845206006089"
-+SRCREV_machine:genericx86 ?= "06644f0d7193d7ec39d7fe41939a21953e7a0c65"
-+SRCREV_machine:genericx86-64 ?= "06644f0d7193d7ec39d7fe41939a21953e7a0c65"
-+SRCREV_machine:beaglebone-yocto ?= "06644f0d7193d7ec39d7fe41939a21953e7a0c65"
+-SRCREV_machine ?= "7c5911ab2e70bf84bb38a598b2a7e094618a9620"
+-SRCREV_meta ?= "d2cf51efb880ea1f34f4beaee487edf572e9adc3"
++SRCREV_machine ?= "689f65582b3d9a948903cde4e9c29e5fafd1bced"
++SRCREV_meta ?= "5b185a8716c8c62dc1c7751e6d12f8b67f58274f"
  
- COMPATIBLE_MACHINE:genericarm64 = "genericarm64"
- COMPATIBLE_MACHINE:genericx86 = "genericx86"
- COMPATIBLE_MACHINE:genericx86-64 = "genericx86-64"
- COMPATIBLE_MACHINE:beaglebone-yocto = "beaglebone-yocto"
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.6;destsuffix=${KMETA};protocol=https"
  
--LINUX_VERSION:genericarm64 = "6.6.18"
--LINUX_VERSION:genericx86 = "6.6.15"
--LINUX_VERSION:genericx86-64 = "6.6.15"
--LINUX_VERSION:beaglebone-yocto = "6.6.15"
-+LINUX_VERSION:genericarm64 = "6.6.21-116-g06644f0d7193"
-+LINUX_VERSION:genericx86 = "6.6.21-116-g06644f0d7193"
-+LINUX_VERSION:genericx86-64 = "6.6.21-116-g06644f0d7193"
-+LINUX_VERSION:beaglebone-yocto = "6.6.21-116-g06644f0d7193"
+-LINUX_VERSION ?= "6.6.20"
++LINUX_VERSION ?= "6.6.21"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
+index 417cd16828..f6f4762cbc 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
+@@ -8,7 +8,7 @@ require recipes-kernel/linux/linux-yocto.inc
+ # CVE exclusions
+ include recipes-kernel/linux/cve-exclusion_6.6.inc
+ 
+-LINUX_VERSION ?= "6.6.20"
++LINUX_VERSION ?= "6.6.21"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+@@ -17,8 +17,8 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine ?= "a04baee60b5a7cf4d9c0c2f4856c6d5bb9b98074"
+-SRCREV_meta ?= "d2cf51efb880ea1f34f4beaee487edf572e9adc3"
++SRCREV_machine ?= "4d67f3ece8ca6f730f43ea8fdb9acf79c0c7bc46"
++SRCREV_meta ?= "5b185a8716c8c62dc1c7751e6d12f8b67f58274f"
+ 
+ PV = "${LINUX_VERSION}+git"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_6.6.bb b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
+index 13b8b97619..aaea980df0 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_6.6.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
+@@ -18,25 +18,25 @@ KBRANCH:qemux86-64 ?= "v6.6/standard/base"
+ KBRANCH:qemuloongarch64  ?= "v6.6/standard/base"
+ KBRANCH:qemumips64 ?= "v6.6/standard/mti-malta64"
+ 
+-SRCREV_machine:qemuarm ?= "9d30fb4668cd7087e81b40f223cdd0090863602b"
+-SRCREV_machine:qemuarm64 ?= "a04baee60b5a7cf4d9c0c2f4856c6d5bb9b98074"
+-SRCREV_machine:qemuloongarch64 ?= "a04baee60b5a7cf4d9c0c2f4856c6d5bb9b98074"
+-SRCREV_machine:qemumips ?= "4b49da8bb522bdaf928855c2c102fa839625c6c1"
+-SRCREV_machine:qemuppc ?= "a04baee60b5a7cf4d9c0c2f4856c6d5bb9b98074"
+-SRCREV_machine:qemuriscv64 ?= "a04baee60b5a7cf4d9c0c2f4856c6d5bb9b98074"
+-SRCREV_machine:qemuriscv32 ?= "a04baee60b5a7cf4d9c0c2f4856c6d5bb9b98074"
+-SRCREV_machine:qemux86 ?= "a04baee60b5a7cf4d9c0c2f4856c6d5bb9b98074"
+-SRCREV_machine:qemux86-64 ?= "a04baee60b5a7cf4d9c0c2f4856c6d5bb9b98074"
+-SRCREV_machine:qemumips64 ?= "8e7605bafdfeb842396292181d524b183a1e13d6"
+-SRCREV_machine ?= "a04baee60b5a7cf4d9c0c2f4856c6d5bb9b98074"
+-SRCREV_meta ?= "d2cf51efb880ea1f34f4beaee487edf572e9adc3"
++SRCREV_machine:qemuarm ?= "09a926ab47d8072b7dc303cc8b99774abd792867"
++SRCREV_machine:qemuarm64 ?= "4d67f3ece8ca6f730f43ea8fdb9acf79c0c7bc46"
++SRCREV_machine:qemuloongarch64 ?= "4d67f3ece8ca6f730f43ea8fdb9acf79c0c7bc46"
++SRCREV_machine:qemumips ?= "b7fc266342fa1f6a304c54af0c8bc42b926bf1d8"
++SRCREV_machine:qemuppc ?= "4d67f3ece8ca6f730f43ea8fdb9acf79c0c7bc46"
++SRCREV_machine:qemuriscv64 ?= "4d67f3ece8ca6f730f43ea8fdb9acf79c0c7bc46"
++SRCREV_machine:qemuriscv32 ?= "4d67f3ece8ca6f730f43ea8fdb9acf79c0c7bc46"
++SRCREV_machine:qemux86 ?= "4d67f3ece8ca6f730f43ea8fdb9acf79c0c7bc46"
++SRCREV_machine:qemux86-64 ?= "4d67f3ece8ca6f730f43ea8fdb9acf79c0c7bc46"
++SRCREV_machine:qemumips64 ?= "fe3df2eeb1cca6792c09e6a6530671533ce584e5"
++SRCREV_machine ?= "4d67f3ece8ca6f730f43ea8fdb9acf79c0c7bc46"
++SRCREV_meta ?= "5b185a8716c8c62dc1c7751e6d12f8b67f58274f"
+ 
+ # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
+ # get the <version>/base branch, which is pure upstream -stable, and the same
+ # meta SRCREV as the linux-yocto-standard builds. Select your version using the
+ # normal PREFERRED_VERSION settings.
+ BBCLASSEXTEND = "devupstream:target"
+-SRCREV_machine:class-devupstream ?= "9b4a8eac17f0d840729384618b4b1e876233026c"
++SRCREV_machine:class-devupstream ?= "62e5ae5007ef14cf9b12da6520d50fe90079d8d4"
+ PN:class-devupstream = "linux-yocto-upstream"
+ KBRANCH:class-devupstream = "v6.6/base"
+ 
+@@ -44,7 +44,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.6;destsuffix=${KMETA};protocol=https"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+-LINUX_VERSION ?= "6.6.20"
++LINUX_VERSION ?= "6.6.21"
+ 
+ PV = "${LINUX_VERSION}+git"
+ 
 -- 
 2.39.2
 
