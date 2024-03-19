@@ -2,70 +2,73 @@ Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40469C54E60
-	for <webhook@archiver.kernel.org>; Tue, 19 Mar 2024 10:48:59 +0000 (UTC)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
- by mx.groups.io with SMTP id smtpd.web10.12282.1710845330261222699
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7678EC54E60
+	for <webhook@archiver.kernel.org>; Tue, 19 Mar 2024 11:14:09 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web11.12691.1710846848928270668
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Mar 2024 03:48:50 -0700
+ Tue, 19 Mar 2024 04:14:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=FQP9KvWK;
- spf=pass (domain: gmail.com, ip: 209.85.167.44, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5157af37806so617312e87.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 Mar 2024 03:48:50 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=nrVPEsoQ;
+ spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-414676fe047so1883735e9.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 19 Mar 2024 04:14:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710845328; x=1711450128; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1710846847; x=1711451647; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9UqUc8ZiH85KT6ofHHx0TqE4iM4JDtF2rvy/jpOtgNU=;
-        b=FQP9KvWK8FfQ6RxQRQp+z8Cdn0/USMfBUAwJrLcldFLrh1PCJ1/INJ0vUEMebcVmfE
-         IjpT5/WcuFFiKdHM0rwAKb481UvMZRa3YJItvSqt59OsHfwla36ZBv0NpEjVWBjgqXIF
-         ulKF2F50y7dihYmoSk5V7KM0lg9uxUT+4dr/Rz0aV4A91uF8CCxjVKSdxPpXOwVmOqLN
-         4c/MGZBkiwaYoCzj7dXz8drSxJdehLk/4NLZIxqD0bw6xDssctK7WANpZ85wcYS4DFSF
-         gT/M4WsI0vFPcl1LqJqkPatDCtn+cqte4t+i46r5v/fbG8hOVKWW3bvyj3KM01JGnqp5
-         e3Sw==
+        bh=b3/A9tcichSRwVI2q61xlkbcSo8dEOmjBuRvQjamrjk=;
+        b=nrVPEsoQacA84teH+NLzQ4EQzinNn+oCbfvQIzk733fbiSnaecPBh/PwZtdsV6Uf0S
+         qDiEkupZeLhJgtlDMgNnPZEdEEkD2sBWEf+lb/uKcPbwCuAxk2VfWbU+l4/OCcQsqiOg
+         jhE+sqm4IkTJxly89yi97IJMCUUV7WX1WbI05WzySEegriRo9UD++UpreCxdW2dAf0FA
+         I8l83FJeMDuK35foFdJt6fB6y+E6CvbHi+54cGdiN2VxTbbG7vapgjoWguAaqjYoT5ri
+         3s7skyNsr/ex/oF+u5lUtaECy9TfJQdjn2ie7IhMEbetetbf3kcWaSBeqMeMtnB7KZ2I
+         Y95Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710845328; x=1711450128;
+        d=1e100.net; s=20230601; t=1710846847; x=1711451647;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=9UqUc8ZiH85KT6ofHHx0TqE4iM4JDtF2rvy/jpOtgNU=;
-        b=EUAObt8JOgbp9zQ8q5TW8ERhRmQhEyBRMteB5Iyrkk8penex4sq/ULwNv0BG8LI7PJ
-         xcOJfLDUXz1Khhub+J9kGNvmjqfo1FRhv01kaUuJDz6ZWImbMgQlP5PQcxS1Yo4NdWtG
-         cwWXR/3ZEDvq1w1H8M4T41T2E+O26olLwgngRSMEu9ujRVuHjNPczYwea0XFIdWvYmUj
-         If/t3VdYlpxqRbrn6M9QW48alkj4g0wAU0zvG94WMLuMppSPX54z8ozozMFDktgDcjDm
-         ADl4kUJ0O/r1gNJ4moNhWe6drGtfXqj79QKQkTs0Hxfv8RCZOAD/hU91jvyYWzx5PNJ+
-         m0QA==
-X-Gm-Message-State: AOJu0Yy45pgKQYfjzODqCCnRhVv0gK1fEmF1msSnMgFZIySHQ5rjyurW
-	gE+szCgMFvmPnyj/WmOOHQAQaSPYxqI0gtYQY/NxSOI6rHJGBUOEg1XAtT6z4H0=
-X-Google-Smtp-Source: AGHT+IFrXf8jZnnGEE0Pod/eFDHY2Q5UveLeE8jRSjdrq1ozdDRhixoeaiUFsr2STVXKSdTTGV7jIA==
-X-Received: by 2002:a19:8c4d:0:b0:513:cc24:c464 with SMTP id i13-20020a198c4d000000b00513cc24c464mr10335419lfj.15.1710845327732;
-        Tue, 19 Mar 2024 03:48:47 -0700 (PDT)
+        bh=b3/A9tcichSRwVI2q61xlkbcSo8dEOmjBuRvQjamrjk=;
+        b=w1jXwH3d5kpfW9X33ZDYCPbTl9mp0L2GMWlMvJ8reZz4txEJ9sLebGlmBREFK7gT47
+         oanDCktQsjlxe3gDXbVkdKluNb0Hk1RKP7He22vobJ0VRWi8kRvIO1ds1TvQmrdQi+78
+         S2Dss49wzlQXXlQ+ebHChgomBlvsbE6r2l6qBMNnQBS/5ZKRVKQrNtO+MjdSRnRhdFNP
+         69x0TCYSnZ3kBAZ0/mYzHXtQJmZf89BxD9v0jvcgRTiIek+50pvs7dvSZDa301Cmhs8L
+         efab3DvQUYdD4fLWRb9l9o2wkiR3yJkZdiJ1ZD92M62hN3rwpLCcdwfhMABCGuc/D1Jl
+         C/HA==
+X-Gm-Message-State: AOJu0YwmMK8WnNEOxF8lceInCJt76G5Yxob/SYT6JKmGxRtei2VqLy1C
+	5aQBIPcjBcxvimny8UedG9NmUhdMOeCuM5FdR9ZfR4HMDU93RMdx7nSemRYR
+X-Google-Smtp-Source: AGHT+IFxYueL+MrOk2PETsJea0bFyf4Y6xVvBNJrKdbdfHe3IKmumWZA6gPCK6jyfBE0Bg3WFjUwmQ==
+X-Received: by 2002:a05:600c:4f08:b0:414:67ca:6aca with SMTP id l8-20020a05600c4f0800b0041467ca6acamr412595wmq.18.1710846846863;
+        Tue, 19 Mar 2024 04:14:06 -0700 (PDT)
 Received: from toster.lan (bl15-243-112.dsl.telepac.pt. [188.80.243.112])
-        by smtp.gmail.com with ESMTPSA id k16-20020a05600c1c9000b0041465c859d0sm1384746wms.39.2024.03.19.03.48.46
+        by smtp.gmail.com with ESMTPSA id v17-20020a05600c471100b004140e9211e7sm7412778wmo.35.2024.03.19.04.14.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Mar 2024 03:48:47 -0700 (PDT)
+        Tue, 19 Mar 2024 04:14:06 -0700 (PDT)
 From: Jose Quaresma <quaresma.jose@gmail.com>
 X-Google-Original-From: Jose Quaresma <jose.quaresma@foundries.io>
 To: openembedded-core@lists.openembedded.org
 Cc: raj.khem@gmail.com,
 	Jose Quaresma <jose.quaresma@foundries.io>
-Subject: [OE-core][PATCH] elfutils: fix unused variable BUFFER_SIZE
-Date: Tue, 19 Mar 2024 10:48:30 +0000
-Message-ID: <20240319104830.1685335-1-jose.quaresma@foundries.io>
+Subject: [OE-core][PATCH v1] elfutils: fix unused variable BUFFER_SIZE
+Date: Tue, 19 Mar 2024 11:12:59 +0000
+Message-ID: <20240319111258.4155037-2-jose.quaresma@foundries.io>
 X-Mailer: git-send-email 2.44.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Mar 2024 10:48:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197318
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Mar 2024 11:14:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197319
 
 Fix build break with clang
 
 Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
 ---
+
+v1: change patch status to backport
+
  .../elfutils/elfutils_0.191.bb                |  1 +
  ...iles-fix-unused-variable-BUFFER_SIZE.patch | 36 +++++++++++++++++++
  2 files changed, 37 insertions(+)
@@ -85,7 +88,7 @@ index c5c1542b05..c4d872430b 100644
             file://0003-musl-utils.patch \
 diff --git a/meta/recipes-devtools/elfutils/files/0001-srcfiles-fix-unused-variable-BUFFER_SIZE.patch b/meta/recipes-devtools/elfutils/files/0001-srcfiles-fix-unused-variable-BUFFER_SIZE.patch
 new file mode 100644
-index 0000000000..b6a553c296
+index 0000000000..b3032327a2
 --- /dev/null
 +++ b/meta/recipes-devtools/elfutils/files/0001-srcfiles-fix-unused-variable-BUFFER_SIZE.patch
 @@ -0,0 +1,36 @@
@@ -101,7 +104,7 @@ index 0000000000..b6a553c296
 +|    81 | constexpr size_t BUFFER_SIZE = 8192;
 +|       |                  ^~~~~~~~~~~
 +
-+Upstream-Status: Submitted [https://sourceware.org/pipermail/elfutils-devel/2024q1/006919.html]
++Upstream-Status: Backport [https://sourceware.org/git/?p=elfutils.git;a=commitdiff;h=ef8a4b841aaf26326b8961a651dbe915d54d23e7]
 +
 +Signed-off-by: Jose Quaresma <jose.quaresma@foundries.io>
 +---
