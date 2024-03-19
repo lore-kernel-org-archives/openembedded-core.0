@@ -1,332 +1,768 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85D68CD11DB
-	for <webhook@archiver.kernel.org>; Tue, 19 Mar 2024 23:01:58 +0000 (UTC)
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
- by mx.groups.io with SMTP id smtpd.web10.30639.1710889308851659454
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B96A0C54E71
+	for <webhook@archiver.kernel.org>; Tue, 19 Mar 2024 23:23:28 +0000 (UTC)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
+ by mx.groups.io with SMTP id smtpd.web11.31295.1710890599017033407
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Mar 2024 16:01:48 -0700
+ Tue, 19 Mar 2024 16:23:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Oy1TwMJk;
- spf=pass (domain: gmail.com, ip: 209.85.210.51, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-6ddf26eba3cso4287757a34.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 Mar 2024 16:01:48 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=f9HXgpTU;
+ spf=softfail (domain: sakoman.com, ip: 209.85.219.179, mailfrom: steve@sakoman.com)
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-dccb1421bdeso5224292276.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 19 Mar 2024 16:23:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710889308; x=1711494108; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1710890598; x=1711495398; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3mPTClJodLaOFSJHyRKt9NUElhPpl/xkDvJQikFdE5g=;
-        b=Oy1TwMJkeZew6HaGg3XmHNxh+PdzJMBbkva42Ecg5DDELSLKPL0GoCYf5t/i2b1d/q
-         ZklJ7Bwe2e5m69JViHQ9hbQfFrg/1L5JEH7eR1Jx4rFsLYOpuNBC0E1nL/MEH+vnQPZe
-         w/2OdoNk9gmxPC5yDRtphhnaCBUEc7rYaQsXMkeMjM5wUgTkqdDCrJKAobPl/uwDnOqY
-         bj829Bq+wOnORuDUQJAMXA0CjsbKpq5Br3A+HhPVrL6vIrdvGBPtEiDak7vb5u2TZCMm
-         +usAw9io5Wjf8BcCv6/S0CksbW/nJvq2QrusFGT82+NqW77nYJU1YCXAEBlRL6V84962
-         CKsw==
+        bh=h/QkCvEyTiMW4iVnm67CsYLwhXcdD3D0luO5tL0spBU=;
+        b=f9HXgpTUD8pyhAAnOa8I5hdlvvyiUKrM9he7tp3JEa5h8t4ZTcGuIvacz/OUzJrt8A
+         BDHmQLh9bSFptbHhncKdMTuMXhMO5NJY5OV/a+wThDX7Qsg6dV7r1lJwa8bQxwJ7DBnl
+         CKX4+JYJEEYLpQrm8/BDugFpBYXhgphquIwIz7P9kzUIS5XadGht16Hv+eJGnExsrJu8
+         d4rpxf6xtYtHB9rggEbf1sSs1l3phZKlsgsQ5s8jXK5QijfTXIR5/KJNwdYyAtUUjyEt
+         WWC2xXSJjN3XZKwACJ0RbynLFCfAz54zOCyVGFesM1O+Naxe1pCvg+NJnL5veGWz06YF
+         8h+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710889308; x=1711494108;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1710890598; x=1711495398;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=3mPTClJodLaOFSJHyRKt9NUElhPpl/xkDvJQikFdE5g=;
-        b=H+lHXQ0FbL6jvVkAnA8aZGo20QdT5duUt1jxLy23xoOsa5PKmnELn5w8w/XYJRT1gE
-         sz6i3NhzbZ4eYttcOH9dZKXOy65flVqPIqQ6BweXGbW6Hz2zIO227l+PvBfvNUP9xHbv
-         8yPnnnGwfO36W3u4Irl2l7MINFKgHFUzR8eYKnqlbOLQws6ZcWNeSzUQtn2g2p3duhUp
-         zaggGuKH+SX8EPTrGV2W+Ydi7EfposL8NKqPhJ19+Dv8vnzOu9P/5ormUB+EbJ1RogS8
-         s7ElnBinqYit7mFKhxhnzMYO1vGoL8Jt4bpsPF7Xc57p8au8881JwATam4/XnOYlhfqV
-         9Rfg==
-X-Gm-Message-State: AOJu0YzSfJRnSjDfM+okSux58F1FrVMdp/KWp6o4WNyBCyUjPTSm8Qw8
-	ZRaK3Fy3o8SzMg0iBeiXjyzNeBookpaI/siJLFckZx0sg5sBuMmu4KXQyY0z
-X-Google-Smtp-Source: AGHT+IEIcKvGstYPNWPDg4Q/VukXXgDBPrmGaAvr2XPqstuQ8IerpgobaMxwRRBGMUkJcxJQlIDOfg==
-X-Received: by 2002:a9d:7c87:0:b0:6e6:a810:b365 with SMTP id q7-20020a9d7c87000000b006e6a810b365mr1046620otn.37.1710889307633;
-        Tue, 19 Mar 2024 16:01:47 -0700 (PDT)
-Received: from bruce-XPS-8940.localdomain ([174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id kc28-20020a056214411c00b00690bfb6aac7sm7047065qvb.51.2024.03.19.16.01.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Mar 2024 16:01:46 -0700 (PDT)
-From: bruce.ashfield@gmail.com
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 8/9] linux-yocto/6.6: update to v6.6.22
-Date: Tue, 19 Mar 2024 19:01:31 -0400
-Message-Id: <0cbd936cf6b6040b39f00b4463667532879f24c0.1710888915.git.bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <cover.1710888915.git.bruce.ashfield@gmail.com>
-References: <cover.1710888915.git.bruce.ashfield@gmail.com>
+        bh=h/QkCvEyTiMW4iVnm67CsYLwhXcdD3D0luO5tL0spBU=;
+        b=wwfiE9AFhIw9tdCtmFmNCJUJjuAtjuWeZlOUiiqQa/haFtjM14TpMl3fKYSyt5bxKN
+         5++Zy+zGcpLSqPePPecTiYqQFH4TMIIcZZXHbrQyT/kulLkMELRzrywBr+zHBNHfsR8g
+         IoGXB3a19TPKngahzqtbR340HRuWxZXd4ait5caGZlaIh9o3gMGUcKl+VDXIJGEw6XVO
+         4LmIjjt9qigV3HI+O+iBdX0+F/Ib0n9luD5FCh2X99yAcfeeZtCeLUCDfFLbDc0uuCPG
+         BUmCpRFaNXWEowRBKY9jsgcO/IUxASvCiR4WrL52MTlVfkDKW80FlWKxaQcS4IxZcWyI
+         a3rw==
+X-Forwarded-Encrypted: i=1; AJvYcCXEBj9gw9uqWnNBSnfyHApOFtUb3BDjWCJvo6IXwq9HZkFcc5Z+LCAULRri9tTq0wKmMSWOqnCnr+Mb3Y6pGKkdPizaQMpF0yKBkr3plkCiycFB+pL1Z+l3
+X-Gm-Message-State: AOJu0Yywd3HAHZ5eEU7scaVwuCpobVHpG5jhrEhf7XqyQz2tXIkWdcT6
+	c44VQEORPWuQqJPjI2bh9cBOe7FIW49YCbRuLilJ7iJeOPeycmfRdesvM5JZ3yjvJ9YJxWpCq50
+	cSw8O8C+PItCrFZjFNDbgn8jInxi/oreFPV4omg==
+X-Google-Smtp-Source: AGHT+IH9Ub/b12psZs1qnWhiXyd/fUKi++fUOnQDVyPZppGTlfVbW7OdaK9U6Vf+3r/grZ9v/grNxNF8B15s2sJ9Wjo=
+X-Received: by 2002:a25:ef0c:0:b0:dc6:2152:3889 with SMTP id
+ g12-20020a25ef0c000000b00dc621523889mr3353166ybd.7.1710890597865; Tue, 19 Mar
+ 2024 16:23:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240318065524.3337545-1-haitao.liu@windriver.com> <1bc87f74-e7b7-42b9-9c73-1f30846df519@windriver.com>
+In-Reply-To: <1bc87f74-e7b7-42b9-9c73-1f30846df519@windriver.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Tue, 19 Mar 2024 13:23:06 -1000
+Message-ID: <CAOSpxdapBOHDS6YX9LfApq1sbXeJ=FtHam3OBx0PfCaz5Pvsgw@mail.gmail.com>
+Subject: Re: [OE-core][kirkstone][PATCH] openssl: Improve FIPS RSA keygen performac
+To: Randy MacLeod <randy.macleod@windriver.com>
+Cc: Haitao.Liu@windriver.com, openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Mar 2024 23:01:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197343
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Mar 2024 23:23:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197345
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+On Tue, Mar 19, 2024 at 11:45=E2=80=AFAM Randy MacLeod
+<randy.macleod@windriver.com> wrote:
+>
+> Hi Haitao, et al,
+>
+>
+> Summary:
+>
+> I think we could bring these two commits back to kirkstone even though up=
+stream openssl mtc
+> does not plan to do so, at least not without "very good reasons".
+>
+> but I have some comments and questions below that I'd like you to respond=
+ to before sending a v2.
+>
+> ../Randy
+>
+>
+>
+> Typo in the subject:
+>    [OE-core][kirkstone][PATCH] openssl: Improve FIPS RSA keygen performac
+> should be:
+>    [OE-core][kirkstone][PATCH] openssl: Improve FIPS RSA keygen performan=
+ce
+>
+> On 2024-03-18 2:55 a.m., jason.lau via lists.openembedded.org wrote:
+>
+> The ssh-keygen would take a long time to generate the entropy of a key
+>
+> It's best to be more specific.
+>
+> You mentioned in:
+>
+> https://github.com/openssl/openssl/issues/23766
+>
+> that "ssh-keygen (built with openssl3.0) is taking 1-2s to execute wherea=
+s in openssl3.1 it was hardly half a second"
+>
+> so you should mention that in the commit log.
+>
+> You should also include a link to the upstream issue you opened to explai=
+n that:
+>
+>    "Performance fixes are in general not eligible for backports to stable=
+ release branches.
+>     In specific cases an exception could be given by OTC but there would =
+have to be very good reasons for such an exception."
+>
+> I saw that comment last week and wondered if we should push harder for up=
+stream to backport these commits but
+> I understand your reluctance to do that when it might make sense to just =
+backport here in oe-core.
+>
+> Note that the commits are only part of 3.2.0+:
+>
+> =E2=9D=AF git tag --contains dd1d7bcb69994d81662e709b0ad838880b943870
+> openssl-3.2.0
+> openssl-3.2.0-alpha1
+> openssl-3.2.0-alpha2
+> openssl-3.2.0-beta1
+> openssl-3.2.1
+>
+> =E2=9D=AF git tag --contains d2f6e66d2837bff1f5f7636bb2118e3a45c9df61
+> openssl-3.2.0
+> openssl-3.2.0-alpha1
+> openssl-3.2.0-alpha2
+> openssl-3.2.0-beta1
+> openssl-3.2.1
+>
+> so they'd also have to be back-ported to nanbield technically:
+>    https://git.openembedded.org/openembedded-core/tree/meta/recipes-conne=
+ctivity/openssl/openssl_3.1.4.bb?h=3Dnanbield
+>
+> Steve,
+> Given that nanbield is a week or so away from EOL, is it worth doing that=
+?
 
-Updating linux-yocto/6.6 to the latest korg -stable release that comprises
-the following commits:
+I'm going to close down changes to nanbield in the next day or so, so
+there probably isn't time to get such a change in.
 
-    06644f0d7193 drm/tilcdc: Set preferred depth
-    6a646d9fe8a2 Linux 6.6.22
-    4a5b5bfea063 KVM/x86: Export RFDS_NO and RFDS_CLEAR to guests
-    77018fb9efe5 x86/rfds: Mitigate Register File Data Sampling (RFDS)
-    ddfd38558acc Documentation/hw-vuln: Add documentation for RFDS
-    c35ca0968de4 x86/mmio: Disable KVM mitigation when X86_FEATURE_CLEAR_CPU_BUF is set
-    e2ee3c628a6f selftests: mptcp: decrease BW in simult flows
-    de5c36abf708 readahead: avoid multiple marked readahead pages
-    f5572c0323cf KVM: s390: vsie: fix race during shadow creation
-    99b86c9b07a3 KVM: s390: add stat counter for shadow gmap events
-    995f802abff2 net: pds_core: Fix possible double free in error handling path
-    34cab94f7473 netrom: Fix data-races around sysctl_net_busy_read
-    db364859ce68 netrom: Fix a data-race around sysctl_netrom_link_fails_count
-    d732b8325132 netrom: Fix a data-race around sysctl_netrom_routing_control
-    2309b369fae2 netrom: Fix a data-race around sysctl_netrom_transport_no_activity_timeout
-    db006d7edbf0 netrom: Fix a data-race around sysctl_netrom_transport_requested_window_size
-    4ccad39009e7 netrom: Fix a data-race around sysctl_netrom_transport_busy_delay
-    7d56ffc51ebd netrom: Fix a data-race around sysctl_netrom_transport_acknowledge_delay
-    fa3f3ab5c399 netrom: Fix a data-race around sysctl_netrom_transport_maximum_tries
-    5d5c14efc987 netrom: Fix a data-race around sysctl_netrom_transport_timeout
-    5731369af2de netrom: Fix data-races around sysctl_netrom_network_ttl_initialiser
-    7e1e25891f09 netrom: Fix a data-race around sysctl_netrom_obsolescence_count_initialiser
-    7510b08c5f5b netrom: Fix a data-race around sysctl_netrom_default_path_quality
-    b3b87525b545 erofs: apply proper VMA alignment for memory mapped files on THP
-    014a807f1cc9 netfilter: nf_conntrack_h323: Add protection for bmp length out of range
-    b7f885cc7029 netfilter: nft_ct: fix l3num expectations with inet pseudo family
-    2b505d052807 net/rds: fix WARNING in rds_conn_connect_if_down
-    782c5fa6638f net: dsa: microchip: fix register write order in ksz8_ind_write8()
-    f562e4c4aab0 cpumap: Zero-initialise xdp_rxq_info struct before running XDP program
-    02e3549492db selftests/bpf: Fix up xdp bonding test wrt feature flags
-    586a2f410c78 xdp, bonding: Fix feature flags when there are no slave devs anymore
-    ff4d6006870f bpf: check bpf_func_state->callback_depth when pruning states
-    ed883060c387 net/ipv6: avoid possible UAF in ip6_route_mpath_notify()
-    8df393af9e7e igc: avoid returning frame twice in XDP_REDIRECT
-    1a770927dc1d net: ice: Fix potential NULL pointer dereference in ice_bridge_setlink()
-    671a28603c6b ice: virtchnl: stop pretending to support RSS over AQ or registers
-    e83bebb718fd net: sparx5: Fix use after free inside sparx5_del_mact_entry
-    0ece581d2a66 geneve: make sure to pull inner header in geneve_rx()
-    24d5a89652c9 tracing/net_sched: Fix tracepoints that save qdisc_dev() as a string
-    d98d364d98d1 net/mlx5e: Switch to using _bh variant of of spinlock API in port timestamping NAPI poll context
-    d1f71615dbb3 net/mlx5e: Use a memory barrier to enforce PTP WQ xmit submission tracking occurs after populating the metadata_map
-    b526c3177531 net/mlx5e: Fix MACsec state loss upon state update in offload path
-    6d6bb522d74b net/mlx5e: Change the warning when ignore_flow_level is not supported
-    c11138f0172f net/mlx5: Check capability for fw_reset
-    c8d7228ddda7 net/mlx5: E-switch, Change flow rule destination checking
-    ba888f1f5c21 Revert "net/mlx5e: Check the number of elements before walk TC rhashtable"
-    3fba8eab2cfc Revert "net/mlx5: Block entering switchdev mode with ns inconsistency"
-    4c0b028e7100 ice: reorder disabling IRQ and NAPI in ice_qp_dis
-    484c8e3beb0f i40e: disable NAPI right after disabling irqs when handling xsk_pool
-    2e60e9531ab9 ixgbe: {dis, en}able irqs in ixgbe_txrx_ring_{dis, en}able
-    550fe716031f net: lan78xx: fix runtime PM count underflow on link stop
-    f6edcad58cea xfrm: Pass UDP encapsulation in TX packet offload
-    d6159bd4c005 mm/vmscan: fix a bug calling wakeup_kswapd() with a wrong zone index
-    641eb2d9ab1e ceph: switch to corrected encoding of max_xattr_size in mdsmap
-    3b897ea5ee75 dmaengine: fsl-edma: correct max_segment_size setting
-    525c13971479 dmaengine: fsl-edma: utilize common dt-binding header file
-    fb2f43ed48dd dt-bindings: dma: fsl-edma: Add fsl-edma.h to prevent hardcoding in dts
-    ff7ae7b32324 crypto: jitter - add RCT/APT support for different OSRs
-    50cd24ddb6f0 arm64: defconfig: remove CONFIG_IPQ_APSS_5018
-    58e5c91d6701 x86/alternatives: Disable interrupts and sync when optimizing NOPs in place
-    c878fd2d4c79 x86/alternatives: Sync core before enabling interrupts
-    c2d64b9f52b6 qemux86: add configuration symbol to select values
-    630c33229e6d sched/isolation: really align nohz_full with rcu_nocbs
-    0e5e0f68e2e6 clear_warn_once: add a clear_warn_once= boot parameter
-    46934791b902 clear_warn_once: bind a timer to written reset value
-    cdee9e38ff32 clear_warn_once: expand debugfs to include read support
-    82b562b81841 tools: Remove some options from CLANG_CROSS_FLAGS
-    36dc380b776b libbpf: Fix build warning on ref_ctr_off
-    9e3e1fe20982 perf: perf can not parser the backtrace of app in the 32bit system and 64bit kernel.
-    e497a4a5da65 perf: x86-32: explicitly include <errno.h>
-    7b57ddd89565 perf: mips64: Convert __u64 to unsigned long long
-    1cfc19423dc7 perf: fix bench numa compilation
-    98bc2815fade perf: add SLANG_INC for slang.h
-    17209a70b9b3 perf: add sgidefs.h to for mips builds
-    9cd4258d910a perf: change --root to --prefix for python install
-    8110a4f26628 perf: add 'libperl not found' warning
-    bc89d5e08f77 perf: force include of <stdbool.h>
-    4f6c760cc876 fat: Replace prandom_u32() with get_random_u32()
-    bc53117b12b2 fat: don't use obsolete random32 call in namei_vfat
-    30b2236ab378 FAT: Added FAT_NO_83NAME
-    cef98d22b4ed FAT: Add CONFIG_VFAT_NO_CREATE_WITH_LONGNAMES option
-    0bbd7daba9e1 FAT: Add CONFIG_VFAT_FS_NO_DUALNAMES option
-    5883fc340084 aufs6: adapt to v6.6 i_op->ctime changes
-    c4342d979bf2 aufs6: fix magic.mk include path
-    35266bc2dc81 aufs6: adapt to v6.6
-    8edede4e98be aufs6: core
-    712248233ebe aufs6: standalone
-    3b71a8a848d8 aufs6: mmap
-    3e2924871f37 aufs6: base
-    7f4907a93101 aufs6: kbuild
-    d2f7b03e4aa7 yaffs2: update VFS ctime operations to 6.6+
-    bcd6cfcd1aa0 yaffs2: v6.5 fixups
-    cc615704b5f5 yaffs2: Fix miscalculation of devname buffer length
-    8ef2e22dcf91 yaffs2: convert user_namespace to mnt_idmap
-    c9c749f9f7d3 yaffs2: replace bdevname call with sprintf
-    395b01cdc39d yaffs2: convert read_page -> readfolio
-    d98b07e43ba6 yaffs: replace IS_ERR with IS_ERR_OR_NULL to check both ERR and NULL
-    613c6d50fdbe yaffs: fix -Wstringop-overread compile warning in yaffs_fix_null_name
-    622c4648936f yaffs2: v5.12+ build fixups (not runtime tested)
-    7562133d4090 yaffs: include blkdev.h
-    dbd44252cd59 yaffs: fix misplaced variable declaration
-    c223a10b1ac0 yaffs2: v5.6 build fixups
-    90f6007cfbf4 yaffs2: fix memory leak when /proc/yaffs is read
-    37ee169c5ea1 yaffs: add strict check when call yaffs_internal_read_super
-    b6e007b8abb6 yaffs: repair yaffs_get_mtd_device
-    fb98f65a466a yaffs: Fix build failure by handling inode i_version with proper atomic API
-    51e0aac75ea2 yaffs2: fix memory leak in mount/umount
-    2b74a0cae7b0 yaffs: Avoid setting any ACL releated xattr
-    ff4130a9c376 Yaffs:check oob size before auto selecting Yaffs1
-    ba95b409c67c fs: yaffs2: replace CURRENT_TIME by other appropriate apis
-    8fa35eba9056 yaffs2: adjust to proper location of MS_RDONLY
-    1eb5deaad8c4 yaffs2: import git revision b4ce1bb (jan, 2020)
-    4dce67c1e8c8 initramfs: allow an optional wrapper script around initramfs generation
-    2f603d83fcc4 pnmtologo: use relocatable file name
-    664a6a0a484b tools: use basename to identify file in gen-mach-types
-    9de64bc0c185 lib/build_OID_registry: fix reproducibility issues
-    ae9b80797295 vt/conmakehash: improve reproducibility
-    a972323151bd iwlwifi: select MAC80211_LEDS conditionally
-    15d2adcc0198 net/dccp: make it depend on CONFIG_BROKEN (CVE-2020-16119)
-    5556a6c04b19 arm64/perf: Fix wrong cast that may cause wrong truncation
-    5552dc768ffc defconfigs: drop obselete options
-    00fe4152df31 arm64/perf: fix backtrace for AAPCS with FP enabled
-    3888d0652edf linux-yocto: Handle /bin/awk issues
-    3d55d299f23a uvesafb: provide option to specify timeout for task completion
-    23c068c080be uvesafb: print error message when task timeout occurs
-    edbfc939266e compiler.h: Undef before redefining __attribute_const__
-    c99ae7e2a19a vmware: include jiffies.h
-    572d84d928c8 Resolve jiffies wrapping about arp
-    fdcd47cac843 nfs: Allow default io size to be configured.
-    927d48801098 check console device file on fs when booting
-    57cc27f821dd mount_root: clarify error messages for when no rootfs found
-    1b53d82a8152 mconf: fix output of cflags and libraries
-    1811da09f42c menuconfig,mconf-cfg: Allow specification of ncurses location
-    83c2e0c6eb1f modpost: mask trivial warnings
-    6de673039484 kbuild: exclude meta directory from distclean processing
-    6decd32815f5 powerpc: serialize image targets
-    f6b683b38318 arm: serialize build targets
-    e798b09ebf57 mtd_blkdevs: add mtd_table_mutex lock back to blktrans_{open, release} to avoid race condition
-    dc8a1e5a88f8 x86_64_defconfig: Fix warnings
-    68491e5f72b6 powerpc/ptrace: Disable array-bounds warning with gcc8
-    d71ebfce3004 powerpc: Disable attribute-alias warnings from gcc8
-    62f50884b8b1 powerpc: kexec fix for powerpc64
-    da6871c62c37 powerpc: Add unwind information for SPE registers of E500 core
-    f161c880c11d mips: make current_cpu_data preempt safe
-    5e94a8247ce7 mips: vdso: fix 'jalr $t9' crash in vdso code
-    19e36714b1c7 mips: Kconfig: add QEMUMIPS64 option
-    e2e537db3cbd 4kc cache tlb hazard: tlbp cache coherency
-    aee9870611e5 malta uhci quirks: make allowance for slow 4k(e)c
-    881948cd1517 drm/fb-helper: move zeroing code to drm_fb_helper_fill_var
-    98ec1963fcb7 arm64: defconfig: cleanup config options
-    f1727c537ba8 vexpress: Pass LOADADDR to Makefile
-    4474c32dc24a arm: ARM EABI socketcall
-    75e31a2b70fd ARM: LPAE: Invalidate the TLB for module addresses during translation fault
+And I suspect that the kirkstone v2 patch won't make it through
+testing until after the nanbield final release is done, so I don't
+have an issue with taking it.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
----
- .../linux/linux-yocto-rt_6.6.bb               |  6 ++--
- .../linux/linux-yocto-tiny_6.6.bb             |  6 ++--
- meta/recipes-kernel/linux/linux-yocto_6.6.bb  | 28 +++++++++----------
- 3 files changed, 20 insertions(+), 20 deletions(-)
+Steve
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
-index f22ee2bf21..acafe60e46 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
-@@ -14,13 +14,13 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
- 
--SRCREV_machine ?= "4b52adc4ca90b93e65eded97537f844bb3f86621"
--SRCREV_meta ?= "cc42f74d7d099826d46d3b310fda9c0c7bbb1477"
-+SRCREV_machine ?= "1c3234ba160c59eb50739f23591a87daf09fac35"
-+SRCREV_meta ?= "6a24861d6504575a4a9f92366285332d47c7e111"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.6;destsuffix=${KMETA};protocol=https"
- 
--LINUX_VERSION ?= "6.6.21"
-+LINUX_VERSION ?= "6.6.22"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
-index 4a129d157d..4a87482f20 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
-@@ -8,7 +8,7 @@ require recipes-kernel/linux/linux-yocto.inc
- # CVE exclusions
- include recipes-kernel/linux/cve-exclusion_6.6.inc
- 
--LINUX_VERSION ?= "6.6.21"
-+LINUX_VERSION ?= "6.6.22"
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-@@ -17,8 +17,8 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine ?= "06644f0d7193d7ec39d7fe41939a21953e7a0c65"
--SRCREV_meta ?= "cc42f74d7d099826d46d3b310fda9c0c7bbb1477"
-+SRCREV_machine ?= "ca83799fcbc094fdd52caec7c4dca64189acd842"
-+SRCREV_meta ?= "6a24861d6504575a4a9f92366285332d47c7e111"
- 
- PV = "${LINUX_VERSION}+git"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_6.6.bb b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
-index e1e97ff702..01ecc36c81 100644
---- a/meta/recipes-kernel/linux/linux-yocto_6.6.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
-@@ -18,25 +18,25 @@ KBRANCH:qemux86-64 ?= "v6.6/standard/base"
- KBRANCH:qemuloongarch64  ?= "v6.6/standard/base"
- KBRANCH:qemumips64 ?= "v6.6/standard/mti-malta64"
- 
--SRCREV_machine:qemuarm ?= "f2dec0d9cb5fec1bd3f6def918c679d7f7a940b3"
--SRCREV_machine:qemuarm64 ?= "06644f0d7193d7ec39d7fe41939a21953e7a0c65"
--SRCREV_machine:qemuloongarch64 ?= "06644f0d7193d7ec39d7fe41939a21953e7a0c65"
--SRCREV_machine:qemumips ?= "805c2ac2a30fe9e61d9d58d19654fe29d43df922"
--SRCREV_machine:qemuppc ?= "06644f0d7193d7ec39d7fe41939a21953e7a0c65"
--SRCREV_machine:qemuriscv64 ?= "06644f0d7193d7ec39d7fe41939a21953e7a0c65"
--SRCREV_machine:qemuriscv32 ?= "06644f0d7193d7ec39d7fe41939a21953e7a0c65"
--SRCREV_machine:qemux86 ?= "06644f0d7193d7ec39d7fe41939a21953e7a0c65"
--SRCREV_machine:qemux86-64 ?= "06644f0d7193d7ec39d7fe41939a21953e7a0c65"
--SRCREV_machine:qemumips64 ?= "96d26749df27806f3f4b3e75993407846194b83f"
--SRCREV_machine ?= "06644f0d7193d7ec39d7fe41939a21953e7a0c65"
--SRCREV_meta ?= "cc42f74d7d099826d46d3b310fda9c0c7bbb1477"
-+SRCREV_machine:qemuarm ?= "0873b6f725956acf2e6d57d720edd8a2177e18ce"
-+SRCREV_machine:qemuarm64 ?= "ca83799fcbc094fdd52caec7c4dca64189acd842"
-+SRCREV_machine:qemuloongarch64 ?= "ca83799fcbc094fdd52caec7c4dca64189acd842"
-+SRCREV_machine:qemumips ?= "6a81581711b1cb35046c637ecfbb6b17a8abbcb5"
-+SRCREV_machine:qemuppc ?= "ca83799fcbc094fdd52caec7c4dca64189acd842"
-+SRCREV_machine:qemuriscv64 ?= "ca83799fcbc094fdd52caec7c4dca64189acd842"
-+SRCREV_machine:qemuriscv32 ?= "ca83799fcbc094fdd52caec7c4dca64189acd842"
-+SRCREV_machine:qemux86 ?= "ca83799fcbc094fdd52caec7c4dca64189acd842"
-+SRCREV_machine:qemux86-64 ?= "ca83799fcbc094fdd52caec7c4dca64189acd842"
-+SRCREV_machine:qemumips64 ?= "6cb075269e42d03857c95ebc8b5f8e154f155add"
-+SRCREV_machine ?= "ca83799fcbc094fdd52caec7c4dca64189acd842"
-+SRCREV_meta ?= "6a24861d6504575a4a9f92366285332d47c7e111"
- 
- # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
- # get the <version>/base branch, which is pure upstream -stable, and the same
- # meta SRCREV as the linux-yocto-standard builds. Select your version using the
- # normal PREFERRED_VERSION settings.
- BBCLASSEXTEND = "devupstream:target"
--SRCREV_machine:class-devupstream ?= "62e5ae5007ef14cf9b12da6520d50fe90079d8d4"
-+SRCREV_machine:class-devupstream ?= "6a646d9fe8a2bf8d25817ceddf96dfc5eb5446db"
- PN:class-devupstream = "linux-yocto-upstream"
- KBRANCH:class-devupstream = "v6.6/base"
- 
-@@ -44,7 +44,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.6;destsuffix=${KMETA};protocol=https"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
--LINUX_VERSION ?= "6.6.21"
-+LINUX_VERSION ?= "6.6.22"
- 
- PV = "${LINUX_VERSION}+git"
- 
--- 
-2.39.2
-
+>
+> Note that the original commits were from Nov 2, 2022 so they've had some =
+time to ummm, bake but
+> the 3.2.0 release was 'only' on Nov 23, 2023:
+>    https://www.openssl.org/source/old/3.2/index.html
+> so it's got 3 or 4 months of the public being able to test it.
+>
+> I've taken a look at the commits and haven't seen a problem with the back=
+port.
+>
+> Haitao,
+> Did you have to adjust the patches at all? If so please explain what you =
+did.
+>
+> Your tests show that openssl is faster, have you tested for correctness a=
+t all?
+> Does it make sense to run: test/bntest.c ? Steve will likely run the ptes=
+ts of course.
+>
+> Do we need the oneline change: "Fix incorrect error branch in ossl_bn_rsa=
+_fips186_4_derive_prime()"
+> from:
+> openssl.git on master
+> =E2=9D=AF git log --oneline crypto/bn/bn_rsa_fips186_4.c
+> da1c088f59 Copyright year updates
+> 835b90a19c Fix incorrect error branch in ossl_bn_rsa_fips186_4_derive_pri=
+me()
+> d2f6e66d28 Improve FIPS RSA keygen performance.
+> dd1d7bcb69 Improve FIPS RSA keygen performance.
+>
+>
+> Are there any other changes to the files touched by these commits that wo=
+uld affect
+> the correctness or performance of the code introduced?
+>
+> ../Randy
+>
+>
+>
+> The following commits have fixed the issue.
+> https://github.com/openssl/openssl/commit/dd1d7bcb69994d81662e709b0ad8388=
+80b943870
+> https://github.com/openssl/openssl/commit/d2f6e66d2837bff1f5f7636bb2118e3=
+a45c9df61
+>
+> Signed-off-by: Haitao Liu <haitao.liu@windriver.com>
+> ---
+>  ...-Improve-FIPS-RSA-keygen-performance.patch | 271 ++++++++++++++++++
+>  ...-Improve-FIPS-RSA-keygen-performance.patch | 185 ++++++++++++
+>  .../openssl/openssl_3.0.13.bb                 |   2 +
+>  3 files changed, 458 insertions(+)
+>  create mode 100644 meta/recipes-connectivity/openssl/openssl/0001-Improv=
+e-FIPS-RSA-keygen-performance.patch
+>  create mode 100644 meta/recipes-connectivity/openssl/openssl/0002-Improv=
+e-FIPS-RSA-keygen-performance.patch
+>
+> diff --git a/meta/recipes-connectivity/openssl/openssl/0001-Improve-FIPS-=
+RSA-keygen-performance.patch b/meta/recipes-connectivity/openssl/openssl/00=
+01-Improve-FIPS-RSA-keygen-performance.patch
+> new file mode 100644
+> index 0000000000..aed0e1a5c1
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/openssl/openssl/0001-Improve-FIPS-RSA-key=
+gen-performance.patch
+> @@ -0,0 +1,271 @@
+> +From a940dfa152707ba82f3efc2c147f6313c28f7662 Mon Sep 17 00:00:00 2001
+> +From: slontis <shane.lontis@oracle.com>
+> +Date: Wed, 2 Nov 2022 12:01:34 +1000
+> +Subject: [PATCH 1/2] Improve FIPS RSA keygen performance.
+> +
+> +FIPS 186-4 has 5 different algorithms for key generation,
+> +and all of them rely on testing GCD(a,n) =3D=3D 1 many times.
+> +
+> +Cachegrind was showing that during a RSA keygen operation,
+> +the function BN_gcd() was taking a considerable percentage
+> +of the total cycles.
+> +
+> +The default provider uses multiprime keygen, which seemed to
+> +be much faster. This is because it uses BN_mod_inverse()
+> +instead.
+> +
+> +For a 4096 bit key, the entropy of a key that was taking a
+> +long time to generate was recorded and fed back into subsequent
+> +runs. Roughly 40% of the cycle time was BN_gcd() with most of the
+> +remainder in the prime testing. Changing to use the inverse
+> +resulted in the cycle count being 96% in the prime testing.
+> +
+> +Reviewed-by: Paul Dale <pauli@openssl.org>
+> +Reviewed-by: Tomas Mraz <tomas@openssl.org>
+> +(Merged from https://github.com/openssl/openssl/pull/19578)
+> +
+> +(cherry picked from commit dd1d7bcb69994d81662e709b0ad838880b943870)
+> +
+> +Upstream-Status: Backport [https://github.com/openssl/openssl/commit/dd1=
+d7bcb69994d81662e709b0ad838880b943870]
+> +
+> +Signed-off-by: Haitao Liu <haitao.liu@windriver.com>
+> +---
+> + crypto/bn/bn_gcd.c           | 31 +++++++++++++++++++++++++++++++
+> + crypto/bn/bn_rsa_fips186_4.c | 24 +++++++++++++++---------
+> + doc/man3/BN_cmp.pod          | 14 +++++++++++++-
+> + include/openssl/bn.h         |  1 +
+> + test/bntest.c                | 26 ++++++++++++++++++++++++--
+> + util/libcrypto.num           |  1 +
+> + 6 files changed, 85 insertions(+), 12 deletions(-)
+> +
+> +diff --git a/crypto/bn/bn_gcd.c b/crypto/bn/bn_gcd.c
+> +index cd0b015..879a84b 100644
+> +--- a/crypto/bn/bn_gcd.c
+> ++++ b/crypto/bn/bn_gcd.c
+> +@@ -534,6 +534,37 @@ BIGNUM *BN_mod_inverse(BIGNUM *in,
+> +     return rv;
+> + }
+> +
+> ++/*
+> ++ * The numbers a and b are coprime if the only positive integer that is=
+ a
+> ++ * divisor of both of them is 1.
+> ++ * i.e. gcd(a,b) =3D 1.
+> ++ *
+> ++ * Coprimes have the property: b has a multiplicative inverse modulo a
+> ++ * i.e there is some value x such that bx =3D 1 (mod a).
+> ++ *
+> ++ * Testing the modulo inverse is currently much faster than the constan=
+t
+> ++ * time version of BN_gcd().
+> ++ */
+> ++int BN_are_coprime(BIGNUM *a, const BIGNUM *b, BN_CTX *ctx)
+> ++{
+> ++    int ret =3D 0;
+> ++    BIGNUM *tmp;
+> ++
+> ++    BN_CTX_start(ctx);
+> ++    tmp =3D BN_CTX_get(ctx);
+> ++    if (tmp =3D=3D NULL)
+> ++        goto end;
+> ++
+> ++    ERR_set_mark();
+> ++    BN_set_flags(a, BN_FLG_CONSTTIME);
+> ++    ret =3D (BN_mod_inverse(tmp, a, b, ctx) !=3D NULL);
+> ++    /* Clear any errors (an error is returned if there is no inverse) *=
+/
+> ++    ERR_pop_to_mark();
+> ++end:
+> ++    BN_CTX_end(ctx);
+> ++    return ret;
+> ++}
+> ++
+> + /*-
+> +  * This function is based on the constant-time GCD work by Bernstein an=
+d Yang:
+> +  * https://eprint.iacr.org/2019/266
+> +diff --git a/crypto/bn/bn_rsa_fips186_4.c b/crypto/bn/bn_rsa_fips186_4.c
+> +index 62d8685..55efaf2 100644
+> +--- a/crypto/bn/bn_rsa_fips186_4.c
+> ++++ b/crypto/bn/bn_rsa_fips186_4.c
+> +@@ -286,14 +286,20 @@ int ossl_bn_rsa_fips186_4_derive_prime(BIGNUM *Y, =
+BIGNUM *X, const BIGNUM *Xin,
+> +             goto err;
+> +     }
+> +
+> ++    /*
+> ++     * (Step 1) GCD(2r1, r2) =3D 1.
+> ++     *    Note: This algorithm was doing a gcd(2r1, r2)=3D1 test before=
+ doing an
+> ++     *    mod_inverse(2r1, r2) which are effectively the same operation=
+.
+> ++     *    (The algorithm assumed that the gcd test would be faster). Si=
+nce the
+> ++     *    mod_inverse is currently faster than calling the constant tim=
+e
+> ++     *    BN_gcd(), the call to BN_gcd() has been omitted. The inverse =
+result
+> ++     *    is used further down.
+> ++     */
+> +     if (!(BN_lshift1(r1x2, r1)
+> +-            /* (Step 1) GCD(2r1, r2) =3D 1 */
+> +-            && BN_gcd(tmp, r1x2, r2, ctx)
+> +-            && BN_is_one(tmp)
+> ++            && (BN_mod_inverse(tmp, r1x2, r2, ctx) !=3D NULL)
+> +             /* (Step 2) R =3D ((r2^-1 mod 2r1) * r2) - ((2r1^-1 mod r2)=
+*2r1) */
+> +-            && BN_mod_inverse(R, r2, r1x2, ctx)
+> ++            && (BN_mod_inverse(R, r2, r1x2, ctx) !=3D NULL)
+> +             && BN_mul(R, R, r2, ctx) /* R =3D (r2^-1 mod 2r1) * r2 */
+> +-            && BN_mod_inverse(tmp, r1x2, r2, ctx)
+> +             && BN_mul(tmp, tmp, r1x2, ctx) /* tmp =3D (2r1^-1 mod r2)*2=
+r1 */
+> +             && BN_sub(R, R, tmp)
+> +             /* Calculate 2r1r2 */
+> +@@ -305,7 +311,8 @@ int ossl_bn_rsa_fips186_4_derive_prime(BIGNUM *Y, BI=
+GNUM *X, const BIGNUM *Xin,
+> +
+> +     /*
+> +      * In FIPS 186-4 imax was set to 5 * nlen/2.
+> +-     * Analysis by Allen Roginsky (See https://csrc.nist.gov/CSRC/media=
+/Publications/fips/186/4/final/documents/comments-received-fips186-4-decemb=
+er-2015.pdf
+> ++     * Analysis by Allen Roginsky
+> ++     * (See https://csrc.nist.gov/CSRC/media/Publications/fips/186/4/fi=
+nal/documents/comments-received-fips186-4-december-2015.pdf
+> +      * page 68) indicates this has a 1 in 2 million chance of failure.
+> +      * The number has been updated to 20 * nlen/2 as used in
+> +      * FIPS186-5 Appendix B.9 Step 9.
+> +@@ -337,10 +344,9 @@ int ossl_bn_rsa_fips186_4_derive_prime(BIGNUM *Y, B=
+IGNUM *X, const BIGNUM *Xin,
+> +
+> +             /* (Step 7) If GCD(Y-1) =3D=3D 1 & Y is probably prime then=
+ return Y */
+> +             if (BN_copy(y1, Y) =3D=3D NULL
+> +-                    || !BN_sub_word(y1, 1)
+> +-                    || !BN_gcd(tmp, y1, e, ctx))
+> ++                    || !BN_sub_word(y1, 1))
+> +                 goto err;
+> +-            if (BN_is_one(tmp)) {
+> ++            if (BN_are_coprime(y1, e, ctx)) {
+> +                 int rv =3D BN_check_prime(Y, ctx, cb);
+> +
+> +                 if (rv > 0)
+> +diff --git a/doc/man3/BN_cmp.pod b/doc/man3/BN_cmp.pod
+> +index f302818..e9ddf8f 100644
+> +--- a/doc/man3/BN_cmp.pod
+> ++++ b/doc/man3/BN_cmp.pod
+> +@@ -2,7 +2,8 @@
+> +
+> + =3Dhead1 NAME
+> +
+> +-BN_cmp, BN_ucmp, BN_is_zero, BN_is_one, BN_is_word, BN_abs_is_word, BN_=
+is_odd - BIGNUM comparison and test functions
+> ++BN_cmp, BN_ucmp, BN_is_zero, BN_is_one, BN_is_word, BN_abs_is_word, BN_=
+is_odd, BN_are_coprime
+> ++- BIGNUM comparison and test functions
+> +
+> + =3Dhead1 SYNOPSIS
+> +
+> +@@ -17,6 +18,8 @@ BN_cmp, BN_ucmp, BN_is_zero, BN_is_one, BN_is_word, BN=
+_abs_is_word, BN_is_odd -
+> +  int BN_abs_is_word(const BIGNUM *a, const BN_ULONG w);
+> +  int BN_is_odd(const BIGNUM *a);
+> +
+> ++ int BN_are_coprime(BIGNUM *a, const BIGNUM *b, BN_CTX *ctx);
+> ++
+> + =3Dhead1 DESCRIPTION
+> +
+> + BN_cmp() compares the numbers I<a> and I<b>. BN_ucmp() compares their
+> +@@ -26,6 +29,10 @@ BN_is_zero(), BN_is_one(), BN_is_word() and BN_abs_is=
+_word() test if
+> + I<a> equals 0, 1, I<w>, or E<verbar>I<w>E<verbar> respectively.
+> + BN_is_odd() tests if I<a> is odd.
+> +
+> ++BN_are_coprime() determines if B<a> and B<b> are coprime.
+> ++B<ctx> is used internally for storing temporary variables.
+> ++The values of B<a> and B<b> and B<ctx> must not be NULL.
+> ++
+> + =3Dhead1 RETURN VALUES
+> +
+> + BN_cmp() returns -1 if I<a> E<lt> I<b>, 0 if I<a> =3D=3D I<b> and 1 if
+> +@@ -35,11 +42,16 @@ of I<a> and I<b>.
+> + BN_is_zero(), BN_is_one() BN_is_word(), BN_abs_is_word() and
+> + BN_is_odd() return 1 if the condition is true, 0 otherwise.
+> +
+> ++BN_are_coprime() returns 1 if the B<BIGNUM>'s are coprime, otherwise it
+> ++returns 0.
+> ++
+> + =3Dhead1 HISTORY
+> +
+> + Prior to OpenSSL 1.1.0, BN_is_zero(), BN_is_one(), BN_is_word(),
+> + BN_abs_is_word() and BN_is_odd() were macros.
+> +
+> ++The function BN_are_coprime() was added in OpenSSL 3.1.
+> ++
+> + =3Dhead1 COPYRIGHT
+> +
+> + Copyright 2000-2021 The OpenSSL Project Authors. All Rights Reserved.
+> +diff --git a/include/openssl/bn.h b/include/openssl/bn.h
+> +index ecd7f01..73895a5 100644
+> +--- a/include/openssl/bn.h
+> ++++ b/include/openssl/bn.h
+> +@@ -344,6 +344,7 @@ int BN_gcd(BIGNUM *r, const BIGNUM *a, const BIGNUM =
+*b, BN_CTX *ctx);
+> + int BN_kronecker(const BIGNUM *a, const BIGNUM *b, BN_CTX *ctx); /* ret=
+urns
+> +                                                                   * -2 =
+for
+> +                                                                   * err=
+or */
+> ++int BN_are_coprime(BIGNUM *a, const BIGNUM *b, BN_CTX *ctx);
+> + BIGNUM *BN_mod_inverse(BIGNUM *ret,
+> +                        const BIGNUM *a, const BIGNUM *n, BN_CTX *ctx);
+> + BIGNUM *BN_mod_sqrt(BIGNUM *ret,
+> +diff --git a/test/bntest.c b/test/bntest.c
+> +index c5894c1..eec6222 100644
+> +--- a/test/bntest.c
+> ++++ b/test/bntest.c
+> +@@ -38,6 +38,7 @@ typedef struct mpitest_st {
+> +
+> + static const int NUM0 =3D 100;           /* number of tests */
+> + static const int NUM1 =3D 50;            /* additional tests for some f=
+unctions */
+> ++static const int NUM_PRIME_TESTS =3D 20;
+> + static BN_CTX *ctx;
+> +
+> + /*
+> +@@ -2573,6 +2574,25 @@ static int test_ctx_consttime_flag(void)
+> +     return st;
+> + }
+> +
+> ++static int test_coprime(void)
+> ++{
+> ++    BIGNUM *a =3D NULL, *b =3D NULL;
+> ++    int ret =3D 0;
+> ++
+> ++    ret =3D TEST_ptr(a =3D BN_new())
+> ++          && TEST_ptr(b =3D BN_new())
+> ++          && TEST_true(BN_set_word(a, 66))
+> ++          && TEST_true(BN_set_word(b, 99))
+> ++          && TEST_int_eq(BN_are_coprime(a, b, ctx), 0)
+> ++          && TEST_int_eq(BN_are_coprime(b, a, ctx), 0)
+> ++          && TEST_true(BN_set_word(a, 67))
+> ++          && TEST_int_eq(BN_are_coprime(a, b, ctx), 1)
+> ++          && TEST_int_eq(BN_are_coprime(b, a, ctx), 1);
+> ++    BN_free(a);
+> ++    BN_free(b);
+> ++    return ret;
+> ++}
+> ++
+> + static int test_gcd_prime(void)
+> + {
+> +     BIGNUM *a =3D NULL, *b =3D NULL, *gcd =3D NULL;
+> +@@ -2585,11 +2605,12 @@ static int test_gcd_prime(void)
+> +
+> +     if (!TEST_true(BN_generate_prime_ex(a, 1024, 0, NULL, NULL, NULL)))
+> +             goto err;
+> +-    for (i =3D 0; i < NUM0; i++) {
+> ++    for (i =3D 0; i < NUM_PRIME_TESTS; i++) {
+> +         if (!TEST_true(BN_generate_prime_ex(b, 1024, 0,
+> +                                             NULL, NULL, NULL))
+> +                 || !TEST_true(BN_gcd(gcd, a, b, ctx))
+> +-                || !TEST_true(BN_is_one(gcd)))
+> ++                || !TEST_true(BN_is_one(gcd))
+> ++                || !TEST_true(BN_are_coprime(a, b, ctx)))
+> +             goto err;
+> +     }
+> +
+> +@@ -3066,6 +3087,7 @@ int setup_tests(void)
+> +         ADD_ALL_TESTS(test_is_prime, (int)OSSL_NELEM(primes));
+> +         ADD_ALL_TESTS(test_not_prime, (int)OSSL_NELEM(not_primes));
+> +         ADD_TEST(test_gcd_prime);
+> ++        ADD_TEST(test_coprime);
+> +         ADD_ALL_TESTS(test_mod_exp, (int)OSSL_NELEM(ModExpTests));
+> +         ADD_ALL_TESTS(test_mod_exp_consttime, (int)OSSL_NELEM(ModExpTes=
+ts));
+> +         ADD_TEST(test_mod_exp2_mont);
+> +diff --git a/util/libcrypto.num b/util/libcrypto.num
+> +index 0f6f30b..a1d1ed9 100644
+> +--- a/util/libcrypto.num
+> ++++ b/util/libcrypto.num
+> +@@ -5429,3 +5429,4 @@ OPENSSL_strcasecmp                      5556 3_0_3=
+ EXIST::FUNCTION:
+> + OPENSSL_strncasecmp                     5557 3_0_3 EXIST::FUNCTION:
+> + OSSL_CMP_CTX_reset_geninfo_ITAVs        5558 3_0_8 EXIST::FUNCTION:CMP
+> + OSSL_CMP_MSG_update_recipNonce          5559 3_0_9 EXIST::FUNCTION:CMP
+> ++BN_are_coprime                          5560 3_0_0 EXIST::FUNCTION:
+> +--
+> +2.25.1
+> +
+> diff --git a/meta/recipes-connectivity/openssl/openssl/0002-Improve-FIPS-=
+RSA-keygen-performance.patch b/meta/recipes-connectivity/openssl/openssl/00=
+02-Improve-FIPS-RSA-keygen-performance.patch
+> new file mode 100644
+> index 0000000000..1a6b601f65
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/openssl/openssl/0002-Improve-FIPS-RSA-key=
+gen-performance.patch
+> @@ -0,0 +1,185 @@
+> +From dfb8e0e716a1fd060eb13402d85cc46c8f64f929 Mon Sep 17 00:00:00 2001
+> +From: slontis <shane.lontis@oracle.com>
+> +Date: Wed, 2 Nov 2022 13:20:55 +1000
+> +Subject: [PATCH 2/2] Improve FIPS RSA keygen performance.
+> +
+> +Reduce the Miller Rabin counts to the values specified by FIPS 186-5.
+> +The old code was using a fixed value of 64.
+> +
+> +Reviewed-by: Paul Dale <pauli@openssl.org>
+> +Reviewed-by: Tomas Mraz <tomas@openssl.org>
+> +(Merged from https://github.com/openssl/openssl/pull/19579)
+> +
+> +(cherry picked from commit d2f6e66d2837bff1f5f7636bb2118e3a45c9df61)
+> +
+> +Upstream-Status: Backport [https://github.com/openssl/openssl/commit/d2f=
+6e66d2837bff1f5f7636bb2118e3a45c9df61]
+> +
+> +Signed-off-by: Haitao Liu <haitao.liu@windriver.com>
+> +---
+> + crypto/bn/bn_prime.c         | 11 ++++++++
+> + crypto/bn/bn_rsa_fips186_4.c | 49 ++++++++++++++++++++++++++++++------
+> + include/crypto/bn.h          |  2 ++
+> + 3 files changed, 54 insertions(+), 8 deletions(-)
+> +
+> +diff --git a/crypto/bn/bn_prime.c b/crypto/bn/bn_prime.c
+> +index ddd31a0..79776f1 100644
+> +--- a/crypto/bn/bn_prime.c
+> ++++ b/crypto/bn/bn_prime.c
+> +@@ -252,6 +252,17 @@ int ossl_bn_check_prime(const BIGNUM *w, int checks=
+, BN_CTX *ctx,
+> +     return bn_is_prime_int(w, checks, ctx, do_trial_division, cb);
+> + }
+> +
+> ++/*
+> ++ * Use this only for key generation.
+> ++ * It always uses trial division. The number of checks
+> ++ * (MR rounds) passed in is used without being clamped to a minimum val=
+ue.
+> ++ */
+> ++int ossl_bn_check_generated_prime(const BIGNUM *w, int checks, BN_CTX *=
+ctx,
+> ++                                  BN_GENCB *cb)
+> ++{
+> ++    return bn_is_prime_int(w, checks, ctx, 1, cb);
+> ++}
+> ++
+> + int BN_check_prime(const BIGNUM *p, BN_CTX *ctx, BN_GENCB *cb)
+> + {
+> +     return ossl_bn_check_prime(p, 0, ctx, 1, cb);
+> +diff --git a/crypto/bn/bn_rsa_fips186_4.c b/crypto/bn/bn_rsa_fips186_4.c
+> +index 55efaf2..c3466df 100644
+> +--- a/crypto/bn/bn_rsa_fips186_4.c
+> ++++ b/crypto/bn/bn_rsa_fips186_4.c
+> +@@ -48,6 +48,34 @@ const BIGNUM ossl_bn_inv_sqrt_2 =3D {
+> +     BN_FLG_STATIC_DATA
+> + };
+> +
+> ++/*
+> ++ * Refer to FIPS 186-5 Table B.1 for minimum rounds of Miller Rabin
+> ++ * required for generation of RSA aux primes (p1, p2, q1 and q2).
+> ++ */
+> ++static int bn_rsa_fips186_5_aux_prime_MR_rounds(int nbits)
+> ++{
+> ++    if (nbits >=3D 4096)
+> ++        return 44;
+> ++    if (nbits >=3D 3072)
+> ++        return 41;
+> ++    if (nbits >=3D 2048)
+> ++        return 38;
+> ++    return 0; /* Error */
+> ++}
+> ++
+> ++/*
+> ++ * Refer to FIPS 186-5 Table B.1 for minimum rounds of Miller Rabin
+> ++ * required for generation of RSA primes (p and q)
+> ++ */
+> ++static int bn_rsa_fips186_5_prime_MR_rounds(int nbits)
+> ++{
+> ++    if (nbits >=3D 3072)
+> ++        return 4;
+> ++    if (nbits >=3D 2048)
+> ++        return 5;
+> ++    return 0; /* Error */
+> ++}
+> ++
+> + /*
+> +  * FIPS 186-5 Table A.1. "Min length of auxiliary primes p1, p2, q1, q2=
+".
+> +  * (FIPS 186-5 has an entry for >=3D 4096 bits).
+> +@@ -97,11 +125,13 @@ static int bn_rsa_fips186_5_aux_prime_max_sum_size_=
+for_prob_primes(int nbits)
+> +  *     Xp1 The passed in starting point to find a probably prime.
+> +  *     p1 The returned probable prime (first odd integer >=3D Xp1)
+> +  *     ctx A BN_CTX object.
+> ++ *     rounds The number of Miller Rabin rounds
+> +  *     cb An optional BIGNUM callback.
+> +  * Returns: 1 on success otherwise it returns 0.
+> +  */
+> + static int bn_rsa_fips186_4_find_aux_prob_prime(const BIGNUM *Xp1,
+> +                                                 BIGNUM *p1, BN_CTX *ctx=
+,
+> ++                                                int rounds,
+> +                                                 BN_GENCB *cb)
+> + {
+> +     int ret =3D 0;
+> +@@ -117,7 +147,7 @@ static int bn_rsa_fips186_4_find_aux_prob_prime(cons=
+t BIGNUM *Xp1,
+> +         i++;
+> +         BN_GENCB_call(cb, 0, i);
+> +         /* MR test with trial division */
+> +-        tmp =3D BN_check_prime(p1, ctx, cb);
+> ++        tmp =3D ossl_bn_check_generated_prime(p1, rounds, ctx, cb);
+> +         if (tmp > 0)
+> +             break;
+> +         if (tmp < 0)
+> +@@ -160,7 +190,7 @@ int ossl_bn_rsa_fips186_4_gen_prob_primes(BIGNUM *p,=
+ BIGNUM *Xpout,
+> + {
+> +     int ret =3D 0;
+> +     BIGNUM *p1i =3D NULL, *p2i =3D NULL, *Xp1i =3D NULL, *Xp2i =3D NULL=
+;
+> +-    int bitlen;
+> ++    int bitlen, rounds;
+> +
+> +     if (p =3D=3D NULL || Xpout =3D=3D NULL)
+> +         return 0;
+> +@@ -177,6 +207,7 @@ int ossl_bn_rsa_fips186_4_gen_prob_primes(BIGNUM *p,=
+ BIGNUM *Xpout,
+> +     bitlen =3D bn_rsa_fips186_5_aux_prime_min_size(nlen);
+> +     if (bitlen =3D=3D 0)
+> +         goto err;
+> ++    rounds =3D bn_rsa_fips186_5_aux_prime_MR_rounds(nlen);
+> +
+> +     /* (Steps 4.1/5.1): Randomly generate Xp1 if it is not passed in */
+> +     if (Xp1 =3D=3D NULL) {
+> +@@ -194,8 +225,8 @@ int ossl_bn_rsa_fips186_4_gen_prob_primes(BIGNUM *p,=
+ BIGNUM *Xpout,
+> +     }
+> +
+> +     /* (Steps 4.2/5.2) - find first auxiliary probable primes */
+> +-    if (!bn_rsa_fips186_4_find_aux_prob_prime(Xp1i, p1i, ctx, cb)
+> +-            || !bn_rsa_fips186_4_find_aux_prob_prime(Xp2i, p2i, ctx, cb=
+))
+> ++    if (!bn_rsa_fips186_4_find_aux_prob_prime(Xp1i, p1i, ctx, rounds, c=
+b)
+> ++            || !bn_rsa_fips186_4_find_aux_prob_prime(Xp2i, p2i, ctx, ro=
+unds, cb))
+> +         goto err;
+> +     /* (Table B.1) auxiliary prime Max length check */
+> +     if ((BN_num_bits(p1i) + BN_num_bits(p2i)) >=3D
+> +@@ -243,11 +274,11 @@ err:
+> +  */
+> + int ossl_bn_rsa_fips186_4_derive_prime(BIGNUM *Y, BIGNUM *X, const BIGN=
+UM *Xin,
+> +                                        const BIGNUM *r1, const BIGNUM *=
+r2,
+> +-                                       int nlen, const BIGNUM *e, BN_CT=
+X *ctx,
+> +-                                       BN_GENCB *cb)
+> ++                                       int nlen, const BIGNUM *e,
+> ++                                       BN_CTX *ctx, BN_GENCB *cb)
+> + {
+> +     int ret =3D 0;
+> +-    int i, imax;
+> ++    int i, imax, rounds;
+> +     int bits =3D nlen >> 1;
+> +     BIGNUM *tmp, *R, *r1r2x2, *y1, *r1x2;
+> +     BIGNUM *base, *range;
+> +@@ -317,6 +348,7 @@ int ossl_bn_rsa_fips186_4_derive_prime(BIGNUM *Y, BI=
+GNUM *X, const BIGNUM *Xin,
+> +      * The number has been updated to 20 * nlen/2 as used in
+> +      * FIPS186-5 Appendix B.9 Step 9.
+> +      */
+> ++    rounds =3D bn_rsa_fips186_5_prime_MR_rounds(nlen);
+> +     imax =3D 20 * bits; /* max =3D 20/2 * nbits */
+> +     for (;;) {
+> +         if (Xin =3D=3D NULL) {
+> +@@ -346,8 +378,9 @@ int ossl_bn_rsa_fips186_4_derive_prime(BIGNUM *Y, BI=
+GNUM *X, const BIGNUM *Xin,
+> +             if (BN_copy(y1, Y) =3D=3D NULL
+> +                     || !BN_sub_word(y1, 1))
+> +                 goto err;
+> ++
+> +             if (BN_are_coprime(y1, e, ctx)) {
+> +-                int rv =3D BN_check_prime(Y, ctx, cb);
+> ++                int rv =3D ossl_bn_check_generated_prime(Y, rounds, ctx=
+, cb);
+> +
+> +                 if (rv > 0)
+> +                     goto end;
+> +diff --git a/include/crypto/bn.h b/include/crypto/bn.h
+> +index fd1c09d..00544d9 100644
+> +--- a/include/crypto/bn.h
+> ++++ b/include/crypto/bn.h
+> +@@ -95,6 +95,8 @@ int bn_div_fixed_top(BIGNUM *dv, BIGNUM *rem, const BI=
+GNUM *m,
+> +
+> + int ossl_bn_miller_rabin_is_prime(const BIGNUM *w, int iterations, BN_C=
+TX *ctx,
+> +                                   BN_GENCB *cb, int enhanced, int *stat=
+us);
+> ++int ossl_bn_check_generated_prime(const BIGNUM *w, int checks, BN_CTX *=
+ctx,
+> ++                                  BN_GENCB *cb);
+> +
+> + const BIGNUM *ossl_bn_get0_small_factors(void);
+> +
+> +--
+> +2.25.1
+> +
+> diff --git a/meta/recipes-connectivity/openssl/openssl_3.0.13.bb b/meta/r=
+ecipes-connectivity/openssl/openssl_3.0.13.bb
+> index 5e43fdc2de..5b09493ccd 100644
+> --- a/meta/recipes-connectivity/openssl/openssl_3.0.13.bb
+> +++ b/meta/recipes-connectivity/openssl/openssl_3.0.13.bb
+> @@ -12,6 +12,8 @@ SRC_URI =3D "http://www.openssl.org/source/openssl-${PV=
+}.tar.gz \
+>             file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from=
+-co.patch \
+>             file://afalg.patch \
+>             file://0001-Configure-do-not-tweak-mips-cflags.patch \
+> +           file://0001-Improve-FIPS-RSA-keygen-performance.patch \
+> +           file://0002-Improve-FIPS-RSA-keygen-performance.patch \
+>             "
+>
+>  SRC_URI:append:class-nativesdk =3D " \
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#197294): https://lists.openembedded.org/g/openembedde=
+d-core/message/197294
+> Mute This Topic: https://lists.openembedded.org/mt/104998278/3616765
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+ndy.macleod@windriver.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+> --
+> # Randy MacLeod
+> # Wind River Linux
 
