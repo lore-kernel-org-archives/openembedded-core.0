@@ -1,163 +1,159 @@
-Return-Path: <claus.stovgaard@gmail.com>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DA29C54E5D
-	for <webhook@archiver.kernel.org>; Tue, 19 Mar 2024 11:33:39 +0000 (UTC)
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
- by mx.groups.io with SMTP id smtpd.web10.13024.1710848011313719244
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD515C54E5D
+	for <webhook@archiver.kernel.org>; Tue, 19 Mar 2024 12:32:29 +0000 (UTC)
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web11.14142.1710851539998978420
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Mar 2024 04:33:31 -0700
+ Tue, 19 Mar 2024 05:32:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=VALmNnYb;
- spf=pass (domain: gmail.com, ip: 209.85.208.48, mailfrom: claus.stovgaard@gmail.com)
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-568d323e7fbso3003655a12.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 Mar 2024 04:33:31 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=IvKayt6l;
+ spf=pass (domain: mvista.com, ip: 209.85.214.179, mailfrom: vanusuri@mvista.com)
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1dddbe47ac1so36204735ad.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 19 Mar 2024 05:32:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710848009; x=1711452809; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1710851538; x=1711456338; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+PRbg/i4KSKHc6xaHXgWZRTHWGAoyohkCuKOk6XKVjE=;
-        b=VALmNnYbN7+JQILsV6Qi74dysP7i36q581D3ERSRlpqpr44LMOVqAyaOPlRgHamvcc
-         aXmJLKRp6cjg30b1HuYvv0J9YcCVbOFchHiHO9eUz8xD2CXMpxJQhMjjVdzoFjulSrrM
-         NKzavn51ej61v5+/uIRE6PB0DHnNMaLoDAY26L11S54SZ8VOqwGrcSXqF+TKjMFxnvlw
-         9dbF6a+dKt5KFLPwRLD7mQ6R3vhNZChzauO0nKsAL9nZUn++cgtkE+6JIYq5yuJ+CnTU
-         X31BquKUtdKRtqfP3oe9a2ATljUmrRt4w3kHgUkzNwR3PtO9JYKhcja/zu/8rFinrjfG
-         4z3w==
+        bh=zMG6r0eEkyhNm/Z7pB6Co77E+DcS1uMsBON3y5YvPok=;
+        b=IvKayt6l68s1IYKiTlPGecADxCYHsxxwEVE6UCIyKF294Y6PH+evdNyyUkm2idi6t8
+         QJMcOyzB/frHvim7jkGpWwJnKo03hfx/SoCnjTReRvq8RyeHov7+PdPKkTa9pyD7q8N8
+         rUJ1BKIEjL/RxzIN7kD62rFjeSf3dnY0eOdaY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710848009; x=1711452809;
+        d=1e100.net; s=20230601; t=1710851538; x=1711456338;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+PRbg/i4KSKHc6xaHXgWZRTHWGAoyohkCuKOk6XKVjE=;
-        b=rgSQijs5euO/EEn7yLd0N13VmQO58148B2zB5U+B3LpHpcRgysTMHdePcGAHWoBM6J
-         A2QU/mjhmLXOjczqpboEV8XfCOBCgAufPFvVZTGAQrryG7DVDr8lOX6mrHRF5sRI9CnK
-         4G7YNbRzQ4MXU6zER+Kna1ig18yNDjYCU5PIirzF2UiVuOgyv/hSoSgf81r5Lv/pOtZq
-         22TNM58FC9mmZbtcWNvQK2F+N4enrxt2YAKDRljDybQW0esJaVyh3lGWwMPmQJOFUccx
-         yraIy2fRcFB60YIc42f1cqZA06E0Hv9IYrOsL56ZE9nW7HCebEy5MlLuZjX9qoLe8OO5
-         x+aw==
-X-Gm-Message-State: AOJu0YzuuYXgRxHhc1NFM9xImzSBvfShIBAF99IR/M6O6PEnU7MNPwZR
-	/8/WQ7DxPohXSYuZdUtENnUk2tI0xsvZ9K9ZAdm+83cZnLgGRmZDwmOdmMl/
-X-Google-Smtp-Source: AGHT+IESmz2ycfaRPyTZfhUoQtkZ5xJGueqtnsuuaXDlgEuXUdMT0V2wWO5mTECoA4PuMZnj8ZxpFQ==
-X-Received: by 2002:a05:6402:3908:b0:566:ac89:b7d5 with SMTP id fe8-20020a056402390800b00566ac89b7d5mr10473446edb.28.1710848008970;
-        Tue, 19 Mar 2024 04:33:28 -0700 (PDT)
-Received: from localhost.localdomain ([87.62.83.1])
-        by smtp.gmail.com with ESMTPSA id n18-20020a05640205d200b00568b6d731e1sm4336992edx.4.2024.03.19.04.33.28
+        bh=zMG6r0eEkyhNm/Z7pB6Co77E+DcS1uMsBON3y5YvPok=;
+        b=JjVuMHvVIaCNT9ScRm03O0j2i90WLhKF7NlysVp9JP2BUVKBL7nKxIsKN8jAtRDL3F
+         +oqz7LaqQroAJH5c9WeUOzfhJIE9eUHaBGtX54NqRGFYJXBicHpNDejjizfsPYYVoEve
+         JMRXs++z7VK2aeArwWVbX6qHGROV8g9PxocAgJ3t34wdtFjfnzbgsAHbZgDyhztyVAYW
+         oED40Pg1o+G+Hv6YaVt2d2wutnI9imHFumxA/SIz+nKCUuJeBKg3LfNBbkO7i9LYj7w/
+         6LKWAbO+QKv+1i2OCJGx1o+b+qhxcQUcpq4t8g2cGLxUn6HQbnkwCPtMNwQtZRFhhpXy
+         NZQg==
+X-Gm-Message-State: AOJu0YxFup7JUZf6bwBCuUFLEoBbNC3QAOm7n8NYXeTjDFM+z0zblVQW
+	GITryJqKUK/321uyB9eitapbCPbP9q35JlcrmYB1QbLsgXMEV/nvYJoe5JNqdTsNQD3NM5oRNWC
+	Y
+X-Google-Smtp-Source: AGHT+IFW574GAaM4JTDAiftXtgUfx+oye0PeJWvCLOLFGo4w6AC1aNjp4ArUF85vPE/aUg0idklJ2Q==
+X-Received: by 2002:a17:902:e808:b0:1e0:26f1:8cb3 with SMTP id u8-20020a170902e80800b001e026f18cb3mr4061812plg.20.1710851538429;
+        Tue, 19 Mar 2024 05:32:18 -0700 (PDT)
+Received: from MVIN00020.mvista.com ([182.74.28.237])
+        by smtp.gmail.com with ESMTPSA id x14-20020a170902ec8e00b001e00e17c4e0sm5268606plg.49.2024.03.19.05.32.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Mar 2024 04:33:28 -0700 (PDT)
-From: Claus Stovgaard <claus.stovgaard@gmail.com>
+        Tue, 19 Mar 2024 05:32:17 -0700 (PDT)
+From: vanusuri@mvista.com
 To: openembedded-core@lists.openembedded.org
-Cc: Claus Stovgaard <claus.stovgaard@gmail.com>
-Subject: [kirkstone][PATCH] gcc: Backport sanitizer fix for 32-bit ALSR
-Date: Tue, 19 Mar 2024 12:33:17 +0100
-Message-ID: <20240319113317.9368-1-claus.stovgaard@gmail.com>
-X-Mailer: git-send-email 2.43.2
+Cc: Vijay Anusuri <vanusuri@mvista.com>
+Subject: [OE-core][kirkstone][PATCH] python3-cryptography: Backport fix for CVE-2024-26130
+Date: Tue, 19 Mar 2024 18:02:09 +0530
+Message-Id: <20240319123209.13330-1-vanusuri@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Mar 2024 11:33:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197320
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Mar 2024 12:32:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197321
 
-When using the gcc-sanitizers as part of the SDK on a Linux with a newer
-kernel, the ASAN fails randomly. This was seen on Ubuntu 22.04.
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-This is also described at
-https://stackoverflow.com/questions/77894856/possible-bug-in-gcc-sanitizers
+Upstream-Status: Backport from https://github.com/pyca/cryptography/commit/97d231672763cdb5959a3b191e692a362f1b9e55
 
-Backport the fix from LLVM project, as gcc has not yet backported
-anything for the 11 series.
-
-Signed-off-by: Claus Stovgaard <claus.stovgaard@gmail.com>
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 ---
- meta/recipes-devtools/gcc/gcc-11.4.inc        |  1 +
- .../gcc/gcc/0031-gcc-sanitizers-fix.patch     | 63 +++++++++++++++++++
- 2 files changed, 64 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc/0031-gcc-sanitizers-fix.patch
+ .../python3-cryptography/CVE-2024-26130.patch | 66 +++++++++++++++++++
+ .../python/python3-cryptography_36.0.2.bb     |  1 +
+ 2 files changed, 67 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-cryptography/CVE-2024-26130.patch
 
-diff --git a/meta/recipes-devtools/gcc/gcc-11.4.inc b/meta/recipes-devtools/gcc/gcc-11.4.inc
-index 88310e6b79..fd6a3e92e3 100644
---- a/meta/recipes-devtools/gcc/gcc-11.4.inc
-+++ b/meta/recipes-devtools/gcc/gcc-11.4.inc
-@@ -59,6 +59,7 @@ SRC_URI = "\
-            file://0028-debug-101473-apply-debug-prefix-maps-before-checksum.patch \
-            file://0029-Fix-install-path-of-linux64.h.patch \
-            file://0030-rust-recursion-limit.patch \
-+           file://0031-gcc-sanitizers-fix.patch \
-            file://0001-CVE-2021-42574.patch \
-            file://0002-CVE-2021-42574.patch \
-            file://0003-CVE-2021-42574.patch \
-diff --git a/meta/recipes-devtools/gcc/gcc/0031-gcc-sanitizers-fix.patch b/meta/recipes-devtools/gcc/gcc/0031-gcc-sanitizers-fix.patch
+diff --git a/meta/recipes-devtools/python/python3-cryptography/CVE-2024-26130.patch b/meta/recipes-devtools/python/python3-cryptography/CVE-2024-26130.patch
 new file mode 100644
-index 0000000000..d63618132a
+index 0000000000..ff113e8cc7
 --- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc/0031-gcc-sanitizers-fix.patch
-@@ -0,0 +1,63 @@
-+From fb77ca05ffb4f8e666878f2f6718a9fb4d686839 Mon Sep 17 00:00:00 2001
-+From: Thurston Dang <thurston@google.com>
-+Date: Thu, 13 Apr 2023 23:55:01 +0000
-+Subject: [PATCH] Re-land 'ASan: move allocator base to avoid conflict with
-+ high-entropy ASLR for x86-64 Linux'
++++ b/meta/recipes-devtools/python/python3-cryptography/CVE-2024-26130.patch
+@@ -0,0 +1,66 @@
++From 97d231672763cdb5959a3b191e692a362f1b9e55 Mon Sep 17 00:00:00 2001
++From: Alex Gaynor <alex.gaynor@gmail.com>
++Date: Mon, 19 Feb 2024 11:50:28 -0500
++Subject: [PATCH] Fixes #10422 -- don't crash when a PKCS#12 key and cert don't
++ match (#10423)
 +
-+D147984 was reverted because it broke lit tests on Mac. This revision is based on D147984
-+but maintains the old behavior for Apple.
-+
-+Note that, per the follow-up discussion with MaskRay in D147984, this patch excludes Apple
-+but includes other platforms (e.g., aarch64, MIPS64) and OSes (e.g., FreeBSD, S390X), not just
-+x86-64 Linux.
-+
-+Original commit message from D147984:
-+
-+Users have discovered [*] that when CONFIG_ARCH_MMAP_RND_BITS == 32,
-+it will frequently conflict with ASan's allocator on x86-64 Linux, because the
-+PIE program segment base address of 0x555555555554 plus an ASLR shift of up to
-+((2**32) * 4K == 0x100000000000) will sometimes exceed ASan's hardcoded
-+base address of 0x600000000000. We fix this by simply moving the allocator base
-+to 0x500000000000, which is below the PIE program segment base address. This is
-+cleaner than trying to move it to another location that is sandwiched between
-+the PIE program and library segments, because if either of those grow too large,
-+it will collide with the allocator region.
-+
-+Note that we will never need to change this base address again (unless we want to increase
-+the size of the allocator), because ASLR cannot be set above 32-bits for x86-64 Linux (the
-+PIE program segment and library segments would collide with each other; see also
-+ARCH_MMAP_RND_BITS_MAX in https://github.com/torvalds/linux/blob/master/arch/x86/Kconfig).
-+
-+[*] see https://b.corp.google.com/issues/276925478
-+and https://groups.google.com/a/google.com/g/chrome-os-gardeners/c/BbfzCP3dEeo/m/h3C_vVUxCQAJ
-+
-+Differential Revision: https://reviews.llvm.org/D148280
-+
-+Upstream-Status: Backport from llvm-project: https://github.com/llvm/llvm-project/commit/fb77ca05ffb4f8e666878f2f6718a9fb4d686839
-+Signed-off-by: Claus Stovgaard <claus.stovgaard@gmail.com>
++Upstream-Status: Backport [https://github.com/pyca/cryptography/commit/97d231672763cdb5959a3b191e692a362f1b9e55]
++CVE: CVE-2024-26130
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ libsanitizer/asan/asan_allocator.h | 8 ++++++--
-+ 1 file changed, 6 insertions(+), 2 deletions(-)
++ .../hazmat/backends/openssl/backend.py         |  9 +++++++++
++ tests/hazmat/primitives/test_pkcs12.py         | 18 ++++++++++++++++++
++ 2 files changed, 27 insertions(+)
 +
-+diff --git a/libsanitizer/asan/asan_allocator.h b/libsanitizer/asan/asan_allocator.h
-+index 0b4dbf03bb9d53..6a12a6c6025283 100644
-+--- a/libsanitizer/asan/asan_allocator.h
-++++ b/libsanitizer/asan/asan_allocator.h
-+@@ -143,11 +143,15 @@ typedef DefaultSizeClassMap SizeClassMap;
-+ const uptr kAllocatorSpace = ~(uptr)0;
-+ const uptr kAllocatorSize  =  0x8000000000ULL;  // 500G
-+ typedef DefaultSizeClassMap SizeClassMap;
-+-# else
-++#  elif SANITIZER_APPLE
-+ const uptr kAllocatorSpace = 0x600000000000ULL;
-+ const uptr kAllocatorSize  =  0x40000000000ULL;  // 4T.
-+ typedef DefaultSizeClassMap SizeClassMap;
-+-# endif
-++#  else
-++const uptr kAllocatorSpace = 0x500000000000ULL;
-++const uptr kAllocatorSize = 0x40000000000ULL;  // 4T.
-++typedef DefaultSizeClassMap SizeClassMap;
-++#  endif
-+ template <typename AddressSpaceViewTy>
-+ struct AP64 {  // Allocator64 parameters. Deliberately using a short name.
-+   static const uptr kSpaceBeg = kAllocatorSpace;
++diff --git a/src/cryptography/hazmat/backends/openssl/backend.py b/src/cryptography/hazmat/backends/openssl/backend.py
++index c43fea0..d687931 100644
++--- a/src/cryptography/hazmat/backends/openssl/backend.py
+++++ b/src/cryptography/hazmat/backends/openssl/backend.py
++@@ -2131,6 +2131,15 @@ class Backend(BackendInterface):
++                     mac_iter,
++                     0,
++                 )
+++                if p12 == self._ffi.NULL:
+++                    errors = self._consume_errors()
+++                    raise ValueError(
+++                        (
+++                            "Failed to create PKCS12 (does the key match the "
+++                            "certificate?)"
+++                        ),
+++                        errors,
+++                    )
++ 
++         self.openssl_assert(p12 != self._ffi.NULL)
++         p12 = self._ffi.gc(p12, self._lib.PKCS12_free)
++diff --git a/tests/hazmat/primitives/test_pkcs12.py b/tests/hazmat/primitives/test_pkcs12.py
++index c5cfbc0..8af4c93 100644
++--- a/tests/hazmat/primitives/test_pkcs12.py
+++++ b/tests/hazmat/primitives/test_pkcs12.py
++@@ -25,6 +25,24 @@ from ...doubles import DummyKeySerializationEncryption
++ from ...utils import load_vectors_from_file
++ 
++ 
+++   @pytest.mark.supported(
+++       only_if=lambda backend: backend._lib.Cryptography_HAS_PKCS12_SET_MAC,
+++       skip_message="Requires OpenSSL with PKCS12_set_mac",
+++   )
+++   def test_set_mac_key_certificate_mismatch(self, backend):
+++       cacert, _ = _load_ca(backend)
+++       key = ec.generate_private_key(ec.SECP256R1())
+++       encryption = (
+++           serialization.PrivateFormat.PKCS12.encryption_builder()
+++           .hmac_hash(hashes.SHA256())
+++           .build(b"password")
+++       )
+++
+++       with pytest.raises(ValueError):
+++           serialize_key_and_certificates(
+++               b"name", key, cacert, [], encryption
+++           )
+++
++ @pytest.mark.skip_fips(
++     reason="PKCS12 unsupported in FIPS mode. So much bad crypto in it."
++ )
++-- 
++2.35.7
++
+diff --git a/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb b/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb
+index c429c75e1b..83381f225c 100644
+--- a/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb
++++ b/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb
+@@ -19,6 +19,7 @@ SRC_URI += " \
+     file://fix-leak-metric.patch \
+     file://CVE-2023-23931.patch \
+     file://CVE-2023-49083.patch \
++    file://CVE-2024-26130.patch \
+ "
+ 
+ inherit pypi python_setuptools3_rust
 -- 
-2.43.2
+2.25.1
 
 
