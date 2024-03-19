@@ -1,107 +1,150 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <rs@ti.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF75CC54E68
-	for <webhook@archiver.kernel.org>; Tue, 19 Mar 2024 18:48:01 +0000 (UTC)
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
- by mx.groups.io with SMTP id smtpd.web11.24228.1710874072238082258
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 414FAC54E71
+	for <webhook@archiver.kernel.org>; Tue, 19 Mar 2024 19:58:52 +0000 (UTC)
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by mx.groups.io with SMTP id smtpd.web10.26150.1710878327794413260
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Mar 2024 11:47:52 -0700
+ Tue, 19 Mar 2024 12:58:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=CSqVD7+S;
- spf=pass (domain: gmail.com, ip: 209.85.208.177, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2d109e82bd0so78678461fa.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 Mar 2024 11:47:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710874070; x=1711478870; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=PtRubaLoQDs2I2QNf9mdq41embvecUTFIkyymbGLee0=;
-        b=CSqVD7+SsKqWHBOfrcbrglM3TK7UgnofxHp9vMBT2B6HaKvre7ZqfFowL3oyUwAmLw
-         6O4SLgL4PB8IO8eQuxhkkVbn4+923lGvuSWJThpG0NMk9cZreVLAow9QUbZqM3W2PqkV
-         QEAJ1b/YDKbQmqbcREkgJCbxxRWqsuHWkbDxeCfrckN0+v864leGv6NyiUKhp8HxGglU
-         63ESC0fvGbT7EBhx1SFbuIimCxuDEnsANNeMA32kEiL8EO6N73gqB0p8gyT3d8S837P9
-         w+zjIQV/2QCpGiCMQe5/9Z/vyUDJzjDYQvwjXhwqJmYDvTKoREsQx/CqMDz1nj0BrgeF
-         TlOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710874070; x=1711478870;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PtRubaLoQDs2I2QNf9mdq41embvecUTFIkyymbGLee0=;
-        b=nrCklWjKb1zmvALPMOup0Aqb2gjgbCIEhFlmOCuKelDe5BPi/STUPif6TSSdO9pr/X
-         HI2qmpr8NEdmlW1FubYkb4mXUYFokfrSEKfXFe9Qj5dWymbBNcOf9MDc/YxtuOW/QPhR
-         wDvs0RD32YvLDXr9ETzFHSpvys2dGoj2vm0akE/raQA/8DTCw3xsCKm7iZPntjdy1CyB
-         rO+pQlRmQ8IvPNW0hJlV9U/j/u1W27BZ3Wm5fPkihqKCnnq2aPLnJla11mj6jap/ihoV
-         0uc7cXqV1I7he54rOoINuhOnndafRjM6TBEWPyqNieCcQG2vKcj1cJva5k0YRYwwWoWh
-         eNiA==
-X-Gm-Message-State: AOJu0YxCT38t4SkPxcb5KEMSZgRCesxv6d0sLrqb+v2DnqKyBdbX2N1d
-	6jlh/2jBnLUrcl7DyPYaPn+9aDT3Ld7TXViurFyXiz5L2x44rphwYwEt3KAGNRkwUIrGGhstHzf
-	vUt8aHMzNrsD5PbZvBhntq420N6DUEr89
-X-Google-Smtp-Source: AGHT+IGRvqiIYVhjhbZbTT4w5MJKhawvxK9TZrG+p34WA9GCZrD4xoV0ViQFxYuN5nUbtlHek2ibi7VSB0y2pyqq7QM=
-X-Received: by 2002:a2e:6e10:0:b0:2d2:ef14:593e with SMTP id
- j16-20020a2e6e10000000b002d2ef14593emr2689335ljc.48.1710874070032; Tue, 19
- Mar 2024 11:47:50 -0700 (PDT)
+ dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=jkAczIEL;
+ spf=pass (domain: ti.com, ip: 198.47.19.142, mailfrom: rs@ti.com)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 42JJwl7S041746;
+	Tue, 19 Mar 2024 14:58:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1710878327;
+	bh=HgNi5uYhApiMwfpgkKM1ESYO56W6dYYWRFfyzT0cX1U=;
+	h=Date:To:CC:Subject:From:References:In-Reply-To;
+	b=jkAczIELh6K89s8JcQMEBofUNf+eh9PxX5JIPdO7ns6xRQ0a3D/HLjb82+SmvIiN9
+	 bSFNWc1e5dD7vfc0EeovAFGfCUHk4+9RyORDlnWSnpJtQ4SxenVFntONpyqEJKu/0i
+	 ZPGKrxzTfhOtyRdlIQZH0zXxPX/v6acEZfxUADWc=
+Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
+	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 42JJwlCK053139
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Tue, 19 Mar 2024 14:58:47 -0500
+Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 19
+ Mar 2024 14:58:46 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE106.ent.ti.com
+ (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Tue, 19 Mar 2024 14:58:46 -0500
+Received: from localhost (rs-desk.dhcp.ti.com [128.247.81.144])
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 42JJwkkB014208;
+	Tue, 19 Mar 2024 14:58:46 -0500
 MIME-Version: 1.0
-References: <20240319161026.2900153-1-daniel.ottiger@schindler.com>
- <CANNYZj-yPRWBUL8tOoUudWEV0w+067Eb6vJKBV1e1nZmVzaHWQ@mail.gmail.com>
- <AM0PR01MB6514572B842524D5F2C7DE73862C2@AM0PR01MB6514.eurprd01.prod.exchangelabs.com>
- <CANNYZj_MC05-jd5=3jB5DUxzx=XkupN05mbZ6P1PE43LJf44+A@mail.gmail.com> <AM0PR01MB65148EFD114484DC62231CFF862C2@AM0PR01MB6514.eurprd01.prod.exchangelabs.com>
-In-Reply-To: <AM0PR01MB65148EFD114484DC62231CFF862C2@AM0PR01MB6514.eurprd01.prod.exchangelabs.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 19 Mar 2024 19:47:39 +0100
-Message-ID: <CANNYZj9FG56RtakhzZShAnbr+OvN7bXS4fZ0939NuoN0n+9qow@mail.gmail.com>
-Subject: Re: [EXTERNAL] Re: [OE-core] [PATCH] pulseaudio: replace
- "pulseaudio-" with "${PN}-"
-To: Daniel Ottiger <daniel.ottiger@schindler.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="UTF-8"
+Date: Tue, 19 Mar 2024 14:58:46 -0500
+Message-ID: <CZXZR0YS8M6L.B942UZH8UZEE@ti.com>
+To: Marcel Ziswiler <marcel@ziswiler.com>,
+        <openembedded-core@lists.openembedded.org>
+CC: Ryan Eatmon <reatmon@ti.com>,
+        Max Krummenacher
+	<max.krummenacher@toradex.com>,
+        Marcel Ziswiler <marcel.ziswiler@toradex.com>
+Subject: Re: [oe-core][PATCH v3] mesa: enable imagination powervr support
+From: Randolph Sapp <rs@ti.com>
+X-Mailer: aerc 0.15.2
+References: <20240319152642.360329-1-marcel@ziswiler.com>
+In-Reply-To: <20240319152642.360329-1-marcel@ziswiler.com>
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Mar 2024 18:48:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197330
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Mar 2024 19:58:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197331
 
-On Tue, 19 Mar 2024 at 18:11, Daniel Ottiger
-<daniel.ottiger@schindler.com> wrote:
+On Tue Mar 19, 2024 at 10:26 AM CDT, Marcel Ziswiler wrote:
+> From: Marcel Ziswiler <marcel.ziswiler@toradex.com>
 >
-> Sure I try as good as I can:
+> Allows mesa to be build with Imagination PowerVR support.
 >
-> pulseaudio is part of my DISTRO_FEATURES, therefore "libao" depends on pulseaudio.
+> Signed-off-by: Marcel Ziswiler <marcel.ziswiler@toradex.com>
 >
-> As far as I understand that is because in
-> meta-openembedded/meta-multimedia/recipes-multimedia/libao/libao_1.2.0.bb
-> I find this lines:
+> ---
 >
-> PACKAGECONFIG ?= "${@bb.utils.filter('DISTRO_FEATURES', 'alsa pulseaudio', d)}"
-> PACKAGECONFIG[alsa] = "--enable-alsa,--disable-alsa,alsa-lib"
-> PACKAGECONFIG[pulseaudio] = "--enable-pulse,--disable-pulse,pulseaudio"
+> Changes in v3:
+> - Add a negative condition to the imagination PACKAGECONFIG as well,
+>   otherwise upstream defaults may result in an incorrect configuration
+>   (option being quietly enabled without it being present in
+>   PACKAGECONFIG) as pointed out by Alex.
 >
-> In addition vorbis-tools depends on libao, because in
-> meta-openembedded/meta-multimedia/recipes-multimedia/vorbis-tools/vorbis-tools_1.4.2.bb
-> I find this lines:
+> Changes in v2:
+> - Define imagination as a standard PACKAGECONFIG setting as suggested by
+>   Alex.
 >
-> PACKAGECONFIG ??= "flac ogg123"
-> PACKAGECONFIG[flac] = ",--without-flac,flac,libflac"
-> PACKAGECONFIG[speex] = ",--without-speex,speex,speex"
-> PACKAGECONFIG[ogg123] = "--enable-ogg123,--disable-ogg123,libao curl"
+>  meta/recipes-graphics/mesa/mesa.inc | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 >
-> Therefore if I would like to build
-> vorbis-tools-native it requires libao-native which then requires pulseaudio-native, at least in my case.
+> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/=
+mesa/mesa.inc
+> index 12d7a18eb8..0d4a37c34a 100644
+> --- a/meta/recipes-graphics/mesa/mesa.inc
+> +++ b/meta/recipes-graphics/mesa/mesa.inc
+> @@ -113,6 +113,7 @@ VULKAN_DRIVERS:append:i686 =3D ",intel,amd"
+>  VULKAN_DRIVERS:append =3D"${@bb.utils.contains('PACKAGECONFIG', 'freedre=
+no', ',freedreno', '', d)}"
+>  VULKAN_DRIVERS:append =3D"${@bb.utils.contains('PACKAGECONFIG', 'broadco=
+m', ',broadcom', '', d)}"
+>  VULKAN_DRIVERS:append =3D"${@bb.utils.contains('PACKAGECONFIG', 'gallium=
+-llvm', ',swrast', '', d)}"
+> +VULKAN_DRIVERS:append =3D"${@bb.utils.contains('PACKAGECONFIG', 'imagina=
+tion', ',imagination-experimental', '', d)}"
+>  PACKAGECONFIG[vulkan] =3D "-Dvulkan-drivers=3D${@strip_comma('${VULKAN_D=
+RIVERS}')}, -Dvulkan-drivers=3D'',glslang-native vulkan-loader vulkan-heade=
+rs"
 >
-> Since I do not know those projects (vorbis-tools, libao) well enough, I cannot tell if this dependencies are really required or not.
-> Of course I would be happy if I can work without pulseaudio for this.
-> One solution might be to remove it from my DISTRO_FEATURES, but I cannot see how I can do this when I need it on my target.
+>  # mesa development and testing tools support, per driver
+> @@ -122,6 +123,7 @@ TOOLS:append =3D "${@bb.utils.contains('PACKAGECONFIG=
+', 'etnaviv', ',etnaviv', '',
+>  TOOLS:append =3D "${@bb.utils.contains('PACKAGECONFIG', 'freedreno', ',f=
+reedreno', '', d)}"
+>  TOOLS:append =3D "${@bb.utils.contains('PACKAGECONFIG', 'lima', ',lima',=
+ '', d)}"
+>  TOOLS:append =3D "${@bb.utils.contains('PACKAGECONFIG', 'panfrost', ',pa=
+nfrost', '', d)}"
+> +TOOLS:append =3D "${@bb.utils.contains('PACKAGECONFIG', 'imagination', '=
+,imagination', '', d)}"
+>
+>  # dependencies for tools.
+>  TOOLS_DEPS:append =3D "${@bb.utils.contains('PACKAGECONFIG', 'freedreno'=
+, ' ncurses libxml2 ', '', d)}"
+> @@ -189,6 +191,8 @@ PACKAGECONFIG[xa]  =3D "-Dgallium-xa=3Denabled, -Dgal=
+lium-xa=3Ddisabled"
+>  PACKAGECONFIG[va] =3D "-Dgallium-va=3Denabled,-Dgallium-va=3Ddisabled,li=
+bva-initial"
+>  PACKAGECONFIG[vdpau] =3D "-Dgallium-vdpau=3Denabled,-Dgallium-vdpau=3Ddi=
+sabled,libvdpau"
+>
+> +PACKAGECONFIG[imagination] =3D "-Dimagination-srv=3Dtrue,-Dimagination-s=
+rv=3Dfalse"
+> +
+>  PACKAGECONFIG[lima] =3D ""
+>  GALLIUMDRIVERS:append =3D"${@bb.utils.contains('PACKAGECONFIG', 'lima', =
+',lima', '', d)}"
+>
+> @@ -327,7 +331,7 @@ PACKAGES_DYNAMIC +=3D "^mesa-driver-.*"
+>  PACKAGES_DYNAMIC:class-native =3D "^mesa-driver-.*-native"
+>
+>  FILES:mesa-megadriver =3D "${libdir}/dri/* ${datadir}/drirc.d"
+> -FILES:mesa-vulkan-drivers =3D "${libdir}/libvulkan_*.so ${datadir}/vulka=
+n"
+> +FILES:mesa-vulkan-drivers =3D "${libdir}/libvulkan_*.so ${libdir}/libpow=
+ervr_rogue.so ${datadir}/vulkan"
+>  FILES:${PN}-vdpau-drivers =3D "${libdir}/vdpau/*.so.*"
+>  FILES:libegl-mesa =3D "${libdir}/libEGL*.so.* ${datadir}/glvnd/egl_vendo=
+r.d"
+>  FILES:libgbm =3D "${libdir}/libgbm.so.*"
+> --
+> 2.44.0
 
-Right, this is more clear now. vorbis-tools contains ogg123, a player
-application, that uses pulseaudio through libao. So you can disable
-ogg123 by setting PACKAGECONFIG to "" in a bbappend to vorbis-tools,
-and the pulseaudio-native dependency will disappear. That will also
-speed up your builds.
+Looks good. Thanks Marcel! Running a test build now to verify things. Will
+respond with Tested-By whenever that finishes.
 
-The initial patch is perhaps correct as well, but you don't need
-pulseaudio-native anyway.
-
-Alex
+Reviewed-by: Randolph Sapp <rs@ti.com>
 
