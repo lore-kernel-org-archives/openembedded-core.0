@@ -2,104 +2,98 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1201CD11DC
-	for <webhook@archiver.kernel.org>; Wed, 20 Mar 2024 16:44:33 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web11.50470.1710953073606021636
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00BA0C54E58
+	for <webhook@archiver.kernel.org>; Wed, 20 Mar 2024 16:44:44 +0000 (UTC)
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+ by mx.groups.io with SMTP id smtpd.web10.50337.1710953080891462415
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Mar 2024 09:44:33 -0700
+ Wed, 20 Mar 2024 09:44:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=3EUJQeAQ;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.175, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-6e6ca2ac094so119614b3a.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Mar 2024 09:44:33 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=rbIR0Kpp;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.174, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-6e6a9fafacdso99114b3a.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 20 Mar 2024 09:44:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1710953073; x=1711557873; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1710953080; x=1711557880; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=CFQ5WgfoA2REa4w5YqoKTxS3Dvwe6nvcE45RcRT8EQg=;
-        b=3EUJQeAQEb1gTinuUxNSrATk0MUNri3coyj3K+gvAfn3ofuU/RoUifTT4G+BhIbThP
-         ckvDzSkI0kwfo32B+tFOKpOVBgc2IRGg6iuSqcUcn//NismaXlF8MkBOzXiMkirfSOEq
-         F03ePxJFudbsuHms6Wzpd5/h13FbLFHIW5k+a0kVm8qa3ZnFFQF99xArpYjXaBSRGyz1
-         9dc/+BXTv5mDzhnxp/5v6tm4qleJLPHPw5YXqPUVJ6N7p3Y3PqahbLXlrOeBscAFYU9U
-         1moM/blsYmN2mUp4g4gNCje7+VyIA6Bgl00K7gTDcGVEojlWExUnFtoSbm7p7NhEZbgY
-         IErQ==
+        bh=4FFBPXBeDZxmg9WIrfGltp9RsfYGigeAeqmBuMuSioo=;
+        b=rbIR0Kppd+oCI8BzdxE5YILYi2RBkXH8uma0NTmuIXmZ/NjCmt9z2/uJ3H1swvBIWe
+         qOG4HCrxPlwMz4aGRwSo01inKGi7Y7S6OhmqdoAhHc10cDV2eomKhr5YEqyd0R1vx88U
+         xC9nAG8jfRG5BQ+HzKPBHRBzy0T5zzPT6M7dBv8jEW6NWONtPEpDIGp0fuz2zdeRhLgw
+         bohSg1NESBpD8x+kV3rNzoRzWcYUJh2q8rrh2yktflXI0FJbAC94fY1RWUzGqc/lIfGD
+         BW/4PdVr19sx4y5Mb7FgOzDRTymt/1nBwPDGlA+3VME4ap5Wc5NwuFCmImTRKESo0BI4
+         zCZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710953073; x=1711557873;
+        d=1e100.net; s=20230601; t=1710953080; x=1711557880;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CFQ5WgfoA2REa4w5YqoKTxS3Dvwe6nvcE45RcRT8EQg=;
-        b=PZqAMyritQyWkGxj+1X2olszqzUoZisISK1prNo6XkjjOEeHg5yAy6Eew9cigUCpls
-         MaivsFxvOTkGAsa6LZKzZ4AIHwcgUA4LJd+HXCDQI1ks+JZaSBOke5rXOYZd/0sHkoHp
-         A6qtyKdYTPk3/IbOLwbe0bgbC/erac07Ghhyl1+iiWRizc5zGRnoZMd4zUDEQ3LEH/Zm
-         HbE6jl2ylKE/g5mHxxMd3kY96Hc20MjBqdtjngSxhOSTBRURivQ4Q8ZCXsIrkvbxsSs3
-         0GAZBBIr0doRHjrE2zmxaMCfiuzfTeZ8t2zROUF/Zl8Tu4XaJdi3H8gTCOJbuF66lplI
-         7+pg==
-X-Gm-Message-State: AOJu0Yw2zHg1nW+rRs+/Do8OOXUvgdoGoPK5lYWWFE6bd7JHlVhEXNTr
-	oLCAfUI5JExhnYE1TB1rS+GIblQd3jJwzJjcXJYzzWiHmFs1xu318fcGPdea1PUcVSIwaJloukT
-	8L5Y=
-X-Google-Smtp-Source: AGHT+IHTo+3Ag/x5me5z6C7Vz0nLTtnISudGxRvgQZV4N4xMsC1gZjwdheztb1tLsWHcKa3gEPVhDQ==
-X-Received: by 2002:a05:6a21:788b:b0:1a3:560c:15d8 with SMTP id bf11-20020a056a21788b00b001a3560c15d8mr7464022pzc.41.1710953072933;
-        Wed, 20 Mar 2024 09:44:32 -0700 (PDT)
+        bh=4FFBPXBeDZxmg9WIrfGltp9RsfYGigeAeqmBuMuSioo=;
+        b=Kus+ARAiaz8ynoXvbevvylOxaUdnoFtF2Z7v/DPWb1LN5Lv/lVz+dBJ+oh+JgEbhi7
+         GF70+gJmTf2Po7XmiVS7DN49vJXTsdhqwKE151EVIhuELIZvwLa/CS4oxCOn1swXJ0yj
+         VN8wQam+okGHcjkdGbzyzaRen4Nm70ni8VhDxIKrgFc2Y/h6hs7Zcd8IIW5FpJb++k/T
+         ONIkpo1VCbFBcSoe7ndkpdU8V4jmZKH8vLNPt61meX7zrrAiEB/KZ+wc/Mq6Wz6YiST9
+         GK+GFPaUYSowOQzg6CniRiR9UhqlnB8Z6kqZKHN9yIE2I083xuGdWNxVq2dQ2kELt9zu
+         Yprg==
+X-Gm-Message-State: AOJu0YwiYyGPgpw2wOCcBJJQA3mbBBX58/w6LV5i9IbhGUlNCNS0n3w6
+	jCyJOifT+g3e9YOqIug8dEmUtI2rYKVDjy+EVsCRy0QsHsS25w/YJxY9EJsJdch9DaRuwz9NyvM
+	ME7E=
+X-Google-Smtp-Source: AGHT+IFWE2TMYxh8MK7LE3FLZ5PBgP2e6hl3jpMcrnB9Ou+bisXm0aKzA7MgMvR3xsI3g8HeY6LL6Q==
+X-Received: by 2002:a62:d153:0:b0:6e6:fcd4:5a23 with SMTP id t19-20020a62d153000000b006e6fcd45a23mr12363597pfl.32.1710953079984;
+        Wed, 20 Mar 2024 09:44:39 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id a3-20020a62d403000000b006e6bfff6085sm12725437pfh.143.2024.03.20.09.44.32
+        by smtp.gmail.com with ESMTPSA id a3-20020a62d403000000b006e6bfff6085sm12725437pfh.143.2024.03.20.09.44.39
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Mar 2024 09:44:32 -0700 (PDT)
+        Wed, 20 Mar 2024 09:44:39 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 08/12] wireless-regdb: upgrade 2023.05.03 -> 2023.09.01
-Date: Wed, 20 Mar 2024 06:44:02 -1000
-Message-Id: <947433332468a9662cedacada1e5d19d9a664ac2.1710952928.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 12/12] yocto-uninative: Update to 4.4 for glibc 2.39
+Date: Wed, 20 Mar 2024 06:44:06 -1000
+Message-Id: <d0811b98fa3847dbbfcfe6a80694509bb29aaf9c.1710952928.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1710952928.git.steve@sakoman.com>
 References: <cover.1710952928.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 Mar 2024 16:44:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197395
+ <openembedded-core@lists.openembedded.org>; Wed, 20 Mar 2024 16:44:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197399
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+From: Michael Halstead <mhalstead@linuxfoundation.org>
 
-Changelog:
-==========
-wireless-regdb: update regulatory database based on preceding changes
-wireless-regdb: Update regulatory rules for Australia (AU) for June 2023
-wireless-regdb: Update regulatory info for Türkiye (TR)
-wireless-regdb: Update regulatory rules for Egypt (EG) from March 2022 guidel...
-wireless-regdb: Update regulatory rules for Philippines (PH)
-
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Michael Halstead <mhalstead@linuxfoundation.org>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 2f5edb6904bf16a9c52a9b124aeb5297487cd716)
+(cherry picked from commit 56fdd8b79e2f7ec30d2cdcfa0c399a6553efac1e)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...ireless-regdb_2023.05.03.bb => wireless-regdb_2023.09.01.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2023.05.03.bb => wireless-regdb_2023.09.01.bb} (94%)
+ meta/conf/distro/include/yocto-uninative.inc | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2023.05.03.bb b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2023.09.01.bb
-similarity index 94%
-rename from meta/recipes-kernel/wireless-regdb/wireless-regdb_2023.05.03.bb
-rename to meta/recipes-kernel/wireless-regdb/wireless-regdb_2023.09.01.bb
-index f3c3cd78e9..9187d257ca 100644
---- a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2023.05.03.bb
-+++ b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2023.09.01.bb
-@@ -5,7 +5,7 @@ LICENSE = "ISC"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=07c4f6dea3845b02a18dc00c8c87699c"
+diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
+index eaa3e9b31c..4ac66fd506 100644
+--- a/meta/conf/distro/include/yocto-uninative.inc
++++ b/meta/conf/distro/include/yocto-uninative.inc
+@@ -6,10 +6,10 @@
+ # to the distro running on the build machine.
+ #
  
- SRC_URI = "https://www.kernel.org/pub/software/network/${BPN}/${BP}.tar.xz"
--SRC_URI[sha256sum] = "f254d08ab3765aeae2b856222e11a95d44aef519a6663877c71ef68fae4c8c12"
-+SRC_URI[sha256sum] = "26d4c2a727cc59239b84735aad856b7c7d0b04e30aa5c235c4f7f47f5f053491"
+-UNINATIVE_MAXGLIBCVERSION = "2.38"
+-UNINATIVE_VERSION = "4.3"
++UNINATIVE_MAXGLIBCVERSION = "2.39"
++UNINATIVE_VERSION = "4.4"
  
- inherit bin_package allarch
- 
+ UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/${UNINATIVE_VERSION}/"
+-UNINATIVE_CHECKSUM[aarch64] ?= "8df05f4a41455018b4303b2e0ea4eac5c960b5a13713f6dbb33dfdb3e32753ec"
+-UNINATIVE_CHECKSUM[i686] ?= "bea76b4a97c9ba0077c0dd1295f519cd599dbf71f0ca1c964471c4cdb043addd"
+-UNINATIVE_CHECKSUM[x86_64] ?= "1c35f09a75c4096749bbe1e009df4e3968cde151424062cf4aa3ed89db22b030"
++UNINATIVE_CHECKSUM[aarch64] ?= "b61876130f494f75092f21086b4a64ea5fb064045769bf1d32e9cb6af17ea8ec"
++UNINATIVE_CHECKSUM[i686] ?= "9f28627828f0082cc0344eede4d9a861a9a064bfa8f36e072e46212f0fe45fcc"
++UNINATIVE_CHECKSUM[x86_64] ?= "d81c54284be2bb886931fc87281d58177a2cd381cf99d1981f8923039a72a302"
 -- 
 2.34.1
 
