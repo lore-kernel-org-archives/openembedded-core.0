@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F182C54E58
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92458CD11BF
 	for <webhook@archiver.kernel.org>; Wed, 20 Mar 2024 16:10:43 +0000 (UTC)
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.web11.49406.1710951039141374147
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web11.49401.1710951033575498475
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Mar 2024 09:10:39 -0700
+ Wed, 20 Mar 2024 09:10:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Wr65sPhn;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1e01c38f98cso24288695ad.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Mar 2024 09:10:39 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=EhmfYMub;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1dff837d674so35412255ad.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 20 Mar 2024 09:10:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1710951038; x=1711555838; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1710951033; x=1711555833; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=VRWIAhmeDI6nyUEP/TCxZq1+gUOnJzmbtpHZ3n+PU9w=;
-        b=Wr65sPhnW9R/XfL4xslDA9CA+hjuB9wu8HEvcVWP4qKalu+u+CTdnMjcArYy1hOgiW
-         Hc4mQYQyua2uK8YE4J6qVf/hP7h2McfEhzb21Ar1gVgLkdGCeaHSeQmU2W99Vmy3uDbv
-         teW/98aja7cJAzkXZyhbk4Kz1QRLkvQ4CBgGN2wkFEqQGabWV4+pInXMVZRicN95x22i
-         iQWZtOKzfwC1k2z+nXproySnMkoIZGY/Tt0SGufVa2JZJPCjGernejVEeDjPmgiGqL7F
-         H92GTObKF68D2zEOAsmPOQDyxmKSptBA473yrhkyRVZFC+aRVoryNEH3VF0Kyd/cw8Oz
-         b2rw==
+        bh=shtJfcZ8wRAXrdgxJT+aqQDcjm9BmdjW8s5AuYlo3D0=;
+        b=EhmfYMubzY9iQJabAEY3jowsfy/Q2g+vZ3keb5zg/T/i+/XvzBqN2+FPGd2Ic26Xgj
+         agnZ6zeUTZLBONrQWff9fHUnQRwVU90fCbeX8hralFeiMcv78rMFupo1FKNQfjN3xzCc
+         vPjU7XNwtllOtyUAIICszvyaa61ZaZGnXrX/5+dfACFfAI0EMLpxoivHqW8uGj3UB8rZ
+         LCYjEBhedbcuYfmc7/JVnSoKy3iO6JXGyiE9MtkNjKsuMN7eW6lS/Q2iHlDe/ZXyDgoN
+         4Pt568J9Jw9vlQ6g6Gm1z7c9pmcy1vOx5vauF1DGmsBCpRT3Ugrrzammd/DREfaJwB0f
+         Qc2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710951038; x=1711555838;
+        d=1e100.net; s=20230601; t=1710951033; x=1711555833;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VRWIAhmeDI6nyUEP/TCxZq1+gUOnJzmbtpHZ3n+PU9w=;
-        b=Nmj6g7g+QEGCvIs2URnItDkw9OHayR/Y3uSXI/HrWP3t2ByPZFcA9XgwZjhJ5YW+1s
-         D6wgUxQO+3lpq2ZejOyncX1CNwZTuE2QI9VriESkLG+llUKxVSgcNt4sqOzm9/Ratb50
-         B1R5Rtaf/ZeEgwp0bpJAECRChn/1PAT8j1AiiIcI1sqcMQVo1Ju82Rsf1I1j4WT2CLRC
-         NwKWVxAUwmh+CYul/74YS3IBiOCJhiVRWEnc0O2RyebQAVljBHyILn2Q91csIuR+vNGq
-         dTiEadALuZ5B0Bzdi2O4xltVYpSsSi1QAtW0EXNU/sR0OgvCS52jiLs+36wg0V3BpaBW
-         U3gA==
-X-Gm-Message-State: AOJu0YyNWIXQdWC0S6C3MlWQ3q1KgJDEXH7/ErssQ9jdUefYcrnZ2TtQ
-	SaUjxRUwJEoUoxQ/q28xgY3gNo6UsNdnnPQAbuG/UDTXCYn/lPS7miI+xN/AVHnACP5+nCDeJXP
-	e5uY=
-X-Google-Smtp-Source: AGHT+IHnkDCrdlSu0Bh3+32aMC3iD8awmEH9MtnyqYXN9cG0bzvHL+P3aNHxbelKfo4FEGRJ4VZbSw==
-X-Received: by 2002:a17:902:e802:b0:1dd:9984:29d3 with SMTP id u2-20020a170902e80200b001dd998429d3mr21471829plg.32.1710951038298;
-        Wed, 20 Mar 2024 09:10:38 -0700 (PDT)
+        bh=shtJfcZ8wRAXrdgxJT+aqQDcjm9BmdjW8s5AuYlo3D0=;
+        b=FkdfJpO5CzbCWRoN43dN3Jyj7FxHOBuHoddWpsWOWBzKatFRC/VSvVd6iwthn2haVB
+         tzZxORCNyYMjjOYDqlDja3aaUKOiLnQZQnLqbWiPGnTt1RINumR30diQFCRpmj2qUM64
+         E1Gdd7Ockm2uxDz8vIbvOyOqgDl71B3IfFFrse5sK51MXAvzqTkyNnM3YwgJ4WTidT3N
+         jVriM5b7ZSJkKvXqimmwFu7EUdROKySkigTZILAp20V2LTKn9QZQFSQ9HXhEfFGSOlrH
+         zeLcsoFA8fveh+rr6HOD+nx5QT5hAgU2J/ZT1UaS9kQcvFogIwNBVuZHs7BtYT7V2XJM
+         Be8g==
+X-Gm-Message-State: AOJu0Yzn+TMcltArqEm+lKasRNYJEZ5x0f4LT1CHFk9cgdlOh5WBmJ7y
+	nOrKAiNn+na9D8/M4gCLj4+oF7dMfi35LXtKRNfb+Qexl4ycxJnOGb/19CDuPKzyFr6uTfaIGKa
+	2V94=
+X-Google-Smtp-Source: AGHT+IEdJVDx/5kfOSMpX3DdACjlO/Rn68xO9vM9gD+irEwM4BOzdDa3lCmNEU1mZAEO8vPUxvYQFg==
+X-Received: by 2002:a17:902:cf05:b0:1de:e3d5:cdde with SMTP id i5-20020a170902cf0500b001dee3d5cddemr2647979plg.5.1710951032827;
+        Wed, 20 Mar 2024 09:10:32 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id l18-20020a170903121200b001ddc93c5759sm13775694plh.196.2024.03.20.09.10.37
+        by smtp.gmail.com with ESMTPSA id l18-20020a170903121200b001ddc93c5759sm13775694plh.196.2024.03.20.09.10.31
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Mar 2024 09:10:38 -0700 (PDT)
+        Wed, 20 Mar 2024 09:10:32 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 11/15] wireless-regdb: Upgrade 2023.09.01 -> 2024.01.23
-Date: Wed, 20 Mar 2024 06:09:49 -1000
-Message-Id: <11c9c6eec5ff45cd1fd4858bc28f38693c5d0fde.1710950846.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 08/15] cve-update-nvd2-native: Fix CVE configuration update
+Date: Wed, 20 Mar 2024 06:09:46 -1000
+Message-Id: <38402b5e89d43bf2a45c8f5f2d631033be5019cd.1710950846.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1710950846.git.steve@sakoman.com>
 References: <cover.1710950846.git.steve@sakoman.com>
@@ -62,52 +62,38 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 20 Mar 2024 16:10:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197382
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197379
 
-From: Alex Kiernan <alex.kiernan@gmail.com>
+From: Yoann Congal <yoann.congal@smile.fr>
 
-Upstream maintainer has changed to Chen-Yu Tsai <wens@kernel.org>:
+When a CVE is created, it often has no precise version information and
+this is stored as "-" (matching any version). After an update, version
+information is added. The previous "-" must be removed, otherwise, the
+CVE is still "Unpatched" for cve-check.
 
-https://lore.kernel.org/all/CAGb2v657baNMPKU3QADijx7hZa=GUcSv2LEDdn6N=QQaFX8r-g@mail.gmail.com/
-
-Note that fb768d3b13ff ("wifi: cfg80211: Add my certificate") and
-3c2a8ebe3fe6 ("wifi: cfg80211: fix certs build to not depend on file
-order") are required if you are using kernel signature verification.
-
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit abf169fbbf8bab13224adf4c8bfa2e26607f360c)
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 641ae3f36e09af9932dc33043a0a5fbfce62122e)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...eless-regdb_2023.09.01.bb => wireless-regdb_2024.01.23.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2023.09.01.bb => wireless-regdb_2024.01.23.bb} (88%)
+ meta/recipes-core/meta/cve-update-nvd2-native.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2023.09.01.bb b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2024.01.23.bb
-similarity index 88%
-rename from meta/recipes-kernel/wireless-regdb/wireless-regdb_2023.09.01.bb
-rename to meta/recipes-kernel/wireless-regdb/wireless-regdb_2024.01.23.bb
-index c09600ecbe..8fde236ab4 100644
---- a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2023.09.01.bb
-+++ b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2024.01.23.bb
-@@ -5,7 +5,7 @@ LICENSE = "ISC"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=07c4f6dea3845b02a18dc00c8c87699c"
+diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+index a703b68aac..0044529b7d 100644
+--- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
++++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+@@ -352,6 +352,10 @@ def update_db(conn, elt):
+                 [cveId, cveDesc, cvssv2, cvssv3, date, accessVector]).close()
  
- SRC_URI = "https://www.kernel.org/pub/software/network/${BPN}/${BP}.tar.xz"
--SRC_URI[sha256sum] = "26d4c2a727cc59239b84735aad856b7c7d0b04e30aa5c235c4f7f47f5f053491"
-+SRC_URI[sha256sum] = "c8a61c9acf76fa7eb4239e89f640dee3e87098d9f69b4d3518c9c60fc6d20c55"
- 
- inherit bin_package allarch
- 
-@@ -13,7 +13,7 @@ do_install() {
-     install -d -m0755 ${D}${nonarch_libdir}/crda
-     install -d -m0755 ${D}${sysconfdir}/wireless-regdb/pubkeys
-     install -m 0644 regulatory.bin ${D}${nonarch_libdir}/crda/regulatory.bin
--    install -m 0644 sforshee.key.pub.pem ${D}${sysconfdir}/wireless-regdb/pubkeys/sforshee.key.pub.pem
-+    install -m 0644 wens.key.pub.pem ${D}${sysconfdir}/wireless-regdb/pubkeys/wens.key.pub.pem
- 
-     install -m 0644 -D regulatory.db ${D}${nonarch_base_libdir}/firmware/regulatory.db
-     install -m 0644 regulatory.db.p7s ${D}${nonarch_base_libdir}/firmware/regulatory.db.p7s
+     try:
++        # Remove any pre-existing CVE configuration. Even for partial database
++        # update, those will be repopulated. This ensures that old
++        # configuration is not kept for an updated CVE.
++        conn.execute("delete from PRODUCTS where ID = ?", [cveId]).close()
+         for config in elt['cve']['configurations']:
+             # This is suboptimal as it doesn't handle AND/OR and negate, but is better than nothing
+             for node in config["nodes"]:
 -- 
 2.34.1
 
