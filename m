@@ -1,56 +1,99 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CC9DC54E58
-	for <webhook@archiver.kernel.org>; Wed, 20 Mar 2024 09:19:21 +0000 (UTC)
-Received: from mailout10.t-online.de (mailout10.t-online.de [194.25.134.21])
- by mx.groups.io with SMTP id smtpd.web10.39278.1710926359949744271
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54AB4C54E67
+	for <webhook@archiver.kernel.org>; Wed, 20 Mar 2024 09:20:41 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.39289.1710926438611372929
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Mar 2024 02:19:20 -0700
+ Wed, 20 Mar 2024 02:20:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.21, mailfrom: f_l_k@t-online.de)
-Received: from fwd74.aul.t-online.de (fwd74.aul.t-online.de [10.223.144.100])
-	by mailout10.t-online.de (Postfix) with SMTP id C0FEDFCD4;
-	Wed, 20 Mar 2024 10:19:17 +0100 (CET)
-Received: from [192.168.178.67] ([84.163.34.101]) by fwd74.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1rms6O-1fcxii0; Wed, 20 Mar 2024 10:19:16 +0100
-Date: Wed, 20 Mar 2024 10:19:44 +0100
-From: f_l_k@t-online.de
-Subject: Re: [oe-core][PATCH 1/2] glib-2.0: update 2.78.4 -> 2.80.0
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Message-Id: <W83NAS.NDLBIFW5ZAKI@t-online.de>
-In-Reply-To: <CANNYZj-Wy7pFVNGYE7ccYvr3sToKk4vBPsw4bnyg4gBBrUadrw@mail.gmail.com>
-References: <20240320085846.206946-1-f_l_k@t-online.de>
-	<CANNYZj-Wy7pFVNGYE7ccYvr3sToKk4vBPsw4bnyg4gBBrUadrw@mail.gmail.com>
-X-Mailer: geary/44.1
-MIME-Version: 1.0
-Content-Type: multipart/alternative; boundary="=-ZS8o3R4QC+aQhHipnk0K"
-X-TOI-EXPURGATEID: 150726::1710926356-D57F993F-857E8BF7/0/0 CLEAN NORMAL
-X-TOI-MSGID: e093293e-e037-44fc-b44f-967f13d6e110
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=hJ1xkJLy;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=iSdh5RxD;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018e5b299d32-7e077af3-f146-4cef-8dcb-a000b160377d-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1710926437; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=3hy3p1+v8SsmSBn0WceQzsVByDLxYTSLC+o38JK7TjA=;
+	b=hJ1xkJLyhmtY4ZHfD5gyhj3gk+LT5juMqcy+zsUNX2JGv51DlNKIP3qkkoSPFGvB
+	WvF5xW+wsz7dgs7wcoMz9fTQadBNnjIn6Lz9iuFuSO87w0S3Qxqa2StGoS4kDj1Qyg3
+	wXxPKi7ncPhLk6nP1sDCnMKCTvMLdUXYT/uRfNog=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1710926437;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=3hy3p1+v8SsmSBn0WceQzsVByDLxYTSLC+o38JK7TjA=;
+	b=iSdh5RxDNZvy8vMoKf3BLyZPNQ49MP9097KxEgBRSbjIrWcx9CkWM56Ut9Y8iak5
+	uZgaO8lQsSqogpkk9xuzS4geqtSD91BqkQf5PPrjlnFmX9FKAMX5cKMq+Wd2qToJwig
+	L6FfX7X2PAo3nhQmXjb54fwrffDVbJZABKUFhDMI=
+From: patchtest@automation.yoctoproject.org
+To: Markus Volk <f_l_k@t-online.de>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [oe-core][PATCH 2/2] vte: update 0.74.2 -> 0.76.0
+In-Reply-To: <20240320085846.206946-2-f_l_k@t-online.de>
+References: <20240320085846.206946-2-f_l_k@t-online.de>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018e5b299d32-7e077af3-f146-4cef-8dcb-a000b160377d-000000@us-west-2.amazonses.com>
+Date: Wed, 20 Mar 2024 09:20:37 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.03.20-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 Mar 2024 09:19:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197352
+ <openembedded-core@lists.openembedded.org>; Wed, 20 Mar 2024 09:20:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197353
 
---=-ZS8o3R4QC+aQhHipnk0K
-Content-Type: text/plain; charset=us-ascii; format=flowed
+--NextPart
+Content-Type: text/plain
 
-On Wed, Mar 20 2024 at 10:17:45 AM +01:00:00, Alexander Kanavin 
-<alex.kanavin@gmail.com> wrote:
-> oves them instead.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-you are right. I'm looking into this at the moment
+---
+Testing patch /home/patchtest/share/mboxes/2-2-vte-update-0.74.2---0.76.0.patch
+
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
 
 
---=-ZS8o3R4QC+aQhHipnk0K
-Content-Type: text/html; charset=us-ascii
-
-<div id="geary-body" dir="auto">On Wed, Mar 20 2024 at 10:17:45 AM +01:00:00, Alexander Kanavin &lt;alex.kanavin@gmail.com&gt; wrote:<br><blockquote type="cite"><div class="plaintext" style="white-space: break-spaces;">oves them instead.
-</div></blockquote><div><br></div><div>you are right. I'm looking into this at the moment</div></div>
---=-ZS8o3R4QC+aQhHipnk0K--
-
+--NextPart--
 
