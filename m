@@ -2,129 +2,103 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A60CFCD11DD
-	for <webhook@archiver.kernel.org>; Wed, 20 Mar 2024 16:10:33 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web10.49259.1710951027108394728
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9241AC6FD1F
+	for <webhook@archiver.kernel.org>; Wed, 20 Mar 2024 16:10:43 +0000 (UTC)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web10.49267.1710951036979369345
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Mar 2024 09:10:27 -0700
+ Wed, 20 Mar 2024 09:10:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Z/vysQtu;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1e00d1e13acso23500215ad.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Mar 2024 09:10:27 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=AWGOfTLQ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1e00896dfdcso25669075ad.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 20 Mar 2024 09:10:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1710951026; x=1711555826; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1710951036; x=1711555836; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=bY7pSB6C4iD/cu6hZe6L4ZY7xYl/RsMnvn93Bu5nuQE=;
-        b=Z/vysQtuDSNT3LS7KPS4fXS8ZbOZln7LZkrnVmfgP5d2YWT/ystibHBdmlsiJ2pp76
-         zvEImqtbqmfhHKqdbCfJd7Sq5galsXnGL9BnP00k6PFgZ5XEjLiTGYw9y9W2UKdW0MSG
-         S4FjsO1pZklX/cGlMnOrbq4GzLIujd+3lvhE3zCLAwP3mo7Tty0CK+XIFlgsXUaTqb0i
-         OPBxw0xgvwr5kYXxv5fKNGqmLvz6j8H/D7j61CEDdDz0nmGhm6c3/vmsz0miLYmblGE3
-         gJyFNFgvcfNjOgecm6K88f4MmqSh6tBhQJ1+1JTJnxM1MJ0AyQYh0Jn4bC9EucS6m9bP
-         5QAQ==
+        bh=PMw7lAA4+7b1Li64sg8sOdu0NKrVOVompYgl9JZVdqk=;
+        b=AWGOfTLQmL2ekZwPBmwN3bSbnZ0KdZmo7/oA9YMsy3lrI3ylbPccPkaTWgBFDp7i4c
+         7MG8VMMGolkPLnbonsoE+22QG/DUuXQ7TIK9aPfQjD8whz7mX2IYLjRWOD3K+FdBLrrB
+         phy3xIA1UuP+o9OZIqwo3uO3CFBLcJeeEnREXT1Ufc3bDoBO4Ii7AEn9PHYkh+hWj7Ha
+         UDzB0uq61zCC6t00ZFbrHdeQ1IIS6jgVv13JM8N/+dhxeLXPv69ECXPru/+F8kDnMCDv
+         iUXUcL9gHaEFpo1TLBQKEDykBQkqEtMYABAFYe3J0FGc6eteVbXpZW5fpJ1fLg5av+ad
+         lSrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710951026; x=1711555826;
+        d=1e100.net; s=20230601; t=1710951036; x=1711555836;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bY7pSB6C4iD/cu6hZe6L4ZY7xYl/RsMnvn93Bu5nuQE=;
-        b=oiqMzMOL7QNN+Wm7VISrXPUlhMfspRfuVRBKoSTr4jelVP6MHLC7wp+LI3pjCML4LU
-         qsxi3iwubapeE8Mhd+SX3Y+g8IZsWSBgRMLHNl0NrKlwaxyf9zIRLAYTjLFVCAlw94Nj
-         TFbbftFOiavD/c8knd0PWC/LQbePGWjTDyWcia/+DYBYCn/Gmiu/C4E2mnt9QXCXcbl9
-         MXOplulOQWY1V+bwRm9Os74pmTmxJfXhfUwwLOZHAeSow9DKV9SuXp79WHSMollZfGgp
-         gU8io7IdGKeZeFRvC8LYd62+gfm9C6/+1Ptlv7KMgcV3jiBfdGZksb7+9mz/JW79/xXk
-         5GHw==
-X-Gm-Message-State: AOJu0Yw2GI3IXzHILwZ62DW0UKk78HVE0jQfD+771JXhUP6S8u/MeGMO
-	P3vs44I2E9W9zKNpuEcjcdT75xZR7Pmsg3HrpP+TS8Cj5uQ5izLsUkrTh/YV70nyiOmU/q5z6dj
-	O8sg=
-X-Google-Smtp-Source: AGHT+IECbQ9NQj4CkRz7J5K/y8tgZtANTMHVXbehrVomsrFKzUBECP6tBcgE4an3hm0t6dJmIvj3+A==
-X-Received: by 2002:a17:903:32cc:b0:1de:f18c:cdd with SMTP id i12-20020a17090332cc00b001def18c0cddmr2791087plr.3.1710951026343;
-        Wed, 20 Mar 2024 09:10:26 -0700 (PDT)
+        bh=PMw7lAA4+7b1Li64sg8sOdu0NKrVOVompYgl9JZVdqk=;
+        b=uBzSOh71SRu3/LYW3b6bOSVsX1XqND3esmysG2TJ3bfEGz56qtV8RxSctEiVZtA3C0
+         S3nvlJPg9pu4a5lYbJ1/HkgpPLNmXhX1EaHjQ3E6/r56SnFr5MFXeASYR7p9nkPucK9s
+         TiGkuktq9UDw+GpzdBW/Y2ke7nnhwxLte+6bs8h+YfHOuehaZOvDI/0IPY6u+cHA1FzN
+         6bY5+alsMwW/H7UKKBUYbVoNEC3gOVnJoNSdNyUYqWAo1avi3x0UZjSdGe4jqDvPNhfl
+         e6geZpWqjcS8cU98hGtRJ4bp2DH1VUdX14HzNcR9ej9c7sOeB5Arwx7782QZKLQGheW4
+         oZ5A==
+X-Gm-Message-State: AOJu0Yz2SpttfpIId6f8qX7utKdVWlNApsoFAETFDNyO7hqDFjX7pYO9
+	X5y/n4S6Yn6mEwYfEmjli91cwGB10jlU0dMeD/YJoBENhtdfHK9D3T/ON6enI3fcMuz2CyAGZTS
+	fehg=
+X-Google-Smtp-Source: AGHT+IFXO1P8NZFne5k017z01cqVco6yFMnABwVjBt5przQ4PmU5/ZMkIIoV2t0XyjbK9GqgkM2BLQ==
+X-Received: by 2002:a17:902:934c:b0:1dd:50f0:3e72 with SMTP id g12-20020a170902934c00b001dd50f03e72mr5431026plp.26.1710951036307;
+        Wed, 20 Mar 2024 09:10:36 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id l18-20020a170903121200b001ddc93c5759sm13775694plh.196.2024.03.20.09.10.24
+        by smtp.gmail.com with ESMTPSA id l18-20020a170903121200b001ddc93c5759sm13775694plh.196.2024.03.20.09.10.35
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Mar 2024 09:10:24 -0700 (PDT)
+        Wed, 20 Mar 2024 09:10:35 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 05/15] cve-update-nvd2-native: Add an age threshold for incremental update
-Date: Wed, 20 Mar 2024 06:09:43 -1000
-Message-Id: <5259971a4785e7f664c0f588f34f8ef537c5c4c5.1710950846.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 10/15] wireless-regdb: upgrade 2023.05.03 -> 2023.09.01
+Date: Wed, 20 Mar 2024 06:09:48 -1000
+Message-Id: <3af65ed130493e14a87818b76b06f9ca7c717874.1710950846.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1710950846.git.steve@sakoman.com>
 References: <cover.1710950846.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 Mar 2024 16:10:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197376
+ <openembedded-core@lists.openembedded.org>; Wed, 20 Mar 2024 16:10:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197381
 
-From: Yoann Congal <yoann.congal@smile.fr>
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-Add a new variable "CVE_DB_INCR_UPDATE_AGE_THRES", which can be used to
-specify the maximum age of the database for doing an incremental update
-For older databases, a full re-download is done.
+Changelog:
+==========
+wireless-regdb: update regulatory database based on preceding changes
+wireless-regdb: Update regulatory rules for Australia (AU) for June 2023
+wireless-regdb: Update regulatory info for Türkiye (TR)
+wireless-regdb: Update regulatory rules for Egypt (EG) from March 2022 guidel...
+wireless-regdb: Update regulatory rules for Philippines (PH)
 
-With a value of "0", this forces a full-redownload.
-
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 74c1765111b6610348eae4b7e41d7045ce58ef86)
+(cherry picked from commit 2f5edb6904bf16a9c52a9b124aeb5297487cd716)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../meta/cve-update-nvd2-native.bb            | 20 +++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
+ ...ireless-regdb_2023.05.03.bb => wireless-regdb_2023.09.01.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2023.05.03.bb => wireless-regdb_2023.09.01.bb} (94%)
 
-diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb b/meta/recipes-core/meta/cve-update-nvd2-native.bb
-index 9b6e746add..af21989d58 100644
---- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
-+++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
-@@ -26,6 +26,12 @@ NVDCVE_API_KEY ?= ""
- # Use a negative value to skip the update
- CVE_DB_UPDATE_INTERVAL ?= "86400"
+diff --git a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2023.05.03.bb b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2023.09.01.bb
+similarity index 94%
+rename from meta/recipes-kernel/wireless-regdb/wireless-regdb_2023.05.03.bb
+rename to meta/recipes-kernel/wireless-regdb/wireless-regdb_2023.09.01.bb
+index cd3f52fc76..c09600ecbe 100644
+--- a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2023.05.03.bb
++++ b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2023.09.01.bb
+@@ -5,7 +5,7 @@ LICENSE = "ISC"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=07c4f6dea3845b02a18dc00c8c87699c"
  
-+# CVE database incremental update age threshold, in seconds. If the database is
-+# older than this threshold, do a full re-download, else, do an incremental
-+# update. By default: the maximum allowed value from NVD: 120 days (120*24*60*60)
-+# Use 0 to force a full download.
-+CVE_DB_INCR_UPDATE_AGE_THRES ?= "10368000"
-+
- # Number of attempts for each http query to nvd server before giving up
- CVE_DB_UPDATE_ATTEMPTS ?= "5"
+ SRC_URI = "https://www.kernel.org/pub/software/network/${BPN}/${BP}.tar.xz"
+-SRC_URI[sha256sum] = "f254d08ab3765aeae2b856222e11a95d44aef519a6663877c71ef68fae4c8c12"
++SRC_URI[sha256sum] = "26d4c2a727cc59239b84735aad856b7c7d0b04e30aa5c235c4f7f47f5f053491"
  
-@@ -172,18 +178,24 @@ def update_db_file(db_tmp_file, d, database_time):
- 
-     req_args = {'startIndex' : 0}
- 
--    # The maximum range for time is 120 days
--    # Force a complete update if our range is longer
--    if (database_time != 0):
-+    incr_update_threshold = int(d.getVar("CVE_DB_INCR_UPDATE_AGE_THRES"))
-+    if database_time != 0:
-         database_date = datetime.datetime.fromtimestamp(database_time, tz=datetime.timezone.utc)
-         today_date = datetime.datetime.now(tz=datetime.timezone.utc)
-         delta = today_date - database_date
--        if delta.days < 120:
-+        if incr_update_threshold == 0:
-+            bb.note("CVE database: forced full update")
-+        elif delta < datetime.timedelta(seconds=incr_update_threshold):
-             bb.note("CVE database: performing partial update")
-+            # The maximum range for time is 120 days
-+            if delta > datetime.timedelta(days=120):
-+                bb.error("CVE database: Trying to do an incremental update on a larger than supported range")
-             req_args['lastModStartDate'] = database_date.isoformat()
-             req_args['lastModEndDate'] = today_date.isoformat()
-         else:
-             bb.note("CVE database: file too old, forcing a full update")
-+    else:
-+        bb.note("CVE database: no preexisting database, do a full download")
- 
-     with bb.progress.ProgressHandler(d) as ph, open(os.path.join(d.getVar("TMPDIR"), 'cve_check'), 'a') as cve_f:
+ inherit bin_package allarch
  
 -- 
 2.34.1
