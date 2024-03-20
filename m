@@ -2,93 +2,120 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4B64CD11BF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3B55C54E58
 	for <webhook@archiver.kernel.org>; Wed, 20 Mar 2024 16:44:23 +0000 (UTC)
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web10.50320.1710953062705257835
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+ by mx.groups.io with SMTP id smtpd.web11.50462.1710953058309302232
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Mar 2024 09:44:22 -0700
+ Wed, 20 Mar 2024 09:44:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=UEcL5EWW;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.172, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-6e88e4c8500so90425b3a.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Mar 2024 09:44:22 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=hn3ZnVW8;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.176, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-6e6cb0f782bso117629b3a.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 20 Mar 2024 09:44:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1710953062; x=1711557862; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FZaZVuKTafYFgYtEyC1h8fM3f2zusb+hLkoG/kiDCWE=;
-        b=UEcL5EWWNpmbOwFgMhdyzarJSJoXNbse8EW4hf40Y7Tv8YJfJEZ41AVgk1kjV5BGVR
-         d4NEWxBKfGCOL/qB2AN44azRYCFqTe1OceL8+HLfkHhTRA8yUlBaOMNXGkv10ji34ffE
-         25IEu9r1dFqVIv7xngsHcazcHB4ffv+pPvGGEZC8DcsxDP6A439Ti8mOKRHMSbRm0vPW
-         sxl8rXHDGl/utLk29zZbsUH6dRnI9J3P0w7MSXon6P9Y1zibnbZWPKEVz3OxqwFHcztg
-         kwhdAb+gc+zcpBpEaPNHi8ISQTEcoFFrsGwPrwH6JJ/r/9hfK3ACIFOiPvlgX9wBMZce
-         D6xQ==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1710953057; x=1711557857; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KnxYAnUC3vJ94RCwxoZzlVjjpVTmN4UM/wwPtE2bj2A=;
+        b=hn3ZnVW884QQvjZZ7z9icRbz5uAw1erJO+giezv3GKOf31DqmHraNCDAIGYUT8fVPu
+         dABnhjcjdhdZQUEaE4QHCfwSIIQvqlbb4fYhTsog/Gz1HrfAQYa90GjyRkp3Uo0rCXBb
+         PL3NFvk+qh6T/76dWsI8JEnP4c1udXG0rro99WTWouSYlfYz/YmrieRAlW6QJBSAy9OX
+         3T9y3vPw5bsZXVjoszwEjCWk8Kdq3DTCncpj1Te4p0xceDrqsv0AW2kCYCOKZ4TgPlgZ
+         H1fCLUtAeInhGX3WQgQjC+DXDkPd0TW52vCUoG+oAP/yd+EEkSokQd51npKtgHRr7oBp
+         BLOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710953062; x=1711557862;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FZaZVuKTafYFgYtEyC1h8fM3f2zusb+hLkoG/kiDCWE=;
-        b=YavYK4q0aEmUE3v6CXpEAlbhjXJQsMnzezgoqAtpDcbph+KiHKc+x004sSXit0DACe
-         ge54GfOGQH9nTHbnIDUHoo0SP8IDzRUAQn9hC0g4R5vOaZRfpcR3lhWlwWv5CzEnY0VS
-         A6y9aiYVZQZN4JB6HVigHcMxnX/0CAet9A2I/Y9dSgF8koLLCfay7TXgfOEAr4wI4XZQ
-         ARMtXIFROjGYBukBTqiVUPkxTcawqnK/NDLjCFCv0fFaFV4pBoRi2z3GviA2225UbzM4
-         RR5Se1qohHbW89iTnf1Wq0yWkynJpic/Nsujbay97ncorxQrrGEKr4gYnhri7bJwqAG1
-         7hVQ==
-X-Gm-Message-State: AOJu0Yx3eOKWLm/SNwn+uu+/BWlydz8Ak5WX0dSN/eOiZ0PIxH+E7TVE
-	GmTD+6/I6Kzstm4SqJp7q808iITV7qmYQhe1SSt9yMq5Xq2P+XjWSuKVVtbMxS+kvUvjjGiRDnx
-	LjZk=
-X-Google-Smtp-Source: AGHT+IHa55/zSZ6sFp9eyGy503VqWn3zTnqGn33Zu5fHd6yiJ3R5b5IozErqmiXi/PSLBnEDROuJpg==
-X-Received: by 2002:a05:6a20:324b:b0:1a0:d103:7030 with SMTP id hm11-20020a056a20324b00b001a0d1037030mr14734937pzc.32.1710953061955;
-        Wed, 20 Mar 2024 09:44:21 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1710953057; x=1711557857;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KnxYAnUC3vJ94RCwxoZzlVjjpVTmN4UM/wwPtE2bj2A=;
+        b=QMEXGMkUObwJ+1JJGh773QigM93ezkJ9TksAz2ipv6o0EnXYv6cX/Oq2QiMzH1kJp3
+         Mry4dH9grX2Dl6RtcGUclY61Wpho61MPErz0NVuFL/AYTeCDqR6JayHQtud7z4fg+Vr1
+         RQVtVuKHkdlmLlxOAtOC/pGlUhQtrp6bTZ/ImfDilT26L/Gn8Ynx9IigFcdSJpUiXIfa
+         fGVrT6WcjXKxrtIdUzaDFO9iMRuR7vzzXV4g7s3a/o+d5p8/YB/Odpfa1W7M44r8tyCa
+         4t0qPT4+bY/Eimxg8qoCjagrAeXMjlVeHIHxHLKqg4u+IY49t2X0jBJYzxCbqyY3bimO
+         0WGg==
+X-Gm-Message-State: AOJu0YwT255X7nebhU+ZqzV/uz/pDF6ykYgKcHPOnyOb+IeTm9n4g1Mf
+	FwScfrtZBQz8+rsUSclZ5kvFcKcsOnq01pa9xz2pBWLYkfSHjJnTj1YF3rf2F7ozcVr+g430t/s
+	RR7k=
+X-Google-Smtp-Source: AGHT+IE18zSrlqo5UZqfe+VECEtKuXIR5fuwctcNZLfOgeZl+0iHQtON4wQEBMCmzpXkSD4FguUo7Q==
+X-Received: by 2002:a05:6a20:6d92:b0:1a3:63ca:8fc7 with SMTP id gl18-20020a056a206d9200b001a363ca8fc7mr2227117pzb.18.1710953057384;
+        Wed, 20 Mar 2024 09:44:17 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id a3-20020a62d403000000b006e6bfff6085sm12725437pfh.143.2024.03.20.09.44.21
+        by smtp.gmail.com with ESMTPSA id a3-20020a62d403000000b006e6bfff6085sm12725437pfh.143.2024.03.20.09.44.16
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Mar 2024 09:44:21 -0700 (PDT)
+        Wed, 20 Mar 2024 09:44:17 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 02/12] cve-update-nvd2-native: Fix typo in comment
-Date: Wed, 20 Mar 2024 06:43:56 -1000
-Message-Id: <3ce55e2a1e680de1cd9be735fb766a1366e88a98.1710952928.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 00/12] Patch review
+Date: Wed, 20 Mar 2024 06:43:54 -1000
+Message-Id: <cover.1710952928.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1710952928.git.steve@sakoman.com>
-References: <cover.1710952928.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 20 Mar 2024 16:44:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197389
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197387
 
-From: Yoann Congal <yoann.congal@smile.fr>
+Please review this set of changes for dunfell and have comments back by
+end of day Friday, March 22
 
-attmepts -> attempts
+Passed a-full on autobuilder:
 
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit dc18aaeda8e810f9082a0ceac08e5e4275bbd0f7)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/recipes-core/meta/cve-update-nvd2-native.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6692
 
-diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb b/meta/recipes-core/meta/cve-update-nvd2-native.bb
-index 69ba20a6cb..9b6e746add 100644
---- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
-+++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
-@@ -26,7 +26,7 @@ NVDCVE_API_KEY ?= ""
- # Use a negative value to skip the update
- CVE_DB_UPDATE_INTERVAL ?= "86400"
- 
--# Number of attmepts for each http query to nvd server before giving up
-+# Number of attempts for each http query to nvd server before giving up
- CVE_DB_UPDATE_ATTEMPTS ?= "5"
- 
- CVE_DB_TEMP_FILE ?= "${CVE_CHECK_DB_DIR}/temp_nvdcve_2.db"
+The following changes since commit b49b0a3dd74c24f3a011c9c0b5cf8f6530956cfa:
+
+  build-appliance-image: Update to dunfell head revision (2024-03-01 03:19:51 -1000)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
+
+Alex Kiernan (1):
+  wireless-regdb: Upgrade 2023.09.01 -> 2024.01.23
+
+Alexander Kanavin (1):
+  linux-firmware: upgrade 20231211 -> 20240220
+
+Alexander Sverdlin (1):
+  linux-firmware: upgrade 20231030 -> 20231211
+
+Michael Halstead (1):
+  yocto-uninative: Update to 4.4 for glibc 2.39
+
+Vijay Anusuri (1):
+  libxml2: Backport fix for CVE-2024-25062
+
+Wang Mingyu (1):
+  wireless-regdb: upgrade 2023.05.03 -> 2023.09.01
+
+Yoann Congal (6):
+  cve-update-nvd2-native: Fix typo in comment
+  cve-update-nvd2-native: Add an age threshold for incremental update
+  cve-update-nvd2-native: Remove duplicated CVE_CHECK_DB_FILE definition
+  cve-update-nvd2-native: nvd_request_next: Improve comment
+  cve-update-nvd2-native: Fix CVE configuration update
+  cve-update-nvd2-native: Remove rejected CVE from database
+
+ meta/conf/distro/include/yocto-uninative.inc  | 10 ++---
+ .../libxml/libxml2/CVE-2024-25062-pre1.patch  | 38 +++++++++++++++++++
+ .../libxml/libxml2/CVE-2024-25062.patch       | 33 ++++++++++++++++
+ meta/recipes-core/libxml/libxml2_2.9.10.bb    |  2 +
+ .../meta/cve-update-nvd2-native.bb            | 35 +++++++++++++----
+ ...20231030.bb => linux-firmware_20240220.bb} |  7 ++--
+ ....05.03.bb => wireless-regdb_2024.01.23.bb} |  4 +-
+ 7 files changed, 111 insertions(+), 18 deletions(-)
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2024-25062-pre1.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2024-25062.patch
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20231030.bb => linux-firmware_20240220.bb} (99%)
+ rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2023.05.03.bb => wireless-regdb_2024.01.23.bb} (88%)
+
 -- 
 2.34.1
 
