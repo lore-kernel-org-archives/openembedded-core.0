@@ -1,69 +1,99 @@
-Return-Path: <emil.kronborg@protonmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 249E4C6FD1F
-	for <webhook@archiver.kernel.org>; Wed, 20 Mar 2024 15:37:33 +0000 (UTC)
-Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
- by mx.groups.io with SMTP id smtpd.web11.48431.1710949043069424033
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56F4CCD11DC
+	for <webhook@archiver.kernel.org>; Wed, 20 Mar 2024 15:52:43 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.48647.1710949960071382217
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Mar 2024 08:37:23 -0700
+ Wed, 20 Mar 2024 08:52:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@protonmail.com header.s=protonmail3 header.b=j63uYo+N;
- spf=pass (domain: protonmail.com, ip: 185.70.43.16, mailfrom: emil.kronborg@protonmail.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1710949039; x=1711208239;
-	bh=5uTnnJ5jbnv0LZCcqZR733wA+pXQE0wQSy91GIU6wSw=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=j63uYo+N30JItBGTnR+GzEhU0YVBKno7r9nWWWkG/ABiRtXeZTAC6DXDwbaR8lmh6
-	 ZsVHh5DC1fcINXsEU3uYhM5CdNa9F+9LSsl/SnkDWl1EukTCnMUVbd3OVqSlskCtAg
-	 8JQSEU5ziwvW2Q0NuiLPfWRrS4aBl/qIMX/AqwTZPtxCSjFKQHhRqZr7BO0/Seg+Nq
-	 QtVum8d+RgP+aEoMlLjySSKopEVOmGy3qwEuxBKIUGQxWe0iAHSBA4FJiH4CIAIowo
-	 dTQnksn+zXTHlVdACogkjvK259OA+0waPA0PJsNeRnv1jHkeJNEpmd0lriHqVdCrjz
-	 BCApxXni00uIQ==
-Date: Wed, 20 Mar 2024 15:37:05 +0000
-To: openembedded-core@lists.openembedded.org
-From: Emil Kronborg <emil.kronborg@protonmail.com>
-Cc: rasmus.villemoes@prevas.dk, Emil Kronborg <emil.kronborg@protonmail.com>
-Subject: [PATCH] python3-pytest: add CVE_PRODUCT
-Message-ID: <20240320153659.199582-1-emil.kronborg@protonmail.com>
-Feedback-ID: 20949900:user:proton
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=cA7krvd/;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=wIF88MXq;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101018e5c908328-56330e8e-3e4b-41e8-bc08-d9c3a7e6416e-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1710949958; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=juace42pAfjvHpOfS6XoNi3dpvPkSy2hjkGP7ZlWS3I=;
+	b=cA7krvd/vhGm/jmrG7VgBudSDoKtpiJ38W1NkK9gkYAlEnoj1IfQi8xo45G0kGA7
+	oh8DfLnMirxcBJ8qDjjmyOvcKjvV6AS6Sr6e8HKFkZHZFZUDmMN39ZTvbry7ZAChMVh
+	32bJYe/IRd7fwMCU03GkNntLlANfrQXCAVRpUT/k=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1710949958;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=juace42pAfjvHpOfS6XoNi3dpvPkSy2hjkGP7ZlWS3I=;
+	b=wIF88MXqsXqgoSG0yg3sP19FMfuqvzw+ALKIgqvmd60uPpM7N5mb/71EIGp4377F
+	kSBmIq6mkgguTCXwrzvfWUbgufNEGbBYqTN/YavMRTKk8Mg1X3aJejPEhQXD5g11R3e
+	PYjXhDyPsxP2pDRFulH9anWhG++tacBCcGrwAA4c=
+From: patchtest@automation.yoctoproject.org
+To: Emil Kronborg <emil.kronborg@protonmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] python3-pytest: add CVE_PRODUCT
+In-Reply-To: <20240320153659.199582-1-emil.kronborg@protonmail.com>
+References: <20240320153659.199582-1-emil.kronborg@protonmail.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018e5c908328-56330e8e-3e4b-41e8-bc08-d9c3a7e6416e-000000@us-west-2.amazonses.com>
+Date: Wed, 20 Mar 2024 15:52:38 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.03.20-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 Mar 2024 15:37:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197363
+ <openembedded-core@lists.openembedded.org>; Wed, 20 Mar 2024 15:52:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197366
 
-For some reason, the CVE product is just called py and not pytest in the
-NIST NVD database. Since the database only accept keywords with at least
-3 characters, the CVE vendor must also be specified.
+--NextPart
+Content-Type: text/plain
+
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- meta/recipes-devtools/python/python3-pytest_8.0.2.bb | 2 ++
- 1 file changed, 2 insertions(+)
+Testing patch /home/patchtest/share/mboxes/python3-pytest-add-CVE_PRODUCT.patch
 
-diff --git a/meta/recipes-devtools/python/python3-pytest_8.0.2.bb b/meta/re=
-cipes-devtools/python/python3-pytest_8.0.2.bb
-index 57e979e909c3..080b89ebdd5e 100644
---- a/meta/recipes-devtools/python/python3-pytest_8.0.2.bb
-+++ b/meta/recipes-devtools/python/python3-pytest_8.0.2.bb
-@@ -5,6 +5,8 @@ DESCRIPTION =3D "The pytest framework makes it easy to writ=
-e small tests, yet scal
- LICENSE =3D "MIT"
- LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Dbd27e41b6550fe0fc45356d1d81ee37=
-c"
-=20
-+CVE_PRODUCT =3D "pytest:py"
-+
- SRC_URI[sha256sum] =3D "d4051d623a2e0b7e51960ba963193b09ce6daeb9759a451844=
-a21e4ddedfc1bd"
-=20
- DEPENDS +=3D "python3-setuptools-scm-native"
---=20
-2.44.0
+FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_off_by_presence)
+
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
 
 
+--NextPart--
 
