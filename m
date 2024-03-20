@@ -2,120 +2,181 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3B55C54E58
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2803C6FD1F
 	for <webhook@archiver.kernel.org>; Wed, 20 Mar 2024 16:44:23 +0000 (UTC)
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
- by mx.groups.io with SMTP id smtpd.web11.50462.1710953058309302232
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+ by mx.groups.io with SMTP id smtpd.web11.50463.1710953060492091027
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Mar 2024 09:44:18 -0700
+ Wed, 20 Mar 2024 09:44:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=hn3ZnVW8;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.176, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-6e6cb0f782bso117629b3a.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Mar 2024 09:44:18 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=FIVeRWcg;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-6e6adc557b6so98837b3a.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 20 Mar 2024 09:44:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1710953057; x=1711557857; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=KnxYAnUC3vJ94RCwxoZzlVjjpVTmN4UM/wwPtE2bj2A=;
-        b=hn3ZnVW884QQvjZZ7z9icRbz5uAw1erJO+giezv3GKOf31DqmHraNCDAIGYUT8fVPu
-         dABnhjcjdhdZQUEaE4QHCfwSIIQvqlbb4fYhTsog/Gz1HrfAQYa90GjyRkp3Uo0rCXBb
-         PL3NFvk+qh6T/76dWsI8JEnP4c1udXG0rro99WTWouSYlfYz/YmrieRAlW6QJBSAy9OX
-         3T9y3vPw5bsZXVjoszwEjCWk8Kdq3DTCncpj1Te4p0xceDrqsv0AW2kCYCOKZ4TgPlgZ
-         H1fCLUtAeInhGX3WQgQjC+DXDkPd0TW52vCUoG+oAP/yd+EEkSokQd51npKtgHRr7oBp
-         BLOA==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1710953060; x=1711557860; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=C5jJx5uk975X4VZREDA0yRed2x3nK2zK02MAB7KPtIM=;
+        b=FIVeRWcgeE1lCUpMKDYakWb6v5RUzTea4RyHPZda3ZLzi7w8nKr4OrfGvP075bSAk8
+         TMRkzX2H65lc7hvBcWiOg3HY1/YKb858lIw5E6Bs0VuqJAx+KANYcK77byHjR4Q7I9na
+         V17CCtJxrw/qqw5d199QP/RyFhsC/qVuzIQT6m4GgA2Ga0wIQYqAUv9fGdE993RvRCYX
+         8hdxq0Fa1wxphyYIeHTld5NIJCswU2VhK5lpysTuhY6QDxVZHvC+7A1hRH+bGnU9wy3X
+         MtRFbqNKoPw+Eq9vMPUYjQLOZyaVLyfypG9GB7E544W+6X9XwUSncAanAuO8QlmPnDTq
+         GUmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710953057; x=1711557857;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KnxYAnUC3vJ94RCwxoZzlVjjpVTmN4UM/wwPtE2bj2A=;
-        b=QMEXGMkUObwJ+1JJGh773QigM93ezkJ9TksAz2ipv6o0EnXYv6cX/Oq2QiMzH1kJp3
-         Mry4dH9grX2Dl6RtcGUclY61Wpho61MPErz0NVuFL/AYTeCDqR6JayHQtud7z4fg+Vr1
-         RQVtVuKHkdlmLlxOAtOC/pGlUhQtrp6bTZ/ImfDilT26L/Gn8Ynx9IigFcdSJpUiXIfa
-         fGVrT6WcjXKxrtIdUzaDFO9iMRuR7vzzXV4g7s3a/o+d5p8/YB/Odpfa1W7M44r8tyCa
-         4t0qPT4+bY/Eimxg8qoCjagrAeXMjlVeHIHxHLKqg4u+IY49t2X0jBJYzxCbqyY3bimO
-         0WGg==
-X-Gm-Message-State: AOJu0YwT255X7nebhU+ZqzV/uz/pDF6ykYgKcHPOnyOb+IeTm9n4g1Mf
-	FwScfrtZBQz8+rsUSclZ5kvFcKcsOnq01pa9xz2pBWLYkfSHjJnTj1YF3rf2F7ozcVr+g430t/s
-	RR7k=
-X-Google-Smtp-Source: AGHT+IE18zSrlqo5UZqfe+VECEtKuXIR5fuwctcNZLfOgeZl+0iHQtON4wQEBMCmzpXkSD4FguUo7Q==
-X-Received: by 2002:a05:6a20:6d92:b0:1a3:63ca:8fc7 with SMTP id gl18-20020a056a206d9200b001a363ca8fc7mr2227117pzb.18.1710953057384;
-        Wed, 20 Mar 2024 09:44:17 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1710953060; x=1711557860;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=C5jJx5uk975X4VZREDA0yRed2x3nK2zK02MAB7KPtIM=;
+        b=a5heKQaLBJ5bjFruLYA0UiEPGaXJsRJNra/mtr5YY6cOIPgBFEbH3Xg/4Ns+ALusbV
+         +DQ6+MDlJ/Y4t+k6P/gIGokOvDFBY3WVlThTAXMfhxJjKuxWNuFAGTq4A6h3fvE3cDXZ
+         C9UUh3CtyQcqSksYDg648YvX+Jz7HeVSTN6jsngsWCbtqUCCqqk6BdRRX/Nc93qU775n
+         QZYlLHmWp62OxvTZdnkwqY6Ca/X1UMrkT4eJtDsriDghPUZacervquE3wapgolZ6zAQ+
+         gpkY5k8cQepuzZ8V0U/vlWPqDIkb5uVV0LrCZ+RIogR0SQOKWE0ko4fvMxUu3W7R8lqy
+         OD1g==
+X-Gm-Message-State: AOJu0YxWS+DuD2i8R/FtqZP6tlY7ejkYPERbR5JymiBnjuxGg+d4RsYS
+	a6wdohFINJgQtV8KEh38fjXSQtIcnFP3ozvK9gtorm+wWxnEBu2x9KztMimX7kjGu/gshe3/B8o
+	9pLY=
+X-Google-Smtp-Source: AGHT+IEi5x/wvNbNunXASdwckM/pXELx19VxSZYZmtPxND8xMhm7k0SM+eJkvnBN3hm20tsyI/pZ0w==
+X-Received: by 2002:a05:6a00:170b:b0:6e6:2946:2b6e with SMTP id h11-20020a056a00170b00b006e629462b6emr21205680pfc.32.1710953059752;
+        Wed, 20 Mar 2024 09:44:19 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id a3-20020a62d403000000b006e6bfff6085sm12725437pfh.143.2024.03.20.09.44.16
+        by smtp.gmail.com with ESMTPSA id a3-20020a62d403000000b006e6bfff6085sm12725437pfh.143.2024.03.20.09.44.19
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Mar 2024 09:44:17 -0700 (PDT)
+        Wed, 20 Mar 2024 09:44:19 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/12] Patch review
-Date: Wed, 20 Mar 2024 06:43:54 -1000
-Message-Id: <cover.1710952928.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 01/12] libxml2: Backport fix for CVE-2024-25062
+Date: Wed, 20 Mar 2024 06:43:55 -1000
+Message-Id: <e4e621dc42be5dd158393fcadf5200f9eae613cb.1710952928.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1710952928.git.steve@sakoman.com>
+References: <cover.1710952928.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 20 Mar 2024 16:44:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197387
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197388
 
-Please review this set of changes for dunfell and have comments back by
-end of day Friday, March 22
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Passed a-full on autobuilder:
+Upstream-Status: Backport
+[https://gitlab.gnome.org/GNOME/libxml2/-/commit/31c6ce3b63f8a494ad9e31ca65187a73d8ad3508
+&
+https://gitlab.gnome.org/GNOME/libxml2/-/commit/2b0aac140d739905c7848a42efc60bfe783a39b7]
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6692
-
-The following changes since commit b49b0a3dd74c24f3a011c9c0b5cf8f6530956cfa:
-
-  build-appliance-image: Update to dunfell head revision (2024-03-01 03:19:51 -1000)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
-
-Alex Kiernan (1):
-  wireless-regdb: Upgrade 2023.09.01 -> 2024.01.23
-
-Alexander Kanavin (1):
-  linux-firmware: upgrade 20231211 -> 20240220
-
-Alexander Sverdlin (1):
-  linux-firmware: upgrade 20231030 -> 20231211
-
-Michael Halstead (1):
-  yocto-uninative: Update to 4.4 for glibc 2.39
-
-Vijay Anusuri (1):
-  libxml2: Backport fix for CVE-2024-25062
-
-Wang Mingyu (1):
-  wireless-regdb: upgrade 2023.05.03 -> 2023.09.01
-
-Yoann Congal (6):
-  cve-update-nvd2-native: Fix typo in comment
-  cve-update-nvd2-native: Add an age threshold for incremental update
-  cve-update-nvd2-native: Remove duplicated CVE_CHECK_DB_FILE definition
-  cve-update-nvd2-native: nvd_request_next: Improve comment
-  cve-update-nvd2-native: Fix CVE configuration update
-  cve-update-nvd2-native: Remove rejected CVE from database
-
- meta/conf/distro/include/yocto-uninative.inc  | 10 ++---
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
  .../libxml/libxml2/CVE-2024-25062-pre1.patch  | 38 +++++++++++++++++++
  .../libxml/libxml2/CVE-2024-25062.patch       | 33 ++++++++++++++++
  meta/recipes-core/libxml/libxml2_2.9.10.bb    |  2 +
- .../meta/cve-update-nvd2-native.bb            | 35 +++++++++++++----
- ...20231030.bb => linux-firmware_20240220.bb} |  7 ++--
- ....05.03.bb => wireless-regdb_2024.01.23.bb} |  4 +-
- 7 files changed, 111 insertions(+), 18 deletions(-)
+ 3 files changed, 73 insertions(+)
  create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2024-25062-pre1.patch
  create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2024-25062.patch
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20231030.bb => linux-firmware_20240220.bb} (99%)
- rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2023.05.03.bb => wireless-regdb_2024.01.23.bb} (88%)
 
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2024-25062-pre1.patch b/meta/recipes-core/libxml/libxml2/CVE-2024-25062-pre1.patch
+new file mode 100644
+index 0000000000..31183399f8
+--- /dev/null
++++ b/meta/recipes-core/libxml/libxml2/CVE-2024-25062-pre1.patch
+@@ -0,0 +1,38 @@
++From 31c6ce3b63f8a494ad9e31ca65187a73d8ad3508 Mon Sep 17 00:00:00 2001
++From: Nick Wellnhofer <wellnhofer@aevum.de>
++Date: Mon, 9 Nov 2020 17:55:44 +0100
++Subject: [PATCH] Avoid call stack overflow with XML reader and recursive
++ XIncludes
++
++Don't process XIncludes in the result of another inclusion to avoid
++infinite recursion resulting in a call stack overflow.
++
++This is something the XInclude engine shouldn't allow but correct
++handling of intra-document includes would require major changes.
++
++Found by OSS-Fuzz.
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/31c6ce3b63f8a494ad9e31ca65187a73d8ad3508]
++CVE: CVE-2024-25062 #Dependency Patch
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ xmlreader.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/xmlreader.c b/xmlreader.c
++index 01adf74f4..72e40b032 100644
++--- a/xmlreader.c
+++++ b/xmlreader.c
++@@ -1585,7 +1585,8 @@ node_found:
++     /*
++      * Handle XInclude if asked for
++      */
++-    if ((reader->xinclude) && (reader->node != NULL) &&
+++    if ((reader->xinclude) && (reader->in_xinclude == 0) &&
+++        (reader->node != NULL) &&
++ 	(reader->node->type == XML_ELEMENT_NODE) &&
++ 	(reader->node->ns != NULL) &&
++ 	((xmlStrEqual(reader->node->ns->href, XINCLUDE_NS)) ||
++-- 
++GitLab
++
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2024-25062.patch b/meta/recipes-core/libxml/libxml2/CVE-2024-25062.patch
+new file mode 100644
+index 0000000000..5365d5546a
+--- /dev/null
++++ b/meta/recipes-core/libxml/libxml2/CVE-2024-25062.patch
+@@ -0,0 +1,33 @@
++From 2b0aac140d739905c7848a42efc60bfe783a39b7 Mon Sep 17 00:00:00 2001
++From: Nick Wellnhofer <wellnhofer@aevum.de>
++Date: Sat, 14 Oct 2023 22:45:54 +0200
++Subject: [PATCH] [CVE-2024-25062] xmlreader: Don't expand XIncludes when
++ backtracking
++
++Fixes a use-after-free if XML Reader if used with DTD validation and
++XInclude expansion.
++
++Fixes #604.
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/2b0aac140d739905c7848a42efc60bfe783a39b7]
++CVE: CVE-2024-25062
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ xmlreader.c | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/xmlreader.c b/xmlreader.c
++index 979385a13..fefd68e0b 100644
++--- a/xmlreader.c
+++++ b/xmlreader.c
++@@ -1443,6 +1443,7 @@ node_found:
++      * Handle XInclude if asked for
++      */
++     if ((reader->xinclude) && (reader->in_xinclude == 0) &&
+++        (reader->state != XML_TEXTREADER_BACKTRACK) &&
++         (reader->node != NULL) &&
++ 	(reader->node->type == XML_ELEMENT_NODE) &&
++ 	(reader->node->ns != NULL) &&
++-- 
++GitLab
++
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.10.bb b/meta/recipes-core/libxml/libxml2_2.9.10.bb
+index 90d30f1ea7..72f830b6d3 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.10.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.10.bb
+@@ -44,6 +44,8 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar.gz;subdir=${BP};name=te
+            file://CVE-2021-3516.patch \
+            file://CVE-2023-45322-1.patch \
+            file://CVE-2023-45322-2.patch \
++           file://CVE-2024-25062-pre1.patch \
++           file://CVE-2024-25062.patch \
+            "
+ 
+ SRC_URI[archive.sha256sum] = "593b7b751dd18c2d6abcd0c4bcb29efc203d0b4373a6df98e3a455ea74ae2813"
 -- 
 2.34.1
 
