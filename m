@@ -1,88 +1,166 @@
-Return-Path: <joel.winarske@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A828CD11DE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63254C6FD1F
 	for <webhook@archiver.kernel.org>; Wed, 20 Mar 2024 16:10:23 +0000 (UTC)
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
- by mx.groups.io with SMTP id smtpd.web10.49254.1710951017567049026
- for <Openembedded-core@lists.openembedded.org>;
- Wed, 20 Mar 2024 09:10:17 -0700
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+ by mx.groups.io with SMTP id smtpd.web11.49393.1710951022087685045
+ for <openembedded-core@lists.openembedded.org>;
+ Wed, 20 Mar 2024 09:10:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Ig3vAtTc;
- spf=pass (domain: gmail.com, ip: 209.85.210.173, mailfrom: joel.winarske@gmail.com)
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-6e74aa08d15so55604b3a.1
-        for <Openembedded-core@lists.openembedded.org>; Wed, 20 Mar 2024 09:10:17 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=mekZMEo7;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.172, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1dddad37712so65445705ad.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 20 Mar 2024 09:10:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710951016; x=1711555816; darn=lists.openembedded.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=CAjBYrH/fgWijAQQLDTC+ivN10C355Q5QJougCCuJ6Y=;
-        b=Ig3vAtTci8GRlYXI97Hz0bLzM40HTyYmpN7A02SmKVEv5FkV9znF7qFFveHjtgT/Af
-         r+rvRbnoHT8v1dab7W0uflEtMK/YKhIVj/tsr4NJZYb3q0LxbpnOvtO1o78Q2aTkvOzE
-         K8Wz68V1hlIUSckgxsqTRVtk9koIbVR3GkG7gbNmj+FIiNqgLceE6AJT58mr4lW7keyq
-         /xPD7bYCtde6PpoI8QD/ZThPGKP2zf3n42jwABKOb4y97J8VbKGLVfzIayMVhN/bNNMY
-         3h7uk90iz+0qunmWoUkfrRn2li9ybcPzBuCX95IyKFGltMceoZtEllDNcYcX8t+7848U
-         B23Q==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1710951021; x=1711555821; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EXhLd/iVuf6BbUPbwbmG7VDiGkrVBa4+BXubz2tSDhY=;
+        b=mekZMEo7XS0/y0Z016tW8ihYEJGXlSl+ifVCTl1vY7V4pCxJ+2rY+6PPWjBboRyXJM
+         MLP9wnCoC1HR/HJRHQSG1yc9+iB58i3EHaiyb5wv5CSFgy2CrZCce7fMJoqScciYby6J
+         OyFk5RtLUcWAnITapbNUAD0QrXQFkNZzlL87e6PXYxjqOl75wGmv5dhFeme6ejfAgGOx
+         0Ana5QFT9tiZT8OtoE+vFkcXFvudSCoewAmuBbM93vfl6MQNo4fIcTcQhEuOxKK9wEmh
+         8po3UmJeDugzxIkCtIIshCirs45nO+pAReIZzZ24lLVPeC5NmuTWhqleSEMKNSqJVAFw
+         5OOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710951016; x=1711555816;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=CAjBYrH/fgWijAQQLDTC+ivN10C355Q5QJougCCuJ6Y=;
-        b=gwB8iK9f6XtatSmfw+QA4U22WFnotVkyckl9+ECUq9q+JJkJPqhej9p5DNiI04QgSd
-         ymLHTYDb2w4mvZYt/O7ff8HZZHR6SLLdi1z8QvM4n7PvaZT5mvZUlb7PY9FWpAIO/ixc
-         oElaLGw+QxE1fwcjkBj9L+BM7cFtgHgcOLiSNizIyCepX4oeCaLiOXJl95xqCc0j+xAT
-         v3KZEXpZq5Vlbmt3tKmSIxU1zM42b+gJSUCoGzfT6jG1hko5UV4BPvGIKJrXsnsHU1/K
-         e9fziM7PLfHWkVMlsbdqnVsiqp1JSSvYH2tsTh4+a9+M2maGqT0kpoVUSJU4DjLwCmYf
-         yqHg==
-X-Gm-Message-State: AOJu0YwRWX0Z4u5CP7uK+lRnDGjnlrX7H17yx5CC9KbDeuLSiuDROI0T
-	J6aJv9zwNPwZa6439Rg8Z0Sz6xB7XhoHFqfCvvKmfGCQeYWlvS4P23WQmrDnml/cPuXnH7tRonH
-	qWUhz1fX18kwK77hXzxiSBZj5qq1+1UbY/yBeVw==
-X-Google-Smtp-Source: AGHT+IHyxv0n5+Fu2nmrnuTzJxq0rzVb0bhuShHUw8BG0FusQDwFPSTb3I80I9j5ZfLAOxji7bZKdqsCC+2Tve9cFS8=
-X-Received: by 2002:a17:90a:c212:b0:29b:ab13:5c2b with SMTP id
- e18-20020a17090ac21200b0029bab135c2bmr5812621pjt.20.1710951016395; Wed, 20
- Mar 2024 09:10:16 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1710951021; x=1711555821;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EXhLd/iVuf6BbUPbwbmG7VDiGkrVBa4+BXubz2tSDhY=;
+        b=RzMhcK7TyfDEpNOOe6rT5P9ulrb9DZ8B1kch37GcjTSLEyVpV11Y0Zns919PWTHmMf
+         n8Q+rnSIubcZYl4sq52y29l6FWnhmp4V3HbwgW5+Li8VOUu+MCIBPRL8wbERWluvOdka
+         RKW6bjqKQ57xlWgvjwDalvzlOpCehMbi/k284ejDdiJz5HgOiwBfzX6wvMefzmmovlWa
+         DktUeXUuQJrXaEWBOe4iVcgYD/JzL/0zGbNZRORyHoWflFHLGvcGK5uu+fB4VFSd/Z82
+         l9LyxJOWqrIlTTqW29+sbZhJX6pdLUnq45ReR/CZtcqDmVdF2eLvCW8oAEBtZw8D4o2n
+         JVwQ==
+X-Gm-Message-State: AOJu0Yy5EdO0lwU9ScvQs7QPZ5pjOqMjxVilQwzhalfPajZLmbW1eCNj
+	IpbWkOn6WI6l93b4gJBlRdZ15703eGQ3GZRYi/SmO4ug8hW5dJ4LLzm70A+nm/2GpjgRJdb0kpP
+	UNo4=
+X-Google-Smtp-Source: AGHT+IHseYCdjlb4dSVq6j7Q7VLP7v5H3nX8vIJ7t2m/ZqYbe0EKdivleoaF7puv4LZ4lVwk7RKbQw==
+X-Received: by 2002:a17:902:e74d:b0:1dd:6414:3c5d with SMTP id p13-20020a170902e74d00b001dd64143c5dmr26243646plf.7.1710951021395;
+        Wed, 20 Mar 2024 09:10:21 -0700 (PDT)
+Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
+        by smtp.gmail.com with ESMTPSA id l18-20020a170903121200b001ddc93c5759sm13775694plh.196.2024.03.20.09.10.20
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Mar 2024 09:10:21 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][kirkstone 03/15] python3-cryptography: Backport fix for CVE-2024-26130
+Date: Wed, 20 Mar 2024 06:09:41 -1000
+Message-Id: <7864c4605cde4851df644dd1d2867bd28d155710.1710950846.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1710950846.git.steve@sakoman.com>
+References: <cover.1710950846.git.steve@sakoman.com>
 MIME-Version: 1.0
-From: Joel Winarske <joel.winarske@gmail.com>
-Date: Wed, 20 Mar 2024 09:10:05 -0700
-Message-ID: <CABKMkPKN__Jh6jvc_CfHtwp3HGbRsBJ3YxHxGb1RPPN2WWqRMw@mail.gmail.com>
-Subject: [master] riscv: libcamera stack smashing detected
-To: OE-core <Openembedded-core@lists.openembedded.org>, Khem Raj <raj.khem@gmail.com>
-Content-Type: multipart/alternative; boundary="0000000000008f7c94061419d378"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 20 Mar 2024 16:10:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197371
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197374
 
---0000000000008f7c94061419d378
-Content-Type: text/plain; charset="UTF-8"
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-In master there is a problem running the libcamera "cam" app on a RISC-V
-device:
+Upstream-Status: Backport from https://github.com/pyca/cryptography/commit/97d231672763cdb5959a3b191e692a362f1b9e55
 
-*** stack smashing detected ***: terminated
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../python3-cryptography/CVE-2024-26130.patch | 66 +++++++++++++++++++
+ .../python/python3-cryptography_36.0.2.bb     |  1 +
+ 2 files changed, 67 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-cryptography/CVE-2024-26130.patch
 
-If I remove the patches in the libcamera recipe, it builds and runs on
-target without issue.
+diff --git a/meta/recipes-devtools/python/python3-cryptography/CVE-2024-26130.patch b/meta/recipes-devtools/python/python3-cryptography/CVE-2024-26130.patch
+new file mode 100644
+index 0000000000..ff113e8cc7
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-cryptography/CVE-2024-26130.patch
+@@ -0,0 +1,66 @@
++From 97d231672763cdb5959a3b191e692a362f1b9e55 Mon Sep 17 00:00:00 2001
++From: Alex Gaynor <alex.gaynor@gmail.com>
++Date: Mon, 19 Feb 2024 11:50:28 -0500
++Subject: [PATCH] Fixes #10422 -- don't crash when a PKCS#12 key and cert don't
++ match (#10423)
++
++Upstream-Status: Backport [https://github.com/pyca/cryptography/commit/97d231672763cdb5959a3b191e692a362f1b9e55]
++CVE: CVE-2024-26130
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ .../hazmat/backends/openssl/backend.py         |  9 +++++++++
++ tests/hazmat/primitives/test_pkcs12.py         | 18 ++++++++++++++++++
++ 2 files changed, 27 insertions(+)
++
++diff --git a/src/cryptography/hazmat/backends/openssl/backend.py b/src/cryptography/hazmat/backends/openssl/backend.py
++index c43fea0..d687931 100644
++--- a/src/cryptography/hazmat/backends/openssl/backend.py
+++++ b/src/cryptography/hazmat/backends/openssl/backend.py
++@@ -2131,6 +2131,15 @@ class Backend(BackendInterface):
++                     mac_iter,
++                     0,
++                 )
+++                if p12 == self._ffi.NULL:
+++                    errors = self._consume_errors()
+++                    raise ValueError(
+++                        (
+++                            "Failed to create PKCS12 (does the key match the "
+++                            "certificate?)"
+++                        ),
+++                        errors,
+++                    )
++ 
++         self.openssl_assert(p12 != self._ffi.NULL)
++         p12 = self._ffi.gc(p12, self._lib.PKCS12_free)
++diff --git a/tests/hazmat/primitives/test_pkcs12.py b/tests/hazmat/primitives/test_pkcs12.py
++index c5cfbc0..8af4c93 100644
++--- a/tests/hazmat/primitives/test_pkcs12.py
+++++ b/tests/hazmat/primitives/test_pkcs12.py
++@@ -25,6 +25,24 @@ from ...doubles import DummyKeySerializationEncryption
++ from ...utils import load_vectors_from_file
++ 
++ 
+++   @pytest.mark.supported(
+++       only_if=lambda backend: backend._lib.Cryptography_HAS_PKCS12_SET_MAC,
+++       skip_message="Requires OpenSSL with PKCS12_set_mac",
+++   )
+++   def test_set_mac_key_certificate_mismatch(self, backend):
+++       cacert, _ = _load_ca(backend)
+++       key = ec.generate_private_key(ec.SECP256R1())
+++       encryption = (
+++           serialization.PrivateFormat.PKCS12.encryption_builder()
+++           .hmac_hash(hashes.SHA256())
+++           .build(b"password")
+++       )
+++
+++       with pytest.raises(ValueError):
+++           serialize_key_and_certificates(
+++               b"name", key, cacert, [], encryption
+++           )
+++
++ @pytest.mark.skip_fips(
++     reason="PKCS12 unsupported in FIPS mode. So much bad crypto in it."
++ )
++-- 
++2.35.7
++
+diff --git a/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb b/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb
+index c429c75e1b..83381f225c 100644
+--- a/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb
++++ b/meta/recipes-devtools/python/python3-cryptography_36.0.2.bb
+@@ -19,6 +19,7 @@ SRC_URI += " \
+     file://fix-leak-metric.patch \
+     file://CVE-2023-23931.patch \
+     file://CVE-2023-49083.patch \
++    file://CVE-2024-26130.patch \
+ "
+ 
+ inherit pypi python_setuptools3_rust
+-- 
+2.34.1
 
-libcamera bug has the details:
-https://bugs.libcamera.org/show_bug.cgi?id=214
-
-Joel
-
---0000000000008f7c94061419d378
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>In master there is a problem running the libcamera &q=
-uot;cam&quot; app on a RISC-V device:<br><pre class=3D"gmail-bz_comment_tex=
-t" id=3D"gmail-comment_text_0">*** stack smashing detected ***: terminated<=
-/pre></div><div><div>If I remove the patches in the libcamera recipe, it bu=
-ilds and runs on target without issue.<br></div><div><br></div>libcamera bu=
-g has the details:<br></div><div><a href=3D"https://bugs.libcamera.org/show=
-_bug.cgi?id=3D214">https://bugs.libcamera.org/show_bug.cgi?id=3D214</a></di=
-v><div><br></div>Joel<br></div>
-
---0000000000008f7c94061419d378--
 
