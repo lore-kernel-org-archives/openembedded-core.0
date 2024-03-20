@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CCB83CD11BF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE795CD11DD
 	for <webhook@archiver.kernel.org>; Wed, 20 Mar 2024 16:44:33 +0000 (UTC)
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
- by mx.groups.io with SMTP id smtpd.web10.50321.1710953064553940664
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web11.50466.1710953068533860386
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Mar 2024 09:44:24 -0700
+ Wed, 20 Mar 2024 09:44:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=y1HStOz1;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.180, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-5c229dabbb6so12249a12.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Mar 2024 09:44:24 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Qtl04FY5;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.169, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-6e6adc557b6so98941b3a.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 20 Mar 2024 09:44:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1710953064; x=1711557864; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1710953068; x=1711557868; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=bY7pSB6C4iD/cu6hZe6L4ZY7xYl/RsMnvn93Bu5nuQE=;
-        b=y1HStOz1BaSkybwN3q6KE26cAmLSj8RM3fzKB/cI93IRrcJf6qXXdD+Cwr+GJEX2j7
-         KRaMGFMFBEuOs/LuuJ9S4w0yKaw7VhBlsiTw+0oqFbryiR1/EMzTETUTl/KsVuKZvRuR
-         vDal9hImO8Zv7c2+vYR9arvMWTKnk0K2SEOI29XV1E6MY45krENbzH6ZRfm/VO32HTXM
-         I5IMRtxTkFltzvfn4bm//8d/hP8Tz7TB+Aj4oq3awEefnhirFsr+KvGwLiQcEns0riGA
-         0cunNEW4V3Tusah9c6jWK8pG/0uS42lRv2kb8TbtUYai8aap/5hAW3SHOC/h4lDXz8ag
-         uzmA==
+        bh=NHO7zcpN++T4K/yoj1mLAkUqMCfyo17sDK2LDVZtdWU=;
+        b=Qtl04FY5PEXAy4S5Vbyj8e3+qFy/0+41zj6PyN7g36oh3rQ1mHARyi3J6nnRQWyh6O
+         EUO5igMYQW4n/pGeNyEp9IKzLsb2eYTcNT1O7eutsuH0CCviAqLmpHIsMYRmRXMtyzpm
+         WmPuKajUh31RCvQbU1M5l/+R11WdmLhNtmjXan8hFq2hI+EmQQ7kMSZN/H+S1uLeUj63
+         iUmXsliTwrWLMhNWuiErE672MszHblNYoXjfPJUH40HfiEsAaA17ypkgJ8WiomigijiY
+         c9rivxjNpGG1vGICnHqx/5Y+ZWUpHTXiSeDijCawtjz2PN0xhPWbd/DcewUAtuJu1YyS
+         it4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710953064; x=1711557864;
+        d=1e100.net; s=20230601; t=1710953068; x=1711557868;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bY7pSB6C4iD/cu6hZe6L4ZY7xYl/RsMnvn93Bu5nuQE=;
-        b=E1kiKldLMtw0HgxaPRFMNvySqLjevaSCIH9pzHblBuL1ahrllGAmqmo5DtdV6Tk5dx
-         J1iZnAaEdciru7vaKhe6T9DVMTLvP+T0yMoEnI/KjHjOQh2wDfQMvFkI9obb0gjSYVde
-         oa7wHZRtuPEWfcDZ848PYgpETmnjxGB5iQsLCc1RRWg1UdBQh7L8+FI6l+MJbY6q/Vj5
-         JxrABqZBQU2sd9lsCEKJvDmuFLRX95y5obA2r0yY3J4UWKZtrAiLiKjmfLlJiQn/nFGM
-         CH9Q4Wblc8zrkyZoE5SSNxiIrLOfBPXP0ewWn8VtqHywDIhd7mFQAi6xlNbr4x5yp/EU
-         BBtQ==
-X-Gm-Message-State: AOJu0YwC290KsUMDpLnQ/EABHXxJ1a6Wr7yoiyKD+4plJC5JF6OnvBbz
-	+lVKUmTBAYX7bmQusUJzkDBzB6tQcZXSvPyKzbbtY6qAQU+ywZm3JyceNGbG3ZE972EcKLpQhmw
-	S2Zo=
-X-Google-Smtp-Source: AGHT+IH7j2/ngd/p3RPTc4cMUmm1FbwPPGRwTnkwiC5Lx3SjoVf7ghULUb8mgGmWZ1cmIqcOziqc8Q==
-X-Received: by 2002:a05:6a20:3503:b0:1a3:64a9:11e5 with SMTP id d3-20020a056a20350300b001a364a911e5mr5249549pze.50.1710953063849;
-        Wed, 20 Mar 2024 09:44:23 -0700 (PDT)
+        bh=NHO7zcpN++T4K/yoj1mLAkUqMCfyo17sDK2LDVZtdWU=;
+        b=JBRCJHSjVt691c8QkO5auxXurwig9EJXrIRMs+b/lt16QQAF2EQZypx3xH+nu0abU0
+         33SaLoG4K0tTlsuPhda9jHmO5myb7lyCsKelnhMsJu/djxVoiz52jaTj4cD9CQdUdR/j
+         d6KqJ8Wy/DQ2iQbBlN/mRhpa7o68cH33wxPFu0vYKa82wTI1/1a48emrG68ci6zxbRao
+         gPIVnZ9umQWDlb1U6A52EUDkii8ADjLjZK8ztmam1xZZYH5MOY+KFNzjpY6FBNRqYzE1
+         CB9bkRYFpOYTknSLSINKlAXYMRG9pk4pQ0vZ3idGsuAnMbWDItQ60BK6F1Il93Tn+A6w
+         GQQQ==
+X-Gm-Message-State: AOJu0YxrBNcx6qjtINAFLvYswgRG/GdzohkqXZ84ER0sU6dkYQXQBpTN
+	B4MnI/eb7iu7m3MixNDJtlOtnhgB2DD7Q6uJqBkL0PNX4ai0rqT0DAdH0G1a8RrZ/N4VrF1q9/9
+	8vMk=
+X-Google-Smtp-Source: AGHT+IFofq56afokkoh4elNMHSjX66Db+JhjzwcYfhQwaAwlbV6EswZOD5ZVvOZHcIOV+GU5e+PnSQ==
+X-Received: by 2002:a05:6a00:2394:b0:6e6:9942:fd97 with SMTP id f20-20020a056a00239400b006e69942fd97mr21571866pfc.15.1710953067847;
+        Wed, 20 Mar 2024 09:44:27 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id a3-20020a62d403000000b006e6bfff6085sm12725437pfh.143.2024.03.20.09.44.23
+        by smtp.gmail.com with ESMTPSA id a3-20020a62d403000000b006e6bfff6085sm12725437pfh.143.2024.03.20.09.44.26
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Mar 2024 09:44:23 -0700 (PDT)
+        Wed, 20 Mar 2024 09:44:27 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 03/12] cve-update-nvd2-native: Add an age threshold for incremental update
-Date: Wed, 20 Mar 2024 06:43:57 -1000
-Message-Id: <c9a3e5a4ca297249f8fd7380a824dce0c407280b.1710952928.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 05/12] cve-update-nvd2-native: nvd_request_next: Improve comment
+Date: Wed, 20 Mar 2024 06:43:59 -1000
+Message-Id: <9ba959475d84b2e87e14ceba11787b10afca45ba.1710952928.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1710952928.git.steve@sakoman.com>
 References: <cover.1710952928.git.steve@sakoman.com>
@@ -62,70 +62,35 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 20 Mar 2024 16:44:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197390
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197392
 
 From: Yoann Congal <yoann.congal@smile.fr>
 
-Add a new variable "CVE_DB_INCR_UPDATE_AGE_THRES", which can be used to
-specify the maximum age of the database for doing an incremental update
-For older databases, a full re-download is done.
-
-With a value of "0", this forces a full-redownload.
+Add a URL to the doc of the API used in the function.
+... and fix a small typo dabase -> database
 
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 74c1765111b6610348eae4b7e41d7045ce58ef86)
+(cherry picked from commit e0157b3b81333a24abd31dbb23a6abebca3e7ba7)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../meta/cve-update-nvd2-native.bb            | 20 +++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
+ meta/recipes-core/meta/cve-update-nvd2-native.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb b/meta/recipes-core/meta/cve-update-nvd2-native.bb
-index 9b6e746add..af21989d58 100644
+index 506b4b6bbf..a703b68aac 100644
 --- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
 +++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
-@@ -26,6 +26,12 @@ NVDCVE_API_KEY ?= ""
- # Use a negative value to skip the update
- CVE_DB_UPDATE_INTERVAL ?= "86400"
+@@ -123,7 +123,8 @@ def nvd_request_wait(attempt, min_wait):
  
-+# CVE database incremental update age threshold, in seconds. If the database is
-+# older than this threshold, do a full re-download, else, do an incremental
-+# update. By default: the maximum allowed value from NVD: 120 days (120*24*60*60)
-+# Use 0 to force a full download.
-+CVE_DB_INCR_UPDATE_AGE_THRES ?= "10368000"
-+
- # Number of attempts for each http query to nvd server before giving up
- CVE_DB_UPDATE_ATTEMPTS ?= "5"
+ def nvd_request_next(url, attempts, api_key, args, min_wait):
+     """
+-    Request next part of the NVD dabase
++    Request next part of the NVD database
++    NVD API documentation: https://nvd.nist.gov/developers/vulnerabilities
+     """
  
-@@ -172,18 +178,24 @@ def update_db_file(db_tmp_file, d, database_time):
- 
-     req_args = {'startIndex' : 0}
- 
--    # The maximum range for time is 120 days
--    # Force a complete update if our range is longer
--    if (database_time != 0):
-+    incr_update_threshold = int(d.getVar("CVE_DB_INCR_UPDATE_AGE_THRES"))
-+    if database_time != 0:
-         database_date = datetime.datetime.fromtimestamp(database_time, tz=datetime.timezone.utc)
-         today_date = datetime.datetime.now(tz=datetime.timezone.utc)
-         delta = today_date - database_date
--        if delta.days < 120:
-+        if incr_update_threshold == 0:
-+            bb.note("CVE database: forced full update")
-+        elif delta < datetime.timedelta(seconds=incr_update_threshold):
-             bb.note("CVE database: performing partial update")
-+            # The maximum range for time is 120 days
-+            if delta > datetime.timedelta(days=120):
-+                bb.error("CVE database: Trying to do an incremental update on a larger than supported range")
-             req_args['lastModStartDate'] = database_date.isoformat()
-             req_args['lastModEndDate'] = today_date.isoformat()
-         else:
-             bb.note("CVE database: file too old, forcing a full update")
-+    else:
-+        bb.note("CVE database: no preexisting database, do a full download")
- 
-     with bb.progress.ProgressHandler(d) as ph, open(os.path.join(d.getVar("TMPDIR"), 'cve_check'), 'a') as cve_f:
- 
+     import urllib.request
 -- 
 2.34.1
 
