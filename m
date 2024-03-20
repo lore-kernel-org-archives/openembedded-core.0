@@ -2,97 +2,104 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07311CD11DF
-	for <webhook@archiver.kernel.org>; Wed, 20 Mar 2024 16:44:34 +0000 (UTC)
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
- by mx.groups.io with SMTP id smtpd.web10.50324.1710953066702142158
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1201CD11DC
+	for <webhook@archiver.kernel.org>; Wed, 20 Mar 2024 16:44:33 +0000 (UTC)
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web11.50470.1710953073606021636
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Mar 2024 09:44:26 -0700
+ Wed, 20 Mar 2024 09:44:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=etwyADcq;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.177, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-6e74bd85f26so91303b3a.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Mar 2024 09:44:26 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=3EUJQeAQ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.175, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-6e6ca2ac094so119614b3a.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 20 Mar 2024 09:44:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1710953066; x=1711557866; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1710953073; x=1711557873; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=5TVSUgBG3OdQoN8sz4qt1bkOjb7zd40el4oOJemiZno=;
-        b=etwyADcqKOUv1Xy8wQFl/NRvdCgg+P8LzZwsAUhFW0MiNkPQSCZKBYSxF80Sa3dbW2
-         gVD52kNf4+DsmZBK5WBYeELdKKFWFLm4jSQr22I+oW/viy5ygHx3RDZ3bh9qQRVxz61F
-         igpMWTybUQmr8Ny05X4GOnAWDjhNxEbwRjGkSw34IOAFrtbmFklyxym3NfqlzAz2lS2d
-         Q4K1FPYatI6+wN1BXadgtcqFJq7YzY4VvAd5Xjg9xWQMZaxvHKlr01nSx4QseeHzvDVl
-         nVgtS0dLv237vOZk3ByLuIQxt+NEfHPrMYV1v3k0vtx4OPkCGV+h3nYOjp395Pf6mWWV
-         1Pbw==
+        bh=CFQ5WgfoA2REa4w5YqoKTxS3Dvwe6nvcE45RcRT8EQg=;
+        b=3EUJQeAQEb1gTinuUxNSrATk0MUNri3coyj3K+gvAfn3ofuU/RoUifTT4G+BhIbThP
+         ckvDzSkI0kwfo32B+tFOKpOVBgc2IRGg6iuSqcUcn//NismaXlF8MkBOzXiMkirfSOEq
+         F03ePxJFudbsuHms6Wzpd5/h13FbLFHIW5k+a0kVm8qa3ZnFFQF99xArpYjXaBSRGyz1
+         9dc/+BXTv5mDzhnxp/5v6tm4qleJLPHPw5YXqPUVJ6N7p3Y3PqahbLXlrOeBscAFYU9U
+         1moM/blsYmN2mUp4g4gNCje7+VyIA6Bgl00K7gTDcGVEojlWExUnFtoSbm7p7NhEZbgY
+         IErQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710953066; x=1711557866;
+        d=1e100.net; s=20230601; t=1710953073; x=1711557873;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=5TVSUgBG3OdQoN8sz4qt1bkOjb7zd40el4oOJemiZno=;
-        b=BYcHGK18giUUJ7szMLJafVfpgFO4qvneymohtdYy83XAYwxVqvzbe0iIaiziJHOAHI
-         H00UMTpyC6eiFPoMphw43qkl33Yc724H69tR+ftP7vDoXPqHJMCU9i+3PaPCsBmS2Ezw
-         4qkBCYFJ72SzWvGcZyiIoRNPH+IzBG316wqx6WCpd5Yuc3rvXLf7twGHmWioCWnmkLnJ
-         juvxxzczmMLb9134wKXzc5FNVobRcE1GUY7JBOhSmGX08YPgNo7zyyJNWtXYj/YN+7P9
-         Gk51DYTLOOubzGaWDVZ4uu7Jbo3mVQBKSCfsFXJmnwYmlXUgWTb7C0x1J6OK2r6dBWUg
-         jQvQ==
-X-Gm-Message-State: AOJu0Yy8XFQWAceij8tKTQ5rMdQOoIcnsnBhffoqLqJspNEs4WgC6xsT
-	PF7fWMAc5N1nGgKms17KGGJnLIe538gVtR2SvF3mTor0OOeyUWPGyaW4Ab6P7yJlZyuGMTdAYZ5
-	purY=
-X-Google-Smtp-Source: AGHT+IGx94DuRudOaeigOC0KDroYfhOy8H8zMU0okgbIW32KNUGPu4kcDLB4OKiOlnZNtLXtLSq4GQ==
-X-Received: by 2002:a62:d153:0:b0:6e6:fcd4:5a23 with SMTP id t19-20020a62d153000000b006e6fcd45a23mr12363114pfl.32.1710953065796;
-        Wed, 20 Mar 2024 09:44:25 -0700 (PDT)
+        bh=CFQ5WgfoA2REa4w5YqoKTxS3Dvwe6nvcE45RcRT8EQg=;
+        b=PZqAMyritQyWkGxj+1X2olszqzUoZisISK1prNo6XkjjOEeHg5yAy6Eew9cigUCpls
+         MaivsFxvOTkGAsa6LZKzZ4AIHwcgUA4LJd+HXCDQI1ks+JZaSBOke5rXOYZd/0sHkoHp
+         A6qtyKdYTPk3/IbOLwbe0bgbC/erac07Ghhyl1+iiWRizc5zGRnoZMd4zUDEQ3LEH/Zm
+         HbE6jl2ylKE/g5mHxxMd3kY96Hc20MjBqdtjngSxhOSTBRURivQ4Q8ZCXsIrkvbxsSs3
+         0GAZBBIr0doRHjrE2zmxaMCfiuzfTeZ8t2zROUF/Zl8Tu4XaJdi3H8gTCOJbuF66lplI
+         7+pg==
+X-Gm-Message-State: AOJu0Yw2zHg1nW+rRs+/Do8OOXUvgdoGoPK5lYWWFE6bd7JHlVhEXNTr
+	oLCAfUI5JExhnYE1TB1rS+GIblQd3jJwzJjcXJYzzWiHmFs1xu318fcGPdea1PUcVSIwaJloukT
+	8L5Y=
+X-Google-Smtp-Source: AGHT+IHTo+3Ag/x5me5z6C7Vz0nLTtnISudGxRvgQZV4N4xMsC1gZjwdheztb1tLsWHcKa3gEPVhDQ==
+X-Received: by 2002:a05:6a21:788b:b0:1a3:560c:15d8 with SMTP id bf11-20020a056a21788b00b001a3560c15d8mr7464022pzc.41.1710953072933;
+        Wed, 20 Mar 2024 09:44:32 -0700 (PDT)
 Received: from hexa.lan (dhcp-72-234-108-41.hawaiiantel.net. [72.234.108.41])
-        by smtp.gmail.com with ESMTPSA id a3-20020a62d403000000b006e6bfff6085sm12725437pfh.143.2024.03.20.09.44.25
+        by smtp.gmail.com with ESMTPSA id a3-20020a62d403000000b006e6bfff6085sm12725437pfh.143.2024.03.20.09.44.32
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Mar 2024 09:44:25 -0700 (PDT)
+        Wed, 20 Mar 2024 09:44:32 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 04/12] cve-update-nvd2-native: Remove duplicated CVE_CHECK_DB_FILE definition
-Date: Wed, 20 Mar 2024 06:43:58 -1000
-Message-Id: <4268128167386298c8a7777ce3d3b5e7517bb366.1710952928.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 08/12] wireless-regdb: upgrade 2023.05.03 -> 2023.09.01
+Date: Wed, 20 Mar 2024 06:44:02 -1000
+Message-Id: <947433332468a9662cedacada1e5d19d9a664ac2.1710952928.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1710952928.git.steve@sakoman.com>
 References: <cover.1710952928.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 Mar 2024 16:44:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197391
+ <openembedded-core@lists.openembedded.org>; Wed, 20 Mar 2024 16:44:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197395
 
-From: Yoann Congal <yoann.congal@smile.fr>
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-CVE_CHECK_DB_FILE is already defined in cve-check.bbclass which is
-always inherited in cve-update-nvd2-native (There is a check line 40).
+Changelog:
+==========
+wireless-regdb: update regulatory database based on preceding changes
+wireless-regdb: Update regulatory rules for Australia (AU) for June 2023
+wireless-regdb: Update regulatory info for Türkiye (TR)
+wireless-regdb: Update regulatory rules for Egypt (EG) from March 2022 guidel...
+wireless-regdb: Update regulatory rules for Philippines (PH)
 
-Remove it to avoid confusion. Otherwise, this should not change
-anything.
-
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit e5f3f223885c17b7007c310273fc7c80b90a4105)
+(cherry picked from commit 2f5edb6904bf16a9c52a9b124aeb5297487cd716)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/meta/cve-update-nvd2-native.bb | 2 --
- 1 file changed, 2 deletions(-)
+ ...ireless-regdb_2023.05.03.bb => wireless-regdb_2023.09.01.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2023.05.03.bb => wireless-regdb_2023.09.01.bb} (94%)
 
-diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb b/meta/recipes-core/meta/cve-update-nvd2-native.bb
-index af21989d58..506b4b6bbf 100644
---- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
-+++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
-@@ -37,8 +37,6 @@ CVE_DB_UPDATE_ATTEMPTS ?= "5"
+diff --git a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2023.05.03.bb b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2023.09.01.bb
+similarity index 94%
+rename from meta/recipes-kernel/wireless-regdb/wireless-regdb_2023.05.03.bb
+rename to meta/recipes-kernel/wireless-regdb/wireless-regdb_2023.09.01.bb
+index f3c3cd78e9..9187d257ca 100644
+--- a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2023.05.03.bb
++++ b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2023.09.01.bb
+@@ -5,7 +5,7 @@ LICENSE = "ISC"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=07c4f6dea3845b02a18dc00c8c87699c"
  
- CVE_DB_TEMP_FILE ?= "${CVE_CHECK_DB_DIR}/temp_nvdcve_2.db"
+ SRC_URI = "https://www.kernel.org/pub/software/network/${BPN}/${BP}.tar.xz"
+-SRC_URI[sha256sum] = "f254d08ab3765aeae2b856222e11a95d44aef519a6663877c71ef68fae4c8c12"
++SRC_URI[sha256sum] = "26d4c2a727cc59239b84735aad856b7c7d0b04e30aa5c235c4f7f47f5f053491"
  
--CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/nvdcve_2.db"
--
- python () {
-     if not bb.data.inherits_class("cve-check", d):
-         raise bb.parse.SkipRecipe("Skip recipe when cve-check class is not loaded.")
+ inherit bin_package allarch
+ 
 -- 
 2.34.1
 
