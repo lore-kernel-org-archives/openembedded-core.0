@@ -1,137 +1,73 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <emil.kronborg@protonmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68AA8C54E58
-	for <webhook@archiver.kernel.org>; Wed, 20 Mar 2024 12:29:52 +0000 (UTC)
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.web11.43030.1710937788415683239
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AFC8C6FD1F
+	for <webhook@archiver.kernel.org>; Wed, 20 Mar 2024 15:36:53 +0000 (UTC)
+Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
+ by mx.groups.io with SMTP id smtpd.web10.48147.1710949009317079074
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Mar 2024 05:29:48 -0700
+ Wed, 20 Mar 2024 08:36:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=c2B3Idw3;
- spf=pass (domain: gmail.com, ip: 209.85.216.44, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-29df3333d30so4281367a91.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Mar 2024 05:29:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710937788; x=1711542588; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ffukqqUbFJXjCgjIqRsm6l9lxxzG+YtJHtoI2pHeT0k=;
-        b=c2B3Idw3U2ndokf1RsOlYB+p6wK94UWg8qq0B1lqJ9LgsxU0z4h7Mb9/3UBmtP38QV
-         I+C3ESejgZYLGrL6B5yZJi6UbsLGDRWLiRDiBnKLcDytMkLZW2xsjeEgDaIRIsDt+7mV
-         jHIKbhFyW9inftFqP1UJ97bKu/wk3gh1KeRUtjbzWjz+JBl8ALvFLJrNZG3bQR3MAqaj
-         YiT6vgFQoUuALEUpf3ipz0crWfCtIYUnpWfLWmTlLM36XnawfupZpkgrdUdUmes/ZrmM
-         9JAQXurph0CHvHyO32Yvczg3UfQyHivkhNl9DsGCRK0d1QjtbxMKuEW9uOLdO534WAUv
-         lTgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710937788; x=1711542588;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ffukqqUbFJXjCgjIqRsm6l9lxxzG+YtJHtoI2pHeT0k=;
-        b=WuUp3/KilBMwSsAhZIBslNSM47uSBqp18txnLGilfjh87d3nRbwt4mhpk/cQdn28hV
-         kuQmbRaRma7VW4O6JNRY6oDBEBcGk6RQHMGq77gGMn/ZsZxbFylctVe/4o+lM03qRf8v
-         FsCyJhtNQLzW8psgscyGWRG0wYBvIoN6EA/g3+y0TLTBLEpiAjIuUewC/0u4gfhdPXX0
-         1zH8kWld5ef9uc8Pxh74o59xLU+y/IC/BK13sSpajzO5p93gmnJJINTpLLq6P3NIU+eM
-         6pknwtRJbwzAxgGokDz02za6ilcv9k2iO/cbG/FF+3MZsM4T5lpzbYFL31URfN5ngIfG
-         P8zA==
-X-Gm-Message-State: AOJu0Ywuoj3aqEnb6zsdvo42oo8StElx1+5mIa+Gtkx2tkyQJw8oTs+s
-	E85g/yIhxd4yk9xIEXdfu7H1Def+yD5MzqM4ZF+JyMoPqxUMG6zCPMn1hZP7hZa7at3PnbmzpaN
-	CJbZkJGZQoQXxe2xGuN0Cb9RU6A8=
-X-Google-Smtp-Source: AGHT+IG/Jlve5Ih2ZmveWq+N5KGEUiGbQSqn4TfnnAFIKkJ7q3z1V1b/3KW1FD16b0VIyC3V+1y62AGnATP9jWxUGJg=
-X-Received: by 2002:a17:90a:1fc4:b0:29b:c17c:5fa6 with SMTP id
- z4-20020a17090a1fc400b0029bc17c5fa6mr12574584pjz.33.1710937787685; Wed, 20
- Mar 2024 05:29:47 -0700 (PDT)
+ dkim=pass header.i=@protonmail.com header.s=protonmail3 header.b=aXknynZG;
+ spf=pass (domain: protonmail.com, ip: 185.70.43.22, mailfrom: emil.kronborg@protonmail.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1710949007; x=1711208207;
+	bh=bMz19RIqvlmYhqAEwRkGMTV6c7v1RckRx/QchgcBGmg=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=aXknynZGNFy4wo1m4JuQlbcWz2RN1cUVBOgfKh5aQGxHpWGqUmQn0KLnlKd5UHou0
+	 +jUvWSjTPLVOCh9B3kMFLtYwO1rF8Dx5Xcypp1EkwkI9jgOQW2MekwD3KOWh9sDCZr
+	 /LNCfRlaLiKHPzGGcFDGCzIeA4Hj8Jfwssrbzl47Jo7QRWvYLVhmjLS1cvvzJMegmi
+	 +fOehXeATH7mL7I7C+QE+JUI7kVTsEiSG0vfZ09stOqEIZm6olPaqBfJXlGkYfad8i
+	 ciAPLeFlvu83+ypN3wL6IW+GgglVOrFelC2Aj2Nv0fO+goroN+E5J/Qi57QRaGF1lg
+	 xpmkgiH18X+4Q==
+Date: Wed, 20 Mar 2024 15:36:29 +0000
+To: openembedded-core@lists.openembedded.org
+From: Emil Kronborg <emil.kronborg@protonmail.com>
+Cc: rasmus.villemoes@prevas.dk, Emil Kronborg <emil.kronborg@protonmail.com>
+Subject: [PATCH] pypi.bbclass: remove vendor from CVE_PRODUCT
+Message-ID: <20240320152807.191065-2-emil.kronborg@protonmail.com>
+Feedback-ID: 20949900:user:proton
 MIME-Version: 1.0
-References: <cover.1710888915.git.bruce.ashfield@gmail.com>
- <4079b14e4fccdf64f52b60c878fb22def0eae836.1710888915.git.bruce.ashfield@gmail.com>
- <55784b1eb754e24a4da4b628cf087590af9a4859.camel@linuxfoundation.org>
-In-Reply-To: <55784b1eb754e24a4da4b628cf087590af9a4859.camel@linuxfoundation.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 20 Mar 2024 08:29:36 -0400
-Message-ID: <CADkTA4ME7+mH--7MYAwupupLCQ2UU+xLidYCSv_EAH4M4_xuwQ@mail.gmail.com>
-Subject: Re: [PATCH 4/9] yocto-bsps: update to v6.6.21
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 Mar 2024 12:29:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197360
+ <openembedded-core@lists.openembedded.org>; Wed, 20 Mar 2024 15:36:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197361
 
-On Wed, Mar 20, 2024 at 6:47=E2=80=AFAM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Tue, 2024-03-19 at 19:01 -0400, bruce.ashfield@gmail.com wrote:
-> >
-> > diff --git a/meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.6.bbappe=
-nd b/meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.6.bbappend
-> > index ca7b2b09df..bf88a57770 100644
-> > --- a/meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.6.bbappend
-> > +++ b/meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.6.bbappend
-> > @@ -9,16 +9,16 @@ KMACHINE:genericx86-64 ?=3D "common-pc-64"
-> >  KMACHINE:beaglebone-yocto ?=3D "beaglebone"
-> >
-> >  SRCREV_machine:genericarm64 ?=3D "e064a7d658a30b027b999183e21cd37305ca=
-ff2a"
-> > -SRCREV_machine:genericx86 ?=3D "332d4668fcc32826907d4f3c49388452060060=
-89"
-> > -SRCREV_machine:genericx86-64 ?=3D "332d4668fcc32826907d4f3c49388452060=
-06089"
-> > -SRCREV_machine:beaglebone-yocto ?=3D "332d4668fcc32826907d4f3c49388452=
-06006089"
-> > +SRCREV_machine:genericx86 ?=3D "06644f0d7193d7ec39d7fe41939a21953e7a0c=
-65"
-> > +SRCREV_machine:genericx86-64 ?=3D "06644f0d7193d7ec39d7fe41939a21953e7=
-a0c65"
-> > +SRCREV_machine:beaglebone-yocto ?=3D "06644f0d7193d7ec39d7fe41939a2195=
-3e7a0c65"
-> >
-> >  COMPATIBLE_MACHINE:genericarm64 =3D "genericarm64"
-> >  COMPATIBLE_MACHINE:genericx86 =3D "genericx86"
-> >  COMPATIBLE_MACHINE:genericx86-64 =3D "genericx86-64"
-> >  COMPATIBLE_MACHINE:beaglebone-yocto =3D "beaglebone-yocto"
-> >
-> > -LINUX_VERSION:genericarm64 =3D "6.6.18"
-> > -LINUX_VERSION:genericx86 =3D "6.6.15"
-> > -LINUX_VERSION:genericx86-64 =3D "6.6.15"
-> > -LINUX_VERSION:beaglebone-yocto =3D "6.6.15"
-> > +LINUX_VERSION:genericarm64 =3D "6.6.21-116-g06644f0d7193"
-> > +LINUX_VERSION:genericx86 =3D "6.6.21-116-g06644f0d7193"
-> > +LINUX_VERSION:genericx86-64 =3D "6.6.21-116-g06644f0d7193"
-> > +LINUX_VERSION:beaglebone-yocto =3D "6.6.21-116-g06644f0d7193"
->
-> I think this one came through a little corrupted as it it doesn't
-> rebase on top of the change Ross sent and even then, the LINUX_VERSION
-> looks odd compared to the one set in the main recipe for that revision.
->
-> I've tweaked it to look "right", we'll see how that build goes!
->
+By specifying the CVE vendor as python, some CVEs are not found. For
+instance, the CVE_PRODUCT for python3-pyopenssl becomes
+python:pyopenssl, which yields no matches in the NIST NVD database
+because the correct CVE vendor is pyopenssl.
 
-I was experimenting with my update script to pickup Kevin's commit shortlog
-and I noticed after that it was messing up the version string.
+Generally, CVE_PRODUCT ?=3D ${PYPI_PACKAGE}:${PYPI_PACKAGE} captures most
+cases. However, some package names, such as python3-pytest, are
+unrelated to the correct CVE product. In this case, the correct CVE
+vendor is pytest, but the CVE product is py, resulting in no CVEs being
+found. Therefore, not setting the CVE vendor is the most correct option.
+---
+ meta/classes-recipe/pypi.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I thought I rebased on top of the latest master (but that's probably the is=
-sue,
-I should have done master-next), so yes, it won't take into account us
-dropping genericarm64, etc.
-
-I've fixed my script now, so if you want a resend, I can easily do that.
-
-Bruce
-
-> Cheers,
->
-> Richard
-
-
-
+diff --git a/meta/classes-recipe/pypi.bbclass b/meta/classes-recipe/pypi.bb=
+class
+index b8c18ccf395a..64ef9148d27e 100644
+--- a/meta/classes-recipe/pypi.bbclass
++++ b/meta/classes-recipe/pypi.bbclass
+@@ -35,4 +35,4 @@ UPSTREAM_CHECK_PYPI_PACKAGE ?=3D "${@d.getVar('PYPI_PACKA=
+GE').replace('_', '-')}"
+ UPSTREAM_CHECK_URI ?=3D "https://pypi.org/project/${UPSTREAM_CHECK_PYPI_PA=
+CKAGE}/"
+ UPSTREAM_CHECK_REGEX ?=3D "/${UPSTREAM_CHECK_PYPI_PACKAGE}/(?P<pver>(\d+[\=
+.\-_]*)+)/"
+=20
+-CVE_PRODUCT ?=3D "python:${PYPI_PACKAGE}"
++CVE_PRODUCT ?=3D "${PYPI_PACKAGE}"
 --=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.44.0
+
+
 
