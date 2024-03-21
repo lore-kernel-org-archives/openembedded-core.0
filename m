@@ -1,99 +1,67 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B976EC54E58
-	for <webhook@archiver.kernel.org>; Thu, 21 Mar 2024 16:33:53 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web11.1558.1711038830558521971
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD3C7CD11DC
+	for <webhook@archiver.kernel.org>; Thu, 21 Mar 2024 16:37:53 +0000 (UTC)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+ by mx.groups.io with SMTP id smtpd.web10.1749.1711039072200569931
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Mar 2024 09:33:50 -0700
+ Thu, 21 Mar 2024 09:37:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=EhIQJvnt;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=ktaJHCUl;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018e61dc945b-9b300ddf-5a2a-4b71-8bed-82e1fd2ff6f8-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1711038829; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=nzNX8KAmAoplusMBoxKI23T9xtaFy22s9ZhwVkyWG+g=;
-	b=EhIQJvnty3HAHy8aCvULq91d2mY3lM4wX0lhxraOMvET/JoPFzI3t4RZlE7z0ezx
-	3CpDvAzEzFAR1YRYHtzYNwYUFeOsJCN6g7XIL6aBNmZ4zzy5PJRNU0FUaGE7KAcTkaX
-	pyE6t546s0Hg3oXgvJLhwetfG9Db9hFghVnDo6e0=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1711038829;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=nzNX8KAmAoplusMBoxKI23T9xtaFy22s9ZhwVkyWG+g=;
-	b=ktaJHCUlu8I/Uxuj3bTa13RsJhHOAiqhvHDoiorEzUGaaZsjLeItd/DBDd1VYgMN
-	xXu4QpvRLmIY0qFcv9XGHCI1cCMx8FPkwPcp6TGIONFGXdQzbtAaKWEgoT9o37mxU9v
-	I9eQIuK58dy9KQaiVEC9NieM/4Cei2k9yNjoXerE=
-From: patchtest@automation.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] llvm: Upgrade to 18.1.2 bugfix release
-In-Reply-To: <20240321162006.3378618-1-raj.khem@gmail.com>
-References: <20240321162006.3378618-1-raj.khem@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018e61dc945b-9b300ddf-5a2a-4b71-8bed-82e1fd2ff6f8-000000@us-west-2.amazonses.com>
-Date: Thu, 21 Mar 2024 16:33:49 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.03.21-54.240.27.30
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=WRFdw7W1;
+ spf=softfail (domain: sakoman.com, ip: 209.85.128.175, mailfrom: steve@sakoman.com)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-609408d4b31so11973827b3.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 Mar 2024 09:37:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1711039071; x=1711643871; darn=lists.openembedded.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=YP9bGrZurov2CH5OtO/1LwWDWjXcCEdzRRgFA9iHgS4=;
+        b=WRFdw7W1SqdRUQ8RVUryz2EhjO4kaIOgH+HljtXNM3v8H5/KmDtRssjLS5yvcmrXG7
+         a1U+xfKo3LS0cpWAPNmNikjGaOWY/8xe3/p0g5p+kyojicMCBEOGp0bUAm0LEq9ABpw/
+         a5sVbKdgPuZk3RslBqaAvE2Wos7wpOL203QAr1/Xns7eGMMU7BrNTdTMIpGFTdG6IpkO
+         WJayqo9BSKppr3nJ092SPiZegiuIf4IjIXc2/7HmIBPiVTtWUYFWKrLYxvFDz0pETkHK
+         K+CROc4JF2x2Bw5YwKVlbfDW2unA4LuZ4NdzW1v+qRNvQa7SbUAb2GpMkl6S7pvMBUI/
+         0big==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711039071; x=1711643871;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YP9bGrZurov2CH5OtO/1LwWDWjXcCEdzRRgFA9iHgS4=;
+        b=Xxvxd8B0pGep3qdboO8PUmJFA/ndFVQKKLDhdhAVeY6J89FBDLPiDoM/uwo58Z/LB/
+         S8YNF2kkevxjlJN5PMvAStOue7xLLRAQOxkbkEBUgVJAZ80u7AwIOrOfBe39QSQUzSkg
+         o6DNJWQJmP/qnIqQU+E0OJxEr1yR4eAZvSTS9dCAm6wzoqOepA3EUjAycxc45tvBYtJZ
+         UEcLp0ZKcveD40jijroxny20l0fxf0baUU5uJWAIaZDhkJf/o2jVJTtJMM7Jb03SBcqd
+         fOIENwXvQO1OX1fSk87G+wrKWeei23BLqPc7vvMST4K7fIVb8wigXuQ62L23WSq9tu5D
+         eMcw==
+X-Forwarded-Encrypted: i=1; AJvYcCVCQ98maNc3jRnJAhasGDw34uaffCgu22nTwkTUlqO0iWMc9XCUrEL/BMQLFrli8T4SwJW97mNCkO9RehZBv9yaFgBsMbYdiORz3TfQyR++ndHmc6v2bawP
+X-Gm-Message-State: AOJu0YzN1X1/mtIgdAmE5F0Nq4a0f4sjbWo79XeVRqcBWKdBgGUEmOYO
+	HQdTQiTK3SNWUIonLm3Gt8m1JYNjraBBxoS6h4J/VF8BO0HSxirWqfTzQdRJJRUfYPxIYfwpGvG
+	ps1QxQbYG1a3eBrrjALgtzny+zIi+rnoss8VdJA==
+X-Google-Smtp-Source: AGHT+IHsuqmWK1BiHDbggK7JBKdh8tvmuWEJ6bIn/BBPj1Sg/EYFgi2jiy9cZ2ZlMeAdMx+halJm4l+3ABSDxeaLuPI=
+X-Received: by 2002:a0d:dd14:0:b0:610:ecf0:a170 with SMTP id
+ g20-20020a0ddd14000000b00610ecf0a170mr5580692ywe.5.1711039071259; Thu, 21 Mar
+ 2024 09:37:51 -0700 (PDT)
+MIME-Version: 1.0
+From: Steve Sakoman <steve@sakoman.com>
+Date: Thu, 21 Mar 2024 06:37:40 -1000
+Message-ID: <CAOSpxdb=_8337e_QyL_mgMdXKgAjEkp3W5VxEK_kk+p+7ZGzaA@mail.gmail.com>
+Subject: Final dunfell release build on April 15, 2024
+To: Yocto-mailing-list <yocto@lists.yoctoproject.org>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 Mar 2024 16:33:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197416
+ <openembedded-core@lists.openembedded.org>; Thu, 21 Mar 2024 16:37:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197417
 
---NextPart
-Content-Type: text/plain
+If you have any patches you would like to submit for dunfell before
+it goes EOL, please do so now!
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+I'll be taking patches until around April 8 in preparation for an
+April 15 build.
 
----
-Testing patch /home/patchtest/share/mboxes/llvm-Upgrade-to-18.1.2-bugfix-release.patch
-
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
-
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+Steve
 
