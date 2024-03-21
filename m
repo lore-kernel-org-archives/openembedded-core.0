@@ -1,220 +1,1025 @@
-Return-Path: <jing.hui.tham@intel.com>
+Return-Path: <mail2szahir@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5AE6C54E68
-	for <webhook@archiver.kernel.org>; Thu, 21 Mar 2024 09:44:57 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by mx.groups.io with SMTP id smtpd.web10.3271.1711014288450210931
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1AE5C54E58
+	for <webhook@archiver.kernel.org>; Thu, 21 Mar 2024 10:03:57 +0000 (UTC)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web11.3626.1711015433949314694
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Mar 2024 02:44:48 -0700
+ Thu, 21 Mar 2024 03:03:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=Intel header.b=Pt/nrHm+;
- spf=pass (domain: intel.com, ip: 192.198.163.17, mailfrom: jing.hui.tham@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711014288; x=1742550288;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=bfnoLgNSZ6Cz8Tms7R9Rq2AQCK7Ih4U2ugOMgpaO93Q=;
-  b=Pt/nrHm+LsfNbsgpAfj6kYx+JoA8XQ+3Wym8J9dc8kAYun6d+D/0vI0Z
-   4REbgCklDRtdhS38BpCP2VNx6zIbM2OpjegbdveuX+vDuYCc64RPVNpJK
-   n/Dtl58UuifNjVrHpQGmow9tUgzcc9m1PPzLbGDA5TlXcYIntkpE/ld+X
-   m7Kuawv7bPetyHIg52nCS9RF+nI8trN8P+Ku5VqBKscc2bVUBQqxjak+W
-   OtbLUXOrmJlyw+qCcmXCgy4kZRja+lOWS50Oc1Po+CRfQzLgYHZNkBWMn
-   gxF1IyhHOne+iGa4vBiQ31rJsXNx30FequglmClT08Lwfmgnnrx5kEN0M
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11019"; a="5844006"
-X-IronPort-AV: E=Sophos;i="6.07,142,1708416000"; 
-   d="scan'208";a="5844006"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2024 02:44:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,142,1708416000"; 
-   d="scan'208";a="45555686"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by fmviesa001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 21 Mar 2024 02:44:47 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 21 Mar 2024 02:44:47 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Thu, 21 Mar 2024 02:44:47 -0700
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.57.40) by
- edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Thu, 21 Mar 2024 02:44:47 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LJ75NTKOI2s1lbAy1bvZbLEOL2AqpjDUGAlXEZcnbdzgbPEoh9WmvbHhDMUdAeoH/R7iMNUyIj0icdOM2zYWXZ6D3+wtyDbN2t+o7AE0ZvKD8xODsrggPQRUlD/A7xLsRyCUX3d0R4OkKLohOM7u2GRED+OFzb62QcARLbdd66X3TgFX6O9FktWneu6RyE0pKjOyxFXKTxM0Xe1QKmdAHOZyvPQZJJbjQdaBG2REFBxBPaUwSG0O1CXMStPTDnAbfsEyrKr8RZ1Lciqd2+LMZpHpgFd4rvREIlBv2nBhUoj0ze1vmEyDc4WYEuzHlHTlN4IsjLEApbBOjn1V4YwbWQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=w4VNO6ltQnDF8O9g9QUsHTVEQHsT/u8CHnTTyPlDyy4=;
- b=BdxAxatxXJ4x6wgQwIpgnUnbAREX+MJtgKtMPtPn3WSsRRTVEqkw+pa9rKkfiJA2rYm7o72kWihpbIwkLoACHaTYxLmIlCYN5GddaUdlpNBozRrjo4KfHhb6WEpTxOCHn3rd8HD2JxhAs/O2jwtyBgLeefc+yPv+5FVmYIXLX8xoPB/I7CCJCchNFS0t4+pQQ7ds9W4u5cHWyF2r1Ed2F8K0CGdxw0WK9oSTu0TI+erkpVR1FMG48BHVONFL2vAemKCMSj9B83eQ3WxIpPsqwIZO+RF+niiMPhKSnnX4FNlLwqT4+En/nsP+p+Ot2J/liZqJFMXH0JlRCerD0EA+Bw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM4PR11MB7760.namprd11.prod.outlook.com (2603:10b6:8:100::19)
- by PH8PR11MB6804.namprd11.prod.outlook.com (2603:10b6:510:1bc::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.12; Thu, 21 Mar
- 2024 09:44:45 +0000
-Received: from DM4PR11MB7760.namprd11.prod.outlook.com
- ([fe80::9df0:5c24:3b9b:1cfe]) by DM4PR11MB7760.namprd11.prod.outlook.com
- ([fe80::9df0:5c24:3b9b:1cfe%6]) with mapi id 15.20.7409.010; Thu, 21 Mar 2024
- 09:44:44 +0000
-From: "Tham, Jing Hui" <jing.hui.tham@intel.com>
-To: "qa-build-notification@lists.yoctoproject.org"
-	<qa-build-notification@lists.yoctoproject.org>,
-	"yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [qa-build-notification] QA notification for completed autobuilder
- build (yocto-4.0.17.rc1)
-Thread-Topic: [qa-build-notification] QA notification for completed
- autobuilder build (yocto-4.0.17.rc1)
-Thread-Index: AQHadaMkVPTSlLT4IU6GRGzQay9sM7FB/UzA
-Date: Thu, 21 Mar 2024 09:44:44 +0000
-Message-ID: <DM4PR11MB77607FD85D1E755AFE081F30A1322@DM4PR11MB7760.namprd11.prod.outlook.com>
-References: <0101018e3a457956-327c6d93-de66-472d-859d-7bf581132908-000000@us-west-2.amazonses.com>
-In-Reply-To: <0101018e3a457956-327c6d93-de66-472d-859d-7bf581132908-000000@us-west-2.amazonses.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM4PR11MB7760:EE_|PH8PR11MB6804:EE_
-x-ms-office365-filtering-correlation-id: c7cc80cf-6a29-4633-bb63-08dc498b89de
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 5ecnI8Z4RULXOx8S++COJDXWSlF5zJiQXLjlLjSDYyvS0Cd8v3TpwCkTWLWZRAe7bdgdVcQdcF9JJxHsW4GxSa1e/uY5cWa8mrhVBOTPT4BMy0YOIIuLV6viPRqmHShEHv7qYSgtj5dhDU08mTdaRjD8SAJkPqoDOCl9h6Hvy3dqprtLfB8j8HAxyxXoIwrjsUu5K0rNmY604x4fpakr6A20lj7gIHSmV+qgUHDS5N/ncfk2KxU5mumjffBDTilTtGgrMMlwomle2vPP9sGz0CM9C3l6pmCco9IiZpleDckH+k7UBkqTwfeov6yKuVfxSdmby2H9RU7Y8nmWqi8WtUdZohdUEgTC2QUsuQYJAvVrVbZDDWMZnm1WHXgRtMWRg3Dlg8W7Zwi0mGpy0BZ1LSNi0WAnkw00YrbI80RSSauBwtoMMdfcGuqRVU+ThBGC1ot+rOL5ADIKIGJWOhnTZb7RqzYCMuRyyJ9B3Kbqt/6IXVN1vrqRrgNz602QYrYoljeZL/gLXV6VMG9Y2jYP7RvSlZPPeBpo0kInUO3yr/hddoEzg14DaaFNfIFfOndGncvYcKyfB3AnwGtzKs/BRbt/A2m78eqh4ABfyoLOzURW8zIypSKnEdtNcc7d8BkFBTMkm4NUs9GQFoOhDLIR19Vw4Jizdw61UXzUmZ+vP6dy3bBSu0IBrv4ifKBiV02u
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB7760.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(376005)(366007)(38070700009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?nRPh7mL1HaQ/S1lxjkk/Kwj+PJlGYoHTH520tVNWdhoAd8szGf/5VlVcEJ0j?=
- =?us-ascii?Q?2jQsgpwAeMTfpL+A1GqljH4CfvKqcSeanf7hPyrzVF9cX5uD6/WA5IPORVf5?=
- =?us-ascii?Q?oYndyaREolOws1dCrrZBUdrcGmlLfDmQDB26y4x8b5HfkSZAv8JK2xzm4NQp?=
- =?us-ascii?Q?Kkbtgz9x9QRs9OQm0c/Dgq0d8D0FQOnIwVeEIQZQu8oaqI321wajJqN/N0r+?=
- =?us-ascii?Q?cOOYuCupQLqYiqYpRmroxFgt4o10Cxk35owM2fHt26oVQ3ddx2OArBQe52iw?=
- =?us-ascii?Q?ZNQ+UZ2albeHsK0FgYzHj5OoQRlsHTnNT5VsyuENRDZFKl/q/ivq0P1oekUQ?=
- =?us-ascii?Q?t612LvIw0v14wA10XERE2dy953t6fRjUGrLSzODKbLYRvn9+ND7etPC7990S?=
- =?us-ascii?Q?0ckmjsSrodbMtOw4yZYUpqO54gIv6YAN3+Zn4lmz6CBw5wtDgzlmf6HAd/+d?=
- =?us-ascii?Q?AZSol577PkO+s025E/oi9hqEpPwab8SG98CcdvpmcLK+Q/Mg5lF0J8ZqZQCt?=
- =?us-ascii?Q?P0hBRhzHVOJSTs8Hpkd/Ipedqyb7Lp1K4HMr5tu9xClG9kQ2uAOKCKETyEUn?=
- =?us-ascii?Q?FzLVc62ji+7/DeaAW4x17Ds+oh8miXEUOvaaTlPdogBPU2bB5AhDOByHWAXc?=
- =?us-ascii?Q?j5fQ3V9Y9IIZhslXfNSR2Nc5Co7dl9JHNSjBvIXO4Sh3L25VZiHw2T3eMrpH?=
- =?us-ascii?Q?Qe3FGPrrCPothwyg5Y1FcwEvD7ZT1DQDA5eanqy32g952zup+S9VpBVSj7+m?=
- =?us-ascii?Q?eTN0IFQg5HWkV5XQV0uCMaaG1ttplxKzMQNVgSZaOB6tS0FIaCXb9/35y2Pl?=
- =?us-ascii?Q?mHp6vazza2MQkjMGi+wCWFQ1ijyqX2oKOWlYwOR/JOnrou1RWi9YvAX/VFr/?=
- =?us-ascii?Q?quT75C7YXxG4bDODJW2Qt/QcsOWZxWbI66DaAj4mkv9X+6VEMwusxDikhvl6?=
- =?us-ascii?Q?jggXYPqLgPoufFWfEJYCdMmbKgvwxfyDmhYyF3EG74BrWosACUxyiTu+qfHS?=
- =?us-ascii?Q?BkCgS5XG7C+pMeUM7aG/zpTkz2jKLo1tUQKf2CmOa0NA0FxpUBz+sIyycD43?=
- =?us-ascii?Q?MPpzjAUtgANer1A+v0OTgoOsoVI1uWD8Iq+nii++tw4m0qGKsj+7O1fGqUR9?=
- =?us-ascii?Q?zgqjlTR3Admu34MxSB0iEua5zRlj3WaeKLjv8P1aigsXXGxrmx6e/Qh1b2ex?=
- =?us-ascii?Q?yRbz7hiWlhjSnYOAPOE/HeAzbafT4Wx0nERw3fE8EOZotnSNdmAt0iAkhbNm?=
- =?us-ascii?Q?22SfiNFcX0xGKz1mkAObQfbIez3AVjq/tluv76xHldKr/8gYV9pzIVxYylrN?=
- =?us-ascii?Q?HVluYOOClyKtZQAPPCDNVDteFfaGUb2w/5YJwXAzwVk2SQYdkeem/EFL+RQc?=
- =?us-ascii?Q?dhefrr7j45kKU2U8wcG2moOjs5c+bzLhMlVk4GMC/pYnkrO/3J4iC6wz9AhA?=
- =?us-ascii?Q?6O6G/qediPRZ29gAixUtjhJ6toaUL7VAVK9hrvWq9AU7HWLIb8ZsdZP7weSV?=
- =?us-ascii?Q?GIiF9TKg8KoS3CRYQy3UmCUfni84qFyU9ITuhspxf6GTJIaLqPOlIhZs1ncN?=
- =?us-ascii?Q?oItr3Sumrmrmhx8k9Rfx0JmcwS5U8IayLy0qmILQ?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB7760.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c7cc80cf-6a29-4633-bb63-08dc498b89de
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Mar 2024 09:44:44.1748
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: QU1q5u7qO6lunGSz7wING0anY/WKGdSg+e9ub1G9v6h8tjQHX9y4VPJUBq/VQPSxoUqb4BIJ0x4eKptA5KqT1A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB6804
-X-OriginatorOrg: intel.com
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=dc7SiyVx;
+ spf=pass (domain: gmail.com, ip: 209.85.214.170, mailfrom: mail2szahir@gmail.com)
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1df01161b39so5483675ad.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 Mar 2024 03:03:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711015433; x=1711620233; darn=lists.openembedded.org;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yvX8hUb4+BHzLB+0WME6RMPOarLPafrWwq0rztuNgjk=;
+        b=dc7SiyVxPxsrUr5AT9TjTZwqwZCK3bLq3qN12FXaW95VZHKO17BERSdbfQ0qpfsR2E
+         01XoyetGBT5j1bsWC7igPT/MWzLW2G3JlLsYDZ9zSLCaSNiZER9Y5TT6GKtq8IQBLn52
+         9ipSETJeFyZwzIhvoREal6lv1d0CvB928w0oKdqmf5NVKmek1T3UXEmxxxWya0n2F7It
+         zFBL7SsYZfexn0P5V/A5YoaMYXJ/jUPGhxI/TpMSI3JllvlwslzA8jfOf8uI0X/ohbyN
+         4zzsiCSy3VHao6dQK1PAExaX9KKto8Osxrx6bUtSSXR1cEwlQt86HYSMfobzW76bgSZT
+         PIEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711015433; x=1711620233;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yvX8hUb4+BHzLB+0WME6RMPOarLPafrWwq0rztuNgjk=;
+        b=n4Tixd3Ni4ovwVjvHE1lXO1Co2AM98+raTXiPTeA1yAqK1fX1Sw/VS7lU3yj+HElVM
+         +o2SgyzoWcZtFh9RJt5k1LIdgAKChXU4DMWxQQ/vmP9WaujMZfplM/avy/7WYDl6Q28q
+         7nqh9lQJ8sge4AjBflS0Xzukms2xplq1vJrpu4JuAzJ286WoPQw6+R1Gz/i+kXyXlU4g
+         fMpvUejxeC+kjTmnDRtoEtI1cEEZtOBeTt5+DinmiKy8RDMoanWP6ncKSB57OZAx11aw
+         u+LpGYt7CIC97+23H5bzn+Yvfx9tfVPDn+duPzmyFfYbqgNMnhVQnQjJMlrGoZ/kN2fk
+         DUBA==
+X-Gm-Message-State: AOJu0Yz6NAiT0Aws6OVXruvXpuOy8N0AWN7rjG6Kv/LybdhKHy4b/QRZ
+	U15XaOTdeeWe07IK6gUWJA/02f7YWzTcpOVERzLOPgWAQf3KSFi2lshyer+V
+X-Google-Smtp-Source: AGHT+IEK5R1X8Q9Z0QUaVGZKaP4ulcCUwTGNSs6zRWUr4DDhwMvBFgrRsp0IXMUI6pu15u7nBp2adw==
+X-Received: by 2002:a17:902:cec9:b0:1e0:4ce7:2e2f with SMTP id d9-20020a170902cec900b001e04ce72e2fmr5893417plg.8.1711015432773;
+        Thu, 21 Mar 2024 03:03:52 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:e02e:c09b:8dd4:29a0:7b5c:dc7])
+        by smtp.gmail.com with ESMTPSA id e6-20020a17090301c600b001d9fc6df457sm9239816plh.5.2024.03.21.03.03.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Mar 2024 03:03:52 -0700 (PDT)
+From: aszh07 <mail2szahir@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	mail2szahir@gmail.com
+Cc: virendra.thakur@kpit.com,
+	Zahir Hussain <zahir.basha@kpit.com>
+Subject: [OE-core][kirkstone][PATCH V3] nghttp2: fix CVE-2023-44487
+Date: Thu, 21 Mar 2024 15:33:32 +0530
+Message-Id: <20240321100332.9153-1-mail2szahir@gmail.com>
+X-Mailer: git-send-email 2.17.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 Mar 2024 09:44:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197411
+ <openembedded-core@lists.openembedded.org>; Thu, 21 Mar 2024 10:03:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197412
 
-Hi All,
-=20
-QA for yocto-4.0.17.rc1 is completed. This is the full report for this rele=
-ase: =20
-https://git.yoctoproject.org/cgit/cgit.cgi/yocto-testresults-contrib/tree/?=
-h=3Dintel-yocto-testresults
-=20
-=3D=3D=3D=3D=3D=3D=3D Summary =3D=3D=3D=3D=3D=3D=3D=3D
-No high milestone defects.
-=20
-No new issue found.=20
-=20
-Thanks,
-Jing Hui
+The HTTP/2 protocol allows a denial of service (server resource consumption)
+because request cancellation can reset many streams quickly, as exploited in
+the wild in August through October 2023.
 
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2023-44487
+https://github.com/nghttp2/nghttp2/commit/72b4af6143681f528f1d237b21a9a7aee1738832
 
-> -----Original Message-----
-> From: qa-build-notification@lists.yoctoproject.org <qa-build-
-> notification@lists.yoctoproject.org> On Behalf Of Pokybuild User
-> Sent: Thursday, March 14, 2024 8:04 AM
-> To: yocto@lists.yoctoproject.org
-> Cc: qa-build-notification@lists.yoctoproject.org
-> Subject: [qa-build-notification] QA notification for completed autobuilde=
-r
-> build (yocto-4.0.17.rc1)
->=20
->=20
-> A build flagged for QA (yocto-4.0.17.rc1) was completed on the autobuilde=
-r
-> and is available at:
->=20
->=20
->     https://autobuilder.yocto.io/pub/releases/yocto-4.0.17.rc1
->=20
->=20
-> Build URL:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/6676
->=20
-> Build hash information:
->=20
-> bitbake: 40fd5f4eef7460ca67f32cfce8e229e67e1ff607
-> meta-agl: 3fb5640211e4c3874036a6d4a61e852b348eb4ad
-> meta-arm: b187fb9232ca0a6b5f8f90b4715958546fc41d73
-> meta-aws: 11e0184fb8062c5384085e9c91339f76ccf191f4
-> meta-clang: eebe4ff2e539f3ffb01c5060cc4ca8b226ea8b52
-> meta-gplv2: d2f8b5cdb285b72a4ed93450f6703ca27aa42e8a
-> meta-intel: f932ebb2544170f43edd22739f44307809bf8cfb
-> meta-mingw: f6b38ce3c90e1600d41c2ebb41e152936a0357d7
-> meta-openembedded: fda737ec0cc1d2a5217548a560074a8e4d5ec580
-> meta-virtualization: 7902664f89678164b7fc90d421cee74cbec51cdf
-> oecore: 2501534c9581c6c3439f525d630be11554a57d24
-> poky: 6d1a878bbf24c66f7186b270f823fcdf82e35383
->=20
->=20
->=20
-> This is an automated message from the Yocto Project Autobuilder
-> Git: git://git.yoctoproject.org/yocto-autobuilder2
-> Email: richard.purdie@linuxfoundation.org
->=20
->=20
->=20
->=20
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#395): https://lists.yoctoproject.org/g/qa-build-
-> notification/message/395
-> Mute This Topic: https://lists.yoctoproject.org/mt/104917815/6424044
-> Group Owner: qa-build-notification+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/qa-build-
-> notification/leave/10762429/6424044/1746813897/xyzzy
-> [jing.hui.tham@intel.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+Signed-off-by: Zahir Hussain <zahir.basha@kpit.com>
+---
+ .../nghttp2/nghttp2/CVE-2023-44487.patch      | 927 ++++++++++++++++++
+ .../recipes-support/nghttp2/nghttp2_1.47.0.bb |   1 +
+ 2 files changed, 928 insertions(+)
+ create mode 100644 meta/recipes-support/nghttp2/nghttp2/CVE-2023-44487.patch
+
+diff --git a/meta/recipes-support/nghttp2/nghttp2/CVE-2023-44487.patch b/meta/recipes-support/nghttp2/nghttp2/CVE-2023-44487.patch
+new file mode 100644
+index 0000000000..3cba83307c
+--- /dev/null
++++ b/meta/recipes-support/nghttp2/nghttp2/CVE-2023-44487.patch
+@@ -0,0 +1,927 @@
++From 72b4af6143681f528f1d237b21a9a7aee1738832 Mon Sep 17 00:00:00 2001
++From: Tatsuhiro Tsujikawa <tatsuhiro.t@gmail.com>
++Date: Sun, 1 Oct 2023 00:05:01 +0900
++Subject: [PATCH] Rework session management
++
++CVE: CVE-2023-44487
++
++Upstream-Status: Backport [https://github.com/nghttp2/nghttp2/commit/72b4af6143681f528f1d237b21a9a7aee1738832]
++
++Signed-off-by: Zahir Hussain zahir.basha@kpit.com
++Signed-off-by: aszh07 <mail2szahir@gmail.com>
++---
++CMakeLists.txt                 |   4 ++
++cmakeconfig.h.in               |   9 +++
++configure.ac                   |  21 +++++++
++doc/Makefile.am                |   1 +
++lib/CMakeLists.txt             |   2 +
++lib/Makefile.am                |   4 ++
++lib/includes/nghttp2/nghttp2.h |  17 ++++++
++lib/nghttp2_option.c           |   7 +++
++lib/nghttp2_ratelim.c          |  75 ++++++++++++++++++++++++
++lib/nghttp2_ratelim.h          |  57 ++++++++++++++++++
++lib/nghttp2_session.c          |  34 ++++++++++-
++lib/nghttp2_session.h          |  12 +++-
++lib/nghttp2_time.c             |  62 ++++++++++++++++++++
++lib/nghttp2_time.h             |  38 ++++++++++++
++tests/nghttp2_ratelim_test.c   | 101 ++++++++++++++++++++++++++++++++
++tests/nghttp2_ratelim_test.h   |  35 +++++++++++
++tests/nghttp2_session_test.c   | 103 +++++++++++++++++++++++++++++++++
++tests/nghttp2_session_test.h   |   1 +
++tests/CMakeLists.txt           |   1 +
++tests/Makefile.am              |   6 +-
++lib/nghttp2_option.h           |   6 ++
++tests/main.c                   |   7 ++-
++22 files changed, 598 insertions(+), 5 deletions(-)
++create mode 100644 lib/nghttp2_ratelim.c
++create mode 100644 lib/nghttp2_ratelim.h
++create mode 100644 lib/nghttp2_time.c
++create mode 100644 lib/nghttp2_time.h
++create mode 100644 tests/nghttp2_ratelim_test.c
++create mode 100644 tests/nghttp2_ratelim_test.h
++
++--- a/CMakeLists.txt
+++++ b/CMakeLists.txt
++@@ -262,6 +262,7 @@ check_include_file("netinet/in.h"   HAVE
++ check_include_file("pwd.h"          HAVE_PWD_H)
++ check_include_file("sys/socket.h"   HAVE_SYS_SOCKET_H)
++ check_include_file("sys/time.h"     HAVE_SYS_TIME_H)
+++check_include_file("sysinfoapi.h"   HAVE_SYSINFOAPI_H)
++ check_include_file("syslog.h"       HAVE_SYSLOG_H)
++ check_include_file("time.h"         HAVE_TIME_H)
++ check_include_file("unistd.h"       HAVE_UNISTD_H)
++@@ -302,8 +303,11 @@ check_type_size("time_t"  SIZEOF_TIME_T)
++ include(CheckFunctionExists)
++ check_function_exists(_Exit     HAVE__EXIT)
++ check_function_exists(accept4   HAVE_ACCEPT4)
+++check_function_exists(clock_gettime HAVE_CLOCK_GETTIME)
++ check_function_exists(mkostemp  HAVE_MKOSTEMP)
++ 
+++check_symbol_exists(GetTickCount64 sysinfoapi.h HAVE_GETTICKCOUNT64)
+++
++ include(CheckSymbolExists)
++ # XXX does this correctly detect initgroups (un)availability on cygwin?
++ check_symbol_exists(initgroups grp.h HAVE_DECL_INITGROUPS)
++--- a/cmakeconfig.h.in
+++++ b/cmakeconfig.h.in
++@@ -34,9 +34,15 @@
++ /* Define to 1 if you have the `accept4` function. */
++ #cmakedefine HAVE_ACCEPT4 1
++ 
+++/* Define to 1 if you have the `clock_gettime` function. */
+++#cmakedefine HAVE_CLOCK_GETTIME 1
+++
++ /* Define to 1 if you have the `mkostemp` function. */
++ #cmakedefine HAVE_MKOSTEMP 1
++ 
+++/* Define to 1 if you have the `GetTickCount64` function. */
+++#cmakedefine HAVE_GETTICKCOUNT64 1
+++
++ /* Define to 1 if you have the `initgroups` function. */
++ #cmakedefine01 HAVE_DECL_INITGROUPS
++ 
++@@ -73,6 +79,9 @@
++ /* Define to 1 if you have the <sys/time.h> header file. */
++ #cmakedefine HAVE_SYS_TIME_H 1
++ 
+++/* Define to 1 if you have the <sysinfoapi.h> header file. */
+++#cmakedefine HAVE_SYSINFOAPI_H 1
+++
++ /* Define to 1 if you have the <syslog.h> header file. */
++ #cmakedefine HAVE_SYSLOG_H 1
++ 
++--- a/configure.ac
+++++ b/configure.ac
++@@ -607,6 +607,7 @@ AC_CHECK_HEADERS([ \
++   string.h \
++   sys/socket.h \
++   sys/time.h \
+++  sysinfoapi.h \
++   syslog.h \
++   time.h \
++   unistd.h \
++@@ -681,6 +682,7 @@ AC_FUNC_STRNLEN
++ AC_CHECK_FUNCS([ \
++   _Exit \
++   accept4 \
+++  clock_gettime \
++   dup2 \
++   getcwd \
++   getpwnam \
++@@ -706,6 +708,25 @@ AC_CHECK_FUNCS([ \
++ AC_CHECK_FUNC([timerfd_create],
++               [have_timerfd_create=yes], [have_timerfd_create=no])
++ 
+++AC_MSG_CHECKING([checking for GetTickCount64])
+++AC_LINK_IFELSE([AC_LANG_PROGRAM(
+++[[
+++#include <sysinfoapi.h>
+++]],
+++[[
+++GetTickCount64();
+++]])],
+++[have_gettickcount64=yes],
+++[have_gettickcount64=no])
+++
+++if test "x${have_gettickcount64}" = "xyes"; then
+++  AC_MSG_RESULT([yes])
+++  AC_DEFINE([HAVE_GETTICKCOUNT64], [1],
+++            [Define to 1 if you have `GetTickCount64` function.])
+++else
+++  AC_MSG_RESULT([no])
+++fi
+++
++ # For cygwin: we can link initgroups, so AC_CHECK_FUNCS succeeds, but
++ # cygwin disables initgroups due to feature test macro magic with our
++ # configuration.  FreeBSD declares initgroups() in unistd.h.
++--- a/doc/Makefile.am
+++++ b/doc/Makefile.am
++@@ -69,6 +69,7 @@ APIDOCS= \
++ 	nghttp2_option_set_user_recv_extension_type.rst \
++ 	nghttp2_option_set_max_outbound_ack.rst \
++ 	nghttp2_option_set_max_settings.rst \
+++	nghttp2_option_set_stream_reset_rate_limit.rst \
++ 	nghttp2_pack_settings_payload.rst \
++ 	nghttp2_priority_spec_check_default.rst \
++ 	nghttp2_priority_spec_default_init.rst \
++--- a/lib/CMakeLists.txt
+++++ b/lib/CMakeLists.txt
++@@ -23,6 +23,8 @@ set(NGHTTP2_SOURCES
++   nghttp2_mem.c
++   nghttp2_http.c
++   nghttp2_rcbuf.c
+++  nghttp2_ratelim.c
+++  nghttp2_time.c
++   nghttp2_debug.c
++ )
++ 
++--- a/lib/Makefile.am
+++++ b/lib/Makefile.am
++@@ -49,6 +49,8 @@ OBJECTS = nghttp2_pq.c nghttp2_map.c ngh
++ 	nghttp2_mem.c \
++ 	nghttp2_http.c \
++ 	nghttp2_rcbuf.c \
+++	nghttp2_ratelim.c \
+++	nghttp2_time.c \
++ 	nghttp2_debug.c
++ 
++ HFILES = nghttp2_pq.h nghttp2_int.h nghttp2_map.h nghttp2_queue.h \
++@@ -65,6 +67,8 @@ HFILES = nghttp2_pq.h nghttp2_int.h nght
++ 	nghttp2_mem.h \
++ 	nghttp2_http.h \
++ 	nghttp2_rcbuf.h \
+++	nghttp2_ratelim.h \
+++	nghttp2_time.h \
++ 	nghttp2_debug.h
++ 
++ libnghttp2_la_SOURCES = $(HFILES) $(OBJECTS)
++--- a/lib/includes/nghttp2/nghttp2.h
+++++ b/lib/includes/nghttp2/nghttp2.h
++@@ -2763,6 +2763,23 @@ nghttp2_session_client_new2(nghttp2_sess
++ /**
++  * @function
++  *
+++ * This function sets the rate limit for the incoming stream reset
+++ * (RST_STREAM frame).  It is server use only.  It is a token-bucket
+++ * based rate limiter.  |burst| specifies the number of tokens that is
+++ * initially available.  The maximum number of tokens is capped to
+++ * this value.  |rate| specifies the number of tokens that are
+++ * regenerated per second.  An incoming RST_STREAM consumes one token.
+++ * If there is no token available, GOAWAY is sent to tear down the
+++ * connection.  |burst| and |rate| default to 1000 and 33
+++ * respectively.
+++ */
+++NGHTTP2_EXTERN void
+++nghttp2_option_set_stream_reset_rate_limit(nghttp2_option *option,
+++                                           uint64_t burst, uint64_t rate);
+++
+++/**
+++ * @function
+++ *
++  * Like `nghttp2_session_server_new()`, but with additional options
++  * specified in the |option|.
++  *
++--- a/lib/nghttp2_option.c
+++++ b/lib/nghttp2_option.c
++@@ -126,3 +126,10 @@ void nghttp2_option_set_max_settings(ngh
++   option->opt_set_mask |= NGHTTP2_OPT_MAX_SETTINGS;
++   option->max_settings = val;
++ }
+++
+++void nghttp2_option_set_stream_reset_rate_limit(nghttp2_option *option,
+++                                                uint64_t burst, uint64_t rate) {
+++  option->opt_set_mask |= NGHTTP2_OPT_STREAM_RESET_RATE_LIMIT;
+++  option->stream_reset_burst = burst;
+++  option->stream_reset_rate = rate;
+++}
++--- /dev/null
+++++ b/lib/nghttp2_ratelim.c
++@@ -0,0 +1,75 @@
+++/*
+++ * nghttp2 - HTTP/2 C Library
+++ *
+++ * Copyright (c) 2023 nghttp2 contributors
+++ *
+++ * Permission is hereby granted, free of charge, to any person obtaining
+++ * a copy of this software and associated documentation files (the
+++ * "Software"), to deal in the Software without restriction, including
+++ * without limitation the rights to use, copy, modify, merge, publish,
+++ * distribute, sublicense, and/or sell copies of the Software, and to
+++ * permit persons to whom the Software is furnished to do so, subject to
+++ * the following conditions:
+++ *
+++ * The above copyright notice and this permission notice shall be
+++ * included in all copies or substantial portions of the Software.
+++ *
+++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+++ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+++ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+++ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+++ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+++ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+++ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+++ */
+++#include "nghttp2_ratelim.h"
+++#include "nghttp2_helper.h"
+++
+++void nghttp2_ratelim_init(nghttp2_ratelim *rl, uint64_t burst, uint64_t rate) {
+++  rl->val = rl->burst = burst;
+++  rl->rate = rate;
+++  rl->tstamp = 0;
+++}
+++
+++void nghttp2_ratelim_update(nghttp2_ratelim *rl, uint64_t tstamp) {
+++  uint64_t d, gain;
+++
+++  if (tstamp == rl->tstamp) {
+++    return;
+++  }
+++
+++  if (tstamp > rl->tstamp) {
+++    d = tstamp - rl->tstamp;
+++  } else {
+++    d = 1;
+++  }
+++
+++  rl->tstamp = tstamp;
+++
+++  if (UINT64_MAX / d < rl->rate) {
+++    rl->val = rl->burst;
+++
+++    return;
+++  }
+++
+++  gain = rl->rate * d;
+++
+++  if (UINT64_MAX - gain < rl->val) {
+++    rl->val = rl->burst;
+++
+++    return;
+++  }
+++
+++  rl->val += gain;
+++  rl->val = nghttp2_min(rl->val, rl->burst);
+++}
+++
+++int nghttp2_ratelim_drain(nghttp2_ratelim *rl, uint64_t n) {
+++  if (rl->val < n) {
+++    return -1;
+++  }
+++
+++  rl->val -= n;
+++
+++  return 0;
+++}
++--- /dev/null
+++++ b/lib/nghttp2_ratelim.h
++@@ -0,0 +1,57 @@
+++/*
+++ * nghttp2 - HTTP/2 C Library
+++ *
+++ * Copyright (c) 2023 nghttp2 contributors
+++ *
+++ * Permission is hereby granted, free of charge, to any person obtaining
+++ * a copy of this software and associated documentation files (the
+++ * "Software"), to deal in the Software without restriction, including
+++ * without limitation the rights to use, copy, modify, merge, publish,
+++ * distribute, sublicense, and/or sell copies of the Software, and to
+++ * permit persons to whom the Software is furnished to do so, subject to
+++ * the following conditions:
+++ *
+++ * The above copyright notice and this permission notice shall be
+++ * included in all copies or substantial portions of the Software.
+++ *
+++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+++ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+++ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+++ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+++ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+++ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+++ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+++ */
+++#ifndef NGHTTP2_RATELIM_H
+++#define NGHTTP2_RATELIM_H
+++
+++#ifdef HAVE_CONFIG_H
+++#  include <config.h>
+++#endif /* HAVE_CONFIG_H */
+++
+++#include <nghttp2/nghttp2.h>
+++
+++typedef struct nghttp2_ratelim {
+++  /* burst is the maximum value of val. */
+++  uint64_t burst;
+++  /* rate is the amount of value that is regenerated per 1 tstamp. */
+++  uint64_t rate;
+++  /* val is the amount of value available to drain. */
+++  uint64_t val;
+++  /* tstamp is the last timestamp in second resolution that is known
+++     to this object. */
+++  uint64_t tstamp;
+++} nghttp2_ratelim;
+++
+++/* nghttp2_ratelim_init initializes |rl| with the given parameters. */
+++void nghttp2_ratelim_init(nghttp2_ratelim *rl, uint64_t burst, uint64_t rate);
+++
+++/* nghttp2_ratelim_update updates rl->val with the current |tstamp|
+++   given in second resolution. */
+++void nghttp2_ratelim_update(nghttp2_ratelim *rl, uint64_t tstamp);
+++
+++/* nghttp2_ratelim_drain drains |n| from rl->val.  It returns 0 if it
+++   succeeds, or -1. */
+++int nghttp2_ratelim_drain(nghttp2_ratelim *rl, uint64_t n);
+++
+++#endif /* NGHTTP2_RATELIM_H */
++--- a/lib/nghttp2_session.c
+++++ b/lib/nghttp2_session.c
++@@ -36,6 +36,7 @@
++ #include "nghttp2_option.h"
++ #include "nghttp2_http.h"
++ #include "nghttp2_pq.h"
+++#include "nghttp2_time.h"
++ #include "nghttp2_debug.h"
++ 
++ /*
++@@ -443,6 +444,10 @@ static int session_new(nghttp2_session *
++       NGHTTP2_DEFAULT_MAX_CONCURRENT_STREAMS;
++   (*session_ptr)->pending_enable_push = 1;
++ 
+++  nghttp2_ratelim_init(&(*session_ptr)->stream_reset_ratelim,
+++                       NGHTTP2_DEFAULT_STREAM_RESET_BURST,
+++                       NGHTTP2_DEFAULT_STREAM_RESET_RATE);
+++
++   if (server) {
++     (*session_ptr)->server = 1;
++   }
++@@ -527,6 +532,12 @@ static int session_new(nghttp2_session *
++         option->max_settings) {
++       (*session_ptr)->max_settings = option->max_settings;
++     }
+++
+++    if (option->opt_set_mask & NGHTTP2_OPT_STREAM_RESET_RATE_LIMIT) {
+++      nghttp2_ratelim_init(&(*session_ptr)->stream_reset_ratelim,
+++                           option->stream_reset_burst,
+++                           option->stream_reset_rate);
+++    }
++   }
++ 
++   rv = nghttp2_hd_deflate_init2(&(*session_ptr)->hd_deflater,
++@@ -4144,6 +4155,23 @@ static int session_process_priority_fram
++   return nghttp2_session_on_priority_received(session, frame);
++ }
++ 
+++static int session_update_stream_reset_ratelim(nghttp2_session *session) {
+++  if (!session->server || (session->goaway_flags & NGHTTP2_GOAWAY_SUBMITTED)) {
+++    return 0;
+++  }
+++
+++  nghttp2_ratelim_update(&session->stream_reset_ratelim,
+++                         nghttp2_time_now_sec());
+++
+++  if (nghttp2_ratelim_drain(&session->stream_reset_ratelim, 1) == 0) {
+++    return 0;
+++  }
+++
+++  return nghttp2_session_add_goaway(session, session->last_recv_stream_id,
+++                                    NGHTTP2_INTERNAL_ERROR, NULL, 0,
+++                                    NGHTTP2_GOAWAY_AUX_NONE);
+++}
+++
++ int nghttp2_session_on_rst_stream_received(nghttp2_session *session,
++                                            nghttp2_frame *frame) {
++   int rv;
++@@ -4173,7 +4201,8 @@ int nghttp2_session_on_rst_stream_receiv
++   if (nghttp2_is_fatal(rv)) {
++     return rv;
++   }
++-  return 0;
+++
+++  return session_update_stream_reset_ratelim(session);
++ }
++ 
++ static int session_process_rst_stream_frame(nghttp2_session *session) {
++@@ -6965,6 +6994,9 @@ int nghttp2_session_add_goaway(nghttp2_s
++     nghttp2_mem_free(mem, item);
++     return rv;
++   }
+++
+++  session->goaway_flags |= NGHTTP2_GOAWAY_SUBMITTED;
+++
++   return 0;
++ }
++ 
++--- a/lib/nghttp2_session.h
+++++ b/lib/nghttp2_session.h
++@@ -39,6 +39,7 @@
++ #include "nghttp2_buf.h"
++ #include "nghttp2_callbacks.h"
++ #include "nghttp2_mem.h"
+++#include "nghttp2_ratelim.h"
++ 
++ /* The global variable for tests where we want to disable strict
++    preface handling. */
++@@ -102,6 +103,10 @@ typedef struct {
++ /* The default value of maximum number of concurrent streams. */
++ #define NGHTTP2_DEFAULT_MAX_CONCURRENT_STREAMS 0xffffffffu
++ 
+++/* The default values for stream reset rate limiter. */
+++#define NGHTTP2_DEFAULT_STREAM_RESET_BURST 1000
+++#define NGHTTP2_DEFAULT_STREAM_RESET_RATE 33
+++
++ /* Internal state when receiving incoming frame */
++ typedef enum {
++   /* Receiving frame header */
++@@ -176,7 +181,9 @@ typedef enum {
++   /* Flag means GOAWAY was sent */
++   NGHTTP2_GOAWAY_SENT = 0x4,
++   /* Flag means GOAWAY was received */
++-  NGHTTP2_GOAWAY_RECV = 0x8
+++  NGHTTP2_GOAWAY_RECV = 0x8,
+++  /* Flag means GOAWAY has been submitted at least once */
+++  NGHTTP2_GOAWAY_SUBMITTED = 0x10
++ } nghttp2_goaway_flag;
++ 
++ /* nghttp2_inflight_settings stores the SETTINGS entries which local
++@@ -230,6 +237,9 @@ struct nghttp2_session {
++   /* Queue of In-flight SETTINGS values.  SETTINGS bearing ACK is not
++      considered as in-flight. */
++   nghttp2_inflight_settings *inflight_settings_head;
+++  /* Stream reset rate limiter.  If receiving excessive amount of
+++     stream resets, GOAWAY will be sent. */
+++  nghttp2_ratelim stream_reset_ratelim;
++   /* The number of outgoing streams. This will be capped by
++      remote_settings.max_concurrent_streams. */
++   size_t num_outgoing_streams;
++--- /dev/null
+++++ b/lib/nghttp2_time.c
++@@ -0,0 +1,62 @@
+++/*
+++ * nghttp2 - HTTP/2 C Library
+++ *
+++ * Copyright (c) 2023 nghttp2 contributors
+++ *
+++ * Permission is hereby granted, free of charge, to any person obtaining
+++ * a copy of this software and associated documentation files (the
+++ * "Software"), to deal in the Software without restriction, including
+++ * without limitation the rights to use, copy, modify, merge, publish,
+++ * distribute, sublicense, and/or sell copies of the Software, and to
+++ * permit persons to whom the Software is furnished to do so, subject to
+++ * the following conditions:
+++ *
+++ * The above copyright notice and this permission notice shall be
+++ * included in all copies or substantial portions of the Software.
+++ *
+++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+++ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+++ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+++ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+++ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+++ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+++ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+++ */
+++#include "nghttp2_time.h"
+++
+++#ifdef HAVE_TIME_H
+++#  include <time.h>
+++#endif /* HAVE_TIME_H */
+++
+++#ifdef HAVE_SYSINFOAPI_H
+++#  include <sysinfoapi.h>
+++#endif /* HAVE_SYSINFOAPI_H */
+++
+++#ifndef HAVE_GETTICKCOUNT64
+++static uint64_t time_now_sec(void) {
+++  time_t t = time(NULL);
+++
+++  if (t == -1) {
+++    return 0;
+++  }
+++
+++  return (uint64_t)t;
+++}
+++#endif /* HAVE_GETTICKCOUNT64 */
+++
+++#ifdef HAVE_CLOCK_GETTIME
+++uint64_t nghttp2_time_now_sec(void) {
+++  struct timespec tp;
+++  int rv = clock_gettime(CLOCK_MONOTONIC, &tp);
+++
+++  if (rv == -1) {
+++    return time_now_sec();
+++  }
+++
+++  return (uint64_t)tp.tv_sec;
+++}
+++#elif defined(HAVE_GETTICKCOUNT64)
+++uint64_t nghttp2_time_now_sec(void) { return GetTickCount64() / 1000; }
+++#else  /* !HAVE_CLOCK_GETTIME && !HAVE_GETTICKCOUNT64 */
+++uint64_t nghttp2_time_now_sec(void) { return time_now_sec(); }
+++#endif /* !HAVE_CLOCK_GETTIME && !HAVE_GETTICKCOUNT64 */
++--- /dev/null
+++++ b/lib/nghttp2_time.h
++@@ -0,0 +1,38 @@
+++/*
+++ * nghttp2 - HTTP/2 C Library
+++ *
+++ * Copyright (c) 2023 nghttp2 contributors
+++ *
+++ * Permission is hereby granted, free of charge, to any person obtaining
+++ * a copy of this software and associated documentation files (the
+++ * "Software"), to deal in the Software without restriction, including
+++ * without limitation the rights to use, copy, modify, merge, publish,
+++ * distribute, sublicense, and/or sell copies of the Software, and to
+++ * permit persons to whom the Software is furnished to do so, subject to
+++ * the following conditions:
+++ *
+++ * The above copyright notice and this permission notice shall be
+++ * included in all copies or substantial portions of the Software.
+++ *
+++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+++ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+++ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+++ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+++ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+++ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+++ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+++ */
+++#ifndef NGHTTP2_TIME_H
+++#define NGHTTP2_TIME_H
+++
+++#ifdef HAVE_CONFIG_H
+++#  include <config.h>
+++#endif /* HAVE_CONFIG_H */
+++
+++#include <nghttp2/nghttp2.h>
+++
+++/* nghttp2_time_now_sec returns seconds from implementation-specific
+++   timepoint.  If it is unable to get seconds, it returns 0. */
+++uint64_t nghttp2_time_now_sec(void);
+++
+++#endif /* NGHTTP2_TIME_H */
++--- /dev/null
+++++ b/tests/nghttp2_ratelim_test.c
++@@ -0,0 +1,101 @@
+++/*
+++ * nghttp2 - HTTP/2 C Library
+++ *
+++ * Copyright (c) 2023 nghttp2 contributors
+++ *
+++ * Permission is hereby granted, free of charge, to any person obtaining
+++ * a copy of this software and associated documentation files (the
+++ * "Software"), to deal in the Software without restriction, including
+++ * without limitation the rights to use, copy, modify, merge, publish,
+++ * distribute, sublicense, and/or sell copies of the Software, and to
+++ * permit persons to whom the Software is furnished to do so, subject to
+++ * the following conditions:
+++ *
+++ * The above copyright notice and this permission notice shall be
+++ * included in all copies or substantial portions of the Software.
+++ *
+++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+++ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+++ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+++ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+++ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+++ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+++ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+++ */
+++#include "nghttp2_ratelim_test.h"
+++
+++#include <stdio.h>
+++
+++#include <CUnit/CUnit.h>
+++
+++#include "nghttp2_ratelim.h"
+++
+++void test_nghttp2_ratelim_update(void) {
+++  nghttp2_ratelim rl;
+++
+++  nghttp2_ratelim_init(&rl, 1000, 21);
+++
+++  CU_ASSERT(1000 == rl.val);
+++  CU_ASSERT(1000 == rl.burst);
+++  CU_ASSERT(21 == rl.rate);
+++  CU_ASSERT(0 == rl.tstamp);
+++
+++  nghttp2_ratelim_update(&rl, 999);
+++
+++  CU_ASSERT(1000 == rl.val);
+++  CU_ASSERT(999 == rl.tstamp);
+++
+++  nghttp2_ratelim_drain(&rl, 100);
+++
+++  CU_ASSERT(900 == rl.val);
+++
+++  nghttp2_ratelim_update(&rl, 1000);
+++
+++  CU_ASSERT(921 == rl.val);
+++
+++  nghttp2_ratelim_update(&rl, 1002);
+++
+++  CU_ASSERT(963 == rl.val);
+++
+++  nghttp2_ratelim_update(&rl, 1004);
+++
+++  CU_ASSERT(1000 == rl.val);
+++  CU_ASSERT(1004 == rl.tstamp);
+++
+++  /* timer skew */
+++  nghttp2_ratelim_init(&rl, 1000, 21);
+++  nghttp2_ratelim_update(&rl, 1);
+++
+++  CU_ASSERT(1000 == rl.val);
+++
+++  nghttp2_ratelim_update(&rl, 0);
+++
+++  CU_ASSERT(1000 == rl.val);
+++
+++  /* rate * duration overflow */
+++  nghttp2_ratelim_init(&rl, 1000, 100);
+++  nghttp2_ratelim_drain(&rl, 999);
+++
+++  CU_ASSERT(1 == rl.val);
+++
+++  nghttp2_ratelim_update(&rl, UINT64_MAX);
+++
+++  CU_ASSERT(1000 == rl.val);
+++
+++  /* val + rate * duration overflow */
+++  nghttp2_ratelim_init(&rl, UINT64_MAX - 1, 2);
+++  nghttp2_ratelim_update(&rl, 1);
+++
+++  CU_ASSERT(UINT64_MAX - 1 == rl.val);
+++}
+++
+++void test_nghttp2_ratelim_drain(void) {
+++  nghttp2_ratelim rl;
+++
+++  nghttp2_ratelim_init(&rl, 100, 7);
+++
+++  CU_ASSERT(-1 == nghttp2_ratelim_drain(&rl, 101));
+++  CU_ASSERT(0 == nghttp2_ratelim_drain(&rl, 51));
+++  CU_ASSERT(0 == nghttp2_ratelim_drain(&rl, 49));
+++  CU_ASSERT(-1 == nghttp2_ratelim_drain(&rl, 1));
+++}
++--- /dev/null
+++++ b/tests/nghttp2_ratelim_test.h
++@@ -0,0 +1,35 @@
+++/*
+++ * nghttp2 - HTTP/2 C Library
+++ *
+++ * Copyright (c) 2023 nghttp2 contributors
+++ *
+++ * Permission is hereby granted, free of charge, to any person obtaining
+++ * a copy of this software and associated documentation files (the
+++ * "Software"), to deal in the Software without restriction, including
+++ * without limitation the rights to use, copy, modify, merge, publish,
+++ * distribute, sublicense, and/or sell copies of the Software, and to
+++ * permit persons to whom the Software is furnished to do so, subject to
+++ * the following conditions:
+++ *
+++ * The above copyright notice and this permission notice shall be
+++ * included in all copies or substantial portions of the Software.
+++ *
+++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+++ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+++ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+++ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+++ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+++ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+++ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+++ */
+++#ifndef NGHTTP2_RATELIM_TEST_H
+++#define NGHTTP2_RATELIM_TEST_H
+++
+++#ifdef HAVE_CONFIG_H
+++#  include <config.h>
+++#endif /* HAVE_CONFIG_H */
+++
+++void test_nghttp2_ratelim_update(void);
+++void test_nghttp2_ratelim_drain(void);
+++
+++#endif /* NGHTTP2_RATELIM_TEST_H */
++--- a/tests/nghttp2_session_test.c
+++++ b/tests/nghttp2_session_test.c
++@@ -10813,6 +10813,109 @@ void test_nghttp2_session_set_stream_use
++   nghttp2_session_del(session);
++ }
++ 
+++void test_nghttp2_session_stream_reset_ratelim(void) {
+++  nghttp2_session *session;
+++  nghttp2_session_callbacks callbacks;
+++  nghttp2_frame frame;
+++  ssize_t rv;
+++  nghttp2_bufs bufs;
+++  nghttp2_buf *buf;
+++  nghttp2_mem *mem;
+++  size_t i;
+++  nghttp2_hd_deflater deflater;
+++  size_t nvlen;
+++  nghttp2_nv *nva;
+++  int32_t stream_id;
+++  nghttp2_outbound_item *item;
+++  nghttp2_option *option;
+++
+++  mem = nghttp2_mem_default();
+++  frame_pack_bufs_init(&bufs);
+++
+++  memset(&callbacks, 0, sizeof(nghttp2_session_callbacks));
+++  callbacks.send_callback = null_send_callback;
+++
+++  nghttp2_option_new(&option);
+++  nghttp2_option_set_stream_reset_rate_limit(
+++      option, NGHTTP2_DEFAULT_STREAM_RESET_BURST, 0);
+++
+++  nghttp2_session_server_new2(&session, &callbacks, NULL, option);
+++
+++  nghttp2_frame_settings_init(&frame.settings, NGHTTP2_FLAG_NONE, NULL, 0);
+++  rv = nghttp2_frame_pack_settings(&bufs, &frame.settings);
+++
+++  CU_ASSERT(0 == rv);
+++
+++  nghttp2_frame_settings_free(&frame.settings, mem);
+++
+++  buf = &bufs.head->buf;
+++  rv = nghttp2_session_mem_recv(session, buf->pos, nghttp2_buf_len(buf));
+++
+++  CU_ASSERT((ssize_t)nghttp2_buf_len(buf) == rv);
+++
+++  /* Send SETTINGS ACK */
+++  rv = nghttp2_session_send(session);
+++
+++  CU_ASSERT(0 == rv);
+++
+++  nghttp2_hd_deflate_init(&deflater, mem);
+++
+++  for (i = 0; i < NGHTTP2_DEFAULT_STREAM_RESET_BURST + 2; ++i) {
+++    stream_id = (int32_t)(i * 2 + 1);
+++
+++    nghttp2_bufs_reset(&bufs);
+++
+++    /* HEADERS */
+++    nvlen = ARRLEN(reqnv);
+++    nghttp2_nv_array_copy(&nva, reqnv, nvlen, mem);
+++    nghttp2_frame_headers_init(&frame.headers, NGHTTP2_FLAG_END_HEADERS,
+++                               stream_id, NGHTTP2_HCAT_HEADERS, NULL, nva,
+++                               nvlen);
+++    rv = nghttp2_frame_pack_headers(&bufs, &frame.headers, &deflater);
+++
+++    CU_ASSERT(0 == rv);
+++
+++    nghttp2_frame_headers_free(&frame.headers, mem);
+++
+++    buf = &bufs.head->buf;
+++    rv = nghttp2_session_mem_recv(session, buf->pos, nghttp2_buf_len(buf));
+++
+++    CU_ASSERT((ssize_t)nghttp2_buf_len(buf) == rv);
+++
+++    nghttp2_bufs_reset(&bufs);
+++
+++    /* RST_STREAM */
+++    nghttp2_frame_rst_stream_init(&frame.rst_stream, stream_id,
+++                                  NGHTTP2_NO_ERROR);
+++    nghttp2_frame_pack_rst_stream(&bufs, &frame.rst_stream);
+++    nghttp2_frame_rst_stream_free(&frame.rst_stream);
+++
+++    buf = &bufs.head->buf;
+++    rv = nghttp2_session_mem_recv(session, buf->pos, nghttp2_buf_len(buf));
+++
+++    CU_ASSERT((ssize_t)nghttp2_buf_len(buf) == rv);
+++
+++    if (i < NGHTTP2_DEFAULT_STREAM_RESET_BURST) {
+++      CU_ASSERT(0 == nghttp2_outbound_queue_size(&session->ob_reg));
+++
+++      continue;
+++    }
+++
+++    CU_ASSERT(1 == nghttp2_outbound_queue_size(&session->ob_reg));
+++
+++    item = nghttp2_session_get_next_ob_item(session);
+++
+++    CU_ASSERT(NGHTTP2_GOAWAY == item->frame.hd.type);
+++    CU_ASSERT(NGHTTP2_DEFAULT_STREAM_RESET_BURST * 2 + 1 ==
+++              item->frame.goaway.last_stream_id);
+++  }
+++
+++  nghttp2_hd_deflate_free(&deflater);
+++  nghttp2_session_del(session);
+++  nghttp2_bufs_free(&bufs);
+++  nghttp2_option_del(option);
+++}
+++
++ static void check_nghttp2_http_recv_headers_fail(
++     nghttp2_session *session, nghttp2_hd_deflater *deflater, int32_t stream_id,
++     int stream_state, const nghttp2_nv *nva, size_t nvlen) {
++--- a/tests/nghttp2_session_test.h
+++++ b/tests/nghttp2_session_test.h
++@@ -160,6 +160,7 @@ void test_nghttp2_session_removed_closed
++ void test_nghttp2_session_pause_data(void);
++ void test_nghttp2_session_no_closed_streams(void);
++ void test_nghttp2_session_set_stream_user_data(void);
+++void test_nghttp2_session_stream_reset_ratelim(void);
++ void test_nghttp2_http_mandatory_headers(void);
++ void test_nghttp2_http_content_length(void);
++ void test_nghttp2_http_content_length_mismatch(void);
++--- a/tests/CMakeLists.txt
+++++ b/tests/CMakeLists.txt
++@@ -21,6 +21,7 @@ if(HAVE_CUNIT)
++     nghttp2_npn_test.c
++     nghttp2_helper_test.c
++     nghttp2_buf_test.c
+++    nghttp2_ratelim_test.c
++   )
++ 
++   add_executable(main EXCLUDE_FROM_ALL
++--- a/tests/Makefile.am
+++++ b/tests/Makefile.am
++@@ -40,14 +40,16 @@ OBJECTS = main.c nghttp2_pq_test.c nghtt
++ 	nghttp2_hd_test.c \
++ 	nghttp2_npn_test.c \
++ 	nghttp2_helper_test.c \
++-	nghttp2_buf_test.c
+++	nghttp2_buf_test.c \
+++	nghttp2_ratelim_test.c
++ 
++ HFILES = nghttp2_pq_test.h nghttp2_map_test.h nghttp2_queue_test.h \
++ 	nghttp2_session_test.h \
++ 	nghttp2_frame_test.h nghttp2_stream_test.h nghttp2_hd_test.h \
++ 	nghttp2_npn_test.h nghttp2_helper_test.h \
++ 	nghttp2_test_helper.h \
++-	nghttp2_buf_test.h
+++	nghttp2_buf_test.h \
+++	nghttp2_ratelim_test.h
++ 
++ main_SOURCES = $(HFILES) $(OBJECTS)
++ 
++--- a/lib/nghttp2_option.h
+++++ b/lib/nghttp2_option.h
++@@ -68,6 +68,7 @@ typedef enum {
++   NGHTTP2_OPT_NO_CLOSED_STREAMS = 1 << 10,
++   NGHTTP2_OPT_MAX_OUTBOUND_ACK = 1 << 11,
++   NGHTTP2_OPT_MAX_SETTINGS = 1 << 12,
+++  NGHTTP2_OPT_STREAM_RESET_RATE_LIMIT = 1 << 15,
++ } nghttp2_option_flag;
++ 
++ /**
++@@ -75,6 +76,11 @@ typedef enum {
++  */
++ struct nghttp2_option {
++   /**
+++   * NGHTTP2_OPT_STREAM_RESET_RATE_LIMIT
+++   */
+++  uint64_t stream_reset_burst;
+++  uint64_t stream_reset_rate;
+++  /**
++    * NGHTTP2_OPT_MAX_SEND_HEADER_BLOCK_LENGTH
++    */
++   size_t max_send_header_block_length;
++--- a/tests/main.c
+++++ b/tests/main.c
++@@ -40,6 +40,7 @@
++ #include "nghttp2_npn_test.h"
++ #include "nghttp2_helper_test.h"
++ #include "nghttp2_buf_test.h"
+++#include "nghttp2_ratelim_test.h"
++ 
++ extern int nghttp2_enable_strict_preface;
++ 
++@@ -323,6 +324,8 @@ int main() {
++                    test_nghttp2_session_no_closed_streams) ||
++       !CU_add_test(pSuite, "session_set_stream_user_data",
++                    test_nghttp2_session_set_stream_user_data) ||
+++      !CU_add_test(pSuite, "session_stream_reset_ratelim",
+++		   test_nghttp2_session_stream_reset_ratelim) ||
++       !CU_add_test(pSuite, "http_mandatory_headers",
++                    test_nghttp2_http_mandatory_headers) ||
++       !CU_add_test(pSuite, "http_content_length",
++@@ -418,7 +421,9 @@ int main() {
++       !CU_add_test(pSuite, "bufs_advance", test_nghttp2_bufs_advance) ||
++       !CU_add_test(pSuite, "bufs_next_present",
++                    test_nghttp2_bufs_next_present) ||
++-      !CU_add_test(pSuite, "bufs_realloc", test_nghttp2_bufs_realloc)) {
+++      !CU_add_test(pSuite, "bufs_realloc", test_nghttp2_bufs_realloc) ||
+++      !CU_add_test(pSuite, "ratelim_update", test_nghttp2_ratelim_update) ||
+++      !CU_add_test(pSuite, "ratelim_drain", test_nghttp2_ratelim_drain)) {
++     CU_cleanup_registry();
++     return (int)CU_get_error();
++   }
+diff --git a/meta/recipes-support/nghttp2/nghttp2_1.47.0.bb b/meta/recipes-support/nghttp2/nghttp2_1.47.0.bb
+index 0b9091f7e8..b67313b5c2 100644
+--- a/meta/recipes-support/nghttp2/nghttp2_1.47.0.bb
++++ b/meta/recipes-support/nghttp2/nghttp2_1.47.0.bb
+@@ -10,6 +10,7 @@ SRC_URI = "\
+     https://github.com/nghttp2/nghttp2/releases/download/v${PV}/nghttp2-${PV}.tar.xz \
+     file://0001-fetch-ocsp-response-use-python3.patch \
+     file://CVE-2023-35945.patch \
++    file://CVE-2023-44487.patch \
+ "
+ SRC_URI[sha256sum] = "68271951324554c34501b85190f22f2221056db69f493afc3bbac8e7be21e7cc"
+ 
+-- 
+2.17.1
 
 
