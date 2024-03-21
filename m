@@ -1,82 +1,99 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A3A5C54E68
-	for <webhook@archiver.kernel.org>; Thu, 21 Mar 2024 05:13:06 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web10.199.1710997980432349206
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 917CFC54E68
+	for <webhook@archiver.kernel.org>; Thu, 21 Mar 2024 05:18:46 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.248.1710998325914358776
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Mar 2024 22:13:00 -0700
+ Wed, 20 Mar 2024 22:18:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=jmIaJ4UL;
- spf=pass (domain: gmail.com, ip: 209.85.214.175, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1e0000cdf99so4126225ad.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Mar 2024 22:13:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710997979; x=1711602779; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VxWYR3aML19/556JeUxdfvUOdCVXfqdwN01fO34ItAE=;
-        b=jmIaJ4UL14yZKIz9IWO1HNe02lbmOl4mol4C1eRdYCBNluRLqFGl+M5U4K/zxyxDs3
-         TsEUKEO17gn6ZT1Hk2wTS2kTLX6YyklL5pPDzLeOXPMj9YJXwNIrmZjYAw07c2n1Q9hb
-         cLot8wOro4q9CbtG24pEN/bHcaDmxibeaGmV9+Ya7BSooPabFD2PdPYs9SK34E9VU5xd
-         eTZdslqdiVJt6IoVjqz2/4q8Pe9RGzCgA5AZkK5fHEjVVRITsloLcqtKDoJgfVunoC3I
-         725SjWKxP/JBL+Voj+EhtScy89rlza5AQLr9vBTuZNF9bhnAjX1oVmKSFOwwpw1li1yg
-         TeMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710997979; x=1711602779;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VxWYR3aML19/556JeUxdfvUOdCVXfqdwN01fO34ItAE=;
-        b=chzr7FbDnwHxtjLQqwErO26sk+CFSFLN9IY3YGzrmMjIad6tCwqdZ0D9b43Vnmc8jI
-         I3TUw+zgTMv0K+8B8bKLX08upM+lzy1g52LbnnpJnOMo0zXmc52HwgQhBKN/ci+glaGY
-         O5SmR1/jpavZVfW9BEONvfufFKPnzgfIUbtzYPBiLQ8cnx/6BE9RRzDFh0ejyMhzDslY
-         Wiu+sRhIyh96NXJSldcdfySvHy3Ne1zwFZH5Fhm78o8FdALlXJaEv+M1yJBWGpebqMrm
-         8BPw1MMh2zahWK+/EPbdaRIJZqKSODJod3BNVYKg9bI1RPd1rw2M7o7so9SeznYN7SWg
-         bIWg==
-X-Gm-Message-State: AOJu0YwMqTnV72ryCWKrjm1hfJlrCV0IPqNnErTTQQAkd7JZqecyLz4E
-	Hpz2d63CxbOLTfvHz7ag9PIKaJqqbwW+yn0+R7kbPEKceUQHN4iJqZMYR4ot
-X-Google-Smtp-Source: AGHT+IHierhhtRM01CCemA54lOS77DvldbIVSmZg/JIvAogBpC+z3lOcHVBddi7UsxRYo/wJaEOnMw==
-X-Received: by 2002:a17:902:6e09:b0:1db:4941:f703 with SMTP id u9-20020a1709026e0900b001db4941f703mr1125768plk.15.1710997979298;
-        Wed, 20 Mar 2024 22:12:59 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::debd])
-        by smtp.gmail.com with ESMTPSA id i15-20020a170902c94f00b001e02c15f30fsm7054072pla.86.2024.03.20.22.12.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Mar 2024 22:12:58 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] qemuriscv: Fix kbd and mouse emulation for qemuriscv64
-Date: Wed, 20 Mar 2024 22:12:56 -0700
-Message-ID: <20240321051256.476294-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.44.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Lm1xNRfj;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=aznqYG3u;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018e5f7286c7-9084a9f1-30bf-4a00-9a92-a1be2c513f38-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1710998325; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=4ajYm0PihUSU56ctedETnYh8QHJ6akC8yQgDYcYvLBg=;
+	b=Lm1xNRfjIGiiT1bWBjrSLA8COl3Y0DRnop56o+9wZ1ArtQf4YdiCVp1yDbbHrl5K
+	29XD8F8IO5k2zu3E7IXV5Z+ki570VFlPYR0aJ3xh1xcqwRV1LgIOXMq9x3JszTKKM2d
+	C12AgTUqnxkUnkyw5Z04TZhQYlh+yKiVF25gaM/k=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1710998325;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=4ajYm0PihUSU56ctedETnYh8QHJ6akC8yQgDYcYvLBg=;
+	b=aznqYG3uAxrvfuIeagGix5+lS482JKdWGGTc5QCWQWWF3EFanPxmXi7wo382uqwl
+	vR4g7ZgizF3GgKpapEv/tHAOraWVgsyUNNblmnHzmDWxTIhbFGCAnbiowvir0/C+lQt
+	h8oTxzV5WCzM2M7abOo2raIDqAXFcHGjkwKF74IY=
+From: patchtest@automation.yoctoproject.org
+To: Khem Raj <raj.khem@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] qemuriscv: Fix kbd and mouse emulation for qemuriscv64
+In-Reply-To: <20240321051256.476294-1-raj.khem@gmail.com>
+References: <20240321051256.476294-1-raj.khem@gmail.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101018e5f7286c7-9084a9f1-30bf-4a00-9a92-a1be2c513f38-000000@us-west-2.amazonses.com>
+Date: Thu, 21 Mar 2024 05:18:44 +0000
+Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.03.21-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 Mar 2024 05:13:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197405
+ <openembedded-core@lists.openembedded.org>; Thu, 21 Mar 2024 05:18:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197406
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+--NextPart
+Content-Type: text/plain
+
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- meta/conf/machine/include/riscv/qemuriscv.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Testing patch /home/patchtest/share/mboxes/qemuriscv-Fix-kbd-and-mouse-emulation-for-qemuriscv64.patch
 
-diff --git a/meta/conf/machine/include/riscv/qemuriscv.inc b/meta/conf/machine/include/riscv/qemuriscv.inc
-index 7024bd0a4e6..d01d988eeee 100644
---- a/meta/conf/machine/include/riscv/qemuriscv.inc
-+++ b/meta/conf/machine/include/riscv/qemuriscv.inc
-@@ -35,4 +35,5 @@ QB_ROOTFS_OPT = "-drive id=disk0,file=@ROOTFS@,if=none,format=raw -device virtio
- QB_SERIAL_OPT = "-device virtio-serial-device -chardev null,id=virtcon -device virtconsole,chardev=virtcon"
- QB_TCPSERIAL_OPT = " -device virtio-serial-device -chardev socket,id=virtcon,port=@PORT@,host=127.0.0.1,nodelay=on -device virtconsole,chardev=virtcon"
- QB_GRAPHICS = "-device bochs-display"
--QB_OPT_APPEND = "-device virtio-tablet-pci -device virtio-keyboard-pci"
-+QB_OPT_APPEND = "-device qemu-xhci -device usb-tablet -device usb-kbd"
-+QB_OPT_APPEND:riscv32 = "-device virtio-tablet-pci -device virtio-keyboard-pci"
--- 
-2.44.0
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
