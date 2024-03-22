@@ -1,160 +1,194 @@
-Return-Path: <Harish.Sadineni@windriver.com>
+Return-Path: <quentin.schulz@theobroma-systems.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AFE6C47DD9
-	for <webhook@archiver.kernel.org>; Fri, 22 Mar 2024 10:11:20 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.9702.1711102276717537575
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94EAFC54E71
+	for <webhook@archiver.kernel.org>; Fri, 22 Mar 2024 10:57:30 +0000 (UTC)
+Received: from EUR03-DBA-obe.outbound.protection.outlook.com (EUR03-DBA-obe.outbound.protection.outlook.com [40.107.104.135])
+ by mx.groups.io with SMTP id smtpd.web11.10340.1711105047559236337
  for <openembedded-core@lists.openembedded.org>;
- Fri, 22 Mar 2024 03:11:16 -0700
+ Fri, 22 Mar 2024 03:57:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=oLqr2M27;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=3811bd4ac9=harish.sadineni@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 42M2q3kp008241
-	for <openembedded-core@lists.openembedded.org>; Fri, 22 Mar 2024 10:11:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:content-transfer-encoding:content-type:mime-version; s=
-	PPS06212021; bh=wkHRfKrPcwoGokT32Yoq6qmkld4qEEjMfV1UJDZlyp0=; b=
-	oLqr2M27ItKURibV3uAu9gnQcSkOTYTbIe7Opyxkduu81G93nh0OKjSjRzipR4bj
-	e3sMqIkdcsfGm6fJdnQUE3ndbOzjW/ESMuQOseE9l9fuCWtfvkRoOCq97z69NZsq
-	VNT2hzmEKodmxvEkU/0m5bfs4faRNf3Y20R65aaWa2xwddmQbQPw4cQHF5HO1lQl
-	QJrVxyaaNrPLfZfugLK8MdH2K7aoKEfJmK57QB6xX65XESbOeLgDvJFqvI98XhNE
-	k6u21ftjSe4W9leHwcWV5eH0Gkrpj/TF7KCXKQt4fdXDP/G7R78lrPFB2IbDfX2d
-	m1hw+KK5zEd4Agf0IgaLpA==
-Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2168.outbound.protection.outlook.com [104.47.58.168])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3x10gf0ccd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 22 Mar 2024 10:11:15 +0000 (GMT)
+ dkim=pass header.i=@theobroma-systems.com header.s=selector1 header.b=M8y/qAE9;
+ spf=pass (domain: theobroma-systems.com, ip: 40.107.104.135, mailfrom: quentin.schulz@theobroma-systems.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EHozHUiUG2RB8Cwr6gKUxFoKPuxNJViOK7YTlK2V0RkSpIJHU6bOFh4B7KbUyb4KvRYku0shssMb4BBgEqVtFVoLl45nLqBTq9T/dLhMY64y2JNMWkBEGeUwtipixOeOsNyLzRHlphEF4EJ66Rq/0+58GzWe0ax9RCCtQA03LLx+wwu8uXn+9DAPuuxhkoBRmOqAXu0g3SXivAFNPT9kxVQwoCkUbVibIpdM0ktQBNuoNv2Rb7agRppoUPTEmbiVWEPdzPQAK0U+wm17/jJUI57gBL2/qM3jHbGH0Cl/NmHRUgP6oiU0sMdkg77yNf7i3carEHv1kk1Dbuo3Lx8Hpg==
+ b=T+u/dhkO8snGeapXtZlRRjMfh+QTbdhD6V5zSuq94o0PUtuRwHdAnQmuLWNS5uVGwb7/65MpT18Qmj8mpMqMge+fGf26MEpBQIaWUDlCI+FVoIm8NoYFwejPvuOE89uq6fbH1recwbULy1laQH9HVxIcQ5z8hXWR7zKhEqqyeTBKP8KGj4Bz3mzhIiRGIKaalnUFfKF5EYR/3EurJtEOKL3m3y8kN+AsMo9zmKcMzQtaU6WD0XxyCIwMqwsb6818Wy9p/DmJucV3iTEV6n5/YfI8cjGingpbNwfVqSa8pEeNVoZ54BxmTYwibi70KKml1Gtkl2VXjMdJqH47G+N7Sw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wkHRfKrPcwoGokT32Yoq6qmkld4qEEjMfV1UJDZlyp0=;
- b=HMOy2s1r2TM1QHlNG8HB4TcLEIdueJiJMj1RaX/GyjNCKn1Za5JqBxi3A51G4YKGV/6/85/Q1ysKiKPVqw4WWkY+oyuYWeBVeyslekY0hGqzwMyd1nk0ZlB052Bf5LOZG/0bfXhCEcliVMZ+rxuUqBIPwDnmTfHMwDdMe9xKBiKeOcuuZDXK4OXFF2AqebqH/a2mV23xlLnv6/WZpcL9aubr6k1n+t59D1vTVQ96QPesnEZNxPkyESEqZWxv1GgUUH2gCo6zqo1h6aQhxcDCZLC4AlLWKpyKm85AtKrnS0NSeOK3is8f1aNPOOLf4Usqhz2EyxxBV6r6312OWDO/pg==
+ bh=bIZ9yfsEoUcSPQpUZCRqYB+Xl3uH4fNwrm+cNVor0YA=;
+ b=dZ6OwtWwgtpABfLmMDRbQKZomzrp5bLf2rD3Zh5yS1KWjFy4xeAU6klAB265aS5GvyN/U8MnzoaOm2dl7zyxY19x8M242v5rcNEIuSIt4eYpCNfSEIwgkxeyGTuZ8ytFWpfHpME9sIHdaSoJ18RJj4dKfEiPqvI1UPDRYGf+7WITEzGLzuH4ZHo4A17IG+sCscpkddzvaFMNNfr/jX2rn1NNcwybg9L45qishvM6LTMKKerV0cd83k0Ta9hN4rab1UjVN8C8ZMUb1ylqf0rp9JOfzg9JW6rv60XIAD0fqVkiyt2Stey6rWZN3U0/hwTO+uUhrRWTPlFUOw1hQbVaoQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from PH0PR11MB5658.namprd11.prod.outlook.com (2603:10b6:510:e2::23)
- by MN2PR11MB4758.namprd11.prod.outlook.com (2603:10b6:208:260::16) with
+ smtp.mailfrom=theobroma-systems.com; dmarc=pass action=none
+ header.from=theobroma-systems.com; dkim=pass header.d=theobroma-systems.com;
+ arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=theobroma-systems.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bIZ9yfsEoUcSPQpUZCRqYB+Xl3uH4fNwrm+cNVor0YA=;
+ b=M8y/qAE97Es7n5Jth+Yre5TYROI2JRWZSJIY5bss1+SgiglIkGrbpwfEHsUOuVDQaCfBsCrXd9CaFZapl8aBrQm+Kx0477eegYucFDjXFfuiK8SaTKlk59m59mwu+14Fihz6kq+fiSLJEHIz9dT96pUEhMotrt/LGvhV0Kyr1aiUFXNQ7ILznpa9CBRq7EUD8o58zX7FWlMKl5qpuAwF73vIMK4v67VB1R615gBsHlVE2UwWP/ibNCfOpLtICLQGJ2Z90b15cwiA6QDz/VYj+zCROyeohWy+AVGFQT5jZV+nbRuwfM5JMqHsVwjDlzvXP2CIN2ZrLU/EZx2KxOT50g==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=theobroma-systems.com;
+Received: from DU2PR04MB8536.eurprd04.prod.outlook.com (2603:10a6:10:2d7::10)
+ by PR3PR04MB7484.eurprd04.prod.outlook.com (2603:10a6:102:8d::20) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.24; Fri, 22 Mar
- 2024 10:11:14 +0000
-Received: from PH0PR11MB5658.namprd11.prod.outlook.com
- ([fe80::6748:b2ea:d62a:9d0f]) by PH0PR11MB5658.namprd11.prod.outlook.com
- ([fe80::6748:b2ea:d62a:9d0f%4]) with mapi id 15.20.7409.023; Fri, 22 Mar 2024
- 10:11:14 +0000
-From: Harish.Sadineni@windriver.com
-To: openembedded-core@lists.openembedded.org
-Cc: Randy.MacLeod@windriver.com, Sundeep.Kokkonda@windriver.com
-Subject: [PATCH 2/3] autoconf: Add missing perl modules to RDEPENDS
-Date: Fri, 22 Mar 2024 03:10:52 -0700
-Message-ID: <20240322101053.1397030-2-Harish.Sadineni@windriver.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240322101053.1397030-1-Harish.Sadineni@windriver.com>
-References: <20240322101053.1397030-1-Harish.Sadineni@windriver.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR05CA0036.namprd05.prod.outlook.com
- (2603:10b6:a03:33f::11) To PH0PR11MB5658.namprd11.prod.outlook.com
- (2603:10b6:510:e2::23)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.29; Fri, 22 Mar
+ 2024 10:57:23 +0000
+Received: from DU2PR04MB8536.eurprd04.prod.outlook.com
+ ([fe80::23:4118:ae4a:8dda]) by DU2PR04MB8536.eurprd04.prod.outlook.com
+ ([fe80::23:4118:ae4a:8dda%5]) with mapi id 15.20.7386.025; Fri, 22 Mar 2024
+ 10:57:23 +0000
+Message-ID: <96d8fe3f-83bb-4a72-bc3a-d04d873164bb@theobroma-systems.com>
+Date: Fri, 22 Mar 2024 11:57:21 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] u-boot: fix externalsrc not triggering do_configure on
+ defconfig changes
+Content-Language: en-US
+To: Quentin Schulz <foss+yocto@0leil.net>,
+ openembedded-core@lists.openembedded.org
+Cc: Iskander Amara <iskander.amara@theobroma-systems.com>, steve@sakoman.com
+References: <20240321-u-boot-defconfig-devtool-v1-1-2fccfc4c6f5e@theobroma-systems.com>
+From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+In-Reply-To: <20240321-u-boot-defconfig-devtool-v1-1-2fccfc4c6f5e@theobroma-systems.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR4P281CA0233.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:e9::15) To DU2PR04MB8536.eurprd04.prod.outlook.com
+ (2603:10a6:10:2d7::10)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR11MB5658:EE_|MN2PR11MB4758:EE_
-X-MS-Office365-Filtering-Correlation-Id: b3b936f6-a093-4bf3-a008-08dc4a586801
+X-MS-TrafficTypeDiagnostic: DU2PR04MB8536:EE_|PR3PR04MB7484:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8c1c876b-ae91-44aa-b32f-08dc4a5eda61
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	PTIAjHBRdt8yQTaekEGim/B1UBsf6YojisoJnow3KlLDXIa2E79vVU3L29v9zhnLD2+hkx3mYQm4itXNmBQPzDTGCxMXgGiH4aSkLcX0HZ5Szl76XAx9XWajjld5jhi2lOu2xj7FiVCe2MK4uwgCIp035TsPB5PW3xYcogfffUfv0As/EcpTpqJFBSjaYH/Zj+ZY56sjOXjlYZAwF6/Teq5lqhtXOqzbiAxCScFgNFldoWyqEvcuU+W4VnzaqDcV27RUsqjP2eNHf39YtZhQR+TLSGkJSH7s4FDZmidMGWnFmZiBZWfrGCq2YK0qM5nejkrCeBn+U6ZLKyfl+x+Q5ysKmg+VP7VD5eeBu61sNcniyYM4EdssUlisnD8q9Y++V9RiJ6M5JNrFXCyDjVxBdus5qewJA0Hhe6ZeEdKVHH3wOtdp0TauULPl6QAIqwvKCBFefMNhTBMycAm/EumLHmIGooXOArcOuytIjgABEDzxZnwDzR6xzUkhsLHUrfEuMdPxi8vlioITgZkGEIVchL9UENCSDp4rX69EPiIrnSurVxbPgvdhHYUpcMgt2RgdU+gYbzNiPXqU43zwF/LRPRSQRjxon+kO1XaqsOxp2yLXFACu0bjBP7XS6YmhvCowRw547EwE2OlHBhlmzEnkBfyHR+0HR9YwBG/l3uJ9bNt5uuEmG3km+F7wvb2un5kj3qVfYMhbkm2R8JWf4mEIYT1xRo5333snJwZnSpdfiO0=
+	A2Lt3f7t2hYAROtGH72FKHbVcfjcrKw26/VttG2IMbHl0eQ4CcU77FnK0ky4LDbgHncIA6cT78PQ9ujrobKMWBW1AC49Psvt7jpcoCvAMNlJ8UKOraV1rLEG+Mw2cPrlOi1LY7llPyXwy5lhkhanW6Ke7vSqnb7PkpLCGJYQWM8JcpkKj7y/uWvEZ3E2oyfDCw+Oye7spsJx3f5IC6klrt+4jU3m2o9+LYTjRj8B32UQ7FvGf7Ws4nOqUP2J0oG8rmomxjTspGfaXbTJkGM4OGc0xpEPT9uzxFtFROgeG8Cl32wwgPvj8FLTuyWaul47k8im4+s8tK5X7+ij64E+UcbvuzwIyZS8dFdsKc6XTwHPR4F8BrVcR8OgVmze83oZvc0H5X8vjK1DlKJunVn4whvEXJilX6ub2sLXmt423d2UeZ6C4cQGL/MNnIiT5myJl1BQTWMJ0UvkmNdsz5QHJSUwcdsX8/NBh1NgaXbAjfMlY4bf0IQnIY1xxyFGAPXOi2HEwFJf48gbzNwgsy3ZPnLLWaTHVy2//3HVmTQNMemQbWFjyRi6ecrdbcWHDKhsVnFx6lcGOVruDwIS5wUT2Tl7N2gH3mXNSnGa2YaFT12tvXVOGUBtDb62SH+cHTo6Sqjp9XV53IgWrTVDjnkjZLbfmROu7/LEcdXSWI+3VrU=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5658.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(366007)(52116005)(1800799015)(38350700005);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR04MB8536.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(366007)(376005);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?2xZVj5/ZBxA62YIBWaBEPIY6Ks0SIJtGeZEbIJHBGVB1+t3apMnlr7gtsOst?=
- =?us-ascii?Q?o9Sv2HDitlXe1Yaxj2KmNQ4ocI/XspSk5u2z/Kfh6wyK4GhUDTTVwBOuG/yt?=
- =?us-ascii?Q?pUNbGbhxfszd9/OvA1KMyJgiUU7LKJsGkwhvW5dM7U4FtWrdwxlM4xTOn60K?=
- =?us-ascii?Q?ZRsi8i3E9OTg3/jvd2n1mTds6xOkAyswvEtN19SnzX55Fiv2mGo65mG+aBu5?=
- =?us-ascii?Q?1fPEZoz9m7QJaYqBsI9d3LG9s/vam3OguGHxVM+D4sioFf0kOlmjTY7sGL+F?=
- =?us-ascii?Q?XlK/ODcMYgWLxWfT1o0En1dln022sCjveCA5BuKhnSlnq0iWnA8yGHgL7OfG?=
- =?us-ascii?Q?o+PTjPNdK/LQAOsDAdIRYV3cVce0C+s0rOaxCsO7RaRM4ehU16bnUj36woWS?=
- =?us-ascii?Q?VqLeQ5NdK735DQnoEjqW/dYFqwELsR8jscKZmZQ5qSGZT4cQSeTFiVyk8vT4?=
- =?us-ascii?Q?3PP9jZffpBp29cV91Er9ojXdnXYn2WtuJ4o8w8pRtgY1PxZmdCiKZXTJLcd/?=
- =?us-ascii?Q?ZjcfphSrprjhd3qhiHA49JcU8qi6n4duoT011q4t/ScayEXZpvFv0XT8ouHd?=
- =?us-ascii?Q?GtUEfo545S9oTpR1UO346ACK53HsXCvTHTyUXdsRj4zldE93YsEn5Idv5t6p?=
- =?us-ascii?Q?doEs8tWUZB6T2jKXZffJlQmQnADZiF2jRDUm61bqJklsO7xHVflqhawvdIcJ?=
- =?us-ascii?Q?hkm6H05fqYy3EtPT1oofV4uaUjRH35VYh0VGd/Z/wg7I/mtt+UfEW2yagoaz?=
- =?us-ascii?Q?MXx/Ncei4pWrNiNimWZIeC9PvtBsw3yCNsnaluRAcJYKtIx4giazogHQkoRo?=
- =?us-ascii?Q?Zpryo6GV/DXGSWFZwzjJlRE6spazXxnITpa+m5AXbH7S95EIqB3ld/SEUtgH?=
- =?us-ascii?Q?qm+E7f/JJ6/Iq0Bgkjk1JOOPEMcWpOAIpi6IS0Iu4f8Ua1opkMH7i1pJHguS?=
- =?us-ascii?Q?c8hKtzyAhg/qb9cygdRNrBdb/cffZbHD23q3RiCst3qgKPc1TjJSg5LEdeSK?=
- =?us-ascii?Q?OmrZ6+2e0lpTtB+cddjvlDLeJ+JiVzpSk0l01cN2Q5bdLhXW2+u3e6fNlJg2?=
- =?us-ascii?Q?QeV2bn0o64ly+UNoR31XiWQf+48CF8BCes2itWGIz50TcbHfEnWQz1m+/DlD?=
- =?us-ascii?Q?tRfdSc2wsvo7Dr3Ab+rRZxuSgFanYWLymMlFx4iXvHyqLZOiY0YmmxSNao+P?=
- =?us-ascii?Q?jRAvVw8Sevbfp/WQVvg3kqFEQpEecrZJwqBcrxXPAs86l6SGGwh9R15ALMPv?=
- =?us-ascii?Q?xHfujW3B40eVVWi0Fsz3UIpuJsGAuJoNqWd3Dklsvs6xCoir91VZZgTvvdXi?=
- =?us-ascii?Q?qo8Hfprkgm8MhBcgcQoJrmmtnzA6WL7Ed2DGlzQnDXyhu5jtAzIy/W0GNsuV?=
- =?us-ascii?Q?0UFFCgCSBeziOeqH9Gokc/fb5sCuw0CrXwjO7pgoYY+jnT7BbuzVb0ufOnFs?=
- =?us-ascii?Q?WpNjKnLntyhKCzxlGRT3imbmjv3pfte8jITlU/R1EgQXx677XTkCCZsarWDO?=
- =?us-ascii?Q?+HnKstbd8i+XIjpPyR1JpOu3TiUPNsKxq1L25hDdU+W7IvF5nHD46Eqi8rP4?=
- =?us-ascii?Q?KcAdnMEF509ega6OSoXu4GRbY5VdkbY3S2TqdXVcTm4n8NsfuzwJvkdmq8Ye?=
- =?us-ascii?Q?TrFqcFGA6WdWVwuOmjF71sg=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b3b936f6-a093-4bf3-a008-08dc4a586801
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5658.namprd11.prod.outlook.com
+	=?utf-8?B?b2hacitiSUdIakpSRHJpQk1BeFRnMmNQMllRNUFBRlYrQTdmQTZKWjV2WDhG?=
+ =?utf-8?B?Kys3YmhsZFR5WFBndlB5dUh4NHpMYzQ1WE9SUXhBdkpOUmx6TFV4QTBlRFJK?=
+ =?utf-8?B?eDY2QlJidklWaXEvNG53QmMwdDRvUVFUbFJ5NGloRTJRT2w5OUthZllLR2w5?=
+ =?utf-8?B?TW5qMjAwaHZQS2FSV0kxUmlOVjFUa1RTeE80K2pCbzVpYklPbnBXNmNmYzFW?=
+ =?utf-8?B?dnJtSDZTdUNkNTd0aWhnMlVMK2RUWUtTUy80VG02Nk5VdUlhK0h2cDlPZU1E?=
+ =?utf-8?B?MUUwZjFvVXA3djd2Ry8vclBpcVhJbTNOdHRBOFNUb1V5N293dzRhalMxdUt5?=
+ =?utf-8?B?dzZpcTdFWnFoQVV4QUF5RlVTRUIwaXUyU0dBRnV1R0pjMTUzR2gxL2hucUFv?=
+ =?utf-8?B?ZFJDWldhcTU0OWx4c3RDVDhoZjYvQ0ZBaDl0TmJVQk9nZkNmQ29UZ1VXZzAx?=
+ =?utf-8?B?ZjhGWWlHdDA3RTJJV2tBVlc5SGR6UnlxbWFCS3ZDWDllUlFKVXE4bGUzeU55?=
+ =?utf-8?B?a3VjYlVvaGFPVm4vNC90MzBITldvYllCbWd4U05rNUZrYmhvcm8rUnFSK3J2?=
+ =?utf-8?B?S0tBT0s4b0dubEY5K08yVkVOemU4WWtXdWlFVG5GaXBsaVYyOStiV0FmZytj?=
+ =?utf-8?B?NFgxN3hnellsTFNWSjZCcjB0aXcreGJpSTVZNWlRdkNVbmM2cGRJcGx5ODMv?=
+ =?utf-8?B?LzdxdmdhYkxQU0d5VzF0dkFtcTZKZVRiY3BFMk1NRFp4M05EYjg4ckVMRVVq?=
+ =?utf-8?B?V3JaNmxIWjVGdmVaYlY4QzVad1JoSmtWWEduZTRaZm1SdXFFMWxRSUF3cndN?=
+ =?utf-8?B?ckZuMWM2Nm1ySUJxUjcyL0ZxRUNqcFdmd3lwdTBjcmp6TDRjWFE4Ymc4a3Vj?=
+ =?utf-8?B?NWppUE1BTjBBT21iNGdsb2cwOEt6VVNmNk5PbWR6eXhlNWpCVnVEQVBHRDU4?=
+ =?utf-8?B?SkRLZEFiUkJYdG0va1E3cUFUZE16azdyYWdwRUE2elJGTjhITWoxSy9pS1pj?=
+ =?utf-8?B?bmdob1JXQnZvVWd1QlVjR3Y4R2ZOajFSZE9iNUdlTnhoM2dXQ3kyTGF0eDVS?=
+ =?utf-8?B?dWpvOGRueWlWaklnOWYwUUpKRXlNSlMwb0hFNDRBdUREdEtrL1pyN0lJMlBM?=
+ =?utf-8?B?TThFV2hRMVI2QzdTOGsxV3lDR0VlUUo5L1hVd2hjNEF3ckFHb3pnSXN3bFpX?=
+ =?utf-8?B?ekVQK1ZCRXN3Uy93UTFoNTh0YnQzRWlRVXFUdDJJNDRWSU14Q1c5dHpMRm1M?=
+ =?utf-8?B?cjJEUFFLRjJKKytBeVFRTUk4TmJnVjdMV2pJQ0c3Qjcxbk0rZ2hsZ0ZISlly?=
+ =?utf-8?B?Vk1MMFhleUFJN0VTM1ZIclQ2dXpRQk15QitESVJaZXpxbWR2cjdKcWFHLzVY?=
+ =?utf-8?B?cGlRYlNUeS9tektTSDJKL1BiUElMYWlrN21ZU1AwQlN4UGNEY2ZaSTJ2M3FI?=
+ =?utf-8?B?aHVSQ0NKbTZrT2lWajBZRCtVOFQrcGg0V29DampEYnBVZGFWY0FOYi85eGVq?=
+ =?utf-8?B?NlJOVWpMenFxMHYwR1VDeGVoZ1pPZi96QnVNcmlWUUtoRjQ1Tkswb2pYSzBj?=
+ =?utf-8?B?YzlMSHFZNHFuR2VCekJraVh0U0pzZlBpK3dsOWNHZlN3QWhobHBWY2I4ZmR6?=
+ =?utf-8?B?MEVsWTJZd2FOaUJ5OU82OHh3VTFzM05XbEhFcWUwbUpHOHlhMzUzNE9TYlZy?=
+ =?utf-8?B?VVNOcmVIOXJEbzFHcWpqbWtISmpxejc5ZGhZN2xPOUU2ak0wZTgxRGoreEhJ?=
+ =?utf-8?B?Tks5Yi9Zdnp2S1MzUVphYy96UWpESnNSRmxhaGxmYUl6K2p5ZDNoZ2VwTkVV?=
+ =?utf-8?B?S3FCK3Rrb1V6YTBBb3dDazdsZk4rdmxNamRyTFAwek94aGhzQXJkVW45Zisz?=
+ =?utf-8?B?Ri9YZDc4SkROSTVLYU92M0t5RHYwS3M1QVBCT0RhK052VVBMbjJ1ZHU5blZs?=
+ =?utf-8?B?ODMzZHRRUU1wcEhnNTJDaVRXSU9rRzlEMGdtSkMxSVhpdW5CWlF6bTZ4TmZN?=
+ =?utf-8?B?VGJTS3NjRlpleGFoZjFmM0s2Yk04ZFJPU0RVeEt4YVZpcnI5Y0xjM05MNHN3?=
+ =?utf-8?B?T3RkbzRPTWc5RFA5dTlIM2VERTJJWWJOelYxSUo5di82YVlOWjRiMi85WE9h?=
+ =?utf-8?B?QnJFNjNzRFhObTUrWldQOG9ualhHRkhpMzdIQXh2ZkkzSXJ0WGgyNXpXTnVZ?=
+ =?utf-8?Q?Z4j3UH9pnUDTnOVGLNt51Zg=3D?=
+X-OriginatorOrg: theobroma-systems.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8c1c876b-ae91-44aa-b32f-08dc4a5eda61
+X-MS-Exchange-CrossTenant-AuthSource: DU2PR04MB8536.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2024 10:11:14.3682
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2024 10:57:23.2014
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nGgtrGgak1RNG6NEIZ8lheSmLbvBoNDO7JXLaxcY6L1GNOrDtLWK1Z+WG5xCM04fOkxKr46TDjUndmsW0KihCP1Y4KaB2esxIeRU2WJZdsc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4758
-X-Proofpoint-GUID: JVvoHE7-y1SSDHl3NDP3fYs08Ihqvnf3
-X-Proofpoint-ORIG-GUID: JVvoHE7-y1SSDHl3NDP3fYs08Ihqvnf3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-22_06,2024-03-21_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- lowpriorityscore=0 mlxscore=0 clxscore=1015 phishscore=0 spamscore=0
- bulkscore=0 suspectscore=0 impostorscore=0 malwarescore=0 adultscore=0
- mlxlogscore=889 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2403210001 definitions=main-2403220072
+X-MS-Exchange-CrossTenant-UserPrincipalName: YIscubY3uIsKgfwZknYus29E0PA7yqEK42VzzicIKeHZ4w0ZF777w46tAr3wmwr5OGCVuZCwNKYNXbOFy98GyoXREfTtEL2tsGwyclIbXwSFW8ppN0YxUzPdZWj28abI
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR04MB7484
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 22 Mar 2024 10:11:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197440
+ <openembedded-core@lists.openembedded.org>; Fri, 22 Mar 2024 10:57:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197442
 
-From: Harish Sadineni <Harish.Sadineni@windriver.com>
+Adding Steve as Cc since he's maintaining the stable branches.
 
-In SDK, missing perl modules causes 'x86_64-wrlinuxsdk-linux-gp-display-html --help' to abort with below errors..
- - Can't locate bignum.pm in @INC (you may need to install the feature module).
- - Can't locate Math/BigInt.pm in @INC (you may need to install the Math::BigInt module)
+I've tested this on Kirkstone as well (in downstream u-boot recipes 
+including u-boot-configure.inc and have that new line themselves), so if 
+this gets merged into master, I suggest we backport it to stable 
+branches too?
 
-Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
----
- meta/recipes-devtools/autoconf/autoconf_2.72e.bb | 3 +++
- 1 file changed, 3 insertions(+)
+Cheers,
+Quentin
 
-diff --git a/meta/recipes-devtools/autoconf/autoconf_2.72e.bb b/meta/recipes-devtools/autoconf/autoconf_2.72e.bb
-index db374373cf..2a459b7cb6 100644
---- a/meta/recipes-devtools/autoconf/autoconf_2.72e.bb
-+++ b/meta/recipes-devtools/autoconf/autoconf_2.72e.bb
-@@ -52,6 +52,9 @@ RDEPENDS:${PN} = "m4 gnu-config \
- 		  perl-module-thread-queue \
- 		  perl-module-threads \
- 		  perl-module-feature \
-+                  perl-module-bignum \
-+                  perl-module-bigint \
-+                  perl-module-math-bigint \
- 		 "
- RDEPENDS:${PN}:class-native = "m4-native gnu-config-native hostperl-runtime-native"
- 
--- 
-2.43.0
-
+On 3/21/24 18:17, Quentin Schulz wrote:
+> From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+> 
+> externalsrc only monitors files listed in CONFIGURE_FILES environment
+> variable to know if it should trigger a rebuild of do_configure. By
+> default it is unset, but the defconfig from U-Boot should be listed
+> otherwise an old defconfig may be used even though the change is
+> technically detected by the do_compile logic later in the process.
+> 
+> Because U-Boot recipe uses `make oldconfig` when no defconfig is passed,
+> monitor .config for that special case.
+> 
+> This fixes U-Boot recipes not detecting defconfig changes when
+> devtool'ed.
+> 
+> Reported-by: Iskander Amara <iskander.amara@theobroma-systems.com>
+> Cc: Quentin Schulz <foss+yocto@0leil.net>
+> Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
+> ---
+> Tested by running:
+> 
+> MACHINE=qemuarm devtool modify u-boot
+> MACHINE=qemuarm devtool build u-boot
+> [modify configs/qemu_arm_defconfig]
+> MACHINE=qemuarm devtool build u-boot
+> MACHINE=qemuarm bitbake-diffsigs -t u-boot compile
+> [Checksum for file oe-devtool-tree-sha1-u-boot changed]
+> 
+> Apply the patch, then run:
+> 
+> MACHINE=qemuarm devtool build u-boot
+> [modify configs/qemu_arm_defconfig]
+> MACHINE=qemuarm devtool build u-boot
+> MACHINE=qemuarm bitbake-diffsigs -t u-boot compile
+> [Hash for task dependency u-boot:do_configure changed
+>      Checksum for file qemu_arm_defconfig changed]
+> ---
+>   meta/recipes-bsp/u-boot/u-boot-configure.inc | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/meta/recipes-bsp/u-boot/u-boot-configure.inc b/meta/recipes-bsp/u-boot/u-boot-configure.inc
+> index 235623d25a..378d675364 100644
+> --- a/meta/recipes-bsp/u-boot/u-boot-configure.inc
+> +++ b/meta/recipes-bsp/u-boot/u-boot-configure.inc
+> @@ -8,6 +8,8 @@ inherit uboot-config cml1
+>   
+>   DEPENDS += "kern-tools-native"
+>   
+> +CONFIGURE_FILES = "${@d.getVar('UBOOT_MACHINE') or '.config'}"
+> +
+>   do_configure () {
+>       if [ -n "${UBOOT_CONFIG}" ]; then
+>           unset i j
+> 
+> ---
+> base-commit: 94f99434eff15a92cfdc2dce423d32a1b74aab39
+> change-id: 20240321-u-boot-defconfig-devtool-905683a1bedc
+> 
+> Best regards,
 
