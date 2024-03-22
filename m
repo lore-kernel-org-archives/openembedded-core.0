@@ -1,258 +1,104 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 457ABC54E71
-	for <webhook@archiver.kernel.org>; Fri, 22 Mar 2024 13:07:31 +0000 (UTC)
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
- by mx.groups.io with SMTP id smtpd.web11.12786.1711112847812727232
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4670EC54E71
+	for <webhook@archiver.kernel.org>; Fri, 22 Mar 2024 13:51:01 +0000 (UTC)
+Received: from mail-il1-f180.google.com (mail-il1-f180.google.com [209.85.166.180])
+ by mx.groups.io with SMTP id smtpd.web11.13762.1711115452925629946
  for <openembedded-core@lists.openembedded.org>;
- Fri, 22 Mar 2024 06:07:27 -0700
+ Fri, 22 Mar 2024 06:50:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ls5pe0qz;
- spf=pass (domain: gmail.com, ip: 209.85.222.178, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-789db18e356so131708285a.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 22 Mar 2024 06:07:27 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=nH+HlBJb;
+ spf=pass (domain: gmail.com, ip: 209.85.166.180, mailfrom: jpewhacker@gmail.com)
+Received: by mail-il1-f180.google.com with SMTP id e9e14a558f8ab-366c6170706so10097355ab.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 22 Mar 2024 06:50:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711112847; x=1711717647; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1711115451; x=1711720251; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=P7/nqfTVS3+B0/7RXNKE92euexLDBE5aEsxg2qAPYFs=;
-        b=ls5pe0qzyzXFBiTwhOBs9kse4EF/3+FDY3XOOe4uAD7X1GQQ3Df226RSh6x9pyn89Y
-         Lpy/sPHsRHI4MlyNnnXyxL9Cma1JKFfYKSrzuRuOct3lol/Wpo6sLlOYqP2kvPl2rP+0
-         Kjf71fZeSRM+dG3HDoNNzi7MdvtDBLZvzLY0tyGEL891oORHnPQn6nSSL+rbEe/kQLAS
-         juPZep0sfQ6m9xriBS7Goe20c6Ta1MJnx44ybUn22sU1sX6MpIeIFnamgMw3O+jLwvQ+
-         WKttLIQFtsCgaZjtfLgpPjOE1yazaac3p3txElFhEm/VQsRL2lxNhvqv7i7LKmnMgLKc
-         eBwA==
+        bh=I+TGu6CtpX6nYAWm+7lm6A4IFuqTJIekuovAx30q5qI=;
+        b=nH+HlBJbz9ebjWS4WCNi8wg+sulfZE58tsbPAgN3+UtdbJgSey7Lf6OZ8R9gH5dG7z
+         lMg14Jy9qOfHaFbEKmp4SvmF8gXuIPliMohB1FK6m6kcIKHtvA8nNdrUu8sWvPFQxeI6
+         c/OSgjLQuZKyefq8UIInM5z8IwYDFtyUnnLuwwOaqr551q5V7FRQhX8pHwBx8AZK9XlH
+         n8Yv8v3yelV/ll9kMK54Cx1geflJeRUjePI9GejfQLUt9Uy73N0y3R26wduUiuWDeeQB
+         4nTxVdA5oF4iDH8Sy3cLdJrE++rLFkg3qfj97TCDn7FEyzXKnOklMoTaTGg6+P5J8zPZ
+         q1yQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711112847; x=1711717647;
+        d=1e100.net; s=20230601; t=1711115451; x=1711720251;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=P7/nqfTVS3+B0/7RXNKE92euexLDBE5aEsxg2qAPYFs=;
-        b=IoJna4puYWxoVABhKDsjbbN7NIgw971NCTnwDNPsdWmZQc8LKPczeufpfMCikSVnpa
-         am0AvWpgYrokP4dzCa4dsRAgXXkXd7HEGJk3cVGJwsDqXrns2rJO60EadTZLxNnAEYHt
-         X5FW/eTFh5hAHoxpuUN1UMWMGsW5Ri7F8lqglcMGzvBapZnG3r97toA4AQejExoAbHdg
-         bSGTJl06SEU4Idywks0sguzzta8BBpMaIVfqKj6Pg8CcNQk+quV6Tv70yTy+m1WidVXF
-         2i3ABEX7VS+Bh0L0rE+CDLOx4GMz/FY4qxnyhOadt3rXqzbLfuac6+idYOten75JBsi7
-         JZqQ==
-X-Gm-Message-State: AOJu0Yw4UD2Ls5f4+3eOr6CTaFKcfHLAxvwMZhblQII544rju/mSofC1
-	tKsOzxVENXQTEaRerNsoVnTpoBOtNOKv9V4Qg3UrDsCATVjByQ67SzsB1+Km
-X-Google-Smtp-Source: AGHT+IHaaQEQC+fSMiWOFqXtNvQ8yjyrMvW2q83bg6JUJO7q5SzUC49AmhHAG4C9WditY/tdsu2J5w==
-X-Received: by 2002:a05:620a:b8b:b0:789:fac3:c757 with SMTP id k11-20020a05620a0b8b00b00789fac3c757mr1947325qkh.43.1711112846718;
-        Fri, 22 Mar 2024 06:07:26 -0700 (PDT)
-Received: from bruce-XPS-8940.localdomain ([174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id k1-20020ae9f101000000b00789fc794dbesm746767qkg.45.2024.03.22.06.07.25
+        bh=I+TGu6CtpX6nYAWm+7lm6A4IFuqTJIekuovAx30q5qI=;
+        b=Cq9Oc6sUmRpjgYAdCFMEhJo+oc9awNmuihXI6wQMCJoxEzQPYe34ZexaV7gRXio1gL
+         Cqm4DeCy66qo60sSPg1I8fSbQMDSaHnDkIrNoWLGQ67E/JiKbitjflJUFwgGewC1McCD
+         gCyTHC6g/piOr3sm5/fNqwQyWoJftfoxmpG5Er1q9lAqRDwXZaSDt3PSqY2u7ufTR87H
+         I+y4xyh87IMhmYhoUMJG5DEKPH1j75d+iD6Jg1cVVT8rYSzQzYzqVclHFOWzwfUwuizW
+         UJsnxXDveZrPCq+1p+AXKpCcQDv2K4SV1R7sZBidjRlFlqkXUtLejrZSiaONo+xI9VAJ
+         4pmg==
+X-Gm-Message-State: AOJu0YwRQE0kMSWPbRpbVj33323Suv+CHEQmZ3S8jV1sb4Hqy+Eyfs6S
+	aHW1KJzU/v7KAI4ND06HftpZ25H1mCqb7LTdGdDSlLIKegQyXgtP6P2G3pa2
+X-Google-Smtp-Source: AGHT+IGUz9a8rZdotISbP3MWG1xAfr5DAmsEc5daCMv8ovVDnv5JGYpv6PhIOBp/BCUm/nvSFsm3gA==
+X-Received: by 2002:a92:d448:0:b0:366:31dc:ed4a with SMTP id r8-20020a92d448000000b0036631dced4amr2788818ilm.13.1711115451530;
+        Fri, 22 Mar 2024 06:50:51 -0700 (PDT)
+Received: from localhost.localdomain ([2601:282:4300:19e0::dd43])
+        by smtp.gmail.com with ESMTPSA id x3-20020a92dc43000000b00368521be73asm582471ilq.86.2024.03.22.06.50.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Mar 2024 06:07:26 -0700 (PDT)
-From: bruce.ashfield@gmail.com
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] linux-yocto/6.6: cfg: genericarm64 platform/peripheral support
-Date: Fri, 22 Mar 2024 09:07:24 -0400
-Message-Id: <20240322130724.1997375-1-bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.39.2
+        Fri, 22 Mar 2024 06:50:50 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH] sstatesig: Set hash server credentials from bitbake variables
+Date: Fri, 22 Mar 2024 07:50:47 -0600
+Message-Id: <20240322135047.1113840-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 22 Mar 2024 13:07:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197445
+ <openembedded-core@lists.openembedded.org>; Fri, 22 Mar 2024 13:51:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197446
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Allows the hash server credentials to be specified in bitbake variables.
+If omitted, the users .netrc will be checked
 
-Integrating the following commit(s) to linux-yocto/.:
-
-1/12 [
-    Author: Ross Burton
-    Email: ross.burton@arm.com
-    Subject: bsp/genericarm64: include .scc files instead of .cfg
-    Date: Wed, 20 Mar 2024 19:42:09 +0000
-
-    Some .cfg files were included accidentally, fix this.
-
-    Signed-off-by: Ross Burton <ross.burton@arm.com>
-    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-]
-
-2/12 [
-    Author: Ross Burton
-    Email: ross.burton@arm.com
-    Subject: bsp/genericarm64: move CONFIG_PHYLINK under the right comment
-    Date: Wed, 20 Mar 2024 19:42:10 +0000
-
-    A bug in my annotation script meant this item ended up in the wrong place.
-
-    Signed-off-by: Ross Burton <ross.burton@arm.com>
-    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-]
-
-3/12 [
-    Author: Bill Mills
-    Email: bill.mills@linaro.org
-    Subject: bsp/genericarm64: Automatically create /dev/i2c* devices
-    Date: Wed, 20 Mar 2024 19:42:11 +0000
-
-    With CONFIG_I2C_DEV=m you must modprobe that module in order to get the
-    /dev nodes.  It is a small module (~8.5K) so just include it in.
-
-    Signed-off-by: Bill Mills <bill.mills@linaro.org>
-    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-]
-
-4/12 [
-    Author: Ross Burton
-    Email: ross.burton@arm.com
-    Subject: bsp/genericarm64: enable hugetlbfs
-    Date: Wed, 20 Mar 2024 19:42:12 +0000
-
-    Signed-off-by: Ross Burton <ross.burton@arm.com>
-    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-]
-
-5/12 [
-    Author: Ross Burton
-    Email: ross.burton@arm.com
-    Subject: bsp/genericarm64: integrate the IMX clocks
-    Date: Wed, 20 Mar 2024 19:42:13 +0000
-
-    If these are kernel modules then there's a WARN_ON triggered when booted
-    on IMX boards.
-
-    Signed-off-by: Ross Burton <ross.burton@arm.com>
-    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-]
-
-6/12 [
-    Author: Ross Burton
-    Email: ross.burton@arm.com
-    Subject: bsp/genericarm64: enable more SPI controllers
-    Date: Wed, 20 Mar 2024 19:42:14 +0000
-
-    Signed-off-by: Ross Burton <ross.burton@arm.com>
-    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-]
-
-7/12 [
-    Author: Ross Burton
-    Email: ross.burton@arm.com
-    Subject: bsp/genericarm64: enable PHY subsystem
-    Date: Wed, 20 Mar 2024 19:42:15 +0000
-
-    Signed-off-by: Ross Burton <ross.burton@arm.com>
-    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-]
-
-8/12 [
-    Author: Ross Burton
-    Email: ross.burton@arm.com
-    Subject: bsp/genericarm64: enable USB On-The-Go and Gadget
-    Date: Wed, 20 Mar 2024 19:42:16 +0000
-
-    Signed-off-by: Ross Burton <ross.burton@arm.com>
-    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-]
-
-9/12 [
-    Author: Ross Burton
-    Email: ross.burton@arm.com
-    Subject: bsp/genericarm64: enable SATA
-    Date: Wed, 20 Mar 2024 19:42:17 +0000
-
-    SBCs don't tend to use SATA, but larger platforms will.
-
-    Signed-off-by: Ross Burton <ross.burton@arm.com>
-    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-]
-
-10/12 [
-    Author: Ross Burton
-    Email: ross.burton@arm.com
-    Subject: bsp/genericarm64: support some i.MX8 boards
-    Date: Wed, 20 Mar 2024 19:42:18 +0000
-
-    Add more hardware enabling so that NXP i.MX8M boards boot successfully.
-
-    Thanks to anton.antonov@arm.com for the options and testing.
-
-    Signed-off-by: Ross Burton <ross.burton@arm.com>
-    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-]
-
-11/12 [
-    Author: Ross Burton
-    Email: ross.burton@arm.com
-    Subject: bsp/genericarm64: enable networking on Kontron KBox
-    Date: Wed, 20 Mar 2024 19:42:19 +0000
-
-    Thanks to anton.antonov@arm.com.
-
-    Signed-off-by: Ross Burton <ross.burton@arm.com>
-    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-]
-
-12/12 [
-    Author: Ross Burton
-    Email: ross.burton@arm.com
-    Subject: bsp/genericarm64: enable Marvell ThunderX2 support
-    Date: Wed, 20 Mar 2024 19:42:20 +0000
-
-    Add the required options so that this BSP works on the Marvell ThunderX2.
-
-    Thanks to anton.antonov@arm.com for the config and testing.
-
-    Signed-off-by: Ross Burton <ross.burton@arm.com>
-    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-]
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb   | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto_6.6.bb      | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ meta/lib/oe/sstatesig.py | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
-index acafe60e46..eb5e1da33c 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
-@@ -15,7 +15,7 @@ python () {
- }
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index aa891ecf0a0..b867e2a0529 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -6,6 +6,7 @@
+ import bb.siggen
+ import bb.runqueue
+ import oe
++import netrc
  
- SRCREV_machine ?= "1c3234ba160c59eb50739f23591a87daf09fac35"
--SRCREV_meta ?= "6a24861d6504575a4a9f92366285332d47c7e111"
-+SRCREV_meta ?= "a1711f65dcd5f88160d30447dcab3b88a1562690"
+ def sstate_rundepfilter(siggen, fn, recipename, task, dep, depname, dataCaches):
+     # Return True if we should keep the dependency, False to drop it
+@@ -327,6 +328,16 @@ class SignatureGeneratorOEEquivHash(SignatureGeneratorOEBasicHashMixIn, bb.sigge
+         if not self.method:
+             bb.fatal("OEEquivHash requires SSTATE_HASHEQUIV_METHOD to be set")
+         self.max_parallel = int(data.getVar('BB_HASHSERVE_MAX_PARALLEL') or 1)
++        self.username = data.getVar("BB_HASHSERVE_USERNAME")
++        self.password = data.getVar("BB_HASHSERVE_PASSWORD")
++        if not self.username or not self.password:
++            try:
++                n = netrc.netrc()
++                auth = n.authenticators(self.server)
++                if auth is not None:
++                    self.username, _, self.password = auth
++            except FileNotFoundError:
++                pass
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.6;destsuffix=${KMETA};protocol=https"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
-index 4a87482f20..7d6197db5e 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
-@@ -18,7 +18,7 @@ KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
- SRCREV_machine ?= "ca83799fcbc094fdd52caec7c4dca64189acd842"
--SRCREV_meta ?= "6a24861d6504575a4a9f92366285332d47c7e111"
-+SRCREV_meta ?= "a1711f65dcd5f88160d30447dcab3b88a1562690"
- 
- PV = "${LINUX_VERSION}+git"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_6.6.bb b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
-index 75488ad409..56dd771015 100644
---- a/meta/recipes-kernel/linux/linux-yocto_6.6.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
-@@ -32,7 +32,7 @@ SRCREV_machine:qemux86 ?= "ca83799fcbc094fdd52caec7c4dca64189acd842"
- SRCREV_machine:qemux86-64 ?= "ca83799fcbc094fdd52caec7c4dca64189acd842"
- SRCREV_machine:qemumips64 ?= "6cb075269e42d03857c95ebc8b5f8e154f155add"
- SRCREV_machine ?= "ca83799fcbc094fdd52caec7c4dca64189acd842"
--SRCREV_meta ?= "6a24861d6504575a4a9f92366285332d47c7e111"
-+SRCREV_meta ?= "a1711f65dcd5f88160d30447dcab3b88a1562690"
- 
- # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
- # get the <version>/base branch, which is pure upstream -stable, and the same
+ # Insert these classes into siggen's namespace so it can see and select them
+ bb.siggen.SignatureGeneratorOEBasicHash = SignatureGeneratorOEBasicHash
 -- 
-2.39.2
+2.34.1
 
 
