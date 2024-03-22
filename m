@@ -2,57 +2,59 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1ED00C47DD9
-	for <webhook@archiver.kernel.org>; Fri, 22 Mar 2024 22:29:46 +0000 (UTC)
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
- by mx.groups.io with SMTP id smtpd.web10.8509.1711146582805730062
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06CD4C54E64
+	for <webhook@archiver.kernel.org>; Fri, 22 Mar 2024 22:30:46 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web10.8527.1711146636715336859
  for <openembedded-core@lists.openembedded.org>;
- Fri, 22 Mar 2024 15:29:43 -0700
+ Fri, 22 Mar 2024 15:30:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=LgANGui0;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.208.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-56bf5104ce2so361676a12.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 22 Mar 2024 15:29:42 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VukLVVO1;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4147c4862caso9421315e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 22 Mar 2024 15:30:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1711146580; x=1711751380; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1711146635; x=1711751435; darn=lists.openembedded.org;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=ka0YOCO3UAGTKFqznDMJIXl469IFTa+5Tq2YMPjFO8g=;
-        b=LgANGui0SXnI0K3bNFAAG6LsU4ay1RCoHw4j/jS3msDlPjnNlU8HisyPryXyzU7Mg7
-         JVfWJdsCagtyYABGSfbMbGzVTKYIQaUzMP9XLs0xUZiEZpYOe2WD4q/oqsYNyEOBJFi7
-         TNSiTxL+64a5BaqSrh4ltX9nNlGJLNmCeBiqg=
+        bh=3/kTKEBGA60Ua1lAXhJsiclu4zxDA2THzlCJNuBYlMc=;
+        b=VukLVVO1FKpZnG+W5bgJh5ga0yidHSB3lfkYk4PtA/d4vjw7/Aiefe2ZPP2gFUjeUz
+         lGqLpRH9sZ7do8nHzfFRTzGwAeavbMGbyYp0NBUNW3n/AOILOjIHaO7ZQHfTUZjcdymZ
+         dZ+Kq7mW5Iy9xmRxuz0G2AGk7RN4Vh5c4JjoU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711146580; x=1711751380;
+        d=1e100.net; s=20230601; t=1711146635; x=1711751435;
         h=mime-version:user-agent:content-transfer-encoding:autocrypt
          :references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ka0YOCO3UAGTKFqznDMJIXl469IFTa+5Tq2YMPjFO8g=;
-        b=JEvLHho4a06IX2K917AgnFySNjUstQyCzRjMTRqqN/K6gX+2Y+8JkNfCO12wYc1zdZ
-         MgBRHaiLlAjsgzHsB/xDAJOhbxTtXV8AE7YKqw6Ba18hOAFUuUAzqQ3442eiPk8fgxfg
-         CJ66EbKYBqjcb8UspMUJoZkYnQempVn0EW3jsRPxEGYtH7hs9jRSmMfUlFIVH3vjfF5o
-         lKcnqS5uvovAHs+OkqG+pZox8eIWlIzRJtjzDijzhFxqpZotM2BGjl0zBqm4MyRclkaW
-         6AZzpyXnW8N5ZJHq5v2CKp4x3KfIbv2UI/pEFue3Yr73GZyNhYb7r0zIGc/v2+YynJfx
-         EOAw==
-X-Forwarded-Encrypted: i=1; AJvYcCVK3vhNRiFAjqRClLP5okepVG4JXDk1glrVTfCxAS8T1olzhdiedN2vy7SejXYvPHBr2Vu3LlUEuh1bfeOtVCG1cqffXz0KC7bDoED0KF2kXDiU/eyjhwhX
-X-Gm-Message-State: AOJu0YyGyAMGhwzNe5UHEWkIFFX3WGVvYPClXNuMhzxQ6ONDteLTJWi0
-	tFPaFu83gpTmNSSNR+ZvGYTRO/wsm5UITBPO8VpS7poVrRdoaKPxHtsPoqwxG4Y=
-X-Google-Smtp-Source: AGHT+IF84KYU17GqmmAUFDXn7VBuiWACf4gUkyq2xtY8efgPOi19GQy62tuOFLU/XswVzihXFPxI5Q==
-X-Received: by 2002:a50:99dc:0:b0:56b:c59f:153b with SMTP id n28-20020a5099dc000000b0056bc59f153bmr535362edb.28.1711146580424;
-        Fri, 22 Mar 2024 15:29:40 -0700 (PDT)
+        bh=3/kTKEBGA60Ua1lAXhJsiclu4zxDA2THzlCJNuBYlMc=;
+        b=JvhxP55qzPXfVR27fq92v8Eyiay3lljbyYPKxWo5noNwgkgGVG9XLZFbvR2Z/gf7uM
+         T+nvb6PPXKfGGLNinYsk5NcXJh+irw1APN1CgCttQnltClFvoUGbQI8JebiQEm+Etk7J
+         yGsDBsDIknaQxwltFwpqOya8QMjUUPgYHvKitV7vPZ2EXhCSpk6Xg/6t/kSn8Um+kKkf
+         ZGHS9lamkOkJeWIVLEWx9jfSgonJl/pCJ+atJQtW+OlC+w1tMDuK4V9HaAGjwANb/8fv
+         t6FkekUoC3R+LTmgJzrpgjuv5RERe19pFBWhW8LcK+OJNHk6dxU30AAfeWaBy0Ncl+K1
+         KTiA==
+X-Forwarded-Encrypted: i=1; AJvYcCU/X3AOT9pK0VOzuwflb03H9l8ayUDK+8yME46loDSbIeNMr15kWNKPUngtvxJJfyd8Ekiq+8KyDhOmwe7/gxM2hDRYjBlHf8pDEXpenWZeLAQ+hKdDtvCd
+X-Gm-Message-State: AOJu0YznOQ/lZKBW8JpD/OXKcJp+TOPODcOhLK8Tu7hgjrsX3TM2Oo8h
+	ms96INj5sSbj/LRgeJuYizGYfQPaKOVnWkdWdXSHRAsOiSXILZfDA/y5edR/gAVonTE2McwjDMZ
+	s
+X-Google-Smtp-Source: AGHT+IEwm97QQoCRHsAUJKpO4thgT109dkL0LmnlsIZ2Gy2von9vJWPxT3qLkQS/W3ZDO7t75wwBFQ==
+X-Received: by 2002:a5d:61c6:0:b0:33e:c56f:b5e7 with SMTP id q6-20020a5d61c6000000b0033ec56fb5e7mr592179wrv.31.1711146634958;
+        Fri, 22 Mar 2024 15:30:34 -0700 (PDT)
 Received: from ?IPv6:2001:8b0:aba:5f3c:4eb0:77c:67fa:c362? ([2001:8b0:aba:5f3c:4eb0:77c:67fa:c362])
-        by smtp.gmail.com with ESMTPSA id q3-20020a5085c3000000b005645961ad39sm265311edh.47.2024.03.22.15.29.39
+        by smtp.gmail.com with ESMTPSA id f7-20020a17090631c700b00a471c6b3211sm269691ejf.175.2024.03.22.15.30.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Mar 2024 15:29:39 -0700 (PDT)
-Message-ID: <2a5cff55eee4bf916b2867192841ab44567d694a.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/3] nativesdk-packagegroup-sdk-host: add
- gprofng package to RDEPENDS
+        Fri, 22 Mar 2024 15:30:34 -0700 (PDT)
+Message-ID: <2a6a1cdfaa3b12b0f180064288ff52d4ecaa3a2f.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 2/3] autoconf: Add missing perl modules to
+ RDEPENDS
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Harish.Sadineni@windriver.com, openembedded-core@lists.openembedded.org
 Cc: Randy.MacLeod@windriver.com, Sundeep.Kokkonda@windriver.com
-Date: Fri, 22 Mar 2024 22:29:36 +0000
-In-Reply-To: <20240322101053.1397030-1-Harish.Sadineni@windriver.com>
+Date: Fri, 22 Mar 2024 22:30:31 +0000
+In-Reply-To: <20240322101053.1397030-2-Harish.Sadineni@windriver.com>
 References: <20240322101053.1397030-1-Harish.Sadineni@windriver.com>
+	 <20240322101053.1397030-2-Harish.Sadineni@windriver.com>
 Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
@@ -68,45 +70,49 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 22 Mar 2024 22:29:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197449
+ <openembedded-core@lists.openembedded.org>; Fri, 22 Mar 2024 22:30:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197450
 
 On Fri, 2024-03-22 at 03:10 -0700, Sadineni, Harish via
 lists.openembedded.org wrote:
 > From: Harish Sadineni <Harish.Sadineni@windriver.com>
 >=20
-> In SDK, while running "x86_64-poky-linux-gp-collect-app ./exe" fails
-> to create 'test.1.er' due to missing gprofng configure file in
-> sysconfdir and aborting with below error while generating the
-> profiling data.
-> - configuration error: can not find libgp-collector.so. run aborted
+> In SDK, missing perl modules causes 'x86_64-wrlinuxsdk-linux-gp-
+> display-html --help' to abort with below errors..
+> =C2=A0- Can't locate bignum.pm in @INC (you may need to install the
+> feature module).
+> =C2=A0- Can't locate Math/BigInt.pm in @INC (you may need to install the
+> Math::BigInt module)
 >=20
 > Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
 > ---
-> =C2=A0.../packagegroups/nativesdk-packagegroup-sdk-host.bb=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1
-> +
-> =C2=A01 file changed, 1 insertion(+)
+> =C2=A0meta/recipes-devtools/autoconf/autoconf_2.72e.bb | 3 +++
+> =C2=A01 file changed, 3 insertions(+)
 >=20
-> diff --git a/meta/recipes-core/packagegroups/nativesdk-packagegroup-
-> sdk-host.bb b/meta/recipes-core/packagegroups/nativesdk-packagegroup-
-> sdk-host.bb
-> index c1d3c25060..5374067bab 100644
-> --- a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-
-> host.bb
-> +++ b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-
-> host.bb
-> @@ -30,6 +30,7 @@ RDEPENDS:${PN} =3D "\
-> =C2=A0=C2=A0=C2=A0=C2=A0 nativesdk-bison \
-> =C2=A0=C2=A0=C2=A0=C2=A0 nativesdk-flex \
-> =C2=A0=C2=A0=C2=A0=C2=A0 nativesdk-perl-module-integer \
-> +=C2=A0=C2=A0=C2=A0 nativesdk-gprofng \
-> =C2=A0=C2=A0=C2=A0=C2=A0 "
+> diff --git a/meta/recipes-devtools/autoconf/autoconf_2.72e.bb
+> b/meta/recipes-devtools/autoconf/autoconf_2.72e.bb
+> index db374373cf..2a459b7cb6 100644
+> --- a/meta/recipes-devtools/autoconf/autoconf_2.72e.bb
+> +++ b/meta/recipes-devtools/autoconf/autoconf_2.72e.bb
+> @@ -52,6 +52,9 @@ RDEPENDS:${PN} =3D "m4 gnu-config \
+> =C2=A0		=C2=A0 perl-module-thread-queue \
+> =C2=A0		=C2=A0 perl-module-threads \
+> =C2=A0		=C2=A0 perl-module-feature \
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 perl-module-bignum \
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 perl-module-bigint \
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 perl-module-math-bigint \
+> =C2=A0		 "
+> =C2=A0RDEPENDS:${PN}:class-native =3D "m4-native gnu-config-native hostpe=
+rl-
+> runtime-native"
 > =C2=A0
-> =C2=A0RDEPENDS:${PN}:darwin =3D "\
 
-Should the package which contains x86_64-poky-linux-gp-collect-app not
-be the place where we need to add this dependency?
+Was this dependency missing from autoconf or was it from some tools in
+binutils? If the latter, we should be adding the missing dependency to
+the specific package.
 
 Cheers,
 
