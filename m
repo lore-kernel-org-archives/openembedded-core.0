@@ -1,110 +1,109 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7913C54E58
-	for <webhook@archiver.kernel.org>; Thu, 21 Mar 2024 22:16:05 +0000 (UTC)
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
- by mx.groups.io with SMTP id smtpd.web10.10598.1711059363350799858
- for <Openembedded-core@lists.openembedded.org>;
- Thu, 21 Mar 2024 15:16:03 -0700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0997EC54E71
+	for <webhook@archiver.kernel.org>; Fri, 22 Mar 2024 03:34:08 +0000 (UTC)
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+ by mx.groups.io with SMTP id smtpd.web11.5074.1711078442453264741
+ for <openembedded-core@lists.openembedded.org>;
+ Thu, 21 Mar 2024 20:34:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=js4BfCty;
- spf=pass (domain: gmail.com, ip: 209.85.160.51, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-2282597eff5so1033916fac.3
-        for <Openembedded-core@lists.openembedded.org>; Thu, 21 Mar 2024 15:16:03 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=K6vFeMJw;
+ spf=pass (domain: mvista.com, ip: 209.85.210.171, mailfrom: vanusuri@mvista.com)
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-6e6b3dc3564so1193435b3a.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 Mar 2024 20:34:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711059362; x=1711664162; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PL70/O3ID+Vo/w4nINk45e1oA7srrzTqVRU4k7rBKVg=;
-        b=js4BfCtyWLXjEVtVrh71vHQlxsknMRglHic0wMHTYdosyVfOBI4pU3sNhcxUcnRVnJ
-         SpEemab1h/Mcp8qWvNacZoeGuRVyr7Q9mPd+tbvxLKG9p2V2zNn3gtQIxi8KQep1qFuo
-         LhR62hedgxBFnvlhvK/S1hfFVBMk2AwJhFbut3Qgujm4J5252cF83gPlFS6YgJWoIxcj
-         0VfNokF5GWFZK1bxo48aSbF2P1CV7MXy1lVtSvvFO7MzpzQxxWYCAQm1Xpeh1aN/6FdM
-         r5Jq2CJkQ5OXNZxpVN35m9V17IAIUYoAe2KlgOBnnmWSD0xtszsZWOdrxwM/yFmM9nZK
-         Wsvg==
+        d=mvista.com; s=google; t=1711078441; x=1711683241; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=V72UyKrTyxBRu04F3od4+UCL4141TawrnZwKPGTlErY=;
+        b=K6vFeMJwOtRYIeJ2sD3VJ69dgI+8Jmne7Git8bUskJBUSKzH5EiVN9bintnDySUdqc
+         slLgICRZNBpZr8rgKFYyw+QQN2+ej0X3XydFKEw+SYcyMdmHBSNhNVXMOd7CoCHypOX6
+         m4GoqwgS9QAVGP+4B0rql1BMjI4AsbOhl+ZKU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711059362; x=1711664162;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PL70/O3ID+Vo/w4nINk45e1oA7srrzTqVRU4k7rBKVg=;
-        b=M8ze09KYXU+Yo4Hvx1TJP4emH5cvUnoh5euc3EEJkvN4qIAy6/OTvYT1ZmQ9zDmtCn
-         esTRaUAqq2qZ/tSS9XAw9RJ4+hMx57+t1WInsHl5Pu5Xau0AwADo40zk4hARBaO7dt3o
-         +dH2NSB0278KRkbxll52h0bo6qb1pdp43rSrCgzaTM4oADarEmAxRpW67XdNXAVs5Ov6
-         12XRLvVW/Fz2UYqV+etHBIWYH4an7XAfrGZRUOJUQ670obE47CsjVXu0IN6KGiNuR003
-         mDbx3e3hS4g2BBtlMNsqmUDg0A6DRJOBL6lvF1As8OZsJLtEG3QHY7ESqRrJn0xI/hSy
-         sjjw==
-X-Forwarded-Encrypted: i=1; AJvYcCXRQtWGeUDzqutKmEb7QCTJqHreZui8+AhlPPot/LdOPgLKrOLUmL7uh71sapiv1lynM1Z6Y14fNUYJjwDAii2FbnU791ItTJKJWlF+yks6j9xjdvb/sBof
-X-Gm-Message-State: AOJu0Yw5z45tjyLw1/F6sTAmkjzx9kMYW5JbMwxVcDrue1ReM9Jb4q4w
-	yekyiBSdDkjaq+3uwmi02YkBJDeu9LrmejNzeVrqiO58VqPYWdpUKmgN3ZwhorQz4LHF0CHlI60
-	29R4VlsLHNUzgwkNNNgk1Z1WGLss=
-X-Google-Smtp-Source: AGHT+IGcyOluSU0oBQ2dlTIWwuZINXx5hvmJ5q83XjT24usok1Ou7GTCqv6xCw0DbSfsCW2mY412c66LnKIINo+ilaE=
-X-Received: by 2002:a05:6870:1643:b0:229:c76b:4927 with SMTP id
- c3-20020a056870164300b00229c76b4927mr537554oae.56.1711059362183; Thu, 21 Mar
- 2024 15:16:02 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1711078441; x=1711683241;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=V72UyKrTyxBRu04F3od4+UCL4141TawrnZwKPGTlErY=;
+        b=QQFyHH0pFH41gANmpjEGeCpVtoa6Oqvqt9j1uYxAm9QWwcdS9NLWydjs4Hng+tPybI
+         TcgPicfUbIY9eoIsSeqpd0aDSbX5AV9tGqov46UIX5eH+cPqeB50EKUCKypjAxayDXpW
+         Nm7oGJe1uEhkeKOiQr5o5+tcmqNA/0Zp0icbIEJHn6bBqQgXtGKNwVJ4qGbtix0KZ9oY
+         HMkU/Dgo0CGMSmdrPY47Nc17cTT6o3zsrMaweKNc0tPM0fVAVZZK1EovFUBSmjH9AfW7
+         ViELvfZBrh//nKqwaPXZztFqoL1vi5ETLq0QnS9IH9eeTqyXJkIUH3v5nJ0n0y2CYnLd
+         U0Hg==
+X-Gm-Message-State: AOJu0Yx86kpIYppIeNmnIte52uqKVDlR2h6c32uw0xn2d0FGTFMO7BDu
+	JXHCLuB3WJk+dgz6Co9aW6ejCluAbHkseF17FxPSooioki5AB7lQf+8ULlRflYFgXTxcTdWmt8a
+	t
+X-Google-Smtp-Source: AGHT+IGCCd2p63K57vcR+Xj5QjTOpNQwQprSGoWYb7eZJDxLaLcE/8wY8O1exRII0ZEaR2ceHyGqbA==
+X-Received: by 2002:a05:6a00:802:b0:6e4:76b5:7dd3 with SMTP id m2-20020a056a00080200b006e476b57dd3mr1717566pfk.26.1711078440791;
+        Thu, 21 Mar 2024 20:34:00 -0700 (PDT)
+Received: from MVIN00020.mvista.com ([49.207.197.57])
+        by smtp.gmail.com with ESMTPSA id p12-20020aa7860c000000b006e697bd5285sm600932pfn.203.2024.03.21.20.33.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Mar 2024 20:34:00 -0700 (PDT)
+From: vanusuri@mvista.com
+To: openembedded-core@lists.openembedded.org
+Cc: Vijay Anusuri <vanusuri@mvista.com>
+Subject: [OE-core][dunfell][PATCH] qemu: Ignore multiple CVEs
+Date: Fri, 22 Mar 2024 09:03:44 +0530
+Message-Id: <20240322033344.421681-1-vanusuri@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <CABKMkPKN__Jh6jvc_CfHtwp3HGbRsBJ3YxHxGb1RPPN2WWqRMw@mail.gmail.com>
- <20240321220849ed4253c3@mail.local>
-In-Reply-To: <20240321220849ed4253c3@mail.local>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 21 Mar 2024 15:15:34 -0700
-Message-ID: <CAMKF1srrNXOGk8E1wzdDeRVtxmdu1sQrHpnFJA3zTs-cQA7NSQ@mail.gmail.com>
-Subject: Re: [OE-core] [master] riscv: libcamera stack smashing detected
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: Joel Winarske <joel.winarske@gmail.com>, 
-	OE-core <Openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 Mar 2024 22:16:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197432
+ <openembedded-core@lists.openembedded.org>; Fri, 22 Mar 2024 03:34:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197433
 
-yes I am aware of it.
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-On Thu, Mar 21, 2024 at 3:08=E2=80=AFPM Alexandre Belloni
-<alexandre.belloni@bootlin.com> wrote:
->
-> Hello,
->
-> This report should have gone to the openembedded-devel mailing list as
-> libcamera is in meta-oe. But I guess Khem will have a look anyway.
->
->
-> On 20/03/2024 09:10:05-0700, Joel Winarske wrote:
-> > In master there is a problem running the libcamera "cam" app on a RISC-=
-V
-> > device:
-> >
-> > *** stack smashing detected ***: terminated
-> >
-> > If I remove the patches in the libcamera recipe, it builds and runs on
-> > target without issue.
-> >
-> > libcamera bug has the details:
-> > https://bugs.libcamera.org/show_bug.cgi?id=3D214
-> >
-> > Joel
->
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#197371): https://lists.openembedded.org/g/openembed=
-ded-core/message/197371
-> > Mute This Topic: https://lists.openembedded.org/mt/105047726/3617179
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [=
-alexandre.belloni@bootlin.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
->
->
-> --
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+* CVE-2023-6683: not affected, introduced in v6.1.0-rc0
+* CVE-2023-6693: not affected, introduced in v5.1.0-rc0
+* CVE-2023-42467: not affected, introduced in v7.1.0-rc0 & v7.1.0-rc2
+* CVE-2024-24474: not affected, introduced in v6.0.0-rc0
+* CVE-2024-26328: not affected, introduced in v7.0.0-rc0
+
+Ref: https://security-tracker.debian.org/tracker/CVE-2023-6683
+     https://security-tracker.debian.org/tracker/CVE-2023-6693
+     https://security-tracker.debian.org/tracker/CVE-2023-42467
+     https://security-tracker.debian.org/tracker/CVE-2024-24474
+     https://security-tracker.debian.org/tracker/CVE-2024-26328
+
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 59ff69d51d..829c347fe3 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -176,6 +176,21 @@ CVE_CHECK_WHITELIST += "CVE-2023-2680"
+ # Affected only `qemu-kvm` shipped with Red Hat Enterprise Linux 8.3 release.
+ CVE_CHECK_WHITELIST += "CVE-2021-20295"
+ 
++# the issue introduced in v6.1.0-rc0
++CVE_CHECK_WHITELIST += "CVE-2023-6683"
++
++# the issue introduced in v5.1.0-rc0
++CVE_CHECK_WHITELIST += "CVE-2023-6693"
++
++# the issue introduced in v7.1.0-rc0 & v7.1.0-rc2
++CVE_CHECK_WHITELIST += "CVE-2023-42467"
++
++# the issue introduced in v6.0.0-rc0
++CVE_CHECK_WHITELIST += "CVE-2024-24474"
++
++# the issue introduced in v7.0.0-rc0
++CVE_CHECK_WHITELIST += "CVE-2024-26328"
++
+ COMPATIBLE_HOST_mipsarchn32 = "null"
+ COMPATIBLE_HOST_mipsarchn64 = "null"
+ 
+-- 
+2.25.1
+
 
