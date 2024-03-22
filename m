@@ -1,194 +1,93 @@
-Return-Path: <quentin.schulz@theobroma-systems.com>
+Return-Path: <sam.van.den.berge@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94EAFC54E71
-	for <webhook@archiver.kernel.org>; Fri, 22 Mar 2024 10:57:30 +0000 (UTC)
-Received: from EUR03-DBA-obe.outbound.protection.outlook.com (EUR03-DBA-obe.outbound.protection.outlook.com [40.107.104.135])
- by mx.groups.io with SMTP id smtpd.web11.10340.1711105047559236337
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7288C47DD9
+	for <webhook@archiver.kernel.org>; Fri, 22 Mar 2024 11:07:00 +0000 (UTC)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web10.10195.1711105619158099349
  for <openembedded-core@lists.openembedded.org>;
- Fri, 22 Mar 2024 03:57:28 -0700
+ Fri, 22 Mar 2024 04:06:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@theobroma-systems.com header.s=selector1 header.b=M8y/qAE9;
- spf=pass (domain: theobroma-systems.com, ip: 40.107.104.135, mailfrom: quentin.schulz@theobroma-systems.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=T+u/dhkO8snGeapXtZlRRjMfh+QTbdhD6V5zSuq94o0PUtuRwHdAnQmuLWNS5uVGwb7/65MpT18Qmj8mpMqMge+fGf26MEpBQIaWUDlCI+FVoIm8NoYFwejPvuOE89uq6fbH1recwbULy1laQH9HVxIcQ5z8hXWR7zKhEqqyeTBKP8KGj4Bz3mzhIiRGIKaalnUFfKF5EYR/3EurJtEOKL3m3y8kN+AsMo9zmKcMzQtaU6WD0XxyCIwMqwsb6818Wy9p/DmJucV3iTEV6n5/YfI8cjGingpbNwfVqSa8pEeNVoZ54BxmTYwibi70KKml1Gtkl2VXjMdJqH47G+N7Sw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bIZ9yfsEoUcSPQpUZCRqYB+Xl3uH4fNwrm+cNVor0YA=;
- b=dZ6OwtWwgtpABfLmMDRbQKZomzrp5bLf2rD3Zh5yS1KWjFy4xeAU6klAB265aS5GvyN/U8MnzoaOm2dl7zyxY19x8M242v5rcNEIuSIt4eYpCNfSEIwgkxeyGTuZ8ytFWpfHpME9sIHdaSoJ18RJj4dKfEiPqvI1UPDRYGf+7WITEzGLzuH4ZHo4A17IG+sCscpkddzvaFMNNfr/jX2rn1NNcwybg9L45qishvM6LTMKKerV0cd83k0Ta9hN4rab1UjVN8C8ZMUb1ylqf0rp9JOfzg9JW6rv60XIAD0fqVkiyt2Stey6rWZN3U0/hwTO+uUhrRWTPlFUOw1hQbVaoQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=theobroma-systems.com; dmarc=pass action=none
- header.from=theobroma-systems.com; dkim=pass header.d=theobroma-systems.com;
- arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=theobroma-systems.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bIZ9yfsEoUcSPQpUZCRqYB+Xl3uH4fNwrm+cNVor0YA=;
- b=M8y/qAE97Es7n5Jth+Yre5TYROI2JRWZSJIY5bss1+SgiglIkGrbpwfEHsUOuVDQaCfBsCrXd9CaFZapl8aBrQm+Kx0477eegYucFDjXFfuiK8SaTKlk59m59mwu+14Fihz6kq+fiSLJEHIz9dT96pUEhMotrt/LGvhV0Kyr1aiUFXNQ7ILznpa9CBRq7EUD8o58zX7FWlMKl5qpuAwF73vIMK4v67VB1R615gBsHlVE2UwWP/ibNCfOpLtICLQGJ2Z90b15cwiA6QDz/VYj+zCROyeohWy+AVGFQT5jZV+nbRuwfM5JMqHsVwjDlzvXP2CIN2ZrLU/EZx2KxOT50g==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=theobroma-systems.com;
-Received: from DU2PR04MB8536.eurprd04.prod.outlook.com (2603:10a6:10:2d7::10)
- by PR3PR04MB7484.eurprd04.prod.outlook.com (2603:10a6:102:8d::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7386.29; Fri, 22 Mar
- 2024 10:57:23 +0000
-Received: from DU2PR04MB8536.eurprd04.prod.outlook.com
- ([fe80::23:4118:ae4a:8dda]) by DU2PR04MB8536.eurprd04.prod.outlook.com
- ([fe80::23:4118:ae4a:8dda%5]) with mapi id 15.20.7386.025; Fri, 22 Mar 2024
- 10:57:23 +0000
-Message-ID: <96d8fe3f-83bb-4a72-bc3a-d04d873164bb@theobroma-systems.com>
-Date: Fri, 22 Mar 2024 11:57:21 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] u-boot: fix externalsrc not triggering do_configure on
- defconfig changes
-Content-Language: en-US
-To: Quentin Schulz <foss+yocto@0leil.net>,
- openembedded-core@lists.openembedded.org
-Cc: Iskander Amara <iskander.amara@theobroma-systems.com>, steve@sakoman.com
-References: <20240321-u-boot-defconfig-devtool-v1-1-2fccfc4c6f5e@theobroma-systems.com>
-From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
-In-Reply-To: <20240321-u-boot-defconfig-devtool-v1-1-2fccfc4c6f5e@theobroma-systems.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0233.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:e9::15) To DU2PR04MB8536.eurprd04.prod.outlook.com
- (2603:10a6:10:2d7::10)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ni4pqDkR;
+ spf=pass (domain: gmail.com, ip: 209.85.221.52, mailfrom: sam.van.den.berge@gmail.com)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-341950a6c9aso1426863f8f.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 22 Mar 2024 04:06:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711105617; x=1711710417; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yBGHWfvZ4cUHjoFqSJb/v7+B2mkCjY//rfVM0F0QyQM=;
+        b=ni4pqDkRPP5PgE3LKm02q1LjTW82sYWMW9rsWvGz2QW6P6cudcwYTWt0wGDM9w4SOO
+         H5jKzzmWIWvuN0yAz0VublFLkO60ZScqhtiXzgM8d9nynqcdzEoDfYD+3acrJ2G75ZjB
+         t4ctWwDZmDDzVntb28KYJ0CgRdxCaStHoZttWeahfVXw3YfUm2F9ucxg/FCcT6cp3nFO
+         r8PIdtVQudSPiq5EfydVUCNWiUrDWmUDUdFh0Z1438tOCds8g3vr9/HbxCxpyHTjDfsN
+         0JaLM/B6zx9hhJ+eUZjfEiysijFttbguMlQT0bVUk1C/aL1308LQXTh1uCBsenHnVsJI
+         oLvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711105617; x=1711710417;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yBGHWfvZ4cUHjoFqSJb/v7+B2mkCjY//rfVM0F0QyQM=;
+        b=ezO6KQ020l4uD3Xd84EuhCFQFH7REr/r56ixVLHvvRapEMH4fNL/cstAdNlssaP19z
+         rqeoPt3Ff40aO7Yq8SD0g9g2YcnjD7SyaEY/t9naLTM2IFTmsss3Dl8rXqmevDJZv9m7
+         LMvjCoS1P20cMwFF9UfNNQoRZg4IPRZUSiOJYQOIFE9d2f/qxxgOLA7aI5gMk38AJVBM
+         OhgKQ6JlP3rLvFCWMGGnK2qs1TKrQlJYuZl1+RJgp18KKDqs7yw0D8FK/RYHxcSAT2fT
+         Ato+BbfYd/HMKgZySHhEj4tJ7/T5DhcOO1vd+yPs9m4WKdT1yBwGJzWrH1+0jH8Svfl2
+         o60w==
+X-Gm-Message-State: AOJu0YwPi3JwONawQDsAjO/LWy5Baj764s3t1FAeFD8+12ZBKYKdNvQC
+	YVMaLXa2bntBnr4zdPk8BAka06Cub+cDUXGqsPv3q+GZq7a8jD0kd/wPPLM=
+X-Google-Smtp-Source: AGHT+IHbUIIx0RdlHJALXaPpJj/qKTl35f8WNWcoM9qxX3mrqHsdQUJFiOmoyNaD8MRVuJoY+Kf95w==
+X-Received: by 2002:adf:f402:0:b0:33e:74ce:6123 with SMTP id g2-20020adff402000000b0033e74ce6123mr1494238wro.60.1711105616930;
+        Fri, 22 Mar 2024 04:06:56 -0700 (PDT)
+Received: from OP01518NB.WTSOUT.OIP.LOCAL (mail.oip.be. [81.246.50.154])
+        by smtp.gmail.com with ESMTPSA id x17-20020adfffd1000000b00341babb8af0sm452076wrs.7.2024.03.22.04.06.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Mar 2024 04:06:56 -0700 (PDT)
+From: sam.van.den.berge@gmail.com
+To: openembedded-core@lists.openembedded.org
+Cc: Sam Van Den Berge <sam.van.den.berge@gmail.com>
+Subject: [OE-core][PATCH] shadow: don't install libattr.so.* when xattr not in DISTRO_FEATURES
+Date: Fri, 22 Mar 2024 12:06:54 +0100
+Message-Id: <20240322110654.5756-1-sam.van.den.berge@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU2PR04MB8536:EE_|PR3PR04MB7484:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8c1c876b-ae91-44aa-b32f-08dc4a5eda61
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	A2Lt3f7t2hYAROtGH72FKHbVcfjcrKw26/VttG2IMbHl0eQ4CcU77FnK0ky4LDbgHncIA6cT78PQ9ujrobKMWBW1AC49Psvt7jpcoCvAMNlJ8UKOraV1rLEG+Mw2cPrlOi1LY7llPyXwy5lhkhanW6Ke7vSqnb7PkpLCGJYQWM8JcpkKj7y/uWvEZ3E2oyfDCw+Oye7spsJx3f5IC6klrt+4jU3m2o9+LYTjRj8B32UQ7FvGf7Ws4nOqUP2J0oG8rmomxjTspGfaXbTJkGM4OGc0xpEPT9uzxFtFROgeG8Cl32wwgPvj8FLTuyWaul47k8im4+s8tK5X7+ij64E+UcbvuzwIyZS8dFdsKc6XTwHPR4F8BrVcR8OgVmze83oZvc0H5X8vjK1DlKJunVn4whvEXJilX6ub2sLXmt423d2UeZ6C4cQGL/MNnIiT5myJl1BQTWMJ0UvkmNdsz5QHJSUwcdsX8/NBh1NgaXbAjfMlY4bf0IQnIY1xxyFGAPXOi2HEwFJf48gbzNwgsy3ZPnLLWaTHVy2//3HVmTQNMemQbWFjyRi6ecrdbcWHDKhsVnFx6lcGOVruDwIS5wUT2Tl7N2gH3mXNSnGa2YaFT12tvXVOGUBtDb62SH+cHTo6Sqjp9XV53IgWrTVDjnkjZLbfmROu7/LEcdXSWI+3VrU=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR04MB8536.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(366007)(376005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?b2hacitiSUdIakpSRHJpQk1BeFRnMmNQMllRNUFBRlYrQTdmQTZKWjV2WDhG?=
- =?utf-8?B?Kys3YmhsZFR5WFBndlB5dUh4NHpMYzQ1WE9SUXhBdkpOUmx6TFV4QTBlRFJK?=
- =?utf-8?B?eDY2QlJidklWaXEvNG53QmMwdDRvUVFUbFJ5NGloRTJRT2w5OUthZllLR2w5?=
- =?utf-8?B?TW5qMjAwaHZQS2FSV0kxUmlOVjFUa1RTeE80K2pCbzVpYklPbnBXNmNmYzFW?=
- =?utf-8?B?dnJtSDZTdUNkNTd0aWhnMlVMK2RUWUtTUy80VG02Nk5VdUlhK0h2cDlPZU1E?=
- =?utf-8?B?MUUwZjFvVXA3djd2Ry8vclBpcVhJbTNOdHRBOFNUb1V5N293dzRhalMxdUt5?=
- =?utf-8?B?dzZpcTdFWnFoQVV4QUF5RlVTRUIwaXUyU0dBRnV1R0pjMTUzR2gxL2hucUFv?=
- =?utf-8?B?ZFJDWldhcTU0OWx4c3RDVDhoZjYvQ0ZBaDl0TmJVQk9nZkNmQ29UZ1VXZzAx?=
- =?utf-8?B?ZjhGWWlHdDA3RTJJV2tBVlc5SGR6UnlxbWFCS3ZDWDllUlFKVXE4bGUzeU55?=
- =?utf-8?B?a3VjYlVvaGFPVm4vNC90MzBITldvYllCbWd4U05rNUZrYmhvcm8rUnFSK3J2?=
- =?utf-8?B?S0tBT0s4b0dubEY5K08yVkVOemU4WWtXdWlFVG5GaXBsaVYyOStiV0FmZytj?=
- =?utf-8?B?NFgxN3hnellsTFNWSjZCcjB0aXcreGJpSTVZNWlRdkNVbmM2cGRJcGx5ODMv?=
- =?utf-8?B?LzdxdmdhYkxQU0d5VzF0dkFtcTZKZVRiY3BFMk1NRFp4M05EYjg4ckVMRVVq?=
- =?utf-8?B?V3JaNmxIWjVGdmVaYlY4QzVad1JoSmtWWEduZTRaZm1SdXFFMWxRSUF3cndN?=
- =?utf-8?B?ckZuMWM2Nm1ySUJxUjcyL0ZxRUNqcFdmd3lwdTBjcmp6TDRjWFE4Ymc4a3Vj?=
- =?utf-8?B?NWppUE1BTjBBT21iNGdsb2cwOEt6VVNmNk5PbWR6eXhlNWpCVnVEQVBHRDU4?=
- =?utf-8?B?SkRLZEFiUkJYdG0va1E3cUFUZE16azdyYWdwRUE2elJGTjhITWoxSy9pS1pj?=
- =?utf-8?B?bmdob1JXQnZvVWd1QlVjR3Y4R2ZOajFSZE9iNUdlTnhoM2dXQ3kyTGF0eDVS?=
- =?utf-8?B?dWpvOGRueWlWaklnOWYwUUpKRXlNSlMwb0hFNDRBdUREdEtrL1pyN0lJMlBM?=
- =?utf-8?B?TThFV2hRMVI2QzdTOGsxV3lDR0VlUUo5L1hVd2hjNEF3ckFHb3pnSXN3bFpX?=
- =?utf-8?B?ekVQK1ZCRXN3Uy93UTFoNTh0YnQzRWlRVXFUdDJJNDRWSU14Q1c5dHpMRm1M?=
- =?utf-8?B?cjJEUFFLRjJKKytBeVFRTUk4TmJnVjdMV2pJQ0c3Qjcxbk0rZ2hsZ0ZISlly?=
- =?utf-8?B?Vk1MMFhleUFJN0VTM1ZIclQ2dXpRQk15QitESVJaZXpxbWR2cjdKcWFHLzVY?=
- =?utf-8?B?cGlRYlNUeS9tektTSDJKL1BiUElMYWlrN21ZU1AwQlN4UGNEY2ZaSTJ2M3FI?=
- =?utf-8?B?aHVSQ0NKbTZrT2lWajBZRCtVOFQrcGg0V29DampEYnBVZGFWY0FOYi85eGVq?=
- =?utf-8?B?NlJOVWpMenFxMHYwR1VDeGVoZ1pPZi96QnVNcmlWUUtoRjQ1Tkswb2pYSzBj?=
- =?utf-8?B?YzlMSHFZNHFuR2VCekJraVh0U0pzZlBpK3dsOWNHZlN3QWhobHBWY2I4ZmR6?=
- =?utf-8?B?MEVsWTJZd2FOaUJ5OU82OHh3VTFzM05XbEhFcWUwbUpHOHlhMzUzNE9TYlZy?=
- =?utf-8?B?VVNOcmVIOXJEbzFHcWpqbWtISmpxejc5ZGhZN2xPOUU2ak0wZTgxRGoreEhJ?=
- =?utf-8?B?Tks5Yi9Zdnp2S1MzUVphYy96UWpESnNSRmxhaGxmYUl6K2p5ZDNoZ2VwTkVV?=
- =?utf-8?B?S3FCK3Rrb1V6YTBBb3dDazdsZk4rdmxNamRyTFAwek94aGhzQXJkVW45Zisz?=
- =?utf-8?B?Ri9YZDc4SkROSTVLYU92M0t5RHYwS3M1QVBCT0RhK052VVBMbjJ1ZHU5blZs?=
- =?utf-8?B?ODMzZHRRUU1wcEhnNTJDaVRXSU9rRzlEMGdtSkMxSVhpdW5CWlF6bTZ4TmZN?=
- =?utf-8?B?VGJTS3NjRlpleGFoZjFmM0s2Yk04ZFJPU0RVeEt4YVZpcnI5Y0xjM05MNHN3?=
- =?utf-8?B?T3RkbzRPTWc5RFA5dTlIM2VERTJJWWJOelYxSUo5di82YVlOWjRiMi85WE9h?=
- =?utf-8?B?QnJFNjNzRFhObTUrWldQOG9ualhHRkhpMzdIQXh2ZkkzSXJ0WGgyNXpXTnVZ?=
- =?utf-8?Q?Z4j3UH9pnUDTnOVGLNt51Zg=3D?=
-X-OriginatorOrg: theobroma-systems.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8c1c876b-ae91-44aa-b32f-08dc4a5eda61
-X-MS-Exchange-CrossTenant-AuthSource: DU2PR04MB8536.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2024 10:57:23.2014
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YIscubY3uIsKgfwZknYus29E0PA7yqEK42VzzicIKeHZ4w0ZF777w46tAr3wmwr5OGCVuZCwNKYNXbOFy98GyoXREfTtEL2tsGwyclIbXwSFW8ppN0YxUzPdZWj28abI
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR04MB7484
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 22 Mar 2024 10:57:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197442
+ <openembedded-core@lists.openembedded.org>; Fri, 22 Mar 2024 11:07:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197443
 
-Adding Steve as Cc since he's maintaining the stable branches.
+From: Sam Van Den Berge <sam.van.den.berge@gmail.com>
 
-I've tested this on Kirkstone as well (in downstream u-boot recipes 
-including u-boot-configure.inc and have that new line themselves), so if 
-this gets merged into master, I suggest we backport it to stable 
-branches too?
+Fixes the following issue:
 
-Cheers,
-Quentin
+install: cannot stat '.../recipe-sysroot-native/usr/lib/libattr.so.*': No such file or directory
+...
+ERROR: Task (virtual:native:.../shadow_4.14.2.bb:do_install) failed with exit code '1'
 
-On 3/21/24 18:17, Quentin Schulz wrote:
-> From: Quentin Schulz <quentin.schulz@theobroma-systems.com>
-> 
-> externalsrc only monitors files listed in CONFIGURE_FILES environment
-> variable to know if it should trigger a rebuild of do_configure. By
-> default it is unset, but the defconfig from U-Boot should be listed
-> otherwise an old defconfig may be used even though the change is
-> technically detected by the do_compile logic later in the process.
-> 
-> Because U-Boot recipe uses `make oldconfig` when no defconfig is passed,
-> monitor .config for that special case.
-> 
-> This fixes U-Boot recipes not detecting defconfig changes when
-> devtool'ed.
-> 
-> Reported-by: Iskander Amara <iskander.amara@theobroma-systems.com>
-> Cc: Quentin Schulz <foss+yocto@0leil.net>
-> Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
-> ---
-> Tested by running:
-> 
-> MACHINE=qemuarm devtool modify u-boot
-> MACHINE=qemuarm devtool build u-boot
-> [modify configs/qemu_arm_defconfig]
-> MACHINE=qemuarm devtool build u-boot
-> MACHINE=qemuarm bitbake-diffsigs -t u-boot compile
-> [Checksum for file oe-devtool-tree-sha1-u-boot changed]
-> 
-> Apply the patch, then run:
-> 
-> MACHINE=qemuarm devtool build u-boot
-> [modify configs/qemu_arm_defconfig]
-> MACHINE=qemuarm devtool build u-boot
-> MACHINE=qemuarm bitbake-diffsigs -t u-boot compile
-> [Hash for task dependency u-boot:do_configure changed
->      Checksum for file qemu_arm_defconfig changed]
-> ---
->   meta/recipes-bsp/u-boot/u-boot-configure.inc | 2 ++
->   1 file changed, 2 insertions(+)
-> 
-> diff --git a/meta/recipes-bsp/u-boot/u-boot-configure.inc b/meta/recipes-bsp/u-boot/u-boot-configure.inc
-> index 235623d25a..378d675364 100644
-> --- a/meta/recipes-bsp/u-boot/u-boot-configure.inc
-> +++ b/meta/recipes-bsp/u-boot/u-boot-configure.inc
-> @@ -8,6 +8,8 @@ inherit uboot-config cml1
->   
->   DEPENDS += "kern-tools-native"
->   
-> +CONFIGURE_FILES = "${@d.getVar('UBOOT_MACHINE') or '.config'}"
-> +
->   do_configure () {
->       if [ -n "${UBOOT_CONFIG}" ]; then
->           unset i j
-> 
-> ---
-> base-commit: 94f99434eff15a92cfdc2dce423d32a1b74aab39
-> change-id: 20240321-u-boot-defconfig-devtool-905683a1bedc
-> 
-> Best regards,
+Signed-off-by: Sam Van Den Berge <sam.van.den.berge@gmail.com>
+---
+ meta/recipes-extended/shadow/shadow.inc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
+index a164b8347f..40e6ab0b30 100644
+--- a/meta/recipes-extended/shadow/shadow.inc
++++ b/meta/recipes-extended/shadow/shadow.inc
+@@ -160,7 +160,8 @@ do_install:append:class-native() {
+         binaries=$(find ${D}${base_bindir}/ ${D}${base_sbindir}/ ${D}${bindir}/ ${D}${sbindir}/ -executable -type f)
+         chrpath -k -r ${STAGING_DIR_NATIVE}/lib-shadow-deps $binaries
+         mkdir -p ${D}${STAGING_DIR_NATIVE}/lib-shadow-deps/
+-        install ${STAGING_LIBDIR_NATIVE}/libattr.so.* ${STAGING_LIBDIR_NATIVE}/libbsd.so.* ${STAGING_LIBDIR_NATIVE}/libmd.so.* ${D}${STAGING_DIR_NATIVE}/lib-shadow-deps/
++        libattr=${@bb.utils.contains('DISTRO_FEATURES', 'xattr', "${STAGING_LIBDIR_NATIVE}/libattr.so.*", '', d)}
++        install $libattr ${STAGING_LIBDIR_NATIVE}/libbsd.so.* ${STAGING_LIBDIR_NATIVE}/libmd.so.* ${D}${STAGING_DIR_NATIVE}/lib-shadow-deps/
+         install ${D}${libdir}/*.so.* ${D}${STAGING_DIR_NATIVE}/lib-shadow-deps/
+ }
+ 
+-- 
+2.34.1
+
 
