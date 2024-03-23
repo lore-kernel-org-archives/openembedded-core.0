@@ -1,142 +1,159 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E666EC54E58
-	for <webhook@archiver.kernel.org>; Sat, 23 Mar 2024 17:10:09 +0000 (UTC)
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
- by mx.groups.io with SMTP id smtpd.web10.13098.1711213807189373462
- for <Openembedded-core@lists.openembedded.org>;
- Sat, 23 Mar 2024 10:10:07 -0700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F419EC54E67
+	for <webhook@archiver.kernel.org>; Sat, 23 Mar 2024 17:27:59 +0000 (UTC)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+ by mx.groups.io with SMTP id smtpd.web10.13495.1711214873854261735
+ for <openembedded-core@lists.openembedded.org>;
+ Sat, 23 Mar 2024 10:27:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Z7+KTFC4;
- spf=pass (domain: gmail.com, ip: 209.85.160.49, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-2218da9620cso1722606fac.3
-        for <Openembedded-core@lists.openembedded.org>; Sat, 23 Mar 2024 10:10:07 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=YHbPgvlr;
+ spf=pass (domain: gmail.com, ip: 209.85.208.171, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2d4515ec3aaso24707101fa.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 23 Mar 2024 10:27:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711213806; x=1711818606; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5Yf2UKrrOWfLsr3Yw7ygwzlALivKuPpShlHoX+dXD/w=;
-        b=Z7+KTFC49JktQnC3O0vz09NKbZK+b0a+o7GhHWAxtEEuur38C5J/9kYUS/15rcQKja
-         mam01gSwDbqrNTo6BRV7XosH9GEevGM3+rCstc5v47ZM8vXjYQ5goumsyTrreMuuCjPz
-         sRlnE6WE+Q2+upLVcLezb/amDt5jiwMCvpRjJvCmAw96787uMLnps0WXavFaqp8pXG92
-         Ig6Fa7IaDR/BxdqjJfLWZeAlY0WY0TVcNi4e1yB+Othm+YNOh0MH+meqLWxQGEq9Dhl/
-         P580pzSrtRPQERcw9rXwDNjyxjY9rNruDgbnTnC6H7/F+yJ7CvgPEnK70+KQWObM2fvo
-         +Edg==
+        d=gmail.com; s=20230601; t=1711214872; x=1711819672; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=+oNs0boi7xTB5t0dhFo5MIcitFruK8RQFzjCV5HZFjw=;
+        b=YHbPgvlrY2LYDlqAVUnMFpQztoiref+jejXDXIkpIO871L1vYB2xdvA9ze9bLncSsv
+         lZ8Yq32NxnJySiMioEgZ4FdqOYe4hyei8/ooipkKGvzhCZRvJbThCOt2EUEHKG1JJ8g8
+         g9x0KVCS1iEVMYWfIvdqbab7T2sNfWuowTCTcROvnozrl2GdTXN815q6Owe44FHw4PWT
+         HRQDt36qEeAo4OnrzXceLr1PiVO/Z3CKtRMgV9Anp1CYGwsc5LWt0JjFPEt0Qc9UZSWu
+         gJmyIZyLVI2N0hboSRiJk60U2lbWkjKmpXSOgs1wkpBEwZkYsoXzpX9nRuS3ywjkiohl
+         JFzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711213806; x=1711818606;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5Yf2UKrrOWfLsr3Yw7ygwzlALivKuPpShlHoX+dXD/w=;
-        b=ODbk5eZRaSDoDS8zasyM2NanxUs02gaTjV32KoSKVwpi82++fix+m+pIC1Zp9GR6as
-         RJYtHuCWkrXrXU5wZL9gHWi4cbOE8qLEOkrKoIyuhQER4hFRiCp11C20NzZa9jDNPtUv
-         5QhP0VIjBxdkpKAUNVxS8j4iS7nPT+hX1sBgLdEoKTNOOkHLOTgxccfosYIHlWmL2PaD
-         zRwo3m1X5/4O9e6HIueyD6EHWA0vfYQA720YhXki8tAcGVS9Psmz4VnHWA8tA1Cw0bLj
-         ngsR94SUUWTBtsA0akpPnVkypBUqbQjvD5dlg3mGr1P2yC2ciKXV5aMeTev14cXDrP2/
-         CiPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUWPmvLS6xHrmAi0rAAGtWwafiZQJrnXwtFc+q94jPS6hq+B54qJd4i351x8G5VVRzsdQMeUT8iENZq8PQkgcfyXrKa3FLYN1yWvhWOmyqr/7nYP3CqLfh2
-X-Gm-Message-State: AOJu0YxyJtPcos6xQAQyMrUgrVHwID4sbY4btTL65kbI2rhU605nt4AD
-	+ur/f9/NEnKQp5CkWrIOZU/wdCK+5X7hzyTYxOgfyJIh9vDYUY6zWqu0Co5LNqWwlqKq71tgjjA
-	bekkUq9wvShhEZ9CcDnqZq7zZHIA=
-X-Google-Smtp-Source: AGHT+IGceghipzPc4jQtXGUGdyWTmcGGROIqldQbUxWoBsSMq7iU2Kfnfk+f3r2+spnX6htvqUR9Fewjo+ZgQudrGgw=
-X-Received: by 2002:a05:6871:612:b0:221:7970:737b with SMTP id
- w18-20020a056871061200b002217970737bmr3288531oan.48.1711213806293; Sat, 23
- Mar 2024 10:10:06 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1711214872; x=1711819672;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+oNs0boi7xTB5t0dhFo5MIcitFruK8RQFzjCV5HZFjw=;
+        b=dEKS83A3T0l/hLuprAbPId3eozZYZZd/m8AgCIW3xTkDYyjzrHis2OMityyxt4chI9
+         BJ4URxV9MyOytNFIFHHh4ayEwn62eAphIb9neoZNVEWmWvZNoH1AE3JTzyv5my5NOOds
+         bqoGgeBBVmYSqQ0HCxBU5zzkhsbQiFG34I0gAO+5Cb/E4cp9crNIMiVJY3/xbH4FB5KY
+         9Y2YIp0nt/1j9WnoBWD8MotjaTxrjh/jxVpKCH58F5PK96t5UcDon3ADy6JOr/ksqpJa
+         MA6EB32BOtUDJaJFl9gw6EMDp2E2dP4fXcvSqp5tFQ03BQsNk/bIfw/O46qfh+pb35Gm
+         KVvQ==
+X-Gm-Message-State: AOJu0YwlM6DzcSSXumQfDGyytj/9F9w87EoRw2/jCUmbwO9oDKjQ2me1
+	hEZS3LGXvWH9BTRkRwWbdI45J7gOA5GS7+lX47A5MjG+Fj4euTH0B6q/3dVGOnbkamkP6h25S6M
+	aRYs7ux1WoCOe6sxRtjdFLF5+ek8=
+X-Google-Smtp-Source: AGHT+IFiC/ui4Md/z3DXdt4Q1h8bXYszpX77mzg4m7pGiTOLXUxFGpP82pE0BpfnIRG8fSu8rkTjrJEYznrbQSPzGVQ=
+X-Received: by 2002:a2e:a789:0:b0:2d6:cb9e:1843 with SMTP id
+ c9-20020a2ea789000000b002d6cb9e1843mr253064ljf.20.1711214871262; Sat, 23 Mar
+ 2024 10:27:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <CABKMkPKN__Jh6jvc_CfHtwp3HGbRsBJ3YxHxGb1RPPN2WWqRMw@mail.gmail.com>
- <20240321220849ed4253c3@mail.local> <CAMKF1srrNXOGk8E1wzdDeRVtxmdu1sQrHpnFJA3zTs-cQA7NSQ@mail.gmail.com>
- <CAMKF1sp4jpg2fhWLXzvQG0+rizoK_1Hb_08vXiCTWhYUB_D5Yg@mail.gmail.com> <CABKMkPJChp+_rP6fctFigxQi1i_UvHFMKFntxEcM-SNrAEgPDg@mail.gmail.com>
-In-Reply-To: <CABKMkPJChp+_rP6fctFigxQi1i_UvHFMKFntxEcM-SNrAEgPDg@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 23 Mar 2024 10:09:39 -0700
-Message-ID: <CAMKF1so8e0fqJdMZ+FsNmS6Na36K3492vxGc0z=AhsPr7R--mw@mail.gmail.com>
-Subject: Re: [OE-core] [master] riscv: libcamera stack smashing detected
-To: Joel Winarske <joel.winarske@gmail.com>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	OE-core <Openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+References: <28d65e80-cba-d930-736a-c55c3b9dc8d@crashcourse.ca>
+In-Reply-To: <28d65e80-cba-d930-736a-c55c3b9dc8d@crashcourse.ca>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Sat, 23 Mar 2024 18:27:40 +0100
+Message-ID: <CANNYZj_U7AXtWd88nqvzr9ABvw2qZWZ5sL1ypXkCA+2faG1RQg@mail.gmail.com>
+Subject: Re: [OE-core] is there any reason to use .ipk packaging if devs are
+ using ubuntu?
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000008940560614574259"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 23 Mar 2024 17:10:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197459
+ <openembedded-core@lists.openembedded.org>; Sat, 23 Mar 2024 17:27:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197460
 
-Glad it worked!
+--0000000000008940560614574259
+Content-Type: text/plain; charset="UTF-8"
 
-On Sat, Mar 23, 2024 at 8:14=E2=80=AFAM Joel Winarske <joel.winarske@gmail.=
-com> wrote:
+Packaging format of the host distribution and packaging format used by
+yocto have no relation even if there is package management on real targets.
+Why is there an assumption that matching them is going to help something?
+
+If anything, making them match might prompt misguided attempts to install
+Ubuntu packages in yocto systems and frustration at not being able to make
+it work.
+
+Alex
+
+On Sat 23. Mar 2024 at 18.04, Robert P. J. Day <rpjday@crashcourse.ca>
+wrote:
+
 >
-> The patch is good!
+>   yet another sophomoric question but i have inherited (and am
+> babysitting) a fairly extensive OE/YP build system that, for the most
+> part, works but i noticed early on that it selects ipk for the package
+> format.
 >
-> visionfive2:~$ cam -l
-> [0:04:03.111334926] [405]  WARN IPAManager ipa_manager.cpp:154 No IPA fou=
-nd in '/usr/lib/libcamera'
-> [0:04:03.111423176] [405]  INFO Camera camera_manager.cpp:284 libcamera v=
-0.2.0+dirty (2024-03-23T15:11:32+00:00)
-> Available cameras:
-> visionfive2:~$
+>   now, given that there is no package management installed in the
+> images, i guess it really makes no difference what the package format
+> is, but it just seems unnatural to use ipk given that the
+> corp-approved linux development system is ubuntu.
 >
-> On Fri, Mar 22, 2024 at 11:57=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wr=
-ote:
->>
->> Joel, please test the patch I posted to oe ml which should hopefully
->> fix the problem you are seeing on rv64 Let me know if it is working or
->> not working for your use case.
->>
->> https://lore.kernel.org/openembedded-devel/20240323065503.4149463-1-raj.=
-khem@gmail.com/T/#u
->>
->> On Thu, Mar 21, 2024 at 3:15=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wr=
-ote:
->> >
->> > yes I am aware of it.
->> >
->> > On Thu, Mar 21, 2024 at 3:08=E2=80=AFPM Alexandre Belloni
->> > <alexandre.belloni@bootlin.com> wrote:
->> > >
->> > > Hello,
->> > >
->> > > This report should have gone to the openembedded-devel mailing list =
-as
->> > > libcamera is in meta-oe. But I guess Khem will have a look anyway.
->> > >
->> > >
->> > > On 20/03/2024 09:10:05-0700, Joel Winarske wrote:
->> > > > In master there is a problem running the libcamera "cam" app on a =
-RISC-V
->> > > > device:
->> > > >
->> > > > *** stack smashing detected ***: terminated
->> > > >
->> > > > If I remove the patches in the libcamera recipe, it builds and run=
-s on
->> > > > target without issue.
->> > > >
->> > > > libcamera bug has the details:
->> > > > https://bugs.libcamera.org/show_bug.cgi?id=3D214
->> > > >
->> > > > Joel
->> > >
->> > > >
->> > > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> > > > Links: You receive all messages sent to this group.
->> > > > View/Reply Online (#197371): https://lists.openembedded.org/g/open=
-embedded-core/message/197371
->> > > > Mute This Topic: https://lists.openembedded.org/mt/105047726/36171=
-79
->> > > > Group Owner: openembedded-core+owner@lists.openembedded.org
->> > > > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/un=
-sub [alexandre.belloni@bootlin.com]
->> > > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->> > > >
->> > >
->> > >
->> > > --
->> > > Alexandre Belloni, co-owner and COO, Bootlin
->> > > Embedded Linux and Kernel engineering
->> > > https://bootlin.com
+>   is there any compelling argument for this? i suspect i could change
+> the packaging format and the developers would not even notice.
+>
+> rday
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#197458):
+> https://lists.openembedded.org/g/openembedded-core/message/197458
+> Mute This Topic: https://lists.openembedded.org/mt/105106419/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
+
+--0000000000008940560614574259
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Packaging format of the host distribution and packaging f=
+ormat used by yocto have no relation even if there is package management on=
+ real targets. Why is there an assumption that matching them is going to he=
+lp something?</div><div dir=3D"auto"><br></div><div dir=3D"auto">If anythin=
+g, making them match might prompt misguided attempts to install Ubuntu pack=
+ages in yocto systems and frustration at not being able to make it work.</d=
+iv><div dir=3D"auto"><br></div><div dir=3D"auto">Alex</div><div><br><div cl=
+ass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sat 23. Mar 20=
+24 at 18.04, Robert P. J. Day &lt;<a href=3D"mailto:rpjday@crashcourse.ca">=
+rpjday@crashcourse.ca</a>&gt; wrote:<br></div><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-st=
+yle:solid;padding-left:1ex;border-left-color:rgb(204,204,204)"><br>
+=C2=A0 yet another sophomoric question but i have inherited (and am<br>
+babysitting) a fairly extensive OE/YP build system that, for the most<br>
+part, works but i noticed early on that it selects ipk for the package<br>
+format.<br>
+<br>
+=C2=A0 now, given that there is no package management installed in the<br>
+images, i guess it really makes no difference what the package format<br>
+is, but it just seems unnatural to use ipk given that the<br>
+corp-approved linux development system is ubuntu.<br>
+<br>
+=C2=A0 is there any compelling argument for this? i suspect i could change<=
+br>
+the packaging format and the developers would not even notice.<br>
+<br>
+rday<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#197458): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/197458" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/197458</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/105106419/168=
+6489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/105106419/1686489</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
+rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--0000000000008940560614574259--
 
