@@ -1,121 +1,131 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4582EC54E58
-	for <webhook@archiver.kernel.org>; Sat, 23 Mar 2024 06:57:26 +0000 (UTC)
-Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
- by mx.groups.io with SMTP id smtpd.web10.4153.1711177042102525536
- for <Openembedded-core@lists.openembedded.org>;
- Fri, 22 Mar 2024 23:57:22 -0700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 060BECD11BF
+	for <webhook@archiver.kernel.org>; Sat, 23 Mar 2024 13:40:29 +0000 (UTC)
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+ by mx.groups.io with SMTP id smtpd.web10.8817.1711201225417583474
+ for <openembedded-core@lists.openembedded.org>;
+ Sat, 23 Mar 2024 06:40:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Qyp9moZc;
- spf=pass (domain: gmail.com, ip: 209.85.161.49, mailfrom: raj.khem@gmail.com)
-Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-5a4817189c8so1633001eaf.1
-        for <Openembedded-core@lists.openembedded.org>; Fri, 22 Mar 2024 23:57:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711177041; x=1711781841; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4GKCVRFmyD2SpZhY5NTKneTezF4EWiDb4fzRSFXOBbw=;
-        b=Qyp9moZc/p0AhlBwyDwibBi1eaHNF9izmOvZzCkU5yN25OynCFZA9FGqFcWzbrhbDj
-         yik1D2Tq0wGRB58sDygc3oelH5a44osg0hfPEMZgXgi0TwHi5dZULDkMlD7U9xJCtg4u
-         LXMvo+5AWkM1obpywNPwg4AtR/qQU0z+mxuRuNLY2lgz0gGjcYoB9djt9BxYsXhZ5Ttp
-         3ELG2jMqYPV8gitVbSlLHm8FVvTamORR5X4bg9d/5f7nL+8YCH0PRphy6da8pe4Eydnl
-         mbq4eTRrATjShBNuEyPAykAOnJ4znmPBNPGooJHuJEonpQLA7XTbuu5ydAq32/ASYdQy
-         qmew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711177041; x=1711781841;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4GKCVRFmyD2SpZhY5NTKneTezF4EWiDb4fzRSFXOBbw=;
-        b=acEVU1duTeMr0WTHRLDn2e8SMBV2kliuWv/JkBjhYipMUTy526DLSrbkBSkmP3MDNc
-         6rdHO2zy/W7/P3AYpLH+5mbmjqKOoOcjQ5SRaTju6g8YS5JgdwucjXz/tYu7CB1CfQE4
-         cZvdBesjkcrE+GZwqjyMshwhGCyvsPGwMOfb09iR1bMEsMDFTqaibN9VE1ctJpkm1ijw
-         ThtZLi0N2+Ftt/aAUoeirS98VRSVTzYxMo5g0mv+hJ+ZO6WBBb83g2H1CTXmebUMzd42
-         bKT60WRB5G+b/3rx35uQopvh2stwusAQCor9obwQBX/1SUaUpZPQ3R6w8Ju95UCeXDfS
-         bcdg==
-X-Forwarded-Encrypted: i=1; AJvYcCXo7XnrQ/9tTvQTFbk9Fa0gvliIwn8m699QknUxUXl3k1zB3rS/Q7X1PvlcZ3kaSlx68iAkYCAKbmj+NhQHOZaqV4Yd3jEQEoAZ2iRX6n6Hf4UKTRbS7nI5
-X-Gm-Message-State: AOJu0YyOgW6LIviTpoZVfXe1dfDuaSlT1Vd0cqHI6E/fc4p0pMioKQ+X
-	+UJOIVw0rUeQ9Y3dbDVJbushc913i+rDM5/P/FjNtLCHDMUF4FK3PWC1nvkGzW3GpXccGPZv1S8
-	IPYEw3kJGZiSo3V3yDVK+m+4rqDLx7cstaxY=
-X-Google-Smtp-Source: AGHT+IFBCKpnOcE6rxbHOmIY4IvevLcSQailyxCLgAw7BOBSoKL5uRwnC7fFJV25JKVVBh3Zp67mPBckdwWRRSgd7Ao=
-X-Received: by 2002:a05:6820:2007:b0:5a4:2b8d:d642 with SMTP id
- by7-20020a056820200700b005a42b8dd642mr1974982oob.7.1711177041227; Fri, 22 Mar
- 2024 23:57:21 -0700 (PDT)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=pVdR3RA+;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.194, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 5ACF540004;
+	Sat, 23 Mar 2024 13:40:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1711201223;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JosB2GMoHRc0tNGPDNiDY71Zl91v4GIpC4Ggg9MN648=;
+	b=pVdR3RA+vQ/xHOeg1yWKldc11zjjD+PuRXBFLeXPU75/i53bUCs3YyVe1c9D9jEmRbKdsY
+	B8/6ZYFXXE9NJdPgfztREoyNmG+c8TGNTk1ilHY0TaVqcCcTzaKc5jKCrCJcvThJYAuZJf
+	VHV7JfnG3LxHqbw+PO7D9yQBcU9gDqnFsT5fNmVTVT2wClcEbVwvZ6HQT/RvarW3Xm+ORg
+	EFcgKgYcjVHTrpk3oeFk3bRzgsGumJUxtw6cXP6lAHEwz265j0useL57KFEULtTA+47gjX
+	8LwKvSk7JtKA2Nd0eLE2DMNFg8gtk039QjExIgGs5T5nXDOPxywS1ImeyWL7Fg==
+Date: Sat, 23 Mar 2024 14:40:23 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: johannes.schneider@leica-geosystems.com
+Cc: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Subject: Re: [OE-core] [PATCH v4 0/3] pkg-database and systemd-sysext image
+Message-ID: <202403231340237d0319a2@mail.local>
+References: <20240304061553.2281009-1-johannes.schneider@leica-geosystems.com>
 MIME-Version: 1.0
-References: <CABKMkPKN__Jh6jvc_CfHtwp3HGbRsBJ3YxHxGb1RPPN2WWqRMw@mail.gmail.com>
- <20240321220849ed4253c3@mail.local> <CAMKF1srrNXOGk8E1wzdDeRVtxmdu1sQrHpnFJA3zTs-cQA7NSQ@mail.gmail.com>
-In-Reply-To: <CAMKF1srrNXOGk8E1wzdDeRVtxmdu1sQrHpnFJA3zTs-cQA7NSQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 22 Mar 2024 23:56:54 -0700
-Message-ID: <CAMKF1sp4jpg2fhWLXzvQG0+rizoK_1Hb_08vXiCTWhYUB_D5Yg@mail.gmail.com>
-Subject: Re: [OE-core] [master] riscv: libcamera stack smashing detected
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: Joel Winarske <joel.winarske@gmail.com>, 
-	OE-core <Openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240304061553.2281009-1-johannes.schneider@leica-geosystems.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 23 Mar 2024 06:57:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197451
+ <openembedded-core@lists.openembedded.org>; Sat, 23 Mar 2024 13:40:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197452
 
-Joel, please test the patch I posted to oe ml which should hopefully
-fix the problem you are seeing on rv64 Let me know if it is working or
-not working for your use case.
 
-https://lore.kernel.org/openembedded-devel/20240323065503.4149463-1-raj.khe=
-m@gmail.com/T/#u
 
-On Thu, Mar 21, 2024 at 3:15=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wrote=
-:
->
-> yes I am aware of it.
->
-> On Thu, Mar 21, 2024 at 3:08=E2=80=AFPM Alexandre Belloni
-> <alexandre.belloni@bootlin.com> wrote:
-> >
-> > Hello,
-> >
-> > This report should have gone to the openembedded-devel mailing list as
-> > libcamera is in meta-oe. But I guess Khem will have a look anyway.
-> >
-> >
-> > On 20/03/2024 09:10:05-0700, Joel Winarske wrote:
-> > > In master there is a problem running the libcamera "cam" app on a RIS=
-C-V
-> > > device:
-> > >
-> > > *** stack smashing detected ***: terminated
-> > >
-> > > If I remove the patches in the libcamera recipe, it builds and runs o=
-n
-> > > target without issue.
-> > >
-> > > libcamera bug has the details:
-> > > https://bugs.libcamera.org/show_bug.cgi?id=3D214
-> > >
-> > > Joel
-> >
-> > >
-> > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > > Links: You receive all messages sent to this group.
-> > > View/Reply Online (#197371): https://lists.openembedded.org/g/openemb=
-edded-core/message/197371
-> > > Mute This Topic: https://lists.openembedded.org/mt/105047726/3617179
-> > > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub=
- [alexandre.belloni@bootlin.com]
-> > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > >
-> >
-> >
-> > --
-> > Alexandre Belloni, co-owner and COO, Bootlin
-> > Embedded Linux and Kernel engineering
-> > https://bootlin.com
+Hello,
+
+The series causes failures on the autobuilders:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/6548/steps/14/logs/stdio
+
+
+2024-03-21 21:05:49,848 - oe-selftest - INFO - 6: 20/46 500/587 (137.73s) (0 failed) (imagefeatures.ImageFeatures.test_image_gen_pkgdbfs)
+2024-03-21 21:05:49,848 - oe-selftest - INFO - testtools.testresult.real._StringException: Traceback (most recent call last):
+  File "/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/lib/oeqa/selftest/cases/imagefeatures.py", line 327, in test_image_gen_pkgdbfs
+    self.assertTrue(os.path.exists(os.path.join(img_vars['DEPLOY_DIR_IMAGE'], 'var/lib/opkg/status')), 'opkg\'s status file was not present in: %s' % tar_file)
+  File "/usr/lib64/python3.9/unittest/case.py", line 688, in assertTrue
+    raise self.failureException(msg)
+AssertionError: False is not true : opkg's status file was not present in: /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-3332915/tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.rootfs-pkgdb.tar.gz
+
+
+On 04/03/2024 07:15:50+0100, Johannes Schneider via lists.openembedded.org wrote:
+> systemd-sysext allows to overlay another image (or multiple) ontop of
+> a "base-image" = the current rootfs, via the use of overlayfs; to add
+> tools and features meant for development purposes.
+> 
+> To quote the documentation on systemd-sysext:
+> " ...addition in order to make debugging/development easier). System
+> extension images should not be misunderstood as a generic software
+> packaging framework, ..."
+> 
+> To build a lean image, that only holds packages that are not already
+> part of the base-image, a snapshot of the package-database is taken
+> after the installation of the base-rootfs is done, and picked up again
+> when collecting the rootfs of such a extension image.
+> 
+> with all this in place an example usage could look like this:
+> some-core-image.bb
+>   inherit core-image
+>   IMAGE_GEN_PKGDBFS = "1"
+> 
+> extending-image.bb
+>   inherit image-sysext
+>   IMAGE_FSTYPES = "squashfs"
+>   IMAGE_BASE_PKGDB = "some-core-image"
+>   # the above pointing at a package-db similar to:
+>   # build/deploy/images/$MACHINE/some-core-image-$MACHINE-20240210172305-pkgdb.rootfs.tar.gz
+> 
+> then on the device, running some-core-image, with the extension image placed at FN:
+> $> ln -s "$FN" /run/extensions/$(basename $FN).raw
+> $> systemd-sysext list
+> $> SYSTEMD_LOG_LEVEL=debug systemd-sysext merge
+> 
+> As long as the VERSION_ID of the extension image matches the os-release
+> in the base image, the above commands return sucessfully;
+> for details on the compativility check see the docs for systemd-sysext.
+> 
+> =========
+> 
+> changes with v2:
+>         rebase from 'kirkstone' onto 'master'
+> 
+> changes with v3;
+> 	incorporate review suggestions for simplification
+> 	add task dependency handling
+> 	add oe-selftest for the pkgdb handling
+> 	add variable documentation and
+> 	some more comments, and examples in the commit-msg
+> 
+> changes with v4;
+> 	rebase onto 'master' => no functional changes
+> 	fixed patchtest findings
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#196588): https://lists.openembedded.org/g/openembedded-core/message/196588
+> Mute This Topic: https://lists.openembedded.org/mt/104717642/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
