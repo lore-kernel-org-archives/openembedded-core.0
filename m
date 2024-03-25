@@ -1,77 +1,111 @@
-Return-Path: <lxy204899@163.com>
+Return-Path: <alexandre.belloni@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A0BBC54E58
-	for <webhook@archiver.kernel.org>; Mon, 25 Mar 2024 07:24:50 +0000 (UTC)
-Received: from m15.mail.163.com (m15.mail.163.com [45.254.50.220])
- by mx.groups.io with SMTP id smtpd.web11.46342.1711351482424218392
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18E6FC54E64
+	for <webhook@archiver.kernel.org>; Mon, 25 Mar 2024 10:18:21 +0000 (UTC)
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+ by mx.groups.io with SMTP id smtpd.web11.48323.1711361895452083905
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Mar 2024 00:24:43 -0700
+ Mon, 25 Mar 2024 03:18:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@163.com header.s=s110527 header.b=bsjEm2zx;
- spf=pass (domain: 163.com, ip: 45.254.50.220, mailfrom: lxy204899@163.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version:
-	Content-Type; bh=mh1vZbLJmHR3ZnrkbrFMSjIfdCZgst7YXsOJblbR8QU=;
-	b=bsjEm2zxd0KChEsjDGZ+TJ7UdHWO90TO7miTj7HXzRBJ83TOUlqnkUP+X5uKzI
-	eGBTsHauncQA5XATF/LoRYwD39OIP/seLh8haOHv4Iw/yd8ihd5vuZ0nm65I4Y2X
-	GxW7/DOz4XVzWqpEF/bPgu0HlrQaOL3iYWgA7Vjruha80=
-Received: from ubantupc-ThinkCentre-M920t-N000.. (unknown [139.159.170.28])
-	by gzga-smtp-mta-g0-3 (Coremail) with SMTP id _____wDXz5KwJgFmbNTjBw--.32941S4;
-	Mon, 25 Mar 2024 15:24:33 +0800 (CST)
-From: lixiaoyong <lxy204899@163.com>
-To: openembedded-core@lists.openembedded.org
-Cc: lixiaoyong <lxy204899@163.com>
-Subject: [PATCH] kernel-module-split.bbclass: enhance objcopy command call for kernel compilation with llvm
-Date: Mon, 25 Mar 2024 15:24:31 +0800
-Message-Id: <20240325072431.3997059-1-lxy204899@163.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=Fy2T/koJ;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: alexandre.belloni@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id A511F1BF205;
+	Mon, 25 Mar 2024 10:18:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1711361893;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vw/1p2kuo0pOdc/F9E8t3b/C8ts7IpEsTXKorN//Fmk=;
+	b=Fy2T/koJ2xWg0wFm+TL8YVrWvqPeSM20AVyyIjjL0LT0VL5px++YSwbTcp5Txl654oZWUQ
+	hdgrLUPKzytfdJtQ5jeH6bIgS2wmW7au2TQkjAxlpaOsNJBDOH82eN2p1PYKNemkSEExDU
+	UyS9IojQRMpzufcIn7vJvSyhnFTJs5Yua8jzzNNkYwwa9JQC4gFDfeZtk7h0XfxYj98IcE
+	JLmrYM34Jpq8HDAtxCSEDLH/42z5zqCloYaO+wbD1spJquRpAisxyZozV3ukMldZxKwtGP
+	ey32tz/XlYFPla/53l9X0DcJRwBXeI/tnF9UvEUpewjMCOpa1HJpajXZ8pRbkQ==
+Date: Mon, 25 Mar 2024 11:18:09 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Anibal Limon <anibal@limonsoftware.com>
+Cc: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org, ross.burton@arm.com
+Subject: Re: [OE-core] [PATCH 2/2] wic: plugins source bootimage/isoimage
+ rename to allow be imported
+Message-ID: <20240325101809ec807440@mail.local>
+References: <20240323195304.2909926-1-anibal@limonsoftware.com>
+ <20240323195304.2909926-2-anibal@limonsoftware.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wDXz5KwJgFmbNTjBw--.32941S4
-X-Coremail-Antispam: 1Uf129KBjvJXoW7tr1UJry7Gr4rtF4kWr1fCrg_yoW8XFyUpF
-	1FgrykGr43J3WDG3ZrAF4kWa43Kas7Wa1Fk34aqayfA3s09w1jqa4FgF13WF1UXF4aka45
-	Gr18Xa9aga18CaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pR4a09UUUUU=
-X-Originating-IP: [139.159.170.28]
-X-CM-SenderInfo: ho01jiiuyzmqqrwthudrp/1tbishasomVOCbl-7gAAsg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240323195304.2909926-2-anibal@limonsoftware.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 25 Mar 2024 07:24:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197481
+ <openembedded-core@lists.openembedded.org>; Mon, 25 Mar 2024 10:18:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197482
 
-Using meta-clang for llvm kernel compilation previously defaulted to the gcc objcopy tool.
-To improve flexibility and compatibility, $OBJCOPY is preferred over $HOST_PREFIXobjcopy
-in the kernel-module-split.bbclass.
+This breaks some selftests and meta-virtualization:
 
-With $OBJCOPY already defined in bitbake.conf, the empty condition has been removed,
-simplifying the invocation process.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/6573/steps/14/logs/stdio
 
-Signed-off-by: lixiaoyong <lxy204899@163.com>
----
- meta/classes-recipe/kernel-module-split.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+https://autobuilder.yoctoproject.org/typhoon/#/builders/128/builds/3005/steps/12/logs/stdio
 
-diff --git a/meta/classes-recipe/kernel-module-split.bbclass b/meta/classes-recipe/kernel-module-split.bbclass
-index c1208d5..9487365 100644
---- a/meta/classes-recipe/kernel-module-split.bbclass
-+++ b/meta/classes-recipe/kernel-module-split.bbclass
-@@ -67,9 +67,9 @@ python split_kernel_module_packages () {
-             else:
-                 msg = "Cannot decompress '%s'" % file
-                 raise msg
--            cmd = "%sobjcopy -j .modinfo -O binary %s %s" % (d.getVar("HOST_PREFIX") or "", tmpkofile, tmpfile)
-+            cmd = "%s -j .modinfo -O binary %s %s" % (d.getVar("OBJCOPY"), tmpkofile, tmpfile)
-         else:
--            cmd = "%sobjcopy -j .modinfo -O binary %s %s" % (d.getVar("HOST_PREFIX") or "", file, tmpfile)
-+            cmd = "%s -j .modinfo -O binary %s %s" % (d.getVar("OBJCOPY"), file, tmpfile)
-         subprocess.check_call(cmd, shell=True)
-         # errors='replace': Some old kernel versions contain invalid utf-8 characters in mod descriptions (like 0xf6, 'ö')
-         with open(tmpfile, errors='replace') as f:
+
+On 23/03/2024 13:53:04-0600, Anibal Limon wrote:
+> Python not support importing modules with - so change to _.
+> 
+> Signed-off-by: Anibal Limon <anibal@limonsoftware.com>
+> ---
+>  .../source/{bootimg-biosplusefi.py => bootimg_biosplusefi.py}     | 0
+>  scripts/lib/wic/plugins/source/{bootimg-efi.py => bootimg_efi.py} | 0
+>  .../plugins/source/{bootimg-partition.py => bootimg_partition.py} | 0
+>  .../wic/plugins/source/{bootimg-pcbios.py => bootimg_pcbios.py}   | 0
+>  .../source/{isoimage-isohybrid.py => isoimage_isohybrid.py}       | 0
+>  5 files changed, 0 insertions(+), 0 deletions(-)
+>  rename scripts/lib/wic/plugins/source/{bootimg-biosplusefi.py => bootimg_biosplusefi.py} (100%)
+>  rename scripts/lib/wic/plugins/source/{bootimg-efi.py => bootimg_efi.py} (100%)
+>  rename scripts/lib/wic/plugins/source/{bootimg-partition.py => bootimg_partition.py} (100%)
+>  rename scripts/lib/wic/plugins/source/{bootimg-pcbios.py => bootimg_pcbios.py} (100%)
+>  rename scripts/lib/wic/plugins/source/{isoimage-isohybrid.py => isoimage_isohybrid.py} (100%)
+> 
+> diff --git a/scripts/lib/wic/plugins/source/bootimg-biosplusefi.py b/scripts/lib/wic/plugins/source/bootimg_biosplusefi.py
+> similarity index 100%
+> rename from scripts/lib/wic/plugins/source/bootimg-biosplusefi.py
+> rename to scripts/lib/wic/plugins/source/bootimg_biosplusefi.py
+> diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg_efi.py
+> similarity index 100%
+> rename from scripts/lib/wic/plugins/source/bootimg-efi.py
+> rename to scripts/lib/wic/plugins/source/bootimg_efi.py
+> diff --git a/scripts/lib/wic/plugins/source/bootimg-partition.py b/scripts/lib/wic/plugins/source/bootimg_partition.py
+> similarity index 100%
+> rename from scripts/lib/wic/plugins/source/bootimg-partition.py
+> rename to scripts/lib/wic/plugins/source/bootimg_partition.py
+> diff --git a/scripts/lib/wic/plugins/source/bootimg-pcbios.py b/scripts/lib/wic/plugins/source/bootimg_pcbios.py
+> similarity index 100%
+> rename from scripts/lib/wic/plugins/source/bootimg-pcbios.py
+> rename to scripts/lib/wic/plugins/source/bootimg_pcbios.py
+> diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scripts/lib/wic/plugins/source/isoimage_isohybrid.py
+> similarity index 100%
+> rename from scripts/lib/wic/plugins/source/isoimage-isohybrid.py
+> rename to scripts/lib/wic/plugins/source/isoimage_isohybrid.py
+> -- 
+> 2.43.0
+> 
+
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#197471): https://lists.openembedded.org/g/openembedded-core/message/197471
+> Mute This Topic: https://lists.openembedded.org/mt/105108998/3617179
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
+
+
 -- 
-2.34.1
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
