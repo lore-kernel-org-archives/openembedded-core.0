@@ -1,255 +1,197 @@
-Return-Path: <johannes.schneider@leica-geosystems.com>
+Return-Path: <jermain.horsman@nedap.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE906C54E64
-	for <webhook@archiver.kernel.org>; Mon, 25 Mar 2024 12:42:51 +0000 (UTC)
-Received: from EUR03-AM7-obe.outbound.protection.outlook.com (EUR03-AM7-obe.outbound.protection.outlook.com [40.107.105.71])
- by mx.groups.io with SMTP id smtpd.web11.50819.1711370568534057301
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D16FFC54E64
+	for <webhook@archiver.kernel.org>; Mon, 25 Mar 2024 12:52:51 +0000 (UTC)
+Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
+ by mx.groups.io with SMTP id smtpd.web11.51163.1711371162927336890
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Mar 2024 05:42:49 -0700
+ Mon, 25 Mar 2024 05:52:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@leica-geosystems.com header.s=selector1 header.b=l/K/b/pF;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: leica-geosystems.com, ip: 40.107.105.71, mailfrom: johannes.schneider@leica-geosystems.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=J9q6cIepCOCzlhPqrkVxp0cN6WCdu79/WzEPiy0hpfHd5HlAb4V/RIv3Plc42rgQd5NL8jpbTVSm++t90TmVhwjCsIQJewn3k2EaGSSZUgX1kmrRofJiURnY+72vm0q8efOhDtJ3PO0ETYnwVtnTg7q/chknusIvegj42M6xJF9r9UkPjP6A3MjaokYjaCJmcitXpoqlV93J9A/eeXdLQp7FuP8eLFOyiW+EuKt1oxfpm2jyDNJCmwuPepw+n4vdLuphMa8IhnHq8imJiiqhP3wJr6lip4Chv5tk4OCp0ps+A5Rb1nWZd0Qed42TVdzjibLna+Jk0iUprXK2sbfFLQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=l11fX8TfJMspvjeTcKbc+U+/1/cY0AGOfGOJza85GCo=;
- b=mXm9piSpHO8bhV31VwBHxq4vSlVacSEYf/x4gIV43tVGLcbrgR52YHJPhaFHcwvFca/DI/SMMFop3hI3PhO09IMU2gGOs7i+8s+zOHZqagInW2zbX03qHWhjcdZq5jUkzDr+85+FAR6KsvuEyuVH9Ayr7wTRxr8bk0xfJrmXHSJPFcJzUHZLwHQiBVDMKBwuUCNIx5vM48i8ZBIzhNiXciI9w4kSsUiWfrm2/89zmaN0ahuUoJvdal2lLxfYYpVgeDlCkwhXJrOyiNdoJLm+DmKC5tWX6zCx8HaXn1EHD8fkuTsh7dNykw0V2tf0g28ZauLx8yc4ur5fwsI5BvV2fw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=leica-geosystems.com; dmarc=pass action=none
- header.from=leica-geosystems.com; dkim=pass header.d=leica-geosystems.com;
- arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=leica-geosystems.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=l11fX8TfJMspvjeTcKbc+U+/1/cY0AGOfGOJza85GCo=;
- b=l/K/b/pFBllwks45DLncVmvuEg5SD80fB/3VmizHlRxCNIq/mPkPSvQ5beTg+QPNj1l/mf9+yhbSUi2+jT5m9dmSSURVknNwsmE2YVIIBJ+EBJRrjiy1/9tupzLd0QD1ueaRcGb8w688KaNhLTuAnvp2vjs2zgzY2jRbs4ioIvc=
-Received: from AM8PR06MB7521.eurprd06.prod.outlook.com (2603:10a6:20b:355::8)
- by DB9PR06MB7946.eurprd06.prod.outlook.com (2603:10a6:10:29b::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.31; Mon, 25 Mar
- 2024 12:42:44 +0000
-Received: from AM8PR06MB7521.eurprd06.prod.outlook.com
- ([fe80::8a39:f1ca:58b6:ea8d]) by AM8PR06MB7521.eurprd06.prod.outlook.com
- ([fe80::8a39:f1ca:58b6:ea8d%5]) with mapi id 15.20.7409.028; Mon, 25 Mar 2024
- 12:42:44 +0000
-From: SCHNEIDER Johannes <johannes.schneider@leica-geosystems.com>
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v4 0/3] pkg-database and systemd-sysext image
-Thread-Topic: [OE-core] [PATCH v4 0/3] pkg-database and systemd-sysext image
-Thread-Index: AQHabfttmtZU5zMqykisJheHsjvc8LFFc1iAgAMSyEI=
-Date: Mon, 25 Mar 2024 12:42:44 +0000
-Message-ID: 
- <AM8PR06MB752184BF954CB6945AC9EC91BC362@AM8PR06MB7521.eurprd06.prod.outlook.com>
-References: <20240304061553.2281009-1-johannes.schneider@leica-geosystems.com>
- <202403231340237d0319a2@mail.local>
-In-Reply-To: <202403231340237d0319a2@mail.local>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=leica-geosystems.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AM8PR06MB7521:EE_|DB9PR06MB7946:EE_
-x-ms-office365-filtering-correlation-id: 17b4fda9-b8f9-4a3d-6be8-08dc4cc91190
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- Hc8nXb7anpKaOSIJbR1zBhva44FePs6v5zcglZrJLRZUd+biHAVxjqW/Gn5qp4uXZrghxOMfQhspuV7r8xVvfOUes1Pcqi/vdkdSkxJUipWpkWX+7fiplslzEocAsPzN7u3A/G06KVVvBzr1SQc0Q7NbopXf8Jd3PESXcc9ITEZHz7gD13LTen6zjsm9IhuI5pnLxmaeuHLZQpweZCPuJ2a8C1SU4XOapyLVl4sae82VFRAxfKol+4YKzYWl5FWi0R0Lpc5d86zV2NUqJJS82kaxd/KBF+f+elSJCBRiwJTTEg+AdWNLPCmlvjPVyG31tTOIREsYgwkYuLPm/baVLr6rYyna7QprrJQtckUrHFmoe+cUsTrcZPbcGeN/k/mlCVIJXreDXbQmEeq0oD9Ilxzou71kaC+yFU+5WdVx2tyiwSJeq9ehPt5AfngV+d+WeRI0YRZXL8wswQrMiMiGZlY9Hm1SYTu+xrytuOPvN980x/FOKpBDOZTqcCSEFI693hXSKH3UPYtWwC4Fb1B/P4nfaJ+uJXjghyNm5sIzTa/Jsxlv3UYUa2iFxJ7VltCaMAhgAdsXJUhH26/NIpgKYGCqYmS6qrSVibmuuj7GtTtdRwxSBTSWSkRlplaXjQfhJtXBCEiUFjK+owqCE0sn/o6Lbek10qL1qvTJzjDs3mQ=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM8PR06MB7521.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(1800799015)(366007)(38070700009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?Windows-1252?Q?pERUAC98/UuKjN41enSr801Qu/WZNs87e+Ek/4FvLtcFHM7ffo1Ro//R?=
- =?Windows-1252?Q?+/6lnDSXgSb4q/DIbN5XHv9Hg9EwkwG+lcYVY9JFxavL6Sx3DdRQvTC5?=
- =?Windows-1252?Q?Ko5TECPZz7vwp4LzHfttM68GYzWy6TpECBtStuPXzSmyhxpCGCBr3VwC?=
- =?Windows-1252?Q?ERok9rtiLKxAxneOfggW1asLsHnCDcKUZXpSSCApfCDByNnuoNct7Ew4?=
- =?Windows-1252?Q?3ucNizWWEI4J8lU4RBb3cCRkLpZOvi38G5pf0tBTtv8Elkf1lgnqI55L?=
- =?Windows-1252?Q?edRmzNgxnZBdfKCMtj/h7mSSdnA2AryOozRI5D+kUKsZTnl/FqZFTI9j?=
- =?Windows-1252?Q?HUjFlrPTf0QqjKlzouXYs5Taqsfui4vSVSLNzdLinYWpmdQT4E/J0Bou?=
- =?Windows-1252?Q?eJyYbCuXEXQ5JkxRwItHIVAkvnVjckNUdxNaoAgglMkK+SBSbd2NIw96?=
- =?Windows-1252?Q?xhMA/+4RhEzIBV6xWOGcgsba8o1H5Q+GAPjFMdu+ZNhdTf/SojxUCMwT?=
- =?Windows-1252?Q?mMfNAHc8GuheylYwbvxM9vIv3D8rvDY+CL+SUWCaUtNz+lVW7K7VLhvO?=
- =?Windows-1252?Q?MB3fWVAO3am78lUOP7GONNVAk40s4yggI0s8AN4gCZ7AgSqgyyQsHIjW?=
- =?Windows-1252?Q?CFjF73rYkHBPdEnL7h2VCKgW6LPZlCBAvNZrARpuKCdl9bGc9QofABFV?=
- =?Windows-1252?Q?ohgPwvGdeckIGnLaeg+LNKPeDw9DxThjnp+H+gmFDITnj8l/QE2EbQLT?=
- =?Windows-1252?Q?Eba5hL8bqvaga7efooFQJ19BQGmrozM4SdH37i23l5/LSFmhp5ws1GgC?=
- =?Windows-1252?Q?N9h7KeiQZBl+dLIJNrj/G7hbNqefwfMrS9AeVXFQL5i+FAlphJIuUmJc?=
- =?Windows-1252?Q?0xlmeOZcw7mOEz6OTp2VgbPNHBxsoSFVlKOTuPRF773WFdgjeFqqCjyd?=
- =?Windows-1252?Q?N4vp+5qQDX0PFI4BA+/G4mso3LaGuE/LyzjFin4oO/58iDZZrFLu8Scj?=
- =?Windows-1252?Q?psX5Re9mmWwJl+WO+gKnxnjhrXxIcsnDb094ZVzSFbEiqdzibJRyS3ya?=
- =?Windows-1252?Q?u1NS+7rVP3kUpSjP5vywhHviigLp473S5V4KGdLJFnp2Y8SSIMPyUjHt?=
- =?Windows-1252?Q?IhKhTAifL59PsVxvktLB9IPqvGVX1jeVbF+XE5pYiC7GoFLUfjrJ5KP7?=
- =?Windows-1252?Q?OH6X34Pw+KF+7ESZ0tERKwgg0qvs6mqtLWquNhAPlCtJlHDrHGdFU/Rc?=
- =?Windows-1252?Q?QPHYRwWCPJVhkPgTS7PNlVREZFsx9Bv1j9b/5UOBp8clO1MsLC1IQBEE?=
- =?Windows-1252?Q?xlxqz1UjT1eb7F7HqUgpvIhQBrDkT+n4JQ6jJrEnSu/68oSkYJsixKzH?=
- =?Windows-1252?Q?ux7wjSOdxeUBSqnGlgmMKm27yCOYw8UCjijlPS2R44h/X3ECU8YpZNOP?=
- =?Windows-1252?Q?48Z9Yqw28Up6kBpwhvqG+raHO83P4vOQV2pL6rJgzywPDRsXoDtYEU/O?=
- =?Windows-1252?Q?uDST7cHw2ESJvydMKBPDJc4V4fWVyuBXLMJ/lc96J/PIDCpZzX5xgUnD?=
- =?Windows-1252?Q?TZSxYD8b8UMWEyeMsj/UwSYCEpo17sDQz4o8WU0V4SoHuSjHUzehU9E8?=
- =?Windows-1252?Q?5MY+sGNI2ZPYhLQgZGwOzSKAglFxnTUPPUSVuN7KfWXzwJ8BgPuiUDgY?=
- =?Windows-1252?Q?/PQ/RnFpZ5Nu/p1/vyAlC4aujNB33hgPPTpfteFBLzYyh3OdaA6POu8r?=
- =?Windows-1252?Q?fGYsCj7AtziKQa1PUDh2Uy1rKRnmeUAGht3ToYR7E+GzTWYABmfGH9/E?=
- =?Windows-1252?Q?kG4l5Ps+wtwaxEispMLr8iC6GQg=3D?=
-Content-Type: text/plain; charset="Windows-1252"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=AOmdpdDP;
+ spf=pass (domain: gmail.com, ip: 209.85.166.169, mailfrom: jhatnedap@gmail.com)
+Received: by mail-il1-f169.google.com with SMTP id e9e14a558f8ab-3668fd6952bso16228145ab.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 25 Mar 2024 05:52:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711371162; x=1711975962; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=RVqgnKsSSi71iY7m2Dwt5pxd9gumP3+PNBTMo9CSqQ0=;
+        b=AOmdpdDPH90QfluxJIggff7QPtFun0SJizO2zugFFWlos+3u4ehKnjjN+E/mT5+mL6
+         RWElE1hYnp29Kf2lBeV6Lb6XyVflUU4u8UXJhRa4mZymLNNXNUOVrkc2lVPd5mHybRdu
+         p7ix2/ej5+GnqOkngPeKY/Qf3UFFAhWhwkdz8WfQFBHUcP5c1K7C96o9hK3l+xd0PN6o
+         vaWbeT+olaH6L2Ql2wRtlTT78K6w6SvbBT9Ik1YXw11LOcOtxVEzaEpoQ6FFd2lNPRea
+         RU2J6Umf1qW93BhVqyugSoiellh1E3HYeeaPiAfUhTTSEpVRlV3eDsjcxYqqzWCxcpHi
+         V1zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711371162; x=1711975962;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RVqgnKsSSi71iY7m2Dwt5pxd9gumP3+PNBTMo9CSqQ0=;
+        b=pOb8jp0zDF1lVXGCh+fJxyixcS81rKYIZohlBtc6uP0qD0PnkfjH8iiQyuvRESBe08
+         NJI41xD5kFonzgq2qdaXJZcaHv/bOvmaHb8zbi/Q1orj/oXvCjxxicCdUZte6F4z6dXY
+         zrjnXf9Wi7ddDFDZbsrPqFtxGAkQ9TXtTO3zRAfF22lF6nWGeqEyJEQ1cPVdXO2IHxSa
+         HvHRtsD7vVC/iGutp2gUGtdbOZWAIOYZ3bjX7Ch2OwTqEbIJjFJxBB63n1mjVcWUfNh/
+         gxlLYiAmnjacyyoy7Nwc4aJd05MdcEw0X9DwDiua14nCmU29+NnRZvGGifjLl0zuG3m2
+         mfsA==
+X-Gm-Message-State: AOJu0Yzg6pLRGnMTWi1TEXFhKb2Lt4FNc0NH+TcI/EgY7ZgA8Cy0B9ib
+	I2l8GVrUO5DClK/xBGTYH5USbeJ76uSIeaMvaGovR6ndJRm6wBLH7rLZeI+A
+X-Google-Smtp-Source: AGHT+IFg4bBKgN+MOwiB7g+3L7HBSLyyGs6dzj3POrJzWcfDcIjq88uNI9aKBRV8NurOwoR8mbeoMA==
+X-Received: by 2002:a05:6e02:96c:b0:364:1b46:607d with SMTP id q12-20020a056e02096c00b003641b46607dmr6620970ilt.5.1711371162006;
+        Mon, 25 Mar 2024 05:52:42 -0700 (PDT)
+Received: from NVC4181.nedap.local ([149.3.168.10])
+        by smtp.gmail.com with ESMTPSA id l15-20020a056e020e4f00b00367d6dbee24sm2369078ilk.20.2024.03.25.05.52.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Mar 2024 05:52:41 -0700 (PDT)
+From: jhatnedap@gmail.com
+X-Google-Original-From: jermain.horsman@nedap.com
+To: openembedded-core@lists.openembedded.org
+Cc: Jermain Horsman <jermain.horsman@nedap.com>,
+	Martin Jansa <martin.jansa@gmail.com>
+Subject: [PATCH] bblayers/makesetup.py: Move git utility functions to oe.buildcfg module
+Date: Mon, 25 Mar 2024 13:50:38 +0100
+Message-ID: <20240325125037.2275-2-jermain.horsman@nedap.com>
+X-Mailer: git-send-email 2.43.0.windows.1
+Reply-To: jermain.horsman@nedap.com
 MIME-Version: 1.0
-X-OriginatorOrg: leica-geosystems.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM8PR06MB7521.eurprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 17b4fda9-b8f9-4a3d-6be8-08dc4cc91190
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Mar 2024 12:42:44.6218
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: pX9Rbdri3CEF2Niy3FRVuigx9SE7fBh4TexEj0Pe2pz1TmH5BXXvAhxq+Kt0V3fZVvHfeID3Fef5EGqBqDyomnbabJrwbyw0TJCFmmWMpMGAtk//EBrSelOg+tjwX3ED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR06MB7946
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 25 Mar 2024 12:42:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197485
+ <openembedded-core@lists.openembedded.org>; Mon, 25 Mar 2024 12:52:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197486
 
-Hoi,
+From: Jermain Horsman <jermain.horsman@nedap.com>
 
+This allows other classes to make use of these as well.
 
-thanks for pointing the build failure out,
+Includes a git describe and git toplevel function and functions
+to get info for git remotes.
 
-Im trying to reproduce it locally but fail so far to see the problem :-S
-rebased on the latest master, when the two selftests added with the patches=
- are run selecively, they pass:
-#> oe-selftest -r imagefeatures.ImageFeatures.test_image_gen_pkgdbfs imagef=
-eatures.ImageFeatures.test_image_use_pkgdbfs
+Signed-off-by: Jermain Horsman <jermain.horsman@nedap.com>
+---
 
-but running the whole test-routine, same way the buildserver does in that l=
-og, currently fails me for other reasons (lack of resources? or i might be =
-calling it the wrong way)
+Cc: Martin Jansa <martin.jansa@gmail.com>
 
-any hints/ideas/pointers would be appreciated :-)
+ meta/lib/bblayers/makesetup.py | 33 ++++++++++-----------------------
+ meta/lib/oe/buildcfg.py        | 29 +++++++++++++++++++++++++++++
+ 2 files changed, 39 insertions(+), 23 deletions(-)
 
+diff --git a/meta/lib/bblayers/makesetup.py b/meta/lib/bblayers/makesetup.py
+index 4f27c565eeb..99d59737602 100644
+--- a/meta/lib/bblayers/makesetup.py
++++ b/meta/lib/bblayers/makesetup.py
+@@ -9,7 +9,6 @@ import os
+ import sys
+ 
+ import bb.utils
+-import bb.process
+ 
+ from bblayers.common import LayerPlugin
+ 
+@@ -24,25 +23,12 @@ def plugin_init(plugins):
+ 
+ class MakeSetupPlugin(LayerPlugin):
+ 
+-    def _get_repo_path(self, layer_path):
+-        repo_path, _ = bb.process.run('git rev-parse --show-toplevel', cwd=layer_path)
+-        return repo_path.strip()
+-
+-    def _get_remotes(self, repo_path):
++    def _get_remotes_with_url(self, repo_path):
+         remotes = {}
+-        remotes_list,_ = bb.process.run('git remote', cwd=repo_path)
+-        for r in remotes_list.split():
+-            uri,_ = bb.process.run('git remote get-url {r}'.format(r=r), cwd=repo_path)
+-            remotes[r] = {'uri':uri.strip()}
++        for r in oe.buildcfg.get_metadata_git_remotes(repo_path):
++            remotes[r] = {'uri':oe.buildcfg.get_metadata_git_remote_url(repo_path, r)}
+         return remotes
+ 
+-    def _get_describe(self, repo_path):
+-        try:
+-            describe,_ = bb.process.run('git describe --tags', cwd=repo_path)
+-        except bb.process.ExecutionError:
+-            return ""
+-        return describe.strip()
+-
+     def _is_submodule(self, repo_path):
+         # This is slightly brittle: git does not offer a way to tell whether
+         # a given repo dir is a submodule checkout, so we need to rely on .git
+@@ -56,10 +42,7 @@ class MakeSetupPlugin(LayerPlugin):
+         available here. """
+         repos = {}
+         layers = oe.buildcfg.get_layer_revisions(self.tinfoil.config_data)
+-        try:
+-            destdir_repo = self._get_repo_path(destdir)
+-        except bb.process.ExecutionError:
+-            destdir_repo = None
++        destdir_repo = oe.buildcfg.get_metadata_git_toplevel(destdir)
+ 
+         for (l_path, l_name, l_branch, l_rev, l_ismodified) in layers:
+             if l_name == 'workspace':
+@@ -67,12 +50,16 @@ class MakeSetupPlugin(LayerPlugin):
+             if l_ismodified:
+                 logger.error("Layer {name} in {path} has uncommitted modifications or is not in a git repository.".format(name=l_name,path=l_path))
+                 return
+-            repo_path = self._get_repo_path(l_path)
++            repo_path = oe.buildcfg.get_metadata_git_toplevel(l_path)
+ 
+             if self._is_submodule(repo_path):
+                 continue
+             if repo_path not in repos.keys():
+-                repos[repo_path] = {'path':os.path.basename(repo_path),'git-remote':{'rev':l_rev, 'branch':l_branch, 'remotes':self._get_remotes(repo_path), 'describe':self._get_describe(repo_path)}}
++                repos[repo_path] = {'path':os.path.basename(repo_path),'git-remote':{
++                        'rev':l_rev,
++                        'branch':l_branch,
++                        'remotes':self._get_remotes_with_url(repo_path),
++                        'describe':oe.buildcfg.get_metadata_git_describe(repo_path)}}
+                 if repo_path == destdir_repo:
+                     repos[repo_path]['contains_this_file'] = True
+                 if not repos[repo_path]['git-remote']['remotes'] and not repos[repo_path]['contains_this_file']:
+diff --git a/meta/lib/oe/buildcfg.py b/meta/lib/oe/buildcfg.py
+index b3fe510309c..27b059b8343 100644
+--- a/meta/lib/oe/buildcfg.py
++++ b/meta/lib/oe/buildcfg.py
+@@ -28,6 +28,35 @@ def get_metadata_git_revision(path):
+         rev = '<unknown>'
+     return rev.strip()
+ 
++def get_metadata_git_toplevel(path):
++    try:
++        toplevel, _ = bb.process.run('git rev-parse --show-toplevel', cwd=path)
++    except bb.process.ExecutionError:
++        return ""
++    return toplevel.strip()
++
++def get_metadata_git_remotes(path):
++    try:
++        remotes_list, _ = bb.process.run('git remote', cwd=path)
++        remotes = remotes_list.split()
++    except bb.process.ExecutionError:
++        remotes = []
++    return remotes
++
++def get_metadata_git_remote_url(path, remote):
++    try:
++        uri, _ = bb.process.run('git remote get-url {remote}'.format(remote=remote), cwd=path)
++    except bb.process.ExecutionError:
++        return ""
++    return uri.strip()
++
++def get_metadata_git_describe(path):
++    try:
++        describe, _ = bb.process.run('git describe --tags', cwd=path)
++    except bb.process.ExecutionError:
++        return ""
++    return describe.strip()
++
+ def is_layer_modified(path):
+     try:
+         subprocess.check_output("""cd %s; export PSEUDO_UNLOAD=1; set -e;
+-- 
+2.43.0.windows.1
 
-gru=DF
-Johannes
-
-________________________________________
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Sent: Saturday, March 23, 2024 14:40
-To: SCHNEIDER Johannes
-Cc: openembedded-core@lists.openembedded.org; richard.purdie@linuxfoundatio=
-n.org
-Subject: Re: [OE-core] [PATCH v4 0/3] pkg-database and systemd-sysext image
-
-[You don't often get email from alexandre.belloni@bootlin.com. Learn why th=
-is is important at https://aka.ms/LearnAboutSenderIdentification ]
-
-This email is not from Hexagon=92s Office 365 instance. Please be careful w=
-hile clicking links, opening attachments, or replying to this email.
-
-
-Hello,
-
-The series causes failures on the autobuilders:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/6548/step=
-s/14/logs/stdio
-
-
-2024-03-21 21:05:49,848 - oe-selftest - INFO - 6: 20/46 500/587 (137.73s) (=
-0 failed) (imagefeatures.ImageFeatures.test_image_gen_pkgdbfs)
-2024-03-21 21:05:49,848 - oe-selftest - INFO - testtools.testresult.real._S=
-tringException: Traceback (most recent call last):
-  File "/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/lib/oeqa=
-/selftest/cases/imagefeatures.py", line 327, in test_image_gen_pkgdbfs
-    self.assertTrue(os.path.exists(os.path.join(img_vars['DEPLOY_DIR_IMAGE'=
-], 'var/lib/opkg/status')), 'opkg\'s status file was not present in: %s' % =
-tar_file)
-  File "/usr/lib64/python3.9/unittest/case.py", line 688, in assertTrue
-    raise self.failureException(msg)
-AssertionError: False is not true : opkg's status file was not present in: =
-/home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-3332915/tmp/=
-deploy/images/qemux86-64/core-image-minimal-qemux86-64.rootfs-pkgdb.tar.gz
-
-
-On 04/03/2024 07:15:50+0100, Johannes Schneider via lists.openembedded.org =
-wrote:
-> systemd-sysext allows to overlay another image (or multiple) ontop of
-> a "base-image" =3D the current rootfs, via the use of overlayfs; to add
-> tools and features meant for development purposes.
->
-> To quote the documentation on systemd-sysext:
-> " ...addition in order to make debugging/development easier). System
-> extension images should not be misunderstood as a generic software
-> packaging framework, ..."
->
-> To build a lean image, that only holds packages that are not already
-> part of the base-image, a snapshot of the package-database is taken
-> after the installation of the base-rootfs is done, and picked up again
-> when collecting the rootfs of such a extension image.
->
-> with all this in place an example usage could look like this:
-> some-core-image.bb
->   inherit core-image
->   IMAGE_GEN_PKGDBFS =3D "1"
->
-> extending-image.bb
->   inherit image-sysext
->   IMAGE_FSTYPES =3D "squashfs"
->   IMAGE_BASE_PKGDB =3D "some-core-image"
->   # the above pointing at a package-db similar to:
->   # build/deploy/images/$MACHINE/some-core-image-$MACHINE-20240210172305-=
-pkgdb.rootfs.tar.gz
->
-> then on the device, running some-core-image, with the extension image pla=
-ced at FN:
-> $> ln -s "$FN" /run/extensions/$(basename $FN).raw
-> $> systemd-sysext list
-> $> SYSTEMD_LOG_LEVEL=3Ddebug systemd-sysext merge
->
-> As long as the VERSION_ID of the extension image matches the os-release
-> in the base image, the above commands return sucessfully;
-> for details on the compativility check see the docs for systemd-sysext.
->
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D
->
-> changes with v2:
->         rebase from 'kirkstone' onto 'master'
->
-> changes with v3;
->       incorporate review suggestions for simplification
->       add task dependency handling
->       add oe-selftest for the pkgdb handling
->       add variable documentation and
->       some more comments, and examples in the commit-msg
->
-> changes with v4;
->       rebase onto 'master' =3D> no functional changes
->       fixed patchtest findings
-
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#196588): https://lists.openembedded.org/g/openembedde=
-d-core/message/196588
-> Mute This Topic: https://lists.openembedded.org/mt/104717642/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-exandre.belloni@bootlin.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
-
-
---
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com/
 
