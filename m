@@ -1,118 +1,118 @@
-Return-Path: <alexandre.belloni@bootlin.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FF5BC6FD1F
-	for <webhook@archiver.kernel.org>; Tue, 26 Mar 2024 16:50:40 +0000 (UTC)
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
- by mx.groups.io with SMTP id smtpd.web10.15135.1711471832848832135
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FA08C6FD1F
+	for <webhook@archiver.kernel.org>; Tue, 26 Mar 2024 17:10:30 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web10.15804.1711473025523774170
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Mar 2024 09:50:33 -0700
+ Tue, 26 Mar 2024 10:10:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=UxVYG1zr;
- spf=pass (domain: bootlin.com, ip: 217.70.183.194, mailfrom: alexandre.belloni@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id BB62640005;
-	Tue, 26 Mar 2024 16:50:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1711471831;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TmttqjODgAiApsF4GW2KRC1WMkVyQ8AH9s6nA/Wk30s=;
-	b=UxVYG1zrITyyfmJFuCAoE/bCSkaLyzJ43bJRNtMSNtRYuosRqS5nev71uJF8jX9gPjPxFx
-	sqxQ272XdVmBh3bZm4cYcjzaSX8TEktPBOY1xF6kxOQSAq4mfhzmhWQJUIAH6YUkoMDwcU
-	G1tu+7ZfOzM7BabJ35cKcC6hQW1m0oomWXMMFRR19IqHQ2qU/+L+nKHY77xqN8PezzH1DM
-	3WUWNmiyWDVpfzCP7R1C9EMTnJI4LyqPgYGp7wraRD/DfTnQ4l1juSv6MDtxlKOkGu8M4D
-	xy8u5L3Sgq2ECwmgPhPL+zqQqYPsBSaaLiu0cfoZNuKsB7UPn7O0Xp+xRwqGPw==
-Date: Tue, 26 Mar 2024 17:50:30 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: wangmy@fujitsu.com
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-Core] [PATCH 06/34] glib-networking: upgrade 2.78.1 -> 2.80.0
-Message-ID: <20240326165030a736ab19@mail.local>
-References: <1711413292-3025-1-git-send-email-wangmy@fujitsu.com>
- <1711413292-3025-6-git-send-email-wangmy@fujitsu.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DCm2bGfG;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4148c6af2d3so10533745e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Mar 2024 10:10:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1711473024; x=1712077824; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=4Gwa0QS/j6YgScXqzbInQLD5DnNGBWB1+j6SOfviOOo=;
+        b=DCm2bGfGH2RpNQhMJwLGSMFf2jx3+KkhGVMr2+6Fr+r3k+cQsarb8hKv1yS/sfWDHQ
+         Is6HD4RTONd8zEHSaYVT7L7l5sDDENxDV5cRMd0fOCVHSh/rv7hfUMlDUqxVrNR22xE3
+         CYNG9bm+mKas9DlIU9ft1X7AOGuwrCtIyDGdw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711473024; x=1712077824;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4Gwa0QS/j6YgScXqzbInQLD5DnNGBWB1+j6SOfviOOo=;
+        b=G0cq4WhbDgxO6m9pWrcH55Hu/cZbCC6WncB2OXXvMT/nKCcNmo9Ssd0L8RzLls8087
+         NOfD+wYCu/bQ2iOHDpaLNAR5xFsGLFIeyrfo79rhcUqooTYg1lRKqfd9K911oBrr8wwO
+         J15EkH2wUsBGTPLynTOP15nZyIAGnpBnLVXEO54ILxWp/S8QNgf/t4wOnxAlvhM0Up7z
+         wTcxvzzh8zl0evVOs8SUOaq+UZJUKqp8TjgnY7w5NKhyW7PSIenKSpATdcbVY+eKwRVP
+         Tm2eI+hvtLs3Y3w7yqjGwLE8xG8jC2Yi6e22ihGDKNokYEIQ43Qs5Yj3ieMYwb3sCh9s
+         th+w==
+X-Forwarded-Encrypted: i=1; AJvYcCUWE6gR7PFfvuVLrguFP0XRs7bCAFtng8apmdCKUepT2CsCBHqYB8Axy6a8gtzbCJg1Ej+sLHonv/suayfZVTPYpq8QSaVlyITBXN6rjgsS9KqQkJbyJOfF
+X-Gm-Message-State: AOJu0Yyx+b97Yk9j6gM16QEKZl71VVkG/DXF4PT0ESVCOyXDj3ssVz4y
+	GbEEcNxoxkTvKno34M2LUx30MWQo0YBVXBpv0B3KBP4GBsrOFLEI3NgzZ8SrayA=
+X-Google-Smtp-Source: AGHT+IGyuznW7YAHz3+YV86Hs/KqlT297oOJVSycSAULKdHElm6QLL9FtNty6yJk7XiLJ7tsnJofHA==
+X-Received: by 2002:a05:600c:1906:b0:414:8065:2d25 with SMTP id j6-20020a05600c190600b0041480652d25mr121949wmq.38.1711473023850;
+        Tue, 26 Mar 2024 10:10:23 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:6ef5:888f:bb59:8578? ([2001:8b0:aba:5f3c:6ef5:888f:bb59:8578])
+        by smtp.gmail.com with ESMTPSA id q20-20020a05600c46d400b004132ae838absm12138967wmo.43.2024.03.26.10.10.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Mar 2024 10:10:23 -0700 (PDT)
+Message-ID: <f20b7698786cba79ea6b4eaa8cf5d2792b78d193.camel@linuxfoundation.org>
+Subject: Re: [OE-core][Patch v1 2/2] perf: tests: fix qa error, missing perl
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Max Krummenacher <max.oss.09@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: bruce.ashfield@gmail.com, Max Krummenacher <max.krummenacher@toradex.com>
+Date: Tue, 26 Mar 2024 17:10:22 +0000
+In-Reply-To: <20240325102055.1037135-2-max.oss.09@gmail.com>
+References: <20240325102055.1037135-1-max.oss.09@gmail.com>
+	 <20240325102055.1037135-2-max.oss.09@gmail.com>
+Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
+ YNvg==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.0-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1711413292-3025-6-git-send-email-wangmy@fujitsu.com>
-X-GND-Sasl: alexandre.belloni@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 Mar 2024 16:50:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197535
+ <openembedded-core@lists.openembedded.org>; Tue, 26 Mar 2024 17:10:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197536
 
-This causes ptest failures:
-
-Failed ptests:
-{'glib-networking': ['glib-networking/connection-gnutls.test',
-                     'glib-networking/file-database-gnutls.test']}
-
-(/usr/libexec/installed-tests/glib-networking/file-database-gnutls:400): GLib-Net-WARNING **: 10:09:00.679: Failed to load TLS database: System trust contains zero trusted certificates; please investigate your GnuTLS configuration
-FAIL: glib-networking/file-database-gnutls.test (Child process killed by signal 5)
-Running test: glib-networking/connection-gnutls.test
-
-(/usr/libexec/installed-tests/glib-networking/connection-gnutls:402): GLib-Net-WARNING **: 10:09:00.693: Failed to load TLS database: System trust contains zero trusted certificates; please investigate your GnuTLS configuration
-FAIL: glib-networking/connection-gnutls.test (Child process killed by signal 5)
-Running test: glib-networking/certificate-gnutls.test
-
-I guess the ptests need ca-certificates.
-
-
-On 26/03/2024 08:34:24+0800, wangmy via lists.openembedded.org wrote:
-> From: Wang Mingyu <wangmy@fujitsu.com>
-> 
-> Changelog:
-> ===========
-> - Mark plugin functions as exports on Windows
-> - GnuTLS: fix improper use of IP address in SNI extension
-> - GnuTLS: major performance improvement: reduce unnecessary trust list creation
-> - OpenSSL: properly handle BIO_CTRL_EOF
-> - GnuTLS: Add warning when system has no trusted certificates
-> - OpenSSL: Fix bug when populating trust store
-> - Fix license on dtls-connection.c test
-> - Updated translations
-> 
-> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+On Mon, 2024-03-25 at 11:20 +0100, Max Krummenacher wrote:
+> From: Max Krummenacher <max.krummenacher@toradex.com>
+>=20
+> Kernel commit 61d348f1e96f ("perf testsuite: Add common output checking
+> helpers") added with 6.9-rc1 added addional testscripts written in perl.
+>=20
+> Fixes:
+> > ERROR: perf-1.0-r0 do_package_qa: QA Issue: /usr/libexec/perf-core/test=
+s/shell/common/check_no_patterns_found.pl contained in package perf-tests r=
+equires /usr/bin/perl, but no providers found in RDEPENDS:perf-tests? [file=
+-rdeps]
+>=20
+> Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
 > ---
->  .../{glib-networking_2.78.1.bb => glib-networking_2.80.0.bb}    | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-core/glib-networking/{glib-networking_2.78.1.bb => glib-networking_2.80.0.bb} (95%)
-> 
-> diff --git a/meta/recipes-core/glib-networking/glib-networking_2.78.1.bb b/meta/recipes-core/glib-networking/glib-networking_2.80.0.bb
-> similarity index 95%
-> rename from meta/recipes-core/glib-networking/glib-networking_2.78.1.bb
-> rename to meta/recipes-core/glib-networking/glib-networking_2.80.0.bb
-> index 5060d9fd7a..c8a1355548 100644
-> --- a/meta/recipes-core/glib-networking/glib-networking_2.78.1.bb
-> +++ b/meta/recipes-core/glib-networking/glib-networking_2.80.0.bb
-> @@ -14,7 +14,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
->  SECTION = "libs"
->  DEPENDS = "glib-2.0-native glib-2.0"
->  
-> -SRC_URI[archive.sha256sum] = "e48f2ddbb049832cbb09230529c5e45daca9f0df0eda325f832f7379859bf09f"
-> +SRC_URI[archive.sha256sum] = "d8f4f1aab213179ae3351617b59dab5de6bcc9e785021eee178998ebd4bb3acf"
->  
->  # Upstream note that for the openssl backend, half the tests where this backend don't return
->  # the expected error code or don't work as expected so default to gnutls
-> -- 
-> 2.34.1
-> 
+> =C2=A0meta/recipes-kernel/perf/perf.bb | 2 +-
+> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/=
+perf.bb
+> index 6408c65462..4b6834e614 100644
+> --- a/meta/recipes-kernel/perf/perf.bb
+> +++ b/meta/recipes-kernel/perf/perf.bb
+> @@ -383,7 +383,7 @@ RDEPENDS:${PN} +=3D "elfutils bash"
+> =C2=A0RDEPENDS:${PN}-archive =3D+ "bash"
+> =C2=A0RDEPENDS:${PN}-python =3D+ "bash python3 python3-modules ${@bb.util=
+s.contains('PACKAGECONFIG', 'audit', 'audit-python', '', d)}"
+> =C2=A0RDEPENDS:${PN}-perl =3D+ "bash perl perl-modules"
+> -RDEPENDS:${PN}-tests =3D+ "python3 bash"
+> +RDEPENDS:${PN}-tests =3D+ "perl python3 bash"
+> =C2=A0
+> =C2=A0RSUGGESTS:${PN} +=3D "${PN}-archive ${PN}-tests \
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ${@bb.utils.contains('PACK=
+AGECONFIG', 'perl', '${PN}-perl', '', d)} \
 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#197497): https://lists.openembedded.org/g/openembedded-core/message/197497
-> Mute This Topic: https://lists.openembedded.org/mt/105150499/3617179
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alexandre.belloni@bootlin.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+Does perf avoid perl dependencies currently? Would it make more sense
+to put that script in ${PN}-perl?
+
+Cheers,
+
+Richard
 
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
 
