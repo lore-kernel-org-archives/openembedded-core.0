@@ -2,194 +2,161 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 278CDC54E58
-	for <webhook@archiver.kernel.org>; Tue, 26 Mar 2024 08:41:08 +0000 (UTC)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
- by mx.groups.io with SMTP id smtpd.web11.3865.1711442466969212517
- for <Openembedded-core@lists.openembedded.org>;
- Tue, 26 Mar 2024 01:41:07 -0700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27B6FC6FD1F
+	for <webhook@archiver.kernel.org>; Tue, 26 Mar 2024 08:44:28 +0000 (UTC)
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+ by mx.groups.io with SMTP id smtpd.web10.3888.1711442665297641870
+ for <openembedded-core@lists.openembedded.org>;
+ Tue, 26 Mar 2024 01:44:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=WsGChpUW;
- spf=pass (domain: gmail.com, ip: 209.85.208.180, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2d29aad15a5so66209471fa.3
-        for <Openembedded-core@lists.openembedded.org>; Tue, 26 Mar 2024 01:41:06 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=kTueUmqq;
+ spf=pass (domain: gmail.com, ip: 209.85.208.175, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2d094bc2244so69238411fa.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Mar 2024 01:44:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711442465; x=1712047265; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1711442663; x=1712047463; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ADsAFNcb2HYkudrd4uwqDqDNZI4CbyEHsP3hV/XvUxU=;
-        b=WsGChpUWYyNCZSgYmSgXpZ1ZnWyKqLH+zW9QNxA4Q+HNuAfAqmfsYc5C6YIA4kWTs2
-         ea5aCsx5unUkjcB4zwXj81tjh3WyyF2XzTxQgER4xBZfrpzrkuxzeZTkjvrQCc5LUQD6
-         CI3nO/sT3de1S852fz/EwGWgdBTo7FHZC/kS/qp00vhEAtmxrWPkZM8nDG8j1GDHE5B1
-         mKZ3vDp6mkxoCOHcMKglfXAEzb9RSMqmMy1O6EixEhWf4VXDtoy+6v242YraFNpJboA7
-         dvI1w2Z7hq0gYygGXtabYs3lIgAn0o1rfVtokNwEgBRtx2Y02HvK7CRWaSpoGUC7PiPS
-         f8IA==
+        bh=bw/f2Q2IzcomZ+fKGak9kNcgP7u07x0l1XDN+AYhgMg=;
+        b=kTueUmqqBSktVLTdiP4vGEHAXuWM1EC8N98WOjOGNxdyMjX2R6CkcK/5vdIbhtCbkU
+         MncgB4frwb4vzQSEn9LFWNH1kEsL76itVYVLYYH7n2ApsxYnE8apjCJxx7YhY0UCzK9P
+         HhLAud150epj9CJJV/fpBq5Z0WZ6gcp4r3i3FIq/TZ+O8HJ0DFl+P3h5SFuCrRutYbS5
+         OOlSL3guMI6JJI4K2iD8vYRIpGBwWli4X6FEx/SArmp8dbStVY8FGwrhED+9FoqgqfFa
+         fmjEGWif3DOKn5kNgA87877B1uGXUzPYFEU/uP4q9NzbKfkN5Aa5GOP9q1fV+sBZyPnN
+         Vt2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711442465; x=1712047265;
+        d=1e100.net; s=20230601; t=1711442663; x=1712047463;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ADsAFNcb2HYkudrd4uwqDqDNZI4CbyEHsP3hV/XvUxU=;
-        b=MjQIa946MXZcRxkmnF8Uox0Vpp73yaQQGwXBFa0PxiE5RYErAd8IhobFMqiQVoRrVz
-         MuNXvWRJjvxKC89FouV2lkt8+66SZVpk7l+OPC3YF54d+zgJHOz7gShbaFPA7DuxDQqc
-         fkURB3/npLCgvANzmPiY3VvSBESXGckE768OUy2ju9TlmxHMX+QcDD+y0Y1JMeUX/w3l
-         F2kIz90QSvmqEBK1eq1BidbIldGSDGcJO2NeEOSMpTrp6PEuCQSC6AyRvRAYHt7YTZHi
-         pOBupbygGTYVHUoVd5uf8ywa84ibx3mHXkDTvlkJpgSp7op6w4GYqsw6rDVwRLzpyMMt
-         o6LQ==
-X-Gm-Message-State: AOJu0YyNBLMMshA+WtAuowExuEhYx6uETCMSUyhN/eqeOZ4Ga6By2em7
-	ymVhXCWRpa2DHj6Ee3JOsBosU1GtM4G34zDxrZS69TH5fPqz8AJnRLPe1cXJVwy0MYdnON9IJBO
-	c7GM3ZpdxAKcmUn2pRBeSKePB2LI=
-X-Google-Smtp-Source: AGHT+IHOv63Ik5wyF14oKcRIAjwIY0CuRwunJZ6eXEyEjdENo7G30fTeWaEIMPIHhMsbsNZqRjBYEzCTIyzFxDkq3Bo=
-X-Received: by 2002:a2e:a784:0:b0:2d6:d8a3:8c08 with SMTP id
- c4-20020a2ea784000000b002d6d8a38c08mr3752609ljf.12.1711442464798; Tue, 26 Mar
- 2024 01:41:04 -0700 (PDT)
+        bh=bw/f2Q2IzcomZ+fKGak9kNcgP7u07x0l1XDN+AYhgMg=;
+        b=kiAoawlhuHy2zuBdUdDU+9RoXOjBbrVJZ7IlJ/xu4cBOrzbvCZQOozcrq3fcImFrIh
+         whqR811EovhOPy/iwQJ9uMWlRdZS3luggQ4vZbDMOCq7XvrORSkGtoT1iFRHiNGJzr+I
+         YIRnv74HwKQmvlW/Q5D3+vyUXt8RbauW4Yyt5wOtJyFpogA1HreJV8LzJKWaCVFif98+
+         7o9CYcvUUQUyygs6roM5JYA6sSix/wHNWg2NBrX6N0DfcftfER6N1cj6UuGuMmzEkyyh
+         YI3raHKnBtZloVNF1+zs0y2R3U4wE8bHlLXvINn1Llmclay+hlEUXHB0MImGEI/4yLEY
+         nwVA==
+X-Gm-Message-State: AOJu0YyxKC5O1TpS9j7f16BdS8NMRx13PHo1Y27oMwrBTyaQ9hV/s5l5
+	f+U9PS7GBoZeKVrf8/4r2ujfForcAS8WwwQ9aU5zf7IQjPnpoIfW7E9EAJ59fcTYjDYr3rITvDR
+	CgCI6+Fc0R5q3P4fVz3NsiXQNvhY=
+X-Google-Smtp-Source: AGHT+IF/Qx3acw1U454daK0LXS6RPZz5qrolCPVaW8nJ1IyxJRoYF1lCwHUDv7s3jE7vt3ywZUePy62Ptic0x+6yiQU=
+X-Received: by 2002:a2e:a60c:0:b0:2d4:ad34:85a7 with SMTP id
+ v12-20020a2ea60c000000b002d4ad3485a7mr5695720ljp.29.1711442663097; Tue, 26
+ Mar 2024 01:44:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <17BDA4425135504F.24786@lists.openembedded.org> <24a3eab2-30db-4ee6-accc-7f51577fcee5@gmail.com>
-In-Reply-To: <24a3eab2-30db-4ee6-accc-7f51577fcee5@gmail.com>
+References: <1711413292-3025-1-git-send-email-wangmy@fujitsu.com> <1711413292-3025-7-git-send-email-wangmy@fujitsu.com>
+In-Reply-To: <1711413292-3025-7-git-send-email-wangmy@fujitsu.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 26 Mar 2024 09:40:53 +0100
-Message-ID: <CANNYZj_2GrO+Tv0T5juE+bdNTuD1R-wmWYucmAhGq71yzybQeQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] oeqa/selftest/overlayfs: test read-only rootfs
-To: Vyacheslav Yurkov <uvv.mail@gmail.com>
-Cc: Openembedded-core@lists.openembedded.org, Baruch Siach <baruch@tkos.co.il>
+Date: Tue, 26 Mar 2024 09:44:11 +0100
+Message-ID: <CANNYZj9oABHE=oWB0J_koiJ4zy8V8DhumE_TH_Qw8qs-dP60qw@mail.gmail.com>
+Subject: Re: [OE-Core] [PATCH 07/34] glslang: upgrade 1.3.275.0 -> 1.3.280.0
+To: wangmy@fujitsu.com
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 Mar 2024 08:41:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197528
+ <openembedded-core@lists.openembedded.org>; Tue, 26 Mar 2024 08:44:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197529
 
-Feature freeze perhaps? The patch is in abelloni/master-next and will
-be handled later, possibly after the release is out. It's better to
-not send it during the freeze period though to avoid adding to the
-backlog.
+This and the spirv recipes should be updated in lockstep with vulkan
+recipes to keep them all at the same version. Please note that this is
+written in the comments in all those recipes.
 
 Alex
 
-On Tue, 26 Mar 2024 at 08:47, Vyacheslav Yurkov <uvv.mail@gmail.com> wrote:
+
+On Tue, 26 Mar 2024 at 01:35, wangmy via lists.openembedded.org
+<wangmy=fujitsu.com@lists.openembedded.org> wrote:
 >
-> Just checking if there's any feedback for the patch or something that
-> stops it from being merged.
+> From: Wang Mingyu <wangmy@fujitsu.com>
 >
-> Slava
+> 0001-generate-glslang-pkg-config.patch
+> refreshed for 1.3.280.0.
 >
-> On 17.03.2024 20:33, Vyacheslav Yurkov via lists.openembedded.org wrote:
-> > From: Baruch Siach <baruch@tkos.co.il>
-> >
-> > Use the read-only squashfs filesystem to test the read-only case.
-> >
-> > Signed-off-by: Baruch Siach <baruch@tkos.co.il>
-> > Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
-> > ---
-> >   meta-selftest/wic/overlayfs_etc.wks.in    |  4 +--
-> >   meta/lib/oeqa/selftest/cases/overlayfs.py | 34 +++++++++++++++++++----
-> >   2 files changed, 30 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/meta-selftest/wic/overlayfs_etc.wks.in b/meta-selftest/wic/overlayfs_etc.wks.in
-> > index 1e1e5836e7..066cd35b15 100644
-> > --- a/meta-selftest/wic/overlayfs_etc.wks.in
-> > +++ b/meta-selftest/wic/overlayfs_etc.wks.in
-> > @@ -1,4 +1,4 @@
-> >   part /boot --active --source bootimg-biosplusefi --ondisk sda --sourceparams="loader=grub-efi" --align 1024
-> > -part / --source rootfs --ondisk sda --fstype=ext4 --use-uuid --align 1024
-> > +part / --source rootfs --ondisk sda --fstype=${OVERLAYFS_ROOTFS_TYPE} --use-uuid --align 1024
-> >   part --ondisk sda --fstype=ext4 --size=5 --align 1024
-> > -bootloader --ptable gpt --timeout=1 --append="rootfstype=ext4 console=ttyS0,115200 console=tty0 ${OVERLAYFS_INIT_OPTION}"
-> > +bootloader --ptable gpt --timeout=1 --append="rootfstype=${OVERLAYFS_ROOTFS_TYPE} console=ttyS0,115200 console=tty0 ${OVERLAYFS_INIT_OPTION}"
-> > diff --git a/meta/lib/oeqa/selftest/cases/overlayfs.py b/meta/lib/oeqa/selftest/cases/overlayfs.py
-> > index cd0dc60c64..e31063567b 100644
-> > --- a/meta/lib/oeqa/selftest/cases/overlayfs.py
-> > +++ b/meta/lib/oeqa/selftest/cases/overlayfs.py
-> > @@ -353,6 +353,7 @@ EXTRA_IMAGE_FEATURES += "read-only-rootfs"
-> >   # Image configuration for overlayfs-etc
-> >   OVERLAYFS_ETC_MOUNT_POINT = "/data"
-> >   OVERLAYFS_ETC_DEVICE = "/dev/sda3"
-> > +OVERLAYFS_ROOTFS_TYPE = "ext4"
-> >   """
-> >
-> >           self.write_config(config)
-> > @@ -367,13 +368,17 @@ OVERLAYFS_ETC_DEVICE = "/dev/sda3"
-> >
-> >       @skipIfNotMachine("qemux86-64", "tests are qemux86-64 specific currently")
-> >       def test_sbin_init_preinit(self):
-> > -        self.run_sbin_init(False)
-> > +        self.run_sbin_init(False, "ext4")
-> >
-> >       @skipIfNotMachine("qemux86-64", "tests are qemux86-64 specific currently")
-> >       def test_sbin_init_original(self):
-> > -        self.run_sbin_init(True)
-> > +        self.run_sbin_init(True, "ext4")
-> >
-> > -    def run_sbin_init(self, origInit):
-> > +    @skipIfNotMachine("qemux86-64", "tests are qemux86-64 specific currently")
-> > +    def test_sbin_init_read_only(self):
-> > +        self.run_sbin_init(True, "squashfs")
-> > +
-> > +    def run_sbin_init(self, origInit, rootfsType):
-> >           """
-> >           Summary:   Confirm we can replace original init and mount overlay on top of /etc
-> >           Expected:  Image is created successfully and /etc is mounted as an overlay
-> > @@ -384,7 +389,9 @@ OVERLAYFS_ETC_DEVICE = "/dev/sda3"
-> >
-> >           args = {
-> >               'OVERLAYFS_INIT_OPTION': "" if origInit else "init=/sbin/preinit",
-> > -            'OVERLAYFS_ETC_USE_ORIG_INIT_NAME': int(origInit == True)
-> > +            'OVERLAYFS_ETC_USE_ORIG_INIT_NAME': int(origInit == True),
-> > +            'OVERLAYFS_ROOTFS_TYPE': rootfsType,
-> > +            'OVERLAYFS_ETC_CREATE_MOUNT_DIRS': int(rootfsType == "ext4")
-> >           }
-> >
-> >           self.write_config(config.format(**args))
-> > @@ -437,7 +444,9 @@ IMAGE_INSTALL:append = " overlayfs-user"
-> >
-> >           args = {
-> >               'OVERLAYFS_INIT_OPTION': "",
-> > -            'OVERLAYFS_ETC_USE_ORIG_INIT_NAME': 1
-> > +            'OVERLAYFS_ETC_USE_ORIG_INIT_NAME': 1,
-> > +            'OVERLAYFS_ROOTFS_TYPE': "ext4",
-> > +            'OVERLAYFS_ETC_CREATE_MOUNT_DIRS': 1
-> >           }
-> >
-> >           self.write_config(config.format(**args))
-> > @@ -463,10 +472,14 @@ IMAGE_INSTALL:append = " overlayfs-user"
-> >   INIT_MANAGER = "systemd"
-> >
-> >   # enable overlayfs in the kernel
-> > -KERNEL_EXTRA_FEATURES:append = " features/overlayfs/overlayfs.scc"
-> > +KERNEL_EXTRA_FEATURES:append = " \
-> > +    features/overlayfs/overlayfs.scc \
-> > +    cfg/fs/squashfs.scc"
-> >
-> >   IMAGE_FSTYPES += "wic"
-> >   OVERLAYFS_INIT_OPTION = "{OVERLAYFS_INIT_OPTION}"
-> > +OVERLAYFS_ROOTFS_TYPE = "{OVERLAYFS_ROOTFS_TYPE}"
-> > +OVERLAYFS_ETC_CREATE_MOUNT_DIRS = "{OVERLAYFS_ETC_CREATE_MOUNT_DIRS}"
-> >   WKS_FILE = "overlayfs_etc.wks.in"
-> >
-> >   EXTRA_IMAGE_FEATURES += "read-only-rootfs"
-> > @@ -477,4 +490,13 @@ OVERLAYFS_ETC_MOUNT_POINT = "/data"
-> >   OVERLAYFS_ETC_FSTYPE = "ext4"
-> >   OVERLAYFS_ETC_DEVICE = "/dev/sda3"
-> >   OVERLAYFS_ETC_USE_ORIG_INIT_NAME = "{OVERLAYFS_ETC_USE_ORIG_INIT_NAME}"
-> > +
-> > +ROOTFS_POSTPROCESS_COMMAND += "{OVERLAYFS_ROOTFS_TYPE}_rootfs"
-> > +
-> > +ext4_rootfs() {{
-> > +}}
-> > +
-> > +squashfs_rootfs() {{
-> > +    mkdir -p ${{IMAGE_ROOTFS}}/data
-> > +}}
-> >   """
-> >
-> >
-> >
+> Changelog:
+> ==========
+> * Add a new --abosute-path command-line option to output absolute paths in error messages
+> * Support GL_EXT_control_flow_attributes2
+> * Support GL_ARB_shading_language_include
+> * Fix HLSL built-in passthrough via inout
+> * Enable -Wimplicit-fallthrough and fix warnings
+> * Fix -Wmissing_field_initializer warnings
+> * Document supported dependencies in known_good.json
+> * Clear spirv vector before use
+> * Emit debug info for accelerationStructure and rayQuery variables
+> * Support NV_shader_atomic_fp16_vector
+> * Support GL_EXT_expect_assume_support
+> * Allow external control of whether glslang will be tested or installed
+> * Improve debug source and line info
+> * Support GL_KHR_shader_subgroup_rotate
+> * Add SPIRV-Tools-opt dependency if ENABLE_OPT
+> * Support EXT_shader_quad_control
+> * Add OpAssumeTrueKHR and OpExpectKHR
+> * Support GL_EXT_maximal_reconvergence
+> * Remove generation of deprecated Target.cmake files
+> * Fix array size of gl_SampleMask and gl_SampleMaskIn
+> * Support GL_ARB_texture_multisample_extension
+> * Emit DebugTypePointer when non-semantic debug info is enabled
+>
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> ---
+>  .../glslang/0001-generate-glslang-pkg-config.patch     | 10 +++++-----
+>  .../{glslang_1.3.275.0.bb => glslang_1.3.280.0.bb}     |  2 +-
+>  2 files changed, 6 insertions(+), 6 deletions(-)
+>  rename meta/recipes-graphics/glslang/{glslang_1.3.275.0.bb => glslang_1.3.280.0.bb} (96%)
+>
+> diff --git a/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch b/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch
+> index 316a57fa4a..e6bb6ec8e3 100644
+> --- a/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch
+> +++ b/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch
+> @@ -1,4 +1,4 @@
+> -From 4cede5edcff96134baf35953d58595c4aa5f1fc5 Mon Sep 17 00:00:00 2001
+> +From fc33f1cf032a15c07044ef932bc991c346d62d62 Mon Sep 17 00:00:00 2001
+>  From: Jose Quaresma <quaresma.jose@gmail.com>
+>  Date: Sun, 7 Feb 2021 01:30:39 +0000
+>  Subject: [PATCH] generate glslang pkg-config
+> @@ -15,12 +15,12 @@ Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+>   create mode 100644 glslang/glslang.pc.cmake.in
+>
+>  diff --git a/glslang/CMakeLists.txt b/glslang/CMakeLists.txt
+> -index 37eecaad..6974935c 100644
+> +index e4690f09..8e660bc5 100644
+>  --- a/glslang/CMakeLists.txt
+>  +++ b/glslang/CMakeLists.txt
+> -@@ -251,6 +251,8 @@ if(PROJECT_IS_TOP_LEVEL)
+> -         ")
+> -         install(FILES "${CMAKE_CURRENT_BINARY_DIR}/glslangTargets.cmake" DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake)
+> +@@ -233,6 +233,8 @@ if(GLSLANG_ENABLE_INSTALL)
+> +         install(TARGETS MachineIndependent EXPORT glslang-targets)
+> +         install(TARGETS GenericCodeGen EXPORT glslang-targets)
+>       endif()
+>  +    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/glslang.pc.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/pkgconfig/glslang.pc @ONLY)
+>  +    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/pkgconfig/glslang.pc DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
+> diff --git a/meta/recipes-graphics/glslang/glslang_1.3.275.0.bb b/meta/recipes-graphics/glslang/glslang_1.3.280.0.bb
+> similarity index 96%
+> rename from meta/recipes-graphics/glslang/glslang_1.3.275.0.bb
+> rename to meta/recipes-graphics/glslang/glslang_1.3.280.0.bb
+> index 2fd1e72a26..637082c719 100644
+> --- a/meta/recipes-graphics/glslang/glslang_1.3.275.0.bb
+> +++ b/meta/recipes-graphics/glslang/glslang_1.3.280.0.bb
+> @@ -8,7 +8,7 @@ HOMEPAGE = "https://www.khronos.org/opengles/sdk/tools/Reference-Compiler"
+>  LICENSE = "BSD-3-Clause & BSD-2-Clause & MIT & Apache-2.0 & GPL-3-with-bison-exception"
+>  LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=2a2b5acd7bc4844964cfda45fe807dc3"
+>
+> -SRCREV = "a91631b260cba3f22858d6c6827511e636c2458a"
+> +SRCREV = "ee2f5d09eaf8f4e8d0d598bd2172fce290d4ca60"
+>  SRC_URI = "git://github.com/KhronosGroup/glslang.git;protocol=https;branch=main \
+>             file://0001-generate-glslang-pkg-config.patch \
+>             "
+> --
+> 2.34.1
 >
 >
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#197527): https://lists.openembedded.org/g/openembedded-core/message/197527
-> Mute This Topic: https://lists.openembedded.org/mt/104989652/1686489
+> View/Reply Online (#197496): https://lists.openembedded.org/g/openembedded-core/message/197496
+> Mute This Topic: https://lists.openembedded.org/mt/105150498/1686489
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
