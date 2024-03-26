@@ -1,101 +1,94 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49199C54E58
-	for <webhook@archiver.kernel.org>; Tue, 26 Mar 2024 00:38:04 +0000 (UTC)
-Received: from esa11.hc1455-7.c3s2.iphmx.com (esa11.hc1455-7.c3s2.iphmx.com [207.54.90.137])
- by mx.groups.io with SMTP id smtpd.web10.7896.1711413477820687463
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45392C54E67
+	for <webhook@archiver.kernel.org>; Tue, 26 Mar 2024 05:27:17 +0000 (UTC)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web11.1448.1711430832255215706
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Mar 2024 17:37:58 -0700
+ Mon, 25 Mar 2024 22:27:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=OcRmlVC1;
- spf=pass (domain: fujitsu.com, ip: 207.54.90.137, mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1711413478; x=1742949478;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references;
-  bh=jU2gkSlxxgJsT0yW30Io9Xbxp0i9FZlRu18LddJTu3Y=;
-  b=OcRmlVC1SiDw+Y5iL1+4i5ODDEb+AUl/SRrq0RGZRu5w8ObKtJY0xggP
-   K4tcNSfMN9aADyuCq8CFXQDCvQ0EW5HAk3hCp+l377iU2hM83mAbynoXe
-   EfjjcJlVT9y49i038LEcTMjQcdQ+aOq6sP4/EPd/EnwQVYxdzqdfEzGoB
-   BdjPETsquMza8KwcreKK6QPa6AofDrQ4WvcW0J+YFCtHoIHPbS4/EBq8u
-   aZOYnQeOEPOitfI4Ij9a0KIZ1+RXTBmjbtbyy3BfZRKbnINeI53LRriBO
-   qaqaz78SVorUKpLR44ZUBhywYjbcI8cKw885OBZVQxHrzTSBkM2him97Z
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="132702242"
-X-IronPort-AV: E=Sophos;i="6.07,154,1708354800"; 
-   d="scan'208";a="132702242"
-Received: from unknown (HELO yto-r2.gw.nic.fujitsu.com) ([218.44.52.218])
-  by esa11.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 09:37:40 +0900
-Received: from yto-m2.gw.nic.fujitsu.com (yto-nat-yto-m2.gw.nic.fujitsu.com [192.168.83.65])
-	by yto-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id 09AABC6819
-	for <openembedded-core@lists.openembedded.org>; Tue, 26 Mar 2024 09:37:38 +0900 (JST)
-Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
-	by yto-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id 50212D5E88
-	for <openembedded-core@lists.openembedded.org>; Tue, 26 Mar 2024 09:37:37 +0900 (JST)
-Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id CE6A820097BFD
-	for <openembedded-core@lists.openembedded.org>; Tue, 26 Mar 2024 09:37:36 +0900 (JST)
-Received: from vm4860.g01.fujitsu.local (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 775E31A006A;
-	Tue, 26 Mar 2024 08:37:36 +0800 (CST)
-From: wangmy@fujitsu.com
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=m38OjeE8;
+ spf=pass (domain: gmail.com, ip: 209.85.214.180, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1e0f2798cd8so1407895ad.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 25 Mar 2024 22:27:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711430831; x=1712035631; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/nibe54IG4+Ng/v1W3buxbNogkMcdPnMo9iwMbPJ9I0=;
+        b=m38OjeE8R4x1GtW4BrcB/IcV4X+O4wvVvza8TrWmbb3HgdlTrAt6Thrm+hnsLTkiEE
+         CDnUa/FQriXeeFPQTEg6RWIDl65K/X2+ykp1fCsXbzTBt5lTZ1/88JmiKetiRMU1DnrP
+         Z2WqHicz/jQ4P6QeR7EOrG12Uaq/FMMT3adKK3eMjGS+GPON9bF/5xNA2+3io3nZW5UA
+         zipiqYDE+u7DMpHw0m9mPCitzuaQXcL7WCqiL7UtwQWpAChGhXtQPh1Sg5vQBMhpmPcX
+         KPILzz34NldD5PpXhO+CF+Kc4Zk2F4chrW6tv+buhBkysc73kBakh0xkGf2nyluB2SHu
+         aGOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711430831; x=1712035631;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/nibe54IG4+Ng/v1W3buxbNogkMcdPnMo9iwMbPJ9I0=;
+        b=GxF1trLMFdv9bOeVbJ0BxtwxjiNFqZvPfYuA/8xGkMOFoXjZUdZZaLCFnmJq+/jQby
+         34egKM7wSbg52SZXDNVgeDFlgeyYGgRGvjrV7qIuZ7xaV03KIoyhv672uxu5f6WRdXgn
+         Lt7PABxjQMJkLFxSoXPdxmm4bpgO8Josdqh4gUhyytCmYaym49NkVwKiBgRDrQYrtsBW
+         Ukc8UAl7M5nYYSlIS6CXWPpKuoCLZ7cGisWHKR/luATrO7mBM/TdTUGYWTOuul9hM8sN
+         lzGqbNgKfDO7oJNEfmVaFe+isnX42xrisoW3uOKbAHhmwApGstF6B1GXufM07JZkQf19
+         Qlfw==
+X-Gm-Message-State: AOJu0YwsozPu7k7B1cxY4VLxbC7nPxwq03ayBatN4rU7wbLbFyFaEnIn
+	BVTk14sElA1//pt2Wu0Cfh79Vz+eghe1MxWqcX6YJWvMLKjzqqpGgOojOdIa
+X-Google-Smtp-Source: AGHT+IGdmh/eRv4AoVH/Py9xDzYG0JGslHAjtu21KO2Tn36FCf8n9KvqZmNAPvpmwoMcfUrlaW9teQ==
+X-Received: by 2002:a17:902:ab85:b0:1e0:b871:53ed with SMTP id f5-20020a170902ab8500b001e0b87153edmr1662726plr.40.1711430831279;
+        Mon, 25 Mar 2024 22:27:11 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::7a27])
+        by smtp.gmail.com with ESMTPSA id b6-20020a170902650600b001def18c0cedsm5905384plk.179.2024.03.25.22.27.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Mar 2024 22:27:11 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-Core] [PATCH 26/34] python3-scons: upgrade 4.6.0 -> 4.7.0
-Date: Tue, 26 Mar 2024 08:34:44 +0800
-Message-Id: <1711413292-3025-26-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1711413292-3025-1-git-send-email-wangmy@fujitsu.com>
-References: <1711413292-3025-1-git-send-email-wangmy@fujitsu.com>
-X-TM-AS-GCONF: 00
-X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28274.003
-X-TM-AS-User-Approved-Sender: Yes
-X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28274.003
-X-TMASE-Result: 10--0.868300-10.000000
-X-TMASE-MatchedRID: R9NZgeCyXhKjz0nOeth/yUIIxwDaU5mr+KgiyLtJrSBoOe42HKVRDr6p
-	xbTOjavy+7QcRaVoa8nGKIf6hBf7VaGGOyqBK41vEXjPIvKd74AQhNjZQYyI3FCedixYXzOrlmG
-	OZvTvMReD/SpuYoqPDS5rYfHE0OO95UcZtwNsCroURSScn+QSXhRWSQ077aXdPvBSTRncWKuOhz
-	Oa6g8KrWZAXsqDT6fc+Xlt3/SDnnpCKWzjTV6b0dDBGF6rCL0yysoow1OwKfdD3Ov9zjFmdxRnR
-	TuIkFlD6MPrBIO3TjYLuiT7lVKkwR0m4Rm5hspVxSSu8i52URmXTt0OuyJi/IIuEVM/dBEMBtjA
-	KW7+qHc=
-X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
+Cc: Khem Raj <raj.khem@gmail.com>,
+	Ross Burton <ross.burton@arm.com>
+Subject: [PATCH] tcl: Forward port skip logic for musl ptests
+Date: Mon, 25 Mar 2024 22:27:08 -0700
+Message-ID: <20240326052708.3109288-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.44.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 Mar 2024 00:38:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197524
+ <openembedded-core@lists.openembedded.org>; Tue, 26 Mar 2024 05:27:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197525
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+commit 9d1df0596f6f3db6f63ae83559fbea3cc372503a overhauled
+run-ptest script which did not consider the edits being
+done from recipe especially for musl ptests. Bring the skip
+editing to follow the new logic in run-ptest
 
-Changelog:
- https://github.com/SCons/scons/releases/tag/4.7.0
+Fixes Failed ptests:
+{'tcl': ['unixInit.test']}
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Ross Burton <ross.burton@arm.com>
 ---
- .../python/{python3-scons_4.6.0.bb => python3-scons_4.7.0.bb}   | 2 +-
+ meta/recipes-devtools/tcltk/tcl_8.6.14.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-scons_4.6.0.bb => python3-scons_4.7.0.bb} (90%)
 
-diff --git a/meta/recipes-devtools/python/python3-scons_4.6.0.bb b/meta/recipes-devtools/python/python3-scons_4.7.0.bb
-similarity index 90%
-rename from meta/recipes-devtools/python/python3-scons_4.6.0.bb
-rename to meta/recipes-devtools/python/python3-scons_4.7.0.bb
-index c3cc3f0373..bba6c799d4 100644
---- a/meta/recipes-devtools/python/python3-scons_4.6.0.bb
-+++ b/meta/recipes-devtools/python/python3-scons_4.7.0.bb
-@@ -5,7 +5,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=d903b0b8027f461402bac9b5169b36f7"
+diff --git a/meta/recipes-devtools/tcltk/tcl_8.6.14.bb b/meta/recipes-devtools/tcltk/tcl_8.6.14.bb
+index 964824e434a..de4f5b878f6 100644
+--- a/meta/recipes-devtools/tcltk/tcl_8.6.14.bb
++++ b/meta/recipes-devtools/tcltk/tcl_8.6.14.bb
+@@ -87,7 +87,7 @@ do_install_ptest() {
  
- SRC_URI += " file://0001-Fix-man-page-installation.patch"
--SRC_URI[sha256sum] = "7db28958b188b800f803c287d0680cc3ac7c422ed0b1cf9895042c52567803ec"
-+SRC_URI[sha256sum] = "d8b617f6610a73e46509de70dcf82f76861b79762ff602d546f4e80918ec81f3"
+ do_install_ptest:append:libc-musl () {
+ 	# Assumes locales other than provided by musl-locales
+-	sed -i -e "s|SKIPPED_TESTS='|SKIPPED_TESTS='unixInit-3* |" ${D}${PTEST_PATH}/run-ptest
++	sed -i '/SKIP="$SKIP socket.*$/a # unixInit-3* is suppressed due to hardcoded locale assumptions\nSKIP="$SKIP unixInit-3\\\*"' ${D}${PTEST_PATH}/run-ptest
+ }
  
- PYPI_PACKAGE = "SCons"
- 
+ # Fix some paths that might be used by Tcl extensions
 -- 
-2.34.1
+2.44.0
 
 
