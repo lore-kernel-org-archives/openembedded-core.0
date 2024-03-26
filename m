@@ -2,51 +2,51 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32279CD11DC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B41ACD11DD
 	for <webhook@archiver.kernel.org>; Tue, 26 Mar 2024 00:37:54 +0000 (UTC)
 Received: from esa4.hc1455-7.c3s2.iphmx.com (esa4.hc1455-7.c3s2.iphmx.com [68.232.139.117])
  by mx.groups.io with SMTP id smtpd.web11.7947.1711413465753686993
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Mar 2024 17:37:46 -0700
+ Mon, 25 Mar 2024 17:37:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=Y0st2E21;
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=fj6xuUHd;
  spf=pass (domain: fujitsu.com, ip: 68.232.139.117, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1711413465; x=1742949465;
+  t=1711413466; x=1742949466;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references;
-  bh=SNbEQdSTZABlIVhGlwFZwqiwwFxvtZBrAuylTXEilG8=;
-  b=Y0st2E21z0Csl99+2kzgZ+wslLUUgD4Vy63Nzh/rfErEJS8JENoDu81m
-   ZLBNuFi9br3hkaiT/OMFYDzQ4b0lNR5Wu7dfj3F/CjzDq3nKiMbGFS+ic
-   nXO/Y6tocQmPuyVEeNfzT3sPRlYtiksN4TIyBnNNRHmLDav9FJd8hovTm
-   IKSaj71E1FGj/PCIe8cyIRHL4uAJIfYp1IPe28wc66HaM16Xik1osLhnA
-   tUOHL0Rh46v3e2QWTWkIRCWqoS/0DgBR3p9eVioHgq4q5zmNVg8DSQ5yM
-   D0UWAL0FyoYBk88UUeartrGigtRiWBDgEPcs0TFHMMyjNDPT/3ejixZ2z
+  bh=SOTxkzg04KyluvF0JXars7z2OVb+3wHISrng3kb9HRo=;
+  b=fj6xuUHdTSPaU5PTmlvj5ZB/dTLpnZOWrhUg1J2xkfD7uPfj9g6RNBo+
+   Py3pRft3cr8tx4ThX1rd3ghcM5+hCGxi+z1wmx6f0sP0bBkjuoiYghahr
+   KgwgczLM8ZtKG7M8TP/SoKkt13HhFejVV2mb61bMy0qkZaGCzgHxDRzOJ
+   H+gmGtIv8mNqKz8OCsguSPe1uUukQ1cYI0FVbBY82ahugOhSLJZ+vmzNP
+   AOoU+ptfTUlJVSZz2Ryg5J1N6jEnXj09XOl2iQlj4mpXBILotzFK3QNwC
+   Z6CEPhTun8tfJmsYLcHb9MmuQCil4ivCV0ceqyefHmbuJDkn/4OA3Id5X
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="153607421"
+X-IronPort-AV: E=McAfee;i="6600,9927,11024"; a="153607429"
 X-IronPort-AV: E=Sophos;i="6.07,154,1708354800"; 
-   d="scan'208";a="153607421"
-Received: from unknown (HELO oym-r3.gw.nic.fujitsu.com) ([210.162.30.91])
-  by esa4.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 09:37:43 +0900
-Received: from oym-m1.gw.nic.fujitsu.com (oym-nat-oym-m1.gw.nic.fujitsu.com [192.168.87.58])
-	by oym-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id 48623C21A3
-	for <openembedded-core@lists.openembedded.org>; Tue, 26 Mar 2024 09:37:41 +0900 (JST)
+   d="scan'208";a="153607429"
+Received: from unknown (HELO oym-r4.gw.nic.fujitsu.com) ([210.162.30.92])
+  by esa4.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 09:37:44 +0900
+Received: from oym-m4.gw.nic.fujitsu.com (oym-nat-oym-m4.gw.nic.fujitsu.com [192.168.87.61])
+	by oym-r4.gw.nic.fujitsu.com (Postfix) with ESMTP id 418B1E0AA5
+	for <openembedded-core@lists.openembedded.org>; Tue, 26 Mar 2024 09:37:42 +0900 (JST)
 Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
-	by oym-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id 6F450B3C99
-	for <openembedded-core@lists.openembedded.org>; Tue, 26 Mar 2024 09:37:40 +0900 (JST)
+	by oym-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id 78139D52F3
+	for <openembedded-core@lists.openembedded.org>; Tue, 26 Mar 2024 09:37:41 +0900 (JST)
 Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id EA27A20097BFD
-	for <openembedded-core@lists.openembedded.org>; Tue, 26 Mar 2024 09:37:39 +0900 (JST)
+	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id 0057E20097BFD
+	for <openembedded-core@lists.openembedded.org>; Tue, 26 Mar 2024 09:37:41 +0900 (JST)
 Received: from vm4860.g01.fujitsu.local (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 94E831A006D;
-	Tue, 26 Mar 2024 08:37:39 +0800 (CST)
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id A02481A006D;
+	Tue, 26 Mar 2024 08:37:40 +0800 (CST)
 From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-Core] [PATCH 32/34] vala: upgrade 0.56.15 -> 0.56.16
-Date: Tue, 26 Mar 2024 08:34:50 +0800
-Message-Id: <1711413292-3025-32-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-Core] [PATCH 34/34] wget: upgrade 1.21.4 -> 1.24.5
+Date: Tue, 26 Mar 2024 08:34:52 +0800
+Message-Id: <1711413292-3025-34-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1711413292-3025-1-git-send-email-wangmy@fujitsu.com>
 References: <1711413292-3025-1-git-send-email-wangmy@fujitsu.com>
@@ -54,111 +54,90 @@ X-TM-AS-GCONF: 00
 X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28274.003
 X-TM-AS-User-Approved-Sender: Yes
 X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28274.003
-X-TMASE-Result: 10--6.191700-10.000000
-X-TMASE-MatchedRID: kfHlHSjlGDOjz0nOeth/yTo39wOA02LhQRlUSJjs8Z/9wRnyxuPjhF2U
-	8mWN/+HoQT9vzU+7XYRuPZotjZgpNcOY7UMlS7FZA9lly13c/gEJlr1xKkE5uaShvRjfn4cU6+f
-	8731wcoUILxoCYZ47qepe9co8GDkGZWMJGq5h2T4ReM8i8p3vgFK6+0HOVoSoNS9A3X1uuOBmeC
-	LE2iu14AP6HuDcBX9qJW5y++JuLp2g8Wz8Kwv+n51U1lojafr/70GLyvzOg0wa81GEaPvT+nW2F
-	wk1AVWLWMDF0fU26oYfOFn5hP1oL1Cxgcr0MiwG71Wx2uUbPLdC4sa7AidY08EguqiGeZ5Jo8WM
-	kQWv6iUoTQl7wNH8PhjW9SH0EaRJ3QfwsVk0Ubv+efAnnZBiL8z+Ba7+nv3ul6jUbh4rnYAu2ek
-	KysGdeE1agh49Zz6DMhuC4fW6JeZ+3BndfXUhXQ==
+X-TMASE-Result: 10--3.069800-10.000000
+X-TMASE-MatchedRID: 6IstDyeExSCjz0nOeth/yTo39wOA02LhpxAd6mi1Ga14YeSlHZYFohxq
+	dt22rdOgB4nXQQumWv1vKglGGSwJlME/2QXpIuHm1l+BjLM8lspd5/m3qrxFzI5V1ACIyZtn1Ie
+	ckOrbKEyTsxSf4WC6F9eBVsqgQQZWZIYmUMMQjm9+IrMF/hh/2NhQO8CvZj/XtDgmvV2H8PlR7G
+	A0OjF0li2NCpupBQ0yivFp0d/OglZtF6/n498MP/LeH1FBnhK0wTlc9CcHMZe+kux37vSFMWZ4I
+	sTaK7XgL74HSlXXEsW1Yo1HZ6kAVpH0YXYnbGozFEUknJ/kEl7dB/CxWTRRu+rAZ8KTspSzqDgn
+	aYNdtikNzqw4HQGBV1l0UPq6ApTuNr8un0xShQ+t+x8h8Wa5ZY4KLDzOqD0/1kYE6gMOEIjXjiX
+	iRN3kPVqhx0/7HDW5iB6mlDKe1V7S/yytHeCN9GXv4CQeNUk7G6qTOwq/n71+3BndfXUhXQ==
 X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 26 Mar 2024 00:37:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197521
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197523
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
-0001-gtk4-Preserve-compatibility-with-4.14.patch
-removed since it's included in 0.56.16
+0002-improve-reproducibility.patch
+refreshed for 1.24.5
 
 Changelog:
 ============
-* Various improvements and bug fixes:
- - girparser: Recognize usage of time_t and don't rely on given GIR type
- - girparser: Recognize usage of off_t and don't rely on given GIR type
-* Bindings:
- - gio-2.0: Restore ApplicationCommandLine.print*_literal() to not require 2.80
- - gmodule-2.0: Do not mark `Module.open` as deprecated
- - gtk4: Preserve compatibility with < 4.14 [#1531]
- - Regenerate for GIR-based bindings to pick up time_t fix (long vs time_t)
+** Fix how subdomain matches are checked for HSTS.
+   Fixes a minor issue where cookies may be leaked to the wrong domain
+** Wget will now also parse the srcset attribute in <source> HTML tags
+** Support reading fetchmail style "user" and "passwd" fields from netrc
+** In some cases, prevent the confusing "Cannot write to... (success)" error messages
+** Support extremely fast download speeds (TB/s).
+   Previously this would cause Wget to crash when printing the speed
+** Improve portability on OpenBSD to run the test suite
+** Ensure that CSS URLs are corectly quoted (Bug: 64082)
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- ...tk4-Preserve-compatibility-with-4.14.patch | 39 -------------------
- .../vala/{vala_0.56.15.bb => vala_0.56.16.bb} |  7 +---
- 2 files changed, 2 insertions(+), 44 deletions(-)
- delete mode 100644 meta/recipes-devtools/vala/vala/0001-gtk4-Preserve-compatibility-with-4.14.patch
- rename meta/recipes-devtools/vala/{vala_0.56.15.bb => vala_0.56.16.bb} (92%)
+ .../wget/wget/0002-improve-reproducibility.patch         | 9 +++------
+ .../wget/{wget_1.21.4.bb => wget_1.24.5.bb}              | 2 +-
+ 2 files changed, 4 insertions(+), 7 deletions(-)
+ rename meta/recipes-extended/wget/{wget_1.21.4.bb => wget_1.24.5.bb} (60%)
 
-diff --git a/meta/recipes-devtools/vala/vala/0001-gtk4-Preserve-compatibility-with-4.14.patch b/meta/recipes-devtools/vala/vala/0001-gtk4-Preserve-compatibility-with-4.14.patch
-deleted file mode 100644
-index 161474086e..0000000000
---- a/meta/recipes-devtools/vala/vala/0001-gtk4-Preserve-compatibility-with-4.14.patch
-+++ /dev/null
-@@ -1,39 +0,0 @@
--From 17349020fb95454d06f827fd555b05248f10a370 Mon Sep 17 00:00:00 2001
--From: Rico Tzschichholz <ricotz@ubuntu.com>
--Date: Thu, 7 Mar 2024 17:56:05 +0100
--Subject: [PATCH] gtk4: Preserve compatibility with < 4.14
--
--Don't prefer new accessor methods for Calendar.day/month/year
--
--Fixes https://gitlab.gnome.org/GNOME/vala/issues/1531
--
--Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/vala/-/commit/e0c4ea8c4a0bbf859b5341a7465b395892789d9e]
--
--Signed-off-by: Markus Volk <f_l_k@t-online.de>
-----
-- vapi/gtk4.vapi                 | 3 +++
-- vapi/metadata/Gtk-4.0.metadata | 5 +++++
-- 2 files changed, 8 insertions(+)
--
--diff --git a/vapi/gtk4.vapi b/vapi/gtk4.vapi
--index 49f8b2078..51ecea27d 100644
----- a/vapi/gtk4.vapi
--+++ b/vapi/gtk4.vapi
--@@ -7350,11 +7350,14 @@ namespace Gtk {
-- 		[Version (since = "4.14")]
-- 		public void set_year (int year);
-- 		public void unmark_day (uint day);
--+		[NoAccessorMethod]
-- 		public int day { get; set; }
--+		[NoAccessorMethod]
-- 		public int month { get; set; }
-- 		public bool show_day_names { get; set; }
-- 		public bool show_heading { get; set; }
-- 		public bool show_week_numbers { get; set; }
--+		[NoAccessorMethod]
-- 		public int year { get; set; }
-- 		public signal void day_selected ();
-- 		public signal void next_month ();
+diff --git a/meta/recipes-extended/wget/wget/0002-improve-reproducibility.patch b/meta/recipes-extended/wget/wget/0002-improve-reproducibility.patch
+index 050fc2c7e1..5438bafdcb 100644
+--- a/meta/recipes-extended/wget/wget/0002-improve-reproducibility.patch
++++ b/meta/recipes-extended/wget/wget/0002-improve-reproducibility.patch
+@@ -1,4 +1,4 @@
+-From 7f1357529d23b356b45fbb0dd7388588162e4cb8 Mon Sep 17 00:00:00 2001
++From b86e57b68363d108fe77c6fd588a275d2696cabe Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Wed, 10 Jan 2018 14:43:20 +0800
+ Subject: [PATCH] src/Makefile.am: improve reproducibility
+@@ -44,10 +44,10 @@ Signed-off-by: Joe Slater <jslater@windriver.com>
+  1 file changed, 4 insertions(+)
+ 
+ diff --git a/src/Makefile.am b/src/Makefile.am
+-index 28c0be2..44084a3 100644
++index 18ec622..38d252d 100644
+ --- a/src/Makefile.am
+ +++ b/src/Makefile.am
+-@@ -87,9 +87,13 @@ version.c:  $(wget_SOURCES) ../lib/libgnu.a
++@@ -108,9 +108,13 @@ version.c:  $(wget_SOURCES) ../lib/libgnu.a
+  	echo '#include "version.h"' >> $@
+  	echo 'const char *version_string = "@VERSION@";' >> $@
+  	echo 'const char *compilation_string = "'$(COMPILE)'";' \
+@@ -61,6 +61,3 @@ index 28c0be2..44084a3 100644
+  	    | $(ESCAPEQUOTE) >> $@
+  
+  css.c: $(srcdir)/css.l
 --- 
--2.44.0
+-1.8.3.1
 -
-diff --git a/meta/recipes-devtools/vala/vala_0.56.15.bb b/meta/recipes-devtools/vala/vala_0.56.16.bb
-similarity index 92%
-rename from meta/recipes-devtools/vala/vala_0.56.15.bb
-rename to meta/recipes-devtools/vala/vala_0.56.16.bb
-index 915ddd8e4d..1c8e4fc673 100644
---- a/meta/recipes-devtools/vala/vala_0.56.15.bb
-+++ b/meta/recipes-devtools/vala/vala_0.56.16.bb
-@@ -18,11 +18,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
+diff --git a/meta/recipes-extended/wget/wget_1.21.4.bb b/meta/recipes-extended/wget/wget_1.24.5.bb
+similarity index 60%
+rename from meta/recipes-extended/wget/wget_1.21.4.bb
+rename to meta/recipes-extended/wget/wget_1.24.5.bb
+index 1d31b0116d..64e6ee80af 100644
+--- a/meta/recipes-extended/wget/wget_1.21.4.bb
++++ b/meta/recipes-extended/wget/wget_1.24.5.bb
+@@ -2,6 +2,6 @@ SRC_URI = "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
+            file://0002-improve-reproducibility.patch \
+           "
  
- SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
+-SRC_URI[sha256sum] = "81542f5cefb8faacc39bbbc6c82ded80e3e4a88505ae72ea51df27525bcde04c"
++SRC_URI[sha256sum] = "fa2dc35bab5184ecbc46a9ef83def2aaaa3f4c9f3c97d4bd19dcb07d4da637de"
  
--SRC_URI = " \
--	http://ftp.gnome.org/pub/GNOME/sources/${BPN}/${SHRT_VER}/${BP}.tar.xz \
--	file://0001-gtk4-Preserve-compatibility-with-4.14.patch \
--"
--SRC_URI[sha256sum] = "535b6452ed310fd5fb5c7dd6794b6213dac3b48e645e5bff3173741ec2cb3f2b"
-+SRC_URI = "http://ftp.gnome.org/pub/GNOME/sources/${BPN}/${SHRT_VER}/${BP}.tar.xz"
-+SRC_URI[sha256sum] = "05487b5600f5d2f09e66a753cccd8f39c1bff9f148aea1b7774d505b9c8bca9b"
- 
- inherit autotools pkgconfig upstream-version-is-even
- 
+ require wget.inc
 -- 
 2.34.1
 
