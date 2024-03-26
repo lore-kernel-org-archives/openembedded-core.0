@@ -1,118 +1,237 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FA08C6FD1F
-	for <webhook@archiver.kernel.org>; Tue, 26 Mar 2024 17:10:30 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web10.15804.1711473025523774170
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6A6FC6FD1F
+	for <webhook@archiver.kernel.org>; Tue, 26 Mar 2024 17:46:50 +0000 (UTC)
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+ by mx.groups.io with SMTP id smtpd.web11.16467.1711475204972691915
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Mar 2024 10:10:25 -0700
+ Tue, 26 Mar 2024 10:46:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DCm2bGfG;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4148c6af2d3so10533745e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Mar 2024 10:10:25 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=XPmqubZt;
+ spf=pass (domain: gmail.com, ip: 209.85.215.170, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-5d8b70b39efso4025007a12.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Mar 2024 10:46:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1711473024; x=1712077824; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=4Gwa0QS/j6YgScXqzbInQLD5DnNGBWB1+j6SOfviOOo=;
-        b=DCm2bGfGH2RpNQhMJwLGSMFf2jx3+KkhGVMr2+6Fr+r3k+cQsarb8hKv1yS/sfWDHQ
-         Is6HD4RTONd8zEHSaYVT7L7l5sDDENxDV5cRMd0fOCVHSh/rv7hfUMlDUqxVrNR22xE3
-         CYNG9bm+mKas9DlIU9ft1X7AOGuwrCtIyDGdw=
+        d=gmail.com; s=20230601; t=1711475204; x=1712080004; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=lZvQmFvaNBjx8CLnjsamdSROQGd3kfmYo7zJkzGH8N0=;
+        b=XPmqubZtkZRfjtEp3+1gAfJyUX9nHja/yplARqpIbbgFm5KUiGD/hx8frgNbv+yT9q
+         ZxLf5a/Ms8AFS2mzGY3wFesRqZ9w4oSxjqCmazzmFjxEkKOC+o/VZQDX/rVnNDsHKf+X
+         WXbOqAWlL3lEX7YFUP1N5XMgrg8ooDf2ErgtgFndR7UdMxPSwgy+bvr0AJrSdeBWm2G4
+         Km9K22M8VO4DL91c1q+ppLXgRvLCCHMvmwxG2LWCo8A6j0yF7ZWZPXX3pNzt0JEoG6Ar
+         x75jO6eqzUDOFt0kLwEIMEanBgW3cxo1AgwfGppitclek+UjsBOUBUaH6l+dFZ8JLAJC
+         WFLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711473024; x=1712077824;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4Gwa0QS/j6YgScXqzbInQLD5DnNGBWB1+j6SOfviOOo=;
-        b=G0cq4WhbDgxO6m9pWrcH55Hu/cZbCC6WncB2OXXvMT/nKCcNmo9Ssd0L8RzLls8087
-         NOfD+wYCu/bQ2iOHDpaLNAR5xFsGLFIeyrfo79rhcUqooTYg1lRKqfd9K911oBrr8wwO
-         J15EkH2wUsBGTPLynTOP15nZyIAGnpBnLVXEO54ILxWp/S8QNgf/t4wOnxAlvhM0Up7z
-         wTcxvzzh8zl0evVOs8SUOaq+UZJUKqp8TjgnY7w5NKhyW7PSIenKSpATdcbVY+eKwRVP
-         Tm2eI+hvtLs3Y3w7yqjGwLE8xG8jC2Yi6e22ihGDKNokYEIQ43Qs5Yj3ieMYwb3sCh9s
-         th+w==
-X-Forwarded-Encrypted: i=1; AJvYcCUWE6gR7PFfvuVLrguFP0XRs7bCAFtng8apmdCKUepT2CsCBHqYB8Axy6a8gtzbCJg1Ej+sLHonv/suayfZVTPYpq8QSaVlyITBXN6rjgsS9KqQkJbyJOfF
-X-Gm-Message-State: AOJu0Yyx+b97Yk9j6gM16QEKZl71VVkG/DXF4PT0ESVCOyXDj3ssVz4y
-	GbEEcNxoxkTvKno34M2LUx30MWQo0YBVXBpv0B3KBP4GBsrOFLEI3NgzZ8SrayA=
-X-Google-Smtp-Source: AGHT+IGyuznW7YAHz3+YV86Hs/KqlT297oOJVSycSAULKdHElm6QLL9FtNty6yJk7XiLJ7tsnJofHA==
-X-Received: by 2002:a05:600c:1906:b0:414:8065:2d25 with SMTP id j6-20020a05600c190600b0041480652d25mr121949wmq.38.1711473023850;
-        Tue, 26 Mar 2024 10:10:23 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:6ef5:888f:bb59:8578? ([2001:8b0:aba:5f3c:6ef5:888f:bb59:8578])
-        by smtp.gmail.com with ESMTPSA id q20-20020a05600c46d400b004132ae838absm12138967wmo.43.2024.03.26.10.10.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Mar 2024 10:10:23 -0700 (PDT)
-Message-ID: <f20b7698786cba79ea6b4eaa8cf5d2792b78d193.camel@linuxfoundation.org>
-Subject: Re: [OE-core][Patch v1 2/2] perf: tests: fix qa error, missing perl
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Max Krummenacher <max.oss.09@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: bruce.ashfield@gmail.com, Max Krummenacher <max.krummenacher@toradex.com>
-Date: Tue, 26 Mar 2024 17:10:22 +0000
-In-Reply-To: <20240325102055.1037135-2-max.oss.09@gmail.com>
-References: <20240325102055.1037135-1-max.oss.09@gmail.com>
-	 <20240325102055.1037135-2-max.oss.09@gmail.com>
-Autocrypt: addr=richard.purdie@linuxfoundation.org; prefer-encrypt=mutual; keydata=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
- YNvg==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.0-1 
+        d=1e100.net; s=20230601; t=1711475204; x=1712080004;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lZvQmFvaNBjx8CLnjsamdSROQGd3kfmYo7zJkzGH8N0=;
+        b=ekCq2zhj3uZtL9GIdny7vlA95ubHvWkgdOXApDh2gnoeBiOpcLY5PRFM7H9giMofCk
+         7dvX9yDHrAwWsoATQsVvTxJKXFZnekTJWA+2N9IMRPiLbLB4JWibFAwrhweYnTgNbbOU
+         Q6F27sdZ4J6ufDFSjEQL47TC1MDGQkgJjfnLDK2NqpggEHtEWcQM9nD2E6cuOmG9de1c
+         wW4MWzKrnR4il0cFbPUaes/GJoW8jyI6fBWW4tHMXvZPE6ss1yIGSviLaUWBDkMvXAvE
+         +VRWhUKkiAzRXVwQChQ0qzENY4/7LDxf3iyw/uxaQm1YXPhVg0uZoEG6SteGBlWEQ9XZ
+         2fUg==
+X-Gm-Message-State: AOJu0Yw0lG3HUzOJbvXccNsH0eSf46NTTwMAMrW3Awux5/qAlVt668DT
+	iUOsCAMHZpzywuN2+HzNL5MoD7xZFb3IziUe68tqcDRJj9Z0dHqCZ3eY0fTk9IElEEby68s7AcV
+	PpwuKsyjxIsUiJ1xvmjdPiUsel/c=
+X-Google-Smtp-Source: AGHT+IHY89Bm25Fn57Kch1cn836TTUgrkWVyFplbX4WqnuBLNWoeQoL6nToHAV1Rtc17c1tyhm7MuV4q+ZXb+d3A1aE=
+X-Received: by 2002:a17:90a:fb53:b0:29f:a0e0:3aef with SMTP id
+ iq19-20020a17090afb5300b0029fa0e03aefmr510600pjb.17.1711475204123; Tue, 26
+ Mar 2024 10:46:44 -0700 (PDT)
 MIME-Version: 1.0
+References: <20240325102055.1037135-1-max.oss.09@gmail.com>
+In-Reply-To: <20240325102055.1037135-1-max.oss.09@gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Tue, 26 Mar 2024 13:46:32 -0400
+Message-ID: <CADkTA4PYLUCck7Y0evO_597xOvwooe1vn5kSvJ1pqq+ew98FKg@mail.gmail.com>
+Subject: Re: [OE-core][Patch v1 1/2] perf: fix build with latest kernel
+To: max.oss.09@gmail.com
+Cc: openembedded-core@lists.openembedded.org, 
+	Max Krummenacher <max.krummenacher@toradex.com>
+Content-Type: multipart/alternative; boundary="000000000000957496061493dfef"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 Mar 2024 17:10:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197536
+ <openembedded-core@lists.openembedded.org>; Tue, 26 Mar 2024 17:46:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197537
 
-On Mon, 2024-03-25 at 11:20 +0100, Max Krummenacher wrote:
+--000000000000957496061493dfef
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Mar 25, 2024 at 6:21=E2=80=AFAM <max.oss.09@gmail.com> wrote:
+
 > From: Max Krummenacher <max.krummenacher@toradex.com>
->=20
-> Kernel commit 61d348f1e96f ("perf testsuite: Add common output checking
-> helpers") added with 6.9-rc1 added addional testscripts written in perl.
->=20
+>
+> Kernel commit 9eea8fafe33e ("libbpf: fix __arg_ctx type enforcement for
+> perf_event programs") added with 6.9-rc1
+> tools/include/uapi/asm/bpf_perf_event.h
+> which for arc, arm64, loongarch, riscv and s390 includes headers from
+> the arch/${ARCH}/... directories.
+> Thus the build in OE fails as those headers are not present.
+>
+> Fix this by additioanly copying all files in arch/${ARCH}/include/.
+>
 > Fixes:
-> > ERROR: perf-1.0-r0 do_package_qa: QA Issue: /usr/libexec/perf-core/test=
-s/shell/common/check_no_patterns_found.pl contained in package perf-tests r=
-equires /usr/bin/perl, but no providers found in RDEPENDS:perf-tests? [file=
--rdeps]
->=20
+> ERROR: perf-1.0-r0 do_compile: oe_runmake failed
+> | In file included from
+> work/verdin_imx8mm-tdx-linux/perf/1.0/perf-1.0/tools/include/uapi/linux/b=
+pf_perf_event.h:11,
+> |                  from libbpf.c:36:
+> |
+> work/verdin_imx8mm-tdx-linux/perf/1.0/perf-1.0/tools/include/uapi/asm/bpf=
+_perf_event.h:2:10:
+> fatal error: ../../arch/arm64/include/uapi/asm/bpf_perf_event.h: No such
+> file or directory
+> |     2 | #include "../../arch/arm64/include/uapi/asm/bpf_perf_event.h"
+> |       |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>
 > Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
 > ---
-> =C2=A0meta/recipes-kernel/perf/perf.bb | 2 +-
-> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/=
-perf.bb
-> index 6408c65462..4b6834e614 100644
+>  meta/recipes-kernel/perf/perf.bb | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/
+> perf.bb
+> index 4f26813de0..6408c65462 100644
 > --- a/meta/recipes-kernel/perf/perf.bb
 > +++ b/meta/recipes-kernel/perf/perf.bb
-> @@ -383,7 +383,7 @@ RDEPENDS:${PN} +=3D "elfutils bash"
-> =C2=A0RDEPENDS:${PN}-archive =3D+ "bash"
-> =C2=A0RDEPENDS:${PN}-python =3D+ "bash python3 python3-modules ${@bb.util=
-s.contains('PACKAGECONFIG', 'audit', 'audit-python', '', d)}"
-> =C2=A0RDEPENDS:${PN}-perl =3D+ "bash perl perl-modules"
-> -RDEPENDS:${PN}-tests =3D+ "python3 bash"
-> +RDEPENDS:${PN}-tests =3D+ "perl python3 bash"
-> =C2=A0
-> =C2=A0RSUGGESTS:${PN} +=3D "${PN}-archive ${PN}-tests \
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ${@bb.utils.contains('PACK=
-AGECONFIG', 'perl', '${PN}-perl', '', d)} \
+> @@ -139,6 +139,7 @@ PERF_SRC ?=3D "Makefile \
+>               tools/scripts \
+>               scripts/ \
+>               arch/arm64/tools \
+> +             arch/${ARCH}/include \
+>
 
-Does perf avoid perl dependencies currently? Would it make more sense
-to put that script in ${PN}-perl?
+We've always tried to stay within the tools/ source umbrella since we reall=
+y
+don't want to copy any more of the kernel than we have to, since otherwise,
+we might as well go back to simplifying things and just building against th=
+e
+entire kernel source tree.
 
-Cheers,
+I'd like to see if there's a way that we could limit this to the uapi (and
+hence
+use our uapi headers), and avoid needing to make the copy. If we need a
+copy, then being as specific as possible would be the goal.
 
-Richard
+I'm not moving linux-yocto-dev to the latest -dev until next week, but I
+can
+look into this more then.
+
+Bruce
 
 
+
+>               arch/${ARCH}/Makefile \
+>  "
+>
+> --
+> 2.42.0
+>
+>
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
+--000000000000957496061493dfef
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
+r" class=3D"gmail_attr">On Mon, Mar 25, 2024 at 6:21=E2=80=AFAM &lt;<a href=
+=3D"mailto:max.oss.09@gmail.com">max.oss.09@gmail.com</a>&gt; wrote:<br></d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
+er-left:1px solid rgb(204,204,204);padding-left:1ex">From: Max Krummenacher=
+ &lt;<a href=3D"mailto:max.krummenacher@toradex.com" target=3D"_blank">max.=
+krummenacher@toradex.com</a>&gt;<br>
+<br>
+Kernel commit 9eea8fafe33e (&quot;libbpf: fix __arg_ctx type enforcement fo=
+r<br>
+perf_event programs&quot;) added with 6.9-rc1 tools/include/uapi/asm/bpf_pe=
+rf_event.h<br>
+which for arc, arm64, loongarch, riscv and s390 includes headers from<br>
+the arch/${ARCH}/... directories.<br>
+Thus the build in OE fails as those headers are not present.<br>
+<br>
+Fix this by additioanly copying all files in arch/${ARCH}/include/.<br>
+<br>
+Fixes:<br>
+ERROR: perf-1.0-r0 do_compile: oe_runmake failed<br>
+| In file included from work/verdin_imx8mm-tdx-linux/perf/1.0/perf-1.0/tool=
+s/include/uapi/linux/bpf_perf_event.h:11,<br>
+|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 from libbpf=
+.c:36:<br>
+| work/verdin_imx8mm-tdx-linux/perf/1.0/perf-1.0/tools/include/uapi/asm/bpf=
+_perf_event.h:2:10: fatal error: ../../arch/arm64/include/uapi/asm/bpf_perf=
+_event.h: No such file or directory<br>
+|=C2=A0 =C2=A0 =C2=A02 | #include &quot;../../arch/arm64/include/uapi/asm/b=
+pf_perf_event.h&quot;<br>
+|=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<br>
+<br>
+Signed-off-by: Max Krummenacher &lt;<a href=3D"mailto:max.krummenacher@tora=
+dex.com" target=3D"_blank">max.krummenacher@toradex.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-kernel/perf/<a href=3D"http://perf.bb" rel=3D"noreferrer=
+" target=3D"_blank">perf.bb</a> | 1 +<br>
+=C2=A01 file changed, 1 insertion(+)<br>
+<br>
+diff --git a/meta/recipes-kernel/perf/<a href=3D"http://perf.bb" rel=3D"nor=
+eferrer" target=3D"_blank">perf.bb</a> b/meta/recipes-kernel/perf/<a href=
+=3D"http://perf.bb" rel=3D"noreferrer" target=3D"_blank">perf.bb</a><br>
+index 4f26813de0..6408c65462 100644<br>
+--- a/meta/recipes-kernel/perf/<a href=3D"http://perf.bb" rel=3D"noreferrer=
+" target=3D"_blank">perf.bb</a><br>
++++ b/meta/recipes-kernel/perf/<a href=3D"http://perf.bb" rel=3D"noreferrer=
+" target=3D"_blank">perf.bb</a><br>
+@@ -139,6 +139,7 @@ PERF_SRC ?=3D &quot;Makefile \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tools/scripts \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 scripts/ \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 arch/arm64/tools \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0arch/${ARCH}/include \<br>=
+</blockquote><div><br></div><div><div class=3D"gmail_default" style=3D"font=
+-size:small">We&#39;ve always tried to stay within the tools/ source umbrel=
+la since we really</div><div class=3D"gmail_default" style=3D"font-size:sma=
+ll">don&#39;t want to copy any more of the kernel than we have to, since ot=
+herwise,=C2=A0</div><div class=3D"gmail_default" style=3D"font-size:small">=
+we might as well go back to simplifying things and just building against th=
+e</div><div class=3D"gmail_default" style=3D"font-size:small">entire kernel=
+ source tree.</div><div class=3D"gmail_default" style=3D"font-size:small"><=
+br></div><div class=3D"gmail_default" style=3D"font-size:small">I&#39;d lik=
+e to see if there&#39;s a way that we could limit this to the uapi (and hen=
+ce</div><div class=3D"gmail_default" style=3D"font-size:small">use our uapi=
+ headers), and avoid needing to make the copy. If we need a=C2=A0</div><div=
+ class=3D"gmail_default" style=3D"font-size:small">copy, then being as spec=
+ific as possible would be the goal.</div><div class=3D"gmail_default" style=
+=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"font-s=
+ize:small">I&#39;m not moving linux-yocto-dev to the latest -dev until next=
+ week, but I=C2=A0 can</div><div class=3D"gmail_default" style=3D"font-size=
+:small">look into this more then.</div><div class=3D"gmail_default" style=
+=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"font-s=
+ize:small">Bruce</div><br></div><div>=C2=A0</div><blockquote class=3D"gmail=
+_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
+,204);padding-left:1ex">
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 arch/${ARCH}/Makefile \<br=
+>
+=C2=A0&quot;<br>
+<br>
+-- <br>
+2.42.0<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
+gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature">- =
+Thou shalt not follow the NULL pointer, for chaos and madness await thee at=
+ its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br><b=
+r></div></div>
+
+--000000000000957496061493dfef--
 
