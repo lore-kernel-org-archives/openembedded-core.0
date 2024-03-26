@@ -2,161 +2,156 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27B6FC6FD1F
-	for <webhook@archiver.kernel.org>; Tue, 26 Mar 2024 08:44:28 +0000 (UTC)
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
- by mx.groups.io with SMTP id smtpd.web10.3888.1711442665297641870
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 382BDC54E58
+	for <webhook@archiver.kernel.org>; Tue, 26 Mar 2024 08:50:08 +0000 (UTC)
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+ by mx.groups.io with SMTP id smtpd.web10.3970.1711443001429661981
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Mar 2024 01:44:25 -0700
+ Tue, 26 Mar 2024 01:50:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=kTueUmqq;
- spf=pass (domain: gmail.com, ip: 209.85.208.175, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2d094bc2244so69238411fa.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Mar 2024 01:44:25 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=fwnbeFlJ;
+ spf=pass (domain: gmail.com, ip: 209.85.208.174, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2d48f03a8bbso56375971fa.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Mar 2024 01:50:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711442663; x=1712047463; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1711442999; x=1712047799; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=bw/f2Q2IzcomZ+fKGak9kNcgP7u07x0l1XDN+AYhgMg=;
-        b=kTueUmqqBSktVLTdiP4vGEHAXuWM1EC8N98WOjOGNxdyMjX2R6CkcK/5vdIbhtCbkU
-         MncgB4frwb4vzQSEn9LFWNH1kEsL76itVYVLYYH7n2ApsxYnE8apjCJxx7YhY0UCzK9P
-         HhLAud150epj9CJJV/fpBq5Z0WZ6gcp4r3i3FIq/TZ+O8HJ0DFl+P3h5SFuCrRutYbS5
-         OOlSL3guMI6JJI4K2iD8vYRIpGBwWli4X6FEx/SArmp8dbStVY8FGwrhED+9FoqgqfFa
-         fmjEGWif3DOKn5kNgA87877B1uGXUzPYFEU/uP4q9NzbKfkN5Aa5GOP9q1fV+sBZyPnN
-         Vt2Q==
+        bh=QXVYUhxvNxUIEACHD2+O13qT709/+v6jC+56YduyGDk=;
+        b=fwnbeFlJxJxppaRJg+enxCPpfbF6FaJB0tRXUyJzaA+8rq5OL7mGf6OYyNXg/YncOS
+         Oe8xkjVSudQpvM8jR14/KUTV6beziSY9O2tYgqKPn4krEnv6dAdiQxHeKwfDar0GCuID
+         l2/TPZylZIxVHA8B8U255CIprxXK90d/qI03r2xFrbteZCwZny35Dv9x1eWZeQHxZU0+
+         h+wBJfpkxirgmNvAY3mRc0FK3VgqqS+W5S+aZxbJX9RWhmCAhFEDzpJ4bnTS3Ddm8pq6
+         kKhatzNk3Ii5+U7n1Qc13a3x9dfJ52sAMsdyJKCJpO6KMiaKDbqouJgeidSn9HMLySIB
+         RNgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711442663; x=1712047463;
+        d=1e100.net; s=20230601; t=1711442999; x=1712047799;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=bw/f2Q2IzcomZ+fKGak9kNcgP7u07x0l1XDN+AYhgMg=;
-        b=kiAoawlhuHy2zuBdUdDU+9RoXOjBbrVJZ7IlJ/xu4cBOrzbvCZQOozcrq3fcImFrIh
-         whqR811EovhOPy/iwQJ9uMWlRdZS3luggQ4vZbDMOCq7XvrORSkGtoT1iFRHiNGJzr+I
-         YIRnv74HwKQmvlW/Q5D3+vyUXt8RbauW4Yyt5wOtJyFpogA1HreJV8LzJKWaCVFif98+
-         7o9CYcvUUQUyygs6roM5JYA6sSix/wHNWg2NBrX6N0DfcftfER6N1cj6UuGuMmzEkyyh
-         YI3raHKnBtZloVNF1+zs0y2R3U4wE8bHlLXvINn1Llmclay+hlEUXHB0MImGEI/4yLEY
-         nwVA==
-X-Gm-Message-State: AOJu0YyxKC5O1TpS9j7f16BdS8NMRx13PHo1Y27oMwrBTyaQ9hV/s5l5
-	f+U9PS7GBoZeKVrf8/4r2ujfForcAS8WwwQ9aU5zf7IQjPnpoIfW7E9EAJ59fcTYjDYr3rITvDR
-	CgCI6+Fc0R5q3P4fVz3NsiXQNvhY=
-X-Google-Smtp-Source: AGHT+IF/Qx3acw1U454daK0LXS6RPZz5qrolCPVaW8nJ1IyxJRoYF1lCwHUDv7s3jE7vt3ywZUePy62Ptic0x+6yiQU=
-X-Received: by 2002:a2e:a60c:0:b0:2d4:ad34:85a7 with SMTP id
- v12-20020a2ea60c000000b002d4ad3485a7mr5695720ljp.29.1711442663097; Tue, 26
- Mar 2024 01:44:23 -0700 (PDT)
+        bh=QXVYUhxvNxUIEACHD2+O13qT709/+v6jC+56YduyGDk=;
+        b=F0fuhZayrsqu9G6nzl1XJG5kXCc90IH4Obz8EvQyfF5OBX+ZiwSN7OwtqBor3D/dck
+         IHShXTusKrYYwdk5SViBF8rwWhwTMBatRMT2cqluKYSyRgoEUCMnuDL6x8xtMLMaz8X7
+         VAg5KhR7Gh8QJsrf/YMtuckkaVjqxZ3sxJI/1yibSEgVZPAvbrSEXnCMH6kLdSs+tFyc
+         CfpReDVg0YvqPdBWTxxd24N3dFyB3ig5JOv0ZYLShJdTl1iQmvWwrUqpiWPfpKFd/pH7
+         E4tnvYutu4nYkFI8i0xfL+Tu+vKA+ibShdMk5WFKNXnEOjDz7jwRZhoWBN6LWURidaXS
+         Fozw==
+X-Gm-Message-State: AOJu0YwtzTPfL/Cwi3WUckkJPBO48Z+VImECe5iaAPNRJgxl+LIHGZ5s
+	TumGOZrvZW56ZvmfJ4yPNSUDvI04WidA4neRAYL+WtWaQICVyVmBf5fQG+QFd8LXMW6SiQNKKUy
+	S9sIrZtTCoksbkmsSVHRf26E6UL0Dv8HX
+X-Google-Smtp-Source: AGHT+IE+EpyD4opRw4QMnflhI+gTzj3JbrOk7ALC5avglGSAUg2pyhtXWb5zAMm97qPtiJ1xM4SdCYDsMQhz7T71XBo=
+X-Received: by 2002:a2e:ba14:0:b0:2d4:8c28:4ab7 with SMTP id
+ p20-20020a2eba14000000b002d48c284ab7mr269229lja.22.1711442999181; Tue, 26 Mar
+ 2024 01:49:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <1711413292-3025-1-git-send-email-wangmy@fujitsu.com> <1711413292-3025-7-git-send-email-wangmy@fujitsu.com>
-In-Reply-To: <1711413292-3025-7-git-send-email-wangmy@fujitsu.com>
+References: <1711413292-3025-1-git-send-email-wangmy@fujitsu.com> <1711413292-3025-17-git-send-email-wangmy@fujitsu.com>
+In-Reply-To: <1711413292-3025-17-git-send-email-wangmy@fujitsu.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 26 Mar 2024 09:44:11 +0100
-Message-ID: <CANNYZj9oABHE=oWB0J_koiJ4zy8V8DhumE_TH_Qw8qs-dP60qw@mail.gmail.com>
-Subject: Re: [OE-Core] [PATCH 07/34] glslang: upgrade 1.3.275.0 -> 1.3.280.0
+Date: Tue, 26 Mar 2024 09:49:48 +0100
+Message-ID: <CANNYZj873frnjZPZgapj8t0OgX7uDCjP+BpFjDRdT2Gs+XjVdw@mail.gmail.com>
+Subject: Re: [OE-Core] [PATCH 17/34] mesa: upgrade 24.0.2 -> 24.0.3
 To: wangmy@fujitsu.com
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 Mar 2024 08:44:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197529
+ <openembedded-core@lists.openembedded.org>; Tue, 26 Mar 2024 08:50:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197530
 
-This and the spirv recipes should be updated in lockstep with vulkan
-recipes to keep them all at the same version. Please note that this is
-written in the comments in all those recipes.
+Don't forget the mesa-gl recipe in those updates.
 
 Alex
 
-
-On Tue, 26 Mar 2024 at 01:35, wangmy via lists.openembedded.org
+On Tue, 26 Mar 2024 at 01:37, wangmy via lists.openembedded.org
 <wangmy=fujitsu.com@lists.openembedded.org> wrote:
 >
 > From: Wang Mingyu <wangmy@fujitsu.com>
 >
-> 0001-generate-glslang-pkg-config.patch
-> refreshed for 1.3.280.0.
->
-> Changelog:
-> ==========
-> * Add a new --abosute-path command-line option to output absolute paths in error messages
-> * Support GL_EXT_control_flow_attributes2
-> * Support GL_ARB_shading_language_include
-> * Fix HLSL built-in passthrough via inout
-> * Enable -Wimplicit-fallthrough and fix warnings
-> * Fix -Wmissing_field_initializer warnings
-> * Document supported dependencies in known_good.json
-> * Clear spirv vector before use
-> * Emit debug info for accelerationStructure and rayQuery variables
-> * Support NV_shader_atomic_fp16_vector
-> * Support GL_EXT_expect_assume_support
-> * Allow external control of whether glslang will be tested or installed
-> * Improve debug source and line info
-> * Support GL_KHR_shader_subgroup_rotate
-> * Add SPIRV-Tools-opt dependency if ENABLE_OPT
-> * Support EXT_shader_quad_control
-> * Add OpAssumeTrueKHR and OpExpectKHR
-> * Support GL_EXT_maximal_reconvergence
-> * Remove generation of deprecated Target.cmake files
-> * Fix array size of gl_SampleMask and gl_SampleMaskIn
-> * Support GL_ARB_texture_multisample_extension
-> * Emit DebugTypePointer when non-semantic debug info is enabled
+> 0001-Revert-meson-do-not-pull-in-clc-for-clover.patch
+> refreshed for 24.0.3
 >
 > Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 > ---
->  .../glslang/0001-generate-glslang-pkg-config.patch     | 10 +++++-----
->  .../{glslang_1.3.275.0.bb => glslang_1.3.280.0.bb}     |  2 +-
->  2 files changed, 6 insertions(+), 6 deletions(-)
->  rename meta/recipes-graphics/glslang/{glslang_1.3.275.0.bb => glslang_1.3.280.0.bb} (96%)
+>  ...Revert-meson-do-not-pull-in-clc-for-clover.patch | 13 +++++--------
+>  meta/recipes-graphics/mesa/mesa.inc                 |  2 +-
+>  .../mesa/{mesa_24.0.2.bb => mesa_24.0.3.bb}         |  0
+>  3 files changed, 6 insertions(+), 9 deletions(-)
+>  rename meta/recipes-graphics/mesa/{mesa_24.0.2.bb => mesa_24.0.3.bb} (100%)
 >
-> diff --git a/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch b/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch
-> index 316a57fa4a..e6bb6ec8e3 100644
-> --- a/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch
-> +++ b/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch
+> diff --git a/meta/recipes-graphics/mesa/files/0001-Revert-meson-do-not-pull-in-clc-for-clover.patch b/meta/recipes-graphics/mesa/files/0001-Revert-meson-do-not-pull-in-clc-for-clover.patch
+> index f6d95c8982..1711e22585 100644
+> --- a/meta/recipes-graphics/mesa/files/0001-Revert-meson-do-not-pull-in-clc-for-clover.patch
+> +++ b/meta/recipes-graphics/mesa/files/0001-Revert-meson-do-not-pull-in-clc-for-clover.patch
 > @@ -1,4 +1,4 @@
-> -From 4cede5edcff96134baf35953d58595c4aa5f1fc5 Mon Sep 17 00:00:00 2001
-> +From fc33f1cf032a15c07044ef932bc991c346d62d62 Mon Sep 17 00:00:00 2001
->  From: Jose Quaresma <quaresma.jose@gmail.com>
->  Date: Sun, 7 Feb 2021 01:30:39 +0000
->  Subject: [PATCH] generate glslang pkg-config
-> @@ -15,12 +15,12 @@ Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
->   create mode 100644 glslang/glslang.pc.cmake.in
+> -From fe4600de549549fbb3033fc1b37904ba6b3fe2af Mon Sep 17 00:00:00 2001
+> +From 051f41beda540f0ae77b341db01a6de83c9e938a Mon Sep 17 00:00:00 2001
+>  From: Markus Volk <f_l_k@t-online.de>
+>  Date: Fri, 8 Mar 2024 15:53:11 +0100
+>  Subject: [PATCH] Revert "meson: do not pull in clc for clover"
+> @@ -18,10 +18,10 @@ Signed-off-by: Markus Volk <f_l_k@t-online.de>
+>   2 files changed, 3 insertions(+), 2 deletions(-)
 >
->  diff --git a/glslang/CMakeLists.txt b/glslang/CMakeLists.txt
-> -index 37eecaad..6974935c 100644
-> +index e4690f09..8e660bc5 100644
->  --- a/glslang/CMakeLists.txt
->  +++ b/glslang/CMakeLists.txt
-> -@@ -251,6 +251,8 @@ if(PROJECT_IS_TOP_LEVEL)
-> -         ")
-> -         install(FILES "${CMAKE_CURRENT_BINARY_DIR}/glslangTargets.cmake" DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake)
-> +@@ -233,6 +233,8 @@ if(GLSLANG_ENABLE_INSTALL)
-> +         install(TARGETS MachineIndependent EXPORT glslang-targets)
-> +         install(TARGETS GenericCodeGen EXPORT glslang-targets)
->       endif()
->  +    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/glslang.pc.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/pkgconfig/glslang.pc @ONLY)
->  +    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/pkgconfig/glslang.pc DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
-> diff --git a/meta/recipes-graphics/glslang/glslang_1.3.275.0.bb b/meta/recipes-graphics/glslang/glslang_1.3.280.0.bb
-> similarity index 96%
-> rename from meta/recipes-graphics/glslang/glslang_1.3.275.0.bb
-> rename to meta/recipes-graphics/glslang/glslang_1.3.280.0.bb
-> index 2fd1e72a26..637082c719 100644
-> --- a/meta/recipes-graphics/glslang/glslang_1.3.275.0.bb
-> +++ b/meta/recipes-graphics/glslang/glslang_1.3.280.0.bb
-> @@ -8,7 +8,7 @@ HOMEPAGE = "https://www.khronos.org/opengles/sdk/tools/Reference-Compiler"
->  LICENSE = "BSD-3-Clause & BSD-2-Clause & MIT & Apache-2.0 & GPL-3-with-bison-exception"
->  LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=2a2b5acd7bc4844964cfda45fe807dc3"
+>  diff --git a/meson.build b/meson.build
+> -index 25e92ea5f95..3956e19c08f 100644
+> +index 2db6185..741b5d1 100644
+>  --- a/meson.build
+>  +++ b/meson.build
+> -@@ -818,6 +818,7 @@ if _opencl != 'disabled'
+> +@@ -813,6 +813,7 @@ if _opencl != 'disabled'
+>       error('The Clover OpenCL state tracker requires rtti')
+>     endif
 >
-> -SRCREV = "a91631b260cba3f22858d6c6827511e636c2458a"
-> +SRCREV = "ee2f5d09eaf8f4e8d0d598bd2172fce290d4ca60"
->  SRC_URI = "git://github.com/KhronosGroup/glslang.git;protocol=https;branch=main \
->             file://0001-generate-glslang-pkg-config.patch \
->             "
+> @@ -29,7 +29,7 @@ index 25e92ea5f95..3956e19c08f 100644
+>     with_gallium_opencl = true
+>     with_opencl_icd = _opencl == 'icd'
+>   else
+> -@@ -842,7 +843,7 @@ if with_gallium_rusticl
+> +@@ -837,7 +838,7 @@ if with_gallium_rusticl
+>   endif
+>
+>   dep_clc = null_dep
+> @@ -39,7 +39,7 @@ index 25e92ea5f95..3956e19c08f 100644
+>   endif
+>
+>  diff --git a/src/compiler/meson.build b/src/compiler/meson.build
+> -index 8d73544c6d8..1dae56d1b2b 100644
+> +index 8d73544..1dae56d 100644
+>  --- a/src/compiler/meson.build
+>  +++ b/src/compiler/meson.build
+>  @@ -79,7 +79,7 @@ subdir('nir')
+> @@ -51,6 +51,3 @@ index 8d73544c6d8..1dae56d1b2b 100644
+>     subdir('clc')
+>   endif
+>   if with_gallium
+> ---
+> -2.44.0
+> -
+> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+> index a8088e6fb6..b08ec873a0 100644
+> --- a/meta/recipes-graphics/mesa/mesa.inc
+> +++ b/meta/recipes-graphics/mesa/mesa.inc
+> @@ -23,7 +23,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+>             file://0001-Revert-meson-do-not-pull-in-clc-for-clover.patch \
+>  "
+>
+> -SRC_URI[sha256sum] = "94e28a8edad06d8ed2b83eb53f253b9eb5aa62c3080f939702e1b3039b56c9e8"
+> +SRC_URI[sha256sum] = "77aec9a2a37b7d3596ea1640b3cc53d0b5d9b3b52abed89de07e3717e91bfdbe"
+>
+>  UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+>
+> diff --git a/meta/recipes-graphics/mesa/mesa_24.0.2.bb b/meta/recipes-graphics/mesa/mesa_24.0.3.bb
+> similarity index 100%
+> rename from meta/recipes-graphics/mesa/mesa_24.0.2.bb
+> rename to meta/recipes-graphics/mesa/mesa_24.0.3.bb
 > --
 > 2.34.1
 >
 >
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#197496): https://lists.openembedded.org/g/openembedded-core/message/197496
-> Mute This Topic: https://lists.openembedded.org/mt/105150498/1686489
+> View/Reply Online (#197506): https://lists.openembedded.org/g/openembedded-core/message/197506
+> Mute This Topic: https://lists.openembedded.org/mt/105150531/1686489
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
