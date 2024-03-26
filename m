@@ -1,86 +1,57 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <denis@denix.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B56F5C54E67
-	for <webhook@archiver.kernel.org>; Tue, 26 Mar 2024 18:10:50 +0000 (UTC)
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
- by mx.groups.io with SMTP id smtpd.web10.17583.1711476643056576848
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A551C6FD1F
+	for <webhook@archiver.kernel.org>; Tue, 26 Mar 2024 19:16:31 +0000 (UTC)
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+ by mx.groups.io with SMTP id smtpd.web10.19439.1711480588065953440
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Mar 2024 11:10:43 -0700
+ Tue, 26 Mar 2024 12:16:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=DXzWO4u5;
- spf=pass (domain: gmail.com, ip: 209.85.208.177, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2d48f03a8bbso675371fa.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Mar 2024 11:10:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711476641; x=1712081441; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/7Ctu5XnmU/g1KSo6cFoHTbgqPyz2XYMfp3iQh4kwfg=;
-        b=DXzWO4u5M3+3b0j3rrkQsKPQQOjW37RE64yfh1KbER4Ca1u7ZGesgpHQ4IfpltBnot
-         TRmt0iRyzTFPmnyTDBwKXjAyGcz8WZBFRFEK1hDdfNKZyby82Bra1lsPyt6A3agTkHZr
-         mBSb25jbtujc3XR/jzI2o4MybvODj9bCD1m4wkksIORVAHC5fej3ghZ54OwBe++G9/ZT
-         pQYKAVcporBVvpwRT1Q6zjk07HXkwlH51ygaYyNSr4nPP4p2LwYphtmUjn5wjzpvxsLj
-         dv8MLoFJ9t6o31NBeo0yr/8v3VSYViv1G+vpKVV0zWyCbZMzuFLQDi3kVpNEiPdjV3i8
-         6Bag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711476641; x=1712081441;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/7Ctu5XnmU/g1KSo6cFoHTbgqPyz2XYMfp3iQh4kwfg=;
-        b=ndeMh7mKpCX3dqOWGcbbefRRxJhqFugS0qKjSHeTY5GvuzUluYTRoOEu6lclI5I2+y
-         WrQEfc4blit4fVo+X5C3xzWoMz7BIbXDTT426TlmbVxHPdVxO6lmBJ8CjGDW4vGjgj01
-         aHPuaF9jTFAaZFlTCdyzWuzhVc2X2IscOPvKO248KdoZoczzP9XGjaCkkXLWvRmnbnUT
-         Xc7o6jtvwNRT0S20b9qoJJVMdKZsj2XOTpbUdMifgARnY+7tXAEBNjHzGw5SRcj07iYZ
-         biAiJe0Uc2B+A/s0UXyyUPBNevJDUzB8i0Gjfwkx8fycWZvXF1S3pwxfRU5UZZfBxeHS
-         59Hw==
-X-Forwarded-Encrypted: i=1; AJvYcCWL4XY42HBJNKwrVUs58wgiovi2y49QCYPv3UcjKxGU0BmCvR+WjnPFfENxBL+iUtsz3ivWzhlW290qOYIb4W8RcD/hgoVqArJ5l3MOI0eenRgFb91GkxNv
-X-Gm-Message-State: AOJu0YzUUBMVctyuQxPaK8NoLW6jJxnUbJ8qnUqU6dTvaMOQ3EEmG4VY
-	Yep18v8h2IQiA2EhkHypCaolHQ7iB/8MDCZxw6lje9uNChlQrtqE9k9skkZk0SrkKccaEas8eSe
-	qGhqwY8wnHHHSuL0GpymjrtuT+vo=
-X-Google-Smtp-Source: AGHT+IECPSKdklKhgnB1ZLlyUPC/CHbkTKlQ4ug8tI0aGLb43jCjbL65OVPwRjygamBVMxoScE5QY4ZsonLDSC9Vhq8=
-X-Received: by 2002:a2e:97d9:0:b0:2d6:ab71:3a8d with SMTP id
- m25-20020a2e97d9000000b002d6ab713a8dmr753642ljj.15.1711476640977; Tue, 26 Mar
- 2024 11:10:40 -0700 (PDT)
+ dkim=none (message not signed); spf=pass (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 2109E40C2A;
+	Tue, 26 Mar 2024 19:16:27 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id yHZuKx6EFPtW; Tue, 26 Mar 2024 19:16:27 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-87-159.washdc.fios.verizon.net [100.15.87.159])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 6F17A40C06;
+	Tue, 26 Mar 2024 19:16:22 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 82609163EF1; Tue, 26 Mar 2024 15:16:21 -0400 (EDT)
+Date: Tue, 26 Mar 2024 15:16:21 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: "openembedded-devel@lists.openembedded.org" <openembedded-devel@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>,
+	Yocto Project <yocto@lists.yoctoproject.org>,
+	openembedded-members@lists.openembedded.org
+Subject: OpenEmbedded Happy Hour March 27 5pm/1700 UTC
+Message-ID: <20240326191621.GP6072@denix.org>
 MIME-Version: 1.0
-References: <20240320104300.757486-1-f_l_k@t-online.de> <70D06732-17CB-4BF3-A35C-96C684E011E2@arm.com>
- <V29NAS.S84U42Y5BCDK@t-online.de> <6796AEC0-9AA0-4672-AF2C-ACEECEFFEBE6@arm.com>
-In-Reply-To: <6796AEC0-9AA0-4672-AF2C-ACEECEFFEBE6@arm.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 26 Mar 2024 19:10:29 +0100
-Message-ID: <CANNYZj8NFhefrNzadohoDsQ2AmRm9K-rKc+Ouz7S40jfpWp6kA@mail.gmail.com>
-Subject: Re: [oe-core][RFC][PATCHv2] glib-2.0: update 2.78.4 -> 2.80.0
-To: Ross Burton <ross.burton@arm.com>
-Cc: "f_l_k@t-online.de" <f_l_k@t-online.de>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.5.20 (2009-06-14)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 Mar 2024 18:10:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197539
+ <openembedded-core@lists.openembedded.org>; Tue, 26 Mar 2024 19:16:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197540
 
-On Wed, 20 Mar 2024 at 12:43, Ross Burton <ross.burton@arm.com> wrote:
-> > and adding that depend (or using inherit gobject-introspection) caused =
-circular dependency
->
-> Indeed.  My branch has a glib-initial to break that cycle, but it wasn=E2=
-=80=99t quite working right (and upstream were still changing things).
+All,
 
-I just took a look at this and ugh. Upstream should just merge g-i and
-glib into one source tree, and then figure out the correct build
-sequence.
+A friendly reminder - our regular monthly OpenEmbedded Happy Hour 
+is coming up tomorrow, on March 27 for Europe/Americas timezones 
+@ 1700/5pm UTC (1pm ET/10am PT)
 
-I think we can avoid glib-initial by building and installing glib as
-usual (with introspection turned off), then building g-i, then
-building/installing only the introspection data from glib. This needs
-confirmation that the introspection flag only affects those parts, and
-not libraries themselves, and perhaps a new build flag
-'introspection-only' or similar to avoid unneeded library builds.
+https://www.openembedded.org/wiki/Calendar
+https://www.openembedded.org/wiki/Happy_Hours
+https://www.timeanddate.com/worldclock/fixedtime.html?msg=OpenEmbedded+Happy+Hour+March+27&iso=20240327T17
 
-Alex
+Best regards,
+Denys Dmytriyenko
+OpenEmbedded Board of Directors
 
