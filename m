@@ -1,705 +1,191 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <uvv.mail@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA907C54E58
-	for <webhook@archiver.kernel.org>; Tue, 26 Mar 2024 07:39:57 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web10.3128.1711438795574633183
- for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Mar 2024 00:39:55 -0700
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBBB0C54E67
+	for <webhook@archiver.kernel.org>; Tue, 26 Mar 2024 07:47:17 +0000 (UTC)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web11.3220.1711439235612218775
+ for <Openembedded-core@lists.openembedded.org>;
+ Tue, 26 Mar 2024 00:47:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=c51TGfl6;
- spf=pass (domain: mvista.com, ip: 209.85.214.175, mailfrom: vanusuri@mvista.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1e0f2798cd8so2256785ad.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Mar 2024 00:39:55 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=eLg4ItDU;
+ spf=pass (domain: gmail.com, ip: 209.85.221.50, mailfrom: uvv.mail@gmail.com)
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-33d90dfe73cso2787518f8f.0
+        for <Openembedded-core@lists.openembedded.org>; Tue, 26 Mar 2024 00:47:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1711438794; x=1712043594; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rNqRWpv7NIs8Pf/yLnpM7Mssm/nmett4bkMhlADBjnE=;
-        b=c51TGfl6OfAzg41Viy4XntaxO6tCiPrOr1iHPsXVZ7rrtAgYW48XfVTCuaVxd8ijKU
-         bAkpjuPGPjfi0SfEAcf7StdQNf+u0G4i2xzVh+vBIEx613BMelmUR0G4Ag0BVXfoq4Dw
-         owznsxIu5xFh0VnrWu5LugznmXG+7y1I5ja4o=
+        d=gmail.com; s=20230601; t=1711439233; x=1712044033; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vBoZ5x/jCnvDoDVTEPd2q7Ck3KKM64w7yxuIV9BakRk=;
+        b=eLg4ItDUccK/vnU5FJkMVkkG+HbEqt2XHxddDLxDhgxDlvYztRqomanc5mAOyk1U5p
+         QgKi902Y5fDbUW6oQ62kM9Nxhizg3xRKxy8+Wk39ypfyNymIFokF22aUD8sfGiegh3kz
+         aPaxP6x1sRv/UPIHeZkmthJgqRWEsAI0sxYbri0QJKdsD1Bi19WoPrJ9MxaSt1ewSk2e
+         ejAmWXispP+Ypok1mUVhVZJKJR/g1B4AxHA9AMWdlx4g9SCIaoGg6u9OJfKMsDg206o+
+         vOT0NCLmGaEOD8eTb1yppDXp94NiNvH1O56keXtv1l4FCSiAravF8Hms0vr4hSzhCQSO
+         o7Qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711438794; x=1712043594;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rNqRWpv7NIs8Pf/yLnpM7Mssm/nmett4bkMhlADBjnE=;
-        b=GJDMRX4wx/9jnx1voU9698JNXw6hxDks5oMNe/aO5t8wOuzBVND2Zg9XsHW0uG5mmF
-         0QC3JjnZb1G1RKJ4enQqRn1XEN0qizHWI6TWHOry+7JDRFNiA063s4EG0ohGbzIijrWz
-         flUuNaBoUhThqB24vtHsUDjVlvssjhg8kC0bzIsSBQtjFcK79JThNEzWT3jIJR3YXL3/
-         IM1hi/OBnExnjjRH14Ol2nozEy6dI4UKjtiNI1d5BpySNr1d1ZJIEIqyesGPmN5OUQ+k
-         IFdb/A2nIaq70JXksA3hPixs7ry1MORjaevZhHmJlRqrUGA1NoehwyC6PbWKH88iR4gw
-         t88Q==
-X-Gm-Message-State: AOJu0Yw2ZfUWt0pa3DzwuCgDLN+4bYiTe3kUhNuhxX2Kwaikz+cHrIIQ
-	9aIOWva5LIeHz8hM30clRwk63KSCi8s6jsbVVrB1E52ryxTgiqLTbe79MoY/dPnq2pVr9FHg1IN
-	i
-X-Google-Smtp-Source: AGHT+IHM3JCwVLFhFNyduNGoyJTL9x43sLv0GLAiYrtmZ3PhmbpUQtymZ0iKoH2qojBcAoDpzl/ytQ==
-X-Received: by 2002:a17:902:e805:b0:1dd:a3d4:9545 with SMTP id u5-20020a170902e80500b001dda3d49545mr2651257plg.54.1711438793306;
-        Tue, 26 Mar 2024 00:39:53 -0700 (PDT)
-Received: from MVIN00020.mvista.com ([2401:4900:1cb1:ffb5:58c3:434d:2c1d:2090])
-        by smtp.gmail.com with ESMTPSA id d9-20020a170902b70900b001ddbd9ac28bsm6060561pls.142.2024.03.26.00.39.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Mar 2024 00:39:52 -0700 (PDT)
-From: vanusuri@mvista.com
-To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][dunfell][PATCH] go: Fix for CVE-2023-45289 CVE-2023-45290 & CVE-2024-24785
-Date: Tue, 26 Mar 2024 13:09:42 +0530
-Message-Id: <20240326073942.187926-1-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.25.1
+        d=1e100.net; s=20230601; t=1711439233; x=1712044033;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vBoZ5x/jCnvDoDVTEPd2q7Ck3KKM64w7yxuIV9BakRk=;
+        b=rYSIxcSv/ckBURFKBrWtYXc8/t8ussN2bJnKAlgyBIbOZondGoCqQNRmkQ5knt8LYE
+         v1QZuC19Hmrgz3MGKnGAU1yUIXOZe3+chTuvtCQ3STdELcPiBCGX8tnlKXlcGBKrl7wy
+         RRtso/fV6e6bSZV0urnRAls2mMXhG44zMIiFQoabL44Xt5VXXzb4cu/CERJ8z9L++AZr
+         iHK63bDCoCMBEHZvbChJhc++MnYDRwlGqYRa7xM/Fzh6gOuT58iVE3J9Vo2yionfevtW
+         gZSVQGpOHCQtQ814PPSPpG6+PbYF0fvoIdnvL1an3lxSuMOS8Sxw6wl0V8A1k847Dq6n
+         ElPQ==
+X-Gm-Message-State: AOJu0YyCteplO8MQr8ck7njDS3RoBmTtQbtY9YFFyINuJdZdEBk5beoq
+	DnydJOHCOfUmis5kWPOpss0PQecPTZhaW2a3HVsUuevnXvCNhLPq3DiBj/lbLOw=
+X-Google-Smtp-Source: AGHT+IEiPxQU+Kq2VxwWpEUbtBcuQy/p1b44WEBszLcSJuWeEXiE1n/SJHgXjP1CJx+GjqGlOJPCyw==
+X-Received: by 2002:a5d:60c1:0:b0:33e:d139:412c with SMTP id x1-20020a5d60c1000000b0033ed139412cmr486141wrt.30.1711439233397;
+        Tue, 26 Mar 2024 00:47:13 -0700 (PDT)
+Received: from [10.139.9.184] ([154.47.27.148])
+        by smtp.gmail.com with ESMTPSA id c16-20020a05600c0a5000b00414906bab98sm151116wmq.40.2024.03.26.00.47.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 26 Mar 2024 00:47:12 -0700 (PDT)
+Message-ID: <24a3eab2-30db-4ee6-accc-7f51577fcee5@gmail.com>
+Date: Tue, 26 Mar 2024 08:47:11 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] oeqa/selftest/overlayfs: test read-only rootfs
+To: Openembedded-core@lists.openembedded.org
+Cc: Baruch Siach <baruch@tkos.co.il>
+References: <17BDA4425135504F.24786@lists.openembedded.org>
+Content-Language: en-US
+From: Vyacheslav Yurkov <uvv.mail@gmail.com>
+In-Reply-To: <17BDA4425135504F.24786@lists.openembedded.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 Mar 2024 07:39:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197526
+ <openembedded-core@lists.openembedded.org>; Tue, 26 Mar 2024 07:47:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197527
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+Just checking if there's any feedback for the patch or something that 
+stops it from being merged.
 
-Upstream-Status: Backport
-[https://github.com/golang/go/commit/20586c0dbe03d144f914155f879fa5ee287591a1
-&
-https://github.com/golang/go/commit/bf80213b121074f4ad9b449410a4d13bae5e9be0
-&
-https://github.com/golang/go/commit/3643147a29352ca2894fd5d0d2069bc4b4335a7e]
+Slava
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
----
- meta/recipes-devtools/go/go-1.14.inc          |   3 +
- .../go/go-1.14/CVE-2023-45289.patch           | 121 ++++++++
- .../go/go-1.14/CVE-2023-45290.patch           | 271 ++++++++++++++++++
- .../go/go-1.14/CVE-2024-24785.patch           | 197 +++++++++++++
- 4 files changed, 592 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2023-45289.patch
- create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2023-45290.patch
- create mode 100644 meta/recipes-devtools/go/go-1.14/CVE-2024-24785.patch
-
-diff --git a/meta/recipes-devtools/go/go-1.14.inc b/meta/recipes-devtools/go/go-1.14.inc
-index 4fbf9d7590..69b65f3eb2 100644
---- a/meta/recipes-devtools/go/go-1.14.inc
-+++ b/meta/recipes-devtools/go/go-1.14.inc
-@@ -88,6 +88,9 @@ SRC_URI += "\
-     file://CVE-2023-45287-pre2.patch \
-     file://CVE-2023-45287-pre3.patch \
-     file://CVE-2023-45287.patch \
-+    file://CVE-2023-45289.patch \
-+    file://CVE-2023-45290.patch \
-+    file://CVE-2024-24785.patch \
- "
- 
- SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
-diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2023-45289.patch b/meta/recipes-devtools/go/go-1.14/CVE-2023-45289.patch
-new file mode 100644
-index 0000000000..3bec62ab83
---- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.14/CVE-2023-45289.patch
-@@ -0,0 +1,121 @@
-+From 20586c0dbe03d144f914155f879fa5ee287591a1 Mon Sep 17 00:00:00 2001
-+From: Damien Neil <dneil@google.com>
-+Date: Thu, 11 Jan 2024 11:31:57 -0800
-+Subject: [PATCH] [release-branch.go1.21] net/http, net/http/cookiejar: avoid
-+ subdomain matches on IPv6 zones
-+
-+When deciding whether to forward cookies or sensitive headers
-+across a redirect, do not attempt to interpret an IPv6 address
-+as a domain name.
-+
-+Avoids a case where a maliciously-crafted redirect to an
-+IPv6 address with a scoped addressing zone could be
-+misinterpreted as a within-domain redirect. For example,
-+we could interpret "::1%.www.example.com" as a subdomain
-+of "www.example.com".
-+
-+Thanks to Juho Nurminen of Mattermost for reporting this issue.
-+
-+Fixes CVE-2023-45289
-+Fixes #65385
-+For #65065
-+
-+Change-Id: I8f463f59f0e700c8a18733d2b264a8bcb3a19599
-+Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/2131938
-+Reviewed-by: Tatiana Bradley <tatianabradley@google.com>
-+Reviewed-by: Roland Shoemaker <bracewell@google.com>
-+Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/2173775
-+Reviewed-by: Carlos Amedee <amedee@google.com>
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/569239
-+Reviewed-by: Carlos Amedee <carlos@golang.org>
-+Auto-Submit: Michael Knyszek <mknyszek@google.com>
-+TryBot-Bypass: Michael Knyszek <mknyszek@google.com>
-+
-+Upstream-Status: Backport [https://github.com/golang/go/commit/20586c0dbe03d144f914155f879fa5ee287591a1]
-+CVE: CVE-45289
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ src/net/http/client.go             |  6 ++++++
-+ src/net/http/client_test.go        |  1 +
-+ src/net/http/cookiejar/jar.go      |  7 +++++++
-+ src/net/http/cookiejar/jar_test.go | 10 ++++++++++
-+ 4 files changed, 24 insertions(+)
-+
-+diff --git a/src/net/http/client.go b/src/net/http/client.go
-+index a496f1c..2031834 100644
-+--- a/src/net/http/client.go
-++++ b/src/net/http/client.go
-+@@ -973,6 +973,12 @@ func isDomainOrSubdomain(sub, parent string) bool {
-+ 	if sub == parent {
-+ 		return true
-+ 	}
-++	// If sub contains a :, it's probably an IPv6 address (and is definitely not a hostname).
-++	// Don't check the suffix in this case, to avoid matching the contents of a IPv6 zone.
-++	// For example, "::1%.www.example.com" is not a subdomain of "www.example.com".
-++	if strings.ContainsAny(sub, ":%") {
-++		return false
-++	}
-+ 	// If sub is "foo.example.com" and parent is "example.com",
-+ 	// that means sub must end in "."+parent.
-+ 	// Do it without allocating.
-+diff --git a/src/net/http/client_test.go b/src/net/http/client_test.go
-+index 2b4f53f..442fe35 100644
-+--- a/src/net/http/client_test.go
-++++ b/src/net/http/client_test.go
-+@@ -1703,6 +1703,7 @@ func TestShouldCopyHeaderOnRedirect(t *testing.T) {
-+ 		{"cookie2", "http://foo.com/", "http://bar.com/", false},
-+ 		{"authorization", "http://foo.com/", "http://bar.com/", false},
-+ 		{"www-authenticate", "http://foo.com/", "http://bar.com/", false},
-++		{"authorization", "http://foo.com/", "http://[::1%25.foo.com]/", false},
-+ 
-+ 		// But subdomains should work:
-+ 		{"www-authenticate", "http://foo.com/", "http://foo.com/", true},
-+diff --git a/src/net/http/cookiejar/jar.go b/src/net/http/cookiejar/jar.go
-+index 9f19917..18cbfc2 100644
-+--- a/src/net/http/cookiejar/jar.go
-++++ b/src/net/http/cookiejar/jar.go
-+@@ -356,6 +356,13 @@ func jarKey(host string, psl PublicSuffixList) string {
-+ 
-+ // isIP reports whether host is an IP address.
-+ func isIP(host string) bool {
-++	if strings.ContainsAny(host, ":%") {
-++		// Probable IPv6 address.
-++		// Hostnames can't contain : or %, so this is definitely not a valid host.
-++		// Treating it as an IP is the more conservative option, and avoids the risk
-++		// of interpeting ::1%.www.example.com as a subtomain of www.example.com.
-++		return true
-++	}
-+ 	return net.ParseIP(host) != nil
-+ }
-+ 
-+diff --git a/src/net/http/cookiejar/jar_test.go b/src/net/http/cookiejar/jar_test.go
-+index 47fb1ab..fd8d40e 100644
-+--- a/src/net/http/cookiejar/jar_test.go
-++++ b/src/net/http/cookiejar/jar_test.go
-+@@ -251,6 +251,7 @@ var isIPTests = map[string]bool{
-+ 	"127.0.0.1":            true,
-+ 	"1.2.3.4":              true,
-+ 	"2001:4860:0:2001::68": true,
-++	"::1%zone":             true,
-+ 	"example.com":          false,
-+ 	"1.1.1.300":            false,
-+ 	"www.foo.bar.net":      false,
-+@@ -613,6 +614,15 @@ var basicsTests = [...]jarTest{
-+ 			{"http://www.host.test:1234/", "a=1"},
-+ 		},
-+ 	},
-++	{
-++		"IPv6 zone is not treated as a host.",
-++		"https://example.com/",
-++		[]string{"a=1"},
-++		"a=1",
-++		[]query{
-++			{"https://[::1%25.example.com]:80/", ""},
-++		},
-++	},
-+ }
-+ 
-+ func TestBasics(t *testing.T) {
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2023-45290.patch b/meta/recipes-devtools/go/go-1.14/CVE-2023-45290.patch
-new file mode 100644
-index 0000000000..ddc2f67c96
---- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.14/CVE-2023-45290.patch
-@@ -0,0 +1,271 @@
-+From bf80213b121074f4ad9b449410a4d13bae5e9be0 Mon Sep 17 00:00:00 2001
-+From: Damien Neil <dneil@google.com>
-+Date: Tue, 16 Jan 2024 15:37:52 -0800
-+Subject: [PATCH] [release-branch.go1.21] net/textproto, mime/multipart: avoid
-+ unbounded read in MIME header
-+
-+mime/multipart.Reader.ReadForm allows specifying the maximum amount
-+of memory that will be consumed by the form. While this limit is
-+correctly applied to the parsed form data structure, it was not
-+being applied to individual header lines in a form.
-+
-+For example, when presented with a form containing a header line
-+that never ends, ReadForm will continue to read the line until it
-+runs out of memory.
-+
-+Limit the amount of data consumed when reading a header.
-+
-+Fixes CVE-2023-45290
-+Fixes #65389
-+For #65383
-+
-+Change-Id: I7f9264d25752009e95f6b2c80e3d76aaf321d658
-+Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/2134435
-+Reviewed-by: Roland Shoemaker <bracewell@google.com>
-+Reviewed-by: Tatiana Bradley <tatianabradley@google.com>
-+Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/2173776
-+Reviewed-by: Carlos Amedee <amedee@google.com>
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/569240
-+Auto-Submit: Michael Knyszek <mknyszek@google.com>
-+LUCI-TryBot-Result: Go LUCI <golang-scoped@luci-project-accounts.iam.gserviceaccount.com>
-+Reviewed-by: Carlos Amedee <carlos@golang.org>
-+
-+Upstream-Status: Backport [https://github.com/golang/go/commit/bf80213b121074f4ad9b449410a4d13bae5e9be0]
-+CVE: CVE-2023-45290
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ src/mime/multipart/formdata_test.go | 42 +++++++++++++++++++++++++
-+ src/net/textproto/reader.go         | 48 ++++++++++++++++++++---------
-+ src/net/textproto/reader_test.go    | 12 ++++++++
-+ 3 files changed, 87 insertions(+), 15 deletions(-)
-+
-+diff --git a/src/mime/multipart/formdata_test.go b/src/mime/multipart/formdata_test.go
-+index c78eeb7..f729da6 100644
-+--- a/src/mime/multipart/formdata_test.go
-++++ b/src/mime/multipart/formdata_test.go
-+@@ -421,6 +421,48 @@ func TestReadFormLimits(t *testing.T) {
-+ 	}
-+ }
-+ 
-++func TestReadFormEndlessHeaderLine(t *testing.T) {
-++	for _, test := range []struct {
-++		name   string
-++		prefix string
-++	}{{
-++		name:   "name",
-++		prefix: "X-",
-++	}, {
-++		name:   "value",
-++		prefix: "X-Header: ",
-++	}, {
-++		name:   "continuation",
-++		prefix: "X-Header: foo\r\n  ",
-++	}} {
-++		t.Run(test.name, func(t *testing.T) {
-++			const eol = "\r\n"
-++			s := `--boundary` + eol
-++			s += `Content-Disposition: form-data; name="a"` + eol
-++			s += `Content-Type: text/plain` + eol
-++			s += test.prefix
-++			fr := io.MultiReader(
-++				strings.NewReader(s),
-++				neverendingReader('X'),
-++			)
-++			r := NewReader(fr, "boundary")
-++			_, err := r.ReadForm(1 << 20)
-++			if err != ErrMessageTooLarge {
-++				t.Fatalf("ReadForm(1 << 20): %v, want ErrMessageTooLarge", err)
-++			}
-++		})
-++	}
-++}
-++
-++type neverendingReader byte
-++
-++func (r neverendingReader) Read(p []byte) (n int, err error) {
-++	for i := range p {
-++		p[i] = byte(r)
-++	}
-++	return len(p), nil
-++}
-++
-+ func BenchmarkReadForm(b *testing.B) {
-+ 	for _, test := range []struct {
-+ 		name string
-+diff --git a/src/net/textproto/reader.go b/src/net/textproto/reader.go
-+index ad2d777..cea6613 100644
-+--- a/src/net/textproto/reader.go
-++++ b/src/net/textproto/reader.go
-+@@ -17,6 +17,10 @@ import (
-+ 	"sync"
-+ )
-+ 
-++// TODO: This should be a distinguishable error (ErrMessageTooLarge)
-++// to allow mime/multipart to detect it.
-++var errMessageTooLarge = errors.New("message too large")
-++
-+ // A Reader implements convenience methods for reading requests
-+ // or responses from a text protocol network connection.
-+ type Reader struct {
-+@@ -38,13 +42,13 @@ func NewReader(r *bufio.Reader) *Reader {
-+ // ReadLine reads a single line from r,
-+ // eliding the final \n or \r\n from the returned string.
-+ func (r *Reader) ReadLine() (string, error) {
-+-	line, err := r.readLineSlice()
-++	line, err := r.readLineSlice(-1)
-+ 	return string(line), err
-+ }
-+ 
-+ // ReadLineBytes is like ReadLine but returns a []byte instead of a string.
-+ func (r *Reader) ReadLineBytes() ([]byte, error) {
-+-	line, err := r.readLineSlice()
-++	line, err := r.readLineSlice(-1)
-+ 	if line != nil {
-+ 		buf := make([]byte, len(line))
-+ 		copy(buf, line)
-+@@ -53,7 +57,10 @@ func (r *Reader) ReadLineBytes() ([]byte, error) {
-+ 	return line, err
-+ }
-+ 
-+-func (r *Reader) readLineSlice() ([]byte, error) {
-++// readLineSlice reads a single line from r,
-++// up to lim bytes long (or unlimited if lim is less than 0),
-++// eliding the final \r or \r\n from the returned string.
-++func (r *Reader) readLineSlice(lim int64) ([]byte, error) {
-+ 	r.closeDot()
-+ 	var line []byte
-+ 	for {
-+@@ -61,6 +68,9 @@ func (r *Reader) readLineSlice() ([]byte, error) {
-+ 		if err != nil {
-+ 			return nil, err
-+ 		}
-++		if lim >= 0 && int64(len(line))+int64(len(l)) > lim {
-++			return nil, errMessageTooLarge
-++		}
-+ 		// Avoid the copy if the first call produced a full line.
-+ 		if line == nil && !more {
-+ 			return l, nil
-+@@ -93,7 +103,7 @@ func (r *Reader) readLineSlice() ([]byte, error) {
-+ // A line consisting of only white space is never continued.
-+ //
-+ func (r *Reader) ReadContinuedLine() (string, error) {
-+-	line, err := r.readContinuedLineSlice(noValidation)
-++	line, err := r.readContinuedLineSlice(-1, noValidation)
-+ 	return string(line), err
-+ }
-+ 
-+@@ -114,7 +124,7 @@ func trim(s []byte) []byte {
-+ // ReadContinuedLineBytes is like ReadContinuedLine but
-+ // returns a []byte instead of a string.
-+ func (r *Reader) ReadContinuedLineBytes() ([]byte, error) {
-+-	line, err := r.readContinuedLineSlice(noValidation)
-++	line, err := r.readContinuedLineSlice(-1, noValidation)
-+ 	if line != nil {
-+ 		buf := make([]byte, len(line))
-+ 		copy(buf, line)
-+@@ -127,13 +137,14 @@ func (r *Reader) ReadContinuedLineBytes() ([]byte, error) {
-+ // returning a byte slice with all lines. The validateFirstLine function
-+ // is run on the first read line, and if it returns an error then this
-+ // error is returned from readContinuedLineSlice.
-+-func (r *Reader) readContinuedLineSlice(validateFirstLine func([]byte) error) ([]byte, error) {
-++// It reads up to lim bytes of data (or unlimited if lim is less than 0).
-++func (r *Reader) readContinuedLineSlice(lim int64, validateFirstLine func([]byte) error) ([]byte, error) {
-+ 	if validateFirstLine == nil {
-+ 		return nil, fmt.Errorf("missing validateFirstLine func")
-+ 	}
-+ 
-+ 	// Read the first line.
-+-	line, err := r.readLineSlice()
-++	line, err := r.readLineSlice(lim)
-+ 	if err != nil {
-+ 		return nil, err
-+ 	}
-+@@ -161,13 +172,21 @@ func (r *Reader) readContinuedLineSlice(validateFirstLine func([]byte) error) ([
-+ 	// copy the slice into buf.
-+ 	r.buf = append(r.buf[:0], trim(line)...)
-+ 
-++	if lim < 0 {
-++		lim = math.MaxInt64
-++	}
-++	lim -= int64(len(r.buf))
-++
-+ 	// Read continuation lines.
-+ 	for r.skipSpace() > 0 {
-+-		line, err := r.readLineSlice()
-++		r.buf = append(r.buf, ' ')
-++		if int64(len(r.buf)) >= lim {
-++			return nil, errMessageTooLarge
-++		}
-++		line, err := r.readLineSlice(lim - int64(len(r.buf)))
-+ 		if err != nil {
-+ 			break
-+ 		}
-+-		r.buf = append(r.buf, ' ')
-+ 		r.buf = append(r.buf, trim(line)...)
-+ 	}
-+ 	return r.buf, nil
-+@@ -512,7 +531,8 @@ func readMIMEHeader(r *Reader, maxMemory, maxHeaders int64) (MIMEHeader, error)
-+ 
-+ 	// The first line cannot start with a leading space.
-+ 	if buf, err := r.R.Peek(1); err == nil && (buf[0] == ' ' || buf[0] == '\t') {
-+-		line, err := r.readLineSlice()
-++		const errorLimit = 80 // arbitrary limit on how much of the line we'll quote
-++		line, err := r.readLineSlice(errorLimit)
-+ 		if err != nil {
-+ 			return m, err
-+ 		}
-+@@ -520,7 +540,7 @@ func readMIMEHeader(r *Reader, maxMemory, maxHeaders int64) (MIMEHeader, error)
-+ 	}
-+ 
-+ 	for {
-+-		kv, err := r.readContinuedLineSlice(mustHaveFieldNameColon)
-++		kv, err := r.readContinuedLineSlice(maxMemory, mustHaveFieldNameColon)
-+ 		if len(kv) == 0 {
-+ 			return m, err
-+ 		}
-+@@ -541,7 +561,7 @@ func readMIMEHeader(r *Reader, maxMemory, maxHeaders int64) (MIMEHeader, error)
-+ 
-+ 		maxHeaders--
-+ 		if maxHeaders < 0 {
-+-			return nil, errors.New("message too large")
-++			return nil, errMessageTooLarge
-+ 		}
-+ 
-+ 		// backport 5c55ac9bf1e5f779220294c843526536605f42ab
-+@@ -567,9 +587,7 @@ func readMIMEHeader(r *Reader, maxMemory, maxHeaders int64) (MIMEHeader, error)
-+ 		}
-+ 		maxMemory -= int64(len(value))
-+ 		if maxMemory < 0 {
-+-			// TODO: This should be a distinguishable error (ErrMessageTooLarge)
-+-			// to allow mime/multipart to detect it.
-+-			return m, errors.New("message too large")
-++			return m, errMessageTooLarge
-+ 		}
-+ 		if vv == nil && len(strs) > 0 {
-+ 			// More than likely this will be a single-element key.
-+diff --git a/src/net/textproto/reader_test.go b/src/net/textproto/reader_test.go
-+index 3ae0de1..db1ed91 100644
-+--- a/src/net/textproto/reader_test.go
-++++ b/src/net/textproto/reader_test.go
-+@@ -34,6 +34,18 @@ func TestReadLine(t *testing.T) {
-+ 	}
-+ }
-+ 
-++func TestReadLineLongLine(t *testing.T) {
-++	line := strings.Repeat("12345", 10000)
-++	r := reader(line + "\r\n")
-++	s, err := r.ReadLine()
-++	if err != nil {
-++		t.Fatalf("Line 1: %v", err)
-++	}
-++	if s != line {
-++		t.Fatalf("%v-byte line does not match expected %v-byte line", len(s), len(line))
-++	}
-++}
-++
-+ func TestReadContinuedLine(t *testing.T) {
-+ 	r := reader("line1\nline\n 2\nline3\n")
-+ 	s, err := r.ReadContinuedLine()
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-devtools/go/go-1.14/CVE-2024-24785.patch b/meta/recipes-devtools/go/go-1.14/CVE-2024-24785.patch
-new file mode 100644
-index 0000000000..1398a2ca48
---- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.14/CVE-2024-24785.patch
-@@ -0,0 +1,197 @@
-+From 3643147a29352ca2894fd5d0d2069bc4b4335a7e Mon Sep 17 00:00:00 2001
-+From: Roland Shoemaker <roland@golang.org>
-+Date: Wed, 14 Feb 2024 17:18:36 -0800
-+Subject: [PATCH] [release-branch.go1.21] html/template: escape additional
-+ tokens in MarshalJSON errors
-+
-+Escape "</script" and "<!--" in errors returned from MarshalJSON errors
-+when attempting to marshal types in script blocks. This prevents any
-+user controlled content from prematurely terminating the script block.
-+
-+Updates #65697
-+Fixes #65968
-+
-+Change-Id: Icf0e26c54ea7d9c1deed0bff11b6506c99ddef1b
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/564196
-+LUCI-TryBot-Result: Go LUCI <golang-scoped@luci-project-accounts.iam.gserviceaccount.com>
-+Reviewed-by: Damien Neil <dneil@google.com>
-+(cherry picked from commit ccbc725f2d678255df1bd326fa511a492aa3a0aa)
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/567515
-+Reviewed-by: Carlos Amedee <carlos@golang.org>
-+
-+Upstream-Status: Backport [https://github.com/golang/go/commit/3643147a29352ca2894fd5d0d2069bc4b4335a7e]
-+CVE: CVE-2024-24785
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ src/html/template/js.go      | 22 ++++++++-
-+ src/html/template/js_test.go | 96 ++++++++++++++++++++----------------
-+ 2 files changed, 74 insertions(+), 44 deletions(-)
-+
-+diff --git a/src/html/template/js.go b/src/html/template/js.go
-+index 35994f0..4d3b25d 100644
-+--- a/src/html/template/js.go
-++++ b/src/html/template/js.go
-+@@ -171,13 +171,31 @@ func jsValEscaper(args ...interface{}) string {
-+ 	// cyclic data. This may be an unacceptable DoS risk.
-+ 	b, err := json.Marshal(a)
-+ 	if err != nil {
-+-		// Put a space before comment so that if it is flush against
-++		// While the standard JSON marshaller does not include user controlled
-++		// information in the error message, if a type has a MarshalJSON method,
-++		// the content of the error message is not guaranteed. Since we insert
-++		// the error into the template, as part of a comment, we attempt to
-++		// prevent the error from either terminating the comment, or the script
-++		// block itself.
-++		//
-++		// In particular we:
-++		//   * replace "*/" comment end tokens with "* /", which does not
-++		//     terminate the comment
-++		//   * replace "</script" with "\x3C/script", and "<!--" with
-++		//     "\x3C!--", which prevents confusing script block termination
-++		//     semantics
-++		//
-++		// We also put a space before the comment so that if it is flush against
-+ 		// a division operator it is not turned into a line comment:
-+ 		//     x/{{y}}
-+ 		// turning into
-+ 		//     x//* error marshaling y:
-+ 		//          second line of error message */null
-+-		return fmt.Sprintf(" /* %s */null ", strings.ReplaceAll(err.Error(), "*/", "* /"))
-++		errStr := err.Error()
-++		errStr = strings.ReplaceAll(errStr, "*/", "* /")
-++		errStr = strings.ReplaceAll(errStr, "</script", `\x3C/script`)
-++		errStr = strings.ReplaceAll(errStr, "<!--", `\x3C!--`)
-++		return fmt.Sprintf(" /* %s */null ", errStr)
-+ 	}
-+ 
-+ 	// TODO: maybe post-process output to prevent it from containing
-+diff --git a/src/html/template/js_test.go b/src/html/template/js_test.go
-+index de9ef28..3fc3baf 100644
-+--- a/src/html/template/js_test.go
-++++ b/src/html/template/js_test.go
-+@@ -5,6 +5,7 @@
-+ package template
-+ 
-+ import (
-++	"errors"
-+ 	"bytes"
-+ 	"math"
-+ 	"strings"
-+@@ -104,61 +105,72 @@ func TestNextJsCtx(t *testing.T) {
-+ 	}
-+ }
-+ 
-++type jsonErrType struct{}
-++
-++func (e *jsonErrType) MarshalJSON() ([]byte, error) {
-++	return nil, errors.New("beep */ boop </script blip <!--")
-++}
-++
-+ func TestJSValEscaper(t *testing.T) {
-+ 	tests := []struct {
-+-		x  interface{}
-+-		js string
-++		x        interface{}
-++		js       string
-++		skipNest bool
-+ 	}{
-+-		{int(42), " 42 "},
-+-		{uint(42), " 42 "},
-+-		{int16(42), " 42 "},
-+-		{uint16(42), " 42 "},
-+-		{int32(-42), " -42 "},
-+-		{uint32(42), " 42 "},
-+-		{int16(-42), " -42 "},
-+-		{uint16(42), " 42 "},
-+-		{int64(-42), " -42 "},
-+-		{uint64(42), " 42 "},
-+-		{uint64(1) << 53, " 9007199254740992 "},
-++		{int(42), " 42 ", false},
-++		{uint(42), " 42 ", false},
-++		{int16(42), " 42 ", false},
-++		{uint16(42), " 42 ", false},
-++		{int32(-42), " -42 ", false},
-++		{uint32(42), " 42 ", false},
-++		{int16(-42), " -42 ", false},
-++		{uint16(42), " 42 ", false},
-++		{int64(-42), " -42 ", false},
-++		{uint64(42), " 42 ", false},
-++		{uint64(1) << 53, " 9007199254740992 ", false},
-+ 		// ulp(1 << 53) > 1 so this loses precision in JS
-+ 		// but it is still a representable integer literal.
-+-		{uint64(1)<<53 + 1, " 9007199254740993 "},
-+-		{float32(1.0), " 1 "},
-+-		{float32(-1.0), " -1 "},
-+-		{float32(0.5), " 0.5 "},
-+-		{float32(-0.5), " -0.5 "},
-+-		{float32(1.0) / float32(256), " 0.00390625 "},
-+-		{float32(0), " 0 "},
-+-		{math.Copysign(0, -1), " -0 "},
-+-		{float64(1.0), " 1 "},
-+-		{float64(-1.0), " -1 "},
-+-		{float64(0.5), " 0.5 "},
-+-		{float64(-0.5), " -0.5 "},
-+-		{float64(0), " 0 "},
-+-		{math.Copysign(0, -1), " -0 "},
-+-		{"", `""`},
-+-		{"foo", `"foo"`},
-++		{uint64(1)<<53 + 1, " 9007199254740993 ", false},
-++		{float32(1.0), " 1 ", false},
-++		{float32(-1.0), " -1 ", false},
-++		{float32(0.5), " 0.5 ", false},
-++		{float32(-0.5), " -0.5 ", false},
-++		{float32(1.0) / float32(256), " 0.00390625 ", false},
-++		{float32(0), " 0 ", false},
-++		{math.Copysign(0, -1), " -0 ", false},
-++		{float64(1.0), " 1 ", false},
-++		{float64(-1.0), " -1 ", false},
-++		{float64(0.5), " 0.5 ", false},
-++		{float64(-0.5), " -0.5 ", false},
-++		{float64(0), " 0 ", false},
-++		{math.Copysign(0, -1), " -0 ", false},
-++		{"", `""`, false},
-++		{"foo", `"foo"`, false},
-+ 		// Newlines.
-+-		{"\r\n\u2028\u2029", `"\r\n\u2028\u2029"`},
-++		{"\r\n\u2028\u2029", `"\r\n\u2028\u2029"`, false},
-+ 		// "\v" == "v" on IE 6 so use "\u000b" instead.
-+-		{"\t\x0b", `"\t\u000b"`},
-+-		{struct{ X, Y int }{1, 2}, `{"X":1,"Y":2}`},
-+-		{[]interface{}{}, "[]"},
-+-		{[]interface{}{42, "foo", nil}, `[42,"foo",null]`},
-+-		{[]string{"<!--", "</script>", "-->"}, `["\u003c!--","\u003c/script\u003e","--\u003e"]`},
-+-		{"<!--", `"\u003c!--"`},
-+-		{"-->", `"--\u003e"`},
-+-		{"<![CDATA[", `"\u003c![CDATA["`},
-+-		{"]]>", `"]]\u003e"`},
-+-		{"</script", `"\u003c/script"`},
-+-		{"\U0001D11E", "\"\U0001D11E\""}, // or "\uD834\uDD1E"
-+-		{nil, " null "},
-++		{"\t\x0b", `"\t\u000b"`, false},
-++		{struct{ X, Y int }{1, 2}, `{"X":1,"Y":2}`, false},
-++		{[]interface{}{}, "[]", false},
-++		{[]interface{}{42, "foo", nil}, `[42,"foo",null]`, false},
-++		{[]string{"<!--", "</script>", "-->"}, `["\u003c!--","\u003c/script\u003e","--\u003e"]`, false},
-++		{"<!--", `"\u003c!--"`, false},
-++		{"-->", `"--\u003e"`, false},
-++		{"<![CDATA[", `"\u003c![CDATA["`, false},
-++		{"]]>", `"]]\u003e"`, false},
-++		{"</script", `"\u003c/script"`, false},
-++		{"\U0001D11E", "\"\U0001D11E\"", false}, // or "\uD834\uDD1E"
-++		{nil, " null ", false},
-++		{&jsonErrType{}, " /* json: error calling MarshalJSON for type *template.jsonErrType: beep * / boop \\x3C/script blip \\x3C!-- */null ", true},
-+ 	}
-+ 
-+ 	for _, test := range tests {
-+ 		if js := jsValEscaper(test.x); js != test.js {
-+ 			t.Errorf("%+v: want\n\t%q\ngot\n\t%q", test.x, test.js, js)
-+ 		}
-++		if test.skipNest {
-++			continue
-++		}
-+ 		// Make sure that escaping corner cases are not broken
-+ 		// by nesting.
-+ 		a := []interface{}{test.x}
-+-- 
-+2.25.1
-+
--- 
-2.25.1
+On 17.03.2024 20:33, Vyacheslav Yurkov via lists.openembedded.org wrote:
+> From: Baruch Siach <baruch@tkos.co.il>
+>
+> Use the read-only squashfs filesystem to test the read-only case.
+>
+> Signed-off-by: Baruch Siach <baruch@tkos.co.il>
+> Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
+> ---
+>   meta-selftest/wic/overlayfs_etc.wks.in    |  4 +--
+>   meta/lib/oeqa/selftest/cases/overlayfs.py | 34 +++++++++++++++++++----
+>   2 files changed, 30 insertions(+), 8 deletions(-)
+>
+> diff --git a/meta-selftest/wic/overlayfs_etc.wks.in b/meta-selftest/wic/overlayfs_etc.wks.in
+> index 1e1e5836e7..066cd35b15 100644
+> --- a/meta-selftest/wic/overlayfs_etc.wks.in
+> +++ b/meta-selftest/wic/overlayfs_etc.wks.in
+> @@ -1,4 +1,4 @@
+>   part /boot --active --source bootimg-biosplusefi --ondisk sda --sourceparams="loader=grub-efi" --align 1024
+> -part / --source rootfs --ondisk sda --fstype=ext4 --use-uuid --align 1024
+> +part / --source rootfs --ondisk sda --fstype=${OVERLAYFS_ROOTFS_TYPE} --use-uuid --align 1024
+>   part --ondisk sda --fstype=ext4 --size=5 --align 1024
+> -bootloader --ptable gpt --timeout=1 --append="rootfstype=ext4 console=ttyS0,115200 console=tty0 ${OVERLAYFS_INIT_OPTION}"
+> +bootloader --ptable gpt --timeout=1 --append="rootfstype=${OVERLAYFS_ROOTFS_TYPE} console=ttyS0,115200 console=tty0 ${OVERLAYFS_INIT_OPTION}"
+> diff --git a/meta/lib/oeqa/selftest/cases/overlayfs.py b/meta/lib/oeqa/selftest/cases/overlayfs.py
+> index cd0dc60c64..e31063567b 100644
+> --- a/meta/lib/oeqa/selftest/cases/overlayfs.py
+> +++ b/meta/lib/oeqa/selftest/cases/overlayfs.py
+> @@ -353,6 +353,7 @@ EXTRA_IMAGE_FEATURES += "read-only-rootfs"
+>   # Image configuration for overlayfs-etc
+>   OVERLAYFS_ETC_MOUNT_POINT = "/data"
+>   OVERLAYFS_ETC_DEVICE = "/dev/sda3"
+> +OVERLAYFS_ROOTFS_TYPE = "ext4"
+>   """
+>   
+>           self.write_config(config)
+> @@ -367,13 +368,17 @@ OVERLAYFS_ETC_DEVICE = "/dev/sda3"
+>   
+>       @skipIfNotMachine("qemux86-64", "tests are qemux86-64 specific currently")
+>       def test_sbin_init_preinit(self):
+> -        self.run_sbin_init(False)
+> +        self.run_sbin_init(False, "ext4")
+>   
+>       @skipIfNotMachine("qemux86-64", "tests are qemux86-64 specific currently")
+>       def test_sbin_init_original(self):
+> -        self.run_sbin_init(True)
+> +        self.run_sbin_init(True, "ext4")
+>   
+> -    def run_sbin_init(self, origInit):
+> +    @skipIfNotMachine("qemux86-64", "tests are qemux86-64 specific currently")
+> +    def test_sbin_init_read_only(self):
+> +        self.run_sbin_init(True, "squashfs")
+> +
+> +    def run_sbin_init(self, origInit, rootfsType):
+>           """
+>           Summary:   Confirm we can replace original init and mount overlay on top of /etc
+>           Expected:  Image is created successfully and /etc is mounted as an overlay
+> @@ -384,7 +389,9 @@ OVERLAYFS_ETC_DEVICE = "/dev/sda3"
+>   
+>           args = {
+>               'OVERLAYFS_INIT_OPTION': "" if origInit else "init=/sbin/preinit",
+> -            'OVERLAYFS_ETC_USE_ORIG_INIT_NAME': int(origInit == True)
+> +            'OVERLAYFS_ETC_USE_ORIG_INIT_NAME': int(origInit == True),
+> +            'OVERLAYFS_ROOTFS_TYPE': rootfsType,
+> +            'OVERLAYFS_ETC_CREATE_MOUNT_DIRS': int(rootfsType == "ext4")
+>           }
+>   
+>           self.write_config(config.format(**args))
+> @@ -437,7 +444,9 @@ IMAGE_INSTALL:append = " overlayfs-user"
+>   
+>           args = {
+>               'OVERLAYFS_INIT_OPTION': "",
+> -            'OVERLAYFS_ETC_USE_ORIG_INIT_NAME': 1
+> +            'OVERLAYFS_ETC_USE_ORIG_INIT_NAME': 1,
+> +            'OVERLAYFS_ROOTFS_TYPE': "ext4",
+> +            'OVERLAYFS_ETC_CREATE_MOUNT_DIRS': 1
+>           }
+>   
+>           self.write_config(config.format(**args))
+> @@ -463,10 +472,14 @@ IMAGE_INSTALL:append = " overlayfs-user"
+>   INIT_MANAGER = "systemd"
+>   
+>   # enable overlayfs in the kernel
+> -KERNEL_EXTRA_FEATURES:append = " features/overlayfs/overlayfs.scc"
+> +KERNEL_EXTRA_FEATURES:append = " \
+> +    features/overlayfs/overlayfs.scc \
+> +    cfg/fs/squashfs.scc"
+>   
+>   IMAGE_FSTYPES += "wic"
+>   OVERLAYFS_INIT_OPTION = "{OVERLAYFS_INIT_OPTION}"
+> +OVERLAYFS_ROOTFS_TYPE = "{OVERLAYFS_ROOTFS_TYPE}"
+> +OVERLAYFS_ETC_CREATE_MOUNT_DIRS = "{OVERLAYFS_ETC_CREATE_MOUNT_DIRS}"
+>   WKS_FILE = "overlayfs_etc.wks.in"
+>   
+>   EXTRA_IMAGE_FEATURES += "read-only-rootfs"
+> @@ -477,4 +490,13 @@ OVERLAYFS_ETC_MOUNT_POINT = "/data"
+>   OVERLAYFS_ETC_FSTYPE = "ext4"
+>   OVERLAYFS_ETC_DEVICE = "/dev/sda3"
+>   OVERLAYFS_ETC_USE_ORIG_INIT_NAME = "{OVERLAYFS_ETC_USE_ORIG_INIT_NAME}"
+> +
+> +ROOTFS_POSTPROCESS_COMMAND += "{OVERLAYFS_ROOTFS_TYPE}_rootfs"
+> +
+> +ext4_rootfs() {{
+> +}}
+> +
+> +squashfs_rootfs() {{
+> +    mkdir -p ${{IMAGE_ROOTFS}}/data
+> +}}
+>   """
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#197270): https://lists.openembedded.org/g/openembedded-core/message/197270
+> Mute This Topic: https://lists.openembedded.org/mt/104989652/4455192
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [uvv.mail@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
 
