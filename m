@@ -1,804 +1,697 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <Haitao.Liu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD403CD11DD
-	for <webhook@archiver.kernel.org>; Wed, 27 Mar 2024 00:11:42 +0000 (UTC)
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
- by mx.groups.io with SMTP id smtpd.web11.25715.1711498293345009677
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A244C54E67
+	for <webhook@archiver.kernel.org>; Wed, 27 Mar 2024 03:16:53 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.28778.1711509409929380196
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Mar 2024 17:11:33 -0700
+ Tue, 26 Mar 2024 20:16:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=KOvgIghs;
- spf=softfail (domain: sakoman.com, ip: 209.85.128.176, mailfrom: steve@sakoman.com)
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-61130dd21c1so40229817b3.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Mar 2024 17:11:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1711498292; x=1712103092; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JqLWRopVayQvk5YvHYM7nU6q2FegYAnpEGMAtCCGiUM=;
-        b=KOvgIghsOyBPl1/2pHrv1Nu1Ckorpl+/PYKMtp7dabofT/997rEN19HUbgtKqICdWR
-         jYQ32z2MM7iXtdmgAI7gUpqvJe//VPTPcVIpM9Bq7mjzNQMWdcCcnhP5xEHNnYwPmbql
-         BvmMTXv532f9EzAVk3olIZlIrNvuNEyHBQt8K6oKuaoEgETtZSDVgEb3fqZGC4KDBNVV
-         zbO4mV211w16bHEqXbYm0FbKO+uSndVwFAaUzNFkA5LwdPh1oxqOQMEeMKLy3HXHJz+1
-         EYfJK7b+cnwR4to00/hvw9dpli/dFFw1b9T6d4Mf+R3SEWgaEnt2q8ZzTCBLGo8fKsaS
-         LNdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711498292; x=1712103092;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JqLWRopVayQvk5YvHYM7nU6q2FegYAnpEGMAtCCGiUM=;
-        b=iuyGuYGf85f3iBUNnm4xqztQs/ks2H1eg5iJsHCqt+u2vjUCZPRgbX9lEL0q7ynTIM
-         Oegm/5H2cASE6epFhleC2HyPUXBgmwwc0WFsDyFpk44AgdbWrJXAwmwpr/XZtQ+LMVJ7
-         7ppXqQqXF7IZDvWL1SbvtSXwXlh1ZFfzx5GxwBmAa7BXq3Tud3uHyav+Ib8LjrQL+j5J
-         T9EQbAPWn1rpneJKqyGfUbXeibpdVb9LFC4Rt+XHkeK55lkP4Y35NAauV60wTHByU/8f
-         uV2Vxq1lqUPDts81EliEAkclb+htNLcFHCTosUlWkaLV/zXhs+wUkyMpABL6tDU8gs74
-         A3nw==
-X-Forwarded-Encrypted: i=1; AJvYcCXjB7X7QMMamJ7j1XeT1jW7jzzywxtKrL5ytGMYAvv9Ze5l0TjN8Run5ExFRr4yw80+lqB9gDIuq7IUfBNQwaayXbArdYHrqVXcr6b9N7dgI9W1z20bZq9F
-X-Gm-Message-State: AOJu0YztYxykyzDWDcggzo0aHmeqP05BR2EMBjEduh8UPN5Ro77B+woB
-	oJEYA5WTsHtWGCC1n2/6REtc+PptxLKJkRQB2H5Tq7Hta3loTb72fKaTOZQv887j+D+7295FegL
-	v17bXLhw+/qPWp8bx0W62saEeM0TbkS3+Yij1texAGhAmp/KiNwA=
-X-Google-Smtp-Source: AGHT+IHZKS2x0zPvOIr+XN46K8F5mWqIk4qUoHDnvHgE0mzl6beEjBRu41UsXIjIsH5FHfgLWnsvv1jshAwh6HNcF54=
-X-Received: by 2002:a0d:dbc3:0:b0:60c:beac:a69e with SMTP id
- d186-20020a0ddbc3000000b0060cbeaca69emr1291374ywe.23.1711498292250; Tue, 26
- Mar 2024 17:11:32 -0700 (PDT)
-MIME-Version: 1.0
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=d7VH0jFx;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=3816e34606=haitao.liu@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 42R1t1WP020727
+	for <openembedded-core@lists.openembedded.org>; Tue, 26 Mar 2024 20:16:49 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=from:to:cc:subject:date:message-id:references:in-reply-to
+	:content-type:content-transfer-encoding:mime-version; s=
+	PPS06212021; bh=pjV/uhYHwK0do+QlOK3hiOxSciQdDrJEGY5DDEjMOqs=; b=
+	d7VH0jFxplNnmyo1sWf2c8eLejf4uZ8pe+A9QhTmfvaS24HGWloW5u1vScn6bdk/
+	umq4uEZorJ5aS2ZuSPwO2GM3Ku+lJXEq/956WDNRSTCEjmssTQVh994qiAaHUVax
+	ZvAw42VgY49ljMoF7JQO+HZxMYSZqYN0SrdBOc21XKYPL2Osdunrx77E67OobndM
+	GGcXfIsnoM3EqPr8KPg472KvMr5ETEx4uOl3i66TBjSSyRjL8Ciqx9BvIHSiNe6X
+	oDxLjqtbatwHJd8y48OOM99m6C6ek05i/PJqKDOdam7VF2X4orPhtaap8Cq/0/Np
+	zD+vxiBnPAQEsdfnlRfgDA==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3x1tc0vj19-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 26 Mar 2024 20:16:49 -0700 (PDT)
+Received: from m0250810.ppops.net (m0250810.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 42R3Gm9D031129;
+	Tue, 26 Mar 2024 20:16:48 -0700
+Received: from nam02-bn1-obe.outbound.protection.outlook.com (mail-bn1nam02lp2040.outbound.protection.outlook.com [104.47.51.40])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3x1tc0vj0x-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 26 Mar 2024 20:16:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XbzknF8hSjlNNL+DJMH3ano1Sx+PRmJWO0ATfdpsPacXgCAP7Mc7/UJUxl24gTN3OOhH1Mhe2FW2V5n7zrOVuMTsL+BJY07yPfjq2c5Bv/OdDnrzJnduqxiBEtLI0zgmbBkQ/PWpHvxVpmMd3QzcE0Nibv2hxBmzBaGdtf2weygkyEaGpaF3fZvq0C+nyrO4iS4j4UVWPJFh/0fRNlohebFGjX6HyOrTJXdTSNsZ30taYn9f+yhMYrXHeumptihtIx9S8KBA5EaLmj6OLMx8U/aUdUzzEp4yY5rTOkyQuJVFNOReL87YyQE/CRtaR0zj6WzftMpOGUiYYyNGPwJr+w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pjV/uhYHwK0do+QlOK3hiOxSciQdDrJEGY5DDEjMOqs=;
+ b=bf5SlpJ8c2R700mLAFmrOpkj1nTZVF/VcCx6T0MN/2qGg4Y25AZuBsJAx0r8FkjzUI5OC64hIG7V4mMFvtgj/Yps0Vfah7oqYCVZUQzMXueRy9nfTA2qllwvBw/H4wTX6e2YmA1DCTWMDw3JHjB6qIW4pqWHe9BsOXLhly5T1LmaEhiwZXFKbBlUdHR7DBaUVRu/HeK29sRgXYkAppXRShZZz5dbHk7TBd/qtyZUK94qrL6fpZve4JDyGyKyV8WMt8WG61oZ9VSNOysyCIlBroXWPg5COvMPFMk4g0bSmx+FNBkry0+o0eS9fz4nz5XHqnJnsD3J1DKcLmmPJKeY6Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from SJ2PR11MB8402.namprd11.prod.outlook.com (2603:10b6:a03:545::18)
+ by SA2PR11MB4777.namprd11.prod.outlook.com (2603:10b6:806:115::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.33; Wed, 27 Mar
+ 2024 03:16:45 +0000
+Received: from SJ2PR11MB8402.namprd11.prod.outlook.com
+ ([fe80::60ba:a4f3:c479:c160]) by SJ2PR11MB8402.namprd11.prod.outlook.com
+ ([fe80::60ba:a4f3:c479:c160%6]) with mapi id 15.20.7409.028; Wed, 27 Mar 2024
+ 03:16:45 +0000
+From: "Liu, Haitao" <Haitao.Liu@windriver.com>
+To: "steve@sakoman.com" <steve@sakoman.com>,
+        "MacLeod, Randy"
+	<Randy.MacLeod@windriver.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core][kirkstone][PATCH] openssl: Improve FIPS RSA keygen
+ performac
+Thread-Topic: [OE-core][kirkstone][PATCH] openssl: Improve FIPS RSA keygen
+ performac
+Thread-Index: AQHaeka+mc6ssFN5nU2P2kzbbuKq5bE/tD0AgAriA4CAACvJAIAAIVlg
+Date: Wed, 27 Mar 2024 03:16:44 +0000
+Message-ID: 
+ <SJ2PR11MB840279AE24EA33503E2BFA1E9F342@SJ2PR11MB8402.namprd11.prod.outlook.com>
 References: <20240318065524.3337545-1-haitao.liu@windriver.com>
- <1bc87f74-e7b7-42b9-9c73-1f30846df519@windriver.com> <CAOSpxdapBOHDS6YX9LfApq1sbXeJ=FtHam3OBx0PfCaz5Pvsgw@mail.gmail.com>
+ <1bc87f74-e7b7-42b9-9c73-1f30846df519@windriver.com>
+ <CAOSpxdapBOHDS6YX9LfApq1sbXeJ=FtHam3OBx0PfCaz5Pvsgw@mail.gmail.com>
  <785f2c07-1615-4435-8723-6d9b8aa0eb52@windriver.com>
-In-Reply-To: <785f2c07-1615-4435-8723-6d9b8aa0eb52@windriver.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Tue, 26 Mar 2024 14:11:20 -1000
-Message-ID: <CAOSpxdZvJJxmSsS4PP1x0-RUfhXSys66wmnPTS-Tujt3TobcfQ@mail.gmail.com>
-Subject: Re: [OE-core][kirkstone][PATCH] openssl: Improve FIPS RSA keygen performac
-To: randy.macleod@windriver.com
-Cc: Haitao.Liu@windriver.com, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <CAOSpxdZvJJxmSsS4PP1x0-RUfhXSys66wmnPTS-Tujt3TobcfQ@mail.gmail.com>
+In-Reply-To: 
+ <CAOSpxdZvJJxmSsS4PP1x0-RUfhXSys66wmnPTS-Tujt3TobcfQ@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SJ2PR11MB8402:EE_|SA2PR11MB4777:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ g0Nz/upUl9prfhHuqp7nwm8EXYTMe10nHoVmgBFExdCUBDMiht8aaEMM2dD+67tVX8EiR+5COIyfh4QW8y5AU/VKXki4MBv4Vc/yY5mIpbvtPD/wy3jIMX5l+YHVgGanfwqHAYg1O0p/wZLUmlNis31fnYE3Z3ZUs1Lzhequux/eKDhUYtG+xqEDjOE8mgVDqFh+rmSefEA96vJLrF3VuXWshkT482hp8TzYQiIufRvNx0hHPoxtzrpOHPzYvpoQ4n2TnHYkACjPtA8C0azKPT5LXvcz1j1HTEAIYZ80XCCJCW0azY/cI98a4aCmyNYQkOTqJPk0i74LOn+dnRtssCH57i7eo82MFPrjOg6CNbF/Mg8DrtSXWzg42ynIgcyIFaWoMVyXhgco4CqW6ZcElly9LaBDJDQiBCgBPAdOYnQ5PM5TK/pgzvi5Drb+oJRxMWro9DZK9dR6Imrc8g/R7RTkEuWNKqdOoqepswiPur5GRYGQas+TCgJsmDIrEs/B3KXOeSwKKRyRdrTE3QfuFiJr9TNGB6F+wy1WZRYN407yqn+jr58MCeWRQEfj/RLvIrh1tqwm3ZFFGx9byut3K+vjqcizupcjJOffCXNHI2RfFwGuwOQviu5FAHA2MLt0
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB8402.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(1800799015);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?eXRXVmc5b0hodzliRTBIZ0pEWVVDNG1aSGZQek9ZMklmcmpVNUMxVWZxOVVZ?=
+ =?utf-8?B?em5sa3ZWS0tPbEpLeGthZDVvYkZWcG5ZcVR6UjZxM3hPUVBrWVJ1dkYxSkJk?=
+ =?utf-8?B?T3RMWDFsM3ZGSHg1YnlkK2Y3ZlYzdHVlbS9pUzlTNGo1dS8wTHFkcHl0azAv?=
+ =?utf-8?B?aVBDdWFaWmJZeStyWDNBU2dtQm12M1poK1JHRkhHR2VXdWR2NjdNYkhJRDNi?=
+ =?utf-8?B?OGk2Y1JGYU9HUDJOUGVhVUtibGY1OFZGd2VKZ0ZqdThmdUkwRDgyVUE4aUV5?=
+ =?utf-8?B?eHRZd1pnd09JV0pjNlVWMGRscUQvT2diWWpMclIzOGJiSlpzMnU0TXQxemdZ?=
+ =?utf-8?B?dS9OVitCTG0xT1hRSUJlV20rVHlPeEt0dTk2S2tBejJ4M09uREsvWWpFeFNt?=
+ =?utf-8?B?ZWRzMVBLV2gwZEl6Wml6bUFmVWVyU1RtMUNHM1k3T2NvQzJpTUlWYnAwQUo4?=
+ =?utf-8?B?SE9KcFBlZlVyYUVUTWVMR2ozOWZwVEQxOU5TMFlwMVRRWEV5RDM3YjFDT2h2?=
+ =?utf-8?B?VkpmUUhhb0NjUHJ6Y21JbHJwUmNlblAwb1V2VEhnODBJcEVyaGppZzhjalFU?=
+ =?utf-8?B?NEVtYmxtOXB3QXlQVDF3UWxIbytXK1JkVW0wdU02S25Nb1loVFNiOCtvWkdE?=
+ =?utf-8?B?eGZhYlFRQ3ovSlJVVi8ydWovRkdHUGF2eStwSmkyQkExUEtidWNpTnpsNjZP?=
+ =?utf-8?B?WDAwZ0Fpc05ZWElIcHRKbnU0cTZkbHY5S3ovZ0VtOVA5RmZaQU41T2o2ZHI3?=
+ =?utf-8?B?eWdDUkhMdFJWcnU0eDYrSUgyS1JYMVVHc3VsSm5CY1dDSkZPVlFrSFF1THNu?=
+ =?utf-8?B?elZiZEoxb1cvbFd2bFh3bjBzZk13ZXBscitGeWdNdFlCY0JURHRzeUlTdVVl?=
+ =?utf-8?B?cmdzSHFacnhzckpHNUhsQW1YWWJYUWp1d2ZBSldIYklob0NOazFrRk1WUFJk?=
+ =?utf-8?B?TnI4Zy9nZG1uRkU1MWhYbkh3WnpIRVVTNHVJc1lpQURaZ3RvdEJpZnQzZzBu?=
+ =?utf-8?B?cmdqcnNlano3QkNhNjRjaW1KdW5YOWM1VjI5N3NUQlIzVndaZnNKV3hZK3hZ?=
+ =?utf-8?B?THVoaVo2Nnh2bHhCZnVrOGM2MFpLSEU4aXFZUlIyRXlaWElidXQwRmQrKy9v?=
+ =?utf-8?B?NXlFakhkSVZUNnBEcXlJOEI1eG1YZmhOWUlqWkZuMDdNYTFsbFllNkl1dEsw?=
+ =?utf-8?B?OGpmR285bVltN1puaXRhKzZzZ1RQeGRwYlV5TzJ1dzAwWmVsaVRWelFsdnRL?=
+ =?utf-8?B?LzhrdTlUREoyY0lKalhybFZwY1pDZWdHaTR1T3F4SVRZY29BQ25oTHhraHRM?=
+ =?utf-8?B?bnlIZG1yV24vVVVPelZERFlyQy9Xb1BPTEk5dExCVWFweElpL0IxNDRJR0Z2?=
+ =?utf-8?B?c1hReHY3RXJwQWlLSFVXWjh4OVN5NkZaNW5hQUUzV0NRRG94bXcxUGlSajRO?=
+ =?utf-8?B?TnpobzVIbXkwYVk0aDRPNStzZTNsM2dLOGh0b1NGZ1p2aGdQN1h3YzdOb0lr?=
+ =?utf-8?B?QXdFN3V5Y0k1YWowSVgyaVlTSlFzeVpKVjljM05icDFXeWVYdkZva3FVaEVx?=
+ =?utf-8?B?d2ZGcG9kQ1pIM08yanFNYmxQOS85dldZN2o4OTVNODB1RWg5MDJ3UC9BbVZ2?=
+ =?utf-8?B?VzVGMmNXVitESUVvVGJVbWl5alNVV2ZwUkhydlZESHpIMy9mTFltZ2FMRlox?=
+ =?utf-8?B?MCt0UmNyUjRyTm5EbTluR1pYcnltV0tPRnpqaEd6WjRRR2NQWGpKMk11aHc1?=
+ =?utf-8?B?enR3Q1p1UmpjTGVoUjlOOHVVL09DcHpVSXhXUndweWpBR0V4U1FFTm82N0FH?=
+ =?utf-8?B?dHBVVC9vYUlJb0xhZzBIVStYNW1qeXdCd0wySTUrUHVtUUYvQ24vNGpiOTEw?=
+ =?utf-8?B?c0RPdnQ2VTVISmEvMFpWNUhXTnpBTnpqWkdoNVhWbS9KSDZYWSs5MXdqdG4w?=
+ =?utf-8?B?eFlsUWpKSGZpdnZWSHJMT3pobDd1UmtoNFhOYm1tV292dTB0eU5iZ2dla055?=
+ =?utf-8?B?M3pKTHZBSzk1Wkovc2ROL1JoQzh4aXB4cysrUG1TSjlzdnNiK2N0TXBRdmNj?=
+ =?utf-8?B?ZTYrOEo2VTZuRVc2RGNiNFgwOS9ITjEzalU2TW9CK1VwdVNGZEtIV3o4VFd5?=
+ =?utf-8?Q?IPu39cFwsuMoBNCkx3dGlBCWS?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB8402.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 59fe334c-3076-4cc2-0a4f-08dc4e0c54d0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Mar 2024 03:16:44.8843
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: pDtFimXaf3YNmkp80/y4Q5CNsYDZMmCSBB3s/hgDfWBDSGTQxnq54tILGA7ld/RQBhpCtHuitrDjkHfzIWoGVDSgNxDvYcROKFKiTy9aIEA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB4777
+X-Proofpoint-GUID: c6JYzXt6oSSGNDMHrn3_qwiYGkzQOesR
+X-Proofpoint-ORIG-GUID: 33t1HDMkPyQKijBPsSKiOfNRruZTe18M
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-03-26_12,2024-03-21_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 malwarescore=0
+ suspectscore=0 mlxlogscore=999 clxscore=1015 impostorscore=0
+ priorityscore=1501 spamscore=0 adultscore=0 lowpriorityscore=0 bulkscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2403210001 definitions=main-2403270018
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Mar 2024 00:11:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197542
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Mar 2024 03:16:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197543
 
-On Tue, Mar 26, 2024 at 11:34=E2=80=AFAM Randy MacLeod via
-lists.openembedded.org
-<randy.macleod=3Dwindriver.com@lists.openembedded.org> wrote:
->
-> On 2024-03-19 7:23 p.m., Steve Sakoman wrote:
->
-> On Tue, Mar 19, 2024 at 11:45=E2=80=AFAM Randy MacLeod
-> <randy.macleod@windriver.com> wrote:
->
-> Hi Haitao, et al,
->
->
-> Summary:
->
-> I think we could bring these two commits back to kirkstone even though up=
-stream openssl mtc
-> does not plan to do so, at least not without "very good reasons".
->
-> but I have some comments and questions below that I'd like you to respond=
- to before sending a v2.
->
-> ../Randy
->
->
->
-> Typo in the subject:
->    [OE-core][kirkstone][PATCH] openssl: Improve FIPS RSA keygen performac
-> should be:
->    [OE-core][kirkstone][PATCH] openssl: Improve FIPS RSA keygen performan=
-ce
->
-> On 2024-03-18 2:55 a.m., jason.lau via lists.openembedded.org wrote:
->
-> The ssh-keygen would take a long time to generate the entropy of a key
->
-> It's best to be more specific.
->
-> You mentioned in:
->
-> https://github.com/openssl/openssl/issues/23766
->
-> that "ssh-keygen (built with openssl3.0) is taking 1-2s to execute wherea=
-s in openssl3.1 it was hardly half a second"
->
-> so you should mention that in the commit log.
->
-> You should also include a link to the upstream issue you opened to explai=
-n that:
->
->    "Performance fixes are in general not eligible for backports to stable=
- release branches.
->     In specific cases an exception could be given by OTC but there would =
-have to be very good reasons for such an exception."
->
-> I saw that comment last week and wondered if we should push harder for up=
-stream to backport these commits but
-> I understand your reluctance to do that when it might make sense to just =
-backport here in oe-core.
->
-> Note that the commits are only part of 3.2.0+:
->
-> =E2=9D=AF git tag --contains dd1d7bcb69994d81662e709b0ad838880b943870
-> openssl-3.2.0
-> openssl-3.2.0-alpha1
-> openssl-3.2.0-alpha2
-> openssl-3.2.0-beta1
-> openssl-3.2.1
->
-> =E2=9D=AF git tag --contains d2f6e66d2837bff1f5f7636bb2118e3a45c9df61
-> openssl-3.2.0
-> openssl-3.2.0-alpha1
-> openssl-3.2.0-alpha2
-> openssl-3.2.0-beta1
-> openssl-3.2.1
->
-> so they'd also have to be back-ported to nanbield technically:
->    https://git.openembedded.org/openembedded-core/tree/meta/recipes-conne=
-ctivity/openssl/openssl_3.1.4.bb?h=3Dnanbield
->
-> Steve,
-> Given that nanbield is a week or so away from EOL, is it worth doing that=
-?
->
-> I'm going to close down changes to nanbield in the next day or so, so
-> there probably isn't time to get such a change in.
->
-> And I suspect that the kirkstone v2 patch won't make it through
->
-> Haitao,
->
-> Steve has NOT merged this to kirkstone:
->   https://git.openembedded.org/openembedded-core-contrib/log/?h=3Dstable/=
-kirkstone-nut
->
->   https://git.openembedded.org/openembedded-core/log/?h=3Dkirkstone
-
-Correct, I've been waiting for V2
-
-Steve
-
-> Please reply to and/or deal with my comments and send a v2.
->
-> Thanks!
->
-> ../Randy
->
->
-> testing until after the nanbield final release is done, so I don't
-> have an issue with taking it.
->
-> Steve
->
-> Note that the original commits were from Nov 2, 2022 so they've had some =
-time to ummm, bake but
-> the 3.2.0 release was 'only' on Nov 23, 2023:
->    https://www.openssl.org/source/old/3.2/index.html
-> so it's got 3 or 4 months of the public being able to test it.
->
-> I've taken a look at the commits and haven't seen a problem with the back=
-port.
->
-> Haitao,
-> Did you have to adjust the patches at all? If so please explain what you =
-did.
->
-> Your tests show that openssl is faster, have you tested for correctness a=
-t all?
-> Does it make sense to run: test/bntest.c ? Steve will likely run the ptes=
-ts of course.
->
-> Do we need the oneline change: "Fix incorrect error branch in ossl_bn_rsa=
-_fips186_4_derive_prime()"
-> from:
-> openssl.git on master
-> =E2=9D=AF git log --oneline crypto/bn/bn_rsa_fips186_4.c
-> da1c088f59 Copyright year updates
-> 835b90a19c Fix incorrect error branch in ossl_bn_rsa_fips186_4_derive_pri=
-me()
-> d2f6e66d28 Improve FIPS RSA keygen performance.
-> dd1d7bcb69 Improve FIPS RSA keygen performance.
->
->
-> Are there any other changes to the files touched by these commits that wo=
-uld affect
-> the correctness or performance of the code introduced?
->
-> ../Randy
->
->
->
-> The following commits have fixed the issue.
-> https://github.com/openssl/openssl/commit/dd1d7bcb69994d81662e709b0ad8388=
-80b943870
-> https://github.com/openssl/openssl/commit/d2f6e66d2837bff1f5f7636bb2118e3=
-a45c9df61
->
-> Signed-off-by: Haitao Liu <haitao.liu@windriver.com>
-> ---
->  ...-Improve-FIPS-RSA-keygen-performance.patch | 271 ++++++++++++++++++
->  ...-Improve-FIPS-RSA-keygen-performance.patch | 185 ++++++++++++
->  .../openssl/openssl_3.0.13.bb                 |   2 +
->  3 files changed, 458 insertions(+)
->  create mode 100644 meta/recipes-connectivity/openssl/openssl/0001-Improv=
-e-FIPS-RSA-keygen-performance.patch
->  create mode 100644 meta/recipes-connectivity/openssl/openssl/0002-Improv=
-e-FIPS-RSA-keygen-performance.patch
->
-> diff --git a/meta/recipes-connectivity/openssl/openssl/0001-Improve-FIPS-=
-RSA-keygen-performance.patch b/meta/recipes-connectivity/openssl/openssl/00=
-01-Improve-FIPS-RSA-keygen-performance.patch
-> new file mode 100644
-> index 0000000000..aed0e1a5c1
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/openssl/openssl/0001-Improve-FIPS-RSA-key=
-gen-performance.patch
-> @@ -0,0 +1,271 @@
-> +From a940dfa152707ba82f3efc2c147f6313c28f7662 Mon Sep 17 00:00:00 2001
-> +From: slontis <shane.lontis@oracle.com>
-> +Date: Wed, 2 Nov 2022 12:01:34 +1000
-> +Subject: [PATCH 1/2] Improve FIPS RSA keygen performance.
-> +
-> +FIPS 186-4 has 5 different algorithms for key generation,
-> +and all of them rely on testing GCD(a,n) =3D=3D 1 many times.
-> +
-> +Cachegrind was showing that during a RSA keygen operation,
-> +the function BN_gcd() was taking a considerable percentage
-> +of the total cycles.
-> +
-> +The default provider uses multiprime keygen, which seemed to
-> +be much faster. This is because it uses BN_mod_inverse()
-> +instead.
-> +
-> +For a 4096 bit key, the entropy of a key that was taking a
-> +long time to generate was recorded and fed back into subsequent
-> +runs. Roughly 40% of the cycle time was BN_gcd() with most of the
-> +remainder in the prime testing. Changing to use the inverse
-> +resulted in the cycle count being 96% in the prime testing.
-> +
-> +Reviewed-by: Paul Dale <pauli@openssl.org>
-> +Reviewed-by: Tomas Mraz <tomas@openssl.org>
-> +(Merged from https://github.com/openssl/openssl/pull/19578)
-> +
-> +(cherry picked from commit dd1d7bcb69994d81662e709b0ad838880b943870)
-> +
-> +Upstream-Status: Backport [https://github.com/openssl/openssl/commit/dd1=
-d7bcb69994d81662e709b0ad838880b943870]
-> +
-> +Signed-off-by: Haitao Liu <haitao.liu@windriver.com>
-> +---
-> + crypto/bn/bn_gcd.c           | 31 +++++++++++++++++++++++++++++++
-> + crypto/bn/bn_rsa_fips186_4.c | 24 +++++++++++++++---------
-> + doc/man3/BN_cmp.pod          | 14 +++++++++++++-
-> + include/openssl/bn.h         |  1 +
-> + test/bntest.c                | 26 ++++++++++++++++++++++++--
-> + util/libcrypto.num           |  1 +
-> + 6 files changed, 85 insertions(+), 12 deletions(-)
-> +
-> +diff --git a/crypto/bn/bn_gcd.c b/crypto/bn/bn_gcd.c
-> +index cd0b015..879a84b 100644
-> +--- a/crypto/bn/bn_gcd.c
-> ++++ b/crypto/bn/bn_gcd.c
-> +@@ -534,6 +534,37 @@ BIGNUM *BN_mod_inverse(BIGNUM *in,
-> +     return rv;
-> + }
-> +
-> ++/*
-> ++ * The numbers a and b are coprime if the only positive integer that is=
- a
-> ++ * divisor of both of them is 1.
-> ++ * i.e. gcd(a,b) =3D 1.
-> ++ *
-> ++ * Coprimes have the property: b has a multiplicative inverse modulo a
-> ++ * i.e there is some value x such that bx =3D 1 (mod a).
-> ++ *
-> ++ * Testing the modulo inverse is currently much faster than the constan=
-t
-> ++ * time version of BN_gcd().
-> ++ */
-> ++int BN_are_coprime(BIGNUM *a, const BIGNUM *b, BN_CTX *ctx)
-> ++{
-> ++    int ret =3D 0;
-> ++    BIGNUM *tmp;
-> ++
-> ++    BN_CTX_start(ctx);
-> ++    tmp =3D BN_CTX_get(ctx);
-> ++    if (tmp =3D=3D NULL)
-> ++        goto end;
-> ++
-> ++    ERR_set_mark();
-> ++    BN_set_flags(a, BN_FLG_CONSTTIME);
-> ++    ret =3D (BN_mod_inverse(tmp, a, b, ctx) !=3D NULL);
-> ++    /* Clear any errors (an error is returned if there is no inverse) *=
-/
-> ++    ERR_pop_to_mark();
-> ++end:
-> ++    BN_CTX_end(ctx);
-> ++    return ret;
-> ++}
-> ++
-> + /*-
-> +  * This function is based on the constant-time GCD work by Bernstein an=
-d Yang:
-> +  * https://eprint.iacr.org/2019/266
-> +diff --git a/crypto/bn/bn_rsa_fips186_4.c b/crypto/bn/bn_rsa_fips186_4.c
-> +index 62d8685..55efaf2 100644
-> +--- a/crypto/bn/bn_rsa_fips186_4.c
-> ++++ b/crypto/bn/bn_rsa_fips186_4.c
-> +@@ -286,14 +286,20 @@ int ossl_bn_rsa_fips186_4_derive_prime(BIGNUM *Y, =
-BIGNUM *X, const BIGNUM *Xin,
-> +             goto err;
-> +     }
-> +
-> ++    /*
-> ++     * (Step 1) GCD(2r1, r2) =3D 1.
-> ++     *    Note: This algorithm was doing a gcd(2r1, r2)=3D1 test before=
- doing an
-> ++     *    mod_inverse(2r1, r2) which are effectively the same operation=
-.
-> ++     *    (The algorithm assumed that the gcd test would be faster). Si=
-nce the
-> ++     *    mod_inverse is currently faster than calling the constant tim=
-e
-> ++     *    BN_gcd(), the call to BN_gcd() has been omitted. The inverse =
-result
-> ++     *    is used further down.
-> ++     */
-> +     if (!(BN_lshift1(r1x2, r1)
-> +-            /* (Step 1) GCD(2r1, r2) =3D 1 */
-> +-            && BN_gcd(tmp, r1x2, r2, ctx)
-> +-            && BN_is_one(tmp)
-> ++            && (BN_mod_inverse(tmp, r1x2, r2, ctx) !=3D NULL)
-> +             /* (Step 2) R =3D ((r2^-1 mod 2r1) * r2) - ((2r1^-1 mod r2)=
-*2r1) */
-> +-            && BN_mod_inverse(R, r2, r1x2, ctx)
-> ++            && (BN_mod_inverse(R, r2, r1x2, ctx) !=3D NULL)
-> +             && BN_mul(R, R, r2, ctx) /* R =3D (r2^-1 mod 2r1) * r2 */
-> +-            && BN_mod_inverse(tmp, r1x2, r2, ctx)
-> +             && BN_mul(tmp, tmp, r1x2, ctx) /* tmp =3D (2r1^-1 mod r2)*2=
-r1 */
-> +             && BN_sub(R, R, tmp)
-> +             /* Calculate 2r1r2 */
-> +@@ -305,7 +311,8 @@ int ossl_bn_rsa_fips186_4_derive_prime(BIGNUM *Y, BI=
-GNUM *X, const BIGNUM *Xin,
-> +
-> +     /*
-> +      * In FIPS 186-4 imax was set to 5 * nlen/2.
-> +-     * Analysis by Allen Roginsky (See https://csrc.nist.gov/CSRC/media=
-/Publications/fips/186/4/final/documents/comments-received-fips186-4-decemb=
-er-2015.pdf
-> ++     * Analysis by Allen Roginsky
-> ++     * (See https://csrc.nist.gov/CSRC/media/Publications/fips/186/4/fi=
-nal/documents/comments-received-fips186-4-december-2015.pdf
-> +      * page 68) indicates this has a 1 in 2 million chance of failure.
-> +      * The number has been updated to 20 * nlen/2 as used in
-> +      * FIPS186-5 Appendix B.9 Step 9.
-> +@@ -337,10 +344,9 @@ int ossl_bn_rsa_fips186_4_derive_prime(BIGNUM *Y, B=
-IGNUM *X, const BIGNUM *Xin,
-> +
-> +             /* (Step 7) If GCD(Y-1) =3D=3D 1 & Y is probably prime then=
- return Y */
-> +             if (BN_copy(y1, Y) =3D=3D NULL
-> +-                    || !BN_sub_word(y1, 1)
-> +-                    || !BN_gcd(tmp, y1, e, ctx))
-> ++                    || !BN_sub_word(y1, 1))
-> +                 goto err;
-> +-            if (BN_is_one(tmp)) {
-> ++            if (BN_are_coprime(y1, e, ctx)) {
-> +                 int rv =3D BN_check_prime(Y, ctx, cb);
-> +
-> +                 if (rv > 0)
-> +diff --git a/doc/man3/BN_cmp.pod b/doc/man3/BN_cmp.pod
-> +index f302818..e9ddf8f 100644
-> +--- a/doc/man3/BN_cmp.pod
-> ++++ b/doc/man3/BN_cmp.pod
-> +@@ -2,7 +2,8 @@
-> +
-> + =3Dhead1 NAME
-> +
-> +-BN_cmp, BN_ucmp, BN_is_zero, BN_is_one, BN_is_word, BN_abs_is_word, BN_=
-is_odd - BIGNUM comparison and test functions
-> ++BN_cmp, BN_ucmp, BN_is_zero, BN_is_one, BN_is_word, BN_abs_is_word, BN_=
-is_odd, BN_are_coprime
-> ++- BIGNUM comparison and test functions
-> +
-> + =3Dhead1 SYNOPSIS
-> +
-> +@@ -17,6 +18,8 @@ BN_cmp, BN_ucmp, BN_is_zero, BN_is_one, BN_is_word, BN=
-_abs_is_word, BN_is_odd -
-> +  int BN_abs_is_word(const BIGNUM *a, const BN_ULONG w);
-> +  int BN_is_odd(const BIGNUM *a);
-> +
-> ++ int BN_are_coprime(BIGNUM *a, const BIGNUM *b, BN_CTX *ctx);
-> ++
-> + =3Dhead1 DESCRIPTION
-> +
-> + BN_cmp() compares the numbers I<a> and I<b>. BN_ucmp() compares their
-> +@@ -26,6 +29,10 @@ BN_is_zero(), BN_is_one(), BN_is_word() and BN_abs_is=
-_word() test if
-> + I<a> equals 0, 1, I<w>, or E<verbar>I<w>E<verbar> respectively.
-> + BN_is_odd() tests if I<a> is odd.
-> +
-> ++BN_are_coprime() determines if B<a> and B<b> are coprime.
-> ++B<ctx> is used internally for storing temporary variables.
-> ++The values of B<a> and B<b> and B<ctx> must not be NULL.
-> ++
-> + =3Dhead1 RETURN VALUES
-> +
-> + BN_cmp() returns -1 if I<a> E<lt> I<b>, 0 if I<a> =3D=3D I<b> and 1 if
-> +@@ -35,11 +42,16 @@ of I<a> and I<b>.
-> + BN_is_zero(), BN_is_one() BN_is_word(), BN_abs_is_word() and
-> + BN_is_odd() return 1 if the condition is true, 0 otherwise.
-> +
-> ++BN_are_coprime() returns 1 if the B<BIGNUM>'s are coprime, otherwise it
-> ++returns 0.
-> ++
-> + =3Dhead1 HISTORY
-> +
-> + Prior to OpenSSL 1.1.0, BN_is_zero(), BN_is_one(), BN_is_word(),
-> + BN_abs_is_word() and BN_is_odd() were macros.
-> +
-> ++The function BN_are_coprime() was added in OpenSSL 3.1.
-> ++
-> + =3Dhead1 COPYRIGHT
-> +
-> + Copyright 2000-2021 The OpenSSL Project Authors. All Rights Reserved.
-> +diff --git a/include/openssl/bn.h b/include/openssl/bn.h
-> +index ecd7f01..73895a5 100644
-> +--- a/include/openssl/bn.h
-> ++++ b/include/openssl/bn.h
-> +@@ -344,6 +344,7 @@ int BN_gcd(BIGNUM *r, const BIGNUM *a, const BIGNUM =
-*b, BN_CTX *ctx);
-> + int BN_kronecker(const BIGNUM *a, const BIGNUM *b, BN_CTX *ctx); /* ret=
-urns
-> +                                                                   * -2 =
-for
-> +                                                                   * err=
-or */
-> ++int BN_are_coprime(BIGNUM *a, const BIGNUM *b, BN_CTX *ctx);
-> + BIGNUM *BN_mod_inverse(BIGNUM *ret,
-> +                        const BIGNUM *a, const BIGNUM *n, BN_CTX *ctx);
-> + BIGNUM *BN_mod_sqrt(BIGNUM *ret,
-> +diff --git a/test/bntest.c b/test/bntest.c
-> +index c5894c1..eec6222 100644
-> +--- a/test/bntest.c
-> ++++ b/test/bntest.c
-> +@@ -38,6 +38,7 @@ typedef struct mpitest_st {
-> +
-> + static const int NUM0 =3D 100;           /* number of tests */
-> + static const int NUM1 =3D 50;            /* additional tests for some f=
-unctions */
-> ++static const int NUM_PRIME_TESTS =3D 20;
-> + static BN_CTX *ctx;
-> +
-> + /*
-> +@@ -2573,6 +2574,25 @@ static int test_ctx_consttime_flag(void)
-> +     return st;
-> + }
-> +
-> ++static int test_coprime(void)
-> ++{
-> ++    BIGNUM *a =3D NULL, *b =3D NULL;
-> ++    int ret =3D 0;
-> ++
-> ++    ret =3D TEST_ptr(a =3D BN_new())
-> ++          && TEST_ptr(b =3D BN_new())
-> ++          && TEST_true(BN_set_word(a, 66))
-> ++          && TEST_true(BN_set_word(b, 99))
-> ++          && TEST_int_eq(BN_are_coprime(a, b, ctx), 0)
-> ++          && TEST_int_eq(BN_are_coprime(b, a, ctx), 0)
-> ++          && TEST_true(BN_set_word(a, 67))
-> ++          && TEST_int_eq(BN_are_coprime(a, b, ctx), 1)
-> ++          && TEST_int_eq(BN_are_coprime(b, a, ctx), 1);
-> ++    BN_free(a);
-> ++    BN_free(b);
-> ++    return ret;
-> ++}
-> ++
-> + static int test_gcd_prime(void)
-> + {
-> +     BIGNUM *a =3D NULL, *b =3D NULL, *gcd =3D NULL;
-> +@@ -2585,11 +2605,12 @@ static int test_gcd_prime(void)
-> +
-> +     if (!TEST_true(BN_generate_prime_ex(a, 1024, 0, NULL, NULL, NULL)))
-> +             goto err;
-> +-    for (i =3D 0; i < NUM0; i++) {
-> ++    for (i =3D 0; i < NUM_PRIME_TESTS; i++) {
-> +         if (!TEST_true(BN_generate_prime_ex(b, 1024, 0,
-> +                                             NULL, NULL, NULL))
-> +                 || !TEST_true(BN_gcd(gcd, a, b, ctx))
-> +-                || !TEST_true(BN_is_one(gcd)))
-> ++                || !TEST_true(BN_is_one(gcd))
-> ++                || !TEST_true(BN_are_coprime(a, b, ctx)))
-> +             goto err;
-> +     }
-> +
-> +@@ -3066,6 +3087,7 @@ int setup_tests(void)
-> +         ADD_ALL_TESTS(test_is_prime, (int)OSSL_NELEM(primes));
-> +         ADD_ALL_TESTS(test_not_prime, (int)OSSL_NELEM(not_primes));
-> +         ADD_TEST(test_gcd_prime);
-> ++        ADD_TEST(test_coprime);
-> +         ADD_ALL_TESTS(test_mod_exp, (int)OSSL_NELEM(ModExpTests));
-> +         ADD_ALL_TESTS(test_mod_exp_consttime, (int)OSSL_NELEM(ModExpTes=
-ts));
-> +         ADD_TEST(test_mod_exp2_mont);
-> +diff --git a/util/libcrypto.num b/util/libcrypto.num
-> +index 0f6f30b..a1d1ed9 100644
-> +--- a/util/libcrypto.num
-> ++++ b/util/libcrypto.num
-> +@@ -5429,3 +5429,4 @@ OPENSSL_strcasecmp                      5556 3_0_3=
- EXIST::FUNCTION:
-> + OPENSSL_strncasecmp                     5557 3_0_3 EXIST::FUNCTION:
-> + OSSL_CMP_CTX_reset_geninfo_ITAVs        5558 3_0_8 EXIST::FUNCTION:CMP
-> + OSSL_CMP_MSG_update_recipNonce          5559 3_0_9 EXIST::FUNCTION:CMP
-> ++BN_are_coprime                          5560 3_0_0 EXIST::FUNCTION:
-> +--
-> +2.25.1
-> +
-> diff --git a/meta/recipes-connectivity/openssl/openssl/0002-Improve-FIPS-=
-RSA-keygen-performance.patch b/meta/recipes-connectivity/openssl/openssl/00=
-02-Improve-FIPS-RSA-keygen-performance.patch
-> new file mode 100644
-> index 0000000000..1a6b601f65
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/openssl/openssl/0002-Improve-FIPS-RSA-key=
-gen-performance.patch
-> @@ -0,0 +1,185 @@
-> +From dfb8e0e716a1fd060eb13402d85cc46c8f64f929 Mon Sep 17 00:00:00 2001
-> +From: slontis <shane.lontis@oracle.com>
-> +Date: Wed, 2 Nov 2022 13:20:55 +1000
-> +Subject: [PATCH 2/2] Improve FIPS RSA keygen performance.
-> +
-> +Reduce the Miller Rabin counts to the values specified by FIPS 186-5.
-> +The old code was using a fixed value of 64.
-> +
-> +Reviewed-by: Paul Dale <pauli@openssl.org>
-> +Reviewed-by: Tomas Mraz <tomas@openssl.org>
-> +(Merged from https://github.com/openssl/openssl/pull/19579)
-> +
-> +(cherry picked from commit d2f6e66d2837bff1f5f7636bb2118e3a45c9df61)
-> +
-> +Upstream-Status: Backport [https://github.com/openssl/openssl/commit/d2f=
-6e66d2837bff1f5f7636bb2118e3a45c9df61]
-> +
-> +Signed-off-by: Haitao Liu <haitao.liu@windriver.com>
-> +---
-> + crypto/bn/bn_prime.c         | 11 ++++++++
-> + crypto/bn/bn_rsa_fips186_4.c | 49 ++++++++++++++++++++++++++++++------
-> + include/crypto/bn.h          |  2 ++
-> + 3 files changed, 54 insertions(+), 8 deletions(-)
-> +
-> +diff --git a/crypto/bn/bn_prime.c b/crypto/bn/bn_prime.c
-> +index ddd31a0..79776f1 100644
-> +--- a/crypto/bn/bn_prime.c
-> ++++ b/crypto/bn/bn_prime.c
-> +@@ -252,6 +252,17 @@ int ossl_bn_check_prime(const BIGNUM *w, int checks=
-, BN_CTX *ctx,
-> +     return bn_is_prime_int(w, checks, ctx, do_trial_division, cb);
-> + }
-> +
-> ++/*
-> ++ * Use this only for key generation.
-> ++ * It always uses trial division. The number of checks
-> ++ * (MR rounds) passed in is used without being clamped to a minimum val=
-ue.
-> ++ */
-> ++int ossl_bn_check_generated_prime(const BIGNUM *w, int checks, BN_CTX *=
-ctx,
-> ++                                  BN_GENCB *cb)
-> ++{
-> ++    return bn_is_prime_int(w, checks, ctx, 1, cb);
-> ++}
-> ++
-> + int BN_check_prime(const BIGNUM *p, BN_CTX *ctx, BN_GENCB *cb)
-> + {
-> +     return ossl_bn_check_prime(p, 0, ctx, 1, cb);
-> +diff --git a/crypto/bn/bn_rsa_fips186_4.c b/crypto/bn/bn_rsa_fips186_4.c
-> +index 55efaf2..c3466df 100644
-> +--- a/crypto/bn/bn_rsa_fips186_4.c
-> ++++ b/crypto/bn/bn_rsa_fips186_4.c
-> +@@ -48,6 +48,34 @@ const BIGNUM ossl_bn_inv_sqrt_2 =3D {
-> +     BN_FLG_STATIC_DATA
-> + };
-> +
-> ++/*
-> ++ * Refer to FIPS 186-5 Table B.1 for minimum rounds of Miller Rabin
-> ++ * required for generation of RSA aux primes (p1, p2, q1 and q2).
-> ++ */
-> ++static int bn_rsa_fips186_5_aux_prime_MR_rounds(int nbits)
-> ++{
-> ++    if (nbits >=3D 4096)
-> ++        return 44;
-> ++    if (nbits >=3D 3072)
-> ++        return 41;
-> ++    if (nbits >=3D 2048)
-> ++        return 38;
-> ++    return 0; /* Error */
-> ++}
-> ++
-> ++/*
-> ++ * Refer to FIPS 186-5 Table B.1 for minimum rounds of Miller Rabin
-> ++ * required for generation of RSA primes (p and q)
-> ++ */
-> ++static int bn_rsa_fips186_5_prime_MR_rounds(int nbits)
-> ++{
-> ++    if (nbits >=3D 3072)
-> ++        return 4;
-> ++    if (nbits >=3D 2048)
-> ++        return 5;
-> ++    return 0; /* Error */
-> ++}
-> ++
-> + /*
-> +  * FIPS 186-5 Table A.1. "Min length of auxiliary primes p1, p2, q1, q2=
-".
-> +  * (FIPS 186-5 has an entry for >=3D 4096 bits).
-> +@@ -97,11 +125,13 @@ static int bn_rsa_fips186_5_aux_prime_max_sum_size_=
-for_prob_primes(int nbits)
-> +  *     Xp1 The passed in starting point to find a probably prime.
-> +  *     p1 The returned probable prime (first odd integer >=3D Xp1)
-> +  *     ctx A BN_CTX object.
-> ++ *     rounds The number of Miller Rabin rounds
-> +  *     cb An optional BIGNUM callback.
-> +  * Returns: 1 on success otherwise it returns 0.
-> +  */
-> + static int bn_rsa_fips186_4_find_aux_prob_prime(const BIGNUM *Xp1,
-> +                                                 BIGNUM *p1, BN_CTX *ctx=
-,
-> ++                                                int rounds,
-> +                                                 BN_GENCB *cb)
-> + {
-> +     int ret =3D 0;
-> +@@ -117,7 +147,7 @@ static int bn_rsa_fips186_4_find_aux_prob_prime(cons=
-t BIGNUM *Xp1,
-> +         i++;
-> +         BN_GENCB_call(cb, 0, i);
-> +         /* MR test with trial division */
-> +-        tmp =3D BN_check_prime(p1, ctx, cb);
-> ++        tmp =3D ossl_bn_check_generated_prime(p1, rounds, ctx, cb);
-> +         if (tmp > 0)
-> +             break;
-> +         if (tmp < 0)
-> +@@ -160,7 +190,7 @@ int ossl_bn_rsa_fips186_4_gen_prob_primes(BIGNUM *p,=
- BIGNUM *Xpout,
-> + {
-> +     int ret =3D 0;
-> +     BIGNUM *p1i =3D NULL, *p2i =3D NULL, *Xp1i =3D NULL, *Xp2i =3D NULL=
-;
-> +-    int bitlen;
-> ++    int bitlen, rounds;
-> +
-> +     if (p =3D=3D NULL || Xpout =3D=3D NULL)
-> +         return 0;
-> +@@ -177,6 +207,7 @@ int ossl_bn_rsa_fips186_4_gen_prob_primes(BIGNUM *p,=
- BIGNUM *Xpout,
-> +     bitlen =3D bn_rsa_fips186_5_aux_prime_min_size(nlen);
-> +     if (bitlen =3D=3D 0)
-> +         goto err;
-> ++    rounds =3D bn_rsa_fips186_5_aux_prime_MR_rounds(nlen);
-> +
-> +     /* (Steps 4.1/5.1): Randomly generate Xp1 if it is not passed in */
-> +     if (Xp1 =3D=3D NULL) {
-> +@@ -194,8 +225,8 @@ int ossl_bn_rsa_fips186_4_gen_prob_primes(BIGNUM *p,=
- BIGNUM *Xpout,
-> +     }
-> +
-> +     /* (Steps 4.2/5.2) - find first auxiliary probable primes */
-> +-    if (!bn_rsa_fips186_4_find_aux_prob_prime(Xp1i, p1i, ctx, cb)
-> +-            || !bn_rsa_fips186_4_find_aux_prob_prime(Xp2i, p2i, ctx, cb=
-))
-> ++    if (!bn_rsa_fips186_4_find_aux_prob_prime(Xp1i, p1i, ctx, rounds, c=
-b)
-> ++            || !bn_rsa_fips186_4_find_aux_prob_prime(Xp2i, p2i, ctx, ro=
-unds, cb))
-> +         goto err;
-> +     /* (Table B.1) auxiliary prime Max length check */
-> +     if ((BN_num_bits(p1i) + BN_num_bits(p2i)) >=3D
-> +@@ -243,11 +274,11 @@ err:
-> +  */
-> + int ossl_bn_rsa_fips186_4_derive_prime(BIGNUM *Y, BIGNUM *X, const BIGN=
-UM *Xin,
-> +                                        const BIGNUM *r1, const BIGNUM *=
-r2,
-> +-                                       int nlen, const BIGNUM *e, BN_CT=
-X *ctx,
-> +-                                       BN_GENCB *cb)
-> ++                                       int nlen, const BIGNUM *e,
-> ++                                       BN_CTX *ctx, BN_GENCB *cb)
-> + {
-> +     int ret =3D 0;
-> +-    int i, imax;
-> ++    int i, imax, rounds;
-> +     int bits =3D nlen >> 1;
-> +     BIGNUM *tmp, *R, *r1r2x2, *y1, *r1x2;
-> +     BIGNUM *base, *range;
-> +@@ -317,6 +348,7 @@ int ossl_bn_rsa_fips186_4_derive_prime(BIGNUM *Y, BI=
-GNUM *X, const BIGNUM *Xin,
-> +      * The number has been updated to 20 * nlen/2 as used in
-> +      * FIPS186-5 Appendix B.9 Step 9.
-> +      */
-> ++    rounds =3D bn_rsa_fips186_5_prime_MR_rounds(nlen);
-> +     imax =3D 20 * bits; /* max =3D 20/2 * nbits */
-> +     for (;;) {
-> +         if (Xin =3D=3D NULL) {
-> +@@ -346,8 +378,9 @@ int ossl_bn_rsa_fips186_4_derive_prime(BIGNUM *Y, BI=
-GNUM *X, const BIGNUM *Xin,
-> +             if (BN_copy(y1, Y) =3D=3D NULL
-> +                     || !BN_sub_word(y1, 1))
-> +                 goto err;
-> ++
-> +             if (BN_are_coprime(y1, e, ctx)) {
-> +-                int rv =3D BN_check_prime(Y, ctx, cb);
-> ++                int rv =3D ossl_bn_check_generated_prime(Y, rounds, ctx=
-, cb);
-> +
-> +                 if (rv > 0)
-> +                     goto end;
-> +diff --git a/include/crypto/bn.h b/include/crypto/bn.h
-> +index fd1c09d..00544d9 100644
-> +--- a/include/crypto/bn.h
-> ++++ b/include/crypto/bn.h
-> +@@ -95,6 +95,8 @@ int bn_div_fixed_top(BIGNUM *dv, BIGNUM *rem, const BI=
-GNUM *m,
-> +
-> + int ossl_bn_miller_rabin_is_prime(const BIGNUM *w, int iterations, BN_C=
-TX *ctx,
-> +                                   BN_GENCB *cb, int enhanced, int *stat=
-us);
-> ++int ossl_bn_check_generated_prime(const BIGNUM *w, int checks, BN_CTX *=
-ctx,
-> ++                                  BN_GENCB *cb);
-> +
-> + const BIGNUM *ossl_bn_get0_small_factors(void);
-> +
-> +--
-> +2.25.1
-> +
-> diff --git a/meta/recipes-connectivity/openssl/openssl_3.0.13.bb b/meta/r=
-ecipes-connectivity/openssl/openssl_3.0.13.bb
-> index 5e43fdc2de..5b09493ccd 100644
-> --- a/meta/recipes-connectivity/openssl/openssl_3.0.13.bb
-> +++ b/meta/recipes-connectivity/openssl/openssl_3.0.13.bb
-> @@ -12,6 +12,8 @@ SRC_URI =3D "http://www.openssl.org/source/openssl-${PV=
-}.tar.gz \
->             file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from=
--co.patch \
->             file://afalg.patch \
->             file://0001-Configure-do-not-tweak-mips-cflags.patch \
-> +           file://0001-Improve-FIPS-RSA-keygen-performance.patch \
-> +           file://0002-Improve-FIPS-RSA-keygen-performance.patch \
->             "
->
->  SRC_URI:append:class-nativesdk =3D " \
->
->
->
->
->
-> --
-> # Randy MacLeod
-> # Wind River Linux
->
->
-> --
-> # Randy MacLeod
-> # Wind River Linux
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#197541): https://lists.openembedded.org/g/openembedde=
-d-core/message/197541
-> Mute This Topic: https://lists.openembedded.org/mt/104998278/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
-eve@sakoman.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+SGV5IQ0KDQpTb3JyeSBmb3IgdGhlIGxhdGUgcmVwbHksIEkgd2FzIG9uIHZhY2F0aW9uIGZvciBh
+IHdlZWsuIA0KDQo+LS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj5Gcm9tOiBvcGVuZW1iZWRk
+ZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtDQo+Y29yZUBsaXN0
+cy5vcGVuZW1iZWRkZWQub3JnPiBPbiBCZWhhbGYgT2YgU3RldmUgU2Frb21hbiB2aWENCj5saXN0
+cy5vcGVuZW1iZWRkZWQub3JnDQo+U2VudDogV2VkbmVzZGF5LCBNYXJjaCAyNywgMjAyNCA4OjEx
+IEFNDQo+VG86IE1hY0xlb2QsIFJhbmR5IDxSYW5keS5NYWNMZW9kQHdpbmRyaXZlci5jb20+DQo+
+Q2M6IExpdSwgSGFpdGFvIDxIYWl0YW8uTGl1QHdpbmRyaXZlci5jb20+OyBvcGVuZW1iZWRkZWQt
+DQo+Y29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+U3ViamVjdDogUmU6IFtPRS1jb3JlXVtr
+aXJrc3RvbmVdW1BBVENIXSBvcGVuc3NsOiBJbXByb3ZlIEZJUFMgUlNBIGtleWdlbg0KPnBlcmZv
+cm1hYw0KPg0KPkNBVVRJT046IFRoaXMgZW1haWwgY29tZXMgZnJvbSBhIG5vbiBXaW5kIFJpdmVy
+IGVtYWlsIGFjY291bnQhDQo+RG8gbm90IGNsaWNrIGxpbmtzIG9yIG9wZW4gYXR0YWNobWVudHMg
+dW5sZXNzIHlvdSByZWNvZ25pemUgdGhlIHNlbmRlciBhbmQNCj5rbm93IHRoZSBjb250ZW50IGlz
+IHNhZmUuDQo+DQo+T24gVHVlLCBNYXIgMjYsIDIwMjQgYXQgMTE6MzTigK9BTSBSYW5keSBNYWNM
+ZW9kIHZpYSBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+PHJhbmR5Lm1hY2xlb2Q9d2luZHJpdmVy
+LmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPiB3cm90ZToNCj4+DQo+PiBPbiAyMDI0LTAzLTE5
+IDc6MjMgcC5tLiwgU3RldmUgU2Frb21hbiB3cm90ZToNCj4+DQo+PiBPbiBUdWUsIE1hciAxOSwg
+MjAyNCBhdCAxMTo0NeKAr0FNIFJhbmR5IE1hY0xlb2QNCj4+IDxyYW5keS5tYWNsZW9kQHdpbmRy
+aXZlci5jb20+IHdyb3RlOg0KPj4NCj4+IEhpIEhhaXRhbywgZXQgYWwsDQo+Pg0KPj4NCj4+IFN1
+bW1hcnk6DQo+Pg0KPj4gSSB0aGluayB3ZSBjb3VsZCBicmluZyB0aGVzZSB0d28gY29tbWl0cyBi
+YWNrIHRvIGtpcmtzdG9uZSBldmVuIHRob3VnaA0KPj4gdXBzdHJlYW0gb3BlbnNzbCBtdGMgZG9l
+cyBub3QgcGxhbiB0byBkbyBzbywgYXQgbGVhc3Qgbm90IHdpdGhvdXQgInZlcnkgZ29vZA0KPnJl
+YXNvbnMiLg0KPj4NCj4+IGJ1dCBJIGhhdmUgc29tZSBjb21tZW50cyBhbmQgcXVlc3Rpb25zIGJl
+bG93IHRoYXQgSSdkIGxpa2UgeW91IHRvIHJlc3BvbmQNCj50byBiZWZvcmUgc2VuZGluZyBhIHYy
+Lg0KPj4NCj4+IC4uL1JhbmR5DQo+Pg0KPj4NCj4+DQo+PiBUeXBvIGluIHRoZSBzdWJqZWN0Og0K
+Pj4gICAgW09FLWNvcmVdW2tpcmtzdG9uZV1bUEFUQ0hdIG9wZW5zc2w6IEltcHJvdmUgRklQUyBS
+U0Ega2V5Z2VuDQo+PiBwZXJmb3JtYWMgc2hvdWxkIGJlOg0KPj4gICAgW09FLWNvcmVdW2tpcmtz
+dG9uZV1bUEFUQ0hdIG9wZW5zc2w6IEltcHJvdmUgRklQUyBSU0Ega2V5Z2VuDQo+PiBwZXJmb3Jt
+YW5jZQ0KPj4NCj4+IE9uIDIwMjQtMDMtMTggMjo1NSBhLm0uLCBqYXNvbi5sYXUgdmlhIGxpc3Rz
+Lm9wZW5lbWJlZGRlZC5vcmcgd3JvdGU6DQo+Pg0KPj4gVGhlIHNzaC1rZXlnZW4gd291bGQgdGFr
+ZSBhIGxvbmcgdGltZSB0byBnZW5lcmF0ZSB0aGUgZW50cm9weSBvZiBhIGtleQ0KPj4NCj4+IEl0
+J3MgYmVzdCB0byBiZSBtb3JlIHNwZWNpZmljLg0KPj4NCj4+IFlvdSBtZW50aW9uZWQgaW46DQo+
+Pg0KPj4gaHR0cHM6Ly9naXRodWIuY29tL29wZW5zc2wvb3BlbnNzbC9pc3N1ZXMvMjM3NjYNCj4+
+DQo+PiB0aGF0ICJzc2gta2V5Z2VuIChidWlsdCB3aXRoIG9wZW5zc2wzLjApIGlzIHRha2luZyAx
+LTJzIHRvIGV4ZWN1dGUgd2hlcmVhcyBpbg0KPm9wZW5zc2wzLjEgaXQgd2FzIGhhcmRseSBoYWxm
+IGEgc2Vjb25kIg0KPj4NCj4+IHNvIHlvdSBzaG91bGQgbWVudGlvbiB0aGF0IGluIHRoZSBjb21t
+aXQgbG9nLg0KDQpJIHdpbGwgYWRkIHRoZXNlIGNvbW1lbnRzIGludG8gdGhlIFYyIHBhdGNoLiAN
+Cg0KDQo+Pg0KPj4gWW91IHNob3VsZCBhbHNvIGluY2x1ZGUgYSBsaW5rIHRvIHRoZSB1cHN0cmVh
+bSBpc3N1ZSB5b3Ugb3BlbmVkIHRvIGV4cGxhaW4NCj50aGF0Og0KPj4NCj4+ICAgICJQZXJmb3Jt
+YW5jZSBmaXhlcyBhcmUgaW4gZ2VuZXJhbCBub3QgZWxpZ2libGUgZm9yIGJhY2twb3J0cyB0byBz
+dGFibGUgcmVsZWFzZQ0KPmJyYW5jaGVzLg0KPj4gICAgIEluIHNwZWNpZmljIGNhc2VzIGFuIGV4
+Y2VwdGlvbiBjb3VsZCBiZSBnaXZlbiBieSBPVEMgYnV0IHRoZXJlIHdvdWxkIGhhdmUNCj50byBi
+ZSB2ZXJ5IGdvb2QgcmVhc29ucyBmb3Igc3VjaCBhbiBleGNlcHRpb24uIg0KPj4NCj4+IEkgc2F3
+IHRoYXQgY29tbWVudCBsYXN0IHdlZWsgYW5kIHdvbmRlcmVkIGlmIHdlIHNob3VsZCBwdXNoIGhh
+cmRlciBmb3INCj4+IHVwc3RyZWFtIHRvIGJhY2twb3J0IHRoZXNlIGNvbW1pdHMgYnV0IEkgdW5k
+ZXJzdGFuZCB5b3VyIHJlbHVjdGFuY2UgdG8gZG8NCj50aGF0IHdoZW4gaXQgbWlnaHQgbWFrZSBz
+ZW5zZSB0byBqdXN0IGJhY2twb3J0IGhlcmUgaW4gb2UtY29yZS4NCj4+DQo+PiBOb3RlIHRoYXQg
+dGhlIGNvbW1pdHMgYXJlIG9ubHkgcGFydCBvZiAzLjIuMCs6DQo+Pg0KPj4g4p2vIGdpdCB0YWcg
+LS1jb250YWlucyBkZDFkN2JjYjY5OTk0ZDgxNjYyZTcwOWIwYWQ4Mzg4ODBiOTQzODcwDQo+PiBv
+cGVuc3NsLTMuMi4wDQo+PiBvcGVuc3NsLTMuMi4wLWFscGhhMQ0KPj4gb3BlbnNzbC0zLjIuMC1h
+bHBoYTINCj4+IG9wZW5zc2wtMy4yLjAtYmV0YTENCj4+IG9wZW5zc2wtMy4yLjENCj4+DQo+PiDi
+na8gZ2l0IHRhZyAtLWNvbnRhaW5zIGQyZjZlNjZkMjgzN2JmZjFmNWY3NjM2YmIyMTE4ZTNhNDVj
+OWRmNjENCj4+IG9wZW5zc2wtMy4yLjANCj4+IG9wZW5zc2wtMy4yLjAtYWxwaGExDQo+PiBvcGVu
+c3NsLTMuMi4wLWFscGhhMg0KPj4gb3BlbnNzbC0zLjIuMC1iZXRhMQ0KPj4gb3BlbnNzbC0zLjIu
+MQ0KPj4NCj4+IHNvIHRoZXknZCBhbHNvIGhhdmUgdG8gYmUgYmFjay1wb3J0ZWQgdG8gbmFuYmll
+bGQgdGVjaG5pY2FsbHk6DQo+Pg0KPj4gaHR0cHM6Ly9naXQub3BlbmVtYmVkZGVkLm9yZy9vcGVu
+ZW1iZWRkZWQtY29yZS90cmVlL21ldGEvcmVjaXBlcy0NCj5jb25uZQ0KPj4gY3Rpdml0eS9vcGVu
+c3NsL29wZW5zc2xfMy4xLjQuYmI/aD1uYW5iaWVsZA0KPj4NCj4+IFN0ZXZlLA0KPj4gR2l2ZW4g
+dGhhdCBuYW5iaWVsZCBpcyBhIHdlZWsgb3Igc28gYXdheSBmcm9tIEVPTCwgaXMgaXQgd29ydGgg
+ZG9pbmcgdGhhdD8NCj4+DQo+PiBJJ20gZ29pbmcgdG8gY2xvc2UgZG93biBjaGFuZ2VzIHRvIG5h
+bmJpZWxkIGluIHRoZSBuZXh0IGRheSBvciBzbywgc28NCj4+IHRoZXJlIHByb2JhYmx5IGlzbid0
+IHRpbWUgdG8gZ2V0IHN1Y2ggYSBjaGFuZ2UgaW4uDQo+Pg0KPj4gQW5kIEkgc3VzcGVjdCB0aGF0
+IHRoZSBraXJrc3RvbmUgdjIgcGF0Y2ggd29uJ3QgbWFrZSBpdCB0aHJvdWdoDQo+Pg0KPj4gSGFp
+dGFvLA0KPj4NCj4+IFN0ZXZlIGhhcyBOT1QgbWVyZ2VkIHRoaXMgdG8ga2lya3N0b25lOg0KPj4N
+Cj4+IGh0dHBzOi8vZ2l0Lm9wZW5lbWJlZGRlZC5vcmcvb3BlbmVtYmVkZGVkLWNvcmUtY29udHJp
+Yi9sb2cvP2g9c3RhYmxlL2sNCj4+IGlya3N0b25lLW51dA0KPj4NCj4+ICAgaHR0cHM6Ly9naXQu
+b3BlbmVtYmVkZGVkLm9yZy9vcGVuZW1iZWRkZWQtY29yZS9sb2cvP2g9a2lya3N0b25lDQo+DQo+
+Q29ycmVjdCwgSSd2ZSBiZWVuIHdhaXRpbmcgZm9yIFYyDQo+DQo+U3RldmUNCg0KSSB3aWxsIHNl
+bnQgdGhlIFYyIFBhdGNoIGFzIHNvb24gYXMgcG9zc2libGUuIA0KDQoNCj4NCj4+IFBsZWFzZSBy
+ZXBseSB0byBhbmQvb3IgZGVhbCB3aXRoIG15IGNvbW1lbnRzIGFuZCBzZW5kIGEgdjIuDQo+Pg0K
+Pj4gVGhhbmtzIQ0KPj4NCj4+IC4uL1JhbmR5DQo+Pg0KPj4NCj4+IHRlc3RpbmcgdW50aWwgYWZ0
+ZXIgdGhlIG5hbmJpZWxkIGZpbmFsIHJlbGVhc2UgaXMgZG9uZSwgc28gSSBkb24ndA0KPj4gaGF2
+ZSBhbiBpc3N1ZSB3aXRoIHRha2luZyBpdC4NCj4+DQo+PiBTdGV2ZQ0KPj4NCj4+IE5vdGUgdGhh
+dCB0aGUgb3JpZ2luYWwgY29tbWl0cyB3ZXJlIGZyb20gTm92IDIsIDIwMjIgc28gdGhleSd2ZSBo
+YWQNCj4+IHNvbWUgdGltZSB0byB1bW1tLCBiYWtlIGJ1dCB0aGUgMy4yLjAgcmVsZWFzZSB3YXMg
+J29ubHknIG9uIE5vdiAyMywgMjAyMzoNCj4+ICAgIGh0dHBzOi8vd3d3Lm9wZW5zc2wub3JnL3Nv
+dXJjZS9vbGQvMy4yL2luZGV4Lmh0bWwNCj4+IHNvIGl0J3MgZ290IDMgb3IgNCBtb250aHMgb2Yg
+dGhlIHB1YmxpYyBiZWluZyBhYmxlIHRvIHRlc3QgaXQuDQo+Pg0KPj4gSSd2ZSB0YWtlbiBhIGxv
+b2sgYXQgdGhlIGNvbW1pdHMgYW5kIGhhdmVuJ3Qgc2VlbiBhIHByb2JsZW0gd2l0aCB0aGUNCj5i
+YWNrcG9ydC4NCj4+DQo+PiBIYWl0YW8sDQo+PiBEaWQgeW91IGhhdmUgdG8gYWRqdXN0IHRoZSBw
+YXRjaGVzIGF0IGFsbD8gSWYgc28gcGxlYXNlIGV4cGxhaW4gd2hhdCB5b3UgZGlkLg0KPj4NCg0K
+SEkgUmFuZHksIA0KSSBkaWQgbm90IGFkanVzdCB0aGUgY29udGVudCBvZiBwYXRjaGVzIGEgbG90
+LiANCg0KMS4gYWRkIGEgZnVuY3Rpb24gZGVmaW5pdGlvbiBmb3IgIkJOX2FyZV9jb3ByaW1lKCki
+IGluIHV0aWwvbGliY3J5cHRvLm51bSB0byBpbmRpY2F0ZSB0aGF0IHRoZSBmdW5jdGlvbiB3YXMg
+aW50cm9kdWNlZCBvbiBvcGVuc3NsIDMuMS4xDQoNCiAgIGRpZmYgYS91dGlsL2xpYmNyeXB0by5u
+dW0gYi91dGlsL2xpYmNyeXB0by5udW0gIChyZWplY3RlZCBodW5rcykNCiAgIEBAIC01NDMyLDMg
+KzU0MzIsNCBAQCBSQU5EX3NldDBfcHVibGljICAgICAgICAgICAgICAgICAgICAgICAgPyAzXzFf
+MCAgIEVYSVNUOjpGVU5DVElPTjoNCiAgICBSQU5EX3NldDBfcHJpdmF0ZSAgICAgICAgICAgICAg
+ICAgICAgICAgPyAgM18xXzAgICBFWElTVDo6RlVOQ1RJT046DQogICAgRVZQX01EX0NUWF9kdXAg
+ICAgICAgICAgICAgICAgICAgICAgICAgID8gIDNfMV8wICAgRVhJU1Q6OkZVTkNUSU9OOg0KICAg
+IEVWUF9DSVBIRVJfQ1RYX2R1cCAgICAgICAgICAgICAgICAgICAgICA/ICAzXzFfMCAgIEVYSVNU
+OjpGVU5DVElPTjoNCiAgICtCTl9hcmVfY29wcmltZSAgICAgICAgICAgICAgICAgICAgICAgICAg
+PyAgM18xXzAgICBFWElTVDo6RlVOQ1RJT046DQoNCjIuIEFuZCB0aGUgc2Vjb25kIHBhdGNoIGNv
+dWxkIGJlIGFwcGxpZWQgZGlyZWN0bHkgd2l0aG91dCBhbnkgbW9kaWZpY2F0aW9uLiANCg0KDQo+
+PiBZb3VyIHRlc3RzIHNob3cgdGhhdCBvcGVuc3NsIGlzIGZhc3RlciwgaGF2ZSB5b3UgdGVzdGVk
+IGZvciBjb3JyZWN0bmVzcyBhdCBhbGw/DQo+PiBEb2VzIGl0IG1ha2Ugc2Vuc2UgdG8gcnVuOiB0
+ZXN0L2JudGVzdC5jID8gU3RldmUgd2lsbCBsaWtlbHkgcnVuIHRoZSBwdGVzdHMgb2YNCj5jb3Vy
+c2UuDQoNCkkgc3VyZSBoYXZlIHRyaWVkIGFib3V0IHRob3VzYW5kIHRpbWVzIGFib3V0IGl0LiAg
+SSBhbHNvIHJhbiB0aGUgUHRlc3RzIG9mIE9wZW5TU0wgYmVmb3JlIHNlbmRpbmcgdGhlbSB0byB1
+cHN0cmVhbS4gDQoNCnJvb3RAZ2VuZXJpY3g4Ni02NDovdXNyL2xpYi9vcGVuc3NsL3B0ZXN0IyAu
+L3J1bi1wdGVzdA0KU0tJUDogMDAtcHJlcF9maXBzbW9kdWxlX2NuZi50IC4uIHNraXBwZWQ6IEZJ
+UFMgbW9kdWxlIGNvbmZpZyBmaWxlIG9ubHkgc3VwcG9ydGVkIGluIGEgZmlwcyBidWlsZA0KRmls
+ZXM9MSwgVGVzdHM9MCwgIDAgd2FsbGNsb2NrIHNlY3MgKCAwLjAxIHVzciAgMC4wMCBzeXMgKyAg
+MC4yMyBjdXNyICAwLjAzIGNzeXMgPSAgMC4yNyBDUFUpDQpSZXN1bHQ6IE5PVEVTVFMNClBBU1M6
+IDAxLXRlc3RfYWJvcnQudCAuLi4uLi4uLi4uLi4uLi4uLi4uLiBvaw0KU0tJUDogMDEtdGVzdF9m
+aXBzbW9kdWxlX2NuZi50IC4uLi4uLi4uLi4uIHNraXBwZWQ6IFRlc3Qgb25seSBzdXBwb3J0ZWQg
+aW4gYSBmaXBzIGJ1aWxkDQpQQVNTOiAwMS10ZXN0X3Nhbml0eS50IC4uLi4uLi4uLi4uLi4uLi4u
+Li4gb2sNClBBU1M6IDAxLXRlc3Rfc3ltYm9sX3ByZXNlbmNlLnQgLi4uLi4uLi4uLiBvaw0KUEFT
+UzogMDEtdGVzdF90ZXN0LnQgLi4uLi4uLi4uLi4uLi4uLi4uLi4uIG9rDQpQQVNTOiAwMi10ZXN0
+X2VycnN0ci50IC4uLi4uLi4uLi4uLi4uLi4uLi4gb2sNClBBU1M6IDAyLXRlc3RfaW50ZXJuYWxf
+Y29udGV4dC50IC4uLi4uLi4uLiBvaw0KUEFTUzogMDItdGVzdF9pbnRlcm5hbF9jdHlwZS50IC4u
+Li4uLi4uLi4uIG9rDQouLi4uLg0KUEFTUzogOTktdGVzdF9mdXp6X2NvbmYudCAuLi4uLi4uLi4u
+Li4uLi4uIG9rDQpQQVNTOiA5OS10ZXN0X2Z1enpfY3JsLnQgLi4uLi4uLi4uLi4uLi4uLi4gb2sN
+ClBBU1M6IDk5LXRlc3RfZnV6el9jdC50IC4uLi4uLi4uLi4uLi4uLi4uLiBvaw0KUEFTUzogOTkt
+dGVzdF9mdXp6X3NlcnZlci50IC4uLi4uLi4uLi4uLi4uIG9rDQpQQVNTOiA5OS10ZXN0X2Z1enpf
+eDUwOS50IC4uLi4uLi4uLi4uLi4uLi4gb2sNCkFsbCB0ZXN0cyBzdWNjZXNzZnVsLg0KRmlsZXM9
+MjUzLCBUZXN0cz0zMzY4LCA0NjMgd2FsbGNsb2NrIHNlY3MgKDEwLjU5IHVzciAgMC43NyBzeXMg
+KyAzMjMuNjYgY3VzciA2NS42OSBjc3lzID0gNDAwLjcxIENQVSkNCg0KLi4vaGFpdGFvDQoNCg0K
+DQo+Pg0KPj4gRG8gd2UgbmVlZCB0aGUgb25lbGluZSBjaGFuZ2U6ICJGaXggaW5jb3JyZWN0IGVy
+cm9yIGJyYW5jaCBpbg0KPm9zc2xfYm5fcnNhX2ZpcHMxODZfNF9kZXJpdmVfcHJpbWUoKSINCg0K
+VGhpcyBjb21taXQgaXMgbm90IGEgZml4ZWQgY29tbWl0IGZvciAiZDJmNmU2NmQyOCBJbXByb3Zl
+IEZJUFMgUlNBIGtleWdlbiBwZXJmb3JtYW5jZSIgYW5kICIgZGQxZDdiY2I2OSBJbXByb3ZlIEZJ
+UFMgUlNBIGtleWdlbiBwZXJmb3JtYW5jZSIuIA0KDQpBbmQgaXQgZGlkIG5vdCBpbXByb3ZlIHRo
+ZSBwZXJmb3JtYW5jZSBhdCBhbGwgYWZ0ZXIgYXBwbHlpbmcgaXQuDQoNCi4uL2hhaXRhbw0KDQo+
+PiBmcm9tOg0KPj4gb3BlbnNzbC5naXQgb24gbWFzdGVyDQo+PiDina8gZ2l0IGxvZyAtLW9uZWxp
+bmUgY3J5cHRvL2JuL2JuX3JzYV9maXBzMTg2XzQuYw0KPj4gZGExYzA4OGY1OSBDb3B5cmlnaHQg
+eWVhciB1cGRhdGVzDQo+PiA4MzViOTBhMTljIEZpeCBpbmNvcnJlY3QgZXJyb3IgYnJhbmNoIGlu
+DQo+PiBvc3NsX2JuX3JzYV9maXBzMTg2XzRfZGVyaXZlX3ByaW1lKCkNCj4+IGQyZjZlNjZkMjgg
+SW1wcm92ZSBGSVBTIFJTQSBrZXlnZW4gcGVyZm9ybWFuY2UuDQo+PiBkZDFkN2JjYjY5IEltcHJv
+dmUgRklQUyBSU0Ega2V5Z2VuIHBlcmZvcm1hbmNlLg0KPj4NCj4+DQo+PiBBcmUgdGhlcmUgYW55
+IG90aGVyIGNoYW5nZXMgdG8gdGhlIGZpbGVzIHRvdWNoZWQgYnkgdGhlc2UgY29tbWl0cyB0aGF0
+DQo+PiB3b3VsZCBhZmZlY3QgdGhlIGNvcnJlY3RuZXNzIG9yIHBlcmZvcm1hbmNlIG9mIHRoZSBj
+b2RlIGludHJvZHVjZWQ/DQo+Pg0KDQpJIGhhdmUgY2hlY2tlZCBhbGwgdGhlICBmaWxlcyB0b3Vj
+aGVkIGJ5IHRoZXNlIGNvbW1pdHMuIFdlIGRpZCBub3QgbmVlZCB0byBpbnRyb2R1Y2UgYW55IG90
+aGVyIHBhdGNoZXMuIA0KDQpobGl1NEBwZWstbHBkLXN1c2JsZDpvcGVuc3NsJGdpdF9sb2cgY3J5
+cHRvL2JuL2JuX2djZC5jDQplNmU2MTEzZWJiIDIwMjMtMTAtMjQgMTQ6NDA6MjkgKzAxMDAgQ29w
+eXJpZ2h0IHllYXIgdXBkYXRlcw0KZjQxYWY3MTVjMSAyMDIzLTEwLTA1IDEyOjA1OjQ4ICswMjAw
+IEJOX2djZCgpOiBBdm9pZCBzaGlmdHMgb2YgbmVnYXRpdmUgdmFsdWVzDQoxMTM2YzRkYzM5IDIw
+MjItMTEtMjEgMTE6MjA6MzggKzAxMDAgSW1wcm92ZSBGSVBTIFJTQSBrZXlnZW4gcGVyZm9ybWFu
+Y2UuDQoNCmhsaXU0QHBlay1scGQtc3VzYmxkOm9wZW5zc2wkZ2l0X2xvZyBjcnlwdG8vYm4vYm5f
+cHJpbWUuYw0KMzQzMWRkNGIzZSAyMDIyLTExLTIzIDA4OjI3OjQyICswMTAwIEltcHJvdmUgRklQ
+UyBSU0Ega2V5Z2VuIHBlcmZvcm1hbmNlLg0KNGIyMGNiYmUxYyAyMDIyLTEwLTExIDEzOjIwOjI3
+ICswMTAwIFVwZGF0ZSBjb3B5cmlnaHQgeWVhcg0KDQouLi9oYWl0YW8NCg0KPj4gLi4vUmFuZHkN
+Cj4+DQo+Pg0KPj4NCj4+IFRoZSBmb2xsb3dpbmcgY29tbWl0cyBoYXZlIGZpeGVkIHRoZSBpc3N1
+ZS4NCj4+DQo+aHR0cHM6Ly9naXRodWIuY29tL29wZW5zc2wvb3BlbnNzbC9jb21taXQvZGQxZDdi
+Y2I2OTk5NGQ4MTY2MmU3MDliMGFkDQo+OA0KPj4gMzg4ODBiOTQzODcwDQo+Pg0KPmh0dHBzOi8v
+Z2l0aHViLmNvbS9vcGVuc3NsL29wZW5zc2wvY29tbWl0L2QyZjZlNjZkMjgzN2JmZjFmNWY3NjM2
+YmIyMTENCj4+IDhlM2E0NWM5ZGY2MQ0KPj4NCj4+IFNpZ25lZC1vZmYtYnk6IEhhaXRhbyBMaXUg
+PGhhaXRhby5saXVAd2luZHJpdmVyLmNvbT4NCj4+IC0tLQ0KPj4gIC4uLi1JbXByb3ZlLUZJUFMt
+UlNBLWtleWdlbi1wZXJmb3JtYW5jZS5wYXRjaCB8IDI3MQ0KPj4gKysrKysrKysrKysrKysrKysr
+ICAuLi4tSW1wcm92ZS1GSVBTLVJTQS1rZXlnZW4tcGVyZm9ybWFuY2UucGF0Y2ggfCAxODUNCj4r
+KysrKysrKysrKysNCj4+ICAuLi4vb3BlbnNzbC9vcGVuc3NsXzMuMC4xMy5iYiAgICAgICAgICAg
+ICAgICAgfCAgIDIgKw0KPj4gIDMgZmlsZXMgY2hhbmdlZCwgNDU4IGluc2VydGlvbnMoKykNCj4+
+ICBjcmVhdGUgbW9kZSAxMDA2NDQNCj4+IG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNz
+bC9vcGVuc3NsLzAwMDEtSW1wcm92ZS1GSVBTLVJTQS1rZXlnZW4NCj4+IC1wZXJmb3JtYW5jZS5w
+YXRjaCAgY3JlYXRlIG1vZGUgMTAwNjQ0DQo+PiBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29w
+ZW5zc2wvb3BlbnNzbC8wMDAyLUltcHJvdmUtRklQUy1SU0Eta2V5Z2VuDQo+PiAtcGVyZm9ybWFu
+Y2UucGF0Y2gNCj4+DQo+PiBkaWZmIC0tZ2l0DQo+PiBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZp
+dHkvb3BlbnNzbC9vcGVuc3NsLzAwMDEtSW1wcm92ZS1GSVBTLVJTQS1rZXlnDQo+PiBlbi1wZXJm
+b3JtYW5jZS5wYXRjaA0KPj4gYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2wvb3Bl
+bnNzbC8wMDAxLUltcHJvdmUtRklQUy1SU0Eta2V5Zw0KPj4gZW4tcGVyZm9ybWFuY2UucGF0Y2gN
+Cj4+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+PiBpbmRleCAwMDAwMDAwMDAwLi5hZWQwZTFhNWMx
+DQo+PiAtLS0gL2Rldi9udWxsDQo+PiArKysgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29w
+ZW5zc2wvb3BlbnNzbC8wMDAxLUltcHJvdmUtRklQUy1SU0EtDQo+PiArKysga2V5Z2VuLXBlcmZv
+cm1hbmNlLnBhdGNoDQo+PiBAQCAtMCwwICsxLDI3MSBAQA0KPj4gK0Zyb20gYTk0MGRmYTE1Mjcw
+N2JhODJmM2VmYzJjMTQ3ZjYzMTNjMjhmNzY2MiBNb24gU2VwIDE3IDAwOjAwOjAwDQo+PiArMjAw
+MQ0KPj4gK0Zyb206IHNsb250aXMgPHNoYW5lLmxvbnRpc0BvcmFjbGUuY29tPg0KPj4gK0RhdGU6
+IFdlZCwgMiBOb3YgMjAyMiAxMjowMTozNCArMTAwMA0KPj4gK1N1YmplY3Q6IFtQQVRDSCAxLzJd
+IEltcHJvdmUgRklQUyBSU0Ega2V5Z2VuIHBlcmZvcm1hbmNlLg0KPj4gKw0KPj4gK0ZJUFMgMTg2
+LTQgaGFzIDUgZGlmZmVyZW50IGFsZ29yaXRobXMgZm9yIGtleSBnZW5lcmF0aW9uLCBhbmQgYWxs
+IG9mDQo+PiArdGhlbSByZWx5IG9uIHRlc3RpbmcgR0NEKGEsbikgPT0gMSBtYW55IHRpbWVzLg0K
+Pj4gKw0KPj4gK0NhY2hlZ3JpbmQgd2FzIHNob3dpbmcgdGhhdCBkdXJpbmcgYSBSU0Ega2V5Z2Vu
+IG9wZXJhdGlvbiwgdGhlDQo+PiArZnVuY3Rpb24gQk5fZ2NkKCkgd2FzIHRha2luZyBhIGNvbnNp
+ZGVyYWJsZSBwZXJjZW50YWdlIG9mIHRoZSB0b3RhbA0KPj4gK2N5Y2xlcy4NCj4+ICsNCj4+ICtU
+aGUgZGVmYXVsdCBwcm92aWRlciB1c2VzIG11bHRpcHJpbWUga2V5Z2VuLCB3aGljaCBzZWVtZWQg
+dG8gYmUgbXVjaA0KPj4gK2Zhc3Rlci4gVGhpcyBpcyBiZWNhdXNlIGl0IHVzZXMgQk5fbW9kX2lu
+dmVyc2UoKSBpbnN0ZWFkLg0KPj4gKw0KPj4gK0ZvciBhIDQwOTYgYml0IGtleSwgdGhlIGVudHJv
+cHkgb2YgYSBrZXkgdGhhdCB3YXMgdGFraW5nIGEgbG9uZyB0aW1lDQo+PiArdG8gZ2VuZXJhdGUg
+d2FzIHJlY29yZGVkIGFuZCBmZWQgYmFjayBpbnRvIHN1YnNlcXVlbnQgcnVucy4gUm91Z2hseQ0K
+Pj4gKzQwJSBvZiB0aGUgY3ljbGUgdGltZSB3YXMgQk5fZ2NkKCkgd2l0aCBtb3N0IG9mIHRoZSBy
+ZW1haW5kZXIgaW4gdGhlDQo+PiArcHJpbWUgdGVzdGluZy4gQ2hhbmdpbmcgdG8gdXNlIHRoZSBp
+bnZlcnNlIHJlc3VsdGVkIGluIHRoZSBjeWNsZQ0KPj4gK2NvdW50IGJlaW5nIDk2JSBpbiB0aGUg
+cHJpbWUgdGVzdGluZy4NCj4+ICsNCj4+ICtSZXZpZXdlZC1ieTogUGF1bCBEYWxlIDxwYXVsaUBv
+cGVuc3NsLm9yZz4NCj4+ICtSZXZpZXdlZC1ieTogVG9tYXMgTXJheiA8dG9tYXNAb3BlbnNzbC5v
+cmc+IChNZXJnZWQgZnJvbQ0KPj4gK2h0dHBzOi8vZ2l0aHViLmNvbS9vcGVuc3NsL29wZW5zc2wv
+cHVsbC8xOTU3OCkNCj4+ICsNCj4+ICsoY2hlcnJ5IHBpY2tlZCBmcm9tIGNvbW1pdA0KPmRkMWQ3
+YmNiNjk5OTRkODE2NjJlNzA5YjBhZDgzODg4MGI5NDM4NzApDQo+PiArDQo+PiArVXBzdHJlYW0t
+U3RhdHVzOiBCYWNrcG9ydA0KPj4NCj4rW2h0dHBzOi8vZ2l0aHViLmNvbS9vcGVuc3NsL29wZW5z
+c2wvY29tbWl0L2RkMWQ3YmNiNjk5OTRkODE2NjJlNzA5YjANCj5hDQo+PiArZDgzODg4MGI5NDM4
+NzBdDQo+PiArDQo+PiArU2lnbmVkLW9mZi1ieTogSGFpdGFvIExpdSA8aGFpdGFvLmxpdUB3aW5k
+cml2ZXIuY29tPg0KPj4gKy0tLQ0KPj4gKyBjcnlwdG8vYm4vYm5fZ2NkLmMgICAgICAgICAgIHwg
+MzEgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKw0KPj4gKyBjcnlwdG8vYm4vYm5fcnNh
+X2ZpcHMxODZfNC5jIHwgMjQgKysrKysrKysrKysrKysrLS0tLS0tLS0tDQo+PiArIGRvYy9tYW4z
+L0JOX2NtcC5wb2QgICAgICAgICAgfCAxNCArKysrKysrKysrKysrLQ0KPj4gKyBpbmNsdWRlL29w
+ZW5zc2wvYm4uaCAgICAgICAgIHwgIDEgKw0KPj4gKyB0ZXN0L2JudGVzdC5jICAgICAgICAgICAg
+ICAgIHwgMjYgKysrKysrKysrKysrKysrKysrKysrKysrLS0NCj4+ICsgdXRpbC9saWJjcnlwdG8u
+bnVtICAgICAgICAgICB8ICAxICsNCj4+ICsgNiBmaWxlcyBjaGFuZ2VkLCA4NSBpbnNlcnRpb25z
+KCspLCAxMiBkZWxldGlvbnMoLSkNCj4+ICsNCj4+ICtkaWZmIC0tZ2l0IGEvY3J5cHRvL2JuL2Ju
+X2djZC5jIGIvY3J5cHRvL2JuL2JuX2djZC5jIGluZGV4DQo+PiArY2QwYjAxNS4uODc5YTg0YiAx
+MDA2NDQNCj4+ICstLS0gYS9jcnlwdG8vYm4vYm5fZ2NkLmMNCj4+ICsrKysgYi9jcnlwdG8vYm4v
+Ym5fZ2NkLmMNCj4+ICtAQCAtNTM0LDYgKzUzNCwzNyBAQCBCSUdOVU0gKkJOX21vZF9pbnZlcnNl
+KEJJR05VTSAqaW4sDQo+PiArICAgICByZXR1cm4gcnY7DQo+PiArIH0NCj4+ICsNCj4+ICsrLyoN
+Cj4+ICsrICogVGhlIG51bWJlcnMgYSBhbmQgYiBhcmUgY29wcmltZSBpZiB0aGUgb25seSBwb3Np
+dGl2ZSBpbnRlZ2VyIHRoYXQNCj4+ICsraXMgYQ0KPj4gKysgKiBkaXZpc29yIG9mIGJvdGggb2Yg
+dGhlbSBpcyAxLg0KPj4gKysgKiBpLmUuIGdjZChhLGIpID0gMS4NCj4+ICsrICoNCj4+ICsrICog
+Q29wcmltZXMgaGF2ZSB0aGUgcHJvcGVydHk6IGIgaGFzIGEgbXVsdGlwbGljYXRpdmUgaW52ZXJz
+ZSBtb2R1bG8NCj4+ICsrYQ0KPj4gKysgKiBpLmUgdGhlcmUgaXMgc29tZSB2YWx1ZSB4IHN1Y2gg
+dGhhdCBieCA9IDEgKG1vZCBhKS4NCj4+ICsrICoNCj4+ICsrICogVGVzdGluZyB0aGUgbW9kdWxv
+IGludmVyc2UgaXMgY3VycmVudGx5IG11Y2ggZmFzdGVyIHRoYW4gdGhlDQo+PiArK2NvbnN0YW50
+DQo+PiArKyAqIHRpbWUgdmVyc2lvbiBvZiBCTl9nY2QoKS4NCj4+ICsrICovDQo+PiArK2ludCBC
+Tl9hcmVfY29wcmltZShCSUdOVU0gKmEsIGNvbnN0IEJJR05VTSAqYiwgQk5fQ1RYICpjdHgpIHsN
+Cj4+ICsrICAgIGludCByZXQgPSAwOw0KPj4gKysgICAgQklHTlVNICp0bXA7DQo+PiArKw0KPj4g
+KysgICAgQk5fQ1RYX3N0YXJ0KGN0eCk7DQo+PiArKyAgICB0bXAgPSBCTl9DVFhfZ2V0KGN0eCk7
+DQo+PiArKyAgICBpZiAodG1wID09IE5VTEwpDQo+PiArKyAgICAgICAgZ290byBlbmQ7DQo+PiAr
+Kw0KPj4gKysgICAgRVJSX3NldF9tYXJrKCk7DQo+PiArKyAgICBCTl9zZXRfZmxhZ3MoYSwgQk5f
+RkxHX0NPTlNUVElNRSk7DQo+PiArKyAgICByZXQgPSAoQk5fbW9kX2ludmVyc2UodG1wLCBhLCBi
+LCBjdHgpICE9IE5VTEwpOw0KPj4gKysgICAgLyogQ2xlYXIgYW55IGVycm9ycyAoYW4gZXJyb3Ig
+aXMgcmV0dXJuZWQgaWYgdGhlcmUgaXMgbm8gaW52ZXJzZSkgKi8NCj4+ICsrICAgIEVSUl9wb3Bf
+dG9fbWFyaygpOw0KPj4gKytlbmQ6DQo+PiArKyAgICBCTl9DVFhfZW5kKGN0eCk7DQo+PiArKyAg
+ICByZXR1cm4gcmV0Ow0KPj4gKyt9DQo+PiArKw0KPj4gKyAvKi0NCj4+ICsgICogVGhpcyBmdW5j
+dGlvbiBpcyBiYXNlZCBvbiB0aGUgY29uc3RhbnQtdGltZSBHQ0Qgd29yayBieSBCZXJuc3RlaW4g
+YW5kDQo+WWFuZzoNCj4+ICsgICogaHR0cHM6Ly9lcHJpbnQuaWFjci5vcmcvMjAxOS8yNjYNCj4+
+ICtkaWZmIC0tZ2l0IGEvY3J5cHRvL2JuL2JuX3JzYV9maXBzMTg2XzQuYw0KPj4gK2IvY3J5cHRv
+L2JuL2JuX3JzYV9maXBzMTg2XzQuYyBpbmRleCA2MmQ4Njg1Li41NWVmYWYyIDEwMDY0NA0KPj4g
+Ky0tLSBhL2NyeXB0by9ibi9ibl9yc2FfZmlwczE4Nl80LmMNCj4+ICsrKysgYi9jcnlwdG8vYm4v
+Ym5fcnNhX2ZpcHMxODZfNC5jDQo+PiArQEAgLTI4NiwxNCArMjg2LDIwIEBAIGludA0KPm9zc2xf
+Ym5fcnNhX2ZpcHMxODZfNF9kZXJpdmVfcHJpbWUoQklHTlVNICpZLCBCSUdOVU0gKlgsIGNvbnN0
+IEJJR05VTQ0KPipYaW4sDQo+PiArICAgICAgICAgICAgIGdvdG8gZXJyOw0KPj4gKyAgICAgfQ0K
+Pj4gKw0KPj4gKysgICAgLyoNCj4+ICsrICAgICAqIChTdGVwIDEpIEdDRCgycjEsIHIyKSA9IDEu
+DQo+PiArKyAgICAgKiAgICBOb3RlOiBUaGlzIGFsZ29yaXRobSB3YXMgZG9pbmcgYSBnY2QoMnIx
+LCByMik9MSB0ZXN0IGJlZm9yZSBkb2luZyBhbg0KPj4gKysgICAgICogICAgbW9kX2ludmVyc2Uo
+MnIxLCByMikgd2hpY2ggYXJlIGVmZmVjdGl2ZWx5IHRoZSBzYW1lIG9wZXJhdGlvbi4NCj4+ICsr
+ICAgICAqICAgIChUaGUgYWxnb3JpdGhtIGFzc3VtZWQgdGhhdCB0aGUgZ2NkIHRlc3Qgd291bGQg
+YmUgZmFzdGVyKS4gU2luY2UgdGhlDQo+PiArKyAgICAgKiAgICBtb2RfaW52ZXJzZSBpcyBjdXJy
+ZW50bHkgZmFzdGVyIHRoYW4gY2FsbGluZyB0aGUgY29uc3RhbnQgdGltZQ0KPj4gKysgICAgICog
+ICAgQk5fZ2NkKCksIHRoZSBjYWxsIHRvIEJOX2djZCgpIGhhcyBiZWVuIG9taXR0ZWQuIFRoZSBp
+bnZlcnNlIHJlc3VsdA0KPj4gKysgICAgICogICAgaXMgdXNlZCBmdXJ0aGVyIGRvd24uDQo+PiAr
+KyAgICAgKi8NCj4+ICsgICAgIGlmICghKEJOX2xzaGlmdDEocjF4MiwgcjEpDQo+PiArLSAgICAg
+ICAgICAgIC8qIChTdGVwIDEpIEdDRCgycjEsIHIyKSA9IDEgKi8NCj4+ICstICAgICAgICAgICAg
+JiYgQk5fZ2NkKHRtcCwgcjF4MiwgcjIsIGN0eCkNCj4+ICstICAgICAgICAgICAgJiYgQk5faXNf
+b25lKHRtcCkNCj4+ICsrICAgICAgICAgICAgJiYgKEJOX21vZF9pbnZlcnNlKHRtcCwgcjF4Miwg
+cjIsIGN0eCkgIT0gTlVMTCkNCj4+ICsgICAgICAgICAgICAgLyogKFN0ZXAgMikgUiA9ICgocjJe
+LTEgbW9kIDJyMSkgKiByMikgLSAoKDJyMV4tMSBtb2QgcjIpKjJyMSkgKi8NCj4+ICstICAgICAg
+ICAgICAgJiYgQk5fbW9kX2ludmVyc2UoUiwgcjIsIHIxeDIsIGN0eCkNCj4+ICsrICAgICAgICAg
+ICAgJiYgKEJOX21vZF9pbnZlcnNlKFIsIHIyLCByMXgyLCBjdHgpICE9IE5VTEwpDQo+PiArICAg
+ICAgICAgICAgICYmIEJOX211bChSLCBSLCByMiwgY3R4KSAvKiBSID0gKHIyXi0xIG1vZCAycjEp
+ICogcjIgKi8NCj4+ICstICAgICAgICAgICAgJiYgQk5fbW9kX2ludmVyc2UodG1wLCByMXgyLCBy
+MiwgY3R4KQ0KPj4gKyAgICAgICAgICAgICAmJiBCTl9tdWwodG1wLCB0bXAsIHIxeDIsIGN0eCkg
+LyogdG1wID0gKDJyMV4tMSBtb2QgcjIpKjJyMSAqLw0KPj4gKyAgICAgICAgICAgICAmJiBCTl9z
+dWIoUiwgUiwgdG1wKQ0KPj4gKyAgICAgICAgICAgICAvKiBDYWxjdWxhdGUgMnIxcjIgKi8NCj4+
+ICtAQCAtMzA1LDcgKzMxMSw4IEBAIGludCBvc3NsX2JuX3JzYV9maXBzMTg2XzRfZGVyaXZlX3By
+aW1lKEJJR05VTQ0KPipZLA0KPj4gK0JJR05VTSAqWCwgY29uc3QgQklHTlVNICpYaW4sDQo+PiAr
+DQo+PiArICAgICAvKg0KPj4gKyAgICAgICogSW4gRklQUyAxODYtNCBpbWF4IHdhcyBzZXQgdG8g
+NSAqIG5sZW4vMi4NCj4+ICstICAgICAqIEFuYWx5c2lzIGJ5IEFsbGVuIFJvZ2luc2t5IChTZWUN
+Cj5odHRwczovL2NzcmMubmlzdC5nb3YvQ1NSQy9tZWRpYS9QdWJsaWNhdGlvbnMvZmlwcy8xODYv
+NC9maW5hbC9kb2N1bWVudHMvY28NCj5tbWVudHMtcmVjZWl2ZWQtZmlwczE4Ni00LWRlY2VtYmVy
+LTIwMTUucGRmDQo+PiArKyAgICAgKiBBbmFseXNpcyBieSBBbGxlbiBSb2dpbnNreQ0KPj4gKysg
+ICAgICogKFNlZQ0KPj4gKysgaHR0cHM6Ly9jc3JjLm5pc3QuZ292L0NTUkMvbWVkaWEvUHVibGlj
+YXRpb25zL2ZpcHMvMTg2LzQvZmluYWwvZG9jdQ0KPj4gKysgbWVudHMvY29tbWVudHMtcmVjZWl2
+ZWQtZmlwczE4Ni00LWRlY2VtYmVyLTIwMTUucGRmDQo+PiArICAgICAgKiBwYWdlIDY4KSBpbmRp
+Y2F0ZXMgdGhpcyBoYXMgYSAxIGluIDIgbWlsbGlvbiBjaGFuY2Ugb2YgZmFpbHVyZS4NCj4+ICsg
+ICAgICAqIFRoZSBudW1iZXIgaGFzIGJlZW4gdXBkYXRlZCB0byAyMCAqIG5sZW4vMiBhcyB1c2Vk
+IGluDQo+PiArICAgICAgKiBGSVBTMTg2LTUgQXBwZW5kaXggQi45IFN0ZXAgOS4NCj4+ICtAQCAt
+MzM3LDEwICszNDQsOSBAQCBpbnQgb3NzbF9ibl9yc2FfZmlwczE4Nl80X2Rlcml2ZV9wcmltZShC
+SUdOVU0NCj4+ICsqWSwgQklHTlVNICpYLCBjb25zdCBCSUdOVU0gKlhpbiwNCj4+ICsNCj4+ICsg
+ICAgICAgICAgICAgLyogKFN0ZXAgNykgSWYgR0NEKFktMSkgPT0gMSAmIFkgaXMgcHJvYmFibHkg
+cHJpbWUgdGhlbiByZXR1cm4gWSAqLw0KPj4gKyAgICAgICAgICAgICBpZiAoQk5fY29weSh5MSwg
+WSkgPT0gTlVMTA0KPj4gKy0gICAgICAgICAgICAgICAgICAgIHx8ICFCTl9zdWJfd29yZCh5MSwg
+MSkNCj4+ICstICAgICAgICAgICAgICAgICAgICB8fCAhQk5fZ2NkKHRtcCwgeTEsIGUsIGN0eCkp
+DQo+PiArKyAgICAgICAgICAgICAgICAgICAgfHwgIUJOX3N1Yl93b3JkKHkxLCAxKSkNCj4+ICsg
+ICAgICAgICAgICAgICAgIGdvdG8gZXJyOw0KPj4gKy0gICAgICAgICAgICBpZiAoQk5faXNfb25l
+KHRtcCkpIHsNCj4+ICsrICAgICAgICAgICAgaWYgKEJOX2FyZV9jb3ByaW1lKHkxLCBlLCBjdHgp
+KSB7DQo+PiArICAgICAgICAgICAgICAgICBpbnQgcnYgPSBCTl9jaGVja19wcmltZShZLCBjdHgs
+IGNiKTsNCj4+ICsNCj4+ICsgICAgICAgICAgICAgICAgIGlmIChydiA+IDApDQo+PiArZGlmZiAt
+LWdpdCBhL2RvYy9tYW4zL0JOX2NtcC5wb2QgYi9kb2MvbWFuMy9CTl9jbXAucG9kIGluZGV4DQo+
+PiArZjMwMjgxOC4uZTlkZGY4ZiAxMDA2NDQNCj4+ICstLS0gYS9kb2MvbWFuMy9CTl9jbXAucG9k
+DQo+PiArKysrIGIvZG9jL21hbjMvQk5fY21wLnBvZA0KPj4gK0BAIC0yLDcgKzIsOCBAQA0KPj4g
+Kw0KPj4gKyA9aGVhZDEgTkFNRQ0KPj4gKw0KPj4gKy1CTl9jbXAsIEJOX3VjbXAsIEJOX2lzX3pl
+cm8sIEJOX2lzX29uZSwgQk5faXNfd29yZCwgQk5fYWJzX2lzX3dvcmQsDQo+PiArQk5faXNfb2Rk
+IC0gQklHTlVNIGNvbXBhcmlzb24gYW5kIHRlc3QgZnVuY3Rpb25zDQo+PiArK0JOX2NtcCwgQk5f
+dWNtcCwgQk5faXNfemVybywgQk5faXNfb25lLCBCTl9pc193b3JkLCBCTl9hYnNfaXNfd29yZCwN
+Cj4+ICsrQk5faXNfb2RkLCBCTl9hcmVfY29wcmltZQ0KPj4gKystIEJJR05VTSBjb21wYXJpc29u
+IGFuZCB0ZXN0IGZ1bmN0aW9ucw0KPj4gKw0KPj4gKyA9aGVhZDEgU1lOT1BTSVMNCj4+ICsNCj4+
+ICtAQCAtMTcsNiArMTgsOCBAQCBCTl9jbXAsIEJOX3VjbXAsIEJOX2lzX3plcm8sIEJOX2lzX29u
+ZSwNCj5CTl9pc193b3JkLA0KPj4gK0JOX2Fic19pc193b3JkLCBCTl9pc19vZGQgLQ0KPj4gKyAg
+aW50IEJOX2Fic19pc193b3JkKGNvbnN0IEJJR05VTSAqYSwgY29uc3QgQk5fVUxPTkcgdyk7DQo+
+PiArICBpbnQgQk5faXNfb2RkKGNvbnN0IEJJR05VTSAqYSk7DQo+PiArDQo+PiArKyBpbnQgQk5f
+YXJlX2NvcHJpbWUoQklHTlVNICphLCBjb25zdCBCSUdOVU0gKmIsIEJOX0NUWCAqY3R4KTsNCj4+
+ICsrDQo+PiArID1oZWFkMSBERVNDUklQVElPTg0KPj4gKw0KPj4gKyBCTl9jbXAoKSBjb21wYXJl
+cyB0aGUgbnVtYmVycyBJPGE+IGFuZCBJPGI+LiBCTl91Y21wKCkgY29tcGFyZXMNCj4+ICt0aGVp
+ciBAQCAtMjYsNiArMjksMTAgQEAgQk5faXNfemVybygpLCBCTl9pc19vbmUoKSwgQk5faXNfd29y
+ZCgpIGFuZA0KPj4gK0JOX2Fic19pc193b3JkKCkgdGVzdCBpZiAgSTxhPiBlcXVhbHMgMCwgMSwg
+STx3Piwgb3INCj5FPHZlcmJhcj5JPHc+RTx2ZXJiYXI+IHJlc3BlY3RpdmVseS4NCj4+ICsgQk5f
+aXNfb2RkKCkgdGVzdHMgaWYgSTxhPiBpcyBvZGQuDQo+PiArDQo+PiArK0JOX2FyZV9jb3ByaW1l
+KCkgZGV0ZXJtaW5lcyBpZiBCPGE+IGFuZCBCPGI+IGFyZSBjb3ByaW1lLg0KPj4gKytCPGN0eD4g
+aXMgdXNlZCBpbnRlcm5hbGx5IGZvciBzdG9yaW5nIHRlbXBvcmFyeSB2YXJpYWJsZXMuDQo+PiAr
+K1RoZSB2YWx1ZXMgb2YgQjxhPiBhbmQgQjxiPiBhbmQgQjxjdHg+IG11c3Qgbm90IGJlIE5VTEwu
+DQo+PiArKw0KPj4gKyA9aGVhZDEgUkVUVVJOIFZBTFVFUw0KPj4gKw0KPj4gKyBCTl9jbXAoKSBy
+ZXR1cm5zIC0xIGlmIEk8YT4gRTxsdD4gSTxiPiwgMCBpZiBJPGE+ID09IEk8Yj4gYW5kIDEgaWYN
+Cj4+ICtAQCAtMzUsMTEgKzQyLDE2IEBAIG9mIEk8YT4gYW5kIEk8Yj4uDQo+PiArIEJOX2lzX3pl
+cm8oKSwgQk5faXNfb25lKCkgQk5faXNfd29yZCgpLCBCTl9hYnNfaXNfd29yZCgpIGFuZA0KPj4g
+KyBCTl9pc19vZGQoKSByZXR1cm4gMSBpZiB0aGUgY29uZGl0aW9uIGlzIHRydWUsIDAgb3RoZXJ3
+aXNlLg0KPj4gKw0KPj4gKytCTl9hcmVfY29wcmltZSgpIHJldHVybnMgMSBpZiB0aGUgQjxCSUdO
+VU0+J3MgYXJlIGNvcHJpbWUsIG90aGVyd2lzZQ0KPj4gKytpdCByZXR1cm5zIDAuDQo+PiArKw0K
+Pj4gKyA9aGVhZDEgSElTVE9SWQ0KPj4gKw0KPj4gKyBQcmlvciB0byBPcGVuU1NMIDEuMS4wLCBC
+Tl9pc196ZXJvKCksIEJOX2lzX29uZSgpLCBCTl9pc193b3JkKCksDQo+PiArIEJOX2Fic19pc193
+b3JkKCkgYW5kIEJOX2lzX29kZCgpIHdlcmUgbWFjcm9zLg0KPj4gKw0KPj4gKytUaGUgZnVuY3Rp
+b24gQk5fYXJlX2NvcHJpbWUoKSB3YXMgYWRkZWQgaW4gT3BlblNTTCAzLjEuDQo+PiArKw0KPj4g
+KyA9aGVhZDEgQ09QWVJJR0hUDQo+PiArDQo+PiArIENvcHlyaWdodCAyMDAwLTIwMjEgVGhlIE9w
+ZW5TU0wgUHJvamVjdCBBdXRob3JzLiBBbGwgUmlnaHRzIFJlc2VydmVkLg0KPj4gK2RpZmYgLS1n
+aXQgYS9pbmNsdWRlL29wZW5zc2wvYm4uaCBiL2luY2x1ZGUvb3BlbnNzbC9ibi5oIGluZGV4DQo+
+PiArZWNkN2YwMS4uNzM4OTVhNSAxMDA2NDQNCj4+ICstLS0gYS9pbmNsdWRlL29wZW5zc2wvYm4u
+aA0KPj4gKysrKyBiL2luY2x1ZGUvb3BlbnNzbC9ibi5oDQo+PiArQEAgLTM0NCw2ICszNDQsNyBA
+QCBpbnQgQk5fZ2NkKEJJR05VTSAqciwgY29uc3QgQklHTlVNICphLCBjb25zdA0KPj4gK0JJR05V
+TSAqYiwgQk5fQ1RYICpjdHgpOyAgaW50IEJOX2tyb25lY2tlcihjb25zdCBCSUdOVU0gKmEsIGNv
+bnN0DQo+QklHTlVNICpiLCBCTl9DVFggKmN0eCk7IC8qIHJldHVybnMNCj4+ICsgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+KiAtMiBmb3INCj4+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgKg0KPj4gK2Vycm9yICovDQo+PiArK2ludCBCTl9hcmVf
+Y29wcmltZShCSUdOVU0gKmEsIGNvbnN0IEJJR05VTSAqYiwgQk5fQ1RYICpjdHgpOw0KPj4gKyBC
+SUdOVU0gKkJOX21vZF9pbnZlcnNlKEJJR05VTSAqcmV0LA0KPj4gKyAgICAgICAgICAgICAgICAg
+ICAgICAgIGNvbnN0IEJJR05VTSAqYSwgY29uc3QgQklHTlVNICpuLCBCTl9DVFgNCj4+ICsqY3R4
+KTsgIEJJR05VTSAqQk5fbW9kX3NxcnQoQklHTlVNICpyZXQsIGRpZmYgLS1naXQgYS90ZXN0L2Ju
+dGVzdC5jDQo+PiArYi90ZXN0L2JudGVzdC5jIGluZGV4IGM1ODk0YzEuLmVlYzYyMjIgMTAwNjQ0
+DQo+PiArLS0tIGEvdGVzdC9ibnRlc3QuYw0KPj4gKysrKyBiL3Rlc3QvYm50ZXN0LmMNCj4+ICtA
+QCAtMzgsNiArMzgsNyBAQCB0eXBlZGVmIHN0cnVjdCBtcGl0ZXN0X3N0IHsNCj4+ICsNCj4+ICsg
+c3RhdGljIGNvbnN0IGludCBOVU0wID0gMTAwOyAgICAgICAgICAgLyogbnVtYmVyIG9mIHRlc3Rz
+ICovDQo+PiArIHN0YXRpYyBjb25zdCBpbnQgTlVNMSA9IDUwOyAgICAgICAgICAgIC8qIGFkZGl0
+aW9uYWwgdGVzdHMgZm9yIHNvbWUgZnVuY3Rpb25zICovDQo+PiArK3N0YXRpYyBjb25zdCBpbnQg
+TlVNX1BSSU1FX1RFU1RTID0gMjA7DQo+PiArIHN0YXRpYyBCTl9DVFggKmN0eDsNCj4+ICsNCj4+
+ICsgLyoNCj4+ICtAQCAtMjU3Myw2ICsyNTc0LDI1IEBAIHN0YXRpYyBpbnQgdGVzdF9jdHhfY29u
+c3R0aW1lX2ZsYWcodm9pZCkNCj4+ICsgICAgIHJldHVybiBzdDsNCj4+ICsgfQ0KPj4gKw0KPj4g
+KytzdGF0aWMgaW50IHRlc3RfY29wcmltZSh2b2lkKQ0KPj4gKyt7DQo+PiArKyAgICBCSUdOVU0g
+KmEgPSBOVUxMLCAqYiA9IE5VTEw7DQo+PiArKyAgICBpbnQgcmV0ID0gMDsNCj4+ICsrDQo+PiAr
+KyAgICByZXQgPSBURVNUX3B0cihhID0gQk5fbmV3KCkpDQo+PiArKyAgICAgICAgICAmJiBURVNU
+X3B0cihiID0gQk5fbmV3KCkpDQo+PiArKyAgICAgICAgICAmJiBURVNUX3RydWUoQk5fc2V0X3dv
+cmQoYSwgNjYpKQ0KPj4gKysgICAgICAgICAgJiYgVEVTVF90cnVlKEJOX3NldF93b3JkKGIsIDk5
+KSkNCj4+ICsrICAgICAgICAgICYmIFRFU1RfaW50X2VxKEJOX2FyZV9jb3ByaW1lKGEsIGIsIGN0
+eCksIDApDQo+PiArKyAgICAgICAgICAmJiBURVNUX2ludF9lcShCTl9hcmVfY29wcmltZShiLCBh
+LCBjdHgpLCAwKQ0KPj4gKysgICAgICAgICAgJiYgVEVTVF90cnVlKEJOX3NldF93b3JkKGEsIDY3
+KSkNCj4+ICsrICAgICAgICAgICYmIFRFU1RfaW50X2VxKEJOX2FyZV9jb3ByaW1lKGEsIGIsIGN0
+eCksIDEpDQo+PiArKyAgICAgICAgICAmJiBURVNUX2ludF9lcShCTl9hcmVfY29wcmltZShiLCBh
+LCBjdHgpLCAxKTsNCj4+ICsrICAgIEJOX2ZyZWUoYSk7DQo+PiArKyAgICBCTl9mcmVlKGIpOw0K
+Pj4gKysgICAgcmV0dXJuIHJldDsNCj4+ICsrfQ0KPj4gKysNCj4+ICsgc3RhdGljIGludCB0ZXN0
+X2djZF9wcmltZSh2b2lkKQ0KPj4gKyB7DQo+PiArICAgICBCSUdOVU0gKmEgPSBOVUxMLCAqYiA9
+IE5VTEwsICpnY2QgPSBOVUxMOyBAQCAtMjU4NSwxMSArMjYwNSwxMg0KPj4gK0BAIHN0YXRpYyBp
+bnQgdGVzdF9nY2RfcHJpbWUodm9pZCkNCj4+ICsNCj4+ICsgICAgIGlmICghVEVTVF90cnVlKEJO
+X2dlbmVyYXRlX3ByaW1lX2V4KGEsIDEwMjQsIDAsIE5VTEwsIE5VTEwsIE5VTEwpKSkNCj4+ICsg
+ICAgICAgICAgICAgZ290byBlcnI7DQo+PiArLSAgICBmb3IgKGkgPSAwOyBpIDwgTlVNMDsgaSsr
+KSB7DQo+PiArKyAgICBmb3IgKGkgPSAwOyBpIDwgTlVNX1BSSU1FX1RFU1RTOyBpKyspIHsNCj4+
+ICsgICAgICAgICBpZiAoIVRFU1RfdHJ1ZShCTl9nZW5lcmF0ZV9wcmltZV9leChiLCAxMDI0LCAw
+LA0KPj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIE5VTEws
+IE5VTEwsIE5VTEwpKQ0KPj4gKyAgICAgICAgICAgICAgICAgfHwgIVRFU1RfdHJ1ZShCTl9nY2Qo
+Z2NkLCBhLCBiLCBjdHgpKQ0KPj4gKy0gICAgICAgICAgICAgICAgfHwgIVRFU1RfdHJ1ZShCTl9p
+c19vbmUoZ2NkKSkpDQo+PiArKyAgICAgICAgICAgICAgICB8fCAhVEVTVF90cnVlKEJOX2lzX29u
+ZShnY2QpKQ0KPj4gKysgICAgICAgICAgICAgICAgfHwgIVRFU1RfdHJ1ZShCTl9hcmVfY29wcmlt
+ZShhLCBiLCBjdHgpKSkNCj4+ICsgICAgICAgICAgICAgZ290byBlcnI7DQo+PiArICAgICB9DQo+
+PiArDQo+PiArQEAgLTMwNjYsNiArMzA4Nyw3IEBAIGludCBzZXR1cF90ZXN0cyh2b2lkKQ0KPj4g
+KyAgICAgICAgIEFERF9BTExfVEVTVFModGVzdF9pc19wcmltZSwgKGludClPU1NMX05FTEVNKHBy
+aW1lcykpOw0KPj4gKyAgICAgICAgIEFERF9BTExfVEVTVFModGVzdF9ub3RfcHJpbWUsIChpbnQp
+T1NTTF9ORUxFTShub3RfcHJpbWVzKSk7DQo+PiArICAgICAgICAgQUREX1RFU1QodGVzdF9nY2Rf
+cHJpbWUpOw0KPj4gKysgICAgICAgIEFERF9URVNUKHRlc3RfY29wcmltZSk7DQo+PiArICAgICAg
+ICAgQUREX0FMTF9URVNUUyh0ZXN0X21vZF9leHAsIChpbnQpT1NTTF9ORUxFTShNb2RFeHBUZXN0
+cykpOw0KPj4gKyAgICAgICAgIEFERF9BTExfVEVTVFModGVzdF9tb2RfZXhwX2NvbnN0dGltZSwN
+Cj4oaW50KU9TU0xfTkVMRU0oTW9kRXhwVGVzdHMpKTsNCj4+ICsgICAgICAgICBBRERfVEVTVCh0
+ZXN0X21vZF9leHAyX21vbnQpOyBkaWZmIC0tZ2l0DQo+PiArYS91dGlsL2xpYmNyeXB0by5udW0g
+Yi91dGlsL2xpYmNyeXB0by5udW0gaW5kZXggMGY2ZjMwYi4uYTFkMWVkOQ0KPj4gKzEwMDY0NA0K
+Pj4gKy0tLSBhL3V0aWwvbGliY3J5cHRvLm51bQ0KPj4gKysrKyBiL3V0aWwvbGliY3J5cHRvLm51
+bQ0KPj4gK0BAIC01NDI5LDMgKzU0MjksNCBAQCBPUEVOU1NMX3N0cmNhc2VjbXAgICAgICAgICAg
+ICAgICAgICAgICAgNTU1NiAzXzBfMw0KPkVYSVNUOjpGVU5DVElPTjoNCj4+ICsgT1BFTlNTTF9z
+dHJuY2FzZWNtcCAgICAgICAgICAgICAgICAgICAgIDU1NTcgM18wXzMgRVhJU1Q6OkZVTkNUSU9O
+Og0KPj4gKyBPU1NMX0NNUF9DVFhfcmVzZXRfZ2VuaW5mb19JVEFWcyAgICAgICAgNTU1OCAzXzBf
+OA0KPkVYSVNUOjpGVU5DVElPTjpDTVANCj4+ICsgT1NTTF9DTVBfTVNHX3VwZGF0ZV9yZWNpcE5v
+bmNlICAgICAgICAgIDU1NTkgM18wXzkNCj5FWElTVDo6RlVOQ1RJT046Q01QDQo+PiArK0JOX2Fy
+ZV9jb3ByaW1lICAgICAgICAgICAgICAgICAgICAgICAgICA1NTYwIDNfMF8wIEVYSVNUOjpGVU5D
+VElPTjoNCj4+ICstLQ0KPj4gKzIuMjUuMQ0KPj4gKw0KPj4gZGlmZiAtLWdpdA0KPj4gYS9tZXRh
+L3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2wvb3BlbnNzbC8wMDAyLUltcHJvdmUtRklQUy1S
+U0Eta2V5Zw0KPj4gZW4tcGVyZm9ybWFuY2UucGF0Y2gNCj4+IGIvbWV0YS9yZWNpcGVzLWNvbm5l
+Y3Rpdml0eS9vcGVuc3NsL29wZW5zc2wvMDAwMi1JbXByb3ZlLUZJUFMtUlNBLWtleWcNCj4+IGVu
+LXBlcmZvcm1hbmNlLnBhdGNoDQo+PiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPj4gaW5kZXggMDAw
+MDAwMDAwMC4uMWE2YjYwMWY2NQ0KPj4gLS0tIC9kZXYvbnVsbA0KPj4gKysrIGIvbWV0YS9yZWNp
+cGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NsL29wZW5zc2wvMDAwMi1JbXByb3ZlLUZJUFMtUlNBLQ0K
+Pj4gKysrIGtleWdlbi1wZXJmb3JtYW5jZS5wYXRjaA0KPj4gQEAgLTAsMCArMSwxODUgQEANCj4+
+ICtGcm9tIGRmYjhlMGU3MTZhMWZkMDYwZWIxMzQwMmQ4NWNjNDZjOGY2NGY5MjkgTW9uIFNlcCAx
+NyAwMDowMDowMA0KPj4gKzIwMDENCj4+ICtGcm9tOiBzbG9udGlzIDxzaGFuZS5sb250aXNAb3Jh
+Y2xlLmNvbT4NCj4+ICtEYXRlOiBXZWQsIDIgTm92IDIwMjIgMTM6MjA6NTUgKzEwMDANCj4+ICtT
+dWJqZWN0OiBbUEFUQ0ggMi8yXSBJbXByb3ZlIEZJUFMgUlNBIGtleWdlbiBwZXJmb3JtYW5jZS4N
+Cj4+ICsNCj4+ICtSZWR1Y2UgdGhlIE1pbGxlciBSYWJpbiBjb3VudHMgdG8gdGhlIHZhbHVlcyBz
+cGVjaWZpZWQgYnkgRklQUyAxODYtNS4NCj4+ICtUaGUgb2xkIGNvZGUgd2FzIHVzaW5nIGEgZml4
+ZWQgdmFsdWUgb2YgNjQuDQo+PiArDQo+PiArUmV2aWV3ZWQtYnk6IFBhdWwgRGFsZSA8cGF1bGlA
+b3BlbnNzbC5vcmc+DQo+PiArUmV2aWV3ZWQtYnk6IFRvbWFzIE1yYXogPHRvbWFzQG9wZW5zc2wu
+b3JnPiAoTWVyZ2VkIGZyb20NCj4+ICtodHRwczovL2dpdGh1Yi5jb20vb3BlbnNzbC9vcGVuc3Ns
+L3B1bGwvMTk1NzkpDQo+PiArDQo+PiArKGNoZXJyeSBwaWNrZWQgZnJvbSBjb21taXQgZDJmNmU2
+NmQyODM3YmZmMWY1Zjc2MzZiYjIxMThlM2E0NWM5ZGY2MSkNCj4+ICsNCj4+ICtVcHN0cmVhbS1T
+dGF0dXM6IEJhY2twb3J0DQo+PiArW2h0dHBzOi8vZ2l0aHViLmNvbS9vcGVuc3NsL29wZW5zc2wv
+Y29tbWl0L2QyZjZlNjZkMjgzN2JmZjFmNWY3NjM2YmIyDQo+PiArMTE4ZTNhNDVjOWRmNjFdDQo+
+PiArDQo+PiArU2lnbmVkLW9mZi1ieTogSGFpdGFvIExpdSA8aGFpdGFvLmxpdUB3aW5kcml2ZXIu
+Y29tPg0KPj4gKy0tLQ0KPj4gKyBjcnlwdG8vYm4vYm5fcHJpbWUuYyAgICAgICAgIHwgMTEgKysr
+KysrKysNCj4+ICsgY3J5cHRvL2JuL2JuX3JzYV9maXBzMTg2XzQuYyB8IDQ5ICsrKysrKysrKysr
+KysrKysrKysrKysrKysrKysrKy0tLS0NCj4tLQ0KPj4gKyBpbmNsdWRlL2NyeXB0by9ibi5oICAg
+ICAgICAgIHwgIDIgKysNCj4+ICsgMyBmaWxlcyBjaGFuZ2VkLCA1NCBpbnNlcnRpb25zKCspLCA4
+IGRlbGV0aW9ucygtKQ0KPj4gKw0KPj4gK2RpZmYgLS1naXQgYS9jcnlwdG8vYm4vYm5fcHJpbWUu
+YyBiL2NyeXB0by9ibi9ibl9wcmltZS5jIGluZGV4DQo+PiArZGRkMzFhMC4uNzk3NzZmMSAxMDA2
+NDQNCj4+ICstLS0gYS9jcnlwdG8vYm4vYm5fcHJpbWUuYw0KPj4gKysrKyBiL2NyeXB0by9ibi9i
+bl9wcmltZS5jDQo+PiArQEAgLTI1Miw2ICsyNTIsMTcgQEAgaW50IG9zc2xfYm5fY2hlY2tfcHJp
+bWUoY29uc3QgQklHTlVNICp3LCBpbnQNCj5jaGVja3MsIEJOX0NUWCAqY3R4LA0KPj4gKyAgICAg
+cmV0dXJuIGJuX2lzX3ByaW1lX2ludCh3LCBjaGVja3MsIGN0eCwgZG9fdHJpYWxfZGl2aXNpb24s
+IGNiKTsNCj4+ICt9DQo+PiArDQo+PiArKy8qDQo+PiArKyAqIFVzZSB0aGlzIG9ubHkgZm9yIGtl
+eSBnZW5lcmF0aW9uLg0KPj4gKysgKiBJdCBhbHdheXMgdXNlcyB0cmlhbCBkaXZpc2lvbi4gVGhl
+IG51bWJlciBvZiBjaGVja3MNCj4+ICsrICogKE1SIHJvdW5kcykgcGFzc2VkIGluIGlzIHVzZWQg
+d2l0aG91dCBiZWluZyBjbGFtcGVkIHRvIGEgbWluaW11bQ0KPnZhbHVlLg0KPj4gKysgKi8NCj4+
+ICsraW50IG9zc2xfYm5fY2hlY2tfZ2VuZXJhdGVkX3ByaW1lKGNvbnN0IEJJR05VTSAqdywgaW50
+IGNoZWNrcywgQk5fQ1RYDQo+KmN0eCwNCj4+ICsrICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIEJOX0dFTkNCICpjYikgew0KPj4gKysgICAgcmV0dXJuIGJuX2lzX3ByaW1lX2ludCh3
+LCBjaGVja3MsIGN0eCwgMSwgY2IpOyB9DQo+PiArKw0KPj4gKyBpbnQgQk5fY2hlY2tfcHJpbWUo
+Y29uc3QgQklHTlVNICpwLCBCTl9DVFggKmN0eCwgQk5fR0VOQ0IgKmNiKSAgew0KPj4gKyAgICAg
+cmV0dXJuIG9zc2xfYm5fY2hlY2tfcHJpbWUocCwgMCwgY3R4LCAxLCBjYik7IGRpZmYgLS1naXQN
+Cj4+ICthL2NyeXB0by9ibi9ibl9yc2FfZmlwczE4Nl80LmMgYi9jcnlwdG8vYm4vYm5fcnNhX2Zp
+cHMxODZfNC5jIGluZGV4DQo+PiArNTVlZmFmMi4uYzM0NjZkZiAxMDA2NDQNCj4+ICstLS0gYS9j
+cnlwdG8vYm4vYm5fcnNhX2ZpcHMxODZfNC5jDQo+PiArKysrIGIvY3J5cHRvL2JuL2JuX3JzYV9m
+aXBzMTg2XzQuYw0KPj4gK0BAIC00OCw2ICs0OCwzNCBAQCBjb25zdCBCSUdOVU0gb3NzbF9ibl9p
+bnZfc3FydF8yID0gew0KPj4gKyAgICAgQk5fRkxHX1NUQVRJQ19EQVRBDQo+PiArIH07DQo+PiAr
+DQo+PiArKy8qDQo+PiArKyAqIFJlZmVyIHRvIEZJUFMgMTg2LTUgVGFibGUgQi4xIGZvciBtaW5p
+bXVtIHJvdW5kcyBvZiBNaWxsZXIgUmFiaW4NCj4+ICsrICogcmVxdWlyZWQgZm9yIGdlbmVyYXRp
+b24gb2YgUlNBIGF1eCBwcmltZXMgKHAxLCBwMiwgcTEgYW5kIHEyKS4NCj4+ICsrICovDQo+PiAr
+K3N0YXRpYyBpbnQgYm5fcnNhX2ZpcHMxODZfNV9hdXhfcHJpbWVfTVJfcm91bmRzKGludCBuYml0
+cykgew0KPj4gKysgICAgaWYgKG5iaXRzID49IDQwOTYpDQo+PiArKyAgICAgICAgcmV0dXJuIDQ0
+Ow0KPj4gKysgICAgaWYgKG5iaXRzID49IDMwNzIpDQo+PiArKyAgICAgICAgcmV0dXJuIDQxOw0K
+Pj4gKysgICAgaWYgKG5iaXRzID49IDIwNDgpDQo+PiArKyAgICAgICAgcmV0dXJuIDM4Ow0KPj4g
+KysgICAgcmV0dXJuIDA7IC8qIEVycm9yICovDQo+PiArK30NCj4+ICsrDQo+PiArKy8qDQo+PiAr
+KyAqIFJlZmVyIHRvIEZJUFMgMTg2LTUgVGFibGUgQi4xIGZvciBtaW5pbXVtIHJvdW5kcyBvZiBN
+aWxsZXIgUmFiaW4NCj4+ICsrICogcmVxdWlyZWQgZm9yIGdlbmVyYXRpb24gb2YgUlNBIHByaW1l
+cyAocCBhbmQgcSkgICovIHN0YXRpYyBpbnQNCj4+ICsrYm5fcnNhX2ZpcHMxODZfNV9wcmltZV9N
+Ul9yb3VuZHMoaW50IG5iaXRzKSB7DQo+PiArKyAgICBpZiAobmJpdHMgPj0gMzA3MikNCj4+ICsr
+ICAgICAgICByZXR1cm4gNDsNCj4+ICsrICAgIGlmIChuYml0cyA+PSAyMDQ4KQ0KPj4gKysgICAg
+ICAgIHJldHVybiA1Ow0KPj4gKysgICAgcmV0dXJuIDA7IC8qIEVycm9yICovDQo+PiArK30NCj4+
+ICsrDQo+PiArIC8qDQo+PiArICAqIEZJUFMgMTg2LTUgVGFibGUgQS4xLiAiTWluIGxlbmd0aCBv
+ZiBhdXhpbGlhcnkgcHJpbWVzIHAxLCBwMiwgcTEsIHEyIi4NCj4+ICsgICogKEZJUFMgMTg2LTUg
+aGFzIGFuIGVudHJ5IGZvciA+PSA0MDk2IGJpdHMpLg0KPj4gK0BAIC05NywxMSArMTI1LDEzIEBA
+IHN0YXRpYyBpbnQNCj5ibl9yc2FfZmlwczE4Nl81X2F1eF9wcmltZV9tYXhfc3VtX3NpemVfZm9y
+X3Byb2JfcHJpbWVzKGludCBuYml0cykNCj4+ICsgICogICAgIFhwMSBUaGUgcGFzc2VkIGluIHN0
+YXJ0aW5nIHBvaW50IHRvIGZpbmQgYSBwcm9iYWJseSBwcmltZS4NCj4+ICsgICogICAgIHAxIFRo
+ZSByZXR1cm5lZCBwcm9iYWJsZSBwcmltZSAoZmlyc3Qgb2RkIGludGVnZXIgPj0gWHAxKQ0KPj4g
+KyAgKiAgICAgY3R4IEEgQk5fQ1RYIG9iamVjdC4NCj4+ICsrICogICAgIHJvdW5kcyBUaGUgbnVt
+YmVyIG9mIE1pbGxlciBSYWJpbiByb3VuZHMNCj4+ICsgICogICAgIGNiIEFuIG9wdGlvbmFsIEJJ
+R05VTSBjYWxsYmFjay4NCj4+ICsgICogUmV0dXJuczogMSBvbiBzdWNjZXNzIG90aGVyd2lzZSBp
+dCByZXR1cm5zIDAuDQo+PiArICAqLw0KPj4gKyBzdGF0aWMgaW50IGJuX3JzYV9maXBzMTg2XzRf
+ZmluZF9hdXhfcHJvYl9wcmltZShjb25zdCBCSUdOVU0gKlhwMSwNCj4+ICsgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgQklHTlVNICpwMSwgQk5fQ1RYICpj
+dHgsDQo+PiArKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+IGludCByb3VuZHMsDQo+PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIEJOX0dFTkNCICpjYikNCj4+ICsgew0KPj4gKyAgICAgaW50IHJldCA9IDA7DQo+
+PiArQEAgLTExNyw3ICsxNDcsNyBAQCBzdGF0aWMgaW50DQo+Ym5fcnNhX2ZpcHMxODZfNF9maW5k
+X2F1eF9wcm9iX3ByaW1lKGNvbnN0IEJJR05VTSAqWHAxLA0KPj4gKyAgICAgICAgIGkrKzsNCj4+
+ICsgICAgICAgICBCTl9HRU5DQl9jYWxsKGNiLCAwLCBpKTsNCj4+ICsgICAgICAgICAvKiBNUiB0
+ZXN0IHdpdGggdHJpYWwgZGl2aXNpb24gKi8NCj4+ICstICAgICAgICB0bXAgPSBCTl9jaGVja19w
+cmltZShwMSwgY3R4LCBjYik7DQo+PiArKyAgICAgICAgdG1wID0gb3NzbF9ibl9jaGVja19nZW5l
+cmF0ZWRfcHJpbWUocDEsIHJvdW5kcywgY3R4LCBjYik7DQo+PiArICAgICAgICAgaWYgKHRtcCA+
+IDApDQo+PiArICAgICAgICAgICAgIGJyZWFrOw0KPj4gKyAgICAgICAgIGlmICh0bXAgPCAwKQ0K
+Pj4gK0BAIC0xNjAsNyArMTkwLDcgQEAgaW50DQo+b3NzbF9ibl9yc2FfZmlwczE4Nl80X2dlbl9w
+cm9iX3ByaW1lcyhCSUdOVU0gKnAsIEJJR05VTSAqWHBvdXQsDQo+PiArIHsNCj4+ICsgICAgIGlu
+dCByZXQgPSAwOw0KPj4gKyAgICAgQklHTlVNICpwMWkgPSBOVUxMLCAqcDJpID0gTlVMTCwgKlhw
+MWkgPSBOVUxMLCAqWHAyaSA9IE5VTEw7DQo+PiArLSAgICBpbnQgYml0bGVuOw0KPj4gKysgICAg
+aW50IGJpdGxlbiwgcm91bmRzOw0KPj4gKw0KPj4gKyAgICAgaWYgKHAgPT0gTlVMTCB8fCBYcG91
+dCA9PSBOVUxMKQ0KPj4gKyAgICAgICAgIHJldHVybiAwOw0KPj4gK0BAIC0xNzcsNiArMjA3LDcg
+QEAgaW50DQo+b3NzbF9ibl9yc2FfZmlwczE4Nl80X2dlbl9wcm9iX3ByaW1lcyhCSUdOVU0gKnAs
+IEJJR05VTSAqWHBvdXQsDQo+PiArICAgICBiaXRsZW4gPSBibl9yc2FfZmlwczE4Nl81X2F1eF9w
+cmltZV9taW5fc2l6ZShubGVuKTsNCj4+ICsgICAgIGlmIChiaXRsZW4gPT0gMCkNCj4+ICsgICAg
+ICAgICBnb3RvIGVycjsNCj4+ICsrICAgIHJvdW5kcyA9IGJuX3JzYV9maXBzMTg2XzVfYXV4X3By
+aW1lX01SX3JvdW5kcyhubGVuKTsNCj4+ICsNCj4+ICsgICAgIC8qIChTdGVwcyA0LjEvNS4xKTog
+UmFuZG9tbHkgZ2VuZXJhdGUgWHAxIGlmIGl0IGlzIG5vdCBwYXNzZWQgaW4gKi8NCj4+ICsgICAg
+IGlmIChYcDEgPT0gTlVMTCkgew0KPj4gK0BAIC0xOTQsOCArMjI1LDggQEAgaW50DQo+b3NzbF9i
+bl9yc2FfZmlwczE4Nl80X2dlbl9wcm9iX3ByaW1lcyhCSUdOVU0gKnAsIEJJR05VTSAqWHBvdXQs
+DQo+PiArICAgICB9DQo+PiArDQo+PiArICAgICAvKiAoU3RlcHMgNC4yLzUuMikgLSBmaW5kIGZp
+cnN0IGF1eGlsaWFyeSBwcm9iYWJsZSBwcmltZXMgKi8NCj4+ICstICAgIGlmICghYm5fcnNhX2Zp
+cHMxODZfNF9maW5kX2F1eF9wcm9iX3ByaW1lKFhwMWksIHAxaSwgY3R4LCBjYikNCj4+ICstICAg
+ICAgICAgICAgfHwgIWJuX3JzYV9maXBzMTg2XzRfZmluZF9hdXhfcHJvYl9wcmltZShYcDJpLCBw
+MmksIGN0eCwgY2IpKQ0KPj4gKysgICAgaWYgKCFibl9yc2FfZmlwczE4Nl80X2ZpbmRfYXV4X3By
+b2JfcHJpbWUoWHAxaSwgcDFpLCBjdHgsIHJvdW5kcywgY2IpDQo+PiArKyAgICAgICAgICAgIHx8
+ICFibl9yc2FfZmlwczE4Nl80X2ZpbmRfYXV4X3Byb2JfcHJpbWUoWHAyaSwgcDJpLCBjdHgsIHJv
+dW5kcywNCj5jYikpDQo+PiArICAgICAgICAgZ290byBlcnI7DQo+PiArICAgICAvKiAoVGFibGUg
+Qi4xKSBhdXhpbGlhcnkgcHJpbWUgTWF4IGxlbmd0aCBjaGVjayAqLw0KPj4gKyAgICAgaWYgKChC
+Tl9udW1fYml0cyhwMWkpICsgQk5fbnVtX2JpdHMocDJpKSkgPj0NCj4+ICtAQCAtMjQzLDExICsy
+NzQsMTEgQEAgZXJyOg0KPj4gKyAgKi8NCj4+ICsgaW50IG9zc2xfYm5fcnNhX2ZpcHMxODZfNF9k
+ZXJpdmVfcHJpbWUoQklHTlVNICpZLCBCSUdOVU0gKlgsIGNvbnN0DQo+QklHTlVNICpYaW4sDQo+
+PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGNvbnN0IEJJR05VTSAq
+cjEsIGNvbnN0IEJJR05VTSAqcjIsDQo+PiArLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIGludCBubGVuLCBjb25zdCBCSUdOVU0gKmUsIEJOX0NUWCAqY3R4LA0KPj4gKy0g
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBCTl9HRU5DQiAqY2IpDQo+PiAr
+KyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGludCBubGVuLCBjb25zdCBC
+SUdOVU0gKmUsDQo+PiArKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIEJO
+X0NUWCAqY3R4LCBCTl9HRU5DQiAqY2IpDQo+PiArIHsNCj4+ICsgICAgIGludCByZXQgPSAwOw0K
+Pj4gKy0gICAgaW50IGksIGltYXg7DQo+PiArKyAgICBpbnQgaSwgaW1heCwgcm91bmRzOw0KPj4g
+KyAgICAgaW50IGJpdHMgPSBubGVuID4+IDE7DQo+PiArICAgICBCSUdOVU0gKnRtcCwgKlIsICpy
+MXIyeDIsICp5MSwgKnIxeDI7DQo+PiArICAgICBCSUdOVU0gKmJhc2UsICpyYW5nZTsNCj4+ICtA
+QCAtMzE3LDYgKzM0OCw3IEBAIGludCBvc3NsX2JuX3JzYV9maXBzMTg2XzRfZGVyaXZlX3ByaW1l
+KEJJR05VTQ0KPipZLCBCSUdOVU0gKlgsIGNvbnN0IEJJR05VTSAqWGluLA0KPj4gKyAgICAgICog
+VGhlIG51bWJlciBoYXMgYmVlbiB1cGRhdGVkIHRvIDIwICogbmxlbi8yIGFzIHVzZWQgaW4NCj4+
+ICsgICAgICAqIEZJUFMxODYtNSBBcHBlbmRpeCBCLjkgU3RlcCA5Lg0KPj4gKyAgICAgICovDQo+
+PiArKyAgICByb3VuZHMgPSBibl9yc2FfZmlwczE4Nl81X3ByaW1lX01SX3JvdW5kcyhubGVuKTsN
+Cj4+ICsgICAgIGltYXggPSAyMCAqIGJpdHM7IC8qIG1heCA9IDIwLzIgKiBuYml0cyAqLw0KPj4g
+KyAgICAgZm9yICg7Oykgew0KPj4gKyAgICAgICAgIGlmIChYaW4gPT0gTlVMTCkgew0KPj4gK0BA
+IC0zNDYsOCArMzc4LDkgQEAgaW50IG9zc2xfYm5fcnNhX2ZpcHMxODZfNF9kZXJpdmVfcHJpbWUo
+QklHTlVNDQo+KlksIEJJR05VTSAqWCwgY29uc3QgQklHTlVNICpYaW4sDQo+PiArICAgICAgICAg
+ICAgIGlmIChCTl9jb3B5KHkxLCBZKSA9PSBOVUxMDQo+PiArICAgICAgICAgICAgICAgICAgICAg
+fHwgIUJOX3N1Yl93b3JkKHkxLCAxKSkNCj4+ICsgICAgICAgICAgICAgICAgIGdvdG8gZXJyOw0K
+Pj4gKysNCj4+ICsgICAgICAgICAgICAgaWYgKEJOX2FyZV9jb3ByaW1lKHkxLCBlLCBjdHgpKSB7
+DQo+PiArLSAgICAgICAgICAgICAgICBpbnQgcnYgPSBCTl9jaGVja19wcmltZShZLCBjdHgsIGNi
+KTsNCj4+ICsrICAgICAgICAgICAgICAgIGludCBydiA9IG9zc2xfYm5fY2hlY2tfZ2VuZXJhdGVk
+X3ByaW1lKFksIHJvdW5kcywgY3R4LCBjYik7DQo+PiArDQo+PiArICAgICAgICAgICAgICAgICBp
+ZiAocnYgPiAwKQ0KPj4gKyAgICAgICAgICAgICAgICAgICAgIGdvdG8gZW5kOw0KPj4gK2RpZmYg
+LS1naXQgYS9pbmNsdWRlL2NyeXB0by9ibi5oIGIvaW5jbHVkZS9jcnlwdG8vYm4uaA0KPj4gK2lu
+ZGV4IGZkMWMwOWQuLjAwNTQ0ZDkgMTAwNjQ0DQo+PiArLS0tIGEvaW5jbHVkZS9jcnlwdG8vYm4u
+aA0KPj4gKysrKyBiL2luY2x1ZGUvY3J5cHRvL2JuLmgNCj4+ICtAQCAtOTUsNiArOTUsOCBAQCBp
+bnQgYm5fZGl2X2ZpeGVkX3RvcChCSUdOVU0gKmR2LCBCSUdOVU0gKnJlbSwNCj5jb25zdCBCSUdO
+VU0gKm0sDQo+PiArDQo+PiArIGludCBvc3NsX2JuX21pbGxlcl9yYWJpbl9pc19wcmltZShjb25z
+dCBCSUdOVU0gKncsIGludCBpdGVyYXRpb25zLCBCTl9DVFgNCj4qY3R4LA0KPj4gKyAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgQk5fR0VOQ0IgKmNiLCBpbnQgZW5oYW5jZWQsIGlu
+dCAqc3RhdHVzKTsNCj4+ICsraW50IG9zc2xfYm5fY2hlY2tfZ2VuZXJhdGVkX3ByaW1lKGNvbnN0
+IEJJR05VTSAqdywgaW50IGNoZWNrcywgQk5fQ1RYDQo+KmN0eCwNCj4+ICsrICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIEJOX0dFTkNCICpjYik7DQo+PiArDQo+PiArIGNvbnN0IEJJ
+R05VTSAqb3NzbF9ibl9nZXQwX3NtYWxsX2ZhY3RvcnModm9pZCk7DQo+PiArDQo+PiArLS0NCj4+
+ICsyLjI1LjENCj4+ICsNCj4+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5
+L29wZW5zc2wvb3BlbnNzbF8zLjAuMTMuYmINCj5iL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkv
+b3BlbnNzbC9vcGVuc3NsXzMuMC4xMy5iYg0KPj4gaW5kZXggNWU0M2ZkYzJkZS4uNWIwOTQ5M2Nj
+ZCAxMDA2NDQNCj4+IC0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzbC9vcGVu
+c3NsXzMuMC4xMy5iYg0KPj4gKysrIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3Ns
+L29wZW5zc2xfMy4wLjEzLmJiDQo+PiBAQCAtMTIsNiArMTIsOCBAQCBTUkNfVVJJID0gImh0dHA6
+Ly93d3cub3BlbnNzbC5vcmcvc291cmNlL29wZW5zc2wtDQo+JHtQVn0udGFyLmd6IFwNCj4+ICAg
+ICAgICAgICAgIGZpbGU6Ly8wMDAxLWJ1aWxkaW5mby1zdHJpcC1zeXNyb290LWFuZC1kZWJ1Zy1w
+cmVmaXgtbWFwLWZyb20tDQo+Y28ucGF0Y2ggXA0KPj4gICAgICAgICAgICAgZmlsZTovL2FmYWxn
+LnBhdGNoIFwNCj4+ICAgICAgICAgICAgIGZpbGU6Ly8wMDAxLUNvbmZpZ3VyZS1kby1ub3QtdHdl
+YWstbWlwcy1jZmxhZ3MucGF0Y2ggXA0KPj4gKyAgICAgICAgICAgZmlsZTovLzAwMDEtSW1wcm92
+ZS1GSVBTLVJTQS1rZXlnZW4tcGVyZm9ybWFuY2UucGF0Y2ggXA0KPj4gKyAgICAgICAgICAgZmls
+ZTovLzAwMDItSW1wcm92ZS1GSVBTLVJTQS1rZXlnZW4tcGVyZm9ybWFuY2UucGF0Y2ggXA0KPj4g
+ICAgICAgICAgICAgIg0KPj4NCj4+ICBTUkNfVVJJOmFwcGVuZDpjbGFzcy1uYXRpdmVzZGsgPSAi
+IFwNCj4+DQo+Pg0KPj4NCj4+DQo+Pg0KPj4gLS0NCj4+ICMgUmFuZHkgTWFjTGVvZA0KPj4gIyBX
+aW5kIFJpdmVyIExpbnV4DQo+Pg0KPj4NCj4+IC0tDQo+PiAjIFJhbmR5IE1hY0xlb2QNCj4+ICMg
+V2luZCBSaXZlciBMaW51eA0KPj4NCj4+DQo+Pg0KPj4NCg==
 
