@@ -2,33 +2,33 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D25F2C47DD9
-	for <webhook@archiver.kernel.org>; Wed, 27 Mar 2024 11:15:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD63AC47DD9
+	for <webhook@archiver.kernel.org>; Wed, 27 Mar 2024 11:15:56 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.34963.1711538111641493477
+ by mx.groups.io with SMTP id smtpd.web11.34972.1711538155868186351
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Mar 2024 04:15:11 -0700
+ Wed, 27 Mar 2024 04:15:56 -0700
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4775C2F4
-	for <openembedded-core@lists.openembedded.org>; Wed, 27 Mar 2024 04:15:45 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7C3DC2F4
+	for <openembedded-core@lists.openembedded.org>; Wed, 27 Mar 2024 04:16:29 -0700 (PDT)
 Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id E1DCB3F694
-	for <openembedded-core@lists.openembedded.org>; Wed, 27 Mar 2024 04:15:10 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 21F0B3F694
+	for <openembedded-core@lists.openembedded.org>; Wed, 27 Mar 2024 04:15:55 -0700 (PDT)
 From: ross.burton@arm.com
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] openssl: fix crash on aarch64 if BTI is enabled but no Crypto instructions
-Date: Wed, 27 Mar 2024 11:15:07 +0000
-Message-Id: <20240327111507.855649-1-ross.burton@arm.com>
+Subject: [PATCH][kirkstone] openssl: fix crash on aarch64 if BTI is enabled but no Crypto instructions
+Date: Wed, 27 Mar 2024 11:15:23 +0000
+Message-Id: <20240327111523.855715-1-ross.burton@arm.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Mar 2024 11:15:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197551
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Mar 2024 11:15:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197552
 
 From: Ross Burton <ross.burton@arm.com>
 
@@ -44,7 +44,7 @@ annotations so that BTI doesn't believe the code is being exploited.
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
  .../openssl/openssl/bti.patch                 | 58 +++++++++++++++++++
- .../openssl/openssl_3.2.1.bb                  |  1 +
+ .../openssl/openssl_3.0.13.bb                 |  1 +
  2 files changed, 59 insertions(+)
  create mode 100644 meta/recipes-connectivity/openssl/openssl/bti.patch
 
@@ -119,18 +119,17 @@ pl
 +--=20
 +2.34.1
 +
-diff --git a/meta/recipes-connectivity/openssl/openssl_3.2.1.bb b/meta/re=
-cipes-connectivity/openssl/openssl_3.2.1.bb
-index 1682b6f8ccf..c7134c54dba 100644
---- a/meta/recipes-connectivity/openssl/openssl_3.2.1.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_3.2.1.bb
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.0.13.bb b/meta/r=
+ecipes-connectivity/openssl/openssl_3.0.13.bb
+index 5e43fdc2ded..d0910a7a32d 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.0.13.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.0.13.bb
 @@ -12,6 +12,7 @@ SRC_URI =3D "http://www.openssl.org/source/openssl-${PV=
 }.tar.gz \
             file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from=
 -co.patch \
+            file://afalg.patch \
             file://0001-Configure-do-not-tweak-mips-cflags.patch \
-            file://0001-Added-handshake-history-reporting-when-test-fails=
-.patch \
 +           file://bti.patch \
             "
 =20
