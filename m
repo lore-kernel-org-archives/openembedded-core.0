@@ -1,118 +1,126 @@
-Return-Path: <omatiush@cisco.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E04FFC54E67
-	for <webhook@archiver.kernel.org>; Wed, 27 Mar 2024 17:16:20 +0000 (UTC)
-Received: from alln-iport-3.cisco.com (alln-iport-3.cisco.com [173.37.142.90])
- by mx.groups.io with SMTP id smtpd.web11.1651.1711559777905314286
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7A16C47DD9
+	for <webhook@archiver.kernel.org>; Wed, 27 Mar 2024 18:24:58 +0000 (UTC)
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
+ by mx.groups.io with SMTP id smtpd.web10.1203.1711563891832540717
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Mar 2024 10:16:18 -0700
+ Wed, 27 Mar 2024 11:24:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport header.b=AcpjvfpU;
- spf=pass (domain: cisco.com, ip: 173.37.142.90, mailfrom: omatiush@cisco.com)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=gLlf/M/R;
+ spf=pass (domain: gmail.com, ip: 209.85.160.46, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-22a5df0f789so71784fac.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 Mar 2024 11:24:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=1015; q=dns/txt; s=iport;
-  t=1711559777; x=1712769377;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=VDlTMf7xnwEtJh9SFaDnGKMhap0s9eT9tqC/9rtT4jU=;
-  b=AcpjvfpUECUZR+Wk/RnYF6tBsfHHPjtjjq1cCeJfJPJYCmctCxvProF0
-   ZBNPUsWAKHD7f/Ww3OvzjvUeS/YBcPpxM17cPB+0WR4oVCNxRAMFvkUy9
-   sOiu1+bkCo2uvEQFKbuSRQdmjbqCjEzCfcXDkUAFCUyeTU4Il9kEVSoNa
-   k=;
-X-CSE-ConnectionGUID: 2MiN5WkxSE2LPNSKOTY+dA==
-X-CSE-MsgGUID: kpWl8h/FTDyMaXkpEHQIcQ==
-X-IPAS-Result: =?us-ascii?q?A0CMBgBBUgRm/5xdJa1agliCQHVWQUiUGo4VkheBJQNWD?=
- =?us-ascii?q?wEBAQ8xEwQBAY0NAiY2Bw4BAgQBAQEBAwIDAQEBAQEBAQEBBQEBBQEBAQIBB?=
- =?us-ascii?q?wWBChOFeocSARgBgX2DAAGCXwIBsE6CLIEBgyYBgVGuOoFqgUiMe4VfJxuBS?=
- =?us-ascii?q?USEB3aECoEGhXYEghKDN6AiSoEkA4EFaxsQHjcREBMNAwhuHQIxOgMFAwQyC?=
- =?us-ascii?q?hIMCx8FEkIDQwZICwMCGgUDAwSBLAULGgIQLCYDAxJJAhAUAzgDAwYDCjEuT?=
- =?us-ascii?q?0EMUANnHxkYCTwPDBoCGxQNJCMCLD4DCQoQAhYDHRYEMBEJCyYDKgY2AhIMB?=
- =?us-ascii?q?gYGXCAWCQQjAwgEA1ADIHARAwQaBAsHdoM9BBNEAxCBMooXgz+CIIERgydON?=
- =?us-ascii?q?AMJAwcFSUADCxgNSBEsNRQbBiIfbwejcAGCZoEOgUdiQMVuhB2MDJUdGjOqL?=
- =?us-ascii?q?5hipCCEY4FrCC2BWU0jFYMiCUkZD6gPQzUCOQIHCwEBAwmIboF6AQE?=
-IronPort-Data: A9a23:UmtKjapwIv0WlzCTXizf38tGkm9eBmJQZBIvgKrLsJaIsI4StFCzt
- garIBmCOvjYajP3eIsnb42/o0kPuJKAxoM3TQQ4qyEzQiwa8ePIVI+TRqvS04x+DSFioGZPt
- Zh2hgzodZhsJpPkjk7wdOWn9T8kj/vgqoPUUIbsIjp2SRJvVBAvgBdin/9RqoNziLBVOSvV0
- T/Ji5OZYADNNwJcaDpOt/rY8kw35pwehRtB1rAATaET1LPhvyF94KI3fcmZM3b+S49IKe+2L
- 86r5K255G7Q4yA2AdqjlLvhGmVSKlIFFVHT4pb+c/HKbilq/kTe4I5iXBYvQRs/ZwGyojxE4
- I4lWapc5useFvakdOw1C3G0GszlVEFM0OevzXOX6aR/w6BaGpfh660GMa04AWEX0rxSAEcTy
- v8IEx1XSiilvMGR/IP4RsA506zPLOGzVG8ekmtrwTecBvE8TNWeBa7L/tRfmjw3g6iiH96HO
- JFfMmUpPU+GOkARUrsUIMpWcOOAgXz2bzxFs1K9rqss6G+Vxwt0uFToGICOJIbSHpoNzi50o
- ErF51v9UhFdGuCz2B+MwnG0q8/2vCjCDdd6+LqQs6QCbEeo7msLBRsbUFG2rfW0hgu1XMhSA
- 0gV4TY1668q+UqmS9PwUxG1rDiDpBF0ZjZLO/cx5AfIwa3O7kPEQGMFVTVGLtchsafaWAAX6
- 7NApPuxbRQHjVFfYSj1Gmu8xd9qBRUoEA==
-IronPort-HdrOrdr: A9a23:9k9/3Klz0S0OL1zlwKANwY/1h2DpDfI/3DAbv31ZSRFFG/Fw8P
- re/8jzuiWatN98YhsdcLO7WJVoP0mzyXcd2+B4VotKNzOLhILHFuxfBPPZogEJ30bFh4tgPW
- AKSdkdNOHN
-X-Talos-CUID: 9a23:qDEr/mwPbcXVaFMrkY6eBgVOP8EDL0Le3Ez9eWuAL11Kb4GkClO5rfY=
-X-Talos-MUID: =?us-ascii?q?9a23=3AoGAa/w1cAFD02umkD6pxjWNfxjUj4LyRDBAN1rs?=
- =?us-ascii?q?6l9ihPBxzIxq9tRW8e9py?=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.07,159,1708387200"; 
-   d="scan'208";a="236203708"
-Received: from rcdn-core-5.cisco.com ([173.37.93.156])
-  by alln-iport-3.cisco.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2024 17:16:17 +0000
-Received: from sjc-ads-4348.cisco.com (sjc-ads-4348.cisco.com [171.70.55.119])
-	by rcdn-core-5.cisco.com (8.15.2/8.15.2) with ESMTP id 42RHGGmA026294
-	for <openembedded-core@lists.openembedded.org>; Wed, 27 Mar 2024 17:16:17 GMT
-From: Oleh Matiusha <omatiush@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] gmp: improve reproducibility
-Date: Wed, 27 Mar 2024 17:16:16 +0000
-Message-Id: <20240327171616.950846-1-omatiush@cisco.com>
-X-Mailer: git-send-email 2.33.0
+        d=gmail.com; s=20230601; t=1711563891; x=1712168691; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=W6JNm/Ljz70+0iRKCWd/XQ5DpobWV6uloC2wlPnwslU=;
+        b=gLlf/M/ReSSZ67IIFDZZ9fui/fkIBYKOp+ZCVDu3UuKRc1PpIK9dsQZLQ5zNxd2HZT
+         TUzj9tpMe3H1JdsMKVL0z0RZGUXzgCQyKBE8yV1aVhddanR/MHRGZNAA14tR8aZx2ngz
+         WQkQSsJX0N7bPYsnBb1zSnauAZPIBGaTxv3ytMD143erNtuWFFmoXKar2Z0LzJUIKAbu
+         Yn3FJgp1DA0iBow0L1DF45a5Sa1Htuhxv6YFrhTpRjOKWvTYyg0ZvxTRP/i0gMfycoV5
+         +zFzxL8trBIHurkTU1J7QLHZ9UszeBuA6VgLfBO7RyopsIWDyppi6PNxkEfNMPoubW0H
+         Dd7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711563891; x=1712168691;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=W6JNm/Ljz70+0iRKCWd/XQ5DpobWV6uloC2wlPnwslU=;
+        b=eyBYd0HxrlfELYnLEcJokWtWGczZfsKofVe0W/7/cVe6Blyq7Yfih2pyJf/Flj0ekM
+         1YcyGYmCNTcSBMUYAGwuxwQBkQK+2d17WRxj2jdulIQZgFz5/d7NDvQoar8lcWyq5fEL
+         JyNA+2ee2XBeIa3f1Lh2y6HQo72VsfmctUfCY3SiHuQus7i21AU388hkuQXZgglVkkAo
+         Pstmnv579ROn3hHbRmOKEwfFXgoHsoGMUE2Xl4vLW2fFO+U5w7F2sOloybj33Ij2ZD8J
+         cZVZs9Ety51a0NnWI6t86yt81x1K/k3gyrAwhR4HR48ZkJvq79f1olyo4iNU5USNmlkY
+         D5yA==
+X-Gm-Message-State: AOJu0YzNz/3LeOayCXjxE8p4EoP1gKNa+E7ZJhiaYBO+bZGQ7bhIQgSD
+	vMW8Mo6kTgy/KD11GWLdtGjh1Ewa8N5J0pg3wlL8i03NyYm8LnJ4xPYqXIpXNQ6AYG6ErGqHbsU
+	rFvXTHzkADI6Up1Pe2FGB6A6dj88=
+X-Google-Smtp-Source: AGHT+IEg4c5Fz6GTUQ5nSH7PwNtnEgd8rY0SL3o82YiysmQUT3wHvmO4OKQeWKT8b/a6y+bVCVdMxVGvIQtdTj+oeQo=
+X-Received: by 2002:a05:6870:c43:b0:22a:5bae:9cd5 with SMTP id
+ lf3-20020a0568700c4300b0022a5bae9cd5mr498304oab.48.1711563891060; Wed, 27 Mar
+ 2024 11:24:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Outbound-SMTP-Client: 171.70.55.119, sjc-ads-4348.cisco.com
-X-Outbound-Node: rcdn-core-5.cisco.com
+References: <20240327171616.950846-1-omatiush@cisco.com>
+In-Reply-To: <20240327171616.950846-1-omatiush@cisco.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 27 Mar 2024 11:24:25 -0700
+Message-ID: <CAMKF1srMxy2TYHq57K++_j3TvWTYggggW-69JzDVAW67txzMiA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] gmp: improve reproducibility
+To: omatiush@cisco.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Mar 2024 17:16:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197565
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Mar 2024 18:24:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197566
 
-nativesdk-gmp package contains host references in output packages.
-remove them.
+On Wed, Mar 27, 2024 at 10:16=E2=80=AFAM Oleh Matiusha via
+lists.openembedded.org <omatiush=3Dcisco.com@lists.openembedded.org>
+wrote:
+>
+> nativesdk-gmp package contains host references in output packages.
+> remove them.
+>
+> Signed-off-by: Oleh Matiusha <omatiush@cisco.com>
+> ---
+> v2
+>  - move common code to separate function
+> ---
+> ---
+>  meta/recipes-support/gmp/gmp_6.3.0.bb | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-support/gmp/gmp_6.3.0.bb b/meta/recipes-support=
+/gmp/gmp_6.3.0.bb
+> index 3dbcd68b5c..fd4aec92fd 100644
+> --- a/meta/recipes-support/gmp/gmp_6.3.0.bb
+> +++ b/meta/recipes-support/gmp/gmp_6.3.0.bb
+> @@ -29,13 +29,21 @@ do_install:append() {
+>         oe_multilib_header gmp.h
+>  }
+>
+> -do_install:prepend:class-target() {
+> +fix_absolute_paths () {
+>          sed -i \
+>          -e "s|--sysroot=3D${STAGING_DIR_HOST}||g" \
+>          -e "s|${DEBUG_PREFIX_MAP}||g" \
+>           ${B}/gmp.h
+>  }
+>
+> +do_install:prepend:class-target() {
+> +    fix_absolute_paths
+> +}
+> +
+> +do_install:prepend:class-nativesdk() {
+> +    fix_absolute_paths
+> +}
+> +
 
-Signed-off-by: Oleh Matiusha <omatiush@cisco.com>
----
-v2
- - move common code to separate function
----
----
- meta/recipes-support/gmp/gmp_6.3.0.bb | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+why can't we have it in common do_install shared across all
+variants of recipes.
 
-diff --git a/meta/recipes-support/gmp/gmp_6.3.0.bb b/meta/recipes-support/gmp/gmp_6.3.0.bb
-index 3dbcd68b5c..fd4aec92fd 100644
---- a/meta/recipes-support/gmp/gmp_6.3.0.bb
-+++ b/meta/recipes-support/gmp/gmp_6.3.0.bb
-@@ -29,13 +29,21 @@ do_install:append() {
- 	oe_multilib_header gmp.h
- }
- 
--do_install:prepend:class-target() {
-+fix_absolute_paths () {
-         sed -i \
-         -e "s|--sysroot=${STAGING_DIR_HOST}||g" \
-         -e "s|${DEBUG_PREFIX_MAP}||g" \
-          ${B}/gmp.h
- }
- 
-+do_install:prepend:class-target() {
-+    fix_absolute_paths
-+}
-+
-+do_install:prepend:class-nativesdk() {
-+    fix_absolute_paths
-+}
-+
- SSTATE_SCAN_FILES += "gmp.h"
- 
- # Doesn't compile in MIPS16e mode due to use of hand-written
--- 
-2.33.0
-
+>  SSTATE_SCAN_FILES +=3D "gmp.h"
+>
+>  # Doesn't compile in MIPS16e mode due to use of hand-written
+> --
+> 2.33.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#197565): https://lists.openembedded.org/g/openembedde=
+d-core/message/197565
+> Mute This Topic: https://lists.openembedded.org/mt/105181617/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
