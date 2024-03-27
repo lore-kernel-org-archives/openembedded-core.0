@@ -1,126 +1,144 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <jdmason@kudzu.us>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7A16C47DD9
-	for <webhook@archiver.kernel.org>; Wed, 27 Mar 2024 18:24:58 +0000 (UTC)
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
- by mx.groups.io with SMTP id smtpd.web10.1203.1711563891832540717
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BFB4C54E67
+	for <webhook@archiver.kernel.org>; Wed, 27 Mar 2024 18:45:49 +0000 (UTC)
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
+ by mx.groups.io with SMTP id smtpd.web10.1716.1711565140304890328
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Mar 2024 11:24:51 -0700
+ Wed, 27 Mar 2024 11:45:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=gLlf/M/R;
- spf=pass (domain: gmail.com, ip: 209.85.160.46, mailfrom: raj.khem@gmail.com)
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-22a5df0f789so71784fac.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 Mar 2024 11:24:51 -0700 (PDT)
+ dkim=pass header.i=@kudzu-us.20230601.gappssmtp.com header.s=20230601 header.b=wSMtCh4H;
+ spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.222.46, mailfrom: jdmason@kudzu.us)
+Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-7dec16fc4b2so5814241.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 Mar 2024 11:45:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711563891; x=1712168691; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=W6JNm/Ljz70+0iRKCWd/XQ5DpobWV6uloC2wlPnwslU=;
-        b=gLlf/M/ReSSZ67IIFDZZ9fui/fkIBYKOp+ZCVDu3UuKRc1PpIK9dsQZLQ5zNxd2HZT
-         TUzj9tpMe3H1JdsMKVL0z0RZGUXzgCQyKBE8yV1aVhddanR/MHRGZNAA14tR8aZx2ngz
-         WQkQSsJX0N7bPYsnBb1zSnauAZPIBGaTxv3ytMD143erNtuWFFmoXKar2Z0LzJUIKAbu
-         Yn3FJgp1DA0iBow0L1DF45a5Sa1Htuhxv6YFrhTpRjOKWvTYyg0ZvxTRP/i0gMfycoV5
-         +zFzxL8trBIHurkTU1J7QLHZ9UszeBuA6VgLfBO7RyopsIWDyppi6PNxkEfNMPoubW0H
-         Dd7Q==
+        d=kudzu-us.20230601.gappssmtp.com; s=20230601; t=1711565139; x=1712169939; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pxf5SU48hDpnaNWUWtAys+O9K3sxwcXKLwlxdDvA7Ng=;
+        b=wSMtCh4HuglxczLpXGhGDaAYPMWqeWNDXYWj0b5gw5ShB0Q2RmwlzunxnI5CmiTbMh
+         DEosBYDAhkFCulqnMLQ7GRI03UMxNgxXR0XdmSTGmnLLadEvvJQIGl3N9EiCactvJVNs
+         OjrRMxKqV7RlxhYorvaHdguFxEbIaeyMzISbL+BUNOBQIERRa+QDPhK81sHzZ4dD4YcL
+         gfjXdOMq3p4z5ykVBIyP3LJu2Eo61zl7IvByrClddrXC8Deh84OgpWVYXS102v+hJh+D
+         SJ9MBKoJ2X1NcQqmFzr35xGa7BaqGZ4DNHE2pNewHTbwxPzsvYrWMPTO8NFIQbYM6fm1
+         kmqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711563891; x=1712168691;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=W6JNm/Ljz70+0iRKCWd/XQ5DpobWV6uloC2wlPnwslU=;
-        b=eyBYd0HxrlfELYnLEcJokWtWGczZfsKofVe0W/7/cVe6Blyq7Yfih2pyJf/Flj0ekM
-         1YcyGYmCNTcSBMUYAGwuxwQBkQK+2d17WRxj2jdulIQZgFz5/d7NDvQoar8lcWyq5fEL
-         JyNA+2ee2XBeIa3f1Lh2y6HQo72VsfmctUfCY3SiHuQus7i21AU388hkuQXZgglVkkAo
-         Pstmnv579ROn3hHbRmOKEwfFXgoHsoGMUE2Xl4vLW2fFO+U5w7F2sOloybj33Ij2ZD8J
-         cZVZs9Ety51a0NnWI6t86yt81x1K/k3gyrAwhR4HR48ZkJvq79f1olyo4iNU5USNmlkY
-         D5yA==
-X-Gm-Message-State: AOJu0YzNz/3LeOayCXjxE8p4EoP1gKNa+E7ZJhiaYBO+bZGQ7bhIQgSD
-	vMW8Mo6kTgy/KD11GWLdtGjh1Ewa8N5J0pg3wlL8i03NyYm8LnJ4xPYqXIpXNQ6AYG6ErGqHbsU
-	rFvXTHzkADI6Up1Pe2FGB6A6dj88=
-X-Google-Smtp-Source: AGHT+IEg4c5Fz6GTUQ5nSH7PwNtnEgd8rY0SL3o82YiysmQUT3wHvmO4OKQeWKT8b/a6y+bVCVdMxVGvIQtdTj+oeQo=
-X-Received: by 2002:a05:6870:c43:b0:22a:5bae:9cd5 with SMTP id
- lf3-20020a0568700c4300b0022a5bae9cd5mr498304oab.48.1711563891060; Wed, 27 Mar
- 2024 11:24:51 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1711565139; x=1712169939;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pxf5SU48hDpnaNWUWtAys+O9K3sxwcXKLwlxdDvA7Ng=;
+        b=W1RG6Q5Ox14jJIPZ87MGQ9NS33fPhb7l1mMSLEs/vuXfah7WK4K/ruinfRC45n57cS
+         2Zwu4HJEUdCzDCTC5JqA1+/L7lPvwhb+++enZzumVz7/bfVk6ahCcQJzSYAxVJwl4QCE
+         uNe7KFoqHzdmMZqPJMdy70Pw9BVhSxyYSG/xCh2wd2hNG6R2ixRsQYYT04amO7LtPscJ
+         22mDCkLkTZXVhk1t3y+9/CvrX+NogNbHfuxcQIbKxSMCGp4rQTkxNoy9dik86xKqHmoF
+         FpW8VizCiUUYadMMwNXXJIFct5a/TqGKz2KYLmvnUwrLeMXX8j93U14ggrKamZ9KR7Sn
+         4hAA==
+X-Gm-Message-State: AOJu0YzXnEovfGeblqWJnaQPOmvIgD6HLuDtDLzw8fXYxXufx2UTArpn
+	EwomlLPlDBV0YLkJCa5KStk8CK3NHaqPgQAogt0Rg51/BZ8NrYulWZ8tfK/TmTAujLwqBlZghLo
+	=
+X-Google-Smtp-Source: AGHT+IHIW5NQbfQ52PwqXI3O1essfPhOFSGdr95omMQ8JeOTxKFE94actG6XqYpv9TxOepjZlJVOpQ==
+X-Received: by 2002:a05:6102:34c2:b0:478:3fce:314b with SMTP id a2-20020a05610234c200b004783fce314bmr1019428vst.25.1711565138982;
+        Wed, 27 Mar 2024 11:45:38 -0700 (PDT)
+Received: from localhost ([2605:a601:a699:ba00:8ac9:b3ff:febf:a2f8])
+        by smtp.gmail.com with ESMTPSA id r14-20020a0cf80e000000b0069677500d0bsm5249177qvn.29.2024.03.27.11.45.38
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Mar 2024 11:45:38 -0700 (PDT)
+From: Jon Mason <jdmason@kudzu.us>
+To: openembedded-core@lists.openembedded.org
+Subject: [RFC] recipeutils: check for SRC_URI name in get_recipe_upstream_version
+Date: Wed, 27 Mar 2024 14:45:32 -0400
+Message-Id: <20240327184532.226557-1-jdmason@kudzu.us>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20240327171616.950846-1-omatiush@cisco.com>
-In-Reply-To: <20240327171616.950846-1-omatiush@cisco.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 27 Mar 2024 11:24:25 -0700
-Message-ID: <CAMKF1srMxy2TYHq57K++_j3TvWTYggggW-69JzDVAW67txzMiA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] gmp: improve reproducibility
-To: omatiush@cisco.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Mar 2024 18:24:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197566
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Mar 2024 18:45:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197567
 
-On Wed, Mar 27, 2024 at 10:16=E2=80=AFAM Oleh Matiusha via
-lists.openembedded.org <omatiush=3Dcisco.com@lists.openembedded.org>
-wrote:
->
-> nativesdk-gmp package contains host references in output packages.
-> remove them.
->
-> Signed-off-by: Oleh Matiusha <omatiush@cisco.com>
-> ---
-> v2
->  - move common code to separate function
-> ---
-> ---
->  meta/recipes-support/gmp/gmp_6.3.0.bb | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-support/gmp/gmp_6.3.0.bb b/meta/recipes-support=
-/gmp/gmp_6.3.0.bb
-> index 3dbcd68b5c..fd4aec92fd 100644
-> --- a/meta/recipes-support/gmp/gmp_6.3.0.bb
-> +++ b/meta/recipes-support/gmp/gmp_6.3.0.bb
-> @@ -29,13 +29,21 @@ do_install:append() {
->         oe_multilib_header gmp.h
->  }
->
-> -do_install:prepend:class-target() {
-> +fix_absolute_paths () {
->          sed -i \
->          -e "s|--sysroot=3D${STAGING_DIR_HOST}||g" \
->          -e "s|${DEBUG_PREFIX_MAP}||g" \
->           ${B}/gmp.h
->  }
->
-> +do_install:prepend:class-target() {
-> +    fix_absolute_paths
-> +}
-> +
-> +do_install:prepend:class-nativesdk() {
-> +    fix_absolute_paths
-> +}
-> +
+Previously, get_recipe_upstream_version took whatever the first entry in
+SRC_URI was for determining the upstream version.  This does not work
+for recipes that append to the SRC_URI, as theirs will never be first.
+To work around this, add a new variable to specify the SRC_URI name
+field and use that to match.  If nothing is specified, it will use the
+first SRC_URI.
 
-why can't we have it in common do_install shared across all
-variants of recipes.
+Signed-off-by: Jon Mason <jdmason@kudzu.us>
+---
+ documentation/ref-manual/devtool-reference.rst |  4 ++--
+ documentation/ref-manual/variables.rst         |  8 ++++++++
+ meta/lib/oe/recipeutils.py                     | 11 +++++++++--
+ 3 files changed, 19 insertions(+), 4 deletions(-)
 
->  SSTATE_SCAN_FILES +=3D "gmp.h"
->
->  # Doesn't compile in MIPS16e mode due to use of hand-written
-> --
-> 2.33.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#197565): https://lists.openembedded.org/g/openembedde=
-d-core/message/197565
-> Mute This Topic: https://lists.openembedded.org/mt/105181617/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+diff --git a/documentation/ref-manual/devtool-reference.rst b/documentation/ref-manual/devtool-reference.rst
+index 9319addc3c61..b774dcb1092b 100644
+--- a/documentation/ref-manual/devtool-reference.rst
++++ b/documentation/ref-manual/devtool-reference.rst
+@@ -340,8 +340,8 @@ being able to upgrade it, displayed in a table.
+ 
+ This upgrade checking mechanism relies on the optional :term:`UPSTREAM_CHECK_URI`,
+ :term:`UPSTREAM_CHECK_REGEX`, :term:`UPSTREAM_CHECK_GITTAGREGEX`,
+-:term:`UPSTREAM_CHECK_COMMITS` and :term:`UPSTREAM_VERSION_UNKNOWN`
+-variables in package recipes.
++:term:`UPSTREAM_CHECK_COMMITS`, :term: `UPSTREAM_CHECK_SRCNAME`,  and
++:term:`UPSTREAM_VERSION_UNKNOWN` variables in package recipes.
+ 
+ .. note::
+ 
+diff --git a/documentation/ref-manual/variables.rst b/documentation/ref-manual/variables.rst
+index 435481c9aa12..12372c1e67f3 100644
+--- a/documentation/ref-manual/variables.rst
++++ b/documentation/ref-manual/variables.rst
+@@ -9686,6 +9686,14 @@ system and gives an overview of their function and contents.
+ 
+          UPSTREAM_CHECK_REGEX = "package_regex"
+ 
++   :term:`UPSTREAM_CHECK_SRCNAME`
++      By default, the first entry in :term:`SRC_URI` is what is used to
++      determine the latest upstream source code version.  If this is not
++      the desired behavior, the :term:`UPSTREAM_CHECK_SRCNAME` variable
++      is used to specify which of the other entries in SRC_URI should be
++      used for this determination.  The value should match the specified
++      name of the :term:`SRC_URI` entry.
++
+    :term:`UPSTREAM_CHECK_URI`
+       You can perform a per-recipe check for what the latest upstream
+       source code version is by calling ``devtool latest-version recipe``. If
+diff --git a/meta/lib/oe/recipeutils.py b/meta/lib/oe/recipeutils.py
+index de1fbdd3a8c8..6fb9fbbc6abc 100644
+--- a/meta/lib/oe/recipeutils.py
++++ b/meta/lib/oe/recipeutils.py
+@@ -1041,9 +1041,15 @@ def get_recipe_upstream_version(rd):
+         ru['datetime'] = datetime.now()
+         return ru
+ 
+-    # XXX: we suppose that the first entry points to the upstream sources
++    # If the upstream name has been specified, take that one.
++    # Otherwise, default to the first URI in the list
+     src_uri = src_uris.split()[0]
+-    uri_type, _, _, _, _, _ =  decodeurl(src_uri)
++    if str(rd.getVar('UPSTREAM_CHECK_SRCNAME')):
++        for s in src_uris.split():
++            ud = bb.fetch2.FetchData(s, rd)
++            if ud.parm.get('name') == str(rd.getVar('UPSTREAM_CHECK_SRCNAME')):
++                src_uri = s
++    uri_type, _, _, _, _, _ = decodeurl(src_uri)
+ 
+     (pv, pfx, sfx) = get_recipe_pv_with_pfx_sfx(rd.getVar('PV'), uri_type)
+     ru['current_version'] = pv
+@@ -1127,6 +1133,7 @@ def get_recipe_upgrade_status(recipes=None):
+                  'UPSTREAM_CHECK_COMMITS',
+                  'UPSTREAM_CHECK_GITTAGREGEX',
+                  'UPSTREAM_CHECK_REGEX',
++                 'UPSTREAM_CHECK_SRCNAME',
+                  'UPSTREAM_CHECK_URI',
+                  'UPSTREAM_VERSION_UNKNOWN',
+                  'RECIPE_MAINTAINER',
+-- 
+2.30.2
+
 
