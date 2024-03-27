@@ -2,39 +2,39 @@ Return-Path: <colin.mcallister@garmin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22A9FC54E67
-	for <webhook@archiver.kernel.org>; Wed, 27 Mar 2024 15:40:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C9A0C47DD9
+	for <webhook@archiver.kernel.org>; Wed, 27 Mar 2024 15:42:58 +0000 (UTC)
 Received: from mx0b-000eb902.pphosted.com (mx0b-000eb902.pphosted.com [205.220.177.212])
- by mx.groups.io with SMTP id smtpd.web10.41305.1711554050386894741
+ by mx.groups.io with SMTP id smtpd.web10.41359.1711554169201703312
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Mar 2024 08:40:51 -0700
+ Wed, 27 Mar 2024 08:42:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@garmin.com header.s=pps1 header.b=U4C+R+1h;
- dkim=pass header.i=@garmin.com header.s=selector2 header.b=UcoSo1QT;
+ dkim=pass header.i=@garmin.com header.s=pps1 header.b=NH92Cmlq;
+ dkim=pass header.i=@garmin.com header.s=selector2 header.b=JROfiPM0;
  spf=pass (domain: garmin.com, ip: 205.220.177.212, mailfrom: colin.mcallister@garmin.com)
-Received: from pps.filterd (m0220299.ppops.net [127.0.0.1])
-	by mx0a-000eb902.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42R9tviW021836
-	for <openembedded-core@lists.openembedded.org>; Wed, 27 Mar 2024 10:40:49 -0500
+Received: from pps.filterd (m0220297.ppops.net [127.0.0.1])
+	by mx0a-000eb902.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 42RBkFBe002436
+	for <openembedded-core@lists.openembedded.org>; Wed, 27 Mar 2024 10:42:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garmin.com; h=
 	from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding:content-type; s=pps1; bh=pa7t7KD6L//H
-	IXtJF0XKnEoV6lFCiBDVIVxiQ1pD92M=; b=U4C+R+1hilpld3WHjg64faAVKuy/
-	2K3w7bSAykJg8RmSipAYEULSF4qPjBngTK9cuRL6hxcOCzaA7scUhTDLSjaiOvw0
-	4yuSsdwJxgX6WsMc9e7BX+rt3OtmPswYp9u5tyQ7g/7XqMXYntRLKGMXd57Vr+SI
-	9+UixsqAivPAv8mmZE79OHeXV3zkuVE8GKOC4cDJMN2BkmoNgAJRwAhgsMoxYYHQ
-	GIHViYWrhRo2ghrwdvCsAgqq7yKOghI6Fo/NKOGPjmrL9C8Nvjj6PCwFzcqyvy9D
-	M0ohSOhnkJxx10amS/zWkXrHbeA0wjyGsdYPFNwwZRIyXGnPE0IRV0GE7g==
-Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2169.outbound.protection.outlook.com [104.47.59.169])
-	by mx0a-000eb902.pphosted.com (PPS) with ESMTPS id 3x4h8rrp4b-1
+	:content-transfer-encoding:content-type; s=pps1; bh=UWSFpLU3IEhV
+	Ct95eLRIoPFmCuM5eWcAk017KoVpg2I=; b=NH92CmlqgHOSNv5zDxNT33flWM2W
+	YeYqyWP9IchIZzz1PmG0BMy+dgymeo5PByMZUOXaVRChS1L/JHwDAhbx5RF8al/U
+	6d6RsViQcMeZu9P3eH0+T7Hdt1YEvZPOSrF36wTwBPy/EQQL9+cr3F1zoe7ktzFG
+	DRmEgfmT0gPpmi8pE4NqFD6krdvidGia1hcn08somSxp45zz9ZUmK3Zan3QMffv2
+	FLFnFhs8Ox3wz3sSHL3LeYJaU1myhlGzcxk79jWJSr/jUlkDFPKmU5uYToeEwpbk
+	bdj87Z3Ddxq2SLI41rF+jBbjnb+uBaGt3SCjvFv4QTnzhbcZaUN8UFBdgw==
+Received: from nam02-sn1-obe.outbound.protection.outlook.com (mail-sn1nam02lp2041.outbound.protection.outlook.com [104.47.57.41])
+	by mx0a-000eb902.pphosted.com (PPS) with ESMTPS id 3x4e3r17yj-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 27 Mar 2024 10:40:49 -0500 (CDT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 27 Mar 2024 10:42:47 -0500 (CDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=goYv4+JT72ifd9Sl3gln1/Vxy9K3TWQlBUOXzLUqkAhN7I/4CquqgcBwPit5woWTXEiDCJNCCzKsBnW1MFecF8issr6nisKD/x+FKUSikeC+MZR3Rlhq31By/Ia1Mprv/S6qb4i4hVkDfgIHG/LDL5bVKaGyffFVFaCDCtgXtd1PV/VR3p+pFsUbFM+7EEqy/Rq8aX9hKstdR88CUerDpylScQympyHdVUY9VFBWZqlT9/CGfXz3CUbxYlj8X83ugqu/cVLBRjPAj/C/2d7Hz+ptchve0gwp4rTNd124sa9MVIboFnRU8zz+vAgzs935MPjt7joK0qU+66mDXAzuQQ==
+ b=Ssp+rosRqUfQp2Mp6UNb9xcI6Ikvzr1NAD/V6tToGtAuawzcneHQ5tK8Qpi0wvCzJtgE4co7QpI8rTQiYAt9kVm7453hFZTA3R/4uB8FIsuVVgqGtnt3rTGqEA7YnwqWXAE+ZMFlJKRlWCJ06bvIs6NUQjPy1uq50O6kFDGpEmkPpi9vhIg5ooNwUokFtImKnpWJGQhikMZ9lYAOk9HGCaCWvvfLlsDK2HUwMQfRJGZYXjdSWx7ltaWEpw4gIJBYsN6IXwQKU5nVo3tljGnHPy1HXEDtk2zbTm6/jnByyH838LjiPneGcGxg8l5Tk+NFKV189Rczdj4wMO3Qd3J2eQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pa7t7KD6L//HIXtJF0XKnEoV6lFCiBDVIVxiQ1pD92M=;
- b=iDYdF0y0XTFV6AxaLZN6DeGwQW2pXWd1KQfR3hOdqBMrDY/fPcRFZstRpos8mdtSYpoI/1reTALwcsbHj01SwjWEez5+9RS3OTADwSk+RFhxNyJx1+rzd7mHvocTFIrVxGhv3oBOvUuunySN+2M7TbaUztIb8WnIzZ41PHsUSSu0qGqF74KmwHuIrzrM+7mkInG3xmbcBa64G4cVzCsmCZ0bIwoh8EHzglwb81aagAHSJlOkpyUR7xOopww3uLZlWPDuuUxezWiCcbM7EGYH95NvWFJEGgrGOcOTxKIHyieGKIpjhX9j544AHU1VUYYGHzA3F9h4MGqkefPIcz1VAw==
+ bh=UWSFpLU3IEhVCt95eLRIoPFmCuM5eWcAk017KoVpg2I=;
+ b=PYQVjlSe8CffNf2C8swyhISwvs9Fioulsf6xVkUXs2aWdzKfOy4rYEGNiAGPnv4PdrGHkbm7fhPNmRJFi9LzeL799GfxvATFAqvGP4tYqQR4BWOQBE6mpfwJKrQJogCJ6hCKEkVSPpEskQPn5ToiUtDcRIPj+jflWXZRr2SAJlsBN7kz20NAM8P5BNcaEcMRGpNlHkTXcVxL35pXKvVWHA5me5UQCo3rkUe10hUaINU8xgAVdtTnCs/8wXl8wP0OJM6JiUw5aQMoP6FF1YrIfF5ZQD2mQ4GIqT+/2k69rhcNkE7K6JJnwLK1kIgZpP7SekUeRrwxpol9bJUEG36+ww==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  204.77.163.244) smtp.rcpttodomain=lists.openembedded.org
  smtp.mailfrom=garmin.com; dmarc=pass (p=quarantine sp=quarantine pct=100)
@@ -43,18 +43,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garmin.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pa7t7KD6L//HIXtJF0XKnEoV6lFCiBDVIVxiQ1pD92M=;
- b=UcoSo1QT9fJ5aYOi8hDfxKgKETGejvUHr7Fg39MhNKQwkHoSGHFZpduJIWmmu7IiyrvpXopoEULlUFiWJn+WONTvG8bTxB0rWFnehCgAgFTjW+g8G/WQkvTUYglo1d37NThapq6naAUdF29LWECtb6n1M62yTZ3/TrR+lqT+lY0kxzeFj2doqMKa977oGVNszqgNjjxMRDiNl50kZIp+7d59dLiwn2nPwNK4UP6ECl2SdOdOflUBTNhqnkq3kZwX2HXNAK3aTOQ2iEwwaQ3nMb4a2UF2M97Fc+/fvfh8ca8bZ7/mKDiLWOgweG8cHNcCLA/O9M0BuR0rXQcsS5UM4A==
-Received: from MW4PR03CA0264.namprd03.prod.outlook.com (2603:10b6:303:b4::29)
- by BN0PR04MB8029.namprd04.prod.outlook.com (2603:10b6:408:158::23) with
+ bh=UWSFpLU3IEhVCt95eLRIoPFmCuM5eWcAk017KoVpg2I=;
+ b=JROfiPM0ms0ucCsvdVsXKmE4y8Yv+Tu0cbBapm3Gjix/ACThh25aTjJFxAr+Ipha9lLmBvAFERiF6HKfMCpFJ8firVsbUze1L9l/8alcJDlXzU1i/AalGb0PXF09Ty388+15JiX+T9p9kREGHZU+7UHbjKlQHCNV/QikuDgrNEu3n8LIR7o+1NVT3HiZkOZIz4WMcVcTqKjGvy3w8Vj52dFgR7YWTX5Y4MiuQDWfxJcWNUgqSsMoIBSGHo+ufqHQfMD8cTcRySMx3F/BIkAhfs3Ak6TMouEw2LQcnzrvztTVEGB7p6pPunf7M4lEeHE/zLZywo0GQQEfksEkbAeaiQ==
+Received: from DS7PR06CA0005.namprd06.prod.outlook.com (2603:10b6:8:2a::20) by
+ MW6PR04MB8915.namprd04.prod.outlook.com (2603:10b6:303:244::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.33; Wed, 27 Mar
- 2024 15:40:46 +0000
-Received: from MWH0EPF000971E6.namprd02.prod.outlook.com
- (2603:10b6:303:b4:cafe::9b) by MW4PR03CA0264.outlook.office365.com
- (2603:10b6:303:b4::29) with Microsoft SMTP Server (version=TLS1_2,
+ 2024 15:42:46 +0000
+Received: from DS1PEPF00017090.namprd03.prod.outlook.com
+ (2603:10b6:8:2a:cafe::26) by DS7PR06CA0005.outlook.office365.com
+ (2603:10b6:8:2a::20) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.13 via Frontend
- Transport; Wed, 27 Mar 2024 15:40:46 +0000
+ Transport; Wed, 27 Mar 2024 15:42:45 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 204.77.163.244)
  smtp.mailfrom=garmin.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=garmin.com;
@@ -62,703 +62,267 @@ Received-SPF: Pass (protection.outlook.com: domain of garmin.com designates
  204.77.163.244 as permitted sender) receiver=protection.outlook.com;
  client-ip=204.77.163.244; helo=edgetransport.garmin.com; pr=C
 Received: from edgetransport.garmin.com (204.77.163.244) by
- MWH0EPF000971E6.mail.protection.outlook.com (10.167.243.74) with Microsoft
+ DS1PEPF00017090.mail.protection.outlook.com (10.167.17.132) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7409.10 via Frontend Transport; Wed, 27 Mar 2024 15:40:46 +0000
-Received: from cv1wpa-exmb2.ad.garmin.com (10.5.144.72) by
- olawpa-edge3.garmin.com (10.60.4.226) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.32; Wed, 27 Mar 2024 10:40:39 -0500
-Received: from KC3WPA-EXMB5.ad.garmin.com (10.65.32.85) by
- CV1WPA-EXMB2.ad.garmin.com (10.5.144.72) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.37; Wed, 27 Mar 2024 10:40:44 -0500
-Received: from cv1wpa-exmb6.ad.garmin.com (10.5.144.76) by
- KC3WPA-EXMB5.ad.garmin.com (10.65.32.85) with Microsoft SMTP Server
+ 15.20.7409.10 via Frontend Transport; Wed, 27 Mar 2024 15:42:45 +0000
+Received: from cv1wpa-exmb3.ad.garmin.com (10.5.144.73) by
+ olawpa-edge5.garmin.com (10.60.4.229) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.32; Wed, 27 Mar 2024 10:40:44 -0500
+ 15.1.2507.32; Wed, 27 Mar 2024 10:42:40 -0500
+Received: from kc3wpa-exmb4.ad.garmin.com (10.65.32.84) by
+ cv1wpa-exmb3.ad.garmin.com (10.5.144.73) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.37; Wed, 27 Mar 2024 10:42:45 -0500
+Received: from kc3wpa-exmb4.ad.garmin.com (10.65.32.84) by
+ kc3wpa-exmb4.ad.garmin.com (10.65.32.84) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.32; Wed, 27 Mar 2024 10:42:44 -0500
 Received: from ola-jnrkg73.ad.garmin.com (10.5.209.17) by mail.garmin.com
- (10.5.144.76) with Microsoft SMTP Server id 15.2.1258.32 via Frontend
- Transport; Wed, 27 Mar 2024 10:40:44 -0500
+ (10.65.32.84) with Microsoft SMTP Server id 15.2.1258.32 via Frontend
+ Transport; Wed, 27 Mar 2024 10:42:44 -0500
 From: Colin McAllister <colin.mcallister@garmin.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Colin McAllister <colin.mcallister@garmin.com>
-Subject: [OE-core][dunfell][PATCH 0/2] License backports
-Date: Wed, 27 Mar 2024 10:40:01 -0500
-Message-ID: <20240327154026.811420-1-colin.mcallister@garmin.com>
+Subject: [OE-core][kirkstone][PATCH] common-licenses: Backport missing license
+Date: Wed, 27 Mar 2024 10:42:41 -0500
+Message-ID: <20240327154241.812487-1-colin.mcallister@garmin.com>
 X-Mailer: git-send-email 2.43.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWH0EPF000971E6:EE_|BN0PR04MB8029:EE_
-X-MS-Office365-Filtering-Correlation-Id: a01a1ffc-0732-4fd7-edc2-08dc4e744523
+X-MS-TrafficTypeDiagnostic: DS1PEPF00017090:EE_|MW6PR04MB8915:EE_
+X-MS-Office365-Filtering-Correlation-Id: 44bcb8ec-6c5e-4ab4-36be-08dc4e748c73
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	oZ2VwxBysmijcLTqrcJdH0Lb0yJtKu85l7iIuUZDUM3bdurXlIPDIBJKUNUqh5Guxg/jvAQEnCf/dwVqPmYCaaUK8z3PgYzTIyKi5gtBkyUwxlfklYk1dn6ncyU/4bZnnH2wg0+aYGEKdFaRZsCTcw6XgxdjOW4T/AXbvbOlXYJ8XXqrpG5H2KIUUUEaL6cTo5vPR7P8cUbAi2w2sCFRe9eofolVk3SjWyoYpF3CdXDzGC8OyMlfamknaSdsP+kDPmBK1i4bIxExcgHf7zRb0jG5s0aj81c2bxZqF8ujUMCrbWWCqVGf4URlYsYIj86ecvyDmiYGAC808hZI0V8+tLoYHcInR8oV3oAc3k3+vebdTZ4z6aDOEP/zMHg9+bMO3GuI/QrHE17wVMFacbfOJ58ElPIGGyfGUOHbkg02Fl1drmONXqzaM6nui+qu85eNXra0XgiWHLPsxa18Rq6dtWETxgAIcLwShvKbMguOZMc27bYd568dGUg+sqSWCFCB/b1hEq/x8qFuJBH3DkdFenZb54DhXwRwuG3NxDFXAYESKw4Q8TIMiB9rv/TSFm8sj9I/+yrRjEIGIc/dTeC46WuPg2NbV3gZ4BH+yuQDkh5sVpOqQtD6wytkzMticqPSUpEdoznaBSLV+70ZRlCZV+pl2ubTZBT90Xc+U1TZk1VefKuA2qwVjPksstYy5u89aqBFTIHefOvhQyBMAHpku01SvKf684D+FLVbMYO3sovzU7ecN0bFQZX8o0NhVJlT
+	Hvx36tOsGeLvZL8BH1MDGM5WkQZhyUcNfG8mS341QkJLw22hIk+0oZHseU2WUVXPww/lVLa9JIkvT3QCDzfJEyZfZ4MF1O8amptrtooapl+gsCWKTEnxGRW+qcPQwKFGJiMQIP+0nn3469oEeDo6BrYIzJbmhC/4QZhRNT9OW8Osmn9iuOXbWsRe9Xbgtg9xKg4zi2wjJh+JUVKJxqzEUtA/+D8944w2VkWaXwiQrgiTCFCRSE0zWW7JZhQFOwvDVuVl0kY6lb19gLwJLvVipW83pkuDGvwDR/jJ+fE/wkYJvRAGHD2IVAwTsSnbjD/BZ3hgPhiulj0WqIRSjKYUX+gxhhIumpyaY18cUDoRz79VzCmRI0jc9PADXUH+rwDHLdkX/+OKSVTYOlyvPs8A0p5F9h7I/EtXpnp8Zp1eBKMlUefBQoHxa8znX6mJYTIX0pCVjwlTXTIIecOsxT22n/G1z1hLj7EMHxhRrTAmPleRZJdYsIVqW0wxxCdRp3x7pEiVntPDE68Ocx/i0QWvfGeXr+reZMuzsYDqzNbgWXR0X6qSTPLuezrmiJ4v2HKfkzwg5TNbZxav6BMKfdJRUzXo1/EUwNToriwICiC2746t+1MVOYMWKNQrM97BxbuooolT4R7ziHxFAYmaR2wI46ruWOQkYy5oby8cBHZAQdiYMSgvpAFKFye3S0DDgHW2hJMzJa6Hyioyac+DwLQ0IQ==
 X-Forefront-Antispam-Report: 
-	CIP:204.77.163.244;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:edgetransport.garmin.com;PTR:extedge.garmin.com;CAT:NONE;SFS:(13230031)(1800799015)(82310400014)(376005)(36860700004);DIR:OUT;SFP:1102;
+	CIP:204.77.163.244;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:edgetransport.garmin.com;PTR:extedge.garmin.com;CAT:NONE;SFS:(13230031)(36860700004)(82310400014)(376005)(1800799015);DIR:OUT;SFP:1102;
 X-OriginatorOrg: garmin.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Mar 2024 15:40:46.1517
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Mar 2024 15:42:45.8207
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a01a1ffc-0732-4fd7-edc2-08dc4e744523
+X-MS-Exchange-CrossTenant-Network-Message-Id: 44bcb8ec-6c5e-4ab4-36be-08dc4e748c73
 X-MS-Exchange-CrossTenant-Id: 38d0d425-ba52-4c0a-a03e-2a65c8e82e2d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=38d0d425-ba52-4c0a-a03e-2a65c8e82e2d;Ip=[204.77.163.244];Helo=[edgetransport.garmin.com]
 X-MS-Exchange-CrossTenant-AuthSource: 
-	MWH0EPF000971E6.namprd02.prod.outlook.com
+	DS1PEPF00017090.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR04MB8029
-X-Proofpoint-GUID: xEYIlYfxQGIFE2w4XJg6XgHXYmGziH_p
-X-Proofpoint-ORIG-GUID: xEYIlYfxQGIFE2w4XJg6XgHXYmGziH_p
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR04MB8915
+X-Proofpoint-ORIG-GUID: H9KlKtL2qxCccfJiNFI_52pOj1QjNiUa
+X-Proofpoint-GUID: H9KlKtL2qxCccfJiNFI_52pOj1QjNiUa
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2024-03-27_12,2024-03-27_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 mlxscore=0
- impostorscore=0 spamscore=0 lowpriorityscore=0 bulkscore=0 adultscore=0
- phishscore=0 clxscore=1011 malwarescore=0 mlxlogscore=999
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2403210001 definitions=main-2403270107
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 malwarescore=0
+ phishscore=0 spamscore=0 priorityscore=1501 lowpriorityscore=0
+ impostorscore=0 clxscore=1015 mlxscore=0 adultscore=0 suspectscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2403210001 definitions=main-2403270108
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Mar 2024 15:40:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197559
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Mar 2024 15:42:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197562
 
-The following two changes backport common-licenes added after
-Dunfell. This fixes spdx generation issues for some recipes on
-Dunfell that use licenses that are not supported in licenses.conf.
+Backports missing license from master to kirkstone.
 
-Colin McAllister (2):
-  common-licenses: Backport missing licenses
-  licenses.conf: Backport missing licenses
-
- meta/conf/licenses.conf                       | 114 +--
- meta/files/common-licenses/0BSD               |   5 +
- meta/files/common-licenses/ADSL               |   1 +
- meta/files/common-licenses/AFL-1.1            |  27 +
- meta/files/common-licenses/AGPL-1.0-only      |  86 +++
- meta/files/common-licenses/AGPL-1.0-or-later  |  86 +++
- meta/files/common-licenses/AGPL-3.0-only      | 661 ++++++++++++++++++
- meta/files/common-licenses/AGPL-3.0-or-later  | 613 ++++++++++++++++
- meta/files/common-licenses/AMDPLPA            |  20 +
- meta/files/common-licenses/AML                |   9 +
- meta/files/common-licenses/AMPAS              |  13 +
- meta/files/common-licenses/ANTLR-PD-fallback  |   7 +
- meta/files/common-licenses/APAFML             |   3 +
- meta/files/common-licenses/Abstyles           |  11 +
- meta/files/common-licenses/Adobe-2006         |  12 +
- meta/files/common-licenses/Adobe-Glyph        |  10 +
- meta/files/common-licenses/Afmparse           |  10 +
- meta/files/common-licenses/Aladdin            |  62 ++
- meta/files/common-licenses/Artistic-1.0-Perl  |  51 ++
- meta/files/common-licenses/Artistic-1.0-cl8   |  51 ++
- meta/files/common-licenses/BSD-2-Clause-Views |  11 +
- .../common-licenses/BSD-3-Clause-Attribution  |  11 +
- meta/files/common-licenses/BSD-3-Clause-Clear |  32 +
- meta/files/common-licenses/BSD-3-Clause-LBNL  |  12 +
- .../common-licenses/BSD-3-Clause-Modification |  35 +
- .../BSD-3-Clause-No-Military-License          |  16 +
- .../BSD-3-Clause-No-Nuclear-License           |  14 +
- .../BSD-3-Clause-No-Nuclear-License-2014      |  16 +
- .../BSD-3-Clause-No-Nuclear-Warranty          |  14 +
- .../common-licenses/BSD-3-Clause-Open-MPI     |  34 +
- .../common-licenses/BSD-4-Clause-Shortened    |  13 +
- meta/files/common-licenses/BSD-4-Clause-UC    |  15 +
- meta/files/common-licenses/BSD-Protection     |  53 ++
- meta/files/common-licenses/BSD-Source-Code    |  10 +
- meta/files/common-licenses/BUSL-1.1           |  72 ++
- meta/files/common-licenses/Bahyph             |  11 +
- meta/files/common-licenses/Barr               |   1 +
- meta/files/common-licenses/Beerware           |   1 +
- meta/files/common-licenses/BitTorrent-1.0     | 330 +++++++++
- meta/files/common-licenses/BitTorrent-1.1     | 137 ++++
- meta/files/common-licenses/BlueOak-1.0.0      |  55 ++
- meta/files/common-licenses/Borceux            |  19 +
- meta/files/common-licenses/C-UDA-1.0          |  47 ++
- meta/files/common-licenses/CAL-1.0            | 354 ++++++++++
- .../CAL-1.0-Combined-Work-Exception           | 354 ++++++++++
- meta/files/common-licenses/CC-BY-2.5-AU       | 112 +++
- meta/files/common-licenses/CC-BY-3.0-AT       | 111 +++
- meta/files/common-licenses/CC-BY-3.0-DE       | 109 +++
- meta/files/common-licenses/CC-BY-3.0-NL       |  97 +++
- meta/files/common-licenses/CC-BY-3.0-US       |  83 +++
- meta/files/common-licenses/CC-BY-4.0          | 156 +++++
- meta/files/common-licenses/CC-BY-NC-3.0-DE    | 110 +++
- meta/files/common-licenses/CC-BY-NC-4.0       | 158 +++++
- meta/files/common-licenses/CC-BY-NC-ND-3.0-DE | 101 +++
- .../files/common-licenses/CC-BY-NC-ND-3.0-IGO |  99 +++
- meta/files/common-licenses/CC-BY-NC-ND-4.0    | 155 ++++
- meta/files/common-licenses/CC-BY-NC-SA-2.0-FR |  93 +++
- meta/files/common-licenses/CC-BY-NC-SA-2.0-UK | 149 ++++
- meta/files/common-licenses/CC-BY-NC-SA-3.0-DE | 126 ++++
- .../files/common-licenses/CC-BY-NC-SA-3.0-IGO | 105 +++
- meta/files/common-licenses/CC-BY-NC-SA-4.0    | 170 +++++
- meta/files/common-licenses/CC-BY-ND-3.0-DE    | 101 +++
- meta/files/common-licenses/CC-BY-ND-4.0       | 154 ++++
- meta/files/common-licenses/CC-BY-SA-2.0-UK    | 147 ++++
- meta/files/common-licenses/CC-BY-SA-2.1-JP    |  83 +++
- meta/files/common-licenses/CC-BY-SA-3.0-AT    | 139 ++++
- meta/files/common-licenses/CC-BY-SA-3.0-DE    | 136 ++++
- meta/files/common-licenses/CC-PDDC            |   8 +
- meta/files/common-licenses/CDDL-1.1           | 123 ++++
- meta/files/common-licenses/CDL-1.0            |  53 ++
- .../files/common-licenses/CDLA-Permissive-1.0 |  85 +++
- .../files/common-licenses/CDLA-Permissive-2.0 |  35 +
- meta/files/common-licenses/CDLA-Sharing-1.0   |  89 +++
- meta/files/common-licenses/CECILL-1.1         | 229 ++++++
- meta/files/common-licenses/CECILL-2.1         | 518 ++++++++++++++
- meta/files/common-licenses/CERN-OHL-1.1       |  47 ++
- meta/files/common-licenses/CERN-OHL-1.2       |  49 ++
- meta/files/common-licenses/CERN-OHL-P-2.0     | 199 ++++++
- meta/files/common-licenses/CERN-OHL-S-2.0     | 289 ++++++++
- meta/files/common-licenses/CERN-OHL-W-2.0     | 310 ++++++++
- meta/files/common-licenses/CNRI-Jython        |  12 +
- meta/files/common-licenses/CNRI-Python        |  25 +
- .../CNRI-Python-GPL-Compatible                |  23 +
- meta/files/common-licenses/CPOL-1.02          |  98 +++
- meta/files/common-licenses/Caldera            |  25 +
- meta/files/common-licenses/Condor-1.1         |  40 ++
- meta/files/common-licenses/Crossword          |   5 +
- meta/files/common-licenses/CrystalStacker     |   7 +
- meta/files/common-licenses/Cube               |  17 +
- meta/files/common-licenses/D-FSL-1.0          | 147 ++++
- meta/files/common-licenses/DOC                |  15 +
- meta/files/common-licenses/DRL-1.0            |  12 +
- meta/files/common-licenses/DSDP               |  18 +
- meta/files/common-licenses/Dotseqn            |   5 +
- meta/files/common-licenses/EPICS              |  32 +
- meta/files/common-licenses/EUPL-1.2           | 190 +++++
- meta/files/common-licenses/Eurosym            |  18 +
- meta/files/common-licenses/FSFAP              |   1 +
- meta/files/common-licenses/FSFUL              |   3 +
- meta/files/common-licenses/FSFULLR            |   3 +
- meta/files/common-licenses/FTL                |  79 +++
- meta/files/common-licenses/FreeBSD-DOC        |  23 +
- meta/files/common-licenses/FreeImage          | 117 ++++
- meta/files/common-licenses/GD                 |  24 +
- .../common-licenses/GFDL-1.1-invariants-only  | 119 ++++
- .../GFDL-1.1-invariants-or-later              | 119 ++++
- .../GFDL-1.1-no-invariants-only               | 119 ++++
- .../GFDL-1.1-no-invariants-or-later           | 119 ++++
- meta/files/common-licenses/GFDL-1.1-only      | 119 ++++
- meta/files/common-licenses/GFDL-1.1-or-later  | 119 ++++
- .../common-licenses/GFDL-1.2-invariants-only  | 130 ++++
- .../GFDL-1.2-invariants-or-later              | 130 ++++
- .../GFDL-1.2-no-invariants-only               | 130 ++++
- .../GFDL-1.2-no-invariants-or-later           | 130 ++++
- meta/files/common-licenses/GFDL-1.2-only      | 130 ++++
- meta/files/common-licenses/GFDL-1.2-or-later  | 130 ++++
- .../common-licenses/GFDL-1.3-invariants-only  | 149 ++++
- .../GFDL-1.3-invariants-or-later              | 149 ++++
- .../GFDL-1.3-no-invariants-only               | 149 ++++
- .../GFDL-1.3-no-invariants-or-later           | 149 ++++
- meta/files/common-licenses/GFDL-1.3-only      | 149 ++++
- meta/files/common-licenses/GFDL-1.3-or-later  | 149 ++++
- meta/files/common-licenses/GL2PS              |  13 +
- meta/files/common-licenses/GLWTPL             |  25 +
- meta/files/common-licenses/GPL-1.0-only       | 252 +++++++
- meta/files/common-licenses/GPL-1.0-or-later   | 232 ++++++
- meta/files/common-licenses/GPL-2.0-only       | 132 ++++
- meta/files/common-licenses/GPL-2.0-or-later   | 319 +++++++++
- .../GPL-3-with-bison-exception                |   7 +
- meta/files/common-licenses/GPL-3.0-only       | 225 ++++++
- meta/files/common-licenses/GPL-3.0-or-later   | 625 +++++++++++++++++
- meta/files/common-licenses/Giftware           |   9 +
- meta/files/common-licenses/Glide              |  95 +++
- meta/files/common-licenses/Glulxe             |   3 +
- meta/files/common-licenses/HPND-sell-variant  |  19 +
- meta/files/common-licenses/HTMLTIDY           |  13 +
- meta/files/common-licenses/HaskellReport      |   6 +
- meta/files/common-licenses/Hippocratic-2.1    |  33 +
- meta/files/common-licenses/IBM-pibs           |   8 +
- meta/files/common-licenses/IJG                |  38 +
- meta/files/common-licenses/ImageMagick        |  98 +++
- meta/files/common-licenses/Imlib2             |   9 +
- meta/files/common-licenses/Info-ZIP           |  16 +
- meta/files/common-licenses/Intel-ACPI         |  34 +
- meta/files/common-licenses/Interbase-1.0      | 199 ++++++
- meta/files/common-licenses/JPNIC              |  40 ++
- meta/files/common-licenses/JSON               |  11 +
- meta/files/common-licenses/JasPer-2.0         |  17 +
- meta/files/common-licenses/LAL-1.2            |  67 ++
- meta/files/common-licenses/LAL-1.3            |  88 +++
- meta/files/common-licenses/LGPL-2.0-only      | 342 +++++++++
- meta/files/common-licenses/LGPL-2.0-or-later  | 446 ++++++++++++
- meta/files/common-licenses/LGPL-2.1-only      | 176 +++++
- meta/files/common-licenses/LGPL-2.1-or-later  | 468 +++++++++++++
- meta/files/common-licenses/LGPL-3.0-only      |  65 ++
- meta/files/common-licenses/LGPL-3.0-or-later  | 163 +++++
- .../LGPL-3.0-with-zeromq-exception            | 181 +++++
- meta/files/common-licenses/LGPLLR             |  89 +++
- meta/files/common-licenses/LPL-1.0            |  81 +++
- meta/files/common-licenses/LPPL-1.3a          | 175 +++++
- meta/files/common-licenses/Latex2e            |   9 +
- meta/files/common-licenses/Leptonica          |   9 +
- meta/files/common-licenses/LiLiQ-P-1.1        |  70 ++
- meta/files/common-licenses/LiLiQ-R-1.1        |  94 +++
- meta/files/common-licenses/LiLiQ-Rplus-1.1    |  88 +++
- meta/files/common-licenses/Linux-OpenIB       |  18 +
- meta/files/common-licenses/MIT-0              |  16 +
- meta/files/common-licenses/MIT-CMU            |   7 +
- meta/files/common-licenses/MIT-Modern-Variant |  17 +
- meta/files/common-licenses/MIT-advertising    |   7 +
- meta/files/common-licenses/MIT-enna           |   9 +
- meta/files/common-licenses/MIT-feh            |   5 +
- meta/files/common-licenses/MIT-open-group     |  23 +
- meta/files/common-licenses/MITNFA             |   7 +
- .../MPL-2.0-no-copyleft-exception             | 144 ++++
- meta/files/common-licenses/MTLL               |  24 +
- meta/files/common-licenses/MakeIndex          |  19 +
- meta/files/common-licenses/MulanPSL-1.0       | 116 +++
- meta/files/common-licenses/MulanPSL-2.0       | 131 ++++
- meta/files/common-licenses/Mup                |  13 +
- meta/files/common-licenses/NAIST-2003         |  70 ++
- meta/files/common-licenses/NBPL-1.0           |  59 ++
- meta/files/common-licenses/NCGL-UK-2.0        |  67 ++
- meta/files/common-licenses/NIST-PD            |  15 +
- meta/files/common-licenses/NIST-PD-fallback   |   5 +
- meta/files/common-licenses/NLOD-1.0           |  79 +++
- meta/files/common-licenses/NLOD-2.0           |  80 +++
- meta/files/common-licenses/NLPL               |  14 +
- meta/files/common-licenses/NOSL               | 150 ++++
- meta/files/common-licenses/NPL-1.0            | 102 +++
- meta/files/common-licenses/NPL-1.1            | 186 +++++
- meta/files/common-licenses/NRL                |  28 +
- meta/files/common-licenses/NTP-0              |   5 +
- meta/files/common-licenses/Naumen             |  21 +
- meta/files/common-licenses/Net-SNMP           | 107 +++
- meta/files/common-licenses/NetCDF             |   7 +
- meta/files/common-licenses/Newsletr           |   7 +
- meta/files/common-licenses/Noweb              |   9 +
- meta/files/common-licenses/O-UDA-1.0          |  47 ++
- meta/files/common-licenses/OCCT-PL            | 112 +++
- meta/files/common-licenses/ODC-By-1.0         | 195 ++++++
- meta/files/common-licenses/OFL-1.0            |  49 ++
- meta/files/common-licenses/OFL-1.0-RFN        |  49 ++
- meta/files/common-licenses/OFL-1.0-no-RFN     |  49 ++
- meta/files/common-licenses/OFL-1.1-RFN        |  43 ++
- meta/files/common-licenses/OFL-1.1-no-RFN     |  43 ++
- meta/files/common-licenses/OGC-1.0            |  17 +
- meta/files/common-licenses/OGDL-Taiwan-1.0    | 141 ++++
- meta/files/common-licenses/OGL-Canada-2.0     |  51 ++
- meta/files/common-licenses/OGL-UK-1.0         |  69 ++
- meta/files/common-licenses/OGL-UK-2.0         |  72 ++
- meta/files/common-licenses/OGL-UK-3.0         |  69 ++
- meta/files/common-licenses/OLDAP-1.1          |  60 ++
- meta/files/common-licenses/OLDAP-1.2          |  60 ++
- meta/files/common-licenses/OLDAP-1.3          |  62 ++
- meta/files/common-licenses/OLDAP-1.4          |  62 ++
- meta/files/common-licenses/OLDAP-2.0          |  18 +
- meta/files/common-licenses/OLDAP-2.0.1        |  18 +
- meta/files/common-licenses/OLDAP-2.1          |  20 +
- meta/files/common-licenses/OLDAP-2.2          |  22 +
- meta/files/common-licenses/OLDAP-2.2.1        |  22 +
- meta/files/common-licenses/OLDAP-2.2.2        |  24 +
- meta/files/common-licenses/OLDAP-2.3          |  24 +
- meta/files/common-licenses/OLDAP-2.4          |  22 +
- meta/files/common-licenses/OLDAP-2.5          |  22 +
- meta/files/common-licenses/OLDAP-2.6          |  20 +
- meta/files/common-licenses/OLDAP-2.7          |  20 +
- meta/files/common-licenses/OML                |   5 +
- meta/files/common-licenses/OPL-1.0            | 136 ++++
- meta/files/common-licenses/OPUBL-1.0          |  78 +++
- meta/files/common-licenses/OSET-PL-2.1        | 161 +++++
- meta/files/common-licenses/OSL-1.1            |  47 ++
- meta/files/common-licenses/OSL-2.1            |  47 ++
- meta/files/common-licenses/PDDL-1.0           | 136 ++++
- meta/files/common-licenses/PHP-3.01           |  27 +
- meta/files/common-licenses/Parity-6.0.0       |  44 ++
- meta/files/common-licenses/Parity-7.0.0       |  71 ++
- meta/files/common-licenses/Plexus             |  15 +
- .../PolyForm-Noncommercial-1.0.0              | 131 ++++
- .../PolyForm-Small-Business-1.0.0             | 121 ++++
- meta/files/common-licenses/Qhull              |  17 +
- meta/files/common-licenses/RPL-1.1            | 177 +++++
- meta/files/common-licenses/RSA-MD             |   9 +
- meta/files/common-licenses/Rdisc              |  13 +
- meta/files/common-licenses/SCEA               |  60 ++
- meta/files/common-licenses/SGI-B-1.0          |  82 +++
- meta/files/common-licenses/SGI-B-1.1          |  84 +++
- meta/files/common-licenses/SGI-B-2.0          |  12 +
- meta/files/common-licenses/SHL-0.5            |  64 ++
- meta/files/common-licenses/SHL-0.51           |  65 ++
- meta/files/common-licenses/SISSL              | 116 +++
- meta/files/common-licenses/SISSL-1.2          | 114 +++
- meta/files/common-licenses/SMLNJ              |   7 +
- meta/files/common-licenses/SMPPL              |  29 +
- meta/files/common-licenses/SNIA               | 122 ++++
- meta/files/common-licenses/SSH-OpenSSH        |  67 ++
- meta/files/common-licenses/SSH-short          |   5 +
- meta/files/common-licenses/SSPL-1.0           | 557 +++++++++++++++
- meta/files/common-licenses/SWL                |   7 +
- meta/files/common-licenses/Saxpath            |  19 +
- meta/files/common-licenses/Sendmail           |  36 +
- meta/files/common-licenses/Sendmail-8.23      |  36 +
- meta/files/common-licenses/SimPL-2.0          |  37 +
- meta/files/common-licenses/Spencer-86         |  11 +
- meta/files/common-licenses/Spencer-99         |   9 +
- meta/files/common-licenses/TAPR-OHL-1.0       | 266 +++++++
- meta/files/common-licenses/TCL                |   9 +
- meta/files/common-licenses/TCP-wrappers       |   7 +
- meta/files/common-licenses/TMate              |  21 +
- meta/files/common-licenses/TORQUE-1.1         |  25 +
- meta/files/common-licenses/TOSL               |   9 +
- meta/files/common-licenses/TU-Berlin-1.0      |  10 +
- meta/files/common-licenses/TU-Berlin-2.0      |  20 +
- meta/files/common-licenses/UCL-1.0            |  48 ++
- meta/files/common-licenses/UPL-1.0            |  17 +
- meta/files/common-licenses/Unicode-DFS-2015   |  19 +
- meta/files/common-licenses/Unicode-DFS-2016   |  22 +
- meta/files/common-licenses/Unicode-TOU        |  51 ++
- meta/files/common-licenses/VOSTROM            |  27 +
- meta/files/common-licenses/Vim                |  30 +
- meta/files/common-licenses/W3C-19980720       |  23 +
- meta/files/common-licenses/W3C-20150513       |  17 +
- meta/files/common-licenses/WTFPL              |  11 +
- meta/files/common-licenses/Wsuipa             |   5 +
- meta/files/common-licenses/X11                |  13 +
- meta/files/common-licenses/XSkat              |  10 +
- meta/files/common-licenses/Xerox              |   5 +
- meta/files/common-licenses/YPL-1.0            |  47 ++
- meta/files/common-licenses/Zed                |   3 +
- meta/files/common-licenses/Zend-2.0           |  18 +
- meta/files/common-licenses/Zimbra-1.4         |  47 ++
- meta/files/common-licenses/blessing           |   5 +
- meta/files/common-licenses/bzip2-1.0.5        |  18 +
- .../files/common-licenses/copyleft-next-0.3.0 | 219 ++++++
- .../files/common-licenses/copyleft-next-0.3.1 | 220 ++++++
- meta/files/common-licenses/curl               |  10 +
- meta/files/common-licenses/diffmark           |   2 +
- meta/files/common-licenses/dvipdfm            |   1 +
- meta/files/common-licenses/eGenix             |  40 ++
- meta/files/common-licenses/etalab-2.0         | 179 +++++
- meta/files/common-licenses/gnuplot            |  14 +
- meta/files/common-licenses/iMatix             |  39 ++
- meta/files/common-licenses/libpng-2.0         |  33 +
- meta/files/common-licenses/libselinux-1.0     |  21 +
- meta/files/common-licenses/libtiff            |   8 +
- meta/files/common-licenses/mpich2             |  18 +
- meta/files/common-licenses/psfrag             |   5 +
- meta/files/common-licenses/psutils            |  29 +
- meta/files/common-licenses/xinetd             |  25 +
- meta/files/common-licenses/xpp                |  21 +
- .../common-licenses/zlib-acknowledgement      |  15 +
- 311 files changed, 24143 insertions(+), 45 deletions(-)
- create mode 100644 meta/files/common-licenses/0BSD
- create mode 100644 meta/files/common-licenses/ADSL
- create mode 100644 meta/files/common-licenses/AFL-1.1
- create mode 100644 meta/files/common-licenses/AGPL-1.0-only
- create mode 100644 meta/files/common-licenses/AGPL-1.0-or-later
- create mode 100644 meta/files/common-licenses/AGPL-3.0-only
- create mode 100644 meta/files/common-licenses/AGPL-3.0-or-later
- create mode 100644 meta/files/common-licenses/AMDPLPA
- create mode 100644 meta/files/common-licenses/AML
- create mode 100644 meta/files/common-licenses/AMPAS
- create mode 100644 meta/files/common-licenses/ANTLR-PD-fallback
- create mode 100644 meta/files/common-licenses/APAFML
- create mode 100644 meta/files/common-licenses/Abstyles
- create mode 100644 meta/files/common-licenses/Adobe-2006
- create mode 100644 meta/files/common-licenses/Adobe-Glyph
- create mode 100644 meta/files/common-licenses/Afmparse
- create mode 100644 meta/files/common-licenses/Aladdin
- create mode 100644 meta/files/common-licenses/Artistic-1.0-Perl
- create mode 100644 meta/files/common-licenses/Artistic-1.0-cl8
- create mode 100644 meta/files/common-licenses/BSD-2-Clause-Views
- create mode 100644 meta/files/common-licenses/BSD-3-Clause-Attribution
- create mode 100644 meta/files/common-licenses/BSD-3-Clause-Clear
- create mode 100644 meta/files/common-licenses/BSD-3-Clause-LBNL
- create mode 100644 meta/files/common-licenses/BSD-3-Clause-Modification
- create mode 100644 meta/files/common-licenses/BSD-3-Clause-No-Military-License
- create mode 100644 meta/files/common-licenses/BSD-3-Clause-No-Nuclear-License
- create mode 100644 meta/files/common-licenses/BSD-3-Clause-No-Nuclear-License-2014
- create mode 100644 meta/files/common-licenses/BSD-3-Clause-No-Nuclear-Warranty
- create mode 100644 meta/files/common-licenses/BSD-3-Clause-Open-MPI
- create mode 100644 meta/files/common-licenses/BSD-4-Clause-Shortened
- create mode 100644 meta/files/common-licenses/BSD-4-Clause-UC
- create mode 100644 meta/files/common-licenses/BSD-Protection
- create mode 100644 meta/files/common-licenses/BSD-Source-Code
- create mode 100644 meta/files/common-licenses/BUSL-1.1
- create mode 100644 meta/files/common-licenses/Bahyph
- create mode 100644 meta/files/common-licenses/Barr
- create mode 100644 meta/files/common-licenses/Beerware
- create mode 100644 meta/files/common-licenses/BitTorrent-1.0
- create mode 100644 meta/files/common-licenses/BitTorrent-1.1
- create mode 100644 meta/files/common-licenses/BlueOak-1.0.0
- create mode 100644 meta/files/common-licenses/Borceux
- create mode 100644 meta/files/common-licenses/C-UDA-1.0
- create mode 100644 meta/files/common-licenses/CAL-1.0
- create mode 100644 meta/files/common-licenses/CAL-1.0-Combined-Work-Exception
- create mode 100644 meta/files/common-licenses/CC-BY-2.5-AU
- create mode 100644 meta/files/common-licenses/CC-BY-3.0-AT
- create mode 100644 meta/files/common-licenses/CC-BY-3.0-DE
- create mode 100644 meta/files/common-licenses/CC-BY-3.0-NL
- create mode 100644 meta/files/common-licenses/CC-BY-3.0-US
- create mode 100644 meta/files/common-licenses/CC-BY-4.0
- create mode 100644 meta/files/common-licenses/CC-BY-NC-3.0-DE
- create mode 100644 meta/files/common-licenses/CC-BY-NC-4.0
- create mode 100644 meta/files/common-licenses/CC-BY-NC-ND-3.0-DE
- create mode 100644 meta/files/common-licenses/CC-BY-NC-ND-3.0-IGO
- create mode 100644 meta/files/common-licenses/CC-BY-NC-ND-4.0
- create mode 100644 meta/files/common-licenses/CC-BY-NC-SA-2.0-FR
- create mode 100644 meta/files/common-licenses/CC-BY-NC-SA-2.0-UK
- create mode 100644 meta/files/common-licenses/CC-BY-NC-SA-3.0-DE
- create mode 100644 meta/files/common-licenses/CC-BY-NC-SA-3.0-IGO
- create mode 100644 meta/files/common-licenses/CC-BY-NC-SA-4.0
- create mode 100644 meta/files/common-licenses/CC-BY-ND-3.0-DE
- create mode 100644 meta/files/common-licenses/CC-BY-ND-4.0
- create mode 100644 meta/files/common-licenses/CC-BY-SA-2.0-UK
- create mode 100644 meta/files/common-licenses/CC-BY-SA-2.1-JP
- create mode 100644 meta/files/common-licenses/CC-BY-SA-3.0-AT
- create mode 100644 meta/files/common-licenses/CC-BY-SA-3.0-DE
- create mode 100644 meta/files/common-licenses/CC-PDDC
- create mode 100644 meta/files/common-licenses/CDDL-1.1
- create mode 100644 meta/files/common-licenses/CDL-1.0
- create mode 100644 meta/files/common-licenses/CDLA-Permissive-1.0
- create mode 100644 meta/files/common-licenses/CDLA-Permissive-2.0
- create mode 100644 meta/files/common-licenses/CDLA-Sharing-1.0
- create mode 100644 meta/files/common-licenses/CECILL-1.1
- create mode 100644 meta/files/common-licenses/CECILL-2.1
- create mode 100644 meta/files/common-licenses/CERN-OHL-1.1
- create mode 100644 meta/files/common-licenses/CERN-OHL-1.2
- create mode 100644 meta/files/common-licenses/CERN-OHL-P-2.0
- create mode 100644 meta/files/common-licenses/CERN-OHL-S-2.0
- create mode 100644 meta/files/common-licenses/CERN-OHL-W-2.0
- create mode 100644 meta/files/common-licenses/CNRI-Jython
- create mode 100644 meta/files/common-licenses/CNRI-Python
- create mode 100644 meta/files/common-licenses/CNRI-Python-GPL-Compatible
- create mode 100644 meta/files/common-licenses/CPOL-1.02
- create mode 100644 meta/files/common-licenses/Caldera
- create mode 100644 meta/files/common-licenses/Condor-1.1
- create mode 100644 meta/files/common-licenses/Crossword
- create mode 100644 meta/files/common-licenses/CrystalStacker
- create mode 100644 meta/files/common-licenses/Cube
- create mode 100644 meta/files/common-licenses/D-FSL-1.0
- create mode 100644 meta/files/common-licenses/DOC
- create mode 100644 meta/files/common-licenses/DRL-1.0
- create mode 100644 meta/files/common-licenses/DSDP
- create mode 100644 meta/files/common-licenses/Dotseqn
- create mode 100644 meta/files/common-licenses/EPICS
- create mode 100644 meta/files/common-licenses/EUPL-1.2
- create mode 100644 meta/files/common-licenses/Eurosym
- create mode 100644 meta/files/common-licenses/FSFAP
- create mode 100644 meta/files/common-licenses/FSFUL
- create mode 100644 meta/files/common-licenses/FSFULLR
- create mode 100644 meta/files/common-licenses/FTL
- create mode 100644 meta/files/common-licenses/FreeBSD-DOC
- create mode 100644 meta/files/common-licenses/FreeImage
- create mode 100644 meta/files/common-licenses/GD
- create mode 100644 meta/files/common-licenses/GFDL-1.1-invariants-only
- create mode 100644 meta/files/common-licenses/GFDL-1.1-invariants-or-later
- create mode 100644 meta/files/common-licenses/GFDL-1.1-no-invariants-only
- create mode 100644 meta/files/common-licenses/GFDL-1.1-no-invariants-or-later
- create mode 100644 meta/files/common-licenses/GFDL-1.1-only
- create mode 100644 meta/files/common-licenses/GFDL-1.1-or-later
- create mode 100644 meta/files/common-licenses/GFDL-1.2-invariants-only
- create mode 100644 meta/files/common-licenses/GFDL-1.2-invariants-or-later
- create mode 100644 meta/files/common-licenses/GFDL-1.2-no-invariants-only
- create mode 100644 meta/files/common-licenses/GFDL-1.2-no-invariants-or-later
- create mode 100644 meta/files/common-licenses/GFDL-1.2-only
- create mode 100644 meta/files/common-licenses/GFDL-1.2-or-later
- create mode 100644 meta/files/common-licenses/GFDL-1.3-invariants-only
- create mode 100644 meta/files/common-licenses/GFDL-1.3-invariants-or-later
- create mode 100644 meta/files/common-licenses/GFDL-1.3-no-invariants-only
- create mode 100644 meta/files/common-licenses/GFDL-1.3-no-invariants-or-later
- create mode 100644 meta/files/common-licenses/GFDL-1.3-only
- create mode 100644 meta/files/common-licenses/GFDL-1.3-or-later
- create mode 100644 meta/files/common-licenses/GL2PS
- create mode 100644 meta/files/common-licenses/GLWTPL
- create mode 100644 meta/files/common-licenses/GPL-1.0-only
- create mode 100644 meta/files/common-licenses/GPL-1.0-or-later
- create mode 100644 meta/files/common-licenses/GPL-2.0-only
- create mode 100644 meta/files/common-licenses/GPL-2.0-or-later
- create mode 100644 meta/files/common-licenses/GPL-3-with-bison-exception
- create mode 100644 meta/files/common-licenses/GPL-3.0-only
- create mode 100644 meta/files/common-licenses/GPL-3.0-or-later
- create mode 100644 meta/files/common-licenses/Giftware
- create mode 100644 meta/files/common-licenses/Glide
- create mode 100644 meta/files/common-licenses/Glulxe
- create mode 100644 meta/files/common-licenses/HPND-sell-variant
- create mode 100644 meta/files/common-licenses/HTMLTIDY
- create mode 100644 meta/files/common-licenses/HaskellReport
- create mode 100644 meta/files/common-licenses/Hippocratic-2.1
- create mode 100644 meta/files/common-licenses/IBM-pibs
- create mode 100644 meta/files/common-licenses/IJG
- create mode 100644 meta/files/common-licenses/ImageMagick
- create mode 100644 meta/files/common-licenses/Imlib2
- create mode 100644 meta/files/common-licenses/Info-ZIP
- create mode 100644 meta/files/common-licenses/Intel-ACPI
- create mode 100644 meta/files/common-licenses/Interbase-1.0
- create mode 100644 meta/files/common-licenses/JPNIC
- create mode 100644 meta/files/common-licenses/JSON
- create mode 100644 meta/files/common-licenses/JasPer-2.0
- create mode 100644 meta/files/common-licenses/LAL-1.2
- create mode 100644 meta/files/common-licenses/LAL-1.3
- create mode 100644 meta/files/common-licenses/LGPL-2.0-only
- create mode 100644 meta/files/common-licenses/LGPL-2.0-or-later
- create mode 100644 meta/files/common-licenses/LGPL-2.1-only
- create mode 100644 meta/files/common-licenses/LGPL-2.1-or-later
- create mode 100644 meta/files/common-licenses/LGPL-3.0-only
- create mode 100644 meta/files/common-licenses/LGPL-3.0-or-later
+Signed-off-by: Colin McAllister <colin.mcallister@garmin.com>
+---
+ .../LGPL-3.0-with-zeromq-exception            | 181 ++++++++++++++++++
+ 1 file changed, 181 insertions(+)
  create mode 100644 meta/files/common-licenses/LGPL-3.0-with-zeromq-exception
- create mode 100644 meta/files/common-licenses/LGPLLR
- create mode 100644 meta/files/common-licenses/LPL-1.0
- create mode 100644 meta/files/common-licenses/LPPL-1.3a
- create mode 100644 meta/files/common-licenses/Latex2e
- create mode 100644 meta/files/common-licenses/Leptonica
- create mode 100644 meta/files/common-licenses/LiLiQ-P-1.1
- create mode 100644 meta/files/common-licenses/LiLiQ-R-1.1
- create mode 100644 meta/files/common-licenses/LiLiQ-Rplus-1.1
- create mode 100644 meta/files/common-licenses/Linux-OpenIB
- create mode 100644 meta/files/common-licenses/MIT-0
- create mode 100644 meta/files/common-licenses/MIT-CMU
- create mode 100644 meta/files/common-licenses/MIT-Modern-Variant
- create mode 100644 meta/files/common-licenses/MIT-advertising
- create mode 100644 meta/files/common-licenses/MIT-enna
- create mode 100644 meta/files/common-licenses/MIT-feh
- create mode 100644 meta/files/common-licenses/MIT-open-group
- create mode 100644 meta/files/common-licenses/MITNFA
- create mode 100644 meta/files/common-licenses/MPL-2.0-no-copyleft-exception
- create mode 100644 meta/files/common-licenses/MTLL
- create mode 100644 meta/files/common-licenses/MakeIndex
- create mode 100644 meta/files/common-licenses/MulanPSL-1.0
- create mode 100644 meta/files/common-licenses/MulanPSL-2.0
- create mode 100644 meta/files/common-licenses/Mup
- create mode 100644 meta/files/common-licenses/NAIST-2003
- create mode 100644 meta/files/common-licenses/NBPL-1.0
- create mode 100644 meta/files/common-licenses/NCGL-UK-2.0
- create mode 100644 meta/files/common-licenses/NIST-PD
- create mode 100644 meta/files/common-licenses/NIST-PD-fallback
- create mode 100644 meta/files/common-licenses/NLOD-1.0
- create mode 100644 meta/files/common-licenses/NLOD-2.0
- create mode 100644 meta/files/common-licenses/NLPL
- create mode 100644 meta/files/common-licenses/NOSL
- create mode 100644 meta/files/common-licenses/NPL-1.0
- create mode 100644 meta/files/common-licenses/NPL-1.1
- create mode 100644 meta/files/common-licenses/NRL
- create mode 100644 meta/files/common-licenses/NTP-0
- create mode 100644 meta/files/common-licenses/Naumen
- create mode 100644 meta/files/common-licenses/Net-SNMP
- create mode 100644 meta/files/common-licenses/NetCDF
- create mode 100644 meta/files/common-licenses/Newsletr
- create mode 100644 meta/files/common-licenses/Noweb
- create mode 100644 meta/files/common-licenses/O-UDA-1.0
- create mode 100644 meta/files/common-licenses/OCCT-PL
- create mode 100644 meta/files/common-licenses/ODC-By-1.0
- create mode 100644 meta/files/common-licenses/OFL-1.0
- create mode 100644 meta/files/common-licenses/OFL-1.0-RFN
- create mode 100644 meta/files/common-licenses/OFL-1.0-no-RFN
- create mode 100644 meta/files/common-licenses/OFL-1.1-RFN
- create mode 100644 meta/files/common-licenses/OFL-1.1-no-RFN
- create mode 100644 meta/files/common-licenses/OGC-1.0
- create mode 100644 meta/files/common-licenses/OGDL-Taiwan-1.0
- create mode 100644 meta/files/common-licenses/OGL-Canada-2.0
- create mode 100644 meta/files/common-licenses/OGL-UK-1.0
- create mode 100644 meta/files/common-licenses/OGL-UK-2.0
- create mode 100644 meta/files/common-licenses/OGL-UK-3.0
- create mode 100644 meta/files/common-licenses/OLDAP-1.1
- create mode 100644 meta/files/common-licenses/OLDAP-1.2
- create mode 100644 meta/files/common-licenses/OLDAP-1.3
- create mode 100644 meta/files/common-licenses/OLDAP-1.4
- create mode 100644 meta/files/common-licenses/OLDAP-2.0
- create mode 100644 meta/files/common-licenses/OLDAP-2.0.1
- create mode 100644 meta/files/common-licenses/OLDAP-2.1
- create mode 100644 meta/files/common-licenses/OLDAP-2.2
- create mode 100644 meta/files/common-licenses/OLDAP-2.2.1
- create mode 100644 meta/files/common-licenses/OLDAP-2.2.2
- create mode 100644 meta/files/common-licenses/OLDAP-2.3
- create mode 100644 meta/files/common-licenses/OLDAP-2.4
- create mode 100644 meta/files/common-licenses/OLDAP-2.5
- create mode 100644 meta/files/common-licenses/OLDAP-2.6
- create mode 100644 meta/files/common-licenses/OLDAP-2.7
- create mode 100644 meta/files/common-licenses/OML
- create mode 100644 meta/files/common-licenses/OPL-1.0
- create mode 100644 meta/files/common-licenses/OPUBL-1.0
- create mode 100644 meta/files/common-licenses/OSET-PL-2.1
- create mode 100644 meta/files/common-licenses/OSL-1.1
- create mode 100644 meta/files/common-licenses/OSL-2.1
- create mode 100644 meta/files/common-licenses/PDDL-1.0
- create mode 100644 meta/files/common-licenses/PHP-3.01
- create mode 100644 meta/files/common-licenses/Parity-6.0.0
- create mode 100644 meta/files/common-licenses/Parity-7.0.0
- create mode 100644 meta/files/common-licenses/Plexus
- create mode 100644 meta/files/common-licenses/PolyForm-Noncommercial-1.0.0
- create mode 100644 meta/files/common-licenses/PolyForm-Small-Business-1.0.0
- create mode 100644 meta/files/common-licenses/Qhull
- create mode 100644 meta/files/common-licenses/RPL-1.1
- create mode 100644 meta/files/common-licenses/RSA-MD
- create mode 100644 meta/files/common-licenses/Rdisc
- create mode 100644 meta/files/common-licenses/SCEA
- create mode 100644 meta/files/common-licenses/SGI-B-1.0
- create mode 100644 meta/files/common-licenses/SGI-B-1.1
- create mode 100644 meta/files/common-licenses/SGI-B-2.0
- create mode 100644 meta/files/common-licenses/SHL-0.5
- create mode 100644 meta/files/common-licenses/SHL-0.51
- create mode 100644 meta/files/common-licenses/SISSL
- create mode 100644 meta/files/common-licenses/SISSL-1.2
- create mode 100644 meta/files/common-licenses/SMLNJ
- create mode 100644 meta/files/common-licenses/SMPPL
- create mode 100644 meta/files/common-licenses/SNIA
- create mode 100644 meta/files/common-licenses/SSH-OpenSSH
- create mode 100644 meta/files/common-licenses/SSH-short
- create mode 100644 meta/files/common-licenses/SSPL-1.0
- create mode 100644 meta/files/common-licenses/SWL
- create mode 100644 meta/files/common-licenses/Saxpath
- create mode 100644 meta/files/common-licenses/Sendmail
- create mode 100644 meta/files/common-licenses/Sendmail-8.23
- create mode 100644 meta/files/common-licenses/SimPL-2.0
- create mode 100644 meta/files/common-licenses/Spencer-86
- create mode 100644 meta/files/common-licenses/Spencer-99
- create mode 100644 meta/files/common-licenses/TAPR-OHL-1.0
- create mode 100644 meta/files/common-licenses/TCL
- create mode 100644 meta/files/common-licenses/TCP-wrappers
- create mode 100644 meta/files/common-licenses/TMate
- create mode 100644 meta/files/common-licenses/TORQUE-1.1
- create mode 100644 meta/files/common-licenses/TOSL
- create mode 100644 meta/files/common-licenses/TU-Berlin-1.0
- create mode 100644 meta/files/common-licenses/TU-Berlin-2.0
- create mode 100644 meta/files/common-licenses/UCL-1.0
- create mode 100644 meta/files/common-licenses/UPL-1.0
- create mode 100644 meta/files/common-licenses/Unicode-DFS-2015
- create mode 100644 meta/files/common-licenses/Unicode-DFS-2016
- create mode 100644 meta/files/common-licenses/Unicode-TOU
- create mode 100644 meta/files/common-licenses/VOSTROM
- create mode 100644 meta/files/common-licenses/Vim
- create mode 100644 meta/files/common-licenses/W3C-19980720
- create mode 100644 meta/files/common-licenses/W3C-20150513
- create mode 100644 meta/files/common-licenses/WTFPL
- create mode 100644 meta/files/common-licenses/Wsuipa
- create mode 100644 meta/files/common-licenses/X11
- create mode 100644 meta/files/common-licenses/XSkat
- create mode 100644 meta/files/common-licenses/Xerox
- create mode 100644 meta/files/common-licenses/YPL-1.0
- create mode 100644 meta/files/common-licenses/Zed
- create mode 100644 meta/files/common-licenses/Zend-2.0
- create mode 100644 meta/files/common-licenses/Zimbra-1.4
- create mode 100644 meta/files/common-licenses/blessing
- create mode 100644 meta/files/common-licenses/bzip2-1.0.5
- create mode 100644 meta/files/common-licenses/copyleft-next-0.3.0
- create mode 100644 meta/files/common-licenses/copyleft-next-0.3.1
- create mode 100644 meta/files/common-licenses/curl
- create mode 100644 meta/files/common-licenses/diffmark
- create mode 100644 meta/files/common-licenses/dvipdfm
- create mode 100644 meta/files/common-licenses/eGenix
- create mode 100644 meta/files/common-licenses/etalab-2.0
- create mode 100644 meta/files/common-licenses/gnuplot
- create mode 100644 meta/files/common-licenses/iMatix
- create mode 100644 meta/files/common-licenses/libpng-2.0
- create mode 100644 meta/files/common-licenses/libselinux-1.0
- create mode 100644 meta/files/common-licenses/libtiff
- create mode 100644 meta/files/common-licenses/mpich2
- create mode 100644 meta/files/common-licenses/psfrag
- create mode 100644 meta/files/common-licenses/psutils
- create mode 100644 meta/files/common-licenses/xinetd
- create mode 100644 meta/files/common-licenses/xpp
- create mode 100644 meta/files/common-licenses/zlib-acknowledgement
 
+diff --git a/meta/files/common-licenses/LGPL-3.0-with-zeromq-exception b/meta/files/common-licenses/LGPL-3.0-with-zeromq-exception
+new file mode 100644
+index 0000000000..02e943c4ac
+--- /dev/null
++++ b/meta/files/common-licenses/LGPL-3.0-with-zeromq-exception
+@@ -0,0 +1,181 @@
++		         GNU LESSER GENERAL PUBLIC LICENSE
++                       Version 3, 29 June 2007
++
++ Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>
++ Everyone is permitted to copy and distribute verbatim copies
++ of this license document, but changing it is not allowed.
++
++
++  This version of the GNU Lesser General Public License incorporates
++the terms and conditions of version 3 of the GNU General Public
++License, supplemented by the additional permissions listed below.
++
++  0. Additional Definitions. 
++
++  As used herein, "this License" refers to version 3 of the GNU Lesser
++General Public License, and the "GNU GPL" refers to version 3 of the GNU
++General Public License.
++
++  "The Library" refers to a covered work governed by this License,
++other than an Application or a Combined Work as defined below.
++
++  An "Application" is any work that makes use of an interface provided
++by the Library, but which is not otherwise based on the Library.
++Defining a subclass of a class defined by the Library is deemed a mode
++of using an interface provided by the Library.
++
++  A "Combined Work" is a work produced by combining or linking an
++Application with the Library.  The particular version of the Library
++with which the Combined Work was made is also called the "Linked
++Version".
++
++  The "Minimal Corresponding Source" for a Combined Work means the
++Corresponding Source for the Combined Work, excluding any source code
++for portions of the Combined Work that, considered in isolation, are
++based on the Application, and not on the Linked Version.
++
++  The "Corresponding Application Code" for a Combined Work means the
++object code and/or source code for the Application, including any data
++and utility programs needed for reproducing the Combined Work from the
++Application, but excluding the System Libraries of the Combined Work.
++
++  1. Exception to Section 3 of the GNU GPL.
++
++  You may convey a covered work under sections 3 and 4 of this License
++without being bound by section 3 of the GNU GPL.
++
++  2. Conveying Modified Versions.
++
++  If you modify a copy of the Library, and, in your modifications, a
++facility refers to a function or data to be supplied by an Application
++that uses the facility (other than as an argument passed when the
++facility is invoked), then you may convey a copy of the modified
++version:
++
++   a) under this License, provided that you make a good faith effort to
++   ensure that, in the event an Application does not supply the
++   function or data, the facility still operates, and performs
++   whatever part of its purpose remains meaningful, or
++
++   b) under the GNU GPL, with none of the additional permissions of
++   this License applicable to that copy.
++
++  3. Object Code Incorporating Material from Library Header Files.
++
++  The object code form of an Application may incorporate material from
++a header file that is part of the Library.  You may convey such object
++code under terms of your choice, provided that, if the incorporated
++material is not limited to numerical parameters, data structure
++layouts and accessors, or small macros, inline functions and templates
++(ten or fewer lines in length), you do both of the following:
++
++   a) Give prominent notice with each copy of the object code that the
++   Library is used in it and that the Library and its use are
++   covered by this License.
++
++   b) Accompany the object code with a copy of the GNU GPL and this license
++   document.
++
++  4. Combined Works.
++
++  You may convey a Combined Work under terms of your choice that,
++taken together, effectively do not restrict modification of the
++portions of the Library contained in the Combined Work and reverse
++engineering for debugging such modifications, if you also do each of
++the following:
++
++   a) Give prominent notice with each copy of the Combined Work that
++   the Library is used in it and that the Library and its use are
++   covered by this License.
++
++   b) Accompany the Combined Work with a copy of the GNU GPL and this license
++   document.
++
++   c) For a Combined Work that displays copyright notices during
++   execution, include the copyright notice for the Library among
++   these notices, as well as a reference directing the user to the
++   copies of the GNU GPL and this license document.
++
++   d) Do one of the following:
++
++       0) Convey the Minimal Corresponding Source under the terms of this
++       License, and the Corresponding Application Code in a form
++       suitable for, and under terms that permit, the user to
++       recombine or relink the Application with a modified version of
++       the Linked Version to produce a modified Combined Work, in the
++       manner specified by section 6 of the GNU GPL for conveying
++       Corresponding Source.
++
++       1) Use a suitable shared library mechanism for linking with the
++       Library.  A suitable mechanism is one that (a) uses at run time
++       a copy of the Library already present on the user's computer
++       system, and (b) will operate properly with a modified version
++       of the Library that is interface-compatible with the Linked
++       Version. 
++
++   e) Provide Installation Information, but only if you would otherwise
++   be required to provide such information under section 6 of the
++   GNU GPL, and only to the extent that such information is
++   necessary to install and execute a modified version of the
++   Combined Work produced by recombining or relinking the
++   Application with a modified version of the Linked Version. (If
++   you use option 4d0, the Installation Information must accompany
++   the Minimal Corresponding Source and Corresponding Application
++   Code. If you use option 4d1, you must provide the Installation
++   Information in the manner specified by section 6 of the GNU GPL
++   for conveying Corresponding Source.)
++
++  5. Combined Libraries.
++
++  You may place library facilities that are a work based on the
++Library side by side in a single library together with other library
++facilities that are not Applications and are not covered by this
++License, and convey such a combined library under terms of your
++choice, if you do both of the following:
++
++   a) Accompany the combined library with a copy of the same work based
++   on the Library, uncombined with any other library facilities,
++   conveyed under the terms of this License.
++
++   b) Give prominent notice with the combined library that part of it
++   is a work based on the Library, and explaining where to find the
++   accompanying uncombined form of the same work.
++
++  6. Revised Versions of the GNU Lesser General Public License.
++
++  The Free Software Foundation may publish revised and/or new versions
++of the GNU Lesser General Public License from time to time. Such new
++versions will be similar in spirit to the present version, but may
++differ in detail to address new problems or concerns.
++
++  Each version is given a distinguishing version number. If the
++Library as you received it specifies that a certain numbered version
++of the GNU Lesser General Public License "or any later version"
++applies to it, you have the option of following the terms and
++conditions either of that published version or of any later version
++published by the Free Software Foundation. If the Library as you
++received it does not specify a version number of the GNU Lesser
++General Public License, you may choose any version of the GNU Lesser
++General Public License ever published by the Free Software Foundation.
++
++  If the Library as you received it specifies that a proxy can decide
++whether future versions of the GNU Lesser General Public License shall
++apply, that proxy's public statement of acceptance of any version is
++permanent authorization for you to choose that version for the
++Library.
++
++--------------------------------------------------------------------------------
++
++           SPECIAL EXCEPTION GRANTED BY COPYRIGHT HOLDERS
++
++As a special exception, copyright holders give you permission to link this
++library with independent modules to produce an executable, regardless of
++the license terms of these independent modules, and to copy and distribute
++the resulting executable under terms of your choice, provided that you also
++meet, for each linked independent module, the terms and conditions of
++the license of that module. An independent module is a module which is not
++derived from or based on this library. If you modify this library, you must
++extend this exception to your version of the library.
++
++Note: this exception relieves you of any obligations under sections 4 and 5
++of this license, and section 6 of the GNU General Public License.
 -- 
 2.43.2
 
