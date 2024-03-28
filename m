@@ -1,116 +1,571 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <danismostlikely@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE3A2CD1283
-	for <webhook@archiver.kernel.org>; Thu, 28 Mar 2024 15:54:39 +0000 (UTC)
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
- by mx.groups.io with SMTP id smtpd.web10.20365.1711641271758024841
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76755CD11DD
+	for <webhook@archiver.kernel.org>; Thu, 28 Mar 2024 15:59:55 +0000 (UTC)
+Received: from mail-io1-f46.google.com (mail-io1-f46.google.com [209.85.166.46])
+ by mx.groups.io with SMTP id smtpd.web11.21.1711641590641858506
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Mar 2024 08:54:32 -0700
+ Thu, 28 Mar 2024 08:59:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=LzvPiyRl;
- spf=pass (domain: gmail.com, ip: 209.85.208.181, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2d47a92cfefso12671531fa.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 28 Mar 2024 08:54:31 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=V3QWyrp3;
+ spf=pass (domain: gmail.com, ip: 209.85.166.46, mailfrom: danismostlikely@gmail.com)
+Received: by mail-io1-f46.google.com with SMTP id ca18e2360f4ac-7d08aea7546so35859739f.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 28 Mar 2024 08:59:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711641270; x=1712246070; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=WsswBLM4CWatjj81clAypTVce77oA4Ex4rUwxlX7LZQ=;
-        b=LzvPiyRlgZDiZbRwSBsim0+HcjmLfOmtnSmeFAb5Vl4Z8wRZMPrk+73kfnXePsY5lJ
-         8St42lJ7O6UydZOOH/mehkysS2/1i35L5lhh4Z3srUCdKcq2wdcIxsmsXetYAfJS1nhC
-         j2JQG5WA7uoBNOn29GWXtJb0dbaF3jY033Xjhn0XnUDGXZ0qZmKAW4Bf3IUPzXmNWpqN
-         CGhdbg6Br//4UJnE84Gsfa8F8S/4Dn59HMxWRllXZDLhNbJi9NFL2AoL61X0mzZ7FrMl
-         gO5SMEkU+/q9EnvwkyUJSQmRh0872Cu/Ql1Ytggv8bXesvlJKluUA0BGxll4ymyIBMJC
-         83mw==
+        d=gmail.com; s=20230601; t=1711641589; x=1712246389; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xH+tdMKO0XOGpMtmEX+lpQID+Ogq5GFHiLkbVY8GyJg=;
+        b=V3QWyrp339o1TxWuWdOZy/3HpNGr88qMZ1WH+aGEy+3XdAhFFAPSRVGDfjr+1Hd2mZ
+         brcdetXn0NE5t5PHnoWgvx4N1aWvXXut/Hhn2k8ii+r3n8gzzGxD14ODyIAswv+4NE78
+         BL4yTSXVxJDDGWzYGpJ3jhoTLC8GJ+Io8SkoFU6R0D+U7fYgJ+jkGc/+zJDMhKNmes9D
+         uyTEqVkcl1shfSIN+p3WmVvFk0X+W89Kb2qcQx4Eqj/mExMHOEVImAwt/AcoJlrBYwdl
+         NPuCMwdIYTJo/scMjn2Zese+wTElcLG95wzoY84cysmDw2Zp1DvUGU8agDnPGa8lYiEi
+         F0vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711641270; x=1712246070;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WsswBLM4CWatjj81clAypTVce77oA4Ex4rUwxlX7LZQ=;
-        b=fY/MPMbvVrElLUMgGesuoiEpFyh/xVn4i9XTH+UVjX+syHDL0v/gr0METgHCCtnIpe
-         PysPI6XbVJ2+XLmMUxHDEzvdf9QJrtkMEThA1wG7GTgYc1L8NlMLM3gbbICJ+Q5ab9EC
-         6dyjpaV1TCTQOl/UZZuufkges2lVWFDTHsCZx7bTtOCRz3zm9C6rpvIMwStpiolaZUBR
-         1Ds/XsvBE3SX+po9KIEkVH2lWCYadh+IkR+YqeGjK2kdYnkZt2F9MM1+p1WOnC1Hrfvl
-         jMu6TLO01S28qM7oN+eT/eFSyLXUf/t/eT/ODuBc06xE85gB6NUW2iwrQNAoxHZMtWea
-         avEg==
-X-Gm-Message-State: AOJu0YzDIjlJiurCOkGB3EZWPN+YzXc8okjuLVm+rLR2o2rAufWNGlEk
-	KBYtL4jzl3to3gOn6DWOVYGgzAQTYBr4c333HCGVdf1o7CKMa31DZ+CNxzmCVcAYX8+6c0FYDpr
-	4jBTNjNgfqq8Yt8Mv8cpEWshBm2M=
-X-Google-Smtp-Source: AGHT+IH8ryOAphgVkgGmD6RESqwAoQq+zUCzHDkN0pYwmA5IwwhiXHvpbJl1Kq870fi9MDdJ713LPqXgBETs5QZqd5E=
-X-Received: by 2002:a2e:b0e7:0:b0:2d4:37eb:21ad with SMTP id
- h7-20020a2eb0e7000000b002d437eb21admr2410283ljl.40.1711641269586; Thu, 28 Mar
- 2024 08:54:29 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1711641589; x=1712246389;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xH+tdMKO0XOGpMtmEX+lpQID+Ogq5GFHiLkbVY8GyJg=;
+        b=FuCMayGlvjTqu/04ERhkDrppj3gfz4IsFdffU8PMbK8SAD4jNqZqU8BXZsrLwpHt5p
+         p9xo5bUB3b9FTpkIdHdK2Rgkl1CzwGSFqQwxxVJeuq+7/ejYMfg3sbX6egFwe4Tmc97N
+         FOZhmsLDUjn1V+qQ3g8svssr3pNr4N9VP0YeVvZ08FYQHtfDZ9a9ymdu7naqr97zgfFV
+         mcTjwgNukqEXKQioUMeBr1LCLuyisORJf9JjoD0F7RSQxGm1TYWeKbGXnSf0MiSsae9J
+         fEt2m3f+GLFNO3UkOBpmlMrfUQU7rTNtVBsj2SPO57mebU+pHtAxiGcsa0Ad1aIAo59N
+         oIsw==
+X-Gm-Message-State: AOJu0YzrXmC7vSestsCbAGWujgXPRFhy1d9EsoIE+2WRxnjslY11jgTZ
+	WoEd8CwVuYkislNAyGV6na+3lP4e9zkGzunRICoFCf6+XtSIeQOtx4agMSBgnms=
+X-Google-Smtp-Source: AGHT+IF6FSsU+rLCp7n8j+1hNKgSlRCj+dusaiYbvhTH8lnk9wnYmEZtKEb2VmEClUokWLuJRmCcWA==
+X-Received: by 2002:a92:d8d1:0:b0:365:bee:2563 with SMTP id l17-20020a92d8d1000000b003650bee2563mr2603320ilo.32.1711641589479;
+        Thu, 28 Mar 2024 08:59:49 -0700 (PDT)
+Received: from nebuchadnezzar.home.dankm.pro ([204.83.204.143])
+        by smtp.gmail.com with ESMTPSA id g17-20020a02cd11000000b0047ec44b0c31sm438232jaq.178.2024.03.28.08.59.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Mar 2024 08:59:49 -0700 (PDT)
+From: Daniel McGregor <danismostlikely@gmail.com>
+X-Google-Original-From: Daniel McGregor <daniel.mcgregor@vecima.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Daniel McGregor <daniel.mcgregor@vecima.com>
+Subject: [PATCH v3 3/3] nfs-utils: Configure nfsv4 ID mapping & Kerberos
+Date: Thu, 28 Mar 2024 09:59:43 -0600
+Message-ID: <20240328155943.521114-1-daniel.mcgregor@vecima.com>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20240328154107.503537-1-daniel.mcgregor@vecima.com>
+References: <20240328154107.503537-1-daniel.mcgregor@vecima.com>
 MIME-Version: 1.0
-References: <20240328153243.4101823-1-jdmason@kudzu.us>
-In-Reply-To: <20240328153243.4101823-1-jdmason@kudzu.us>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 28 Mar 2024 16:54:17 +0100
-Message-ID: <CANNYZj_n5bf=Fh1Pq1eb1HeTNfW6a4krFcyrC0Vt_f7kPQT4VA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] recipeutils: use UPSTREAM_CHECK_URI in get_recipe_upstream_version
-To: Jon Mason <jdmason@kudzu.us>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Mar 2024 15:54:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197584
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Mar 2024 15:59:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197585
 
-Unfortunately this isn't correct either. UPSTREAM_CHECK_URI is already
-checked by the wget fetcher to override the default (which is first
-entry in SRC_URI), so if you need it in other fetchers (e.g git), you
-should either add support for it there as well, or remove the code
-from wget fetcher at the same time. Otherwise, this change will make
-things very inconsistent and confusing.
+Add support for the nfsv4 user ID mapping daemon, configured with
+a sensible default, and add a packageconfig for Kerberos support.
 
-Alex
+This is reasonably tested in production in our environment, but only
+systemd support. There'll be some more work to do to get GSSAPI and
+NFS idmapd support integreated into that.
 
-On Thu, 28 Mar 2024 at 16:32, Jon Mason <jdmason@kudzu.us> wrote:
->
-> Currently, get_recipe_upstream_version blindly takes the first entry in
-> SRC_URI to see if the recipe is at the latest version.  If
-> UPSTREAM_CHECK_URI is specified in a recipe, it is probably what should
-> be used to check for the latest version.  Use that as the first check,
-> otherwise default back to the first entry in SRC_URI.
->
-> Signed-off-by: Jon Mason <jdmason@kudzu.us>
-> ---
->  meta/lib/oe/recipeutils.py | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/lib/oe/recipeutils.py b/meta/lib/oe/recipeutils.py
-> index de1fbdd3a8c8..a42609060cd9 100644
-> --- a/meta/lib/oe/recipeutils.py
-> +++ b/meta/lib/oe/recipeutils.py
-> @@ -1041,8 +1041,13 @@ def get_recipe_upstream_version(rd):
->          ru['datetime'] = datetime.now()
->          return ru
->
-> -    # XXX: we suppose that the first entry points to the upstream sources
-> -    src_uri = src_uris.split()[0]
-> +    # If UPSTREAM_CHECK_URI is specified, assume it is correct and use
-> +    # it.  Otherwise, use the first SRC_URI specified to determine the
-> +    # latest version.
-> +    if rd.getVar('UPSTREAM_CHECK_URI'):
-> +        src_uri = str(rd.getVar('UPSTREAM_CHECK_URI'))
-> +    else:
-> +        src_uri = src_uris.split()[0]
->      uri_type, _, _, _, _, _ =  decodeurl(src_uri)
->
->      (pv, pfx, sfx) = get_recipe_pv_with_pfx_sfx(rd.getVar('PV'), uri_type)
-> --
-> 2.30.2
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#197580): https://lists.openembedded.org/g/openembedded-core/message/197580
-> Mute This Topic: https://lists.openembedded.org/mt/105198896/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Signed-off-by: Daniel McGregor <daniel.mcgregor@vecima.com>
+---
+ ...01-gssd-use-printf-format-specifiers.patch | 181 ++++++++++++++++++
+ .../0002-Use-nogroup-for-nobody-group.patch   |  38 ++++
+ .../0003-find-OE-provided-Kerberos.patch      |  42 ++++
+ .../nfs-utils/nfs-utils/clang-warnings.patch  |  81 +++++++-
+ .../nfs-utils/nfs-utils_2.6.4.bb              |  37 +++-
+ 5 files changed, 367 insertions(+), 12 deletions(-)
+ create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-gssd-use-printf-format-specifiers.patch
+ create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0002-Use-nogroup-for-nobody-group.patch
+ create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0003-find-OE-provided-Kerberos.patch
+
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-gssd-use-printf-format-specifiers.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-gssd-use-printf-format-specifiers.patch
+new file mode 100644
+index 00000000000..ab6517a30ed
+--- /dev/null
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-gssd-use-printf-format-specifiers.patch
+@@ -0,0 +1,181 @@
++From 094b965b7044e7d102542ac30e95b556ca82654b Mon Sep 17 00:00:00 2001
++From: Daniel McGregor <daniel.mcgregor@vecima.com>
++Date: Wed, 29 Nov 2023 07:10:58 -0600
++Subject: [PATCH] gssd: use printf format specifiers
++
++This function takes a printf format specifier, tell the compiler about
++that. This adds the ability for GCC to warn about misuses, and prevents
++Clang from warning on the implementation.
++
++Upstream-Status: Pending
++Signed-off-by: Daniel McGregor <daniel.mcgregor@vecima.com>
++---
++ utils/gssd/err_util.h     |  2 +-
++ utils/gssd/gss_names.c    |  4 ++--
++ utils/gssd/gss_util.c     |  2 +-
++ utils/gssd/gssd.c         |  4 ++--
++ utils/gssd/gssd_proc.c    |  8 ++++----
++ utils/gssd/krb5_util.c    | 10 +++++-----
++ utils/gssd/svcgssd_proc.c |  8 ++++----
++ 7 files changed, 19 insertions(+), 19 deletions(-)
++
++diff --git a/utils/gssd/err_util.h b/utils/gssd/err_util.h
++index 6fa9d3d..61f5a31 100644
++--- a/utils/gssd/err_util.h
+++++ b/utils/gssd/err_util.h
++@@ -32,7 +32,7 @@
++ #define _ERR_UTIL_H_
++ 
++ void initerr(char *progname, int verbosity, int fg);
++-void printerr(int priority, char *format, ...);
+++void printerr(int priority, char *format, ...) __attribute__ ((format (printf, 2, 3)));
++ int get_verbosity(void);
++ char * sec2time(int);
++ 
++diff --git a/utils/gssd/gss_names.c b/utils/gssd/gss_names.c
++index 982b96f..0548c33 100644
++--- a/utils/gssd/gss_names.c
+++++ b/utils/gssd/gss_names.c
++@@ -65,7 +65,7 @@ get_krb5_hostbased_name(gss_buffer_desc *name, char **hostbased_name)
++ 	if (strchr(name->value, '@') && strchr(name->value, '/')) {
++ 		if ((sname = calloc(name->length, 1)) == NULL) {
++ 			printerr(0, "ERROR: get_krb5_hostbased_name failed "
++-				 "to allocate %d bytes\n", name->length);
+++				 "to allocate %zd bytes\n", name->length);
++ 			return -1;
++ 		}
++ 		/* read in name and instance and replace '/' with '@' */
++@@ -102,7 +102,7 @@ get_hostbased_client_name(gss_name_t client_name, gss_OID mech,
++ 	}
++ 	if (name.length >= 0xffff) {	    /* don't overflow */
++ 		printerr(0, "ERROR: get_hostbased_client_name: "
++-			 "received gss_name is too long (%d bytes)\n",
+++			 "received gss_name is too long (%zd bytes)\n",
++ 			 name.length);
++ 		goto out_rel_buf;
++ 	}
++diff --git a/utils/gssd/gss_util.c b/utils/gssd/gss_util.c
++index a4b2777..7d41a94 100644
++--- a/utils/gssd/gss_util.c
+++++ b/utils/gssd/gss_util.c
++@@ -304,7 +304,7 @@ gssd_acquire_cred(char *server_name, const gss_OID oid)
++ 				target_name, &pbuf, NULL);
++ 		if (ignore_maj_stat == GSS_S_COMPLETE) {
++ 			printerr(1, "Unable to obtain credentials for '%.*s'\n",
++-				 pbuf.length, pbuf.value);
+++				 (int)pbuf.length, (char *)pbuf.value);
++ 			ignore_maj_stat = gss_release_buffer(&ignore_min_stat,
++ 							     &pbuf);
++ 		}
++diff --git a/utils/gssd/gssd.c b/utils/gssd/gssd.c
++index 833d8e0..380116a 100644
++--- a/utils/gssd/gssd.c
+++++ b/utils/gssd/gssd.c
++@@ -518,9 +518,9 @@ scan_active_thread_list(void)
++ 					do_error_downcall(info->fd, info->uid, -ETIMEDOUT);
++ 				} else {
++ 					if (!(info->flags & UPCALL_THREAD_WARNED)) {
++-						printerr(0, "watchdog: thread id 0x%lx running for %ld seconds\n",
+++						printerr(0, "watchdog: thread id 0x%lx running for %lld seconds\n",
++ 								info->tid,
++-								now.tv_sec - info->timeout.tv_sec + upcall_timeout);
+++								(long long int)(now.tv_sec - info->timeout.tv_sec + upcall_timeout));
++ 						info->flags |= UPCALL_THREAD_WARNED;
++ 					}
++ 				}
++diff --git a/utils/gssd/gssd_proc.c b/utils/gssd/gssd_proc.c
++index ae568f1..574eb4b 100644
++--- a/utils/gssd/gssd_proc.c
+++++ b/utils/gssd/gssd_proc.c
++@@ -168,7 +168,7 @@ do_downcall(int k5_fd, uid_t uid, struct authgss_private_data *pd,
++ 
++ 	if (get_verbosity() > 1)
++ 		printerr(2, "do_downcall(0x%lx): lifetime_rec=%s acceptor=%.*s\n",
++-			tid, sec2time(lifetime_rec), acceptor->length, acceptor->value);
+++			tid, sec2time(lifetime_rec), (int)acceptor->length, (char *)acceptor->value);
++ 	buf_size = sizeof(uid) + sizeof(timeout) + sizeof(pd->pd_seq_win) +
++ 		sizeof(pd->pd_ctx_hndl.length) + pd->pd_ctx_hndl.length +
++ 		sizeof(context_token->length) + context_token->length +
++@@ -284,14 +284,14 @@ populate_port(struct sockaddr *sa, const socklen_t salen,
++ 
++ 	port = nfs_getport(sa, salen, program, version, protocol);
++ 	if (!port) {
++-		printerr(0, "ERROR: unable to obtain port for prog %ld "
++-			    "vers %ld\n", program, version);
+++		printerr(0, "ERROR: unable to obtain port for prog %lu "
+++			    "vers %lu\n", (long unsigned int)program, (long unsigned int)version);
++ 		return 0;
++ 	}
++ 
++ set_port:
++ 	printerr(2, "DEBUG: setting port to %hu for prog %lu vers %lu\n", port,
++-		 program, version);
+++		 (long unsigned int)program, (long unsigned int)version);
++ 
++ 	switch (sa->sa_family) {
++ 	case AF_INET:
++diff --git a/utils/gssd/krb5_util.c b/utils/gssd/krb5_util.c
++index e3f270e..28f7d84 100644
++--- a/utils/gssd/krb5_util.c
+++++ b/utils/gssd/krb5_util.c
++@@ -304,9 +304,9 @@ gssd_find_existing_krb5_ccache(uid_t uid, char *dirname,
++ 				score++;
++ 
++ 			printerr(3, "CC '%s'(%s@%s) passed all checks and"
++-				    " has mtime of %u\n",
+++				    " has mtime of %llu\n",
++ 				 buf, princname, realm, 
++-				 tmp_stat.st_mtime);
+++				 (long long unsigned)tmp_stat.st_mtime);
++ 			/*
++ 			 * if more than one match is found, return the most
++ 			 * recent (the one with the latest mtime), and
++@@ -341,10 +341,10 @@ gssd_find_existing_krb5_ccache(uid_t uid, char *dirname,
++ 				}
++ 				printerr(3, "CC '%s:%s/%s' is our "
++ 					    "current best match "
++-					    "with mtime of %u\n",
++-					 cctype, dirname,
+++					    "with mtime of %llu\n",
+++					 *cctype, dirname,
++ 					 best_match_dir->d_name,
++-					 best_match_stat.st_mtime);
+++					 (long long unsigned)best_match_stat.st_mtime);
++ 			}
++ 			free(princname);
++ 			free(realm);
++diff --git a/utils/gssd/svcgssd_proc.c b/utils/gssd/svcgssd_proc.c
++index b403143..7fecd1a 100644
++--- a/utils/gssd/svcgssd_proc.c
+++++ b/utils/gssd/svcgssd_proc.c
++@@ -102,10 +102,10 @@ do_svc_downcall(gss_buffer_desc *out_handle, struct svc_cred *cred,
++ 	qword_addint(&bp, &blen, cred->cr_uid);
++ 	qword_addint(&bp, &blen, cred->cr_gid);
++ 	qword_addint(&bp, &blen, cred->cr_ngroups);
++-	printerr(2, "mech: %s, hndl len: %d, ctx len %d, timeout: %d (%d from now), "
+++	printerr(2, "mech: %s, hndl len: %zd, ctx len %zd, timeout: %lld (%lld from now), "
++ 		 "clnt: %s, uid: %d, gid: %d, num aux grps: %d:\n",
++ 		 fname, out_handle->length, context_token->length,
++-		 endtime, endtime - time(0),
+++		 (long long int)endtime, (long long int)(endtime - time(0)),
++ 		 client_name ? client_name : "<null>",
++ 		 cred->cr_uid, cred->cr_gid, cred->cr_ngroups);
++ 	for (i=0; i < cred->cr_ngroups; i++) {
++@@ -232,7 +232,7 @@ get_ids(gss_name_t client_name, gss_OID mech, struct svc_cred *cred)
++ 	}
++ 	if (name.length >= 0xffff || /* be certain name.length+1 doesn't overflow */
++ 	    !(sname = calloc(name.length + 1, 1))) {
++-		printerr(0, "WARNING: get_ids: error allocating %d bytes "
+++		printerr(0, "WARNING: get_ids: error allocating %zd bytes "
++ 			"for sname\n", name.length + 1);
++ 		gss_release_buffer(&min_stat, &name);
++ 		goto out;
++@@ -360,7 +360,7 @@ handle_nullreq(char *cp) {
++ 	if (in_handle.length != 0) { /* CONTINUE_INIT case */
++ 		if (in_handle.length != sizeof(ctx)) {
++ 			printerr(0, "WARNING: handle_nullreq: "
++-				    "input handle has unexpected length %d\n",
+++				    "input handle has unexpected length %zd\n",
++ 				    in_handle.length);
++ 			goto out_err;
++ 		}
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0002-Use-nogroup-for-nobody-group.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0002-Use-nogroup-for-nobody-group.patch
+new file mode 100644
+index 00000000000..3c238f851ba
+--- /dev/null
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0002-Use-nogroup-for-nobody-group.patch
+@@ -0,0 +1,38 @@
++From 6095b5a9208eac37b73e05f81c090d8183138c6a Mon Sep 17 00:00:00 2001
++From: Daniel McGregor <daniel.mcgregor@vecima.com>
++Date: Tue, 6 Jun 2023 16:07:53 -0600
++Subject: [PATCH] Use "nogroup" for nobody group
++
++Upstream-Status: Inappropriate [oe-core specific, configuration]
++Signed-off-by: Daniel McGregor <daniel.mcgregor@vecima.com>
++---
++ support/nfsidmap/idmapd.conf | 2 +-
++ utils/idmapd/idmapd.c        | 2 +-
++ 2 files changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/support/nfsidmap/idmapd.conf b/support/nfsidmap/idmapd.conf
++index 2a2f79a1..e6f3724f 100644
++--- a/support/nfsidmap/idmapd.conf
+++++ b/support/nfsidmap/idmapd.conf
++@@ -41,7 +41,7 @@
++ [Mapping]
++ 
++ #Nobody-User = nobody
++-#Nobody-Group = nobody
+++#Nobody-Group = nogroup
++ 
++ [Translation]
++ 
++diff --git a/utils/idmapd/idmapd.c b/utils/idmapd/idmapd.c
++index cd9a965f..3be805e9 100644
++--- a/utils/idmapd/idmapd.c
+++++ b/utils/idmapd/idmapd.c
++@@ -89,7 +89,7 @@
++ #endif
++ 
++ #ifndef NFS4NOBODY_GROUP
++-#define NFS4NOBODY_GROUP "nobody"
+++#define NFS4NOBODY_GROUP "nogroup"
++ #endif
++ 
++ /* From Niels */
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0003-find-OE-provided-Kerberos.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0003-find-OE-provided-Kerberos.patch
+new file mode 100644
+index 00000000000..4f15aaec4ea
+--- /dev/null
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0003-find-OE-provided-Kerberos.patch
+@@ -0,0 +1,42 @@
++From f4f4a226bfd71ddc0f53dd54159e3eaa835b18e6 Mon Sep 17 00:00:00 2001
++From: Daniel McGregor <daniel.mcgregor@vecima.com>
++Date: Wed, 8 Nov 2023 16:24:20 -0600
++Subject: [PATCH] find OE provided Kerberos
++
++Upstream-Status: Inappropriate [oe-core specific]
++Signed-off-by: Daniel McGregor <daniel.mcgregor@vecima.com>
++---
++ aclocal/kerberos5.m4 | 6 ++++--
++ 1 file changed, 4 insertions(+), 2 deletions(-)
++
++diff --git a/aclocal/kerberos5.m4 b/aclocal/kerberos5.m4
++index f96f0fd..ad85fdf 100644
++--- a/aclocal/kerberos5.m4
+++++ b/aclocal/kerberos5.m4
++@@ -22,8 +22,8 @@ AC_DEFUN([AC_KERBEROS_V5],[
++     dnl This ugly hack brought on by the split installation of
++     dnl MIT Kerberos on Fedora Core 1
++     K5CONFIG=""
++-    if test -f $dir/bin/krb5-config; then
++-      K5CONFIG=$dir/bin/krb5-config
+++    if test -f $dir/bin/crossscripts/krb5-config; then
+++      K5CONFIG=$dir/bin/crossscripts/krb5-config
++     elif test -f "/usr/kerberos/bin/krb5-config"; then
++       K5CONFIG="/usr/kerberos/bin/krb5-config"
++     elif test -f "/usr/lib/mit/bin/krb5-config"; then
++@@ -72,6 +72,7 @@ AC_DEFUN([AC_KERBEROS_V5],[
++   AC_MSG_RESULT($KRBDIR)
++ 
++   dnl Check if -rpath=$(KRBDIR)/lib is needed
+++  if false; then
++   echo "The current KRBDIR is $KRBDIR"
++   if test "$KRBDIR/lib" = "/lib" -o "$KRBDIR/lib" = "/usr/lib" \
++        -o "$KRBDIR/lib" = "//lib" -o "$KRBDIR/lib" = "/usr//lib" ; then
++@@ -81,6 +82,7 @@ AC_DEFUN([AC_KERBEROS_V5],[
++   else
++     KRBLDFLAGS="-Wl,-rpath=$KRBDIR/lib"
++   fi
+++  fi
++ 
++   dnl Now check for functions within gssapi library
++   AC_CHECK_LIB($gssapi_lib, gss_krb5_export_lucid_sec_context,
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/clang-warnings.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/clang-warnings.patch
+index fde99b599eb..ff697477b08 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils/clang-warnings.patch
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/clang-warnings.patch
+@@ -1,4 +1,4 @@
+-From 1ab0c326405c6daa06f1a7eb4b0b60bf4e0584c2 Mon Sep 17 00:00:00 2001
++From 7d04566b7b8e57114533360cc4b933a74ed6b314 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Tue, 31 Dec 2019 08:15:34 -0800
+ Subject: [PATCH] Detect warning options during configure
+@@ -16,11 +16,14 @@ Upstream-Status: Pending
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ 
+ ---
+- support/nfs/xcommon.c | 3 +++
+- 1 file changed, 3 insertions(+)
++ support/nfs/xcommon.c          | 6 ++++++
++ support/nfs/xlog.c             | 6 ++++++
++ support/nfsidmap/libnfsidmap.c | 3 +++
++ utils/exportfs/exportfs.c      | 3 +++
++ 4 files changed, 18 insertions(+)
+ 
+ diff --git a/support/nfs/xcommon.c b/support/nfs/xcommon.c
+-index 3989f0b..e080423 100644
++index 3989f0bc..ff438c18 100644
+ --- a/support/nfs/xcommon.c
+ +++ b/support/nfs/xcommon.c
+ @@ -98,7 +98,10 @@ nfs_error (const char *fmt, ...) {
+@@ -34,3 +37,73 @@ index 3989f0b..e080423 100644
+       va_end (args);
+       free (fmt2);
+  }
++@@ -132,7 +135,10 @@ die(int err, const char *fmt, ...) {
++ 	va_list args;
++ 
++ 	va_start(args, fmt);
+++#pragma GCC diagnostic push
+++#pragma GCC diagnostic ignored "-Wformat-nonliteral"
++ 	vfprintf(stderr, fmt, args);
+++#pragma GCC diagnostic pop
++ 	fprintf(stderr, "\n");
++ 	va_end(args);
++ 
++diff --git a/support/nfs/xlog.c b/support/nfs/xlog.c
++index fa125cef..dc4c9ea1 100644
++--- a/support/nfs/xlog.c
+++++ b/support/nfs/xlog.c
++@@ -178,11 +178,16 @@ xlog_backend(int kind, const char *fmt, va_list args)
++ 		fprintf(stderr, "%s: ", log_name);
++ #endif
++ 		va_copy(args2, args);
+++#pragma GCC diagnostic push
+++#pragma GCC diagnostic ignored "-Wformat-nonliteral"
++ 		vfprintf(stderr, fmt, args2);
+++#pragma GCC diagnostic pop
++ 		fprintf(stderr, "\n");
++ 		va_end(args2);
++ 	}
++ 
+++#pragma GCC diagnostic push
+++#pragma GCC diagnostic ignored "-Wformat-nonliteral"
++ 	if (log_syslog) {
++ 		switch (kind) {
++ 		case L_FATAL:
++@@ -203,6 +208,7 @@ xlog_backend(int kind, const char *fmt, va_list args)
++ 			break;
++ 		}
++ 	}
+++#pragma GCC diagnostic pop
++ 
++ 	if (kind == L_FATAL)
++ 		exit(1);
++diff --git a/support/nfsidmap/libnfsidmap.c b/support/nfsidmap/libnfsidmap.c
++index 0a912e52..95eb64d2 100644
++--- a/support/nfsidmap/libnfsidmap.c
+++++ b/support/nfsidmap/libnfsidmap.c
++@@ -99,7 +99,10 @@ static void default_logger(const char *fmt, ...)
++ 	va_list vp;
++ 
++ 	va_start(vp, fmt);
+++#pragma GCC diagnostic push
+++#pragma GCC diagnostic ignored "-Wformat-nonliteral"
++ 	vsyslog(LOG_WARNING, fmt, vp);
+++#pragma GCC diagnostic pop
++ 	va_end(vp);
++ }
++ 
++diff --git a/utils/exportfs/exportfs.c b/utils/exportfs/exportfs.c
++index b03a047b..eac1ff2a 100644
++--- a/utils/exportfs/exportfs.c
+++++ b/utils/exportfs/exportfs.c
++@@ -646,7 +646,10 @@ dumpopt(char c, char *fmt, ...)
++ 
++ 	va_start(ap, fmt);
++ 	printf("%c", c);
+++#pragma GCC diagnostic push
+++#pragma GCC diagnostic ignored "-Wformat-nonliteral"
++ 	vprintf(fmt, ap);
+++#pragma GCC diagnostic pop
++ 	va_end(ap);
++ 	return ',';
++ }
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.4.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.4.bb
+index 8d3bf21a67c..c28adf26aee 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.4.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.6.4.bb
+@@ -26,6 +26,9 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
+            file://0001-locktest-Makefile.am-Do-not-use-build-flags.patch \
+            file://0001-tools-locktest-Use-intmax_t-to-print-off_t.patch \
+            file://0001-reexport.h-Include-unistd.h-to-compile-with-musl.patch \
++           file://0001-gssd-use-printf-format-specifiers.patch \
++           file://0002-Use-nogroup-for-nobody-group.patch \
++           file://0003-find-OE-provided-Kerberos.patch \
+            "
+ SRC_URI[sha256sum] = "01b3b0fb9c7d0bbabf5114c736542030748c788ec2fd9734744201e9b0a1119d"
+ 
+@@ -49,10 +52,9 @@ EXTRA_OECONF = "--with-statduser=rpcuser \
+                 --enable-mountconfig \
+                 --enable-libmount-mount \
+                 --enable-uuid \
+-                --disable-gss \
+-                --disable-nfsdcltrack \
+                 --disable-sbin-override \
+                 --with-statdpath=/var/lib/nfs/statd \
++                --with-pluginpath=${libdir}/libnfsidmap \
+                 --with-rpcgen=${HOSTTOOLS_DIR}/rpcgen \
+                "
+ 
+@@ -61,13 +63,16 @@ LDFLAGS:append = " -lsqlite3 -levent"
+ PACKAGECONFIG ??= "tcp-wrappers \
+     ${@bb.utils.filter('DISTRO_FEATURES', 'ipv6 systemd', d)} \
+ "
++
+ PACKAGECONFIG:remove:libc-musl = "tcp-wrappers"
++#krb5 is available in meta-oe
++PACKAGECONFIG[gssapi] = "--with-krb5=${STAGING_EXECPREFIXDIR} --enable-gss --enable-svcgss,--disable-gss --disable-svcgss,krb5"
+ PACKAGECONFIG[tcp-wrappers] = "--with-tcp-wrappers,--without-tcp-wrappers,tcp-wrappers"
+ PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
+ # libdevmapper is available in meta-oe
+ PACKAGECONFIG[nfsv41] = "--enable-nfsv41,--disable-nfsv41,libdevmapper,libdevmapper"
+ # keyutils is available in meta-oe
+-PACKAGECONFIG[nfsv4] = "--enable-nfsv4,--disable-nfsv4,keyutils,python3-core"
++PACKAGECONFIG[nfsv4] = "--enable-nfsv4 --enable-nfsdcltrack,--disable-nfsv4 --disable-nfsdcltrack,keyutils,python3-core"
+ PACKAGECONFIG[systemd] = "--with-systemd=${systemd_unitdir}/system,--without-systemd"
+ 
+ PACKAGES =+ "${PN}-client ${PN}-mount ${PN}-stats ${PN}-rpcctl"
+@@ -76,19 +81,34 @@ CONFFILES:${PN}-client += "${localstatedir}/lib/nfs/etab \
+ 			   ${localstatedir}/lib/nfs/rmtab \
+ 			   ${localstatedir}/lib/nfs/xtab \
+ 			   ${localstatedir}/lib/nfs/statd/state \
++			   ${sysconfdir}/idmapd.conf \
+ 			   ${sysconfdir}/nfs.conf \
+ 			   ${sysconfdir}/nfsmount.conf"
+ 
+ FILES:${PN}-client = "${sbindir}/*statd \
+-		      ${libdir}/libnfsidmap.so.* \
+ 		      ${sbindir}/rpc.idmapd ${sbindir}/sm-notify \
+ 		      ${sbindir}/showmount ${sbindir}/nfsstat \
++		      ${sbindir}/rpc.gssd \
+ 		      ${sbindir}/nfsconf \
++		      ${libdir}/libnfsidmap.so.* \
++		      ${libdir}/libnfsidmap/*.so \
++		      ${libexecdir}/nfsrahead \
+ 		      ${localstatedir}/lib/nfs \
++		      ${sysconfdir}/idmapd.conf \
++		      ${sysconfdir}/init.d/nfscommon \
+ 		      ${sysconfdir}/nfs.conf \
+ 		      ${sysconfdir}/nfsmount.conf \
+-		      ${sysconfdir}/init.d/nfscommon \
+-		      ${systemd_system_unitdir}/nfs-statd.service"
++		      ${systemd_system_unitdir}/auth-rpcgss-module.service \
++		      ${systemd_system_unitdir}/nfs-client.target \
++		      ${systemd_system_unitdir}/nfs-idmapd.service \
++		      ${systemd_system_unitdir}/nfs-statd.service \
++		      ${systemd_system_unitdir}/nfscommon.service \
++		      ${systemd_system_unitdir}/rpc-gssd.service \
++		      ${systemd_system_unitdir}/rpc-statd-notify.service \
++		      ${systemd_system_unitdir}/rpc-statd.service \
++		      ${systemd_system_unitdir}/rpc_pipefs.target \
++		      ${systemd_system_unitdir}/var-lib-nfs-rpc_pipefs.mount \
++		      ${nonarch_libdir}/udev/rules.d/*"
+ RDEPENDS:${PN}-client = "${PN}-mount rpcbind"
+ 
+ FILES:${PN}-mount = "${base_sbindir}/*mount.nfs*"
+@@ -104,8 +124,8 @@ FILES:${PN}-staticdev += "${libdir}/libnfsidmap/*.a"
+ FILES:${PN} += "${systemd_unitdir} ${libdir}/libnfsidmap/ ${nonarch_libdir}/modprobe.d"
+ 
+ do_configure:prepend() {
+-	sed -i -e 's,sbindir = /sbin,sbindir = ${base_sbindir},g' \
+-		${S}/utils/mount/Makefile.am
++	sed -i -e 's,udev_rulesdir = /usr/lib/udev/rules.d/,udev_rulesdir = ${nonarch_base_libdir}/udev/rules.d/,g' \
++	    ${S}/systemd/Makefile.am ${S}/tools/nfsrahead/Makefile.am
+ }
+ 
+ # Make clean needed because the package comes with
+@@ -122,6 +142,7 @@ do_install:append () {
+ 	install -m 0755 ${WORKDIR}/nfsserver ${D}${sysconfdir}/init.d/nfsserver
+ 	install -m 0755 ${WORKDIR}/nfscommon ${D}${sysconfdir}/init.d/nfscommon
+ 
++	install -m 0644 ${S}/support/nfsidmap/idmapd.conf ${D}${sysconfdir}
+ 	install -m 0644 ${S}/nfs.conf ${D}${sysconfdir}
+ 
+ 	# Retain historical service name so old scripts keep working
+-- 
+2.41.0
+
 
