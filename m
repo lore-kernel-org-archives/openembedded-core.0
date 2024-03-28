@@ -1,99 +1,97 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <jdmason@kudzu.us>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 873CCC54E67
-	for <webhook@archiver.kernel.org>; Thu, 28 Mar 2024 15:20:59 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.19320.1711639252385825061
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E0CDC54E67
+	for <webhook@archiver.kernel.org>; Thu, 28 Mar 2024 15:32:59 +0000 (UTC)
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+ by mx.groups.io with SMTP id smtpd.web11.19759.1711639970338914420
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Mar 2024 08:20:52 -0700
+ Thu, 28 Mar 2024 08:32:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=BqLvzrAr;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=w674jAaE;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101018e85a64a4a-303b66f9-b833-40ab-b66c-48546880f5d2-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1711639251; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=qcAmLndg0qO5N4D54tMKk6Ar/2UHPaq74aGiKg8lezQ=;
-	b=BqLvzrArP2TEbvbiVV4KrbP963YY1P6S6P5GOXyS0kEA75jiuWVzm1NW8Ep0j4Rq
-	PwwdrXurq3qNpGNayVNs40Aq4pTFtEBCh52yG2J5uaIB0/ytn+RW023j4lh+7+xAkxC
-	zlhFT4tJubMRMuKjwoUpVT72iHF7D0m8JeqSh7Ug=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1711639251;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=qcAmLndg0qO5N4D54tMKk6Ar/2UHPaq74aGiKg8lezQ=;
-	b=w674jAaEI1JiiEyd2qY0s2TO52Lh0aamtrYCJS0bQDkiuCj3MR5kf0uY98utCVCI
-	XSKiTvSr/2cIl5nzLNzIOziZCBy66PuPx6LzKGbcIeZ8lyLY6oV9dLm3vVD7EH2TT7V
-	lJ3fJB8rF1+dRzBwIa36bWNUw4NOIgKAZWrH5oLM=
-From: patchtest@automation.yoctoproject.org
-To: Daniel McGregor <danismostlikely@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 3/3] nfs-utils: Configure nfsv4 ID mapping & Kerberos
-In-Reply-To: <20240328150337.501372-3-daniel.mcgregor@vecima.com>
-References: <20240328150337.501372-3-daniel.mcgregor@vecima.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101018e85a64a4a-303b66f9-b833-40ab-b66c-48546880f5d2-000000@us-west-2.amazonses.com>
-Date: Thu, 28 Mar 2024 15:20:51 +0000
-Feedback-ID: 1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.03.28-54.240.27.30
+ dkim=pass header.i=@kudzu-us.20230601.gappssmtp.com header.s=20230601 header.b=U8/YJIYf;
+ spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.222.170, mailfrom: jdmason@kudzu.us)
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-789e4a4d3a5so60528785a.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 28 Mar 2024 08:32:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kudzu-us.20230601.gappssmtp.com; s=20230601; t=1711639969; x=1712244769; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MsA2UBwxif/ML8f7JvwAQiNmiNATDgKIOcSdRDdm5KA=;
+        b=U8/YJIYfxDQWxzajKln03JSGbx4Dyk0KW7CxY5eEZldzzxRtmJfVI5JCR6JWyrwFYY
+         dYgkK7iWORhJCEyxJcMH7Ne2zJUkF8vfXUSCG18pm46ehhsaHoo8rM66GD5sZ3T6IOq6
+         m9LURC+7KfYgSQ4FuMc8hLSlyuFvpltFXUJr/KAHBnGF+TGyWbyyzplduONe1AlfA2Xj
+         XiyINPuxipHAMdoKXsK6kRBYJM4tAA2onA2CoZSaEba81iercOAgnDyeWU6eeAsKTQc+
+         r2pYqF08++7gZQaRtHu+IjDWqP9wAUCIIaSDFi5Uvv8dxEyd8sv+U+GrjNI3y8BjY9T/
+         NKeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711639969; x=1712244769;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MsA2UBwxif/ML8f7JvwAQiNmiNATDgKIOcSdRDdm5KA=;
+        b=C437xxmquMym2uoXnAAMM32FG67M9RNgZL1bSmhW+9n3XoPUsTTpRlXrv6iG1/3m+G
+         fVhLgVbceEkBEAHsc6BxCS/75F3SA7sFIYszbyZDw4lbURVvSj7dajeCq6Uz+r1ATlwH
+         CR8hhw4E4p9OoJKJCJlTDIuheY47GbfYoXvHLI4axPud3eLFSF1plJuAs9tdLnAv97Vg
+         oBPYYi5Fh3fCG5b7mgMvWZ917hNV2daaiOi64L4be9oqspbQ6I071gXoRkK0VHm9htbv
+         TUnnpEuQjb6T/Lhx/AaqMz8iDigSqZpXX1e8e2pIqK2j7Z8kYVi7l7zFwXI4xix1PBad
+         5n2w==
+X-Gm-Message-State: AOJu0YxBbY9ywG4UQo7ScJmAMpYo/eLN/OG8H3IW/H95ixqNVkgVDEGe
+	7QDqfY5D3Aq0BMYH/xbhj1eee4M9Q+46zRNrZvIsYDakvGDYKY8ryXcqC+xhUdviEy4aS2yaC60
+	=
+X-Google-Smtp-Source: AGHT+IG5Aq/+JJDnzenDNgzTmmZh5Pda9cuUdt7CceBq5OiIXaTESxVejrjYNW/2jfL14g7Cj1DEEQ==
+X-Received: by 2002:a05:620a:1278:b0:789:ec27:d478 with SMTP id b24-20020a05620a127800b00789ec27d478mr3009338qkl.75.1711639969197;
+        Thu, 28 Mar 2024 08:32:49 -0700 (PDT)
+Received: from localhost ([2605:a601:a699:ba00:8ac9:b3ff:febf:a2f8])
+        by smtp.gmail.com with ESMTPSA id b16-20020a05620a0f9000b0078a51bf149bsm603581qkn.114.2024.03.28.08.32.48
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Mar 2024 08:32:48 -0700 (PDT)
+From: Jon Mason <jdmason@kudzu.us>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] recipeutils: use UPSTREAM_CHECK_URI in get_recipe_upstream_version
+Date: Thu, 28 Mar 2024 11:32:43 -0400
+Message-Id: <20240328153243.4101823-1-jdmason@kudzu.us>
+X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Mar 2024 15:20:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197579
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Mar 2024 15:32:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/197580
 
---NextPart
-Content-Type: text/plain
+Currently, get_recipe_upstream_version blindly takes the first entry in
+SRC_URI to see if the recipe is at the latest version.  If
+UPSTREAM_CHECK_URI is specified in a recipe, it is probably what should
+be used to check for the latest version.  Use that as the first check,
+otherwise default back to the first entry in SRC_URI.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
+Signed-off-by: Jon Mason <jdmason@kudzu.us>
 ---
-Testing patch /home/patchtest/share/mboxes/3-3-nfs-utils-Configure-nfsv4-ID-mapping-Kerberos.patch
+ meta/lib/oe/recipeutils.py | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-FAIL: test Signed-off-by presence: A patch file has been added without a Signed-off-by tag: '0003-find-OE-provided-Kerberos.patch' (test_patch.TestPatch.test_signed_off_by_presence)
-FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_off_by_presence)
-FAIL: test Upstream-Status presence: Upstream-Status is Inappropriate, but no reason was provided (test_patch.TestPatch.test_upstream_status_presence_format)
+diff --git a/meta/lib/oe/recipeutils.py b/meta/lib/oe/recipeutils.py
+index de1fbdd3a8c8..a42609060cd9 100644
+--- a/meta/lib/oe/recipeutils.py
++++ b/meta/lib/oe/recipeutils.py
+@@ -1041,8 +1041,13 @@ def get_recipe_upstream_version(rd):
+         ru['datetime'] = datetime.now()
+         return ru
+ 
+-    # XXX: we suppose that the first entry points to the upstream sources
+-    src_uri = src_uris.split()[0]
++    # If UPSTREAM_CHECK_URI is specified, assume it is correct and use
++    # it.  Otherwise, use the first SRC_URI specified to determine the
++    # latest version.
++    if rd.getVar('UPSTREAM_CHECK_URI'):
++        src_uri = str(rd.getVar('UPSTREAM_CHECK_URI'))
++    else:
++        src_uri = src_uris.split()[0]
+     uri_type, _, _, _, _, _ =  decodeurl(src_uri)
+ 
+     (pv, pfx, sfx) = get_recipe_pv_with_pfx_sfx(rd.getVar('PV'), uri_type)
+-- 
+2.30.2
 
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
